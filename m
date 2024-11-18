@@ -4,79 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ABB8BD4922A
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Nov 2024 14:46:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9E78D4922E
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Nov 2024 14:58:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E6C369fXebc/lJiBXk0WQK+y7FNVjbbitA7vYiVXXh4=; b=JKOhMjXzEG5/T7oI0yVWFVesSv
-	fLIYpsYBOImyYlWbz1p2uYUtI5WAg0H/OiDiYOoygQGqAFvTpYPJPHweEXGxYTalz88mLjqP+/z2s
-	UQmoRYBAxFFL1p72l8FJlMfU/bFtYn5UB37VuItKCk+eBejNAEAEfoU+2yzZeJy87ZEq4+A5LcCut
-	TjKBfiW9QyjYqRkFzkQiJmqlClSYbZik9/Bhr2ghw+gxkyek3Xm5nDo09nrzFsdKQVY3XkGTZl+Mu
-	pFhs2qaHvwdgmOleft25CDhsDC1rsAbhSASnGhEWWljraCExPs1X5qrmPrmAM6Sol/FA0yB4SmRPZ
-	LsLkdEFQ==;
+	bh=5Kj40amW5IpporSjQ73hgk+ubBMNelSpX7cTHNX0nDY=; b=j+47L/v9QfuqXJEzgv/eTXIJs7
+	ObuyUOX5OlMWZurqXvqoDgPY2c2in6FsKmw5K/lSANMaMWPiSLxbGr/F5sbMfN/Nv5uSbKWw9N+dw
+	vfUvQlhJttn4mc9VijkYzbFqlufJC/ZQIFNUWNeJ0gaWSNffl1FGTd3LI6Tca5DtgncZiJJGPs0Bb
+	Ma2u1uAICInRSI5s+ia3S2s1KXnjVmaEflIol9NW7LpXYGkntLAriE26fxGAEuTbjkUD5g0frG2In
+	OaazwFuYyS+/cuRbUM6gMXWCertjQuU1vabaY20wH6EZgWZ0qhS5WqyBylm4uxR8bLcXWHDCRiT4t
+	MzzgFl8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tD31R-00000009o3E-3QCf;
-	Mon, 18 Nov 2024 14:46:37 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tD3Cx-00000009q4u-1D8u;
+	Mon, 18 Nov 2024 14:58:31 +0000
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tD31O-00000009o1Q-2lNZ
+	id 1tD3Cu-00000009q3D-1zpF
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Nov 2024 14:46:36 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 02DA25C4819;
-	Mon, 18 Nov 2024 14:45:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2885AC4CECC;
-	Mon, 18 Nov 2024 14:46:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731941193;
-	bh=nNisB9deNFEifWbAA1Dvw/hHdpmPPX8zsLH5xbacxY4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gcqYJFjERDxmTKO3Jzdv0vArTE/dXSGOuwdgyjk2yJn/d2ltrlEq3xcV6A9UTOQQs
-	 4fk2tk5dJmkt6KttbPce7YR877xgwmsSgBNTIhehvPSLAWTNhJeG+CoHLygfSzT2FF
-	 vwP2mTJFky9C4OAfWLy5n+S05ganaVPqDQ6hjxvnLdaX1EWpuwxWgQbbn4NLMVL+Ai
-	 OegOfG2sPWxlDxbnltGRDouKx9glSiedeWMI/9xjbdN+wzO2Ul86ef9SOlufRt1uKG
-	 qlmTelutMmqg5UjnfQf6N3ovc/FxuMiHsWW+rvK0cqbLErHhUmeNyIRWNX24IY7jCi
-	 u6pMfsD6X9UYg==
-Date: Mon, 18 Nov 2024 14:46:25 +0000
-From: Will Deacon <will@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 03/17] iommu: generalize the batched sync after map
- interface
-Message-ID: <20241118144624.GA27795@willie-the-truck>
-References: <cover.1731244445.git.leon@kernel.org>
- <589adb3a4b53121942e9a39051ae49a27f7a074c.1731244445.git.leon@kernel.org>
+	Mon, 18 Nov 2024 14:58:29 +0000
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-7e6cbf6cd1dso2861621a12.3
+        for <linux-nvme@lists.infradead.org>; Mon, 18 Nov 2024 06:58:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731941906; x=1732546706; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5Kj40amW5IpporSjQ73hgk+ubBMNelSpX7cTHNX0nDY=;
+        b=tH5Wx1b/4bIgAiCtYPXvWCVHrmB1Q1QqgKegQKXHvezVczLCuf4uoqIyFmnX+natig
+         ecXD/PpxOfFyxYDqR3wgIM6TL1JnwjYUIO3gsJHLos9tMGaabsXDtMSOsHhlyxD2/7Oz
+         PXS+pIGAYRxTLgCUFCKXgSaKUmpJDGbnOxQKqOlmKDHcvnUCHCubZjl6iMzhzw/aVJpk
+         jujnpfLSbqWD+6+8tte84u6kCA6gJw8ka6gHYtESg7FRii/+rvw04BuKvgtnd66Pf8mz
+         gJBTRAwsPDRvJMaQ8iWbhn2ZD19ybut1qTDclQo7hTiNDpr/kwajXnuTT0xlA7suGYsu
+         tNIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731941906; x=1732546706;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Kj40amW5IpporSjQ73hgk+ubBMNelSpX7cTHNX0nDY=;
+        b=C7Xp3SGOaal753nxtq9ZzA1FKHSBTZBvsA5hgXznzV/Q6ZDg5vlt5UYcj5sEAxS8LD
+         mSOegjcdiL4n8zMu+YuLx6AqVh8rJLykmlwn17bYvLidVuixlKxxHzwSr5dQr/v6VSja
+         PGNL6GorEXvjb+acaEzNYZIlLLvDHnx2rJ2t9+99SDLj+QmQQ91ePWvcw7NA0kJpyoW1
+         nqn1lBTELsGjRAE8KJ1TemJExdhREJsjjmk3a4waKOafb/4OeDpO2k96+vX/Nkqb+pEe
+         jfIdTsUBsaUy3PlT3sXqve9N3yqb+uq/sUDOUU5WxePEXSus5zE4IybKV/645Z5A/MCo
+         fDqw==
+X-Forwarded-Encrypted: i=1; AJvYcCV3ojiOej/5NAd1YMuQcDoZWKR1Bgr+3xAm2ZfY7IeEILAEsa7aEr+phVoOxwa2g0i1lLPfCB/Dt9+u@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyrpa7GIDVYXLY38fwQsjK1V9/Pir9sZu4+vxad5bto1Rmxpmoc
+	OTGz1VqZbklotpjGJ4ZK0ZBIv0Sy1QlKwzXf9xruPF0pXstPCstsm6khOd5h0w==
+X-Google-Smtp-Source: AGHT+IFXhxjuxnpcBK6VkRM8ka4xfCsVzl6RCq9DZi8mELcnE7vPbPlemi6MxwH3EwSL+aB5tXXoZQ==
+X-Received: by 2002:a05:6a21:7881:b0:1db:dbad:ce3b with SMTP id adf61e73a8af0-1dc90b60450mr18251249637.23.1731941906610;
+        Mon, 18 Nov 2024 06:58:26 -0800 (PST)
+Received: from thinkpad ([36.255.17.190])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724771e5c0csm6291226b3a.164.2024.11.18.06.58.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2024 06:58:26 -0800 (PST)
+Date: Mon, 18 Nov 2024 20:28:20 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, andersson@kernel.org,
+	konradybcio@kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
+ the user
+Message-ID: <20241118145820.2ecu5hzb2r5ygjvi@thinkpad>
+References: <20241118082344.8146-1-manivannan.sadhasivam@linaro.org>
+ <20241118125817.GA28046@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <589adb3a4b53121942e9a39051ae49a27f7a074c.1731244445.git.leon@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241118125817.GA28046@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241118_064634_733331_761C8794 
-X-CRM114-Status: GOOD (  17.80  )
+X-CRM114-CacheID: sfid-20241118_065828_516856_8D264186 
+X-CRM114-Status: GOOD (  28.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,31 +98,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Nov 10, 2024 at 03:46:50PM +0200, Leon Romanovsky wrote:
-> From: Christoph Hellwig <hch@lst.de>
+On Mon, Nov 18, 2024 at 01:58:17PM +0100, Christoph Hellwig wrote:
+> On Mon, Nov 18, 2024 at 01:53:44PM +0530, Manivannan Sadhasivam wrote:
+> > PCI core allows users to configure the D3Cold state for each PCI device
+> > through the sysfs attribute '/sys/bus/pci/devices/.../d3cold_allowed'. This
+> > attribute sets the 'pci_dev:d3cold_allowed' flag and could be used by users
+> > to allow/disallow the PCI devices to enter D3Cold during system suspend.
+> >
+> > So make use of this flag in the NVMe driver to shutdown the NVMe device
+> > during system suspend if the user has allowed D3Cold for the device.
+> > Existing checks in the NVMe driver decide whether to shut down the device
+> > (based on platform/device limitations), so use this flag as the last resort
+> > to keep the existing behavior.
 > 
-> For the upcoming IOVA-based DMA API we want to use the interface batch the
-> sync after mapping multiple entries from dma-iommu without having a
-> scatterlist.
+> Umm, what?  The documentation of this attribute says:
 > 
-> For that move more sanity checks from the callers into __iommu_map and
-> make that function available outside of iommu.c as iommu_map_nosync.
+> "d3cold_allowed is bit to control whether the corresponding PCI
+>  device can be put into D3Cold state.  If it is cleared, the
+>  device will never be put into D3Cold state.  If it is set, the
+>  device may be put into D3Cold state if other requirements are
+>  satisfied too.  Reading this attribute will show the current
+>  value of d3cold_allowed bit. Writing this attribute will
+>  the value of d3cold_allowed bit."
 > 
-> Add a wrapper for the map_sync as iommu_sync_map so that callers don't
-> need to poke into the methods directly.
+> Which honestly already sounds rather non-specific, but everything but
+> a mandate for drivers to act on it.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/iommu/iommu.c | 65 +++++++++++++++++++------------------------
->  include/linux/iommu.h |  4 +++
->  2 files changed, 33 insertions(+), 36 deletions(-)
+> The only place currently checking it is pci_dev_check_d3cold in the
+> PCI core, which is used to set the bridge_d3 attibute.
+> 
 
-I was a little worried that exposing iommu_map_nosync() directly could
-expose driver bugs where the range being sync'd was assumed to be mapped,
-but I couldn't spot anything obvious from a quick check, so:
+Yeah, it is pretty much used internally up until now. But the attribute looks
+like a close match of what I could find for this usecase and that's why I used
+it.
 
-Acked-by: Will Deacon <will@kernel.org>
+> So blindly using it in a driver to force a different PM strategy feels
+> completely wrong.  Even if the attrite should have that effect it
+> needs to happen through a well documented PCI or PM layer helper and
+> open coded like this.
+> 
 
-Will
+Ok. I'd like to get some feedback from Bjorn H (PCI maintainer) about using this
+attribute before moving forward with a helper.
+
+Thanks!
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
