@@ -4,86 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9E78D4922E
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Nov 2024 14:58:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 890D6D4922F
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Nov 2024 14:59:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5Kj40amW5IpporSjQ73hgk+ubBMNelSpX7cTHNX0nDY=; b=j+47L/v9QfuqXJEzgv/eTXIJs7
-	ObuyUOX5OlMWZurqXvqoDgPY2c2in6FsKmw5K/lSANMaMWPiSLxbGr/F5sbMfN/Nv5uSbKWw9N+dw
-	vfUvQlhJttn4mc9VijkYzbFqlufJC/ZQIFNUWNeJ0gaWSNffl1FGTd3LI6Tca5DtgncZiJJGPs0Bb
-	Ma2u1uAICInRSI5s+ia3S2s1KXnjVmaEflIol9NW7LpXYGkntLAriE26fxGAEuTbjkUD5g0frG2In
-	OaazwFuYyS+/cuRbUM6gMXWCertjQuU1vabaY20wH6EZgWZ0qhS5WqyBylm4uxR8bLcXWHDCRiT4t
-	MzzgFl8A==;
+	bh=ft6u+6gFe73vGLOiK3Ic2gEj439dyqSINOprZSDfqF8=; b=w7YIr7097OK+Dpiha3WA77UgLa
+	8Yp9ZiJnl8cMZmoR7Q8zoA5Dxnez48wnV3Z56K8crSrvrZNUigo3IAwHm4OhIm1HmEskNqUaQZwiN
+	jbMuWhwKcDfMC/PSjb1bEoFDuqBPDNzKghf/UC+vz2K+4iGC9+7B/XY/R09Fl+6o1FFg7mIbJBOXh
+	z7OrnvyIih9Uvhg6fEYXNhHn2mnctywIGIkQURlYr/h0DDR6zaZ2wfpwOSWvly7XejLXUq1dQO07E
+	4IJNBABe5R87ZMo3/p5L0sqz7isdYqS8uZobm1yCT5n7IR13ieh9wUFb19lAfleUNotFKtAa2qYqp
+	X4ub87UA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tD3Cx-00000009q4u-1D8u;
-	Mon, 18 Nov 2024 14:58:31 +0000
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+	id 1tD3E5-00000009qKe-47ru;
+	Mon, 18 Nov 2024 14:59:41 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tD3Cu-00000009q3D-1zpF
+	id 1tD3E3-00000009qJO-2BoZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Nov 2024 14:58:29 +0000
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-7e6cbf6cd1dso2861621a12.3
-        for <linux-nvme@lists.infradead.org>; Mon, 18 Nov 2024 06:58:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731941906; x=1732546706; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5Kj40amW5IpporSjQ73hgk+ubBMNelSpX7cTHNX0nDY=;
-        b=tH5Wx1b/4bIgAiCtYPXvWCVHrmB1Q1QqgKegQKXHvezVczLCuf4uoqIyFmnX+natig
-         ecXD/PpxOfFyxYDqR3wgIM6TL1JnwjYUIO3gsJHLos9tMGaabsXDtMSOsHhlyxD2/7Oz
-         PXS+pIGAYRxTLgCUFCKXgSaKUmpJDGbnOxQKqOlmKDHcvnUCHCubZjl6iMzhzw/aVJpk
-         jujnpfLSbqWD+6+8tte84u6kCA6gJw8ka6gHYtESg7FRii/+rvw04BuKvgtnd66Pf8mz
-         gJBTRAwsPDRvJMaQ8iWbhn2ZD19ybut1qTDclQo7hTiNDpr/kwajXnuTT0xlA7suGYsu
-         tNIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731941906; x=1732546706;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Kj40amW5IpporSjQ73hgk+ubBMNelSpX7cTHNX0nDY=;
-        b=C7Xp3SGOaal753nxtq9ZzA1FKHSBTZBvsA5hgXznzV/Q6ZDg5vlt5UYcj5sEAxS8LD
-         mSOegjcdiL4n8zMu+YuLx6AqVh8rJLykmlwn17bYvLidVuixlKxxHzwSr5dQr/v6VSja
-         PGNL6GorEXvjb+acaEzNYZIlLLvDHnx2rJ2t9+99SDLj+QmQQ91ePWvcw7NA0kJpyoW1
-         nqn1lBTELsGjRAE8KJ1TemJExdhREJsjjmk3a4waKOafb/4OeDpO2k96+vX/Nkqb+pEe
-         jfIdTsUBsaUy3PlT3sXqve9N3yqb+uq/sUDOUU5WxePEXSus5zE4IybKV/645Z5A/MCo
-         fDqw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3ojiOej/5NAd1YMuQcDoZWKR1Bgr+3xAm2ZfY7IeEILAEsa7aEr+phVoOxwa2g0i1lLPfCB/Dt9+u@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyrpa7GIDVYXLY38fwQsjK1V9/Pir9sZu4+vxad5bto1Rmxpmoc
-	OTGz1VqZbklotpjGJ4ZK0ZBIv0Sy1QlKwzXf9xruPF0pXstPCstsm6khOd5h0w==
-X-Google-Smtp-Source: AGHT+IFXhxjuxnpcBK6VkRM8ka4xfCsVzl6RCq9DZi8mELcnE7vPbPlemi6MxwH3EwSL+aB5tXXoZQ==
-X-Received: by 2002:a05:6a21:7881:b0:1db:dbad:ce3b with SMTP id adf61e73a8af0-1dc90b60450mr18251249637.23.1731941906610;
-        Mon, 18 Nov 2024 06:58:26 -0800 (PST)
-Received: from thinkpad ([36.255.17.190])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724771e5c0csm6291226b3a.164.2024.11.18.06.58.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 06:58:26 -0800 (PST)
-Date: Mon, 18 Nov 2024 20:28:20 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-	"Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
- the user
-Message-ID: <20241118145820.2ecu5hzb2r5ygjvi@thinkpad>
-References: <20241118082344.8146-1-manivannan.sadhasivam@linaro.org>
- <20241118125817.GA28046@lst.de>
+	Mon, 18 Nov 2024 14:59:40 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id C0AAE5C5A86;
+	Mon, 18 Nov 2024 14:58:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD6BEC4CECC;
+	Mon, 18 Nov 2024 14:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731941978;
+	bh=B8pGggj3ynn83Ub48krJi7CHfczmBiFlV+ZzKagAU8c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G6Bg2k8CB4cyv7GvpsoK3J+5RLs/2u5H29iEyh4i6ZqGoXct/Mu22+XNHflmRvT6s
+	 KZe6NXydVtOw41QSE4Mu0hI142rjcw2NGNoa3hORXv8QPudQ2LNbI7CL1PQllBv1zJ
+	 PVg5OIMdYI/sifgmlsljRU/Jxm7UY+Ka84poM2U08EXGlKgrcyVUOBN2rs8H4k42SQ
+	 UuahBUOxDy3vM9OoqFVolfL209f3W00Ro+weBEcZGMM2MXHHmc4mlPpCvaZhG6b4ib
+	 avxefeiazL/Eyx8Z0HkLX7S1VbKRCfbXLdz1veV0FzQoJ7m9izmVY5DPnmgs81YoQr
+	 LHwDUV8zWxLxA==
+Date: Mon, 18 Nov 2024 14:59:30 +0000
+From: Will Deacon <will@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 07/17] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20241118145929.GB27795@willie-the-truck>
+References: <cover.1731244445.git.leon@kernel.org>
+ <f8c7f160c9ae97fef4ccd355f9979727552c7374.1731244445.git.leon@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241118125817.GA28046@lst.de>
+In-Reply-To: <f8c7f160c9ae97fef4ccd355f9979727552c7374.1731244445.git.leon@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241118_065828_516856_8D264186 
-X-CRM114-Status: GOOD (  28.57  )
+X-CRM114-CacheID: sfid-20241118_065939_640186_DCB14DF0 
+X-CRM114-Status: GOOD (  27.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,53 +91,168 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 18, 2024 at 01:58:17PM +0100, Christoph Hellwig wrote:
-> On Mon, Nov 18, 2024 at 01:53:44PM +0530, Manivannan Sadhasivam wrote:
-> > PCI core allows users to configure the D3Cold state for each PCI device
-> > through the sysfs attribute '/sys/bus/pci/devices/.../d3cold_allowed'. This
-> > attribute sets the 'pci_dev:d3cold_allowed' flag and could be used by users
-> > to allow/disallow the PCI devices to enter D3Cold during system suspend.
-> >
-> > So make use of this flag in the NVMe driver to shutdown the NVMe device
-> > during system suspend if the user has allowed D3Cold for the device.
-> > Existing checks in the NVMe driver decide whether to shut down the device
-> > (based on platform/device limitations), so use this flag as the last resort
-> > to keep the existing behavior.
+On Sun, Nov 10, 2024 at 03:46:54PM +0200, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> Umm, what?  The documentation of this attribute says:
+> Introduce new DMA APIs to perform DMA linkage of buffers
+> in layers higher than DMA.
 > 
-> "d3cold_allowed is bit to control whether the corresponding PCI
->  device can be put into D3Cold state.  If it is cleared, the
->  device will never be put into D3Cold state.  If it is set, the
->  device may be put into D3Cold state if other requirements are
->  satisfied too.  Reading this attribute will show the current
->  value of d3cold_allowed bit. Writing this attribute will
->  the value of d3cold_allowed bit."
+> In proposed API, the callers will perform the following steps.
+> In map path:
+> 	if (dma_can_use_iova(...))
+> 	    dma_iova_alloc()
+> 	    for (page in range)
+> 	       dma_iova_link_next(...)
+> 	    dma_iova_sync(...)
+> 	else
+> 	     /* Fallback to legacy map pages */
+>              for (all pages)
+> 	       dma_map_page(...)
 > 
-> Which honestly already sounds rather non-specific, but everything but
-> a mandate for drivers to act on it.
+> In unmap path:
+> 	if (dma_can_use_iova(...))
+> 	     dma_iova_destroy()
+> 	else
+> 	     for (all pages)
+> 		dma_unmap_page(...)
 > 
-> The only place currently checking it is pci_dev_check_d3cold in the
-> PCI core, which is used to set the bridge_d3 attibute.
-> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/iommu/dma-iommu.c   | 259 ++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-mapping.h |  32 +++++
+>  2 files changed, 291 insertions(+)
 
-Yeah, it is pretty much used internally up until now. But the attribute looks
-like a close match of what I could find for this usecase and that's why I used
-it.
+[...]
 
-> So blindly using it in a driver to force a different PM strategy feels
-> completely wrong.  Even if the attrite should have that effect it
-> needs to happen through a well documented PCI or PM layer helper and
-> open coded like this.
-> 
+> +/**
+> + * dma_iova_link - Link a range of IOVA space
+> + * @dev: DMA device
+> + * @state: IOVA state
+> + * @phys: physical address to link
+> + * @offset: offset into the IOVA state to map into
+> + * @size: size of the buffer
+> + * @dir: DMA direction
+> + * @attrs: attributes of mapping properties
+> + *
+> + * Link a range of IOVA space for the given IOVA state without IOTLB sync.
+> + * This function is used to link multiple physical addresses in contigueous
+> + * IOVA space without performing costly IOTLB sync.
+> + *
+> + * The caller is responsible to call to dma_iova_sync() to sync IOTLB at
+> + * the end of linkage.
+> + */
+> +int dma_iova_link(struct device *dev, struct dma_iova_state *state,
+> +		phys_addr_t phys, size_t offset, size_t size,
+> +		enum dma_data_direction dir, unsigned long attrs)
+> +{
+> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> +	struct iova_domain *iovad = &cookie->iovad;
+> +	size_t iova_start_pad = iova_offset(iovad, phys);
+> +
+> +	if (WARN_ON_ONCE(iova_start_pad && offset > 0))
+> +		return -EIO;
+> +
+> +	if (dev_use_swiotlb(dev, size, dir) && iova_offset(iovad, phys | size))
+> +		return iommu_dma_iova_link_swiotlb(dev, state, phys, offset,
+> +				size, dir, attrs);
+> +
+> +	return __dma_iova_link(dev, state->addr + offset - iova_start_pad,
+> +			phys - iova_start_pad,
+> +			iova_align(iovad, size + iova_start_pad), dir, attrs);
+> +}
+> +EXPORT_SYMBOL_GPL(dma_iova_link);
+> +
+> +/**
+> + * dma_iova_sync - Sync IOTLB
+> + * @dev: DMA device
+> + * @state: IOVA state
+> + * @offset: offset into the IOVA state to sync
+> + * @size: size of the buffer
+> + *
+> + * Sync IOTLB for the given IOVA state. This function should be called on
+> + * the IOVA-contigous range created by one ore more dma_iova_link() calls
+> + * to sync the IOTLB.
+> + */
+> +int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
+> +		size_t offset, size_t size)
+> +{
+> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> +	struct iova_domain *iovad = &cookie->iovad;
+> +	dma_addr_t addr = state->addr + offset;
+> +	size_t iova_start_pad = iova_offset(iovad, addr);
+> +
+> +	return iommu_sync_map(domain, addr - iova_start_pad,
+> +		      iova_align(iovad, size + iova_start_pad));
+> +}
+> +EXPORT_SYMBOL_GPL(dma_iova_sync);
+> +
+> +static void iommu_dma_iova_unlink_range_slow(struct device *dev,
+> +		dma_addr_t addr, size_t size, enum dma_data_direction dir,
+> +		unsigned long attrs)
+> +{
+> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> +	struct iova_domain *iovad = &cookie->iovad;
+> +	size_t iova_start_pad = iova_offset(iovad, addr);
+> +	dma_addr_t end = addr + size;
+> +
+> +	do {
+> +		phys_addr_t phys;
+> +		size_t len;
+> +
+> +		phys = iommu_iova_to_phys(domain, addr);
+> +		if (WARN_ON(!phys))
+> +			continue;
+> +		len = min_t(size_t,
+> +			end - addr, iovad->granule - iova_start_pad);
+> +
+> +		if (!dev_is_dma_coherent(dev) &&
+> +		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+> +			arch_sync_dma_for_cpu(phys, len, dir);
+> +
+> +		swiotlb_tbl_unmap_single(dev, phys, len, dir, attrs);
+> +
+> +		addr += len;
+> +		iova_start_pad = 0;
+> +	} while (addr < end);
+> +}
+> +
+> +static void __iommu_dma_iova_unlink(struct device *dev,
+> +		struct dma_iova_state *state, size_t offset, size_t size,
+> +		enum dma_data_direction dir, unsigned long attrs,
+> +		bool free_iova)
+> +{
+> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> +	struct iova_domain *iovad = &cookie->iovad;
+> +	dma_addr_t addr = state->addr + offset;
+> +	size_t iova_start_pad = iova_offset(iovad, addr);
+> +	struct iommu_iotlb_gather iotlb_gather;
+> +	size_t unmapped;
+> +
+> +	if ((state->__size & DMA_IOVA_USE_SWIOTLB) ||
+> +	    (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))
+> +		iommu_dma_iova_unlink_range_slow(dev, addr, size, dir, attrs);
+> +
+> +	iommu_iotlb_gather_init(&iotlb_gather);
+> +	iotlb_gather.queued = free_iova && READ_ONCE(cookie->fq_domain);
+> +
+> +	size = iova_align(iovad, size + iova_start_pad);
+> +	addr -= iova_start_pad;
+> +	unmapped = iommu_unmap_fast(domain, addr, size, &iotlb_gather);
+> +	WARN_ON(unmapped != size);
 
-Ok. I'd like to get some feedback from Bjorn H (PCI maintainer) about using this
-attribute before moving forward with a helper.
+Does the new API require that the 'size' passed to dma_iova_unlink()
+exactly match the 'size' passed to the corresponding call to
+dma_iova_link()? I ask because the IOMMU page-table code is built around
+the assumption that partial unmap() operations never occur (i.e.
+operations which could require splitting a huge mapping). We just
+removed [1] that code from the Arm IO page-table implementations, so it
+would be good to avoid adding it back for this.
 
-Thanks!
+Will
 
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git/commit/?h=arm/smmu&id=33729a5fc0caf7a97d20507acbeee6b012e7e519
 
