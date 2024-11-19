@@ -4,82 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 873E5D44141
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 11:05:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C7C6D44150
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:16:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=CVNQRUfkfoGYcoSAdMe73y6I/zgaSHZvc6n4x9QFnE8=; b=n1AUU4v+bEpnapI/c6SMuW+9tA
-	05zzp5JcMe5EB0fhzbmrtp0WB0XBj54wBA5LaYgURwuiHQsPT8tKOzh9JDFJHnBLDdG1uwFR6Hrs7
-	c57uhsDYkkJrBBVMua7UOU3Lh3BVFascBXt/vbTzgPg/D7jFzegAn+DeTxyAO2+qnypSftiTXUbbx
-	0JV62v1t/n7HgCTkOxLyx8PYIN8OLKwBrDfVMFzcMQgiOedw3yx99IxEqdbE3sZMOUb7bZ10SrI+P
-	UxDRxbahDhJrDhg5S0ar2e4CfVTw0trTiIp4jBEDFnn5/g+1l8FjuXwTrf3HkgeGMHWEAeXTB52EQ
-	rHykxhPg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZCibf9nDXx/wBVyXnoXvLzPNlRRpMiBGQGPX4h8joGI=; b=yDXnkQc0KxDL7FBSmBGZ09xo/c
+	3Hh7c2OOY/pv6siDcVZE9nejCboEbUJv2jxDb02ZGgb4/FDFz8unX45d3mq1L48y1BCt4MW9qQr+8
+	nOJBvSMbg8NOFWtcqTNjdlIGBQTqTcWj02JEzyX4EB5VB4sqDhy+K+XjmrHgCELAxc/yGtq+LLyCD
+	uJzcmLbhKxsBfe4pAu3n6hnasFrKwTgUF7CVf9Ky99awM1xzKsl7JcDJUwXmZ7i8Yv9wrAxqws+y8
+	N67BNzhfpH+6TWgQ3O6HCXvY6C9GIIljZM5p1CYOJHkd/yVs+nBzxTi6CVvNRFEFgK3dVSljXlC7d
+	zOHEj89w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDM2U-0000000CAFU-1Dpy;
-	Tue, 19 Nov 2024 11:04:58 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDM2R-0000000CAEQ-1Nhu
-	for linux-nvme@lists.infradead.org;
-	Tue, 19 Nov 2024 11:04:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732014293;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=CVNQRUfkfoGYcoSAdMe73y6I/zgaSHZvc6n4x9QFnE8=;
-	b=UnNIYVGcut6vFi09pVhtepv4dzcrG8/T+tdM7CVeG8HcI08FelJrBokGbzzUVmO8NrD38M
-	5mpEYh3dBUO48VQWISqdp2/Ih+1uveVXtF34/1mWd8xva52ASAFJsMygkbMYM6I/g+R/2V
-	ztTEtwG/eLn5P8JTa9XxKNdy4wjY1Q4=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-2-Qqn23NskNx6c_pnysXkybA-1; Tue, 19 Nov 2024 06:04:52 -0500
-X-MC-Unique: Qqn23NskNx6c_pnysXkybA-1
-X-Mimecast-MFC-AGG-ID: Qqn23NskNx6c_pnysXkybA
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2fb6509b841so26485321fa.0
-        for <linux-nvme@lists.infradead.org>; Tue, 19 Nov 2024 03:04:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732014288; x=1732619088;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CVNQRUfkfoGYcoSAdMe73y6I/zgaSHZvc6n4x9QFnE8=;
-        b=birwwgPhnJ/e0F1zyYT3ghIdPeVnd+7UUlLVtzSrwJlXB1a4/S1klKyD9+ZEQV+QY3
-         yXowOXlsH2hpFa0DWCkvtGvvHeJsTWEIVnn+TnNvX6o5WLpEvA1Hi1Xroeaq4t62QZOm
-         52HudMptmVxaf+62xEQkg2Hk2tw7lwuILObiKc7AqsNtPZujOYwknTB4bd4l7eMyZCOM
-         xdnhtNELdQRUOd96sFi0ORkXHzG2vvexsoSlAhS7WRxV/G4Vm8wvCWovDQA5MpHRSV0h
-         LPfT3iA1N0CSCswY/OSxcUGRKGpRsY1WJ2SKvp8GOqIgxUWf9fPuIqBMia+dDevN6fLV
-         HRGA==
-X-Gm-Message-State: AOJu0YwL15HdXTLqMW6aO7PJCjJpaeJ7FfL7le5O0CxqO1mH4BKCvSzV
-	7xoBjoKie/Rg6ExHCqk8wTs1dRc9yS2dsU0Y+EETfPAnY3OTykAGRUrlMtQKmpzw/MUN94sF4FH
-	+Y6Il3jJtpnxnuJaKSynbtLzUqmFjMoZ36v5eWgf5vggUtlpBVFxqeg6imNqVriusLTGcuehbQC
-	DqM4kXxEzhfHgQs4zBt4lL6wf0rYRZixEHLQ3uro3e4CrCg6F+hKad
-X-Received: by 2002:a2e:b88f:0:b0:2fa:d464:32d3 with SMTP id 38308e7fff4ca-2ff83bfaa0amr8723481fa.20.1732014287928;
-        Tue, 19 Nov 2024 03:04:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEw9hWtRQ36WeUA6tryuJv+7RFXjfeJ3JnkFd26jA+54+oX7BRyjUQCwmTZR/jdqpldtGgNTuRkY8B1R8r3T2s=
-X-Received: by 2002:a2e:b88f:0:b0:2fa:d464:32d3 with SMTP id
- 38308e7fff4ca-2ff83bfaa0amr8723411fa.20.1732014287557; Tue, 19 Nov 2024
- 03:04:47 -0800 (PST)
+	id 1tDN9u-0000000CIt2-00cv;
+	Tue, 19 Nov 2024 12:16:42 +0000
+Received: from 2a02-8389-2341-5b80-1731-a089-d2b1-3edf.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:1731:a089:d2b1:3edf] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDN9r-0000000CIry-2H8D;
+	Tue, 19 Nov 2024 12:16:40 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Hui Qi <hui81.qi@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Jan Kara <jack@suse.cz>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org
+Subject: [PATCH 01/15] fs: add write stream information to statx
+Date: Tue, 19 Nov 2024 13:16:15 +0100
+Message-ID: <20241119121632.1225556-2-hch@lst.de>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241119121632.1225556-1-hch@lst.de>
+References: <20241119121632.1225556-1-hch@lst.de>
 MIME-Version: 1.0
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Tue, 19 Nov 2024 19:04:35 +0800
-Message-ID: <CAHj4cs8OVyxmn4XTvA=y4uQ3qWpdw-x3M3FSUYr-KpE-nhaFEA@mail.gmail.com>
-Subject: [bug report][regression] blktests nvme/029 failed on latest linux-block/for-next
-To: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
-	linux-block <linux-block@vger.kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: yh_JSG9p-jphnbDp8FKnH0aM8gXNNIUIaef8EVBTNyo_1732014291
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241119_030455_439272_76AF805D 
-X-CRM114-Status: UNSURE (   6.16  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,37 +63,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello
+From: Keith Busch <kbusch@kernel.org>
 
-CKI recently reported the blktests nvme/029 failed[1] on the
-linux-block/for-next, and bisect shows it was introduced from [2],
-please help check it and let me know if you need any info/test for it, thanks.
+Add new statx field to report the maximum number of write streams
+supported and the granularity for them.
 
-[1]
-nvme/029 (tr=loop) (test userspace IO via nvme-cli read/write
-interface) [failed]
-    runtime    ...  1.568s
-    --- tests/nvme/029.out 2024-11-19 08:13:41.379272231 +0000
-    +++ /root/blktests/results/nodev_tr_loop/nvme/029.out.bad
-2024-11-19 10:55:13.615939542 +0000
-    @@ -1,2 +1,8 @@
-     Running nvme/029
-    +FAIL
-    +FAIL
-    +FAIL
-    +FAIL
-    +FAIL
-    +FAIL
-    ...
-    (Run 'diff -u tests/nvme/029.out
-/root/blktests/results/nodev_tr_loop/nvme/029.out.bad' to see the
-entire diff)
-[2]
-64a51080eaba (HEAD) nvmet: implement id ns for nvm command set
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+[hch: s/write_hint/write_stream/g, add granularity]
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/stat.c                 | 2 ++
+ include/linux/stat.h      | 2 ++
+ include/uapi/linux/stat.h | 7 +++++--
+ 3 files changed, 9 insertions(+), 2 deletions(-)
 
-
---
-Best Regards,
-  Yi Zhang
+diff --git a/fs/stat.c b/fs/stat.c
+index 41e598376d7e..aa2b7fa4a877 100644
+--- a/fs/stat.c
++++ b/fs/stat.c
+@@ -704,6 +704,8 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
+ 	tmp.stx_atomic_write_unit_min = stat->atomic_write_unit_min;
+ 	tmp.stx_atomic_write_unit_max = stat->atomic_write_unit_max;
+ 	tmp.stx_atomic_write_segments_max = stat->atomic_write_segments_max;
++	tmp.stx_write_stream_granularity = stat->write_stream_granularity;
++	tmp.stx_write_stream_max = stat->write_stream_max;
+ 
+ 	return copy_to_user(buffer, &tmp, sizeof(tmp)) ? -EFAULT : 0;
+ }
+diff --git a/include/linux/stat.h b/include/linux/stat.h
+index 3d900c86981c..36d4dfb291ab 100644
+--- a/include/linux/stat.h
++++ b/include/linux/stat.h
+@@ -57,6 +57,8 @@ struct kstat {
+ 	u32		atomic_write_unit_min;
+ 	u32		atomic_write_unit_max;
+ 	u32		atomic_write_segments_max;
++	u32		write_stream_granularity;
++	u16		write_stream_max;
+ };
+ 
+ /* These definitions are internal to the kernel for now. Mainly used by nfsd. */
+diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+index 887a25286441..547c62a1a3a7 100644
+--- a/include/uapi/linux/stat.h
++++ b/include/uapi/linux/stat.h
+@@ -132,9 +132,11 @@ struct statx {
+ 	__u32	stx_atomic_write_unit_max;	/* Max atomic write unit in bytes */
+ 	/* 0xb0 */
+ 	__u32   stx_atomic_write_segments_max;	/* Max atomic write segment count */
+-	__u32   __spare1[1];
++	__u32   stx_write_stream_granularity;
+ 	/* 0xb8 */
+-	__u64	__spare3[9];	/* Spare space for future expansion */
++	__u16   stx_write_stream_max;
++	__u16	__sparse2[3];
++	__u64	__spare3[8];	/* Spare space for future expansion */
+ 	/* 0x100 */
+ };
+ 
+@@ -164,6 +166,7 @@ struct statx {
+ #define STATX_MNT_ID_UNIQUE	0x00004000U	/* Want/got extended stx_mount_id */
+ #define STATX_SUBVOL		0x00008000U	/* Want/got stx_subvol */
+ #define STATX_WRITE_ATOMIC	0x00010000U	/* Want/got atomic_write_* fields */
++#define STATX_WRITE_STREAM	0x00020000U	/* Want/got write_stream_* */
+ 
+ #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
+ 
+-- 
+2.45.2
 
 
