@@ -4,58 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8A6AD591D4
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 07:16:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DA30D62040
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 09:05:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IsCn19yYzSbrcUBKQREXDJTAgD/YUNlN0+PetPRsb2s=; b=b/lyztN6iMERu4FHn6eesmBymb
-	vftH/1/QVtq0EECA888zRhN+OuO026lGbizwnr75zmJYF1nrKSBOk+B9cpygESGUitrOTf3S3jS8B
-	GIrjPcyE2VfcznGBvR+Tx/bCckyH1b1gIJrsrYY/a0IvbFlynMk3JurTU9pjjBI710MapZ3venH/O
-	UDzDNr7Cap0XI5HM8bF5VBiGYtBf7sAvMtC3RZDdzRxMg2PrbruEJjCMc09LES2Dq4055Iin12HAi
-	gMXBFb6pO0b/X9NV/yusEZRQtVh31SgCN/CWKgavLMa9tmd/2urSRpE5Y/BAyWAZP4Y7OpLhj4Go7
-	jI5pRh5A==;
+	bh=ASOqfqo57q8TAqJHgVqYUCyiuGtomZMg9cwiPig5cWY=; b=GhoLVnFQIkuCIE2i3LLqoNyB5W
+	vpBKvJwjO65OGuHHyosx0GBWy1HFwTxPP/KF4FhkID9iXC1XNCwoc95mT4U4H2OMUz/WlbtTMTz+Z
+	ibGQeALSqq6+kEcVuK50i6pycc+oGO6ZZsZ1uzJdyFxaZVDO1oO2okb5Eazq3QM/aP91IGMqQ52aV
+	neiaBaal68DYuLIdzSe5XCRUoSgjfFTxoWpuN1YA6BENcj0C2W68rroo5BaKwbh6Idp/FbNjnLHc9
+	dAPwZV7Esu33xNo9Xd9HcqH4a/3U/bCe3n51TJHXIrr08vikdsUHjIqhSGTTpxJTwmV6L4NGF4Hu4
+	GCpnGCOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDITC-0000000Bc23-3HE4;
-	Tue, 19 Nov 2024 07:16:18 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1tDKAi-0000000Bpkc-3ZOa;
+	Tue, 19 Nov 2024 09:05:20 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDIT1-0000000Bc1J-0sHy
+	id 1tDKAg-0000000Bpjk-27ke
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Nov 2024 07:16:10 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EAAF068D49; Tue, 19 Nov 2024 08:15:56 +0100 (CET)
-Date: Tue, 19 Nov 2024 08:15:56 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Dave Chinner <david@fromorbit.com>,
-	Pierre Labat <plabat@micron.com>,
-	Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"asml.silence@gmail.com" <asml.silence@gmail.com>,
-	"javier.gonz@samsung.com" <javier.gonz@samsung.com>
-Subject: Re: [EXT] Re: [PATCHv11 0/9] write hints with nvme fdp and scsi
- streams
-Message-ID: <20241119071556.GA8417@lst.de>
-References: <7a2f6231-bb35-4438-ba50-3f9c4cc9789a@samsung.com> <20241112133439.GA4164@lst.de> <ZzNlaXZTn3Pjiofn@kbusch-mbp.dhcp.thefacebook.com> <DS0PR08MB854131CDA4CDDF2451CEB71DAB592@DS0PR08MB8541.namprd08.prod.outlook.com> <20241113044736.GA20212@lst.de> <ZzU7bZokkTN2s8qr@dread.disaster.area> <20241114060710.GA11169@lst.de> <Zzd2lfQURP70dAxu@kbusch-mbp> <20241115165348.GA22628@lst.de> <ZzvPpD5O8wJzeHth@kbusch-mbp>
+	Tue, 19 Nov 2024 09:05:19 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id F02E8A42747;
+	Tue, 19 Nov 2024 09:03:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76DCDC4CECF;
+	Tue, 19 Nov 2024 09:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732007116;
+	bh=qslK9QNzD9RoFr7GVJ7I21Lqy9327g4qXpeTSoTD2Dk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cv5uOTxSRP/Zlfyx8pwvQYettf0TzHwBftoQg8EWUdvGQSUrhYNTkJaHEMt90mnND
+	 dL/Xxm06c7d2j9I8IymnJyGN9CGYF9PZAP+AG1HVBzf8AUcthPJhAd+k/qmq8hUeYV
+	 2S4o5Gr48Y2AiD/EmI3wOWkLt4lpEWH0qz0kux7WL6fE8j+1ET//fwy1xbqVocSpXe
+	 Ab5mRo9pg4yNjvuqxi0jb4bhYoSNsM4y2N6QC7+4YGcXRWzqXSt7GwZXmZewEqB/OX
+	 /tdIXMaJ71vpUzz+qH2VBsIoFVA4QuLQubJhkLUBybYjH8dErW+BjxCo19oKKYayqc
+	 wfHTbIuJlL9Jg==
+Date: Tue, 19 Nov 2024 09:05:08 +0000
+From: Will Deacon <will@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 07/17] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20241119090507.GB28466@willie-the-truck>
+References: <cover.1731244445.git.leon@kernel.org>
+ <f8c7f160c9ae97fef4ccd355f9979727552c7374.1731244445.git.leon@kernel.org>
+ <20241118145929.GB27795@willie-the-truck>
+ <20241118185533.GA24154@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZzvPpD5O8wJzeHth@kbusch-mbp>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20241118185533.GA24154@unreal>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241118_231607_547822_94184469 
-X-CRM114-Status: GOOD (  42.43  )
+X-CRM114-CacheID: sfid-20241119_010518_663748_F12471A5 
+X-CRM114-Status: GOOD (  22.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,93 +92,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 18, 2024 at 04:37:08PM -0700, Keith Busch wrote:
-> We have an API that has existed for 10+ years. You are gatekeeping that
-> interface by declaring NVMe's FDP is not allowed to use it. Do I have
-> that wrong? You initially blocked this because you didn't like how the
-> spec committe worked. Now you've shifted to trying to pretend FDP
-> devices require explicit filesystem handholding that was explicely NOT
-> part of that protocol.
-
-I'm not fucking gate keeping anything, I'm really tired of this claim
-with absolutely no facts backing it up.
-
-> > And as iterared multiple times you are doing that by bypassing the
-> > file system layer in a forceful way that breaks all abstractions and
-> > makes your feature unavailabe for file systems.
+On Mon, Nov 18, 2024 at 08:55:33PM +0200, Leon Romanovsky wrote:
+> On Mon, Nov 18, 2024 at 02:59:30PM +0000, Will Deacon wrote:
+> > On Sun, Nov 10, 2024 at 03:46:54PM +0200, Leon Romanovsky wrote:
+> > > +static void __iommu_dma_iova_unlink(struct device *dev,
+> > > +		struct dma_iova_state *state, size_t offset, size_t size,
+> > > +		enum dma_data_direction dir, unsigned long attrs,
+> > > +		bool free_iova)
+> > > +{
+> > > +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> > > +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> > > +	struct iova_domain *iovad = &cookie->iovad;
+> > > +	dma_addr_t addr = state->addr + offset;
+> > > +	size_t iova_start_pad = iova_offset(iovad, addr);
+> > > +	struct iommu_iotlb_gather iotlb_gather;
+> > > +	size_t unmapped;
+> > > +
+> > > +	if ((state->__size & DMA_IOVA_USE_SWIOTLB) ||
+> > > +	    (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))
+> > > +		iommu_dma_iova_unlink_range_slow(dev, addr, size, dir, attrs);
+> > > +
+> > > +	iommu_iotlb_gather_init(&iotlb_gather);
+> > > +	iotlb_gather.queued = free_iova && READ_ONCE(cookie->fq_domain);
+> > > +
+> > > +	size = iova_align(iovad, size + iova_start_pad);
+> > > +	addr -= iova_start_pad;
+> > > +	unmapped = iommu_unmap_fast(domain, addr, size, &iotlb_gather);
+> > > +	WARN_ON(unmapped != size);
+> > 
+> > Does the new API require that the 'size' passed to dma_iova_unlink()
+> > exactly match the 'size' passed to the corresponding call to
+> > dma_iova_link()? I ask because the IOMMU page-table code is built around
+> > the assumption that partial unmap() operations never occur (i.e.
+> > operations which could require splitting a huge mapping). We just
+> > removed [1] that code from the Arm IO page-table implementations, so it
+> > would be good to avoid adding it back for this.
 > 
-> Your filesystem layering breaks the abstraction and capabilities the
-> drives are providing. You're doing more harm than good trying to game
-> how the media works here.
+> dma_iova_link/dma_iova_unlink() don't have any assumptions in addition
+> to already existing for dma_map_sg/dma_unmap_sg(). In reality, it means
+> that all calls to unlink will have same size as for link.
 
-How so?
+Ok, great. Any chance you could call that out in the documentation patch,
+please?
 
-> > I've also thrown your a nugget by first explaining and then even writing
-> > protype code to show how you get what you want while using the proper
-> > abstractions.  
-> 
-> Oh, the untested prototype that wasn't posted to any mailing list for
-> a serious review? The one that forces FDP to subscribe to the zoned
-> interface only for XFS, despite these devices being squarly in the
-> "conventional" SSD catagory and absolutely NOT zone devices? Despite I
-> have other users using other filesystems successfuly using the existing
-> interfaces that your prototype doesn't do a thing for? Yah, thanks...
-
-What zoned interface to FDP?
-
-The exposed interface is to:
-
- a) pick a write stream
- b) expose the size of the reclaim unit
-
-not done yet, but needed for good operation:
-
- c) expose how much capacity in a reclaim unit has been written
-
-This is about as good as it gets to map the FDP (and to a lesser extent
-streams) interface to an abstract block layer API.  If you have a better
-suggestion to actually expose these capabilities I'm all ears.
-
-Now _my_ preferred use of that interface is a write out of place,
-map LBA regions to physical reclaim blocks file system.  On the hand
-hand because it actually fits the file system I'm writing, on the other
-hand because industry experience has shown that this is a very good
-fit to flash storage (even without any explicit placement).  If you
-think that's all wrong that fine, despite claims to the contrary from
-you absolutely nothing in the interface forced you to do that.
-
-You can roll the dice for your LBA allocations and write them using
-a secure random number generator.  The interface allows for all of that,
-but I doubt your results will all that great.  Not my business.
-
-> I appreciate you put the time into getting your thoughts into actual
-> code and it does look very valuable for ACTUAL ZONE block devices. But
-> it seems to have missed the entire point of what this hardware feature
-> does. If you're doing low level media garbage collection with FDP and
-> tracking fake media write pointers, then you're doing it wrong. Please
-> use Open Channel and ZNS SSDs if you want that interface and stop
-> gatekeeping the EXISTING interface that has proven value in production
-> software today.
-
-Hey, feel free to come up with a better design.  The whole point of a
-proper block layer design is that you actually can do that!
-
-> > But instead of a picking up on that you just whine like
-> > this.  Either spend a little bit of effort to actually get the interface
-> > right or just shut up.
-> 
-> Why the fuck should I make an effort to do improve your pet project that
-> I don't have a customer for? They want to use the interface that was
-> created 10 years ago, exactly for the reason it was created, and no one
-> wants to introduce the risks of an untested and unproven major and
-> invasive filesystem and block stack change in the kernel in the near
-> term!
-
-Because you apparently want an interface to FDP in the block layer.  And
-if you want that you need to stop bypassing the file systems as pointed
-out not just by me but also at least one other file system maintainer
-and the maintainer of the most used block subsystem.  I've thrown you
-some bones how that can be done while doing everything else you did
-before (at least assuming you get the fs side past the fs maintainers),
-but the only thanks for that is bullshit attacks at a personal level.
+Will
 
