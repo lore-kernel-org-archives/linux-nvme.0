@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C8CCD44148
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:16:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EF6CD44148
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JRKFVYldGi+Mip7kGl2nMr3ub2NZztZbmnBFCrNHiBg=; b=0CH118IdIz9Czc+FEsHIvfZ8xh
-	UMxWvU+uD7XNajPqYvz6towGtx8Pgyz4k7qGpb89Cz4wDwGJDR++mV9flhNSS6V/SNS3DxCuWREa4
-	dUGqZcsuxRh2Ih2U6J3JdkKYoE4f4rg1CjrapAjP6FI3dSQBY61U77vpN26jBtqsKAvFSqfK7vRd8
-	jY4B19ZrzAA3rL64beijGTaWNnmloQZQmsyHzBIMKS0VVwU2KG5SY1ulqohxvRd5L1XUIMqp1hi/X
-	om2nZvPEYUT5PbtuLkCarOYq88ROukqx2R04wpS5ijn/EItTCpKE9akdQ2lEq71ljx4Z1HQFWIRd2
-	MHqLv4gg==;
+	bh=akv2+qO8RNiZ/MdlD08p6GimzeODp1R3NwsVs3l8fTM=; b=3RP497FN3fzXZDWvVggkOK8Hsy
+	QKMuY2Z6NHG1b43iFjIe83G5M28B+qwAcEbI6DYxgSAL1ZI4krM17mKZL+vruOeQVIh4eiyF+gldq
+	DaOUPxWTsgzNtZoEWu6W+Bpu+VoY9xbFeyvBuMdwMZanyBarw307i36+wIZvMXUs46f0YV8wu99EA
+	3443HT/ftdk6sHkwoZZYUNq39kj9K5KwB0sLTENscltkzrXgobhtYGqqiOEX4x0CVyMfGN6WaRSKf
+	RvCfKzqtixqL7AhWtE2dMepg06BKaEA333gVv7mNpzoY/oynCnh8T8e7N/Bhy+IsaGFfCGsAJHUrb
+	8UaQXNdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDN9x-0000000CIu3-2jfC;
-	Tue, 19 Nov 2024 12:16:45 +0000
+	id 1tDN9z-0000000CIvG-3qxs;
+	Tue, 19 Nov 2024 12:16:47 +0000
 Received: from 2a02-8389-2341-5b80-1731-a089-d2b1-3edf.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:1731:a089:d2b1:3edf] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDN9v-0000000CIsh-1otv;
-	Tue, 19 Nov 2024 12:16:44 +0000
+	id 1tDN9y-0000000CItq-1hWL;
+	Tue, 19 Nov 2024 12:16:46 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -41,9 +41,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	io-uring@vger.kernel.org
-Subject: [PATCH 02/15] fs: add a write stream field to the kiocb
-Date: Tue, 19 Nov 2024 13:16:16 +0100
-Message-ID: <20241119121632.1225556-3-hch@lst.de>
+Subject: [PATCH 03/15] io_uring: enable passing a per-io write stream
+Date: Tue, 19 Nov 2024 13:16:17 +0100
+Message-ID: <20241119121632.1225556-4-hch@lst.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241119121632.1225556-1-hch@lst.de>
 References: <20241119121632.1225556-1-hch@lst.de>
@@ -63,30 +63,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Prepare for io_uring passthrough of write streams.
+From: Kanchan Joshi <joshi.k@samsung.com>
 
-The write stream field in the kiocb structure fits into an existing
-2-byte hole, so its size is not changed.
+Allow userspace to pass a per-I/O write stream in the SQE:
 
-Based on a patch from Keith Busch <kbusch@kernel.org>
+	__u16 write_stream;
 
+Application can query the supported values from the statx
+max_write_streams field.  Unsupported values are ignored by
+file operations that do not support write streams or rejected
+with an error by those that support them.
+
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+[hch: s/write_hints/write_streams/g]
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- include/linux/fs.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/uapi/linux/io_uring.h | 4 ++++
+ io_uring/io_uring.c           | 2 ++
+ io_uring/rw.c                 | 2 +-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 4b5cad44a126..1997be247b6c 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -370,6 +370,7 @@ struct kiocb {
- 	void			*private;
- 	int			ki_flags;
- 	u16			ki_ioprio; /* See linux/ioprio.h */
-+	u8			ki_write_stream;
- 	union {
+diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+index aac9a4f8fa9a..7a6a1b3726d3 100644
+--- a/include/uapi/linux/io_uring.h
++++ b/include/uapi/linux/io_uring.h
+@@ -98,6 +98,10 @@ struct io_uring_sqe {
+ 			__u64	addr3;
+ 			__u64	__pad2[1];
+ 		};
++		struct {
++			__u64	__pad4[1];
++			__u16	write_stream;
++		};
+ 		__u64	optval;
  		/*
- 		 * Only used for async buffered reads, where it denotes the
+ 		 * If the ring is initialized with IORING_SETUP_SQE128, then
+diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
+index da8fd460977b..a54da2dd83a1 100644
+--- a/io_uring/io_uring.c
++++ b/io_uring/io_uring.c
+@@ -3868,6 +3868,8 @@ static int __init io_uring_init(void)
+ 	BUILD_BUG_SQE_ELEM(46, __u16,  __pad3[0]);
+ 	BUILD_BUG_SQE_ELEM(48, __u64,  addr3);
+ 	BUILD_BUG_SQE_ELEM_SIZE(48, 0, cmd);
++	BUILD_BUG_SQE_ELEM(48, __u64,  __pad4);
++	BUILD_BUG_SQE_ELEM(56, __u16,  write_stream);
+ 	BUILD_BUG_SQE_ELEM(56, __u64,  __pad2);
+ 
+ 	BUILD_BUG_ON(sizeof(struct io_uring_files_update) !=
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index cce8bc2ecd3f..88a5b5f65a9b 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -279,7 +279,7 @@ static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *sqe,
+ 		rw->kiocb.ki_ioprio = get_current_ioprio();
+ 	}
+ 	rw->kiocb.dio_complete = NULL;
+-
++	rw->kiocb.ki_write_stream = READ_ONCE(sqe->write_stream);
+ 	rw->addr = READ_ONCE(sqe->addr);
+ 	rw->len = READ_ONCE(sqe->len);
+ 	rw->flags = READ_ONCE(sqe->rw_flags);
 -- 
 2.45.2
 
