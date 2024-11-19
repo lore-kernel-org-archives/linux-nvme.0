@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D57AD44150
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:17:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96E05D44148
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:17:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eFnAU/YKrxAyCOfUvcjuy01kOFc9uTpB/T3yj/VVbHA=; b=tvG3OebWxLK8eKdEs2sNITtwTJ
-	o16evNhN33udnStFtKuJyuG8yK6ZPpxOn0hH1Kg/LXAkqK8JOyM+hV9h7CQW19KZekkDlGyiHIxX/
-	mnv5QfgFgWDqukzhu+EXuhHir1jKghoQNMaPEAustY74cRzm3KUtbMmEDz6iUVX4t+FkgCuoM2XlV
-	5H308AOzrhvK3twg4JVsHZVuabL53YoXIOniV5FdY5JEVqMFUzN3i7wV0n1f/IkJ495NgwNB2CDpZ
-	wTbDlMO2+dq90t0GK4LzUfzldeOLt+izoAoqcF3nKfQSAxlNh3szgtBo9EkCHaN4zYSI/WO2GE390
-	+z3n5ozw==;
+	bh=QEFSXa9pfZuyC335Q9FZkYypCzaBxC18nhKs2Bn5gTU=; b=eDuLC3pDPV73CXdAyliV751NEz
+	Ql4zy2eOndR11r/Hn9FZEKUZE0xijrWJb96eTx/SHrqHeVREo75FCdxw2NxUKQdv9ND6J32fo4eKB
+	+WVjC+NhnQ5VBmeXcLAd6MsY6SkYj/1K6J+YopdBk+ZkPkV1INaYU0hv3PFmQQffH0+CXjhqjIpDV
+	rm4WYWe7gvwvanOVf20f+7yzBfsrXf9mjC+nb7v3RgP7VTkOIA8ExixXw2Ou5Xsm/NwK0xZJ/1ewG
+	lAO8PSSNKl/ousxEcGZBTJnKIChluETm1ijGY0JkRIwNZm99NfrExeuqprgX61Sfxo0Fh6YBBZ4FB
+	8lHUXcUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDNAG-0000000CJBJ-0l26;
-	Tue, 19 Nov 2024 12:17:04 +0000
+	id 1tDNAH-0000000CJDL-3r2x;
+	Tue, 19 Nov 2024 12:17:05 +0000
 Received: from 2a02-8389-2341-5b80-1731-a089-d2b1-3edf.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:1731:a089:d2b1:3edf] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDNAE-0000000CJ83-1nRx;
-	Tue, 19 Nov 2024 12:17:02 +0000
+	id 1tDNAG-0000000CJAq-3xFC;
+	Tue, 19 Nov 2024 12:17:05 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -41,9 +41,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	io-uring@vger.kernel.org
-Subject: [PATCH 09/15] block: expose write streams for block device nodes
-Date: Tue, 19 Nov 2024 13:16:23 +0100
-Message-ID: <20241119121632.1225556-10-hch@lst.de>
+Subject: [PATCH 10/15] nvme: store the endurance group id in struct nvme_ns_head
+Date: Tue, 19 Nov 2024 13:16:24 +0100
+Message-ID: <20241119121632.1225556-11-hch@lst.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241119121632.1225556-1-hch@lst.de>
 References: <20241119121632.1225556-1-hch@lst.de>
@@ -63,89 +63,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Export statx information about the number and granularity of write
-streams, use the per-kiocb write hint and map temperature hints
-to write streams (which is a bit questionable, but this shows how it is
-done).
+The FDP code needs this.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/bdev.c |  6 ++++++
- block/fops.c | 23 +++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ drivers/nvme/host/core.c | 4 ++++
+ drivers/nvme/host/nvme.h | 2 ++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/block/bdev.c b/block/bdev.c
-index 738e3c8457e7..c23245f1fdfe 100644
---- a/block/bdev.c
-+++ b/block/bdev.c
-@@ -1296,6 +1296,12 @@ void bdev_statx(struct path *path, struct kstat *stat,
- 		stat->result_mask |= STATX_DIOALIGN;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1a8d32a4a5c3..d194b36b08ac 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -38,6 +38,7 @@ struct nvme_ns_info {
+ 	u32 nsid;
+ 	__le32 anagrpid;
+ 	u8 pi_offset;
++	u16 endgid;
+ 	bool is_shared;
+ 	bool is_readonly;
+ 	bool is_ready;
+@@ -1600,6 +1601,7 @@ static int nvme_ns_info_from_identify(struct nvme_ctrl *ctrl,
  	}
  
-+	if ((request_mask & STATX_WRITE_STREAM) &&
-+	    bdev_max_write_streams(bdev)) {
-+		stat->write_stream_max = bdev_max_write_streams(bdev);
-+		stat->result_mask |= STATX_WRITE_STREAM;
-+	}
-+
- 	if (request_mask & STATX_WRITE_ATOMIC && bdev_can_atomic_write(bdev)) {
- 		struct request_queue *bd_queue = bdev->bd_queue;
+ 	info->anagrpid = id->anagrpid;
++	info->endgid = le16_to_cpu(id->endgid);
+ 	info->is_shared = id->nmic & NVME_NS_NMIC_SHARED;
+ 	info->is_readonly = id->nsattr & NVME_NS_ATTR_RO;
+ 	info->is_ready = true;
+@@ -1638,6 +1640,7 @@ static int nvme_ns_info_from_id_cs_indep(struct nvme_ctrl *ctrl,
+ 	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
+ 	if (!ret) {
+ 		info->anagrpid = id->anagrpid;
++		info->endgid = le16_to_cpu(id->endgid);
+ 		info->is_shared = id->nmic & NVME_NS_NMIC_SHARED;
+ 		info->is_readonly = id->nsattr & NVME_NS_ATTR_RO;
+ 		info->is_ready = id->nstat & NVME_NSTAT_NRDY;
+@@ -3644,6 +3647,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	head->ids = info->ids;
+ 	head->shared = info->is_shared;
+ 	head->rotational = info->is_rotational;
++	head->endgid = info->endgid;
+ 	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
+ 	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
+ 	kref_init(&head->ref);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 900719c4c70c..9b916a904f00 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -491,6 +491,8 @@ struct nvme_ns_head {
+ 	struct device		cdev_device;
  
-diff --git a/block/fops.c b/block/fops.c
-index 2d01c9007681..2a860dbe5e48 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -72,6 +72,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *iocb,
- 	}
- 	bio.bi_iter.bi_sector = pos >> SECTOR_SHIFT;
- 	bio.bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
-+	bio.bi_write_stream = iocb->ki_write_stream;
- 	bio.bi_ioprio = iocb->ki_ioprio;
- 	if (iocb->ki_flags & IOCB_ATOMIC)
- 		bio.bi_opf |= REQ_ATOMIC;
-@@ -201,6 +202,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 	for (;;) {
- 		bio->bi_iter.bi_sector = pos >> SECTOR_SHIFT;
- 		bio->bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
-+		bio->bi_write_stream = iocb->ki_write_stream;
- 		bio->bi_private = dio;
- 		bio->bi_end_io = blkdev_bio_end_io;
- 		bio->bi_ioprio = iocb->ki_ioprio;
-@@ -317,6 +319,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 	dio->iocb = iocb;
- 	bio->bi_iter.bi_sector = pos >> SECTOR_SHIFT;
- 	bio->bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
-+	bio->bi_write_stream = iocb->ki_write_stream;
- 	bio->bi_end_io = blkdev_bio_end_io_async;
- 	bio->bi_ioprio = iocb->ki_ioprio;
- 
-@@ -373,6 +376,26 @@ static ssize_t blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 	if (blkdev_dio_invalid(bdev, iocb, iter))
- 		return -EINVAL;
- 
-+	if (iov_iter_rw(iter) == WRITE) {
-+		u16 max_write_streams = bdev_max_write_streams(bdev);
+ 	struct gendisk		*disk;
 +
-+		if (iocb->ki_write_stream) {
-+			if (iocb->ki_write_stream > max_write_streams)
-+				return -EINVAL;
-+		} else if (max_write_streams) {
-+			enum rw_hint write_hint =
-+				file_inode(iocb->ki_filp)->i_write_hint;
-+
-+			/*
-+			 * Just use the write hint as write stream for block
-+			 * device writes.  This assumes no file system is
-+			 * mounted that would use the streams differently.
-+			 */
-+			if (write_hint <= max_write_streams)
-+				iocb->ki_write_stream = write_hint;
-+		}
-+	}
-+
- 	nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS + 1);
- 	if (likely(nr_pages <= BIO_MAX_VECS)) {
- 		if (is_sync_kiocb(iocb))
++	u16			endgid;
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	struct bio_list		requeue_list;
+ 	spinlock_t		requeue_lock;
 -- 
 2.45.2
 
