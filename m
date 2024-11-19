@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AA40D44148
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C8CCD44148
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=i3Xl2HhaNwGkbKVGt0Kc10inPZf4kOM60z2ZPtXlPtk=; b=DdTQCn/DNsazHjqZ90eflHWf1q
-	4KArijuCh5PLCZbx2JsVQf+VFPYX7IwbFs+aSMMkUt8SyLVtHHlgUA8yxby4Sw6ET7EF3LOhq3G+t
-	FccnE1ybNGsHRlWQqIEGW5ur8i8S9QP4PC+R0LleEoMYZXZAVnshKRFFm184t+DZKjNrRrud4xoIF
-	Up69s1ZYr2ofHz8Wtuy3n10tDJByZIuc6F/D3WXqEMmHx2YXiV80Nu6zQHf6h5ctluNPXIMBIiJ8d
-	wGJaS79Q2cC4mw5ksFMYxXJR2Mijo7n7PFZylSlSXIwp0m4LprkFvPyZAsQhyUHUPD6Joy3B18CSd
-	7u/k7fTA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JRKFVYldGi+Mip7kGl2nMr3ub2NZztZbmnBFCrNHiBg=; b=0CH118IdIz9Czc+FEsHIvfZ8xh
+	UMxWvU+uD7XNajPqYvz6towGtx8Pgyz4k7qGpb89Cz4wDwGJDR++mV9flhNSS6V/SNS3DxCuWREa4
+	dUGqZcsuxRh2Ih2U6J3JdkKYoE4f4rg1CjrapAjP6FI3dSQBY61U77vpN26jBtqsKAvFSqfK7vRd8
+	jY4B19ZrzAA3rL64beijGTaWNnmloQZQmsyHzBIMKS0VVwU2KG5SY1ulqohxvRd5L1XUIMqp1hi/X
+	om2nZvPEYUT5PbtuLkCarOYq88ROukqx2R04wpS5ijn/EItTCpKE9akdQ2lEq71ljx4Z1HQFWIRd2
+	MHqLv4gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDN9r-0000000CIsE-1lYP;
-	Tue, 19 Nov 2024 12:16:39 +0000
+	id 1tDN9x-0000000CIu3-2jfC;
+	Tue, 19 Nov 2024 12:16:45 +0000
 Received: from 2a02-8389-2341-5b80-1731-a089-d2b1-3edf.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:1731:a089:d2b1:3edf] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDN9n-0000000CIro-1RHM;
-	Tue, 19 Nov 2024 12:16:36 +0000
+	id 1tDN9v-0000000CIsh-1otv;
+	Tue, 19 Nov 2024 12:16:44 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -41,10 +41,12 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	io-uring@vger.kernel.org
-Subject: support block layer write streams and FDP
-Date: Tue, 19 Nov 2024 13:16:14 +0100
-Message-ID: <20241119121632.1225556-1-hch@lst.de>
+Subject: [PATCH 02/15] fs: add a write stream field to the kiocb
+Date: Tue, 19 Nov 2024 13:16:16 +0100
+Message-ID: <20241119121632.1225556-3-hch@lst.de>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241119121632.1225556-1-hch@lst.de>
+References: <20241119121632.1225556-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -61,73 +63,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Prepare for io_uring passthrough of write streams.
 
-as a small interruptions to regularly scheduled culture wars this series
-implements a properly layered approach to block layer write streams.
+The write stream field in the kiocb structure fits into an existing
+2-byte hole, so its size is not changed.
 
-This is based on Keith "Subject: [PATCHv11 0/9] write hints with nvme fdp
-and scsi streams", but doesn't bypass the file systems.
+Based on a patch from Keith Busch <kbusch@kernel.org>
 
-The rough idea is that block devices can expose a number of distinct
-write streams, and bio submitter can pick on them.  All bios that do
-not pick an explicit write stream get the default one.  On the driver
-layer this is wird up to NVMe FDP, but it should also work for SCSI
-and NVMe streams if someone cares enough.  On the upper layer the only
-consuder right now are the block device node file operations, which
-either support an explicit stream selection through io_uring, or
-by mapping the old per-inode life time hints to streams.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ include/linux/fs.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-The stream API is designed to also implementable by other files,
-so a statx extension to expose the number of handles, and their
-granularity is added as well.
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 4b5cad44a126..1997be247b6c 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -370,6 +370,7 @@ struct kiocb {
+ 	void			*private;
+ 	int			ki_flags;
+ 	u16			ki_ioprio; /* See linux/ioprio.h */
++	u8			ki_write_stream;
+ 	union {
+ 		/*
+ 		 * Only used for async buffered reads, where it denotes the
+-- 
+2.45.2
 
-This currently does not do the write hint mapping for file systems,
-which needs to be done in the file system and under careful consideration
-about how many of these streams the file system wants to grant to
-the application - if any.  It also doesn't support querying how much
-has been written to a "granularity unit" aka reclaim unit in NVMe,
-which is essential if you want a WAF=1 but apparently not needed for
-the current urgent users.
-
-The last patch to support write streams on partitions works, but feels
-like a not very nice interface to me, and might allow only to restricted
-mappings for some.  It would be great if users that absolutely require
-partition support to speak up and help improve it, otherwise I'd suggest
-to skip it for the initial submission.
-
-The series is based on Jens' for-next branch as of today, and also
-available as git tree:
-
-    git://git.infradead.org/users/hch/misc.git block-write-streams
-
-Gitweb:
-
-    http://git.infradead.org/?p=users/hch/misc.git;a=shortlog;h=refs/heads/block-write-streams
-
-Diffstat:
- Documentation/ABI/stable/sysfs-block |   15 +++
- block/bdev.c                         |   15 +++
- block/bio.c                          |    2 
- block/blk-core.c                     |    2 
- block/blk-crypto-fallback.c          |    1 
- block/blk-merge.c                    |   39 ++-------
- block/blk-sysfs.c                    |    6 +
- block/bounce.c                       |    1 
- block/fops.c                         |   23 +++++
- block/genhd.c                        |   52 ++++++++++++
- block/partitions/core.c              |    6 -
- drivers/nvme/host/core.c             |  151 ++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h             |   10 +-
- fs/stat.c                            |    2 
- include/linux/blk_types.h            |    8 +
- include/linux/blkdev.h               |   16 +++
- include/linux/fs.h                   |    1 
- include/linux/nvme.h                 |   77 +++++++++++++++++
- include/linux/stat.h                 |    2 
- include/uapi/linux/io_uring.h        |    4 
- include/uapi/linux/stat.h            |    7 +
- io_uring/io_uring.c                  |    2 
- io_uring/rw.c                        |    2 
- 23 files changed, 405 insertions(+), 39 deletions(-)
 
