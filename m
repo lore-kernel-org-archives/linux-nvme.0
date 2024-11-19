@@ -4,51 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B014D44151
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:17:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D02FD44153
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:33:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hi5wiGxgAmC0Cdjfsdl0g9zpBk10TijhAP5DsB115+4=; b=EPCKOrekGK5MMGvq8WVdtBWih4
-	Oq+DQn6xYwj/21vd7AfKin9gZyNKEJrPM8otf5D3C/qmMnSYo8hCiEuer/OcVpAeuxDbZuLDDebKn
-	tirpqaBuoW4UFQkhC4PV8tXMejyujERdz3VYoCkNdNn7sRghQzWsYcPa6eg0Eu70iHahohQC9ZXEq
-	+Dn1ul2bcP2NozKycXw2vRD8uPZjt7Wn1uZWPSYYME/B/gkVMyL/kBMdfYjDWxAMc+ji12z6TuiKy
-	gyrSMFxovqkSlMyeptHIT9xli8Nm4ga4LcYmO4kaSigZM6FRrrhl2NMbIa31MpRNIPyhYizjN+pUK
-	YDgNFUkg==;
+	bh=bkXfidarT1QXKPD6rHUc+8xdWlcBCxeFQcwFv5jtMm8=; b=o+SqLHQavBStUXqg+Ke6VmDu3B
+	jn/H9milsK4W6R2UASPgNOTB55pkp7mUT69AsHCNcqJnGcNZcSkNhhco5WMX8QAah9RKEezpXZ6Q2
+	/P5a+mLvFMR0Iyd8S6EavKfbiouLhIKbTLsSJ12aiem8r0unTwLYO0cR/QPbo/dzvtNxPpm4C/PUn
+	kJ269cKEhjWhCFRmH/YD4twuH/eZtpNl667dV+PVsI6dRhKgJJubFUmP43OklznPOgkkEZo6I7LBc
+	oxB9ClqOsrxD0IB1ph1KX9kd32wOnWgJg6rZIUzUzupaAqbZdOW/eRn1YApFqnJSDhixb0/glXT9i
+	XCe63KWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDNAV-0000000CJRX-26f8;
-	Tue, 19 Nov 2024 12:17:19 +0000
-Received: from 2a02-8389-2341-5b80-1731-a089-d2b1-3edf.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:1731:a089:d2b1:3edf] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDNAT-0000000CJP8-3EaH;
-	Tue, 19 Nov 2024 12:17:18 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Hui Qi <hui81.qi@samsung.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Jan Kara <jack@suse.cz>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org
-Subject: [PATCH 15/15] RFC: block: allow write streams on partitions
-Date: Tue, 19 Nov 2024 13:16:29 +0100
-Message-ID: <20241119121632.1225556-16-hch@lst.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241119121632.1225556-1-hch@lst.de>
-References: <20241119121632.1225556-1-hch@lst.de>
+	id 1tDNQV-0000000CNgK-3hlY;
+	Tue, 19 Nov 2024 12:33:51 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDNQS-0000000CNfK-3q6P
+	for linux-nvme@lists.infradead.org;
+	Tue, 19 Nov 2024 12:33:50 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AJBkZvE014043;
+	Tue, 19 Nov 2024 12:33:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=bkXfid
+	arT1QXKPD6rHUc+8xdWlcBCxeFQcwFv5jtMm8=; b=jvlRSSv2aswIXfypZp4sNk
+	g57q388L2HluVkkaAaO05/ynpp48WkfDrWZfQXXS3083m2RDZqG+dFAsWJJZypw1
+	i15Wx7VAs1xEqCb8Q5hzt3E/tfs1TcWeLGFeKhuGjEil+hk96UPixs3L5ZVoVsPJ
+	8hGYNLNdDbIrunUtvEMPwYgtJZcj1vb/pGc06p2MrTZuBU+DyymXLIJgH4Jf0sBu
+	i06niMXXIzU/EQUo/bcrRh9GD+ydvMMTfNeFU1E/a9Mg945JBJJkd2lCEMaW53rQ
+	IHVLOC/7VlLQ1FcKGa/VIfDClKBSzlyL0HtU7v7iaaOsd8GdIHtMayYvwGGb/t5g
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42xyu1nq3j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 19 Nov 2024 12:33:38 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4AJ23dh6024623;
+	Tue, 19 Nov 2024 12:33:37 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 42y8e1cdg9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 19 Nov 2024 12:33:37 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4AJCXbE757934110
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 19 Nov 2024 12:33:37 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5A5E05805A;
+	Tue, 19 Nov 2024 12:33:37 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3DC2358052;
+	Tue, 19 Nov 2024 12:33:34 +0000 (GMT)
+Received: from [9.109.198.240] (unknown [9.109.198.240])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 19 Nov 2024 12:33:33 +0000 (GMT)
+Message-ID: <facc4d66-034a-4131-b60f-15ac1455b93a@linux.ibm.com>
+Date: Tue, 19 Nov 2024 18:03:32 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv4 0/2] nvme: fix system fault observed while shutting down
+ controller
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+        ming.lei@redhat.com, axboe@fb.com, chaitanyak@nvidia.com,
+        dlemoal@kernel.org, gjoyce@linux.ibm.com
+References: <20241105061212.1008143-1-nilay@linux.ibm.com>
+ <ZypXRi8R4uOIrkc0@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <ZypXRi8R4uOIrkc0@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NaypT7RlKGl8MeAWcTPj_FK_3iXaAHeM
+X-Proofpoint-ORIG-GUID: NaypT7RlKGl8MeAWcTPj_FK_3iXaAHeM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ bulkscore=0 spamscore=0 mlxlogscore=940 adultscore=0 mlxscore=0
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411190091
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20241119_043348_966952_E07543D7 
+X-CRM114-Status: GOOD (  16.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,186 +109,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-By default assign all write streams to partition 1, and add a hack
-sysfs files that distributes them all equally.
+Hi Keith,
 
-This is implemented by storing the number of per-partition write
-streams in struct block device, as well as the offset to the global
-ones, and then remapping the write streams in the I/O submission
-path.
+On 11/5/24 23:05, Keith Busch wrote:
+> On Tue, Nov 05, 2024 at 11:42:07AM +0530, Nilay Shroff wrote:
+>> This patch series addresses the system fault observed while shutting down 
+>> fabric controller. We already fixed it[1] earlier however it was later 
+>> relaized that we do have a better and optimal way to address it [2].
+>>
+>> The first patch in the series reverts the changes implemented in [3].
+>> So essentially we're making keep-alive operation asynchronous again as 
+>> it was earlier.
+>>
+>> The second patch in the series fix the kernel crash observed while 
+>> shutting down fabric controller. The system fault was observed due 
+>> to the keep-alive request sneaking in while shutting down fabric 
+>> controller. We encounter the below intermittent kernel crash while 
+>> running blktest nvme/037:
+> 
+> Thanks, this all looks good to me. I think Sagi had reviewed patch 2
+> already, but I'll wait a day or two before queuing this up in case he
+> has any last minute comments.
 
-The sysfs is hacky and undocumented, better suggestions welcome
-from actual users of write stream on partitions.
+Just wanted to check, did you get a chance to queue this up?
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- block/bdev.c              |  9 +++++++
- block/blk-core.c          |  2 ++
- block/genhd.c             | 52 +++++++++++++++++++++++++++++++++++++++
- block/partitions/core.c   |  6 +++--
- include/linux/blk_types.h |  7 ++++++
- include/linux/blkdev.h    |  2 +-
- 6 files changed, 75 insertions(+), 3 deletions(-)
-
-diff --git a/block/bdev.c b/block/bdev.c
-index c23245f1fdfe..f3549a8cdb3f 100644
---- a/block/bdev.c
-+++ b/block/bdev.c
-@@ -440,6 +440,15 @@ struct block_device *bdev_alloc(struct gendisk *disk, u8 partno)
- 		return NULL;
- 	}
- 	bdev->bd_disk = disk;
-+
-+	/*
-+	 * Assign all write streams to the first partition by default.
-+	 */
-+	if (partno == 1) {
-+		bdev->bd_part_write_stream_start = 0;
-+		bdev->bd_part_write_streams = bdev_max_write_streams(bdev);
-+	}
-+
- 	return bdev;
- }
- 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 666efe8fa202..9654937f9b2d 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -574,6 +574,8 @@ static int blk_partition_remap(struct bio *bio)
- 		return -EIO;
- 	if (bio_sectors(bio)) {
- 		bio->bi_iter.bi_sector += p->bd_start_sect;
-+		if (bio->bi_write_stream)
-+			bio->bi_write_stream += p->bd_part_write_stream_start;
- 		trace_block_bio_remap(bio, p->bd_dev,
- 				      bio->bi_iter.bi_sector -
- 				      p->bd_start_sect);
-diff --git a/block/genhd.c b/block/genhd.c
-index 79230c109fca..3156c70522b6 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -1070,6 +1070,54 @@ static ssize_t partscan_show(struct device *dev,
- 	return sysfs_emit(buf, "%u\n", disk_has_partscan(dev_to_disk(dev)));
- }
- 
-+static ssize_t disk_distribute_write_streams_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	/* Anything useful to show here like the ranges? */
-+	return sysfs_emit(buf, "0\n");
-+}
-+
-+static ssize_t disk_distribute_write_streams_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct gendisk *disk = dev_to_disk(dev);
-+	struct block_device *bdev = disk->part0, *part;
-+	unsigned short total_write_streams =
-+		disk->queue->limits.max_write_streams;
-+	unsigned short part_write_streams, part_write_stream_start = 0;
-+	unsigned long nr_partitions = 0, idx;
-+	int error = 0;
-+
-+	if (!total_write_streams)
-+		return -EINVAL;
-+
-+	mutex_lock(&disk->open_mutex);
-+	if (atomic_read(&bdev->bd_openers)) {
-+		error = -EBUSY;
-+		goto out_unlock;
-+	}
-+
-+	xa_for_each_start(&disk->part_tbl, idx, part, 1)
-+		nr_partitions++;
-+	if (!nr_partitions)
-+		goto out_unlock;
-+
-+	part_write_streams = total_write_streams / nr_partitions;
-+	xa_for_each_start(&disk->part_tbl, idx, part, 1) {
-+		part->bd_part_write_streams = part_write_streams;
-+		part->bd_part_write_stream_start = part_write_stream_start;
-+		part_write_stream_start += part_write_streams;
-+		dev_info(dev,
-+			"assigning %u write streams at %u to partition %lu\n",
-+			part_write_streams, part_write_stream_start, idx - 1);
-+	}
-+out_unlock:
-+	mutex_unlock(&disk->open_mutex);
-+	if (error)
-+		return error;
-+	return count;
-+}
-+
- static DEVICE_ATTR(range, 0444, disk_range_show, NULL);
- static DEVICE_ATTR(ext_range, 0444, disk_ext_range_show, NULL);
- static DEVICE_ATTR(removable, 0444, disk_removable_show, NULL);
-@@ -1084,6 +1132,9 @@ static DEVICE_ATTR(inflight, 0444, part_inflight_show, NULL);
- static DEVICE_ATTR(badblocks, 0644, disk_badblocks_show, disk_badblocks_store);
- static DEVICE_ATTR(diskseq, 0444, diskseq_show, NULL);
- static DEVICE_ATTR(partscan, 0444, partscan_show, NULL);
-+static DEVICE_ATTR(distribute_write_streams, 0644,
-+	disk_distribute_write_streams_show,
-+	disk_distribute_write_streams_store);
- 
- #ifdef CONFIG_FAIL_MAKE_REQUEST
- ssize_t part_fail_show(struct device *dev,
-@@ -1135,6 +1186,7 @@ static struct attribute *disk_attrs[] = {
- 	&dev_attr_events_poll_msecs.attr,
- 	&dev_attr_diskseq.attr,
- 	&dev_attr_partscan.attr,
-+	&dev_attr_distribute_write_streams.attr,
- #ifdef CONFIG_FAIL_MAKE_REQUEST
- 	&dev_attr_fail.attr,
- #endif
-diff --git a/block/partitions/core.c b/block/partitions/core.c
-index 815ed33caa1b..a27dbb5589ce 100644
---- a/block/partitions/core.c
-+++ b/block/partitions/core.c
-@@ -245,8 +245,10 @@ static const struct attribute_group *part_attr_groups[] = {
- 
- static void part_release(struct device *dev)
- {
--	put_disk(dev_to_bdev(dev)->bd_disk);
--	bdev_drop(dev_to_bdev(dev));
-+	struct block_device *part = dev_to_bdev(dev);
-+
-+	put_disk(part->bd_disk);
-+	bdev_drop(part);
- }
- 
- static int part_uevent(const struct device *dev, struct kobj_uevent_env *env)
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 4ca3449ce9c9..02a3d58e814f 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -74,6 +74,13 @@ struct block_device {
- #ifdef CONFIG_SECURITY
- 	void			*bd_security;
- #endif
-+
-+	/*
-+	 * Allow assigning write streams to partitions.
-+	 */
-+	unsigned short		bd_part_write_streams;
-+	unsigned short		bd_part_write_stream_start;
-+
- 	/*
- 	 * keep this out-of-line as it's both big and not needed in the fast
- 	 * path
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 9fda66530d9a..bb0921e642fb 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1242,7 +1242,7 @@ static inline unsigned int bdev_max_segments(struct block_device *bdev)
- static inline unsigned short bdev_max_write_streams(struct block_device *bdev)
- {
- 	if (bdev_is_partition(bdev))
--		return 0;
-+		return bdev->bd_part_write_streams;
- 	return bdev_limits(bdev)->max_write_streams;
- }
- 
--- 
-2.45.2
-
+Thanks,
+--Nilay
 
