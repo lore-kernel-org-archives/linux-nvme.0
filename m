@@ -4,201 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4770D60D0B
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 02:04:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8A6AD591D4
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 07:16:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T5kd8MNqVTchAzpXQulU3AA6q9ia0NP+DXCcwjkSD68=; b=4lo+Ma/jhh2eE8vgbbDkFkqtih
-	7dOLTfE+AXj9wlxpiLBudZSFsHBLExm/wQ8w1fwm/tOdgF7P2W8oslUQX4qsknHaJ7XhCKt+97Dwd
-	PcNst5+oMk5d3p6D/s+o5oNg2Yke3yH/UHpI40bwKWEJgfqAPvHoXVSWkCCkbS/B1VrmDShHaF0c0
-	44wt7BR/2iP7kCFsEXgECJKHI1AU64iTxDFTqQsXbzFfz95eKYX9wx2wB8Jb17FU9sFi8AlSuWCSn
-	SnKhPV9UHOAKElRIR8QnBS9mWkPRCdlmWtl5lrZFXrFfa2JA/Hz8VtzoWcDSqmbqd1AEhy/2T3WVX
-	xhBkRdZg==;
+	bh=IsCn19yYzSbrcUBKQREXDJTAgD/YUNlN0+PetPRsb2s=; b=b/lyztN6iMERu4FHn6eesmBymb
+	vftH/1/QVtq0EECA888zRhN+OuO026lGbizwnr75zmJYF1nrKSBOk+B9cpygESGUitrOTf3S3jS8B
+	GIrjPcyE2VfcznGBvR+Tx/bCckyH1b1gIJrsrYY/a0IvbFlynMk3JurTU9pjjBI710MapZ3venH/O
+	UDzDNr7Cap0XI5HM8bF5VBiGYtBf7sAvMtC3RZDdzRxMg2PrbruEJjCMc09LES2Dq4055Iin12HAi
+	gMXBFb6pO0b/X9NV/yusEZRQtVh31SgCN/CWKgavLMa9tmd/2urSRpE5Y/BAyWAZP4Y7OpLhj4Go7
+	jI5pRh5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDDaw-0000000B8uj-2bpe;
-	Tue, 19 Nov 2024 02:03:58 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1tDITC-0000000Bc23-3HE4;
+	Tue, 19 Nov 2024 07:16:18 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDDat-0000000B8tZ-3kLl
+	id 1tDIT1-0000000Bc1J-0sHy
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Nov 2024 02:03:57 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AJ1MiiR026895;
-	Tue, 19 Nov 2024 02:03:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=T5kd8MNqVTchAzpXQu
-	lU3AA6q9ia0NP+DXCcwjkSD68=; b=IXmriSqKvrNgi0zYKP+EOVL/vCpB0umq0g
-	DlLfWQomyCBuDeA+X2Pz9Qx1c/Tpyy50pV5jDURfH+kT48kpXBPjc6/TC++Pdbba
-	NrE6XCo2TBTrxH1PGr4HE46ZrkxMoYpDwJ9QaVGEBkunk+SXyIfkhIg3VGRwUSb8
-	uJG/0qbVtmklMDEZzF2OClmbEzhM9WrEzUJ39wwFD86wf/h1NFKmQwcEfpYdDp+M
-	6UvcZHJo5P3mjrO+XvHJAa4mEXv/tPruiu22DUdk4ajvG3/xzCWDuxPKSgaYUKxA
-	6snXtmPXY+pRou5+Dh4RnzdY1jCgUSj8lz7+BRDgQBCYSisP2ggA==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42xhtc41tp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 19 Nov 2024 02:03:34 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AJ0olFI039198;
-	Tue, 19 Nov 2024 02:03:33 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42xhu7upse-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 19 Nov 2024 02:03:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OGYtMtw8+5mWPXtYUehZJGW+e5kGN9QPqN6WVwo/Dlwd8QjbvsXdERD6Y0TXSwkVbj+UvPh7J39lzvDX+k1aUy/TDUb/gU5SRWNerLI5JtSM597JBfVajgE2xvT2lBzQ7R25Cwo2eUH47a/kN0xSUN6clUpV5ajzcQvO2qfklU6iZhU25xFEXtImKX63WOO1J2F+d0Ii/B0UZ4eCOk/CNDao7y0xscAizPWoJ4FGvBKeULHeEDZNzcZ3NqfBSMIZpljCpTRxGLaQR3bX7q4TLbkaGhWn6i/0hKQdYkJntvbALu+wwbvvPy3sDjAFfZhBUhzGMd0aGWAAmeAy+CNHMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T5kd8MNqVTchAzpXQulU3AA6q9ia0NP+DXCcwjkSD68=;
- b=ESYlFPmHDac18/4QgrjmjiemQu7fn/1H7ANtLidU3n8r2qa2atdENtpQmESLfL9oU7Sm1fZPsjYjivwJB5u64pB4z8JcHNF3bQ3LA++mhudb6l7BX+7RoqzWZ3d0xIVkB3x7889v+rePrKakAhbOzIqSZXZf5a8lJqR2jOP6HcbKOCulxrwcodQyAGHJM4injN8w8bANVd+n4/h4RrPDARL7scYHqdh+M5Bp2eqAWB06vkY1ZA3dQHtDXOvmc4q9ARFQ//3G34PQAS5UDZgmzkWg0ciWX5olh6INH/IhiQD5VSEnjcnjsyPL4RZBA/DIx4qJXuvs8+pzyq3RdWkEeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T5kd8MNqVTchAzpXQulU3AA6q9ia0NP+DXCcwjkSD68=;
- b=YcPBHxRiyex5cmzEHPDT0BU+oItWC6Q2IdFZzhx7rN0GIob6NzhF3N/dyMXjFMwaStc2cUTU2CnGVANMtvIConqT6Dg5Tggp+T4mvOG7xU82TK8tk1bZk9k79ACZ86DT85xDAn8L+/i9kTL0orRGm30dfvtAwgQBlACXVxHcp5c=
-Received: from SN6PR10MB2957.namprd10.prod.outlook.com (2603:10b6:805:cb::19)
- by CH3PR10MB7960.namprd10.prod.outlook.com (2603:10b6:610:1c2::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.22; Tue, 19 Nov
- 2024 02:03:11 +0000
-Received: from SN6PR10MB2957.namprd10.prod.outlook.com
- ([fe80::72ff:b8f4:e34b:18c]) by SN6PR10MB2957.namprd10.prod.outlook.com
- ([fe80::72ff:b8f4:e34b:18c%5]) with mapi id 15.20.8158.023; Tue, 19 Nov 2024
- 02:03:10 +0000
-To: Nitesh Shetty <nj.shetty@samsung.com>
-Cc: Bart Van Assche <bvanassche@acm.org>,
-        Javier Gonzalez
- <javier.gonz@samsung.com>,
-        Matthew Wilcox <willy@infradead.org>, Keith
- Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>, Keith Busch
- <kbusch@meta.com>,
-        "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>,
-        "linux-scsi@vger.kernel.org"
- <linux-scsi@vger.kernel.org>,
-        "io-uring@vger.kernel.org"
- <io-uring@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org"
- <linux-fsdevel@vger.kernel.org>,
-        "joshi.k@samsung.com"
- <joshi.k@samsung.com>
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20241112135233.2iwgwe443rnuivyb@ubuntu> (Nitesh Shetty's message
-	of "Tue, 12 Nov 2024 19:22:33 +0530")
-Organization: Oracle Corporation
-Message-ID: <yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
-References: <20241105155014.GA7310@lst.de> <Zy0k06wK0ymPm4BV@kbusch-mbp>
-	<20241108141852.GA6578@lst.de> <Zy4zgwYKB1f6McTH@kbusch-mbp>
-	<CGME20241108165444eucas1p183f631e2710142fbbc7dee9300baf77a@eucas1p1.samsung.com>
-	<Zy5CSgNJtgUgBH3H@casper.infradead.org>
-	<d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
-	<2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
-	<20241111093154.zbsp42gfiv2enb5a@ArmHalley.local>
-	<a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
-	<20241112135233.2iwgwe443rnuivyb@ubuntu>
-Date: Mon, 18 Nov 2024 21:03:09 -0500
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0403.namprd13.prod.outlook.com
- (2603:10b6:208:2c2::18) To SN6PR10MB2957.namprd10.prod.outlook.com
- (2603:10b6:805:cb::19)
+	Tue, 19 Nov 2024 07:16:10 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id EAAF068D49; Tue, 19 Nov 2024 08:15:56 +0100 (CET)
+Date: Tue, 19 Nov 2024 08:15:56 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Dave Chinner <david@fromorbit.com>,
+	Pierre Labat <plabat@micron.com>,
+	Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
+	"axboe@kernel.dk" <axboe@kernel.dk>,
+	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+	"asml.silence@gmail.com" <asml.silence@gmail.com>,
+	"javier.gonz@samsung.com" <javier.gonz@samsung.com>
+Subject: Re: [EXT] Re: [PATCHv11 0/9] write hints with nvme fdp and scsi
+ streams
+Message-ID: <20241119071556.GA8417@lst.de>
+References: <7a2f6231-bb35-4438-ba50-3f9c4cc9789a@samsung.com> <20241112133439.GA4164@lst.de> <ZzNlaXZTn3Pjiofn@kbusch-mbp.dhcp.thefacebook.com> <DS0PR08MB854131CDA4CDDF2451CEB71DAB592@DS0PR08MB8541.namprd08.prod.outlook.com> <20241113044736.GA20212@lst.de> <ZzU7bZokkTN2s8qr@dread.disaster.area> <20241114060710.GA11169@lst.de> <Zzd2lfQURP70dAxu@kbusch-mbp> <20241115165348.GA22628@lst.de> <ZzvPpD5O8wJzeHth@kbusch-mbp>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR10MB2957:EE_|CH3PR10MB7960:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78b0be88-4e43-4793-a98c-08dd083e51b0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FEOB3niivM+mRdrGeXWOzAUAjGW+CoYjRmFInozG2nHD7fvmixDbL0F9qetB?=
- =?us-ascii?Q?5avRB02uqGjH11uNCwmC1lllNNb9NOWXeGZ1/QdMRTeci+dVbuRTzwuFEj5F?=
- =?us-ascii?Q?Wu6XPGJ1VPHFV36+fNJB+GYR5oZvRBgjd02DpY6+IlRgaYBNRQtJC+bSQcde?=
- =?us-ascii?Q?a/Z5aQjnFvM3hpCSE22xlB+HopNabu6lCVLzgzfZCXCuzAyiJ9xYcZfg+WzG?=
- =?us-ascii?Q?hb6V2Vet8QZTw2oBP2TY8p/4EgC8ybyeDp0FeD7HXCMf5ZJe03RPkGikM/qa?=
- =?us-ascii?Q?QEIYpontQBGLAOpEJSw1jnewkUGd4GIP9k2wvUqZ6lLUGiN8QsogmBGhvFnD?=
- =?us-ascii?Q?0SIZujPIkxXb9sJRC8DlMscO7g7uNKXZsT5T4rVcEK0bUrv2Gng7cGwtu3U4?=
- =?us-ascii?Q?pNKbw+zpZsyOReUd55hVOFn/18afdJ3D9eGTBXcUnCrnUAZ83vrAYTOaT6um?=
- =?us-ascii?Q?Vw4bn2AOSwWYYSKs/+FQcfYJtkMQfKni5AMc/rjg6ZfKY50b6zVkGwoRMrxS?=
- =?us-ascii?Q?LwMfCgiQpQJ32lj/AIeM2kg3IeTC/LQfLfj2y3lTGVOmecIUhB7N2l4TYvoi?=
- =?us-ascii?Q?RDXKpMdNjjuzPhRCU8fBNEjRY+42rjXNsiCwZQhhMoEn8HmQ1ZewXcDtw4xB?=
- =?us-ascii?Q?drG1AOTeAiBSx/bkm7n+nlCbw8zC7byZQOBAZThMyXWjVJRsn46i4/BpEjix?=
- =?us-ascii?Q?r/zBgCI3lJ/mbvf25yOxMkreMl5ASpCCdUYW0yklNyDFMC2mmYeyf1LJHZgs?=
- =?us-ascii?Q?i08Btr/nZiPDLOG86AJFLKeUGj4cRfavons6mS94N+VtCSJAmYtUKMaR4/W8?=
- =?us-ascii?Q?3s6de5HFMnXmZXmUIE7GlvHLUIleOiyjB2AHOmrn5v5UaQFjmRkT5Q65jj5o?=
- =?us-ascii?Q?dmSz2564gjTq7ghZChnqDYWLixqdPunFSDPRoJRpdDL1StY03L0X8ucoJWDJ?=
- =?us-ascii?Q?+qFoYeIfm3v7kkSne3UuGCcOOk8C46SyWUCyBF3aQo8dFe+gXeG7dAHh29rU?=
- =?us-ascii?Q?KknJRoPnDNVKTYLloK0hd8QCS2xHgSOTS9Pou/n5nHT7kDt8qGp/1rj5yVTC?=
- =?us-ascii?Q?/FSkA4itPy6T7G+2YpnqBEv+QIPhjo2xH6+r7DGMR2rwTfn5v0Yk+Y8yOuUt?=
- =?us-ascii?Q?ndQcLyAUTlRWXerEEFVNAva8TtL4DvU6TNAwk5M58xNOAE4dSq+V9RSDNYue?=
- =?us-ascii?Q?cNzGGmQLOVMqJ82KYdejtwZ5Zzuv5Zr9nOr4xRQXzsWWyAT+iaycNaEAgMV0?=
- =?us-ascii?Q?XuTto5M1M7ncIxwuhBDfxq7q2BAZ6KNMFiIr6sYVOJuJjGJinbvy7YIAGyvs?=
- =?us-ascii?Q?i6cEArFBUwQa9if9ah50FuLs?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB2957.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZC7jdaE/PNR9sZ0zKkPI1yeJ+ev9VOImGRueZdOq/qFbnNqPN74DbawSDMVm?=
- =?us-ascii?Q?2p6XFGPFl7asr/ahCHPf0ktkyDlZvgmv/iX3yuVdu/vllvg07TrYYRclCvqz?=
- =?us-ascii?Q?rMBuLzQv9R5Z18+Y9VVE/3/dTN6/lX/YZyHd1K1EeruXhjCs4Btcu4KeXAKI?=
- =?us-ascii?Q?pFLDY6q0YqhoevnZj2+ftJJNvdzDIXVVuzvuYBtmifS9PbtHXHHdefyw2oe2?=
- =?us-ascii?Q?rhLZXVrTRP0HOqnJpGN3O1xAU7OYa3LLzTr5/YKOo8054lz0+0HSCC7ClnuJ?=
- =?us-ascii?Q?J6Y79OmszrEitCqTqTN41mKALqFiNoAKXIangZVTC5r9S5vm3HCkdspJX71q?=
- =?us-ascii?Q?GCYBTI1XSsSBWiv9+lizUWlnzb85X0atb1+QEnSBb5JIcgNcb8jwM8dbfpGa?=
- =?us-ascii?Q?y2YAC/2VT1rKFciM9/wLmAKOQ/0aZSTH90f+8kxkUSV5c9vgvpZ71dHRvxll?=
- =?us-ascii?Q?uf+wjP+XmH1NVGPI0yyxGuWNPNE6rxFMDixvpm2O5u5scZXDkQvoZrfk+QOj?=
- =?us-ascii?Q?Gi5qQbzp9J2DYRX9p8vh8t9ccoOdU60mVXvgU6LH2bSYSgFxrIId3pTLzaYz?=
- =?us-ascii?Q?JxXq+VD9gyPTXRTOYHzH5J2HuPQ2uRN/75EEKdPiELIxmVwiBp05HPndzcj+?=
- =?us-ascii?Q?pjV9b6+aLNilrgJE+lO+2TBdUGi0ldIjRyO+3XBob8AHyDHNW0jqgw2LpS7y?=
- =?us-ascii?Q?JPxNOQM9gHuIJRKs2/HMzDp/xIQ9iJ/FTpvIogtooBioQTtU1N7AZM/mP0in?=
- =?us-ascii?Q?mo+ZS/c6TMMFUt8Qb/m+AAEWm8XUPqnNEH5bu7T80eR8WzS/pzcoHZCHeNkP?=
- =?us-ascii?Q?mwYsPDK5jNRslk1+e1aDwkMt/611wZhuZS0GOzobpBzu4Wyo+3MtuQTzjufR?=
- =?us-ascii?Q?THHcUAqooMPIOSdVcgKHYhPzWThYbCEBn8rhP19dyH91VkyDG+qTdf8j/9HF?=
- =?us-ascii?Q?58j+PBrlUOQEmgxqBdnDzRMI+vx1XDh93KxNvldjm/f6ReFEdQkFbXvKVxEz?=
- =?us-ascii?Q?N7iE6kDKDwI8pmLrqk3YhQrSzm5RqRDYmdu3RoJSC9BS5WTN4XEpHy4oiWyz?=
- =?us-ascii?Q?pOJvG65DsLbFZAIMJB3jyfDP2lDawjARVK61/ye+fMzn4JaLVnT88AGW4ABM?=
- =?us-ascii?Q?yFPynuMRSLAzXoM7W4apr1SnXIsY6ibt/4z59q7cBsz8uk3oqSBuLIZJs2KK?=
- =?us-ascii?Q?yiC7Br5bS4LyM7aoyuMTQY1C1ApcsdPPNfGaabxaPf3ic3QPvross/dmOoWk?=
- =?us-ascii?Q?Aqrwazq8jHcPDvxF/n/WZOME3ynCk5mMbQm5miWWoOGHviNkdom1WeKL1DEQ?=
- =?us-ascii?Q?yq0DEyiPbX+nD7DBx8dytrGGfG78CrINU4RV9PT1b3YAJZBJoBu8RA10lhA0?=
- =?us-ascii?Q?QiZGoTJP1L9Ri9eNuD690xnHwbbe5Gc4csX+4G/chjkcsSWKZTyQOFMVdFat?=
- =?us-ascii?Q?aW1l2q6rLKPyCN7is/QoAw4bhnhOz6FQMj1daCDl/8mbr2jVTo0afTay6ka2?=
- =?us-ascii?Q?tcCKzIgZZti/9kuy1POBb2I6SeGWfYiFllMdIzV6vEW5thOEWvr0xwge6+AV?=
- =?us-ascii?Q?v7QNwkCO4+OxB7BsyGEcSsHK0ZJ6in7Fnfhh7dMDay3xdAMN97gUPk0VirDM?=
- =?us-ascii?Q?cw=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: rg4Fxm1UkAQ3KMmrFMOYhUCNxzZJAKLzzWzqdKi9MGl/3xT1JoNlamNjsbvRYp/s8KqYTgPVPfq586YWmvwzx3gvjBMu0ofUd0oVn3aLcV9bJF+OFtwm0r1m4f7WX2hQowr54j2dEuSk8RzQZn7nq8eKuw3oEDyxW4K+NgQUfzwO7u4RSDt5RYjzOuOHXQBTcmZ8RtRRw8kM8pNtPJE5UpDVHa08nIRgKLYO1ie7MxlA+RXGtoefFgVDq9kDRzdKHA03yZyj9u3NVahZnuTGHvq2koU6y7Iw0Txw7lthDrW2PKJvnUigD7AWOXs64g1eocnHsUyJWX+SzjVvbL5+sYo23renCBqLpFVa5EgI3izP+Nz1/axoNQcQpQ9N2BU4w7UF4yYiVs52fGsMcgNDDS8ZMGZWCiWE7CJJy9kNEYgxwAfM0DZ1e/nume0pUA1p5r5Aq+oqai5Qj5/L6er3T0qcU9l19iaGWnSxS91IKbLQj9IBnX4usMvzL2/bZqEDuvSPwxn9ZJ4eMabgNgTQYOVb+AxXVuTgO3FAU6HrVKYSqocJrqHmhtITKuVp1ZxOuY0GS6XJmcCfNIiW9eqagrg4FPNHwYOR2cUJiZpgDVg=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78b0be88-4e43-4793-a98c-08dd083e51b0
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2957.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 02:03:10.9070
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aY7rdtfDeKel9TMBaDrnDVy20ext4uOsgiR59KFNwMrmZFidcP+428VjYp0VvRoirRQSG4ZVIEvog+pjfLEB28GryjdYXVODMirC3BU/qeY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7960
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-18_17,2024-11-18_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 phishscore=0
- adultscore=0 mlxlogscore=888 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2411190017
-X-Proofpoint-GUID: 4tT9jaTfk3zjcp-TGQIeKRjNKvVtOaQa
-X-Proofpoint-ORIG-GUID: 4tT9jaTfk3zjcp-TGQIeKRjNKvVtOaQa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZzvPpD5O8wJzeHth@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241118_180356_045425_CCD4D4BF 
-X-CRM114-Status: GOOD (  19.88  )
+X-CRM114-CacheID: sfid-20241118_231607_547822_94184469 
+X-CRM114-Status: GOOD (  42.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -213,45 +70,93 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Nov 18, 2024 at 04:37:08PM -0700, Keith Busch wrote:
+> We have an API that has existed for 10+ years. You are gatekeeping that
+> interface by declaring NVMe's FDP is not allowed to use it. Do I have
+> that wrong? You initially blocked this because you didn't like how the
+> spec committe worked. Now you've shifted to trying to pretend FDP
+> devices require explicit filesystem handholding that was explicely NOT
+> part of that protocol.
 
-Nitesh,
+I'm not fucking gate keeping anything, I'm really tired of this claim
+with absolutely no facts backing it up.
 
-> 1.payload based approach:
->   a. Based on Mikulas patch, here a common payload is used for both source
->     and destination bio.
->   b. Initially we send source bio, upon reaching driver we update payload
->     and complete the bio.
->   c. Send destination bio, in driver layer we recover the source info
->     from the payload and send the copy command to device.
->
->   Drawback:
->   Request payload contains IO information rather than data.
->   Based on past experience Christoph and Bart suggested not a good way
->   forward.
->   Alternate suggestion from Christoph was to used separate BIOs for src
->   and destination and match them using token/id.
->   As Bart pointed, I find it hard how to match when the IO split happens.
+> > And as iterared multiple times you are doing that by bypassing the
+> > file system layer in a forceful way that breaks all abstractions and
+> > makes your feature unavailabe for file systems.
+> 
+> Your filesystem layering breaks the abstraction and capabilities the
+> drives are providing. You're doing more harm than good trying to game
+> how the media works here.
 
-In my experience the payload-based approach was what made things work. I
-tried many things before settling on that. Also note that to support
-token-based SCSI devices, you inevitably need to separate the
-read/copy_in operation from the write/copy_out ditto and carry the token
-in the payload.
+How so?
 
-For "single copy command" devices, you can just synthesize the token in
-the driver. Although I don't really know what the point of the token is
-in that case because as far as I'm concerned, the only interesting
-information is that the read/copy_in operation made it down the stack
-without being split.
+> > I've also thrown your a nugget by first explaining and then even writing
+> > protype code to show how you get what you want while using the proper
+> > abstractions.  
+> 
+> Oh, the untested prototype that wasn't posted to any mailing list for
+> a serious review? The one that forces FDP to subscribe to the zoned
+> interface only for XFS, despite these devices being squarly in the
+> "conventional" SSD catagory and absolutely NOT zone devices? Despite I
+> have other users using other filesystems successfuly using the existing
+> interfaces that your prototype doesn't do a thing for? Yah, thanks...
 
-Handling splits made things way too complicated for my taste. Especially
-with a potential many-to-many mapping. Better to just fall back to
-regular read/writes if either the copy_in or the copy_out operation
-needs to be split. If your stacked storage is configured with a
-prohibitively small stripe chunk size, then your copy performance is
-just going to be approaching that of a regular read/write data movement.
-Not a big deal as far as I'm concerned...
+What zoned interface to FDP?
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+The exposed interface is to:
+
+ a) pick a write stream
+ b) expose the size of the reclaim unit
+
+not done yet, but needed for good operation:
+
+ c) expose how much capacity in a reclaim unit has been written
+
+This is about as good as it gets to map the FDP (and to a lesser extent
+streams) interface to an abstract block layer API.  If you have a better
+suggestion to actually expose these capabilities I'm all ears.
+
+Now _my_ preferred use of that interface is a write out of place,
+map LBA regions to physical reclaim blocks file system.  On the hand
+hand because it actually fits the file system I'm writing, on the other
+hand because industry experience has shown that this is a very good
+fit to flash storage (even without any explicit placement).  If you
+think that's all wrong that fine, despite claims to the contrary from
+you absolutely nothing in the interface forced you to do that.
+
+You can roll the dice for your LBA allocations and write them using
+a secure random number generator.  The interface allows for all of that,
+but I doubt your results will all that great.  Not my business.
+
+> I appreciate you put the time into getting your thoughts into actual
+> code and it does look very valuable for ACTUAL ZONE block devices. But
+> it seems to have missed the entire point of what this hardware feature
+> does. If you're doing low level media garbage collection with FDP and
+> tracking fake media write pointers, then you're doing it wrong. Please
+> use Open Channel and ZNS SSDs if you want that interface and stop
+> gatekeeping the EXISTING interface that has proven value in production
+> software today.
+
+Hey, feel free to come up with a better design.  The whole point of a
+proper block layer design is that you actually can do that!
+
+> > But instead of a picking up on that you just whine like
+> > this.  Either spend a little bit of effort to actually get the interface
+> > right or just shut up.
+> 
+> Why the fuck should I make an effort to do improve your pet project that
+> I don't have a customer for? They want to use the interface that was
+> created 10 years ago, exactly for the reason it was created, and no one
+> wants to introduce the risks of an untested and unproven major and
+> invasive filesystem and block stack change in the kernel in the near
+> term!
+
+Because you apparently want an interface to FDP in the block layer.  And
+if you want that you need to stop bypassing the file systems as pointed
+out not just by me but also at least one other file system maintainer
+and the maintainer of the most used block subsystem.  I've thrown you
+some bones how that can be done while doing everything else you did
+before (at least assuming you get the fs side past the fs maintainers),
+but the only thanks for that is bullshit attacks at a personal level.
 
