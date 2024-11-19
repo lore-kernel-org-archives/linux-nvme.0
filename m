@@ -4,52 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86D5ED6206A
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 10:35:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 873E5D44141
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 11:05:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Z/inj4cpn/saktglTxIrSmDpk/W78fzSrg+68LncMZE=; b=uQPJMLEbXqAkSVUnkzZEWxrleX
-	ZhNGKsD3K9NpTphS+mwYlJw9HOzXlVuDcMeuxmIPP4XXpo5yd6I15pp3wFgC5y2l/V5E8mkAPEUM/
-	O2A4GJJZzcL14GlHj9jJxUwtXHuG6e767wHtY9rYX4f/Qcz+voVL67DIFwnMs6KOVn/AO8pk8dl5V
-	x1rXO/3W9MeYdFVr9JarwqH9jPY1JM53A65FaDw0BJnzHI3HEsug58dW3dPtRCBmCpgzSM75ok9q6
-	kNawByF7iyjbNRaES007weYMZ3mqvOExvAPrN1GViixXEoGzg9VCyrFvipMT1tLniTeG5eHDDwGdA
-	fQiwAkjw==;
+	bh=CVNQRUfkfoGYcoSAdMe73y6I/zgaSHZvc6n4x9QFnE8=; b=n1AUU4v+bEpnapI/c6SMuW+9tA
+	05zzp5JcMe5EB0fhzbmrtp0WB0XBj54wBA5LaYgURwuiHQsPT8tKOzh9JDFJHnBLDdG1uwFR6Hrs7
+	c57uhsDYkkJrBBVMua7UOU3Lh3BVFascBXt/vbTzgPg/D7jFzegAn+DeTxyAO2+qnypSftiTXUbbx
+	0JV62v1t/n7HgCTkOxLyx8PYIN8OLKwBrDfVMFzcMQgiOedw3yx99IxEqdbE3sZMOUb7bZ10SrI+P
+	UxDRxbahDhJrDhg5S0ar2e4CfVTw0trTiIp4jBEDFnn5/g+1l8FjuXwTrf3HkgeGMHWEAeXTB52EQ
+	rHykxhPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDLZt-0000000C4os-2KxL;
-	Tue, 19 Nov 2024 10:35:25 +0000
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
+	id 1tDM2U-0000000CAFU-1Dpy;
+	Tue, 19 Nov 2024 11:04:58 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDLUJ-0000000C3jC-3tiI
+	id 1tDM2R-0000000CAEQ-1Nhu
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Nov 2024 10:29:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1732012176; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=Z/inj4cpn/saktglTxIrSmDpk/W78fzSrg+68LncMZE=;
-	b=KvGWsF04a/DzVXXcN5INszlqURk4S4okNymhjOiPg3xj6g29hDXQkYY+uUY88lzY05bZILuX5ikB/haNSOgOnfkX7IcAY7ygHScXmMp8oVo87nrzF/HkEtImQtoOA9Jic7ohF3/OzlhEdlz/wOaIoY4OzWLLfszzoWabOcGyFs4=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WJo467Q_1732012165 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 19 Nov 2024 18:29:31 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme: tuning pr code by using defined structs and macros
-Date: Tue, 19 Nov 2024 18:29:25 +0800
-Message-ID: <20241119102925.128435-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+	Tue, 19 Nov 2024 11:04:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732014293;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=CVNQRUfkfoGYcoSAdMe73y6I/zgaSHZvc6n4x9QFnE8=;
+	b=UnNIYVGcut6vFi09pVhtepv4dzcrG8/T+tdM7CVeG8HcI08FelJrBokGbzzUVmO8NrD38M
+	5mpEYh3dBUO48VQWISqdp2/Ih+1uveVXtF34/1mWd8xva52ASAFJsMygkbMYM6I/g+R/2V
+	ztTEtwG/eLn5P8JTa9XxKNdy4wjY1Q4=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-2-Qqn23NskNx6c_pnysXkybA-1; Tue, 19 Nov 2024 06:04:52 -0500
+X-MC-Unique: Qqn23NskNx6c_pnysXkybA-1
+X-Mimecast-MFC-AGG-ID: Qqn23NskNx6c_pnysXkybA
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2fb6509b841so26485321fa.0
+        for <linux-nvme@lists.infradead.org>; Tue, 19 Nov 2024 03:04:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732014288; x=1732619088;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CVNQRUfkfoGYcoSAdMe73y6I/zgaSHZvc6n4x9QFnE8=;
+        b=birwwgPhnJ/e0F1zyYT3ghIdPeVnd+7UUlLVtzSrwJlXB1a4/S1klKyD9+ZEQV+QY3
+         yXowOXlsH2hpFa0DWCkvtGvvHeJsTWEIVnn+TnNvX6o5WLpEvA1Hi1Xroeaq4t62QZOm
+         52HudMptmVxaf+62xEQkg2Hk2tw7lwuILObiKc7AqsNtPZujOYwknTB4bd4l7eMyZCOM
+         xdnhtNELdQRUOd96sFi0ORkXHzG2vvexsoSlAhS7WRxV/G4Vm8wvCWovDQA5MpHRSV0h
+         LPfT3iA1N0CSCswY/OSxcUGRKGpRsY1WJ2SKvp8GOqIgxUWf9fPuIqBMia+dDevN6fLV
+         HRGA==
+X-Gm-Message-State: AOJu0YwL15HdXTLqMW6aO7PJCjJpaeJ7FfL7le5O0CxqO1mH4BKCvSzV
+	7xoBjoKie/Rg6ExHCqk8wTs1dRc9yS2dsU0Y+EETfPAnY3OTykAGRUrlMtQKmpzw/MUN94sF4FH
+	+Y6Il3jJtpnxnuJaKSynbtLzUqmFjMoZ36v5eWgf5vggUtlpBVFxqeg6imNqVriusLTGcuehbQC
+	DqM4kXxEzhfHgQs4zBt4lL6wf0rYRZixEHLQ3uro3e4CrCg6F+hKad
+X-Received: by 2002:a2e:b88f:0:b0:2fa:d464:32d3 with SMTP id 38308e7fff4ca-2ff83bfaa0amr8723481fa.20.1732014287928;
+        Tue, 19 Nov 2024 03:04:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEw9hWtRQ36WeUA6tryuJv+7RFXjfeJ3JnkFd26jA+54+oX7BRyjUQCwmTZR/jdqpldtGgNTuRkY8B1R8r3T2s=
+X-Received: by 2002:a2e:b88f:0:b0:2fa:d464:32d3 with SMTP id
+ 38308e7fff4ca-2ff83bfaa0amr8723411fa.20.1732014287557; Tue, 19 Nov 2024
+ 03:04:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Tue, 19 Nov 2024 19:04:35 +0800
+Message-ID: <CAHj4cs8OVyxmn4XTvA=y4uQ3qWpdw-x3M3FSUYr-KpE-nhaFEA@mail.gmail.com>
+Subject: [bug report][regression] blktests nvme/029 failed on latest linux-block/for-next
+To: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+	linux-block <linux-block@vger.kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: yh_JSG9p-jphnbDp8FKnH0aM8gXNNIUIaef8EVBTNyo_1732014291
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241119_022940_611893_CC1509A8 
-X-CRM114-Status: GOOD (  13.65  )
+X-CRM114-CacheID: sfid-20241119_030455_439272_76AF805D 
+X-CRM114-Status: UNSURE (   6.16  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,214 +94,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All the modifications are simply to make the code more readable,
-and this patch does not include any functional changes.
+Hello
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
- drivers/nvme/host/pr.c | 125 +++++++++++++++++++++++++----------------
- 1 file changed, 78 insertions(+), 47 deletions(-)
+CKI recently reported the blktests nvme/029 failed[1] on the
+linux-block/for-next, and bisect shows it was introduced from [2],
+please help check it and let me know if you need any info/test for it, thanks.
 
-diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
-index dc7922f22600..3fd292badd42 100644
---- a/drivers/nvme/host/pr.c
-+++ b/drivers/nvme/host/pr.c
-@@ -9,6 +9,9 @@
- 
- #include "nvme.h"
- 
-+#define NVME_PR_SET_PTPL_TO_PERSIST ((1 << 30) | (1 << 31))
-+#define NVME_PR_IGNORE_KEY (1 << 3)
-+
- static enum nvme_pr_type nvme_pr_type_from_blk(enum pr_type type)
- {
- 	switch (type) {
-@@ -94,109 +97,137 @@ static int nvme_status_to_pr_err(int status)
- 	}
- }
- 
--static int nvme_send_pr_command(struct block_device *bdev,
--		struct nvme_command *c, void *data, unsigned int data_len)
-+static int __nvme_send_pr_command(struct block_device *bdev, u32 cdw10,
-+		u32 cdw11, u8 op, void *data, unsigned int data_len)
- {
--	if (nvme_disk_is_ns_head(bdev->bd_disk))
--		return nvme_send_ns_head_pr_command(bdev, c, data, data_len);
-+	struct nvme_command c = { 0 };
- 
--	return nvme_send_ns_pr_command(bdev->bd_disk->private_data, c, data,
--				       data_len);
-+	c.common.opcode = op;
-+	c.common.cdw10 = cpu_to_le32(cdw10);
-+	c.common.cdw11 = cpu_to_le32(cdw11);
-+
-+	if (nvme_disk_is_ns_head(bdev->bd_disk))
-+		return nvme_send_ns_head_pr_command(bdev, &c, data, data_len);
-+	return nvme_send_ns_pr_command(bdev->bd_disk->private_data, &c,
-+				data, data_len);
- }
- 
--static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
--				u64 key, u64 sa_key, u8 op)
-+static int nvme_send_pr_command(struct block_device *bdev, u32 cdw10, u32 cdw11,
-+		u8 op, void *data, unsigned int data_len)
- {
--	struct nvme_command c = { };
--	u8 data[16] = { 0, };
- 	int ret;
- 
--	put_unaligned_le64(key, &data[0]);
--	put_unaligned_le64(sa_key, &data[8]);
--
--	c.common.opcode = op;
--	c.common.cdw10 = cpu_to_le32(cdw10);
--
--	ret = nvme_send_pr_command(bdev, &c, data, sizeof(data));
--	if (ret < 0)
--		return ret;
--
--	return nvme_status_to_pr_err(ret);
-+	ret = __nvme_send_pr_command(bdev, cdw10, cdw11, op, data, data_len);
-+	return ret < 0 ? ret : nvme_status_to_pr_err(ret);
- }
- 
--static int nvme_pr_register(struct block_device *bdev, u64 old,
--		u64 new, unsigned flags)
-+static int nvme_pr_register(struct block_device *bdev, u64 old_key, u64 new_key,
-+		unsigned int flags)
- {
-+	struct nvmet_pr_register_data data = { 0 };
- 	u32 cdw10;
- 
- 	if (flags & ~PR_FL_IGNORE_KEY)
- 		return -EOPNOTSUPP;
- 
--	cdw10 = old ? 2 : 0;
--	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0;
--	cdw10 |= (1 << 30) | (1 << 31); /* PTPL=1 */
--	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_register);
-+	data.crkey = cpu_to_le64(old_key);
-+	data.nrkey = cpu_to_le64(new_key);
-+
-+	cdw10 = old_key ? NVME_PR_REGISTER_ACT_REPLACE :
-+		NVME_PR_REGISTER_ACT_REG;
-+	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? NVME_PR_IGNORE_KEY : 0;
-+	cdw10 |= NVME_PR_SET_PTPL_TO_PERSIST;
-+
-+	return nvme_send_pr_command(bdev, cdw10, 0, nvme_cmd_resv_register,
-+			&data, sizeof(data));
- }
- 
- static int nvme_pr_reserve(struct block_device *bdev, u64 key,
- 		enum pr_type type, unsigned flags)
- {
-+	struct nvmet_pr_acquire_data data = { 0 };
- 	u32 cdw10;
- 
- 	if (flags & ~PR_FL_IGNORE_KEY)
- 		return -EOPNOTSUPP;
- 
--	cdw10 = nvme_pr_type_from_blk(type) << 8;
--	cdw10 |= ((flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0);
--	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire);
-+	data.crkey = cpu_to_le64(key);
-+
-+	cdw10 = NVME_PR_ACQUIRE_ACT_ACQUIRE;
-+	cdw10 |= nvme_pr_type_from_blk(type) << 8;
-+	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? NVME_PR_IGNORE_KEY : 0;
-+
-+	return nvme_send_pr_command(bdev, cdw10, 0, nvme_cmd_resv_acquire,
-+			&data, sizeof(data));
- }
- 
- static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
- 		enum pr_type type, bool abort)
- {
--	u32 cdw10 = nvme_pr_type_from_blk(type) << 8 | (abort ? 2 : 1);
-+	struct nvmet_pr_acquire_data data = { 0 };
-+	u32 cdw10;
- 
--	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
-+	data.crkey = cpu_to_le64(old);
-+	data.prkey = cpu_to_le64(new);
-+
-+	cdw10 = abort ? NVME_PR_ACQUIRE_ACT_PREEMPT_AND_ABORT :
-+			NVME_PR_ACQUIRE_ACT_PREEMPT;
-+	cdw10 |= nvme_pr_type_from_blk(type) << 8;
-+
-+	return nvme_send_pr_command(bdev, cdw10, 0, nvme_cmd_resv_acquire,
-+			&data, sizeof(data));
- }
- 
- static int nvme_pr_clear(struct block_device *bdev, u64 key)
- {
--	u32 cdw10 = 1 | (key ? 0 : 1 << 3);
-+	struct nvmet_pr_release_data data = { 0 };
-+	u32 cdw10;
- 
--	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
-+	data.crkey = cpu_to_le64(key);
-+
-+	cdw10 = NVME_PR_RELEASE_ACT_CLEAR;
-+	cdw10 |= key ? 0 : NVME_PR_IGNORE_KEY;
-+
-+	return nvme_send_pr_command(bdev, cdw10, 0, nvme_cmd_resv_release,
-+			&data, sizeof(data));
- }
- 
- static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
- {
--	u32 cdw10 = nvme_pr_type_from_blk(type) << 8 | (key ? 0 : 1 << 3);
-+	struct nvmet_pr_release_data data = { 0 };
-+	u32 cdw10;
-+
-+	data.crkey = cpu_to_le64(key);
- 
--	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
-+	cdw10 = NVME_PR_RELEASE_ACT_RELEASE;
-+	cdw10 |= nvme_pr_type_from_blk(type) << 8;
-+	cdw10 |= key ? 0 : NVME_PR_IGNORE_KEY;
-+
-+	return nvme_send_pr_command(bdev, cdw10, 0, nvme_cmd_resv_release,
-+			&data, sizeof(data));
- }
- 
- static int nvme_pr_resv_report(struct block_device *bdev, void *data,
- 		u32 data_len, bool *eds)
- {
--	struct nvme_command c = { };
-+	u32 cdw10, cdw11;
- 	int ret;
- 
--	c.common.opcode = nvme_cmd_resv_report;
--	c.common.cdw10 = cpu_to_le32(nvme_bytes_to_numd(data_len));
--	c.common.cdw11 = cpu_to_le32(NVME_EXTENDED_DATA_STRUCT);
-+	cdw10 = nvme_bytes_to_numd(data_len);
-+	cdw11 = NVME_EXTENDED_DATA_STRUCT;
- 	*eds = true;
- 
- retry:
--	ret = nvme_send_pr_command(bdev, &c, data, data_len);
-+	ret = __nvme_send_pr_command(bdev, cdw10, cdw11, nvme_cmd_resv_report,
-+			data, data_len);
- 	if (ret == NVME_SC_HOST_ID_INCONSIST &&
--	    c.common.cdw11 == cpu_to_le32(NVME_EXTENDED_DATA_STRUCT)) {
--		c.common.cdw11 = 0;
-+	    cdw11 == NVME_EXTENDED_DATA_STRUCT) {
-+		cdw11 = 0;
- 		*eds = false;
- 		goto retry;
- 	}
- 
--	if (ret < 0)
--		return ret;
--
--	return nvme_status_to_pr_err(ret);
-+	return ret < 0 ? ret : nvme_status_to_pr_err(ret);
- }
- 
- static int nvme_pr_read_keys(struct block_device *bdev,
--- 
-2.43.0
+[1]
+nvme/029 (tr=loop) (test userspace IO via nvme-cli read/write
+interface) [failed]
+    runtime    ...  1.568s
+    --- tests/nvme/029.out 2024-11-19 08:13:41.379272231 +0000
+    +++ /root/blktests/results/nodev_tr_loop/nvme/029.out.bad
+2024-11-19 10:55:13.615939542 +0000
+    @@ -1,2 +1,8 @@
+     Running nvme/029
+    +FAIL
+    +FAIL
+    +FAIL
+    +FAIL
+    +FAIL
+    +FAIL
+    ...
+    (Run 'diff -u tests/nvme/029.out
+/root/blktests/results/nodev_tr_loop/nvme/029.out.bad' to see the
+entire diff)
+[2]
+64a51080eaba (HEAD) nvmet: implement id ns for nvm command set
+
+
+--
+Best Regards,
+  Yi Zhang
 
 
