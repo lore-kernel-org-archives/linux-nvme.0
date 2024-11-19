@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96E05D44148
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:17:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1988BD44148
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Nov 2024 12:17:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QEFSXa9pfZuyC335Q9FZkYypCzaBxC18nhKs2Bn5gTU=; b=eDuLC3pDPV73CXdAyliV751NEz
-	Ql4zy2eOndR11r/Hn9FZEKUZE0xijrWJb96eTx/SHrqHeVREo75FCdxw2NxUKQdv9ND6J32fo4eKB
-	+WVjC+NhnQ5VBmeXcLAd6MsY6SkYj/1K6J+YopdBk+ZkPkV1INaYU0hv3PFmQQffH0+CXjhqjIpDV
-	rm4WYWe7gvwvanOVf20f+7yzBfsrXf9mjC+nb7v3RgP7VTkOIA8ExixXw2Ou5Xsm/NwK0xZJ/1ewG
-	lAO8PSSNKl/ousxEcGZBTJnKIChluETm1ijGY0JkRIwNZm99NfrExeuqprgX61Sfxo0Fh6YBBZ4FB
-	8lHUXcUg==;
+	bh=gIxXCn1b8yRUHIv/Q/T8s0ufDNDjaj42bcMFpNpW0/4=; b=HDEUeouEYDIzhK6b7k/Ej4Fbj1
+	Y8mVDUpTMHzWtXu9BCxWyX9g9RVn+ekRxdiEj5WFEwTSNazGdj0Asp6kX55LQI1wzipcM0U5kR1tN
+	ikNaBiaikjA+/+ZMAHJx1u2yC0AE745LXjVsmzT2aLluOz4eHMTIa1aZJ5FJ3cSRIM8UP7glcItuM
+	VNsHkyEMpGUK9pzKnyLWbY1vvqX/LMzh2Zgg3Pf6jY1kvbJg3boZVNAK2tbsB/d+1FRF6cJoDsOhm
+	06tmwEdKiMISpcv6eUffSAsJ+u+e3DFEF106lbX4GuhBOp9btOLkcO1w9CFXmJvY8aDE7qhdmD+tv
+	eRhceMaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDNAH-0000000CJDL-3r2x;
-	Tue, 19 Nov 2024 12:17:05 +0000
+	id 1tDNAL-0000000CJH9-2E7D;
+	Tue, 19 Nov 2024 12:17:09 +0000
 Received: from 2a02-8389-2341-5b80-1731-a089-d2b1-3edf.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:1731:a089:d2b1:3edf] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDNAG-0000000CJAq-3xFC;
-	Tue, 19 Nov 2024 12:17:05 +0000
+	id 1tDNAJ-0000000CJDT-1zwp;
+	Tue, 19 Nov 2024 12:17:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -41,9 +41,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	io-uring@vger.kernel.org
-Subject: [PATCH 10/15] nvme: store the endurance group id in struct nvme_ns_head
-Date: Tue, 19 Nov 2024 13:16:24 +0100
-Message-ID: <20241119121632.1225556-11-hch@lst.de>
+Subject: [PATCH 11/15] nvme: pass a void pointer to nvme_get/set_features for the result
+Date: Tue, 19 Nov 2024 13:16:25 +0100
+Message-ID: <20241119121632.1225556-12-hch@lst.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241119121632.1225556-1-hch@lst.de>
 References: <20241119121632.1225556-1-hch@lst.de>
@@ -63,63 +63,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The FDP code needs this.
+That allows passing in structures instead of the u32 result, and thus
+reduce the amount of bit shifting and masking required to parse the
+result.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 4 ++++
- drivers/nvme/host/nvme.h | 2 ++
- 2 files changed, 6 insertions(+)
+ drivers/nvme/host/core.c | 4 ++--
+ drivers/nvme/host/nvme.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1a8d32a4a5c3..d194b36b08ac 100644
+index d194b36b08ac..0d058276845b 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -38,6 +38,7 @@ struct nvme_ns_info {
- 	u32 nsid;
- 	__le32 anagrpid;
- 	u8 pi_offset;
-+	u16 endgid;
- 	bool is_shared;
- 	bool is_readonly;
- 	bool is_ready;
-@@ -1600,6 +1601,7 @@ static int nvme_ns_info_from_identify(struct nvme_ctrl *ctrl,
- 	}
+@@ -1671,7 +1671,7 @@ static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
  
- 	info->anagrpid = id->anagrpid;
-+	info->endgid = le16_to_cpu(id->endgid);
- 	info->is_shared = id->nmic & NVME_NS_NMIC_SHARED;
- 	info->is_readonly = id->nsattr & NVME_NS_ATTR_RO;
- 	info->is_ready = true;
-@@ -1638,6 +1640,7 @@ static int nvme_ns_info_from_id_cs_indep(struct nvme_ctrl *ctrl,
- 	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
- 	if (!ret) {
- 		info->anagrpid = id->anagrpid;
-+		info->endgid = le16_to_cpu(id->endgid);
- 		info->is_shared = id->nmic & NVME_NS_NMIC_SHARED;
- 		info->is_readonly = id->nsattr & NVME_NS_ATTR_RO;
- 		info->is_ready = id->nstat & NVME_NSTAT_NRDY;
-@@ -3644,6 +3647,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 	head->ids = info->ids;
- 	head->shared = info->is_shared;
- 	head->rotational = info->is_rotational;
-+	head->endgid = info->endgid;
- 	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
- 	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
- 	kref_init(&head->ref);
+ int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
+-		      u32 *result)
++		      void *result)
+ {
+ 	return nvme_features(dev, nvme_admin_set_features, fid, dword11, buffer,
+ 			     buflen, result);
+@@ -1680,7 +1680,7 @@ EXPORT_SYMBOL_GPL(nvme_set_features);
+ 
+ int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
+-		      u32 *result)
++		      void *result)
+ {
+ 	return nvme_features(dev, nvme_admin_get_features, fid, dword11, buffer,
+ 			     buflen, result);
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 900719c4c70c..9b916a904f00 100644
+index 9b916a904f00..8cea8416b0d2 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -491,6 +491,8 @@ struct nvme_ns_head {
- 	struct device		cdev_device;
- 
- 	struct gendisk		*disk;
-+
-+	u16			endgid;
- #ifdef CONFIG_NVME_MULTIPATH
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
+@@ -892,10 +892,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		int qid, nvme_submit_flags_t flags);
+ int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
+-		      u32 *result);
++		      void *result);
+ int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
+-		      u32 *result);
++		      void *result);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
 -- 
 2.45.2
 
