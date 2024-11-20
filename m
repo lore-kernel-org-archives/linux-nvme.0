@@ -4,68 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7B0ED6E2A2
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Nov 2024 03:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3AA0D6E2BE
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Nov 2024 06:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2izUDURaRNSUCsPxbB5/AV6z/0BbH/iA3UrWDhYORS4=; b=D1QHznLRt2kJhzBFncig4/64GX
-	BgcNZCnA+i7somAUWv2C4urKz/BNORtPu1th8SY/1FhBRFoZZeazcNLEw8Ea87Jg1WgEK3cuYROzs
-	SbJMMXTswZ/JyErDdWixlkUxiNJmj5N17wVueGU002wKsrDzk+YtiiM5u6bxSKkeETd+A1S3leS6E
-	QeUFJvLsaDvECIQBEJuM0+8FdZNioy9OM8XDpN9+w6QSxpp/p3MulBEt6o3agx47oUmhLGFSufA0H
-	NW26mgir5Gft6P/rzT37+6oSRnQdn3sWXUDFzzDQ3FUM2sJsLDcy8TWOJ9Nm5uHn0eVBf7KTn7tyd
-	WiH3pidw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pTT07AGsWtUkksAwl6a2WFmO5OjYZtapDj+h0Rat7Pk=; b=02qVSxqt6FSkYmQcaWcjqE7Ytr
+	eqOCtUcfFUkLuJN5Ics9KAYDOoPYRzbiAMBZQtfOEo4XOBoXBejK/+9KAZBWYnMNsrEBYdrTDAOLu
+	zCo/3/kx0Tx518ybT1b2lcB25cliqGWIm2eiMPtE9KBv8GGb3U/WhLTkK3SJ6F8Mj6XJscMVcTMzS
+	9tBrAGhsjPhhIzhu3gj2cv/ZH7rKqSi5S/3/pwxO0P5MEbPQBoKVwx4KsFlAISSqVAkmx85b2aNZQ
+	7N5Hk6MNtxsrFCTqQbjE6fmBmgFEpcg6IYIHEkQ6eQkNF7G5WFIZtucGnWbPO8CxViYMt32BvcMhs
+	F28E/6XQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDb4m-0000000EGN7-09El;
-	Wed, 20 Nov 2024 03:08:20 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1tDdoc-0000000ET1b-0QId;
+	Wed, 20 Nov 2024 06:03:50 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDb4i-0000000EGMd-46Do
+	id 1tDdoZ-0000000ET0Q-1scy
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Nov 2024 03:08:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732072094;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2izUDURaRNSUCsPxbB5/AV6z/0BbH/iA3UrWDhYORS4=;
-	b=emMcM/kyae/tJrFU0AEKpaEgH3YqCB6bbi0FDif0U7MSZxfCmb+6M2QG3J9izy7hb6zPJg
-	rUaiybRXtA6dfMF7Hr7rWvUMgadKWR0guj0L3uuaaDAiK7Dy4TnUpwBSqoAGya7Is+r4a3
-	VO49LBVsiPPfAtp3KzRjMVBIvDQsOeg=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-538-ns8c121-OLKO-eGKC5Zeyg-1; Tue,
- 19 Nov 2024 22:02:20 -0500
-X-MC-Unique: ns8c121-OLKO-eGKC5Zeyg-1
-X-Mimecast-MFC-AGG-ID: ns8c121-OLKO-eGKC5Zeyg
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 849BE1954B1A;
-	Wed, 20 Nov 2024 03:02:14 +0000 (UTC)
-Received: from vm-10-0-76-146.hosted.upshift.rdu2.redhat.com (vm-10-0-76-146.hosted.upshift.rdu2.redhat.com [10.0.76.146])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8A87D19560A3;
-	Wed, 20 Nov 2024 03:02:13 +0000 (UTC)
-From: Yi Zhang <yi.zhang@redhat.com>
-To: hare@suse.de,
-	shinichiro.kawasaki@wdc.com
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH blktests] nvme/052: don't remove the def_nsid namespace during the test
-Date: Tue, 19 Nov 2024 21:49:25 -0500
-Message-ID: <20241120024925.1397864-1-yi.zhang@redhat.com>
+	Wed, 20 Nov 2024 06:03:49 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 4926268D8D; Wed, 20 Nov 2024 07:03:40 +0100 (CET)
+Date: Wed, 20 Nov 2024 07:03:40 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Kanchan Joshi <joshi.k@samsung.com>, Hui Qi <hui81.qi@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>, Jan Kara <jack@suse.cz>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org
+Subject: Re: [PATCH 14/15] nvme: enable FDP support
+Message-ID: <20241120060340.GA10449@lst.de>
+References: <20241119121632.1225556-1-hch@lst.de> <20241119121632.1225556-15-hch@lst.de> <ZzzWQFyq0Sv7cuHb@kbusch-mbp> <20241119182427.GA20997@lst.de> <Zz0V6qv3oyKV_Kzp@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zz0V6qv3oyKV_Kzp@kbusch-mbp.dhcp.thefacebook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241119_190817_144174_C9F61126 
-X-CRM114-Status: GOOD (  10.02  )
+X-CRM114-CacheID: sfid-20241119_220347_629700_4780DDAA 
+X-CRM114-Status: GOOD (  13.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,40 +66,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Skip def_nsid(1) namespace removal during the test as it will be removed
-from _remove_nvmet_ns during _nvmet_target_cleanup phase
+On Tue, Nov 19, 2024 at 03:49:14PM -0700, Keith Busch wrote:
+> But more about the return codes for pretty much all the errors here.
+> They'll prevent the namespace from being visible, but I think you just
+> want to set the limits to disable write streams instead. Otherwise it'd
+> be a regression since namespaces configured this way are currently
+> usable.
 
-$ ./check nvme/052
-nvme/052 (tr=loop) (Test file-ns creation/deletion under one subsystem) [failed]
-    runtime  3.273s  ...  3.299s
-    --- tests/nvme/052.out	2024-11-19 19:29:36.873210200 -0500
-    +++ /root/blktests/results/nodev_tr_loop/nvme/052.out.bad	2024-11-19 21:29:26.016088521 -0500
-    @@ -1,2 +1,4 @@
-     Running nvme/052
-    +common/nvme: line 635: /sys/kernel/config/nvmet//subsystems/blktests-subsystem-1/namespaces/1/enable: No such file or directory
-    +rmdir: failed to remove '/sys/kernel/config/nvmet//subsystems/blktests-subsystem-1/namespaces/1': No such file or directory
-     Test complete
-
-Fixes: 67e25d7 ("nvme/052: do not create namespace when setting up the target")
-Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
----
- tests/nvme/052 | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/tests/nvme/052 b/tests/nvme/052
-index 8443c90..2ff9e53 100755
---- a/tests/nvme/052
-+++ b/tests/nvme/052
-@@ -71,6 +71,8 @@ test() {
- 			break
- 		fi
- 
-+		[ ${nsid} -eq 1 ] && continue
-+
- 		_remove_nvmet_ns "${def_subsysnqn}" "${nsid}"
- 
- 		# wait until async request is processed and ns is removed
--- 
-2.45.1
+True, we should probably just log an error and continue here.  I'll
+update it for the next version.
 
 
