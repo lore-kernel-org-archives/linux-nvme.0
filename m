@@ -4,95 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D62C1D7877C
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 14:49:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 685FCD78782
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 15:44:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2+/66L19zIqWL9MK0xfwzldJbGf6XYUQHlYyTGOsrnI=; b=oXqWtHQvO0BNES0tzHEgO9xrlb
-	d9xh8Pj1o2+VLg8ons1KIbLmeDdnFI77b8GVgfGRnuYeztaMTObmJHJ7W3WSp0fuEo6KLJT/kdPU2
-	SCOCoznsmKMn+A55YaRNW+CIKYaSf0UeU38dKDPJFBKlE78fZhkEdTyXfQf/koR9N3G3/8nRfrCpv
-	VjK0yNRVvoGU/oFDn/DDl++pAXboqs8OVucr0QjobkFM5q8DZbRthMB+GlgbC2RBZtpBs1lPudhYP
-	7ZFuYnNOECH6cl9e8ZXvujE8x8oDi1bMk/YJX1cDEHNlm9Umn54nmRMoStdxtxDGqiD5TaeX9FNpb
-	lYa79uaw==;
+	bh=Yq70YJzrFfkaT6vO9+6QOQ5rfwZ7sR/Fpz34vhs1TzQ=; b=Ucrc0/qb4P7nMMbJrDruSSrR8T
+	qoyWy/wQigdNkNzYPqqNwXI+0evoUNbZtBUTSk9csHopwAxStcfCa6oqLDHSxxffBMlanCIL2SHok
+	x3ijqDZakd0Lb7DFoXo5bU7cqUGrCjixt0zvkT7GGUiLpuhb+kw3W/yEu6JJRrOQanKZAY5z+cqfT
+	45GdW/pHzrXUhCIn8Gm/htN2xI7QN4aS4ky+RSUmVic+2Xnzpk7NHeG5XKxfQ9wTYnUMh8GRYcLSK
+	t9dqdU6rSdaCqlafvspV3Ho+P1QsAW/1+RdhbWC9ENnV3xx/iqZGpLPvNhZhkaFIoFEvlmnFzzR5p
+	uWXf5Aqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE8Uw-00000000Fh8-0Oaq;
-	Thu, 21 Nov 2024 14:49:34 +0000
-Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
+	id 1tE9MQ-00000000Mcg-2ylD;
+	Thu, 21 Nov 2024 15:44:50 +0000
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE8Ut-00000000FfH-2N9w
+	id 1tE9MO-00000000Mbv-3c88
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Nov 2024 14:49:32 +0000
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-2962feec93bso663658fac.1
-        for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2024 06:49:30 -0800 (PST)
+	Thu, 21 Nov 2024 15:44:49 +0000
+Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2fb51e00c05so19975311fa.0
+        for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2024 07:44:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1732200570; x=1732805370; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1732203887; x=1732808687; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2+/66L19zIqWL9MK0xfwzldJbGf6XYUQHlYyTGOsrnI=;
-        b=e6cp3iAbrm4+0my7TYIfVEwn7oe+Ued1W9VPz02rPOko9j6Tb83ammsY1Uz/TX/qhY
-         tvDJ0aYs4CmJVmLKXGv2KB2aDlahotFRxfPfgAoto/FLdajRn4kAMO5GcfzBdjux2X+F
-         AIkj9uwKQx2242T0K3QqBny9vZQBeHX14R12wl1jhG34OGF8w2bNgR11Lq3mKyIGHVZ/
-         Zfpg/BNSOUF06DQHR+ThC4t5KRTTC8HcGl5YhiwI4MkEQHWy0H83tc+Z1m7Aq9468uQH
-         0Bk468iaXYp/vmUlISAd+xrbMM3FBNfd1ZL/9Qlu6L9XhWZ5jNoq1lgBhK55K7gBbFPF
-         +jZA==
+        bh=Yq70YJzrFfkaT6vO9+6QOQ5rfwZ7sR/Fpz34vhs1TzQ=;
+        b=VLr2OSk2SA9R5HlzlfSPMNiMxdhIZpMGrQbuSonYqlxxkuNezqqhLppCunSYx/AWZN
+         9jW323tj3vEXiJ0w+VZttBu9BtThdwSDLY/zZ9rFGU4tjv8tlhtKqx8ROV/Cb9TkDCBC
+         WY/7ngyegOLq2MYkUvBCbhGsTFvQA28vCFI9gurYdd3CqmNKRdOemrZQwzShs2aq1cOT
+         ICNA72NzQy2MtYmjCaHme62F1dPUVPOmv4pUVn3MVhcFyKz6NTFdcSBgATMHPhyftTs5
+         W7pssDOrhoLdfalnP9nq8683CHjnblly6Gnr2aVD2O6Ie/tboAwtI/IST0UlCEpbf98q
+         f9Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732200570; x=1732805370;
+        d=1e100.net; s=20230601; t=1732203887; x=1732808687;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2+/66L19zIqWL9MK0xfwzldJbGf6XYUQHlYyTGOsrnI=;
-        b=og4ze5KIHEJf/M84iMFj1X7vn3KE33ICAOvf4IekhJJM6RPIwtj0uN3NQ4zwhGCz4B
-         2at1MobGGRZ+XbHJ9ulB4yjx+4IyH2AIRQkAzfWBUfu+KjAnAKrOdZrzvqWuc4tZUAkJ
-         olQkRuc2LSgNb2C9wEZsJrm7A2OvBXs10BnUcUNkaz10Ye7mSmkCHj1Z4F55Svf0wLsY
-         QOpegMgM1x7z+p6Bryud/Ym+6nMxbt66f4jH+zuOhrJxe5LMQ8Y0yX6YwVU+HaHIBvxG
-         4uM05xfVMUmUAsUD7aqvPTFQisSQai7ckxjQqoqZMZPlPc3/38KZOBVa3w5eolo0MyOm
-         qwbg==
-X-Forwarded-Encrypted: i=1; AJvYcCWyIhEdInOPox3snpPlYBrdoktmD0DsAmDAfOth7UIgRpEPtGl/NpFhKVPBJ/FaMK8NsV+SCEOASMQj@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxnkjae4KSla6T9IERqrvWLQ2PR+vDeNuaKE4auD30AkbR/LCgS
-	y78344IZCPXT0lpAOIUqgXDITTxFFMl/Oq3qTIEbZtzE/a5+azfeDi1kvKfwjwo=
-X-Gm-Gg: ASbGncuitMbiypJyrzpnWqCPmbJsMoWW81ZLRYOZV3495FRhp3kPljReBPB92yDYobs
-	3qc38ysD1KBOKShJALlYhRpYAGbFKFmya8QlQVonUPSbb/KP8T4ZF8FaJg/7EXpquloCRcpZ7v5
-	4NlOQXOtipAU3ViZUSKnGf+LsvKI5tsjH9ytGOXZV7ckcwialkf8JSFCUT7apqltKbdG2yjHlZ8
-	7EACC0Kt/pNaG72Y+JDvey0TYwtGZQerRPo4ZHKHiMs5A==
-X-Google-Smtp-Source: AGHT+IFNrnSalwJ8Ln03ltl79/WoctqRlWoKBzFj94ZqnpbO7kUvel0Z5aZJ8hZfVYejeQ5nDN2fHg==
-X-Received: by 2002:a05:6870:b50f:b0:296:9dba:6398 with SMTP id 586e51a60fabf-296d9ae3ab8mr7166734fac.7.1732200569835;
-        Thu, 21 Nov 2024 06:49:29 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29651b2fbd4sm4927124fac.44.2024.11.21.06.49.28
+        bh=Yq70YJzrFfkaT6vO9+6QOQ5rfwZ7sR/Fpz34vhs1TzQ=;
+        b=pse3Kqk6HHSHdMnDY40uo4L1U6cd2n7X/G/1WzSBFW2OW+SdyQIx2DXf4a/uS0nOkN
+         YTmiMIqTyRgP+P5rKJjyY+oK9Ud/L47+S4Mql8Oy+qwBRHD4lUZS+EP2zEFWA2eHfYAH
+         GzT/odleck1zVbrP4wl01jIqSmGAsS6X+KI3dWT0gckMejVw/usRt8Om2p7wNl9kOFtT
+         DdlBqiobzuk5RaVUI35vXqlQ1symyo5sG7j4MF+cv4qMKP1Bsa0INXRfZzIaOTTLRodT
+         9NZN1SlEoaW9kpVe0TYdcJmV9kxcM86N0tqUt/TqncNhpgtRR4o4krWm0fRDnC1bZeGx
+         Qbbw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+XMIvJmfsc6X7dsxZLFFdzEIk6l/cKAWWKXTjIdySu/jZbeqR4sfhI+rR+aFuoOcFZ1uPw2aiXa9K@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz5SOEhK7Bl+GI2V7ltGix3f4D9jnYkf8N821EDl9c7gTvLx/F/
+	vSf13dnuCFVxwd3pM5v9jDopeCIEI8Y1MsVUu4Ffa/FObGQensSsaYnVtw==
+X-Gm-Gg: ASbGncurPylVlVjvurjFcIEUI4vVrVUU+mK/mMtNXRwYq9EFctc2mzsjb0AuhEG5/nB
+	8FG45VTL+RMosC3MVEYIW/4u7/9VeTHbBchxG4jhTsdUNcjnK5OTqcxRzJWunLw+cHgHHQxmuWt
+	4YNWDOfGI5HtnvoGGByl8XdawdsGVVIwSpwbrXXHGXStJTr+A/6Ca8KhoVvPVRAaew2c3eELX9r
+	zISPD7Stl+duXEcZ66BGNdYw0f5xE/PoHXIUtYpE4fNQTc26YRb+M/ADyNhnQ==
+X-Google-Smtp-Source: AGHT+IF++NRQF74gXAH6xM1W4Qh3AQIH8KSN5zEQe3RTf9TGDltr4dR/aWa+g/x4zzyWxju6+0KAMw==
+X-Received: by 2002:a05:6512:1195:b0:535:6a34:b8c3 with SMTP id 2adb3069b0e04-53dc13230b4mr6167738e87.5.1732203886812;
+        Thu, 21 Nov 2024 07:44:46 -0800 (PST)
+Received: from [192.168.42.120] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa4f43801f5sm93964866b.190.2024.11.21.07.44.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Nov 2024 06:49:29 -0800 (PST)
-Message-ID: <a01ead6b-bd1d-4cd3-ade6-59ad905273e7@kernel.dk>
-Date: Thu, 21 Nov 2024 07:49:28 -0700
+        Thu, 21 Nov 2024 07:44:46 -0800 (PST)
+Message-ID: <506ca9ff-40c2-49eb-bcc3-e1735a4f4cd9@gmail.com>
+Date: Thu, 21 Nov 2024 15:45:37 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [bug-report] 5-9% FIO randomwrite ext4 perf regression on 6.12.y
- kernel
-To: Phil Auld <pauld@redhat.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Ramanan Govindarajan <ramanan.govindarajan@oracle.com>,
- Sagi Grimberg <sagi@grimberg.me>, Paul Webb <paul.x.webb@oracle.com>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-References: <392209D9-5AC6-4FDE-8D84-FB8A82AD9AEF@oracle.com>
- <0cfbfcf6-08f5-4d1b-82c4-729db9198896@nvidia.com>
- <d6049cd0-5755-48ee-87af-eb928016f95b@kernel.dk>
- <20241121113058.GA394828@pauld.westford.csb>
+Subject: Re: [PATCH v9 06/11] io_uring: introduce attributes for read/write
+ and PI support
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+ martin.petersen@oracle.com, anuj1072538@gmail.com, brauner@kernel.org,
+ jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+ linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+References: <20241114104517.51726-1-anuj20.g@samsung.com>
+ <CGME20241114105405epcas5p24ca2fb9017276ff8a50ef447638fd739@epcas5p2.samsung.com>
+ <20241114104517.51726-7-anuj20.g@samsung.com>
+ <c622ee8c-82f0-44d4-99da-91357af7ecac@gmail.com>
+ <b61e1bfb-a410-4f5f-949d-a56f2d5f7791@gmail.com>
+ <20241118125029.GB27505@lst.de>
+ <2a98aa33-121b-46ed-b4ae-e4049179819a@gmail.com>
+ <20241121085935.GA3851@green245>
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20241121113058.GA394828@pauld.westford.csb>
-Content-Type: text/plain; charset=UTF-8
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20241121085935.GA3851@green245>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241121_064931_605932_9691558D 
-X-CRM114-Status: GOOD (  23.62  )
+X-CRM114-CacheID: sfid-20241121_074448_902048_1C4081CD 
+X-CRM114-Status: GOOD (  20.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,72 +110,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/21/24 4:30 AM, Phil Auld wrote:
-> 
-> Hi,
-> 
-> On Wed, Nov 20, 2024 at 06:20:12PM -0700 Jens Axboe wrote:
->> On 11/20/24 5:00 PM, Chaitanya Kulkarni wrote:
->>> On 11/20/24 13:35, Saeed Mirzamohammadi wrote:
->>>> Hi,
->>>>
->>>> I?m reporting a performance regression of up to 9-10% with FIO randomwrite benchmark on ext4 comparing 6.12.0-rc2 kernel and v5.15.161. Also, standard deviation after this change grows up to 5-6%.
->>>>
->>>> Bisect root cause commit
->>>> ===================
->>>> - commit 63dfa1004322 ("nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of nvme_config_discard?)
->>>>
->>>>
->>>> Test details
->>>> =========
->>>> - readwrite=randwrite bs=4k size=1G ioengine=libaio iodepth=16 direct=1 time_based=1 ramp_time=180 runtime=1800 randrepeat=1 gtod_reduce=1
->>>> - Test is on ext4 filesystem
->>>> - System has 4 NVMe disks
->>>>
->>>
->>> Thanks a lot for the report, to narrow down this problem can you
->>> please :-
->>>
->>> 1. Run the same test on the raw nvme device /dev/nvme0n1 that you
->>>     have used for this benchmark ?
->>> 2. Run the same test on the  XFS formatted nvme device instead of ext4 ?
->>>
->>> This way we will know if there is an issue only with the ext4 or
->>> with other file systems are suffering from this problem too or
->>> it is below the file system layer such as block layer and nvme pci driver ?
->>>
->>> It will also help if you can repeat these numbers for io_uring fio io_engine
->>> to narrow down this problem to know if the issue is ioengine specific.
->>>
->>> Looking at the commit [1], it only sets the max value to write zeroes 
->>> sectors
->>> if NVME_QUIRK_DEALLOCATE_ZEROES is set, else uses the controller max
->>> write zeroes value.
+On 11/21/24 08:59, Anuj Gupta wrote:
+> On Mon, Nov 18, 2024 at 04:59:22PM +0000, Pavel Begunkov wrote:
+>> On 11/18/24 12:50, Christoph Hellwig wrote:
+>>> On Sat, Nov 16, 2024 at 12:32:25AM +0000, Pavel Begunkov wrote:
+...
+>> Do we have technical arguments against the direction in the last
+>> suggestion? It's extendible and _very_ simple. The entire (generic)
+>> handling for the bitmask approach for this set would be sth like:
 >>
->> There's no way that commit is involved, the test as quoted doesn't even
->> touch write zeroes. Hence if there really is a regression here, then
->> it's either not easily bisectable, some error was injected while
->> bisecting, or the test itself is bimodal.
+>> struct sqe {
+>> 	u64 attr_type_mask;
+>> 	u64 attr_ptr;
+>> };
+>> if (sqe->attr_type_mask) {
+>> 	if (sqe->attr_type_mask != TYPE_PI)
+>> 		return -EINVAL;
+>>
+>> 	struct uapi_pi_structure pi;
+>> 	copy_from_user(&pi, sqe->attr_ptr, sizeof(pi));
+>> 	hanlde_pi(&pi);
+>> }
+>>
+>> And the user side:
+>>
+>> struct uapi_pi_structure pi = { ... };
+>> sqe->attr_ptr = &pi;
+>> sqe->attr_type_mask = TYPE_PI;
+>>
 > 
-> I was just going to ask how confident we are in that bisect result.
-> 
-> I suspect this is the same issue I've been fighting here:
-> 
-> https://lore.kernel.org/lkml/20241101124715.GA689589@pauld.westford.csb/
-> 
-> Saeed, can you try your randwrite test after
-> 
->   "echo NO_DELAY_DEQUEUE > /sys/kernel/debug/sched/features"
-> 
-> please?
-> 
-> We don't as yet have a general fix for it as it seems to be a bit of
-> a trade off.
+> How about using this, but also have the ability to keep PI inline.
+> Attributes added down the line can take one of these options:
+> 1. If available space in SQE/SQE128 is sufficient for keeping attribute
+> fields, one can choose to keep them inline and introduce a TYPE_XYZ_INLINE
+> attribute flag.
+> 2. If the available space is not sufficient, pass the attribute information
+> as pointer and introduce a TYPE_XYZ attribute flag.
+> 3. One can choose to support a attribute via both pointer and inline scheme.
+> The pointer scheme can help with scenarios where user wants to avoid SQE128
+> for whatever reasons (e.g. mixed workload).
 
-Interesting. Might explain some regressions I've seen too related to
-performance.
+Right, the idea would work. It'd need to be not type specific but
+rather a separate flag covering all attributes of a request, though.
+IOW, either all of them are in user memory or all optimised. We probably
+don't have a good place for a flag, but then you can just chip away a
+bit from attr_type_mask as you're doing for INLINE.
+
+enum {
+	TYPE_PI = 1,
+	...
+	TYPE_FLAG_INLINE = 1 << 63,
+};
+
+// sqe->attr_type_mask = TYPE_PI | TYPE_FLAG_INLINE;
+
+Another question is whether it's better to use SQE or another mapping
+like reg-wait thing does. My suggestion is, send it without the INLINE
+optimisation targeting 6.14 (I assume block bits are sorted?). We'll
+figure that optimisation separately and target the same release, there
+is plenty of time for that.
 
 -- 
-Jens Axboe
-
+Pavel Begunkov
 
