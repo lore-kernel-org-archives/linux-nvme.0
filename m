@@ -4,99 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC5F1D6ED04
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 11:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F79AD6ED09
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 11:31:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SgV3krh1/K41wlTlwxxWUhVbH1zCGgFhTbiYKQWdxCA=; b=GR5BdN9EREhTHbVB+JEFcCIpR2
-	OuLOEYdQxEnxvjdVIqTvCPQ7LlN0DGSp+mAPGaqf3RPJz+xddbnqwGINw/g4gAcqvIHEQ6mBEaLlF
-	URako1aOxQDjGhntWmwprKQ+48wcRuh11n869FqJvI30UCzqNQjBpMvgONg7ejbs49+kl3P6/T6AD
-	yq+z9wUscwzIXfF3BCw7o07eZpTomUw/2saLZF325Fi7dVrJcT4e8oEo6VOZX1QTzPdWVULruqqpI
-	yFLaTD6wdjuQReKZj3MHaZG4/AhRpOAn/WwzqjA0Ob2Q1Lj8uPeYUwl4fmgTdAb1+TFthxRaK6kn0
-	SPPgUrEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=09vF4pX8kaQ+dR6O2t20RwvdrQl+POuIrCNnkaiSmgA=; b=guegO3Ty2n6tVfDBIZNBN7wgTO
+	Bc6vfoCQfevkStOrEHWGeTCM6/FFj9XIOFIKPKrYPnogKOeIRbC21/k45Eg6yQ6lzpZ9F+DB4fzx+
+	bTVVBCh5dC5cnYaOMIEqJZbTCeo3wUO6YxxQm3nBNysCvWsR/TtCAb/Ime0SFxBLXg3WyzGSj1YRh
+	3mhM0zeRk/Kev8DlUDGRQn9ChNWADiYIzC/hCXdB6NZXbT6NDPOL/JYxT3ag6VPBGqYEpRxJZLmVJ
+	lBv6FmYR+66LPm0t/17VuM9U95R8Ba6kmUcgjnhz/H6SZeXEtG7vm9TNyjYy7kIZ5gXv5Fc/6uU5j
+	8OshHrYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE55F-0000000HQo3-1jyx;
-	Thu, 21 Nov 2024 11:10:49 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1tE5Oz-0000000HU8M-1Fvd;
+	Thu, 21 Nov 2024 11:31:13 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE55C-0000000HQnb-1KRc
+	id 1tE5Ov-0000000HU6D-1YwD
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Nov 2024 11:10:47 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALA9cl9013500;
-	Thu, 21 Nov 2024 11:10:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=SgV3kr
-	h1/K41wlTlwxxWUhVbH1zCGgFhTbiYKQWdxCA=; b=dPbVCiiv6NUfjxNbc0pzSj
-	jFGxHui6keynqEWCIFZe0hcVmCfdV7WaHXIIFoJqDD7sxDxG8IhH8z0qYeUqnSeB
-	b779tokOlU5IwtDBLxM+7SdMEQm2/Uv1XsUHwP78oKGiGW4YusU81F6FMNLoNuAO
-	EdPdmapaaeEgqXu5P/T0Vr7dlOkRuVvfE+on+p1KE19Ah8qUBUPY43Xs6VY7JYwG
-	LSc4Cyju2+Bxi0HvNyF6TNzTlza/CiuuIufxBTfUfP88SzxURL/2yxaHdr9rw4Qc
-	6N2vPHJMJmN3LFDS4x+xAqCY2zyQfaCJ2vWGh6qgUSl0GkyAFmqJAMbjsf15PQog
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42xk21a2qj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 11:10:35 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4AL7PqOw025906;
-	Thu, 21 Nov 2024 11:10:34 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 42y8e1gfmk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 11:10:34 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4ALBAXB552822484
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 21 Nov 2024 11:10:33 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 60E3058052;
-	Thu, 21 Nov 2024 11:10:33 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B10EB58056;
-	Thu, 21 Nov 2024 11:10:31 +0000 (GMT)
-Received: from [9.171.4.248] (unknown [9.171.4.248])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 21 Nov 2024 11:10:31 +0000 (GMT)
-Message-ID: <9ea5ac64-283c-40e6-a70d-285b81c55c06@linux.ibm.com>
-Date: Thu, 21 Nov 2024 16:40:30 +0530
+	Thu, 21 Nov 2024 11:31:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732188666;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=09vF4pX8kaQ+dR6O2t20RwvdrQl+POuIrCNnkaiSmgA=;
+	b=Ay76XVSCjUAfFZmUQr1F4Ch/gUzCrDBcgGHawtUbhFxiLw6xB4Fsi48fYmbDcF/63l5j3a
+	l5sW5BJo4VHdSc1bip+DheqlhuIVzDIR6k0IePiWlBlBwJQ/cHoJdciBufBEuY/FpNbtN7
+	ppwCXNcYVLzZQkyuUwe9FB/ouhvhZP0=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-335-VkpqpWfkOBifU72Bt2MalA-1; Thu,
+ 21 Nov 2024 06:31:05 -0500
+X-MC-Unique: VkpqpWfkOBifU72Bt2MalA-1
+X-Mimecast-MFC-AGG-ID: VkpqpWfkOBifU72Bt2MalA
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 646091955D62;
+	Thu, 21 Nov 2024 11:31:03 +0000 (UTC)
+Received: from pauld.westford.csb (unknown [10.22.80.137])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 07F81195607C;
+	Thu, 21 Nov 2024 11:31:00 +0000 (UTC)
+Date: Thu, 21 Nov 2024 06:30:58 -0500
+From: Phil Auld <pauld@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Ramanan Govindarajan <ramanan.govindarajan@oracle.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Paul Webb <paul.x.webb@oracle.com>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [bug-report] 5-9% FIO randomwrite ext4 perf regression on 6.12.y
+ kernel
+Message-ID: <20241121113058.GA394828@pauld.westford.csb>
+References: <392209D9-5AC6-4FDE-8D84-FB8A82AD9AEF@oracle.com>
+ <0cfbfcf6-08f5-4d1b-82c4-729db9198896@nvidia.com>
+ <d6049cd0-5755-48ee-87af-eb928016f95b@kernel.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report][regression] blktests nvme/029 failed on latest
- linux-block/for-next
-To: Yi Zhang <yi.zhang@redhat.com>
-Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        Keith Busch <kbusch@kernel.org>,
-        Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-References: <CAHj4cs8OVyxmn4XTvA=y4uQ3qWpdw-x3M3FSUYr-KpE-nhaFEA@mail.gmail.com>
- <7f35cbe9-9e12-498b-b46a-be1f570772fc@linux.ibm.com>
- <CAHj4cs91daKS2Sexvs3y_m=r=+a+gJdk9=Z+76TdsE6=0nNcYg@mail.gmail.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <CAHj4cs91daKS2Sexvs3y_m=r=+a+gJdk9=Z+76TdsE6=0nNcYg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: yciA4e5_tKqpHbS9qaUhfTt9tmXkahLh
-X-Proofpoint-GUID: yciA4e5_tKqpHbS9qaUhfTt9tmXkahLh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- mlxlogscore=999 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- malwarescore=0 clxscore=1015 mlxscore=0 spamscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411210086
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d6049cd0-5755-48ee-87af-eb928016f95b@kernel.dk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241121_031046_478334_95947652 
-X-CRM114-Status: GOOD (  21.70  )
+X-CRM114-CacheID: sfid-20241121_033109_482718_60A4CB53 
+X-CRM114-Status: GOOD (  30.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,89 +92,75 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+Hi,
 
-On 11/21/24 08:28, Yi Zhang wrote:
-> On Wed, Nov 20, 2024 at 10:07 PM Nilay Shroff <nilay@linux.ibm.com> wrote:
->>
->>
->>
->> On 11/19/24 16:34, Yi Zhang wrote:
->>> Hello
->>>
->>> CKI recently reported the blktests nvme/029 failed[1] on the
->>> linux-block/for-next, and bisect shows it was introduced from [2],
->>> please help check it and let me know if you need any info/test for it, thanks.
->>>
->>> [1]
->>> nvme/029 (tr=loop) (test userspace IO via nvme-cli read/write
->>> interface) [failed]
->>>     runtime    ...  1.568s
->>>     --- tests/nvme/029.out 2024-11-19 08:13:41.379272231 +0000
->>>     +++ /root/blktests/results/nodev_tr_loop/nvme/029.out.bad
->>> 2024-11-19 10:55:13.615939542 +0000
->>>     @@ -1,2 +1,8 @@
->>>      Running nvme/029
->>>     +FAIL
->>>     +FAIL
->>>     +FAIL
->>>     +FAIL
->>>     +FAIL
->>>     +FAIL
->>>     ...
->>>     (Run 'diff -u tests/nvme/029.out
->>> /root/blktests/results/nodev_tr_loop/nvme/029.out.bad' to see the
->>> entire diff)
->>> [2]
->>> 64a51080eaba (HEAD) nvmet: implement id ns for nvm command set
->>>
->>>
->>> --
->>> Best Regards,
->>>   Yi Zhang
->>>
->>>
->> I couldn't reproduce it even after running nvme/029 in a loop
->> for multiple times. Are you following any specific steps to
->> recreate it?
+On Wed, Nov 20, 2024 at 06:20:12PM -0700 Jens Axboe wrote:
+> On 11/20/24 5:00 PM, Chaitanya Kulkarni wrote:
+> > On 11/20/24 13:35, Saeed Mirzamohammadi wrote:
+> >> Hi,
+> >>
+> >> I?m reporting a performance regression of up to 9-10% with FIO randomwrite benchmark on ext4 comparing 6.12.0-rc2 kernel and v5.15.161. Also, standard deviation after this change grows up to 5-6%.
+> >>
+> >> Bisect root cause commit
+> >> ===================
+> >> - commit 63dfa1004322 ("nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of nvme_config_discard?)
+> >>
+> >>
+> >> Test details
+> >> =========
+> >> - readwrite=randwrite bs=4k size=1G ioengine=libaio iodepth=16 direct=1 time_based=1 ramp_time=180 runtime=1800 randrepeat=1 gtod_reduce=1
+> >> - Test is on ext4 filesystem
+> >> - System has 4 NVMe disks
+> >>
+> > 
+> > Thanks a lot for the report, to narrow down this problem can you
+> > please :-
+> > 
+> > 1. Run the same test on the raw nvme device /dev/nvme0n1 that you
+> >     have used for this benchmark ?
+> > 2. Run the same test on the  XFS formatted nvme device instead of ext4 ?
+> > 
+> > This way we will know if there is an issue only with the ext4 or
+> > with other file systems are suffering from this problem too or
+> > it is below the file system layer such as block layer and nvme pci driver ?
+> > 
+> > It will also help if you can repeat these numbers for io_uring fio io_engine
+> > to narrow down this problem to know if the issue is ioengine specific.
+> > 
+> > Looking at the commit [1], it only sets the max value to write zeroes 
+> > sectors
+> > if NVME_QUIRK_DEALLOCATE_ZEROES is set, else uses the controller max
+> > write zeroes value.
 > 
-> From the reproduced data[1], seems it only reproduced on x86_64 and
-> aarch64, and from the 029.full[2], we can see the failure comes from
-> the "nvme write" cmd.
-> [1]
-> https://datawarehouse.cki-project.org/issue/3263
-> [2]
-> # cat results/nodev_tr_loop/nvme/029.full
-> Reference tag larger than allowed by PIF
-> NQN:blktests-subsystem-1 disconnected 1 controller(s)
-> disconnected 1 controller(s)
-> 
-> I also attached the kernel config file in case you want to try it, thanks.
-> 
-Thanks for the additional information!
-Now I could understand the issue and have a probable fix. If possible, can you try 
-the below patch and check if it help resolve this issue?
+> There's no way that commit is involved, the test as quoted doesn't even
+> touch write zeroes. Hence if there really is a regression here, then
+> it's either not easily bisectable, some error was injected while
+> bisecting, or the test itself is bimodal.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 934b401fbc2f..7a8256ae3085 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -901,12 +901,14 @@ static void nvmet_execute_identify_ctrl_nvm(struct nvmet_req *req)
- static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
- {
-        u16 status;
-+       void *zero_buf;
- 
-        status = nvmet_req_find_ns(req);
-        if (status)
-                goto out;
- 
--       status = nvmet_copy_to_sgl(req, 0, ZERO_PAGE(0),
-+       zero_buf = __va(page_to_pfn(ZERO_PAGE(0)) << PAGE_SHIFT);
-+       status = nvmet_copy_to_sgl(req, 0, zero_buf,
-                                   NVME_IDENTIFY_DATA_SIZE);
- out:
-        nvmet_req_complete(req, status);
+I was just going to ask how confident we are in that bisect result.
 
-Thanks,
---Nilay
+I suspect this is the same issue I've been fighting here:
+
+https://lore.kernel.org/lkml/20241101124715.GA689589@pauld.westford.csb/
+
+Saeed, can you try your randwrite test after
+
+  "echo NO_DELAY_DEQUEUE > /sys/kernel/debug/sched/features"
+
+please?
+
+We don't as yet have a general fix for it as it seems to be a bit of
+a trade off.
+
+
+Cheers,
+Phil
+
+> 
+> -- 
+> Jens Axboe
+> 
+
+-- 
+
 
