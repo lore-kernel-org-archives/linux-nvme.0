@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87FC5D75BA7
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 03:18:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 519FDD75BA3
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 03:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=R+WIG4TPfrG4VASxbGrgOqgHpj5Duzkfx8Vl/VFOUF0=; b=Hram3wbi7xWoAXcr/yZYxECeQP
-	vwjwAiX5PyhTJ4OmoXgimPGFoNPgrtE+TCVeMapwrUl3fYTlTWtqBGDfVMdkRFRvVAK5mClLguHtr
-	E+JLaggq62T+v2BoBN/E0Kyn+ReieQFieHlvaJLFof76MUrM5LiHLgv7bcn4f4ZNvyXvjeol4Ga8J
-	nmiMbq8m5DJ7GklJjf0n76B4ZAi4CveoQnSce0yc1jiFUg06rFSffPRyINOLkyRIeBW2dmUGRVdkS
-	aymCMr8KHo5QnZdTmLsU4wKdlJcV+intd8m08+DtSy5P0KtggimX1HKHdl+Nt5tf72rBQaqzCqtNT
-	pDnbPj7A==;
+	bh=AOXvI++XSTiWCp1ZxrfaodBptdhJkbFw4zlLYFWlGt0=; b=1sggOmRxl7lVyknY23RvDR8vML
+	zv0RMRL0iei+k61HmWv8z3yqDfnwDAq4TOdRpZB0+NJuIKDcPBR+bMnFq4wI24KXnJ+iCPImQsTKS
+	IiFN9Au8DDqm8rBfUq6MMxeGhJg7Z9M7aSIQzEVvJHkbKALfdrvW1E8RjdqOw+rchRrU7inqMCqad
+	YJaDUwQwK8qXxS93Di32+oNRwpnfMalLmR37nH4uDUEoNU7+p7F/PALEqZfQKiPxIuFj2xTCRHi9G
+	hBRpKJB+F4Od0RAEi6vRHZdX8G0FWa2fCegPj3RRR5cvVk2S7txQMK3Xnrkq9nyY3gk8fmy2wqAM1
+	KQFPshnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDxho-0000000GgcF-3iXy;
-	Thu, 21 Nov 2024 03:18:08 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tDxjI-0000000Ggqt-2dwy;
+	Thu, 21 Nov 2024 03:19:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tDxhl-0000000GgbS-2mCD
+	id 1tDxjG-0000000GgqJ-22f4
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Nov 2024 03:18:06 +0000
+	Thu, 21 Nov 2024 03:19:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732159084;
+	s=mimecast20190719; t=1732159177;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R+WIG4TPfrG4VASxbGrgOqgHpj5Duzkfx8Vl/VFOUF0=;
-	b=HNkGKcmIJ5LViW0lrNe0sq6eu+FG5TQ9kk9xwCzMgwK49gImg8epZRMBrqrEJiahRXA75C
-	TFku44yN7c3r6xcXnJqBjTb9lBZLNWd9r8DonugkwvuSZOg+8PRuN38c8qRcqTlPSwOagi
-	HhjBFI+y0ykUQEPxXrXNlRVVS/IitJs=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+	bh=AOXvI++XSTiWCp1ZxrfaodBptdhJkbFw4zlLYFWlGt0=;
+	b=fBukUS+ToKtBdMxtS9CjO3hdGR+c9V9UkVVOVUE8tdWJXppLde1hpsk4b3YP4CScQ2ykTF
+	eVdlS2Q5bfkW3MPnDtz795kACPz9OYYm0lta7OOacnfTLFkCqokWk0zfe+kriwsCOOhym6
+	MU/kzAVOg9tOhRwiHEOd0hrn+acuKoc=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-389-PeCzXuiKPk2GasMU42hR-Q-1; Wed,
- 20 Nov 2024 22:18:01 -0500
-X-MC-Unique: PeCzXuiKPk2GasMU42hR-Q-1
-X-Mimecast-MFC-AGG-ID: PeCzXuiKPk2GasMU42hR-Q
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-38-9N4rdBEgPGqmul26ngHxlg-1; Wed,
+ 20 Nov 2024 22:19:34 -0500
+X-MC-Unique: 9N4rdBEgPGqmul26ngHxlg-1
+X-Mimecast-MFC-AGG-ID: 9N4rdBEgPGqmul26ngHxlg
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F1A421956077;
-	Thu, 21 Nov 2024 03:17:57 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9D47419560B8;
+	Thu, 21 Nov 2024 03:19:30 +0000 (UTC)
 Received: from fedora (unknown [10.72.116.87])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 335FB1956086;
-	Thu, 21 Nov 2024 03:17:43 +0000 (UTC)
-Date: Thu, 21 Nov 2024 11:17:38 +0800
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 152C830000DF;
+	Thu, 21 Nov 2024 03:19:16 +0000 (UTC)
+Date: Thu, 21 Nov 2024 11:19:11 +0800
 From: Ming Lei <ming.lei@redhat.com>
 To: Daniel Wagner <wagi@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>,
@@ -71,19 +71,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>,
 	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
 	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v5 7/8] virtio: blk/scsi: replace
- blk_mq_virtio_map_queues with blk_mq_map_hw_queues
-Message-ID: <Zz6mUlLliyL73Xyf@fedora>
+Subject: Re: [PATCH v5 8/8] blk-mq: remove unused queue mapping helpers
+Message-ID: <Zz6mrxOumUrDfBRM@fedora>
 References: <20241115-refactor-blk-affinity-helpers-v5-0-c472afd84d9f@kernel.org>
- <20241115-refactor-blk-affinity-helpers-v5-7-c472afd84d9f@kernel.org>
+ <20241115-refactor-blk-affinity-helpers-v5-8-c472afd84d9f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241115-refactor-blk-affinity-helpers-v5-7-c472afd84d9f@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+In-Reply-To: <20241115-refactor-blk-affinity-helpers-v5-8-c472afd84d9f@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241120_191805_769081_9A7C0538 
-X-CRM114-Status: GOOD (  12.11  )
+X-CRM114-CacheID: sfid-20241120_191938_593959_012D6FC4 
+X-CRM114-Status: GOOD (  11.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,10 +97,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 15, 2024 at 05:37:51PM +0100, Daniel Wagner wrote:
-> Replace all users of blk_mq_virtio_map_queues with the more generic
-> blk_mq_map_hw_queues. This in preparation to retire
-> blk_mq_virtio_map_queues.
+On Fri, Nov 15, 2024 at 05:37:52PM +0100, Daniel Wagner wrote:
+> There are no users left of the pci and virtio queue mapping helpers.
+> Thus remove them.
 > 
 > Reviewed-by: Christoph Hellwig <hch@lst.de>
 > Reviewed-by: Hannes Reinecke <hare@suse.de>
