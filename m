@@ -4,95 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BA19D78779
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 14:48:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D62C1D7877C
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 14:49:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0/yyPh2gYADep3K00l78HVuhtV1AcQLAqad1spZDG7E=; b=aLnA0ekNdasroI3nxZrxV9nQdf
-	0GsGo9ptFGqNjaaK8tAxfLawKJ3rfdCVKEYuYPm1GoDeP75IN68yQugl6iVcJZCh6zJpoMaM/Efqw
-	vJMB3bfECJW49e95cXWWixgCv1Q/upqSEviDHEcjf5ruUcRTh9CBBBM+YPvWnHrBTX5jwh4OcIRyu
-	bZSQmYpSsmWvKqkNgAvj4U0hhMaGYNh+D1kX9FhbXJ5+RLr27Y9EzvGlh2lb+uH5DqgXhcLNA+j+n
-	MuAbdon99gA4nLnKW6UcwxvmmEH5r7DnoSUtgJAmvQowaip1eeoMraOddhiTSo2EAkslGkmXyyS21
-	czj8PHPA==;
+	bh=2+/66L19zIqWL9MK0xfwzldJbGf6XYUQHlYyTGOsrnI=; b=oXqWtHQvO0BNES0tzHEgO9xrlb
+	d9xh8Pj1o2+VLg8ons1KIbLmeDdnFI77b8GVgfGRnuYeztaMTObmJHJ7W3WSp0fuEo6KLJT/kdPU2
+	SCOCoznsmKMn+A55YaRNW+CIKYaSf0UeU38dKDPJFBKlE78fZhkEdTyXfQf/koR9N3G3/8nRfrCpv
+	VjK0yNRVvoGU/oFDn/DDl++pAXboqs8OVucr0QjobkFM5q8DZbRthMB+GlgbC2RBZtpBs1lPudhYP
+	7ZFuYnNOECH6cl9e8ZXvujE8x8oDi1bMk/YJX1cDEHNlm9Umn54nmRMoStdxtxDGqiD5TaeX9FNpb
+	lYa79uaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE8U9-00000000FSt-0gjw;
-	Thu, 21 Nov 2024 14:48:45 +0000
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
+	id 1tE8Uw-00000000Fh8-0Oaq;
+	Thu, 21 Nov 2024 14:49:34 +0000
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE8U6-00000000FRJ-1I0e
+	id 1tE8Ut-00000000FfH-2N9w
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Nov 2024 14:48:43 +0000
-Received: by mail-ot1-x32d.google.com with SMTP id 46e09a7af769-71811707775so495935a34.3
-        for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2024 06:48:41 -0800 (PST)
+	Thu, 21 Nov 2024 14:49:32 +0000
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-2962feec93bso663658fac.1
+        for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2024 06:49:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1732200521; x=1732805321; darn=lists.infradead.org;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1732200570; x=1732805370; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0/yyPh2gYADep3K00l78HVuhtV1AcQLAqad1spZDG7E=;
-        b=BeJf/9q2tNE8PdJ3XGqTrrq2cq5dSQ1Dzg5JZ36JL/GL8+vF8eeIP9AqyVJFr+GZvo
-         7/kbPv4UMWHLTdrowrGdpwntEjN/VyZFokk8RqKTv7AHVakcMY+8ztc9Pp2xQ47gUHBG
-         k/29VxNvH77ftIKTV7GbD7OF4GczuBwmtgFyu17dgduHJ8xAQGBFQqqnHLbtb6a4bTMr
-         xQMEXdN6Ij4NI68letMMDZEfXR44HK2EvvpQZ11HQY76YhS5U9HTLqzITFJfRpX2V/B8
-         SQ5o2etqPFs4wuVHgTMoZgfzfs4l9SDHFzfhwqka5iVKaZulVLT+tdefqljEvOzLX4oj
-         J1Yg==
+        bh=2+/66L19zIqWL9MK0xfwzldJbGf6XYUQHlYyTGOsrnI=;
+        b=e6cp3iAbrm4+0my7TYIfVEwn7oe+Ued1W9VPz02rPOko9j6Tb83ammsY1Uz/TX/qhY
+         tvDJ0aYs4CmJVmLKXGv2KB2aDlahotFRxfPfgAoto/FLdajRn4kAMO5GcfzBdjux2X+F
+         AIkj9uwKQx2242T0K3QqBny9vZQBeHX14R12wl1jhG34OGF8w2bNgR11Lq3mKyIGHVZ/
+         Zfpg/BNSOUF06DQHR+ThC4t5KRTTC8HcGl5YhiwI4MkEQHWy0H83tc+Z1m7Aq9468uQH
+         0Bk468iaXYp/vmUlISAd+xrbMM3FBNfd1ZL/9Qlu6L9XhWZ5jNoq1lgBhK55K7gBbFPF
+         +jZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732200521; x=1732805321;
+        d=1e100.net; s=20230601; t=1732200570; x=1732805370;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0/yyPh2gYADep3K00l78HVuhtV1AcQLAqad1spZDG7E=;
-        b=kg0slZn7NzEt8tSCvS+v0mkQi3/f8+b0ywpw3d8ENUzwwPMzfJ1zUONmE/o+YKMH0o
-         pCPK+NoYT9pnNfsq+JoWyXwaoXVnoI1QA8YEdarACZH6Ouh4ORgdRnC/1c+3a/wyYovq
-         HmItD2mrKFGRWEwyp+y7Z7Xswpnpi0bNZ3u9R0W7uLTthlQzIgJJvPlrP4/mqCHUnXrb
-         1zTyS/SrpPmRAp03qXOiOZYw2X8lvqCX+NZJHCyzbPkWmZWUkDpVLYxdDyTl+y+FCA3y
-         dx3jp5gRqutqMF5IgcKV6Ns9XIv5DT628c/lw89rT9KNN2ozJYGAtpyqw75DsXzz+BPq
-         3o+w==
-X-Forwarded-Encrypted: i=1; AJvYcCW2W0TH/6pkqB8aBVxpKHljrzLEPb84zVMLTIndYhSk7Wc8ZQ29FmOqomuF50MoKu+26YMoRB4JXG6h@lists.infradead.org
-X-Gm-Message-State: AOJu0YySAFvqw+vSfEPdGD6zJD7/xuaxF1ERanpO288WUr03g3eLXcxI
-	+YENcqJkKaUxibwG/Rdp/a0qNl9OH+uWmP9C5YnJ/527hBaqT2Ip7BORYjBlb0w=
-X-Gm-Gg: ASbGncuc2eNCZzaYsMzfHS7ELMAIGonGCq/pOEnlRLzuBiBKfrcGrTeYVRt6O6bMJXI
-	bOdyq0Xk+Xsisu+jckEMUZiDGjffh+ySKXsizTzE3GiP9wx7Tvg8aXVU3s9WzMALqEa1WTUwfgu
-	dyiJltiYKUfXL0mnBMV4KrrtGjxUlo2iAfPBmD7/TFbHqQinoBN5Z3QWA1lfk9ra7sxXEWDLhyX
-	6e59mQXVAo6W6+hhWQuD/gygKiYZXcA53uwtqJXt3Ru7A==
-X-Google-Smtp-Source: AGHT+IF3WISUvOR5rP2S/JXDHKW/JnR6H6H6uTHhtXKPM58Ro1f2seFsCNDFThU22eEt1VyFmpXGbQ==
-X-Received: by 2002:a05:6830:6e85:b0:709:4757:973 with SMTP id 46e09a7af769-71ab31c0cd9mr7422132a34.23.1732200520971;
-        Thu, 21 Nov 2024 06:48:40 -0800 (PST)
+        bh=2+/66L19zIqWL9MK0xfwzldJbGf6XYUQHlYyTGOsrnI=;
+        b=og4ze5KIHEJf/M84iMFj1X7vn3KE33ICAOvf4IekhJJM6RPIwtj0uN3NQ4zwhGCz4B
+         2at1MobGGRZ+XbHJ9ulB4yjx+4IyH2AIRQkAzfWBUfu+KjAnAKrOdZrzvqWuc4tZUAkJ
+         olQkRuc2LSgNb2C9wEZsJrm7A2OvBXs10BnUcUNkaz10Ye7mSmkCHj1Z4F55Svf0wLsY
+         QOpegMgM1x7z+p6Bryud/Ym+6nMxbt66f4jH+zuOhrJxe5LMQ8Y0yX6YwVU+HaHIBvxG
+         4uM05xfVMUmUAsUD7aqvPTFQisSQai7ckxjQqoqZMZPlPc3/38KZOBVa3w5eolo0MyOm
+         qwbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWyIhEdInOPox3snpPlYBrdoktmD0DsAmDAfOth7UIgRpEPtGl/NpFhKVPBJ/FaMK8NsV+SCEOASMQj@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxnkjae4KSla6T9IERqrvWLQ2PR+vDeNuaKE4auD30AkbR/LCgS
+	y78344IZCPXT0lpAOIUqgXDITTxFFMl/Oq3qTIEbZtzE/a5+azfeDi1kvKfwjwo=
+X-Gm-Gg: ASbGncuitMbiypJyrzpnWqCPmbJsMoWW81ZLRYOZV3495FRhp3kPljReBPB92yDYobs
+	3qc38ysD1KBOKShJALlYhRpYAGbFKFmya8QlQVonUPSbb/KP8T4ZF8FaJg/7EXpquloCRcpZ7v5
+	4NlOQXOtipAU3ViZUSKnGf+LsvKI5tsjH9ytGOXZV7ckcwialkf8JSFCUT7apqltKbdG2yjHlZ8
+	7EACC0Kt/pNaG72Y+JDvey0TYwtGZQerRPo4ZHKHiMs5A==
+X-Google-Smtp-Source: AGHT+IFNrnSalwJ8Ln03ltl79/WoctqRlWoKBzFj94ZqnpbO7kUvel0Z5aZJ8hZfVYejeQ5nDN2fHg==
+X-Received: by 2002:a05:6870:b50f:b0:296:9dba:6398 with SMTP id 586e51a60fabf-296d9ae3ab8mr7166734fac.7.1732200569835;
+        Thu, 21 Nov 2024 06:49:29 -0800 (PST)
 Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71a782138b5sm4471379a34.65.2024.11.21.06.48.39
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29651b2fbd4sm4927124fac.44.2024.11.21.06.49.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Nov 2024 06:48:40 -0800 (PST)
-Message-ID: <2d7aac9d-8c47-45e1-a058-35e1de80db22@kernel.dk>
-Date: Thu, 21 Nov 2024 07:48:39 -0700
+        Thu, 21 Nov 2024 06:49:29 -0800 (PST)
+Message-ID: <a01ead6b-bd1d-4cd3-ade6-59ad905273e7@kernel.dk>
+Date: Thu, 21 Nov 2024 07:49:28 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [bug-report] 5-9% FIO randomwrite ext4 perf regression on 6.12.y
  kernel
-To: Christoph Hellwig <hch@lst.de>
+To: Phil Auld <pauld@redhat.com>
 Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
  Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  Ramanan Govindarajan <ramanan.govindarajan@oracle.com>,
  Sagi Grimberg <sagi@grimberg.me>, Paul Webb <paul.x.webb@oracle.com>,
- Keith Busch <kbusch@kernel.org>
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
 References: <392209D9-5AC6-4FDE-8D84-FB8A82AD9AEF@oracle.com>
  <0cfbfcf6-08f5-4d1b-82c4-729db9198896@nvidia.com>
  <d6049cd0-5755-48ee-87af-eb928016f95b@kernel.dk>
- <20241121045714.GA20680@lst.de>
+ <20241121113058.GA394828@pauld.westford.csb>
 Content-Language: en-US
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20241121045714.GA20680@lst.de>
+In-Reply-To: <20241121113058.GA394828@pauld.westford.csb>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241121_064842_348009_1B5A1B98 
-X-CRM114-Status: GOOD (  12.46  )
+X-CRM114-CacheID: sfid-20241121_064931_605932_9691558D 
+X-CRM114-Status: GOOD (  23.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,22 +107,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/20/24 9:57 PM, Christoph Hellwig wrote:
-> On Wed, Nov 20, 2024 at 06:20:12PM -0700, Jens Axboe wrote:
+On 11/21/24 4:30 AM, Phil Auld wrote:
+> 
+> Hi,
+> 
+> On Wed, Nov 20, 2024 at 06:20:12PM -0700 Jens Axboe wrote:
+>> On 11/20/24 5:00 PM, Chaitanya Kulkarni wrote:
+>>> On 11/20/24 13:35, Saeed Mirzamohammadi wrote:
+>>>> Hi,
+>>>>
+>>>> I?m reporting a performance regression of up to 9-10% with FIO randomwrite benchmark on ext4 comparing 6.12.0-rc2 kernel and v5.15.161. Also, standard deviation after this change grows up to 5-6%.
+>>>>
+>>>> Bisect root cause commit
+>>>> ===================
+>>>> - commit 63dfa1004322 ("nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of nvme_config_discard?)
+>>>>
+>>>>
+>>>> Test details
+>>>> =========
+>>>> - readwrite=randwrite bs=4k size=1G ioengine=libaio iodepth=16 direct=1 time_based=1 ramp_time=180 runtime=1800 randrepeat=1 gtod_reduce=1
+>>>> - Test is on ext4 filesystem
+>>>> - System has 4 NVMe disks
+>>>>
+>>>
+>>> Thanks a lot for the report, to narrow down this problem can you
+>>> please :-
+>>>
+>>> 1. Run the same test on the raw nvme device /dev/nvme0n1 that you
+>>>     have used for this benchmark ?
+>>> 2. Run the same test on the  XFS formatted nvme device instead of ext4 ?
+>>>
+>>> This way we will know if there is an issue only with the ext4 or
+>>> with other file systems are suffering from this problem too or
+>>> it is below the file system layer such as block layer and nvme pci driver ?
+>>>
+>>> It will also help if you can repeat these numbers for io_uring fio io_engine
+>>> to narrow down this problem to know if the issue is ioengine specific.
+>>>
+>>> Looking at the commit [1], it only sets the max value to write zeroes 
+>>> sectors
+>>> if NVME_QUIRK_DEALLOCATE_ZEROES is set, else uses the controller max
+>>> write zeroes value.
+>>
 >> There's no way that commit is involved, the test as quoted doesn't even
 >> touch write zeroes. Hence if there really is a regression here, then
 >> it's either not easily bisectable, some error was injected while
 >> bisecting, or the test itself is bimodal.
 > 
-> ext4 actually has some weird lazy init code using write zeroes.  So
-> if the test actually wasn't a steady state one but only run for a short
-> time after init, and the mentioned commit dropped the intel hack for
-> deallocate as write zeroes it might actually make a difference.
+> I was just going to ask how confident we are in that bisect result.
+> 
+> I suspect this is the same issue I've been fighting here:
+> 
+> https://lore.kernel.org/lkml/20241101124715.GA689589@pauld.westford.csb/
+> 
+> Saeed, can you try your randwrite test after
+> 
+>   "echo NO_DELAY_DEQUEUE > /sys/kernel/debug/sched/features"
+> 
+> please?
+> 
+> We don't as yet have a general fix for it as it seems to be a bit of
+> a trade off.
 
-Ah good point, I forgot about the ext4 lazy init. But any test should
-surely quiesce that first, not great to have background activity with
-that.
+Interesting. Might explain some regressions I've seen too related to
+performance.
 
 -- 
 Jens Axboe
+
 
