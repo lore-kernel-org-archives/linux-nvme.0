@@ -4,56 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AE69D75BC8
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 06:54:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 329D0D75BC8
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 07:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2635gp0iRI82xRhEMM9pjliL540i/eiJKC1io2OpoME=; b=TAZ1sWIZlRZeNVAnrtPQEYUE0V
-	9vJBnkIJgZnnjUdSqNzV0EWGREsHX6pFKhJ99h8fFPO0pKHicL+I56WwxZ419122Xnfzh4xoVWoxs
-	2XLoEubfw18B0cp0IcbVLzatk4vE/Tw7fWXbPXoqEGdUgXNl9JYm9n/LRgXOuuyNpX/tKvXFd+Hp4
-	3Fw5xh0PhwFtgF5W+i+Tl6p6bcZ0VZ9eFivXLj+xXeqSimeDoPvITlN5leFQNKUJWv5bvPpbOd+Lu
-	vGacDHH3+oPEh668tu6xFRTlUwAJKAA6JXTSxGzb0MMe7FXQnsgpqOlwSjNQkaTOL1T2xZkP3Qs5E
-	8fisG1Pg==;
+	bh=hlrR+WtDd7h3RVr7Sug5xIqmpnbB+0wonHDM4fxrl2k=; b=qM2guIiZhHQ/V3U5eP4Ybpzv1f
+	Hp/1brUmy1WI7t29qYMirnfSWaNgAaj3MM7RZ59wCf76lRzRYtAX2ow4KUdAu86s+qoBNCSD5CXay
+	RUBmPNfWdkynEiCuLVsGr4uQatHh6OIWKzMUgjdz7Ehv2LkUfFScqRnycpKxBgebAtUCWWbUeyi+M
+	ZEESC2FNlkL9D9Qz08P6QuVM1xYrU5TcFlMMwLqKWXbUU/OUMjvFnagoScV9TUr4oyy/MH0b6STsZ
+	xr0hsd41pZYBYNaiNvEdqByuiJCmqOHssWnPsMDdlRRrK510J3PpfJWgrK+2KJGJ1aNU4kwiCJU4X
+	JozgCUUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE154-0000000Gxbj-2mvg;
-	Thu, 21 Nov 2024 06:54:22 +0000
+	id 1tE1Ru-0000000Gzh1-1Xe3;
+	Thu, 21 Nov 2024 07:17:58 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE152-0000000Gxb8-2oyC
+	id 1tE1Rr-0000000Gzfg-3ofl
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Nov 2024 06:54:21 +0000
+	Thu, 21 Nov 2024 07:17:57 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id D51AB68AFE; Thu, 21 Nov 2024 07:54:13 +0100 (CET)
-Date: Thu, 21 Nov 2024 07:54:13 +0100
+	id 3E2F668AFE; Thu, 21 Nov 2024 08:17:49 +0100 (CET)
+Date: Thu, 21 Nov 2024 08:17:48 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Christoph Hellwig <hch@lst.de>, Anuj Gupta <anuj20.g@samsung.com>,
-	axboe@kernel.dk, kbusch@kernel.org, martin.petersen@oracle.com,
-	anuj1072538@gmail.com, brauner@kernel.org, jack@suse.cz,
-	viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, linux-scsi@vger.kernel.org,
-	vishak.g@samsung.com, linux-fsdevel@vger.kernel.org,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v9 06/11] io_uring: introduce attributes for read/write
- and PI support
-Message-ID: <20241121065413.GA22464@lst.de>
-References: <20241114104517.51726-1-anuj20.g@samsung.com> <CGME20241114105405epcas5p24ca2fb9017276ff8a50ef447638fd739@epcas5p2.samsung.com> <20241114104517.51726-7-anuj20.g@samsung.com> <20241114121632.GA3382@lst.de> <3fa101c9-1b38-426d-9d7c-8ed488035d4a@gmail.com> <ZzeNEcpSKFemO30g@casper.infradead.org> <20241120173517.GQ9425@frogsfrogsfrogs>
+To: Keith Busch <kbusch@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Dave Chinner <david@fromorbit.com>,
+	Pierre Labat <plabat@micron.com>,
+	Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
+	"axboe@kernel.dk" <axboe@kernel.dk>,
+	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+	"asml.silence@gmail.com" <asml.silence@gmail.com>,
+	"javier.gonz@samsung.com" <javier.gonz@samsung.com>
+Subject: Re: [EXT] Re: [PATCHv11 0/9] write hints with nvme fdp and scsi
+ streams
+Message-ID: <20241121071748.GA22859@lst.de>
+References: <DS0PR08MB854131CDA4CDDF2451CEB71DAB592@DS0PR08MB8541.namprd08.prod.outlook.com> <20241113044736.GA20212@lst.de> <ZzU7bZokkTN2s8qr@dread.disaster.area> <20241114060710.GA11169@lst.de> <Zzd2lfQURP70dAxu@kbusch-mbp> <20241115165348.GA22628@lst.de> <ZzvPpD5O8wJzeHth@kbusch-mbp> <20241119071556.GA8417@lst.de> <20241120172158.GP9425@frogsfrogsfrogs> <Zz4mQGrlKMiPa8NH@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241120173517.GQ9425@frogsfrogsfrogs>
+In-Reply-To: <Zz4mQGrlKMiPa8NH@kbusch-mbp>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241120_225420_857935_0120978F 
-X-CRM114-Status: GOOD (  17.33  )
+X-CRM114-CacheID: sfid-20241120_231756_233438_26D23A39 
+X-CRM114-Status: GOOD (  23.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,30 +71,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 20, 2024 at 09:35:17AM -0800, Darrick J. Wong wrote:
-> I like willy's suggestion -- what's the difficulty in having a SQE flag
-> that says "...and keep going into the next SQE"?  I guess that
-> introduces the problem that you can no longer react to the observation
-> of 4 new SQEs by creating 4 new contexts to process those SQEs and throw
-> all 4 of them at background threads, since you don't know how many IOs
-> are there.
+On Wed, Nov 20, 2024 at 11:11:12AM -0700, Keith Busch wrote:
+> Various applications were written to that interface and showed initial
+> promise, but production quality hardware never materialized.
 
-Which is why everyone hates the nvme fused commands with passion, and no
-one but vmware actually uses them, and no other fused command pair
-except for compare and write ever materialized.
+FYI, production grade NVMe streams hardware did materialize and is still
+is shipped and used by multiple storage OEMS.  Like most things in
+enterprise storage you're unlikely to see it outside the firmware builds
+for those few customers that actually require and QAed it.
 
-> That said, depending on the size of the PI metadata, it might be more
-> convenient for the app programmer to supply one pointer to a single
-> array of PI information for the entire IO request, packed in whatever
-> format the underlying device wants.
-> 
-> Thinking with my xfs(progs) hat on, if we ever wanted to run xfs_buf(fer
-> cache) IOs through io_uring with PI metadata, we'd probably want a
-> vectored io submission interface (xfs_buffers can map to discontiguous
-> LBA ranges on disk), but we'd probably have a single memory object to
-> hold all the PI information.
+> Some of
+> these applications are still setting the write hints today, and the
+> filesystems are all passing through the block stack, but there's just
+> currently no nvme driver listening on the other side.
 
-Agreed.  And unless I'm misremembering something, all proposals so far
-had a single PI buffer for vectored read/writes.
+The only source available application we could fine that is using these
+hints is rocksb, which got the fcntl interface wrong so that it did not
+have a chance to actually work until Hans fixed it recently.  Once he
+fixed it, it shows great results when using file system based hinting,
+although it still needs tuning to align it's internal file size to
+the hardware reclaim unit size, i.e. it either needs behind the scenes
+knowledge or an improved interface to be properly optimized.
 
+> The meaning assigned to an FDP stream is whatever the user wants it to
+> mean. It's not strictly a lifetime hint, but that is certainly a valid
+> way to use them. The contract on the device's side is that writes to
+> one stream won't create media interfere or contention with writes to
+> other streams. This is the same as nvme's original streams, which for
+> some reason did not carry any of this controversy.
+
+Maybe people realized how badly that works outside a few very special
+purpose uses?
+
+I've said it before, but if you really do want to bypass the file
+systems (and there's very good reasons for that for some workloads),
+bypass it entirely.  Don't try to micro-manage the layer below the
+file system from the application without any chance for the file system
+to even be in the known.
+
+The entire discussion also seems to treat file systems as simple
+containers for blocks that are static.  While that is roughly true
+for a lot of older file system designs, once you implement things
+like snapshots, data checksums, data journalling or in general
+flash friendly metadata write patterns that is very wrong, and
+the file systems will want to be able to separate write streams
+independently of the pure application write streams.
 
