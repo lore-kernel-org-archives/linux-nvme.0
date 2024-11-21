@@ -4,92 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 131D5D6ED01
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 10:45:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC5F1D6ED04
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 11:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kD5zvuLefd3mbRLAvjOOucqZAP10SWFoaFRpV12DL2U=; b=0Cwr9NdXXvQmcAJU3/1BeEla5R
-	pQyRn7VqtpEdpZGDvomNKjUD86vKr+p0/hsKG46wb42gnwoIx8Yoo+Hkl30MslFW+2ER1l3t+yafx
-	xUnwrhZEvyRD3AUJn2bUIgPV4tPeM+ZDTX6xRq/SDVTiLMwNXJabttx5oFBx1t2w5auAK4YFY0OY/
-	neefhPcViCWCcGo1Hj7dTpodc1PGBUh9pcrNZk2f3Gixt3PbnhpyS+Uq/NWIYsCSVJSObByziUSql
-	E7cMmiupY5SD/dFn4aCtCJLW9xK8JxWpV1QReuglxxDcZynUco/YV/rYbh19Wq/QDp2YFAWTrhMvt
-	/b9weMIA==;
+	bh=SgV3krh1/K41wlTlwxxWUhVbH1zCGgFhTbiYKQWdxCA=; b=GR5BdN9EREhTHbVB+JEFcCIpR2
+	OuLOEYdQxEnxvjdVIqTvCPQ7LlN0DGSp+mAPGaqf3RPJz+xddbnqwGINw/g4gAcqvIHEQ6mBEaLlF
+	URako1aOxQDjGhntWmwprKQ+48wcRuh11n869FqJvI30UCzqNQjBpMvgONg7ejbs49+kl3P6/T6AD
+	yq+z9wUscwzIXfF3BCw7o07eZpTomUw/2saLZF325Fi7dVrJcT4e8oEo6VOZX1QTzPdWVULruqqpI
+	yFLaTD6wdjuQReKZj3MHaZG4/AhRpOAn/WwzqjA0Ob2Q1Lj8uPeYUwl4fmgTdAb1+TFthxRaK6kn0
+	SPPgUrEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE4gU-0000000HONg-0em6;
-	Thu, 21 Nov 2024 10:45:14 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tE55F-0000000HQo3-1jyx;
+	Thu, 21 Nov 2024 11:10:49 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE4gP-0000000HOME-26DH
+	id 1tE55C-0000000HQnb-1KRc
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Nov 2024 10:45:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732185908;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kD5zvuLefd3mbRLAvjOOucqZAP10SWFoaFRpV12DL2U=;
-	b=Ggi1F42sUTWOKwcSU6LXVlUvA/ds3Ia5mfBuq3wgsSy3aVqekwVu27cw30lNGjXRfl9v7n
-	k1GCZw42ouTnj90Gx3NTdmGBhGPz4xIVp7LmQyO20QDAf0rqipr9m7zBTpSmYUDNGI4G15
-	Ey6RTxPbuq3Gl3e1Amtr1nIbTfAZPPI=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-331-i79w2jhPNqW2WPmx3sK1pw-1; Thu, 21 Nov 2024 05:45:06 -0500
-X-MC-Unique: i79w2jhPNqW2WPmx3sK1pw-1
-X-Mimecast-MFC-AGG-ID: i79w2jhPNqW2WPmx3sK1pw
-Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-50d6bc46348so301484e0c.0
-        for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2024 02:45:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732185906; x=1732790706;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kD5zvuLefd3mbRLAvjOOucqZAP10SWFoaFRpV12DL2U=;
-        b=UPAdpoacv7IHp8/qRtZ5IRGEjQ6ccKGQkiMIMl7agomjNlVQh+IUBv/evuyEZQ4iv4
-         0ZJS1ppl7C+RHD2gFZ+bc3rvLCKlnBIKzOEtvdaq/QdiUrRDmznJHrZ0h7QwQU7uogNC
-         TDNS2i0oyooSEnYpgYyoP0T4Kqq85/1QiXdDeVLbXBOi0FVfcZiHOjGOmkAoLeW3sOTS
-         SioHSyjrzoDK9R9rdo9gk9ngBYm+G4Hqey1/xqgem6YVpLrDkZ408rP06hZXRGFxdPL0
-         cQ23ULEfEKmvtSNkp818fqbeqCWwViO+8yErtwMcnRjq8EgVLMNEET3AHqQEJhaztMlc
-         fMVA==
-X-Forwarded-Encrypted: i=1; AJvYcCUTYCXXZI1NI5Kfnq/pRgeR2BKfjOPLUyzm5B75cKRQL25ZP+IbyaBl7Gl1gG66BAE6fLcFLS+s4cPf@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxh/zSOoznAtE5T6vy7jhocxuhra58c0TWt5KCuKnpgyoIQXkC7
-	2MomHGnXttdmgPCc9RAS1kb7Oza91TIbHpyRvxjYAPAGXpaLHBUe7xrLRqtoTHUq8ZwcXF//2nV
-	Z/haPHPkUVDL+WioXipx2PGXrC63HGx486nAIbk6HNySnlbahhFhRnegAqdT3BxLjDNJjo7zpLj
-	DhTD5QsB2oXHB3CTKrSbj354saz9OZdR2j4Y5CgMQ=
-X-Received: by 2002:a05:6122:2a47:b0:50d:b561:33bd with SMTP id 71dfb90a1353d-514cfbaa493mr5697531e0c.12.1732185906400;
-        Thu, 21 Nov 2024 02:45:06 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHn0BsreCrPn+9IUh35v76rFMQrjLPHM8n7vR0PiFx0ktfglmIu9KLQ/0cENaUSSwkiuOaizEit/XYibqMyIro=
-X-Received: by 2002:a05:6122:2a47:b0:50d:b561:33bd with SMTP id
- 71dfb90a1353d-514cfbaa493mr5697502e0c.12.1732185906135; Thu, 21 Nov 2024
- 02:45:06 -0800 (PST)
+	Thu, 21 Nov 2024 11:10:47 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALA9cl9013500;
+	Thu, 21 Nov 2024 11:10:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=SgV3kr
+	h1/K41wlTlwxxWUhVbH1zCGgFhTbiYKQWdxCA=; b=dPbVCiiv6NUfjxNbc0pzSj
+	jFGxHui6keynqEWCIFZe0hcVmCfdV7WaHXIIFoJqDD7sxDxG8IhH8z0qYeUqnSeB
+	b779tokOlU5IwtDBLxM+7SdMEQm2/Uv1XsUHwP78oKGiGW4YusU81F6FMNLoNuAO
+	EdPdmapaaeEgqXu5P/T0Vr7dlOkRuVvfE+on+p1KE19Ah8qUBUPY43Xs6VY7JYwG
+	LSc4Cyju2+Bxi0HvNyF6TNzTlza/CiuuIufxBTfUfP88SzxURL/2yxaHdr9rw4Qc
+	6N2vPHJMJmN3LFDS4x+xAqCY2zyQfaCJ2vWGh6qgUSl0GkyAFmqJAMbjsf15PQog
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42xk21a2qj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Nov 2024 11:10:35 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4AL7PqOw025906;
+	Thu, 21 Nov 2024 11:10:34 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 42y8e1gfmk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Nov 2024 11:10:34 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4ALBAXB552822484
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 Nov 2024 11:10:33 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 60E3058052;
+	Thu, 21 Nov 2024 11:10:33 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B10EB58056;
+	Thu, 21 Nov 2024 11:10:31 +0000 (GMT)
+Received: from [9.171.4.248] (unknown [9.171.4.248])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 21 Nov 2024 11:10:31 +0000 (GMT)
+Message-ID: <9ea5ac64-283c-40e6-a70d-285b81c55c06@linux.ibm.com>
+Date: Thu, 21 Nov 2024 16:40:30 +0530
 MIME-Version: 1.0
-References: <CAHj4cs8OVyxmn4XTvA=y4uQ3qWpdw-x3M3FSUYr-KpE-nhaFEA@mail.gmail.com>
- <7f35cbe9-9e12-498b-b46a-be1f570772fc@linux.ibm.com> <CAHj4cs91daKS2Sexvs3y_m=r=+a+gJdk9=Z+76TdsE6=0nNcYg@mail.gmail.com>
- <CAFL455=-5a34TYdwva912prQd93p84Lq1YSebTCUUsuLjZ5pag@mail.gmail.com>
-In-Reply-To: <CAFL455=-5a34TYdwva912prQd93p84Lq1YSebTCUUsuLjZ5pag@mail.gmail.com>
-From: Maurizio Lombardi <mlombard@redhat.com>
-Date: Thu, 21 Nov 2024 11:44:55 +0100
-Message-ID: <CAFL455=V+YrmZZhWX=Quv_6BDH5SD17KuUKvMw1A9+VfNw2=Tw@mail.gmail.com>
-Subject: Re: [bug report][regression] blktests nvme/029 failed on latest linux-block/for-next
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bug report][regression] blktests nvme/029 failed on latest
+ linux-block/for-next
 To: Yi Zhang <yi.zhang@redhat.com>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, linux-block <linux-block@vger.kernel.org>, 
-	Keith Busch <kbusch@kernel.org>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JP4WRdIJ3s5cBqqxhxRA6u9om5lP7GLViO5DbfP7Y2g_1732185906
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Keith Busch <kbusch@kernel.org>,
+        Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+References: <CAHj4cs8OVyxmn4XTvA=y4uQ3qWpdw-x3M3FSUYr-KpE-nhaFEA@mail.gmail.com>
+ <7f35cbe9-9e12-498b-b46a-be1f570772fc@linux.ibm.com>
+ <CAHj4cs91daKS2Sexvs3y_m=r=+a+gJdk9=Z+76TdsE6=0nNcYg@mail.gmail.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <CAHj4cs91daKS2Sexvs3y_m=r=+a+gJdk9=Z+76TdsE6=0nNcYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: yciA4e5_tKqpHbS9qaUhfTt9tmXkahLh
+X-Proofpoint-GUID: yciA4e5_tKqpHbS9qaUhfTt9tmXkahLh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ mlxlogscore=999 lowpriorityscore=0 priorityscore=1501 suspectscore=0
+ malwarescore=0 clxscore=1015 mlxscore=0 spamscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411210086
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241121_024509_610459_300FC875 
-X-CRM114-Status: UNSURE (   8.17  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241121_031046_478334_95947652 
+X-CRM114-Status: GOOD (  21.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,20 +111,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-=C4=8Dt 21. 11. 2024 v 10:02 odes=C3=ADlatel Maurizio Lombardi
-<mlombard@redhat.com> napsal:
->
-> > 64a51080eaba (HEAD) nvmet: implement id ns for nvm command set
->
-> I am not 100% sure this implementation follows the NVMe Base
-> specification correctly.
->
 
-Additionally, the nvmet target doesn't support the Namespace
-Management capability (the OACS bit 3 is set to 0),
-therefore if nsid has a value equal to NVME_NSID_ALL the command
-should be aborted with an invalid namespace error.
 
-Maurizio
+On 11/21/24 08:28, Yi Zhang wrote:
+> On Wed, Nov 20, 2024 at 10:07 PM Nilay Shroff <nilay@linux.ibm.com> wrote:
+>>
+>>
+>>
+>> On 11/19/24 16:34, Yi Zhang wrote:
+>>> Hello
+>>>
+>>> CKI recently reported the blktests nvme/029 failed[1] on the
+>>> linux-block/for-next, and bisect shows it was introduced from [2],
+>>> please help check it and let me know if you need any info/test for it, thanks.
+>>>
+>>> [1]
+>>> nvme/029 (tr=loop) (test userspace IO via nvme-cli read/write
+>>> interface) [failed]
+>>>     runtime    ...  1.568s
+>>>     --- tests/nvme/029.out 2024-11-19 08:13:41.379272231 +0000
+>>>     +++ /root/blktests/results/nodev_tr_loop/nvme/029.out.bad
+>>> 2024-11-19 10:55:13.615939542 +0000
+>>>     @@ -1,2 +1,8 @@
+>>>      Running nvme/029
+>>>     +FAIL
+>>>     +FAIL
+>>>     +FAIL
+>>>     +FAIL
+>>>     +FAIL
+>>>     +FAIL
+>>>     ...
+>>>     (Run 'diff -u tests/nvme/029.out
+>>> /root/blktests/results/nodev_tr_loop/nvme/029.out.bad' to see the
+>>> entire diff)
+>>> [2]
+>>> 64a51080eaba (HEAD) nvmet: implement id ns for nvm command set
+>>>
+>>>
+>>> --
+>>> Best Regards,
+>>>   Yi Zhang
+>>>
+>>>
+>> I couldn't reproduce it even after running nvme/029 in a loop
+>> for multiple times. Are you following any specific steps to
+>> recreate it?
+> 
+> From the reproduced data[1], seems it only reproduced on x86_64 and
+> aarch64, and from the 029.full[2], we can see the failure comes from
+> the "nvme write" cmd.
+> [1]
+> https://datawarehouse.cki-project.org/issue/3263
+> [2]
+> # cat results/nodev_tr_loop/nvme/029.full
+> Reference tag larger than allowed by PIF
+> NQN:blktests-subsystem-1 disconnected 1 controller(s)
+> disconnected 1 controller(s)
+> 
+> I also attached the kernel config file in case you want to try it, thanks.
+> 
+Thanks for the additional information!
+Now I could understand the issue and have a probable fix. If possible, can you try 
+the below patch and check if it help resolve this issue?
 
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 934b401fbc2f..7a8256ae3085 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -901,12 +901,14 @@ static void nvmet_execute_identify_ctrl_nvm(struct nvmet_req *req)
+ static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
+ {
+        u16 status;
++       void *zero_buf;
+ 
+        status = nvmet_req_find_ns(req);
+        if (status)
+                goto out;
+ 
+-       status = nvmet_copy_to_sgl(req, 0, ZERO_PAGE(0),
++       zero_buf = __va(page_to_pfn(ZERO_PAGE(0)) << PAGE_SHIFT);
++       status = nvmet_copy_to_sgl(req, 0, zero_buf,
+                                   NVME_IDENTIFY_DATA_SIZE);
+ out:
+        nvmet_req_complete(req, status);
+
+Thanks,
+--Nilay
 
