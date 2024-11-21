@@ -4,91 +4,209 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5E90D75BD9
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 09:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41607D75BD9
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2024 09:08:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xrHKfnvNAIlRkGRmgg4E6l8QK9ehO1whB8g67qiPv2k=; b=Bv4SaVKYO+nnM5yj49mDOl/KqG
-	o3t1TJZuQlyqdbLXH/VAAJEt5+98VzKnB3azNewv6ZNRypXGeO9WjUwuFllmpe2HmYKOz/LXyWB+N
-	8qvnJo8wS43fuBwnyjMf/BWA84G6kcgpegh5k0tRN9lo9jcApdvkgogmp1g/soPHq56mqbG8YbwvH
-	jQgjsIaVl8IvkMP9RWHrPIQiLjOWMxiG3pnkGMUk88LXG17gwEUuSjpCuW22Ur/EXXpTcGoiWA/Y1
-	W+pNcR7kkTZTGSje2wGhSiqIBuPn7oKdg0V2tRPVXdhWjCWE/zJPn0PmERoyvDgCdzXkMIsCj/JH6
-	x4qrcNrg==;
+	bh=n1y+/wCXW5sbYIeCEFr/6bHcpqCHbLuzLubg8CLHJGE=; b=cQAEFrNYtHffI0pRvpXHS7Y/Co
+	+sP7bMZmhqwsMIYM0FqtSZKnoes8n52WsMe6Z4T+vtbcfZcUjWNNRuArNC9FAu8rnTto4OtzxM4kD
+	g4vBa2tPgh1Hs8Z+2NfWY/nC2iMf84Ano2D2CJEduonKzvhUUfqtQRFZYnaFWjvLEoEnVFHhxJj9E
+	IvKfqBKaGO/fweVfKdrTGDSeSQHY80TwV5a0Whu0+/rIEoRf2E6rA/WAjHhY/RfKG3g3x4zpug0Qg
+	4OWumEjoAwSsxbFVTtE5La3H75J+UyZFNp7vfiCu8zPrVtezRcEc9TebnZ4xSI/PO/Ft/s9uk/9ql
+	eqnttSFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE37a-0000000HBTz-1eWf;
-	Thu, 21 Nov 2024 09:05:06 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tE3Ar-0000000HCB1-0eA1;
+	Thu, 21 Nov 2024 09:08:29 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tE37X-0000000HBTM-1xU4
+	id 1tE3Ak-0000000HCAB-14yf
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Nov 2024 09:05:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732179901;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xrHKfnvNAIlRkGRmgg4E6l8QK9ehO1whB8g67qiPv2k=;
-	b=b24Dgx4WJ3xAKop/lJfRS1qkSpLUxebczPR6TjTMuXuQrsgTleQ19/ESFGUQysPjgOfUYb
-	D3e3h2rzZ1ziRn82bcPZPbLvTpiPv7T21u0wdNTZe5R9MY3QIZLk/EFu2zDpc+XYpFbvyI
-	JJ1u8TTpJiMGdMfmu+TVOIC7GbsCV38=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-65-hKDwOzHRNpSDku2UYvK7sw-1; Thu, 21 Nov 2024 04:02:49 -0500
-X-MC-Unique: hKDwOzHRNpSDku2UYvK7sw-1
-X-Mimecast-MFC-AGG-ID: hKDwOzHRNpSDku2UYvK7sw
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6d4189482d8so10125916d6.1
-        for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2024 01:02:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732179768; x=1732784568;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xrHKfnvNAIlRkGRmgg4E6l8QK9ehO1whB8g67qiPv2k=;
-        b=lil5CSg4B2pturIHh2fexC4pVALb6Q6iJ0abAQgOJCHn8RzOw+WyTnAfXmhqPAFbav
-         91tp4qCeqrYjsdPWr6tXacB6A/rc/idguVk7bncZC299qTQavOfbYZW/5FcR6fo54Icz
-         yj5YvxvJMBZluzTwDhgiUf2aqHLP673t5qvQixhGEJ7fRnNajhz3AVQRAFpz+JBqNDic
-         iv5NG33K55GPbdkGqZcKKvJHNwMAMj1fyxapQpcwlEncw1tuK+O6mYP5lGHFIAou64ye
-         0W+luSNxLMOEKu0WbmAz8ndDWjFafCoIs76YZ2dgOmiaEJczM7Bygg8Xs+BYjjridcZO
-         fI5g==
-X-Forwarded-Encrypted: i=1; AJvYcCU5WBxQ+INRAwOeZRzrNUeiegY7b/BywrH0mskrpAXdxDiAyItGok+izg8BGRAS8uwEGqq+zz91RckP@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx7O6JGJbB23OAwPHPzh8EjxaCYK7n3ZC8BCM+dSWBuQb/ib1av
-	U6ouY2wE4MhdAqNM15a8OPtOfiwR1P8XWJ3QyvlQBCOYyTlV6WLjeUdj2EIfL7eGVIImrCZdCRa
-	e1lmZSYWlf1E41nSBAm6R6dKH8fTH92NRHLu/+qOWADlnuQyGh2JgpxS68pzSYXFkF5vkA5cbw8
-	LriH1aPKTIYlN9H6OaF/tMV2TFUgOb7QHa5yr0tkM=
-X-Gm-Gg: ASbGncveEnfjo7CI9znORbtboLgxFToKJ75UHbQmgymteGhlWw9gMRPJXxWXRBMGN4a
-	/lE5iX/DpGaSHap9nrphflY4nrDdBTts=
-X-Received: by 2002:a05:6214:27c2:b0:6d4:2044:e942 with SMTP id 6a1803df08f44-6d4377af7c8mr64395626d6.6.1732179768613;
-        Thu, 21 Nov 2024 01:02:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEs2HNG/V8SZ4UPKFfKNBtcIQX4/fQyO1j3EPx1QS4aK6692fKdWwIFKdKM8bhfXHy95j8kpbH7kTEw9q1CZr8=
-X-Received: by 2002:a05:6214:27c2:b0:6d4:2044:e942 with SMTP id
- 6a1803df08f44-6d4377af7c8mr64395416d6.6.1732179768350; Thu, 21 Nov 2024
- 01:02:48 -0800 (PST)
+	Thu, 21 Nov 2024 09:08:23 +0000
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AL7Find004315;
+	Thu, 21 Nov 2024 09:08:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=n1y+/wCXW5sbYIeCEFr/6bHcpqCHbLuzLubg8CLHJGE=; b=
+	UQTputAPSq+CHja7rGnMAGy/iAv7p/EpFKlv89FsNlTnLctHYIIlN0Vc1BVgTMhn
+	c6vFNWwy2JdkolrT4h1ejoB+clYCg+EjFV11bE2BR8l1THRk1GJQ4OXTKokhr0l6
+	fxrK5hn/QTcFRGffhLFCEMs7qaBE56wc5ebEUPX9rUela4z+DE8qTCEh3brqL662
+	Y3sj1D/1Iq8mDdKrpeiUtuEpntkRFQpk4h4TuToY/QOCaMVWWdN78guifglhpdAh
+	DYpwvO442gmioSZbGcX0R9Q7HDWe3eBl3B3zn+rEXHQzbcrL2jeE32ePwVP3oZO3
+	ZVykFscTLwZ9g2AtKJBuzQ==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42xk0ss65t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 Nov 2024 09:08:12 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AL95jqs023653;
+	Thu, 21 Nov 2024 09:08:11 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42xhubv12p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 Nov 2024 09:08:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fhy9rPFDlDlIjKyTjZeS6nTnIShGcSFLfdkE51/PfSveMDG8JCUfzNeW+j3Gav1bvcRAQORzd59G9dsZYIDpEGWFMwQInSLt0mVI2P/Qm4nEOtrZc/p+Pe4FUskulOeumMFT/F5GXDWO4vr0SOKlQ9+BuwhyRtZUuZNQRtChZJsUpQOuE+Twee9tyBIZlDIp6of1d528aGCG0PrNB4vD3hjDY9Roq5VwsUyAHvt89yBvongbyNUHbJ0Ja45JLEiZiL2/vRCyGTZuZB0p1KDJmk0nm7Q8hs41LWS+pFggek9iqzRK86IoLB2ZQwUEUWJwEN6V12D3RdW7LrD8bnZasg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n1y+/wCXW5sbYIeCEFr/6bHcpqCHbLuzLubg8CLHJGE=;
+ b=KtNRkkV4sAoEf3jQYuLeDdRu/I2Up/gIPU5CWDdcU5G8jRxuZ2Zp3BNqQtCkIiU4ing8nfBG1i5IbzUsk7+RjOo7mHeJeaz05RczI5pgIsUXK1o/zoMFlchhtm1WfpMWeq5LGzT0VHcCNHjK3+KaGEykrSJ33xvWGw/EhPFM9uwTDuGTgOIctnviCe+bcmgaGRfdd6oMDpCJwp2OtDJghpgs29r2XWIJ93W/Vi54b3FpVLO8Wnm5V/SrJiD/yEszppkTNGc0bhjBItBhi89lXBvKpXzGNhkzlRmZri4L6reAqfpUUb/Np1avc5pwmlfNT5Hc/KOrpFXETI/rNSvleg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n1y+/wCXW5sbYIeCEFr/6bHcpqCHbLuzLubg8CLHJGE=;
+ b=TLe8sowPjJrjsQLqhKrPx+Ik4Z3JptBdQA/mqDQ2JCAZFCCXl42M1cnLQV9B5r036STZT6io2qVpRtnr0BPz7fN1WJYwZMtPyrwFfjZoPnX27a434Dp60/+2lAAHkDTGl3Wi5Rk+QgpUhyvrxcUZwXTZiqnDWS5//eXOdd3BvjM=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by PH7PR10MB7768.namprd10.prod.outlook.com (2603:10b6:510:30d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.16; Thu, 21 Nov
+ 2024 09:08:08 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::4f45:f4ab:121:e088]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::4f45:f4ab:121:e088%5]) with mapi id 15.20.8182.014; Thu, 21 Nov 2024
+ 09:08:08 +0000
+Message-ID: <8b303ed8-f819-4fa2-b447-8d8f4a42b380@oracle.com>
+Date: Thu, 21 Nov 2024 09:08:02 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/8] blk-mq: introduce blk_mq_map_hw_queues
+To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, virtualization@lists.linux.dev,
+        linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
+        mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
+        storagedev@microchip.com, linux-nvme@lists.infradead.org
+References: <20241115-refactor-blk-affinity-helpers-v5-0-c472afd84d9f@kernel.org>
+ <20241115-refactor-blk-affinity-helpers-v5-4-c472afd84d9f@kernel.org>
+Content-Language: en-US
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <20241115-refactor-blk-affinity-helpers-v5-4-c472afd84d9f@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR07CA0004.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::17) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 MIME-Version: 1.0
-References: <CAHj4cs8OVyxmn4XTvA=y4uQ3qWpdw-x3M3FSUYr-KpE-nhaFEA@mail.gmail.com>
- <7f35cbe9-9e12-498b-b46a-be1f570772fc@linux.ibm.com> <CAHj4cs91daKS2Sexvs3y_m=r=+a+gJdk9=Z+76TdsE6=0nNcYg@mail.gmail.com>
-In-Reply-To: <CAHj4cs91daKS2Sexvs3y_m=r=+a+gJdk9=Z+76TdsE6=0nNcYg@mail.gmail.com>
-From: Maurizio Lombardi <mlombard@redhat.com>
-Date: Thu, 21 Nov 2024 10:02:36 +0100
-Message-ID: <CAFL455=-5a34TYdwva912prQd93p84Lq1YSebTCUUsuLjZ5pag@mail.gmail.com>
-Subject: Re: [bug report][regression] blktests nvme/029 failed on latest linux-block/for-next
-To: Yi Zhang <yi.zhang@redhat.com>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, linux-block <linux-block@vger.kernel.org>, 
-	Keith Busch <kbusch@kernel.org>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wQ5KrzlKVBcm8uZBFjBgVR5_gEcS2O9-DSX1CH72_Lw_1732179768
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|PH7PR10MB7768:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd053992-7234-4a06-943a-08dd0a0c0417
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|921020|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ckpXMFFUSE1DTmZ4UWRNSlNRMVkwTWtpRUxzOE1admI5Yk1qMXY2dVlwRTZU?=
+ =?utf-8?B?MkQyTkEvRkJqMGFORlM2MWkrdlZEQ3VsV2lvbmhlRVR0UWxBc0RKYndCWFpH?=
+ =?utf-8?B?VWJuUVVMRmZTVzRrSURLN1NsWmpRM3FFNDhkVithZUZaZ1d5UU9lVThxdHIy?=
+ =?utf-8?B?Wi9oUlNUaUQrTHFjZW9aekdHNVdoQjlWdTBBYVQrOWdYN2kvakNyd2g4REgz?=
+ =?utf-8?B?aXNPRkRjcDM4bjg4VjU1alZGUEwxMmdaQVozUjk2WCtNVjM5VjRERi9mc0VC?=
+ =?utf-8?B?dEl4R1V1UWJsYlp2Q0tmNlFjREE1cWRWaG5FdWI5RzlzM2s2Zit1dElXbW0y?=
+ =?utf-8?B?TGRJaDhwUFlqMzY2S29EZVVOL3l5L0VPbHZlYmJNQWNXOXhJNnlCei91d1lL?=
+ =?utf-8?B?U3Y0RUN6Y2doYVlZT0R5bmZZeUlZOG83MEtIdXR4dUV0czR5cGxKc2N4ckxX?=
+ =?utf-8?B?ajFCdjBrZ2VnRHJpWU5QMUloODhhb05HeE1jM2paei9YdVZzU3Rxa1d6VzFG?=
+ =?utf-8?B?cjA0THlIa2w3UjJTeW9zUzhDNk1HVkRiWXBiUUhpVDNqTkIwVlAvZmUraG5T?=
+ =?utf-8?B?aGI3Z0U1OWljaXZPOUtLcjhaMmVZT1BtVjJSV0E1bFBJWnRmekROVkw0L0ZY?=
+ =?utf-8?B?bU1wVGh1cU9aa0FTUFZKWkhyNld5TkRkS29UTjJWVmdtQk5VNHhWRjc3U1dH?=
+ =?utf-8?B?TUNNQXlMOU9YT3VuakhFV0dPREtFTDk0eTNWWExBM2RQdWpjRCszWHF3L3BP?=
+ =?utf-8?B?N3VQZEpMOUI1WDRYNXl6M2UvU2djQnhJVnQ2S3ExRzBDZmF3bnJONk9pelJU?=
+ =?utf-8?B?T0ZHb1pwMkV4UG5kaWo5TkNUdXdLMnE5K3EvRFBpbWo4MGZUUUc1YUtzYnhQ?=
+ =?utf-8?B?QWlMUVl2alFYNUxEN0lQRlQ1Nk00SFNMcFY0UGwzVmVteWtiVytQRktLZUlY?=
+ =?utf-8?B?czRESGVINC83TGhwVXlzZHBGRVFRVDFxYjNTT0tIRjVZdWY5M0poMEwrQUht?=
+ =?utf-8?B?cHFpRlptWlRjdWRWR2hINUdOd2FYWjFLYzdVckhQVTQ5c0F2T3NabmV4SUhY?=
+ =?utf-8?B?aDI3V09paXhGQWtpaGpwTE1nL3Q1WHdzbFdmdDZRR3UvMHFjaWFYWjU3M0xN?=
+ =?utf-8?B?L1lZQ2tET2NNMlk1Qjk0dWJrSE9KbXFZWDRpaUY1NzRKUlowOUVkV3VITVp6?=
+ =?utf-8?B?ZlVPN2tTNVBJWXljQkJDUmZacWNkUFl0VWhNWndTQWphYS9OUVhuanJLOVF1?=
+ =?utf-8?B?QXFXSzRkVXQ3RCtJQVh2SVI1WGhwVWNLN0lYY21IbHl6Ung2MEc0TzZlMzkz?=
+ =?utf-8?B?SVc4YXByTVUrL2xlQXorU2VacHF3V0VhNjhTVVBwY2hJdm91OWpZMkVxazBR?=
+ =?utf-8?B?NUNOLzhyWERLTkJwYVlVbWZGRWFEdHIzcnhCRU5kUWxVSHd5VW5RU0lTS0Uw?=
+ =?utf-8?B?Ujhqc2pPY003V0hoTWYzbDNkR2RabDJwdXdqZ3E0ZHpxWS9kbGVmaXBwenl6?=
+ =?utf-8?B?QW9weEZKVnlqWFQxV0xaNGcrOWU1WmdscFhJSHNQbzVzbDBKNUV4RW1iL3hj?=
+ =?utf-8?B?Q2duNmlYWVRvOVdwL24vU0J2anBDWXJmRmlBS1F5ZVFoblJlQkQ4MnVxS1Ix?=
+ =?utf-8?B?N0NYZ3lhdDZBd05uSTgyaUJNYkFjUE5yU3VZNmd2Mlg5NXkwWVlyVGs0aFZY?=
+ =?utf-8?B?YUgydjcxdmF5TzV5M3dyUllrbnkxZFZ0c3dPcHl4bVRMODdxQzVUVUt4QnlT?=
+ =?utf-8?B?YUpERDUxOHh3b0w3dm5jR01MUmhGcmlpbDB6OU1MaGQ1cGJ0WDJlb0hZb3Qz?=
+ =?utf-8?Q?Rj75SDtjD27Zl9LrpiCeU5cGtzpPhJ+k/zg+U=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TE9LWmRZM1MxV3FFcWFVcGpjMUNUc1FRcEg5c3VYVFArTzJHRnNFQTJJKzcz?=
+ =?utf-8?B?clNoaTNMS2k5K04zWDRFZFpqcmZaTEVIdi9DWlN3NDE4RUwxTVZjUkZTNGlM?=
+ =?utf-8?B?T0t2T1Z5WHNsM3ExeG0xY05VaEVscDhzT2dNVUF2V0s2cmN2d0RaQ1M0Qnhs?=
+ =?utf-8?B?YnJpLzdkZDluR2VyNUxYcTdCTXF3RXBVdjUrOFFEZjB1d3lvMlRtLy9oUFJH?=
+ =?utf-8?B?UHFwSVVQd3BZS3FTT0tCVDBwVFNOSXVaSEdKNWd0NXFNbFFGZldNelgxbEFa?=
+ =?utf-8?B?L29SQ2ZRTUVQbUVHUWRDcUtCNVVaT21uQzFlWGhjdm1VMDFhOWNxSXgwQm1u?=
+ =?utf-8?B?MDF3dFl3VHBOR3Q4NUJwZTA2VGxTRmc5dGY5aWxMMUVCYTFKcHJzVjRUcEln?=
+ =?utf-8?B?djZRQVg3YnVQVTgzRmpTRTNqWFc0d3BjVktXSW1yWkVVQjF3TUtlUkVMalY1?=
+ =?utf-8?B?azdSYVBpMWo0MmxVRnNQcGtVL2FkTSs3TlZwWEZ2bXdwZmlmRDNpZkxHbVhy?=
+ =?utf-8?B?QkxiQUhuZlFzOGNlTDhrVjd5d3dzUVZZM01wT3hjem8rNm12Qy9jcE41d3Nq?=
+ =?utf-8?B?VGtjbTd6OUJYZnZ1aGpXOWNSY2ZQRHJUVllWbm9SVU80ZGg4TjhoUkMwdFdp?=
+ =?utf-8?B?eTN0ekJnUFBsN0p1RjlQTzJ0Y0VnSGlEb24vUnRTNEhwU09ud0VUMllKN1kz?=
+ =?utf-8?B?YW1QTTU3cE1oOUx3UVhVNDNiMFdwS3dMQlFXQURaSzh4bWdmcTdVOTVhaVJH?=
+ =?utf-8?B?UFdDU01rbHpqN1VGcldwY3JZalJrUXJnbFk3cXB4ZDlmVUdKemNNc1FwcEVj?=
+ =?utf-8?B?ZlhXQ1M3dzdWTHFNb2ZOM2pTRTJIcXI3bW5WVHJaN3ZnRG1EdEZWOVJNNWRD?=
+ =?utf-8?B?V28vSU1BWW41ZFJIbjlxVDRjdmZhcUhja2J3OTNvWldaY1UzTURNSDM1OThx?=
+ =?utf-8?B?ZWVIMnZCYU5tSnFsakNhTkpaNXRoK0hrTzg5NlVzZDFXbis1WnlHZEtLb3NF?=
+ =?utf-8?B?MnNtbXBxakVIYlZXSlk0QVdHWTU3RTNHMzZrb1dKcXdTcVdiT1IvaXNENktN?=
+ =?utf-8?B?ejMvQWEzL0pIYWZpRmE2dzhTQVJtNnBrNWlmd2tSbUFPYVc4eExmdWMvMTF4?=
+ =?utf-8?B?bHdEWUk5R3E4QnRRRnZjS0NOSDAxZTdJY2pFcHhzY0NMOXNDTjBwa2pWWUxk?=
+ =?utf-8?B?NDlzeUlKNXN1UnZGQ3FsS0hIQnVra2srbTM0djJ3NnByOXYxUUlraGc4Nmx0?=
+ =?utf-8?B?NzRMeFd1cjBNS1dONmJIallaUGdDV3EwN1BVbndkM281blZlQW4rZkVQRGVt?=
+ =?utf-8?B?YUs5SVk1eHIzbGRzTGN6VUZtTmRsOC96WFdyVkZRTStMaCtsNHpTM0dLYk9y?=
+ =?utf-8?B?NWloTmQ5ZXRKbWhndWdkTFErU0tsRk1Qc3MxeUtIWWJvRnFhb2tmdE1vNkZC?=
+ =?utf-8?B?U0RVRXg5OGZtOUhzVHFQOEc4QkNtMWRPWDVVMjJSWC8wN1p5NzJJQnlCSFFx?=
+ =?utf-8?B?NnpLTWlGQ0FyU3ZFNXVMV1NiUkx6WTJpaUI5WjM5NHJUQ1FMUEtWSXFwVFpy?=
+ =?utf-8?B?dDR1T2ZPYS9td1NsU1BPQzFqbGhoaTJ3azIzVzFkd0NRNzA4YXY5dnFvZmRs?=
+ =?utf-8?B?b2hRVUhMWDBNUkZtcGNSZTk3N0hqNnVqb28zSUpTT2wySkN1N1J6QUZKaEJQ?=
+ =?utf-8?B?dkZISFplVWZSbU5WS2djK0VxVEFLNmZBcStndGpGUlhQdXZUTlV0Q2hsbFUw?=
+ =?utf-8?B?M20xM3BNcXFud3FzMmVxSlFITjdremJ6ZnFVNnlvUXR3WDJsZ2g5OEo1cmZl?=
+ =?utf-8?B?ZWE1Mm9KOHNtL1VTd1B1dDFIQld6K21kNUUyQ3BWcXJjRmNkNnRVWTRESnl6?=
+ =?utf-8?B?L1NvTEVXU1RKR3F2ZjAzZEhsc3pJTzVGazE2bkpWUnpCcHRqc1BHVkxxZ1ZY?=
+ =?utf-8?B?TE5mdE9DR3QxajlzajhMSkdabWdRK1ZqVWVpZGJ4dmxzZFFNT0tmbk9ORWs4?=
+ =?utf-8?B?SlUrM1daMFUyQnFlYkhBa2lORXpZV0txbUQ3RzdRWmdIOUR1S25Rd1hndE9Z?=
+ =?utf-8?B?c3JFUkRleTEvOW1nNkdMS05FeWRIWkM5ZnoxNlpINzJpV2tuMUxSN0MyUW9J?=
+ =?utf-8?Q?KGgcIK33pnZI5y0kdT/53ZoRq?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: PsFqlv0jdTVsqZBsTAKJZhk8p7vX/ocqtvUYo9SeRHi0Shal8B/EJ7CIHTI9TJR9xHx1ynkr9Gw2CjT0dNOFDrTu5D8bfgiuVl2ex6sHiYW/2rf1VRRnfVyHPAA8AzJL5twNp/cL3L14wQ081VNpFgkvl65oh4a7zt7kW5KyEJt/2tD9K9+EN5NdLZaPTcRsotYiWllq3Fh9DYOYEOJZKZLzz6oiWYBKM0F6o4b5T/FOweKPIEnlovVyCIofH/pEk6FQrmHHscVbaUB5oCGoUmkforRVf1UEgbeVuXUZcxqYlYjeT1WF3WHpBgpJ34y+LFctSoeF2fjhsL/PuGd9E4u5idM5lQ24BQ9XdqSG18AnOlPTgkQIJCUfxK7RflQF5ugU0Zf5+9Bn4gnuFQ9AG+K6RPPFYzvVkGnz4Kcu+YbtX74d/Bbsg8sGK5TkituJCGZ7PlEcGHjdR6UCMyjGzunXtNIvF4VZBEFK18qDrEFyecFzpHWB58Fx9GuGF515aeYncBtXIjTJogdVpZnNlzYGVhQqAOvCREupjcpEvIj44U9ANs+j1tSuBIEMn3hofu+yV9jvKK36dFnosLpt/ELgDfe1YPiMRI66XEUCciY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd053992-7234-4a06-943a-08dd0a0c0417
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2024 09:08:08.3357
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UJpIlsbp4vpVvlpwIrEBnpyE4/anlXR6+jxPtCVYGkmEXrejjNHd4UTdzr5SJEVusc/vgUTG/HWoOh7JOO+qZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB7768
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-21_07,2024-11-20_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 spamscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
+ definitions=main-2411210070
+X-Proofpoint-ORIG-GUID: 63mAt6V9ZHKfKPDpAMr724zjJ0sAtqNc
+X-Proofpoint-GUID: 63mAt6V9ZHKfKPDpAMr724zjJ0sAtqNc
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241121_010503_575022_45E78F6C 
-X-CRM114-Status: UNSURE (   8.11  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241121_010822_426485_EC26C0C8 
+X-CRM114-Status: GOOD (  25.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,43 +221,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> 64a51080eaba (HEAD) nvmet: implement id ns for nvm command set
+On 15/11/2024 16:37, Daniel Wagner wrote:
+> blk_mq_pci_map_queues and blk_mq_virtio_map_queues will create a CPU to
+> hardware queue mapping based on affinity information. These two function
+> share common code and only differ on how the affinity information is
+> retrieved. Also, those functions are located in the block subsystem
+> where it doesn't really fit in. They are virtio and pci subsystem
+> specific.
+> 
+> Thus introduce provide a generic mapping function which uses the
+> irq_get_affinity callback from bus_type.
+> 
+> Originally idea from Ming Lei <ming.lei@redhat.com>
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
 
-I am not 100% sure this implementation follows the NVMe Base
-specification correctly.
+Just a couple of styling queries/comments, below:
+Reviewed-by: John Garry <john.g.garry@oracle.com>
 
-The specification says:
-----
-5.17.2.5 I/O Command Set specific Identify Namespace data structure (CNS 05h)
-An I/O Command Set specific Identify Namespace data structure (refer
-to the applicable I/O Command Set
-specification) is returned to the host for the specified namespace if
-the value in the Namespace Identifier
-(NSID) field is an active NSID. If the value in the NSID field
-specifies an inactive NSID, then the controller
-returns a zero filled data structure.
----
+> ---
+>   block/blk-mq-cpumap.c  | 37 +++++++++++++++++++++++++++++++++++++
+>   include/linux/blk-mq.h |  2 ++
+>   2 files changed, 39 insertions(+)
+> 
+> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
+> index 9638b25fd52124f0173e968ebdca5f1fe0b42ad9..0b65ffa5a183cc8e6697df4a16748eff15bfa8b3 100644
+> --- a/block/blk-mq-cpumap.c
+> +++ b/block/blk-mq-cpumap.c
+> @@ -11,6 +11,7 @@
+>   #include <linux/smp.h>
+>   #include <linux/cpu.h>
+>   #include <linux/group_cpus.h>
+> +#include <linux/device/bus.h>
+>   
+>   #include "blk.h"
+>   #include "blk-mq.h"
+> @@ -54,3 +55,39 @@ int blk_mq_hw_queue_to_node(struct blk_mq_queue_map *qmap, unsigned int index)
+>   
+>   	return NUMA_NO_NODE;
+>   }
+> +
+> +/**
+> + * blk_mq_map_hw_queues - Create CPU to hardware queue mapping
+> + * @qmap:	CPU to hardware queue map.
+> + * @dev:	The device to map queues.
+> + * @offset:	Queue offset to use for the device.
 
-Now look at the nvme_execute_identify_ns_nvm() implementation:
+supernit: maybe no '.'
 
-static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
-{
-        u16 status;
+> + *
+> + * Create a CPU to hardware queue mapping in @qmap. The struct bus_type
+> + * irq_get_affinity callback will be used to retrieve the affinity.
+> + */
+> +void blk_mq_map_hw_queues(struct blk_mq_queue_map *qmap,
+> +			  struct device *dev, unsigned int offset)
+> +
+> +{
+> +	const struct cpumask *mask;
+> +	unsigned int queue, cpu;
+> +
+> +	if (!dev->bus->irq_get_affinity)
+> +		goto fallback;
+> +
+> +	for (queue = 0; queue < qmap->nr_queues; queue++) {
+> +		mask = dev->bus->irq_get_affinity(dev, queue + offset);
+> +		if (!mask)
+> +			goto fallback;
+> +
+> +		for_each_cpu(cpu, mask)
+> +			qmap->mq_map[cpu] = qmap->queue_offset + queue;
+> +	}
+> +
+> +	return;
+> +
+> +fallback:
+> +	WARN_ON_ONCE(qmap->nr_queues > 1);
+> +	blk_mq_clear_mq_map(qmap);
+> +}
+> +EXPORT_SYMBOL_GPL(blk_mq_map_hw_queues);
 
-        status = nvmet_req_find_ns(req);
-        if (status)
-                goto out;
+is there still a blank line at the bottom of the file?
 
-        status = nvmet_copy_to_sgl(req, 0, ZERO_PAGE(0),
-                                   NVME_IDENTIFY_DATA_SIZE);
-out:
-        nvmet_req_complete(req, status);
-}
-
-Shouldn't it perform nvmet_copy_to_sgl() in every case, ignoring what
-nvmet_req_find_ns() returns?
-Compare it to what nvmet_execute_identify_ns_zns() does.
-
-Maurizio
+> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> index 2035fad3131fb60781957095ce8a3a941dd104be..05f544a9ed873d2f96d72c18e124c94146f6943f 100644
+> --- a/include/linux/blk-mq.h
+> +++ b/include/linux/blk-mq.h
+> @@ -923,6 +923,8 @@ void blk_mq_unfreeze_queue_non_owner(struct request_queue *q);
+>   void blk_freeze_queue_start_non_owner(struct request_queue *q);
+>   
+>   void blk_mq_map_queues(struct blk_mq_queue_map *qmap);
+> +void blk_mq_map_hw_queues(struct blk_mq_queue_map *qmap,
+> +			  struct device *dev, unsigned int offset);
+>   void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
+>   
+>   void blk_mq_quiesce_queue_nowait(struct request_queue *q);
+> 
 
 
