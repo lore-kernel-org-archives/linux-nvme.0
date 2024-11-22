@@ -4,68 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACB1EE6918F
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2024 19:37:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29426E69191
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2024 21:09:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HDMKzbwWOMWTM5BF5rByY0lyc5b7M4/t/D+1XsZ3TPs=; b=mbAyZsyF11spyCd+IRzs6LvfY5
-	OGd4oooocYC10lKGCJIjA7+jnBHym2dO8V+QpTykPutegLQTsCSR+Ap5vFPU9fBiLeMSivdr2ZE0L
-	P2AQxRDXSO0XP1Y2WTj6p7WhebVhGnzaIx9wm6fSmh1LSfOcC554OVk8DkJfIwH2LbY35IYw7Eu1V
-	wUuQazm8LC8oRmYjEsJtbjcPNF2HPvyxZwoKZv1cnZORC7zZJRo2Mm6SzSXIrH0R9rHDX1ZqftPO+
-	GFNf6pQVBAHBpx5HydqwKGKuhNroGHAJ1UbnmNpO3jkCIoDcyBDM1WSIjQef5uK99QHQMSvvm2Mxs
-	HTtSUBTg==;
+	bh=MZgYkjMfGQhQSirOW/I/Kltv3QYr/gCeO7U1k2QLzp0=; b=hq/3LFGEGeuYwvC9KaRwXqMtpA
+	O9RkUTrthdxX2Jlr9SjZpE/qAtMOjYoi/1FMDl06YJYsscoodOwz8l0gN1IlLdOIWtexINrEsLT9V
+	eGtIJatasH0T/QWjJ7lNcVUsUHdDvR63i7FOR1rt1kug8/wpR/vAm9C2Z3x4rDPOu3s5NH4BlcYnl
+	1T/tySkw0QJoymO+XK6RoU4xS2CXh0gQyKNTUdmupSzGXXmqoNiELsinKOrgoSIeUB1jjj6gpkggX
+	BaUbwdoZoQG/PPW+KRRHSHyMMhDQpSlb9nvTJo4T59VhyZLd+dIbSFSsZYBt6GNuzdXOFnok6qPbB
+	QO9KP2PQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEZSc-00000003CvZ-2di5;
-	Fri, 22 Nov 2024 19:36:58 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tEatq-00000003K1r-28dg;
+	Fri, 22 Nov 2024 21:09:10 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEZSZ-00000003CvC-35gJ
+	id 1tEato-00000003K1X-2O3S
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Nov 2024 19:36:56 +0000
+	Fri, 22 Nov 2024 21:09:09 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 5B3975C4D3B;
-	Fri, 22 Nov 2024 19:36:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3883AC4CECE;
-	Fri, 22 Nov 2024 19:36:54 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 7B41BA41519;
+	Fri, 22 Nov 2024 21:07:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996E2C4CECE;
+	Fri, 22 Nov 2024 21:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732304214;
-	bh=HEd5aBJ3V34Onf664GRVCd2iBvwbTpBtXpJbEPHxGho=;
+	s=k20201202; t=1732309747;
+	bh=zeo9E58IJwopEbyH4KMEk8UyvZ6VvHKNIKWK1GklwMU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E+daD2HiAAZBrqAPWUK5vzZn/dwyWipto4WAyaAHb7vLkTjZALX6TcdkZllkg9/v/
-	 XPYQ6q5CJV7JzSUVbE9DIFagxXYn3tOT7+l89vKH/gVMNqsEqe1zBa7u0k8P6ML9yw
-	 ell+/GhlNHaffIgctGUdV2ECTh2qchW3kalTQtDYHWjbWQBGSTFHqoOuDvsK89EqY8
-	 tE+74ufe4nDWb1yi/I532Hb4as8ISsP3hKDE12Cft3PRar3yZRfJRjejBD1TmTYZDn
-	 HQ8Xx08Dax7fGvu4OPOmVcLZ7kP3Ca6DSY+MO1fjyHCnWRCWngVk4aQQzNPD1q20XH
-	 nL2usENwwAaDA==
-Date: Fri, 22 Nov 2024 12:36:51 -0700
+	b=Ioe1YIOOXk1orgEFpo+uwpfVdTnl2sYch4yvR51Lsno2C95n+JF0efE9X5WbFyfSM
+	 Rmq77Crh2KFozPb57/Eu4BLq/uwbdlu0hpP+mgfRc+inueyzz07nwhE3eS8AyRyxEs
+	 nV4ShmSTi7ESXIzbgZAGDGMKSiBQreqqcNEiZVFwn5fldvyOz7vXy/ue30A8eNI1Bq
+	 fDL27TdeuFXJe7KfAB4I8xPtfTd51yKEnJgNSB5TbNs0BXQcYsyA+tK+j4f5mK74F5
+	 VcprUrNxQV6Jt+2U32J9MfiUdEfvoEI4nC2CYZMKGrlq+XLNWvyRdyumcaAalTtoUO
+	 vtYOLqfdMLDrQ==
+Date: Fri, 22 Nov 2024 14:09:04 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Robert Beckett <bob.beckett@collabora.com>
-Cc: =?iso-8859-1?Q?=22Pawel_Anikiel=22?= <panikiel@google.com>,
-	axboe <axboe@kernel.dk>, hch <hch@lst.de>,
-	kernel <kernel@collabora.com>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-nvme <linux-nvme@lists.infradead.org>,
-	sagi <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
-Message-ID: <Z0DdU9K9QMFxBIL8@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241112195053.3939762-1-bob.beckett@collabora.com>
- <20241114113803.3571128-1-panikiel@google.com>
- <1932ad8722a.102613bdb3737.769617317074446742@collabora.com>
- <CAM5zL5rKsEd1EhOx1AGj9Au7-FQnJ5fUX2hLPEDQvmcrJXFFBg@mail.gmail.com>
- <1932b818328.ad02576784895.6204301822664878956@collabora.com>
+To: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Cc: Paul Webb <paul.x.webb@oracle.com>, Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>, Phil Auld <pauld@redhat.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Ramanan Govindarajan <ramanan.govindarajan@oracle.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Nicky Veitch <nicky.veitch@oracle.com>
+Subject: Re: [External] : Re: [bug-report] 5-9% FIO randomwrite ext4 perf
+ regression on 6.12.y kernel
+Message-ID: <Z0Dy8H0A3Wj45ZQn@kbusch-mbp.dhcp.thefacebook.com>
+References: <392209D9-5AC6-4FDE-8D84-FB8A82AD9AEF@oracle.com>
+ <0cfbfcf6-08f5-4d1b-82c4-729db9198896@nvidia.com>
+ <d6049cd0-5755-48ee-87af-eb928016f95b@kernel.dk>
+ <20241121113058.GA394828@pauld.westford.csb>
+ <a01ead6b-bd1d-4cd3-ade6-59ad905273e7@kernel.dk>
+ <181bcb70-e0bf-4024-80b7-e79276d6eaf7@oracle.com>
+ <20241122121304.GA25877@lst.de>
+ <188e08f4-2eb3-41ad-a331-63fd5bb0e7f6@oracle.com>
+ <14F95ECE-2AB7-4A50-AE45-C98EC426312C@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1932b818328.ad02576784895.6204301822664878956@collabora.com>
+In-Reply-To: <14F95ECE-2AB7-4A50-AE45-C98EC426312C@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241122_113655_860384_A96B680E 
-X-CRM114-Status: GOOD (  28.98  )
+X-CRM114-CacheID: sfid-20241122_130908_671405_2657C135 
+X-CRM114-Status: GOOD (  13.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,45 +86,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 14, 2024 at 04:28:48PM +0000, Robert Beckett wrote:
->  ---- On Thu, 14 Nov 2024 14:13:52 +0000  Paweł Anikiel  wrote --- 
->  > On Thu, Nov 14, 2024 at 2:24 PM Robert Beckett
->  > bob.beckett@collabora.com> wrote:
->  > > This is interesting.
->  > > I had the same idea previously. I initially just changed the hard coded 256 / 8 to use 31 instead, which should have ensured the last entry of each segment never gets used.
->  > > When I tested that, it not longer failed, which was a good sign. So then I modified it to only do that on the last 256 byte segment of a page, but then is started failing again.
->  > 
->  > Could you elaborate the "only do that on the last 256 byte segment of
->  > a page" part? How did you check which chunk of the page would be
->  > allocated before choosing the dma pool?
->  > 
->  > > I never saw any bus error during my testing, just wrong data
->  > > read, which then fails image verification. I was expecting iommu
->  > > error logs if it was trying to access a chain in to nowhere if it
->  > > always interpreted last entry in page as a link. I never saw any
->  > > iommu errors.
->  > 
->  > Maybe I misspoke, the "bus error" part was just my speculation, I
->  > didn't look at the IOMMU logs or anything like that.
->  > 
->  > > I'd be glad to if you could share your testing method.
->  > 
->  > I dumped all the nvme transfers before the crash happened (using
->  > tracefs), and I saw a read of size 264 = 8 + 256, which led me to the
->  > chaining theory. To test this claim, I wrote a simple pci device
->  > driver which creates one IO queue and submits a read command where the
->  > PRP list is set up in a way that tests if the controller treats it as
->  > a chained list or not. I ran it, and it indeed treated the last PRP
->  > entry as a chained pointer.
-> hmm, I guess a simple debugfs trigger file could be used to construct
-> specially formulated requests. Would work as a debug tool.
->
-> Though at this point, the simple dmapool alignment param usage fixes
-> both of these scenarios, so it will be kind of academic to continue
-> putting effort in to understand this. I am trying to get answers out
-> of the vendor to confirm any of these theories, which I hope will be
-> more conclusive than our combined inference from testing.
+On Fri, Nov 22, 2024 at 06:26:46PM +0000, Saeed Mirzamohammadi wrote:
+> FYI, Tried disabling write zeros but still getting the same errors:
+> [ 326.097275] operation not supported error, dev nvme2n1, sector 10624 op 0x9:(WRITE_ZEROES) flags 0x800 phys_seg 0 prio class 0
+> [ 338.496217] nvme0n1: Dataset Management(0x9) @ LBA 10928, 256 blocks, Invalid Command Opcode (sct 0x0 / sc 0x1) DNR
+> ... 
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index d3bde17c818d5..ad2ce6008062e 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3425,7 +3425,8 @@ static const struct pci_device_id nvme_id_table[] = {
+>                 .driver_data = NVME_QUIRK_STRIPE_SIZE |
+>                                 NVME_QUIRK_DEALLOCATE_ZEROES |
+>                                 NVME_QUIRK_IGNORE_DEV_SUBNQN |
+> -                               NVME_QUIRK_BOGUS_NID, },
+> +                               NVME_QUIRK_BOGUS_NID |
+> +                               NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+>         { PCI_VDEVICE(INTEL, 0x0a55),   /* Dell Express Flash P4600 */
+>                 .driver_data = NVME_QUIRK_STRIPE_SIZE |
+>                                 NVME_QUIRK_DEALLOCATE_ZEROES, },
 
-Any updates on this? I'm satisfied with the quirk patch, so we can move
-this forward if you're okay with the current understanding.
+Could you instead try deleting the NVME_QUIRK_DEALLOCATE_ZEROES quirk
+for this device? The driver apparently uses this to assume you meant to
+do a Discard, but it sounds like the device wants an actual Write Zeroes
+command here.
 
