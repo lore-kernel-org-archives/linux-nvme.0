@@ -4,202 +4,206 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C339E69185
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2024 17:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0C24E69185
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2024 17:18:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7fTF6LaG+uKS61bbLDSujxjHgFIgdW1iu+bn7B1PwJk=; b=AIFRX1TFJ2CqkmHLDlBBogJZqe
-	zJegT5QeZCyrsVVNgSFsiTT8Fq1o5qtnYZRbYm8BdSOZ5hyTRM72InI2QoKFLVNp1ysgHW/SQyU5p
-	SBmo9Rp9IpV22KGiVWx1yWPMx7ctjFRGXuNIDWxCGMY0I9y7u1kCirYWTSJ9mSVqEX50MFQSekSx+
-	qVRa27tqLUyj2cFefvUqyuJiz8ulCRrbtEl2U6wrBc7cCpFmMX///YTmPLwtUc0ZFJjeD2L5vAsFZ
-	IkWyHAguWISYVeuzRslKHy1M25DE7f43cBdc2u72kgGAlimlHH0rgh6mX9v627BGaAc0O6++gpv3H
-	3ImBZqHg==;
+	bh=E2Ug4/jkZ8XzlTZ3AQEqwNUwh2pEB4QjRMU3f9fjfRU=; b=If5l485wj78qIave9IPsl6O3r1
+	sHrVJ2sFO52i+nCXTHEl4ITgGQdAdzOKv9wgFZOA8VR/gi0FglNGoxWBEKRv/L01qwP6DkajYx7jK
+	bYELDFKTPTW3WbNcg8Sxx7os2xD0/IWGWBdm3W4NrbL0LuGwT9Lp8VpYMNM234ur7Ybnw0k859J3l
+	c6hCfglF+24NdJlYNZcGhuyBJlk3htn7PDJdjmINWvLZR7jZS5Dgl8BvJnmTIZ6iMW+tv+IsEU5vD
+	sZNbV4TVpW18WxWZIIPvFRBHwvFlTLGayZiNKs2418Gs7/V4QuE8teffsku2lej3T8xYAOhkaxRnd
+	ZGCpJUIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEXF0-00000002wco-2Dot;
-	Fri, 22 Nov 2024 17:14:46 +0000
+	id 1tEXIq-00000002wzz-1ZWu;
+	Fri, 22 Nov 2024 17:18:44 +0000
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEXEH-00000002wWO-02b2
+	id 1tEXIn-00000002wzV-2i71
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Nov 2024 17:14:02 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AMGBaIT031550;
-	Fri, 22 Nov 2024 17:13:49 GMT
+	Fri, 22 Nov 2024 17:18:42 +0000
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AMGBbLR016291;
+	Fri, 22 Nov 2024 17:18:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=7fTF6LaG+uKS61bbLDSujxjHgFIgdW1iu+bn7B1PwJk=; b=
-	C3hc13ltKDeAWGLKwsWvoKgyOqWU5VQcpxW73IRJWnTcYAdARfAgkCI9mf4XK8Od
-	vx6GeE955Z6+D0FL35UXBuoioo4DY06R8L14U2LjwyLUOxraJxFjEVm1wwJdA7OZ
-	pO37cHe0WPUysNjo0iiJIgersngmiTrJbrZsfauyi5f6C/MOJ+gPInMb/iwbXwij
-	qU/A6CdI9FU66I1yZOeE/HBqlh5xlsi/FBDqcl5OA7Yc0eHriajUBttfh94sB5ln
-	0ut101q0H/L9/UaF0HZ8A3h2K/3J+7V4p00r3/P7A5pEh0cjPePKW6i4z3RS1JU8
-	+Ssy1g/0a7y02nMHyKQVyw==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 430rs5g4fj-1
+	corp-2023-11-20; bh=E2Ug4/jkZ8XzlTZ3AQEqwNUwh2pEB4QjRMU3f9fjfRU=; b=
+	eorKQfzooGrV6neta+3cJkT3qITsw//QlXBDWq/0Kbo0JkIFRR1D5bBrDMVu1aK9
+	1Moq7Qs2eVLy93+lETPRWJATE8KT1AvwWoN4Zo4VTgMPnwEuZ2RiU0h0FKFHbopf
+	B3VxbU3zeR3zk/pSVkR7IhuECpuV3TyRAd7IQFSEQJMvBo5wME4FpNXwx1Ihg010
+	VNWwxW39SUuszvu9cV9aqOUzx3+fgBrxXybbbgFgcGVm7oCqMLdXUUlbxLgx8kzi
+	JW6+HC58yY/dmRzxIYIzvR6IdH7bpJRzRYr20toO/EOArPo7oik7/lXyKIhEnZ+7
+	XEFhoKunBc7XVRcRd7457Q==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42xjaacns8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 22 Nov 2024 17:13:48 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AMFfXqc037310;
-	Fri, 22 Nov 2024 17:13:47 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2045.outbound.protection.outlook.com [104.47.58.45])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42xhudkx3s-1
+	Fri, 22 Nov 2024 17:18:36 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AMGa0pD036388;
+	Fri, 22 Nov 2024 17:18:34 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 42xhudjbe5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 22 Nov 2024 17:13:47 +0000
+	Fri, 22 Nov 2024 17:18:34 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JXq7VMcLyiGQOk/CMHeRtheN2biI/FhyrwxJ4OX/WIKvp4crRT8cc4fuU8Vm/XhgQaPzzQah4guHdO6u0sk8U7A/X3XVRZ8fKzZrHdZTPE9ICQcbRxzvND4ZR/NDmoXjv6QmGR7rw1gqlbxQqVlC0rfIL/HTNlBOaIhNXrlvtSAGBaJuhyK0FNpJZmh7YgqrnaEcIYn8bYKTpDOKQJX4Kq69w9HHF+8gd9RjnGUusXhQpDsc9Cj5HaV6EriUAFDAtyfWvof3lCcxtQ8xLSzufAz3JkbaA5Jmx13muNndOb/zp4H7r/VMKcWMv7jC3ExRs8SalKM0LjWv9d1zFxSRLA==
+ b=RcW9EuWokjL/yJV4b8Bo6IDJhe9tLmKuFuRvO3lOj9k05vZNhwR6z3is0osxPA1qKLyLOU5kiJqt42FL2wgfUtuVp2kOi95Ex65vYE2IavmTxJrr9YEBv97WPNIraCJkzHw5hIFypeLiWfI/nfuBt/Xf/GWS4RjK8SF6XugzobHu1yhQLryUZNSMfpbPxyXSKtVxJ7gxUtQhSPa4YrKckLcFmZEdntAxKRysiTs5IuQK9iVHs4TUf8jiWT7QOpMVdNe+V9UTCQncP0wbjIFQG7BMDDL/xxHbtPNgecaVocHqrxxnspnmLXQbMhXRZenCjrUdP7FZAAJgbbhGkhS+bA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7fTF6LaG+uKS61bbLDSujxjHgFIgdW1iu+bn7B1PwJk=;
- b=nlJ/0ZLA4i1QLwfbO0BfJwE9bIqt28GcdRiS6ilw4RVWnr4PQKPb0upCLApEmoHhCTpKcYX7Ts0vjK8+MdNOZAnur9bhuo+gB3xaQFb4EV02KtQIsRl1PY4P7+opN2PdcpfChgRiEQuC4oH2vC47oWgON83959QmhZP1lZkIv81hWHjUB+6UwfgnxqkSbds8Vr5BBxxEm3+55M4BRpKANwuERShEUgJ46PouPUYGCjT7l6Y/96Es8B2275cIk1onJhhKSpr5o8XM+JudZ095Qb4qwqQ+X8ihz/xV26KNI/POdB5TCyL7wyAviCD5QcMYySrsVCVDzYttTmHAcZlCXw==
+ bh=E2Ug4/jkZ8XzlTZ3AQEqwNUwh2pEB4QjRMU3f9fjfRU=;
+ b=h4qHkJqNoGQtwmKf8C7a0McVnXT6NTqVXYTmuVnbYSUAV1yPbj9cXeJk2pu0ax82Oo3bObWnyuvjnPpUysO74U9Ix19dVL+isIhu6KRa1os0aHyk+HqTC1ay25Hujo2azoz0Ynt3DmlNcUquByA0KlBfFP9Nze+apXvXU7j3gxkl/6s/5jAf0pTSixgqHMmHSEUM1XwgTkG+CCoxwSIOP1SZUSj+EewADrS9Sh+YxMuATL1CeDKCMVf+MQqAVPPdU0ajznbWHBB28vSI6rwOF2rWiDIcs4BSZG2lsLWeeJ7cslGNH2LC2oS/GnoXRbH5eLVecbxoq0pkRfimHs9gIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7fTF6LaG+uKS61bbLDSujxjHgFIgdW1iu+bn7B1PwJk=;
- b=LLqr3E+FmRhyuIBoQ8uaHCb/ay4+CyEWI8tW1fx91DlePCanutTtA6LsD/sZWaEUdtGYXcmOf5i/zDghwk3jo2uh7GoECl7c3RcpKCXdUXmgGEcCk6oI14EKwhR93AKyh60j0iibEzbZudyIOucrlxyaNjvJB8Gj5sxJ5mAneIA=
+ bh=E2Ug4/jkZ8XzlTZ3AQEqwNUwh2pEB4QjRMU3f9fjfRU=;
+ b=MlhiRfkn71jmxEypQhttWzTANjd7ieLRtVlds+JahfY8AQ+GXCTj1Z+1/iQZMbkfShv9ba5jnsnhR9llwaG4lvQgjzCRIsw77U+02BtLPHLke6Z/NIrMihCzJvnWUHRgV/TGUVPkjkCVLtZ4O7N4ViN2mUzCh33uNpbqMYinWmY=
 Received: from IA0PR10MB7577.namprd10.prod.outlook.com (2603:10b6:208:483::18)
- by DS7PR10MB5928.namprd10.prod.outlook.com (2603:10b6:8:84::12) with
+ by MW4PR10MB5882.namprd10.prod.outlook.com (2603:10b6:303:18f::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.16; Fri, 22 Nov
- 2024 17:13:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.19; Fri, 22 Nov
+ 2024 17:18:14 +0000
 Received: from IA0PR10MB7577.namprd10.prod.outlook.com
  ([fe80::7923:a24d:8b74:87f8]) by IA0PR10MB7577.namprd10.prod.outlook.com
  ([fe80::7923:a24d:8b74:87f8%3]) with mapi id 15.20.8158.023; Fri, 22 Nov 2024
- 17:13:44 +0000
-Message-ID: <03616086-eaa1-4c3d-a667-3d6452d9743a@oracle.com>
-Date: Fri, 22 Nov 2024 17:13:40 +0000
+ 17:18:14 +0000
+Message-ID: <188e08f4-2eb3-41ad-a331-63fd5bb0e7f6@oracle.com>
+Date: Fri, 22 Nov 2024 17:18:11 +0000
 User-Agent: Mozilla Thunderbird
 Subject: Re: [External] : Re: [bug-report] 5-9% FIO randomwrite ext4 perf
  regression on 6.12.y kernel
-To: Jens Axboe <axboe@kernel.dk>, Phil Auld <pauld@redhat.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Phil Auld <pauld@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
         Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
         Ramanan Govindarajan <ramanan.govindarajan@oracle.com>,
-        Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
-        Keith Busch <kbusch@kernel.org>
+        Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+        Nicky Veitch <nicky.veitch@oracle.com>
 References: <392209D9-5AC6-4FDE-8D84-FB8A82AD9AEF@oracle.com>
  <0cfbfcf6-08f5-4d1b-82c4-729db9198896@nvidia.com>
  <d6049cd0-5755-48ee-87af-eb928016f95b@kernel.dk>
  <20241121113058.GA394828@pauld.westford.csb>
  <a01ead6b-bd1d-4cd3-ade6-59ad905273e7@kernel.dk>
+ <181bcb70-e0bf-4024-80b7-e79276d6eaf7@oracle.com>
+ <20241122121304.GA25877@lst.de>
 Content-Language: en-US
 From: Paul Webb <paul.x.webb@oracle.com>
-In-Reply-To: <a01ead6b-bd1d-4cd3-ade6-59ad905273e7@kernel.dk>
+In-Reply-To: <20241122121304.GA25877@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0551.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:319::19) To IA0PR10MB7577.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO2P265CA0292.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a5::16) To IA0PR10MB7577.namprd10.prod.outlook.com
  (2603:10b6:208:483::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR10MB7577:EE_|DS7PR10MB5928:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78c5449e-3a87-4dde-1d0b-08dd0b1904a9
+X-MS-TrafficTypeDiagnostic: IA0PR10MB7577:EE_|MW4PR10MB5882:EE_
+X-MS-Office365-Filtering-Correlation-Id: e05ef364-efdc-48f2-e9be-08dd0b19a5ca
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RWd4SHhuSXFWOHg1RVVReFhyWVBzS0J0YUMyMC9Ca29QVHZKWWlyT1huWmcr?=
- =?utf-8?B?TTVNM0RqOGpVemZNRXhvYXZIRWxESndRamgzUVExTHcrT3RmMkpRaHo2TWtE?=
- =?utf-8?B?dks0QWVjUEdsWUZVL0NjS0srY055dkpDTkprc0ZsbjZnT0d6dU1HQUR6RmtB?=
- =?utf-8?B?NWZQN3VnRHRNanZSdzZodlJZNGJ6Nm1rWHNleWd5b2dqN2JXbFFJWGFTdWto?=
- =?utf-8?B?MHFtS0pTQlhHWmxYbW1VRi9VTkoxSlFHbnFWcmlYZ1MwOVVWRlE5T2dVUGZr?=
- =?utf-8?B?Y1ByaXNJdkw1eU1vOGZRRS96SjdRU0xXbDNZbXY0NDlreHZjMnRyZmd4ck5k?=
- =?utf-8?B?VXNRdEtHNUxwbGJDMEs4RmIreDRkQU9sY2RHMGY0bzAyYVI2d3p1cXpGYlBq?=
- =?utf-8?B?R1Bsdlp0UWlwcXlTTVJGNWJRS09qVS96VTNqTjJGMW1FTVQ1YmhhYUNCTVQx?=
- =?utf-8?B?dXJoRk52L0ppY1g5cFhQazhHdWxJaDNxTG9qOFk1c3F0ZnlXL3BiR0VveVpx?=
- =?utf-8?B?ZVBnNTNJblJ1SFdnMVJudTYxSjNWK1htUTBraDJvV3R6ejhxQy9xZjl1TUxQ?=
- =?utf-8?B?YmZkZzJtdXdQRVFwTzFxbEV6S1N3WHZldHJiY1U4OU83RTdadWxkM1JSaytO?=
- =?utf-8?B?WGx0bnVxYjl6R2dXeHNFNnhNMmFWT0doQXJ1Q3ltcjFRTlpFRTdCYnp4T0o1?=
- =?utf-8?B?bnVZZndLd3ROdEdxMmVuZWJDU3Y3T3JMYWlCWXZLalltb2p5c2pBRXozMTV4?=
- =?utf-8?B?US9iL0Y3V0xXbU1JaXVkbGZmeHZmRHFXV01qc2ZSWjNVa2Y5RWx3S2hRZDAw?=
- =?utf-8?B?SjFFeVRDOW9QeExnblkzYW90QTZrV3EyWUcwcHpHMkg5Sldaa0NvWTAzc2Zl?=
- =?utf-8?B?Q3JKaDhHQzlnZ2tyTTg1bTlHZGpqYkU4SEFkRWtjczBFVlhrNElUbmhrSGl3?=
- =?utf-8?B?c0wvT0RkcWpwZWhua0xvK2Y3VlJEMHlnZm1FMG5iV29oSmszNU82S2EwVlNS?=
- =?utf-8?B?b1ZxMXJvNWMxWHY5V2ZFM2xabERwdVFxNUZISFhpblh2QTZndXhXY01WSXlF?=
- =?utf-8?B?ZTRMZGxkSGI5YzFUMEdPZkdlTEprQXNqN2tqYnpGc2hKVXVJQnNRdmVrb0xD?=
- =?utf-8?B?WUtBdDErV2U4L1ZIVDV6MmdyUERVczZVQ2xoN01XWHNtRUNRcnlXRFAvS1V3?=
- =?utf-8?B?TFRvRFNFME50Zm5BTS9UK1JmajdOUW8xUnU0RTFqbklkVXd5M1lVVGFVRVhM?=
- =?utf-8?B?ZWNTMExWUFRYZko5d0pTRDZ1WlVrQndrNjVEUFlwNkRieEgrR3ZtZ2FGdG9p?=
- =?utf-8?B?aCtrVDlHL1hHVURtb1F6TGZvN09XdGdrUlNwR3JmNFhvOUJSUWo1WlF2dVAw?=
- =?utf-8?B?Q085QStzanpMdUFoR3o5OHV1dmdxdFhCc0ErL3QzV0VjSml5bnZmZkVoYUUv?=
- =?utf-8?B?ajNhaFpSZ0J6dkxFem5nNkZqOVpYYmFqbWpZOHBaMmtDOGczSjZYeVMrRVMz?=
- =?utf-8?B?SFBuLzRNYm5GLzRtbkhlTXZlUnBpN1AyZFJud1UyNzRMTm94TnV0QnlvanJ5?=
- =?utf-8?B?bEJlTzhadzhjWm1Hcld0UWVXSUlWQXVLdDhnY2xsMDZzZ1UvcnIrbldRV3I4?=
- =?utf-8?B?NDlpa3Z5bWpYNzh4VG5hRDI0MkJOc09McndweTBTZDlpZU9UajdON1J1dlNT?=
- =?utf-8?Q?wYTZuMRavMWdEBwGj/He?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR10MB7577.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cG5ndXA2am1DVkxrMVMyb1pNaCswTXJ3eFNsRHN5N25vOWhES2Noa0pzMytS?=
+ =?utf-8?B?cVJtKzNISjhYVFBVTUtaWVFZUHFZK0dHSU5HN1phNFZQRXFjVUNESkRUa1Zt?=
+ =?utf-8?B?cUhXamx0azA2aU1zN2xZSWQxR1BlSW5HU1JVSjNtTlVxeXc3WnJQc2VYamVF?=
+ =?utf-8?B?Y0dYcklYc1RiY2JSSGVrVW44azBvRTZ4UVI5VVVpNXh6ZlRUbDJJSTBTSTdn?=
+ =?utf-8?B?V0txMFlpd0tpdUUwcEtBWEMvUmpSbWgxSGVHMmdtVHB3NXpJS0dTZjNsMlhs?=
+ =?utf-8?B?YnBUb3RTQklDNmVjdk1tRnhpM2VHWjNsZ1k4TnhST21KdEUyT0wwcUVlSVR0?=
+ =?utf-8?B?R2hpWU4ycnZlOVAwdmlUUkxSZithb3BweFM1dWdtUDhEQk93dkp1Yk4vM0hX?=
+ =?utf-8?B?WSs1bGxta1NmTHhkaVErSXNNZERFMXdzQjcrcWhHazFjMGJxYm1MR0xaZ3pW?=
+ =?utf-8?B?QWI1U0hhUlBlVlBZaDVQaUtDbjE1VXNDaXhwQWp2TkIyTS85Zi9HNUtPb2Qx?=
+ =?utf-8?B?U2VNbndnOVluK2pUU21VM0ZSL2hIWTlscXdGRU8xc3RCaVJpaWpGVnFnWUNU?=
+ =?utf-8?B?Q2srdm5XWmV2eUtKeWI3NGpuT2I5Q0N3RENmSGJaaDltekNvVmhZWWo0S1RD?=
+ =?utf-8?B?ZW5DWjNlTTl1VG03Y1Y0TmhtNTE0NXI5ekcxMUZsaVlyY2lSR0ZNMkpRVjNz?=
+ =?utf-8?B?Q1l4cDNkeGlTS2hSRmorQmE5aTBaV213MG96QW5WcVZWU3AxekE5bUdrekg0?=
+ =?utf-8?B?Zm9DT0dkaTYrV2p3eklLdHVzWDQ5K0RjSkgzM1dBNDI5eHBPa01OYzNlVGdW?=
+ =?utf-8?B?NWw1SlZQRld2VkRtbGU5SU92MVRPMW0zeHNncXdhc0xSOUxib1V3dCs3c0Fp?=
+ =?utf-8?B?Z0psZlM1cXByS0ppUGxaMjNkajdoRDhCVWxRdnZzNjdMTWtUdWxlcTZCMzQ3?=
+ =?utf-8?B?SW1zT1hpUU1JT3dIMDc1MWNpSHF6R2tab2xTK2tXbzNvYnFKbWdXK1hRU3BH?=
+ =?utf-8?B?TGxjOVRkVHkySVlYRWhCYzJLOHZFaklQK3EzWjlJK2hnU1dGN2M3ZGJ1N0xl?=
+ =?utf-8?B?NCtXU09JZEtMR3ordnRnZitnaStRWDJJUGRXSm9aT1lOQTY5bkhQL1NCNUYv?=
+ =?utf-8?B?WGhId2hYMHlRelhBZUN4bEFmQ1NXTzBNMnJDYzRudHJ5cmNJNVBXVXkwUmk4?=
+ =?utf-8?B?UmZJS2JEMDZTSHFKdTErbVdjM2kxSVBWU0RNNVNuUHUyL1BWblRMS0FYM2l6?=
+ =?utf-8?B?Q1phNG4rRy81U2FPRXdmL3ZCQmpDL01McCs3ZjBmdE5JQlNZcVR2NWQwTEpB?=
+ =?utf-8?B?MnlPYTNKNzBsOFFLRU5hbWs1QXdaVFdiL3ZJNUtCM2gyNm9Yczdsd1FhUjZv?=
+ =?utf-8?B?ZmJWb0NhL2pxeG1JQVJyMnVSVVF5allycXRRRUx6UFRRcWhpaHdkVzFSMStp?=
+ =?utf-8?B?TkZOMERQTi8rd1NoWWJaa3V1c2lMcmZidlM5a0xIYm1jdGVvRXZ3eDRyWUpp?=
+ =?utf-8?B?TCtzMlYzTFpBR2dZWEVpSC9xdEdOS2hraERRTzBwanFwVG16aTRkaitPZ2Vo?=
+ =?utf-8?B?bnVUQkhmWGJzUGNydnc1Tkd5S0xFWWcyWDlLK2tLbkE2aHNvV2hoUEFjUEtV?=
+ =?utf-8?B?cTlqc0x3dVRCakNnVEdoS1BlWkk4NFhhY09WSUpnTEQwc2VkSFdMNnNDdHQx?=
+ =?utf-8?B?dENmd096WmZzV2NlOEVXQ0ZhMnhaQWxEeWJJeEZ4Y1RreVBOQzZNalpqcGVE?=
+ =?utf-8?Q?gtLeZ0mfNo3gA2SwJbRDuvYLaG8bE5Tgar3JREU?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR10MB7577.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K0ZaeXpDd1d4MWhXVVlVd2JIWGVGNnhVSVhlamVSNFZuKy9FSTNFTXcvQktB?=
- =?utf-8?B?S0w0OFlzZFVydDBUcVVMTXIzcFdGZW9PaFQwekRvSjh5a0NMNTJQZGNoUFQw?=
- =?utf-8?B?TlplNUxvWDhwdTVtSllXK3AwVkpENWNBQVlUTHVqeld4VXdpY0gwYWlMZkwv?=
- =?utf-8?B?aThBMFh1V3oxMWpQaVJJVXZoSXZSM3k4VXpWcTBjV0V0Q3hKNHpld3VQNC9j?=
- =?utf-8?B?QytYYkRMdDJCNTZNZHpHMVk3N1lReUxmS3o1d0ZxZFBEWTRRc2NuZHdkaFZo?=
- =?utf-8?B?Z2FzY0xiay83MzVqOExQOHlFUUJrTEV4dXJWbnZ3N1MzR2RSRmNTeDZ4RHZa?=
- =?utf-8?B?cHYveFFrNzJBQ2p4Y0JCTmZSekw5TEFEaFQ4Z1lSdGVhTVltRS9xQ3VOeXJB?=
- =?utf-8?B?ZVRZdDNZeitjRURmM2NkRGxoSEVmRHUyZXR3RzE5VEJUc2hHTmM3elFQRGpj?=
- =?utf-8?B?a3p5L2dLZldGY29QQXlnS0hSM0hPS0tPbnVrdmUwTEdibzlYRXJwTDE4L0I0?=
- =?utf-8?B?RE5MWkVjYmdJeU9ETVRkbFg3TDdHdzMzY0x3NlJDa1pnR2djSFB0bU1nd3gy?=
- =?utf-8?B?WHZvU3V4UG5HRERPa2VZTlYySGtjcmVoRUFzTEltSHBZMTVnUEZkSlBNakRz?=
- =?utf-8?B?Q0pQZmtnclgrQW1MT1FTUjBSc1NvUUhtZjMxUzl6b2hpdXVwTHZCYkI2ZGE3?=
- =?utf-8?B?blpIM24vTEJQOW5pQ1VUZkg5OVp2Nkl5dlE0NmhiOXlTN1liS3prUFpUSi9p?=
- =?utf-8?B?a1d0V1VLOWc4c3hhWHd5U1dOQmVKcHZ4QkF6OXpPeDBIRXFHNUhxT0FyMkov?=
- =?utf-8?B?RElpYXltd2tvTEV6akdGVVI2ZTJJNXJSVHZCUnhLZ1Y5NlFFSUplbjZwdnZY?=
- =?utf-8?B?RUcvT2NIc2ozclFncFRlNzg1L01LVFg0UENNYjg2dTg4YkV0ZlVXRWRiY2Q4?=
- =?utf-8?B?Q3d3eStWbmtFRTZWSTV3SnVwWE0xWmpycWs3TWI4OUhuY0FFUU9ZRFQ4ZEhM?=
- =?utf-8?B?ZGRENnY1T042TjM4dmpiNjliR1grclU4VkV1b0svMzI1Nk1STmxjQ1Z3cUVH?=
- =?utf-8?B?Y0VHRlgxVmYrN1RwWklzaG0zRUpsdHNUcWdweGljays3cUdMOG0zelhmMkZK?=
- =?utf-8?B?eHFDZzhtOC9wWTB1V1NQdWNyeGJhQmJhOWVUR2xtb2gzeHpUNnE4Q3BHV1k1?=
- =?utf-8?B?bC81aGo2SE0wUjVTTTJXZmlqbVZiZmk2UDVwTWJQVGtheEdMNHZxVXA2YmtW?=
- =?utf-8?B?ZVVOcW5vQ2JtWDRoWVMxVEkvQjB5WjhEa2dlbnRkRFU1MHk4azBRYnRHUVRi?=
- =?utf-8?B?b3RBeXlORlBtMGo4TjBLVDR2S245cHJRU1JZWnFoWnRxa3BQUmlhZG5Zb3Bt?=
- =?utf-8?B?S215Z2Z6Q0FURVAyMFpGMW82OXVodW4wckVMdzhUYkNJZ0RMM3hFUTQrZVVK?=
- =?utf-8?B?VUdxSmJCOXY0a2pOSjUvd1FlTHVCQ1RXbjJSZVRhUys1Qk1wUm9xM1pWOXBR?=
- =?utf-8?B?VW1oTkRQMDZpWEdITWxQdFNTVUdxRy93S3dSVTBRcDVJSzZtSnFWbUVVWkhr?=
- =?utf-8?B?cFVLWFNLdEJYQnBwdkxUcktvRzM3VHNzQTIvb2twZ2dXOXFJRXZhSTdtN1Vy?=
- =?utf-8?B?T3FHMzBRSDlWNEMxYm15Q0p1QWRpeGZaNVV6TE5yODRNUVI4MVVYMkcvcGlZ?=
- =?utf-8?B?eEptN29CMVBPK014LzJtZzEzNGtRVGdhaVdwbVJXKyt0WGFLSS9Ic2haM1JZ?=
- =?utf-8?B?NDZKZ0lkQzhmVkRuNGVqdEJrQkJhSUVvVWdRUDJvZUEya1MxSWZoT2Y2T0Y1?=
- =?utf-8?B?a3BrdTNCaE8vdEtPTVZMQ2hlMjlXQk1sWFVPbjdsazNPcDBsSXZ5b0RURzNS?=
- =?utf-8?B?bkh5TVZIWFJNcGI4SUptSmNqRHAvczdyV0trc0xqL0ZnNVIrYXVIaWc0bjJP?=
- =?utf-8?B?dGJTWkV4aFZMSk95cDR3MWFPcGtZMzhwT2pLNDZrYWhMbzZzdWNBMksxcDIy?=
- =?utf-8?B?V0k1c1NGZHg4eERCNUIwRHMvd0QwRlJRVHJObFlyYTk2d2dKM3N6dno4OHNF?=
- =?utf-8?B?MEtWLzhDeE1oaGJLcDROWTJzYlN6SkNjRFl3dTNvOTlqUlFrczVrZHlKOUNR?=
- =?utf-8?Q?yybv7z2fUWNz4qxOPOwyliY9s?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RTBVOVAyN0VQK3c1WEoyeW5hdlA3dGlJRUJ3bitoak16RS9oLzNxQzJ5dkIy?=
+ =?utf-8?B?eHJDY1NpVkhmdHBmbHZGS0dLbkdEQ1JPWDJ1Z3h0MEJ3OFZZWnRSWWNlelMy?=
+ =?utf-8?B?ZkpVVDVRRC9MT2hmUjVPUDJtY2JQcHR4U3pNeGpzZU9KdTd3V2VKRjBtbGY5?=
+ =?utf-8?B?RGpKWExGZ2hVY3dod0E3dk9WTzNKUmlCZzY2dlBJaENpaHl4ZjRZV3lsc3NH?=
+ =?utf-8?B?T0t4dnlEY01tcTlxSkVKWERVUWhXUWUvQjNGMThkT1RUSXJXWGtWR0RZb1BE?=
+ =?utf-8?B?SEJONVE2djA2a3FHdkFDak9JaEtEZjF6M1JkWXBMU1NSK2F2OUNnSVhvWG9L?=
+ =?utf-8?B?cmluQWJPbUE4RDZiR0JGWkpZRTlrU1EybkVQeEVKWm8yR2dXZGFDR05iT1RU?=
+ =?utf-8?B?TXU4d29vaHRjUWpXWUluUlhrUVRKOHRDNzEwZncxYm42TkdsVUV2SmtXSk5N?=
+ =?utf-8?B?L2kybGpUcDEwL3Bkd01JZVp0c1J6WFpQamdQOWY5OEUrRTZvWHU5bFVsY1ZN?=
+ =?utf-8?B?ZWIybHJDbDM0bDNYdW16TFpMMnhxNDZXQTlLWlZWZVZEVGp1a1JiZHAxNW5D?=
+ =?utf-8?B?anI3b1FlY0xJd3E4MC9OSlQxbTA2Qkpzb0FxQUo4WGJYWXdLRlNDbEZXWUY1?=
+ =?utf-8?B?U1JJUVVzY3lEekh2TDQ2akw3TzNKTVZzcXVLZkVEYm15ZGtIL1hndWFJdkd3?=
+ =?utf-8?B?eitFcnU0NXhqL0xxL0IxNlNSaEdTM1VxZXY4K0Q0dUg4RG50ZVpHZDhPU2FJ?=
+ =?utf-8?B?a2x4REJuRkYvcVVSM3pwYlJaYUpjbStjc0EzVUd3V3dTVjZBOVdLTXd1cTVT?=
+ =?utf-8?B?YUZRcUp4MGRZc1dRVFNaLzZhQmR6R3RML0t0OHhtTFRGRWpBbWdyTjIzZ085?=
+ =?utf-8?B?cVdGYUR2WjBnbzhlYUJ6SmI2UUxKOVMrbWdoYXplOFBIdGlDRTVmZm1WdVZB?=
+ =?utf-8?B?MmRGUnBNUGpDNWdaRHpYcnN6alozYlhQZzZNMjNQdVk5cHUrVk1DSUNkcFRY?=
+ =?utf-8?B?V2JSSytjbEVCY3dSa29sdFpaRkoxaitRMEU2R0dyendIT1JvOGEraEg4bUtM?=
+ =?utf-8?B?b0MvQ3FaMVFCd0UvNjNYYzJSUTdwRzNsa2lMNEJCK2VqR3ZnZGRNY29qc2lC?=
+ =?utf-8?B?MDRhS1Q5SEJNMnNoUm9MV0RsTFJTNTNlTk1TWTFJb3FDU09sbDJaUDh2cFRa?=
+ =?utf-8?B?aER2VFBIdTJBb293RWNYTmJoL3ZlTVo4a2h2NXdlMEtGWUV5MUltMlFCSE5x?=
+ =?utf-8?B?LzVhQ29RTWNlMUU0SE1EeVR3NGY2SXNtNmZkNlB2eUdHbXVTY0I4MHRFQUV3?=
+ =?utf-8?B?aGlRcXNmYi9KNmtNT3BLV1Q5Z2RscGtHdkl1SElLOTJOS3R5N3djc21Uc1lX?=
+ =?utf-8?B?cFM5V1c3Q2VGSDdDc1BjVTV6RjdmeFBQK1NBZjNFOWJTSUUwT0JKVk5NMWVa?=
+ =?utf-8?B?MG9DakVFVHd2eXFPNDdjYmRWdVptekZmU3FCeGVaRTlTRmcyQ1BGQXlkcFNV?=
+ =?utf-8?B?eHN5N3hhM0FYV0p2alJUUlkrRmZTNDBWNHN4TmJtOUJHWWxqYzZ1d3BwMExx?=
+ =?utf-8?B?YTZTM3ZyeS90cm5EUDhhOFBCUzFJSW1ZNkg4dWZTQXNBN1NvTGVITlVTQm5R?=
+ =?utf-8?B?NWVtYlozcEF3LzlEZ3lhdkZuNkNPMTFENWk1dWI5KzVUcjVBMlpoUkpFRGVr?=
+ =?utf-8?B?M0pEV1hDYXJDNlJMMlpYbzVmaGlaTWdZR2dSRVVHeUdCaTZOeGg5SlNIRXhT?=
+ =?utf-8?B?N1RIVEpUOE1jUFFwWk42RnQyUFFNZG5GcWhGc2NDY1E4VlYwdlJmeTg1OStB?=
+ =?utf-8?B?WEZVVE1YMzV1clYxbmh2bStVdmttZEFVQ05GVkFiWE1wR0s0Mnd5K0RxVTVa?=
+ =?utf-8?B?cVlTblBVNkM4NXplaEZIajM0SEJUMGJhQmFJRCtJRmF1TzlLZjlrc2xpeVZu?=
+ =?utf-8?B?eTMvdTdqeDFLSXRGc2ZzaERlZEczd2t4OG1mR3FNRTJqWlYyL01JT3JqZUVo?=
+ =?utf-8?B?UU1SWWw0emFQK2k5VkQ0a3ZpTG1JNzJxaHUwMlhpOUpqeE9Ea0daY1V4MTZR?=
+ =?utf-8?B?TUdyaElGS1NEa3dOUGlTcUU1NjNBRjJYZjVzZXl3VFM4WlZUZFpXWFJLNldV?=
+ =?utf-8?Q?6OjncVn2TrRrljrI3HFeHiKjM?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 4yIKkGZEHmt8wJiIi/C80EP9YcGjCjdiKSJvxtxWSMhz9BcSIhrlmtftUM3ckbDZGgztOShXCesoI1yDmiiwsIunKmXgyMhJ2shvmjdFFk/R9yCiacu7unhj5sBxFqPA1Tc48SFnErOElndElcHnL2fZpcY1kUxSjzulVp4RPzBdHoJ/EBaltZ0OPr3EOfiFnX13skvKXOV7zgWtwfAv9CtvlGCnKJ6/83P+gXOK5oGP3lWWYpsxekTjZsTkyKroig800Z9TYAjzWfap6S+TLFg3aEVUOLitUFvTOgymfwjj3ROrMX+X1gbST+9dsDnvwMAAbo5L96DWoU7IraYa/yw9ra5aSmYshq62IPfThh3wq7hVyjAMdZFbbT0oxkbnbiPpGNRy1Tl4XFkBk6nzACxTlD1DU21ZGvUoBoH+iNrr2QImA3lqor3mNopaCel06BdPacDc4pRE7pVCaOsZ4ogzjPClA9EUCFq+VkFAQB0yDEG1h7LgugDfWCO5fb1FyyOjkJVNSVE+2SIBAwqIZ3IcfnnKff9kcB9UeXjTH7nkY/4gNaE/zhxRNW4xLsPqkfF0gtQUkNiPiJM9pGzkLLO/V2UXndEQhoyq9AaQ2O0=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: cFrE2co2hvJbfbh/RkCDiq4evHmHRHqtm/h8jYuiMop/zKSy8XzlDuG89uv9nA+aAIwDgBfvn2ipHugMV5KeNZB1FtCglO6CDtJx+GpwTY5jXS9Tq0qsA3MGU6A9YYzubNHZQMKZsPKlJ3QxzpJHtCQ2LhrNRib4JUy6nMdmPq1ifCihGp7p7lV7tepQYAPGgFxWtR56tOhFbs61QCkDDQcbHWRcivZoDvhVKDnjljWJB4g69WMapvmTM6gtlIoVHD65J/KwJ4omOSNIXbeSPqiUT0pkn+aDK5WRmNpkXn3l1gdER+um7tUeBR/vtX8GGGPh0iJ0DXtp/ip6AtDY2n/FSMTV0Mz/k3wqzWCRBsE/bDp6+tfwfTxSqDx2mrQ6fNFb92qMqJ+gnso1vEFBWroX7qiD0P/RVO6GaX4F+ARm4B7gUrgrX/FYro+0dhCX5zynN/00FSoZH3gnZN9XS4RGkFvEwvnvAO+lyaF8UnH3mwx7LUUPRgfRNUgEJGB9KdEg5/ShkJz+y2YXJ6k+JGfqWMUXqp9ZD7jLdYDJyELTWP0INQDtQ90Cx1V38Xr49lOpASNA+DnbisFfqD9+q6WsT4fide8pH8W3leoADZs=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78c5449e-3a87-4dde-1d0b-08dd0b1904a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: e05ef364-efdc-48f2-e9be-08dd0b19a5ca
 X-MS-Exchange-CrossTenant-AuthSource: IA0PR10MB7577.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2024 17:13:44.0591
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2024 17:18:14.2743
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: msR/mtqZ8p85OedvrI22sYOsXxw+dcIftkwR3s2huIR2qs+nKO61NQ5Sn1uF8AmXixiNnCDaOyjgI5EXtshyLA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5928
+X-MS-Exchange-CrossTenant-UserPrincipalName: qE+ZiZWYZQg1VPrGHL3exzYi1xvELkuGllsnGB2GA5fm4iORJwFlv6jEydoskbrTFGQYS8816jcAd7osHQ0L6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5882
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-11-22_09,2024-11-21_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 adultscore=0
- suspectscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 mlxlogscore=999
+ phishscore=0 spamscore=0 suspectscore=0 malwarescore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2411220144
-X-Proofpoint-GUID: sOMvn9DZqzQXj2cGWLd0knhstSKfFXuH
-X-Proofpoint-ORIG-GUID: sOMvn9DZqzQXj2cGWLd0knhstSKfFXuH
+ definitions=main-2411220145
+X-Proofpoint-ORIG-GUID: b4R_4gUfOjNdyEOidJMc8lotwz8Il50x
+X-Proofpoint-GUID: b4R_4gUfOjNdyEOidJMc8lotwz8Il50x
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241122_091401_059198_355BC9CE 
-X-CRM114-Status: GOOD (  24.04  )
+X-CRM114-CacheID: sfid-20241122_091841_692198_BC7A4D14 
+X-CRM114-Status: GOOD (  21.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -215,130 +219,73 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-On 21/11/2024 14:49, Jens Axboe wrote:
-> On 11/21/24 4:30 AM, Phil Auld wrote:
->> Hi,
+On 22/11/2024 12:13, Christoph Hellwig wrote:
+> On Thu, Nov 21, 2024 at 09:07:32PM +0000, Paul Webb wrote:
+>> Christoph:
+>> To check for weird lazy init code using write zeroes
 >>
->> On Wed, Nov 20, 2024 at 06:20:12PM -0700 Jens Axboe wrote:
->>> On 11/20/24 5:00 PM, Chaitanya Kulkarni wrote:
->>>> On 11/20/24 13:35, Saeed Mirzamohammadi wrote:
->>>>> Hi,
->>>>>
->>>>> I?m reporting a performance regression of up to 9-10% with FIO randomwrite benchmark on ext4 comparing 6.12.0-rc2 kernel and v5.15.161. Also, standard deviation after this change grows up to 5-6%.
->>>>>
->>>>> Bisect root cause commit
->>>>> ===================
->>>>> - commit 63dfa1004322 ("nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of nvme_config_discard?)
->>>>>
->>>>>
->>>>> Test details
->>>>> =========
->>>>> - readwrite=randwrite bs=4k size=1G ioengine=libaio iodepth=16 direct=1 time_based=1 ramp_time=180 runtime=1800 randrepeat=1 gtod_reduce=1
->>>>> - Test is on ext4 filesystem
->>>>> - System has 4 NVMe disks
->>>>>
->>>> Thanks a lot for the report, to narrow down this problem can you
->>>> please :-
->>>>
->>>> 1. Run the same test on the raw nvme device /dev/nvme0n1 that you
->>>>      have used for this benchmark ?
->>>> 2. Run the same test on the  XFS formatted nvme device instead of ext4 ?
->>>>
->>>> This way we will know if there is an issue only with the ext4 or
->>>> with other file systems are suffering from this problem too or
->>>> it is below the file system layer such as block layer and nvme pci driver ?
->>>>
->>>> It will also help if you can repeat these numbers for io_uring fio io_engine
->>>> to narrow down this problem to know if the issue is ioengine specific.
->>>>
->>>> Looking at the commit [1], it only sets the max value to write zeroes
->>>> sectors
->>>> if NVME_QUIRK_DEALLOCATE_ZEROES is set, else uses the controller max
->>>> write zeroes value.
->>> There's no way that commit is involved, the test as quoted doesn't even
->>> touch write zeroes. Hence if there really is a regression here, then
->>> it's either not easily bisectable, some error was injected while
->>> bisecting, or the test itself is bimodal.
->> I was just going to ask how confident we are in that bisect result.
+>> Values in the 5.15 kernel baseline prior to the commit:
+>> $ cat /sys/block/nvme*n1/queue/write_zeroes_max_bytes
+>> 0
+>> 0
+>> 0
+>> 0
 >>
->> I suspect this is the same issue I've been fighting here:
+>> Values in the 6.11 kernel that contains the commit:
+>> $ cat /sys/block/nvme*n1/queue/write_zeroes_max_bytes
+>> 2199023255040
+>> 2199023255040
+>> 2199023255040
+>> 2199023255040
+> Thanks!  So 6.11 actually enables write zeroes for your controller.
+>
+>> Another interesting datapoint is that while performing some runs I am
+>> seeing the following output on the console in the 6.11/6.12 kernels that
+>> contain the commit:
 >>
->> https://urldefense.com/v3/__https://lore.kernel.org/lkml/20241101124715.GA689589@pauld.westford.csb/__;!!ACWV5N9M2RV99hQ!PXJXp0zosonkV7jeW9yE0YL-uPElcYI-G-bvm69COWR1Tbl9w9puGc1tLR_ccsDoYPBb9Bs3waNVuuf9Lg$
->>
->> Saeed, can you try your randwrite test after
->>
->>    "echo NO_DELAY_DEQUEUE > /sys/kernel/debug/sched/features"
->>
->> please?
->>
->> We don't as yet have a general fix for it as it seems to be a bit of
->> a trade off.
-> Interesting. Might explain some regressions I've seen too related to
-> performance.
-Apologies for those receiving this twice, but resending due to mail 
-client not sending it as text content causing it to be rejected by the 
-lists.
-Also, a little more info to update.
+>> [  473.398188] operation not supported error, dev nvme2n1, sector 13952 op 0x9:(WRITE_ZEROES) flags 0x800 phys_seg 0 prio class 0
+> .. which it doesn't handle well.
+>
+>> [  473.534550] nvme0n1: Dataset Management(0x9) @ LBA 14000, 256 blocks, Invalid Command Opcode (sct 0x0 / sc 0x1) DNR
+> .. and interesting this is for a Deallocate, which should only happen
+> with the quirk for certain Intel controllers from the very first days of
+> nvme.
+>
+> What controller do you have?  Can you post the output of lspci and
+> "nvme list"?
 
-Hi,
+Hi Christoph,
 
-To answer the various questions/suggestions, I'll just group them here:
-
-Phil:
-can you try your randwrite test after
-"echo NO_DELAY_DEQUEUE > /sys/kernel/debug/sched/features"
-
-Performance regression still persists with this setting being used.
+The nvme related output from lspci is as follows:
+$ lspci | grep -i nvme
+19:00.0 Non-Volatile memory controller: Intel Corporation NVMe 
+Datacenter SSD [3DNAND, Beta Rock Controller]
+20:00.0 Non-Volatile memory controller: Intel Corporation NVMe 
+Datacenter SSD [3DNAND, Beta Rock Controller]
+94:00.0 Non-Volatile memory controller: Intel Corporation NVMe 
+Datacenter SSD [3DNAND, Beta Rock Controller]
+9b:00.0 Non-Volatile memory controller: Intel Corporation NVMe 
+Datacenter SSD [3DNAND, Beta Rock Controller]
 
 
-Christoph:
-To check for weird lazy init code using write zeroes
+$ sudo nvme list
+Node                  Generic               SN 
+Model                                    Namespace 
+Usage                      Format           FW Rev
+--------------------- --------------------- -------------------- 
+---------------------------------------- ---------- 
+-------------------------- ---------------- --------
+/dev/nvme0n1          /dev/ng0n1            PHLN942100EQ6P4CGN 
+7361456_ICRPC2DD2ORA6.4T                 0x1          6.40  TB / 6.40  
+TB    512   B +  0 B   VDV1RL06
+/dev/nvme1n1          /dev/ng1n1            PHLN942100PE6P4CGN 
+7361456_ICRPC2DD2ORA6.4T                 0x1          6.40  TB / 6.40  
+TB    512   B +  0 B   VDV1RL06
+/dev/nvme2n1          /dev/ng2n1            PHLN9415002B6P4CGN 
+7361456_ICRPC2DD2ORA6.4T                 0x1          6.40  TB / 6.40  
+TB    512   B +  0 B   VDV1RL06
+/dev/nvme3n1          /dev/ng3n1            PHLN942100DQ6P4CGN 
+7361456_ICRPC2DD2ORA6.4T                 0x1          6.40  TB / 6.40  
+TB    512   B +  0 B   VDV1RL06
 
-Values in the 5.15 kernel baseline prior to the commit:
-$ cat /sys/block/nvme*n1/queue/write_zeroes_max_bytes
-0
-0
-0
-0
-
-Values in the 6.11 kernel that contains the commit:
-$ cat /sys/block/nvme*n1/queue/write_zeroes_max_bytes
-2199023255040
-2199023255040
-2199023255040
-2199023255040
-
-
-Chaitanya:
-
-Run the same test on the  XFS formatted nvme device instead of ext4 ?
-- XFS runs did not show the performance regression.
-
-Run the same test on the raw nvme device /dev/nvme0n1 that you have used 
-for this benchmark
-- Will have to check if this was done, and if not, get that test run
-
-repeat these numbers for io_uring fio io_engine
-- Will look into getting those too
-
-
-Another interesting datapoint is that while performing some runs I am 
-seeing the following output on the console in the 6.11/6.12 kernels that 
-contain the commit:
-
-[  473.398188] operation not supported error, dev nvme2n1, sector 13952 op 0x9:(WRITE_ZEROES) flags 0x800 phys_seg 0 prio class 0
-[  473.534550] nvme0n1: Dataset Management(0x9) @ LBA 14000, 256 blocks, Invalid Command Opcode (sct 0x0 / sc 0x1) DNR
-[  473.660502] operation not supported error, dev nvme0n1, sector 14000 op 0x9:(WRITE_ZEROES) flags 0x800 phys_seg 0 prio class 0
-[  473.796859] nvme3n1: Dataset Management(0x9) @ LBA 13952, 256 blocks, Invalid Command Opcode (sct 0x0 / sc 0x1) DNR
-[  473.922810] operation not supported error, dev nvme3n1, sector 13952 op 0x9:(WRITE_ZEROES) flags 0x800 phys_seg 0 prio class 0
-[  474.059169] nvme1n1: Dataset Management(0x9) @ LBA 13952, 256 blocks, Invalid Command Opcode (sct 0x0 / sc 0x1) DNR
-
-
-The errors start as soon as the mkfs command is initiated for ext4 and 
-continue throughout the fio test run.
-These are also seen when using mkfs command to create an xfs filesystem, 
-however in this case, the error is only seen once at fs creation time.
-
-Regards,
-Paul.
 
