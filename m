@@ -4,89 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07828E65D10
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2024 02:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DAE2E65D29
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2024 05:38:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1iDNOTxS/zhKcM+lAwLGWpOioXGlApMkU9kCfRd9Vxs=; b=EI9xSsssdJy5WvCUDGnHKo4ICN
-	7kOMASytAglOnzXdkDtOV1sGpJZlR1E4kCiwTqkod8uesGjc9TRDfUpXch39R+4+pAyrJWWmT/3K/
-	eSGFCyCr/bO5l1B3Tj7uO6PubHAs1YYnw7A6BooN6S6p32dF7fT/tP5v7HxBWYTF36BWHrFTXpVQS
-	sInEk1L6F+3kB5ZCYAVfi91P2kUaI7ONXDDvQyT8pgGNdXIyF5bbdrZWVnPmIovuuon5Zu13nnCQA
-	xIoPtWIRg+36+s1Mb/WjqW/5baxaxCw93teegAKq0F8mo47jJzE4eQlSX1AmgH79QeTaXXzQ6lM4J
-	68DiigfA==;
+	bh=eqLIUso4tQH5JQgm1n9hufVV38KZMRy/YQqOEuyyBVo=; b=YcjgEGjFIHb8vO7lA3yPOi+zhv
+	R6ZAkMNBW51xM2NMq+pESM7zpF2LtVN3jOV3z4oijNJS7PBo34DqNfwufCx10aTCXDYAzoQvPNGrA
+	lzPjjZwk58qPZNZAExA447e7jLBLCxImfVNJ2BNaH9J2F9uRNUZm1J1LJJzYCLgDl8Nwc8jSYZtVC
+	Id7qD22xxZjo6UsBbMDgqe7eEtWnHiekbfGbfpKwYFWwjuvif2ImKU6ILZ+vxHBOgaJqJDs5vfKF5
+	9PsBW07hBiaMbg/o1o+BU36a50EAeLxxpUAslhBHucxXWcwB5jdT1VpB4SWShExYnIniPYwFLhahX
+	Qjli7NrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEJFb-00000001S59-3hTe;
-	Fri, 22 Nov 2024 02:18:27 +0000
+	id 1tEMNF-00000001ftO-3WsD;
+	Fri, 22 Nov 2024 05:38:33 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEJFZ-00000001S4A-02tn
+	id 1tEMNB-00000001fsp-2jj4
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Nov 2024 02:18:26 +0000
+	Fri, 22 Nov 2024 05:38:32 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732241903;
+	s=mimecast20190719; t=1732253906;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1iDNOTxS/zhKcM+lAwLGWpOioXGlApMkU9kCfRd9Vxs=;
-	b=LPiPmfEAG+/AgGOTG8+GpZpNeT61hOPVJd0IgoambfBCVTXyqUAa8MChIv7hwR4geZJ/NC
-	O4uLuUt4XA66q6GLba40pU4exNpwW57Y4V+JuDJCb7d/VahgHwHJf17Yl4olT1r95Un5BY
-	dIlMIZQujYF6hxOBELY4XgXt1a1LgYw=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=eqLIUso4tQH5JQgm1n9hufVV38KZMRy/YQqOEuyyBVo=;
+	b=J5Zozu7XglA1/dFhjnTF2dSRbyyxylPy0mT+27crTZvfBkqszAPYzXSN1w58Q7KKJETqKo
+	lO3SeovtYA46yE7LvgRa/gMfVSSVNu8fA4Ua/A67Tt0WYBibSnNnM8qFpcEwI9BCrPtppC
+	WxXbPrbRFlpFDnffpY0kBkWLCbHatyQ=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-689-MZQ0-WQyO_ehMY0fxDk1UQ-1; Thu, 21 Nov 2024 21:18:22 -0500
-X-MC-Unique: MZQ0-WQyO_ehMY0fxDk1UQ-1
-X-Mimecast-MFC-AGG-ID: MZQ0-WQyO_ehMY0fxDk1UQ
-Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2fb50351d18so11611561fa.3
-        for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2024 18:18:21 -0800 (PST)
+ us-mta-119--B_Bw_e3NFyxtGppQyYN_w-1; Fri, 22 Nov 2024 00:38:24 -0500
+X-MC-Unique: -B_Bw_e3NFyxtGppQyYN_w-1
+X-Mimecast-MFC-AGG-ID: -B_Bw_e3NFyxtGppQyYN_w
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2fb58d1da8eso11066051fa.0
+        for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2024 21:38:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732241900; x=1732846700;
+        d=1e100.net; s=20230601; t=1732253903; x=1732858703;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1iDNOTxS/zhKcM+lAwLGWpOioXGlApMkU9kCfRd9Vxs=;
-        b=EhrKq8oU4xAd/+awkOHAeyjwspctVE4wfZm+8h2BpRP1kjvgU+pHt8ahsbtmRShbCL
-         2oGav2Kc7GAI7CROvK7jmj2gaztFqFHW+aDs/6711EWQxTFJRT9NSCdzeUFeqNqUmvSF
-         FRx8FAgha9cRnpNYlqReH8JzHME3L/CVtA6UjTxc/dAstp+t6Kmbp2P9VV/hS5+jjt2Q
-         XyfTeRvpQhYrENQ+of7xI48AsAkBM1xh9FRJKh0jHRn1Tc5xLs5A3o7UYk/ld1u0QJli
-         ao3G/J/Ydk3nabw+QsaOuoJ0Crr9guyIE7q7FKRcwAbrBautD5+FkzFSf2ETnCeaQhGS
-         ARZA==
-X-Gm-Message-State: AOJu0YwUSkXQnPWPr9xtM9Me7jKZLVZBSyLViResRhsHrhN1KxgkxVUq
-	IkveHwjzm7cAaMPkjRJhrZJp61otJEXQOp7d4NqaDgu70T/1DpQgojnPDhMHV0IlzAPnP2fDMst
-	I59eYrnkxsIHZLf1xthbXMLGhqq/qvKw0hyn9Kz70bonInwWIY6kC4FB1pyt2H0dW6NlCEDDHmp
-	5OS0gxUR6raxhuu+VtUs+8k/WyOEqhJHKPIoBBiv4=
-X-Gm-Gg: ASbGncvz2a7Sh60AhMId0zlAh9qT6BpADi3+VUZtffPUFpHMoscOqqVO6zYeV2SuBNW
-	nbg7+FKzgbWkhoYVm/RXHSxUNSCrPVJre
-X-Received: by 2002:a2e:a592:0:b0:2ff:98c2:763f with SMTP id 38308e7fff4ca-2ffa71c398fmr4974331fa.34.1732241900462;
-        Thu, 21 Nov 2024 18:18:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGAY9y0V1VpfZqaiWJc8NCM/S+eOsGeHtXv/BAxw4zqSLl4A5wn32ba/qxPsczjP6KdQDZ1XUCG6azvyb8i2xE=
-X-Received: by 2002:a2e:a592:0:b0:2ff:98c2:763f with SMTP id
- 38308e7fff4ca-2ffa71c398fmr4974221fa.34.1732241900016; Thu, 21 Nov 2024
- 18:18:20 -0800 (PST)
+        bh=eqLIUso4tQH5JQgm1n9hufVV38KZMRy/YQqOEuyyBVo=;
+        b=ZHt8OG+ZlgJdycEHr/2u7yWbKIurnIGODS/tAiIc2A/+5PACKelz3I60jqBgpju3jb
+         rIBzlWRPNPZopMdedl4Gh/doXRMtogyKMag/xlllOPNykrmhKzyqNgFNT4o9CmlIusqG
+         kT4MgYVZmZaTpgdTDNzE8fKkZPUxfrViPUFLx+IurCmFxYK5PuMV4fSOsar2JR0+EgIi
+         70ltiN9EI5tcCOlD6lzpc4mpecF99xViFhyUmyiAhADRHRk57zPvhTsm55R/m1TyEdzf
+         jhbcc+WahvrI2aeYmBfopn0n6F/s+lEjB3XzfcUf886poUwjfDVnVS1xgoOxZtQD+OZ/
+         uF3Q==
+X-Gm-Message-State: AOJu0YykeUam0/qoHEQhvS6uTQPitjIzk3baGP6kcez912Q+nyx3c+sA
+	I87YaXu6K00bqX9PAkZo8UUYXSNdwqzUsQFftiEqZkKcRGoqgvx5Tk8c0jCIq4nDJj6vjDqN3TK
+	YLpP+akmXt8LIKRPwah2/FGHiVeriOxkhD/SzwFAas93eoPJOj+8O01p+BQT8xrF6Pb0NWr3A+C
+	X87fs2UwOdMALsfDAEn2K17vq5aHSVvEGWdyOylOc=
+X-Gm-Gg: ASbGnctoMJSLNCX+oQfj6wPR+4qFl13ecyvoHlqx8zK9Bw4nmw38ZlOkvF2V9bxueA5
+	zFWKnDhlsNvHEy0UCTijAtswbVXI2Oj3/
+X-Received: by 2002:a2e:99cc:0:b0:2ff:a8e9:a648 with SMTP id 38308e7fff4ca-2ffa8e9a718mr1387141fa.9.1732253903182;
+        Thu, 21 Nov 2024 21:38:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGyiHYbnShueV2QlXyoqutfmjwmFNVa31kdxiDclSeTsg/UZjBfpV4Xcv8hm7EQFaLHVWAq1LagBSGG3TA0lco=
+X-Received: by 2002:a2e:99cc:0:b0:2ff:a8e9:a648 with SMTP id
+ 38308e7fff4ca-2ffa8e9a718mr1387101fa.9.1732253902828; Thu, 21 Nov 2024
+ 21:38:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20241120102051.247995-1-shinichiro.kawasaki@wdc.com>
-In-Reply-To: <20241120102051.247995-1-shinichiro.kawasaki@wdc.com>
+References: <CAHj4cs8OVyxmn4XTvA=y4uQ3qWpdw-x3M3FSUYr-KpE-nhaFEA@mail.gmail.com>
+ <7f35cbe9-9e12-498b-b46a-be1f570772fc@linux.ibm.com> <CAHj4cs91daKS2Sexvs3y_m=r=+a+gJdk9=Z+76TdsE6=0nNcYg@mail.gmail.com>
+ <9ea5ac64-283c-40e6-a70d-285b81c55c06@linux.ibm.com>
+In-Reply-To: <9ea5ac64-283c-40e6-a70d-285b81c55c06@linux.ibm.com>
 From: Yi Zhang <yi.zhang@redhat.com>
-Date: Fri, 22 Nov 2024 10:18:08 +0800
-Message-ID: <CAHj4cs-X=D=pZOPf6e_d=kKfFHXFMoAZb9m-fpT1Y+dtCWhMxA@mail.gmail.com>
-Subject: Re: [PATCH blktests] nvme: delete all namespaces in _remove_nvmet_subsystem()
-To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>, 
-	Daniel Wagner <dwagner@suse.de>
+Date: Fri, 22 Nov 2024 13:38:11 +0800
+Message-ID: <CAHj4cs_nbdbzo_Rc+LDp9NS_Ffi1FTmk-9XKw-6TAav9LM4__Q@mail.gmail.com>
+Subject: Re: [bug report][regression] blktests nvme/029 failed on latest linux-block/for-next
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+	linux-block <linux-block@vger.kernel.org>, Keith Busch <kbusch@kernel.org>, 
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Maurizio Lombardi <mlombard@redhat.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5qnvomeBLJklPoE2dMhJeSyJhCb-WKybOKUtzbizlG8_1732241901
+X-Mimecast-MFC-PROC-ID: E9lOfCGBIwOMZ3F4EbBPks00kUuAQwjpu0PHXWnFO2I_1732253903
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241121_181825_131249_41ACAAD9 
-X-CRM114-Status: GOOD (  24.19  )
+X-CRM114-CacheID: sfid-20241121_213829_799659_040247BD 
+X-CRM114-Status: GOOD (  25.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,105 +104,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Tested-by: Yi Zhang <yi.zhang@redhat.com>
+On Thu, Nov 21, 2024 at 7:10=E2=80=AFPM Nilay Shroff <nilay@linux.ibm.com> =
+wrote:
+>
+>
+>
+> On 11/21/24 08:28, Yi Zhang wrote:
+> > On Wed, Nov 20, 2024 at 10:07=E2=80=AFPM Nilay Shroff <nilay@linux.ibm.=
+com> wrote:
+> >>
+> >>
+> >>
+> >> On 11/19/24 16:34, Yi Zhang wrote:
+> >>> Hello
+> >>>
+> >>> CKI recently reported the blktests nvme/029 failed[1] on the
+> >>> linux-block/for-next, and bisect shows it was introduced from [2],
+> >>> please help check it and let me know if you need any info/test for it=
+, thanks.
+> >>>
+> >>> [1]
+> >>> nvme/029 (tr=3Dloop) (test userspace IO via nvme-cli read/write
+> >>> interface) [failed]
+> >>>     runtime    ...  1.568s
+> >>>     --- tests/nvme/029.out 2024-11-19 08:13:41.379272231 +0000
+> >>>     +++ /root/blktests/results/nodev_tr_loop/nvme/029.out.bad
+> >>> 2024-11-19 10:55:13.615939542 +0000
+> >>>     @@ -1,2 +1,8 @@
+> >>>      Running nvme/029
+> >>>     +FAIL
+> >>>     +FAIL
+> >>>     +FAIL
+> >>>     +FAIL
+> >>>     +FAIL
+> >>>     +FAIL
+> >>>     ...
+> >>>     (Run 'diff -u tests/nvme/029.out
+> >>> /root/blktests/results/nodev_tr_loop/nvme/029.out.bad' to see the
+> >>> entire diff)
+> >>> [2]
+> >>> 64a51080eaba (HEAD) nvmet: implement id ns for nvm command set
+> >>>
+> >>>
+> >>> --
+> >>> Best Regards,
+> >>>   Yi Zhang
+> >>>
+> >>>
+> >> I couldn't reproduce it even after running nvme/029 in a loop
+> >> for multiple times. Are you following any specific steps to
+> >> recreate it?
+> >
+> > From the reproduced data[1], seems it only reproduced on x86_64 and
+> > aarch64, and from the 029.full[2], we can see the failure comes from
+> > the "nvme write" cmd.
+> > [1]
+> > https://datawarehouse.cki-project.org/issue/3263
+> > [2]
+> > # cat results/nodev_tr_loop/nvme/029.full
+> > Reference tag larger than allowed by PIF
+> > NQN:blktests-subsystem-1 disconnected 1 controller(s)
+> > disconnected 1 controller(s)
+> >
+> > I also attached the kernel config file in case you want to try it, than=
+ks.
+> >
+> Thanks for the additional information!
+> Now I could understand the issue and have a probable fix. If possible, ca=
+n you try
+> the below patch and check if it help resolve this issue?
 
-On Wed, Nov 20, 2024 at 6:20=E2=80=AFPM Shin'ichiro Kawasaki
-<shinichiro.kawasaki@wdc.com> wrote:
+Yes, the issue was fixed now.
+
 >
-> From: Hannes Reinecke <hare@suse.de>
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-=
+cmd.c
+> index 934b401fbc2f..7a8256ae3085 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -901,12 +901,14 @@ static void nvmet_execute_identify_ctrl_nvm(struct =
+nvmet_req *req)
+>  static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
+>  {
+>         u16 status;
+> +       void *zero_buf;
 >
-> A subsystem might have more than one namespace, so delete all of them in
-> _remove_nvmet_subsystem().
+>         status =3D nvmet_req_find_ns(req);
+>         if (status)
+>                 goto out;
 >
-> This change was to be made before the commit 67e25d71bc58 ("nvme/052: do
-> not create namespace when setting up the target"), which assumes that
-> _remove_nvmet_subsystem() delets all namespaces. However, commit order
-> was modified then the test case nvme/052 now fails without this commit.
+> -       status =3D nvmet_copy_to_sgl(req, 0, ZERO_PAGE(0),
+> +       zero_buf =3D __va(page_to_pfn(ZERO_PAGE(0)) << PAGE_SHIFT);
+> +       status =3D nvmet_copy_to_sgl(req, 0, zero_buf,
+>                                    NVME_IDENTIFY_DATA_SIZE);
+>  out:
+>         nvmet_req_complete(req, status);
 >
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> [Shin'ichiro: resolved conflicts]
-> Fixes: 67e25d71bc58 ("nvme/052: do not create namespace when setting up t=
-he target")
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> ---
-> This patch is a part of the ANA support work by Hannes. It was once inclu=
-ded in
-> the first series of the work, but it was dropped from the series to be in=
-cluded
-> in the later series [1]. After the second series of the work was applied,=
- Yi
-> Zhang found nvme/052 fails [2]. It turned out that this patch is required=
- for
-> the one of the patches in the second series, which is the commit 67e25d71=
-bc58
-> ("nvme/052: do not create namespace when setting up the target").
->
-> Of note is that this patch also prepares for one of the new test cases to=
- be
-> included in the third series [3].
->
-> [1] https://lore.kernel.org/linux-nvme/20241024010025.2216242-14-shinichi=
-ro.kawasaki@wdc.com/
-> [2] https://lore.kernel.org/linux-nvme/20241120024925.1397864-1-yi.zhang@=
-redhat.com/
-> [3] https://github.com/kawasaki/blktests/commit/31091d116eaea4e7d5ad3cf76=
-e106d1085209c07
->
->  common/nvme    | 5 ++++-
->  tests/nvme/016 | 5 -----
->  tests/nvme/017 | 5 -----
->  3 files changed, 4 insertions(+), 11 deletions(-)
->
-> diff --git a/common/nvme b/common/nvme
-> index 688193b..fd472fe 100644
-> --- a/common/nvme
-> +++ b/common/nvme
-> @@ -640,7 +640,10 @@ _remove_nvmet_subsystem() {
->         local nvmet_subsystem=3D"$1"
->         local subsys_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
->
-> -       _remove_nvmet_ns "${nvmet_subsystem}" "${def_nsid}"
-> +       for n in "${subsys_path}/namespaces/"*; do
-> +               [ -d "${n}" ] || continue
-> +               _remove_nvmet_ns "${nvmet_subsystem}" "${n##*/}"
-> +       done
->         rm -f "${subsys_path}"/allowed_hosts/*
->         rmdir "${subsys_path}"
->  }
-> diff --git a/tests/nvme/016 b/tests/nvme/016
-> index dd3cb44..95b0df4 100755
-> --- a/tests/nvme/016
-> +++ b/tests/nvme/016
-> @@ -47,11 +47,6 @@ test() {
->         _remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
->         _remove_nvmet_port "${port}"
->
-> -       for ((i =3D iterations; i > 1; i--)); do
-> -               nsid=3D$((def_nsid + i - 1))
-> -               _remove_nvmet_ns "${def_subsysnqn}" "${nsid}"
-> -       done
-> -
->         _remove_nvmet_subsystem "${def_subsysnqn}"
->
->         echo "Test complete"
-> diff --git a/tests/nvme/017 b/tests/nvme/017
-> index a22c748..3483929 100755
-> --- a/tests/nvme/017
-> +++ b/tests/nvme/017
-> @@ -47,11 +47,6 @@ test() {
->         _remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
->         _remove_nvmet_port "${port}"
->
-> -       for ((i =3D iterations; i > 1; i--)); do
-> -               nsid=3D$((def_nsid + i - 1))
-> -               _remove_nvmet_ns "${def_subsysnqn}" "${nsid}"
-> -       done
-> -
->         _remove_nvmet_subsystem "${def_subsysnqn}"
->
->         rm "$(_nvme_def_file_path)"
-> --
-> 2.47.0
+> Thanks,
+> --Nilay
 >
 
 
