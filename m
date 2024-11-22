@@ -4,74 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29426E69191
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2024 21:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C67EE6ADCA
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2024 22:20:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MZgYkjMfGQhQSirOW/I/Kltv3QYr/gCeO7U1k2QLzp0=; b=hq/3LFGEGeuYwvC9KaRwXqMtpA
-	O9RkUTrthdxX2Jlr9SjZpE/qAtMOjYoi/1FMDl06YJYsscoodOwz8l0gN1IlLdOIWtexINrEsLT9V
-	eGtIJatasH0T/QWjJ7lNcVUsUHdDvR63i7FOR1rt1kug8/wpR/vAm9C2Z3x4rDPOu3s5NH4BlcYnl
-	1T/tySkw0QJoymO+XK6RoU4xS2CXh0gQyKNTUdmupSzGXXmqoNiELsinKOrgoSIeUB1jjj6gpkggX
-	BaUbwdoZoQG/PPW+KRRHSHyMMhDQpSlb9nvTJo4T59VhyZLd+dIbSFSsZYBt6GNuzdXOFnok6qPbB
-	QO9KP2PQ==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=U4WWmttoadv/y/rm/5ZDeqBXWNESZEXvli09CekTCzs=; b=LM2+b9qvjJCcxV
+	WWdc6KYMyUbvytjuPuHpHifSE/M1RSHucpSvn3RfhaJdmocg4xqGRGamGJrIEHkffJDB1inhVLtao
+	E7VLrdCGYdOqP0bjihbmeNK1Z8Y0etnPyvw+gV30TUS7CavrPUmJ2z7ocbqbsXUeo5LJSHiC3Nbbp
+	ErXfalCkOKBz9FambmQo2lrKqLbmQVb2QuuJiCVxgI9PbZtQFRPDyo6j+nnqkt8BfzyXryHNf0E4+
+	Lt2jnk5sxx/FgPVtsEvG7hjPf0dSTda983mZEvaNMPPWYbF4YJbKU+uNW3jWmch87FSsg1s0M6Svc
+	olsnu6aJi1RjurPIoJVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEatq-00000003K1r-28dg;
-	Fri, 22 Nov 2024 21:09:10 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tEc1H-00000003PSn-2ybY;
+	Fri, 22 Nov 2024 22:20:55 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEato-00000003K1X-2O3S
+	id 1tEc1F-00000003PR3-0nAO
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Nov 2024 21:09:09 +0000
+	Fri, 22 Nov 2024 22:20:54 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7B41BA41519;
-	Fri, 22 Nov 2024 21:07:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996E2C4CECE;
-	Fri, 22 Nov 2024 21:09:06 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 23117A41813;
+	Fri, 22 Nov 2024 22:18:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAEF9C4CECE;
+	Fri, 22 Nov 2024 22:20:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732309747;
-	bh=zeo9E58IJwopEbyH4KMEk8UyvZ6VvHKNIKWK1GklwMU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ioe1YIOOXk1orgEFpo+uwpfVdTnl2sYch4yvR51Lsno2C95n+JF0efE9X5WbFyfSM
-	 Rmq77Crh2KFozPb57/Eu4BLq/uwbdlu0hpP+mgfRc+inueyzz07nwhE3eS8AyRyxEs
-	 nV4ShmSTi7ESXIzbgZAGDGMKSiBQreqqcNEiZVFwn5fldvyOz7vXy/ue30A8eNI1Bq
-	 fDL27TdeuFXJe7KfAB4I8xPtfTd51yKEnJgNSB5TbNs0BXQcYsyA+tK+j4f5mK74F5
-	 VcprUrNxQV6Jt+2U32J9MfiUdEfvoEI4nC2CYZMKGrlq+XLNWvyRdyumcaAalTtoUO
-	 vtYOLqfdMLDrQ==
-Date: Fri, 22 Nov 2024 14:09:04 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc: Paul Webb <paul.x.webb@oracle.com>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, Phil Auld <pauld@redhat.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Ramanan Govindarajan <ramanan.govindarajan@oracle.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nicky Veitch <nicky.veitch@oracle.com>
-Subject: Re: [External] : Re: [bug-report] 5-9% FIO randomwrite ext4 perf
- regression on 6.12.y kernel
-Message-ID: <Z0Dy8H0A3Wj45ZQn@kbusch-mbp.dhcp.thefacebook.com>
-References: <392209D9-5AC6-4FDE-8D84-FB8A82AD9AEF@oracle.com>
- <0cfbfcf6-08f5-4d1b-82c4-729db9198896@nvidia.com>
- <d6049cd0-5755-48ee-87af-eb928016f95b@kernel.dk>
- <20241121113058.GA394828@pauld.westford.csb>
- <a01ead6b-bd1d-4cd3-ade6-59ad905273e7@kernel.dk>
- <181bcb70-e0bf-4024-80b7-e79276d6eaf7@oracle.com>
- <20241122121304.GA25877@lst.de>
- <188e08f4-2eb3-41ad-a331-63fd5bb0e7f6@oracle.com>
- <14F95ECE-2AB7-4A50-AE45-C98EC426312C@oracle.com>
+	s=k20201202; t=1732314052;
+	bh=TDoD+lOCxLL6fD8iEhwdRn95Pj9mWgTMDjgMOuci1bI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=BE9n+TDB06+cbTv4npSy9jlp4wRibJIPfyJTme6OgdI69fT2wzJQoGyDbiZsE/Gf3
+	 RStKNEJ8+BcJenqy9K6Im0bc2Uk5PhQdef9qb/UUK9VFFkMYJyCxnshBddkyi3VJGN
+	 wd3wg4OLyu9xzqu79o6tbSxMQdWv47QDWhv42Om5tw84iiPrJ2Vd7sDQc8buds74uB
+	 FoSG4xxR9Y50nMJ29kb25XayBuTK4FjTZloxXvZ2XsYFbrmcRGN1Ihg8TdSUDLkrCT
+	 eDM+Z1fqVzDaHn2SKMqwaRJ773cq+NTjmK6lucdswbn9QiaacDECtccBy/xWJfESed
+	 RT6K9JXbPqbCA==
+Date: Fri, 22 Nov 2024 16:20:50 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, andersson@kernel.org,
+	konradybcio@kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
+ the user
+Message-ID: <20241122222050.GA2444028@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <14F95ECE-2AB7-4A50-AE45-C98EC426312C@oracle.com>
+In-Reply-To: <20241118082344.8146-1-manivannan.sadhasivam@linaro.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241122_130908_671405_2657C135 
-X-CRM114-Status: GOOD (  13.37  )
+X-CRM114-CacheID: sfid-20241122_142053_360169_0BA696DB 
+X-CRM114-Status: GOOD (  31.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,29 +73,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 22, 2024 at 06:26:46PM +0000, Saeed Mirzamohammadi wrote:
-> FYI, Tried disabling write zeros but still getting the same errors:
-> [ 326.097275] operation not supported error, dev nvme2n1, sector 10624 op 0x9:(WRITE_ZEROES) flags 0x800 phys_seg 0 prio class 0
-> [ 338.496217] nvme0n1: Dataset Management(0x9) @ LBA 10928, 256 blocks, Invalid Command Opcode (sct 0x0 / sc 0x1) DNR
-> ... 
+[+cc Rafael]
+
+On Mon, Nov 18, 2024 at 01:53:44PM +0530, Manivannan Sadhasivam wrote:
+> PCI core allows users to configure the D3Cold state for each PCI device
+> through the sysfs attribute '/sys/bus/pci/devices/.../d3cold_allowed'. This
+> attribute sets the 'pci_dev:d3cold_allowed' flag and could be used by users
+> to allow/disallow the PCI devices to enter D3Cold during system suspend.
+>
+> So make use of this flag in the NVMe driver to shutdown the NVMe device
+> during system suspend if the user has allowed D3Cold for the device.
+> Existing checks in the NVMe driver decide whether to shut down the device
+> (based on platform/device limitations), so use this flag as the last resort
+> to keep the existing behavior.
+> 
+> The default behavior of the 'pci_dev:d3cold_allowed' flag is to allow
+> D3Cold and the users can disallow it through sysfs if they want.
+
+What problem does this solve?  I guess there must be a case where
+suspend leaves NVMe in a higher power state than you want?
+
+What does it mean that this is the "last resort to keep the existing
+behavior"?  All the checks are OR'd together and none have side
+effects, so the order doesn't really matter.  It changes the existing
+behavior *unless* the user has explicitly cleared d3cold_allowed via
+sysfs.
+
+pdev->d3cold_allowed is set by default, so I guess this change means
+that unless the user clears d3cold_allowed, we let the PCI core decide
+the suspend state instead of managing it directly in nvme_suspend()?
+
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/nvme/host/pci.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index d3bde17c818d5..ad2ce6008062e 100644
+> index 4b9fda0b1d9a..a4d4687854bf 100644
 > --- a/drivers/nvme/host/pci.c
 > +++ b/drivers/nvme/host/pci.c
-> @@ -3425,7 +3425,8 @@ static const struct pci_device_id nvme_id_table[] = {
->                 .driver_data = NVME_QUIRK_STRIPE_SIZE |
->                                 NVME_QUIRK_DEALLOCATE_ZEROES |
->                                 NVME_QUIRK_IGNORE_DEV_SUBNQN |
-> -                               NVME_QUIRK_BOGUS_NID, },
-> +                               NVME_QUIRK_BOGUS_NID |
-> +                               NVME_QUIRK_DISABLE_WRITE_ZEROES, },
->         { PCI_VDEVICE(INTEL, 0x0a55),   /* Dell Express Flash P4600 */
->                 .driver_data = NVME_QUIRK_STRIPE_SIZE |
->                                 NVME_QUIRK_DEALLOCATE_ZEROES, },
+> @@ -3287,7 +3287,8 @@ static int nvme_suspend(struct device *dev)
+>  	 */
+>  	if (pm_suspend_via_firmware() || !ctrl->npss ||
+>  	    !pcie_aspm_enabled(pdev) ||
+> -	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
+> +	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND) ||
+> +	    pdev->d3cold_allowed)
+>  		return nvme_disable_prepare_reset(ndev, true);
 
-Could you instead try deleting the NVME_QUIRK_DEALLOCATE_ZEROES quirk
-for this device? The driver apparently uses this to assume you meant to
-do a Discard, but it sounds like the device wants an actual Write Zeroes
-command here.
+I guess your intent is that if users prevent use of D3cold via sysfs,
+we'll use the NVMe-specific power states, and otherwise, the PCI core
+will decide?
+
+I think returning 0 here means the PCI core decides what state to use
+in the pci_pm_suspend_noirq() -> pci_prepare_to_sleep() path.  This
+could be any state from D0 to D3cold depending on platform support and
+wakeup considerations (see pci_target_state()).
+
+I'm not sure the use of pdev->d3cold_allowed here really expresses
+your underlying intent.  It suggests that you're really hoping for
+D3cold, but that's only a possibility if firmware supports it, and we
+have no visibility into that here.
+
+It also seems contrary to the earlier comment that suggests we prefer
+host managed nvme power settings:
+
+  * The platform does not remove power for a kernel managed suspend so
+  * use host managed nvme power settings for lowest idle power if
+  * possible. This should have quicker resume latency than a full device
+  * shutdown.  But if the firmware is involved after the suspend or the
+  * device does not support any non-default power states, shut down the
+  * device fully.
+
+Bjorn
 
