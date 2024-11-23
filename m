@@ -4,91 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C620AE6ADE8
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 Nov 2024 09:01:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99B08E6ADF8
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 Nov 2024 13:02:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BBiKB3fBf+Bk4u52dSdkKE7lx9s1dAcTEPhof51kEoU=; b=miO+Il6ujHaFZY9nRyk8hqiJbp
-	ptW6i1ZmBe0Nixu9YsfKPOQaPuZdoUrXwe4i3LoLj6sKE8WGBRk4s6iZFIZJyT68SzvaYn3QmBdcY
-	gmogsTZFDtI02dhZR80qVPeJg8E/7BvYv6ZxEU8zfJQZfuCAxV/th+DQHfbKkqfHHSwDkSjBjwee+
-	pKgTxpWTYNz3uFnJVJuomHJiDwnieAf/5hqseIfz0AibV0tzxuxvhmZLqY3mUQ8PhHIrlCfG5+K3G
-	eMKOfpWTXltWOkMLkOAswZCnGOOZOCcKg+D23I8w11jLr/fHRi/zqjUKZTc7VljQKpL1TajQ1Y+RI
-	J8QtVkLg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dpmERBoqTwRUxsoOOwQBdGMoKAty6EzjZaeUApmpNRM=; b=Afiebre8sMgvAuhXOPssaANAJT
+	zz9WjW86U7AwKdG1TGck+QeYJBVDF8pSWa1WPf3R4CV45eMXsy7/JdMqDQI1rCapA1KZcPqXjkkMd
+	eQvT5ggwMqXR784DTBFmr70pYpnZg/+0gdEve5QXu7ZnGOYes8XabmkfvhHBbAGTLpC3EhMOivdxt
+	zYiwPvOb+eldDjKq1ilAQDbs6X6EO+VqWc0op/jLpbBCAIscavQEbEFNpyNL8xxv7Ct/iAN1wFKQl
+	J2EAb7mIso2Z3yVcW9Hv3+RpnkZK0X01e0ZpVxsBofCDysZneO0qPW69Htm6298XDiVvn6M1rKVX2
+	a5+1eUrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEm18-00000003ynY-1oMz;
-	Sat, 23 Nov 2024 09:01:26 +0000
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+	id 1tEpmB-00000004Lt8-3o3t;
+	Sat, 23 Nov 2024 13:02:15 +0000
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEm14-00000003ymU-1c4M
+	id 1tEpm7-00000004Lrd-1Z77
 	for linux-nvme@lists.infradead.org;
-	Sat, 23 Nov 2024 09:01:24 +0000
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-720c286bcd6so2684609b3a.3
-        for <linux-nvme@lists.infradead.org>; Sat, 23 Nov 2024 01:01:21 -0800 (PST)
+	Sat, 23 Nov 2024 13:02:12 +0000
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-724f41d520cso268970b3a.1
+        for <linux-nvme@lists.infradead.org>; Sat, 23 Nov 2024 05:02:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732352481; x=1732957281; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=BBiKB3fBf+Bk4u52dSdkKE7lx9s1dAcTEPhof51kEoU=;
-        b=wejOa3Vq1JP8r4E25dc+3+yY3K7sAhffxldGIhponszMwUh3mhIh3KR4asBRSCtVBb
-         xAnkQmhzoAGyfgg0KC7rdSWvExwSkE4kO+FH3fh9brBnJYJaU4SVOe/75aMd4bk+nzBU
-         3woKCB8e/oIDRzXikVUAEMmie3oE6tv5+AWCPAF2X05av2Tw2BV/WNU1E9XckP/y3mc3
-         /5MhpFlqVmFQEWZuc8aaXQMa1gkWO9vaCMXbNCN3qN0zONvt7QhO9dCSFQXHpdk1fdGW
-         NYyWR6D3kCmiP14YD4azLaHUI/xLaI/TsHcdweR1YsjFtcAKPgcTG9gCMlcm2hjol02Y
-         v1NA==
+        d=gmail.com; s=20230601; t=1732366930; x=1732971730; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dpmERBoqTwRUxsoOOwQBdGMoKAty6EzjZaeUApmpNRM=;
+        b=XiQKFgvybJzOAdL7x6bjbEJKPMDKqiOthTV5ngGN7uh6Z1Y/KLPQ4W/NdY4z9NI7RN
+         kyefXrQo2bEYLi3zFcH6NoY+9MzD5Z1R6rUtfYuFXeE0M7/JtUvkvB/Opz8YgqygPfkB
+         dU636AmZ+pyIglQfs3w0V3i33f+ztOIaACXWKiYAGsHEDN7H7v7leWCzG8NenmmHkhZI
+         z74oOXyOzTT5OzrCWHemMpqVzjknUdXr4xY+jEHwXJAXAHed3+BlICOeQhNVpKKl2QfF
+         EMBDQOV6LgDRgd3DSOlZ5k26FtSz7EyfxytimFknQKC8oUuDnlFtyO8BWWdHBOjnWnEr
+         1mqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732352481; x=1732957281;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BBiKB3fBf+Bk4u52dSdkKE7lx9s1dAcTEPhof51kEoU=;
-        b=hDaN5xTybShwY77hQgAPy0+Um1tJLEcct301UFjAUFxGmbO/JDTy10XxpSPsO5NWbp
-         hKBlroOjoMw9WXCY/1CMe5MXt0/yVFVwBpYAEVL1ushHiZx5MCDU6UMwSE4cy+OrOk0J
-         fbcuYNTlmrnUBugbLsl7bNc2uzMy+ehSAyvoQLBCswt+YBNLVstGMsDdR+g1J/ybgX01
-         4o9OZh3di+BhbCOtmKwIwar6GDW8oAOC1pv7P0IQrb5za9pnp/xIjSG01EfaFJjMNgiy
-         6efeJzaU7Fs9jwickGFxyBnlEjh6nQXntRU/8164REWr+4nk4Jb36b5U18L3phDV2Onl
-         Jz/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXb6Fpf1EAYv3GcCK37BPCnnh6rO4SErjjwN1uluAtgRdHMW1/nTt5kCkEhaJLQU4eM58QXW4woIsDd@lists.infradead.org
-X-Gm-Message-State: AOJu0YyK1rjvI4HX1UWqMFwnb1KsnrIi6SXIicC/QGHddFCWcSjbnmCJ
-	M9wUiXzp1me3Eh6rEqElmvDJo49vNj4pmcnAFaMnKnuNMRzFVavxmMppJ5pVJLIWi6A4Tyje9MQ
-	=
-X-Gm-Gg: ASbGnctvFc7G0pt06MS+cUoXzTMP09lDnZAQzufu2bugtZjJ6sEi8zfqgPkFsAh6Wia
-	kcVXPiDdW2I/iub6zYtjlRTmdokIJV4bfIu8b4BppYFB8pGpaga4k9JRjkQFuIbIzf1kTzXsVdD
-	zzRkodYGGT4e872zpgQjranzJDHO4pzI4BtzV8PWI2YwOtOOTYGasHAxGD1tCvx1L3JFzYJI74j
-	0+WUzy9JrUtdEmAoDIx7nUIgWyFbM5bq+pkc88Xx8lD5X8sAKhGwDIrLcD0KsTV9w==
-X-Google-Smtp-Source: AGHT+IEXRKK5p3elatN9Cx1SAW9h5XDRG6j63BDSg8WgjcTkcpjwRut8X2gGXXHIdFCTSsoB7yX7Yg==
-X-Received: by 2002:a17:902:d2c5:b0:212:4751:ad7e with SMTP id d9443c01a7336-2129f7315dfmr69743785ad.8.1732352481266;
-        Sat, 23 Nov 2024 01:01:21 -0800 (PST)
-Received: from thinkpad ([2409:40f2:101e:13d7:85cf:a1c4:6490:6f75])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbff380sm28769635ad.114.2024.11.23.01.01.17
+        d=1e100.net; s=20230601; t=1732366930; x=1732971730;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dpmERBoqTwRUxsoOOwQBdGMoKAty6EzjZaeUApmpNRM=;
+        b=HBk6AUuMBRPLtlJenzIa3xPhyRgw1M7uilGWeKadZbkyW+HI/5zE4cKVe+uV5U/MvZ
+         PM/ArzOlFocIzf+wNbQjjkBA7y+liZPYdOBu6DS+hJXv1VkmWQq6E/vS7BMKheqUBHPL
+         GsJYUAL4+KeOgb0P1cmAZMinq55DHJcf6wT1K887LOrEsObzPmcMu2lby2aXx6RBfCyk
+         3RrsAOU8FWblQscBaNlXxveoSdlNWGlRcp2pUt2Z3e7saeij1As+91UI4xTIt7ToTiAV
+         wsAn18CcEwifPPAZD4Be1Rremv7s4DY8jggEhrDrYF/6DixEeQ6cyUFGHhEBuqrToJ4A
+         qQhA==
+X-Gm-Message-State: AOJu0Yx6RA6v+IAEcaGnwt9lbnXi+X+zKalpQRPIiY5fL/foN001z2Zt
+	5MLvM1iREe8y/KeZKufmAGdOFzAVgNoempNPh6eeAsf4UC9pFLUd
+X-Gm-Gg: ASbGncvlNRDvksYsNdUyqjI3o1GmPbsmYDg869yEwBffqYwzQegi2mUwLhwAOLrFAxp
+	FLNNHtlVGjGIQgTECaSx5lirrjSZAOx/gUy+Ai4vGmNrWFIkaP97tnR/11CErC8O+W9sibAir/Z
+	AorxQTmm18o5g1gBD2tEnV9t+i5F7GAF+y/wUpiXH9JMf9YWp+9zsRpfY5U9JwRQgZo28l/rXbq
+	q2ovzFKqNcC5RIr5+fyxHZUUsrb4TbgFQKGDoWxDVjv4zzZbSlY85bYgv+yXg==
+X-Google-Smtp-Source: AGHT+IHN1KnxNuN0h9IWrcLc767Cg28zWfmxg2oWBIUrJnGOr+F9L16qXfjIjHvwcl/xeP3fhKiWJg==
+X-Received: by 2002:a17:90b:224a:b0:2ea:aa56:4b0 with SMTP id 98e67ed59e1d1-2eb0e1269eemr8048875a91.3.1732366930176;
+        Sat, 23 Nov 2024 05:02:10 -0800 (PST)
+Received: from localhost.localdomain ([143.92.64.18])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2eb0cff8fe8sm3295226a91.14.2024.11.23.05.02.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2024 01:01:20 -0800 (PST)
-Date: Sat, 23 Nov 2024 14:31:13 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
- the user
-Message-ID: <20241123090113.semecglxaqjvlmzp@thinkpad>
-References: <20241118082344.8146-1-manivannan.sadhasivam@linaro.org>
- <20241122222050.GA2444028@bhelgaas>
+        Sat, 23 Nov 2024 05:02:09 -0800 (PST)
+From: "brookxu.cn" <brookxu.cn@gmail.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/5] nvme-rdma: unquiesce admin_q before destroy it
+Date: Sat, 23 Nov 2024 21:37:37 +0800
+Message-Id: <9379940137a8dfddb451917c1d069eebaf3c209e.1732368538.git.chunguang.xu@shopee.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1732368538.git.chunguang.xu@shopee.com>
+References: <cover.1732368538.git.chunguang.xu@shopee.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241122222050.GA2444028@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241123_010122_499405_1FF148DF 
-X-CRM114-Status: GOOD (  52.58  )
+X-CRM114-CacheID: sfid-20241123_050211_411964_B8B70349 
+X-CRM114-Status: GOOD (  10.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,142 +98,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-+ Ulf (also interested in this topic)
+From: "Chunguang.xu" <chunguang.xu@shopee.com>
 
-On Fri, Nov 22, 2024 at 04:20:50PM -0600, Bjorn Helgaas wrote:
-> [+cc Rafael]
-> 
-> On Mon, Nov 18, 2024 at 01:53:44PM +0530, Manivannan Sadhasivam wrote:
-> > PCI core allows users to configure the D3Cold state for each PCI device
-> > through the sysfs attribute '/sys/bus/pci/devices/.../d3cold_allowed'. This
-> > attribute sets the 'pci_dev:d3cold_allowed' flag and could be used by users
-> > to allow/disallow the PCI devices to enter D3Cold during system suspend.
-> >
-> > So make use of this flag in the NVMe driver to shutdown the NVMe device
-> > during system suspend if the user has allowed D3Cold for the device.
-> > Existing checks in the NVMe driver decide whether to shut down the device
-> > (based on platform/device limitations), so use this flag as the last resort
-> > to keep the existing behavior.
-> > 
-> > The default behavior of the 'pci_dev:d3cold_allowed' flag is to allow
-> > D3Cold and the users can disallow it through sysfs if they want.
-> 
-> What problem does this solve?  I guess there must be a case where
-> suspend leaves NVMe in a higher power state than you want?
-> 
+Kernel will hang on destroy admin_q while we create ctrl failed, such
+as following calltrace:
 
-Yeah, this is the case for all systems that doesn't fit into the existing checks
-in the NVMe suspend path:
+PID: 23644    TASK: ff2d52b40f439fc0  CPU: 2    COMMAND: "nvme"
+ #0 [ff61d23de260fb78] __schedule at ffffffff8323bc15
+ #1 [ff61d23de260fc08] schedule at ffffffff8323c014
+ #2 [ff61d23de260fc28] blk_mq_freeze_queue_wait at ffffffff82a3dba1
+ #3 [ff61d23de260fc78] blk_freeze_queue at ffffffff82a4113a
+ #4 [ff61d23de260fc90] blk_cleanup_queue at ffffffff82a33006
+ #5 [ff61d23de260fcb0] nvme_rdma_destroy_admin_queue at ffffffffc12686ce [nvme_rdma]
+ #6 [ff61d23de260fcc8] nvme_rdma_setup_ctrl at ffffffffc1268ced [nvme_rdma]
+ #7 [ff61d23de260fd28] nvme_rdma_create_ctrl at ffffffffc126919b [nvme_rdma]
+ #8 [ff61d23de260fd68] nvmf_dev_write at ffffffffc024f362 [nvme_fabrics]
+ #9 [ff61d23de260fe38] vfs_write at ffffffff827d5f25
+    RIP: 00007fda7891d574  RSP: 00007ffe2ef06958  RFLAGS: 00000202
+    RAX: ffffffffffffffda  RBX: 000055e8122a4d90  RCX: 00007fda7891d574
+    RDX: 000000000000012b  RSI: 000055e8122a4d90  RDI: 0000000000000004
+    RBP: 00007ffe2ef079c0   R8: 000000000000012b   R9: 000055e8122a4d90
+    R10: 0000000000000000  R11: 0000000000000202  R12: 0000000000000004
+    R13: 000055e8122923c0  R14: 000000000000012b  R15: 00007fda78a54500
+    ORIG_RAX: 0000000000000001  CS: 0033  SS: 002b
 
-1. ACPI based platforms
-2. Controller doesn't support NPSS (hardware issue/limitation)
-3. ASPM not enabled
-4. Devices/systems setting NVME_QUIRK_SIMPLE_SUSPEND flag
+This due to we have quiesced admi_q before cancel requests, but forgot
+to unquiesce before destroy it, as a result we fail to drain the
+pending requests, and hang on blk_mq_freeze_queue_wait() forever. Here
+try to reuse nvme_rdma_teardown_admin_queue() to fix this issue and
+simplify the code.
 
-In my case, all the Qualcomm SoCs using Devicetree doesn't fall into the above
-checks. Hence, they were not fully powered down during system suspend and always
-in low power state. This means, I cannot achieve 'CX power collapse', a Qualcomm
-specific SoC powered down state that consumes just enough power to wake up the
-SoC. Since the controller driver keeps the PCI resource vote because of NVMe,
-the firmware in the Qualcomm SoCs cannot put the SoC into above mentioned low
-power state.
+Reported-by: Yingfu.zhou <yingfu.zhou@shopee.com>
+Signed-off-by: Chunguang.xu <chunguang.xu@shopee.com>
+Signed-off-by: Yue.zhao <yue.zhao@shopee.com>
+---
+ drivers/nvme/host/rdma.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-> What does it mean that this is the "last resort to keep the existing
-> behavior"?  All the checks are OR'd together and none have side
-> effects, so the order doesn't really matter.  It changes the existing
-> behavior *unless* the user has explicitly cleared d3cold_allowed via
-> sysfs.
-> 
-
-Since the checks are ORed, this new check is not going to change the existing
-behavior for systems satisfying above checks i.e., even if the user changes the
-flag to forbid D3Cold, it won't affect them and it *shoudn't*.
-
-> pdev->d3cold_allowed is set by default, so I guess this change means
-> that unless the user clears d3cold_allowed, we let the PCI core decide
-> the suspend state instead of managing it directly in nvme_suspend()?
-> 
-
-If 'pdev->d3cold_allowed' is set, then NVMe driver will shutdown the device and
-the PCI controller driver can turn off all bus specific resources. Otherwise,
-NVMe driver will put the device into low power mode and the controller driver
-has to do something similar to retain the device power.
-
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > ---
-> >  drivers/nvme/host/pci.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index 4b9fda0b1d9a..a4d4687854bf 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -3287,7 +3287,8 @@ static int nvme_suspend(struct device *dev)
-> >  	 */
-> >  	if (pm_suspend_via_firmware() || !ctrl->npss ||
-> >  	    !pcie_aspm_enabled(pdev) ||
-> > -	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
-> > +	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND) ||
-> > +	    pdev->d3cold_allowed)
-> >  		return nvme_disable_prepare_reset(ndev, true);
-> 
-> I guess your intent is that if users prevent use of D3cold via sysfs,
-> we'll use the NVMe-specific power states, and otherwise, the PCI core
-> will decide?
-> 
-
-Not PCI core, but the controller drivers actually which takes care of powering
-down the PCI bus resources.
-
-> I think returning 0 here means the PCI core decides what state to use
-> in the pci_pm_suspend_noirq() -> pci_prepare_to_sleep() path.  This
-> could be any state from D0 to D3cold depending on platform support and
-> wakeup considerations (see pci_target_state()).
-> 
-> I'm not sure the use of pdev->d3cold_allowed here really expresses
-> your underlying intent.  It suggests that you're really hoping for
-> D3cold, but that's only a possibility if firmware supports it, and we
-> have no visibility into that here.
-> 
-
-I'm not relying on firmware to do anything here. If firmware has to decide the
-suspend state, it should already satisfy the pm_suspend_via_firmware() check in
-nvme_suspend(). Here, the controller driver takes care of putting the device
-into D3Cold. Currently, the controller drivers cannot do it (on DT platforms)
-because of NVMe driver's behavior.
-
-> It also seems contrary to the earlier comment that suggests we prefer
-> host managed nvme power settings:
-> 
->   * The platform does not remove power for a kernel managed suspend so
->   * use host managed nvme power settings for lowest idle power if
->   * possible. This should have quicker resume latency than a full device
->   * shutdown.  But if the firmware is involved after the suspend or the
->   * device does not support any non-default power states, shut down the
->   * device fully.
-
-This above comment satisfies the ACPI platforms as the firmware controls the
-suspend state. On DT platforms, even though the firmware takes care of suspend
-state, it still relies on the controller driver to relinquish the votes for PCI
-resources. Only then, the firmware will put the whole SoC in power down mode
-a.k.a CX power collapse mode in Qcom SoCs.
-
-We did attempt so solve this problem in multiple ways, but the lesson learned
-was, kernel cannot decide the power mode without help from userspace. That's the
-reason I wanted to make use of this 'd3cold_allowed' sysfs attribute to allow
-userspace to override the D3Cold if it wants based on platform requirement.
-
-This is similar to how UFS allows users to configure power states of both the
-device and controller:
-
-/sys/bus/platform/drivers/ufshcd/*/spm_lvl
-/sys/bus/platform/devices/*.ufs/spm_lvl
-
-If the 'd3cold_allowed' attribute is not a good fit for this usecase, then I'd
-like to introduce a new attribute similar to UFS.
-
-- Mani
-
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 24a2759798d0..913e6e5a8070 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1091,13 +1091,7 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
+ 	}
+ destroy_admin:
+ 	nvme_stop_keep_alive(&ctrl->ctrl);
+-	nvme_quiesce_admin_queue(&ctrl->ctrl);
+-	blk_sync_queue(ctrl->ctrl.admin_q);
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
+-	nvme_cancel_admin_tagset(&ctrl->ctrl);
+-	if (new)
+-		nvme_remove_admin_tag_set(&ctrl->ctrl);
+-	nvme_rdma_destroy_admin_queue(ctrl);
++	nvme_rdma_teardown_admin_queue(ctrl, new);
+ 	return ret;
+ }
+ 
 -- 
-மணிவண்ணன் சதாசிவம்
+2.25.1
+
 
