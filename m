@@ -4,81 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BF26D3B7E1
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Nov 2024 07:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5220D3B7E8
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Nov 2024 07:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HseCuxVcgTTpliTcRhjccSaoiUYsiM7w60CZwC55taM=; b=XSUlhoeYciDexY/1jmEm4jD6dS
-	ZNtPnSEMF2FqBWlnb1YzuLPGoy7Dcq/qWLvwRxFUDdKOFOs6bOaY2XPOaxVDndRKu/WpSgGpoV9kr
-	x6+67BisLk18uZiksHb3z/hihfMMI4e2JqGK/WDohNRQXkJTYErX2olRQSZsL6/1MsQB2q+rXWtwp
-	qXI5AIoXofCw9j1GtWNAUgiuEZVbYnfLwdOVUjzXPsAsXvOZke1fXxp6v5pjFlxcEW89mGrVr4vui
-	QB5sZ5WZCUjIIW94juYwJyoBF39AbEc/vk/uE46R1BsvoPqoOJlGNCZcc9cPhM9HnmZ/7SbHBNCtz
-	8+Hkg3iA==;
+	bh=HZIGo3yTlv6am7OV853ap+f/qjKN5h0CP3WCOH7VIhA=; b=V2qEW8bPHXyHZGCYHPq76qQmSl
+	sf2voJuv89+F2wTgIybm5cKscS2zDKKwvFEkZMdwzIWnx3eG97n9wPr+dvT7fqOd4aAV+Qm6OyXUz
+	n87BpeQmPvRQe+Pe2FuKjGVSbfS+i638xsLvk/vipmMW0G7mg5udIkK2kRERwLTh68QPgi2BrF+uw
+	d3jKQeOUyuedJxxqpFjxCSEiu7Pj7BXSUfNGtuJcokDAp9Zg95gcm7IdNw9aocijigZDinjnLzCi4
+	HnbnxOWOiqUeVRm1zsbLSgylEE4yeb5R12/34/6oWnFRAyxx3qpHbo75XS9FtXWOkPsOAA0QPYo7V
+	3glmAB0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tFTst-00000007HJV-2fIF;
-	Mon, 25 Nov 2024 07:51:51 +0000
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+	id 1tFTwe-00000007HpY-1R8E;
+	Mon, 25 Nov 2024 07:55:44 +0000
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tFTsq-00000007HIU-1uep
+	id 1tFTwc-00000007Hp6-2MqK
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Nov 2024 07:51:49 +0000
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-aa503cced42so437708066b.3
-        for <linux-nvme@lists.infradead.org>; Sun, 24 Nov 2024 23:51:47 -0800 (PST)
+	Mon, 25 Nov 2024 07:55:43 +0000
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-53de582163fso536061e87.0
+        for <linux-nvme@lists.infradead.org>; Sun, 24 Nov 2024 23:55:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732521106; x=1733125906; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1732521341; x=1733126141; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HseCuxVcgTTpliTcRhjccSaoiUYsiM7w60CZwC55taM=;
-        b=FkXV0y/Jy10Oo9rgL7m16b5YBC1l/RRogMlYQOVSSHxSrl4aoElOyDeejL/LDlDkrO
-         U8BdPe0v5QQrB6zlV7HiXDnNskCfwsPI7NwQhmFJF/OnFaxlCcoiCJTvmibS0pMobMd5
-         8FGKlaEqjKN/dkSW5oVqa9StXyh/xArq/amWVKedkgMNsn2BitQJWM50EI4rGEpW+7uB
-         KfZ7vuPw3ncPMQ68lOdBcU3xYOc2yVuQ005axPdER4kLqOUL3X60CdP0zGaaXNgAeZMW
-         K5RkCoiCua/X+4fEksdYf59EBETo8NmhYW1kJJMB5AFximarEQRRZV7znYnmtLsIArcZ
-         FkfA==
+        bh=HZIGo3yTlv6am7OV853ap+f/qjKN5h0CP3WCOH7VIhA=;
+        b=ZdKxUeO7Tm/+IrrK78H5ADZusG+2zVHB7wl2WSO73xBysQ8KUU0XTlyiKk8xY1B5+o
+         zHzSFJLwIKS1WxceLYf4koGf3WuN07MAB9j7kqT8j2WBRnH0OUi0rrEDoCG/vQPkFjip
+         MGL0kpj8pD/y3wyU2EFaBKlhQe0zh6QgbM2HvWnjvedice5xm337CgRYQYe7FsQlO8OP
+         TXCRPbbT0Fo5mBUvyjt0a2EsRV8z7gtuPKxzU61Sp70sb5jYl5pwQlEuUgPPU2wPsNgT
+         qxtKmmdSjBjjt6v3rPQoUHsTYyCUJDzIK2tMpZlv28JNe6whOkGeqLV129z5qy5bNH7s
+         rQFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732521106; x=1733125906;
+        d=1e100.net; s=20230601; t=1732521341; x=1733126141;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HseCuxVcgTTpliTcRhjccSaoiUYsiM7w60CZwC55taM=;
-        b=RNoyVFvPtRjBuWrpFMZe/VJsO2OGFyMM4ULW2exuNQ3/rBJ8Tl9fC6EDgNp15faPri
-         h8EimHjyUXk89+gxnODs8ySVaQtKzVgN8fi6+I9KvHkyg4c4O7lgZICLlajIVHj/sjaD
-         03AhX9SsiflmF1A+rnwzJkOm7o7BU/EM0BK7/I7r+Qpxl+oChWRcQYpLugFN1PaEKq6v
-         7Xd7uMKIrITrJXGy0BaEaOQlMuIQtjv2GkH4Ye10cpGy2wFi8k6JR4v8/VXKlihCdjCl
-         drSLKSRgOf0ZMdQYho1ofkdRWkAmlINm/7nIP4ZUsq6oCUyWafT191gskAYaVECKVNN0
-         MW0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVtbmQBQsxriV4foCMWLZQoMHTv7mnoByhHwffYv+AXifUXsAcuDUMRTkse7YS/KxtGCGs9Rgpl2V7G@lists.infradead.org
-X-Gm-Message-State: AOJu0YzQHmN+1nMgvENQONudwnTIWIPryB1e+MSxjVI6jtpae4j+vdF9
-	/jP5MVlhoG5jfN02MUBibElToWL1Djq31GUsrIW5ZCTl20IvJQHJur5MrtDKzNyYrTaeGYaKtrQ
-	obwNJJvZIoRbTThKnPsXnC8mEH5Y=
-X-Gm-Gg: ASbGncvKTBeJgkTG5xxZM0s6iHCQhGtw5bBoXdVeumdSvms+Sek4Sg/IT7zeq9i3IZH
-	0sk6BYe298PdJISVDULBvEO82rWSY7eQ=
-X-Google-Smtp-Source: AGHT+IErwpMqN0sd6ADDPNbcLBIAW3pMNYH7sBc8m/479mXRYyIOd/NUmzu3eps1LMnCEJhREs7F9fQCqO/Cj6eVZ/g=
-X-Received: by 2002:a17:906:4c1:b0:aa5:c1b:2203 with SMTP id
- a640c23a62f3a-aa50c1b22a1mr797032366b.42.1732521106154; Sun, 24 Nov 2024
- 23:51:46 -0800 (PST)
+        bh=HZIGo3yTlv6am7OV853ap+f/qjKN5h0CP3WCOH7VIhA=;
+        b=cfnEB4JQWCcSSq64j3D77JJCxy1ZAHqNUveKRAKyC3W7Sxh36i36OsJbBNooOgWz1U
+         0KSj3F1Cp8rglfcZIhUFkxtWZfGidTfQumijTQgTzDavrAPiuXwPAelM7Q5CkeNuqMTr
+         Ih/zmGCuWDX0OaKm3mzPD07hDlmBK6lG1+5YXikvjB3R65QsVtRVxFWsmy3iUtnG/Olu
+         807ScmI0f+u+biHykbANp0bYW8243cxoI3USTpW+VdsBqvoI6SefYTfaA7u0AiYh26s4
+         BeiZGt8c9O0b443AwWRszXx+9v0Z2QjFlqq1TLzR1DMJBNH1DX5vx4DZWFF+IGUeXQNc
+         Oqgg==
+X-Forwarded-Encrypted: i=1; AJvYcCUf2kTPIdbccgpOXHkce3gIzN9N/GES9J4+G0rXNdo202Qk9pp9xmBR4F+r0TElOxVsPZPgvpQLBWsJ@lists.infradead.org
+X-Gm-Message-State: AOJu0YxzwDL6vniY6efLDEWJ7CkxlDA/bEL0ljVIH/YZB2jB8GlWnyPi
+	ZSg0hDN/FcP4bEFgCIuXcr8H+eI90Zdu45F3tlmX0DzlFleZHzV2KlFYpxKEITMlWgtrG7sleub
+	VdLEV+R1+8UvLvoo9pwjC6vgWQuGfGutA
+X-Gm-Gg: ASbGncvbRw2dDYss5UFJ31tSvDrTEOMh7zEUvFL9enoQKT5E3Mvvo2TQ/YRHk9U+zHX
+	pojDrz0zFt/GJPkebbYDKZeO82W+IQVw=
+X-Google-Smtp-Source: AGHT+IEX2TQ1O3wTcFG51cUF7z9UVov8MJqQaloN7Rc+mJwK8eOPWnWbJfLX33PQhLuzvo0p7hG/6wBrOsprHcNtofM=
+X-Received: by 2002:a05:6512:250d:b0:53d:de72:a185 with SMTP id
+ 2adb3069b0e04-53dde72a1cfmr2753944e87.5.1732521340396; Sun, 24 Nov 2024
+ 23:55:40 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1732368538.git.chunguang.xu@shopee.com> <5afd7d60a07afc6f299aba8c31fe87e00484da5b.1732368538.git.chunguang.xu@shopee.com>
- <20241125072400.GD15647@lst.de>
-In-Reply-To: <20241125072400.GD15647@lst.de>
+References: <cover.1732368538.git.chunguang.xu@shopee.com> <e7c1d7b531cef5fdd2764719e4ca824477579083.1732368538.git.chunguang.xu@shopee.com>
+ <20241125072240.GB15647@lst.de>
+In-Reply-To: <20241125072240.GB15647@lst.de>
 From: =?UTF-8?B?6K645pil5YWJ?= <brookxu.cn@gmail.com>
-Date: Mon, 25 Nov 2024 15:51:34 +0800
-Message-ID: <CADtkEecQ=vQZB+gAiG9peeqfAcMpLkQF=JFCHVxCF3k_ZAWN+A@mail.gmail.com>
-Subject: Re: [PATCH 4/5] nvme-tcp: remove nvme_tcp_destroy_io_queues()
+Date: Mon, 25 Nov 2024 15:55:28 +0800
+Message-ID: <CADtkEeegfVhbkA-nbaOaveqtvSpxKebB9OdaBvCsWtSFJ7P46A@mail.gmail.com>
+Subject: Re: [PATCH 2/5] nvme-tcp: no need to quiesec admin_q in nvme_tcp_teardown_io_queues()
 To: Christoph Hellwig <hch@lst.de>
 Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me, 
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241124_235148_512961_0ADB3D79 
-X-CRM114-Status: GOOD (  12.01  )
+X-CRM114-CacheID: sfid-20241124_235542_600170_5F6A6A5A 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,21 +94,20 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Christoph Hellwig <hch@lst.de> =E4=BA=8E2024=E5=B9=B411=E6=9C=8825=E6=97=A5=
-=E5=91=A8=E4=B8=80 15:24=E5=86=99=E9=81=93=EF=BC=9A
+=E5=91=A8=E4=B8=80 15:22=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Sat, Nov 23, 2024 at 09:37:40PM +0800, brookxu.cn wrote:
+> On Sat, Nov 23, 2024 at 09:37:38PM +0800, brookxu.cn wrote:
 > > From: "Chunguang.xu" <chunguang.xu@shopee.com>
 > >
-> > Now maybe we can remove nvme_tcp_destroy_io_queues() to simplify
-> > the code and avoid unnecessary call of nvme_tcp_stop_io_queues().
+> > As we quiesec admin_q in nvme_tcp_teardown_admin_queue(), so we should =
+no
+> > need to quiesec it in nvme_tcp_reaardown_io_queues(), make things simpl=
+e.
 >
-> Please split the behavior change from the cleanup, and explain why
-> the behavior change is fine and desirable.
-I think what really change is  removed the unnecessary call of
-nvme_tcp_stop_io_queues(),
-as we have do it outside of nvme_tcp_destroy_io_queues(), no other
-behaviour changed,
-inaddition align with the code nvme-rdma, so it is easy to maintaince.
+> Yes.  And this matches what RDMA is doing.  We really need to go
+> back to the attempt to consolidaste this code..
 
->
+Yes, I also think we can do it
+
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
