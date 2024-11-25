@@ -4,57 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 765ABD3B7E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Nov 2024 06:57:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECE89D3B7E3
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Nov 2024 07:21:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=18IGRqr2sH18Yw8Dns6wwvEbCyz0frk0N+Mj3sUT6dw=; b=Y+QXymU5UXCIaN7EWbSgWTf8d6
-	9bKxRjiECSy1BZ3loA0bblWBC4AbHQxbR73xEx3hf+qxiOJLV7kYf8zlc8+JimUUteEKzxKG0fEj+
-	gFpjooh0VwGG7PsbrIxujgS32tvUksE6Qwp0FdSypDrS9bn9DopwJX11R0ghV76L9xPtED4pHdIC+
-	ijL0IQsM65KrS9RWozQ7ucVeRrsDQIrnGL1oHsF4U6QkyBhhegiC4SHJsigYHSeoqYblL0mzHvOOL
-	G3Y3Atfn/kB3buXMIFdZuoVN3k8zQX7kcBNWjdkpOerMQARRJt8Pb28PAsGZziIdsm/4szbAl9Tuh
-	UPdC0Buw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=seZyflu5YWqQdBqtU0nZgLLeQ5E46QJFp+G2G/mZaqQ=; b=30zKr8tU8u3n3MDvFwaH+otvWR
+	h7IemUzYy1VJw5tGisftBeh/+BR41LAcNqLX1tbLy7e7m9KBSoOep2qGr4pIfaV9XGtKoq2UJRjDo
+	V+TYMliivPLO31flfAkwLJ2hP+nhB5HFZ/RDCksUoJRkt5KqoWhfsZGHZyWUESJo4gwB2Oq/JMWTk
+	GyiMU7Jsvp2RBqRofCXY0Pp8LZt8r0dbIi/5RnQOfDeF+WguPh57DIdNKd93DyXZ7vAj3ECA1iICV
+	vOs2hzN/XkZpzCOiqeI+K8kgY3ZbtszWsBBwa5QZ+GDLzW/G2ACm8+M7UDmtDtNMKgE7+5GshIiX3
+	H5/3YYuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tFT24-00000007CZn-38RL;
-	Mon, 25 Nov 2024 06:57:16 +0000
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
+	id 1tFTPC-00000007EKh-4ByR;
+	Mon, 25 Nov 2024 07:21:11 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tFT21-00000007CZ8-3Hkj
+	id 1tFTP9-00000007EKG-0Ofv
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Nov 2024 06:57:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1732517832; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=18IGRqr2sH18Yw8Dns6wwvEbCyz0frk0N+Mj3sUT6dw=;
-	b=Fyhk3tYE+6VDaaIffUOg+tnLMTVKbEkK6luRtF14H0SAH3V+orjSYp2K+uGRVmqBiw10uWXInYg1Xyq0AnnrDmKnWyuw0cSxFfAFMvAAnadTj8ciRCGOClh6TIgqB6mLhMR+gTt/KBKgF31rZEzjjHwgsaD4zecP7WpbCxu89IY=
-Received: from 30.178.81.212(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WK76qF9_1732517829 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 25 Nov 2024 14:57:10 +0800
-Message-ID: <9918cd94-9998-451c-ba43-1119f5f05d94@linux.alibaba.com>
-Date: Mon, 25 Nov 2024 14:57:09 +0800
+	Mon, 25 Nov 2024 07:21:09 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A379D68D09; Mon, 25 Nov 2024 08:21:02 +0100 (CET)
+Date: Mon, 25 Nov 2024 08:21:02 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: "brookxu.cn" <brookxu.cn@gmail.com>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] nvme-rdma: unquiesce admin_q before destroy it
+Message-ID: <20241125072102.GA15647@lst.de>
+References: <cover.1732368538.git.chunguang.xu@shopee.com> <9379940137a8dfddb451917c1d069eebaf3c209e.1732368538.git.chunguang.xu@shopee.com>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH] nvmet: handle rw's limited retry flag
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20241121102454.122247-1-kanie@linux.alibaba.com>
- <20241122120959.GA25831@lst.de>
- <a336007f-88c1-41e3-826b-e080a4d78213@linux.alibaba.com>
- <20241125065617.GA15161@lst.de>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20241125065617.GA15161@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9379940137a8dfddb451917c1d069eebaf3c209e.1732368538.git.chunguang.xu@shopee.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241124_225714_132004_ECB62629 
-X-CRM114-Status: UNSURE (   4.25  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241124_232107_271141_6C995E78 
+X-CRM114-Status: GOOD (  12.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,14 +59,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Sat, Nov 23, 2024 at 09:37:37PM +0800, brookxu.cn wrote:
+> This due to we have quiesced admi_q before cancel requests, but forgot
+> to unquiesce before destroy it, as a result we fail to drain the
+> pending requests, and hang on blk_mq_freeze_queue_wait() forever. Here
+> try to reuse nvme_rdma_teardown_admin_queue() to fix this issue and
+> simplify the code.
 
-在 2024/11/25 14:56, Christoph Hellwig 写道:
-> Can you add this to the commit log, please?
+Looks good, and matches what the TCP driver is doing:
 
-Sure, I will send a v2 patch.
-
-Best Regards,
-
-Guixin Liu
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 
