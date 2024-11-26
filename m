@@ -4,132 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA900D59D98
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2024 10:55:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A662D3B98B
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2024 13:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k+0BqZF1ChaDe8890ovcJaZ1K9CV9Mo6R5Hpp1BGuOQ=; b=Svl2Cb+eMNGwp8mC5zWYy2mKBZ
-	24AhHrln9vZQqaKwPXmnu1KjRrIUs79hNHYhK90ZWtfcLsVlXRKkaoEIu8fm9ApA7UuO4zXW6X19l
-	uJ23pdI4ZOt+5eZhwas3FJ8KAQWw2FizDYOUDChY9cC9qo8IGNLrlJZ9DQdmydLJCX0cebvjgHqTN
-	plBwjCxZT4PEmMdoMWWxGVmhUPDsIXp+KB57fv9vltEvsiSrVofvoRj5r/KfP/JsS0WB4fGNvSNCN
-	LGoYBxtDmPmytbdYZ1GMazegs4R990xoy4kshwWePrDxMHUG0NkvCUfeR2heMB0wC0Se6AAWPjxVa
-	UQEMybTQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TYeQkAYIxhkFR/C0PdfSBmynLd1wfKbnNjKfq6tkF10=; b=sBIcKgq0qlKiwCQhIWkpslZgpO
+	Gi/Eq+0ZXt6qSUBEowFi8e3LcjDTSXnjdkNzqJ3r9rzccgtVbKY/pVcBrsiX/tauFv/n+IDV/MQvO
+	cb5eKvEQGS0QhY245RT9UzAlLvj3t7vaNVeviYcPSfuIElM2Onoy323jISrp/2ee3O968bwHM7Lyn
+	d0zRA7bKjxbJsbCL3wwoxUK+tEK7WFIWIHTQCENRcPqroF+EmiaQP/GFU87/1p7F5v4WI1/cpym/W
+	GNFGrgsSHXR/u+9feEf3P3Hnz2PV+TxLABN2bbnU8GUh61kgU85zttFVjrpXfKO8tm3s5BgUo3Brb
+	we0nV+zQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tFtDg-0000000AMDy-26qH;
-	Tue, 26 Nov 2024 10:55:00 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1tFvE6-0000000Ae5y-0EVc;
+	Tue, 26 Nov 2024 13:03:34 +0000
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tFtDc-0000000AMD9-1IY4
+	id 1tFv44-0000000Ac7F-1fyq
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Nov 2024 10:54:59 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241126105450epoutp024060afc6d11d07e98e2dfc2b499ca5b9~Lf1ZCvbXJ1259812598epoutp02E
-	for <linux-nvme@lists.infradead.org>; Tue, 26 Nov 2024 10:54:50 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241126105450epoutp024060afc6d11d07e98e2dfc2b499ca5b9~Lf1ZCvbXJ1259812598epoutp02E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1732618490;
-	bh=k+0BqZF1ChaDe8890ovcJaZ1K9CV9Mo6R5Hpp1BGuOQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=r5YzjVUnQY0LD2jnUvbhdskcxB2kEjebQI9Ubx8mUudOKMfVQORMlWvMVwtNbuldW
-	 tjUH8W4G+kaJFieeytFwvIUFSDRxbPAdrGmJDaDa/3+MTwqiMKm0qZWEdgX7C8VsmI
-	 uJfjBHKWsYVrbMh5A8L5k53NUYvVqvueRr2t5VwU=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20241126105449epcas5p21cc42b22d52099f70f408e93d9aa7daa~Lf1YdQRAz0284302843epcas5p2m;
-	Tue, 26 Nov 2024 10:54:49 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4XyKGH5SfCz4x9Pq; Tue, 26 Nov
-	2024 10:54:47 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	FA.16.19956.7F8A5476; Tue, 26 Nov 2024 19:54:47 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20241126104844epcas5p32e5daec6d0ea68da92a2700c0b0227d2~LfwE5JIZG0979309793epcas5p3l;
-	Tue, 26 Nov 2024 10:48:44 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241126104844epsmtrp2a2753bac8d9c3138192609efedb80f1d~LfwE3pIgX0346103461epsmtrp2V;
-	Tue, 26 Nov 2024 10:48:44 +0000 (GMT)
-X-AuditID: b6c32a4b-fd1f170000004df4-79-6745a8f7e207
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	3D.05.19220.C87A5476; Tue, 26 Nov 2024 19:48:44 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241126104841epsmtip164d5a7e57201074fb4fc09633e5aa812~LfwCDBKRu0773507735epsmtip1T;
-	Tue, 26 Nov 2024 10:48:41 +0000 (GMT)
-Date: Tue, 26 Nov 2024 16:10:50 +0530
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, anuj1072538@gmail.com, brauner@kernel.org,
-	jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
-	linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+	Tue, 26 Nov 2024 12:53:13 +0000
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5cfddc94c83so7027785a12.3
+        for <linux-nvme@lists.infradead.org>; Tue, 26 Nov 2024 04:53:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732625591; x=1733230391; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TYeQkAYIxhkFR/C0PdfSBmynLd1wfKbnNjKfq6tkF10=;
+        b=gO7bMmuJIvSYi69jUJj9N1bfzhHjBkb9DMzNNM3gohl9opLhxPqF9ytBIxZBO5J5rs
+         I4OqQfd2eRXg2RdbfhERK+MEAVDoPg4YbVclKNXlbneQuVP+IeH3Mwx4xIrX7AtjLswF
+         tjKd7CijGxkpM9SX5bs8jFu8y03YMhPk/iC3iMXxK/W2p+CXednlvweMZZiJP37umh8F
+         ZF1lp7TQ/QQkVXcKgLgdgyHYf/FPTR6CGOvB1/untxtERFWVFXUr/LxlXxTFlZlRHANJ
+         ZUqbVsE8RPCHQqy8g+BvRsHCxhFjiSbi7/ppuypmZaMcYv5NBjLKYcGnn+qXQ7T/ai6D
+         dukw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732625591; x=1733230391;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TYeQkAYIxhkFR/C0PdfSBmynLd1wfKbnNjKfq6tkF10=;
+        b=THECCVNdfQNQVOgnAT1qK/GTkH12fG0KMpk7K2kMjqgtNhyggkEcc74sdgBVMcozkx
+         8Q5Nyg0geJpvmNjqP/YJscbZZ++IUh/IPNZZOecaBg4YGOyVpGGMOtULZB6xe4nZywzB
+         CcwEbWi5/FbVnjIYJnnl2i739mzpNaXbihcQmlmW5fK+KelmyTav7KFedsk5TX5V//zM
+         4CeW7VYWav8BoFZACXEi06oYDAzVYqz+kk7LXp48sGhPQ3CRGn10oG36a6DnoiYi5yNj
+         elrYQt8PLyC/sbq1jQbAibVjEEIgYqunsWe8Ow/pks1a69z6tOfi1myH305krTlBNGot
+         JfkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWaq78bcWPqO1sffDCVnqfPXAQBIrJC9gLfSG2Vd3PsN/pw7ubzISkh9nofCDxDrYDjhnhuXQ+TWaEH@lists.infradead.org
+X-Gm-Message-State: AOJu0YzOUH4JTIb6fxoy6BRzZKnTZ/+FSOhsW/+DgKiqprvsGVAef0A0
+	8OHtTh6/8AbKnRI64WCkvqZlPUBENNPY84T0c9q4tNudWeFmdLaRT+Qe0g==
+X-Gm-Gg: ASbGncvnuhrfwIcWa8IoCviDL68y9SrRtEf7qLE3IWO0U2qfpJUO9xuXCiI/YpKZnkz
+	dfI14kpW19xgjmMbBE0ROE1qsuuIp7VB7znqNRjW3t7ZQ5zY/r6wZQ7TjwPMQhHHbqk6UQ86u7r
+	hJyqqEaHOGfHOg9IyhqiDRXhwiq1xesV6Eg9WFuRG3wEAugGGFnIzsNZVpZdUS2Jng09kRhXNGo
+	poqSvjdht//F0EZU20d9SAjZV5x6XklnigdOJ4586X5uKinbdEVlfkf1OFwGA==
+X-Google-Smtp-Source: AGHT+IGkolV4gihApPpCMJ1KiZPbLGP6lKKAGid5kl9EQsMAfw6bzTw1axV/cNE6wN4oES6cLCpT/A==
+X-Received: by 2002:a17:907:7854:b0:a9a:6bc2:c0a3 with SMTP id a640c23a62f3a-aa50990b2c0mr1380344766b.7.1732625590540;
+        Tue, 26 Nov 2024 04:53:10 -0800 (PST)
+Received: from [192.168.42.208] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b52fcf9sm588338766b.118.2024.11.26.04.53.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Nov 2024 04:53:10 -0800 (PST)
+Message-ID: <37ba07f6-27a5-45bc-86c4-df9c63908ef9@gmail.com>
+Date: Tue, 26 Nov 2024 12:53:57 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v10 06/10] io_uring: introduce attributes for read/write
  and PI support
-Message-ID: <20241126104050.GA22537@green245>
-MIME-Version: 1.0
-In-Reply-To: <a28b46a0-9eb5-45db-80ec-93fdc0eec35e@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH87stt7dkxcsr/ugisjuNooLtaLtbHkImmLuBGQvL2JwKN/Su
-	ZUDb9THcyBiOsCGoTBZ0PHSMOCtlwwQEUaiPglZFIKyZChF04yUwiNTBusBgLbcs/vc553y/
-	+f3OOb8fxvEbRYVYptrA6NR0NoF6c1s7Q7eG/X0+QSmacoaSc/OLXLLG3ArIhqEylJzudABy
-	4PplhKxvuImQs0W9XLL6VCFC3lyZQcly631AWga3kx2WO1zyh3NjPLL0QRtKmmzLCNn3r82L
-	7Kuq4cX5UperhniUvcdINZmPoFTz2S+p9oEClJobG+RSxy+aAXWvtotHPW8KpppGZ5Bk731Z
-	0SqGVjC6EEadoVFkqpUxRGJK2u40qUwkDhPLydeJEDWdw8QQ8UnJYXsys13tECGf0tlGVyqZ
-	1uuJnbuidRqjgQlRafSGGILRKrK1Em24ns7RG9XKcDVjiBSLRK9JXcL0LFX5tQGgHV53qObH
-	Ra8CcFhQAvgYxCXQVjHPLQHemB/eDuDCXK8XGzgAnOyeAGywAGBHwSPOmsUx14myBQuA5Y02
-	TzAO4KC9DCkBGMbFN8OVyWS3AcW3wK6JIuDmAHw7nH5g5bn1HPwYBzY7jyLugj9+AJ5bGFsV
-	CfAw+GfpcYRlX3incpTrZj4eAy/M/4O6ORB/FV5vtSHsjZ5i8K/6LSzHw6n+Sk/eH07ZLvJY
-	FsLnsxaUZSV02sc8Gi0svHUVsBwLi+6WrXbJwVWwvKWdy+Y3wIq7jQib94HHFkc9XgFsO7PG
-	BPymvsbDEFp6CzxMwdumDs+AZwE88X0X8i3YWPVCb1UvnMfyDljb7kCrXHPk4C9D0zLGYii8
-	cGVnLfAygyBGq89RMnqpNkLN5P6/8QxNThNYfe7bEtvAH0+ehVsBggErgBiHCBD4rN+t9BMo
-	6M8+Z3SaNJ0xm9FbgdS1qxMcYWCGxvVf1IY0sUQukshkMok8QiYm1gumi04r/HAlbWCyGEbL
-	6NZ8CMYXFiB5qY8TSvc5vxAebN5QF8VvWbwxld9TvLHGxzR8/qHJXP9wbDJa2uOIjdw83j6d
-	sNeUWj8S8UnwaLFPTFnv8Mmg9+I2vTt8SbJE2GuvpgSs636y41Tkz9aovIxGKFmIHfldGnVm
-	1/umFO2zXNycXzfz9V7Zx1lf9Xph/vmFcYj81+8OjPOFZb7vVMS/be/rVlT3VWNLy3mV6dWL
-	H6UkP06nD791JDHvBpXbOSL3abHXpjY2CvcnDXxweqL72qU3fzFvfUV2T+scCko6mFjE2VOZ
-	Gwhvt4oUlvvKEhy7Qr50trx/MmdJVXdo4tajN4p/6pBHGxv4sYVPV5z9pg8NGZbfgkv3E1y9
-	ihZv4+j09H/a1ImmdwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsWy7bCSnG7Pctd0gz9X9Sw+fv3NYjFn1TZG
-	i9V3+9ksXh/+xGhx88BOJouVq48yWbxrPcdiMXt6M5PF0f9v2SwmHbrGaLH3lrbFnr0nWSzm
-	L3vKbtF9fQebxfLj/5gszv89zmpxftYcdgdBj52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8
-	eovFo2/LKkaPMwuOsHt83iTnsenJW6YArigum5TUnMyy1CJ9uwSujF3PD7EXzOOtWDz9KVsD
-	4y2uLkZODgkBE4lPHw+zdTFycQgJ7GaU6Fp5iQ0iISFx6uUyRghbWGLlv+fsEEVPGCUu7P4C
-	VMTBwSKgKvH/ZQBIDZuAusSR561g9SIC2hKvrx8Cq2cW6GeW2PvtPhNIQlggVmLZt6dgRbwC
-	uhJvuvuYIIa+Y5T4uuwUK0RCUOLkzCcsIDazgJbEjX8vmUCWMQtISyz/xwES5hSwlVj/9SfY
-	oaICyhIHth1nmsAoOAtJ9ywk3bMQuhcwMq9ilEwtKM5Nzy02LDDKSy3XK07MLS7NS9dLzs/d
-	xAiOSi2tHYx7Vn3QO8TIxMF4iFGCg1lJhJdP3DldiDclsbIqtSg/vqg0J7X4EKM0B4uSOO+3
-	170pQgLpiSWp2ampBalFMFkmDk6pBqaNkR1enlVaO/1tbp1eF7Y/d+m+Uy0pzJVvNy90OGZc
-	q5P7ZI71XccvCzvcZ/c8+Fa6mYXfNrmfeZrLzZlJawR4ex+sZnvNFWSyqWKp2TWlVxyPPiZZ
-	qc583cJb1DlzyfYexfdBn93y54RufhKZyWKzfwOHJL+bQ7n7zwP9ly5rlf+YwzyxIbI4+51I
-	i1lfiLJiq6StZs72CdEeM6yrdxruDQg8YjGDQ2Dz7ln/J8msKNTIcZ4TE7oq7G5FzZryxm+p
-	ORJuD/3iWaez7F+g3O9bbyFS81PnxM6c1oJJDxz5Tk/SXKVRUBe09XnQ7SitvaLZB/3O9d6X
-	NK9a6H5JUcnqo/ZD8dWPTqr8Tc/QVWIpzkg01GIuKk4EAJwwAuE5AwAA
-X-CMS-MailID: 20241126104844epcas5p32e5daec6d0ea68da92a2700c0b0227d2
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----lzW.cJR_-6sCvQYD.lREqa.H-32Z9TKwpDxBjmCjs3VZTSBT=_33907_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241125071502epcas5p46c373574219a958b565f20732797893f
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+ martin.petersen@oracle.com, anuj1072538@gmail.com, brauner@kernel.org,
+ jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+ linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
 References: <20241125070633.8042-1-anuj20.g@samsung.com>
-	<CGME20241125071502epcas5p46c373574219a958b565f20732797893f@epcas5p4.samsung.com>
-	<20241125070633.8042-7-anuj20.g@samsung.com>
-	<a28b46a0-9eb5-45db-80ec-93fdc0eec35e@gmail.com>
+ <CGME20241125071502epcas5p46c373574219a958b565f20732797893f@epcas5p4.samsung.com>
+ <20241125070633.8042-7-anuj20.g@samsung.com>
+ <a28b46a0-9eb5-45db-80ec-93fdc0eec35e@gmail.com>
+ <20241126104050.GA22537@green245>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20241126104050.GA22537@green245>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241126_025457_612987_434044A3 
-X-CRM114-Status: GOOD (  22.25  )
+X-CRM114-CacheID: sfid-20241126_045312_466867_ED062FFA 
+X-CRM114-Status: GOOD (  22.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,64 +107,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------lzW.cJR_-6sCvQYD.lREqa.H-32Z9TKwpDxBjmCjs3VZTSBT=_33907_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-
-On Mon, Nov 25, 2024 at 02:58:19PM +0000, Pavel Begunkov wrote:
-> On 11/25/24 07:06, Anuj Gupta wrote:
+On 11/26/24 10:40, Anuj Gupta wrote:
+> On Mon, Nov 25, 2024 at 02:58:19PM +0000, Pavel Begunkov wrote:
+>> On 11/25/24 07:06, Anuj Gupta wrote:
+>>
+>> ATTR_TYPE sounds too generic, too easy to get a symbol collision
+>> including with user space code.
+>>
+>> Some options: IORING_ATTR_TYPE_PI, IORING_RW_ATTR_TYPE_PI.
+>> If it's not supposed to be io_uring specific can be
+>> IO_RW_ATTR_TYPE_PI
+>>
 > 
-> ATTR_TYPE sounds too generic, too easy to get a symbol collision
-> including with user space code.
+> Sure, will change to a different name in the next iteration.
 > 
-> Some options: IORING_ATTR_TYPE_PI, IORING_RW_ATTR_TYPE_PI.
-> If it's not supposed to be io_uring specific can be
-> IO_RW_ATTR_TYPE_PI
+>>> +
+>>> +/* attribute information along with type */
+>>> +struct io_uring_attr {
+>>> +	enum io_uring_attr_type	attr_type;
+>>
+>> I'm not against it, but adding a type field to each attribute is not
+>> strictly needed, you can already derive where each attr placed purely
+>> from the mask. Are there some upsides? But again I'm not against it.
+>>
 > 
-
-Sure, will change to a different name in the next iteration.
-
-> > +
-> > +/* attribute information along with type */
-> > +struct io_uring_attr {
-> > +	enum io_uring_attr_type	attr_type;
+> The mask indicates what all attributes have been passed. But while
+> processing we would need to know where exactly the attributes have been
+> placed, as attributes are of different sizes (each attribute is of
+> fixed size though) and they could be placed in any order. Processing when
+> multiple attributes are passed would look something like this:
 > 
-> I'm not against it, but adding a type field to each attribute is not
-> strictly needed, you can already derive where each attr placed purely
-> from the mask. Are there some upsides? But again I'm not against it.
+> attr_ptr = READ_ONCE(sqe->attr_ptr);
+> attr_mask = READ_ONCE(sqe->attr_type_mask);
+> size = total_size_of_attributes_passed_from_attr_mask;
 > 
+> copy_from_user(attr_buf, attr_ptr, size);
+> 
+> while (size > 0) {
+> 	if (sizeof(io_uring_attr_type) > size)
+> 		break;
+> 
+> 	attr_type = get_type(attr_buf);
+> 	attr_size = get_size(attr_type);
+> 
+> 	process_attr(attr_type, attr_buf);
+> 	attr_buf += attr_size;
+> 	size -= attr_size;
+> }
+> 
+> We cannot derive where exactly the attribute information is placed
+> purely from the mask, so we need the type field. Do you see it
+> differently?
 
-The mask indicates what all attributes have been passed. But while
-processing we would need to know where exactly the attributes have been
-placed, as attributes are of different sizes (each attribute is of
-fixed size though) and they could be placed in any order. Processing when
-multiple attributes are passed would look something like this:
+In the mask version I outlined attributes go in the array in order
+of their types, max 1 attribute of each type, in which case the
+mask fully describes the placement.
 
-attr_ptr = READ_ONCE(sqe->attr_ptr);
-attr_mask = READ_ONCE(sqe->attr_type_mask);
-size = total_size_of_attributes_passed_from_attr_mask;
+static attr_param_sizes[] = {[TYPE_PI] = sizeof(pi), ...};
+mask = READ_ONCE(sqe->mask);
+off = 0;
 
-copy_from_user(attr_buf, attr_ptr, size);
-
-while (size > 0) {
-	if (sizeof(io_uring_attr_type) > size)
-		break;
-
-	attr_type = get_type(attr_buf);
-	attr_size = get_size(attr_type);
-
-	process_attr(attr_type, attr_buf);
-	attr_buf += attr_size;
-	size -= attr_size;
+for (type = 0; type < NR_TYPE; type++) { // or find_next_bit trick
+	if (!(mask & BIT(i)))
+		continue;
+	process(type=i, pointer= base + attr_param_sizes[i]);
+	off += attr_param_sizes[i];
 }
 
-We cannot derive where exactly the attribute information is placed
-purely from the mask, so we need the type field. Do you see it
-differently?
 
-------lzW.cJR_-6sCvQYD.lREqa.H-32Z9TKwpDxBjmCjs3VZTSBT=_33907_
-Content-Type: text/plain; charset="utf-8"
+Maybe it's a good idea to have a type field for double checking
+though, and with it we don't have to commit to one version or
+another yet.
 
-
-------lzW.cJR_-6sCvQYD.lREqa.H-32Z9TKwpDxBjmCjs3VZTSBT=_33907_--
+-- 
+Pavel Begunkov
 
