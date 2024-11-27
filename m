@@ -4,196 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 149F1D66BAD
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 02:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D4F4D609A0
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 05:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Up1otqPEH7Kx4Hx0JaqdcIMIn8Iokv11lObNnBTfe0Q=; b=Qk10XgGtAF9KlHRjdf2EEFKW4b
-	OC4zNMzCLBe9zz8n1bExsFTRj8Ev5wK18jXU55RCBQ0G27gryYdRmQXccG4qJEL4hNW6rgUPRbfWV
-	MtugkBZSAP91oWSemgrAV9xAa7+C6rGU0feNBnToKx0GVK/YvETmMJI9hHFwNDvEQM2bJRmEFvKcM
-	efjUHMSB9FAtSg8rcXzJ05yKb/+7tjIQbEJinKL9YH6vc7KnKOUsUm/UVTJ7UqUnnk4RpCdCjmTuL
-	ztHNd5tJmfkDFwkDagHkl+qKjgkrYyWQPHv9Bc6C7CQk/B+6SqcaYZdexC/Gb8swe570Y1Fs7/Iwe
-	i0opJAjA==;
+	bh=7OijkGc9t43pKOFifLDtLZS3bjZeB1kYn3D1cmE3MDM=; b=pWGgCRiqX7OAoL+rs+VPewau3e
+	nDZMoqjh9xlY3Y178lgM5sYkutaWpW/dKkh21woY4F6Ao0qDLt5CxYSSdtwa/f4ufjzuSXT+tiXqy
+	+jU/f5jYpLAWY/FwihwrL6l71xa7BCN9H5aFNOR+8AoAuqg96e07QEcVA9r9ndLiAOA3V4LGaOa/i
+	8debeu4pScCqDezsHdz+G1RsmH8qZRl8XsJKGlzJ4B2DNIlSWfOPoy0NFg+GTSqLNBZ0SycgwAypd
+	goQrNtGM+is/IjsX+TqWkiCsJeeDN9k1gyhNdW7rzn79gkmH9AUmfCilRsj6o+l5Idk4uoJUfmaJz
+	WPgppWPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tG8D7-0000000C6Lc-3fdG;
-	Wed, 27 Nov 2024 02:55:25 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1tGAvn-0000000CHb3-2rht;
+	Wed, 27 Nov 2024 05:49:43 +0000
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tG8D5-0000000C6Km-1Y3q
+	id 1tGAvk-0000000CHac-3pez
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 Nov 2024 02:55:24 +0000
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AR0fcJO006899;
-	Wed, 27 Nov 2024 02:55:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=Up1otqPEH7Kx4Hx0Ja
-	qdcIMIn8Iokv11lObNnBTfe0Q=; b=L7gWo6Gh1LOtDAxBKqEx6GkCcPoJql2fHb
-	eEWIJMZzCyha5VliqIZre7FEgrys0GVs2f3R8PrOz/9rSsXVJ+s9SJt+TmkkRWdt
-	J6KX8Fr5XeEXldnorDQHpa3UL2MoJRtrXieb0jM1L+D7FZ7M+1hpJm87XL+pK9Sl
-	BL/YBpg9o2QtV+xekBvDpBRQV6BMNhqhXMHZbzsEEUsCg6vQrJnmIAOlwqC5WkVh
-	D53+4+yJjwp4ZrpRnXNhc6MFLgPiMMFHlwjYMFOc8dU94+u0K9CY2WAoZazKMyym
-	q4CDgolxPOJuJf2B+6+09qsc/kn1c03tHOJ9gQqbKDUEuRH2fnqg==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 433869xykc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 27 Nov 2024 02:55:00 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AR0GDnO010108;
-	Wed, 27 Nov 2024 02:55:00 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4335ga34wv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 27 Nov 2024 02:54:59 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NZmhTwu0nFpC9M6bxT9RwsSka0m0jy17fMULOxJ8+uCZZJOnBQ4BOcDnXItsF2vMbfwqIcwQ1gb5HPKt7FPvsPSWvKjzV9GsUTaOdsK81FYQQt+IgsjvCUSnJAggZJa8y4PyotWXDJsR6iUpfUhmcdKI+zNLv1OSrkBRsGxBaL+v4B7R/KvrLzklhb0WUC2pp/xAGqIamuiSG+olXY7BTB4gli11Lpc0rzng/PuIslAfZaP1/wVypcqRbuou7WhYurX6gTYrQ9HSKjCCFubRIxvnNbsFU56fXFd+SWxnSFDAkgihV5SRmDaHUEeaty8V0EYWkV50YxnzC6G5YWs9Dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Up1otqPEH7Kx4Hx0JaqdcIMIn8Iokv11lObNnBTfe0Q=;
- b=BX70EmdYmA2AEylGf0mwmYONZMttMrrqSceFPO1I/6UIAmwNBhHgrh7ImA9BAvvR40SG8FU+R5vSWwg3w2y/c7X6iVcouLsa2fFiDTakgfqGHsSI9CTn+S/8o2ZXyyEwNI4gnSdT/UK6MCsYA8g2x4H94YP/2tVylhiGqxu/qUm6BJFHK5o1GyBD6PK3AcIc13AvFH4c/TRAdtqn1RYmAyYjBxiq7J+6k8vKPkbM5DQ/xEP5n7F+7Xki3HbAo8rPNsff1PpE0Nj+oYYlfYNFVtX8D68q3S6KIo5rpb099ZGXBo8t2Kd5UozEVKcT8ishfq6kVSB+O7luOHRsxIcccA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Wed, 27 Nov 2024 05:49:42 +0000
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-724e7d5d5b2so4787440b3a.2
+        for <linux-nvme@lists.infradead.org>; Tue, 26 Nov 2024 21:49:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Up1otqPEH7Kx4Hx0JaqdcIMIn8Iokv11lObNnBTfe0Q=;
- b=oqw3clMm0nahWJcQbhJ1a1z9qNSE2EBG2cccBE6GVdlp8fA0MkHG6zJKphsW92Yzb7hqWzIBo2LTKSTnZlPUGKzNcuGcTvpFKDIIPiJ9xicHpHYmlmvHR0Sb5avxn7c3PfGrpkTcXS4SjBYaaBZrJmQEGiuSzuikbHeKKwnum2s=
-Received: from SN6PR10MB2957.namprd10.prod.outlook.com (2603:10b6:805:cb::19)
- by PH0PR10MB5870.namprd10.prod.outlook.com (2603:10b6:510:143::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.20; Wed, 27 Nov
- 2024 02:54:56 +0000
-Received: from SN6PR10MB2957.namprd10.prod.outlook.com
- ([fe80::72ff:b8f4:e34b:18c]) by SN6PR10MB2957.namprd10.prod.outlook.com
- ([fe80::72ff:b8f4:e34b:18c%4]) with mapi id 15.20.8182.018; Wed, 27 Nov 2024
- 02:54:56 +0000
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Nitesh Shetty
- <nj.shetty@samsung.com>,
-        Javier Gonzalez <javier.gonz@samsung.com>,
-        Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "joshi.k@samsung.com" <joshi.k@samsung.com>
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org> (Bart Van Assche's
-	message of "Mon, 25 Nov 2024 15:21:47 -0800")
-Organization: Oracle Corporation
-Message-ID: <yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
-References: <20241105155014.GA7310@lst.de> <Zy0k06wK0ymPm4BV@kbusch-mbp>
-	<20241108141852.GA6578@lst.de> <Zy4zgwYKB1f6McTH@kbusch-mbp>
-	<CGME20241108165444eucas1p183f631e2710142fbbc7dee9300baf77a@eucas1p1.samsung.com>
-	<Zy5CSgNJtgUgBH3H@casper.infradead.org>
-	<d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
-	<2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
-	<20241111093154.zbsp42gfiv2enb5a@ArmHalley.local>
-	<a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
-	<20241112135233.2iwgwe443rnuivyb@ubuntu>
-	<yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
-	<9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
-Date: Tue, 26 Nov 2024 21:54:52 -0500
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0149.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:188::10) To SN6PR10MB2957.namprd10.prod.outlook.com
- (2603:10b6:805:cb::19)
+        d=linaro.org; s=google; t=1732686579; x=1733291379; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7OijkGc9t43pKOFifLDtLZS3bjZeB1kYn3D1cmE3MDM=;
+        b=pAZkuZoYSe/ApxPevy8wDAiNbm1jnYNu8obmXg7bKBvzSwaz4lS6iqc2wG6KY6tKHG
+         Xmkd4RGZZ/4yGxXFeDxKXAL/1EsvplYaBNmC7VuUrvpFMLT7T1rpmShxQ3w1RRyqNxoZ
+         C1OnQOMYYOttjCjCld/ywJQPp2kVgWiL3GfrrAUFeCmPGtk4Z/1zF6V42MixBVUg6+6f
+         MVUxC05DczQ4ykvT5G801ax0VfvyJHe/LRN2Jxuqm+zvCl5btGhXwT5SiM6sjQ7LBcG6
+         /9RYWM2R5rb0jb77DzxRCZPiF2cwn+xTMsLY9uIkLZf1YGzPAbVRCbwy29ad5rXDgfwY
+         8+sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732686579; x=1733291379;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7OijkGc9t43pKOFifLDtLZS3bjZeB1kYn3D1cmE3MDM=;
+        b=WBeuQwJYoSST2HHZehZUk8m5gUtrPaicAJdTIHD5DiEYZqHUZXUFLLABf1Asm5GobG
+         gWUOygxBtfJWLwt/l9gBYZ12fMHy/4cLCfV1SzhFZvZ3bUm0QtIBUuzAuwR7FwNn1d12
+         9++frH2K93IAHQZ/n0uZg8KZ1NMHgaZtHt45hXFRTIMrRJyVD04VbSyjZzbS9z8C127Q
+         7RFPFtQG0xZNFO1rtsnknyw7gsTFYcjq9egXDCBJgHxznAxIHSb3ECHuqGrZPR33MRml
+         q2Ef9BIvZRmUusANCOpLFptSGdP79bljsdB3G2oeo5lFVTETB/p5etRzekcuxX0NiY74
+         cwHg==
+X-Forwarded-Encrypted: i=1; AJvYcCW439PQYEuXi/pqf3qrouQoswnR6OZNlqHRSbOoSgBFOVbj9WzUp24mGM9prt2zF0OueNN7sO5tfY0y@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyr6kmkUg0EiZDwff7EwgFvEipHccHamDwLe9c5HdSgmKy79dV3
+	+ZdZwC5A2IHWyPBq9CJ7F29yQW61qnUbP9CUckDujwprkdgPpx5Td9bc8jXghw==
+X-Gm-Gg: ASbGnctOq7fSUNZHh5HW7q9OV6YixnI1vjnqC6I4QPsJJx/GrYfNP5+axUqevPLQYcb
+	Py4STYsglSEMLdWODwbvaSigxZCEk3wv2wV6w0Gna73IXqP4rfI/GZY1efOfWtCV+W5UxofpGHY
+	tL7rvR7zDIUZ9PhpqkSMeM6krSURdW5VC1OI3tpHs85M6i4RgQ69sAXRSCPdM4KFlrndxyHD06B
+	YaDrLyq1tCkvseIShfo5paVBVE90bhmMZO6r83GpXAKZ881O/FSib3lplKY
+X-Google-Smtp-Source: AGHT+IFczRjEFE93AgEq4hJlwmfhnwAw0fnbiv9RRLxapdAANTc4eJxpreRJb4Ay/eM8ARb6SczqRQ==
+X-Received: by 2002:a05:6a00:b47:b0:725:99f:9732 with SMTP id d2e1a72fcca58-72530041cd1mr2628285b3a.13.1732686579329;
+        Tue, 26 Nov 2024 21:49:39 -0800 (PST)
+Received: from thinkpad ([120.60.136.64])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de532da6sm9688543b3a.105.2024.11.26.21.49.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Nov 2024 21:49:38 -0800 (PST)
+Date: Wed, 27 Nov 2024 11:19:31 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	konradybcio@kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
+ the user
+Message-ID: <20241127054931.6crzyoq57g56rs3f@thinkpad>
+References: <20241118082344.8146-1-manivannan.sadhasivam@linaro.org>
+ <20241122222050.GA2444028@bhelgaas>
+ <20241123090113.semecglxaqjvlmzp@thinkpad>
+ <2f4rkilknak7xj3lyv7jx2yi7qyuw72pjwy67tkouqcvjmyn7l@scmdo34xnkuj>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR10MB2957:EE_|PH0PR10MB5870:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3cde5a3-7967-4985-3c05-08dd0e8ee039
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?W2Txskgo576espi+8rlUGkPmMLa+Mbz+aSDmuaxRLlSeL3ntEp3pcoU2Kc6y?=
- =?us-ascii?Q?Px+pQru4LbxcU7hC59R/Y4us0raIReb/B18G4FFalI2mqxK3sPP/x/EN3gsS?=
- =?us-ascii?Q?4EsHxtzy3KXxCMD/c62W75npCAttlXN571b6RLW+0WCByy3LD+VYyvN+J64r?=
- =?us-ascii?Q?jIXM27tOs3hEP2ZvDjbTJ2T2a/OYu5PczkfIEi/8g/7tc8/Rcehb/J1mzYKQ?=
- =?us-ascii?Q?S4xujCOvaVj/6y1FwPzsqQNsR4ZGqwykYQ4LFyjZEGLXQZurYNhGxUpddqh6?=
- =?us-ascii?Q?hEaPL4u/a7MYTAvS48sdcP3y2UPbRRBoIPHfQHMNEoS5JCloKLPdN+Uv4cXB?=
- =?us-ascii?Q?YL4bQnj0R886WpyTdCF5h146Rp9dWbqTbciZdt+ipUcuyojjs6fX1+DG1F39?=
- =?us-ascii?Q?7QqCvbuI8zqdEMJ02XLl9IJawSovKuIypXmSYTvyBcGJDDy7xpJr2/Txth74?=
- =?us-ascii?Q?AitemjUH/MmxRYrel7+PP9bCGAnRH8TnHyFg0jjTUCilnQTswqK6F5VnysV1?=
- =?us-ascii?Q?0JFvcKSutHkVIGwuHwpLy0n5wj572M9S4M6tcsop7/V93Fzjt5iKlgDSr2bs?=
- =?us-ascii?Q?dAb/MvwbR7JzS8RLMXcYZwgwbCxT4xKWkuiYO6nDEIowr4NEjgbKN0iD3YAp?=
- =?us-ascii?Q?A1YhRnDzZ9KBNPi5aKUfRN646D9qeH0//Q8+mmvbTnEyQJoTKGYyVDTCEMAJ?=
- =?us-ascii?Q?YcKUJhiKs72ASfes7Gv7zgx49Jhf0Aa0fHO8s1ox6oyDNfxwbQi0u2Uz8htk?=
- =?us-ascii?Q?3OZwGD0JeLtPy+Ccf/xjLkStChM+XsHo8mdnYBZwnC3K58XCnbRDRJxrGehC?=
- =?us-ascii?Q?/AmW69iBBUXXdv8/daXD4NIgmi7wLB3YwmJmwVgBcEc97OGCAJWhlZRaZr+r?=
- =?us-ascii?Q?dh66/8MPQCOdXO8CG5iSHCSDStATpRTG00z7nkMkOXiQRDDqnGgkaSSftiDb?=
- =?us-ascii?Q?es07c1AOe/vFeZSpKD8hl+BnTqsusfcy7EHg6ntiTfU09NNdOR9gjzMApN5p?=
- =?us-ascii?Q?dJx8IrbekaEuJnyw/pAyPzr8Um4iyvq9EkpUtgpVaT/rwv0aEIF1Fm6CfcTf?=
- =?us-ascii?Q?om2fnsr/XEdZmGPgXel5bnY+xpGbflDaPbdwoCiN9p34TXgGggGAKuyGdqi2?=
- =?us-ascii?Q?2xLY6scN3Jgs487vQQyiYrK+e8aubgDYF45Ik/5TCBko0BwFRZi8hyyWYm3R?=
- =?us-ascii?Q?WF79JmodLDz6aaYxBUYMM3Nqg1z6NULelpbsXpytqEs0qmGSaOKIxkEpmQl0?=
- =?us-ascii?Q?pFRCf6D5vpGwWmG/g+92WE5wSdUXOafGZ9NJad81KD3hgfmeAPdLkhyz75te?=
- =?us-ascii?Q?ifAz4/sbAU7HHvbdKZrHBABONP2dwojm3qAMbbCRXUxvEg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB2957.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H5ffpwvzk02yjQr782nAieikz3cS4/mcvry3YRuSPDlZ4ilZtd3kS8X4qyVs?=
- =?us-ascii?Q?UwIS6B6L/ySa7hovWl0SIeeeB8e47LEW6imBDDy/0zROl0fDQgcQWgRA+MEY?=
- =?us-ascii?Q?Jp6ku/Lvhh8C6g5fHLE0cqhSNPBK9Hl2MDWtW2pM2XYXJZY/BMaHNOCV20Qv?=
- =?us-ascii?Q?yg7dIkuNZtZRQff8vH4jw4YaGalwdk1rrcvzQy1AMBPF2hzwTseP01rXL/R3?=
- =?us-ascii?Q?vAu+OUpZN1Nms3Ly21W0CL2oETj37JK1IigiNmufbpbU4ozOR5yQBW2dboWi?=
- =?us-ascii?Q?Sbj3bBlXYI1UpUimjR63Lfi2RuW7RSrx0q3KHvmFpCh9EGfOYWfo/pQI6uig?=
- =?us-ascii?Q?2P7wFcqhqcqDF1NGwXj8QIxTxrUzJyyTTkIhWKZ+6yt1xjCZ9csRMtqPOvvQ?=
- =?us-ascii?Q?UWmaBfmVIrt9l9bWUOPU5XdX3kPi39PS9c1QSi0ldDkRHqwLUS33vaCrYL30?=
- =?us-ascii?Q?9vDqp+OUblKfLrVBJidbesHnpiRg3tiSCqfR6wd8oJAleZXe7PMt7kIGf1Qo?=
- =?us-ascii?Q?m6eFVudBk8F+gyAR3K4KORWqJHuS9VOq3FkAJKgYqlY5s2kWpzmM/SbHfdEa?=
- =?us-ascii?Q?Le+yahuHmunT8GCAMyh7cbDQ/LSewrT+wV0Q9aHSIDSiaTNclEzyrD6GhUFZ?=
- =?us-ascii?Q?LnNtgYmoBstonZRKwFBkoZFB8i0BFMUE18+Nf0/OeTHl22d9QmnPNDb8sMbU?=
- =?us-ascii?Q?Geabf0pRoeFNN4mzVtWV1mjIs/MZ+JdsRLFQcrBI86/zgmqdGNBHRihypQ2k?=
- =?us-ascii?Q?OsODycQsjjsHvST8tr3fAjgNFV7k21iCzJlZkpKK5N/cyRSwGYixk3pbZEUi?=
- =?us-ascii?Q?YYlonsvPMzMG7M518nvjHQHmieHqy4+Jb4L9bAPGXFYSHIOwwS2u7+ph/heB?=
- =?us-ascii?Q?6JdcBOGxcyYS5+5ow9NLNw0+83t8y3sdeEdaYUpV9kS851Vj6MJ2/XLXSsGO?=
- =?us-ascii?Q?1aQfJRkXQ8fxY8tdcNRevd9Ioi41Wc3ZdvJQpkgct1kuKC6ukrfBdV7zQJJB?=
- =?us-ascii?Q?KjMEhiwNu8VdAvLJA2h0qonzXAqyNSfRwLcIFJox6186nusHw5vVRf6rWj2M?=
- =?us-ascii?Q?TR9TGGEjK9StbCDcN4PVhq104Vb3o1zmInF6T5wdkxV8OxEOBXqLCxxi2d2N?=
- =?us-ascii?Q?KOAkPz1pgD75tnyhsC2T681f/UGYcXtSTTm3raFK+LWj9vmQ2jk8e6Ejw28J?=
- =?us-ascii?Q?CYkgDS2yYZEJqyi0v2sBNocFGf0wiSrfdDstwGGMrJt8oUe/V3JNNDiAKhJ9?=
- =?us-ascii?Q?JBV06QBgbN86Hl4z2uK7YoexXx4ZI7wCOg6vEQZyUC0zMEPwmBTAUbCBNYAL?=
- =?us-ascii?Q?ITqmbU36N2jXfJ1q3ED7WcSc3VsZK46Muzu3gkMXXLTcKLwjqd6/75gwSb7Q?=
- =?us-ascii?Q?bGEiEl+NN1lk2/y/NWHbawjqGMx80BifNwSU/jXzRHuvstuiGIT6PXV/7QkK?=
- =?us-ascii?Q?LhUjvA1Do8/X/QGeP2nDrkJDQIQsMKekjoI1OvHafBmYAl3GodzYedt9qm41?=
- =?us-ascii?Q?MbRhyCEihqwmTdLrv7KCBLrtWCVS8sm5Tg55ZT09XC9coT2CUML3lJhUlNWr?=
- =?us-ascii?Q?PM4OP2B2VicxXWY5hpGHoDnRpa0TuwNJ3y1Wkc/kzO6RIlVAQgCcpCoEVsmc?=
- =?us-ascii?Q?dw=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: vazJUGsbDWrFarOGLtiFn5FE3lQQBGQJfFT6KzyrSw2ZJHIGOwUNDQDr78bx2ljO6t2QJgNU6OJRQ0mwEuRvEH3zLmTC/u0Veb12EN0SBAYtFBnjIjedhfMxD6h8mJPBCbs8iBqtYDW3mnv6Zxezr2f4n+3FaYEYgKHTJ+a9fJb+QGWeJcZRlFwjrYkUCER5T2Ygr8pTfW1C0RxyBr4hTXMbCvKsZ6D3rFwqks9ghM4NjXBoFgKhoA2cDm4+BLYG7YW9i32dJwYDz2nAwIVOYkaird1rKbvyKWqf1JyxWShwM1zK+L8L/H7W30Fafyo65peybhhwVDsSAlkGRFxFpuCe4n9w4xdYVIav0VNZB8/2bwiUTU5T1ffR+TUFxNGEcmVAfIbOkHoh3WqypaoJUIHJPpJf6a0aSe7TPrp48h4n3ttBERRFncdvUnRzC93a/NvdM4qtqG2aTipn4oh0e9an74vBZAurWSazHWNilcyT1ETtR8GkNsKNAcPJTJg7Gq4EvDbnOs/JAmdc9uOIdcFOo9kLaCqNAUplfL0M/MwVLr1tj4LzXKertB2O3Ig3eHHdO+nxADnldOK9w4spZ5erXDeNKUthMCq2Gde+hKc=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3cde5a3-7967-4985-3c05-08dd0e8ee039
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2957.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2024 02:54:56.8642
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UUbfyedkzHLI9wq4BQiemyra2TN8GD6JpLA8Pqken+xwDkE7uu5ylR1of7eb5mPqhDAK+32LS8/P2Fv3oSMibLgflE6PXQ4fxFgBB2uxbuA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5870
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-11-26_16,2024-11-26_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=793
- spamscore=0 suspectscore=0 mlxscore=0 phishscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2409260000 definitions=main-2411270024
-X-Proofpoint-ORIG-GUID: MkiKOjwPfZ53bRR5qCqnyJxj9kVuAd9I
-X-Proofpoint-GUID: MkiKOjwPfZ53bRR5qCqnyJxj9kVuAd9I
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2f4rkilknak7xj3lyv7jx2yi7qyuw72pjwy67tkouqcvjmyn7l@scmdo34xnkuj>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241126_185523_406465_A7C76254 
-X-CRM114-Status: GOOD (  15.94  )
+X-CRM114-CacheID: sfid-20241126_214941_012052_BDE6779E 
+X-CRM114-Status: GOOD (  71.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -208,42 +104,175 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Nov 26, 2024 at 11:11:38AM -0600, Bjorn Andersson wrote:
+> On Sat, Nov 23, 2024 at 02:31:13PM +0530, Manivannan Sadhasivam wrote:
+> > + Ulf (also interested in this topic)
+> > 
+> > On Fri, Nov 22, 2024 at 04:20:50PM -0600, Bjorn Helgaas wrote:
+> > > [+cc Rafael]
+> > > 
+> > > On Mon, Nov 18, 2024 at 01:53:44PM +0530, Manivannan Sadhasivam wrote:
+> > > > PCI core allows users to configure the D3Cold state for each PCI device
+> > > > through the sysfs attribute '/sys/bus/pci/devices/.../d3cold_allowed'. This
+> > > > attribute sets the 'pci_dev:d3cold_allowed' flag and could be used by users
+> > > > to allow/disallow the PCI devices to enter D3Cold during system suspend.
+> > > >
+> > > > So make use of this flag in the NVMe driver to shutdown the NVMe device
+> > > > during system suspend if the user has allowed D3Cold for the device.
+> > > > Existing checks in the NVMe driver decide whether to shut down the device
+> > > > (based on platform/device limitations), so use this flag as the last resort
+> > > > to keep the existing behavior.
+> > > > 
+> > > > The default behavior of the 'pci_dev:d3cold_allowed' flag is to allow
+> > > > D3Cold and the users can disallow it through sysfs if they want.
+> > > 
+> > > What problem does this solve?  I guess there must be a case where
+> > > suspend leaves NVMe in a higher power state than you want?
+> > > 
+> > 
+> > Yeah, this is the case for all systems that doesn't fit into the existing checks
+> > in the NVMe suspend path:
+> > 
+> > 1. ACPI based platforms
+> > 2. Controller doesn't support NPSS (hardware issue/limitation)
+> > 3. ASPM not enabled
+> > 4. Devices/systems setting NVME_QUIRK_SIMPLE_SUSPEND flag
+> > 
+> > In my case, all the Qualcomm SoCs using Devicetree doesn't fall into the above
+> > checks. Hence, they were not fully powered down during system suspend and always
+> > in low power state. This means, I cannot achieve 'CX power collapse', a Qualcomm
+> > specific SoC powered down state that consumes just enough power to wake up the
+> > SoC. Since the controller driver keeps the PCI resource vote because of NVMe,
+> > the firmware in the Qualcomm SoCs cannot put the SoC into above mentioned low
+> > power state.
+> > 
+> 
+> Per our previous discussions, I think we concluded that we have two
+> cases:
+> a) of_machine_is_compatible("qcom,sc8280xp")
+> b) Everything else
+> 
+> In #a we have to power down NVMe as the link doesn't survive the CX
+> collapse, is this your #2?. For #b it's primarily a policy decision
+> about the tradeoff between battery and flash life (and in some cases, as
+> already seen in the nvme driver, some device-specific policy).
+> 
 
-Bart,
+With this proposed usage of the 'd3cold_allowed' sysfs attribute, all devices
+will enter D3Cold by default, unless overridden by userspace. So #a will be
+covered by default, and #b is left to userspace.
 
-> There are some strong arguments in this thread from May 2024 in favor of
-> representing the entire copy operation as a single REQ_OP_ operation:
-> https://lore.kernel.org/linux-block/20240520102033.9361-1-nj.shetty@samsung.com/
+> > > What does it mean that this is the "last resort to keep the existing
+> > > behavior"?  All the checks are OR'd together and none have side
+> > > effects, so the order doesn't really matter.  It changes the existing
+> > > behavior *unless* the user has explicitly cleared d3cold_allowed via
+> > > sysfs.
+> > > 
+> > 
+> > Since the checks are ORed, this new check is not going to change the existing
+> > behavior for systems satisfying above checks i.e., even if the user changes the
+> > flag to forbid D3Cold, it won't affect them and it *shoudn't*.
+> > 
+> > > pdev->d3cold_allowed is set by default, so I guess this change means
+> > > that unless the user clears d3cold_allowed, we let the PCI core decide
+> > > the suspend state instead of managing it directly in nvme_suspend()?
+> > > 
+> > 
+> > If 'pdev->d3cold_allowed' is set, then NVMe driver will shutdown the device and
+> > the PCI controller driver can turn off all bus specific resources. Otherwise,
+> > NVMe driver will put the device into low power mode and the controller driver
+> > has to do something similar to retain the device power.
+> > 
+> > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > > ---
+> > > >  drivers/nvme/host/pci.c | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > > > index 4b9fda0b1d9a..a4d4687854bf 100644
+> > > > --- a/drivers/nvme/host/pci.c
+> > > > +++ b/drivers/nvme/host/pci.c
+> > > > @@ -3287,7 +3287,8 @@ static int nvme_suspend(struct device *dev)
+> > > >  	 */
+> > > >  	if (pm_suspend_via_firmware() || !ctrl->npss ||
+> > > >  	    !pcie_aspm_enabled(pdev) ||
+> > > > -	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
+> > > > +	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND) ||
+> > > > +	    pdev->d3cold_allowed)
+> > > >  		return nvme_disable_prepare_reset(ndev, true);
+> > > 
+> > > I guess your intent is that if users prevent use of D3cold via sysfs,
+> > > we'll use the NVMe-specific power states, and otherwise, the PCI core
+> > > will decide?
+> > > 
+> > 
+> > Not PCI core, but the controller drivers actually which takes care of powering
+> > down the PCI bus resources.
+> > 
+> > > I think returning 0 here means the PCI core decides what state to use
+> > > in the pci_pm_suspend_noirq() -> pci_prepare_to_sleep() path.  This
+> > > could be any state from D0 to D3cold depending on platform support and
+> > > wakeup considerations (see pci_target_state()).
+> > > 
+> > > I'm not sure the use of pdev->d3cold_allowed here really expresses
+> > > your underlying intent.  It suggests that you're really hoping for
+> > > D3cold, but that's only a possibility if firmware supports it, and we
+> > > have no visibility into that here.
+> > > 
+> > 
+> > I'm not relying on firmware to do anything here. If firmware has to decide the
+> > suspend state, it should already satisfy the pm_suspend_via_firmware() check in
+> > nvme_suspend(). Here, the controller driver takes care of putting the device
+> > into D3Cold. Currently, the controller drivers cannot do it (on DT platforms)
+> > because of NVMe driver's behavior.
+> > 
+> > > It also seems contrary to the earlier comment that suggests we prefer
+> > > host managed nvme power settings:
+> > > 
+> > >   * The platform does not remove power for a kernel managed suspend so
+> > >   * use host managed nvme power settings for lowest idle power if
+> > >   * possible. This should have quicker resume latency than a full device
+> > >   * shutdown.  But if the firmware is involved after the suspend or the
+> > >   * device does not support any non-default power states, shut down the
+> > >   * device fully.
+> > 
+> > This above comment satisfies the ACPI platforms as the firmware controls the
+> > suspend state. On DT platforms, even though the firmware takes care of suspend
+> > state, it still relies on the controller driver to relinquish the votes for PCI
+> > resources. Only then, the firmware will put the whole SoC in power down mode
+> > a.k.a CX power collapse mode in Qcom SoCs.
+> > 
+> > We did attempt so solve this problem in multiple ways, but the lesson learned
+> > was, kernel cannot decide the power mode without help from userspace. That's the
+> > reason I wanted to make use of this 'd3cold_allowed' sysfs attribute to allow
+> > userspace to override the D3Cold if it wants based on platform requirement.
+> > 
+> 
+> What do you mean "without help from userspace". Which entity in
+> userspace is going to help make this decision?
+> 
 
-As has been discussed many times, a copy operation is semantically a
-read operation followed by a write operation. And, based on my
-experience implementing support for both types of copy offload in Linux,
-what made things elegant was treating the operation as a read followed
-by a write throughout the stack. Exactly like the token-based offload
-specification describes.
+The entities controlling the similar UFS 'spm_lvl' attributes (Android userspace
+is one such example). Right now, most of the platforms (not just Qcom) require
+the PCIe devices to be powered down during system suspend. So no userspace
+intervention is required. But if someone puts the same chipsets on Android
+form factor devices, then they need to teach the Android userspace to control
+this attribute similar to how it is done for UFS.
 
-> Token-based copy offloading (called ODX by Microsoft) could be
-> implemented by maintaining a state machine in the SCSI sd driver
+> > This is similar to how UFS allows users to configure power states of both the
+> > device and controller:
+> > 
+> 
+> "Allow users to configure" is an optimization, is the purpose of this
+> patch to allow similar kind of optimization? Or is it supposed to allow
+> userspace to help solve case #a above (hardware doesn't survive CX
+> collapse)?
+> 
 
-I suspect the SCSI maintainer would object strongly to the idea of
-maintaining cross-device copy offload state and associated object
-lifetime issues in the sd driver.
+Both as explained above.
 
-> I'm assuming that the IMMED bit will be set to zero in the WRITE USING
-> TOKEN command. Otherwise one or more additional RECEIVE ROD TOKEN
-> INFORMATION commands would be required to poll for the WRITE USING TOKEN
-> completion status.
-
-What would the benefit of making WRITE USING TOKEN be a background
-operation? That seems like a completely unnecessary complication.
-
-> I guess that the block layer maintainer wouldn't be happy if all block
-> drivers would have to deal with three or four phases for copy
-> offloading just because ODX is this complicated.
-
-Last I looked, EXTENDED COPY consumed something like 70 pages in the
-spec. Token-based copy is trivially simple and elegant by comparison.
+- Mani
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+மணிவண்ணன் சதாசிவம்
 
