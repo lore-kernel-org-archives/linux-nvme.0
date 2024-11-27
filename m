@@ -4,134 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9278ED609C6
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 09:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 098FCD609CF
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 10:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tcZjopI8nRXI1BfE2ti01zn+hHScLrloRClWVO3P6/Q=; b=zlnu++jSb1EnBaoob/crWazW1i
-	Zh6NY74OttTuJmA+9HsS9egYJceX22iCSg18etx0NafRDQrQxQ0uNuACgBhnrOw4X7OpgmaEoxuWa
-	OW1gyBbOvPuSzXe45fckyQQej8AvcHjSdYuiygAzNQRyJHFCPgNIytQOVWwD/F6Ti9GKLBLQc0jOY
-	9+EgufYTlytHIUMZtG1I4PlhODTgaAIaLDRa5kcAKFYaCba47A/HQmw275BneFvyxVeWxYvoMtHHY
-	7eCLdIjQ+c8ZuREb21ADhRC+crnDR6pUsa/YlXaNHhGhWGxBz9jlwqcIM23sZXRm9Wc99yh1eiH+d
-	3MZZqtzg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9ZlrO5h50BcTQskeYOFGG+Op70eMgkFj46C8sSDAd2w=; b=aKyImpwTkKxH6v1LWfN0tgxYCz
+	2d8Ui/gmqtP3F7yebZI8oSioBBjRBJj/vt3wvG3QnSWcwWi86p3c1wiYqk37VNDwCjA6o8Aauia9l
+	rVrupT5xGOD8u1gxEOM9UhX1IfAl5zsmpqq0lobT0a0yqvuVGujflIcgMd9c6Ualo3VmaSe37ni0L
+	vkxB1MNBKrO0uAtyaJOb2YyBRyp2jrsLplGTNmpoA8EOY/jzodaRybnM3Q7OQNdYX3eArOhOG8QnS
+	VE7fyVNdDLw8zFNNBBqm6jh/9ypxgdjHGFPjTWOy++OkXF90xu4ruPUggu2YsufEZe97MEJu0LpSN
+	MK5keaKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGEor-0000000Cl7M-2l6P;
-	Wed, 27 Nov 2024 09:58:49 +0000
-Received: from [203.254.224.33] (helo=mailout3.samsung.com)
+	id 1tGFTJ-0000000Csss-3jLq;
+	Wed, 27 Nov 2024 10:40:37 +0000
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGEmI-0000000CklH-1zXL
+	id 1tGFNu-0000000Crnq-0hFj
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 Nov 2024 09:56:13 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241127095602epoutp034217badb650d6106ebb464d6f21a658d~LyrWAZ7g00285702857epoutp03Y
-	for <linux-nvme@lists.infradead.org>; Wed, 27 Nov 2024 09:56:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241127095602epoutp034217badb650d6106ebb464d6f21a658d~LyrWAZ7g00285702857epoutp03Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1732701362;
-	bh=tcZjopI8nRXI1BfE2ti01zn+hHScLrloRClWVO3P6/Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D8Cqm9a/PuPiQ4PNGXKx87US1yg6DOb8vPfVY60htQiNE8xZ0eliNdU1hs7exGAHl
-	 JKUOPvXiynP2XDOPfTLx2T6eKoaa053r6FYIScZp/6z/+CXjaUi+0ziYY1Om4MkDVJ
-	 hM88tR3y8cg5mjrBo6UsWScFmXKxQlFKDXdpp7e0=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20241127095601epcas5p3ccb628fbc6370e944e496159c91a9938~LyrVNIlgu2583125831epcas5p3P;
-	Wed, 27 Nov 2024 09:56:01 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4Xyvvz3zqsz4x9Ps; Wed, 27 Nov
-	2024 09:55:59 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	85.9F.19710.FACE6476; Wed, 27 Nov 2024 18:55:59 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20241127095442epcas5p4b40afe66e1de6ec8a8c51c15a09c4ac1~LyqLKYZC83053130531epcas5p4q;
-	Wed, 27 Nov 2024 09:54:42 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241127095442epsmtrp2c7efc407039027319e74116e66cb2b4d~LyqLJc91q0601006010epsmtrp2D;
-	Wed, 27 Nov 2024 09:54:42 +0000 (GMT)
-X-AuditID: b6c32a44-363dc70000004cfe-6c-6746ecafda98
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	69.E8.33707.16CE6476; Wed, 27 Nov 2024 18:54:42 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241127095433epsmtip11cdcf18ec779b197ac01f35c37f488f9~LyqC9f0Pn1161011610epsmtip1E;
-	Wed, 27 Nov 2024 09:54:32 +0000 (GMT)
-Date: Wed, 27 Nov 2024 15:16:44 +0530
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, anuj1072538@gmail.com, brauner@kernel.org,
-	jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
-	linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+	Wed, 27 Nov 2024 10:35:03 +0000
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-382423f4082so4800346f8f.3
+        for <linux-nvme@lists.infradead.org>; Wed, 27 Nov 2024 02:35:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732703700; x=1733308500; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9ZlrO5h50BcTQskeYOFGG+Op70eMgkFj46C8sSDAd2w=;
+        b=Mcxq30sN5d/1v4SKZQ/oXEtXY62dtrfL1ACwq7VjRZo8gBZj0dORvQeqcHrGcTeVng
+         m3e+WB5/0OtQmIDl8sVHtIQ6okyMox3EwlN0771vGNhTKD457Pn1lCf7K9LiyG26hgNG
+         N5or0Z+/rVl4TAVXw+QP2xaUbmfDOOAmQWrmO1ZNXPl0Qa2HCRkxzYcj53nPafwaSY/s
+         78Rewp2JeFJJ/dG1BtdVtpJuI2p7hjQndqL/PtsB71LrEiTqJ/R8h1xmTIPraYrUBFmc
+         uVAL2R+Y5gzmj2Xc11TaZNOlbtee0HnothjziQ2eYuTE6yal1/sbithu2Dep9GoOu6Rz
+         x01A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732703700; x=1733308500;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ZlrO5h50BcTQskeYOFGG+Op70eMgkFj46C8sSDAd2w=;
+        b=t0itezpUCXzopCxq/S/fyzof/TiGBwKr/V3JHDHzoJ2bfRmPi37sHsfMyAFvgEh28P
+         Zwzdt/5n9XlQu+N57Gl/uSJH4qqPdHj696kvafT2/nevOs5ddbOz7dwrAolHiozwYNx2
+         pUVZ6RsA+RFAAkk4+nhKOofd6jlX73GTvF/lv0GpUQu6GVKefrh3Ug88g+Y8jGTSyqoV
+         HeT9a7dNuTry5QJeDiY798PTsuk3QwlZm8/POkmcEqGeELg0K7ZKjvlHf7Z7z1H+vKWz
+         kd71gAVhfiI9TD93WCdXFljtm2Zd+h9d1NNtXD27Z7pAJzFpmF2YDvXz467tCeeDpF/k
+         HnfA==
+X-Forwarded-Encrypted: i=1; AJvYcCX8yN3Ji+TqKw0HaB5lFZsu9SXC9PWPap8fR+yyCd18VL45+gCb66qhxDMO8V38Xab5WFq867muXU6j@lists.infradead.org
+X-Gm-Message-State: AOJu0YyKxQtn/81/j73mza+/qVHHtf84u3ippd0/fh3fAjggemNYBiwi
+	ZCVo7NysF0i5GdEcNOytfBAp7ZaAn3RqN1lkY08pn0j2RRmsbKciIkEBMw==
+X-Gm-Gg: ASbGncsQ+XBA6bAT8M/DFd5au2D0sxZFtqBCk+RcskdWPr6zvYy8A5LXTibBZJZEo5u
+	SGnEftE97tUW9PjxrhlM0Gekcy7xUuEEeWpo9m3P8mpqUZWQr0rk/QvwKciVYa4WYL50b2GMG12
+	HvzKFHFN3foHP1TiL3M7D+uWSN2ZlbG5YHfDEEtf9u5BUo21HKdxukqaqJRkt2kCrCYUMIS7VhA
+	1jRmcpLlCn4nGWdvU3p/shcFghIw8wj/ew0cz5kZcezhzHWnlMgRlSMiw==
+X-Google-Smtp-Source: AGHT+IFk0SXZCKGCnlLrTdF+H7B8tOKDqCjKa0psfP+s3ClB+df5BuAqqiAyl+b/3U4nAA+9UpIchQ==
+X-Received: by 2002:a05:6000:440c:b0:382:3f31:f39b with SMTP id ffacd0b85a97d-385c6ebd533mr1529071f8f.25.1732703700155;
+        Wed, 27 Nov 2024 02:35:00 -0800 (PST)
+Received: from [192.168.42.80] ([85.255.233.86])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fafe207sm15991312f8f.36.2024.11.27.02.34.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Nov 2024 02:34:59 -0800 (PST)
+Message-ID: <5f77cc2b-d589-42db-9985-e56bac1da569@gmail.com>
+Date: Wed, 27 Nov 2024 10:35:46 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v10 06/10] io_uring: introduce attributes for read/write
  and PI support
-Message-ID: <20241127094644.GC22537@green245>
-MIME-Version: 1.0
-In-Reply-To: <a9d500a4-2609-4dd6-a687-713ae1472a88@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKJsWRmVeSWpSXmKPExsWy7bCmpu76N27pBisWyVp8/PqbxWLOqm2M
-	Fqvv9rNZvD78idHi5oGdTBYrVx9lsnjXeo7FYvb0ZiaLo//fsllMOnSN0WLvLW2LPXtPsljM
-	X/aU3aL7+g42i+XH/zFZnP97nNXi/Kw57A6CHjtn3WX3uHy21GPTqk42j81L6j1232xg8/j4
-	9BaLR9+WVYweZxYcYff4vEnOY9OTt0wBXFHZNhmpiSmpRQqpecn5KZl56bZK3sHxzvGmZgaG
-	uoaWFuZKCnmJuam2Si4+AbpumTlA7ygplCXmlAKFAhKLi5X07WyK8ktLUhUy8otLbJVSC1Jy
-	CkwK9IoTc4tL89L18lJLrAwNDIxMgQoTsjN63n1jLLhvW/H/4wrmBsZuoy5GTg4JAROJT1v3
-	MXUxcnEICexmlPixqJsRwvnEKPH0+FQWOKe57TMTTMu6CSegEjsZJfrf7YDqf8Yo8X/demaQ
-	KhYBVYnuJ+dYQGw2AXWJI89bGUFsEQFtidfXD7GDNDAL9DJLbP7RAzZWWCBWYtm3p2BFvAK6
-	Eqe/T2CBsAUlTs58AmZzCthKrJ6wA6xeVEBZ4sC241AnPeCQuPAzGMJ2kdi++SojhC0s8er4
-	FnYIW0ri87u9bBB2usSPy0+hegskmo/tg6q3l2g91Q/2ALNAhsScHw1QNbISU0+tY4KI80n0
-	/n4CFeeV2DEPxlaSaF85B8qWkNh7DqbXQ+LE8j3Q4DrKJPHvxxmWCYzys5D8NgvJPghbR2LB
-	7k9ssxg5gGxpieX/OCBMTYn1u/QXMLKuYpRMLSjOTU9NNi0wzEsth0d5cn7uJkZwetdy2cF4
-	Y/4/vUOMTByMhxglOJiVRHj5xJ3ThXhTEiurUovy44tKc1KLDzGaAiNrIrOUaHI+MMPklcQb
-	mlgamJiZmZlYGpsZKonzvm6dmyIkkJ5YkpqdmlqQWgTTx8TBKdXAdP1wgmBvjmHd+8odyod/
-	HL5q1Zu7/qPV+mPtU4+pTK/+rpM/zTt6f4KPhWXnE51rUk7HI/x1GtctU5BcUfzsGIN3kFjt
-	wlVSqtpMl4UOTHF9clnGhDN5sdy09ZEalq8KNI9Vxf1JKauKFCsPnrwy+XlPeoi4L6Mpf2DP
-	ZImKmzuW8PUedBOdNT3Mo2z1lTUK94Wbsz588764fdljN9mwK6qMmW831cy1dXqwsHB7gtvd
-	pa7TdlvMl22b8Xx6WfpbzRemz7MuhYk68i7aP8HHsbuRh/9/7/RvqdfWHfmzyGX1a/fD5ium
-	LVEV8lpRviox+ZYo74bYzSoyh3pDfmqLBST4uFi31rhvr/bViT6vxFKckWioxVxUnAgAfwRQ
-	gHgEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEIsWRmVeSWpSXmKPExsWy7bCSnG7SG7d0gy+zmSw+fv3NYjFn1TZG
-	i9V3+9ksXh/+xGhx88BOJouVq48yWbxrPcdiMXt6M5PF0f9v2SwmHbrGaLH3lrbFnr0nWSzm
-	L3vKbtF9fQebxfLj/5gszv89zmpxftYcdgdBj52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8
-	eovFo2/LKkaPMwuOsHt83iTnsenJW6YArigum5TUnMyy1CJ9uwSujNlrOlgK5ltXvFs7j7WB
-	8Yl+FyMnh4SAicS6CSdYuhi5OIQEtjNKXHy2nh0iISFx6uUyRghbWGLlv+fsEEVPGCXuXr8D
-	VsQioCrR/eQcC4jNJqAuceR5K1iDiIC2xOvrh8AamAX6mSX2frvPBJIQFoiVWPbtKVgRr4Cu
-	xOnvE8CahQSOMkl0P9aFiAtKnJz5BCzOLKAlcePfS6BeDiBbWmL5Pw6QMKeArcTqCTvARooK
-	KEsc2HacaQKj4Cwk3bOQdM9C6F7AyLyKUTS1oDg3PTe5wFCvODG3uDQvXS85P3cTIzgatYJ2
-	MC5b/1fvECMTB+MhRgkOZiURXj5x53Qh3pTEyqrUovz4otKc1OJDjNIcLErivMo5nSlCAumJ
-	JanZqakFqUUwWSYOTqkGJifXu1+fZ0RODfz0W2vVpiN+qh+sSyo3Ckz6tYL/7lRbZbVgrZAn
-	T0JsNOMyud5O/n3KPPRQx/5zV9WqX98Js9bJYk6oWnXZZMI0z4+p7cfCl27bGnN3EcdTZa6m
-	RW9PxX9k515zOPaY9DJ/u+CM8Os2N9sEj/021lLcrspkFCqzIGe5gtVP1zfbUi+FN84tdK5Y
-	Mak4LO6mRKPh2gT79sZ/qyab28x95Pn6PdOCA4J+Rk2M84MeR/JdjH4We0vI70DtZAX+M21X
-	7padv6XW2OerdzrYeWbftNqW+NXffO+7/30etfDMuuWVD04wGNe5pdX+vLa8LUpj1ez1oZ55
-	0gG6OnNV9FN6zrAx+LR1KbEUZyQaajEXFScCAPKtico1AwAA
-X-CMS-MailID: 20241127095442epcas5p4b40afe66e1de6ec8a8c51c15a09c4ac1
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----K2gkAqOuxZFCoC8EFRwgD_6KeXKZsv69xmv6PgBjcdVDR2et=_391f6_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241125071502epcas5p46c373574219a958b565f20732797893f
+To: Anuj gupta <anuj1072538@gmail.com>
+Cc: Anuj Gupta <anuj20.g@samsung.com>, axboe@kernel.dk, hch@lst.de,
+ kbusch@kernel.org, martin.petersen@oracle.com, brauner@kernel.org,
+ jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+ linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
 References: <20241125070633.8042-1-anuj20.g@samsung.com>
-	<CGME20241125071502epcas5p46c373574219a958b565f20732797893f@epcas5p4.samsung.com>
-	<20241125070633.8042-7-anuj20.g@samsung.com>
-	<2cbbe4eb-6969-499e-87b5-02d19f53258f@gmail.com>
-	<20241126135423.GB22537@green245>
-	<a9d500a4-2609-4dd6-a687-713ae1472a88@gmail.com>
+ <CGME20241125071502epcas5p46c373574219a958b565f20732797893f@epcas5p4.samsung.com>
+ <20241125070633.8042-7-anuj20.g@samsung.com>
+ <2cbbe4eb-6969-499e-87b5-02d19f53258f@gmail.com>
+ <20241126135423.GB22537@green245>
+ <a9d500a4-2609-4dd6-a687-713ae1472a88@gmail.com>
+ <CACzX3AtBc-Vio1H28MM2tRvcLzTYBTFJt8CKgF5NeGTniKFUbQ@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CACzX3AtBc-Vio1H28MM2tRvcLzTYBTFJt8CKgF5NeGTniKFUbQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241127_015611_894215_6663519E 
-X-CRM114-Status: GOOD (  29.88  )
+X-CRM114-CacheID: sfid-20241127_023502_205068_E9FC6397 
+X-CRM114-Status: GOOD (  13.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,265 +109,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------K2gkAqOuxZFCoC8EFRwgD_6KeXKZsv69xmv6PgBjcdVDR2et=_391f6_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-
-On Tue, Nov 26, 2024 at 03:45:09PM +0000, Pavel Begunkov wrote:
-> On 11/26/24 13:54, Anuj Gupta wrote:
-> > On Tue, Nov 26, 2024 at 01:01:03PM +0000, Pavel Begunkov wrote:
-> > > On 11/25/24 07:06, Anuj Gupta wrote:
+On 11/26/24 16:23, Anuj gupta wrote:
+> On Tue, Nov 26, 2024 at 9:14 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
+...
+>> This example would be incorrect. Even if it's just one attribute
+>> the user would be wasting space on stack. The only use for it I
+>> see is having ephemeral pointers during parsing, ala
+>>
+>> void parse(voud *attributes, offset) {
+>>          struct io_uring_attr *attr = attributes + offset;
+>>
+>>          if (attr->type == PI) {
+>>                  process_pi(&attr->pi);
+>>                  // or potentially fill_pi() in userspace
+>>          }
+>> }
+>>
+>> But I don't think it's worth it. I'd say, if you're leaving
+>> the structure, let's rename it to struct io_uring_attr_type_pi
+>> or something similar. We can always add a new one later, it
+>> doesn't change the ABI.
+>>
 > 
-> Hmm, I have doubts it's going to work well because the union
-> members have different sizes. Adding a new type could grow
-> struct io_uring_attr, which is already bad for uapi. And it
-> can't be stacked:
-> 
+> In that case I can just drop the io_uring_attr_pi structure then. We can
+> keep the mask version where we won't need the type and attributes would go
+> in the array in order of their types as you suggested here [1]. Does that
+> sound fine?
 
-How about something like this [1]. I have removed the io_uring_attr
-structure, and with the mask scheme the user would pass attributes in
-order of their types. Do you still see some cracks?
+That should work, the approach in this patchset is fine as well.
+I'll take a look at the path a bit later today.
 
-[1]
+> [1] https://lore.kernel.org/io-uring/37ba07f6-27a5-45bc-86c4-df9c63908ef9@gmail.com/
 
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index aac9a4f8fa9a..38f0d6b10eaf 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -98,6 +98,10 @@ struct io_uring_sqe {
- 			__u64	addr3;
- 			__u64	__pad2[1];
- 		};
-+		struct {
-+			__u64	attr_ptr; /* pointer to attribute information */
-+			__u64	attr_type_mask; /* bit mask of attributes */
-+		};
- 		__u64	optval;
- 		/*
- 		 * If the ring is initialized with IORING_SETUP_SQE128, then
-@@ -107,6 +111,18 @@ struct io_uring_sqe {
- 	};
- };
- 
-+/* sqe->attr_type_mask flags */
-+#define IORING_RW_ATTR_FLAG_PI	(1U << 0)
-+/* PI attribute information */
-+struct io_uring_attr_pi {
-+		__u16	flags;
-+		__u16	app_tag;
-+		__u32	len;
-+		__u64	addr;
-+		__u64	seed;
-+		__u64	rsvd;
-+};
-+
- /*
-  * If sqe->file_index is set to this for opcodes that instantiate a new
-  * direct descriptor (like openat/openat2/accept), then io_uring will allocate
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index c3a7d0197636..02291ea679fb 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -3889,6 +3889,8 @@ static int __init io_uring_init(void)
- 	BUILD_BUG_SQE_ELEM(46, __u16,  __pad3[0]);
- 	BUILD_BUG_SQE_ELEM(48, __u64,  addr3);
- 	BUILD_BUG_SQE_ELEM_SIZE(48, 0, cmd);
-+	BUILD_BUG_SQE_ELEM(48, __u64, attr_ptr);
-+	BUILD_BUG_SQE_ELEM(56, __u64, attr_type_mask);
- 	BUILD_BUG_SQE_ELEM(56, __u64,  __pad2);
- 
- 	BUILD_BUG_ON(sizeof(struct io_uring_files_update) !=
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 0bcb83e4ce3c..8d2ec89fd76b 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -257,11 +257,53 @@ static int io_prep_rw_setup(struct io_kiocb *req, int ddir, bool do_import)
- 	return 0;
- }
- 
-+static inline void io_meta_save_state(struct io_async_rw *io)
-+{
-+	io->meta_state.seed = io->meta.seed;
-+	iov_iter_save_state(&io->meta.iter, &io->meta_state.iter_meta);
-+}
-+
-+static inline void io_meta_restore(struct io_async_rw *io, struct kiocb *kiocb)
-+{
-+	if (kiocb->ki_flags & IOCB_HAS_METADATA) {
-+		io->meta.seed = io->meta_state.seed;
-+		iov_iter_restore(&io->meta.iter, &io->meta_state.iter_meta);
-+	}
-+}
-+
-+static int io_prep_rw_pi(struct io_kiocb *req, struct io_rw *rw, int ddir,
-+			 u64 attr_ptr, u64 attr_type_mask)
-+{
-+	struct io_uring_attr_pi pi_attr;
-+	struct io_async_rw *io;
-+	int ret;
-+
-+	if (copy_from_user(&pi_attr, u64_to_user_ptr(attr_ptr),
-+	    sizeof(pi_attr)))
-+		return -EFAULT;
-+
-+	if (pi_attr.rsvd)
-+		return -EINVAL;
-+
-+	io = req->async_data;
-+	io->meta.flags = pi_attr.flags;
-+	io->meta.app_tag = pi_attr.app_tag;
-+	io->meta.seed = READ_ONCE(pi_attr.seed);
-+	ret = import_ubuf(ddir, u64_to_user_ptr(pi_attr.addr),
-+			  pi_attr.len, &io->meta.iter);
-+	if (unlikely(ret < 0))
-+		return ret;
-+	rw->kiocb.ki_flags |= IOCB_HAS_METADATA;
-+	io_meta_save_state(io);
-+	return ret;
-+}
-+
- static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *sqe,
- 		      int ddir, bool do_import)
- {
- 	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
- 	unsigned ioprio;
-+	u64 attr_type_mask;
- 	int ret;
- 
- 	rw->kiocb.ki_pos = READ_ONCE(sqe->off);
-@@ -279,11 +321,28 @@ static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *sqe,
- 		rw->kiocb.ki_ioprio = get_current_ioprio();
- 	}
- 	rw->kiocb.dio_complete = NULL;
-+	rw->kiocb.ki_flags = 0;
- 
- 	rw->addr = READ_ONCE(sqe->addr);
- 	rw->len = READ_ONCE(sqe->len);
- 	rw->flags = READ_ONCE(sqe->rw_flags);
--	return io_prep_rw_setup(req, ddir, do_import);
-+	ret = io_prep_rw_setup(req, ddir, do_import);
-+
-+	if (unlikely(ret))
-+		return ret;
-+
-+	attr_type_mask = READ_ONCE(sqe->attr_type_mask);
-+	if (attr_type_mask) {
-+		u64 attr_ptr;
-+
-+		/* only PI attribute is supported currently */
-+		if (attr_type_mask != IORING_RW_ATTR_FLAG_PI)
-+			return -EINVAL;
-+
-+		attr_ptr = READ_ONCE(sqe->attr_ptr);
-+		ret = io_prep_rw_pi(req, rw, ddir, attr_ptr, attr_type_mask);
-+	}
-+	return ret;
- }
- 
- int io_prep_read(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-@@ -409,7 +468,9 @@ static inline loff_t *io_kiocb_update_pos(struct io_kiocb *req)
- static void io_resubmit_prep(struct io_kiocb *req)
- {
- 	struct io_async_rw *io = req->async_data;
-+	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
- 
-+	io_meta_restore(io, &rw->kiocb);
- 	iov_iter_restore(&io->iter, &io->iter_state);
- }
- 
-@@ -744,6 +805,10 @@ static bool io_rw_should_retry(struct io_kiocb *req)
- 	if (kiocb->ki_flags & (IOCB_DIRECT | IOCB_HIPRI))
- 		return false;
- 
-+	/* never retry for meta io */
-+	if (kiocb->ki_flags & IOCB_HAS_METADATA)
-+		return false;
-+
- 	/*
- 	 * just use poll if we can, and don't attempt if the fs doesn't
- 	 * support callback based unlocks
-@@ -794,7 +859,7 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode, int rw_type)
- 	if (!(req->flags & REQ_F_FIXED_FILE))
- 		req->flags |= io_file_get_flags(file);
- 
--	kiocb->ki_flags = file->f_iocb_flags;
-+	kiocb->ki_flags |= file->f_iocb_flags;
- 	ret = kiocb_set_rw_flags(kiocb, rw->flags, rw_type);
- 	if (unlikely(ret))
- 		return ret;
-@@ -828,6 +893,18 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode, int rw_type)
- 		kiocb->ki_complete = io_complete_rw;
- 	}
- 
-+	if (kiocb->ki_flags & IOCB_HAS_METADATA) {
-+		struct io_async_rw *io = req->async_data;
-+
-+		/*
-+		 * We have a union of meta fields with wpq used for buffered-io
-+		 * in io_async_rw, so fail it here.
-+		 */
-+		if (!(req->file->f_flags & O_DIRECT))
-+			return -EOPNOTSUPP;
-+		kiocb->private = &io->meta;
-+	}
-+
- 	return 0;
- }
- 
-@@ -902,6 +979,7 @@ static int __io_read(struct io_kiocb *req, unsigned int issue_flags)
- 	 * manually if we need to.
- 	 */
- 	iov_iter_restore(&io->iter, &io->iter_state);
-+	io_meta_restore(io, kiocb);
- 
- 	do {
- 		/*
-@@ -1125,6 +1203,7 @@ int io_write(struct io_kiocb *req, unsigned int issue_flags)
- 	} else {
- ret_eagain:
- 		iov_iter_restore(&io->iter, &io->iter_state);
-+		io_meta_restore(io, kiocb);
- 		if (kiocb->ki_flags & IOCB_WRITE)
- 			io_req_end_write(req);
- 		return -EAGAIN;
-diff --git a/io_uring/rw.h b/io_uring/rw.h
-index 3f432dc75441..2d7656bd268d 100644
---- a/io_uring/rw.h
-+++ b/io_uring/rw.h
-@@ -2,6 +2,11 @@
- 
- #include <linux/pagemap.h>
- 
-+struct io_meta_state {
-+	u32			seed;
-+	struct iov_iter_state	iter_meta;
-+};
-+
- struct io_async_rw {
- 	size_t				bytes_done;
- 	struct iov_iter			iter;
-@@ -9,7 +14,14 @@ struct io_async_rw {
- 	struct iovec			fast_iov;
- 	struct iovec			*free_iovec;
- 	int				free_iov_nr;
--	struct wait_page_queue		wpq;
-+	/* wpq is for buffered io, while meta fields are used with direct io */
-+	union {
-+		struct wait_page_queue		wpq;
-+		struct {
-+			struct uio_meta			meta;
-+			struct io_meta_state		meta_state;
-+		};
-+	};
- };
- 
- int io_prep_read_fixed(struct io_kiocb *req, const struct io_uring_sqe *sqe);
 -- 
-2.25.1
-
-------K2gkAqOuxZFCoC8EFRwgD_6KeXKZsv69xmv6PgBjcdVDR2et=_391f6_
-Content-Type: text/plain; charset="utf-8"
-
-
-------K2gkAqOuxZFCoC8EFRwgD_6KeXKZsv69xmv6PgBjcdVDR2et=_391f6_--
+Pavel Begunkov
 
