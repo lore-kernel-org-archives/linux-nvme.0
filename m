@@ -4,68 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C3E5D609B9
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 08:52:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0AA1D609B8
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 08:52:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3WpxC1ak5i/GsjHW0+FMk1rTOqPJjGGRzFkrWXfXPjw=; b=FRln2DPK94oblTxSuk0XerNg5q
-	2/01gXARx7kG5uLemwpYpQ+4m6KMM4wm4cY+NIbSHO23VuVPAVrFbfZNO3Ml9nvmiUv0sJeXVnR/N
-	NV/KlWOQH8tnEIt7kZ/qSwVOeJkhjwDQn2uveMdw5kDqXHcClROPga64g1XfzVZ3vQvp9cwFGmkt7
-	fSz/qps54wM0lHJN7AVqiMqCs1NMisVhQV5Y0vBH5GRw3oJ9lFBJ4Sr4tgcAKIqsQAwu0p9fkSoic
-	NDBqOzM2XzZd9Ls8MH5B9a0Cj7cPVhzmZreerPvUKET0/gM0sDkb35QMamSLeSn80vas6t8thLYqV
-	N6AakgJQ==;
+	bh=7GtxWVprwFSDZdPsXr7xdLKUG1hqK8KBIerN+AEHe+w=; b=T+IPNw08f20lmF5l0vl3BepZOF
+	/96XRwed70zPaqAJf0w7n6a+PCV6TGd63EKI+t/OwcbfNBXHk0TME4+Ld6BW/bfSoIRIftC/NJf23
+	6EPGUwGthuRUsqXM/W5PnP3x3RtIsDKTixYp04yb2T6L9/gwpGKD2XLZMpksLYvRj56+RTfQCuNSq
+	g43Jyukiam85SAmAZOofjFlLxjVo2i/E4G33d8uOGO0YWcdENOqN9wAjFr9VSfGBwagQOdnN/uvWg
+	I3BGgME1xq2qH9yMmMmqB6kiUbjVcuLf/KwPmEtDc36ShyZfHxsqvNxqAiTU/vTiGW1WRiY+VoZfO
+	Xl1JHGMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGDmi-0000000CcTn-2RX9;
-	Wed, 27 Nov 2024 08:52:32 +0000
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+	id 1tGDml-0000000CcVQ-0q06;
+	Wed, 27 Nov 2024 08:52:35 +0000
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGDmf-0000000CcRe-3qbt
+	id 1tGDmi-0000000CcTj-3gZk
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 Nov 2024 08:52:31 +0000
-Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-7e9e38dd5f1so5499291a12.0
-        for <linux-nvme@lists.infradead.org>; Wed, 27 Nov 2024 00:52:29 -0800 (PST)
+	Wed, 27 Nov 2024 08:52:33 +0000
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-7f71f2b1370so5183862a12.1
+        for <linux-nvme@lists.infradead.org>; Wed, 27 Nov 2024 00:52:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732697549; x=1733302349; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1732697552; x=1733302352; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3WpxC1ak5i/GsjHW0+FMk1rTOqPJjGGRzFkrWXfXPjw=;
-        b=evb4i9c+vl9VM6vwGTa56DlpLMpcs2aW7FrJllMTPEF8q3XTuQtgzDWeayuO0rawiB
-         Ia2wXL/r7d6Fiq5yfZFqrz8Q3rLh34k6EdN4SotGQ0Xx6qUFHIbQxV+m6EQgX3aAskDK
-         JXvqNqxWZZjSVmGtoHx3f/SpwMLqHR1IfeCbNg5grsqm0vQHU89Ral3KXmBySH7op4mT
-         ZH1n1GCy6ARQ6dgimJ6NkLwY/HJD9kESBG24Hb+kkWAP11MOFGLRLgVMUfznzjMYUNba
-         jejosijuHhsHy15qKglCYWqRV+rscoZR7WqYpTqB9NywKtaOAEcbrZx5RCcc5IqjSmt7
-         U9SA==
+        bh=7GtxWVprwFSDZdPsXr7xdLKUG1hqK8KBIerN+AEHe+w=;
+        b=D09kl3BHxhFtq1ox9JzHU+246xwR8uTtdFJoazz6c1bkbQhKIOmzmZIS9Iqkp+7MET
+         gz1FeYRBanBXmKfk4i0PGSivrPDwz2ufQpanKGYQwqviZrwU4pTEfqxL+F3xXBlIgSve
+         tFc+KsILVFhOjUBAlekJsvosyFL2Zb0o4ptHFDpn5UawVW9GjBKh5cCFP6nMSvZHF+Yy
+         xt78xyDES1Phczzq6Vab2vdjhFnOzlPOlsRmQ7AYmLHlQzB8P4OY/iSz8J/dP7AgxwLq
+         Eol624VjWIGVBtggXdRznb3LRhtCLWmMeZwuQmWBFBWd4TVpR5f2I39NKgvNjr/yofzh
+         5FNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732697549; x=1733302349;
+        d=1e100.net; s=20230601; t=1732697552; x=1733302352;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3WpxC1ak5i/GsjHW0+FMk1rTOqPJjGGRzFkrWXfXPjw=;
-        b=RrIIOGWAoKIw6yn9qLq/zfD9kKyXAceHbe7Se5PcSb04ApJJLFghqxfTxccH05p8j4
-         G98J8jcJHTFiJzEe+jmdEJCRiuk+1r44A++8ZnxP9a0QPok0nQxdSgZPFbpNI49c1dKC
-         0rchZPW7PKRwXrjWO3LLgXM9Pw386dBAIA0CCodmQsM6RJoh1tYsmvhlYuKzPi5fRvdJ
-         Kp7c1J5eIexOxpioWZzpM9Gt3vB5qV+dkUL2T+YzKqoAXvl5RvlHr0QZHTUMFT+WeeDJ
-         BsRA9QIY0PwGm/rJY3pW2bKhxUVGZBrFJEomSM0ewS9XJkDNc6tIwPUWTSFhPrjH/ldK
-         xV4A==
-X-Gm-Message-State: AOJu0YwmR33NRmBgy7FjN4mfr6Um5OqBFZQnp4mj4XQo7uHdWdHTQXoK
-	ovGGwNizwPGiJC+K8+JaIqA3bEdkQAK8C8F8CR1fmruwwi1w/UCG
-X-Gm-Gg: ASbGncuRm6ZsEBvqlnYsh08K7wdDCfE1dd1tcFaSpvaGkLu+DLu1KbVnabDj8XBGpOh
-	UzOowIpA/xR8SroGkE6OnKSlgfq6rRqcUjtOt1vCT8CAxxlPkdz4csiCJLu3Krn7njO1BCZWtox
-	ePOmcor02ks6XFFUkF9a2FylSJuOoFcDNxrjAyXid+XlftnU3JH6K9/nGB8VpITQeKVZiJqrWcz
-	ol1wNldOV2xtWn37skZN4KcBcDa9SNsrpWmRA0GMar6OvjOvt8wXKxhTf1HWQ==
-X-Google-Smtp-Source: AGHT+IE7W77IZPGT6pO6nsofu0SApJz/06UMb2dL6eXuQw16iAZ3rYd5M/ikmsqDsnhpiwQuFqFmdQ==
-X-Received: by 2002:a05:6a20:9144:b0:1e0:c50c:9842 with SMTP id adf61e73a8af0-1e0e0b5cc99mr4084950637.31.1732697549421;
-        Wed, 27 Nov 2024 00:52:29 -0800 (PST)
+        bh=7GtxWVprwFSDZdPsXr7xdLKUG1hqK8KBIerN+AEHe+w=;
+        b=LL4CXmfh9lKy8sdb+5m9uY9wo3m0u1ifl0APC25aeBJ0dB2b+gOMab6hC5j02Dt0As
+         b2IXFVfZ/Fv1GCGvhaFKTAceGZE6OsQlja2eA3KSR4bhrLQv0Y9G9EwW7W76/ns/PDHx
+         oVms+w8JMvj/nRe/9IQbu2n6Z9GmonRxcKhHEsbV6c3ntIS43VY2kVDEWEPXgASZIlRc
+         NTMdFZiEyK9DHulvEDW/daaa2qVjknN8isVRrVlZTdoij1wOX/i8vu3ijqWAA1/9Vs87
+         QAnR4ya2LJpTCWnEzdvRzrEYnC7uEVAU5mM9L7ntS6KPKB28PVIAhhud34B1BofhcQ7B
+         vl0w==
+X-Gm-Message-State: AOJu0YwYejTlMirnVeT/KRH+TvBsftHlZItqkx/wDpP5ii2t6R9NXU/c
+	TBSmPVCiF2Rt39ArK8tv5/th2aV5pTlubIIB43fHtw8MhDsi0laupZiq1VV+6qM=
+X-Gm-Gg: ASbGncvijvxL+94+5Zyempbi/2MIM5bSz+iiE7AU+HBImxJGtfdiJizJ1wf0I3QvCcV
+	qCbbQ4ZUvTNfjG6mrP+ZeezWMWXh4BqAmS0+LHPPnb29iE3+02wn4EQ2G8OCpVLJByicJFqFwLd
+	felNx2BuODyFN7YIu3JIKqGAfbk2UH5Fwm9r81pbbHMLTAiw3u7CLR7igeTmIiih64WdduOWucu
+	5mj8Pqui+1oIULnub1iBVZQBZv2LeXDdodk+9zV2InUxJogCAZ8OGScvyrGKw==
+X-Google-Smtp-Source: AGHT+IFWgNHtIL4lvZGnwj9qigjzUulsGL+kOLu8IJhe2WdfqgdGC624KR6Weud4TWGjUNI3BzGSWA==
+X-Received: by 2002:a17:90b:4d0d:b0:2ea:a7c7:1b8d with SMTP id 98e67ed59e1d1-2ee08e9f0a5mr3324430a91.1.1732697551857;
+        Wed, 27 Nov 2024 00:52:31 -0800 (PST)
 Received: from localhost.localdomain ([143.92.64.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ee0fa60091sm960531a91.20.2024.11.27.00.52.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ee0fa60091sm960531a91.20.2024.11.27.00.52.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 00:52:28 -0800 (PST)
+        Wed, 27 Nov 2024 00:52:31 -0800 (PST)
 From: "brookxu.cn" <brookxu.cn@gmail.com>
 To: kbusch@kernel.org,
 	axboe@kernel.dk,
@@ -74,17 +74,17 @@ To: kbusch@kernel.org,
 	hare@suse.de
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/5] nvme-tcp: simplify nvme_tcp_configure_admin_queue()
-Date: Wed, 27 Nov 2024 17:27:50 +0800
-Message-Id: <8282314c0d688f51be9f9ee90cd3463ff76baa1f.1732699313.git.chunguang.xu@shopee.com>
+Subject: [PATCH v2 5/5] nvme-tcp: remove nvme_tcp_destroy_io_queues()
+Date: Wed, 27 Nov 2024 17:27:51 +0800
+Message-Id: <9393a06d3fa651f9e68863b3cb9d952254f65e5a.1732699313.git.chunguang.xu@shopee.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1732699313.git.chunguang.xu@shopee.com>
 References: <cover.1732699313.git.chunguang.xu@shopee.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241127_005229_953466_573BCBAB 
-X-CRM114-Status: GOOD (  12.43  )
+X-CRM114-CacheID: sfid-20241127_005232_917387_CADA47AF 
+X-CRM114-Status: GOOD (  13.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,48 +101,73 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: "Chunguang.xu" <chunguang.xu@shopee.com>
 
-As nvme_tcp_configure_admin_queue() is the only one caller of
-nvme_tcp_destroy_admin_queue(), so we can merge nvme_tcp_configure_admin_queue()
-into nvme_tcp_destroy_admin_queue() to simplify the code.
+Now when destroying the IO queue we call nvme_tcp_stop_io_queues() twice,
+nvme_tcp_destroy_io_queues() has an unnecessary call. Here we try to remove
+nvme_tcp_destroy_io_queues() and merge it into nvme_tcp_teardown_io_queues(),
+simplify the code and align with nvme-rdma, make it easy to maintaince.
 
 Signed-off-by: Chunguang.xu <chunguang.xu@shopee.com>
 ---
- drivers/nvme/host/tcp.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ drivers/nvme/host/tcp.c | 32 ++++++++++++++------------------
+ 1 file changed, 14 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 98bf758dc6fc..28c76a3e1bd2 100644
+index 28c76a3e1bd2..36c7e49af38a 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -2101,14 +2101,6 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
- 	return ret;
+@@ -2024,14 +2024,6 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+ 	return __nvme_tcp_alloc_io_queues(ctrl);
  }
  
--static void nvme_tcp_destroy_admin_queue(struct nvme_ctrl *ctrl, bool remove)
+-static void nvme_tcp_destroy_io_queues(struct nvme_ctrl *ctrl, bool remove)
 -{
--	nvme_tcp_stop_queue(ctrl, 0);
+-	nvme_tcp_stop_io_queues(ctrl);
 -	if (remove)
--		nvme_remove_admin_tag_set(ctrl);
--	nvme_tcp_free_admin_queue(ctrl);
+-		nvme_remove_io_tag_set(ctrl);
+-	nvme_tcp_free_io_queues(ctrl);
 -}
 -
- static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
  {
- 	int error;
-@@ -2163,9 +2155,11 @@ static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
- 	blk_sync_queue(ctrl->admin_q);
- 	nvme_tcp_stop_queue(ctrl, 0);
- 	nvme_cancel_admin_tagset(ctrl);
+ 	int ret, nr_queues;
+@@ -2170,15 +2162,17 @@ static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
+ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
+ 		bool remove)
+ {
+-	if (ctrl->queue_count <= 1)
+-		return;
+-	nvme_quiesce_io_queues(ctrl);
+-	nvme_sync_io_queues(ctrl);
+-	nvme_tcp_stop_io_queues(ctrl);
+-	nvme_cancel_tagset(ctrl);
 -	if (remove)
-+	if (remove) {
- 		nvme_unquiesce_admin_queue(ctrl);
--	nvme_tcp_destroy_admin_queue(ctrl, remove);
-+		nvme_remove_admin_tag_set(ctrl);
+-		nvme_unquiesce_io_queues(ctrl);
+-	nvme_tcp_destroy_io_queues(ctrl, remove);
++	if (ctrl->queue_count > 1) {
++		nvme_quiesce_io_queues(ctrl);
++		nvme_sync_io_queues(ctrl);
++		nvme_tcp_stop_io_queues(ctrl);
++		nvme_cancel_tagset(ctrl);
++		if (remove) {
++			nvme_unquiesce_io_queues(ctrl);
++			nvme_remove_io_tag_set(ctrl);
++		}
++		nvme_tcp_free_io_queues(ctrl);
 +	}
-+	nvme_tcp_free_admin_queue(ctrl);
- 	if (ctrl->tls_pskid) {
- 		dev_dbg(ctrl->device, "Wipe negotiated TLS_PSK %08x\n",
- 			ctrl->tls_pskid);
+ }
+ 
+ static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl,
+@@ -2267,7 +2261,9 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+ 		nvme_sync_io_queues(ctrl);
+ 		nvme_tcp_stop_io_queues(ctrl);
+ 		nvme_cancel_tagset(ctrl);
+-		nvme_tcp_destroy_io_queues(ctrl, new);
++		if (new)
++			nvme_remove_io_tag_set(ctrl);
++		nvme_tcp_free_io_queues(ctrl);
+ 	}
+ destroy_admin:
+ 	nvme_stop_keep_alive(ctrl);
 -- 
 2.25.1
 
