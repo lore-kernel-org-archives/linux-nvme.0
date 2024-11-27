@@ -4,147 +4,196 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0284D65554
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2024 20:40:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 149F1D66BAD
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 02:55:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ld8tVkmYkwXU/t9R/isfxzSkWT8bkKlGpQfZ0pzrYvg=; b=iOLds6ZW3xqdP0ei6ZL5DRFoCA
-	4J/A0gwX8piV4d7s3RgK7WzP7TW7Imnz/Spr1olvZA0UeYIdquWQ+A1kDvNhLyx+JDCecsnC/SRhb
-	St0f/raTPxFyxKbN0SIbJyUmp4OY52H/FSJZCZA3H+mVul89k0+CU4YG7SadLPWj/BeHP5Ljzqv/5
-	aCUsgznPsEF1pYLSkzQSnWTl27y6UEUG3pqKhe6o3NXMh+VNPNON+J8wzioTCs9QD7j0J2T0EzQSN
-	QDqwRE/eltdLRATWZFA/oP1Tm/J5JG1D4GMF9MPyyl9t5/CXbyMaGjz0zvRbpa6yTh7mw2IUj1Aj5
-	Abjnqsgw==;
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Up1otqPEH7Kx4Hx0JaqdcIMIn8Iokv11lObNnBTfe0Q=; b=Qk10XgGtAF9KlHRjdf2EEFKW4b
+	OC4zNMzCLBe9zz8n1bExsFTRj8Ev5wK18jXU55RCBQ0G27gryYdRmQXccG4qJEL4hNW6rgUPRbfWV
+	MtugkBZSAP91oWSemgrAV9xAa7+C6rGU0feNBnToKx0GVK/YvETmMJI9hHFwNDvEQM2bJRmEFvKcM
+	efjUHMSB9FAtSg8rcXzJ05yKb/+7tjIQbEJinKL9YH6vc7KnKOUsUm/UVTJ7UqUnnk4RpCdCjmTuL
+	ztHNd5tJmfkDFwkDagHkl+qKjgkrYyWQPHv9Bc6C7CQk/B+6SqcaYZdexC/Gb8swe570Y1Fs7/Iwe
+	i0opJAjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tG2Lp-0000000BfIC-3Tiy;
-	Tue, 26 Nov 2024 20:40:01 +0000
-Received: from mail-dm6nam12on2061a.outbound.protection.outlook.com ([2a01:111:f403:2417::61a] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1tG8D7-0000000C6Lc-3fdG;
+	Wed, 27 Nov 2024 02:55:25 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tG2Ll-0000000BfDw-3jki
+	id 1tG8D5-0000000C6Km-1Y3q
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Nov 2024 20:39:59 +0000
+	Wed, 27 Nov 2024 02:55:24 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AR0fcJO006899;
+	Wed, 27 Nov 2024 02:55:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2023-11-20; bh=Up1otqPEH7Kx4Hx0Ja
+	qdcIMIn8Iokv11lObNnBTfe0Q=; b=L7gWo6Gh1LOtDAxBKqEx6GkCcPoJql2fHb
+	eEWIJMZzCyha5VliqIZre7FEgrys0GVs2f3R8PrOz/9rSsXVJ+s9SJt+TmkkRWdt
+	J6KX8Fr5XeEXldnorDQHpa3UL2MoJRtrXieb0jM1L+D7FZ7M+1hpJm87XL+pK9Sl
+	BL/YBpg9o2QtV+xekBvDpBRQV6BMNhqhXMHZbzsEEUsCg6vQrJnmIAOlwqC5WkVh
+	D53+4+yJjwp4ZrpRnXNhc6MFLgPiMMFHlwjYMFOc8dU94+u0K9CY2WAoZazKMyym
+	q4CDgolxPOJuJf2B+6+09qsc/kn1c03tHOJ9gQqbKDUEuRH2fnqg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 433869xykc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 27 Nov 2024 02:55:00 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4AR0GDnO010108;
+	Wed, 27 Nov 2024 02:55:00 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4335ga34wv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 27 Nov 2024 02:54:59 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Uq4zUDzYTje2O2LG6pXCLt3vD9ekg6Dv4ha2FvTlsPl00Od4r43+DZUgpq4ru0r+vjUzYphFhTFap2evrwyQr6INpZvlsKpn2u78iMCROOdcsaDZM7f1zie+zNuTYdxXERtRJ60HnKfxV6XpkZ/YpXNVoCaEarTBPA5qvglJPfsdfHfDDtozuJ9UrwP6T6GMEaJCxaf5JLwQYa8XGsCkp7nANEAs1jVsczm22BJX5lYIh5uxdNgrtXONQ0PfiZQtTrdr6FNxMWDSlCuMihPJT/z/EvzOaUp7kZu0ZD/uz/hAU7UPP4zqQ3+VUaZ2hFqT8t0gycFoXN3GjveNdVihPQ==
+ b=NZmhTwu0nFpC9M6bxT9RwsSka0m0jy17fMULOxJ8+uCZZJOnBQ4BOcDnXItsF2vMbfwqIcwQ1gb5HPKt7FPvsPSWvKjzV9GsUTaOdsK81FYQQt+IgsjvCUSnJAggZJa8y4PyotWXDJsR6iUpfUhmcdKI+zNLv1OSrkBRsGxBaL+v4B7R/KvrLzklhb0WUC2pp/xAGqIamuiSG+olXY7BTB4gli11Lpc0rzng/PuIslAfZaP1/wVypcqRbuou7WhYurX6gTYrQ9HSKjCCFubRIxvnNbsFU56fXFd+SWxnSFDAkgihV5SRmDaHUEeaty8V0EYWkV50YxnzC6G5YWs9Dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ld8tVkmYkwXU/t9R/isfxzSkWT8bkKlGpQfZ0pzrYvg=;
- b=aoqAPIpi9ALvFM+mUABmlK8PrOUVFQcTW9wOM2T6E5q0SOnh9cZUUsFGpl7bmrf7XR18vUKLDJiApwbfhClyniJSLSZNoIpv8bX9E5KXaZYTCsGHr1AuPAQHE1br/3FMtPxnCiiR4Qt/zo8SqdiksKvFi9IdnWGF0OUxeTmH5UqaBeYaIVl+AS3Ou1+bqCeCTmZjXtOhA+X+ZeMDTunmE61gNmmj13fdkkEWiaAn6k4JrkDcAsnTOHnlKh7LHjygbCD1r5Nw8fBr5091f2sihaUkILkE7Yw/ku0BigwPJTi5Y8yfCrCGhyluf6XkGSmYkc1GthWQPBBL9RN3ULUc0g==
+ bh=Up1otqPEH7Kx4Hx0JaqdcIMIn8Iokv11lObNnBTfe0Q=;
+ b=BX70EmdYmA2AEylGf0mwmYONZMttMrrqSceFPO1I/6UIAmwNBhHgrh7ImA9BAvvR40SG8FU+R5vSWwg3w2y/c7X6iVcouLsa2fFiDTakgfqGHsSI9CTn+S/8o2ZXyyEwNI4gnSdT/UK6MCsYA8g2x4H94YP/2tVylhiGqxu/qUm6BJFHK5o1GyBD6PK3AcIc13AvFH4c/TRAdtqn1RYmAyYjBxiq7J+6k8vKPkbM5DQ/xEP5n7F+7Xki3HbAo8rPNsff1PpE0Nj+oYYlfYNFVtX8D68q3S6KIo5rpb099ZGXBo8t2Kd5UozEVKcT8ishfq6kVSB+O7luOHRsxIcccA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ld8tVkmYkwXU/t9R/isfxzSkWT8bkKlGpQfZ0pzrYvg=;
- b=U8JSpICuV8ccWZyipJX6/DHAN3niA5IGMtZW8ewfOWiNcMef5mpXZJsNamDKIGcGOd+IelaD7Peyb4oWvNq4/51+0P2xQ5tRNqtvWKpFYsHqeodNQ4CzunKw+b4bzfxSNZrAB0hiQXjweA2PbNIKHcBgYbS2CTk6UzhG9DEnHMW+AdvjPZqDw8Vdl5PvQWfI/y0VyUok2sKyu2/YI8Airm/wFtRzuZRmJ0WB5hAEcZLsZavb256IzctIE103bCbvuXK4OQaeLARk6ZWMPwbm3SF7IFzrbh/V2FnZ8krB5k84X84AF0pWA+O1SawroWpZ6nAkee9H9fDgjNfZKK3OoA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
- by SA1PR12MB8697.namprd12.prod.outlook.com (2603:10b6:806:385::10) with
+ bh=Up1otqPEH7Kx4Hx0JaqdcIMIn8Iokv11lObNnBTfe0Q=;
+ b=oqw3clMm0nahWJcQbhJ1a1z9qNSE2EBG2cccBE6GVdlp8fA0MkHG6zJKphsW92Yzb7hqWzIBo2LTKSTnZlPUGKzNcuGcTvpFKDIIPiJ9xicHpHYmlmvHR0Sb5avxn7c3PfGrpkTcXS4SjBYaaBZrJmQEGiuSzuikbHeKKwnum2s=
+Received: from SN6PR10MB2957.namprd10.prod.outlook.com (2603:10b6:805:cb::19)
+ by PH0PR10MB5870.namprd10.prod.outlook.com (2603:10b6:510:143::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.18; Tue, 26 Nov
- 2024 20:39:51 +0000
-Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
- ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
- ([fe80::7577:f32f:798c:87cc%7]) with mapi id 15.20.8182.019; Tue, 26 Nov 2024
- 20:39:51 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: aaptel@nvidia.com,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Shai Malin <smalin@nvidia.com>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests v4 5/5] nvme/055: add test for nvme-tcp zero-copy offload
-Date: Tue, 26 Nov 2024 22:38:56 +0200
-Message-Id: <20241126203857.27210-6-aaptel@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241126203857.27210-1-aaptel@nvidia.com>
-References: <20241126203857.27210-1-aaptel@nvidia.com>
-Content-Transfer-Encoding: 8bit
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.20; Wed, 27 Nov
+ 2024 02:54:56 +0000
+Received: from SN6PR10MB2957.namprd10.prod.outlook.com
+ ([fe80::72ff:b8f4:e34b:18c]) by SN6PR10MB2957.namprd10.prod.outlook.com
+ ([fe80::72ff:b8f4:e34b:18c%4]) with mapi id 15.20.8182.018; Wed, 27 Nov 2024
+ 02:54:56 +0000
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Nitesh Shetty
+ <nj.shetty@samsung.com>,
+        Javier Gonzalez <javier.gonz@samsung.com>,
+        Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "joshi.k@samsung.com" <joshi.k@samsung.com>
+Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org> (Bart Van Assche's
+	message of "Mon, 25 Nov 2024 15:21:47 -0800")
+Organization: Oracle Corporation
+Message-ID: <yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
+References: <20241105155014.GA7310@lst.de> <Zy0k06wK0ymPm4BV@kbusch-mbp>
+	<20241108141852.GA6578@lst.de> <Zy4zgwYKB1f6McTH@kbusch-mbp>
+	<CGME20241108165444eucas1p183f631e2710142fbbc7dee9300baf77a@eucas1p1.samsung.com>
+	<Zy5CSgNJtgUgBH3H@casper.infradead.org>
+	<d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
+	<2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
+	<20241111093154.zbsp42gfiv2enb5a@ArmHalley.local>
+	<a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
+	<20241112135233.2iwgwe443rnuivyb@ubuntu>
+	<yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
+	<9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
+Date: Tue, 26 Nov 2024 21:54:52 -0500
 Content-Type: text/plain
-X-ClientProxiedBy: FR3P281CA0176.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a0::11) To SJ2PR12MB8943.namprd12.prod.outlook.com
- (2603:10b6:a03:547::17)
+X-ClientProxiedBy: LO4P123CA0149.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:188::10) To SN6PR10MB2957.namprd10.prod.outlook.com
+ (2603:10b6:805:cb::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|SA1PR12MB8697:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a87ed56-7e41-4ea7-7c56-08dd0e5a79f7
+X-MS-TrafficTypeDiagnostic: SN6PR10MB2957:EE_|PH0PR10MB5870:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3cde5a3-7967-4985-3c05-08dd0e8ee039
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?S3LL3nCQ5tppi3vUv3DLkYGoXC0Ub2o5Vrs0ffrOZ8gEM4yairTrL73CBm3O?=
- =?us-ascii?Q?CmV1Fx32SpO7i9YxG6TAGHp4nJ+fm0xNzcPEXrDKlwYyTLe8wiuQN4vRDZzY?=
- =?us-ascii?Q?BrxF5wwzj+gOi88Tmg8ljrm8bMuwWnBM1yQSjHFS5D8zMajl8uAwBY/8RApA?=
- =?us-ascii?Q?oVGzcP2x+9JRRr1OTyau4oH+gjLamN5/4crfsDMXYoTL0/V9HNLcViMdhMyt?=
- =?us-ascii?Q?3D6YKcTgZvBAjFBrVrdsuEuhwKy/cwDcWGvMg+8acmPhqXMILB4AgYkEsDex?=
- =?us-ascii?Q?pdog3+qX/fgA9j5TsKpBJSltAL9j2ovvbWPMM1qS9ClEcDkX9hS0AekfvC0d?=
- =?us-ascii?Q?F9iXDCh+Q7amr87oKZjTQiceiv0w6/Mh1hXoQOVgGRb14CmY51//vAqct6/B?=
- =?us-ascii?Q?rGZ4vCHqGwoZoyREhCry4Bpf7HcBMbDIkpJ2joO26SGyDnzkxabklMf48lQB?=
- =?us-ascii?Q?vxpDAElUoXnPOAZKA+IOBiBiqPZ5jvVG02dfCIimsjJ1TMNlXdZiy585TjSv?=
- =?us-ascii?Q?NMnrZkI9KSbFVS/cglWaqUDLG5RuQZWtiTNDJVuBLMuWPcaud0kZPsIahXqp?=
- =?us-ascii?Q?jMhqAz5rHFq/YjOfjMGAmnCqTre6/QUDEK9sYtKRA8YTty7VUEqUD2Lzchzg?=
- =?us-ascii?Q?jU402zpvCxzUkRo/ghGZrHTqC2Scr2SByO6VDZtuVXyd6NPMH5pX2j6fF9Wq?=
- =?us-ascii?Q?RuIXX+ClYUkq+7JN2YbfttlkN7rZdEFFaKxCPWc1QgmeF2xc3+iJ4543/grP?=
- =?us-ascii?Q?kgadMOnKLymqcgVDbGsr0uL///osAkiQBDoMtkz/qQb00FAXqAwzyeZLoYsd?=
- =?us-ascii?Q?Mh+4zmWmC16NTWlWUDs5FmOhXVVnIyQf+LIkDyLPnCbbacR9KvT3OKnG9zOU?=
- =?us-ascii?Q?y7e3V2tUIfK8eXJZ28GYBMbCB7o47bOKM4ASPvgOvLhjXqoytLQiHmPY2cmn?=
- =?us-ascii?Q?dzMt+E8WvzUzriJoxH+rExo7fjKhFbBnktEgrP06fqhh8Z+8qEeQSQ4Txmhu?=
- =?us-ascii?Q?z5cigbAUgWegLjTQGZ12TrU8wBA1A9w/rI7NanqKlxaxJSAqPzKMqIc4uTwZ?=
- =?us-ascii?Q?LBU4Jm71AEb3L8oKJznL9UiBOdQwwDkdYtIZ3GdEMYzPpa/pB9Q3BIHsD0yo?=
- =?us-ascii?Q?A8K+KTh/q8ftJTNIGu6i/bbsugEd9hvp3GTeDWN5NniPAESrgrOKQxCDRv67?=
- =?us-ascii?Q?CRJ3WCGxmi64tI5MtquXIvCfOZcq0G2qoQSbdJqzWCafI/DSqzHfq0MfHMuK?=
- =?us-ascii?Q?1LUdye2sIcaw6M2jlk6WXlo+GXbPo2EjhXorISMy0cnu2dJy6O6GfcmMWZMH?=
- =?us-ascii?Q?o1AedJRDKBVsqlmxE2wBlhlwRYu+nOKz8LTK0tthnYZZDg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?W2Txskgo576espi+8rlUGkPmMLa+Mbz+aSDmuaxRLlSeL3ntEp3pcoU2Kc6y?=
+ =?us-ascii?Q?Px+pQru4LbxcU7hC59R/Y4us0raIReb/B18G4FFalI2mqxK3sPP/x/EN3gsS?=
+ =?us-ascii?Q?4EsHxtzy3KXxCMD/c62W75npCAttlXN571b6RLW+0WCByy3LD+VYyvN+J64r?=
+ =?us-ascii?Q?jIXM27tOs3hEP2ZvDjbTJ2T2a/OYu5PczkfIEi/8g/7tc8/Rcehb/J1mzYKQ?=
+ =?us-ascii?Q?S4xujCOvaVj/6y1FwPzsqQNsR4ZGqwykYQ4LFyjZEGLXQZurYNhGxUpddqh6?=
+ =?us-ascii?Q?hEaPL4u/a7MYTAvS48sdcP3y2UPbRRBoIPHfQHMNEoS5JCloKLPdN+Uv4cXB?=
+ =?us-ascii?Q?YL4bQnj0R886WpyTdCF5h146Rp9dWbqTbciZdt+ipUcuyojjs6fX1+DG1F39?=
+ =?us-ascii?Q?7QqCvbuI8zqdEMJ02XLl9IJawSovKuIypXmSYTvyBcGJDDy7xpJr2/Txth74?=
+ =?us-ascii?Q?AitemjUH/MmxRYrel7+PP9bCGAnRH8TnHyFg0jjTUCilnQTswqK6F5VnysV1?=
+ =?us-ascii?Q?0JFvcKSutHkVIGwuHwpLy0n5wj572M9S4M6tcsop7/V93Fzjt5iKlgDSr2bs?=
+ =?us-ascii?Q?dAb/MvwbR7JzS8RLMXcYZwgwbCxT4xKWkuiYO6nDEIowr4NEjgbKN0iD3YAp?=
+ =?us-ascii?Q?A1YhRnDzZ9KBNPi5aKUfRN646D9qeH0//Q8+mmvbTnEyQJoTKGYyVDTCEMAJ?=
+ =?us-ascii?Q?YcKUJhiKs72ASfes7Gv7zgx49Jhf0Aa0fHO8s1ox6oyDNfxwbQi0u2Uz8htk?=
+ =?us-ascii?Q?3OZwGD0JeLtPy+Ccf/xjLkStChM+XsHo8mdnYBZwnC3K58XCnbRDRJxrGehC?=
+ =?us-ascii?Q?/AmW69iBBUXXdv8/daXD4NIgmi7wLB3YwmJmwVgBcEc97OGCAJWhlZRaZr+r?=
+ =?us-ascii?Q?dh66/8MPQCOdXO8CG5iSHCSDStATpRTG00z7nkMkOXiQRDDqnGgkaSSftiDb?=
+ =?us-ascii?Q?es07c1AOe/vFeZSpKD8hl+BnTqsusfcy7EHg6ntiTfU09NNdOR9gjzMApN5p?=
+ =?us-ascii?Q?dJx8IrbekaEuJnyw/pAyPzr8Um4iyvq9EkpUtgpVaT/rwv0aEIF1Fm6CfcTf?=
+ =?us-ascii?Q?om2fnsr/XEdZmGPgXel5bnY+xpGbflDaPbdwoCiN9p34TXgGggGAKuyGdqi2?=
+ =?us-ascii?Q?2xLY6scN3Jgs487vQQyiYrK+e8aubgDYF45Ik/5TCBko0BwFRZi8hyyWYm3R?=
+ =?us-ascii?Q?WF79JmodLDz6aaYxBUYMM3Nqg1z6NULelpbsXpytqEs0qmGSaOKIxkEpmQl0?=
+ =?us-ascii?Q?pFRCf6D5vpGwWmG/g+92WE5wSdUXOafGZ9NJad81KD3hgfmeAPdLkhyz75te?=
+ =?us-ascii?Q?ifAz4/sbAU7HHvbdKZrHBABONP2dwojm3qAMbbCRXUxvEg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB2957.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xuuj3bSurMexHS1lnEhnYDx1VO6QPFTpGgx6IUz4sHZXICRDGXdjn5RvhHit?=
- =?us-ascii?Q?oP4WEIQPJ2zn17A83HbjG3532GDytsiBh6qPvHhNxxqcSpeFHCweQe7w9dAv?=
- =?us-ascii?Q?QsDKsp0xMXsQGfXCAYWYDGZJOfkEISrqUDc1pYLkxdICwFJPvrZGYHoRYUAL?=
- =?us-ascii?Q?E31R6jTDm0V4V8x+b78Uug5ZN2Ba2pjFHbn7JKQTw9nvJyMQWO6m2XCHTXkT?=
- =?us-ascii?Q?U39xm86kuGhRoS8xLsJmGfs1l5GW7pSokB2xKtbx72qPHfqttr3uvMmIEfqm?=
- =?us-ascii?Q?Ydxu2F6CPNBz4JmXWs+Wb9qq/ziILs9r+FnjqZhfvIsmtdUvgltrdFbEc0MN?=
- =?us-ascii?Q?j4ZMx34fwAlXh4Dz2KHFEjDfpR3YAuIqzvRFjQvZ/qYcj7E4aRkbay+SPd0u?=
- =?us-ascii?Q?7F6+7hSi3oIzemCeoEXVSYtTvAT6DA5lkZZzAXxeoD7v4bab31DelzWjKJrv?=
- =?us-ascii?Q?sk5iBrz/x2Y5BO3EJb6pQlTgQoSbGUScow5gxivbPFapMuNLhgCg/8+GaqM1?=
- =?us-ascii?Q?wQ4i34OVPuwuPRPjBotctABFWagmG3fy7Ddte+I6V66f6Iklln1kdjFN1C4+?=
- =?us-ascii?Q?qaIxChEuI+x9WCwYL9IugE3H8wY6ZRp+77NwEQMWKYMNpG7JbzrALvBKQUzf?=
- =?us-ascii?Q?d1I4NrvGeGG/6wxYGbR7vRtXlsC+6HF8GE+CDoYFIjsU0cObNFLmperHVlbK?=
- =?us-ascii?Q?hhCXRkO51bPn6rTpE+HY8ZLDq5B7Hj4kQINH4Dq11Ab/oBCx+gBp4PeGsmmf?=
- =?us-ascii?Q?t0J6BpjCOPHGvP93AjVMlKIjzUKW3yrdzKuhfQxjJfNLL3ZpQXSDropKvuKJ?=
- =?us-ascii?Q?KuPqGkh0LbXnk2AsyuiUgsENhHeiccwv4zCSj3q7eRWZ9y6U1ZnN1TncUb9n?=
- =?us-ascii?Q?TkXJ1XfIlRqWPEhxHrQpFcahg6kS64z9WB8iVwmRyt+q1yrrheNPd8o5RZOI?=
- =?us-ascii?Q?2aIacNL8t4tfi1K8iPFPjMVQIG21GZir0s1DDN4q5JSPz4dEAP7XrqBcZd/d?=
- =?us-ascii?Q?9QytiAbaSYVTj8/h8Qc8Gs3RiYpIbLN/drQYpX8ixDodCSB3C4bBYNGJdUKC?=
- =?us-ascii?Q?G4BRy7SDg3HfVBWCISOu6cg8O5OxLwLb1kUR7JhU2B4+Qa8XuyUd6TzzI3PH?=
- =?us-ascii?Q?1xQAcPlBj9P+TSHo3Oq1A8XW8eooMWn1DijaWV6Gl/V8GMUliy8AvE23i5ay?=
- =?us-ascii?Q?I2Q77jyGVBEdbOA91T3jrBl4advoHDoX2A5C/Uw0eDEQ3M8wNfOjI0QM8MgU?=
- =?us-ascii?Q?a9dX0g3lJ7siNHO5Bby1B0QbMRZ4u+3aUiZvTQy1wgihA3vZpxZQgKFM+Dzv?=
- =?us-ascii?Q?Ig/PPR8t3DSQeL7u0142AgLvB2L0xP5XvhNSapeAloldWQoctWUgBd7rhhx2?=
- =?us-ascii?Q?UUPYGE6KpjDd4xLaOziHS8zAdpd3QIH+H+L1gQOYSkiqVpz0LN5rKxIQCD0E?=
- =?us-ascii?Q?4FV6iCtSebchvRYbQq2wJAuZnnfIdiyOhbU/jnQctsiZ/trgJVeGLoQ4Z95c?=
- =?us-ascii?Q?XfoDqm/emG5bIUVhoawGqSn2P/cWTsMfKo/+5GfMMfX/aVkBj6fsdwX/+6pQ?=
- =?us-ascii?Q?6cX79Apf0jfCREhO4lZfQNCx+cGn/AtkcZLLWp1Q?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a87ed56-7e41-4ea7-7c56-08dd0e5a79f7
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H5ffpwvzk02yjQr782nAieikz3cS4/mcvry3YRuSPDlZ4ilZtd3kS8X4qyVs?=
+ =?us-ascii?Q?UwIS6B6L/ySa7hovWl0SIeeeB8e47LEW6imBDDy/0zROl0fDQgcQWgRA+MEY?=
+ =?us-ascii?Q?Jp6ku/Lvhh8C6g5fHLE0cqhSNPBK9Hl2MDWtW2pM2XYXJZY/BMaHNOCV20Qv?=
+ =?us-ascii?Q?yg7dIkuNZtZRQff8vH4jw4YaGalwdk1rrcvzQy1AMBPF2hzwTseP01rXL/R3?=
+ =?us-ascii?Q?vAu+OUpZN1Nms3Ly21W0CL2oETj37JK1IigiNmufbpbU4ozOR5yQBW2dboWi?=
+ =?us-ascii?Q?Sbj3bBlXYI1UpUimjR63Lfi2RuW7RSrx0q3KHvmFpCh9EGfOYWfo/pQI6uig?=
+ =?us-ascii?Q?2P7wFcqhqcqDF1NGwXj8QIxTxrUzJyyTTkIhWKZ+6yt1xjCZ9csRMtqPOvvQ?=
+ =?us-ascii?Q?UWmaBfmVIrt9l9bWUOPU5XdX3kPi39PS9c1QSi0ldDkRHqwLUS33vaCrYL30?=
+ =?us-ascii?Q?9vDqp+OUblKfLrVBJidbesHnpiRg3tiSCqfR6wd8oJAleZXe7PMt7kIGf1Qo?=
+ =?us-ascii?Q?m6eFVudBk8F+gyAR3K4KORWqJHuS9VOq3FkAJKgYqlY5s2kWpzmM/SbHfdEa?=
+ =?us-ascii?Q?Le+yahuHmunT8GCAMyh7cbDQ/LSewrT+wV0Q9aHSIDSiaTNclEzyrD6GhUFZ?=
+ =?us-ascii?Q?LnNtgYmoBstonZRKwFBkoZFB8i0BFMUE18+Nf0/OeTHl22d9QmnPNDb8sMbU?=
+ =?us-ascii?Q?Geabf0pRoeFNN4mzVtWV1mjIs/MZ+JdsRLFQcrBI86/zgmqdGNBHRihypQ2k?=
+ =?us-ascii?Q?OsODycQsjjsHvST8tr3fAjgNFV7k21iCzJlZkpKK5N/cyRSwGYixk3pbZEUi?=
+ =?us-ascii?Q?YYlonsvPMzMG7M518nvjHQHmieHqy4+Jb4L9bAPGXFYSHIOwwS2u7+ph/heB?=
+ =?us-ascii?Q?6JdcBOGxcyYS5+5ow9NLNw0+83t8y3sdeEdaYUpV9kS851Vj6MJ2/XLXSsGO?=
+ =?us-ascii?Q?1aQfJRkXQ8fxY8tdcNRevd9Ioi41Wc3ZdvJQpkgct1kuKC6ukrfBdV7zQJJB?=
+ =?us-ascii?Q?KjMEhiwNu8VdAvLJA2h0qonzXAqyNSfRwLcIFJox6186nusHw5vVRf6rWj2M?=
+ =?us-ascii?Q?TR9TGGEjK9StbCDcN4PVhq104Vb3o1zmInF6T5wdkxV8OxEOBXqLCxxi2d2N?=
+ =?us-ascii?Q?KOAkPz1pgD75tnyhsC2T681f/UGYcXtSTTm3raFK+LWj9vmQ2jk8e6Ejw28J?=
+ =?us-ascii?Q?CYkgDS2yYZEJqyi0v2sBNocFGf0wiSrfdDstwGGMrJt8oUe/V3JNNDiAKhJ9?=
+ =?us-ascii?Q?JBV06QBgbN86Hl4z2uK7YoexXx4ZI7wCOg6vEQZyUC0zMEPwmBTAUbCBNYAL?=
+ =?us-ascii?Q?ITqmbU36N2jXfJ1q3ED7WcSc3VsZK46Muzu3gkMXXLTcKLwjqd6/75gwSb7Q?=
+ =?us-ascii?Q?bGEiEl+NN1lk2/y/NWHbawjqGMx80BifNwSU/jXzRHuvstuiGIT6PXV/7QkK?=
+ =?us-ascii?Q?LhUjvA1Do8/X/QGeP2nDrkJDQIQsMKekjoI1OvHafBmYAl3GodzYedt9qm41?=
+ =?us-ascii?Q?MbRhyCEihqwmTdLrv7KCBLrtWCVS8sm5Tg55ZT09XC9coT2CUML3lJhUlNWr?=
+ =?us-ascii?Q?PM4OP2B2VicxXWY5hpGHoDnRpa0TuwNJ3y1Wkc/kzO6RIlVAQgCcpCoEVsmc?=
+ =?us-ascii?Q?dw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: vazJUGsbDWrFarOGLtiFn5FE3lQQBGQJfFT6KzyrSw2ZJHIGOwUNDQDr78bx2ljO6t2QJgNU6OJRQ0mwEuRvEH3zLmTC/u0Veb12EN0SBAYtFBnjIjedhfMxD6h8mJPBCbs8iBqtYDW3mnv6Zxezr2f4n+3FaYEYgKHTJ+a9fJb+QGWeJcZRlFwjrYkUCER5T2Ygr8pTfW1C0RxyBr4hTXMbCvKsZ6D3rFwqks9ghM4NjXBoFgKhoA2cDm4+BLYG7YW9i32dJwYDz2nAwIVOYkaird1rKbvyKWqf1JyxWShwM1zK+L8L/H7W30Fafyo65peybhhwVDsSAlkGRFxFpuCe4n9w4xdYVIav0VNZB8/2bwiUTU5T1ffR+TUFxNGEcmVAfIbOkHoh3WqypaoJUIHJPpJf6a0aSe7TPrp48h4n3ttBERRFncdvUnRzC93a/NvdM4qtqG2aTipn4oh0e9an74vBZAurWSazHWNilcyT1ETtR8GkNsKNAcPJTJg7Gq4EvDbnOs/JAmdc9uOIdcFOo9kLaCqNAUplfL0M/MwVLr1tj4LzXKertB2O3Ig3eHHdO+nxADnldOK9w4spZ5erXDeNKUthMCq2Gde+hKc=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3cde5a3-7967-4985-3c05-08dd0e8ee039
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2957.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2024 20:39:51.3725
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2024 02:54:56.8642
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lDQVF9dlVsWK93DQmZMbqGyOQ1ho/crROzaShtAG9FF19i3lVHltm56X8hcLOWzv150qsHm5l5K+n+DvP1ibhA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8697
+X-MS-Exchange-CrossTenant-UserPrincipalName: UUbfyedkzHLI9wq4BQiemyra2TN8GD6JpLA8Pqken+xwDkE7uu5ylR1of7eb5mPqhDAK+32LS8/P2Fv3oSMibLgflE6PXQ4fxFgBB2uxbuA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5870
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-11-26_16,2024-11-26_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=793
+ spamscore=0 suspectscore=0 mlxscore=0 phishscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2409260000 definitions=main-2411270024
+X-Proofpoint-ORIG-GUID: MkiKOjwPfZ53bRR5qCqnyJxj9kVuAd9I
+X-Proofpoint-GUID: MkiKOjwPfZ53bRR5qCqnyJxj9kVuAd9I
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241126_123957_935341_62E4B984 
-X-CRM114-Status: GOOD (  23.93  )
+X-CRM114-CacheID: sfid-20241126_185523_406465_A7C76254 
+X-CRM114-Status: GOOD (  15.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,440 +208,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This commit adds a new test for the kernel ULP DDP (Direct Data
-Placement) feature with NVMe-TCP.
 
-Configuration of DDP is per NIC and is done through a script in the
-kernel source. For this reason we add 2 new config vars:
-- KERNELSRC: path to the running kernel sources
-- NVME_IFACE: name of the network interface to configure the offload on
+Bart,
 
-Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-Signed-off-by: Shai Malin smalin@nvidia.com
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
----
- Documentation/running-tests.md |   9 ++
- README.md                      |   1 +
- common/rc                      |   8 +
- tests/nvme/055                 | 285 +++++++++++++++++++++++++++++++++
- tests/nvme/055.out             |  44 +++++
- tests/nvme/rc                  |   8 +
- 6 files changed, 355 insertions(+)
- create mode 100755 tests/nvme/055
- create mode 100644 tests/nvme/055.out
+> There are some strong arguments in this thread from May 2024 in favor of
+> representing the entire copy operation as a single REQ_OP_ operation:
+> https://lore.kernel.org/linux-block/20240520102033.9361-1-nj.shetty@samsung.com/
 
-diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
-index fe4f729..a42fc91 100644
---- a/Documentation/running-tests.md
-+++ b/Documentation/running-tests.md
-@@ -124,6 +124,15 @@ The NVMe tests can be additionally parameterized via environment variables.
-   be skipped and this script gets called. This makes it possible to run
-   the fabric nvme tests against a real target.
- 
-+#### NVMe-TCP zero-copy offload
-+
-+The NVMe-TCP ZC offload tests use a couple more variables.
-+
-+- KERNELSRC: Path to running kernel sources.
-+  Needed for the script to configure the offload.
-+- NVME_IFACE: Name of the interface the offload should be enabled on.
-+  This should be the same interface the NVMe connection is made with.
-+
- ### Running nvme-rdma and SRP tests
- 
- These tests will use the siw (soft-iWARP) driver by default. The rdma_rxe
-diff --git a/README.md b/README.md
-index 55227d9..5073510 100644
---- a/README.md
-+++ b/README.md
-@@ -30,6 +30,7 @@ Some tests require the following:
- - nbd-client and nbd-server (Debian) or nbd (Fedora, openSUSE, Arch Linux)
- - dmsetup (Debian) or device-mapper (Fedora, openSUSE, Arch Linux)
- - rublk (`cargo install --version=^0.1 rublk`) for ublk test
-+- python3, ethtool, iproute2 for nvme-tcp zero-copy offload test
- 
- Build blktests with `make`. Optionally, install it to a known location with
- `make install` (`/usr/local/blktests` by default, but this can be changed by
-diff --git a/common/rc b/common/rc
-index b2e68b2..0c8b51f 100644
---- a/common/rc
-+++ b/common/rc
-@@ -148,6 +148,14 @@ _have_loop() {
- 	_have_driver loop && _have_program losetup
- }
- 
-+_have_kernel_source() {
-+	if [ -z "${KERNELSRC}" ]; then
-+		SKIP_REASONS+=("KERNELSRC not set")
-+		return 1
-+	fi
-+	return 0
-+}
-+
- _have_blktrace() {
- 	# CONFIG_BLK_DEV_IO_TRACE might still be disabled, but this is easier
- 	# to check. We can fix it if someone complains.
-diff --git a/tests/nvme/055 b/tests/nvme/055
-new file mode 100755
-index 0000000..7e76126
---- /dev/null
-+++ b/tests/nvme/055
-@@ -0,0 +1,285 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2024 Aurelien Aptel <aaptel@nvidia.com>
-+#
-+# zero-copy offload
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="enable zero copy offload and run rw traffic"
-+TIMED=1
-+
-+iface_idx=""
-+
-+# these vars get updated after each call to connect_run_disconnect()
-+nb_packets=0
-+nb_bytes=0
-+nb_offload_packets=0
-+nb_offload_bytes=0
-+offload_bytes_ratio=0
-+offload_packets_ratio=0
-+
-+requires() {
-+	_nvme_requires
-+	_require_remote_nvme_target
-+	_require_nvme_trtype tcp
-+	_have_kernel_option ULP_DDP
-+	# require nvme-tcp as a module to be able to change the ddp_offload param
-+	_have_module nvme_tcp && _have_module_param nvme_tcp ddp_offload
-+	_have_fio
-+	_have_program ip
-+	_have_program ethtool
-+	_have_kernel_source && have_netlink_cli && _have_program python3
-+	have_iface
-+}
-+
-+have_netlink_cli() {
-+	local cli
-+	cli="${KERNELSRC}/tools/net/ynl/cli.py"
-+
-+	if ! [ -f "$cli" ]; then
-+		SKIP_REASONS+=("Kernel sources do not have tools/net/ynl/cli.py")
-+		return 1
-+	fi
-+
-+	if ! "$cli" -h &> /dev/null; then
-+		SKIP_REASONS+=("Cannot run the kernel tools/net/ynl/cli.py")
-+		return 1;
-+	fi
-+
-+	if ! [ -f "${KERNELSRC}/Documentation/netlink/specs/ulp_ddp.yaml" ]; then
-+		SKIP_REASONS+=("Kernel sources do not have the ULP DDP netlink specs")
-+		return 1
-+	fi
-+}
-+
-+have_iface() {
-+	if [ -z "${NVME_IFACE}" ]; then
-+		SKIP_REASONS+=("NVME_IFACE not set")
-+		return 1
-+	fi
-+	return 0
-+}
-+
-+set_conditions() {
-+	_set_nvme_trtype "$@"
-+}
-+
-+netlink_cli() {
-+	"${KERNELSRC}/tools/net/ynl/cli.py" \
-+		--spec "${KERNELSRC}/Documentation/netlink/specs/ulp_ddp.yaml" \
-+		"$@"
-+}
-+
-+eth_stat() {
-+	ethtool -S "${NVME_IFACE}" | awk "/ $1:/ { print \$2 }"
-+}
-+
-+ddp_stat() {
-+	netlink_cli --do stats-get --json "{\"ifindex\": $iface_idx}" \
-+		| awk -F: "/'$1'/{print \$2;}" | tr -d '{},'
-+}
-+
-+ddp_caps() {
-+	local out
-+	out="$(netlink_cli --do caps-get --json "{\"ifindex\": $iface_idx}")"
-+	echo "$out" | tr '{},' '\n' | tr -d ' '| awk -F: "/$1/ { print \$2 }"
-+}
-+
-+configure_ddp() {
-+	local mod_param
-+	local cap
-+
-+	mod_param=$1
-+	cap=$2
-+
-+	echo "=== configured with ddp_offload=$mod_param and caps=$cap ==="
-+
-+	# set ddp_offload module param
-+	modprobe -q -r nvme-tcp
-+	modprobe -q nvme-tcp ddp_offload=$mod_param
-+
-+	# set capabilities
-+	netlink_cli --do caps-set --json "{\"ifindex\": $iface_idx, \"wanted\": $cap, \"wanted_mask\": 3}" >> "$FULL" 2>&1
-+}
-+
-+connect_run_disconnect() {
-+	local io_size
-+	local nvme_dev
-+	local nb_drop
-+	local drop_ratio
-+	local nb_resync
-+	local resync_ratio
-+
-+	# offload stat counters
-+	local start_sk_add
-+	local start_sk_add_fail
-+	local start_sk_del
-+	local start_setup
-+	local start_setup_fail
-+	local start_teardown
-+	local start_off_bytes
-+	local start_eth_bytes
-+	local start_off_packets
-+	local start_eth_packets
-+	local end_sk_add
-+	local end_sk_add_fail
-+	local end_sk_del
-+	local end_setup
-+	local end_setup_fail
-+	local end_teardown
-+	local end_drop
-+	local end_resync
-+	local end_off_bytes
-+	local end_eth_bytes
-+	local end_off_packets
-+	local end_eth_packets
-+
-+	io_size=$1
-+
-+	start_sk_add=$(ddp_stat rx-nvme-tcp-sk-add)
-+	start_sk_add_fail=$(ddp_stat rx-nvme-tcp-sk-add-fail)
-+	start_sk_del=$(ddp_stat rx-nvme-tcp-sk-del)
-+	start_setup=$(ddp_stat rx-nvme-tcp-setup)
-+	start_setup_fail=$(ddp_stat rx-nvme-tcp-setup-fail)
-+	start_teardown=$(ddp_stat rx-nvme-tcp-teardown)
-+	start_drop=$(ddp_stat rx-nvme-tcp-drop)
-+	start_resync=$(ddp_stat rx-nvme-tcp-resync)
-+	start_off_packets=$(ddp_stat rx-nvme-tcp-packets)
-+	start_off_bytes=$(ddp_stat rx-nvme-tcp-bytes)
-+	start_eth_packets=$(eth_stat rx_packets)
-+	start_eth_bytes=$(eth_stat rx_bytes)
-+	_nvme_connect_subsys --hdr-digest --data-digest --nr-io-queues 8
-+
-+	nvme_dev="/dev/$(_find_nvme_ns "${def_subsys_uuid}")"
-+
-+	local common_args=(
-+		--blocksize_range=$io_size
-+		--rw=randrw
-+		--numjobs=8
-+		--iodepth=128
-+		--name=randrw
-+		--ioengine=libaio
-+		--time_based
-+		--runtime="$TIMEOUT"
-+		--direct=1
-+		--invalidate=1
-+		--randrepeat=1
-+		--norandommap
-+		--filename="$nvme_dev"
-+	)
-+
-+	echo "IO size: $io_size"
-+
-+	_run_fio "${common_args[@]}"
-+	_nvme_disconnect_subsys >> "$FULL" 2>&1
-+
-+	end_sk_add=$(ddp_stat rx-nvme-tcp-sk-add)
-+	end_sk_add_fail=$(ddp_stat rx-nvme-tcp-sk-add-fail)
-+	end_sk_del=$(ddp_stat rx-nvme-tcp-sk-del)
-+	end_setup=$(ddp_stat rx-nvme-tcp-setup)
-+	end_setup_fail=$(ddp_stat rx-nvme-tcp-setup-fail)
-+	end_teardown=$(ddp_stat rx-nvme-tcp-teardown)
-+	end_drop=$(ddp_stat rx-nvme-tcp-drop)
-+	end_resync=$(ddp_stat rx-nvme-tcp-resync)
-+	end_off_packets=$(ddp_stat rx-nvme-tcp-packets)
-+	end_eth_packets=$(eth_stat rx_packets)
-+	end_off_bytes=$(ddp_stat rx-nvme-tcp-bytes)
-+	end_eth_bytes=$(eth_stat rx_bytes)
-+
-+	echo "Offloaded sockets: $((end_sk_add - start_sk_add))"
-+	echo "Failed sockets:    $((end_sk_add_fail - start_sk_add_fail))"
-+	echo "Unoffloaded sockets:   $((end_sk_del - start_sk_del))"
-+	echo "Offload packet leaked: $((end_setup - end_teardown))"
-+	echo "Failed packet setup:   $((end_setup_fail - start_setup_fail))"
-+
-+	# global var results
-+	nb_drop=$(( end_drop - start_drop ))
-+	nb_resync=$(( end_resync - start_resync ))
-+	nb_packets=$(( end_eth_packets - start_eth_packets ))
-+	nb_offload_packets=$(( end_off_packets - start_off_packets ))
-+	nb_bytes=$(( end_eth_bytes - start_eth_bytes ))
-+	nb_offload_bytes=$(( end_off_bytes - start_off_bytes ))
-+
-+	offload_packets_ratio=0
-+	offload_bytes_ratio=0
-+
-+	# sanity check and avoid div by zero in ratio calculation
-+	if [[ nb_bytes -eq 0 || nb_packets -eq 0 ]]; then
-+		echo "No traffic: $nb_bytes bytes, $nb_packets packets"
-+		return
-+	fi
-+
-+	offload_packets_ratio=$(( nb_offload_packets*100/nb_packets ))
-+	offload_bytes_ratio=$(( nb_offload_bytes*100/nb_bytes ))
-+
-+	drop_ratio=$(( nb_drop*100/nb_packets ))
-+	resync_ratio=$(( nb_resync*100/nb_packets ))
-+	[[ drop_ratio -gt 5 ]] && echo "High drop ratio: $drop_ratio %"
-+	[[ resync_ratio -gt 5 ]] && echo "High resync ratio: $resync_ratio %"
-+}
-+
-+test() {
-+	local starting_ddp_config
-+
-+	: "${TIMEOUT:=30}"
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	# get iface index
-+	iface_idx=$(ip address | awk -F: "/${NVME_IFACE}/ { print \$1; exit; }")
-+
-+	# check hw supports ddp
-+	if [[ $(( $(ddp_caps hw) & 3)) -ne 3 ]]; then
-+		SKIP_REASONS+=("${NVME_IFACE} does not support nvme-tcp ddp offload")
-+		return
-+	fi
-+
-+	_setup_nvmet
-+	_nvmet_target_setup
-+
-+	if [ "$(cat "/sys/module/nvme_tcp/parameters/ddp_offload")" = Y ]; then
-+		starting_ddp_config="1 $(ddp_caps active)"
-+	else
-+		starting_ddp_config="0 $(ddp_caps active)"
-+	fi
-+
-+	# if any of the offload knobs are disabled, no offload should occur
-+	# and offloaded packets & bytes should be zero
-+
-+	configure_ddp 0 0
-+	connect_run_disconnect 32k-1M
-+	echo "Offloaded packets: $nb_offload_packets"
-+	echo "Offloaded bytes: $nb_offload_bytes"
-+
-+	configure_ddp 0 3
-+	connect_run_disconnect 32k-1M
-+	echo "Offloaded packets: $nb_offload_packets"
-+	echo "Offloaded bytes: $nb_offload_bytes"
-+
-+	configure_ddp 1 0
-+	connect_run_disconnect 32k-1M
-+	echo "Offloaded packets: $nb_offload_packets"
-+	echo "Offloaded bytes: $nb_offload_bytes"
-+
-+	# if everything is enabled, the offload should happen for large IOs only
-+	configure_ddp 1 3
-+
-+	connect_run_disconnect 32k-1M
-+	[[ nb_offload_packets -lt 100 ]] && echo "Low offloaded packets: $nb_offload_packets"
-+	[[ nb_offload_bytes -lt 32768 ]] && echo "Low offloaded bytes: $nb_offload_bytes"
-+	[[ offload_bytes_ratio -lt 90 ]] && echo "Low offloaded bytes ratio: $offload_bytes_ratio %"
-+	[[ offload_packets_ratio -lt 95 ]] && echo "Low offloaded packets ratio: $offload_packets_ratio %"
-+
-+	# small IO should be under the offload threshold, ratio should be zero
-+	connect_run_disconnect 4k-16k
-+	echo "Offload bytes ratio: $offload_bytes_ratio %"
-+	echo "Offload packets ratio: $offload_packets_ratio %"
-+
-+	_nvmet_target_cleanup
-+
-+	# restore starting config
-+	configure_ddp $starting_ddp_config > /dev/null
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/055.out b/tests/nvme/055.out
-new file mode 100644
-index 0000000..06706a6
---- /dev/null
-+++ b/tests/nvme/055.out
-@@ -0,0 +1,44 @@
-+Running nvme/055
-+=== configured with ddp_offload=0 and caps=0 ===
-+IO size: 32k-1M
-+Offloaded sockets: 0
-+Failed sockets:    0
-+Unoffloaded sockets:   0
-+Offload packet leaked: 0
-+Failed packet setup:   0
-+Offloaded packets: 0
-+Offloaded bytes: 0
-+=== configured with ddp_offload=0 and caps=3 ===
-+IO size: 32k-1M
-+Offloaded sockets: 0
-+Failed sockets:    0
-+Unoffloaded sockets:   0
-+Offload packet leaked: 0
-+Failed packet setup:   0
-+Offloaded packets: 0
-+Offloaded bytes: 0
-+=== configured with ddp_offload=1 and caps=0 ===
-+IO size: 32k-1M
-+Offloaded sockets: 0
-+Failed sockets:    0
-+Unoffloaded sockets:   0
-+Offload packet leaked: 0
-+Failed packet setup:   0
-+Offloaded packets: 0
-+Offloaded bytes: 0
-+=== configured with ddp_offload=1 and caps=3 ===
-+IO size: 32k-1M
-+Offloaded sockets: 8
-+Failed sockets:    0
-+Unoffloaded sockets:   8
-+Offload packet leaked: 0
-+Failed packet setup:   0
-+IO size: 4k-16k
-+Offloaded sockets: 8
-+Failed sockets:    0
-+Unoffloaded sockets:   8
-+Offload packet leaked: 0
-+Failed packet setup:   0
-+Offload bytes ratio: 0 %
-+Offload packets ratio: 0 %
-+Test complete
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index d1a4c01..4a43e43 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -199,6 +199,14 @@ _require_kernel_nvme_target() {
- 	return 0
- }
- 
-+_require_remote_nvme_target() {
-+	if [ -z "${nvme_target_control}" ]; then
-+		SKIP_REASONS+=("Remote target required but NVME_TARGET_CONTROL is not set")
-+		return 1
-+	fi
-+	return 0
-+}
-+
- _test_dev_nvme_ctrl() {
- 	echo "/dev/char/$(cat "${TEST_DEV_SYSFS}/device/dev")"
- }
+As has been discussed many times, a copy operation is semantically a
+read operation followed by a write operation. And, based on my
+experience implementing support for both types of copy offload in Linux,
+what made things elegant was treating the operation as a read followed
+by a write throughout the stack. Exactly like the token-based offload
+specification describes.
+
+> Token-based copy offloading (called ODX by Microsoft) could be
+> implemented by maintaining a state machine in the SCSI sd driver
+
+I suspect the SCSI maintainer would object strongly to the idea of
+maintaining cross-device copy offload state and associated object
+lifetime issues in the sd driver.
+
+> I'm assuming that the IMMED bit will be set to zero in the WRITE USING
+> TOKEN command. Otherwise one or more additional RECEIVE ROD TOKEN
+> INFORMATION commands would be required to poll for the WRITE USING TOKEN
+> completion status.
+
+What would the benefit of making WRITE USING TOKEN be a background
+operation? That seems like a completely unnecessary complication.
+
+> I guess that the block layer maintainer wouldn't be happy if all block
+> drivers would have to deal with three or four phases for copy
+> offloading just because ODX is this complicated.
+
+Last I looked, EXTENDED COPY consumed something like 70 pages in the
+spec. Token-based copy is trivially simple and elegant by comparison.
+
 -- 
-2.34.1
-
+Martin K. Petersen	Oracle Linux Engineering
 
