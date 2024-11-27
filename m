@@ -4,92 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12455D6D23D
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 21:07:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD5FDD6D241
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2024 22:07:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ISWmwIbPKWfnjDw9QIg1JLPOj+G2EW60oaWfrSMy0X4=; b=p2U5eVK/2UanqiVdbLfvCO0M2t
-	AZHEycN1AnVwBaqcwjiP0AXQ9RCaWta2yxtRj/lpkvWxmIgYbHpyycOSnhfLYnnldGrvhPZclm0Dk
-	m2WNrtkhgN1guaQeFAfQ7u85qi2EYKDizR2GfD86Kf2ekMyaFAg9wugcS1Sr8t07Cya+sL/SVW+lc
-	zRzjfmAWMa1eWlzZUp/bVE7J7wHvYOI+mIiDObzopZskVWFPbeqW/Rkxyex+720OG/fEywAl/GwK4
-	z1g9R5uOiADpcDQ2RJnt9wO3r1tiPHbOEiAwK1xfYbyHB6/ES4skV+ezFpTZ4pIDaGxhO3fyfrWAc
-	PDEYZQ4g==;
+	bh=+vGIa3VCNJHO6JQLz4ZGXstEsMQO+dnZttYMqj281Q4=; b=osoPKgGJjPK0fXp5DBUjUeJg2M
+	H3L+T23hHihSSxFHLUq2xY7DebKkd7H9HVG5vlbcY7XIwglHb0T2nJalo4i6ol8C6sg5nU4h1y0bI
+	8VQss6d/AQKbDGY1v8XNasOD9Hd1cqohO1lClhrJ4Et0aKuoWpVO6HtGSL9j4jmwSzm03dElp6pgK
+	9bxtGHXRby1uAjQ+1jLN65LkRyqA++IIRmMWaViVVluT5WsUgXDLdiZMfoEpxVsU6SF0xmb8iTLXZ
+	ivgZ7LrjS4B1db/s84Lg1/zqMWyrVDrK1d62ci8iUGTi9JotTSpZ+QAtyTXAVcUvBlUiS6VlghEAN
+	3u1hv2Ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGPFd-0000000E62x-2sDa;
-	Wed, 27 Nov 2024 21:07:09 +0000
-Received: from 001.lax.mailroute.net ([199.89.1.4])
+	id 1tGQBz-0000000EAhG-1JHy;
+	Wed, 27 Nov 2024 22:07:27 +0000
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGPF2-0000000E5yA-3MeE
+	id 1tGQBw-0000000EAgZ-3KzQ
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 Nov 2024 21:06:34 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 001.lax.mailroute.net (Postfix) with ESMTP id 4XzBnh0yn9zCm9g;
-	Wed, 27 Nov 2024 21:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1732741585; x=1735333586; bh=ISWmwIbPKWfnjDw9QIg1JLPO
-	j+G2EW60oaWfrSMy0X4=; b=uCEoSSMJdJz7xp88pY1TWob0jGDsqDNccGMqS43u
-	t5Z4bVukZBCn6nC6PMTFXOnHMzPBWW2zKn/aCxyRBv4nwjGB7o5mw659cFHHaYM4
-	HXR1VdI28t5MqtRgLAccV10Xn9SQbt6vuR+yU+Ot3NCOtIUehoYfemN/zz4dMywy
-	lmfUsQA/pf/KYtnsGVSShANNiEx7oCSbheaKC5pZRww61kY0mUq5ASvHtczAaX2n
-	wlG1kxyWGAXUY0rcNElD+heejviIukL/DvU79d56l6Z/RT7YZWxA0N3q9mxIa/ee
-	kJMK3rsFLKILTjEKHplUUCazHjODyGjOQvo+7SkBzixi3w==
-X-Virus-Scanned: by MailRoute
-Received: from 001.lax.mailroute.net ([127.0.0.1])
- by localhost (001.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 9S9ba-RE9LAW; Wed, 27 Nov 2024 21:06:25 +0000 (UTC)
-Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 001.lax.mailroute.net (Postfix) with ESMTPSA id 4XzBnR0q0kzCm9f;
-	Wed, 27 Nov 2024 21:06:18 +0000 (UTC)
-Message-ID: <7835e7e2-2209-4727-ad74-57db09e4530f@acm.org>
-Date: Wed, 27 Nov 2024 13:06:17 -0800
+	Wed, 27 Nov 2024 22:07:26 +0000
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-294ec8e1d8aso231062fac.1
+        for <linux-nvme@lists.infradead.org>; Wed, 27 Nov 2024 14:07:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1732745243; x=1733350043; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+vGIa3VCNJHO6JQLz4ZGXstEsMQO+dnZttYMqj281Q4=;
+        b=pyC+eSxnFSUffZ+VuIps8cOwDQICdvPkgjBMVGodi8JDWGmejkQr9h8A6lg6udLPGj
+         sUQG5eBkynuO7k29QXWypu+d/ZdEdny9oVVQOCPuWQJy3vC6RiyaOHWTM/773vkOj1Xj
+         pNeJHCfh9ays+NxB9MRjzXutY1e+7gxF82Gi/5b6Pi19oZPsbttVZv9YCmDQtg0NOk0K
+         iS+BTGuqFMJXc8lmKhZU0nGC6EcRZw6gqwGHh5nIrLZBKVvwQ496/4qcIhsmBK6LWCU9
+         2QU4KdP6MajJzeV7tB8AHqmBOsXAwhiVmGQXzl3rREeyqbLoK5VYi07YqoQQiMPbE9Ml
+         42/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732745243; x=1733350043;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+vGIa3VCNJHO6JQLz4ZGXstEsMQO+dnZttYMqj281Q4=;
+        b=H8cJ9acS5BtDzs8KvA/d4KQh/IZFkeQvVErIwNu+Wp2B8+5gUPwxdHrppYIP+enVG7
+         sDxm9Y5g4W9JHUzE6ZTqOqbsoZF+ofjE+F9yY8FwRQj8xbAK5rNFcGJvugb/Gu1GJrRm
+         pyzyb/q+u0QXAC92aDvFZFV+zyAXFYSgzpIFH9XALEKa2OeGifoC1rU+EoLzUQ9drPSx
+         G9iKqH1nx7lXlZ8G0nLXayN1m1WFYFCq2up2yVQtRYtjZ+odPcH4xkumfqb3I4kXJkN2
+         G2Cnz40xeKB5jxtTOwbL/JmxH/NgKP/cXFTtFJJ8+Cvqs1KbLYFtvMPx9Ua7IggygNq2
+         40Pg==
+X-Gm-Message-State: AOJu0YyLrGHUKALjv9g1Z6OvocsJmGyGnnn5uCLzG/sv5pcxERzu52+I
+	N0+X6qjsBRa7pdu5vdzbnetarFaG4ViOnGmu1iwbtNB6uadBxcUG4864Z4KzjAo=
+X-Gm-Gg: ASbGnctGWD0o0DMCNRKVvkTvo+5bxSSCsH5hAc3Fds+5YmK2ybUH7Kij2Cvq3lnWR+z
+	6W7GcFVJsdrWa421ITcKVLh3Y4GZoWcZGYqZVvNm25fNVoqWYrrOJMZlNwLeVOAKPBaDdDveJpq
+	u/1mBvfQ1U5M8j7Dik21vuDb45gWMsy1OArV9jw2gXqo4xde3CJfZmKk8j1JjnVfTSJiCBnlmz9
+	rHxpDlPZmevudirhqTKl0k3ON2AwN7kD1Sr99dTSXJ4yw==
+X-Google-Smtp-Source: AGHT+IHrmR2ZWd9Ex5J9K8h4s5L4LkPvzR+/+oNVCdvgDsuL32o0gbyhjK0y1FOLz1qlOSOvMyZXbQ==
+X-Received: by 2002:a05:6870:4944:b0:296:8102:e80f with SMTP id 586e51a60fabf-29dc432d07amr5670452fac.27.1732745241948;
+        Wed, 27 Nov 2024 14:07:21 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29de8f24b0csm54645fac.8.2024.11.27.14.07.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Nov 2024 14:07:21 -0800 (PST)
+Message-ID: <1b76ee0b-c79b-4c26-bc19-a6228806f26c@kernel.dk>
+Date: Wed, 27 Nov 2024 15:07:20 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>
-References: <20241105155014.GA7310@lst.de> <Zy0k06wK0ymPm4BV@kbusch-mbp>
- <20241108141852.GA6578@lst.de> <Zy4zgwYKB1f6McTH@kbusch-mbp>
- <CGME20241108165444eucas1p183f631e2710142fbbc7dee9300baf77a@eucas1p1.samsung.com>
- <Zy5CSgNJtgUgBH3H@casper.infradead.org>
- <d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
- <2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
- <20241111093154.zbsp42gfiv2enb5a@ArmHalley.local>
- <a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
- <20241112135233.2iwgwe443rnuivyb@ubuntu>
- <yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
- <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
- <yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
- <8ef1ec5b-4b39-46db-a4ed-abf88cbba2cd@acm.org>
- <yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
+Subject: Re: [PATCH v4 0/2] Introduce service-time multipath policy and
+ document
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Guixin Liu <kanie@linux.alibaba.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+References: <20241125103848.67212-1-kanie@linux.alibaba.com>
+ <f0b1f299-7342-46af-a26a-9488996dad9f@nvidia.com>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <f0b1f299-7342-46af-a26a-9488996dad9f@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241127_130632_877951_86079707 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20241127_140724_838025_E445C6F5 
+X-CRM114-Status: GOOD (  13.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,52 +100,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/27/24 12:14 PM, Martin K. Petersen wrote:
-> Once I had support for token-based copy offload working, it became clear
-> to me that this approach is much simpler than pointer matching, bio
-> pairs, etc. The REQ_OP_COPY_IN operation and the REQ_OP_COPY_OUT
-> operation are never in flight at the same time. There are no
-> synchronization hassles, no lifetimes, no lookup tables in the sd
-> driver, no nonsense. Semantically, it's a read followed by a write.
+On 11/27/24 1:03 AM, Chaitanya Kulkarni wrote:
+> On 11/25/24 02:38, Guixin Liu wrote:
+>> Hi,
+>>    This patchset introduce a new multipath policy, service-time, and also
+>> add a new document to introduce nvme-multipath and all policies supported.
+> 
+> When we added a new policy last time John has share his setup and 
+> performance numbers to justify his change :- 
+> https://lists.infradead.org/pipermail/linux-nvme/2024-June/048208.html
+> 
+> on the same line, sine you are claiming to achieve lower latency and 
+> higher throughput in the patch commit log, do you have performance 
+> numbers that shows the benefit of this change ? I'm not sure how I'm I 
+> supposed to even test this patch perhaps you can share testing 
+> methodology and numbers you got.
 
-What if the source LBA range does not require splitting but the
-destination LBA range requires splitting, e.g. because it crosses a
-chunk_sectors boundary? Will the REQ_OP_COPY_IN operation succeed in
-this case and the REQ_OP_COPY_OUT operation fail? Does this mean that a
-third operation is needed to cancel REQ_OP_COPY_IN operations if the
-REQ_OP_COPY_OUT operation fails?
+Agree, especially with now sharing an atomic across all queues that
+is incremented and decremented on either side of the IO life time.
+That always rings warning bells for me, on being a big scaling
+reducer.
 
-Additionally, how to handle bugs in REQ_OP_COPY_* submitters where a
-large number of REQ_OP_COPY_IN operations is submitted without
-corresponding REQ_OP_COPY_OUT operation? Is perhaps a mechanism required
-to discard unmatched REQ_OP_COPY_IN operations after a certain time?
-
-> Aside from making things trivially simple, the COPY_IN/COPY_OUT semantic
-> is a *requirement* for token-based offload devices.
-
-Hmm ... we may each have a different opinion about whether or not the 
-COPY_IN/COPY_OUT semantics are a requirement for token-based copy
-offloading.
-
-Additionally, I'm not convinced that implementing COPY_IN/COPY_OUT for
-ODX devices is that simple. The COPY_IN and COPY_OUT operations have
-to be translated into three SCSI commands, isn't it? I'm referring to
-the POPULATE TOKEN, RECEIVE ROD TOKEN INFORMATION and WRITE USING TOKEN
-commands. What is your opinion about how to translate the two block
-layer operations into these three SCSI commands?
-
-> Why would we even consider having two incompatible sets of copy
-> offload semantics coexist in the block layer?
-I am not aware of any proposal to implement two sets of copy operations
-in the block layer. All proposals I have seen so far involve adding a
-single set of copy operations to the block layer. Opinions differ
-however about whether to add a single copy operation primitive or
-separate IN and OUT primitives.
-
-Thanks,
-
-Bart.
-
-
+-- 
+Jens Axboe
 
 
