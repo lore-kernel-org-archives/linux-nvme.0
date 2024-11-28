@@ -4,66 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EF0DD690FC
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Nov 2024 11:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE424D690FC
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Nov 2024 11:46:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1yhnn/JEQDkJO7MPiDYhPt3P6x3KI+3HedoJWLZAeh4=; b=EnZ3rFBWZlbyVneESphqc+qO/3
-	uqIY2zwgg71uP9tLm+u5fbl5OAdV+oARFn/wDeEb5tKb0oylxbgWoC/iTHWmRrwBd2o2d0JBB4BT5
-	7iElbJeEXhMKq0EcYgixJx3QiarZor38jDsZB/h2rRSds1GnUrixcvi7ZFQzzk3Pg1Y8DyInPczlL
-	zlPjuXxlzTE6NaQzyDmRQYthT4QRzgHvaiVz51OX0125Av49LR8JfZEKjOXroDA0O8LJ7Ze+pzkbj
-	d8oBRNIn4OSjKtK/NHL+INTyNRfMNm1pChKghgbnPDhoDNa36cOLZIC+oVSDpmDfF/TU73O1nqlN0
-	h5LwWFKQ==;
+	bh=fOhAPjepG8IxDxWR0+S1vjp4KvMbiHG0tXmeE420F+0=; b=LksLRaylMZKFWQEabReEVcDJ0m
+	wwBE3lLnm27B8kIvR8NEXP0lKFToxwAhdBUTDHOAHNIa83/gf9yPtnm+1qjBcMofXaO24ZW6TOoxw
+	Z6kHneuZkrt9xWMBx4c/nb9cQW1OorBe4wsbTd6FG3pyQ+73+P4YBs8NSfz4QIkkfbgYnt5FoZosD
+	hDirm9Nu4SAdxOMDosBzxrw171/sG0XX+WLvmPmm3Q5l2xnyyZ26d2yG+J21Km5B5Kq1pI7RiXBkM
+	UXgkNSUr97G+pXKH0Wrc/zGgJ7bQ/4m0JlVfu1Hw/sMlm/kOjxd/iNvbTPe97m0dhxYiFWvNwiTYO
+	q43e2IqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGcyW-0000000FO8b-2P4F;
-	Thu, 28 Nov 2024 11:46:24 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1tGcyg-0000000FOH6-1WD9;
+	Thu, 28 Nov 2024 11:46:34 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGcyT-0000000FO5A-2ZuH
+	id 1tGcye-0000000FOFU-3KAB
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 28 Nov 2024 11:46:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Sender:Reply-To:Content-ID:Content-Description;
+	bh=fOhAPjepG8IxDxWR0+S1vjp4KvMbiHG0tXmeE420F+0=; b=USQUd6yJ+IovHfcaitPjZSkopQ
+	GIRHv0adg+yWN7ubESY2aa83i01xNoHeeiJsiL7v0uhpyxHQ8Et3NqcBJ3YzkPjsPlcZuhwHORCVm
+	UB5vKOJBCnAfJqipxDoeP9q6YcOls7MNcIu9acDJLkvLlBWO0R+LG8GuOJIEgsquJ+c3xJpGDhK4I
+	PRgAWVHqRrXLvTvNSXE0F7oXCQEhfQ9abUxxHg51tO2bB6JpbUfJYXTLc6BV2lIzsiksH4XM7UyYB
+	C/KKRM2DUtrsWcvrBVh9nnL2B20qxACM/rQkUb8fa6bcz+OwDoriT81ewB9tePr7xip1J258OUFbY
+	wcGj3L4Q==;
+Received: from mailout4.samsung.com ([203.254.224.34])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tGcyb-00000001b2J-19fF
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Nov 2024 11:46:23 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20241128114618epoutp01f1d75a224720085a0eb5feee39b9fd77~MH06TJsFv2977229772epoutp01g
-	for <linux-nvme@lists.infradead.org>; Thu, 28 Nov 2024 11:46:18 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20241128114618epoutp01f1d75a224720085a0eb5feee39b9fd77~MH06TJsFv2977229772epoutp01g
+	Thu, 28 Nov 2024 11:46:31 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20241128114622epoutp04ffcd6281bc3b438f6d4fb2e27c8ef7ac~MH09oO0um1287412874epoutp04E
+	for <linux-nvme@lists.infradead.org>; Thu, 28 Nov 2024 11:46:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20241128114622epoutp04ffcd6281bc3b438f6d4fb2e27c8ef7ac~MH09oO0um1287412874epoutp04E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1732794379;
-	bh=1yhnn/JEQDkJO7MPiDYhPt3P6x3KI+3HedoJWLZAeh4=;
+	s=mail20170921; t=1732794382;
+	bh=fOhAPjepG8IxDxWR0+S1vjp4KvMbiHG0tXmeE420F+0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F3Y1uDVNHO04Ku4DjWtzVtqj3/wnub/RCvMqJ8tlBpb8ctucKLggP+FU/ATCXPE50
-	 Vd6my0dIOwzW2b+LLx8hoZw1nwPUtnu7EEtr1f4skmA0wo8XNUWdBZrc7GC1bBCC5+
-	 c5Ls2Z/Dwaclt2ldUBqnIDId+V9icFnvlhDBwvew=
+	b=KuFCgKXzp1SsDif2l+hjopVG6RLMKOUAVxFGf7S7lm8uOZtoK3GEV9cEqak5aJ2tR
+	 /GAb2hnLhD7czwYPtiU2T6bqP1dUVTXQtnC9pQObzCqxud+G637+SN1iO7IZcC0D/j
+	 Vh6yHqXbqwjLQZCreqfTmFUA2jRqIWCeLNKDPcVg=
 Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20241128114618epcas5p3f9f6ccf5ec4f291d7f4098c9d987ebaa~MH052gaEm0106501065epcas5p3T;
-	Thu, 28 Nov 2024 11:46:18 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4XzZJm5NH1z4x9Py; Thu, 28 Nov
-	2024 11:46:16 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	AE.29.29212.80858476; Thu, 28 Nov 2024 20:46:16 +0900 (KST)
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20241128114622epcas5p27eed31a1a09e6201c42b3f54b0b14231~MH09VMcTr1842118421epcas5p28;
+	Thu, 28 Nov 2024 11:46:22 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4XzZJr50Mjz4x9Pv; Thu, 28 Nov
+	2024 11:46:20 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B1.C3.19710.C0858476; Thu, 28 Nov 2024 20:46:20 +0900 (KST)
 Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20241128113112epcas5p186ef86baaa3054effb7244c54ee2f991~MHntuBwUR1791917919epcas5p1c;
-	Thu, 28 Nov 2024 11:31:12 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20241128113114epcas5p29c7e2a71a136cb50c636a9fe5d87bb0b~MHnwUalBa1770017700epcas5p2Y;
+	Thu, 28 Nov 2024 11:31:14 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
 	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241128113112epsmtrp25d1f830f2feb39b0e70c41359d978bd0~MHntswlK40091000910epsmtrp2i;
-	Thu, 28 Nov 2024 11:31:12 +0000 (GMT)
-X-AuditID: b6c32a50-801fa7000000721c-f1-67485808a646
+	20241128113114epsmtrp22a238ddd34832bc52d6039fb95e1e7e7~MHnwTesv90090800908epsmtrp2q;
+	Thu, 28 Nov 2024 11:31:14 +0000 (GMT)
+X-AuditID: b6c32a44-363dc70000004cfe-c0-6748580c7014
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	A8.0D.18729.F7458476; Thu, 28 Nov 2024 20:31:11 +0900 (KST)
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C8.5E.18949.28458476; Thu, 28 Nov 2024 20:31:14 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20241128113109epsmtip2bdc64c13144c3424731d23c2f580c086~MHnrRmIYR2660826608epsmtip2V;
-	Thu, 28 Nov 2024 11:31:09 +0000 (GMT)
+	20241128113112epsmtip2d2c774c38c40fa32e0b86c84bfc4bcd7~MHntznqrO2086720867epsmtip2h;
+	Thu, 28 Nov 2024 11:31:12 +0000 (GMT)
 From: Anuj Gupta <anuj20.g@samsung.com>
 To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
 	martin.petersen@oracle.com, asml.silence@gmail.com, anuj1072538@gmail.com,
@@ -71,64 +86,64 @@ To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
 Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, gost.dev@samsung.com,
 	linux-scsi@vger.kernel.org, vishak.g@samsung.com,
-	linux-fsdevel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>, Kanchan
-	Joshi <joshi.k@samsung.com>
-Subject: [PATCH v11 07/10] block: introduce BIP_CHECK_GUARD/REFTAG/APPTAG
- bip_flags
-Date: Thu, 28 Nov 2024 16:52:37 +0530
-Message-Id: <20241128112240.8867-8-anuj20.g@samsung.com>
+	linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>, Anuj
+	Gupta <anuj20.g@samsung.com>
+Subject: [PATCH v11 08/10] nvme: add support for passing on the application
+ tag
+Date: Thu, 28 Nov 2024 16:52:38 +0530
+Message-Id: <20241128112240.8867-9-anuj20.g@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241128112240.8867-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf1DTZRzHe77fL9sXdN13E+WRLprfjhCLsenAB3HhqcXXgpxweOVZ6+v4
-	3uAY224/KqurGYcmQfw6MjdKZ5zGxjlaalCM+CmHpYYSApdG3SAPDkw5ocOI9ovyv9fned7v
-	5/PjeR4SF43xYslCnZkz6lgtzYsiLnQnJiSRLzMaafdAPLp7/wGBPqhaxFG98wJArpuVPDTV
-	fQ+gkY5WDDW6ejE0U3qFQPZjJRjqXZrmoZquIYC8o0+jNm8/gU6cHuejj2608NCZvn8wdHWx
-	LwJdtdXzt4mYVttNPnP9soXxOI/ymK8b3me+G7HymLvjowTz8TknYH482cNnZj1xjMc3jSmj
-	9hVtLeDYfM4o5nRqfX6hTqOgX8xV7VClpEplSbI0tJkW69hiTkHvzFImPV+o9fdEi99gtRb/
-	kpI1mejkZ7ca9RYzJy7Qm8wKmjPkaw1yg8TEFpssOo1Ex5m3yKTSjSl+4etFBZW9I8Awsfat
-	+VovYQVnVpeBSBJSctjoGybKQBQpotoA/OTXwXBwD8CBP6fxUDAHoP38Am/Z0jT6YVjlBbBk
-	qRwLBbMAdk58GRFQ8agE2PNHKQhsRAcOrnD8ELTgVBUGj1TX8wOqVVQevPZTe9BBUPGw7pTb
-	zyQpoBDsO70rlO4JePzafFAeSaVB+9BcUC6ghLD/uI8IMO7XlJy3B2uF1BgJ2yo+xUPmnbDn
-	UDsR4lVwsu8cP8SxcHbGG+5HA/+6Po6F2ABLLraDEGfA0kuVeKAenEqE7m+TQ8uPw7pLZ7FQ
-	3kdhxQNf2CqALZ8vMw2PNNaHGULvFWuYGTi/eDg803IAvzpq51cBse2hfmwP9WP7P/VJgDtB
-	LGcwFWs4dYpBlqTj3vzvotX6Yg8IPvUNyhbgal6UdAGMBF0AkjgdLTCsyNSIBPnswbc5o15l
-	tGg5UxdI8Q+8Go9drdb7/4rOrJLJ06Ty1NRUedqmVBkdI5gq/SxfRGlYM1fEcQbOuOzDyMhY
-	K3Yse6UkhV0/lpc0Mdjj+62Zqh19TWmpsb30JD/H4d79yve3Vp5idb/EwZjeuLOL2xRfbPc+
-	pc5aR+5F3XvtEft3RzgaWnM2TRlhQ0Zyds8umDlbVDqDJLI++Ex6fMVAr+v+ls6cAyuEO9aK
-	Oy2Zju0S94wjWhWZEZ3tIz3Tk5cPzSVsptYtNdVMLtTcYBLZxInBshcUTY+lPfLzN84D4MRz
-	yeXrtWVZhQvv9N/xKjsuCvfYW7gYL6i5la6v+7vDOvOqrM3a6q6rlHVZFFPpY4XvSQ7uqx7m
-	3Vkz7HKIDtcOLe1x2Jvb3s1V5XpAnl1ctb+lU7hxzW15YuftuXrh7zRhKmBlG3Cjif0XKlo4
-	MnMEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSvG59iEe6wbYvNhYfv/5msWia8JfZ
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TfUxbVRzdfa+0D7DsrTC5orLmJZsBB7RCy0UHnY6wpxhlbMlQiayhz0Io
+	bdPXbtOoa4Z1H44NFgmugICZGyuOGWB8uJUiX834WgKMAZE5DOgmsq3gBlKHtn2g++/87j3n
+	d+753XsJXDTJDyNytUbGoFVqKH4Ar6kzIiLqqQxaLWme24JcD908dLjoMY7KbU0A1U6e4qPZ
+	znmAxttbMXShthtD9yyDPFRWWoCh7n/m+Oh0xyhA9okX0VX7NR6qPDcjQF/cbOGj884VDF1/
+	7PRD163lgu0iutU6KaCHB0x0ve0Yn244e4i+Mm7m066ZCR59stEG6P6qLgG9UB9O10/PYWkB
+	7+Zty2GUKsYgZrTZOlWuVp1Ipe7O2pElk0ukUdIEFE+Jtcp8JpFKfjMtKiVX48lEifcrNSbP
+	UpqSZamYpG0GncnIiHN0rDGRYvQqjT5OH80q81mTVh2tZYwvSyWSl2Qe4r68nOLaKYG+MfDg
+	wEwDZgbd/seBPwHJODhYfRI7DgIIEXkFwLOl1TyumAfwztQI4IpHAH7f4xSsSe4MPfBhEWkH
+	sG02liMtADgxeovn3eCTL8Cu3yw+dQh5FcDC6j5fX5wswmBVaSPuZQWTu2Dfw3Gfgkduhq7P
+	yzxtCUJIIlhReJBz2wTPDC363PzJBFg2+sjPi4XkBnjtzLRPins4BZfLcG9/SN4mYH/rRT4n
+	TobmuV/9OBwMf3c2rkYIgwv37KscNVwansE4rIcFPW2Awwpo6T2Fe8+DkxHw0g8x3PLzsKS3
+	DuN8g2Che3pVKoQtX69hCh65UL6KIbQPmjFvG0jS8PJXe7hhnQBw2VHvVwTE1ifiWJ+IY/3f
+	uQrgNvAMo2fz1Uy2TC/VMgf+u+VsXX498L3zyOQWMFa5Et0BMAJ0AEjgVIhQH7hTLRKqlB9+
+	xBh0WQaThmE7gMwz7mI8bGO2zvNRtMYsaVyCJE4ul8clxMqlVKhw1lKhEpFqpZHJYxg9Y1jT
+	YYR/mBk7mhoe3v8njKA+bXC6028nbVVbFkfQsGtT/FTPN/s/s2XaBbKfjUfdmNZNxEahnPRl
+	Z7wlWPNszYGgxPeklpAx9XLtscNYpK0dzvCtosypGlbduyxT3DqxPmuf+JAiNyNFfvO7H81v
+	/SV2YH1jmydd5vm768ozHXtLuwq3tzWz80HrqicGHC0lZeNPR/40NLE40P76c3878NnXLul/
+	eSDN2DUmrnu1WpEypahR7yyoe7+ffucD4dvFzTc+6by7vLf7xrea+yN7Pj7/xvpG132wZeOS
+	5I8j/Uunm5LYdN4ru0PbKioxh8o23ZucunJu1hSlSOuI+bJhwJ19sWRDaERgxlaKx+YopZG4
+	gVX+C4uLufVwBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMIsWRmVeSWpSXmKPExsWy7bCSvG5TiEe6wd2dehYfv/5msWia8JfZ
 	Ys6qbYwWq+/2s1m8PvyJ0eLmgZ1MFitXH2WyeNd6jsVi9vRmJouj/9+yWUw6dI3RYu8tbYs9
 	e0+yWMxf9pTdovv6DjaL5cf/MVmc/3uc1eL8rDnsDkIeO2fdZfe4fLbUY9OqTjaPzUvqPXbf
-	bGDz+Pj0FotH35ZVjB5nFhxh9/i8Sc5j05O3TAFcUVw2Kak5mWWpRfp2CVwZ/UdvMhY8k6z4
-	PnkvSwPjctEuRk4OCQETiTW3Oli6GLk4hAR2M0rcuf+EFSIhIXHq5TJGCFtYYuW/5+wQRR8Z
-	JSaf28QMkmATUJc48rwVrEhE4ASjxPyJbiBFzAIzmCR6fq1gA0kICwRL7GybwgJiswioSkxd
-	tB5oAwcHr4CFxPFlnhAL5CVmXvrODmJzClhKzL72DewIIaCSy4+vg9m8AoISJ2c+ARvDDFTf
-	vHU28wRGgVlIUrOQpBYwMq1ilEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAiOOC3NHYzb
-	V33QO8TIxMF4iFGCg1lJhLeA2z1diDclsbIqtSg/vqg0J7X4EKM0B4uSOK/4i94UIYH0xJLU
-	7NTUgtQimCwTB6dUA5OF6vZOac1bjvZz1BRePnr/tYztdv370z5Pdx/N//gz+uH/zVG+0a2P
-	J9pW553hXL5NRfwal36Sxq7fd3S2vFJ2flOfon/dQ+/wnykblmnIPjgtq8W7/LBT6V2TNeaO
-	D0pKWb2cT+1M9VG7VL3S0P0m/+/GK2ufqtYLFjR3e3J9/an10D3ZSMn3+fwsjsCcEpudn764
-	NSlZltzaWnp+mbWAed/JQx5+LyN8mZP1r3666fSpjMu/i+Upt9Drifuq34ezepQvfMT/+NnO
-	zJlzDu6R0zO/Jfrb0HPN5jP2Xz84+IZEKc6ZfqVcn23udNOnG4TSXLbGnv73/dyH4C/z/065
-	UHPomW1R8pQ40a7rZgxKLMUZiYZazEXFiQCST9uyJwMAAA==
-X-CMS-MailID: 20241128113112epcas5p186ef86baaa3054effb7244c54ee2f991
+	bGDz+Pj0FotH35ZVjB5nFhxh9/i8Sc5j05O3TAFcUVw2Kak5mWWpRfp2CVwZE1c/ZC/Ywl1x
+	9ulmpgbGo5xdjJwcEgImEi8ufWDvYuTiEBLYzSgxccEHNoiEhMSpl8sYIWxhiZX/nrOD2EIC
+	Hxklvtw2BrHZBNQljjxvBasRETjBKDF/ohvIIGaBGUwSv/8sYAFJCAv4S9w71QY2lEVAVeJj
+	22ygQRwcvAIWEnN7KyDmy0vMvPQdbD6ngKXE7GvfWCF2WUhcfnwdzOYVEJQ4OfMJ2EhmoPrm
+	rbOZJzAKzEKSmoUktYCRaRWjZGpBcW56brFhgVFearlecWJucWleul5yfu4mRnC8aWntYNyz
+	6oPeIUYmDsZDjBIczEoivAXc7ulCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeb+97k0REkhPLEnN
+	Tk0tSC2CyTJxcEo1MLGG1FSbX9HSmR2Vme597JSjrphO9KUre5PdJf6l3t+TtqItfa/q6zlp
+	7EsnMCtP3XJq9fK3hmeyrz98da1pr9bW581yNy+/Uqu1T+24veLYtS2K7K7m888yzaxXTmmc
+	LqZq8ao+dffq/JNz3E/d27tJVFLl9f1n01+6ycUeiditfm3RKZFnfBHp8xP/mq1Ues8kJTRJ
+	nPXMxsNyt7pTJQ3OHg9LKZlz4UVa7M2DXrcVT+9t6jERZU05NK3816/cRNlPAqtaHs1rOikx
+	2zytTMFLvJTT+aPY3t2VTKd/vJh8nCX8g17qpckbZ3nuXdlTHXXYoL7QqCEttDqJ/1zWA091
+	jnOfNrw28J/X/K2w4ZkSS3FGoqEWc1FxIgBZyNukJgMAAA==
+X-CMS-MailID: 20241128113114epcas5p29c7e2a71a136cb50c636a9fe5d87bb0b
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241128113112epcas5p186ef86baaa3054effb7244c54ee2f991
+X-CMS-RootMailID: 20241128113114epcas5p29c7e2a71a136cb50c636a9fe5d87bb0b
 References: <20241128112240.8867-1-anuj20.g@samsung.com>
-	<CGME20241128113112epcas5p186ef86baaa3054effb7244c54ee2f991@epcas5p1.samsung.com>
+	<CGME20241128113114epcas5p29c7e2a71a136cb50c636a9fe5d87bb0b@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241128_034621_989613_1229AF8F 
-X-CRM114-Status: GOOD (  20.72  )
+X-CRM114-CacheID: sfid-20241128_114630_223243_B5C6278E 
+X-CRM114-Status: GOOD (  15.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,90 +158,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch introduces BIP_CHECK_GUARD/REFTAG/APPTAG bip_flags which
-indicate how the hardware should check the integrity payload.
-BIP_CHECK_GUARD/REFTAG are conversion of existing semantics, while
-BIP_CHECK_APPTAG is a new flag. The driver can now just rely on block
-layer flags, and doesn't need to know the integrity source. Submitter
-of PI decides which tags to check. This would also give us a unified
-interface for user and kernel generated integrity.
+From: Kanchan Joshi <joshi.k@samsung.com>
 
+With user integrity buffer, there is a way to specify the app_tag.
+Set the corresponding protocol specific flags and send the app_tag down.
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- block/bio-integrity.c         |  5 +++++
- drivers/nvme/host/core.c      | 11 +++--------
- include/linux/bio-integrity.h |  6 +++++-
- 3 files changed, 13 insertions(+), 9 deletions(-)
+ drivers/nvme/host/core.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index f56d01cec689..3bee43b87001 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -434,6 +434,11 @@ bool bio_integrity_prep(struct bio *bio)
- 	if (bi->csum_type == BLK_INTEGRITY_CSUM_IP)
- 		bip->bip_flags |= BIP_IP_CHECKSUM;
- 
-+	/* describe what tags to check in payload */
-+	if (bi->csum_type)
-+		bip->bip_flags |= BIP_CHECK_GUARD;
-+	if (bi->flags & BLK_INTEGRITY_REF_TAG)
-+		bip->bip_flags |= BIP_CHECK_REFTAG;
- 	if (bio_integrity_add_page(bio, virt_to_page(buf), len,
- 			offset_in_page(buf)) < len) {
- 		printk(KERN_ERR "could not attach integrity payload\n");
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 40e7be3b0339..e4e3653c27fb 100644
+index e4e3653c27fb..571d4106d256 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1017,18 +1017,13 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 			control |= NVME_RW_PRINFO_PRACT;
- 		}
+@@ -885,6 +885,12 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 	return BLK_STS_OK;
+ }
  
--		switch (ns->head->pi_type) {
--		case NVME_NS_DPS_PI_TYPE3:
-+		if (bio_integrity_flagged(req->bio, BIP_CHECK_GUARD))
- 			control |= NVME_RW_PRINFO_PRCHK_GUARD;
--			break;
--		case NVME_NS_DPS_PI_TYPE1:
--		case NVME_NS_DPS_PI_TYPE2:
--			control |= NVME_RW_PRINFO_PRCHK_GUARD |
--					NVME_RW_PRINFO_PRCHK_REF;
-+		if (bio_integrity_flagged(req->bio, BIP_CHECK_REFTAG)) {
-+			control |= NVME_RW_PRINFO_PRCHK_REF;
- 			if (op == nvme_cmd_zone_append)
++static void nvme_set_app_tag(struct request *req, struct nvme_command *cmnd)
++{
++	cmnd->rw.lbat = cpu_to_le16(bio_integrity(req->bio)->app_tag);
++	cmnd->rw.lbatm = cpu_to_le16(0xffff);
++}
++
+ static void nvme_set_ref_tag(struct nvme_ns *ns, struct nvme_command *cmnd,
+ 			      struct request *req)
+ {
+@@ -1025,6 +1031,10 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
  				control |= NVME_RW_APPEND_PIREMAP;
  			nvme_set_ref_tag(ns, cmnd, req);
--			break;
  		}
++		if (bio_integrity_flagged(req->bio, BIP_CHECK_APPTAG)) {
++			control |= NVME_RW_PRINFO_PRCHK_APP;
++			nvme_set_app_tag(req, cmnd);
++		}
  	}
  
-diff --git a/include/linux/bio-integrity.h b/include/linux/bio-integrity.h
-index 58ff9988433a..fe2bfe122db2 100644
---- a/include/linux/bio-integrity.h
-+++ b/include/linux/bio-integrity.h
-@@ -11,6 +11,9 @@ enum bip_flags {
- 	BIP_DISK_NOCHECK	= 1 << 3, /* disable disk integrity checking */
- 	BIP_IP_CHECKSUM		= 1 << 4, /* IP checksum */
- 	BIP_COPY_USER		= 1 << 5, /* Kernel bounce buffer in use */
-+	BIP_CHECK_GUARD		= 1 << 6, /* guard check */
-+	BIP_CHECK_REFTAG	= 1 << 7, /* reftag check */
-+	BIP_CHECK_APPTAG	= 1 << 8, /* apptag check */
- };
- 
- struct bio_integrity_payload {
-@@ -31,7 +34,8 @@ struct bio_integrity_payload {
- };
- 
- #define BIP_CLONE_FLAGS (BIP_MAPPED_INTEGRITY | BIP_CTRL_NOCHECK | \
--			 BIP_DISK_NOCHECK | BIP_IP_CHECKSUM)
-+			 BIP_DISK_NOCHECK | BIP_IP_CHECKSUM | \
-+			 BIP_CHECK_GUARD | BIP_CHECK_REFTAG | BIP_CHECK_APPTAG)
- 
- #ifdef CONFIG_BLK_DEV_INTEGRITY
- 
+ 	cmnd->rw.control = cpu_to_le16(control);
 -- 
 2.25.1
 
