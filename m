@@ -4,86 +4,144 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04F6AD690EC
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Nov 2024 08:57:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A877D690FC
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Nov 2024 11:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mzaxmEhR5CfGB6TmjpDVI/DZLl1RdjriSzUy+rjS0w0=; b=yN5NfS1mtPuWgPHjrTS1GJ3t7J
-	EOvyRN150hRioY+wK5eEwWyJoZdmawwjhlXlB99ODIeP7AqiTjeIOrVt/AAwY0h8E4xuG+aE1TvMk
-	l1YhKVIhmMu/S/WIGmp8d1DggGsMCB5o4RwygyiIPs9rKdqqaouPdYmaHBRVfQOPkMDLPzioT15+w
-	XXW+2s3p3CQ+Bja0Aflr8Yf32Zg+wwGkmWAdKqkaYBwdTnTBz7nEMsJHaWDauxQVt2dJQ1wH4Kds/
-	F/MQShgMokGoUM7polug7aKAoYuLJDTZ/oqj9N/B/OgmV89cBKI1wGScLdpMKlu3inzFhP1e46NCB
-	Q1UhkS+A==;
+	bh=FQM1oME+yjLcszh/NNdlGeevLgEVh+e4WfItNIpaOVY=; b=ZBRhCFTouLaTi5sF+CH/tLkUl1
+	UVjpRbPA1impMb3lBFXAsvg1wfgOg2zphBKJimOUdf9RmbMlu/ZbuyVV6cKU95kygPDiu5q/+zgYM
+	pK2L9T8FppWfISbbmH2c1EjBz9f/DwNAmMPSGN5JtLeOBcLUX3r581swg3BUdkbkCRfmH+2H6s9L+
+	3OIWf9jR7Xu/43hwygUhfis3ITVEL9xkYT0B9rkgCAv/oZzMv+j/WzWGtb/1aY11+MbZw4EIxR8gb
+	iUJksZVsFGHommgAAI45OUMUUqZbuoeVKI9xc/GZXFWwAqhQQkxD0rjpghJf1bD5ksjNYAbleXLXO
+	3j/N3djQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGaKi-0000000F5Jm-1ODr;
-	Thu, 28 Nov 2024 08:57:08 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tGcyM-0000000FO15-0Az1;
+	Thu, 28 Nov 2024 11:46:14 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGaFg-0000000F4Mu-3AHX
+	id 1tGcyK-0000000FNzf-1a6w
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 28 Nov 2024 11:46:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Sender:Reply-To:Content-ID:Content-Description;
+	bh=FQM1oME+yjLcszh/NNdlGeevLgEVh+e4WfItNIpaOVY=; b=Pnh3z1sbn8Kivx528/v2X9vKQ3
+	18vmNHIMHGS7DMCpcqCYdVVwzjrhtjhudhDZrkoR1mfO7YT1SJTaCd51BFu5Lvu4i0XNyoJ/EwvgV
+	4wXkPjpbKGpgh+DUXtQktXwaZ4LjKoKSF5kqilqZ3Xw88IP22CuHsmbfIhlhtl8UXLLv6iLSszvE4
+	X6Mb8Wi7yDnizmLd44Jp2hXUdDsTTXDqAnEG6WeYFzadBdPLn7bJwa9b1VsT5p2hdCJYm4PQIYngV
+	/4KqsBJNFcroIgshzL9mbPhgtGqepIpcyxXB36BpmaMNi+Sc45JnxBdbWgUY5mkVq2y/GOdDLvPL9
+	rmqfDPLw==;
+Received: from [203.254.224.24] (helo=mailout1.samsung.com)
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tGcyF-00000001awt-05gc
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Nov 2024 08:51:57 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D06AF5C5A10;
-	Thu, 28 Nov 2024 08:51:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FE4C4CECE;
-	Thu, 28 Nov 2024 08:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732783915;
-	bh=IvK1zy/sYlcAsuAagh9WHWt5pI9LVrBWaIhMoNQD9O4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=huPUraNVdlRnc/8SRCQCbFMy8iYIjMB3PAVtxdtrPxXEKBIuk8JVyvQSXKpsyKWuo
-	 SvcCUUNE7HC9Ow0pgQqrcSsjRWVD1P/g2f9kgyvtxjXhKVQQl/WoCSjhSVqKvly84z
-	 +qbNSYVsjzMQgKzuLerNaymQkOu7/fWI3nFulGMiuFWVjbrMT24B6c3AJbjRYBI9+k
-	 2CtCUhK0Q8s7rUZJyzmT8ZAu2XK9xcYNoRWhvchpzCiitbGPplCghEKZHDly179oyw
-	 92xIUGP8xGw+tApw4velQg0xPNtB+McQCWkzpwfXXOLdLYy+5+ZsUJFbkvIjOuZIee
-	 lCIVOIxNTujeQ==
-Message-ID: <9e9ca761-6356-4a97-a314-d08bd5ea0916@kernel.org>
-Date: Thu, 28 Nov 2024 17:51:52 +0900
+	Thu, 28 Nov 2024 11:46:11 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20241128114555epoutp019eef521917dd6694de28bbdbd177515c~MH0kG14d52980929809epoutp01G
+	for <linux-nvme@lists.infradead.org>; Thu, 28 Nov 2024 11:45:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20241128114555epoutp019eef521917dd6694de28bbdbd177515c~MH0kG14d52980929809epoutp01G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1732794355;
+	bh=FQM1oME+yjLcszh/NNdlGeevLgEVh+e4WfItNIpaOVY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=r2RGuylJhHYpxtovtgeiOV8PXusomywuf6dxPTVuD7qsu6x25+7l7nupUO0uQQ9pS
+	 OHWViXD4dn1uwF+hGKT964g+3kF8H2ksy5TYSS56ykSi0C8e+yC4l4xHaoBiZVsoYf
+	 8I0Is1T8TEBRReviGiuH7+NbR6lBo6nN4uTI3C+c=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20241128114554epcas5p2c9df787ad8145e598d3817c5db00bcca~MH0jhfO8m1857618576epcas5p28;
+	Thu, 28 Nov 2024 11:45:54 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4XzZJH2fn4z4x9Pr; Thu, 28 Nov
+	2024 11:45:51 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	E6.B3.19710.FE758476; Thu, 28 Nov 2024 20:45:51 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20241128113058epcas5p1f544aa328a27b59f96b48b94dc0bdf94~MHnhJguS-1316913169epcas5p1r;
+	Thu, 28 Nov 2024 11:30:58 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241128113058epsmtrp2b79823e07685711bd53938c807451bc2~MHnhIiCRN3231632316epsmtrp2k;
+	Thu, 28 Nov 2024 11:30:58 +0000 (GMT)
+X-AuditID: b6c32a44-36bdd70000004cfe-81-674857efef9e
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	32.58.33707.27458476; Thu, 28 Nov 2024 20:30:58 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241128113056epsmtip211016eab1dc2a7836a08fd9d6c853c49~MHne1hoN12660826608epsmtip2H;
+	Thu, 28 Nov 2024 11:30:56 +0000 (GMT)
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+	martin.petersen@oracle.com, asml.silence@gmail.com, anuj1072538@gmail.com,
+	brauner@kernel.org, jack@suse.cz, viro@zeniv.linux.org.uk
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+	linux-fsdevel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>
+Subject: [PATCH v11 02/10] block: copy back bounce buffer to user-space
+ correctly in case of split
+Date: Thu, 28 Nov 2024 16:52:32 +0530
+Message-Id: <20241128112240.8867-3-anuj20.g@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241128112240.8867-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-To: "Martin K. Petersen" <martin.petersen@oracle.com>,
- Bart Van Assche <bvanassche@acm.org>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>
-References: <20241105155014.GA7310@lst.de> <Zy0k06wK0ymPm4BV@kbusch-mbp>
- <20241108141852.GA6578@lst.de> <Zy4zgwYKB1f6McTH@kbusch-mbp>
- <CGME20241108165444eucas1p183f631e2710142fbbc7dee9300baf77a@eucas1p1.samsung.com>
- <Zy5CSgNJtgUgBH3H@casper.infradead.org>
- <d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
- <2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
- <20241111093154.zbsp42gfiv2enb5a@ArmHalley.local>
- <a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
- <20241112135233.2iwgwe443rnuivyb@ubuntu>
- <yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
- <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
- <yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
- <8ef1ec5b-4b39-46db-a4ed-abf88cbba2cd@acm.org>
- <yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
- <7835e7e2-2209-4727-ad74-57db09e4530f@acm.org>
- <yq1ed2wupli.fsf@ca-mkp.ca.oracle.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <yq1ed2wupli.fsf@ca-mkp.ca.oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrNJsWRmVeSWpSXmKPExsWy7bCmuu77cI90g4mX+S0+fv3NYtE04S+z
+	xZxV2xgtVt/tZ7N4ffgTo8XNAzuZLFauPspk8a71HIvF7OnNTBaTDl1jtNh7S9tiz96TLBbz
+	lz1lt+i+voPNYvnxf0wW5/8eZ7U4P2sOu4Ogx85Zd9k9Lp8t9di0qpPNY/OSeo/dNxvYPD4+
+	vcXi0bdlFaPHmQVH2D0+b5Lz2PTkLVMAV1S2TUZqYkpqkUJqXnJ+SmZeuq2Sd3C8c7ypmYGh
+	rqGlhbmSQl5ibqqtkotPgK5bZg7QO0oKZYk5pUChgMTiYiV9O5ui/NKSVIWM/OISW6XUgpSc
+	ApMCveLE3OLSvHS9vNQSK0MDAyNToMKE7IzPs5uYClbzVaxqmMbWwDiJp4uRk0NCwETi0LJ9
+	TF2MXBxCArsZJe70nGeFcD4xShy5fpgFzunpOcII03LqxUtmiMRORomXB3awQzifGSXuT/vN
+	BlLFJqAuceR5KyNIQkRgD6NE78LTYLOYBV4ySixdtYgFpEpYIEXi/J+P7CA2i4CqxI0Ph8G6
+	eQUsJFa8PcEKsU9eYual72A1nAKWErOvfWOFqBGUODnzCdgcZqCa5q2zwW6SEDjDIfF8dSvU
+	sS4Sb479YIKwhSVeHd/CDmFLSXx+t5cNwk6X+HH5KVRNgUTzsX1QvfYSraf6gYZyAC3QlFi/
+	Sx8iLCsx9dQ6Joi9fBK9v59AtfJK7JgHYytJtK+cA2VLSOw91wBle0g8vLeKDRJcPcAQ7rjM
+	NIFRYRaSf2Yh+WcWwuoFjMyrGCVTC4pz01OTTQsM81LL4RGdnJ+7iRGcyrVcdjDemP9P7xAj
+	EwfjIUYJDmYlEd4Cbvd0Id6UxMqq1KL8+KLSnNTiQ4ymwACfyCwlmpwPzCZ5JfGGJpYGJmZm
+	ZiaWxmaGSuK8r1vnpggJpCeWpGanphakFsH0MXFwSjUwbX0QfKD8el6QlKe/oEgPD/ukzbuP
+	KniXbuVX1jnXaxaisKReU/dVYdWvCaZzla9s5YgV0HllyWC2dV/u7X7F0NeN9zqT/rD8mPw4
+	c1/Hm6fZO5Rnt8/0O1WusPQCC89i87dVM6zMxKUEZ3685Xvx4unMpT8md35/xDIjPfRP/oQL
+	c9Ntz3yQ3OiofMXIOP3W6wO/tp8sPzjBtG7q5MjFiq9293T6rOnMLRDsWXrog9bmsl2tU+KY
+	DZqt9+dsia84sbfa5/mEG3aPq/YHR6m8kco4V86/uvbRp5sS/8utuoMjOmce3WFtd81/5pOD
+	Vvk7N+2/ox5gw1lqeKX34vTVU//t0FeZKm3yfJ7CNPl/R5RYijMSDbWYi4oTAeQLVXFuBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeLIzCtJLcpLzFFi42LZdlhJXrcoxCPdYMpKOYuPX3+zWDRN+Mts
+	MWfVNkaL1Xf72SxeH/7EaHHzwE4mi5WrjzJZvGs9x2Ixe3ozk8WkQ9cYLfbe0rbYs/cki8X8
+	ZU/ZLbqv72CzWH78H5PF+b/HWS3Oz5rD7iDosXPWXXaPy2dLPTat6mTz2Lyk3mP3zQY2j49P
+	b7F49G1ZxehxZsERdo/Pm+Q8Nj15yxTAFcVlk5Kak1mWWqRvl8CV8Xl2E1PBar6KVQ3T2BoY
+	J/F0MXJySAiYSJx68ZK5i5GLQ0hgO6PE3ye/2SESEhKnXi5jhLCFJVb+e84OUfSRUeLfzg6w
+	IjYBdYkjz1vBikQETjBKzJ/oBlLEDFI04ctsFpCEsECSxMM7LWANLAKqEjc+HGYDsXkFLCRW
+	vD3BCrFBXmLmpe9gNZwClhKzr30DiwsB1Vx+fJ0Vol5Q4uTMJ2AzmYHqm7fOZp7AKDALSWoW
+	ktQCRqZVjKKpBcW56bnJBYZ6xYm5xaV56XrJ+bmbGMERphW0g3HZ+r96hxiZOBgPMUpwMCuJ
+	8BZwu6cL8aYkVlalFuXHF5XmpBYfYpTmYFES51XO6UwREkhPLEnNTk0tSC2CyTJxcEo1MNno
+	pP9VfOB4/6PV8fkHMidMq/31/YhhS8TkefkXdXw77f5L+Lq4zBSZ+tfrDUOziqPV6ivvueXX
+	VuxnDbE8t7pr2d0/fNaXPfQjUy4vKO8VZ5R8+28+w/LQqbEa29bPcg97f7x+wZ5JLypdn701
+	1dXY8XiughXPK6fu9Nd3Cti/Xr8cnH176ez1h65rvH+imfFRo5TVVPbs5ML0zeJ+CxSNln/s
+	OznzaLesdOPm+JrreessCuc5HNkmdJDxIH/Liqf5SWd+vShvCVp+LsDkSu8B/jTPeRt1TatF
+	5zQJHAi133D8Zoe05LslTUaHRMTOr3okrexjNv2yReZhH7NDAms7Q0onyXLu/1IpOv2ac4oS
+	S3FGoqEWc1FxIgB2wfXMHwMAAA==
+X-CMS-MailID: 20241128113058epcas5p1f544aa328a27b59f96b48b94dc0bdf94
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241128113058epcas5p1f544aa328a27b59f96b48b94dc0bdf94
+References: <20241128112240.8867-1-anuj20.g@samsung.com>
+	<CGME20241128113058epcas5p1f544aa328a27b59f96b48b94dc0bdf94@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241128_005156_892442_8E995BDC 
-X-CRM114-Status: GOOD (  30.55  )
+X-CRM114-CacheID: sfid-20241128_114607_860748_39948ED1 
+X-CRM114-Status: GOOD (  17.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,95 +156,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/28/24 11:09, Martin K. Petersen wrote:
-> 
-> Bart,
-> 
->> What if the source LBA range does not require splitting but the
->> destination LBA range requires splitting, e.g. because it crosses a
->> chunk_sectors boundary? Will the REQ_OP_COPY_IN operation succeed in
->> this case and the REQ_OP_COPY_OUT operation fail?
-> 
-> Yes.
-> 
-> I experimented with approaching splitting in an iterative fashion. And
-> thus, if there was a split halfway through the COPY_IN I/O, we'd issue a
-> corresponding COPY_OUT up to the split point and hope that the write
-> subsequently didn't need a split. And then deal with the next segment.
-> 
-> However, given that copy offload offers diminishing returns for small
-> I/Os, it was not worth the hassle for the devices I used for
-> development. It was cleaner and faster to just fall back to regular
-> read/write when a split was required.
-> 
->> Does this mean that a third operation is needed to cancel
->> REQ_OP_COPY_IN operations if the REQ_OP_COPY_OUT operation fails?
-> 
-> No. The device times out the token.
-> 
->> Additionally, how to handle bugs in REQ_OP_COPY_* submitters where a
->> large number of REQ_OP_COPY_IN operations is submitted without
->> corresponding REQ_OP_COPY_OUT operation? Is perhaps a mechanism
->> required to discard unmatched REQ_OP_COPY_IN operations after a
->> certain time?
-> 
-> See above.
-> 
-> For your EXTENDED COPY use case there is no token and thus the COPY_IN
-> completes immediately.
-> 
-> And for the token case, if you populate a million tokens and don't use
-> them before they time out, it sounds like your submitting code is badly
-> broken. But it doesn't matter because there are no I/Os in flight and
-> thus nothing to discard.
-> 
->> Hmm ... we may each have a different opinion about whether or not the
->> COPY_IN/COPY_OUT semantics are a requirement for token-based copy
->> offloading.
-> 
-> Maybe. But you'll have a hard time convincing me to add any kind of
-> state machine or bio matching magic to the SCSI stack when the simplest
-> solution is to treat copying like a read followed by a write. There is
-> no concurrency, no kernel state, no dependency between two commands, nor
-> two scsi_disk/scsi_device object lifetimes to manage.
+From: Christoph Hellwig <hch@lst.de>
 
-And that also would allow supporting a fake copy offload with regular read/write
-BIOs very easily, I think. So all block devices can be presented as supporting
-"copy offload". That is nice for FSes.
+Copy back the bounce buffer to user-space in entirety when the parent
+bio completes. The existing code uses bip_iter.bi_size for sizing the
+copy, which can be modified. So move away from that and fetch it from
+the vector passed to the block layer. While at it, switch to using
+better variable names.
 
-> 
->> Additionally, I'm not convinced that implementing COPY_IN/COPY_OUT for
->> ODX devices is that simple. The COPY_IN and COPY_OUT operations have
->> to be translated into three SCSI commands, isn't it? I'm referring to
->> the POPULATE TOKEN, RECEIVE ROD TOKEN INFORMATION and WRITE USING
->> TOKEN commands. What is your opinion about how to translate the two
->> block layer operations into these three SCSI commands?
-> 
-> COPY_IN is translated to a NOP for devices implementing EXTENDED COPY
-> and a POPULATE TOKEN for devices using tokens.
-> 
-> COPY_OUT is translated to an EXTENDED COPY (or NVMe Copy) for devices
-> using a single command approach and WRITE USING TOKEN for devices using
-> tokens.
+Fixes: 492c5d455969f ("block: bio-integrity: directly map user buffers")
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ block/bio-integrity.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-ATA WRITE GATHERED command is also a single copy command. That matches and while
-I have not checked SAT, translation would likely work.
-
-While I was initially worried that the 2 BIO based approach would be overly
-complicated, it seems that I was wrong :)
-
-> 
-> There is no need for RECEIVE ROD TOKEN INFORMATION.
-> 
-> I am not aware of UFS devices using the token-based approach. And for
-> EXTENDED COPY there is only a single command sent to the device. If you
-> want to do power management while that command is being processed,
-> please deal with that in UFS. The block layer doesn't deal with the
-> async variants of any of the other SCSI commands either...
->
-
-
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index a448a25d13de..4341b0d4efa1 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -118,17 +118,18 @@ static void bio_integrity_unpin_bvec(struct bio_vec *bv, int nr_vecs,
+ 
+ static void bio_integrity_uncopy_user(struct bio_integrity_payload *bip)
+ {
+-	unsigned short nr_vecs = bip->bip_max_vcnt - 1;
+-	struct bio_vec *copy = &bip->bip_vec[1];
+-	size_t bytes = bip->bip_iter.bi_size;
+-	struct iov_iter iter;
++	unsigned short orig_nr_vecs = bip->bip_max_vcnt - 1;
++	struct bio_vec *orig_bvecs = &bip->bip_vec[1];
++	struct bio_vec *bounce_bvec = &bip->bip_vec[0];
++	size_t bytes = bounce_bvec->bv_len;
++	struct iov_iter orig_iter;
+ 	int ret;
+ 
+-	iov_iter_bvec(&iter, ITER_DEST, copy, nr_vecs, bytes);
+-	ret = copy_to_iter(bvec_virt(bip->bip_vec), bytes, &iter);
++	iov_iter_bvec(&orig_iter, ITER_DEST, orig_bvecs, orig_nr_vecs, bytes);
++	ret = copy_to_iter(bvec_virt(bounce_bvec), bytes, &orig_iter);
+ 	WARN_ON_ONCE(ret != bytes);
+ 
+-	bio_integrity_unpin_bvec(copy, nr_vecs, true);
++	bio_integrity_unpin_bvec(orig_bvecs, orig_nr_vecs, true);
+ }
+ 
+ /**
 -- 
-Damien Le Moal
-Western Digital Research
+2.25.1
+
 
