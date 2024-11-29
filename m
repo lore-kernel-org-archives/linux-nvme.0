@@ -4,91 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE221D729E9
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Nov 2024 16:04:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4ABDD729F9
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Nov 2024 18:39:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Date:Cc:To:From:Subject:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xRYCaR++kEU3PDN2eQ+b+5uSQTJ5Bb61ApyC7HopWXU=; b=dJyrVdLCKgAVnPIyYox+eGnScb
-	WhnmlGfbf9qT61992Fcz5xpe0Wrs+ouZxsLJuCecuZb2AW2+TwP+uffkE60AepEvEZg9D10jGUKJR
-	M8bUrMtQpeDOz1D027vJ6uAqzw9P6WyIM846A0F2NPEJl98+4amKE1P/v7ye3/16xlTzpSqUKF8Yx
-	XKNzTcDOe7vvlkcv/fBVyBqayIpM9Bc6wF5gk1Oh0b01TN+DHEi/Sjdop9m5PjfBY/MzMqNZdhB3R
-	3tkBn5oSilQrNIDLKgMm1ss0O7ykdiOgj6NLfehuD/X+Z6uQQB10usqeA7iZCj249nJjcZMN9xLA2
-	qRk1t1aw==;
+	bh=XIdUIsiinP9t0oWKVW/09YL/ik9joSWDlaWG5neaO5U=; b=Yoz8zU3z8FbYeFmRO4HtFVc+De
+	mXphFjeJatsIvArpQDDgkINGHAEBeA3IpS4MiQOetv6tkQCtoHsuFg7ZEA2zmXEax/X/0pfiMdRAI
+	5qqGaaKNPC4OgiJvttTtVhCzlFk1PJupvVgjm/DA42sERPXvWsa2GPt/bMQ8RVPBlfXhSCAyL0uue
+	4ocXyShOzuEO/0DcRS/bUGbkdqyl6t/TxP/UCe8GtTTtQzyvVd0eJCMOj5d5JRWEzQi7y3M6r9aFC
+	Pc7/zSw0LmgtKShDcoou3mxmaxLubzndGvSUsA+njLkse+96sT4GaWlrCVi8Z82+vEaYb4+Agad6B
+	YCssBKkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tH3Te-00000000Xzl-1EUh;
-	Fri, 29 Nov 2024 16:04:18 +0000
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+	id 1tH5tp-00000000mug-277F;
+	Fri, 29 Nov 2024 18:39:29 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tH3Tb-00000000XyV-1luI
+	id 1tH5ti-00000000mu7-2lCR
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Nov 2024 16:04:16 +0000
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-21210eaa803so18299525ad.2
-        for <linux-nvme@lists.infradead.org>; Fri, 29 Nov 2024 08:04:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1732896255; x=1733501055; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xRYCaR++kEU3PDN2eQ+b+5uSQTJ5Bb61ApyC7HopWXU=;
-        b=harAnw/AHCcR3JFwMLkinMB6M4J+mGOcMnJcdnoadto+UX06rmjmf5MgKWwLRTEwE8
-         tpi6qqAHXBB2bgQbTIWfQUixkU3gnBbeSL+QrsP0C56FAbCsKuu1ntn6yGy2pjXvnQQI
-         6ERvlOu2NKlBNaWZvjVA5I16HVJhfVl1BqcsYVCXTP+aZP55v+lLV+ilJ9pqF2ye8+/y
-         9ihMa7ciIqQqBnVfIO8k4mrGePN3K+K5dB1gEVzIE/d+wqejS3BiSYuDC2MF37nxS0in
-         RESujMQDgG9slp2J9N1+Pg1Qzwvb/+K29SLAkZVl59wIVnhMcJWHaup09pInuuIwg1ty
-         RwEg==
+	Fri, 29 Nov 2024 18:39:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732905560;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XIdUIsiinP9t0oWKVW/09YL/ik9joSWDlaWG5neaO5U=;
+	b=IN5wpEAb83uWCSNYJHN/zh64DKwx27opfIgjZHhICwa0HJK2TEuG8xA6+QroqtfyP2GlBt
+	nz05gDZ40xWh/5o/fQedX0rqSjKbuOfRxuOo+ka2Plu0VTP21LPOKAiskKstrsfT/dMZCO
+	WHygdcijObjGZnr27DCD575J3mIniOg=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-244-Ikq-vEdJNsa67MOwGixPGg-1; Fri, 29 Nov 2024 13:39:18 -0500
+X-MC-Unique: Ikq-vEdJNsa67MOwGixPGg-1
+X-Mimecast-MFC-AGG-ID: Ikq-vEdJNsa67MOwGixPGg
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6d8866dc8d3so11351876d6.1
+        for <linux-nvme@lists.infradead.org>; Fri, 29 Nov 2024 10:39:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732896255; x=1733501055;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xRYCaR++kEU3PDN2eQ+b+5uSQTJ5Bb61ApyC7HopWXU=;
-        b=cyRI6R37ebp1GIikHDP11S06SqOT7cCOKlfbegFsE/WeGDIsWkAXxDpD6kfQkMfPog
-         6Jn7fsJ26DsCuVPGnaO+qDQaQxqFLPB1N6ne+ZUILqulOXEW1t2es6lmCG6lcKTpZV8C
-         hGQAAH/M+YBZUhxumVla03Jw2XnyOTAsUQ4QSf6mSRnYzhlLh/cZUUY3eBdVvgOls3LY
-         LEZSvPzoc2WHlYI/lneubRelrLIGxoBlrICoVxyKF9cbZnlkYvvJNxowa2UeFHm+pSuq
-         rT8bBdtUPmsBnrlvtSa33XPJMi2VITVTtszo+aG0r3ptGpTnrko5b75uD8TFnQH4fx6s
-         hqJg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwNfZBx3azzqS1747EaNM2NKaEV3Tl4gIFnu5aFUyVyPv07uYvWS/w5wjsu/NGYCsqaQvHMAJYPaty@lists.infradead.org
-X-Gm-Message-State: AOJu0YyDjLsOC0vXCp0fk1EdngzQ7K+UcfRxjqXvgNopyR6Ous9hdMv7
-	Zeum0iivt5Q0/wr7wNnWzNKvmFc6j/gMWmRI++531gZtQsQVxtx8PBPwrgE82Qg=
-X-Gm-Gg: ASbGnct/SRhvGExHsUuGkRG9tRgREdsbFeGHqDdVienlvzALNRRVnJpObipey2ktieU
-	+F2ZDzajPoc/kUBZea51kzSXhXMv0PzycGxrSmKAPEp3YeEX/2cmHJs88bhSUHLN9nG59/CTxSD
-	ROMl/wCaNjpUZbfCJyZE9IinHy2m+rGuthP+grRHBincQ6xm88mH/v48g2/Gb+Nt9Qtoi8En5v0
-	Q39QC+fYjcIDTvw85kvJRGfbj1bmoVQs/3IRJQ8GQ==
-X-Google-Smtp-Source: AGHT+IGy1chS3Zs1DmbJsFkawdj66lilvO7GzDHuIuxS/pEbGyD3FpT+qxCo038R1fV7cDy/7R55Vg==
-X-Received: by 2002:a17:902:d502:b0:212:6187:6a76 with SMTP id d9443c01a7336-215010960cfmr158548025ad.14.1732896254809;
-        Fri, 29 Nov 2024 08:04:14 -0800 (PST)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215218f46a1sm32302925ad.39.2024.11.29.08.04.13
+        d=1e100.net; s=20230601; t=1732905558; x=1733510358;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XIdUIsiinP9t0oWKVW/09YL/ik9joSWDlaWG5neaO5U=;
+        b=T0QeIBS5driTBrldN8WCcb5TMebdmgFlRSxJiztKeUU0axyJk7mY7qVw9B7nqSyo2j
+         E0qd+AKVJfF8R2RkBUN9rbRNpEmGzwxwI8/8rte7bEiNdEebQkHFpePDd5pZPsenaFYW
+         Lf5WYFwNYuuPFkOHcYCWWf4THrtTePO3syrR/gdQ/SA5G5Ei/uE6EkXyXn0TneBxZ0DP
+         fdhvQJTaVVwAjn7EXOquZw7HrjIJtr3D6t7g6JBANa/GTohK4jrE/3k4X2Jnr5qlWpP5
+         iT6B24ZLmlPMVZ56oc48ei1rRZ+PVlM/etbyfvDCkxO1WaMeUFu2X3YleT44fIRY64cQ
+         zYOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWd/LorjUcWqHmP20GGenXHfHlGSHxzkEsm0Au6hLW9c0IAOXcuR8OgFic7QDkWoRzx9HXF4rRfXDcP@lists.infradead.org
+X-Gm-Message-State: AOJu0YyInN4S0ZYfoySvieBUY16iWjvJ8KB9+qtidUOXWWGgONdFMPTh
+	1wyKjjC9Qh6SOTkmBAvoObt+CWnOWOcK2y35HKRLyJ8AOGfWcPfR1X9iyL0A9wI8TLJfzJw4tXO
+	b0NjCS8uIsLnk5cRnfAJwo2kkg2VWf+dkxNHYYDAu4Ao0uA1D+oxK+3Lws6Ls4SzE
+X-Gm-Gg: ASbGnct/7SATD1DCJFdrBLdbzrolCNcISGWz2DprrLEVtTkuiG94LKBllXXBMoFHS5l
+	LYffmKVUcro7R3Nqwne2PgORX2f8OMCly1PSU8AEcRu7dZ8sG3zjS5e/sMIQSDy650lWAstXh95
+	E0/xTNc5k+kCcWmo/hiOns74aaMwj5y16PqvZBXElCm3wa6gRN2JeDDPOxD5CM3mEO94hrAertm
+	k9lx0cvAkbEnvf08mZ1uN6nvnaLStpYRxW8C/oP8BPvv4q6DPG4ijeDzeATWQbW5fC84ave5ejA
+	/+Bu4hsWnCSAJ+8a47U592Ig
+X-Received: by 2002:a05:6214:b07:b0:6d8:821d:736e with SMTP id 6a1803df08f44-6d8821db492mr64361176d6.36.1732905558314;
+        Fri, 29 Nov 2024 10:39:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFaUO95GZP24BPdDRMCZJIPoXj5DP96tdmNOKGL2j50tmSyyK1H/wxIl1R9CMQ9dfGbLmkdow==
+X-Received: by 2002:a05:6214:b07:b0:6d8:821d:736e with SMTP id 6a1803df08f44-6d8821db492mr64360826d6.36.1732905558003;
+        Fri, 29 Nov 2024 10:39:18 -0800 (PST)
+Received: from ?IPv6:2600:6c64:4e7f:603b:fc4d:8b7c:e90c:601a? ([2600:6c64:4e7f:603b:fc4d:8b7c:e90c:601a])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b6849b7da8sm162994485a.109.2024.11.29.10.39.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Nov 2024 08:04:14 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: hch@lst.de, kbusch@kernel.org, martin.petersen@oracle.com, 
- asml.silence@gmail.com, anuj1072538@gmail.com, brauner@kernel.org, 
- jack@suse.cz, viro@zeniv.linux.org.uk, Anuj Gupta <anuj20.g@samsung.com>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-block@vger.kernel.org, gost.dev@samsung.com, 
- linux-scsi@vger.kernel.org, vishak.g@samsung.com, 
- linux-fsdevel@vger.kernel.org
-In-Reply-To: <20241128112240.8867-1-anuj20.g@samsung.com>
-References: <CGME20241128113036epcas5p397ba228852b72fff671fe695c322a3ef@epcas5p3.samsung.com>
- <20241128112240.8867-1-anuj20.g@samsung.com>
-Subject: Re: [PATCH v11 00/10] Read/Write with meta/integrity
-Message-Id: <173289625329.195012.12251484320092641789.b4-ty@kernel.dk>
-Date: Fri, 29 Nov 2024 09:04:13 -0700
+        Fri, 29 Nov 2024 10:39:16 -0800 (PST)
+Message-ID: <7bba577cce61f37b58692b6efd22bb1c61330e20.camel@redhat.com>
+Subject: Re: [PATCH] nvme-fabrics: handle zero MAXCMD without closing the
+ connection
+From: Laurence Oberman <loberman@redhat.com>
+To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org,  kanie@linux.alibaba.com, kch@nvidia.com,
+ emilne@redhat.com, jmeneghi@redhat.com
+Date: Fri, 29 Nov 2024 13:39:15 -0500
+In-Reply-To: <20241129141706.261171-1-mlombard@redhat.com>
+References: <20241129141706.261171-1-mlombard@redhat.com>
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-86319
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: SRszACN2NGcgPC07m7U7GnN3fp8XedIk3BfHdvTdOrs_1732905558
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241129_080415_464685_368C7C6F 
-X-CRM114-Status: UNSURE (   8.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241129_103922_766705_C6399425 
+X-CRM114-Status: GOOD (  19.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,44 +110,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, 2024-11-29 at 15:17 +0100, Maurizio Lombardi wrote:
+> The NVMe specification states that MAXCMD is mandatory
+> for NVMe-over-Fabrics implementations. However, some NVMe/TCP
+> and NVMe/FC arrays from major vendors have buggy firmware
+> that reports MAXCMD as zero in the Identify Controller data
+> structure.
+>=20
+> Currently, the implementation closes the connection in such cases,
+> completely preventing the host from connecting to the target.
+>=20
+> Fix the issue by printing a clear error message about the firmware
+> bug
+> and allowing the connection to proceed. It assumes that the
+> target supports a MAXCMD value of SQSIZE + 1. If any issues arise,
+> the user can manually adjust SQSIZE to mitigate them.
+>=20
+> Fixes: 4999568184e5 ("nvme-fabrics: check max outstanding commands")
+> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+> ---
+> =C2=A0drivers/nvme/host/core.c | 5 +++--
+> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 1a8d32a4a5c3..91ee2c3aa95e 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3257,8 +3257,9 @@ static int nvme_check_ctrl_fabric_info(struct
+> nvme_ctrl *ctrl, struct nvme_id_ct
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!ctrl->maxcmd) {
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0dev_err(ctrl->device, "Maximum outstanding commands
+> is 0\n");
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0return -EINVAL;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0dev_err(ctrl->device,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0"Firmware=
+ bug: maximum outstanding commands
+> is 0\n");
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0ctrl->maxcmd =3D ctrl->sqsize + 1;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
 
-On Thu, 28 Nov 2024 16:52:30 +0530, Anuj Gupta wrote:
-> This adds a new io_uring interface to exchange additional integrity/pi
-> metadata with read/write.
-> 
-> Example program for using the interface is appended below [1].
-> 
-> The patchset is on top of block/for-next.
-> 
-> [...]
+A similar fix was tested by a customer seeing this issue and they can
+now connect to their array again.
+Looks good.
 
-Applied, thanks!
-
-[01/10] block: define set of integrity flags to be inherited by cloned bip
-        commit: f64ec9926ed2fb603acf4fbc73c09ba3f68e271b
-[02/10] block: copy back bounce buffer to user-space correctly in case of split
-        commit: fcc1f91de3e3cf013e810183cb6d333b09fb5741
-[03/10] block: modify bio_integrity_map_user to accept iov_iter as argument
-        commit: 465f05a6462bb67ff51c663759ca9b4952718205
-[04/10] fs, iov_iter: define meta io descriptor
-        commit: 3e73053699fc91839e711c75d87fe3da732a323b
-[05/10] fs: introduce IOCB_HAS_METADATA for metadata
-        commit: bbcf8cb45e21c0a4d4afc45fac6cc6b97e737d8e
-[06/10] io_uring: introduce attributes for read/write and PI support
-        commit: 0ff16f75c747522b403ae8a23513afe354f98fd7
-[07/10] block: introduce BIP_CHECK_GUARD/REFTAG/APPTAG bip_flags
-        commit: ff19426ed1a805571f2a9ccff7d3432b57f4725e
-[08/10] nvme: add support for passing on the application tag
-        commit: 77a3bcc5847683baefd340f615a51e4fdaf9208e
-[09/10] scsi: add support for user-meta interface
-        commit: 1c1d47350d4eb585e2cc8f010000225b6a578322
-[10/10] block: add support to pass user meta buffer
-        commit: a757ddcd74c4b78403e4b46080de6eb73a17ab9e
-
-Best regards,
--- 
-Jens Axboe
-
-
+Reviewed-by: Laurence Oberman <loberman@redhat.com>
 
 
