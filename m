@@ -4,176 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16A16D6EBFA
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Nov 2024 10:20:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8E77D6EBFF
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Nov 2024 10:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YHsylfy8UocxVs+nXyrO9deKi0+NiFCUgYVTrEMKCOo=; b=U1zpNIn5ND4zFb8ZWh09uZQBPA
-	bYwm8w9tqsnJl/1e4JLGV8f2pQ6dbzIOlaiPQYS2NYc1Do5vbJLd/kQwUjIxpYHsiF0QL/0EW/rCK
-	RkxnGmvOpg9J7EpDsafuJn3H0/jNNWAbfBTs6E3EcTuxk0xhrr2KU7w70B6Mkk+zKluw19uu6B/n+
-	GwMc439721bJKYZDbIK1wMg6V5tH8L3AOtbsG+m3dnxnuS9fCFBPZX2F89RdSl7BCY396rkOGD2pa
-	Xr6ihnns+mPl2SQzXinVOSVqmRtGwShOOmFT459P1lyD0VNzT2CPctxBfObDCVZcDOGI7xKQ9S4ER
-	joVGfXxQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=byajIjAAfwmGLQL8qrCH01SdZPNygh/ZAwlWTQAHK+Y=; b=acVGXKYcD1bM2UWLA8YvTpedSx
+	XSVBt5Je5asup1f31ykcbb08vDV5LQa4wGyw6/eavAyejazj7rqgi0nSgEiHtK8l+7V+cFr+rBAQz
+	IC8uoeIsI3b6NkMs9nJA6SyQvRrxoJJwqOXNdzu4T7ZfyM+IMJDrcQzFkKXVojd4m2Sznqk4A5Gzp
+	eiS32yIg+tdA88Kt5ZW/yaJ6hQ2Ki+qUxEXfKPuMux2plPccfkYOuwiCq8BCYiJWLVYTfip3paJ0z
+	gvxOfxdVOipaoUO6gpY7Z3pTg/qCKXQqRkax92xGdKWUijymeWgukyl0892e26jlBELumAj8z0Tyr
+	VyO0N1lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGy7C-0000000HPyb-3Bi1;
-	Fri, 29 Nov 2024 10:20:46 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1tGyYW-0000000HT9j-1pr1;
+	Fri, 29 Nov 2024 10:49:00 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGy7A-0000000HPyD-0cyL
+	id 1tGyYU-0000000HT9H-0kXZ
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Nov 2024 10:20:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1732875643; x=1764411643;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=YgxB+10zR2JiexxVtGafw8nRf1znwl6g9pBdEiRqAZs=;
-  b=YmE6YdIvGkB+JTJNrkjRCn6GGuU5UYIZbUuI+UzQxqm+ZVwdK/6svPUd
-   fJSyyNCCC6PqxgK9KKwEsoYiAUQ9sUaNgft2tbRhul2wsMpeQ04DThUS5
-   hFM6WYVItjSfKgnlUu4uzsKaKE9spOc8n222HZwVzfxAFfIiHmcgL1L0Y
-   h76l0TdzrnpB2TSilWhjrLHtCodYEnoiZ/I+pCPLHqJ7Mh5lMnRtq4Eku
-   g6TSgM8dFLDhlrpNnsWUkOAHcZhnBJzNW52tzWHJ2spdONeOUrxNt4TO9
-   FrhQ8jB75m4EZaGgsJHwcFgpn+CyZGyFiS0fvNK+yGjCi2WDPrT4BnPMi
-   g==;
-X-CSE-ConnectionGUID: c657PXQITV2LZILukN6anQ==
-X-CSE-MsgGUID: JkYmovEKQ7GRVBLPr4mS+Q==
-X-IronPort-AV: E=Sophos;i="6.12,195,1728921600"; 
-   d="scan'208";a="33712744"
-Received: from mail-co1nam11lp2169.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.169])
-  by ob1.hgst.iphmx.com with ESMTP; 29 Nov 2024 18:20:42 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eKgA9aoXlZWrOAGmKiwkqXUrFuRr5YD6cb4tvLltqQ/3NMu0swqCm3bRZzwzBwWpgb5sGouTCzvTGlS3l6s41RG96+vIXh8NO5/SshWZRwHUw+YOBkQ/WiVeHk/44nmHdqK/w6H9mwBlpThFrG/L2NfzpnwIYl2uuo3EGS9Lux9nkbc6yOeDES90tQm1zL5VvgIAMk+gBj23TaJ6kSscSMMZdM3WVkfLp17+EDnCqDilK+k3geKBC0RNvP23ooLOHPG+BoaMn0ttZ2td/1FNQ9ngi0YT8mEnygDivDOqENFKssl3bvMTliZg7XU84EelhDqmsq140abTWuL0v9oBnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YHsylfy8UocxVs+nXyrO9deKi0+NiFCUgYVTrEMKCOo=;
- b=cVeUzZCZPDK87y3W+tOb1MbAqv6ign24B3ObGxcej7zwNtl4YxE8avyIOKjC6Mrs9wK+49oncabsdYbVR4hjWxfrwzA6V3EmyyUskUvFBUmDFL4BfHu/ZJc9PQYJ//oxCuoEs3XjbJ7Y8RDVrBjcu4mU2dHpo8o/IgXcoXS5jrmEj8vyPwaM9hVbq7pA6QTVs07oBELd9s/UpvDcgdF7XAMup33lQ7ULRWQ/9L+Ipo17yd8mAXWue+6OQ61jeAeoe5C747ILSIGcWI0+AgrYbG2XZWx0W2VWFU0PG3jhaFG6SdBukODmK5thYGeX0/JFPPOSxIiV97NHPENj338qKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YHsylfy8UocxVs+nXyrO9deKi0+NiFCUgYVTrEMKCOo=;
- b=u6UqcBXodbAMNFm5JEK8Nou38qA5Xu0anX4JgRTdzk1QnYDy6RoNknP1x0r4ENJAkJrN+mgPzMsVavUK2pBjairG3icjMiUT5OPnGdWZ2+bMwzzk7P2/leT0WW9rHwQ1aOltvTVZG1zqrAd7GDpZ7oAasGdCO6sRATYDr/KUh4Y=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- SJ0PR04MB8424.namprd04.prod.outlook.com (2603:10b6:a03:3de::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.15; Fri, 29 Nov
- 2024 10:20:39 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.8207.014; Fri, 29 Nov 2024
- 10:20:39 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Aurelien Aptel <aaptel@nvidia.com>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya
- Kulkarni <chaitanyak@nvidia.com>, Daniel Wagner <dwagner@suse.de>, Shai Malin
-	<smalin@nvidia.com>
-Subject: Re: [PATCH blktests v4 5/5] nvme/055: add test for nvme-tcp zero-copy
- offload
-Thread-Topic: [PATCH blktests v4 5/5] nvme/055: add test for nvme-tcp
- zero-copy offload
-Thread-Index: AQHbQENiKiQJ8UDoe06XnqNZWI9y+bLOECQA
-Date: Fri, 29 Nov 2024 10:20:39 +0000
-Message-ID: <5eqjhfwdxqiofyabkzon6qhcjwgpr7sqz3smlchorskyf7xoxh@t3j7og24ggdh>
-References: <20241126203857.27210-1-aaptel@nvidia.com>
- <20241126203857.27210-6-aaptel@nvidia.com>
-In-Reply-To: <20241126203857.27210-6-aaptel@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SJ0PR04MB8424:EE_
-x-ms-office365-filtering-correlation-id: f8e7d5b3-5c12-437c-c023-08dd105f78ce
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?G53Pncoj07GhOBn9aE51Rijlb74bNshGcA22Pm1ibGp4/qIwUwoPt/7pqqvL?=
- =?us-ascii?Q?i4U8RFr66QOjNZ5alEHBu1X5fByutOIqIVH+LyjUX5P4ExmrwwznWwnJhZOW?=
- =?us-ascii?Q?/ZKPsKC2EJavngDuO8fC4yfaXmJQRAgt7A9i8yV6NMm+JBDiGxw02kF8xwsj?=
- =?us-ascii?Q?GP73x/lHU+DKq00e73Y0mO10VHixWaYPyJC+o80f2u1bboztuaZy7iiM+roB?=
- =?us-ascii?Q?GWZgIKUs0qskXmbnyDJ47Trmu98wacGLaTlh8GVds4yNKtDuTUSZbHjIJfj1?=
- =?us-ascii?Q?w+dvcJAdv/GAyxKtHnAQFa1DLZ79PvD4crj4h8VCaqnj2ivUyLOhc18Ttsms?=
- =?us-ascii?Q?MQPeLUlJbNwT/nWkOEQvwbVfmz78f4G8BiAx/1YgPs6S6himQ86FF+HqUJYz?=
- =?us-ascii?Q?3P6P/2aJcRbezULlOBaFpHp2i1wgmU+ZNTf0z+Q28fre2CwOtYEsYzfSe6nc?=
- =?us-ascii?Q?Wn6p+pZ6QEyCgsgW2FuOgbJ3Fxq9X/mDc1JpqglHhYcRTJI7qKDiifT2eu8f?=
- =?us-ascii?Q?ofxK9QLwUXVwyx9VX6nDQaKRSvYctv9e09IUjJIhtUE4X1irN5wIXUVc3vvF?=
- =?us-ascii?Q?gqOmVB9nhLqI/iv1npz57dEk+ClQI4WB/5tmnqmywsZNPOihLw/DfDaDd2t4?=
- =?us-ascii?Q?ELsi+UCy4wyEjXfmxJ2Psed6+D6LbUCm7S1XlXLtCX2Nc1eD9xPi60S7Obbu?=
- =?us-ascii?Q?MR7bQaxYOphw5nD4FH/fES5dHR2xB8PKD7wXXIwedk8zAZ31w6F9YWEVYIiE?=
- =?us-ascii?Q?3K2nngo/biVfZL4i2kAAkrnoJ9oxCMa75pyFA9ybaUrMm1RspELi5FqWbh7K?=
- =?us-ascii?Q?HYQQ5a12iFV4auX6p6++3wkM4422ikzmWUM01xWydFXe24+ctxNusRo4Bu0i?=
- =?us-ascii?Q?KJ8t9c9t5J76aaYdYiIMIKYMHGnM+2w4BgA7B49+1D6dv3W6FMTzapJChPSQ?=
- =?us-ascii?Q?dEJ5H1IpZvZQEFp8CK8Asl7uxhShp10Jx1oV4a/O1aHCOlqgn4sw3DvBunYa?=
- =?us-ascii?Q?gjF36rjlnb0il5yS4eoRpUjY3KD1Y9D/GfEC9zbGuPoOUk6t0ZG0t1R0XuHV?=
- =?us-ascii?Q?n51xa51OggdD/BATIXWeKPC6Pher5u+Jr6J1TnsqlBAHVesOZfqJPnM+UQsO?=
- =?us-ascii?Q?TBoFiv1QtK0PO9ibfhqojndJVMuM1zRlCPUanI+uq/bPx5oaJsOXKJHvILYp?=
- =?us-ascii?Q?ZyEBq5V8ZhMhLMDNJh1UBKax7jMb+GaBrc8w4WPNtaqervIeyS8LNUqbAg8J?=
- =?us-ascii?Q?265GMYjgFHCGR5MWZZkSFlftsva4BqZDi910bSIBSO/AjA0JZTb4XjpzGfof?=
- =?us-ascii?Q?Acer1INUxBw5e67AwcoGqA5erna2RUj1v8nInuDXsMYXXiDjVe2AdGxuxv26?=
- =?us-ascii?Q?AcOiB+rvqBILYU5TF02Q5BOaRhxCoT5hmWKcHZbm3OB/LJR64w=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+ijAJ+JMZfkxX4Vd4iFiEZ3dwlQm10AIA1r/fQkUHjizNsqLkpcuM3r1kkSo?=
- =?us-ascii?Q?WRmTuaDAbszZ1qM68QxrvIUZRE1eNRxXjEsrsckFyzylocBgDmtGMFFg+Z4n?=
- =?us-ascii?Q?H8Qh+BO3GeT31xxPbNv7LBoryjEBgbdH+KznsJdrfZ0z7w3qZzwFUgrov+9N?=
- =?us-ascii?Q?EpSnjByWDkMTlZlMZE107el3YD96P6g5wKLih0XSZ968DpK8uhaetpavxZCJ?=
- =?us-ascii?Q?wONIeAc+OEkQjdeAYuF4XLwz2p+HkdWPQgO+R/OTKOzyg1TsZAZE7qXkeQN9?=
- =?us-ascii?Q?zI0u93CsjDAj2IKklwZ9MbX/mUc4RFUYgkgTljxxgowujG4h4UQTtpT8Ck4g?=
- =?us-ascii?Q?CYPjXYdJIT+/xJ+PQO2duO+dglKyZxijahFEwb+JqEcmN4AX5jh4NZqNNdJx?=
- =?us-ascii?Q?7VFo5hNWs5kCqdJ0g/PGT9hHYDbUOHdKD12YlYDKkGfjTvx9GKdedA22HA/g?=
- =?us-ascii?Q?A6M4h6RG+ejjAwZmcKlB267YlekZ84SU3sEGWyNG+0C8RvRVep4xlNx29f5u?=
- =?us-ascii?Q?Z3kUIOmmximNtj47+UVsqcFnHUTt54XMnkTfRPS/V5AAZn5wFCF6rYQPozQt?=
- =?us-ascii?Q?fPS11YwjcSSCYiiafnDk/pmpyWZysc7IkGf3aXH83P77b4KEFv3i1r9O5ojR?=
- =?us-ascii?Q?ZpjGGQtjAxHkJRu32u1r7I62nQct52Wgoh97Ha4OG0+cvMhsFLum+2JE3z8p?=
- =?us-ascii?Q?CbcKO0K2mCqwKnF763QwonWpo4mnKHA1m9wLGK33YTC3C/k536u5ytd+Gtdu?=
- =?us-ascii?Q?eH4fNvfCE5DdYkPctHqm2jo2qfLT4YFUJsCwd2UCtaefzs/Yt4YyE4P6d4YI?=
- =?us-ascii?Q?j/XMc+ToAEmJew1Y4JeL1rvnEf8AcHiR8ZvLtAXSPXdvS5etsWjn6C3rxOzf?=
- =?us-ascii?Q?Qbm3w6QSDf+Ci17ytkivJ7Ll8RSSuM8jUPoD6Z1297d7sHZjN8G35nVuaysN?=
- =?us-ascii?Q?6sznPGOQFTNSep6+m4gqdceJ3XS/ZpS9XK+o6Hr/KNCxurqyMTcIiYdMA4z+?=
- =?us-ascii?Q?tU4QMgIJ6ZF+KhwfI5oKyAM9m5zyt0QI//gRc9LZapBtUUTv3wywm0hEAyYz?=
- =?us-ascii?Q?ElBp/Ee63Pd+0K84SoeQHvMcYvtGs1uCRxIRGhXW2mlGBzhKZucn9NIEIVoi?=
- =?us-ascii?Q?fBEmZPlrHJS5kcss0iTPr8GbmZb3kVbQssfO7J9+oKRpCpq8+fpRZMZ8xb4y?=
- =?us-ascii?Q?SrjlzdpyCWdJT6dnVUw0hofQxVo4riZCSkNFSYbqZCgJyvu40BmKjh9XzVCP?=
- =?us-ascii?Q?wuBmWl0Jbwm2fOJjXX1XlqEsWaXQm3qyy0KGwqzyygyCJ0vGDjVFzKmI90W2?=
- =?us-ascii?Q?y7Kp4XzdzlANR9CDWIJdu4mIZ449ttTfE6IuR7XE6Ob+UIb+GrhAB27mPNuM?=
- =?us-ascii?Q?0m3hgzZqgm1hcVm3kRaz2/qYu+zJ39Ut4e25W2YjCbTZsLCLi44D1nBrBb8y?=
- =?us-ascii?Q?S+1x8u7XYquRowl5hJeLVJ+jrX8cjPbHYXMfflxCGeMYIWqppRMPHKQIltKa?=
- =?us-ascii?Q?xCKZMQeNczWHiqC4lB0uQTEjeNEB5T6IXghXvHNngJRPTbxKoI2eN/hbZy2r?=
- =?us-ascii?Q?P9a94zLPcxpsoTXf3MWm/GKuhLZ0TdHzjE8/w+tpFNHhH6TkcVEb/03HEUUq?=
- =?us-ascii?Q?aVrJVAC3C6W5AAXlLwi/x8c=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <EB122BAFA3FEC040BBC4A5D6575A41C8@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Fri, 29 Nov 2024 10:48:59 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT5fVfV014049;
+	Fri, 29 Nov 2024 10:48:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=byajIjAAfwmGLQL8qrCH01SdZPNygh/ZAwlWTQAHK
+	+Y=; b=HdX9NqftP1yn68A8wyTFEQ2p5qKV8tKrhgV7JNf3eb+F3QDwqwYCtmD3D
+	wSQpZCrswKuvgB3h7BSuZR48NZA5165VdJ1m9jfn2DPzCMoiXBttuK2115+7Ewte
+	6iqjiURWZi6wadMTxVNotUm9m5HxEWcBaBFHW7L7Lox9yJeSuHPsfumnaMKSPUqr
+	vt0ZAWOST6JV6zTjXn7vU6gmxe97NTI14kDt6Gks9fm9rUwiKOO+ynVqLQYTPodY
+	UpxJqAvAKxZE2q4+3vhkgcN2Q7D/BkDKR5JIyHu8/3I8yfz+DTrS2UTUQAwvuYAS
+	iLF6/TZ8bu21ybyeUXd2goWeHNmHQ==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4366yyhpxy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Nov 2024 10:48:43 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT9EG7C020409;
+	Fri, 29 Nov 2024 10:48:42 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 43672gbppn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Nov 2024 10:48:42 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4ATAmfjn28967650
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 29 Nov 2024 10:48:41 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2F19320040;
+	Fri, 29 Nov 2024 10:48:41 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 21F6F2004B;
+	Fri, 29 Nov 2024 10:48:39 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.64.111])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 29 Nov 2024 10:48:38 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: shinichiro.kawasaki@wdc.com, hch@lst.de, kbusch@kernel.org,
+        sagi@grimberg.me, axboe@kernel.dk, chaitanyak@nvidia.com,
+        gjoyce@linux.ibm.com
+Subject: [PATCH] nvmet-loop: avoid using mutex in IO hotpath
+Date: Fri, 29 Nov 2024 16:18:33 +0530
+Message-ID: <20241129104838.3015665-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: QlEXzgpS/BniA6TSFNpKqFrML5mK9b/IxJ/Yy/rjSIqOM3eLejYIL5l3ELPSqUEHKUPWn6Sh2vvRr3R0UyBRRMp+5DlDmvlbCLHvsBeQi34hlhwAFD+ShMlrQOo3KDdok1MBj4cUhxVqavKPUZXRPDmTCRcjquK59JZwg//u6tXpeM155aZrqcoJpl0ouW4wer13d/vRhbTyeBSbfGl4YhYMQlvPyOu/Gqvv8PJqKgoaU3pIazuoUY4oix0DqsTRm4MqLbIUn42luJJr0KuEJEw96vdpdGUNFdoG5dcEu5rPQ5fNdt3Om8RFU1YuPNFN91/Kk9fKY8KCIeQy+h2uDltojeRbnhDLJeJUGRmvSBtjxd1ZjxBMe9Sy1EevGj4TY9D6PjfXZN+F1ka5jZjVcjEklYE/fc3Ted/AQzBdlwtpRTg+exarWEspUv/JEAXJgq7aeKGSHNG2hooDPJXAZh+9ZSELo3syVmqRX8X/IR3fSY+2aX7TCnVen7JoUUjwoi+OxlNpnjYAsRowFVL7HYHk1wGJh+ypCbiEchBE938n3MhhwO22hlb72tf7aAaKmNMe8gPAlWki1de2ABNQ7KNfLaFVWiHiBvRfyw6GFcNHYJgKZ4er4SZ7uDIXOP8R
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8e7d5b3-5c12-437c-c023-08dd105f78ce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2024 10:20:39.1173
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iHmfunwbzxEVnICbri+FO4nQdqoT+mhV4bSYHp8qIhA7wLtnp93eLV81oFpXjM61j4MrIxkvD4B9Yhdpb+9yCVJjrmgMdw2lDpKf03nfWCA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB8424
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 1QJTCpnHQUeLK7Gq75jpdhnGNqXKVrxE
+X-Proofpoint-ORIG-GUID: 1QJTCpnHQUeLK7Gq75jpdhnGNqXKVrxE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 priorityscore=1501 bulkscore=0
+ malwarescore=0 adultscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2411290086
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241129_022044_204984_63C9189C 
-X-CRM114-Status: GOOD (  24.67  )
+X-CRM114-CacheID: sfid-20241129_024858_422601_B8FB500E 
+X-CRM114-Status: GOOD (  25.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -188,90 +102,432 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Nov 26, 2024 / 22:38, Aurelien Aptel wrote:
-> This commit adds a new test for the kernel ULP DDP (Direct Data
-> Placement) feature with NVMe-TCP.
->=20
-> Configuration of DDP is per NIC and is done through a script in the
-> kernel source. For this reason we add 2 new config vars:
-> - KERNELSRC: path to the running kernel sources
-> - NVME_IFACE: name of the network interface to configure the offload on
->=20
-> Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-> Signed-off-by: Shai Malin smalin@nvidia.com
-> Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Using mutex lock in IO hot path causes the kernel BUG sleeping while
+atomic. Shinichiro[1], first encountered this issue while running blktest
+nvme/052 shown below:
 
-This test is interesting!
+BUG: sleeping function called from invalid context at kernel/locking/mutex.c:585
+in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 996, name: (udev-worker)
+preempt_count: 0, expected: 0
+RCU nest depth: 1, expected: 0
+2 locks held by (udev-worker)/996:
+ #0: ffff8881004570c8 (mapping.invalidate_lock){.+.+}-{3:3}, at: page_cache_ra_unbounded+0x155/0x5c0
+ #1: ffffffff8607eaa0 (rcu_read_lock){....}-{1:2}, at: blk_mq_flush_plug_list+0xa75/0x1950
+CPU: 2 UID: 0 PID: 996 Comm: (udev-worker) Not tainted 6.12.0-rc3+ #339
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-2.fc40 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x6a/0x90
+ __might_resched.cold+0x1f7/0x23d
+ ? __pfx___might_resched+0x10/0x10
+ ? vsnprintf+0xdeb/0x18f0
+ __mutex_lock+0xf4/0x1220
+ ? nvmet_subsys_nsid_exists+0xb9/0x150 [nvmet]
+ ? __pfx_vsnprintf+0x10/0x10
+ ? __pfx___mutex_lock+0x10/0x10
+ ? snprintf+0xa5/0xe0
+ ? xas_load+0x1ce/0x3f0
+ ? nvmet_subsys_nsid_exists+0xb9/0x150 [nvmet]
+ nvmet_subsys_nsid_exists+0xb9/0x150 [nvmet]
+ ? __pfx_nvmet_subsys_nsid_exists+0x10/0x10 [nvmet]
+ nvmet_req_find_ns+0x24e/0x300 [nvmet]
+ nvmet_req_init+0x694/0xd40 [nvmet]
+ ? blk_mq_start_request+0x11c/0x750
+ ? nvme_setup_cmd+0x369/0x990 [nvme_core]
+ nvme_loop_queue_rq+0x2a7/0x7a0 [nvme_loop]
+ ? __pfx___lock_acquire+0x10/0x10
+ ? __pfx_nvme_loop_queue_rq+0x10/0x10 [nvme_loop]
+ __blk_mq_issue_directly+0xe2/0x1d0
+ ? __pfx___blk_mq_issue_directly+0x10/0x10
+ ? blk_mq_request_issue_directly+0xc2/0x140
+ blk_mq_plug_issue_direct+0x13f/0x630
+ ? lock_acquire+0x2d/0xc0
+ ? blk_mq_flush_plug_list+0xa75/0x1950
+ blk_mq_flush_plug_list+0xa9d/0x1950
+ ? __pfx_blk_mq_flush_plug_list+0x10/0x10
+ ? __pfx_mpage_readahead+0x10/0x10
+ __blk_flush_plug+0x278/0x4d0
+ ? __pfx___blk_flush_plug+0x10/0x10
+ ? lock_release+0x460/0x7a0
+ blk_finish_plug+0x4e/0x90
+ read_pages+0x51b/0xbc0
+ ? __pfx_read_pages+0x10/0x10
+ ? lock_release+0x460/0x7a0
+ page_cache_ra_unbounded+0x326/0x5c0
+ force_page_cache_ra+0x1ea/0x2f0
+ filemap_get_pages+0x59e/0x17b0
+ ? __pfx_filemap_get_pages+0x10/0x10
+ ? lock_is_held_type+0xd5/0x130
+ ? __pfx___might_resched+0x10/0x10
+ ? find_held_lock+0x2d/0x110
+ filemap_read+0x317/0xb70
+ ? up_write+0x1ba/0x510
+ ? __pfx_filemap_read+0x10/0x10
+ ? inode_security+0x54/0xf0
+ ? selinux_file_permission+0x36d/0x420
+ blkdev_read_iter+0x143/0x3b0
+ vfs_read+0x6ac/0xa20
+ ? __pfx_vfs_read+0x10/0x10
+ ? __pfx_vm_mmap_pgoff+0x10/0x10
+ ? __pfx___seccomp_filter+0x10/0x10
+ ksys_read+0xf7/0x1d0
+ ? __pfx_ksys_read+0x10/0x10
+ do_syscall_64+0x93/0x180
+ ? lockdep_hardirqs_on_prepare+0x16d/0x400
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on+0x78/0x100
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on_prepare+0x16d/0x400
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+RIP: 0033:0x7f565bd1ce11
+Code: 00 48 8b 15 09 90 0d 00 f7 d8 64 89 02 b8 ff ff ff ff eb bd e8 d0 ad 01 00 f3 0f 1e fa 80 3d 35 12 0e 00 00 74 13 31 c0 0f 05 <48> 3d 00 f0 ff ff 77 4f c3 66 0f 1f 44 00 00 55 48 89 e5 48 83 ec
+RSP: 002b:00007ffd6e7a20c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 0000000000001000 RCX: 00007f565bd1ce11
+RDX: 0000000000001000 RSI: 00007f565babb000 RDI: 0000000000000014
+RBP: 00007ffd6e7a2130 R08: 00000000ffffffff R09: 0000000000000000
+R10: 0000556000bfa610 R11: 0000000000000246 R12: 000000003ffff000
+R13: 0000556000bfa5b0 R14: 0000000000000e00 R15: 0000556000c07328
+ </TASK>
 
-[...]
+Apparently, the above issue is caused due to using mutex lock while
+we're in IO hot path. It's a regression caused with commit 505363957fad
+("nvmet: fix nvme status code when namespace is disabled"). The mutex
+->su_mutex is used to find whether a disabled nsid exists in the config
+group or not. This is to differentiate between a nsid that is disabled
+vs non-existent.
 
-> diff --git a/tests/nvme/055 b/tests/nvme/055
-> new file mode 100755
-> index 0000000..7e76126
-> --- /dev/null
-> +++ b/tests/nvme/055
-> @@ -0,0 +1,285 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2024 Aurelien Aptel <aaptel@nvidia.com>
-> +#
-> +# zero-copy offload
+To mitigate the above issue, we've worked upon a fix[2] where we now
+insert nsid in subsys Xarray as soon as it's created under config group
+and later when that nsid is enabled, we add an Xarray mark on it and set
+ns->enabled to true. The Xarray mark is useful while we need to loop
+through all enabled namepsaces under a subsystem using xa_for_each_marked()
+API. If later a nsid is disabled then we clear Xarray mark from it and also
+set ns->enabled to false. It's only when nsid is deleted from the config
+group we delete it from the Xarray.
 
-My understanding is that this test case requires the target set up by
-NVME_TARGET_CONTROL. Is it beneficial to explain what kind of target set
-up is required here?
+So with this change, now we could easily differentiate a nsid is disabled
+(i.e. Xarray entry for ns exists but ns->enabled is set to false) vs non-
+existent (i.e.Xarray entry for ns doesn't exist).
 
-Does this test case require specific hardware for nvme-tcp and zero-copy?
-If so, it can be described here also, probably.
+Link: https://lore.kernel.org/linux-nvme/20241022070252.GA11389@lst.de/ [2]
+Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Closes: https://lore.kernel.org/linux-nvme/tqcy3sveity7p56v7ywp7ssyviwcb3w4623cnxj3knoobfcanq@yxgt2mjkbkam/ [1]
+Fixes: 505363957fad ("nvmet: fix nvme status code when namespace is disabled")
+Fix-suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/target/admin-cmd.c |  13 ++--
+ drivers/nvme/target/core.c      | 108 +++++++++++++++++++-------------
+ drivers/nvme/target/nvmet.h     |   1 +
+ drivers/nvme/target/pr.c        |  10 +--
+ 4 files changed, 79 insertions(+), 53 deletions(-)
 
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION=3D"enable zero copy offload and run rw traffic"
-> +TIMED=3D1
-> +
-> +iface_idx=3D""
-> +
-> +# these vars get updated after each call to connect_run_disconnect()
-> +nb_packets=3D0
-> +nb_bytes=3D0
-> +nb_offload_packets=3D0
-> +nb_offload_bytes=3D0
-> +offload_bytes_ratio=3D0
-> +offload_packets_ratio=3D0
-> +
-> +requires() {
-> +	_nvme_requires
-> +	_require_remote_nvme_target
-> +	_require_nvme_trtype tcp
-> +	_have_kernel_option ULP_DDP
-> +	# require nvme-tcp as a module to be able to change the ddp_offload par=
-am
-> +	_have_module nvme_tcp && _have_module_param nvme_tcp ddp_offload
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 934b401fbc2f..439fc96a82c8 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -139,7 +139,8 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
+ 	unsigned long idx;
+ 
+ 	ctrl = req->sq->ctrl;
+-	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
++	xa_for_each_marked(&ctrl->subsys->namespaces, idx,
++			ns, NVMET_NS_ENABLED) {
+ 		/* we don't have the right data for file backed ns */
+ 		if (!ns->bdev)
+ 			continue;
+@@ -331,9 +332,11 @@ static u32 nvmet_format_ana_group(struct nvmet_req *req, u32 grpid,
+ 	u32 count = 0;
+ 
+ 	if (!(req->cmd->get_log_page.lsp & NVME_ANA_LOG_RGO)) {
+-		xa_for_each(&ctrl->subsys->namespaces, idx, ns)
++		xa_for_each_marked(&ctrl->subsys->namespaces, idx,
++				ns, NVMET_NS_ENABLED) {
+ 			if (ns->anagrpid == grpid)
+ 				desc->nsids[count++] = cpu_to_le32(ns->nsid);
++		}
+ 	}
+ 
+ 	desc->grpid = cpu_to_le32(grpid);
+@@ -771,7 +774,8 @@ static void nvmet_execute_identify_endgrp_list(struct nvmet_req *req)
+ 		goto out;
+ 	}
+ 
+-	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
++	xa_for_each_marked(&ctrl->subsys->namespaces, idx,
++			ns, NVMET_NS_ENABLED) {
+ 		if (ns->nsid <= min_endgid)
+ 			continue;
+ 
+@@ -814,7 +818,8 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req, bool match_css)
+ 		goto out;
+ 	}
+ 
+-	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
++	xa_for_each_marked(&ctrl->subsys->namespaces, idx,
++			ns, NVMET_NS_ENABLED) {
+ 		if (ns->nsid <= min_nsid)
+ 			continue;
+ 		if (match_css && req->ns->csi != req->cmd->identify.csi)
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 1f4e9989663b..983f20005b76 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -127,7 +127,7 @@ static u32 nvmet_max_nsid(struct nvmet_subsys *subsys)
+ 	unsigned long idx;
+ 	u32 nsid = 0;
+ 
+-	xa_for_each(&subsys->namespaces, idx, cur)
++	xa_for_each_marked(&subsys->namespaces, idx, cur, NVMET_NS_ENABLED)
+ 		nsid = cur->nsid;
+ 
+ 	return nsid;
+@@ -441,11 +441,14 @@ u16 nvmet_req_find_ns(struct nvmet_req *req)
+ 	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
+ 
+ 	req->ns = xa_load(&subsys->namespaces, nsid);
+-	if (unlikely(!req->ns)) {
++	if (unlikely(!req->ns || !req->ns->enabled)) {
+ 		req->error_loc = offsetof(struct nvme_common_command, nsid);
+-		if (nvmet_subsys_nsid_exists(subsys, nsid))
+-			return NVME_SC_INTERNAL_PATH_ERROR;
+-		return NVME_SC_INVALID_NS | NVME_STATUS_DNR;
++		if (!req->ns) /* ns doesn't exist! */
++			return NVME_SC_INVALID_NS | NVME_STATUS_DNR;
++
++		/* ns exists but it's disabled */
++		req->ns = NULL;
++		return NVME_SC_INTERNAL_PATH_ERROR;
+ 	}
+ 
+ 	percpu_ref_get(&req->ns->ref);
+@@ -583,8 +586,6 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 		goto out_unlock;
+ 
+ 	ret = -EMFILE;
+-	if (subsys->nr_namespaces == NVMET_MAX_NAMESPACES)
+-		goto out_unlock;
+ 
+ 	ret = nvmet_bdev_ns_enable(ns);
+ 	if (ret == -ENOTBLK)
+@@ -599,38 +600,19 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		nvmet_p2pmem_ns_add_p2p(ctrl, ns);
+ 
+-	ret = percpu_ref_init(&ns->ref, nvmet_destroy_namespace,
+-				0, GFP_KERNEL);
+-	if (ret)
+-		goto out_dev_put;
+-
+-	if (ns->nsid > subsys->max_nsid)
+-		subsys->max_nsid = ns->nsid;
+-
+-	ret = xa_insert(&subsys->namespaces, ns->nsid, ns, GFP_KERNEL);
+-	if (ret)
+-		goto out_restore_subsys_maxnsid;
+-
+ 	if (ns->pr.enable) {
+ 		ret = nvmet_pr_init_ns(ns);
+ 		if (ret)
+-			goto out_remove_from_subsys;
++			goto out_dev_put;
+ 	}
+ 
+-	subsys->nr_namespaces++;
+-
+ 	nvmet_ns_changed(subsys, ns->nsid);
+ 	ns->enabled = true;
++	xa_set_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
+ 	ret = 0;
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+ 	return ret;
+-
+-out_remove_from_subsys:
+-	xa_erase(&subsys->namespaces, ns->nsid);
+-out_restore_subsys_maxnsid:
+-	subsys->max_nsid = nvmet_max_nsid(subsys);
+-	percpu_ref_exit(&ns->ref);
+ out_dev_put:
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		pci_dev_put(radix_tree_delete(&ctrl->p2p_ns_map, ns->nsid));
+@@ -649,15 +631,37 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 		goto out_unlock;
+ 
+ 	ns->enabled = false;
+-	xa_erase(&ns->subsys->namespaces, ns->nsid);
+-	if (ns->nsid == subsys->max_nsid)
+-		subsys->max_nsid = nvmet_max_nsid(subsys);
++	xa_clear_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
+ 
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		pci_dev_put(radix_tree_delete(&ctrl->p2p_ns_map, ns->nsid));
+ 
+ 	mutex_unlock(&subsys->lock);
+ 
++	if (ns->pr.enable)
++		nvmet_pr_exit_ns(ns);
++
++	mutex_lock(&subsys->lock);
++	nvmet_ns_changed(subsys, ns->nsid);
++	nvmet_ns_dev_disable(ns);
++out_unlock:
++	mutex_unlock(&subsys->lock);
++}
++
++void nvmet_ns_free(struct nvmet_ns *ns)
++{
++	struct nvmet_subsys *subsys = ns->subsys;
++
++	nvmet_ns_disable(ns);
++
++	mutex_lock(&subsys->lock);
++
++	xa_erase(&subsys->namespaces, ns->nsid);
++	if (ns->nsid == subsys->max_nsid)
++		subsys->max_nsid = nvmet_max_nsid(subsys);
++
++	mutex_unlock(&subsys->lock);
++
+ 	/*
+ 	 * Now that we removed the namespaces from the lookup list, we
+ 	 * can kill the per_cpu ref and wait for any remaining references
+@@ -671,21 +675,9 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 	wait_for_completion(&ns->disable_done);
+ 	percpu_ref_exit(&ns->ref);
+ 
+-	if (ns->pr.enable)
+-		nvmet_pr_exit_ns(ns);
+-
+ 	mutex_lock(&subsys->lock);
+-
+ 	subsys->nr_namespaces--;
+-	nvmet_ns_changed(subsys, ns->nsid);
+-	nvmet_ns_dev_disable(ns);
+-out_unlock:
+ 	mutex_unlock(&subsys->lock);
+-}
+-
+-void nvmet_ns_free(struct nvmet_ns *ns)
+-{
+-	nvmet_ns_disable(ns);
+ 
+ 	down_write(&nvmet_ana_sem);
+ 	nvmet_ana_group_enabled[ns->anagrpid]--;
+@@ -699,15 +691,33 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ {
+ 	struct nvmet_ns *ns;
+ 
++	mutex_lock(&subsys->lock);
++
++	if (subsys->nr_namespaces == NVMET_MAX_NAMESPACES)
++		goto out_unlock;
++
+ 	ns = kzalloc(sizeof(*ns), GFP_KERNEL);
+ 	if (!ns)
+-		return NULL;
++		goto out_unlock;
+ 
+ 	init_completion(&ns->disable_done);
+ 
+ 	ns->nsid = nsid;
+ 	ns->subsys = subsys;
+ 
++	if (percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL))
++		goto out_free;
++
++	if (ns->nsid > subsys->max_nsid)
++		subsys->max_nsid = nsid;
++
++	if (xa_insert(&subsys->namespaces, ns->nsid, ns, GFP_KERNEL))
++		goto out_exit;
++
++	subsys->nr_namespaces++;
++
++	mutex_unlock(&subsys->lock);
++
+ 	down_write(&nvmet_ana_sem);
+ 	ns->anagrpid = NVMET_DEFAULT_ANA_GRPID;
+ 	nvmet_ana_group_enabled[ns->anagrpid]++;
+@@ -718,6 +728,14 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 	ns->csi = NVME_CSI_NVM;
+ 
+ 	return ns;
++out_exit:
++	subsys->max_nsid = nvmet_max_nsid(subsys);
++	percpu_ref_exit(&ns->ref);
++out_free:
++	kfree(ns);
++out_unlock:
++	mutex_unlock(&subsys->lock);
++	return NULL;
+ }
+ 
+ static void nvmet_update_sq_head(struct nvmet_req *req)
+@@ -1394,7 +1412,7 @@ static void nvmet_setup_p2p_ns_map(struct nvmet_ctrl *ctrl,
+ 
+ 	ctrl->p2p_client = get_device(req->p2p_client);
+ 
+-	xa_for_each(&ctrl->subsys->namespaces, idx, ns)
++	xa_for_each_marked(&ctrl->subsys->namespaces, idx, ns, NVMET_NS_ENABLED)
+ 		nvmet_p2pmem_ns_add_p2p(ctrl, ns);
+ }
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 58328b35dc96..0fc0abf1150c 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -24,6 +24,7 @@
+ 
+ #define NVMET_DEFAULT_VS		NVME_VS(2, 1, 0)
+ 
++#define NVMET_NS_ENABLED		XA_MARK_1
+ #define NVMET_ASYNC_EVENTS		4
+ #define NVMET_ERROR_LOG_SLOTS		128
+ #define NVMET_NO_ERROR_LOC		((u16)-1)
+diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
+index 25a02b50d9f3..50acdb603572 100644
+--- a/drivers/nvme/target/pr.c
++++ b/drivers/nvme/target/pr.c
+@@ -60,7 +60,8 @@ u16 nvmet_set_feat_resv_notif_mask(struct nvmet_req *req, u32 mask)
+ 		goto success;
+ 	}
+ 
+-	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
++	xa_for_each_marked(&ctrl->subsys->namespaces, idx,
++			ns, NVMET_NS_ENABLED) {
+ 		if (ns->pr.enable)
+ 			WRITE_ONCE(ns->pr.notify_mask, mask);
+ 	}
+@@ -1057,7 +1058,7 @@ int nvmet_ctrl_init_pr(struct nvmet_ctrl *ctrl)
+ 	 * nvmet_pr_init_ns(), see more details in nvmet_ns_enable().
+ 	 * So just check ns->pr.enable.
+ 	 */
+-	xa_for_each(&subsys->namespaces, idx, ns) {
++	xa_for_each_marked(&subsys->namespaces, idx, ns, NVMET_NS_ENABLED) {
+ 		if (ns->pr.enable) {
+ 			ret = nvmet_pr_alloc_and_insert_pc_ref(ns, ctrl->cntlid,
+ 							&ctrl->hostid);
+@@ -1068,7 +1069,7 @@ int nvmet_ctrl_init_pr(struct nvmet_ctrl *ctrl)
+ 	return 0;
+ 
+ free_per_ctrl_refs:
+-	xa_for_each(&subsys->namespaces, idx, ns) {
++	xa_for_each_marked(&subsys->namespaces, idx, ns, NVMET_NS_ENABLED) {
+ 		if (ns->pr.enable) {
+ 			pc_ref = xa_erase(&ns->pr_per_ctrl_refs, ctrl->cntlid);
+ 			if (pc_ref)
+@@ -1088,7 +1089,8 @@ void nvmet_ctrl_destroy_pr(struct nvmet_ctrl *ctrl)
+ 	kfifo_free(&ctrl->pr_log_mgr.log_queue);
+ 	mutex_destroy(&ctrl->pr_log_mgr.lock);
+ 
+-	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
++	xa_for_each_marked(&ctrl->subsys->namespaces, idx,
++			ns, NVMET_NS_ENABLED) {
+ 		if (ns->pr.enable) {
+ 			pc_ref = xa_erase(&ns->pr_per_ctrl_refs, ctrl->cntlid);
+ 			if (pc_ref)
+-- 
+2.45.2
 
-I checked the latest kernel source code but could not find the ddp_offload
-parameter. Do I miss anything? or Do you plan to post kernel patches for it=
-?
-
-> +	_have_fio
-> +	_have_program ip
-> +	_have_program ethtool
-> +	_have_kernel_source && have_netlink_cli && _have_program python3
-> +	have_iface
-> +}
-> +
-[...]
-> +
-> +connect_run_disconnect() {
-> +	local io_size
-> +	local nvme_dev
-> +	local nb_drop
-> +	local drop_ratio
-> +	local nb_resync
-> +	local resync_ratio
-
-Nit: some local variables misses declarations here: nb_packets,
-nb_offload_packets, etc. It might be good to declare multiple variables
-in one line, like "local nb_drop nb_resync nb_packets ..." to reduce number
-of lines.
 
