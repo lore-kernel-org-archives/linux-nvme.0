@@ -4,78 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77354D6EBEE
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Nov 2024 08:37:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDD26D6EBEE
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Nov 2024 09:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-	Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/8sGszzE6mCW5gADiNVut2+gldTSTWeT6DIgREs9OFM=; b=oC4hWgR2nnp9nNAdfDtsYuDMuh
-	1dvPH32DsEajCO+sluulOhY4youALmVqi/WrHtGfoDtVo2EW8J/zRx7NvjVudQY9sbGuBqu9QgxG1
-	Lp/j9wvu9zpuYmbdstAH8QaMdgIYtVmzI9nLLcY/K3xlM/lXl0KMpfC+AeLRr+/8sHPRaze5rV6E5
-	3SMWxo3Sf3pFAEgZlcRBVbAHzQyVFXUSngFQv+EZjoThUbkhumj8WpGcyvTQgHGp5xP/RbLcgcVjd
-	odzs8g4ns5KjKiww+bnyQw8dDBKZOHyW82nVBcJyPl4mOoUCPfJCWkU1AzUwjvX1LJf+FSQI1izwW
-	K+URiifA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=h9dlh/dlXWYjD0iKsgjj+OCoBD9g1O8SOVDyFDLWnhQ=; b=yFISgUKPBebHBh
+	4bZ+FXrTuiuGAbr/C816YvMKV3HF4rculu0ijd9cja0VvcMt6eYekh1FcYvSLPHYGuPCK5SzlAXbK
+	/JOSrYInWWcyqjSfY1PHCzoVeVcz6nGk3hoYnivnrVNTTWOvjaaf50RN9SkKx+tvESK9/yb3EAOQ+
+	YX91WYz8wwodxczehQd/qTOZLFtW6+5zTk3pBNIgIKNgzS6zriURpRJHTrS/v5MnpCTIe0CQIo45g
+	XLz/ZoNUPL68uqoZbg0cV/ZiLNkBwIXVuwJMbz2ZZTBl7NKyegEl8Rge+II3o4dmNWHR/YgTCi7k9
+	1d7xxaqLRIAZreAoeQEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGwVB-0000000HCtc-0wec;
-	Fri, 29 Nov 2024 08:37:25 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1tGxIf-0000000HKcO-2YzH;
+	Fri, 29 Nov 2024 09:28:33 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGwV8-0000000HCqs-1uMA
+	id 1tGxIc-0000000HKba-1K1c
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Nov 2024 08:37:24 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4Y063g2bYQz4f3lfp
-	for <linux-nvme@lists.infradead.org>; Fri, 29 Nov 2024 16:36:47 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 2B9791A0568
-	for <linux-nvme@lists.infradead.org>; Fri, 29 Nov 2024 16:37:07 +0800 (CST)
-Received: from [10.174.176.73] (unknown [10.174.176.73])
-	by APP4 (Coremail) with SMTP id gCh0CgCXc4cxfUlnCQufDA--.43500S3;
-	Fri, 29 Nov 2024 16:37:07 +0800 (CST)
-Subject: Re: blktests failures with v6.12 kernel
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "nbd@other.debian.org" <nbd@other.debian.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "yukuai (C)" <yukuai3@huawei.com>
-References: <6crydkodszx5vq4ieox3jjpwkxtu7mhbohypy24awlo5w7f4k6@to3dcng24rd4>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <aef69ffa-e556-7eeb-4344-351c66266ee4@huaweicloud.com>
-Date: Fri, 29 Nov 2024 16:37:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+	Fri, 29 Nov 2024 09:28:31 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 8BD81A43DC0;
+	Fri, 29 Nov 2024 09:26:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF19C4CECF;
+	Fri, 29 Nov 2024 09:28:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732872508;
+	bh=v3qXPXvUm4LeQfu0uk/hjbFzCdAxPDZNggDNSWyJChw=;
+	h=From:Subject:Date:To:Cc:From;
+	b=I2g3PDC305GsSRmhpnTZo6vv48DvZk7qOnlvBNbmmJv396pHJKo3/Vo3SI5RA2XQo
+	 xNZoNneMO5TuZLP8vYTi5wVzg41t5xrZugwE9CJihQV383hcSKDfCuJASbdy6DTLUN
+	 9A1LdYz1XHCdPIP2scuGSvR2kbVHZ3oah1yk5DazN9tvH7r0Y+x8gGCFoMa3VZzVrM
+	 jjeIhvs5b/kcMnlmWUYOhsL6OGS+vFBdzcthjLiOhfhK9CyOWsdhghCPs3KgkSAlJL
+	 tekny0gpgE9rVR+5j+a84hhx4bg8ixUn3fmsC1kmxvW80kF/wGj7VCRfnQ6ZmucD8t
+	 /jIlc4cDZrVkg==
+From: Daniel Wagner <wagi@kernel.org>
+Subject: [PATCH v3 0/3] nvme-fc: fix race with connectivity loss and
+ nvme_fc_create_association
+Date: Fri, 29 Nov 2024 10:28:22 +0100
+Message-Id: <20241129-nvme-fc-handle-com-lost-v3-0-d8967b3cae54@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <6crydkodszx5vq4ieox3jjpwkxtu7mhbohypy24awlo5w7f4k6@to3dcng24rd4>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCXc4cxfUlnCQufDA--.43500S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7Wr1fGw1fuFyfCFy5Jr47urg_yoWDJrXEvw
-	17CF93G3yxAry0vFn7KFn29rW7KFZ09w17try8Xrna9as5tFykJFsIvrZI9ryDCw1rZr9I
-	v3y5WF48ua1a9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4AYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AK
-	xVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
-	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1l
-	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
-	AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
-	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1veHD
-	UUUUU==
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADaJSWcC/4WOwQ6CMBBEf4X07JJtUbSe+A/DodAFGqE1W0SN4
+ d+tHLx6fJmZl3mLSOwoinP2FkyLiy74BMUuE+1gfE/gbGKhUO0lKg1+mQi6FlJoR4I2TDCGOIN
+ uUkEX5Qm1EWl9Y+rcczNf6sQdp+Y8MJmfD0sppcZyf8ylPB1KkGAfpvfEVbxHyi19RYOLc+DX9
+ nBRX93/M4sChEODVhZHUgZNdSX2NOaBe1Gv6/oB5BfWC/gAAAA=
+X-Change-ID: 20241029-nvme-fc-handle-com-lost-9b241936809a
+To: James Smart <james.smart@broadcom.com>, Keith Busch <kbusch@kernel.org>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Hannes Reinecke <hare@suse.de>, Paul Ely <paul.ely@broadcom.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241129_003722_681495_2B1321AF 
-X-CRM114-Status: UNSURE (   7.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241129_012830_446712_041F1464 
+X-CRM114-Status: GOOD (  11.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,33 +78,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+After a long hard stare at the keep alive machinery I am convienced we
+need to trigger a reset when nvme_keep_alive_end_io is called with status
+!= 0. There is a lengthy explanation in patch #3.
 
-ÔÚ 2024/11/26 10:19, Shinichiro Kawasaki Ð´µÀ:
-> #5: throtl/001 (CKI project, s390 arch)
-> 
->    Recently, CKI project added a configuration to run the blktests thortl group,
->    and failures have been repeatedly observed for s390 architecture [7]. I
->    suspect the failure message below implies that system performance may affect
->    the test result. Further debug is needed.
-> 
->    throtl/001 (basic functionality)                             [failed]
->        runtime    ...  6.309s
->        --- tests/throtl/001.out	2024-11-23 20:53:13.446546653 +0000
->        +++ /mnt/tests/s3.amazonaws.com/arr-cki-prod-lookaside/lookaside/kernel-tests-public/kernel-tests-production.zip/storage/blktests/throtl/blktests/results/nodev/throtl/001.out.bad	2024-11-23 20:53:21.332699696 +0000
->        @@ -1,6 +1,6 @@
->         Running throtl/001
->        +2
->         1
->        -1
->        -1
->        +2
->         1
+I've also tested this version with blktests and some manual tests. Though
+it's not that easy to get into exact sequence reported by Paul.
 
-Perhaps can we have a quick try, and check if issuing IO to a null_blk
-in this platform, the latency can't be ignored in seconds.
+Daniel
 
-Thanks,
-Kuai
+previous cover letter:
+
+We got a bug report that a controller was stuck in the connected state
+after an association dropped.
+
+It turns out that nvme_fc_create_association can succeed even though some
+operation do fail. This is on purpose to handle the degraded controller
+case, where the admin queue is up and running but not the io queues. In
+this case the controller will still reach the LIVE state.
+
+Unfortunatly, this will also ignore full connectivity loss for fabric
+controllers. Let's address this by not filtering out all errors in
+nvme_set_queue_count.
+
+---
+Changes in v3:
+- collected reviewed tags
+- added nvme_ctrl_reset to keep alive end io handler
+- Link to v2: https://lore.kernel.org/r/20241029-nvme-fc-handle-com-lost-v2-0-5b0d137e2a0a@kernel.org
+
+Changes in v2:
+- handle connection lost in nvme_set_queue_count directly
+- collected reviewed tags
+- Link to v1: https://lore.kernel.org/r/20240611190647.11856-1-dwagner@suse.de
+
+---
+Daniel Wagner (3):
+      nvme-fc: go straight to connecting state when initializing
+      nvme: trigger reset when keep alive fails
+      nvme: handle connectivity loss in nvme_set_queue_count
+
+ drivers/nvme/host/core.c | 13 ++++++++++++-
+ drivers/nvme/host/fc.c   |  3 +--
+ 2 files changed, 13 insertions(+), 3 deletions(-)
+---
+base-commit: 029cc98dec2eadb5d0978b5fea9ae6c427f2a020
+change-id: 20241029-nvme-fc-handle-com-lost-9b241936809a
+
+Best regards,
+-- 
+Daniel Wagner <wagi@kernel.org>
 
 
