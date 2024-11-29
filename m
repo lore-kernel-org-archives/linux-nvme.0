@@ -4,169 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32D7BD6EC00
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Nov 2024 11:47:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4417D6EC05
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Nov 2024 12:19:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:To:
-	From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=to95nSPfWdAnGy7vZbPvYMprUeO2R5o0gWC+t52B8qM=; b=tUw9iIyTTKh6bCtIgXQp+aVU82
-	A1pcEXKQ315K3R1PW0ti0BoPPdk7rajCLC59dqXTB92YLj5KJeAZd3OGHtMqKo1H8+/HcJjZ/10dB
-	pzyXseILb0UcyBuCV7u5rnAOs53N/KCbuJEDB1n9UxM0JsVolyfDmboN0HJ0LpFgTdJ1DextSd0Uo
-	dWiatoBhwLnUKu3Oi4DUwMcGmiF6Z+ayECQAyqaHIAGorvaDuj+bxVQl/yBA0IqvDS3Bzs304Rvpq
-	dgkRg1kYrmiV6P65rwJW5PUwqIoGwsJ22jSYf5PlaQqWkK47ANnfSROzj8WQJKlhx2SpkiCyjmHgo
-	WxkG0+4A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=My++wiZPFgTrRdDJkdLZKSTqE1Gk+vIF7/PVp68voAM=; b=lQNeBkMaoVrNp9RQT5rpB9vvVI
+	xCdJjvueaRTXjcYOKVPmoj7il4zlySbG5Ku1Z3AIQFsxlttP8GWeuVp7H7/FXEYVkXOfWpuyj8FOD
+	PuEfWH6YnmN6g54C4npi7wX5Sihv1QzglkswNS46oIHDTPPSRIoca2vGbSP310dEm2OWSGgUHN9y8
+	2dwEHJEaFDebZkRx5+EdmwBg53kaZQQXMyvIJ5mHrdEBy+5/elMpCEzkybxk3csisykGjEeGjqNCx
+	ZJ+NuYAd9qSdY4bp/0GkF87kiQmRnHWUl5AQ4owqriZKqChkCO6Pv2X6FNp4HvIpYBhMp9PA1w7AE
+	EEnTuy7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGzSx-0000000Hatf-0fcG;
-	Fri, 29 Nov 2024 11:47:19 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1tGzyT-000000003dH-3x7m;
+	Fri, 29 Nov 2024 12:19:53 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tGzSu-0000000Has5-3KNw
+	id 1tGzyR-000000003cC-0gAj
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Nov 2024 11:47:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1732880837; x=1764416837;
-  h=from:to:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=to95nSPfWdAnGy7vZbPvYMprUeO2R5o0gWC+t52B8qM=;
-  b=p5bqEWjXN39xV3h3ZDhGWoxwkGN8TVEYzd8ZKXgYV/0UqM+xDnaUOZeT
-   BIJ/n3tiTGCBP0XE7O2eX5xtz/y6PRwaO8RKNp0WU8k6C2DH2S2v5V0pD
-   JeFnr8XVBUxHFM4Z+y/PdYrVxalDm0xB8xQ0Vpfl4YEpyFOqoUa+i2UAr
-   ipjvcZIMDHpvCVlV3PFWt/3qsZ6AGGbYntE2J7vJ2aRWhcb2obAwBB3jI
-   E23SWt5iUNlDqWdQZ7LgNhCL8SIMKlcT5NeoI2w4SqzqRV1P9ANV5UrK4
-   nOy+s1758UZVbPCukkNev+D5HP/ARu7JsfKVxQKRiiQZB0i8ws2cF/MG0
-   w==;
-X-CSE-ConnectionGUID: HuPE8eW8Ql6C2wYBlI1oOw==
-X-CSE-MsgGUID: rBjdD69LQRy1KYthmBh0zA==
-X-IronPort-AV: E=Sophos;i="6.12,195,1728921600"; 
-   d="scan'208";a="32720919"
-Received: from mail-bn8nam12lp2172.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.172])
-  by ob1.hgst.iphmx.com with ESMTP; 29 Nov 2024 19:47:14 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aIvAx/YZzFXYGJ7SxL/L6UHlNCCOufcXI1KRlls3Oa3GMIzQ6palQiO74/QBjeMdhmm6wG5QDjXrMeHL4a/1haSg8K0SGnp905qqa/4AQHZX1cLKYGfQQTVChQubF6benATup5BwmzMqCUmc4cg2FgM5U5/cohnMxasekYirP/TzS+vSmV21yi6Y0cvN5eZ1CUNOjQQeMfdJVAzABEGpp9mxt8E7F3JelUC5d48iyes0xO9vNwmKZ4MYl397gRdpnVoTA+uDWTd8Q/v5C9Vq6EzCJudTPMc5DKznaekUeOoLtE+uje93dfoy1JQtGsLMTKsIpioe1Z4Hhyr21E21iA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=to95nSPfWdAnGy7vZbPvYMprUeO2R5o0gWC+t52B8qM=;
- b=galUZFzNERneh2O9dDc+8gQqHymhC4CbSMOKLNVW52qbIs1e4T0+a2ZOaxYXNRlg8ricB+trU2o0dUAXJ23KEZkbNZL2EqiuoJ4mvGGqNpj9K8ZxJnpLfvYZR8kKslmqEwrKIDfluahcqhVxKbF39bKbwf1Tph77w9EzGQC/iebxzmXlJ/ZXV8Jvsy1wrkXTGsgyNC3dIvja5hI0hoB4kfNuU5oIpz9RhqJE/gDN63njxhJIf3caIn9BirGzi0H7bbM7eq8WEOtTd2Q+rnq8lmHD70TD9KlEHcNpw/fdWCGCmFBbLg8/si3kVtgX8efPveU0vCy3EULfcYc2cgkMdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=to95nSPfWdAnGy7vZbPvYMprUeO2R5o0gWC+t52B8qM=;
- b=wxWdgeGnamscNGv5Y5my4396caqBz/KPFCn/kp7azkbYUsOyuaAGORS0gM0VSwZtMkFRTXlzaQjH1f7RMIpCZW51RwSSm5WiWznITSBoaCVrF7PZqA/+FTfQtl6X+l3ZOGe1bt1Wj9ZNPzC7S7aaRWRwHY/u2uJUU13X7viXgIQ=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- MN2PR04MB6816.namprd04.prod.outlook.com (2603:10b6:208:1e3::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.15; Fri, 29 Nov
- 2024 11:47:08 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.8207.014; Fri, 29 Nov 2024
- 11:47:07 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Aurelien Aptel <aaptel@nvidia.com>, Nilay Shroff <nilay@linux.ibm.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: blktests nvme/055 test case number conflict
-Thread-Topic: blktests nvme/055 test case number conflict
-Thread-Index: AQHbQlRqxE8FxGKHkUCff6naZBTYnw==
-Date: Fri, 29 Nov 2024 11:47:07 +0000
-Message-ID: <eqdndvtxup6mujwo3c24c3f6ctbtpz7gvkis4njk6a5iymoyoo@xfoc5cqgxh6v>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|MN2PR04MB6816:EE_
-x-ms-office365-filtering-correlation-id: 816326c5-b209-4b70-2b5b-08dd106b8d72
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?eSnPRgh+rvMmJk6pFoqkaFukNpjnToecq4JqgtxP80KLPugZWKd2YmUa0pix?=
- =?us-ascii?Q?1UUcFAmJeqqrzlJ402GsXRbUNxcKbAp5T4BGdryQY6wUPhVAAV9MWdjKPLre?=
- =?us-ascii?Q?RgdhR2MDC0owQ9nTHd8MJdHssb4macrd5XBp+CS482Z3MKMeYerlhh5f8/ZX?=
- =?us-ascii?Q?9L0MInqrcKcanjGhxotrE+BTy29C1bKm6ldxy97E1DqWcSgnSMfFAnTuEOvI?=
- =?us-ascii?Q?RTvl2bNQ0DefkTP98SOzHi2jvtgB5AAvauX1dtvLx9ebi47+5ylAidajkzrZ?=
- =?us-ascii?Q?lj+OOBW5ynqPNxvdNNmbfyDjqXK5/UuxNzw6k6y4p/Gp8Wp/j+8b3WCengRd?=
- =?us-ascii?Q?5kivojMhez+/zzWDdHrEuo1VptVLw/UHaqlEyndN89aRVW066JGo97k4F40e?=
- =?us-ascii?Q?eja8PpTgWMBW3P6F2zQUjsjhGcdgVH9skK4FwAix/TEtD6jdGPVWRDLxgWgU?=
- =?us-ascii?Q?5FxGLWKCWyFIrF8KrP3oA1rI73PCFp/j2Y+PLsXEUrIqaVhmaPzImf6YadLX?=
- =?us-ascii?Q?6K/JPL44KJPLe2eVQV6jcJhojdaaSk6Wd7YmvaJBgoVv8bo+BD9dsV6/3t32?=
- =?us-ascii?Q?9R7jtr8NNB2l+LB+k6B3QIjjeLIZSJ14jvOc2SyAQ31mueEF7HtOp3wNzzj1?=
- =?us-ascii?Q?ciwhj6uKxXJ4JuVOBoqDL6h8Eo/BY7yMT/nQm2nJwPNsEkQYz94pqqMWBA1c?=
- =?us-ascii?Q?Ks42JYVkC5TXHIiJzKIGpUgh11cs8Hw0/CwSABM2laq4Qs5/Cp1KXQj621/x?=
- =?us-ascii?Q?OIzzx8B1WO++VPZ+gy1uqp7AiJxVZi6nHFHjsLb1YTxaKT9XcZ39iQwXhW0b?=
- =?us-ascii?Q?YOUlIlmfRBVaPVxXcjz7MuLJ3qwMWwwIkX92eEZpjeK7uWUpIDGNxkFrKvU9?=
- =?us-ascii?Q?OqoTN5pamadIqb56a5zTuoavW7I4i0JJBttmICBt2mnpWviC2IsxfVVgHhBy?=
- =?us-ascii?Q?L8tWIvkeUlS/US7kXnW146CUg8HATW31p8NE3LD3XjFu8L65CsqPifxeb3qJ?=
- =?us-ascii?Q?OEblElrQDnfsbeTT4X/i99bp8lRQdPSihwHEhh0Uhrm1Z2soCoiNqPTkwW97?=
- =?us-ascii?Q?ItdrIcigBmDY7xtyAH7UTJcDJZy74bEEd312koDed/htw2YJqfax22blDThA?=
- =?us-ascii?Q?4IUaEX7GEU2H9cDH6j8SBfDjsAJZVKamp9Z6QfDnWclPCv8nMgVEb7cwAp/K?=
- =?us-ascii?Q?OCuC6qq9cJh/bguwF2JWzgE3sPQSokKr7VnqJ+HuPy8KIBaarFVwbT5VV9vi?=
- =?us-ascii?Q?yT1B/DBimiwQL+SjEwdrWlN7W0Nk4p/IkKdNJAyKOZ4aNmlKGWbmQ2uKOFiD?=
- =?us-ascii?Q?oMOYIRzAo2cHQ+AWCa39uN4hoTiukYoWOfs+j4XVt4AiHehoLxEILkIbyy9J?=
- =?us-ascii?Q?4ybstH8LbWIR8J0c/z6y/jykcgaAt0EilVGQHhJXSx31GO3MXA=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?tX/kgpjFvFyuMGO6jFHc1y7lSybL7YkTXnnGE2vc0A2Nqd55FateKiQe0PR+?=
- =?us-ascii?Q?iVd3cZR2e6ZWe8ealjKou7Xw5pJu39M5jbsI2lUj0ScxExCipRV4Sesb7MqZ?=
- =?us-ascii?Q?TrAMj+1UrrTKqHJvAOn3xLwyoRi0CbryMiSUw7my20RsbkWr6F9dzaASAe9F?=
- =?us-ascii?Q?9che8diw02TtSJf5r4Q2e3QfUnXsWlXZrV4Hyb4Kh5ArgUkwhFZL1fk/2KTI?=
- =?us-ascii?Q?ZqeGEctNPdszDm++ngQ9SfVjLrbb23t7ow13VHdVZoLXaE+sZnU/lCfantV+?=
- =?us-ascii?Q?1WB+K5KP3+GWSq5kxT+McLABxzenpRZo/rv0zEBNCUPwGWCB5PE44FhMmgGv?=
- =?us-ascii?Q?gMz7x8ww7JbmSXp591q2OXuBQMuAhRt5dnk/4Y/Wtsal40GZfBKLAtTkBOyn?=
- =?us-ascii?Q?w2BRYCaLYL3tiFZHx2JaZ0e/QQ+Jk04GjQvUHWs/hugKcp0FH+ke9YY2GqSq?=
- =?us-ascii?Q?U0rIH6PnIEZrA1Y2DcD5gUkahZL6cLsNMZ/LCBXN7vHn5y9OVkr9OVBNJpS6?=
- =?us-ascii?Q?sKXTMF4bbfHjt6BHjGsW1GG4awu//tzxssVhY7pSvdXyOJP69oBqEjB6z3u1?=
- =?us-ascii?Q?hJKwZYIe/laLMXmnhGQgeB35bxWOFOAwJuqZvUFv1QlxVZFDYTZmuOdxVMdK?=
- =?us-ascii?Q?oiVJk4jz+bZbCA/9wrOZwm9k2WUd/RjzrIpsNO2ehKirYSDIimReEzrAQtJd?=
- =?us-ascii?Q?isl1OYNM8F8uT6isuTADHZfFPliYKZtBZFNTn2EFou1uZ6nDtn71RMlycPi1?=
- =?us-ascii?Q?DCpmysT0tPp4Ix0LRAzSakZSOKpRDg0BW4qpEa0lxAeli8D5rx7Bd9RPjAER?=
- =?us-ascii?Q?tE4GxkORzdfrXEkrg08CEljUiGdiONSchRycyeerLWU+OAd+9OQcEmQVEkq0?=
- =?us-ascii?Q?tw2JKlW+EI1cjwDmf5IpaMfMQbazQbWGNky8hNYVtmXTjR75Gyv29R94bgz3?=
- =?us-ascii?Q?QWBjLZp844F5D7SUrg96ZJlPNS2damWCLddKlfuChBY3SPy1o9FY+JGj4I3Y?=
- =?us-ascii?Q?l8jIRfEJQLgSYRWiK9lUldXpaR+MEFcPYh7qo7VeddxHeckiW+eYU1yOCQu6?=
- =?us-ascii?Q?1fmRcfVy1C++tdfZHvjQt2tkRLqecA/YwC8kRCqadmKAOYbCSIZxaDR0GPSY?=
- =?us-ascii?Q?4KFukaiILYME30qMEWM3UmdZiknxxf4wAYjVgYF7rFGaKGZtXOAqKLBFbX5S?=
- =?us-ascii?Q?EZO0L7dXGlBmhlwC1qRIhQFU+Y0BkIPXVfEQPKrtI74BEv+644u0iiaoPRjm?=
- =?us-ascii?Q?zRpu5foTriYeUX4iHvRsM+HvZtO9ot0TfqHiyL5BHnhTIGOEWRx/bs/Sht2J?=
- =?us-ascii?Q?Dv9bAnxI6OYFPlu6a5w3sdbWMHpEmQW/rcwCW+kT5V+e0shvt0piCWSYem7O?=
- =?us-ascii?Q?hV1AtQU+OXEuZNvc9NXi+tzX1/5byHEd7MuIE/Nrhvf/9MVcWvzgvPgNxGyF?=
- =?us-ascii?Q?KtFCEc1AKbc/o7AXEPZPWEAICD/8jgSXm15eyUfpRZcVgrBFeV3Gx6d3stFR?=
- =?us-ascii?Q?IEs7IA+FgTX1AximcD24iH/68ScZDezyHIWFf+OsN92PMySx/yJebGdMcBcd?=
- =?us-ascii?Q?X2VUPWjsyF5RArMprFuVpoUmqXbMcKkGCBFY6AWRKuV1gHMpsAxkAO+1Cr4H?=
- =?us-ascii?Q?6I4xUy02BJR1Rg2TfWILjtw=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <80E7AC72549EA24C8B067BE547DFD935@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Fri, 29 Nov 2024 12:19:52 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT5XloA014071;
+	Fri, 29 Nov 2024 12:19:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=My++wi
+	ZPFgTrRdDJkdLZKSTqE1Gk+vIF7/PVp68voAM=; b=OptEPk5+nLUoPBipSSLwc/
+	Y5+kImZjIzWttyI0FYc/TazIlJWH8BqgE0pex4Zrs0J652ATBMkrQJI+/cskeZbx
+	FujGp/Fjz+lE1cohBSGjkGfwEbeAeSx/9ohH0kc9VWu7DDURcLBdpEBofK+Pszxo
+	B3+06rk2ZlQ4MMkS76IbnGJZ3COFYA98MKS+oMxObTL2ag55o3JQr7aEGlNgvAv1
+	RYFTG6+gYAYGh3BqLCgHJgpMcICa8BUhOlfVsbaQQa+dT17YgCFJ4nSHsqXwtfJK
+	SF7+btMsTEf4E/wkAeWmqJ2vvwJuIQ34p0wbfYT+sPL3G1GeJCXxNoGNfLaJFtgg
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4366yyj2rh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Nov 2024 12:19:40 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT9j23n002461;
+	Fri, 29 Nov 2024 12:19:39 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43672gktds-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Nov 2024 12:19:39 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4ATCJcgf44040540
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 29 Nov 2024 12:19:39 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C61EF5805C;
+	Fri, 29 Nov 2024 12:19:38 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B7BE858058;
+	Fri, 29 Nov 2024 12:19:35 +0000 (GMT)
+Received: from [9.171.64.111] (unknown [9.171.64.111])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 29 Nov 2024 12:19:35 +0000 (GMT)
+Message-ID: <46e833ef-5536-4528-8a13-4b79f13e1acf@linux.ibm.com>
+Date: Fri, 29 Nov 2024 17:49:34 +0530
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: scU3SnkUCqUUehtMSgYOGgDg6p/UAaS0TOvGKGv8TiDup6q6BZE4SGBlznA+5qJcIBdrVAiUCPwyyGpYLCTI+TuxYyjQ5GDTAzsU5996JS35Lz1lA0yWx5exkQW2Mz7F9P2Qeou/W6FHZFgsWoJNHdoN2E1Oeogvj+AjzlAG7ZC1EA8GNLeufgCdhXL8uVVpwJOwmX6xY9GY/71p5XOFEemZq28MxUi8n3pUl2pG0cLlcaJxDj9Grme6Y22VTy567hYGRdSkyT8v+TtPr0VVmy1t5pdRp7AvAY56IYYeHRud6yCN8S0u/SDefaAzjUSGfT8g3zWJlbuZmtDuRX/CuBMjdfVESfwBU4ACa2iE8UMSnZv7S3eCucuMp1MywJWyADwAivfQBnNinBfwffgO9I+IwRx1OWVyYJOP7D1QPZz0QOAHoNTmcquBNtc1o5CoZeExyDik5PYnTqR6NbBKiW150pkTyYumjmCuqb3PeuL/LrlAIe51qgGp6RLXR3w0xDPjVnirzwKE04RznjwxYuFhWVMvDBSnOh30Z5hFiQW3VFDue0JD5zl0MsFOlLmUQ7u597EOP6uZUBo6B+VjdI/G7THfqWt8v2Rpgqxm+9/OQo9rhWxwN0k/wHpiO0xk
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 816326c5-b209-4b70-2b5b-08dd106b8d72
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2024 11:47:07.6564
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1guTEAZKPHV0WzeQDuXoqQ6m1f6e9RMsEMFTWi64EuAsfA61sxo/I6/FvKrsui3BRIKPOMIxSZ3Hu3mqchmeZipa3gp/B2+QLae3CzDbWfI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6816
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv5 RFC 0/3] Add visibility for native NVMe multipath using
+ sysfs
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: dwagner@suse.de, sagi@grimberg.me, hare@suse.de, kbusch@kernel.org,
+        hch@lst.de, gjoyce@linux.ibm.com, "axboe@fb.com" <axboe@fb.com>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20241030104156.747675-1-nilay@linux.ibm.com>
+ <10f38d85-e9ac-46b0-9a3e-dcbae26b36d8@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <10f38d85-e9ac-46b0-9a3e-dcbae26b36d8@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: hUYRXoK1K_pqSDK9VnQFbWU3JUMqCBgs
+X-Proofpoint-ORIG-GUID: hUYRXoK1K_pqSDK9VnQFbWU3JUMqCBgs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 priorityscore=1501 bulkscore=0
+ malwarescore=0 adultscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2411290098
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241129_034716_853617_807B5B38 
-X-CRM114-Status: UNSURE (   8.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241129_041951_372345_86EB4057 
+X-CRM114-Status: GOOD (  32.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -181,19 +109,206 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Aurelien, Nilay and Chaitanya,
+Hi Hannes and Sagi,
 
-Thanks for your contributions to blktests. I noticed that your recent blkte=
-sts
-patches all add the new test case nvme/055, and the test case number will
-conflict. On top of that, I plan to post the ANA support series which will =
-add
-one more nvme/055.
+A gentle ping on this. Did you get a chance to look through this?
 
-But no worries, when the patches get ready, I will renumber your test cases=
-.
-Please don't be surprised if you see different number for your test cases
-upstreamed.
+Please let me know if you still have any further comments.
 
-Thanks again, it's my pleasure to see this number of contributions :)=
+Thanks,
+--Nilay
+
+On 11/12/24 10:07, Nilay Shroff wrote:
+> Hi Hannes and Sagi,
+> 
+> A gentle ping... I have addressed your suggestions in this patch series. 
+> Does this now look okay to you or do you have any further suggestions/comments?
+> 
+> Thanks,
+> --Nilay
+> 
+> On 10/30/24 16:11, Nilay Shroff wrote:
+>> Hi,
+>>
+>> This RFC propose adding new sysfs attributes for adding visibility of
+>> nvme native multipath I/O.
+>>
+>> The changes are divided into three patches.
+>> The first patch adds visibility for round-robin io-policy.
+>> The second patch adds visibility for numa io-policy.
+>> The third patch adds the visibility for queue-depth io-policy.
+>>
+>> As we know, NVMe native multipath supports three different io policies
+>> (numa, round-robin and queue-depth) for selecting I/O path, however, we
+>> don't have any visibility about which path is being selected by multipath
+>> code for forwarding I/O. This RFC helps add that visibility by adding new
+>> sysfs attribute files named "numa_nodes" and "queue_depth" under each
+>> namespace block device path /sys/block/nvmeXcYnZ/. We also create a
+>> "multipath" sysfs directory under head disk node and then from this
+>> directory add a link to each namespace path device this head disk node
+>> points to.
+>>
+>> Please find below output generated with this proposed RFC patch applied on
+>> a system with two multi-controller PCIe NVMe disks attached to it. This
+>> system is also an NVMf-TCP host which is connected to an NVMf-TCP target
+>> over two NIC cards. This system has four numa nodes online when the below
+>> output was captured:
+>>
+>> # cat /sys/devices/system/node/online
+>> 0-3
+>>
+>> # lscpu
+>> <snip>
+>> NUMA:
+>>   NUMA node(s):           4
+>>   NUMA node0 CPU(s):
+>>   NUMA node1 CPU(s):      0-7
+>>   NUMA node2 CPU(s):      8-31
+>>   NUMA node3 CPU(s):      32-63
+>> <snip>
+>>
+>> Please note that numa node 0 though online, doesn't have any CPU
+>> currently assigned to it.
+>>
+>> # nvme list -v
+>> Subsystem        Subsystem-NQN                                                                                    Controllers
+>> ---------------- ------------------------------------------------------------------------------------------------ ----------------
+>> nvme-subsys1     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme0, nvme1
+>> nvme-subsys3     nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1                                                 nvme2, nvme3
+>> nvme-subsys4     nvmet_subsystem                                                                                  nvme4, nvme5
+>>
+>> Device           Cntlid SN                   MN                                       FR       TxPort Address        Slot   Subsystem    Namespaces
+>> ---------------- ------ -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
+>> nvme0    66     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   052e:78:00.0   U50EE.001.WZS000E-P3-C14-R1 nvme-subsys1 nvme1n1
+>> nvme1    65     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   058e:78:00.0   U50EE.001.WZS000E-P3-C14-R2 nvme-subsys1 nvme1n1
+>> nvme2    2      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0524:28:00.0   U50EE.001.WZS000E-P3-C4-R1 nvme-subsys3 nvme3n1
+>> nvme3    1      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0584:28:00.0   U50EE.001.WZS000E-P3-C4-R2 nvme-subsys3 nvme3n1
+>> nvme4    1      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100        nvme-subsys4 nvme4n1
+>> nvme5    2      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100        nvme-subsys4 nvme4n1
+>>
+>> Device            Generic           NSID       Usage                      Format           Controllers
+>> ----------------- ----------------- ---------- -------------------------- ---------------- ----------------
+>> /dev/nvme1n1 /dev/ng1n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme0, nvme1
+>> /dev/nvme3n1 /dev/ng3n1   0x2          0.00   B /   5.75  GB      4 KiB +  0 B   nvme2, nvme3
+>> /dev/nvme4n1 /dev/ng4n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme4, nvme5
+>>
+>>
+>> # nvme show-topology
+>> nvme-subsys1 - NQN=nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057
+>>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+>>                iopolicy=numa
+>> \
+>>  +- ns 1
+>>  \
+>>   +- nvme0 pcie 052e:78:00.0 live optimized
+>>   +- nvme1 pcie 058e:78:00.0 live optimized
+>>
+>> nvme-subsys3 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1
+>>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+>>                iopolicy=round-robin
+>> \
+>>  +- ns 2
+>>  \
+>>   +- nvme2 pcie 0524:28:00.0 live optimized
+>>   +- nvme3 pcie 0584:28:00.0 live optimized
+>>
+>> nvme-subsys4 - NQN=nvmet_subsystem
+>>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+>>                iopolicy=queue-depth
+>> \
+>>  +- ns 1
+>>  \
+>>   +- nvme4 tcp traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100 live optimized
+>>   +- nvme5 tcp traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100 live optimized
+>>
+>> As we could see above, we've three shared namespaces created. In terms of
+>> iopolicy, we have "numa" configured for nvme-subsys1, "round-robin"
+>> configured for nvme-subsys3 and "queue-depth" configured for nvme-subsys4.
+>>
+>> Now, under each namespace "head disk node", we create a sysfs group
+>> attribute named "multipath". The "multipath" group then points to the
+>> each path this head disk node points to:
+>>
+>> # tree /sys/block/nvme1n1/multipath/
+>> /sys/block/nvme1n1/multipath/
+>> ├── nvme1c0n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme0/nvme1c0n1
+>> └── nvme1c1n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme1/nvme1c1n1
+>>
+>> # tree /sys/block/nvme3n1/multipath/
+>> /sys/block/nvme3n1/multipath/
+>> ├── nvme3c2n1 -> ../../../../../pci0524:28/0524:28:00.0/nvme/nvme2/nvme3c2n1
+>> └── nvme3c3n1 -> ../../../../../pci0584:28/0584:28:00.0/nvme/nvme3/nvme3c3n1
+>>
+>> # tree /sys/block/nvme4n1/multipath/
+>> /sys/block/nvme4n1/multipath/
+>> ├── nvme4c4n1 -> ../../../../nvme-fabrics/ctl/nvme4/nvme4c4n1
+>> └── nvme4c5n1 -> ../../../../nvme-fabrics/ctl/nvme5/nvme4c5n1
+>>
+>> One can easily infer from the above output that for the "round-robin"
+>> I/O policy, configured under nvme-subsys3, the I/O workload targeted at
+>> nvme3n1 would toggle across nvme3c2n1 and nvme3c3n1 assuming the ana state
+>> of each path is optimized (as can be seen in the output of show-topology).
+>>
+>> For numa I/O policy, configured under nvme-subsys1, the "numa_nodes"
+>> attribute file shows the numa nodes being preferred by the respective
+>> namespace path. The numa nodes value is comma delimited list of nodes or
+>> A-B range of nodes.
+>>
+>> # cat  /sys/block/nvme1n1/multipath/nvme1c0n1/numa_nodes
+>> 0-1
+>>
+>> # cat  /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes
+>> 2-3
+>>
+>> From the above output, one can easily infer that I/O workload targeted at
+>> nvme1n1 and running on numa nodes 0 and 1 would use path nvme1c0n1.
+>> Similarly, I/O workload running on numa nodes 2 and 3 would use path
+>> nvme1c1n1.
+>>
+>> For queue-depth I/O policy, configured under nvme-subsys4, the "queue_depth"
+>> attribute file shows the number of active/in-flight I/O requests currently
+>> queued for each path.
+>>
+>> # cat  /sys/block/nvme4n1/multipath/nvme4c4n1/queue_depth
+>> 518
+>>
+>> # cat  /sys/block/nvme4n1/multipath/nvme4c5n1/queue_depth
+>> 504
+>>
+>> From the above output, one can easily infer that I/O workload targeted at
+>> nvme4n1 uses two paths nvme4c4n1 and nvme4c5n1 and the current queue depth
+>> of each path is 518 and 504 respectively.
+>>
+>> changes since v4:
+>>     - Ensure that we create sysfs link from head gendisk node to each path
+>>       device irrespective of the ANA state of the path (Hannes Reinecke)
+>>     - Split the patch into three patch series and add commentary in the
+>>       code so that it's easy to read and understand the core logic (Sagi
+>>       Grimberg)
+>>     - Don't show any output if user reads "numa_nodes" file and configured
+>>       iopolicy is anything but numa; similarly don't emit any output if user
+>>       reads "queue_depth" file and configured iopolicy is anything but
+>>       queue-depth (Sagi Grimberg)
+>>
+>> Changes since v3:
+>>     - Protect the namespace dereference code with srcu read lock (Daniel Wagner)
+>>
+>> Changes since v2:
+>>     - Use one value per one sysfs attribute (Keith Busch)
+>>
+>> Changes since v1:
+>>     - Use sysfs to export multipath I/O information instead of debugfs
+>>
+>>
+>> Nilay Shroff (3):
+>>   nvme-multipah: Add visibility for round-robin io-policy
+>>   nvme-multipath: Add visibility for numa io-policy
+>>   nvme-multipath: Add visibility for queue-depth io-policy
+>>
+>>  drivers/nvme/host/core.c      |   3 +
+>>  drivers/nvme/host/multipath.c | 120 ++++++++++++++++++++++++++++++++++
+>>  drivers/nvme/host/nvme.h      |  20 ++++--
+>>  drivers/nvme/host/sysfs.c     |  20 ++++++
+>>  4 files changed, 159 insertions(+), 4 deletions(-)
+>>
 
