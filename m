@@ -4,54 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59F15D10DCF
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 08:58:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 825E8D10DDD
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 10:09:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=4SsVKfavNtEL8KiAyuhM0WdCxWV7dwsn0eOpgkwr5fY=; b=mrsuldjA70nViM9UnxaYlAnPP3
-	0qLUBgM3hMvbC34VWfSw1grug/oMnGytamIk8PphXvNhX6TNHA12tuO8uiNJ4CDxIWW1xVLQqXcEN
-	GvwjbTdc0wKTTaREc22Eyn4jswebbt4/2zIOwC0LFC8Dwuq/KEhlPTLkFq8JEdCsuE+3rexucJNN9
-	jWfz39jkhitQ9Jk/ObJidORRvyADdVbpZr9FSFN80SX4kW8fgxpukn2B1PJk+34oOCUB3NZAbmUI6
-	+hlbCLv+i1MD21G9/NFJ8zyyqu6llrwVOyFHNTowd3JPljfKqQVXnpMCpschGX9g+wAYmpvGEtteJ
-	ebXk9ZqA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LXTJ++Ku47PXQH375/5mQOjnwUQq17kfI1rcFErp2L4=; b=RC3vCHStMaYovMXIaY2jY6iBSt
+	8i90hDMIrogRcBmbWIcoIm0ckwZbLmKyaeXGteSI8aM8PUHRYoIX//d4b8OERbLtEDesKGwR9c/HK
+	mR7jKtVZuH3dQQFCXupg1MKzSISGRlUndl4IeOtlDRbMCvM1yFexvWtcrNugKscxXHr9CVIMN9d2t
+	oPcdztid8MLmI+bJ6yLz3VSYpClV7+qORPzAmVOvm8COp/Espjid8P5tI8B1AAlh6YdvIxuR3M+SB
+	hhPpj15L+xQ0gEpDGsuNNod7XdPBwXETOf+F5jufUyUJ0UfiJ2VDwHOHaf8bXVc+TJDvg8p+VAYFq
+	eCZN517Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI2Fr-00000005U73-2vXI;
-	Mon, 02 Dec 2024 08:58:07 +0000
-Received: from mail.finteras.pl ([5.249.155.118])
+	id 1tI3Ms-00000005g3k-2Yz6;
+	Mon, 02 Dec 2024 10:09:26 +0000
+Received: from mail-dm6nam12on2062a.outbound.protection.outlook.com ([2a01:111:f403:2417::62a] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI2De-00000005TlY-1Y0C
+	id 1tI3Mp-00000005g2Y-2iFk
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Dec 2024 08:55:52 +0000
-Received: by mail.finteras.pl (Postfix, from userid 1002)
-	id 67C5582E58; Mon,  2 Dec 2024 09:55:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=finteras.pl; s=mail;
-	t=1733129744; bh=4SsVKfavNtEL8KiAyuhM0WdCxWV7dwsn0eOpgkwr5fY=;
-	h=Date:From:To:Subject:From;
-	b=RmKtYwfZwWVj3VOue+8A09xQ6UmORwh4xABeWo3jlLoymv1bMePfkdNixRCGdWrJC
-	 Q37NNIqXgplwIOF73ov2WuFYXhobQjORZU6q929XLPFBWzHo+0uTG4vdfjJpYcBrm2
-	 XEIUPYkaBPEtgLL7BBJY86d7UoTDYT7fpwQ5c3BQwfqUKrpyRTXJNYHIx9Q/cZwaVW
-	 pWsrRPhQ6hEIcX1+CG46BcEfdkk3twdMSN0lFua6m2AToZDdQKlCZjV4SwFhfHcdMU
-	 HbgCyMpEogwBXP1vKyHqpX1k6mj9IN1iVzbyyMSTnSxchZmDOY2w01Cif3+0g9oMaD
-	 5kTxvppBLnuRQ==
-Received: by mail.finteras.pl for <linux-nvme@lists.infradead.org>; Mon,  2 Dec 2024 08:55:23 GMT
-Message-ID: <20241202084500-0.1.57.6qv5.0.0epaglclx9@finteras.pl>
-Date: Mon,  2 Dec 2024 08:55:23 GMT
-From: "Urszula Kurach" <urszula.kurach@finteras.pl>
-To: <linux-nvme@lists.infradead.org>
-Subject: =?UTF-8?Q?Pakiety_telemedyczne_dla_pracownik=C3=B3w?=
-X-Mailer: mail.finteras.pl
+	Mon, 02 Dec 2024 10:09:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r/AuuuL2sMCOSBcLNTS3HQGPChnu0iTTFd8YBCy5gMk4DKAMvk3GnEnZv97PDH85hLYJHju8CtBNsaUR+IeLQSl2iueKdy3SsTayj4w0j4qMiKNH3nBaHPOWwl11nCzglnhEAMbyrsvD9m6uYXkUkERjkR8eXXpXzlygMTfwoxCXYLKtSOOymKmPPHtw+m8E2oatjh7ShFvmpSdOjuT6kk5aW2MGj2PD4C84TkXQJRuWhmiysoLaV9LfVKQ5CJCUZdte4bgoLFNoMbIKUuN22TnqvdcsxNhtNqGIGdJoM/bKmHSUFy/mmwkLmSeNLZqFp8pbrVdjob6Tx1dP/B9pJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LXTJ++Ku47PXQH375/5mQOjnwUQq17kfI1rcFErp2L4=;
+ b=Z23n70jeCI+LEjxFZThCjkzx0Jna7+OSKMsa69A17OOvbRscPx5O+yvFLsZcIvMgacHcPq2ZQ6c2ae7jtlQk5tgEgwX9DFTId3hoxZOXGmLTrnGaFxwQbdFv7ab5zmcRK2LSCmngkH7/+l7TXcn3+UTWj4g7cMDFmQ/SO4ebPZXakjayn6ATK+WOsd5PBnAW2bggWLlI/bpe3IwT4AqjkrrqfQ0yJFTzhvF0oS12FgGAhWhLi11AMjNmYZHeNohgiL/AeOcXtfq27kQnygRttO0ib2f/UC/y0pK0NkQCTtQv4YnNA95navJDoZqLzCDc0/EYvecSmhZGmf0kq0ZREQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LXTJ++Ku47PXQH375/5mQOjnwUQq17kfI1rcFErp2L4=;
+ b=fVRE2vu69jSQDn8zOu1LzGah8210asR7hI3pFNPrGfAFtlqKMerXxambFxRsYr8IVGFNT4noz/M6mZJ2Hplux2iLM6XpjybiLVbqjAQIgA0n7nI22l11fgEeeban0u5OQrYoQWVVuPWqvuMeeUFVkNlisIEuxr7Y2uYavh9N6f6qJJOgfLH2KN3lOS6SsTALx65hSj7ZyO2gXneRpzR2Td8M0eUvEq/e1Rwd6EAYCN4lBw0PCk+Vzw17Yy2K2/T27Z8UIMiTnEkjKVXjqXzTtN3y97yKlpZGnYcZeHigaTYDNRonn6tMEF39ClRtWRNFELYTxPIdIVBgM6+4iL2wXQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CYYPR12MB8940.namprd12.prod.outlook.com (2603:10b6:930:bd::17)
+ by DS7PR12MB5933.namprd12.prod.outlook.com (2603:10b6:8:7c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.17; Mon, 2 Dec
+ 2024 10:09:13 +0000
+Received: from CYYPR12MB8940.namprd12.prod.outlook.com
+ ([fe80::49b0:41bd:54e0:cce7]) by CYYPR12MB8940.namprd12.prod.outlook.com
+ ([fe80::49b0:41bd:54e0:cce7%6]) with mapi id 15.20.8207.017; Mon, 2 Dec 2024
+ 10:09:13 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chaitanya
+ Kulkarni <chaitanyak@nvidia.com>, Daniel Wagner <dwagner@suse.de>, Shai
+ Malin <smalin@nvidia.com>
+Subject: Re: [PATCH blktests v4 5/5] nvme/055: add test for nvme-tcp
+ zero-copy offload
+In-Reply-To: <5eqjhfwdxqiofyabkzon6qhcjwgpr7sqz3smlchorskyf7xoxh@t3j7og24ggdh>
+References: <20241126203857.27210-1-aaptel@nvidia.com>
+ <20241126203857.27210-6-aaptel@nvidia.com>
+ <5eqjhfwdxqiofyabkzon6qhcjwgpr7sqz3smlchorskyf7xoxh@t3j7og24ggdh>
+Date: Mon, 02 Dec 2024 12:09:09 +0200
+Message-ID: <2537c8iv1kq.fsf@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: YT4PR01CA0253.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10f::6) To CYYPR12MB8940.namprd12.prod.outlook.com
+ (2603:10b6:930:bd::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR12MB8940:EE_|DS7PR12MB5933:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9bfa677a-1dd4-4d5a-a19f-08dd12b95f13
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?L1iPP/N7ho5fje3d7Kx083LpXVVZV4V2tqSBUcPHvRWwM32lYdW+i1EYfWbY?=
+ =?us-ascii?Q?sP8diN0xntAWfaIGVugM0Ms8OUFDBz1T9XlFuVkLwJKMhTMJQp7ZZUO3A4ut?=
+ =?us-ascii?Q?b9r0mcxYr5V1Ysb6wCw1SG0X9B6MpDrLBbk07og796hH/tGKzAArBEmdzabR?=
+ =?us-ascii?Q?0+dYCSLVMbWNH18k23byixjev2nYCI7tkZIWj7YPO757FNge1mUiahRwnq9k?=
+ =?us-ascii?Q?sf21ctKBurf9JkYySt58RRa/4MBnz+yZe+T4UPepqwjhQycyD4clL0U0xd9Q?=
+ =?us-ascii?Q?ZEZJjiJaDbpVh5OZ7tB0oyZXX/8raF6nYYclAcR+UNZl408FgcixFRgX86/D?=
+ =?us-ascii?Q?w1qI9LDJpoaCfpkYPgiEUylk5eMmBepEIgw1H9NuJiXSjXWLr25wKxPxOPNA?=
+ =?us-ascii?Q?oB1XmTChSHJnWF7sEV1BrH078Arh8RJ77aLR8ZpfBnKZG5byW9wAsIyZBuuy?=
+ =?us-ascii?Q?8cdNlfZnmlzXgvqCbeYgo8LqBZZ4+gg9Mo1aIZB3aahuJHDba68OWn9b7RTX?=
+ =?us-ascii?Q?USiNqnuyuJmMjsOj0ezZOrF7sbWnKAl2toviGYgbKOfAX4m2em7C8/7tVwEl?=
+ =?us-ascii?Q?1Mrp1UeCkBGsjCsXmupmWbNevIDgDVpZaZ8Bb61FhOUVypBgqOowr7O4G8az?=
+ =?us-ascii?Q?RIcWR9Ob5lV/Py4Xvmd7D+HyXKgtgS/cNScQAegyyxgfkBte+FmrOuNzPi1g?=
+ =?us-ascii?Q?un+9pd6d8bLuWesSnZ9uxRCVU4BDu1Sqrjfi4pSz5XxpO/7ARHsvYmD8jGWD?=
+ =?us-ascii?Q?wi/HA+uSNHkizeJI/e4RfXVpvqRN5X2pu5JPACuEowWhxIbS5CrX+Wwt3yAM?=
+ =?us-ascii?Q?30GQcu8+eI3vNFa6W1533D5+HGxmf+6V0o+grC3etoWH3Voi1gFEOfPXDGGW?=
+ =?us-ascii?Q?75kWJxryzP1LKobrZm0WUmDKsOwCPbO1doFfeCvz63AdOspKlIXyMQUY6/UY?=
+ =?us-ascii?Q?a0KwZRvpAeRiqzU9daqVEBBZVjLxAX4xtexFK13beXgIgRZMKTVdHtss5K/g?=
+ =?us-ascii?Q?93x8zs9FMZU//KWk7loh0MkqPc7Fca2wslOU0CkytUOXEFJRUPQJadF2MGwt?=
+ =?us-ascii?Q?yeQn1dnlKry6Y61uhbTFw2jD4F7TA+mveokmXpDg52S60/itlEcUwTRNNDtt?=
+ =?us-ascii?Q?/G4cTOF/x4J6fQfZnoCBzZ6HJ3Fsual349z+8wT9+P4Fdef87z4du41Pysgv?=
+ =?us-ascii?Q?VOqfSIgXXLHkyDEoOhnSb45DP0xr945yt6KC45pVERFjSVxgD4j2JWSt5SRu?=
+ =?us-ascii?Q?XaNJd0SFnEGFRS9Fa0Q1wv64d2KTTFnnohTAKNWjHcCB48t07gGfXRn29LOw?=
+ =?us-ascii?Q?iPGEAwLjWfd+TLATzxiygNslVEhBPfts2MXty7f3Oj2PSSpTIQ8TKinubf4T?=
+ =?us-ascii?Q?HftgdtY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR12MB8940.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aE95ufZI/yGTgtO6Mu2oDCcI7um9VQFBwsD9dBTksS9sEaMrjJjItz69xe6E?=
+ =?us-ascii?Q?Uh6A4xp/uIhLDI0lSOjLr+VBOXKwgrcTuhf2ONrnVip/xk0agEpv8Cc71oOW?=
+ =?us-ascii?Q?8ZFsFX94o2ymu66sfAoTdKIaaTJfwjaS3tg2r2B2DGVAXzubaJ/gvN7vqkdU?=
+ =?us-ascii?Q?VfD+KpBsyKeuZvpED9ZZS32D14U/3ZsN+d+VVUa8TO7aOkhRcY0mqd3Q+YGn?=
+ =?us-ascii?Q?DrXod+RGs7o8XEnqqm5BmjI4npl6ZYWyIwPfcLdbzg1/7ZEp0Jy2s7x6lbBH?=
+ =?us-ascii?Q?F8KnKVWJRedIXiLna36MJjmSQ/PCoo019G47iWOKt1ZqyQU1WUU+Y0DEXlvD?=
+ =?us-ascii?Q?FdI7+mw3JlVcoFbTJGn8SbjpUgCncRLa0qlT64OzcRAdF1PE25510/vN72R4?=
+ =?us-ascii?Q?4eV3H2tqCCZid/q5+qhdInX7mGriYvxy8I3HY98ELS+uYX2uRiwp1Ty2umPG?=
+ =?us-ascii?Q?72znD0yEqp4Cls0auUbfLaIGniu70C5LR91LaWiA2lJUpXL5CP527hSbMeC5?=
+ =?us-ascii?Q?J6Ijj+th2y2Ri9RhmN/TFAg6eJh/IgRxMLYXSh4H4vNUn2cVl0Z8TvLYoCdM?=
+ =?us-ascii?Q?qAxH+QLNW8gbvmNIIcTZ5CRS6k0f7M6ptwkEZZ2FD0SBe/vfWofB5UIuq5M6?=
+ =?us-ascii?Q?4HPwdP2H/30ucbC2G+7YimSVUjT+v82YW9AptfJaBURWd8Cwj3bx0E3rLP0a?=
+ =?us-ascii?Q?Xpd9th1XW86yGDT1rloXc6uYXRHCoKoBnacD2WSlOZGwuZfuCe+JpdilcXYV?=
+ =?us-ascii?Q?tXJfY+qAIP3wMNXj8A1jkgp8ptwIdQ4UBLRdNa2frp3B84Y4OGmvDhReV73x?=
+ =?us-ascii?Q?pPzVemhvoMYDonUz4Joj5SqqI/Dy8gJfrldaLIBWMAo4I78qyRS4L6x63QzO?=
+ =?us-ascii?Q?2FNpDYaLKLZx2i2fq2Si+jXOZbvEpbZPZ13O/BNznUUoQSCC/GMjqB6sn3kH?=
+ =?us-ascii?Q?d4/jhcb1oGlZs1GqjQv6qXEtrHSv+dMkLs9mCpUAt0c2Aywo7JJaFYtdaHYO?=
+ =?us-ascii?Q?LPW60l1cC0jz8pPvGdGa8RvwpL2Qw7tPrRpkWuyC9q5OjMMMTfHDORkCBM6H?=
+ =?us-ascii?Q?Y2BL3bvc+oYZNQnTRkCsIfXlgqYKDmWOH8qDLdSTefxyPHxI0zBKpDIG/Y17?=
+ =?us-ascii?Q?JZDHc2ugdFFJEF2SyQwVyBsEi7/BrjFRMD2CstCuJVA/IOY+cpWOjVZb5gHZ?=
+ =?us-ascii?Q?ybIli/aGxpAD5RIw7MM60K2i3cR5lIkNDV3xpCSjcI1yUcX4er/1nJY1A4M1?=
+ =?us-ascii?Q?RdKIk9ga57CuKLatL4OhF82ANGEXS99y84O7HjjgXqkY1p1HmDwxMkH/N+5R?=
+ =?us-ascii?Q?QooyfTzxCg9U/QPRbP8uvkcF8TmE1Sa79pAcWsguBCgf0u4uUr1+8Rz2shK6?=
+ =?us-ascii?Q?I96EJya7fJHBaZezrycAysG6untMkvEI8H0DAvg9TrWTGoIDRYAHn7lusnns?=
+ =?us-ascii?Q?BuaIN/XKuAT7zzqoiM8yXoTA2IAzLu9VF5O7ue3ulSmzvQkdfGogzOxFlY7g?=
+ =?us-ascii?Q?M6FrJ7H2qX5o4Cj37113+LXONqpl95AAg5RuG5aP9J0slCcpAStrKi3Be7Ce?=
+ =?us-ascii?Q?Bn83EKCtmeqUOP44482HhukVy9BAf67JTSOlWwkX?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bfa677a-1dd4-4d5a-a19f-08dd12b95f13
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR12MB8940.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2024 10:09:13.2734
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /U26/0vQwns9vcOTtRJoQZ41BnWNLWXOOl126zyPy+Hs2OXm+MVbqaTKR+TsL9CRGUmec9gevpucYfsBuDABzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5933
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241202_005551_091789_65DB745F 
-X-CRM114-Status: UNSURE (   2.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241202_020923_683748_A2A4BBC8 
+X-CRM114-Status: GOOD (  18.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,28 +160,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Szanowni Pa=C5=84stwo,
 
-chcia=C5=82abym zapyta=C4=87, czy byliby Pa=C5=84stwo zainteresowani dost=
-=C4=99pem do nielimitowanej opieki telemedycznej pediatry, ortopedy, neur=
-ologa oraz lekarzy wielu innych specjalizacji?
+Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com> writes:
+> My understanding is that this test case requires the target set up by
+> NVME_TARGET_CONTROL. Is it beneficial to explain what kind of target set
+> up is required here?
 
-Oferujemy 3 r=C3=B3=C5=BCne pakiety, kt=C3=B3re zapewniaj=C4=85 dost=C4=99=
-p do us=C5=82ug dopasowanych do potrzeb Pa=C5=84stwa firmy. Pakiet podsta=
-wowy daje mo=C5=BCliwo=C5=9B=C4=87 korzystania z konsultacji internisty n=
-awet w weekendy i =C5=9Bwi=C4=99ta, natomiast pakiet pe=C5=82ny obejmuje =
-dost=C4=99p do lekarzy 42 specjalizacji, a tak=C5=BCe atrakcyjne rabaty n=
-a badania laboratoryjne i diagnostyk=C4=99 obrazow=C4=85.
+Any target should do, but the host needs to use a NIC that supports DDP
+offload. This means the loop/localhost target cannot be used.
 
-Dzi=C4=99ki takim rozwi=C4=85zaniom, Pa=C5=84stwa pracownicy zyskaj=C4=85=
- warto=C5=9Bciowy benefit pozap=C5=82acowy, a firma zyska zmotywowany zes=
-p=C3=B3=C5=82, mniej absencji chorobowych i dodatkowe oszcz=C4=99dno=C5=9B=
-ci.
+> Does this test case require specific hardware for nvme-tcp and zero-copy?
+> If so, it can be described here also, probably.
 
-Czy mog=C4=99 przedstawi=C4=87 wi=C4=99cej szczeg=C3=B3=C5=82=C3=B3w na t=
-emat dost=C4=99pnych pakiet=C3=B3w?
+It requires hardware that supports the ULP DDP infrastructure
+(specifically nvme-tcp). This includes ConnectX 7 NIC and above or
+BlueField 3 DPU and above.
 
+>> +requires() {
+>> +     _nvme_requires
+>> +     _require_remote_nvme_target
+>> +     _require_nvme_trtype tcp
+>> +     _have_kernel_option ULP_DDP
+>> +     # require nvme-tcp as a module to be able to change the ddp_offload param
+>> +     _have_module nvme_tcp && _have_module_param nvme_tcp ddp_offload
+>
+> I checked the latest kernel source code but could not find the ddp_offload
+> parameter. Do I miss anything? or Do you plan to post kernel patches for it?
 
-Pozdrawiam
-Urszula Kurach
+The DDP offload is part of the nvme-tcp offload series [1], and the only
+missing part is the netdev maintainer (Jakub) request of including the
+tests for the feature. We agreed to have those tests as part of blktests,
+which we will then run in a CI.
+
+>> +     _have_fio
+>> +     _have_program ip
+>> +     _have_program ethtool
+>> +     _have_kernel_source && have_netlink_cli && _have_program python3
+>> +     have_iface
+>> +}
+>> +
+> [...]
+>> +
+>> +connect_run_disconnect() {
+>> +     local io_size
+>> +     local nvme_dev
+>> +     local nb_drop
+>> +     local drop_ratio
+>> +     local nb_resync
+>> +     local resync_ratio
+>
+> Nit: some local variables misses declarations here: nb_packets,
+> nb_offload_packets, etc. It might be good to declare multiple variables
+> in one line, like "local nb_drop nb_resync nb_packets ..." to reduce number
+> of lines.
+
+These are not declared as local because they are global, see the top of
+the file.
+
+I will declare the local ones on line when it makes it more readable.
+
+Thanks.
+
+1: https://lore.kernel.org/netdev/20240529160053.111531-1-aaptel@nvidia.com/
 
