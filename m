@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D332BD78321
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 14:02:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C175D78325
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 14:02:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5mlCSC9kRJ4/OkgMLZX2HP0IsifipROF6lamaxiCgr8=; b=IfunuoWjFkZUwqffVcKAo15W2P
-	98R1K1Kj+dC7+ExpnVHlzADSPlJdJrj+bHtBf9SIlMvVVQFLnmyvL7/58LY0WdpVtNNQxVHvVYPvg
-	YHRq7PDBmP4dvTUIEzMeLvOMl9orwe9s21T+Na1vd/8vYldarSZbLaal6BlMoPpTn8lv550jSYLe5
-	hzJzQosqj/a+6y6Tw/iuvVCHBZNgSowjjiuAGGQ/DaJ8BKi5kCzJ08dMi5C30X3Jdgn3vLYVey+tH
-	nFDXNWLdAn1db3qIRvPd/JzTjzamtX/pNu/hDM7bRsRev3urd39QL/4LLIV6IqUmHy4NXszjL18Xt
-	CNodC2BQ==;
+	bh=cpLMQ9UUakXEja3e78DP4kkqPh47K3ImwNUxXaHJlYM=; b=KVxURml7MWgFDdsfgu2EJvksrT
+	XaTrD9BAJ+QZ7iRMrubHpeeC1c7iSfqwb/ZmD7JYoyhTB9mFLECS4q03xzU+D80tKsHeaIyNLUENT
+	Cn9NWCLov3oWJsosw5w+D/I51KPgW06uLXlsyp9bgD+riJt59TzbvbLKMGT/5aXFlYsEsOq+rbgur
+	t//9u8Qyx+8nFXju5L6+QhjxJt4XkrKasMCKRTj9nSerSwr1OJnRPREitHjlBOqIh73hVohhH4ETx
+	DmpLG7l05IuslQguQSvUDmhV0djDFrU6ZgiH8APB3Ep+DlIiTbo24ZdpjSfng0WMZLfjQJWoTqqzU
+	4mPcl0PQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI70e-00000006KwT-14i8;
-	Mon, 02 Dec 2024 14:02:44 +0000
+	id 1tI70f-00000006Kxb-03V0;
+	Mon, 02 Dec 2024 14:02:45 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI6yh-00000006KRu-0dpp
+	id 1tI6yj-00000006KTL-1jIg
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Dec 2024 14:00:44 +0000
+	Mon, 02 Dec 2024 14:00:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id E8E34A40CEE;
-	Mon,  2 Dec 2024 13:58:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70F1C4CED1;
-	Mon,  2 Dec 2024 14:00:41 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 5B05AA40CE1;
+	Mon,  2 Dec 2024 13:58:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB82C4CED1;
+	Mon,  2 Dec 2024 14:00:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733148042;
-	bh=wVaNZdJ3OKKxbFbrt0wligDtCqfTY8hmAIwodel7nxM=;
+	s=k20201202; t=1733148044;
+	bh=1qmzsHGz+F9jFUsodxYPNL3VhVdPzjmOvQGIGXzUi9M=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Bbr1+8x0yAsObXAcEwzGVyHv8bTE9nzihjqEwly9AhMsyKdc8M3gvD0qPSKgD/Pet
-	 dg6UKzrjv7vudo7wAwKEnBNGJc+bxMz4acc1GFxy/jm676gbMxWm1yAaQFe96BE3px
-	 SHQ/auzyhlQ8DW80pwLs3ja6YbUxBdWSlCrYca94LEIRZGS4cyVEfk3DXVGAwPmKA6
-	 Q+94dSADUjt6CWMZqAf2j4STNOyl3WuKYZHMLogITJ0BWX+8BlI2vtdDKOHXMpehcY
-	 MooXcTJoSTrcnFYxP4fVTwGKR93/gd02y60byBKLQTjkFEEHV27l/fW3gtmS4XbKJY
-	 Jqb1YN5fhQARg==
+	b=bcMNbPqGAYoch4VzGMhprcovwyRobcFbRWNY1Y+WOztyE4eZtXoKeE99Xsv7lP8QO
+	 aXYmt8vZPaRGb8UhTwiuCrbMQ8q10CnwyyHomtJQa1WuuHSXiHbj1POEk7gMqWle5p
+	 2dRrIefQNG6XkT8kMzyB+riP+t9pEQZYR7o7gTXWIMuQFam9L8EAaTDHyTd9GIshDH
+	 5HD2uV1bJy6Wnp/Uz+LxerkBr8BsQNINfjEXsb3GMHF9iEP8alPpNDMfSkoT3VFBxC
+	 FxrYM23xdWkjO05BnZNLeJkKTxWiPnXRdaEkauyA3tZUjD/+DZJfWQM62/A6Y89+VP
+	 eD7b748F55+6g==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Mon, 02 Dec 2024 15:00:14 +0100
-Subject: [PATCH v6 6/8] nvme: replace blk_mq_pci_map_queues with
- blk_mq_map_hw_queues
+Date: Mon, 02 Dec 2024 15:00:15 +0100
+Subject: [PATCH v6 7/8] virtio: blk/scsi: replace blk_mq_virtio_map_queues
+ with blk_mq_map_hw_queues
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241202-refactor-blk-affinity-helpers-v6-6-27211e9c2cd5@kernel.org>
+Message-Id: <20241202-refactor-blk-affinity-helpers-v6-7-27211e9c2cd5@kernel.org>
 References: <20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org>
 In-Reply-To: <20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -69,8 +69,8 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241202_060043_257548_A159C860 
-X-CRM114-Status: GOOD (  12.69  )
+X-CRM114-CacheID: sfid-20241202_060045_579451_477E9425 
+X-CRM114-Status: GOOD (  13.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,9 +85,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Replace all users of blk_mq_pci_map_queues with the more generic
+Replace all users of blk_mq_virtio_map_queues with the more generic
 blk_mq_map_hw_queues. This in preparation to retire
-blk_mq_pci_map_queues.
+blk_mq_virtio_map_queues.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
@@ -95,43 +95,53 @@ Reviewed-by: Ming Lei <ming.lei@redhat.com>
 Reviewed-by: John Garry <john.g.garry@oracle.com>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/nvme/host/fc.c  | 1 -
- drivers/nvme/host/pci.c | 3 +--
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ drivers/block/virtio_blk.c | 4 ++--
+ drivers/scsi/virtio_scsi.c | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b81af7919e94c421387033bf8361a9cf8a867486..094be164ffdc0fb79050cfb92c32dfaee8d15622 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -16,7 +16,6 @@
- #include <linux/nvme-fc.h>
- #include "fc.h"
- #include <scsi/scsi_transport_fc.h>
--#include <linux/blk-mq-pci.h>
- 
- /* *************************** Data Structures/Defines ****************** */
- 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4c644bb7f069270e72317636d6660beeb24f916d..91a188cefaa3be09822765906a45d980719b0555 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -8,7 +8,6 @@
- #include <linux/async.h>
- #include <linux/blkdev.h>
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index c0cdba71f43640ccff96d83f9e63620bebdda2ab..4c82bd1ea38e444e2118a1cfbe9a3ac37de9b6da 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -13,7 +13,6 @@
+ #include <linux/string_helpers.h>
+ #include <linux/idr.h>
  #include <linux/blk-mq.h>
--#include <linux/blk-mq-pci.h>
- #include <linux/blk-integrity.h>
- #include <linux/dmi.h>
- #include <linux/init.h>
-@@ -463,7 +462,7 @@ static void nvme_pci_map_queues(struct blk_mq_tag_set *set)
- 		 */
- 		map->queue_offset = qoff;
- 		if (i != HCTX_TYPE_POLL && offset)
--			blk_mq_pci_map_queues(map, to_pci_dev(dev->dev), offset);
-+			blk_mq_map_hw_queues(map, dev->dev, offset);
+-#include <linux/blk-mq-virtio.h>
+ #include <linux/numa.h>
+ #include <linux/vmalloc.h>
+ #include <uapi/linux/virtio_ring.h>
+@@ -1181,7 +1180,8 @@ static void virtblk_map_queues(struct blk_mq_tag_set *set)
+ 		if (i == HCTX_TYPE_POLL)
+ 			blk_mq_map_queues(&set->map[i]);
  		else
+-			blk_mq_virtio_map_queues(&set->map[i], vblk->vdev, 0);
++			blk_mq_map_hw_queues(&set->map[i],
++					     &vblk->vdev->dev, 0);
+ 	}
+ }
+ 
+diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
+index 8471f38b730e205eb57052305c154260864bee95..60be1a0c61836ba643adcf9ad8d5b68563a86cb1 100644
+--- a/drivers/scsi/virtio_scsi.c
++++ b/drivers/scsi/virtio_scsi.c
+@@ -29,7 +29,6 @@
+ #include <scsi/scsi_tcq.h>
+ #include <scsi/scsi_devinfo.h>
+ #include <linux/seqlock.h>
+-#include <linux/blk-mq-virtio.h>
+ 
+ #include "sd.h"
+ 
+@@ -746,7 +745,7 @@ static void virtscsi_map_queues(struct Scsi_Host *shost)
+ 		if (i == HCTX_TYPE_POLL)
  			blk_mq_map_queues(map);
- 		qoff += map->nr_queues;
+ 		else
+-			blk_mq_virtio_map_queues(map, vscsi->vdev, 2);
++			blk_mq_map_hw_queues(map, &vscsi->vdev->dev, 2);
+ 	}
+ }
+ 
 
 -- 
 2.47.0
