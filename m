@@ -4,72 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FA2DD78329
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 14:02:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47689D78326
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 14:31:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/HtyTcI2Sy968oeRGfbYcttfal5tc8YNnSLWURk7VDY=; b=Seby/zDMUXlT6EH7RpU9RhzC9d
-	5FIFNIne0Bv8PxOVb5XgaxfTq9USt6iVIPayED58N2hYpVgjLgvQ694jN16bjgxG78Uo/V0oneTlq
-	wl6HbLQhE1rpaaz6HWCuk4I+lqfGLl2kMVDkhm3jUOuPflTWRfuEsNftw2VS8Gia/kYuBlTxoV/tz
-	NGcpj0SMVzaLclf8uvjVwvwwSwn9Bw5ZFiYAsev6EkAJrBvjGv56sMCXF+knxA7Py+sZKkqtyeLBG
-	fg6rZtoLkTu6lmpZcw4w5jb6f50eoS5nz96lGelTh0aAohOWd8aQ7rYuWOc5ZHoQp71eK4fVAFPQA
-	i4MyTXzg==;
+	bh=LvzITqT5iUjK+k3yHyfR1Cew+NwGpUa8QiY+V6tpwmI=; b=DAmcZ+F+Y2vYTiRswPD85l9VWG
+	g3vg/knt1i4mszJWGNrs/GcfhCFiCJAIqQ4eevhkzRWDSSo0ItxkZOkCLOVtg2jKnaOL5avfhH8gr
+	jEbPKMBqHcHy07uA1pdSjZpoWYsswSjBPHJ8Y3yGZCdBarXoCmJveKoOSJL6WSbZrp3AHBaN7eEqq
+	UQzKjZMPlhmKd7P0J/eNWYKswhVfvYxw48HMP+igI7VshvWVjF1WXxRj+5TFJZBT3XHXBZA8pEQvT
+	54gepzwOUP8M+IWrgU2sEuB7U1xE50+RuAoVn4caxo2Wk3IJX9AK3qETP5papQDDttlAGOXk0huWn
+	bbrQ7N2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI70f-00000006Kyb-3S3q;
-	Mon, 02 Dec 2024 14:02:45 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tI7Sj-00000006R5i-2Pz4;
+	Mon, 02 Dec 2024 14:31:45 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI6yl-00000006KU5-2qe9
+	id 1tI7RH-00000006Qfu-35Z1
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Dec 2024 14:00:48 +0000
+	Mon, 02 Dec 2024 14:30:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1B0B85C070E;
-	Mon,  2 Dec 2024 14:00:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EC0AC4CED1;
-	Mon,  2 Dec 2024 14:00:46 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3733A5C5FF8;
+	Mon,  2 Dec 2024 14:29:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E2CC4CEDA;
+	Mon,  2 Dec 2024 14:30:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733148046;
-	bh=GgBXOt/yTNJCKGurhv9gWr0yQvLzy+TZ2LlXcvom+9s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lJFxR3eyMIUSBNjOr5Qk7RXrDNutHXUb+GQd/pL/xAmrg1N81vj+j00HXpvQo75e4
-	 JIOzDPoourZKz87zKFPXBhx3M8zr8sCYR3x+T0kAMfU8AQlDXT/GuQN4STpjfWtYZT
-	 0g+LjsLTU9ooOXXxhNd6+TybvftS8ENh1Nz9wzhCqDwVOSiCxsWsc/gowY7Giap9uE
-	 gYrKHLuf4EAxCLuDKdWESxy7T5n/+jQ2JhLWrnrsQIqtxVwGE4uOtukXkyYrM2uafA
-	 T15kogr+0BSU5l54et6cfwy3HhkcoyJZol699sGMqsfQszXkOkEH4jdRfcKb1nRRrv
-	 N5dihk7Je5h3A==
-From: Daniel Wagner <wagi@kernel.org>
-Date: Mon, 02 Dec 2024 15:00:16 +0100
-Subject: [PATCH v6 8/8] blk-mq: remove unused queue mapping helpers
+	s=k20201202; t=1733149814;
+	bh=NQ/FL8/1bPXTvZi+dECQ5MFtHxFkdmLqMD736guOG64=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=d+m6L8AQShVuLgKLC7QEJSiZGk77yY2cHm9Fu9a2Lz0NqGrDtgM01alRL4HX7ghuQ
+	 dFAXKumm7jqhG1nSXV3qg+SJljmtB+RYv7aJ2z/uYz7lcDk7uhetcvKSG/o7Syqkao
+	 ycUYzDeYg4LXpaO6vdeEh0IzaQ2UAU7HLw+7pwniGisRkC8IXcExQ0Gxvrsspx3N7C
+	 l9W/PQO8X/LuPxw7x2/y903Bi6Gqi3arKHb6TTw5p0eL1UhUnK3/FxI9P4V5zm7ZMh
+	 gvl4eF90vj4tJ6aTb2KNi93R0VV0Cks4b4XIY9Lov25rC7hQedV7dxCVm3aJdFYaV+
+	 cYG7PDal/NbLQ==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Eric Biggers <ebiggers@kernel.org>,
+	linux-crypto@vger.kernel.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH 02/10] nvme: add nvme_auth_generate_psk()
+Date: Mon,  2 Dec 2024 15:29:51 +0100
+Message-Id: <20241202142959.81321-3-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20241202142959.81321-1-hare@kernel.org>
+References: <20241202142959.81321-1-hare@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241202-refactor-blk-affinity-helpers-v6-8-27211e9c2cd5@kernel.org>
-References: <20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org>
-In-Reply-To: <20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, John Garry <john.g.garry@oracle.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org, virtualization@lists.linux.dev, 
- linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, 
- mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, 
- storagedev@microchip.com, linux-nvme@lists.infradead.org, 
- Daniel Wagner <wagi@kernel.org>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241202_060047_809037_AF355E13 
-X-CRM114-Status: GOOD (  15.06  )
+X-CRM114-CacheID: sfid-20241202_063015_857674_8CFE41E2 
+X-CRM114-Status: GOOD (  15.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,175 +75,145 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There are no users left of the pci and virtio queue mapping helpers.
-Thus remove them.
+Add a function to generate a NVMe PSK from the shared credentials
+negotiated by DH-HMAC-CHAP.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- block/Makefile                |  2 --
- block/blk-mq-pci.c            | 46 -------------------------------------------
- block/blk-mq-virtio.c         | 46 -------------------------------------------
- include/linux/blk-mq-pci.h    | 11 -----------
- include/linux/blk-mq-virtio.h | 11 -----------
- 5 files changed, 116 deletions(-)
+ drivers/nvme/common/auth.c | 98 ++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme-auth.h  |  3 ++
+ 2 files changed, 101 insertions(+)
 
-diff --git a/block/Makefile b/block/Makefile
-index ddfd21c1a9ffc9c4f49efca9875bd8a1cbf81e4d..33748123710b368a1a3a7b099bbd90d27b24c69b 100644
---- a/block/Makefile
-+++ b/block/Makefile
-@@ -27,8 +27,6 @@ bfq-y				:= bfq-iosched.o bfq-wf2q.o bfq-cgroup.o
- obj-$(CONFIG_IOSCHED_BFQ)	+= bfq.o
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index a3455f1d67fa..32a12899d0ce 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -11,6 +11,7 @@
+ #include <asm/unaligned.h>
+ #include <crypto/hash.h>
+ #include <crypto/dh.h>
++#include <crypto/hkdf.h>
+ #include <linux/nvme.h>
+ #include <linux/nvme-auth.h>
  
- obj-$(CONFIG_BLK_DEV_INTEGRITY) += bio-integrity.o blk-integrity.o t10-pi.o
--obj-$(CONFIG_BLK_MQ_PCI)	+= blk-mq-pci.o
--obj-$(CONFIG_BLK_MQ_VIRTIO)	+= blk-mq-virtio.o
- obj-$(CONFIG_BLK_DEV_ZONED)	+= blk-zoned.o
- obj-$(CONFIG_BLK_WBT)		+= blk-wbt.o
- obj-$(CONFIG_BLK_DEBUG_FS)	+= blk-mq-debugfs.o
-diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
-deleted file mode 100644
-index d47b5c73c9eb715be7627a2952ad0ef921dd5bc6..0000000000000000000000000000000000000000
---- a/block/blk-mq-pci.c
-+++ /dev/null
-@@ -1,46 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * Copyright (c) 2016 Christoph Hellwig.
-- */
--#include <linux/kobject.h>
--#include <linux/blkdev.h>
--#include <linux/blk-mq-pci.h>
--#include <linux/pci.h>
--#include <linux/module.h>
--
--#include "blk-mq.h"
--
--/**
-- * blk_mq_pci_map_queues - provide a default queue mapping for PCI device
-- * @qmap:	CPU to hardware queue map.
-- * @pdev:	PCI device associated with @set.
-- * @offset:	Offset to use for the pci irq vector
-- *
-- * This function assumes the PCI device @pdev has at least as many available
-- * interrupt vectors as @set has queues.  It will then query the vector
-- * corresponding to each queue for it's affinity mask and built queue mapping
-- * that maps a queue to the CPUs that have irq affinity for the corresponding
-- * vector.
-- */
--void blk_mq_pci_map_queues(struct blk_mq_queue_map *qmap, struct pci_dev *pdev,
--			   int offset)
--{
--	const struct cpumask *mask;
--	unsigned int queue, cpu;
--
--	for (queue = 0; queue < qmap->nr_queues; queue++) {
--		mask = pci_irq_get_affinity(pdev, queue + offset);
--		if (!mask)
--			goto fallback;
--
--		for_each_cpu(cpu, mask)
--			qmap->mq_map[cpu] = qmap->queue_offset + queue;
--	}
--
--	return;
--
--fallback:
--	WARN_ON_ONCE(qmap->nr_queues > 1);
--	blk_mq_clear_mq_map(qmap);
--}
--EXPORT_SYMBOL_GPL(blk_mq_pci_map_queues);
-diff --git a/block/blk-mq-virtio.c b/block/blk-mq-virtio.c
-deleted file mode 100644
-index 68d0945c0b08a2be116125f46c3a56fcdb02aea8..0000000000000000000000000000000000000000
---- a/block/blk-mq-virtio.c
-+++ /dev/null
-@@ -1,46 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * Copyright (c) 2016 Christoph Hellwig.
-- */
--#include <linux/device.h>
--#include <linux/blk-mq-virtio.h>
--#include <linux/virtio_config.h>
--#include <linux/module.h>
--#include "blk-mq.h"
--
--/**
-- * blk_mq_virtio_map_queues - provide a default queue mapping for virtio device
-- * @qmap:	CPU to hardware queue map.
-- * @vdev:	virtio device to provide a mapping for.
-- * @first_vec:	first interrupt vectors to use for queues (usually 0)
-- *
-- * This function assumes the virtio device @vdev has at least as many available
-- * interrupt vectors as @set has queues.  It will then query the vector
-- * corresponding to each queue for it's affinity mask and built queue mapping
-- * that maps a queue to the CPUs that have irq affinity for the corresponding
-- * vector.
-- */
--void blk_mq_virtio_map_queues(struct blk_mq_queue_map *qmap,
--		struct virtio_device *vdev, int first_vec)
--{
--	const struct cpumask *mask;
--	unsigned int queue, cpu;
--
--	if (!vdev->config->get_vq_affinity)
--		goto fallback;
--
--	for (queue = 0; queue < qmap->nr_queues; queue++) {
--		mask = vdev->config->get_vq_affinity(vdev, first_vec + queue);
--		if (!mask)
--			goto fallback;
--
--		for_each_cpu(cpu, mask)
--			qmap->mq_map[cpu] = qmap->queue_offset + queue;
--	}
--
--	return;
--
--fallback:
--	blk_mq_map_queues(qmap);
--}
--EXPORT_SYMBOL_GPL(blk_mq_virtio_map_queues);
-diff --git a/include/linux/blk-mq-pci.h b/include/linux/blk-mq-pci.h
-deleted file mode 100644
-index ca544e1d3508f34ab6e198b0bb17efe88de4d14d..0000000000000000000000000000000000000000
---- a/include/linux/blk-mq-pci.h
-+++ /dev/null
-@@ -1,11 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _LINUX_BLK_MQ_PCI_H
--#define _LINUX_BLK_MQ_PCI_H
--
--struct blk_mq_queue_map;
--struct pci_dev;
--
--void blk_mq_pci_map_queues(struct blk_mq_queue_map *qmap, struct pci_dev *pdev,
--			   int offset);
--
--#endif /* _LINUX_BLK_MQ_PCI_H */
-diff --git a/include/linux/blk-mq-virtio.h b/include/linux/blk-mq-virtio.h
-deleted file mode 100644
-index 13226e9b22dd53e4289d506d49c52671de036ee8..0000000000000000000000000000000000000000
---- a/include/linux/blk-mq-virtio.h
-+++ /dev/null
-@@ -1,11 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef _LINUX_BLK_MQ_VIRTIO_H
--#define _LINUX_BLK_MQ_VIRTIO_H
--
--struct blk_mq_queue_map;
--struct virtio_device;
--
--void blk_mq_virtio_map_queues(struct blk_mq_queue_map *qmap,
--		struct virtio_device *vdev, int first_vec);
--
--#endif /* _LINUX_BLK_MQ_VIRTIO_H */
-
+@@ -471,5 +472,102 @@ int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key)
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_generate_key);
+ 
++/**
++ * nvme_auth_generate_psk - Generate a PSK for TLS
++ * @hmac_id: Hash function identifier
++ * @skey: Session key
++ * @skey_len: Length of @skey
++ * @c1: Value of challenge C1
++ * @c2: Value of challenge C2
++ * @hash_len: Hash length of the hash algorithm
++ * @ret_psk: Pointer too the resulting generated PSK
++ * @ret_len: length of @ret_psk
++ *
++ * Generate a PSK for TLS as specified in NVMe base specification, section 8.13.5.9:
++ *    Generated PSK for TLS
++ *
++ * The generated PSK for TLS shall be computed applying the HMAC function using the
++ * hash function H( ) selected by the HashID parameter in the DH-HMAC-CHAP_Challenge
++ * message with the session key KS as key to the concatenation of the two challenges
++ * C1 and C2 (i.e., generated PSK = HMAC(KS, C1 || C2)).
++ *
++ * Returns 0 on success with a valid generated PSK pointer in @ret_psk and the length
++ * of @ret_psk in @ret_len, or a negative error number otherwise.
++ */
++int nvme_auth_generate_psk(u8 hmac_id, u8 *skey, size_t skey_len,
++		u8 *c1, u8 *c2, size_t hash_len, u8 **ret_psk,size_t *ret_len)
++{
++	struct crypto_shash *tfm;
++	struct shash_desc *shash;
++	u8 *psk;
++	const char *hmac_name;
++	int ret, psk_len;
++
++	if (!c1 || !c2) {
++		pr_warn("%s: invalid parameter\n", __func__);
++		return -EINVAL;
++	}
++
++	hmac_name = nvme_auth_hmac_name(hmac_id);
++	if (!hmac_name) {
++		pr_warn("%s: invalid hash algorithm %d\n",
++			__func__, hmac_id);
++		return -EINVAL;
++	}
++
++	tfm = crypto_alloc_shash(hmac_name, 0, 0);
++	if (IS_ERR(tfm))
++		return PTR_ERR(tfm);
++
++	psk_len = crypto_shash_digestsize(tfm);
++	psk = kzalloc(psk_len, GFP_KERNEL);
++	if (!psk) {
++		ret = -ENOMEM;
++		goto out_free_tfm;
++	}
++
++	shash = kmalloc(sizeof(struct shash_desc) +
++			crypto_shash_descsize(tfm),
++			GFP_KERNEL);
++	if (!shash) {
++		ret = -ENOMEM;
++		goto out_free_psk;
++	}
++
++	shash->tfm = tfm;
++	ret = crypto_shash_setkey(tfm, skey, skey_len);
++	if (ret)
++		goto out_free_shash;
++
++	ret = crypto_shash_init(shash);
++	if (ret)
++		goto out_free_shash;
++
++	ret = crypto_shash_update(shash, c1, hash_len);
++	if (ret)
++		goto out_free_shash;
++
++	ret = crypto_shash_update(shash, c2, hash_len);
++	if (ret)
++		goto out_free_shash;
++
++	ret = crypto_shash_final(shash, psk);
++	if (!ret) {
++		*ret_psk = psk;
++		*ret_len = psk_len;
++	}
++
++out_free_shash:
++	kfree_sensitive(shash);
++out_free_psk:
++	if (ret)
++		kfree_sensitive(psk);
++out_free_tfm:
++	crypto_free_shash(tfm);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(nvme_auth_generate_psk);
++
+ MODULE_DESCRIPTION("NVMe Authentication framework");
+ MODULE_LICENSE("GPL v2");
+diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
+index c1d0bc5d9624..b13884b04dfd 100644
+--- a/include/linux/nvme-auth.h
++++ b/include/linux/nvme-auth.h
+@@ -40,5 +40,8 @@ int nvme_auth_gen_pubkey(struct crypto_kpp *dh_tfm,
+ int nvme_auth_gen_shared_secret(struct crypto_kpp *dh_tfm,
+ 				u8 *ctrl_key, size_t ctrl_key_len,
+ 				u8 *sess_key, size_t sess_key_len);
++int nvme_auth_generate_psk(u8 hmac_id, u8 *skey, size_t skey_len,
++			   u8 *c1, u8 *c2, size_t hash_len,
++			   u8 **ret_psk, size_t *ret_len);
+ 
+ #endif /* _NVME_AUTH_H */
 -- 
-2.47.0
+2.35.3
 
 
