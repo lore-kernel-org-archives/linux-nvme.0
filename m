@@ -4,61 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 018E6D78326
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 14:31:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE9DDD7832E
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 15:05:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jtMigI/QVzRW67pGLXVye1VqBIgY2JHTEPIZJfyZISE=; b=xhnbM/8VDdvWIyczQJsCTf0yTa
-	bilDfy4Z7LKOSk89zP5xJWH6GT1IWsNTOwzqPr7VJWfbZ0/YjGInLIlfeBM9S2IFpNlrvh5Saspo1
-	zITnWt3NYPeMmuFpP6317xGAhkWJjBaTxUZFta+ykfKnr/CyOSHqxBKUaymhmopHe1bppt7XnqaLb
-	MvyO/HbIDXO9GZsTDLNV9LzpRW482sPFn5UtG1tKbuad50AhMIeoEDjOLJ/IIgEUQ0iXSKTGNpsc2
-	oIMdcfYh78Whp3IyAb/oz4YUAa3DNwkv8i6OBE9yfrjdioG1Ks6Qv+Ac6Xuhek0ypf1UVtAfayYL1
-	sBoDwhWA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fO9AlRctK2v3CrMrGVPyNEF1XOrnNouYnj2+jyPUZVo=; b=X2ZVdhUzEKLGJhpWmB862eG8zh
+	3qGEY3EHLceCvxr939gBkXtLELxuH/7VXJiTSGyPgMOD95qH3nYQf7uy+P0+KPNN0PQXeUHWlvpa8
+	inx/4yj1AhxB4sB0hgALqrRUWcpo7c3dmERUcn25KY1tG8xUT3MHiN++zCMnmDuCmSxKYRljtNmF/
+	Zv6n65E92osfo9Rb3UnZXSySci86+s0SYpRldaOlTFqE5k2VYoUyIqc6ynDMA3nid0SZ6yGApVZt2
+	J8WR9LpNWWH1pzh4n5tnkFP87dH6U0aF3LQo23kJ5rPZN4+GFiBk8Ge//7wDGWRomMAv/PDIhVTLv
+	cxVgVo+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI7Si-00000006R4R-0xXJ;
-	Mon, 02 Dec 2024 14:31:44 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tI7zj-00000006ZXE-13lC;
+	Mon, 02 Dec 2024 15:05:51 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI7RD-00000006Qdx-40rm
+	id 1tI7zD-00000006ZS7-1noH
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Dec 2024 14:30:13 +0000
+	Mon, 02 Dec 2024 15:05:20 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 10B1C5C5FF9;
-	Mon,  2 Dec 2024 14:29:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 215F9C4CED1;
-	Mon,  2 Dec 2024 14:30:08 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 17FFCA40ECA;
+	Mon,  2 Dec 2024 15:03:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA1E5C4CED1;
+	Mon,  2 Dec 2024 15:05:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733149810;
-	bh=dPQQiFg6E3MYIWuowOkKPwCdJodOw4dHVqO+lw/k2I8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=SD8HrFz7/BsGeyolj5W9gxmlwPtnVFXsVFro601aPZzzyhHk0/9uGXQvOVJQqHt3/
-	 LQd5npX14atl4Y7q4jnBqk6UIWiCQYzIYl3BDZOPx/jBQfAOVdi49q5lRlWEMt/IVh
-	 4gvcvs5bkZkUDajtl3pDMHQ7G9t1ZVIh4Dlry0CnzCGq/+Q6ody1AcmqWNFFMieEJs
-	 H/iYQwLyiRX5YojsFTsFYSCzGfmsL/h4STt3R+MLyr0Fc7c1Dtt6lImcPRKWaiJlOO
-	 OVFhd/e1qqtBtHz9tN5Xvs9zdB3XkrYOH+L7Xdvh3yIMnDKp/CnwwDRLVFUvj+eM6j
-	 DL36StxzHgBMQ==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Eric Biggers <ebiggers@kernel.org>,
-	linux-crypto@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCHv12 00/10] nvme: implement secure concatenation
-Date: Mon,  2 Dec 2024 15:29:49 +0100
-Message-Id: <20241202142959.81321-1-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
+	s=k20201202; t=1733151918;
+	bh=+6lpR9j9Cd3RYWsce41GRUKeHGapgAFdvoXdRbQIVvI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NfM4GXPMfnC07ZDkZSt+x+Ct+h0e2YexQx3uL+ZrfsV/yfK63RDUn1oitZ4yErFM0
+	 lD4OH/VOIqKyN5wbB5tMfwRx3J+BAzgUYESVABvBVYvLXsAnUqQWF5rs3crM//010I
+	 td/OZtP+0toeMIR0rceWetImlIIFn+Wu9SGk1Gwjgp+JoX+kWUs19oa7Lqr6E4VSXz
+	 ayli2NjXZKcJLHILjIKpgGDdyabKlWtOQDcxpHjQvEj9IrcZigpWjQYdtQ57Jp/lP2
+	 KKiTk4RUQOKSrfLj7N6xZCpv/Gl8xcur3Ns/FpZiUDxWxN6aijDteNCq6IsemnNjrA
+	 mJaCUlC1UUutA==
+Date: Mon, 2 Dec 2024 08:05:15 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	hch@lst.de, sagi@grimberg.me
+Subject: Re: New warning `nvme nvme0: using unchecked data buffer` (was:
+ [PATCHv3 3/3] nvme-pci: use sgls for all user requests if possible)
+Message-ID: <Z03Mq9xaMXbJtm0d@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241118155738.2737423-1-kbusch@meta.com>
+ <20241118155738.2737423-4-kbusch@meta.com>
+ <ed59976f-d8ef-411a-b159-0bb1c6bdfa8c@molgen.mpg.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed59976f-d8ef-411a-b159-0bb1c6bdfa8c@molgen.mpg.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241202_063012_080031_C8519E9A 
-X-CRM114-Status: GOOD (  20.32  )
+X-CRM114-CacheID: sfid-20241202_070519_534656_E7367E3F 
+X-CRM114-Status: GOOD (  19.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,131 +74,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On Mon, Dec 02, 2024 at 08:56:03AM +0100, Paul Menzel wrote:
+> Am 18.11.24 um 16:57 schrieb Keith Busch:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > If the device supports SGLs, use these for all user requests. This
+> > format encodes the expected transfer length so it can catch short buffer
+> > errors in a user command, whether it occurred accidently or maliciously.
+> > 
+> > For controllers that support SGL data mode, this is a viable mitigation
+> > to CVE-2023-6238. For controllers that don't support SGL, log a warning
+> 
+> For the layman, what is this security problem?
 
-here's my attempt to implement secure concatenation for NVMe-of TCP
-as outlined in TP8018.
-The original (v5) patchset had been split in two, the first part of
-which has already been merged with nvme-6.11, and this is the second part
-which actually implements secure concatenation.
+The passthrough interface can't validate buffer lengths against the
+command's actual payload. NVMe traditionally did not have explicit
+buffer sizes encoded in commands, so this only works correctly if the
+device and host both agree on what the implicit transfer size actually
+is. More recent NVMe features fixed that problem with explicit buffer
+sizes in the commands.
 
-Secure concatenation means that a TLS PSK is generated from the key
-material negotiated by the DH-HMAC-CHAP protocol, and the TLS PSK
-is then used for a subsequent TLS connection.
-The difference between the original definition of secure concatenation
-and the method outlined in TP8018 is that with TP8018 the connection
-is reset after DH-HMAC-CHAP negotiation, and a new connection is setup
-with the generated TLS PSK.
+Whether by accident or on purpose, user space can request a smaller
+buffer than the device is going to transfer into it. That will corrupt
+memory.
+ 
+> > -	if (has_metadata && !supports_metadata)
+> > -		return -EINVAL;
+> > +	if (!nvme_ctrl_sgl_supported(ctrl))
+> > +		dev_warn_once(ctrl->device, "using unchecked data buffer\n");
+> 
+> Linux logs this on the Dell XPS 13 9360 with PC300 NVMe SK hynix 512GB
+> (firmware revision 20004A00).
+> 
+>     [   14.399238] nvme nvme0: using unchecked data buffer
+> 
+> What should a user do about it?
 
-To implement that Sagi came up with the idea to directly reset the
-admin queue once the DH-CHAP negotiation has completed; that way
-it will be transparent to the upper layers and we don't have to
-worry about exposing queues which should not be used.
-
-A blktest submission is in
-https://github.com/osandov/blktests/pull/147
-in case anyone want to run their own tests.
-
-As usual, comments and reviews are welcome.
-
-Patchset can be found at
-git.kernel.org:/pub/scm/linux/kernel/git/hare/nvme.git
-branch secure-concat.v12
-
-Changes to v11:
-- Include reviews from Sagi
-
-Changes to v10:
-- Include reviews from Eric Biggers
-- Drop test vectors for SHA1
-- Add test vectors for SHA384 and SHA512
-- Include reviews from Mark O'Donovan
-
-Changes to v9:
-- Include reviews from Eric Biggers
-- Fixup secure concatenation after reset
-- Rebased to nvme-6.12
-
-Changes to v8:
-- Include reviews from Eric Biggers
-- Make hkdf a proper module
-- Add testcases for hkdf
-
-Changes to v7:
-- Add patch to display nvme target TLS status in debugfs
-- Include reviews from Sagi
-
-Changes to v6:
-- Rebase to nvme-6.11
-
-Changes to v5:
-- Include reviews from Sagi
-- Split patchset in two parts
-
-Changes to v4:
-- Rework reset admin queue functionality based on an idea
-  from Sagi (thanks!)
-  - kbuild robot fixes
-  - Fixup dhchap negotiation with non-empty C2 value
-
-Changes to v3:
-- Include reviews from Sagi
-- Do not start I/O queues after DH-HMAC-CHAP negotiation
-- Use bool to indicate TLS has been enabled on a queue
-- Add 'tls_keyring' sysfs attribute
-- Add 'tls_configured_key' sysfs attribute
-
-Changes to v2:
-- Fixup reset after dhchap negotiation
-- Disable namespace scanning on I/O queues after
-  dhchap negotiation
-  - Reworked TLS key handling (again)
-
-Changes to the original submission:
-- Sanitize TLS key handling
-- Fixup modconfig compilation
-
-Hannes Reinecke (10):
-  crypto,fs: Separate out hkdf_extract() and hkdf_expand()
-  nvme: add nvme_auth_generate_psk()
-  nvme: add nvme_auth_generate_digest()
-  nvme: add nvme_auth_derive_tls_psk()
-  nvme-keyring: add nvme_tls_psk_refresh()
-  nvme: always include <linux/key.h>
-  nvme-tcp: request secure channel concatenation
-  nvme-fabrics: reset admin connection for secure concatenation
-  nvmet-tcp: support secure channel concatenation
-  nvmet: add tls_concat and tls_key debugfs entries
-
- crypto/Kconfig                         |   6 +
- crypto/Makefile                        |   1 +
- crypto/hkdf.c                          | 573 +++++++++++++++++++++++++
- drivers/nvme/common/Kconfig            |   1 +
- drivers/nvme/common/auth.c             | 346 +++++++++++++++
- drivers/nvme/common/keyring.c          |  65 ++-
- drivers/nvme/host/auth.c               | 113 ++++-
- drivers/nvme/host/fabrics.c            |  34 +-
- drivers/nvme/host/fabrics.h            |   3 +
- drivers/nvme/host/nvme.h               |   2 +
- drivers/nvme/host/sysfs.c              |   4 +-
- drivers/nvme/host/tcp.c                |  68 ++-
- drivers/nvme/target/auth.c             |  72 +++-
- drivers/nvme/target/debugfs.c          |  27 ++
- drivers/nvme/target/fabrics-cmd-auth.c |  49 ++-
- drivers/nvme/target/fabrics-cmd.c      |  33 +-
- drivers/nvme/target/nvmet.h            |  38 +-
- drivers/nvme/target/tcp.c              |  24 +-
- fs/crypto/Kconfig                      |   1 +
- fs/crypto/hkdf.c                       |  85 +---
- include/crypto/hkdf.h                  |  20 +
- include/linux/nvme-auth.h              |   7 +
- include/linux/nvme-keyring.h           |  11 +
- include/linux/nvme.h                   |   7 +
- 24 files changed, 1480 insertions(+), 110 deletions(-)
- create mode 100644 crypto/hkdf.c
- create mode 100644 include/crypto/hkdf.h
-
--- 
-2.35.3
-
+Nothing for a user to do. This is an indication that the passthrough
+interface has been used with a device that can only use implicit
+transfer lengths. It's more of an indication that improper use of this
+interface might be the cause of memory corruption observations.
 
