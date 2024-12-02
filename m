@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BA72D78328
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 14:02:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07273D78327
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2024 14:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4O0ycFXh8LXx1RVJasYMnLE6L/8uTR2bdb8yC1NxyKY=; b=u2gV9eze29IBWabddxx47iFmc4
-	k/lGfuzFIdeoou2eAz+G9piNspRBHagsuMq9JfRlut13wYLzWn4CQYAmnvoZxUebh1IKK4GxdaoQd
-	xil5tEUxoZUVOX0en8W9HhoqjhjurrGFtCRUPew/YRzWkDPG2fkMSVwwbaEa3Q06qR0eLRnshrvhd
-	r7ZEZnRGk7bVsOoTzJHr0Y2cYh0nuOo+neTxgU7SBfF1zhNnDUbg6i05s/m9gwd3pw6V+498wsbtv
-	Ch6W71Fjyah3toY094iBmSgJW4UVeG4w1bPMqTTzBFgI1fFzv5g7zK9Y6QvjMSqRA80k9f70Bav56
-	EvhW0oTw==;
+	bh=yX46BcerRd35uVyhIrxpMAuXRID1aO6PRtofNLjF+Zo=; b=CvoMKhTWpJwNyw7/gNXPepHtsV
+	urvllH0n12/zvRjLimIOB+nBPlhH/Ys8HleE3LCdzcVSj5ek+95raQev+dSVXcAuFRVyx68OqI70a
+	cL1uMywfQc85phAdkHPegmuJ+Kw9D00jxOeKgSXC5WM1hhKCUV2qtyEdvpm6mwT4Tk6keVO1QkYhv
+	W2bkYKQdMH4RwD6ZZQf1fs57ysSNZME+0QnfA2X9uQQy/Z/cgjwdeZS5pl73C8ixKUeS/Zb0jkNxb
+	opJja9qICYnPSay3gcNHW5ld58ULi1NwTSpfg+hPNbmvgzNFOURm+c37pmFF8YjrubdlyKQ2Wbxyo
+	2Fds/WTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI70b-00000006KuB-45Pb;
+	id 1tI70b-00000006KtL-15DJ;
 	Mon, 02 Dec 2024 14:02:41 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tI6yZ-00000006KP7-3Z55
+	id 1tI6yX-00000006KNt-0WCd
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Dec 2024 14:00:36 +0000
+	Mon, 02 Dec 2024 14:00:34 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 872ECA40CE4;
-	Mon,  2 Dec 2024 13:58:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46828C4CED6;
-	Mon,  2 Dec 2024 14:00:34 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 6FA085C54FE;
+	Mon,  2 Dec 2024 13:59:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E82C4CEDA;
+	Mon,  2 Dec 2024 14:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733148034;
-	bh=5fZ7EXrytyCpiro/tG84vBDeaW3vHOORuXZTueXikB4=;
+	s=k20201202; t=1733148032;
+	bh=QwopfMBlIpOJKvr84RlumMLTnY5y/KlMMcdWguS43pQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=bvqUQ/VS7hBSvNuY72vN7+D0BNoN1TYVsmReR+ugpZ4Mdb0jYb0ej/7yV7eOIyCOz
-	 2vyGFHAq0Cp/KXp1N9aqU3fXXWqskEoP38lTPnAdwSbbjcXqNphjqbl8r453fSPfOn
-	 2DSrFBiob05SZceAGX5gsWZYN8itXF0LNXYrt6kEwu/nezlxS4kiauOD1E4Rth0y5t
-	 WO91U46MtvVHWmKMzWBfIUz4tXR2CzppISi5iWHYCQyc4tq26wsRcWAbXCWt3HA1hI
-	 7mgyXBzHAmrZLF1iDjC50pvxQUvECe77FVv3jVC+Ag3fE0gvIDmMUEJkna7eFzV+NC
-	 dZnqbKSfrQg/Q==
+	b=vILuAv9kzZEUUbo+6bQQUIEj33xabc+2LPXE6xcQkvqMHgAH1aBdy133YS7lnQ3pS
+	 K+w6AftighOsw6MS+9LjK1bZ3HSL8jweR9lZXIlSkTo26bG04HRjhKDx9Oij+ZUd7J
+	 AesheAr3s/QFZE5BKlg2eMc51l/05nqFiGXMlZMvPhEX8g8EIyIyYei1t6q+khXwqJ
+	 xTRlQlqKiHxMerLC1PkozpmEC1pAqP6/mB0DKw1MoYxSqvih78jjaB3LcgImkT+Ui6
+	 EazyrShhcg612YOUxJCu4y2IMEQdXdQScRtVeneX+OQ6Wby5k2JrKsTnRiZW5vsicW
+	 Bb7nC1Mn34Z0w==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Mon, 02 Dec 2024 15:00:11 +0100
-Subject: [PATCH v6 3/8] virtio: hookup irq_get_affinity callback
+Date: Mon, 02 Dec 2024 15:00:10 +0100
+Subject: [PATCH v6 2/8] PCI: hookup irq_get_affinity callback
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241202-refactor-blk-affinity-helpers-v6-3-27211e9c2cd5@kernel.org>
+Message-Id: <20241202-refactor-blk-affinity-helpers-v6-2-27211e9c2cd5@kernel.org>
 References: <20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org>
 In-Reply-To: <20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -68,8 +68,8 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241202_060035_956752_C6B21946 
-X-CRM114-Status: GOOD (  13.11  )
+X-CRM114-CacheID: sfid-20241202_060033_206478_17D363DC 
+X-CRM114-Status: GOOD (  12.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,54 +85,50 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 struct bus_type has a new callback for retrieving the IRQ affinity for a
-device. Hook this callback up for virtio based devices.
+device. Hook this callback up for PCI based devices.
 
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Ming Lei <ming.lei@redhat.com>
 Reviewed-by: John Garry <john.g.garry@oracle.com>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/virtio/virtio.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/pci/pci-driver.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-index b9095751e43bb7db5fc991b0cc0979d2e86f7b9b..b10ed9f5b5435ae0bf7ab52a6519a7fdc4d5920d 100644
---- a/drivers/virtio/virtio.c
-+++ b/drivers/virtio/virtio.c
-@@ -377,6 +377,24 @@ static void virtio_dev_remove(struct device *_d)
- 	of_node_put(dev->dev.of_node);
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index 35270172c833186995aebdda6f95ab3ffd7c67a0..f57ea36d125d6eecfb60a6dc84d189cf9ed9b423 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -1670,6 +1670,19 @@ static void pci_dma_cleanup(struct device *dev)
+ 		iommu_device_unuse_default_domain(dev);
  }
  
 +/*
-+ * virtio_irq_get_affinity - get IRQ affinity mask for device
-+ * @_d: ptr to dev structure
++ * pci_device_irq_get_affinity - get IRQ affinity mask for device
++ * @dev: ptr to dev structure
 + * @irq_vec: interrupt vector number
 + *
-+ * Return the CPU affinity mask for @_d and @irq_vec.
++ * Return the CPU affinity mask for @dev and @irq_vec.
 + */
-+static const struct cpumask *virtio_irq_get_affinity(struct device *_d,
-+						     unsigned int irq_vec)
++static const struct cpumask *pci_device_irq_get_affinity(struct device *dev,
++					unsigned int irq_vec)
 +{
-+	struct virtio_device *dev = dev_to_virtio(_d);
-+
-+	if (!dev->config->get_vq_affinity)
-+		return NULL;
-+
-+	return dev->config->get_vq_affinity(dev, irq_vec);
++	return pci_irq_get_affinity(to_pci_dev(dev), irq_vec);
 +}
 +
- static const struct bus_type virtio_bus = {
- 	.name  = "virtio",
- 	.match = virtio_dev_match,
-@@ -384,6 +402,7 @@ static const struct bus_type virtio_bus = {
- 	.uevent = virtio_uevent,
- 	.probe = virtio_dev_probe,
- 	.remove = virtio_dev_remove,
-+	.irq_get_affinity = virtio_irq_get_affinity,
- };
- 
- int __register_virtio_driver(struct virtio_driver *driver, struct module *owner)
+ const struct bus_type pci_bus_type = {
+ 	.name		= "pci",
+ 	.match		= pci_bus_match,
+@@ -1677,6 +1690,7 @@ const struct bus_type pci_bus_type = {
+ 	.probe		= pci_device_probe,
+ 	.remove		= pci_device_remove,
+ 	.shutdown	= pci_device_shutdown,
++	.irq_get_affinity = pci_device_irq_get_affinity,
+ 	.dev_groups	= pci_dev_groups,
+ 	.bus_groups	= pci_bus_groups,
+ 	.drv_groups	= pci_drv_groups,
 
 -- 
 2.47.0
