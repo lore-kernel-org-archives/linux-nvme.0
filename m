@@ -4,132 +4,180 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C594E6C616
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Dec 2024 08:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DECEE6C619
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Dec 2024 08:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dTwN8W55S8hClRqr9MBN2nck11P6obebOea0MeHRuqA=; b=Psc7LU4O4btXY5WKuwF1EKB3tN
-	9ylhg05/C1b4TilhFtIrDufaCsdr8yk9pTf4+Sy0EQf6/SC3GxfTqS59aQskcyCPUfOrL69r6Gr7d
-	Jro5l/8GbmFXxymJHEhkHmEHMEdym7Q6oHC6hj1aomGgPKIjX1LSMGUGZNBw/HPxK9Zhr0p/jf7+W
-	HxKmMKcLBKYy2onITWjTFNhQcC/87GdprsTmpAs04Oyma5C6sxVAJizFBMJCs2MnSiqBZs6sdLSII
-	SCy6cB/qLNlsEK+XZ3hdzIYZO5E+hxE9sQaRz3yJpxOv7dIvicgkoWp2rEqlGhcBxNZC2njyYG44M
-	Vre6xQ5w==;
+	bh=irsXOEhPFqSeBi2Go/R2gmhkUDNmBlQGmkAkA/Fn/9c=; b=BS5zQmfoAFdWIcnL+kY3Bv0Ud5
+	57O0TAn2ueWYxyfUdMJcvEsKzxBrbfvl3UV+3xTgGWFMPU0MAGyIJe2rJmgic60Tq3rWGr5bVNDW/
+	0TW22i2AMkZ0C29rXBFByxkP3rh0az+GZ2A0dmnGH3yHSOvSPQDDubUK0nqGcrN/whzoDN/ZQn462
+	HO0kymKwdEub24Tyh+P6dOHNoIfMr0oSgmQcEqu5jZAMgRllJLRReZY9VxVIz3TcIbN5lPvUL5qQg
+	f24//ZwYGq6WL4CN/nfiEHi6AnLq36D/z4WmKtjkGDflW99ZxrGfOf0le3osOL2lyF1EHoh9MtyN8
+	D9rClffw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIO9e-00000008fgZ-3LEd;
-	Tue, 03 Dec 2024 08:21:10 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1tIOEf-00000008gXb-0Koz;
+	Tue, 03 Dec 2024 08:26:21 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIO9X-00000008fe4-3zPC
+	id 1tIOEc-00000008gWi-1pUM
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Dec 2024 08:21:06 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241203082057epoutp0301fb9967a5e541fa3b2106317e5e8d5b~NnQCq-ds31682716827epoutp03E
-	for <linux-nvme@lists.infradead.org>; Tue,  3 Dec 2024 08:20:57 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241203082057epoutp0301fb9967a5e541fa3b2106317e5e8d5b~NnQCq-ds31682716827epoutp03E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1733214057;
-	bh=dTwN8W55S8hClRqr9MBN2nck11P6obebOea0MeHRuqA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FIZAGIp9coEJM9WW7BRUFlbUVz+2dCeqPG7PBhe04iXuvwCkga9R9rG6apclJhGC5
-	 eDtWvtglwtpusuiiejuiE2JPTWiVh5RLUzxmxDFIF4s3lm8UtzWWikvTbGyOGzcR8w
-	 VeDbFi+5Xhc1pIY0BkGeAh9BuTRSVew7FEd3oDLs=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20241203082057epcas5p3062b3a689bce4846701582781ce8d054~NnQCc8WBP2589325893epcas5p3T;
-	Tue,  3 Dec 2024 08:20:57 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Y2YWX0Xscz4x9Q9; Tue,  3 Dec
-	2024 08:20:56 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	DC.8A.29212.76FBE476; Tue,  3 Dec 2024 17:20:55 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20241203070444epcas5p298f09249205b1e3edc76c90e5de76c04~NmNfM7DM21505115051epcas5p2e;
-	Tue,  3 Dec 2024 07:04:44 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241203070444epsmtrp252ce44e9ebfc3f2ee75f707cfd3f9f75~NmNfLnHTT1560515605epsmtrp2H;
-	Tue,  3 Dec 2024 07:04:44 +0000 (GMT)
-X-AuditID: b6c32a50-801fa7000000721c-c3-674ebf6767d2
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	17.6C.33707.C8DAE476; Tue,  3 Dec 2024 16:04:44 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241203070441epsmtip1b7ef5e22bbb169dc177b845e8c10c895~NmNcsyW8-1419214192epsmtip1I;
-	Tue,  3 Dec 2024 07:04:41 +0000 (GMT)
-Date: Tue, 3 Dec 2024 12:26:45 +0530
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com,
-	anuj1072538@gmail.com, brauner@kernel.org, jack@suse.cz,
-	viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
-	linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v11 06/10] io_uring: introduce attributes for read/write
- and PI support
-Message-ID: <20241203065645.GA19359@green245>
+	Tue, 03 Dec 2024 08:26:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1733214378; x=1764750378;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=irsXOEhPFqSeBi2Go/R2gmhkUDNmBlQGmkAkA/Fn/9c=;
+  b=LOBO0GeZqeIyK9AXQW5lQ8jRSnm7bSvC7KZ3DhX1mb/ySTSAXOkAHkvN
+   LWIJHSczyvTnV+cSx16eny8sxX+zQZEkdM/q/XjL9RvC+Yw3qLvoGVNIV
+   NynTcPD8HcTgobL4vLiBpfH9ouSiMjf7gvGVW5F9blhvl7a4uvrSo3NAm
+   wM0Ie+tYhv3CO4lHAhi/8we3BYbYHE7TPnmxrHu/AEndhc975oK/bMlu2
+   IDh69N2/tESMeCas146CGK7TF5bjlCm55UwzePHNTyg0cYQPUn1x58qNQ
+   Phiokbq4eb40Zx2sdjwVbZ9aGuAn7gRvwruteaBl9q8MuEnCuWgi/3Ef7
+   Q==;
+X-CSE-ConnectionGUID: H9GvhtLjReCz7wnQsE7DjQ==
+X-CSE-MsgGUID: 5SNjxsa/QHOTbC5GEyq3HQ==
+X-IronPort-AV: E=Sophos;i="6.12,204,1728921600"; 
+   d="scan'208";a="33965847"
+Received: from mail-dm6nam10lp2049.outbound.protection.outlook.com (HELO NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.49])
+  by ob1.hgst.iphmx.com with ESMTP; 03 Dec 2024 16:26:16 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wTCPk3etAxurSnHqaekuBjWXJxKX2w7kyHeSoE82cmBItsNMXjEdH85EkF8kqf4rsoB8LiBj7EE+QaJzMD7in4ieIvYb4P0+1Zzwuah9U3brKe1Ycz4FVstA4fAiztWxYZjUsGxtTMGEQY1j1gRm+9CaXReDXlKcB/+l2npDutk9sDpbr+7czzWzXzGLaLydEUVorC4zBSLqvxdEQPm7+ZyW05xC67flbT7S1vxvIRzk+ANPmxwvirCrHblbT7CbjoIrQRte7E8WElP6GDWMw9m6ncIvJASyPOCyeE9Oho8IkIX7CtoFG9V+Jh9Xa/6pq6wFKPWX05xTO97SFpFj3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=irsXOEhPFqSeBi2Go/R2gmhkUDNmBlQGmkAkA/Fn/9c=;
+ b=dwhibgK++DlkWXTAt/AaniFiJDlbJpkC2Yb0B+rmPUJ1WFzTCc8XL3ayIuy0SFKjcIFU0lzbEXgvFyVLi6aGOKyRXvE12yxx0T9YL1hfK6SuerMDIetnhQTimP6W8SPS8HfPIDpX+roOLx3lgsJ7IikFq8bkMKa39E58S0u/52I4m1p91KE5+107ECPDew7KF3uX7jJXYZz8WEV1D5cuY04Cgnfmw4yNrQCl3SYRZkQBmx5MHkGu2tNd6TCDWaR2TibbxEltnT5wCWujQ0qu3zaydT4FnUwp0zLYDcR337DpmsZnL5n5izWxnm/mqewVSjGCXVxUg7V3Or9X0nkSUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=irsXOEhPFqSeBi2Go/R2gmhkUDNmBlQGmkAkA/Fn/9c=;
+ b=rIYVhkfMnatBMYV3A1atsnBNTQ0uFK7i+JVXfZLeEZ9/k8qs8Ucwf3/cakEsxpPyIXycJEVf6Smruk212WfbV/TbtjAj++sO2yNSLzlWfDCZkbR6DYSZzrNr40S9tSPyemjNyL1uxw3OU1dhFLRFhub0xU/YQY1p9S/sIo5nb9Y=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ IA0PR04MB8836.namprd04.prod.outlook.com (2603:10b6:208:486::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.18; Tue, 3 Dec
+ 2024 08:26:13 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.8207.017; Tue, 3 Dec 2024
+ 08:26:13 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, hch
+	<hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>, "sagi@grimberg.me"
+	<sagi@grimberg.me>, "axboe@kernel.dk" <axboe@kernel.dk>,
+	"chaitanyak@nvidia.com" <chaitanyak@nvidia.com>, "gjoyce@linux.ibm.com"
+	<gjoyce@linux.ibm.com>, "jirong.feng@easystack.cn" <jirong.feng@easystack.cn>
+Subject: Re: [PATCH blktests 0/2] add nvme test for creating sleep while
+ atomic kernel BUG
+Thread-Topic: [PATCH blktests 0/2] add nvme test for creating sleep while
+ atomic kernel BUG
+Thread-Index: AQHbQji2nd2WUOE9rEKflXfeOZlVkLLPiuaAgAR70wCAAC7bAA==
+Date: Tue, 3 Dec 2024 08:26:13 +0000
+Message-ID: <htfujjbga5xvlmlkv46lncbutqr5b63kvylveewoiqmsern4qz@m7ulmfr3tjp3>
+References: <20241129080231.2994578-1-nilay@linux.ibm.com>
+ <kuvftnq5cjwtzh557umohu7afvndg3tl4lx6qfjjuwd675phk3@y5iaypkzdsz6>
+ <9d6b3b9c-c9df-4fcd-bf2e-6a5635171bcd@linux.ibm.com>
+In-Reply-To: <9d6b3b9c-c9df-4fcd-bf2e-6a5635171bcd@linux.ibm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|IA0PR04MB8836:EE_
+x-ms-office365-filtering-correlation-id: 22e8a87e-fc02-4c7e-6b52-08dd13742648
+x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?XuCrGj231LWDfXY3CT/GV/qlbn8Of6htDMZuh68XmV/bvEHQcun5IjWzpK7j?=
+ =?us-ascii?Q?2pvox+KpaPpocw99KuWeH9YZ4iIAeJWZ6Vs6igRY+MqKeXkFJrvkWSEgC9Jt?=
+ =?us-ascii?Q?TUF0yDfaqDoI85kCed+CecBtqBaXxudnAWlR8R53t0EsDvn+1enu+3sUfJxG?=
+ =?us-ascii?Q?CaFMVJUG8bGsDiGqPunPXMKhfvXJ1bOJhx2xfq6TY39acCNHLirdlnz1zV7T?=
+ =?us-ascii?Q?nCnlnI/NUX4ouC1E0mKyLGiIeBNqiop++M5ss/cMHqskKBBW03jcwiLFqajE?=
+ =?us-ascii?Q?HWJ9y21QQjjdXpckf7q1PzuIRJSjYrWvPAW2BUSsVIJep790RUmZfu9sY/L8?=
+ =?us-ascii?Q?1IjLlHqNeFXeT25ZllGVhX/Oxb/51okpQ3Ow5Qqe7EMFGi4ei5EPMZdVNKzZ?=
+ =?us-ascii?Q?pEMKPWlakjooOvMkbntHvVQvHzjF2I+dnt1QihqHuUN1ETyL0q/FTgHrP5Xl?=
+ =?us-ascii?Q?dWr5KwqnzFkowiSXOa3A8hNy9T5B7dXDK0plBVQC8lnwyclWNIHN914Qmxje?=
+ =?us-ascii?Q?GXHRgjHtUlvyi/0Mvkx1dchEdBQJT4BRST5lJciE5GKqo4pN7k/VFyvMqjkY?=
+ =?us-ascii?Q?vF81frtVkj/kZgtm9GICnDWOEDo8Y6mdyneT66haTYy8qAB5f/ziDHCVltfl?=
+ =?us-ascii?Q?bLNRDsZh3BZ6l353f4p6plavaKimd75MGQdDe70dbWBI+78PwtppOxln2Wte?=
+ =?us-ascii?Q?xdQLndp7jtl5JL8TChGhFvgXH3A3DwFTwxo2oCfvzlHks9T08M5GYCV/gfpL?=
+ =?us-ascii?Q?DSyIlZobzIgW5b9kH9TcjdV7Es822QMSq3n0DZhvkoEp9QFHDuqbhAcNs2tF?=
+ =?us-ascii?Q?E1UjJwAX/ZcSULVUIyg6E9gGwTbKvWxTl95g6Ve494LqnXZh9YxP5WJ/prxI?=
+ =?us-ascii?Q?XaonY2ar4NlVNd4Pcr0cl3z0gkX6qOmGXG83YGE68bF726Nd1uHaUfEi3SRX?=
+ =?us-ascii?Q?0uBB/Su59QCdBjOyXZo5od3n5VIQQyIlUIFARsBC0m2TCkaCPUMDZpHUZEQo?=
+ =?us-ascii?Q?AzYFmbM8L5X6d0hL7/UZiG55uBUb3RzGyOcaCbAb310QEfLnzTIrzo+zeZIf?=
+ =?us-ascii?Q?C/v2KoSl+HzMQ8gTv+l2JQKyhdelH/KwL9H/kO1Gb3k8EPoX8UJavKuLai+L?=
+ =?us-ascii?Q?TNmp3dPszT80Tz0zGQyMDbuWINnJsBR4UW3vJhsnANHibVV7onb7GW+O/DY9?=
+ =?us-ascii?Q?3sp1u7GDyNTZGEvhsbc2L1zWBu85zOjXSw9rIGFLaYKX9BnOTKsJcxojQWZs?=
+ =?us-ascii?Q?rpmK5DerC3izX2wXXaMSiQkDLU0bK/AEmLTXp+1i1/eD6Tkh9n8hob/sK3tv?=
+ =?us-ascii?Q?9xmOOcptIdv5e9xvx7zgpSMBexvcnZjjBfhFbznblLxJvglql2NZ5ruRx6/L?=
+ =?us-ascii?Q?ErygmJR0p1VrwCvS+xSoE1sLuB39N2t+8eavm4SUy5XeYS0yVVd8chIpSIfD?=
+ =?us-ascii?Q?h2Ghq691eBY=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5d/TUn6PhqYS7e4u+bdkP6mpUbF561KDTB9xZdoTUok49lxsH+yyPSqBHtmd?=
+ =?us-ascii?Q?qbZIujLNsF+ck8PFKpjSpStuxDHH19vjUkLAIoHZz0X/MgfLjSRUYF25IPgx?=
+ =?us-ascii?Q?1EtNuv4d1J4k0707hR4EZJlqM1wulPYs5laeQMKkTVHGqQ7oh9zM51xM6LHv?=
+ =?us-ascii?Q?16KCIRLvXNhf6UnnhrE6zQ2WIp7q39zzz58fSK13Fef3HMq1pJOXF+VJ8Q5s?=
+ =?us-ascii?Q?+ZRf4QeoZeF84BxTGZQIcagb5NjLSjTSDVpYIuPtFwVEO85pORplve77bh8w?=
+ =?us-ascii?Q?ldyMZHA4Omiihqu1fOZa+zJZd6jb/mT0Wzxm/CQW4A3FXsiUYqD+QWoaB3Yw?=
+ =?us-ascii?Q?MmiepAG6rHvKteI3gUWQfzQz+aNL0IhQjw+MoXortXTSZgT3PvC6nl4oU/Oa?=
+ =?us-ascii?Q?xN5yNDwXvwZk3Euf/Tz6Ur/FSyRk8X+S65Yny5yI/l93iIDgApDxW343lf47?=
+ =?us-ascii?Q?Hla1UEoqn1bFpMngWwdmakTyPW8cBn0SiTurBNKdCD/vmiU+7/XmE1Q7W2OR?=
+ =?us-ascii?Q?KZpk5rMH8TeuQ0OtTRzyBrnR84ryq27UF0fzo6uqj7YH01uOkN+glKH+wvlE?=
+ =?us-ascii?Q?BOuKfmX3ToP6axJs3HJc4tt+4y7Ap7dq5PEVW212J7W6d+lhLeNkdDykOg1A?=
+ =?us-ascii?Q?LJl3aQmtbeIKI2GN4XbHPHPgMjJHqMM+5Cc6EOPpP0IFhLMANed9XQ2dYefD?=
+ =?us-ascii?Q?sgSCn/oPOaPA35x2Cg91eRwLCmKMtruUUiX9q5ymlhnjHrTHw4HRtN3Vc204?=
+ =?us-ascii?Q?Jtxr3kLv/3Z7kN6b8YUEM9Rfbv+q++esKYnB5qThvS8nEKrsBmkcj7P6CquT?=
+ =?us-ascii?Q?6WshSuJ/7J33H7E6gS+fZcwWsZxKj+ygwKsMw3rNvI/tNFHWi8tWwTSbL0zq?=
+ =?us-ascii?Q?TftbUjAEcpNctBd6pukptUiqwlUTBgRfLUauKyEiD6Uj0QbK49VdUOIKDhIz?=
+ =?us-ascii?Q?lHsKBuG7wW7TC09Cr33hfRvQybOTnJJZCDOhjKJN9LTz8rbAheUnHNlnQ/Kz?=
+ =?us-ascii?Q?jw43zRXRMkdHUrl/bnXnBxZR2AU7fHKFxrlzgOs2m95xomN33t9AnpEWtFhf?=
+ =?us-ascii?Q?eKQCxrt3M87XVawmBDAQGOUcNWJ+fANElOZGSmpKjOooQU8HzfJSgyIePU5Y?=
+ =?us-ascii?Q?v7QjjLZ5uigrvbSdPP4C3Y3YK4r0CB5x44NePHLu3yZk9xnAdGI5d+TxFM5N?=
+ =?us-ascii?Q?jKLFrbMfwjVqIPriYE29C/2j1qYxeK2yrsvkgkDhm31Cyn0Wg5Duc8HrbE+i?=
+ =?us-ascii?Q?+OBeSKe82l3T8nhbYhSd+3fShhilA1CYImIsI9Uog5SL2nMGb7LrRZk3KBvg?=
+ =?us-ascii?Q?PHAjrbY4S9cMGJEbLCMFuQgJ+ra4T8jCM6hSvAzaexCXe3ozyQJHpHp/GIbZ?=
+ =?us-ascii?Q?Ew7Cn/MMFfgwzxhz2Ewb6FJyWqmK8yFA4CrLm3KYMJNl5JL7/s53PgvnJf8J?=
+ =?us-ascii?Q?WAsC/U2JNBVVLiPnxLsGF24Oiu3L6QliEsHgxbaZPWy3BBJVyTxqegyFLort?=
+ =?us-ascii?Q?QmrH3b7ucSLSuhHT4o7hXvRXkOL9Uhakcc0IZxwFyb2qQsUfhMK01wx4PACW?=
+ =?us-ascii?Q?Q34FyNlQyFPVOgzM8Z2NNOq9jDQ067H3MsYoeKOngGVZ7/fbu+kvTa9ghJVN?=
+ =?us-ascii?Q?d/kI7EWxfVfbZpF/KOHBKsY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <82B502267B6E9541B057548A1DD53F47@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <yq1r06psey3.fsf@ca-mkp.ca.oracle.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf1CTdRzH+z4bzwY2fZx6fV1J9CzPIAabbOMhWXbC1XONlM6rS7jEHTxs
-	HPvVNiSquxEIJWJIHqYDB6ecO34c0CTk1xQmsCAaFhXy6+KSQWmAQHBexGxjw/O/1+fzeb+/
-	38/n+4NJY0+jHGaG2kDp1DIljgbRW26H7uPJbx2W82uKYonFlTU6UVHbAoi6yRKUeHB7CRCj
-	XW0IUVPXixDzBU46Uf5NPkL0Pp5Dia/tvwHCNvYq0WnrpxOV11wM4sxIK0pYHG6EGFp3BBBD
-	pgrGG9vJNtMkgxz+MYu01p5GyevVRrJjNBclF11jdPKr5lpADlb1MMhlazBpnZ5DEoOSMmMV
-	lCyN0oVQ6lRNWoZaLsGlR1PiUkRivoAniCGi8RC1TEVJ8PiERN6bGUrPOHjISZkyy5NKlOn1
-	eOTrsTpNloEKUWj0BglOadOUWqE2Qi9T6bPU8gg1ZXhNwOfvF3mEJzIVxatmoHWEfOye7wC5
-	4P7uIhDIhJgQOju7aV5mY50AFppTi0CQh5cAHF/MA0+CvNm7AZuOBWe7v9AGYPfKDdQXzABY
-	fXUM8aro2Muw3dW3wSi2D/bMFgAv78RE8PzSdxsGGnaaBie7F1BvYQf2IWy7VL/RCAvjQZfj
-	DsPH22H/pWl6EWAyA7EoaF4M9qZ3YVzY1eJAvOtAbIoJL/8wg/jai4d/XOj08w5439HM8DEH
-	Ls/bUB/L4aNhl1+jhfl9N4GPD8KCgZKNHmiYAraah/yaPbBsoAHx5bfCs2vT/jzLo9lkHH5R
-	U+FnCG3OXMTbM8RIOHFK6TugaQCvLLiQc+BF01OjmZ7azsfhsKpjCTV57DTseWhxM30YChvb
-	I6tAQC3gUFq9Sk6lirQCnprKfnLjqRqVFWw897DEVlDXtB5hBwgT2AFk0vCdLEujVM5mpcly
-	PqF0mhRdlpLS24HIc1mlNM6uVI3nv6gNKQJhDF8oFouFMVFiAf4c60HB5TQ2JpcZqEyK0lK6
-	TR/CDOTkItyu+G8f6/6N4u+N/lT85xH3wamtYQk5bHs1O70vqOUet9u9X1S+Oyx6sN6wxdLV
-	sHCSqjw2I5hYw+7YslmfsxjmDyzW5uHe429dDN87ixdze7LPxNrz+gvpgy9VJmUfd5ZvObq+
-	Wpw58vfiCnXlxn+PjG9fTHjH+DBfqnpYF/p9+FRo3vvJEu0zOT+VIj83DZTy4z66dqSMqx7J
-	Te6/Zbl7M67eiNUGv/tP/6jKFV32+3hZQCNnQVJyCl9fXU5ncwjXK+PWPYcb3huvKLSdP3Sg
-	9dk5yS9Y5Zdj0rhzJ6oHFcYXJn7tFTRFHjAGb4tsPXavMz3JfD1GerXDdCjDEJv/WfJfOF2v
-	kAnCaDq97H9HwECqdwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEIsWRmVeSWpSXmKPExsWy7bCSnG7PWr90g3vP2Sw+fv3NYjFn1TZG
-	i9V3+9ksXh/+xGhx88BOJouVq48yWbxrPcdiMXt6M5PF0f9v2SwmHbrGaLH3lrbFnr0nWSzm
-	L3vKbtF9fQebxfLj/5gszv89zmpxftYcdgdBj52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8
-	eovFo2/LKkaPMwuOsHt83iTnsenJW6YArigum5TUnMyy1CJ9uwSujBvHpjMVtMtV9E+/ztrA
-	eFi8i5GTQ0LAROL9uV2MXYxcHEIC2xkl/h5YxQKRkJA49XIZI4QtLLHy33N2iKInjBJ/Nkxn
-	BkmwCKhI7Hp6jAnEZhNQlzjyvBWsQUTAVGLyp61sIA3MAt3MEi/2zWUFSQgLxErsnLkGrJlX
-	QFfi6fELCFOPLbvPCJEQlDg58wnYGcwCWhI3/r0E2sABZEtLLP/HAWJyChhLzPsoB1IhKqAs
-	cWDbcaYJjIKzkDTPQtI8C6F5ASPzKkbR1ILi3PTc5AJDveLE3OLSvHS95PzcTYzgaNQK2sG4
-	bP1fvUOMTByMhxglOJiVRHiXr/dOF+JNSaysSi3Kjy8qzUktPsQozcGiJM6rnNOZIiSQnliS
-	mp2aWpBaBJNl4uCUamDibrPgOcupsWj6AnGPL5rXGBQcOM/O5phxbcHV6VEeD7W8ih9O+FFm
-	sXFd92Xv1DmTxDOYP2/eHxmjMSfk1ft1l2Wenf3npVZmIH43l/24Z3MrWybDtwcuP78oVv87
-	uGrlkpl2SZdeLBa9UdhtE7l+4eaQgufSWnpHmF7F9d2cGMbRevoZs01Ljivvq/ybJwQfM/SZ
-	10XdeyhbHHxt9Y+7q9gMcxM/cdgvaCx7xHSZ+Y7/8fwE1geTt7mYSrhP/uGdfkPrdIxH1t9/
-	Hxueu2zRzLa8+PrpJZMXWuHHD4iF/pyj/SHkr5rkJFmZ4miuW4nWXo3Cey/l2N+Iafr0q6hC
-	3PL/xHDtA0+umrHMFnRQYinOSDTUYi4qTgQAck3htjUDAAA=
-X-CMS-MailID: 20241203070444epcas5p298f09249205b1e3edc76c90e5de76c04
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----x2Ox1x5iNi7PYvDn9sIpGVgpr3_-t8l_a8xeGFysXFeU9Shi=_51c60_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241128113109epcas5p46022c85174da65853c85a8848b32f164
-References: <20241128112240.8867-1-anuj20.g@samsung.com>
-	<CGME20241128113109epcas5p46022c85174da65853c85a8848b32f164@epcas5p4.samsung.com>
-	<20241128112240.8867-7-anuj20.g@samsung.com>
-	<yq1r06psey3.fsf@ca-mkp.ca.oracle.com>
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: xbjvm8H7D7wf2B0byaJNUtCri83F/CwJlGbSGwjrjIM6+buq+Pe3gqdH99J9ThyIZpD8F5zb4mw3m1JHJT92mooB0sUZcIjQvrzJB+a7H+NtSt76XMWvVR30RklODWaqeTQoQx7RCXgcl6bS4qZ+xTK1O+PNV6E5zJ87zYn/H7WOIaQ38auRcpN5W+1fdohl00QJIOayoaQV5obi2804LcPg0sJS2pIg8SOV8lHvEbVUnEjibSMxBb1sQYgDRo/y0ZJVHu9bF9S/vrJWZwVNNJNACloCRCqVS291WSQjWkiUK+4WuojcQPH8/FTWs2ZZIue2yFJ8n+pjo9LsiNMbmiZ/jfdUmTgA+P8AWHz/bWY/8ht0K7JLbbW5ctpbFEnkBZEJ3WiQs7X6PWGUg0k07qUyGaCOF/toFdMHALYZvCqUq2N+LEgiiWWlfKytsRjgsOaZIJ5aVQxq9lMIkdxRS58auxQOjpjY2hNp9ts+gOwIuiE8XnfQcuDNYSOml//hB4UdQPTe8UltuG+I5eUPRKDjsnSg5f/rGK+6k3uNwh3SrqqL/iK1ur10Eb2LFnd/saUqTEiXD+BnTJeYulNJD69yrudnGthA1M67MHaJCbH92teNpl1bv6m/VM7aMXvR
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22e8a87e-fc02-4c7e-6b52-08dd13742648
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2024 08:26:13.5329
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VN/VFgJHP+huvU6AQ+AJKj+UyLN++eay+vh6j2eOR1V+OedsWKW8Kba2qQR+I6xcQ3uDFf4acrrhnM1fnS3toMJFLQ0/n9wDPFsttSxHf3U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR04MB8836
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241203_002104_454205_E070F339 
-X-CRM114-Status: GOOD (  22.17  )
+X-CRM114-CacheID: sfid-20241203_002618_493798_D4BFD1A9 
+X-CRM114-Status: GOOD (  24.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,128 +192,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------x2Ox1x5iNi7PYvDn9sIpGVgpr3_-t8l_a8xeGFysXFeU9Shi=_51c60_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+CC: Jirong,
 
-On Mon, Dec 02, 2024 at 09:13:14PM -0500, Martin K. Petersen wrote:
-> 
-> I have things running on my end on top of Jens' tree (without error
-> injection, that's to come).
-> 
-> One question, though: How am I to determine that the kernel supports
-> attr_ptr and IORING_RW_ATTR_FLAG_PI? Now that we no longer have separate
-> IORING_OP_{READ,WRITE}_META commands I can't use IO_URING_OP_SUPPORTED
-> to find out whether the running kernel supports PI passthrough.
+On Dec 03, 2024 / 11:08, Nilay Shroff wrote:
+>=20
+>=20
+> On 11/30/24 14:40, Shinichiro Kawasaki wrote:
+> > On Nov 29, 2024 / 13:31, Nilay Shroff wrote:
+> >> Hi,
+> >>
+> >> There're two patches in this series. The first patch is a preparation =
+patch=20
+> >> for reusing a common function nvmf_wait_for_ns from multiple nvme test=
+ scripts.=20
+> >> The second patch adds a new nvme regression[1] test for commit 5053639=
+57fad=20
+> >> ("nvmet: fix nvme status code when namespace is disabled").
+> >=20
+> > Hi Nilay, thank your very much for the fix actions. Much appreciated.
+> >=20
+> > I tried these blktests patches with the kernel just before the commit
+> > 505363957fad, at the git hash 6825bdde4434. I expected the new test cas=
+e fails,
+> > but it passes. I increased the number of iterations from 10 to 100, but=
+ it still
+> > passes. Do you observe the test case failure on your test systems?
+> If you ran blktests at git hash 6825bdde4434 then that doesn't include ns=
+ changes=20
+> which uses mutex_lock. So it's expected that the test wouldn't fail. Did =
+you try
+> running test using latest upstream kernel or checking out tree at commit=
+=20
+> 505363957fad ("nvmet: fix nvme status code when namespace is disabled")?
 
-Martin, right currently there is no way to probe whether the kernel
-supports read/write attributes or not.
+Yes, I see the test case creates "BUG: sleeping function called from invali=
+d
+context". Now I see that you added this new test case nvme/055 to recreate =
+the
+BUG. However, I observed the BUG at the first place with nvme/052, which ca=
+n be
+used to confirm the BUG fixed. So it does not look so meaningful to add the=
+ new
+test case.
 
-Jens, Pavel how about introducing a new IO_URING_OP_* flag (something
-like IO_URING_OP_RW_ATTR_SUPPORTED) to probe whether read/write attributes
-are supported or not. Something like this [*]
+I think my report "blktests failures with v6.12 kernel [X]" confused you. I
+wrote "It is desired to have a better fix and the test case to confirm it."=
+, but
+I should have wrote "It is desired to have a better fix and the test case t=
+o
+confirm that the fix does not break the intent of the trigger commit
+505363957fad." Please find the discussion about how to test the fix patch [=
+Y].
+The question was: how to "confirm that the commit 505363957fad achieves its
+purpose" ?.
 
-[*]
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 38f0d6b10eaf..787a2df8037f 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -723,6 +723,7 @@ struct io_uring_rsrc_update2 {
- #define IORING_REGISTER_FILES_SKIP	(-2)
- 
- #define IO_URING_OP_SUPPORTED	(1U << 0)
-+#define IO_URING_OP_RW_ATTR_SUPPORTED	(1U << 1)
- 
- struct io_uring_probe_op {
- 	__u8 op;
-diff --git a/io_uring/opdef.c b/io_uring/opdef.c
-index 3de75eca1c92..64e1e5d48dec 100644
---- a/io_uring/opdef.c
-+++ b/io_uring/opdef.c
-@@ -67,6 +67,7 @@ const struct io_issue_def io_issue_defs[] = {
- 		.iopoll			= 1,
- 		.iopoll_queue		= 1,
- 		.vectored		= 1,
-+		.rw_attr		= 1,
- 		.async_size		= sizeof(struct io_async_rw),
- 		.prep			= io_prep_readv,
- 		.issue			= io_read,
-@@ -82,6 +83,7 @@ const struct io_issue_def io_issue_defs[] = {
- 		.iopoll			= 1,
- 		.iopoll_queue		= 1,
- 		.vectored		= 1,
-+		.rw_attr		= 1,
- 		.async_size		= sizeof(struct io_async_rw),
- 		.prep			= io_prep_writev,
- 		.issue			= io_write,
-@@ -101,6 +103,7 @@ const struct io_issue_def io_issue_defs[] = {
- 		.ioprio			= 1,
- 		.iopoll			= 1,
- 		.iopoll_queue		= 1,
-+		.rw_attr		= 1,
- 		.async_size		= sizeof(struct io_async_rw),
- 		.prep			= io_prep_read_fixed,
- 		.issue			= io_read,
-@@ -115,6 +118,7 @@ const struct io_issue_def io_issue_defs[] = {
- 		.ioprio			= 1,
- 		.iopoll			= 1,
- 		.iopoll_queue		= 1,
-+		.rw_attr		= 1,
- 		.async_size		= sizeof(struct io_async_rw),
- 		.prep			= io_prep_write_fixed,
- 		.issue			= io_write,
-@@ -246,6 +250,7 @@ const struct io_issue_def io_issue_defs[] = {
- 		.ioprio			= 1,
- 		.iopoll			= 1,
- 		.iopoll_queue		= 1,
-+		.rw_attr		= 1,
- 		.async_size		= sizeof(struct io_async_rw),
- 		.prep			= io_prep_read,
- 		.issue			= io_read,
-@@ -260,6 +265,7 @@ const struct io_issue_def io_issue_defs[] = {
- 		.ioprio			= 1,
- 		.iopoll			= 1,
- 		.iopoll_queue		= 1,
-+		.rw_attr		= 1,
- 		.async_size		= sizeof(struct io_async_rw),
- 		.prep			= io_prep_write,
- 		.issue			= io_write,
-diff --git a/io_uring/opdef.h b/io_uring/opdef.h
-index 14456436ff74..61460c762ea7 100644
---- a/io_uring/opdef.h
-+++ b/io_uring/opdef.h
-@@ -27,6 +27,8 @@ struct io_issue_def {
- 	unsigned		iopoll_queue : 1;
- 	/* vectored opcode, set if 1) vectored, and 2) handler needs to know */
- 	unsigned		vectored : 1;
-+	/* supports rw attributes */
-+	unsigned		rw_attr : 1;
- 
- 	/* size of async data needed, if any */
- 	unsigned short		async_size;
-diff --git a/io_uring/register.c b/io_uring/register.c
-index f1698c18c7cb..a54aeaec116c 100644
---- a/io_uring/register.c
-+++ b/io_uring/register.c
-@@ -60,8 +60,11 @@ static __cold int io_probe(struct io_ring_ctx *ctx, void __user *arg,
- 
- 	for (i = 0; i < nr_args; i++) {
- 		p->ops[i].op = i;
--		if (io_uring_op_supported(i))
-+		if (io_uring_op_supported(i)) {
- 			p->ops[i].flags = IO_URING_OP_SUPPORTED;
-+			if (io_issue_defs[i].rw_attr)
-+				p->ops[i].flags |= IO_URING_OP_RW_ATTR_SUPPORTED;
-+		}
- 	}
- 	p->ops_len = i;
- 
--- 
-2.25.1
-
-------x2Ox1x5iNi7PYvDn9sIpGVgpr3_-t8l_a8xeGFysXFeU9Shi=_51c60_
-Content-Type: text/plain; charset="utf-8"
+[X] https://lore.kernel.org/linux-block/6crydkodszx5vq4ieox3jjpwkxtu7mhbohy=
+py24awlo5w7f4k6@to3dcng24rd4/
+[Y] https://lore.kernel.org/linux-nvme/20241023052042.GB1341@lst.de/
 
 
-------x2Ox1x5iNi7PYvDn9sIpGVgpr3_-t8l_a8xeGFysXFeU9Shi=_51c60_--
+Jirong,
+
+I found your Tested-by tag for the commit 505363957fad. Could you share how=
+ did
+you test the commit? It will help for us to have more confidence on Nilay's
+patch.=
 
