@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A74F7E64A83
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Dec 2024 11:15:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28EB9E64A80
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Dec 2024 11:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D9tVKH5ZJCPN6t9I+nT8n+gUKTGrFMASYMHa2krJaMY=; b=WNyOEutaGXY2xNEVxBhG5zsrYi
-	jdrNQUzY/jcUvDsi9FM7Lr49BG10QTuNM5C6H3yx4RqM4dqaYXaAk5IK0VO9YuCAOYVrVz6ilev3j
-	YeWTcUvuIf3111JYH054038o2zxq/n0xiyt86C8GV4K+6AUIJzHx1ETWD9JUr9gGIz2AHayKlOXOe
-	XFNiB2SKnAA8j528mh0ecxCSZhBMFxrDX0QtWMcQSF4JxME9ret19H+Wi3JoYVvQEEdFv5LCON3Wm
-	+YiSjqEBvYgrekY8W/fV3dTIr6xltGI4r7xFUQ1G/cNWEGcYP/jVWvwBQLtdAqxMCjkDQlTKKa5JA
-	uHBcZMWQ==;
+	bh=eF5nxNlgrdBEAkkELj2TVNYNGukp2JLHOlG8pKynu1g=; b=00vxJqBEhw5qMQrm8EUTP25iaE
+	lhg1vbCoIyzIGj7oNWWFbS1UVZwCSOpMdBz8GExNOpXBc0KdXZHGWrZiiZpr2uw30V2maPO1rmFWl
+	NsN2forp7bQaC2QO9VguXEWX9n0aWpscOeBOmDQp3n9I1okuBcND8EXTfEcTPKQzqSxd1GZ0EFgXZ
+	N1MLNPwT7fK7firSrK2MBIK9Ftd6ooEql0C+6GovCqngrZNtfvzRbe6mx2+6kZilYM938VJnYevpu
+	OQT0btO+ZhhxTOr9EXBTo8VzWVtaHTf/fRYrJfKN5AVrRS8TBv2C6S3ItTqBlbLUUWExRCtcp9Fx1
+	Byw2TkVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIQrw-00000009EAp-0g9R;
-	Tue, 03 Dec 2024 11:15:04 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tIQru-00000009E94-3AWQ;
+	Tue, 03 Dec 2024 11:15:02 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIQgT-00000009BWe-3Xiq
+	id 1tIQgP-00000009BU0-4675
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Dec 2024 11:03:15 +0000
+	Tue, 03 Dec 2024 11:03:11 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6ABC85C6C1D;
-	Tue,  3 Dec 2024 11:02:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77ABDC4CED8;
-	Tue,  3 Dec 2024 11:03:11 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id F162AA40C0E;
+	Tue,  3 Dec 2024 11:01:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FED4C4CECF;
+	Tue,  3 Dec 2024 11:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733223793;
-	bh=q/4EU0cRrWIkiXqk0dXjd/z6g01ABRxjlms3ls0l7Wk=;
+	s=k20201202; t=1733223788;
+	bh=HWMQCj01jHX4+s5mWusey4esbb+DqmOUgYumbOZlkCw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E8+tvnuDWzrdv6nX1+0K5gUflaSUsyw7zHJ2DB68r6ua03EW8McGybZmD/3t9kZAY
-	 o0QMxtm5NRwqrEho95sRnrzWaA0QWz1bCMYUyzqhhhjNN8E+hieTpBaUVa9VlHIUEl
-	 CnSY7XwWBh/Z+OA3/xG9vW1sPDjmZBp2nxGG4yecKWhSDw1pGcMDKuxcl7S3sA9u8A
-	 mgLmK28X/ilhqHG0B8XFAS+mAcSatBSxHlTJpP0FNIyV9Q7YWvNwqmvLCj55gCOtlX
-	 yJeknhBIQNAyvkazOwzjBJU0W09Jf3oHCvI0I33ufIDM2uzqCXouk365zR7EkaQJeS
-	 5NQZFjaOUZEXw==
+	b=kFyUFMI7yBR73deP3Ew55VC0dgfs1oOIeHUkNetY44JYP++Fs5FS2GRPLP/Cnn7ww
+	 bObnG8aFCRx5adlAjSQ+6XRR+G+tLkl22bW3wl55TSCOOTj66XGtUhiNmNY0+kDCoD
+	 ir6KLFLtB8ySgQBAmKPd8cWLhEs5XgKuhPiexUI8cX/z6bWEIODB/eDQ1oRlLaXeNE
+	 KWWsPnVsQ5qoCtw9EQyWmPjW0XlGPJGdccEs3H1ZYH5Hrj5o1rRL/radX0jw05RAwU
+	 1mcyHvt4uiYSfqR2rnBDiku4MizwZ2tktoHuJO+iC2mAdt3INvYU7ZVhuZ5lUWuCgn
+	 byRAGuqwik7pA==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -50,17 +50,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Eric Biggers <ebiggers@kernel.org>,
 	linux-crypto@vger.kernel.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 08/10] nvme-fabrics: reset admin connection for secure concatenation
-Date: Tue,  3 Dec 2024 12:02:36 +0100
-Message-Id: <20241203110238.128630-10-hare@kernel.org>
+Subject: [PATCH 06/10] nvme: always include <linux/key.h>
+Date: Tue,  3 Dec 2024 12:02:34 +0100
+Message-Id: <20241203110238.128630-8-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20241203110238.128630-1-hare@kernel.org>
 References: <20241203110238.128630-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241203_030313_914982_4E3B083D 
-X-CRM114-Status: GOOD (  12.58  )
+X-CRM114-CacheID: sfid-20241203_030310_074035_E0E9C77C 
+X-CRM114-Status: GOOD (  10.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,41 +75,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When secure concatenation is requested the connection needs to be
-reset to enable TLS encryption on the new cnnection.
-That implies that the original connection used for the DH-CHAP
-negotiation really shouldn't be used, and we should reset as soon
-as the DH-CHAP negotiation has succeeded on the admin queue.
-
-Based on an idea from Sagi.
+To avoid build errors when NVME_KEYRING is not set.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/nvme/common/keyring.c | 1 -
+ drivers/nvme/host/tcp.c       | 1 -
+ drivers/nvme/target/tcp.c     | 1 -
+ include/linux/nvme-keyring.h  | 2 ++
+ 4 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 8cb253fcd586..32d16c53133b 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -5,7 +5,6 @@
+ 
+ #include <linux/module.h>
+ #include <linux/seq_file.h>
+-#include <linux/key.h>
+ #include <linux/key-type.h>
+ #include <keys/user-type.h>
+ #include <linux/nvme.h>
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 9268c6f2c99f..3ce5cfe8a135 100644
+index 3e416af2659f..b5e11a0f7ba8 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -2260,6 +2260,16 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
- 	if (ret)
- 		return ret;
+@@ -8,7 +8,6 @@
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/err.h>
+-#include <linux/key.h>
+ #include <linux/nvme-tcp.h>
+ #include <linux/nvme-keyring.h>
+ #include <net/sock.h>
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 7c51c2a8c109..fa59a7996efa 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -8,7 +8,6 @@
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/err.h>
+-#include <linux/key.h>
+ #include <linux/nvme-tcp.h>
+ #include <linux/nvme-keyring.h>
+ #include <net/sock.h>
+diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+index f7bbcbeb4b13..ab8971afa973 100644
+--- a/include/linux/nvme-keyring.h
++++ b/include/linux/nvme-keyring.h
+@@ -6,6 +6,8 @@
+ #ifndef _NVME_KEYRING_H
+ #define _NVME_KEYRING_H
  
-+	if (ctrl->opts && ctrl->opts->concat && !ctrl->tls_pskid) {
-+		/* See comments for nvme_tcp_key_revoke_needed() */
-+		dev_dbg(ctrl->device, "restart admin queue for secure concatenation\n");
-+		nvme_stop_keep_alive(ctrl);
-+		nvme_tcp_teardown_admin_queue(ctrl, false);
-+		ret = nvme_tcp_configure_admin_queue(ctrl, false);
-+		if (ret)
-+			return ret;
-+	}
++#include <linux/key.h>
 +
- 	if (ctrl->icdoff) {
- 		ret = -EOPNOTSUPP;
- 		dev_err(ctrl->device, "icdoff is not supported!\n");
+ #if IS_ENABLED(CONFIG_NVME_KEYRING)
+ 
+ struct key *nvme_tls_psk_refresh(struct key *keyring,
 -- 
 2.35.3
 
