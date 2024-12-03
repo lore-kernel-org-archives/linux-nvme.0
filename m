@@ -4,63 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6CB3E64A84
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Dec 2024 11:15:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19711E64A83
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Dec 2024 12:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QfL0vG7yfSWkV/aRQCd48VmV3s71lFpjCxgPJQTwSi8=; b=QyLyM0Yuy34RVZ47bbJeeJ8FoC
-	aDw06Ul3wOqWKZF761KV8hvkSCXJ+U1M+F0sW9FOPvLrjnQGoZd1LbyxndfFxC80e3TxYzfhDIK/e
-	h944pFYy5Pbb/NHxv4qjDGsgAQUQ4UKxp7ofiOkTzdB1XxS0BVivdremJVTGw8TJK2ESi5SsicHbT
-	mAzp1wX7u6Gu3PrLz99ixOzmbp2yjYtw4gqLg6z46eWQRMmuVtpxlAjAJjSqC/hTiF3GYwgJWd8+V
-	Kt6Eq0nW9VggI4KO40wt594HmXCR8RGWCL9S44OEL8mcXgNVGPLdZbJEgIARW8y0l+/iY4kdzMnml
-	IwSSqbFQ==;
+	bh=Wrpw/gEIImhg5C05XMjsYpabyaleC2cQZtMyShGtK8A=; b=Q+6HUfuHnj1qtD2JJ1JMBSCAOs
+	vt220trCAlAzuuO+9Y9KAO0+QPQSLTyC9BMmtXD3115l3KAcfO81wNC6a6QsClL+utrKy5mN5NDY5
+	iz+O0iG+6e5DUIXnodJ5A+QAcGk7xCjPPCF1n7B29Nz5qVrOTqY3A13SP+9Eid5e7GQo9xhKacGBN
+	a8PcXvp8FEZZ+TIzSPu0x1E9HUiYsk4y95ur8BFFjZQCBrutQm/c+0mgkO8IEQKhzceMUSLJ89+Lj
+	O3seDLgr+lPuof/z7J74uB/iQ5m7khc3Fb0iVLQbtqogn3pYA4DdqIrLHXd/r/7n14mrqVb5BtrB6
+	J38PRHqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIQrw-00000009EBd-3tMF;
-	Tue, 03 Dec 2024 11:15:04 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tIRaM-00000009MD5-1wgU;
+	Tue, 03 Dec 2024 12:00:58 +0000
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIQgW-00000009BXY-08xz
+	id 1tIRZE-00000009M0M-0JAo
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Dec 2024 11:03:17 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7CA665C6BED;
-	Tue,  3 Dec 2024 11:02:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B177C4CECF;
-	Tue,  3 Dec 2024 11:03:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733223795;
-	bh=T2EI6b69ZCGFIQY1TyZdrY6FCH7Ioyhcrg9fna/9HvE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JfODxFMLGQhmNPwNgPcrBDkF/FOjy83x8AYU22XPxgIIIbjXTHduUgbiRchdqx28g
-	 ukrDqo0OMMP85wE6T2yJGMG6fWarJWbyChoSko3FqdKa57cJYpoRToW/0eZqAv2TBB
-	 +RTyGT7f6u1S6Jjquqlz79rN4L6ihk9BHKoCP7xU+y8D2nEWiahHOZzbTeZHwnep6S
-	 +rCOCkGgVVvekXSt4Dsd4l9ST7s/0rT0F5CyXA+u7HKmWHFxntZjBHSMU3h2s6IUfW
-	 8nUslH2O9bICnMSWsfDO8XzofJ8+w0NEnlY1Q0Y6fPFZOVAONJBXsYq/gvh+NodZoz
-	 Vm8ifEgatlr6w==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Eric Biggers <ebiggers@kernel.org>,
-	linux-crypto@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 09/10] nvmet-tcp: support secure channel concatenation
-Date: Tue,  3 Dec 2024 12:02:37 +0100
-Message-Id: <20241203110238.128630-11-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20241203110238.128630-1-hare@kernel.org>
-References: <20241203110238.128630-1-hare@kernel.org>
+	Tue, 03 Dec 2024 11:59:49 +0000
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-aa5500f7a75so850678866b.0
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Dec 2024 03:59:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733227186; x=1733831986; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wrpw/gEIImhg5C05XMjsYpabyaleC2cQZtMyShGtK8A=;
+        b=hNF1lZtoSvaAt/yubOCWEwd1wumDlPNC+nHOahNFjY9Lvj+upo4VemJULJ8qE7r+j3
+         oSMcUlTQR3FMkpHR0l3PqRzknvLigIMcYDhaUBr1/NM/9oo5p7Hj2jSLKzUzlW3M4GBK
+         12+n90Vyr7yuLXArXUndLLlqJTLqz0nBrIFHmJ7cKP8x1XNXDOC+dar9mzys557nw/IH
+         4xlT4g9LuKl/F+A3FJ4LmhC5W64BmxqIk1blKOqEGeKpx30J4CsmA8u6+SMCS6uNawFu
+         zkn33ctT6EhO6I2rhnJtZlF+2YaPbG5wiQcT7riyxX0NKxRvI7XvqmmpM3E3HvG4bUc9
+         tylw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733227186; x=1733831986;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wrpw/gEIImhg5C05XMjsYpabyaleC2cQZtMyShGtK8A=;
+        b=qFBOZNbEpbcpokEitkA7c1R8qpgdaNVSvMWjXIls7CI7sccO9LcnvMHqKxA5FzrSDG
+         taVOQm2mnq+peLt1Of8g2rJSqI7mirn6XtrdNkDa/PXkeqbgHS+1dyHqTOhwWZGXotzG
+         X5VkpMEdoPJhVG53GcLAFFLSG1DFMLCS3mKJNKV9DwomuvPDzWjAzuiicU2PmY7VTbii
+         qVJBS7tECLrC/g2aT3hPRvqWbqFtAVXzSrvb3giZV0xyJwyXBwiak2AF24M8TXk0Ihs8
+         RzLeJFFJKyYPaFxJQveq2vGTkucEZjWGoV3bhqkB3N11RM6WyL1F4A7D+pK4YKrkssi3
+         do2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWRLrjxxupN/7lpvJoyAhW3vURc/GElh8K3yRk/VrdOrEOIL9crTdcnRxlMEgaT3Rpnda82GS5lGWL9@lists.infradead.org
+X-Gm-Message-State: AOJu0YwmF6fLFwsD4VcIDcErRqfqRqpf8XvKeB6nO14B0gvZ2I35uc61
+	Yao8/YTJzmwjbiAz3qVCskxcoXnBTu0nAirI6kUDNWybx6h7Bgma
+X-Gm-Gg: ASbGncspXweXLUu9DJVfR4Wh5LsmR8Y+r2Bhhh2MkBrek7qu/8UmDEEtS7BLU/+bSCf
+	vInp79FadHdjlYlUGuoJASjZINTKPBpcfNRVxdIFWBowcQaSx3Z9u6z6EXsnHOnaSbnfasmnhdp
+	0s6bFgCyayp1/mvgsAP/ihDqSF8d1Ae8cuFKwwB5nQGCDDAWZlcSRFUXLcKzHmF/UwCmxM6tJ8w
+	9scKRIV0x5uGkoSJ8P+txnoVpyDt/jSbDghW/oRMqEzZEMtQCrAU8beHvMMuw==
+X-Google-Smtp-Source: AGHT+IG4y9LGZwq9NfK9cdHd+NVO7Xgo2sU20E7rmPmT2a1si682Vjey0TVrQO9Z6X+iYPB4Df14SQ==
+X-Received: by 2002:a17:906:4c9:b0:aa5:44cf:3ea7 with SMTP id a640c23a62f3a-aa5f7f4773dmr171377066b.56.1733227185269;
+        Tue, 03 Dec 2024 03:59:45 -0800 (PST)
+Received: from [192.168.42.213] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa599801591sm605350766b.91.2024.12.03.03.59.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 03:59:44 -0800 (PST)
+Message-ID: <b8574010-e2fc-4566-9df8-80046fec2845@gmail.com>
+Date: Tue, 3 Dec 2024 12:00:41 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 06/10] io_uring: introduce attributes for read/write
+ and PI support
+To: Anuj Gupta <anuj20.g@samsung.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, anuj1072538@gmail.com,
+ brauner@kernel.org, jack@suse.cz, viro@zeniv.linux.org.uk,
+ io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, gost.dev@samsung.com,
+ linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+ linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+References: <20241128112240.8867-1-anuj20.g@samsung.com>
+ <CGME20241128113109epcas5p46022c85174da65853c85a8848b32f164@epcas5p4.samsung.com>
+ <20241128112240.8867-7-anuj20.g@samsung.com>
+ <yq1r06psey3.fsf@ca-mkp.ca.oracle.com> <20241203065645.GA19359@green245>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20241203065645.GA19359@green245>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241203_030316_161143_C30B4C44 
-X-CRM114-Status: GOOD (  21.77  )
+X-CRM114-CacheID: sfid-20241203_035948_117829_1966F821 
+X-CRM114-Status: GOOD (  18.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,450 +107,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Evaluate the SC_C flag during DH-CHAP-HMAC negotiation and insert
-the generated PSK once negotiation has finished.
+On 12/3/24 06:56, Anuj Gupta wrote:
+> On Mon, Dec 02, 2024 at 09:13:14PM -0500, Martin K. Petersen wrote:
+>>
+>> I have things running on my end on top of Jens' tree (without error
+>> injection, that's to come).
+>>
+>> One question, though: How am I to determine that the kernel supports
+>> attr_ptr and IORING_RW_ATTR_FLAG_PI? Now that we no longer have separate
+>> IORING_OP_{READ,WRITE}_META commands I can't use IO_URING_OP_SUPPORTED
+>> to find out whether the running kernel supports PI passthrough.
+> 
+> Martin, right currently there is no way to probe whether the kernel
+> supports read/write attributes or not.
+> 
+> Jens, Pavel how about introducing a new IO_URING_OP_* flag (something
+> like IO_URING_OP_RW_ATTR_SUPPORTED) to probe whether read/write attributes
+> are supported or not. Something like this [*]
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- drivers/nvme/target/auth.c             | 72 +++++++++++++++++++++++++-
- drivers/nvme/target/fabrics-cmd-auth.c | 49 +++++++++++++++---
- drivers/nvme/target/fabrics-cmd.c      | 33 +++++++++---
- drivers/nvme/target/nvmet.h            | 38 +++++++++++---
- drivers/nvme/target/tcp.c              | 23 +++++++-
- 5 files changed, 192 insertions(+), 23 deletions(-)
+An IORING_FEAT_ flag might be simpler for now. Or is it in plans to
+somehow support IORING_OP_READ_MULTISHOT as well?
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 7897d02c681d..7470ac020db6 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -15,6 +15,7 @@
- #include <linux/ctype.h>
- #include <linux/random.h>
- #include <linux/nvme-auth.h>
-+#include <linux/nvme-keyring.h>
- #include <asm/unaligned.h>
- 
- #include "nvmet.h"
-@@ -138,7 +139,7 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
- 	return ret;
- }
- 
--u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl)
-+u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- {
- 	int ret = 0;
- 	struct nvmet_host_link *p;
-@@ -164,6 +165,11 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl)
- 		goto out_unlock;
- 	}
- 
-+	if (nvmet_queue_tls_keyid(req->sq)) {
-+		pr_debug("host %s tls enabled\n", ctrl->hostnqn);
-+		goto out_unlock;
-+	}
-+
- 	ret = nvmet_setup_dhgroup(ctrl, host->dhchap_dhgroup_id);
- 	if (ret < 0) {
- 		pr_warn("Failed to setup DH group");
-@@ -232,6 +238,9 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl)
- void nvmet_auth_sq_free(struct nvmet_sq *sq)
- {
- 	cancel_delayed_work(&sq->auth_expired_work);
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+	sq->tls_key = 0;
-+#endif
- 	kfree(sq->dhchap_c1);
- 	sq->dhchap_c1 = NULL;
- 	kfree(sq->dhchap_c2);
-@@ -260,6 +269,12 @@ void nvmet_destroy_auth(struct nvmet_ctrl *ctrl)
- 		nvme_auth_free_key(ctrl->ctrl_key);
- 		ctrl->ctrl_key = NULL;
- 	}
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+	if (ctrl->tls_key) {
-+		key_put(ctrl->tls_key);
-+		ctrl->tls_key = NULL;
-+	}
-+#endif
- }
- 
- bool nvmet_check_auth_status(struct nvmet_req *req)
-@@ -541,3 +556,58 @@ int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
- 
- 	return ret;
- }
-+
-+void nvmet_auth_insert_psk(struct nvmet_sq *sq)
-+{
-+	int hash_len = nvme_auth_hmac_hash_len(sq->ctrl->shash_id);
-+	u8 *psk, *digest, *tls_psk;
-+	size_t psk_len;
-+	int ret;
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+	struct key *tls_key = NULL;
-+#endif
-+
-+	ret = nvme_auth_generate_psk(sq->ctrl->shash_id,
-+				     sq->dhchap_skey,
-+				     sq->dhchap_skey_len,
-+				     sq->dhchap_c1, sq->dhchap_c2,
-+				     hash_len, &psk, &psk_len);
-+	if (ret) {
-+		pr_warn("%s: ctrl %d qid %d failed to generate PSK, error %d\n",
-+			__func__, sq->ctrl->cntlid, sq->qid, ret);
-+		return;
-+	}
-+	ret = nvme_auth_generate_digest(sq->ctrl->shash_id, psk, psk_len,
-+					sq->ctrl->subsysnqn,
-+					sq->ctrl->hostnqn, &digest);
-+	if (ret) {
-+		pr_warn("%s: ctrl %d qid %d failed to generate digest, error %d\n",
-+			__func__, sq->ctrl->cntlid, sq->qid, ret);
-+		goto out_free_psk;
-+	}
-+	ret = nvme_auth_derive_tls_psk(sq->ctrl->shash_id, psk, psk_len,
-+				       digest, &tls_psk);
-+	if (ret) {
-+		pr_warn("%s: ctrl %d qid %d failed to derive TLS PSK, error %d\n",
-+			__func__, sq->ctrl->cntlid, sq->qid, ret);
-+		goto out_free_digest;
-+	}
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+	tls_key = nvme_tls_psk_refresh(NULL, sq->ctrl->hostnqn, sq->ctrl->subsysnqn,
-+				       sq->ctrl->shash_id, tls_psk, psk_len, digest);
-+	if (IS_ERR(tls_key)) {
-+		pr_warn("%s: ctrl %d qid %d failed to refresh key, error %ld\n",
-+			__func__, sq->ctrl->cntlid, sq->qid, PTR_ERR(tls_key));
-+		tls_key = NULL;
-+		kfree_sensitive(tls_psk);
-+	}
-+	if (sq->ctrl->tls_key)
-+		key_put(sq->ctrl->tls_key);
-+	sq->ctrl->tls_key = tls_key;
-+#endif
-+
-+out_free_digest:
-+	kfree_sensitive(digest);
-+out_free_psk:
-+	kfree_sensitive(psk);
-+}
-diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
-index 3f2857c17d95..cf4b38c0e7bd 100644
---- a/drivers/nvme/target/fabrics-cmd-auth.c
-+++ b/drivers/nvme/target/fabrics-cmd-auth.c
-@@ -43,8 +43,26 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
- 		 data->auth_protocol[0].dhchap.halen,
- 		 data->auth_protocol[0].dhchap.dhlen);
- 	req->sq->dhchap_tid = le16_to_cpu(data->t_id);
--	if (data->sc_c)
--		return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
-+	if (data->sc_c != NVME_AUTH_SECP_NOSC) {
-+		if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS))
-+			return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
-+		/* Secure concatenation can only be enabled on the admin queue */
-+		if (req->sq->qid)
-+			return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
-+		switch (data->sc_c) {
-+		case NVME_AUTH_SECP_NEWTLSPSK:
-+			if (nvmet_queue_tls_keyid(req->sq))
-+				return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
-+			break;
-+		case NVME_AUTH_SECP_REPLACETLSPSK:
-+			if (!nvmet_queue_tls_keyid(req->sq))
-+				return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
-+			break;
-+		default:
-+			return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
-+		}
-+		ctrl->concat = true;
-+	}
- 
- 	if (data->napd != 1)
- 		return NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
-@@ -103,6 +121,13 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
- 			 nvme_auth_dhgroup_name(fallback_dhgid));
- 		ctrl->dh_gid = fallback_dhgid;
- 	}
-+	if (ctrl->dh_gid == NVME_AUTH_DHGROUP_NULL &&
-+	    ctrl->concat) {
-+		pr_debug("%s: ctrl %d qid %d: NULL DH group invalid "
-+			 "for secure channel concatenation\n", __func__,
-+			 ctrl->cntlid, req->sq->qid);
-+		return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
-+	}
- 	pr_debug("%s: ctrl %d qid %d: selected DH group %s (%d)\n",
- 		 __func__, ctrl->cntlid, req->sq->qid,
- 		 nvme_auth_dhgroup_name(ctrl->dh_gid), ctrl->dh_gid);
-@@ -154,6 +179,12 @@ static u8 nvmet_auth_reply(struct nvmet_req *req, void *d)
- 	kfree(response);
- 	pr_debug("%s: ctrl %d qid %d host authenticated\n",
- 		 __func__, ctrl->cntlid, req->sq->qid);
-+	if (!data->cvalid && ctrl->concat) {
-+		pr_debug("%s: ctrl %d qid %d invalid challenge\n",
-+			 __func__, ctrl->cntlid, req->sq->qid);
-+		return NVME_AUTH_DHCHAP_FAILURE_FAILED;
-+	}
-+	req->sq->dhchap_s2 = le32_to_cpu(data->seqnum);
- 	if (data->cvalid) {
- 		req->sq->dhchap_c2 = kmemdup(data->rval + data->hl, data->hl,
- 					     GFP_KERNEL);
-@@ -163,11 +194,15 @@ static u8 nvmet_auth_reply(struct nvmet_req *req, void *d)
- 		pr_debug("%s: ctrl %d qid %d challenge %*ph\n",
- 			 __func__, ctrl->cntlid, req->sq->qid, data->hl,
- 			 req->sq->dhchap_c2);
--	} else {
-+	}
-+	if (req->sq->dhchap_s2 == 0) {
-+		if (ctrl->concat)
-+			nvmet_auth_insert_psk(req->sq);
- 		req->sq->authenticated = true;
-+		kfree(req->sq->dhchap_c2);
- 		req->sq->dhchap_c2 = NULL;
--	}
--	req->sq->dhchap_s2 = le32_to_cpu(data->seqnum);
-+	} else if (!data->cvalid)
-+		req->sq->authenticated = true;
- 
- 	return 0;
- }
-@@ -241,7 +276,7 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
- 			pr_debug("%s: ctrl %d qid %d reset negotiation\n",
- 				 __func__, ctrl->cntlid, req->sq->qid);
- 			if (!req->sq->qid) {
--				dhchap_status = nvmet_setup_auth(ctrl);
-+				dhchap_status = nvmet_setup_auth(ctrl, req);
- 				if (dhchap_status) {
- 					pr_err("ctrl %d qid 0 failed to setup re-authentication\n",
- 					       ctrl->cntlid);
-@@ -298,6 +333,8 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
- 		}
- 		goto done_kfree;
- 	case NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2:
-+		if (ctrl->concat)
-+			nvmet_auth_insert_psk(req->sq);
- 		req->sq->authenticated = true;
- 		pr_debug("%s: ctrl %d qid %d ctrl authenticated\n",
- 			 __func__, ctrl->cntlid, req->sq->qid);
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index c4b2eddd5666..9a1256deee51 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -199,10 +199,26 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 	return ret;
- }
- 
--static u32 nvmet_connect_result(struct nvmet_ctrl *ctrl)
-+static u32 nvmet_connect_result(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- {
-+	bool needs_auth = nvmet_has_auth(ctrl, req);
-+	key_serial_t keyid = nvmet_queue_tls_keyid(req->sq);
-+
-+	/* Do not authenticate I/O queues for secure concatenation */
-+	if (ctrl->concat && req->sq->qid)
-+		needs_auth = false;
-+
-+	if (keyid)
-+		pr_debug("%s: ctrl %d qid %d should %sauthenticate, tls psk %08x\n",
-+			 __func__, ctrl->cntlid, req->sq->qid,
-+			 needs_auth ? "" : "not ", keyid);
-+	else
-+		pr_debug("%s: ctrl %d qid %d should %sauthenticate%s\n",
-+			 __func__, ctrl->cntlid, req->sq->qid,
-+			 needs_auth ? "" : "not ",
-+			 ctrl->concat ? ", secure concatenation" : "");
- 	return (u32)ctrl->cntlid |
--		(nvmet_has_auth(ctrl) ? NVME_CONNECT_AUTHREQ_ATR : 0);
-+		(needs_auth ? NVME_CONNECT_AUTHREQ_ATR : 0);
- }
- 
- static void nvmet_execute_admin_connect(struct nvmet_req *req)
-@@ -251,7 +267,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 
- 	uuid_copy(&ctrl->hostid, &d->hostid);
- 
--	dhchap_status = nvmet_setup_auth(ctrl);
-+	dhchap_status = nvmet_setup_auth(ctrl, req);
- 	if (dhchap_status) {
- 		pr_err("Failed to setup authentication, dhchap status %u\n",
- 		       dhchap_status);
-@@ -269,12 +285,13 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 		goto out;
- 	}
- 
--	pr_info("creating %s controller %d for subsystem %s for NQN %s%s%s.\n",
-+	pr_info("creating %s controller %d for subsystem %s for NQN %s%s%s%s.\n",
- 		nvmet_is_disc_subsys(ctrl->subsys) ? "discovery" : "nvm",
- 		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn,
--		ctrl->pi_support ? " T10-PI is enabled" : "",
--		nvmet_has_auth(ctrl) ? " with DH-HMAC-CHAP" : "");
--	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl));
-+		ctrl->pi_support ? ", T10-PI" : "",
-+		nvmet_has_auth(ctrl, req) ? ", DH-HMAC-CHAP" : "",
-+		nvmet_queue_tls_keyid(req->sq) ? ", TLS" : "");
-+	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl, req));
- out:
- 	kfree(d);
- complete:
-@@ -330,7 +347,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
- 		goto out_ctrl_put;
- 
- 	pr_debug("adding queue %d to ctrl %d.\n", qid, ctrl->cntlid);
--	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl));
-+	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl, req));
- out:
- 	kfree(d);
- complete:
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 190f55e6d753..c2e17201c757 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -121,6 +121,9 @@ struct nvmet_sq {
- 	u32			dhchap_s2;
- 	u8			*dhchap_skey;
- 	int			dhchap_skey_len;
-+#endif
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+	struct key		*tls_key;
- #endif
- 	struct completion	free_done;
- 	struct completion	confirm_done;
-@@ -237,6 +240,7 @@ struct nvmet_ctrl {
- 	u64			err_counter;
- 	struct nvme_error_slot	slots[NVMET_ERROR_LOG_SLOTS];
- 	bool			pi_support;
-+	bool			concat;
- #ifdef CONFIG_NVME_TARGET_AUTH
- 	struct nvme_dhchap_key	*host_key;
- 	struct nvme_dhchap_key	*ctrl_key;
-@@ -246,6 +250,9 @@ struct nvmet_ctrl {
- 	u8			*dh_key;
- 	size_t			dh_keysize;
- #endif
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+	struct key		*tls_key;
-+#endif
- };
- 
- struct nvmet_subsys {
-@@ -716,13 +723,29 @@ static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
- 		bio_put(bio);
- }
- 
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static inline key_serial_t nvmet_queue_tls_keyid(struct nvmet_sq *sq)
-+{
-+	return sq->tls_key ? key_serial(sq->tls_key) : 0;
-+}
-+static inline void nvmet_sq_put_tls_key(struct nvmet_sq *sq)
-+{
-+	if (sq->tls_key) {
-+		key_put(sq->tls_key);
-+		sq->tls_key = NULL;
-+	}
-+}
-+#else
-+static inline key_serial_t nvmet_queue_tls_keyid(struct nvmet_sq *sq) { return 0; }
-+static inline void nvmet_sq_put_tls_key(struct nvmet_sq *sq) {}
-+#endif
- #ifdef CONFIG_NVME_TARGET_AUTH
- void nvmet_execute_auth_send(struct nvmet_req *req);
- void nvmet_execute_auth_receive(struct nvmet_req *req);
- int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
- 		       bool set_ctrl);
- int nvmet_auth_set_host_hash(struct nvmet_host *host, const char *hash);
--u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl);
-+u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req);
- void nvmet_auth_sq_init(struct nvmet_sq *sq);
- void nvmet_destroy_auth(struct nvmet_ctrl *ctrl);
- void nvmet_auth_sq_free(struct nvmet_sq *sq);
-@@ -732,16 +755,18 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 			 unsigned int hash_len);
- int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 			 unsigned int hash_len);
--static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl)
-+static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- {
--	return ctrl->host_key != NULL;
-+	return ctrl->host_key != NULL && !nvmet_queue_tls_keyid(req->sq);
- }
- int nvmet_auth_ctrl_exponential(struct nvmet_req *req,
- 				u8 *buf, int buf_size);
- int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
- 			    u8 *buf, int buf_size);
-+void nvmet_auth_insert_psk(struct nvmet_sq *sq);
- #else
--static inline u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl)
-+static inline u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl,
-+				  struct nvmet_req *req)
- {
- 	return 0;
- }
-@@ -754,11 +779,12 @@ static inline bool nvmet_check_auth_status(struct nvmet_req *req)
- {
- 	return true;
- }
--static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl)
-+static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl,
-+				  struct nvmet_req *req)
- {
- 	return false;
- }
- static inline const char *nvmet_dhchap_dhgroup_name(u8 dhgid) { return NULL; }
-+static inline void nvmet_auth_insert_psk(struct nvmet_sq *sq) {};
- #endif
--
- #endif /* _NVMET_H */
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index fa59a7996efa..6d8d150a75c6 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1072,10 +1072,11 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_queue *queue)
- 
- 	if (unlikely(!nvmet_req_init(req, &queue->nvme_cq,
- 			&queue->nvme_sq, &nvmet_tcp_ops))) {
--		pr_err("failed cmd %p id %d opcode %d, data_len: %d\n",
-+		pr_err("failed cmd %p id %d opcode %d, data_len: %d, status: %04x\n",
- 			req->cmd, req->cmd->common.command_id,
- 			req->cmd->common.opcode,
--			le32_to_cpu(req->cmd->common.dptr.sgl.length));
-+		       le32_to_cpu(req->cmd->common.dptr.sgl.length),
-+		       le16_to_cpu(req->cqe->status));
- 
- 		nvmet_tcp_handle_req_failure(queue, queue->cmd, req);
- 		return 0;
-@@ -1601,6 +1602,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	/* stop accepting incoming data */
- 	queue->rcv_state = NVMET_TCP_RECV_ERR;
- 
-+	nvmet_sq_put_tls_key(&queue->nvme_sq);
- 	nvmet_tcp_uninit_data_in_cmds(queue);
- 	nvmet_sq_destroy(&queue->nvme_sq);
- 	cancel_work_sync(&queue->io_work);
-@@ -1806,6 +1808,23 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
- 	spin_unlock_bh(&queue->state_lock);
- 
- 	cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
-+
-+	if (!status) {
-+		struct key *tls_key = nvme_tls_key_lookup(peerid);
-+
-+		if (IS_ERR(tls_key)) {
-+			pr_warn("%s: queue %d failed to lookup key %x\n",
-+				__func__, queue->idx, peerid);
-+			spin_lock_bh(&queue->state_lock);
-+			queue->state = NVMET_TCP_Q_FAILED;
-+			spin_unlock_bh(&queue->state_lock);
-+			status = PTR_ERR(tls_key);
-+		} else {
-+			pr_debug("%s: queue %d using TLS PSK %x\n",
-+				 __func__, queue->idx, peerid);
-+			queue->nvme_sq.tls_key = tls_key;
-+		}
-+	}
- 	if (status)
- 		nvmet_tcp_schedule_release_queue(queue);
- 	else
+I have to say Adding a good probing infra is long overdue. For example a
+user might want to know which attributes are supported. And beyond
+io_uring it might be interesting to probe whether a particular file
+supports it.
+
+
+> [*]
+> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+> index 38f0d6b10eaf..787a2df8037f 100644
+> --- a/include/uapi/linux/io_uring.h
+> +++ b/include/uapi/linux/io_uring.h
+> @@ -723,6 +723,7 @@ struct io_uring_rsrc_update2 {
+>   #define IORING_REGISTER_FILES_SKIP	(-2)
+>   
+>   #define IO_URING_OP_SUPPORTED	(1U << 0)
+> +#define IO_URING_OP_RW_ATTR_SUPPORTED	(1U << 1)
+>   
+>   struct io_uring_probe_op {
+>   	__u8 op;
+> diff --git a/io_uring/opdef.c b/io_uring/opdef.c
+> index 3de75eca1c92..64e1e5d48dec 100644
+> --- a/io_uring/opdef.c
+> +++ b/io_uring/opdef.c
+> @@ -67,6 +67,7 @@ const struct io_issue_def io_issue_defs[] = {
+
+io_cold_defs would be better
+
 -- 
-2.35.3
+Pavel Begunkov
 
 
