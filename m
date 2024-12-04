@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 134C2E7716D
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Dec 2024 16:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B0C4E77170
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Dec 2024 17:21:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P7zlab8inyyLjI+G2JuzSdnzEIxtNXuL+pPm28+LdBM=; b=SQEabEyXP2n5ishtvDnNnGw8PN
-	1y5/NWnwlNNJ56YzYexn2TLbpz/OMVJb6MEtxWrk3l+MvtEnmUmPQC+VNtSLjn8hQpuQDcWsWtasf
-	ozwXbWw5/YF4UNryPXY5WzGwcqOowY6fYFKJGQfUpqFrP+vokTARlrXA40LySB2dj+9PTn/JO3YcE
-	78l6nqev2cXja24YAAWw828wmT/8ewrb9dPKOS/4+z8sS3ivNv+CZZbmbDHQhqEwTENH45uHV+xYx
-	/4KiaVWVERYKaY91lVpUEW4ibPKdiIvhi01fTYB9axrV+6NRqgXeg4ywoJtASGJRMuwogwYQdkexy
-	+TLz/o5Q==;
+	bh=YfUu3jt6ybl7LPhAU9Ujv97uWfI8FA4IfLFmygglC3U=; b=KgCCC5O8XdqOBs3bxojNqpF0tJ
+	E7/E4t5ukyKuy9DcAQExX0yfuflOZ40yhSf88Ev9sszlwF74kICbcrEwVfdwMYBwPxgy55GiIUKly
+	UK7CLgWw465mNXUVVqzna3bmWW14CYCRIQGZQpIl3GDIH3qU84VHja2nGfGpswGCqw1eEeHQ4F0fk
+	49TpOqbmlCMmI2OczCjJBN+cBg8qv7kOF3iKcUDuCBWLD1BV6GHjJZk4iL3pnKZU0ooYgfPN0p72q
+	F+vlncOtf2XIght1klAFQ5iGNn9Hdny4KmXJh/dLQ1DNZRWqsW+U+3944MjpnzPNGdlxJROVm8P4k
+	ChV7r1tA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIsPw-0000000DDWS-3n2g;
-	Wed, 04 Dec 2024 16:40:00 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tIt3j-0000000DLHv-0aHI;
+	Wed, 04 Dec 2024 17:21:07 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIsPu-0000000DDVL-1F0N
+	id 1tIt3H-0000000DLCT-1jxO
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Dec 2024 16:39:59 +0000
+	Wed, 04 Dec 2024 17:20:40 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id DC8E4A409B7;
-	Wed,  4 Dec 2024 16:38:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8030FC4CEDD;
-	Wed,  4 Dec 2024 16:39:56 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 8D0E3A41852;
+	Wed,  4 Dec 2024 17:18:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0396C4CECD;
+	Wed,  4 Dec 2024 17:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733330396;
-	bh=ARERutmIGt/pnw0tG74aNGHIAQLB/Ynz5Gc9sj7XpHk=;
+	s=k20201202; t=1733332838;
+	bh=bau6gjEqDQidbOep3Qh1WMApV6jHZixFqVetwye+cNQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ddmc6gzbPpPQ4OKLKhbU2s+D+DNZQzfzdVDylPHCsw9G6cFq1Ss8n0S7vmdi+DVAx
-	 zqZtBCShy7mUAvTfve96sHQeH/I/2psWE2GRsgrN1Yb/RDnF0a98lrGacNDOo2Okmk
-	 buGM2dTyUZ9/he3vT+iZiLQgWqCJRnmUoIhvApWBAwNCKTobk7kXT76B7Kl5IgM+uq
-	 AmQ7Wm9AUMFftWYzbHgue+YoHG7tTQ0C1pfzBxQCSPsjN2D2NyfA5+GTt7fbgJ0jA5
-	 1+eV39TC0FrTLtVagmEEbDPEXsN0eRclPPBLwXGEIe74M0edhpx8o2phkkp+Mw1PP3
-	 /p3MusQf28rxQ==
-Date: Wed, 4 Dec 2024 08:39:54 -0800
+	b=JPltwK+5R5njHd0raY4WDaotLEp+3N0RKd8chG8rqaGz/y+9CXJpLMU8CXtfMgvkw
+	 xwWg+xbat2BBZIoWeQrH6peLjP5SO2zVPsvvc3OIB6L/kTCbqMx0XnUi475aKR/9cH
+	 zoEiES/3b3rJ4B5SqxKQOsMV3CJ8bmILbNU4rQmG2SrPHdsTI6vmN3cHRRdTpAe6v6
+	 O/gUMaOO+q57LqT1K9oouDQq60MebBoKRRqVXqpTpeguiU3ivNB21klwVck1i1mbIb
+	 bBcdV5OTNC87eEBFsbOoNPmB8J1VZq8oT33pWPccjE3VhRKeRhYy58mLOu0vZPRi8P
+	 9wfSMVNLzShcQ==
+Date: Wed, 4 Dec 2024 09:20:36 -0800
 From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: Remove namespace when nvme_identify_ns_descs()
- failed
-Message-ID: <Z1CF2vn1_xkNIVAM@kbusch-mbp>
-References: <20241129140608.115282-1-hare@kernel.org>
- <Z09Y30pUtAg0xwoR@kbusch-mbp>
- <4ba05af4-9464-4cdf-a306-60585793c46e@suse.de>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, kanie@linux.alibaba.com,
+	kch@nvidia.com, loberman@redhat.com, emilne@redhat.com,
+	jmeneghi@redhat.com
+Subject: Re: [PATCH V2] nvme-fabrics: handle zero MAXCMD without closing the
+ connection
+Message-ID: <Z1CPZBhMfBNk3ifl@kbusch-mbp>
+References: <20241203125732.393992-1-mlombard@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4ba05af4-9464-4cdf-a306-60585793c46e@suse.de>
+In-Reply-To: <20241203125732.393992-1-mlombard@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241204_083958_395096_B12A6E03 
-X-CRM114-Status: GOOD (  24.15  )
+X-CRM114-CacheID: sfid-20241204_092039_515265_F2FDC693 
+X-CRM114-Status: GOOD (  11.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,40 +74,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 04, 2024 at 08:14:08AM +0100, Hannes Reinecke wrote:
-> On 12/3/24 20:15, Keith Busch wrote:
-> > On Fri, Nov 29, 2024 at 03:06:08PM +0100, Hannes Reinecke wrote:
-> > > When a namespace gets unmapped on the target during scanning
-> > > nvme_identify_ns_descs() returns with a non-retryable error.
-> > > With the currrent code we will ignore that error on the grounds
-> > > that we failed to get information, and hence cannot make any
-> > > decisions whether to keep or remove that namespace.
-> > > But a non-retryable error implies that the namespace is _not_
-> > > present as we cannot retry that command and will never get
-> > > information about that namespace.
-> > > And we need to remove the namespace during scanning, as otherwise
-> > > the AEN informing us about a namespace change will find the NSID
-> > > present, but nvme_validate_ns() will fail, and the namespace
-> > > will never be updated with the correct information.
-> > 
-> > The scanning only checks namespaces returned in the "active" namespace
-> > list. Every namespace not in the active list gets removed already. Why
-> > is this unmapped namespace appearing on the active list?
+On Tue, Dec 03, 2024 at 01:57:32PM +0100, Maurizio Lombardi wrote:
+> The NVMe specification states that MAXCMD is mandatory
+> for NVMe-over-Fabrics implementations. However, some NVMe/TCP
+> and NVMe/FC arrays from major vendors have buggy firmware
+> that reports MAXCMD as zero in the Identify Controller data structure.
 > 
-> Timing. Imagine a system used as a backing store for kubernetes, where
-> namespaces come and go at a _really_ fast pace.
-> 1) AEN triggers a rescan
-> 2) List of active namespace is retrieved
-> -> NSID A gets unmapped (or moved to another node in the cluster)
-> 3) Scan of NSID A returns an error with DNR set.
-> Without this patch we keep the namespace around, so eventually we'll
-> trip over the 'non-matching UUID' check once the NSID is reused.
+> Currently, the host implementation returns an error in such cases,
+> completely preventing the host from connecting to the target.
+> 
+> Fix the issue by printing a clear warning message about the firmware bug
+> and allowing the connection to proceed. It assumes that the
+> target supports a MAXCMD value of SQSIZE + 1. If any issues arise,
+> the user can manually adjust SQSIZE to mitigate them.
 
-I'm still not sure that makes sense. The target shouldn't attach the new
-namespace until the host acknowledges the removal of the older NSID via
-the Namespace Change List log. Until the log is read, the inventory for
-removed namespaces should be latched. Otherwise, timing might remove+add
-a specific NSID before the host requests the NS Descriptor for the
-racing removal, then it would just get the "non-matching UUID" issue
-anyway.
+Thanks, applied to nvme-6.13.
 
