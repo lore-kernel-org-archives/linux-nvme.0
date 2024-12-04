@@ -4,120 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84F5BE7716B
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Dec 2024 07:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44057E7716B
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Dec 2024 08:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=51Sk1uDiezXDt8F/1vJscvx4Wer82byOvjCOXuETr2o=; b=4I0R+bDzP/IOkkFUnGZhrnuk53
-	grf6qzyGkhlqB/HadfnVTs/qDqRQlYyG4ttKD5VY6ARBmgeAm8RnEXRsM4VhWLDxCsjU3wD6GxQmM
-	ln1RmqjVMaXlYBwRRF1Er0FyP5XfP83luw206FZ5c5blR1O+pl4yfhLULSBJlOmg6AQqkxPkIan5t
-	9O+sav22Fdl3bDwOxfxllyJSg4Yc3Zv547zhedI/RO3OvH8AjQfYD3atjx+qcpeBv+pi1U+ZADftf
-	6tyx5o+L99nf2z4WZmdULQJ1cS2a++NeKjqcLoCGhgnTmAELmUJdQ9j1fmpwc7DACxshivqS2/xf+
-	XX5N+/WA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ijTn2RZpszgvF0yCphU0nJ2OjpujKXhxXXTisuwagvk=; b=hq6tiVzXwzK+GKG1MUO3GuGDXE
+	djwXFIObVOLPLEUjrBu7HF2vMGlCIF/P2w27TZqptb9gv+qQTC3RI/HX0c6hGSv/kIWHKDk6bs8K3
+	igCpxcvNHWqhL7AdL2Mvx2TO7U6wN33UoXcar9y5I+LOQ9DgKZ3u0Nzzd/ItUd2sMFuFhERtkV/cL
+	hvwWO4niYBO9Ctxsl5D7q3RV+VzYvwNKxL+ZCVn7EZrs00gmTn90x5dr5+B+YijBvSd23JLBDwBC3
+	MJRUr1AbfYyU2BdurKnzvSeRbi4yLsvFV+Oyk60H10h5XRUEC546wBKpc7p57eljt1KIR9iavBZNq
+	7OfGJ9fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIjaR-0000000BgUr-3QWw;
-	Wed, 04 Dec 2024 07:14:15 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1tIkcz-0000000Brgq-2dd5;
+	Wed, 04 Dec 2024 08:20:57 +0000
+Received: from [203.254.224.24] (helo=mailout1.samsung.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tIjaP-0000000BgUM-2xpJ
+	id 1tIkcw-0000000BrgM-1dLl
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Dec 2024 07:14:14 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5292A1F44F;
-	Wed,  4 Dec 2024 07:14:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733296450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=51Sk1uDiezXDt8F/1vJscvx4Wer82byOvjCOXuETr2o=;
-	b=l8XuwmDvL6EUO6YMEn3oarq1FHyNC2fm1CB7STM7wxTGmF0VbFfmZLh/oh1ZVJxkcnvgTt
-	2N9tSBZx/9c+S1vSAsWmImK86cXR7gSAr64J2uXkhjHCT6rNOnphcXXUy4kd+ZrkgQyp1T
-	j3vWi1k+PO/HCrqgOsyCotBPIBWcDCU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733296450;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=51Sk1uDiezXDt8F/1vJscvx4Wer82byOvjCOXuETr2o=;
-	b=up2MOSxHFp4K3V6KGF59dRxGamwHPnDlX34lOHAK1OVEWipbc2GFz5RUSpZY1OE9D04klf
-	ImPV2q8I6EC8/YAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733296449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=51Sk1uDiezXDt8F/1vJscvx4Wer82byOvjCOXuETr2o=;
-	b=D+L+qab9hEscfIMvfobKATfTqpMwTJ5GLdTjYQi+34+E/wg53aLd6R4twQB/yTCJrLkF6M
-	UyBXSXDV5xQDdIG4kqWuW43fNgztUPCyCl5uApO2uszDE3S6WazKwN8Lre3BOoM2OnSBGW
-	OSPqzlsfiUnISJlqqaMyKJaqPZiLr1E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733296449;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=51Sk1uDiezXDt8F/1vJscvx4Wer82byOvjCOXuETr2o=;
-	b=5ZyGFFLyROYTEU/3Axv+I5gmycZ5ehT8xSTTRfbciBGzFRByTQf962IAzfBCkm6EdfiI5i
-	RvOgL5lT6XEhgVCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 21959139C2;
-	Wed,  4 Dec 2024 07:14:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3KNBBkEBUGfCRAAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 04 Dec 2024 07:14:09 +0000
-Message-ID: <4ba05af4-9464-4cdf-a306-60585793c46e@suse.de>
-Date: Wed, 4 Dec 2024 08:14:08 +0100
+	Wed, 04 Dec 2024 08:20:56 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20241204082050epoutp0188873ffeae1633f6377f1a99ecdf1e20~N65N2ty4j1182811828epoutp01g
+	for <linux-nvme@lists.infradead.org>; Wed,  4 Dec 2024 08:20:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20241204082050epoutp0188873ffeae1633f6377f1a99ecdf1e20~N65N2ty4j1182811828epoutp01g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1733300450;
+	bh=ijTn2RZpszgvF0yCphU0nJ2OjpujKXhxXXTisuwagvk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KaDd1ZGj49Fjeg/Fa2m4PtI0DfEES9tYH8rcgKS6uPAnGv1QDMJqJNh97AyGgRMVf
+	 zhNbOBG/bo0B73kD3c+UF284DIVK+dmuXOhOwRDuElyzTFOFzpeUtI67zZS6Oebx4i
+	 ChVV5sRBoEDBsIzLwwXEuZ2cgiJA5XbO1p0SVs1Y=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20241204082049epcas5p231edcf7fc51b73b40ceca6afe8b6667d~N65NKIjfV2555925559epcas5p2m;
+	Wed,  4 Dec 2024 08:20:49 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.178]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4Y39Sw14YQz4x9Q1; Wed,  4 Dec
+	2024 08:20:48 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C6.75.19710.FD010576; Wed,  4 Dec 2024 17:20:48 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20241204081706epcas5p40981cc87d05ff313b42b8a11e28deafb~N619v5uft1247712477epcas5p4P;
+	Wed,  4 Dec 2024 08:17:06 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241204081706epsmtrp282362d787953a8683ebae90061f2fc31~N619t515O2674426744epsmtrp2V;
+	Wed,  4 Dec 2024 08:17:06 +0000 (GMT)
+X-AuditID: b6c32a44-36bdd70000004cfe-84-675010df9bff
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	4A.92.18729.20010576; Wed,  4 Dec 2024 17:17:06 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20241204081704epsmtip231987e4d4f9c94a17b31717e6e6df6e0~N617YUVNO3208632086epsmtip21;
+	Wed,  4 Dec 2024 08:17:04 +0000 (GMT)
+Date: Wed, 4 Dec 2024 13:39:03 +0530
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, axboe@kernel.dk,
+	hch@lst.de, kbusch@kernel.org, anuj1072538@gmail.com, brauner@kernel.org,
+	jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+	linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH v11 06/10] io_uring: introduce attributes for read/write
+ and PI support
+Message-ID: <20241204080903.GA16700@green245>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: Remove namespace when nvme_identify_ns_descs()
- failed
-To: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20241129140608.115282-1-hare@kernel.org>
- <Z09Y30pUtAg0xwoR@kbusch-mbp>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <Z09Y30pUtAg0xwoR@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_FIVE(0.00)[5]
+In-Reply-To: <b8574010-e2fc-4566-9df8-80046fec2845@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMJsWRmVeSWpSXmKPExsWy7bCmuu4DgYB0gydTmCw+fv3NYjFn1TZG
+	i9V3+9ksXh/+xGhx88BOJouVq48yWbxrPcdiMXt6M5PF0f9v2SwmHbrGaLH3lrbFnr0nWSzm
+	L3vKbtF9fQebxfLj/5gszv89zmpxftYcdgdBj52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8
+	eovFo2/LKkaPMwuOsHt83iTnsenJW6YArqhsm4zUxJTUIoXUvOT8lMy8dFsl7+B453hTMwND
+	XUNLC3MlhbzE3FRbJRefAF23zBygd5QUyhJzSoFCAYnFxUr6djZF+aUlqQoZ+cUltkqpBSk5
+	BSYFesWJucWleel6eaklVoYGBkamQIUJ2Rnnrx5mLdjGWvH98TuWBsarLF2MnBwSAiYSV7de
+	Yu9i5OIQEtjNKHH43T9mkISQwCdGibfPciES3xglLvw8A9cx+0gPI0RiL6PEnp3X2CCcZ4wS
+	m/Z8B6tiEVCR+PRuHiOIzSagLnHkeSuYLSKgLfH6+iGwfcwCS5glrrybC7ZPWCBWYufMNWA2
+	r4CuxN6Pj1ggbEGJkzOfgNmcArYSG7ctYgexRQWUJQ5sO84EMkhC4AGHxL3vV5gg7nOR6Ola
+	zAhhC0u8Or6FHcKWkvj8bi8bhJ0u8ePyU6j6AonmY/ug6u0lWk/1gx3BLJAhcXvjK6heWYmp
+	p9YxQcT5JHp/P4Hq5ZXYMQ/GVpJoXzkHypaQ2HuuAcjmALI9JO605EDCdCeTxNQ5xhMY5Wch
+	eW0Wkm0Qto7Egt2f2GYBdTMLSEss/8cBYWpKrN+lv4CRdRWjZGpBcW56arJpgWFeajk8wpPz
+	czcxglO7lssOxhvz/+kdYmTiYDzEKMHBrCTCG7jEP12INyWxsiq1KD++qDQntfgQoykwriYy
+	S4km5wOzS15JvKGJpYGJmZmZiaWxmaGSOO/r1rkpQgLpiSWp2ampBalFMH1MHJxSDUx1xYLp
+	T5vzJ9ZO89oQXPJXvVzjy3THq4dL5Ovc2/49+9IWuperwXSDRva0/fKX1WJez18mVv0ogeHi
+	P26Zg0yOJwPT12fpdyzw7a9MYegXV84PmaBsPn/z06TFqRl7HlRy8HLX+FyW0b4edP9BV8/r
+	25UMucLT3+jdPr15v0aXId9On2OcG603F16VuHbviKBC7yf91OXeDBwaF69f6PWqPPcx4piB
+	qdLaeRxLS/1+sYdc+Fym8e7Qys/Nt3MyHlf0rZXd6r4whmsR9w97u58Zq0P4OU1UOSxTKxs9
+	VU7LpBc1qG6sPZs0Udcru/aBqM+tdgft/1tnJC1X4jfRcLTbwZb7V3vXyV9teVxhSizFGYmG
+	WsxFxYkATdakJnYEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsWy7bCSvC6TQEC6wbH36hYfv/5msZizahuj
+	xeq7/WwWrw9/YrS4eWAnk8XK1UeZLN61nmOxmD29mcni6P+3bBaTDl1jtNh7S9tiz96TLBbz
+	lz1lt+i+voPNYvnxf0wW5/8eZ7U4P2sOu4Ogx85Zd9k9Lp8t9di0qpPNY/OSeo/dNxvYPD4+
+	vcXi0bdlFaPHmQVH2D0+b5Lz2PTkLVMAVxSXTUpqTmZZapG+XQJXxq0ukYJvTBVPjnezNzCu
+	Y+pi5OSQEDCRmH2kh7GLkYtDSGA3o8TKu3+YIRISEqdeLmOEsIUlVv57zg5R9IRR4s2CHnaQ
+	BIuAisSnd/PAitgE1CWOPG8Fs0UEtCVeXz8E1sAssIxZ4v/TNlaQhLBArMTOmWvANvAK6Ers
+	/fiIBWo1k8SFCb0sEAlBiZMzn4DZzAJaEjf+vQS6lQPIlpZY/o8DJMwpYCuxcdsisCNEBZQl
+	Dmw7zjSBUXAWku5ZSLpnIXQvYGRexSiZWlCcm55bbFhgmJdarlecmFtcmpeul5yfu4kRHJVa
+	mjsYt6/6oHeIkYmD8RCjBAezkghv4BL/dCHelMTKqtSi/Pii0pzU4kOM0hwsSuK84i96U4QE
+	0hNLUrNTUwtSi2CyTBycUg1MEtf9c4//n1/x3Dn9W26m0CTj5s4uZv91xbN/+Z80ZrPUqc0N
+	PR72ncWYVXCivuKyx7o6cWeYdsfXvnGxyDbibueVCjmybOdHsdS1c5LZfjR2LtC4JSp0uzB0
+	bU+RxkaL513a0UtjRGa4GZzjtp/+wyo0a33IUrvaD1IfBJOjag8tmxpcWzE/fdnjd6c5Xb1+
+	Zp+TkVt5u19XfbKDWLgc7xmW3SLW0vk7JgnN2fCy+1RjbWy/5ES/Q/JHlipxT6gO7oyIkgta
+	PcVK8I5aemr5nSJJWw+d9XbaLgwF5413nzk1r9VU1fXby3evuK7OPipcbd/8THGK5+ETv8IZ
+	DBq3RX64L6EU3j31nN3TEiWW4oxEQy3mouJEAFYvDgw5AwAA
+X-CMS-MailID: 20241204081706epcas5p40981cc87d05ff313b42b8a11e28deafb
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----QQbx9Hk6-Xl4D1oMwM2uYkP7uAkYtjoi7zPie6od2LiHNIsi=_57c7d_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241128113109epcas5p46022c85174da65853c85a8848b32f164
+References: <20241128112240.8867-1-anuj20.g@samsung.com>
+	<CGME20241128113109epcas5p46022c85174da65853c85a8848b32f164@epcas5p4.samsung.com>
+	<20241128112240.8867-7-anuj20.g@samsung.com>
+	<yq1r06psey3.fsf@ca-mkp.ca.oracle.com> <20241203065645.GA19359@green245>
+	<b8574010-e2fc-4566-9df8-80046fec2845@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241203_231413_891704_F44F178D 
-X-CRM114-Status: GOOD (  13.49  )
+X-CRM114-CacheID: sfid-20241204_002055_699843_2A43F4A6 
+X-CRM114-Status: GOOD (  15.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,40 +145,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/3/24 20:15, Keith Busch wrote:
-> On Fri, Nov 29, 2024 at 03:06:08PM +0100, Hannes Reinecke wrote:
->> When a namespace gets unmapped on the target during scanning
->> nvme_identify_ns_descs() returns with a non-retryable error.
->> With the currrent code we will ignore that error on the grounds
->> that we failed to get information, and hence cannot make any
->> decisions whether to keep or remove that namespace.
->> But a non-retryable error implies that the namespace is _not_
->> present as we cannot retry that command and will never get
->> information about that namespace.
->> And we need to remove the namespace during scanning, as otherwise
->> the AEN informing us about a namespace change will find the NSID
->> present, but nvme_validate_ns() will fail, and the namespace
->> will never be updated with the correct information.
+------QQbx9Hk6-Xl4D1oMwM2uYkP7uAkYtjoi7zPie6od2LiHNIsi=_57c7d_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+
+On Tue, Dec 03, 2024 at 12:00:41PM +0000, Pavel Begunkov wrote:
+> On 12/3/24 06:56, Anuj Gupta wrote:
+> > On Mon, Dec 02, 2024 at 09:13:14PM -0500, Martin K. Petersen wrote:
+> An IORING_FEAT_ flag might be simpler for now. Or is it in plans to
+> somehow support IORING_OP_READ_MULTISHOT as well?
 > 
-> The scanning only checks namespaces returned in the "active" namespace
-> list. Every namespace not in the active list gets removed already. Why
-> is this unmapped namespace appearing on the active list?
+No, multishot doesn't fit wel. Will add a IORING_FEAT_RW_ATTR flag.
 
-Timing. Imagine a system used as a backing store for kubernetes, where 
-namespaces come and go at a _really_ fast pace.
-1) AEN triggers a rescan
-2) List of active namespace is retrieved
--> NSID A gets unmapped (or moved to another node in the cluster)
-3) Scan of NSID A returns an error with DNR set.
-Without this patch we keep the namespace around, so eventually we'll
-trip over the 'non-matching UUID' check once the NSID is reused.
+------QQbx9Hk6-Xl4D1oMwM2uYkP7uAkYtjoi7zPie6od2LiHNIsi=_57c7d_
+Content-Type: text/plain; charset="utf-8"
 
-Cheers,
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+------QQbx9Hk6-Xl4D1oMwM2uYkP7uAkYtjoi7zPie6od2LiHNIsi=_57c7d_--
 
