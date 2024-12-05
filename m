@@ -4,64 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 634C1E7716D
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Dec 2024 12:14:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 485DCE7716D
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Dec 2024 12:35:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=aBP8+Ta6VPCfT/d+af6u0urgv8qVbZAuyQUjcoZOP6Q=; b=dwDk3AZiB3uwaMipdzQJ8HQvp3
-	re7PZ4+jsFc+7sj2BYQunbzfkQBNuao2X7l7E8H0ML278A6hv/Lzl2tHqCn3bB13yIdA36V4kp5xN
-	vWTaFGPXuJ6T4LzmpuHZ/nPBSuL8wmTpweC3SeHLyGNz9e2efgptS52xU3OF1mFG/P8UVzIAci/l/
-	D6YNJl928Fi8+OCEJ1oTsi/iNq/P33kQLMeIyR+kA24EE/erRsHD9gaavjAK/G/eUXSnoppraBQSX
-	an+NneHZ6jm4igLkhTbyQ4cnd16ckraWZr2lB+UnmyZhsdpeJQcsqrf1SLoYIlZ5KSSwzZl87M/5X
-	igc6rH4Q==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kdW4FyXp3VA4hYXIXBApp/rejsddwFIs7XX9QSGioIw=; b=3U1lHm876t8bkxCC0Ott7nrZ7Z
+	QwZykdqA9X0Gg41RhS/MGn5sKnmzODyINmOarB+Vjjrid+BtA7qiGI0AGsEtlT44GdHaFUnlCGrT3
+	ElkIcVYO7H9198HewblbvA8n0GhmxHvDWV6I1mNUM+aguhJWPI/z6aEuuOJD/GspUXDnddb+n8SUG
+	jYU/wlVD/2b7+Ux8dBWbjvmBId/N7wyb6UR+JUfl2m9d0td+OaIfa5APNqL7mps/eozm/0fEv1lWh
+	3VLgUNayE9xIdU2fmBDiiv/M1Ya1pkhGtCH+iQRP7vIu9AWhN5tXsXp399fHCUpl8kNKU5sgsceF+
+	3jnEQnFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJAkE-0000000Ftu9-3MB7;
-	Thu, 05 Dec 2024 12:14:10 +0000
-Received: from mout-p-202.mailbox.org ([2001:67c:2050:0:465::202])
+	id 1tJB57-0000000FycR-2rty;
+	Thu, 05 Dec 2024 12:35:45 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJ9aH-0000000Fdv7-277Z
+	id 1tJB0E-0000000FxgP-2U0M
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Dec 2024 10:59:50 +0000
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	Thu, 05 Dec 2024 12:30:43 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Y3rxb6DXkz9srM;
-	Thu,  5 Dec 2024 11:59:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1733396371;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=aBP8+Ta6VPCfT/d+af6u0urgv8qVbZAuyQUjcoZOP6Q=;
-	b=jDuPysIerMVBKQ3bBZrvYbDQxBzbSuHW3DsNKhe6lKA/EXGwm9Nwq6lkO5j2SohElPIjaq
-	Tcqs/mSBhu+egNw6zLahZsQyR6Lvr1nyU39D/YomEv5l38Q7BK8jZASX8k/0IrlS1zrxyB
-	hNFkncCx7rpfmz9zSWW+jFMq5fCluujh7/BGM47/2eMxJakVHlxCDY88Pqn1C3G8M1Yl83
-	kldptISIRW3cYBgETDlSSJ53+hyjGLqbH5L9GYEKNiPC20AnvnwEyVdYHq2X3YggYbkHQs
-	NocbwesIOVx7RqwMrIHLfnnI8Hwduvi+3NBocux1cvfpmMwfC1hJ7KnG0XF5bg==
-Message-ID: <5fcdfd16-d598-4a86-962e-9d22b0524b12@mailbox.org>
-Date: Thu, 5 Dec 2024 11:59:29 +0100
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 68FF11F396;
+	Thu,  5 Dec 2024 12:30:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733401839; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kdW4FyXp3VA4hYXIXBApp/rejsddwFIs7XX9QSGioIw=;
+	b=IoG4ChSkHpH3DKmF8f96kymtKF6x/cJ3Xrv/zu9m3sBTVNw9L21CsKgsaYOKwPFnaBKMzC
+	E8d3xkpnIgPcsHrcAWtWyhxDoKnb8W7QIDYyISA1aawLKv0jncBUQAbmnVKsWZ40jm5yiE
+	sH6gUjpT400Xlt+SDodSJEx3sLTGnbY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733401839;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kdW4FyXp3VA4hYXIXBApp/rejsddwFIs7XX9QSGioIw=;
+	b=R1sc5LU+35NMhJvsIt1g8EEslrAM5SRWNq84MgB0LsTdYNiQDGYHi2XoEAu1gwazJZj43W
+	6SgOGI9srMv+5ZBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733401839; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kdW4FyXp3VA4hYXIXBApp/rejsddwFIs7XX9QSGioIw=;
+	b=IoG4ChSkHpH3DKmF8f96kymtKF6x/cJ3Xrv/zu9m3sBTVNw9L21CsKgsaYOKwPFnaBKMzC
+	E8d3xkpnIgPcsHrcAWtWyhxDoKnb8W7QIDYyISA1aawLKv0jncBUQAbmnVKsWZ40jm5yiE
+	sH6gUjpT400Xlt+SDodSJEx3sLTGnbY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733401839;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kdW4FyXp3VA4hYXIXBApp/rejsddwFIs7XX9QSGioIw=;
+	b=R1sc5LU+35NMhJvsIt1g8EEslrAM5SRWNq84MgB0LsTdYNiQDGYHi2XoEAu1gwazJZj43W
+	6SgOGI9srMv+5ZBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 56B60132EB;
+	Thu,  5 Dec 2024 12:30:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id N0myFO+cUWfQOAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 05 Dec 2024 12:30:39 +0000
+Message-ID: <99025917-e201-4ec9-ba04-e979f61c411b@suse.de>
+Date: Thu, 5 Dec 2024 13:30:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: Remove namespace when nvme_identify_ns_descs()
+ failed
+To: Keith Busch <kbusch@kernel.org>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <20241129140608.115282-1-hare@kernel.org>
+ <Z09Y30pUtAg0xwoR@kbusch-mbp> <4ba05af4-9464-4cdf-a306-60585793c46e@suse.de>
+ <Z1CF2vn1_xkNIVAM@kbusch-mbp>
 Content-Language: en-US
-To: kbusch@kernel.org, hch@lst.de, linux-mm@kvack.org
-From: Simon Polack <spolack@mailbox.org>
-Subject: [REGRESSION] 6.13-rc1: Loading nvme module leads to
- mm/page_alloc.c:4727 __alloc_pages_noprof+0x321/0x330
-Cc: regressions@lists.linux.dev, linux-nvme@lists.infradead.org,
- 'linux-kernel@vger.kernel.org
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <Z1CF2vn1_xkNIVAM@kbusch-mbp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 6kb6byan7tnwaj8ou1yqqcxjxf6ybgto
-X-MBO-RS-ID: e39f74d05971d8e3050
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241205_025949_680116_9DC6B8E9 
-X-CRM114-Status: UNSURE (   9.27  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241205_043042_785427_E061AA27 
+X-CRM114-Status: GOOD (  17.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,118 +134,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+On 12/4/24 17:39, Keith Busch wrote:
+> On Wed, Dec 04, 2024 at 08:14:08AM +0100, Hannes Reinecke wrote:
+>> On 12/3/24 20:15, Keith Busch wrote:
+>>> On Fri, Nov 29, 2024 at 03:06:08PM +0100, Hannes Reinecke wrote:
+>>>> When a namespace gets unmapped on the target during scanning
+>>>> nvme_identify_ns_descs() returns with a non-retryable error.
+>>>> With the currrent code we will ignore that error on the grounds
+>>>> that we failed to get information, and hence cannot make any
+>>>> decisions whether to keep or remove that namespace.
+>>>> But a non-retryable error implies that the namespace is _not_
+>>>> present as we cannot retry that command and will never get
+>>>> information about that namespace.
+>>>> And we need to remove the namespace during scanning, as otherwise
+>>>> the AEN informing us about a namespace change will find the NSID
+>>>> present, but nvme_validate_ns() will fail, and the namespace
+>>>> will never be updated with the correct information.
+>>>
+>>> The scanning only checks namespaces returned in the "active" namespace
+>>> list. Every namespace not in the active list gets removed already. Why
+>>> is this unmapped namespace appearing on the active list?
+>>
+>> Timing. Imagine a system used as a backing store for kubernetes, where
+>> namespaces come and go at a _really_ fast pace.
+>> 1) AEN triggers a rescan
+>> 2) List of active namespace is retrieved
+>> -> NSID A gets unmapped (or moved to another node in the cluster)
+>> 3) Scan of NSID A returns an error with DNR set.
+>> Without this patch we keep the namespace around, so eventually we'll
+>> trip over the 'non-matching UUID' check once the NSID is reused.
+> 
+> I'm still not sure that makes sense. The target shouldn't attach the new
+> namespace until the host acknowledges the removal of the older NSID via
+> the Namespace Change List log. Until the log is read, the inventory for
+> removed namespaces should be latched. Otherwise, timing might remove+add
+> a specific NSID before the host requests the NS Descriptor for the
+> racing removal, then it would just get the "non-matching UUID" issue
+> anyway.
 
-i noticed a regression after upgrading from 6.12.1 to 6.13-rc1. The logs 
-indicate a error in mm/page_alloc.c which is called from the nvme 
-module. Other modules seem to be not producing that warning, therefore i 
-have included nvme maintainers as well.
+But we read the Namespace Change List log in step 2)
+(Not that we're doing anything with it, but that's another story...)
+Hmm?
 
-The issue is seen on a Dell Latitude 5340 Notebook which is runnning 
-Fedora 41 using vanilla kernel and the system seems to be still 
-perfectly working, aside from the call trace.
+Cheers,
 
-Please bare with me in case i forgot to include relevant recipients or 
-deviate from the exact process, as this is my first reported issue.
-
-Best,
-Simon
-
-
-CPU Model:
-13th Gen Intel(R) Core(TM) i5-1345U
-
-Affected Release:
-Linux version 6.13.0-0.rc1.20241203gtcdd30ebb.314.vanilla.fc41.x86_64 
-(mockbuild@51edd079414046e884973245b9e58270) (gcc (GCC) 14.2.1 20240912 
-(Red Hat 14.2.1-3), GNU ld version 2.43.1-2.fc41) #1 SMP PREEMPT_DYNAMIC 
-Tue Dec  3 07:44:07 UTC 2024
-
-Last known good release:
-Linux fedora 6.12.1-400.vanilla.fc41.x86_64 #1 SMP PREEMPT_DYNAMIC Fri 
-Nov 22 16:32:03 UTC 2024 x86_64 GNU/Linux
-
-
-Related logs:
-[    2.301170] nvme 0000:01:00.0: platform quirk: setting simple suspend
-[    2.301276] nvme nvme0: pci function 0000:01:00.0
-[..]
-[    2.325090] ------------[ cut here ]------------
-[    2.325094] WARNING: CPU: 7 PID: 206 at mm/page_alloc.c:4727 
-__alloc_pages_noprof+0x321/0x330
-[    2.325099] Modules linked in: drm_buddy nvme ttm crct10dif_pclmul 
-crc32_pclmul crc32c_intel polyval_clmulni drm_display_helper nvme_core 
-polyval_generic
-ghash_clmulni_intel sha512_ssse3 intel_ish_ipc(+) hid_multitouch(+) 
-sha256_ssse3 ucsi_acpi typec_ucsi sha1_ssse3 intel_ishtp cec nvme_auth 
-typec video i2c_hi
-d_acpi i2c_hid wmi pinctrl_tigerlake serio_raw pkcs8_key_parser fuse
-[    2.325115] CPU: 7 UID: 0 PID: 206 Comm: kworker/u48:5 Not tainted 
-6.13.0-0.rc1.20241203gtcdd30ebb.314.vanilla.fc41.x86_64 #1
-[    2.325118] Hardware name: Dell Inc. Latitude 5340/07MV6Y, BIOS 
-1.17.0 09/09/2024
-[    2.325119] Workqueue: async async_run_entry_fn
-[    2.325124] RIP: 0010:__alloc_pages_noprof+0x321/0x330
-[    2.325126] Code: e1 7f f7 c2 00 00 04 00 0f 45 d9 89 d9 83 e1 f7 81 
-e2 00 00 00 10 0f 45 d9 e9 76 fd ff ff 80 e3 3f eb e8 c6 05 a5 1c 50 02 
-01 <0f> 0b eb
-  9e e8 c6 7e d1 00 66 0f 1f 44 00 00 90 90 90 90 90 90 90
-[    2.325127] RSP: 0018:ffffc183c06efb50 EFLAGS: 00010246
-[    2.325129] RAX: 0000000000000000 RBX: 0000000000000cc0 RCX: 
-0000000000000000
-[    2.325130] RDX: 0000000000000000 RSI: 000000000000000e RDI: 
-0000000000000cc0
-[    2.325131] RBP: 000000000000000e R08: 0000000000000cc0 R09: 
-ffff9d854939aec0
-[    2.325132] R10: ffffc183c06efbb8 R11: 00000000ffffffff R12: 
-0000000000000000
-[    2.325133] R13: ffffffffffffffff R14: 0000000000000000 R15: 
-000000000000000e
-[    2.325134] FS:  0000000000000000(0000) GS:ffff9d88bf780000(0000) 
-knlGS:0000000000000000
-[    2.325135] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    2.325136] CR2: 000055a61ee27018 CR3: 000000010c092001 CR4: 
-0000000000f70ef0
-[    2.325138] PKRU: 55555554
-[    2.325139] Call Trace:
-[    2.325141]  <TASK>
-[    2.325142]  ? __alloc_pages_noprof+0x321/0x330
-[    2.325144]  ? __warn.cold+0x93/0xfa
-[    2.325146]  ? __alloc_pages_noprof+0x321/0x330
-[    2.325149]  ? report_bug+0xff/0x140
-[    2.325152]  ? handle_bug+0x58/0x90
-[    2.325155]  ? exc_invalid_op+0x17/0x70
-[    2.325157]  ? asm_exc_invalid_op+0x1a/0x20
-[    2.325159]  ? __alloc_pages_noprof+0x321/0x330
-[    2.325162]  __dma_direct_alloc_pages.isra.0+0x1ed/0x330
-[    2.325166]  dma_direct_alloc_pages+0x3f/0x190
-[    2.325168]  dma_alloc_noncontiguous+0xd9/0x270
-[    2.325171]  nvme_setup_host_mem+0x400/0x480 [nvme]
-[    2.325176]  ? nvme_init_ctrl_finish+0x2ac/0x330 [nvme_core]
-[    2.325190]  nvme_probe.cold+0x13b/0x240 [nvme]
-[    2.325194]  local_pci_probe+0x42/0x90
-[    2.325198]  pci_device_probe+0xdd/0x290
-[    2.325200]  really_probe+0xdb/0x340
-[    2.325203]  ? pm_runtime_barrier+0x54/0x90
-[    2.325205]  __driver_probe_device+0x78/0x110
-[    2.325208]  driver_probe_device+0x1f/0xa0
-[    2.325210]  __driver_attach_async_helper+0x5e/0xe0
-[    2.325212]  async_run_entry_fn+0x31/0x130
-[    2.325215]  process_one_work+0x176/0x330
-[    2.325218]  worker_thread+0x252/0x390
-[    2.325221]  ? __pfx_worker_thread+0x10/0x10
-[    2.325223]  kthread+0xcf/0x100
-[    2.325225]  ? __pfx_kthread+0x10/0x10
-[    2.325226]  ret_from_fork+0x31/0x50
-[    2.325229]  ? __pfx_kthread+0x10/0x10
-[    2.325230]  ret_from_fork_asm+0x1a/0x30
-[    2.325233]  </TASK>
-[    2.325234] ---[ end trace 0000000000000000 ]---
-[    2.331289] nvme nvme0: allocated 64 MiB host memory buffer (16 
-segments).
-
-
-
-#regzbot introduced: v6.12.1..v6.13-rc1
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
