@@ -4,44 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CAF4E77172
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Dec 2024 14:29:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 265B7E77170
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Dec 2024 14:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mKKj2fxdlfVW5aD6CuypLf8UD3gAjKHN6VknXiRkV6g=; b=Wjk1oaDV1F9jLxiTgtLuQv1xSC
-	h1uBVx0TSEuV0Dfhfmkr/9JKR84e7VPsQkQH0OCKEKUd1pFosYkWVullNOY1V7FxB0brMVmCAEyNf
-	9G/yqDYKZur/lM1CVhUCIyjjWtLWGKDZD0DRbeRAND0KUZR3gMEaQo1WILk3qyEAqp17wB+/pc4qv
-	U33f63/bs6rVMnAObNWSiczoVtYmJU6IqwJQdz7LBdnglFIfpSpBo9SlxKD1+IfB4Nc7QU42jVr5c
-	UUIVvT9TivKnHFYpJj6Q3CldJAa9YExJVNkmGh3kDUOY0zgy8UP9o19bVKNEuwEaAe6Lo5kWiDFZj
-	yNXQ3Mag==;
+	bh=6yQ2rSFv92DtBGpphymSQaues8rEpqWzpk14XviiUck=; b=LiJPLjtl3FZ9Jl4eXFHQNN5uZz
+	F3aoNPvKltPR/0FJtUT5+ttvvCQtoOyBwZ9FR9OSpDiLD+lbdGImSW62aHWIBLyWn5tlNbF6Li4R7
+	ixGCidiwlWXs+T+TyL1gAzE5QCE97ku5uWh9imMC4s/DwnmRId2txtEoVRz+1CahCdYyE49tVMhvh
+	kuZCkelxEA91j0TVZtLgSgDVqFg3HRSc9lTmVKb7lFuFyJOWcEtOUHw+o5weCRIXfGk1sSkiOryCz
+	Ga8A+yzCTYFv+sAtFm9pFhptEChPDQb/1biPI9pE+WSjC0y3a4h9vU850j2xl1Ie4jK5hoReR40NV
+	MS64D0Gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJCr5-0000000GKkd-1PWO;
-	Thu, 05 Dec 2024 14:29:23 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tJCr4-0000000GKjW-2LXI;
+	Thu, 05 Dec 2024 14:29:22 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJBo8-0000000G6rN-1RnS
+	id 1tJBo8-0000000G6rD-1BwO
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 05 Dec 2024 13:22:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=6yQ2rSFv92DtBGpphymSQaues8rEpqWzpk14XviiUck=; b=RF1+ExvJVwzmtxClaYBAfKrc+p
+	6a6cARqzxX/QcI1XfGsT0BLaUmubqsEQUDOFQpXXhA68WXJHgh1aXN9qDsdfq7X/53NpJCTrHTBTr
+	/nRjpx3JAUWH30ujUG8dUAt7Zth2DivZ+vdQUbnaQDKhxGFo4fCLyfs39Ywkef9OD058+gWDXzAcP
+	xqUiWVGn32ZiY772MX3TPc8jhETYT+jh8qUnjskx9XPEetif2y1UB+zoFGc2N67WYMXFRej/5GF+m
+	ynVfHdm2MUG1K52q+vR0X0sbHHKmgs5ZNSuZdvmO+dC0By1p1Z7T9kLEayx+Am9mDF0/dXo4j3XXE
+	VGciE+0w==;
+Received: from dfw.source.kernel.org ([139.178.84.217])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tJBo5-00000002uDT-18n3
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Dec 2024 13:22:18 +0000
+	Thu, 05 Dec 2024 13:22:15 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0B0E85C6483;
-	Thu,  5 Dec 2024 13:21:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1BFCC4CED1;
-	Thu,  5 Dec 2024 13:22:14 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 29C4B5C70AA;
+	Thu,  5 Dec 2024 13:21:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD77C4CED1;
+	Thu,  5 Dec 2024 13:22:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733404935;
-	bh=D18vqz7ozylSYyTDiUizIC6+IP11dnR8Bul5eGSUEKI=;
+	s=k20201202; t=1733404931;
+	bh=GYKFLxFW0CYXNWuiPU0aCZhm6hh5vt2InRoRMGBEU+M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Bm19PU8a+nItwL7s5OcINejqFYglblqmJlzdrbI5jAac+IoAXWIGi3TDk5Me1nbJX
-	 ehdIlS1u9UItY1EaONBD2NIwiqlEOa0s7pgkEyTp4NENwDZgHm9sEhmjhVaNv0qtph
-	 kCz+xw3PC94YX8OX5iQ7PUbTYjQzcmAPgCLadgd2OQ7mT0UMbBZUDrd18ojOj9ctk7
-	 btygs26HiFfSEp/BBHpqoRtwnClx9LvnYJD74cmNdF28ixr1edqeIzjmiED5jomff1
-	 WDZDVQ8ku2GZk9LTy3rc8piHNwJ9naJCp40wCws5ekHCmfTdIGdjVEmGV4kmINxvbK
-	 sSc6CAa188wtQ==
+	b=LormMVO4QIjeKc344CmUd8A6BTemFNMH9FZFRB2P+MNP9lubXQVZa2LUbxc2DJtC2
+	 Z1Xo3e+opT206OuBKyqvk6Iq112414FjtEKSNNNCuo7CeoScpMAUmHLAkCvNygGXXs
+	 RXEHXlekoxV5X8tYvOPNh5yfgZo+ABGgDrILLc+w0ejzkiFxYFGEkqig1pdsJGFq5t
+	 AWrZHqnWtow9U1Vjt/ftRH+urSnMN1XzV8WnT/FBIpUGRAn+fFDIXDGzZktSpXC3Nw
+	 V5QyE1PspKoMm25zPOvugU0R+4AVotb8XZ+6TPpviaMr9RC5DgsbpHlFkBdQx9mjDX
+	 1JSU8zntYE7/w==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -50,7 +65,8 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Will Deacon <will@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>,
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Yishai Hadas <yishaih@nvidia.com>,
@@ -71,17 +87,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v4 09/18] dma-mapping: add a dma_need_unmap helper
-Date: Thu,  5 Dec 2024 15:21:08 +0200
-Message-ID: <7f68ddea2a2070b639352d5f912968f1116fb8bc.1733398913.git.leon@kernel.org>
+Subject: [PATCH v4 11/18] mm/hmm: let users to tag specific PFN with DMA mapped bit
+Date: Thu,  5 Dec 2024 15:21:10 +0200
+Message-ID: <e4551571fc10d9c73ab9e38a75ea701c1b492686.1733398913.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1733398913.git.leon@kernel.org>
 References: <cover.1733398913.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241205_052216_485751_2FA37D55 
-X-CRM114-Status: GOOD (  14.62  )
+X-CRM114-CacheID: sfid-20241205_132213_662215_3256A137 
+X-CRM114-Status: GOOD (  19.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,70 +112,166 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Add helper that allows a driver to skip calling dma_unmap_*
-if the DMA layer can guarantee that they are no-nops.
+Introduce new sticky flag (HMM_PFN_DMA_MAPPED), which isn't overwritten
+by HMM range fault. Such flag allows users to tag specific PFNs with information
+if this specific PFN was already DMA mapped.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/dma-mapping.h |  5 +++++
- kernel/dma/mapping.c        | 18 ++++++++++++++++++
- 2 files changed, 23 insertions(+)
+ include/linux/hmm.h | 17 +++++++++++++++++
+ mm/hmm.c            | 39 ++++++++++++++++++++++++++-------------
+ 2 files changed, 43 insertions(+), 13 deletions(-)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 28b271e8e9b9..78ca600f29d3 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -407,6 +407,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
- }
-+bool dma_need_unmap(struct device *dev);
- #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
- static inline bool dma_dev_need_sync(const struct device *dev)
- {
-@@ -432,6 +433,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return false;
- }
-+static inline bool dma_need_unmap(struct device *dev)
-+{
-+	return false;
-+}
- #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
- 
- struct page *dma_alloc_pages(struct device *dev, size_t size,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index cda127027e48..3c3204ad2839 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -443,6 +443,24 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- }
- EXPORT_SYMBOL_GPL(__dma_need_sync);
- 
-+/**
-+ * dma_need_unmap - does this device need dma_unmap_* operations
-+ * @dev: device to check
-+ *
-+ * If this function returns %false, drivers can skip calling dma_unmap_* after
-+ * finishing an I/O.  This function must be called after all mappings that might
-+ * need to be unmapped have been performed.
-+ */
-+bool dma_need_unmap(struct device *dev)
-+{
-+	if (!dma_map_direct(dev, get_dma_ops(dev)))
-+		return true;
-+	if (!dev->dma_skip_sync)
-+		return true;
-+	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
-+}
-+EXPORT_SYMBOL_GPL(dma_need_unmap);
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 126a36571667..a1ddbedc19c0 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -23,6 +23,8 @@ struct mmu_interval_notifier;
+  * HMM_PFN_WRITE - if the page memory can be written to (requires HMM_PFN_VALID)
+  * HMM_PFN_ERROR - accessing the pfn is impossible and the device should
+  *                 fail. ie poisoned memory, special pages, no vma, etc
++ * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output transformation
++ *                      to mark that page is already DMA mapped
+  *
+  * On input:
+  * 0                 - Return the current state of the page, do not fault it.
+@@ -36,6 +38,13 @@ enum hmm_pfn_flags {
+ 	HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
+ 	HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
+ 	HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
 +
- static void dma_setup_need_sync(struct device *dev)
++	/*
++	 * Sticky flags, carried from input to output,
++	 * don't forget to update HMM_PFN_INOUT_FLAGS
++	 */
++	HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 7),
++
+ 	HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 8),
+ 
+ 	/* Input flags */
+@@ -57,6 +66,14 @@ static inline struct page *hmm_pfn_to_page(unsigned long hmm_pfn)
+ 	return pfn_to_page(hmm_pfn & ~HMM_PFN_FLAGS);
+ }
+ 
++/*
++ * hmm_pfn_to_phys() - return physical address pointed to by a device entry
++ */
++static inline phys_addr_t hmm_pfn_to_phys(unsigned long hmm_pfn)
++{
++	return __pfn_to_phys(hmm_pfn & ~HMM_PFN_FLAGS);
++}
++
+ /*
+  * hmm_pfn_to_map_order() - return the CPU mapping size order
+  *
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 7e0229ae4a5a..c16cfa03430c 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -39,13 +39,20 @@ enum {
+ 	HMM_NEED_ALL_BITS = HMM_NEED_FAULT | HMM_NEED_WRITE_FAULT,
+ };
+ 
++enum {
++	/* These flags are carried from input-to-output */
++	HMM_PFN_INOUT_FLAGS = HMM_PFN_DMA_MAPPED,
++};
++
+ static int hmm_pfns_fill(unsigned long addr, unsigned long end,
+ 			 struct hmm_range *range, unsigned long cpu_flags)
  {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
+ 	unsigned long i = (addr - range->start) >> PAGE_SHIFT;
+ 
+-	for (; addr < end; addr += PAGE_SIZE, i++)
+-		range->hmm_pfns[i] = cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++) {
++		range->hmm_pfns[i] &= HMM_PFN_INOUT_FLAGS;
++		range->hmm_pfns[i] |= cpu_flags;
++	}
+ 	return 0;
+ }
+ 
+@@ -202,8 +209,10 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
+ 		return hmm_vma_fault(addr, end, required_fault, walk);
+ 
+ 	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+-	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		hmm_pfns[i] = pfn | cpu_flags;
++	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		hmm_pfns[i] &= HMM_PFN_INOUT_FLAGS;
++		hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 	return 0;
+ }
+ #else /* CONFIG_TRANSPARENT_HUGEPAGE */
+@@ -236,7 +245,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (required_fault)
+ 			goto fault;
+-		*hmm_pfn = 0;
++		*hmm_pfn = *hmm_pfn & HMM_PFN_INOUT_FLAGS;
+ 		return 0;
+ 	}
+ 
+@@ -253,14 +262,14 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			cpu_flags = HMM_PFN_VALID;
+ 			if (is_writable_device_private_entry(entry))
+ 				cpu_flags |= HMM_PFN_WRITE;
+-			*hmm_pfn = swp_offset_pfn(entry) | cpu_flags;
++			*hmm_pfn = (*hmm_pfn & HMM_PFN_INOUT_FLAGS) | swp_offset_pfn(entry) | cpu_flags;
+ 			return 0;
+ 		}
+ 
+ 		required_fault =
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (!required_fault) {
+-			*hmm_pfn = 0;
++			*hmm_pfn = *hmm_pfn & HMM_PFN_INOUT_FLAGS;
+ 			return 0;
+ 		}
+ 
+@@ -304,11 +313,11 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			pte_unmap(ptep);
+ 			return -EFAULT;
+ 		}
+-		*hmm_pfn = HMM_PFN_ERROR;
++		*hmm_pfn = (*hmm_pfn & HMM_PFN_INOUT_FLAGS) | HMM_PFN_ERROR;
+ 		return 0;
+ 	}
+ 
+-	*hmm_pfn = pte_pfn(pte) | cpu_flags;
++	*hmm_pfn = (*hmm_pfn & HMM_PFN_INOUT_FLAGS) | pte_pfn(pte) | cpu_flags;
+ 	return 0;
+ 
+ fault:
+@@ -448,8 +457,10 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
+ 		}
+ 
+ 		pfn = pud_pfn(pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+-		for (i = 0; i < npages; ++i, ++pfn)
+-			hmm_pfns[i] = pfn | cpu_flags;
++		for (i = 0; i < npages; ++i, ++pfn) {
++			hmm_pfns[i] &= HMM_PFN_INOUT_FLAGS;
++			hmm_pfns[i] |= pfn | cpu_flags;
++		}
+ 		goto out_unlock;
+ 	}
+ 
+@@ -507,8 +518,10 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
+ 	}
+ 
+ 	pfn = pte_pfn(entry) + ((start & ~hmask) >> PAGE_SHIFT);
+-	for (; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		range->hmm_pfns[i] = pfn | cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		range->hmm_pfns[i] &= HMM_PFN_INOUT_FLAGS;
++		range->hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 
+ 	spin_unlock(ptl);
+ 	return 0;
 -- 
 2.47.0
 
