@@ -4,139 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5A79E7716C
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Dec 2024 08:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CB07E7716C
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Dec 2024 09:40:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UV1e2bi5qE0BqSSdWSdaqUPIoqcZCdduWKPI134vkAI=; b=utf4xZGcGv8jN5b6r+82mbL2sc
-	0fZbM+LT48AMMXVleC4VCIs8MsHUbteXUotMiAedJIdNJ0risQjjMIZKL6Gi+/ppMC1+DWg/rYHqu
-	pFsy5+9aoyjvltE/ue6eKpTQi1vlv5tffb5RavExeiFGBKveRmCW6FI6ODGHcZ3p4ESjFa3mmPel4
-	N4LiEuGoPlWKZvshudc2fJtM/E0LqGLiGPOBF1jp37Y4+iKQ7a1N/jON/dDMDm/Cvlb+6gM7wnFZ3
-	qqTa5vBBu6B9z+XUb99PTfh2IcRaAlzFF0KLF6piLZ3z773NfdKFuIRFm/cahn604IuW5HDlHfskb
-	nFc7KGZA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FNJC7tohnIFrWiow4jPi6imPYabs/tXwb1OiFJBDuBI=; b=hbuIqYMqCnNmyZhlfw7ikkYrC+
+	gwzBzxwbLvmrY4RI1CWzDu29Q/ffSMKhnB7Aw4Crmg6arCc+ToSc+9oPBmmtJC0327aTDL7DZRJDC
+	/zlU7qhVKIUQiqE1EVljxYcfarKrnZmkhs4bhk6dOEn3BSD1g/XRPvYthHNk0Pk9qp/gG4Z22JHYC
+	VUMNo+0fcuGZS4Rm3RhZwrlBildFtFwohIJuUl37S/2xse/8JNwmRukYE7toU36flWcp1ugEY3j1y
+	y6P22IkqDLO/owr0aDkjqotrFj8IQ30o6Sk82yGDYmww1jnYgF3nrPD73ABGISZtZYOUCW2mQlkym
+	6fGdIInQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJ7Bm-0000000FAdt-3gzq;
-	Thu, 05 Dec 2024 08:26:22 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1tJ8Lo-0000000FOab-0p6p;
+	Thu, 05 Dec 2024 09:40:48 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJ7Bj-0000000FAak-36Yo
+	id 1tJ8Li-0000000FOa4-2jEd
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Dec 2024 08:26:22 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20241205082612epoutp044b4a50bd6c33d4223ed2198ad058a933~OOnL3iqt80575705757epoutp04J
-	for <linux-nvme@lists.infradead.org>; Thu,  5 Dec 2024 08:26:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20241205082612epoutp044b4a50bd6c33d4223ed2198ad058a933~OOnL3iqt80575705757epoutp04J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1733387172;
-	bh=UV1e2bi5qE0BqSSdWSdaqUPIoqcZCdduWKPI134vkAI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dhvO6R51Y36QfOhU5NKQU2PBqlwhcSD7qq7hV8PXaot0rhiPWWnXurySt63Sty+P5
-	 YgnmGcgO0fEJL/jao/IajWt1k7V+65skfvIP6+65F9yjJsjfmh9NavttHd+hsqgaGh
-	 x6FYiyyP0PYaXfA4EC2WnfIxv1zPV9LUgt8+Bj+g=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20241205082611epcas5p27a3a1f906e800cee085635df480ec707~OOnLgmNL11781617816epcas5p2k;
-	Thu,  5 Dec 2024 08:26:11 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4Y3nXd6xG4z4x9Pt; Thu,  5 Dec
-	2024 08:26:09 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CB.06.19710.1A361576; Thu,  5 Dec 2024 17:26:09 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1~OOaemwNM41369513695epcas5p2X;
-	Thu,  5 Dec 2024 08:11:38 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241205081138epsmtrp289fb89319b441006a678e93267fce7e3~OOael7NZr2489924899epsmtrp2i;
-	Thu,  5 Dec 2024 08:11:38 +0000 (GMT)
-X-AuditID: b6c32a44-363dc70000004cfe-63-675163a1e70a
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	94.72.33707.A3061576; Thu,  5 Dec 2024 17:11:38 +0900 (KST)
-Received: from ubuntu (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241205081136epsmtip2d65f1e7cc98bb7fb9ca9c8ebd7f63b2a~OOacI2QhT2555725557epsmtip2P;
-	Thu,  5 Dec 2024 08:11:35 +0000 (GMT)
-Date: Thu, 5 Dec 2024 13:33:42 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Bart Van Assche <bvanassche@acm.org>, Javier Gonzalez
-	<javier.gonz@samsung.com>, Matthew Wilcox <willy@infradead.org>, Keith Busch
-	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Keith Busch
-	<kbusch@meta.com>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "io-uring@vger.kernel.org"
-	<io-uring@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "joshi.k@samsung.com" <joshi.k@samsung.com>
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-Message-ID: <20241205080342.7gccjmyqydt2hb7z@ubuntu>
+	Thu, 05 Dec 2024 09:40:43 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B510Xrb010823;
+	Thu, 5 Dec 2024 09:40:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=FNJC7t
+	ohnIFrWiow4jPi6imPYabs/tXwb1OiFJBDuBI=; b=kGT+c8QW4a1/zZ7cp8iajM
+	bs1A+l/BQb27leMkmV5lDoLahpOH2QFPHkW4ruEDDSwTEYrXHnKpNnXf0/wYunvH
+	Rq50U4HqmnPg1GkMEz5XaKK/plJov7CK4RgujpynmcluhYU93oBoH+AAd00nCajB
+	peZvNpgMrAti5Hhom+7/byp8N+5U9nFooIblO1IH+vqAkPlfnOc8vP6Lm8uoRIva
+	DbxJVYEb2vO6k+DOB4RB5qtkGIwj1h111CNOPIJzafx9e3nv4h2TDpgsL6KSHg5K
+	USi17jPhNrmgWx8TOHbY+txX2oWhhtToRh/5KNC4Srk2lEJ5rnPozyY8JegslUMw
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43b24r9xsp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Dec 2024 09:40:30 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4B58mal3005286;
+	Thu, 5 Dec 2024 09:40:28 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 438fr1s8a6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Dec 2024 09:40:28 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4B59eShh62128398
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 5 Dec 2024 09:40:28 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 259AA58043;
+	Thu,  5 Dec 2024 09:40:28 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D61F25805D;
+	Thu,  5 Dec 2024 09:40:24 +0000 (GMT)
+Received: from [9.109.198.241] (unknown [9.109.198.241])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  5 Dec 2024 09:40:24 +0000 (GMT)
+Message-ID: <62addb0a-d115-4b2d-af3c-cedc41991f7c@linux.ibm.com>
+Date: Thu, 5 Dec 2024 15:10:23 +0530
 MIME-Version: 1.0
-In-Reply-To: <yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLJsWRmVeSWpSXmKPExsWy7bCmhu7C5MB0g/knzS2mffjJbLFy9VEm
-	i3et51gsHt/5zG5x9P9bNotJh64xWpy5upDFYu8tbYs9e0+yWMxf9pTdovv6DjaL5cf/MVn8
-	/jGHzYHX4/IVb4/NK7Q8Nq3qZPPYvKTeY/fNBjaPcxcrPD4+vcXi0bdlFaPH501yAZxR2TYZ
-	qYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbmSgp5ibmptkouPgG6bpk5QDcrKZQl5pQC
-	hQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgpMCvSKE3OLS/PS9fJSS6wMDQyMTIEKE7Iznh76
-	wVYwka/i8s1GxgbGg9xdjJwcEgImEq9a1zN2MXJxCAnsZpS4tGULM4TziVHi/rz3THDOyo9z
-	mWFaehb0Q1XtZJTYtfU2G4TzhFFi0YdbQC0cHCwCKhK/F4qDmGwC2hKn/3OA9IoImEpM/rSV
-	DcRmFjjJItF9zQLEFhZwluiZe5cRxOYFmn94dhMThC0ocXLmExYQm1PAWOL4qXUsIKskBLZw
-	SFxevR/qIBeJr0f/s0LYwhKvjm9hh7ClJD6/28sGYZdLrJyygg2iuYVRYtb1WYwQCXuJ1lP9
-	zBAXZUicmfwFqkFWYuqpdUwQcT6J3t9PmCDivBI75sHYyhJr1i+AqpeUuPa9Ecr2kGi90skO
-	CZTtLBKPP79im8AoNwvJR7OQ7IOwrSQ6PzSxzgIGGLOAtMTyfxwQpqbE+l36CxhZVzFKphYU
-	56anJpsWGOallsNjOTk/dxMjOB1ruexgvDH/n94hRiYOxkOMEhzMSiK8lWGB6UK8KYmVValF
-	+fFFpTmpxYcYTYHxM5FZSjQ5H5gR8kriDU0sDUzMzMxMLI3NDJXEeV+3zk0REkhPLEnNTk0t
-	SC2C6WPi4JRqYErNvHvSjX+P2B6FmkqnfzIZeWzqAiGM1hMfHvzDuFF7hwtn5IzZP99/Zla+
-	ueDlZNsNznumFfDOPtJ8Vu7//JruKhZHidIY6fneviefc7T8Sl0zMXwz+3wB+Rc8ea/UeX7c
-	fPDt4cwPTEY/A+/9XXtxl9FRfqvHzz6s25a55cUvG519YtPfFScpCRrwe2rfFVwQctt6sdGf
-	j98/CL7gPOMqavRukn/XqeaKwn0TD7Ndu8QyNTH53YzVXN8CelnXZp1dnxbY6jb14d0Ptwqf
-	XfP/vm7aqZ8y0z8xb3sgc/PNh8vlmyrPsVlEcS/tnSNczxz/M7TF4vqRbUvP2zlJbZx9Ka3F
-	e1Fvqv1xj6heuy+WSizFGYmGWsxFxYkAKWMo6VAEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJLMWRmVeSWpSXmKPExsWy7bCSvK5VQmC6wbwrOhbTPvxktli5+iiT
-	xbvWcywWj+98Zrc4+v8tm8WkQ9cYLc5cXchisfeWtsWevSdZLOYve8pu0X19B5vF8uP/mCx+
-	/5jD5sDrcfmKt8fmFVoem1Z1snlsXlLvsftmA5vHuYsVHh+f3mLx6NuyitHj8ya5AM4oLpuU
-	1JzMstQifbsEroxlzWdZCw5zV1z5/Je1gbGXs4uRk0NCwESiZ0E/cxcjF4eQwHZGiZ0vrrJC
-	JCQllv09wgxhC0us/PecHcQWEnjEKDGhsaKLkYODRUBF4vdCcRCTTUBb4vR/DpAKEQFTicmf
-	trKBjGQWOMsi8e7rAyaQhLCAs0TP3LuMIDYv0N7Ds5uYIPY+ZpbY37GWHSIhKHFy5hMWEJtZ
-	wExi3uaHzCALmAWkJZb/A1vAKWAscfzUOpYJjAKzkHTMQtIxC6FjASPzKkbR1ILi3PTc5AJD
-	veLE3OLSvHS95PzcTYzg2NEK2sG4bP1fvUOMTByMhxglOJiVRHgrwwLThXhTEiurUovy44tK
-	c1KLDzFKc7AoifMq53SmCAmkJ5akZqemFqQWwWSZODilGpg8+U8Izd5cNaeH5dK/TVJfP32d
-	U35KTS+AwVG+fcvRJwdaH21V7+eWa38RzSp9s+Lb2tqF/sfbw9N576bObPZhUbi3LG3WmmXP
-	cw/bCm889uVGZ92aWxen/NvgZNPEuch25+KcNyH3bXfue5zEnnP98JP+Ez0752ff5nJJXRfU
-	Zpd58u7zHAWXFX/Emw/GqPde7k9wOHLA0WxXa3L4Ys1n9yc3r67v0z7iLvN82UGXbCvN06LR
-	i46X9+X1R185etCu8+PjF1lqIboppq3dB9ObZ4TbyWokTPy8uE+jQVhhIr/y5af5V75Z5LAm
-	B2vZbf3bc97954lY0elmUTVajjOCpIOFEvWvHVJ7wS7ELqbEUpyRaKjFXFScCACzSDagDAMA
-	AA==
-X-CMS-MailID: 20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----lzW.cJR_-6sCvQYD.lREqa.H-32Z9TKwpDxBjmCjs3VZTSBT=_5d6c0_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1
-References: <d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
-	<2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
-	<20241111093154.zbsp42gfiv2enb5a@ArmHalley.local>
-	<a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
-	<20241112135233.2iwgwe443rnuivyb@ubuntu>
-	<yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
-	<9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
-	<yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
-	<8ef1ec5b-4b39-46db-a4ed-abf88cbba2cd@acm.org>
-	<yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
-	<CGME20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1@epcas5p2.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 blktests 2/2] nvme: add test for writing to file-ns just
+ after disabling it
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        "shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>,
+        "dwagner@suse.de" <dwagner@suse.de>
+Cc: "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
+        "sagi@grimberg.me" <sagi@grimberg.me>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "gjoyce@linux.ibm.com" <gjoyce@linux.ibm.com>
+References: <20241204114755.190660-1-nilay@linux.ibm.com>
+ <20241204114755.190660-3-nilay@linux.ibm.com>
+ <5178056a-4297-43ca-b15b-dfb8d9b21857@nvidia.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <5178056a-4297-43ca-b15b-dfb8d9b21857@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 0O78zD94oH7AxDjTom-xQuN2rzWNb5jE
+X-Proofpoint-ORIG-GUID: 0O78zD94oH7AxDjTom-xQuN2rzWNb5jE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 spamscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412050066
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241205_002620_243778_D81E34A9 
-X-CRM114-Status: GOOD (  16.26  )
+X-CRM114-CacheID: sfid-20241205_014042_695075_489C6953 
+X-CRM114-Status: GOOD (  30.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,50 +114,125 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------lzW.cJR_-6sCvQYD.lREqa.H-32Z9TKwpDxBjmCjs3VZTSBT=_5d6c0_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
 
-On 27/11/24 03:14PM, Martin K. Petersen wrote:
->
->Bart,
->
->> Submitting a copy operation as two bios or two requests means that
->> there is a risk that one of the two operations never reaches the block
->> driver at the bottom of the storage stack and hence that a deadlock
->> occurs. I prefer not to introduce any mechanisms that can cause a
->> deadlock.
->
->How do you copy a block range without offload? You perform a READ to
->read the data into memory. And once the READ completes, you do a WRITE
->of the data to the new location.
->
->Token-based copy offload works exactly the same way. You do a POPULATE
->TOKEN which is identical to a READ except you get a cookie instead of
->the actual data. And then once you have the cookie, you perform a WRITE
->USING TOKEN to perform the write operation. Semantically, it's exactly
->the same as a normal copy except for the lack of data movement. That's
->the whole point!
->
-Martin
 
-This approach looks simpler to me as well.
-But where do we store the read sector info before sending write.
-I see 2 approaches here,
-1. Should it be part of a payload along with write ?
-	We did something similar in previous series which was not liked
-	by Christoph and Bart.
-2. Or driver should store it as part of an internal list inside
-namespace/ctrl data structure ?
-	As Bart pointed out, here we might need to send one more fail
-	request later if copy_write fails to land in same driver.
+On 12/5/24 13:02, Chaitanya Kulkarni wrote:
+> 
+>> +test() {
+>> +	echo "Running ${TEST_NAME}"
+>> +
+>> +	local iteration=1 i=0
+>> +
+>> +	_setup_nvmet
+>> +
+>> +	_nvmet_target_setup
+>> +
+>> +	_nvme_connect_subsys
+>> +
+>> +	img="$(mktemp /tmp/blk_img_XXXXXX)"
+>> +	dd if=/dev/urandom of="$img" bs=512 count=1 status=none
+> 
+> why can't we just use the standard block device backed ns ?
+Using standard block device would also work however using the file backed block 
+device would be handy in case user doesn't have a spare standard block device 
+available which could be used for writing a random junk to it. 
+> 
+>> +
+>> +	subsys_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
+>> +	ns_path="${subsys_path}/namespaces/${def_nsid}"
+>> +
+>> +	while (( i < iteration )); do
+>> +		# Wait until async request is processed and default ns
+>> +		# is created
+>> +		if ! _nvmf_wait_for_ns "${def_subsys_uuid}" created; then
+>> +			echo "FAIL"
+>> +			break
+>> +		fi
+>> +
+>> +		disk="/dev/$(_find_nvme_ns "${def_subsys_uuid}")"
+>> +
+>> +		# Disable ns change async event notification from target. It
+>> +		# would ensure that when we disable the target ns, the host
+>> +		# would not receive ns removal notification from target and
+>> +		# so from host we can attempt writing to a disabled ns.
+>> +		if ! nvmf_disable_ns_change_aen "${disk}"; then
+>> +			echo "FAIL"
+>> +			break
+>> +		fi
+>> +
+> 
+> I'm really not sure disabling a functionality for testing
+> purpose gives us full coverage, for a tests I believe it is important
+> to have full functionality running and available so it will reflect the
+> real setup, e.g. for this scenario we cannot dependent on disabling AEN
+> since users are not disabling the AEN's every-time they disable the
+> namespace and ends up writing to the ns on host side triggering the BUG.
+> 
+OK I think maybe there's a confusion, let me clarify one thing here: We're
+*not* disabling AEN functionality but only masking the ns-changed async even 
+notification from target and I believe that's perfectly legal per spec. I 
+shall update the comment added in the test case to avoid this confusion. 
+
+> Can this be an exception for some reason ?
+> 
+> Shinichiro, Daniel any thoughts ?
+> 
+> why not something like following ? (totally untested and rough)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 1f4e9989663b..eede3a7c5594 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -5,6 +5,7 @@
+>    */
+>   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>   #include <linux/module.h>
+> +#include <linux/delay.h>
+>   #include <linux/random.h>
+>   #include <linux/rculist.h>
+>   #include <linux/pci-p2pdma.h>
+> @@ -18,6 +19,11 @@
+>   #include "nvmet.h"
+>   #include "debugfs.h"
+> 
+> +unsigned int ns_disable_error_inject;
+> +module_param(ns_disable_error_inject, int, 0644);
+> +MODULE_PARM_DESC(ns_disable_error_inject,
+> +                "delay xa_erase() in ns-disable path in seconds 
+> (default 0)");
+> +
+>   struct kmem_cache *nvmet_bvec_cache;
+>   struct workqueue_struct *buffered_io_wq;
+>   struct workqueue_struct *zbd_wq;
+> @@ -649,6 +655,8 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>                  goto out_unlock;
+> 
+>          ns->enabled = false;
+> +       if (ns_disable_error_inject)
+> +               msleep(ns_disable_error_inject * 1000);
+>          xa_erase(&ns->subsys->namespaces, ns->nsid);
+>          if (ns->nsid == subsys->max_nsid)
+>                  subsys->max_nsid = nvmet_max_nsid(subsys);
+> 
+> 
+> and add load the module with modprobe ns_disable_error_inject=10 ?
+> or we can even mode this module as a part of ns configfs attr.
+IMO, adding sleep won't help always because it's not guaranteed that 
+write to ns would happen *always* at the correct time. Yes, in theory,
+above change would work most of the time but may not always?
+> 
+> with above change following statement will block for 10 seconds.
+>> +		# disable target namespace and write to it
+>> +		echo 0 > ${ns_path}/enable
+>> +		nvme write --start-block=1 --block-count=0 \
+>> +			--data-size=512 --data="$img" "$disk" 2>>"$FULL"
+> 
+> -ck
+> 
+> 
+So, as you suggested, I think lets wait for Daniel, Shinichiro and others to
+comment on this.
 
 Thanks,
-Nitesh Shetty
-
-------lzW.cJR_-6sCvQYD.lREqa.H-32Z9TKwpDxBjmCjs3VZTSBT=_5d6c0_
-Content-Type: text/plain; charset="utf-8"
-
-
-------lzW.cJR_-6sCvQYD.lREqa.H-32Z9TKwpDxBjmCjs3VZTSBT=_5d6c0_--
+--Nilay
 
