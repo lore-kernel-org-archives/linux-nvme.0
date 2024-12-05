@@ -4,64 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18D44E7716D
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Dec 2024 16:15:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96381E77170
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Dec 2024 17:20:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qHbt6i7sIj9lEgVqMUqviAxxWrrLlv3dHEiQeqADFUE=; b=fFWfFfoJbyGcTs91huCV/UA8ik
-	3OjhQldrC7ySzKQ9PnQIHKPHLM9JkKiCs7jf7pxYWrkkX6AssX3fDbbB1vx5wv1cqaX/vxgxY110z
-	ZPMKj8YGAltMP1beRxGjaJkTYhnPZzhi2N6fKhuRKLbTdmAjPBXBoDs0JOEUZAxSkNHSBMrG2iXpT
-	F0wnJ44a4o02OZYhOkDNdRGqmbORbYYfPEAcTRvqFeisFxdZ3IWa3gLIfWbxSBjPN962mJvgSbI8J
-	i4tKNvGzi+tTHRIJrXYmH4RwNc28Iu3RxhhZSJ27O+hH/TXATOii6MlsFALLH6uDRPHc1Fm/Ajua8
-	CPHXFa6Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YOyJeQUmho8Z6RjGitVycosl0u8AW956bpEYkeqy3SI=; b=T5OLoawexSKi7aD9/csCYjgEBu
+	u6NCHJxCg55ym1n1NUVabLziFtU9kfl9PTfFMeelNFol3+VrxgoFnHxT44EmjZ7bXKGX7Xb8fclgG
+	9X5Xzcx4l2h25TzScttJytD6JOAVKLEejPREiEZWGIEYkj17rfMiynJytJF/+PdXXt0x2yJWU4LMl
+	O/C2pNkZ8/VUOmVwUDNYSjett7v70KUF1osxSYLNQ9xiRqEWoj5/UXXjg1amWz176Z3Wo089J1kpH
+	+eWHh+q2DJRVb9xHW0Hn0Ale6vIG7/cbA67O2mmdgKMHNey6gytYsw8HUzGChfc5jFMnRHXyMEF/a
+	7SA+AWxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJEVd-0000000Giao-0V0S;
-	Thu, 05 Dec 2024 16:15:21 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tJFW8-0000000GvGB-3apN;
+	Thu, 05 Dec 2024 17:19:56 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJEVZ-0000000GiZv-1KHY
+	id 1tJFNW-0000000Gt7i-30og
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Dec 2024 16:15:18 +0000
+	Thu, 05 Dec 2024 17:11:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 60498A43E21;
-	Thu,  5 Dec 2024 16:13:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C8AC4CED1;
-	Thu,  5 Dec 2024 16:15:15 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 884F3A437AF;
+	Thu,  5 Dec 2024 17:09:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13B4DC4CED1;
+	Thu,  5 Dec 2024 17:11:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733415316;
-	bh=HF+1sMiMajnemMiLzX29jkgBLA1ZxMXE3AmNyQ5mEgA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M5T3zabhX9hfwgP7Ta5mjbt9F3RHeIgQP5RuAGithbW9YgR5E93VHkOVf/fuKzH5m
-	 xAPik6JEaO14qY8IbE66LxVxztJzJGTvUb7duadJR5KfSY6+7vz03bf1pay5UE9JTK
-	 WmLVmq8OP7Yw2H1ujR2y60mwW3IF2GZXGAzcen7Q75i8RWGwxE0fVbH/YtmBrr5jE9
-	 y50MPntGScFfeA4RbrriDfmOLqBMg1wGWIXqqVt+elMxNhUsnhstYbo87XTPsZupaA
-	 5i/oA4L4duGioiW8v4BelDetxfDg5hCkqNvoD7hVjPvvEw4cfr7MrMc9AXsNHza4O/
-	 7mtdJ5tBi9TFQ==
-Date: Thu, 5 Dec 2024 08:15:12 -0800
+	s=k20201202; t=1733418661;
+	bh=dCnKGLIyM/y3megOFkow8uMdj0PLdSHafpH95MbZXGE=;
+	h=Date:From:To:Cc:Subject:From;
+	b=euOqSueF1LJqR8H9Pi06By564/88iv6gPD1ftNOsBDjkn2INPXzZXOsMIUD4fUhdq
+	 wfUOUN9J+BdVLVd41O+m68n9KscmXAkCPKPoL06krS3AJzbpDkmqqQ2P08Z5fnhnH0
+	 3X374qj4P32PgQVK7xa8xlgkM1gMqKdIVRJUpHSJEOYdYbJ+JEBylMIjNuf/475bXx
+	 6WTvnLp0S/e/S4bZH+lU+q8USdxoRERkcZd+SVBexcuver2V3SGkKbaoPnq1vD4luE
+	 aM5zrONeA1D4JLz862K0i4ufqvW0sDTQgwEYU68GVXDoPo6RfXtablWFq/QxAoq/D0
+	 bBgEZqFgPlKSA==
+Date: Thu, 5 Dec 2024 09:10:57 -0800
 From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: Remove namespace when nvme_identify_ns_descs()
- failed
-Message-ID: <Z1HRkKr5LhfvfLAs@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241129140608.115282-1-hare@kernel.org>
- <Z09Y30pUtAg0xwoR@kbusch-mbp>
- <4ba05af4-9464-4cdf-a306-60585793c46e@suse.de>
- <Z1CF2vn1_xkNIVAM@kbusch-mbp>
- <99025917-e201-4ec9-ba04-e979f61c411b@suse.de>
+To: axboe@kernel.dk
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 6.13
+Message-ID: <Z1HeockCWHXRcvGb@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <99025917-e201-4ec9-ba04-e979f61c411b@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241205_081517_414186_C0F2B7CD 
-X-CRM114-Status: GOOD (  17.13  )
+X-CRM114-CacheID: sfid-20241205_091102_834912_3AEFD77D 
+X-CRM114-Status: UNSURE (   7.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,27 +69,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 05, 2024 at 01:30:39PM +0100, Hannes Reinecke wrote:
-> On 12/4/24 17:39, Keith Busch wrote:
-> > > 1) AEN triggers a rescan
-> > > 2) List of active namespace is retrieved
-> > > -> NSID A gets unmapped (or moved to another node in the cluster)
-> > > 3) Scan of NSID A returns an error with DNR set.
-> > > Without this patch we keep the namespace around, so eventually we'll
-> > > trip over the 'non-matching UUID' check once the NSID is reused.
-> > 
-> > I'm still not sure that makes sense. The target shouldn't attach the new
-> > namespace until the host acknowledges the removal of the older NSID via
-> > the Namespace Change List log. Until the log is read, the inventory for
-> > removed namespaces should be latched. Otherwise, timing might remove+add
-> > a specific NSID before the host requests the NS Descriptor for the
-> > racing removal, then it would just get the "non-matching UUID" issue
-> > anyway.
-> 
-> But we read the Namespace Change List log in step 2)
-> (Not that we're doing anything with it, but that's another story...)
-> Hmm?
+The following changes since commit ec9b3ac6e5630e320d926ea13a06d86d2a6bdde1:
 
-Indeed. So maybe we should just move the log page retrevial *after* we
-scan the identify active namespace list processing?
+  Merge tag 'nvme-6.13-2024-11-21' of git://git.infradead.org/nvme into for-6.13/block (2024-11-21 10:57:34 -0700)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-6.13-2024-12-05
+
+for you to fetch changes up to b4e12f5728ff963ca5590c48b85a20d076bf517d:
+
+  nvme-tcp: simplify nvme_tcp_teardown_io_queues() (2024-12-04 10:15:46 -0800)
+
+----------------------------------------------------------------
+nvme fixes for Linux 6.13
+
+ - Target fix using incorrect zero buffer (Nilay)
+ - Device specifc deallocate quirk fixes (Christoph, Keith)
+ - Fabrics fix for handling max command target bugs (Maurizio)
+ - Cocci fix usage for kzalloc (Yu-Chen)
+ - DMA size fix for host memory buffer feature (Christoph)
+ - Fabrics queue cleanup fixes (Chunguang)
+
+----------------------------------------------------------------
+Christoph Hellwig (2):
+      nvme: don't apply NVME_QUIRK_DEALLOCATE_ZEROES when DSM is not supported
+      nvme-pci: don't use dma_alloc_noncontiguous with 0 merge boundary
+
+Chunguang.xu (4):
+      nvme-tcp: fix the memleak while create new ctrl failed
+      nvme-rdma: unquiesce admin_q before destroy it
+      nvme-tcp: no need to quiesce admin_q in nvme_tcp_teardown_io_queues()
+      nvme-tcp: simplify nvme_tcp_teardown_io_queues()
+
+Keith Busch (1):
+      nvme-pci: remove two deallocate zeroes quirks
+
+Maurizio Lombardi (1):
+      nvme-fabrics: handle zero MAXCMD without closing the connection
+
+Nilay Shroff (1):
+      nvmet: use kzalloc instead of ZERO_PAGE in nvme_execute_identify_ns_nvm()
+
+Yu-Chun Lin (1):
+      nvmet: replace kmalloc + memset with kzalloc for data allocation
+
+ drivers/nvme/host/core.c        |  8 +++++---
+ drivers/nvme/host/pci.c         |  7 +++----
+ drivers/nvme/host/rdma.c        |  8 +-------
+ drivers/nvme/host/tcp.c         | 17 +++++------------
+ drivers/nvme/target/admin-cmd.c |  9 +++++++--
+ drivers/nvme/target/pr.c        |  3 +--
+ 6 files changed, 22 insertions(+), 30 deletions(-)
 
