@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48346E7717D
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 22:25:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAA1AE77173
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 22:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RnKIfSUe6w2ixzU7OG+SwOm9cN3Gu+YpiZw9DKhX7pk=; b=xrIvPqpiK7wLVHhxdfkYnftcZs
-	j4jLGJ9KU1X/X2DpgvupBpf5Zcua1quBdsKojHSD4kvcx1+8RwsyKti4Qv1Mx9vXSacfSapWMIG7Q
-	J+udOV9dKUN1ourYR+pVVgPUlT/DYnIKRlOrkgYeL9k4Hy0/McqbQ1FC7/vM8Hm84hf48YpfYZek1
-	lhxSV9C8bfim6TORb55AMArd1k2AXs5cI9BoxfN7xRis0hGjgnfNRT3mFqw8b/VmHqlGY5S5qmv+c
-	o0sbZVJ1MUD3IenhmQvt5R1F6+I2ZxApFPxetpygpmAVSnNqIX7lVGSTuhDNEwSiaNYARmgvosYjU
-	TaYRt7AA==;
+	bh=29G8/mCPCEmN9MtdiNCjD+XztU6EWmg+eIHaaiD06/k=; b=fs+MaMS9nyKxLLJEWu+vh2/akk
+	C7CbNCtgmCmRFSu3vymfdvHxJo28xNA4FPvPIMW/YqZGsobep47XX4IHfAUQa2GdyfywyQtHDPpSd
+	4ByQAwGqI3srO8ZQ/NknM57GtB32k0hvpgNCoWJye6gj85W/tl1BiWo6ExIUCdFOpqnCw1VKMoq+u
+	dw3eSSLJPGZeeBl6sMEWNQZ7zPF2tVvt1t2ihIBMoZpFZLO0kgjNWpc/m9UWMjtIF14iILkR8scui
+	1bHv9a2fmuE9DOp2DmThJKfT/C4BOUDnBQV+KsCcfKFnzf1viPp3sMCHfCjt3dGmwPXNlCWrltrX5
+	+qDbdf0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJglP-00000002ts5-2Soq;
-	Fri, 06 Dec 2024 22:25:31 +0000
+	id 1tJglM-00000002tpk-2cci;
+	Fri, 06 Dec 2024 22:25:28 +0000
 Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJgkE-00000002tbK-44aN
+	id 1tJgk0-00000002tVk-2JRX
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Dec 2024 22:24:20 +0000
+	Fri, 06 Dec 2024 22:24:05 +0000
 Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4B6LhBv3028062
-	for <linux-nvme@lists.infradead.org>; Fri, 6 Dec 2024 14:24:18 -0800
+	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4B6LhBsv028061
+	for <linux-nvme@lists.infradead.org>; Fri, 6 Dec 2024 14:24:03 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=RnKIfSUe6w2ixzU7OG+SwOm9cN3Gu+YpiZw9DKhX7pk=; b=MiSC5NA4E991
-	g1Z2rOz099KsCp+9EKpGa4+eBiIZiIF3d+kZgjr6MjcZV97/5BYM8FYWJaqP3YXu
-	ijUhSgLFDJ+g7d/AET0NYt3oacsXLKgFa4r2bky+jXc2We7Ef0zUpnlk9R47AsHP
-	h99gZpgv6BT4KOcs3mZR9Z0rXQDY9ZSVwvMofHcWDzuJr8pojpLV28CfR7uX3X8y
-	CUBemLCIkhvCF8MJQrd7T/yUbdcmw3Secb/XPot84udgT/XKR61ixaeKwQlbtmM+
-	0wxFvg0737T5D9A0h1Urw7Xgvkj7Vu4rkJBwzY3z5+N+T0yaFwd4XK7oOq8z4bgA
-	eLjVcCjtdA==
+	 bh=29G8/mCPCEmN9MtdiNCjD+XztU6EWmg+eIHaaiD06/k=; b=RpJzbEf7XksV
+	JLmScwMh57lgi4aHynUdkbKkTDQuXmHCJ+BlycGuG3IabVCEKQPCQIv3l2ixk7iv
+	aTZVoPEtWFDCBQAGeElk6G2swGQmvquGPEUPMJEi+OiAQssBsG/KiBWBOmmXmdoJ
+	b12ghIbt6orVmcmTyDmMHUX7SgGtYqGFRtxJVM3TF3rIOD+GnFDBb/kSkMLE0eb3
+	SwsVnvKe98ZoWLm3kCjV7Ir6FYJzZRZy0QXcelUPx+sjz5uvIP9CaDkL1tS+8CsI
+	qySeFwy2H+ajTFAx2J5WFUFGdJY8muzvG8avVY5pbYxO57jdC8Dgq2PJSepxWicy
+	38qiNO2GJQ==
 Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 43c1ggkvjs-6
+	by m0089730.ppops.net (PPS) with ESMTPS id 43c1ggkvha-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 06 Dec 2024 14:24:17 -0800 (PST)
-Received: from twshared3815.08.ash9.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Fri, 06 Dec 2024 14:24:03 -0800 (PST)
+Received: from twshared3076.40.frc1.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Fri, 6 Dec 2024 22:24:03 +0000
+ 15.2.1544.11; Fri, 6 Dec 2024 22:24:02 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id EA02015B8CB69; Fri,  6 Dec 2024 14:18:26 -0800 (PST)
+	id 1054415B8CB74; Fri,  6 Dec 2024 14:18:27 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
         <io-uring@vger.kernel.org>
 CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
         <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv12 01/12] fs: add write stream information to statx
-Date: Fri, 6 Dec 2024 14:17:50 -0800
-Message-ID: <20241206221801.790690-2-kbusch@meta.com>
+Subject: [PATCHv12 04/12] block: introduce max_write_streams queue limit
+Date: Fri, 6 Dec 2024 14:17:53 -0800
+Message-ID: <20241206221801.790690-5-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241206221801.790690-1-kbusch@meta.com>
 References: <20241206221801.790690-1-kbusch@meta.com>
@@ -66,14 +66,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: 3FXavkQmco8TbAkzbwszHDWSqOOiGKc_
-X-Proofpoint-ORIG-GUID: 3FXavkQmco8TbAkzbwszHDWSqOOiGKc_
+X-Proofpoint-GUID: OXpEW2FXPB7FunxEJRCXDfpK9nmRmHlx
+X-Proofpoint-ORIG-GUID: OXpEW2FXPB7FunxEJRCXDfpK9nmRmHlx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241206_142419_147548_CA504846 
-X-CRM114-Status: GOOD (  12.99  )
+X-CRM114-CacheID: sfid-20241206_142404_719922_E704A917 
+X-CRM114-Status: GOOD (  11.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,76 +90,96 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Add new statx field to report the maximum number of write streams
-supported and the granularity for them.
+Drivers with hardware that support write streams need a way to export how
+many are available so applications can generically query this.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
-[hch: rename hint to stream, add granularity]
+[hch: renamed hints to streams, removed stacking]
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/stat.c                 | 2 ++
- include/linux/stat.h      | 2 ++
- include/uapi/linux/stat.h | 7 +++++--
- 3 files changed, 9 insertions(+), 2 deletions(-)
+ Documentation/ABI/stable/sysfs-block | 7 +++++++
+ block/blk-sysfs.c                    | 3 +++
+ include/linux/blkdev.h               | 9 +++++++++
+ 3 files changed, 19 insertions(+)
 
-diff --git a/fs/stat.c b/fs/stat.c
-index 0870e969a8a0b..00e4598b1ff25 100644
---- a/fs/stat.c
-+++ b/fs/stat.c
-@@ -729,6 +729,8 @@ cp_statx(const struct kstat *stat, struct statx __use=
-r *buffer)
- 	tmp.stx_atomic_write_unit_min =3D stat->atomic_write_unit_min;
- 	tmp.stx_atomic_write_unit_max =3D stat->atomic_write_unit_max;
- 	tmp.stx_atomic_write_segments_max =3D stat->atomic_write_segments_max;
-+	tmp.stx_write_stream_granularity =3D stat->write_stream_granularity;
-+	tmp.stx_write_stream_max =3D stat->write_stream_max;
+diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/sta=
+ble/sysfs-block
+index 0cceb2badc836..f67139b8b8eff 100644
+--- a/Documentation/ABI/stable/sysfs-block
++++ b/Documentation/ABI/stable/sysfs-block
+@@ -506,6 +506,13 @@ Description:
+ 		[RO] Maximum size in bytes of a single element in a DMA
+ 		scatter/gather list.
 =20
- 	return copy_to_user(buffer, &tmp, sizeof(tmp)) ? -EFAULT : 0;
++What:		/sys/block/<disk>/queue/max_write_streams
++Date:		November 2024
++Contact:	linux-block@vger.kernel.org
++Description:
++		[RO] Maximum number of write streams supported, 0 if not
++		supported. If supported, valid values are 1 through
++		max_write_streams, inclusive.
+=20
+ What:		/sys/block/<disk>/queue/max_segments
+ Date:		March 2010
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 4241aea84161c..c514c0cb5e93c 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -104,6 +104,7 @@ QUEUE_SYSFS_LIMIT_SHOW(max_segments)
+ QUEUE_SYSFS_LIMIT_SHOW(max_discard_segments)
+ QUEUE_SYSFS_LIMIT_SHOW(max_integrity_segments)
+ QUEUE_SYSFS_LIMIT_SHOW(max_segment_size)
++QUEUE_SYSFS_LIMIT_SHOW(max_write_streams)
+ QUEUE_SYSFS_LIMIT_SHOW(logical_block_size)
+ QUEUE_SYSFS_LIMIT_SHOW(physical_block_size)
+ QUEUE_SYSFS_LIMIT_SHOW(chunk_sectors)
+@@ -446,6 +447,7 @@ QUEUE_RO_ENTRY(queue_max_hw_sectors, "max_hw_sectors_=
+kb");
+ QUEUE_RO_ENTRY(queue_max_segments, "max_segments");
+ QUEUE_RO_ENTRY(queue_max_integrity_segments, "max_integrity_segments");
+ QUEUE_RO_ENTRY(queue_max_segment_size, "max_segment_size");
++QUEUE_RO_ENTRY(queue_max_write_streams, "max_write_streams");
+ QUEUE_RW_LOAD_MODULE_ENTRY(elv_iosched, "scheduler");
+=20
+ QUEUE_RO_ENTRY(queue_logical_block_size, "logical_block_size");
+@@ -580,6 +582,7 @@ static struct attribute *queue_attrs[] =3D {
+ 	&queue_max_discard_segments_entry.attr,
+ 	&queue_max_integrity_segments_entry.attr,
+ 	&queue_max_segment_size_entry.attr,
++	&queue_max_write_streams_entry.attr,
+ 	&queue_hw_sector_size_entry.attr,
+ 	&queue_logical_block_size_entry.attr,
+ 	&queue_physical_block_size_entry.attr,
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 08a727b408164..ce2c3ddda2411 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -399,6 +399,8 @@ struct queue_limits {
+ 	unsigned short		max_integrity_segments;
+ 	unsigned short		max_discard_segments;
+=20
++	unsigned short		max_write_streams;
++
+ 	unsigned int		max_open_zones;
+ 	unsigned int		max_active_zones;
+=20
+@@ -1240,6 +1242,13 @@ static inline unsigned int bdev_max_segments(struc=
+t block_device *bdev)
+ 	return queue_max_segments(bdev_get_queue(bdev));
  }
-diff --git a/include/linux/stat.h b/include/linux/stat.h
-index 3d900c86981c5..36d4dfb291abd 100644
---- a/include/linux/stat.h
-+++ b/include/linux/stat.h
-@@ -57,6 +57,8 @@ struct kstat {
- 	u32		atomic_write_unit_min;
- 	u32		atomic_write_unit_max;
- 	u32		atomic_write_segments_max;
-+	u32		write_stream_granularity;
-+	u16		write_stream_max;
- };
 =20
- /* These definitions are internal to the kernel for now. Mainly used by =
-nfsd. */
-diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-index 887a252864416..547c62a1a3a7c 100644
---- a/include/uapi/linux/stat.h
-+++ b/include/uapi/linux/stat.h
-@@ -132,9 +132,11 @@ struct statx {
- 	__u32	stx_atomic_write_unit_max;	/* Max atomic write unit in bytes */
- 	/* 0xb0 */
- 	__u32   stx_atomic_write_segments_max;	/* Max atomic write segment coun=
-t */
--	__u32   __spare1[1];
-+	__u32   stx_write_stream_granularity;
- 	/* 0xb8 */
--	__u64	__spare3[9];	/* Spare space for future expansion */
-+	__u16   stx_write_stream_max;
-+	__u16	__sparse2[3];
-+	__u64	__spare3[8];	/* Spare space for future expansion */
- 	/* 0x100 */
- };
-=20
-@@ -164,6 +166,7 @@ struct statx {
- #define STATX_MNT_ID_UNIQUE	0x00004000U	/* Want/got extended stx_mount_i=
-d */
- #define STATX_SUBVOL		0x00008000U	/* Want/got stx_subvol */
- #define STATX_WRITE_ATOMIC	0x00010000U	/* Want/got atomic_write_* fields=
- */
-+#define STATX_WRITE_STREAM	0x00020000U	/* Want/got write_stream_* */
-=20
- #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx=
- expansion */
-=20
++static inline unsigned short bdev_max_write_streams(struct block_device =
+*bdev)
++{
++	if (bdev_is_partition(bdev))
++		return 0;
++	return bdev_limits(bdev)->max_write_streams;
++}
++
+ static inline unsigned queue_logical_block_size(const struct request_que=
+ue *q)
+ {
+ 	return q->limits.logical_block_size;
 --=20
 2.43.5
 
