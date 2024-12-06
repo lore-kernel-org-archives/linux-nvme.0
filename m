@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2406AE77173
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45D08E7717B
 	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 22:25:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,53 +12,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/nE2U8jG/bZjifVEojFrO7fPI6rw7U6tKwDNJZHWRpQ=; b=btAwmBtwytkBuxA8Y6DYdl5QYx
-	UOGKi9AaWZluzLiHy77tz1z88uNMErSBKE1MzuWVwFOX6WABWinDhc1gOligRan/LwAtWM4K1/8XE
-	0gpcM4XofI242bL6F5GDAm4IiDThAlT8N/SUundUfZ6oRNkQnE7lfkjv4u3vjnMBNUvKpKre2INPs
-	2tQ/xiHa4m/7W+YnH9SF80c3ZLIBeFeW4DMDdveX0IYzk44HyqvRLcesh/nOAlxqLzf+NIiC2BJNk
-	F51p6xxPTnb5b9rZFLdNFbEf2+wTWhGEdyXuHnANAYQthrL2xGt3PtlNxkaUKFy+UJXLYArn1QWYE
-	Z2L7j9+A==;
+	bh=MJQ0doaTU1YUYAXmnq5fwawovv+/QcSek5SvLrqvpew=; b=bNFIjWWIjRwlQTcZhgws48LIiM
+	7TPcGIplIhRFa1EOtJnoqsGTk3rfYbE0GuRLs8KSkZLSfyMQWnJnIYPNtgyxPCz8HIdQ4PAsqGsbp
+	A6zEHtRl7Yuno2cmBfa0RsBKzFftQRe2cgo2kmd/Q1Vr/OpBdY2cRB6xGwHReMtWeXTWsi3OfcM3a
+	3mg0xZCR7AwXXHiKwPQAVCMJONPqdC1V/aCDZg9rRuYsAq6/kvkUaNUHoedZxPX26CYzAeB/dGnNN
+	xgpg/rmIWFlwx8dPJjDh3mffTK1HqdjNOyQztIGWiixrUOtT0sU8pqKj7xXy6Dzovv+1h3foBUATA
+	rOAz71jQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJglL-00000002tpJ-04gP;
-	Fri, 06 Dec 2024 22:25:27 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1tJglN-00000002tqj-2Hgs;
+	Fri, 06 Dec 2024 22:25:29 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJgjr-00000002tUP-3ETl
+	id 1tJgk4-00000002tWw-0dCQ
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Dec 2024 22:23:57 +0000
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6Lh29B015724
-	for <linux-nvme@lists.infradead.org>; Fri, 6 Dec 2024 14:23:54 -0800
+	Fri, 06 Dec 2024 22:24:10 +0000
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4B6LhBt3028061
+	for <linux-nvme@lists.infradead.org>; Fri, 6 Dec 2024 14:24:07 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=/nE2U8jG/bZjifVEojFrO7fPI6rw7U6tKwDNJZHWRpQ=; b=KZ/WZCSSsx3B
-	yv6GBsOv49NpVtTqF/lxgBegB1G2TPhxWdxv1Dw0Sp+m/bKxWjy3VdZ5wmSLIev2
-	vaLFHK1/I1HhOtegUlCMiNk8ZZe1tMSYJAGLt3wDyANC5pVKiWvBYy1zOXrIrSSg
-	0YAnmvfCkWZ7zPf8ZfQFUZZlpMUmi8C1EtCDevhzlYGmBiez0Pz6whtYXcoftneY
-	KqTENp3ZEaZBzU+SDznOD80+fnfI2rsFqm5ek8MiL0uFWS4Io4R1ZzLjJLejQQVR
-	nIyOSeLXt5jfmWUwWjtEimyIkiVk2iPdE1pzwEks7h4kyMPdSPb5LScNJ+7mZ4pL
-	hBIMjRICLA==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43c2xhbch6-1
+	 bh=MJQ0doaTU1YUYAXmnq5fwawovv+/QcSek5SvLrqvpew=; b=mFr6+LmWur0R
+	NzPpRIRb6w4hXHUIaEybf4/II40R7VSH0TmYOJu2pQeOC0WShV8Klt/yiDgTz6zH
+	NjLZFz19TMtwRkjdcaySQE7YyLOD4U6WrnZm7aaYwieFGG46KW7mIl9RiKhKpTvt
+	UYvRFqLg3Ov2PiJbLCqWtJAnjsyhEneNEZUIE9Ji9Fk9b0uvQyNBNJmDbzjWmv/b
+	6FUOU0uZKX27pCne0V99e5u5ISQy+/vHjZ/f3o2lzcLxAk34rGdgl4LfAPRB1PC3
+	gILNTM7eLbYKZhyPWU/Jz5uaUp143rJK92Nj5W8BnyOBd462YyUMr3qiHKZYSVGW
+	z2/0wGakyA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by m0089730.ppops.net (PPS) with ESMTPS id 43c1ggkvha-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 06 Dec 2024 14:23:54 -0800 (PST)
-Received: from twshared9216.15.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Fri, 06 Dec 2024 14:24:07 -0800 (PST)
+Received: from twshared3076.40.frc1.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Fri, 6 Dec 2024 22:23:53 +0000
+ 15.2.1544.11; Fri, 6 Dec 2024 22:24:02 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 7C16515B8CB94; Fri,  6 Dec 2024 14:18:27 -0800 (PST)
+	id 71FC015B8CB92; Fri,  6 Dec 2024 14:18:27 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
         <io-uring@vger.kernel.org>
 CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
         <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv12 12/12] nvme: use fdp streams if write stream is provided
-Date: Fri, 6 Dec 2024 14:18:01 -0800
-Message-ID: <20241206221801.790690-13-kbusch@meta.com>
+Subject: [PATCHv12 11/12] nvme: register fdp parameters with the block layer
+Date: Fri, 6 Dec 2024 14:18:00 -0800
+Message-ID: <20241206221801.790690-12-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241206221801.790690-1-kbusch@meta.com>
 References: <20241206221801.790690-1-kbusch@meta.com>
@@ -66,14 +66,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: iAsQZ88w6UN83N6xcH6I33YLxvevUfyG
-X-Proofpoint-ORIG-GUID: iAsQZ88w6UN83N6xcH6I33YLxvevUfyG
+X-Proofpoint-GUID: FFRs92BS8nmMLAEeIcb58Cs0n81vjEug
+X-Proofpoint-ORIG-GUID: FFRs92BS8nmMLAEeIcb58Cs0n81vjEug
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241206_142355_824591_9E345AA7 
-X-CRM114-Status: GOOD (  15.68  )
+X-CRM114-CacheID: sfid-20241206_142408_337234_143D1879 
+X-CRM114-Status: GOOD (  16.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,97 +90,211 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Maps a user requested write stream to an FDP placement ID if possible.
+Register the device data placement limits if supported. This is just
+registering the limits with the block layer. Nothing beyond reporting
+these attributes is happening in this patch.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/core.c | 32 +++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 32 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 112 +++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |   4 ++
+ 2 files changed, 116 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5f802e243736a..63c8a117b3b4a 100644
+index c2a3585a3fa59..5f802e243736a 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -997,6 +997,18 @@ static inline blk_status_t nvme_setup_rw(struct nvme=
+@@ -38,6 +38,8 @@ struct nvme_ns_info {
+ 	u32 nsid;
+ 	__le32 anagrpid;
+ 	u8 pi_offset;
++	u16 endgid;
++	u64 runs;
+ 	bool is_shared;
+ 	bool is_readonly;
+ 	bool is_ready;
+@@ -1613,6 +1615,7 @@ static int nvme_ns_info_from_identify(struct nvme_c=
+trl *ctrl,
+ 	info->is_shared =3D id->nmic & NVME_NS_NMIC_SHARED;
+ 	info->is_readonly =3D id->nsattr & NVME_NS_ATTR_RO;
+ 	info->is_ready =3D true;
++	info->endgid =3D le16_to_cpu(id->endgid);
+ 	if (ctrl->quirks & NVME_QUIRK_BOGUS_NID) {
+ 		dev_info(ctrl->device,
+ 			 "Ignoring bogus Namespace Identifiers\n");
+@@ -1653,6 +1656,7 @@ static int nvme_ns_info_from_id_cs_indep(struct nvm=
+e_ctrl *ctrl,
+ 		info->is_ready =3D id->nstat & NVME_NSTAT_NRDY;
+ 		info->is_rotational =3D id->nsfeat & NVME_NS_ROTATIONAL;
+ 		info->no_vwc =3D id->nsfeat & NVME_NS_VWC_NOT_PRESENT;
++		info->endgid =3D le16_to_cpu(id->endgid);
+ 	}
+ 	kfree(id);
+ 	return ret;
+@@ -2147,6 +2151,97 @@ static int nvme_update_ns_info_generic(struct nvme=
 _ns *ns,
- 	if (req->cmd_flags & REQ_RAHEAD)
- 		dsmgmt |=3D NVME_RW_DSM_FREQ_PREFETCH;
+ 	return ret;
+ }
 =20
-+	if (op =3D=3D nvme_cmd_write && ns->head->nr_plids) {
-+		u16 write_stream =3D req->bio->bi_write_stream;
++static int nvme_check_fdp(struct nvme_ns *ns, struct nvme_ns_info *info,
++			  u8 fdp_idx)
++{
++	struct nvme_fdp_config_log hdr, *h;
++	struct nvme_fdp_config_desc *desc;
++	size_t size =3D sizeof(hdr);
++	int i, n, ret;
++	void *log;
 +
-+		if (WARN_ON_ONCE(write_stream > ns->head->nr_plids))
-+			return BLK_STS_INVAL;
++	info->runs =3D 0;
++	ret =3D nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI=
+_NVM,
++			   (void *)&hdr, size, 0, info->endgid);
++	if (ret)
++		return ret;
 +
-+		if (write_stream) {
-+			dsmgmt |=3D ns->head->plids[write_stream - 1] << 16;
-+			control |=3D NVME_RW_DTYPE_DPLCMT;
-+		}
-+	}
++	size =3D le32_to_cpu(hdr.sze);
++	h =3D kzalloc(size, GFP_KERNEL);
++	if (!h)
++		return 0;
 +
- 	if (req->cmd_flags & REQ_ATOMIC && !nvme_valid_atomic_write(req))
- 		return BLK_STS_INVAL;
-=20
-@@ -2194,11 +2206,12 @@ static int nvme_check_fdp(struct nvme_ns *ns, str=
-uct nvme_ns_info *info,
-=20
- static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *=
++	ret =3D nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI=
+_NVM,
++			   h, size, 0, info->endgid);
++	if (ret)
++		goto out;
++
++	n =3D le16_to_cpu(h->numfdpc) + 1;
++	if (fdp_idx > n)
++		goto out;
++
++	log =3D h + 1;
++	do {
++		desc =3D log;
++		log +=3D le16_to_cpu(desc->dsze);
++	} while (i++ < fdp_idx);
++
++	info->runs =3D le64_to_cpu(desc->runs);
++out:
++	kfree(h);
++	return ret;
++}
++
++static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *=
 info)
- {
-+	struct nvme_fdp_ruh_status_desc *ruhsd;
- 	struct nvme_ns_head *head =3D ns->head;
- 	struct nvme_fdp_ruh_status *ruhs;
- 	struct nvme_fdp_config fdp;
- 	struct nvme_command c =3D {};
--	int size, ret;
-+	int size, ret, i;
-=20
- 	ret =3D nvme_get_features(ns->ctrl, NVME_FEAT_FDP, info->endgid, NULL, =
++{
++	struct nvme_ns_head *head =3D ns->head;
++	struct nvme_fdp_ruh_status *ruhs;
++	struct nvme_fdp_config fdp;
++	struct nvme_command c =3D {};
++	int size, ret;
++
++	ret =3D nvme_get_features(ns->ctrl, NVME_FEAT_FDP, info->endgid, NULL, =
 0,
- 				&fdp);
-@@ -2231,6 +2244,19 @@ static int nvme_query_fdp_info(struct nvme_ns *ns,=
- struct nvme_ns_info *info)
- 	if (!head->nr_plids)
- 		goto free;
-=20
-+	head->nr_plids =3D min(head->nr_plids, NVME_MAX_PLIDS);
-+	head->plids =3D kcalloc(head->nr_plids, sizeof(head->plids),
-+			      GFP_KERNEL);
-+	if (!head->plids) {
++				&fdp);
++	if (ret)
++		goto err;
++
++	if (!(fdp.flags & FDPCFG_FDPE))
++		goto err;
++
++	ret =3D nvme_check_fdp(ns, info, fdp.fdpcidx);
++	if (ret || !info->runs)
++		goto err;
++
++	size =3D struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
++	ruhs =3D kzalloc(size, GFP_KERNEL);
++	if (!ruhs) {
 +		ret =3D -ENOMEM;
++		goto err;
++	}
++
++	c.imr.opcode =3D nvme_cmd_io_mgmt_recv;
++	c.imr.nsid =3D cpu_to_le32(head->ns_id);
++	c.imr.mo =3D NVME_IO_MGMT_RECV_MO_RUHS;
++	c.imr.numd =3D cpu_to_le32(nvme_bytes_to_numd(size));
++	ret =3D nvme_submit_sync_cmd(ns->queue, &c, ruhs, size);
++	if (ret)
 +		goto free;
-+	}
 +
-+	for (i =3D 0; i < head->nr_plids; i++) {
-+		ruhsd =3D &ruhs->ruhsd[i];
-+		head->plids[i] =3D le16_to_cpu(ruhsd->pid);
-+	}
++	head->nr_plids =3D le16_to_cpu(ruhs->nruhsd);
++	if (!head->nr_plids)
++		goto free;
 +
- 	kfree(ruhs);
- 	return 0;
-=20
-@@ -2285,6 +2311,10 @@ static int nvme_update_ns_info_block(struct nvme_n=
++	kfree(ruhs);
++	return 0;
++
++free:
++	kfree(ruhs);
++err:
++	head->nr_plids =3D 0;
++	info->runs =3D 0;
++	return ret;
++}
++
+ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		struct nvme_ns_info *info)
+ {
+@@ -2183,6 +2278,15 @@ static int nvme_update_ns_info_block(struct nvme_n=
 s *ns,
- 				"FDP failure status:0x%x\n", ret);
- 		if (ret < 0)
  			goto out;
-+	} else {
-+		ns->head->nr_plids =3D 0;
-+		kfree(ns->head->plids);
-+		ns->head->plids =3D NULL;
  	}
 =20
++	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
++		ret =3D nvme_query_fdp_info(ns, info);
++		if (ret)
++			dev_warn(ns->ctrl->device,
++				"FDP failure status:0x%x\n", ret);
++		if (ret < 0)
++			goto out;
++	}
++
  	blk_mq_freeze_queue(ns->disk->queue);
+ 	ns->head->lba_shift =3D id->lbaf[lbaf].ds;
+ 	ns->head->nuse =3D le64_to_cpu(id->nuse);
+@@ -2216,6 +2320,12 @@ static int nvme_update_ns_info_block(struct nvme_n=
+s *ns,
+ 	if (!nvme_init_integrity(ns->head, &lim, info))
+ 		capacity =3D 0;
+=20
++	lim.max_write_streams =3D ns->head->nr_plids;
++	if (lim.max_write_streams)
++		lim.write_stream_granularity =3D info->runs;
++	else
++		lim.write_stream_granularity =3D 0;
++
+ 	ret =3D queue_limits_commit_update(ns->disk->queue, &lim);
+ 	if (ret) {
+ 		blk_mq_unfreeze_queue(ns->disk->queue);
+@@ -2318,6 +2428,8 @@ static int nvme_update_ns_info(struct nvme_ns *ns, =
+struct nvme_ns_info *info)
+ 			ns->head->disk->flags |=3D GENHD_FL_HIDDEN;
+ 		else
+ 			nvme_init_integrity(ns->head, &lim, info);
++		lim.max_write_streams =3D ns_lim->max_write_streams;
++		lim.write_stream_granularity =3D ns_lim->write_stream_granularity;
+ 		ret =3D queue_limits_commit_update(ns->head->disk->queue, &lim);
+=20
+ 		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 914cc93e91f6d..49b234bfb42c4 100644
+index c1995d89ffdb8..914cc93e91f6d 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -495,6 +495,7 @@ struct nvme_ns_head {
- 	struct gendisk		*disk;
+@@ -454,6 +454,8 @@ struct nvme_ns_ids {
+ 	u8	csi;
+ };
 =20
- 	u16			nr_plids;
-+	u16			*plids;
++#define NVME_MAX_PLIDS   (S8_MAX - 1)
++
+ /*
+  * Anchor structure for namespaces.  There is one for each namespace in =
+a
+  * NVMe subsystem that any of our controllers can see, and the namespace
+@@ -491,6 +493,8 @@ struct nvme_ns_head {
+ 	struct device		cdev_device;
+=20
+ 	struct gendisk		*disk;
++
++	u16			nr_plids;
  #ifdef CONFIG_NVME_MULTIPATH
  	struct bio_list		requeue_list;
  	spinlock_t		requeue_lock;
