@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F81DE77179
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 22:25:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29212E77173
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 22:30:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H1449KeqBHH2qLyX/UaGXiOFOGfVyFVyzOCCtWJaXls=; b=ec0l+QtHWFv6ybkVsj8nxr91l3
-	/5vaRi6eUW/KVIbP8TVkSjxz/w1kDojG4y6qSvnhxiGqriFoVYOyGwqVaaoUepISO7evNiQ5WXjjS
-	UvSVJ/fQNFCmdmqx7m3Kgi4/WxPPjWYIydD+eDaD9tql05sJn6T4bUgp/Ql4OyELSlZzWP1AOFJOX
-	PSFeHeNSRZ7xeWJLZK/nzhwJh6JLCjKDm3yLV8O9lfuWiqsIDJpaRRgzjzsmzv4YR+AldIe9wr6cc
-	VfDEfAiqsOQ6bHm6edBrD8A2R9VNNrdo0tLaRwzY461Ld0CCRinBlTQU9lmNwa63mnMX5Wt4vyqCP
-	/N9Mui/w==;
+	bh=qzN9V22hHNPCY40Lp/Ysqsn5kxkAoYivYUU6jILwvog=; b=XAq0vpSRJDpndkUKEf9HmPhYT+
+	gyI0obJKFo+P1N59aJ6l41d7R/Th2fZnbF6T7CQPL1uerPDwO6EAidar7T9qyE//aepEVb9+zVQ9W
+	nJUNY7wWGfj5IAWk0xYmS1oF6PoCjYww7s4P0Sqb8P74lRNvfs62C5MjA3DAGztY/SwkT81hXW8c7
+	ZB6S1S0bBnaT5AUt8OiJBMxuVHcncOikiWZOArK5ppCVhuDIB6+3DQnqzjr8hK3YIOkhtQPOWTezp
+	gK+AQcBlTWPPj0L826OofvP1gNPSJrvwgvktwpUd8xpZjIJCG54Rly1cIZ+Y1zbrvVvcueeNyGV2R
+	6LAE9qjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJglL-00000002tpU-3BSE;
-	Fri, 06 Dec 2024 22:25:27 +0000
+	id 1tJgpp-00000002v5M-0JWG;
+	Fri, 06 Dec 2024 22:30:05 +0000
 Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJgjx-00000002tUw-0mTn
+	id 1tJgpm-00000002v4Q-2P7H
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Dec 2024 22:24:02 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6LhG8n032187
-	for <linux-nvme@lists.infradead.org>; Fri, 6 Dec 2024 14:24:00 -0800
+	Fri, 06 Dec 2024 22:30:03 +0000
+Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6LhFLU009968
+	for <linux-nvme@lists.infradead.org>; Fri, 6 Dec 2024 14:30:01 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=H1449KeqBHH2qLyX/UaGXiOFOGfVyFVyzOCCtWJaXls=; b=mCc/ziz1dBfW
-	1J1Purn95Rx/JCJjC75pAXd9cn0heK+ehBEeStpJdJjZtZlEC9EHehNvxzvHmpve
-	G2ePNw3J+n0nxJWISLhrAmuKgTDbUuQqyVUcCEh9TOPqlzfwLIrqOBqNZdxmbwT4
-	UiJvWT9lcXaeHO8CM+J7ugANhAowBxQQVgtsh3Dgdgp2ogZegM9zARKIFCsc2Wde
-	AgtfD0q3DUgYByOLLnqd2eUsT+DVwdCUXWj45UJ7RfhLlM1hWFPNEa/mtL14Kvf6
-	RbVo2M5V3Bykf2HGRFlrWS6vxRtL1Oku7uS+86ImhT1Gq6LeBboAjMsL4lLLsmeA
-	2nFiq2TDDQ==
+	 bh=qzN9V22hHNPCY40Lp/Ysqsn5kxkAoYivYUU6jILwvog=; b=EEJpDR2SJIhO
+	h3HfDz3yAvaNWeiwepFTxsQ/izLsizdVvQBou3TVBfm7uIltSOmrMVkcbKd03Xr9
+	3nRDBjSaFEQinCc32mHA1sXRQgE+5Z9aGPrz3D0Z68yJl9+yq01mDhDeqjhpf8qW
+	LKF3WgFxFq6p36aI+5t8uihFCgWFbIZoi8mXlkmJ3wwBlh45Le9dFgr4xJpp5//S
+	iULHXwklnd+hweRVgIqvirLkcXkyjMDxocnQ1ufSXXkeMlbVAVQQ0qOb4uFQMN8S
+	MQX+DbrFHDECZVLCAaJN9Z/xi8Jj/T11GfrzPy9saPjlOex0VQvPHD+i7M2ouVGu
+	tP0EoJN6Cg==
 Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43bx1gmyam-2
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43c2yy3cm9-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 06 Dec 2024 14:23:59 -0800 (PST)
-Received: from twshared11082.06.ash8.facebook.com (2620:10d:c085:108::150d) by
+	for <linux-nvme@lists.infradead.org>; Fri, 06 Dec 2024 14:30:01 -0800 (PST)
+Received: from twshared55211.03.ash8.facebook.com (2620:10d:c085:208::7cb7) by
  mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Fri, 6 Dec 2024 22:23:57 +0000
+ 15.2.1544.11; Fri, 6 Dec 2024 22:29:56 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 2AB7F15B8CB79; Fri,  6 Dec 2024 14:18:27 -0800 (PST)
+	id 0003415B8CB6E; Fri,  6 Dec 2024 14:18:26 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
         <io-uring@vger.kernel.org>
 CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
         <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv12 05/12] block: introduce a write_stream_granularity queue limit
-Date: Fri, 6 Dec 2024 14:17:54 -0800
-Message-ID: <20241206221801.790690-6-kbusch@meta.com>
+Subject: [PATCHv12 02/12] fs: add a write stream field to the kiocb
+Date: Fri, 6 Dec 2024 14:17:51 -0800
+Message-ID: <20241206221801.790690-3-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241206221801.790690-1-kbusch@meta.com>
 References: <20241206221801.790690-1-kbusch@meta.com>
@@ -66,14 +66,15 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: ywD3kZPc9oQcS7afZyNVyPeHjFgsL9P_
-X-Proofpoint-GUID: ywD3kZPc9oQcS7afZyNVyPeHjFgsL9P_
+X-Proofpoint-ORIG-GUID: XbPmeMWXQRb9zXBT5xZj_R714F0dq7aU
+X-Proofpoint-GUID: XbPmeMWXQRb9zXBT5xZj_R714F0dq7aU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241206_142401_356435_8CF6FF72 
-X-CRM114-Status: GOOD (  11.24  )
+X-CRM114-CacheID: sfid-20241206_143002_746392_FF8F60A3 
+X-CRM114-Status: UNSURE (   9.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,93 +91,28 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-Export the granularity that write streams should be discarded with,
-as it is essential for making good use of them.
+Prepare for io_uring passthrough of write streams. The write stream
+field in the kiocb structure fits into an existing 2-byte hole, so its
+size is not changed.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- Documentation/ABI/stable/sysfs-block | 8 ++++++++
- block/blk-sysfs.c                    | 3 +++
- include/linux/blkdev.h               | 7 +++++++
- 3 files changed, 18 insertions(+)
+ include/linux/fs.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/sta=
-ble/sysfs-block
-index f67139b8b8eff..c454c68b68fe6 100644
---- a/Documentation/ABI/stable/sysfs-block
-+++ b/Documentation/ABI/stable/sysfs-block
-@@ -514,6 +514,14 @@ Description:
- 		supported. If supported, valid values are 1 through
- 		max_write_streams, inclusive.
-=20
-+What:		/sys/block/<disk>/queue/write_stream_granularity
-+Date:		November 2024
-+Contact:	linux-block@vger.kernel.org
-+Description:
-+		[RO] Granularity of a write stream in bytes.  The granularity
-+		of a write stream is the size that should be discarded or
-+		overwritten together to avoid write amplification in the device.
-+
- What:		/sys/block/<disk>/queue/max_segments
- Date:		March 2010
- Contact:	linux-block@vger.kernel.org
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index c514c0cb5e93c..525f4fa132cd3 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -105,6 +105,7 @@ QUEUE_SYSFS_LIMIT_SHOW(max_discard_segments)
- QUEUE_SYSFS_LIMIT_SHOW(max_integrity_segments)
- QUEUE_SYSFS_LIMIT_SHOW(max_segment_size)
- QUEUE_SYSFS_LIMIT_SHOW(max_write_streams)
-+QUEUE_SYSFS_LIMIT_SHOW(write_stream_granularity)
- QUEUE_SYSFS_LIMIT_SHOW(logical_block_size)
- QUEUE_SYSFS_LIMIT_SHOW(physical_block_size)
- QUEUE_SYSFS_LIMIT_SHOW(chunk_sectors)
-@@ -448,6 +449,7 @@ QUEUE_RO_ENTRY(queue_max_segments, "max_segments");
- QUEUE_RO_ENTRY(queue_max_integrity_segments, "max_integrity_segments");
- QUEUE_RO_ENTRY(queue_max_segment_size, "max_segment_size");
- QUEUE_RO_ENTRY(queue_max_write_streams, "max_write_streams");
-+QUEUE_RO_ENTRY(queue_write_stream_granularity, "write_stream_granularity=
-");
- QUEUE_RW_LOAD_MODULE_ENTRY(elv_iosched, "scheduler");
-=20
- QUEUE_RO_ENTRY(queue_logical_block_size, "logical_block_size");
-@@ -583,6 +585,7 @@ static struct attribute *queue_attrs[] =3D {
- 	&queue_max_integrity_segments_entry.attr,
- 	&queue_max_segment_size_entry.attr,
- 	&queue_max_write_streams_entry.attr,
-+	&queue_write_stream_granularity_entry.attr,
- 	&queue_hw_sector_size_entry.attr,
- 	&queue_logical_block_size_entry.attr,
- 	&queue_physical_block_size_entry.attr,
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index ce2c3ddda2411..7be8cc57561a1 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -400,6 +400,7 @@ struct queue_limits {
- 	unsigned short		max_discard_segments;
-=20
- 	unsigned short		max_write_streams;
-+	unsigned int		write_stream_granularity;
-=20
- 	unsigned int		max_open_zones;
- 	unsigned int		max_active_zones;
-@@ -1249,6 +1250,12 @@ static inline unsigned short bdev_max_write_stream=
-s(struct block_device *bdev)
- 	return bdev_limits(bdev)->max_write_streams;
- }
-=20
-+static inline unsigned int
-+bdev_write_stream_granularity(struct block_device *bdev)
-+{
-+	return bdev_limits(bdev)->write_stream_granularity;
-+}
-+
- static inline unsigned queue_logical_block_size(const struct request_que=
-ue *q)
- {
- 	return q->limits.logical_block_size;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 2cc3d45da7b01..26940c451f319 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -373,6 +373,7 @@ struct kiocb {
+ 	void			*private;
+ 	int			ki_flags;
+ 	u16			ki_ioprio; /* See linux/ioprio.h */
++	u8			ki_write_stream;
+ 	union {
+ 		/*
+ 		 * Only used for async buffered reads, where it denotes the
 --=20
 2.43.5
 
