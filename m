@@ -4,102 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12DB9E77173
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 10:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 525B7E77179
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 11:18:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JuAyjINnPFTb4pJ1G7jhbZOpReadPDLa6EnMHd1V6KI=; b=soqJW2wk10/hYRzAK4AyZV1xqc
-	CShZAPYxkmt7WJxzF+/qLL5K/qQBRPe/H3Zp+VImaDekvBcyr/4/gZtiapzVI0keec4Vv9XAogzIb
-	V6DmoMbmUSXXYwY9DMQ4r7CEByQNmQujpQhnBIw7o0TjiYjPkPj479kcoQ/E005dnbrzMt5tVyflh
-	5vxO0hZ+GiJYskF+p4NCvikBBIwTa7syX9bgtq/aWH6mWLCeJQAu2svwZtbcs2Kl+is0fA7UuF1hJ
-	BwRNdqrNIwrQejN2qXnogO0P9i9s5JEg5LLpJxF2arRLNqIoiieP0UpTl8Khh0LdKfDd1q88tbf5n
-	LabAD5uA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=f9BR1f56qQpQp9HptUV3ZPnmYmN8vAT9Be3tMTrAlE4=; b=oLj/2+ie+nE43bbwR8KYsQsdnx
+	tsuDaLkXOnQBgDAc6ypu3y1DganZmUsY0cQyy1g89tlUk0FOGkC0n3jvw/kKZ42z1NU1OwTn4iaol
+	T72lUoZolL6aYnSisarrjJrj5i71yD2JcYtlE8i/1qK/icjE0eSPLG9dKPXQNiwiXFfFsW1tmYy9w
+	kKpIBKTrMrb1K8LsY7w1+guhuFPo4lohLrnPVMajej+vUSBVQrEXqMV/4ApbbBsojmjkReP7h0PEd
+	HpPylSSeLk3GKDQAfGyjI8y2CACAp56ux7PEeLt7EyY98yob8BoEX2rU0mSNiyh9mSMdHfVJEUgOe
+	FIQe12Kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJVyh-00000001Ncl-04dd;
-	Fri, 06 Dec 2024 10:54:31 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1tJWLy-00000001QX8-0uVI;
+	Fri, 06 Dec 2024 11:18:34 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJVye-00000001NbJ-2A28
+	id 1tJWLv-00000001QVZ-0Gu6
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Dec 2024 10:54:30 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B67oFWZ028303;
-	Fri, 6 Dec 2024 10:54:20 GMT
+	Fri, 06 Dec 2024 11:18:32 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B67UPhl000585;
+	Fri, 6 Dec 2024 11:18:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=JuAyjI
-	NnPFTb4pJ1G7jhbZOpReadPDLa6EnMHd1V6KI=; b=WZyOTg0H6iPJU7V9XrIHps
-	b2XEM16/ov5w86rUJkaPmZqafuVBdOF3hX5JsGaL5H19v6UvncywOmq50tswgGb3
-	2zdKrvjqP6IAIhhz7y2v4iYLLlQrbCerQj7U90tN4qqAgjZ+/VXVyPOH9DbjtZ5J
-	MbN552nwCk0w/A8pR4kldgAuF46LGHsBsuT807movYkm2849NicxjL/42ssfZE5w
-	2al/kEaZtMdcm4Ot7DU8lKevGOf4QVOtMcevZJABKtzy60vcH68q1KsxVTHq8NSt
-	bLTWn+j/ZA38tXjr4A7RzHUrq0RHK2kQGq2xpdn5pqnyQaMa7I30Odnu0gXx4Vdg
-	==
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=f9BR1f56qQpQp9HptUV3ZPnmYmN8vAT9Be3tMTrAl
+	E4=; b=oGDeONQefEMhJsSrCO0ubb6KPaLeMR7L5oAbuSzBfPxiJsWa3UXB4EMti
+	Jvcjq8fq3PZjT7rGjsPANMUKeiSEmZ871DPiA0y0s23w8HicHDEzTPtEFxfm12lH
+	8HsJDEe0wfEmbrgAGKVKKzW+NZxYIIDvFCFiNygBfEkUzOlpFTGpBDxMqk6/tVxb
+	vfTcTWZrcD2B3ENcSIN14HYkwNSKCWSLHwWOmcbmnrpoa4/cHPxEt1PjifdaAwww
+	Vtr3IeMNBfOq+ySitnP+nJGLfidPrMND7vd6Jasn2RBn3a09jTnZ77tgkdJlaqqU
+	9Z80JDiC2MjIlLfvXAPtuoTyNzhCw==
 Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ax661j3s-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43bvxkrwar-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Dec 2024 10:54:19 +0000 (GMT)
+	Fri, 06 Dec 2024 11:18:18 +0000 (GMT)
 Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4B67G1wB005213;
-	Fri, 6 Dec 2024 10:54:18 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43a2kxw0nd-1
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4B67WHlD005226;
+	Fri, 6 Dec 2024 11:18:17 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43a2kxw33x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Dec 2024 10:54:18 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4B6AsI1K32244360
+	Fri, 06 Dec 2024 11:18:17 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4B6BIFYZ28639996
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 6 Dec 2024 10:54:18 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0D20258057;
-	Fri,  6 Dec 2024 10:54:18 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0163858059;
-	Fri,  6 Dec 2024 10:54:15 +0000 (GMT)
-Received: from [9.179.0.162] (unknown [9.179.0.162])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  6 Dec 2024 10:54:14 +0000 (GMT)
-Message-ID: <75c00a79-ba91-4623-b813-fa3a9eb73bfa@linux.ibm.com>
-Date: Fri, 6 Dec 2024 16:24:13 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 blktests 2/2] nvme: add test for writing to file-ns just
- after disabling it
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "chaitanyak@nvidia.com" <chaitanyak@nvidia.com>, hch <hch@lst.de>,
-        "kbusch@kernel.org" <kbusch@kernel.org>,
-        "sagi@grimberg.me"
- <sagi@grimberg.me>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "gjoyce@linux.ibm.com" <gjoyce@linux.ibm.com>
-References: <20241204114755.190660-1-nilay@linux.ibm.com>
- <20241204114755.190660-3-nilay@linux.ibm.com>
- <t6a6fwlbjk2h5esktnig3hllojjarp3utllgbgnneerdbkcpf3@fxfrnzdbcepf>
-Content-Language: en-US
+	Fri, 6 Dec 2024 11:18:15 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 470762004B;
+	Fri,  6 Dec 2024 11:18:15 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3223920040;
+	Fri,  6 Dec 2024 11:18:13 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.179.0.162])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  6 Dec 2024 11:18:12 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <t6a6fwlbjk2h5esktnig3hllojjarp3utllgbgnneerdbkcpf3@fxfrnzdbcepf>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: linux-nvme@lists.infradead.org
+Cc: shinichiro.kawasaki@wdc.com, chaitanyak@nvidia.com, dwagner@suse.de,
+        hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@kernel.dk,
+        gjoyce@linux.ibm.com
+Subject: [PATCHv3 0/2] add nvme test for creating sleep while atomic kernel BUG
+Date: Fri,  6 Dec 2024 16:48:06 +0530
+Message-ID: <20241206111812.489140-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NueLxRteRmOLz-RhWkuECIBNngegH5PC
-X-Proofpoint-GUID: NueLxRteRmOLz-RhWkuECIBNngegH5PC
+X-Proofpoint-GUID: ouwMdldnhn_SgWZJb1vWC94m_qHcWGAD
+X-Proofpoint-ORIG-GUID: ouwMdldnhn_SgWZJb1vWC94m_qHcWGAD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 mlxlogscore=845 malwarescore=0 spamscore=0
- suspectscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
- bulkscore=0 adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412060076
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 mlxscore=0 priorityscore=1501
+ suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=840 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412060081
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241206_025428_565112_F9AFBD66 
-X-CRM114-Status: GOOD (  26.15  )
+X-CRM114-CacheID: sfid-20241206_031831_226968_7DC5DB76 
+X-CRM114-Status: GOOD (  15.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,116 +102,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
+
+There're two patches in this series. The first patch is a preparation patch
+for reusing a common function nvmf_wait_for_ns from multiple nvme test scripts.
+The second patch adds a new nvme regression[1] test for commit 505363957fad
+("nvmet: fix nvme status code when namespace is disabled").
+
+For fixing regression, as suggested by Christoph[2], I would send a separate
+patch upstream.
+
+[1] https://lore.kernel.org/linux-nvme/tqcy3sveity7p56v7ywp7ssyviwcb3w4623cnxj3knoobfcanq@yxgt2mjkbkam/
+[2] https://lore.kernel.org/linux-nvme/20241022070252.GA11389@lst.de/
+
+Changes from v2:
+    - Update the comment in second pacth to highlight the fact that this 
+      test doesn't depend on udev rules to recreate the regression
+      (Shinichiro Kawasaki)
+    - Instead of creating source/data file using mktemp, use /dev/urandom
+      as data file to nvme write command (Shinichiro Kawasaki)
+
+Changes from v1:
+    - Update the second patch in the series so that we can trigger the
+      regression 100% of time when we run the test (Chaitanya Kulkarni)
 
 
-On 12/6/24 07:23, Shinichiro Kawasaki wrote:
-> Thanks for this v2 patch. I took a quick look. Please find my comments in line.
-> Will do another round of review when v3 comes out.
-> 
-> On Dec 04, 2024 / 17:17, Nilay Shroff wrote:
->> This is a regression test for commit 505363957fad ("nvmet: fix nvme
->> status code when namespace is disabled")[1].
->>
->> This test creates a regular file backed loop target namespace, disables
->> the asynchronous event notification for ns-changed events and then write
->> to the namespace just after disabling it.
->>
->> [1] https://lore.kernel.org/linux-nvme/tqcy3sveity7p56v7ywp7ssyviwcb3w4623cnxj3knoobfcanq@yxgt2mjkbkam/
->>
->> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->> ---
->>  tests/nvme/055     | 117 +++++++++++++++++++++++++++++++++++++++++++++
->>  tests/nvme/055.out |   2 +
->>  2 files changed, 119 insertions(+)
->>  create mode 100755 tests/nvme/055
->>  create mode 100644 tests/nvme/055.out
->>
->> diff --git a/tests/nvme/055 b/tests/nvme/055
->> new file mode 100755
->> index 0000000..f1f19fe
->> --- /dev/null
->> +++ b/tests/nvme/055
->> @@ -0,0 +1,117 @@
->> +#!/bin/bash
->> +# SPDX-License-Identifier: GPL-3.0+
->> +# Copyright (C) 2024 Nilay Shroff
->> +#
->> +# Regression test for commit 505363957fad ("nvmet: fix nvme
->> +# status code when namespace is disabled").
-> 
-> As I commented for v1 series after this v2 came out, I suggest to describe that
-> this test intents to be independent from udev rules.
-> 
-Sure, in the next patch I will update the comment.
->> +
->> +. tests/nvme/rc
->> +
->> +DESCRIPTION="Test nvme write to a loop target ns just after ns is disabled"
->> +
->> +QUICK=1
->> +
-> 
-> [...]
-> 
->> +
->> +test() {
->> +	echo "Running ${TEST_NAME}"
->> +
->> +	local iteration=1 i=0
->> +
->> +	_setup_nvmet
->> +
->> +	_nvmet_target_setup
->> +
->> +	_nvme_connect_subsys
->> +
->> +	img="$(mktemp /tmp/blk_img_XXXXXX)"
->> +	dd if=/dev/urandom of="$img" bs=512 count=1 status=none
-> 
-> mktemp is not recommended, since blktests provides $TMPDIR as described
-> in the "new" file.
-> 
->> +
->> +	subsys_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
->> +	ns_path="${subsys_path}/namespaces/${def_nsid}"
->> +
->> +	while (( i < iteration )); do
->> +		# Wait until async request is processed and default ns
->> +		# is created
-> 
-> [...]
-> 
->> +
->> +		# disable target namespace and write to it
->> +		echo 0 > ${ns_path}/enable
->> +		nvme write --start-block=1 --block-count=0 \
->> +			--data-size=512 --data="$img" "$disk" 2>>"$FULL"
-> 
-> Instead of --data="$img", can we use"--data=/dev/urandam"? If it works,
-> we can avoid the img file.
-> 
-Yeah I just tested with "/dev/urandom" and that seems to work. So 
-we don't need img file. I will update this in the next patch.
->> +
->> +		((i++))
->> +	done
->> +
->> +	rm "$img"
-> 
-> If we need img file, let's use $TMPDIR to skip this rm command.
-As /dev/urandom works, I would remove the use of img file. 
-> 
->> +
->> +	_nvme_disconnect_subsys >> "$FULL" 2>&1
->> +
->> +	_nvmet_target_cleanup
->> +
->> +	echo "Test complete"
->> +}
-> 
-> [...]
+Nilay Shroff (2):
+  nvme/052: move nvmf_wait_for_ns() to common/nvme
+  nvme: add test for writing to file-ns just after disabling it
 
-Thanks,
---Nilay
+ common/nvme        |  26 ++++++++++
+ tests/nvme/052     |  30 +-----------
+ tests/nvme/055     | 117 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/055.out |   2 +
+ 4 files changed, 147 insertions(+), 28 deletions(-)
+ create mode 100755 tests/nvme/055
+ create mode 100644 tests/nvme/055.out
+
+-- 
+2.45.2
 
 
