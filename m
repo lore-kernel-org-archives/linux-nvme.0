@@ -4,77 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7EDEE77173
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 01:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82E68E7716E
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Dec 2024 02:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zlAb0pn1DAyajDFVPLOKoAhYRE5EXTu7nKt9gAZEWPg=; b=CJU7iPASeipGSO4r+wy2WJEsp+
-	fbeXlBsoyHzxwfKlMjhomJf5+1tF2jqOeSjt2P0iExrbf5pc5ZqCXq/7j09csJAuJpFJvYmuLRVcd
-	5EzSAmGRIz5XQGALb4MtM7vQ4JkDOW1jc01h7/KRZJ3Q6Mqdpa7AjU2bsgkis6f5y74vm02z5G85N
-	iXEfnmkT0DgH1L1ZiLq8/bqZ5p6oOIGOWqFSd8RttCyGRhN/ok9NXW50kPUCMQ+2tpNtAgNnz6txt
-	CgzXktm4vFfXtYrRSyJIiAC6Vr5k+paRtO8zc1QpHfcBrJmxrvQTkAx7W+qgeDl4EpEnQETdAdYbT
-	dZHB5fKQ==;
+	bh=XGTfwcrbpqwINMa/C7mzh2ds2WSzlBHHgehx8xpmfe0=; b=J+zW3IZhw2zioeunOC5vF1X1JD
+	5P/apM5ONnZBSgMrHv0qmQuLnb4wujRZJH3YaKl6Nai+zJOecnkZO15lCDmfAKVviKjr8VJ7ETAsW
+	0N/PD+PCT6gI5fbxcoq9XUPe4Yz61k+J1IhWS4ufHhBvI0tdM/DH3JdV/m3UbDJnL6+ZfOMeuwc41
+	s9r+YlV7lQDaahYoe+AcR/r1KQw9QI+gdgkMZpU8/4KlXnmnQjMJe4cMvJKGGghTkNOdmdiasOED3
+	5hyRmrME5W+5+bcSqnnuZJkLYcLWKKCB2pQ505pZOwa3bcN3Od16nwQl/w6pGf/kYBNHKpfuBujZd
+	1Dsc32QA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJNXM-00000000FYx-2kaG;
-	Fri, 06 Dec 2024 01:53:44 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1tJNuw-00000000IzW-0teN;
+	Fri, 06 Dec 2024 02:18:06 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJNXD-00000000FJv-005t
+	id 1tJNuu-00000000Iz8-14mH
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Dec 2024 01:53:36 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B603MMw014363
-	for <linux-nvme@lists.infradead.org>; Thu, 5 Dec 2024 17:53:34 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=zlAb0pn1DAyajDFVPLOKoAhYRE5EXTu7nKt9gAZEWPg=; b=JXsdLF5SM5mK
-	nkAguF4E9ngzY2b6bVDyQv5PIYAYIwM4Jt2tU/BPsCZz5OKM4CFNc7vB9qFllRcj
-	ZSVHryvVwjTYzVXPGfhGTM7w38LwXAHcuOgGOFUEP9lyIuul+5TRC8yA9KGyqCF5
-	rmX5WJEYi7a2tsKCTx0EXLHo1uoFzGbTonUv9T2BXP+YcQfziggKJa4h9CYGWRFv
-	XXzyvtaxN3TH6ZlCpMWubAR6YtgpDN4v20KaGdPK/4SnReoIOIoJhaVi9YLCTDhl
-	Pl7sgcli9DAEYyWh9NHItfVUqXbwVjaa7j+q4UsidV6odQrP+z7KHjCQdpZjf7N9
-	q1FVzkGdwg==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43bmru153t-8
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 05 Dec 2024 17:53:34 -0800 (PST)
-Received: from twshared9216.15.frc2.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Fri, 6 Dec 2024 01:53:25 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 6C47E15B2115E; Thu,  5 Dec 2024 17:53:09 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
-        <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
-        <io-uring@vger.kernel.org>
-CC: <sagi@grimberg.me>, <asml.silence@gmail.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCHv11 10/10] nvme: use fdp streams if write stream is provided
-Date: Thu, 5 Dec 2024 17:53:08 -0800
-Message-ID: <20241206015308.3342386-11-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20241206015308.3342386-1-kbusch@meta.com>
+	Fri, 06 Dec 2024 02:18:05 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 37B75A41AC2;
+	Fri,  6 Dec 2024 02:16:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82697C4CED1;
+	Fri,  6 Dec 2024 02:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733451482;
+	bh=r87v6RI14MYvQVvrhHKKo5H2rpySP4RbfqYlrBpFKZM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j23gqL9NEopbGtSbdZPKivdMJRqAbKO9sZrmDC9Ftd7yGWUZjm7lqHDO+LEwRqY8d
+	 ravnVsXVQyLyjxep89kWNPXh6GBbszdLpwXr949hXgA6myo8XkrUh38CEWu3Y0E3yP
+	 7VefFhA/L9eD9sJ66hry0eg642xiu0axIFqdVHWLzKa/ja1ZGPaVMuAkHxWMIo3CB/
+	 fAo/MnU4QUa0oycKNt2Mayt0BIqPwAOI8FthnQDHJLTdt/uhxBJOTc9zB3E9wQRs2O
+	 PcJnm9gXJ2c9Ka0TZKACIgHBjNatA9vsIO4mutBw3MyVnf6t1GyMe3eiD+NdyQFfLC
+	 2IYRR7LQK3HRA==
+Date: Thu, 5 Dec 2024 18:18:00 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: axboe@kernel.dk, hch@lst.de, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, sagi@grimberg.me, asml.silence@gmail.com
+Subject: Re: [PATCHv11 00/10] block write streams with nvme fdp
+Message-ID: <Z1Je2Do8Tj_NYePW@kbusch-mbp.dhcp.thefacebook.com>
 References: <20241206015308.3342386-1-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: SsTFOtC-llhiv_jXj3iNSPaQaHJmiYkt
-X-Proofpoint-ORIG-GUID: SsTFOtC-llhiv_jXj3iNSPaQaHJmiYkt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241206015308.3342386-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241205_175335_205863_F3FB4BD2 
-X-CRM114-Status: GOOD (  15.63  )
+X-CRM114-CacheID: sfid-20241205_181804_434186_D7F4787C 
+X-CRM114-Status: GOOD (  19.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,103 +72,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Dec 05, 2024 at 05:52:58PM -0800, Keith Busch wrote:
+> Changes from v10:
+> 
+>  Merged up to block for-6.14/io_uring, which required some
+>  new attribute handling.
+> 
+>  Not mixing write hints usage with write streams. This effectively
+>  abandons any attempts to use the existing fcntl API for use with
+>  filesystems in this series.
+> 
+>  Exporting the stream's reclaim unit nominal size.
+> 
+> Christoph Hellwig (5):
+>   fs: add a write stream field to the kiocb
+>   block: add a bi_write_stream field
+>   block: introduce a write_stream_granularity queue limit
+>   block: expose write streams for block device nodes
+>   nvme: add a nvme_get_log_lsi helper
+> 
+> Keith Busch (5):
+>   io_uring: protection information enhancements
+>   io_uring: add write stream attribute
+>   block: introduce max_write_streams queue limit
+>   nvme: register fdp queue limits
+>   nvme: use fdp streams if write stream is provided
 
-Maps a user requested write stream to an FDP placement ID if possible.
+I fucked up the format-patch command by ommitting a single patch. The
+following should have been "PATCH 1/11", but I don't want to resend for
+just this:
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 32 +++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 32 insertions(+), 1 deletion(-)
+commit 9e40f4a4da6d0cef871d1c5daf55cc0497fd9c39
+Author: Keith Busch <kbusch@kernel.org>
+Date:   Tue Nov 19 13:16:15 2024 +0100
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 410a77de92f88..c6f48403fc51c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -997,6 +997,18 @@ static inline blk_status_t nvme_setup_rw(struct nvme=
-_ns *ns,
- 	if (req->cmd_flags & REQ_RAHEAD)
- 		dsmgmt |=3D NVME_RW_DSM_FREQ_PREFETCH;
-=20
-+	if (op =3D=3D nvme_cmd_write && ns->head->nr_plids) {
-+		u16 write_stream =3D req->bio->bi_write_stream;
-+
-+		if (WARN_ON_ONCE(write_stream > ns->head->nr_plids))
-+			return BLK_STS_INVAL;
-+
-+		if (write_stream) {
-+			dsmgmt |=3D ns->head->plids[write_stream - 1] << 16;
-+			control |=3D NVME_RW_DTYPE_DPLCMT;
-+		}
-+	}
-+
- 	if (req->cmd_flags & REQ_ATOMIC && !nvme_valid_atomic_write(req))
- 		return BLK_STS_INVAL;
-=20
-@@ -2197,11 +2209,12 @@ static int nvme_check_fdp(struct nvme_ns *ns, str=
-uct nvme_ns_info *info,
-=20
- static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *=
-info)
- {
-+	struct nvme_fdp_ruh_status_desc *ruhsd;
- 	struct nvme_ns_head *head =3D ns->head;
- 	struct nvme_fdp_ruh_status *ruhs;
- 	struct nvme_command c =3D {};
- 	u32 fdp, fdp_idx;
--	int size, ret;
-+	int size, ret, i;
-=20
- 	ret =3D nvme_get_features(ns->ctrl, NVME_FEAT_FDP, info->endgid, NULL, =
-0,
- 				&fdp);
-@@ -2235,6 +2248,19 @@ static int nvme_query_fdp_info(struct nvme_ns *ns,=
- struct nvme_ns_info *info)
- 	if (!head->nr_plids)
- 		goto free;
-=20
-+	head->nr_plids =3D min(head->nr_plids, NVME_MAX_PLIDS);
-+	head->plids =3D kcalloc(head->nr_plids, sizeof(head->plids),
-+			      GFP_KERNEL);
-+	if (!head->plids) {
-+		ret =3D -ENOMEM;
-+		goto free;
-+	}
-+
-+	for (i =3D 0; i < head->nr_plids; i++) {
-+		ruhsd =3D &ruhs->ruhsd[i];
-+		head->plids[i] =3D le16_to_cpu(ruhsd->pid);
-+	}
-+
- 	kfree(ruhs);
- 	return 0;
-=20
-@@ -2289,6 +2315,10 @@ static int nvme_update_ns_info_block(struct nvme_n=
-s *ns,
- 				"FDP failure status:0x%x\n", ret);
- 		if (ret < 0)
- 			goto out;
-+	} else {
-+		ns->head->nr_plids =3D 0;
-+		kfree(ns->head->plids);
-+		ns->head->plids =3D NULL;
- 	}
-=20
- 	blk_mq_freeze_queue(ns->disk->queue);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5c8bdaa2c8824..4c12d35b3e39e 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -495,6 +495,7 @@ struct nvme_ns_head {
- 	struct gendisk		*disk;
-=20
- 	u16			nr_plids;
-+	u16			*plids;
- #ifdef CONFIG_NVME_MULTIPATH
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
---=20
-2.43.5
+    fs: add write stream information to statx
+    
+    Add new statx field to report the maximum number of write streams
+    supported and the granularity for them.
+    
+    Signed-off-by: Keith Busch <kbusch@kernel.org>
+    [hch: renamed hints to streams, add granularity]
+    Signed-off-by: Christoph Hellwig <hch@lst.de>
 
+diff --git a/fs/stat.c b/fs/stat.c
+index 0870e969a8a0b..00e4598b1ff25 100644
+--- a/fs/stat.c
++++ b/fs/stat.c
+@@ -729,6 +729,8 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
+ 	tmp.stx_atomic_write_unit_min = stat->atomic_write_unit_min;
+ 	tmp.stx_atomic_write_unit_max = stat->atomic_write_unit_max;
+ 	tmp.stx_atomic_write_segments_max = stat->atomic_write_segments_max;
++	tmp.stx_write_stream_granularity = stat->write_stream_granularity;
++	tmp.stx_write_stream_max = stat->write_stream_max;
+ 
+ 	return copy_to_user(buffer, &tmp, sizeof(tmp)) ? -EFAULT : 0;
+ }
+diff --git a/include/linux/stat.h b/include/linux/stat.h
+index 3d900c86981c5..36d4dfb291abd 100644
+--- a/include/linux/stat.h
++++ b/include/linux/stat.h
+@@ -57,6 +57,8 @@ struct kstat {
+ 	u32		atomic_write_unit_min;
+ 	u32		atomic_write_unit_max;
+ 	u32		atomic_write_segments_max;
++	u32		write_stream_granularity;
++	u16		write_stream_max;
+ };
+ 
+ /* These definitions are internal to the kernel for now. Mainly used by nfsd. */
+diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+index 887a252864416..547c62a1a3a7c 100644
+--- a/include/uapi/linux/stat.h
++++ b/include/uapi/linux/stat.h
+@@ -132,9 +132,11 @@ struct statx {
+ 	__u32	stx_atomic_write_unit_max;	/* Max atomic write unit in bytes */
+ 	/* 0xb0 */
+ 	__u32   stx_atomic_write_segments_max;	/* Max atomic write segment count */
+-	__u32   __spare1[1];
++	__u32   stx_write_stream_granularity;
+ 	/* 0xb8 */
+-	__u64	__spare3[9];	/* Spare space for future expansion */
++	__u16   stx_write_stream_max;
++	__u16	__sparse2[3];
++	__u64	__spare3[8];	/* Spare space for future expansion */
+ 	/* 0x100 */
+ };
+ 
+@@ -164,6 +166,7 @@ struct statx {
+ #define STATX_MNT_ID_UNIQUE	0x00004000U	/* Want/got extended stx_mount_id */
+ #define STATX_SUBVOL		0x00008000U	/* Want/got stx_subvol */
+ #define STATX_WRITE_ATOMIC	0x00010000U	/* Want/got atomic_write_* fields */
++#define STATX_WRITE_STREAM	0x00020000U	/* Want/got write_stream_* */
+ 
+ #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
+ 
 
