@@ -4,84 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFC15E77173
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Dec 2024 06:24:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF651E77173
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Dec 2024 11:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rS4gBKjSvbHUPLcuHHzUWyhSkZwzl2lWXz/BcxLU150=; b=AM5e3a5FRKZaqkYkWOYIKDcFhz
-	PV3tuFGna1jwlkamEojLlImqqjE7ZwEmPrztSdX/dvLFkc9W7FZ8cBT/8+RnkQmYH+0EOuzxOrhw5
-	CHjlsUwDfhikkIa4fxtb/JivDqKefiL05+XXX75J2Ih4Z/qOE7kqkuPNnJ/JCzJRlksgAXvgNggsR
-	XgpzbxozdEYbpcTMRuxEED2hihLWfyKpKypoLhlTkDIv//pZZzCW6rX5Jqh8ZuMeC8rmEJRGfbUZL
-	QVVJfE0tI2Y8n+LUQjKPdV4a9MAzCn+dqXW9wW/bPxTtPr2nyWXD/D3CiEtvss0pe3CGsQYVRxvJn
-	IMVtNL9A==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ddYR8rBx1oH47Vealzy0oc3J80B5TE5MWa41Ln0+p5k=; b=AWKREw7BebERvJfODbb5wmNvjt
+	Fgikvx1Y71iWMDrjIBe0uZoGGvy1QJSXBbxmJzyEg8ESAkkCouRwIJmjkEw9rKXvgeQfSx0tnnkuY
+	l3hs5PNSci+OaI6jfgjbC9cpDDMHrddc/iUFqxNvtqdCndSjZF32XGUDH/57vz0gBpjI7yIyuy+Ug
+	M0j8vUM0nm5sXZOAfB7mCNCF17c6zChNGuomwluGV6gf5WwCk0gzGr247jJvpWTPQ5FIlpVa8fyS9
+	Zl0zWu0SS3NU5c34M75lGeq2mxZpSnjQan1DtEEFZbAdXYiZss6Cl8eHEsjiBi3RTj+bFHkDG2Cg4
+	N0QZ/zzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKAie-00000004uk3-0PWR;
-	Sun, 08 Dec 2024 06:24:40 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1tKFYr-00000005C5M-04Q8;
+	Sun, 08 Dec 2024 11:34:53 +0000
+Received: from hours.tkos.co.il ([84.110.109.230] helo=mail.tkos.co.il)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKAib-00000004ujd-3Ivf
+	id 1tKFYm-00000005C4n-3MDz
 	for linux-nvme@lists.infradead.org;
-	Sun, 08 Dec 2024 06:24:39 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-2163b0c09afso3218385ad.0
-        for <linux-nvme@lists.infradead.org>; Sat, 07 Dec 2024 22:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kookmin.ac.kr; s=google; t=1733639076; x=1734243876; darn=lists.infradead.org;
-        h=content-transfer-encoding:content-disposition:in-reply-to
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rS4gBKjSvbHUPLcuHHzUWyhSkZwzl2lWXz/BcxLU150=;
-        b=JARqGh8/CWyezLAggtnZ+QRxlaVGkenqKH4wWl90Na5ryImEvr3GYq2b+w9L+p+fT3
-         BMhaepaoPEFo/1I8Xk//k59ufgUfmI3E+FsHZ0kLQA0a1JS9f4T2KwVE9a/JjMERyJMm
-         vQ1RK5KJzqV4lXEuB9p64iE9yMyREfuJwZeaQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733639076; x=1734243876;
-        h=content-transfer-encoding:content-disposition:in-reply-to
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rS4gBKjSvbHUPLcuHHzUWyhSkZwzl2lWXz/BcxLU150=;
-        b=mE+AKO78dLguUQujZpqlQ4vbGPAsh3N/yeYH9MaI+AbQlgWpqOnYHPYjQZmJDPES3e
-         WnQBVTEshSuhiR7lqqruQ1ntV+ikZ6OlUNjP7dC0Cnr3vM3LEkgCtBwd+Q/bKqLtE2kP
-         mzb4urGNVAMYdDc0G4CT+ALBoMm1j7VGLc7RdrhtPqo3NkcRsu4zLWqsyC7bd6sf/I77
-         Zi0S/Z0ss9OLHQydROR77aLlkdRQ8f5U9tcvGC3nQglm1JTUgonFyWLgszqzUB+x3UDa
-         HxBqY8Vrem+wPFLjEPX5NM/ys8IvwSdwEvOLLWJVhqekezBIosmIk2HaU9/ApV+UKmEv
-         nu4w==
-X-Forwarded-Encrypted: i=1; AJvYcCXfm6vDf7XcxURYdP1EfzR5V0QSdvXCMtJxiwUfdIW7/NDsapR+bQ+iKb2z3qmcyZ5lPaaSmLc/WEbU@lists.infradead.org
-X-Gm-Message-State: AOJu0YzQ41KJFfEc836Jl3APWHiHhoIv89ITgs5OLQC7/67V1H9vYl+S
-	ntQs43uf0zczQm2PvSHWf+LqqS5vH0/fGZzUz6Vd2lXVFWcBWFtfUKaiKlj3WJTK1uTxslLDy/t
-	e3ri6jSFUQB8ingCX8fjC67u97+96H0UGg6pQuc2KZtxEvHQ0srYfrJvLiQ==
-X-Gm-Gg: ASbGncs5pHDO+mO+zQKn/RbXLdshBg5mcqI3byJ55HtgorGM2Sbt9xDoXI0cAwOhjnH
-	aybAudx7zssJR7a2gDeIL4zMSyMT9RmwJYc0IG8G9eV1kiWdbp01JKwwfVjcGus9dXzgKSA3HYL
-	cQcJOw3NGsM3dWp6FpHwd7a+xhxXcfGb7j2FmYz/Lm//r3EhECz8L3j56ajBiU8qN1xRwA8QxK7
-	++B5OqimT7/vgM5mMq4N9S+/leD6G8fxhoGjKewYpU=
-X-Google-Smtp-Source: AGHT+IE1yITtCnCNWv+WIMfi3cpwIkcZ9XD70Jh15V0gW6Bxat2Ew2qPL+pah7iH+6kI6HEfds083w==
-X-Received: by 2002:a17:903:2447:b0:212:581a:8d8 with SMTP id d9443c01a7336-21614db6be2mr116836675ad.46.1733639075883;
-        Sat, 07 Dec 2024 22:24:35 -0800 (PST)
-Received: from ubuntu ([210.123.42.170])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2161ad3392esm33621955ad.236.2024.12.07.22.24.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Dec 2024 22:24:35 -0800 (PST)
-Date: Sun, 8 Dec 2024 06:24:30 +0000
-From: Yongsoo Joo <ysjoo@kookmin.ac.kr>
-To: Keith Busch <kbusch@kernel.org>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: fix return type of nvme_poll()
-Message-ID: <Z1U7npo/DINh2MR9@ubuntu>
-References: <20241207045546.119933-1-ysjoo@kookmin.ac.kr>
- <Z1UOyFnUavHNJu5H@kbusch-mbp.dhcp.thefacebook.com>
+	Sun, 08 Dec 2024 11:34:50 +0000
+Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.tkos.co.il (Postfix) with ESMTPS id 2BA2A4407F7;
+	Sun,  8 Dec 2024 13:30:40 +0200 (IST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
+	s=default; t=1733657440;
+	bh=RosfNUulsEOrj3Ye+G3J/3BnXR9JrhrGEM1dSLGEjiQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QUQgd52+HWhkzIj0U5LIsOdiyTmYGSLsQLmuUABy6jhjl0yyRv3YBwzw1EeFvZfq4
+	 AWwYXsMNTmpZVMwC+l1+sD4/SAesd+ocZgvG6ZxyI30USfnaZD7ZeY+Ygx2LFoNS+V
+	 iZroabcCVy6rxaM00z4KWNmq76Pfsj4YIgz1elX5PkmW4jEyi3S0HLhkvIss7CxKYv
+	 7GMDzS7nnfNiOcTTO3tN2C1EiDOF//Lt1swJ++bA5S58d7t56vjvoWuHLs0L9zdqlV
+	 io+CJ4RW5+61cQyIs/sQN/4xnkNMIGZ6KfZigcCBRS8JmYhHkEVhsedPuPShrNv/w6
+	 KaIy82b/Lxb+A==
+From: Baruch Siach <baruch@tkos.co.il>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	Baruch Siach <baruch@tkos.co.il>
+Subject: [PATCH] nvme-pci: fix comment typo
+Date: Sun,  8 Dec 2024 13:34:32 +0200
+Message-ID: <6460798716383804d15e987b0c218bf9969b33d2.1733657672.git.baruch@tkos.co.il>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-In-Reply-To: <Z1UOyFnUavHNJu5H@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241207_222438_126682_0DAFD1F6 
-X-CRM114-Status: GOOD (  16.11  )
+X-CRM114-CacheID: sfid-20241208_033449_328605_BD246E6C 
+X-CRM114-Status: GOOD (  12.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,38 +72,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Dec 07, 2024 at 08:13:12PM -0700, Keith Busch wrote:
-> On Sat, Dec 07, 2024 at 04:55:46AM +0000, Yongsoo Joo wrote:
-> > Change the type of the return variable 'found' from bool to int so
-> > that any interested caller can see not only whether at least one
-> > CQE was processed, but also the total number of CQEs processed.
->=20
-> It looks like all the interested callers only care if it's not 0, so I'm
-> not sure this is a "fix" as the subject says.
+envent -> event.
 
-I agree that all the "current" interested callers seem to expect=20
-boolean-like return values from nvme_poll(). However, the return=20
-type of both nvme_poll() and nvme_poll_cq() is int, and=20
-nvme_poll_cq() actually returns the number of processed CQEs.
+Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The inconsistency between the two functions is, in my view, worth=20
-addressing to prevent potential confusion for potential callers who=20
-are interested the actual numbers. And this patch is=20
-backward-compatible with the current usage, so no changes are=20
-required for the existing callers.
-
-I=E2=80=99d like to ask for your opinion on the followings:
-- Do you think rephrasing the patch title to =E2=80=9Cnvme: change return=
-=20
-  type of nvme_poll()=E2=80=9D would be more appropriate?
-- Do you believe it would make more sense to change the return=20
-  type of nvme_poll() from int to bool instead?
-- Or, do you think this inconsistency is not a big issue, and the=20
-  current implementation is sufficient as it stands?
-
-Thanks for your time and feedback. I look forward to your thoughts.
-
-
---=20
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 1a5ba80f1811..ff91000b5cf0 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -373,7 +373,7 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, __le32 *dbbuf_db,
+ 		/*
+ 		 * Ensure that the doorbell is updated before reading the event
+ 		 * index from memory.  The controller needs to provide similar
+-		 * ordering to ensure the envent index is updated before reading
++		 * ordering to ensure the event index is updated before reading
+ 		 * the doorbell.
+ 		 */
+ 		mb();
+-- 
+2.45.2
 
 
