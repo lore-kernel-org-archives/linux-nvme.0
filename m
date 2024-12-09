@@ -4,65 +4,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F5B2E77180
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 16:30:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DA52E7717D
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 17:14:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yJeysie/jKNM1eNuhHBrQNE2J1h2Vu9UV/DBC/48LBU=; b=D8c5J8Y6awISPtR4Pv2oEjdltN
-	I1nMqFIS/+SaGIRu8TLK5p4Fj5rna4X1EfhtVZPmn/3bbLxfmndUSDDDYjgd12UU5iDkTRU023mZN
-	qpy2tP1CVqENlkVTHayI1SKneCyJouqLa3yANh18ezX16YT5xmaERPGdubarl450//pdy/VBEMkOj
-	Eu7WTb/5dB++E83ZPmT6yTLCy8dG1NTbcvTHqATBkK0FKpB8Hh89iqaIifxp/+AKWERykO4vlsl0Y
-	ahRR8InQtAm2DYSysH32pZ6LKmbbOkgDDMCWzhL5jam82i7DTQL59F11mQkhq53m8kCmgWTo9oy5Y
-	GS1v2yxg==;
+	bh=a32sYbbs9RYPnQ+lIVHJYT3wUwAX7vSg/VShC8KuQCo=; b=SRMdV9QxXLprDg5YQyYLPVR+2l
+	TrE/uBOKhHNco3ahix/SzetNpXFYb8hBHfDwwQsPuZQFyFEVV0M0EVkFnHyE1EwzmBiPAt4+Pslhv
+	GfQSmlXSgvk+b3jJ1RyJbnsQnZUFNXAilbqNf2uqPEFCJQkmY4v/C5PG6hZ9ErRuuyvgnLhaqRMxL
+	d/VRuWSB4kMSHYYLJpfJRJfa4vX3WTW/I51/+3cxzOFHDZRom5T1jbgfjxrhnLeiiVr67AqRuIAWe
+	7apcuKIXTacT89BfbrJGIU22JbSf2ItWCuVflydMjbbzfUizVMLr4jecV6S7nO4C7NCswR278jl0z
+	NpSPhmoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKgec-00000008Z1Z-30yG;
-	Mon, 09 Dec 2024 16:30:38 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tKhLO-00000008hOg-0MxX;
+	Mon, 09 Dec 2024 17:14:50 +0000
+Received: from mail-sn1nam02on20618.outbound.protection.outlook.com ([2a01:111:f403:2406::618] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKgdm-00000008YnD-40N4
+	id 1tKhKz-00000008hKt-0gQR
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Dec 2024 16:29:48 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 9D28FA417C6;
-	Mon,  9 Dec 2024 16:27:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BE57C4CEDE;
-	Mon,  9 Dec 2024 16:29:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733761785;
-	bh=s0ZJKQcRZlj/F3HdodiOs2sWsKd6fLpep2dSp6CdnhI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hkqQkahtR+OmH6AYMvoDAEUl+Sxxv/9Yi2/J37SmxMHZTnEjV+gen2QtnJpgwY06J
-	 VwhQ9zg5T5nGmX68lVpnmrlUF+Tq9VrWvkWT+7kNO2LTuxvkHU/628o5v5qsonc0no
-	 aJUKkk6jt6xIOzV24qEu+xM0yo5lQmiCYKw22dTe8sdb96Nl1lXL4kblijQJY47zom
-	 1+x/MDCib3CjopldXPfgFMkWCiWZr+fvyZNlBImKU95dVhJcpw6mY2KiTRAeO8M0ra
-	 1fDQgEyCSnvX+MoBH0mm7n+hmHRXs1jHxJiHx7Daagpb+TWAp2tjnU01wMHYOBF8hq
-	 vI/Iy7x6ZpgcA==
-Date: Mon, 9 Dec 2024 09:29:42 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, axboe@kernel.dk,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	sagi@grimberg.me, asml.silence@gmail.com, anuj20.g@samsung.com,
-	joshi.k@samsung.com
-Subject: Re: [PATCHv12 11/12] nvme: register fdp parameters with the block
- layer
-Message-ID: <Z1ca9liGKpasQ-vG@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241206221801.790690-1-kbusch@meta.com>
- <20241206221801.790690-12-kbusch@meta.com>
- <20241209131819.GA16038@lst.de>
+	Mon, 09 Dec 2024 17:14:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rOdaKcLlJ/xu2L2qPFQKwB4cF6N62oRAdoRcSzSa3l2e+kCR6dMNpaBKIrkxBcsQfwUFoESNCgsZWCXkkmAjF0O6702CmVveVnNX0wd0HFG9eknO0K3xo6YaIKzeCUqzNxxAFWzXhO/oDFkXzf46LzoTkAqJL39caK+mJWDRoR788iMRcKYBCd/J3KOB5GkeNoA/tGID4umQtprSOBNLyZj6CvgQpUO4tIrnSj+nLuznxqYTGShS51A3Ofqs+mOGXD/qMrXAsuIEZoOzGYMTHZGiOWYTjrq4mbEUmAt+MFhRaWmTMc3e6C8N1SpB9H1Domyn/BYeEwl0UX+fqVha8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a32sYbbs9RYPnQ+lIVHJYT3wUwAX7vSg/VShC8KuQCo=;
+ b=rLNifrs9InZS0OJ+p4jIjjRvYJuGqnt3Kq38qnkCp9ZpFqM7ja2SJWwcuU33TNDvuEmmMdRDaebFg782mR0qNsSdrb5z6LTBM0njHI+jIHLSj1uwF9mAX9jxCEVuIdD1qwrzGfhG6ZdRQp9FWLIwbj5dkND8Bm6j07+cEtIfoqto+RAPeL0IkYUAvP9y9xdscs0lMopCHKzxzn0dI47awTFfL7tkR4rr0flyYZWf/Aq0EYddKGePjzDlwHXRRZCTrmbiH6kjSK05WykkwX3lTm+vE53NL67tZU/Zm2YlziD0srslmgAJWvZwMwqtqR+JSIU07jrQ8DNifpE07L2jPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=micron.com; dmarc=pass action=none header.from=micron.com;
+ dkim=pass header.d=micron.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a32sYbbs9RYPnQ+lIVHJYT3wUwAX7vSg/VShC8KuQCo=;
+ b=DCEBLtiiXkJz100/EcT85Q9ku0rRQZsevN0ho/IgDzYEZpzxu80KDqlDz4NX7v3BxrLDtswfkfdbRSkwqBVL9S1mE2znoe234Z+0jvBtoNDbnLakU3A7f2TAXthDRbQR9OAb9qk9V12Qwaxrhrax1AfLUDJrRkAw1u0BD0VjPbPFho8sUiOaXT3wyTdoWXBC2IK/uzlKeM7S5FkhVUfHcWDnCOX651lYcZa7uTF6uErZH9QaurvyrH5Tfbzo4gqVvlZyzAlMW0tLBRHHAZJesHw5K1xzkcJ5rYn/gWQ6UqqTQGsahbalSosC/hq7UVAkqGr9BeIG7dL0FpmCKK/llA==
+Received: from DS0PR08MB8541.namprd08.prod.outlook.com (2603:10b6:8:116::17)
+ by BY1PR08MB9875.namprd08.prod.outlook.com (2603:10b6:a03:5b9::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Mon, 9 Dec
+ 2024 17:14:16 +0000
+Received: from DS0PR08MB8541.namprd08.prod.outlook.com
+ ([fe80::fb1c:d78b:e57:bc81]) by DS0PR08MB8541.namprd08.prod.outlook.com
+ ([fe80::fb1c:d78b:e57:bc81%2]) with mapi id 15.20.8230.010; Mon, 9 Dec 2024
+ 17:14:16 +0000
+From: Pierre Labat <plabat@micron.com>
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>
+CC: "axboe@kernel.dk" <axboe@kernel.dk>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "io-uring@vger.kernel.org"
+	<io-uring@vger.kernel.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"asml.silence@gmail.com" <asml.silence@gmail.com>, Keith Busch
+	<kbusch@kernel.org>
+Subject: RE: [EXT] Re: [PATCHv11 00/10] block write streams with nvme fdp
+Thread-Topic: [EXT] Re: [PATCHv11 00/10] block write streams with nvme fdp
+Thread-Index: AQHbSjkfn7E40X+xN02QKPCe64Si9rLeJePw
+Date: Mon, 9 Dec 2024 17:14:16 +0000
+Message-ID: <DS0PR08MB85414C2FDCFE1F98424C0366AB3C2@DS0PR08MB8541.namprd08.prod.outlook.com>
+References: <20241206015308.3342386-1-kbusch@meta.com>
+ <20241209125132.GA14316@lst.de>
+In-Reply-To: <20241209125132.GA14316@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_ActionId=9a346177-5bc6-4c1f-9577-39ef9eb49a2d;MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_ContentBits=0;MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Enabled=true;MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Method=Standard;MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_Name=Confidential;MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_SetDate=2024-12-09T17:09:54Z;MSIP_Label_37874100-6000-43b6-a204-2d77792600b9_SiteId=f38a5ecd-2813-4862-b11b-ac1d563c806f;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=micron.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR08MB8541:EE_|BY1PR08MB9875:EE_
+x-ms-office365-filtering-correlation-id: 59219082-8b12-4ac3-a9eb-08dd1874e94f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007|38070700018;
+x-microsoft-antispam-message-info: =?utf-7?B?RlYzOXB1djNnUUE5Ky1SV25BeWRrTGh3eWZsRmR6b1E3aXBZVTdkYystTy9o?=
+ =?utf-7?B?ZHE0bUNkUTFvNU1SWXRORnVvSFg0TXdydERNNTFIdW1OMDBvbFYwWmpMakcy?=
+ =?utf-7?B?RlNyQzd4eEZvS1BFOGo4em00STZ4cDAwZUszYm1GaGhoRmswa3UveExya1Rn?=
+ =?utf-7?B?U1BrQSstbTFLYUdrOE5LMmZmWE84UE5qZkt6Q0tQN2VpTWZwMHNoQy9nVWpl?=
+ =?utf-7?B?ZXBTdXJSS2dhdWtFd04vQzhqTHBlN2xkQVpOYml1anFmN0hjN0pac2xEMGhq?=
+ =?utf-7?B?WDJtV0NHSmVzcVBySTFiNHVBKy0xbGlFR2h4MnF4TUJWNDZSa3ZXM2ZFUVJD?=
+ =?utf-7?B?TWN5MlY0bTRIYldJZ0dRYVhlS1NIdDFFbDhFc1pNandEY0JEUHFRdnpqTFNN?=
+ =?utf-7?B?aFNVbHN5TystMjV4Ky1EMjgxT0RIT010MEgzcE9rS1FLSTFCMGtrWUI2Q01B?=
+ =?utf-7?B?TVFKamR5aFU4cHkrLXB6Rm1SKy13RmliTm9JcGpqTEZxdEQxa0FNeU5xdnM4?=
+ =?utf-7?B?TDdKWGEzSWNGMFVTbUpaaWE5bW9zWU9vM2hSYXFDZng1ZWdCU25Pei9mMVNh?=
+ =?utf-7?B?S2dTNnBDWnd3TXRISzJpeEN0b0U4eWx5SEJWZVVjYW54MTIwbXJ4dDY5amZU?=
+ =?utf-7?B?elU1bkM0YW1SaG1lMVVSUG91Y3Y4VjV0a0lRdHNCR1U3NFRpTlZYLzVLZHND?=
+ =?utf-7?B?d2F2RWlIZ0ZCUFVtLzR0SGtRMEtkaklIaERIT1ZDdHRWWGhqM1F4VXp2RXRS?=
+ =?utf-7?B?MTE3Q2JMa0R6Ky05Q1JkU3EySlJKKy1Ob2NFcW1IcS8vcWw2Q0tYVWcwd2E=?=
+ =?utf-7?B?NkorLXk4dktOSTgxOElHekczbjNiblVZSVBLa0Eyc2VHVzYvc09YMVhQQ1Z6?=
+ =?utf-7?B?NElVUy9nb2g3Vno2a015ZUZ4OXFHQjcrLWp1eURwWW1wVXBJQlRqc0JXV25Q?=
+ =?utf-7?B?azZmVnpLSlZWcXB1NDhWc3VUbElBNlRueGpvejA0azlwWUFhNnhwTlFDcmV6?=
+ =?utf-7?B?d2pPeEdZNDU2Ky1QZHM3V1Q5TXJCbFk3Yzh1eC9vUUZ5NnQ5akRNYms4ZlE4?=
+ =?utf-7?B?NmFSQUFhVEhCRTZJTEQ4N2lkNEdrQmJJZlZJbVJIRzNoaldUWnlhWHplZWRG?=
+ =?utf-7?B?SXdhR1BVSGF1L2dqVnlycktPNGxhdGVGWEpaUHpRUlRqNUZrWEhVWFpmU3Nh?=
+ =?utf-7?B?UmtyYm5tYmZZKy1pZlh4bnBYakkyQTZ2NEtqeTU0c2VKbnNFZEd6c00zUWVQ?=
+ =?utf-7?B?NHdZRURDelNqQlJoRHRqT1IvNU5TalQ4ZzVTd1YrLVFjKy1IQi8xVi9RTWp1?=
+ =?utf-7?B?dWZYSTB1S3A3Z1ZmTmZ0V2x0cTFsNlc2NVgyMk8xdkwySXlqdnlsZ2hTdG9Y?=
+ =?utf-7?B?MzNVTGNGMU9BNXlKRUlncTBSUHdUR1NTQVZBVUlRSUJaeWN3bUJVMHBaWVE0?=
+ =?utf-7?B?ZFJITno5UHMwMVNadnA2WGJTcUJIaklGZUNKMVdUSjU4NUVQUmdmakp0TzV3?=
+ =?utf-7?B?eTkybTBXYWlHZ1pzVGpMTWhST1I2NGJrcGlLL2pKMGFvbDFSTTZUZ2ViVmly?=
+ =?utf-7?B?R0t4Tm1rdENyeDgvVE9XQTBGZVlHeTA4eU1HcGR4Nlh4cnZqd0ZJV3JCVWJJ?=
+ =?utf-7?B?Y1cwKy1aYnJ3eVUyR05udXhNeVZ5bXVmNjEyUVkvNU9lVzBSMTd0Z3o5UmFk?=
+ =?utf-7?B?aEd0czJtWVhPOXZ1N3U2eGtPblJGcnRNTFhqRjJBaVJIM0picDV1aWlueHVD?=
+ =?utf-7?B?SDJ3bHBULzdNa1puMEVoaURTSloyaGxBNmF0VjkxZ05wQlRFZUhpRkU2anll?=
+ =?utf-7?B?Ky0va29rbjB6MEhMYVdwTDZkVUVFa2dLZ21pM0dnUFNaVzR6T2h4OGl5WHgv?=
+ =?utf-7?B?blJyLysteHAxbUt5VHVSTkJMYkMrLXpscWk0WFVTaEhrdGdSaG5HdnpWdjE=?=
+ =?utf-7?B?SistbEllSU1vVzZoZytBRDBBUFEt?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR08MB8541.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-7?B?UVd5WE5OMUNySGEyMW9nL1IxMDlxd1hsTEoyNXNiVXAxZGw3OHRoRUJaY2I=?=
+ =?utf-7?B?Ky1YRUNRNzRCVC9MRHBTMENhMURXeGdYWVhKRDR4WGpaMDBUNEpPQVFvKy03?=
+ =?utf-7?B?VHhTTm44VU5yOFVKazdISkdvUXZsSFNwNjg4aSstU3JMbTdNYWNXUncrLU80?=
+ =?utf-7?B?U1B1dk8wcnM4SzBudm5HNUg1VksyTEFNb2J2Ky1sZWxobU8ybGxHVGdhb3ox?=
+ =?utf-7?B?c2MzMkcvUzFZdDZUNlYzNjhxZjZyNFF6MEpxZlplbHB6WFJsWkhZejZKVUxT?=
+ =?utf-7?B?VlpKQnBZcVNzRE5ndjVCN2kzMC8zR1orLXdGdHpxT3ZnSGVoQ3p6OW4vUjdD?=
+ =?utf-7?B?R2FVWkdXQkFldHNuNkFicU1aamdiOFRwQlBvZ0hZdlZkV0FzVmdxekRlTFNO?=
+ =?utf-7?B?TlBJZ0pRNjA4am02d2d2akhrNHBiNUgxdExIMnpzSklpcUpNWFE3L3dlRExz?=
+ =?utf-7?B?N1dvKy1zQ1VsOTdySE9EQ0w4eE1yM1dIcGV6MHJFb3FrcDZJZSstNkRpWjhO?=
+ =?utf-7?B?OTBhN0dNNy91MFNlWlFWZEVqMjRMZFNEQXJtYmdFblpwV3ZZc0lEbE9TVzJS?=
+ =?utf-7?B?dWFuOG40V0gxMGlza0JrdVAyVUxqSXYwYkVqRCstYXJpOXBHZXd5SnZJZGZB?=
+ =?utf-7?B?YXlVbTdDVzMrLWNhYWl1Uk5HdWlMQjVSRTZRbG5OcU9KTVR5RW9YRUNVMjds?=
+ =?utf-7?B?UjMyTDQySlc4ZTZtYWdyS0tHeXMvN0xiT0pFeVc0MEd3VTNvOGRVTHBiWC9k?=
+ =?utf-7?B?Tk5QUE5yWUFvdW9IN0JtUDNJQm9MU2o2TS9PZkVRdSsteTJ4Z1hMREc1WWdW?=
+ =?utf-7?B?Q3Rpc25FbmVCQjlxMC92WFdUckRyKy1hbWVmKy1weFF2Sm5TaHhTQU5aa0RR?=
+ =?utf-7?B?cXBRcmFoL2JHb1RZL3kzdmlJY2NjVDRrSE43eVB2L3U5UEwycURUNUs1c3pw?=
+ =?utf-7?B?c0tDSzJnTjYySjlVcGFaMTJBc3NqcktjMVl4cystSTRMMmF1YVJGaVhvU1Vj?=
+ =?utf-7?B?YU53THJQWmZrTGVBWm4wMkthUWlGTUNSaE5PQkRmWGh6Sk1NTEw4a09KR2h0?=
+ =?utf-7?B?ZzhEUGhPaTJlT0NMSS9OUDc0U2xFS1d2Sk84V1JHREpIbldwMmdZZFp2S2l4?=
+ =?utf-7?B?ckR6MTlhdDYwdVF2Ky1EOUJGN1ZER1VDeDZqL2pOM2lvL1N6OVRXKy1LY1Iy?=
+ =?utf-7?B?ZVV4L0l0QlJ5WDNhOUQ0V3RDKy0yVVpBUWxWR29tSlkzdHloZTdxQ3dPWGxz?=
+ =?utf-7?B?MUMxZXA2ZVVXMUdMSDdjWmw0QlpPU0xJN2c2YXZxR1ZsWHhneXM0ZWtsMWJC?=
+ =?utf-7?B?dmNSTlZja2UyWlBjNlZGVkJoa3djOUF0Q3h3NTRRZnBBSlFFclVES0NpYVo1?=
+ =?utf-7?B?blIxS1Fld2xUaUNYVmducEM0RUhOakRmdElPUmdERmY4cXRyRmVmbFBjZkZG?=
+ =?utf-7?B?M3hvTVkyT2N2cVgzWFRjZU1BYkdHWW1xbXU5VzNNMzVXeVVVdFRCQ08vS0JD?=
+ =?utf-7?B?eFVzQXNHYTFjVWdFU0daRWk1bkE1bWxtQzloeXRsejZ6YzAxUUJ1OXVaNk5M?=
+ =?utf-7?B?eWV6SVZOa2gvZWVybnl3RHNCemNXVERJWUlYazZaeS9DZTVFcHQwR2krLTNq?=
+ =?utf-7?B?Zmh0SlZQZmZrSVo3RVlSVVpjZ3pYOERnZTBGMHNiS1libWtzdGk2VW5VdkVQ?=
+ =?utf-7?B?bGpweWJ2RDM0cGYxZVpNcTVGeGVxa2R5eFBOdWJLbU0rLWptVXVhdzF0LzVj?=
+ =?utf-7?B?ZGllVGJyQ0dMZlcwQzlFaS9HOXhtdWxWOWVKYlNuNlQ4V2dlVzh1Y3BBYVov?=
+ =?utf-7?B?eXdQbjV2eUM0ZFVuRGo3cistWDIvRmNjVmczUXZ0M1dZTCstb0xGLzRuU0pa?=
+ =?utf-7?B?RDNuNkFvU1FXY293USstaXZxaENpTFJwN2JMUDN5TmUyd0xYVjJ5cko3VEQ3?=
+ =?utf-7?B?eEpRTnNrMTJhenc4UTBzc0RtRll2Y0s3UTNoKy1MMHp6QlVxNERJVWVhQWFW?=
+ =?utf-7?B?bzJaL3hVZVdlTlFLWk1vbXMwZnJYQ1VzSXR6RWhUYk5XOHVHbFE1djMybHlH?=
+ =?utf-7?B?Y0hDUE95RFBaWkNGc2N1aTUwL2VuS0ljVUpFU1dDdG9QQkFnSWtNUzVBazdV?=
+ =?utf-7?B?R2Q4bFRaMG5sdTN0dURLRU0rLUdsSllLT2lyZEkrQUQwLQ==?=
+Content-Type: text/plain; charset="utf-7"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241209131819.GA16038@lst.de>
+X-OriginatorOrg: micron.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR08MB8541.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59219082-8b12-4ac3-a9eb-08dd1874e94f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2024 17:14:16.5551
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f38a5ecd-2813-4862-b11b-ac1d563c806f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3u43863lCyZL/Kf9xdOvyn8OBZwrrXOyD/hgutvRRe5FGSVfO1GhONCO7Z2umaNiP5uVw+cDFBSuPzYI4/deNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR08MB9875
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241209_082947_055720_510FD505 
-X-CRM114-Status: GOOD (  19.61  )
+X-CRM114-CacheID: sfid-20241209_091425_227967_562F56C4 
+X-CRM114-Status: GOOD (  12.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,45 +183,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 09, 2024 at 02:18:19PM +0100, Christoph Hellwig wrote:
-> > +	n = le16_to_cpu(h->numfdpc) + 1;
-> > +	if (fdp_idx > n)
-> > +		goto out;
-> > +
-> > +	log = h + 1;
-> > +	do {
-> > +		desc = log;
-> > +		log += le16_to_cpu(desc->dsze);
-> > +	} while (i++ < fdp_idx);
-> 
-> Maybe a for loop makes it easier to avoid the uninitialized variable,
-> e.g.
-> 
-> 	for (i = 0; i < fdp_index; i++) {
-> 		..
+Micron Confidential
 
-Yeah, okay. I was just trying to cleverly have a single place where the
-descriptor is set. A for-loop needs to set it both within and after the
-loop.
+Hi,
 
-> > +	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
-> > +		ret = nvme_query_fdp_info(ns, info);
-> > +		if (ret)
-> > +			dev_warn(ns->ctrl->device,
-> > +				"FDP failure status:0x%x\n", ret);
-> > +		if (ret < 0)
-> > +			goto out;
-> > +	}
-> 
-> Looking at the full series with the next patch applied I'm a bit
-> confused about the handling when rescanning.  AFAIK the code now always
-> goes into nvme_query_fdp_info when NVME_CTRL_ATTR_FDPS even if
-> head->plids/head->nr_plids is already set, and that will then simply
-> override them, even if they were already set.
+I was under the impression that passing write hints via fcntl() on any lega=
+cy filesystem stays. The hint is attached to the inode, and the fs simply p=
+icks it up from there when sending it down with write related to that inode=
+.
+Aka per file write hint.
+I am right?
 
-I thought you could change the FDP configuration on a live namespace
-with the Set Feature command, so needed to account for that. But the
-spec really does restrict that feature to endurance groups without
-namespaces, so I was mistaken and we can skip re-validiting FDP state
-after the first scan.
+Pierre
+
+
+Micron Confidential
++AD4- -----Original Message-----
++AD4- From: Christoph Hellwig +ADw-hch+AEA-lst.de+AD4-
++AD4- Sent: Monday, December 9, 2024 4:52 AM
++AD4- To: Keith Busch +ADw-kbusch+AEA-meta.com+AD4-
++AD4- Cc: axboe+AEA-kernel.dk+ADs- hch+AEA-lst.de+ADs- linux-block+AEA-vger=
+.kernel.org+ADs- linux-
++AD4- nvme+AEA-lists.infradead.org+ADs- linux-fsdevel+AEA-vger.kernel.org+A=
+Ds- io-
++AD4- uring+AEA-vger.kernel.org+ADs- sagi+AEA-grimberg.me+ADs- asml.silence=
++AEA-gmail.com+ADs- Keith
++AD4- Busch +ADw-kbusch+AEA-kernel.org+AD4-
++AD4- Subject: +AFs-EXT+AF0- Re: +AFs-PATCHv11 00/10+AF0- block write strea=
+ms with nvme fdp
++AD4-
++AD4- CAUTION: EXTERNAL EMAIL. Do not click links or open attachments unles=
+s you
++AD4- recognize the sender and were expecting this message.
++AD4-
++AD4-
++AD4- Note: I skipped back to this because v12 only had the log vs v11.
++AD4-
++AD4- On Thu, Dec 05, 2024 at 05:52:58PM -0800, Keith Busch wrote:
++AD4- +AD4-
++AD4- +AD4-  Not mixing write hints usage with write streams. This effectiv=
+ely
++AD4- +AD4- abandons any attempts to use the existing fcntl API for use wit=
+h
++AD4- +AD4- filesystems in this series.
++AD4-
++AD4- That's not true as far as I can tell given that this is basically the=
+ architecture
++AD4- from my previous posting.  The block code still maps the rw hints int=
+o write
++AD4- streams, and file systems can do exactly the same.
++AD4- You just need to talk to the fs maintainers and convince them it's a =
+good thing
++AD4- for their particular file system.  Especially for simple file systems=
+ that task
++AD4- should not be too hard, even if they might want to set a stream or tw=
+o aside
++AD4- for fs usage.  Similarly a file system can implement the stream based=
+ API.
++AD4-
+
 
