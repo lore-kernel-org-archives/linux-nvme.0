@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6A2CE7717D
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 16:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F5B2E77180
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 16:30:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N7UlONbAlkAeoKonw6FJchFmKhI6bEOh39fA8QXlrJ4=; b=a3U35wxiPsI41qcC9K/jdPpxBt
-	zjTsvSQwgv+9mO4sPmV9aVRWTGf8x77Wq6kwnRgPf5v9J9By6ts5xUNCIIw0n+EcXtT6Wlq5FHH5f
-	nts8Pe+o9gah/dTO/fgieBa6uai5dyPXBEE3fUndQH5Ax7fa7t1tMXJ55JgbZMW+nC4P5OuPnn0U+
-	xGAl0S1IQE3VqUT3VVwA57rYw99rqcfCANrHWw0YPJrGnglpksu2NTUTR/BJWABM7kLlwN/NdIYZk
-	0Yt3vP/fvniXFmsAP+M9dIQMvWJGBlaQ1Zb4M86ijhIi/RNXNwQYcPLMio5zZPDtdjm5KU0HlII6Y
-	VMfq6ZJg==;
+	bh=yJeysie/jKNM1eNuhHBrQNE2J1h2Vu9UV/DBC/48LBU=; b=D8c5J8Y6awISPtR4Pv2oEjdltN
+	I1nMqFIS/+SaGIRu8TLK5p4Fj5rna4X1EfhtVZPmn/3bbLxfmndUSDDDYjgd12UU5iDkTRU023mZN
+	qpy2tP1CVqENlkVTHayI1SKneCyJouqLa3yANh18ezX16YT5xmaERPGdubarl450//pdy/VBEMkOj
+	Eu7WTb/5dB++E83ZPmT6yTLCy8dG1NTbcvTHqATBkK0FKpB8Hh89iqaIifxp/+AKWERykO4vlsl0Y
+	ahRR8InQtAm2DYSysH32pZ6LKmbbOkgDDMCWzhL5jam82i7DTQL59F11mQkhq53m8kCmgWTo9oy5Y
+	GS1v2yxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKgIz-00000008Usd-0gd3;
-	Mon, 09 Dec 2024 16:08:17 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tKgec-00000008Z1Z-30yG;
+	Mon, 09 Dec 2024 16:30:38 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKgIN-00000008UnB-1k3N
+	id 1tKgdm-00000008YnD-40N4
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Dec 2024 16:07:40 +0000
+	Mon, 09 Dec 2024 16:29:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 316555C5DA9;
-	Mon,  9 Dec 2024 16:06:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6DDEC4CEDE;
-	Mon,  9 Dec 2024 16:07:37 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 9D28FA417C6;
+	Mon,  9 Dec 2024 16:27:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BE57C4CEDE;
+	Mon,  9 Dec 2024 16:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733760458;
-	bh=OnU+8GBt5pKp2SZ7nwC0/d71cQLLpJdR1aRrsY3v1GQ=;
+	s=k20201202; t=1733761785;
+	bh=s0ZJKQcRZlj/F3HdodiOs2sWsKd6fLpep2dSp6CdnhI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K6gHRaGTrCmeg3ha+s2ZhK6C2A8Z8dvwEMmkvjx/LHbPlbhWuo7FQtV1RoJR8Ttdv
-	 3hWMOOdVMDoe5cBnpC/S0ZqtVTZrlV5+AnDyO9Tn/WCBQ0EOGyos5ENuZ5K0rk6gJ2
-	 6HzSnE5hSyLhZVCiHqBuJ+aExCMULICr8WtwDwkGsg77EtIY5RzwrOa1+5GUo7L0zp
-	 2MEht1epHewFktReXkDKyPKO/3lQNcZV/t0B4ZjhiJcpL8Jmbri0Gke6P8g78A6Th5
-	 kqM2BQ7mqI0B5OX6yKKFrcW2z6wEsACS/rQqml8GsYg2X8tS2gB9EROPKUnjaAbv6n
-	 E9YvQSCAwngMg==
-Date: Mon, 9 Dec 2024 09:07:35 -0700
+	b=hkqQkahtR+OmH6AYMvoDAEUl+Sxxv/9Yi2/J37SmxMHZTnEjV+gen2QtnJpgwY06J
+	 VwhQ9zg5T5nGmX68lVpnmrlUF+Tq9VrWvkWT+7kNO2LTuxvkHU/628o5v5qsonc0no
+	 aJUKkk6jt6xIOzV24qEu+xM0yo5lQmiCYKw22dTe8sdb96Nl1lXL4kblijQJY47zom
+	 1+x/MDCib3CjopldXPfgFMkWCiWZr+fvyZNlBImKU95dVhJcpw6mY2KiTRAeO8M0ra
+	 1fDQgEyCSnvX+MoBH0mm7n+hmHRXs1jHxJiHx7Daagpb+TWAp2tjnU01wMHYOBF8hq
+	 vI/Iy7x6ZpgcA==
+Date: Mon, 9 Dec 2024 09:29:42 -0700
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@meta.com>, axboe@kernel.dk,
@@ -50,17 +50,19 @@ Cc: Keith Busch <kbusch@meta.com>, axboe@kernel.dk,
 	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
 	sagi@grimberg.me, asml.silence@gmail.com, anuj20.g@samsung.com,
 	joshi.k@samsung.com
-Subject: Re: [PATCHv12 00/12] block write streams with nvme fdp
-Message-ID: <Z1cVx-EmaTgdFgVN@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCHv12 11/12] nvme: register fdp parameters with the block
+ layer
+Message-ID: <Z1ca9liGKpasQ-vG@kbusch-mbp.dhcp.thefacebook.com>
 References: <20241206221801.790690-1-kbusch@meta.com>
- <20241209125511.GB14316@lst.de>
+ <20241206221801.790690-12-kbusch@meta.com>
+ <20241209131819.GA16038@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241209125511.GB14316@lst.de>
+In-Reply-To: <20241209131819.GA16038@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241209_080739_493558_EA3F801E 
-X-CRM114-Status: GOOD (  16.67  )
+X-CRM114-CacheID: sfid-20241209_082947_055720_510FD505 
+X-CRM114-Status: GOOD (  19.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,28 +77,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 09, 2024 at 01:55:11PM +0100, Christoph Hellwig wrote:
-> I just compared this to a crude rebase of what I last sent out, and
-> AFAICS the differences are:
+On Mon, Dec 09, 2024 at 02:18:19PM +0100, Christoph Hellwig wrote:
+> > +	n = le16_to_cpu(h->numfdpc) + 1;
+> > +	if (fdp_idx > n)
+> > +		goto out;
+> > +
+> > +	log = h + 1;
+> > +	do {
+> > +		desc = log;
+> > +		log += le16_to_cpu(desc->dsze);
+> > +	} while (i++ < fdp_idx);
 > 
->  1) basically all new io_uring handling due to the integrity stuff that
->    went in
->  2) fixes for the NVMe FDP log page parsing
->  3) drop the support for the remapping of per-partition streams
+> Maybe a for loop makes it easier to avoid the uninitialized variable,
+> e.g.
+> 
+> 	for (i = 0; i < fdp_index; i++) {
+> 		..
 
-Yep, pretty much. I will revisit the partition mapping. I just haven't
-heard any use cases for divvying the streams up this way, so it's not
-clear to me what the interface needs to provide.
+Yeah, okay. I was just trying to cleverly have a single place where the
+descriptor is set. A for-loop needs to set it both within and after the
+loop.
 
-> One thing that came I was pondering for a new version is if statx
-> really is the right vehicle for this as it is a very common fast-path
-> information.  If we had a separate streaminfo ioctl or fcntl it might
-> be easier to leave a bit spare space for extensibility.  I can try to
-> prototype that or we can leave it as-is because everyone is tired of
-> the series.
+> > +	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
+> > +		ret = nvme_query_fdp_info(ns, info);
+> > +		if (ret)
+> > +			dev_warn(ns->ctrl->device,
+> > +				"FDP failure status:0x%x\n", ret);
+> > +		if (ret < 0)
+> > +			goto out;
+> > +	}
+> 
+> Looking at the full series with the next patch applied I'm a bit
+> confused about the handling when rescanning.  AFAIK the code now always
+> goes into nvme_query_fdp_info when NVME_CTRL_ATTR_FDPS even if
+> head->plids/head->nr_plids is already set, and that will then simply
+> override them, even if they were already set.
 
-Oh sure. I can live without the statx parts from this series if you
-prefer we take additional time to consider other approaches. We have the
-sysfs block attributes reporting the same information, and that is okay
-for now.
+I thought you could change the FDP configuration on a live namespace
+with the Set Feature command, so needed to account for that. But the
+spec really does restrict that feature to endurance groups without
+namespaces, so I was mistaken and we can skip re-validiting FDP state
+after the first scan.
 
