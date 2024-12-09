@@ -4,125 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 392C6E7717D
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 11:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22B68E7717D
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 12:47:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Jf6RR1wyL7cSFxlP+gH0K4rrWGr5M9xsf5Xc2ZIQ/KM=; b=m1iSBiXt8YY+71MLc9py+zGVTO
-	BJa87Qi1ZkDPRjtsBAH/Ao/xNCOqLeUcNTf1MmGlPgu6zD5A9/eutq+d0o4rPmCDguwEFWN+8a+92
-	EPtzJKm9uI+/DzRq4Lj0E4+Ry2RyhC+PU69omIYbACPTw1kUaN/I4kV2vqB0iy+J2/8PqyXmuQcvf
-	E7cV2Llg1q5hJCqgn+yn6QWiLe4ABsCwsQmjBFuzlrRGbMK4gtoSAqQn69LXXwI91npPJyyzB9S8M
-	L5A3TUxa0tjliJ8WNPtcWfsWPWOVR+JaVeqTxccK7JyhMzQiLTGnVr3DFGKlRoNqwkxKvhBMz9QQd
-	ftQKN+hg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:References:In-Reply-To:Message-ID:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6EVh6ekbWiJ0H+/RPaWmq2DyRBJuGByAGojKHdpcIlI=; b=NwvOITc124VXgEoC0idd/0GSfO
+	Qdf/6WjbqMBNfoZBbWSLSIfOvdXAY+PLpIZUUk701Fsu7chmp2skcilsGstkMUrEkTK0p5knktwPk
+	fIXE19R8og/x4hGvi89kKsDNTR5illtEfJACvSLfVTXrKZGjjyizgeOVpIrMXfR1SE2iNenXFK4Q3
+	18W6N2oZIBqHVNGKawd54nrZR+SVswJ13PRWUtCaLlTBfHeGMJCv3It2TPSIx6gjkNyLtW68pi3zV
+	voIUhme6rd3iK0O7xb8HHP2trdBuqA5GNa0mxIrgNR36lirLUx1F8ol86UKxyTEnYT37uSWSzqAmA
+	W3s+0rOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKcOC-00000007aZz-45x6;
-	Mon, 09 Dec 2024 11:57:24 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1tKdAx-00000007mNm-0VX4;
+	Mon, 09 Dec 2024 12:47:47 +0000
+Received: from sender4-pp-f112.zoho.com ([136.143.188.112])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKcKa-00000007ZZG-1Rfd
+	id 1tKcwc-00000007hap-323n
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Dec 2024 11:53:42 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20241209115334epoutp04bbf30544270e7b3864aa68be3b2ebb3e~PgBY-MVGK1734017340epoutp04t
-	for <linux-nvme@lists.infradead.org>; Mon,  9 Dec 2024 11:53:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20241209115334epoutp04bbf30544270e7b3864aa68be3b2ebb3e~PgBY-MVGK1734017340epoutp04t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1733745214;
-	bh=Jf6RR1wyL7cSFxlP+gH0K4rrWGr5M9xsf5Xc2ZIQ/KM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WAGYVSiwlPtK8kzY9cwDnTTYg97UXTGq0mTsToNdp/Lagm+5sOd3aKaZzy+iY1DSW
-	 iBVPKib1PtZhJGB1+Z+WOE7+kfC9jq0/LYxul8+vF8Oh5aXzKzt1uHKIpmi8aQb48m
-	 XlqX28rCeqUNkl7FsvcaWeO/bpFcyCrxKVih/Fqo=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20241209115333epcas5p40f448843a266ce02580fa5e010d649c9~PgBYaLeIm1606116061epcas5p47;
-	Mon,  9 Dec 2024 11:53:33 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.182]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Y6Ky43hGGz4x9Pt; Mon,  9 Dec
-	2024 11:53:32 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	18.CC.19956.C3AD6576; Mon,  9 Dec 2024 20:53:32 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20241209115219epcas5p4cfc217e25d977cd87025a4284ba0436c~PgATXdfpK1570815708epcas5p4g;
-	Mon,  9 Dec 2024 11:52:19 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241209115219epsmtrp27c6990355d5a9d97ad26f2b836f2b423~PgATWv7ia1354313543epsmtrp2N;
-	Mon,  9 Dec 2024 11:52:19 +0000 (GMT)
-X-AuditID: b6c32a4b-fd1f170000004df4-0f-6756da3cb892
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	1A.38.33707.3F9D6576; Mon,  9 Dec 2024 20:52:19 +0900 (KST)
-Received: from ubuntu (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241209115217epsmtip2f106b1cebc44bf6bc01e8626896f15c4~PgARi5_Ao1272312723epsmtip2j;
-	Mon,  9 Dec 2024 11:52:17 +0000 (GMT)
-Date: Mon, 9 Dec 2024 17:14:25 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: axboe@kernel.dk, hch@lst.de, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, sagi@grimberg.me, asml.silence@gmail.com,
-	anuj20.g@samsung.com, joshi.k@samsung.com, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv12 01/12] fs: add write stream information to statx
-Message-ID: <20241209114425.7tvdnvfsn4h6jqeg@ubuntu>
+	Mon, 09 Dec 2024 12:32:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; t=1733747566; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=i/tNjtfbeMtUCbW3lnkJdxihZ5vsLX38tmuu3i5ocVGSb+2GeIYwuoInW2sh49cBeFdS9n/71b+g7V/Dey+MsOlZFafZDQ5ugSLcrQ1e2T0+nkUqys1SCnQ3f002rTLsNTjeejSOjPskuz4rMZu0bbmfZOBdcmxVyB2xRbZB44g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1733747566; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=6EVh6ekbWiJ0H+/RPaWmq2DyRBJuGByAGojKHdpcIlI=; 
+	b=XGw2gOoN5FZ2ZPlR/Eca1uM4dLa2t0czZLe+0g0iJ6Lp2pOVthGxQKMflus17M3BKLvW/nvqilzzO37xWvI+aOToaP6SEeXjay19naT5RcPpjhCnNSg7PCn/w8mAub55tBefZQh2IZn2+1xy/fwg+m/n14U3xGBXgG/yZRyt+7A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=bob.beckett@collabora.com;
+	dmarc=pass header.from=<bob.beckett@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733747566;
+	s=zohomail; d=collabora.com; i=bob.beckett@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=6EVh6ekbWiJ0H+/RPaWmq2DyRBJuGByAGojKHdpcIlI=;
+	b=U5qXMH55yECI6a9fA7hrpOuRZlilSSK2ElWL6qcD/5FkpIteEwAadCQU58kxbP/q
+	njVRhCZ+HMx6AOx7yjbj0bpQqbVLaE2ef/V9sBRz2wBTSvx/bl0+HBqgZSVaXB9JTi2
+	+4qohSQbMkwTfEWN7M6gaSB/BeQ5Ek6Rwpm3HoCw=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 173374753370972.00679083416446; Mon, 9 Dec 2024 04:32:13 -0800 (PST)
+Date: Mon, 09 Dec 2024 12:32:13 +0000
+From: Robert Beckett <bob.beckett@collabora.com>
+To: "Keith Busch" <kbusch@kernel.org>
+Cc: "Pawel Anikiel" <panikiel@google.com>, "axboe" <axboe@kernel.dk>,
+	"hch" <hch@lst.de>, "kernel" <kernel@collabora.com>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-nvme" <linux-nvme@lists.infradead.org>,
+	"sagi" <sagi@grimberg.me>
+Message-ID: <193ab67e768.1047ccb051074383.2860231262134590879@collabora.com>
+In-Reply-To: <Z0DdU9K9QMFxBIL8@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241112195053.3939762-1-bob.beckett@collabora.com>
+ <20241114113803.3571128-1-panikiel@google.com>
+ <1932ad8722a.102613bdb3737.769617317074446742@collabora.com>
+ <CAM5zL5rKsEd1EhOx1AGj9Au7-FQnJ5fUX2hLPEDQvmcrJXFFBg@mail.gmail.com>
+ <1932b818328.ad02576784895.6204301822664878956@collabora.com> <Z0DdU9K9QMFxBIL8@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
 MIME-Version: 1.0
-In-Reply-To: <20241206221801.790690-2-kbusch@meta.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGJsWRmVeSWpSXmKPExsWy7bCmhq7NrbB0g5kHJCyaJvxltpizahuj
-	xeq7/WwWK1cfZbJ413qOxeLo/7dsFpMOXWO0OHN1IYvF3lvaFnv2nmSxmL/sKbvFutfvWRx4
-	PHbOusvucf7eRhaPy2dLPTat6mTz2Lyk3mP3zQY2j3MXKzz6tqxi9Pi8SS6AMyrbJiM1MSW1
-	SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNctMwfoXiWFssScUqBQQGJx
-	sZK+nU1RfmlJqkJGfnGJrVJqQUpOgUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdsbkK0/ZCtrY
-	K/a+eMPYwPiXtYuRk0NCwERi5ranTCC2kMBuRok174Mh7E+MElfP1HUxckHYu65tYuxi5ABr
-	OPeMHyK+k1Fi5uG5zBDOE0aJ/ccXMoJ0swioSFzds4EJpIFNQFvi9H8OkLCIgKLEeWA4gNQz
-	C0xkkvh9qIkdJCEs4C6x58xjsIt4gRZ8mzsfyhaUODnzCQuIzSlgJrH+7DV2kGYJgaUcEic/
-	LmCCeMFFovfCemYIW1ji1fEt7BC2lMTnd3vZIOxyiZVTVrBBNLcwSsy6PosRImEv0Xqqnxnk
-	UmaBDIm9Z0ohwrISU0+tA5vPLMAn0fv7CdQuXokd82BsZYk16xdAzZeUuPa9Ecr2kGh51MsI
-	CZWtjBILV29gncAoNwvJQ7MQ1s0CW2El0fmhiRUiLC2x/B8HhKkpsX6X/gJG1lWMkqkFxbnp
-	qcWmBcZ5qeXwKE7Oz93ECE7AWt47GB89+KB3iJGJg/EQowQHs5IIL4d3aLoQb0piZVVqUX58
-	UWlOavEhRlNg/ExklhJNzgfmgLySeEMTSwMTMzMzE0tjM0Mlcd7XrXNThATSE0tSs1NTC1KL
-	YPqYODilGpguMT7dYWG1k6vifkPYkY27zB6YzVM7lzdHhOFcipyBdz2ryiSfMw1bpC+fWby0
-	I9DdgUtyy9RnSy4t+pBTVB177l7FrB/uJ+UVXGWeifH0NLNdz3jwYtH5jvot+iL5cw9G9fP2
-	rdVZ9S/YqP9hYEPhvbUyXz92MH2/rjarqoxj2qJdqtYmDDpc4bNk9ylp7jnbmnrVVnatROKp
-	OWw6b431zkqXbJr5dG7zK43d/D8vM9mJ/XGL03qg1XVAPOZ5/Swe63fe7BMnaN3tjXZoXyn6
-	6o5J85bQ9Wcu+KdoLPRzDdwdn3D9kqPah8VJKyIlT4oyT95XUdVeZ1eqpC8/403Eg7WbbSs3
-	xUz3/S7Fdk+JpTgj0VCLuag4EQAHwUj+SQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCLMWRmVeSWpSXmKPExsWy7bCSvO7nm2HpBjcm6Fg0TfjLbDFn1TZG
-	i9V3+9ksVq4+ymTxrvUci8XR/2/ZLCYdusZocebqQhaLvbe0LfbsPcliMX/ZU3aLda/fszjw
-	eOycdZfd4/y9jSwel8+Wemxa1cnmsXlJvcfumw1sHucuVnj0bVnF6PF5k1wAZxSXTUpqTmZZ
-	apG+XQJXxu+5r9gKdrBUHF8Q1cB4krmLkYNDQsBE4twz/i5GLg4hge2MEi+fHmXpYuQEiktK
-	LPt7hBnCFpZY+e85O0TRI0aJfxsXs4MkWARUJK7u2cAEMohNQFvi9H8OkLCIgKLEeaBjQOqZ
-	BSYzSTyfeQxsqLCAu8SeM49ZQWxeoMXf5s4Hs4UEEiX6+16wQMQFJU7OfAJmMwuYSczb/BDs
-	UGYBaYnl/8DmcwKF15+9xj6BUWAWko5ZSDpmIXQsYGRexSiaWlCcm56bXGCoV5yYW1yal66X
-	nJ+7iREcMVpBOxiXrf+rd4iRiYPxEKMEB7OSCC+Hd2i6EG9KYmVValF+fFFpTmrxIUZpDhYl
-	cV7lnM4UIYH0xJLU7NTUgtQimCwTB6dUA5Ouh9vcmt8ntHi7gm0FFKIsq1pecC+0FI5hXCDP
-	X5vQr3TTt+OwqcnO2+ZbYw9fLt3GfdK+wNpidqpOwuQNP+XtfxeIV1h/2FqW/k1IvmntdP+q
-	NmabMz3rtszc9mbuT5sLdW+cbgcezNozySLcXnTa1WnTfwe2p6y/bz5t30OjZp/7mx+xrNwU
-	sWGj2paIuSyWC4UT2xtl/2uztfD2WC1ZL3X3yzpVy6wCw0nPlyp6vXc3ldbfO32C5JHTxyyb
-	JO+ZWC4xknxvlHdeeofXooNvviReKfebpLGFbZGV0/HbS80/PDZUM3p7aqodM4PF3Jhy3l/q
-	BisY/XYWv5zBq7NBONl9fVf6D9GnbDqztyqxFGckGmoxFxUnAgDPeE9GBwMAAA==
-X-CMS-MailID: 20241209115219epcas5p4cfc217e25d977cd87025a4284ba0436c
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----syFHuyivwrsgIW8y2bU-AmBmzS5V9dEENjkeRCLm2dEK6Ofb=_6d0ff_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241209115219epcas5p4cfc217e25d977cd87025a4284ba0436c
-References: <20241206221801.790690-1-kbusch@meta.com>
-	<20241206221801.790690-2-kbusch@meta.com>
-	<CGME20241209115219epcas5p4cfc217e25d977cd87025a4284ba0436c@epcas5p4.samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241209_035340_713367_CA5C451D 
-X-CRM114-Status: GOOD (  11.66  )
+X-CRM114-CacheID: sfid-20241209_043258_797764_F5B9F5A8 
+X-CRM114-Status: GOOD (  36.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,30 +86,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------syFHuyivwrsgIW8y2bU-AmBmzS5V9dEENjkeRCLm2dEK6Ofb=_6d0ff_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-
-On 06/12/24 02:17PM, Keith Busch wrote:
->From: Keith Busch <kbusch@kernel.org>
->
->Add new statx field to report the maximum number of write streams
->supported and the granularity for them.
->
->Signed-off-by: Keith Busch <kbusch@kernel.org>
->[hch: rename hint to stream, add granularity]
->Signed-off-by: Christoph Hellwig <hch@lst.de>
->---
-> fs/stat.c                 | 2 ++
-> include/linux/stat.h      | 2 ++
-> include/uapi/linux/stat.h | 7 +++++--
-> 3 files changed, 9 insertions(+), 2 deletions(-)
->
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-
-------syFHuyivwrsgIW8y2bU-AmBmzS5V9dEENjkeRCLm2dEK6Ofb=_6d0ff_
-Content-Type: text/plain; charset="utf-8"
 
 
-------syFHuyivwrsgIW8y2bU-AmBmzS5V9dEENjkeRCLm2dEK6Ofb=_6d0ff_--
+
+
+
+ ---- On Fri, 22 Nov 2024 19:36:51 +0000  Keith Busch  wrote ---=20
+ > On Thu, Nov 14, 2024 at 04:28:48PM +0000, Robert Beckett wrote:
+ > >  ---- On Thu, 14 Nov 2024 14:13:52 +0000  Pawe=C5=82 Anikiel  wrote --=
+-=20
+ > >  > On Thu, Nov 14, 2024 at 2:24=E2=80=AFPM Robert Beckett
+ > >  > bob.beckett@collabora.com> wrote:
+ > >  > > This is interesting.
+ > >  > > I had the same idea previously. I initially just changed the hard=
+ coded 256 / 8 to use 31 instead, which should have ensured the last entry =
+of each segment never gets used.
+ > >  > > When I tested that, it not longer failed, which was a good sign. =
+So then I modified it to only do that on the last 256 byte segment of a pag=
+e, but then is started failing again.
+ > >  >=20
+ > >  > Could you elaborate the "only do that on the last 256 byte segment =
+of
+ > >  > a page" part? How did you check which chunk of the page would be
+ > >  > allocated before choosing the dma pool?
+ > >  >=20
+ > >  > > I never saw any bus error during my testing, just wrong data
+ > >  > > read, which then fails image verification. I was expecting iommu
+ > >  > > error logs if it was trying to access a chain in to nowhere if it
+ > >  > > always interpreted last entry in page as a link. I never saw any
+ > >  > > iommu errors.
+ > >  >=20
+ > >  > Maybe I misspoke, the "bus error" part was just my speculation, I
+ > >  > didn't look at the IOMMU logs or anything like that.
+ > >  >=20
+ > >  > > I'd be glad to if you could share your testing method.
+ > >  >=20
+ > >  > I dumped all the nvme transfers before the crash happened (using
+ > >  > tracefs), and I saw a read of size 264 =3D 8 + 256, which led me to=
+ the
+ > >  > chaining theory. To test this claim, I wrote a simple pci device
+ > >  > driver which creates one IO queue and submits a read command where =
+the
+ > >  > PRP list is set up in a way that tests if the controller treats it =
+as
+ > >  > a chained list or not. I ran it, and it indeed treated the last PRP
+ > >  > entry as a chained pointer.
+ > > hmm, I guess a simple debugfs trigger file could be used to construct
+ > > specially formulated requests. Would work as a debug tool.
+ > >
+ > > Though at this point, the simple dmapool alignment param usage fixes
+ > > both of these scenarios, so it will be kind of academic to continue
+ > > putting effort in to understand this. I am trying to get answers out
+ > > of the vendor to confirm any of these theories, which I hope will be
+ > > more conclusive than our combined inference from testing.
+ >=20
+ > Any updates on this? I'm satisfied with the quirk patch, so we can move
+ > this forward if you're okay with the current understanding.
+ >=20
+apologies for late reply, I think this got missed during a holiday. Thanks =
+for prompting on the previous thread.
+
+I have no further updates on this. I have received no further info from the=
+ vendor.
+I think we can go ahead and use the alignment patch as is. The only outstan=
+ding question was whether it is an
+implicit last entry per page chain vs simple alisngment requirement. Either=
+ way, using the dmapool
+alignment fixes both of these potential causes, so we should just take it a=
+s is.
+If we ever get any better info and can do a more specific patch in future, =
+we can rework it then.
 
