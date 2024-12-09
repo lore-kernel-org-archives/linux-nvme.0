@@ -4,80 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C5DCE77182
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 13:38:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72C16E7717D
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 14:38:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Ffel0zzoF3o8TFYgj+fcyjNCq5omON6/XHoMw7Ks8to=; b=s9Z7GKKdm+Mh8Dyob4dch4G0Fw
-	pT6gUsL/D94SgVY2ZKOv5xuxnP1lkCp4w1OXw4Li6XB181JInuiSHC7VjxKEYw42PJeTkV2K3DCUW
-	kQP9viaZOXUrlfc7HqV5XrzTb9Hn0DeaPoFh8Hl0vt3t4CuKJHND7/6wwH8sxT/741W0JSKEn7e+i
-	DAQ3cfvrG/hE6Y8KBrJySluCXKpy1lvTfNhKsm+k2mVkEhS6tUx0WkN/QIDo9ohGj+YaTZQDtjbFw
-	zmx+G0h5492PahcIVkHgceggF3Kl2rw1JJX2NAs8+6s/Ac1rPMoQBKalZOKqCJLgQlj9pJDd4lpBL
-	278XS7AA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=e5siyX/oBYeJOtEu9jJIH1QIRnp2BFKwx7Ms6hrWYqE=; b=z86dxF4H6jrPWz7q8HOojVQyiG
+	tizOpssb4CJkgOY/6n2ILojOl/ZO98jNFK1ziF1nDneVHM+SJL1Au/u/T4JUzjfe2k2+UTjeFP7f/
+	QJ+1jILcW575FK5dUbhs6ZbRtCi5ygz/NK7i5DKZjM/CN6yL+YFTys9b9FlBB3nUteM4Cflbmh1Wx
+	TysXI+9bFvZXl5mZimiswqYvGO2X1NYAHuFmNbondudIXcl1fthyRp4guDWBBHLJguaxyxdHUOcPR
+	L5+skSvgSFyLAL5JqA8qLdiWRSaZ/4Q8Gc0zXfks+A4LF2Vbeu3XY+BaoLmR103jgSwWFjfXjg5p7
+	ZtS3aTzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKdy2-0000000822H-0Y0Z;
-	Mon, 09 Dec 2024 13:38:30 +0000
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+	id 1tKeu7-00000008EPH-0gtY;
+	Mon, 09 Dec 2024 14:38:31 +0000
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKdy0-0000000821N-2Ixt
+	id 1tKeu4-00000008EOg-2QEB
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Dec 2024 13:38:29 +0000
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-725ee27e905so985076b3a.2
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Dec 2024 05:38:28 -0800 (PST)
+	Mon, 09 Dec 2024 14:38:29 +0000
+Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-7e9e38dd5f1so3600905a12.0
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Dec 2024 06:38:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kookmin.ac.kr; s=google; t=1733751507; x=1734356307; darn=lists.infradead.org;
-        h=mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Ffel0zzoF3o8TFYgj+fcyjNCq5omON6/XHoMw7Ks8to=;
-        b=DZ64ZMCpfdu72D5n6WxrA1nqtTZ2zToLIuyuh8R51BF37Kadb4/kgHXSRURd/HWS8T
-         ICIMDet3YhD99ljEN8hTuyfMh/jX2UlBl7NTEc9sEHOs0MDG0PNyTot37peUMwjP88Nf
-         DWUkVlZnMU/KtTPV1HuojHfbR2B/wen9ya2B4=
+        d=linaro.org; s=google; t=1733755107; x=1734359907; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=e5siyX/oBYeJOtEu9jJIH1QIRnp2BFKwx7Ms6hrWYqE=;
+        b=PQiMIuFQsWP4zNq1BfM4EUaHzhK6V1c7+dpKV07TJWzNDMRuFBW5o49/y9uWX42JOe
+         NO0+Q7eyAV0fRfPmeANwPUu6kz8HsI1e5Aatl4RNwGotpqNw45ok/OX8V/y/RcdHfOLZ
+         zRtbvVCWVDlVtNx2bWkCoA5XEJjk2Xgly0+5OXNDSamJIOt4EEyXsEsIej8SPVo8xj+D
+         Y3EsI9ZAu6u50O5MmkW5c6G+G+oCzzj4Dynt+aXSkkTPpzpQausJx7oXqh2EFVXcj2F4
+         ykkvKzrF0yqAw2gcWDGpxj3x+waJkZgmit0SK7JJ74dGnbi9vLunG00KLRwpOQoJ6AVd
+         lLjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733751507; x=1734356307;
-        h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ffel0zzoF3o8TFYgj+fcyjNCq5omON6/XHoMw7Ks8to=;
-        b=J/xuKAQleomo02gTD0jsnZa60W/j83Ui+n/Z7jPWGLFjOWuHlvYLEnnTN9eg3fc9aY
-         19OVfJL57G3SUOX15Cr8vUmsIw2HnGs3IHXg7VhMCa72op+o2yGZ/BkSy3J95I3fPvZd
-         DBgRNfYEFKV4dSlN3U56CFX4sbWKVTvhhGlzTuECvz9YDa4TecQVDdrlpPmrwLb4SL9a
-         155mJVJZAu+t+EnNyNaaVW3sKhyaXAypWvCt2umugYe0eChyTfKDt9Bwsc62E4asC+jy
-         O9sWOAy/nuZ6qqFJ0PZfjnvAh7eHYpWl+ISpWjs6QLHlMwIXtrBkW0wcYjO9gBc6Gg4e
-         gqNg==
-X-Gm-Message-State: AOJu0YzVPrdOKVIuEtHqt3XejiIOpoLl0clUWLtkmpUJXxj19Jtb9GQc
-	dsCwW6rK0Mp6+tJ3AeOiuTX39djsJudP87v1gqoTJEiUZGcYrTD2nN7RpUouQcNWSCCEkPgmkkW
-	gye1oWpaNmHvVE7xA4SzgJcJOGSOb36bgKwO9XCguBx6no8vQrVqy4MDfhA==
-X-Gm-Gg: ASbGncvCBiwvJTai78PcShzUmt/MP+njDVPk8MBaREh4+GmMfPfrQtVkT7cSbTmP3Xs
-	pGPShwJlVJzgI6k14G3g6qRq2958dmRuHY1LLKIPmIkWXbfR36/TSgqzaYUYxiTT6hKekOenBbK
-	+5/6E9E3cE6KFqF7Xf6pd5JSC53vIMOIDLpeCQPGsPXScGExthcVAUIE8pgW6xSrOPw3uIO5G1+
-	uFLIMZSyFxDhJm1XChK3qDDXMX8XA2qHipSeyecgAzxkw==
-X-Google-Smtp-Source: AGHT+IG5NVAotbGyHj/8KnTP/kbTxRTSQusO8AZ+qHdGMTqCkc6PZhyS39cjlDrKDKcPNcGmsE+iYA==
-X-Received: by 2002:a05:6a00:410e:b0:725:d1d5:6d86 with SMTP id d2e1a72fcca58-725d1d576ffmr10337050b3a.19.1733751507687;
-        Mon, 09 Dec 2024 05:38:27 -0800 (PST)
-Received: from ubuntu.. ([210.123.42.170])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725ce382204sm4242755b3a.18.2024.12.09.05.38.25
+        d=1e100.net; s=20230601; t=1733755107; x=1734359907;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e5siyX/oBYeJOtEu9jJIH1QIRnp2BFKwx7Ms6hrWYqE=;
+        b=pAUXexNQnjWBZ9F2gze7nVimOxct0B2DKHLZkDdNe7a57B2bBgUS7acziQS0oulCSo
+         QrFwQgbE0QNBYruSt3bsg2ghJEuaR43B7MwLw3o8yTuLa4adVWhlHP60HMeDhq2+WHvM
+         0/0FaVnCiotC2r/nWlB4+FXn7wVp61+knt5aHA9ldqnOHHueXjNAOb3BzZ4E3wMAgNAQ
+         Oz7oj33+4ymcBvdK+ZTK/UCTVXbgCCLIh98GxIK6WbK1XgratRqfH4MCEglL9fRs9ShV
+         vYvZPIwPFqbZfW1uM5NTWt9vzksx2PnY3hv/IJpTSS0px/TQg0Vk4IHZLiO+GMkl/K53
+         OrvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVnhBnDMpYzvRfj0SYz7y2GU+gHDGFNGCEdf38crcvuDbFMl5h4HDajF47lVvgNGMlJBHmBxLpj+6iI@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywb2/FgnMCWpJ2gnqM7xr4NDwwETau+7bXwsoxApvZ8nR1hMboe
+	gv7HgSmfZwC275Gi2SAE+MY5gVNfGYbPsw6uLa13Qkf/w/ki7y2ACRgC1znrBw==
+X-Gm-Gg: ASbGncuD5M7unpMhUEu1gFEeWtgml6qgn+mJDifvUpRGDQE54ns76MODwwOOD8it6pg
+	UJmiipgdKeYDlSMh4KiTnexsKoZFK80yP9zSmnukkelnaIYrITKdnWVq9Q1+yK+zcL9ghHih8c+
+	3lV0kKR60Z0VELYh7SEqrdnq5eSfAVWU0kS7lsceTwx9nK0JgmxK4ApQhahSMRsn2O4MWcV27Xr
+	AYImcOoe7WPUlYflTWZ5M90s04PmKhKz2FT3Hyj0Mq6tY8qHmIe2q70O13P
+X-Google-Smtp-Source: AGHT+IEjPNjheOz3H9P3KXCwrAQ0y1vhFh9v5UWKuqQE+ayZeQAQXxalmpEVYcnYnJ4nAlOJIgjr+w==
+X-Received: by 2002:a05:6a20:d526:b0:1e1:f5a:db33 with SMTP id adf61e73a8af0-1e18712d2a0mr18475477637.36.1733755107284;
+        Mon, 09 Dec 2024 06:38:27 -0800 (PST)
+Received: from thinkpad ([120.60.142.39])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fd4681b0d5sm2644867a12.24.2024.12.09.06.38.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 05:38:27 -0800 (PST)
-From: Yongsoo Joo <ysjoo@kookmin.ac.kr>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	Yongsoo Joo <ysjoo@kookmin.ac.kr>
-Subject: [PATCH v2] nvme: change the return type of nvme_poll()
-Date: Mon,  9 Dec 2024 13:33:44 +0000
-Message-Id: <20241209133343.125885-1-ysjoo@kookmin.ac.kr>
-X-Mailer: git-send-email 2.34.1
+        Mon, 09 Dec 2024 06:38:26 -0800 (PST)
+Date: Mon, 9 Dec 2024 20:08:21 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, axboe@kernel.dk,
+	sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	andersson@kernel.org, konradybcio@kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
+ the user
+Message-ID: <20241209143821.m4dahsaqeydluyf3@thinkpad>
+References: <20241205232900.GA3072557@bhelgaas>
+ <20241206014934.GA3081609@bhelgaas>
+ <20241209133606.GA18172@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241209133606.GA18172@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241209_053828_591594_C49BF978 
-X-CRM114-Status: GOOD (  11.62  )
+X-CRM114-CacheID: sfid-20241209_063828_624160_BA010C50 
+X-CRM114-Status: GOOD (  28.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,38 +104,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Change the return type of nvme_poll() to bool to reflect its boolean
-return value.
+On Mon, Dec 09, 2024 at 02:36:06PM +0100, Christoph Hellwig wrote:
+> On Thu, Dec 05, 2024 at 07:49:34PM -0600, Bjorn Helgaas wrote:
+> > Oops, I think I got this part backwards.  The patch uses PCI PM if
+> > d3cold_allowed is set, and it's set by default, so it does what you
+> > need for the Qualcomm platform *without* user intervention.
+> > 
+> > But I guess using the flag allows users in other situations to force
+> > use of NVMe power management by clearing d3cold_allowed via sysfs.
+> > Does that mean some unspecified other platforms might only work
+> > correctly with that user intervention?
+> 
+> Still seems awkward to overload fields like this.
+> 
+> The istory here is the the NVMe internal power states are significantly
+> better for the SSDs.  It avoid shutting down the SSD frequently, which
+> creates a lot of extra erase cycles and reduces life time.  It also
+> prevents the SSD from performing maintainance operations while the host
+> system is idle, which is the perfect time for them.  But the idea of
+> putting all periphals into D3 is gaining a lot of ground because it
+> makes the platform vendors life a lot simpler at the cost of others.
 
-Signed-off-by: Yongsoo Joo <ysjoo@kookmin.ac.kr>
----
-Changes from v1 to v2:
-- Changed the return type of nvme_poll() from int to bool, rather than
-  modifying the internal return variable from bool to int (Christoph
-  Hellwig).
-- Updated the patch subject by replacing "fix" with "change" (Keith 
-  Busch).
+No, I disagree with the last comment. When the system goes to low power mode
+(like S2R/hibernate), it *does* makes a lot of sense to put the devices into
+D3Cold to save power. Using NVMe or other endpoint devices internal power states
+only matters when the system is idle (which is not S2R/hibernate). This is what
+ACPI is doing currently.
 
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Then one might suggest to check the suspend state using
+'pm_suspend_target_state' in device drivers and decide to keep the devices in
+D3Cold. Unfortunately, it won't work for Qcom platforms as most of them (except
+chromebooks) don't have S2R (a.k.a PSCI_SYSTEM_SUSPEND), but only S2Idle.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1a5ba80f1811..34650c03c120 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1206,7 +1206,7 @@ static void nvme_poll_irqdisable(struct nvme_queue *nvmeq)
- 	enable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
- }
- 
--static int nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
-+static bool nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
- {
- 	struct nvme_queue *nvmeq = hctx->driver_data;
- 	bool found;
+When it comes to non-Qcom platforms based on devicetree, they also cannot power
+down the NVMe device during suspend (as they cannot satisfy existing checks in
+nvme_suspend()).
+
+The current reality is that most of the devicetree platforms *do* want to power
+down the NVMe during suspend. Only when NVMe is used in an OS like Android, we
+might not want to do so (that's something for future, but still a possibility). 
+
+So this is how I ended up using the existing 'd3cold_allowed' attribute as it
+allows the devices to be powered down by default and if the OS doesn't want to
+do so, it can tweak the attribute from userspace (similar to UFS in Android).
+
+The flexibility of this attribute is that it just acts as a hint for the device
+drivers. If the device driver doesn't want to do D3Cold (when used as a wakeup
+source etc...) it can still opt out (assuming that the platform would also honor
+the wakeup capability of the device).
+
+- Mani
+
 -- 
-2.34.1
-
-
--- 
-
+மணிவண்ணன் சதாசிவம்
 
