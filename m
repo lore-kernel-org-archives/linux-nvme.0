@@ -4,96 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46446E7717D
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 17:38:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8120E7717D
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 21:39:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h941mq+FTPDZRu/rGivGIolQM9MOQNVOJux2SD6Qt0o=; b=Oc2hQK/dynYBi+c7WZELY+Zh2i
-	z8Ya5c/WihWj7x5u0eygF1KS4FMc+xODIOCktatOocgxd/8Inqhr2qAIfI+E3LLmsmU89gaAjvyDx
-	M2oplDopCR8q6PxYhmy2E407Z1Gv6AgMCr5/mw96aCBWbxz5weCw06s7cjUspKbugBc9KrkTAzt/3
-	SxfPilkxwda0fb5Ihe86nnHG4CkTwizfKuRPadLnOwp+gO9jxrS3QbzcDpTKoCuSS+PjGWPjA3TQY
-	iV6KoegcUt41Sd4UQR1F095mhX/3HWvNL7BXz6EJ83SlEoJJTBJ832FxdN8/EIBA3Ovw1IzC4TepJ
-	/ia0hP+Q==;
+	bh=kSZS3HoO2Nx7R9glNVThIsY1mP4kZ+3kbmYfabJHp8M=; b=xQh2uCNNXiX/h283wYN8v00gxx
+	ahadMpjv1LYn9B6pnQ7xt9OQw7PkaNmrIQ4sVuIQ+kiJfAais0Ol9jvmTkj9A/ZUpWgwP9mbZPvd0
+	Iwu2QphAWDLNd8UiUwtYVfc5ZGIAb0PBY6BfLWqdtrel8izTLToaNOfWzSS6y06//3TrFVsv5ndb2
+	UoKqPE2meqp4X+O1gyMu2ENXZLJJ1TLVltclTTq2Qfr8oCwxubef8enQTouIMSNfW5qstDymRNFha
+	EjxurzuFfsO/YB5vXrwwltp4P4hH1s1pMNp4UJ4QUAipfecCvCOaIu5SPh4z0morr8ZhTkECp6sk/
+	Jh6x0t9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKhhz-00000008l6V-16ZP;
-	Mon, 09 Dec 2024 17:38:11 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1tKlTt-00000009KKE-2q2W;
+	Mon, 09 Dec 2024 21:39:53 +0000
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKhhw-00000008l5n-4783
+	id 1tKlTq-00000009KJG-2Btk
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Dec 2024 17:38:10 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B99jagg009918;
-	Mon, 9 Dec 2024 17:38:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=h941mq
-	+FTPDZRu/rGivGIolQM9MOQNVOJux2SD6Qt0o=; b=bQWg/1/7/DFr/Mfn6GWx1l
-	5T2LYLscZyWC40dbYttjyVSHP8Bus1bjJKKRmr2Vw2NLbbielnDC8mrwGuvagbij
-	Y2tDeso2fTKPySNrNumPYtTPvGYVir61dRHPxfg/k5ccZGqFaUHA2ivYzWuuPgY/
-	lA4a/F8b4+GCEwCO8+ActOz+GTATLX/L8hzfWk2OA4NgJU3vfd6PbsyZWmoDFdJv
-	6GTOt4GrXfcRmYfuZvyol4eBhBUe5hTU0gdA3/kYk4K0WD9OI8hiZVvqCLj9uIRw
-	4t/NXkPhNVmjm2RDCWpOPNwyYpJSwb1sZQbVyYZ+0M0VVEGtDJXuVhSL05wAHN3A
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43cdv8js9j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Dec 2024 17:38:00 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4B9EwJ4O018598;
-	Mon, 9 Dec 2024 17:37:59 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43d26k7ky5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Dec 2024 17:37:59 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4B9HbwbR3408636
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 9 Dec 2024 17:37:58 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0B87158045;
-	Mon,  9 Dec 2024 17:37:58 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EC7B658052;
-	Mon,  9 Dec 2024 17:37:54 +0000 (GMT)
-Received: from [9.171.71.154] (unknown [9.171.71.154])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  9 Dec 2024 17:37:54 +0000 (GMT)
-Message-ID: <b643ca9e-ca9d-458c-8a8b-e03d97f75bd9@linux.ibm.com>
-Date: Mon, 9 Dec 2024 23:07:53 +0530
+	Mon, 09 Dec 2024 21:39:51 +0000
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-2161eb95317so29685415ad.1
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Dec 2024 13:39:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kookmin.ac.kr; s=google; t=1733780388; x=1734385188; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-disposition:in-reply-to
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kSZS3HoO2Nx7R9glNVThIsY1mP4kZ+3kbmYfabJHp8M=;
+        b=LdZhQfvKuvxHgwMxWxEeymG3rgzxx9trT8HjnoSrEVUVQiCavbdgJUM0hBv81MNzt8
+         YCbHMIfU+A2K6RlEhOQ7CaB42kCrcFJlPmnQjput8gXKZxnE6WzumeFCUL/zcZKHH8lC
+         sFBYqJNIiHRQ2zxr7wrUxfOz7UI3QytpI3188=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733780388; x=1734385188;
+        h=content-transfer-encoding:content-disposition:in-reply-to
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kSZS3HoO2Nx7R9glNVThIsY1mP4kZ+3kbmYfabJHp8M=;
+        b=gZkPNioEhPQvTir8uoJCMq4GXXEQANI+8TQ2LAT0pYIkx4tsk811IntqnhbUZuwYrq
+         5WYCDq16PVYok/ZryHZcmxRffO6LZctpbQnD7kzTJJqb5AmKPaXIIfzauQN3BoRJXlvp
+         lY2NCNu6Ury/zUp+idoeohq5fZHLJIIDfdybpbH4DgN20WsnFKZD3cfhyDCQ67H7JboN
+         oK64AeqpCZjf1vAJAbWuYgO6lbWQPp63zd12mLbNqWAsO8KQUUGIP6ikkDU/bbwW5XOi
+         lW792xqg5UDHcagpNrghRKIicmHk2+L+khq70WPc7iQPRbt4b+ECp/gsB860tFacHr3S
+         W/QA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQG61R91TSH894bjV6j+CE/J7N+OtpQyabN9qS0AKlWno4nRRn9pCm19P+hwQ3T8E7M+c2hiDsOWz1@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy1GKowGnfQzE2q5hQMo5V+daZXa+0aGerqwzx1XnqY6466qXBf
+	WM0O19N9TlXkAOBnxTqA82hyykM28YMoI4MOa/F+4J5MCoWoKaywFtJaRBgXZJRxBLuM3FCD1mx
+	H1ZtIoCFYFE/6aT1CZgTMqMasdF6HQ0Th/7Ki7VMuC8N4e6ppPU1KfvlhBp91Kp9yqGGsZK8=
+X-Gm-Gg: ASbGncu+rIJU6tPFsYg8xKx3R9l1QcStB+VYdummMQXNuI3Lwf5d02yaXQH2fkkREoy
+	kdWq8hbd9XVmD2LPXFmUauYN/RDGihofhs2euYuLipPvE1MFqVEyOFOlf7KY5NW2/Mmdzelsxjk
+	JZli3LVY52kIwVma2K3JWB0aJB1LHIqvn1J28rg8LnrpnBegQTHOqtgvxhGRT0xfElln3HRdcIl
+	CuHa+Xygu2DuP9U4Od/DwATeyJwDfHiOXjriZrJajARJ3o=
+X-Google-Smtp-Source: AGHT+IHhTwKUqnMArrQKFug6o+M+JPC4Nb0STbWzhlgEDjdamkCXvykt/TK2ufxcBuncXqk1AdoNiQ==
+X-Received: by 2002:a17:902:d185:b0:216:5294:619b with SMTP id d9443c01a7336-2166a0646cfmr26028035ad.47.1733780388174;
+        Mon, 09 Dec 2024 13:39:48 -0800 (PST)
+Received: from ubuntu ([210.123.42.170])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-216669077f7sm11166365ad.161.2024.12.09.13.39.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2024 13:39:47 -0800 (PST)
+Date: Mon, 9 Dec 2024 21:39:42 +0000
+From: Yongsoo Joo <ysjoo@kookmin.ac.kr>
+To: Keith Busch <kbusch@kernel.org>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme: change the return type of nvme_poll()
+Message-ID: <Z1djnrzTvra6wyMn@ubuntu>
+References: <20241209133343.125885-1-ysjoo@kookmin.ac.kr>
+ <Z1cQXGWGRZ5dcWOW@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-loop: avoid using mutex in IO hotpath
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com,
-        kbusch@kernel.org, sagi@grimberg.me, axboe@kernel.dk,
-        chaitanyak@nvidia.com, gjoyce@linux.ibm.com
-References: <20241129104838.3015665-1-nilay@linux.ibm.com>
- <20241209080159.GA24776@lst.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20241209080159.GA24776@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: RmlXbfMBfx1pu-499UUM-aBNZIG-SrD-
-X-Proofpoint-ORIG-GUID: RmlXbfMBfx1pu-499UUM-aBNZIG-SrD-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 mlxscore=0
- malwarescore=0 adultscore=0 phishscore=0 suspectscore=0 mlxlogscore=490
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412090136
+In-Reply-To: <Z1cQXGWGRZ5dcWOW@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241209_093809_027488_6A79E8C1 
-X-CRM114-Status: GOOD (  14.10  )
+X-CRM114-CacheID: sfid-20241209_133950_562126_5A5AC66A 
+X-CRM114-Status: GOOD (  14.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,23 +96,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Dec 09, 2024 at 08:44:28AM -0700, Keith Busch wrote:
+> On Mon, Dec 09, 2024 at 01:33:44PM +0000, Yongsoo Joo wrote:
+> > -static int nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch =
+*iob)
+> > +static bool nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch=
+ *iob)
+> >  {
+> >  	struct nvme_queue *nvmeq =3D hctx->driver_data;
+> >  	bool found;
+> > --=20
+>=20
+> This function is registered with blk_mq_ops, so you would have to change
+> the prototype there too, and every other driver that also registers a
+> poll op. Honestly, it may not be worth the effort.
+Oh, I overlooked the issue you pointed out, which brings me back to my init=
+ial=20
+suggestion. The function nvme_poll_cq() returns the number of found CQEs, b=
+ut=20
+nvme_poll() seems to unnecessarily reduce this information to a boolean.
+A minimal change from =E2=80=9Cbool found=E2=80=9D to =E2=80=9Cint found=E2=
+=80=9D in nvme_poll() would=20
+preserve this information, allowing any interested researcher to make use o=
+f=20
+it. Also, the description of poll in blk_mq_ops can be expanded as follows:
+	/**
+	 * @poll: Called to poll for completion of a specific tag.
+         * Returns the number of CQEs found.
+	 */
+Thank you for your time, and I look forward to hearing your opinion.
 
+--=20
 
-On 12/9/24 13:31, Christoph Hellwig wrote:
-> On Fri, Nov 29, 2024 at 04:18:33PM +0530, Nilay Shroff wrote:
->> -	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
->> +	xa_for_each_marked(&ctrl->subsys->namespaces, idx,
->> +			ns, NVMET_NS_ENABLED) {
-> 
-> Given that this is duplicated quite a bit, maybe add a
-> nvmet_for_each_enabled_ns wrapper for it?  And also a nvmet_for_each_ns
-> one that iterates all namespaces?
-
-Yeah sure, I will add those wrappers and spin a new patch.
-
-> Otherwise this looks good, and I really like the use of the xarray
-> mark to simplify things!
-> 
-Thanks,
---Nilay
 
