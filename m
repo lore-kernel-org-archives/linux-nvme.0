@@ -4,90 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 581DDE7717D
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 14:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4693E7717D
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2024 15:33:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KljjciUYKRtZe6TTkB3fwVscfzXvlqDm8f0xGw53hKc=; b=WD9SZJox9/9wNUlHcYTd4QsMH4
-	jGpUyTd1PhzGcjyizs8bVcUbgJO6G9k0fEF13P2ooyMdMdz9ZavS/PXSiVZ3YJlLXpGxUkCz9Johs
-	sVOnDIvhPbrDgy0W4JFDn/sQ6Fw/4ht9Y1iABywrbE1N0D6r+aIBp+cPw34/W18prRXhGH6AY5YMs
-	NJGcHk3zm4jS2odwcO596vVaT5GtVkBdNphJfSEkL4Ve53fdMl7fBqH2beuVSiQFMGRG4UFDNC0O2
-	K95Kvp/k8bB2j8DM9porD0AILSCjiuwWj+VARfcmKF+w8+6vOix42uGLWG06Dwl0UvZLQJJ5hfNhW
-	dn8bOqcw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6QJYPOXB0LpXbrapQqS2t8EexZLyhSk/IuT5n71H2Qc=; b=1+KGZFIRedKqN1FVSurl+7XPJl
+	zu0Ab96gQ+S2I746k49PYT1xAfjCxXl0dufVImhwj/fMUaeDo5IRym3AQhfKhqulimePsLPqx3JMe
+	MeRIVMZAATlgI0/m3ej0UYnDKev68CsDEORn6WD0fBrBOiMwfv/ji7Kaw1iXbaIVslPLA36yURvgI
+	qu4W4J5SdP5nqgz+MSX3lgQRmv1zyenHn4QrL3zy+FOTx97aO8CICuMKIXia5XkvfDxRP5bMbPFfM
+	B7KXlm+YAeqHZ3YDf4OG2XuUug9wbGUp01YCI+eksu+/aJblrK5vdhAdhHV8pBzkaPFIW2eaP+KNM
+	PqrR0+Xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKfCa-00000008IAp-2n97;
-	Mon, 09 Dec 2024 14:57:36 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1tKfl7-00000008P3s-0doJ;
+	Mon, 09 Dec 2024 15:33:17 +0000
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKfCX-00000008I8j-0rtr
+	id 1tKfl5-00000008P3O-21nh
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Dec 2024 14:57:34 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2ee9a780de4so3486948a91.3
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Dec 2024 06:57:32 -0800 (PST)
+	Mon, 09 Dec 2024 15:33:16 +0000
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-84198253240so192709439f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Dec 2024 07:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733756252; x=1734361052; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KljjciUYKRtZe6TTkB3fwVscfzXvlqDm8f0xGw53hKc=;
-        b=xrpI1v7WpFNTMNcimdkdCn6JK4O4rq3HVTgL31LFLG5em6h9nr8nnqJgk8taGnXMpp
-         Kfz5h9/FzsYWDTIPnUCsHEizfaJ+rkYRYWb8z8UuZZz6kGMnewxIxYpOmW+u8DgcQo6M
-         vLwRN+R751laE2LLe5RAMfKN8a19duwAVGq7BWS/qzU1QClbqJGHdI+sidkD73DKhjl3
-         evd+GOcoFOdpikjpQ+w2RuBCCpwK0kFJCZqL4OIAGyOnljN/yuKj/wz2gtkl6zNaMkCy
-         RwqAk1Rd2bsQSWVrz9v9ecEn+iF1d+c2gew2HOtWargPOpnqKeczrH5tjq2YOpOsDOuB
-         oNTg==
+        d=google.com; s=20230601; t=1733758393; x=1734363193; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6QJYPOXB0LpXbrapQqS2t8EexZLyhSk/IuT5n71H2Qc=;
+        b=AY/qTzkKnwxJBUiDxzL62rryHUsbHwCh2RS19ymHjJIWJOUZo4oBYSeL75dGZWdXFO
+         dGMYh1RYmU3po+3jKNl5r25dpGELQje6MNMUZJBS+2G8Gn394f/mcKEiVJjW87d7mjlg
+         6HuJCzG6+4F30ygDjVstrcw+P3gKCwwX3mYIhdEN4owPpdvlhbO9eh+rP1GIcs1jeQRg
+         i5mfy15uP+WJWMb8S71NsaStWB5bQhkoWbO6eHdt/xbMAhAEjSddKpUsZCdZyID1WSyV
+         8A/ddPekDYKSx7m/pmJDoAoQRHL3jphkXnhkLV4e6knJDgyMn6vNGFKDVwQmU3c+w1ne
+         nJtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733756252; x=1734361052;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KljjciUYKRtZe6TTkB3fwVscfzXvlqDm8f0xGw53hKc=;
-        b=I+sfxMYsHCtEPDkrENYCOoPU4AkqqYIV/Rhaph954nhserepj1mRq3CP2Pl+LEPlbb
-         TACnp/obk+vYd6tApTcu62Tu9nqG47uzt3jKeQHxkKVhjSBbu01EUx4TDtV1IU56kNP+
-         3UWjTno202ogjsXOBHAGoGkJkHUKegPzv7+QxNH3NX20ynw1RM3U0+lmjYf4476NIQlP
-         Y+O2Yz+h4BlhFfv2fHFMdCUr0Y0ydqaNCiZaBLw8i6Vm5nmIffjfQ1MXlwKJBjaNcxgs
-         0znApMFrhEO6/vN7pidwzFA5b1R9wnjZb0Bwm8G0s8Q/Z50nW/rQ6qB1ZC3Fjc7mBhGw
-         tEkg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWTSzfdOrJFQlKQZ1qaBzbsjPt7rgUbnf3O9mfeZEUNBQVqvxx0hbV3TsdWiWfZhvOeTIBvrVNu9+1@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxl0zuUaVxnNOcpbZYJUrzePksneBV8c+tps7mjTKlSFCh8yOFr
-	UYoG1sXHweS4hQbffzGL1v591G1FQ8Ph5Ju8VAVjkQHthoVJpZxTbW6ClptSnw==
-X-Gm-Gg: ASbGncsvX9ShD8ki8JOO7tMYNR7i7Szq8+Eg8PAxmqQfFKMY4azVXGLYzoqGu8pAHG2
-	Gvqn8jU6jJh9vacvkc6VAlJECAbv3++hHGztPyvG+3pRDBcXpzWCDM5OPJKhOTiT+01dNAmqBCT
-	ayuQbrUUTkWOV+D7hlHKsWpiFpg6TCxhaz3fM/0aKvi222LnR3TDCMsZgGaAVT4Zo8gzeYAIJHg
-	IQwXY1rBIJqtfDOdsgQ8pqU8ZzFScvpAY1xnujU56HQJ8/z0YpbmwWgyjyV
-X-Google-Smtp-Source: AGHT+IGGIf0rHxIHQpm9+Q2TsNvz9dCMkcSWu+SbDwmZXMCAJqjPZpdwwKQe51sDJmLUG3RC2vpb1w==
-X-Received: by 2002:a17:90b:4f4c:b0:2ee:5bc9:75b5 with SMTP id 98e67ed59e1d1-2ef696546efmr17506292a91.4.1733756251914;
-        Mon, 09 Dec 2024 06:57:31 -0800 (PST)
-Received: from thinkpad ([120.60.142.39])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fd157d79e5sm7545519a12.75.2024.12.09.06.57.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 06:57:31 -0800 (PST)
-Date: Mon, 9 Dec 2024 20:27:24 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
- the user
-Message-ID: <20241209145724.5ibst4frsiap4s4r@thinkpad>
-References: <20241123090113.semecglxaqjvlmzp@thinkpad>
- <20241205232900.GA3072557@bhelgaas>
+        d=1e100.net; s=20230601; t=1733758393; x=1734363193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6QJYPOXB0LpXbrapQqS2t8EexZLyhSk/IuT5n71H2Qc=;
+        b=YfCOehDcstlTTdxBVjxxrwnUXQvCVfpa2Nb1pwaklz56HDlvX+bhjFiU7/94/S6q9/
+         lErVYQqHTyCj2KFiTJJc7pa0PYo26ySKIkke9TnMt3T7A+FoGPfoN3JbZmuIKvjIv2QF
+         8jpGRzwfjozTw4Rp9PWKIFSp+m0DueZyqCKgkoy3n/QSeCu4u3kKhvamz/lNmuCNQroE
+         iMbBfGMpVpTAreYzGRGKtoaVkuvz3dBrBizGyjk9jDW6nHOWmVx2gUmmhEE/TjBwU5ND
+         4ydel2n/drszCyAwdS6gA5bWTmpaMilZZJZbOzxFWGusiaWAeW12E2Eho7wJh5cbxBKC
+         qgYw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEQdDEpzzihJIIPBEb5yHSV49D3DnDsogs5RG1r+IKHwFXpf8T4/Yz8/YQ8zmkVbVwlzGHobTUsehV@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxoh+hq5uMMMsEnvwEor+IywDwYZWzSU6oqUZpYgklvdbQ0tDRA
+	uI5BRezDmIWBgFrVG+eVnPSao9NsznSbxEJ2Nnd7EA+/7aSGknFqOJXbotXsr+xiyENdY3NrX3e
+	YtMwuvS1HckWsWpXgRK7gEwaW70mMKDoTIk4u
+X-Gm-Gg: ASbGncum1RS8/e1ecEHzOnWz2y/jNrsOUTS1UIxgur4KVGVNPT4Mu2AYDDVwyQ02ejP
+	WOvIZCi8at61P6Lq78b/OyhRyLKecByg7
+X-Google-Smtp-Source: AGHT+IE1vUeXksBGYj/fVfeZqb61vi0AIrQrVPcz604WD1GcglXwYuTO7YT3c1pWPT0x4nTEFbw+Exdcyf5ny4QNm5U=
+X-Received: by 2002:a05:6602:6b88:b0:83b:a47c:dbfd with SMTP id
+ ca18e2360f4ac-8447e21c305mr1740812339f.6.1733758393175; Mon, 09 Dec 2024
+ 07:33:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241205232900.GA3072557@bhelgaas>
+References: <20241112195053.3939762-1-bob.beckett@collabora.com>
+ <20241114113803.3571128-1-panikiel@google.com> <1932ad8722a.102613bdb3737.769617317074446742@collabora.com>
+ <CAM5zL5rKsEd1EhOx1AGj9Au7-FQnJ5fUX2hLPEDQvmcrJXFFBg@mail.gmail.com>
+ <1932b818328.ad02576784895.6204301822664878956@collabora.com>
+ <Z0DdU9K9QMFxBIL8@kbusch-mbp.dhcp.thefacebook.com> <193ab67e768.1047ccb051074383.2860231262134590879@collabora.com>
+In-Reply-To: <193ab67e768.1047ccb051074383.2860231262134590879@collabora.com>
+From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
+Date: Mon, 9 Dec 2024 16:33:01 +0100
+Message-ID: <CAM5zL5pvxrpWEdskp=8xNuUM+1npJkVLCUTZh3hCYTeHrCR5ZA@mail.gmail.com>
+Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
+To: Robert Beckett <bob.beckett@collabora.com>
+Cc: Keith Busch <kbusch@kernel.org>, axboe <axboe@kernel.dk>, hch <hch@lst.de>, 
+	kernel <kernel@collabora.com>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-nvme <linux-nvme@lists.infradead.org>, sagi <sagi@grimberg.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241209_065733_256617_40219A50 
-X-CRM114-Status: GOOD (  50.26  )
+X-CRM114-CacheID: sfid-20241209_073315_520946_36FC2FA4 
+X-CRM114-Status: GOOD (  14.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,125 +97,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 05, 2024 at 05:29:00PM -0600, Bjorn Helgaas wrote:
-> On Sat, Nov 23, 2024 at 02:31:13PM +0530, Manivannan Sadhasivam wrote:
-> > On Fri, Nov 22, 2024 at 04:20:50PM -0600, Bjorn Helgaas wrote:
-> > > On Mon, Nov 18, 2024 at 01:53:44PM +0530, Manivannan Sadhasivam wrote:
-> > > > PCI core allows users to configure the D3Cold state for each PCI
-> > > > device through the sysfs attribute
-> > > > '/sys/bus/pci/devices/.../d3cold_allowed'. This attribute sets
-> > > > the 'pci_dev:d3cold_allowed' flag and could be used by users to
-> > > > allow/disallow the PCI devices to enter D3Cold during system
-> > > > suspend.
-> > > >
-> > > > So make use of this flag in the NVMe driver to shutdown the NVMe
-> > > > device during system suspend if the user has allowed D3Cold for
-> > > > the device.  Existing checks in the NVMe driver decide whether
-> > > > to shut down the device (based on platform/device limitations),
-> > > > so use this flag as the last resort to keep the existing
-> > > > behavior.
-> > > > 
-> > > > The default behavior of the 'pci_dev:d3cold_allowed' flag is to
-> > > > allow D3Cold and the users can disallow it through sysfs if they
-> > > > want.
-> > > 
-> > > What problem does this solve?  I guess there must be a case where
-> > > suspend leaves NVMe in a higher power state than you want?
-> > 
-> > Yeah, this is the case for all systems that doesn't fit into the
-> > existing checks in the NVMe suspend path:
-> > 
-> > 1. ACPI based platforms
-> > 2. Controller doesn't support NPSS (hardware issue/limitation)
-> > 3. ASPM not enabled
-> > 4. Devices/systems setting NVME_QUIRK_SIMPLE_SUSPEND flag
-> > 
-> > In my case, all the Qualcomm SoCs using Devicetree doesn't fall into
-> > the above checks. Hence, they were not fully powered down during
-> > system suspend and always in low power state. This means, I cannot
-> > achieve 'CX power collapse', a Qualcomm specific SoC powered down
-> > state that consumes just enough power to wake up the SoC. Since the
-> > controller driver keeps the PCI resource vote because of NVMe, the
-> > firmware in the Qualcomm SoCs cannot put the SoC into above
-> > mentioned low power state.
-> 
-> IIUC nvme_suspend() has two paths:
-> 
->   - Do nvme_disable_prepare_reset() without calling pci_save_state(),
->     so the PCI core chooses and sets the low-power state.
-> 
->   - Put the device in an NVMe-specific low-power state and call
->     pci_save_state(), which prevents the PCI core from putting the
->     device in a low-power state.
-> 
->     (The PCI core part is in pci_pm_suspend_noirq(),
->     pci_pm_poweroff_noirq(), pci_pm_runtime_suspend())
-> 
-> And I guess you want the first path for basically all systems?  The
-> only systems that would use the NVMe-specific path are those where:
-> 
->   - !pm_suspend_via_firmware() (not an ACPI system), AND
-> 
->   - ctrl->npss (device supports NVMe power states), AND
-> 
->   - pcie_aspm_enabled(), AND
-> 
->   - !NVME_QUIRK_SIMPLE_SUSPEND (it's not something with a weird
->     quirk), AND
-> 
->   - !pdev->d3cold_allowed (user has cleared it via sysfs)
-> 
-> This frankly seems almost unintelligible to me, so I'm glad I'm not
-> responsible for nvme :)
-> 
+On Mon, Dec 9, 2024 at 1:33=E2=80=AFPM Robert Beckett <bob.beckett@collabor=
+a.com> wrote:
+> [...]
+> I have no further updates on this. I have received no further info from t=
+he vendor.
+> I think we can go ahead and use the alignment patch as is. The only outst=
+anding question was whether it is an
+> implicit last entry per page chain vs simple alisngment requirement. Eith=
+er way, using the dmapool
+> alignment fixes both of these potential causes, so we should just take it=
+ as is.
+> If we ever get any better info and can do a more specific patch in future=
+, we can rework it then.
 
-I agree that using the attribute is not a great idea in the NVMe driver where
-there are already a handful of quirks/checks, but that seems unavoidable.
+I think the 512 byte alignment fix is good. I tried coming up with
+something more specific, but everything I could think of was either
+too complicated or artificial.
 
-> > > I'm not sure the use of pdev->d3cold_allowed here really expresses
-> > > your underlying intent.  It suggests that you're really hoping for
-> > > D3cold, but that's only a possibility if firmware supports it, and
-> > > we have no visibility into that here.
-> > 
-> > I'm not relying on firmware to do anything here. If firmware has to
-> > decide the suspend state, it should already satisfy the
-> > pm_suspend_via_firmware() check in nvme_suspend(). ...
-> 
-> I'm confused about this because we want to use PCI core power
-> management, which chooses the new state with pci_target_state(),
-> which looks like it will choose D3hot unless we're on an ACPI system
-> and acpi_pci_choose_state() returns D3cold.
-> 
-> But your system is not an ACPI system, so we should get D3hot, but yet
-> you decide based on D3*cold* being allowed?
-> 
-
-This is an existing ungliness of DT platforms. D3Cold is not tied to the PCI
-core, but the controller drivers decide on their own.
-
-> > Here, the controller driver takes care of putting the device into
-> > D3Cold.  Currently, the controller drivers cannot do it (on DT
-> > platforms) because of NVMe driver's behavior.
-> 
-> I'm missing the connection to the controller driver (I assume you mean
-> qcom-pcie?).  Maybe it's that having the NVMe device in a PCI
-> low-power state allows qcom_pcie_suspend_noirq() to reduce the ICC
-> bandwidth vote and do other power-saving things?  And it can't do
-> those things if we're using the NVMe low-power state because that
-> state is not visible to qcom-pcie?
-> 
-
-Yes. In DT platforms, peripheral power state is not controlled by the firmware
-to some extent. For PCIe, the controller driver is responsible for handling the
-endpoint devices power state. As you referred qcom-pcie driver, it currently has
-the 1 Kbps ICC vote in qcom_pcie_suspend_noirq() just because we cannot fully
-remove the ICC vote due to NVMe. Because of this, even if NVMe is in its optimal
-low power state, the SoC cannot enter its own low power state. Plus it doesn't
-make a lot of sense to keep NVMe in low power mode even if you suspend your DT
-based laptop for hours.
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+Regarding the question of whether this is an alignment requirement or
+the last PRP entry issue, I strongly believe it's the latter. I have a
+piece of code that clearly demonstrates the hardware bug when run on a
+device with the nvme bridge. I would really appreciate it if this was
+verified and my explanation was included in the patch.
 
