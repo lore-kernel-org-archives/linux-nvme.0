@@ -4,174 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA2F5E7717F
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 08:17:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87497E77180
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 08:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PYZ9TKdqZmN3CpDck0VyBkQcsgds7KUa2B+hVwgik2o=; b=AG8lC78QWy4c0Lj1vj5QkLpLD/
-	aEqQ3oFTbBA26zfyKY0QrXChV9O0su1eArgj1yoSH2sBKAxHJ/oW/crT2BVTrDGgZpdzuyY6Uiz9U
-	H7sdcmrkD2EjS3FULc5t++eFxiFGnO3h9vmjO/1fqgDvynP4aOHDJLUPbSicug9VtTrz8HP+ehW1Q
-	MvXGYs2LlWSAGKma0nLGwVz7AQtE5Rul46B3u3LzGL+nIO+8m3LnnzpUgtDsDbJAyslrjwiDaAKSx
-	Z4V+mpDyql1zqJGVYzDxlMS2fKXXEzhIU7UoY0Bz8L5G8LrruuwIt2pZH8vF+j9JDJrXIwQKigxpg
-	I0GWDpsg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=jblJqgnONYB3Ttb04kcM1REB0r64XNYjHV8iVLuGuGg=; b=2n+JEmyXpRpjub
+	kNOvmyRViBi39JGq1eUqcNfa1ICnmwi5XccISH2eHEBevZ218MrSk5ZwqGK6A1o31ZRxskYPbvycY
+	QJPj9q4naBdxk9pKk//zvzWPD2f8jVgrSnxaTblIVsvpG7MGf/Nr6kUc1VkUU9dbnvzFBVmnD7foQ
+	2Aiz5/laxV4okEVzmGPV/tBrxXb77tgVa1ojn6uES6Q7BJ2qNFiNirKY/oJOafo3dbtJ8bZLTxeL0
+	BcSzyin7Jj2tYsjr0F2OrcOhLMZ94eCqEDzaT0+U0RbJ51uvfc7ZVTj+mHHrBW0sruro/B66oQ30U
+	0T2kUpPyv3saRnK6pNRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKvR4-0000000Ag39-0BVv;
-	Tue, 10 Dec 2024 08:17:38 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1tKvtF-0000000AlXr-258D;
+	Tue, 10 Dec 2024 08:46:45 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKvR1-0000000Ag2l-3972
+	id 1tKvsK-0000000AlCk-27hI
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Dec 2024 08:17:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1733818655; x=1765354655;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=rZVk6cnQc6VsR+hJc2V8FSNnrEt0QTmRmwI27lKCuGQ=;
-  b=I36d9BXeOaHRFDwUZ1DoINPLr/kZnP4iRzxcuWuU2bCG415SAU/y4c5v
-   NwlmOol7dVgOyW0At/ZuQFBrOWfrhkjg+KohNOUFURYZIQCv3WYwDMHke
-   eN91rTulXqOP+FI9Gg/IKtHCzxnh4SdF7hp/Loz9jyCIZHtYmHdJ62JqE
-   cz+coaY7HR6jx8xw+ojdw01OIqhTARb3bAalORbOXwKk2m5fVpSHeOw32
-   xq7EbGpO3Zc4wzNY1vjePcp4O1vBFokd3gq6jcejVpxSGh5qYq3r4TZhQ
-   jWMStwYl2bD3nZA70NxS+DHl+ceZR15nPQcLrRuYyjcyBcr7FJDi+IP0K
-   w==;
-X-CSE-ConnectionGUID: WADXcS6vQEmgr48ZrQdKSQ==
-X-CSE-MsgGUID: lZq0b/SHRZas+W+zCyJxGw==
-X-IronPort-AV: E=Sophos;i="6.12,221,1728921600"; 
-   d="scan'208";a="33977033"
-Received: from mail-westusazlp17013078.outbound.protection.outlook.com (HELO SJ2PR03CU002.outbound.protection.outlook.com) ([40.93.1.78])
-  by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2024 16:17:33 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SUBVmgX9qyLj3epapesCTF0ZJlqetUQL28WP1wzLKPeELi4EnQrIMZuVUarmVgFZmcFq/cPrKzYwOCOHWhgy1b/+nB2OgFC5XlTErIzCS30I7Z2nPKNvnBF75B5W1U3YZnNoRVdRqa9UkeavAeUKBTBia58h3mLM6H49cF/a9SbrTsdtjFCu8uiXGyqJmheHzXdWjBVxsYLWmLJaWfAgXgqHQuNrjvpWB7YocFE4mzsyPPt3KmHy0cScdoXdcTA2KDDc2CV4rehj7pOKL2g/DFxRtaCQNZ7eoHudQMushglU9AYQSohyFJI3EtHQii9ie2HnecVv2adhGOF/vRB/8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PYZ9TKdqZmN3CpDck0VyBkQcsgds7KUa2B+hVwgik2o=;
- b=Bl92vMJtlZwK4yJ5uJjCG6+kNcQRTF9RWBKqFV4wJMsjPGWeBcnpRD2nBEHrJRX6CwH632EKh+poZPSslrmxzOxONbNYrepGUCqILFfGdK1uqjvucbFQF5ACJg6QN4JauFsRosfDFoEDmoxJITpeohG5LO2x4wUiayDSMZ8fPXAeSyuQsv3j0svfaQB+Rm9JBIsWxvRSypYOgUYWd+BVCSZgCDp30KYzpDf0sSLKCLLnN8txPy/p1BGCXql5whKMgY6Jsqu9nz8gpD6KNBnfmitPIiD6QqoRGSkhPC7UjpdOegclRmumrqbF54y8Up38AFTfhBnEUcxTnMRqWsR5Iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	Tue, 10 Dec 2024 08:45:49 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-432d86a3085so34732925e9.2
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Dec 2024 00:45:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PYZ9TKdqZmN3CpDck0VyBkQcsgds7KUa2B+hVwgik2o=;
- b=KDPmuWTryDwz2pkHotyxcEGA/Y/VwccZ+/+CgyZVLx52sLkO3Axbg8kjEHNgpYex6u3zIjJDNyBtfh5EqhEFDJUOOJgEJPnReRBQmL7nSE5Zs0+oOGYgikSgKmGIN54/+44RiYGG0kaODR3eAQvOFLdA1Gips0b5WDDs0Vicb30=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- DM6PR04MB6956.namprd04.prod.outlook.com (2603:10b6:5:249::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8251.14; Tue, 10 Dec 2024 08:17:31 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%5]) with mapi id 15.20.8251.008; Tue, 10 Dec 2024
- 08:17:31 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Aurelien Aptel <aaptel@nvidia.com>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya
- Kulkarni <chaitanyak@nvidia.com>, Daniel Wagner <dwagner@suse.de>, Shai Malin
-	<smalin@nvidia.com>
-Subject: Re: [PATCH blktests v5 0/5] Add support to run against arbitrary
- targets
-Thread-Topic: [PATCH blktests v5 0/5] Add support to run against arbitrary
- targets
-Thread-Index: AQHbR+X9NLy0IWfzBUSjxJTijE045rLfKB0A
-Date: Tue, 10 Dec 2024 08:17:30 +0000
-Message-ID: <fokufczaxuwcv7ng3hczz62sb67y7c5hxdqgwxm3zu72ugw6bi@xwvlwq2qiiz4>
-References: <20241206135120.5141-1-aaptel@nvidia.com>
-In-Reply-To: <20241206135120.5141-1-aaptel@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM6PR04MB6956:EE_
-x-ms-office365-filtering-correlation-id: c719444e-7c86-4e06-70d0-08dd18f317b7
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?h2mRsan4TI1EpNoeDH6Uk/Kuw2QyQuRyWr5dP9laRs8jDj1D6jaYf8zEQ2JK?=
- =?us-ascii?Q?aOVKexIb2FVPZsGMVDtOENAcZEb8IQ/BRG2IT9IH7wQbwz3MGU2hCKgx9R5f?=
- =?us-ascii?Q?ViM9p0KIHFnToo2J6PVF1LgHca2MRLUnWH6g67yQPENUy6pUApGEuFLIBblJ?=
- =?us-ascii?Q?pTTPZ8L5UxDTTFSizvqDmc7Zr3666L7YrTVnMX1JMpqy6JJ8fjkw4XjMa3YD?=
- =?us-ascii?Q?KeV418tTB6SJib2aYvQGJPO5tuiyDCIEaKsxVqg6DLLom1V4GQxJvrFVprdN?=
- =?us-ascii?Q?L8huESOiMgL3Wj/zYSUfag+KnuKJnstMOUz2oDYxRNxkoph1hly/J6+uF0rH?=
- =?us-ascii?Q?QHe2We9H/ZF1ipdvB6n4ISNv8MuXXd4io4Y5HPycjALBnHC7gI2G1DZbiFGw?=
- =?us-ascii?Q?AiMEdLy9VqlsoslHV/DAOe7OucYr4o9vh9aH5J8z3pEq9dbaQDjFNnPjqurz?=
- =?us-ascii?Q?QaO85VQ1usp8+DBdv0oq6Z7FwjFAFIzXx35V5ALI9yrC6FnWHsYd1Th8vrYK?=
- =?us-ascii?Q?hH7SesPkAJ88L1hQdb2dUtuTIh20zSB/pnST96X/r7Kd0TrPdzJRatrsThlS?=
- =?us-ascii?Q?lf1/0AE/Q2j7ghsqnXFSjWlCZ6VhRA5l+ajnBPsGjn0ZPkLcYAhrC645Q+Ft?=
- =?us-ascii?Q?RhKYyQ1n3H//M4E6te4xA4QynWH+lHBBWRUlEnsmqO9TbX80n+nuYk4D/K4U?=
- =?us-ascii?Q?0XdBKG//F5U54KjdtLiQg6cRwY5H1VNJgqMkzoZb3R//SvArmP5jjWiveU6J?=
- =?us-ascii?Q?enxAvf9W+n8EFu/SjDpp8pET9tBo2DaDIkjJDGf8WCXnh08B2MFiTS504Knd?=
- =?us-ascii?Q?pEkeQWK557Z+7zBZVkKhLa3ZZ58Ktyp2DJglCQLytz2Ln7MesEzVlqFvVC4C?=
- =?us-ascii?Q?9Yj+vnsrWXlDSFZ1O9t0oYDa6DxUN0PCCw+fPXNud7IpHkVqOth/9/y0yBno?=
- =?us-ascii?Q?CfA7IYtxS4aohe72J12EYQZVogHeqv+u8gXb0YvSrdEX9neHrKMJnSYAVUl5?=
- =?us-ascii?Q?+4SWcX7JKFiSAY8kdrYOghRPVegG9+ZZ9CMJpFcSlYhuE1WuOqe4tCDh6C8I?=
- =?us-ascii?Q?xPaxK7J8GPW8uYz3uZgLgd/eu+d9rcjABcqX4Jy+jyD7o/jQpsQsUkbuSayJ?=
- =?us-ascii?Q?Pbl2EggMNybMm+fV0uenOzP4xE5LiBt02SffR+nwSTgu8hylHteZh3yD4K+o?=
- =?us-ascii?Q?Yg12SgHlztGSVtc/gh08dpzNyBy8l3shIYRXSavFp7E7kxtOEVSUYg935j3u?=
- =?us-ascii?Q?CBUiuxkJwWRzr8/NR/ZXgGsYgmCXlGjRMvGwkWL99HWyURU1dtQIqVSXVo55?=
- =?us-ascii?Q?OMIJWoDiYAc6GVjuw9T+HqahhyEcpw+sxbijjVD2sN8cCgfKumyyls/rgCWX?=
- =?us-ascii?Q?nMjMcrlTlhjiCalhygXlw0MJLgM4V+nmphbuqRiWjO0v1KVoPw=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ihO1aIHlT9dJqGkHSF2JNsILBeZSzwNmpx9QnUMld5yI0lrc6b2Ssce9/+qK?=
- =?us-ascii?Q?AAjvF2bMUN9MergKr0/hQsYeOZTp+xmHCQFFnDblUj0eSIWgf3BXzu+QX4BR?=
- =?us-ascii?Q?MpvNFyi4S+heTO9BKvCRSxOeDu9WngD4RNcaojUAS1d5V5ZHd0hIsRy9pnso?=
- =?us-ascii?Q?LnvznQ6/EuTipJ9YG9mnvH5E9g7N936v4m/PE84e3ZDAh65jMRMff+jPkGRM?=
- =?us-ascii?Q?smRg9tgkT10vKUyTYJK8tBwz8kQkPL4ZMYPtFNP3laqw9UzQ9m6P1x96VGhE?=
- =?us-ascii?Q?83e2wxedN9KsQDekjgNUSl0s9j0paqNSgZqjj9XG/+vKU0edbhBq6aGSqn9b?=
- =?us-ascii?Q?omgVFhQ1cq0qEYHTLmJwOo8yHjh9UEU/izc9U3XUrJFBnE3t3otzZximplmR?=
- =?us-ascii?Q?de34upyqLmw0Hvs2N+JOgS32A4VjlVxqFCNl54rTytnWXPcllNz8m7foBnfC?=
- =?us-ascii?Q?u8fAMgDCZNxWvR8mncOTOpEoj4Mc+ovSHXXju6aauskk7nTRSvQqrMU3Z+nz?=
- =?us-ascii?Q?J7T0GeMc/l3xe1P9Ff9Vo7tBjFjXr0DqjS/ity0rhRlqS2pfGf5vqvUqwQtB?=
- =?us-ascii?Q?XPQs/GEGhUR5CjRYAMGlfhhGH60tFTHLiW7awodTDPsdhQod+X3NrYmrqfRj?=
- =?us-ascii?Q?OmiZ1g/m5hp4lPBGFJcZ9dzcgxxamCzDuIPHfayYWJcQU5KVsOXwrfuhCgYh?=
- =?us-ascii?Q?AKYKR6sHq9rxbtb+dRXNwFupmMb8N7Hb9ess4DfuvgHtWVZuR0DEz7N7Npt4?=
- =?us-ascii?Q?AjGl/7NjFY4I9MoWjNjdP0pfY/tt0YdNAJzKSQoHAxZ50Xn1dI7pbYYQIAl5?=
- =?us-ascii?Q?47YE7dxq3293TKukKAKXKKKsy28Hh16M9uBipM2+ak9cDK26PX4GYqf+UhY4?=
- =?us-ascii?Q?KLBk/sfpREcnJdE1uHnexj5CLxIIWvjKr/NbeuHwc40uXHW7Qs+GAHWWtum1?=
- =?us-ascii?Q?gvik2fozv7ZRInuJXva9yDU6Qw5txKt9QX9vQQTlq9YB8KZ2juyKvc82ednv?=
- =?us-ascii?Q?/TQIb4WZJxlrW7XSNI0idyYwCe6R+ikcPmhOL4dzHjos2wWid2mvXtGAqd5D?=
- =?us-ascii?Q?NQzrXQpsgQF2QkhL8Lu8pyNVQq3i6gdBgGAJfxkX2H2sgAveqWwM1Bxo5CWT?=
- =?us-ascii?Q?Zmzi8SpqrnKNNwF6dZojtNK2q1F8FRLsz4k9vJkowu8vRqk3nQKfXiLZiCvj?=
- =?us-ascii?Q?J43ZL9u89Hg7EAye2XaBPVUgybG2dV1QwMYLp3ABrmPebkAJvv3JPwjSildW?=
- =?us-ascii?Q?FRbmLRGg1RukezCsMTwFW657JGYxgkogDDsnx4eaT23T637/UUL2sXZ/BjiM?=
- =?us-ascii?Q?kOLOPG/9yrcsNnh/GarZgVc5S3BuonyQWyI6TXAV4T+RAqzByhlI6huDo5V1?=
- =?us-ascii?Q?iNgRVelJUxL+cRf9NrmIQakhXivhj6Ph7Cp5cfyU8leArzHaZRgyMcl2uTOq?=
- =?us-ascii?Q?tcyoqBo0sh9DvHnmR+gVWoWpnJN5V2kfRLNF9NvhTA32GmYm59zZqkbk0+MH?=
- =?us-ascii?Q?/nSANQhy/FobaqrEPL1g65Wi6Fpiqsjx+sYzXiivD0HXADPpVc4WNQ0aSuNv?=
- =?us-ascii?Q?MrMTej0NZ24II+sE6GaK0YzQFpKrnfQ2h3uJ48Uf+GWVv3liBP4co/rQvHer?=
- =?us-ascii?Q?GF4+BzogL6v8LT69MAhLLqE=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8FC28920BE84974C813A1D64C32C0910@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        d=linaro.org; s=google; t=1733820347; x=1734425147; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jblJqgnONYB3Ttb04kcM1REB0r64XNYjHV8iVLuGuGg=;
+        b=YB4D7WqctKosrBQiuLhYYsLfT/9+6V0LwDzJDy2/a+RZ+Fet94lALBjq74fmWcMIUU
+         TQZP26/d63w09G11gikdnFa29ix9t8gFZgjn0XhYTkB08nwQrweC9kKWSelp5Lz8cF1g
+         kAWqAbE4YnU85TYrj7MeCC1eIYKqFR3oqOjfrKV84cUmJz30DHWcUJ/fU2DwQwhZFiM8
+         7SwWTaTSKcFL5j9yF5wP+JhZctKYyBdSSnw6De3QywmOkBGI4fOm+J6G2vENZSWrGbia
+         SXe72piklm8WU4+Fhv8PMEnKAZvcsXCbwwhWskUpFnSzWmmbQrf28vsKB7DjRSm1ghnc
+         7vMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733820347; x=1734425147;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jblJqgnONYB3Ttb04kcM1REB0r64XNYjHV8iVLuGuGg=;
+        b=TpDse/DHoP4qm0ja75WdLhE/9ZAlhRl5AJ+tzMlCF2TO2bqx88qeZcY4kgG8hytPCp
+         qfo7eZCyNA6QUet9P+9tkn5+Bchkos8UnaRgdUAl/Ys2Esszr+QYHYL+8lmUR/12gM59
+         pthW/tKaPi/SCBoGNp06GanYoMB1wIZfEsA+59TtzFVr7Nnfl7+fSv2Vh0r8LMnTxHAD
+         zfo4Akj7uLcvg0j7+Z484NePIorr8SeCuDySItiNjQEUGL1PJ9BGVMUJW+yDM2Wf5wxb
+         4KZvfPLos6/FE75Blfs6ifOZtKZHdMjtuxwr7Q+rec3JDK6RSJCeJ7q/IAV7vZ+WEhN8
+         h54w==
+X-Forwarded-Encrypted: i=1; AJvYcCXsKvdiWS5UT3x7d/QlD//1aQdlg7g8eIVynhnXxLF+5qQeoMX9qseYERgmwhtKRW55BF65L13WOmpn@lists.infradead.org
+X-Gm-Message-State: AOJu0YwGdwHlfMe1xRslU+7aiwIuRpB9kA75HjfeUSJW+b8TTxfXHk6m
+	f8gptwHULFm/mwdg6/lE68MdZ0paNaUfpI/vLwYjq8GR51joZ9gKVqMluNvxDX4=
+X-Gm-Gg: ASbGncuKI+PsHke1TFxOt0OjMshcVBPKdDaiW1UlVGELsE4tnwUuH4pnnLufTUJqRGh
+	sSLKK43nQGifTWQyabi4qAyQMR6SUEcch0TkB406Qm31OnBgmNA2wgGQE04wfFNwFEDX+vWyt6s
+	2hyXDt4aqNr9OQsCTzRoRlbD4mGAbr1H/0OJnVQLDPVgcUpNCbKZWSZK0gBB5i1m8oASQ9Ej15/
+	guFogU2g0cx+e9GAg4acDqusRiMGm9798HXKW/mck7g3JBp8bNMWGtM05E=
+X-Google-Smtp-Source: AGHT+IHBg7FH0RfI63+Vg3g5RF/j5aX39c5DAnNY2YHqX7RE5+k+C41N38XjDYzZeGnDTOmqptoH7w==
+X-Received: by 2002:a05:600c:4e8a:b0:434:ffd7:6fca with SMTP id 5b1f17b1804b1-434fff36e7cmr31129635e9.2.1733820346746;
+        Tue, 10 Dec 2024 00:45:46 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d526b577sm224504225e9.3.2024.12.10.00.45.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 00:45:46 -0800 (PST)
+Date: Tue, 10 Dec 2024 11:45:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Keith Busch <kbusch@meta.com>,
+	axboe@kernel.dk, hch@lst.de, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, sagi@grimberg.me,
+	asml.silence@gmail.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv12 11/12] nvme: register fdp parameters with the block
+ layer
+Message-ID: <8d69680a-a958-4e9d-a1ba-097489fe98d1@stanley.mountain>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: VRLEr9Fjvnduge2OLrr6Fdsz9o0d8NLY+YjP5w/DVTLtwTQWSqdiusMsDS4hM/B7CTNzViJHC0pgfNaeABKQ9K+IeC4UAXja77ARiviy5Sn56+lL/ZLZ/6tZNICY9xMUe/wxQq3I21/pD39uAWaCxPfoj8cgBTL7qZgFOrxqffDAjKH614SveF6hISOkBUz15cd1JTvHScFxrmMbeewYb9gjj22MfHAtiu0anVFdA48EtE/57W9b20kYbk1hnAArxUFZ1J6FQl7D3vF1eeIgONAk6JAqjuqQmM2UrPkZUs55YOqvfSasH8Oy8/XF93oJ4mnegnTOSlKht9A10zcgsSOLp4s/QlSPCA7QF8GE8TYAqbgDqt/+wwQ5kW7SnHz1K8bqw/ApXN220FdpEoxTwf9Cj4N/V8EXtlYN1ok5kB+q/uWPpzYxuBtInbsD+cgBar8YWXaDBPWiCN+3C/9LT+eTVqe1cBve8rdYflifTDbveat9uxY/yPSrPzLqLCS1hO5QPTuy1QoV1j1IpeWBa71AQCHHfcGrYYiEgyBJLWs7GIib/lTmcCwsSEVokNX6fCpBW/E1uYncZz+bZLr9Lebm1FC8DXbNU0exb9U3bJNYLVVgu/GlGwiG4zaSua9G
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c719444e-7c86-4e06-70d0-08dd18f317b7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Dec 2024 08:17:30.9862
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8BupRhXXzrJLn8NA6TBPDAswEYjsRQ+c4EvFdhzrkpsrmNj9Cfl0XGuimLNqWz++ZoZQEBXEjbXRt5djnMnRxhVb4/uCrUZf9TlTVwEyItc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6956
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241206221801.790690-12-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_001735_852707_633CF551 
-X-CRM114-Status: GOOD (  12.99  )
+X-CRM114-CacheID: sfid-20241210_004548_549091_0357EE22 
+X-CRM114-Status: UNSURE (   8.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -186,22 +100,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Dec 06, 2024 / 15:51, Aurelien Aptel wrote:
-> This series is based off Daniel's patches. It is rebased to work on
-> current blktests. It is also available on github:
->=20
->     https://github.com/aaptel/blktests.git branch remote-target-v5
->=20
-> The last patch adds a test making explicit use of the remote target
-> support by testing the new nvme-tcp offloading.
->=20
-> changes:
-> v5:
->   - remove duplicated code, truncate regression in _nvmet_target_setup()
->   - remove def_host_traddr, use of eval
->   - fix shellcheck warnings
->   - cleanup test nvme/055
+Hi Keith,
 
-I applied the v5 series. Please note that I renumbered the test case from
-nvme/055 to nvme/056. Thanks!
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/fs-add-write-stream-information-to-statx/20241207-063826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20241206221801.790690-12-kbusch%40meta.com
+patch subject: [PATCHv12 11/12] nvme: register fdp parameters with the block layer
+config: csky-randconfig-r072-20241209 (https://download.01.org/0day-ci/archive/20241210/202412100319.Y5vv98P8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412100319.Y5vv98P8-lkp@intel.com/
+
+New smatch warnings:
+drivers/nvme/host/core.c:2187 nvme_check_fdp() error: uninitialized symbol 'i'.
+drivers/nvme/host/core.c:2232 nvme_query_fdp_info() warn: missing error code 'ret'
+
+vim +/i +2187 drivers/nvme/host/core.c
+
+04ca0849938146 Keith Busch   2024-12-06  2154  static int nvme_check_fdp(struct nvme_ns *ns, struct nvme_ns_info *info,
+04ca0849938146 Keith Busch   2024-12-06  2155  			  u8 fdp_idx)
+04ca0849938146 Keith Busch   2024-12-06  2156  {
+04ca0849938146 Keith Busch   2024-12-06  2157  	struct nvme_fdp_config_log hdr, *h;
+04ca0849938146 Keith Busch   2024-12-06  2158  	struct nvme_fdp_config_desc *desc;
+04ca0849938146 Keith Busch   2024-12-06  2159  	size_t size = sizeof(hdr);
+04ca0849938146 Keith Busch   2024-12-06  2160  	int i, n, ret;
+04ca0849938146 Keith Busch   2024-12-06  2161  	void *log;
+04ca0849938146 Keith Busch   2024-12-06  2162  
+04ca0849938146 Keith Busch   2024-12-06  2163  	info->runs = 0;
+04ca0849938146 Keith Busch   2024-12-06  2164  	ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
+04ca0849938146 Keith Busch   2024-12-06  2165  			   (void *)&hdr, size, 0, info->endgid);
+04ca0849938146 Keith Busch   2024-12-06  2166  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2167  		return ret;
+04ca0849938146 Keith Busch   2024-12-06  2168  
+04ca0849938146 Keith Busch   2024-12-06  2169  	size = le32_to_cpu(hdr.sze);
+04ca0849938146 Keith Busch   2024-12-06  2170  	h = kzalloc(size, GFP_KERNEL);
+04ca0849938146 Keith Busch   2024-12-06  2171  	if (!h)
+04ca0849938146 Keith Busch   2024-12-06  2172  		return 0;
+04ca0849938146 Keith Busch   2024-12-06  2173  
+04ca0849938146 Keith Busch   2024-12-06  2174  	ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
+04ca0849938146 Keith Busch   2024-12-06  2175  			   h, size, 0, info->endgid);
+04ca0849938146 Keith Busch   2024-12-06  2176  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2177  		goto out;
+04ca0849938146 Keith Busch   2024-12-06  2178  
+04ca0849938146 Keith Busch   2024-12-06  2179  	n = le16_to_cpu(h->numfdpc) + 1;
+04ca0849938146 Keith Busch   2024-12-06  2180  	if (fdp_idx > n)
+04ca0849938146 Keith Busch   2024-12-06  2181  		goto out;
+04ca0849938146 Keith Busch   2024-12-06  2182  
+04ca0849938146 Keith Busch   2024-12-06  2183  	log = h + 1;
+04ca0849938146 Keith Busch   2024-12-06  2184  	do {
+04ca0849938146 Keith Busch   2024-12-06  2185  		desc = log;
+04ca0849938146 Keith Busch   2024-12-06  2186  		log += le16_to_cpu(desc->dsze);
+04ca0849938146 Keith Busch   2024-12-06 @2187  	} while (i++ < fdp_idx);
+                                                         ^
+i needs to be initialized to zero at the start.
+
+04ca0849938146 Keith Busch   2024-12-06  2188  
+04ca0849938146 Keith Busch   2024-12-06  2189  	info->runs = le64_to_cpu(desc->runs);
+04ca0849938146 Keith Busch   2024-12-06  2190  out:
+04ca0849938146 Keith Busch   2024-12-06  2191  	kfree(h);
+04ca0849938146 Keith Busch   2024-12-06  2192  	return ret;
+04ca0849938146 Keith Busch   2024-12-06  2193  }
+04ca0849938146 Keith Busch   2024-12-06  2194  
+04ca0849938146 Keith Busch   2024-12-06  2195  static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+04ca0849938146 Keith Busch   2024-12-06  2196  {
+04ca0849938146 Keith Busch   2024-12-06  2197  	struct nvme_ns_head *head = ns->head;
+04ca0849938146 Keith Busch   2024-12-06  2198  	struct nvme_fdp_ruh_status *ruhs;
+04ca0849938146 Keith Busch   2024-12-06  2199  	struct nvme_fdp_config fdp;
+04ca0849938146 Keith Busch   2024-12-06  2200  	struct nvme_command c = {};
+04ca0849938146 Keith Busch   2024-12-06  2201  	int size, ret;
+04ca0849938146 Keith Busch   2024-12-06  2202  
+04ca0849938146 Keith Busch   2024-12-06  2203  	ret = nvme_get_features(ns->ctrl, NVME_FEAT_FDP, info->endgid, NULL, 0,
+04ca0849938146 Keith Busch   2024-12-06  2204  				&fdp);
+04ca0849938146 Keith Busch   2024-12-06  2205  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2206  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2207  
+04ca0849938146 Keith Busch   2024-12-06  2208  	if (!(fdp.flags & FDPCFG_FDPE))
+04ca0849938146 Keith Busch   2024-12-06  2209  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2210  
+04ca0849938146 Keith Busch   2024-12-06  2211  	ret = nvme_check_fdp(ns, info, fdp.fdpcidx);
+04ca0849938146 Keith Busch   2024-12-06  2212  	if (ret || !info->runs)
+04ca0849938146 Keith Busch   2024-12-06  2213  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2214  
+04ca0849938146 Keith Busch   2024-12-06  2215  	size = struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
+04ca0849938146 Keith Busch   2024-12-06  2216  	ruhs = kzalloc(size, GFP_KERNEL);
+04ca0849938146 Keith Busch   2024-12-06  2217  	if (!ruhs) {
+04ca0849938146 Keith Busch   2024-12-06  2218  		ret = -ENOMEM;
+04ca0849938146 Keith Busch   2024-12-06  2219  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2220  	}
+04ca0849938146 Keith Busch   2024-12-06  2221  
+04ca0849938146 Keith Busch   2024-12-06  2222  	c.imr.opcode = nvme_cmd_io_mgmt_recv;
+04ca0849938146 Keith Busch   2024-12-06  2223  	c.imr.nsid = cpu_to_le32(head->ns_id);
+04ca0849938146 Keith Busch   2024-12-06  2224  	c.imr.mo = NVME_IO_MGMT_RECV_MO_RUHS;
+04ca0849938146 Keith Busch   2024-12-06  2225  	c.imr.numd = cpu_to_le32(nvme_bytes_to_numd(size));
+04ca0849938146 Keith Busch   2024-12-06  2226  	ret = nvme_submit_sync_cmd(ns->queue, &c, ruhs, size);
+04ca0849938146 Keith Busch   2024-12-06  2227  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2228  		goto free;
+04ca0849938146 Keith Busch   2024-12-06  2229  
+04ca0849938146 Keith Busch   2024-12-06  2230  	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
+04ca0849938146 Keith Busch   2024-12-06  2231  	if (!head->nr_plids)
+04ca0849938146 Keith Busch   2024-12-06 @2232  		goto free;
+
+ret = -EINVAL?
+
+04ca0849938146 Keith Busch   2024-12-06  2233  
+04ca0849938146 Keith Busch   2024-12-06  2234  	kfree(ruhs);
+04ca0849938146 Keith Busch   2024-12-06  2235  	return 0;
+04ca0849938146 Keith Busch   2024-12-06  2236  
+04ca0849938146 Keith Busch   2024-12-06  2237  free:
+04ca0849938146 Keith Busch   2024-12-06  2238  	kfree(ruhs);
+04ca0849938146 Keith Busch   2024-12-06  2239  err:
+04ca0849938146 Keith Busch   2024-12-06  2240  	head->nr_plids = 0;
+04ca0849938146 Keith Busch   2024-12-06  2241  	info->runs = 0;
+04ca0849938146 Keith Busch   2024-12-06  2242  	return ret;
+04ca0849938146 Keith Busch   2024-12-06  2243  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
