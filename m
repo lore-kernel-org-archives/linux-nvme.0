@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E82CE77181
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 09:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8118AE77183
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 09:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=B8YCLYYfC91937lDPjvbA2FTQ1YPNfmmyoVi79UhoS8=; b=0sTNs5HvVx41wvcPox+u5OUhLF
-	WDQBblhd9JHXmwcRp1Wdbb+RjVtxnClpXBZVLdQgS6SZaBx+62TgjHrBsR+9OiQ99EnsBT1bGMu2D
-	NqnZBhq6IQKWpb+XDjHBvVWzVsVuOK5z2nL2tAFiNY4AIM6ZNqDYmoOstHAEfzpAWi2/3oO/lj6KZ
-	CVhzB96uRxmsBKAoV0VXBJT81a++8b4HKqWcwRa+IDRrE0tzu9hNyzR1UNWzmcIyvjgXCqwuwP68I
-	RH488PXeEarngHMrd+JN7I0802BbMQuO9F/VpxY21EpT9IR0JSdBkgI0QR/tJabKTKGVBGgJQHcCp
-	zRv4joNQ==;
+	bh=YBay4ll/MbnOPw+iTpgxqxIfmMNAoMXitwGEFi7jv1E=; b=JsTu1qbmlDS4OO59UO0ESV3ock
+	WF2nmauNbh3skhJe/Yb7E4016cU1b0QRZgwCwmyTUx0Zmt7OUhUIyEC6AwOw3ZzH7RycRlI4mCu4z
+	kqbRzpGvAPD5kqdNLw6Rfzm/kE+2S+gyyoC2G4OJsAnkFfhGKjy1dCzNfSVhL/6/9eL5EO3lLY8ZC
+	0tgUoC/zFqeHsgNa20MZFrnqTwBwHJq1OXeqVXsIqTNAiCYlWd3s/H6QthCwPYzR1nnuGKPcqehU6
+	WBYYp+A/kG+brBGLirOb5ptMavgbrkcIXKrCJLv6rwc0QrRWWNmk7s6xsSXGa7AwHrxI80Y3vSf+J
+	FpICrzgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKwgu-0000000Avo0-0bdg;
-	Tue, 10 Dec 2024 09:38:04 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tKwgv-0000000Avr8-2fhn;
+	Tue, 10 Dec 2024 09:38:05 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKwdw-0000000AuUk-1VJ4
+	id 1tKwdy-0000000AuVZ-1ZTz
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Dec 2024 09:35:01 +0000
+	Tue, 10 Dec 2024 09:35:03 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 287FDA40DDE;
-	Tue, 10 Dec 2024 09:33:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A611C4CEE3;
-	Tue, 10 Dec 2024 09:34:57 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 562485C4EED;
+	Tue, 10 Dec 2024 09:34:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA5B8C4CEE1;
+	Tue, 10 Dec 2024 09:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733823299;
-	bh=aJUqDKK7g9OilKfNlN5R4BrcXip48kije5oesB4Uv64=;
+	s=k20201202; t=1733823301;
+	bh=NgeDYVmKLnPnEgYMTm8Gcflj4/a9LtgCkbnjnyI2o18=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RH+JrsrWzTrjyf7pIPhyVINici5g9rmwsTe9mZNpKBQY8rysm/8jzxi27aJ7TK3gz
-	 yWYESSnNTRouQ5nfjLR3GirFtxsFVj5auGMBAJFx7q/g6Hkzf9uDCMoZCo5cixCzkv
-	 uZqVqHIPrRcS2TqCuq5Q4RT1FuoUao3P03+uUikOBTImORuCsXncUOt8a58WcckNG5
-	 JGS5t4AFx/L2/2w+3br/H0+vI2Ub709Nh2zZrHJtO0u+Ao7bF3MuSTgC73zZXfozZh
-	 At8MjaubV4hiJdd7U8WSnVKhP1YnRzPa2+NnLKS5xz51MIx4w7dg5peBUreDI9e6bQ
-	 DrJU8bWlJYHKQ==
+	b=qCM7L3EbQOWM4GitPXZBbCfMY4O1th/a3lqPnIR0RCeZ8oHvmyypM50v52BsE5TuX
+	 0s1TVntRzAezPY0fNEt/IRVxgYVtFD/XauCYkAlWlzUCrSwd3ZYzq9kMa+XBN75P5H
+	 /ByPDxc7zjQZNWNSOruEenTgt6kl8S95F+JLC3C3Lkd0BNhFqVYeC1Ips4KBUgMbZv
+	 vv9AIpxUs86443bcPgiBJYJ1yf9fmdphwcd84w5rQzNEKVBe+b7LdIVLXS/Nxmcz4r
+	 HoShfXiCa6qF7Ev8r5J5YcxYS4R3M0MUG0I3efpNIwm8yuCt6liBPrd7NCQksSUcGo
+	 6Bs0ewqlaQS3g==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,17 +55,18 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v3 10/17] nvmet: Do not require SGL for PCI target controller commands
-Date: Tue, 10 Dec 2024 18:34:01 +0900
-Message-ID: <20241210093408.105867-11-dlemoal@kernel.org>
+Subject: [PATCH v3 11/17] nvmet: Introduce get/set_feature controller operations
+Date: Tue, 10 Dec 2024 18:34:02 +0900
+Message-ID: <20241210093408.105867-12-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241210093408.105867-1-dlemoal@kernel.org>
 References: <20241210093408.105867-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_013500_557411_94A52C07 
-X-CRM114-Status: GOOD (  15.53  )
+X-CRM114-CacheID: sfid-20241210_013502_452926_ECAA597F 
+X-CRM114-Status: UNSURE (   8.67  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,97 +81,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Support for SGL is optional for the PCI transport. Modify
-nvmet_req_init() to not require the NVME_CMD_SGL_METABUF command flag to
-be set if the target controller transport type is NVMF_TRTYPE_PCI.
-In addition to this, the NVMe base specification v2.1 mandate that all
-admin commands use PRP, that is, have CDW0.PSDT cleared to 0. Modify
-nvmet_parse_admin_cmd() to check this.
+The implementation of some features cannot always be done generically by
+the target core code. Arbitraion and IRQ coalescing features are
+examples of such features: their implementation must be provided (at
+least partially) by the target controller driver.
 
-Finally, modify nvmet_check_transfer_len() and
-nvmet_check_data_len_lte() to return the appropriate error status
-depending on the command using SGL or PRP. Since for fabrics
-nvmet_req_init() checks that a command uses SGL, always, this change
-affects only PCI target controllers.
+Introduce the set_feature() and get_feature() controller fabrics
+operations (in struct nvmet_fabrics_ops) to allow supporting such
+features.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- drivers/nvme/target/admin-cmd.c |  5 +++++
- drivers/nvme/target/core.c      | 27 +++++++++++++++++++++------
- 2 files changed, 26 insertions(+), 6 deletions(-)
+ drivers/nvme/target/nvmet.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index c91864c185fc..0c5127a1d191 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -1478,6 +1478,11 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 	if (unlikely(ret))
- 		return ret;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 86bb2852a63b..8325de3382ee 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -416,6 +416,10 @@ struct nvmet_fabrics_ops {
+ 	u16 (*create_cq)(struct nvmet_ctrl *ctrl, u16 cqid, u16 flags,
+ 			 u16 qsize, u64 prp1, u16 irq_vector);
+ 	u16 (*delete_cq)(struct nvmet_ctrl *ctrl, u16 cqid);
++	u16 (*set_feature)(const struct nvmet_ctrl *ctrl, u8 feat,
++			   void *feat_data);
++	u16 (*get_feature)(const struct nvmet_ctrl *ctrl, u8 feat,
++			   void *feat_data);
+ };
  
-+	/* For PCI controllers, admin commands shall not use SGL. */
-+	if (nvmet_is_pci_ctrl(req->sq->ctrl) && !req->sq->qid &&
-+	    cmd->common.flags & NVME_CMD_SGL_ALL)
-+		return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
-+
- 	if (nvmet_is_passthru_req(req))
- 		return nvmet_parse_passthru_admin_cmd(req);
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 3a92e3a81b46..43c9888eea90 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1122,12 +1122,15 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 	/*
- 	 * For fabrics, PSDT field shall describe metadata pointer (MPTR) that
- 	 * contains an address of a single contiguous physical buffer that is
--	 * byte aligned.
-+	 * byte aligned. For PCI controllers, this is optional so not enforced.
- 	 */
- 	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF)) {
--		req->error_loc = offsetof(struct nvme_common_command, flags);
--		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
--		goto fail;
-+		if (!req->sq->ctrl || !nvmet_is_pci_ctrl(req->sq->ctrl)) {
-+			req->error_loc =
-+				offsetof(struct nvme_common_command, flags);
-+			status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
-+			goto fail;
-+		}
- 	}
- 
- 	if (unlikely(!req->sq->ctrl))
-@@ -1182,8 +1185,14 @@ EXPORT_SYMBOL_GPL(nvmet_req_transfer_len);
- bool nvmet_check_transfer_len(struct nvmet_req *req, size_t len)
- {
- 	if (unlikely(len != req->transfer_len)) {
-+		u16 status;
-+
- 		req->error_loc = offsetof(struct nvme_common_command, dptr);
--		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR);
-+		if (req->cmd->common.flags & NVME_CMD_SGL_ALL)
-+			status = NVME_SC_SGL_INVALID_DATA;
-+		else
-+			status = NVME_SC_INVALID_FIELD;
-+		nvmet_req_complete(req, status | NVME_STATUS_DNR);
- 		return false;
- 	}
- 
-@@ -1194,8 +1203,14 @@ EXPORT_SYMBOL_GPL(nvmet_check_transfer_len);
- bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len)
- {
- 	if (unlikely(data_len > req->transfer_len)) {
-+		u16 status;
-+
- 		req->error_loc = offsetof(struct nvme_common_command, dptr);
--		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR);
-+		if (req->cmd->common.flags & NVME_CMD_SGL_ALL)
-+			status = NVME_SC_SGL_INVALID_DATA;
-+		else
-+			status = NVME_SC_INVALID_FIELD;
-+		nvmet_req_complete(req, status | NVME_STATUS_DNR);
- 		return false;
- 	}
- 
+ #define NVMET_MAX_INLINE_BIOVEC	8
 -- 
 2.47.1
 
