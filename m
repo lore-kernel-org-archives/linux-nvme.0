@@ -4,119 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42593E77180
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 09:37:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C72E0E77181
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 09:37:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QJos5pjsS11dqpP1/LKCrF/uaDsRBuQz+S5oMePxHAA=; b=zT5O72M/QEKUN3sf1XObbxHj6k
-	14KefM2i4fa32PB1Q1pduF/HHf+U2MqsVtJrk77cRnpD2Jgxbp9CX8hUi2Qm7X+wMusen/tdloNQt
-	viPl4RA59y4aOrrn62/aQugvnwyoY285WIE8o2GQ2jp/338uok+zzSFRELvx2ve3/5hWL1qcXtpw5
-	4YucZEsJMLJlOVdH4cmFLXwFflxKchRsVWOVbt4L1gIepypzlmXawTgUAk4Ry/3eYkocP6G6B7C4s
-	sJSeGb3/E6w+Beu/flP6KLI36NReSKdG1RQZiLTIRQ1AqgXgJadVuL+FDFGql5riTNA3p5kJx9KxT
-	SwIECrKQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nSot4p1T2gfimHumhL/Kvy1XJzBV/ekdGWFzsO4nOms=; b=LXlbWzqvBn5OI11KY7CILX06gx
+	S9NfDkdycPm/JRnHYporikcHyDyy7eyznigZ6889djELlyp75bnNMJFbfCaBaWa1iqyAcgbrORN8N
+	5MuINXYgG6qncLu8O6ieFvrpcpmAMFgxI/taHHcyQRoa2oG11v5d87sOqy4AKPdkDA0oaM/Cn0Ugm
+	P6acAm+XnYRJHhcYBmJTLx18KT7MlA/J3eiX9uo3m8ZbcElGnKAj0P4amfBwl+2Zv7joieuoHNeyH
+	Q0Xc+ou7saAV3t4s7koQULBHCW8nCeVWVrMldoFx0ZlSrOsPj7XoFMeIii0pmjFsRde86fSs5QaVl
+	mDp/v4Nw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKwgn-0000000Avd7-2Ckr;
-	Tue, 10 Dec 2024 09:37:57 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1tKwgl-0000000AvaK-0WK8;
+	Tue, 10 Dec 2024 09:37:55 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKwdi-0000000AuP6-2DDR
+	id 1tKwdd-0000000AuN9-3dM5
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Dec 2024 09:34:48 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EB44A21167;
-	Tue, 10 Dec 2024 09:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733823285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QJos5pjsS11dqpP1/LKCrF/uaDsRBuQz+S5oMePxHAA=;
-	b=SXGQw1fc9dfynOq6JPaqeR+PVpHV8HaVWEr4m74APZ6vqKOqxZK0NORhmomSpLN0FnagMr
-	ZmBMmsPrr3fuzS2StRdLncaKLQ4Z1T5GT+8O8bRIJpvTPxn4ucjecWki2/wSgSzuMIVoFp
-	ebDT+0Liw4yOCOEnP9GgAFBDRGFmDZU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733823285;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QJos5pjsS11dqpP1/LKCrF/uaDsRBuQz+S5oMePxHAA=;
-	b=OYzThrGNCG5T9bvgFaJ3JIcWBaelnIdzEf1Ccn0hw7QtAwwPSYXSMDAPEx+PDl/5JCBiBD
-	AwJXWoai1G+3OyDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733823284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QJos5pjsS11dqpP1/LKCrF/uaDsRBuQz+S5oMePxHAA=;
-	b=VEso+E225CwAeQGjWXPL7XW7yoACRxvlsIIUodsHB9Z0W99tFjZPdGM8JCseVtWfO+GHqL
-	C5L21sUQetqy5hIjaYSHY61brJZZ4LF8Eg4qU8SqOThSSmw0BKxi7Apl8c0Z71CnGjOyYi
-	bXQK6GaHwVvGiwvMA0L40Nt1mFklY5c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733823284;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QJos5pjsS11dqpP1/LKCrF/uaDsRBuQz+S5oMePxHAA=;
-	b=TBvlXTSMNkSIMB6X/Mg/l8TIGQciNTe+GIsR3raoILEmUgLf3MLs1/pm6mpPUygDZsCPzO
-	duSQfPRDG44hxaAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DCFAC138D2;
-	Tue, 10 Dec 2024 09:34:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rSgDNTQLWGcLNAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 10 Dec 2024 09:34:44 +0000
-Date: Tue, 10 Dec 2024 10:34:44 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, 
-	hch@lst.de, gjoyce@linux.ibm.com, "axboe@fb.com" <axboe@fb.com>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCHv5 RFC 0/3] Add visibility for native NVMe multipath using
- sysfs
-Message-ID: <699ab169-daed-4c83-9ae9-65f6542ba9e6@flourine.local>
-References: <20241030104156.747675-1-nilay@linux.ibm.com>
- <10f38d85-e9ac-46b0-9a3e-dcbae26b36d8@linux.ibm.com>
- <46e833ef-5536-4528-8a13-4b79f13e1acf@linux.ibm.com>
- <dd45a4d8-a6c6-4a9c-961d-4bdf251658c3@linux.ibm.com>
+	Tue, 10 Dec 2024 09:34:43 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id A5A09A40DC8;
+	Tue, 10 Dec 2024 09:32:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3A57C4CEE0;
+	Tue, 10 Dec 2024 09:34:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733823280;
+	bh=LCqXv0/WQ//qb6jOAyudpnfmaH/4rwZFZG9TrCyCjaM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=P96AsUlLIPuBtMbpAipsfb5+oaB7PPerqz8nfIEMYXe4+ZhyXl7/UKHgbxxeiRAV9
+	 aA6UhG7ghk4O14RjxyYL2y6b0wED//YAkjr5QZTjKJzvR15rmJNYlPBHaVVlXzQX60
+	 xqoZDW0XvU7iW2MNBU+AhMzVhXSx5hjMRFwNSYbAnJ8GGOsTL4o0z7HCgayj0GzMkj
+	 67+g32BVIyQATIQ0rBdeat56M4iEsyvzaXy1GV4Hw6uxax1TnEaHJeg79/VW1mNbYy
+	 JmG8sGHBKEfSEVF81w9v4SFCFTm2BGUOUCKxSclwq87TuFVl7caEAnS/8cwcCFbvqr
+	 OBmU4/OxNiw3w==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: [PATCH v3 02/17] nvmet: Export nvmet_update_cc() and nvmet_cc_xxx() helpers
+Date: Tue, 10 Dec 2024 18:33:53 +0900
+Message-ID: <20241210093408.105867-3-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241210093408.105867-1-dlemoal@kernel.org>
+References: <20241210093408.105867-1-dlemoal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd45a4d8-a6c6-4a9c-961d-4bdf251658c3@linux.ibm.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_013446_719908_D9189F69 
-X-CRM114-Status: GOOD (  12.65  )
+X-CRM114-CacheID: sfid-20241210_013442_037280_3E073658 
+X-CRM114-Status: UNSURE (   9.40  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,23 +81,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 10, 2024 at 12:33:45PM +0530, Nilay Shroff wrote:
-> >>> As we know, NVMe native multipath supports three different io policies
-> >>> (numa, round-robin and queue-depth) for selecting I/O path, however, we
-> >>> don't have any visibility about which path is being selected by multipath
-> >>> code for forwarding I/O. This RFC helps add that visibility by adding new
-> >>> sysfs attribute files named "numa_nodes" and "queue_depth" under each
-> >>> namespace block device path /sys/block/nvmeXcYnZ/. We also create a
-> >>> "multipath" sysfs directory under head disk node and then from this
-> >>> directory add a link to each namespace path device this head disk node
-> >>> points to.
-> >>>
-> >>> Please find below output generated with this proposed RFC patch applied on
-> >>> a system with two multi-controller PCIe NVMe disks attached to it. This
-> >>> system is also an NVMf-TCP host which is connected to an NVMf-TCP target
-> >>> over two NIC cards. This system has four numa nodes online when the below
-> >>> output was captured:
+Make the function nvmet_update_cc() available to target drivers by
+exporting it. To also facilitate the manipulation of the cc register
+bits, move the inline helper functions nvmet_cc_en(), nvmet_cc_css(),
+nvmet_cc_mps(), nvmet_cc_ams(), nvmet_cc_shn(), nvmet_cc_iosqes(), and
+nvmet_cc_iocqes() from core.c to nvmet.h so that these functions can be
+reused in target controller drivers.
 
-Looks good to me from libnvme's perspective. I just my question on the
-lifetime of the new link, but I might just miss the point.
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+---
+ drivers/nvme/target/core.c  | 36 +-----------------------------------
+ drivers/nvme/target/nvmet.h | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 1f4e9989663b..4b5594549ae6 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1166,41 +1166,6 @@ void nvmet_req_free_sgls(struct nvmet_req *req)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_req_free_sgls);
+ 
+-static inline bool nvmet_cc_en(u32 cc)
+-{
+-	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
+-}
+-
+-static inline u8 nvmet_cc_css(u32 cc)
+-{
+-	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
+-}
+-
+-static inline u8 nvmet_cc_mps(u32 cc)
+-{
+-	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
+-}
+-
+-static inline u8 nvmet_cc_ams(u32 cc)
+-{
+-	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
+-}
+-
+-static inline u8 nvmet_cc_shn(u32 cc)
+-{
+-	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
+-}
+-
+-static inline u8 nvmet_cc_iosqes(u32 cc)
+-{
+-	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
+-}
+-
+-static inline u8 nvmet_cc_iocqes(u32 cc)
+-{
+-	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
+-}
+-
+ static inline bool nvmet_css_supported(u8 cc_css)
+ {
+ 	switch (cc_css << NVME_CC_CSS_SHIFT) {
+@@ -1277,6 +1242,7 @@ void nvmet_update_cc(struct nvmet_ctrl *ctrl, u32 new)
+ 		ctrl->csts &= ~NVME_CSTS_SHST_CMPLT;
+ 	mutex_unlock(&ctrl->lock);
+ }
++EXPORT_SYMBOL_GPL(nvmet_update_cc);
+ 
+ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+ {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e4a31a37c14b..e68f1927339c 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -732,6 +732,41 @@ void nvmet_passthrough_override_cap(struct nvmet_ctrl *ctrl);
+ u16 errno_to_nvme_status(struct nvmet_req *req, int errno);
+ u16 nvmet_report_invalid_opcode(struct nvmet_req *req);
+ 
++static inline bool nvmet_cc_en(u32 cc)
++{
++	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
++}
++
++static inline u8 nvmet_cc_css(u32 cc)
++{
++	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
++}
++
++static inline u8 nvmet_cc_mps(u32 cc)
++{
++	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
++}
++
++static inline u8 nvmet_cc_ams(u32 cc)
++{
++	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
++}
++
++static inline u8 nvmet_cc_shn(u32 cc)
++{
++	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
++}
++
++static inline u8 nvmet_cc_iosqes(u32 cc)
++{
++	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
++}
++
++static inline u8 nvmet_cc_iocqes(u32 cc)
++{
++	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
++}
++
+ /* Convert a 32-bit number to a 16-bit 0's based number */
+ static inline __le16 to0based(u32 a)
+ {
+-- 
+2.47.1
+
 
