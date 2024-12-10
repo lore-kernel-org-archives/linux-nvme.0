@@ -4,79 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8ED41E77182
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 20:04:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 369FFE77180
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 20:04:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QRJouZ80aawQ4SfUW+FCbUN4dV7b8GlRKTjcuWOCOlg=; b=oYAjdO9hmSsmeAQLawrmy5TXes
-	2wWOzZGmeWQtcYq7rj0i458OEEUd1h5qxMl6r+ql/q234kVo4toi05X1NHNwBc3S4KNquqqlhyrpL
-	EWNcpGesHbvaiD2uOXEp+YJwatAYVZQzl/ywAM6xurzNNhbzwLh14JPvTlpjuCrWntkYFQTUbL5kg
-	sZ/k+AU/qrELJ8QoJCCQscEmRlOxCLnrIDTmCUwnZge+raV75rsglUI5dAYTvWsztzhcnItk+s6gI
-	PHlYabu46WyS6wAPkoNH/mrZDNV4liLP0iwke/vgwDG4XswizkN76i9sPa3/oXuxcGfaTWApcmGBh
-	JeULQIsw==;
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZtDYxbjHiaugtFmzLqbe9j/YPTnjBLHkM7Z0sBvStvs=; b=IyF3l/+GTwWoP+qzwTCLsxGX2o
+	lmu0aFNTI7Tn7Y21fuTbmkG/eqYH81TCAQtXtl6NfeN3idqAEn6GbIFglOIyFgabOJ0s1rW6wjhmW
+	H1ElOtxufW60NSPwQe6s2u+3/FOd7I/NlEkbZLgDqSLu6SlLFzqcokbypF71Dj4noWphVLv6LWBs2
+	cVB9/mX+GVoBQwGcOjhTSJy+N+ceAzQLvuxVEjjx4/PPNwNPpH0vpvU1u7Gf78JRTQ5ebe+TlHo3a
+	nKGazeNDAUe7pw6iEqz70XOmWUCsWndfIf1P8LsgunYpF9HIzu160M9BWv5BP3bTq9a7aBU/QDBQ8
+	UseY2JMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tL6TI-0000000CbwX-04NZ;
-	Tue, 10 Dec 2024 20:04:40 +0000
+	id 1tL6TM-0000000Cbyn-2RVL;
+	Tue, 10 Dec 2024 20:04:44 +0000
 Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tL6TG-0000000CbvX-0Q40
+	id 1tL6TK-0000000Cbxe-3R8f
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Dec 2024 20:04:39 +0000
+	Tue, 10 Dec 2024 20:04:44 +0000
 Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAHLsEC007977
-	for <linux-nvme@lists.infradead.org>; Tue, 10 Dec 2024 12:04:37 -0800
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAHLsEJ007977
+	for <linux-nvme@lists.infradead.org>; Tue, 10 Dec 2024 12:04:42 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=QRJouZ80aawQ4SfUW+FCbUN4dV7b8GlRKTjcuWOCOlg=; b=SaxhfYjYqyxV
-	OPsQmX6o5yI4cwoUexe13xyUm+93aWFKx6ckGBGgIuNh8RQFGKVXEFGPufQTDbJG
-	LfrwyMkZnsm6XH7mq5rRArN1kwhuMtHv0JVjfqir3nbj+D8OcYF3wMAPTUqaYnfh
-	WJR0fdSF63oYqnrpDrsokyXM8T2yJwzkDHzeTCH6JxvL0mLEA2n3kTuqerELV5ZN
-	Kw1/+FmYMfu6wu7bgF1bIsi7Wpl7Xd8w171rgm+Q7rZS4F/l6xklf1e0OzHnK1XU
-	X/1gmK8zeX5vdH8JSuzskU1jqttzlxCsIp/0GOtjwJc2utnHOI449htCcTljgqEj
-	1awfSHScRw==
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2021-q4; bh=ZtDYxbjHiaugtFmzLq
+	be9j/YPTnjBLHkM7Z0sBvStvs=; b=i1/LxjytsrUE2esRwd3xvkCBcnoiRiXuyU
+	pbeKfuULkMjMu0pa+MTaqto5feRfwEeTIeHQF1QgRbTZfCjzLDfwXgPC27TsvqYV
+	5gb2ODWwzrYYP7V57XvJDs/tZROnH8DWmBkW/c74Ms8mnkQ0fcsGn+zzPEPGzTLb
+	GnT45+0dFOv9r7UHNNP1fxNDqZXJShVHfCyiixEztSlanHuXDtzRqW8KMzDEtLy/
+	T8eSGXHqBDMmmL7RiixMCDLGK2vxfT9zCTyNZkbxKdHdoM0oxaaQOgu/0kF5U78F
+	kpTpOMzIyAYV8074XVkLyHhwgAPyd8uZlhFUfG0Mvp2w0artKgAQ==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43esyusb7k-13
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43esyusb7k-20
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 10 Dec 2024 12:04:37 -0800 (PST)
-Received: from twshared11145.37.frc1.facebook.com (2620:10d:c0a8:1c::1b) by
+	for <linux-nvme@lists.infradead.org>; Tue, 10 Dec 2024 12:04:42 -0800 (PST)
+Received: from twshared9216.15.frc2.facebook.com (2620:10d:c0a8:fe::f072) by
  mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.2.1544.11; Tue, 10 Dec 2024 20:04:31 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 735AA15D5C7C3; Tue, 10 Dec 2024 11:48:08 -0800 (PST)
+	id 207B715D5C7B7; Tue, 10 Dec 2024 11:48:08 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
         <io-uring@vger.kernel.org>
 CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
-        <joshi.k@samsung.com>, Hannes Reinecke <hare@suse.de>,
-        Nitesh Shetty
-	<nj.shetty@samsung.com>,
-        Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv13 04/11] block: introduce a write_stream_granularity queue limit
-Date: Tue, 10 Dec 2024 11:47:15 -0800
-Message-ID: <20241210194722.1905732-5-kbusch@meta.com>
+        <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv13 00/11] block write streams with nvme fdp
+Date: Tue, 10 Dec 2024 11:47:11 -0800
+Message-ID: <20241210194722.1905732-1-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20241210194722.1905732-1-kbusch@meta.com>
-References: <20241210194722.1905732-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: YtxrK8wJLoEiN3Ug6w4qTqkmXdr6SFR4
-X-Proofpoint-ORIG-GUID: YtxrK8wJLoEiN3Ug6w4qTqkmXdr6SFR4
+X-Proofpoint-GUID: u5e_4PrDQnHnIdXbE2pUjHXruMPGNskf
+X-Proofpoint-ORIG-GUID: u5e_4PrDQnHnIdXbE2pUjHXruMPGNskf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_120438_149274_9A5B9C1C 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20241210_120442_865435_2359793B 
+X-CRM114-Status: GOOD (  11.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,97 +85,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
+From: Keith Busch <kbusch@kernel.org>
 
-Export the granularity that write streams should be discarded with,
-as it is essential for making good use of them.
+Previous discussion threads:
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- Documentation/ABI/stable/sysfs-block | 8 ++++++++
- block/blk-sysfs.c                    | 3 +++
- include/linux/blkdev.h               | 7 +++++++
- 3 files changed, 18 insertions(+)
+  v12: https://lore.kernel.org/linux-nvme/20241206221801.790690-1-kbusch@=
+meta.com/T/#u
+  v11: https://lore.kernel.org/linux-nvme/20241206015308.3342386-1-kbusch=
+@meta.com/T/#u
 
-diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/sta=
-ble/sysfs-block
-index f67139b8b8eff..c454c68b68fe6 100644
---- a/Documentation/ABI/stable/sysfs-block
-+++ b/Documentation/ABI/stable/sysfs-block
-@@ -514,6 +514,14 @@ Description:
- 		supported. If supported, valid values are 1 through
- 		max_write_streams, inclusive.
-=20
-+What:		/sys/block/<disk>/queue/write_stream_granularity
-+Date:		November 2024
-+Contact:	linux-block@vger.kernel.org
-+Description:
-+		[RO] Granularity of a write stream in bytes.  The granularity
-+		of a write stream is the size that should be discarded or
-+		overwritten together to avoid write amplification in the device.
-+
- What:		/sys/block/<disk>/queue/max_segments
- Date:		March 2010
- Contact:	linux-block@vger.kernel.org
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index c514c0cb5e93c..525f4fa132cd3 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -105,6 +105,7 @@ QUEUE_SYSFS_LIMIT_SHOW(max_discard_segments)
- QUEUE_SYSFS_LIMIT_SHOW(max_integrity_segments)
- QUEUE_SYSFS_LIMIT_SHOW(max_segment_size)
- QUEUE_SYSFS_LIMIT_SHOW(max_write_streams)
-+QUEUE_SYSFS_LIMIT_SHOW(write_stream_granularity)
- QUEUE_SYSFS_LIMIT_SHOW(logical_block_size)
- QUEUE_SYSFS_LIMIT_SHOW(physical_block_size)
- QUEUE_SYSFS_LIMIT_SHOW(chunk_sectors)
-@@ -448,6 +449,7 @@ QUEUE_RO_ENTRY(queue_max_segments, "max_segments");
- QUEUE_RO_ENTRY(queue_max_integrity_segments, "max_integrity_segments");
- QUEUE_RO_ENTRY(queue_max_segment_size, "max_segment_size");
- QUEUE_RO_ENTRY(queue_max_write_streams, "max_write_streams");
-+QUEUE_RO_ENTRY(queue_write_stream_granularity, "write_stream_granularity=
-");
- QUEUE_RW_LOAD_MODULE_ENTRY(elv_iosched, "scheduler");
-=20
- QUEUE_RO_ENTRY(queue_logical_block_size, "logical_block_size");
-@@ -583,6 +585,7 @@ static struct attribute *queue_attrs[] =3D {
- 	&queue_max_integrity_segments_entry.attr,
- 	&queue_max_segment_size_entry.attr,
- 	&queue_max_write_streams_entry.attr,
-+	&queue_write_stream_granularity_entry.attr,
- 	&queue_hw_sector_size_entry.attr,
- 	&queue_logical_block_size_entry.attr,
- 	&queue_physical_block_size_entry.attr,
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index ce2c3ddda2411..7be8cc57561a1 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -400,6 +400,7 @@ struct queue_limits {
- 	unsigned short		max_discard_segments;
-=20
- 	unsigned short		max_write_streams;
-+	unsigned int		write_stream_granularity;
-=20
- 	unsigned int		max_open_zones;
- 	unsigned int		max_active_zones;
-@@ -1249,6 +1250,12 @@ static inline unsigned short bdev_max_write_stream=
-s(struct block_device *bdev)
- 	return bdev_limits(bdev)->max_write_streams;
- }
-=20
-+static inline unsigned int
-+bdev_write_stream_granularity(struct block_device *bdev)
-+{
-+	return bdev_limits(bdev)->write_stream_granularity;
-+}
-+
- static inline unsigned queue_logical_block_size(const struct request_que=
-ue *q)
- {
- 	return q->limits.logical_block_size;
+Changes from v12:
+
+ - Removed statx. We need additional time to consider the best way to
+   expose these attributes. Until then, applications can fallback to the
+   sysfs block attribute to query write stream settings.
+
+ - More verbose logging on error.
+
+ - Added reviews.
+
+ - Explicitly clear the return value to 0 for unsupported or
+   unrecognized FDP configs; while it's not technically needed (it's
+   already 0 in these paths), it makes it clear that a non-error return
+   wasn't an accidental oversight.
+
+ - Fixed the compiler warnings from unitialized variable; switched the
+   do-while to a more clear for-loop.
+
+ - Fixed long-line wrapping
+
+ - Memory leak when cleaning up the namespace head.
+
+ - Don't rescan FDP configuration if we successfully set it up before.
+   The namespaces' FDP configuration is static.
+
+ - Better function name querying the size granularity of the FDP reclaim
+   unit.
+
+Christoph Hellwig (7):
+  fs: add a write stream field to the kiocb
+  block: add a bi_write_stream field
+  block: introduce a write_stream_granularity queue limit
+  block: expose write streams for block device nodes
+  nvme: add a nvme_get_log_lsi helper
+  nvme: pass a void pointer to nvme_get/set_features for the result
+  nvme: add FDP definitions
+
+Keith Busch (4):
+  block: introduce max_write_streams queue limit
+  io_uring: enable per-io write streams
+  nvme: register fdp parameters with the block layer
+  nvme: use fdp streams if write stream is provided
+
+ Documentation/ABI/stable/sysfs-block |  15 +++
+ block/bio.c                          |   2 +
+ block/blk-crypto-fallback.c          |   1 +
+ block/blk-merge.c                    |   4 +
+ block/blk-sysfs.c                    |   6 +
+ block/bounce.c                       |   1 +
+ block/fops.c                         |  23 ++++
+ drivers/nvme/host/core.c             | 186 ++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h             |   7 +-
+ include/linux/blk_types.h            |   1 +
+ include/linux/blkdev.h               |  16 +++
+ include/linux/fs.h                   |   1 +
+ include/linux/nvme.h                 |  77 +++++++++++
+ include/uapi/linux/io_uring.h        |   4 +
+ io_uring/io_uring.c                  |   2 +
+ io_uring/rw.c                        |   1 +
+ 16 files changed, 341 insertions(+), 6 deletions(-)
+
 --=20
 2.43.5
 
