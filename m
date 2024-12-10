@@ -4,89 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18D54E7717D
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 00:30:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AFD5E7717D
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 00:37:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QQ76MNsFLRb0EE0rvSOt9g2FjwM0I0ZKaeF9BRmS5j0=; b=CfCXG/Dw0lwzXTdDDRutUUXvZl
-	0/TSfCBO490hR2YqcFURgCoghVqutBxB2HTCZ2XwI/Y5su49PvFU7RpEqdHxtoUB7TVl1Qn29w7N0
-	FAJHqn19GyKvwJSn3N/EWMAPqYAh23Nha28lU77t7Ce6vcz0lNdTshvPmjPW/w6x/mxJ6EnoEI+A8
-	8bPc04tIa1D1wGwmQ6fINHxuv44bYxkF+OR510OerbGAuy4BMeTbsVUQMPD6UjU5fWwzagjR4WVoA
-	ELLbmczCcEdPMzyY5s1BgCE/PT285oPSFRDGxXzC6ELiVTsi61hANHoeHUQHUGA0+tSzoEg3gEV7W
-	zGWCRgAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FI4OekMx89+rpVFZQHKVqiWtpaXZ7Gf7NcsWVZ70s9o=; b=jGyGOVNqU76ltRS9fGNRdqXdsj
+	nBCsCwfzQ9qV/67I+kmW39fa/sGMFN11o8saNSOY0UvrxpGwle0OamFBdsFbhlsTs5fz24P9GL5lZ
+	5HwB4CVo35q+qZhiwD+JhR2kr0w3nAksHDxeSROwLFHUa+eUlDECgM3duiKbhozlBIcS85f/GTSzI
+	w5OG39iKnZ3Tkn5kRuDnrW7ifZxciqTV1/aSymhS0F+RnUhi3TcVyX67+5aSp12NH7qnjn63rwKcp
+	KVcCdB4HhK6tGU6VEy0xbHUSkMY+qq2GqUsjPoU468KVFHsiPgmXT4jH3xZq21HhgoCWmemYiDPkm
+	MkN/xY7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKo8o-00000009iOx-3rCq;
-	Tue, 10 Dec 2024 00:30:18 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1tKoFR-00000009j0L-3kvN;
+	Tue, 10 Dec 2024 00:37:09 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKo1U-00000009h1L-3fK7
+	id 1tKoFP-00000009izu-1iEf
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Dec 2024 00:22:47 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Y6fZX0YSDz6ClY8q;
-	Tue, 10 Dec 2024 00:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1733790156; x=1736382157; bh=QQ76MNsFLRb0EE0rvSOt9g2F
-	jwM0I0ZKaeF9BRmS5j0=; b=rPJYrBogSCqi+UC1qqPF+fPQLmD+D4x29PRYDWKk
-	2z0zPY8OvP3+Aws0jdIk/FBnmhiGCJzA5bRHBuJpJYfARKeHtzX3dkGpYB4V+0ev
-	z/SUYM5DlwgWvAXz0B8DRg2FupLbd0q23ScpNuuXRabwGKwir5mVYXZ0KVltluel
-	furT9Q3o2xpKIdnskOkViWS5rhspJuFj4iFh1EV2JagH35rvHkzXFsbIUflw6yt2
-	H72/n0GZv8HS5dPC1b/H/78BwGBr+SM1IpBHup9Ghl3Pjwyybo8Mfug9ABaAsqS5
-	yD881NKI39O4cY4+75RYmqq27AmMcdGMQ5gt9pMLa01zvQ==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id xUfLJokapvMy; Tue, 10 Dec 2024 00:22:36 +0000 (UTC)
-Received: from [192.168.3.219] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4Y6fZK0GTsz6CmM6d;
-	Tue, 10 Dec 2024 00:22:32 +0000 (UTC)
-Message-ID: <8b1f8abc-b567-4927-a8dc-2214d79f8b42@acm.org>
-Date: Mon, 9 Dec 2024 16:22:31 -0800
+	Tue, 10 Dec 2024 00:37:08 +0000
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-725ee27e905so1735883b3a.2
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Dec 2024 16:37:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kookmin.ac.kr; s=google; t=1733791026; x=1734395826; darn=lists.infradead.org;
+        h=content-disposition:in-reply-to:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FI4OekMx89+rpVFZQHKVqiWtpaXZ7Gf7NcsWVZ70s9o=;
+        b=GX5K1FgP5rWuEiQEBz4L9iOdiTOX8Hbg7ol/Wm/Q8zTfAKp51fysVTyzbFFUpEhCoh
+         MO9ddEp41ORdXMClQvO/ZIU92btco8i8IXLo8NRb71L/FD+JMaTw8HP4ReMq5Uh6qJ/R
+         bt7NKqSoLirZUAzhlbINSUHJTJZ7nBQLnvHJI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733791026; x=1734395826;
+        h=content-disposition:in-reply-to:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FI4OekMx89+rpVFZQHKVqiWtpaXZ7Gf7NcsWVZ70s9o=;
+        b=dM3G/WDkcP7wBSogr5PjkGiqBJH4QEvEiAIyqm3dJAP7g8BhH2BWmCDi7zypNmXqxD
+         qLpsqqGxPC/Q8n6zjP6a7Q+dz4g9KQ1UU306wbb6Lee5ty+DR0HZfmhC4pUmGeAH1HdY
+         Desbul0wR/VwPhF8tZTs2noEpkkRXWYVajnYB/vKzYNkNt8Ey3zRcztVDO2w7Ld0YtFM
+         gCQEEHm0s/kV7I8x9yynGzEWyIs8FZW6C0lb7V9OzuCcrnBeJQfbo7OGngOu/XecCQIu
+         2B8PRox19MfOLAMstuaIWJeAhSNKTHCLLAMJNJA3VW7ad1AiYVL1rnXkpVenfCZC62gW
+         mT+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXM1RDjul+M7xIneRLrMs/mKsKVB7sYRRuj2Q6O2VdeBr3M2D7qOYLmtYoNHK7wMjnBVnfV5/K86CI+@lists.infradead.org
+X-Gm-Message-State: AOJu0YxpSwX0uVadvbeboF8PfMCi4A38j2/aFBZMen7LQDqSPcOESKV6
+	r0OiXCrjowPIQBQtUyl6mKa4yU8wySrwlAizR1WbvaE2dHsgL7hR4JPOWCH4YIhmwCuUs+r/Dl2
+	MQW4KvUZsnvbbohI4Jx7//NH6WrftZAYlNmbCX0N3ASOp9re8jwoRiHP/UA==
+X-Gm-Gg: ASbGnct3AffzqhZdUtvkWXNBdG5H7nRmmOzPFXMXaW/1+HGzVYAJb71w9HO/rARMBko
+	z7BdN5XbtDF5oU9jxl+SMshGQHcWnGwoKa4pdp2HgAl0SC+13vm9MTXvkYWnRbN65j1lUuyGQku
+	q9yYC2Hab6VANibmcz/wVszu8hBFQsk0yrphOmvxKeoryGwbVDOCZnhwouWl7L69PPa8u40BCgu
+	gY9cvZ/nc4XMAO0OBzN6rukvV0cK2MwGvKhZslwLJ85Gro=
+X-Google-Smtp-Source: AGHT+IFm88qeRdkvOMho+gDmEVsXVjkldJEf3fLDtwk6cBXvx6LoOjsHQO3HuC51SqFOJGdzQFHMYA==
+X-Received: by 2002:a05:6a00:4b50:b0:725:df1a:282 with SMTP id d2e1a72fcca58-725df1a17c6mr11652180b3a.10.1733791026471;
+        Mon, 09 Dec 2024 16:37:06 -0800 (PST)
+Received: from ubuntu ([210.123.42.170])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725e03ef67dsm3827175b3a.124.2024.12.09.16.37.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2024 16:37:06 -0800 (PST)
+Date: Tue, 10 Dec 2024 00:37:01 +0000
+From: Yongsoo Joo <ysjoo@kookmin.ac.kr>
+To: Keith Busch <kbusch@kernel.org>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme: change the return type of nvme_poll()
+Message-ID: <Z1eNLcVokPHbPKrn@ubuntu>
+References: <20241209133343.125885-1-ysjoo@kookmin.ac.kr>
+ <Z1cQXGWGRZ5dcWOW@kbusch-mbp.dhcp.thefacebook.com>
+ <Z1djnrzTvra6wyMn@ubuntu>
+ <Z1eEwms3ArQBNHE-@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Javier Gonzalez <javier.gonz@samsung.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>
-References: <a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
- <20241112135233.2iwgwe443rnuivyb@ubuntu>
- <yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
- <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
- <yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
- <8ef1ec5b-4b39-46db-a4ed-abf88cbba2cd@acm.org>
- <yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
- <CGME20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1@epcas5p2.samsung.com>
- <20241205080342.7gccjmyqydt2hb7z@ubuntu>
- <c639f90f-bdd1-4808-aeb7-e9b667822413@acm.org>
- <Z1d9xfBwp0e8jxf4@casper.infradead.org>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <Z1d9xfBwp0e8jxf4@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <Z1eEwms3ArQBNHE-@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241209_162245_008886_B38E6594 
-X-CRM114-Status: GOOD (  17.62  )
+X-CRM114-CacheID: sfid-20241209_163707_451531_A5FA1672 
+X-CRM114-Status: GOOD (  30.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,42 +96,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/9/24 3:31 PM, Matthew Wilcox wrote:
-> On Mon, Dec 09, 2024 at 02:13:40PM -0800, Bart Van Assche wrote:
->> Consider the following example: dm-linear is used to concatenate two
->> block devices. An NVMe device (LBA 0..999) and a SCSI device (LBA
->> 1000..1999). Suppose that a copy operation is submitted to the dm-linear
->> device to copy LBAs 1..998 to LBAs 2..1998. If the copy operation is
+On Mon, Dec 09, 2024 at 05:01:06PM -0700, Keith Busch wrote:
+> On Mon, Dec 09, 2024 at 09:39:42PM +0000, Yongsoo Joo wrote:
+> > On Mon, Dec 09, 2024 at 08:44:28AM -0700, Keith Busch wrote:
+> > > On Mon, Dec 09, 2024 at 01:33:44PM +0000, Yongsoo Joo wrote:
+> > > > -static int nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+> > > > +static bool nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+> > > >  {
+> > > >  	struct nvme_queue *nvmeq = hctx->driver_data;
+> > > >  	bool found;
+> > > > -- 
+> > > 
+> > > This function is registered with blk_mq_ops, so you would have to change
+> > > the prototype there too, and every other driver that also registers a
+> > > poll op. Honestly, it may not be worth the effort.
+> > Oh, I overlooked the issue you pointed out, which brings me back to my initial 
+> > suggestion. The function nvme_poll_cq() returns the number of found CQEs, but 
+> > nvme_poll() seems to unnecessarily reduce this information to a boolean.
 > 
-> Sorry, I don't think that's a valid operation -- 1998 - 2 = 1996 and 998
-> - 1 is 997, so these ranges are of different lengths.
+> Can we just change nvme_poll_cq() instead to return a bool instead?
 
-Agreed that the ranges should have the same length. I have been
-traveling and I'm under jet lag, hence the range length mismatch. I 
-wanted to construct a copy operation from the first to the second block
-device: 1..998 to 1001..1998.
-
->> submitted as two separate operations (REQ_OP_COPY_SRC and
->> REQ_OP_COPY_DST) then the NVMe device will receive the REQ_OP_COPY_SRC
->> operation and the SCSI device will receive the REQ_OP_COPY_DST
->> operation. The NVMe and SCSI device drivers should fail the copy operations
->> after a timeout because they only received half of the copy
->> operation.
+Thank you for your suggestion; it makes sense to me. We could consider modifying 
+nvme_poll() to return the number of CQEs in the future when specific use cases 
+arise. 
 > 
-> ... no?  The SRC operation succeeds, but then the DM driver gets the DST
-> operation and sees that it crosses the boundary and fails the DST op.
-> Then the pair of ops can be retried using an in-memory buffer.
+> ---
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 4c644bb7f0692..54910f8eadff8 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1148,13 +1148,13 @@ static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+>  	}
+>  }
+>  
+> -static inline int nvme_poll_cq(struct nvme_queue *nvmeq,
+> -			       struct io_comp_batch *iob)
+> +static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
+> +				struct io_comp_batch *iob)
+>  {
+> -	int found = 0;
+> +	bool found = false;
+>  
+>  	while (nvme_cqe_pending(nvmeq)) {
+> -		found++;
+> +		found = true
 
-Since the second range can be mapped onto the second block device, the
-dm-linear driver can only fail the REQ_OP_COPY_DST operation if it keeps
-track of the source LBA regions of pending copy operations. Which would
-be an unnecessary complexity.
+  +             found = true;
 
-A possible alternative is to specify the source and destination range
-information in every REQ_OP_COPY_SRC and in every REQ_OP_COPY_DST
-operation (see also Damien's email).
+>  		/*
+>  		 * load-load control dependency between phase and the rest of
+>  		 * the cqe requires a full read memory barrier
+> --
+> 
+> > A minimal change from "bool found" to "int found" in nvme_poll() would 
+> > preserve this information, allowing any interested researcher to make use of 
+> > it. Also, the description of poll in blk_mq_ops can be expanded as follows:
+> >        /**
+> >         * @poll: Called to poll for completion of a specific tag.
+            * @poll: Called to poll for completion of any CQE.
+> >         * Returns the number of CQEs found.
+> >         */
+> 
+> Since you pointed this comment out, I see it is from an earlier versions
+> of this interface and outdated. The current behavior polls for any
+> completion rather than a specific tag.
+Oh, I see. How about revising the comment to "Called to poll for the 
+completion of any CQE"? Do you think this change should be submitted as a 
+seperated patch?
 
-Thanks,
 
-Bart.
+-- 
+
 
