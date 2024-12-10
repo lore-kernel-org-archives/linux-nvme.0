@@ -4,93 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CD0EE77182
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 19:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B78DE7717F
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 19:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iF76jqXkDDi7DY14T8DVXQNb8hrSak0UEQ35lCWhfXI=; b=d+2IkYe35PAOzkiuhWEbN6zrub
-	3+PnBzDtZr5hwqJIp+AoCcA93ACTjeS36AAx+IHRq9ndKAsLe4nF/POOQ1WG2UUNXw1KLw1Y/RH8Y
-	alqjeWNx4lY2B6/5MCaTrI7CiBJqWoytpyfgVaVw9+Yc1toznJDVyVNy6vF+txlEJrZXYuy5EuxBA
-	IdHwPaFpr2uYrnqu4S8oaVkbh8zXM44kl25DPA8khemN/hAm/dGYXh+0Nx5GSspNEFLCa0s5bWvOB
-	C81ZbHsVG5zpKC3z25LZUafjNe1byNTsLA13j0hMtzgYv7IpyrAFYRqr8u6P4yFCI823HoOGXXn7i
-	DYJggD1w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mgFHOgHaE4jw+dGMPOn2vA2NFSP+ToU+o7GNI61mlAU=; b=Y0gDw6fzK62DlKFHZSWMW3SwXH
+	NdNmjQNtqKHWtGjPk3uItoCqVm+Yt6UE+XSQdyIEeTZarIUXB81OQzQnyfG0dhcl2uJyY4AyC8pM0
+	SvExEV9MR006+6AMfvc+XnH2RA34o/xohyZ0XGXqpQTWGxe7wn7oNcUTPu4wMKteoradUTGYcso4j
+	Mv/Edj8PBZN9T+GB99Rz1QABAf5Kt2dmPadNAMvznSbaeVs5UmXaRXRQBzrrmVsbYaOpMCvWIGMsU
+	UxBQUhDBYdO3fLEgUjU4ntAJsZIrMbwyi4gIvctKLEmmwtQuAzKsr+bUCW1GgPMFhKW25Mf4mHrI8
+	vh2iaGPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tL6Bb-0000000CYqr-0Kwm;
-	Tue, 10 Dec 2024 19:46:23 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1tL6NX-0000000CaeI-1TwT;
+	Tue, 10 Dec 2024 19:58:43 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tL67K-0000000CYC7-3oNm
+	id 1tL6NV-0000000CadR-0djd
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Dec 2024 19:42:00 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4Y78J64BV3zlffky;
-	Tue, 10 Dec 2024 19:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1733859712; x=1736451713; bh=iF76jqXkDDi7DY14T8DVXQNb
-	8hrSak0UEQ35lCWhfXI=; b=IdmhmIIFnWb86VH/zbpiNQAl1iF5QHSh7tiknbD7
-	fwYmgVufnj2yHTdZrQ2ydlzbFbmrYK8KymywrjRL7M/8Xrh3RDLXWhHSr1MCy1nv
-	U/hp6li8gDhZD5U564JOPdY8W9TViwfwGLOahRF5V+BIgsQzgVcwkGeZ0x60xMb4
-	XNvSQxQaQFccgboQ7oINay/kr1L/GocXgXopXAMcT3NMspefV1U7HN35/M4E9cL7
-	inSf34D/3AZtDGg9f6KqdDkGGZ7CRW+seV4g17qrqXGAf4cfMazlsWE+EIwE9V0c
-	hGD6TL/Gig0v0vQgB4sz/wNiODEJ7/1YV5waUAXMYkWFSw==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id BuScKu7QmEgN; Tue, 10 Dec 2024 19:41:52 +0000 (UTC)
-Received: from [100.66.154.22] (unknown [104.135.204.82])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4Y78Hx4znCzlfl5W;
-	Tue, 10 Dec 2024 19:41:49 +0000 (UTC)
-Message-ID: <7d06cc60-7640-4431-a1cb-043a959e2ff3@acm.org>
-Date: Tue, 10 Dec 2024 11:41:48 -0800
+	Tue, 10 Dec 2024 19:58:42 +0000
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAEatlQ003672
+	for <linux-nvme@lists.infradead.org>; Tue, 10 Dec 2024 11:58:39 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
+	 bh=mgFHOgHaE4jw+dGMPOn2vA2NFSP+ToU+o7GNI61mlAU=; b=D0xnDSIiPRiW
+	j93myHXtOI/RtGihPRVrqLwI8ggzoBlhuvUgZLXh0ypnc28LCZGwNAQ96xtYWUQ3
+	cX2Wxozs4noVcHXr5amhDe4YraaTjUBKosroiirT7sg6A+Ke41DigUl6+svn+dG5
+	EcESsvySIdKHxPQL4l6WkwIbjBcVZnlUJTx01zgVh/lgHr8WtyqvquSrH7nOJ766
+	Yw6DzZnzW4rTDh30o83IilcHzi+4rQxwKTyMux7DWgXlWnBVSp/AY7hkziO17MMa
+	9JKPCvC0vm2sgEQNBsG2uMeIJw+dWpdDPs6B62TWWIbZyQs206v+L4Bo9YXOh8Oe
+	lI7nygUdEw==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43eqja2nhv-6
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 10 Dec 2024 11:58:39 -0800 (PST)
+Received: from twshared11082.06.ash8.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Tue, 10 Dec 2024 19:58:37 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id 7D8EC15D5C7C7; Tue, 10 Dec 2024 11:48:08 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
+        <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+        <io-uring@vger.kernel.org>
+CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
+        <joshi.k@samsung.com>, Hannes Reinecke <hare@suse.de>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCHv13 05/11] block: expose write streams for block device nodes
+Date: Tue, 10 Dec 2024 11:47:16 -0800
+Message-ID: <20241210194722.1905732-6-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20241210194722.1905732-1-kbusch@meta.com>
+References: <20241210194722.1905732-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>
-References: <d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
- <2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
- <20241111093154.zbsp42gfiv2enb5a@ArmHalley.local>
- <a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
- <20241112135233.2iwgwe443rnuivyb@ubuntu>
- <yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
- <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
- <yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
- <8ef1ec5b-4b39-46db-a4ed-abf88cbba2cd@acm.org>
- <yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
- <CGME20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1@epcas5p2.samsung.com>
- <20241205080342.7gccjmyqydt2hb7z@ubuntu>
- <yq1a5d9op6p.fsf@ca-mkp.ca.oracle.com>
- <d9cc57b5-d998-4896-b5ec-efa5fa06d5a5@acm.org>
- <yq1frmwl1zf.fsf@ca-mkp.ca.oracle.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <yq1frmwl1zf.fsf@ca-mkp.ca.oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: CT_srJ_q25mZXCKMX7hcME8ft53MftLU
+X-Proofpoint-GUID: CT_srJ_q25mZXCKMX7hcME8ft53MftLU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_114158_968827_2AD81EA9 
-X-CRM114-Status: GOOD (  16.33  )
+X-CRM114-CacheID: sfid-20241210_115841_378618_B0741218 
+X-CRM114-Status: GOOD (  13.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,40 +90,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/9/24 6:20 PM, Martin K. Petersen wrote:
-> What would be the benefit of submitting these operations concurrently?
+From: Christoph Hellwig <hch@lst.de>
 
-I expect that submitting the two copy operations concurrently would 
-result in lower latency for NVMe devices because the REQ_OP_COPY_DST
-operation can be submitted without waiting for the REQ_OP_COPY_SRC
-result.
+Use the per-kiocb write stream if provided, or map temperature hints to
+write streams (which is a bit questionable, but this shows how it is
+done).
 
-> As I have explained, it adds substantial complexity and object lifetime
-> issues throughout the stack. To what end?
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+[kbusch: removed statx reporting]
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ block/fops.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-I think the approach of embedding the ROD token in the bio payload would
-add complexity in the block layer. The token-based copy offload approach
-involves submitting at least the following commands to the SCSI device:
-* POPULATE TOKEN with a list identifier and source data ranges as
-   parameters to send the source data ranges to the device.
-* RECEIVE ROD TOKEN INFORMATION with a list identifier as parameter to
-   receive the ROD token.
-* WRITE USING TOKEN with the ROD token and the destination ranges as
-   parameters to tell the device to start the copy operation.
+diff --git a/block/fops.c b/block/fops.c
+index 6d5c4fc5a2168..f16aa39bf5bad 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -73,6 +73,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *=
+iocb,
+ 	}
+ 	bio.bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+ 	bio.bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++	bio.bi_write_stream =3D iocb->ki_write_stream;
+ 	bio.bi_ioprio =3D iocb->ki_ioprio;
+ 	if (iocb->ki_flags & IOCB_ATOMIC)
+ 		bio.bi_opf |=3D REQ_ATOMIC;
+@@ -206,6 +207,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb,=
+ struct iov_iter *iter,
+ 	for (;;) {
+ 		bio->bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+ 		bio->bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++		bio->bi_write_stream =3D iocb->ki_write_stream;
+ 		bio->bi_private =3D dio;
+ 		bio->bi_end_io =3D blkdev_bio_end_io;
+ 		bio->bi_ioprio =3D iocb->ki_ioprio;
+@@ -333,6 +335,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb =
+*iocb,
+ 	dio->iocb =3D iocb;
+ 	bio->bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+ 	bio->bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++	bio->bi_write_stream =3D iocb->ki_write_stream;
+ 	bio->bi_end_io =3D blkdev_bio_end_io_async;
+ 	bio->bi_ioprio =3D iocb->ki_ioprio;
+=20
+@@ -398,6 +401,26 @@ static ssize_t blkdev_direct_IO(struct kiocb *iocb, =
+struct iov_iter *iter)
+ 	if (blkdev_dio_invalid(bdev, iocb, iter))
+ 		return -EINVAL;
+=20
++	if (iov_iter_rw(iter) =3D=3D WRITE) {
++		u16 max_write_streams =3D bdev_max_write_streams(bdev);
++
++		if (iocb->ki_write_stream) {
++			if (iocb->ki_write_stream > max_write_streams)
++				return -EINVAL;
++		} else if (max_write_streams) {
++			enum rw_hint write_hint =3D
++				file_inode(iocb->ki_filp)->i_write_hint;
++
++			/*
++			 * Just use the write hint as write stream for block
++			 * device writes.  This assumes no file system is
++			 * mounted that would use the streams differently.
++			 */
++			if (write_hint <=3D max_write_streams)
++				iocb->ki_write_stream =3D write_hint;
++		}
++	}
++
+ 	nr_pages =3D bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS + 1);
+ 	if (likely(nr_pages <=3D BIO_MAX_VECS)) {
+ 		if (is_sync_kiocb(iocb))
+--=20
+2.43.5
 
-If the block layer would have to manage the ROD token, how would the ROD
-token be provided to the block layer? Bidirectional commands have been
-removed from the Linux kernel a while ago so the REQ_OP_COPY_IN
-parameter data would have to be used to pass parameters to the SCSI
-driver and also to pass the ROD token back to the block layer. A
-possible approach is to let the SCSI core allocate memory for the ROD
-token with kmalloc and to pass that pointer back to the block layer
-by writing that pointer into the REQ_OP_COPY_IN parameter data. While
-this can be implemented, I'm not sure that we should integrate support
-in the block layer for managing ROD tokens since ROD tokens are a
-concept that is specific to the SCSI protocol.
-
-Thanks,
-
-Bart.
 
