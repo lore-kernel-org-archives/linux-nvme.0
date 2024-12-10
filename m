@@ -4,125 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43392E7717F
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 12:31:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3930E77182
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2024 13:09:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j69dy3M5ikTE//d6tI8ihqoDhVwaJ6AQXRqhtTcnqsQ=; b=GU+DiLm2TbtjME1oVb67xEtFs/
-	XWMlLbZ+IBBnqRxUPPHjQe9Nr8mUkpVQAo1k271aipdCJaUJkyoIJSjomxoL/jDTJzTQcGuSpZMDA
-	vTytlodYgKFnD/zUdkgMXzSuEqtfN9L1YpBWXzNHnkiHaHMGZXyjOb0iXne4qd0O5K+4wc+UstwGF
-	l2zKcj+e/lOA0Y1PkfLQZ50URU10vFO6NGycHsVivXpG4MA2VxN8bFu2nYJPMloo2nBdaDw+0s4Pi
-	Q/7JOTXiKipNVYQNAUqSIeF11i8AWfv8dzULWKo4V9BRGykHBLNS3k1r9kZzT4iejvQ88PoUke4Gi
-	4UgVMhNg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hE2wGr2drKqZP79YHyO7wZhk1Oa+w9rZ2SWDWO5n+Go=; b=Go1sa1IyhHb1prSaMGu7XX4HYc
+	EMa61oNeL9HlZ6kt+zIq82SelYDsz/mjTJNoWibbK4IFz9AykOC9jKZf7tPaOortQnKRDea3uSuS1
+	Ww9UZNmTbgKtwiSyLohiMWuuSWgVrzM/YLTl5Wz1VJM2Rpql8dj162HTMfea/Gx7s4GRJ4cI+wZeu
+	q4DDJPf3d4aezTEG9EaUC7qRFEJ2b7QttQ8bnm7M3OLmdxgQ9cxebJxucr2dKsJyEhUrxDB/eDwVU
+	yJZuWgcoVoZux00DxUTwWgyEjpgdcIIS1yP4XvTq/AZIeqs54Uv4UX7Nto8HZtIWz2+62cmVDBU//
+	e56iQtyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKzOM-0000000BQta-2xlP;
-	Tue, 10 Dec 2024 12:31:06 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1tKzz9-0000000BXNL-2l9Q;
+	Tue, 10 Dec 2024 13:09:07 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tKzOK-0000000BQqM-10ZQ
+	id 1tKzsg-0000000BW7K-1BDD
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Dec 2024 12:31:05 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20241210123059epoutp01c4cc7a010b14c69c05469c24f4aa0208~P0LV1_KzN2555925559epoutp01h
-	for <linux-nvme@lists.infradead.org>; Tue, 10 Dec 2024 12:30:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20241210123059epoutp01c4cc7a010b14c69c05469c24f4aa0208~P0LV1_KzN2555925559epoutp01h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1733833859;
-	bh=j69dy3M5ikTE//d6tI8ihqoDhVwaJ6AQXRqhtTcnqsQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gLNDgHMmw9JfCoMPDo9fkgnBhMM+wm9BS/3HDU3VTCxzbRMmnzfRqWvWN6wET3m8X
-	 qio010gbu1hnGDXG2Rwv0p0NDJ4YD8DGqe1uZazm3L4mPrZm9Sniu7Nkrjc8FSKjFF
-	 a4Xb/g8IBOe6AIOiFVezvCND80jhO5Fk9YKmoopk=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20241210123059epcas5p1f21325970a2e5f0ee46e634940a61eca~P0LVkgdrx2573525735epcas5p1y;
-	Tue, 10 Dec 2024 12:30:59 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.179]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Y6ykn69RQz4x9Pw; Tue, 10 Dec
-	2024 12:30:57 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5A.27.20052.18438576; Tue, 10 Dec 2024 21:30:57 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20241210122702epcas5p4fe3ed43ad714c6b467a35d16135d07c5~P0H5MsXss2989829898epcas5p4r;
-	Tue, 10 Dec 2024 12:27:02 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20241210122702epsmtrp117ac9d0e2713d79ac8e3a26246e38059~P0H5LddE30784007840epsmtrp1f;
-	Tue, 10 Dec 2024 12:27:02 +0000 (GMT)
-X-AuditID: b6c32a49-3fffd70000004e54-59-67583481f1ff
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	0C.E0.18949.69338576; Tue, 10 Dec 2024 21:27:02 +0900 (KST)
-Received: from ubuntu (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241210122700epsmtip25f7adffc1f9808a8bc1fef9bc49f07ee~P0H3ZHAyj0608306083epsmtip2a;
-	Tue, 10 Dec 2024 12:27:00 +0000 (GMT)
-Date: Tue, 10 Dec 2024 17:49:06 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: axboe@kernel.dk, hch@lst.de, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, sagi@grimberg.me, asml.silence@gmail.com,
-	anuj20.g@samsung.com, joshi.k@samsung.com, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv12 10/12] nvme.h: add FDP definitions
-Message-ID: <20241210121857.tbrbg4cucape5cja@ubuntu>
+	Tue, 10 Dec 2024 13:02:27 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAB0OQJ027745;
+	Tue, 10 Dec 2024 13:02:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=hE2wGr
+	2drKqZP79YHyO7wZhk1Oa+w9rZ2SWDWO5n+Go=; b=TpghoXJauQdWNq46uu2vf+
+	Ui733kGNnkoTKV2RTC+UZVT2QmNIjqqmx49STuAtn1iU8GIiL1cVv2JFIV3z0YgN
+	gxNHDaq2hO0xQiKzGC7zDgo/7JzmKg3iW6G888U1Nr6lrcoVhlkm8yGeEVBLp/Ho
+	E1m+SvKG6StAce4351enRqRnKO8nnYsLc4/QHJZuw+HIW0sfl0WDaos/jbEg+Z1S
+	AxLKU666mecFsuAbeOFvoJjhkpwcUNXS2rDLOpNWQxU8KvC6UOev4rdI7BTK3b0t
+	UwGadE7kUKjyH3jD7I7wmSUoqJhp7Wvu9MK31qEQnxHmQ5Q+qBOP/adF/+OdPnHQ
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43cdv8q5dj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 13:02:15 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAAiYIK032744;
+	Tue, 10 Dec 2024 13:02:14 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43d0psbw5n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 13:02:14 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BAD2D6Z30212858
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 10 Dec 2024 13:02:13 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0A6D958067;
+	Tue, 10 Dec 2024 13:02:13 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8C12C58052;
+	Tue, 10 Dec 2024 13:02:10 +0000 (GMT)
+Received: from [9.171.62.7] (unknown [9.171.62.7])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 10 Dec 2024 13:02:10 +0000 (GMT)
+Message-ID: <27e11ef9-4798-4d51-989f-e576b3d10050@linux.ibm.com>
+Date: Tue, 10 Dec 2024 18:32:09 +0530
 MIME-Version: 1.0
-In-Reply-To: <20241206221801.790690-11-kbusch@meta.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGJsWRmVeSWpSXmKPExsWy7bCmlm6jSUS6QctPHYumCX+ZLeas2sZo
-	sfpuP5vFytVHmSzetZ5jsTj6/y2bxaRD1xgtzlxdyGKx95a2xZ69J1ks5i97ym6x7vV7Fgce
-	j52z7rJ7nL+3kcXj8tlSj02rOtk8Ni+p99h9s4HN49zFCo++LasYPT5vkgvgjMq2yUhNTEkt
-	UkjNS85PycxLt1XyDo53jjc1MzDUNbS0MFdSyEvMTbVVcvEJ0HXLzAG6V0mhLDGnFCgUkFhc
-	rKRvZ1OUX1qSqpCRX1xiq5RakJJTYFKgV5yYW1yal66Xl1piZWhgYGQKVJiQnfFm7UfWgrls
-	FS37T7M2MO5m7WLk4JAQMJG48d6ji5GLQ0hgN6PEuUf/WSGcT4wSD/+sZOxi5ARyvjFKrJpo
-	BmKDNMz+sYAdIr6XUeLtEimIhieMEk033rGBTGURUJU4faQCxGQT0JY4/Z8DpFxEQFHiPDAY
-	QMqZBSYySfw+1MQOUiMsYCnR1FUPUsMLNH7Jo7PsELagxMmZT1hAbE4Bc4mzt6eA9UoIrOWQ
-	+HxrGiPEPS4Sc9etZYewhSVeHd8CZUtJvOxvg7LLJVZOWQHV3MIoMev6LKhme4nWU/3MIDaz
-	QIbEil9TmSDishJTT61jgojzSfT+fgIV55XYMQ/GVpZYs34BG4QtKXHteyOU7SHR33qbBRIo
-	2xgl9l38xzaBUW4Wko9mIdkHYVtJdH5oYp0FDAxmAWmJ5f84IExNifW79Bcwsq5ilEwtKM5N
-	Ty02LTDMSy2HR3Fyfu4mRnAC1vLcwXj3wQe9Q4xMHIyHGCU4mJVEeDm8Q9OFeFMSK6tSi/Lj
-	i0pzUosPMZoC42cis5Rocj4wB+SVxBuaWBqYmJmZmVgamxkqifO+bp2bIiSQnliSmp2aWpBa
-	BNPHxMEp1cC0ae8tPsVTlSwrF53VcCu+nhX66fm65GMZ970cDdjsxGodfc4faTo9J5L3M6f1
-	e7dl/o9+FvbffHV7V4SIaZlQ9g7Hy12ylctflH/uLjrR3TtF/mEMp9qcIF1/rgqtR7tezb+k
-	dVk7M3CR2cyJmd5hOwu5tW5o7/1uHHdC7e6qyktRc7wP77I0KnvzfnXCjwvKr/ZMPVq3ZAWX
-	wLLM2EuKFzc+X/gmkfdHQtLqJfESr1479uvV8PEJqthdu8tw0iqe6dCdwCd7cye8XXNcX8X7
-	b6HK7BTH81Gmpnp3VGZ5dLFv5o5Qlfnxnz/wuUPYkzuFdZkLA6/0ajtFl4idC827ovF+Gbd9
-	Kpu64oQzfBZKLMUZiYZazEXFiQAXCRY7SQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBLMWRmVeSWpSXmKPExsWy7bCSvO4044h0g5nbRC2aJvxltpizahuj
-	xeq7/WwWK1cfZbJ413qOxeLo/7dsFpMOXWO0OHN1IYvF3lvaFnv2nmSxmL/sKbvFutfvWRx4
-	PHbOusvucf7eRhaPy2dLPTat6mTz2Lyk3mP3zQY2j3MXKzz6tqxi9Pi8SS6AM4rLJiU1J7Ms
-	tUjfLoEr4/T1XvaC88wVd79fZ2xgbGfuYuTkkBAwkZj9YwF7FyMXh5DAbkaJxf8OsEEkJCWW
-	/T0CVSQssfLfc6iiR4wSB/Z9Y+1i5OBgEVCVOH2kAsRkE9CWOP2fA6RcREBR4jzQNSDlzAKT
-	mSSezzzGAlIjLGAp0dRVD1LDC7R3yaOz7CC2kECSxNrVBxgh4oISJ2c+YQGxmQXMJOZtfsgM
-	0sosIC2x/B/YeE4Bc4mzt6ewTWAUmIWkYxaSjlkIHQsYmVcxSqYWFOem5xYbFhjlpZbrFSfm
-	Fpfmpesl5+duYgRHjpbWDsY9qz7oHWJk4mA8xCjBwawkwsvhHZouxJuSWFmVWpQfX1Sak1p8
-	iFGag0VJnPfb694UIYH0xJLU7NTUgtQimCwTB6dUAxOPePDaQ3xr3/ObbSwvOenIsDXz5F/F
-	I69Wti3yeus3/03xkqgjidwfrf5vs5jrLKMRH7n/ZPA/9Y9/f36/Yc660+VeqPwu5+Q17C/u
-	8W6SD2TdJvhmZV/TjUdrp7MfP+nN1+GSN19YhldkcqhNz7I39Rnmc+68E9+syP5ZVnGdWn72
-	qbef5s+coLdBcI/tyRa/FQwbt2XLiQekbV9/k5nHfnqFYqRtQZZqvM01B0/JT64p+w6734wN
-	LLc2NGz6GpJmoHT3zYHVEq6XVLfmt1i3+PRLnv27XyS/yq3utN/BiSVLK8/Fd3OcVN4RzS2f
-	WjZl1+NT6+/zFy5T/3bzUpPw7/yPe9N2L5t/U5+L6YYSS3FGoqEWc1FxIgCHbpTeCwMAAA==
-X-CMS-MailID: 20241210122702epcas5p4fe3ed43ad714c6b467a35d16135d07c5
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----YdMQOF_WoWeg2u_t4KSKhNTuhss8l_igc36-I4U5-7l0BmvH=_72894_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241210122702epcas5p4fe3ed43ad714c6b467a35d16135d07c5
-References: <20241206221801.790690-1-kbusch@meta.com>
-	<20241206221801.790690-11-kbusch@meta.com>
-	<CGME20241210122702epcas5p4fe3ed43ad714c6b467a35d16135d07c5@epcas5p4.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv5 RFC 1/3] nvme-multipah: Add visibility for round-robin
+ io-policy
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hare@suse.de,
+        kbusch@kernel.org, hch@lst.de, =axboe@fb.com, gjoyce@linux.ibm.com
+References: <20241030104156.747675-1-nilay@linux.ibm.com>
+ <20241030104156.747675-2-nilay@linux.ibm.com>
+ <7cba4ddb-5db1-4468-b1a6-69440d359701@flourine.local>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <7cba4ddb-5db1-4468-b1a6-69440d359701@flourine.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JYjwsEclK5vdMLnsXopNJZLVnIOq5tET
+X-Proofpoint-ORIG-GUID: JYjwsEclK5vdMLnsXopNJZLVnIOq5tET
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 mlxscore=0
+ malwarescore=0 adultscore=0 phishscore=0 suspectscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412100097
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_043104_614979_3EFD433B 
-X-CRM114-Status: GOOD (  12.00  )
+X-CRM114-CacheID: sfid-20241210_050226_332910_FEDCCAB9 
+X-CRM114-Status: GOOD (  36.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,28 +109,132 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------YdMQOF_WoWeg2u_t4KSKhNTuhss8l_igc36-I4U5-7l0BmvH=_72894_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-
-On 06/12/24 02:17PM, Keith Busch wrote:
->From: Christoph Hellwig <hch@lst.de>
->
->Add the config feature result, config log page, and management receive
->commands needed for FDP.
->
->Partially based on a patch from Kanchan Joshi <joshi.k@samsung.com>.
->
->Signed-off-by: Christoph Hellwig <hch@lst.de>
->[kbusch: renamed some fields to match spec]
->Signed-off-by: Keith Busch <kbusch@kernel.org>
->---
-
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-
-------YdMQOF_WoWeg2u_t4KSKhNTuhss8l_igc36-I4U5-7l0BmvH=_72894_
-Content-Type: text/plain; charset="utf-8"
 
 
-------YdMQOF_WoWeg2u_t4KSKhNTuhss8l_igc36-I4U5-7l0BmvH=_72894_--
+On 12/10/24 14:52, Daniel Wagner wrote:
+> There is typo in the subject.
+oh yes, I will fix it in the next patch.
+> 
+> On Wed, Oct 30, 2024 at 04:11:41PM +0530, Nilay Shroff wrote:
+>> This patch helps add nvme native multipath visibility for round-robin
+>> io-policy. It creates a "multipath" sysfs directory under head gendisk
+>> device node directory and then from "multipath" directory it adds a link
+>> to each namespace path device the head node refers.
+>>
+>> For instance, if we have a shared namespace accessible from two different
+>> controllers/paths then we create a soft link to each path device from head
+>> disk node as shown below:
+>>
+>> $ ls -l /sys/block/nvme1n1/multipath/
+>> nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
+>> nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
+>>
+>> In the above example, nvme1n1 is head gendisk node created for a shared
+>> namespace and the namespace is accessible from nvme1c1n1 and nvme1c3n1
+>> paths.
+>>
+>> For round-robin I/O policy, we could easily infer from the above output
+>> that I/O workload targeted to nvme1n1 would toggle across paths nvme1c1n1
+>> and nvme1c3n1.
+>>
+>> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+>> ---
+>>  drivers/nvme/host/core.c      |  3 ++
+>>  drivers/nvme/host/multipath.c | 81 +++++++++++++++++++++++++++++++++++
+>>  drivers/nvme/host/nvme.h      | 18 ++++++--
+>>  drivers/nvme/host/sysfs.c     | 14 ++++++
+>>  4 files changed, 112 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 84cb859a911d..c923bd2c5468 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -3940,6 +3940,9 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>>  
+>>  	if (!nvme_ns_head_multipath(ns->head))
+>>  		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
+>> +
+>> +	nvme_mpath_remove_sysfs_link(ns);
+>> +
+>>  	del_gendisk(ns->disk);
+>>  
+>>  	mutex_lock(&ns->ctrl->namespaces_lock);
+>> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+>> index 6a15873055b9..43c87a946cc7 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -682,6 +682,8 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+>>  		kblockd_schedule_work(&head->partition_scan_work);
+>>  	}
+>>  
+>> +	nvme_mpath_add_sysfs_link(ns->head);
+>> +
+>>  	mutex_lock(&head->lock);
+>>  	if (nvme_path_is_optimized(ns)) {
+>>  		int node, srcu_idx;
+>> @@ -764,6 +766,25 @@ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+>>  	if (nvme_state_is_live(ns->ana_state) &&
+>>  	    nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE)
+>>  		nvme_mpath_set_live(ns);
+>> +	else {
+>> +		/*
+>> +		 * Add sysfs link from multipath head gendisk node to path
+>> +		 * device gendisk node.
+>> +		 * If path's ana state is live (i.e. state is either optimized
+>> +		 * or non-optimized) while we alloc the ns then sysfs link would
+>> +		 * be created from nvme_mpath_set_live(). In that case we would
+>> +		 * not fallthrough this code path. However for the path's ana
+>> +		 * state other than live, we call nvme_mpath_set_live() only
+>> +		 * after ana state transitioned to the live state. But we still
+>> +		 * want to create the sysfs link from head node to a path device
+>> +		 * irrespctive of the path's ana state.
+>> +		 * If we reach through here then it means that path's ana state
+>> +		 * is not live but still create the sysfs link to this path from
+>> +		 * head node if head node of the path has already come alive.
+>> +		 */
+>> +		if (test_bit(NVME_NSHEAD_DISK_LIVE, &ns->head->flags))
+>> +			nvme_mpath_add_sysfs_link(ns->head);
+>> +	}
+> 
+> Remind me, why do we add the link here? Couldn't we add it earlier and
+> so we don't have to check the ctrl state? At least I read this here that
+> we want to add the link independent of the ctrl state.
+> 
+Yes we always add link earlier for a case when path's ANA state is LIVE (i.e ANA state 
+is either optimized or non-optimized). However there's a scenario when we allocate the
+namespace path and its ANA state is anything but LIVE and in that case we would fall
+through the above code path. 
+
+Assume we create a shared namespace and attach it two different controllers. One of the
+path of this shared namespace is advertising its ANA state as non-LIVE and the another 
+path is advertising its ANA state as LIVE.
+Now, if first we allocate a namespace path, which is advertising ANA state as non-LIVE,
+then in that case the head disk node wouldn't come live and without the head disk node 
+we can't create the sysfs link to that namespace path. Later when we allocate the second
+path, which is advertising ANA sate as LIVE, the head disk node comes live, and so we can
+now create the sysfs link to both paths. 
+
+So it's important to check the state of head disk node in the above code path. Idea here's
+that we always want to create the sysfs link from head disk node to each namespace path
+irrespective of path's ANA state. However we could do that only when at-least one path is
+advertising its ANA state as LIVE so that its corresponding head disk node would come live
+and then we could create sysfs link to all paths. In fact, this requirement was proposed by
+Hannes[1] and so I implemented it in v5 patchset.
+ 
+> Or do you want to say whenever the link exist the path is usable? Trying
+> to figure out if this is a good idea or not when nvme-cli/libnvme
+> iterates over sysfs and it races with this, what's the user experience?
+> 
+If a link to path from head node exists then it doesn't mean always path is usable. We need
+to read its ANA state to determine whether path is usable or not.
+
+> I am sorry if this has been already discussed. I just completely lost
+> the state :)
+
+No worries..:) Please let me know if you have any further comments/questions.
+
+[1] https://lore.kernel.org/all/3c92b9ae-1223-4787-90e3-955f82161269@suse.de/
+
+Thanks,
+--Nilay
 
