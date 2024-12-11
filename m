@@ -4,168 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A86D7E7717D
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 12:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C787BE7717D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 12:32:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=lk4/E2VM8Rqv4wfUwcKGmbv1cn6UfcpSayUy5inG8vw=; b=nDQ0nKRiYd1q6NelLaHr8bfAxy
-	70hAWM1rd5K/eTMkHpTHSEd1/uKypv7WrbQva4Qd24LHxmxv1fufUVbTgOuTgR7UHZ+sFIPtFrs7B
-	3KR7+j5JkXMe/jpNXiaf1bVCrUDpdukUa9ujpfughlIHSl9XHy7I+ZdCw0KlIJVnflyVSVD2VhOGq
-	VMLuMH5N70M2d/jcQDA+SBcZxSHe7ga3wPVIzu440e6MBpoOMuU10Tz20UlJ8u9yK83ADheuKSszZ
-	VBPvlLyPJudgDI0IKFdmRDhoGsEokcwsdKBOy61GTvehiJ7GQiA8eiAXhjwDQv+CchalXgZMt5a83
-	iUBiYcjw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mHfL74yGraHCMIUji97g/fFBGv5R4idTyJ3wRuQAiLg=; b=gxDhLGMLpfd+hu1TIe+SUU72K8
+	QwdkIVB+4Bj8u1u35bUSJVpFA9M29lfXsTJYcv4yAop/yVsy5Bq6sr7Naka3WNoYn8o4+v+1+jumI
+	pbHu57R3typQ9vMoh5Zq5Kcj6DNGAEHnJa2SEP52fSgERg2vj5fEh/pxEY1HPace1EcfvStJSKl0T
+	V/1rwS1mjLv0LWAKaEX1VlLLyhAT1vwbX3pO4Fgk9IPzPwCKRlDerMv1A2sueNo4lpUTKmkDJoHKD
+	1Q7JB5s+uXu728dHIwdqHnswIcjBpFSDb5TZoBXkskQqz5lYMhepejMj30TS2Twqb8ebu41eBpbEH
+	sad1bKaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLLp3-0000000EpDo-45ZR;
-	Wed, 11 Dec 2024 12:28:09 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1tLLtM-0000000EpeK-26WM;
+	Wed, 11 Dec 2024 12:32:36 +0000
+Received: from mgamail.intel.com ([192.198.163.17])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLLp1-0000000EpD8-0wrR
+	id 1tLLtJ-0000000Epdq-3Y1g
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 12:28:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1733920087; x=1765456087;
-  h=from:to:cc:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=lk4/E2VM8Rqv4wfUwcKGmbv1cn6UfcpSayUy5inG8vw=;
-  b=dbt6VbKsDboENs1ZP3CAqHXJqk1vEWO6Atu+GhB6vTt+XFNPXm+GYW87
-   1Stw3kjS4wsgOZpOBXPp4cv5DIlXS/nvhphDQ7oGSwvTPv0tHmkTDVtmw
-   U3GtoOI+WB47B03ZSABKCoQ4O41fFsf2GNvgFNEU+J+VoxFyXR0TIKfLp
-   WZBrLslOi7OPBZmaWu5DEwSJ1UsysfoDIJcDh8qvEV44ZoqD5Hu8mPigq
-   FpcKL+ld56Ew0IM0Ab6aL+ZOdR74hPC93w7FmPh38kBQ9jbR6A5OIGGkm
-   Mv48whwUVjS8aOu9nxc+jc13VUpfJPA7YUnTRrUqrvR9pQUj0xEiSEWd+
-   w==;
-X-CSE-ConnectionGUID: ALooB4CNRlW6LLkUlQxQuA==
-X-CSE-MsgGUID: yJg7uRyvTVSoQb7mNWD64A==
-X-IronPort-AV: E=Sophos;i="6.12,225,1728921600"; 
-   d="scan'208";a="34622804"
-Received: from mail-eastus2azlp17010020.outbound.protection.outlook.com (HELO BN1PR04CU002.outbound.protection.outlook.com) ([40.93.12.20])
-  by ob1.hgst.iphmx.com with ESMTP; 11 Dec 2024 20:28:06 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ledeUcxg9Lt6t8blPjwpr73GxpNbG9Nd2d0BpGaoQ7UBh6/aUg+5poqsa3awsHFeTDGfnuERgMIL82or3iNmMZejHjrccGFXq7MW3wOXDaggeVCygjl9Clw7ktDs07MgJn9qwQkEF00N9cUuEbQ8Z12iFmG2btrBI8XaGhr5T5b2k5kgwBWsS/hph9dMneKoiiOF3HfUL9xZ+TnOC3Zl52JoRAjVhhrsA1kXFcEalPe388yXMI6qpnQNT6ptBTIX7MLLOL6kDbo/lpCRCTQPQy3dHna0JmIrKaNUa3HcXGifD+4dmoGysXDnkYLqPB/Y3lEbURCDdwJGAS085TVuqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lk4/E2VM8Rqv4wfUwcKGmbv1cn6UfcpSayUy5inG8vw=;
- b=JCRcfrvg7NuB6bMDdqPUPxWsfxGcKOBg+6YhIYuhkcSKkV6RNyhFNrecccMK7wEUnSPJZ9ZA0HUJ6Be/FhY6dthLxALgZpAqu6CFpZQv8z6bnrPRXJfGqEI9vIRAeCGgZO5IW+iluKc8CRUtOpUj/NvrHJ5ohzZH2WZItq7zeOrkiniml/984u1cZ55bC9LPkDP6D2i+R3K7/cKksOCBrgAAuRVcGfreBGxs9sC3wqRyPorH313un7Ajim6YJq9pRVV0q4TyUiIZ12oxbhCceL2eMHBUHWtngrd9nNhqeD79YQANLwIw8W5bV5sIWBzWCdl25iKXPrZkAFgcCKPOpg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lk4/E2VM8Rqv4wfUwcKGmbv1cn6UfcpSayUy5inG8vw=;
- b=ixrJMNlq3Pw8Kr3pcS/7o1Qz9+OeqleC8jzdDgO5nBRCtLi9HI+A0ySMhCuxqZKMQXZWPveisw3lPIWXoSsAGY64LqHqfNAHBEnSnNAib/qMCif/jVS/ZAAe3JMVPDxAyv/8vCCOzvb0PBAgFo4eijsrDCXaewpFusilk07wOkM=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- CH7PR04MB9644.namprd04.prod.outlook.com (2603:10b6:610:252::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8251.16; Wed, 11 Dec 2024 12:28:04 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%5]) with mapi id 15.20.8251.008; Wed, 11 Dec 2024
- 12:28:04 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-CC: Yi Zhang <yi.zhang@redhat.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-Subject: blktests nvme/049 failure and fix
-Thread-Topic: blktests nvme/049 failure and fix
-Thread-Index: AQHbS8gfmrP/xzem0Uahy8oupUJELA==
-Date: Wed, 11 Dec 2024 12:28:04 +0000
-Message-ID: <s6mohcucgshee3wcs2z5e6j6eugbidxz75szuyiuzb764teqxy@6j47chnzjzvj>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CH7PR04MB9644:EE_
-x-ms-office365-filtering-correlation-id: 99198ae2-25c0-4739-622d-08dd19df4286
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?V0qRYRrF7YpSIQcDkO/pRe8elTW4x2nsR2MOkydmdl1o3yyYD5kKMJvWOyCj?=
- =?us-ascii?Q?G6N5u3Y5S3O98S4BVPprf3haPMrQYv3ARPHHpKeoGk6tdB2VsAriXxogYIz8?=
- =?us-ascii?Q?WZaFDZDKQW4DQkM1Z4wUo8If52OsQqlUJVH6DmkhuLfFLGPuQDDwQT2VqJa7?=
- =?us-ascii?Q?u75lI+o+Ett2SZX/wH6Tcfv0Ir81nHWsvTmrHCEtMDqBqSn3hLDpq2B4Czrj?=
- =?us-ascii?Q?AvbYy9DdJPRmEiWwEpOhEk13iUTDvCWBcbzGSqgGD3VWKicC6EKcIstCmq01?=
- =?us-ascii?Q?BPxzRdmxWSgQ/C544W4aBUWEMp7hoTKhKkUb8KgMl+UMJDRTztLxclBCJZ+o?=
- =?us-ascii?Q?KvTKeagIBtH02GM9vYSkLsLMlqgS2ZwA5QlNwWIaGGOhRisSm1JXbjlWVRpo?=
- =?us-ascii?Q?I7vaFWkHWcn+SAR3Nqvw7F1gDqpltOtKzeAKs+PQt96Y+h5A5agoaHv+zgTH?=
- =?us-ascii?Q?ISJ0WSbaTX8ElMjMTBHtyi/k2cF6T9adezaY9BaQ6GZwe0yIh/LRUf90MoTD?=
- =?us-ascii?Q?MVq4DDljqdiXBscpdxzYvT6DbQhbAY88vpffLIMAedueAVS48e2VzyjLVuHN?=
- =?us-ascii?Q?rMgDCFUucOskLA06aVEyPcAMDge+Wy7IE/MHwGCaA4i4nCfOJ3LMjImnZ7SW?=
- =?us-ascii?Q?Y1y9GRP2XLTfXaqkmD7lj0/etCMPDa6UT2FGMD9ab7/lpCq42/5Ci6YNAdRL?=
- =?us-ascii?Q?dk+2FvdtsxmECh9S3zmaME/zMHNzUOCpNu+IsdFXWdgD9nOgv+D45h+wMUlk?=
- =?us-ascii?Q?N6KHR+Mm2h+qhe5pyWoMhpid89tYjXrBjqUNirXAUrxv9KoEQH45qzgbV2Y9?=
- =?us-ascii?Q?KbZUb1jgT+uSxB/xlsJzQ88QxbKlFuVGR3QHK2P33+WnDYtWeladf52bS//s?=
- =?us-ascii?Q?30nHqPZapR2WArCIW98psNvjlHpyamLKRCDWf/+UBv2/7VwdvN/3Z0DUIvw0?=
- =?us-ascii?Q?Y+X/iNroAcki+D3Tc66x8FO1jPobG3ng3NEkDKqYLxOkYnwEE6aHa2gVuElw?=
- =?us-ascii?Q?F+bbxCxfBmrrWnMRM31/EpO8GDQXGSLs1Mh/eIByzPy39m196uuh2DkkeXCh?=
- =?us-ascii?Q?tx31Q8HHbIaoDZ2eYbYu0ZVDp35ZG1vhN38CyOW5naFMWM8crZ6Bwq+xKR/V?=
- =?us-ascii?Q?5qPtnyFr6eqZu21Yld0jdScJZ2gBx8PU+rQRt1Y2x20l7dS824agl6xcNRFn?=
- =?us-ascii?Q?JNE021ikgYnI73GvRqIONzWzi9J3p54ce9Fv15CBwMAZF5D0JkJ7LKn6o2Qs?=
- =?us-ascii?Q?4mkrOP4XJko7N9pV2t3MP3N9VkSXfjCBTjekLxIuaj/HIBZipDSPcTcS6j2i?=
- =?us-ascii?Q?MPjaO/+8+CoiJnR1giQ6bp+vrTMniWnElL0/eIdtytKW7eIWI1WQ+sBGXe9g?=
- =?us-ascii?Q?2dsOcO53jCC8+UIRlHRdFzmPDLGa5L1j2uB/PVvw3pfzRmufDQ=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?fisMSO81UawGXFYNhmaOqq8YeZMom240GHWXjx680EtZ9jxaADKLEUJblV+e?=
- =?us-ascii?Q?WT+FghcqFkh+INLVs5CUtoQHtZVP94STq6DPSfmAkdEWm3EQUO9SXb8CRJSf?=
- =?us-ascii?Q?d+91dVtSGPDR6JCWYdE5FP0N47u+YftNUPXe/sW8K6xLb9xONqM7OoNKxFC/?=
- =?us-ascii?Q?peTL71P+MhO30eMZks/8LUXywuY1bCPo2gfTeQyBB+Xn+FZsn8Izh5HNMydS?=
- =?us-ascii?Q?8cb+3bKchOKzMiJpA9n4XCDfHBhDejs4Tdgo39cQpQAdmL+Ce1sXrPJGD8yL?=
- =?us-ascii?Q?cGCThE1NTXpnbnd/WDeihLcOkLTVHELUjHdWoWLlRq9mjxq1y9uY/uwKgxfO?=
- =?us-ascii?Q?gMuH3UFwiN1p9hRdakWn/6TJdH0/Ppx9SBFT2+v8rlxZh94LEFlLJqb3Ouj/?=
- =?us-ascii?Q?iXgk8y2NXp1Pq7pq0oyRx1Lfk0LoXIPYopkLA39yUPdhyGJe5CklDSrXeyxE?=
- =?us-ascii?Q?d8zQy2IiyoeGxsf22oRmomQrwkf0pdEY/Ncugj2AgcBwDar6mlxhbcyCNHHZ?=
- =?us-ascii?Q?pM1Tctjj9rKryqH+N/Dxnzbrvzg8AHK1HjKgRFT3WIjFOsl9wvZfo4Mc4YQy?=
- =?us-ascii?Q?ATApZHlJXyfJ8uod+07hHjpFwvBbUaO+7M8REqwSYPH87ZsRdaa1fp1AvcGO?=
- =?us-ascii?Q?oyDwwo2S/sY5KON1SAFuGcuehAqyjxuKKFCirvHpW0r4hPeCusmFv3CEZySj?=
- =?us-ascii?Q?3UeI58DF0Q9IOFt+9Kkt7LqFqKnsfyCo0rU5Wrb1/fwJigadOE4F9yDviZj5?=
- =?us-ascii?Q?Mom2X8ouv7ch5DZfbvzA0NlHVeHIpc5wR9wbYUhlxQkMg4iPGRB/DUNx7sTV?=
- =?us-ascii?Q?z1sukd1qhPhsSmYGT2Nxt1g8Bhx51Q3O21Jr6lupx5AOq8s8dRSDUD3Rfa88?=
- =?us-ascii?Q?TxyoYeGkDgVMxKiTWzoHxu6WEssa6uxAbFwGPySczNJPoIgDp/6gUelujwJd?=
- =?us-ascii?Q?gvzX5w9NHNDv5raQFbm0GXO8XC+iqKfAt7byFs0zB8vHqCNg9wPIi2j8AE+a?=
- =?us-ascii?Q?aqGCZNu9mbYa5/gtA7XVj/AOeDofUvl4SPoIbBEtK2/MlvyzYow/OJfirswX?=
- =?us-ascii?Q?yArcoicAnAWphZAxUqA1Y5/3WTDUyUbrYDj7pQ642coTav3UNe8MW4ERsUkt?=
- =?us-ascii?Q?NOCjqLl9oZQpIyHxNn84IYOIxCHcVq8Qjf4N4lVW3w8879lYZAyEQk7W0y0R?=
- =?us-ascii?Q?Zc58D1PuNXwv/GjDi/i2bE69E9PxOt2597RDhRoXV+ozNlTpR+cB+AI63slp?=
- =?us-ascii?Q?3j1FVEOQiDAHR3nBX9tFXy/JXP/3GYZp4LAPCqz+KWT65Y3zRnzC5zqrAgU2?=
- =?us-ascii?Q?t05cnkDim1011MwVjR8nVK2gmfPvNYHUjFArUkVMlZiO7IX2jAyTLjF+U6Q/?=
- =?us-ascii?Q?xUWoNnSs1fVrEpclei25ME2US3TmWR59WMOzat5IGPedNlgGbGks8jFmY6XI?=
- =?us-ascii?Q?4GKk8QnHu3MnmvIpJ4Z3ZBCg+yciv/Z0L7XQaCu/QeVLt+t+NuzZybP5grUK?=
- =?us-ascii?Q?3C6c/Ad9lcdjLAC9UVT5zeEzzcD3AvL+fiL3AtffkJ7w6lu4rJDSx1CBdqUV?=
- =?us-ascii?Q?/ZQZdzN60U4vaQ1k5Ity/E7eTwXXqqq2oPLxEY9mWfA88kdOzb21xoX1zdrS?=
- =?us-ascii?Q?9SnXrCm3Oziq6ceOlPmv1wY=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2115F45445E2F3479C75806BE73AD2CA@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Wed, 11 Dec 2024 12:32:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733920353; x=1765456353;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=71wI1DFvaEWtKNoUNXYVXtT26U3V83DpBv8RT4vrESo=;
+  b=lFdD11SSUneQbW2sBKGs22SPf9M7GOscU16TeHnCFBCaTEgdBZVFvP9h
+   RJ+V6A7hxrcea1fRPNcN5Zm6pYzpevj4zGGsoZCZ1lTossMeMVG/BOR4A
+   xM96GmTj7U8KQacZx7UujAxSW+odKqgQgLCpqfLi6aTFyrfxBsTL/Beve
+   yoVUyAc/RhS5Ilz8Jcpnpcv91kKjQFZml3ci5SmxI+NJbyF+t7OkF0iVI
+   kstDmcrGuHFW6VrIihSxUPBZXKZZ1A58iv48Qk52A5I2J3JQ4Tv/ExZkw
+   nqSNmPhBDe5mEq3y8g379Uj17kLEZf59HyA+uCG11K7TVCak36jkXbjFn
+   g==;
+X-CSE-ConnectionGUID: nNBYn70hRB6CBpd937+QjQ==
+X-CSE-MsgGUID: AXtF/rsgTdK61vtZOAlYcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="34197461"
+X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
+   d="scan'208";a="34197461"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 04:32:33 -0800
+X-CSE-ConnectionGUID: UDtcslNASIWMgW0uxxZpQg==
+X-CSE-MsgGUID: xxzsp89jQZOVGtVWxIutiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
+   d="scan'208";a="95856342"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 11 Dec 2024 04:32:29 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tLLtD-0006dx-13;
+	Wed, 11 Dec 2024 12:32:27 +0000
+Date: Wed, 11 Dec 2024 20:32:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v3 16/17] nvmet: New NVMe PCI endpoint target driver
+Message-ID: <202412112016.qpAKrNxI-lkp@intel.com>
+References: <20241210093408.105867-17-dlemoal@kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: v2hHwDH4qP++kBTdpgw19lpYGaKzqrWhTPEqGoMMSJmh6UoNb1RVcTgNL82/GNAUomXGS6bZnTI2MChcPQSVxkE6KmpNsf16oPt+Wp0MJHaLQS9jW7efQMtVrdC1roDKSaO90Up7RtqEscuZCSAwRsVi955lC3nlmJsK1eSGOIXZdSNh+NMy/w+2WeyTsZ3dFXJ7TfRdMibMb/YQsMpsvVkcmJKfwrj6XrlHls5bC3uWYgRX9gaqk+GnpDqhlx67D8jtrRwNo709L1PDfkbrDURykXI2e4Ud9J/jQJQmpH6UX4comIcpVOOq+SqP/1+Rix17euGV0Bu6SUe4MFW5OTAxc9lCBNwSh42DmSR2vpsCyyQuFa/nG0yYFLwTZ0SuFfsnpJGk9/ZfOXA48pnDSuMDzMjEORw+XjgCH+7EGc2WzgmfxqOjcLa+nZW4rDqMuhv3tozSDljecZBNBtB8PhaUh8t0mYwfymbVTWEKjP8LQ5Vz49uvy475B5e48/n7G3LJteueMEaPa0dCwuaye8bX5NvZC0pYPpNuzTGxUuZzPpQfadu+yfeNnH3SUJhLe75u0Tw9zh1P29PsBvxd+th5mv2jVF4ksg8P66xhgpBOuEKHhRYhoPp/u5HM62M7
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99198ae2-25c0-4739-622d-08dd19df4286
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2024 12:28:04.0385
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gpBAit07WSmbYURpT4eOfGwz5IqRG3MllM8gSgBSxRuVRrQCOWDLRJ5hU4DOKkhq8WWiFoaSQDJsGcbgl1Mxv6JZHocbAVOcW/tnYnj5A1M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH7PR04MB9644
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241210093408.105867-17-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_042807_291490_AE60DF86 
-X-CRM114-Status: UNSURE (   7.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241211_043233_895128_840E497A 
+X-CRM114-Status: GOOD (  13.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,10 +95,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Kanchan,
+Hi Damien,
 
-Yi Zhang observed a nvme/049 failure and created a PR to fix it [1].
-Could you take a look and comment on it?
+kernel test robot noticed the following build errors:
 
-[1] https://github.com/osandov/blktests/pull/152=
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.13-rc2 next-20241211]
+[cannot apply to hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/nvmet-Add-vendor_id-and-subsys_vendor_id-subsystem-attributes/20241210-174321
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20241210093408.105867-17-dlemoal%40kernel.org
+patch subject: [PATCH v3 16/17] nvmet: New NVMe PCI endpoint target driver
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241211/202412112016.qpAKrNxI-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412112016.qpAKrNxI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412112016.qpAKrNxI-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/nvme/target/pci-ep.c:11:
+   In file included from include/linux/dmaengine.h:8:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/nvme/target/pci-ep.c:658:9: error: call to undeclared function 'nvme_opcode_str'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     658 |         return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+         |                ^
+>> drivers/nvme/target/pci-ep.c:658:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'const char *' [-Wint-conversion]
+     658 |         return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings and 2 errors generated.
+
+
+vim +/nvme_opcode_str +658 drivers/nvme/target/pci-ep.c
+
+   655	
+   656	static inline const char *nvmet_pciep_iod_name(struct nvmet_pciep_iod *iod)
+   657	{
+ > 658		return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+   659	}
+   660	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
