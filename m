@@ -4,89 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5493FE7717D
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 17:27:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19938E77182
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 18:53:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gmWh5tFfs7soVBLFuSO/qLnXu+8CTMZDvRiQMaBPqDA=; b=tf4N4rlS9E5TNVXKN8chQTCxx/
-	k5ctXQUtGRWyji4mw8dGlhrY9c+DQv9uAk+BClRFiRFLQcomRI8X2LunJG2JZYTo9m8aIHHKGU5p0
-	0mStLwzCdxyNTfm+7LEnnM7b0L4gN6cg93t/y0UkjMmB9pm3OE8FG8UwYVPd1UyKdobFl/i702BAs
-	ol08oOoNSbgphiV3SzY2ZC0JZvMpAXsni8M1OAxqCUs3yKTZC7Nr4XapUDY5xQeoPinmjIbH5Ur7R
-	1JZCUERX1oLJFyec1LlyOu0XwEwZcnJaJzujlubW9bXHZcgrvL50mgBQkR6ykgfym/n2j3ENaEf88
-	FC0lg0/w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7S0M711xSEKUyXi8i8LQTqNXUve97NSr/7xTA7oKMsw=; b=nd2kGD9xZFJhbrZFprv1zEWO+x
+	4pZ2qAIpoMLDn2LyKbXeG+HPP0yn1V559ullR1r7l3P9p6x61Fi9UNkucssVI1ZG5Ic30rfN2x9VO
+	xepXQXm1ZIKwj702jDkfSbVSEI1J02FILjjI04WIrAAu5iBylL1n3enowBLnwnYISK1JaAG0ZV4y8
+	unJpi+X3wRUjxqFKQx0U7DLTmL0mqKdqeAY1TXMIGdIZ6gkXJZsEvXgMA5XV/ZNGhAQUlNo7iuDoh
+	dzVWckH3W7jlXfjXJp3IwuDyxTc1Vvn4M80T8IBYOQUc5vVjKdO6cIWcpYbsSn1wSXMAHuVKuG8Lq
+	dmmunxEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLQUw-0000000FbJA-0Hij;
-	Wed, 11 Dec 2024 17:27:42 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1tLRqJ-0000000FmZC-1Xr3;
+	Wed, 11 Dec 2024 18:53:51 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLQUs-0000000FbEH-1p7v
+	id 1tLRnM-0000000Flhi-3OnJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 17:27:40 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Y7jGQ6jb4z6Cr2Gt;
-	Wed, 11 Dec 2024 17:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1733938040; x=1736530041; bh=gmWh5tFfs7soVBLFuSO/qLnX
-	u+8CTMZDvRiQMaBPqDA=; b=Jn6+ZsKHbREar6WFe1GZ0ByPNPgeHh1eoVH5k3Bf
-	mH/A5t7lCLVsuWak0fNQXlIKOfzO8126Uzjxaba+goDPEjzFT9AjaBJtIULKzqe0
-	9IWyuEoe9yd53BI+GN7KPYPmZUQw52b/ofwJJtzgSSYTRROAPtiBuqxT82oaIDf0
-	HpAedfiM8HBcDPijE4nqorCERsOU0bxylbNfd0qb4M7fHn2k9LptP8qKw51lM4H9
-	G1dmjVSE85gGToRztGnGgtDPO/kpi57nFluPjq0j5JEQ0KcPP4ChqlvrsRIflYeH
-	ORJIpf7HL5DSubgUBgwRZ2ik7TSML8T1sqIGrppT0jkkhA==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 7pH0caqGSLM7; Wed, 11 Dec 2024 17:27:20 +0000 (UTC)
-Received: from [100.66.154.22] (unknown [104.135.204.82])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4Y7jGC4KWJz6Cr2Fp;
-	Wed, 11 Dec 2024 17:27:14 +0000 (UTC)
-Message-ID: <2f260b23-006a-4ea2-a508-39f2bace1bec@acm.org>
-Date: Wed, 11 Dec 2024 09:27:13 -0800
+	Wed, 11 Dec 2024 18:50:49 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBFIC2i011074
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:50:47 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
+	 bh=7S0M711xSEKUyXi8i8LQTqNXUve97NSr/7xTA7oKMsw=; b=a46wjWnXYFOd
+	0bNg0EklCS/uCiw33n4Zq5UGW3RsS6LNs8cVWkJjwa6xiutjgx6uc0DSqVePYbgC
+	LejnRNWQMqzz+pWM7ZtQUIB2ncDou2hfQ7BlpGWrk4jVEVug7DUNikmP9+vkuoog
+	vxi9XQNArOol8R3KoiiHz671ndEdgZJKJE9lsbu9N8AWsr/wOrbtIpg9xm0fXBXi
+	YmAlP/fReVyJco1N/YzZK9XlEglGNnsw06eLC+NNL9G1KTb3lrQyai0uL7J4nzmE
+	QQMlhdpngVgUeAHXMhOA0fj2F7X4ky9bH918qP0XIu668AmJ7wCXOlTsAq6iWFCn
+	XH9V5fGY0g==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43fbg22k0v-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:50:47 -0800 (PST)
+Received: from twshared3815.08.ash9.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Wed, 11 Dec 2024 18:50:44 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id 7808915DE395D; Wed, 11 Dec 2024 10:35:16 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
+        <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+        <io-uring@vger.kernel.org>
+CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
+        <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>,
+        Hannes Reinecke
+	<hare@suse.de>, Nitesh Shetty <nj.shetty@samsung.com>
+Subject: [PATCHv14 06/11] io_uring: enable per-io write streams
+Date: Wed, 11 Dec 2024 10:35:09 -0800
+Message-ID: <20241211183514.64070-7-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20241211183514.64070-1-kbusch@meta.com>
+References: <20241211183514.64070-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-To: Nitesh Shetty <nj.shetty@samsung.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>
-References: <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
- <yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
- <8ef1ec5b-4b39-46db-a4ed-abf88cbba2cd@acm.org>
- <yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
- <CGME20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1@epcas5p2.samsung.com>
- <20241205080342.7gccjmyqydt2hb7z@ubuntu>
- <yq1a5d9op6p.fsf@ca-mkp.ca.oracle.com>
- <d9cc57b5-d998-4896-b5ec-efa5fa06d5a5@acm.org>
- <yq1frmwl1zf.fsf@ca-mkp.ca.oracle.com>
- <7d06cc60-7640-4431-a1cb-043a959e2ff3@acm.org>
- <20241211093549.n6dvl6c6xp4blccd@ubuntu>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20241211093549.n6dvl6c6xp4blccd@ubuntu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: ALUAu9kYU4KYJSGRrRQS68cCbRYLGH6-
+X-Proofpoint-ORIG-GUID: ALUAu9kYU4KYJSGRrRQS68cCbRYLGH6-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_092738_477303_FC1840B8 
-X-CRM114-Status: GOOD (  12.98  )
+X-CRM114-CacheID: sfid-20241211_105048_962688_1A7FDDA7 
+X-CRM114-Status: GOOD (  10.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,30 +90,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/11/24 1:36 AM, Nitesh Shetty wrote:
-> Block layer can allocate a buffer and send this as part of copy
-> operation.
+From: Keith Busch <kbusch@kernel.org>
 
-The block layer can only do that if it knows how large the buffer should
-be. Or in other words, if knowledge of a SCSI buffer size is embedded in
-the block layer. That doesn't sound ideal to me.
+Allow userspace to pass a per-I/O write stream in the SQE:
 
-> This scheme will require sequential submission of SRC and DST
-> bio's. This might increase in latency, but allows to have simpler design.
-> Main use case for copy is GC, which is mostly a background operation.
+      __u8 write_stream;
 
-I still prefer a single REQ_OP_COPY operation instead of separate
-REQ_OP_COPY_SRC and REQ_OP_COPY_DST operations. While this will require
-additional work in the SCSI disk (sd) driver (implementation of a state
-machine), it prevents that any details about the SCSI copy offloading
-approach have to be known by the block layer. Even if copy offloading
-would be implemented as two operations (REQ_OP_COPY_SRC and 
-REQ_OP_COPY_DST), a state machine is required anyway in the SCSI disk
-driver because REQ_OP_COPY_SRC would have to be translated into two SCSI
-commands (POPULATE TOKEN + RECEIVE ROD TOKEN INFORMATION).
+The __u8 type matches the size the filesystems and block layer support.
 
-Thanks,
+Application can query the supported values from the block devices
+max_write_streams sysfs attribute. Unsupported values are ignored by
+file operations that do not support write streams or rejected with an
+error by those that support them.
 
-Bart.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ include/uapi/linux/io_uring.h | 4 ++++
+ io_uring/io_uring.c           | 2 ++
+ io_uring/rw.c                 | 1 +
+ 3 files changed, 7 insertions(+)
+
+diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.=
+h
+index 38f0d6b10eaf7..986a480e3b9c2 100644
+--- a/include/uapi/linux/io_uring.h
++++ b/include/uapi/linux/io_uring.h
+@@ -92,6 +92,10 @@ struct io_uring_sqe {
+ 			__u16	addr_len;
+ 			__u16	__pad3[1];
+ 		};
++		struct {
++			__u8	write_stream;
++			__u8	__pad4[3];
++		};
+ 	};
+ 	union {
+ 		struct {
+diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
+index ae36aa702f463..b561c5e8879ac 100644
+--- a/io_uring/io_uring.c
++++ b/io_uring/io_uring.c
+@@ -3869,6 +3869,8 @@ static int __init io_uring_init(void)
+ 	BUILD_BUG_SQE_ELEM(44, __s32,  splice_fd_in);
+ 	BUILD_BUG_SQE_ELEM(44, __u32,  file_index);
+ 	BUILD_BUG_SQE_ELEM(44, __u16,  addr_len);
++	BUILD_BUG_SQE_ELEM(44, __u8,   write_stream);
++	BUILD_BUG_SQE_ELEM(45, __u8,   __pad4[0]);
+ 	BUILD_BUG_SQE_ELEM(46, __u16,  __pad3[0]);
+ 	BUILD_BUG_SQE_ELEM(48, __u64,  addr3);
+ 	BUILD_BUG_SQE_ELEM_SIZE(48, 0, cmd);
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index 5b24fd8b69f62..416ccd89a77ed 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -316,6 +316,7 @@ static int io_prep_rw(struct io_kiocb *req, const str=
+uct io_uring_sqe *sqe,
+ 	}
+ 	rw->kiocb.dio_complete =3D NULL;
+ 	rw->kiocb.ki_flags =3D 0;
++	rw->kiocb.ki_write_stream =3D READ_ONCE(sqe->write_stream);
+=20
+ 	rw->addr =3D READ_ONCE(sqe->addr);
+ 	rw->len =3D READ_ONCE(sqe->len);
+--=20
+2.43.5
 
 
