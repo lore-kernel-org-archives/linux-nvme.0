@@ -4,87 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ABC54E7717D
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 16:11:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AB68E7717D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 17:19:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qpTt14P3ma/vFxnr88yRVgpt6BJA3gmOkkDT64/M4xk=; b=b5AQ1FpMQU4NbiKg9zCeeZ0gbO
-	VDYtkvplHaDhg2QQvIuHi/YeOeUL2rrLiPRfOxNM/auhKov2UVNvWkSStUnEPLHoGATrTwaQLgSeK
-	3HptWfbXXwpVgCu6CwGN3DHEG2G7l8moKXeEHXwW+5xbGxRat9ON28B4w9XtE00X83vurrVhs382K
-	lWnF2ZXdogVJre0XnSiTDPHktq/TAJvrUX+l5HLBO4KRMFZH8DB+sv90cDs2zviP35CWSp4J0pBmw
-	lxlpyxfiU3OAUHEV1IvIYb8dYClwDIxoTNdvWhOg2Y3UuvuJ4jHc46pg2a9GKdsi0miqDoUlXmACx
-	G/IJ54Pg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dCftWcjkOW4bJAoH1vjqmkS/3mjhfGv3v8pDwLdUBsw=; b=pgsF5zLgECEx1UGhxlOHZBI3Fs
+	o3ve4A33RxcIjDfxLYOJfSNnUyvoPRsQtt2NbGUtfy/qRjwUidCmojD6GdSX15F09dtQf+1sxIq2l
+	DHAdzcOknKTKyeueV+uHmGS8vEctDEC6oSvHEP+o8sTrSlc0/OF5dNg5llojX7A6L/Kqd71K59TWQ
+	nohph7fyzyOGnbPKgv7S3VW50Ef/sjN7z26M8YujxAaT6lFTHqEMINtcZAsqGtoANbxOBx245uXcX
+	SnBRZPm0YMmMLhtkE/mTqgN+RIahy32+vPUv2o6rP+6fYWkyxEFUMEB7KTPqKyAJHZQJU0m7K5y7W
+	6an/iDfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLPJW-0000000FPHp-3dcR;
-	Wed, 11 Dec 2024 16:11:50 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tLQMX-0000000FZe2-1YiB;
+	Wed, 11 Dec 2024 17:19:01 +0000
+Received: from mgamail.intel.com ([198.175.65.19])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tJBnc-0000000G6dt-13rH
+	id 1tLQMT-0000000FZbn-3cjS
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Dec 2024 13:21:45 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A35CE5C6483;
-	Thu,  5 Dec 2024 13:21:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EF8DC4CEDD;
-	Thu,  5 Dec 2024 13:21:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733404903;
-	bh=VDNJrNgrvXeiKwTQI653m0SaajGvRheByl4V4Wf2JY8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RPr7ALUaMhuypEqnOZAReGPsJO+L7CxPCXOtIRW390pP3BgIq43qVAlYTCBl50Tbq
-	 AYLMWWZEi1Wf4ldGPrnc+Cn9gGcnH1q/N8n2YizrGGPvKhMmV8i7CB0YsnQu9W4RIy
-	 r23PPnc9oFtb7FGHBWlz8+3XmxQDarPEGuOS3STWY2u7wIf69ZigOhPi96tgHvPxCC
-	 YSqEJ9uf4DMnaj+VJaog96+zDb56sp50z1+PreCl7/Ifk5VyRiXRpQLJ+ASdXeTURE
-	 GEXRyiz661D9BBLygBY64ddV7oTPuKAw293jbjhYaAPogLRmlENxCxlOzuck2YzWcG
-	 pORaBiUE8Rx5Q==
-From: Leon Romanovsky <leon@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v4 04/18] iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
-Date: Thu,  5 Dec 2024 15:21:03 +0200
-Message-ID: <da4827fda833e69dbe487ef404a9333c51d8ed2e.1733398913.git.leon@kernel.org>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <cover.1733398913.git.leon@kernel.org>
-References: <cover.1733398913.git.leon@kernel.org>
+	Wed, 11 Dec 2024 17:19:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733937537; x=1765473537;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cO5FxiswgNGKsLtgOEU4kMDK52juWwgnR3QMy56n1mk=;
+  b=lDCNT4zzVX+Ma8zZx/Y3OZtytmPXb+OCIA6/jZV+T2nQ/xyKutQUW4/z
+   EGu6g9aIO5tb7XFHGlzEe/DPqoz0f2yxMagHOrxi8GMlYO9NarVJZw2pD
+   hqoGTU+BVWSUszycY5xsqFRtrHQyxaxZyIAvhyUpmviOTdrcIHJjfhY4q
+   oMaBuHAMC13A8d+uyVQM1Bkvu17YpR8b+haJgJb45C351jGUvDSC2LZS3
+   xsqo6Oui4ScSx/vsORiEPD/tsvMuudORPKdnMm9im/X6fP4Owggd9Ca6l
+   SG8EAKUeBBFllneVV0vDWQmJBvj5MGJrgmeXZZEPdAzxjYdKm/3wAdFu5
+   A==;
+X-CSE-ConnectionGUID: GzZ9jYC2QTmHCWC3scUY1w==
+X-CSE-MsgGUID: WuClWKYCRziezKUsLn6lxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34203278"
+X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
+   d="scan'208";a="34203278"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 09:18:55 -0800
+X-CSE-ConnectionGUID: z2OexCP9RDOTZne8onaveA==
+X-CSE-MsgGUID: oWzO42XQRZuwPgcrWQNuAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="126824514"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 11 Dec 2024 09:18:52 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tLQML-0006vh-22;
+	Wed, 11 Dec 2024 17:18:49 +0000
+Date: Thu, 12 Dec 2024 01:18:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, sagi@grimberg.me,
+	asml.silence@gmail.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv13 10/11] nvme: register fdp parameters with the block
+ layer
+Message-ID: <202412120111.L2w9GCZd-lkp@intel.com>
+References: <20241210194722.1905732-11-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241210194722.1905732-11-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241205_052144_371049_4BC3A076 
-X-CRM114-Status: GOOD (  13.80  )
-X-Mailman-Approved-At: Wed, 11 Dec 2024 08:11:49 -0800
+X-CRM114-CacheID: sfid-20241211_091857_942240_CCB789B5 
+X-CRM114-Status: GOOD (  13.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,48 +91,139 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+Hi Keith,
 
-Add kernel-doc section for iommu_unmap and iommu_unmap_fast to document
-existing limitation of underlying functions which can't split individual
-ranges.
+kernel test robot noticed the following build warnings:
 
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/iommu/iommu.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on next-20241211]
+[cannot apply to brauner-vfs/vfs.all hch-configfs/for-next linus/master v6.13-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index ec75d14497bf..9eb7c7d7aa70 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2590,6 +2590,24 @@ size_t iommu_unmap(struct iommu_domain *domain,
- }
- EXPORT_SYMBOL_GPL(iommu_unmap);
- 
-+/**
-+ * iommu_unmap_fast() - Remove mappings from a range of IOVA without IOTLB sync
-+ * @domain: Domain to manipulate
-+ * @iova: IO virtual address to start
-+ * @size: Length of the range starting from @iova
-+ * @iotlb_gather: range information for a pending IOTLB flush
-+ *
-+ * iommu_unmap_fast() will remove a translation created by iommu_map(). It cannot
-+ * subdivide a mapping created by iommu_map(), so it should be called with IOVA
-+ * ranges that match what was passed to iommu_map(). The range can aggregate
-+ * contiguous iommu_map() calls so long as no individual range is split.
-+ *
-+ * Basicly iommu_unmap_fast() as the same as iommu_unmap() but for callers
-+ * which manage IOTLB flush range externaly to perform batched sync.
-+ *
-+ * Returns: Number of bytes of IOVA unmapped. iova + res will be the point
-+ * unmapping stopped.
-+ */
- size_t iommu_unmap_fast(struct iommu_domain *domain,
- 			unsigned long iova, size_t size,
- 			struct iommu_iotlb_gather *iotlb_gather)
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/fs-add-a-write-stream-field-to-the-kiocb/20241211-080803
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20241210194722.1905732-11-kbusch%40meta.com
+patch subject: [PATCHv13 10/11] nvme: register fdp parameters with the block layer
+config: arm-randconfig-003-20241211 (https://download.01.org/0day-ci/archive/20241212/202412120111.L2w9GCZd-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120111.L2w9GCZd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412120111.L2w9GCZd-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/nvme/host/core.c:8:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm/include/asm/cacheflush.h:10:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/nvme/host/core.c:2177:5: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    2176 |                          "failed to allocate %lu bytes for FDP config log\n",
+         |                                              ~~~
+         |                                              %zu
+    2177 |                          size);
+         |                          ^~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/nvme/host/core.c:2255:5: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    2254 |                          "failed to allocate %lu bytes for FDP io-mgmt\n",
+         |                                              ~~~
+         |                                              %zu
+    2255 |                          size);
+         |                          ^~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   3 warnings generated.
+
+
+vim +2177 drivers/nvme/host/core.c
+
+  2153	
+  2154	static int nvme_query_fdp_granularity(struct nvme_ctrl *ctrl,
+  2155					      struct nvme_ns_info *info, u8 fdp_idx)
+  2156	{
+  2157		struct nvme_fdp_config_log hdr, *h;
+  2158		struct nvme_fdp_config_desc *desc;
+  2159		size_t size = sizeof(hdr);
+  2160		int i, n, ret;
+  2161		void *log;
+  2162	
+  2163		ret = nvme_get_log_lsi(ctrl, 0, NVME_LOG_FDP_CONFIGS, 0,
+  2164				       NVME_CSI_NVM, &hdr, size, 0, info->endgid);
+  2165		if (ret) {
+  2166			dev_warn(ctrl->device,
+  2167				 "FDP configs log header status:0x%x endgid:%x\n", ret,
+  2168				 info->endgid);
+  2169			return ret;
+  2170		}
+  2171	
+  2172		size = le32_to_cpu(hdr.sze);
+  2173		h = kzalloc(size, GFP_KERNEL);
+  2174		if (!h) {
+  2175			dev_warn(ctrl->device,
+  2176				 "failed to allocate %lu bytes for FDP config log\n",
+> 2177				 size);
+  2178			return -ENOMEM;
+  2179		}
+  2180	
+  2181		ret = nvme_get_log_lsi(ctrl, 0, NVME_LOG_FDP_CONFIGS, 0,
+  2182				       NVME_CSI_NVM, h, size, 0, info->endgid);
+  2183		if (ret) {
+  2184			dev_warn(ctrl->device,
+  2185				 "FDP configs log status:0x%x endgid:%x\n", ret,
+  2186				 info->endgid);
+  2187			goto out;
+  2188		}
+  2189	
+  2190		n = le16_to_cpu(h->numfdpc) + 1;
+  2191		if (fdp_idx > n) {
+  2192			dev_warn(ctrl->device, "FDP index:%d out of range:%d\n",
+  2193				 fdp_idx, n);
+  2194			/* Proceed without registering FDP streams */
+  2195			ret = 0;
+  2196			goto out;
+  2197		}
+  2198	
+  2199		log = h + 1;
+  2200		desc = log;
+  2201		for (i = 0; i < fdp_idx; i++) {
+  2202			log += le16_to_cpu(desc->dsze);
+  2203			desc = log;
+  2204		}
+  2205	
+  2206		if (le32_to_cpu(desc->nrg) > 1) {
+  2207			dev_warn(ctrl->device, "FDP NRG > 1 not supported\n");
+  2208			ret = 0;
+  2209			goto out;
+  2210		}
+  2211	
+  2212		info->runs = le64_to_cpu(desc->runs);
+  2213	out:
+  2214		kfree(h);
+  2215		return ret;
+  2216	}
+  2217	
+
 -- 
-2.47.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
