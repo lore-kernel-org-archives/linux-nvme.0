@@ -4,138 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76546E77180
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 10:32:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A978E7717D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 10:56:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C54pEWc4i7MkvBJwDO/T7iAa0SAKlIK9ErF/1+Nst2M=; b=WHSwUvpNOnGsQgmDRZSfvTa9R+
-	y5kuEISfazPiUH8gDH+NrBOZCHz/8/p17P+2yoYv8ykKX81deT3CFeGrmKlTncIRHbVEMKiWGQ1WE
-	WIBcTulrtOW8QgbqW2HZbPJPF/hvaCEjlBUQaniTj7TSoZ47r4nT/woq7OX72IgJ2W599nPUS8f+Y
-	/QlGzpj0W9euWCx+lrhwa9xngMDE1ft7utoLSBQlqBV9MRjtq3v51VHlEcCdxCx719oSos7GhOmSa
-	eswuPxW96EWp5pGwB1UNrD1IxOUuozxVPmk2UCJnJlAVqsKuigPaixG1khJ270wpPm1rZL6JLtRFt
-	4AbvKA2g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:References:In-Reply-To:Message-ID:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FKnFdXZWAoBv/d8UWrt27sHCfO2R5Hao/R8eFd2z2AY=; b=4VeiLu4lLu9cjv+3Sch6U6IBE4
+	FnWQFFtp7WcTLm3pHS6S2ywBuQHozi866u6/iL4iiLrYmnintQt5QFQQPQe6mGcBvRk/tmxaZtL5j
+	KVznldJWsweUx/djqOjn3rvo458/K9wB/pWwn1oT7Gx9CyY1VgmrCITTHjzLeY3jYLpEr+8TvwgBs
+	sbdSQtrUfptyg23eHiGBHCaI/xILG+4bJTPWlABC5YOQoJozdTfs5TrQlqNQHRXM9SOVsYa2M88YH
+	sHRSkVyz/rjD90X9a+sMOnBJ9L3uI9gZCdF1TO27znl5yyun/u9MhQpK36s+LjOpL6UXZeS82KK+6
+	+//jk4/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLK11-0000000EaRP-3Uzs;
-	Wed, 11 Dec 2024 10:32:23 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1tLKOX-0000000Edj1-1LzZ;
+	Wed, 11 Dec 2024 10:56:41 +0000
+Received: from sender4-pp-f112.zoho.com ([136.143.188.112])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLK0y-0000000EaOH-0FHl
+	id 1tLKOU-0000000Edid-3WQN
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 10:32:21 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20241211103211epoutp0445feeb445b54d4e862e679b1d63f53fc~QGM6EHISu0779507795epoutp04i
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:32:11 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20241211103211epoutp0445feeb445b54d4e862e679b1d63f53fc~QGM6EHISu0779507795epoutp04i
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1733913131;
-	bh=C54pEWc4i7MkvBJwDO/T7iAa0SAKlIK9ErF/1+Nst2M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rZ7UhrupoS3dj/4RhjDXehXylChzJ8YSz1J18FpCjVQyoLAr2YTzu0Af0i2UVfFUr
-	 daPWUBYJAZ2a7CA5JRgczPGekJpW2VkGQQaV/8yITm+5F9hP6A05YuCeU0OfIP393q
-	 g5x4r5921xLwOH74C7iFQibMf++3Y3JHjdG4XxzE=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20241211103211epcas5p1b6b5bfec3f9890a2932fe6d041247422~QGM5zArVv0262302623epcas5p1T;
-	Wed, 11 Dec 2024 10:32:11 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.182]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4Y7X3G1cHBz4x9Pq; Wed, 11 Dec
-	2024 10:32:10 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	30.5A.19933.A2A69576; Wed, 11 Dec 2024 19:32:10 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20241211094357epcas5p377a4e20b47995f31fc4a8bd0cdf9b281~QFiyG9A6T2575625756epcas5p3n;
-	Wed, 11 Dec 2024 09:43:57 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20241211094357epsmtrp1b59afc3b205ebae305632feb0bc9635e~QFiyGJ2T_2183921839epsmtrp1Z;
-	Wed, 11 Dec 2024 09:43:57 +0000 (GMT)
-X-AuditID: b6c32a4a-c1fda70000004ddd-25-67596a2a77e8
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B6.91.18729.CDE59576; Wed, 11 Dec 2024 18:43:56 +0900 (KST)
-Received: from ubuntu (unknown [107.99.41.245]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241211094354epsmtip11e81e3346a472c0d3d707cbacd587911~QFiwGGHWh2936729367epsmtip1p;
-	Wed, 11 Dec 2024 09:43:54 +0000 (GMT)
-Date: Wed, 11 Dec 2024 15:06:01 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, Javier Gonzalez
-	<javier.gonz@samsung.com>, Matthew Wilcox <willy@infradead.org>, Keith Busch
-	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Keith Busch
-	<kbusch@meta.com>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "io-uring@vger.kernel.org"
-	<io-uring@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "joshi.k@samsung.com" <joshi.k@samsung.com>
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-Message-ID: <20241211093549.n6dvl6c6xp4blccd@ubuntu>
+	Wed, 11 Dec 2024 10:56:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; t=1733914588; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=kWcitlYX9wPGloSNF+rZESmnJeOR2nE2StADKJOdjz8/fkE0nne6nwjU7MkUzM/8lrXEaf/B875UXjGjdtPYgqol1K+8VrDTVjh+U6Ez1kUVippkJ7ksBKAosRJ9RaLW209V5n0RHckzSoZYjs1xqFfAl9R2FGlIJdQxvYd2EAc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1733914588; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=FKnFdXZWAoBv/d8UWrt27sHCfO2R5Hao/R8eFd2z2AY=; 
+	b=Yauo+l77epXx9yj51v/WbdD/bB1UgIbI3pNAzSpWtUs8fEZs5ZbJ248PmRQzh0SiBBVhnmYNTWonEhSEUF69HouaTkM7WnBbsIR78f3Ar/aJToi0A4e8El9+QAC+emoTqy7ZdOLQJa8FDA/Mvm8c95eDArzk7e4iAfK/TqzHLPw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=bob.beckett@collabora.com;
+	dmarc=pass header.from=<bob.beckett@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733914588;
+	s=zohomail; d=collabora.com; i=bob.beckett@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=FKnFdXZWAoBv/d8UWrt27sHCfO2R5Hao/R8eFd2z2AY=;
+	b=cHwV7RnEPJm0hB0UrAZyg8kYtGs4BYem81K7qMz/rUvsFKZC4n7kMFZBpPcNFrEW
+	EadqeAZ0VL0WMJ6kpx3hQuRZO5+abB7exQ/LEjQPq5G3s4jf5VzcJYTxpBv45Hwi/d/
+	PS1x9uWa+eaClaVVzgDzGclnz9xcS1X+wdX+txNk=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1733914556908829.5911025945064; Wed, 11 Dec 2024 02:55:56 -0800 (PST)
+Date: Wed, 11 Dec 2024 10:55:56 +0000
+From: Robert Beckett <bob.beckett@collabora.com>
+To: "Keith Busch" <kbusch@kernel.org>
+Cc: "Pawel Anikiel" <panikiel@google.com>, "axboe" <axboe@kernel.dk>,
+	"hch" <hch@lst.de>, "kernel" <kernel@collabora.com>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-nvme" <linux-nvme@lists.infradead.org>,
+	"sagi" <sagi@grimberg.me>
+Message-ID: <193b55c7998.d66e7e7c1942154.6474606603462169748@collabora.com>
+In-Reply-To: <Z1i0d5Ht8zUHhSu-@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241112195053.3939762-1-bob.beckett@collabora.com>
+ <20241114113803.3571128-1-panikiel@google.com>
+ <1932ad8722a.102613bdb3737.769617317074446742@collabora.com>
+ <CAM5zL5rKsEd1EhOx1AGj9Au7-FQnJ5fUX2hLPEDQvmcrJXFFBg@mail.gmail.com>
+ <1932b818328.ad02576784895.6204301822664878956@collabora.com>
+ <Z0DdU9K9QMFxBIL8@kbusch-mbp.dhcp.thefacebook.com>
+ <193ab67e768.1047ccb051074383.2860231262134590879@collabora.com>
+ <CAM5zL5pvxrpWEdskp=8xNuUM+1npJkVLCUTZh3hCYTeHrCR5ZA@mail.gmail.com> <Z1i0d5Ht8zUHhSu-@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
 MIME-Version: 1.0
-In-Reply-To: <7d06cc60-7640-4431-a1cb-043a959e2ff3@acm.org>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLJsWRmVeSWpSXmKPExsWy7bCmpq5WVmS6wcPP7BbTPvxktli5+iiT
-	xbvWcywWj+8AxY7+f8tmMenQNUaLM1cXsljsvaVtsWfvSRaL+cueslt0X9/BZrH8+D8mi98/
-	5rA58HpcvuLtsXmFlsemVZ1sHpuX1HvsvtnA5nHuYoXHx6e3WDz6tqxi9Pi8SS6AMyrbJiM1
-	MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNctMwfoZiWFssScUqBQ
-	QGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpOgUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdsajn2fZ
-	C6aJVfxedYq9gXGRUBcjB4eEgIlE8xu3LkYuDiGB3YwSO5a9Z4JwPjFKbF/ey9jFyAnkfGOU
-	eHsgGsQGafh5fzULRNFeRol15xayQzhPGCV+7L3LDlLFIqAqMW3+RVaQFWwC2hKn/3OAhEUE
-	NCS+PVgO1swscI1FYu3nJWwgCWEBZ4meuXfBtvECbdhzdxqULShxcuYTFhCbU8BaYlHzArDz
-	JAR2cEgsf76KGeIkF4n98y6yQ9jCEq+Ob4GypSRe9rdB2eUSK6esYINobmGUmHV9FiNEwl6i
-	9VQ/2CBmgQyJ9auuskDEZSWmnlrHBBHnk+j9/YQJIs4rsWMejK0ssWb9AjYIW1Li2vdGKNtD
-	ovVKJzRYPjBLnH60lG0Co9wsJB/NQrIPwraS6PzQxDoLGGLMAtISy/9xQJiaEut36S9gZF3F
-	KJlaUJybnlpsWmCUl1oOj+Xk/NxNjOB0rOW1g/Hhgw96hxiZOBgPMUpwMCuJ8N6wj0wX4k1J
-	rKxKLcqPLyrNSS0+xGgKjKGJzFKiyfnAjJBXEm9oYmlgYmZmZmJpbGaoJM77unVuipBAemJJ
-	anZqakFqEUwfEwenVAPT9Erv45lL6l5fdFTPnRC+WdrS/fnDVV7T4qZkyP5mvigcMUXgWtaN
-	3ssJX0Tm/bgm/6oqQm7J1RtHrjkYrL4aOWvjhqpvzpozgzwFNOTOCxxvbje+cOF9/YTjFlnZ
-	3nYWXv8Df+a7MtXmSNZXq+TX5x7LZ855Ixb3rDBk50LmyZLP7sRlvGvfuaB714O3r9oEvnlk
-	1KxreH+oXu2aalHGvAlzLPIz923lvDGzvNJ7gmXygZmbLbu0ouV4t4r3vViw69bM1aFal3Q1
-	19+f+iLyKdNzPZ+u1TKyR0W8p77VOWYx7YhBpHJAsdr8dIHXbrONfwlodWz5uaL3vWpK5DKL
-	3W+EvFaoSnzxYPhl571MiaU4I9FQi7moOBEAQphBr1AEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrHLMWRmVeSWpSXmKPExsWy7bCSnO6duMh0g2UnTCymffjJbLFy9VEm
-	i3et51gsHt/5zG5x9P9bNotJh64xWpy5upDFYu8tbYs9e0+yWMxf9pTdovv6DjaL5cf/MVn8
-	/jGHzYHX4/IVb4/NK7Q8Nq3qZPPYvKTeY/fNBjaPcxcrPD4+vcXi0bdlFaPH501yAZxRXDYp
-	qTmZZalF+nYJXBm3ZixlKzghXPHgwnGWBsZ3/F2MnBwSAiYSP++vZuli5OIQEtjNKDFvxSoW
-	iISkxLK/R5ghbGGJlf+es4PYQgKPgIpm54HYLAKqEtPmX2TtYuTgYBPQljj9nwMkLCKgIfHt
-	wXKwmcwCt1gkXu5fCdYrLOAs0TP3LiOIzQu0eM/daYwQiz8wSxyasosdIiEocXLmE7AjmAXM
-	JOZtfsgMsoBZQFpi+T+wBZwC1hKLmhcwTWAUmIWkYxaSjlkIHQsYmVcxSqYWFOem5xYbFhjm
-	pZbrFSfmFpfmpesl5+duYgRHkZbmDsbtqz7oHWJk4mA8xCjBwawkwnvDPjJdiDclsbIqtSg/
-	vqg0J7X4EKM0B4uSOK/4i94UIYH0xJLU7NTUgtQimCwTB6dUA1P1jpXW5R0PP6dMy9V5UcVQ
-	9qXh8cOqvR4xR2cdVe2/USoz/5/b9ftC8582/r1w6oEm28cFU248+9As29hyo0Kk2qrW/5TW
-	rWtH3/+a8++6sL7R7vBtZ69PcuWz+xD/a8OcTa8kJURWmWXVvlRfZXavVPZhEpvrN8Ge1Y/0
-	ldhNKiPN9k1dM0fuWAX3qW2KM5+/q7j48fG5zr8hfG4Ne1Yx3fjr7ZWtEzXrOM9fqcuWXr8V
-	tsT0LBCf8jJ7Sv3Nzq9vH/y8/f/A3RLx9Vu0dBLv/dCqu6CnZey91/icx2n3ZQlS91wPK67+
-	p1gbtip0i/VeGZcdwvPZf2R01MqyyG8wtXNfcvrC5OkX/+TeMFu6QImlOCPRUIu5qDgRACGa
-	4jQRAwAA
-X-CMS-MailID: 20241211094357epcas5p377a4e20b47995f31fc4a8bd0cdf9b281
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----QQbx9Hk6-Xl4D1oMwM2uYkP7uAkYtjoi7zPie6od2LiHNIsi=_77644_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1
-References: <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
-	<yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
-	<8ef1ec5b-4b39-46db-a4ed-abf88cbba2cd@acm.org>
-	<yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
-	<CGME20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1@epcas5p2.samsung.com>
-	<20241205080342.7gccjmyqydt2hb7z@ubuntu>
-	<yq1a5d9op6p.fsf@ca-mkp.ca.oracle.com>
-	<d9cc57b5-d998-4896-b5ec-efa5fa06d5a5@acm.org>
-	<yq1frmwl1zf.fsf@ca-mkp.ca.oracle.com>
-	<7d06cc60-7640-4431-a1cb-043a959e2ff3@acm.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_023220_427257_9CA0AC90 
-X-CRM114-Status: GOOD (  22.49  )
+X-CRM114-CacheID: sfid-20241211_025638_922184_FB85FE87 
+X-CRM114-Status: GOOD (  34.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,64 +89,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------QQbx9Hk6-Xl4D1oMwM2uYkP7uAkYtjoi7zPie6od2LiHNIsi=_77644_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-
-On 10/12/24 11:41AM, Bart Van Assche wrote:
->On 12/9/24 6:20 PM, Martin K. Petersen wrote:
->>What would be the benefit of submitting these operations concurrently?
->
->I expect that submitting the two copy operations concurrently would 
->result in lower latency for NVMe devices because the REQ_OP_COPY_DST
->operation can be submitted without waiting for the REQ_OP_COPY_SRC
->result.
->
->>As I have explained, it adds substantial complexity and object lifetime
->>issues throughout the stack. To what end?
->
->I think the approach of embedding the ROD token in the bio payload would
->add complexity in the block layer. The token-based copy offload approach
->involves submitting at least the following commands to the SCSI device:
->* POPULATE TOKEN with a list identifier and source data ranges as
->  parameters to send the source data ranges to the device.
->* RECEIVE ROD TOKEN INFORMATION with a list identifier as parameter to
->  receive the ROD token.
->* WRITE USING TOKEN with the ROD token and the destination ranges as
->  parameters to tell the device to start the copy operation.
->
->If the block layer would have to manage the ROD token, how would the ROD
->token be provided to the block layer? Bidirectional commands have been
->removed from the Linux kernel a while ago so the REQ_OP_COPY_IN
->parameter data would have to be used to pass parameters to the SCSI
->driver and also to pass the ROD token back to the block layer. A
->possible approach is to let the SCSI core allocate memory for the ROD
->token with kmalloc and to pass that pointer back to the block layer
->by writing that pointer into the REQ_OP_COPY_IN parameter data. While
->this can be implemented, I'm not sure that we should integrate support
->in the block layer for managing ROD tokens since ROD tokens are a
->concept that is specific to the SCSI protocol.
->
-Block layer can allocate a buffer and send this as part of copy
-operation.
-Driver can store token/custom info inside the buffer sent along with
-REQ_OP_COPY_SRC and expect that block layer sends back this info/buffer
-again in REQ_OP_COPY_DST ?
-This will reduce the effort for block layer to manage the lifetime issues.
-Is there any reason, why we cant store the info inside this buffer in
-driver ?
-
-This scheme will require sequential submission of SRC and DST
-bio's. This might increase in latency, but allows to have simpler design.
-Main use case for copy is GC, which is mostly a background operation.
-
---
-Nitesh Shetty
 
 
-------QQbx9Hk6-Xl4D1oMwM2uYkP7uAkYtjoi7zPie6od2LiHNIsi=_77644_
-Content-Type: text/plain; charset="utf-8"
 
 
-------QQbx9Hk6-Xl4D1oMwM2uYkP7uAkYtjoi7zPie6od2LiHNIsi=_77644_--
+
+ ---- On Tue, 10 Dec 2024 21:36:55 +0000  Keith Busch  wrote ---=20
+ > On Mon, Dec 09, 2024 at 04:33:01PM +0100, Pawe=C5=82 Anikiel wrote:
+ > > On Mon, Dec 9, 2024 at 1:33=E2=80=AFPM Robert Beckett bob.beckett@coll=
+abora.com> wrote:
+ > > > [...]
+ > > > I have no further updates on this. I have received no further info f=
+rom the vendor.
+ > > > I think we can go ahead and use the alignment patch as is. The only =
+outstanding question was whether it is an
+ > > > implicit last entry per page chain vs simple alisngment requirement.=
+ Either way, using the dmapool
+ > > > alignment fixes both of these potential causes, so we should just ta=
+ke it as is.
+ > > > If we ever get any better info and can do a more specific patch in f=
+uture, we can rework it then.
+ > >=20
+ > > I think the 512 byte alignment fix is good. I tried coming up with
+ > > something more specific, but everything I could think of was either
+ > > too complicated or artificial.
+ > >=20
+ > > Regarding the question of whether this is an alignment requirement or
+ > > the last PRP entry issue, I strongly believe it's the latter. I have a
+ > > piece of code that clearly demonstrates the hardware bug when run on a
+ > > device with the nvme bridge. I would really appreciate it if this was
+ > > verified and my explanation was included in the patch.
+ >=20
+ > I've pushed this to nvme-6.13 with an updated commit message here:
+ >=20
+ >   https://git.infradead.org/?p=3Dnvme.git;a=3Dcommitdiff;h=3Dccd84b8d6f4=
+a60626dacb933b5d56dadca75c0ca
+
+lgtm. Thanks!
+
+ >=20
+ > I can force an update if you have any edit suggestions.
+ >=20
+ > Commit message copied below:
+ >=20
+ > Author: Robert Beckett bob.beckett@collabora.com>
+ >=20
+ > nvme-pci: 512 byte aligned dma pool segment quirk
+ >=20
+ > We initially introduced a quick fix limiting the queue depth to 1 as
+ > experimentation showed that it fixed data corruption on 64GB steamdecks.
+ >=20
+ > Further experimentation revealed corruption only happens when the last
+ > PRP data element aligns to the end of the page boundary. The device
+ > appears to treat this as a PRP chain to a new list instead of the data
+ > element that it actually is. This is an implementation is in violation
+ > of the spec. Encountering this errata with the Linux driver requires the
+ > host request a 128k transfer and coincidently get the last small pool
+ > dma buffer within a page.
+ >=20
+ > The QD1 quirk effectly works around this because the last data PRP
+ > always was at a 248 byte offset from the page start, so it never
+ > appeared at the end of the page. Further, the MDTS is also small enough
+ > that the "large" prp pool can hold enough PRP elements to never get to
+ > the end, so that pool is not a problem either.
+ >=20
+ > Introduce a new quirk to ensure the small pool is always aligned such
+ > that the last PRP element can't appear a the end of the page. This comes
+ > at the expense of wasting 256 bytes per small pool page allocated.
+ >=20
+ > Link: https://lore.kernel.org/linux-nvme/20241113043151.GA20077@lst.de/T=
+/#u
+ > Fixes: 83bdfcbdbe5d ("nvme-pci: qdepth 1 quirk")
+ > Cc: Pawe=C5=82 Anikiel panikiel@google.com>
+ > Signed-off-by: Robert Beckett bob.beckett@collabora.com>
+ > Signed-off-by: Keith Busch kbusch@kernel.org>
+ >=20
+
 
