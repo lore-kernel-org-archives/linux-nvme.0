@@ -4,83 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2535E7717D
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 15:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6325EE7717D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 15:58:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LWV1glRr3EfD6Ab4uf1goyVkMB2GZ+AFX3sh9HcBNyA=; b=12GoShQ14X4J2HhwG6mBk+6Ixh
-	x6efvhzWpLPC2RgMpZGOOLlUmsUcojNOsitc9c96LrDcVN6WGXg2K0fHWVlgwoIFnu44xhUdzYk1h
-	y9Vqa/xnvV9EkRDCh8GdqtPGpaly11O3VZk2g+u3pIH+G8kK/R+Yb9ABHcMyBKxtt+d4339vQ5DpG
-	RzbuhXuyHap/tT9rp0G8V7AQPugTj2rHEcYV+TpGKQ5L3XrfSR8nZQkD06LbJU5akYqOogC1seBnN
-	LXGlsHJb2VpIodzodfUf4Z3LPAwZfa8urUbEZuZdsMnVO6PwsswLcXpxkTubSGH75gCi3f70RNzG3
-	38THuuIQ==;
+	bh=OORWragfJ2uqB2Dr/bDQS20ALiIbH6lBYk494Y1dSRE=; b=FG1fycUgsOadwaphVJ4i7fqCaR
+	0nJ0wfIPcexOJe94JWgF79yXQFEsO4ceZuP/+eE++FwJkjSK48Cj5MDll0jQ0jic3ifaT2HR3Z7RR
+	SzVMRLxh1IhKTSG71XNEjJgOVdAUYeQeH3tudP0dt+S8WAC0Ga384t1eKz/BTOP3cC43TRTqMAmWy
+	A543ZBCvRPkMcxObi1ULKrjZCnmUQS1NavBWJkizIAZX1I0Gt9vgqAQggYmWitk0KYl+054T7Raqf
+	OmkSQSEIllDoYOJKlYtYsbe8p2luirzlezwc2SxGQ4dIRAnbbjdVvvrgo3MlwMEMA1heCuh0AVp+i
+	iS7TnhTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLOiL-0000000FGi6-42yM;
-	Wed, 11 Dec 2024 15:33:25 +0000
-Received: from mgamail.intel.com ([192.198.163.9])
+	id 1tLP6Q-0000000FMLi-07sx;
+	Wed, 11 Dec 2024 15:58:18 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLOiJ-0000000FGhj-1nXP
+	id 1tLP3J-0000000FLZ5-2LPr
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 15:33:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733931203; x=1765467203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eX9tYjMf8PVgk1Kntv2I21r8w/dOQxwnYgzCNfeVSRw=;
-  b=AAJH4wy48oYKwSc61OPXbUndAvhsVhunrufCoEVva2xVyJWKngcyA81Y
-   RH0UUi37LK7KwJPD+K6bcc4meTBb2sYk3bWXZFF+n4b4WuF3g0Ca9YIwv
-   9UluwZ8FfbAvVUL6o2A3LxKuabfTnNFkQ0YlERAxAuUQunAA2lQx7VDnS
-   pe/lSQeZZ6G2hGCRq+lvVyFmpfTvXjW8kXkj3iBOTAeMcOQWiUEa10Yq6
-   TGEkysSjPHUiInoDKSuz47D8OAlzPuWqgWN97rn2zzPXpWBGQCOCRqL5Q
-   pynY2MnarwFTT91PnhNnW7+3qGHJ2w0NJ7Wf3vgxYo4NDCxF0n08Ciy0j
-   g==;
-X-CSE-ConnectionGUID: xZ3jlAZSRdaRizBpgwUAEQ==
-X-CSE-MsgGUID: N688PJvqSTKQ+j99U+KA7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="44986103"
-X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="44986103"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 07:33:21 -0800
-X-CSE-ConnectionGUID: /cd+RTSiT+SCBCAGJYCUWA==
-X-CSE-MsgGUID: 41lWl8bQTumt/0R2Mj+x6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133230725"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Dec 2024 07:33:18 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLOiB-0006oT-1R;
-	Wed, 11 Dec 2024 15:33:15 +0000
-Date: Wed, 11 Dec 2024 23:32:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
-	Niklas Cassel <cassel@kernel.org>
-Subject: Re: [PATCH v3 16/17] nvmet: New NVMe PCI endpoint target driver
-Message-ID: <202412112307.uOdX4fWx-lkp@intel.com>
-References: <20241210093408.105867-17-dlemoal@kernel.org>
+	Wed, 11 Dec 2024 15:55:06 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 25BBFA40C5F;
+	Wed, 11 Dec 2024 15:53:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5469BC4CED4;
+	Wed, 11 Dec 2024 15:55:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733932504;
+	bh=RXF+v+iA4+BiB0Hp3z1G8RrN4yADVTbgODi8hIUiO1M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O9pGK4Pt++zvdFBgklMPWCnAFvBiDe4YY05JqNPcVx6H1GiCpOaClb3Lo2dEk5XzD
+	 gPUBNpojjR7vfBI0DnyF+58ki1fIhfk30JuNQD2zYWjYHoD4Yk8Ya3JESiO7Zvr7BT
+	 Sb/l7w3NXRvHLWVbo52B9XzyQJukl29QTegIjDo1WFO9zRKZVYBfTARlEDZlxBRJwu
+	 9eh6toLFzVftkFEgU7iYWShvgSU/y9CzI5QQ+t4CJkv5CEjGwdz2dcBzBq5f9wSJJm
+	 26iq7dZU4fjzYgJ44hB+EBom7yvU1RU0D4qAAb9K6PfgXrLA+uxPU+OQBd4X4uk+M9
+	 7PMmoFXJv0YSg==
+Date: Wed, 11 Dec 2024 08:55:01 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+	sagi@grimberg.me, asml.silence@gmail.com, anuj20.g@samsung.com,
+	joshi.k@samsung.com
+Subject: Re: [PATCHv13 10/11] nvme: register fdp parameters with the block
+ layer
+Message-ID: <Z1m11Vz7eIj-sxtq@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241210194722.1905732-1-kbusch@meta.com>
+ <20241210194722.1905732-11-kbusch@meta.com>
+ <a8964dab-8075-4417-bcf3-87c67fe758c0@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241210093408.105867-17-dlemoal@kernel.org>
+In-Reply-To: <a8964dab-8075-4417-bcf3-87c67fe758c0@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_073323_485960_69893469 
-X-CRM114-Status: GOOD (  12.13  )
+X-CRM114-CacheID: sfid-20241211_075505_737521_95924C33 
+X-CRM114-Status: GOOD (  19.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,52 +77,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Damien,
+On Wed, Dec 11, 2024 at 09:30:37AM +0000, John Garry wrote:
+> On 10/12/2024 19:47, Keith Busch wrote:
+> > +static int nvme_query_fdp_granularity(struct nvme_ctrl *ctrl,
+> > +				      struct nvme_ns_info *info, u8 fdp_idx)
+> > +{
+> > +	struct nvme_fdp_config_log hdr, *h;
+> > +	struct nvme_fdp_config_desc *desc;
+> > +	size_t size = sizeof(hdr);
+> > +	int i, n, ret;
+> > +	void *log;
+> > +
+> > +	ret = nvme_get_log_lsi(ctrl, 0, NVME_LOG_FDP_CONFIGS, 0,
+> > +			       NVME_CSI_NVM, &hdr, size, 0, info->endgid);
+> > +	if (ret) {
+> > +		dev_warn(ctrl->device,
+> > +			 "FDP configs log header status:0x%x endgid:%x\n", ret,
+> > +			 info->endgid);
+> 
+> About endgid, I guess that there is a good reason but sometimes "0x" is
+> prefixed for hex prints and sometimes not. Maybe no prefix is used when we
+> know that the variable is to hold a value from a HW register / memory
+> structure - I don't know.
 
-kernel test robot noticed the following build errors:
+%d for endgid is probably a better choice.
+ 
+> further nitpicking: And ret holds a kernel error code - the driver seems
+> inconsistent for printing this. Sometimes it's %d and sometimes 0x%x.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.13-rc2 next-20241211]
-[cannot apply to hch-configfs/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+It's either an -errno or an nvme status. "%x" is easier to decode if
+it's an nvme status, which is probably the more interesting case to
+debug.
+ 
+> > +		return ret;
+> > +	}
+> > +
+> > +	size = le32_to_cpu(hdr.sze);
+> > +	h = kzalloc(size, GFP_KERNEL);
+> > +	if (!h) {
+> > +		dev_warn(ctrl->device,
+> > +			 "failed to allocate %lu bytes for FDP config log\n",
+> > +			 size);
+> 
+> do we normally print ENOMEM messages? I see that the bytes is printed, but I
+> assume that this is a sane value (of little note).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/nvmet-Add-vendor_id-and-subsys_vendor_id-subsystem-attributes/20241210-174321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20241210093408.105867-17-dlemoal%40kernel.org
-patch subject: [PATCH v3 16/17] nvmet: New NVMe PCI endpoint target driver
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241211/202412112307.uOdX4fWx-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412112307.uOdX4fWx-lkp@intel.com/reproduce)
+I suppose not.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412112307.uOdX4fWx-lkp@intel.com/
+> > +		return -ENOMEM;
+> > +	}
+> > +
+> > +	ret = nvme_get_log_lsi(ctrl, 0, NVME_LOG_FDP_CONFIGS, 0,
+> > +			       NVME_CSI_NVM, h, size, 0, info->endgid);
+> > +	if (ret) {
+> > +		dev_warn(ctrl->device,
+> > +			 "FDP configs log status:0x%x endgid:%x\n", ret,
+> > +			 info->endgid);
+> > +		goto out;
+> > +	}
+> > +
+> > +	n = le16_to_cpu(h->numfdpc) + 1;
+> > +	if (fdp_idx > n) {
+> > +		dev_warn(ctrl->device, "FDP index:%d out of range:%d\n",
+> > +			 fdp_idx, n);
+> > +		/* Proceed without registering FDP streams */> +		ret = 0;
+> 
+> nit: maybe you want to be explicit, but logically ret is already 0
 
-All errors (new ones prefixed by >>):
-
-   drivers/nvme/target/pci-ep.c: In function 'nvmet_pciep_iod_name':
->> drivers/nvme/target/pci-ep.c:658:16: error: implicit declaration of function 'nvme_opcode_str'; did you mean 'nvme_opcode_name'? [-Wimplicit-function-declaration]
-     658 |         return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
-         |                ^~~~~~~~~~~~~~~
-         |                nvme_opcode_name
->> drivers/nvme/target/pci-ep.c:658:16: error: returning 'int' from a function with return type 'const char *' makes pointer from integer without a cast [-Wint-conversion]
-     658 |         return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +658 drivers/nvme/target/pci-ep.c
-
-   655	
-   656	static inline const char *nvmet_pciep_iod_name(struct nvmet_pciep_iod *iod)
-   657	{
- > 658		return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
-   659	}
-   660	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yeah, we know its zero already, but there are static analyisis tools
+that think returning without setting an error return code was a mistake,
+and that we really meant to return something else like -EINVAL. We
+definitely want to return 0 here, so this setting exists only to prevent
+future "help".
 
