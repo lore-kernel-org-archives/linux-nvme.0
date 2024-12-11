@@ -4,101 +4,215 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48FE1E7717D
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 09:30:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47AB2E77180
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 09:31:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lQfC3PbjvDImXtrZcpALZIQ/Xb3Jqrkj2As+rdeo0qA=; b=QnTMTnkujnWpHkXobm1Cmye06M
-	e3PF2JBOZMYgdXHrzVk6QContrnq+cBHDucAw5pL1iBM6k2rMynnQ2gwQEXuoyMSry/juoNdmlp0L
-	m4kA4B9WOQ9Zl26FQH8bk45/DXNuBqlVNnUW2XOl/DKlxvtAxZyHnj9HhgAW+Mqkaj7yee96Zj4io
-	ge6k8MOX+Q1oBKZ5bWWnKiGfQsFzWJ2tSB4DNA1f6hn24wWJ3F110uZLWNUCpOgZL2UXnN1kF8j+h
-	WZyjFaZKNpZg0/T9/JkOINq7C12h4PlfQParbU7cheLuteEE2b/3mNfVoe+xBqSGRzLzlKgxym90P
-	XRUzKjhg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+S/OV7JNfd3LzK9dBTp3O7Rs4xtqEtwSc9DolMM4tws=; b=HyzjfX2feHEsYIwW0SB7h8Bs06
+	xdeBtCJ5bXJc1oIlAhDpuw5LYxl7EymzdmgQyZDF5Y61EiH22M9aox8FI1yWCp/pEbyT85EOgFk2H
+	HhQ8XyBt8y1LR1e/HJRycfZDXo2IivJVAqxriYrGclagnfnt5qGnVeClEjxCT3Jl13QPyUJFEQOpY
+	XeC1nz/lmYGF0PjCaPdWII1kqjkzdaWFWEjRfRZXHfa0fnvTSYLHEoBU/NLlMsBvoPlI/8ag6nZao
+	re3wJV7FLuksbYGHaMBKynoyuM/Ytt2QcWgpcz87nposjK/3K2m27eK65P8emaD3hT87blROXHS2r
+	wqic0koQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLJ2q-0000000EQU0-0x18;
-	Wed, 11 Dec 2024 09:30:12 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1tLJ3w-0000000EQjB-2FTs;
+	Wed, 11 Dec 2024 09:31:20 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLJ2o-0000000EQTR-1SFt
+	id 1tLJ3u-0000000EQie-3X3T
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 11 Dec 2024 09:31:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
+	:Content-Type:In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=+S/OV7JNfd3LzK9dBTp3O7Rs4xtqEtwSc9DolMM4tws=; b=VBH6bcEAoldylFw4tGCey6wOfw
+	ERi6yrcPaqyAa1RZgoweq8GC6TRXq0PtcE6MKy+weRiiqv63aTYsuzqYm2twn/B4Sn8vQaoYQXKCs
+	NSdtXVzFM2C9rRXrkI6vaYyd/XxmoZeUicr9zYXKkvWnMzRN8DrYnFXA61p5yY4I9MmaX+DBaPYCo
+	Bz9fXQyyZ1cl1hgGJB6fRL+7cH+Yx1CH3RKBEhyNWM057EgxQmAWFvhNjwOLPFcrLFPi2Rdw/25+L
+	MDXnMjnXsC6aPMeEWFWPu2W24PSB2Cs0QNyaiQhUC+xOrf6PBuMy4dg6SRqW/cbFgWoSkTOX/wP0+
+	v+xLN+iw==;
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tLJ3q-00000003ntg-1JFe
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 09:30:11 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB082s4008971;
-	Wed, 11 Dec 2024 09:30:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	Wed, 11 Dec 2024 09:31:17 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB8ROVZ000814;
+	Wed, 11 Dec 2024 09:30:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=lQfC3P
-	bjvDImXtrZcpALZIQ/Xb3Jqrkj2As+rdeo0qA=; b=lo4rnzUHd83YARhLJca9MB
-	PdqtdDBMK3Yb3zmgMLkRSWm+9Jym38TYiNDvFw0hCeIIPFe61plflOVPh5TEPG7r
-	Rgrz94SQXXS1seUsbSkIc4quff7/oRq/IPspiLLoQNcFRIqWD8CzFRnvl8Wy1ZqW
-	plcygtaQmEZWVKCVnOdTHe1TEEmG1kSpa3yM+a4z+GliDu0cAuQspSvTHC5VWjiV
-	pCrb4SazDljoCnqz9gptGjHybYhz8+V4PopwU3XQefl3Qp3TE1JujIVcWVIHaMRC
-	XS+8cUpoqRLgoGLHG7fTTJdIyrj4stjCF3GG2k/fNpW68Am8ezlZFN+yHosJbEhw
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ccsjk9an-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Dec 2024 09:30:01 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB6CUb9032589;
-	Wed, 11 Dec 2024 09:30:00 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43d1pn8m83-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Dec 2024 09:30:00 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BB9TxBT51118406
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 11 Dec 2024 09:30:00 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C0DCF5805A;
-	Wed, 11 Dec 2024 09:29:59 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0C0415803F;
-	Wed, 11 Dec 2024 09:29:57 +0000 (GMT)
-Received: from [9.171.85.18] (unknown [9.171.85.18])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 11 Dec 2024 09:29:56 +0000 (GMT)
-Message-ID: <4b1cea16-675d-4167-9ccd-f5dd4ec7045a@linux.ibm.com>
-Date: Wed, 11 Dec 2024 14:59:55 +0530
-MIME-Version: 1.0
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=+S/OV7JNfd3LzK9dBTp3O7Rs4xtqEtwSc9DolMM4tws=; b=
+	BS0+A72q0AA1y9EmBgHUiPF3WMxBN7SylA66hjENTwXyGA6QJRg9jcjc2WHpsW2e
+	MbMItlLCotF9jtcPBWZXuIwx2fPmD1q5EgQ3+2IT4w7I67eRlzWwsKqtKw1q/Veo
+	9ErKs9Fvw3pFdqCwtQ3Rq4b1kt1swM2a8SB7MqE1ts8vYPXYdXIHYU5tl5nBBXTW
+	tVdzTAhBIuunov84eGmQP+22JrK8i+y9511kDjAeHNuBg9+6JP93H8/48yDflJFJ
+	dP4qTBqGq4oixUPWYzv+827FnAwTjFy/II/CBnMxoyuJffYApVoxMCmutj0XqUL/
+	RTc7+rVPyw4dJqqJURVwCg==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 43ccy087xj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Dec 2024 09:30:54 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB7Y6GI035082;
+	Wed, 11 Dec 2024 09:30:53 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2168.outbound.protection.outlook.com [104.47.73.168])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 43cctgy19v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Dec 2024 09:30:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HzceNNk7aVAZo79RHrxiQil/PFqBDEinNZV8ysfmFgRIJ1w07slkPkoqGxG1Jwxpfrytozhn4ieSDv1LNuxnnBmBMJtWDmv7ms8V0PlmeAUfsLvRnMlqVTjb74Xb8PyJGBQOqYL/vTLFLOcTNm1vuC8Ql3AtzpCjZRxV/1tVaPOaIOHyTpABm/XftjpgcAFCBPbuAen1I7DdD8xn97r2sbdTzyGXJkspGpwnD97PkaIqzMx/nQNWFVGAosFvxew+1sUYAd2lLIScvr6XvEJPI9rUWSPGLlmshwWsBDakl3w0H6MJ2mc5JUhlLbgdsdqcz/ZHDfrXhj7voR1PfdK48Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+S/OV7JNfd3LzK9dBTp3O7Rs4xtqEtwSc9DolMM4tws=;
+ b=gwKuFNpLKKoX6n0XNHZ9WbrdHnCzTGXo6uATQZDGNaat8lm1H9mO+tp7gZFdNmaEp0kXagw1RtT5GEIYfz+JmjtyPflzktFbclbogNkcx0pstZdRlM1ViHvrovuJ8dzpLQeEtM13j/+Rvx16/Lesq3mQt2+TPd5RHRNmwQhqBTrLZ3FEONy0I7S71hWabXqcDJtZNR4PAtU/Wb1bRmjFacrN5Utct14InHl3nUw4UGGPej+Q47K5ymfMQnK+eTqZ35JXNjrJaBykxvGam2z6skzDjqtU90r+EOZiO6koxjyqZCrBFCMVEN1v2K92lXpSeUVIuDe0NU5M/NadLTYWLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+S/OV7JNfd3LzK9dBTp3O7Rs4xtqEtwSc9DolMM4tws=;
+ b=LCoUV5Kjm2eo2vNiNfK2pamFRY66P9jougOOO6nh1QFLyDSgRpTPd1JXzNjbKGZ0BAtkSXphlpx0q5MoNnAFb9BKMq49v5oY66rTFjcL3BZ2U+80WVbUxkn3zHFVV4BOOG5iShPjVVwPCmQ3WT3UdrrPAi/Wl/cjQk2nIhtnSu0=
+Received: from CH2PR10MB4312.namprd10.prod.outlook.com (2603:10b6:610:7b::9)
+ by CH3PR10MB7864.namprd10.prod.outlook.com (2603:10b6:610:1ba::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.15; Wed, 11 Dec
+ 2024 09:30:48 +0000
+Received: from CH2PR10MB4312.namprd10.prod.outlook.com
+ ([fe80::fd5e:682a:f1ac:d0a2]) by CH2PR10MB4312.namprd10.prod.outlook.com
+ ([fe80::fd5e:682a:f1ac:d0a2%6]) with mapi id 15.20.8251.008; Wed, 11 Dec 2024
+ 09:30:47 +0000
+Message-ID: <a8964dab-8075-4417-bcf3-87c67fe758c0@oracle.com>
+Date: Wed, 11 Dec 2024 09:30:37 +0000
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv5 RFC 0/3] Add visibility for native NVMe multipath using
- sysfs
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
-        hch@lst.de, gjoyce@linux.ibm.com, "axboe@fb.com" <axboe@fb.com>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        Sagi Grimberg <sagi@grimberg.me>
-References: <20241030104156.747675-1-nilay@linux.ibm.com>
- <10f38d85-e9ac-46b0-9a3e-dcbae26b36d8@linux.ibm.com>
- <46e833ef-5536-4528-8a13-4b79f13e1acf@linux.ibm.com>
- <dd45a4d8-a6c6-4a9c-961d-4bdf251658c3@linux.ibm.com>
- <699ab169-daed-4c83-9ae9-65f6542ba9e6@flourine.local>
+Subject: Re: [PATCHv13 10/11] nvme: register fdp parameters with the block
+ layer
+To: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
+        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
+Cc: sagi@grimberg.me, asml.silence@gmail.com, anuj20.g@samsung.com,
+        joshi.k@samsung.com, Keith Busch <kbusch@kernel.org>
+References: <20241210194722.1905732-1-kbusch@meta.com>
+ <20241210194722.1905732-11-kbusch@meta.com>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <699ab169-daed-4c83-9ae9-65f6542ba9e6@flourine.local>
-Content-Type: text/plain; charset=UTF-8
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <20241210194722.1905732-11-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xXO51uzeQBEpELK2NquaVfJvj37qg5jT
-X-Proofpoint-ORIG-GUID: xXO51uzeQBEpELK2NquaVfJvj37qg5jT
+X-ClientProxiedBy: SG2PR06CA0244.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::28) To CH2PR10MB4312.namprd10.prod.outlook.com
+ (2603:10b6:610:7b::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR10MB4312:EE_|CH3PR10MB7864:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60e32ac6-0d46-4c7c-5ef0-08dd19c67e7a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dHZWL0liQnQ4c2M3ZXJySGRsaDd4eUxFMk1KVVZWL2UyVXdSZ2Q2dE54WE1y?=
+ =?utf-8?B?elU3QkNOODZkOUxSdnFER0ZCajFhbFVKUzhmLzF2Ri9tL2VHRGIxNkU5dzJJ?=
+ =?utf-8?B?elM2TkJGRnJoUTBmQkFwbXpNSDVMcTBzdS9UYS9VdDVJMkZXSjM1bE9nOVZ2?=
+ =?utf-8?B?WStmT3RKMk5JYUxhczg4T3cwSU5xeHlsZVY2Z296RmFQOUIrRFh1d3NTWklv?=
+ =?utf-8?B?SW1zRjMxaUtpS3NDYVZiSjQwbnBoTGpRQmlJOStvRjB5cnVORVEwRHhnNk1M?=
+ =?utf-8?B?RWh4SE85WDYvZjJHSy92MFBmOVVGOHhLaDl0S1FReXRmNkQ5dGltV1dDaWti?=
+ =?utf-8?B?NEF2NUJhUHAvcDBhcjFWalVHQ2ZDUkxUWnRHS1VheGc4cTFrc3BrWFBiaTBr?=
+ =?utf-8?B?d0ljRzNJaHVncWgybC9uU3VxLy9XanE0QVBlVHlERVZYVCtwR0NRdHZMczFR?=
+ =?utf-8?B?K3dxOUx3K3pFRGh0N3hvWjVJcFpncmxIR3RVbDNMMHVsOFk0dEE5c2E3ZW9I?=
+ =?utf-8?B?R0M4alVKazhTREdiRFJyeUphRlZrL0dtdFYyMmd3TlMzSUdlNk1WZ1dNU1BY?=
+ =?utf-8?B?VWRvOFZ4TXhJQnB1MnRmalNnUFpyQkdTc0tXYTQzYTgwcSs0YWFwRmxYei85?=
+ =?utf-8?B?cXE3RzVSeDk5anJ2Q0lnc3BCL3NCeGdUVEgwMnh2Q0gwZ1c4ait1Q0h3N1dj?=
+ =?utf-8?B?WUN4Q2FZd3B4RjN6VEJBNzJlczhyOEN6SXVGWm1zTVhudzdiNlRIdC9zNzdS?=
+ =?utf-8?B?NCtrT2E3aFFwUzNrakRKdFhYNmdyemNBQXFGaUNHcHBkV3NKSlVtMlpTU2t4?=
+ =?utf-8?B?WTkzdWhweUg3THBhalppTVlSMWcyZUp2eFVIOVRVZXlDVWh3Y0F3MGJjdEhv?=
+ =?utf-8?B?S0tpSmJ0bFpvK29iU3ZlRVplcVFpd091d0lMaUt6VWNaWWE0L0dseWY5cVow?=
+ =?utf-8?B?WTlYQktIcXdqODRoU090K1krMXc3NDlodTE1UkZpK29uTzZteWRlY3hRNkM4?=
+ =?utf-8?B?R2ExNUIxcXVYQVFtVGpyekdEbDBZakc4cHdIQzhSb0JvU2VkYU1tL1ltUTVz?=
+ =?utf-8?B?Q2lOQm5jT0NENzhPcmdtNWdRQUFFZnZSVTBUdmsyNTF6M2dXMTY4Kzh5dG0v?=
+ =?utf-8?B?cFRYaVpwSjBYS0w5NjhvMnhKeUJkY1dYcVk2L0lsU0dBNnN4cm9Edm4wUmJP?=
+ =?utf-8?B?dlhBNkY3NG9QcmNLZmZEOFBYMm85QUczd2lHbi9WNUprNzRxc2x6dDR3SHJE?=
+ =?utf-8?B?aHA2SEpXMUlONFVueERNRDNSZWN6SHpzOXhvODY2cHlTNVE5NGlQMk5CYWEy?=
+ =?utf-8?B?U0drUllOTFpOa09lTEJYZWNNNGU4WHNmZlVFazQwVTlsU01oYmJhQmNhTnJv?=
+ =?utf-8?B?aEg0eFVDWVdBaXhrcWRJSXFTazczT2tGc2FSWHpIamxiSnBXa3dXSndzc2ds?=
+ =?utf-8?B?blk3ZEZtTldxcUw4djhDZWJRamoxWXJvcW9mVG9MTlloUDk0OW1zclM5K091?=
+ =?utf-8?B?MHpabTA3eFNvWmtqK3RJcWlud0xVVkw5SDlQUGZ0WkJsa3U0alBia3U2MU9j?=
+ =?utf-8?B?dnBydHlWcEFkUVZSM0JKMkJGMTEzTExxL2RFOGNzS0FXVWoxT3Fna3lBUk9q?=
+ =?utf-8?B?dlpZNnhjcUdac0pGWHp2S000YmNwNXRacGdCM3JtR3ZvcndUL3FQZFl5VENi?=
+ =?utf-8?B?TjJwZnFGbVpqTWFUdnRNWFJTNVZmS1J1eFJvcEs1c3MvaHJveEUzSFg3dGQ3?=
+ =?utf-8?B?N3NzamVCNy90bFFOSTdEOXA1SmxIQnFkNnFjUkRSb0dqbzBEYnNsVHU4VkJr?=
+ =?utf-8?B?Tzdhby9qYzB4dTlyL1Qydz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR10MB4312.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WEduZS94RUFEdGxpSUdtdHZmN3J2aUptWEZTbU1ERGFEMG00UGxxUEJobElT?=
+ =?utf-8?B?L1o4Rm9YUE5JRmFJZ0tnUkFYbUw5aEFyUllVWk41YWVmZXNmOXlYWUtWOEZR?=
+ =?utf-8?B?RDZnc2JLbWp4MUFRQ0dMcFphNTVSN3lYTnFHY0NFcEZUWjlFdzFNNktGTXll?=
+ =?utf-8?B?OEE4YTNYMGNSbmlPTlJNaWFTMHJ5S3J4MkE5YjNyckpqR3l2Vm5wb1ZROXdO?=
+ =?utf-8?B?Y1B5OWRyeEl2T1RzSVIyTGNkZGVyRDBiMXlVNUVhcHpMRkZJNFJNUzFrV0M0?=
+ =?utf-8?B?ZGxmWUY2eS96MEJPTCtKbk0vK2pIT05KQytHZ2ZUNjJGMVFjSUxsaUVaRFFS?=
+ =?utf-8?B?WEpVL0JGUzJ2Z3Z5ZGozM1RGMnhvVi9QSWppSXNIekcyVjc3TmJFOFJ0NXFv?=
+ =?utf-8?B?emFhb0x3QlFKQU1SSHlnN0VEcEQvMFppRXViWE4rQ3FvZHFJcitGWjR4bEdx?=
+ =?utf-8?B?amRScDVJZmN1ZkxZMUxwT21lQ0dxYUFibFRnL29kL3RhbmIzT0s0MXdTT0l2?=
+ =?utf-8?B?emJUK3JPU2l2RFZ1aS9QalFKeXRsYTlwZmgrMXNpVG91NDErL0xITWxHQlV1?=
+ =?utf-8?B?aVRKQjR2ZStxMzZBQ2dVLzM4b2QwdGZ1aWtPMUk4RC9wbnc0TTVaSVZEMmpB?=
+ =?utf-8?B?VkFrbHFGbDZkSzN6YU5GSnhGUDBleGhCSzNxZHRjeDVUbXU5ODJIaTIwc3ND?=
+ =?utf-8?B?VlR5SDZmRW9CYjJhd3g2dWw5ZEFyalNpTmFrSm1OVStMUzJYaEpjT3FzeWx4?=
+ =?utf-8?B?ZTFxdy96YldHNGFDbWhoNkduMmhqVWQ0RjVRUkNBYy9rOWQ0RWJ3Q2hZUUh2?=
+ =?utf-8?B?bURvZkZKQ0NudytKVDN4WVFITGRNWlVtS0xqaUMrS3lOTU44MDJjdzU4emZM?=
+ =?utf-8?B?SzJ5Zkdqd1U3dldvY3hWMldYZXdYVnh6aXIvcUpVVXF5THNYUGlSQWZPREh6?=
+ =?utf-8?B?MnFCS0xXYnhVWnVXWlpjeTRSTUdlVjJJZ3RUL3laSjJudFQ3U2lVMUtpYWMy?=
+ =?utf-8?B?cmRlYll2c1dJWmdVN2FDRWR3ZC9QaVdNTm9mMkl5TkNuN2V5M2I5ZGh0ZERW?=
+ =?utf-8?B?ZUtkci9jVjBZeXdINU1Rd0VuRnh2eWo0cmc0L0hCM3cvZWR1ODkxRzE4YWlB?=
+ =?utf-8?B?TjhaT0tjMnFrZmxkMjJGSUlVZ1N2UGY5QVd3QWwrN0xSajlYRlRZdTlrcGUz?=
+ =?utf-8?B?Y1VRWGpGM0VncjdXeGVDc254Wk1TdmcyRUdqTU9KMkI0RUhUQ0NRWk9LUTIx?=
+ =?utf-8?B?QW1vc1FRS2Fzb1pzRklWN3U4K3NVMEpGWXQvbW5xN0lqVEEvTERPZUtoSTVQ?=
+ =?utf-8?B?TnBaTWxzTVlyZmN0S0xGNEhKQkNMT0dIMjZheVJzUm1sUmM1allqVy8zaW5H?=
+ =?utf-8?B?WmtlMFc5aDlFNW1NUWhaSXEvaXkvSVQ5NWtTNVZ0d2tMdkhTQU5zYnhnb0xq?=
+ =?utf-8?B?UCs2V1ArU09FbTlmd0ZRNndZTHY3M2I3bkFuOGhxMDhqRU5EUHQ1WEF6RVRX?=
+ =?utf-8?B?SldkMXp2MEJSUHp2K3NkendLbjBLSkpIamFudm8xNzVyYkJsM2xIYnZFWUZS?=
+ =?utf-8?B?R01UYmVBWFpZZno4cXpHdXJjWVVNalQ1QSt6b1lFUWJiQjVOcStMRWZyazRm?=
+ =?utf-8?B?S3FESnlZckxobG9wZVlZNUovTFdQRUxDMHdhSjNCWlppMkJ2Yk1NLzhtQTRy?=
+ =?utf-8?B?Qjd2UE9ESlI0RitsVWFFaXFXdjhKQVJndDlZNmlPSHhPTkhJcEJRNHQ4bjM0?=
+ =?utf-8?B?MXFRNkVYYU1sTXE3YXp2dnhSelFudFdWeXByZ1ZpNzlodldpcXBvdXF6T29m?=
+ =?utf-8?B?M3krUnJ2aS9SNzhLbHkwUi9MUHc4SXE2ck9pNFM4dktseXdkeFJNWTlWeVJW?=
+ =?utf-8?B?L29vS25PT2QzYnRjN3VSdU1ua0xLa0t1NUlnZ1piQWtSQXFidVN3ekpHUmlp?=
+ =?utf-8?B?U1Zqc0h4a2J2ZFBBVmg0Yy9mdFNQdDFRckVib3VzRVFIcUJVaFVONlNiNWs2?=
+ =?utf-8?B?Z3dMUlF3T2R5WmNMMTRoemlNaE9KaStZc3RHaUNTekxscHoxMFdwOHBldWN6?=
+ =?utf-8?B?V3ZqTzNUN0NmaGJGYXE0RThGdVJWRWFhNkErdE5XZjlERWI2U0loZXBOclZs?=
+ =?utf-8?B?NkhtejdLbEk3SHZtUkdHdnN5cVZCTkJUdkpqUnN1SUFtNzFVcGF3NmdsK3Mv?=
+ =?utf-8?B?V3c9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: U8VYEjRsldx3COkdNdtQahQLOJiaJbutrrdeY2/uj5j4X1mnoC0B/bvmFammO/vfrl5Xe5NR+bqehNDpKBDNshorsKUqeacJjaizrzb3n9ziBXjz6jq983cFiDheGqv26rh/8PdSeYgVGrN5JRB6gXt2qASbFG2VgXpo3t7LosB94tzXcGtft2uJKG/AWi1W9b4OgCm2CCXgxL6rpZciO3mdokIdpCCVZQTskVoNKgBm0Nw2/g0fMfi4r6dqn8+6kbKa4gULh50gmaPDRXYWDMLfB0ah2lM87QraQ0nsi77TLycjVK0/c79iqgTdFQKRL0FH6qkbqzZUC7IxoUbxfX3xh9fpJzwGVfqATNuLxmS70nlNqun0QRd3OjLIpdz/bcA9cc6E0mHgI4/28MoxNxmyiRW/G+WGV5sJlZ8nn6YtInjiTKkIJwbVo+GgTb3N0/06IMhoTtcHyJGLaiPT6apLz6FKConp77bZvUOpM0WoAvdb2mI9m56cCwm+pjbBKNo/FgWgNMscWTMPm/RUqbV8D1VoJVQIObQJB61fVT/nUmbVdhFaTu5jsOC9EUgPK3lB7iwmIid8h5x6WHD/bfUvX0tx7R79L6CsfijJITs=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60e32ac6-0d46-4c7c-5ef0-08dd19c67e7a
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR10MB4312.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2024 09:30:47.5928
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C60jI+3LUe+8n6rfMJH+D6AhnxNJvsMylWw8d2/fKS1cYozbB8QnpcuDnUnmTeorSYso06uIkZwjNKtIGeR/xg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7864
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=928
- mlxscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412110071
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-11_09,2024-12-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ phishscore=0 malwarescore=0 suspectscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2411120000 definitions=main-2412110071
+X-Proofpoint-GUID: JJNmwGRGmdA0zr3zxijunUPwgM2NwEPz
+X-Proofpoint-ORIG-GUID: JJNmwGRGmdA0zr3zxijunUPwgM2NwEPz
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_013010_528947_9EE8278A 
-X-CRM114-Status: GOOD (  17.12  )
+X-CRM114-CacheID: sfid-20241211_093115_196855_ED2F501B 
+X-CRM114-Status: GOOD (  18.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,49 +227,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 10/12/2024 19:47, Keith Busch wrote:
+>   
+> +static int nvme_query_fdp_granularity(struct nvme_ctrl *ctrl,
+> +				      struct nvme_ns_info *info, u8 fdp_idx)
+> +{
+> +	struct nvme_fdp_config_log hdr, *h;
+> +	struct nvme_fdp_config_desc *desc;
+> +	size_t size = sizeof(hdr);
+> +	int i, n, ret;
+> +	void *log;
+> +
+> +	ret = nvme_get_log_lsi(ctrl, 0, NVME_LOG_FDP_CONFIGS, 0,
+> +			       NVME_CSI_NVM, &hdr, size, 0, info->endgid);
+> +	if (ret) {
+> +		dev_warn(ctrl->device,
+> +			 "FDP configs log header status:0x%x endgid:%x\n", ret,
+> +			 info->endgid);
+
+About endgid, I guess that there is a good reason but sometimes "0x" is 
+prefixed for hex prints and sometimes not. Maybe no prefix is used when 
+we know that the variable is to hold a value from a HW register / memory 
+structure - I don't know.
+
+further nitpicking: And ret holds a kernel error code - the driver seems 
+inconsistent for printing this. Sometimes it's %d and sometimes 0x%x.
 
 
-On 12/10/24 15:04, Daniel Wagner wrote:
-> On Tue, Dec 10, 2024 at 12:33:45PM +0530, Nilay Shroff wrote:
->>>>> As we know, NVMe native multipath supports three different io policies
->>>>> (numa, round-robin and queue-depth) for selecting I/O path, however, we
->>>>> don't have any visibility about which path is being selected by multipath
->>>>> code for forwarding I/O. This RFC helps add that visibility by adding new
->>>>> sysfs attribute files named "numa_nodes" and "queue_depth" under each
->>>>> namespace block device path /sys/block/nvmeXcYnZ/. We also create a
->>>>> "multipath" sysfs directory under head disk node and then from this
->>>>> directory add a link to each namespace path device this head disk node
->>>>> points to.
->>>>>
->>>>> Please find below output generated with this proposed RFC patch applied on
->>>>> a system with two multi-controller PCIe NVMe disks attached to it. This
->>>>> system is also an NVMf-TCP host which is connected to an NVMf-TCP target
->>>>> over two NIC cards. This system has four numa nodes online when the below
->>>>> output was captured:
-> 
-> Looks good to me from libnvme's perspective. I just my question on the
-> lifetime of the new link, but I might just miss the point.
-> 
-When a namepsace path device is removed, we also remove the corresponding 
-link (if it exists) from the head disk node to the path device.Please refer
-below function, from the first patch of the series, which is invoked from 
-the nvme_ns_remove() for removing the sysfs link:
+> +		return ret;
+> +	}
+> +
+> +	size = le32_to_cpu(hdr.sze);
+> +	h = kzalloc(size, GFP_KERNEL);
+> +	if (!h) {
+> +		dev_warn(ctrl->device,
+> +			 "failed to allocate %lu bytes for FDP config log\n",
+> +			 size);
 
-void nvme_mpath_remove_sysfs_link(struct nvme_ns *ns)
-{
-	struct device *target;
-	struct kobject *kobj;
+do we normally print ENOMEM messages? I see that the bytes is printed, 
+but I assume that this is a sane value (of little note).
 
-	if (!test_bit(NVME_NS_SYSFS_ATTR_LINK, &ns->flags))
-		return;
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret = nvme_get_log_lsi(ctrl, 0, NVME_LOG_FDP_CONFIGS, 0,
+> +			       NVME_CSI_NVM, h, size, 0, info->endgid);
+> +	if (ret) {
+> +		dev_warn(ctrl->device,
+> +			 "FDP configs log status:0x%x endgid:%x\n", ret,
+> +			 info->endgid);
+> +		goto out;
+> +	}
+> +
+> +	n = le16_to_cpu(h->numfdpc) + 1;
+> +	if (fdp_idx > n) {
+> +		dev_warn(ctrl->device, "FDP index:%d out of range:%d\n",
+> +			 fdp_idx, n);
+> +		/* Proceed without registering FDP streams */> +		ret = 0;
 
-	target = disk_to_dev(ns->disk);
-	kobj = &disk_to_dev(ns->head->disk)->kobj;
-	sysfs_remove_link_from_group(kobj, nvme_ns_mpath_attr_group.name,
-			dev_name(target));
-	clear_bit(NVME_NS_SYSFS_ATTR_LINK, &ns->flags);
-}
+nit: maybe you want to be explicit, but logically ret is already 0
 
-Thanks,
---Nilay
+> +		goto out;
+> +	}
+> +
+> +	log = h + 1;
+> +	desc = log;
+> +	for (i = 0; i < fdp_idx; i++) {
+> +		log += le16_to_cpu(desc->dsze);
+> +		desc = log;
+> +	}
+> +
+> +	if (le32_to_cpu(desc->nrg) > 1) {
+> +		dev_warn(ctrl->device, "FDP NRG > 1 not supported\n");
+> +		ret = 0;
+
+Same here
+
+> +		goto out;
+> +	}
+> +
+> +	info->runs = le64_to_cpu(desc->runs);
+> +out:
+> +	kfree(h);
+> +	return ret;
+> +}
+
 
