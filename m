@@ -4,81 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AABBEE7717D
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 04:08:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E58A1E7717D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 06:05:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=apWkkDdKfPTNERp/IzyceYZNcr2rb3k3LuEKeoFu58E=; b=rhCOlMIfxpEf7f7e/e/DdOEvrb
-	+9ZG6S28001AKOElY1wV5SWT3XiCpkLMW/xPKoC1kPpTrkIdAmHSIuEfIiUqAf+fYMslyT8fX3LuD
-	uQgKfkl/NJT4oPFjD/0g48pDzIxraM1sPE7D5PCgHNZrFZ0DsPqjBWe5Uv1syvB9x3O0n/agPmOLQ
-	CBU1ip+AFAsfLMy03LG+V6L8oW/sCoNronBKu4kSmQAvuoEi1qb1LgEvrDM/DqvO5scJRLgFZ43un
-	qVoyTOscHzEYhTZHc+2jRztp8yG9eIAFsU8mOX8DPyplW0OTUzq5OpzEtI+p2JcSvrTXKRTVygzXs
-	p0L8v3sQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Vm19+8sOgCyjcKR5yqhjiOJVXNKsya0wck8wtg9WOpM=; b=tUYw+t6trK7MDfMf7eeVWjU6Qg
+	e/2HQ0vpAwqsz2fSmE0o20oteEq+gHHyOIRvzu3tvmjQCjMhbERThi1ifm8j+0RCbyuCpczoPFoH0
+	4olgxE+QhBV+n9LWV4/wfGqgGJwNXDIoLDhxC9jcZt4cOMXH/4NtNLalWpl/mBcY4EBfmYx5pDnnT
+	sp/jExYfTGkcbCZpGCR6hnLqylLDHuUKsLi0AkKnspmCFZ9hjZqZx/Mx9dWKyKfSziA4QWZstWt73
+	riSkumD863IbM29GkapaY4sEzs3z+5axez72V+QdutGEiB/nyylRrdfJImRHf9bua1YhbZb/lNdHT
+	FeDoA8uA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLE1B-0000000Dj5V-1EVV;
-	Wed, 11 Dec 2024 04:08:09 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tLFqs-0000000DtT2-3pcp;
+	Wed, 11 Dec 2024 06:05:38 +0000
+Received: from [203.254.224.24] (helo=mailout1.samsung.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLE19-0000000Dj4l-14oM
+	id 1tLFqj-0000000DtP6-3KzB
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 04:08:08 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 2F2DA5C2762;
-	Wed, 11 Dec 2024 04:07:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 373A1C4CED2;
-	Wed, 11 Dec 2024 04:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733890086;
-	bh=7/3hmNoQ4LWXf/liq0trPhtYhdVp9Bh0JJE/pGvZqI0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m/UfDmLE/Egvp+aU2S6OtaAiPyALgOouiw8E+uIWgCmIcPR4C2wjS73sbWaCLIIRt
-	 gWn+RRFTfqC4ombZ1LaTAOmlr/qYUJepIDpqF1zfy3lkHpnd0LFqNKnpsIdlwoNV1q
-	 torokdsotdOIaYmZoXSRFVu40kfdYFGDnY4JzzhDcn517OIX8RyHltAn5FUn2dgJh0
-	 90Ev9VNXFa6tQ/jVAAgQ42wn9SV0Bz8UhMHM51OIXl55ihfMyWYmRPVVpfr5MsQpQp
-	 XtdWAqu4dNI6qKMz3dGzSWvaISGjEYAGwulQJRy4k64T+fzqLVloAEjgQP4OdvMwNj
-	 KSOqYl/OYF4LQ==
-Message-ID: <6ff84297-d133-48d4-b847-807a75cab0f6@kernel.org>
-Date: Wed, 11 Dec 2024 13:07:38 +0900
+	Wed, 11 Dec 2024 06:05:32 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20241211060518epoutp01f5d82909739daaacebd9fb7a3e9fd59b~QCj4ewuJc1363913639epoutp01-
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 06:05:18 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20241211060518epoutp01f5d82909739daaacebd9fb7a3e9fd59b~QCj4ewuJc1363913639epoutp01-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1733897118;
+	bh=Vm19+8sOgCyjcKR5yqhjiOJVXNKsya0wck8wtg9WOpM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ucsq29tdHx5dcoWteh5TVMXildanDu5GhhiQht0z+TdjXJd0Aj6aafWlge6iyJl+C
+	 o0p34nSj9VmKYdqsJcrNJNQ4ocOk0RyLIOwR6tQ5d7ilEC/aC/Z+3biYkHvb9483ql
+	 4nKMnxiWfb3nHXAgKXX1fYz/L7v8qo3CuZV1tWAU=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20241211060518epcas5p4ef4139564e0b0712747035d944e65bb1~QCj4NAmn23068330683epcas5p4s;
+	Wed, 11 Dec 2024 06:05:18 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4Y7Q7J4BBrz4x9QH; Wed, 11 Dec
+	2024 06:05:16 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B4.CF.19956.C9B29576; Wed, 11 Dec 2024 15:05:16 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20241211060149epcas5p4d16e78bd3d184e57465c3622a2c8e98d~QCg1bUOvW1834618346epcas5p4_;
+	Wed, 11 Dec 2024 06:01:49 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241211060149epsmtrp296e709724194137f267d2e9faf7ed067~QCg1aWPr_1301813018epsmtrp27;
+	Wed, 11 Dec 2024 06:01:49 +0000 (GMT)
+X-AuditID: b6c32a4b-fe9f470000004df4-da-67592b9c33aa
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F4.6D.33707.CCA29576; Wed, 11 Dec 2024 15:01:48 +0900 (KST)
+Received: from ubuntu (unknown [107.99.41.245]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20241211060146epsmtip1e124f3dc0500e8c37c58f735158b5ae7~QCgzfbfBH1931819318epsmtip18;
+	Wed, 11 Dec 2024 06:01:46 +0000 (GMT)
+Date: Wed, 11 Dec 2024 11:23:54 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Keith Busch <kbusch@meta.com>
+Cc: axboe@kernel.dk, hch@lst.de, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, sagi@grimberg.me, asml.silence@gmail.com,
+	anuj20.g@samsung.com, joshi.k@samsung.com, Hannes Reinecke <hare@suse.de>,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv13 05/11] block: expose write streams for block device
+ nodes
+Message-ID: <20241211055354.ozous6df7gpgjcpp@ubuntu>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-To: Bart Van Assche <bvanassche@acm.org>, hch <hch@lst.de>,
- Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nitesh Shetty <nj.shetty@samsung.com>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@kernel.org>,
- Keith Busch <kbusch@meta.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>
-References: <yq1ed38roc9.fsf@ca-mkp.ca.oracle.com>
- <9d61a62f-6d95-4588-bcd8-de4433a9c1bb@acm.org>
- <yq1plmhv3ah.fsf@ca-mkp.ca.oracle.com>
- <8ef1ec5b-4b39-46db-a4ed-abf88cbba2cd@acm.org>
- <yq1jzcov5am.fsf@ca-mkp.ca.oracle.com>
- <CGME20241205081138epcas5p2a47090e70c3cf19e562f63cd9fc495d1@epcas5p2.samsung.com>
- <20241205080342.7gccjmyqydt2hb7z@ubuntu>
- <yq1a5d9op6p.fsf@ca-mkp.ca.oracle.com> <20241210071253.GA19956@lst.de>
- <2a272dbe-a90a-4531-b6a2-ee7c4c536233@wdc.com> <20241210105822.GA3123@lst.de>
- <a10da3f8-9a71-4794-9473-95385ac4e59f@acm.org>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <a10da3f8-9a71-4794-9473-95385ac4e59f@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241210194722.1905732-6-kbusch@meta.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAJsWRmVeSWpSXmKPExsWy7bCmlu4c7ch0g3Mb5S2aJvxltpizahuj
+	xeq7/WwWexZNYrJYufook8W71nMsFkf/v2WzmHToGqPFmasLWSz23tK22LP3JIvF/GVP2S3W
+	vX7P4sDrsXPWXXaP8/c2snhcPlvqsWlVJ5vH5iX1HrtvNrB5nLtY4dG3ZRWjx+bT1R6fN8kF
+	cEVl22SkJqakFimk5iXnp2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYAHa6k
+	UJaYUwoUCkgsLlbSt7Mpyi8tSVXIyC8usVVKLUjJKTAp0CtOzC0uzUvXy0stsTI0MDAyBSpM
+	yM54dsivYC1bxZ81zg2MJ1m7GDk5JARMJGZsmc3WxcjFISSwm1HiZudfFgjnE6PErWmzEZxX
+	jasYYVqaPyxihkjsZJT4d/MQVNUTRon7N9axg1SxCKhKPJiyHWgwBwebgLbE6f8cIGERAUWJ
+	88DAAKlnFtjMJPGxsx/sEGGBIIntRz4zg9TzAm3YuqkaJMwrIChxcuYTFhCbU8Bc4uWy/2C9
+	EgJbOCRe7WmEushFYvatW0wQtrDEq+Nb2CFsKYnP7/ayQdjlEiunrIBqbmGUmHV9FlSzvUTr
+	qX5mEJtZIEPi6+LPLBBxWYmpp9YxQcT5JHp/P4FawCuxYx6MrSyxZv0CqAWSEte+N4I9LCHg
+	IfFqYR0kULYzSny9v49xAqPcLCQPzUKyDsK2kuj80MQ6C6idWUBaYvk/DghTU2L9Lv0FjKyr
+	GCVTC4pz01OLTQuM81LL4XGcnJ+7iRGclLW8dzA+evBB7xAjEwfjIUYJDmYlEV4O79B0Id6U
+	xMqq1KL8+KLSnNTiQ4ymwPiZyCwlmpwPzAt5JfGGJpYGJmZmZiaWxmaGSuK8r1vnpggJpCeW
+	pGanphakFsH0MXFwSjUwXW0KnlIju/HZtrqfOdc8OwtlZ3+f+UlMvPRwf/jFPYrSJtO8Feff
+	M+EILE56KL4qSal0/uuLKtyct91u+83S/bpj504Hft10J9mldz/cbj7R/mRV8wyjeaY8Crr7
+	uH0OPzP2/XGzYc8b55+3pYu4T0W9nHZS8pzkmXs1x5V0b6zgjJb9uDS8j2nZ72klfa9L56Sf
+	CzO3NS/53j87mWOJaPGyBL9n5xtu267//8jdgVNym0D0RLa7u8RSbp6eZs1V7DshYf7flFKO
+	3/FxzisWpQkpzt4XmNgVd1DjyIQ+bx5BnXObH73YZp08e5/p0x/5e3gjd7W9U6v33H7FbrPS
+	Gz2NA4VXjyXfcV/g6G5kr8RSnJFoqMVcVJwIACLN3OVTBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLLMWRmVeSWpSXmKPExsWy7bCSnO4Zrch0gwPfzSyaJvxltpizahuj
+	xeq7/WwWexZNYrJYufook8W71nMsFkf/v2WzmHToGqPFmasLWSz23tK22LP3JIvF/GVP2S3W
+	vX7P4sDrsXPWXXaP8/c2snhcPlvqsWlVJ5vH5iX1HrtvNrB5nLtY4dG3ZRWjx+bT1R6fN8kF
+	cEVx2aSk5mSWpRbp2yVwZTxac5G94D5zxZunIQ2MU5m7GDk5JARMJJo/LAKyuTiEBLYzSnTs
+	XAOVkJRY9vcIlC0ssfLfc3aIokeMElNnXWICSbAIqEo8mLKdrYuRg4NNQFvi9H8OkLCIgKLE
+	eaCLQOqZBTYzSezt/c8CkhAWCJLYfuQzM0g9L9DmrZuqQcJCAskSH/Z/ANvFKyAocXLmE7By
+	ZgEziXmbH4KVMwtISyz/BzaeU8Bc4uWy/2wTGAVmIemYhaRjFkLHAkbmVYyiqQXFuem5yQWG
+	esWJucWleel6yfm5mxjBMaQVtINx2fq/eocYmTgYDzFKcDArifByeIemC/GmJFZWpRblxxeV
+	5qQWH2KU5mBREudVzulMERJITyxJzU5NLUgtgskycXBKNTBZrZLWUNvobnFnmyWv/Dvr/rXz
+	FszaZqmxK1/2TFzlikUbqm+cer5CP+vMye9zruxR/f1bL7E8Ocn3Ae/y9O2t81+aPHczf9/o
+	/+Vg/Ey759rC5o1SKctsPy2Wq9t05X/hrpieVVc/ByS4sF7ervWva2ZsrZn2TnbplIedyUpr
+	GYPCkze22f068s0p+ZLe8n9XbGc8ip/ntV6+Y5/o3GN5FX2P+Z58tNBeEy4ubaxy/x3X5D1m
+	Nkmd/A++9VcGnmtc4Ptsy4S8nb2VF/MLVD9/qovy+sDuyjjpx/EJMsInotbI9ptEih2eVu56
+	wb/z7D2mW5wMV+MvFtiu03YUS5X6rHwi9VNTFp9qMNeGcDclluKMREMt5qLiRAB/NER6EAMA
+	AA==
+X-CMS-MailID: 20241211060149epcas5p4d16e78bd3d184e57465c3622a2c8e98d
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----K2gkAqOuxZFCoC8EFRwgD_6KeXKZsv69xmv6PgBjcdVDR2et=_75e31_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241211060149epcas5p4d16e78bd3d184e57465c3622a2c8e98d
+References: <20241210194722.1905732-1-kbusch@meta.com>
+	<20241210194722.1905732-6-kbusch@meta.com>
+	<CGME20241211060149epcas5p4d16e78bd3d184e57465c3622a2c8e98d@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241210_200807_342765_CB915CD8 
-X-CRM114-Status: GOOD (  12.64  )
+X-CRM114-CacheID: sfid-20241210_220530_160895_C7067916 
+X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,36 +140,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/11/24 4:21 AM, Bart Van Assche wrote:
-> On 12/10/24 2:58 AM, hch wrote:
->> On Tue, Dec 10, 2024 at 08:05:31AM +0000, Johannes Thumshirn wrote:
->>>> Generally agreeing with all you said, but do we actually have any
->>>> serious use case for cross-LU copies?  They just seem incredibly
->>>> complex any not all that useful.
->>>
->>> One use case I can think of is (again) btrfs balance (GC, convert, etc)
->>> on a multi drive filesystem. BUT this use case is something that can
->>> just use the fallback read-write path as it is doing now.
->>
->> Who uses multi-device file systems on multiple LUs of the same SCSI
->> target ơr multiple namespaces on the same nvme subsystem?
-> 
-> On Android systems F2FS combines a small conventional logical unit and a
-> large zoned logical unit into a single filesystem. This use case will
-> benefit from copy offloading between different logical units on the same
-> SCSI device. While there may be disagreement about how desirable this
-> setup is from a technical point of view, there is a real use case today
-> for offloading data copying between different logical units.
+------K2gkAqOuxZFCoC8EFRwgD_6KeXKZsv69xmv6PgBjcdVDR2et=_75e31_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-But for F2FS, the conventional unit is used for metadata and the other zoned LU
-for data. How come copying from one to the other can be useful ?
+On 10/12/24 11:47AM, Keith Busch wrote:
+>From: Christoph Hellwig <hch@lst.de>
+>
+>Use the per-kiocb write stream if provided, or map temperature hints to
+>write streams (which is a bit questionable, but this shows how it is
+>done).
+>
+>Reviewed-by: Hannes Reinecke <hare@suse.de>
+>Signed-off-by: Christoph Hellwig <hch@lst.de>
+>[kbusch: removed statx reporting]
+>Signed-off-by: Keith Busch <kbusch@kernel.org>
+>---
 
-> 
-> Bart.
-> 
+Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+
+------K2gkAqOuxZFCoC8EFRwgD_6KeXKZsv69xmv6PgBjcdVDR2et=_75e31_
+Content-Type: text/plain; charset="utf-8"
 
 
--- 
-Damien Le Moal
-Western Digital Research
+------K2gkAqOuxZFCoC8EFRwgD_6KeXKZsv69xmv6PgBjcdVDR2et=_75e31_--
 
