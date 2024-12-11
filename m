@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95093E7717D
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 18:58:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0EC48E77180
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 18:58:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SI1PA6xycReY2RlZqGgVzRZSshl8s+cLv4prQzurALs=; b=cAD7bpzF8muLW+xkuig1i1/AWy
-	2GJn3nFBkhDzvIB1etwHNlPrm2qqatiVmSzCGNuRKyU9GkKQZG8sPyr2zsU9rBGUatlEA/hbi65Gz
-	512Kx6+qyUC2XMZXsgWbSPl0kUPaRJSF9keJ6PMvQX8wr2wHY2unK9EM11UvN0RSsMviZOXmLjyBL
-	iW26Y0NSZ874GJ8QlgcW/FM/RGCRF9B8HvtrRGGPRc+8qDCzfnyqlyr7s/ddm7j3oErgqBXAQV1qy
-	f2f0Cv5v0K8jeKqWkB3N9m2dRaZIxIvNmfWpUwsdY1tvqTstxTerTnnfLsk6j+w8V4DjWNvexwb5A
-	mwb5LgYw==;
+	bh=FEtG5pIJIABxdhq/OuyTkBbzsVLRyyzv+L3EKrkNogE=; b=Q49GggMuTEAyqyMFeP+rRlr5yR
+	zPOJ5kgE4qIJOl6bq1IpoEDf3khF6/CInSB9RH5Ds3t7nh7hxYaHTRYRNdMrx/Euf314PINFDVxnq
+	+7OfVTHxIDMJaS+xqe8i9WQ58rSqhuqHsE3sCxYYfeU72SFkG3773CTTVk+GffY74WKpy25XnK0ux
+	dvDF7r9uRojdmtHd0XskwwaHg3r7wqF7q8iNOnF+9Ky0SvDrFapmOpgQkh4rf7esrK+7RR3mWjXjD
+	fjp0NSjVXeZMPBCUZWGl4iM928o6FbUtO6lgybKj988dnXJhxOnkNhVSJDbBdLqBYWGCFwkzNDxfS
+	EV+mzM4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLRuT-0000000FoMt-3aOK;
-	Wed, 11 Dec 2024 18:58:09 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1tLRuV-0000000FoOU-0fcW;
+	Wed, 11 Dec 2024 18:58:11 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLRsu-0000000Fnif-1Yqc
+	id 1tLRt6-0000000Fnqq-0cMU
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 18:56:33 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4BBI3B40030163
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:56:31 -0800
+	Wed, 11 Dec 2024 18:56:46 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBFI1B9022537
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:56:44 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=SI1PA6xycReY2RlZqGgVzRZSshl8s+cLv4prQzurALs=; b=npSssft6t8Q6
-	gasRE9870kTeJRboWLbqodXVoPOgiuCHLtTWp+pCxxJ0qEHyUbNWNbzFbmqRBJ52
-	sAAvIdcv1uqw93+BNuAgr2ch58FhTtC7Jra+Siwa1UWXhoJ0ggcOTIhQrLfMMWR8
-	XQTSOs/iYwZbAuzzXmvZYT1Rcr+BkoqifGJG0CiDSdkXLYHexG7OjpvsXNlokjgJ
-	CsisghdGQglTu2/U6htil20pZclyKlWjn3zFGUPU3zTELqk8HZVyy9dp+mbXqhnV
-	ugnBL7hpljpDwS/eeeIuwKJAePdbA+gkGMzS8ZGk6zB06NVZkFCulcIVI6brSBPm
-	N4Jv8LCXng==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 43ffp1rcc9-8
+	 bh=FEtG5pIJIABxdhq/OuyTkBbzsVLRyyzv+L3EKrkNogE=; b=Ilfsle7/F3ee
+	+E3Fgwib06UMqpPk4mqCEnA2aPPEpLHkll89HxGJCII+Nb1Rn4+NHFTV8qGKc7qk
+	36LZM2LsBOV65PBuZyfTqJCELSQyGzhqVMN9Ln+j0+bEDJ1ZPax9pNGmG+ABLtZl
+	uI9V1bwkRCSGribuFHpV+n2PeYOtWhvWNn/dWN+0MGQup03etm8Jv7U8BWDNQAJN
+	W4DuOAbgD+9j8lthgmo/+FWozuhrCrKho+qHnJAuv2Zz2i6EV/Gjq5PTrS9iY1Gp
+	BNuQl7eIcyRWVb8RGjkyeCZNm+jU1BtPC68VE+i3MEz5Jfbz/4Kls+3CWQrl8ypy
+	hjKuU5+7OA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43fcs9j2cf-6
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:56:31 -0800 (PST)
-Received: from twshared18153.09.ash9.facebook.com (2620:10d:c0a8:fe::f072) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:56:43 -0800 (PST)
+Received: from twshared40462.17.frc2.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Wed, 11 Dec 2024 18:56:27 +0000
+ 15.2.1544.11; Wed, 11 Dec 2024 18:56:41 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 9E97715DE3963; Wed, 11 Dec 2024 10:35:16 -0800 (PST)
+	id 71FF215DE395B; Wed, 11 Dec 2024 10:35:16 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
@@ -59,9 +59,9 @@ CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
         Nitesh Shetty
 	<nj.shetty@samsung.com>,
         Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv14 09/11] nvme: add FDP definitions
-Date: Wed, 11 Dec 2024 10:35:12 -0800
-Message-ID: <20241211183514.64070-10-kbusch@meta.com>
+Subject: [PATCHv14 05/11] block: expose write streams for block device nodes
+Date: Wed, 11 Dec 2024 10:35:08 -0800
+Message-ID: <20241211183514.64070-6-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241211183514.64070-1-kbusch@meta.com>
 References: <20241211183514.64070-1-kbusch@meta.com>
@@ -69,14 +69,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: r9l41l60RDgmkuntdzQiQR00JiigtWrD
-X-Proofpoint-GUID: r9l41l60RDgmkuntdzQiQR00JiigtWrD
+X-Proofpoint-GUID: yveS3oI6VPGz7VizZgzNEqr9hvU6_PVm
+X-Proofpoint-ORIG-GUID: yveS3oI6VPGz7VizZgzNEqr9hvU6_PVm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+ definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_105632_515568_D98D295E 
-X-CRM114-Status: GOOD (  11.51  )
+X-CRM114-CacheID: sfid-20241211_105644_192075_E45DD59B 
+X-CRM114-Status: GOOD (  13.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,163 +93,78 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-Add the config feature result, config log page, and management receive
-commands needed for FDP.
-
-Partially based on a patch from Kanchan Joshi <joshi.k@samsung.com>.
+Use the per-kiocb write stream if provided, or map temperature hints to
+write streams (which is a bit questionable, but this shows how it is
+done).
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+[kbusch: removed statx reporting]
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/linux/nvme.h | 77 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ block/fops.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 13377dde4527b..7680078fa67fd 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -275,6 +275,7 @@ enum nvme_ctrl_attr {
- 	NVME_CTRL_ATTR_HID_128_BIT	=3D (1 << 0),
- 	NVME_CTRL_ATTR_TBKAS		=3D (1 << 6),
- 	NVME_CTRL_ATTR_ELBAS		=3D (1 << 15),
-+	NVME_CTRL_ATTR_FDPS		=3D (1 << 19),
- };
+diff --git a/block/fops.c b/block/fops.c
+index 6d5c4fc5a2168..f16aa39bf5bad 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -73,6 +73,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *=
+iocb,
+ 	}
+ 	bio.bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+ 	bio.bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++	bio.bi_write_stream =3D iocb->ki_write_stream;
+ 	bio.bi_ioprio =3D iocb->ki_ioprio;
+ 	if (iocb->ki_flags & IOCB_ATOMIC)
+ 		bio.bi_opf |=3D REQ_ATOMIC;
+@@ -206,6 +207,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb,=
+ struct iov_iter *iter,
+ 	for (;;) {
+ 		bio->bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+ 		bio->bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++		bio->bi_write_stream =3D iocb->ki_write_stream;
+ 		bio->bi_private =3D dio;
+ 		bio->bi_end_io =3D blkdev_bio_end_io;
+ 		bio->bi_ioprio =3D iocb->ki_ioprio;
+@@ -333,6 +335,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb =
+*iocb,
+ 	dio->iocb =3D iocb;
+ 	bio->bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+ 	bio->bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++	bio->bi_write_stream =3D iocb->ki_write_stream;
+ 	bio->bi_end_io =3D blkdev_bio_end_io_async;
+ 	bio->bi_ioprio =3D iocb->ki_ioprio;
 =20
- struct nvme_id_ctrl {
-@@ -661,6 +662,44 @@ struct nvme_rotational_media_log {
- 	__u8	rsvd24[488];
- };
+@@ -398,6 +401,26 @@ static ssize_t blkdev_direct_IO(struct kiocb *iocb, =
+struct iov_iter *iter)
+ 	if (blkdev_dio_invalid(bdev, iocb, iter))
+ 		return -EINVAL;
 =20
-+struct nvme_fdp_config {
-+	__u8			flags;
-+#define FDPCFG_FDPE	(1U << 0)
-+	__u8			fdpcidx;
-+	__le16			reserved;
-+};
++	if (iov_iter_rw(iter) =3D=3D WRITE) {
++		u16 max_write_streams =3D bdev_max_write_streams(bdev);
 +
-+struct nvme_fdp_ruh_desc {
-+	__u8			ruht;
-+	__u8			reserved[3];
-+};
++		if (iocb->ki_write_stream) {
++			if (iocb->ki_write_stream > max_write_streams)
++				return -EINVAL;
++		} else if (max_write_streams) {
++			enum rw_hint write_hint =3D
++				file_inode(iocb->ki_filp)->i_write_hint;
 +
-+struct nvme_fdp_config_desc {
-+	__le16			dsze;
-+	__u8			fdpa;
-+	__u8			vss;
-+	__le32			nrg;
-+	__le16			nruh;
-+	__le16			maxpids;
-+	__le32			nns;
-+	__le64			runs;
-+	__le32			erutl;
-+	__u8			rsvd28[36];
-+	struct nvme_fdp_ruh_desc ruhs[];
-+};
++			/*
++			 * Just use the write hint as write stream for block
++			 * device writes.  This assumes no file system is
++			 * mounted that would use the streams differently.
++			 */
++			if (write_hint <=3D max_write_streams)
++				iocb->ki_write_stream =3D write_hint;
++		}
++	}
 +
-+struct nvme_fdp_config_log {
-+	__le16			numfdpc;
-+	__u8			ver;
-+	__u8			rsvd3;
-+	__le32			sze;
-+	__u8			rsvd8[8];
-+	/*
-+	 * This is followed by variable number of nvme_fdp_config_desc
-+	 * structures, but sparse doesn't like nested variable sized arrays.
-+	 */
-+};
-+
- struct nvme_smart_log {
- 	__u8			critical_warning;
- 	__u8			temperature[2];
-@@ -887,6 +926,7 @@ enum nvme_opcode {
- 	nvme_cmd_resv_register	=3D 0x0d,
- 	nvme_cmd_resv_report	=3D 0x0e,
- 	nvme_cmd_resv_acquire	=3D 0x11,
-+	nvme_cmd_io_mgmt_recv	=3D 0x12,
- 	nvme_cmd_resv_release	=3D 0x15,
- 	nvme_cmd_zone_mgmt_send	=3D 0x79,
- 	nvme_cmd_zone_mgmt_recv	=3D 0x7a,
-@@ -908,6 +948,7 @@ enum nvme_opcode {
- 		nvme_opcode_name(nvme_cmd_resv_register),	\
- 		nvme_opcode_name(nvme_cmd_resv_report),		\
- 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
-+		nvme_opcode_name(nvme_cmd_io_mgmt_recv),	\
- 		nvme_opcode_name(nvme_cmd_resv_release),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
-@@ -1059,6 +1100,7 @@ enum {
- 	NVME_RW_PRINFO_PRCHK_GUARD	=3D 1 << 12,
- 	NVME_RW_PRINFO_PRACT		=3D 1 << 13,
- 	NVME_RW_DTYPE_STREAMS		=3D 1 << 4,
-+	NVME_RW_DTYPE_DPLCMT		=3D 2 << 4,
- 	NVME_WZ_DEAC			=3D 1 << 9,
- };
-=20
-@@ -1146,6 +1188,38 @@ struct nvme_zone_mgmt_recv_cmd {
- 	__le32			cdw14[2];
- };
-=20
-+struct nvme_io_mgmt_recv_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__le64			rsvd2[2];
-+	union nvme_data_ptr	dptr;
-+	__u8			mo;
-+	__u8			rsvd11;
-+	__u16			mos;
-+	__le32			numd;
-+	__le32			cdw12[4];
-+};
-+
-+enum {
-+	NVME_IO_MGMT_RECV_MO_RUHS	=3D 1,
-+};
-+
-+struct nvme_fdp_ruh_status_desc {
-+	__le16			pid;
-+	__le16			ruhid;
-+	__le32			earutr;
-+	__le64			ruamw;
-+	__u8			reserved[16];
-+};
-+
-+struct nvme_fdp_ruh_status {
-+	__u8			rsvd0[14];
-+	__le16			nruhsd;
-+	struct nvme_fdp_ruh_status_desc ruhsd[];
-+};
-+
- enum {
- 	NVME_ZRA_ZONE_REPORT		=3D 0,
- 	NVME_ZRASF_ZONE_REPORT_ALL	=3D 0,
-@@ -1281,6 +1355,7 @@ enum {
- 	NVME_FEAT_PLM_WINDOW	=3D 0x14,
- 	NVME_FEAT_HOST_BEHAVIOR	=3D 0x16,
- 	NVME_FEAT_SANITIZE	=3D 0x17,
-+	NVME_FEAT_FDP		=3D 0x1d,
- 	NVME_FEAT_SW_PROGRESS	=3D 0x80,
- 	NVME_FEAT_HOST_ID	=3D 0x81,
- 	NVME_FEAT_RESV_MASK	=3D 0x82,
-@@ -1301,6 +1376,7 @@ enum {
- 	NVME_LOG_ANA		=3D 0x0c,
- 	NVME_LOG_FEATURES	=3D 0x12,
- 	NVME_LOG_RMI		=3D 0x16,
-+	NVME_LOG_FDP_CONFIGS	=3D 0x20,
- 	NVME_LOG_DISC		=3D 0x70,
- 	NVME_LOG_RESERVATION	=3D 0x80,
- 	NVME_FWACT_REPL		=3D (0 << 3),
-@@ -1888,6 +1964,7 @@ struct nvme_command {
- 		struct nvmf_auth_receive_command auth_receive;
- 		struct nvme_dbbuf dbbuf;
- 		struct nvme_directive_cmd directive;
-+		struct nvme_io_mgmt_recv_cmd imr;
- 	};
- };
-=20
+ 	nr_pages =3D bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS + 1);
+ 	if (likely(nr_pages <=3D BIO_MAX_VECS)) {
+ 		if (is_sync_kiocb(iocb))
 --=20
 2.43.5
 
