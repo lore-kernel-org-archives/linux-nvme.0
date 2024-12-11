@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16A38E77180
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 18:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95093E7717D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 18:58:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YVmB09UuOHxtIh7hJamCy8XcgOQnadiPWwObSJBSAyY=; b=CoNBinGX/8kSbIyLOjYyhuCPJX
-	s5r/q36YmzcVyVSIxpXfnPVl3dCY86B2khnH1ew6nw6ZYe2bJunrVWiAiB+X6mIftogT6MFIY4UCV
-	m9f2eql4Yz7zDMuSDl7vzio12ACLS098zM+tawIAL0c9fU9RqS8JrnZ5a6yo+IGqmE/2zuYrHUzaa
-	fAegKQa02FRDsFsQKBiMUM5TKLHV6kmG3qk25F/h1B8atz+PpLeMlXEtS2TLk1megjK4uQQrTjbxg
-	K30XSgq6T/Yy6fg6EArCFVSXA/q1Pts8YF/3lWc4MaU6hRGT9sqKOHIS08tyS2GyVj7ouYpQa3Um/
-	NvPk+3Ug==;
+	bh=SI1PA6xycReY2RlZqGgVzRZSshl8s+cLv4prQzurALs=; b=cAD7bpzF8muLW+xkuig1i1/AWy
+	2GJn3nFBkhDzvIB1etwHNlPrm2qqatiVmSzCGNuRKyU9GkKQZG8sPyr2zsU9rBGUatlEA/hbi65Gz
+	512Kx6+qyUC2XMZXsgWbSPl0kUPaRJSF9keJ6PMvQX8wr2wHY2unK9EM11UvN0RSsMviZOXmLjyBL
+	iW26Y0NSZ874GJ8QlgcW/FM/RGCRF9B8HvtrRGGPRc+8qDCzfnyqlyr7s/ddm7j3oErgqBXAQV1qy
+	f2f0Cv5v0K8jeKqWkB3N9m2dRaZIxIvNmfWpUwsdY1tvqTstxTerTnnfLsk6j+w8V4DjWNvexwb5A
+	mwb5LgYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLRqI-0000000FmYz-36VA;
-	Wed, 11 Dec 2024 18:53:50 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1tLRuT-0000000FoMt-3aOK;
+	Wed, 11 Dec 2024 18:58:09 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLRnE-0000000Flde-1w8G
+	id 1tLRsu-0000000Fnif-1Yqc
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 18:50:42 +0000
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBFI9E8019381
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:50:38 -0800
+	Wed, 11 Dec 2024 18:56:33 +0000
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4BBI3B40030163
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:56:31 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=YVmB09UuOHxtIh7hJamCy8XcgOQnadiPWwObSJBSAyY=; b=MxKP2nsjedl5
-	84WEoUAVWkOmbhenOK9PZasjiu6eD0TmrElKb2gh+wlMS04J6G15hg9KBTvaMVdL
-	jEonyKwrGqluYfUzZ5W2ArZCdtTbt/tXQqIhbT5TYSX2ely9ovRYa73bb8Ev86/p
-	1aD34c2nxvtj9wm0UAyDDH25IcN5Nkarl82G65w9aEHxfIWjkBdZ2ENvxE4ZMoK0
-	9Mky+gCFQ1zV6nin7MtwZiMPWCYnwogQ48hKOZW3COUUDPxMlAyDcxOqFp9ofTc+
-	vb01OYn8+qglUfB2U4TZDJgan5iX72wE/ZKE8vYmd4syDbhccqEnRLZAo01SdFPv
-	SaXXGqTRdg==
+	 bh=SI1PA6xycReY2RlZqGgVzRZSshl8s+cLv4prQzurALs=; b=npSssft6t8Q6
+	gasRE9870kTeJRboWLbqodXVoPOgiuCHLtTWp+pCxxJ0qEHyUbNWNbzFbmqRBJ52
+	sAAvIdcv1uqw93+BNuAgr2ch58FhTtC7Jra+Siwa1UWXhoJ0ggcOTIhQrLfMMWR8
+	XQTSOs/iYwZbAuzzXmvZYT1Rcr+BkoqifGJG0CiDSdkXLYHexG7OjpvsXNlokjgJ
+	CsisghdGQglTu2/U6htil20pZclyKlWjn3zFGUPU3zTELqk8HZVyy9dp+mbXqhnV
+	ugnBL7hpljpDwS/eeeIuwKJAePdbA+gkGMzS8ZGk6zB06NVZkFCulcIVI6brSBPm
+	N4Jv8LCXng==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43faw8asy5-5
+	by m0089730.ppops.net (PPS) with ESMTPS id 43ffp1rcc9-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:50:37 -0800 (PST)
-Received: from twshared40462.17.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 10:56:31 -0800 (PST)
+Received: from twshared18153.09.ash9.facebook.com (2620:10d:c0a8:fe::f072) by
  mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Wed, 11 Dec 2024 18:50:36 +0000
+ 15.2.1544.11; Wed, 11 Dec 2024 18:56:27 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 945A615DE3961; Wed, 11 Dec 2024 10:35:16 -0800 (PST)
+	id 9E97715DE3963; Wed, 11 Dec 2024 10:35:16 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
@@ -59,9 +59,9 @@ CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
         Nitesh Shetty
 	<nj.shetty@samsung.com>,
         Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv14 08/11] nvme: pass a void pointer to nvme_get/set_features for the result
-Date: Wed, 11 Dec 2024 10:35:11 -0800
-Message-ID: <20241211183514.64070-9-kbusch@meta.com>
+Subject: [PATCHv14 09/11] nvme: add FDP definitions
+Date: Wed, 11 Dec 2024 10:35:12 -0800
+Message-ID: <20241211183514.64070-10-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241211183514.64070-1-kbusch@meta.com>
 References: <20241211183514.64070-1-kbusch@meta.com>
@@ -69,14 +69,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: YMx2TSpSl0SxIj0Q2GjUYa7EqhwUdEJ3
-X-Proofpoint-GUID: YMx2TSpSl0SxIj0Q2GjUYa7EqhwUdEJ3
+X-Proofpoint-ORIG-GUID: r9l41l60RDgmkuntdzQiQR00JiigtWrD
+X-Proofpoint-GUID: r9l41l60RDgmkuntdzQiQR00JiigtWrD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_105040_585434_C0BDDB05 
-X-CRM114-Status: GOOD (  11.26  )
+X-CRM114-CacheID: sfid-20241211_105632_515568_D98D295E 
+X-CRM114-Status: GOOD (  11.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,62 +93,163 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-That allows passing in structures instead of the u32 result, and thus
-reduce the amount of bit shifting and masking required to parse the
-result.
+Add the config feature result, config log page, and management receive
+commands needed for FDP.
+
+Partially based on a patch from Kanchan Joshi <joshi.k@samsung.com>.
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/core.c | 4 ++--
- drivers/nvme/host/nvme.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ include/linux/nvme.h | 77 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 36c44be98e38c..c2a3585a3fa59 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1678,7 +1678,7 @@ static int nvme_features(struct nvme_ctrl *dev, u8 =
-op, unsigned int fid,
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 13377dde4527b..7680078fa67fd 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -275,6 +275,7 @@ enum nvme_ctrl_attr {
+ 	NVME_CTRL_ATTR_HID_128_BIT	=3D (1 << 0),
+ 	NVME_CTRL_ATTR_TBKAS		=3D (1 << 6),
+ 	NVME_CTRL_ATTR_ELBAS		=3D (1 << 15),
++	NVME_CTRL_ATTR_FDPS		=3D (1 << 19),
+ };
 =20
- int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
- 		      unsigned int dword11, void *buffer, size_t buflen,
--		      u32 *result)
-+		      void *result)
- {
- 	return nvme_features(dev, nvme_admin_set_features, fid, dword11, buffer=
-,
- 			     buflen, result);
-@@ -1687,7 +1687,7 @@ EXPORT_SYMBOL_GPL(nvme_set_features);
+ struct nvme_id_ctrl {
+@@ -661,6 +662,44 @@ struct nvme_rotational_media_log {
+ 	__u8	rsvd24[488];
+ };
 =20
- int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
- 		      unsigned int dword11, void *buffer, size_t buflen,
--		      u32 *result)
-+		      void *result)
- {
- 	return nvme_features(dev, nvme_admin_get_features, fid, dword11, buffer=
-,
- 			     buflen, result);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 611b02c8a8b37..c1995d89ffdb8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -890,10 +890,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q,=
- struct nvme_command *cmd,
- 		int qid, nvme_submit_flags_t flags);
- int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
- 		      unsigned int dword11, void *buffer, size_t buflen,
--		      u32 *result);
-+		      void *result);
- int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
- 		      unsigned int dword11, void *buffer, size_t buflen,
--		      u32 *result);
-+		      void *result);
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
++struct nvme_fdp_config {
++	__u8			flags;
++#define FDPCFG_FDPE	(1U << 0)
++	__u8			fdpcidx;
++	__le16			reserved;
++};
++
++struct nvme_fdp_ruh_desc {
++	__u8			ruht;
++	__u8			reserved[3];
++};
++
++struct nvme_fdp_config_desc {
++	__le16			dsze;
++	__u8			fdpa;
++	__u8			vss;
++	__le32			nrg;
++	__le16			nruh;
++	__le16			maxpids;
++	__le32			nns;
++	__le64			runs;
++	__le32			erutl;
++	__u8			rsvd28[36];
++	struct nvme_fdp_ruh_desc ruhs[];
++};
++
++struct nvme_fdp_config_log {
++	__le16			numfdpc;
++	__u8			ver;
++	__u8			rsvd3;
++	__le32			sze;
++	__u8			rsvd8[8];
++	/*
++	 * This is followed by variable number of nvme_fdp_config_desc
++	 * structures, but sparse doesn't like nested variable sized arrays.
++	 */
++};
++
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
+@@ -887,6 +926,7 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_register	=3D 0x0d,
+ 	nvme_cmd_resv_report	=3D 0x0e,
+ 	nvme_cmd_resv_acquire	=3D 0x11,
++	nvme_cmd_io_mgmt_recv	=3D 0x12,
+ 	nvme_cmd_resv_release	=3D 0x15,
+ 	nvme_cmd_zone_mgmt_send	=3D 0x79,
+ 	nvme_cmd_zone_mgmt_recv	=3D 0x7a,
+@@ -908,6 +948,7 @@ enum nvme_opcode {
+ 		nvme_opcode_name(nvme_cmd_resv_register),	\
+ 		nvme_opcode_name(nvme_cmd_resv_report),		\
+ 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
++		nvme_opcode_name(nvme_cmd_io_mgmt_recv),	\
+ 		nvme_opcode_name(nvme_cmd_resv_release),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
+@@ -1059,6 +1100,7 @@ enum {
+ 	NVME_RW_PRINFO_PRCHK_GUARD	=3D 1 << 12,
+ 	NVME_RW_PRINFO_PRACT		=3D 1 << 13,
+ 	NVME_RW_DTYPE_STREAMS		=3D 1 << 4,
++	NVME_RW_DTYPE_DPLCMT		=3D 2 << 4,
+ 	NVME_WZ_DEAC			=3D 1 << 9,
+ };
+=20
+@@ -1146,6 +1188,38 @@ struct nvme_zone_mgmt_recv_cmd {
+ 	__le32			cdw14[2];
+ };
+=20
++struct nvme_io_mgmt_recv_cmd {
++	__u8			opcode;
++	__u8			flags;
++	__u16			command_id;
++	__le32			nsid;
++	__le64			rsvd2[2];
++	union nvme_data_ptr	dptr;
++	__u8			mo;
++	__u8			rsvd11;
++	__u16			mos;
++	__le32			numd;
++	__le32			cdw12[4];
++};
++
++enum {
++	NVME_IO_MGMT_RECV_MO_RUHS	=3D 1,
++};
++
++struct nvme_fdp_ruh_status_desc {
++	__le16			pid;
++	__le16			ruhid;
++	__le32			earutr;
++	__le64			ruamw;
++	__u8			reserved[16];
++};
++
++struct nvme_fdp_ruh_status {
++	__u8			rsvd0[14];
++	__le16			nruhsd;
++	struct nvme_fdp_ruh_status_desc ruhsd[];
++};
++
+ enum {
+ 	NVME_ZRA_ZONE_REPORT		=3D 0,
+ 	NVME_ZRASF_ZONE_REPORT_ALL	=3D 0,
+@@ -1281,6 +1355,7 @@ enum {
+ 	NVME_FEAT_PLM_WINDOW	=3D 0x14,
+ 	NVME_FEAT_HOST_BEHAVIOR	=3D 0x16,
+ 	NVME_FEAT_SANITIZE	=3D 0x17,
++	NVME_FEAT_FDP		=3D 0x1d,
+ 	NVME_FEAT_SW_PROGRESS	=3D 0x80,
+ 	NVME_FEAT_HOST_ID	=3D 0x81,
+ 	NVME_FEAT_RESV_MASK	=3D 0x82,
+@@ -1301,6 +1376,7 @@ enum {
+ 	NVME_LOG_ANA		=3D 0x0c,
+ 	NVME_LOG_FEATURES	=3D 0x12,
+ 	NVME_LOG_RMI		=3D 0x16,
++	NVME_LOG_FDP_CONFIGS	=3D 0x20,
+ 	NVME_LOG_DISC		=3D 0x70,
+ 	NVME_LOG_RESERVATION	=3D 0x80,
+ 	NVME_FWACT_REPL		=3D (0 << 3),
+@@ -1888,6 +1964,7 @@ struct nvme_command {
+ 		struct nvmf_auth_receive_command auth_receive;
+ 		struct nvme_dbbuf dbbuf;
+ 		struct nvme_directive_cmd directive;
++		struct nvme_io_mgmt_recv_cmd imr;
+ 	};
+ };
+=20
 --=20
 2.43.5
 
