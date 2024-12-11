@@ -4,96 +4,168 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEB21E7717D
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 12:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A86D7E7717D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 12:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w5BxJBEp/8J5xFIEYmw/jEg41H5+c1CS6MBspkl53rc=; b=I4Dl7qAdecGzV7OE+5qsaq+EPP
-	XSjoMaMPqLMgqBOQdDz3la29T8qa5eWSdP60V/oHFyEpVY3ZqsfiRORpwxNgw9vDjH7gxamIDPZii
-	bXJzwJR5nbAkQCmQ6wYVbewUvvEhJlD+WF9Yx8i1pooErntY5je0aMS9XN1cAKbyikbD4FRQQ8SYl
-	Biiopouo/wpIRcW2kuslKd/nu2732q2ydK0LNvv9VUNNg7ko9vVIxiu99nNBQjwmMyUsN+V9rPXA9
-	GI8CCBdEGPV6SitM2pD54UrEyKFvpWUjIyx1ESgtYd9y1IdSXFNKbWorOor7is/gQhYs9g34aZjjA
-	TOuqPVVw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=lk4/E2VM8Rqv4wfUwcKGmbv1cn6UfcpSayUy5inG8vw=; b=nDQ0nKRiYd1q6NelLaHr8bfAxy
+	70hAWM1rd5K/eTMkHpTHSEd1/uKypv7WrbQva4Qd24LHxmxv1fufUVbTgOuTgR7UHZ+sFIPtFrs7B
+	3KR7+j5JkXMe/jpNXiaf1bVCrUDpdukUa9ujpfughlIHSl9XHy7I+ZdCw0KlIJVnflyVSVD2VhOGq
+	VMLuMH5N70M2d/jcQDA+SBcZxSHe7ga3wPVIzu440e6MBpoOMuU10Tz20UlJ8u9yK83ADheuKSszZ
+	VBPvlLyPJudgDI0IKFdmRDhoGsEokcwsdKBOy61GTvehiJ7GQiA8eiAXhjwDQv+CchalXgZMt5a83
+	iUBiYcjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLLO4-0000000Elmw-1r8U;
-	Wed, 11 Dec 2024 12:00:16 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1tLLp3-0000000EpDo-45ZR;
+	Wed, 11 Dec 2024 12:28:09 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLLO1-0000000ElmQ-0lLN
+	id 1tLLp1-0000000EpD8-0wrR
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 12:00:14 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBBePFl009021;
-	Wed, 11 Dec 2024 12:00:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=w5BxJB
-	Ep/8J5xFIEYmw/jEg41H5+c1CS6MBspkl53rc=; b=NCLWp8F+WeM/vzRPGp2csV
-	VUoxxY/FUE/pxdV/mEymJJowRxVa5tfsLAjnD/RgVKGNpaix0UGSGwlrLZF5XnVz
-	wlkuLCqzmettsqGwhhFa6WW4Q3+FT8WeuZRfkSHjyYFJYBAZ7ypm44E27wHxckjL
-	Z+whKS6xKgqAkJv5pCTLG8hN4p7uwEonLiEn5Cep8e5zp0Bi0oapfqTizaSKh5Rf
-	PZuqvR4JFYTO1tb7nuGSBRkCZpCN5OJ/zzI3Zc4AfwM4BAnVxpni0ewQYg6cQsxp
-	NaCiLiDnt+IYimGVwAT5l2N2IIMYlOv3XhQ1p08d3zwmuU08tExrZdcC1b1/v44Q
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ccsjkytb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Dec 2024 12:00:00 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB8tT3Q016944;
-	Wed, 11 Dec 2024 11:59:59 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43d12y9er5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Dec 2024 11:59:59 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BBBxxp620120080
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 11 Dec 2024 11:59:59 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 446E858060;
-	Wed, 11 Dec 2024 11:59:59 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 298B85803F;
-	Wed, 11 Dec 2024 11:59:56 +0000 (GMT)
-Received: from [9.171.17.138] (unknown [9.171.17.138])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 11 Dec 2024 11:59:55 +0000 (GMT)
-Message-ID: <bf2a7797-0eb9-4355-a8ac-ffcf2235d227@linux.ibm.com>
-Date: Wed, 11 Dec 2024 17:29:54 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] nvmet-loop: avoid using mutex in IO hotpath
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@kernel.dk,
-        shinichiro.kawasaki@wdc.com, chaitanyak@nvidia.com,
-        gjoyce@linux.ibm.com
-References: <20241211085814.1239731-1-nilay@linux.ibm.com>
- <faa65186-839d-4352-9d94-386e440abb48@suse.de>
+	Wed, 11 Dec 2024 12:28:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1733920087; x=1765456087;
+  h=from:to:cc:subject:date:message-id:content-id:
+   content-transfer-encoding:mime-version;
+  bh=lk4/E2VM8Rqv4wfUwcKGmbv1cn6UfcpSayUy5inG8vw=;
+  b=dbt6VbKsDboENs1ZP3CAqHXJqk1vEWO6Atu+GhB6vTt+XFNPXm+GYW87
+   1Stw3kjS4wsgOZpOBXPp4cv5DIlXS/nvhphDQ7oGSwvTPv0tHmkTDVtmw
+   U3GtoOI+WB47B03ZSABKCoQ4O41fFsf2GNvgFNEU+J+VoxFyXR0TIKfLp
+   WZBrLslOi7OPBZmaWu5DEwSJ1UsysfoDIJcDh8qvEV44ZoqD5Hu8mPigq
+   FpcKL+ld56Ew0IM0Ab6aL+ZOdR74hPC93w7FmPh38kBQ9jbR6A5OIGGkm
+   Mv48whwUVjS8aOu9nxc+jc13VUpfJPA7YUnTRrUqrvR9pQUj0xEiSEWd+
+   w==;
+X-CSE-ConnectionGUID: ALooB4CNRlW6LLkUlQxQuA==
+X-CSE-MsgGUID: yJg7uRyvTVSoQb7mNWD64A==
+X-IronPort-AV: E=Sophos;i="6.12,225,1728921600"; 
+   d="scan'208";a="34622804"
+Received: from mail-eastus2azlp17010020.outbound.protection.outlook.com (HELO BN1PR04CU002.outbound.protection.outlook.com) ([40.93.12.20])
+  by ob1.hgst.iphmx.com with ESMTP; 11 Dec 2024 20:28:06 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ledeUcxg9Lt6t8blPjwpr73GxpNbG9Nd2d0BpGaoQ7UBh6/aUg+5poqsa3awsHFeTDGfnuERgMIL82or3iNmMZejHjrccGFXq7MW3wOXDaggeVCygjl9Clw7ktDs07MgJn9qwQkEF00N9cUuEbQ8Z12iFmG2btrBI8XaGhr5T5b2k5kgwBWsS/hph9dMneKoiiOF3HfUL9xZ+TnOC3Zl52JoRAjVhhrsA1kXFcEalPe388yXMI6qpnQNT6ptBTIX7MLLOL6kDbo/lpCRCTQPQy3dHna0JmIrKaNUa3HcXGifD+4dmoGysXDnkYLqPB/Y3lEbURCDdwJGAS085TVuqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lk4/E2VM8Rqv4wfUwcKGmbv1cn6UfcpSayUy5inG8vw=;
+ b=JCRcfrvg7NuB6bMDdqPUPxWsfxGcKOBg+6YhIYuhkcSKkV6RNyhFNrecccMK7wEUnSPJZ9ZA0HUJ6Be/FhY6dthLxALgZpAqu6CFpZQv8z6bnrPRXJfGqEI9vIRAeCGgZO5IW+iluKc8CRUtOpUj/NvrHJ5ohzZH2WZItq7zeOrkiniml/984u1cZ55bC9LPkDP6D2i+R3K7/cKksOCBrgAAuRVcGfreBGxs9sC3wqRyPorH313un7Ajim6YJq9pRVV0q4TyUiIZ12oxbhCceL2eMHBUHWtngrd9nNhqeD79YQANLwIw8W5bV5sIWBzWCdl25iKXPrZkAFgcCKPOpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lk4/E2VM8Rqv4wfUwcKGmbv1cn6UfcpSayUy5inG8vw=;
+ b=ixrJMNlq3Pw8Kr3pcS/7o1Qz9+OeqleC8jzdDgO5nBRCtLi9HI+A0ySMhCuxqZKMQXZWPveisw3lPIWXoSsAGY64LqHqfNAHBEnSnNAib/qMCif/jVS/ZAAe3JMVPDxAyv/8vCCOzvb0PBAgFo4eijsrDCXaewpFusilk07wOkM=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ CH7PR04MB9644.namprd04.prod.outlook.com (2603:10b6:610:252::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8251.16; Wed, 11 Dec 2024 12:28:04 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%5]) with mapi id 15.20.8251.008; Wed, 11 Dec 2024
+ 12:28:04 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Kanchan Joshi <joshi.k@samsung.com>
+CC: Yi Zhang <yi.zhang@redhat.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+Subject: blktests nvme/049 failure and fix
+Thread-Topic: blktests nvme/049 failure and fix
+Thread-Index: AQHbS8gfmrP/xzem0Uahy8oupUJELA==
+Date: Wed, 11 Dec 2024 12:28:04 +0000
+Message-ID: <s6mohcucgshee3wcs2z5e6j6eugbidxz75szuyiuzb764teqxy@6j47chnzjzvj>
+Accept-Language: en-US
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <faa65186-839d-4352-9d94-386e440abb48@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: M413LASix4qHT_aKC44XveEhX3aP98q2
-X-Proofpoint-ORIG-GUID: M413LASix4qHT_aKC44XveEhX3aP98q2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- mlxscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412110087
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CH7PR04MB9644:EE_
+x-ms-office365-filtering-correlation-id: 99198ae2-25c0-4739-622d-08dd19df4286
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?V0qRYRrF7YpSIQcDkO/pRe8elTW4x2nsR2MOkydmdl1o3yyYD5kKMJvWOyCj?=
+ =?us-ascii?Q?G6N5u3Y5S3O98S4BVPprf3haPMrQYv3ARPHHpKeoGk6tdB2VsAriXxogYIz8?=
+ =?us-ascii?Q?WZaFDZDKQW4DQkM1Z4wUo8If52OsQqlUJVH6DmkhuLfFLGPuQDDwQT2VqJa7?=
+ =?us-ascii?Q?u75lI+o+Ett2SZX/wH6Tcfv0Ir81nHWsvTmrHCEtMDqBqSn3hLDpq2B4Czrj?=
+ =?us-ascii?Q?AvbYy9DdJPRmEiWwEpOhEk13iUTDvCWBcbzGSqgGD3VWKicC6EKcIstCmq01?=
+ =?us-ascii?Q?BPxzRdmxWSgQ/C544W4aBUWEMp7hoTKhKkUb8KgMl+UMJDRTztLxclBCJZ+o?=
+ =?us-ascii?Q?KvTKeagIBtH02GM9vYSkLsLMlqgS2ZwA5QlNwWIaGGOhRisSm1JXbjlWVRpo?=
+ =?us-ascii?Q?I7vaFWkHWcn+SAR3Nqvw7F1gDqpltOtKzeAKs+PQt96Y+h5A5agoaHv+zgTH?=
+ =?us-ascii?Q?ISJ0WSbaTX8ElMjMTBHtyi/k2cF6T9adezaY9BaQ6GZwe0yIh/LRUf90MoTD?=
+ =?us-ascii?Q?MVq4DDljqdiXBscpdxzYvT6DbQhbAY88vpffLIMAedueAVS48e2VzyjLVuHN?=
+ =?us-ascii?Q?rMgDCFUucOskLA06aVEyPcAMDge+Wy7IE/MHwGCaA4i4nCfOJ3LMjImnZ7SW?=
+ =?us-ascii?Q?Y1y9GRP2XLTfXaqkmD7lj0/etCMPDa6UT2FGMD9ab7/lpCq42/5Ci6YNAdRL?=
+ =?us-ascii?Q?dk+2FvdtsxmECh9S3zmaME/zMHNzUOCpNu+IsdFXWdgD9nOgv+D45h+wMUlk?=
+ =?us-ascii?Q?N6KHR+Mm2h+qhe5pyWoMhpid89tYjXrBjqUNirXAUrxv9KoEQH45qzgbV2Y9?=
+ =?us-ascii?Q?KbZUb1jgT+uSxB/xlsJzQ88QxbKlFuVGR3QHK2P33+WnDYtWeladf52bS//s?=
+ =?us-ascii?Q?30nHqPZapR2WArCIW98psNvjlHpyamLKRCDWf/+UBv2/7VwdvN/3Z0DUIvw0?=
+ =?us-ascii?Q?Y+X/iNroAcki+D3Tc66x8FO1jPobG3ng3NEkDKqYLxOkYnwEE6aHa2gVuElw?=
+ =?us-ascii?Q?F+bbxCxfBmrrWnMRM31/EpO8GDQXGSLs1Mh/eIByzPy39m196uuh2DkkeXCh?=
+ =?us-ascii?Q?tx31Q8HHbIaoDZ2eYbYu0ZVDp35ZG1vhN38CyOW5naFMWM8crZ6Bwq+xKR/V?=
+ =?us-ascii?Q?5qPtnyFr6eqZu21Yld0jdScJZ2gBx8PU+rQRt1Y2x20l7dS824agl6xcNRFn?=
+ =?us-ascii?Q?JNE021ikgYnI73GvRqIONzWzi9J3p54ce9Fv15CBwMAZF5D0JkJ7LKn6o2Qs?=
+ =?us-ascii?Q?4mkrOP4XJko7N9pV2t3MP3N9VkSXfjCBTjekLxIuaj/HIBZipDSPcTcS6j2i?=
+ =?us-ascii?Q?MPjaO/+8+CoiJnR1giQ6bp+vrTMniWnElL0/eIdtytKW7eIWI1WQ+sBGXe9g?=
+ =?us-ascii?Q?2dsOcO53jCC8+UIRlHRdFzmPDLGa5L1j2uB/PVvw3pfzRmufDQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?fisMSO81UawGXFYNhmaOqq8YeZMom240GHWXjx680EtZ9jxaADKLEUJblV+e?=
+ =?us-ascii?Q?WT+FghcqFkh+INLVs5CUtoQHtZVP94STq6DPSfmAkdEWm3EQUO9SXb8CRJSf?=
+ =?us-ascii?Q?d+91dVtSGPDR6JCWYdE5FP0N47u+YftNUPXe/sW8K6xLb9xONqM7OoNKxFC/?=
+ =?us-ascii?Q?peTL71P+MhO30eMZks/8LUXywuY1bCPo2gfTeQyBB+Xn+FZsn8Izh5HNMydS?=
+ =?us-ascii?Q?8cb+3bKchOKzMiJpA9n4XCDfHBhDejs4Tdgo39cQpQAdmL+Ce1sXrPJGD8yL?=
+ =?us-ascii?Q?cGCThE1NTXpnbnd/WDeihLcOkLTVHELUjHdWoWLlRq9mjxq1y9uY/uwKgxfO?=
+ =?us-ascii?Q?gMuH3UFwiN1p9hRdakWn/6TJdH0/Ppx9SBFT2+v8rlxZh94LEFlLJqb3Ouj/?=
+ =?us-ascii?Q?iXgk8y2NXp1Pq7pq0oyRx1Lfk0LoXIPYopkLA39yUPdhyGJe5CklDSrXeyxE?=
+ =?us-ascii?Q?d8zQy2IiyoeGxsf22oRmomQrwkf0pdEY/Ncugj2AgcBwDar6mlxhbcyCNHHZ?=
+ =?us-ascii?Q?pM1Tctjj9rKryqH+N/Dxnzbrvzg8AHK1HjKgRFT3WIjFOsl9wvZfo4Mc4YQy?=
+ =?us-ascii?Q?ATApZHlJXyfJ8uod+07hHjpFwvBbUaO+7M8REqwSYPH87ZsRdaa1fp1AvcGO?=
+ =?us-ascii?Q?oyDwwo2S/sY5KON1SAFuGcuehAqyjxuKKFCirvHpW0r4hPeCusmFv3CEZySj?=
+ =?us-ascii?Q?3UeI58DF0Q9IOFt+9Kkt7LqFqKnsfyCo0rU5Wrb1/fwJigadOE4F9yDviZj5?=
+ =?us-ascii?Q?Mom2X8ouv7ch5DZfbvzA0NlHVeHIpc5wR9wbYUhlxQkMg4iPGRB/DUNx7sTV?=
+ =?us-ascii?Q?z1sukd1qhPhsSmYGT2Nxt1g8Bhx51Q3O21Jr6lupx5AOq8s8dRSDUD3Rfa88?=
+ =?us-ascii?Q?TxyoYeGkDgVMxKiTWzoHxu6WEssa6uxAbFwGPySczNJPoIgDp/6gUelujwJd?=
+ =?us-ascii?Q?gvzX5w9NHNDv5raQFbm0GXO8XC+iqKfAt7byFs0zB8vHqCNg9wPIi2j8AE+a?=
+ =?us-ascii?Q?aqGCZNu9mbYa5/gtA7XVj/AOeDofUvl4SPoIbBEtK2/MlvyzYow/OJfirswX?=
+ =?us-ascii?Q?yArcoicAnAWphZAxUqA1Y5/3WTDUyUbrYDj7pQ642coTav3UNe8MW4ERsUkt?=
+ =?us-ascii?Q?NOCjqLl9oZQpIyHxNn84IYOIxCHcVq8Qjf4N4lVW3w8879lYZAyEQk7W0y0R?=
+ =?us-ascii?Q?Zc58D1PuNXwv/GjDi/i2bE69E9PxOt2597RDhRoXV+ozNlTpR+cB+AI63slp?=
+ =?us-ascii?Q?3j1FVEOQiDAHR3nBX9tFXy/JXP/3GYZp4LAPCqz+KWT65Y3zRnzC5zqrAgU2?=
+ =?us-ascii?Q?t05cnkDim1011MwVjR8nVK2gmfPvNYHUjFArUkVMlZiO7IX2jAyTLjF+U6Q/?=
+ =?us-ascii?Q?xUWoNnSs1fVrEpclei25ME2US3TmWR59WMOzat5IGPedNlgGbGks8jFmY6XI?=
+ =?us-ascii?Q?4GKk8QnHu3MnmvIpJ4Z3ZBCg+yciv/Z0L7XQaCu/QeVLt+t+NuzZybP5grUK?=
+ =?us-ascii?Q?3C6c/Ad9lcdjLAC9UVT5zeEzzcD3AvL+fiL3AtffkJ7w6lu4rJDSx1CBdqUV?=
+ =?us-ascii?Q?/ZQZdzN60U4vaQ1k5Ity/E7eTwXXqqq2oPLxEY9mWfA88kdOzb21xoX1zdrS?=
+ =?us-ascii?Q?9SnXrCm3Oziq6ceOlPmv1wY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2115F45445E2F3479C75806BE73AD2CA@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: v2hHwDH4qP++kBTdpgw19lpYGaKzqrWhTPEqGoMMSJmh6UoNb1RVcTgNL82/GNAUomXGS6bZnTI2MChcPQSVxkE6KmpNsf16oPt+Wp0MJHaLQS9jW7efQMtVrdC1roDKSaO90Up7RtqEscuZCSAwRsVi955lC3nlmJsK1eSGOIXZdSNh+NMy/w+2WeyTsZ3dFXJ7TfRdMibMb/YQsMpsvVkcmJKfwrj6XrlHls5bC3uWYgRX9gaqk+GnpDqhlx67D8jtrRwNo709L1PDfkbrDURykXI2e4Ud9J/jQJQmpH6UX4comIcpVOOq+SqP/1+Rix17euGV0Bu6SUe4MFW5OTAxc9lCBNwSh42DmSR2vpsCyyQuFa/nG0yYFLwTZ0SuFfsnpJGk9/ZfOXA48pnDSuMDzMjEORw+XjgCH+7EGc2WzgmfxqOjcLa+nZW4rDqMuhv3tozSDljecZBNBtB8PhaUh8t0mYwfymbVTWEKjP8LQ5Vz49uvy475B5e48/n7G3LJteueMEaPa0dCwuaye8bX5NvZC0pYPpNuzTGxUuZzPpQfadu+yfeNnH3SUJhLe75u0Tw9zh1P29PsBvxd+th5mv2jVF4ksg8P66xhgpBOuEKHhRYhoPp/u5HM62M7
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99198ae2-25c0-4739-622d-08dd19df4286
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2024 12:28:04.0385
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gpBAit07WSmbYURpT4eOfGwz5IqRG3MllM8gSgBSxRuVRrQCOWDLRJ5hU4DOKkhq8WWiFoaSQDJsGcbgl1Mxv6JZHocbAVOcW/tnYnj5A1M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH7PR04MB9644
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_040013_356327_E3171BEC 
-X-CRM114-Status: GOOD (  32.39  )
+X-CRM114-CacheID: sfid-20241211_042807_291490_AE60DF86 
+X-CRM114-Status: UNSURE (   7.91  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,257 +180,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Kanchan,
 
+Yi Zhang observed a nvme/049 failure and created a PR to fix it [1].
+Could you take a look and comment on it?
 
-On 12/11/24 16:59, Hannes Reinecke wrote:
-> On 12/11/24 09:58, Nilay Shroff wrote:
->> Using mutex lock in IO hot path causes the kernel BUG sleeping while
->> atomic. Shinichiro[1], first encountered this issue while running blktest
->> nvme/052 shown below:
->>
->> BUG: sleeping function called from invalid context at kernel/locking/mutex.c:585
->> in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 996, name: (udev-worker)
->> preempt_count: 0, expected: 0
->> RCU nest depth: 1, expected: 0
->> 2 locks held by (udev-worker)/996:
->>   #0: ffff8881004570c8 (mapping.invalidate_lock){.+.+}-{3:3}, at: page_cache_ra_unbounded+0x155/0x5c0
->>   #1: ffffffff8607eaa0 (rcu_read_lock){....}-{1:2}, at: blk_mq_flush_plug_list+0xa75/0x1950
->> CPU: 2 UID: 0 PID: 996 Comm: (udev-worker) Not tainted 6.12.0-rc3+ #339
->> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-2.fc40 04/01/2014
->> Call Trace:
->>   <TASK>
->>   dump_stack_lvl+0x6a/0x90
->>   __might_resched.cold+0x1f7/0x23d
->>   ? __pfx___might_resched+0x10/0x10
->>   ? vsnprintf+0xdeb/0x18f0
->>   __mutex_lock+0xf4/0x1220
->>   ? nvmet_subsys_nsid_exists+0xb9/0x150 [nvmet]
->>   ? __pfx_vsnprintf+0x10/0x10
->>   ? __pfx___mutex_lock+0x10/0x10
->>   ? snprintf+0xa5/0xe0
->>   ? xas_load+0x1ce/0x3f0
->>   ? nvmet_subsys_nsid_exists+0xb9/0x150 [nvmet]
->>   nvmet_subsys_nsid_exists+0xb9/0x150 [nvmet]
->>   ? __pfx_nvmet_subsys_nsid_exists+0x10/0x10 [nvmet]
->>   nvmet_req_find_ns+0x24e/0x300 [nvmet]
->>   nvmet_req_init+0x694/0xd40 [nvmet]
->>   ? blk_mq_start_request+0x11c/0x750
->>   ? nvme_setup_cmd+0x369/0x990 [nvme_core]
->>   nvme_loop_queue_rq+0x2a7/0x7a0 [nvme_loop]
->>   ? __pfx___lock_acquire+0x10/0x10
->>   ? __pfx_nvme_loop_queue_rq+0x10/0x10 [nvme_loop]
->>   __blk_mq_issue_directly+0xe2/0x1d0
->>   ? __pfx___blk_mq_issue_directly+0x10/0x10
->>   ? blk_mq_request_issue_directly+0xc2/0x140
->>   blk_mq_plug_issue_direct+0x13f/0x630
->>   ? lock_acquire+0x2d/0xc0
->>   ? blk_mq_flush_plug_list+0xa75/0x1950
->>   blk_mq_flush_plug_list+0xa9d/0x1950
->>   ? __pfx_blk_mq_flush_plug_list+0x10/0x10
->>   ? __pfx_mpage_readahead+0x10/0x10
->>   __blk_flush_plug+0x278/0x4d0
->>   ? __pfx___blk_flush_plug+0x10/0x10
->>   ? lock_release+0x460/0x7a0
->>   blk_finish_plug+0x4e/0x90
->>   read_pages+0x51b/0xbc0
->>   ? __pfx_read_pages+0x10/0x10
->>   ? lock_release+0x460/0x7a0
->>   page_cache_ra_unbounded+0x326/0x5c0
->>   force_page_cache_ra+0x1ea/0x2f0
->>   filemap_get_pages+0x59e/0x17b0
->>   ? __pfx_filemap_get_pages+0x10/0x10
->>   ? lock_is_held_type+0xd5/0x130
->>   ? __pfx___might_resched+0x10/0x10
->>   ? find_held_lock+0x2d/0x110
->>   filemap_read+0x317/0xb70
->>   ? up_write+0x1ba/0x510
->>   ? __pfx_filemap_read+0x10/0x10
->>   ? inode_security+0x54/0xf0
->>   ? selinux_file_permission+0x36d/0x420
->>   blkdev_read_iter+0x143/0x3b0
->>   vfs_read+0x6ac/0xa20
->>   ? __pfx_vfs_read+0x10/0x10
->>   ? __pfx_vm_mmap_pgoff+0x10/0x10
->>   ? __pfx___seccomp_filter+0x10/0x10
->>   ksys_read+0xf7/0x1d0
->>   ? __pfx_ksys_read+0x10/0x10
->>   do_syscall_64+0x93/0x180
->>   ? lockdep_hardirqs_on_prepare+0x16d/0x400
->>   ? do_syscall_64+0x9f/0x180
->>   ? lockdep_hardirqs_on+0x78/0x100
->>   ? do_syscall_64+0x9f/0x180
->>   ? lockdep_hardirqs_on_prepare+0x16d/0x400
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> RIP: 0033:0x7f565bd1ce11
->> Code: 00 48 8b 15 09 90 0d 00 f7 d8 64 89 02 b8 ff ff ff ff eb bd e8 d0 ad 01 00 f3 0f 1e fa 80 3d 35 12 0e 00 00 74 13 31 c0 0f 05 <48> 3d 00 f0 ff ff 77 4f c3 66 0f 1f 44 00 00 55 48 89 e5 48 83 ec
->> RSP: 002b:00007ffd6e7a20c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
->> RAX: ffffffffffffffda RBX: 0000000000001000 RCX: 00007f565bd1ce11
->> RDX: 0000000000001000 RSI: 00007f565babb000 RDI: 0000000000000014
->> RBP: 00007ffd6e7a2130 R08: 00000000ffffffff R09: 0000000000000000
->> R10: 0000556000bfa610 R11: 0000000000000246 R12: 000000003ffff000
->> R13: 0000556000bfa5b0 R14: 0000000000000e00 R15: 0000556000c07328
->>   </TASK>
->>
->> Apparently, the above issue is caused due to using mutex lock while
->> we're in IO hot path. It's a regression caused with commit 505363957fad
->> ("nvmet: fix nvme status code when namespace is disabled"). The mutex
->> ->su_mutex is used to find whether a disabled nsid exists in the config
->> group or not. This is to differentiate between a nsid that is disabled
->> vs non-existent.
->>
->> To mitigate the above issue, we've worked upon a fix[2] where we now
->> insert nsid in subsys Xarray as soon as it's created under config group
->> and later when that nsid is enabled, we add an Xarray mark on it and set
->> ns->enabled to true. The Xarray mark is useful while we need to loop
->> through all enabled namepsaces under a subsystem using xa_for_each_marked()
->> API. If later a nsid is disabled then we clear Xarray mark from it and also
->> set ns->enabled to false. It's only when nsid is deleted from the config
->> group we delete it from the Xarray.
->>
->> So with this change, now we could easily differentiate a nsid is disabled
->> (i.e. Xarray entry for ns exists but ns->enabled is set to false) vs non-
->> existent (i.e.Xarray entry for ns doesn't exist).
->>
->> Link: https://lore.kernel.org/linux-nvme/20241022070252.GA11389@lst.de/ [2]
->> Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
->> Closes: https://lore.kernel.org/linux-nvme/tqcy3sveity7p56v7ywp7ssyviwcb3w4623cnxj3knoobfcanq@yxgt2mjkbkam/ [1]
->> Fixes: 505363957fad ("nvmet: fix nvme status code when namespace is disabled")
->> Fix-suggested-by: Christoph Hellwig <hch@lst.de>
->> Reviewed-by: Hannes Reinecke <hare@suse.de>
->> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
->> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->> ---
->> Changes from v1:
->> - Added nvmet_for_each_enabled_ns wrapper for xa_for_each_marked (hch)
->> - Added nvmet_for_each_ns which iterates all namespaces (hch)
->> - Removed now ununsed function nvmet_subsys_nsid_exists
->> - Pick up Reviewed-by: Hannes Reinecke <hare@suse.de>
->> - Pick up Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
->> - Link to v1: https://lore.kernel.org/all/20241129104838.3015665-1-nilay@linux.ibm.com/
->> ---
->>   drivers/nvme/target/admin-cmd.c |   9 +--
->>   drivers/nvme/target/configfs.c  |  12 ----
->>   drivers/nvme/target/core.c      | 108 +++++++++++++++++++-------------
->>   drivers/nvme/target/nvmet.h     |   7 +++
->>   drivers/nvme/target/pr.c        |   8 +--
->>   5 files changed, 79 insertions(+), 65 deletions(-)
->>
->> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
->> index 2962794ce881..fa89b0549c36 100644
->> --- a/drivers/nvme/target/admin-cmd.c
->> +++ b/drivers/nvme/target/admin-cmd.c
->> @@ -139,7 +139,7 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
->>       unsigned long idx;
->>         ctrl = req->sq->ctrl;
->> -    xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
->> +    nvmet_for_each_enabled_ns(&ctrl->subsys->namespaces, idx, ns) {
->>           /* we don't have the right data for file backed ns */
->>           if (!ns->bdev)
->>               continue;
->> @@ -331,9 +331,10 @@ static u32 nvmet_format_ana_group(struct nvmet_req *req, u32 grpid,
->>       u32 count = 0;
->>         if (!(req->cmd->get_log_page.lsp & NVME_ANA_LOG_RGO)) {
->> -        xa_for_each(&ctrl->subsys->namespaces, idx, ns)
->> +        nvmet_for_each_enabled_ns(&ctrl->subsys->namespaces, idx, ns) {
->>               if (ns->anagrpid == grpid)
->>                   desc->nsids[count++] = cpu_to_le32(ns->nsid);
->> +        }
->>       }
->>         desc->grpid = cpu_to_le32(grpid);
->> @@ -772,7 +773,7 @@ static void nvmet_execute_identify_endgrp_list(struct nvmet_req *req)
->>           goto out;
->>       }
->>   -    xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
->> +    nvmet_for_each_enabled_ns(&ctrl->subsys->namespaces, idx, ns) {
->>           if (ns->nsid <= min_endgid)
->>               continue;
->>   @@ -815,7 +816,7 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req, bool match_css)
->>           goto out;
->>       }
->>   -    xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
->> +    nvmet_for_each_enabled_ns(&ctrl->subsys->namespaces, idx, ns) {
->>           if (ns->nsid <= min_nsid)
->>               continue;
->>           if (match_css && req->ns->csi != req->cmd->identify.csi)
->> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
->> index eeee9e9b854c..c0000db47cbb 100644
->> --- a/drivers/nvme/target/configfs.c
->> +++ b/drivers/nvme/target/configfs.c
->> @@ -810,18 +810,6 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
->>       NULL,
->>   };
->>   -bool nvmet_subsys_nsid_exists(struct nvmet_subsys *subsys, u32 nsid)
->> -{
->> -    struct config_item *ns_item;
->> -    char name[12];
->> -
->> -    snprintf(name, sizeof(name), "%u", nsid);
->> -    mutex_lock(&subsys->namespaces_group.cg_subsys->su_mutex);
->> -    ns_item = config_group_find_item(&subsys->namespaces_group, name);
->> -    mutex_unlock(&subsys->namespaces_group.cg_subsys->su_mutex);
->> -    return ns_item != NULL;
->> -}
->> -
->>   static void nvmet_ns_release(struct config_item *item)
->>   {
->>       struct nvmet_ns *ns = to_nvmet_ns(item);
->> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
->> index 1f4e9989663b..fde6c555af61 100644
->> --- a/drivers/nvme/target/core.c
->> +++ b/drivers/nvme/target/core.c
->> @@ -127,7 +127,7 @@ static u32 nvmet_max_nsid(struct nvmet_subsys *subsys)
->>       unsigned long idx;
->>       u32 nsid = 0;
->>   -    xa_for_each(&subsys->namespaces, idx, cur)
->> +    nvmet_for_each_enabled_ns(&subsys->namespaces, idx, cur)
->>           nsid = cur->nsid;
->>         return nsid;
->> @@ -441,11 +441,14 @@ u16 nvmet_req_find_ns(struct nvmet_req *req)
->>       struct nvmet_subsys *subsys = nvmet_req_subsys(req);
->>         req->ns = xa_load(&subsys->namespaces, nsid);
->> -    if (unlikely(!req->ns)) {
->> +    if (unlikely(!req->ns || !req->ns->enabled)) {
->>           req->error_loc = offsetof(struct nvme_common_command, nsid);
->> -        if (nvmet_subsys_nsid_exists(subsys, nsid))
->> -            return NVME_SC_INTERNAL_PATH_ERROR;
->> -        return NVME_SC_INVALID_NS | NVME_STATUS_DNR;
->> +        if (!req->ns) /* ns doesn't exist! */
->> +            return NVME_SC_INVALID_NS | NVME_STATUS_DNR;
->> +
->> +        /* ns exists but it's disabled */
->> +        req->ns = NULL;
->> +        return NVME_SC_INTERNAL_PATH_ERROR;
->>       }
->>         percpu_ref_get(&req->ns->ref);
-> 
-> Now I have to ask: Why do you set 'req->ns' to NULL here?
-> The way I read this it would mean that the first call to nvmet_find_req_ns() would return INTERNAL_PATH_ERROR, and the
-> second call would return INVALID_NS.
-> 
-> Is that intentional?
-The nvmet_req_find_ns function returns error code for following two cases:
-1) namespace doesn't exist in the config fs 
-- the namespace entry doesn't exists in subsystem Xarray
-- For this case req->ns would be always NULL as xa_load would return NULL
-- We return error (NVME_SC_INVALID_NS | NVME_STATUS_DNR)
-
-2) namespace exists in config fs but it's disabled
-- the namespace entry exists in subsystem Xarray but it's marked as disabled
-- As the ns is disabled, we don't increment refcount of this ns. So we set req->ns 
-  to NULL and return error NVME_SC_INTERNAL_PATH_ERROR to the caller. Later in
-  the call stack when we complete this request (please refer __nvmet_req_complete()), 
-  we don't need to put the reference of the ns as req->ns is NULL.
-
-Essentially, if nvmet_req_find_ns() returns error then we don't get reference 
-to ns and hence set req->ns to NULL. And we don't need to make two different calls
-to nvmet_find_req_ns(). It's based on one of two cases explianed above, 
-nvmet_find_req_ns() would either return (NVME_SC_INVALID_NS | NVME_STATUS_DNR) or 
-NVME_SC_INTERNAL_PATH_ERROR.
-
-You may also refer this commit 505363957fad ("nvmet: fix nvme status code when 
-namespace is disabled") where we first added error code NVME_SC_INTERNAL_PATH_ERROR in 
-nvmet_req_find_ns().
-
-Thanks,
---Nilay
+[1] https://github.com/osandov/blktests/pull/152=
 
