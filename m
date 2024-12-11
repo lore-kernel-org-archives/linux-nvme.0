@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAFA7E77180
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8CACE7717D
 	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2024 19:19:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,44 +12,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=G34l3SOOFGkaA0U1xJroIsh8jMJs5H/F/yQIJ0OM8to=; b=SlzsBA+k/xqwhuarnKoV03vqIc
-	H/VqXreF3DI4FpIPz9kr6Pdp5SffVo89vswcdn3T7xdoMGJ8lUB2zCPTlviT41H31G6a8CLpj4JbT
-	a3eQeUAcngNfBrnw0Ao4MYCuceQRAAOmQkufHQXT37TLiNM00OSTfzrII5Gf423PEYPf39QO5iVdy
-	SmG1ooDFL7zKfPUrakL4oQOGPlfzdQtOT8lytuWpmAR4U/DhUDLpItnRNnOIctMv3uMifX0N4bVOV
-	bPi5x6SvCAa6+auy4mrYrZlEoFpCMFB2SyH6kpehJMsMlJDdyiw2wjuzHXTq69WEx1H1R5pPn7Cdr
-	a6tEa/QA==;
+	bh=zqMLVzWoKg+ADuMv89DRYxZ6bVXfGaQjLxAepY16G8Y=; b=SBsN8R4sODDTLcvBQYRGQVahBX
+	sFJRFknbC58xyWwWpFn/gDroZTUe4diwED59tknLtS51ZUlSttr5BPgRL4UwkME135GjMDyogZ+dF
+	LHQnMh6xMOsPcdwkxZq6FGsIrVbKGeMiqyaEsrbrr737YAlcKekxfS30uBUMg0DKyW39hsrLURss4
+	zEvcJhRYkseIY64Z1lq7YBmhhwUYMvM0v9fgPiKA/n2OVgOACwx+rGjOFEeG/1syVIr61WXDW4FV4
+	+fIbIgjGYSAkd1hh9wlgC592xaj5dF9GlC3CXINBKs7PeyLop3GIGJZ+u4KUFqUcp+gknys1pkadD
+	8qlbu/pw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLSFM-0000000Fu0k-1kwm;
-	Wed, 11 Dec 2024 19:19:44 +0000
+	id 1tLSFL-0000000Fu0Z-3bWg;
+	Wed, 11 Dec 2024 19:19:43 +0000
 Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLSFJ-0000000Ftzo-2fma
+	id 1tLSFJ-0000000Ftzl-1iZx
 	for linux-nvme@lists.infradead.org;
 	Wed, 11 Dec 2024 19:19:42 +0000
 Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4BBI3B6R030163
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 11:19:41 -0800
+	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4BBI3B6P030163
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 11:19:40 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=G34l3SOOFGkaA0U1xJroIsh8jMJs5H/F/yQIJ0OM8to=; b=VnqIf+AuaD92
-	jOy6Y2Mt/OF6u8sbVvxzrPJdupVd6IC0fUwMjxXQvkzgNqgvUx7ELclCl8me/aNL
-	xSgvMiB1XnSB55c7ykgLCUcPNh+KM6y1YEd8zO5pv5puATGjb81eqeItl1bObszV
-	8WdOLGAtyhf8czjjrPptnfSMq7Ygg88i9CuV6Kwd7IDFnNAImFruYB8sifLiGfxt
-	Vq8VvVHNaKSHu4YLOPI3hJcQnkA4WkkkMVdYCUPUSdR/JHCtcaI8DWWsLknE8hqm
-	KgPUU4lIWm363Vxa54oMI71ArZGFjS832U+ZZ9H0xcXoLSHXm46rCcqWLo87djeS
-	AQ+kH6iA2A==
+	 bh=zqMLVzWoKg+ADuMv89DRYxZ6bVXfGaQjLxAepY16G8Y=; b=j2CyauD/edxf
+	Lx9zlzVHD+rVts1b9g9WYFlhktASyLNy9PiyEyG3v6e0pCoO+XT0jga48zgmbKl3
+	nGga9pze0CX4flWZcc92iOyYGr2Ao9EJ8z2LCe1IxXzHwpdVbr2RSguJG2rIBxwh
+	cRVZm95J3zSbQyqCvRVr9ublHwV7aEaB+qIOYtHlXJAHcIQ/xXlGwp7dreKVd2Nl
+	09kHScpUxhUcA8jdaFGEVmCL5K9oGv5RfjG9QPeSiJajWRUUg3CyD8jEJKGKUW61
+	ZmAOk0nHBKbIIQSQ8omcLaRVGEUY+hIKufdw2ZeJuH+Ua+zL0Mv6yOff6RTCJDWR
+	dJvd1yySbw==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 43ffp1rjc1-6
+	by m0089730.ppops.net (PPS) with ESMTPS id 43ffp1rjc1-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 11:19:40 -0800 (PST)
-Received: from twshared9216.15.frc2.facebook.com (2620:10d:c0a8:1b::30) by
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2024 11:19:39 -0800 (PST)
+Received: from twshared40462.17.frc2.facebook.com (2620:10d:c0a8:fe::f072) by
  mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Wed, 11 Dec 2024 19:19:39 +0000
+ 15.2.1544.11; Wed, 11 Dec 2024 19:19:37 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id C747215DE394E; Wed, 11 Dec 2024 10:35:15 -0800 (PST)
+	id 824DC15DE395F; Wed, 11 Dec 2024 10:35:16 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <linux-block@vger.kernel.org>,
         <linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
@@ -59,9 +59,9 @@ CC: <sagi@grimberg.me>, <asml.silence@gmail.com>, <anuj20.g@samsung.com>,
         Nitesh Shetty
 	<nj.shetty@samsung.com>,
         Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv14 01/11] fs: add a write stream field to the kiocb
-Date: Wed, 11 Dec 2024 10:35:04 -0800
-Message-ID: <20241211183514.64070-2-kbusch@meta.com>
+Subject: [PATCHv14 07/11] nvme: add a nvme_get_log_lsi helper
+Date: Wed, 11 Dec 2024 10:35:10 -0800
+Message-ID: <20241211183514.64070-8-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241211183514.64070-1-kbusch@meta.com>
 References: <20241211183514.64070-1-kbusch@meta.com>
@@ -69,14 +69,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: GKsavLUA-JVPNP5NFijGtjV13cuS0ikE
-X-Proofpoint-GUID: GKsavLUA-JVPNP5NFijGtjV13cuS0ikE
+X-Proofpoint-ORIG-GUID: 0kDVLortJLs86JO5nqX9fyP732nEc-9e
+X-Proofpoint-GUID: 0kDVLortJLs86JO5nqX9fyP732nEc-9e
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_111941_784446_D15BAFA0 
-X-CRM114-Status: GOOD (  10.11  )
+X-CRM114-CacheID: sfid-20241211_111941_560680_C8569C6A 
+X-CRM114-Status: GOOD (  11.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,30 +93,67 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-Prepare for io_uring passthrough of write streams. The write stream
-field in the kiocb structure fits into an existing 2-byte hole, so its
-size is not changed.
+For log pages that need to pass in a LSI value, while at the same time
+not touching all the existing nvme_get_log callers.
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/linux/fs.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 2cc3d45da7b01..26940c451f319 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -373,6 +373,7 @@ struct kiocb {
- 	void			*private;
- 	int			ki_flags;
- 	u16			ki_ioprio; /* See linux/ioprio.h */
-+	u8			ki_write_stream;
- 	union {
- 		/*
- 		 * Only used for async buffered reads, where it denotes the
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 571d4106d256d..36c44be98e38c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -150,6 +150,8 @@ static void nvme_remove_invalid_namespaces(struct nvm=
+e_ctrl *ctrl,
+ 					   unsigned nsid);
+ static void nvme_update_keep_alive(struct nvme_ctrl *ctrl,
+ 				   struct nvme_command *cmd);
++static int nvme_get_log_lsi(struct nvme_ctrl *ctrl, u32 nsid, u8 log_pag=
+e,
++		u8 lsp, u8 csi, void *log, size_t size, u64 offset, u16 lsi);
+=20
+ void nvme_queue_scan(struct nvme_ctrl *ctrl)
+ {
+@@ -3074,8 +3076,8 @@ static int nvme_init_subsystem(struct nvme_ctrl *ct=
+rl, struct nvme_id_ctrl *id)
+ 	return ret;
+ }
+=20
+-int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, =
+u8 csi,
+-		void *log, size_t size, u64 offset)
++static int nvme_get_log_lsi(struct nvme_ctrl *ctrl, u32 nsid, u8 log_pag=
+e,
++		u8 lsp, u8 csi, void *log, size_t size, u64 offset, u16 lsi)
+ {
+ 	struct nvme_command c =3D { };
+ 	u32 dwlen =3D nvme_bytes_to_numd(size);
+@@ -3089,10 +3091,18 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid=
+, u8 log_page, u8 lsp, u8 csi,
+ 	c.get_log_page.lpol =3D cpu_to_le32(lower_32_bits(offset));
+ 	c.get_log_page.lpou =3D cpu_to_le32(upper_32_bits(offset));
+ 	c.get_log_page.csi =3D csi;
++	c.get_log_page.lsi =3D cpu_to_le16(lsi);
+=20
+ 	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
+ }
+=20
++int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, =
+u8 csi,
++		void *log, size_t size, u64 offset)
++{
++	return nvme_get_log_lsi(ctrl, nsid, log_page, lsp, csi, log, size,
++			offset, 0);
++}
++
+ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 				struct nvme_effects_log **log)
+ {
 --=20
 2.43.5
 
