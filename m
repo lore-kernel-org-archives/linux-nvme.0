@@ -4,82 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAF0BE7717F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 04:09:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF4B7E7717F
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 05:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NFm6TEc4bDsgccsGt1PrHoJ7kZc8ZvLb1gZZTByj/Vs=; b=BgtNPm4LKDPycupoEZcmbH6dMU
-	wGtlQtQgpfig8Wm2rpkNX7uj8EvKrijKL38Jy81BJ7dCgSBmndBy3PvWlUASBLxOOnAkMzuI1RSAl
-	fT3SAE0GaIVM7WpqRQvNyKwHYQwbJ4Mpz/5jFh0ahe6n5yVfutmyvD7oLRcO+d20uMLCY1IjibrQ9
-	HXRQdFPPhff8ON8s4SMWCdvpxQsPiEGb9S0IuHSunLs3xhcC9UFe1NKrmEoHpWOPkp+P+0nqAt0SN
-	6RcPbSgZyc+GCae/D7KutOFws+CHKoHx5G/Lt2WDenckS103aXF5cfH0uEc7nuGW+AxbYpuiWtUEW
-	GPwyYQ2A==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=kFCwnj27a6WjvDghbmvn78sQbp
+	7h709YI/x5SbeFXzvGbf3WXt4VNUw+1Vnvq4ivBLse2WTmktXXvy8y1nJY+R9DgCsTqb8Kg8xdphk
+	nCwuUq6BkLQ4sKwT8EHTTUPr+4fORzyBfh8b6KLIduDnp7OmMvnkEot7pQYXVudfsK/F2Qmf4fz/n
+	CbYky+HR1MJY1O4/41lNvS8oYqt9jh/kJW4nt2HTiz1qkWnqTKBOuFce5eROF5h3H6l5n+nv2C130
+	ryLOv4YtRh7s6kfhPDHPr9494E3VARz6vBPZ00ELVzjgj7YDNSFFAO3qZfEfSTePMdFS7j2c85TyO
+	HO0lvE4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLaVx-0000000GrRa-3GEo;
-	Thu, 12 Dec 2024 04:09:25 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tLbxv-0000000GyLb-3lvM;
+	Thu, 12 Dec 2024 05:42:23 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLV3y-0000000GIT1-1e3K
+	id 1tLbxs-0000000GyL1-3XLV
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Dec 2024 22:20:12 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 16B9E5C67B9;
-	Wed, 11 Dec 2024 22:19:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4576FC4CED2;
-	Wed, 11 Dec 2024 22:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733955609;
-	bh=VLhIlSr54TL2QmDP8JRM72GWULbrO+1dbQF3pJw1ea8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kBNirnu6kCr1d7gsDMgZrNuAXLYpD8uzILmzzbrNO1Mnk09f4n481Cndxfrau3+jJ
-	 FpLkwRUeISCmz/SpemPgohhlQ3XgJzMdmIoVZ+IhBa91qhgYo51NaglvZU5BDtIZwB
-	 //WGIgbYueq/MY8+Vmm6UVkGftTY+5cuZd/vROmxV6NP1K5rtWTWqMiA7gXfNGL2rJ
-	 x8QxUc2OB1rxoUChWT6mPdO+zhCO+RaRL8TgtaiQ2BKywx4s0f0kj5Ngw6pkMs+dfE
-	 zgxHiHxwQbMNfdTxhMs7Xm5RVvG80KHa9zyTwAQzCJbyWkRaNGRYrBbAH41l/rU6DO
-	 Lf0Zf/ATio7bQ==
-Date: Wed, 11 Dec 2024 22:20:00 +0000
-From: Will Deacon <will@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v4 04/18] iommu: add kernel-doc for iommu_unmap and
- iommu_unmap_fast
-Message-ID: <20241211222000.GH17486@willie-the-truck>
-References: <cover.1733398913.git.leon@kernel.org>
- <da4827fda833e69dbe487ef404a9333c51d8ed2e.1733398913.git.leon@kernel.org>
+	Thu, 12 Dec 2024 05:42:22 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 8507568D07; Thu, 12 Dec 2024 06:42:10 +0100 (CET)
+Date: Thu, 12 Dec 2024 06:42:09 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
+	hare@suse.de, sagi@grimberg.me, axboe@kernel.dk,
+	shinichiro.kawasaki@wdc.com, chaitanyak@nvidia.com,
+	gjoyce@linux.ibm.com
+Subject: Re: [PATCHv2] nvmet-loop: avoid using mutex in IO hotpath
+Message-ID: <20241212054209.GA4764@lst.de>
+References: <20241211085814.1239731-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <da4827fda833e69dbe487ef404a9333c51d8ed2e.1733398913.git.leon@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20241211085814.1239731-1-nilay@linux.ibm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241211_142010_509353_A81FC61A 
-X-CRM114-Status: GOOD (  20.24  )
-X-Mailman-Approved-At: Wed, 11 Dec 2024 20:09:24 -0800
+X-CRM114-CacheID: sfid-20241211_214221_017528_B6032671 
+X-CRM114-Status: UNSURE (   8.37  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,55 +62,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 05, 2024 at 03:21:03PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Add kernel-doc section for iommu_unmap and iommu_unmap_fast to document
-> existing limitation of underlying functions which can't split individual
-> ranges.
-> 
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/iommu/iommu.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index ec75d14497bf..9eb7c7d7aa70 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -2590,6 +2590,24 @@ size_t iommu_unmap(struct iommu_domain *domain,
->  }
->  EXPORT_SYMBOL_GPL(iommu_unmap);
->  
-> +/**
-> + * iommu_unmap_fast() - Remove mappings from a range of IOVA without IOTLB sync
-> + * @domain: Domain to manipulate
-> + * @iova: IO virtual address to start
-> + * @size: Length of the range starting from @iova
-> + * @iotlb_gather: range information for a pending IOTLB flush
-> + *
-> + * iommu_unmap_fast() will remove a translation created by iommu_map(). It cannot
-> + * subdivide a mapping created by iommu_map(), so it should be called with IOVA
-> + * ranges that match what was passed to iommu_map(). The range can aggregate
-> + * contiguous iommu_map() calls so long as no individual range is split.
-> + *
-> + * Basicly iommu_unmap_fast() as the same as iommu_unmap() but for callers
+Looks good:
 
-Typo: s/Basicly/Basically/
-Typo: s/as the same/is the same/
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-> + * which manage IOTLB flush range externaly to perform batched sync.
-
-Grammar: s/manage IOTLB flush range/manage the IOTLB flushing/
-Typo: s/externaly/externally/
-Grammar: s/to perform batched sync/to perform a batched sync/
-
-With those:
-
-Acked-by: Will Deacon <will@kernel.org>
-
-Thank you for doing this!
-
-Will
 
