@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 353A7E77183
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 08:56:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84AFEE77182
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 08:56:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8RFl2CwqYMkojD/dZ9pLtIVUQrwduMq474AnTdZJzds=; b=F0hg5d3HixGt04mW4zIoId/Vmp
-	M/kl9pF+5QtdsNHdWqxBni7VTrURyPMRTPUqGksKz8WvKJMSFT+SfzJ1yMUAkJMe5hvKweEc1dJeF
-	8wpz/Dt89vQgH5RyUsITifXDmDkog5WdZHI4Fub1PSRNsvu3MDoeO1ojdQIuJ7gAFmq4xcTZfO+14
-	tnIE9CAWCGLs/fgpuZmj7bMMQc5dJMGzuYRlEjZinrx3f27OmK0ei7AJXh1MA0e37B09zfEkkJK3G
-	n8nwGZ4m6a1YLMTDqMhLCmnB7EccWEUuYO0xNIS2BjEKLw6uJs8pKF0U+A72aV+O+ENiDQnbOUzpE
-	m5ITtXCQ==;
+	bh=+V4ulW501CFBe21acqtUchKrgLK8usvF5c/zK5VBIhc=; b=XT28PhMUFhprSolPG7l6FxTjtS
+	C042K7uLhXR2I0UOa/MM7FmAmCBaWMC1oqI+UnoDLvnDiQT4cwxxa5i026KnY3nGMhZbfRrgDAB1V
+	AOvYLlzKws5/dkytMq/N0LlXnRyZFO8YVZcLTsyPgF6kCo5vJ876qpdA7jPta4uMtxV3GwXuhtCuU
+	3vNm3K50+S8DK3vdIekDW1DSKiJ5p2S4OXURqEtC/7y6TCyaziKpPWGgU95d1uPlJWTlZLGj8iSHr
+	DlAITnK6AudmJgQCF+L8eXED8yWwi+pIiUz6H+a5ntHk7bwkxPBbKu9hL/qmmiZdRqT7UpTO7ue66
+	qy+dxx5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLezx-0000000HON0-2fSR;
-	Thu, 12 Dec 2024 08:56:41 +0000
+	id 1tLezw-0000000HOMT-3z4T;
+	Thu, 12 Dec 2024 08:56:40 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLenI-0000000HLhd-0hch
+	id 1tLem1-0000000HLNx-3e3W
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Dec 2024 08:43:37 +0000
+	Thu, 12 Dec 2024 08:42:18 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id EBD0A68D17; Thu, 12 Dec 2024 09:43:32 +0100 (CET)
-Date: Thu, 12 Dec 2024 09:43:32 +0100
+	id B516068D1C; Thu, 12 Dec 2024 09:42:07 +0100 (CET)
+Date: Thu, 12 Dec 2024 09:42:06 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Leon Romanovsky <leon@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -53,17 +53,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
 	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org, linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v4 08/18] dma-mapping: Implement link/unlink ranges API
-Message-ID: <20241212084332.GD9376@lst.de>
-References: <cover.1733398913.git.leon@kernel.org> <50de680233f2947594471d30976565c209bf7864.1733398913.git.leon@kernel.org>
+Subject: Re: [PATCH v4 06/18] dma: Provide an interface to allow allocate
+ IOVA
+Message-ID: <20241212084206.GC9376@lst.de>
+References: <cover.1733398913.git.leon@kernel.org> <e562e9a5c5107fae2345150e550e9e850dbe3c0c.1733398913.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <50de680233f2947594471d30976565c209bf7864.1733398913.git.leon@kernel.org>
+In-Reply-To: <e562e9a5c5107fae2345150e550e9e850dbe3c0c.1733398913.git.leon@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_004336_339002_432F45AD 
-X-CRM114-Status: GOOD (  10.62  )
+X-CRM114-CacheID: sfid-20241212_004218_040293_26BC390D 
+X-CRM114-Status: GOOD (  13.38  )
 X-Mailman-Approved-At: Thu, 12 Dec 2024 00:56:29 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -79,9 +80,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +static inline int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
+s/dma/dma-mapping/ in the subject.
 
-Please avoid the overly long line here.
+> function call per API call used in datapath as well as a lot of boilerplate
+
+Please trim commit messages to 73 characters so that they still look good
+in git show output.
+
+> +bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
+> +		phys_addr_t phys, size_t size)
+> +{
+> +	memset(state, 0, sizeof(*state));
+> +	if (!use_dma_iommu(dev))
+> +		return false;
+> +	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
+> +	    iommu_deferred_attach(dev, iommu_get_domain_for_dev(dev)))
+> +		return false;
+> +	return iommu_dma_iova_alloc(dev, state, phys, size);
+> +}
+
+Now that dma_iova_try_alloc is the only caller of iommu_dma_iova_alloc,
+maybe merge the two?
 
 Otherwise looks good:
 
