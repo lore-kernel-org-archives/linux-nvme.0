@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50739E77182
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 11:36:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99F8DE77183
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 11:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c0Y4ULoWkDVMIXjFWZsZqLL2tYBIYgjRCQODy6xQgdI=; b=TI12+sAlJRutj8hBW2Anxmw+EG
-	gsBLecHnPAUSjlhB7ZGpjyOSNa/L+hSGA0gyKz30oXgY5YR94IGE11T6u8oRyLeHDld0XL6AK6/P4
-	feM9aqAmhGn8w8Zm/CAUJfIcpda1sbz0/aj7Y7DPLar/8kC1LQ8+slZTW+m+IM76e6bqUH11I3JFg
-	ZlOubHqUCbZ8aRQ9IKmg5Ll8zB0bLWjoGiC0Ogi6OmS/REm6YtLcP7iWzNvbSQFgkCKlg5tzMHlR4
-	J4HkR2J42kLsv8Jsx0WJ1ZPDJGqZcrf2b2y7ra3HQ3xZ0SxDMGknc/53Ai+zfNsWA5t2Wj0OH6efj
-	63fR3iGg==;
+	bh=tsCutuI8Hn3MWvJYnjmPdzQAX2S7AWluOqUK+WqkRQE=; b=SyQOxo/F+vFgPi4Mm97M0ncpvf
+	eeUiEIXnxKc7bTdB+KoUQLsnwRV7Ym7wSISFuR4a0oTJDU06u3NaH1vItDxtDGRgm2z8Y+/LI3qMZ
+	U2l6Jt19UqmF833BI63bldlijawHxPb4LoU3S6Jp7WLr4SEr3sPk62wXnwLufYzxSZqmlHHVXvLga
+	+u80ax3jeOoEhyQ6mXLquKjOqbWDD0zQ4IML3WCI1InxD8e3uE0BpOu1qL1efV/pBXFlIAZHtMuEY
+	jWhdl1T8EsohAEg8fiCR+xEtkMmofe1sd6c/1G7bto6eAKUYmce1GDFuszmyFLCEQdG+pezoeqvWW
+	2B1zbjFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLhUN-00000000DMD-1iD6;
-	Thu, 12 Dec 2024 11:36:15 +0000
+	id 1tLhUO-00000000DO3-3nGl;
+	Thu, 12 Dec 2024 11:36:16 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLhTK-00000000CpU-24ug
+	id 1tLhTN-00000000Cr2-37DY
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Dec 2024 11:35:11 +0000
+	Thu, 12 Dec 2024 11:35:14 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7653BA42774;
-	Thu, 12 Dec 2024 11:33:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11D92C4CEDD;
-	Thu, 12 Dec 2024 11:35:07 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id C8F69A42770;
+	Thu, 12 Dec 2024 11:33:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62BE0C4CEDD;
+	Thu, 12 Dec 2024 11:35:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734003309;
-	bh=1NuFx3QMcc1tEVOkMLILvj2kCaplIcqdsykNR20gpaY=;
+	s=k20201202; t=1734003312;
+	bh=LCdJhbh9sa35egWXE9gEmBxg9VBjHkPXT4o+hzVpsMc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=COdsd6ul+OC7jL5rq13zpY1Z68/Y6HBTo+WRN1wJlFftPyDIlHqV+KjZnEV9iUMup
-	 2EMjGAKzG0ioeLZvC1NYZ5vCi2zIj0yx/cwb7WcaPqsqHzvCtWemrohkbOkmVbk1+O
-	 W/fpWm5WepewFjd/L202xgRmI5CmuL0hbDFLrUaHr2l5Q1iuyEzZ4sdJm7Y9RIceG7
-	 ZGu4oeRNey9zJeK3HYc2227+Rm4AMXmsc8mRt74QRvNBm8xhQ5GE+Yd0GONoICJmsO
-	 5z8WvwpE/Uboj20j92Ck4L0+UPc3dOlEdzBdOcUFpqVYQlU8jeg1qSdO5kkBi3UiAe
-	 hC+TNOZGLotPQ==
+	b=osU0MxmA/A9Cj5pY/+0beHzY2LlDtKD1IX6sfw1G/CtfSXQPnU8n0AaciYvqZgDMJ
+	 E3oaW740wT9fztqwhFvEa4Y2ll7IudaNXyy1f2fYaQ5zFbh2lI+PAsG2XRhfHxGfl8
+	 jewNugnfZrMH6VG35ELWfMi6raqKXx8050b8riE2prXj/Z/mSxDoZ78ykooqGoxsJE
+	 1g92C69YCMWGqmD2E2TMBo/n8EsMhLuwNx1G3rdzAECV1bORHDHL7uu5olJ2TFjFVV
+	 7ZDSzqjqWCUfeAzyLC2y9iEJfwBKwba86FhT3a282i9N5qLXEsY0o47HSbhux3iXUb
+	 eMfXrFmsrFbww==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,17 +55,18 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v4 01/18] nvme: Move opcode string helper functions declarations
-Date: Thu, 12 Dec 2024 20:34:23 +0900
-Message-ID: <20241212113440.352958-2-dlemoal@kernel.org>
+Subject: [PATCH v4 03/18] nvmet: Export nvmet_update_cc() and nvmet_cc_xxx() helpers
+Date: Thu, 12 Dec 2024 20:34:25 +0900
+Message-ID: <20241212113440.352958-4-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241212113440.352958-1-dlemoal@kernel.org>
 References: <20241212113440.352958-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_033510_660522_CAB4ACAB 
-X-CRM114-Status: GOOD (  11.46  )
+X-CRM114-CacheID: sfid-20241212_033513_907933_C8A82C78 
+X-CRM114-Status: UNSURE (   9.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,119 +81,121 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the declaration of all helper functions converting NVMe command
-opcodes and status codes into strings from drivers/nvme/host/nvme.h
-into include/linux/nvme.h, together with the commands definitions.
-This allows NVMe target drivers to call these functions without having
-to include a host header file.
+Make the function nvmet_update_cc() available to target drivers by
+exporting it. To also facilitate the manipulation of the cc register
+bits, move the inline helper functions nvmet_cc_en(), nvmet_cc_css(),
+nvmet_cc_mps(), nvmet_cc_ams(), nvmet_cc_shn(), nvmet_cc_iosqes(), and
+nvmet_cc_iocqes() from core.c to nvmet.h so that these functions can be
+reused in target controller drivers.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
 ---
- drivers/nvme/host/nvme.h | 39 ---------------------------------------
- include/linux/nvme.h     | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 39 deletions(-)
+ drivers/nvme/target/core.c  | 36 +-----------------------------------
+ drivers/nvme/target/nvmet.h | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 611b02c8a8b3..2c76afd00390 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -1182,43 +1182,4 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
- 	return (ctrl->ctrl_config & NVME_CC_CSS_MASK) == NVME_CC_CSS_CSI;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 1f4e9989663b..4b5594549ae6 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1166,41 +1166,6 @@ void nvmet_req_free_sgls(struct nvmet_req *req)
  }
+ EXPORT_SYMBOL_GPL(nvmet_req_free_sgls);
  
--#ifdef CONFIG_NVME_VERBOSE_ERRORS
--const char *nvme_get_error_status_str(u16 status);
--const char *nvme_get_opcode_str(u8 opcode);
--const char *nvme_get_admin_opcode_str(u8 opcode);
--const char *nvme_get_fabrics_opcode_str(u8 opcode);
--#else /* CONFIG_NVME_VERBOSE_ERRORS */
--static inline const char *nvme_get_error_status_str(u16 status)
+-static inline bool nvmet_cc_en(u32 cc)
 -{
--	return "I/O Error";
--}
--static inline const char *nvme_get_opcode_str(u8 opcode)
--{
--	return "I/O Cmd";
--}
--static inline const char *nvme_get_admin_opcode_str(u8 opcode)
--{
--	return "Admin Cmd";
+-	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
 -}
 -
--static inline const char *nvme_get_fabrics_opcode_str(u8 opcode)
+-static inline u8 nvmet_cc_css(u32 cc)
 -{
--	return "Fabrics Cmd";
--}
--#endif /* CONFIG_NVME_VERBOSE_ERRORS */
--
--static inline const char *nvme_opcode_str(int qid, u8 opcode)
--{
--	return qid ? nvme_get_opcode_str(opcode) :
--		nvme_get_admin_opcode_str(opcode);
+-	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
 -}
 -
--static inline const char *nvme_fabrics_opcode_str(
--		int qid, const struct nvme_command *cmd)
+-static inline u8 nvmet_cc_mps(u32 cc)
 -{
--	if (nvme_is_fabrics(cmd))
--		return nvme_get_fabrics_opcode_str(cmd->fabrics.fctype);
--
--	return nvme_opcode_str(qid, cmd->common.opcode);
+-	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
 -}
- #endif /* _NVME_H */
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 13377dde4527..a5a4ee56efcf 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1896,6 +1896,46 @@ static inline bool nvme_is_fabrics(const struct nvme_command *cmd)
- 	return cmd->common.opcode == nvme_fabrics_command;
+-
+-static inline u8 nvmet_cc_ams(u32 cc)
+-{
+-	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
+-}
+-
+-static inline u8 nvmet_cc_shn(u32 cc)
+-{
+-	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
+-}
+-
+-static inline u8 nvmet_cc_iosqes(u32 cc)
+-{
+-	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
+-}
+-
+-static inline u8 nvmet_cc_iocqes(u32 cc)
+-{
+-	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
+-}
+-
+ static inline bool nvmet_css_supported(u8 cc_css)
+ {
+ 	switch (cc_css << NVME_CC_CSS_SHIFT) {
+@@ -1277,6 +1242,7 @@ void nvmet_update_cc(struct nvmet_ctrl *ctrl, u32 new)
+ 		ctrl->csts &= ~NVME_CSTS_SHST_CMPLT;
+ 	mutex_unlock(&ctrl->lock);
  }
++EXPORT_SYMBOL_GPL(nvmet_update_cc);
  
-+#ifdef CONFIG_NVME_VERBOSE_ERRORS
-+const char *nvme_get_error_status_str(u16 status);
-+const char *nvme_get_opcode_str(u8 opcode);
-+const char *nvme_get_admin_opcode_str(u8 opcode);
-+const char *nvme_get_fabrics_opcode_str(u8 opcode);
-+#else /* CONFIG_NVME_VERBOSE_ERRORS */
-+static inline const char *nvme_get_error_status_str(u16 status)
+ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+ {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e4a31a37c14b..e68f1927339c 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -732,6 +732,41 @@ void nvmet_passthrough_override_cap(struct nvmet_ctrl *ctrl);
+ u16 errno_to_nvme_status(struct nvmet_req *req, int errno);
+ u16 nvmet_report_invalid_opcode(struct nvmet_req *req);
+ 
++static inline bool nvmet_cc_en(u32 cc)
 +{
-+	return "I/O Error";
-+}
-+static inline const char *nvme_get_opcode_str(u8 opcode)
-+{
-+	return "I/O Cmd";
-+}
-+static inline const char *nvme_get_admin_opcode_str(u8 opcode)
-+{
-+	return "Admin Cmd";
++	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
 +}
 +
-+static inline const char *nvme_get_fabrics_opcode_str(u8 opcode)
++static inline u8 nvmet_cc_css(u32 cc)
 +{
-+	return "Fabrics Cmd";
-+}
-+#endif /* CONFIG_NVME_VERBOSE_ERRORS */
-+
-+static inline const char *nvme_opcode_str(int qid, u8 opcode)
-+{
-+	return qid ? nvme_get_opcode_str(opcode) :
-+		nvme_get_admin_opcode_str(opcode);
++	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
 +}
 +
-+static inline const char *nvme_fabrics_opcode_str(
-+		int qid, const struct nvme_command *cmd)
++static inline u8 nvmet_cc_mps(u32 cc)
 +{
-+	if (nvme_is_fabrics(cmd))
-+		return nvme_get_fabrics_opcode_str(cmd->fabrics.fctype);
-+
-+	return nvme_opcode_str(qid, cmd->common.opcode);
++	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
 +}
 +
- struct nvme_error_slot {
- 	__le64		error_count;
- 	__le16		sqid;
++static inline u8 nvmet_cc_ams(u32 cc)
++{
++	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
++}
++
++static inline u8 nvmet_cc_shn(u32 cc)
++{
++	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
++}
++
++static inline u8 nvmet_cc_iosqes(u32 cc)
++{
++	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
++}
++
++static inline u8 nvmet_cc_iocqes(u32 cc)
++{
++	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
++}
++
+ /* Convert a 32-bit number to a 16-bit 0's based number */
+ static inline __le16 to0based(u32 a)
+ {
 -- 
 2.47.1
 
