@@ -4,127 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4ACF4E7717F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 11:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BEFDE7717F
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 12:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gq5HIoLOaRrwWTFMhl4akmkUagye1PVMUPy8Br/WayU=; b=qDzo2um8Of43D6H+GNAY354f+M
-	Ko8FSmUGSkXGmwHL1jhO8P4uZYlx2NDYhNfdRcksEcI7g0y9RYNsabTLq95nicRbDk7ZyFuIFK/Di
-	2qkcAnbqgwzUSR5wlN2jUCqbEUlt6OGTfIsormti8XRAw1PFO1b+z9mDz8VScSfqWSf12QfUu/1Ac
-	efAJO8xBDP+iKA52MeTDsD8iyUkVP+wCY0MP+IsYcAmz3SnATou3dzMfqtJQLo55Cri/Hc25cLd/B
-	IVKmNTbbDS9LPe68j2ZItpiUDecxrGeE4eAYH+DoWFXA+K1AtHo+VrzfwgOFVDJs6dLn+RF2DB2sr
-	PVSmsO2Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LYj9F5un81VZkuYIomWj1cf5jVTxtaK8pKhyUInligA=; b=1RnY3JYQnr7TpbS0XQzOQQQA6h
+	quX3hKMXs/qNXdNanI19TBhqsLiIJ3gzIUTYoQ8dlL/Mds99nLrw8jezmGwgRJ+QQ8wuRBkNG+ryj
+	rW6JQBQ+myIge7obLToymQvs+kUnzxOgn2rwn8cpo4RjqD7iHcsWvUEzVlecTTl4nmlqZ4/WUZeaS
+	br0H7Iigo2MscX+sGFGIZ191j5l5SmwvRAPjVV4mswDuqVW5PPm3VLELg6JPMfu30du8Yq6EhfTlu
+	mqCUfu8EluKBabroC+T6M14Yzg8pEFjIuYxd8BUm31C/xJY5D9/KPX/23yNyjOyNFJ65KvCbfD6zA
+	ACH241NA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLhY5-00000000FdF-09AH;
-	Thu, 12 Dec 2024 11:40:05 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1tLiCn-00000000MDT-3094;
+	Thu, 12 Dec 2024 12:22:09 +0000
+Received: from cloudserver094114.home.pl ([79.96.170.134])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLhY2-00000000FcN-1c6A
+	id 1tLiCX-00000000M8Z-2ROW
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Dec 2024 11:40:03 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241212113955epoutp02d5a5f506586a6ba72d3fa84f59da15a4~QaxVaPm0C1732517325epoutp02M
-	for <linux-nvme@lists.infradead.org>; Thu, 12 Dec 2024 11:39:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241212113955epoutp02d5a5f506586a6ba72d3fa84f59da15a4~QaxVaPm0C1732517325epoutp02M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1734003596;
-	bh=gq5HIoLOaRrwWTFMhl4akmkUagye1PVMUPy8Br/WayU=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=AZExY53StDExVRIy9il+SoWJcySMFVIAGu+MKUFU/uC87U4rv/5XfTFtzBxcnBaj3
-	 qsQ4Tm7liNMXmXO1jyMfcrlqyLWprW0+RytxoY9RulaUCYpRjejNhLdrQt5eByflks
-	 tXdA2DACaj9nPBf6yiG/nIZFisttvtdoS6heK/yc=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20241212113955epcas5p4ba3542ee4c4267058ee4f5bdc727415b~QaxUt9OAM2487724877epcas5p4l;
-	Thu, 12 Dec 2024 11:39:55 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Y89Vy0JxZz4x9Pt; Thu, 12 Dec
-	2024 11:39:54 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B6.3B.19933.98BCA576; Thu, 12 Dec 2024 20:39:53 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20241212113953epcas5p42a9eb3b5e449b08d18402016f6657ea8~QaxTPVz2S2487624876epcas5p4f;
-	Thu, 12 Dec 2024 11:39:53 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241212113953epsmtrp2f2b12fd0c7e22158831e27899ce2d073~QaxTOa7wi2144721447epsmtrp2c;
-	Thu, 12 Dec 2024 11:39:53 +0000 (GMT)
-X-AuditID: b6c32a4a-c1fda70000004ddd-51-675acb897929
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5F.F2.33707.98BCA576; Thu, 12 Dec 2024 20:39:53 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20241212113951epsmtip1dbc895aaaa00061ddf03ca96691ec892~QaxRqadna2973429734epsmtip1i;
-	Thu, 12 Dec 2024 11:39:51 +0000 (GMT)
-Message-ID: <6cf38922-2dfc-4788-8cea-304f16d3abfc@samsung.com>
-Date: Thu, 12 Dec 2024 17:09:50 +0530
+	Thu, 12 Dec 2024 12:21:54 +0000
+Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
+ by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 6.2.1)
+ id 9bd38cac647772b5; Thu, 12 Dec 2024 13:21:51 +0100
+Received: from kreacher.localnet (unknown [195.136.19.94])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by cloudserver094114.home.pl (Postfix) with ESMTPSA id BBC377F5D85;
+	Thu, 12 Dec 2024 13:21:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rjwysocki.net;
+	s=dkim; t=1734006111;
+	bh=kWUPjvQaoxNBzOTT4VbNlf0Zq+E3gREB48uYjM0Jcyc=;
+	h=From:Subject:Date;
+	b=X08qOiSZDhFsu40YznaIwmRogZC0ucTkN/P6t6t7Oni4/pxdDDc6cvKFulHy/qPED
+	 6FNFLl2A9hywmOBg5RyN4qSSA1maGKhSCdB/LoiYVaEhNW2tXx2EfupwCFJypliYe6
+	 3ypuD9fMQ5dr97faASrG95dzZEj1e6foEMTRoGRGlB7AXIJUcJrg2g4SunoR2ggsda
+	 PEjHm+c7/mkD3JwjjAqCV3+liaoQ7R60dgG0iDwK0T0APd3+UtdS8dmEr6Cvg5rNF1
+	 DbTwbUnSw7iiF5Ju8ayK6U2peHwGvRebBjwUq6HG4QDSZqyluTFTtKCVkJdgW4dL5Z
+	 UROxHiBKNw6cw==
+From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, axboe@kernel.dk,
+ sagi@grimberg.me, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, Len Brown <len.brown@intel.com>,
+ linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by the user
+Date: Thu, 12 Dec 2024 13:21:50 +0100
+Message-ID: <13662231.uLZWGnKmhe@rjwysocki.net>
+In-Reply-To: <20241212055920.GB4825@lst.de>
+References: <20241205232900.GA3072557@bhelgaas>
+ <20241209143821.m4dahsaqeydluyf3@thinkpad> <20241212055920.GB4825@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv14 00/11] block write streams with nvme fdp
-To: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org
-Cc: sagi@grimberg.me, asml.silence@gmail.com, anuj20.g@samsung.com, Keith
-	Busch <kbusch@kernel.org>
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20241211183514.64070-1-kbusch@meta.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDJsWRmVeSWpSXmKPExsWy7bCmpm7n6ah0g7f3rS2aJvxltpizahuj
-	xeq7/WwWK1cfZbJ413qOxWLSoWuMFmeuLmSx2HtL22LP3pMsFvOXPWW3WPf6PYsDt8fOWXfZ
-	Pc7f28jicflsqcemVZ1sHpuX1HvsvtnA5nHuYoVH35ZVjB6fN8kFcEZl22SkJqakFimk5iXn
-	p2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYAnaqkUJaYUwoUCkgsLlbSt7Mp
-	yi8tSVXIyC8usVVKLUjJKTAp0CtOzC0uzUvXy0stsTI0MDAyBSpMyM5o+f2RuaCg4uXSi0wN
-	jHFdjJwcEgImEmdP9bJ2MXJxCAnsZpT4tPgzM4TziVHi5uwpjHDOlXnzmWFadhyfxApiCwns
-	ZJQ4ci8Eougto8TTTQdYQBK8AnYS3bs+MYHYLAKqEt3P3rJCxAUlTs58AlYjKiAvcf/WDHYQ
-	W1jAXuL38xksIINEBHYwSnS+fArWzCyQKjHh53FmCFtc4taT+UBxDg42AU2JC5NLQcKcAqYS
-	Xx7chyqRl9j+dg7YCxICezgkDn3oY4G42kXizvmLbBC2sMSr41vYIWwpic/v9kLFsyUePHoA
-	VV8jsWNzHyuEbS/R8OcGK8heZqC963fpQ+zik+j9/QTsHAkBXomONiGIakWJe5OeQnWKSzyc
-	sYQVosRDYuFNN0hQdTBK/DnSwDyBUWEWUqjMQvLkLCTfzEJYvICRZRWjZGpBcW56arFpgVFe
-	ajk8tpPzczcxgpOxltcOxocPPugdYmTiYDzEKMHBrCTCe8M+Ml2INyWxsiq1KD++qDQntfgQ
-	oykweiYyS4km5wPzQV5JvKGJpYGJmZmZiaWxmaGSOO/r1rkpQgLpiSWp2ampBalFMH1MHJxS
-	DUyWTfcnuHQ+dkhM2uQr3/1/4UzLnu3J0cUnytb4PnsQU9LH9usf021Nk0k6hv7c1tH1rtdj
-	t/c8+van9+7BS7s1Fukm72N5+Tcjd1KBwPSU6n8hE488i+XKCJ1YvEJ96xZBmeYHWzecuH9a
-	uGGW95rVYbLLSpeELGJR3VJlI3Y4cPt8wZBKdX0fvjeFkn+fakl1xW39e0pp6Sz9WBe1h57m
-	U/7N5LYJucrgtk3jSzenXMSCIobwnU+3a5ys7Tr3xa6Z79aVf5vL7hxd2tZUu+u0C5/W0wUz
-	xD+qJp6QX7rCrFgm6ubpVpm0nkl2M8Sl/NRf3JPeNy3j8+ONn/Ofmep3SPcdjgrd9n2Lp8hT
-	PTklluKMREMt5qLiRADFMo4TTwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRmVeSWpSXmKPExsWy7bCSnG7n6ah0g6fTVCyaJvxltpizahuj
-	xeq7/WwWK1cfZbJ413qOxWLSoWuMFmeuLmSx2HtL22LP3pMsFvOXPWW3WPf6PYsDt8fOWXfZ
-	Pc7f28jicflsqcemVZ1sHpuX1HvsvtnA5nHuYoVH35ZVjB6fN8kFcEZx2aSk5mSWpRbp2yVw
-	ZbT8/shcUFDxculFpgbGuC5GTg4JAROJHccnsXYxcnEICWxnlNjwdDsbREJcovnaD3YIW1hi
-	5b/n7BBFrxklXl+czQiS4BWwk+je9YkJxGYRUJXofvaWFSIuKHFy5hMWEFtUQF7i/q0ZYIOE
-	Bewlfj+fwQIySERgB6PE/3U7wbYxC6RKzP64kA1iQwejxIFn09ghEuISt57MB9rAwcEmoClx
-	YXIpSJhTwFTiy4P7zBAlZhJdW7sYIWx5ie1v5zBPYBSaheSOWUgmzULSMgtJywJGllWMoqkF
-	xbnpuckFhnrFibnFpXnpesn5uZsYwVGnFbSDcdn6v3qHGJk4GA8xSnAwK4nw3rCPTBfiTUms
-	rEotyo8vKs1JLT7EKM3BoiTOq5zTmSIkkJ5YkpqdmlqQWgSTZeLglGpgYlfe9aJPdbeh9/rr
-	11JX/lE6lr3sd9rmy74JOpuqftjniugdDZQWLbMvblb0dK++Oc+k8/z+yT8t7J2mLnJbYH69
-	+KXd31ldQkGsqxteLb/O9ebEAil2IS6FzyYfjAzKp7w7+GX7ibhfBdNMjfe9uu0d5PfYfeI1
-	/rkLzseY5Hg4Rh4qTGyY+zt2y4/nTMZa1dU3n6e72SfPCSp5F8s0R7ar5/mafaXexvuMn/Kd
-	b8ts+DtDfvrpBTfajj5KbcqP/ii4g2XBzur4suKNd7ligucraX14/kayjIF/r7PrP6mzPFJB
-	H9Onfj0wIU+LYa7bkhnGJf+Fow4pLt+1puzdpDuHRNzfR9Wvrd/gsen3VCWW4oxEQy3mouJE
-	AI0/9NApAwAA
-X-CMS-MailID: 20241212113953epcas5p42a9eb3b5e449b08d18402016f6657ea8
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241211190851epcas5p2a359c12000fc73df8920e4801563504c
-References: <CGME20241211190851epcas5p2a359c12000fc73df8920e4801563504c@epcas5p2.samsung.com>
-	<20241211183514.64070-1-kbusch@meta.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
+X-CLIENT-IP: 195.136.19.94
+X-CLIENT-HOSTNAME: 195.136.19.94
+X-VADE-SPAMSTATE: clean
+X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefuddrkeehgdefkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkjghfggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpedvffeuiedtgfdvtddugeeujedtffetteegfeekffdvfedttddtuefhgeefvdejhfenucfkphepudelhedrudefiedrudelrdelgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduleehrddufeeirdduledrleegpdhhvghlohepkhhrvggrtghhvghrrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpehrjhifsehrjhifhihsohgtkhhirdhnvghtpdhnsggprhgtphhtthhopeduhedprhgtphhtthhopehmrghnihhvrghnnhgrnhdrshgrughhrghsihhvrghmsehlihhnrghrohdrohhrghdprhgtphhtthhopehhtghhsehlshhtrdguvgdprhgtphhtthhopehhvghlghgrrghssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehksghushgthheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprgigsghovgeskhgvrhhnvghlrdgukhdprhgtphhtthhopehsrghgihesghhrihhmsggvrhhgrdhmvgdprhgtphh
+X-DCC--Metrics: v370.home.net.pl 1024; Body=15 Fuz1=15 Fuz2=15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_034002_758290_B6EE80C2 
-X-CRM114-Status: UNSURE (   8.15  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241212_042153_776019_110298D9 
+X-CRM114-Status: GOOD (  18.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,8 +86,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For
-> 16 files changed, 341 insertions(+), 6 deletions(-)
+On Thursday, December 12, 2024 6:59:20 AM CET Christoph Hellwig wrote:
+> On Mon, Dec 09, 2024 at 08:08:21PM +0530, Manivannan Sadhasivam wrote:
+> > > 
+> > > The istory here is the the NVMe internal power states are significantly
+> > > better for the SSDs.  It avoid shutting down the SSD frequently, which
+> > > creates a lot of extra erase cycles and reduces life time.  It also
+> > > prevents the SSD from performing maintainance operations while the host
+> > > system is idle, which is the perfect time for them.  But the idea of
+> > > putting all periphals into D3 is gaining a lot of ground because it
+> > > makes the platform vendors life a lot simpler at the cost of others.
+> > 
+> > No, I disagree with the last comment. When the system goes to low power mode
+> > (like S2R/hibernate), it *does* makes a lot of sense to put the devices into
+> > D3Cold to save power.
+> 
+> Yes.  That's what the pm_suspend_via_firmware call in nvme_suspend is
+> supposed to catch.
 
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+pm_suspend_via_firmware() is to distinguish different flavors of system
+suspend.
+
+For runtime-suspend, there are different callbacks, but it doesn't look
+like they are used by NVMe.  At least nvme_dev_pm_ops doesn't set them.
+
+
+
 
