@@ -4,54 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 821C8E7717F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 15:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7586E7717F
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 19:31:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/33kSsBT+a95Jvcg5fdQm00jGHtkq6JLY6ZjFz+7MSA=; b=GXTMhVglGHLkIOdnudLLVfdKiK
-	TLmq0hf07zcFqLnEhzH6N4WVAQ7Nwv6KnzOmrsoTjH9cbHxF+IlG13RTHQbV1RhLqOlk1wPS8oEwC
-	g6jXINj1n/nqDi9l+YFfW86Ch1913gHWXdIQBzUEaSIVFCywcuv4WYLaGwAZNklhb49BhKYaSmXLm
-	mNtX76o80kWRcuZwJeECia2/ZiCbDbG2/3ps9dJZ59NqP0mEAFtcNrJOQruHgZohVXV+xaOJxyJA4
-	1F1h0WCzZtSmV6Ismwr+VpmUt0z/lEj3W+ETgrUuSCMqR2oKYaiYY3cDUv72nkLu78o31658/i4Kp
-	ZIYP5kYw==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=xoEPbO1RI0+yhq9zBVsxJqRm15X531u9jdU01eOqx7s=; b=c4v8Orxv0njiFN
+	rNnNFiYVWe0BPpvnnMkxcTdcUu1ZJm9saXddbUdYN/0MsSv/Hyr8R61MYDFv5DxmuSh7jdsU5Z5Zo
+	hT1+m+gA++Mo9/jStiUEnkquTWJbFWXplQxrLW8ylj/VKFtWuo3lu3uzF58yGcXWDeymMZQorH+rj
+	LkvVVY+FQBq7RaOlPDWUqwmTVUj6NMvfRdzKpr0Jk0k/WPuvY0laiaFC7fLKxVICbhxJrbtFXMfhZ
+	4ijwX4XbFdDcq3YODG+JYWPfMHhRWi9Vc2Aq6ZOEwwtiDF7f4YKywPK5GJXce1dHmb7yzPG1a40mk
+	cjQzQta8PKk2+GpKBEDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLktg-00000000ihV-3Ein;
-	Thu, 12 Dec 2024 15:14:36 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1tLouL-00000001eMx-3vQS;
+	Thu, 12 Dec 2024 19:31:33 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLkt5-00000000ias-3vHs
+	id 1tLoEh-00000001UWg-0FHD
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Dec 2024 15:14:01 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3BF9668D32; Thu, 12 Dec 2024 16:13:54 +0100 (CET)
-Date: Thu, 12 Dec 2024 16:13:54 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Thu, 12 Dec 2024 18:48:32 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 073CFA429D0;
+	Thu, 12 Dec 2024 18:46:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C38F1C4CECE;
+	Thu, 12 Dec 2024 18:48:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734029309;
+	bh=tOGMju40dv2/vvov0Gt5CZ9asbT5RPj1IsGYlrPDuWc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=GrywXcPkz1K16BghTpnDVl+HI5dqFkRdXuaU8bIFT+gOlNQfBTW7zuqyok64nlsVl
+	 2W+8XKf1x1ZbEcbVbUAvb3UHz8GWzhJpc1U/w9euaRUoHA4tAyp2i+JJ0bZ8Ba/heD
+	 mYkeb718epWf3scMI7hjGPZ8QOXDuB/TYH81k/fpnAzTBp7gFM6DZcbCOwYiW6PoNE
+	 oLhjXDYAkd3ANF1/QT8bgwFucdEh8LTy0NSVKzaV46Hd9m0bzxC5E+0ExsAKl4rMiO
+	 d528wzG1dBGuVJphKf7n9NdiDRa3q1FbE1e6j8Uo4Rbxkxzorgmz2TPRT9TZWzKbVp
+	 /XmA+XqaTrhxA==
+Date: Thu, 12 Dec 2024 12:48:28 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-pci@vger.kernel.org,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Christoph Hellwig <hch@lst.de>, Bjorn Helgaas <helgaas@kernel.org>,
-	kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, Len Brown <len.brown@intel.com>,
-	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
- the user
-Message-ID: <20241212151354.GA7708@lst.de>
-References: <20241205232900.GA3072557@bhelgaas> <20241209143821.m4dahsaqeydluyf3@thinkpad> <20241212055920.GB4825@lst.de> <13662231.uLZWGnKmhe@rjwysocki.net> <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com>
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v4 18/18] Documentation: Document the NVMe PCI endpoint
+ target driver
+Message-ID: <20241212184828.GA3354708@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20241212113440.352958-19-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_071400_112350_0D6FD26D 
-X-CRM114-Status: GOOD (  20.28  )
+X-CRM114-CacheID: sfid-20241212_104831_226181_931A8C77 
+X-CRM114-Status: GOOD (  22.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,26 +79,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 12, 2024 at 01:49:15PM +0100, Ulf Hansson wrote:
-> Right. This seems to somewhat work for ACPI types of systems, because
-> ACPI is controlling the low power state for all the devices. Based on
-> the requested system wide low power state, ACPI can then decide to
-> call pm_set_suspend_via_firmware() or not.
+On Thu, Dec 12, 2024 at 08:34:40PM +0900, Damien Le Moal wrote:
+> Add a documentation file
+> (Documentation/nvme/nvme-pci-endpoint-target.rst) for the new NVMe PCI
+> endpoint target driver. This provides an overview of the driver
+> requirements, capabilities and limitations. A user guide describing how
+> to setup a NVMe PCI endpoint device using this driver is also provided.
 > 
-> Still there is a problem with this for ACPI too.
-> 
-> How does ACPI know whether it's actually a good idea to keep the NVMe
-> storage powered in s2idle (ACPI calls pm_set_suspend_via_firmware()
-> only for S2R and S2disk!?)? Especially when my laptop only supports
-> s2idle and that's what I will use when I close the lid. In this way,
-> the NMVe storage will certainly contribute to draining the battery,
-> especially when I won't be using my laptop for a couple of days.
-> 
-> In my opinion, we need a better approach that is both flexible and
-> that dynamically adjusts based upon the use case.
+> This document is made accessible also from the PCI endpoint
+> documentation using a link. Furthermore, since the existing nvme
+> documentation was not accessible from the top documentation index, an
+> index file is added to Documentation/nvme and this index listed as
+> "NVMe Subsystem" in the "Storage interfaces" section of the subsystem
+> API index.
 
-Agreed.  I'd be happy to work with the PM maintainers to do this,
-but I don't really know enough about the PM core to drive it
-(as the reply from Rafael to my mail makes pretty clear :))
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
+  Applying: Documentation: Document the NVMe PCI endpoint target driver
+  .git/rebase-apply/patch:43: new blank line at EOF.
+  +
+  warning: 1 line adds whitespace errors.
+
+> +The NVMe PCI endpoint target driver allows exposing a NVMe target controller
+> +over a PCIe link, thus implementing an NVMe PCIe device similar to a regular
+> +M.2 SSD. The target controller is created in the same manner as when using NVMe
+> +over fabrics: the controller represents the interface to an NVMe subsystem
+> +using a port. The port transfer type must be configured to be "pci". The
+> +subsystem can be configured to have namespaces backed by regular files or block
+> +devices, or can use NVMe passthrough to expose an existing physical NVMe device
+> +or a NVMe fabrics host controller (e.g. a NVMe TCP host controller).
+> +
+> +The NVMe PCI endpoint target driver relies as much as possible on the NVMe
+> +target core code to parse and execute NVMe commands submitted by the PCI RC
+> +host. However, using the PCI endpoint framework API and DMA API, the driver is
+> +also responsible for managing all data transfers over the PCI link. This
+> +implies that the NVMe PCI endpoint target driver implements several NVMe data
+> +structure management and some command parsing.
+
+Sort of a mix of "PCIe link" vs "PCI link", maybe make them
+consistent.
+
+Does "PCI RC" mean "Root Complex"?  If so, maybe "PCIe Root Complex"
+the first time, and "PCIe RC" subsequently?  I don't know enough about
+this to know whether "Root Complex" is necessary in this context, or
+whether "host" might be enough.
+
+> +4) The boot partition support (BPS), Persistent Memory Region Supported (PMRS)
+> +   and Controller Memory Buffer Supported (CMBS) capabilities are never reported.
+
+Gratuitous >80 column line.
+
+> +If the PCI endpoint controller used does not support MSIX, MSI can be
+> +configured instead::
+
+s/MSIX/MSI-X/ as is used elsewhere
+
+> +The NVMe PCI endpoint target driver uses the PCI endpoint configfs device attributes as follows.
+
+Gratuitous >80 column line.
 
