@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB06FE7717F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 08:56:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 353A7E77183
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 08:56:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nfO+Kbt2aphILPcAsd6/wxFywU/xJYaxOn0Mjxod4E0=; b=Ep6qRyumJruT5Mk6NKn5R0kz24
-	Uqukfn8ABAZxu1vVy1uvM9Newy17XH+jsbSaMOrgvs882shpI2YKsIu587R2+63SYwWAcsBBYmihN
-	4MpI4JY6wpNnjoJt1W++zCTZToUrpCdUCNTTHGFaHy9m7knvRDuCYjM38kWSJAIs0947rXw3UJrZx
-	+WnXJYDif+mNK40sK15lqos9Eo2Ij9TIqNoVl87voDAxG/gIFV2VPtcyYkRtdxpTJBhUCouv39Za0
-	wMROtIlUgXgj7kHfoGpF0+gb+8maTCVBGRfA96LDTLRNcdNiJyn1G11uQJy2smr3RTWE05L8sJQ3B
-	GiJgJ+Bg==;
+	bh=8RFl2CwqYMkojD/dZ9pLtIVUQrwduMq474AnTdZJzds=; b=F0hg5d3HixGt04mW4zIoId/Vmp
+	M/kl9pF+5QtdsNHdWqxBni7VTrURyPMRTPUqGksKz8WvKJMSFT+SfzJ1yMUAkJMe5hvKweEc1dJeF
+	8wpz/Dt89vQgH5RyUsITifXDmDkog5WdZHI4Fub1PSRNsvu3MDoeO1ojdQIuJ7gAFmq4xcTZfO+14
+	tnIE9CAWCGLs/fgpuZmj7bMMQc5dJMGzuYRlEjZinrx3f27OmK0ei7AJXh1MA0e37B09zfEkkJK3G
+	n8nwGZ4m6a1YLMTDqMhLCmnB7EccWEUuYO0xNIS2BjEKLw6uJs8pKF0U+A72aV+O+ENiDQnbOUzpE
+	m5ITtXCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLezw-0000000HOM6-1TQH;
-	Thu, 12 Dec 2024 08:56:40 +0000
+	id 1tLezx-0000000HON0-2fSR;
+	Thu, 12 Dec 2024 08:56:41 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLef1-0000000HJyQ-3XXG
+	id 1tLenI-0000000HLhd-0hch
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Dec 2024 08:35:04 +0000
+	Thu, 12 Dec 2024 08:43:37 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id AE9AF68D12; Thu, 12 Dec 2024 09:34:59 +0100 (CET)
-Date: Thu, 12 Dec 2024 09:34:59 +0100
+	id EBD0A68D17; Thu, 12 Dec 2024 09:43:32 +0100 (CET)
+Date: Thu, 12 Dec 2024 09:43:32 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Leon Romanovsky <leon@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -53,17 +53,17 @@ Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
 	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org, linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v4 05/18] dma-mapping: Add check if IOVA can be used
-Message-ID: <20241212083459.GB9376@lst.de>
-References: <cover.1733398913.git.leon@kernel.org> <b23a1e29f00f31f31641479c90f2471aee27fac5.1733398913.git.leon@kernel.org>
+Subject: Re: [PATCH v4 08/18] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20241212084332.GD9376@lst.de>
+References: <cover.1733398913.git.leon@kernel.org> <50de680233f2947594471d30976565c209bf7864.1733398913.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b23a1e29f00f31f31641479c90f2471aee27fac5.1733398913.git.leon@kernel.org>
+In-Reply-To: <50de680233f2947594471d30976565c209bf7864.1733398913.git.leon@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_003504_016556_7CFA09F7 
-X-CRM114-Status: GOOD (  16.68  )
+X-CRM114-CacheID: sfid-20241212_004336_339002_432F45AD 
+X-CRM114-Status: GOOD (  10.62  )
 X-Mailman-Approved-At: Thu, 12 Dec 2024 00:56:29 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -79,19 +79,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 05, 2024 at 03:21:04PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> This patch adds a check if IOVA can be used for the specific
-> transaction.
-> 
-> In the new API a DMA mapping transaction is identified by a
-> struct dma_iova_state, which holds some recomputed information
-> for the transaction which does not change for each page being
-> mapped.
+> +static inline int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
 
-While the content of the patch here looks fine, the super fine
-grained patch split look really odd and makes sensible review
-hard.  Was this a request on one of the earlier versions?
+Please avoid the overly long line here.
 
+Otherwise looks good:
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
