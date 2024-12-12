@@ -4,66 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26E22E7717F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 19:32:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 587C6E7717F
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 23:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=n5FmdmtYzQRS1EPK7cCvVDxhdBGh1pqOyGB3QzFTnLQ=; b=sfmC3HzFQjd+tj
-	oPQz7ulDr5hdnJEqKSJoyTK1kH1XX/fyGX3c5fFI6spE4AIKpFVzkzzI5EMvy38hu/McUfdAY/8gM
-	ZpjHr9zTtM/ExQpIwDJeju0UTmjp6xIDl9q1xWH9ToGGAerDNEfCOuQmTYmHSNAtuMuZQfkEyOla5
-	brdr8nhMbNBEp2cwl6yaNeYwO6CDp0hkORCqeUOCB3229nK1w1fNkiL8SBsRwhljhF1UAs5nGn08K
-	7brlqmsY92fXi6o3gQ1JkUwW5Yst6ymPk8OyBsNe2CkvtWX4IxpaDdvbH4G02QdhUtxSuOdQnogtr
-	8OIQwz1XWn39kqvPJYKA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=o4YxdGlNpn3u5sVgod/AmzSffnWn2aY+dsQEVJ2blgI=; b=PluMHMMr5nHhhMMvn/TyzV1LM+
+	UeL9NEz5G4M3hkWycmb6/Kx8EWUqL8TCWE1hHelW0AoIT7g19vXQOG0y7piJbNSWVflHSLEHkN3Qg
+	Bl/AfoPIWru0AIAo0tIf6Zore66HJTXNaaamE2JqsuxlP3k3+mr2Sh97ZIhms+GW+L8BNnWYKiifN
+	VWktS8rqL9H57IvZQEH1RYYxfOSpoha+eVja/gnE5J6kS3qzmTeaq4Bx9V51WG6qcBO56NdQj7wpw
+	zOdWBn/Q6UcwZnGCq7rx7rnGVf+CzjGNdro/FMvB4lBa0BPZt+AAHYo2UDp1sI7hgeVwcvPs8s3Jn
+	EOfuQlNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLovQ-00000001ehP-2HiC;
-	Thu, 12 Dec 2024 19:32:40 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tLszi-00000002EXt-1g7Z;
+	Thu, 12 Dec 2024 23:53:22 +0000
+Received: from mgamail.intel.com ([192.198.163.7])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLoLR-00000001WUi-0scy
+	id 1tLszg-00000002EXU-0d4U
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Dec 2024 18:55:30 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 5D3925C60C7;
-	Thu, 12 Dec 2024 18:54:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D4FC4CECE;
-	Thu, 12 Dec 2024 18:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734029728;
-	bh=iC63c2TfMwutN6CHlOx6ciqpXlH4loUdJcyZovJHIwQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=CdLt3LRdRxlehMKz4zIBkBo/OKzlURCHDEkmxHQDI5TfmgA6/hr1ZKA88Xblwa21h
-	 Q8c58GT5edDsbsKbt6R0IFL8giY0ocGxd9pWVDqmmgGdMLm1++IhD3Cd+uKBLeFQc8
-	 T1WJq9ViN9YeD9hYvPRIOnKCI/GGIgAfDiKnQSvnQvLuXhZCSUfUNdHqtmlzZLL8NW
-	 qKu5iSVXt443Y+tO3x9+dw0q8gLgyjRZ75/SBJs5dgj/54YmLhsTxQOtQwTBjmtGp+
-	 SDqYMmDn3Qe8d8WJPTvjzRJHzMLF80wtEw4CqQ9LEtd+08JwJQpeYNciACRbCbgQ+p
-	 3soTaSulMEgEQ==
-Date: Thu, 12 Dec 2024 12:55:27 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-pci@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
-	Niklas Cassel <cassel@kernel.org>
-Subject: Re: [PATCH v4 17/18] nvmet: New NVMe PCI endpoint target driver
-Message-ID: <20241212185527.GA3356063@bhelgaas>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241212113440.352958-18-dlemoal@kernel.org>
+	Thu, 12 Dec 2024 23:53:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734047600; x=1765583600;
+  h=date:from:to:cc:subject:message-id;
+  bh=c0jQTLLzV01KZwFUmV//g+/Z/MaGglqmfRw1rifOEaU=;
+  b=H8Mp9EeXe3ewxVDeNRwCHRP1n3HJss9nmTBCgZK6ocDtv/vHacYMPXii
+   2eypw97OsJKnRAxGjW0zaEWsaY1q++s62ti5VOY1h5sLZzhloEgb9PgeZ
+   d97/TxxqnIz6fTQy8nCz1DvFB8gCU5iozbsbf0R4/UiczmmOTjxplJWWG
+   kfcYkiCQAPo7hf4OgfYtC8QGQj2CjvPOF0/loQV4bgd7TVjwB3inoP9eH
+   JNFs6OvJKkXvKETbCWPfqYC6NT7k/l0E2cq7zhJ7BKBEotNRSAjjTHTmc
+   KgrQ8aeNgYtNsjFN6gLrjAwaWwGCuNP9r6TNvjQba6kq8GVPr/bPYBsik
+   g==;
+X-CSE-ConnectionGUID: us2p8HoSRqiOr1tS+mhuSQ==
+X-CSE-MsgGUID: q/sC/1gVRIamRF9WuJ42yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="59887160"
+X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
+   d="scan'208";a="59887160"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 15:51:05 -0800
+X-CSE-ConnectionGUID: BBtmjen2SQSEHoexaTRsHw==
+X-CSE-MsgGUID: ts0apCxFQNKDQDEsoDbY1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
+   d="scan'208";a="96272743"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 12 Dec 2024 15:51:03 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tLsxR-000BUS-0P;
+	Thu, 12 Dec 2024 23:51:01 +0000
+Date: Fri, 13 Dec 2024 07:50:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.13] BUILD SUCCESS
+ ebefac5647968679f6ef5803e5d35a71997d20fa
+Message-ID: <202412130751.tsvTc9Ua-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_105529_288371_931770AB 
-X-CRM114-Status: GOOD (  10.53  )
+X-CRM114-CacheID: sfid-20241212_155320_208881_E40CD0FC 
+X-CRM114-Status: UNSURE (   4.47  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,21 +83,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 12, 2024 at 08:34:39PM +0900, Damien Le Moal wrote:
+tree/branch: git://git.infradead.org/nvme.git nvme-6.13
+branch HEAD: ebefac5647968679f6ef5803e5d35a71997d20fa  nvme-pci: 512 byte aligned dma pool segment quirk
 
->    This ensure correct operation if, for instance, the host reboots
->    causing the PCI link to be temporarily down.
+elapsed time: 1445m
 
-s/ensure/ensures/
+configs tested: 41
+configs skipped: 0
 
-> The configuration of a NVMe PCI endpoint controller is done using
-> configfgs. First the NVMe PCI target controller configuration must be
-> done to set up a subsystem and a port with the "pci" addr_trtype
-> attribute. The subsystem can be setup using a file or block device
-> backed namespace or using a passthrough NVMe device. After this, the
-> PCI endpoint can be configured and bound to the PCI endpoint controller
-> to start the NVMe endpoint controller.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-s/addr_trtype/addr_type/ ?
-s/configfgs/configfs/
+tested configs:
+arc                randconfig-001-20241212    gcc-13.2.0
+arc                randconfig-002-20241212    gcc-13.2.0
+arm                randconfig-001-20241212    gcc-14.2.0
+arm                randconfig-002-20241212    clang-20
+arm                randconfig-003-20241212    clang-19
+arm                randconfig-004-20241212    clang-20
+arm64              randconfig-001-20241212    clang-20
+arm64              randconfig-002-20241212    clang-15
+arm64              randconfig-003-20241212    clang-20
+arm64              randconfig-004-20241212    gcc-14.2.0
+i386     buildonly-randconfig-001-20241212    clang-19
+i386     buildonly-randconfig-002-20241212    clang-19
+i386     buildonly-randconfig-003-20241212    clang-19
+i386     buildonly-randconfig-004-20241212    clang-19
+i386     buildonly-randconfig-005-20241212    clang-19
+i386     buildonly-randconfig-006-20241212    gcc-12
+riscv              randconfig-001-20241212    clang-17
+riscv              randconfig-002-20241212    clang-20
+s390                          allmodconfig    clang-19
+s390                          allyesconfig    gcc-14.2.0
+s390               randconfig-001-20241212    clang-18
+s390               randconfig-002-20241212    clang-20
+sh                            allmodconfig    gcc-14.2.0
+sh                            allyesconfig    gcc-14.2.0
+sh                 randconfig-001-20241212    gcc-14.2.0
+sh                 randconfig-002-20241212    gcc-14.2.0
+sparc                         allmodconfig    gcc-14.2.0
+sparc              randconfig-001-20241212    gcc-14.2.0
+sparc              randconfig-002-20241212    gcc-14.2.0
+sparc64            randconfig-001-20241212    gcc-14.2.0
+sparc64            randconfig-002-20241212    gcc-14.2.0
+um                 randconfig-001-20241212    gcc-12
+um                 randconfig-002-20241212    clang-20
+x86_64   buildonly-randconfig-001-20241212    clang-19
+x86_64   buildonly-randconfig-002-20241212    gcc-12
+x86_64   buildonly-randconfig-003-20241212    clang-19
+x86_64   buildonly-randconfig-004-20241212    clang-19
+x86_64   buildonly-randconfig-005-20241212    gcc-11
+x86_64   buildonly-randconfig-006-20241212    clang-19
+xtensa             randconfig-001-20241212    gcc-14.2.0
+xtensa             randconfig-002-20241212    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
