@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6887CE7717F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 11:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4F4FE77182
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 11:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z/+f/dz64SxsNi5PXhKqxrRRDggIZgBGY1Rt0/nUAZs=; b=ND2F/4/XZZ3j1Qg6YBQ3aod6mv
-	ifQ3BBZ9V8yEAugNmkCUSaavwsISbGk4uwLauMAAi/ZFnkK/mAXRR9Uze7XEWdLyFZtDOVc4c0w6U
-	h/OQW6zUmdRTxTs1xWOeNvmANdEYtf61N0wY0XFMwIMdScQPUc5n3N7/j4G2WZX14r+96X3cMYK4w
-	aSDtX3WwrbihCJ0t/Blo12p1XqE9vjxMYy8g/Dy6sKt5ZShfirLtGv/ybtKU2eT/G5M3Dw6ceymxc
-	+Sv2QY6WJ7PBO6KmnbllsWDrhs5bVLbWgKvFN4XylpLwaZaSEnPpTGmDfsfo0QlRWYMO0jLTZUYiH
-	1bLzNIbQ==;
+	bh=JNTKmQWb3+2C+ICf/ZECLs+ocQeJWt+NxoPR+4oBmcQ=; b=k1C4b5ocQBYzOFWy6RNsNMovSX
+	bgNEiVWKMiDta9x6uN9WDdGT5YnmS1F409fKr7QbyM9d9Voh6NUehbB9HJvjqlMRFd+X0gy2qCv1O
+	mxSONWD09UxUoPajtSPnqzq21EFLuPYRhd5MiIhmDbAhLw+RnTtQ35aDa0VazG6WFGLCgLxn3IMFJ
+	2X065qjB/TbycMS0wSOVqo7p4DF4WXzqjfsQHlNE2KgTwh6qgPJW1MAbD29j88Apcbs+RCm0+x+kR
+	QmXwORhQu6zagLHs7wOj3wm4iEPePJq3BQtVmxw9MhO5lEuWlqpWWyouZmcSZ4VXgntS0dwTHNbZ6
+	/jrzSG1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLhVf-00000000E2o-2lEC;
-	Thu, 12 Dec 2024 11:37:35 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tLhVi-00000000E5k-0dIS;
+	Thu, 12 Dec 2024 11:37:38 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLhTe-00000000D3U-1Tef
+	id 1tLhTg-00000000D4G-0Jqo
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Dec 2024 11:35:31 +0000
+	Thu, 12 Dec 2024 11:35:33 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 753895C67A7;
-	Thu, 12 Dec 2024 11:34:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 278D3C4CED7;
-	Thu, 12 Dec 2024 11:35:28 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 291675C672C;
+	Thu, 12 Dec 2024 11:34:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2242C4CEDD;
+	Thu, 12 Dec 2024 11:35:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734003329;
-	bh=UPQbgDjGatdzr3pse16/Ci4V4fBEV8RnlmMNYm7/vzE=;
+	s=k20201202; t=1734003331;
+	bh=8lXi6vt39kj6wKiHNXwC0kpLAdjFl/FOHh358U2v3Eg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n/QT4nvzPWAKNu5PDYUq4r0+QlpNBml7BjcdP4l82s3xTO/Wh/vsDfnafLRcV/7zk
-	 2mgB2/oSoJHaguxcZeWypcPnOgGZd5k+5wTQHIHLfcbpoq9zyoXTOY/ap2pAmoy05h
-	 Do0FXPrCjtJ8xYj2YHWnpEVFoxcljRtK8ECU0kOP2z3XL/s4LTM9SLJSZjC1arCWo7
-	 zFZ4PXkC8j1irUFmFFEXt7UELKTmJ0i8AcZ771m9WiuzyaVDxo1dYIFeC5DXmy2Bfn
-	 J2IAPUIPK7J5ozI+q0h7RUv/33n1bJ1Jz8e3s1pWxAXI8UgML8CXi/QASZYJsv4/TS
-	 8VvvAy09ehc7Q==
+	b=l39FWneqBwhMj5VHXCj56WciFXeX1XYKeIJnQDW8h/Yllz2miiyFGprh4C2wUGDua
+	 WFj8c8N35bgaQ8e0sGK8wlIVRIC7DP5Txd27viwl7OyfpV7q7W3C267Fu8OPpRTFwR
+	 sOnHj2YjZXdvwYdY6ga8hXHNJLYxD1AkU/JH5ygU8DzwK3JXrQiFTQHjN1M33S1732
+	 Vn8B7wOGUIaiJP7DgZSj2ohjpeRbPxpMCnGWgAFciCN6enxQ/Odkms5q+rYquHGY/T
+	 FmTZBf/0UST3h47zRewUX/56QyybVggSZgy6WGbDJGmKSMUAMOZNV1v54jDkDFFpot
+	 Q9rue2gzr/U2A==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,17 +55,17 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v4 13/18] nvmet: Implement host identifier set feature support
-Date: Thu, 12 Dec 2024 20:34:35 +0900
-Message-ID: <20241212113440.352958-14-dlemoal@kernel.org>
+Subject: [PATCH v4 14/18] nvmet: Implement interrupt coalescing feature support
+Date: Thu, 12 Dec 2024 20:34:36 +0900
+Message-ID: <20241212113440.352958-15-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241212113440.352958-1-dlemoal@kernel.org>
 References: <20241212113440.352958-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_033530_473950_CCA33F52 
-X-CRM114-Status: GOOD (  19.12  )
+X-CRM114-CacheID: sfid-20241212_033532_203454_9C89A63C 
+X-CRM114-Status: GOOD (  19.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,110 +80,142 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVMe specifications mandate support for the host identifier
-set_features for controllers that also supports reservations. Satisfy
-this requirement by implementing handling of the NVME_FEAT_HOST_ID
-feature for the nvme_set_features command. This implementation is for
-now effective only for PCI target controllers. For other controller
-types, the set features command is failed with a NVME_SC_CMD_SEQ_ERROR
-status as before.
+The NVMe base specifications v2.1 mandate Supporting the interrupt
+coalescing feature (NVME_FEAT_IRQ_COALESCE) for PCI controllers.
+Introduce the data structure struct nvmet_feat_irq_coalesce to define
+the time and threshold (thr) fields of this feature and implement the
+functions nvmet_get_feat_irq_coalesce() and
+nvmet_set_feat_irq_coalesce() to get and set this feature. These
+functions respectively use the controller get_feature() and
+set_feature() operations to fill and handle the fields of struct
+nvmet_feat_irq_coalesce.
 
-As noted in the code, 128 bits host identifiers are supported since the
-NVMe bass specifications version 2.1 indicate in section 5.1.25.1.28.1
-that "The controller may support a 64-bit Host Identifier...".
+While the Linux kernel nvme driver does not use this feature and thus
+will not complain if it is not implemented, other major OSes fail
+initializing the NVMe device if this feature support is missing.
 
-The RHII (Reservations and Host Identifier Interaction) bit of the
-controller attribute (ctratt) field of the identify controller data is
-also set to indicate that a host ID of "0" is supported but that the
-host ID must be a non-zero value to use reservations.
+Support for this feature is prohibited for fabrics controllers. If a get
+feature or set feature command for this feature is received for a
+fabrics controller, the command is failed with an invalid field error.
 
+Suggested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
 ---
- drivers/nvme/target/admin-cmd.c | 35 +++++++++++++++++++++++++++++----
- include/linux/nvme.h            |  1 +
- 2 files changed, 32 insertions(+), 4 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 53 +++++++++++++++++++++++++++++++--
+ drivers/nvme/target/nvmet.h     | 10 +++++++
+ 2 files changed, 61 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 0c5127a1d191..efef3acba9fb 100644
+index efef3acba9fb..eff9fd2e81ed 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -659,7 +659,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvmet_subsys *subsys = ctrl->subsys;
- 	struct nvme_id_ctrl *id;
--	u32 cmd_capsule_size;
-+	u32 cmd_capsule_size, ctratt;
- 	u16 status = 0;
- 
- 	if (!subsys->subsys_discovered) {
-@@ -707,8 +707,10 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 
- 	/* XXX: figure out what to do about RTD3R/RTD3 */
- 	id->oaes = cpu_to_le32(NVMET_AEN_CFG_OPTIONAL);
--	id->ctratt = cpu_to_le32(NVME_CTRL_ATTR_HID_128_BIT |
--		NVME_CTRL_ATTR_TBKAS);
-+	ctratt = NVME_CTRL_ATTR_HID_128_BIT | NVME_CTRL_ATTR_TBKAS;
-+	if (nvmet_is_pci_ctrl(ctrl))
-+		ctratt |= NVME_CTRL_ATTR_RHII;
-+	id->ctratt = cpu_to_le32(ctratt);
- 
- 	id->oacs = 0;
- 
-@@ -1255,6 +1257,31 @@ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask)
- 	return 0;
+@@ -1282,6 +1282,27 @@ static u16 nvmet_set_feat_host_id(struct nvmet_req *req)
+ 				   sizeof(req->sq->ctrl->hostid));
  }
  
-+static u16 nvmet_set_feat_host_id(struct nvmet_req *req)
++static u16 nvmet_set_feat_irq_coalesce(struct nvmet_req *req)
 +{
 +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+
-+	if (!nvmet_is_pci_ctrl(ctrl))
-+		return NVME_SC_CMD_SEQ_ERROR | NVME_STATUS_DNR;
++	u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
++	struct nvmet_feat_irq_coalesce irqc = {
++		.time = (cdw11 >> 8) & 0xff,
++		.thr = cdw11 & 0xff,
++	};
 +
 +	/*
-+	 * The NVMe base specifications v2.1 recommends supporting 128-bits host
-+	 * IDs (section 5.1.25.1.28.1). However, that same section also says
-+	 * that "The controller may support a 64-bit Host Identifier and/or an
-+	 * extended 128-bit Host Identifier". So simplify this support and do
-+	 * not support 64-bits host IDs to avoid needing to check that all
-+	 * controllers associated with the same subsystem all use the same host
-+	 * ID size.
++	 * This feature is not supported for fabrics controllers and mandatory
++	 * for PCI controllers.
 +	 */
-+	if (!(req->cmd->common.cdw11 & cpu_to_le32(1 << 0))) {
-+		req->error_loc = offsetof(struct nvme_common_command, cdw11);
++	if (!nvmet_is_pci_ctrl(ctrl)) {
++		req->error_loc = offsetof(struct nvme_common_command, cdw10);
 +		return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
 +	}
 +
-+	return nvmet_copy_from_sgl(req, 0, &req->sq->ctrl->hostid,
-+				   sizeof(req->sq->ctrl->hostid));
++	return ctrl->ops->set_feature(ctrl, NVME_FEAT_IRQ_COALESCE, &irqc);
 +}
 +
  void nvmet_execute_set_features(struct nvmet_req *req)
  {
  	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
-@@ -1285,7 +1312,7 @@ void nvmet_execute_set_features(struct nvmet_req *req)
- 		status = nvmet_set_feat_async_event(req, NVMET_AEN_CFG_ALL);
+@@ -1305,6 +1326,9 @@ void nvmet_execute_set_features(struct nvmet_req *req)
+ 		nvmet_set_result(req,
+ 			(subsys->max_qid - 1) | ((subsys->max_qid - 1) << 16));
  		break;
- 	case NVME_FEAT_HOST_ID:
--		status = NVME_SC_CMD_SEQ_ERROR | NVME_STATUS_DNR;
-+		status = nvmet_set_feat_host_id(req);
++	case NVME_FEAT_IRQ_COALESCE:
++		status = nvmet_set_feat_irq_coalesce(req);
++		break;
+ 	case NVME_FEAT_KATO:
+ 		status = nvmet_set_feat_kato(req);
  		break;
- 	case NVME_FEAT_WRITE_PROTECT:
- 		status = nvmet_set_feat_write_protect(req);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 42fc00dc494e..fe3b60818fdc 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -276,6 +276,7 @@ enum nvme_ctrl_attr {
- 	NVME_CTRL_ATTR_HID_128_BIT	= (1 << 0),
- 	NVME_CTRL_ATTR_TBKAS		= (1 << 6),
- 	NVME_CTRL_ATTR_ELBAS		= (1 << 15),
-+	NVME_CTRL_ATTR_RHII		= (1 << 18),
- };
+@@ -1349,6 +1373,30 @@ static u16 nvmet_get_feat_write_protect(struct nvmet_req *req)
+ 	return 0;
+ }
  
- struct nvme_id_ctrl {
++static u16 nvmet_get_feat_irq_coalesce(struct nvmet_req *req)
++{
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	struct nvmet_feat_irq_coalesce irqc = { };
++	u16 status;
++
++	/*
++	 * This feature is not supported for fabrics controllers and mandatory
++	 * for PCI controllers.
++	 */
++	if (!nvmet_is_pci_ctrl(ctrl)) {
++		req->error_loc = offsetof(struct nvme_common_command, cdw10);
++		return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++	}
++
++	status = ctrl->ops->get_feature(ctrl, NVME_FEAT_IRQ_COALESCE, &irqc);
++	if (status != NVME_SC_SUCCESS)
++		return status;
++
++	nvmet_set_result(req, ((u32)irqc.time << 8) | (u32)irqc.thr);
++
++	return NVME_SC_SUCCESS;
++}
++
+ void nvmet_get_feat_kato(struct nvmet_req *req)
+ {
+ 	nvmet_set_result(req, req->sq->ctrl->kato * 1000);
+@@ -1383,13 +1431,14 @@ void nvmet_execute_get_features(struct nvmet_req *req)
+ 		break;
+ 	case NVME_FEAT_ERR_RECOVERY:
+ 		break;
+-	case NVME_FEAT_IRQ_COALESCE:
+-		break;
+ 	case NVME_FEAT_IRQ_CONFIG:
+ 		break;
+ 	case NVME_FEAT_WRITE_ATOMIC:
+ 		break;
+ #endif
++	case NVME_FEAT_IRQ_COALESCE:
++		status = nvmet_get_feat_irq_coalesce(req);
++		break;
+ 	case NVME_FEAT_ASYNC_EVENT:
+ 		nvmet_get_feat_async_event(req);
+ 		break;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 8325de3382ee..555c09b11dbe 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -906,4 +906,14 @@ static inline void nvmet_pr_put_ns_pc_ref(struct nvmet_pr_per_ctrl_ref *pc_ref)
+ {
+ 	percpu_ref_put(&pc_ref->ref);
+ }
++
++/*
++ * Data for the get_feature() and set_feature() operations of PCI target
++ * controllers.
++ */
++struct nvmet_feat_irq_coalesce {
++	u8		thr;
++	u8		time;
++};
++
+ #endif /* _NVMET_H */
 -- 
 2.47.1
 
