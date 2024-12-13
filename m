@@ -4,59 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C91DAE7717D
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 09:40:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65B9FE77180
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 10:46:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QDhfTVLuTWya0GQLzk7EE1IRCPOJ3bwDhopQUAcO+NI=; b=rmyWq6vWSrEY0Ge/WDYkBGgtS8
-	7KYNkKnU8Hli3OupZlj6vUbe90D224nej8+o4sJIxfJdiRpEy+cODO/Cd75dOiXh9bvwlPAoDi1dh
-	2tdhBoNwqCMWr+C26v7EXXA2scgBCdmMEEQhCdcvsUaYDX1KrryDkYLTLVpYAwPiBcdy5UwmDIVpu
-	sYuFW6VI0KD9y/TuxSzrm+mYJ9InUdTWsbpipjbeoeGCml3Uumf40xWKboelxDiddHJhRZcl66h12
-	E73MmVjSs87xb51ShirYlOyc4oTZFdIiPdpFeFd8ttm86JX4ARU20zppXtkoRfaypMecUjuOboU8n
-	kQcV64Lw==;
+	bh=1Sve8pnwBIa0k3Fo9Yj0biS11b57p46yyg7zp7DqbGE=; b=X8xrdf8w3c12XuxDqjBnRbk9Ue
+	twnh4nxNlocrFNez7/TUDRztoZiDugnWUsJfCr0XTW3AHaK+/y/e3ggTp6SMy9Jf/09CJaw8z0Bru
+	Ww1HZ/dGw5MBYUmIjYAE38ow9UVKsLXgLEwjq+MjVYPM5TzeZKKzjeuwenBKdaaQGzikkpT7al4G+
+	prEc1o3KkThgnHlK+4CBlaZnj106N78lLButNx3vmzExbpRxz7hmCwbv3nNcQa8WZ/HDKxddAvE9X
+	OtlWsVXz0bMxsu/sDcOK98zrv6Cz6ek+4KGuh8BSSF6/mF0uf75Yw1/x7xQrIHC4mcnWBJt5Vb0LX
+	Nav7SVjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tM2AE-00000003I8P-1JJS;
-	Fri, 13 Dec 2024 09:40:50 +0000
-Received: from m16.mail.163.com ([220.197.31.4])
-	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tM2A8-00000003I74-24YJ
+	id 1tM3BW-00000003T1V-3N25;
+	Fri, 13 Dec 2024 10:46:14 +0000
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tM3BT-00000003Szo-2P1C
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Dec 2024 09:40:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=QDhfTVLuTWya0GQLzk7EE1IRCPOJ3bwDhopQUAcO+NI=;
-	b=PjJE8PqfnhgvMigJAjnq+WG1L1jIFShbFGK0CWHUDDaDBGyJ9bhgfUgc3qCyqD
-	gQQR0cIEhu6jVD05zE72TdYvXYlL5hYBQ61JSG6Y8jD5qK5gVsti+1v24tygEuzW
-	At+iR/QuUlXIJ65f5+wZbs5hzA5oD2D/VV7ceomY9z4vw=
-Received: from localhost (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDHj5kSAVxnN+QlAQ--.15203S2;
-	Fri, 13 Dec 2024 17:40:34 +0800 (CST)
-Date: Fri, 13 Dec 2024 17:40:34 +0800
-From: Honggang LI <honggangli@163.com>
-To: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org
-Subject: workqueue: WQ_MEM_RECLAIM nvmet-wq:nvmet_rdma_release_queue_work
- [nvmet_rdma] is flushing !WQ_MEM_RECLAIM irdma-cleanup-wq:irdma_flush_worker
- [irdma]
-Message-ID: <Z1wBEgluXUDrDJmN@fc39>
+	Fri, 13 Dec 2024 10:46:13 +0000
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-4361fe642ddso16180475e9.2
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Dec 2024 02:46:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1734086769; x=1734691569; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Sve8pnwBIa0k3Fo9Yj0biS11b57p46yyg7zp7DqbGE=;
+        b=IGKmaY6RknXrskD2KIygVoJRQ+1i7ZTSIxKN49CbiS5egOfKDn/XKEn9Tfq6PJOpt2
+         vRJyMIHKBXLKrdVrbwCxBeEcqsNInWeTHADazlEZy6CwkJYND0Yvf+52Geqpe9SxXV/S
+         hMBMuoQFNgxige+CGYOMaaqtnpLNDWihLmolr7eeWN6jOc/Ayief3PNODBiAPzkMQqHb
+         G7vWlI+V1FSU2qowlIoShPmMNca1clcGxr7FAgkyE4wFPMX8AFhLafXsMHr1arDAYdrO
+         bP+3MDtePQppInmJ/2KyOcqT0ZjgqaIWTWjK19Kycm+f6FR0H3ObAkAVALPRE7uiWjtJ
+         TSOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734086769; x=1734691569;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1Sve8pnwBIa0k3Fo9Yj0biS11b57p46yyg7zp7DqbGE=;
+        b=nk/KU+y8OcYH29V/3jaw0TVEKEKmFtouVJURE66z4jkjQZU8w0bg1KpJOjjbRxVV3I
+         RY9ddzYoqb7RSHXOQ7S86IA4t3eITdrLwEATH2zRG8tde6wLnAF7CwK1bydffC28qJsc
+         2ZEQW1xsSHo5ZozVOnPHViMFfy+b2UHe+neB6dgEt/NfL/bAPGnPP6vb2l3RV2gP5Qta
+         FsXxxuGNkLOckaXQlZUWAYMo4tWX8uTgP+MauLlZDkix9AXQkSyH1NltmPyD/vUjD+nb
+         BA30jtRJINFURdWZwdrFUR3rNCg4ToV/oPq8HwHdwbKVWXO6x6xttDvbLTHdKtSk7GE3
+         c44Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWeiETzTSoUzTIMzKk6XZyniuhXiew38LOyIpY9OEIazXQwACk/MKRWOsmVoF8oK1XGDDA7CHYb1Dat@lists.infradead.org
+X-Gm-Message-State: AOJu0Yynfu1xyjsx1a0p6wBsTtW6KPej3zZFcfN/38kRoGl0Lto4c+yt
+	yg+uKVbi9Sf21TWFvpyZkq30GWrT3Lds99kTl/+ZCSD4pG7QEo9XmHmUp24SHdg=
+X-Gm-Gg: ASbGncvonfvBg1u1q2YI3Un19T6sHnEekzd0tyjfAURgEjDJmpGFJB2Nv1lQbgq51if
+	ng7sLY2+fSY4Z61/gwn2dZWPr28Ak738GZf3/ry6cxriRptB+n2VCvC/ldZxZmldqNyj6I2WlLv
+	jc+t+guzrlbUd7tdclVcovZdT99tdlmweBYDe7sFTz8MR3b+wnEUwM1Oq+/6RQGJym26BRKt6/5
+	wwte5olQhyIOSxbh4nosuqrSMBTGDCa/JImJQ3oG8uamlY=
+X-Google-Smtp-Source: AGHT+IFwOoZpIuq7JwkqBKBUH1jKuHJePdoKI8a5nIlR5OcswOlr6jGLXfryjmtIfeJ9smPPAQIYMg==
+X-Received: by 2002:a05:600c:154c:b0:434:ff30:a159 with SMTP id 5b1f17b1804b1-4362a982c34mr18289725e9.0.1734086769544;
+        Fri, 13 Dec 2024 02:46:09 -0800 (PST)
+Received: from localhost ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436255531b1sm46569255e9.2.2024.12.13.02.46.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2024 02:46:09 -0800 (PST)
+Date: Fri, 13 Dec 2024 11:46:08 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: lsf-pc@lists.linuxfoundation.org
+Cc: linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: LSF/MM/BPF: 2025: Call for Proposals
+Message-ID: <Z1wQcKKw14iei0Va@tiehlicka>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-CM-TRANSID: _____wDHj5kSAVxnN+QlAQ--.15203S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3WF4xJr17Gw1xZr43AFWrZrb_yoWxAF4DpF
-	15KF1UCrW8ur1Utr4Sy3WUKFy3Xa1qvF4DJrZ7Zr1xJF45WFy3X3s5KrnYgrWDJrWrArW7
-	G3WDXr1rKw4xJw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRMGQgUUUUU=
-X-Originating-IP: [125.33.14.1]
-X-CM-SenderInfo: 5krqwwxdqjzxi6rwjhhfrp/xtbBDxi0RWdb+qKy6QAAsZ
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241213_014044_883445_78DF53A5 
-X-CRM114-Status: UNSURE (   5.69  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241213_024611_611308_726CEE42 
+X-CRM114-Status: GOOD (  18.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,95 +98,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-It is 100% reproducible. The NVMEoRDMA client side is running RXE.
-To reproduce it, the clinet side repeat to connect and disconnect
-to the NVMEoRDMA target.
+The annual Linux Storage, Filesystem, Memory Management, and BPF
+(LSF/MM/BPF) Summit for 2025 will be held March 24–26, 2025
+at the Delta hotel Montreal
 
-[ 685.757357] ------------[ cut here ]------------
-[ 685.758725] workqueue: WQ_MEM_RECLAIM nvmet-wq:nvmet_rdma_release_queue_work [nvmet_rdma] is flushing !WQ_MEM_RECLAIM irdma-cleanup-wq:irdma_flush_worker [irdma]
-[ 685.758809] WARNING: CPU: 16 PID: 1897 at kernel/workqueue.c:2966 check_flush_dependency+0x11f/0x140
-[ 685.762880] Modules linked in: nvmet_rdma nvmet nvme_keyring tcm_loop target_core_user uio target_core_pscsi target_core_file target_core_iblock rpcrdma qrtr rdma_ucm ib_srpt ib_isert iscsi_target_mod target_core_mod rfkill ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm intel_rapl_msr intel_rapl_common sb_edac x86_pkg_temp_thermal intel_powerclamp coretemp sunrpc kvm_intel kvm irqbypass binfmt_misc rapl intel_cstate irdma ipmi_ssif i40e iTCO_wdt intel_pmc_bxt iTCO_vendor_support ib_uverbs acpi_ipmi intel_uncore joydev ipmi_si pcspkr mxm_wmi ib_core mei_me ipmi_devintf i2c_i801 mei i2c_smbus lpc_ich ioatdma ipmi_msghandler loop dm_multipath nfnetlink zram ice crct10dif_pclmul crc32_pclmul crc32c_intel polyval_clmulni polyval_generic nvme isci nvme_core ghash_clmulni_intel sha512_ssse3 igb sha256_ssse3 libsas sha1_ssse3 nvme_auth mgag200 scsi_transport_sas dca gnss i2c_algo_bit wmi scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables fuse
-[ 685.773891] CPU: 16 PID: 1897 Comm: kworker/16:2 Kdump: loaded Tainted: G S 6.8.4-300.patched.fc40.x86_64 #1
-[ 685.775267] Hardware name: Sugon I620-G10/X9DR3-F, BIOS 3.0b 07/22/2014
-[ 685.776627] Workqueue: nvmet-wq nvmet_rdma_release_queue_work [nvmet_rdma]
-[ 685.777993] RIP: 0010:check_flush_dependency+0x11f/0x140
-[ 685.779331] Code: 8b 45 18 48 8d b2 b0 00 00 00 49 89 e8 48 8d 8b b0 00 00 00 48 c7 c7 28 fe b1 b2 c6 05 4f 97 59 02 01 48 89 c2 e8 a1 91 fd ff <0f> 0b e9 fc fe ff ff 80 3d 3a 97 59 02 00 75 93 e9 2a ff ff ff 66
-[ 685.782050] RSP: 0018:ffffb31348793cc8 EFLAGS: 00010082
-[ 685.783398] RAX: 0000000000000000 RBX: ffff96c705754800 RCX: 0000000000000027
-[ 685.784744] RDX: ffff96ce5fca18c8 RSI: 0000000000000001 RDI: ffff96ce5fca18c0
-[ 685.786077] RBP: ffffffffc0d217f0 R08: 0000000000000000 R09: ffffb31348793b38
-[ 685.787390] R10: ffffffffb3516808 R11: 0000000000000003 R12: ffff96c70d2aa8c0
-[ 685.788688] R13: ffff96c7043c6a80 R14: 0000000000000001 R15: ffff96c704147400
-[ 685.789970] FS: 0000000000000000(0000) GS:ffff96ce5fc80000(0000) knlGS:0000000000000000
-[ 685.791239] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 685.792495] CR2: 00007f8207151000 CR3: 0000000d15422006 CR4: 00000000001706f0
-[ 685.793745] Call Trace:
-[ 685.794973] <TASK>
-[ 685.796179] ? check_flush_dependency+0x11f/0x140
-[ 685.797382] ? __warn+0x81/0x130
-[ 685.798563] ? check_flush_dependency+0x11f/0x140
-[ 685.799732] ? report_bug+0x16f/0x1a0
-[ 685.800882] ? handle_bug+0x3c/0x80
-[ 685.802003] ? exc_invalid_op+0x17/0x70
-[ 685.803107] ? asm_exc_invalid_op+0x1a/0x20
-[ 685.804200] ? __pfx_irdma_flush_worker+0x10/0x10 [irdma]
-[ 685.805315] ? check_flush_dependency+0x11f/0x140
-[ 685.806373] ? check_flush_dependency+0x11f/0x140
-[ 685.807407] __flush_work.isra.0+0x10d/0x290
-[ 685.808420] __cancel_work_timer+0x103/0x1a0
-[ 685.809418] irdma_destroy_qp+0xd4/0x180 [irdma]
-[ 685.810437] ib_destroy_qp_user+0x93/0x1a0 [ib_core]
-[ 685.811474] nvmet_rdma_free_queue+0x35/0xc0 [nvmet_rdma]
-[ 685.812437] nvmet_rdma_release_queue_work+0x1d/0x50 [nvmet_rdma]
-[ 685.813385] process_one_work+0x170/0x330
-[ 685.814300] worker_thread+0x280/0x3d0
-[ 685.815201] ? __pfx_worker_thread+0x10/0x10
-[ 685.816090] kthread+0xe8/0x120
-[ 685.816956] ? __pfx_kthread+0x10/0x10
-[ 685.817801] ret_from_fork+0x34/0x50
-[ 685.818633] ? __pfx_kthread+0x10/0x10
-[ 685.819439] ret_from_fork_asm+0x1b/0x30
-[ 685.820232] </TASK>
-[ 685.820994] Kernel panic - not syncing: kernel: panic_on_warn set ...
-[ 685.821749] CPU: 16 PID: 1897 Comm: kworker/16:2 Kdump: loaded Tainted: G S 6.8.4-300.patched.fc40.x86_64 #1
-[ 685.822513] Hardware name: Sugon I620-G10/X9DR3-F, BIOS 3.0b 07/22/2014
-[ 685.823259] Workqueue: nvmet-wq nvmet_rdma_release_queue_work [nvmet_rdma]
-[ 685.824002] Call Trace:
-[ 685.824706] <TASK>
-[ 685.825386] dump_stack_lvl+0x4d/0x70
-[ 685.826060] panic+0x33e/0x370
-[ 685.826724] ? check_flush_dependency+0x11f/0x140
-[ 685.827383] check_panic_on_warn+0x44/0x60
-[ 685.828021] __warn+0x8d/0x130
-[ 685.828629] ? check_flush_dependency+0x11f/0x140
-[ 685.829229] report_bug+0x16f/0x1a0
-[ 685.829819] handle_bug+0x3c/0x80
-[ 685.830396] exc_invalid_op+0x17/0x70
-[ 685.830972] asm_exc_invalid_op+0x1a/0x20
-[ 685.831548] RIP: 0010:check_flush_dependency+0x11f/0x140
-[ 685.832129] Code: 8b 45 18 48 8d b2 b0 00 00 00 49 89 e8 48 8d 8b b0 00 00 00 48 c7 c7 28 fe b1 b2 c6 05 4f 97 59 02 01 48 89 c2 e8 a1 91 fd ff <0f> 0b e9 fc fe ff ff 80 3d 3a 97 59 02 00 75 93 e9 2a ff ff ff 66
-[ 685.833341] RSP: 0018:ffffb31348793cc8 EFLAGS: 00010082
-[ 685.833954] RAX: 0000000000000000 RBX: ffff96c705754800 RCX: 0000000000000027
-[ 685.834569] RDX: ffff96ce5fca18c8 RSI: 0000000000000001 RDI: ffff96ce5fca18c0
-[ 685.835196] RBP: ffffffffc0d217f0 R08: 0000000000000000 R09: ffffb31348793b38
-[ 685.835823] R10: ffffffffb3516808 R11: 0000000000000003 R12: ffff96c70d2aa8c0
-[ 685.836450] R13: ffff96c7043c6a80 R14: 0000000000000001 R15: ffff96c704147400
-[ 685.837079] ? __pfx_irdma_flush_worker+0x10/0x10 [irdma]
-[ 685.837755] ? check_flush_dependency+0x11f/0x140
-[ 685.838394] __flush_work.isra.0+0x10d/0x290
-[ 685.839037] __cancel_work_timer+0x103/0x1a0
-[ 685.839679] irdma_destroy_qp+0xd4/0x180 [irdma]
-[ 685.840354] ib_destroy_qp_user+0x93/0x1a0 [ib_core]
-[ 685.841049] nvmet_rdma_free_queue+0x35/0xc0 [nvmet_rdma]
-[ 685.841707] nvmet_rdma_release_queue_work+0x1d/0x50 [nvmet_rdma]
-[ 685.842367] process_one_work+0x170/0x330
-[ 685.843020] worker_thread+0x280/0x3d0
-[ 685.843670] ? __pfx_worker_thread+0x10/0x10
-[ 685.844316] kthread+0xe8/0x120
-[ 685.844955] ? __pfx_kthread+0x10/0x10
-[ 685.845590] ret_from_fork+0x34/0x50
-[ 685.846223] ? __pfx_kthread+0x10/0x10
-[ 685.846853] ret_from_fork_asm+0x1b/0x30
-[ 685.847485] </TASK> 
+LSF/MM/BPF is an invitation-only technical workshop to map out
+improvements to the Linux storage, filesystem, BPF, and memory
+management subsystems that will make their way into the mainline
+kernel within the coming years.
 
+LSF/MM/BPF 2025 will be a three day, stand-alone conference with
+four subsystem-specific tracks, cross-track discussions, as well
+as BoF and hacking sessions:
+
+          https://events.linuxfoundation.org/lsfmmbpf/
+
+On behalf of the committee I am issuing a call for agenda proposals
+that are suitable for cross-track discussion as well as technical
+subjects for the breakout sessions.
+
+If advance notice is required for visa applications then please
+point that out in your proposal or request to attend, and submit
+the topic as soon as possible.
+
+We are asking that you please let us know you want to be invited
+by Feb 1st 2025. We realize that travel is an ever changing target,
+but it helps us to get an idea of possible attendance numbers.
+Clearly things can and will change, so consider the request to
+attend deadline more about planning and less about concrete plans.
+
+We are still looking to arrange / fund a virtual component for one
+or more of the tracks. We will follow up on the final decision soon
+hopefuly. Please note that it is possible that we might not have
+virtual attendees option this time.
+
+1) Fill out the following Google form to request attendance and
+suggest any topics for discussion:
+
+	  https://forms.gle/xXvQicSFeFKjayxB9
+
+In previous years we have accidentally missed people's attendance
+requests because they either did not Cc lsf-pc@ or we simply missed
+them in the flurry of emails we get. Our community is large and our
+volunteers are busy, filling this out will help us to make sure we
+do not miss anybody.
+
+2) Proposals for agenda topics should ideally still be sent to the
+following lists to allow for discussion among your peers. This will
+help us figure out which topics are important for the agenda:
+
+          lsf-pc@lists.linux-foundation.org
+
+... and Cc the mailing lists that are relevant for the topic in
+question:
+
+          FS:     linux-fsdevel@vger.kernel.org
+          MM:     linux-mm@kvack.org
+          Block:  linux-block@vger.kernel.org
+          ATA:    linux-ide@vger.kernel.org
+          SCSI:   linux-scsi@vger.kernel.org
+          NVMe:   linux-nvme@lists.infradead.org
+          BPF:    bpf@vger.kernel.org
+
+Please tag your proposal with [LSF/MM/BPF TOPIC] to make it easier
+to track. In addition, please make sure to start a new thread for
+each topic rather than following up to an existing one. Agenda
+topics and attendees will be selected by the program committee,
+but the final agenda will be formed by consensus of the attendees
+on the day.
+
+3) Like previous years we would also like to try and make sure we are
+including new members in the community that the program committee
+may not be familiar with. The Google form has an area for people to
+add required/optional attendees. Please encourage new members of the
+community to submit a request for an invite as well, but additionally
+if maintainers or long term community members could add nominees to
+the form it would help us make sure that new members get the proper
+consideration.
+
+For discussion leaders, slides and visualizations are encouraged to
+outline the subject matter and focus the discussions. Please refrain
+from lengthy presentations and talks in order for sessions to be
+productive; the sessions are supposed to be interactive, inclusive
+discussions.
+
+We are still looking into the virtual component. We will likely run
+something similar to what we did last year, but details on that will
+be forthcoming.
+
+2024: https://lwn.net/Articles/lsfmmbpf2024/
+
+2023: https://lwn.net/Articles/lsfmmbpf2023/
+
+2022: https://lwn.net/Articles/lsfmm2022/
+
+2019: https://lwn.net/Articles/lsfmm2019/
+
+2018: https://lwn.net/Articles/lsfmm2018/
+
+2017: https://lwn.net/Articles/lsfmm2017/
+
+2016: https://lwn.net/Articles/lsfmm2016/
+
+2015: https://lwn.net/Articles/lsfmm2015/
+
+2014: http://lwn.net/Articles/LSFMM2014/
+
+4) If you have feedback on last year's meeting that we can use to
+improve this year's, please also send that to:
+
+          lsf-pc@lists.linux-foundation.org
+
+Thank you on behalf of the program committee:
+
+          Christian Brauner (Filesystems)
+          Jan Kara (Filesystems)
+          Martin K. Petersen (Storage)
+          Javier González (Storage)
+          Michal Hocko (MM)
+          Dan Williams (MM)
+          Daniel Borkmann (BPF)
+          Martin KaFai Lau (BPF)
+
+-- 
+Michal Hocko
+SUSE Labs
 
