@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2620BE77180
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 19:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87D08E7717F
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 19:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q2Hh7i1IvMPkDPyJ+H+GPqol4Inldj3eRd/RH+IyPWA=; b=1yyZvuz7xrqn5vNE6+r4dGuyKB
-	GM8JTEvVdgRKu9unELOsvymbg+6PvZ54byHUcQXEJvHikxTPyemaTASStajXizhA+8qUuYed+oxbV
-	lwIDatb98li5v1LL7gyYCOpI5ElwmsL3P0fs+gYMPT2V9n4xaaUU9BThxByh7UrKZp/qDU4GYpSMW
-	DB7poUvezGieF+UnGu7B4f3bkFfdxse8lbSmVR/SR6tMxig7PRelskXp3fjwH0c32NufW+0DfUalV
-	JObcgqaurueFKM1rD3i6iZubYOhKr/pS/3slPJ4zaa225OHf244NCElD277DtQijQXZhDhAbHMFXc
-	8mBZYUsA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=i+pjXm9FXxIs046v1l4pm30VBH0t/AOQPT9dPbEJdpE=; b=f1Q/pcMAxWG5pLeRne+0H3axIT
+	BnMQn7ctRqQu0S1HphkkhtoWV6hZ66mgKg3jJCir1Mut7QZfghbrZ++V1lyM4mINedfYJ5ESXjFKt
+	u6QsP3zRN/txstqk/vUCgvqjK7tgoRNFpKGjU7KO6E4f5xS+AD7y5lGew/HeK6H522f+Oj4XoDYZG
+	jO+KlIIk/URowLxbq3nizL+CxQ/5DzW/7KwIyz+zx2EceBWZ/kwE0TViGasXhGm6j0qJmogIHx/XY
+	YDc+0cAcePB8Mf/QrwkwNTyTju2xvdfrWYAFl8tvFa+KbRyk+gFbRQhSLjb1/oJwcs/uvWlQozgkx
+	c1ZW74gQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMAu1-00000004jjA-0tmT;
-	Fri, 13 Dec 2024 19:00:41 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1tMBMa-00000004nKq-3b1w;
+	Fri, 13 Dec 2024 19:30:12 +0000
+Received: from out-170.mta0.migadu.com ([91.218.175.170])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMAtj-00000004jgB-2nKi
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 13 Dec 2024 19:00:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=Q2Hh7i1IvMPkDPyJ+H+GPqol4Inldj3eRd/RH+IyPWA=; b=aTdyCVo0A04ii9Be59koxPyCGw
-	E2Tc3gu9An0oYSw9mHUF4BGt68XuQnuY7+qEv5mkl8S/1Mb8OjHTdPRLU0Y8nSm9EmCuNg7Z3wqqy
-	Gg5gNAXSG5wpcILgrKOSICOswOFwoAOw2xu5W3peK6/AB0NW9WDuFXCZ7pkBtkOFbvrxQ/H/Wso/7
-	vup/1RzSjj5IdPAXwNmGeAuD9eAGVay0ADicmlvi1bgfEe78EBpB3K0vpdptd3ZJgBtpkK/k30Da6
-	mWavV6+5CbolAjztRsfwtkpu703L7ZYCER9Q3dAaS2BVWWPNc2kEPctCfSAxVGrJ7DNTtle0nUDG7
-	bbwW1yNA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMAtg-0000000F6TE-2gCj;
-	Fri, 13 Dec 2024 19:00:20 +0000
-Date: Fri, 13 Dec 2024 19:00:20 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Michal Hocko <mhocko@suse.com>
-Cc: lsf-pc@lists.linuxfoundation.org, linux-scsi@vger.kernel.org,
-	linux-ide@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: LSF/MM/BPF: 2025: Call for Proposals
-Message-ID: <Z1yERChJxMKlZ5nZ@casper.infradead.org>
-References: <Z1wQcKKw14iei0Va@tiehlicka>
+	id 1tMBMX-00000004nKA-2J6P
+	for linux-nvme@lists.infradead.org;
+	Fri, 13 Dec 2024 19:30:11 +0000
+Message-ID: <0d0ee443-a903-406e-9bec-b02b1391b7d0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1734118206;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i+pjXm9FXxIs046v1l4pm30VBH0t/AOQPT9dPbEJdpE=;
+	b=Qt+4wLpPteYzjIhSzmvOV9rsgIJ8QWvPBsG1YdGungBe7cqU74FUdq97CEtFXIrGz7UJ29
+	eLfpIe132P9B/j1ATC2G1fYBJKEPQ7G94w3Cg5zgJPdzpzaoi0UqksobwLo+OV2ZJMdIne
+	ES1liOI/lEWqOy8bhJpH3df1czo+MLQ=
+Date: Fri, 13 Dec 2024 20:30:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Subject: Re: workqueue: WQ_MEM_RECLAIM nvmet-wq:nvmet_rdma_release_queue_work
+ [nvmet_rdma] is flushing !WQ_MEM_RECLAIM irdma-cleanup-wq:irdma_flush_worker
+ [irdma]
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+To: Honggang LI <honggangli@163.com>, linux-nvme@lists.infradead.org,
+ linux-rdma@vger.kernel.org
+References: <Z1wBEgluXUDrDJmN@fc39>
+ <d6067519-26ab-4851-ba58-3ebe254e88d1@linux.dev>
+In-Reply-To: <d6067519-26ab-4851-ba58-3ebe254e88d1@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z1wQcKKw14iei0Va@tiehlicka>
+X-Migadu-Flow: FLOW_OUT
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20241213_113009_863509_BFF80A2D 
+X-CRM114-Status: GOOD (  10.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,119 +70,169 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 13, 2024 at 11:46:08AM +0100, Michal Hocko wrote:
-> The annual Linux Storage, Filesystem, Memory Management, and BPF
-> (LSF/MM/BPF) Summit for 2025 will be held March 24–26, 2025
-> at the Delta hotel Montreal
-
-I've written an opinionated guide to Montreal.
-Patches accepted, latest version can be found at
-https://www.infradead.org/~willy/linux/lsfmm2025.txt
 
 
-Montreal
-========
+在 2024/12/13 19:55, Zhu Yanjun 写道:
+> 在 2024/12/13 10:40, Honggang LI 写道:
+>> It is 100% reproducible. The NVMEoRDMA client side is running RXE.
+>> To reproduce it, the clinet side repeat to connect and disconnect
+>> to the NVMEoRDMA target.
+>>
+>> [ 685.757357] ------------[ cut here ]------------
+>> [ 685.758725] workqueue: WQ_MEM_RECLAIM nvmet- 
+>> wq:nvmet_rdma_release_queue_work [nvmet_rdma] is flushing ! 
+>> WQ_MEM_RECLAIM irdma-cleanup-wq:irdma_flush_worker [irdma]
 
-Montreal is the second-largest French-speaking city in the world.
-Despite that, you can generally manage without speaking any French;
-they are accustomed to tourists.
+I delved into this problem. It seems that it is a known problem.
+Can you apply the following to make tests again?
 
-Transport
-=========
+diff --git a/drivers/infiniband/hw/irdma/hw.c 
+b/drivers/infiniband/hw/irdma/hw.c
+index ad50b77282f8..31501ff9f282 100644
+--- a/drivers/infiniband/hw/irdma/hw.c
++++ b/drivers/infiniband/hw/irdma/hw.c
+@@ -1872,7 +1872,7 @@ int irdma_rt_init_hw(struct irdma_device *iwdev,
+                  * free cq bufs
+                  */
+                 iwdev->cleanup_wq = alloc_workqueue("irdma-cleanup-wq",
+-                                       WQ_UNBOUND, WQ_UNBOUND_MAX_ACTIVE);
++                                       WQ_UNBOUND|WQ_MEM_RECLAIM, 
+WQ_UNBOUND_MAX_ACTIVE);
+                 if (!iwdev->cleanup_wq)
+                         return -ENOMEM;
+                 irdma_get_used_rsrc(iwdev);
 
-Montreal primarily uses the metro; it is an entirely underground system.
-Entrances are indicated with a blue downward pointing arrow.  The Delta
-hotel is between McGill and Place-des-Arts metro stops on the green line.
-Train announcements are only in French but signage is bilingual.
+Zhu Yanjun
 
-Tickets for the STM (https://www.stm.info/en) are valid on both busses
-& metro (but not local rail which is a different system that you won't
-need to care about anyway).  Travel to and from the airport is a special
-$11 fare which includes 24 hours of travel.  You can use a credit card
-to buy fares from a big orange machine; while you can pay on the bus,
-everybody will look askance at you for slowing them down.  You'll get
-a credit-card sized piece of card with an embedded antenna; you can
-break it by folding it, and it is not recyclable.  While you could buy
-a plastic OPUS card, this will not be a wise investment decision.
+>> [ 685.758809] WARNING: CPU: 16 PID: 1897 at kernel/workqueue.c:2966 
+>> check_flush_dependency+0x11f/0x140
+>> [ 685.762880] Modules linked in: nvmet_rdma nvmet nvme_keyring 
+>> tcm_loop target_core_user uio target_core_pscsi target_core_file 
+>> target_core_iblock rpcrdma qrtr rdma_ucm ib_srpt ib_isert 
+>> iscsi_target_mod target_core_mod rfkill ib_iser libiscsi 
+>> scsi_transport_iscsi rdma_cm iw_cm ib_cm intel_rapl_msr 
+>> intel_rapl_common sb_edac x86_pkg_temp_thermal intel_powerclamp 
+>> coretemp sunrpc kvm_intel kvm irqbypass binfmt_misc rapl intel_cstate 
+>> irdma ipmi_ssif i40e iTCO_wdt intel_pmc_bxt iTCO_vendor_support 
+>> ib_uverbs acpi_ipmi intel_uncore joydev ipmi_si pcspkr mxm_wmi ib_core 
+>> mei_me ipmi_devintf i2c_i801 mei i2c_smbus lpc_ich ioatdma 
+>> ipmi_msghandler loop dm_multipath nfnetlink zram ice crct10dif_pclmul 
+>> crc32_pclmul crc32c_intel polyval_clmulni polyval_generic nvme isci 
+>> nvme_core ghash_clmulni_intel sha512_ssse3 igb sha256_ssse3 libsas 
+>> sha1_ssse3 nvme_auth mgag200 scsi_transport_sas dca gnss i2c_algo_bit 
+>> wmi scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables fuse
+>> [ 685.773891] CPU: 16 PID: 1897 Comm: kworker/16:2 Kdump: loaded 
+>> Tainted: G S 6.8.4-300.patched.fc40.x86_64 #1
+>> [ 685.775267] Hardware name: Sugon I620-G10/X9DR3-F, BIOS 3.0b 07/22/2014
+>> [ 685.776627] Workqueue: nvmet-wq nvmet_rdma_release_queue_work 
+>> [nvmet_rdma]
+>> [ 685.777993] RIP: 0010:check_flush_dependency+0x11f/0x140
+> 
+> Maybe it is related with this line. What is the above line?
+> 
+> Zhu Yanjun
+> 
+>> [ 685.779331] Code: 8b 45 18 48 8d b2 b0 00 00 00 49 89 e8 48 8d 8b b0 
+>> 00 00 00 48 c7 c7 28 fe b1 b2 c6 05 4f 97 59 02 01 48 89 c2 e8 a1 91 
+>> fd ff <0f> 0b e9 fc fe ff ff 80 3d 3a 97 59 02 00 75 93 e9 2a ff ff ff 66
+>> [ 685.782050] RSP: 0018:ffffb31348793cc8 EFLAGS: 00010082
+>> [ 685.783398] RAX: 0000000000000000 RBX: ffff96c705754800 RCX: 
+>> 0000000000000027
+>> [ 685.784744] RDX: ffff96ce5fca18c8 RSI: 0000000000000001 RDI: 
+>> ffff96ce5fca18c0
+>> [ 685.786077] RBP: ffffffffc0d217f0 R08: 0000000000000000 R09: 
+>> ffffb31348793b38
+>> [ 685.787390] R10: ffffffffb3516808 R11: 0000000000000003 R12: 
+>> ffff96c70d2aa8c0
+>> [ 685.788688] R13: ffff96c7043c6a80 R14: 0000000000000001 R15: 
+>> ffff96c704147400
+>> [ 685.789970] FS: 0000000000000000(0000) GS:ffff96ce5fc80000(0000) 
+>> knlGS:0000000000000000
+>> [ 685.791239] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> [ 685.792495] CR2: 00007f8207151000 CR3: 0000000d15422006 CR4: 
+>> 00000000001706f0
+>> [ 685.793745] Call Trace:
+>> [ 685.794973] <TASK>
+>> [ 685.796179] ? check_flush_dependency+0x11f/0x140
+>> [ 685.797382] ? __warn+0x81/0x130
+>> [ 685.798563] ? check_flush_dependency+0x11f/0x140
+>> [ 685.799732] ? report_bug+0x16f/0x1a0
+>> [ 685.800882] ? handle_bug+0x3c/0x80
+>> [ 685.802003] ? exc_invalid_op+0x17/0x70
+>> [ 685.803107] ? asm_exc_invalid_op+0x1a/0x20
+>> [ 685.804200] ? __pfx_irdma_flush_worker+0x10/0x10 [irdma]
+>> [ 685.805315] ? check_flush_dependency+0x11f/0x140
+>> [ 685.806373] ? check_flush_dependency+0x11f/0x140
+>> [ 685.807407] __flush_work.isra.0+0x10d/0x290
+>> [ 685.808420] __cancel_work_timer+0x103/0x1a0
+>> [ 685.809418] irdma_destroy_qp+0xd4/0x180 [irdma]
+>> [ 685.810437] ib_destroy_qp_user+0x93/0x1a0 [ib_core]
+>> [ 685.811474] nvmet_rdma_free_queue+0x35/0xc0 [nvmet_rdma]
+>> [ 685.812437] nvmet_rdma_release_queue_work+0x1d/0x50 [nvmet_rdma]
+>> [ 685.813385] process_one_work+0x170/0x330
+>> [ 685.814300] worker_thread+0x280/0x3d0
+>> [ 685.815201] ? __pfx_worker_thread+0x10/0x10
+>> [ 685.816090] kthread+0xe8/0x120
+>> [ 685.816956] ? __pfx_kthread+0x10/0x10
+>> [ 685.817801] ret_from_fork+0x34/0x50
+>> [ 685.818633] ? __pfx_kthread+0x10/0x10
+>> [ 685.819439] ret_from_fork_asm+0x1b/0x30
+>> [ 685.820232] </TASK>
+>> [ 685.820994] Kernel panic - not syncing: kernel: panic_on_warn set ...
+>> [ 685.821749] CPU: 16 PID: 1897 Comm: kworker/16:2 Kdump: loaded 
+>> Tainted: G S 6.8.4-300.patched.fc40.x86_64 #1
+>> [ 685.822513] Hardware name: Sugon I620-G10/X9DR3-F, BIOS 3.0b 07/22/2014
+>> [ 685.823259] Workqueue: nvmet-wq nvmet_rdma_release_queue_work 
+>> [nvmet_rdma]
+>> [ 685.824002] Call Trace:
+>> [ 685.824706] <TASK>
+>> [ 685.825386] dump_stack_lvl+0x4d/0x70
+>> [ 685.826060] panic+0x33e/0x370
+>> [ 685.826724] ? check_flush_dependency+0x11f/0x140
+>> [ 685.827383] check_panic_on_warn+0x44/0x60
+>> [ 685.828021] __warn+0x8d/0x130
+>> [ 685.828629] ? check_flush_dependency+0x11f/0x140
+>> [ 685.829229] report_bug+0x16f/0x1a0
+>> [ 685.829819] handle_bug+0x3c/0x80
+>> [ 685.830396] exc_invalid_op+0x17/0x70
+>> [ 685.830972] asm_exc_invalid_op+0x1a/0x20
+>> [ 685.831548] RIP: 0010:check_flush_dependency+0x11f/0x140
+>> [ 685.832129] Code: 8b 45 18 48 8d b2 b0 00 00 00 49 89 e8 48 8d 8b b0 
+>> 00 00 00 48 c7 c7 28 fe b1 b2 c6 05 4f 97 59 02 01 48 89 c2 e8 a1 91 
+>> fd ff <0f> 0b e9 fc fe ff ff 80 3d 3a 97 59 02 00 75 93 e9 2a ff ff ff 66
+>> [ 685.833341] RSP: 0018:ffffb31348793cc8 EFLAGS: 00010082
+>> [ 685.833954] RAX: 0000000000000000 RBX: ffff96c705754800 RCX: 
+>> 0000000000000027
+>> [ 685.834569] RDX: ffff96ce5fca18c8 RSI: 0000000000000001 RDI: 
+>> ffff96ce5fca18c0
+>> [ 685.835196] RBP: ffffffffc0d217f0 R08: 0000000000000000 R09: 
+>> ffffb31348793b38
+>> [ 685.835823] R10: ffffffffb3516808 R11: 0000000000000003 R12: 
+>> ffff96c70d2aa8c0
+>> [ 685.836450] R13: ffff96c7043c6a80 R14: 0000000000000001 R15: 
+>> ffff96c704147400
+>> [ 685.837079] ? __pfx_irdma_flush_worker+0x10/0x10 [irdma]
+>> [ 685.837755] ? check_flush_dependency+0x11f/0x140
+>> [ 685.838394] __flush_work.isra.0+0x10d/0x290
+>> [ 685.839037] __cancel_work_timer+0x103/0x1a0
+>> [ 685.839679] irdma_destroy_qp+0xd4/0x180 [irdma]
+>> [ 685.840354] ib_destroy_qp_user+0x93/0x1a0 [ib_core]
+>> [ 685.841049] nvmet_rdma_free_queue+0x35/0xc0 [nvmet_rdma]
+>> [ 685.841707] nvmet_rdma_release_queue_work+0x1d/0x50 [nvmet_rdma]
+>> [ 685.842367] process_one_work+0x170/0x330
+>> [ 685.843020] worker_thread+0x280/0x3d0
+>> [ 685.843670] ? __pfx_worker_thread+0x10/0x10
+>> [ 685.844316] kthread+0xe8/0x120
+>> [ 685.844955] ? __pfx_kthread+0x10/0x10
+>> [ 685.845590] ret_from_fork+0x34/0x50
+>> [ 685.846223] ? __pfx_kthread+0x10/0x10
+>> [ 685.846853] ret_from_fork_asm+0x1b/0x30
+>> [ 685.847485] </TASK>
+>>
+> 
 
-From the airport, you'll want to take the 747 bus to Lionel-Groulx, go
-down into the Metro and catch a green line train towards Honore-Beaugrand,
-getting off at McGill.  For getting back to the airport, you will again
-need to buy an $11 ticket for the 747 bus.  If you're travelling, say,
-Thursday evening, you might want to buy your special $11 ticket on
-Thursday morning, use it to travel around the city and eventually catch
-the 747 in time to catch your plane.
+-- 
+Best Regards,
+Yanjun.Zhu
 
-I would not recommend driving in Montreal.  It is confusing and expensive.
-I'm going to take the train from Ottawa, but taking the train from New
-York is a 11+ hour ride.  I'm told it's very pretty!  There are also
-coaches (Flixbus / Greyhound / etc) but I have no experience with those.
-
-You can rent a bicycle by the minute: https://bixi.com/en/
-Scooters are probably not available to rent during winter.
-
-Beer
-====
-
-The closest brewer to the conference is Benelux.  They don't open until
-mid-afternoon, but the Provigo grocery store across the street sells
-their beer if they're not open.  It's not generally legal to drink on
-the street; take the beer back to the hotel before opening it.
-
-Other worthwhile breweries include Dieu de Ciel, 4 Origines, Saint Bock,
-Brewsky and McAuslan (aka St Ambroise).  Don't be afraid to use the
-metro to visit them.  There are many pubs on Crescent and de la Montagne
-streets; most will serve local beer.  Cans of beer are readily available
-at corner shops (referred to as "dep", short for Depanneur).
-
-Molson is headquartered in Montreal.  It is not usually considered
-local beer.
-
-Food
-====
-
-Montreal prides itself on food.  Classic dishes include poutine, smoked
-meat and tourtiere.  As a major city, there is plenty of international
-food.  Montreal and New York have different styles of bagels from each
-other and much ink has been spilled on the subject of which is superior;
-try St Viateur or Fairmont for a fair example of Montreal bagels.
-
-There is also fierce competition as to whether Quebec, Ontario or
-Vermont produces the best maple syrup.  You should probably find a
-Cabane a Sucre / Sugar Shack to form an opinion of your own, eg
-https://www.parcjeandrapeau.com/en/urban-sugar-shack-spring-restaurant-sainte-helene-bistro-terrace-montreal/
-
-Outside
-=======
-
-We're going to be there in March.  It could be -30C or +20C.  Montreal
-has an underground city (RESO) which has shops and restaurants, as
-well as being a sheltered route between office towers and the metro.
-There's an entrance at Union street, just two blocks from the hotel.
-https://www.mtl.org/en/experience/guide-underground-city-shopping
-(yes, that is a chunk of the Berlin wall in the picture)
-
-If the weather is clement, Mont Royal is a popular destination, but it
-can be icy and not much fun at this time of year.  The Lachine canal may
-be a better bet, or you can walk or cycle on the Formula 1 circuit on
-Ile Notre Dame.  It's not the Nurburgring; while you can drive on it,
-the speed limit is 30kph.  A more unusual route would be the Samuel
-De Champlain bridge Multiuse Path which is some of the best tarmac in
-the city (but ends on an unsurfaced path that connects to the Formula
-1 circuit).
-
-The local sport is hockey.  The Habs are not having a good year, so you
-may be able to buy tickets to a game.  The Colorado Avalanche are in town
-on Saturday 22nd; otherwise you should be able to watch a game in a pub.
-Women's hockey is gaining in popularity, and the Montreal Victoire are
-playing Toronto at Place Bell at noon on Sunday 23rd.
-
-St Catherine, St Laurent & St Denis are the major shopping streets.
-There are markets at Atwater and Jean Talon.  The Vieux Port area
-is full of tourist tat (but maybe you want a sweatshirt with Montreal
-written on it).
-
-The Biodome and Biosphere are both worth a visit.  There's also a
-planetarium, the Musee des Beaux Arts and the botanic gardens.  I like
-the Archaeology museum.
 
