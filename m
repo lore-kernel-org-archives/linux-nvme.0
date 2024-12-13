@@ -4,58 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87D08E7717F
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 19:30:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FA06E7717F
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 23:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i+pjXm9FXxIs046v1l4pm30VBH0t/AOQPT9dPbEJdpE=; b=f1Q/pcMAxWG5pLeRne+0H3axIT
-	BnMQn7ctRqQu0S1HphkkhtoWV6hZ66mgKg3jJCir1Mut7QZfghbrZ++V1lyM4mINedfYJ5ESXjFKt
-	u6QsP3zRN/txstqk/vUCgvqjK7tgoRNFpKGjU7KO6E4f5xS+AD7y5lGew/HeK6H522f+Oj4XoDYZG
-	jO+KlIIk/URowLxbq3nizL+CxQ/5DzW/7KwIyz+zx2EceBWZ/kwE0TViGasXhGm6j0qJmogIHx/XY
-	YDc+0cAcePB8Mf/QrwkwNTyTju2xvdfrWYAFl8tvFa+KbRyk+gFbRQhSLjb1/oJwcs/uvWlQozgkx
-	c1ZW74gQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JQxvmEUgXrwAKMWrAonApaB7y5BQSPsVlUDftZx2Owk=; b=nbbNn/lAbN2bZ+cR3bNWxOCVfH
+	1z3AK7YQ/CqehnTqAFkTJ/8o3cX3eodV/+j1jXEm32EnSASZX0sfOgpRaThTs0x6kKLPC1Xsg6KT3
+	VOWA/JfRcW63EV/r6ojAU1CcZYjvPeLAZlpN3CW9/gc2Y3aZLF5Q0xlHQCJtvFvREP6OWfrnWFV2g
+	33V5x53S2CYjoivdSjzC2xJ81lwFcooSkKGz/VUQfxRy9xOf0LEUhnIwm0GJ0NXoNbdBgAe5aYkl2
+	caJELCzcsoH8olGEMe+3nevJrs9X6bPmvW1+VlC/xICYeGBXPS3vpjKNBXtuxv/0YwNJmpVKJDO3p
+	rHQDEbrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMBMa-00000004nKq-3b1w;
-	Fri, 13 Dec 2024 19:30:12 +0000
-Received: from out-170.mta0.migadu.com ([91.218.175.170])
+	id 1tMEqS-00000005Fzo-2Mp1;
+	Fri, 13 Dec 2024 23:13:16 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMBMX-00000004nKA-2J6P
+	id 1tMEqP-00000005Fyw-3JtS
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Dec 2024 19:30:11 +0000
-Message-ID: <0d0ee443-a903-406e-9bec-b02b1391b7d0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1734118206;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i+pjXm9FXxIs046v1l4pm30VBH0t/AOQPT9dPbEJdpE=;
-	b=Qt+4wLpPteYzjIhSzmvOV9rsgIJ8QWvPBsG1YdGungBe7cqU74FUdq97CEtFXIrGz7UJ29
-	eLfpIe132P9B/j1ATC2G1fYBJKEPQ7G94w3Cg5zgJPdzpzaoi0UqksobwLo+OV2ZJMdIne
-	ES1liOI/lEWqOy8bhJpH3df1czo+MLQ=
-Date: Fri, 13 Dec 2024 20:30:01 +0100
+	Fri, 13 Dec 2024 23:13:14 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id DAF22A42DDA;
+	Fri, 13 Dec 2024 23:11:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B5B7C4CED0;
+	Fri, 13 Dec 2024 23:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734131592;
+	bh=JQxvmEUgXrwAKMWrAonApaB7y5BQSPsVlUDftZx2Owk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ihrum0oKrzBW9qhSPPgoEYoAoVyktdOQ2rIfa3KLB2Vd/a4tYnUt2SsKoiJvEPHMt
+	 9pMGYDnfX92jmmaIXMEJ8VWHVGLT5RAAmEBZZwl6ghGwjK1lDqKw2ER7kUpBfxHiRC
+	 Z+WT8JkEeXreNS+qdvs5ZhrXuXGQCVLv0uM104UG8ryGnE6ZL1Yp2G6sHzq2R7gct8
+	 RJy4el0Rvp53gZ21vAcPT2VOaR6rZVuxxUNcqNOhUlNguMEq/kjxfY6b6OWcZfRP9c
+	 QLuzIXc6XgE7KZJefVvTdJV42vjbLf91pgCvbj9sw4+FpFNRMT4OWmDF0VDJJ2Uvbj
+	 m0NyOWvZARsbA==
+Date: Fri, 13 Dec 2024 15:13:11 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, kch@nvidia.com,
+	linux-nvme@lists.infradead.org, gost.dev@samsung.com
+Subject: Re: [PATCH] nvmet: propagate npwg and awupf topology
+Message-ID: <Z1y_h9GacN9YDXat@bombadil.infradead.org>
+References: <20241212033148.4008110-1-mcgrof@kernel.org>
+ <20241212055250.GA4825@lst.de>
+ <280f8dec-f202-4004-86e8-d3165bf02047@oracle.com>
 MIME-Version: 1.0
-Subject: Re: workqueue: WQ_MEM_RECLAIM nvmet-wq:nvmet_rdma_release_queue_work
- [nvmet_rdma] is flushing !WQ_MEM_RECLAIM irdma-cleanup-wq:irdma_flush_worker
- [irdma]
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-To: Honggang LI <honggangli@163.com>, linux-nvme@lists.infradead.org,
- linux-rdma@vger.kernel.org
-References: <Z1wBEgluXUDrDJmN@fc39>
- <d6067519-26ab-4851-ba58-3ebe254e88d1@linux.dev>
-In-Reply-To: <d6067519-26ab-4851-ba58-3ebe254e88d1@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <280f8dec-f202-4004-86e8-d3165bf02047@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241213_113009_863509_BFF80A2D 
-X-CRM114-Status: GOOD (  10.98  )
+X-CRM114-CacheID: sfid-20241213_151313_888609_C0B060C1 
+X-CRM114-Status: UNSURE (   6.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,169 +74,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, Dec 12, 2024 at 11:25:29AM +0000, John Garry wrote:
+> I still need to check them ...
 
+We can punt atomics later then.
 
-在 2024/12/13 19:55, Zhu Yanjun 写道:
-> 在 2024/12/13 10:40, Honggang LI 写道:
->> It is 100% reproducible. The NVMEoRDMA client side is running RXE.
->> To reproduce it, the clinet side repeat to connect and disconnect
->> to the NVMEoRDMA target.
->>
->> [ 685.757357] ------------[ cut here ]------------
->> [ 685.758725] workqueue: WQ_MEM_RECLAIM nvmet- 
->> wq:nvmet_rdma_release_queue_work [nvmet_rdma] is flushing ! 
->> WQ_MEM_RECLAIM irdma-cleanup-wq:irdma_flush_worker [irdma]
-
-I delved into this problem. It seems that it is a known problem.
-Can you apply the following to make tests again?
-
-diff --git a/drivers/infiniband/hw/irdma/hw.c 
-b/drivers/infiniband/hw/irdma/hw.c
-index ad50b77282f8..31501ff9f282 100644
---- a/drivers/infiniband/hw/irdma/hw.c
-+++ b/drivers/infiniband/hw/irdma/hw.c
-@@ -1872,7 +1872,7 @@ int irdma_rt_init_hw(struct irdma_device *iwdev,
-                  * free cq bufs
-                  */
-                 iwdev->cleanup_wq = alloc_workqueue("irdma-cleanup-wq",
--                                       WQ_UNBOUND, WQ_UNBOUND_MAX_ACTIVE);
-+                                       WQ_UNBOUND|WQ_MEM_RECLAIM, 
-WQ_UNBOUND_MAX_ACTIVE);
-                 if (!iwdev->cleanup_wq)
-                         return -ENOMEM;
-                 irdma_get_used_rsrc(iwdev);
-
-Zhu Yanjun
-
->> [ 685.758809] WARNING: CPU: 16 PID: 1897 at kernel/workqueue.c:2966 
->> check_flush_dependency+0x11f/0x140
->> [ 685.762880] Modules linked in: nvmet_rdma nvmet nvme_keyring 
->> tcm_loop target_core_user uio target_core_pscsi target_core_file 
->> target_core_iblock rpcrdma qrtr rdma_ucm ib_srpt ib_isert 
->> iscsi_target_mod target_core_mod rfkill ib_iser libiscsi 
->> scsi_transport_iscsi rdma_cm iw_cm ib_cm intel_rapl_msr 
->> intel_rapl_common sb_edac x86_pkg_temp_thermal intel_powerclamp 
->> coretemp sunrpc kvm_intel kvm irqbypass binfmt_misc rapl intel_cstate 
->> irdma ipmi_ssif i40e iTCO_wdt intel_pmc_bxt iTCO_vendor_support 
->> ib_uverbs acpi_ipmi intel_uncore joydev ipmi_si pcspkr mxm_wmi ib_core 
->> mei_me ipmi_devintf i2c_i801 mei i2c_smbus lpc_ich ioatdma 
->> ipmi_msghandler loop dm_multipath nfnetlink zram ice crct10dif_pclmul 
->> crc32_pclmul crc32c_intel polyval_clmulni polyval_generic nvme isci 
->> nvme_core ghash_clmulni_intel sha512_ssse3 igb sha256_ssse3 libsas 
->> sha1_ssse3 nvme_auth mgag200 scsi_transport_sas dca gnss i2c_algo_bit 
->> wmi scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables fuse
->> [ 685.773891] CPU: 16 PID: 1897 Comm: kworker/16:2 Kdump: loaded 
->> Tainted: G S 6.8.4-300.patched.fc40.x86_64 #1
->> [ 685.775267] Hardware name: Sugon I620-G10/X9DR3-F, BIOS 3.0b 07/22/2014
->> [ 685.776627] Workqueue: nvmet-wq nvmet_rdma_release_queue_work 
->> [nvmet_rdma]
->> [ 685.777993] RIP: 0010:check_flush_dependency+0x11f/0x140
-> 
-> Maybe it is related with this line. What is the above line?
-> 
-> Zhu Yanjun
-> 
->> [ 685.779331] Code: 8b 45 18 48 8d b2 b0 00 00 00 49 89 e8 48 8d 8b b0 
->> 00 00 00 48 c7 c7 28 fe b1 b2 c6 05 4f 97 59 02 01 48 89 c2 e8 a1 91 
->> fd ff <0f> 0b e9 fc fe ff ff 80 3d 3a 97 59 02 00 75 93 e9 2a ff ff ff 66
->> [ 685.782050] RSP: 0018:ffffb31348793cc8 EFLAGS: 00010082
->> [ 685.783398] RAX: 0000000000000000 RBX: ffff96c705754800 RCX: 
->> 0000000000000027
->> [ 685.784744] RDX: ffff96ce5fca18c8 RSI: 0000000000000001 RDI: 
->> ffff96ce5fca18c0
->> [ 685.786077] RBP: ffffffffc0d217f0 R08: 0000000000000000 R09: 
->> ffffb31348793b38
->> [ 685.787390] R10: ffffffffb3516808 R11: 0000000000000003 R12: 
->> ffff96c70d2aa8c0
->> [ 685.788688] R13: ffff96c7043c6a80 R14: 0000000000000001 R15: 
->> ffff96c704147400
->> [ 685.789970] FS: 0000000000000000(0000) GS:ffff96ce5fc80000(0000) 
->> knlGS:0000000000000000
->> [ 685.791239] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [ 685.792495] CR2: 00007f8207151000 CR3: 0000000d15422006 CR4: 
->> 00000000001706f0
->> [ 685.793745] Call Trace:
->> [ 685.794973] <TASK>
->> [ 685.796179] ? check_flush_dependency+0x11f/0x140
->> [ 685.797382] ? __warn+0x81/0x130
->> [ 685.798563] ? check_flush_dependency+0x11f/0x140
->> [ 685.799732] ? report_bug+0x16f/0x1a0
->> [ 685.800882] ? handle_bug+0x3c/0x80
->> [ 685.802003] ? exc_invalid_op+0x17/0x70
->> [ 685.803107] ? asm_exc_invalid_op+0x1a/0x20
->> [ 685.804200] ? __pfx_irdma_flush_worker+0x10/0x10 [irdma]
->> [ 685.805315] ? check_flush_dependency+0x11f/0x140
->> [ 685.806373] ? check_flush_dependency+0x11f/0x140
->> [ 685.807407] __flush_work.isra.0+0x10d/0x290
->> [ 685.808420] __cancel_work_timer+0x103/0x1a0
->> [ 685.809418] irdma_destroy_qp+0xd4/0x180 [irdma]
->> [ 685.810437] ib_destroy_qp_user+0x93/0x1a0 [ib_core]
->> [ 685.811474] nvmet_rdma_free_queue+0x35/0xc0 [nvmet_rdma]
->> [ 685.812437] nvmet_rdma_release_queue_work+0x1d/0x50 [nvmet_rdma]
->> [ 685.813385] process_one_work+0x170/0x330
->> [ 685.814300] worker_thread+0x280/0x3d0
->> [ 685.815201] ? __pfx_worker_thread+0x10/0x10
->> [ 685.816090] kthread+0xe8/0x120
->> [ 685.816956] ? __pfx_kthread+0x10/0x10
->> [ 685.817801] ret_from_fork+0x34/0x50
->> [ 685.818633] ? __pfx_kthread+0x10/0x10
->> [ 685.819439] ret_from_fork_asm+0x1b/0x30
->> [ 685.820232] </TASK>
->> [ 685.820994] Kernel panic - not syncing: kernel: panic_on_warn set ...
->> [ 685.821749] CPU: 16 PID: 1897 Comm: kworker/16:2 Kdump: loaded 
->> Tainted: G S 6.8.4-300.patched.fc40.x86_64 #1
->> [ 685.822513] Hardware name: Sugon I620-G10/X9DR3-F, BIOS 3.0b 07/22/2014
->> [ 685.823259] Workqueue: nvmet-wq nvmet_rdma_release_queue_work 
->> [nvmet_rdma]
->> [ 685.824002] Call Trace:
->> [ 685.824706] <TASK>
->> [ 685.825386] dump_stack_lvl+0x4d/0x70
->> [ 685.826060] panic+0x33e/0x370
->> [ 685.826724] ? check_flush_dependency+0x11f/0x140
->> [ 685.827383] check_panic_on_warn+0x44/0x60
->> [ 685.828021] __warn+0x8d/0x130
->> [ 685.828629] ? check_flush_dependency+0x11f/0x140
->> [ 685.829229] report_bug+0x16f/0x1a0
->> [ 685.829819] handle_bug+0x3c/0x80
->> [ 685.830396] exc_invalid_op+0x17/0x70
->> [ 685.830972] asm_exc_invalid_op+0x1a/0x20
->> [ 685.831548] RIP: 0010:check_flush_dependency+0x11f/0x140
->> [ 685.832129] Code: 8b 45 18 48 8d b2 b0 00 00 00 49 89 e8 48 8d 8b b0 
->> 00 00 00 48 c7 c7 28 fe b1 b2 c6 05 4f 97 59 02 01 48 89 c2 e8 a1 91 
->> fd ff <0f> 0b e9 fc fe ff ff 80 3d 3a 97 59 02 00 75 93 e9 2a ff ff ff 66
->> [ 685.833341] RSP: 0018:ffffb31348793cc8 EFLAGS: 00010082
->> [ 685.833954] RAX: 0000000000000000 RBX: ffff96c705754800 RCX: 
->> 0000000000000027
->> [ 685.834569] RDX: ffff96ce5fca18c8 RSI: 0000000000000001 RDI: 
->> ffff96ce5fca18c0
->> [ 685.835196] RBP: ffffffffc0d217f0 R08: 0000000000000000 R09: 
->> ffffb31348793b38
->> [ 685.835823] R10: ffffffffb3516808 R11: 0000000000000003 R12: 
->> ffff96c70d2aa8c0
->> [ 685.836450] R13: ffff96c7043c6a80 R14: 0000000000000001 R15: 
->> ffff96c704147400
->> [ 685.837079] ? __pfx_irdma_flush_worker+0x10/0x10 [irdma]
->> [ 685.837755] ? check_flush_dependency+0x11f/0x140
->> [ 685.838394] __flush_work.isra.0+0x10d/0x290
->> [ 685.839037] __cancel_work_timer+0x103/0x1a0
->> [ 685.839679] irdma_destroy_qp+0xd4/0x180 [irdma]
->> [ 685.840354] ib_destroy_qp_user+0x93/0x1a0 [ib_core]
->> [ 685.841049] nvmet_rdma_free_queue+0x35/0xc0 [nvmet_rdma]
->> [ 685.841707] nvmet_rdma_release_queue_work+0x1d/0x50 [nvmet_rdma]
->> [ 685.842367] process_one_work+0x170/0x330
->> [ 685.843020] worker_thread+0x280/0x3d0
->> [ 685.843670] ? __pfx_worker_thread+0x10/0x10
->> [ 685.844316] kthread+0xe8/0x120
->> [ 685.844955] ? __pfx_kthread+0x10/0x10
->> [ 685.845590] ret_from_fork+0x34/0x50
->> [ 685.846223] ? __pfx_kthread+0x10/0x10
->> [ 685.846853] ret_from_fork_asm+0x1b/0x30
->> [ 685.847485] </TASK>
->>
-> 
-
--- 
-Best Regards,
-Yanjun.Zhu
-
+ Luis
 
