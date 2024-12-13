@@ -4,126 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DAA9E7717F
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 06:01:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C91DAE7717D
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 09:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Gc3Jt8blBw7jT0/gisSOyP9+e9/2TScJtmc2wxbTh64=; b=QuKcebhiYDQPcPBQZBY3r7kj6q
-	9J7GM/wtH2/gyUj1j6qeJEOVFwmLRd8iy9iFsQbeBBw1E5lKV9LFkmuMo+zFDIPYaG6DdPJDEB0ex
-	LGudOd5KD7/RBHg3KY6mOf5zsbe6lkhBWsJxiTN6r5XmwJFr0Gohko52rOPKsuXu5aAwRbYqBatoy
-	362yDCt3iULZMhXXssPAaAX9kgktcK4fPbasX95SwFrkROlxhJHE67R6DOT2SqF9CzyWkZZ7ftoU8
-	6HkueBR1eoy8wzvxWGWaxNQ3yhUIR5vj3Rl9Qu1khF881DEWgtDfahbYVBmaTn5H/c4aUCApl12Zb
-	Y50wVqAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=QDhfTVLuTWya0GQLzk7EE1IRCPOJ3bwDhopQUAcO+NI=; b=rmyWq6vWSrEY0Ge/WDYkBGgtS8
+	7KYNkKnU8Hli3OupZlj6vUbe90D224nej8+o4sJIxfJdiRpEy+cODO/Cd75dOiXh9bvwlPAoDi1dh
+	2tdhBoNwqCMWr+C26v7EXXA2scgBCdmMEEQhCdcvsUaYDX1KrryDkYLTLVpYAwPiBcdy5UwmDIVpu
+	sYuFW6VI0KD9y/TuxSzrm+mYJ9InUdTWsbpipjbeoeGCml3Uumf40xWKboelxDiddHJhRZcl66h12
+	E73MmVjSs87xb51ShirYlOyc4oTZFdIiPdpFeFd8ttm86JX4ARU20zppXtkoRfaypMecUjuOboU8n
+	kQcV64Lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLyk6-00000002p8S-3A1i;
-	Fri, 13 Dec 2024 06:01:38 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLyk2-00000002p7l-0dg3
+	id 1tM2AE-00000003I8P-1JJS;
+	Fri, 13 Dec 2024 09:40:50 +0000
+Received: from m16.mail.163.com ([220.197.31.4])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tM2A8-00000003I74-24YJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Dec 2024 06:01:37 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241213060129epoutp033099e979f85d5358fa7d5efdaf857fe7~QpzHXviML2374123741epoutp03h
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Dec 2024 06:01:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241213060129epoutp033099e979f85d5358fa7d5efdaf857fe7~QpzHXviML2374123741epoutp03h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1734069689;
-	bh=Gc3Jt8blBw7jT0/gisSOyP9+e9/2TScJtmc2wxbTh64=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=agigrxInquIQZrTdhkRMRkqOGXx/4s/QFzpHTRsh7kS7CqbhB7hdEbJGAkjFf6A3u
-	 0boOSjWgPD8ApQ+3v+IZfV0DbT8P1Gh/WGHGxuDGSPkBibRwpdaP2k4GaPFDtl1jHQ
-	 swEfaLTEOnb9V26Z2gcSQ29lfXaUCK56nXykN9Eg=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20241213060128epcas5p14ff115b9b8eb9a4ad609393dabc21f08~QpzHIUKrT1879718797epcas5p1J;
-	Fri, 13 Dec 2024 06:01:28 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Y8dxz08p9z4x9QB; Fri, 13 Dec
-	2024 06:01:27 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D6.8F.19933.5BDCB576; Fri, 13 Dec 2024 15:01:25 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20241213060117epcas5p33e93030b04f8d51f0367d375faa2adaf~Qpy871bXn1217912179epcas5p3q;
-	Fri, 13 Dec 2024 06:01:17 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20241213060117epsmtrp16131439c5b74bccf83c6d6a2b4a078b4~Qpy84dGvw1127611276epsmtrp1l;
-	Fri, 13 Dec 2024 06:01:17 +0000 (GMT)
-X-AuditID: b6c32a4a-b87c770000004ddd-80-675bcdb5a785
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	ED.91.18729.DADCB576; Fri, 13 Dec 2024 15:01:17 +0900 (KST)
-Received: from ubuntu (unknown [107.99.41.245]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241213060115epsmtip1db0b0c6b8b3b9dd4cfe4ed6ce87873c1~Qpy7HlTGq1086010860epsmtip1m;
-	Fri, 13 Dec 2024 06:01:15 +0000 (GMT)
-Date: Fri, 13 Dec 2024 11:23:21 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: axboe@kernel.dk, hch@lst.de, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, sagi@grimberg.me, asml.silence@gmail.com,
-	anuj20.g@samsung.com, joshi.k@samsung.com, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv14 10/11] nvme: register fdp parameters with the block
- layer
-Message-ID: <20241213055321.rh6qdkru53ao5wr4@ubuntu>
+	Fri, 13 Dec 2024 09:40:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=QDhfTVLuTWya0GQLzk7EE1IRCPOJ3bwDhopQUAcO+NI=;
+	b=PjJE8PqfnhgvMigJAjnq+WG1L1jIFShbFGK0CWHUDDaDBGyJ9bhgfUgc3qCyqD
+	gQQR0cIEhu6jVD05zE72TdYvXYlL5hYBQ61JSG6Y8jD5qK5gVsti+1v24tygEuzW
+	At+iR/QuUlXIJ65f5+wZbs5hzA5oD2D/VV7ceomY9z4vw=
+Received: from localhost (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDHj5kSAVxnN+QlAQ--.15203S2;
+	Fri, 13 Dec 2024 17:40:34 +0800 (CST)
+Date: Fri, 13 Dec 2024 17:40:34 +0800
+From: Honggang LI <honggangli@163.com>
+To: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org
+Subject: workqueue: WQ_MEM_RECLAIM nvmet-wq:nvmet_rdma_release_queue_work
+ [nvmet_rdma] is flushing !WQ_MEM_RECLAIM irdma-cleanup-wq:irdma_flush_worker
+ [irdma]
+Message-ID: <Z1wBEgluXUDrDJmN@fc39>
 MIME-Version: 1.0
-In-Reply-To: <20241211183514.64070-11-kbusch@meta.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCJsWRmVeSWpSXmKPExsWy7bCmuu7Ws9HpBse36Fk0TfjLbDFn1TZG
-	i9V3+9ksVq4+ymTxrvUci8XR/2/ZLCYdusZocebqQhaLvbe0LfbsPcliMX/ZU3aLda/fszjw
-	eOycdZfd4/y9jSwel8+Wemxa1cnmsXlJvcfumw1sHucuVnj0bVnF6PF5k1wAZ1S2TUZqYkpq
-	kUJqXnJ+SmZeuq2Sd3C8c7ypmYGhrqGlhbmSQl5ibqqtkotPgK5bZg7QvUoKZYk5pUChgMTi
-	YiV9O5ui/NKSVIWM/OISW6XUgpScApMCveLE3OLSvHS9vNQSK0MDAyNToMKE7IxJezrYCi6w
-	Vsy8OpetgfEnSxcjB4eEgInEzkflXYycHEICuxklZv5y6mLkArI/MUo8W93IDpH4xiixfzU/
-	TP2Pw4IQNXsZJebfuMUI4TwBqrl6nhmkgUVAVeLk7yZmkAY2AW2J0/85QMIiAooS54HBAFLP
-	LDCRSeL3oSawBcICQRJ/JjwC6+UFWnB293E2CFtQ4uTMJywgNqeAmURT22owW0JgKYfEqTXR
-	EAe5SPRfk4YIC0u8Or6FHcKWknjZ3wZll0usnLICbK+EQAujxKzrsxghEvYSraf6wfYyC2RI
-	XLh/CqpBVmLqqXVMEHE+id7fT5gg4rwSO+bB2MoSa9YvYIOwJSWufW+Esj0k5kxdwgoJuC2M
-	EodOq09glJuF5J1ZSNZB2FYSnR+aWGcBvcMsIC2x/B8HhKkpsX6X/gJG1lWMkqkFxbnpqcWm
-	BUZ5qeXwCE7Oz93ECE6+Wl47GB8++KB3iJGJg/EQowQHs5II7w37yHQh3pTEyqrUovz4otKc
-	1OJDjKbA6JnILCWanA9M/3kl8YYmlgYmZmZmJpbGZoZK4ryvW+emCAmkJ5akZqemFqQWwfQx
-	cXBKNTD1Hcx598B0zdEfz5XqZ8i/3DbD7LvY/nXqTbMKUxwOt+2bEtX/2cI+zebCgShVjagn
-	L9+J3FxiK/zAWqK6oWa++3sju//lRTk2OxdpVq750rrU5Ns7+cuOf35Om//X4tndLxPuBB2S
-	jM9ZUj45tcu+eqnDLKXahggO5xdnA59vcTjx9WGh8azPjFc23HN61cW9Y45xefC+x7v7zYK1
-	m+5xte6+IFC868H3+ZcqA/YbejtMP/fIvWT2P+UQRrEsLj/BWOkN/7/tEBGPlXXNlmlvVwp8
-	NDc/NoTF4XrmDaZqs9kz+LgKfeqCPe6r9ic4+s6JqCrrtL6gc0x50vte1w3/zE5MiakIP7p7
-	l1SZiIcSS3FGoqEWc1FxIgD7RCtcRwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBLMWRmVeSWpSXmKPExsWy7bCSnO7as9HpBk/W6lg0TfjLbDFn1TZG
-	i9V3+9ksVq4+ymTxrvUci8XR/2/ZLCYdusZocebqQhaLvbe0LfbsPcliMX/ZU3aLda/fszjw
-	eOycdZfd4/y9jSwel8+Wemxa1cnmsXlJvcfumw1sHucuVnj0bVnF6PF5k1wAZxSXTUpqTmZZ
-	apG+XQJXxoeVZxgLmpgrml/FNTAeZepi5OCQEDCR+HFYsIuRi0NIYDejxO3DFxm7GDmB4pIS
-	y/4eYYawhSVW/nvODlH0iFFi9oMFLCAJFgFViZO/m5hBBrEJaEuc/s8BEhYRUJQ4D3QMSD2z
-	wGQmieczj4HVCwsESfyZ8AhsKC/Q4rO7j7OB2EICCRId156wQcQFJU7OfAJWzyxgJjFv80Ow
-	+cwC0hLL/4HN5wQKN7WtZpnAKDALSccsJB2zEDoWMDKvYpRMLSjOTc8tNiwwzEst1ytOzC0u
-	zUvXS87P3cQIjhwtzR2M21d90DvEyMTBeIhRgoNZSYT3hn1kuhBvSmJlVWpRfnxRaU5q8SFG
-	aQ4WJXFe8Re9KUIC6YklqdmpqQWpRTBZJg5OqQam3eL9GxkyHAu4XNMnr19eYFzwc+aG6tml
-	bw5PnGTH8F75Z6rc84UeiXYie180d62eYqfccviXsDmDpLdY+ddV18QVJ3e5cQoXHy92jlKy
-	Sl/+QSdykVNjwVq1sE4trj0pF+s4n1RO/el2tXVXTUZBm95jkbe5c52OpFU2V+++9KBuhxDL
-	vbYEOYOzFX5FTGeM3y9ec13Wz7vznUG/oVD9MTPOXuerx/T3xAQeXvx6W1PKa4P6k1/Ny3uL
-	8p5PmtH6uTA7OsP7xtpZy552MW+rO6sv5xNbt0V7Vn4Oz/mQy17Fq231UlTL/jyX//3hzBbH
-	NTscJO67Vfud2Hew4uXTRsOEhwZfC936bgETlhJLcUaioRZzUXEiACUZdmcLAwAA
-X-CMS-MailID: 20241213060117epcas5p33e93030b04f8d51f0367d375faa2adaf
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----OTMyRIxA-vjvkyMBIEVTa8B.hsA2RhXFaIa_oKBleWSyrD67=_806f4_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241213060117epcas5p33e93030b04f8d51f0367d375faa2adaf
-References: <20241211183514.64070-1-kbusch@meta.com>
-	<20241211183514.64070-11-kbusch@meta.com>
-	<CGME20241213060117epcas5p33e93030b04f8d51f0367d375faa2adaf@epcas5p3.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-CM-TRANSID: _____wDHj5kSAVxnN+QlAQ--.15203S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3WF4xJr17Gw1xZr43AFWrZrb_yoWxAF4DpF
+	15KF1UCrW8ur1Utr4Sy3WUKFy3Xa1qvF4DJrZ7Zr1xJF45WFy3X3s5KrnYgrWDJrWrArW7
+	G3WDXr1rKw4xJw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRMGQgUUUUU=
+X-Originating-IP: [125.33.14.1]
+X-CM-SenderInfo: 5krqwwxdqjzxi6rwjhhfrp/xtbBDxi0RWdb+qKy6QAAsZ
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_220135_571319_4E1D01C5 
-X-CRM114-Status: UNSURE (   8.91  )
+X-CRM114-CacheID: sfid-20241213_014044_883445_78DF53A5 
+X-CRM114-Status: UNSURE (   5.69  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -139,25 +71,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------OTMyRIxA-vjvkyMBIEVTa8B.hsA2RhXFaIa_oKBleWSyrD67=_806f4_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+It is 100% reproducible. The NVMEoRDMA client side is running RXE.
+To reproduce it, the clinet side repeat to connect and disconnect
+to the NVMEoRDMA target.
 
-On 11/12/24 10:35AM, Keith Busch wrote:
->From: Keith Busch <kbusch@kernel.org>
->
->Register the device data placement limits if supported. This is just
->registering the limits with the block layer. Nothing beyond reporting
->these attributes is happening in this patch.
->
->Signed-off-by: Keith Busch <kbusch@kernel.org>
->---
+[ 685.757357] ------------[ cut here ]------------
+[ 685.758725] workqueue: WQ_MEM_RECLAIM nvmet-wq:nvmet_rdma_release_queue_work [nvmet_rdma] is flushing !WQ_MEM_RECLAIM irdma-cleanup-wq:irdma_flush_worker [irdma]
+[ 685.758809] WARNING: CPU: 16 PID: 1897 at kernel/workqueue.c:2966 check_flush_dependency+0x11f/0x140
+[ 685.762880] Modules linked in: nvmet_rdma nvmet nvme_keyring tcm_loop target_core_user uio target_core_pscsi target_core_file target_core_iblock rpcrdma qrtr rdma_ucm ib_srpt ib_isert iscsi_target_mod target_core_mod rfkill ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm intel_rapl_msr intel_rapl_common sb_edac x86_pkg_temp_thermal intel_powerclamp coretemp sunrpc kvm_intel kvm irqbypass binfmt_misc rapl intel_cstate irdma ipmi_ssif i40e iTCO_wdt intel_pmc_bxt iTCO_vendor_support ib_uverbs acpi_ipmi intel_uncore joydev ipmi_si pcspkr mxm_wmi ib_core mei_me ipmi_devintf i2c_i801 mei i2c_smbus lpc_ich ioatdma ipmi_msghandler loop dm_multipath nfnetlink zram ice crct10dif_pclmul crc32_pclmul crc32c_intel polyval_clmulni polyval_generic nvme isci nvme_core ghash_clmulni_intel sha512_ssse3 igb sha256_ssse3 libsas sha1_ssse3 nvme_auth mgag200 scsi_transport_sas dca gnss i2c_algo_bit wmi scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables fuse
+[ 685.773891] CPU: 16 PID: 1897 Comm: kworker/16:2 Kdump: loaded Tainted: G S 6.8.4-300.patched.fc40.x86_64 #1
+[ 685.775267] Hardware name: Sugon I620-G10/X9DR3-F, BIOS 3.0b 07/22/2014
+[ 685.776627] Workqueue: nvmet-wq nvmet_rdma_release_queue_work [nvmet_rdma]
+[ 685.777993] RIP: 0010:check_flush_dependency+0x11f/0x140
+[ 685.779331] Code: 8b 45 18 48 8d b2 b0 00 00 00 49 89 e8 48 8d 8b b0 00 00 00 48 c7 c7 28 fe b1 b2 c6 05 4f 97 59 02 01 48 89 c2 e8 a1 91 fd ff <0f> 0b e9 fc fe ff ff 80 3d 3a 97 59 02 00 75 93 e9 2a ff ff ff 66
+[ 685.782050] RSP: 0018:ffffb31348793cc8 EFLAGS: 00010082
+[ 685.783398] RAX: 0000000000000000 RBX: ffff96c705754800 RCX: 0000000000000027
+[ 685.784744] RDX: ffff96ce5fca18c8 RSI: 0000000000000001 RDI: ffff96ce5fca18c0
+[ 685.786077] RBP: ffffffffc0d217f0 R08: 0000000000000000 R09: ffffb31348793b38
+[ 685.787390] R10: ffffffffb3516808 R11: 0000000000000003 R12: ffff96c70d2aa8c0
+[ 685.788688] R13: ffff96c7043c6a80 R14: 0000000000000001 R15: ffff96c704147400
+[ 685.789970] FS: 0000000000000000(0000) GS:ffff96ce5fc80000(0000) knlGS:0000000000000000
+[ 685.791239] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 685.792495] CR2: 00007f8207151000 CR3: 0000000d15422006 CR4: 00000000001706f0
+[ 685.793745] Call Trace:
+[ 685.794973] <TASK>
+[ 685.796179] ? check_flush_dependency+0x11f/0x140
+[ 685.797382] ? __warn+0x81/0x130
+[ 685.798563] ? check_flush_dependency+0x11f/0x140
+[ 685.799732] ? report_bug+0x16f/0x1a0
+[ 685.800882] ? handle_bug+0x3c/0x80
+[ 685.802003] ? exc_invalid_op+0x17/0x70
+[ 685.803107] ? asm_exc_invalid_op+0x1a/0x20
+[ 685.804200] ? __pfx_irdma_flush_worker+0x10/0x10 [irdma]
+[ 685.805315] ? check_flush_dependency+0x11f/0x140
+[ 685.806373] ? check_flush_dependency+0x11f/0x140
+[ 685.807407] __flush_work.isra.0+0x10d/0x290
+[ 685.808420] __cancel_work_timer+0x103/0x1a0
+[ 685.809418] irdma_destroy_qp+0xd4/0x180 [irdma]
+[ 685.810437] ib_destroy_qp_user+0x93/0x1a0 [ib_core]
+[ 685.811474] nvmet_rdma_free_queue+0x35/0xc0 [nvmet_rdma]
+[ 685.812437] nvmet_rdma_release_queue_work+0x1d/0x50 [nvmet_rdma]
+[ 685.813385] process_one_work+0x170/0x330
+[ 685.814300] worker_thread+0x280/0x3d0
+[ 685.815201] ? __pfx_worker_thread+0x10/0x10
+[ 685.816090] kthread+0xe8/0x120
+[ 685.816956] ? __pfx_kthread+0x10/0x10
+[ 685.817801] ret_from_fork+0x34/0x50
+[ 685.818633] ? __pfx_kthread+0x10/0x10
+[ 685.819439] ret_from_fork_asm+0x1b/0x30
+[ 685.820232] </TASK>
+[ 685.820994] Kernel panic - not syncing: kernel: panic_on_warn set ...
+[ 685.821749] CPU: 16 PID: 1897 Comm: kworker/16:2 Kdump: loaded Tainted: G S 6.8.4-300.patched.fc40.x86_64 #1
+[ 685.822513] Hardware name: Sugon I620-G10/X9DR3-F, BIOS 3.0b 07/22/2014
+[ 685.823259] Workqueue: nvmet-wq nvmet_rdma_release_queue_work [nvmet_rdma]
+[ 685.824002] Call Trace:
+[ 685.824706] <TASK>
+[ 685.825386] dump_stack_lvl+0x4d/0x70
+[ 685.826060] panic+0x33e/0x370
+[ 685.826724] ? check_flush_dependency+0x11f/0x140
+[ 685.827383] check_panic_on_warn+0x44/0x60
+[ 685.828021] __warn+0x8d/0x130
+[ 685.828629] ? check_flush_dependency+0x11f/0x140
+[ 685.829229] report_bug+0x16f/0x1a0
+[ 685.829819] handle_bug+0x3c/0x80
+[ 685.830396] exc_invalid_op+0x17/0x70
+[ 685.830972] asm_exc_invalid_op+0x1a/0x20
+[ 685.831548] RIP: 0010:check_flush_dependency+0x11f/0x140
+[ 685.832129] Code: 8b 45 18 48 8d b2 b0 00 00 00 49 89 e8 48 8d 8b b0 00 00 00 48 c7 c7 28 fe b1 b2 c6 05 4f 97 59 02 01 48 89 c2 e8 a1 91 fd ff <0f> 0b e9 fc fe ff ff 80 3d 3a 97 59 02 00 75 93 e9 2a ff ff ff 66
+[ 685.833341] RSP: 0018:ffffb31348793cc8 EFLAGS: 00010082
+[ 685.833954] RAX: 0000000000000000 RBX: ffff96c705754800 RCX: 0000000000000027
+[ 685.834569] RDX: ffff96ce5fca18c8 RSI: 0000000000000001 RDI: ffff96ce5fca18c0
+[ 685.835196] RBP: ffffffffc0d217f0 R08: 0000000000000000 R09: ffffb31348793b38
+[ 685.835823] R10: ffffffffb3516808 R11: 0000000000000003 R12: ffff96c70d2aa8c0
+[ 685.836450] R13: ffff96c7043c6a80 R14: 0000000000000001 R15: ffff96c704147400
+[ 685.837079] ? __pfx_irdma_flush_worker+0x10/0x10 [irdma]
+[ 685.837755] ? check_flush_dependency+0x11f/0x140
+[ 685.838394] __flush_work.isra.0+0x10d/0x290
+[ 685.839037] __cancel_work_timer+0x103/0x1a0
+[ 685.839679] irdma_destroy_qp+0xd4/0x180 [irdma]
+[ 685.840354] ib_destroy_qp_user+0x93/0x1a0 [ib_core]
+[ 685.841049] nvmet_rdma_free_queue+0x35/0xc0 [nvmet_rdma]
+[ 685.841707] nvmet_rdma_release_queue_work+0x1d/0x50 [nvmet_rdma]
+[ 685.842367] process_one_work+0x170/0x330
+[ 685.843020] worker_thread+0x280/0x3d0
+[ 685.843670] ? __pfx_worker_thread+0x10/0x10
+[ 685.844316] kthread+0xe8/0x120
+[ 685.844955] ? __pfx_kthread+0x10/0x10
+[ 685.845590] ret_from_fork+0x34/0x50
+[ 685.846223] ? __pfx_kthread+0x10/0x10
+[ 685.846853] ret_from_fork_asm+0x1b/0x30
+[ 685.847485] </TASK> 
 
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-
-------OTMyRIxA-vjvkyMBIEVTa8B.hsA2RhXFaIa_oKBleWSyrD67=_806f4_
-Content-Type: text/plain; charset="utf-8"
-
-
-------OTMyRIxA-vjvkyMBIEVTa8B.hsA2RhXFaIa_oKBleWSyrD67=_806f4_--
 
