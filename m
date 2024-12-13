@@ -4,62 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CED7FE7717D
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 15:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54785E7717F
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 17:00:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Bunxl9aQMgx28QPwDNSeso5EOkCFGJz3ivE1sjmt6nk=; b=McYCJ+CtZM0liVtiwnnWEr/PUn
-	YLdQTIcVmBmCeUaoeVNGbDRu8PrMVBteuF/qENCHjQycg2tatveuhq229wLARukPzDbjBA1ST3+cw
-	lOewdgZ72CR5rhjy8xNgZQQGNs+e54JnrL4AvFulbV9twNYzD9AFDjUzbH0ZzhJo+G3Bz477DLuZI
-	5iVsNegMaabmZvzaYaz8eQOaRFS0e1zzrDPv9ajQZgRgnuGFvbQfdEE8o7VzIB/nP61ag2tDcyE4E
-	Eymzz1gKCetijykxdN5tn2zerRd8RwpcOgtyv0121v2G49zMmyrXkkC6PWJU89XMuTpbwKuVwb9Jz
-	OerS8pWQ==;
+	bh=ObDH0B7fGrgPBv3+kjL1RQC+oy+sKjpm2EdcBUb09aw=; b=C37Il83j5xgarK7te8c467nq/S
+	yruSucI0k/D+nENZy+0s+uMosRltLJ/DYQs/2sB2jisMmC/evCebS8++ZUJ2D7Vl2X2Y7WUaJcJQX
+	Uf/nypAF0J3DaZ2/wsfpLXRVK6MxZ01Dxh1aGlx42NYP7V3tBaVSC2QckpV/MFlTSVKfeHC3GeqTs
+	YOCaREc17qxe0On8RJJLs2yw93go85nTwPCHGR99wVyYF6G2cREBpXgA4V5IvMnrVt2OoILgWFpO2
+	G7pkhhektbb6qpYMrYuFiQJ7Hw995lVZImiAUwzkpGC8xEFHksBSnbMB97tFtZwzpLSOUDyUPK30R
+	fDMbhL9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tM7mF-00000004IYV-172i;
-	Fri, 13 Dec 2024 15:40:27 +0000
-Received: from ms.lwn.net ([45.79.88.28])
+	id 1tM91A-00000004VM4-2APM;
+	Fri, 13 Dec 2024 16:59:56 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tM7mC-00000004IXL-3AG2
+	id 1tM918-00000004VLh-0OnM
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Dec 2024 15:40:25 +0000
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B05B4403FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1734104420; bh=Bunxl9aQMgx28QPwDNSeso5EOkCFGJz3ivE1sjmt6nk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ptwlDFzDRPwST+tJiUhRYwbDVMWGrAv1PeQFrptB0rS5pKqqqYlkwFiEbdt5iapfy
-	 yEEimu5l3TCxr7g6MErodPijyTmX/oZ09j9XwhdhP/4YUiLVQJIReAKTqAGPswZtAZ
-	 QO3EtupaAihkVyicjpq5CTQMMuzhbnqk6MASI2oi8dPDCg71HGxuF2SMmAqfjySkaX
-	 25q0SD2VDiBgeiu4wCYy6WUYLF9FehREgGuNvmQ7W3zmzbbxjbhDUlOqcZijXs3TFz
-	 +C1MxnyevsCHQm7a169qYFcZAsLjmLeFLWnRE67LajFoEPXPd6wTYW2W7WTX4OKOxi
-	 rHX3JH7WqSTFw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B05B4403FA;
-	Fri, 13 Dec 2024 15:40:20 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Christoph Hellwig <hch@lst.de>, Guixin Liu <kanie@linux.alibaba.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
- Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
- linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH separate v3] docs, nvme: introduce nvme-multipath document
-In-Reply-To: <20241212080835.GA7862@lst.de>
-References: <20241209071127.22922-1-kanie@linux.alibaba.com>
- <20241212080835.GA7862@lst.de>
-Date: Fri, 13 Dec 2024 08:40:19 -0700
-Message-ID: <87h677y4kc.fsf@trenco.lwn.net>
+	Fri, 13 Dec 2024 16:59:55 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id BD88E5C6C85;
+	Fri, 13 Dec 2024 16:59:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96E16C4CED0;
+	Fri, 13 Dec 2024 16:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734109192;
+	bh=EgRgareuCzSN3yzJcQ10JMjJTrJnUNwakzXNQVNF43I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Tkp+YNm+kwF8Hd//xHdCKjVA3d9b/puF8XL+KCbeDSp+jy6VcPaCCvlLU7WyeTlC+
+	 RuiCnZcqZ+onoL4+wgTvJFwSn/1hEIkk89gP8Ls1RZP/gsUQVLBI7eemhRf+fwoXkA
+	 3lvU1E/j4d/TULv8+VySY9b8+6ofNM2826F5Rwzj1YIdVSR/HqSduA2fTDdM/SS2aB
+	 oqYzJ0Wq8YyBYdDs5yq4sq+2vT7o3l9MsA8y9Mb6stWd+T3f/8ccjVDTRlvFgl9Mwf
+	 zLibm5w19vJ4J8Z7kewHQDELn17E7vI+P+4yhuX/5v29WrjEfrZFCWZs4VYCRPMpb2
+	 lmlH9l205pFPA==
+Date: Fri, 13 Dec 2024 17:59:46 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v4 17/18] nvmet: New NVMe PCI endpoint target driver
+Message-ID: <Z1xoAj9c9oWhqZoV@ryzen>
+References: <20241212113440.352958-1-dlemoal@kernel.org>
+ <20241212113440.352958-18-dlemoal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241212113440.352958-18-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241213_074024_793650_144B69B1 
-X-CRM114-Status: UNSURE (   6.50  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241213_085954_217285_85441AEE 
+X-CRM114-Status: GOOD (  23.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,13 +80,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph Hellwig <hch@lst.de> writes:
+Hello Vinod,
 
-> Looks good:
->
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+I am a bit confused about the usage of the dmaengine API, and I hope that you
+could help make me slightly less confused :)
 
-I've applied this, thanks.
+If you look at the nvmet_pciep_epf_dma_transfer() function below, it takes a
+mutex around the dmaengine_slave_config(), dmaengine_prep_slave_single(),
+dmaengine_submit(), dma_sync_wait(), and dmaengine_terminate_sync() calls.
 
-jon
+I really wish that we would remove this mutex, to get better performance.
+
+
+If I look at e.g. the drivers/dma/dw-edma/dw-edma-core.c driver, I can see
+that dmaengine_prep_slave_single() (which will call
+device_prep_slave_sg(.., .., 1, .., .., ..)) allocates a new
+dma_async_tx_descriptor for each function call.
+
+I can see that device_prep_slave_sg() (dw_edma_device_prep_slave_sg()) will
+call dw_edma_device_transfer() which will call vchan_tx_prep(), which adds
+the descriptor to the tail of a list.
+
+I can also see that dw_edma_done_interrupt() will automatically start the
+transfer of the next descriptor (using vchan_next_desc()).
+
+So this looks like it is supposed to be asynchronous... however, if we simply
+remove the mutex, we get IOMMU errors, most likely because the DMA writes to
+an incorrect address.
+
+It looks like this is because dmaengine_prep_slave_single() really requires
+dmaengine_slave_config() for each transfer. (Since we are supplying a src_addr
+in the sconf that we are supplying to dmaengine_slave_config().)
+
+(i.e. we can't call dmaengine_slave_config() while a DMA transfer is active.)
+
+So while this API is supposed to be async, to me it looks like it can only
+be used in a synchronous manner... But that seems like a really weird design.
+
+Am I missing something obvious here?
+
+
+If the dmaengine_prep_slave_single() instead took a sconfig as a parameter,
+then it seems like it would be possible to use this API asynchronously.
+
+There does seem to be other drivers holding a mutex around
+dmaengine_slave_config() + dmaengine_prep_slave_single()... but it feels like
+this should be avoidable (at least for dw-edma), if
+dmaengine_prep_slave_single() simply took an sconf.
+
+What am I missing? :)
+
+
+Kind regards,
+Niklas
+
+
+On Thu, Dec 12, 2024 at 08:34:39PM +0900, Damien Le Moal wrote:
+> +static int nvmet_pciep_epf_dma_transfer(struct nvmet_pciep_epf *nvme_epf,
+> +		struct nvmet_pciep_segment *seg, enum dma_data_direction dir)
+> +{
+> +	struct pci_epf *epf = nvme_epf->epf;
+> +	struct dma_async_tx_descriptor *desc;
+> +	struct dma_slave_config sconf = {};
+> +	struct device *dev = &epf->dev;
+> +	struct device *dma_dev;
+> +	struct dma_chan *chan;
+> +	dma_cookie_t cookie;
+> +	dma_addr_t dma_addr;
+> +	struct mutex *lock;
+> +	int ret;
+> +
+> +	switch (dir) {
+> +	case DMA_FROM_DEVICE:
+> +		lock = &nvme_epf->dma_rx_lock;
+> +		chan = nvme_epf->dma_rx_chan;
+> +		sconf.direction = DMA_DEV_TO_MEM;
+> +		sconf.src_addr = seg->pci_addr;
+> +		break;
+> +	case DMA_TO_DEVICE:
+> +		lock = &nvme_epf->dma_tx_lock;
+> +		chan = nvme_epf->dma_tx_chan;
+> +		sconf.direction = DMA_MEM_TO_DEV;
+> +		sconf.dst_addr = seg->pci_addr;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	mutex_lock(lock);
+> +
+> +	dma_dev = dmaengine_get_dma_device(chan);
+> +	dma_addr = dma_map_single(dma_dev, seg->buf, seg->length, dir);
+> +	ret = dma_mapping_error(dma_dev, dma_addr);
+> +	if (ret)
+> +		goto unlock;
+> +
+> +	ret = dmaengine_slave_config(chan, &sconf);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to configure DMA channel\n");
+> +		goto unmap;
+> +	}
+> +
+> +	desc = dmaengine_prep_slave_single(chan, dma_addr, seg->length,
+> +					   sconf.direction, DMA_CTRL_ACK);
+> +	if (!desc) {
+> +		dev_err(dev, "Failed to prepare DMA\n");
+> +		ret = -EIO;
+> +		goto unmap;
+> +	}
+> +
+> +	cookie = dmaengine_submit(desc);
+> +	ret = dma_submit_error(cookie);
+> +	if (ret) {
+> +		dev_err(dev, "DMA submit failed %d\n", ret);
+> +		goto unmap;
+> +	}
+> +
+> +	if (dma_sync_wait(chan, cookie) != DMA_COMPLETE) {
+> +		dev_err(dev, "DMA transfer failed\n");
+> +		ret = -EIO;
+> +	}
+> +
+> +	dmaengine_terminate_sync(chan);
+> +
+> +unmap:
+> +	dma_unmap_single(dma_dev, dma_addr, seg->length, dir);
+> +
+> +unlock:
+> +	mutex_unlock(lock);
+> +
+> +	return ret;
+> +}
 
