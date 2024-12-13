@@ -4,71 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 587C6E7717F
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2024 23:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95ED8E7717D
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2024 04:19:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=o4YxdGlNpn3u5sVgod/AmzSffnWn2aY+dsQEVJ2blgI=; b=PluMHMMr5nHhhMMvn/TyzV1LM+
-	UeL9NEz5G4M3hkWycmb6/Kx8EWUqL8TCWE1hHelW0AoIT7g19vXQOG0y7piJbNSWVflHSLEHkN3Qg
-	Bl/AfoPIWru0AIAo0tIf6Zore66HJTXNaaamE2JqsuxlP3k3+mr2Sh97ZIhms+GW+L8BNnWYKiifN
-	VWktS8rqL9H57IvZQEH1RYYxfOSpoha+eVja/gnE5J6kS3qzmTeaq4Bx9V51WG6qcBO56NdQj7wpw
-	zOdWBn/Q6UcwZnGCq7rx7rnGVf+CzjGNdro/FMvB4lBa0BPZt+AAHYo2UDp1sI7hgeVwcvPs8s3Jn
-	EOfuQlNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/uN1v62Y87hxyOng5otr8XUqNpg5B+CsZ909NN4dsYo=; b=K6BUlGOzVTaPJLtT1DMxAxSk47
+	Jg1zC0wmp6BxHD6QH+dMAJ1zW1wOLHTcgadxZF6VSCJVt5oWnPYhl5O/sC6JwoJ37K2f/xncNd+8j
+	YgWgzFo09+f19BIUefT4fFyVr4py6UQZ+9NZi+5YQA94ECxsTabvsyf+Nc1y0jWIviOtk/MyimA1U
+	CwCtRiVJqNn1RFsPsGuWSCEL9GQh2Ygw8ISAYKGc4ducwQClf7RIrwJf8PDnDFlBQYkqhKEGEyrvn
+	Oq1T8fRfoVM7ANrCMJDHVNVfHk10CU6kA1M34Xq7LSNEXduxJOul3nxWsJXIBUU1Ry+J+6YWSpIL8
+	R8UGXrDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLszi-00000002EXt-1g7Z;
-	Thu, 12 Dec 2024 23:53:22 +0000
-Received: from mgamail.intel.com ([192.198.163.7])
+	id 1tLx9C-00000002fOD-0nKk;
+	Fri, 13 Dec 2024 04:19:26 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLszg-00000002EXU-0d4U
+	id 1tLx99-00000002fMi-1LWS
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Dec 2024 23:53:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734047600; x=1765583600;
-  h=date:from:to:cc:subject:message-id;
-  bh=c0jQTLLzV01KZwFUmV//g+/Z/MaGglqmfRw1rifOEaU=;
-  b=H8Mp9EeXe3ewxVDeNRwCHRP1n3HJss9nmTBCgZK6ocDtv/vHacYMPXii
-   2eypw97OsJKnRAxGjW0zaEWsaY1q++s62ti5VOY1h5sLZzhloEgb9PgeZ
-   d97/TxxqnIz6fTQy8nCz1DvFB8gCU5iozbsbf0R4/UiczmmOTjxplJWWG
-   kfcYkiCQAPo7hf4OgfYtC8QGQj2CjvPOF0/loQV4bgd7TVjwB3inoP9eH
-   JNFs6OvJKkXvKETbCWPfqYC6NT7k/l0E2cq7zhJ7BKBEotNRSAjjTHTmc
-   KgrQ8aeNgYtNsjFN6gLrjAwaWwGCuNP9r6TNvjQba6kq8GVPr/bPYBsik
-   g==;
-X-CSE-ConnectionGUID: us2p8HoSRqiOr1tS+mhuSQ==
-X-CSE-MsgGUID: q/sC/1gVRIamRF9WuJ42yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="59887160"
-X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
-   d="scan'208";a="59887160"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 15:51:05 -0800
-X-CSE-ConnectionGUID: BBtmjen2SQSEHoexaTRsHw==
-X-CSE-MsgGUID: ts0apCxFQNKDQDEsoDbY1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
-   d="scan'208";a="96272743"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 12 Dec 2024 15:51:03 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLsxR-000BUS-0P;
-	Thu, 12 Dec 2024 23:51:01 +0000
-Date: Fri, 13 Dec 2024 07:50:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.13] BUILD SUCCESS
- ebefac5647968679f6ef5803e5d35a71997d20fa
-Message-ID: <202412130751.tsvTc9Ua-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Fri, 13 Dec 2024 04:19:24 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD005EZ030446;
+	Fri, 13 Dec 2024 04:19:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=/uN1v62Y87hxyOng5
+	otr8XUqNpg5B+CsZ909NN4dsYo=; b=gVgzY06HEqHWoD2q8zhATCMiDreBECa86
+	8+pfU/BgYUXChp6Cmm6VBasMuWDGvZgrQIPhXgShGBk1u9sNuSXtmT9s+4ZmrrkE
+	WfC1cymK+QEm0KKnCFTtJIMYWfI83RrTTE/l8QYHhhOQqCBnNjl0e+bRaeY110M7
+	6TIU4ZgI/+JYSKeIeVgjyUYkxbrjhjdhLhnps4768eg7onFF60GvVwvz0/vjEmju
+	0r8aoMVNURji8P1AzZ3LGwGwhaKUx3loLn+vEgRqWlpy62J+MfAcg2p0QtoYMIom
+	pu11JpLCKUa3aoVK/iJ0Gn1Hf2PoABAda3FK+hx+c/Gp8L2ZyozRw==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43g9yhgty2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Dec 2024 04:19:17 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD23SKh023047;
+	Fri, 13 Dec 2024 04:19:16 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 43d2wkbqry-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Dec 2024 04:19:16 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BD4JELk19857674
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 13 Dec 2024 04:19:15 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D38752004F;
+	Fri, 13 Dec 2024 04:19:14 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1C83D20043;
+	Fri, 13 Dec 2024 04:19:13 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.241])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 13 Dec 2024 04:19:12 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: dwagner@suse.de, hare@suse.de
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@fb.com,
+        gjoyce@linux.ibm.com, linux-nvme@lists.infradead.org
+Subject: [PATCHv6 RFC 2/3] nvme-multipath: Add visibility for numa io-policy
+Date: Fri, 13 Dec 2024 09:48:35 +0530
+Message-ID: <20241213041908.1381196-3-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241213041908.1381196-1-nilay@linux.ibm.com>
+References: <20241213041908.1381196-1-nilay@linux.ibm.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: h0URJaafJYLm1I9B2PFjPfNw8WrPofNo
+X-Proofpoint-ORIG-GUID: h0URJaafJYLm1I9B2PFjPfNw8WrPofNo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 impostorscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412130028
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241212_155320_208881_E40CD0FC 
-X-CRM114-Status: UNSURE (   4.47  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241212_201923_368465_7E59E529 
+X-CRM114-Status: GOOD (  18.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,61 +103,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.13
-branch HEAD: ebefac5647968679f6ef5803e5d35a71997d20fa  nvme-pci: 512 byte aligned dma pool segment quirk
+This patch helps add nvme native multipath visibility for numa io-policy.
+It adds a new attribute file named "numa_nodes" under namespace gendisk
+device path node which prints the list of numa nodes preferred by the
+given namespace path. The numa nodes value is comma delimited list of
+nodes or A-B range of nodes.
 
-elapsed time: 1445m
+For instance, if we have a shared namespace accessible from two different
+controllers/paths then accessing head node of the shared namespace would
+show the following output:
 
-configs tested: 41
-configs skipped: 0
+$ ls -l /sys/block/nvme1n1/multipath/
+nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
+nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+In the above example, nvme1n1 is head gendisk node created for a shared
+namespace and this namespace is accessible from nvme1c1n1 and nvme1c3n1
+paths. For numa io-policy we can then refer the "numa_nodes" attribute
+file created under each namespace path:
 
-tested configs:
-arc                randconfig-001-20241212    gcc-13.2.0
-arc                randconfig-002-20241212    gcc-13.2.0
-arm                randconfig-001-20241212    gcc-14.2.0
-arm                randconfig-002-20241212    clang-20
-arm                randconfig-003-20241212    clang-19
-arm                randconfig-004-20241212    clang-20
-arm64              randconfig-001-20241212    clang-20
-arm64              randconfig-002-20241212    clang-15
-arm64              randconfig-003-20241212    clang-20
-arm64              randconfig-004-20241212    gcc-14.2.0
-i386     buildonly-randconfig-001-20241212    clang-19
-i386     buildonly-randconfig-002-20241212    clang-19
-i386     buildonly-randconfig-003-20241212    clang-19
-i386     buildonly-randconfig-004-20241212    clang-19
-i386     buildonly-randconfig-005-20241212    clang-19
-i386     buildonly-randconfig-006-20241212    gcc-12
-riscv              randconfig-001-20241212    clang-17
-riscv              randconfig-002-20241212    clang-20
-s390                          allmodconfig    clang-19
-s390                          allyesconfig    gcc-14.2.0
-s390               randconfig-001-20241212    clang-18
-s390               randconfig-002-20241212    clang-20
-sh                            allmodconfig    gcc-14.2.0
-sh                            allyesconfig    gcc-14.2.0
-sh                 randconfig-001-20241212    gcc-14.2.0
-sh                 randconfig-002-20241212    gcc-14.2.0
-sparc                         allmodconfig    gcc-14.2.0
-sparc              randconfig-001-20241212    gcc-14.2.0
-sparc              randconfig-002-20241212    gcc-14.2.0
-sparc64            randconfig-001-20241212    gcc-14.2.0
-sparc64            randconfig-002-20241212    gcc-14.2.0
-um                 randconfig-001-20241212    gcc-12
-um                 randconfig-002-20241212    clang-20
-x86_64   buildonly-randconfig-001-20241212    clang-19
-x86_64   buildonly-randconfig-002-20241212    gcc-12
-x86_64   buildonly-randconfig-003-20241212    clang-19
-x86_64   buildonly-randconfig-004-20241212    clang-19
-x86_64   buildonly-randconfig-005-20241212    gcc-11
-x86_64   buildonly-randconfig-006-20241212    clang-19
-xtensa             randconfig-001-20241212    gcc-14.2.0
-xtensa             randconfig-002-20241212    gcc-14.2.0
+$ cat /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes
+0-1
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+$ cat /sys/block/nvme1n1/multipath/nvme1c3n1/numa_nodes
+2-3
+
+From the above output, we infer that I/O workload targeted at nvme1n1
+and running on numa nodes 0 and 1 would prefer using path nvme1c1n1.
+Similarly, I/O workload running on numa nodes 2 and 3 would prefer
+using path nvme1c3n1. Reading "numa_nodes" file when configured
+io-policy is anything but numa would show no output.
+
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/multipath.c | 27 +++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  1 +
+ drivers/nvme/host/sysfs.c     |  5 +++++
+ 3 files changed, 33 insertions(+)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 8e2865df2f33..6bf5e01b04f4 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -976,6 +976,33 @@ static ssize_t ana_state_show(struct device *dev, struct device_attribute *attr,
+ }
+ DEVICE_ATTR_RO(ana_state);
+ 
++static ssize_t numa_nodes_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	int node, srcu_idx;
++	nodemask_t numa_nodes;
++	struct nvme_ns *current_ns;
++	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
++	struct nvme_ns_head *head = ns->head;
++
++	if (head->subsys->iopolicy != NVME_IOPOLICY_NUMA)
++		return 0;
++
++	nodes_clear(numa_nodes);
++
++	srcu_idx = srcu_read_lock(&head->srcu);
++	for_each_node(node) {
++		current_ns = srcu_dereference(head->current_path[node],
++				&head->srcu);
++		if (ns == current_ns)
++			node_set(node, numa_nodes);
++	}
++	srcu_read_unlock(&head->srcu, srcu_idx);
++
++	return sysfs_emit(buf, "%*pbl\n", nodemask_pr_args(&numa_nodes));
++}
++DEVICE_ATTR_RO(numa_nodes);
++
+ static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
+ 		struct nvme_ana_group_desc *desc, void *data)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 995e33864d81..3265e07b2998 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -979,6 +979,7 @@ static inline void nvme_trace_bio_complete(struct request *req)
+ extern bool multipath;
+ extern struct device_attribute dev_attr_ana_grpid;
+ extern struct device_attribute dev_attr_ana_state;
++extern struct device_attribute dev_attr_numa_nodes;
+ extern struct device_attribute subsys_attr_iopolicy;
+ 
+ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 5a23e23b0d01..5a5ee0beb166 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -258,6 +258,7 @@ static struct attribute *nvme_ns_attrs[] = {
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	&dev_attr_ana_grpid.attr,
+ 	&dev_attr_ana_state.attr,
++	&dev_attr_numa_nodes.attr,
+ #endif
+ 	&dev_attr_io_passthru_err_log_enabled.attr,
+ 	NULL,
+@@ -290,6 +291,10 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ 		if (!nvme_ctrl_use_ana(nvme_get_ns_from_dev(dev)->ctrl))
+ 			return 0;
+ 	}
++	if (a == &dev_attr_numa_nodes.attr) {
++		if (nvme_disk_is_ns_head(dev_to_disk(dev)))
++			return 0;
++	}
+ #endif
+ 	return a->mode;
+ }
+-- 
+2.45.2
+
 
