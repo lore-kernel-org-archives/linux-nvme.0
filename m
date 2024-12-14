@@ -4,64 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B28FE7716A
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Dec 2024 04:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE77BE7716A
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Dec 2024 05:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=r/HpSQZwmseo9rDVHNNPLSwfRN+z5edQANw0G1dEzAc=; b=cqQQSw9rKAISUh
-	LmqkntlZsk15sgLXsXqLEo32n1tCeu0Q9P3lWXN1deG2HEyWvqv2KtRw+/CLDMa2Gt+HwCCf5y7c9
-	Ggme6zTET6dbLdsSFIe72JwEQFCI/2zzxpMQsAHyf+9FGpIwLJ0ZLSjWdmSLtyKFneHEmaCNk/Ysa
-	yoxZ7hTrJHD/gpGNShT5+VFG6E6ftm1PDsTLs184K/hVvI+iR/IpSuDTi2VanbzSCZ2BJy6t0JOmu
-	RV5GmeAcFxx33ecK1ECmPQATELyJdUWR7/6RiNs8EqUsVYS5ro36HkNyGaJZIJXXwfCoyL2YPb5Z9
-	V1/F3jf6cHVU8FFCfqow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UmEAZYbazaiq3UiSAj8WEGOhMeHyFr9+mT0GtYV2jKE=; b=LqxRJSCkrBbRRTNu+X6+Y0XhXi
+	Hs9qtcT+1t4VR21dqqlgAO012+sMntdDevllaz2vNIWAFOwNbTWZXMclSH4KPCFJu7x7E4Lfkz3eN
+	BVAau5Y3uiQDMB/mh8mqLg03ybCmZaZN+un9SszdHlGjpl02zIuKlMLeidFjOa5S6mloO2fOI85jE
+	wNfGU1gJ6f+xBwILPaOsuYYSKch40lpqDQjIyWHF6ZJL1+AwZAJNeptP//o+3vfsRi3PBiNTjjdv0
+	lO4Mqx5LVxV+ZCph2BLgIZYrPmkG+dUAFRfJb0mZLUvQ9zqdTqezgNF1qEm+xWindbqgYQaJejUJl
+	dx92jzbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMJwX-00000005hvI-1k7R;
-	Sat, 14 Dec 2024 04:39:53 +0000
-Received: from abb.hmeau.com ([144.6.53.87])
+	id 1tML4m-00000005lgi-0LRK;
+	Sat, 14 Dec 2024 05:52:28 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMJwV-00000005huu-0MBf
+	id 1tML4j-00000005lgJ-3kQd
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Dec 2024 04:39:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=r/HpSQZwmseo9rDVHNNPLSwfRN+z5edQANw0G1dEzAc=; b=YlJN4FEPOoxStEHXvAGrVTJzda
-	ZEGAqhEa4S4tPopJz4twfi2+MOogH5SRtDML1p0xqpg1k+0420a3dXmM7CEV7o8Lrdgw2jZjZRcpE
-	0CiOZ0OAGlJurncucn0GplEj20u2z4YeCNTDc4K1KLmpKTXasuJA7f1WYdc+00od6iFEWSrbvf2+v
-	gsXsUXzdLn+OgZoJmPHQehzyvC9keVzMgjFZjj9E2/gSRxE0hzfV1q9BmWBiQ0ZkfTosIXjKpHa7K
-	Ng2twiehu3O+iKzV+0kR4D3YlE24G58ovrf7udSKxVIlE+yDBPFAYa162+g4g1bol0ULBIwWy3bw7
-	Ude6tmbA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1tMJjP-001RRD-2M;
-	Sat, 14 Dec 2024 12:39:41 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 14 Dec 2024 12:39:40 +0800
-Date: Sat, 14 Dec 2024 12:39:40 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, ebiggers@kernel.org,
-	linux-crypto@vger.kernel.org, hare@kernel.org
-Subject: Re: [PATCH 01/10] crypto,fs: Separate out hkdf_extract() and
- hkdf_expand()
-Message-ID: <Z10MDHc8fYhLyfbw@gondor.apana.org.au>
+	Sat, 14 Dec 2024 05:52:26 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 0675CA40226;
+	Sat, 14 Dec 2024 05:50:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110D4C4CED1;
+	Sat, 14 Dec 2024 05:52:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734155543;
+	bh=OYdXiKe7Rzv6Q1F23Q/vI3qVefJed3FVeqzukNlTszE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fUyDQssXl9ayZejEHkN2jjg0LvC3RlA46SNqZElFYERNdBsOF6xlaw0dCzFab39Ba
+	 /0yGP1cV5eeZUrXpAAvIiEC7GtBYpLgg6QJgbOsnl6k5j8EQD898289ck3qeqV52bk
+	 ObCdwHD+hlQ7QuOfyLUtWcY0fgsodPmkvmeTbAOA7cZktj9YXfQwZPOUNtOrbTJmNM
+	 frGjIoNa2zJ3DgZtD+R0lNjmHAbAtqBzc2eADdWqbCqDoKtJG1O27YEXm8Uib5u6Sv
+	 czuxUymesXYENnX3uMLj341w1pOtQm9Mmt+BROoJi0zIjTXG5j7b3Jj1UnvZZhUWDb
+	 crYB301Cq9YTQ==
+Message-ID: <09563385-63a4-478d-80ed-81a5ca74d557@kernel.org>
+Date: Sat, 14 Dec 2024 14:52:20 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203110238.128630-2-hare@kernel.org>
-X-Newsgroups: apana.lists.os.linux.cryptoapi
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 17/18] nvmet: New NVMe PCI endpoint target driver
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-pci@vger.kernel.org,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+ Niklas Cassel <cassel@kernel.org>
+References: <20241212185527.GA3356063@bhelgaas>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <20241212185527.GA3356063@bhelgaas>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241213_203951_126754_8B0CB60C 
-X-CRM114-Status: UNSURE (   9.44  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241213_215226_000429_7E6E6CD5 
+X-CRM114-Status: GOOD (  10.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,29 +82,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hannes Reinecke <hare@kernel.org> wrote:
-> Separate out the HKDF functions into a separate module to
-> to make them available to other callers.
-> And add a testsuite to the module with test vectors
-> from RFC 5869 (and additional vectors for SHA384 and SHA512)
-> to ensure the integrity of the algorithm.
+On 12/13/24 03:55, Bjorn Helgaas wrote:
+> On Thu, Dec 12, 2024 at 08:34:39PM +0900, Damien Le Moal wrote:
 > 
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> Acked-by: Eric Biggers <ebiggers@kernel.org>
-> ---
-> crypto/Kconfig        |   6 +
-> crypto/Makefile       |   1 +
-> crypto/hkdf.c         | 573 ++++++++++++++++++++++++++++++++++++++++++
-> fs/crypto/Kconfig     |   1 +
-> fs/crypto/hkdf.c      |  85 ++-----
-> include/crypto/hkdf.h |  20 ++
-> 6 files changed, 616 insertions(+), 70 deletions(-)
-> create mode 100644 crypto/hkdf.c
-> create mode 100644 include/crypto/hkdf.h
+>>    This ensure correct operation if, for instance, the host reboots
+>>    causing the PCI link to be temporarily down.
+> 
+> s/ensure/ensures/
+> 
+>> The configuration of a NVMe PCI endpoint controller is done using
+>> configfgs. First the NVMe PCI target controller configuration must be
+>> done to set up a subsystem and a port with the "pci" addr_trtype
+>> attribute. The subsystem can be setup using a file or block device
+>> backed namespace or using a passthrough NVMe device. After this, the
+>> PCI endpoint can be configured and bound to the PCI endpoint controller
+>> to start the NVMe endpoint controller.
+> 
+> s/addr_trtype/addr_type/ ?
 
-Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+Nope, addr_trtype is correct. "address transport type" is the meaning for an
+nvme target port.
+
+> s/configfgs/configfs/
+
+Good catch. Thanks.
+
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Damien Le Moal
+Western Digital Research
 
