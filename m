@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A684EE7716A
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Dec 2024 06:07:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0084E77180
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Dec 2024 06:07:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=mBppmFpXuEx+ttRac/zg+GvQBoTlVLQIB4M60PVSs0o=; b=DLODYfOcOu5R2tEcD4wB4f82mh
-	mQBg0+qTh3rd+9KM1nh40Lp72W0+8dkSjeDJtsUJfw10xArCz48M2K7WD7alyhwrwgCccElNDcaJa
-	C25zE3gbVEnaIHtu+3KKadBOaYRni2WAdNZeIpVg1/FGZhopsrHs5jpCAurUGNFqdk7cf7wSPRLba
-	UQt3SeuPklvD68gfdXsbC7LT9bjv8Ff+fmgUnK9TrJ1LUf84EZR1lR12aTIHD4BjNVIZP42uJ5yrY
-	aDWy5UAMaGjX3LSEz+Y/K/4Kpe4K60zp95dY7uMXfUi0u5oSWspn2ejM0uOBbMeymo2sQ232uOncu
-	vA/Qf4lA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=c0Y4ULoWkDVMIXjFWZsZqLL2tYBIYgjRCQODy6xQgdI=; b=0K/h5MV0b2Wou9yY6maiA1DyNM
+	ETgDzAxpuWdw7LHGiy6lz6zXXbsPuMJJ83vyn4r6dtjOrZLrhcvoXgIw+qnKHG/BQksT0LeTjo+Hu
+	ahH1hWA/i/+gjMbYHLaquNhvo/gR+68vJrrZnxbvAJtpFJwIZOJo1K4L4CmcPXqdz0un1GGk5Ac1Z
+	CqJMsoN7QoTECmydXVCfZvT4OrodJ7KylK9yU5TreXsJnodxOJpp90q/25Uj1I4NeAqmrzxDhuZM5
+	aMLmwGP74kAibC+gdzXaVcO/Fs6WD1HW/wMqqaxjO3HPXI7yXjIOuKVFy2K97Y1EHYC4EbfK/aELN
+	uM6uML9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMLJ9-00000005mh4-3QBr;
-	Sat, 14 Dec 2024 06:07:19 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tMLJC-00000005miJ-0IF8;
+	Sat, 14 Dec 2024 06:07:22 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMLJ7-00000005mgL-1thJ
+	id 1tMLJ9-00000005mh1-3WRM
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Dec 2024 06:07:18 +0000
+	Sat, 14 Dec 2024 06:07:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 696D85C0267;
-	Sat, 14 Dec 2024 06:06:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F19CC4CED1;
-	Sat, 14 Dec 2024 06:07:14 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id C5FA0A4013E;
+	Sat, 14 Dec 2024 06:05:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B23AAC4CEDD;
+	Sat, 14 Dec 2024 06:07:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734156436;
-	bh=49CwzSNu6sFXO2IVYjDE+NCOhiCSdtNYFnzSt9W0yg4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WfCnergtp/DJMjTUUjaX29JV1KAjpLFsQ5KL9tKj3rHvgo3TN8hONzZXtbIHAYS83
-	 fbZEr1OVuXGedrMIUHqJeVbL9FVmKvsRxfFDBzE5ffW6d2G2ORt4qmzjTAFKCn4lpb
-	 XqfQsKtX1foxXiYHBm+xCwQNePFuadmYNPQx+VfKM6wxjnegEU8fqIaHBN3c4kwD4M
-	 lYiGqwYmnJKF7PIbaZ0EYzK6xcmkLMX+yGmrmPX+ZJSC3rnIDNlBEbgz/TmMsrdxOR
-	 gLfo4Y9KnnzZql7mjrQwhlz/1Qk9OZ23R9188DxEq88+TTPeYZYXbPerROQ+CNopeQ
-	 2842ttbMkBMFQ==
+	s=k20201202; t=1734156438;
+	bh=1NuFx3QMcc1tEVOkMLILvj2kCaplIcqdsykNR20gpaY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dr80J81HggM4nWsTADkBWIRVdK8ufgolDFgBx5a6A/UYR8iNm5OXYOK5dl0iGYqbH
+	 2hr+Dgyx9Zz2N+SiQ+9BWyHJgvMbn7dfmnY+VDTgrR2NbhbXJDW4uuCd1K3EADkPw/
+	 RkrfCvUXXd3lMPDzFNkvT7dTDx/ZvKrdrUUiJ9L821zdCA36RzE/lbMXXBir4xMItb
+	 zGEH+wJmQDfC/YZPp+BT8Q/dNeoUriN2gIGejAd5NFMIMWp6jfiVKQ1cVcv3lSBURQ
+	 F7ae3V8LgHE9G7GNvGrDcL36YuEi4Q07A3/XQxRnvE8W/w0LEqpDsrUi/LoVkXPA2L
+	 L0OyLH3bwW0bA==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,15 +55,17 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v5 00/18] NVMe PCI endpoint target driver
-Date: Sat, 14 Dec 2024 15:06:37 +0900
-Message-ID: <20241214060655.166325-1-dlemoal@kernel.org>
+Subject: [PATCH v5 01/18] nvme: Move opcode string helper functions declarations
+Date: Sat, 14 Dec 2024 15:06:38 +0900
+Message-ID: <20241214060655.166325-2-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241214060655.166325-1-dlemoal@kernel.org>
+References: <20241214060655.166325-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241213_220717_576044_E3F34B1D 
-X-CRM114-Status: GOOD (  23.30  )
+X-CRM114-CacheID: sfid-20241213_220719_997003_68465CF4 
+X-CRM114-Status: GOOD (  11.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,138 +80,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch series implements an NVMe target driver for the PCI transport
-using the PCI endpoint framework.
+Move the declaration of all helper functions converting NVMe command
+opcodes and status codes into strings from drivers/nvme/host/nvme.h
+into include/linux/nvme.h, together with the commands definitions.
+This allows NVMe target drivers to call these functions without having
+to include a host header file.
 
-The first 4 patches of this series move and cleanup some nvme code that
-will be reused in following patches.
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
+---
+ drivers/nvme/host/nvme.h | 39 ---------------------------------------
+ include/linux/nvme.h     | 40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+), 39 deletions(-)
 
-Patch 5 introduces the PCI transport type to allow setting up ports for
-the new PCI target controller driver. Patch 6 to 9 are improvements of
-the target core code to allow creating the PCI controller and processing
-its nvme commands without the need to rely on fabrics commands like the
-connect command to create the admin and I/O queues.
-
-Patch 10 relaxes the SGL check in nvmet_req_init() to allow for PCI
-admin commands (which must use PRPs).
-
-Patches 11 to 15 improve the set/get feature support of the target code
-to get closer to achieving NVMe specification compliance. These patches
-though do not implement support for some mandatory features.
-
-Patch 16 is the main patch which introduces the NVMe PCI endpoint target
-driver. This patch commit message provides and overview of the driver
-design and operation.
-
-Finally, patch 17 documents the NVMe PCI endpoint target driver and
-provides a user guide explaning how to setup an NVMe PCI endpoint
-device.
-
-The patches are base on Linus 6.13-rc2 tree.
-
-This driver has been extensively tested using a Radxa Rock5B board
-(RK3588 Arm SoC). Some tests have also been done using a Pine Rockpro64
-board. However, this board does not support DMA channels for the PCI
-endpoint controller, leading to very poor performance.
-
-Using the Radxa Rock5b board and setting up a 4 queue-pairs controller
-with a null-blk block device loop target, performance was measured using
-fio as follows:
-
- +----------------------------------+------------------------+
- | Workload                         | IOPS (BW)              |
- +----------------------------------+------------------------+
- | Rand read, 4KB, QD=1, 1 job      | 14.3k IOPS             |
- | Rand read, 4KB, QD=32, 1 job     | 80.8k IOPS             |
- | Rand read, 4KB, QD=32, 4 jobs    | 131k IOPS              |
- | Rand read, 128KB, QD=32, 1 job   | 16.7k IOPS (2.18 GB/s) |
- | Rand read, 128KB, QD=32, 4 jobs  | 17.4k IOPS (2.27 GB/s) |
- | Rand read, 512KB, QD=32, 1 job   | 5380 IOPS (2.82 GB/s)  |
- | Rand read, 512KB, QD=32, 4 jobs  | 5206 IOPS (2.27 GB/s)  |
- | Rand write, 128KB, QD=32, 1 job  | 9617 IOPS (1.26 GB/s)  |
- | Rand write, 128KB, QD=32, 4 jobs | 8405 IOPS (1.10 GB/s)  |
- +----------------------------------+------------------------+
-
-These results use the default MDTS of the NVMe enpoint driver of 512 KB.
-
-This driver is not intended for production use but rather to be a
-playground for learning NVMe and exploring/testing new NVMe features
-while providing reasonably good performance.
-
-Changes from v4:
- - Fixed typos in patch 13 and 17 commit message
- - Addressed Bjorn's comments (typos and text clarity) in patch 18.
- - Added Bjorn's Acked-by tag to patch 18
-
-Changes from v3:
- - Added patch 1 which was missing from v3 and caused the 0day build
-   failure
- - Corrected a few typos in the documentation (patch 18)
- - Added Christoph's review tag and Rick's tested tag
-
-Changes from v2:
- - Changed all preparatory patches before patch 16 to move more NVMe
-   generic code out of the PCI endpoint target driver and into the
-   target core.
- - Changed patch 16 to use directly a target controller instead of a
-   host controller. Many aspects of the command management and DMA
-   transfer management have also been simplified, leading to higher
-   performance.
- - Change the documentation patch to match the above changes
-
-Changes from v1:
- - Added review tag to patch 1
- - Modified patch 4 to:
-   - Add Rick's copyright notice
-   - Improve admin command handling (set_features command) to handle the
-     number of queues feature (among others) to enable Windows host
-   - Improved SQ and CQ work items handling
-
-Damien Le Moal (18):
-  nvme: Move opcode string helper functions declarations
-  nvmet: Add vendor_id and subsys_vendor_id subsystem attributes
-  nvmet: Export nvmet_update_cc() and nvmet_cc_xxx() helpers
-  nvmet: Introduce nvmet_get_cmd_effects_admin()
-  nvmet: Add drvdata field to struct nvmet_ctrl
-  nvme: Add PCI transport type
-  nvmet: Improve nvmet_alloc_ctrl() interface and implementation
-  nvmet: Introduce nvmet_req_transfer_len()
-  nvmet: Introduce nvmet_sq_create() and nvmet_cq_create()
-  nvmet: Add support for I/O queue management admin commands
-  nvmet: Do not require SGL for PCI target controller commands
-  nvmet: Introduce get/set_feature controller operations
-  nvmet: Implement host identifier set feature support
-  nvmet: Implement interrupt coalescing feature support
-  nvmet: Implement interrupt config feature support
-  nvmet: Implement arbitration feature support
-  nvmet: New NVMe PCI endpoint target driver
-  Documentation: Document the NVMe PCI endpoint target driver
-
- Documentation/PCI/endpoint/index.rst          |    1 +
- .../PCI/endpoint/pci-nvme-function.rst        |   13 +
- Documentation/nvme/index.rst                  |   12 +
- .../nvme/nvme-pci-endpoint-target.rst         |  368 +++
- Documentation/subsystem-apis.rst              |    1 +
- drivers/nvme/host/nvme.h                      |   39 -
- drivers/nvme/target/Kconfig                   |   10 +
- drivers/nvme/target/Makefile                  |    2 +
- drivers/nvme/target/admin-cmd.c               |  388 ++-
- drivers/nvme/target/configfs.c                |   49 +
- drivers/nvme/target/core.c                    |  266 +-
- drivers/nvme/target/discovery.c               |   17 +
- drivers/nvme/target/fabrics-cmd-auth.c        |   14 +-
- drivers/nvme/target/fabrics-cmd.c             |  101 +-
- drivers/nvme/target/nvmet.h                   |  110 +-
- drivers/nvme/target/pci-ep.c                  | 2626 +++++++++++++++++
- include/linux/nvme.h                          |   42 +
- 17 files changed, 3899 insertions(+), 160 deletions(-)
- create mode 100644 Documentation/PCI/endpoint/pci-nvme-function.rst
- create mode 100644 Documentation/nvme/index.rst
- create mode 100644 Documentation/nvme/nvme-pci-endpoint-target.rst
- create mode 100644 drivers/nvme/target/pci-ep.c
-
-
-base-commit: 231825b2e1ff6ba799c5eaf396d3ab2354e37c6b
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 611b02c8a8b3..2c76afd00390 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1182,43 +1182,4 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
+ 	return (ctrl->ctrl_config & NVME_CC_CSS_MASK) == NVME_CC_CSS_CSI;
+ }
+ 
+-#ifdef CONFIG_NVME_VERBOSE_ERRORS
+-const char *nvme_get_error_status_str(u16 status);
+-const char *nvme_get_opcode_str(u8 opcode);
+-const char *nvme_get_admin_opcode_str(u8 opcode);
+-const char *nvme_get_fabrics_opcode_str(u8 opcode);
+-#else /* CONFIG_NVME_VERBOSE_ERRORS */
+-static inline const char *nvme_get_error_status_str(u16 status)
+-{
+-	return "I/O Error";
+-}
+-static inline const char *nvme_get_opcode_str(u8 opcode)
+-{
+-	return "I/O Cmd";
+-}
+-static inline const char *nvme_get_admin_opcode_str(u8 opcode)
+-{
+-	return "Admin Cmd";
+-}
+-
+-static inline const char *nvme_get_fabrics_opcode_str(u8 opcode)
+-{
+-	return "Fabrics Cmd";
+-}
+-#endif /* CONFIG_NVME_VERBOSE_ERRORS */
+-
+-static inline const char *nvme_opcode_str(int qid, u8 opcode)
+-{
+-	return qid ? nvme_get_opcode_str(opcode) :
+-		nvme_get_admin_opcode_str(opcode);
+-}
+-
+-static inline const char *nvme_fabrics_opcode_str(
+-		int qid, const struct nvme_command *cmd)
+-{
+-	if (nvme_is_fabrics(cmd))
+-		return nvme_get_fabrics_opcode_str(cmd->fabrics.fctype);
+-
+-	return nvme_opcode_str(qid, cmd->common.opcode);
+-}
+ #endif /* _NVME_H */
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 13377dde4527..a5a4ee56efcf 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1896,6 +1896,46 @@ static inline bool nvme_is_fabrics(const struct nvme_command *cmd)
+ 	return cmd->common.opcode == nvme_fabrics_command;
+ }
+ 
++#ifdef CONFIG_NVME_VERBOSE_ERRORS
++const char *nvme_get_error_status_str(u16 status);
++const char *nvme_get_opcode_str(u8 opcode);
++const char *nvme_get_admin_opcode_str(u8 opcode);
++const char *nvme_get_fabrics_opcode_str(u8 opcode);
++#else /* CONFIG_NVME_VERBOSE_ERRORS */
++static inline const char *nvme_get_error_status_str(u16 status)
++{
++	return "I/O Error";
++}
++static inline const char *nvme_get_opcode_str(u8 opcode)
++{
++	return "I/O Cmd";
++}
++static inline const char *nvme_get_admin_opcode_str(u8 opcode)
++{
++	return "Admin Cmd";
++}
++
++static inline const char *nvme_get_fabrics_opcode_str(u8 opcode)
++{
++	return "Fabrics Cmd";
++}
++#endif /* CONFIG_NVME_VERBOSE_ERRORS */
++
++static inline const char *nvme_opcode_str(int qid, u8 opcode)
++{
++	return qid ? nvme_get_opcode_str(opcode) :
++		nvme_get_admin_opcode_str(opcode);
++}
++
++static inline const char *nvme_fabrics_opcode_str(
++		int qid, const struct nvme_command *cmd)
++{
++	if (nvme_is_fabrics(cmd))
++		return nvme_get_fabrics_opcode_str(cmd->fabrics.fctype);
++
++	return nvme_opcode_str(qid, cmd->common.opcode);
++}
++
+ struct nvme_error_slot {
+ 	__le64		error_count;
+ 	__le16		sqid;
 -- 
 2.47.1
 
