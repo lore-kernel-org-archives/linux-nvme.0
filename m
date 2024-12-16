@@ -4,55 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC741E7717F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 09:03:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6578E77183
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 13:13:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=+oYP7ZwnEeonL1pLtE73TJ85xaesKIG0Ys99vCW5hiU=; b=JA2jbjwLYcJyuzgXcX+LkY3ngd
-	KITpTo70/Ya60vtJplNBSTqxly8CssFKsMCXi8OB9SxzbL96/xIGTGCBUwUGKqd+GsL8j/LQwaFsN
-	Vf2opLikRRWe/BPJsOxAoJUnn+EnDzPdVzUpZpglbqeCru5SxFTC47jzZJ6/kc9IrdUSvoDKyHPHF
-	jZBBqPMWyl15jA8ipnZkcIBSSHfEqRARLcMW2uM7qkf8Iy4PgvQlLeyQBAMU2wR+GKj6QZ5ZYy2eM
-	pTRJABsA4pzSA8b6ozBm329G9Tr5Wkm6W8WM4HTMeLBiW6PGpoy0rQJb/xx2zAE27Js4kXswW9zC4
-	VclYxGXg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sz1vsX3tez7NaMmywwnTMbPcosDgdD+BnlYLC8y3gQ4=; b=Njdai+b8+p2yiHjlQV9fZc3e9k
+	ro+Oa1P2qNtGZP1qDvfLtx3Aygocf9cF18wPCwAN+NZktp/2aBRGLYj7qdVYjMmNOssdOmQgCFKQc
+	GFzOeKYszdo+b400W/NnFRD/onAIGfmOtIh2AqQZaYicT8RWBzi0zToErMr1OBFlDiaom1pcd8OnE
+	zo/s/N3SsgHaNx7hqA5QG9jfjvkVSvHw12v7N+aN8oLqJOKqo1nokXgONIcncnwoHdX91RED4YtC7
+	ZkMQwc/rjy7LKL2rEqHJI1PT7g5SVI+QYykt0dGHNFaJcbNBn2CTQ+pJ1C9BO1ukS2FUPAMlYxQU5
+	Y+Rm8rmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tN70H-00000009U61-48Vr;
-	Mon, 16 Dec 2024 09:03:01 +0000
-Received: from mail.analyticsservices.pl ([217.61.0.186])
+	id 1tNAuI-0000000A4Ly-3puq;
+	Mon, 16 Dec 2024 13:13:06 +0000
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tN6y5-00000009TjN-3x5n
+	id 1tNAoL-0000000A32I-3aRw
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Dec 2024 09:00:47 +0000
-Received: by mail.analyticsservices.pl (Postfix, from userid 1002)
-	id 697BA84134; Mon, 16 Dec 2024 09:57:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=analyticsservices.pl;
-	s=mail; t=1734339458;
-	bh=+oYP7ZwnEeonL1pLtE73TJ85xaesKIG0Ys99vCW5hiU=;
-	h=Date:From:To:Subject:From;
-	b=RukeqpN5VP53ywDfj0cgZwh3cNH1SqC6tPo0hLnYbuGEnM1EV/bVarEQHNndtP1IF
-	 nc7tA9fPURwDHA9QEjCn7PTvy5bkgHRGWein6LQm5F/Cke2mczdVfq73VVTxY4wdXs
-	 gMNaWtucIJxc+SJu/+5HJ1OB/xfwiEZVLp26ux5IPqb3L1vsDOF8b+lbyqT/v6SyVY
-	 a7Ytn+V3Nf4GRSwWY5eiyitRLoNQjbxUoCuPOdN9NQ6ZGGkdDPJYXvMqO76V1EasNl
-	 2SLGIr8+yHjpdLgMaij4EjsaK8UelzGQKw84xeBE/3oVTlxL65CctpNnIXhAtMTfvR
-	 znyPxF6fiVikQ==
-Received: by mail.analyticsservices.pl for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 08:56:01 GMT
-Message-ID: <20241216084501-0.1.i.3n7b.0.ecmc1oy7dh@analyticsservices.pl>
-Date: Mon, 16 Dec 2024 08:56:01 GMT
-From: "Patryk Wysocki" <patryk.wysocki@analyticsservices.pl>
-To: <linux-nvme@lists.infradead.org>
-Subject: Zapytanie ofertowe 
-X-Mailer: mail.analyticsservices.pl
+	Mon, 16 Dec 2024 13:07:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=sz1vsX3tez7NaMmywwnTMbPcosDgdD+BnlYLC8y3gQ4=;
+  b=SK4Ht0HDoAk8x64Jl6C4YL18d9en3O0hBMHjoGwuDqxJMGZngZtVmQ96
+   JAg0xMecHRcL0QXxhSiPSOhmMyACI04Gv7GU+7Vx3y9faNMKd/+n8XgYi
+   uTyCuf2EmeWaTklSCqZTZXMyP4vkENZMTWbAErjxdAeFarMNdD1fcJXge
+   s=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=keisuke.nishimura@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.12,238,1728943200"; 
+   d="scan'208";a="104444927"
+Received: from dt-aponte.paris.inria.fr (HELO [128.93.67.66]) ([128.93.67.66])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 14:06:51 +0100
+Message-ID: <d0b96f78-7538-4bf9-acec-711e3b0b912d@inria.fr>
+Date: Mon, 16 Dec 2024 14:06:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: Allocate memory for xa_store in advance in
+ nvme_get_effects_log
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <20241202124239.49894-1-keisuke.nishimura@inria.fr>
+ <20241212062749.GA5718@lst.de>
+Content-Language: en-US
+From: Keisuke Nishimura <keisuke.nishimura@inria.fr>
+In-Reply-To: <20241212062749.GA5718@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241216_010046_117714_E82A4A65 
-X-CRM114-Status: UNSURE (   2.27  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241216_050658_373684_6998D7BA 
+X-CRM114-Status: GOOD (  13.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,17 +74,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dzie=C5=84 dobry,
+Hello,
 
-Pozwoli=C5=82em sobie na kontakt, poniewa=C5=BC jestem zainteresowany wer=
-yfikacj=C4=85 mo=C5=BCliwo=C5=9Bci nawi=C4=85zania wsp=C3=B3=C5=82pracy.
+On 12/12/2024 07:27, Christoph Hellwig wrote:
+> On Mon, Dec 02, 2024 at 01:42:40PM +0100, Keisuke Nishimura wrote:
+>> +	ret = xa_reserve(&ctrl->cels, csi, GFP_KERNEL);
+>> +	if (ret) {
+>> +		kfree(cel);
+>> +		return ret;
+>> +	}
+>> +
+>>   	ret = nvme_get_log(ctrl, 0x00, NVME_LOG_CMD_EFFECTS, 0, csi,
+>>   			cel, sizeof(*cel), 0);
+> 
+> There isn't really any point in doing a xa_reserve here vs simply
+> handling the xa_store error a bit below.
+> 
 
-Wspieramy firmy w pozyskiwaniu nowych klient=C3=B3w biznesowych.
+Thank you for your reply.
 
-Czy mo=C5=BCemy porozmawia=C4=87 w celu przedstawienia szczeg=C3=B3=C5=82=
-owych informacji?=20
+Without this xa_reserve(), if xa_store() fails, we cannot store cel after 
+calling nvme_get_log() which can have side effects. My intention is to ensure 
+xa_store() succeeds first and, if not, return early before invoking nvme_get_log().
 
+But I am not very familiar with this code. If it is okay to check after the 
+nvme_get_log(), I will send the patch soon.
 
-Pozdrawiam
-Patryk Wysocki
+best,
+Keisuke
 
