@@ -4,100 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0153DE77180
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 16:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AB9CE77180
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 16:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uf/C35BwQBTRlT0IeaFUKw9xJGt6H8iM2xKqt61L0Gc=; b=t6UPahwxz4WwWbKMgyCB8nYCao
-	rnvj2Ajn3cegX6hySjGF5864ghALq6qM5KLkgW3fzY+lii2TVkV4NVVKiSOlCJMLLeK5dgu2BYNxa
-	vYR5Msj65cAItdKqui1S6E7ElJWnv8kG4lVltRZqzhepFOMftuTS1/vzA6E/LzxYmxMxCB9dtuKuw
-	sIs57dljraK2M6KEHKYbbeBT+FqVAic1aedGieoHMBVRlaBqzTVRhBDHkRh1IsstjoBnRlF7LiIxt
-	tP6/5lQsCElFo60q6TX3OecI+YnWO/VhaPNuyiVIcBM541b6sFX4Xc+FfW6ZJncoeb0Kqnm+tJVTS
-	R9CweZwA==;
+	bh=fvPA/Xow3m3G42ETCw/C7YnNXiVSSwMvusNe5RP65TU=; b=qysqLQf/mn9c0uJvrvQSFGZLYT
+	uzaiK8cI4z8Qsk/dpnCI9cXy67iZFl+EBVXCO64bu/vMjSQziQVKjLbg+sD4zfUdr7cioTDHCVjCL
+	NBNm+ifMm8qIMF9lMSV18gp1nlJXUeptSA9LN0Cf8l403M4S33Jk+BuYNYtQLHHETEHIzi0+8vahR
+	6572jKhaEIg3f32FQT4jmuNz9XUae6KHnJaKQKHKLZn99cDwA1mLxA0oaCekFaDr4pQPoADjC3Nc7
+	60G8iPVWieiC6aT/2UAn4d8oypcHmriaghZEZTUiZ8mpPdQUY/DGOYQj+fjG7xVLKwsXEM4G0kU5R
+	owSfp5JQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNEGu-0000000Aeih-3s23;
-	Mon, 16 Dec 2024 16:48:40 +0000
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+	id 1tNEIW-0000000Af6Q-1aQJ;
+	Mon, 16 Dec 2024 16:50:20 +0000
+Received: from hours.tkos.co.il ([84.110.109.230] helo=mail.tkos.co.il)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNEGs-0000000Aehh-08Pf
+	id 1tNEIO-0000000Af24-3dt3
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Dec 2024 16:48:39 +0000
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-2163b0c09afso38189735ad.0
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 08:48:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734367717; x=1734972517; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uf/C35BwQBTRlT0IeaFUKw9xJGt6H8iM2xKqt61L0Gc=;
-        b=mg1UyBAi5Huh+dwJaWPi41UM0zrQXfiRViNIh/8AW1nKt36hlZQnk3XYEdfSNNlwNg
-         C0XA5ZHxYLZPOGd6dP17ufSZmJ7vf7t9FFBNvpxikt68tK3Ml8ePw04FkhZJb/0nW+QY
-         f4SECe25F89eWN4ZRGinyYySNauJ5JMmqdurGyhTzRmpF8yOjyGhqDL21upbuR2+pDE8
-         +af2mJN4TAFmpHR7Uh1AWQfa+WYv4JARIR6c6+HNjrhigmQyYZryRtq+JEvVYgrGHnZ7
-         W3ho5Q6h8dQgGoYc9X73amOMgR/ezY/imNZD7A8q6Q2cr2Cg27dRlfhr61Drz3R8P4+/
-         2jpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734367717; x=1734972517;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uf/C35BwQBTRlT0IeaFUKw9xJGt6H8iM2xKqt61L0Gc=;
-        b=AOWh/noIIBJTzUQmi9+KQZRGlLUi20c/rixha0npAiHf3hSDj7NSeb4xrBeaVRdAi5
-         fD9Pyf2/GWcsc2Z70FqKPR/947dCldPnsrk53UqdR9N8jYt5jOHfQO2Nf9JU33Ba46Wl
-         kdULTzyU6b9WNH+lGgaZEvr1dzjlteqkHSA0j0P4CxGz8P/I9Mp4BurzLrXEKGVzBzmY
-         qG7ko4++3kyueEzO7AozSQgmt7PYbTHOuSc//HGHwqMkBUOcUkfinsQRkZzrO7jbjP8T
-         ZRRIM9s5nTBQW0+tzj/dvL03Jk3qhih5wnJH2yM/wLqMwAGya7m84k3/a1EfZqS+034A
-         nS7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXtCbkC5HLHJ66SOJGvSaUaY5Kv0JtVkdc8kXab85D8wpACYVVIAHjDifQUOTorI4NKOj6Dusbn6NQu@lists.infradead.org
-X-Gm-Message-State: AOJu0Yybiv/jB9GFD0S4QHUd5NoK9FmAnarKviLRc0d4x6naCqlTdU4i
-	V+a9NL1B1K6V7kzxNjAgWefG2TFT2o2j60xkyEtLB+1LllVhXxxZGKm7Z5X6Qg==
-X-Gm-Gg: ASbGncsGtq5psu8bbmLpJLBtM4O9WvU8zZJa15W6oh91uhL8qVskbqO+8snS0LQ0SLJ
-	AiUUUF2//9w1CakUC3856rWmXPW4TyLQs4Shg1mVi9qVQOJeR7gQ/40/chYtly7ciYX4mgc72AD
-	pqsUfeN/G0WGtg2owH5cnEldWfjz87qN5/Ica8/ixf3+GiBKT//+dRm+fXMdMLk4u6ifif5s9hd
-	E2gpu5O7HP/id9yjAdhbFAXIE1j1O972uBraM2g53pXeKpc1RqXPRkJGyAtq061cpkM
-X-Google-Smtp-Source: AGHT+IEbjZhCC60l4mXiJWyw0YJq9ctEYxooGkv/o7bOg9yFa29PqtrzXCLZoknekW9tg22tCtP5pg==
-X-Received: by 2002:a17:902:ccd2:b0:216:26f1:530b with SMTP id d9443c01a7336-21892a70579mr183783695ad.51.1734367717333;
-        Mon, 16 Dec 2024 08:48:37 -0800 (PST)
-Received: from thinkpad ([120.56.200.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e510a9sm44948185ad.167.2024.12.16.08.48.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 08:48:36 -0800 (PST)
-Date: Mon, 16 Dec 2024 22:18:30 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Ulf Hansson <ulf.hansson@linaro.org>,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org,
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	andersson@kernel.org, konradybcio@kernel.org,
-	Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
- the user
-Message-ID: <20241216164830.36lpu6gfnapsdar4@thinkpad>
-References: <20241205232900.GA3072557@bhelgaas>
- <20241209143821.m4dahsaqeydluyf3@thinkpad>
- <20241212055920.GB4825@lst.de>
- <13662231.uLZWGnKmhe@rjwysocki.net>
- <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com>
- <20241212151354.GA7708@lst.de>
- <CAJZ5v0gUpDw_NjTDtHGCUnKK0C+x0nrW6mP0tHQoXsgwR2RH8g@mail.gmail.com>
- <20241214063023.4tdvjbqd2lrylb7o@thinkpad>
- <20241216162303.GA26434@lst.de>
- <CAJZ5v0g8CdGgWA7e6TXpUjYNkU1zX46Rz3ELiun42MayoN0osA@mail.gmail.com>
+	Mon, 16 Dec 2024 16:50:14 +0000
+Received: from localhost (unknown [10.0.8.3])
+	by mail.tkos.co.il (Postfix) with ESMTP id 7B3D5440022;
+	Mon, 16 Dec 2024 18:45:53 +0200 (IST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
+	s=default; t=1734367553;
+	bh=fuQeC2e0rsD0c2PAdGiK/vNcTpRlD2eT0wbcH+7rOuI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=dyPS5KXeVFNOAOgbpUJBmeZPtPHiaRB+ftUGcO0KQJdZWctFA2VY8i2x93GpTWvgO
+	 RQt8Hbvz85jac1yLI22gRyQbAQ/UtKYI1bFzcWeLES3rsFuQQE8woqh68RWXMhETvn
+	 MWoryPfIamgyaCfCEvxSyMrKzz2D+nzeKKCDs4P+Hcp46LdaZK7OTsuQva7ZfWWmuJ
+	 hMtLT0HX4qPQGW5IMwLt7Wz84k64EAiBnNCO/E7OrPdbMG/iHDyK7aD01RbaIo1M6k
+	 mbjzee3UBZDTsIDyJ/TpkGwXMvsjfoN0DHWAnL04xQVG86flwIxgRfO3DdE9VpTZ68
+	 WToh21KpiQgZw==
+From: Baruch Siach <baruch@tkos.co.il>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,  Jens Axboe <axboe@fb.com>,  Sagi
+ Grimberg <sagi@grimberg.me>,  linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: use dev_err() to make message more useful
+In-Reply-To: <20241212072918.GA7039@lst.de> (Christoph Hellwig's message of
+	"Thu, 12 Dec 2024 08:29:18 +0100")
+References: <551518fe326d5cff08aa2df1b7d69fcd689fdd96.1733988012.git.baruch@tkos.co.il>
+	<20241212072918.GA7039@lst.de>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Mon, 16 Dec 2024 18:50:03 +0200
+Message-ID: <87pllrvah0.fsf@tarshish>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0g8CdGgWA7e6TXpUjYNkU1zX46Rz3ELiun42MayoN0osA@mail.gmail.com>
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241216_084838_116750_AE4C5733 
-X-CRM114-Status: GOOD (  19.89  )
+X-CRM114-CacheID: sfid-20241216_085013_379221_A48CD706 
+X-CRM114-Status: UNSURE (   9.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,30 +72,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 16, 2024 at 05:42:30PM +0100, Rafael J. Wysocki wrote:
-> On Mon, Dec 16, 2024 at 5:23 PM Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > On Sat, Dec 14, 2024 at 12:00:23PM +0530, Manivannan Sadhasivam wrote:
-> > > We need a PM core API that tells the device drivers when it is safe to powerdown
-> > > the devices. The usecase here is with PCIe based NVMe devices but the problem is
-> > > applicable to other devices as well.
-> >
-> > Maybe I'm misunderstanding things, but I think the important part is
-> > to indicate when a suspend actually MUST put the device into D3.  Because
-> > doing that should always be safe, but not always optimal.
-> 
-> I'm not aware of any cases when a device must be put into D3cold
-> (which I think is what you mean) during system-wide suspend.
-> 
-> Suspend-to-idle on x86 doesn't require this, at least not for
-> correctness.  I don't think any platforms using DT require it either.
-> 
+Hi Christoph,
 
-On suspend-to-idle, yes D3Cold doesn't make sense, but on suspend-to-ram it is
-pretty much required. That applies to DT as well.
+On Thu, Dec 12 2024, Christoph Hellwig wrote:
+> On Thu, Dec 12, 2024 at 09:20:12AM +0200, Baruch Siach wrote:
+>> +	req = nvme_find_rq(&anv->ctrl, apple_nvme_queue_tagset(anv, q), command_id);
+>
+> Please avoid the overly long lines.  Note that the nvme_ctrl has pointers
+> to the admin and io tagset, so you can actuall simply the second paramter
+> here by just passing a 'bool admin_queue' and remove the
+> apple_nvme_queue_tagset, nvme_queue_tagset, nvme_rdma_tagset and
+> nvme_loop_tagset helpers entirely.  The TCP one still has other users
+> by might be worth looking into as a follow up.
 
-- Mani
+Passing 'bool admin_queue' is not enough. You also need qid to select
+blk_mq_tags in the tagset.tags[] array.
+
+Is it worth it?
+
+baruch
 
 -- 
-மணிவண்ணன் சதாசிவம்
+                                                     ~. .~   Tk Open Systems
+=}------------------------------------------------ooO--U--Ooo------------{=
+   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
 
