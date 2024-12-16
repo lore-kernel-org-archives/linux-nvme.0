@@ -4,77 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B52BE7717F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 16:24:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F348E7717F
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 16:36:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8FqLaQo/Ha239j2RPd4CL+f3v5OisyJVnWWj3DVfKVE=; b=ce/+jLSXtqAmI6V/Kke7TRZwHD
-	nju3DN39iHlXCfcJUrOOKiwdkHlFY1GSMorrfAxvf5Eg8UY6P48yaf5G8meoX2VIGq1DfMs0VXkIF
-	flCfHutjUJXm2uwVKoy79GWrpuGj1c5TClhXqpraxHgEBlJkA4v9mI2qezbCF6D9Ih91leiO9RBds
-	ZRExyFvne18kUQG3m6af1iVU908v6O/1eLh5pzwFDQrkTT7N7qCc9t5D/7W5TjAm3kDtYHLwpEVe/
-	8EfzUTGHrxFyEp2FgEvZ50w1AS2peH9nRjzaUHc95FbKupFc/WWn3078pYlTYaTHE7EcwPftS0ctq
-	i81CPraQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DzzV61XwastlTTMvvo2MQirkjlXA1mkmbx6BJJgKAtU=; b=0dKtuxRhjm82y6nks8fRZ8FHH9
+	rBIx7q/CK8F/FXoXTyFQj+RNVnFVruQmK7CIA3z8ZVGFKwh6fPx1kO2Y/gzux81Rx7n8qGKS6CHvo
+	ms1LVjMup7xrxuM1NgVRYennSBiEtipGK5uy6f2qZIUGAFOgmD0XgIRNST/bU4PJ5BmCc6nE0iy6o
+	dPaeu4Gh6bnpIPUjIieeb6ZjG70G5AI/ootso3Gx/o8HFV+2CHAiWS14DIHk9T8CtSxTOW0VJnZLE
+	d6p1DUev+UAC9LzVfFn348lbjUP8gFo0Mx25tcFnq9qpyz7PGr4g/O38G50s7UmEavzcbm5+jm+Fi
+	lZHwAeBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNDtw-0000000AZcn-3liC;
-	Mon, 16 Dec 2024 16:24:56 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tNE5D-0000000Acds-2mpa;
+	Mon, 16 Dec 2024 16:36:35 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNDtu-0000000AZc4-0bVw
+	id 1tNE4T-0000000AcUD-49oj
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Dec 2024 16:24:55 +0000
+	Mon, 16 Dec 2024 16:35:51 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7E5A5A4188A
-	for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 16:23:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C97C4C4CEE0
-	for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 16:24:52 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id CE24FA4189C;
+	Mon, 16 Dec 2024 16:33:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B1ACC4CED0;
+	Mon, 16 Dec 2024 16:35:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734366292;
-	bh=w1PTq099fUPmKOLGOwuxEQreAZ0DAFQUvgT66g5nJRU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sHg9Ez5H6xJZ2Kx/Eip3R4CQsAKVRtfaG0D3sgMTGNWcWEdS3+glFAIzkf23C3n8H
-	 vpO/2mUje6rggKFbQZRjrVkPdREbJx0964IlAT/7SbbxHausZrphrqSIH3O9uaDN1h
-	 5oTTLS7MwqG8Pojn+IQ4axTyWPFM0dpWDXeeaRPi0Y+vUFExGFCvMCJt6vfcG6zmTy
-	 feERB8GiMVlQUy0zUNtYBEU/Qn75HIvDXKQkftNsXektG/+AW6waHTWEikDj+TeElN
-	 /Ax6UAGIbTEDTKwETgQb8eAznV55oWq36Ys/Oo/g8sPHt9EKPCi+K6B60ZICZtIeKG
-	 rvnPLMKyPk9qw==
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3eba559611aso1081272b6e.0
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 08:24:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWEeXOtpJldi4jOdIOVVDfd+nppEJxPzXDYyN0Gg2Jltoq0L+FtIRPReYhuolsaN57Izn/s4TjuTZz/@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywd8jFxBGUAo9NCGBvVknEPVoLiBYrecbfpQQ1lWoWN1uZE3y/y
-	DEaxIdJnYTw6ARXJXkpydhuk7xj4j5tCem4FgEgKw2RajANcJAeUL5GUNpTfqCiaqfMH1PEy84O
-	C5+nb5cHW6jUD6yM2TfyaNE/MgTA=
-X-Google-Smtp-Source: AGHT+IGw+iVg6bx/NQPGwiqE/iG8J0y0s8wQs5qpKioVLQuHUjKeoJ5TqgowE/h1N6vFU/jCAvbZfMokTY+o7RIH2Hc=
-X-Received: by 2002:a05:6808:2205:b0:3eb:615a:ece5 with SMTP id
- 5614622812f47-3eba686a831mr5106813b6e.15.1734366291846; Mon, 16 Dec 2024
- 08:24:51 -0800 (PST)
+	s=k20201202; t=1734366948;
+	bh=3iPcEokKl82QATys2srvtgnVQ5QzbIcdVKpEDugtwig=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bEW+Y9+sQ5098kCykYnXiLOe2KDPYltyUC0lwNaCTjZN5DVDEkdz0kwpD9Jz7lOXK
+	 7ChbYBvtZ5ihCZnl5W1bGI5EAdi87AbxVLQ576FWnHdGKGCIVmA63uLmdJm3laYXpM
+	 oNkiXxSv8BTKtUKkUKcKPJfx/LoQ4fjjL0n8AQiB/XK3Odj4o/isMZJhQP7eq5fl9i
+	 T9nm7jQDuEDaygqccErIx0sg6sDOQJ8b+zDPuxHmdXwSuCcSw/UboMVgyCrAfikUZB
+	 UPJrccNonuV7AH+V6BCGZsmFDghCt5NpIa39eC6pNF0gEpwncs2RceIqISRpz9ssmB
+	 xgGSmSjObj05w==
+Date: Mon, 16 Dec 2024 22:05:44 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v4 17/18] nvmet: New NVMe PCI endpoint target driver
+Message-ID: <Z2BW4CjdE1p50AhC@vaman>
+References: <20241212113440.352958-1-dlemoal@kernel.org>
+ <20241212113440.352958-18-dlemoal@kernel.org>
+ <Z1xoAj9c9oWhqZoV@ryzen>
 MIME-Version: 1.0
-References: <20241205232900.GA3072557@bhelgaas> <20241209143821.m4dahsaqeydluyf3@thinkpad>
- <20241212055920.GB4825@lst.de> <13662231.uLZWGnKmhe@rjwysocki.net>
- <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com>
- <20241212151354.GA7708@lst.de> <CAJZ5v0gUpDw_NjTDtHGCUnKK0C+x0nrW6mP0tHQoXsgwR2RH8g@mail.gmail.com>
- <20241214063023.4tdvjbqd2lrylb7o@thinkpad>
-In-Reply-To: <20241214063023.4tdvjbqd2lrylb7o@thinkpad>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 16 Dec 2024 17:24:40 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gLMx+tBo+MA3AQZ7qP28Z91d04oVBHVeTNcd-QD=kJZg@mail.gmail.com>
-Message-ID: <CAJZ5v0gLMx+tBo+MA3AQZ7qP28Z91d04oVBHVeTNcd-QD=kJZg@mail.gmail.com>
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by the user
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Christoph Hellwig <hch@lst.de>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>, Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, 
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, andersson@kernel.org, 
-	konradybcio@kernel.org, Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z1xoAj9c9oWhqZoV@ryzen>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241216_082454_321877_9D3570C2 
-X-CRM114-Status: GOOD (  53.21  )
+X-CRM114-CacheID: sfid-20241216_083550_159363_96E7E2EA 
+X-CRM114-Status: GOOD (  36.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,150 +81,157 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Dec 14, 2024 at 7:30=E2=80=AFAM Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> wrote:
->
-> On Fri, Dec 13, 2024 at 03:35:15PM +0100, Rafael J. Wysocki wrote:
-> > On Thu, Dec 12, 2024 at 4:14=E2=80=AFPM Christoph Hellwig <hch@lst.de> =
-wrote:
-> > >
-> > > On Thu, Dec 12, 2024 at 01:49:15PM +0100, Ulf Hansson wrote:
-> > > > Right. This seems to somewhat work for ACPI types of systems, becau=
-se
-> > > > ACPI is controlling the low power state for all the devices. Based =
-on
-> > > > the requested system wide low power state, ACPI can then decide to
-> > > > call pm_set_suspend_via_firmware() or not.
-> > > >
-> > > > Still there is a problem with this for ACPI too.
-> > > >
-> > > > How does ACPI know whether it's actually a good idea to keep the NV=
-Me
-> > > > storage powered in s2idle (ACPI calls pm_set_suspend_via_firmware()
-> > > > only for S2R and S2disk!?)? Especially when my laptop only supports
-> > > > s2idle and that's what I will use when I close the lid. In this way=
-,
-> > > > the NMVe storage will certainly contribute to draining the battery,
-> > > > especially when I won't be using my laptop for a couple of days.
-> > > >
-> > > > In my opinion, we need a better approach that is both flexible and
-> > > > that dynamically adjusts based upon the use case.
-> > >
-> > > Agreed.  I'd be happy to work with the PM maintainers to do this,
-> > > but I don't really know enough about the PM core to drive it
-> > > (as the reply from Rafael to my mail makes pretty clear :))
-> >
-> > I'm here to help.
-> >
-> > Let me know what exactly you want to achieve and we'll see how to make =
-it work.
->
-> I'll try to summarize the requirement here since I started this thread:
->
-> Problem statement
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> We need a PM core API that tells the device drivers when it is safe to po=
-werdown
-> the devices. The usecase here is with PCIe based NVMe devices but the pro=
-blem is
-> applicable to other devices as well.
->
-> Drivers are relying on couple of options now:
->
-> 1. If pm_suspend_via_firmware() returns true, then drivers will shutdown =
-the
-> device assuming that the firmware is going to handle the suspend. But thi=
-s API
-> is currently used only by ACPI. Even there, ACPI relies on S2R being supp=
-orted
-> by the platform and it sets pm_set_suspend_via_firmware() only when the s=
-uspend
-> is S2R. But if the platform doesn't support S2R (current case of most of =
-the
-> Qcom SoCs), then pm_suspend_via_firmware() will return false and NVMe won=
-'t be
-> powered down draining the battery.
+Hi Niklas,
 
-So my question here would be why is it not powered down always during
-system-wide suspend?
+On 13-12-24, 17:59, Niklas Cassel wrote:
+> Hello Vinod,
+> 
+> I am a bit confused about the usage of the dmaengine API, and I hope that you
+> could help make me slightly less confused :)
 
-Why exactly is it necessary to distinguish one case from the other
-(assuming that we are talking about system-wide suspend only)?
+Sure thing!
 
-There are drivers that use pm_suspend_via_firmware() to check whether
-or not something special needs to be done to the device because if
-"false" is returned, the platform firmware is not going to remove
-power from it.
+> If you look at the nvmet_pciep_epf_dma_transfer() function below, it takes a
+> mutex around the dmaengine_slave_config(), dmaengine_prep_slave_single(),
+> dmaengine_submit(), dma_sync_wait(), and dmaengine_terminate_sync() calls.
+> 
+> I really wish that we would remove this mutex, to get better performance.
+> 
+> 
+> If I look at e.g. the drivers/dma/dw-edma/dw-edma-core.c driver, I can see
+> that dmaengine_prep_slave_single() (which will call
+> device_prep_slave_sg(.., .., 1, .., .., ..)) allocates a new
+> dma_async_tx_descriptor for each function call.
+> 
+> I can see that device_prep_slave_sg() (dw_edma_device_prep_slave_sg()) will
+> call dw_edma_device_transfer() which will call vchan_tx_prep(), which adds
+> the descriptor to the tail of a list.
+> 
+> I can also see that dw_edma_done_interrupt() will automatically start the
+> transfer of the next descriptor (using vchan_next_desc()).
+> 
+> So this looks like it is supposed to be asynchronous... however, if we simply
+> remove the mutex, we get IOMMU errors, most likely because the DMA writes to
+> an incorrect address.
+> 
+> It looks like this is because dmaengine_prep_slave_single() really requires
+> dmaengine_slave_config() for each transfer. (Since we are supplying a src_addr
+> in the sconf that we are supplying to dmaengine_slave_config().)
+> 
+> (i.e. we can't call dmaengine_slave_config() while a DMA transfer is active.)
+> 
+> So while this API is supposed to be async, to me it looks like it can only
+> be used in a synchronous manner... But that seems like a really weird design.
+> 
+> Am I missing something obvious here?
 
-However, you seem to be talking about the opposite, so doing something
-special to the device if "true" is returned.  I'm not sure why this is
-necessary.
+Yes, I feel nvme being treated as slave transfer, which it might not be.
+This API was designed for peripherals like i2c/spi etc where we have a
+hardware address to read/write to. So the dma_slave_config would pass on
+the transfer details for the peripheral like address, width of fifo,
+depth etc and these are setup config, so call once for a channel and then
+prepare the descriptor, submit... and repeat of prepare and submit ...
 
-> If the platform is using DT, then there is no entity setting
-> pm_set_suspend_via_firmware().
+I suspect since you are passing an address which keep changing in the
+dma_slave_config, you need to guard that and prep_slave_single() call,
+as while preparing the descriptor driver would lookup what was setup for
+the configuration.
 
-That's true and so the assumption is that in this case the handling of
-all devices will always be the same regardless of which flavor of
-system suspend is chosen by user space.
+I suggest then use the prep_memcpy() API instead and pass on source and
+destination, no need to lock the calls...
 
-> So NVMe will be kept in low power state all the
-> time (still draining the battery).
+> If the dmaengine_prep_slave_single() instead took a sconfig as a parameter,
+> then it seems like it would be possible to use this API asynchronously.
+> 
+> There does seem to be other drivers holding a mutex around
+> dmaengine_slave_config() + dmaengine_prep_slave_single()... but it feels like
+> this should be avoidable (at least for dw-edma), if
+> dmaengine_prep_slave_single() simply took an sconf.
+> 
+> What am I missing? :)
+> 
+> 
+> Kind regards,
+> Niklas
+> 
+> 
+> On Thu, Dec 12, 2024 at 08:34:39PM +0900, Damien Le Moal wrote:
+> > +static int nvmet_pciep_epf_dma_transfer(struct nvmet_pciep_epf *nvme_epf,
+> > +		struct nvmet_pciep_segment *seg, enum dma_data_direction dir)
+> > +{
+> > +	struct pci_epf *epf = nvme_epf->epf;
+> > +	struct dma_async_tx_descriptor *desc;
+> > +	struct dma_slave_config sconf = {};
+> > +	struct device *dev = &epf->dev;
+> > +	struct device *dma_dev;
+> > +	struct dma_chan *chan;
+> > +	dma_cookie_t cookie;
+> > +	dma_addr_t dma_addr;
+> > +	struct mutex *lock;
+> > +	int ret;
+> > +
+> > +	switch (dir) {
+> > +	case DMA_FROM_DEVICE:
+> > +		lock = &nvme_epf->dma_rx_lock;
+> > +		chan = nvme_epf->dma_rx_chan;
+> > +		sconf.direction = DMA_DEV_TO_MEM;
+> > +		sconf.src_addr = seg->pci_addr;
+> > +		break;
+> > +	case DMA_TO_DEVICE:
+> > +		lock = &nvme_epf->dma_tx_lock;
+> > +		chan = nvme_epf->dma_tx_chan;
+> > +		sconf.direction = DMA_MEM_TO_DEV;
+> > +		sconf.dst_addr = seg->pci_addr;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	mutex_lock(lock);
+> > +
+> > +	dma_dev = dmaengine_get_dma_device(chan);
+> > +	dma_addr = dma_map_single(dma_dev, seg->buf, seg->length, dir);
+> > +	ret = dma_mapping_error(dma_dev, dma_addr);
+> > +	if (ret)
+> > +		goto unlock;
+> > +
+> > +	ret = dmaengine_slave_config(chan, &sconf);
+> > +	if (ret) {
+> > +		dev_err(dev, "Failed to configure DMA channel\n");
+> > +		goto unmap;
+> > +	}
+> > +
+> > +	desc = dmaengine_prep_slave_single(chan, dma_addr, seg->length,
+> > +					   sconf.direction, DMA_CTRL_ACK);
+> > +	if (!desc) {
+> > +		dev_err(dev, "Failed to prepare DMA\n");
+> > +		ret = -EIO;
+> > +		goto unmap;
+> > +	}
+> > +
+> > +	cookie = dmaengine_submit(desc);
+> > +	ret = dma_submit_error(cookie);
+> > +	if (ret) {
+> > +		dev_err(dev, "DMA submit failed %d\n", ret);
+> > +		goto unmap;
+> > +	}
+> > +
+> > +	if (dma_sync_wait(chan, cookie) != DMA_COMPLETE) {
+> > +		dev_err(dev, "DMA transfer failed\n");
+> > +		ret = -EIO;
+> > +	}
+> > +
+> > +	dmaengine_terminate_sync(chan);
+> > +
+> > +unmap:
+> > +	dma_unmap_single(dma_dev, dma_addr, seg->length, dir);
+> > +
+> > +unlock:
+> > +	mutex_unlock(lock);
+> > +
+> > +	return ret;
+> > +}
 
-So what would be the problem with powering it down unconditionally?
-
-> There were attempts to set this flag from
-> PSCI [1], but there were objections on setting this flag when PSCI_SUSPEN=
-D is
-> not supported by the platform (again, the case with Qcom SoCs). Even if t=
-his
-> approach succeeds, then there are concerns that if the platform is used i=
-n an
-> OS like Android where the S2Idle cycle is far more high, NVMe will wear o=
-ut
-> very quickly.
-
-I see.
-
-> So this is where the forthcoming API need to "dynamically adjusts
-> based upon the use case" as quoted by Ulf in his previous reply. One way =
-to
-> achieve would be by giving the flexibility to the userspace to choose the
-> suspend state (if platform has options to select). UFS does something sim=
-ilar
-> with 'spm_lvl' [2] sysfs attribute that I believe Android userspace itsel=
-f makes
-> use of.
-
-Before we're talking about APIs, let's talk about the desired behavior.
-
-It looks like there are cases in which you'd want to turn the device
-off completely (say put it into D3cold in the PCI terminology) and
-there are cases in which you'd want it to stay in a somewhat-powered
-low-power state.
-
-It is unclear to me what they are at this point.
-
-> 2. Making use of pm_suspend_target_state to differentiate between suspend=
- states
-> and powering down the devices only during PM_SUSPEND_MEM (S2R). But this =
-also
-> suffers from the same issue as mentioned above (when platform doesn't sup=
-port
-> S2R).
->
-> TLDR: We need a PM core API that that sets a sane default suspend state f=
-or the
-> platform and also allows dynamically changing/overriding the state (by ta=
-king
-> inputs from userspace etc...). This API should also forbid override, if t=
-he
-> platform has limitations (like if it requires powering down the devices a=
-ll the
-> time (x13s laptops)). Finally, this API would be used by the device drive=
-rs to
-> decide when to safely power down the devices during suspend.
->
-> @Ulf/others: Please chime in if you don't agree with anything I said abov=
-e.
+-- 
+~Vinod
 
