@@ -4,61 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FBAFE77183
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 15:33:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20FBFE7717F
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 15:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IVmG5MyYdf3ILu7AGWa0nQR3zB0gut6OZjpcnC13n/Y=; b=UaYpJDN2QRxQ4nYIgNjojdOC+4
-	eMElmeEIccAZ143Ju4CAbfcJiPQPX3EVcx53dPZFg2CwTLiCPn4hO9Pqjz/Drtxv7atqdsrGupWu5
-	ntakyrK+nnxGyzoA5+FgVTmZLCd2FOu06mD1JYoztn2MqnkqagYHjPPwTmDWGBT0x6pfUkCPa/y0c
-	CpvlC3I4K/L9d2r5mQruNAwr/qKADN3RtG1w9/RyKbhQJRfIueVmHptn/mvnAl5F4bi2Vf93Fh83N
-	Tj5pP/V5SIJjqnHriSqhb+27VHhBhv8mxedBAxMVq7dblgtgSQmOsSNhFx/kEAzvdULf4Sxr4mCQD
-	mx9qKFYg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3ZIij15fhAoaNTgMNA/agucb6f104S7AbJKKr5LRKwo=; b=LTuLrHSvIkRlGHUKWFBhrIgemY
+	ZDpnp68MFkcRgNa4sxJudKdtg0a0oelBDAH08m0DW+ti4RW3Jg5p0ZU8QPEFWuwPvGWPfjBuDDXHq
+	p19Eb4R2MHgja5LUhOsbdYpbMiNqfNLaHIWiZgyD4cd/wB7HmCDIm9L/vovzrYnMf9n1rKP0SPrqO
+	sZ9z7H/ZL4z42+WffBKo5cGo5XzXfCkkhuk8h4e3RTDEI/Y7dkd2SD/1zx2Nn/js/Y8ntjtgrJBMZ
+	RKNAi8zkKnA2tYKD6SpPsLLb5QWfs2/WeQQp6eewLYB/7W8U5nnlFQ02UOfQolwzsu69mnY9EnzUo
+	8KKYHGGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tND5y-0000000AQ6j-3hUI;
-	Mon, 16 Dec 2024 15:33:18 +0000
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104])
+	id 1tNDLc-0000000ATM4-2a8x;
+	Mon, 16 Dec 2024 15:49:28 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tND4t-0000000APy8-1uT8
+	id 1tNDLa-0000000ATKt-0pH3
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Dec 2024 15:32:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=IVmG5MyYdf3ILu7AGWa0nQR3zB0gut6OZjpcnC13n/Y=;
-  b=V93TAmhawi2MA4U2aqTySCVi9h+c3viWuO+m0SEZTjlUgmbpMXEo5Jfg
-   BN5IosthvE61HV2lqSI9b0OSQB5+7WlWwQPxBCpY1a/yP5F3GPeemr8zo
-   5B+1Spu6yOKWq8LVuX2/SQMMCea69DcoM2gJZJlw37QT+JM0fbvL7i3rO
-   o=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=keisuke.nishimura@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.12,238,1728943200"; 
-   d="scan'208";a="104464928"
-Received: from dt-aponte.paris.inria.fr (HELO [128.93.67.66]) ([128.93.67.66])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 16:32:10 +0100
-Message-ID: <1db56eee-5d64-43f2-8595-4af98e54095a@inria.fr>
-Date: Mon, 16 Dec 2024 16:32:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: Add error path for xa_store in nvme_init_effects
-To: Christoph Hellwig <hch@lst.de>
+	Mon, 16 Dec 2024 15:49:27 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 4E96D68C4E; Mon, 16 Dec 2024 16:49:16 +0100 (CET)
+Date: Mon, 16 Dec 2024 16:49:16 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keisuke Nishimura <keisuke.nishimura@inria.fr>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <20241202153921.55766-1-keisuke.nishimura@inria.fr>
- <20241212062852.GB5718@lst.de>
-Content-Language: en-US
-From: Keisuke Nishimura <keisuke.nishimura@inria.fr>
-In-Reply-To: <20241212062852.GB5718@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme: Add error path for xa_store in
+ nvme_init_effects
+Message-ID: <20241216154916.GB23786@lst.de>
+References: <20241216152719.17923-1-keisuke.nishimura@inria.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241216152719.17923-1-keisuke.nishimura@inria.fr>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241216_073211_787607_7D9699C4 
-X-CRM114-Status: GOOD (  12.62  )
+X-CRM114-CacheID: sfid-20241216_074926_375001_EFBC72B1 
+X-CRM114-Status: GOOD (  13.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,29 +61,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Dec 16, 2024 at 04:27:20PM +0100, Keisuke Nishimura wrote:
+> The xa_store() may fail due to memory allocation failure because there
+> is no guarantee that the index NVME_CSI_NVM is already used. This fix
+> introduces a new function to handle the error path.
 
+Looks good:
 
-On 12/12/2024 07:28, Christoph Hellwig wrote:
-> On Mon, Dec 02, 2024 at 04:39:22PM +0100, Keisuke Nishimura wrote:
->>   	if (!ctrl->effects) {
->> +		struct nvme_effects_log *effects, *old;
->> +
->> +		effects = kzalloc(sizeof(*effects), GFP_KERNEL);
->> +		if (effects)
->>   			return -ENOMEM;
->> +
->> +		old = xa_store(&ctrl->cels, NVME_CSI_NVM, effects, GFP_KERNEL);
->> +		if (xa_is_err(old)) {
->> +			kfree(effects);
->> +			return xa_err(old);
->> +		}
->> +		ctrl->effects = effects;
-> 
-> Please split this into a helper now that is becoming rather complex.
-> 
-> Otherwise this looks fine to me.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-Thank you for the review. I will send the new version soon.
-
-Keisuke
 
