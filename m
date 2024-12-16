@@ -4,80 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EEA17E7717F
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 19:43:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F47BE7717F
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Dec 2024 21:06:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bLCUG42w9Rd2j2ctr/dQMjIHxW6uq1VaCrTcAGQt3vQ=; b=TH7JTM5RkVUbJuNHIAJfcHn0Nk
-	8YVhA6nTH2TEH1nMq+yfDstprm8e1FPwMXwj1SZBur88YEDfyhzXa6KHnzVkBAtWTXzfG36TSvtbW
-	LEQHnwfQHrchHYSGdBCdy1ZBtalXoR4lC4E1GskmWWy0plxlCirwlC6DH7njribI1UsGTB5QluvJv
-	z8QIGEVWwQqhqFkW6Vk1vdAyU7n/pHVm/pwFxiQJljEvfd1j2nMw0sveidrm7xGzPRCF6EIPAo1Kw
-	hGwfqwmkaW8AMUive6lujIxfdqHZMguEVN2yhU9A7VdajUXGLmlbhzYbttaypudKAbBZj9Pv8oZxV
-	6AgLab2w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WE7I1RdCaiFsGWQP/POaH7wjDvuk5+mZK0Pk8r0WDGg=; b=ia0RN9EUFtXxuymXRaFWzMRPGA
+	UHNk+FyIJILaX750W4NCedSQaIr2/8vZ+hM+7B9+uqZBgmZMdl9rD3PqYxtbC5IxDzmo/i/N5j1y5
+	cxkJLICjqgsjq6tPDWgJ9JR6vqIJa9plzAMgZr0cYkmZ/cGDIuUFqy20G5eDNsWerrRTXeazT1Xfl
+	h/aayls6LtseGrmXvWJUcgHAYOgC2a0A8gWKbTdKqoJrHpN7td/v91Ty4x7mBI4ec/X3ib4+A0I7s
+	QA2naa8Ol33Z9QszQC+l82DLis9lsmGHAhj6PpEwt7NZPiV/A22FB7xtRhKZG/+Ytldy6Nz7Ez4Dk
+	4UKEMtSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNH0E-0000000B9O9-1Vfm;
-	Mon, 16 Dec 2024 19:43:38 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tNIHu-0000000BNF9-0Wht;
+	Mon, 16 Dec 2024 21:05:58 +0000
+Received: from mgamail.intel.com ([192.198.163.10])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNH0C-0000000B9Nk-26q9
+	id 1tNIHm-0000000BNDi-2hz3
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Dec 2024 19:43:37 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id AA3475C64FA
-	for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 19:42:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E6C8C4CEDE
-	for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 19:43:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734378215;
-	bh=bLCUG42w9Rd2j2ctr/dQMjIHxW6uq1VaCrTcAGQt3vQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=R0Rs4OZkNJFFbVLkxGZkocsVxkqWzRWQUbF7JQOf7Ia5kzkKZIBNEyWgaYt0laS02
-	 v6bniI96SOM8buGJQCOS6vEEsLRfDFYfBKQmQoOIpSJGsjEgO6zjMQj7tVbZYfXGND
-	 gED7MAQU1bO1u8uSKJi2VEnV/U9unIpshjn5CHXmHnBB7iIZkB3wIqpgsDuRxb3Xn1
-	 ktzzVZV20cTNjbxORcBPdnepF+e3UT5CP6Yv0UGUh6oIPYbwdOwOcRl3gKHjOsGk8k
-	 GtDA9dkjnif9DXvhiaics/9Xy9KfVGCJxvRT8DRvppRDkvpMEp6s8cQgdR48iGT7OD
-	 aJG2KRR6r1DLQ==
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3eb9bbcc936so2404281b6e.0
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 11:43:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWgMLW1LTHE2p3UDOQ5PWDgCqvS42qcB5m7j3+wH6Uvrv3+9NkuxlfAv4h2rCxIK360nvsJ5CGq2YEQ@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyp51fXYSRj+jvUc7JeS+KH3CriSQPj+R/ycu+p6cVWM7/AQxBn
-	Kysz+I1VXEz9HWrEn30sU0zI3Nh8BIvgaHijhW9UpSRJuTTt+0sz4m3tpBRT1AXwKfVbf4ohYDA
-	ycAat0+bsyvccnvHoJ+5Ef+c1ULk=
-X-Google-Smtp-Source: AGHT+IHBIkkg9ryeWoXUjvDA+eOStEt8YeUf9CRTqn6A5LAOHY0mQEKE5h0I8dvOns0NI/pgRtXFEf2n3JxCdyuWQY4=
-X-Received: by 2002:a05:6808:2448:b0:3eb:60e9:eae1 with SMTP id
- 5614622812f47-3ebcb33635dmr15143b6e.29.1734378214876; Mon, 16 Dec 2024
- 11:43:34 -0800 (PST)
+	Mon, 16 Dec 2024 21:05:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734383150; x=1765919150;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5ruA/fM3L78iMPD6pDUO2Hh+Hw86GR3xyBSYIE59vrc=;
+  b=AxubyFBn7QAx2c53Q7SaNIOAZ8EELJ92IR7O0AfNqMH/oiH35QYZhIxz
+   vZgtpWnKNeYiiyfmumYAQ/SDABdliSxE6lMHl6l121xGZVIxxieZAISK8
+   flUsOnFDMyq0XjCbcwAghdQUuVMTqWkY3dyNJul/WnyzdYD1KXio8rw49
+   bxJOfY/t41GPR3QcHodUmPn6ri0dn6l7WPIOXr6qvnw9nFnqsmXAf5ajp
+   dn5IcoEqSzQ4H6o2mZdAddP+BRqlPWczJRKGBiGBJ49Uu10Sd/FPfK2u/
+   YMRVLOHlwatKw7i8RrEDgOqHyDH5OwId99CbgkfPxzj9K7K8sd47Saf6u
+   A==;
+X-CSE-ConnectionGUID: AtwIdNg8SHil66ZZFOKTGw==
+X-CSE-MsgGUID: Ec3e6g8UTZKLN7gYxZ88aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="46198983"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="46198983"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 13:05:48 -0800
+X-CSE-ConnectionGUID: n+dVGZE8SHSBjPQs7IPDvA==
+X-CSE-MsgGUID: DhWqMBeJROCKcJmBl25rQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; 
+   d="scan'208";a="102346360"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 16 Dec 2024 13:05:45 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNIHe-000ETS-2L;
+	Mon, 16 Dec 2024 21:05:42 +0000
+Date: Tue, 17 Dec 2024 05:05:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v3 16/17] nvmet: New NVMe PCI endpoint target driver
+Message-ID: <202412170432.ZuybGalF-lkp@intel.com>
+References: <20241210093408.105867-17-dlemoal@kernel.org>
 MIME-Version: 1.0
-References: <13662231.uLZWGnKmhe@rjwysocki.net> <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com>
- <20241212151354.GA7708@lst.de> <CAJZ5v0gUpDw_NjTDtHGCUnKK0C+x0nrW6mP0tHQoXsgwR2RH8g@mail.gmail.com>
- <20241214063023.4tdvjbqd2lrylb7o@thinkpad> <CAJZ5v0gLMx+tBo+MA3AQZ7qP28Z91d04oVBHVeTNcd-QD=kJZg@mail.gmail.com>
- <20241216171108.6ssulem3276rkycb@thinkpad> <CAJZ5v0j+4xjSOOy8TYE0pBuqd_GdQa683Qq0GEyJ9WAFad9Z=A@mail.gmail.com>
- <20241216175210.mnc5kp6646sq7vzm@thinkpad> <CAJZ5v0grRdTYaamSnKSF-HyMmCHDEZ4haLo+ziSBxhDg1PbjRQ@mail.gmail.com>
- <Z2CCH5HAbx8ECDin@kbusch-mbp.dhcp.thefacebook.com>
-In-Reply-To: <Z2CCH5HAbx8ECDin@kbusch-mbp.dhcp.thefacebook.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 16 Dec 2024 20:43:23 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jfaNjgjNAQPa3QPNdU8BCoocsbo4Vfo5obTxcyTKOUWw@mail.gmail.com>
-Message-ID: <CAJZ5v0jfaNjgjNAQPa3QPNdU8BCoocsbo4Vfo5obTxcyTKOUWw@mail.gmail.com>
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by the user
-To: Keith Busch <kbusch@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Christoph Hellwig <hch@lst.de>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, 
-	Bjorn Helgaas <helgaas@kernel.org>, axboe@kernel.dk, sagi@grimberg.me, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, andersson@kernel.org, konradybcio@kernel.org, 
-	Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241210093408.105867-17-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241216_114336_626990_125FD5B0 
-X-CRM114-Status: GOOD (  14.83  )
+X-CRM114-CacheID: sfid-20241216_130551_334383_6422D30B 
+X-CRM114-Status: GOOD (  14.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,25 +95,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 16, 2024 at 8:40=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
-te:
->
-> On Mon, Dec 16, 2024 at 08:34:24PM +0100, Rafael J. Wysocki wrote:
-> > However, there is an additional concern that putting an NVMe device
-> > into D3cold every time during system suspend on Android might cause it
-> > to wear out more quickly.
-> >
-> > Is there anything else?
->
-> I recall a previous reason for this behavior was because the resume
-> latency was significantly faster if we don't prepare the device for D3,
-> and the nvme protocol specific power states for some platforms was
-> sufficiently low enough. Apparently this choice hasn't been universally
-> optimal.
+Hi Damien,
 
-Thanks for chiming in!
+kernel test robot noticed the following build warnings:
 
-I'm recalling some other reasons too (mentioned in one of my previous
-messages), but overall this is a driver design choice, it is not done
-to adhere to some general rule.
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.13-rc3 next-20241216]
+[cannot apply to hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/nvmet-Add-vendor_id-and-subsys_vendor_id-subsystem-attributes/20241210-174321
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20241210093408.105867-17-dlemoal%40kernel.org
+patch subject: [PATCH v3 16/17] nvmet: New NVMe PCI endpoint target driver
+config: i386-randconfig-003-20241217 (https://download.01.org/0day-ci/archive/20241217/202412170432.ZuybGalF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412170432.ZuybGalF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412170432.ZuybGalF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/nvme/target/pci-ep.c: In function 'nvmet_pciep_iod_name':
+   drivers/nvme/target/pci-ep.c:658:16: error: implicit declaration of function 'nvme_opcode_str'; did you mean 'nvme_opcode_name'? [-Werror=implicit-function-declaration]
+     658 |         return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+         |                ^~~~~~~~~~~~~~~
+         |                nvme_opcode_name
+>> drivers/nvme/target/pci-ep.c:658:16: warning: returning 'int' from a function with return type 'const char *' makes pointer from integer without a cast [-Wint-conversion]
+     658 |         return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/bits.h:7,
+                    from include/linux/bitops.h:6,
+                    from include/linux/log2.h:12,
+                    from arch/x86/include/asm/div64.h:8,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:12,
+                    from drivers/nvme/target/pci-ep.c:10:
+   drivers/nvme/target/pci-ep.c: In function 'nvmet_pciep_enable_ctrl':
+   include/uapi/linux/bits.h:9:19: warning: right shift count is negative [-Wshift-count-negative]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:35:38: note: in expansion of macro '__GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/nvme/target/pci-ep.c:1842:26: note: in expansion of macro 'GENMASK'
+    1842 |         pci_addr = acq & GENMASK(63, 12);
+         |                          ^~~~~~~
+   include/uapi/linux/bits.h:9:19: warning: right shift count is negative [-Wshift-count-negative]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:35:38: note: in expansion of macro '__GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/nvme/target/pci-ep.c:1852:26: note: in expansion of macro 'GENMASK'
+    1852 |         pci_addr = asq & GENMASK(63, 12);
+         |                          ^~~~~~~
+   drivers/nvme/target/pci-ep.c: In function 'nvmet_pciep_init_bar':
+>> include/uapi/linux/bits.h:8:31: warning: left shift count >= width of type [-Wshift-count-overflow]
+       8 |         (((~_UL(0)) - (_UL(1) << (l)) + 1) & \
+         |                               ^~
+   include/linux/bits.h:35:38: note: in expansion of macro '__GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/nvme/target/pci-ep.c:1949:23: note: in expansion of macro 'GENMASK'
+    1949 |         ctrl->cap &= ~GENMASK(35, 32);
+         |                       ^~~~~~~
+   include/uapi/linux/bits.h:9:19: warning: right shift count is negative [-Wshift-count-negative]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:35:38: note: in expansion of macro '__GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/nvme/target/pci-ep.c:1949:23: note: in expansion of macro 'GENMASK'
+    1949 |         ctrl->cap &= ~GENMASK(35, 32);
+         |                       ^~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +658 drivers/nvme/target/pci-ep.c
+
+   655	
+   656	static inline const char *nvmet_pciep_iod_name(struct nvmet_pciep_iod *iod)
+   657	{
+ > 658		return nvme_opcode_str(iod->sq->qid, iod->cmd.common.opcode);
+   659	}
+   660	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
