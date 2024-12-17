@@ -4,70 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF929E7717F
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 14:38:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52771E7717F
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 15:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iZMhYB7QeqyIaDFHu2ry20tpnyt3U6FmRIMQfvZ9nJw=; b=lJXM3pJsyAwKBx0teh4hhQHDiK
-	4EdeJanGZ5WFTzrmIKOLQsVc7M7s9I2/dADhEhfoCLtg5XNSRsKMwy5P82ZSZG2401k+8syODfW1k
-	L1n3BxEaVDeyQDZv/MZxjF1BZfq03BEJoFU2LmPBKdgarkBlQSFpLR5qGskE7iu2fCt3/Fy2J4GnH
-	MKrYegBJXM1Cr2nRDhTw1kCb5rklzXjvHx3+xMkXarP1OxvVkQ440SOrF6uKfN3LN1DlLs4/TiDuY
-	l2emTtdzuNLeK7NQcnGnicZP+i68YdLuRY3jD0Fo+rCVGkLKGQyV9KKDdErl6zrTGjBYKwhxJh+kb
-	GDSfeLfw==;
+	bh=hYlaENatvypVpRFRMFxaZrbsz3CLq1CAF+/pGdsVNn0=; b=kshCiKXnTlDLhre71+rsVFoBO1
+	MPCB2rTdW0YAPmsGCsUicKHFtKl5tsfnyZqQ80YCQ200d5jzBYBb2i+yIZSlb21mrQVFWNX9CrESQ
+	QJD9ZpMLo91pWUESDgh76BouCu+ZeyXI57LApJ/qMqkTR6C5kZmB5tg6Cu7j4jvZtO9+gvzuxQuVM
+	DqS9rQbaBabjcM4/AGvPthMCboY9bmm49pa+Wfq1gLU0TGrzsGxobET4EKf0IjKOp5Hs41RynY3MK
+	0boMYCzxQaUcg9f2C1WDKdpVT7xN+iBlEXCdsZTGqBbTDIzILH/fcMpEfu82mKh4NdEJr8fwi+GoR
+	h5T6csSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNYio-0000000Dn1m-2k89;
-	Tue, 17 Dec 2024 14:38:50 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tNZA9-0000000Dsy5-0O8O;
+	Tue, 17 Dec 2024 15:07:05 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNYfg-0000000DmHc-0Ijp
+	id 1tNXCl-0000000DSRY-0v6A
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Dec 2024 14:35:37 +0000
+	Tue, 17 Dec 2024 13:01:40 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 2B3CE5C5FE6;
-	Tue, 17 Dec 2024 14:34:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C007C4CED3;
-	Tue, 17 Dec 2024 14:35:34 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 9DDCCA40FE8;
+	Tue, 17 Dec 2024 12:59:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DE30C4CED4;
+	Tue, 17 Dec 2024 13:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734446135;
-	bh=DIznGnkD+cJkT6D4uFZk4PFQcwNNI1dPTclUv+wTHsk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Y8iSMH60BxhEKFfWuK2qQ1/VdCBNC8/Uk5bOHNPcp3nlRfNMHJTclOpFLNznUsS90
-	 Z+48iO3vMWVPpe5rbwydryUDjgbXdFQ5UjnRLnZWPD/+DWLi4VUgaieiRLbwFa36+f
-	 eJG6RcOGDTnAYHJFDVvnBlpstPqCY1hdzDd+Rgzk8YP4Lbbrm9FtAxt/TsacSUDvPL
-	 2od15LNXLs6Q9OgF1PVl3msw6M69jMY/WRp7Pp52vSQe6Cna4o/doPMn65n24fehhy
-	 35YQHE58NqzhhjFjCMCGSRp1CUSS4VuHnZUsxWin5qrUjnYmDHZEz+AdB/3sSWkujr
-	 DA7CVnfm3A+0A==
-Message-ID: <4015e54a-54a5-4ac7-ae1c-3d2fb935b20f@kernel.org>
-Date: Tue, 17 Dec 2024 06:35:33 -0800
+	s=k20201202; t=1734440498;
+	bh=txr0vDjl8mznkO+cXTCQ+EHv0Saw9V/4thNLzvjUkyQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LdACD9MKWm1D6X4kRWaGTcthlF/q9vCUHezCoZOdL0kT2cXJttd2ePXuz/zIlQNyl
+	 p1T9uZdqg7os8bvNjLWvtY/Lr5cR2Z6JNP5SfO4oN3KqvQr2euWy6ueUFvzxsHQDwC
+	 R45dGMGpmp5NuG7inw7meA1EvPtQkjchsEYMbFYmmszNsEWpE+01zji7p4Mx25xe6B
+	 mrP6eP1QXEnn8RWQ6/61RZRHfZJSAS8otC1BZrVeMEHTBEdyH9ULX4tUYI+DZpbVrA
+	 FT6u2VbZ7DoMdvqfBKNbj2KHcChAxZFAfQfGV2qhyQFOB5pBToEvmDShClNsfty4Qt
+	 I2BRfo/20eJ5Q==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: [PATCH v5 04/17] iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+Date: Tue, 17 Dec 2024 15:00:22 +0200
+Message-ID: <0ae577f8b99f7e03c679729434c87ea7daf78955.1734436840.git.leon@kernel.org>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <cover.1734436840.git.leon@kernel.org>
+References: <cover.1734436840.git.leon@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 17/18] nvmet: New NVMe PCI endpoint target driver
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
- <kw@linux.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Rick Wertenbroek <rick.wertenbroek@gmail.com>,
- Niklas Cassel <cassel@kernel.org>
-References: <20241212113440.352958-1-dlemoal@kernel.org>
- <20241212113440.352958-18-dlemoal@kernel.org>
- <20241217085355.y6bqqisqbr5kbxkl@thinkpad>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20241217085355.y6bqqisqbr5kbxkl@thinkpad>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241217_063536_210234_B4FDE350 
-X-CRM114-Status: GOOD (  40.55  )
+X-CRM114-CacheID: sfid-20241217_050139_406388_C7FDB130 
+X-CRM114-Status: GOOD (  14.23  )
+X-Mailman-Approved-At: Tue, 17 Dec 2024 07:07:03 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,356 +99,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2024/12/17 0:53, Manivannan Sadhasivam wrote:
-> [...]
-> 
->> +/*
->> + * PCI EPF driver private data.
->> + */
->> +struct nvmet_pciep_epf {
-> 
-> nvmet_pci_epf?
-> 
->> +	struct pci_epf			*epf;
->> +
->> +	const struct pci_epc_features	*epc_features;
->> +
->> +	void				*reg_bar;
->> +	size_t				msix_table_offset;
->> +
->> +	unsigned int			irq_type;
->> +	unsigned int			nr_vectors;
->> +
->> +	struct nvmet_pciep_ctrl		ctrl;
->> +
->> +	struct dma_chan			*dma_tx_chan;
->> +	struct mutex			dma_tx_lock;
->> +	struct dma_chan			*dma_rx_chan;
->> +	struct mutex			dma_rx_lock;
->> +
->> +	struct mutex			mmio_lock;
->> +
->> +	/* PCI endpoint function configfs attributes */
->> +	struct config_group		group;
->> +	bool				dma_enable;
->> +	__le16				portid;
->> +	char				subsysnqn[NVMF_NQN_SIZE];
->> +	unsigned int			mdts_kb;
->> +};
->> +
->> +static inline u32 nvmet_pciep_bar_read32(struct nvmet_pciep_ctrl *ctrl, u32 off)
->> +{
->> +	__le32 *bar_reg = ctrl->bar + off;
->> +
->> +	return le32_to_cpu(READ_ONCE(*bar_reg));
-> 
-> Looks like you can use readl/writel variants here. Any reason to not use them?
+From: Leon Romanovsky <leonro@nvidia.com>
 
-A bar memory comes from dma_alloc_coherent(), which is a "void *" pointer and
-*not* iomem. So using readl/writel for accessing that memory seems awefully
-wrong to me.
+Add kernel-doc section for iommu_unmap and iommu_unmap_fast to document
+existing limitation of underlying functions which can't split individual
+ranges.
 
->> +static bool nvmet_pciep_epf_init_dma(struct nvmet_pciep_epf *nvme_epf)
->> +{
->> +	struct pci_epf *epf = nvme_epf->epf;
->> +	struct device *dev = &epf->dev;
->> +	struct nvmet_pciep_epf_dma_filter filter;
->> +	struct dma_chan *chan;
->> +	dma_cap_mask_t mask;
->> +
->> +	mutex_init(&nvme_epf->dma_rx_lock);
->> +	mutex_init(&nvme_epf->dma_tx_lock);
->> +
->> +	dma_cap_zero(mask);
->> +	dma_cap_set(DMA_SLAVE, mask);
->> +
->> +	filter.dev = epf->epc->dev.parent;
->> +	filter.dma_mask = BIT(DMA_DEV_TO_MEM);
->> +
->> +	chan = dma_request_channel(mask, nvmet_pciep_epf_dma_filter, &filter);
->> +	if (!chan)
->> +		return false;
-> 
-> You should also destroy mutexes in error path.
+Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+Acked-by: Will Deacon <will@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ drivers/iommu/iommu.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Good catch. Will add that.
-
-[...]
-
->> +static int nvmet_pciep_epf_dma_transfer(struct nvmet_pciep_epf *nvme_epf,
->> +		struct nvmet_pciep_segment *seg, enum dma_data_direction dir)
->> +{
->> +	struct pci_epf *epf = nvme_epf->epf;
->> +	struct dma_async_tx_descriptor *desc;
->> +	struct dma_slave_config sconf = {};
->> +	struct device *dev = &epf->dev;
->> +	struct device *dma_dev;
->> +	struct dma_chan *chan;
->> +	dma_cookie_t cookie;
->> +	dma_addr_t dma_addr;
->> +	struct mutex *lock;
->> +	int ret;
->> +
->> +	switch (dir) {
->> +	case DMA_FROM_DEVICE:
->> +		lock = &nvme_epf->dma_rx_lock;
->> +		chan = nvme_epf->dma_rx_chan;
->> +		sconf.direction = DMA_DEV_TO_MEM;
->> +		sconf.src_addr = seg->pci_addr;
->> +		break;
->> +	case DMA_TO_DEVICE:
->> +		lock = &nvme_epf->dma_tx_lock;
->> +		chan = nvme_epf->dma_tx_chan;
->> +		sconf.direction = DMA_MEM_TO_DEV;
->> +		sconf.dst_addr = seg->pci_addr;
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +
->> +	mutex_lock(lock);
->> +
->> +	dma_dev = dmaengine_get_dma_device(chan);
->> +	dma_addr = dma_map_single(dma_dev, seg->buf, seg->length, dir);
->> +	ret = dma_mapping_error(dma_dev, dma_addr);
->> +	if (ret)
->> +		goto unlock;
->> +
->> +	ret = dmaengine_slave_config(chan, &sconf);
->> +	if (ret) {
->> +		dev_err(dev, "Failed to configure DMA channel\n");
->> +		goto unmap;
->> +	}
->> +
->> +	desc = dmaengine_prep_slave_single(chan, dma_addr, seg->length,
->> +					   sconf.direction, DMA_CTRL_ACK);
->> +	if (!desc) {
->> +		dev_err(dev, "Failed to prepare DMA\n");
->> +		ret = -EIO;
->> +		goto unmap;
->> +	}
->> +
->> +	cookie = dmaengine_submit(desc);
->> +	ret = dma_submit_error(cookie);
->> +	if (ret) {
->> +		dev_err(dev, "DMA submit failed %d\n", ret);
->> +		goto unmap;
->> +	}
->> +
->> +	if (dma_sync_wait(chan, cookie) != DMA_COMPLETE) {
-> 
-> Why do you need to do sync tranfer all the time? This defeats the purpose of
-> using DMA.
-
-You may be getting confused about the meaning of sync here. This simply means
-"spin wait for the completion of the transfer". I initially was using the
-completion callback like in pci-epf-tets and othe EPF drivers doing DMA, but
-that causes a context switch for every transfer, even small ones, which really
-hurts performance. Switching to using dma_sync_wait() avoids this context switch
-while achieving what we need, which is to wait for the end of the transfer. I
-nearly doubled the max IOPS for small IOs with this.
-
-Note that we cannot easily do asynchronous DMA transfers with the current DMA
-slave API, unless we create some special work item responsible for DMA transfers.
-
-I did not try to micro optimize this driver too much for this first drop. Any
-improvement around how data transfers are done can come later. The preformance I
-am getting with this code is decent enough as it is.
-
-[...]
-
->> +static inline int nvmet_pciep_epf_transfer(struct nvmet_pciep_epf *nvme_epf,
-> 
-> No need to add 'inline' keyword in .c files.
-
-Yes there is. Because that funtion is tiny and I really want it to be forced to
-be inlined.
-
-[...]
-
->> +invalid_offset:
->> +	dev_err(ctrl->dev, "PRPs list invalid offset\n");
->> +	kfree(prps);
->> +	iod->status = NVME_SC_PRP_INVALID_OFFSET | NVME_STATUS_DNR;
->> +	return -EINVAL;
->> +
->> +invalid_field:
->> +	dev_err(ctrl->dev, "PRPs list invalid field\n");
->> +	kfree(prps);
->> +	iod->status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
->> +	return -EINVAL;
->> +
->> +internal:
->> +	dev_err(ctrl->dev, "PRPs list internal error\n");
->> +	kfree(prps);
->> +	iod->status = NVME_SC_INTERNAL | NVME_STATUS_DNR;
->> +	return -EINVAL;
-> 
-> Can't you organize the labels in such a way that there is only one return path?
-> Current code makes it difficult to read and also would confuse the static
-> checkers.
-
-I do not see how this is difficult to read... But sure, I can try to simplify this.
-
-
-> [...]
-> 
->> +static void nvmet_pciep_init_bar(struct nvmet_pciep_ctrl *ctrl)
->> +{
->> +	struct nvmet_ctrl *tctrl = ctrl->tctrl;
->> +
->> +	ctrl->bar = ctrl->nvme_epf->reg_bar;
->> +
->> +	/* Copy the target controller capabilities as a base */
->> +	ctrl->cap = tctrl->cap;
->> +
->> +	/* Contiguous Queues Required (CQR) */
->> +	ctrl->cap |= 0x1ULL << 16;
->> +
->> +	/* Set Doorbell stride to 4B (DSTRB) */
->> +	ctrl->cap &= ~GENMASK(35, 32);
->> +
->> +	/* Clear NVM Subsystem Reset Supported (NSSRS) */
->> +	ctrl->cap &= ~(0x1ULL << 36);
->> +
->> +	/* Clear Boot Partition Support (BPS) */
->> +	ctrl->cap &= ~(0x1ULL << 45);
->> +
->> +	/* Clear Persistent Memory Region Supported (PMRS) */
->> +	ctrl->cap &= ~(0x1ULL << 56);
->> +
->> +	/* Clear Controller Memory Buffer Supported (CMBS) */
->> +	ctrl->cap &= ~(0x1ULL << 57);
-> 
-> Can you use macros for these?
-
-I could. But that would mean defining *all* bits of the cap register, which is a
-lot... The NVMe code does not have all these defined now. That is a cleanup that
-can come later I think.
-
-[...]
-
->> +	if (epc_features->msix_capable) {
->> +		size_t pba_size;
->> +
->> +		msix_table_size = PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts;
->> +		nvme_epf->msix_table_offset = reg_size;
->> +		pba_size = ALIGN(DIV_ROUND_UP(epf->msix_interrupts, 8), 8);
->> +
->> +		reg_size += msix_table_size + pba_size;
->> +	}
->> +
->> +	reg_bar_size = ALIGN(reg_size, max(epc_features->align, 4096));
-> 
-> From where does this 4k alignment comes from? NVMe spec? If so, is it OK to use
-> fixed_size BAR?
-
-NVMe BAR cannot be fixed size as its size depends on the number of queue pairs
-the controller can support. Will check if the 4K alignment is mandated by the
-specs. But it sure does not hurt...
-
-[...]
-
->> +	/* Create the target controller. */
->> +	ret = nvmet_pciep_create_ctrl(nvme_epf, max_nr_queues);
->> +	if (ret) {
->> +		dev_err(&epf->dev,
->> +			"Create NVMe PCI target controller failed\n");
-> 
-> Failed to create NVMe PCI target controller
-
-How is that better ?
-
-> 
->> +		return ret;
->> +	}
->> +
->> +	if (epf->vfunc_no <= 1) {
-> 
-> Are you really supporting virtual functions? If supported, 'vfunc_no < 1' is not
-> possible.
-
-NVMe does support virtual functions and nothing in the configuration path
-prevents the user from setting one such function. So yes, this is supposed to
-work if the endpoint controller supports it. Though I must say that I have not
-tried/tested yet.
-
-> 
->> +		/* Set device ID, class, etc */
->> +		epf->header->vendorid = ctrl->tctrl->subsys->vendor_id;
->> +		epf->header->subsys_vendor_id =
->> +			ctrl->tctrl->subsys->subsys_vendor_id;
-> 
-> Why these are coming from somewhere else and not configured within the EPF
-> driver?
-
-They are set through the nvme target configfs. So there is no need to have these
-again setup through the epf configfs. We just grab the values set for the NVME
-target subsystem config.
-
->> +static int nvmet_pciep_epf_link_up(struct pci_epf *epf)
->> +{
->> +	struct nvmet_pciep_epf *nvme_epf = epf_get_drvdata(epf);
->> +	struct nvmet_pciep_ctrl *ctrl = &nvme_epf->ctrl;
->> +
->> +	dev_info(nvme_epf->ctrl.dev, "PCI link up\n");
-> 
-> These prints are supposed to come from the controller drivers. So no need to
-> have them here also.
-
-Nope, the controller driver does not print anything. At least the DWC driver
-does not print anything.
-
->> +static ssize_t nvmet_pciep_epf_dma_enable_store(struct config_item *item,
->> +					     const char *page, size_t len)
->> +{
->> +	struct config_group *group = to_config_group(item);
->> +	struct nvmet_pciep_epf *nvme_epf = to_nvme_epf(group);
->> +	int ret;
->> +
->> +	if (nvme_epf->ctrl.tctrl)
->> +		return -EBUSY;
->> +
->> +	ret = kstrtobool(page, &nvme_epf->dma_enable);
->> +	if (ret)
->> +		return ret;
->> +
->> +	return len;
->> +}
->> +
->> +CONFIGFS_ATTR(nvmet_pciep_epf_, dma_enable);
-> 
-> What is the use of making this option user configurable? It is purely a hardware
-> capability and I don't think users would want to have their NVMe device working
-> without DMA voluntarily.
-
-If you feel strongly about it, I can drop this. But it is useful for debugging
-purpose to check that the DMA API is being used and working correctly.
-
->> +static int __init nvmet_pciep_init_module(void)
->> +{
->> +	int ret;
->> +
->> +	ret = pci_epf_register_driver(&nvmet_pciep_epf_driver);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = nvmet_register_transport(&nvmet_pciep_fabrics_ops);
-> 
-> What is the need to register the transport so early? You should consider moving
-> the registration to bind() so that the transport can be removed once the driver
-> is unbind with the controller.
-
-This registration is needed to enable the configfs configuration of the nvme
-target subsystem and port. Withoutn this, setting a port transporet type to
-"pci" would fail to find the pci transport implemented here and the
-configuration would fail. This configuration of the nvme target susbsystem and
-port must come before configuring the EPF and binding it.
-
-
-
-
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index ec75d14497bf..c86a57abe292 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2590,6 +2590,25 @@ size_t iommu_unmap(struct iommu_domain *domain,
+ }
+ EXPORT_SYMBOL_GPL(iommu_unmap);
+ 
++/**
++ * iommu_unmap_fast() - Remove mappings from a range of IOVA without IOTLB sync
++ * @domain: Domain to manipulate
++ * @iova: IO virtual address to start
++ * @size: Length of the range starting from @iova
++ * @iotlb_gather: range information for a pending IOTLB flush
++ *
++ * iommu_unmap_fast() will remove a translation created by iommu_map().
++ * It can't subdivide a mapping created by iommu_map(), so it should be
++ * called with IOVA ranges that match what was passed to iommu_map(). The
++ * range can aggregate contiguous iommu_map() calls so long as no individual
++ * range is split.
++ *
++ * Basically iommu_unmap_fast() is the same as iommu_unmap() but for callers
++ * which manage the IOTLB flushing externally to perform a batched sync.
++ *
++ * Returns: Number of bytes of IOVA unmapped. iova + res will be the point
++ * unmapping stopped.
++ */
+ size_t iommu_unmap_fast(struct iommu_domain *domain,
+ 			unsigned long iova, size_t size,
+ 			struct iommu_iotlb_gather *iotlb_gather)
 -- 
-Damien Le Moal
-Western Digital Research
+2.47.0
+
 
