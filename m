@@ -4,101 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D01CFE7717F
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 05:44:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E3E2E7716A
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 06:21:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VXnSoYy/DcLGpfJd7nHDxONKuV/9hhaVZ6r9SGdxcq8=; b=KfaLGQGqDJDSRdWj8J+7QjgmdT
-	+DkFOpH2HAer/VBmf4ehvrtSAj5KY+grye+8PZ19yBWQTQKXG3ii4HRW12jABZTqFFSjDk63GqDG4
-	yE4In1w5tTh9jFa+W2zl9btFT6gS61L7KTdwPj6Q+koebTi4n+7Xs/EgJO2V9W5yjNAJLr8wspqIE
-	XzptK8XdV9boR7bcs0Q9Rn9B866Uwq9TwYmO8AlimSsSuuYq7FKeWsH75ib5VCV5pBdBO+Ohwvj77
-	q4JxLAFdfhVaKd/K38z9zJwNE3Isl2mJ6N7PWyq8IUUrpi6gS5ziMzvxHW8UggotzW4wK7siQIvLc
-	/uIA0ZgA==;
+	bh=KTMt2S+urkIYn87qIOII4tAmscWY+RXwAsYODxpHnCQ=; b=W7KnqTojzf9vcvqWB246nRE0I9
+	tXcd4T/EECRdZsqluuAaz26wFu+rFqexcg6Vh/pl2uGxay9VV/1gQ/1mCncfLwO+bTSdiKpiwY76a
+	S7W5qNkRXlFtrh8hoisPRxeeqmIiRy/IThZDycN8qMZZ1BX02mzflEdnMYdEim4BHI51Dzkeyu24b
+	eXES0OzG4+haiWFZzFdmqNWOV8qbtMT+mg8ws1X5ax3e3MS4S2utGXWm/UNhuLA885y9DGzfTq3kK
+	PKPs7OEUmz7J+tfL1R7qJbARUpxKx+SCvfIbDnzzcSC/xdhrI4D9Y/TDh0oXerj5/mpHJWV8d49Xo
+	+u0PbuSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNQNM-0000000CKXL-3ZFO;
-	Tue, 17 Dec 2024 05:44:08 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1tNQxt-0000000COTM-2baG;
+	Tue, 17 Dec 2024 06:21:53 +0000
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNQ6S-0000000CHK5-3VVp
+	id 1tNQxr-0000000COSr-06Lm
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Dec 2024 05:26:42 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-21654fdd5daso40239585ad.1
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 21:26:40 -0800 (PST)
+	Tue, 17 Dec 2024 06:21:52 +0000
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-725ee27e905so6363851b3a.2
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 22:21:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734413199; x=1735017999; darn=lists.infradead.org;
+        d=linaro.org; s=google; t=1734416510; x=1735021310; darn=lists.infradead.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=VXnSoYy/DcLGpfJd7nHDxONKuV/9hhaVZ6r9SGdxcq8=;
-        b=p8MkaSRCx4jMK34ahg+DNL+T9kH+hfH0VvL/fLwr/F8E8uGUqCLcnhpgDHcMUf+yJ2
-         M/bSrJ4PcZULNCVrE9aQAyfAmZd0+1Kr2/e9cOWdNRuxtArz0cfHaonKr5s3fSPI/x2P
-         3otD/vgatHMwFYBZOMQGb6YCCYfSC9RLFGFZjhqIi74qV5dUklhkeXjrpWoPNQ/j+E/r
-         Xi6CQeTDO01cGliRj39j4M2aWmNtLXZsQtm7LxiDsGvNQ+egEnOV3am/Eoh8wJL27AKs
-         fZabFeuSwfa7FHhqC48+1wB8cElrcP/f+gDfk+dwf9kw+8qNJ8eILfnGPHiK8AZUVMlL
-         odgA==
+        bh=KTMt2S+urkIYn87qIOII4tAmscWY+RXwAsYODxpHnCQ=;
+        b=lgiMWm35x7BOT1F4xN0u5F002V+NL3BZZKxM6OsM3yqNLEN9f1WhN62dgLdCCN9R5v
+         mYYQdiV1z9wnZ41oESX1flwIj4J6dLCiGO+m6ORH47DsshBO4cxRqOhCTReX1oUPWR8E
+         f6BYtq7GpYQeQ4QwcIsCJAKmxIjXDyY+yi/L+zuZm3HuSrAv8Oli66FDlfKPbvYvuwlD
+         GQ8fE0lJ6dkskulg9HSj0xnxLMVGv8GH2pe3bCksiwpLN74h+cbvRJXvcVfWgsjfp20m
+         ZfS05nW1dwFp+FyGhG+jH/cggct7lmA9Jtr5141BKQG5KckRYmrbfeQxAuvdCy5F5Bpw
+         fvBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734413199; x=1735017999;
+        d=1e100.net; s=20230601; t=1734416510; x=1735021310;
         h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VXnSoYy/DcLGpfJd7nHDxONKuV/9hhaVZ6r9SGdxcq8=;
-        b=wypWhft7xAuoUIA/xHt29gVi6Q77jm0njaITFwIN1VjXfrVX0oEhRS6JrGu5jHW3YJ
-         OYCxk25P8/u9ujFcBZqYhH+7yG8mZXR0rWPBzAhV69+w4KzMW1AY1WTl5xAsALug4J7L
-         mJtHcf97zyJLLYTbNu1oNv8OaqkEW5VJ+ZMYdjK11lkiwSnYbtozprbdT6ef/LJzrAgH
-         hi+5r9taR/7vgMryxb4W9nP6xODFA0xJtly2Dh0sy1/pSiC8hti4kA/TAKJWtFazsG3G
-         EIiZML1dquYlOT4n8TUPteWU4TmEQsOLYrfqPy9Mhl6dhfkjiLo8C5aHNCUKpiIXNffq
-         Lwkg==
-X-Forwarded-Encrypted: i=1; AJvYcCWfcPkT41AUjRqDS6FBj9KM0HWnX819CZA32xWA+7R/9917S1hMQMVRg1uDoAx7F+6PgCfjXKjJfogF@lists.infradead.org
-X-Gm-Message-State: AOJu0YzW6ttq326R/PJGNrpQNJMgfaJr2VaECTtob1CO1EMEkdJ3MHhc
-	JuEoYqUJ8/K3Sw4fQIUUYkw5PgXrHALfQXcruNHOoJqUpZW2zk5fhB14az1vmQ==
-X-Gm-Gg: ASbGncscpiF0mLl5FFBfe1lyTEQYapdwr7qG9e/u0nwPAzNcnF3EgoUZZ8TvaGfX7Hk
-	tJD6V9hXFo/DIGlDd+2DdOTaYCr1VsPp/aXry/xJhJxQUsqTlEp//JGvlQMV4+7YwSfx9BjoosD
-	1j3bNUbrJ4j2+VSp0tiJ+qdByWqY+Dvp2lpXs+QQbpxT+81eSkRkFOn7btF2lzM9hbjlvxEsGdG
-	0UIhvLVKpgJYmG5DX/JcqVtf0SRWKGIWQHoNtUtFe6NtZebKcBiMYE5Hm0uVHbTOnLF
-X-Google-Smtp-Source: AGHT+IFsS3IZ2kuJoYYT9J6yaDIHOOQEb5x9/0WrwBJTXWku1ZLygnZo3QdYaoEU12xrzijDxxrz1Q==
-X-Received: by 2002:a17:902:c952:b0:216:3c2b:a5d0 with SMTP id d9443c01a7336-21892a785b7mr178520425ad.51.1734413199463;
-        Mon, 16 Dec 2024 21:26:39 -0800 (PST)
+        bh=KTMt2S+urkIYn87qIOII4tAmscWY+RXwAsYODxpHnCQ=;
+        b=ODdpi6KgeXMd2FMwX7MbohWgAmyS5Gr192hyD8tVoipW3Ajr+Q+d3Up2bOR1RdPBy8
+         vhNWZVlMwtkC1K7YI9nXW8cxo2DCkdrKvdaGzkjgOikZovBFxXMrrDBW7fqD4WSGUeEm
+         4DVs85kntfY6Z8151NH3MbxBXusvZFUNKEdD6sxm5k+sr3O9oyJ0JM0YfCMvdfkCi/Yu
+         8d6f44S4bF9XPMlEKAwkISswKaTIKqhRRwA5rpDXORfaogZNBSNTOMAYXIZK9xTvaQ/Y
+         rG8sZjZ32CarjmTbgNudP8KKLaRHqmBv8OBnzO44lPJK5F9fnPtVNr2rd8KgjPXn5wrP
+         b7Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6Ghy7NucCvJbz+xB+zO7B3zPnznzTGs1hcbvxs8wDlqs4E7oadZ1F7KRHVqkqHlY4P2HBiySD+uZg@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyf+WX0OPj8hrsgiKdKOkWuSxwBR69+9pQcHD7hggy2j9OF+JrR
+	2mfXaWutaWAtioCJ0ekHKlOGXT9ygBLfyCiiQ/DSRrEPyvTHLPZoh/6yRqeAKQ==
+X-Gm-Gg: ASbGncuJA3GXq/1v45nw7bv+uauRBaSScdmAAmyvwvYxz734mXZpeWSZalgx/Wr1mBf
+	0gTkXC7g+O3C+tGo3S809Hn9JZM0TvtLt3hWFqOiPAM2aSd3JCCD9BEpmOf0mgcy4qjOPKljHxF
+	QAaXHFj/i+omCG4dHCwq4C5qYA2fTj43dewB4IYjDp9s3G1Ks4c3oB33AdFwzPj2gKhEGEgGIz6
+	TIgujMjSregXl9WxrU9yPlV6WZW1nPPwEFVK3XfnO/ueaxMbycf0qY42daexE3uWt8P
+X-Google-Smtp-Source: AGHT+IHDN73kVjagfpHFEE7paMuJrna3XYZyYUYZnGRRnyEXV5MnD/5cAwnRlJHCCAF2jpNTULiJrQ==
+X-Received: by 2002:a05:6a00:2341:b0:728:e1e3:3d88 with SMTP id d2e1a72fcca58-7290c15d7bfmr19910862b3a.7.1734416510163;
+        Mon, 16 Dec 2024 22:21:50 -0800 (PST)
 Received: from thinkpad ([120.56.200.168])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142fc305dsm9094176a91.52.2024.12.16.21.26.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918af1040sm5835770b3a.83.2024.12.16.22.21.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 21:26:38 -0800 (PST)
-From: manivannan.sadhasivam@linaro.org
-X-Google-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, `@thinkpad
-Date: Tue, 17 Dec 2024 10:56:32 +0530
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Ulf Hansson <ulf.hansson@linaro.org>,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org,
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	andersson@kernel.org, konradybcio@kernel.org,
-	Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
- the user
-Message-ID: <20241217052632.lbncjto5xibdkc4c@thinkpad>
-References: <13662231.uLZWGnKmhe@rjwysocki.net>
- <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com>
- <20241212151354.GA7708@lst.de>
- <CAJZ5v0gUpDw_NjTDtHGCUnKK0C+x0nrW6mP0tHQoXsgwR2RH8g@mail.gmail.com>
- <20241214063023.4tdvjbqd2lrylb7o@thinkpad>
- <CAJZ5v0gLMx+tBo+MA3AQZ7qP28Z91d04oVBHVeTNcd-QD=kJZg@mail.gmail.com>
- <20241216171108.6ssulem3276rkycb@thinkpad>
- <CAJZ5v0j+4xjSOOy8TYE0pBuqd_GdQa683Qq0GEyJ9WAFad9Z=A@mail.gmail.com>
- <20241216175210.mnc5kp6646sq7vzm@thinkpad>
- <CAJZ5v0grRdTYaamSnKSF-HyMmCHDEZ4haLo+ziSBxhDg1PbjRQ@mail.gmail.com>
+        Mon, 16 Dec 2024 22:21:49 -0800 (PST)
+Date: Tue, 17 Dec 2024 11:51:44 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>
+Subject: Re: [PATCH v4 17/18] nvmet: New NVMe PCI endpoint target driver
+Message-ID: <20241217062144.g7jjnkziuen3qsm6@thinkpad>
+References: <20241212113440.352958-1-dlemoal@kernel.org>
+ <20241212113440.352958-18-dlemoal@kernel.org>
+ <Z1xoAj9c9oWhqZoV@ryzen>
+ <Z2BW4CjdE1p50AhC@vaman>
+ <4d20c4f6-3c89-4287-aa0c-326ff9997904@kernel.org>
+ <Z2ELpuC+ltp5wDay@vaman>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0grRdTYaamSnKSF-HyMmCHDEZ4haLo+ziSBxhDg1PbjRQ@mail.gmail.com>
+In-Reply-To: <Z2ELpuC+ltp5wDay@vaman>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241216_212640_919572_3EB22092 
-X-CRM114-Status: GOOD (  51.54  )
+X-CRM114-CacheID: sfid-20241216_222151_069432_1B48F739 
+X-CRM114-Status: GOOD (  43.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,124 +109,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 16, 2024 at 08:34:24PM +0100, Rafael J. Wysocki wrote:
-
-[...]
-
-> > There is also a case where some devices like
-> > (Laptops made out of Qcom SCX Gen3 SoCs) require all the PCIe devices to be
-> > powered down in order for the SoC to reach its low power state (CX power
-> > collapse in Qcom terms). If not, the SoC would continue to draw more power
-> > leading to battery draining quickly. This platform is supported in upstream and
-> > we keep the PCIe interconnect voted during suspend as the NVMe driver is
-> > expecting the device to retain its state during resume. Because of this
-> > requirement, this platform is not reaching SoC level low power state with
-> > upstream kernel.
+On Tue, Dec 17, 2024 at 10:57:02AM +0530, Vinod Koul wrote:
+> On 16-12-24, 11:12, Damien Le Moal wrote:
+> > On 2024/12/16 8:35, Vinod Koul wrote:
+> > > Hi Niklas,
+> > > 
+> > > On 13-12-24, 17:59, Niklas Cassel wrote:
+> > >> Hello Vinod,
+> > >>
+> > >> I am a bit confused about the usage of the dmaengine API, and I hope that you
+> > >> could help make me slightly less confused :)
+> > > 
+> > > Sure thing!
+> > > 
+> > >> If you look at the nvmet_pciep_epf_dma_transfer() function below, it takes a
+> > >> mutex around the dmaengine_slave_config(), dmaengine_prep_slave_single(),
+> > >> dmaengine_submit(), dma_sync_wait(), and dmaengine_terminate_sync() calls.
+> > >>
+> > >> I really wish that we would remove this mutex, to get better performance.
+> > >>
+> > >>
+> > >> If I look at e.g. the drivers/dma/dw-edma/dw-edma-core.c driver, I can see
+> > >> that dmaengine_prep_slave_single() (which will call
+> > >> device_prep_slave_sg(.., .., 1, .., .., ..)) allocates a new
+> > >> dma_async_tx_descriptor for each function call.
+> > >>
+> > >> I can see that device_prep_slave_sg() (dw_edma_device_prep_slave_sg()) will
+> > >> call dw_edma_device_transfer() which will call vchan_tx_prep(), which adds
+> > >> the descriptor to the tail of a list.
+> > >>
+> > >> I can also see that dw_edma_done_interrupt() will automatically start the
+> > >> transfer of the next descriptor (using vchan_next_desc()).
+> > >>
+> > >> So this looks like it is supposed to be asynchronous... however, if we simply
+> > >> remove the mutex, we get IOMMU errors, most likely because the DMA writes to
+> > >> an incorrect address.
+> > >>
+> > >> It looks like this is because dmaengine_prep_slave_single() really requires
+> > >> dmaengine_slave_config() for each transfer. (Since we are supplying a src_addr
+> > >> in the sconf that we are supplying to dmaengine_slave_config().)
+> > >>
+> > >> (i.e. we can't call dmaengine_slave_config() while a DMA transfer is active.)
+> > >>
+> > >> So while this API is supposed to be async, to me it looks like it can only
+> > >> be used in a synchronous manner... But that seems like a really weird design.
+> > >>
+> > >> Am I missing something obvious here?
+> > > 
+> > > Yes, I feel nvme being treated as slave transfer, which it might not be.
+> > > This API was designed for peripherals like i2c/spi etc where we have a
+> > > hardware address to read/write to. So the dma_slave_config would pass on
+> > > the transfer details for the peripheral like address, width of fifo,
+> > > depth etc and these are setup config, so call once for a channel and then
+> > > prepare the descriptor, submit... and repeat of prepare and submit ...
+> > > 
+> > > I suspect since you are passing an address which keep changing in the
+> > > dma_slave_config, you need to guard that and prep_slave_single() call,
+> > > as while preparing the descriptor driver would lookup what was setup for
+> > > the configuration.
+> > > 
+> > > I suggest then use the prep_memcpy() API instead and pass on source and
+> > > destination, no need to lock the calls...
+> > 
+> > Vinod,
+> > 
+> > Thank you for the information. However, I think we can use this only if the DMA
+> > controller driver implements the device_prep_dma_memcpy operation, no ?
+> > In our case, the DWC EDMA driver does not seem to implement this.
 > 
-> OK, now all of this makes sense and that's why you really want NVMe
-> devices to end up in some form of PCI D3 in suspend-to-idle.
+> It should be added in that case.
 > 
-> Would D3hot be sufficient for this platform or does it need to be
-> D3cold?  If the latter, what exactly is the method by which they are
-> put into D3cold?
+> Before that, the bigger question is, should nvme be slave transfer or
+> memcpy.. Was driver support the reason why the slave transfer was used here...?
 > 
-
-D3Cold is what preferred. Earlier the controller driver used to transition the
-device into D3Cold by sending PME_Turn_Off, turning off refclk, regulators
-etc... Now we have a new framework called 'pwrctrl' that handles the
-clock/regulators supplied to the device. So both controller and pwrctrl drivers
-need to work in a tandem to put the device into D3Cold.
-
-Once the PCIe client driver (NVMe in this case) powers down the device, then
-controller/pwrctrl drivers will check the PCIe device state and transition the
-device into D3Cold. This is a TODO btw.
-
-But right now there is no generic D3Cold handling available for DT platforms. I
-am hoping to fix that too once this NVMe issue is handled.
-
-> > > > > > If the platform is using DT, then there is no entity setting
-> > > > > > pm_set_suspend_via_firmware().
-> > > > >
-> > > > > That's true and so the assumption is that in this case the handling of
-> > > > > all devices will always be the same regardless of which flavor of
-> > > > > system suspend is chosen by user space.
-> > > > >
-> > > >
-> > > > Right and that's why the above concern is raised.
-> > >
-> > > And it is still unclear to me what the problem with it is.
-> > >
-> > > What exactly can go wrong?
-> > >
-> > > > > > So NVMe will be kept in low power state all the
-> > > > > > time (still draining the battery).
-> > > > >
-> > > > > So what would be the problem with powering it down unconditionally?
-> > > > >
-> > > >
-> > > > I'm not sure how would you do that (by checking dev_of_node()?). Even so, it
-> > > > will wear out the NVMe devices if used in Android tablets etc...
-> > >
-> > > I understand the wear-out concern.
-> > >
-> > > Is there anything else?
-> > >
-> >
-> > No, that's the only concern.
-> 
-> OK
-> 
-> I think we're getting to the bottom of the issue.
-> 
-> First off, there really is no requirement to avoid putting PCI devices
-> into D3hot or D3cold during suspend-to-idle.  On all modern Intel
-> platforms, PCIe devices are put into D3(hot or cold) during
-> suspend-to-idle and I don't see why this should be any different on
-> platforms from any other vendors.
-> 
-> The NVMe driver is an exception and it avoids D3(hot or cold) during
-> suspend-to-idle because of problems with some hardware or platforms.
-> It might in principle allow devices to go into D3(hot or cold) during
-> suspend-to-idle, so long as it knows that this is going to work.
+> As i said, slave is for peripherals which have a static fifo to
+> send/receive data from, nvme sounds like a memory transfer to me, is
+> that a right assumption?
 > 
 
-Slight correction here.
-
-NVMe driver avoids PCI PM _only_ when it wants to handle the NVMe power
-state on its own, not all the time. It has some checks [1] in the suspend path
-and if the platform/device passes one of the checks, it will power down the
-device.
-
-DT platforms doesn't pass any of the checks, so the NVMe driver always manages
-the power state on its own. Unfortunately, the resultant power saving is not
-enough, so the vendors (Laptop/Automotive) using DT want NVMe to be powered down
-all the time. This is the first problem we are trying to solve.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/nvme/host/pci.c#n3448
-
-> However, there is an additional concern that putting an NVMe device
-> into D3cold every time during system suspend on Android might cause it
-> to wear out more quickly.
-> 
-
-Right, this is the second problem.
-
-> Is there anything else?
-
-We also need to consider the fact that the firmware in some platforms doesn't
-support S2R. So we cannot take a decision based on S2I/S2R alone.
-
-I think there are atleast a couple of ways to solve above mentioned problems:
-
-1. Go extra mile, take account of all issues/limitations mentioned above and
-come up with an API. This API will provide a sane default suspend behavior to
-drivers (fixing first problem) and will also allow changing the behavior
-dynamically (to fix the second problem where kernel cannot distinguish Android
-vs other OS).
-
-2. Allow DT platforms to call pm_set_suspend_via_firmware() and make use of the
-existing behavior in the NVMe driver. This would only solve the first problem
-though. But would be a good start.
+My understanding is that DMA_MEMCPY is for local DDR transfer i.e., src and dst
+are local addresses. And DMA_SLAVE is for transfer between remote and local
+addresses. I haven't looked into the NVMe EPF driver yet, but it should do
+the transfer between remote and local addresses. This is similar to MHI EPF
+driver as well.
 
 - Mani
 
