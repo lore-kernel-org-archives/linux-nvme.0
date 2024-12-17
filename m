@@ -4,119 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0467BE7717F
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 14:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF929E7717F
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 14:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SQI3phBxHp9FDQsecPAobL7xUUHXjQMx7H5vuSw8f4E=; b=BXMmH6ISRjAcOmun6EDMCjiN9V
-	ZQqfZ0ZGZC+p3I23uboasL3kTLLPQ6I9ZCCF0kzPRw9iSRGOL/JtcMY/CZVgcOWqqBU10duba6F0Y
-	LPfW5BAsDo+Jmuiedyc4PQVtnHbH3HWYyGWyH9dbvFai0P7HtWmkXeG1upMARfcZmNungwQ1sic6D
-	MnLzSLyD+Ckc98a994RYWTh+WDlWZiVEpmlb5sQ+jtoUNJRtQOs7Vr0ETRBakzV+tN2H40buQhOm/
-	J8MmTtWk0n7rjMzEPFnYIiMZthxIzUjdjL3Q6Bg82icBbgFw91LoXUmehN2eBpiDProGw0sjexRr9
-	FgdEmDtA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iZMhYB7QeqyIaDFHu2ry20tpnyt3U6FmRIMQfvZ9nJw=; b=lJXM3pJsyAwKBx0teh4hhQHDiK
+	4EdeJanGZ5WFTzrmIKOLQsVc7M7s9I2/dADhEhfoCLtg5XNSRsKMwy5P82ZSZG2401k+8syODfW1k
+	L1n3BxEaVDeyQDZv/MZxjF1BZfq03BEJoFU2LmPBKdgarkBlQSFpLR5qGskE7iu2fCt3/Fy2J4GnH
+	MKrYegBJXM1Cr2nRDhTw1kCb5rklzXjvHx3+xMkXarP1OxvVkQ440SOrF6uKfN3LN1DlLs4/TiDuY
+	l2emTtdzuNLeK7NQcnGnicZP+i68YdLuRY3jD0Fo+rCVGkLKGQyV9KKDdErl6zrTGjBYKwhxJh+kb
+	GDSfeLfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNY9B-0000000DfWd-3WR9;
-	Tue, 17 Dec 2024 14:02:01 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1tNYio-0000000Dn1m-2k89;
+	Tue, 17 Dec 2024 14:38:50 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNY98-0000000DfWH-3a9X
+	id 1tNYfg-0000000DmHc-0Ijp
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Dec 2024 14:02:00 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A49831F394;
-	Tue, 17 Dec 2024 14:01:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734444116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SQI3phBxHp9FDQsecPAobL7xUUHXjQMx7H5vuSw8f4E=;
-	b=noJgL6Kf9h2aAK9Ebrdi6WcNa5uuZn/eXUpUdJtLmT4RzWgn+f9Ri4wq/L8XICzAz7aYmo
-	tOf56ZS9n8pGrCVtes4at04hUtaKkn7Ngu4qGsf5OsARfLHxxkZMAhR2lzsphHckdTN53a
-	HJjyfZHJIh5Y3WMcG74u/728s2K98eQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734444116;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SQI3phBxHp9FDQsecPAobL7xUUHXjQMx7H5vuSw8f4E=;
-	b=b6yHKgUtCnuaysrKdVG2FWrua7iFm5a7okFMxXH8tdgGv8laxZpLweSPi5Ka4hcWUAEV4N
-	PQlJvVcJKFkdqzBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734444116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SQI3phBxHp9FDQsecPAobL7xUUHXjQMx7H5vuSw8f4E=;
-	b=noJgL6Kf9h2aAK9Ebrdi6WcNa5uuZn/eXUpUdJtLmT4RzWgn+f9Ri4wq/L8XICzAz7aYmo
-	tOf56ZS9n8pGrCVtes4at04hUtaKkn7Ngu4qGsf5OsARfLHxxkZMAhR2lzsphHckdTN53a
-	HJjyfZHJIh5Y3WMcG74u/728s2K98eQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734444116;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SQI3phBxHp9FDQsecPAobL7xUUHXjQMx7H5vuSw8f4E=;
-	b=b6yHKgUtCnuaysrKdVG2FWrua7iFm5a7okFMxXH8tdgGv8laxZpLweSPi5Ka4hcWUAEV4N
-	PQlJvVcJKFkdqzBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B58913A3C;
-	Tue, 17 Dec 2024 14:01:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GNzbH1SEYWfgBwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 17 Dec 2024 14:01:56 +0000
-Date: Tue, 17 Dec 2024 15:01:55 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, 
-	James Smart <james.smart@broadcom.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Paul Ely <paul.ely@broadcom.com>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] nvme: handle connectivity loss in
- nvme_set_queue_count
-Message-ID: <bee71ac4-37bf-4182-ad7e-78efd9baff46@flourine.local>
-References: <20241129-nvme-fc-handle-com-lost-v3-0-d8967b3cae54@kernel.org>
- <20241129-nvme-fc-handle-com-lost-v3-3-d8967b3cae54@kernel.org>
- <e89d0b3b-e4a1-4ae5-8250-c15e3a843e76@suse.de>
- <bef1a7ac-2614-4a70-945d-e691e9107089@flourine.local>
- <b8dad319-8e6e-40e7-ada3-f50863315614@suse.de>
+	Tue, 17 Dec 2024 14:35:37 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2B3CE5C5FE6;
+	Tue, 17 Dec 2024 14:34:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C007C4CED3;
+	Tue, 17 Dec 2024 14:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734446135;
+	bh=DIznGnkD+cJkT6D4uFZk4PFQcwNNI1dPTclUv+wTHsk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Y8iSMH60BxhEKFfWuK2qQ1/VdCBNC8/Uk5bOHNPcp3nlRfNMHJTclOpFLNznUsS90
+	 Z+48iO3vMWVPpe5rbwydryUDjgbXdFQ5UjnRLnZWPD/+DWLi4VUgaieiRLbwFa36+f
+	 eJG6RcOGDTnAYHJFDVvnBlpstPqCY1hdzDd+Rgzk8YP4Lbbrm9FtAxt/TsacSUDvPL
+	 2od15LNXLs6Q9OgF1PVl3msw6M69jMY/WRp7Pp52vSQe6Cna4o/doPMn65n24fehhy
+	 35YQHE58NqzhhjFjCMCGSRp1CUSS4VuHnZUsxWin5qrUjnYmDHZEz+AdB/3sSWkujr
+	 DA7CVnfm3A+0A==
+Message-ID: <4015e54a-54a5-4ac7-ae1c-3d2fb935b20f@kernel.org>
+Date: Tue, 17 Dec 2024 06:35:33 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8dad319-8e6e-40e7-ada3-f50863315614@suse.de>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 17/18] nvmet: New NVMe PCI endpoint target driver
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kw@linux.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+ Niklas Cassel <cassel@kernel.org>
+References: <20241212113440.352958-1-dlemoal@kernel.org>
+ <20241212113440.352958-18-dlemoal@kernel.org>
+ <20241217085355.y6bqqisqbr5kbxkl@thinkpad>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20241217085355.y6bqqisqbr5kbxkl@thinkpad>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241217_060159_037184_DE954E18 
-X-CRM114-Status: GOOD (  18.90  )
+X-CRM114-CacheID: sfid-20241217_063536_210234_B4FDE350 
+X-CRM114-Status: GOOD (  40.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,65 +82,356 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 17, 2024 at 10:45:45AM +0100, Hannes Reinecke wrote:
-> On 12/17/24 09:35, Daniel Wagner wrote:
-> > On Fri, Nov 29, 2024 at 12:10:33PM +0100, Hannes Reinecke wrote:
-> > > > +	/*
-> > > > +	 * It's either a kernel error or the host observed a connection
-> > > > +	 * lost. In either case it's not possible communicate with the
-> > > > +	 * controller and thus enter the error code path.
-> > > > +	 */
-> > > > +	if (status < 0 || status == NVME_SC_HOST_PATH_ERROR)
-> > > >    		return status;
-> > > >    	/*
-> > > > 
-> > > Hmm. Maybe checking for NVME_SC_DNR, too?
-> > 
-> > if no one complains I'll update the check to:
-> > 
-> > 	if (status < 0 || (status > 0 && (status & NVME_STATUS_DNR)) ||
-> > 	    status == NVME_SC_HOST_PATH_ERROR)
-> > 		return status;
-> > 
-> > okay?
+On 2024/12/17 0:53, Manivannan Sadhasivam wrote:
+> [...]
 > 
-> Which really cries out for a helper. But otherwise okay.
+>> +/*
+>> + * PCI EPF driver private data.
+>> + */
+>> +struct nvmet_pciep_epf {
+> 
+> nvmet_pci_epf?
+> 
+>> +	struct pci_epf			*epf;
+>> +
+>> +	const struct pci_epc_features	*epc_features;
+>> +
+>> +	void				*reg_bar;
+>> +	size_t				msix_table_offset;
+>> +
+>> +	unsigned int			irq_type;
+>> +	unsigned int			nr_vectors;
+>> +
+>> +	struct nvmet_pciep_ctrl		ctrl;
+>> +
+>> +	struct dma_chan			*dma_tx_chan;
+>> +	struct mutex			dma_tx_lock;
+>> +	struct dma_chan			*dma_rx_chan;
+>> +	struct mutex			dma_rx_lock;
+>> +
+>> +	struct mutex			mmio_lock;
+>> +
+>> +	/* PCI endpoint function configfs attributes */
+>> +	struct config_group		group;
+>> +	bool				dma_enable;
+>> +	__le16				portid;
+>> +	char				subsysnqn[NVMF_NQN_SIZE];
+>> +	unsigned int			mdts_kb;
+>> +};
+>> +
+>> +static inline u32 nvmet_pciep_bar_read32(struct nvmet_pciep_ctrl *ctrl, u32 off)
+>> +{
+>> +	__le32 *bar_reg = ctrl->bar + off;
+>> +
+>> +	return le32_to_cpu(READ_ONCE(*bar_reg));
+> 
+> Looks like you can use readl/writel variants here. Any reason to not use them?
 
-As far I remember, Christoph is not a big fan of single users of tiny
-helper functions. Anyway, what about this:
+A bar memory comes from dma_alloc_coherent(), which is a "void *" pointer and
+*not* iomem. So using readl/writel for accessing that memory seems awefully
+wrong to me.
 
-+static bool nvme_num_queue_updated(status)
-+{
-+       /*
-+        * It's either a kernel error or the host observed a connection
-+        * lost. In either case it's not possible communicate with the
-+        * controller and thus enter the error code path.
-+        */
-+
-+       if (status < 0 || status & NVME_STATUS_DNR ||
-+           status == NVME_SC_HOST_PATH_ERROR)
-+               return false;
-+
-+       return true;
-+}
-+
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
- {
-        u32 q_count = (*count - 1) | ((*count - 1) << 16);
-@@ -1701,13 +1716,8 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+>> +static bool nvmet_pciep_epf_init_dma(struct nvmet_pciep_epf *nvme_epf)
+>> +{
+>> +	struct pci_epf *epf = nvme_epf->epf;
+>> +	struct device *dev = &epf->dev;
+>> +	struct nvmet_pciep_epf_dma_filter filter;
+>> +	struct dma_chan *chan;
+>> +	dma_cap_mask_t mask;
+>> +
+>> +	mutex_init(&nvme_epf->dma_rx_lock);
+>> +	mutex_init(&nvme_epf->dma_tx_lock);
+>> +
+>> +	dma_cap_zero(mask);
+>> +	dma_cap_set(DMA_SLAVE, mask);
+>> +
+>> +	filter.dev = epf->epc->dev.parent;
+>> +	filter.dma_mask = BIT(DMA_DEV_TO_MEM);
+>> +
+>> +	chan = dma_request_channel(mask, nvmet_pciep_epf_dma_filter, &filter);
+>> +	if (!chan)
+>> +		return false;
+> 
+> You should also destroy mutexes in error path.
 
-        status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES, q_count, NULL, 0,
-                        &result);
--       /*
--        * It's either a kernel error or the host observed a connection
--        * lost. In either case it's not possible communicate with the
--        * controller and thus enter the error code path.
--        */
--       if (status < 0 || (status > 0 && (status & NVME_STATUS_DNR)) ||
--           status == NVME_SC_HOST_PATH_ERROR)
-+
-+       if (!nvme_num_queue_updated(status))
-                return status;
+Good catch. Will add that.
 
-        /*
+[...]
+
+>> +static int nvmet_pciep_epf_dma_transfer(struct nvmet_pciep_epf *nvme_epf,
+>> +		struct nvmet_pciep_segment *seg, enum dma_data_direction dir)
+>> +{
+>> +	struct pci_epf *epf = nvme_epf->epf;
+>> +	struct dma_async_tx_descriptor *desc;
+>> +	struct dma_slave_config sconf = {};
+>> +	struct device *dev = &epf->dev;
+>> +	struct device *dma_dev;
+>> +	struct dma_chan *chan;
+>> +	dma_cookie_t cookie;
+>> +	dma_addr_t dma_addr;
+>> +	struct mutex *lock;
+>> +	int ret;
+>> +
+>> +	switch (dir) {
+>> +	case DMA_FROM_DEVICE:
+>> +		lock = &nvme_epf->dma_rx_lock;
+>> +		chan = nvme_epf->dma_rx_chan;
+>> +		sconf.direction = DMA_DEV_TO_MEM;
+>> +		sconf.src_addr = seg->pci_addr;
+>> +		break;
+>> +	case DMA_TO_DEVICE:
+>> +		lock = &nvme_epf->dma_tx_lock;
+>> +		chan = nvme_epf->dma_tx_chan;
+>> +		sconf.direction = DMA_MEM_TO_DEV;
+>> +		sconf.dst_addr = seg->pci_addr;
+>> +		break;
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	mutex_lock(lock);
+>> +
+>> +	dma_dev = dmaengine_get_dma_device(chan);
+>> +	dma_addr = dma_map_single(dma_dev, seg->buf, seg->length, dir);
+>> +	ret = dma_mapping_error(dma_dev, dma_addr);
+>> +	if (ret)
+>> +		goto unlock;
+>> +
+>> +	ret = dmaengine_slave_config(chan, &sconf);
+>> +	if (ret) {
+>> +		dev_err(dev, "Failed to configure DMA channel\n");
+>> +		goto unmap;
+>> +	}
+>> +
+>> +	desc = dmaengine_prep_slave_single(chan, dma_addr, seg->length,
+>> +					   sconf.direction, DMA_CTRL_ACK);
+>> +	if (!desc) {
+>> +		dev_err(dev, "Failed to prepare DMA\n");
+>> +		ret = -EIO;
+>> +		goto unmap;
+>> +	}
+>> +
+>> +	cookie = dmaengine_submit(desc);
+>> +	ret = dma_submit_error(cookie);
+>> +	if (ret) {
+>> +		dev_err(dev, "DMA submit failed %d\n", ret);
+>> +		goto unmap;
+>> +	}
+>> +
+>> +	if (dma_sync_wait(chan, cookie) != DMA_COMPLETE) {
+> 
+> Why do you need to do sync tranfer all the time? This defeats the purpose of
+> using DMA.
+
+You may be getting confused about the meaning of sync here. This simply means
+"spin wait for the completion of the transfer". I initially was using the
+completion callback like in pci-epf-tets and othe EPF drivers doing DMA, but
+that causes a context switch for every transfer, even small ones, which really
+hurts performance. Switching to using dma_sync_wait() avoids this context switch
+while achieving what we need, which is to wait for the end of the transfer. I
+nearly doubled the max IOPS for small IOs with this.
+
+Note that we cannot easily do asynchronous DMA transfers with the current DMA
+slave API, unless we create some special work item responsible for DMA transfers.
+
+I did not try to micro optimize this driver too much for this first drop. Any
+improvement around how data transfers are done can come later. The preformance I
+am getting with this code is decent enough as it is.
+
+[...]
+
+>> +static inline int nvmet_pciep_epf_transfer(struct nvmet_pciep_epf *nvme_epf,
+> 
+> No need to add 'inline' keyword in .c files.
+
+Yes there is. Because that funtion is tiny and I really want it to be forced to
+be inlined.
+
+[...]
+
+>> +invalid_offset:
+>> +	dev_err(ctrl->dev, "PRPs list invalid offset\n");
+>> +	kfree(prps);
+>> +	iod->status = NVME_SC_PRP_INVALID_OFFSET | NVME_STATUS_DNR;
+>> +	return -EINVAL;
+>> +
+>> +invalid_field:
+>> +	dev_err(ctrl->dev, "PRPs list invalid field\n");
+>> +	kfree(prps);
+>> +	iod->status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+>> +	return -EINVAL;
+>> +
+>> +internal:
+>> +	dev_err(ctrl->dev, "PRPs list internal error\n");
+>> +	kfree(prps);
+>> +	iod->status = NVME_SC_INTERNAL | NVME_STATUS_DNR;
+>> +	return -EINVAL;
+> 
+> Can't you organize the labels in such a way that there is only one return path?
+> Current code makes it difficult to read and also would confuse the static
+> checkers.
+
+I do not see how this is difficult to read... But sure, I can try to simplify this.
+
+
+> [...]
+> 
+>> +static void nvmet_pciep_init_bar(struct nvmet_pciep_ctrl *ctrl)
+>> +{
+>> +	struct nvmet_ctrl *tctrl = ctrl->tctrl;
+>> +
+>> +	ctrl->bar = ctrl->nvme_epf->reg_bar;
+>> +
+>> +	/* Copy the target controller capabilities as a base */
+>> +	ctrl->cap = tctrl->cap;
+>> +
+>> +	/* Contiguous Queues Required (CQR) */
+>> +	ctrl->cap |= 0x1ULL << 16;
+>> +
+>> +	/* Set Doorbell stride to 4B (DSTRB) */
+>> +	ctrl->cap &= ~GENMASK(35, 32);
+>> +
+>> +	/* Clear NVM Subsystem Reset Supported (NSSRS) */
+>> +	ctrl->cap &= ~(0x1ULL << 36);
+>> +
+>> +	/* Clear Boot Partition Support (BPS) */
+>> +	ctrl->cap &= ~(0x1ULL << 45);
+>> +
+>> +	/* Clear Persistent Memory Region Supported (PMRS) */
+>> +	ctrl->cap &= ~(0x1ULL << 56);
+>> +
+>> +	/* Clear Controller Memory Buffer Supported (CMBS) */
+>> +	ctrl->cap &= ~(0x1ULL << 57);
+> 
+> Can you use macros for these?
+
+I could. But that would mean defining *all* bits of the cap register, which is a
+lot... The NVMe code does not have all these defined now. That is a cleanup that
+can come later I think.
+
+[...]
+
+>> +	if (epc_features->msix_capable) {
+>> +		size_t pba_size;
+>> +
+>> +		msix_table_size = PCI_MSIX_ENTRY_SIZE * epf->msix_interrupts;
+>> +		nvme_epf->msix_table_offset = reg_size;
+>> +		pba_size = ALIGN(DIV_ROUND_UP(epf->msix_interrupts, 8), 8);
+>> +
+>> +		reg_size += msix_table_size + pba_size;
+>> +	}
+>> +
+>> +	reg_bar_size = ALIGN(reg_size, max(epc_features->align, 4096));
+> 
+> From where does this 4k alignment comes from? NVMe spec? If so, is it OK to use
+> fixed_size BAR?
+
+NVMe BAR cannot be fixed size as its size depends on the number of queue pairs
+the controller can support. Will check if the 4K alignment is mandated by the
+specs. But it sure does not hurt...
+
+[...]
+
+>> +	/* Create the target controller. */
+>> +	ret = nvmet_pciep_create_ctrl(nvme_epf, max_nr_queues);
+>> +	if (ret) {
+>> +		dev_err(&epf->dev,
+>> +			"Create NVMe PCI target controller failed\n");
+> 
+> Failed to create NVMe PCI target controller
+
+How is that better ?
+
+> 
+>> +		return ret;
+>> +	}
+>> +
+>> +	if (epf->vfunc_no <= 1) {
+> 
+> Are you really supporting virtual functions? If supported, 'vfunc_no < 1' is not
+> possible.
+
+NVMe does support virtual functions and nothing in the configuration path
+prevents the user from setting one such function. So yes, this is supposed to
+work if the endpoint controller supports it. Though I must say that I have not
+tried/tested yet.
+
+> 
+>> +		/* Set device ID, class, etc */
+>> +		epf->header->vendorid = ctrl->tctrl->subsys->vendor_id;
+>> +		epf->header->subsys_vendor_id =
+>> +			ctrl->tctrl->subsys->subsys_vendor_id;
+> 
+> Why these are coming from somewhere else and not configured within the EPF
+> driver?
+
+They are set through the nvme target configfs. So there is no need to have these
+again setup through the epf configfs. We just grab the values set for the NVME
+target subsystem config.
+
+>> +static int nvmet_pciep_epf_link_up(struct pci_epf *epf)
+>> +{
+>> +	struct nvmet_pciep_epf *nvme_epf = epf_get_drvdata(epf);
+>> +	struct nvmet_pciep_ctrl *ctrl = &nvme_epf->ctrl;
+>> +
+>> +	dev_info(nvme_epf->ctrl.dev, "PCI link up\n");
+> 
+> These prints are supposed to come from the controller drivers. So no need to
+> have them here also.
+
+Nope, the controller driver does not print anything. At least the DWC driver
+does not print anything.
+
+>> +static ssize_t nvmet_pciep_epf_dma_enable_store(struct config_item *item,
+>> +					     const char *page, size_t len)
+>> +{
+>> +	struct config_group *group = to_config_group(item);
+>> +	struct nvmet_pciep_epf *nvme_epf = to_nvme_epf(group);
+>> +	int ret;
+>> +
+>> +	if (nvme_epf->ctrl.tctrl)
+>> +		return -EBUSY;
+>> +
+>> +	ret = kstrtobool(page, &nvme_epf->dma_enable);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return len;
+>> +}
+>> +
+>> +CONFIGFS_ATTR(nvmet_pciep_epf_, dma_enable);
+> 
+> What is the use of making this option user configurable? It is purely a hardware
+> capability and I don't think users would want to have their NVMe device working
+> without DMA voluntarily.
+
+If you feel strongly about it, I can drop this. But it is useful for debugging
+purpose to check that the DMA API is being used and working correctly.
+
+>> +static int __init nvmet_pciep_init_module(void)
+>> +{
+>> +	int ret;
+>> +
+>> +	ret = pci_epf_register_driver(&nvmet_pciep_epf_driver);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = nvmet_register_transport(&nvmet_pciep_fabrics_ops);
+> 
+> What is the need to register the transport so early? You should consider moving
+> the registration to bind() so that the transport can be removed once the driver
+> is unbind with the controller.
+
+This registration is needed to enable the configfs configuration of the nvme
+target subsystem and port. Withoutn this, setting a port transporet type to
+"pci" would fail to find the pci transport implemented here and the
+configuration would fail. This configuration of the nvme target susbsystem and
+port must come before configuring the EPF and binding it.
+
+
+
+
+-- 
+Damien Le Moal
+Western Digital Research
 
