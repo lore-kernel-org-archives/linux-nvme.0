@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B42E8E77187
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B62BFE77188
 	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 13:02:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LXA8EtJqSt8YMcKAoZw1K1ZsXmQZSiBKF7dQgkzXx1s=; b=4daGWgr8PDqpoHmNA9KhOzxCwd
-	tWU0/iGCnxLR8KrwUT2jwR6O6vpy8XBrS6f1f5Zo4RhEumc/Y+45P0xfYUvS31ATXqYsqAF6M//4X
-	lf7m3kEeMYDBXzlpn6Ys8B9Ont5mBWKb9gxhRRWyoqjPTCPwMsKAUl3YLs6ofxTGvYBYM0vGsVBMb
-	I3kHc77k6pOVnjvcqbhhFegA7H9QogPh8ZQVvO1pFmYgueVb6pPZBYoKtats7hKuKBOAlHQy0U5+i
-	Sa3zNF3jmMzpxhD8G7vemobsqAXda9F9smvV1sFUFdtcpc7TcUI2I+05aV7XBMIyqrLCgA3Ky3b0y
-	a1buUVGw==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9wohjECrItiTe3wGt73yRaTZkJ8cJH9lXeliHlLBqbI=; b=CtwXQLesdj88tGvL4bBfAWzewk
+	hadXWaNGGbNKdOrs4Ove56iXgM1psKvDYSWCEfAFv1LuaOPWRq3Jx31vm24PqeNDQTHAVP+TeXVtR
+	gdXaxVZv7bP+RFJNYHyCmT4bTkjEeFgl2STD77CdbVL8cQ/em0rjvEYt4IzHJG9p+/gsN53BCf95/
+	MhCuV/2KQU4zC8SKQT0grkuItPC2UD71nCGjQlbBjOsMGcq1JPYrHj/j6Wfl02O99oLOrpuM9n9YW
+	/6yPVBlnPXxzcF4LvEEyUmIkHAYIny5vkHnd4ihHfqrCBvsYVZH6D6Fi7g2YYPjlFZAygM05YwaNB
+	aFsFJ/TA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNXD6-0000000DScb-3d3r;
-	Tue, 17 Dec 2024 13:02:00 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tNXDG-0000000DSoZ-2lvn;
+	Tue, 17 Dec 2024 13:02:10 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNXC9-0000000DSAK-3Vxo
+	id 1tNXD1-0000000DSZb-0g3r
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Dec 2024 13:01:04 +0000
+	Tue, 17 Dec 2024 13:01:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7103AA40FDD;
-	Tue, 17 Dec 2024 12:59:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4E42C4CED3;
-	Tue, 17 Dec 2024 13:00:58 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 723C45C2C39;
+	Tue, 17 Dec 2024 13:01:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A69C4CED3;
+	Tue, 17 Dec 2024 13:01:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734440459;
-	bh=WUcPWFcOfeUf/sio4O36o8I8jrOpMF9pl2t7YRV1K7c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=W2+t6vZC3dFZWGD+hxEMeEPE1EEKt40fCuWrdg3SEm/26SFd4QEg0tiIvT2/Wek19
-	 ipbNsM3RLXl0RvFJrTnmhBFYT5MAx6OqnZ/oOKDrKGf32XUg477wAJn6V2jcBjZO/8
-	 Ii8+JaZkyyMGebvolPyBm40JjRdZQhIhr9H3yf5kaiaiXVcPFmwe/C4LJJ4P6impvd
-	 8/hR+n5YTMhKvuP9ew3PL2463hfk0ZudfO9HpYVaOpExaxG4v5E7GWf3f90dIP2oBV
-	 GHJCkATLPfGc2ofcLdQ0kQuhsYKz0DBm7jEilkgCea7JLERhDeOtEVUaSSk2h/iHeZ
-	 SwmUwQ1h0ckQQ==
+	s=k20201202; t=1734440514;
+	bh=faZKR+GLvGy07GeNnto8v510/6+S1UMSrHjOqNZtBkg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nwtijajh4ypb7fKZt6k7x4HGup1gTYl0XkljPI7PwxMJuEdG4LvZC2Wkmd+6h0KR0
+	 POnm5xMGOPzSpDi1TnhuSrGzZu6ZTFmvnvbNRQuN3MGJV07HVmi7mGPmC28ntAMKd6
+	 i4zQydEhFNcPmTcgyxQIgkbm89neiWRp0nS57D2/scu6c7ZyQrGZsnd5g300H/Dc6c
+	 ssfuuORUh3pBLcdDFCRqn9HPuMABkGdaZ5oZUyyxgTk/SVrFPlNoIXSLoWeqYmG/h8
+	 y6qZ8wi+SPyxvkEHb4689+1w0nzdecfQswNJY8uM2y8icydIHPgzfKdMw9iZH/OHtS
+	 CofUCjidyETzw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -50,7 +50,8 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Will Deacon <will@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>,
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Yishai Hadas <yishaih@nvidia.com>,
@@ -71,15 +72,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v5 00/17] Provide a new two step DMA mapping API
-Date: Tue, 17 Dec 2024 15:00:18 +0200
-Message-ID: <cover.1734436840.git.leon@kernel.org>
+Subject: [PATCH v5 14/17] RDMA/umem: Separate implicit ODP initialization from explicit ODP
+Date: Tue, 17 Dec 2024 15:00:32 +0200
+Message-ID: <7e1538594c048f3d3b41e53dc3875f399909dee8.1734436840.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.0
+In-Reply-To: <cover.1734436840.git.leon@kernel.org>
+References: <cover.1734436840.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241217_050102_016958_FCE620C3 
-X-CRM114-Status: GOOD (  15.61  )
+X-CRM114-CacheID: sfid-20241217_050155_285838_943090BC 
+X-CRM114-Status: GOOD (  16.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,94 +97,156 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Changelog:
-v5:
- * Trimmed long lines in all patches.
- * Squashed "dma-mapping: Add check if IOVA can be used" into
-   "dma: Provide an interface to allow allocate IOVA" patch.
- * Added tags from Christoph and Will.
- * Fixed spelling/grammar errors.
- * Change title from "dma: Provide an  ..." to be "dma-mapping: Provide an ...".
- * Slightly changed hmm patch to set sticky flags in one place.
-v4: https://lore.kernel.org/all/cover.1733398913.git.leon@kernel.org
- * Added extra patch to add kernel-doc for iommu_unmap and
- * iommu_unmap_fast
- * Rebased to v6.13-rc1
- * Added Will's tags
-v3: https://lore.kernel.org/all/cover.1731244445.git.leon@kernel.org
- * Added DMA_ATTR_SKIP_CPU_SYNC to p2p pages in HMM.
- * Fixed error unwind if dma_iova_sync fails in HMM.
- * Clear all PFN flags which were set in map to make code.
-   more clean, the callers anyway cleaned them.
- * Generalize sticky PFN flags logic in HMM.
- * Removed not-needed #ifdef-#endif section.
-v2: https://lore.kernel.org/all/cover.1730892663.git.leon@kernel.org
- * Fixed docs file as Randy suggested
- * Fixed releases of memory in HMM path. It was allocated with kv..
-   variants but released with kfree instead of kvfree.
- * Slightly changed commit message in VFIO patch.
-v1: https://lore.kernel.org/all/cover.1730298502.git.leon@kernel.org
- * Squashed two VFIO patches into one
- * Added Acked-by/Reviewed-by tags
- * Fix docs spelling errors
- * Simplified dma_iova_sync() API
- * Added extra check in dma_iova_destroy() if mapped size to make code
- * more clear
- * Fixed checkpatch warnings in p2p patch
- * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
-   be more general
- * Reduced the number of changes in VFIO patch
-v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
+From: Leon Romanovsky <leonro@nvidia.com>
 
-----------------------------------------------------------------------------
+Create separate functions for the implicit ODP initialization
+which is different from the explicit ODP initialization.
 
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ drivers/infiniband/core/umem_odp.c | 91 +++++++++++++++---------------
+ 1 file changed, 46 insertions(+), 45 deletions(-)
 
-Christoph Hellwig (6):
-  PCI/P2PDMA: Refactor the p2pdma mapping helpers
-  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
-  iommu: generalize the batched sync after map interface
-  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
-  dma-mapping: add a dma_need_unmap helper
-  docs: core-api: document the IOVA-based API
-
-Leon Romanovsky (11):
-  iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
-  dma-mapping: Provide an interface to allow allocate IOVA
-  dma-mapping: Implement link/unlink ranges API
-  mm/hmm: let users to tag specific PFN with DMA mapped bit
-  mm/hmm: provide generic DMA managing logic
-  RDMA/umem: Store ODP access mask information in PFN
-  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
-    linkage
-  RDMA/umem: Separate implicit ODP initialization from explicit ODP
-  vfio/mlx5: Explicitly use number of pages instead of allocated length
-  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-  vfio/mlx5: Enable the DMA link API
-
- Documentation/core-api/dma-api.rst   |  70 +++++
- drivers/infiniband/core/umem_odp.c   | 250 +++++----------
- drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
- drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
- drivers/infiniband/hw/mlx5/umr.c     |  12 +-
- drivers/iommu/dma-iommu.c            | 454 +++++++++++++++++++++++----
- drivers/iommu/iommu.c                |  84 ++---
- drivers/pci/p2pdma.c                 |  38 +--
- drivers/vfio/pci/mlx5/cmd.c          | 376 +++++++++++-----------
- drivers/vfio/pci/mlx5/cmd.h          |  35 ++-
- drivers/vfio/pci/mlx5/main.c         |  87 +++--
- include/linux/dma-map-ops.h          |  54 ----
- include/linux/dma-mapping.h          |  86 +++++
- include/linux/hmm-dma.h              |  33 ++
- include/linux/hmm.h                  |  21 ++
- include/linux/iommu.h                |   4 +
- include/linux/pci-p2pdma.h           |  84 +++++
- include/rdma/ib_umem_odp.h           |  25 +-
- kernel/dma/direct.c                  |  44 +--
- kernel/dma/mapping.c                 |  18 ++
- mm/hmm.c                             | 264 ++++++++++++++--
- 21 files changed, 1423 insertions(+), 693 deletions(-)
- create mode 100644 include/linux/hmm-dma.h
-
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
+index 30cd8f353476..51d518989914 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -48,41 +48,44 @@
+ 
+ #include "uverbs.h"
+ 
+-static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
+-				   const struct mmu_interval_notifier_ops *ops)
++static void ib_init_umem_implicit_odp(struct ib_umem_odp *umem_odp)
++{
++	umem_odp->is_implicit_odp = 1;
++	umem_odp->umem.is_odp = 1;
++	mutex_init(&umem_odp->umem_mutex);
++}
++
++static int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
++			    const struct mmu_interval_notifier_ops *ops)
+ {
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
++	size_t page_size = 1UL << umem_odp->page_shift;
++	unsigned long start;
++	unsigned long end;
+ 	int ret;
+ 
+ 	umem_odp->umem.is_odp = 1;
+ 	mutex_init(&umem_odp->umem_mutex);
+ 
+-	if (!umem_odp->is_implicit_odp) {
+-		size_t page_size = 1UL << umem_odp->page_shift;
+-		unsigned long start;
+-		unsigned long end;
+-
+-		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
+-		if (check_add_overflow(umem_odp->umem.address,
+-				       (unsigned long)umem_odp->umem.length,
+-				       &end))
+-			return -EOVERFLOW;
+-		end = ALIGN(end, page_size);
+-		if (unlikely(end < page_size))
+-			return -EOVERFLOW;
+-
+-		ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
+-					(end - start) >> PAGE_SHIFT,
+-					1 << umem_odp->page_shift);
+-		if (ret)
+-			return ret;
+-
+-		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
+-						   umem_odp->umem.owning_mm,
+-						   start, end - start, ops);
+-		if (ret)
+-			goto out_free_map;
+-	}
++	start = ALIGN_DOWN(umem_odp->umem.address, page_size);
++	if (check_add_overflow(umem_odp->umem.address,
++			       (unsigned long)umem_odp->umem.length, &end))
++		return -EOVERFLOW;
++	end = ALIGN(end, page_size);
++	if (unlikely(end < page_size))
++		return -EOVERFLOW;
++
++	ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
++				(end - start) >> PAGE_SHIFT,
++				1 << umem_odp->page_shift);
++	if (ret)
++		return ret;
++
++	ret = mmu_interval_notifier_insert(&umem_odp->notifier,
++					   umem_odp->umem.owning_mm, start,
++					   end - start, ops);
++	if (ret)
++		goto out_free_map;
+ 
+ 	return 0;
+ 
+@@ -106,7 +109,6 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
+ {
+ 	struct ib_umem *umem;
+ 	struct ib_umem_odp *umem_odp;
+-	int ret;
+ 
+ 	if (access & IB_ACCESS_HUGETLB)
+ 		return ERR_PTR(-EINVAL);
+@@ -118,16 +120,10 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
+ 	umem->ibdev = device;
+ 	umem->writable = ib_access_writable(access);
+ 	umem->owning_mm = current->mm;
+-	umem_odp->is_implicit_odp = 1;
+ 	umem_odp->page_shift = PAGE_SHIFT;
+ 
+ 	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
+-	ret = ib_init_umem_odp(umem_odp, NULL);
+-	if (ret) {
+-		put_pid(umem_odp->tgid);
+-		kfree(umem_odp);
+-		return ERR_PTR(ret);
+-	}
++	ib_init_umem_implicit_odp(umem_odp);
+ 	return umem_odp;
+ }
+ EXPORT_SYMBOL(ib_umem_odp_alloc_implicit);
+@@ -248,7 +244,7 @@ struct ib_umem_odp *ib_umem_odp_get(struct ib_device *device,
+ }
+ EXPORT_SYMBOL(ib_umem_odp_get);
+ 
+-void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
++static void ib_umem_odp_free(struct ib_umem_odp *umem_odp)
+ {
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
+ 
+@@ -258,14 +254,19 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
+ 	 * It is the driver's responsibility to ensure, before calling us,
+ 	 * that the hardware will not attempt to access the MR any more.
+ 	 */
+-	if (!umem_odp->is_implicit_odp) {
+-		mutex_lock(&umem_odp->umem_mutex);
+-		ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
+-					    ib_umem_end(umem_odp));
+-		mutex_unlock(&umem_odp->umem_mutex);
+-		mmu_interval_notifier_remove(&umem_odp->notifier);
+-		hmm_dma_map_free(dev->dma_device, &umem_odp->map);
+-	}
++	mutex_lock(&umem_odp->umem_mutex);
++	ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
++				    ib_umem_end(umem_odp));
++	mutex_unlock(&umem_odp->umem_mutex);
++	mmu_interval_notifier_remove(&umem_odp->notifier);
++	hmm_dma_map_free(dev->dma_device, &umem_odp->map);
++}
++
++void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
++{
++	if (!umem_odp->is_implicit_odp)
++		ib_umem_odp_free(umem_odp);
++
+ 	put_pid(umem_odp->tgid);
+ 	kfree(umem_odp);
+ }
 -- 
 2.47.0
 
