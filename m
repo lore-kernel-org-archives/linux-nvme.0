@@ -4,97 +4,197 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E3E2E7716A
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 06:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA077E77184
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 07:16:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KTMt2S+urkIYn87qIOII4tAmscWY+RXwAsYODxpHnCQ=; b=W7KnqTojzf9vcvqWB246nRE0I9
-	tXcd4T/EECRdZsqluuAaz26wFu+rFqexcg6Vh/pl2uGxay9VV/1gQ/1mCncfLwO+bTSdiKpiwY76a
-	S7W5qNkRXlFtrh8hoisPRxeeqmIiRy/IThZDycN8qMZZ1BX02mzflEdnMYdEim4BHI51Dzkeyu24b
-	eXES0OzG4+haiWFZzFdmqNWOV8qbtMT+mg8ws1X5ax3e3MS4S2utGXWm/UNhuLA885y9DGzfTq3kK
-	PKPs7OEUmz7J+tfL1R7qJbARUpxKx+SCvfIbDnzzcSC/xdhrI4D9Y/TDh0oXerj5/mpHJWV8d49Xo
-	+u0PbuSA==;
+	bh=Nu7ZlT9E1xolEmEUmqpnPxnXD0/gp7+pOb+u9LDcGcQ=; b=aqqvHq48fSMvq5KB1wKj6YxcYr
+	Fvp2Sg3k4LUNTDS+Vsfc0lqgWaXLPYs5SQ+g4Ou3JBU5WkayCsneWkmVHkd2YdBUMD/rcbIEm5kaz
+	hNXW3iywaB2tLlDLLSdWiytVnxhLkeAauiOryupGDxGtH/SLvjr7rXU8YlrQKMyLsBEjsdsXqrq88
+	351cbA1+psCFbngAp1FPYvtBoyAiPSPNxqY51vJ+n1pilpN1bkHlsw4CchDZv+jwW+mILSsVVANHp
+	z/PS8NJFaSqgCXB+MjNmPex+B/CS8sBIermxe3vDomakxsLi+U5XXXCwnqyGnWeH81FUsZX8CwLBa
+	ksOlxc4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNQxt-0000000COTM-2baG;
-	Tue, 17 Dec 2024 06:21:53 +0000
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+	id 1tNRog-0000000CY2K-2Ubi;
+	Tue, 17 Dec 2024 07:16:26 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNQxr-0000000COSr-06Lm
+	id 1tNRUf-0000000CUaN-2vjT
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 17 Dec 2024 06:55:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:In-Reply-To:Content-Type:
+	References:Message-ID:Subject:CC:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Nu7ZlT9E1xolEmEUmqpnPxnXD0/gp7+pOb+u9LDcGcQ=; b=A055KPVa3ZTJtezmetEiqIBxQt
+	BRYGTN5KYIiUFNN4o7bauTHtYaIY9yTWRPibKZT2FqGVaEsGD2iaDtYm7Ohr4yXin8CPoFvUrnu/t
+	ACUaBoecYWSE38iv30aLYEqCYUNq21O0K2M4tG/6lRyNqlH4rnnCEikNq2R7Vt1kwUF24Wwa4y8u+
+	ytSu30Duy8o5ij7rZAfAKFQ0hb0gO6abfvBj2ExRA6PJWYUlkYAM1vdK8GFa4RJy/y9rxMicTUl01
+	UFYy5UzxZDyTZI5ZheFhyxePFFKKjcWMi8vffvoUX9++rFtcZhE0ovBD3OKVc3Jr+I3/Bo1LucsYa
+	1ZERkR9Q==;
+Received: from mgamail.intel.com ([198.175.65.10])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tNRUc-000000051ID-0BBJ
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Dec 2024 06:21:52 +0000
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-725ee27e905so6363851b3a.2
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Dec 2024 22:21:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734416510; x=1735021310; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KTMt2S+urkIYn87qIOII4tAmscWY+RXwAsYODxpHnCQ=;
-        b=lgiMWm35x7BOT1F4xN0u5F002V+NL3BZZKxM6OsM3yqNLEN9f1WhN62dgLdCCN9R5v
-         mYYQdiV1z9wnZ41oESX1flwIj4J6dLCiGO+m6ORH47DsshBO4cxRqOhCTReX1oUPWR8E
-         f6BYtq7GpYQeQ4QwcIsCJAKmxIjXDyY+yi/L+zuZm3HuSrAv8Oli66FDlfKPbvYvuwlD
-         GQ8fE0lJ6dkskulg9HSj0xnxLMVGv8GH2pe3bCksiwpLN74h+cbvRJXvcVfWgsjfp20m
-         ZfS05nW1dwFp+FyGhG+jH/cggct7lmA9Jtr5141BKQG5KckRYmrbfeQxAuvdCy5F5Bpw
-         fvBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734416510; x=1735021310;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KTMt2S+urkIYn87qIOII4tAmscWY+RXwAsYODxpHnCQ=;
-        b=ODdpi6KgeXMd2FMwX7MbohWgAmyS5Gr192hyD8tVoipW3Ajr+Q+d3Up2bOR1RdPBy8
-         vhNWZVlMwtkC1K7YI9nXW8cxo2DCkdrKvdaGzkjgOikZovBFxXMrrDBW7fqD4WSGUeEm
-         4DVs85kntfY6Z8151NH3MbxBXusvZFUNKEdD6sxm5k+sr3O9oyJ0JM0YfCMvdfkCi/Yu
-         8d6f44S4bF9XPMlEKAwkISswKaTIKqhRRwA5rpDXORfaogZNBSNTOMAYXIZK9xTvaQ/Y
-         rG8sZjZ32CarjmTbgNudP8KKLaRHqmBv8OBnzO44lPJK5F9fnPtVNr2rd8KgjPXn5wrP
-         b7Bw==
-X-Forwarded-Encrypted: i=1; AJvYcCX6Ghy7NucCvJbz+xB+zO7B3zPnznzTGs1hcbvxs8wDlqs4E7oadZ1F7KRHVqkqHlY4P2HBiySD+uZg@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyf+WX0OPj8hrsgiKdKOkWuSxwBR69+9pQcHD7hggy2j9OF+JrR
-	2mfXaWutaWAtioCJ0ekHKlOGXT9ygBLfyCiiQ/DSRrEPyvTHLPZoh/6yRqeAKQ==
-X-Gm-Gg: ASbGncuJA3GXq/1v45nw7bv+uauRBaSScdmAAmyvwvYxz734mXZpeWSZalgx/Wr1mBf
-	0gTkXC7g+O3C+tGo3S809Hn9JZM0TvtLt3hWFqOiPAM2aSd3JCCD9BEpmOf0mgcy4qjOPKljHxF
-	QAaXHFj/i+omCG4dHCwq4C5qYA2fTj43dewB4IYjDp9s3G1Ks4c3oB33AdFwzPj2gKhEGEgGIz6
-	TIgujMjSregXl9WxrU9yPlV6WZW1nPPwEFVK3XfnO/ueaxMbycf0qY42daexE3uWt8P
-X-Google-Smtp-Source: AGHT+IHDN73kVjagfpHFEE7paMuJrna3XYZyYUYZnGRRnyEXV5MnD/5cAwnRlJHCCAF2jpNTULiJrQ==
-X-Received: by 2002:a05:6a00:2341:b0:728:e1e3:3d88 with SMTP id d2e1a72fcca58-7290c15d7bfmr19910862b3a.7.1734416510163;
-        Mon, 16 Dec 2024 22:21:50 -0800 (PST)
-Received: from thinkpad ([120.56.200.168])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918af1040sm5835770b3a.83.2024.12.16.22.21.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 22:21:49 -0800 (PST)
-Date: Tue, 17 Dec 2024 11:51:44 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
-	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rick Wertenbroek <rick.wertenbroek@gmail.com>
-Subject: Re: [PATCH v4 17/18] nvmet: New NVMe PCI endpoint target driver
-Message-ID: <20241217062144.g7jjnkziuen3qsm6@thinkpad>
-References: <20241212113440.352958-1-dlemoal@kernel.org>
- <20241212113440.352958-18-dlemoal@kernel.org>
- <Z1xoAj9c9oWhqZoV@ryzen>
- <Z2BW4CjdE1p50AhC@vaman>
- <4d20c4f6-3c89-4287-aa0c-326ff9997904@kernel.org>
- <Z2ELpuC+ltp5wDay@vaman>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+	Tue, 17 Dec 2024 06:55:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734418542; x=1765954542;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=PryhpxT+ib4u6RECdbtBO13UW5Y+yDekoJtYO/FBkBs=;
+  b=D4psfUzwg7YA2YYYoGDXdbn51nyaODqXS+V5rNpV7BT/yO+mtOD/rN/o
+   yatsZm8VnZXs2bH5D5BBc2hzo27tpRtqIk7Mi1homS071ADYLknMWzNGm
+   Y02ib3uj5x/NxPv1iJdauljMXZtyXpO7qH1+zfh0OiRfHcU9RxA3TbjdU
+   FRqAbyfhGeFKmhUkJo7Vogfy/WmAQepywIANYSPVheMAghDGye3QYwjTs
+   spwjaozZJpwt8T534TLEzsluNf9DDFvCc142sV7q5rLNuX8NGjRJdV7ka
+   ZzZBR2nDBX8XBQAEjA9aXYTf6ccoFFffLMAdIuH1bhMuYFIicytwBgEhy
+   A==;
+X-CSE-ConnectionGUID: bhN7r4O3SlCboe8stvESaw==
+X-CSE-MsgGUID: KurwN34CSqKkZU9yayZsog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="52241874"
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
+   d="scan'208";a="52241874"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 22:55:36 -0800
+X-CSE-ConnectionGUID: norhqYNYSAiqncu6bkqObQ==
+X-CSE-MsgGUID: 4KcHlNyMQue2zJq+YE4z9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="102532481"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Dec 2024 22:55:36 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Mon, 16 Dec 2024 22:55:35 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Mon, 16 Dec 2024 22:55:35 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 16 Dec 2024 22:55:34 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xrX+fibtvRhIdijtlEgc33viaVmVZuw0/AvZLI9sEYxwuaJqELqgQEk4YfhJG5PcLRwPd2+jtcxAYUEVEXHy8XEi6egNgxJSi+jImAR1vBHiNgxKtsRX2abta4sKh3qjAtE2jAxuJ7aGknFbPWqsvOo73q7gGephhrvsaEXwEiBpl+7tthVK8DDdynZLrApfuLSNQuMYutikfIf8j+vl5zmpqZVLeZIld8MmM9+eavaogKZ2Jf+5SvIB2Vj18Sgy/3mDQLfdXOm0Y0MRYnDOfeR0ir0OEoavbN0cgt5v1Vzw9JHkAtuPiZIZi5wJ5xblhFLqVCugbY2coolgdh8cFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nu7ZlT9E1xolEmEUmqpnPxnXD0/gp7+pOb+u9LDcGcQ=;
+ b=XNLdwpbBHidZBV9drU1+BPAvoaIPnboOIKdAM8UQ/K+3hc/QZAjyvCsMoDxBk9lcxojufoCTZaqiFCLW1ZnVqw3AeYsbGYLhfJZbtHZ/nQcG971v7F/VtaPvgme2GM0/oO6pPWLtE4RR/hXCgAZ1YUHm9puS0Py2vz2SHvdT+BGBo7hPe95lN/fVAapMA2aKRWS7juuYUxeylo8EaHILwxAE8Z7leCriKABOdzvpiRgY5A7CuphJKiD5SVPgJbeXvS8wiml0sSlNrfloowu8dlPUotOtLia7VOsyzFbuhWMdcHlxR/bW81W/4illB0KDvAukRdAsNKq6EtGO6fSZmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by DS0PR11MB7849.namprd11.prod.outlook.com (2603:10b6:8:fd::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Tue, 17 Dec
+ 2024 06:55:33 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%6]) with mapi id 15.20.8251.015; Tue, 17 Dec 2024
+ 06:55:32 +0000
+Date: Tue, 17 Dec 2024 14:55:23 +0800
+From: Oliver Sang <oliver.sang@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, <linux-block@vger.kernel.org>,
+	<virtualization@lists.linux.dev>, <linux-nvme@lists.infradead.org>,
+	<oliver.sang@intel.com>
+Subject: Re: [linus:master] [block]  e70c301fae: stress-ng.aiol.ops_per_sec
+ 49.6% regression
+Message-ID: <Z2EgW8/WNfzZ28mn@xsang-OptiPlex-9020>
+References: <202412122112.ca47bcec-lkp@intel.com>
+ <20241213143224.GA16111@lst.de>
+ <20241217045527.GA16091@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z2ELpuC+ltp5wDay@vaman>
+In-Reply-To: <20241217045527.GA16091@lst.de>
+X-ClientProxiedBy: SI2PR06CA0012.apcprd06.prod.outlook.com
+ (2603:1096:4:186::13) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|DS0PR11MB7849:EE_
+X-MS-Office365-Filtering-Correlation-Id: 209bea4d-e0a2-46c2-559c-08dd1e67ccc6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?nER/Xmcp/9gpytAbdy8973hKTBngGgV+Whia0cXUMIP+7lQ3yUasp6Fsa6H7?=
+ =?us-ascii?Q?XFJ6LwqRI0/wDLRi+MIMFrLYlhBlykC8msvj47X/nTXgzlx2JF8qfUmMpZj1?=
+ =?us-ascii?Q?5/hLSNdzDmUitGHwVpkSe7Hk/4GriF39qd1OufDYFit5vx857FaHno6mi1/0?=
+ =?us-ascii?Q?EZSLIhu1GPO/euKkmjQmN1MwIcbdnZjWqXnBBHMgf6ihzTo1xUgq7ZbeGGVC?=
+ =?us-ascii?Q?j3eLUGzpUgjVH2/lVAzdwE9x2oeu5WLBLiIIQs9+GpD9oGSgnvBb03Cr6fLD?=
+ =?us-ascii?Q?dM96RtxBZnGoR5V7ULjooftgHlMfuxGocRnpxCBTAjZ1x4PFGZWpIoP0wkZm?=
+ =?us-ascii?Q?YNinCG+XXr4GkgtUNhPrMxwCF6TuKaAjO1VS7t0cZAbuNTCqMD7/i+864m4D?=
+ =?us-ascii?Q?DOw82EQRz021Nq9ckce1daaUwT7eoaV5zZ7H+Q039jaKh4KY7bhKBrEUM8dI?=
+ =?us-ascii?Q?OovxuNzZtnQBKinqV6sIxdNT6YPNM2MpdnjHsPdFM+vb0EHyxaAAqRoIJs7s?=
+ =?us-ascii?Q?vfl8JY0kdhYlHnDGxrUNBvCAdCdMApKh1qy2OU5ar9D+7OS80EA9VRgdUfEF?=
+ =?us-ascii?Q?TRuKCcDyiNv7kedktUkFUvAmYC68oB6ZmP45JJF0qo4PSkJmLHBSF5bd75wX?=
+ =?us-ascii?Q?w3hOlaA2HESf+tW687D7wawU77RFakXiGLMhFsG9j5pi9qSMTBUQtCq2+HaJ?=
+ =?us-ascii?Q?wLoZIgM2i0SOfveKIQ+FZL7nT+G/cY6DC4d9Us7PD6r70Ugm2EfO3Dnfkqxc?=
+ =?us-ascii?Q?6xTqUlEoAaoA4QyPGcDZE3tgabG193qFt4S4pY/LTJJEYEdgL6JbYMXDjbH4?=
+ =?us-ascii?Q?BdrUo/OGMWelRPhex8rzd+w+/NGIkOns1RSIc2H6bhvyS2w+M8Ub4jSQvEOq?=
+ =?us-ascii?Q?sgxOkSaoyRZiafbNd7IMoNb1ggBrivSLUJ06HjKUoS5Go+RmvXSeH3mcCTWQ?=
+ =?us-ascii?Q?GhlEH+yr/AX5L82g0phVoWiirGwK9Ak8dHzdQ/rEngZYEPnfmUHWCPZabCMl?=
+ =?us-ascii?Q?MBTROxqQXSNJh4tIuR0xJiW0yEToyIWVHphGLygz4x8jt0LdoamPFtX0snbx?=
+ =?us-ascii?Q?C0F/WlkNgPTtbAWlPpgMAvGp8mzTTFV88HvpgA18rxZouqonESQyrOtvkpXe?=
+ =?us-ascii?Q?COXtSe47TDNeTaU81VIoXnYf3kgfCzujZDECJ5HRo/zEDSrI/bdiD/X9Y+JJ?=
+ =?us-ascii?Q?t84RbF2Mzi6UzVrM0iWyPzc40LnPx3KP9TUaO4EfZUO2PZTICaZ0KNgh7xv+?=
+ =?us-ascii?Q?cEpUBvEx2JOkBVuetI4knRTt3uAqqC+gGXvf1GDtePiWg82S0KCP/UcAOH6v?=
+ =?us-ascii?Q?savdSGIGRwVjrG1WFLxDOv2ra51yP+MRIgHuYL/UvX4OD/1zbO8RA81r0MlB?=
+ =?us-ascii?Q?pnEQ9JI/U3yzMY+an07uwt8v6uTi?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nUJR8/XjnSKPEI8DAk8T35ZFIgpXB9cSPxO4RnZS78g220uaWjWnNRYaz8WJ?=
+ =?us-ascii?Q?oJZEYGmZ5J/rBHiV6Vcp2UDwYFlLBz1I0n4UxT0HUgTYWAkjJxEMTG5tiE6/?=
+ =?us-ascii?Q?TktRT+7gOvJ/K/Lb9PWFcVN7VcF30cjO9Skt2a+RphNKYrgMKIOtWEIeYfNW?=
+ =?us-ascii?Q?WTHoYxSmAiJ/Ytd47nFBy8s7fkDmzHBHH/GVpp1Eo7cNHeLOjLVsvCnVeu+E?=
+ =?us-ascii?Q?Y6Xq+pr9fiYjqdVc7RJYtqIyjFC0KkfDMBnrgClMBWKGZkoN8QvQx8ZSW96G?=
+ =?us-ascii?Q?5grGnXvvmWofdRvL96mIryI3IpmtSC/P1353mu3KX7GsGhUYp1CAFScp8jwZ?=
+ =?us-ascii?Q?eFw+GTbVxer6SaeEFmRfqwI/U+JZLnIxk7+VlDbkoBIFRy93vVhhHi2oVD/P?=
+ =?us-ascii?Q?lXmMcou7CqgURqi+OmBcF4u8D/gYpIyzrmb1tadQsuiIY8ak5KAbVkUQC+NZ?=
+ =?us-ascii?Q?T6De+oNGlxZMv+jSusOGKh0CpmOZWHMIehLM2W6CIOLzA0DJBBDVng6QS4bD?=
+ =?us-ascii?Q?2vq9pQCvVwFw68KjWnXrlSEokl/yNbpG5wTvMNrlaa7eQ9AiQLdyQ604HITW?=
+ =?us-ascii?Q?JwrHULnHKk091xBQxX/0bGQSAhtn2qg0RnQVRuDf70dxtmeZHL6MULlOYIze?=
+ =?us-ascii?Q?++p/0wwqy+HaD+MsSnSHxzi2PyDOHmXLpMj8ZBlrpylSBCY+O2LH6Tn7ZN+i?=
+ =?us-ascii?Q?E3HvTHLDfZob+55D5wDSdo4A8kh4BgMdIhMFBKAqPshJj3ZXTIg54s/PzHob?=
+ =?us-ascii?Q?zl30L+If2AnP5gtOqwDuQwaFghCQzuIEohROkaC5ui1+xkBxC2qAQsurm30r?=
+ =?us-ascii?Q?S57o3XBMJMpkeyE6uePmRnsApP58rAUUOARL4mvSOR9zHqAzEnrOGXDZbbrg?=
+ =?us-ascii?Q?kQ7bMcoY8t1EJ/aeYKc2NKhwnhkas8InU7kz1VPZBC9a/dG4wGleeP78kQQX?=
+ =?us-ascii?Q?ai2LW/jq9/AgAkafngtOuSXNhVAVayp+OAQ1Bm2BqR6lHW3T4tBxPsq8428s?=
+ =?us-ascii?Q?EvQd2hlB9K/ZUpiGoVda8s97ZYyev7gSoFuYzmj1X8Jh/Rpcu0p/5taCEqjh?=
+ =?us-ascii?Q?ZQ/NM+Eb5NTLgMj7mcciHfQEDtc22tJlzoL4v0MMGHOrzz9DXHHQoJYvmeBI?=
+ =?us-ascii?Q?n4kG4XtiR6kY51UsRkEckDkulOAAcWQHIN/8VTrNibxKrY9jc8oeToCu96gC?=
+ =?us-ascii?Q?wRMydHxHVLH7cLU+3wdwfCnswTAQB/s+OMbgrg/V5gkMUBTPesyLu4ZIC7GQ?=
+ =?us-ascii?Q?wUeWiRw86iakJ1KNTbBl6BmqkGbwiBRKGRgWdLwlDEtkKoDHg+tvtDmTz06B?=
+ =?us-ascii?Q?1A+Kows2XQOjx4/fuu2ak5qsTrCYk7k2v7ZG4YYUwdiezB5XO7ufYAxRqtEv?=
+ =?us-ascii?Q?F1AIr6UQoM3E03fK+8a2E4k7avB/5jSViTrzMxC6y5QKtkQpTkNJl66kbWAE?=
+ =?us-ascii?Q?TodJ6MWgP5f52GkOb5pVtnWSGy3WGgABinbwv2fx0Mg+KCUMkEyTCqQjMTen?=
+ =?us-ascii?Q?rmGaDZhSrIohtPGafS8TcU367otgX5s+kBBJS9s4AR1VYSQbROAo+rLtM5gs?=
+ =?us-ascii?Q?XEtLHrP7wMbdygsy/RkGjt7C7HFql0GYBGiven28?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 209bea4d-e0a2-46c2-559c-08dd1e67ccc6
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 06:55:32.3570
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3XQXu6Q9THJbBiap0EB75An4T/dkrCYeyWBI9H58NDvZWKnbSFlKk0kZ2vK134xkS9AY4fHCCqpG8/RGG6vn9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7849
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241216_222151_069432_1B48F739 
-X-CRM114-Status: GOOD (  43.51  )
+X-CRM114-CacheID: sfid-20241217_065542_785393_0C05AF3D 
+X-CRM114-Status: GOOD (  17.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,92 +209,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 17, 2024 at 10:57:02AM +0530, Vinod Koul wrote:
-> On 16-12-24, 11:12, Damien Le Moal wrote:
-> > On 2024/12/16 8:35, Vinod Koul wrote:
-> > > Hi Niklas,
+hi, Christoph Hellwig,
+
+On Tue, Dec 17, 2024 at 05:55:28AM +0100, Christoph Hellwig wrote:
+> On Fri, Dec 13, 2024 at 03:32:24PM +0100, Christoph Hellwig wrote:
+> > On Thu, Dec 12, 2024 at 09:51:45PM +0800, kernel test robot wrote:
 > > > 
-> > > On 13-12-24, 17:59, Niklas Cassel wrote:
-> > >> Hello Vinod,
-> > >>
-> > >> I am a bit confused about the usage of the dmaengine API, and I hope that you
-> > >> could help make me slightly less confused :)
 > > > 
-> > > Sure thing!
+> > > Hello,
 > > > 
-> > >> If you look at the nvmet_pciep_epf_dma_transfer() function below, it takes a
-> > >> mutex around the dmaengine_slave_config(), dmaengine_prep_slave_single(),
-> > >> dmaengine_submit(), dma_sync_wait(), and dmaengine_terminate_sync() calls.
-> > >>
-> > >> I really wish that we would remove this mutex, to get better performance.
-> > >>
-> > >>
-> > >> If I look at e.g. the drivers/dma/dw-edma/dw-edma-core.c driver, I can see
-> > >> that dmaengine_prep_slave_single() (which will call
-> > >> device_prep_slave_sg(.., .., 1, .., .., ..)) allocates a new
-> > >> dma_async_tx_descriptor for each function call.
-> > >>
-> > >> I can see that device_prep_slave_sg() (dw_edma_device_prep_slave_sg()) will
-> > >> call dw_edma_device_transfer() which will call vchan_tx_prep(), which adds
-> > >> the descriptor to the tail of a list.
-> > >>
-> > >> I can also see that dw_edma_done_interrupt() will automatically start the
-> > >> transfer of the next descriptor (using vchan_next_desc()).
-> > >>
-> > >> So this looks like it is supposed to be asynchronous... however, if we simply
-> > >> remove the mutex, we get IOMMU errors, most likely because the DMA writes to
-> > >> an incorrect address.
-> > >>
-> > >> It looks like this is because dmaengine_prep_slave_single() really requires
-> > >> dmaengine_slave_config() for each transfer. (Since we are supplying a src_addr
-> > >> in the sconf that we are supplying to dmaengine_slave_config().)
-> > >>
-> > >> (i.e. we can't call dmaengine_slave_config() while a DMA transfer is active.)
-> > >>
-> > >> So while this API is supposed to be async, to me it looks like it can only
-> > >> be used in a synchronous manner... But that seems like a really weird design.
-> > >>
-> > >> Am I missing something obvious here?
-> > > 
-> > > Yes, I feel nvme being treated as slave transfer, which it might not be.
-> > > This API was designed for peripherals like i2c/spi etc where we have a
-> > > hardware address to read/write to. So the dma_slave_config would pass on
-> > > the transfer details for the peripheral like address, width of fifo,
-> > > depth etc and these are setup config, so call once for a channel and then
-> > > prepare the descriptor, submit... and repeat of prepare and submit ...
-> > > 
-> > > I suspect since you are passing an address which keep changing in the
-> > > dma_slave_config, you need to guard that and prep_slave_single() call,
-> > > as while preparing the descriptor driver would lookup what was setup for
-> > > the configuration.
-> > > 
-> > > I suggest then use the prep_memcpy() API instead and pass on source and
-> > > destination, no need to lock the calls...
+> > > kernel test robot noticed a 49.6% regression of stress-ng.aiol.ops_per_sec on:
 > > 
-> > Vinod,
-> > 
-> > Thank you for the information. However, I think we can use this only if the DMA
-> > controller driver implements the device_prep_dma_memcpy operation, no ?
-> > In our case, the DWC EDMA driver does not seem to implement this.
+> > This sounds like there is some other I/O path that still reorders,
+> > which got messed up.  What storage driver is this using?  The repro
+> > material talks about an ata disk, but I'm still curious if it's ahci
+> > or some other driver, or a SAS HBA?
 > 
-> It should be added in that case.
-> 
-> Before that, the bigger question is, should nvme be slave transfer or
-> memcpy.. Was driver support the reason why the slave transfer was used here...?
-> 
-> As i said, slave is for peripherals which have a static fifo to
-> send/receive data from, nvme sounds like a memory transfer to me, is
-> that a right assumption?
+> Do you have the information on what hardware is used for this test?
 > 
 
-My understanding is that DMA_MEMCPY is for local DDR transfer i.e., src and dst
-are local addresses. And DMA_SLAVE is for transfer between remote and local
-addresses. I haven't looked into the NVMe EPF driver yet, but it should do
-the transfer between remote and local addresses. This is similar to MHI EPF
-driver as well.
+sorry for late.
 
-- Mani
+from below information, it seems an 'ahci' to me. but since I have limited
+knowledge about storage driver, maybe I'm wrong. if you want more information,
+please let us know. thanks a lot!
 
--- 
-மணிவண்ணன் சதாசிவம்
+the sata hdd for this test is as below:
+
+lrwxrwxrwx 1 root root  9 Dec 17 06:30 ata-WDC_WD20SPZX-22UA7T0_WD-WX82EA06CSLM -> ../../sdb
+lrwxrwxrwx 1 root root 10 Dec 17 06:30 ata-WDC_WD20SPZX-22UA7T0_WD-WX82EA06CSLM-part1 -> ../../sdb1
+
+# lsblk -d -o name,rota,tran
+NAME    ROTA TRAN
+...
+sdb        1 sata
+
+
+# lspci -v | grep -i ahci
+00:11.5 SATA controller: Intel Corporation C620 Series Chipset Family SSATA Controller [AHCI mode] (rev 0a) (prog-if 01 [AHCI 1.0])
+        Subsystem: Intel Corporation C620 Series Chipset Family SSATA Controller [AHCI mode]
+        Kernel driver in use: ahci
+        Kernel modules: ahci
+00:17.0 SATA controller: Intel Corporation C620 Series Chipset Family SATA Controller [AHCI mode] (rev 0a) (prog-if 01 [AHCI 1.0])
+        Subsystem: Intel Corporation C620 Series Chipset Family SATA Controller [AHCI mode]
+        Kernel driver in use: ahci
+        Kernel modules: ahci
+
+
+# dmesg | grep -i ahci
+[   33.238726] ahci 0000:00:11.5: version 3.0
+[   33.245238] ahci 0000:00:11.5: AHCI vers 0001.0301, 32 command slots, 6 Gbps, SATA mode
+[   33.262304] ahci 0000:00:11.5: 4/4 ports implemented (port mask 0x3c)
+[   33.274836] ahci 0000:00:11.5: flags: 64bit ncq sntf pm led clo only pio slum part ems deso sadm sds apst
+[   33.332546] scsi host1: ahci
+[   33.336259] scsi host2: ahci
+[   33.438264] scsi host3: ahci
+[   33.447554] scsi host4: ahci
+[   33.454807] scsi host5: ahci
+[   33.458574] scsi host6: ahci
+[   33.462425] ahci 0000:00:17.0: AHCI vers 0001.0301, 32 command slots, 6 Gbps, SATA mode
+[   33.462429] ahci 0000:00:17.0: 8/8 ports implemented (port mask 0xff)
+[   33.462430] ahci 0000:00:17.0: flags: 64bit ncq sntf pm led clo only pio slum part ems deso sadm sds apst
+[   33.514739] scsi host7: ahci
+[   33.524035] scsi host8: ahci
+[   33.531515] scsi host9: ahci
+[   33.542149] scsi host10: ahci
+[   33.546126] scsi host11: ahci
+[   33.549890] scsi host12: ahci
+[   33.553719] scsi host13: ahci
+[   33.557556] scsi host14: ahci
+
 
