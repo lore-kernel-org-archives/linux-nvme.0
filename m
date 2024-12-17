@@ -4,54 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99833E77184
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Dec 2024 15:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21229E7718C
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Dec 2024 15:57:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UhwCMXnpXVIwzKas8wz2UzaDwM/i6zzuM2VhZ9aZgRI=; b=jxqDjy/npgJHuiKLXnofH9x2kE
-	2ds7YNxPbZ/IBqc4/nFgVdQQpBM8G18RYQQkQjH+E//afHBRp4G42sT8u/dqbv1/jv1MhlyF/vBTU
-	ws9syWe6ZpVngWnO9NFlHMdS8umEUa3vI4IFBW1/zEdnuhoZgtOO0ewu+PgWyBo5fKfINHQNexr+I
-	Vt4L/VDEoftuaTUB8TAPkRIMfqtgyr6XWkba9AKBMQfSftYWYe9+QkGPD0mBN9VqVCh96nVwOL0g0
-	Ify9EvhbVU+T2zjoTaxOYkxyp8JfBBBogOkeBevGpC085ObDlic4LsCJ84U5dVsEcKx2Tyqqs6zgr
-	e/sbwnVg==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=4+LVb5vcBMKvYLj+a1peOZqYHQxECNd892LZ6Db90Jc=; b=ze1AHDv/XZ8N4y
+	G8u88RUUg+NH4sY2Y+1CPHsudttgSiOIk7ezBAzingR3aGMnyQR7JlLzSXVjw4GclMXtexS9JiSbe
+	Y5eRXS5HrB8CDwZ4iiWdE72sojqH8lx8sqVabl2FYWIsDEQyAz8URdmAri6A2bAmJ4Gq+aAebBNbd
+	rVjN/NxKupe3BxStLvJSxG7I/BHawPjB6dM6pwyIfVhUO+r/2vClAOuHKx10JNhci3ZGYdfH228bn
+	omBCBInaqRUKeiKDQcKu5BmFNrK2GzR2LQeZ5woPxy8kjmUo1J7iboMhexH4KA9BY7MnVPQUgV4xx
+	qE2IaVMmwbXLRqaBNCIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOItg-00000002EEF-2ky8;
-	Thu, 19 Dec 2024 15:57:08 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tOItc-00000002EAO-0i8r;
+	Thu, 19 Dec 2024 15:57:04 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNcKV-0000000EXvI-2PKz
+	id 1tNcKH-0000000EXmq-3M4i
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Dec 2024 18:30:00 +0000
+	Tue, 17 Dec 2024 18:29:47 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E26415C3F68;
-	Tue, 17 Dec 2024 18:29:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BB92C4CED7;
-	Tue, 17 Dec 2024 18:29:58 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id A3765A40FA3;
+	Tue, 17 Dec 2024 18:27:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87846C4CED3;
+	Tue, 17 Dec 2024 18:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734460198;
-	bh=Y+iIQqMxZ1GFfz3mNIIyf5XCB6LBEtLrtx8kjb0qqss=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pSoZ6F8qGVrkkdoMmGLN16Vf7JLEg1ohgX1Hu2SO9f5u+qm027a+QG6gtvkmr/OyM
-	 8ZUk9wQiXoWpbnQQG6pl/lcaHZsuSE8CxyolIk5t9I5B9H6ZrWWvEmQ2l/9oRMu8ds
-	 pd+j1xdlIBS6ypdMAHRoToXbpCNGj3+re2SbWXE8tj7LOTLPmew5wcoAE2OMocemoR
-	 85MYkR5/J7WUakbHF4Ar0RBvCwFhBbo2t1K8WJyi69lt1SPG6RpRnrAfAA98vMqPPY
-	 c90MbVqX8HL51d5WQBch8oMDz7tW4Pdb+mzX+zWU8vKZTGqjguvOAIPN3QGwXjYWKx
-	 D6AXmynGoKCWg==
+	s=k20201202; t=1734460184;
+	bh=hHu0hy2/wGUImCgXCBSjy1eogHX5z0frXHx8vJgLTRE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=QC/x7fZ+i5oe1UmVSof5V74FINpBvmWKFO8uH8nqQJ6z2Ha2H8GRrK2X41tMiFk7o
+	 tuohweIZmBCTT59Pi0ugOqQ20k35h0M/dYoyutT/6eKRCOIMcWqymJamb4+D6pYMFW
+	 hKICvz+RYC+hQAo3FP9ZU1jQOOJ7SwU2Iekp/WrFK3s2255kyiOak44Q9EKmOPGfOw
+	 AnhEgt0nqpWQ7FtYlzvHQQaudv30K2pjolfZdswPIToOyP0yzMBPY2LZasYCWA66uA
+	 zDWUi+el6qf0e9bAJs3K4ULBi8rRX1Q1iGVz0tJsVqQ9oed58T0WanB2tkgH4t01/J
+	 f0u95M8QLKVvQ==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Tue, 17 Dec 2024 19:29:40 +0100
-Subject: [PATCH v4 6/9] virtio: blk/scsi: use block layer helpers to
- calculate num of queues
+Subject: [PATCH v4 0/9] blk: honor isolcpus configuration
+Date: Tue, 17 Dec 2024 19:29:34 +0100
+Message-Id: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-isolcpus-io-queues-v4-6-5d355fbb1e14@kernel.org>
-References: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org>
-In-Reply-To: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAA7DYWcC/23QwY6DIBAG4FcxnHcaQKu0p75HswfEoZK6Yhk12
+ zR99x1tNt1NvJD8JHzDPw9BmAKSOGYPkXAOFGLPofjIhGttf0EIDWehpS5kqSUEip0bJoIQ4Tb
+ hhATKGoN1UXlvasEPh4Q+fK/o+ZNzG2iM6b7OmNVy+8upLW5WIMHUqjzUvlDS5CeaCHcNigWb9
+ V+g2gQ0A7q0ucbcFb7a/wfyN2BkuQnkDDRWIjqPllu9geerX8LbxLsaXyXFFxLZdVfHbIEVH8B
+ bsI6LQ91dwXof+jDeocVuwMQzyuWTlVYKD067Zn+6Yuqx28V04THPH7ytWCGaAQAA
+X-Change-ID: 20240620-isolcpus-io-queues-1a88eb47ff8b
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
  Kashyap Desai <kashyap.desai@broadcom.com>, 
@@ -82,8 +85,8 @@ Cc: Costa Shulyupin <costa.shul@redhat.com>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241217_102959_710170_6F99FF51 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20241217_102945_981207_E530E64E 
+X-CRM114-Status: GOOD (  33.01  )
 X-Mailman-Approved-At: Thu, 19 Dec 2024 07:56:32 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -99,64 +102,251 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Multiqueue devices should only allocate queues for the housekeeping CPUs
-when isolcpus=managed_irq is set. This avoids that the isolated CPUs get
-disturbed with OS workload.
+The first part of the v3 of this series when in [3], so here is the
+rebased, retested and slightly extended second halve.
 
-Use helpers which calculates the correct number of queues which should
-be used when isolcpus is used.
+During testing I run into the situation that group_cpu_evenly returned a
+masks array which had less groups then requested; KASAN was unhappy and
+the kernel also crashed. After starring for a long time on the code and
+also reading Ming's comment in alloc_nodes_groups, this is something
+which can happen, depending on the online/offline and with this series
+isolated CPU configuration.
+
+Second big discussion point in v3 is how to handle the situation when we
+have an hardware context with a mapped housekeeping and and isolated CPU
+and the housekeeping CPU goes offline. In this case there is nothing
+handling IOs for the given context and when the isolated online CPUs is
+issuing IO those will just hang.
+
+I've experimented for a while and all solutions I came up were horrible
+hacks (the hotpath needs to be touched) and I don't want to slow down all
+other users (which are almost everyone). IMO, it's just not worth trying
+to fix this corner case. If the user is using isolcpus and does CPU
+hotplug, we can expect that the user can also first offline the isolated
+CPUs. I've discussed this topic during ALPSS and the room came to the
+same conclusion. Thus I just added a patch which issues a warning that
+IOs are likely to hang.
+
+Furthermore, I started to work getting the nvme-fabrics honoring the
+isolcpu configuration as well but I decied to leave it away for now. No
+need to make this series bigger again.
+
+Daniel
+
+ps: CCed a few more who were involved the isolcpu discussion during
+plumbers.
+
+Initial cover letter:
+
+The nvme-pci driver is ignoring the isolcpus configuration. There were
+several attempts to fix this in the past [1][2]. This is another attempt
+but this time trying to address the feedback and solve it in the core
+code.
+
+The first patch introduces a new option for isolcpus 'io_queue', but I'm
+not really sure if this is needed and we could just use the managed_irq
+option instead. I guess depends if there is an use case which depens on
+queues on the isolated CPUs.
+
+The second patch introduces a new block layer helper which returns the
+number of possible queues. I suspect it would makes sense also to make
+this helper a bit smarter and also consider the number of queues the
+hardware supports.
+
+And the last patch updates the group_cpus_evenly function so that it uses
+only the housekeeping CPUs when they are defined
+
+Note this series is not addressing the affinity setting of the admin
+queue (queue 0). I'd like to address this after we agreed on how to solve
+this. Currently, the admin queue affinity can be controlled by the
+irq_afffinity command line option, so there is at least a workaround for
+it.
+
+Baseline:
+
+available: 2 nodes (0-1)
+node 0 cpus: 0 1 2 3
+node 0 size: 1536 MB
+node 0 free: 1227 MB
+node 1 cpus: 4 5 6 7
+node 1 size: 1729 MB
+node 1 free: 1422 MB
+node distances:
+node   0   1
+  0:  10  20
+  1:  20  10
+
+options nvme write_queues=4 poll_queues=4
+
+55: 0 41 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 0-edge nvme0q0 affinity: 0-3
+63: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 1-edge nvme0q1 affinity: 4-5
+64: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 2-edge nvme0q2 affinity: 6-7
+65: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 3-edge nvme0q3 affinity: 0-1
+66: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 4-edge nvme0q4 affinity: 2-3
+67: 0 0 0 0 24 0 0 0 PCI-MSIX-0000:00:05.0 5-edge nvme0q5 affinity: 4
+68: 0 0 0 0 0 1 0 0 PCI-MSIX-0000:00:05.0 6-edge nvme0q6 affinity: 5
+69: 0 0 0 0 0 0 41 0 PCI-MSIX-0000:00:05.0 7-edge nvme0q7 affinity: 6
+70: 0 0 0 0 0 0 0 3 PCI-MSIX-0000:00:05.0 8-edge nvme0q8 affinity: 7
+71: 1 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 9-edge nvme0q9 affinity: 0
+72: 0 18 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 10-edge nvme0q10 affinity: 1
+73: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 11-edge nvme0q11 affinity: 2
+74: 0 0 0 3 0 0 0 0 PCI-MSIX-0000:00:05.0 12-edge nvme0q12 affinity: 3
+
+queue mapping for /dev/nvme0n1
+        hctx0: default 4 5
+        hctx1: default 6 7
+        hctx2: default 0 1
+        hctx3: default 2 3
+        hctx4: read 4
+        hctx5: read 5
+        hctx6: read 6
+        hctx7: read 7
+        hctx8: read 0
+        hctx9: read 1
+        hctx10: read 2
+        hctx11: read 3
+        hctx12: poll 4 5
+        hctx13: poll 6 7
+        hctx14: poll 0 1
+        hctx15: poll 2 3
+
+PCI name is 00:05.0: nvme0n1
+        irq 55, cpu list 0-3, effective list 1
+        irq 63, cpu list 4-5, effective list 5
+        irq 64, cpu list 6-7, effective list 7
+        irq 65, cpu list 0-1, effective list 1
+        irq 66, cpu list 2-3, effective list 3
+        irq 67, cpu list 4, effective list 4
+        irq 68, cpu list 5, effective list 5
+        irq 69, cpu list 6, effective list 6
+        irq 70, cpu list 7, effective list 7
+        irq 71, cpu list 0, effective list 0
+        irq 72, cpu list 1, effective list 1
+        irq 73, cpu list 2, effective list 2
+        irq 74, cpu list 3, effective list 3
+
+* patched:
+
+48: 0 0 33 0 0 0 0 0 PCI-MSIX-0000:00:05.0 0-edge nvme0q0 affinity: 0-3
+58: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 1-edge nvme0q1 affinity: 4
+59: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 2-edge nvme0q2 affinity: 5
+60: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 3-edge nvme0q3 affinity: 0
+61: 0 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 4-edge nvme0q4 affinity: 1
+62: 0 0 0 0 45 0 0 0 PCI-MSIX-0000:00:05.0 5-edge nvme0q5 affinity: 4
+63: 0 0 0 0 0 12 0 0 PCI-MSIX-0000:00:05.0 6-edge nvme0q6 affinity: 5
+64: 2 0 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 7-edge nvme0q7 affinity: 0
+65: 0 35 0 0 0 0 0 0 PCI-MSIX-0000:00:05.0 8-edge nvme0q8 affinity: 1
+
+queue mapping for /dev/nvme0n1
+        hctx0: default 2 3 4 6 7
+        hctx1: default 5
+        hctx2: default 0
+        hctx3: default 1
+        hctx4: read 4
+        hctx5: read 5
+        hctx6: read 0
+        hctx7: read 1
+        hctx8: poll 4
+        hctx9: poll 5
+        hctx10: poll 0
+        hctx11: poll 1
+
+PCI name is 00:05.0: nvme0n1
+        irq 48, cpu list 0-3, effective list 2
+        irq 58, cpu list 4, effective list 4
+        irq 59, cpu list 5, effective list 5
+        irq 60, cpu list 0, effective list 0
+        irq 61, cpu list 1, effective list 1
+        irq 62, cpu list 4, effective list 4
+        irq 63, cpu list 5, effective list 5
+        irq 64, cpu list 0, effective list 0
+        irq 65, cpu list 1, effective list 1
+
+[1] https://lore.kernel.org/lkml/20220423054331.GA17823@lst.de/T/#m9939195a465accbf83187caf346167c4242e798d
+[2] https://lore.kernel.org/linux-nvme/87fruci5nj.ffs@tglx/
+[3] https://lore.kernel.org/linux-nvme/20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org/
 
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/block/virtio_blk.c                | 5 ++---
- drivers/scsi/megaraid/megaraid_sas_base.c | 3 ++-
- drivers/scsi/virtio_scsi.c                | 1 +
- 3 files changed, 5 insertions(+), 4 deletions(-)
+Changes in v4:
+- added "blk-mq: issue warning when offlining hctx with online isolcpus"
+- fixed check in cgroup_cpus_evenly, the if condition needs to use
+  housekeeping_enabled() and not cpusmask_weight(housekeeping_masks),
+  because the later will always return a valid mask.
+- dropped fixed tag from "lib/group_cpus.c: honor housekeeping config when
+  grouping CPUs"
+- fixed overlong line "scsi: use block layer helpers to calculate num
+  of queues"
+- dropped "sched/isolation: Add io_queue housekeeping option",
+  just document the housekeep enum hk_type
+- added "lib/group_cpus: let group_cpu_evenly return number of groups"
+- collected tags
+- splitted series into a preperation series:
+  https://lore.kernel.org/linux-nvme/20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org/
+- Link to v3: https://lore.kernel.org/r/20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index ed514ff46dc82acd629ae594cb0fa097bd301a9b..0287ceaaf19972f3a18e81cd2e3252e4d539ba93 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -976,9 +976,8 @@ static int init_vq(struct virtio_blk *vblk)
- 		return -EINVAL;
- 	}
- 
--	num_vqs = min_t(unsigned int,
--			min_not_zero(num_request_queues, nr_cpu_ids),
--			num_vqs);
-+	num_vqs = blk_mq_num_possible_queues(
-+			min_not_zero(num_request_queues, num_vqs));
- 
- 	num_poll_vqs = min_t(unsigned int, poll_queues, num_vqs - 1);
- 
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index 59d385e5a917979ae2f61f5db2c3355b9cab7e08..3ff0978b3acb5baf757fee25d9fccf4971976272 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -6236,7 +6236,8 @@ static int megasas_init_fw(struct megasas_instance *instance)
- 		intr_coalescing = (scratch_pad_1 & MR_INTR_COALESCING_SUPPORT_OFFSET) ?
- 								true : false;
- 		if (intr_coalescing &&
--			(blk_mq_num_online_queues(0) >= MR_HIGH_IOPS_QUEUE_COUNT) &&
-+			(blk_mq_num_online_queues(0) >=
-+			 MR_HIGH_IOPS_QUEUE_COUNT) &&
- 			(instance->msix_vectors == MEGASAS_MAX_MSIX_QUEUES))
- 			instance->perf_mode = MR_BALANCED_PERF_MODE;
- 		else
-diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
-index 60be1a0c61836ba643adcf9ad8d5b68563a86cb1..46ca0b82f57ce2211c7e2817dd40ee34e65bcbf9 100644
---- a/drivers/scsi/virtio_scsi.c
-+++ b/drivers/scsi/virtio_scsi.c
-@@ -919,6 +919,7 @@ static int virtscsi_probe(struct virtio_device *vdev)
- 	/* We need to know how many queues before we allocate. */
- 	num_queues = virtscsi_config_get(vdev, num_queues) ? : 1;
- 	num_queues = min_t(unsigned int, nr_cpu_ids, num_queues);
-+	num_queues = blk_mq_num_possible_queues(num_queues);
- 
- 	num_targets = virtscsi_config_get(vdev, max_target) + 1;
- 
+Changes in v3:
+- lifted a couple of patches from
+  https://lore.kernel.org/all/20210709081005.421340-1-ming.lei@redhat.com/
+  "virito: add APIs for retrieving vq affinity"
+  "blk-mq: introduce blk_mq_dev_map_queues"
+- replaces all users of blk_mq_[pci|virtio]_map_queues with
+  blk_mq_dev_map_queues
+- updated/extended number of queue calc helpers
+- add isolcpus=io_queue CPU-hctx mapping function
+- documented enum hk_type and isolcpus=io_queue
+- added "scsi: pm8001: do not overwrite PCI queue mapping"
+- Link to v2: https://lore.kernel.org/r/20240627-isolcpus-io-queues-v2-0-26a32e3c4f75@suse.de
 
+Changes in v2:
+- updated documentation
+- splitted blk/nvme-pci patch
+- dropped HK_TYPE_IO_QUEUE, use HK_TYPE_MANAGED_IRQ
+- Link to v1: https://lore.kernel.org/r/20240621-isolcpus-io-queues-v1-0-8b169bf41083@suse.de
+
+---
+Daniel Wagner (9):
+      lib/group_cpus: let group_cpu_evenly return number of groups
+      sched/isolation: document HK_TYPE housekeeping option
+      blk-mq: add number of queue calc helper
+      nvme-pci: use block layer helpers to calculate num of queues
+      scsi: use block layer helpers to calculate num of queues
+      virtio: blk/scsi: use block layer helpers to calculate num of queues
+      lib/group_cpus: honor housekeeping config when grouping CPUs
+      blk-mq: use hk cpus only when isolcpus=managed_irq is enabled
+      blk-mq: issue warning when offlining hctx with online isolcpus
+
+ block/blk-mq-cpumap.c                     | 118 +++++++++++++++++++++++++++++-
+ block/blk-mq.c                            |  43 ++++++++++-
+ drivers/block/virtio_blk.c                |   5 +-
+ drivers/nvme/host/pci.c                   |   5 +-
+ drivers/scsi/megaraid/megaraid_sas_base.c |  16 ++--
+ drivers/scsi/qla2xxx/qla_isr.c            |  10 +--
+ drivers/scsi/smartpqi/smartpqi_init.c     |   5 +-
+ drivers/scsi/virtio_scsi.c                |   1 +
+ drivers/virtio/virtio_vdpa.c              |   2 +-
+ fs/fuse/virtio_fs.c                       |   7 +-
+ include/linux/blk-mq.h                    |   2 +
+ include/linux/group_cpus.h                |   2 +-
+ include/linux/sched/isolation.h           |  13 ++++
+ kernel/irq/affinity.c                     |   2 +-
+ lib/group_cpus.c                          |  98 ++++++++++++++++++++++---
+ 15 files changed, 289 insertions(+), 40 deletions(-)
+---
+base-commit: 737371e839a368007758be329413b3f5ec9e7976
+change-id: 20240620-isolcpus-io-queues-1a88eb47ff8b
+prerequisite-message-id: 20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org
+prerequisite-patch-id: e61d7c94facf2774a03c8c7d900f4c5c074bb7e7
+prerequisite-patch-id: ed8d884af9fbc0961ad19e4c039136b6f371850f
+prerequisite-patch-id: 639d56c8b9d83e516c652dea5f66ae878cd67bf8
+prerequisite-patch-id: 79bc9d9cab5c55e31a8f780410a381d44d9c32eb
+prerequisite-patch-id: 1fe870f3017d345011c53b51fefceaef97c29d0c
+prerequisite-patch-id: 2612b868389ae9d851eb8b0230339faf17071a19
+prerequisite-patch-id: c68b002174e1bfa1b2a7ac37e36ecdeec74e6d80
+prerequisite-patch-id: 4d24a54316efce94595c811531ef0db9d94ff1b6
+
+Best regards,
 -- 
-2.47.1
+Daniel Wagner <wagi@kernel.org>
 
 
