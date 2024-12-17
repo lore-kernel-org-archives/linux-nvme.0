@@ -4,87 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D33DE7717F
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 11:18:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4286AE77187
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2024 13:02:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T1+lVSzsebFBMkDGJuafpKQ0aBmf15PYA5xQGfL/VsQ=; b=z05ZspEMUDMy3DyWyr+qXFWfqa
-	b1Mt16vD/XcFUyPoNFzEt9UUOIkf8S26nmEL0Sldh14FL+JPWpwZWuqRz5aqcpRHathk/Nx0dJkZ9
-	41fXalsqBp5s+fpZN2gUGxSMFXDn1uSqEgA1MmgIKXKtRYl+UDTi73lEXqc3EnEM8UN85mpI6tOPa
-	5vJ2ZCd0c0mq4RiXlJd0M/LIsjcmCnE2iQT/HJE5abpYLr2gN0ybo/Euy86CogvsEH/vsnWgse0jf
-	LYJ8gnA0zlQM7FoSIoQs0i5jH6mSYuD5yBn3aI+9rxntop9edFZ8XAj+EoS0vZqRsdupe6OKA6dVW
-	A6jb2xUg==;
+	bh=tDiiYSE3uGopq55uae6HEzFj73Tf4VcEaXx69m08WE4=; b=TXZlnmt5jq2gZg6KMQbQ415U4x
+	oTiWnb3UXbk1MWDpbg2rNUtwr9oRMOqbscQIA+bWWrVlSAT+kXpfybA+jYWuoaf/19P/5/qcsOOHK
+	utGzEXOtuhr3pDnsizy356ok8GWQ6WufsP3ZrH4UzgV4L8+efLuOEP8tcxgaDa9d9yvc4lqOaMla7
+	mE4YzFuB5AOjLZz+oPeYPfVV/dQK8kS3so7vUzaVIao/aTxjXtC6ikEp3xy8HR0XBZLhtp9BkoDSi
+	ATM14cx/SYy3jUmtNdnFZ0T6FJuwvk5H3fOp2+/WRM1mRrYDJhGNcXIDuYz1VqWR0LJ4WD6s1QRYY
+	bY9bsh0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNVb1-0000000DEYg-3NEM;
-	Tue, 17 Dec 2024 11:18:35 +0000
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34])
+	id 1tNXD8-0000000DSdC-0qt8;
+	Tue, 17 Dec 2024 13:02:02 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNVax-0000000DEXx-2WPL
+	id 1tNXCH-0000000DSDc-0lhJ
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Dec 2024 11:18:32 +0000
-Received: by mail-io1-xd34.google.com with SMTP id ca18e2360f4ac-844e10ef3cfso376730839f.2
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Dec 2024 03:18:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734434309; x=1735039109; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T1+lVSzsebFBMkDGJuafpKQ0aBmf15PYA5xQGfL/VsQ=;
-        b=0jXPBjfNY7XcSIyTNv5M1SbTYPuVom1mv8lp5XqTFOqRfffPDfidffXQbo7AMkikSc
-         7qhIuT4ANBGhgKap1J8WVb6DGy6N8jAZMqdUK+0GPyN8bV82BJv//9GZvWnRVfqp2dd4
-         VvYattEBTa2In2Vr/MRXEqD0txmivZSpLLHr8XSraesVOagXzNcjm6jq/QUbtTdemomk
-         9/9FFuUjm3+3HOza0pNTk6fAu/LVs1dJrOZ7iOj4x78PB35l6jwvBoY23aN8wQMtsCw8
-         29VzFNm36mWzjAXzqlu/zmuWqSPZUexHQR2Bb8uvKRwoSKl+cb3jX3biHsNtOfRA8M8t
-         lvYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734434309; x=1735039109;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T1+lVSzsebFBMkDGJuafpKQ0aBmf15PYA5xQGfL/VsQ=;
-        b=f4wyWX7Ya/ECQjslGUcX0Ux6xDk8XsGc3X0gYXyyhrh3FSbkG/eeHd59aC9FAWdyxU
-         U47A8p/QMCaGXUBuYzyT9Y1K5hjLtg8ZsgshJYwYEAeDML7KSXnybb5jlZBvJ6bVFI09
-         9/NqoKbTTJR5RPLBoMbvSwainWn5V0/nBfR22FygXUSUPHFoBMX62nBjx/Ip6RMewV6x
-         GJf/rz4VKPnODzDF1KtCokpMHSL893jDawReoW57oP8xgIC+RaCP4KcczE72uhQ6vqeU
-         07XKRqJS04TPRrzqwVppsAK4WAXeDf9OwwkVB1c9sAC0w1iBSTtb1ha7BTuon6zGlODI
-         TurQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWR8Apfz0MuAmPEVoO+S46M1finnbVvYToeds6VKLf340JaWMqNKWXLYbm8slu+uDrAaY2mzLBvA6aN@lists.infradead.org
-X-Gm-Message-State: AOJu0YwuTpfJ40G9Y/HQnhQL7ZD8aciZh037NUaFUcbHrbkUGtdhAm20
-	18pV7lNC/K6/+isdzJkVwU6JS6MPpXAsLCuDlDZJOqBN8SGrx/2eMG1IxxFeoc7RNKRGG5BLKSW
-	pZF7gpR/gUea8wcgrUGXv3tQ+bX6gx+oqTUxp
-X-Gm-Gg: ASbGncseh/3Z+LZM+z97WDDJHpUrfKtSi6GS9YSXGOAjMoZeVXJrt+cBsPjADRIX/Lc
-	AIxAi+emPz8kUL2JNDj9+eu0E9EFx7vUahdqp8rdw3/eVpBHJxWmmKMCNP0OM4330lGs=
-X-Google-Smtp-Source: AGHT+IHSgUICatngFDKsLlfJZtWdjdQLFfiFZmgQSZZfOD+iv95mJRnW/sRvGTmpc+dCci8p0d7CInQLAfIlyWHm6uY=
-X-Received: by 2002:a05:6602:6417:b0:83e:418c:8a28 with SMTP id
- ca18e2360f4ac-844e8802107mr1704393339f.7.1734434309341; Tue, 17 Dec 2024
- 03:18:29 -0800 (PST)
+	Tue, 17 Dec 2024 13:01:10 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 78EA85C6287;
+	Tue, 17 Dec 2024 13:00:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B54E4C4CEDD;
+	Tue, 17 Dec 2024 13:01:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734440468;
+	bh=/0RFbzCxs3bUpxWK8zAtOzrecMeBWxfg1712GxHC1Ds=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=s0fi647Nb8GVEkeVCdPaHOKtwqPlRztHjV3Lc+Y+5PVL8Q/Lx/xB6HVtlOG3eAEjD
+	 jRGNtRML5z6w9cRl/zeu4jESEygSJggzd3jLtUSKmmc44m+WcoG7QPKTd/MKteUXv6
+	 JarFXlBS4rgl7Trn0i/Lk1VAOFfMlP4fcX0p/8uXxMlb0yzeTKBoZxiMSR3fx6j6Yw
+	 40r9N3AQmTbU524pt3d3QtO7B7mMwqluy5Af99bG9ln4GINmne3EndQ+ExmKGoehTt
+	 qcP1PMX2t62/vzVITbDQSq9R6mEiCNy7JLr6lTB1uXIBZGqbt6VYLfGkB0Zwsd77L6
+	 4kGPMi2MQ8+2Q==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v5 03/17] iommu: generalize the batched sync after map interface
+Date: Tue, 17 Dec 2024 15:00:21 +0200
+Message-ID: <bc3ff6f2126ae270eb378befda8199735501306f.1734436840.git.leon@kernel.org>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <cover.1734436840.git.leon@kernel.org>
+References: <cover.1734436840.git.leon@kernel.org>
 MIME-Version: 1.0
-References: <20241112195053.3939762-1-bob.beckett@collabora.com>
- <20241114113803.3571128-1-panikiel@google.com> <1932ad8722a.102613bdb3737.769617317074446742@collabora.com>
- <CAM5zL5rKsEd1EhOx1AGj9Au7-FQnJ5fUX2hLPEDQvmcrJXFFBg@mail.gmail.com>
- <1932b818328.ad02576784895.6204301822664878956@collabora.com>
- <Z0DdU9K9QMFxBIL8@kbusch-mbp.dhcp.thefacebook.com> <193ab67e768.1047ccb051074383.2860231262134590879@collabora.com>
- <CAM5zL5pvxrpWEdskp=8xNuUM+1npJkVLCUTZh3hCYTeHrCR5ZA@mail.gmail.com>
- <Z1i0d5Ht8zUHhSu-@kbusch-mbp.dhcp.thefacebook.com> <193b55c7998.d66e7e7c1942154.6474606603462169748@collabora.com>
-In-Reply-To: <193b55c7998.d66e7e7c1942154.6474606603462169748@collabora.com>
-From: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Date: Tue, 17 Dec 2024 12:18:18 +0100
-Message-ID: <CAM5zL5pBfQQyRqjd5iV7ouTTii1sCD5fZJWE0zRkGkL18iz+-Q@mail.gmail.com>
-Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
-To: Robert Beckett <bob.beckett@collabora.com>
-Cc: Keith Busch <kbusch@kernel.org>, axboe <axboe@kernel.dk>, hch <hch@lst.de>, 
-	kernel <kernel@collabora.com>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-nvme <linux-nvme@lists.infradead.org>, sagi <sagi@grimberg.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241217_031831_640457_4BCECA6C 
-X-CRM114-Status: GOOD (  23.86  )
+X-CRM114-CacheID: sfid-20241217_050109_309399_EBFF7187 
+X-CRM114-Status: GOOD (  21.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,50 +96,168 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 11, 2024 at 11:56=E2=80=AFAM Robert Beckett
-<bob.beckett@collabora.com> wrote:
->
->
->
->
->
->
->  ---- On Tue, 10 Dec 2024 21:36:55 +0000  Keith Busch  wrote ---
->  > On Mon, Dec 09, 2024 at 04:33:01PM +0100, Pawe=C5=82 Anikiel wrote:
->  > > On Mon, Dec 9, 2024 at 1:33=E2=80=AFPM Robert Beckett bob.beckett@co=
-llabora.com> wrote:
->  > > > [...]
->  > > > I have no further updates on this. I have received no further info=
- from the vendor.
->  > > > I think we can go ahead and use the alignment patch as is. The onl=
-y outstanding question was whether it is an
->  > > > implicit last entry per page chain vs simple alisngment requiremen=
-t. Either way, using the dmapool
->  > > > alignment fixes both of these potential causes, so we should just =
-take it as is.
->  > > > If we ever get any better info and can do a more specific patch in=
- future, we can rework it then.
->  > >
->  > > I think the 512 byte alignment fix is good. I tried coming up with
->  > > something more specific, but everything I could think of was either
->  > > too complicated or artificial.
->  > >
->  > > Regarding the question of whether this is an alignment requirement o=
-r
->  > > the last PRP entry issue, I strongly believe it's the latter. I have=
- a
->  > > piece of code that clearly demonstrates the hardware bug when run on=
- a
->  > > device with the nvme bridge. I would really appreciate it if this wa=
-s
->  > > verified and my explanation was included in the patch.
->  >
->  > I've pushed this to nvme-6.13 with an updated commit message here:
->  >
->  >   https://git.infradead.org/?p=3Dnvme.git;a=3Dcommitdiff;h=3Dccd84b8d6=
-f4a60626dacb933b5d56dadca75c0ca
->
-> lgtm. Thanks!
+From: Christoph Hellwig <hch@lst.de>
 
-Looks good to me as well. Thank you!
+For the upcoming IOVA-based DMA API we want to use the interface batch the
+sync after mapping multiple entries from dma-iommu without having a
+scatterlist.
+
+For that move more sanity checks from the callers into __iommu_map and
+make that function available outside of iommu.c as iommu_map_nosync.
+
+Add a wrapper for the map_sync as iommu_sync_map so that callers don't
+need to poke into the methods directly.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Will Deacon <will@kernel.org>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ drivers/iommu/iommu.c | 65 +++++++++++++++++++------------------------
+ include/linux/iommu.h |  4 +++
+ 2 files changed, 33 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 9bc0c74cca3c..ec75d14497bf 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2412,8 +2412,8 @@ static size_t iommu_pgsize(struct iommu_domain *domain, unsigned long iova,
+ 	return pgsize;
+ }
+ 
+-static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+-		       phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++int iommu_map_nosync(struct iommu_domain *domain, unsigned long iova,
++		phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+ {
+ 	const struct iommu_domain_ops *ops = domain->ops;
+ 	unsigned long orig_iova = iova;
+@@ -2422,12 +2422,19 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	phys_addr_t orig_paddr = paddr;
+ 	int ret = 0;
+ 
++	might_sleep_if(gfpflags_allow_blocking(gfp));
++
+ 	if (unlikely(!(domain->type & __IOMMU_DOMAIN_PAGING)))
+ 		return -EINVAL;
+ 
+ 	if (WARN_ON(!ops->map_pages || domain->pgsize_bitmap == 0UL))
+ 		return -ENODEV;
+ 
++	/* Discourage passing strange GFP flags */
++	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
++				__GFP_HIGHMEM)))
++		return -EINVAL;
++
+ 	/* find out the minimum page size supported */
+ 	min_pagesz = 1 << __ffs(domain->pgsize_bitmap);
+ 
+@@ -2475,31 +2482,27 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	return ret;
+ }
+ 
+-int iommu_map(struct iommu_domain *domain, unsigned long iova,
+-	      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++int iommu_sync_map(struct iommu_domain *domain, unsigned long iova, size_t size)
+ {
+ 	const struct iommu_domain_ops *ops = domain->ops;
+-	int ret;
+-
+-	might_sleep_if(gfpflags_allow_blocking(gfp));
+ 
+-	/* Discourage passing strange GFP flags */
+-	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
+-				__GFP_HIGHMEM)))
+-		return -EINVAL;
++	if (!ops->iotlb_sync_map)
++		return 0;
++	return ops->iotlb_sync_map(domain, iova, size);
++}
+ 
+-	ret = __iommu_map(domain, iova, paddr, size, prot, gfp);
+-	if (ret == 0 && ops->iotlb_sync_map) {
+-		ret = ops->iotlb_sync_map(domain, iova, size);
+-		if (ret)
+-			goto out_err;
+-	}
++int iommu_map(struct iommu_domain *domain, unsigned long iova,
++	      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++{
++	int ret;
+ 
+-	return ret;
++	ret = iommu_map_nosync(domain, iova, paddr, size, prot, gfp);
++	if (ret)
++		return ret;
+ 
+-out_err:
+-	/* undo mappings already done */
+-	iommu_unmap(domain, iova, size);
++	ret = iommu_sync_map(domain, iova, size);
++	if (ret)
++		iommu_unmap(domain, iova, size);
+ 
+ 	return ret;
+ }
+@@ -2599,26 +2602,17 @@ ssize_t iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+ 		     struct scatterlist *sg, unsigned int nents, int prot,
+ 		     gfp_t gfp)
+ {
+-	const struct iommu_domain_ops *ops = domain->ops;
+ 	size_t len = 0, mapped = 0;
+ 	phys_addr_t start;
+ 	unsigned int i = 0;
+ 	int ret;
+ 
+-	might_sleep_if(gfpflags_allow_blocking(gfp));
+-
+-	/* Discourage passing strange GFP flags */
+-	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
+-				__GFP_HIGHMEM)))
+-		return -EINVAL;
+-
+ 	while (i <= nents) {
+ 		phys_addr_t s_phys = sg_phys(sg);
+ 
+ 		if (len && s_phys != start + len) {
+-			ret = __iommu_map(domain, iova + mapped, start,
++			ret = iommu_map_nosync(domain, iova + mapped, start,
+ 					len, prot, gfp);
+-
+ 			if (ret)
+ 				goto out_err;
+ 
+@@ -2641,11 +2635,10 @@ ssize_t iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+ 			sg = sg_next(sg);
+ 	}
+ 
+-	if (ops->iotlb_sync_map) {
+-		ret = ops->iotlb_sync_map(domain, iova, mapped);
+-		if (ret)
+-			goto out_err;
+-	}
++	ret = iommu_sync_map(domain, iova, mapped);
++	if (ret)
++		goto out_err;
++
+ 	return mapped;
+ 
+ out_err:
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 318d27841130..de77012f76d5 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -862,6 +862,10 @@ extern struct iommu_domain *iommu_get_domain_for_dev(struct device *dev);
+ extern struct iommu_domain *iommu_get_dma_domain(struct device *dev);
+ extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 		     phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
++int iommu_map_nosync(struct iommu_domain *domain, unsigned long iova,
++		phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
++int iommu_sync_map(struct iommu_domain *domain, unsigned long iova,
++		size_t size);
+ extern size_t iommu_unmap(struct iommu_domain *domain, unsigned long iova,
+ 			  size_t size);
+ extern size_t iommu_unmap_fast(struct iommu_domain *domain,
+-- 
+2.47.0
+
 
