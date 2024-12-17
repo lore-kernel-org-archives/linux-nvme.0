@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A568EE7718C
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2AB4E7718A
 	for <linux-nvme@archiver.kernel.org>; Thu, 19 Dec 2024 15:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,44 +12,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9Itqd1UiQh3lOJXahS7VLqq9SKGKUhf7c1PJsNkjdJ4=; b=Cv/MyvS3fzY8uGGzM/1ugOLz/K
-	rq5c4EDhkmuvFYHf9g5GKnQ0ZlcAUpP56aBk+tcpPfjSxeJGmr763e83lD3hyFZFYgm5c6evgOBIM
-	du30Zyg1drbpVDkxzpHnAwtlLqq66qP7jTm8WiDTgw5+X+s3Vy/uo8SpG2EKzjYgReUxdEqDQVDKi
-	fBVnNYdokQiIZKkJ++c5FLjYn9EtnsccZsbI6JC+q/e3kS3wjn+K3AHlunSSCIxqQHG9qD2oXH1ck
-	tNpfed03DbWRn+5EuzqOZhqy5Z4AvZygAoiz60y8c9T/q5WJkvz9dZmubmLhOq7tK928THgWFjt8o
-	6UjqYI8g==;
+	bh=zu3PJd7igAEOuURhCl2JDIScQCWsHu7bcIJGnsFHvac=; b=KOg6exSnsW5lmbKCpQWhSR2XcK
+	LNRlSnEcp/EGjHl8f98HqwnwSPxa/UK4GpFAQE9SIMY/fuBHID03+aLTtR7HYdYiSmIkWDiS342L9
+	eAr5+sMdQrAY3tQ2c9ABPRkCS7ddS9Rdn+4WJmOlN28gbagl6iFWDTStQleSKNn7JsrBWA4Oc8fKQ
+	5hGAoUwOl70zq9hlg2OjtEb+KPyhpM2L5w5RQ4kDWZsl/5kk2LauK+2RuxMUwgo5ie2xZHxOjZppi
+	YGG7HaSZC7eu+Tx4oZjxhMF30DgZzcNe8gVwKH7YcxH6N9a+sYp0woNpynLDDPpzKyZLr9cWCPP6v
+	wsRwGrzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOIth-00000002EEc-1Bay;
+	id 1tOIth-00000002EFg-3wgg;
 	Thu, 19 Dec 2024 15:57:09 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNcKY-0000000EXwm-0XrT
+	id 1tNcKa-0000000EXy9-2uKt
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Dec 2024 18:30:03 +0000
+	Tue, 17 Dec 2024 18:30:05 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7AB265C3DE1;
-	Tue, 17 Dec 2024 18:29:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C648CC4CED3;
-	Tue, 17 Dec 2024 18:30:00 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id E5F2A5C0427;
+	Tue, 17 Dec 2024 18:29:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42921C4CED7;
+	Tue, 17 Dec 2024 18:30:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734460201;
-	bh=dzcQYVyMq7ub0Uj13RUnX1qE3Yh3C14qRsIHuipGrl4=;
+	s=k20201202; t=1734460203;
+	bh=9E4zdKJB+GZ5hrunhZ5waPqGhd3dwl22GY+jZTRcQo0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=nG8pG+odeN1F8AWBvZ1AHzhJUVjMLxbf0U4UGyEmyvPLYagYuGY9t7D6ZG8IiLogH
-	 S2Oo3if0xy+Q5mPj117g+Uf0Ip4jJ+G/rah17rpxaFZIvlI9CJ3BuTUfs0YKbntkrZ
-	 eiVD1NSO9mSUGcJofDrvcHxvEDD8EE0ndWVTjudgJGwtvkvbNRrR7wXsq8weYPYIEw
-	 VfV+68CSK2f0pSwNYoh1cPH0E5vWHCpefh8qNL5Okq3zMPBB+AoeQBh2QcftyjFvAE
-	 VMd/nuashhEo2taaGbXUnHk6Jjt5OFpdIOIklZcK19PziWJxsEPYNg4ozj6meap0uX
-	 0M2cZFIskAI4g==
+	b=BDHSDkkvfIdjOsCZGAiSlESOhzhq3J7LUMxwgaAxl5kZg7RFqjj/btldHd+64aqZk
+	 oI1xoOIEUIVsrXX1VWCujqMT33H3SJS1Mx3BDXav0RJfxLDAgIU0F4IO8ip8UKqQnE
+	 zKniqALFx/TJVF8kZTTbX+5in5wUD25vHR8uMSnJL6+g8xP6G0iVipOYJLor976yU6
+	 39TErU2jdYCBGMucm7kSGh9d92bOerL7sz4vk5jcUSt1hxRXK9LwW02LBoPO8fvSHU
+	 QQ9FYF+Mz/ui8JVfXNzrA0a2n+yRnpQ5X8/xJEhuAqTNSKo1t0Qb/qhGAsFW/U8gHG
+	 nV1bUxsaaDcRQ==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Tue, 17 Dec 2024 19:29:41 +0100
-Subject: [PATCH v4 7/9] lib/group_cpus: honor housekeeping config when
- grouping CPUs
+Date: Tue, 17 Dec 2024 19:29:42 +0100
+Subject: [PATCH v4 8/9] blk-mq: use hk cpus only when isolcpus=managed_irq
+ is enabled
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-isolcpus-io-queues-v4-7-5d355fbb1e14@kernel.org>
+Message-Id: <20241217-isolcpus-io-queues-v4-8-5d355fbb1e14@kernel.org>
 References: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org>
 In-Reply-To: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -82,8 +82,8 @@ Cc: Costa Shulyupin <costa.shul@redhat.com>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241217_103002_267193_320EE902 
-X-CRM114-Status: GOOD (  18.75  )
+X-CRM114-CacheID: sfid-20241217_103004_842346_A04E1ECC 
+X-CRM114-Status: GOOD (  16.69  )
 X-Mailman-Approved-At: Thu, 19 Dec 2024 07:56:32 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -99,130 +99,134 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-group_cpus_evenly distributes all present CPUs into groups. This ignores
-the isolcpus configuration and assigns isolated CPUs into the groups.
+When isolcpus=managed_irq is enabled all hardware queues should run on
+the housekeeping CPUs only. Thus ignore the affinity mask provided by
+the driver. Also we can't use blk_mq_map_queues because it will map all
+CPUs to first hctx unless, the CPU is the same as the hctx has the
+affinity set to, e.g. 8 CPUs with isolcpus=managed_irq,2-3,6-7 config
 
-Make group_cpus_evenly aware of isolcpus configuration and use the
-housekeeping CPU mask as base for distributing the available CPUs into
-groups.
+  queue mapping for /dev/nvme0n1
+        hctx0: default 2 3 4 6 7
+        hctx1: default 5
+        hctx2: default 0
+        hctx3: default 1
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+  PCI name is 00:05.0: nvme0n1
+        irq 57 affinity 0-1 effective 1 is_managed:0 nvme0q0
+        irq 58 affinity 4 effective 4 is_managed:1 nvme0q1
+        irq 59 affinity 5 effective 5 is_managed:1 nvme0q2
+        irq 60 affinity 0 effective 0 is_managed:1 nvme0q3
+        irq 61 affinity 1 effective 1 is_managed:1 nvme0q4
+
+where as with blk_mq_hk_map_queues we get
+
+  queue mapping for /dev/nvme0n1
+        hctx0: default 2 4
+        hctx1: default 3 5
+        hctx2: default 0 6
+        hctx3: default 1 7
+
+  PCI name is 00:05.0: nvme0n1
+        irq 56 affinity 0-1 effective 1 is_managed:0 nvme0q0
+        irq 61 affinity 4 effective 4 is_managed:1 nvme0q1
+        irq 62 affinity 5 effective 5 is_managed:1 nvme0q2
+        irq 63 affinity 0 effective 0 is_managed:1 nvme0q3
+        irq 64 affinity 1 effective 1 is_managed:1 nvme0q4
+
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- lib/group_cpus.c | 77 ++++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 75 insertions(+), 2 deletions(-)
+ block/blk-mq-cpumap.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-diff --git a/lib/group_cpus.c b/lib/group_cpus.c
-index 73da83ca2c45347a3a443d42d4f16801a47effd5..927e4ed634d0d9ca14235c977fc53d6f5f649396 100644
---- a/lib/group_cpus.c
-+++ b/lib/group_cpus.c
-@@ -8,6 +8,7 @@
- #include <linux/cpu.h>
- #include <linux/sort.h>
- #include <linux/group_cpus.h>
-+#include <linux/sched/isolation.h>
- 
- #ifdef CONFIG_SMP
- 
-@@ -330,7 +331,7 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
+diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
+index b3a863c2db3231624685ab54a1810b22af4111f4..38016bf1be8af14ef368e68d3fd12416858e3da6 100644
+--- a/block/blk-mq-cpumap.c
++++ b/block/blk-mq-cpumap.c
+@@ -61,11 +61,74 @@ unsigned int blk_mq_num_online_queues(unsigned int max_queues)
  }
+ EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
  
- /**
-- * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * group_possible_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-  * @numgrps: number of groups
-  *
-  * Return: cpumask array if successful, NULL otherwise. And each element
-@@ -345,7 +346,7 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
-  * We guarantee in the resulted grouping that all CPUs are covered, and
-  * no same CPU is assigned to multiple groups
-  */
--struct cpumask *group_cpus_evenly(unsigned int *numgrps)
-+static struct cpumask *group_possible_cpus_evenly(unsigned int *numgrps)
- {
- 	unsigned int curgrp = 0, nr_present = 0, nr_others = 0, nr_grps;
- 	cpumask_var_t *node_to_cpumask;
-@@ -426,6 +427,78 @@ struct cpumask *group_cpus_evenly(unsigned int *numgrps)
- 	*numgrps = nr_present + nr_others;
- 	return masks;
- }
-+
-+/**
-+ * group_mask_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * @numgrps: number of groups
-+ * @cpu_mask: CPU to consider for the grouping
++/*
++ * blk_mq_map_hk_queues - Create housekeeping CPU to hardware queue mapping
++ * @qmap:	CPU to hardware queue map
 + *
-+ * Return: cpumask array if successful, NULL otherwise. And each element
-+ * includes CPUs assigned to this group.
-+ *
-+ * Try to put close CPUs from viewpoint of CPU and NUMA locality into
-+ * same group. Allocate present CPUs on these groups evenly.
++ * Create a housekeeping CPU to hardware queue mapping in @qmap. If the
++ * isolcpus feature is enabled and blk_mq_map_hk_queues returns true,
++ * @qmap contains a valid configuration honoring the managed_irq
++ * configuration. If the isolcpus feature is disabled this function
++ * returns false.
 + */
-+static struct cpumask *group_mask_cpus_evenly(unsigned int *numgrps,
-+					      const struct cpumask *cpu_mask)
++static bool blk_mq_map_hk_queues(struct blk_mq_queue_map *qmap)
 +{
-+	cpumask_var_t *node_to_cpumask;
-+	cpumask_var_t nmsk;
-+	unsigned int nr_grps;
-+	int ret = -ENOMEM;
-+	struct cpumask *masks = NULL;
++	struct cpumask *hk_masks;
++	cpumask_var_t isol_mask;
++	unsigned int queue, cpu, nr_masks;
 +
-+	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
-+		return NULL;
++	if (!housekeeping_enabled(HK_TYPE_MANAGED_IRQ))
++		return false;
 +
-+	node_to_cpumask = alloc_node_to_cpumask();
-+	if (!node_to_cpumask)
-+		goto fail_nmsk;
++	/* map housekeeping cpus to matching hardware context */
++	nr_masks = qmap->nr_queues;
++	hk_masks = group_cpus_evenly(&nr_masks);
++	if (!hk_masks)
++		goto fallback;
 +
-+	nr_grps = *numgrps;
-+	masks = kcalloc(nr_grps, sizeof(*masks), GFP_KERNEL);
-+	if (!masks)
-+		goto fail_node_to_cpumask;
-+
-+	build_node_to_cpumask(node_to_cpumask);
-+
-+	ret = __group_cpus_evenly(0, nr_grps, node_to_cpumask, cpu_mask, nmsk,
-+				  masks);
-+
-+fail_node_to_cpumask:
-+	free_node_to_cpumask(node_to_cpumask);
-+
-+fail_nmsk:
-+	free_cpumask_var(nmsk);
-+	if (ret < 0) {
-+		kfree(masks);
-+		return NULL;
-+	}
-+	*numgrps = ret;
-+	return masks;
-+}
-+
-+/**
-+ * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * @numgrps: number of groups
-+ *
-+ * Return: cpumask array if successful, NULL otherwise.
-+ *
-+ * group_possible_cpus_evently() is used for distributing the cpus on all
-+ * possible cpus in absence of isolcpus command line argument.
-+ * group_mask_cpu_evenly() is used when the isolcpus command line
-+ * argument is used with managed_irq option. In this case only the
-+ * housekeeping CPUs are considered.
-+ */
-+struct cpumask *group_cpus_evenly(unsigned int *numgrps)
-+{
-+	if (housekeeping_enabled(HK_TYPE_MANAGED_IRQ)) {
-+		return group_mask_cpus_evenly(numgrps,
-+				housekeeping_cpumask(HK_TYPE_MANAGED_IRQ));
++	for (queue = 0; queue < qmap->nr_queues; queue++) {
++		for_each_cpu(cpu, &hk_masks[queue % nr_masks])
++			qmap->mq_map[cpu] = qmap->queue_offset + queue;
 +	}
 +
-+	return group_possible_cpus_evenly(numgrps);
++	kfree(hk_masks);
++
++	/* map isolcpus to hardware context */
++	if (!alloc_cpumask_var(&isol_mask, GFP_KERNEL))
++		goto fallback;
++
++	queue = 0;
++	cpumask_andnot(isol_mask,
++		       cpu_possible_mask,
++		       housekeeping_cpumask(HK_TYPE_MANAGED_IRQ));
++
++	for_each_cpu(cpu, isol_mask) {
++		qmap->mq_map[cpu] = qmap->queue_offset + queue;
++		queue = (queue + 1) % qmap->nr_queues;
++	}
++
++	free_cpumask_var(isol_mask);
++
++	return true;
++
++fallback:
++	/* map all cpus to hardware context ignoring any affinity */
++	queue = 0;
++	for_each_possible_cpu(cpu) {
++		qmap->mq_map[cpu] = qmap->queue_offset + queue;
++		queue = (queue + 1) % qmap->nr_queues;
++	}
++	return true;
 +}
- #else /* CONFIG_SMP */
- struct cpumask *group_cpus_evenly(unsigned int *numgrps)
++
+ void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
  {
+ 	const struct cpumask *masks;
+ 	unsigned int queue, cpu, nr_masks;
+ 
++	if (blk_mq_map_hk_queues(qmap))
++		return;
++
+ 	nr_masks = qmap->nr_queues;
+ 	masks = group_cpus_evenly(&nr_masks);
+ 	if (!masks) {
+@@ -121,6 +184,9 @@ void blk_mq_map_hw_queues(struct blk_mq_queue_map *qmap,
+ 	if (!dev->bus->irq_get_affinity)
+ 		goto fallback;
+ 
++	if (blk_mq_map_hk_queues(qmap))
++		return;
++
+ 	for (queue = 0; queue < qmap->nr_queues; queue++) {
+ 		mask = dev->bus->irq_get_affinity(dev, queue + offset);
+ 		if (!mask)
 
 -- 
 2.47.1
