@@ -4,87 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61B23E77188
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Dec 2024 14:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF85EE77188
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Dec 2024 16:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XDGxAFOz1ZIJJob0FNn+F7UkMCJGzcNMN4DWFulZBZc=; b=CtY6m8wpVOqUuveRdn0EG8Pnfq
-	Udk91SxOobDufi9Z+lEiYRDJt1vMLz2xTzrmWTB2TuegaRB4qmfCGTiHbe/8g5gL4bwBhyk7qaS/e
-	Qx8n88H3rlUumdTuMtBfPnYQoiIUu6Mmflw6/vZl3NQ2YPRSK5+Q6D697IT8M6hbtvWxt0UsgLoK+
-	Ja629orYeAeOLg/ztif/bhUqGONOT42lt7wvKmxVpeuanijNK1iGtQfKOv7h9wS3LltCcqnzauIan
-	Z7rkPHjgzwP0K64mzGGfcNzE5w+DwP+IikHUXzNLmAiOHhZylHqydz5ThWFGwa1yL8eJoLfkpTEkt
-	LcLc0LPg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=QGA07LvV3zN9Q99s9liqrOQiuEiANo/ydFwebQiH/o8=; b=lglxKOKE1pvCbSHJgddwcBr2Q8
+	4SwccHeXZ/zBFva3nesjcBfD+rya6Wl9nnlJMFFNh3a4tFHZUoDBmORy4EyvoDH/Sz6j/6/JKkwis
+	s4ExiutYgznBLVvsuSpJ4I83/xGAntpm4qbg4auzdjk93XlVhIql4yS4wOc2R0gHCLh2eBDBkegxO
+	bnCF55WPyCoLnzc+um5+IiljK8nDy+LCzsBFeNjhTzLNcUvv8Rqh65x3sWhZLYvSvB9meGDQ7CHvr
+	AfZ23Jfnl7iy/9l3Om9pJ0Yg6JcposFSd1B6SvkwO8h1rUlRkw2wdRRvjZOX3w35j6L1HQOAxazVR
+	iLBH5Mag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNuz6-0000000Gphl-2i3T;
-	Wed, 18 Dec 2024 14:25:08 +0000
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
+	id 1tNwYp-0000000H8Hm-2iNa;
+	Wed, 18 Dec 2024 16:06:07 +0000
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNuz4-0000000GpgX-28Fk
+	id 1tNwYn-0000000H8HO-16hf
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Dec 2024 14:25:07 +0000
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-844e12f702dso224145739f.3
-        for <linux-nvme@lists.infradead.org>; Wed, 18 Dec 2024 06:25:06 -0800 (PST)
+	Wed, 18 Dec 2024 16:06:06 +0000
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-2164b662090so54567155ad.1
+        for <linux-nvme@lists.infradead.org>; Wed, 18 Dec 2024 08:06:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1734531904; x=1735136704; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XDGxAFOz1ZIJJob0FNn+F7UkMCJGzcNMN4DWFulZBZc=;
-        b=1o7GSmBiB6hdmLjtB9h7xJU6BbCakOz1wHWLxx2aJHPH0dcJYurl7Xeksmck3ipavp
-         t8rQ3wN5K7GPlmUjt7ejSL/dORQVVW1JrLIiTnkOL0pHwOCaeQAUHIs1SGJOOdMZcXPb
-         C/gordn7LQ2rvijY6nV3aQVLm8Wi6zFrQwb9WPbO9edMJxIdOoE7sLgO2mPqTysBPJIu
-         dDd/abrzLzog2A8b1CEYcREXrBOIMilYEcV6WFf5I1g1AzN5qCnFp+GAw9mB6TO4fTYK
-         v4fnCIxtrgDoQnr6wgpsVaBc3BVMr4rW4z3S5Zyt18AnIgMT7F1OxAll6m6Q6uykITlS
-         KORg==
+        d=gmail.com; s=20230601; t=1734537964; x=1735142764; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QGA07LvV3zN9Q99s9liqrOQiuEiANo/ydFwebQiH/o8=;
+        b=OhQ4kRY6Ox67MiF8ED6mVzuPLOaWzxtsMRlgnQzMBwzRk2XsVc5j/7xDymqioD4ydc
+         cVGIB5M0caBT7QrhdvPmWLb759MC3lTb047/6ex4+k8McX/3FSVX/heFLqp0yV4Diuhk
+         9pnMEokY9nQm+D5yfTJ+Z+oWbGzPm8f8K8hT+lQhebVH9gcLyxYRmsDnZb8DELY1fhND
+         OO4MgNS1wIUAUw/hmY9NSTwNaoRmt46i8As+aEHq3EwBqkA7oeXLmjrAQtUQZTi7EhEz
+         Yub1eRd0DNgQFAg5+cWPqRQR6OTcujEGbWcr8v9fFoZ5ntGysg9DzhlwQUL7SIdAzZwl
+         PYpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734531904; x=1735136704;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XDGxAFOz1ZIJJob0FNn+F7UkMCJGzcNMN4DWFulZBZc=;
-        b=daHcqq4bZBW1YLyHHoQ+giiXflhrToBxlEHTxTFjACyUap503vg/CAeaBX5DowI8wf
-         xqC2wn8SQsgw9Cj0LA7Ywqf6HVY2LPg3OO4Rf9waGDoyhHSpNzpIQEBWHK1bfLvIPEW/
-         xTytMPYUAgVaO6MX/Wz1NIGloahSfaoZojhNcA74gcXaS/ECfTIV3OgXatU6CM0SCxP/
-         6PMqsraOFdHQvC+jFmUak1mgnzEtd1na27HJZmmrxfoKrEyyL7pxXQpoR5nQq7WMVFIy
-         DAtUq5gQOlmJoZNFPxeoojEYxgWKUwx92LnBA3LpC6voMPgPQJWvDXvSOvZfeLUGoY0E
-         /dqg==
-X-Gm-Message-State: AOJu0Yz4DS2LMPjD883MbVDsqmmxPzMo9HUTC0wqLlyd5tPcVW82nsee
-	BbJ/jjgPJLMtws4NmNx181UR59hcAO/GLTKkCCULlhAnthSaC/KG2KAoYWMLmGIPG6tPgF/EfVg
-	E
-X-Gm-Gg: ASbGncsFeYmkEq8YasTgdExFAw/DMJe4tgmGKXcTB4FXer5E0ZBWdB+xltwdpUbnXwx
-	TzRBb9yrK72FYzCBm0eDjfW3q9gqaTgR3RQJ9qEEb7u4ZWQUcjRAppyapJExSey/KZGgxVmUaal
-	UBI/qUhWHXJRG4lIe/6GrS8A7ndUSqPJAAU0M6MgTbNFj5CTbMjJWfnANs77GVU9yDreDtc4Ywb
-	ZQoYp2Jh2GuT5QurPiMxnpP5q1OA5Ead362lNvuyEa1Am83yejH
-X-Google-Smtp-Source: AGHT+IGTVbkyRNru3nJx7Luee4Ngoho+YlhdN76BflDibPijqaQyfN6N5qx+grXbPrP/steEtnph4Q==
-X-Received: by 2002:a05:6e02:99:b0:3a7:be5e:e22d with SMTP id e9e14a558f8ab-3bdc013324fmr26330665ab.2.1734531904600;
-        Wed, 18 Dec 2024 06:25:04 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3b2425c4b3dsm26973945ab.0.2024.12.18.06.25.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Dec 2024 06:25:04 -0800 (PST)
-Message-ID: <3504c4c4-62f8-4f97-b810-f5357ffb980e@kernel.dk>
-Date: Wed, 18 Dec 2024 07:25:03 -0700
+        d=1e100.net; s=20230601; t=1734537964; x=1735142764;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QGA07LvV3zN9Q99s9liqrOQiuEiANo/ydFwebQiH/o8=;
+        b=tqLHSljfoOnXcRPZ/0j6EpjV0v3hg3grIXgh0icNl42e0gVbzbtX3YLxKAc+ELK73T
+         dksTJ1iNPS3jBRomPEkm7SRv7wg0wc6g/nn1TX4AliGPcaBu2xc0PXW4pZ1wFzIxKjhb
+         KTmQi1rFEQ3mGnfW4p5XGnB8anQJoUtrA5FnUHHdW8Y4Q1IompLrtX3m2o+26LEfaL2k
+         eyTOuzcsS6ANi05BATym5s0q+ukg0W1BPy6VjWZOxaHDcCHNpFE45iAfFFucuXnAAXYA
+         QLmld7oj6QVtZvafO/4YTTBlzLI8BfwQlnwe4IEv6HAAotwZ4Py2wZp7YKlsqH3L5Yc2
+         bDjQ==
+X-Gm-Message-State: AOJu0YzrPWz3itj6cRk2JDTINrTHXPm8WaHC7JroQdmR3mtJQv1VyuZA
+	Ncla2BRQUyhmI3xe2OcNG9M1bMhSj5PJ8p3Wz2eVzfBrzjyQ9IBS
+X-Gm-Gg: ASbGnctqdrOfkGDxdsCk9XVp+v1qK/cv1NSMaQccFNn05J80B7kdzkHbGfUynOiiU9H
+	9I7nflkA0GC5hIdigR3kwQmRzep3vfrTpWCybXwJ//G2lTaJh0le1QV1YiMVQluh6gXHrPaSeEg
+	gyXbTTia03RynHNSEwfjNfzCNurVL3Dj12yLfcilpwP+hYS231JojszewUFoeRhDz45JsObvwK9
+	KPSecwZvCxcIK+UVY1kTC199j9zRrQuPnyzW0De7V573a7wurMdGHMW/nlyLUO+fPGyf80q
+X-Google-Smtp-Source: AGHT+IEucAWZibMABF49mbBrsMR26MY5jaeAS5hwwJZaLIeQ+Zl/CV6LRHdsRUZ65CLY1ysuLdeJpQ==
+X-Received: by 2002:a17:902:e5c1:b0:216:3876:2cff with SMTP id d9443c01a7336-218d726fa81mr47570875ad.54.1734537963752;
+        Wed, 18 Dec 2024 08:06:03 -0800 (PST)
+Received: from tc.hsd1.or.comcast.net ([2601:1c2:c104:170:ce92:bb28:b3c4:b6e3])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e502c2sm75869075ad.128.2024.12.18.08.06.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2024 08:06:03 -0800 (PST)
+From: Leo Stone <leocstone@gmail.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Leo Stone <leocstone@gmail.com>,
+	syzbot+ff4aab278fa7e27e0f9e@syzkaller.appspotmail.com
+Subject: [PATCH v2] nvmet: Don't overflow subsysnqn
+Date: Wed, 18 Dec 2024 08:04:59 -0800
+Message-ID: <20241218160458.9587-2-leocstone@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] block size limit cleanups
-From: Jens Axboe <axboe@kernel.dk>
-To: linux-nvme@lists.infradead.org, Luis Chamberlain <mcgrof@kernel.org>
-Cc: linux-block@vger.kernel.org
-References: <20241218020212.3657139-1-mcgrof@kernel.org>
- <173453176105.594208.15853494245370355166.b4-ty@kernel.dk>
-Content-Language: en-US
-In-Reply-To: <173453176105.594208.15853494245370355166.b4-ty@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241218_062506_557712_478B4FBF 
-X-CRM114-Status: UNSURE (   9.99  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241218_080605_308900_A83F6BB5 
+X-CRM114-Status: GOOD (  12.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,35 +96,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/18/24 7:22 AM, Jens Axboe wrote:
-> 
-> On Tue, 17 Dec 2024 18:02:10 -0800, Luis Chamberlain wrote:
->> This spins off two change which introduces no functional changes from the
->> bs > ps block device patch series [0]. These are just cleanups.
->>
->> [0] https://lkml.kernel.org/r/20241214031050.1337920-1-mcgrof@kernel.org
->>
->> Luis Chamberlain (2):
->>   block/bdev: use helper for max block size check
->>   nvme: use blk_validate_block_size() for max LBA check
->>
->> [...]
-> 
-> Applied, thanks!
-> 
-> [1/2] block/bdev: use helper for max block size check
->       commit: 26fff8a4432ffd03409346b7dae1e1a2c5318b7c
-> [2/2] nvme: use blk_validate_block_size() for max LBA check
->       commit: 51588b1b77b65cd0fb3440f78f37bef7178a2715
+nvmet_root_discovery_nqn_store treats the subsysnqn string like a fixed
+size buffer, even though it is dynamically allocated to the size of the
+string.
 
-JFYI, gmail puts all your emails into spam, because it can't
-authenticate them. This seemingly happens to everybody that uses
-kernel.org as the email, if they haven't updated to the newer setup. You
-should fix it, I only saw the emails because others replied.
+Create a new string with kstrdup instead of using the old buffer.
 
-And please trim the way excessive CC lists on patches like this.
-Cleanups don't need to go to tons of unrelated lists or people.
+Reported-by: syzbot+ff4aab278fa7e27e0f9e@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ff4aab278fa7e27e0f9e
+Fixes: 95409e277d83 ("nvmet: implement unique discovery NQN")
+Signed-off-by: Leo Stone <leocstone@gmail.com>
+---
+v2: Allocate memory outside the lock and handle errors.
+v1: https://lore.kernel.org/all/20241218005909.89092-2-leocstone@gmail.com/  
+---
+ drivers/nvme/target/configfs.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index eeee9e9b854c..3c9c98250cce 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -2254,12 +2254,17 @@ static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct list_head *entry;
++	char *new_nqn;
+ 	size_t len;
+ 
+ 	len = strcspn(page, "\n");
+ 	if (!len || len > NVMF_NQN_FIELD_LEN - 1)
+ 		return -EINVAL;
+ 
++	new_nqn = kstrdup(page, GFP_KERNEL);
++	if (!new_nqn)
++		return -ENOMEM;
++
+ 	down_write(&nvmet_config_sem);
+ 	list_for_each(entry, &nvmet_subsystems_group.cg_children) {
+ 		struct config_item *item =
+@@ -2268,11 +2273,12 @@ static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
+ 		if (!strncmp(config_item_name(item), page, len)) {
+ 			pr_err("duplicate NQN %s\n", config_item_name(item));
+ 			up_write(&nvmet_config_sem);
++			kfree(new_nqn);
+ 			return -EINVAL;
+ 		}
+ 	}
+-	memset(nvmet_disc_subsys->subsysnqn, 0, NVMF_NQN_FIELD_LEN);
+-	memcpy(nvmet_disc_subsys->subsysnqn, page, len);
++	kfree(nvmet_disc_subsys->subsysnqn);
++	nvmet_disc_subsys->subsysnqn = new_nqn;
+ 	up_write(&nvmet_config_sem);
+ 
+ 	return len;
 -- 
-Jens Axboe
+2.43.0
+
 
