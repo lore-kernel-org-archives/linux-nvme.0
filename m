@@ -4,90 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2520CE77188
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Dec 2024 14:22:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61B23E77188
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Dec 2024 14:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fwaa/EgDeMA9up2TWsDbHlLa7APuFdygjy4wgwg8iAg=; b=Dc657pBBSalm6TwIEf02tmXRre
-	jZQU4csAi0mUDqdi3QhBBUt0mwrA++fKUvQ4Y6TkgPsQ+hhhLDDl6yER2XyBAfKAAjr98ZfrVe34w
-	6u1HMHjq2gyX0vfDxT7+StrUMu8hUz65OXldDR2ZoxTLy0UPltGM5IdosbHLwNmzh/VcqyqDszI/q
-	in9K5JgbdaavhtlpqbidC1W2i3FtSpMiLUhSpyP1ELJaXnlHQsHyrCYx6ykb2AxykrJVMzFvr4YZu
-	53IORA/Fn4/ymAmskkoV7VCvy5yTRtsDB5EUn/Js3TamEVelT8Qsd+WmPWd0Vde5XsZJzPpLwbBfB
-	1+9BfxLw==;
+	bh=XDGxAFOz1ZIJJob0FNn+F7UkMCJGzcNMN4DWFulZBZc=; b=CtY6m8wpVOqUuveRdn0EG8Pnfq
+	Udk91SxOobDufi9Z+lEiYRDJt1vMLz2xTzrmWTB2TuegaRB4qmfCGTiHbe/8g5gL4bwBhyk7qaS/e
+	Qx8n88H3rlUumdTuMtBfPnYQoiIUu6Mmflw6/vZl3NQ2YPRSK5+Q6D697IT8M6hbtvWxt0UsgLoK+
+	Ja629orYeAeOLg/ztif/bhUqGONOT42lt7wvKmxVpeuanijNK1iGtQfKOv7h9wS3LltCcqnzauIan
+	Z7rkPHjgzwP0K64mzGGfcNzE5w+DwP+IikHUXzNLmAiOHhZylHqydz5ThWFGwa1yL8eJoLfkpTEkt
+	LcLc0LPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNuwt-0000000GpGE-419D;
-	Wed, 18 Dec 2024 14:22:51 +0000
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29])
+	id 1tNuz6-0000000Gphl-2i3T;
+	Wed, 18 Dec 2024 14:25:08 +0000
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNuwl-0000000GpEL-3dzL
+	id 1tNuz4-0000000GpgX-28Fk
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Dec 2024 14:22:45 +0000
-Received: by mail-io1-xd29.google.com with SMTP id ca18e2360f4ac-844e06e5d11so189149339f.0
-        for <linux-nvme@lists.infradead.org>; Wed, 18 Dec 2024 06:22:43 -0800 (PST)
+	Wed, 18 Dec 2024 14:25:07 +0000
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-844e12f702dso224145739f.3
+        for <linux-nvme@lists.infradead.org>; Wed, 18 Dec 2024 06:25:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1734531762; x=1735136562; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fwaa/EgDeMA9up2TWsDbHlLa7APuFdygjy4wgwg8iAg=;
-        b=X5oKfKH2JjcEUwa5TaiRp2X+p/uQW+UcmapNPJSolnsA8jWSa5EY2j4MaqKV/GvAbJ
-         RroKtQKEKffhmFZE+XTXSD1vzF4tn8W5ct11XwyMZijSuR4xmM7tTbSDvwgSYR/+OhK2
-         kDep+/ZrcbebfFyXJARU7yab1PhpHp658FwV9vGieqyjcy3ADGZFSYn5Hc2XsLa2C49G
-         3AFb/22Sbpy1AE0g+uv9Whwe/CzbzRNAt3wwZnB0svCfQjuiyCDvyrpwvI9WASFomk41
-         /F+4sxq9ZDr0pKc95AYE5dFvKqUTnc/GeKYWVZwLVo4xHg3lixzQqhGIp747QuRZV46o
-         cAPQ==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1734531904; x=1735136704; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XDGxAFOz1ZIJJob0FNn+F7UkMCJGzcNMN4DWFulZBZc=;
+        b=1o7GSmBiB6hdmLjtB9h7xJU6BbCakOz1wHWLxx2aJHPH0dcJYurl7Xeksmck3ipavp
+         t8rQ3wN5K7GPlmUjt7ejSL/dORQVVW1JrLIiTnkOL0pHwOCaeQAUHIs1SGJOOdMZcXPb
+         C/gordn7LQ2rvijY6nV3aQVLm8Wi6zFrQwb9WPbO9edMJxIdOoE7sLgO2mPqTysBPJIu
+         dDd/abrzLzog2A8b1CEYcREXrBOIMilYEcV6WFf5I1g1AzN5qCnFp+GAw9mB6TO4fTYK
+         v4fnCIxtrgDoQnr6wgpsVaBc3BVMr4rW4z3S5Zyt18AnIgMT7F1OxAll6m6Q6uykITlS
+         KORg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734531762; x=1735136562;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fwaa/EgDeMA9up2TWsDbHlLa7APuFdygjy4wgwg8iAg=;
-        b=VXttbcNvxrHezTVmYHFhixm4XLUXBrOm1Bt/InqYNNKsifXaNkLaVm9KgB0fZcb+RV
-         lJnViPg71qKd9Ra1yejqnc1MBA9BivkGvjuNOyY/YlUlreH33tr9RDyrSLlzop7+HNBn
-         E9fUw26RFqWIUCpAZP9Wa92kyV4nhybGEIGHGDf3+c9PWUQzf3b/JZMpll6sUuqvhers
-         KQAbYbyQzRqnnbJzZesK8iz6W3KYsxmln0+8Jkr04sNI5ruccU66SBZZJmyorvALTdhQ
-         UAaznywvJHRCzLOkefYvw49ASBxA2W3A7odMLCaOpRSDJiK9meizqfNb3q+k40GLo3dU
-         P7sA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHzQC9KFl4izUo8SzSmzG0ydLhwaoPiSFeof9eC8UPe/uJKwOZchH4uZ7aKEBu0flalenwLEZyui9x@lists.infradead.org
-X-Gm-Message-State: AOJu0YydKcVo+wd/c6LsNhXE+FH4S2mfYMKV5PL1meRGY5ZyPSg3lE92
-	KvBZq75ymuWh2An3rVMiWh6zc863OJKfqaP1oyBg0GstjhVYay66DKx5UyGj+UU=
-X-Gm-Gg: ASbGncsYcSHmSzo2sRqNzwDeM02hkh1L81ifn0R2oFMEXDMpCZK2ocng2QeXonGoOxH
-	7fCt8bixaQMJSAyOILYaDcEm+pa6hybQAPDPblp5P9QEsFTKW2HPdQ+a8+myqnuTG0Ch57xrM7i
-	q5TY6PXXPlhEiMWmMgWs941rKwtyOO899D8H7VpLDBPNQUhCNrCV1q5DAvO++htRD/xPrsqSmvU
-	V8Ad0TO/QmBUZmDaKSn058WaG9mMgv2ep4aU4kctHPQnBc=
-X-Google-Smtp-Source: AGHT+IG89IFUUyc3IF//BxitryJKyat/xuxYfF6x/T3Q0v8wGvopf45eNMGXg+AVFNkeeO+fDQ1W/A==
-X-Received: by 2002:a05:6602:14d1:b0:847:51e2:eac with SMTP id ca18e2360f4ac-8475855c0b2mr288106139f.7.1734531762581;
-        Wed, 18 Dec 2024 06:22:42 -0800 (PST)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-844f62583ebsm231384539f.11.2024.12.18.06.22.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 06:22:41 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: hch@lst.de, hare@suse.de, kbusch@kernel.org, sagi@grimberg.me, 
- linux-nvme@lists.infradead.org, willy@infradead.org, dave@stgolabs.net, 
- david@fromorbit.com, djwong@kernel.org, 
- Luis Chamberlain <mcgrof@kernel.org>
-Cc: john.g.garry@oracle.com, ritesh.list@gmail.com, 
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
- linux-mm@kvack.org, linux-block@vger.kernel.org, gost.dev@samsung.com, 
- p.raghav@samsung.com, da.gomez@samsung.com, kernel@pankajraghav.com
-In-Reply-To: <20241218020212.3657139-1-mcgrof@kernel.org>
-References: <20241218020212.3657139-1-mcgrof@kernel.org>
-Subject: Re: [PATCH 0/2] block size limit cleanups
-Message-Id: <173453176105.594208.15853494245370355166.b4-ty@kernel.dk>
-Date: Wed, 18 Dec 2024 07:22:41 -0700
+        d=1e100.net; s=20230601; t=1734531904; x=1735136704;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XDGxAFOz1ZIJJob0FNn+F7UkMCJGzcNMN4DWFulZBZc=;
+        b=daHcqq4bZBW1YLyHHoQ+giiXflhrToBxlEHTxTFjACyUap503vg/CAeaBX5DowI8wf
+         xqC2wn8SQsgw9Cj0LA7Ywqf6HVY2LPg3OO4Rf9waGDoyhHSpNzpIQEBWHK1bfLvIPEW/
+         xTytMPYUAgVaO6MX/Wz1NIGloahSfaoZojhNcA74gcXaS/ECfTIV3OgXatU6CM0SCxP/
+         6PMqsraOFdHQvC+jFmUak1mgnzEtd1na27HJZmmrxfoKrEyyL7pxXQpoR5nQq7WMVFIy
+         DAtUq5gQOlmJoZNFPxeoojEYxgWKUwx92LnBA3LpC6voMPgPQJWvDXvSOvZfeLUGoY0E
+         /dqg==
+X-Gm-Message-State: AOJu0Yz4DS2LMPjD883MbVDsqmmxPzMo9HUTC0wqLlyd5tPcVW82nsee
+	BbJ/jjgPJLMtws4NmNx181UR59hcAO/GLTKkCCULlhAnthSaC/KG2KAoYWMLmGIPG6tPgF/EfVg
+	E
+X-Gm-Gg: ASbGncsFeYmkEq8YasTgdExFAw/DMJe4tgmGKXcTB4FXer5E0ZBWdB+xltwdpUbnXwx
+	TzRBb9yrK72FYzCBm0eDjfW3q9gqaTgR3RQJ9qEEb7u4ZWQUcjRAppyapJExSey/KZGgxVmUaal
+	UBI/qUhWHXJRG4lIe/6GrS8A7ndUSqPJAAU0M6MgTbNFj5CTbMjJWfnANs77GVU9yDreDtc4Ywb
+	ZQoYp2Jh2GuT5QurPiMxnpP5q1OA5Ead362lNvuyEa1Am83yejH
+X-Google-Smtp-Source: AGHT+IGTVbkyRNru3nJx7Luee4Ngoho+YlhdN76BflDibPijqaQyfN6N5qx+grXbPrP/steEtnph4Q==
+X-Received: by 2002:a05:6e02:99:b0:3a7:be5e:e22d with SMTP id e9e14a558f8ab-3bdc013324fmr26330665ab.2.1734531904600;
+        Wed, 18 Dec 2024 06:25:04 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3b2425c4b3dsm26973945ab.0.2024.12.18.06.25.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Dec 2024 06:25:04 -0800 (PST)
+Message-ID: <3504c4c4-62f8-4f97-b810-f5357ffb980e@kernel.dk>
+Date: Wed, 18 Dec 2024 07:25:03 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] block size limit cleanups
+From: Jens Axboe <axboe@kernel.dk>
+To: linux-nvme@lists.infradead.org, Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-block@vger.kernel.org
+References: <20241218020212.3657139-1-mcgrof@kernel.org>
+ <173453176105.594208.15853494245370355166.b4-ty@kernel.dk>
+Content-Language: en-US
+In-Reply-To: <173453176105.594208.15853494245370355166.b4-ty@kernel.dk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-86319
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241218_062244_117534_E169A523 
-X-CRM114-Status: UNSURE (   7.17  )
+X-CRM114-CacheID: sfid-20241218_062506_557712_478B4FBF 
+X-CRM114-Status: UNSURE (   9.99  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,30 +99,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Tue, 17 Dec 2024 18:02:10 -0800, Luis Chamberlain wrote:
-> This spins off two change which introduces no functional changes from the
-> bs > ps block device patch series [0]. These are just cleanups.
+On 12/18/24 7:22 AM, Jens Axboe wrote:
 > 
-> [0] https://lkml.kernel.org/r/20241214031050.1337920-1-mcgrof@kernel.org
+> On Tue, 17 Dec 2024 18:02:10 -0800, Luis Chamberlain wrote:
+>> This spins off two change which introduces no functional changes from the
+>> bs > ps block device patch series [0]. These are just cleanups.
+>>
+>> [0] https://lkml.kernel.org/r/20241214031050.1337920-1-mcgrof@kernel.org
+>>
+>> Luis Chamberlain (2):
+>>   block/bdev: use helper for max block size check
+>>   nvme: use blk_validate_block_size() for max LBA check
+>>
+>> [...]
 > 
-> Luis Chamberlain (2):
->   block/bdev: use helper for max block size check
->   nvme: use blk_validate_block_size() for max LBA check
+> Applied, thanks!
 > 
-> [...]
+> [1/2] block/bdev: use helper for max block size check
+>       commit: 26fff8a4432ffd03409346b7dae1e1a2c5318b7c
+> [2/2] nvme: use blk_validate_block_size() for max LBA check
+>       commit: 51588b1b77b65cd0fb3440f78f37bef7178a2715
 
-Applied, thanks!
+JFYI, gmail puts all your emails into spam, because it can't
+authenticate them. This seemingly happens to everybody that uses
+kernel.org as the email, if they haven't updated to the newer setup. You
+should fix it, I only saw the emails because others replied.
 
-[1/2] block/bdev: use helper for max block size check
-      commit: 26fff8a4432ffd03409346b7dae1e1a2c5318b7c
-[2/2] nvme: use blk_validate_block_size() for max LBA check
-      commit: 51588b1b77b65cd0fb3440f78f37bef7178a2715
+And please trim the way excessive CC lists on patches like this.
+Cleanups don't need to go to tons of unrelated lists or people.
 
-Best regards,
 -- 
 Jens Axboe
-
-
-
 
