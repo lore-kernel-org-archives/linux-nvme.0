@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CF8AE77190
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Dec 2024 15:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 542CBE7718D
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Dec 2024 15:57:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=PpUj7eLUB9sUd2iMJ1KLySPJed
-	oORVJn773lEDQZhiWdRd+kofezFMo1U9bliPTbnk/Nrx54t616T0pF9h7kCPnPZBF3zt747/x31Zi
-	6TFg/4ouThGxPdMKNhcEgcc+bQpltZzXDPSbQTM8KKV3BecZzihVVAgsRLC0Z66i58QeiOMXNjfMv
-	Z0d6+d8owe7JOuKCBOcC1xl1AJohNQXZrIoSUsIC/jSeRqY64fOFo3ysQ5Oth2pGMqOcDm18SrsEA
-	PmqA+rbLtmIyQboOHEx/TWRiPs7Uu7+ZzlmN33Y5U0M/Pyv/KDHWQtr24S6kiurwMM41qndFGm67z
-	gzvbAwUQ==;
+	bh=hrgpeUSCINuG+hXn+0Y2FB+wWPZa+msRSyRLeDJujbs=; b=xJ89TeUbTSlII7UXLs2i4LEhvi
+	IrBD8PZ9vZwdpAsMy1rEZ1yI/BbNItYz8fsDIRmDhewzK6/Bk0RPb5r83H7+wHLOvz+etHTRxpcEa
+	pgJaGs/yn5br8GnnOm74BM34u2T8PAY7GZ8oZstB763he9j8UzYziH9zBstRpyDO/AI6uq1s9CMjD
+	FEi2wuxYNeDC+R4qtPFxwBSS5aeAF7vZr9I/T6tk035SWmNco6b46zn6jjOYPdNc51mXJZTTxhstx
+	pMaRQmn2j5yQljttAgvLnS2JpfbXYvaPtg30pRBGDL3idC70xcKOf9qmHmqaK4w4iCIsOfnfUJU+r
+	Tm5HgkfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOItj-00000002EHj-452J;
-	Thu, 19 Dec 2024 15:57:11 +0000
+	id 1tOItk-00000002EIS-2f4T;
+	Thu, 19 Dec 2024 15:57:12 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tO9z7-00000000xku-0ltA
+	id 1tOA12-00000000xtU-0OOn
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Dec 2024 06:26:10 +0000
+	Thu, 19 Dec 2024 06:28:09 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A648168C7B; Thu, 19 Dec 2024 07:26:05 +0100 (CET)
-Date: Thu, 19 Dec 2024 07:26:05 +0100
+	id 9E31868BFE; Thu, 19 Dec 2024 07:28:02 +0100 (CET)
+Date: Thu, 19 Dec 2024 07:28:02 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Daniel Wagner <wagi@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
@@ -62,18 +62,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
 	megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
 	storagedev@microchip.com, virtualization@lists.linux.dev
-Subject: Re: [PATCH v4 8/9] blk-mq: use hk cpus only when
- isolcpus=managed_irq is enabled
-Message-ID: <20241219062605.GB19782@lst.de>
-References: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org> <20241217-isolcpus-io-queues-v4-8-5d355fbb1e14@kernel.org>
+Subject: Re: [PATCH v4 9/9] blk-mq: issue warning when offlining hctx with
+ online isolcpus
+Message-ID: <20241219062802.GC19782@lst.de>
+References: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org> <20241217-isolcpus-io-queues-v4-9-5d355fbb1e14@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241217-isolcpus-io-queues-v4-8-5d355fbb1e14@kernel.org>
+In-Reply-To: <20241217-isolcpus-io-queues-v4-9-5d355fbb1e14@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241218_222609_358296_98CEFD5A 
-X-CRM114-Status: GOOD (  12.04  )
+X-CRM114-CacheID: sfid-20241218_222808_276574_6BC67375 
+X-CRM114-Status: GOOD (  28.11  )
 X-Mailman-Approved-At: Thu, 19 Dec 2024 07:56:32 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -89,8 +89,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Tue, Dec 17, 2024 at 07:29:43PM +0100, Daniel Wagner wrote:
+> When we offlining a hardware context which also serves isolcpus mapped
+> to it, any IO issued by the isolcpus will stall as there is nothing
+> which handles the interrupts etc.
+> 
+> This configuration/setup is not supported at this point thus just issue
+> a warning.
+> 
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>  block/blk-mq.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 42 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index de15c0c76f874a2a863b05a23e0f3dba20cb6488..f9af0f5dd6aac8da855777acf2ffc61128f15a74 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -3619,6 +3619,45 @@ static bool blk_mq_hctx_has_requests(struct blk_mq_hw_ctx *hctx)
+>  	return data.has_rq;
+>  }
+>  
+> +static void blk_mq_hctx_check_isolcpus_online(struct blk_mq_hw_ctx *hctx, unsigned int cpu)
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Please avoid the overly long line here.
+
+> +{
+> +	const struct cpumask *hk_mask;
+> +	int i;
+> +
+> +	if (!housekeeping_enabled(HK_TYPE_MANAGED_IRQ))
+> +		return;
+> +
+> +	hk_mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
+> +
+> +	for (i = 0; i < hctx->nr_ctx; i++) {
+> +		struct blk_mq_ctx *ctx = hctx->ctxs[i];
+> +
+> +		if (ctx->cpu == cpu)
+> +			continue;
+> +
+> +		/*
+> +		 * Check if this context has at least one online
+> +		 * housekeeping CPU in this case the hardware context is
+> +		 * usable.
+
+But here you;re not even using up all 80 characters for the comment.
 
 
