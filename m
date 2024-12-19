@@ -4,116 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA4D9E77184
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Dec 2024 08:03:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5403AE77184
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Dec 2024 10:09:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=veA0Huobzzxbz9/R8JSsJ4HAsAbD6I8RRhj1NsnH8C0=; b=PUxmoO9Ub5PXzpacORKaf2+SFi
-	2HrrO+nxIkqxs50ziHfddunyekKEQOtVN5mxGOTXRY9mzvyFFBMARXDxZhJERSooonv9PwZcODulI
-	sLfhD5BOhNqjvYRjtsVFKKA+TjSkOpwFwmhd34cHiCTQKFyYPgAywsmqX+dEAQQrtGTIo/1YA0Vhi
-	0uLeVm15RWBuCPaNx1CxV+OZYcARcVj6MA6nG+SHa+WmaLPjORIfWZpr1IMW6SN2iXDJmtS7tvmIW
-	ExbVSnPDu0aC3YDPWuYFa7ZuYWQrMUolpBvfeZUjVzN0vvibL9R29VrPlvK1x8o6VDlcYnYWS5plb
-	y//Q7q4A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=T98mqp2bW2iDbPQ1pjYih/rvPbjnw2C5T7MaMia1oug=; b=oUdt39Rn4qdiFG0TygrBLYkHrW
+	0cQwtz+plwxR0GKZIB+h/wRad/HS8yWj3q7+z3dvqzrc3QG4FvV/UoXVivHa8c/a2FGp83v1Z0osy
+	eo7eAbS8KYzKZ5rgG2byNglBtBh2yiXquLFjq5dLlJhzHRg34ABR45xL5hnLIzNk6C1GGHGW1IUJF
+	uDvPytU9LMcCJDeSRoZYJXX6XgcVvB8SwLhAutNxbgFHILNydx7wlxsfDeQJesTBxRl7XKydSgggV
+	VckC231t2i8TK1as4ELW5lGG/mGmBwj9+5k1Bj9k8ZheBxGb7gnsvlvzrumR4wWCRBMO77aUnV0fN
+	sLgeVizw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOBVS-00000001CaE-0C4j;
-	Thu, 19 Dec 2024 08:03:38 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1tODSs-00000001VHW-0kn6;
+	Thu, 19 Dec 2024 10:09:06 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOBVR-00000001CZZ-13yv
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 19 Dec 2024 08:03:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=veA0Huobzzxbz9/R8JSsJ4HAsAbD6I8RRhj1NsnH8C0=; b=J/mm7tAQUJj2XRrtZCA3L9zeI/
-	8sv59bzMKVEPGlLES67XYpqSJUsf7tDC1GiM9DlvOJpne6cQLU/AHHSmTmw71ndcTQpTGPSfKj+IO
-	kDlYuhlCPwCWiXDVh8lE+KLqSTtfdR3Ta/oXILNRfcN65zMKyxlXZ8RytRtPuzaf4Cch3JcrBNKMn
-	1IdXor9SSr7die8ueSHXL495ji0ROb+biNwsoDNNfBoUzV9Emezb9gwrpSYxLwQkmDvHxf2vf8/qa
-	zbjx7Y/CjtBj5KhKZlCfgkjZbXTwhq96ime9XACOQYMl+4Z/4pMGYjujQbTtYLyLwUj2qA5S5q7X5
-	C8rx/VcQ==;
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOBVO-00000005PX0-1hoa
+	id 1tODSq-00000001VGk-2uZx
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Dec 2024 08:03:36 +0000
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-8019338c2b2so241879a12.3
-        for <linux-nvme@lists.infradead.org>; Thu, 19 Dec 2024 00:03:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734595411; x=1735200211; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=veA0Huobzzxbz9/R8JSsJ4HAsAbD6I8RRhj1NsnH8C0=;
-        b=sxM4VED27cyfWtbCzWiv62cXFni0rrW/AfeRI/1D/JwlQIEC9OsRjvvMx38cMgaMnc
-         /F8gkyUlK3KwIpkqyVsYBNWvpAIipfA0qhZie+Sg1/IoADLp72e4C5TRHNhiuJqPkQZI
-         dhAgwWX8HRGlL+Nwv8NFOjMMAxX39lB6IgljY54iB+FSO1eVuba+H4ouvvLQr597LaCn
-         wFMvTtnJItXb9J6RQ140AvBocEfCF67pwgE4bWIy0n6nYqc+Z5foJRVhRdASRYcRfWVA
-         K3pbwyiJUjyVIEv3FsyaSamwfq83ZWC0o9Wc4b+wzgfKyrBg4xPUKE/P1wTFsgn8mFsu
-         lDHA==
+	Thu, 19 Dec 2024 10:09:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734602942;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T98mqp2bW2iDbPQ1pjYih/rvPbjnw2C5T7MaMia1oug=;
+	b=XVOeWAZeQDZvLOGUIZg8gP+LaHl4CCmLozl2WoL98OmOKp19QoWX1frVh+Qb9Tp8rIwNc8
+	lmiIhIjEKHXbZnUArbokYHnhc09kuHObMWr5/zLJIx+AycgDh0k/e56Olze7GYIwh+eDbr
+	tMXX+ABD5OK4lxN5uIs4CS/mZKiM3OI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-207-mjAlrQdxP5aHQrlEi4BYdA-1; Thu, 19 Dec 2024 05:09:01 -0500
+X-MC-Unique: mjAlrQdxP5aHQrlEi4BYdA-1
+X-Mimecast-MFC-AGG-ID: mjAlrQdxP5aHQrlEi4BYdA
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43631d8d9c7so3463725e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 19 Dec 2024 02:09:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734595411; x=1735200211;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1734602940; x=1735207740;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=veA0Huobzzxbz9/R8JSsJ4HAsAbD6I8RRhj1NsnH8C0=;
-        b=Tn7CzkG2eD5hHZeoEx3W7KiLFJjupiFQ5wfmoEkxVdRjaCMg2+lT+Jx9DgLEivXGB4
-         bAoSZD2rCHr3TriC4USjvuHJh6duYjPena5W5Kg86DTS8jMcUPIoAHn7/9efD3lHNk+8
-         F70G3ZIp6S5HhLrVkq/qflPQiTRkCU/eb9CM3sNFFvYZKjRaCXr1sp+JkwTeAu2acNyC
-         xE2oDqk32Z4fB5WvY6sB6XEIz39GsqNe3v7JwI3IIiM9epoCW1QY0CN7NKqTSVwOCjf9
-         SbpRVVqvR4BQGlsHKp+WWMDordJvAShNz2qm8m3QPLFEzMh1tEOi2T5qYo6j4bxNjNuu
-         wAgw==
-X-Forwarded-Encrypted: i=1; AJvYcCXM24MvxxW6vbUcXOjM2xeaVRO82SlDpGYqba00n7asFO2m7UNRnr+PrXmpTAKr61BLW0zRT1WBpAxb@lists.infradead.org
-X-Gm-Message-State: AOJu0YyCCODc78r2LfY5FymVIGB8jHHorrOUQ/XgLk+5sMYJ0fck2jCo
-	6tQ4liG2VUMS8jvilCeJ7IVZH5xnj/c539eGFRCLbuP1aYkqTrKi07+UAKvFFQ==
-X-Gm-Gg: ASbGncupZvdggn8dnk10GJRNtm7Ov5OLjUC2BWqiy/cOafAoufd0jSUOn/EEqXbwiUS
-	EzrAFCIsbpqnr8Mu6VbUQ+CntF+6W3xoltOUNnJmfNRAiz5gmWWr0BO0PfpVA68vWfVvxq0cKW9
-	cAwKS2rU7HX84EFsZn/Yy4OY4gwZVIhmTK8Dub01PxndX8QdYgnNrlXuGEsRu/gHrbs2ncEMFYI
-	YJsfKl/Y4KOXwnAAiYDUL131Lcl7y7U1mXl6Kmxj/cHz+ockU+QSyKrsN2mwZogAsPt
-X-Google-Smtp-Source: AGHT+IGkAKRKIGy2PWGUpJtb9ofOGf4tb9aPaoih3oeJ6FkCxuJrXISiTP6H5Og+dCW667T6Nacl4g==
-X-Received: by 2002:a17:90b:524a:b0:2ee:d35c:39ab with SMTP id 98e67ed59e1d1-2f443d0189emr2977479a91.22.1734595410812;
-        Thu, 19 Dec 2024 00:03:30 -0800 (PST)
-Received: from thinkpad ([117.213.97.217])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f2ed62cde6sm2963410a91.13.2024.12.19.00.03.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2024 00:03:30 -0800 (PST)
-Date: Thu, 19 Dec 2024 13:33:22 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org,
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	andersson@kernel.org, konradybcio@kernel.org,
-	Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
- the user
-Message-ID: <20241219080322.gskydm7mg6srhv3p@thinkpad>
-References: <13662231.uLZWGnKmhe@rjwysocki.net>
- <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com>
- <20241212151354.GA7708@lst.de>
- <CAJZ5v0gUpDw_NjTDtHGCUnKK0C+x0nrW6mP0tHQoXsgwR2RH8g@mail.gmail.com>
- <20241214063023.4tdvjbqd2lrylb7o@thinkpad>
- <CAJZ5v0gLMx+tBo+MA3AQZ7qP28Z91d04oVBHVeTNcd-QD=kJZg@mail.gmail.com>
- <20241216171108.6ssulem3276rkycb@thinkpad>
- <CAJZ5v0j+4xjSOOy8TYE0pBuqd_GdQa683Qq0GEyJ9WAFad9Z=A@mail.gmail.com>
- <20241216175210.mnc5kp6646sq7vzm@thinkpad>
- <20241219063052.GA20003@lst.de>
+        bh=T98mqp2bW2iDbPQ1pjYih/rvPbjnw2C5T7MaMia1oug=;
+        b=h7ptPvXrCvgcC1eeDLK6TM3XsGz22iudigxNTFKhuG1if8Pjb/DYSiisl3ivXustcH
+         IcH5KQIJmjhF1PZZgvk4iUgoAHtLv4wCi0fMQ0Ko4U6LoCt12K2mCg9CWzGDVd9vPwpz
+         c4/a8O+k1WDJKz/cTcHKxqHQrHjlXsN0ShlZlBsZCt2XKBV/6jaRPwxhc+fWUTbKyMgf
+         aVtgXAgfezHSSI0ROSebtHSYNWBXHD3j5CV4W2Ud94Q2uaBZbNRe41FkvS0+dAjX0Ar1
+         FkJR/vXGBEry9kTuInJzszTlTdbEzqufrM6/lCna1Z5iXJYRa6bcQKAeIBNM9y0ELyWn
+         82Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCXyvYsHckrXX6N2cEjcT5XU1kGhvklNXRQEn7/C491VrPZUVnq8xu4XUEQfWrib6WCoBa+z+y4b6YQ4@lists.infradead.org
+X-Gm-Message-State: AOJu0YzUQ4XVRvh+Yd/0ihsvxjION5O1RHrXr6qQiQxul36IOsIHQgwL
+	CeunE4YxkvM0bm9q7UKQNFPmsZKW5eCpM+9Jscj4RowctpvRLkFx58ChGkzypNEUZPYAEpV3VAQ
+	pkJUBVdhaAqhrHqY5Uth+QqGpS8Yx9ThCQ5Fn1yUMxwgiHHtTtc8LjbEyrBYTBAYZ
+X-Gm-Gg: ASbGnctomgb0q0hbGdqp1YU1dydMmMJ6QWvp3oz3k0YZShx0wIXYzwaRVQ+OWnIerce
+	Zu0twq5Nx4ACYWpwRj9In1/YA4Gt3XpT3CdgHIRXymdAFACuXmsEyYNJjLp/W0NSZZWSG9qBPgk
+	EMtFdmOV/GA6BF+PBocdfYGwJ9VwRMQsmBUOFzFQEEKXFBn/vZq8cntxqHMMywl+XzdviLCpbc2
+	6x5Dt68/OGRCjrDaF1o+ZKrnlx/2FOS8gBcCwHwFFLvbtpe7GjqkT2SWvpGvQ1Ad0OOlMr7a1e+
+	YktFyrSWIQ==
+X-Received: by 2002:a05:600c:6b6d:b0:436:51ff:25de with SMTP id 5b1f17b1804b1-4365c77510bmr22352295e9.7.1734602940188;
+        Thu, 19 Dec 2024 02:09:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGirXoXRQE0r5vB0TfkeqRe7MfB/RkGpoRNVbjNqtlwjyADuUYTSVPC9u5W6B0bBw1vsjY5kg==
+X-Received: by 2002:a05:600c:6b6d:b0:436:51ff:25de with SMTP id 5b1f17b1804b1-4365c77510bmr22351795e9.7.1734602939835;
+        Thu, 19 Dec 2024 02:08:59 -0800 (PST)
+Received: from [192.168.88.24] (146-241-54-197.dyn.eolo.it. [146.241.54.197])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e2d2sm1189392f8f.71.2024.12.19.02.08.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2024 02:08:59 -0800 (PST)
+Message-ID: <badf281c-cccd-41be-9cd7-bf6637c981f0@redhat.com>
+Date: Thu, 19 Dec 2024 11:08:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241219063052.GA20003@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] net: core: Convert inet_addr_is_any() to
+ sockaddr_storage
+To: Kees Cook <kees@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Simon Horman <horms@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Mike Christie
+ <michael.christie@oracle.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Maurizio Lombardi <mlombard@redhat.com>,
+ Dmitry Bogdanov <d.bogdanov@yadro.com>,
+ Mingzhe Zou <mingzhe.zou@easystack.cn>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, netdev@vger.kernel.org,
+ Al Viro <viro@zeniv.linux.org.uk>, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+References: <20241217203447.it.588-kees@kernel.org>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20241217203447.it.588-kees@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: SgFMpPaqMMyb7WRFXD9oYwMLOWH5v78nQ9lvvHHanvk_1734602940
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241219_080334_538410_19BD1F7A 
-X-CRM114-Status: GOOD (  14.42  )
+X-CRM114-CacheID: sfid-20241219_020904_813611_05B5AAF6 
+X-CRM114-Status: GOOD (  10.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,22 +123,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 19, 2024 at 07:30:52AM +0100, Christoph Hellwig wrote:
-> On Mon, Dec 16, 2024 at 11:22:10PM +0530, Manivannan Sadhasivam wrote:
-> > > So what technically is the problem?
-> > > 
-> > 
-> > NVMe wear out is the problem.
+On 12/17/24 21:34, Kees Cook wrote:
+> All the callers of inet_addr_is_any() have a sockaddr_storage-backed
+> sockaddr. Avoid casts and switch prototype to the actual object being
+> used.
 > 
-> Btw, it's not just the PE cycles, it's also the sheer time a clean
-> shutdown can take (or the time for an unclean enable if we don't wait
-> long enough).
-> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Simon Horman <horms@kernel.org>
+> Signed-off-by: Kees Cook <kees@kernel.org>
 
-I do agree with you!
+It looks like the target tree is the networking one. If so, could you
+please re-submit including 'net-next' into the subj, so this goes trough
+our CI?
 
-- Mani
+Thanks!
 
--- 
-மணிவண்ணன் சதாசிவம்
+Paolo
+
 
