@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D0E1E77188
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Dec 2024 03:54:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F6BEE7718B
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Dec 2024 03:54:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c0Y4ULoWkDVMIXjFWZsZqLL2tYBIYgjRCQODy6xQgdI=; b=bwQITAH1m4zuZhA1FC1q/rKxh2
-	7w7zi1DL99bauzeo7prnRRX9/GGsIOu039+3cSDR5xQwOwnbTq/HRaYMm8GI+jkhrRepe8ZrJrnb6
-	T6n1ioQKykj16Qq8aSjjaUnddVcg4gv/6qmXE8UNF5+KrFQjsi2ktU63pXult3TxJ8vKcUQFY1tZK
-	t9xxUrQHm2he8b+GUfj9muVeke0h1Y1Hc1uKplUvAtigpXbMiL94c6gQYS60Qkhv0FFuu5qRwjls2
-	Kc0jRcdY+tIjGDdNQlg6vv5nAnCs12ltvgC3xKryKkyhD3YlY8NHNuL0zZb4xL9wzxR60TDzOmynz
-	CHzPGY/Q==;
+	bh=FCDcz2ORiHhY2xQmX4GF7vsBuD9XD40t3yNZS2lUJHY=; b=DgbPjzHAUIMF/ZLMB9dMNcGSN2
+	qZgpbiyIg9A/FbADfMHfT119h0VkSMqZ2p6ozNnwcTIUv5mX8HexLBKs6fgrUnztHaMgxlznHrxAm
+	+WKi0a+6BKJx6vdtdwYY9jmFbqLzpnD7I8/IaSvaJz6MjyQAjD+BuGcpVkgwijhZkn2oPN11UkWZr
+	Wz31K5FLShLLlrzhmYOJoEsAphhFxCLD0sjphhxlajSw6d/Uw6FyV0jgzz7Py41VP8uAFfANqDQMs
+	Zt4um4IfrlY9lyBimOPRrJyGi5ful/cxPiZ4NnzeR7WK4pGncDjOC4T4Z/Dqr5lPTTqQ7Hl5QstLb
+	t/Kaw8+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOU5n-00000003pkc-04FR;
-	Fri, 20 Dec 2024 03:54:23 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tOU5p-00000003plY-2l7P;
+	Fri, 20 Dec 2024 03:54:25 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOU5k-00000003pjn-2qcN
+	id 1tOU5m-00000003pk7-1pmu
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Dec 2024 03:54:21 +0000
+	Fri, 20 Dec 2024 03:54:23 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 21D9AA42AB4;
-	Fri, 20 Dec 2024 03:52:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69784C4CED7;
-	Fri, 20 Dec 2024 03:54:17 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 25E44A42A5D;
+	Fri, 20 Dec 2024 03:52:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E7FEC4CEDD;
+	Fri, 20 Dec 2024 03:54:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734666859;
-	bh=1NuFx3QMcc1tEVOkMLILvj2kCaplIcqdsykNR20gpaY=;
+	s=k20201202; t=1734666861;
+	bh=N/B1pRo6hOVQWHt3ZbjWuweqtwlmHGsn/bfBCzS3Z8w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VPWfFeAWWJmGrrA2/4BeVv0yw/WBB6SxTew9mT7Teb4sDGyXbu4hW5l8Y8bseuzQT
-	 a+v8Vnxpc/4OGBh3yHS4CJrnRZaC7802TZMH3IundHafwlPY4lzqNXr/TF404ni/ep
-	 OSuCXWGdp6RAqrGcX9q8ULrKmFqoV3I+1DAy/mDzIatknXvnTRF/DLgcyOuaalPo8R
-	 DDr+YnmGIKU5TU+jogy4obximvQW1z2byt7FF8CB6J4d4auQGX2bGu9Fd/wZSXjJGw
-	 mP/1Vrv+tLhsLUWN0TdxdU0fYpgLhbyVxtMfYsIaO4MH6xxDFypgpSkQwYkX9qnQVF
-	 SYedXUEr1XiTQ==
+	b=gh2sTzL5v0aToEI/hgmzJg2qNz0+mT1o+6LvKEqSsNm0lnvxmmu5+0WBzeiMngBam
+	 8YhOzsFR39z6ZB8dg43ObAS9kV4Qp1CLCTqM92/r493fRVzrzbzsEjwTrigBxfQBHe
+	 rHn+MRQvcqlWRIhyrzTM+wqVAqDeMpQ1wqEmt1Hkyv0xIQuqPT5sli3dtYpxlh3HiH
+	 p1Sw4VCLSzIz8FogZyUBPG164HsTzRgkqmnRVJVBaGM9+AiMMApY/uOg4v0vgujfgm
+	 k7GUzejtDZBlpOUkE1Xev999FfGXA12vxj85lhXTXmXBiYs4yF8BcRAADqb1cLOS3j
+	 UxYjE6YoJiVzQ==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,17 +55,17 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v6 01/18] nvme: Move opcode string helper functions declarations
-Date: Fri, 20 Dec 2024 12:54:24 +0900
-Message-ID: <20241220035441.600193-2-dlemoal@kernel.org>
+Subject: [PATCH v6 02/18] nvmet: Add vendor_id and subsys_vendor_id subsystem attributes
+Date: Fri, 20 Dec 2024 12:54:25 +0900
+Message-ID: <20241220035441.600193-3-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241220035441.600193-1-dlemoal@kernel.org>
 References: <20241220035441.600193-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241219_195420_856621_5A8F60F8 
-X-CRM114-Status: GOOD (  11.47  )
+X-CRM114-CacheID: sfid-20241219_195422_602983_27327145 
+X-CRM114-Status: GOOD (  14.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,119 +80,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the declaration of all helper functions converting NVMe command
-opcodes and status codes into strings from drivers/nvme/host/nvme.h
-into include/linux/nvme.h, together with the commands definitions.
-This allows NVMe target drivers to call these functions without having
-to include a host header file.
+Define the new vendor_id and subsys_vendor_id configfs attribute for
+target subsystems. These attributes are respectively reported as the
+vid field and as the ssvid field of the identify controller data of
+a target controllers using the subsystem for which these attributes
+are set.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
 ---
- drivers/nvme/host/nvme.h | 39 ---------------------------------------
- include/linux/nvme.h     | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 39 deletions(-)
+ drivers/nvme/target/admin-cmd.c |  5 ++--
+ drivers/nvme/target/configfs.c  | 45 +++++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h     |  2 ++
+ 3 files changed, 49 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 611b02c8a8b3..2c76afd00390 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -1182,43 +1182,4 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
- 	return (ctrl->ctrl_config & NVME_CC_CSS_MASK) == NVME_CC_CSS_CSI;
- }
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 2962794ce881..b73f5fde4d9e 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -522,9 +522,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 		goto out;
+ 	}
  
--#ifdef CONFIG_NVME_VERBOSE_ERRORS
--const char *nvme_get_error_status_str(u16 status);
--const char *nvme_get_opcode_str(u8 opcode);
--const char *nvme_get_admin_opcode_str(u8 opcode);
--const char *nvme_get_fabrics_opcode_str(u8 opcode);
--#else /* CONFIG_NVME_VERBOSE_ERRORS */
--static inline const char *nvme_get_error_status_str(u16 status)
--{
--	return "I/O Error";
--}
--static inline const char *nvme_get_opcode_str(u8 opcode)
--{
--	return "I/O Cmd";
--}
--static inline const char *nvme_get_admin_opcode_str(u8 opcode)
--{
--	return "Admin Cmd";
--}
--
--static inline const char *nvme_get_fabrics_opcode_str(u8 opcode)
--{
--	return "Fabrics Cmd";
--}
--#endif /* CONFIG_NVME_VERBOSE_ERRORS */
--
--static inline const char *nvme_opcode_str(int qid, u8 opcode)
--{
--	return qid ? nvme_get_opcode_str(opcode) :
--		nvme_get_admin_opcode_str(opcode);
--}
--
--static inline const char *nvme_fabrics_opcode_str(
--		int qid, const struct nvme_command *cmd)
--{
--	if (nvme_is_fabrics(cmd))
--		return nvme_get_fabrics_opcode_str(cmd->fabrics.fctype);
--
--	return nvme_opcode_str(qid, cmd->common.opcode);
--}
- #endif /* _NVME_H */
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 13377dde4527..a5a4ee56efcf 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1896,6 +1896,46 @@ static inline bool nvme_is_fabrics(const struct nvme_command *cmd)
- 	return cmd->common.opcode == nvme_fabrics_command;
- }
+-	/* XXX: figure out how to assign real vendors IDs. */
+-	id->vid = 0;
+-	id->ssvid = 0;
++	id->vid = cpu_to_le16(subsys->vendor_id);
++	id->ssvid = cpu_to_le16(subsys->subsys_vendor_id);
  
-+#ifdef CONFIG_NVME_VERBOSE_ERRORS
-+const char *nvme_get_error_status_str(u16 status);
-+const char *nvme_get_opcode_str(u8 opcode);
-+const char *nvme_get_admin_opcode_str(u8 opcode);
-+const char *nvme_get_fabrics_opcode_str(u8 opcode);
-+#else /* CONFIG_NVME_VERBOSE_ERRORS */
-+static inline const char *nvme_get_error_status_str(u16 status)
+ 	memcpy(id->sn, ctrl->subsys->serial, NVMET_SN_MAX_SIZE);
+ 	memcpy_and_pad(id->mn, sizeof(id->mn), subsys->model_number,
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index eeee9e9b854c..4b2b8e7d96f5 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1412,6 +1412,49 @@ static ssize_t nvmet_subsys_attr_cntlid_max_store(struct config_item *item,
+ }
+ CONFIGFS_ATTR(nvmet_subsys_, attr_cntlid_max);
+ 
++static ssize_t nvmet_subsys_attr_vendor_id_show(struct config_item *item,
++		char *page)
 +{
-+	return "I/O Error";
-+}
-+static inline const char *nvme_get_opcode_str(u8 opcode)
-+{
-+	return "I/O Cmd";
-+}
-+static inline const char *nvme_get_admin_opcode_str(u8 opcode)
-+{
-+	return "Admin Cmd";
++	return snprintf(page, PAGE_SIZE, "0x%x\n", to_subsys(item)->vendor_id);
 +}
 +
-+static inline const char *nvme_get_fabrics_opcode_str(u8 opcode)
++static ssize_t nvmet_subsys_attr_vendor_id_store(struct config_item *item,
++		const char *page, size_t count)
 +{
-+	return "Fabrics Cmd";
-+}
-+#endif /* CONFIG_NVME_VERBOSE_ERRORS */
++	u16 vid;
 +
-+static inline const char *nvme_opcode_str(int qid, u8 opcode)
++	if (kstrtou16(page, 0, &vid))
++		return -EINVAL;
++
++	down_write(&nvmet_config_sem);
++	to_subsys(item)->vendor_id = vid;
++	up_write(&nvmet_config_sem);
++	return count;
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_vendor_id);
++
++static ssize_t nvmet_subsys_attr_subsys_vendor_id_show(struct config_item *item,
++		char *page)
 +{
-+	return qid ? nvme_get_opcode_str(opcode) :
-+		nvme_get_admin_opcode_str(opcode);
++	return snprintf(page, PAGE_SIZE, "0x%x\n",
++			to_subsys(item)->subsys_vendor_id);
 +}
 +
-+static inline const char *nvme_fabrics_opcode_str(
-+		int qid, const struct nvme_command *cmd)
++static ssize_t nvmet_subsys_attr_subsys_vendor_id_store(struct config_item *item,
++		const char *page, size_t count)
 +{
-+	if (nvme_is_fabrics(cmd))
-+		return nvme_get_fabrics_opcode_str(cmd->fabrics.fctype);
++	u16 ssvid;
 +
-+	return nvme_opcode_str(qid, cmd->common.opcode);
++	if (kstrtou16(page, 0, &ssvid))
++		return -EINVAL;
++
++	down_write(&nvmet_config_sem);
++	to_subsys(item)->subsys_vendor_id = ssvid;
++	up_write(&nvmet_config_sem);
++	return count;
 +}
++CONFIGFS_ATTR(nvmet_subsys_, attr_subsys_vendor_id);
 +
- struct nvme_error_slot {
- 	__le64		error_count;
- 	__le16		sqid;
+ static ssize_t nvmet_subsys_attr_model_show(struct config_item *item,
+ 					    char *page)
+ {
+@@ -1640,6 +1683,8 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_serial,
+ 	&nvmet_subsys_attr_attr_cntlid_min,
+ 	&nvmet_subsys_attr_attr_cntlid_max,
++	&nvmet_subsys_attr_attr_vendor_id,
++	&nvmet_subsys_attr_attr_subsys_vendor_id,
+ 	&nvmet_subsys_attr_attr_model,
+ 	&nvmet_subsys_attr_attr_qid_max,
+ 	&nvmet_subsys_attr_attr_ieee_oui,
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 58328b35dc96..e4a31a37c14b 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -324,6 +324,8 @@ struct nvmet_subsys {
+ 	struct config_group	namespaces_group;
+ 	struct config_group	allowed_hosts_group;
+ 
++	u16			vendor_id;
++	u16			subsys_vendor_id;
+ 	char			*model_number;
+ 	u32			ieee_oui;
+ 	char			*firmware_rev;
 -- 
 2.47.1
 
