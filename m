@@ -4,73 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D109E7718A
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Dec 2024 09:35:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E2F8E7718B
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Dec 2024 09:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kiti6fdINijFLp4DXmew4d/6ZEhorO/X5227JNzX8w0=; b=kLnHHm3t0gad2KdD3eFBVtIb6V
-	dHMZu3cNi3eNU7Q7gEy52O2chQTFqSyR8RgRI45Yqsj8WrCdPHTMY9URGhPt4P77nfp0j3rBsDA6q
-	nqhjYumeNI+gKjYQ7xCT9nb4HyzVwE+CIi5vd3R+RKsZRT8qrot38Qla4Ru6J4D7ed/MNJWjxmkLj
-	Lrgyv7//yZX/2ayOUsjkoZnUR+DXNtq4Jmd+9mGV5UPh9FzVaSnFzjylY43w7nkpVSyBO1YVoYyg3
-	G/uzw27h/+LOKxGDss6fQ8q4/xPNUzXaUS17ldugr+KaU5fHrhtFT9gTMPMKinhEMzZJpYSWaP9gr
-	tcirVUmQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TNCekzdNJZmUuGpzwzOxUn2DY6eci5HZ8lsy1e03Zho=; b=LCaU6Xxl1tT/+AZhXWCjrO1JEg
+	uCKyvbd83Whdk9GGuH351m/0in1DbGWjMRCWVl61YjW6i7Ih/JR8Mp61aB07y9+e8reC9MOaD2q8G
+	YYwMGqkADlEsCzTQTl5LL/keS1Pt68tm0bc6ynQLmzOa2hAt8HQIq1kigan5NbbQXzXhV6aDmc8ji
+	ZOHmDByqr33bH3Ti0DBvqAyYdjNvQm1e2yQCHr81sJ/Dg+p0Flc3yQdF1jBTNnu1X8u4e3ROBgJ/7
+	/qHwZAlqTuPSNwudi58TvIMtROcfCHIiLwvhCpqBbens9Aa8rWT5LDwEWYAp9WyFfc6tmf7daTb6j
+	Nvck5bhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOZPV-00000004RNg-0d3F;
-	Fri, 20 Dec 2024 09:35:05 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tOZSB-00000004RpL-2bpf;
+	Fri, 20 Dec 2024 09:37:51 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOZPS-00000004RNI-1bZy
+	id 1tOYwI-00000004MoE-3Jh3
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Dec 2024 09:35:03 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 418A6A402AF;
-	Fri, 20 Dec 2024 09:33:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1BC1C4CECD;
-	Fri, 20 Dec 2024 09:34:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734687301;
-	bh=6aHlxxEE5s0daOuuf5+/ndwzU60spUvmAxdJU2cLcuI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AXNQJ80b24OZ+voeUJWCUWbNLBLyGYhcTOvSAiSvh9nC5N++hvW/9X6UTiHVeCszU
-	 iTlUwlAapQoZzW/8xtDWmZ71cHwmjLGsmA6qf3cfQdWdlJ4HM2l8qZ2GR8E2lpcarA
-	 I60lJVQv//mUQEPXdnPMVMwcHV3tjSIHrLVh5peihUkRwS6dnkJcJtSqO4f5JrdKOV
-	 eAXFLBFAx+2KSCOwXjtm+ELYXioP21/DCDKdWlJeIhnxyeXUCmrNiC6Em0Vro7p5AD
-	 5+67rS8L01LMuiph3jlT5GOOEB0Crg0qnLNpXl4/2fm0yrAFuAaNh5++rCokedVmmL
-	 Jl08CxjPAJ2NA==
-Message-ID: <80f3782b-c444-48ec-9276-cbfc9dae6a61@kernel.org>
-Date: Fri, 20 Dec 2024 18:34:58 +0900
+	Fri, 20 Dec 2024 09:04:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734685493;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TNCekzdNJZmUuGpzwzOxUn2DY6eci5HZ8lsy1e03Zho=;
+	b=SEuGnJVvW27H54VFC6K1jq2v6R/kGJhhpoM6PGv22B4ahsO7kCeLH7sPAgjpv79ur9PHDB
+	RjTRvqWn4fOhSQluilB/WcCJ33uwrhjER+pAHuokCht5VCzq2OnNnB2U7eUJ5oJ05+r4K8
+	iK2wG0kxn5rSFROel3t44LS12Mlw/qc=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-9-V_hpjVgqOaWhO_PeQOMseg-1; Fri,
+ 20 Dec 2024 04:04:50 -0500
+X-MC-Unique: V_hpjVgqOaWhO_PeQOMseg-1
+X-Mimecast-MFC-AGG-ID: V_hpjVgqOaWhO_PeQOMseg
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 53E431956048;
+	Fri, 20 Dec 2024 09:04:46 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.29])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E4FDE195608A;
+	Fri, 20 Dec 2024 09:04:24 +0000 (UTC)
+Date: Fri, 20 Dec 2024 17:04:19 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Daniel Wagner <wagi@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Don Brace <don.brace@microchip.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <llong@redhat.com>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
+	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+	storagedev@microchip.com, virtualization@lists.linux.dev
+Subject: Re: [PATCH v4 9/9] blk-mq: issue warning when offlining hctx with
+ online isolcpus
+Message-ID: <Z2UzE-CGa7YVwx0f@fedora>
+References: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org>
+ <20241217-isolcpus-io-queues-v4-9-5d355fbb1e14@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 17/18] nvmet: New NVMe PCI endpoint function target
- driver
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
- <kw@linux.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Rick Wertenbroek <rick.wertenbroek@gmail.com>,
- Niklas Cassel <cassel@kernel.org>
-References: <20241220035441.600193-1-dlemoal@kernel.org>
- <20241220035441.600193-18-dlemoal@kernel.org>
- <20241220081229.pij52jwfdyeygux7@thinkpad>
- <eb787b7e-f141-4120-a6b0-e1b3f6bebd2d@kernel.org>
- <20241220092639.jho2tbdcxarlzpmr@thinkpad>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20241220092639.jho2tbdcxarlzpmr@thinkpad>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241217-isolcpus-io-queues-v4-9-5d355fbb1e14@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241220_013502_556408_0686D37B 
-X-CRM114-Status: GOOD (  18.80  )
+X-CRM114-CacheID: sfid-20241220_010454_900007_FB5EA81E 
+X-CRM114-Status: GOOD (  14.39  )
+X-Mailman-Approved-At: Fri, 20 Dec 2024 01:37:11 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,99 +113,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/20/24 18:26, Manivannan Sadhasivam wrote:
-> On Fri, Dec 20, 2024 at 05:59:05PM +0900, Damien Le Moal wrote:
+On Tue, Dec 17, 2024 at 07:29:43PM +0100, Daniel Wagner wrote:
+> When we offlining a hardware context which also serves isolcpus mapped
+> to it, any IO issued by the isolcpus will stall as there is nothing
+> which handles the interrupts etc.
 > 
-> [...]
-> 
->>>> +static void nvmet_pci_epf_clear_bar(struct nvmet_pci_epf *nvme_epf)
->>>> +{
->>>> +	struct pci_epf *epf = nvme_epf->epf;
->>>> +
->>>> +	pci_epc_clear_bar(epf->epc, epf->func_no, epf->vfunc_no,
->>>> +			  &epf->bar[BAR_0]);
->>>> +	pci_epf_free_space(epf, nvme_epf->reg_bar, BAR_0, PRIMARY_INTERFACE);
->>>> +	nvme_epf->reg_bar = NULL;
->>>
->>> Memory for BAR 0 is allocated in nvmet_pci_epf_bind(), but it is freed in both
->>> nvmet_pci_epf_epc_deinit() and nvmet_pci_epf_bind(). This will cause NULL ptr
->>> dereference if epc_deinit() gets called after nvmet_pci_epf_bind() and then
->>> epc_init() is called (we call epc_deinit() once PERST# is deasserted to cleanup
->>> the EPF for platforms requiring refclk from host).
->>>
->>> So please move pci_epf_free_space() and 'nvme_epf->reg_bar = NULL' to a
->>> separate helper nvmet_pci_epf_free_bar() and call that only from
->>> nvmet_pci_epf_unbind() (outside of 'epc->init_complete' check).
->>
->> I do not get PERST# on the RK3588... So I never noticed this.
->> Does this work for you ?
->>
->> diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
->> index 8db084f1b20b..4d2a66668e73 100644
->> --- a/drivers/nvme/target/pci-epf.c
->> +++ b/drivers/nvme/target/pci-epf.c
->> @@ -2170,14 +2170,23 @@ static int nvmet_pci_epf_configure_bar(struct
->> nvmet_pci_epf *nvme_epf)
->>         return 0;
->>  }
->>
->> +static void nvmet_pci_epf_free_bar(struct nvmet_pci_epf *nvme_epf)
->> +{
->> +       struct pci_epf *epf = nvme_epf->epf;
->> +
->> +       if (!nvme_epf->reg_bar)
->> +               return;
->> +
->> +       pci_epf_free_space(epf, nvme_epf->reg_bar, BAR_0, PRIMARY_INTERFACE);
->> +       nvme_epf->reg_bar = NULL;
->> +}
->> +
->>  static void nvmet_pci_epf_clear_bar(struct nvmet_pci_epf *nvme_epf)
->>  {
->>         struct pci_epf *epf = nvme_epf->epf;
->>
->>         pci_epc_clear_bar(epf->epc, epf->func_no, epf->vfunc_no,
->>                           &epf->bar[BAR_0]);
->> -       pci_epf_free_space(epf, nvme_epf->reg_bar, BAR_0, PRIMARY_INTERFACE);
->> -       nvme_epf->reg_bar = NULL;
->>  }
->>
->>  static int nvmet_pci_epf_init_irq(struct nvmet_pci_epf *nvme_epf)
->> @@ -2319,8 +2328,6 @@ static void nvmet_pci_epf_epc_deinit(struct pci_epf *epf)
->>
->>         nvmet_pci_epf_deinit_dma(nvme_epf);
->>         nvmet_pci_epf_clear_bar(nvme_epf);
->> -
->> -       mutex_destroy(&nvme_epf->mmio_lock);
->>  }
->>
->>  static int nvmet_pci_epf_link_up(struct pci_epf *epf)
->> @@ -2390,8 +2397,9 @@ static void nvmet_pci_epf_unbind(struct pci_epf *epf)
->>         if (epc->init_complete) {
->>                 nvmet_pci_epf_deinit_dma(nvme_epf);
->>                 nvmet_pci_epf_clear_bar(nvme_epf);
->> -               mutex_destroy(&nvme_epf->mmio_lock);
->>         }
->> +
->> +       nvmet_pci_epf_free_bar(nvme_epf);
->>  }
->>
->>  static struct pci_epf_header nvme_epf_pci_header = {
->>
->>> With the above change, I'm able to get this EPF driver working on my Qcom RC/EP
->>> setup.
->>
->> With the above, does it work for you ?
->>
-> 
-> Yes, it does!
-> 
-> One more suggestion. Since you correctly removed mutex_destroy() from deinit()
-> and unbind(), you should also switch to devm_mutex_init() in probe().
+> This configuration/setup is not supported at this point thus just issue
+> a warning.
 
-Ah! Yes. Will do.
+As I mentioned on patch 8, this io hang is regression on existed
+applications which can work just fine with 'isolcpus=managed_irq'.
 
--- 
-Damien Le Moal
-Western Digital Research
+Do you think the added warning will prevent people from complaining
+the regression? :-)
+
+
+Thanks,
+Ming
+
 
