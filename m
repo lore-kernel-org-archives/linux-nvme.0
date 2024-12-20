@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8B1AE77188
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Dec 2024 12:22:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F1B9E77188
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Dec 2024 12:27:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oWMz4Or7oMQmuw8gXtGP6co0bEIH20jpOM6bqYupeRQ=; b=emEvCjg0yUsF0xiKNBnOU9l7aH
-	Qpo81xOvZSe9ZCXyu2ooieebscmiE8aC/8MZuauR5r/hWJUexHU/nH/q+STV+sERay5wpKpb4TM81
-	Q6srG74x1how9CSE02PCQg695of92+S4c3ddy4cpkun1AiL3XGLM781J8RnsZnbXYtyFbuXKpIkZB
-	5OHpr1bN4MQCQb7a2XUWFP67YHgTN5wqLbb+IisaTF5YpEtwDU5TCZgTZOQSItzmMzZD8aPM/tbq7
-	neY1mKsfytOU/erVMXgffzsEfwORElHZA8mFP4s8QNn+hfi7Dptk0SuxKhHZsujF+Ja6VIcNW4hy7
-	pKZPuwfg==;
+	bh=d34YpD18XPJbPPq+gzX4Ba4pRSVyQOB2rh5MKz2PYrM=; b=K1jr0jOhGmqgB+eaVCUnIdy8nD
+	Q1rMGjVqxl84Uzj1jbPqcCrY/VYWf/ikAcMNCZ/1hCP7H66CbBqg+1wkb9GsIq4hce1s2A1YFpsMD
+	lRdKt5NKZsMfe6Ca4YxO8l+1WwP5/5GuSj7LGdsNummqnjYFI+qASmaeXQK04Zyhl5/nxDDGQ9FOr
+	rZQzcTOIVJguUa2XQJ9yQnx44P5GrJCIdv9foOXJOS+qHd3EPXjzp43/VP05BVzOyZCkedVDnAyJC
+	Ftd1n6p3oQSsScbFb7jgx9d33BUvUdd+dCKxzr1Wtz2AhAusw+b/e07Q76B1QWytz8JcoJPgsEq8R
+	16NylEpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOc1c-00000004sPI-16z5;
-	Fri, 20 Dec 2024 12:22:36 +0000
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+	id 1tOc5z-00000004t5k-0a3x;
+	Fri, 20 Dec 2024 12:27:07 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOc1Z-00000004sOZ-1aFw
+	id 1tOc5w-00000004t5F-3Vlc
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Dec 2024 12:22:34 +0000
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-725c86bbae7so1630676b3a.3
-        for <linux-nvme@lists.infradead.org>; Fri, 20 Dec 2024 04:22:32 -0800 (PST)
+	Fri, 20 Dec 2024 12:27:05 +0000
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-72739105e02so1972068b3a.0
+        for <linux-nvme@lists.infradead.org>; Fri, 20 Dec 2024 04:27:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734697352; x=1735302152; darn=lists.infradead.org;
+        d=linaro.org; s=google; t=1734697624; x=1735302424; darn=lists.infradead.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=oWMz4Or7oMQmuw8gXtGP6co0bEIH20jpOM6bqYupeRQ=;
-        b=mI47O4SMxeQaLfr8TgMsferzzkC2jiIzZ0j3XCE/HfI88E39NX3TlAOSLOHPp3YMRU
-         e5k6q7pfko9xcv0pUWKYnZz1L6wsyL2E3hvN/UBpogOAc2Zb+PKfhPCMFXv/dwf0LMc2
-         27lonMmM/nP7TBf7B+6N/Xveh3kwVULmrLjXkIen6IQwW4jrvxXv25+rjSj+hJVStjsv
-         +KavsaR2Hi8VkEVTUD4co5Dno6HFqgaX0ls6NSgojiGwBr0LaJkkrSu3m9FvHze/40FM
-         6CH9QwE4Q0IdEhFjONps5nbreiVOcwOcnaytNmjNddf3Hj2CuSSuV5ir5hnh3ckMIbwJ
-         bHyQ==
+        bh=d34YpD18XPJbPPq+gzX4Ba4pRSVyQOB2rh5MKz2PYrM=;
+        b=JnHO9nTFO1MWVl903iN+MCi/PuZZqFVGZ+8NBiJaHAY6IbZGipALgV9HA+8xiWyROG
+         i6N/64vSwHpeXvJ8xg8E3Y/gx+Caar8UyW4nY6gU4ghqcOy+retWkJh2BfBzfjqC8EtM
+         57QWjOpPGyyixx1t/t8g234+mi4qq2BNbKYHIznX8sWbmXnijJboZMoO6voRonQoMwJy
+         xWvclKTJ5vWC5nNaNPYm5D+HiFFlksdXCMsTiwihlXeZExXY1j37GAIWpGD+JbklSt2/
+         jOR0vWVTw5vNv76BUyearnn3gXdx3YVIbdknB/N+ZaYKSzVU/Y13bklxPc1f2Rs1QZ73
+         /sUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734697352; x=1735302152;
+        d=1e100.net; s=20230601; t=1734697624; x=1735302424;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oWMz4Or7oMQmuw8gXtGP6co0bEIH20jpOM6bqYupeRQ=;
-        b=Dp6eVG3gWMuPpQIeuZkV71Nqs5U/S5WPwjP1I1Kq1CxQBcXDRB57dxI4Gr101Dl5T4
-         51FRQWghf5d/UX7A+pfICEZGrVeonxmxEeDrBTDxy0k8JHtHuBxTMZtAPt7dpnGk39TW
-         kDSEWBZj27mDUijI9+qrOMpLdAx5UIFEk12ExBvD6uAtVM+MDIZaaYsn2N8kq+Tc/0LW
-         zyj6xe/kepRNSRyZMiZmBgQK9coKavVH9B7yWScOYpsoYiJCpV9uCfLpa1nUgnbyLeig
-         WVoZ3/EnUOx74nZK9xboz1m2wTkeopeTKm8SRSFht9Q8+ShM3x7hVtktsuZzOtp3GXbD
-         4xTQ==
-X-Gm-Message-State: AOJu0Yy4V/ITnS4EZT3ljE0S2Xro75ro3pEyuLd39Sv+4FIu2UkpFLfr
-	Z8G9B3TJ3K3Vxnl8kfp40dQkCW5rZqAUd+cXx0RAuEoRxWAK8okIsRiU/MLOvw==
-X-Gm-Gg: ASbGncu8+3N01jsI46/pHuvcjzAIdVp5kJOB9oWHH4OWDG1XT6a4oPtSmPZoPJHGAFt
-	5DAFvyMEmGB6tJoY8aSZ+IKl/3RuVl65JHqixldtce8+KkO5YyfV+EDKFnVs+kJCOi79tR+lEhN
-	OaVtczSaU5fqTKdgISwpfPFelRorxVSSBcD1zU7uo3DdBXvwCCQAUy3AZhLxuIYfyt6SkCx3Q+S
-	ZWSt+ow4TBZqMjnJ2epTmBXqglDSfNCOtT0p1P3J2/jIOmrYRs/k425uR0sGyC7Ja0O7g==
-X-Google-Smtp-Source: AGHT+IFBE2ysCt3TYqJyyCcgYPYBsX3e7fiMItcbT+QolwPmsg4IHUeRQxoA27xY/70Fm+2n4WAWrg==
-X-Received: by 2002:a05:6a20:728f:b0:1e1:aef4:9cdd with SMTP id adf61e73a8af0-1e5e0450013mr5074508637.1.1734697352265;
-        Fri, 20 Dec 2024 04:22:32 -0800 (PST)
+        bh=d34YpD18XPJbPPq+gzX4Ba4pRSVyQOB2rh5MKz2PYrM=;
+        b=hgJmFbqr4GIOyqD1pzQGjUlnZGjdoeVDeac7EsWAD06RExetDKWe58ieV4ES3XE57S
+         rC9hyEBjdaI205hAQP2eEFQvfWrM5M5GizN1c3POlU1lcd9vZnqwylXS39WZ7MNWxa5p
+         l9X4cHB8/83hzfY8fS+8RPC/Tea17x9G6QygJOPI24Ze83AcE/4H8oCNCUtsCDYjjPaE
+         gvE1ftdG2F9raAatv+GLt91no81RSbE/z552J5WkDi2pm36aIaxsLsW6RznuZlYQRWPy
+         FZLhgr4xdlCxtRvGRqxJ7HBeZONxVSUvi/LFkztklEvvQlrTy40ArlS+9+4SoSadxGXb
+         Qfkg==
+X-Gm-Message-State: AOJu0YyzYSKnb1E7di96YEc3ViPSZbX941T7+bdAw6yGLO99qs0DhVQC
+	ZWWrXADebdBCKz4RjfcyijKtbCuZn6IQYo1z2YWRO3bqWDd1CtoNpF93tfamnA==
+X-Gm-Gg: ASbGncvX2XCONQvRmVa9mCGAiMoiycmIcJhNHtt/AQ83a8oSgqhRoD+LkV/CW8RQrgp
+	j6AB+CZlGaqLeKT2IxpVZH9h6klE8FbJF9pMhfqV9Ofangedy9Jj4G0KUQyTTR36YlDcE1c63BD
+	vVT2PvTfY41fuwgU6shuYm9s7UFYQRFtZb6YfsstRaLMZgaV5giJt/8FVh97kLa4mydUNGkIJ36
+	0W+cGa4AV5dihKZAUA8M3nOKxVq0NY2cmVGFvpmxiYv36IR23c+NXRvNwI66Y/iguq2RQ==
+X-Google-Smtp-Source: AGHT+IFrG9eb4Q5oiwTAQ33mdTfGdeqS6zs2mHn0GS/AJHJxe5SNvbyKKhrl2al1o1wJ0gQ5KPwUgQ==
+X-Received: by 2002:a05:6a20:158c:b0:1e0:d6ef:521a with SMTP id adf61e73a8af0-1e5e043f6c0mr4790958637.1.1734697623521;
+        Fri, 20 Dec 2024 04:27:03 -0800 (PST)
 Received: from thinkpad ([117.213.102.140])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8dba99sm2948660b3a.92.2024.12.20.04.22.28
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8164c7sm2981317b3a.4.2024.12.20.04.27.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Dec 2024 04:22:31 -0800 (PST)
-Date: Fri, 20 Dec 2024 17:52:25 +0530
+        Fri, 20 Dec 2024 04:27:03 -0800 (PST)
+Date: Fri, 20 Dec 2024 17:56:56 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Damien Le Moal <dlemoal@kernel.org>
 Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
@@ -79,7 +79,7 @@ Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
 	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
 Subject: Re: [PATCH v7 00/18] NVMe PCI endpoint target driver
-Message-ID: <20241220122225.lw6mpv7gx77igzgl@thinkpad>
+Message-ID: <20241220122656.mb7bs47pfw2xbadr@thinkpad>
 References: <20241220095108.601914-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -87,8 +87,8 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20241220095108.601914-1-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241220_042233_426655_F9D0B649 
-X-CRM114-Status: GOOD (  26.80  )
+X-CRM114-CacheID: sfid-20241220_042704_893137_610A844A 
+X-CRM114-Status: GOOD (  25.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -163,10 +163,7 @@ On Fri, Dec 20, 2024 at 06:50:50PM +0900, Damien Le Moal wrote:
 > while providing reasonably good performance.
 > 
 
-Series looks good from PCI endpoint perspective and I've given my R-b tags. I
-hope this gets merged through the nvme tree.
-
-Thanks a lot for the work, Damien and Rick!
+Tested-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
 - Mani
 
