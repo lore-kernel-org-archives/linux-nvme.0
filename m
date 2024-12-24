@@ -4,74 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3A46E77188
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Dec 2024 10:53:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 215A6E7718D
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Dec 2024 11:01:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+GksGZMZ89ePWGLgC1vKqG4cLO9duAvazI0aTFCguKg=; b=gEyRqt2/6dU/+OokxMF9tY8zg7
-	uNQaOEovs5SUHP9gHTlbPx4wAA4WSv6z6FieQUA8g3CNf6u4/3ELL6tjJLThRPorg7MNokwRYgHmY
-	J17onv0d8//Q0rdZkYbbiCYbmhyuJ9yFeNAeYj4zSQowfjGuNDuQZgXZ9h7To1rSozV5xQ1zRSOOq
-	mku7ys3NMPwEIoHHFvvbNy4eG9bDBYua5v5Xm5tmI/AY28J5fGxNijVD1aeQlCb886c9F1ucy0Jlf
-	zs1F/mIneoZq9gJGe2sQ7EwpQZ4Yexvm52nDH7J3A2pCtnbObElfeed6CvNdDozSdaUhAWuOHpV4x
-	nVfygNfQ==;
+	bh=xyvkuSlGCJBTOQzUaB3O3XIgGhi8svVG621YwhZWBeA=; b=tRADgjxRoZPwRc9oG1qs2QocfS
+	RSmA2VnC3AK9g1UxBKHNnq1iIWdcFHqs2no/KjVzwwuLbRHLtwmGr2v7jjoRAV24FahhW5w93QrV9
+	+XO5wKyL27WwOygPxkJvbzwpT9G+6bGnfEAdI4/86IAdY4tdG/zW6Ud/lPDMVI0BewtdU7wQcBv8I
+	pLe/ipyic5PylPYyHNIJw8pyTGE7DcNvGX41NFrAJlpPkY+hV6NGfXFnx+b07BPM6r1kvkllulipi
+	BAE6K3YvRWI11agKUb32xBjbMwxJ/XGFWJCYFqbMLrnqCZ7ugkZQ1Pi4PmwQxeBmkIYN2GYPIean2
+	a2SnFrww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQ2Xz-0000000Bout-1Wmf;
-	Tue, 24 Dec 2024 10:53:55 +0000
-Received: from mail-wm1-f54.google.com ([209.85.128.54])
+	id 1tQ2fe-0000000BpWW-2lEM;
+	Tue, 24 Dec 2024 11:01:50 +0000
+Received: from mail-ej1-f50.google.com ([209.85.218.50])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQ2Xw-0000000Bou3-25ni
+	id 1tQ2fb-0000000BpVl-3oI5
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Dec 2024 10:53:53 +0000
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-436345cc17bso37066455e9.0
-        for <linux-nvme@lists.infradead.org>; Tue, 24 Dec 2024 02:53:52 -0800 (PST)
+	Tue, 24 Dec 2024 11:01:48 +0000
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-aa69107179cso841613466b.0
+        for <linux-nvme@lists.infradead.org>; Tue, 24 Dec 2024 03:01:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735037631; x=1735642431;
+        d=1e100.net; s=20230601; t=1735038106; x=1735642906;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+GksGZMZ89ePWGLgC1vKqG4cLO9duAvazI0aTFCguKg=;
-        b=mvLWYta+pFdDmkcke6VJLrhi1pwNETXpOBIhW8I7bTKABXrjwVu2xyxqj3X2v9J8JX
-         6I2w4LLaZHrIUz4PC+dq7LZZ8fhEIKnIXPMfnAbv0vmTLK+R/OMiAxtBFpfA+K8H3W7j
-         rTzAzNvaC65gLm1629ynwedLldMUvO+i0IyyzxWRlnpdFeWL1YhF2BzA/3TKBz2VX5F4
-         SpNDh5gy6iQR86CPgA1Q3QcpMuSrutQCCywn40oHYuAPJkPrMLzzwFZT8bAdq+hP25YS
-         RIrDS3XfNnTUF0DP99eU0yBhgGvGIJnKakIhzQ8sb7wuRaKOcfZIJ5je7jt+I9AUEzsD
-         I9VQ==
-X-Gm-Message-State: AOJu0YxMn7rZc0J7ie6e6M2AGeVpU/tvpQjSM3HJmYhLBbk7OigWBDvf
-	bjsRkMsdNCe+MYXYvWNkI0+Fz7H5JT+LI0Gjr4kBZi0we03hTBev
-X-Gm-Gg: ASbGncvexQmOfhHQycl37hxQbPLI56e5wjRZvEqJXLr0YTGTSUSHCWKU/w95tuMV8K/
-	YFRLc7dr2wy998xBSPRLaTe3q1aDnUZv0LK9uknj4f/9otsSmoPxO9KCP8acXY0ikGTtFW/116a
-	TJ4kRufp3UViho1qCUVPrmrwVbzPijeD9spBKrJJt4rCsUJUY3kcgZK858vVUfIh/TVtSgasyVw
-	U5JAClolUq2Tc9WgQHJZ6wTNgSAhDMUqBs0r38ok3ciHDOxJ71qyOhABzP/Sh4Y4Z3kHBxdF1fc
-	RMHiza8d8D3VouksXUxxdpo=
-X-Google-Smtp-Source: AGHT+IFbGQVP654MK1FweX0VXTxgyP1Z3Z4i2f5lOsLB6IWAl35nFXo0ZnSS06zaaLZ88GYxsCqKDA==
-X-Received: by 2002:a05:600c:3b02:b0:434:f609:1af7 with SMTP id 5b1f17b1804b1-43668547462mr132519015e9.4.1735037630570;
-        Tue, 24 Dec 2024 02:53:50 -0800 (PST)
+        bh=xyvkuSlGCJBTOQzUaB3O3XIgGhi8svVG621YwhZWBeA=;
+        b=QYU5DWzBgYlDfIF6FMKHFXGNDtWmr5r1A6dGwRU06Us234oHtNGKBceSAUZSlNdcPM
+         /8LncXyrQqM43xNBWLHZbkuteJky82N/azXZZR0u8Lczv5mxKYQ2wH6FnHTbLu9BUyP7
+         y1+eSJ+JrEvic8PqwCTYqzjBhH/8WkMlqo/7tuKmx3Tqn0bhlatkp1Bv5CoPqhFQRgXT
+         wfGrvnrU5BK2+sfRAfQmA9oLqnJTn1D49eZTd75lFdzvNmd++aaW1t442FTx4oKXIG3t
+         HzXrJoGGYneX0GZqf2uxCXOzdfjm47sIwUsODaWbSBJ1645divVvlxudHVUISUWRbPBh
+         +I2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWUsmpaXt3h5Xi4PcAQUZomCdgGb1PrIjr1hcpFyTwDSxkqP9TlF+IyEV9XlGp0qo5+c3DI7+fjesOR@lists.infradead.org
+X-Gm-Message-State: AOJu0YyXoth7BH8jCFl4cvseT/PkPtv3StCq9I1hQKWnKm8XWHukcwPe
+	bmJNCpUrZ02hhMle8Uo6EkRLr7cAMUeLqkz+K/f+znUGYjgrceax
+X-Gm-Gg: ASbGncu0r0WDX39H/HdFrEwBFD0at4Gaswnqz0ibmYAXNVN7jliYgTC6m2avsqMWzpX
+	GOwLWSoXJ8/T0SaxDQv+KO8FSqFi5CbHU8M6BuNQe94JlZAJc7nMqeBAKJs8VCeJ44jBlfvRHgn
+	BivOB+Ajpxh56zF1HiEHdIDb6XTPgNsEjZdHhRMTqHEMtsxjh7lLaa8BBs3Q+5wG5ev1dmD11CD
+	21QlBrHMm0jy4dGZOSoK+cQxHx/D4h1yCeeAq+KPv1mAre4AuX77Sd0gy7UiAGRqucH0Nk5Pp1e
+	lEn/vbhyRM6ApqURW1X4MLY=
+X-Google-Smtp-Source: AGHT+IFf3RZnX7CR7h+6Pmtk9K4vwMGrci8OSNsOicM3+q9rSIPmKr4WfOMRX+54D/ZK1GaM1PrX6A==
+X-Received: by 2002:a17:907:9341:b0:aae:ebfb:ced with SMTP id a640c23a62f3a-aaeebfb29cfmr308210166b.27.1735038105746;
+        Tue, 24 Dec 2024 03:01:45 -0800 (PST)
 Received: from [10.50.4.206] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b3b271sm197147225e9.34.2024.12.24.02.53.49
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f014c94sm635427566b.158.2024.12.24.03.01.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Dec 2024 02:53:50 -0800 (PST)
-Message-ID: <04a0778c-61d7-48db-b5f6-2dbe8b8ca752@grimberg.me>
-Date: Tue, 24 Dec 2024 12:53:49 +0200
+        Tue, 24 Dec 2024 03:01:45 -0800 (PST)
+Message-ID: <1e07dbd6-3d3b-4c73-aa60-159ade59fcb2@grimberg.me>
+Date: Tue, 24 Dec 2024 13:01:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme: use dev_err() to make message more useful
-To: Baruch Siach <baruch@tkos.co.il>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-References: <29637ab5b312249da0b0cfc5e138e2aa7f6cddfe.1734371040.git.baruch@tkos.co.il>
+Subject: Re: [PATCHv6 RFC 1/3] nvme-multipath: Add visibility for round-robin
+ io-policy
+To: Nilay Shroff <nilay@linux.ibm.com>, dwagner@suse.de, hare@suse.de
+Cc: kbusch@kernel.org, hch@lst.de, axboe@fb.com, gjoyce@linux.ibm.com,
+ linux-nvme@lists.infradead.org
+References: <20241213041908.1381196-1-nilay@linux.ibm.com>
+ <20241213041908.1381196-2-nilay@linux.ibm.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <29637ab5b312249da0b0cfc5e138e2aa7f6cddfe.1734371040.git.baruch@tkos.co.il>
+In-Reply-To: <20241213041908.1381196-2-nilay@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241224_025352_546914_B4F9C920 
-X-CRM114-Status: GOOD (  10.21  )
+X-CRM114-CacheID: sfid-20241224_030147_961217_3F414FF0 
+X-CRM114-Status: GOOD (  17.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,25 +91,62 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 16/12/2024 19:44, Baruch Siach wrote:
-> pr_err() produces no prefix when called from pci.c, and only generic
-> prefix on other call sites. Switch to use dev_err() for more pleasant
-> debugging experience.
+
+On 13/12/2024 6:18, Nilay Shroff wrote:
+> This patch helps add nvme native multipath visibility for round-robin
+> io-policy. It creates a "multipath" sysfs directory under head gendisk
+> device node directory and then from "multipath" directory it adds a link
+> to each namespace path device the head node refers.
 >
-> Since we now pass nvme_ctrl to nvme_find_rq() directly, nvme_find_rq()
-> can figure blk_mq_tags by itself. Remove local helpers that are all
-> almost identical.
+> For instance, if we have a shared namespace accessible from two different
+> controllers/paths then we create a soft link to each path device from head
+> disk node as shown below:
 >
-> Suggested-by: Christoph Hellwig <hch@lst.de>
-> Link: https://lore.kernel.org/r/20241212062241.GA5586@lst.de
-> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> $ ls -l /sys/block/nvme1n1/multipath/
+> nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
+> nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
+>
+> In the above example, nvme1n1 is head gendisk node created for a shared
+> namespace and the namespace is accessible from nvme1c1n1 and nvme1c3n1
+> paths.
+>
+> For round-robin I/O policy, we could easily infer from the above output
+> that I/O workload targeted to nvme1n1 would toggle across paths nvme1c1n1
+> and nvme1c3n1.
+>
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 > ---
+>   drivers/nvme/host/core.c      |  3 ++
+>   drivers/nvme/host/multipath.c | 81 +++++++++++++++++++++++++++++++++++
+>   drivers/nvme/host/nvme.h      | 18 ++++++--
+>   drivers/nvme/host/sysfs.c     | 14 ++++++
+>   4 files changed, 112 insertions(+), 4 deletions(-)
 >
-> v2: Pass qid to nvme_find_rq() instead of tags (Christoph)
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index d169a30eb935..df4cc8a27385 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3982,6 +3982,9 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>   
+>   	if (!nvme_ns_head_multipath(ns->head))
+>   		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
+> +
+> +	nvme_mpath_remove_sysfs_link(ns);
+> +
+>   	del_gendisk(ns->disk);
+>   
+>   	mutex_lock(&ns->ctrl->namespaces_lock);
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index a85d190942bd..8e2865df2f33 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -686,6 +686,8 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+>   		kblockd_schedule_work(&head->partition_scan_work);
+>   	}
+>   
+> +	nvme_mpath_add_sysfs_link(ns->head);
 
-The call-sites are all printing similar errors. I'd just get rid of the 
-error in
-nvme_find_rq...
-
-The change itself looks ok.. redundant, but ok...
+Why do you add the link in set_live? Why not always set this link? it is 
+after all, another
+path to the device?
 
