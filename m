@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F74EE7718D
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EDD1E77188
 	for <linux-nvme@archiver.kernel.org>; Tue, 24 Dec 2024 10:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,65 +12,79 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=IfEdYiz9N/BkcMvhwf2pLX59Xr
-	bpvo4o1iSlB3ZmS/tfwTU78s+EyTY4gEQJM7bU9Ae6hrYBFjY1t26O2YXCNkkaotF1TIvRChpsHAZ
-	SJzzICfL0EjcQg5Nx9YL7hYZ8zUNGNmsHpFUai5JImZeDxLVzhgR6esa/StDkY9t54OrsL2D8HKdk
-	PQkxmKl736Ab5svAAb4bAYVQQAS36CLE830Z6DIPBoelaXqiN6IzEN8DRud6N3TQuB2MHr4W6Tb7J
-	DCVKl2DsMjk0BoRJaV30ZGiqKspU26OnUQZRX7M+OV5aDcxOMDpL7nZ3AJv2u2rTsyVxqkSOtiw/a
-	DUS2aWMg==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=BtG7jNvbs/6aysqldqld3S6XBT
+	7X6M5woJxA9agJkVqorgU54IFvUAaxguuELJwsy8+3vRKTiAcgHVmlO5pMbC2/Lwup/OYAB9ycokJ
+	3YtBELxHvnzqERchwDXTEs/COe8fcMTco+6kr7LGy0DP111hVjz6DQ90oneIuzSXmdrqGIqabdJTG
+	QN178baj5Xt7kAISNIROPQvgp8qafqJh3djw7RMU5cCb0qN3OfSlq+2mxpvPvS5E9kidOa7AvNZ0I
+	A991h/rGrqE4VoseZD+M8ra6ePKjawzDnyRAruuYzSl9Up52oFDzjX7+SCr+qDrpXk33La34qSWZX
+	tCZU3bjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQ2QG-0000000BnP3-2BGj;
-	Tue, 24 Dec 2024 10:45:56 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1tQ2QH-0000000BnPI-0yPI;
+	Tue, 24 Dec 2024 10:45:57 +0000
+Received: from mail-wr1-f51.google.com ([209.85.221.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQ2Ni-0000000Bmvy-1YHa
+	id 1tQ2Oq-0000000Bn7E-3umT
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Dec 2024 10:43:19 +0000
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-385de59c1a0so2997488f8f.2
-        for <linux-nvme@lists.infradead.org>; Tue, 24 Dec 2024 02:43:17 -0800 (PST)
+	Tue, 24 Dec 2024 10:44:29 +0000
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38637614567so2268247f8f.3
+        for <linux-nvme@lists.infradead.org>; Tue, 24 Dec 2024 02:44:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735036996; x=1735641796;
+        d=1e100.net; s=20230601; t=1735037067; x=1735641867;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=XFGonuxwfvSWVzrYFhYMDS40ZRtByCz4XQr1WhVqPp2L6apOOlr0TEG0Jso0GHQlFr
-         XP53TKmCwhIIK4wWPXZ774YcSDsH5r1SPLpukUYDjaEgJ8pFICjVDyJ6SPZCVUiHePc0
-         NFkDVwht/W2fvdDs17U3LqnTNqtnhdrTYR1vLJR9yTYioVaXKI0SCLCFSiV9XSR+Dhyl
-         GMOEfhMZdGB/H820K+AdlownwC/J6zCzQFhUQW9MZwwV8uDEe+noIVGB2JbcMifypCc+
-         /kIIva0lTj/DcpYmXarbmQ6hCWqTjYyhuk3peaSXLDQKnndvoYWBmH3dtSha56qGpowQ
-         AuIA==
-X-Gm-Message-State: AOJu0YzMODkUd2xr7IflLx44pnemYUemthmftUA8IWxArHAIsq5PlugN
-	LhQ8kVf5X8kHcsKVw8i+ObTwy73nZ1uxdBrT6Tg0xjFLuA1ZpiXwCqzocA==
-X-Gm-Gg: ASbGncvQMvbWxWEzwA3ZRS8luV8lY+kwT2Y/WJNGrWVaZI8nxdL+p0nvMB+hn6VoF3v
-	EGo29+nqpMBRRRRdoIQGBw+8Cta6Q0f6b3OS54btCZu0oMkc9Xj7gV+YEHrWWryZvyrbRas00Rc
-	UUjflM3p9fEFfS8lT+05bjVeMD23KVene3t12NsJxNbs8GmwWIapuYVm845zpMGiJVTGELk021F
-	cEklXfWx/fUnTtDms8Yi/x3mpWS51oQad4Goiu7ufaae03FPmDJw34PLk1GR4gENM5zeOIiNTNu
-	6ghGnyoPD5FhrhZPGKH6X2s=
-X-Google-Smtp-Source: AGHT+IGyD5nlfSTY5DVLa7WtjBsAFG4kIpVcCbi91Qu18hbrJlYv8tEDp2ASbDcwOPkpjoVlhNKtNw==
-X-Received: by 2002:a05:6000:704:b0:385:df2c:91b5 with SMTP id ffacd0b85a97d-38a2213d33emr15517648f8f.0.1735036996605;
-        Tue, 24 Dec 2024 02:43:16 -0800 (PST)
+        b=DRr7sHc8rybjH5tlW5PvQ6y6yjakXRnHwd1j/j8GLejtMFq07sYPrit44Aqp84LgRY
+         afwGY4yN+0uw3FqzShCDfaLM0HPOQstaY4xBg1U7xniq8mqKqzzeBN0E43k7a8yCP753
+         y3pEBWeOaQKCJ3KqGCT6TBEIAzs7e/rqDellj9DAst9mzxAaXx9ce1msheb4cq1uQuCe
+         gQpiRo1yBIKeDdUi/5LvnZBF2cynSni6E+Coa7+WPZcwwGbYWGHfY6Dkh41CbOKpqFNh
+         yBaJw0CxMFjlMy+Swca8rM/Oed70Gqjm/TxXTJHu2ag1RhrxbqlyY2Ica3ujt/Gh8CRg
+         Y23g==
+X-Forwarded-Encrypted: i=1; AJvYcCUm5wss/t2BY28Sp8PNQiNsKCtClhIhY+iTV3YUQDV0ThU0qozMnZn6a1O1NbbAKtCn42sutaP6kAFc@lists.infradead.org
+X-Gm-Message-State: AOJu0YzyjvCG33eBRjwt7XBeSFEuU1zFzD6lLj1rOI2N3umqjV4ETVF8
+	39uRfMfjKLKUMuZ0oqJ/mZcGiTvZoox85jUuOZxFou4HCYAwIPQXC8B07w==
+X-Gm-Gg: ASbGnct1fP6jbSor0dU/lvCt84+SSxgxuRu+ZE39WC0HD5aBwf7eXniYee2DoqHGlhi
+	bNk5OY81BNU/hCuDfNQp8/oRThJCMvVG8SFtTxSCNo3EpmCUM8dkCO+AMw+azfoAxMpOtoMMHqt
+	8o/Or6YlDIQkhzj5uRalxlCAPd61A9rV4g8G4L1ZVPOoqzPhEKOVijtarVJ/0uoFexCcplVrKsj
+	VX7dLknujYkIQanQugYb6SitcUvlClhC42UtA3GZmlouhbVVyUPczu/2Idv2fJmqqGvjjSFwgO3
+	yr3r5E9YNXGiDlZmeagdMKc=
+X-Google-Smtp-Source: AGHT+IHxq/iA5grijNAymPWay23D0iFdsFNkmhYOlxQbOIIanspFe78QUP99gU/SefByF5UHbl8HKg==
+X-Received: by 2002:a05:6000:144f:b0:385:f271:a22c with SMTP id ffacd0b85a97d-38a2240e20bmr15043579f8f.59.1735037067445;
+        Tue, 24 Dec 2024 02:44:27 -0800 (PST)
 Received: from [10.50.4.206] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43661200abesm163155975e9.18.2024.12.24.02.43.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366127c4d7sm163226825e9.34.2024.12.24.02.44.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Dec 2024 02:43:16 -0800 (PST)
-Message-ID: <bb7caa2a-b178-46f1-9628-c33d839b6695@grimberg.me>
-Date: Tue, 24 Dec 2024 12:43:15 +0200
+        Tue, 24 Dec 2024 02:44:27 -0800 (PST)
+Message-ID: <47f88e5d-e262-40e5-87bc-ea2e30ec8bc9@grimberg.me>
+Date: Tue, 24 Dec 2024 12:44:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvmet: propagate npwg topology
-To: Luis Chamberlain <mcgrof@kernel.org>, hch@lst.de, kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org, gost.dev@samsung.com
-References: <20241218023325.3671826-1-mcgrof@kernel.org>
+Subject: Re: [PATCH] net: core: Convert inet_addr_is_any() to sockaddr_storage
+To: Kees Cook <kees@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Mike Christie <michael.christie@oracle.com>,
+ Max Gurtovoy <mgurtovoy@nvidia.com>, Maurizio Lombardi
+ <mlombard@redhat.com>, Dmitry Bogdanov <d.bogdanov@yadro.com>,
+ Mingzhe Zou <mingzhe.zou@easystack.cn>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Simon Horman <horms@kernel.org>, "Dr. David Alan Gilbert"
+ <linux@treblig.org>, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ netdev@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20241217012618.work.323-kees@kernel.org>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20241218023325.3671826-1-mcgrof@kernel.org>
+In-Reply-To: <20241217012618.work.323-kees@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241224_024318_401431_0BF79861 
-X-CRM114-Status: UNSURE (   4.27  )
+X-CRM114-CacheID: sfid-20241224_024428_966166_D59880B5 
+X-CRM114-Status: UNSURE (   5.83  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
