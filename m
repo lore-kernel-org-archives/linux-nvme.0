@@ -4,71 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FA8AE77188
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Dec 2024 12:05:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF833E77188
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Dec 2024 23:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Gj+smE3CmMtTamKLc5DQkdQAO/UNg3c1r6eWKCZ/TLc=; b=dkoNUwQ3l+IN6f
-	xecbOBkqnr2tOO3IgNzYItOz5QcLX07nh/TC2cOC5udvuhwrntHnpqWqmjzN1y11YQuYSCM+3IGFM
-	eZLPMXHnGtae1PsDZ8ftw6c5jVwYkwBVjcUkaQ6RWPyS5REb8SUGxn4cNdR8nFjVDWgN891h5Z8sm
-	bqXzX2BR+D6paJ4JGs10wprflxTjVGXSfYjP4gRzCIyFV9rBCVkqxJRcnkJpZ7tPmla8t6Z+c/9sk
-	gCQNv/yOm7jGWnTO1nBmOu5nDqIujA9D2pAcXWlTylvH4Z/GuQndMQD6yDOXE7FbwsS7N5+vNk7pu
-	CZYuvAm9fd+rjY1VSZmA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=W4fMlJoPyAMUD3E8zRT8tc88Js9UranPAz7HKoikRR0=; b=TE9RvYGFAFpUYoCM6Q/UG1NS7d
+	OJBzd1cLk0R6X4Ezd7HcIaAnHA0iyAxtfqQ5HFR+BaHMUNHgN1mJ+L2/Uiw0wUjYW4t+ZJMcTOQ/8
+	N/WT5+v0AAeG7RUeoglnchufxDohcDUYL5n59yOY1+d7bSbxErTiAYHbm3TgcM/IPdhb8/bYW2Ni1
+	qOeef7x6DBwS5QFxmtzKauTPrVO0T1/IQK8Z0mHs4LrAekjSsJRXhstBsNC5VXT3rFQqQRQTjwn24
+	/m0JS0SE7Q3IfHaeqFoLP4YPYKNQDjEnk8nRoFDMcbCOcWhzu1cnMOhM5ef92Gth9QYgL6uUKwnaU
+	6VvmaQyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQ3ep-0000000BunT-1qzV;
-	Tue, 24 Dec 2024 12:05:03 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1tQEQA-0000000Cwov-1wL5;
+	Tue, 24 Dec 2024 23:34:38 +0000
+Received: from mgamail.intel.com ([198.175.65.18])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQ3en-0000000Bumn-1P5h
+	id 1tQEQ7-0000000Cwo7-1g8N
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Dec 2024 12:05:02 +0000
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361b0ec57aso50062845e9.0
-        for <linux-nvme@lists.infradead.org>; Tue, 24 Dec 2024 04:05:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735041899; x=1735646699;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gj+smE3CmMtTamKLc5DQkdQAO/UNg3c1r6eWKCZ/TLc=;
-        b=S7NL1jqddxjBgfZ+WVbpV0NdwX18RSAQbW5m4xiLJm7az9YbitdcZrnQ/l/ANfLut8
-         shRgZ/JMfB7SgoqPnkujweoP/FhxgXajOo0HjZLUsecLPtgDvPbEXGwFmmqNF2KHE4Ox
-         3dhAP2TfV2DIWkLSnomGLNqBfCveD722r2W8mFInU2ojiLQOjF43pDXtvj/lm82Ivbvv
-         EWT6Gvsf6WcgEqWO468mQiQfOLIaeDQrhHPjNMEV90f46sk30mbxnAvTciM8/x43bC+f
-         VsOnlkUN1Fu1+i/8WtG0DBf9Y+JvCKrtZYBAN/NPpvn4wVivnrFLLP9eAhB49q7xWuWA
-         Clww==
-X-Gm-Message-State: AOJu0Ywiab7jx+HypQUDUFebAri+TVrCLUZVN/5LxV9NSRQpGZMuVPXv
-	atn94gn1Sjj5HMDmJ5FSkYsT9gjoVFvcvlaoncTJ6VHGx8FQ3mBX1JJRIw==
-X-Gm-Gg: ASbGncvKMW42D9njlFmv+tOJOyo4fclS/aQFUnXr9CCl1z3sx1JaG/mBz9uIWN4Jyj3
-	FmqzlAf0i+JQnT9U2v6H48foOBGSY0XW2aOEmecvBQ3/mW5OomoW0cliTosSbZ9wN6b8G/pDY+j
-	CnJNKZ3Y0SBXQCmRE18WdbnsHOoTW9tOP6RedTqJfDHwBP5YBf7WgIemEWYv0ERc0W7rRvFrqIX
-	H8vOUlXfC+cLU63zIhEifbkPHGK0ufSPcMSLL5IbENAHPxTkjhcETzDQZkUqOzVl56nR/YvLkNy
-	C5NQ1OLDqwZ7x9REbU4KSUHBkAYXruUynrzu7nUqmuRQ
-X-Google-Smtp-Source: AGHT+IGKP8o2OvxjQrHIEF6arojtKe9KzD1sdnCRQLstuTKfByB/JmfbXsVK/7kJB68IS8QfvVpEdw==
-X-Received: by 2002:a05:600c:3b86:b0:435:21a1:b109 with SMTP id 5b1f17b1804b1-43668452e59mr127777895e9.2.1735041899331;
-        Tue, 24 Dec 2024 04:04:59 -0800 (PST)
-Received: from vastdata-ubuntu2.vastdata.com (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c847dabsm13835477f8f.59.2024.12.24.04.04.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Dec 2024 04:04:58 -0800 (PST)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvme-tcp: Fix I/O queue cpu spreading for multiple controllers
-Date: Tue, 24 Dec 2024 14:04:57 +0200
-Message-ID: <20241224120457.576100-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.43.0
+	Tue, 24 Dec 2024 23:34:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735083275; x=1766619275;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YcX2ncLPxYqtSquQR7sTFscPhSUP9EFkasX0QohzZyw=;
+  b=SLBzUs84WuNptBJGZ9NP9g98jmPsZtHgxdpDN7Tud72O4fXz2J1qN8D/
+   yfz76Cwu+pDhVAvTwyaqjQu0jhSB/vNzl/mCXc6Gpm/ihGlnH05S8pcNs
+   4vFEnw7MFhU7zdqZs0sRPVrltq3D4kGPfaWY+DHQ5oTnl5cEcprf0yh33
+   +0egqSrjfRSMrGOzrHhIpupC/bSVHOvyXW/uyH1hEgRFL5TfEMmtTYXQ0
+   HHaaMl25JDXOrhikIGjTxc/IhTvWlBon4f1yppxmwEdq00jnoOKtS2w9R
+   4UnxkYz8ItbAhYa9k2WgFcO6nHNU3CCMe2N8XMAv8yr6vr+dBRlVY3XLU
+   A==;
+X-CSE-ConnectionGUID: hQwr3WCbTUGaNp3YLHgYjQ==
+X-CSE-MsgGUID: tr2yAEcIQv+U0H/XICaX4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35666616"
+X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
+   d="scan'208";a="35666616"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 15:34:29 -0800
+X-CSE-ConnectionGUID: qGB9eT7LRHaBVTor91LYvQ==
+X-CSE-MsgGUID: 7+Y8jl4KTa+zdQR9fHs2tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="100057210"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 24 Dec 2024 15:34:26 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tQEPu-0001X1-2j;
+	Tue, 24 Dec 2024 23:34:22 +0000
+Date: Wed, 25 Dec 2024 07:34:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v7 17/18] nvmet: New NVMe PCI endpoint function target
+ driver
+Message-ID: <202412250700.WqUH4KaL-lkp@intel.com>
+References: <20241220095108.601914-18-dlemoal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241220095108.601914-18-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241224_040501_383776_E2AC0FAA 
-X-CRM114-Status: GOOD (  24.36  )
+X-CRM114-CacheID: sfid-20241224_153435_524018_ACE1A566 
+X-CRM114-Status: GOOD (  13.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,201 +93,253 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sagi@grimberg.me
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since day-1 we are assigning the queue io_cpu very naively. We always
-base the queue id (controller scope) and assign it its matching cpu
-from the online mask. This works fine when the number of queues match
-the number of cpu cores.
+Hi Damien,
 
-The problem starts when we have less queues than cpu cores. First, we
-should take into account the mq_map and select a cpu within the cpus
-that are assigned to this queue by the mq_map in order to minimize cross
-numa cpu bouncing.
+kernel test robot noticed the following build warnings:
 
-Second, even worse is that we don't take into account multiple controllers
-may have assigned queues to a given cpu. As a result we may simply compund
-more and more queues on the same set of cpus, which is suboptimal.
+[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
 
-We fix this by introducing a global per-cpu counters that tracks the number
-of queues assigned to each cpu, and we select the least used cpu based
-on the mq_map and the per-cpu counters, and assign it as the queue io_cpu.
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/nvme-Move-opcode-string-helper-functions-declarations/20241220-175304
+base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+patch link:    https://lore.kernel.org/r/20241220095108.601914-18-dlemoal%40kernel.org
+patch subject: [PATCH v7 17/18] nvmet: New NVMe PCI endpoint function target driver
+config: i386-randconfig-011-20241225 (https://download.01.org/0day-ci/archive/20241225/202412250700.WqUH4KaL-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250700.WqUH4KaL-lkp@intel.com/reproduce)
 
-The behavior for a single controller is slightly optimized by selecting
-better cpu candidates by consulting with the mq_map, and multiple controllers
-are spreading queues among cpu cores much better, resulting in lower average
-cpu load, and less likelihood to hit hotspots.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412250700.WqUH4KaL-lkp@intel.com/
 
-Note that the accounting is not 100% perfect, but we don't need to be, we
-are simply putting our best effort to select the best cpu candidate that
-we find at any given point.
+All warnings (new ones prefixed by >>):
 
-Another byproduct is that every controller reset/reconnect may change the
-queues io_cpu mapping, based on the current LRU accounting scheme.
+   In file included from drivers/nvme/target/pci-epf.c:12:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/nvme/target/pci-epf.c:1854:19: warning: shift count is negative [-Wshift-count-negative]
+    1854 |         pci_addr = acq & GENMASK(63, 12);
+         |                          ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:31: note: expanded from macro 'GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~~~~~~~
+   include/uapi/linux/bits.h:9:19: note: expanded from macro '__GENMASK'
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/target/pci-epf.c:1864:19: warning: shift count is negative [-Wshift-count-negative]
+    1864 |         pci_addr = asq & GENMASK(63, 12);
+         |                          ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:31: note: expanded from macro 'GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~~~~~~~
+   include/uapi/linux/bits.h:9:19: note: expanded from macro '__GENMASK'
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/nvme/target/pci-epf.c:1961:16: warning: shift count >= width of type [-Wshift-count-overflow]
+    1961 |         ctrl->cap &= ~GENMASK(35, 32);
+         |                       ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:31: note: expanded from macro 'GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~~~~~~~
+   include/uapi/linux/bits.h:8:31: note: expanded from macro '__GENMASK'
+       8 |         (((~_UL(0)) - (_UL(1) << (l)) + 1) & \
+         |                               ^  ~~~
+   drivers/nvme/target/pci-epf.c:1961:16: warning: shift count is negative [-Wshift-count-negative]
+    1961 |         ctrl->cap &= ~GENMASK(35, 32);
+         |                       ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:31: note: expanded from macro 'GENMASK'
+      35 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~~~~~~~
+   include/uapi/linux/bits.h:9:19: note: expanded from macro '__GENMASK'
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/target/pci-epf.c:753:19: warning: unused function 'nvmet_pci_epf_prp_addr' [-Wunused-function]
+     753 | static inline u64 nvmet_pci_epf_prp_addr(struct nvmet_pci_epf_ctrl *ctrl,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+   6 warnings generated.
 
-Here is the baseline queue io_cpu assignment for 4 controllers, 2 queues
-per controller, and 4 cpus on the host:
-nvme1: queue 0: using cpu 0
-nvme1: queue 1: using cpu 1
-nvme2: queue 0: using cpu 0
-nvme2: queue 1: using cpu 1
-nvme3: queue 0: using cpu 0
-nvme3: queue 1: using cpu 1
-nvme4: queue 0: using cpu 0
-nvme4: queue 1: using cpu 1
 
-And this is the fixed io_cpu assignment:
-nvme1: queue 0: using cpu 0
-nvme1: queue 1: using cpu 2
-nvme2: queue 0: using cpu 1
-nvme2: queue 1: using cpu 3
-nvme3: queue 0: using cpu 0
-nvme3: queue 1: using cpu 2
-nvme4: queue 0: using cpu 1
-nvme4: queue 1: using cpu 3
+vim +1854 drivers/nvme/target/pci-epf.c
 
-Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
-Suggested-by: Hannes Reinecke <hare@kernel.org>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/tcp.c | 69 ++++++++++++++++++++++++++++++++---------
- 1 file changed, 54 insertions(+), 15 deletions(-)
+  1817	
+  1818	static int nvmet_pci_epf_enable_ctrl(struct nvmet_pci_epf_ctrl *ctrl)
+  1819	{
+  1820		u64 pci_addr, asq, acq;
+  1821		u32 aqa;
+  1822		u16 status, qsize;
+  1823	
+  1824		if (ctrl->enabled)
+  1825			return 0;
+  1826	
+  1827		dev_info(ctrl->dev, "Enabling controller\n");
+  1828	
+  1829		ctrl->mps_shift = nvmet_cc_mps(ctrl->cc) + 12;
+  1830		ctrl->mps = 1UL << ctrl->mps_shift;
+  1831		ctrl->mps_mask = ctrl->mps - 1;
+  1832	
+  1833		ctrl->io_sqes = 1UL << nvmet_cc_iosqes(ctrl->cc);
+  1834		ctrl->io_cqes = 1UL << nvmet_cc_iocqes(ctrl->cc);
+  1835	
+  1836		if (ctrl->io_sqes < sizeof(struct nvme_command)) {
+  1837			dev_err(ctrl->dev, "Unsupported IO SQES %zu (need %zu)\n",
+  1838				ctrl->io_sqes, sizeof(struct nvme_command));
+  1839			return -EINVAL;
+  1840		}
+  1841	
+  1842		if (ctrl->io_cqes < sizeof(struct nvme_completion)) {
+  1843			dev_err(ctrl->dev, "Unsupported IO CQES %zu (need %zu)\n",
+  1844				ctrl->io_sqes, sizeof(struct nvme_completion));
+  1845			return -EINVAL;
+  1846		}
+  1847	
+  1848		/* Create the admin queue. */
+  1849		aqa = nvmet_pci_epf_bar_read32(ctrl, NVME_REG_AQA);
+  1850		asq = nvmet_pci_epf_bar_read64(ctrl, NVME_REG_ASQ);
+  1851		acq = nvmet_pci_epf_bar_read64(ctrl, NVME_REG_ACQ);
+  1852	
+  1853		qsize = (aqa & 0x0fff0000) >> 16;
+> 1854		pci_addr = acq & GENMASK(63, 12);
+  1855		status = nvmet_pci_epf_create_cq(ctrl->tctrl, 0,
+  1856					NVME_CQ_IRQ_ENABLED | NVME_QUEUE_PHYS_CONTIG,
+  1857					qsize, pci_addr, 0);
+  1858		if (status != NVME_SC_SUCCESS) {
+  1859			dev_err(ctrl->dev, "Failed to create admin completion queue\n");
+  1860			return -EINVAL;
+  1861		}
+  1862	
+  1863		qsize = aqa & 0x00000fff;
+  1864		pci_addr = asq & GENMASK(63, 12);
+  1865		status = nvmet_pci_epf_create_sq(ctrl->tctrl, 0, NVME_QUEUE_PHYS_CONTIG,
+  1866						 qsize, pci_addr);
+  1867		if (status != NVME_SC_SUCCESS) {
+  1868			dev_err(ctrl->dev, "Failed to create admin submission queue\n");
+  1869			nvmet_pci_epf_delete_cq(ctrl->tctrl, 0);
+  1870			return -EINVAL;
+  1871		}
+  1872	
+  1873		ctrl->sq_ab = NVMET_PCI_EPF_SQ_AB;
+  1874		ctrl->irq_vector_threshold = NVMET_PCI_EPF_IV_THRESHOLD;
+  1875		ctrl->enabled = true;
+  1876	
+  1877		/* Start polling the controller SQs */
+  1878		schedule_delayed_work(&ctrl->poll_sqs, 0);
+  1879	
+  1880		return 0;
+  1881	}
+  1882	
+  1883	static void nvmet_pci_epf_disable_ctrl(struct nvmet_pci_epf_ctrl *ctrl)
+  1884	{
+  1885		int qid;
+  1886	
+  1887		if (!ctrl->enabled)
+  1888			return;
+  1889	
+  1890		dev_info(ctrl->dev, "Disabling controller\n");
+  1891	
+  1892		ctrl->enabled = false;
+  1893		cancel_delayed_work_sync(&ctrl->poll_sqs);
+  1894	
+  1895		/* Delete all IO queues */
+  1896		for (qid = 1; qid < ctrl->nr_queues; qid++)
+  1897			nvmet_pci_epf_delete_sq(ctrl->tctrl, qid);
+  1898	
+  1899		for (qid = 1; qid < ctrl->nr_queues; qid++)
+  1900			nvmet_pci_epf_delete_cq(ctrl->tctrl, qid);
+  1901	
+  1902		/* Delete the admin queue last */
+  1903		nvmet_pci_epf_delete_sq(ctrl->tctrl, 0);
+  1904		nvmet_pci_epf_delete_cq(ctrl->tctrl, 0);
+  1905	}
+  1906	
+  1907	static void nvmet_pci_epf_poll_cc_work(struct work_struct *work)
+  1908	{
+  1909		struct nvmet_pci_epf_ctrl *ctrl =
+  1910			container_of(work, struct nvmet_pci_epf_ctrl, poll_cc.work);
+  1911		u32 old_cc, new_cc;
+  1912		int ret;
+  1913	
+  1914		if (!ctrl->tctrl)
+  1915			return;
+  1916	
+  1917		old_cc = ctrl->cc;
+  1918		new_cc = nvmet_pci_epf_bar_read32(ctrl, NVME_REG_CC);
+  1919		ctrl->cc = new_cc;
+  1920	
+  1921		if (nvmet_cc_en(new_cc) && !nvmet_cc_en(old_cc)) {
+  1922			/* Enable the controller */
+  1923			ret = nvmet_pci_epf_enable_ctrl(ctrl);
+  1924			if (ret)
+  1925				return;
+  1926			ctrl->csts |= NVME_CSTS_RDY;
+  1927		}
+  1928	
+  1929		if (!nvmet_cc_en(new_cc) && nvmet_cc_en(old_cc)) {
+  1930			nvmet_pci_epf_disable_ctrl(ctrl);
+  1931			ctrl->csts &= ~NVME_CSTS_RDY;
+  1932		}
+  1933	
+  1934		if (nvmet_cc_shn(new_cc) && !nvmet_cc_shn(old_cc)) {
+  1935			nvmet_pci_epf_disable_ctrl(ctrl);
+  1936			ctrl->csts |= NVME_CSTS_SHST_CMPLT;
+  1937		}
+  1938	
+  1939		if (!nvmet_cc_shn(new_cc) && nvmet_cc_shn(old_cc))
+  1940			ctrl->csts &= ~NVME_CSTS_SHST_CMPLT;
+  1941	
+  1942		nvmet_update_cc(ctrl->tctrl, ctrl->cc);
+  1943		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_CSTS, ctrl->csts);
+  1944	
+  1945		schedule_delayed_work(&ctrl->poll_cc, NVMET_PCI_EPF_CC_POLL_INTERVAL);
+  1946	}
+  1947	
+  1948	static void nvmet_pci_epf_init_bar(struct nvmet_pci_epf_ctrl *ctrl)
+  1949	{
+  1950		struct nvmet_ctrl *tctrl = ctrl->tctrl;
+  1951	
+  1952		ctrl->bar = ctrl->nvme_epf->reg_bar;
+  1953	
+  1954		/* Copy the target controller capabilities as a base */
+  1955		ctrl->cap = tctrl->cap;
+  1956	
+  1957		/* Contiguous Queues Required (CQR) */
+  1958		ctrl->cap |= 0x1ULL << 16;
+  1959	
+  1960		/* Set Doorbell stride to 4B (DSTRB) */
+> 1961		ctrl->cap &= ~GENMASK(35, 32);
+  1962	
+  1963		/* Clear NVM Subsystem Reset Supported (NSSRS) */
+  1964		ctrl->cap &= ~(0x1ULL << 36);
+  1965	
+  1966		/* Clear Boot Partition Support (BPS) */
+  1967		ctrl->cap &= ~(0x1ULL << 45);
+  1968	
+  1969		/* Clear Persistent Memory Region Supported (PMRS) */
+  1970		ctrl->cap &= ~(0x1ULL << 56);
+  1971	
+  1972		/* Clear Controller Memory Buffer Supported (CMBS) */
+  1973		ctrl->cap &= ~(0x1ULL << 57);
+  1974	
+  1975		/* Controller configuration */
+  1976		ctrl->cc = tctrl->cc & (~NVME_CC_ENABLE);
+  1977	
+  1978		/* Controller status */
+  1979		ctrl->csts = ctrl->tctrl->csts;
+  1980	
+  1981		nvmet_pci_epf_bar_write64(ctrl, NVME_REG_CAP, ctrl->cap);
+  1982		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_VS, tctrl->subsys->ver);
+  1983		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_CSTS, ctrl->csts);
+  1984		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_CC, ctrl->cc);
+  1985	}
+  1986	
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 28c76a3e1bd2..06ffee8cbf51 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -54,6 +54,8 @@ MODULE_PARM_DESC(tls_handshake_timeout,
- 		 "nvme TLS handshake timeout in seconds (default 10)");
- #endif
- 
-+static atomic_t nvme_tcp_cpu_queues[NR_CPUS];
-+
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- /* lockdep can detect a circular dependency of the form
-  *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
-@@ -127,6 +129,7 @@ enum nvme_tcp_queue_flags {
- 	NVME_TCP_Q_ALLOCATED	= 0,
- 	NVME_TCP_Q_LIVE		= 1,
- 	NVME_TCP_Q_POLLING	= 2,
-+	NVME_TCP_Q_IO_CPU_SET	= 3,
- };
- 
- enum nvme_tcp_recv_state {
-@@ -1565,20 +1568,48 @@ static bool nvme_tcp_poll_queue(struct nvme_tcp_queue *queue)
- static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
- {
- 	struct nvme_tcp_ctrl *ctrl = queue->ctrl;
--	int qid = nvme_tcp_queue_id(queue);
--	int n = 0;
-+	struct blk_mq_tag_set *set = &ctrl->tag_set;
-+	int qid = nvme_tcp_queue_id(queue) - 1;
-+	unsigned int *mq_map;
-+	int cpu, n = 0, min_queues = INT_MAX, io_cpu;
- 
--	if (nvme_tcp_default_queue(queue))
--		n = qid - 1;
--	else if (nvme_tcp_read_queue(queue))
--		n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] - 1;
--	else if (nvme_tcp_poll_queue(queue))
--		n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
--				ctrl->io_queues[HCTX_TYPE_READ] - 1;
- 	if (wq_unbound)
--		queue->io_cpu = WORK_CPU_UNBOUND;
--	else
--		queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
-+		goto out;
-+
-+	if (nvme_tcp_default_queue(queue)) {
-+		mq_map = set->map[HCTX_TYPE_DEFAULT].mq_map;
-+		n = qid;
-+	} else if (nvme_tcp_read_queue(queue)) {
-+		mq_map = set->map[HCTX_TYPE_READ].mq_map;
-+		n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+	} else if (nvme_tcp_poll_queue(queue)) {
-+		mq_map = set->map[HCTX_TYPE_POLL].mq_map;
-+		n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
-+				ctrl->io_queues[HCTX_TYPE_READ];
-+	}
-+	if (WARN_ON(!mq_map))
-+		goto out;
-+
-+	/* Search for the least used cpu from the mq_map */
-+	io_cpu = WORK_CPU_UNBOUND;
-+	for_each_online_cpu(cpu) {
-+		int num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
-+
-+		if (mq_map[cpu] != qid)
-+			continue;
-+		if (num_queues < min_queues) {
-+			io_cpu = cpu;
-+			min_queues = num_queues;
-+		}
-+	}
-+	if (io_cpu != WORK_CPU_UNBOUND) {
-+		queue->io_cpu = io_cpu;
-+		atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
-+		set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
-+	}
-+out:
-+	dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
-+		qid, queue->io_cpu);
- }
- 
- static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
-@@ -1722,7 +1753,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 
- 	queue->sock->sk->sk_allocation = GFP_ATOMIC;
- 	queue->sock->sk->sk_use_task_frag = false;
--	nvme_tcp_set_queue_io_cpu(queue);
-+	queue->io_cpu = WORK_CPU_UNBOUND;
- 	queue->request = NULL;
- 	queue->data_remaining = 0;
- 	queue->ddgst_remaining = 0;
-@@ -1844,6 +1875,9 @@ static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
- 	if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
- 		return;
- 
-+	if (test_and_clear_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags))
-+		atomic_dec(&nvme_tcp_cpu_queues[queue->io_cpu]);
-+
- 	mutex_lock(&queue->queue_lock);
- 	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
- 		__nvme_tcp_stop_queue(queue);
-@@ -1878,9 +1912,10 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
- 	nvme_tcp_init_recv_ctx(queue);
- 	nvme_tcp_setup_sock_ops(queue);
- 
--	if (idx)
-+	if (idx) {
-+		nvme_tcp_set_queue_io_cpu(queue);
- 		ret = nvmf_connect_io_queue(nctrl, idx);
--	else
-+	} else
- 		ret = nvmf_connect_admin_queue(nctrl);
- 
- 	if (!ret) {
-@@ -2849,6 +2884,7 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
- static int __init nvme_tcp_init_module(void)
- {
- 	unsigned int wq_flags = WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_SYSFS;
-+	int cpu;
- 
- 	BUILD_BUG_ON(sizeof(struct nvme_tcp_hdr) != 8);
- 	BUILD_BUG_ON(sizeof(struct nvme_tcp_cmd_pdu) != 72);
-@@ -2866,6 +2902,9 @@ static int __init nvme_tcp_init_module(void)
- 	if (!nvme_tcp_wq)
- 		return -ENOMEM;
- 
-+	for_each_possible_cpu(cpu)
-+		atomic_set(&nvme_tcp_cpu_queues[cpu], 0);
-+
- 	nvmf_register_transport(&nvme_tcp_transport);
- 	return 0;
- }
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
