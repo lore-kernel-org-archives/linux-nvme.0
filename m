@@ -4,76 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23BA4E77188
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Dec 2024 10:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E8EDE77188
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Dec 2024 10:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Un1QRK3Mtuw3SeHg4TzziEYwXQ3lUmtGd5ycEZTLM3c=; b=wQjAHFwxbGQy8sKpRP+aCplPml
-	EFHG2Ax3h/8CXLg1RNvrtZLdCceAljo+5tt68ePEiuM0lVBOYBSkSBWgluJcHWTW91GrDzHjNyYc/
-	osmxaFjBFhGsvpiR8Vtjb7WQoBnHjU+8VjHSDqB61CuCPlFAPS9Z9LKOlnHtW1S9OPiWZhOtzesNI
-	L2MIp0D0iQH8IlCP5Emklu72civHl0jqE5GrW9WpP35gffC6Dw6ssbLkBisTc+/jDokT011CK9ggo
-	623JbAT15jhJfBjdB2USFwHLMeYFltJ2Rlya621katen6twUgXY+iY6ke7WLRxKrvAn2aED+rAX+o
-	iqAFeqew==;
+	bh=j/pA54kXaVlMpPLAY6bEeTkG7mL6qyW4U3X8jyQcC3w=; b=Lmo5O4D9MJxLy/CGKPQu+BadOT
+	iJzkwecFpY4fr245uvR7rW9m1yzXyURvD4eH5PDbZmu8ml6B+i6DbUIrr6D+32QpS0D1w0nqWgH4E
+	aspawPHtTJWsYh97yOluqBZ3U2E40MqmaUSMZ2NXP+749Xkz6hLoAgI0EMfWHGwFv6d6U+MTo0T+E
+	xyNcLmzPFR5ZtcJr+0sDtc6P16gE7wLGRlEzYCWjjjH3V5pVh4XPcR9UGOYKfOeemSGp9WyvGfeiJ
+	WUeVMX85Ik6D0JxoGemsa7qtORXwL2KhyDl6IBecxwJnY1IsH33mC7maD1nI4HG+1G7EbePs7ksVp
+	SsDhBtiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQ2CT-0000000Bl7C-47GN;
-	Tue, 24 Dec 2024 10:31:41 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
+	id 1tQ2G8-0000000Blfb-46Pi;
+	Tue, 24 Dec 2024 10:35:28 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQ2CR-0000000Bl6G-1vtD
+	id 1tQ2G6-0000000Blf1-2FwF
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Dec 2024 10:31:40 +0000
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385e27c75f4so3643330f8f.2
-        for <linux-nvme@lists.infradead.org>; Tue, 24 Dec 2024 02:31:38 -0800 (PST)
+	Tue, 24 Dec 2024 10:35:27 +0000
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3862a921123so3430369f8f.3
+        for <linux-nvme@lists.infradead.org>; Tue, 24 Dec 2024 02:35:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735036297; x=1735641097;
+        d=1e100.net; s=20230601; t=1735036525; x=1735641325;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Un1QRK3Mtuw3SeHg4TzziEYwXQ3lUmtGd5ycEZTLM3c=;
-        b=ecU+PLVfQjFbEB6FdBK7NG8YMvZ10xXt5sc+ZFMpKMyQXiL+VmfhyZGN5rggS8LgNc
-         1U/LFRu4729alLl5swyBCrm3FUux0g60FN1ksq4HK5HlP47su44RXHbGwdPv8Xrqb0fC
-         qzVCOu8Cnpk9VqQvm3QV1550CKgRmZM0EVfMZrVJCuc0IR2bSVzanKfCx5sGjmEWdheu
-         MG2PSB3dqHu6Sw8VNwFKYEx2x/55Q9nNLZgHfzdzJ9ordeqdbocj5mw2hYMKBhk0TwEN
-         mb/MujSaQcuyJvVFEHG8xIorxuyKbccqWjI5UB4gdY72N14bMQaPa7NLk1RcVIfr6bA3
-         HaYQ==
-X-Gm-Message-State: AOJu0YzkGW6UDokQiIFrCTkpOSq3VSjfcIQU9k8jyTNPZtpPXITkmJlO
-	W8KVnu/n8BqmyhIZpfbc+KvkSNjheWdABspfsUS4LRYpuXZji4+9
-X-Gm-Gg: ASbGncuSoS/KdrJQaT+0/StK2eK/T2qbDAU7Ait1mkth2Bbd+Ll1ed2zx6CKTKd6ODg
-	WrEbjIy1q0GOGQVfmr9UQOK++LPd+J96q6/XD5KVIzC2uDnXNGZQ/htVo5vnWYWm7Do+BO46NfK
-	o9xpwtQ1lxKAFIqKvHd88r/ksX6de1kyoNqGW2uAIK6Ynfc2sLRJi7VfNZQdgcT6SHlRp75T7xZ
-	xyCzoGcewHpZ+2czF2dFAl/Ph5rNmDB5YagUFH0yYIhfk4jHLSNdXi3ylpRj5MMMEVdgFSpVyB7
-	+OZhSDXgXnZZYxlnq+a2BAs=
-X-Google-Smtp-Source: AGHT+IELhZBLifRj9VyixbpOXsOxovDC9lByi6ix7Gv6MXH6pgWyVTduZCE+m2i7IKkE/947S7R57w==
-X-Received: by 2002:a5d:6d84:0:b0:385:f1d9:4b90 with SMTP id ffacd0b85a97d-38a221ea720mr14479446f8f.13.1735036297394;
-        Tue, 24 Dec 2024 02:31:37 -0800 (PST)
+        bh=j/pA54kXaVlMpPLAY6bEeTkG7mL6qyW4U3X8jyQcC3w=;
+        b=kzRK4bFR33cT26oLcaLOZxe508IGuspHHYj5tyVvPRi66M96HQ+UMkYJzA72+fT2zv
+         m++waH65AcLX8dqIp8Gi5qKCzXHKyeCy6L2dR9j+NwiCXLumtMBvXuAm7KAGsp+8eRvH
+         nlbf721EizuzVQH1Q2EkQ+zWgeFPtuc7+sCm4aBx04EEgPhXycCl0bBvSrrN37319VvV
+         K8KHUOv673uJA8+KxbZ5gayl4hv5jh9foA0to9ALQ/w7lYOXWsLHhjxERz1IeZjqz3Mr
+         D6Mn88Ng9/+pQN1soc+ixdUIZ0M6lR/MsI88S4sGjxKw8AUUpMvyHgWHMv7mz3R8C9xv
+         eNsA==
+X-Forwarded-Encrypted: i=1; AJvYcCX76jDj6P+sJhzKzlceLjev5IOJCOunylE1DNCcRA5N0mVQ1PQzW7t/HGxaatEo4JtdnxY+wimak15E@lists.infradead.org
+X-Gm-Message-State: AOJu0YzHhvaB0Kv0jVam+V0du8zqqlcZGVnISwBMuw5sG65j/U+MKJW2
+	kXCWqxasKZrckdu1cCIDFBue6tTqRr0HkucS0XjU90fTF/huun+g
+X-Gm-Gg: ASbGncuXKr03WTb/POACqhvuuAoDp9XAl8smXB2aUHSxr13+Vcohgw0n7BYF0ZCXx5z
+	F+l/SmGAP9LHSLxslQ/uQKIGj+A4BEY/StEZJlhSw4SZaM/QGFjHqxu3bK75KUE2tdm9BkQWe4h
+	TEOEO6Q0AaS0Ar6NtggyWrodeazenO9SVTa6oIxhFTLO0BKrXa/YsFPGvVcbOpVmUD1cdSRMVTJ
+	ckDxDj9xxpp5OWZeHVy55h+vUckuTejKf8zU4roHZ7VkELS2wtok0gMS7KSl30gMIY96sPT6TSB
+	pV+yhsg32KxRjn+MTjfQ7ZQ=
+X-Google-Smtp-Source: AGHT+IGjlMBBQ5mbUvWJxLS9WOsVAgGr6Ok1wKVYmx1si3IW/8zJlisQvLwdqqP5YevFYkuP3B/CBA==
+X-Received: by 2002:a05:6000:1ac8:b0:385:e8ce:7483 with SMTP id ffacd0b85a97d-38a221e1fe1mr13473685f8f.4.1735036524644;
+        Tue, 24 Dec 2024 02:35:24 -0800 (PST)
 Received: from [10.50.4.206] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e3d9sm13544042f8f.67.2024.12.24.02.31.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e375sm14014339f8f.73.2024.12.24.02.35.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Dec 2024 02:31:37 -0800 (PST)
-Message-ID: <a8c476ee-e639-4886-a2dd-6e7d08060fa2@grimberg.me>
-Date: Tue, 24 Dec 2024 12:31:35 +0200
+        Tue, 24 Dec 2024 02:35:24 -0800 (PST)
+Message-ID: <feeecd49-3dd2-4c23-a4fb-dc4a43e58ff7@grimberg.me>
+Date: Tue, 24 Dec 2024 12:35:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] nvme: trigger reset when keep alive fails
-To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
+Subject: Re: [PATCH v3 3/3] nvme: handle connectivity loss in
+ nvme_set_queue_count
+To: Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>
+Cc: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
  Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Hannes Reinecke <hare@suse.de>, Paul Ely <paul.ely@broadcom.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+ Paul Ely <paul.ely@broadcom.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 References: <20241129-nvme-fc-handle-com-lost-v3-0-d8967b3cae54@kernel.org>
- <20241129-nvme-fc-handle-com-lost-v3-2-d8967b3cae54@kernel.org>
+ <20241129-nvme-fc-handle-com-lost-v3-3-d8967b3cae54@kernel.org>
+ <e89d0b3b-e4a1-4ae5-8250-c15e3a843e76@suse.de>
+ <bef1a7ac-2614-4a70-945d-e691e9107089@flourine.local>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20241129-nvme-fc-handle-com-lost-v3-2-d8967b3cae54@kernel.org>
+In-Reply-To: <bef1a7ac-2614-4a70-945d-e691e9107089@flourine.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241224_023139_509049_9EFF1BB4 
-X-CRM114-Status: GOOD (  31.29  )
+X-CRM114-CacheID: sfid-20241224_023526_582610_5CC1978E 
+X-CRM114-Status: GOOD (  11.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,82 +96,24 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 29/11/2024 11:28, Daniel Wagner wrote:
-> nvme_keep_alive_work setups a keep alive command and uses
-> blk_execute_rq_nowait to send out the command in an asynchronously
-> manner. Eventually, nvme_keep_alive_end_io is called. If the status
-> argument is 0, a new keep alive is send out. When the status argument is
-> not 0, only an error is logged. The keep alive machinery does not
-> trigger the error recovery.
+On 17/12/2024 10:35, Daniel Wagner wrote:
+> On Fri, Nov 29, 2024 at 12:10:33PM +0100, Hannes Reinecke wrote:
+>>> +	/*
+>>> +	 * It's either a kernel error or the host observed a connection
+>>> +	 * lost. In either case it's not possible communicate with the
+>>> +	 * controller and thus enter the error code path.
+>>> +	 */
+>>> +	if (status < 0 || status == NVME_SC_HOST_PATH_ERROR)
+>>>    		return status;
+>>>    	/*
+>>>
+>> Hmm. Maybe checking for NVME_SC_DNR, too?
+> if no one complains I'll update the check to:
 >
-> The FC driver is relying on the keep alive machinery to trigger recovery
-> when an error is detected. Whenever an error happens during the creation
-> of the association the idea is that the operation is aborted and retried
-> later. Though there is a window where an error happens and
-> nvme_fc_create_assocation can't detect the error.
+> 	if (status < 0 || (status > 0 && (status & NVME_STATUS_DNR)) ||
+> 	    status == NVME_SC_HOST_PATH_ERROR)
+> 		return status;
 >
->           1) nvme nvme10: NVME-FC{10}: create association : ...
->           2) nvme nvme10: NVME-FC{10}: controller connectivity lost. Awaiting Reconnect
->              nvme nvme10: queue_size 128 > ctrl maxcmd 32, reducing to maxcmd
->           3) nvme nvme10: Could not set queue count (880)
->              nvme nvme10: Failed to configure AEN (cfg 900)
->           4) nvme nvme10: NVME-FC{10}: controller connect complete
->           5) nvme nvme10: failed nvme_keep_alive_end_io error=4
->
-> A connection attempt starts 1) and the ctrl is in state CONNECTING.
-> Shortly after the LLDD driver detects a connection lost event and calls
-> nvme_fc_ctrl_connectivity_loss 2). Because we are still in CONNECTING
-> state, this event is ignored.
->
-> nvme_fc_create_association continues to run in parallel and tries to
-> communicate with the controller and those commands fail. Though these
-> errors are filtered out, e.g in 3) setting the I/O queues numbers fails
-> which leads to an early exit in nvme_fc_create_io_queues. Because the
-> number of IO queues is 0 at this point, there is nothing left in
-> nvme_fc_create_association which could detected the connection drop.
-> Thus the ctrl enters LIVE state 4).
->
-> The keep alive timer fires and a keep alive command is send off but
-> gets rejected by nvme_fc_queue_rq and the rq status is set to
-> NVME_SC_HOST_PATH_ERROR. The nvme status is then mapped to a block layer
-> status BLK_STS_TRANSPORT/4 in nvme_end_req. Eventually,
-> nvme_keep_alive_end_io sees the status != 0 and just logs an error 5).
->
-> We should obviously detect the problem in 3) and abort there (will
-> address this later), but that still leaves a race window open. There is
-> a race window open in nvme_fc_create_association after starting the IO
-> queues and setting the ctrl state to LIVE.
->
-> Thus trigger a reset from the keep alive handler when an error is
-> reported.
->
-> Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> ---
->   drivers/nvme/host/core.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index bfd71511c85f8b1a9508c6ea062475ff51bf27fe..2a07c2c540b26c8cbe886711abaf6f0afbe6c4df 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1320,6 +1320,12 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
->   		dev_err(ctrl->device,
->   			"failed nvme_keep_alive_end_io error=%d\n",
->   				status);
-> +		/*
-> +		 * The driver reports that we lost the connection,
-> +		 * trigger a recovery.
-> +		 */
-> +		if (status == BLK_STS_TRANSPORT)
-> +			nvme_reset_ctrl(ctrl);
->   		return RQ_END_IO_NONE;
->   	}
->   
->
-
-A lengthy explanation that results in nvme core behavior that assumes a 
-very specific driver
-behavior. Isn't the root of the problem that FC is willing to live 
-peacefully with a controller
-without any queues/connectivity to it without periodically reconnecting?
+> okay?
+Why do we care about the DNR? are you going to retry based on it?
 
