@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01C34E7718F
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Dec 2024 08:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAC97E7718B
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Dec 2024 08:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6oqYk9IxcO4WFmnm83mOoKqci8Yv2a8clO8Wu/dSMYQ=; b=uo/+ezYtNqsBpP+njlz7nV/pk7
-	T78hsCS7TLsEy+O1eFeTXcJcMrkZlMmDPCT68lD203DYtTqGhYKBKWvu7X89rLKn4EoM4TTnI7IOW
-	SxYym/a775jVM4ACQU/g9FIQX6Z5uI4quRMkD91OTNC3JXaYZavoCZwPZg2bDugzlQFjmgrfgc+NA
-	Uq6nCk9jjVjgLD9ZWJNAlX6sk7RTX3kXq0V6dYnbFTFBQVo+sDj6QDRPaYLRCMw97MefiyjNr7JbU
-	l1qOZVf/4yw7kNdjHBjIANUhOOCeBdw4cNwhHTVat7owAsY+AoZfyn7SvBr2TmoQU5tGqvztFyFta
-	WJGi1Vvw==;
+	bh=g/PXZGdcdvXR2gkkT3t5JxDfFT6N9ynrcIgYmMs/8lQ=; b=tgl/CjiJYNR0TcI88eLgW4sX73
+	1an82ThQN5fn0MqH2pw6QwRlul2K5KwpYYZ8pXpdugqTR3wx9PvQycEo7KXOHYhPh0wy4KpOrERBm
+	PfyuCA5yLFAW1OCZSjrkgIrULbdjq/Fta3tRDaOSlF89uBt8F5/3CQUyjw76vg1FFwp8E2HUVWcfp
+	Rwg81KqHoqduWm0mUHkOneMdptwZNdJWdEHqy32V98guu36fJTbfGme5Sz8l/4C1sv99HFCtjduiA
+	bEbwFUD0SU2ajLIAtqpXRJ5Sd/oINexOnzbP6SJCaRJy2h1kV68y7/a599/g1NKNJqZZAIJ0EQPHt
+	3wjm9f9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQMn0-0000000DSGG-1qGF;
-	Wed, 25 Dec 2024 08:30:46 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tQMn2-0000000DSIo-3BNf;
+	Wed, 25 Dec 2024 08:30:48 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQMmx-0000000DSDN-3bzT
+	id 1tQMmy-0000000DSDo-162K
 	for linux-nvme@lists.infradead.org;
 	Wed, 25 Dec 2024 08:30:45 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 430A65C486D;
-	Wed, 25 Dec 2024 08:30:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A544C4CEDF;
-	Wed, 25 Dec 2024 08:30:40 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id C7B235C589B;
+	Wed, 25 Dec 2024 08:30:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05DE8C4CEDE;
+	Wed, 25 Dec 2024 08:30:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735115441;
-	bh=QXQYPtAUaWOi3c8UNTLNt8QY3FYh0M86WwTt1a18xr0=;
+	s=k20201202; t=1735115443;
+	bh=je5NcrKzqRp4TLcdE4FoMVzSwtY0YrZ9VBSF2cscEis=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Mm8VYMMB5QDfgbQbOh9BbHwb6CaF8fYsEBKKhoSSU81L6CRPikHa6Nhqo1lcvBUcF
-	 ty0oJq39ZWjFiuR0I+N3VMj0Q2hWQe0F0lqktJPS4LFky80gM62ybaz8VRRKJb4Dnu
-	 s3dJo2SfaUn7Zbb/Z49XegqyXInS6ari6HLpX99F9QXf2ebL7rN51HlnaFqOkPMRL7
-	 B2HxZjT+Yfg1hYDFISlKLve8/eV/ic/rauWueH/ticlcdUSnbm5fl0Uj8EFHwnsS+w
-	 46J3Z/FmjTwQ714BgBpUlw3wruMXss2FOGxCoOTHW5emRbig6vVhxAUdYYWBqZrO1C
-	 1w0XyJiBcvLxw==
+	b=L1THOzaIySgps4LDrsazXNQehNaGOg0tNBGKzc7eVS2fwDpn6rMn6Xt2uTCfAJZi8
+	 CKJA9FcdiDDSK6LosnZemuMOrmX842Tu7dyU7MROVPajDnPMk4hpXfrtlCDNaYb8/Z
+	 7ODIkvWpKUtJB+5S1RssR8BvqTdQ9fdD8IgjcBepqtKeCuV12fwz0hbJ1GVYjrT6xU
+	 XRRn2hd7yqVbSnXybxRov/0RbObWJNdsZzmEuKoiH8Fws+pzQJkspSUp/Wp2xfukRR
+	 XTS/dFXbKCl6fkC+o2i7H7uJeMRwISufDi1HZY4wrtI3P5BOWCjjdtvW4gH/m+tGzm
+	 a2SeKPao2UJRg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,17 +55,17 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v8 04/18] nvmet: Introduce nvmet_get_cmd_effects_admin()
-Date: Wed, 25 Dec 2024 17:29:41 +0900
-Message-ID: <20241225082956.96650-5-dlemoal@kernel.org>
+Subject: [PATCH v8 05/18] nvmet: Add drvdata field to struct nvmet_ctrl
+Date: Wed, 25 Dec 2024 17:29:42 +0900
+Message-ID: <20241225082956.96650-6-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241225082956.96650-1-dlemoal@kernel.org>
 References: <20241225082956.96650-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241225_003043_954046_CAFACC95 
-X-CRM114-Status: GOOD (  10.73  )
+X-CRM114-CacheID: sfid-20241225_003044_360348_A759CB3A 
+X-CRM114-Status: GOOD (  10.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,59 +80,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In order to have a logically better organized implementation of the
-effects log page, split out reporting the supported admin commands from
-nvmet_get_cmd_effects_nvm() into the new function
-nvmet_get_cmd_effects_admin().
+Allow a target driver to attach private data to a target controller by
+adding the new field drvdata to struct nvmet_ctrl.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
 Tested-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/nvme/target/admin-cmd.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/nvme/target/nvmet.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index b73f5fde4d9e..78478a4a2e4d 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -230,7 +230,7 @@ static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e68f1927339c..abcc1f3828b7 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -238,6 +238,8 @@ struct nvmet_ctrl {
+ 	struct nvmet_subsys	*subsys;
+ 	struct nvmet_sq		**sqs;
  
--static void nvmet_get_cmd_effects_nvm(struct nvme_effects_log *log)
-+static void nvmet_get_cmd_effects_admin(struct nvme_effects_log *log)
- {
- 	log->acs[nvme_admin_get_log_page] =
- 	log->acs[nvme_admin_identify] =
-@@ -240,7 +240,10 @@ static void nvmet_get_cmd_effects_nvm(struct nvme_effects_log *log)
- 	log->acs[nvme_admin_async_event] =
- 	log->acs[nvme_admin_keep_alive] =
- 		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
-+}
++	void			*drvdata;
++
+ 	bool			reset_tbkas;
  
-+static void nvmet_get_cmd_effects_nvm(struct nvme_effects_log *log)
-+{
- 	log->iocs[nvme_cmd_read] =
- 	log->iocs[nvme_cmd_flush] =
- 	log->iocs[nvme_cmd_dsm]	=
-@@ -276,6 +279,7 @@ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
- 
- 	switch (req->cmd->get_log_page.csi) {
- 	case NVME_CSI_NVM:
-+		nvmet_get_cmd_effects_admin(log);
- 		nvmet_get_cmd_effects_nvm(log);
- 		break;
- 	case NVME_CSI_ZNS:
-@@ -283,6 +287,7 @@ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
- 			status = NVME_SC_INVALID_IO_CMD_SET;
- 			goto free;
- 		}
-+		nvmet_get_cmd_effects_admin(log);
- 		nvmet_get_cmd_effects_nvm(log);
- 		nvmet_get_cmd_effects_zns(log);
- 		break;
+ 	struct mutex		lock;
 -- 
 2.47.1
 
