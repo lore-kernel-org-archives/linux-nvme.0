@@ -4,87 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A58EBE77188
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Dec 2024 09:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42B40E77188
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Dec 2024 09:28:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=yRxgseqYg6SG0Gngnlshhg45wwA+5RS6D8NBrS32Xz8=; b=h2NWorX7/pOjX0qxVIb3Q9XqrX
-	jkMHRNR5ruiQV/gVXvtyFph/rrB/jfICtrIj+Lq8Dd+nHipooLzRHhHxwYA6FbuKGuGjMCkzDkh/e
-	bAS7wYRS58/WuiiY3yqWxOaiQnnmjccAaBo8UTrCfwduH67eQahykqxMrTTOVhRLd2DSw2OLaeXvo
-	1FHvUPJItkCSpNXGAdofT/DwtgvqIcRk/secwIEXy8qy3Y93hv0C/yC0Z9FAOojll33TjhphlPp4R
-	+5Smq5ySovFFV0NZyFzVgFM3cn/OR7mjGePpCQH6V3LujqT5U9RtFzXlumsPza5gyY+X/A5sWaAvs
-	9YJ2TDvA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=gf3/G+iFhCFGXPlW/zohkIiqCuRDyErMxn4W7j3+CAA=; b=ezjzpbEOvjq792Uhm8NRNC2qKm
+	sJvMWlwz5uImxCdPKSel5eBgMEGWb2XXCNnPr9Wten+5occEu7DzDEFRFIVT8jw8Azig1RORD58s6
+	4dLjRaoNy4M7ZSnSEYUIy0Gpav3iH3ttpH58isL9FBBu6AMOP3LTD2OVuRjkxur2S046FIT3+d3DW
+	j6Z9+osJxiADQU/MXFl+FTlda0moHLKVOn3xPCpPOl3lMSJjsn5U2ayB4ugYjIz2sxMeHsGFNxOom
+	dSeIxG5mB7wM/2oZRbmKXwCT9PnqT+FLN6VBOtiOhgFYGhX/j7bzUMmhlRMBBYT+PxpkRr18HlmVv
+	lwEu5rTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQjww-0000000FVwp-1PUh;
-	Thu, 26 Dec 2024 09:14:34 +0000
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+	id 1tQkAD-0000000FWzb-2eKa;
+	Thu, 26 Dec 2024 09:28:17 +0000
+Received: from mx01.omp.ru ([90.154.21.10])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQjwq-0000000FVwL-1HSI
+	id 1tQkA9-0000000FWy8-2ufx
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Dec 2024 09:14:29 +0000
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-215770613dbso52205735ad.2
-        for <linux-nvme@lists.infradead.org>; Thu, 26 Dec 2024 01:14:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735204467; x=1735809267; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yRxgseqYg6SG0Gngnlshhg45wwA+5RS6D8NBrS32Xz8=;
-        b=mdJceNDy/Zq9yy7l4c1wmmyWHq5DxvdsMEHW+6MAngmTTQ3OZ8GwIjIPAm5uY/Mr0e
-         tAYFw9qaWGLL+QV5CYigqH6HjgvEJ1HljH405fasqRfZe9lR+tBbBT87+2wHZME7JKIC
-         zpvVbunfLYGpu/I5vbrRiVt5zq3p1CtVKHX0Bu3Ino0yGhBR4nqMf7gNdNnYGa+49T90
-         Puoh0iPT4q0CYr3anLjjt5KZSCwGJJHwqJiC8khXtPaxoakPXkZFqHCuO9qKl8CYcC1+
-         aM3Rf9yLiksaUhIoyF2tWJX+JegGO9bFQlfo1AicAtLYRdYS6e9XCMuKvV4PXvZRx1Oh
-         hDGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735204467; x=1735809267;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yRxgseqYg6SG0Gngnlshhg45wwA+5RS6D8NBrS32Xz8=;
-        b=DRxuvvXCj/BrCxR01E3qjHO9HBRk6py9jBuO+7idQoCoy9aCTgex18C4e+jEofOWFL
-         q3i/BxklabxJ5BUROUAERQIMO2LgYhrHC49mU7KiTTwjk2jT2aJpawKBmRoYdRAXyRNp
-         qhLoY5j7J72dUfwbIwHoSmJmqkZO1qvasey95cO1bZDVxXqDUtvRJdGaAP8N3+DTz/3N
-         hHH61iaW9589d6ModGt7QdP2Dwcgo0E15iniyGOLDprg1ZCjW8GEdI0x+oK2MhRhxXAX
-         nTUfDWGy36Y8ckG1c3wbyXBrPRE3y/reUhx0B7XLD0JSw9PCwHTKV5TPEw3l8UJpFruX
-         uV/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV3LFZDQ/bbAuyNXHhv3MEP3y6zSZR5wp20c5rOOmy1jLompuJI3gcwPrvCOdHxdy9gKfL4eJKcfaBL@lists.infradead.org
-X-Gm-Message-State: AOJu0YzSY6DRjwTFddvCNfZyOke5slJCAf3mmJKjhk70pEKdKpI4se0L
-	jhJC1+NMzAk9iL1tttonKItIN1wd0lPz6YMuR4ejYU4zRWojOm7S
-X-Gm-Gg: ASbGncsPE2/4znMPcCE3qIkuGxwtrMRqUiAJEnaSl70fDoxwmCN6kYDzfusl+JQcmO+
-	O4FWkKqe6qj+Yv4D/6cwSGK8X7iuCoThWaOletH3c72lu6wxnlyqT2LcBpzFLpqe863j0WJ5AA9
-	gLDXZFA59w3kwPuT5+jRai4+NfQSMn+CI4is+supL1Io9ACnvuo0QJxt1PfVbwbzVFTVIv+ogLA
-	VPwIytHYMgrsphys+AAdDA6IqiMzFRdeMaOx5Y+XbIJFxoHP79L/T6uQByhpTdJNvwc+ns=
-X-Google-Smtp-Source: AGHT+IEOBHqXUmOzyotxhs3wGIge9btnL6d4lDsSjbWe+s52fbOBUT32V2yHItC2kgcocvbQr0OqIw==
-X-Received: by 2002:a17:902:d4cf:b0:216:2426:767f with SMTP id d9443c01a7336-219e6f25d6bmr264940005ad.49.1735204466701;
-        Thu, 26 Dec 2024 01:14:26 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:5aad:aa2:cbe0:3ae3:20:fe15])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca02ac2sm115845255ad.272.2024.12.26.01.14.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2024 01:14:26 -0800 (PST)
-From: Atharva Tiwari <evepolonium@gmail.com>
-To: 
-Cc: evepolonium@gmail.com,
-	James Smart <james.smart@broadcom.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-fc: add DIF support for intergrity metadata
-Date: Thu, 26 Dec 2024 14:44:15 +0530
-Message-Id: <20241226091415.354329-1-evepolonium@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	Thu, 26 Dec 2024 09:28:16 +0000
+Received: from localhost.localdomain (188.234.32.57) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 26 Dec
+ 2024 12:27:52 +0300
+From: d.privalov <d.privalov@omp.ru>
+To: Keith Busch <kbusch@kernel.org>
+CC: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Chunguang Xu
+	<chunguang.xu@shopee.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, Dmitriy
+ Privalov <d.privalov@omp.ru>
+Subject: [PATCH 5.10 1/1] nvme: avoid double free special payload
+Date: Thu, 26 Dec 2024 12:27:51 +0300
+Message-ID: <20241226092751.43612-1-d.privalov@omp.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [188.234.32.57]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 12/26/2024 08:49:16
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 19
+X-KSE-AntiSpam-Info: Lua profiles 190069 [Dec 26 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.1.7
+X-KSE-AntiSpam-Info: Envelope from: d.privalov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 49 0.3.49
+ 28b3b64a43732373258a371bd1554adb2caa23cb
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 188.234.32.57 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: ApMailHostAddress: 188.234.32.57
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 19
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 12/26/2024 08:52:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 12/26/2024 7:26:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241226_011428_355564_06F910D8 
-X-CRM114-Status: GOOD (  15.67  )
+X-CRM114-CacheID: sfid-20241226_012813_744746_0F03BCDD 
+X-CRM114-Status: UNSURE (   8.97  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,54 +100,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch enhances the NVMe over Fibre Channel (NVMe-FC) driver to 
-handle requests with integrity metadata (DIF).
+From: Chunguang Xu <chunguang.xu@shopee.com>
 
-- Added the inclusion of `<linux/blk-integrity.h>` to enable integrity operations.
-- Implemented support for mapping integrity metadata using `blk_rq_map_integrity_sg`.
-- Ensures proper handling of requests with integrity metadata, including error cases where mapping fails.
+commit e5d574ab37f5f2e7937405613d9b1a724811e5ad upstream.
 
-This update improves the reliability of data integrity checks in environments utilizing DIF.
+If a discard request needs to be retried, and that retry may fail before
+a new special payload is added, a double free will result. Clear the
+RQF_SPECIAL_LOAD when the request is cleaned.
 
-Signed-off-by: Atharva Tiwari <evepolonium@gmail.com>
+Signed-off-by: Chunguang Xu <chunguang.xu@shopee.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Dmitriy Privalov <d.privalov@omp.ru>
 ---
- drivers/nvme/host/fc.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b81af7919e94..d0343133413f 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -17,6 +17,7 @@
- #include "fc.h"
- #include <scsi/scsi_transport_fc.h>
- #include <linux/blk-mq-pci.h>
-+#include <linux/blk-integrity.h>
- 
- /* *************************** Data Structures/Defines ****************** */
- 
-@@ -2620,10 +2621,16 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
- 		freq->sg_cnt = 0;
- 		return -EFAULT;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index bee55902fe6c..3ae757ee8943 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -852,6 +852,7 @@ void nvme_cleanup_cmd(struct request *req)
+ 			clear_bit_unlock(0, &ns->ctrl->discard_page_busy);
+ 		else
+ 			kfree(page_address(page) + req->special_vec.bv_offset);
++		req->rq_flags &= ~RQF_SPECIAL_PAYLOAD;
  	}
--
--	/*
--	 * TODO: blk_integrity_rq(rq)  for DIF
--	 */
-+	/* Handle requests with integrity metadata (DIF) */
-+	if (blk_integrity_rq(rq)) {
-+		ret = blk_rq_map_integrity_sg(rq, freq->sg_table.sgl);
-+		if (ret < 0) {
-+			sg_free_table_chained(&freq->sg_table, NVME_INLINE_SG_CNT);
-+			freq->sg_cnt = 0;
-+			return -EFAULT;
-+		}
-+		freq->sg_cnt += ret;
-+	}
- 	return 0;
  }
- 
+ EXPORT_SYMBOL_GPL(nvme_cleanup_cmd);
 -- 
-2.39.5
+2.34.1
 
 
