@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A645DE77188
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00885E77198
 	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 07:39:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,29 +12,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nfOzmNYg5Jb7eOtrEGMFecQW7RyfBHtxFoVVtj4oml4=; b=uFat0EFobuanagQ3rKPqmCjawt
-	edT65Xw5kLhrM6AdNKyryxYBYMQIl80zQc7weQMAghym6DD0GO/Jtf1K1vhFO45zPLnieI2cAcTWi
-	LwzBN0QhyD9kuwNuly54v3U8a7AeFRyUJvhuLYVc4III/wYU8Kpf8MOtq2jjZ+byO2/aMX6yfzqMj
-	sxDEHE5boFp1oy/uMvvDLLx+EpPQdZLOU9zbHuzPM5pqzjUSjfu7tK6ZQv5ko05SF6Qli+xhpxhy7
-	XfQHOxL5SDQNn4fAgCzfuC+lB76MFDanJo/M0t2EfzAFui+9YNwWa0IG6Y+wSCuPnpJISt+K2NzgJ
-	f+O3eXwQ==;
+	bh=VVFlNu9bxQTZS7Btz5YwbK8YSvrmLzswqaqg99lMe0k=; b=FECorhHo2WMIXud6eujDKJSF4U
+	kX5QZiwHMkiXt3O4NHoQc4thi/0nqjOjUXPJ07ziuTFLstY7FCi42fImWYi/+5cDZHjh0obNTxJ4L
+	+rMnTib0jUxItqjC9E0WXxeWjAV8ZLWuwQynLSLyctp55pO6aqt09uOuHQoNR10PCNMDF8/VmRHKK
+	XuW5EeU9POzlxC9WbqkGuy3kTBjAY5g2MFaA9zCrys9KBMUuvmSBU3pjFHbXgc1oWphA3Ek/IzEZe
+	2FAq+DevFwt3DbB5xvTB1k2cwYtR2pBPAYHxoswfm55KagwmacNCOfMFsYLXK1Y5liC+rmGO5dWXB
+	qfYkzr1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTcH4-0000000CMxj-0zid;
-	Fri, 03 Jan 2025 07:39:14 +0000
+	id 1tTcH3-0000000CMxI-2mAs;
+	Fri, 03 Jan 2025 07:39:13 +0000
 Received: from [2001:4bb8:2dc:484c:63c3:48c7:ceee:8370] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTcCQ-0000000CM5k-29rT;
-	Fri, 03 Jan 2025 07:34:26 +0000
+	id 1tTcCN-0000000CM5H-2epI;
+	Fri, 03 Jan 2025 07:34:24 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	linux-scsi@vger.kernel.org,
 	target-devel@vger.kernel.org
-Subject: [PATCH 2/2] block: remove blk_rq_bio_prep
-Date: Fri,  3 Jan 2025 08:33:58 +0100
-Message-ID: <20250103073417.459715-3-hch@lst.de>
+Subject: [PATCH 1/2] block: remove bio_add_pc_page
+Date: Fri,  3 Jan 2025 08:33:57 +0100
+Message-ID: <20250103073417.459715-2-hch@lst.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250103073417.459715-1-hch@lst.de>
 References: <20250103073417.459715-1-hch@lst.de>
@@ -54,80 +54,459 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There is not real point in a helper just to assign three values to four
-fields, especially when the surrounding code is working on the
-neighbor fields directly.
+Lift bio_split_rw_at into blk_rq_append_bio so that it validates the
+hardware limits.  With this all passthrough callers can simply add
+bio_add_page to build the bio and delay checking for exceeding of limits
+to this point instead of doing it for each page.
+
+While this looks like adding a new expensive loop over all bio_vecs,
+blk_rq_append_bio is already doing that just to counter the number of
+segments.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-map.c        | 10 ++++++----
- block/blk-mq.c         |  4 +++-
- include/linux/blk-mq.h |  8 --------
- 3 files changed, 9 insertions(+), 13 deletions(-)
+ block/bio.c                        | 107 ++------------------------
+ block/blk-map.c                    | 118 +++++++----------------------
+ block/blk.h                        |   8 --
+ drivers/nvme/target/passthru.c     |  18 +++--
+ drivers/nvme/target/zns.c          |   3 +-
+ drivers/target/target_core_pscsi.c |   6 +-
+ include/linux/bio.h                |   2 -
+ 7 files changed, 48 insertions(+), 214 deletions(-)
 
-diff --git a/block/blk-map.c b/block/blk-map.c
-index 67a2da3b7ed9..d2f22744b3d1 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -490,17 +490,19 @@ int blk_rq_append_bio(struct request *rq, struct bio *bio)
- 		return ret;
- 	}
+diff --git a/block/bio.c b/block/bio.c
+index d5bdc31d88d3..4e1a27d312c9 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -946,8 +946,11 @@ static bool bvec_try_merge_page(struct bio_vec *bv, struct page *page,
  
--	if (!rq->bio) {
--		blk_rq_bio_prep(rq, bio, nr_segs);
--	} else {
-+	if (rq->bio) {
- 		if (!ll_back_merge_fn(rq, bio, nr_segs))
- 			return -EINVAL;
- 		rq->biotail->bi_next = bio;
- 		rq->biotail = bio;
--		rq->__data_len += (bio)->bi_iter.bi_size;
-+		rq->__data_len += bio->bi_iter.bi_size;
- 		bio_crypt_free_ctx(bio);
-+		return 0;
- 	}
- 
-+	rq->nr_phys_segments = nr_segs;
-+	rq->bio = rq->biotail = bio;
-+	rq->__data_len = bio->bi_iter.bi_size;
- 	return 0;
- }
- EXPORT_SYMBOL(blk_rq_append_bio);
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 16feec6c11ab..2e6132f778fd 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -2658,8 +2658,10 @@ static void blk_mq_bio_to_request(struct request *rq, struct bio *bio,
- 	if (bio->bi_opf & REQ_RAHEAD)
- 		rq->cmd_flags |= REQ_FAILFAST_MASK;
- 
-+	rq->bio = rq->biotail = bio;
- 	rq->__sector = bio->bi_iter.bi_sector;
--	blk_rq_bio_prep(rq, bio, nr_segs);
-+	rq->__data_len = bio->bi_iter.bi_size;
-+	rq->nr_phys_segments = nr_segs;
- 	if (bio_integrity(bio))
- 		rq->nr_integrity_segments = blk_rq_count_integrity_sg(rq->q,
- 								      bio);
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 2322b54a86ed..a0a9007cc1e3 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -968,14 +968,6 @@ static inline void blk_mq_cleanup_rq(struct request *rq)
- 		rq->q->mq_ops->cleanup_rq(rq);
+ /*
+  * Try to merge a page into a segment, while obeying the hardware segment
+- * size limit.  This is not for normal read/write bios, but for passthrough
+- * or Zone Append operations that we can't split.
++ * size limit.
++ *
++ * This is kept around for the integrity metadata, which is still tries
++ * to build the initial bio to the hardware limit and doesn't have proper
++ * helpers to split.  Hopefully this will go away soon.
+  */
+ bool bvec_try_merge_hw_page(struct request_queue *q, struct bio_vec *bv,
+ 		struct page *page, unsigned len, unsigned offset,
+@@ -964,106 +967,6 @@ bool bvec_try_merge_hw_page(struct request_queue *q, struct bio_vec *bv,
+ 	return bvec_try_merge_page(bv, page, len, offset, same_page);
  }
  
--static inline void blk_rq_bio_prep(struct request *rq, struct bio *bio,
--		unsigned int nr_segs)
+-/**
+- * bio_add_hw_page - attempt to add a page to a bio with hw constraints
+- * @q: the target queue
+- * @bio: destination bio
+- * @page: page to add
+- * @len: vec entry length
+- * @offset: vec entry offset
+- * @max_sectors: maximum number of sectors that can be added
+- * @same_page: return if the segment has been merged inside the same page
+- *
+- * Add a page to a bio while respecting the hardware max_sectors, max_segment
+- * and gap limitations.
+- */
+-int bio_add_hw_page(struct request_queue *q, struct bio *bio,
+-		struct page *page, unsigned int len, unsigned int offset,
+-		unsigned int max_sectors, bool *same_page)
 -{
--	rq->nr_phys_segments = nr_segs;
--	rq->__data_len = bio->bi_iter.bi_size;
--	rq->bio = rq->biotail = bio;
+-	unsigned int max_size = max_sectors << SECTOR_SHIFT;
+-
+-	if (WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED)))
+-		return 0;
+-
+-	len = min3(len, max_size, queue_max_segment_size(q));
+-	if (len > max_size - bio->bi_iter.bi_size)
+-		return 0;
+-
+-	if (bio->bi_vcnt > 0) {
+-		struct bio_vec *bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
+-
+-		if (bvec_try_merge_hw_page(q, bv, page, len, offset,
+-				same_page)) {
+-			bio->bi_iter.bi_size += len;
+-			return len;
+-		}
+-
+-		if (bio->bi_vcnt >=
+-		    min(bio->bi_max_vecs, queue_max_segments(q)))
+-			return 0;
+-
+-		/*
+-		 * If the queue doesn't support SG gaps and adding this segment
+-		 * would create a gap, disallow it.
+-		 */
+-		if (bvec_gap_to_prev(&q->limits, bv, offset))
+-			return 0;
+-	}
+-
+-	bvec_set_page(&bio->bi_io_vec[bio->bi_vcnt], page, len, offset);
+-	bio->bi_vcnt++;
+-	bio->bi_iter.bi_size += len;
+-	return len;
 -}
 -
- void blk_mq_hctx_set_fq_lock_class(struct blk_mq_hw_ctx *hctx,
- 		struct lock_class_key *key);
+-/**
+- * bio_add_hw_folio - attempt to add a folio to a bio with hw constraints
+- * @q: the target queue
+- * @bio: destination bio
+- * @folio: folio to add
+- * @len: vec entry length
+- * @offset: vec entry offset in the folio
+- * @max_sectors: maximum number of sectors that can be added
+- * @same_page: return if the segment has been merged inside the same folio
+- *
+- * Add a folio to a bio while respecting the hardware max_sectors, max_segment
+- * and gap limitations.
+- */
+-int bio_add_hw_folio(struct request_queue *q, struct bio *bio,
+-		struct folio *folio, size_t len, size_t offset,
+-		unsigned int max_sectors, bool *same_page)
+-{
+-	if (len > UINT_MAX || offset > UINT_MAX)
+-		return 0;
+-	return bio_add_hw_page(q, bio, folio_page(folio, 0), len, offset,
+-			       max_sectors, same_page);
+-}
+-
+-/**
+- * bio_add_pc_page	- attempt to add page to passthrough bio
+- * @q: the target queue
+- * @bio: destination bio
+- * @page: page to add
+- * @len: vec entry length
+- * @offset: vec entry offset
+- *
+- * Attempt to add a page to the bio_vec maplist. This can fail for a
+- * number of reasons, such as the bio being full or target block device
+- * limitations. The target block device must allow bio's up to PAGE_SIZE,
+- * so it is always possible to add a single page to an empty bio.
+- *
+- * This should only be used by passthrough bios.
+- */
+-int bio_add_pc_page(struct request_queue *q, struct bio *bio,
+-		struct page *page, unsigned int len, unsigned int offset)
+-{
+-	bool same_page = false;
+-	return bio_add_hw_page(q, bio, page, len, offset,
+-			queue_max_hw_sectors(q), &same_page);
+-}
+-EXPORT_SYMBOL(bio_add_pc_page);
+-
+ /**
+  * __bio_add_page - add page(s) to a bio in a new segment
+  * @bio: destination bio
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 894009b2d881..67a2da3b7ed9 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -189,7 +189,7 @@ static int bio_copy_user_iov(struct request *rq, struct rq_map_data *map_data,
+ 			}
+ 		}
  
+-		if (bio_add_pc_page(rq->q, bio, page, bytes, offset) < bytes) {
++		if (bio_add_page(bio, page, bytes, offset) < bytes) {
+ 			if (!map_data)
+ 				__free_page(page);
+ 			break;
+@@ -272,86 +272,27 @@ static struct bio *blk_rq_map_bio_alloc(struct request *rq,
+ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		gfp_t gfp_mask)
+ {
+-	iov_iter_extraction_t extraction_flags = 0;
+-	unsigned int max_sectors = queue_max_hw_sectors(rq->q);
+ 	unsigned int nr_vecs = iov_iter_npages(iter, BIO_MAX_VECS);
+ 	struct bio *bio;
+ 	int ret;
+-	int j;
+ 
+ 	if (!iov_iter_count(iter))
+ 		return -EINVAL;
+ 
+ 	bio = blk_rq_map_bio_alloc(rq, nr_vecs, gfp_mask);
+-	if (bio == NULL)
++	if (!bio)
+ 		return -ENOMEM;
+-
+-	if (blk_queue_pci_p2pdma(rq->q))
+-		extraction_flags |= ITER_ALLOW_P2PDMA;
+-	if (iov_iter_extract_will_pin(iter))
+-		bio_set_flag(bio, BIO_PAGE_PINNED);
+-
+-	while (iov_iter_count(iter)) {
+-		struct page *stack_pages[UIO_FASTIOV];
+-		struct page **pages = stack_pages;
+-		ssize_t bytes;
+-		size_t offs;
+-		int npages;
+-
+-		if (nr_vecs > ARRAY_SIZE(stack_pages))
+-			pages = NULL;
+-
+-		bytes = iov_iter_extract_pages(iter, &pages, LONG_MAX,
+-					       nr_vecs, extraction_flags, &offs);
+-		if (unlikely(bytes <= 0)) {
+-			ret = bytes ? bytes : -EFAULT;
+-			goto out_unmap;
+-		}
+-
+-		npages = DIV_ROUND_UP(offs + bytes, PAGE_SIZE);
+-
+-		if (unlikely(offs & queue_dma_alignment(rq->q)))
+-			j = 0;
+-		else {
+-			for (j = 0; j < npages; j++) {
+-				struct page *page = pages[j];
+-				unsigned int n = PAGE_SIZE - offs;
+-				bool same_page = false;
+-
+-				if (n > bytes)
+-					n = bytes;
+-
+-				if (!bio_add_hw_page(rq->q, bio, page, n, offs,
+-						     max_sectors, &same_page))
+-					break;
+-
+-				if (same_page)
+-					bio_release_page(bio, page);
+-				bytes -= n;
+-				offs = 0;
+-			}
+-		}
+-		/*
+-		 * release the pages we didn't map into the bio, if any
+-		 */
+-		while (j < npages)
+-			bio_release_page(bio, pages[j++]);
+-		if (pages != stack_pages)
+-			kvfree(pages);
+-		/* couldn't stuff something into bio? */
+-		if (bytes) {
+-			iov_iter_revert(iter, bytes);
+-			break;
+-		}
+-	}
+-
++	ret = bio_iov_iter_get_pages(bio, iter);
++	if (ret)
++		goto out_put;
+ 	ret = blk_rq_append_bio(rq, bio);
+ 	if (ret)
+-		goto out_unmap;
++		goto out_release;
+ 	return 0;
+ 
+- out_unmap:
++out_release:
+ 	bio_release_pages(bio, false);
++out_put:
+ 	blk_mq_map_bio_put(bio);
+ 	return ret;
+ }
+@@ -422,8 +363,7 @@ static struct bio *bio_map_kern(struct request_queue *q, void *data,
+ 			page = virt_to_page(data);
+ 		else
+ 			page = vmalloc_to_page(data);
+-		if (bio_add_pc_page(q, bio, page, bytes,
+-				    offset) < bytes) {
++		if (bio_add_page(bio, page, bytes, offset) < bytes) {
+ 			/* we don't support partial mappings */
+ 			bio_uninit(bio);
+ 			kfree(bio);
+@@ -507,7 +447,7 @@ static struct bio *bio_copy_kern(struct request_queue *q, void *data,
+ 		if (!reading)
+ 			memcpy(page_address(page), p, bytes);
+ 
+-		if (bio_add_pc_page(q, bio, page, bytes, 0) < bytes)
++		if (bio_add_page(bio, page, bytes, 0) < bytes)
+ 			break;
+ 
+ 		len -= bytes;
+@@ -536,12 +476,19 @@ static struct bio *bio_copy_kern(struct request_queue *q, void *data,
+  */
+ int blk_rq_append_bio(struct request *rq, struct bio *bio)
+ {
+-	struct bvec_iter iter;
+-	struct bio_vec bv;
++	const struct queue_limits *lim = &rq->q->limits;
++	unsigned int max_bytes = lim->max_hw_sectors << SECTOR_SHIFT;
+ 	unsigned int nr_segs = 0;
++	int ret;
+ 
+-	bio_for_each_bvec(bv, bio, iter)
+-		nr_segs++;
++	/* check that the data layout matches the hardware restrictions */
++	ret = bio_split_rw_at(bio, lim, &nr_segs, max_bytes);
++	if (ret) {
++		/* if we would have to split the bio, copy instead */
++		if (ret > 0)
++			ret = -EREMOTEIO;
++		return ret;
++	}
+ 
+ 	if (!rq->bio) {
+ 		blk_rq_bio_prep(rq, bio, nr_segs);
+@@ -561,9 +508,7 @@ EXPORT_SYMBOL(blk_rq_append_bio);
+ /* Prepare bio for passthrough IO given ITER_BVEC iter */
+ static int blk_rq_map_user_bvec(struct request *rq, const struct iov_iter *iter)
+ {
+-	const struct queue_limits *lim = &rq->q->limits;
+-	unsigned int max_bytes = lim->max_hw_sectors << SECTOR_SHIFT;
+-	unsigned int nsegs;
++	unsigned int max_bytes = rq->q->limits.max_hw_sectors << SECTOR_SHIFT;
+ 	struct bio *bio;
+ 	int ret;
+ 
+@@ -576,18 +521,10 @@ static int blk_rq_map_user_bvec(struct request *rq, const struct iov_iter *iter)
+ 		return -ENOMEM;
+ 	bio_iov_bvec_set(bio, iter);
+ 
+-	/* check that the data layout matches the hardware restrictions */
+-	ret = bio_split_rw_at(bio, lim, &nsegs, max_bytes);
+-	if (ret) {
+-		/* if we would have to split the bio, copy instead */
+-		if (ret > 0)
+-			ret = -EREMOTEIO;
++	ret = blk_rq_append_bio(rq, bio);
++	if (ret)
+ 		blk_mq_map_bio_put(bio);
+-		return ret;
+-	}
+-
+-	blk_rq_bio_prep(rq, bio, nsegs);
+-	return 0;
++	return ret;
+ }
+ 
+ /**
+@@ -644,8 +581,11 @@ int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,
+ 			ret = bio_copy_user_iov(rq, map_data, &i, gfp_mask);
+ 		else
+ 			ret = bio_map_user_iov(rq, &i, gfp_mask);
+-		if (ret)
++		if (ret) {
++			if (ret == -EREMOTEIO)
++				ret = -EINVAL;
+ 			goto unmap_rq;
++		}
+ 		if (!bio)
+ 			bio = rq->bio;
+ 	} while (iov_iter_count(&i));
+diff --git a/block/blk.h b/block/blk.h
+index cbf6a676ffe9..4904b86d5fec 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -556,14 +556,6 @@ void bdev_set_nr_sectors(struct block_device *bdev, sector_t sectors);
+ struct gendisk *__alloc_disk_node(struct request_queue *q, int node_id,
+ 		struct lock_class_key *lkclass);
+ 
+-int bio_add_hw_page(struct request_queue *q, struct bio *bio,
+-		struct page *page, unsigned int len, unsigned int offset,
+-		unsigned int max_sectors, bool *same_page);
+-
+-int bio_add_hw_folio(struct request_queue *q, struct bio *bio,
+-		struct folio *folio, size_t len, size_t offset,
+-		unsigned int max_sectors, bool *same_page);
+-
+ /*
+  * Clean up a page appropriately, where the page may be pinned, may have a
+  * ref taken on it or neither.
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index 30b21936b0c6..26e2907ce8bb 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -261,6 +261,7 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+ {
+ 	struct scatterlist *sg;
+ 	struct bio *bio;
++	int ret = -EINVAL;
+ 	int i;
+ 
+ 	if (req->sg_cnt > BIO_MAX_VECS)
+@@ -277,16 +278,19 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+ 	}
+ 
+ 	for_each_sg(req->sg, sg, req->sg_cnt, i) {
+-		if (bio_add_pc_page(rq->q, bio, sg_page(sg), sg->length,
+-				    sg->offset) < sg->length) {
+-			nvmet_req_bio_put(req, bio);
+-			return -EINVAL;
+-		}
++		if (bio_add_page(bio, sg_page(sg), sg->length, sg->offset) <
++				sg->length)
++			goto out_bio_put;
+ 	}
+ 
+-	blk_rq_bio_prep(rq, bio, req->sg_cnt);
+-
++	ret = blk_rq_append_bio(rq, bio);
++	if (ret)
++		goto out_bio_put;
+ 	return 0;
++
++out_bio_put:
++	nvmet_req_bio_put(req, bio);
++	return ret;
+ }
+ 
+ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index 3aef35b05111..29a60fabfcc8 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -586,8 +586,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ 	for_each_sg(req->sg, sg, req->sg_cnt, sg_cnt) {
+ 		unsigned int len = sg->length;
+ 
+-		if (bio_add_pc_page(bdev_get_queue(bio->bi_bdev), bio,
+-				sg_page(sg), len, sg->offset) != len) {
++		if (bio_add_page(bio, sg_page(sg), len, sg->offset) != len) {
+ 			status = NVME_SC_INTERNAL;
+ 			goto out_put_bio;
+ 		}
+diff --git a/drivers/target/target_core_pscsi.c b/drivers/target/target_core_pscsi.c
+index 287ac5b0495f..f991cf759836 100644
+--- a/drivers/target/target_core_pscsi.c
++++ b/drivers/target/target_core_pscsi.c
+@@ -823,7 +823,6 @@ static sense_reason_t
+ pscsi_map_sg(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
+ 		struct request *req)
+ {
+-	struct pscsi_dev_virt *pdv = PSCSI_DEV(cmd->se_dev);
+ 	struct bio *bio = NULL;
+ 	struct page *page;
+ 	struct scatterlist *sg;
+@@ -871,12 +870,11 @@ pscsi_map_sg(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
+ 					(rw) ? "rw" : "r", nr_vecs);
+ 			}
+ 
+-			pr_debug("PSCSI: Calling bio_add_pc_page() i: %d"
++			pr_debug("PSCSI: Calling bio_add_page() i: %d"
+ 				" bio: %p page: %p len: %d off: %d\n", i, bio,
+ 				page, len, off);
+ 
+-			rc = bio_add_pc_page(pdv->pdv_sd->request_queue,
+-					bio, page, bytes, off);
++			rc = bio_add_page(bio, page, bytes, off);
+ 			pr_debug("PSCSI: bio->bi_vcnt: %d nr_vecs: %d\n",
+ 				bio_segments(bio), nr_vecs);
+ 			if (rc != bytes) {
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 1eec59699100..4b79bf50f4f0 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -413,8 +413,6 @@ int __must_check bio_add_page(struct bio *bio, struct page *page, unsigned len,
+ 			      unsigned off);
+ bool __must_check bio_add_folio(struct bio *bio, struct folio *folio,
+ 				size_t len, size_t off);
+-extern int bio_add_pc_page(struct request_queue *, struct bio *, struct page *,
+-			   unsigned int, unsigned int);
+ void __bio_add_page(struct bio *bio, struct page *page,
+ 		unsigned int len, unsigned int off);
+ void bio_add_folio_nofail(struct bio *bio, struct folio *folio, size_t len,
 -- 
 2.45.2
 
