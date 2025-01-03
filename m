@@ -4,55 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3843E77188
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 07:28:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A645DE77188
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 07:39:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z9lAtYQq3A9Cj5itl6GpOZkPFgHbN6tQezuB+WO8P8g=; b=AO3FeN2P0hpOwTOgfcbtaTg2Ip
-	YHWnx08SLGz2MBHgaV/rSeG3LLfm64+/pCWvnvYs72eHuPnDXkgH79+ii4b2NiGOtQwiw0rqGewbl
-	zw7JsQKYp8UBpX5oXteUiU5XBLOesvjINIVJvHMt02OQ2hVG1/BTBUMPbwRiswrnXUEryruwhP7u0
-	9JCeCpDbeZd+CmHlPe8BXmKmjcynXIar3p+hEGA6bIXAnZnRTlaj0PbNSt/U8rvMa/9zzOX8oapvb
-	Aws86YEoqcUZFUqpsm6Yn8Y/BATBc0wOsuLASoDWwsfVo2N/TX8WCpU3kUZ/qUFCDtujAGx69JJIM
-	YW9kAV4w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nfOzmNYg5Jb7eOtrEGMFecQW7RyfBHtxFoVVtj4oml4=; b=uFat0EFobuanagQ3rKPqmCjawt
+	edT65Xw5kLhrM6AdNKyryxYBYMQIl80zQc7weQMAghym6DD0GO/Jtf1K1vhFO45zPLnieI2cAcTWi
+	LwzBN0QhyD9kuwNuly54v3U8a7AeFRyUJvhuLYVc4III/wYU8Kpf8MOtq2jjZ+byO2/aMX6yfzqMj
+	sxDEHE5boFp1oy/uMvvDLLx+EpPQdZLOU9zbHuzPM5pqzjUSjfu7tK6ZQv5ko05SF6Qli+xhpxhy7
+	XfQHOxL5SDQNn4fAgCzfuC+lB76MFDanJo/M0t2EfzAFui+9YNwWa0IG6Y+wSCuPnpJISt+K2NzgJ
+	f+O3eXwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTc6O-0000000CKrq-0k4r;
-	Fri, 03 Jan 2025 07:28:12 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTc6M-0000000CKqt-0TE2
-	for linux-nvme@lists.infradead.org;
-	Fri, 03 Jan 2025 07:28:11 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 981C868BEB; Fri,  3 Jan 2025 08:28:05 +0100 (CET)
-Date: Fri, 3 Jan 2025 08:28:05 +0100
+	id 1tTcH4-0000000CMxj-0zid;
+	Fri, 03 Jan 2025 07:39:14 +0000
+Received: from [2001:4bb8:2dc:484c:63c3:48c7:ceee:8370] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tTcCQ-0000000CM5k-29rT;
+	Fri, 03 Jan 2025 07:34:26 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org,
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	andersson@kernel.org, konradybcio@kernel.org,
-	Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
- the user
-Message-ID: <20250103072805.GB28920@lst.de>
-References: <20241209143821.m4dahsaqeydluyf3@thinkpad> <20241212055920.GB4825@lst.de> <13662231.uLZWGnKmhe@rjwysocki.net> <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com> <20241212151354.GA7708@lst.de> <CAJZ5v0gUpDw_NjTDtHGCUnKK0C+x0nrW6mP0tHQoXsgwR2RH8g@mail.gmail.com> <20241214063023.4tdvjbqd2lrylb7o@thinkpad> <20241216162303.GA26434@lst.de> <CAJZ5v0g8CdGgWA7e6TXpUjYNkU1zX46Rz3ELiun42MayoN0osA@mail.gmail.com> <dd557897-f2e0-4347-ae67-27cd45920159@oss.qualcomm.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org
+Subject: [PATCH 2/2] block: remove blk_rq_bio_prep
+Date: Fri,  3 Jan 2025 08:33:58 +0100
+Message-ID: <20250103073417.459715-3-hch@lst.de>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250103073417.459715-1-hch@lst.de>
+References: <20250103073417.459715-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd557897-f2e0-4347-ae67-27cd45920159@oss.qualcomm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250102_232810_308293_84D17D16 
-X-CRM114-Status: GOOD (  20.50  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,34 +54,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 20, 2024 at 04:15:21PM +0100, Konrad Dybcio wrote:
-> The Qualcomm platform (or class of platforms) we're looking at with this
-> specific issue requires PCIe (implying NVMe) shutdown for S2RAM.
-> 
-> The S2RAM entry mechanism is unfortunately misrepresented as an S2Idle
-> state by Linux as of today, and I'm trying really hard to convince some
-> folks to let me describe it correctly, with little success so far..
+There is not real point in a helper just to assign three values to four
+fields, especially when the surrounding code is working on the
+neighbor fields directly.
 
-Well, not advertizing the right mechanism isn't going to cause havoc
-to any scheme.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ block/blk-map.c        | 10 ++++++----
+ block/blk-mq.c         |  4 +++-
+ include/linux/blk-mq.h |  8 --------
+ 3 files changed, 9 insertions(+), 13 deletions(-)
 
-> That is the real underlying issue and once/if it's solved, this patch
-> will not be necessary.
-
-Well, maybe this thread gave good enough fodder to finally fix it?
-
-> 
-> > In theory, ACPI S3 or hibernation may request that, but I've never
-> > seen it happen in practice.
-> > 
-> > Suspend-to-idle on x86 may want devices to end up in specific power
-> > states in order to be able to switch the entire platform into a deep
-> > energy-saving mode, but that's never been D3cold so far.
-> 
-> In our case the plug is only pulled in S2RAM, otherwise the best we can
-> do is just turn off the devices individually to decrease the overall
-> power draw
-
-FYI, going to D3 for S2RAM seems perfectly reasonable from the NVMe POV.
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 67a2da3b7ed9..d2f22744b3d1 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -490,17 +490,19 @@ int blk_rq_append_bio(struct request *rq, struct bio *bio)
+ 		return ret;
+ 	}
+ 
+-	if (!rq->bio) {
+-		blk_rq_bio_prep(rq, bio, nr_segs);
+-	} else {
++	if (rq->bio) {
+ 		if (!ll_back_merge_fn(rq, bio, nr_segs))
+ 			return -EINVAL;
+ 		rq->biotail->bi_next = bio;
+ 		rq->biotail = bio;
+-		rq->__data_len += (bio)->bi_iter.bi_size;
++		rq->__data_len += bio->bi_iter.bi_size;
+ 		bio_crypt_free_ctx(bio);
++		return 0;
+ 	}
+ 
++	rq->nr_phys_segments = nr_segs;
++	rq->bio = rq->biotail = bio;
++	rq->__data_len = bio->bi_iter.bi_size;
+ 	return 0;
+ }
+ EXPORT_SYMBOL(blk_rq_append_bio);
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 16feec6c11ab..2e6132f778fd 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -2658,8 +2658,10 @@ static void blk_mq_bio_to_request(struct request *rq, struct bio *bio,
+ 	if (bio->bi_opf & REQ_RAHEAD)
+ 		rq->cmd_flags |= REQ_FAILFAST_MASK;
+ 
++	rq->bio = rq->biotail = bio;
+ 	rq->__sector = bio->bi_iter.bi_sector;
+-	blk_rq_bio_prep(rq, bio, nr_segs);
++	rq->__data_len = bio->bi_iter.bi_size;
++	rq->nr_phys_segments = nr_segs;
+ 	if (bio_integrity(bio))
+ 		rq->nr_integrity_segments = blk_rq_count_integrity_sg(rq->q,
+ 								      bio);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 2322b54a86ed..a0a9007cc1e3 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -968,14 +968,6 @@ static inline void blk_mq_cleanup_rq(struct request *rq)
+ 		rq->q->mq_ops->cleanup_rq(rq);
+ }
+ 
+-static inline void blk_rq_bio_prep(struct request *rq, struct bio *bio,
+-		unsigned int nr_segs)
+-{
+-	rq->nr_phys_segments = nr_segs;
+-	rq->__data_len = bio->bi_iter.bi_size;
+-	rq->bio = rq->biotail = bio;
+-}
+-
+ void blk_mq_hctx_set_fq_lock_class(struct blk_mq_hw_ctx *hctx,
+ 		struct lock_class_key *key);
+ 
+-- 
+2.45.2
 
 
