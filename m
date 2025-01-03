@@ -4,48 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 890A8E77188
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 06:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3734E77188
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 06:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5LfJDIEiPVhmH/1xSraDeaDrnw8IUOipaXWYyx6tIOU=; b=b9ACA1kwffVpmHsMSdXEbmo72E
-	baZQ3rpcaGRe6eNhsJPMWFCbw6jYVNxCOsQjudvJ+5AIvZRniDMnfGNKxel71AFQJIxa11xrUxryv
-	7ZsKGx0e3fxtADDFG9r17GxXcCrnLzAz6uKr8uW2jWxkGrBeDPRpeLIn6rk06Mr7dXNrOVirLQcMj
-	/J7qTKe9PkBlouQBkXefm672pvJBpgMK2Iu8EAwfNZekFQA7rk6Xfs6qlGhjl+RQETCLFCeP6G4Jh
-	eUjUqf08v7uCusfoC7ERSoZD6+8J1refGR/wf7zB137kroLnj5KmfDuv1xFB7qcuRT0SY0d0z4NsJ
-	4EYO/Gpg==;
+	bh=DBA6MG5IDtTDKSncOhfPeJCh4wnh85/YPUtfbpnsPLY=; b=rUjp2y7HykyQoD9f4eMGdK1aY+
+	LHrLnsMPYI2qP5Inj5zkj3Vg7AE7lMXhjKV37TiEgVgH+fN9Nd59led1856/t8HvuEVx6du2e2B28
+	jN2PxIPxekRyGxz5w13GXg7q7mxSM6FJ6vbgOCiVJDKwnPjfBMGRDeDZQyxNxqdTVtjqLAQkXFBfL
+	JZQ0L92706Pw5FodS6+aZiggSkQWb0AqOlb6iPAMxS8KHIIQ5VCmPymSKSq9oHf/mQArAzB6g/ZT3
+	umj+6USUJisjRlhpC3sUoxBZcxikTyHpFCC+s2nrqJGOHyM00VFe/aVtrGfc0pk7qO9sFGzT+boTd
+	Lq/Rkb3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTbbx-0000000CGf0-2Bn2;
-	Fri, 03 Jan 2025 06:56:45 +0000
+	id 1tTbcj-0000000CGnV-16BE;
+	Fri, 03 Jan 2025 06:57:33 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTbam-0000000CGYZ-1s0R
+	id 1tTbcg-0000000CGmm-2BUV
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Jan 2025 06:55:33 +0000
+	Fri, 03 Jan 2025 06:57:31 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id BBE1168BEB; Fri,  3 Jan 2025 07:55:26 +0100 (CET)
-Date: Fri, 3 Jan 2025 07:55:26 +0100
+	id 3D01268BEB; Fri,  3 Jan 2025 07:57:25 +0100 (CET)
+Date: Fri, 3 Jan 2025 07:57:25 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvme-tcp: Fix I/O queue cpu spreading for multiple
- controllers
-Message-ID: <20250103065526.GA28251@lst.de>
-References: <20241224120457.576100-1-sagi@grimberg.me>
+To: Atharva Tiwari <evepolonium@gmail.com>
+Cc: James Smart <james.smart@broadcom.com>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-fc: add DIF support for intergrity metadata
+Message-ID: <20250103065725.GA28303@lst.de>
+References: <20241226091415.354329-1-evepolonium@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241224120457.576100-1-sagi@grimberg.me>
+In-Reply-To: <20241226091415.354329-1-evepolonium@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250102_225532_624422_EA0B50FB 
-X-CRM114-Status: GOOD (  18.02  )
+X-CRM114-CacheID: sfid-20250102_225730_698983_F34B086D 
+X-CRM114-Status: GOOD (  17.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,24 +61,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 24, 2024 at 02:04:57PM +0200, Sagi Grimberg wrote:
-> Since day-1 we are assigning the queue io_cpu very naively. We always
-> base the queue id (controller scope) and assign it its matching cpu
-> from the online mask. This works fine when the number of queues match
-> the number of cpu cores.
+On Thu, Dec 26, 2024 at 02:44:15PM +0530, Atharva Tiwari wrote:
+> This patch enhances the NVMe over Fibre Channel (NVMe-FC) driver to 
+> handle requests with integrity metadata (DIF).
 > 
-> The problem starts when we have less queues than cpu cores. First, we
-> should take into account the mq_map and select a cpu within the cpus
-> that are assigned to this queue by the mq_map in order to minimize cross
-> numa cpu bouncing.
-> 
-> Second, even worse is that we don't take into account multiple controllers
+> - Added the inclusion of `<linux/blk-integrity.h>` to enable integrity operations.
+> - Implemented support for mapping integrity metadata using `blk_rq_map_integrity_sg`.
+> - Ensures proper handling of requests with integrity metadata, including error cases where mapping fails.
 
-Nit: your commit log is overflowing 73 characters in a few places.
+This isn't really how we write commit logs.  The mechanics are
+visible in the patch.  Also please wrap commit log lines after 73
+characters.
 
->  static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+> +	/* Handle requests with integrity metadata (DIF) */
+> +	if (blk_integrity_rq(rq)) {
+> +		ret = blk_rq_map_integrity_sg(rq, freq->sg_table.sgl);
+> +		if (ret < 0) {
+> +			sg_free_table_chained(&freq->sg_table, NVME_INLINE_SG_CNT);
+> +			freq->sg_cnt = 0;
+> +			return -EFAULT;
+> +		}
+> +		freq->sg_cnt += ret;
+> +	}
 
-Can you add a comment extracted from the commit log before this
-function explaining the logic?
+Who is going to look at the integrity sglist?  Who is setting a
+max_integrity_segments value for nvme-fc?
+
+How was this tested?
 
 
