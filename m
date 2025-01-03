@@ -4,124 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8394FE7718F
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 11:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B718EE77188
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 17:50:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kSr8QRPbWyeuYtAJXhV7CqtuHNejTbL/irUiflDNBWI=; b=RRHxIfBU7nLZfF5zMr5QUoig+0
-	Kb+zm8VWmpVi6cg61bvJx4BmFuRXPr+IbRcq+SV3+17XCMsTIiJyeh4B1t85RENMoFrkByTCEqEBs
-	rmXfW8qROpNhOArCq4bmubc7/mYcvueKq/bKaD/WEqlDzn8k02sP7BWMlyNxNW1XzSHx0DcbNAKd+
-	8xcLGe3RvdEsVzdn7Kudi7ByEXVPjJbvC3onFR326vLZJnd/GkagDC7iQrt0Geq1pAO3gIjkwcXqO
-	AD0962nWZ2RCG+5bhLnaMvlB4avq1UwRKi6b32yRcnPzveGvf0RiA81l4tF2CsaSJVmrFPXL0/Jpn
-	WvcXhOlA==;
+	bh=c4H6BYBpPYkRFZnQPMJXxpY+I4Pkepc44pNcpMerJ+s=; b=pKryByJjjPF5QeuvSfrbdszLzo
+	wePojn/DfMTXDXEos4p8lbUBR8cKMxwESsm6C8LTYocQhOUq7WlgChIt35SKjhGKr6jB4g1Il3KUx
+	Rp82AdHkz9WEwSh4NvNm1R8kb4/YaRVhu8iVx4aUKTS28P7Ut4549QkuweWNyfuG8ULEncQAr4gCe
+	eOqJmfEpGT8wJkhOR0VRJ7GQiavqpqpOMd27ES81ex5CGWZoipR2QdeGjHbWChYWYs9KGvWHNH7Sx
+	fGNWmf4pNYn6QzSOYspU8ExKmaPsupzadLhyzHFo7kBtV4SGe8z9seM8R6F7UZKnet3H8W4eySsSE
+	5tKYTesw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTgAp-0000000CrXA-3ZKW;
-	Fri, 03 Jan 2025 11:49:03 +0000
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+	id 1tTlos-0000000DclN-3wc4;
+	Fri, 03 Jan 2025 17:50:46 +0000
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTgAn-0000000CrWg-279c
+	id 1tTloo-0000000DckA-392e
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Jan 2025 11:49:02 +0000
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5031iC9i017464
-	for <linux-nvme@lists.infradead.org>; Fri, 3 Jan 2025 11:49:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kSr8QRPbWyeuYtAJXhV7CqtuHNejTbL/irUiflDNBWI=; b=eCsIUbN1EJD6dspX
-	Qa5XsuPdhU7dlEEHrNHoj0OsT9moNzhmr//xtCO8BewROYirQK5NTOxbdZJ8oI1B
-	VvlcdEjcjjV6VW/KZFcXAJPveRx/ICXxCkzAO/7i2TnLmKcNkcIoYT1QLxQIn8r8
-	oOxKsSmnG+UahVQ16MPjFVhc+OIngAG+xx5Ck8ezzLNJbWXF+Y4BrIlQhpc+Hq+z
-	+UL9b1/BHBgHlTIwAXmTTPU/DuuyTnA2kMR/s+DngcjV6d/Ho5D5/rMFiUvHYwvc
-	WrdpizFg8TPNEbjVuXbm6vpG+xOsqgLRGx2wuOOsvRWOOWYfsf4KLkvbWchO0Sd1
-	tb7iUg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43x6g0h706-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 03 Jan 2025 11:48:59 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6d8f15481bbso28677026d6.1
-        for <linux-nvme@lists.infradead.org>; Fri, 03 Jan 2025 03:48:59 -0800 (PST)
+	Fri, 03 Jan 2025 17:50:45 +0000
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2ef05d0ef18so2664506a91.0
+        for <linux-nvme@lists.infradead.org>; Fri, 03 Jan 2025 09:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1735926641; x=1736531441; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c4H6BYBpPYkRFZnQPMJXxpY+I4Pkepc44pNcpMerJ+s=;
+        b=VDUfrSZky6na9lGw8girBhpW21h2mYn3QgXTv/dCqopH5XP+8+nkDu9vz7occDh8SE
+         o/p8BCKBZb7irSl1zM97jM2/qP9rD0FESli9RtLNYWuK5837qD8ZaZ4DjquOJyA901kb
+         dMsaFUWpBOaKqfrwFQSGdVVX5PQYNUt80QA3bcO7SRYFkO8m7SvsKLdGZkeupBXYEWBr
+         QJv1u4sFWuk6kYJ32qjWwd9OWf5GJrB9FrWearAN1CUN9dMsdntobzp4VSPTvqHErrlD
+         hnmxzvOAI+OMs4ocLKiixQi3BU7/OuLagxwsbzbzYE6fY7p61xzq087vM1nXAo9gEX7W
+         3IOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735904939; x=1736509739;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kSr8QRPbWyeuYtAJXhV7CqtuHNejTbL/irUiflDNBWI=;
-        b=Xcgp1nY8bav/+qM5jbYC5DwwiFUNZIA57LdyUagnz2QCmPJWg2Sbc1xXzQNyqSDzmU
-         2MUycwyETWziii+riJUtwr1aTl4X0znaWaKdgbhLPl5C4vsSdlqP6W4nESzhzUvzx0rg
-         p2L/VXW7DVY2G+3MVH/TDeLf0T12RvkTrS8T/FcM5lJOovqIjaxd3psToxosjeIGpYP2
-         F5BriUCsGYA5LkUH4NQ4B6TM6Mg9Hma7yr1Kzzt9EMEYjy5XioEVi6916YKv4QuMET+7
-         Q5aZwoh2rxrSUg/ecYpIctklTHIqbYh/w4Va1rogGoPqdAQHFf6faYR+t9bWYt7zEuSn
-         hN1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUTymxZfVdl99eDj5+dHoLyuriJQE9e/thi/7rYR3jGgSCVw+2LEroHbCmrTNsdKmhRtOpkDi/c3Cs6@lists.infradead.org
-X-Gm-Message-State: AOJu0YwJvodYRwGpW1aj+bi0iRM16UTqUIgsspC3/nIfCFinw7VSVMGn
-	sZL6fWgLeqaIgUY95pMRJJE9TDr2RjZD1QXnL4pZTPKqMSDmqZwxvStkdyrc5w3eG2h7Oa3j/cZ
-	Po8xNKmUydKyYcTuriRKrWErLUyQgDXCDmIUHBjoaRlbTc+RPhFPXuACfRi8HPAFrRQ==
-X-Gm-Gg: ASbGncvbNlMGj6voos9P9YyEDHi8QHsTsm3YbLZ4mqq4gD+6HA9HWq7Sriv8MfylZWj
-	USc5L91pEs00+khXfpT2zZIfT9igmqgr5EF6Jzl+kYHC4qecxUnUzE77h9/XCmD6S+m6WopcJgT
-	viE1ASRXFjtkLKymr5M1u0anEpRIiCBf4O0lYg6/AwP+MnZFMOILSNZBxCq5m9hZcY1ykZMn+xg
-	LBiv6tyjrdwCVkVpdAfvnd7mX539Mh/SEVk+8eRlOKgyQdWk1XqWy7S4wL1IAkp+2ephVE06VOC
-	z+rTrptHA6L1TmEzs8HufW+0AYylQi0uYUQ=
-X-Received: by 2002:a05:622a:199a:b0:467:85f9:2a72 with SMTP id d75a77b69052e-46a4a6a51camr298065041cf.0.1735904938642;
-        Fri, 03 Jan 2025 03:48:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHeaakE33Peugzgz4XJzULmcsT1OumHdl1qg3wXiidDFearGseoLbBPjIsRixnqTRiKwVCreA==
-X-Received: by 2002:a05:622a:199a:b0:467:85f9:2a72 with SMTP id d75a77b69052e-46a4a6a51camr298064781cf.0.1735904938243;
-        Fri, 03 Jan 2025 03:48:58 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e82f60asm1912866266b.28.2025.01.03.03.48.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jan 2025 03:48:57 -0800 (PST)
-Message-ID: <95f25457-c1dd-4125-8f0d-46d87a1d5356@oss.qualcomm.com>
-Date: Fri, 3 Jan 2025 12:48:55 +0100
+        d=1e100.net; s=20230601; t=1735926641; x=1736531441;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c4H6BYBpPYkRFZnQPMJXxpY+I4Pkepc44pNcpMerJ+s=;
+        b=og/oDMn+OuIS7Stll8TKDU18bz6sMqDmiUznhvTTyJTK0JvHISIiZfxZiBAGctG5AW
+         W/CqByBbEbfqp2ONtYdHI+szQSLr5OtbK/H/1U5WAAIcrRTWmiWpvDBaPSkLGJ6InxKu
+         c8U0mWe/UDm3j5cc+Rz9lJpMSYEPE7htyVxkcL62mEENjIN6AVfT5Cv2yaJ5jUI5zEZL
+         4zPtvCRQNSMHmY6HI65/xk6rdTYq/CUJNEZ4H/LLIZ23N4N6PrrLcD7/UYesCaG003fI
+         mWHmiHxi7xr/1umuSJw13t+/sP+ML73Qs/NTOHJRxsaf402UgsoPFWJhhnctaqvAPPPv
+         8tvA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVNgoDeiOlxf0S+BbyZMhR/N0jI2ESSi7slSUOVsIrw3DIkUHYj9H3aIzn5oockX3VagJlQXNvlXdE@lists.infradead.org
+X-Gm-Message-State: AOJu0YxxnvRyDgblH69f3gJoK68R90QR6BEK5wZuoORaV9PO2OIHYwKD
+	uN1M4qHzlR0HU+Z3BsYzofeX2IfBgtvyGhLud2lwfQdjxcvaD1QNwq0Tw/jj5XLILxLjB6/f/Te
+	mjpaolMloEd+QOrlkcM9GIbPnZyIqPWyrga8hnA==
+X-Gm-Gg: ASbGnctvDDf2rQXVUQ50Vxc/gMzwOJuA++Z1xEgM+cc3+R/gPu3BPVUsOTrmNKnpGgP
+	9tioU5MdPkY/YpOONHi8a+09y+4hAd1BgKcMJjQ==
+X-Google-Smtp-Source: AGHT+IE612wA6ryAX221wIT/7SaY5RIUdIP8axL1NqLx4f/wEM/pAhj7ctZ6LtmmgsKO/79stsvyHzwFG2BWgTgynZs=
+X-Received: by 2002:a17:90a:d650:b0:2f2:f6e5:d28e with SMTP id
+ 98e67ed59e1d1-2f452e16399mr28584893a91.3.1735926641405; Fri, 03 Jan 2025
+ 09:50:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by the
- user
-To: Christoph Hellwig <hch@lst.de>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Rafael J. Wysocki"
- <rjw@rjwysocki.net>,
-        Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, axboe@kernel.dk,
-        sagi@grimberg.me, linux-nvme@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        andersson@kernel.org, konradybcio@kernel.org,
-        Len Brown
- <len.brown@intel.com>, linux-pm@vger.kernel.org
-References: <20241209143821.m4dahsaqeydluyf3@thinkpad>
- <20241212055920.GB4825@lst.de> <13662231.uLZWGnKmhe@rjwysocki.net>
- <CAPDyKFrxEjHFB6B2r7JbryYY6=E4CxX_xTmLDqO6+26E+ULz6A@mail.gmail.com>
- <20241212151354.GA7708@lst.de>
- <CAJZ5v0gUpDw_NjTDtHGCUnKK0C+x0nrW6mP0tHQoXsgwR2RH8g@mail.gmail.com>
- <20241214063023.4tdvjbqd2lrylb7o@thinkpad> <20241216162303.GA26434@lst.de>
- <CAJZ5v0g8CdGgWA7e6TXpUjYNkU1zX46Rz3ELiun42MayoN0osA@mail.gmail.com>
- <dd557897-f2e0-4347-ae67-27cd45920159@oss.qualcomm.com>
- <20250103072805.GB28920@lst.de>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250103072805.GB28920@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: TeTHpLW-qkci2CeL19s-JaVRPI_7KhYi
-X-Proofpoint-ORIG-GUID: TeTHpLW-qkci2CeL19s-JaVRPI_7KhYi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 mlxscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 bulkscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501030104
+References: <20241226104546.13705-1-arefev@swemel.ru> <20250103070130.GB28303@lst.de>
+In-Reply-To: <20250103070130.GB28303@lst.de>
+From: Caleb Sander <csander@purestorage.com>
+Date: Fri, 3 Jan 2025 09:50:29 -0800
+Message-ID: <CADUfDZo2+_Au=3g6_1OOMGcBcJYKuCccWnJUKENVsq-j_8umFA@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_=5BPATCH=5D_nvme=3A_Enter_string_size_calculation_=E2=80=9Cs?=
+	=?UTF-8?Q?ubsysnqn=E2=80=9D?=
+To: Christoph Hellwig <hch@lst.de>
+Cc: Denis Arefev <arefev@swemel.ru>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@kernel.org>, Keith Busch <kbusch@kernel.org>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	syzbot+a84181c81389771eb46a@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250103_034901_552931_881299DC 
-X-CRM114-Status: GOOD (  21.15  )
+X-CRM114-CacheID: sfid-20250103_095042_822827_BD28FAD6 
+X-CRM114-Status: GOOD (  19.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,43 +95,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3.01.2025 8:28 AM, Christoph Hellwig wrote:
-> On Fri, Dec 20, 2024 at 04:15:21PM +0100, Konrad Dybcio wrote:
->> The Qualcomm platform (or class of platforms) we're looking at with this
->> specific issue requires PCIe (implying NVMe) shutdown for S2RAM.
->>
->> The S2RAM entry mechanism is unfortunately misrepresented as an S2Idle
->> state by Linux as of today, and I'm trying really hard to convince some
->> folks to let me describe it correctly, with little success so far..
-> 
-> Well, not advertizing the right mechanism isn't going to cause havoc
-> to any scheme.
-> 
->> That is the real underlying issue and once/if it's solved, this patch
->> will not be necessary.
-> 
-> Well, maybe this thread gave good enough fodder to finally fix it?
+The bug has already been fixed in commit 4db3d750ac7e ("nvmet: Don't
+overflow subsysnqn"). It is using the kmemdup() approach (technically,
+kstrndup()) suggested by Christoph.
 
-Oh I'd love to..
-
-But my changes are getting rejected over philosophical FW design
-disagreements, it seems.
-
-Konrad
-
-> 
->>
->>> In theory, ACPI S3 or hibernation may request that, but I've never
->>> seen it happen in practice.
->>>
->>> Suspend-to-idle on x86 may want devices to end up in specific power
->>> states in order to be able to switch the entire platform into a deep
->>> energy-saving mode, but that's never been D3cold so far.
->>
->> In our case the plug is only pulled in S2RAM, otherwise the best we can
->> do is just turn off the devices individually to decrease the overall
->> power draw
-> 
-> FYI, going to D3 for S2RAM seems perfectly reasonable from the NVMe POV.
-> 
+On Thu, Jan 2, 2025 at 11:02=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> On Thu, Dec 26, 2024 at 01:45:35PM +0300, Denis Arefev wrote:
+> > When memory is allocated, the size of the string
+> > is calculated nvmet_subsys_alloc(...).
+>
+> s/is/is in/ ?
+>
+> > When memory was accessed, constant size was used.
+> >
+> > Fixes: 95409e277d83 ("nvmet: implement unique discovery NQN")
+> > Reported-by: syzbot+a84181c81389771eb46a@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3Da84181c81389771eb46a
+> > Signed-off-by: Denis Arefev <arefev@swemel.ru>
+> > ---
+> >  drivers/nvme/target/configfs.c | 10 ++++++----
+> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/confi=
+gfs.c
+> > index eeee9e9b854c..2f74204d000e 100644
+> > --- a/drivers/nvme/target/configfs.c
+> > +++ b/drivers/nvme/target/configfs.c
+> > @@ -2247,14 +2247,15 @@ static struct config_group nvmet_hosts_group;
+> >  static ssize_t nvmet_root_discovery_nqn_show(struct config_item *item,
+> >                                            char *page)
+> >  {
+> > -     return snprintf(page, PAGE_SIZE, "%s\n", nvmet_disc_subsys->subsy=
+snqn);
+> > +     return snprintf(page, strnlen(nvmet_disc_subsys->subsysnqn, PAGE_=
+SIZE),
+> > +                     "%s\n", nvmet_disc_subsys->subsysnqn);
+>
+> This doesn't really make sense as %s already calculates the length
+> of the string internally.
+>
+> >  }
+> >
+> >  static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item=
+,
+> >               const char *page, size_t count)
+> >  {
+> >       struct list_head *entry;
+> > -     size_t len;
+> > +     size_t len, nqn_len;
+> >
+> >       len =3D strcspn(page, "\n");
+> >       if (!len || len > NVMF_NQN_FIELD_LEN - 1)
+> > @@ -2271,8 +2272,9 @@ static ssize_t nvmet_root_discovery_nqn_store(str=
+uct config_item *item,
+> >                       return -EINVAL;
+> >               }
+> >       }
+> > -     memset(nvmet_disc_subsys->subsysnqn, 0, NVMF_NQN_FIELD_LEN);
+> > -     memcpy(nvmet_disc_subsys->subsysnqn, page, len);
+> > +     nqn_len =3D strnlen(nvmet_disc_subsys->subsysnqn, NVMF_NQN_SIZE);
+> > +     memset(nvmet_disc_subsys->subsysnqn, 0, nqn_len);
+> > +     memcpy(nvmet_disc_subsys->subsysnqn, page, nqn_len);
+>
+> The memset should still happen for the entire field, only the copy
+> needs to me limited.
+>
+> But i really wonder if we should do away with this mess and just
+> use kmemdup()ed allocations for the nqns.
+>
+>
 
