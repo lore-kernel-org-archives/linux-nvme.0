@@ -4,143 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5699E77198
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 07:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C26BE77188
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 07:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
-	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S9g5yzfm32qCCSZ9hYX8RFrDFECwqUd1W8h8dBnaZOA=; b=uWEjFnTENsSNa5HOuyUbyPQUbl
-	e7MQitHEPdz/HcXY2GSHJ39rjg1l6n0uOz8KXlMBca8CpdPnfjKkoYvO4mpAvx3wou79qYhf7y4z8
-	UAAmLuhauxwOoIwTeZSkNi/tv//XVyQit42AjCL1iSZ+ewjbnoTDllD2z12KSto3VCNdxztzvmD5g
-	8ZeQzoLHrj5aPlHm/Zsfgibqzrw3vxuHy5fw7FQZuLDUoULI0mRbQC4T8J1puD8atiT3PvlPy8Obn
-	wSeNJDoTtCTPZ3GIKcukZMatzAvm5qKu40lWON9kKGGs2SdM97iz0ZeERwCFL3e5At2cg8Dxx6lHZ
-	gMAD10eg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FfUgLg4MKgKPz3LBP2tMYjj4Vybzdjf2gR22EUCoGfI=; b=sWG/btQwll0yWakJr9AXKy2ceb
+	i4FXewHJOdpqDQcccNgaI0S7UaHuTVRs+Gtgn5IvpCarBqkbndrnpb6beCBNfCcS4NBDaEpJ8jH4+
+	zdJ0o44UgE/hvgS7dIrxLwFpc9QCAjUEdKtE/3WRQw6n0OGhVk9DmdrLeJayDqb9ykazX7Q5cMxJn
+	jdLF9YnSj9TccMH02inY8zIBmOtYxqsBGjsPHMYHXIqN//1QsG0matyyiCXY28qIvEKw49j5qgjAK
+	3PBDFzZj0Q4fYBcZcGPrOHAVwlMWkpnNGEsVDA/iroHOjmbXSMPV6ojaJohgGj9heWxRadpThZyFY
+	YMnANK+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTbnM-0000000CIbp-1J8W;
-	Fri, 03 Jan 2025 07:08:32 +0000
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
+	id 1tTc4h-0000000CKag-27KJ;
+	Fri, 03 Jan 2025 07:26:27 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tRbsz-00000002G8E-2Z7f
+	id 1tTc4e-0000000CKZS-3dGk
 	for linux-nvme@lists.infradead.org;
-	Sat, 28 Dec 2024 18:50:06 +0000
-Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-e3f78f5fc07so7668755276.2
-        for <linux-nvme@lists.infradead.org>; Sat, 28 Dec 2024 10:50:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735411804; x=1736016604; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S9g5yzfm32qCCSZ9hYX8RFrDFECwqUd1W8h8dBnaZOA=;
-        b=DtRGAHxxRqMbCi6SJelpJAr2PwfHdf2IQmqygqIVuPnhMYN6Ystqh/fpw9H6w2p+3D
-         7I0yjYfyZm2yQ0T3WtGN2+d/NXZUOnQYDVilRu4zvgq3EBsu+WC106i2sIPuRH5IPd9N
-         09AKjA1BDiPLqcvyCh0Y958+VnCxjh50/+y27FlzGRw8r8Pf65xgPksOmIswzaLpkpfs
-         OxyjILQo7XLKakg+wPlk/3RZa4wRYSV4AyRsLHrNYb1swgk0aApWn8mRcgUaILWesw+r
-         rQBAnulWCWbv0Z0xNAdfRscbHHtR0fA8qACcwQ7EoBRDBvD5enszaYBS/mLnf8F8oB4L
-         Ym6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735411804; x=1736016604;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S9g5yzfm32qCCSZ9hYX8RFrDFECwqUd1W8h8dBnaZOA=;
-        b=Jrwy4lfQlRke+lwn8uDwfLJsq96+MxCUXHHDZwZ8v/2mwJUlewEpQTxV8NTFJrMTsY
-         GYuv6SYZ1bTeCo/vQzdLC7eeft8h6j7cOxi60YaEQcpXeaslsXT5JtSuE55NQsG1QZmg
-         MsIgSmjP4xVR0g7s1IZLDLeGGvxhklvaRSiZcUdB2+4wrsRSg+YcOpeuCjumSY/qO4jJ
-         ClwERxqujPhsoopwkOv1Tsu8dCCbalu/1UUfey/7KTeO5MkYWWP0VWt7IrOM6wf17HBK
-         sOZbKd+dXk0x5icUoC9N9OdXni6KnXRAoNnJ8u25oAEK6apWjkna3+cU7+jqL60yoCCo
-         qyGA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhpKFiOulCBLIq35Jj+01R98RR/eX7EHkL5S3XcrQsLLdhr/PFnxvqaa3kvs2uCQ8o330WT/dGKF8b@lists.infradead.org
-X-Gm-Message-State: AOJu0YyhepO57gLoFVEENzzdXQamP8CU1FDLBcDggInIoONqsL3cKg6f
-	nwEY+Z1FT0pm1x48ovKQET4vnoH4xzBYjmnI5Rp0P/yE2+2L+GQb
-X-Gm-Gg: ASbGncsubVeAvJHX3fy+konkEXRlL9Hbj36UyUTEMAbETmrYrluAL7uQ6VbrFwOYeOx
-	DaQhkzhLaggnWhCsqDMxa4Zz4rTCypuaeS874Jy0hzHcG0kq2u4F1FDfoXQo2eUxcSfF1GAmBcS
-	RL/NCZ7iHlvUUSk47E9bNM6OOoRC2ZEk7vyKfGsBsjZEVZVNq9AhhvSuNtCAWTdL+2CUibvaDL6
-	gbXoqU7FIEoLHhaeBDto3Qp57oNtM1gdmoX3GVoZCrbB0qNh23bfuIiwOxEjrRqRVkb/TA/Rj/y
-	OHH/nB1+WwDwmoHl
-X-Google-Smtp-Source: AGHT+IFRAv4ES1nGe5GZzQSCr0JvuQEh3E1vBTb1UadMisfKYeWtlE6qWVQlRiPBMv3C59QKs6b8rQ==
-X-Received: by 2002:a25:cc1:0:b0:e53:4d98:7459 with SMTP id 3f1490d57ef6-e538c3cfd9dmr14310782276.40.1735411804331;
-        Sat, 28 Dec 2024 10:50:04 -0800 (PST)
-Received: from localhost (c-24-129-28-254.hsd1.fl.comcast.net. [24.129.28.254])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e537cf73675sm5102193276.51.2024.12.28.10.50.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Dec 2024 10:50:03 -0800 (PST)
-From: Yury Norov <yury.norov@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-hyperv@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Rick Lindsley <ricklind@linux.ibm.com>,
-	Nick Child <nnac123@linux.ibm.com>,
-	Thomas Falcon <tlfalcon@linux.ibm.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Fri, 03 Jan 2025 07:26:26 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 70DA268BEB; Fri,  3 Jan 2025 08:26:18 +0100 (CET)
+Date: Fri, 3 Jan 2025 08:26:18 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Christoph Hellwig <hch@lst.de>,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	James Smart <james.smart@broadcom.com>,
-	Dick Kennedy <dick.kennedy@broadcom.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Matt Wu <wuqiang.matt@bytedance.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Daniel Jordan <daniel.m.jordan@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Greg Kurz <groug@kaod.org>,
-	Peter Xu <peterx@redhat.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Hendrik Brueckner <brueckner@linux.ibm.com>
-Subject: [PATCH 06/14] cpumask: re-introduce cpumask_next{,_and}_wrap()
-Date: Sat, 28 Dec 2024 10:49:38 -0800
-Message-ID: <20241228184949.31582-7-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241228184949.31582-1-yury.norov@gmail.com>
-References: <20241228184949.31582-1-yury.norov@gmail.com>
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org,
+	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	andersson@kernel.org, konradybcio@kernel.org,
+	Len Brown <len.brown@intel.com>, linux-pm@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: Shutdown the device if D3Cold is allowed by
+ the user
+Message-ID: <20250103072618.GA28920@lst.de>
+References: <20241216171108.6ssulem3276rkycb@thinkpad> <CAJZ5v0j+4xjSOOy8TYE0pBuqd_GdQa683Qq0GEyJ9WAFad9Z=A@mail.gmail.com> <20241216175210.mnc5kp6646sq7vzm@thinkpad> <CAJZ5v0grRdTYaamSnKSF-HyMmCHDEZ4haLo+ziSBxhDg1PbjRQ@mail.gmail.com> <20241217052632.lbncjto5xibdkc4c@thinkpad> <CAJZ5v0gjrBUgejwBz1vv6P83oZiYu8AuDMs47ZAFJoNhMaMdpQ@mail.gmail.com> <20241219080217.fr2ukr7sk4a7hfmo@thinkpad> <CAJZ5v0hByaAAaYGhAvstwtfa-JP6JRQCbWCZrTsRGWEHHyRKdA@mail.gmail.com> <CAPDyKFqc+YuAyV-120Vvg7HOkhgnJ=wM53LAHTkJ6Gg5=rJumA@mail.gmail.com> <CAJZ5v0gVCjhqLhNz-e7J4nZ05gJO9yYbRaNVuFdQRtO6JbTGfA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0gVCjhqLhNz-e7J4nZ05gJO9yYbRaNVuFdQRtO6JbTGfA@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241228_105005_657398_D9113838 
-X-CRM114-Status: GOOD (  14.35  )
-X-Mailman-Approved-At: Thu, 02 Jan 2025 23:08:30 -0800
+X-CRM114-CacheID: sfid-20250102_232625_042151_DBAD7D75 
+X-CRM114-Status: GOOD (  20.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,76 +66,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-cpumask_next_wrap_old() has two additional parameters, comparing to it's
-analogue in linux/find.h find_next_bit_wrap(). The reason for that is
-historical.
+On Thu, Dec 19, 2024 at 07:28:53PM +0100, Rafael J. Wysocki wrote:
+> In the particular case of NVMe, though, the question of how to
+> actually power it down is still open.
 
-Before 4fe49b3b97c262 ("lib/bitmap: introduce for_each_set_bit_wrap()
-macro"), cpumask_next_wrap() was used to implement for_each_cpu_wrap()
-iterator. Now that the iterator is an alias to generic
-for_each_set_bit_wrap(), the additional parameters aren't used and may
-confuse readers.
+Powering down nvme controller is down by shutting the controller
+down (nvme_disable_ctrl with shutdown=true).  
 
-All existing users call cpumask_next_wrap() in a way that makes it
-possible to turn it to straight and simple alias to find_next_bit_wrap().
+> Until there is a clear answer
+> to it, the possibility of powering NVMe devices down and up too often
+> is not really a practical concern.
 
-In a couple places kernel users opencode missing cpumask_next_and_wrap().
-Add it as well.
+Why do you think it isn't a practial concern?
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- include/linux/cpumask.h | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+> Generally, the problem of choosing suitable power states during system
+> suspend is not limited to storage (for instance, if the sleep time is
+> going to be short enough and it is known in advance, it may not be
+> useful to change power states of many devices because that is just
+> going to take too much time) and the attempts to address it have been
+> very limited so far.  There are many factors that come into play, like
+> how much energy is to be saved, how much time are suspend and resume
+> transitions allowed or expected to take, which devices are expected to
+> wake up the system from sleep, etc, and the possible device wearout is
+> one of them.
 
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index b267a4f6a917..18c9908d50c4 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -284,6 +284,43 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
- 		small_cpumask_bits, n + 1);
- }
- 
-+/**
-+ * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
-+ *			   @n and wrapping around, if needed
-+ * @n: the cpu prior to the place to search (i.e. return will be > @n)
-+ * @src1p: the first cpumask pointer
-+ * @src2p: the second cpumask pointer
-+ *
-+ * Return: >= nr_cpu_ids if no further cpus set in both.
-+ */
-+static __always_inline
-+unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
-+			      const struct cpumask *src2p)
-+{
-+	/* -1 is a legal arg here. */
-+	if (n != -1)
-+		cpumask_check(n);
-+	return find_next_and_bit_wrap(cpumask_bits(src1p), cpumask_bits(src2p),
-+		small_cpumask_bits, n + 1);
-+}
-+
-+/*
-+ * cpumask_next_wrap - get the next cpu in *src, starting from
-+ *			   @n and wrapping around, if needed
-+ * @n: the cpu prior to the place to search
-+ * @src: cpumask pointer
-+ *
-+ * Return: >= nr_cpu_ids if no further cpus set in both.
-+ */
-+static __always_inline
-+unsigned int cpumask_next_wrap(int n, const struct cpumask *src)
-+{
-+	/* -1 is a legal arg here. */
-+	if (n != -1)
-+		cpumask_check(n);
-+	return find_next_bit_wrap(cpumask_bits(src), small_cpumask_bits, n + 1);
-+}
-+
- /**
-  * for_each_cpu - iterate over every cpu in a mask
-  * @cpu: the (optionally unsigned) integer iterator
--- 
-2.43.0
+It is true that this applies to all kinds of devices.  But for (flash)
+storage devices it is more important because of the effect on device
+wear, the shutdown (and unclean restart) times that are much longer than
+most devices.
 
 
