@@ -4,49 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3734E77188
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 06:57:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A864E77188
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2025 07:01:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DBA6MG5IDtTDKSncOhfPeJCh4wnh85/YPUtfbpnsPLY=; b=rUjp2y7HykyQoD9f4eMGdK1aY+
-	LHrLnsMPYI2qP5Inj5zkj3Vg7AE7lMXhjKV37TiEgVgH+fN9Nd59led1856/t8HvuEVx6du2e2B28
-	jN2PxIPxekRyGxz5w13GXg7q7mxSM6FJ6vbgOCiVJDKwnPjfBMGRDeDZQyxNxqdTVtjqLAQkXFBfL
-	JZQ0L92706Pw5FodS6+aZiggSkQWb0AqOlb6iPAMxS8KHIIQ5VCmPymSKSq9oHf/mQArAzB6g/ZT3
-	umj+6USUJisjRlhpC3sUoxBZcxikTyHpFCC+s2nrqJGOHyM00VFe/aVtrGfc0pk7qO9sFGzT+boTd
-	Lq/Rkb3A==;
+	bh=F/nii7YseQkcWJiesMNyKk9MSZS+ig8zwZB3MlFDPSg=; b=2wO6Op3MwzetHoR7PDRs8c22Ti
+	JD4bIZjCXfpTizVv15qDaKQuLt6ZXD5lhE3CXNvXyndTmFT/K1v8b6IbLz6qyGo8WG0U3xNH5wsnd
+	+Cy0x3AkIk+pgOMHPMXlhdQAjti0oqBqON7QkkvjNwkvim/YOQB7V4Vf/yKpVy9kq0bYJ3TJ+Yjrm
+	5ZuL+FbYhpGYVZWjl9hm/0auJFUg+DCpeqN4mb+BeXM9h1vd7qgLvhcYbFzlX1pDwAqGa87/qY153
+	k5zufVeZo1OTT7aIflTY1CxlOHed9qIayPZqlkteYERT08a3lHSZNa8soNWsDoYbB4jNS2Ao/q0W5
+	2p9HNntw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTbcj-0000000CGnV-16BE;
-	Fri, 03 Jan 2025 06:57:33 +0000
+	id 1tTbgi-0000000CHhf-28Iu;
+	Fri, 03 Jan 2025 07:01:40 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTbcg-0000000CGmm-2BUV
+	id 1tTbgg-0000000CHfo-0PpW
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Jan 2025 06:57:31 +0000
+	Fri, 03 Jan 2025 07:01:39 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3D01268BEB; Fri,  3 Jan 2025 07:57:25 +0100 (CET)
-Date: Fri, 3 Jan 2025 07:57:25 +0100
+	id 0745868C7B; Fri,  3 Jan 2025 08:01:31 +0100 (CET)
+Date: Fri, 3 Jan 2025 08:01:30 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Atharva Tiwari <evepolonium@gmail.com>
-Cc: James Smart <james.smart@broadcom.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-fc: add DIF support for intergrity metadata
-Message-ID: <20250103065725.GA28303@lst.de>
-References: <20241226091415.354329-1-evepolonium@gmail.com>
+To: Denis Arefev <arefev@swemel.ru>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Hannes Reinecke <hare@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	syzbot+a84181c81389771eb46a@syzkaller.appspotmail.com
+Subject: Re: [PATCH] nvme: Enter string =?utf-8?Q?s?=
+ =?utf-8?Q?ize_calculation_=E2=80=9Csubsysnqn=E2=80=9D?=
+Message-ID: <20250103070130.GB28303@lst.de>
+References: <20241226104546.13705-1-arefev@swemel.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241226091415.354329-1-evepolonium@gmail.com>
+In-Reply-To: <20241226104546.13705-1-arefev@swemel.ru>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250102_225730_698983_F34B086D 
-X-CRM114-Status: GOOD (  17.75  )
+X-CRM114-CacheID: sfid-20250102_230138_286326_891470BA 
+X-CRM114-Status: GOOD (  21.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,32 +63,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 26, 2024 at 02:44:15PM +0530, Atharva Tiwari wrote:
-> This patch enhances the NVMe over Fibre Channel (NVMe-FC) driver to 
-> handle requests with integrity metadata (DIF).
+On Thu, Dec 26, 2024 at 01:45:35PM +0300, Denis Arefev wrote:
+> When memory is allocated, the size of the string 
+> is calculated nvmet_subsys_alloc(...).
+
+s/is/is in/ ?
+
+> When memory was accessed, constant size was used.
 > 
-> - Added the inclusion of `<linux/blk-integrity.h>` to enable integrity operations.
-> - Implemented support for mapping integrity metadata using `blk_rq_map_integrity_sg`.
-> - Ensures proper handling of requests with integrity metadata, including error cases where mapping fails.
+> Fixes: 95409e277d83 ("nvmet: implement unique discovery NQN")
+> Reported-by: syzbot+a84181c81389771eb46a@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=a84181c81389771eb46a
+> Signed-off-by: Denis Arefev <arefev@swemel.ru>
+> ---
+>  drivers/nvme/target/configfs.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index eeee9e9b854c..2f74204d000e 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -2247,14 +2247,15 @@ static struct config_group nvmet_hosts_group;
+>  static ssize_t nvmet_root_discovery_nqn_show(struct config_item *item,
+>  					     char *page)
+>  {
+> -	return snprintf(page, PAGE_SIZE, "%s\n", nvmet_disc_subsys->subsysnqn);
+> +	return snprintf(page, strnlen(nvmet_disc_subsys->subsysnqn, PAGE_SIZE),
+> +			"%s\n", nvmet_disc_subsys->subsysnqn);
 
-This isn't really how we write commit logs.  The mechanics are
-visible in the patch.  Also please wrap commit log lines after 73
-characters.
+This doesn't really make sense as %s already calculates the length
+of the string internally.
 
-> +	/* Handle requests with integrity metadata (DIF) */
-> +	if (blk_integrity_rq(rq)) {
-> +		ret = blk_rq_map_integrity_sg(rq, freq->sg_table.sgl);
-> +		if (ret < 0) {
-> +			sg_free_table_chained(&freq->sg_table, NVME_INLINE_SG_CNT);
-> +			freq->sg_cnt = 0;
-> +			return -EFAULT;
-> +		}
-> +		freq->sg_cnt += ret;
-> +	}
+>  }
+>  
+>  static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
+>  		const char *page, size_t count)
+>  {
+>  	struct list_head *entry;
+> -	size_t len;
+> +	size_t len, nqn_len;
+>  
+>  	len = strcspn(page, "\n");
+>  	if (!len || len > NVMF_NQN_FIELD_LEN - 1)
+> @@ -2271,8 +2272,9 @@ static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
+>  			return -EINVAL;
+>  		}
+>  	}
+> -	memset(nvmet_disc_subsys->subsysnqn, 0, NVMF_NQN_FIELD_LEN);
+> -	memcpy(nvmet_disc_subsys->subsysnqn, page, len);
+> +	nqn_len = strnlen(nvmet_disc_subsys->subsysnqn, NVMF_NQN_SIZE);
+> +	memset(nvmet_disc_subsys->subsysnqn, 0, nqn_len);
+> +	memcpy(nvmet_disc_subsys->subsysnqn, page, nqn_len);
 
-Who is going to look at the integrity sglist?  Who is setting a
-max_integrity_segments value for nvme-fc?
+The memset should still happen for the entire field, only the copy
+needs to me limited.
 
-How was this tested?
+But i really wonder if we should do away with this mess and just
+use kmemdup()ed allocations for the nqns.
 
 
