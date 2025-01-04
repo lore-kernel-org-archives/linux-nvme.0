@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2299E7719C
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 05:00:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 702E7E77197
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 05:00:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L5+NePefgwrPLLCB3cW+GAy2Dh50trFABdRdFwDpvD0=; b=C1eWUZuwJ93K86ZJ4mFnTiT3vD
-	doGdY4tja7lPjGDOJCNUAh9/MK7cdmmAsR3TutU99EMpLtr9TNe/vAkuQPdw12ZrEaW7aIRPbBZ3Q
-	x7JF9myybBRB2bTumv0Hc39qqBRgmULBPMoPv9Q6Qyfge0A5h/I/vFvia/8NRwPGCOVGfdAYJFIoU
-	MS6Wy9orCxmng5mOITRjirijgLj2ZhpmS9uIRe3ySLnRPe0bDJRDfaIQ51q7lWj/IazTIXLBrVvEr
-	qCU7SwbhfEcyiDnVi5Sva6MLJ/ctqk/57nM0MDIKc9FciK811HUIUkeXKHZ/huwaJ5zbWrgzzaZNG
-	/PMvUUcw==;
+	bh=cr7zt47ojh/Tl7loaULrjav4WCBApd0iq0Ti6IdoE4E=; b=sT7sHGyw0kzEtJW5Y8/Wpbre/+
+	7gGnxhWRY1Onbo2IgUCc/gBe4OxwGxYTs39dGIEqOJg4oVApSfHTmvENnfWgE9YxQIAKbwUpW46YK
+	6lWy3UY57/tVKJFDtBSoyPKmuzMDpirC7eSwgBIQD5qAYzuIOeyrawDS82ziu6yVy2DI060tjXAhd
+	zOC0J2UQXYALZp0KHapTh3/EAKghLirJW40y7pPATnW3pbCgFMQyX49rVmuxv2o84mzS84eOWMLyY
+	8hmIjDSHU1MA0hibCI4wFmwVR2JrVvtavf4HmgMbEaKLt5TgeGLOoKl5Pza9nkTcsNAmaiSh4w1UI
+	9zKs+8KQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTwHD-0000000ETpr-3jyW;
-	Sat, 04 Jan 2025 05:00:43 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tTwHE-0000000ETrM-32OL;
+	Sat, 04 Jan 2025 05:00:44 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTwHA-0000000ETee-1fw9
+	id 1tTwHA-0000000ETk6-2ED2
 	for linux-nvme@lists.infradead.org;
 	Sat, 04 Jan 2025 05:00:41 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 475A3A40249;
-	Sat,  4 Jan 2025 04:58:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5840C4CEDF;
-	Sat,  4 Jan 2025 05:00:31 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 94679A4020E;
+	Sat,  4 Jan 2025 04:58:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 129B2C4CEE1;
+	Sat,  4 Jan 2025 05:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735966833;
-	bh=86OUG0N6GpueIgp8SNHElEsuTHSm2Yq+bmdoO8GKorM=;
+	s=k20201202; t=1735966839;
+	bh=8lmFmnqNINhoMe/Otj8YE843UJwQh6qmYq2mCaJjmnY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=paLRI5ffbaMn9QbBFpZR586flQ1z4DjYYC/N12TEoy+wbkAoz2WI5qDTKkc60aRhn
-	 hL0/1X3/cxSo1G2mbAbT/aXjSN+VB39cGLlmsTIH2MRUSgAZ2r1suXwE2aW5F7dBbc
-	 shAq1OAhVrUGhsArkHOf2PjHOzsXF9GUW/OvjVulplypXv3NcPIgqd7J6YhqA48pIp
-	 DvTbEOAjRrggmnL9HGjE4PvMIeWEcehxce5e3mdenwrWFJ4ptiNWVNcpTsqFt5Ap3T
-	 7sXr24UJjLAmgpUJXr78XKJkj64o7DdtgV/4AVqPiwOgqpf9WRoFK6OCSVyP6tKrWX
-	 Ta7c01NaNHdow==
+	b=LxoaVShhHqddjPJFheWUt+YRtmKwTjvPbyt+TwTY9BPhTTURDu0gVJF/taDOrleob
+	 zmL4TwGFzOXrpxvrC53s4H3VCsCmnRxGOWaS6teSZX7SXY1bqxJr2L3cxOcchrpA2a
+	 JoqXfgGoTI3TXvIYmUzAe8nvb8sD3G/mYq6iVcVPE9lI+jZDl0hH9lYiPuETcZzNLs
+	 nJb08L2M9llIigxs4qfqqb+pzgSeW12wyBX05+Uxyhex8s4AhD8fr3x6RN/qjM52kK
+	 PI6LBxefDHU6FxXUVOHTF2jeMRitG8CG3TQvKSUI3ocY669MSulR1vKc4VAT1uWhZW
+	 pzEOZDjT+AoLg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,17 +55,17 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v9 03/18] nvmet: Export nvmet_update_cc() and nvmet_cc_xxx() helpers
-Date: Sat,  4 Jan 2025 13:59:36 +0900
-Message-ID: <20250104045951.157830-4-dlemoal@kernel.org>
+Subject: [PATCH v9 07/18] nvmet: Improve nvmet_alloc_ctrl() interface and implementation
+Date: Sat,  4 Jan 2025 13:59:40 +0900
+Message-ID: <20250104045951.157830-8-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250104045951.157830-1-dlemoal@kernel.org>
 References: <20250104045951.157830-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250103_210040_570346_F64FCEE5 
-X-CRM114-Status: GOOD (  10.19  )
+X-CRM114-CacheID: sfid-20250103_210040_741608_A39B2E69 
+X-CRM114-Status: GOOD (  22.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,122 +80,345 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Make the function nvmet_update_cc() available to target drivers by
-exporting it. To also facilitate the manipulation of the cc register
-bits, move the inline helper functions nvmet_cc_en(), nvmet_cc_css(),
-nvmet_cc_mps(), nvmet_cc_ams(), nvmet_cc_shn(), nvmet_cc_iosqes(), and
-nvmet_cc_iocqes() from core.c to nvmet.h so that these functions can be
-reused in target controller drivers.
+Introduce struct nvmet_alloc_ctrl_args to define the arguments for
+the function nvmet_alloc_ctrl() to avoid the need for passing a pointer
+to a struct nvmet_req as an argument. This new data structure aggregates
+together the arguments that were passed to nvmet_alloc_ctrl()
+(subsysnqn, hostnqn and kato), together with the struct nvmet_req fields
+used by nvmet_alloc_ctrl(), that is, the fields port, p2p_client, and
+ops as input and the result and error_loc fields as output, as well as a
+status field. nvmet_alloc_ctrl() is also changed to return a pointer
+to the allocated and initialized controller structure instead of a
+status code, as the status is now returned through the status field of
+struct nvmet_alloc_ctrl_args.
+
+The function nvmet_setup_p2p_ns_map() is changed to not take a pointer
+to a struct nvmet_req as argument, instead, directly specify the
+p2p_client device pointer needed as argument.
+
+The code in nvmet_execute_admin_connect() that initializes a new target
+controller after allocating it is moved into nvmet_alloc_ctrl().
+The code that sets up an admin queue for the controller (and the call
+to nvmet_install_queue()) remains in nvmet_execute_admin_connect().
+
+Finally, nvmet_alloc_ctrl() is also exported to allow target drivers to
+use this function directly to allocate and initialize a new controller
+structure without the need to rely on a fabrics connect command request.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
 Tested-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/nvme/target/core.c  | 36 +-----------------------------------
- drivers/nvme/target/nvmet.h | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+), 35 deletions(-)
+ drivers/nvme/target/core.c        | 83 ++++++++++++++++++++-----------
+ drivers/nvme/target/fabrics-cmd.c | 58 ++++++++++-----------
+ drivers/nvme/target/nvmet.h       | 18 +++++--
+ 3 files changed, 94 insertions(+), 65 deletions(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 1f4e9989663b..4b5594549ae6 100644
+index 4b5594549ae6..4909f3e5a552 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -1166,41 +1166,6 @@ void nvmet_req_free_sgls(struct nvmet_req *req)
- }
- EXPORT_SYMBOL_GPL(nvmet_req_free_sgls);
- 
--static inline bool nvmet_cc_en(u32 cc)
--{
--	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
--}
--
--static inline u8 nvmet_cc_css(u32 cc)
--{
--	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
--}
--
--static inline u8 nvmet_cc_mps(u32 cc)
--{
--	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
--}
--
--static inline u8 nvmet_cc_ams(u32 cc)
--{
--	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
--}
--
--static inline u8 nvmet_cc_shn(u32 cc)
--{
--	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
--}
--
--static inline u8 nvmet_cc_iosqes(u32 cc)
--{
--	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
--}
--
--static inline u8 nvmet_cc_iocqes(u32 cc)
--{
--	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
--}
--
- static inline bool nvmet_css_supported(u8 cc_css)
+@@ -1350,15 +1350,15 @@ bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn)
+  * Note: ctrl->subsys->lock should be held when calling this function
+  */
+ static void nvmet_setup_p2p_ns_map(struct nvmet_ctrl *ctrl,
+-		struct nvmet_req *req)
++		struct device *p2p_client)
  {
- 	switch (cc_css << NVME_CC_CSS_SHIFT) {
-@@ -1277,6 +1242,7 @@ void nvmet_update_cc(struct nvmet_ctrl *ctrl, u32 new)
- 		ctrl->csts &= ~NVME_CSTS_SHST_CMPLT;
- 	mutex_unlock(&ctrl->lock);
- }
-+EXPORT_SYMBOL_GPL(nvmet_update_cc);
+ 	struct nvmet_ns *ns;
+ 	unsigned long idx;
  
- static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+-	if (!req->p2p_client)
++	if (!p2p_client)
+ 		return;
+ 
+-	ctrl->p2p_client = get_device(req->p2p_client);
++	ctrl->p2p_client = get_device(p2p_client);
+ 
+ 	xa_for_each(&ctrl->subsys->namespaces, idx, ns)
+ 		nvmet_p2pmem_ns_add_p2p(ctrl, ns);
+@@ -1387,45 +1387,44 @@ static void nvmet_fatal_error_handler(struct work_struct *work)
+ 	ctrl->ops->delete_ctrl(ctrl);
+ }
+ 
+-u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+-		struct nvmet_req *req, u32 kato, struct nvmet_ctrl **ctrlp,
+-		uuid_t *hostid)
++struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
  {
+ 	struct nvmet_subsys *subsys;
+ 	struct nvmet_ctrl *ctrl;
++	u32 kato = args->kato;
++	u8 dhchap_status;
+ 	int ret;
+-	u16 status;
+ 
+-	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_STATUS_DNR;
+-	subsys = nvmet_find_get_subsys(req->port, subsysnqn);
++	args->status = NVME_SC_CONNECT_INVALID_PARAM | NVME_STATUS_DNR;
++	subsys = nvmet_find_get_subsys(args->port, args->subsysnqn);
+ 	if (!subsys) {
+ 		pr_warn("connect request for invalid subsystem %s!\n",
+-			subsysnqn);
+-		req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
+-		req->error_loc = offsetof(struct nvme_common_command, dptr);
+-		goto out;
++			args->subsysnqn);
++		args->result = IPO_IATTR_CONNECT_DATA(subsysnqn);
++		args->error_loc = offsetof(struct nvme_common_command, dptr);
++		return NULL;
+ 	}
+ 
+ 	down_read(&nvmet_config_sem);
+-	if (!nvmet_host_allowed(subsys, hostnqn)) {
++	if (!nvmet_host_allowed(subsys, args->hostnqn)) {
+ 		pr_info("connect by host %s for subsystem %s not allowed\n",
+-			hostnqn, subsysnqn);
+-		req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
++			args->hostnqn, args->subsysnqn);
++		args->result = IPO_IATTR_CONNECT_DATA(hostnqn);
+ 		up_read(&nvmet_config_sem);
+-		status = NVME_SC_CONNECT_INVALID_HOST | NVME_STATUS_DNR;
+-		req->error_loc = offsetof(struct nvme_common_command, dptr);
++		args->status = NVME_SC_CONNECT_INVALID_HOST | NVME_STATUS_DNR;
++		args->error_loc = offsetof(struct nvme_common_command, dptr);
+ 		goto out_put_subsystem;
+ 	}
+ 	up_read(&nvmet_config_sem);
+ 
+-	status = NVME_SC_INTERNAL;
++	args->status = NVME_SC_INTERNAL;
+ 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
+ 	if (!ctrl)
+ 		goto out_put_subsystem;
+ 	mutex_init(&ctrl->lock);
+ 
+-	ctrl->port = req->port;
+-	ctrl->ops = req->ops;
++	ctrl->port = args->port;
++	ctrl->ops = args->ops;
+ 
+ #ifdef CONFIG_NVME_TARGET_PASSTHRU
+ 	/* By default, set loop targets to clear IDS by default */
+@@ -1439,8 +1438,8 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	INIT_WORK(&ctrl->fatal_err_work, nvmet_fatal_error_handler);
+ 	INIT_DELAYED_WORK(&ctrl->ka_work, nvmet_keep_alive_timer);
+ 
+-	memcpy(ctrl->subsysnqn, subsysnqn, NVMF_NQN_SIZE);
+-	memcpy(ctrl->hostnqn, hostnqn, NVMF_NQN_SIZE);
++	memcpy(ctrl->subsysnqn, args->subsysnqn, NVMF_NQN_SIZE);
++	memcpy(ctrl->hostnqn, args->hostnqn, NVMF_NQN_SIZE);
+ 
+ 	kref_init(&ctrl->ref);
+ 	ctrl->subsys = subsys;
+@@ -1463,12 +1462,12 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 			     subsys->cntlid_min, subsys->cntlid_max,
+ 			     GFP_KERNEL);
+ 	if (ret < 0) {
+-		status = NVME_SC_CONNECT_CTRL_BUSY | NVME_STATUS_DNR;
++		args->status = NVME_SC_CONNECT_CTRL_BUSY | NVME_STATUS_DNR;
+ 		goto out_free_sqs;
+ 	}
+ 	ctrl->cntlid = ret;
+ 
+-	uuid_copy(&ctrl->hostid, hostid);
++	uuid_copy(&ctrl->hostid, args->hostid);
+ 
+ 	/*
+ 	 * Discovery controllers may use some arbitrary high value
+@@ -1490,12 +1489,35 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	if (ret)
+ 		goto init_pr_fail;
+ 	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+-	nvmet_setup_p2p_ns_map(ctrl, req);
++	nvmet_setup_p2p_ns_map(ctrl, args->p2p_client);
+ 	nvmet_debugfs_ctrl_setup(ctrl);
+ 	mutex_unlock(&subsys->lock);
+ 
+-	*ctrlp = ctrl;
+-	return 0;
++	if (args->hostid)
++		uuid_copy(&ctrl->hostid, args->hostid);
++
++	dhchap_status = nvmet_setup_auth(ctrl);
++	if (dhchap_status) {
++		pr_err("Failed to setup authentication, dhchap status %u\n",
++		       dhchap_status);
++		nvmet_ctrl_put(ctrl);
++		if (dhchap_status == NVME_AUTH_DHCHAP_FAILURE_FAILED)
++			args->status =
++				NVME_SC_CONNECT_INVALID_HOST | NVME_STATUS_DNR;
++		else
++			args->status = NVME_SC_INTERNAL;
++		return NULL;
++	}
++
++	args->status = NVME_SC_SUCCESS;
++
++	pr_info("Created %s controller %d for subsystem %s for NQN %s%s%s.\n",
++		nvmet_is_disc_subsys(ctrl->subsys) ? "discovery" : "nvm",
++		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn,
++		ctrl->pi_support ? " T10-PI is enabled" : "",
++		nvmet_has_auth(ctrl) ? " with DH-HMAC-CHAP" : "");
++
++	return ctrl;
+ 
+ init_pr_fail:
+ 	mutex_unlock(&subsys->lock);
+@@ -1509,9 +1531,9 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	kfree(ctrl);
+ out_put_subsystem:
+ 	nvmet_subsys_put(subsys);
+-out:
+-	return status;
++	return NULL;
+ }
++EXPORT_SYMBOL_GPL(nvmet_alloc_ctrl);
+ 
+ static void nvmet_ctrl_free(struct kref *ref)
+ {
+@@ -1547,6 +1569,7 @@ void nvmet_ctrl_put(struct nvmet_ctrl *ctrl)
+ {
+ 	kref_put(&ctrl->ref, nvmet_ctrl_free);
+ }
++EXPORT_SYMBOL_GPL(nvmet_ctrl_put);
+ 
+ void nvmet_ctrl_fatal_error(struct nvmet_ctrl *ctrl)
+ {
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index c49904ebb6c2..8dbd7df8c9a0 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -213,73 +213,67 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 	struct nvmf_connect_command *c = &req->cmd->connect;
+ 	struct nvmf_connect_data *d;
+ 	struct nvmet_ctrl *ctrl = NULL;
+-	u16 status;
+-	u8 dhchap_status;
++	struct nvmet_alloc_ctrl_args args = {
++		.port = req->port,
++		.ops = req->ops,
++		.p2p_client = req->p2p_client,
++		.kato = le32_to_cpu(c->kato),
++	};
+ 
+ 	if (!nvmet_check_transfer_len(req, sizeof(struct nvmf_connect_data)))
+ 		return;
+ 
+ 	d = kmalloc(sizeof(*d), GFP_KERNEL);
+ 	if (!d) {
+-		status = NVME_SC_INTERNAL;
++		args.status = NVME_SC_INTERNAL;
+ 		goto complete;
+ 	}
+ 
+-	status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
+-	if (status)
++	args.status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
++	if (args.status)
+ 		goto out;
+ 
+ 	if (c->recfmt != 0) {
+ 		pr_warn("invalid connect version (%d).\n",
+ 			le16_to_cpu(c->recfmt));
+-		req->error_loc = offsetof(struct nvmf_connect_command, recfmt);
+-		status = NVME_SC_CONNECT_FORMAT | NVME_STATUS_DNR;
++		args.error_loc = offsetof(struct nvmf_connect_command, recfmt);
++		args.status = NVME_SC_CONNECT_FORMAT | NVME_STATUS_DNR;
+ 		goto out;
+ 	}
+ 
+ 	if (unlikely(d->cntlid != cpu_to_le16(0xffff))) {
+ 		pr_warn("connect attempt for invalid controller ID %#x\n",
+ 			d->cntlid);
+-		status = NVME_SC_CONNECT_INVALID_PARAM | NVME_STATUS_DNR;
+-		req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(cntlid);
++		args.status = NVME_SC_CONNECT_INVALID_PARAM | NVME_STATUS_DNR;
++		args.result = IPO_IATTR_CONNECT_DATA(cntlid);
+ 		goto out;
+ 	}
+ 
+ 	d->subsysnqn[NVMF_NQN_FIELD_LEN - 1] = '\0';
+ 	d->hostnqn[NVMF_NQN_FIELD_LEN - 1] = '\0';
+-	status = nvmet_alloc_ctrl(d->subsysnqn, d->hostnqn, req,
+-				  le32_to_cpu(c->kato), &ctrl, &d->hostid);
+-	if (status)
+-		goto out;
+ 
+-	dhchap_status = nvmet_setup_auth(ctrl);
+-	if (dhchap_status) {
+-		pr_err("Failed to setup authentication, dhchap status %u\n",
+-		       dhchap_status);
+-		nvmet_ctrl_put(ctrl);
+-		if (dhchap_status == NVME_AUTH_DHCHAP_FAILURE_FAILED)
+-			status = (NVME_SC_CONNECT_INVALID_HOST | NVME_STATUS_DNR);
+-		else
+-			status = NVME_SC_INTERNAL;
++	args.subsysnqn = d->subsysnqn;
++	args.hostnqn = d->hostnqn;
++	args.hostid = &d->hostid;
++	args.kato = c->kato;
++
++	ctrl = nvmet_alloc_ctrl(&args);
++	if (!ctrl)
+ 		goto out;
+-	}
+ 
+-	status = nvmet_install_queue(ctrl, req);
+-	if (status) {
++	args.status = nvmet_install_queue(ctrl, req);
++	if (args.status) {
+ 		nvmet_ctrl_put(ctrl);
+ 		goto out;
+ 	}
+ 
+-	pr_info("creating %s controller %d for subsystem %s for NQN %s%s%s.\n",
+-		nvmet_is_disc_subsys(ctrl->subsys) ? "discovery" : "nvm",
+-		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn,
+-		ctrl->pi_support ? " T10-PI is enabled" : "",
+-		nvmet_has_auth(ctrl) ? " with DH-HMAC-CHAP" : "");
+-	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl));
++	args.result = cpu_to_le32(nvmet_connect_result(ctrl));
+ out:
+ 	kfree(d);
+ complete:
+-	nvmet_req_complete(req, status);
++	req->error_loc = args.error_loc;
++	req->cqe->result.u32 = args.result;
++	nvmet_req_complete(req, args.status);
+ }
+ 
+ static void nvmet_execute_io_connect(struct nvmet_req *req)
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index e4a31a37c14b..e68f1927339c 100644
+index 4dad413e5fef..ed7e8cd890e4 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -732,6 +732,41 @@ void nvmet_passthrough_override_cap(struct nvmet_ctrl *ctrl);
- u16 errno_to_nvme_status(struct nvmet_req *req, int errno);
- u16 nvmet_report_invalid_opcode(struct nvmet_req *req);
+@@ -549,9 +549,21 @@ int nvmet_sq_init(struct nvmet_sq *sq);
+ void nvmet_ctrl_fatal_error(struct nvmet_ctrl *ctrl);
  
-+static inline bool nvmet_cc_en(u32 cc)
-+{
-+	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
-+}
+ void nvmet_update_cc(struct nvmet_ctrl *ctrl, u32 new);
+-u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+-		struct nvmet_req *req, u32 kato, struct nvmet_ctrl **ctrlp,
+-		uuid_t *hostid);
 +
-+static inline u8 nvmet_cc_css(u32 cc)
-+{
-+	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
-+}
++struct nvmet_alloc_ctrl_args {
++	struct nvmet_port	*port;
++	char			*subsysnqn;
++	char			*hostnqn;
++	uuid_t			*hostid;
++	const struct nvmet_fabrics_ops *ops;
++	struct device		*p2p_client;
++	u32			kato;
++	u32			result;
++	u16			error_loc;
++	u16			status;
++};
 +
-+static inline u8 nvmet_cc_mps(u32 cc)
-+{
-+	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
-+}
-+
-+static inline u8 nvmet_cc_ams(u32 cc)
-+{
-+	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
-+}
-+
-+static inline u8 nvmet_cc_shn(u32 cc)
-+{
-+	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
-+}
-+
-+static inline u8 nvmet_cc_iosqes(u32 cc)
-+{
-+	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
-+}
-+
-+static inline u8 nvmet_cc_iocqes(u32 cc)
-+{
-+	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
-+}
-+
- /* Convert a 32-bit number to a 16-bit 0's based number */
- static inline __le16 to0based(u32 a)
- {
++struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args);
+ struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
+ 				       const char *hostnqn, u16 cntlid,
+ 				       struct nvmet_req *req);
 -- 
 2.47.1
 
