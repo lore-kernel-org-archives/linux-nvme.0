@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9468E7719A
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 05:00:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2299E7719C
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 05:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eMjPT4sGrPwwdL43qBR7FpG/p/Nseu7HNTCkXD1FZ3M=; b=whlvYRGqFGyVfeCHOT8ReC7Yxd
-	+lN2jrPVvBC/4er4bVbXhcLNe2DbYT6GQu6Tu7DuCRrwQpTrOqzTFycN40qdvcFUVnf7wP5V6Qbxg
-	gV+k4twbO378AHStW99M//YgedXpi+Tsid0LKafBwuujR9omnyVi/6plQBQGpwQsjktQIHV3K2ogq
-	XcKsgz8bWjBesQnTZp8c/0QcBq2HRszxWAmt8RlK1kF30wWEYU5r+PPmlAFmHugirNFVWNmpVvG/G
-	FP2ZRmcQUVktxt954vGaPXsLz5wdUOZ4AdFa0xDlnlivyPtE/28FDnPZ65o8ZC3UPMaP855r6W0a9
-	L7Oht65A==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=L5+NePefgwrPLLCB3cW+GAy2Dh50trFABdRdFwDpvD0=; b=C1eWUZuwJ93K86ZJ4mFnTiT3vD
+	doGdY4tja7lPjGDOJCNUAh9/MK7cdmmAsR3TutU99EMpLtr9TNe/vAkuQPdw12ZrEaW7aIRPbBZ3Q
+	x7JF9myybBRB2bTumv0Hc39qqBRgmULBPMoPv9Q6Qyfge0A5h/I/vFvia/8NRwPGCOVGfdAYJFIoU
+	MS6Wy9orCxmng5mOITRjirijgLj2ZhpmS9uIRe3ySLnRPe0bDJRDfaIQ51q7lWj/IazTIXLBrVvEr
+	qCU7SwbhfEcyiDnVi5Sva6MLJ/ctqk/57nM0MDIKc9FciK811HUIUkeXKHZ/huwaJ5zbWrgzzaZNG
+	/PMvUUcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTwH7-0000000EThQ-3epb;
-	Sat, 04 Jan 2025 05:00:37 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tTwHD-0000000ETpr-3jyW;
+	Sat, 04 Jan 2025 05:00:43 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTwH5-0000000ETeD-1q9x
+	id 1tTwHA-0000000ETee-1fw9
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Jan 2025 05:00:36 +0000
+	Sat, 04 Jan 2025 05:00:41 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 80F0FA401E2;
-	Sat,  4 Jan 2025 04:58:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAD79C4CED1;
-	Sat,  4 Jan 2025 05:00:26 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 475A3A40249;
+	Sat,  4 Jan 2025 04:58:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5840C4CEDF;
+	Sat,  4 Jan 2025 05:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735966828;
-	bh=0KYOaqk6bSJfSA3pjcPsIgoiQSZaqIHB6yulXVPjxXY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oPjjnaLtj+UA9m16TAAg36XV+O5UJgJ+XJA8RURY4OcEnAe/xQ0iB90JWZZXnXh0G
-	 cezRf6GoDCmcE3RG7uQetWCGJNEIked3V7mJODFrxKZGDi9DWmoIP+W4f5zu6ffJ5U
-	 Y6+cXZO5j1Hop3A2NJVN6PwnBHpddzMcyAjOrfL72esn9unzNTW1qTDkEFyCeEu0y/
-	 RRqPnheE/fT/slpB3raFjQLcSULXt0CSQxcOmcyM2RcVlYeJvAh2Jz0DQCGNf6f8QN
-	 4kLuxWNZKbeeNVNaSkl7F9xb+NgZQcginnK/7YF7SqKqr8FWa5J/SKr0or3uVweKS8
-	 Cq4zjlZLfdCCg==
+	s=k20201202; t=1735966833;
+	bh=86OUG0N6GpueIgp8SNHElEsuTHSm2Yq+bmdoO8GKorM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=paLRI5ffbaMn9QbBFpZR586flQ1z4DjYYC/N12TEoy+wbkAoz2WI5qDTKkc60aRhn
+	 hL0/1X3/cxSo1G2mbAbT/aXjSN+VB39cGLlmsTIH2MRUSgAZ2r1suXwE2aW5F7dBbc
+	 shAq1OAhVrUGhsArkHOf2PjHOzsXF9GUW/OvjVulplypXv3NcPIgqd7J6YhqA48pIp
+	 DvTbEOAjRrggmnL9HGjE4PvMIeWEcehxce5e3mdenwrWFJ4ptiNWVNcpTsqFt5Ap3T
+	 7sXr24UJjLAmgpUJXr78XKJkj64o7DdtgV/4AVqPiwOgqpf9WRoFK6OCSVyP6tKrWX
+	 Ta7c01NaNHdow==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,16 +55,17 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v9 00/18] NVMe PCI endpoint target driver
-Date: Sat,  4 Jan 2025 13:59:33 +0900
-Message-ID: <20250104045951.157830-1-dlemoal@kernel.org>
+Subject: [PATCH v9 03/18] nvmet: Export nvmet_update_cc() and nvmet_cc_xxx() helpers
+Date: Sat,  4 Jan 2025 13:59:36 +0900
+Message-ID: <20250104045951.157830-4-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250104045951.157830-1-dlemoal@kernel.org>
+References: <20250104045951.157830-1-dlemoal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250103_210035_598076_A688819F 
-X-CRM114-Status: GOOD (  31.61  )
+X-CRM114-CacheID: sfid-20250103_210040_570346_F64FCEE5 
+X-CRM114-Status: GOOD (  10.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,175 +80,122 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch series implements an NVMe target driver for the PCI transport
-using the PCI endpoint framework.
+Make the function nvmet_update_cc() available to target drivers by
+exporting it. To also facilitate the manipulation of the cc register
+bits, move the inline helper functions nvmet_cc_en(), nvmet_cc_css(),
+nvmet_cc_mps(), nvmet_cc_ams(), nvmet_cc_shn(), nvmet_cc_iosqes(), and
+nvmet_cc_iocqes() from core.c to nvmet.h so that these functions can be
+reused in target controller drivers.
 
-The first 5 patches of this series move and cleanup some nvme code that
-will be reused in following patches.
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
+Tested-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/nvme/target/core.c  | 36 +-----------------------------------
+ drivers/nvme/target/nvmet.h | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 35 deletions(-)
 
-Patch 6 introduces the PCI transport type to allow setting up ports for
-the new PCI target controller driver. Patch 7 to 10 are improvements of
-the target core code to allow creating the PCI controller and processing
-its nvme commands without the need to rely on fabrics commands like the
-connect command to create the admin and I/O queues.
-
-Patch 11 relaxes the SGL check in nvmet_req_init() to allow for PCI
-admin commands (which must use PRPs).
-
-Patches 12 to 16 improve the set/get feature support of the target code
-to get closer to achieving NVMe specification compliance. These patches
-though do not implement support for some mandatory features.
-
-Patch 17 is the main patch which introduces the NVMe PCI endpoint target
-driver. This patch commit message provides and overview of the driver
-design and operation.
-
-Finally, patch 18 documents the NVMe PCI endpoint target driver and
-provides a user guide explaning how to setup an NVMe PCI endpoint
-device.
-
-The patches are base on Linus 6.13-rc3 tree.
-
-This driver has been extensively tested using a Radxa Rock5B board
-(RK3588 Arm SoC). Some tests have also been done using a Pine Rockpro64
-board. However, this board does not support DMA channels for the PCI
-endpoint controller, leading to very poor performance.
-
-Using the Radxa Rock5b board and setting up a 4 queue-pairs controller
-with a null-blk block device loop target, performance was measured using
-fio as follows:
-
- +----------------------------------+------------------------+
- | Workload                         | IOPS (BW)              |
- +----------------------------------+------------------------+
- | Rand read, 4KB, QD=1, 1 job      | 14.3k IOPS             |
- | Rand read, 4KB, QD=32, 1 job     | 80.8k IOPS             |
- | Rand read, 4KB, QD=32, 4 jobs    | 131k IOPS              |
- | Rand read, 128KB, QD=32, 1 job   | 16.7k IOPS (2.18 GB/s) |
- | Rand read, 128KB, QD=32, 4 jobs  | 17.4k IOPS (2.27 GB/s) |
- | Rand read, 512KB, QD=32, 1 job   | 5380 IOPS (2.82 GB/s)  |
- | Rand read, 512KB, QD=32, 4 jobs  | 5206 IOPS (2.27 GB/s)  |
- | Rand write, 128KB, QD=32, 1 job  | 9617 IOPS (1.26 GB/s)  |
- | Rand write, 128KB, QD=32, 4 jobs | 8405 IOPS (1.10 GB/s)  |
- +----------------------------------+------------------------+
-
-These results use the default MDTS of the NVMe enpoint driver of 512 KB.
-
-This driver is not intended for production use but rather to be a
-playground for learning NVMe and exploring/testing new NVMe features
-while providing reasonably good performance.
-
-Changes from v8:
- - Addressed compilation error signaled by the build-bot for patch 17
-   when the PCI endpoint target driver is compiled in but the nvme core
-   is compiled as a module. For such case, only allow the pci endpoint
-   target driver to be compiled as a module.
-
-Changes from v7:
- - Addressed compilation warnings signaled by the build-bot for
-   patch 17:
-   - Use GENMASK_ULL instead of GENMASK for 64-bits fields
-   - Removed unused funtion nvmet_pci_epf_prp_addr()
- - Reworded the Kconfig entry and some comments and error messages as
-   suggested by Krzysztof (all in patch 17).
- - Added Tested-by and Review tag from Mani
- - Added Review tag from Krzysztof
-
-Changes from v6:
- - Fixed incorrect bar cleanup in patch 17 causing a NULL pointer
-   dereference when PERST# is asserted
- - Added Mani's review tag to path 18
-
-Changes from v5:
- - Rebased on 6.13-rc3
- - Addressed most of Mani's comment on patch 17:
-   - Renaming of functions and data structures
-   - Error messages format
-   - Removed dma_enable configfs knob and simplified DMA initialization
-     and cleanup.
-   - Simplified some error path
-   - Fixed up handling of icontrollers with a fixed bar 0 size
-   Of note is that I did not define macros for the bits of the CAP
-   register as that would be too much for now since we want to do this
-   correctly in include/linux/nvme.h by defining all of them, and by
-   using these definitions in the nvme host and target code. This can be
-   done in a followup patch series once this is applied.
- - Fixed the command examples in patch 18
-
-Changes from v4:
- - Fixed typos in patch 13 and 17 commit message
- - Addressed Bjorn's comments (typos and text clarity) in patch 18.
- - Added Bjorn's Acked-by tag to patch 18
-
-Changes from v3:
- - Added patch 1 which was missing from v3 and caused the 0day build
-   failure
- - Corrected a few typos in the documentation (patch 18)
- - Added Christoph's review tag and Rick's tested tag
-
-Changes from v2:
- - Changed all preparatory patches before patch 16 to move more NVMe
-   generic code out of the PCI endpoint target driver and into the
-   target core.
- - Changed patch 16 to use directly a target controller instead of a
-   host controller. Many aspects of the command management and DMA
-   transfer management have also been simplified, leading to higher
-   performance.
- - Change the documentation patch to match the above changes
-
-Changes from v1:
- - Added review tag to patch 1
- - Modified patch 4 to:
-   - Add Rick's copyright notice
-   - Improve admin command handling (set_features command) to handle the
-     number of queues feature (among others) to enable Windows host
-   - Improved SQ and CQ work items handling
-
-Damien Le Moal (18):
-  nvme: Move opcode string helper functions declarations
-  nvmet: Add vendor_id and subsys_vendor_id subsystem attributes
-  nvmet: Export nvmet_update_cc() and nvmet_cc_xxx() helpers
-  nvmet: Introduce nvmet_get_cmd_effects_admin()
-  nvmet: Add drvdata field to struct nvmet_ctrl
-  nvme: Add PCI transport type
-  nvmet: Improve nvmet_alloc_ctrl() interface and implementation
-  nvmet: Introduce nvmet_req_transfer_len()
-  nvmet: Introduce nvmet_sq_create() and nvmet_cq_create()
-  nvmet: Add support for I/O queue management admin commands
-  nvmet: Do not require SGL for PCI target controller commands
-  nvmet: Introduce get/set_feature controller operations
-  nvmet: Implement host identifier set feature support
-  nvmet: Implement interrupt coalescing feature support
-  nvmet: Implement interrupt config feature support
-  nvmet: Implement arbitration feature support
-  nvmet: New NVMe PCI endpoint function target driver
-  Documentation: Document the NVMe PCI endpoint target driver
-
- Documentation/PCI/endpoint/index.rst          |    1 +
- .../PCI/endpoint/pci-nvme-function.rst        |   13 +
- Documentation/nvme/index.rst                  |   12 +
- .../nvme/nvme-pci-endpoint-target.rst         |  368 +++
- Documentation/subsystem-apis.rst              |    1 +
- drivers/nvme/host/nvme.h                      |   39 -
- drivers/nvme/target/Kconfig                   |   11 +
- drivers/nvme/target/Makefile                  |    2 +
- drivers/nvme/target/admin-cmd.c               |  388 ++-
- drivers/nvme/target/configfs.c                |   49 +
- drivers/nvme/target/core.c                    |  266 +-
- drivers/nvme/target/discovery.c               |   17 +
- drivers/nvme/target/fabrics-cmd-auth.c        |   14 +-
- drivers/nvme/target/fabrics-cmd.c             |  101 +-
- drivers/nvme/target/nvmet.h                   |  110 +-
- drivers/nvme/target/pci-epf.c                 | 2591 +++++++++++++++++
- include/linux/nvme.h                          |   42 +
- 17 files changed, 3865 insertions(+), 160 deletions(-)
- create mode 100644 Documentation/PCI/endpoint/pci-nvme-function.rst
- create mode 100644 Documentation/nvme/index.rst
- create mode 100644 Documentation/nvme/nvme-pci-endpoint-target.rst
- create mode 100644 drivers/nvme/target/pci-epf.c
-
-
-base-commit: fc033cf25e612e840e545f8d5ad2edd6ba613ed5
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 1f4e9989663b..4b5594549ae6 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1166,41 +1166,6 @@ void nvmet_req_free_sgls(struct nvmet_req *req)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_req_free_sgls);
+ 
+-static inline bool nvmet_cc_en(u32 cc)
+-{
+-	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
+-}
+-
+-static inline u8 nvmet_cc_css(u32 cc)
+-{
+-	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
+-}
+-
+-static inline u8 nvmet_cc_mps(u32 cc)
+-{
+-	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
+-}
+-
+-static inline u8 nvmet_cc_ams(u32 cc)
+-{
+-	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
+-}
+-
+-static inline u8 nvmet_cc_shn(u32 cc)
+-{
+-	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
+-}
+-
+-static inline u8 nvmet_cc_iosqes(u32 cc)
+-{
+-	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
+-}
+-
+-static inline u8 nvmet_cc_iocqes(u32 cc)
+-{
+-	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
+-}
+-
+ static inline bool nvmet_css_supported(u8 cc_css)
+ {
+ 	switch (cc_css << NVME_CC_CSS_SHIFT) {
+@@ -1277,6 +1242,7 @@ void nvmet_update_cc(struct nvmet_ctrl *ctrl, u32 new)
+ 		ctrl->csts &= ~NVME_CSTS_SHST_CMPLT;
+ 	mutex_unlock(&ctrl->lock);
+ }
++EXPORT_SYMBOL_GPL(nvmet_update_cc);
+ 
+ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+ {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e4a31a37c14b..e68f1927339c 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -732,6 +732,41 @@ void nvmet_passthrough_override_cap(struct nvmet_ctrl *ctrl);
+ u16 errno_to_nvme_status(struct nvmet_req *req, int errno);
+ u16 nvmet_report_invalid_opcode(struct nvmet_req *req);
+ 
++static inline bool nvmet_cc_en(u32 cc)
++{
++	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
++}
++
++static inline u8 nvmet_cc_css(u32 cc)
++{
++	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
++}
++
++static inline u8 nvmet_cc_mps(u32 cc)
++{
++	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
++}
++
++static inline u8 nvmet_cc_ams(u32 cc)
++{
++	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
++}
++
++static inline u8 nvmet_cc_shn(u32 cc)
++{
++	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
++}
++
++static inline u8 nvmet_cc_iosqes(u32 cc)
++{
++	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
++}
++
++static inline u8 nvmet_cc_iocqes(u32 cc)
++{
++	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
++}
++
+ /* Convert a 32-bit number to a 16-bit 0's based number */
+ static inline __le16 to0based(u32 a)
+ {
 -- 
 2.47.1
 
