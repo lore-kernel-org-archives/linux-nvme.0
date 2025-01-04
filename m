@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18A3EE77199
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 05:00:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 591D4E77197
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 05:00:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T6gFiTl/AmzEo0pH/Oqh1ue84+cKqy2aF3STrHj4Hug=; b=nFVT6F1XYsIMkkKh8Htcr3pHEh
-	mrf4160Yst1363C0YtgIWJPFErjOUmS3xu8HkAqnimn4sFcFGZkfHXRvQ5x4E9iSyoIerSGlzx9gG
-	ZA1nzyr5BJbDqE6KuepqHGA0gPcr09JxoabbDJF61y3p5OY2OeDerF28eIXi8Rjyjt8Q/KiGfcwKg
-	E/n6t7kXFEWmy8Tr8n5h4ox+ELcKbXbR5ngoZX53EYWrYlALDtMNaTqLmui5k2b03SCDFwbV2TAO7
-	opZ6cdKFaNIHSRzrpd6IKPG2E9/GQ/gAUYumrCDKFp7vZe7VYB3TUj3TZGT9PpM7Vt8hS5vLifaVJ
-	KVLBJjww==;
+	bh=foUNybHYbIPDaLUpnJdjrHEk5KyJMzjt00F0suVSko8=; b=YwjNE1C7WMJrjG5A14Kr7OEQY+
+	oUqkN0XXVmwJ8k+31V0kaJuND3JSEknSuQ3rbsnjkGo5nI68DARUmiPyTtcEuPf0ZAFgLscgs/XUR
+	VuhWrBb0kIPrkasnoSWLi8KoTBK++KAX2P/K8jUWD6EH1kH1krX3zMHq+clfL2J3Xn25Jr71YCOkg
+	/1Frotn38+45PH8xxDB1mohTpjciRPCGTero5cZeKJK39FhMdEBlGTBC0+uX8yzq/PP5zYV3WFrlG
+	gozrBkv8NLmC4dONeE1Ul0XjdWjVvlRJDCoO1g7vwa74bVH3aPbvAj97OL3wcRl/kKEtpVvTXwB2H
+	M0x44D4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTwHJ-0000000ETyF-0JH2;
-	Sat, 04 Jan 2025 05:00:49 +0000
+	id 1tTwHK-0000000EU0v-1GVL;
+	Sat, 04 Jan 2025 05:00:50 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTwHF-0000000ETrU-0KgF
+	id 1tTwHG-0000000ETuc-3Osi
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Jan 2025 05:00:46 +0000
+	Sat, 04 Jan 2025 05:00:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 4E2CC5C2726;
-	Sat,  4 Jan 2025 05:00:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5100C4CED1;
-	Sat,  4 Jan 2025 05:00:42 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0BCEB5C274F;
+	Sat,  4 Jan 2025 05:00:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B006C4CEEB;
+	Sat,  4 Jan 2025 05:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735966844;
-	bh=YdKNB4pVRYr/2MHKrur2dUR8gjK2bQLIHhLE78yQdaA=;
+	s=k20201202; t=1735966846;
+	bh=7O20xJ1bzOCTYiTRyj88KWANfqYBEibS5Le/cdQeDco=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LrL7mRvrrEBsl+IU/gU9IbuC5gcMjiZvT3taxoVeeXXSL10QSKVd0U1ki/FfnPjBj
-	 VUZAxwfElsI0YoQkr0eSWxLYhQ12hxRxsfUhcjL6c89OzK/zvverN5tfGFa730RIdc
-	 3xAosDZ/Bxu4ZRQV4ZaMiOX5ZFUSsYKlII2bkVRkCZQmF3SCJAQHu1+RuDWoWZCZVX
-	 Tp8P9lPXsecZ6FxVnuZClub7jRvO/MI4WiqGejvx/bce0oyFawAcY/atkS9KE2D7ci
-	 UsdIO78qL6PtC05GNzfK/f6XmTT0Be3mSvQX6yxdu0vGDnkKc0hJ5XKNPV7SZX2z70
-	 DMhXg/2bFUBdA==
+	b=D30AeKxb36P0Pl761x3VT0oirSVE6ppH3bhjmvULh7pLPaROKCDwO2SSUIRg3ihKx
+	 WTwvFWWC7N+9BSr4rBwXvS949yReqlLL0LXbel/qkdADjeovbut6M+YLbXzVLoNBSW
+	 u9r1Le/qQSV6hxcTY5UmEXxSvUQ+0gT96WqdckzWT35iR2csTDJFOi3gzeMnnMlylA
+	 papPnwR2gwm2orvSsAza7cVA3c74rHRoFhYLO3Uiw1ogMbMLaHIESKSbqzCExoosZa
+	 YwSAC26sImY5QjlAttNlsTjwQlXPl8lz32MgbOQLkRRxVeBudn57dfi7jjzhv8zBJF
+	 PEOz6XSeMvKsg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,17 +55,17 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v9 10/18] nvmet: Add support for I/O queue management admin commands
-Date: Sat,  4 Jan 2025 13:59:43 +0900
-Message-ID: <20250104045951.157830-11-dlemoal@kernel.org>
+Subject: [PATCH v9 11/18] nvmet: Do not require SGL for PCI target controller commands
+Date: Sat,  4 Jan 2025 13:59:44 +0900
+Message-ID: <20250104045951.157830-12-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250104045951.157830-1-dlemoal@kernel.org>
 References: <20250104045951.157830-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250103_210045_207920_0E690A6E 
-X-CRM114-Status: GOOD (  21.71  )
+X-CRM114-CacheID: sfid-20250103_210046_932627_C2368910 
+X-CRM114-Status: GOOD (  16.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,272 +80,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The I/O submission queue management admin commands
-(nvme_admin_delete_sq, nvme_admin_create_sq, nvme_admin_delete_cq,
-and nvme_admin_create_cq) are mandatory admin commands for I/O
-controllers using the PCI transport, that is, support for these commands
-is mandatory for a a PCI target I/O controller.
+Support for SGL is optional for the PCI transport. Modify
+nvmet_req_init() to not require the NVME_CMD_SGL_METABUF command flag to
+be set if the target controller transport type is NVMF_TRTYPE_PCI.
+In addition to this, the NVMe base specification v2.1 mandate that all
+admin commands use PRP, that is, have CDW0.PSDT cleared to 0. Modify
+nvmet_parse_admin_cmd() to check this.
 
-Implement support for these commands by adding the functions
-nvmet_execute_delete_sq(), nvmet_execute_create_sq(),
-nvmet_execute_delete_cq() and nvmet_execute_create_cq() to set as the
-execute method of requests for these commands. These functions will
-return an invalid opcode error for any controller that is not a PCI
-target controller. Support for the I/O queue management commands is also
-reported in the command effect log  of PCI target controllers (using
-nvmet_get_cmd_effects_admin()).
-
-Each management command is backed by a controller fabric operation
-that can be defined by a PCI target controller driver to setup I/O
-queues using nvmet_sq_create() and nvmet_cq_create() or delete I/O
-queues using nvmet_sq_destroy().
-
-As noted in a comment in nvmet_execute_create_sq(), we do not yet
-support sharing a single CQ between multiple SQs.
+Finally, modify nvmet_check_transfer_len() and
+nvmet_check_data_len_lte() to return the appropriate error status
+depending on the command using SGL or PRP. Since for fabrics
+nvmet_req_init() checks that a command uses SGL, always, this change
+affects only PCI target controllers.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
 Tested-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/nvme/target/admin-cmd.c | 165 +++++++++++++++++++++++++++++++-
- drivers/nvme/target/nvmet.h     |   8 ++
- 2 files changed, 170 insertions(+), 3 deletions(-)
+ drivers/nvme/target/admin-cmd.c |  5 +++++
+ drivers/nvme/target/core.c      | 27 +++++++++++++++++++++------
+ 2 files changed, 26 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 6f7e5b0c91c7..c91864c185fc 100644
+index c91864c185fc..0c5127a1d191 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -12,6 +12,142 @@
- #include <linux/unaligned.h>
- #include "nvmet.h"
+@@ -1478,6 +1478,11 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 	if (unlikely(ret))
+ 		return ret;
  
-+static void nvmet_execute_delete_sq(struct nvmet_req *req)
-+{
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	u16 sqid = le16_to_cpu(req->cmd->delete_queue.qid);
-+	u16 status;
++	/* For PCI controllers, admin commands shall not use SGL. */
++	if (nvmet_is_pci_ctrl(req->sq->ctrl) && !req->sq->qid &&
++	    cmd->common.flags & NVME_CMD_SGL_ALL)
++		return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
 +
-+	if (!nvmet_is_pci_ctrl(ctrl)) {
-+		status = nvmet_report_invalid_opcode(req);
-+		goto complete;
-+	}
-+
-+	if (!sqid) {
-+		status = NVME_SC_QID_INVALID | NVME_STATUS_DNR;
-+		goto complete;
-+	}
-+
-+	status = nvmet_check_sqid(ctrl, sqid, false);
-+	if (status != NVME_SC_SUCCESS)
-+		goto complete;
-+
-+	status = ctrl->ops->delete_sq(ctrl, sqid);
-+
-+complete:
-+	nvmet_req_complete(req, status);
-+}
-+
-+static void nvmet_execute_create_sq(struct nvmet_req *req)
-+{
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	struct nvme_command *cmd = req->cmd;
-+	u16 sqid = le16_to_cpu(cmd->create_sq.sqid);
-+	u16 cqid = le16_to_cpu(cmd->create_sq.cqid);
-+	u16 sq_flags = le16_to_cpu(cmd->create_sq.sq_flags);
-+	u16 qsize = le16_to_cpu(cmd->create_sq.qsize);
-+	u64 prp1 = le64_to_cpu(cmd->create_sq.prp1);
-+	u16 status;
-+
-+	if (!nvmet_is_pci_ctrl(ctrl)) {
-+		status = nvmet_report_invalid_opcode(req);
-+		goto complete;
-+	}
-+
-+	if (!sqid) {
-+		status = NVME_SC_QID_INVALID | NVME_STATUS_DNR;
-+		goto complete;
-+	}
-+
-+	status = nvmet_check_sqid(ctrl, sqid, true);
-+	if (status != NVME_SC_SUCCESS)
-+		goto complete;
-+
-+	/*
-+	 * Note: The NVMe specification allows multiple SQs to use the same CQ.
-+	 * However, the target code does not really support that. So for now,
-+	 * prevent this and fail the command if sqid and cqid are different.
-+	 */
-+	if (!cqid || cqid != sqid) {
-+		pr_err("SQ %u: Unsupported CQID %u\n", sqid, cqid);
-+		status = NVME_SC_CQ_INVALID | NVME_STATUS_DNR;
-+		goto complete;
-+	}
-+
-+	if (!qsize || qsize > NVME_CAP_MQES(ctrl->cap)) {
-+		status = NVME_SC_QUEUE_SIZE | NVME_STATUS_DNR;
-+		goto complete;
-+	}
-+
-+	status = ctrl->ops->create_sq(ctrl, sqid, sq_flags, qsize, prp1);
-+
-+complete:
-+	nvmet_req_complete(req, status);
-+}
-+
-+static void nvmet_execute_delete_cq(struct nvmet_req *req)
-+{
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	u16 cqid = le16_to_cpu(req->cmd->delete_queue.qid);
-+	u16 status;
-+
-+	if (!nvmet_is_pci_ctrl(ctrl)) {
-+		status = nvmet_report_invalid_opcode(req);
-+		goto complete;
-+	}
-+
-+	if (!cqid) {
-+		status = NVME_SC_QID_INVALID | NVME_STATUS_DNR;
-+		goto complete;
-+	}
-+
-+	status = nvmet_check_cqid(ctrl, cqid);
-+	if (status != NVME_SC_SUCCESS)
-+		goto complete;
-+
-+	status = ctrl->ops->delete_cq(ctrl, cqid);
-+
-+complete:
-+	nvmet_req_complete(req, status);
-+}
-+
-+static void nvmet_execute_create_cq(struct nvmet_req *req)
-+{
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	struct nvme_command *cmd = req->cmd;
-+	u16 cqid = le16_to_cpu(cmd->create_cq.cqid);
-+	u16 cq_flags = le16_to_cpu(cmd->create_cq.cq_flags);
-+	u16 qsize = le16_to_cpu(cmd->create_cq.qsize);
-+	u16 irq_vector = le16_to_cpu(cmd->create_cq.irq_vector);
-+	u64 prp1 = le64_to_cpu(cmd->create_cq.prp1);
-+	u16 status;
-+
-+	if (!nvmet_is_pci_ctrl(ctrl)) {
-+		status = nvmet_report_invalid_opcode(req);
-+		goto complete;
-+	}
-+
-+	if (!cqid) {
-+		status = NVME_SC_QID_INVALID | NVME_STATUS_DNR;
-+		goto complete;
-+	}
-+
-+	status = nvmet_check_cqid(ctrl, cqid);
-+	if (status != NVME_SC_SUCCESS)
-+		goto complete;
-+
-+	if (!qsize || qsize > NVME_CAP_MQES(ctrl->cap)) {
-+		status = NVME_SC_QUEUE_SIZE | NVME_STATUS_DNR;
-+		goto complete;
-+	}
-+
-+	status = ctrl->ops->create_cq(ctrl, cqid, cq_flags, qsize,
-+				      prp1, irq_vector);
-+
-+complete:
-+	nvmet_req_complete(req, status);
-+}
-+
- u32 nvmet_get_log_page_len(struct nvme_command *cmd)
- {
- 	u32 len = le16_to_cpu(cmd->get_log_page.numdu);
-@@ -230,8 +366,18 @@ static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
- 
--static void nvmet_get_cmd_effects_admin(struct nvme_effects_log *log)
-+static void nvmet_get_cmd_effects_admin(struct nvmet_ctrl *ctrl,
-+					struct nvme_effects_log *log)
- {
-+	/* For a PCI target controller, advertize support for the . */
-+	if (nvmet_is_pci_ctrl(ctrl)) {
-+		log->acs[nvme_admin_delete_sq] =
-+		log->acs[nvme_admin_create_sq] =
-+		log->acs[nvme_admin_delete_cq] =
-+		log->acs[nvme_admin_create_cq] =
-+			cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
-+	}
-+
- 	log->acs[nvme_admin_get_log_page] =
- 	log->acs[nvme_admin_identify] =
- 	log->acs[nvme_admin_abort_cmd] =
-@@ -268,6 +414,7 @@ static void nvmet_get_cmd_effects_zns(struct nvme_effects_log *log)
- 
- static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
- {
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvme_effects_log *log;
- 	u16 status = NVME_SC_SUCCESS;
- 
-@@ -279,7 +426,7 @@ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
- 
- 	switch (req->cmd->get_log_page.csi) {
- 	case NVME_CSI_NVM:
--		nvmet_get_cmd_effects_admin(log);
-+		nvmet_get_cmd_effects_admin(ctrl, log);
- 		nvmet_get_cmd_effects_nvm(log);
- 		break;
- 	case NVME_CSI_ZNS:
-@@ -287,7 +434,7 @@ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
- 			status = NVME_SC_INVALID_IO_CMD_SET;
- 			goto free;
- 		}
--		nvmet_get_cmd_effects_admin(log);
-+		nvmet_get_cmd_effects_admin(ctrl, log);
- 		nvmet_get_cmd_effects_nvm(log);
- 		nvmet_get_cmd_effects_zns(log);
- 		break;
-@@ -1335,9 +1482,21 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 	if (nvmet_is_passthru_req(req))
  		return nvmet_parse_passthru_admin_cmd(req);
  
- 	switch (cmd->common.opcode) {
-+	case nvme_admin_delete_sq:
-+		req->execute = nvmet_execute_delete_sq;
-+		return 0;
-+	case nvme_admin_create_sq:
-+		req->execute = nvmet_execute_create_sq;
-+		return 0;
- 	case nvme_admin_get_log_page:
- 		req->execute = nvmet_execute_get_log_page;
- 		return 0;
-+	case nvme_admin_delete_cq:
-+		req->execute = nvmet_execute_delete_cq;
-+		return 0;
-+	case nvme_admin_create_cq:
-+		req->execute = nvmet_execute_create_cq;
-+		return 0;
- 	case nvme_admin_identify:
- 		req->execute = nvmet_execute_identify;
- 		return 0;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 5c8ed8f93918..86bb2852a63b 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -408,6 +408,14 @@ struct nvmet_fabrics_ops {
- 	void (*discovery_chg)(struct nvmet_port *port);
- 	u8 (*get_mdts)(const struct nvmet_ctrl *ctrl);
- 	u16 (*get_max_queue_size)(const struct nvmet_ctrl *ctrl);
-+
-+	/* Operations mandatory for PCI target controllers */
-+	u16 (*create_sq)(struct nvmet_ctrl *ctrl, u16 sqid, u16 flags,
-+			 u16 qsize, u64 prp1);
-+	u16 (*delete_sq)(struct nvmet_ctrl *ctrl, u16 sqid);
-+	u16 (*create_cq)(struct nvmet_ctrl *ctrl, u16 cqid, u16 flags,
-+			 u16 qsize, u64 prp1, u16 irq_vector);
-+	u16 (*delete_cq)(struct nvmet_ctrl *ctrl, u16 cqid);
- };
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 3a92e3a81b46..43c9888eea90 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1122,12 +1122,15 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 	/*
+ 	 * For fabrics, PSDT field shall describe metadata pointer (MPTR) that
+ 	 * contains an address of a single contiguous physical buffer that is
+-	 * byte aligned.
++	 * byte aligned. For PCI controllers, this is optional so not enforced.
+ 	 */
+ 	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF)) {
+-		req->error_loc = offsetof(struct nvme_common_command, flags);
+-		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+-		goto fail;
++		if (!req->sq->ctrl || !nvmet_is_pci_ctrl(req->sq->ctrl)) {
++			req->error_loc =
++				offsetof(struct nvme_common_command, flags);
++			status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
++			goto fail;
++		}
+ 	}
  
- #define NVMET_MAX_INLINE_BIOVEC	8
+ 	if (unlikely(!req->sq->ctrl))
+@@ -1182,8 +1185,14 @@ EXPORT_SYMBOL_GPL(nvmet_req_transfer_len);
+ bool nvmet_check_transfer_len(struct nvmet_req *req, size_t len)
+ {
+ 	if (unlikely(len != req->transfer_len)) {
++		u16 status;
++
+ 		req->error_loc = offsetof(struct nvme_common_command, dptr);
+-		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR);
++		if (req->cmd->common.flags & NVME_CMD_SGL_ALL)
++			status = NVME_SC_SGL_INVALID_DATA;
++		else
++			status = NVME_SC_INVALID_FIELD;
++		nvmet_req_complete(req, status | NVME_STATUS_DNR);
+ 		return false;
+ 	}
+ 
+@@ -1194,8 +1203,14 @@ EXPORT_SYMBOL_GPL(nvmet_check_transfer_len);
+ bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len)
+ {
+ 	if (unlikely(data_len > req->transfer_len)) {
++		u16 status;
++
+ 		req->error_loc = offsetof(struct nvme_common_command, dptr);
+-		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR);
++		if (req->cmd->common.flags & NVME_CMD_SGL_ALL)
++			status = NVME_SC_SGL_INVALID_DATA;
++		else
++			status = NVME_SC_INVALID_FIELD;
++		nvmet_req_complete(req, status | NVME_STATUS_DNR);
+ 		return false;
+ 	}
+ 
 -- 
 2.47.1
 
