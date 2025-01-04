@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54165E77188
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 05:00:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9468E7719A
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 05:00:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2U4PGRoAO3tJG6tLr71bpt1jsdDAQRjIMJbXzZRymKk=; b=SXMHO5eDMRqmT+ZQUAgocapxMw
-	YxaRa3g7WV5Q7+mRSxvwGkwATcvIM7rmSrWnMzyILMWrEoP3pAoTlURgCOYh7PKE/pm3YLpPcsatO
-	jnHuX3bqpICoYHM788YKdsKKmwwThSBNb0JiR/l3neabDzLfDyHmsWpd63XtDdq52+mmPSFtQQzlX
-	vcAKY4ZsgLmJ/kGDMGJC6javZGV7EmJEj2uNhhFEOyTsmVu+93H6yAffy3A5vPB/RUFdnaiuG4JJM
-	1i+YAqMEL3aMvHAJV00vVgLYEQl1fMe3XkmJcxiQHmW5L8Urrahc6uA95lr59EmcHd2lGuAmoMm7T
-	0wQN/aAQ==;
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=eMjPT4sGrPwwdL43qBR7FpG/p/Nseu7HNTCkXD1FZ3M=; b=whlvYRGqFGyVfeCHOT8ReC7Yxd
+	+lN2jrPVvBC/4er4bVbXhcLNe2DbYT6GQu6Tu7DuCRrwQpTrOqzTFycN40qdvcFUVnf7wP5V6Qbxg
+	gV+k4twbO378AHStW99M//YgedXpi+Tsid0LKafBwuujR9omnyVi/6plQBQGpwQsjktQIHV3K2ogq
+	XcKsgz8bWjBesQnTZp8c/0QcBq2HRszxWAmt8RlK1kF30wWEYU5r+PPmlAFmHugirNFVWNmpVvG/G
+	FP2ZRmcQUVktxt954vGaPXsLz5wdUOZ4AdFa0xDlnlivyPtE/28FDnPZ65o8ZC3UPMaP855r6W0a9
+	L7Oht65A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTwHC-0000000ETnw-1c08;
-	Sat, 04 Jan 2025 05:00:42 +0000
+	id 1tTwH7-0000000EThQ-3epb;
+	Sat, 04 Jan 2025 05:00:37 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTwH8-0000000ETiM-3pp8
+	id 1tTwH5-0000000ETeD-1q9x
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Jan 2025 05:00:40 +0000
+	Sat, 04 Jan 2025 05:00:36 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 03940A401E2;
-	Sat,  4 Jan 2025 04:58:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8CCC4CEDE;
-	Sat,  4 Jan 2025 05:00:36 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 80F0FA401E2;
+	Sat,  4 Jan 2025 04:58:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAD79C4CED1;
+	Sat,  4 Jan 2025 05:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735966837;
-	bh=5ngFwyuRuETe1cS3Ga/eOK2J2FLtomHUOOosJKTzAFY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jWwLC8od7vAYmd3L+gVCU5obP66fmBrRZT46mFT52BXPqy1ifU8jHFhcCGFAWP1Ly
-	 AS0TG4qUia0wqk9TMRTGCpWhgi4eLsvUikPT0Xxd4gHKnLtE3WI6slwV2VHM4NMXaB
-	 cf9Z1PV4PEStiKXymjO8DwSzUDJZYahJ0nafHJB1NfXFwnzQKLHcsmMPczn8MfAXOi
-	 LiuTS/mc3RMLWDw/3blQUi88mFywwSZBICUUGXnfrQgVGBjVeAOFGjOsBzsyiMeCHX
-	 IyBZZXf53+0M5aKs6h3SSNqrobp0QWQhDNR1/hlxd2vWsBIS03vrt44owv2mFGz0ck
-	 KtieEyCFHzIXA==
+	s=k20201202; t=1735966828;
+	bh=0KYOaqk6bSJfSA3pjcPsIgoiQSZaqIHB6yulXVPjxXY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oPjjnaLtj+UA9m16TAAg36XV+O5UJgJ+XJA8RURY4OcEnAe/xQ0iB90JWZZXnXh0G
+	 cezRf6GoDCmcE3RG7uQetWCGJNEIked3V7mJODFrxKZGDi9DWmoIP+W4f5zu6ffJ5U
+	 Y6+cXZO5j1Hop3A2NJVN6PwnBHpddzMcyAjOrfL72esn9unzNTW1qTDkEFyCeEu0y/
+	 RRqPnheE/fT/slpB3raFjQLcSULXt0CSQxcOmcyM2RcVlYeJvAh2Jz0DQCGNf6f8QN
+	 4kLuxWNZKbeeNVNaSkl7F9xb+NgZQcginnK/7YF7SqKqr8FWa5J/SKr0or3uVweKS8
+	 Cq4zjlZLfdCCg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
@@ -55,17 +55,16 @@ To: linux-nvme@lists.infradead.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v9 06/18] nvme: Add PCI transport type
-Date: Sat,  4 Jan 2025 13:59:39 +0900
-Message-ID: <20250104045951.157830-7-dlemoal@kernel.org>
+Subject: [PATCH v9 00/18] NVMe PCI endpoint target driver
+Date: Sat,  4 Jan 2025 13:59:33 +0900
+Message-ID: <20250104045951.157830-1-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250104045951.157830-1-dlemoal@kernel.org>
-References: <20250104045951.157830-1-dlemoal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250103_210039_075394_A324FB4F 
-X-CRM114-Status: GOOD (  17.16  )
+X-CRM114-CacheID: sfid-20250103_210035_598076_A688819F 
+X-CRM114-Status: GOOD (  31.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,109 +79,175 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Define the transport type NVMF_TRTYPE_PCI for PCI endpoint targets.
-This transport type is defined using the value 0 which is reserved in
-the NVMe base specifications v2.1 (Figure 294). Given that struct
-nvmet_port are zeroed out on creation, to avoid having this transsport
-type becoming the new default, nvmet_referral_make() and
-nvmet_ports_make() are modified to initialize a port discovery address
-transport type field (disc_addr.trtype) to NVMF_TRTYPE_MAX.
+This patch series implements an NVMe target driver for the PCI transport
+using the PCI endpoint framework.
 
-Any port using this transport type is also skipped and not reported in
-the discovery log page (nvmet_execute_disc_get_log_page()).
+The first 5 patches of this series move and cleanup some nvme code that
+will be reused in following patches.
 
-The helper function nvmet_is_pci_ctrl() is also introduced to check if
-a target controller uses the PCI transport.
+Patch 6 introduces the PCI transport type to allow setting up ports for
+the new PCI target controller driver. Patch 7 to 10 are improvements of
+the target core code to allow creating the PCI controller and processing
+its nvme commands without the need to rely on fabrics commands like the
+connect command to create the admin and I/O queues.
 
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Tested-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
-Tested-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/nvme/target/configfs.c  | 4 ++++
- drivers/nvme/target/discovery.c | 3 +++
- drivers/nvme/target/nvmet.h     | 5 +++++
- include/linux/nvme.h            | 1 +
- 4 files changed, 13 insertions(+)
+Patch 11 relaxes the SGL check in nvmet_req_init() to allow for PCI
+admin commands (which must use PRPs).
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 4b2b8e7d96f5..20cad722c060 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -37,6 +37,7 @@ static struct nvmet_type_name_map nvmet_transport[] = {
- 	{ NVMF_TRTYPE_RDMA,	"rdma" },
- 	{ NVMF_TRTYPE_FC,	"fc" },
- 	{ NVMF_TRTYPE_TCP,	"tcp" },
-+	{ NVMF_TRTYPE_PCI,	"pci" },
- 	{ NVMF_TRTYPE_LOOP,	"loop" },
- };
- 
-@@ -46,6 +47,7 @@ static const struct nvmet_type_name_map nvmet_addr_family[] = {
- 	{ NVMF_ADDR_FAMILY_IP6,		"ipv6" },
- 	{ NVMF_ADDR_FAMILY_IB,		"ib" },
- 	{ NVMF_ADDR_FAMILY_FC,		"fc" },
-+	{ NVMF_ADDR_FAMILY_PCI,		"pci" },
- 	{ NVMF_ADDR_FAMILY_LOOP,	"loop" },
- };
- 
-@@ -1839,6 +1841,7 @@ static struct config_group *nvmet_referral_make(
- 		return ERR_PTR(-ENOMEM);
- 
- 	INIT_LIST_HEAD(&port->entry);
-+	port->disc_addr.trtype = NVMF_TRTYPE_MAX;
- 	config_group_init_type_name(&port->group, name, &nvmet_referral_type);
- 
- 	return &port->group;
-@@ -2064,6 +2067,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 	port->inline_data_size = -1;	/* < 0 == let the transport choose */
- 	port->max_queue_size = -1;	/* < 0 == let the transport choose */
- 
-+	port->disc_addr.trtype = NVMF_TRTYPE_MAX;
- 	port->disc_addr.portid = cpu_to_le16(portid);
- 	port->disc_addr.adrfam = NVMF_ADDR_FAMILY_MAX;
- 	port->disc_addr.treq = NVMF_TREQ_DISABLE_SQFLOW;
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 28843df5fa7c..7a13f8e8d33d 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -224,6 +224,9 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
- 	}
- 
- 	list_for_each_entry(r, &req->port->referrals, entry) {
-+		if (r->disc_addr.trtype == NVMF_TRTYPE_PCI)
-+			continue;
-+
- 		nvmet_format_discovery_entry(hdr, r,
- 				NVME_DISC_SUBSYS_NAME,
- 				r->disc_addr.traddr,
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index abcc1f3828b7..4dad413e5fef 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -693,6 +693,11 @@ static inline bool nvmet_is_disc_subsys(struct nvmet_subsys *subsys)
-     return subsys->type != NVME_NQN_NVME;
- }
- 
-+static inline bool nvmet_is_pci_ctrl(struct nvmet_ctrl *ctrl)
-+{
-+	return ctrl->port->disc_addr.trtype == NVMF_TRTYPE_PCI;
-+}
-+
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
- void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys);
- int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index a5a4ee56efcf..42fc00dc494e 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -64,6 +64,7 @@ enum {
- 
- /* Transport Type codes for Discovery Log Page entry TRTYPE field */
- enum {
-+	NVMF_TRTYPE_PCI		= 0,	/* PCI */
- 	NVMF_TRTYPE_RDMA	= 1,	/* RDMA */
- 	NVMF_TRTYPE_FC		= 2,	/* Fibre Channel */
- 	NVMF_TRTYPE_TCP		= 3,	/* TCP/IP */
+Patches 12 to 16 improve the set/get feature support of the target code
+to get closer to achieving NVMe specification compliance. These patches
+though do not implement support for some mandatory features.
+
+Patch 17 is the main patch which introduces the NVMe PCI endpoint target
+driver. This patch commit message provides and overview of the driver
+design and operation.
+
+Finally, patch 18 documents the NVMe PCI endpoint target driver and
+provides a user guide explaning how to setup an NVMe PCI endpoint
+device.
+
+The patches are base on Linus 6.13-rc3 tree.
+
+This driver has been extensively tested using a Radxa Rock5B board
+(RK3588 Arm SoC). Some tests have also been done using a Pine Rockpro64
+board. However, this board does not support DMA channels for the PCI
+endpoint controller, leading to very poor performance.
+
+Using the Radxa Rock5b board and setting up a 4 queue-pairs controller
+with a null-blk block device loop target, performance was measured using
+fio as follows:
+
+ +----------------------------------+------------------------+
+ | Workload                         | IOPS (BW)              |
+ +----------------------------------+------------------------+
+ | Rand read, 4KB, QD=1, 1 job      | 14.3k IOPS             |
+ | Rand read, 4KB, QD=32, 1 job     | 80.8k IOPS             |
+ | Rand read, 4KB, QD=32, 4 jobs    | 131k IOPS              |
+ | Rand read, 128KB, QD=32, 1 job   | 16.7k IOPS (2.18 GB/s) |
+ | Rand read, 128KB, QD=32, 4 jobs  | 17.4k IOPS (2.27 GB/s) |
+ | Rand read, 512KB, QD=32, 1 job   | 5380 IOPS (2.82 GB/s)  |
+ | Rand read, 512KB, QD=32, 4 jobs  | 5206 IOPS (2.27 GB/s)  |
+ | Rand write, 128KB, QD=32, 1 job  | 9617 IOPS (1.26 GB/s)  |
+ | Rand write, 128KB, QD=32, 4 jobs | 8405 IOPS (1.10 GB/s)  |
+ +----------------------------------+------------------------+
+
+These results use the default MDTS of the NVMe enpoint driver of 512 KB.
+
+This driver is not intended for production use but rather to be a
+playground for learning NVMe and exploring/testing new NVMe features
+while providing reasonably good performance.
+
+Changes from v8:
+ - Addressed compilation error signaled by the build-bot for patch 17
+   when the PCI endpoint target driver is compiled in but the nvme core
+   is compiled as a module. For such case, only allow the pci endpoint
+   target driver to be compiled as a module.
+
+Changes from v7:
+ - Addressed compilation warnings signaled by the build-bot for
+   patch 17:
+   - Use GENMASK_ULL instead of GENMASK for 64-bits fields
+   - Removed unused funtion nvmet_pci_epf_prp_addr()
+ - Reworded the Kconfig entry and some comments and error messages as
+   suggested by Krzysztof (all in patch 17).
+ - Added Tested-by and Review tag from Mani
+ - Added Review tag from Krzysztof
+
+Changes from v6:
+ - Fixed incorrect bar cleanup in patch 17 causing a NULL pointer
+   dereference when PERST# is asserted
+ - Added Mani's review tag to path 18
+
+Changes from v5:
+ - Rebased on 6.13-rc3
+ - Addressed most of Mani's comment on patch 17:
+   - Renaming of functions and data structures
+   - Error messages format
+   - Removed dma_enable configfs knob and simplified DMA initialization
+     and cleanup.
+   - Simplified some error path
+   - Fixed up handling of icontrollers with a fixed bar 0 size
+   Of note is that I did not define macros for the bits of the CAP
+   register as that would be too much for now since we want to do this
+   correctly in include/linux/nvme.h by defining all of them, and by
+   using these definitions in the nvme host and target code. This can be
+   done in a followup patch series once this is applied.
+ - Fixed the command examples in patch 18
+
+Changes from v4:
+ - Fixed typos in patch 13 and 17 commit message
+ - Addressed Bjorn's comments (typos and text clarity) in patch 18.
+ - Added Bjorn's Acked-by tag to patch 18
+
+Changes from v3:
+ - Added patch 1 which was missing from v3 and caused the 0day build
+   failure
+ - Corrected a few typos in the documentation (patch 18)
+ - Added Christoph's review tag and Rick's tested tag
+
+Changes from v2:
+ - Changed all preparatory patches before patch 16 to move more NVMe
+   generic code out of the PCI endpoint target driver and into the
+   target core.
+ - Changed patch 16 to use directly a target controller instead of a
+   host controller. Many aspects of the command management and DMA
+   transfer management have also been simplified, leading to higher
+   performance.
+ - Change the documentation patch to match the above changes
+
+Changes from v1:
+ - Added review tag to patch 1
+ - Modified patch 4 to:
+   - Add Rick's copyright notice
+   - Improve admin command handling (set_features command) to handle the
+     number of queues feature (among others) to enable Windows host
+   - Improved SQ and CQ work items handling
+
+Damien Le Moal (18):
+  nvme: Move opcode string helper functions declarations
+  nvmet: Add vendor_id and subsys_vendor_id subsystem attributes
+  nvmet: Export nvmet_update_cc() and nvmet_cc_xxx() helpers
+  nvmet: Introduce nvmet_get_cmd_effects_admin()
+  nvmet: Add drvdata field to struct nvmet_ctrl
+  nvme: Add PCI transport type
+  nvmet: Improve nvmet_alloc_ctrl() interface and implementation
+  nvmet: Introduce nvmet_req_transfer_len()
+  nvmet: Introduce nvmet_sq_create() and nvmet_cq_create()
+  nvmet: Add support for I/O queue management admin commands
+  nvmet: Do not require SGL for PCI target controller commands
+  nvmet: Introduce get/set_feature controller operations
+  nvmet: Implement host identifier set feature support
+  nvmet: Implement interrupt coalescing feature support
+  nvmet: Implement interrupt config feature support
+  nvmet: Implement arbitration feature support
+  nvmet: New NVMe PCI endpoint function target driver
+  Documentation: Document the NVMe PCI endpoint target driver
+
+ Documentation/PCI/endpoint/index.rst          |    1 +
+ .../PCI/endpoint/pci-nvme-function.rst        |   13 +
+ Documentation/nvme/index.rst                  |   12 +
+ .../nvme/nvme-pci-endpoint-target.rst         |  368 +++
+ Documentation/subsystem-apis.rst              |    1 +
+ drivers/nvme/host/nvme.h                      |   39 -
+ drivers/nvme/target/Kconfig                   |   11 +
+ drivers/nvme/target/Makefile                  |    2 +
+ drivers/nvme/target/admin-cmd.c               |  388 ++-
+ drivers/nvme/target/configfs.c                |   49 +
+ drivers/nvme/target/core.c                    |  266 +-
+ drivers/nvme/target/discovery.c               |   17 +
+ drivers/nvme/target/fabrics-cmd-auth.c        |   14 +-
+ drivers/nvme/target/fabrics-cmd.c             |  101 +-
+ drivers/nvme/target/nvmet.h                   |  110 +-
+ drivers/nvme/target/pci-epf.c                 | 2591 +++++++++++++++++
+ include/linux/nvme.h                          |   42 +
+ 17 files changed, 3865 insertions(+), 160 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/pci-nvme-function.rst
+ create mode 100644 Documentation/nvme/index.rst
+ create mode 100644 Documentation/nvme/nvme-pci-endpoint-target.rst
+ create mode 100644 drivers/nvme/target/pci-epf.c
+
+
+base-commit: fc033cf25e612e840e545f8d5ad2edd6ba613ed5
 -- 
 2.47.1
 
