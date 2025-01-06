@@ -4,75 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B325E77197
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 03:40:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14F54E77188
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 07:22:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3tOJAnIBDB+fr4CPUuhNDC5lL3nuKPSuWa2qdR59qUo=; b=KRZq31NBm4bFvxEKcD2mzZEtfk
-	rqA7QmmYAtTAr1TF04AynO3+TZi1igV7M2hHK3YjZP8HrqIMhaQYQJDsY2npilm+zSyRbysALl6zV
-	2kDm+YfIzhJItqlZK4ix8xOK5GHxd+lF1HL8zBWs+iyrA9OF1+0MwvQ6I57trK769/X+BX1i14s+L
-	qDlDBIhU9w5hXjsnBU2PO916sn2Gwm0thiuN6PnBkV+IZqiRp59hLzPCEjpYcy6usVnYRydhx7i7Y
-	ERdann5OjHaft6+o8kohGYzqaKGsP0X45ILTen3ecs9Zmochf3RAHMhBjkna+TIAPTrAYctM3+Lfz
-	W3i8uCtw==;
+	bh=4rl9KHySj3ZDolZtbZyRvzfd+noFgeNcCTBe6j083DM=; b=y8UzDCFAyUlWAx3D0EDLKzx7rh
+	JU/IlWuJmZZbWf0dCRGeGj4WQEiSkwX2ZQAV20+5KvmOgP3LTkAc3UbRkXX/Y0rpqVM627oquk6pL
+	I6V1oRQ/0NIlkzJ/WI1Nus92AAZxNDhMUvI0HGkWGTsnebjSu7kVlY1ZWLQJIqmbMUnt7AheIRQ/U
+	TYX1UAY3GA+O8BkP3lnI0wVuGZl3W+SZNuXKrDFinW6j41Mrzvc5jqnxRSoCMtNXPcbnSdRvcijls
+	2UjMUBJSq7l09iGWNuzssQy3hsLFOBNznznWYduUR0owhcvWYamPoMv+6cLYUZC0BmB4fkxU9lEAp
+	3QATQqjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUdyt-000000009Jk-12fn;
-	Mon, 06 Jan 2025 03:40:43 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1tUhRZ-00000000ORz-45OI;
+	Mon, 06 Jan 2025 07:22:33 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUdyq-000000009JJ-3bBq
+	id 1tUhQZ-00000000OFZ-3ftS
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jan 2025 03:40:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736134839;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3tOJAnIBDB+fr4CPUuhNDC5lL3nuKPSuWa2qdR59qUo=;
-	b=Mw0FY8dUDXeS/J2ScEUgbh7nIdUajEM8NBk2jCHrytj3YJQecjgQddMt5kGhiU2EcYn3Fq
-	6yWVupxWl69L6otmjt10qkHG4MQR1L879Cnkk8UDB9r/lvZqIeW9fvOmllUvV0Ikco96O3
-	UPW1I21t/tHLgLxuAfjP+GvpkORcmvQ=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-30-gfSZ1YnTNVmQ_oYUjhCj_Q-1; Sun,
- 05 Jan 2025 22:40:36 -0500
-X-MC-Unique: gfSZ1YnTNVmQ_oYUjhCj_Q-1
-X-Mimecast-MFC-AGG-ID: gfSZ1YnTNVmQ_oYUjhCj_Q
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F28DA1956088;
-	Mon,  6 Jan 2025 03:40:34 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.65])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0BBB71956088;
-	Mon,  6 Jan 2025 03:40:27 +0000 (UTC)
-Date: Mon, 6 Jan 2025 11:40:22 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>
-Subject: Re: [PATCH 1/3] block: Fix sysfs queue freeze and limits lock order
-Message-ID: <Z3tQpt7n-NdSDN13@fedora>
-References: <20250104132522.247376-1-dlemoal@kernel.org>
- <20250104132522.247376-2-dlemoal@kernel.org>
- <Z3tOn4C5i096owJc@fedora>
- <ae75194f-334f-4337-b1e6-e68b8d63bc93@kernel.org>
+	Mon, 06 Jan 2025 07:21:33 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3E30868BFE; Mon,  6 Jan 2025 08:21:17 +0100 (CET)
+Date: Mon, 6 Jan 2025 08:21:16 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Oliver Sang <oliver.sang@intel.com>,
+	oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Damien Le Moal <dlemoal@kernel.org>, linux-btrfs@vger.kernel.org,
+	linux-aio@kvack.org
+Subject: Re: [linus:master] [block]  e70c301fae: stress-ng.aiol.ops_per_sec
+ 49.6% regression
+Message-ID: <20250106072116.GD16723@lst.de>
+References: <202412122112.ca47bcec-lkp@intel.com> <20241213143224.GA16111@lst.de> <20241217045527.GA16091@lst.de> <Z2EgW8/WNfzZ28mn@xsang-OptiPlex-9020> <20241217065614.GA19113@lst.de> <Z3ZhNYHKZPMpv8Cz@ryzen> <20250103064925.GB27984@lst.de> <Z3epOlVGDBqj72xC@ryzen>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae75194f-334f-4337-b1e6-e68b8d63bc93@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+In-Reply-To: <Z3epOlVGDBqj72xC@ryzen>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250105_194040_966090_78EEFD53 
-X-CRM114-Status: GOOD (  31.43  )
+X-CRM114-CacheID: sfid-20250105_232132_059594_78C41306 
+X-CRM114-Status: GOOD (  12.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,68 +64,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 06, 2025 at 12:35:36PM +0900, Damien Le Moal wrote:
-> On 1/6/25 12:31 PM, Ming Lei wrote:
-> > On Sat, Jan 04, 2025 at 10:25:20PM +0900, Damien Le Moal wrote:
-> >> queue_attr_store() always freezes a device queue before calling the
-> >> attribute store operation. For attributes that control queue limits, the
-> >> store operation will also lock the queue limits with a call to
-> >> queue_limits_start_update(). However, some drivers (e.g. SCSI sd) may
-> >> need to issue commands to a device to obtain limit values from the
-> >> hardware with the queue limits locked. This creates a potential ABBA
-> >> deadlock situation if a user attempts to modify a limit (thus freezing
-> >> the device queue) while the device driver starts a revalidation of the
-> >> device queue limits.
-> >>
-> >> Avoid such deadlock by introducing the ->store_limit() operation in
-> >> struct queue_sysfs_entry and use this operation for all attributes that
-> >> modify the device queue limits through the QUEUE_RW_LIMIT_ENTRY() macro
-> >> definition. queue_attr_store() is modified to call the ->store_limit()
-> >> operation (if it is defined) without the device queue frozen. The device
-> >> queue freeze for attributes defining the ->stor_limit() operation is
-> >> moved to after the operation completes and is done only around the call
-> >> to queue_limits_commit_update().
-> >>
-> >> Cc: stable@vger.kernel.org # v6.9+
-> >> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-> >> ---
-> >>  block/blk-sysfs.c | 123 ++++++++++++++++++++++++----------------------
-> >>  1 file changed, 64 insertions(+), 59 deletions(-)
-> >>
-> >> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-> >> index 767598e719ab..4fc0020c73a5 100644
-> >> --- a/block/blk-sysfs.c
-> >> +++ b/block/blk-sysfs.c
-> >> @@ -24,6 +24,8 @@ struct queue_sysfs_entry {
-> >>  	struct attribute attr;
-> >>  	ssize_t (*show)(struct gendisk *disk, char *page);
-> >>  	ssize_t (*store)(struct gendisk *disk, const char *page, size_t count);
-> >> +	ssize_t (*store_limit)(struct gendisk *disk, struct queue_limits *lim,
-> >> +			       const char *page, size_t count);
-> > 
-> > As I mentioned in another thread, freezing queue may not be needed in
-> > ->store(), so let's discuss and confirm if it is needed here first.
-> > 
-> > https://lore.kernel.org/linux-block/Z3tHozKiUqWr7gjO@fedora/
-> > 
-> > Also even though freeze is needed, I'd suggest to move freeze in each
-> > .store() callback for simplifying & avoiding regression.
+On Fri, Jan 03, 2025 at 10:09:14AM +0100, Niklas Cassel wrote:
+> One thing that came to mind.
+> Some distros (e.g. Fedora and openSUSE) ship with an udev rule that sets
+> the I/O scheduler to BFQ for single-queue HDDs.
 > 
-> The patch would be simpler, sure. But the code would not be simpler in my
-> opinion as we will repeat the freeze+limits commit+unfreeze pattern in several
-> callbacks. That is why I made the change to introduce the new store_limit()
-> callback to have that pattern in a single place.
+> It could very well be the I/O scheduler that reorders.
 > 
-> And thinking about it, queue_attr_store() should be better commented to clearly
-> describes the locking rules.
+> Oliver, which I/O scheduler are you using?
+> $ cat /sys/block/sdb/queue/scheduler 
+> none mq-deadline kyber [bfq]
 
-The pattern can be enhanced by one new helper or API.
-
-But let's discuss if we really need the pattern first.
-
-IMO, freeze isn't needed in ->store().
-
-Thanks,
-Ming
+I tried cfq as well and there is no reordering with our without various
+file systems in the mix.  I've also tried forcing the rotational
+attribute on and off just for an extra variation.
 
 
