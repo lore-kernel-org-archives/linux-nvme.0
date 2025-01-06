@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A253E77188
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 15:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A284BE77188
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 15:27:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PbxeaC/oOuVBMpw+uAN4H1JgYjUbpMJOW9aAtNgQMoI=; b=YN1AJjHM28WWkiFut1PnAHXZVA
-	2V3TzAY5aQ6whemYxaC7FfXf6KAdsNoOvYNN7vgTrEgDmZaL1rvKV6Jl4iyotQr7/eiLll+AWW+kq
-	qGuI3lTXZRGcXeuVelNRxi9ejLd1qqLPaAKN45FU9jMqhrC9/YfU8WAahy2ozcGCEusrmguSMuouH
-	d25GBBIp+rQLf4AbzbXthtqPP7jAtXcd0xXW2A9hUC3XES4cxHvr4ZH/1jcYBJ7uj+4EQUmDZNdnC
-	NyoV3r2vBjKPdGIEbzLCZwyK44OJv2sVn4LEQSCCnxEMTzHwsW9ZsOj4cM6KPLkKcucOHcP58y612
-	UokMi+MA==;
+	bh=u3u4e4h2vhvK3jfvYBnqQlWOxzG/vuxc/BDzp3ituoM=; b=N3lofvcZwblT+BAGCeJH6W2Ys+
+	B2J7lc86tsomze7tyREb4R99QUoNZCxBUqutzjNiGk94xq6+pJW5uedxESCq2SABeQZlHWrkWeXuG
+	/tUZkCGOiLcTBz62/YNxG70MQeG7sWrW4GLSiMCZidkfW7tPnf9ditTg4JEdLEBoai7zMAfO/9gRD
+	lVntkROMBuzMq3MBvbrOIxqpGf3pRJ+93GpUxmHJMX0Odm+qKe8IgZrtzTEpK2hBYDWh1kDd8hAEm
+	KOkKGLnf96SgN8+OiL1uOSJuUO7Fp901+WWSLoxR9TMqOuNJM5Bygmu200EwDFJ7hYCx0LHsnjc0g
+	eAzYscLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUp0f-00000001lRm-20pe;
-	Mon, 06 Jan 2025 15:27:17 +0000
+	id 1tUp1G-00000001lbY-3U4Y;
+	Mon, 06 Jan 2025 15:27:54 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUp0d-00000001lR1-2w0X
+	id 1tUp1E-00000001lZz-0CiZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jan 2025 15:27:17 +0000
+	Mon, 06 Jan 2025 15:27:53 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 98D4A68C7B; Mon,  6 Jan 2025 16:27:08 +0100 (CET)
-Date: Mon, 6 Jan 2025 16:27:08 +0100
+	id B42BE68C7B; Mon,  6 Jan 2025 16:27:48 +0100 (CET)
+Date: Mon, 6 Jan 2025 16:27:48 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
+To: Damien Le Moal <dlemoal@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Damien Le Moal <dlemoal@kernel.org>, Ming Lei <ming.lei@redhat.com>,
+	Ming Lei <ming.lei@redhat.com>, Nilay Shroff <nilay@linux.ibm.com>,
 	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
 	nbd@other.debian.org, virtualization@lists.linux.dev,
 	linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-Subject: Re: [PATCH 05/10] block: don't update BLK_FEAT_POLL in
- __blk_mq_update_nr_hw_queues
-Message-ID: <20250106152708.GA27431@lst.de>
-References: <20250106100645.850445-1-hch@lst.de> <20250106100645.850445-6-hch@lst.de> <4addcb5e-fc88-4a86-a464-cc25d8674267@linux.ibm.com> <20250106110532.GA22062@lst.de> <3fb212e4-8fff-45fc-9cff-f5b5eaff4231@linux.ibm.com>
+Subject: Re: [PATCH 06/10] virtio_blk: use
+ queue_limits_commit_update_frozen in cache_type_store
+Message-ID: <20250106152748.GB27431@lst.de>
+References: <20250106100645.850445-1-hch@lst.de> <20250106100645.850445-7-hch@lst.de> <07353499-b62d-488a-9575-12de5d9b6f2e@kernel.org> <20250106105957.GC21833@lst.de> <3cf61c5f-b53b-43b6-90de-e42272f74e3f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3fb212e4-8fff-45fc-9cff-f5b5eaff4231@linux.ibm.com>
+In-Reply-To: <3cf61c5f-b53b-43b6-90de-e42272f74e3f@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250106_072715_885966_7B1CBBAA 
-X-CRM114-Status: GOOD (  16.45  )
+X-CRM114-CacheID: sfid-20250106_072752_227348_77BF4996 
+X-CRM114-Status: GOOD (  13.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,23 +63,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 06, 2025 at 05:36:52PM +0530, Nilay Shroff wrote:
-> Oh yes, I saw that you moved blk_mq_can_poll() to blk-mq.h and 
-> made it inline so thought why bdev_can_poll() can't be made inline?
+On Mon, Jan 06, 2025 at 10:09:16PM +0900, Damien Le Moal wrote:
+> Sounds good to me, but let's be consistent then: do not remove the
+> freeze/unfreeze from virtio_blk in patch 2 and do it here in this patch.
+> Otherwise, patch 2 *does* change the behavior of virtio_blk, introducing a bug
+> (missing freeze around commit update).
 
-It can be, but why would you want it to?  What do you gain from forcing
-the compiler to inline it, when sane compilers with a sane inlining
-threshold will do that anyway.
-
-> BTW, bdev_can_poll() is  called from IO fastpath and so making it inline 
-> may slightly improve performance. 
-> On another note, I do see that blk_mq_can_poll() is now only called 
-> from bdev_can_poll(). So you may want to merge these two functions 
-> in a single call and make that inline.
-
-I'd rather keep generic block layer logic separate from blk-mq logic.
-We tend to do a few direct calls into blk-mq from the core code to
-avoid the indirect call overhead, but we should still keep the code
-as separate as possible to keep it somewhat modular.
-
+Yeah, I'll fix it up.  As mentioned in the cover letter I just brushed
+this up just enough to be presentable for now.
 
