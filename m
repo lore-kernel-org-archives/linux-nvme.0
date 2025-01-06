@@ -4,105 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A88A9E77188
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 16:04:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE4D1E77188
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 16:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=qCyahOV2kTIZy40KZRDCk8UlhlNMc75kM0yqojqk1/o=; b=ED0N1l7zF4HvSj
-	PK7c9zbgSu0PLl7no8xpD9QRlBZf5oMSD0BiKo9o6Vzh+4nISAz+ZbhszubahCnV0EwN117HEYVA+
-	kwiuGZY2JWqUssd+LPRAvulW/lYQ63BVsOGi6z4tJngpAWSsHHSgdAuJDYucIPGFtzqg/dImd5AnC
-	TS6Md/ScdFKL6NSVYjvcxCikG1W2yioVv+Cd7WimWyt0auCipdI3t+GjJLpCfKM9LrGTq31LKPSZZ
-	XdPEKiW9SHCnoQLTiFkavn2P2xfrWeChtL7zos1+ZXuazWy1cj9iEwMouv0IldvXQ+ZIxPhnZv/lm
-	N5rg8V9P2oPlpK88xh9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lDkMaTLgwjLJD3zGtn4hJf6KSWIJaWqmyoEhZsFcj8o=; b=LcOF+k7WTvdfmVJVpw263+kf4x
+	YprNhtLNGm+qgQJSyGwije4dnC2dAvipqqux6VyMreDz/wb+tz37ivBhrfZyBjFwYDLY97sOK2ewA
+	HRcDg7d/W/qcHwMvLkObg1q2BDU3Dm467UFnOih3EHNFxz1E2lzrJGWoKwjm51Xv5jPNSmeQcHrxT
+	luGaIqog/GOsW6Y2pLXhdSwYxDlTuPKrgXiRl4LRvriTBimZcqw2SO8xdRX9qU/TiGkfbDAZ9yhqj
+	Zw626sYwsZuofyp2RVKNOVJPdXB+XW6OWWpc4WnyWWy0/XyplZg3pcRKcjx5HM9x1k/z/odcCBCYf
+	tY3WuR+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUpa3-00000001snt-2DwQ;
-	Mon, 06 Jan 2025 16:03:51 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tUqBe-00000001z8o-0Vxq;
+	Mon, 06 Jan 2025 16:42:42 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tTliu-0000000DbNj-2PkG
+	id 1tUqAw-00000001yvm-1NyD
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Jan 2025 17:44:37 +0000
+	Mon, 06 Jan 2025 16:41:59 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 95ABDA41034;
-	Fri,  3 Jan 2025 17:42:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02697C4CED6;
-	Fri,  3 Jan 2025 17:44:35 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 39A115C5A88;
+	Mon,  6 Jan 2025 16:41:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D4F1C4CEDF;
+	Mon,  6 Jan 2025 16:41:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735926275;
-	bh=pRVkikpR9atkH7Z9yyBq4g6p9KSycIkZ3xWUYDx7kKA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=meOuPxmX/Ck1O9Y0poyu1vIfbHYu57927aYMHr4c+lFo4un3h0FURP6ahYknhqadI
-	 Ou3VE5lCVqinSr+c8Ca+iIDQm550srFu7W26FsUMWJpjdA4+n8mRM7dLEHg8xSPaqP
-	 8uEmFVTOnt42FDy6XzozpeQulJLK6F/LapjtG2jjw8z40p+fYAO1Uk1d0RJiOIMAsw
-	 HeBZrvMlEAV40/iwAhBNNadnacwoWmNvPaRMbqDe+q0Bwsqm2/Cf4pkwB2e5Vu/oPS
-	 Rz/a4yLi/ZewxdQd392AAm4dRgoMDQuSPqZW2Fis9fDjNtXPetd2B+BiXacAoGTxrz
-	 HeQV+3vysqs6g==
-Date: Fri, 3 Jan 2025 11:44:32 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-crypto@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Rick Lindsley <ricklind@linux.ibm.com>,
-	Nick Child <nnac123@linux.ibm.com>,
-	Thomas Falcon <tlfalcon@linux.ibm.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	James Smart <james.smart@broadcom.com>,
-	Dick Kennedy <dick.kennedy@broadcom.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Matt Wu <wuqiang.matt@bytedance.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Daniel Jordan <daniel.m.jordan@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Greg Kurz <groug@kaod.org>, Peter Xu <peterx@redhat.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Hendrik Brueckner <brueckner@linux.ibm.com>
-Subject: Re: [PATCH 06/14] cpumask: re-introduce cpumask_next{,_and}_wrap()
-Message-ID: <20250103174432.GA4182129@bhelgaas>
+	s=k20201202; t=1736181717;
+	bh=IrRyC4vaKupjSeMIXcC2XYvj4LGYPCKIgeq7EPoSVcU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QEw9qgxj8/vtHfFp44ozx6N74SzNixU559+ichH6dq5WrO74A4CDCdkOPwJWSwRZt
+	 M8a9PRaXh8mgat1abC1RWEwFoLs9WBqgMFz8RlAthrul97c8Vf2qFI7u94cgMaVDBZ
+	 T/hBpHiiy5olY/Wf8D1aTaOOiRjFL94ni9kQ+UHQ22GECABlEF1UbtqRj/27reItSd
+	 U215Y9j32Ui4THenhatqB4Ga/Vcdagw31ltKte8diPdpO7JTtXgSpRnTIUmbIT4Eh/
+	 pyNosAqn4JNn67GrGS54Orz6b8NuJkp0B7LEt+M6ymucBzCYFx2Duzp+UjjCk5lfhx
+	 Dn1wLYDzzQuYA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.12 5/8] nvmet: propagate npwg topology
+Date: Mon,  6 Jan 2025 11:41:05 -0500
+Message-Id: <20250106164138.1122164-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250106164138.1122164-1-sashal@kernel.org>
+References: <20250106164138.1122164-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241228184949.31582-7-yury.norov@gmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250103_094436_742783_480C7234 
-X-CRM114-Status: GOOD (  11.33  )
-X-Mailman-Approved-At: Mon, 06 Jan 2025 08:02:41 -0800
+X-CRM114-CacheID: sfid-20250106_084158_411905_65E719EE 
+X-CRM114-Status: GOOD (  10.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,19 +79,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Dec 28, 2024 at 10:49:38AM -0800, Yury Norov wrote:
-> cpumask_next_wrap_old() has two additional parameters, comparing to it's
-> analogue in linux/find.h find_next_bit_wrap(). The reason for that is
-> historical.
+From: Luis Chamberlain <mcgrof@kernel.org>
 
-s/it's/its/
+[ Upstream commit b579d6fdc3a9149bb4d2b3133cc0767130ed13e6 ]
 
-Personally I think cscope/tags/git grep make "find_next_bit_wrap()"
-enough even without mentioning "linux/find.h".
+Ensure we propagate npwg to the target as well instead
+of assuming its the same logical blocks per physical block.
 
-> + * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
-> + *			   @n and wrapping around, if needed
-> + * @n: the cpu prior to the place to search (i.e. return will be > @n)
+This ensures devices with large IUs information properly
+propagated on the target.
 
-Is the return really > @n if it wraps?
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/target/io-cmd-bdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 0bda83d0fc3e..eaf31c823cbe 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -36,7 +36,7 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 	 */
+ 	id->nsfeat |= 1 << 4;
+ 	/* NPWG = Namespace Preferred Write Granularity. 0's based */
+-	id->npwg = lpp0b;
++	id->npwg = to0based(bdev_io_min(bdev) / bdev_logical_block_size(bdev));
+ 	/* NPWA = Namespace Preferred Write Alignment. 0's based */
+ 	id->npwa = id->npwg;
+ 	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
+-- 
+2.39.5
+
 
