@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C1CCE77188
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 10:44:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6423E77198
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 10:47:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bQ6P69FJf7ylXQqOja4A97U45gCawPi/uZomYF+rIgc=; b=Nrd62kUXm8HWhFynqb9E7SUNlg
-	eX1XqlLY3noDJo4jN1hx+SaiHoGVUUKiMuRXdWAz2JcbMqFFkLMqyoFobYw75eP1SeCOGWd+w1luT
-	32OBxdgm6aKRhXQwPUd/SNaSBj+7lfBVdIeiZYK9VpRdjrdxC6w+3dKt8tqqt02ZQ+UzBZZkUkUcI
-	TtYWsXG64zqEFATnf3UsP9yJsR0xo8YtaZGlTt0iA2Ik/7SIF0k+vOqB4Kgx9f07LM6t+reXnb546
-	/mugvynBmY0iXfQybOIlbvXWcrUkcW2NUbj5T5yaFLHA61L2gswxig6d4cSJG609u3+MqihSqmdX3
-	XYg/gTSA==;
+	bh=k2K3X6sigu55xL8acrs374nEKXrh84KNRiSg+bvqjgM=; b=fI4EJVpobQ7+4HbJOU0FFA6L7N
+	3VuhTFMlERK+E/ijZbgzgvdaKl1iqn+pn1REPFRJEDAX/vYSwjKCEDor/u1MHiVZ+7zWgbikdz/6g
+	BG59WXpY+ebkGbPze5hmRvmR6YEjJZtAdM8pIlEsEpk4gTzgggcCdXe2vkUfwwW0eR6IPtREzeX8r
+	JFoXXz8gBeZ+XOGr665kgFED7VWVZisXjZU3yplh/Oo6uexUFfgSLd9U2rQ6iZKxoboKnqDDBpjgw
+	TZBc4qQbqjlewHLgbISl/K9bHQk25b/4AdQ840zY0ogWNIgwpa7Tp3xfhwiY6FPWPUk0LY98jpldl
+	jwnrC1jA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUkae-00000000tuh-3dMZ;
-	Mon, 06 Jan 2025 10:44:08 +0000
+	id 1tUkdY-00000000uXE-2euG;
+	Mon, 06 Jan 2025 10:47:08 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUkYq-00000000tiq-265S
+	id 1tUkdW-00000000uWF-2IlU
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jan 2025 10:42:17 +0000
+	Mon, 06 Jan 2025 10:47:07 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id DF4BEA4145E;
-	Mon,  6 Jan 2025 10:40:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B58D2C4CEE0;
-	Mon,  6 Jan 2025 10:42:13 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id DEA38A41477;
+	Mon,  6 Jan 2025 10:45:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D402C4CEDD;
+	Mon,  6 Jan 2025 10:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736160135;
-	bh=euhWvUhz5CciYJh8Yuw2cExBVHc9+EtlTZ1pgZbX7Ho=;
+	s=k20201202; t=1736160425;
+	bh=wej234ibZ1R8OLTpkTc9rxS5V8U0eLOGtXxAG8f0G9Q=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hUODWLJYC9lAQuwth5KQ9f/9n4JkccHviDS4BUW+GVnYUc95BTbiEfTLJTO2cSnhI
-	 RoGLBLJs/jDMAKfkGSoG8fMvgAx1f+wf/EoLVq5jlCe5Aj3acYnWwRbQGefxm3Mk9y
-	 Se7gjWn7ohH1ELKxO/yfEDpwedIExf6+QWU+QcTdeme4+2Syu5DERgr2CZJUWfbOaT
-	 u1/Kl9WCgzP0ekKNfmY2vOBe+7Xpneq1f8fTkpfwoym9kbHfUXAwDhUN3RpSPjKDxE
-	 Lq4zljlYQUJJRYaE589asV0Y2gFz7Ho5fL+S9ICfeYhrdshKYQIWtuuwVkio2eASNk
-	 oPa63ka2qmKYg==
-Message-ID: <c760f509-8902-429c-bf1b-526b1043c483@kernel.org>
-Date: Mon, 6 Jan 2025 19:41:29 +0900
+	b=QtMzyfuDr2WNgnvsHFz2I+5Ou4y6rqsWJjZ/PHVKqnL013v7PDKnnIUaTpUxxBneH
+	 bb6oZLKYhNfPUaCgUIofZ+nJZAKLILSD41nmIXtic/DvtGzLHz5cIBWRcYtKermD8J
+	 ZzjiokHMuU2Q7TTVFQmG9aOuuzCC5Vp8ePniWkR3PwEpBHGNPZi+r48oP0x7LOQAxK
+	 2S4KCGRdrNmKdImmai72QHvLxq+PQah2S8cMd4tXmZWJ72b0Sgq3yR1wj4EB8Vf32P
+	 Bo+ibYFAdtZVy7+36citiVsHaS1FduSGAwv+aZk06ZWiyGRuvIdEE9tExdorHxco5s
+	 qEUq74Bc6OqpQ==
+Message-ID: <a461bbbc-f251-4f44-89c7-f80f72e6e96d@kernel.org>
+Date: Mon, 6 Jan 2025 19:46:19 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/10] block: add a queue_limits_commit_update_frozen
- helper
+Subject: Re: [PATCH 03/10] block: add a store_limit operations for sysfs
+ entries
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: Ming Lei <ming.lei@redhat.com>, Nilay Shroff <nilay@linux.ibm.com>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  nbd@other.debian.org, virtualization@lists.linux.dev,
  linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
 References: <20250106100645.850445-1-hch@lst.de>
- <20250106100645.850445-3-hch@lst.de>
+ <20250106100645.850445-4-hch@lst.de>
 From: Damien Le Moal <dlemoal@kernel.org>
 Content-Language: en-US
 Organization: Western Digital Research
-In-Reply-To: <20250106100645.850445-3-hch@lst.de>
+In-Reply-To: <20250106100645.850445-4-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250106_024216_618565_37C5E920 
-X-CRM114-Status: GOOD (  12.18  )
+X-CRM114-CacheID: sfid-20250106_024706_666277_44AA367A 
+X-CRM114-Status: GOOD (  15.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,28 +79,54 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 1/6/25 7:06 PM, Christoph Hellwig wrote:
-> Add a helper that freezes the queue, updates the queue limits and
-> unfreezes the queue and convert all open coded versions of that to the
-> new helper.
+> De-duplicate the code for updating queue limits by adding a store_limit
+> method that allows having common code handle the actual queue limits
+> update.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
 [...]
 
-> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-> index 71a7ffeafb32..0a987f195630 100644
-> --- a/drivers/block/virtio_blk.c
-> +++ b/drivers/block/virtio_blk.c
-> @@ -1105,9 +1105,7 @@ cache_type_store(struct device *dev, struct device_attribute *attr,
->  		lim.features |= BLK_FEAT_WRITE_CACHE;
->  	else
->  		lim.features &= ~BLK_FEAT_WRITE_CACHE;
-> -	blk_mq_freeze_queue(disk->queue);
->  	i = queue_limits_commit_update(disk->queue, &lim);
+> @@ -706,11 +687,24 @@ queue_attr_store(struct kobject *kobj, struct attribute *attr,
+>  	if (entry->load_module)
+>  		entry->load_module(disk, page, length);
+>  
+> -	blk_mq_freeze_queue(q);
+>  	mutex_lock(&q->sysfs_lock);
+> -	res = entry->store(disk, page, length);
+> -	mutex_unlock(&q->sysfs_lock);
+> +	blk_mq_freeze_queue(q);
 
-You need to change this line to use queue_limits_commit_update_frozen().
+The freeze must NOT be done for the "if (entry->store_limit)" case. So this
+needs to go int the "else". Otherwise, you still have freeze the take limit
+lock order which can cause the ABBA deadlocks in SCSI sd.
 
-Other than that, looks good !
+> +	if (entry->store_limit) {
+> +		struct queue_limits lim = queue_limits_start_update(q);
+> +
+> +		res = entry->store_limit(disk, page, length, &lim);
+> +		if (res < 0) {
+> +			queue_limits_cancel_update(q);
+> +		} else {
+> +			res = queue_limits_commit_update(q, &lim);
+
+Here you must use queue_limits_commit_update_frozen().
+
+> +			if (!res)
+> +				res = length;
+> +		}
+> +	} else {
+> +		res = entry->store(disk, page, length);
+> +	}
+>  	blk_mq_unfreeze_queue(q);
+
+And this one needs to go in the else after the call to entry->store().
+
+> +	mutex_unlock(&q->sysfs_lock);
+>  	return res;
+>  }
+>  
+
 
 -- 
 Damien Le Moal
