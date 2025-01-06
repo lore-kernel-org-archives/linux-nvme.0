@@ -4,70 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06EA9E77188
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 11:54:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BE23E77188
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 12:21:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:Cc:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JW1VtRFWPaJpEt8UVihn5X8dVIfv8LC65PPfdvnNNeg=; b=ExwyufjiV+APl1pLWI+4w0ri4r
-	fq+1FFpV7o8kKYJFnboc08eDVrpPHI1FQYs/q4fn3UOh7mz5EGR4jx/6VjGa1kklWRyz9N4dGcP+P
-	fGN+B5bJu8dxLSFnm4zoRq0QHRaHaxqTE8qdBYQy09cOJRuSxDi/jqOcR8H54kY8NU/EhyHQ2p++d
-	8harobI75mgMw/L47RnfwlWe+gxu9JR7LdkDmxBkewoR4SaFXDJ7reauYGRzXLuYC+BKgMrcyJWR3
-	iiz9YTW5fziWX/TAEwYqVEDCJYUDDdZN4/cLmjk7klMNYeSGqrJiL4V2GHr2gd15Ig4/v0r+XpibL
-	EFJLtdwg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lEgqGUmmdHlI+KexeqkKfc5uGqdJkewykFHtwS7IbqQ=; b=kmHzwKMlzsVVksilgycCDVALW3
+	UcqzGqnnJm45slTNS+5OeMF78DR8w2cw8IN2Nhk5TClw11VMMDi8AvGLtPPd+VYjDPx5R+ToBETii
+	BBUnC71KFl7w1IpTzarf++aKFZNhItqbotWGUasgh4QyFMeNumraOq8BLC76vy+UT+1Z+SZYCUl7K
+	oSux8YOhTB0IHwQAFP66mH5E2IziWQWOs5ZZD5rVcwhcYCBYnh3VwAevybIxFMkrKO32q2ZkZP5qt
+	NZ67gZVKqwJFOo36Wl6dOHG08buLjg8wmG2hLwvslFAmf17f+QJJCcx8dbxlbOatnlKPAvC7+T8W/
+	o4ZfgAaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUlgN-000000016cD-0Ndo;
-	Mon, 06 Jan 2025 11:54:07 +0000
-Received: from sender4-pp-f112.zoho.com ([136.143.188.112])
+	id 1tUm7A-00000001CFW-0qy5;
+	Mon, 06 Jan 2025 12:21:48 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUlgL-000000016bc-0lJZ
+	id 1tUl5E-000000010WV-0psI
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Jan 2025 11:54:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; t=1736164439; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=jpDG73bUnfpKOCVuATlRPyTP00AeskNghPD9tA9RpOeeprqmMCiENq54CdOBC2yU52a61lNyaoVdwmNqoswEW3QATCozQyHXPjuHre+0yF1l4axDHZjG6GBnyn0uudGDVGAycP2GU03tATKXFug37RXd0t0KwIS5DmEeaUk/I18=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1736164439; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=JW1VtRFWPaJpEt8UVihn5X8dVIfv8LC65PPfdvnNNeg=; 
-	b=bmetOWV/tgZ0kwuVugeFkviA8/mMrqssFLGxiAdvn4PdJlH81FnykCljzS6EyZiSNmGeTKUyfZQR073FR99dVvuz1AmCDytj4sdDkGxVRdl/IjTVKqmlHjvOaaRT1WRu8VokvfyJNt8SRYOjDK9auBjepYY+smfbFsA294b1nYA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=Usama.Anjum@collabora.com;
-	dmarc=pass header.from=<Usama.Anjum@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736164439;
-	s=zohomail; d=collabora.com; i=Usama.Anjum@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Cc:Cc:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=JW1VtRFWPaJpEt8UVihn5X8dVIfv8LC65PPfdvnNNeg=;
-	b=VLgws91D21wfIG0xsUt0ycwNXcXo2TpHocuQ69doHcv3lnrpcQErTVxN+vhvNs8O
-	67jbX3xWtB07o21rJjDvMMl40g8xzQr88/7WbHAI3u1xgQy2Nl42UAItTtoy+uHhs7Y
-	rC4sVeRS4n2CNCPGdZE8CBnjPyG1b1sVejMq4jS0=
-Received: by mx.zohomail.com with SMTPS id 1736164437798373.2326926896716;
-	Mon, 6 Jan 2025 03:53:57 -0800 (PST)
-Message-ID: <2abcf14e-4b32-4896-92f0-c5a4c0b4f772@collabora.com>
-Date: Mon, 6 Jan 2025 16:54:19 +0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: Usama.Anjum@collabora.com, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, kbusch@kernel.org, sagi@grimberg.me,
- Eugen Hristev <eugen.hristev@collabora.com>
-Subject: Re: [PATCH] nvme-pci: refresh visible attrs after being checked
+	Mon, 06 Jan 2025 11:15:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736162143;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lEgqGUmmdHlI+KexeqkKfc5uGqdJkewykFHtwS7IbqQ=;
+	b=Lr1iDgWSenrmgoKuHk5vjKrS8o6BS2/8fDikWoXIReIfaAnMCkLSo9XsbMkxbaT+GgvGfr
+	85bixVpm4DepuH44yP8UUJBxALy/Hq/8gOncaPb5mt84Kzz0KOGLf6lGuN0QAmEOqzB7pp
+	Zn9ewts0Q3CzPN2ULqJq1TTVLpHt+dc=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-277-ramjuIovO8u7SQJZqBradQ-1; Mon,
+ 06 Jan 2025 06:15:39 -0500
+X-MC-Unique: ramjuIovO8u7SQJZqBradQ-1
+X-Mimecast-MFC-AGG-ID: ramjuIovO8u7SQJZqBradQ
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2D39319560A2;
+	Mon,  6 Jan 2025 11:15:38 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.180])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B979D195608A;
+	Mon,  6 Jan 2025 11:15:32 +0000 (UTC)
+Date: Mon, 6 Jan 2025 19:15:27 +0800
+From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
-References: <01020191b7b7adc0-bca16d06-b051-4ce2-bfee-c8038a62462f-000000@eu-west-1.amazonses.com>
- <20240904041057.GA13313@lst.de>
-Content-Language: en-US
-From: Muhammad Usama Anjum <Usama.Anjum@collabora.com>
-In-Reply-To: <20240904041057.GA13313@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Nilay Shroff <nilay@linux.ibm.com>
+Subject: Re: [PATCH 1/3] block: Fix sysfs queue freeze and limits lock order
+Message-ID: <Z3u7Twc4UPWvlfJJ@fedora>
+References: <20250104132522.247376-1-dlemoal@kernel.org>
+ <20250104132522.247376-2-dlemoal@kernel.org>
+ <Z3tOn4C5i096owJc@fedora>
+ <20250106082902.GC18408@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250106082902.GC18408@lst.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250106_035405_298756_0C8B643C 
-X-CRM114-Status: UNSURE (   6.45  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250106_031544_317376_188745D1 
+X-CRM114-Status: GOOD (  18.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,14 +87,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/4/24 9:10 AM, Christoph Hellwig wrote:
-> Looks good:
+On Mon, Jan 06, 2025 at 09:29:02AM +0100, Christoph Hellwig wrote:
+> On Mon, Jan 06, 2025 at 11:31:43AM +0800, Ming Lei wrote:
+> > As I mentioned in another thread, freezing queue may not be needed in
+> > ->store(), so let's discuss and confirm if it is needed here first.
+> > 
+> > https://lore.kernel.org/linux-block/Z3tHozKiUqWr7gjO@fedora/
 > 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-This patch is isn't present in -next. Please have a look.
+> We do need the freezing.  What you're proposing is playing fast and loose
+> which is going to get us in trouble.
 
--- 
-BR,
-Muhammad Usama Anjum
+It is just soft update from sysfs interface, and both the old and new limits
+are correct from device viewpoint.
+
+What is the trouble? We have run the .store() code without freezing for
+more than 10 years, no one report issue in the area.
+
+
+> While most (all?) limits are simple
+> scalars, you often can't update just one without the others without
+> having coherent state.  Having coherent state was the entire point of
+> the atomic queue limit updates.
+
+We am talking all the update in block queue sysfs store(), in each
+interface just one scalar number is updated in atomic way.
+
+The atomic update API is still applied, I meant queue freeze can be
+removed.
+
+
+Thank,s
+Ming
+
 
