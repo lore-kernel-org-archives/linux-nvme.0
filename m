@@ -4,86 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2036E77188
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Jan 2025 22:28:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A772E77197
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jan 2025 01:54:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ydW0TG4z7XBo7HBBH7ij90+wnNI4JxxB1fs88STRyos=; b=Xlmhd5zJJhrS2yFGF6QCljEGp1
-	5/x3ffLfW66xWIPAPy5Sn9IVk+0L61AtUWotyrVV2MLqQksRYuU2zGh2N9w1ppD0Tg5/roW9gA+Ur
-	TlNePoWrMY2LFJSZlpW6r9Dn1TI7DyJhoD1KBRl74M/YSA1ECkMxGC9/Cntgou6kvPcEk0MbFQMY3
-	Rzf8CBAH/54TxzzaAMbIo2xvZjtFiL7gGpMg9JO6JHuZKLWeWRXBB+I6kw/7kuvq3uzCQ3EAJdhMd
-	t8efpFvog0QQ6hblRYScnxfKGjoD54E4NW+Dt0O9EOgKCJ14nEW7t/wA0eUD+PSw0hdaY+pW8wOhJ
-	2jo4UDyQ==;
+	bh=OkbB09Avmo9P9VbNv2ofendGXFiO7b9ycK3o8iKvOqM=; b=k6fbxzdPT/D7YAZO1FCj86Keuu
+	iCgd3/sKOh6/ynVOeHhSdArxnYJW2j/jre+bFyjGEPSGGON5GNL9+D/tE27AY3iKGu+r8KIoEm3Ie
+	q2O8M1/slTCCRIrtTzaguZt95iWFe79x4CIwPBUTbOjnbzWvSatIg8haUZORybm6HIrU5ZckqVCr2
+	65cBExSx3oc6Z1D/hnoJOVTPniVcyoHT0TQieglggeB4vypRVl5XKgS9kDz23TEXH5wq4zad0sSJy
+	Xc9mOC7UKoDFsTDSdF0s/9uW492dRBfhO49Aca8CXc6FANzf4tIHlCvUyCERtTvS9hEom+CIuhn/2
+	yJRKDYAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUCcg-0000000Fj8r-2el6;
-	Sat, 04 Jan 2025 22:27:58 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1tUcKT-000000000Sp-2vxK;
+	Mon, 06 Jan 2025 01:54:53 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tUCcd-0000000Fj7V-1639
+	id 1tUcKL-000000000S1-2nJh
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Jan 2025 22:27:56 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-2156e078563so162738725ad.2
-        for <linux-nvme@lists.infradead.org>; Sat, 04 Jan 2025 14:27:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1736029674; x=1736634474; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ydW0TG4z7XBo7HBBH7ij90+wnNI4JxxB1fs88STRyos=;
-        b=2D/sdKSGRTOCggMBpr7twqjJfZK4az6EUA72qWiXtkBxxy3tjazob1mQTGTeo2WMgq
-         t0kbZJ1t08um4Ep4Qql0uoIFTsBNG3qgt1qQGko8Nid1ilK60FHFZ7CYqGsiPiTQXaH4
-         ydadIfktzaIbDxnAjxvIl+HGGoSUHutHLxmrm6DUknaOoQ3uHNuwBMUZAbP9DBETaDI9
-         FPzSQoBy3QKLXRtvAsH5N02TZFKpHs9kR+6wggcapczFepol2Duopd0UJLarpr+hUmcK
-         X5CiTUQhebe3/zxrFoNQyYg4r51Yuiq5UnfpdfoMcoixA+VsLVMwHTLCi2iZTwc7wJDz
-         glgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736029674; x=1736634474;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ydW0TG4z7XBo7HBBH7ij90+wnNI4JxxB1fs88STRyos=;
-        b=cHT1mdE8NUdAm4ArbEg5Th4orDbtr07Fj2dYocPWGjjwTaPfZ8RP83dklnxoaQDwfu
-         DkBh9407+haFeo7T935sF8Dh2CB5TFDuAlAdje0LIUW6Iz1jD960kWXhYVjpdOmx5vnV
-         X9RqxikPIhEB5NQ26ugYsY48KkXM0voGYYWkSAVhV1l/PjQEe6IPEjjpaMghf3Oj/53U
-         a/dQpgKke0o55wgw7U+g9CtgQBO6pkEUanl/oV9mZHsaIFN23bxFFjiQpG5AOb13seFy
-         HuKelNniOOmi1HoHycLZ7e4iW/RUWPjoh/w+Zmy68CxjiR2p+4g0UQ8rM/Y02jtYFq1C
-         Xl/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUK254gm3uyqLvFwTxXpVZedRmEZK3/BzhwYpA2IelUHvF3XkdfhmKvUWryr5XntcFewkJB0ZZ7PB17@lists.infradead.org
-X-Gm-Message-State: AOJu0Yya0w9r/wF1PQrHVt0Xr7tcHTY/+0bbHfm5qJXb9rPWcnhf5U6d
-	GFOuJOBJ11b98RM/gQoCaux5djDQwAIHSshGEzSkxEJp+ZG5iAJOiRDDoNDXEtlAtoZNwlNTj3K
-	4
-X-Gm-Gg: ASbGnctSR1jAlAgODfG//QiTLYIuSCThl4+Z9IUg1mTtGN0Gi8PhM5Bk7ekyvxmL+Nv
-	KvcpQx+2G2llaDHqL4y+8CfsaIVPaKnzFuyHzM3i+/UYENU7nAvkcFyYCRsl6n6zZPVoSZvs9Ir
-	0tFreBFXe+FBAng7xV9hV/UfHH03z5g6/O5fLgraAP5N3Sog92VaqP5Gdes5AIXIR67iRW62e2A
-	TReQOjr5McjCqf+3lnFg1sKZzxe50b+Ax3uExsEuZgVK4zT
-X-Google-Smtp-Source: AGHT+IF+L+86xLxNKDCy3NJpJ1Whra//RstFOL/I1FY0ppQLvIlzdnb8Hv8hv/Dxi+bSvhcBNsb4Ww==
-X-Received: by 2002:a05:6a20:6f06:b0:1e1:b014:aec9 with SMTP id adf61e73a8af0-1e5e080c77fmr83798682637.29.1736029674019;
-        Sat, 04 Jan 2025 14:27:54 -0800 (PST)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad81641esm28451472b3a.3.2025.01.04.14.27.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 14:27:53 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
-In-Reply-To: <20250103073417.459715-1-hch@lst.de>
-References: <20250103073417.459715-1-hch@lst.de>
-Subject: Re: simplify passthrough bio handling
-Message-Id: <173602967287.135972.1134077263108813311.b4-ty@kernel.dk>
-Date: Sat, 04 Jan 2025 15:27:52 -0700
+	Mon, 06 Jan 2025 01:54:47 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 25A51A403AF;
+	Mon,  6 Jan 2025 01:52:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA98C4CED0;
+	Mon,  6 Jan 2025 01:54:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736128483;
+	bh=VXHTSlWVeej65C6gWEdXhGhaNxkRXr5jGN61emh9ek8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=eEtf3Sawb5gYw3jcbVvK/g+/c3EDSX2rcB/mxneDgQOI9p2znVsjTklVuQxF7/DAy
+	 yuErRnUtSZXCbqRdy/KAE++Yea+gXBb12mvvaKI28WpVy5rRHvoRlPx6iPPq2hvtch
+	 CCtvF8OrHJG0Aa6lvXY7Buaf9eMZLXh7EOzquUmq9adf3LextO2sUsXV0RH2XG7eR2
+	 vBsyPAi3k4O7KXKNHQyE7HmQsd7cclN3x5HRZm4uRLrmoPIAMndZaN7R8RGYcB2mXu
+	 XGMHIiJThc2+fF0lXn+i0st5Jysv0qnhyJikf84UoqGHA0CfYkBfXqfyUVooFhFchv
+	 m0BqcxcVZSV6Q==
+Message-ID: <ee32c284-aeda-4efa-adb1-bb4af724d097@kernel.org>
+Date: Mon, 6 Jan 2025 10:53:58 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF TOPIC] Improving Block Layer Tracepoints for
+ Next-Generation Backup Systems
+To: Vishnu ks <ksvishnu56@gmail.com>, Song Liu <song@kernel.org>,
+ hch@infradead.org, yanjun.zhu@linux.dev
+Cc: lsf-pc@lists.linux-foundation.org, linux-block@vger.kernel.org,
+ bpf@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <CAJHDoJac2Qa6QjhDFi7YZf0D05=Svc13ZQyX=92KsM7pkkVbJA@mail.gmail.com>
+ <CAPhsuW7+ORExwn5fkRykEmEp-wm0YE788Tkd39rK5cZ-Q3dfUw@mail.gmail.com>
+ <CAJHDoJYESDzDf9KJgfSfGGit6JPyxtf3miNbnM7BzNfjOi7CQw@mail.gmail.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <CAJHDoJYESDzDf9KJgfSfGGit6JPyxtf3miNbnM7BzNfjOi7CQw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-14bd6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250104_142755_306564_F5617052 
-X-CRM114-Status: GOOD (  12.12  )
+X-CRM114-CacheID: sfid-20250105_175445_824007_8CFD1535 
+X-CRM114-Status: GOOD (  17.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,39 +78,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Fri, 03 Jan 2025 08:33:56 +0100, Christoph Hellwig wrote:
-> this series removes the special casing when adding pages to passthrough
-> bios in favor of simply checking that they match the queue limits once
-> before submissions.  This mirrors where the zone append users have been
-> moving and a recent doing the same for a single optimizes passthrough
-> user.
+On 1/5/25 2:52 AM, Vishnu ks wrote:
+> Thank you all for your valuable feedback. I'd like to provide more
+> technical context about our implementation and the specific challenges
+> we're facing.
 > 
-> Diffstat:
->  block/bio.c                        |  107 +-----------------------------
->  block/blk-map.c                    |  128 ++++++++++---------------------------
->  block/blk-mq.c                     |    4 -
->  block/blk.h                        |    8 --
->  drivers/nvme/target/passthru.c     |   18 +++--
->  drivers/nvme/target/zns.c          |    3
->  drivers/target/target_core_pscsi.c |    6 -
->  include/linux/bio.h                |    2
->  include/linux/blk-mq.h             |    8 --
->  9 files changed, 57 insertions(+), 227 deletions(-)
+> System Architecture:
+> We've built a block-level continuous data protection system that:
+> 1. Uses eBPF to monitor block_rq_complete tracepoint to track modified sectors
+> 2. Captures sector numbers (not data) of changed blocks in real-time
+> 3. Periodically syncs the actual data from these sectors based on
+> configurable RPO
+> 4. Layers these incremental changes on top of base snapshots
 > 
-> [...]
+> Current Implementation:
+> - eBPF program attached to block_rq_complete tracks sector ranges from
+> bio requests
+> - Changed sector numbers are transmitted to a central dispatcher via websocket
+> - Dispatcher initiates periodic data sync (1-2 min intervals)
+> requesting data from tracked sectors
+> - Base snapshot + incremental changes provide point-in-time recovery capability
+> 
+> @Christoph: Regarding stability concerns - we're not using tracepoints
+> for data integrity, but rather for change detection. The actual data
+> synchronization happens through standard block device reads.
+> 
+> Technical Challenge:
+> The core issue we've identified is the gap between write completion
+> notification and data availability:
+> - block_rq_complete tracepoint triggers before data is actually
+> persisted to disk
 
-Applied, thanks!
+Then do a flush, or disable the write cache on the device (which can totally
+kill write performance depending on the device). Nothing new here. File systems
+have journaling for this reason (among others).
 
-[1/2] block: remove bio_add_pc_page
-      commit: 6aeb4f836480617be472de767c4cb09c1060a067
-[2/2] block: remove blk_rq_bio_prep
-      commit: 02ee5d69e3baf2796ba75b928fcbc9cf7884c5e9
+> - Reading sectors immediately after block_rq_complete often returns stale data
 
-Best regards,
+That is what POSIX mandates and also what most storage protocols specify (SCSI,
+ATA, NVMe): reading sectors that were just written give you back what you just
+wrote, regardless of the actual location of the data on the device (persisted
+to non volatile media or not).
+
+> - Observed delay between completion and actual disk persistence ranges
+> from 3-7 minutes
+
+That depends on how often/when/how the drive flushes its write cache, which you
+cannot know from the host. If you want to reduce this, explicitly flush the
+device write cache more often (execute blkdev_issue_flush() or similar).
+
+> - Data becomes immediately available only after unmount/sync/reboot
+
+??
+
+You can read data that was written even without a sync/flush.
+
+> Proposed Enhancement:
+> We're looking for ways to:
+> 1. Detect when data is actually flushed to disk
+
+If you have the write cache enabled on the device, there is no device interface
+that notifies this. This simply does not exist. If you want to guarantee data
+persistence to non-volatile media on the device, issue a synchronize cache
+command (which blkdev_issue_flush() does), or sync your file system if you are
+using one. Or as mentioned already, disable the device write cache.
+
+> 2. Track the relationship between bio requests and cache flushes
+
+That is up to you to do that. File systems do so for sync()/fsync(). Note that
+data persistence guarantees are always for write requests that have already
+completed.
+
+> 3. Potentially add tracepoints around such operations
+
+As Christoph said, tracepoints are not a stable ABI. So relying on tracepoints
+for tracking data persistence is really not a good idea.
+
+
 -- 
-Jens Axboe
-
-
-
+Damien Le Moal
+Western Digital Research
 
