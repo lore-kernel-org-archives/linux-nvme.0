@@ -4,141 +4,153 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCB8DE77198
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CA21E7719B
 	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jan 2025 13:45:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mLgDzv/pVpbzGVF/OSbbOoTsrwb8sA5JJIlfnBc5IRk=; b=tpblKC7oWxwirFATS+2hWS4Q9k
-	Vq0ktW5RG/t/WrQyk8dltANmzEXdax74qAThURxfVV/YQ63YS4pqkrTR1gknBMtmdk0+BS34m8zxS
-	8Iy2jIMg6YEto9betkF3+XHVwWezDLGsES8F1qe6ykG1JVYKIfS04bzLdpgz3S4nuC8s+9vue9yeI
-	KoBwVlm1GQSupCexN8PWrfYdZJ0rsFwe5KsluoFJ4feITwyrzYOF1NYFpPBjLhdu+bpEy7b0rj83s
-	TZ+frniCzh1kzx4XBCBk0AEDvLri9g9PEWvpfZJyXR0I5/OD0AgYKtwg2yTyyTsDwvp+SQuZi11He
-	/O/S7Aaw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7EKA//0hSGrefRQSomMjyzuIn2WGE3ajOvbDc0AzWPM=; b=HKTfVSzw6nRWJl7+gDnmd2BL0h
+	A+jn1ZPzW9zqs/iXZva2D44bGT7E8X0SM7gVksOCe07kJXdvdirQD1iSIi43EGEaHdMbgu7d1s9jV
+	0dxRM52K8vIDK4+CIGifffdSvYaIWvyulQI+jw0Sb6TtZtKOQN5uq3T19dUA5NuzLR7Ms5hbQv1Ee
+	AVMEq9G5D92ayymUO7MGtxqg+Uevru2DilNjCoY/LgxTjjiUAeEMaBK7LToZsJCcX/LZ0qN6iSm2z
+	+jG/fwWoMJWOg1wetVQ++mLq6UHIXE6meQ+idLACUDigL59gM3xZpvZ6sRpcVznO6ertSDR/h8mGw
+	SZ5l2grw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tV9td-000000052vJ-1Ws1;
-	Tue, 07 Jan 2025 13:45:25 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1tV9tc-000000052us-3C7B;
+	Tue, 07 Jan 2025 13:45:24 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tV9dz-000000050AV-02KI
+	id 1tV7ru-00000004a4a-0Jpo
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Jan 2025 13:29:16 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507BWGNg009731;
-	Tue, 7 Jan 2025 13:28:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=mLgDzv/pVpbzGVF/OSbbOoTsrwb8sA
-	5JJIlfnBc5IRk=; b=OBlsnYR/bBezL2GRdAOvCDpfjTzgBC1YAjcDWKh3genAFF
-	7VmFYGzCQqntDisGxSNct7Weq0zBh7U5qGIkA5VFcOJnoftvLaehKEFWCQfbiAfR
-	Hl5eFKoY3fwyy2nUB/xz6agS+ZhpnxTY7T/PX+63Xv2yU1Kk0y9tcnz2IFIcrbYV
-	NzQeY+t+o8ZjwiyLasSJ3MUgeMRk8A4h2B7dp/wPkINyHfgIfyQ633G927/t2rHM
-	KAh2R9OaibMnsh2VLHw9gByqghhedxAONPnPg+tuNpdgnb/8oi6iqo8T34dO6hVT
-	kuVJh4zs/jK+zKcJflBj0i12SBFp1JxjCTVCM/Nw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 440s0aaygh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jan 2025 13:28:40 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 507DSdcj025835;
-	Tue, 7 Jan 2025 13:28:39 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 440s0aaygc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jan 2025 13:28:39 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5079nnbp027946;
-	Tue, 7 Jan 2025 13:28:38 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 43yhhk2dgt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jan 2025 13:28:38 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 507DSY0s27591038
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 7 Jan 2025 13:28:34 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8D9D820040;
-	Tue,  7 Jan 2025 13:28:34 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2A3C020043;
-	Tue,  7 Jan 2025 13:28:33 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.155.204.135])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue,  7 Jan 2025 13:28:33 +0000 (GMT)
-Date: Tue, 7 Jan 2025 14:28:31 +0100
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, netdev@vger.kernel.org,
-        virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
-        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-crypto@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Naveen N Rao <naveen@kernel.org>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Haren Myneni <haren@linux.ibm.com>,
-        Rick Lindsley <ricklind@linux.ibm.com>,
-        Nick Child <nnac123@linux.ibm.com>,
-        Thomas Falcon <tlfalcon@linux.ibm.com>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-        Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-        James Smart <james.smart@broadcom.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Matt Wu <wuqiang.matt@bytedance.com>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>, Greg Kurz <groug@kaod.org>,
-        Peter Xu <peterx@redhat.com>, Shrikanth Hegde <sshegde@linux.ibm.com>,
-        Hendrik Brueckner <brueckner@linux.ibm.com>
-Subject: Re: [PATCH 06/14] cpumask: re-introduce cpumask_next{,_and}_wrap()
-Message-ID: <Z30r/6S8VBU8/Ml5@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-References: <20241228184949.31582-1-yury.norov@gmail.com>
- <20241228184949.31582-7-yury.norov@gmail.com>
+	Tue, 07 Jan 2025 11:35:34 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E4AA2111F;
+	Tue,  7 Jan 2025 11:35:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736249727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7EKA//0hSGrefRQSomMjyzuIn2WGE3ajOvbDc0AzWPM=;
+	b=AAHXwTqpYVLlZe5d5YIkrcrCb3SwJMOcHiY8ExWLkeMpdttuIoxuQIGgOnglK2gP4rxEXO
+	wQp9E6zeaiI95xKT7UAT4BxFjulwuokjcsgOUuA+DrcHm1MgBC8SWYTizFSiLGy6zwytg4
+	t/jn4vdfBaqSdPaplAQGPQj910zwgYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736249727;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7EKA//0hSGrefRQSomMjyzuIn2WGE3ajOvbDc0AzWPM=;
+	b=mqshM3gD2TtT6A0Zz9YHTg0RZrB7LtoMKbp8XCRJ4HpINzuqurX95wI5nTLMOnB9JmVhUS
+	nLa/MxZg+swUp5Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736249727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7EKA//0hSGrefRQSomMjyzuIn2WGE3ajOvbDc0AzWPM=;
+	b=AAHXwTqpYVLlZe5d5YIkrcrCb3SwJMOcHiY8ExWLkeMpdttuIoxuQIGgOnglK2gP4rxEXO
+	wQp9E6zeaiI95xKT7UAT4BxFjulwuokjcsgOUuA+DrcHm1MgBC8SWYTizFSiLGy6zwytg4
+	t/jn4vdfBaqSdPaplAQGPQj910zwgYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736249727;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7EKA//0hSGrefRQSomMjyzuIn2WGE3ajOvbDc0AzWPM=;
+	b=mqshM3gD2TtT6A0Zz9YHTg0RZrB7LtoMKbp8XCRJ4HpINzuqurX95wI5nTLMOnB9JmVhUS
+	nLa/MxZg+swUp5Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3414C13A6A;
+	Tue,  7 Jan 2025 11:35:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NYcmCHwRfWcAfQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 07 Jan 2025 11:35:24 +0000
+Message-ID: <cbbf077c-5dcc-4bdd-849f-c3d0aac99d1e@suse.de>
+Date: Tue, 7 Jan 2025 12:35:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241228184949.31582-7-yury.norov@gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: CvBcdJZ3Px_Fxar3yVlr0JKsNe7bUdCi
-X-Proofpoint-ORIG-GUID: MYFcjTtUWdbqcyxPXpK7_i-p0KcJF5T7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1011
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- malwarescore=0 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501070109
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/9] lib/group_cpus: let group_cpu_evenly return number
+ of groups
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Kashyap Desai
+ <kashyap.desai@broadcom.com>, Sumit Saxena <sumit.saxena@broadcom.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com,
+ Don Brace <don.brace@microchip.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Costa Shulyupin
+ <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>,
+ Ming Lei <ming.lei@redhat.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Frederic Weisbecker <frederic@kernel.org>,
+ Mel Gorman <mgorman@suse.de>,
+ Sridhar Balaraman <sbalaraman@parallelwireless.com>,
+ "brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+ storagedev@microchip.com, virtualization@lists.linux.dev
+References: <20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org>
+ <20241217-isolcpus-io-queues-v4-1-5d355fbb1e14@kernel.org>
+ <1a2fe8aa-d3e1-4e36-8cd5-27141c1d7178@suse.de>
+ <1d7b96ca-a015-4730-9035-abb69cd6cda4@flourine.local>
+ <5eaeec6d-48fd-4fb7-90ac-70f596572644@suse.de>
+ <63489abb-0cdd-4963-8618-a6ce17432732@flourine.local>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <63489abb-0cdd-4963-8618-a6ce17432732@flourine.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-6.80 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[39];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,kernel.dk,lst.de,grimberg.me,broadcom.com,oracle.com,marvell.com,microchip.com,redhat.com,linux.alibaba.com,linux-foundation.org,linutronix.de,suse.com,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLwoqrtcdrtewo8fubna94zinu)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250107_052915_170857_09582BB4 
-X-CRM114-Status: GOOD (  29.92  )
+X-CRM114-CacheID: sfid-20250107_033530_257501_7EE1DEE5 
+X-CRM114-Status: GOOD (  13.36  )
 X-Mailman-Approved-At: Tue, 07 Jan 2025 05:45:21 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -154,86 +166,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Dec 28, 2024 at 10:49:38AM -0800, Yury Norov wrote:
-
-Hi Yury,
-
-> cpumask_next_wrap_old() has two additional parameters, comparing to it's
-> analogue in linux/find.h find_next_bit_wrap(). The reason for that is
-> historical.
+On 1/7/25 11:46, Daniel Wagner wrote:
+> On Tue, Jan 07, 2025 at 11:35:10AM +0100, Hannes Reinecke wrote:
+>> On 1/7/25 09:20, Daniel Wagner wrote:
+>>> On Tue, Jan 07, 2025 at 08:51:57AM +0100, Hannes Reinecke wrote:
+>>>>>     void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
+>>>>>     {
+>>>>>     	const struct cpumask *masks;
+>>>>> -	unsigned int queue, cpu;
+>>>>> +	unsigned int queue, cpu, nr_masks;
+>>>>> -	masks = group_cpus_evenly(qmap->nr_queues);
+>>>>> +	nr_masks = qmap->nr_queues;
+>>>>> +	masks = group_cpus_evenly(&nr_masks);
+>>>>
+>>>> Hmph. I am a big fan of separating input and output paramenters;
+>>>> most ABI definitions will be doing that anyway.
+>>>> Makes it also really hard to track whether the output parameters
+>>>> had been set at all. Care to split it up?
+>>>
+>>> What API do you have in mind?
+>>
+>> ABI, not API.
 > 
-> Before 4fe49b3b97c262 ("lib/bitmap: introduce for_each_set_bit_wrap()
-> macro"), cpumask_next_wrap() was used to implement for_each_cpu_wrap()
-> iterator. Now that the iterator is an alias to generic
-> for_each_set_bit_wrap(), the additional parameters aren't used and may
-> confuse readers.
+> I got that, still what C API do you want to see?
 > 
-> All existing users call cpumask_next_wrap() in a way that makes it
-> possible to turn it to straight and simple alias to find_next_bit_wrap().
-> 
-> In a couple places kernel users opencode missing cpumask_next_and_wrap().
-> Add it as well.
-> 
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> ---
->  include/linux/cpumask.h | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
-> 
-> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> index b267a4f6a917..18c9908d50c4 100644
-> --- a/include/linux/cpumask.h
-> +++ b/include/linux/cpumask.h
-> @@ -284,6 +284,43 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
->  		small_cpumask_bits, n + 1);
->  }
->  
-> +/**
-> + * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
-> + *			   @n and wrapping around, if needed
-> + * @n: the cpu prior to the place to search (i.e. return will be > @n)
-> + * @src1p: the first cpumask pointer
-> + * @src2p: the second cpumask pointer
-> + *
-> + * Return: >= nr_cpu_ids if no further cpus set in both.
-> + */
-> +static __always_inline
-> +unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
-> +			      const struct cpumask *src2p)
-> +{
-> +	/* -1 is a legal arg here. */
-> +	if (n != -1)
-> +		cpumask_check(n);
-> +	return find_next_and_bit_wrap(cpumask_bits(src1p), cpumask_bits(src2p),
-> +		small_cpumask_bits, n + 1);
-> +}
-> +
-> +/*
-> + * cpumask_next_wrap - get the next cpu in *src, starting from
-> + *			   @n and wrapping around, if needed
 
-Does it mean the search wraps a cpumask and starts from the beginning
-if the bit is not found and returns >= nr_cpu_ids if @n crosses itself?
+masks = group_cpus_evenly(qmap->nr_queues, &nr_queues);
 
-> + * @n: the cpu prior to the place to search
-> + * @src: cpumask pointer
-> + *
-> + * Return: >= nr_cpu_ids if no further cpus set in both.
+maybe?
 
-It looks like Return is a cpumask_next_and_wrap() comment leftover.
+Cheers,
 
-> + */
-> +static __always_inline
-> +unsigned int cpumask_next_wrap(int n, const struct cpumask *src)
-> +{
-> +	/* -1 is a legal arg here. */
-> +	if (n != -1)
-> +		cpumask_check(n);
-> +	return find_next_bit_wrap(cpumask_bits(src), small_cpumask_bits, n + 1);
-> +}
-> +
->  /**
->   * for_each_cpu - iterate over every cpu in a mask
->   * @cpu: the (optionally unsigned) integer iterator
-
-Thanks!
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
