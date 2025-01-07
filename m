@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0621E77197
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00E81E77198
 	for <linux-nvme@archiver.kernel.org>; Tue,  7 Jan 2025 17:13:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,51 +12,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CutMUf+epe0XejLYJGLqvbfBoX2q3z2kz2yvs7QPS2A=; b=H11bn/Skh2HVEtsgwe/ET/TC73
-	0c1wggXEs88IP1kPfbuQYOyMSrFB9B3IZcDqlQfOlOnr2efJbDuyuHAqL6SNEqpnSVnnTZIq58GaB
-	igpO8y+r6hzvH227UCvQ0JSJP8N9cuUKSXfaVL0HTh2VUIWFmUjXzmaHqlzkfya21bUs5xnZFeCjZ
-	vzLGuzXfIrZa/anGR78jHpmKdzps6tl4pwAQlRWmgiFo8jtwahNOExStKq4ek76daMgB2/Uoga690
-	797TEEderEbRXqgDVU/ZF8mp4NAMOQSAJeTPYhRoPZ8Bn1qVR659CMh14NHD+2H9ZsySUXLBHxXuC
-	p8bI+poQ==;
+	bh=cvqRLuHBsga1aqimRGOF0V9OkCcRAupDB7uSQeD2pvw=; b=yO84EOgyusY7NRyfs1V6Q5ZKZX
+	TQdCaFlVDe+By3fA8YV8gz+TtPJ/4m5XWSawIXA6m5GbcwuNBPMdZAV86ktOwcufSjrW3mkdjxt88
+	RQXSZ88N8tbbxgvF6yzQFHQ08aHDtwYAhy1JSbBTiKFuzf/iA7YYd5vVDkJWktfmdg2preHd7VAIJ
+	CY49r6b/OpLc0axsLh7E7l9DVaj3Oep3bloDLeoDbG6wpLbzNdwUGyh8bmBz81TLMk+i1gGq+BtnS
+	fIfQjawdKxMzBs4hO/JFDcrW7AGWvn7Lnd7ahbO7KrgUwr0loklOVZpdys/9UlwxKLuygE8iv1NQx
+	Fcyxu6Mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVD96-00000005nZn-2HdK;
-	Tue, 07 Jan 2025 17:13:36 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tVD95-00000005nZP-2CMh;
+	Tue, 07 Jan 2025 17:13:35 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVCki-00000005hgV-2Vva
+	id 1tVCkM-00000005hc0-1WDF
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Jan 2025 16:48:25 +0000
+	Tue, 07 Jan 2025 16:48:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 00B1A5C365B;
-	Tue,  7 Jan 2025 16:47:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53626C4CEDD;
-	Tue,  7 Jan 2025 16:48:23 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id BCEA7A419E9;
+	Tue,  7 Jan 2025 16:46:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58C84C4CEDD;
+	Tue,  7 Jan 2025 16:48:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736268503;
-	bh=lW3lyuLJmNieNkGGyGqKsg7/aJNJ59SJY2wjQG2I7QA=;
+	s=k20201202; t=1736268481;
+	bh=cvqRLuHBsga1aqimRGOF0V9OkCcRAupDB7uSQeD2pvw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g/ogSSOHKEHnf+wC/6HAh/bVEAMkW8puxlUD5jmFRvJo21uu4onwSqyWyuOpw2bzf
-	 NzcT+zw1kmXk2bVbNYmGA7e9bNvT9XuMhF6IM7g17OP7JSDSbDVVorpx909/NLQrE5
-	 vvhbXoIc23JDm5oXeaUd7QFi20xaQKnLoL7XK+uWzCc8YwfVjARKH2aSCVJzA8Eckg
-	 q+mzPNVx5vDQoySeSbrzBB3VsgK3vXvVJKy+ToIjbKdK0Qg+MrOD7f9YbC+KEo4ZVG
-	 d6s53X63HPaVDoJODu5/ueWRVaGvRNy+yfbOyRT1VRMFEWYWA4p98iwjzN+yhwbBtK
-	 qDK4kKd+eYqhw==
-Date: Tue, 7 Jan 2025 09:48:21 -0700
+	b=OaWtVrsQB8LCx2DosiLvU4DBuTeP/tOlrvAvgEVwJL/nO+oymLnJ5pngdKLul0rW+
+	 pJF+gG5/gwF9tVm0kDK9iqO4BcA5YoYVpjaUNRnFeQx2JGZPeyfzQF8l8JGNKsSCX7
+	 PIBjexpjCSUeVPVWVmrTY1YjAfb5UQShp/lxj6LYXUl/CBs87V0nL8zg0p6JnUD9hh
+	 DiUnw6pSRHwPIbxHmRCsVB4HgNgDBZVaexNBAvjPAhrtf1RKzvB9YndFdzsw7eCbNG
+	 yg65edkwDKWBI9F+rlCoyIkSlQpGL/JP+fu5dCiJiS97ISkvCj7Fd/xtbkL/MbnaD2
+	 VizKoV/EAcZVg==
+Date: Tue, 7 Jan 2025 09:47:58 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Yongsoo Joo <ysjoo@kookmin.ac.kr>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3] nvme: change return type of nvme_poll_cq() to bool
-Message-ID: <Z31a1eE80KswWyaJ@kbusch-mbp>
-References: <20241223010516.241581-1-ysjoo@kookmin.ac.kr>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?iso-8859-1?Q?Wilczy=B4nski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v9 00/18] NVMe PCI endpoint target driver
+Message-ID: <Z31avimMhZ0Bo4r0@kbusch-mbp>
+References: <20250104045951.157830-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241223010516.241581-1-ysjoo@kookmin.ac.kr>
+In-Reply-To: <20250104045951.157830-1-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250107_084824_680372_79A980EB 
-X-CRM114-Status: UNSURE (   9.99  )
+X-CRM114-CacheID: sfid-20250107_084802_469075_309BF919 
+X-CRM114-Status: UNSURE (   7.37  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -72,14 +79,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 23, 2024 at 01:05:17AM +0000, Yongsoo Joo wrote:
-> The nvme_poll_cq() function currently returns the number of CQEs
-> found, However, only one caller, nvme_poll(), requires a boolean
-> value to check whether any CQE was completed. The other callers do
-> not use the return value at all.
-> 
-> To better reflect its usage, update the return type of nvme_poll_cq()
-> from int to bool.
+On Sat, Jan 04, 2025 at 01:59:33PM +0900, Damien Le Moal wrote:
+> This patch series implements an NVMe target driver for the PCI transport
+> using the PCI endpoint framework.
 
 Thanks, applied to nvme-6.14.
 
