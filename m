@@ -4,74 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 783AAE77188
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jan 2025 10:25:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1506E7719A
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jan 2025 10:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u/2KSdc12WgjZkHVfUJEDj5QbQ8qveiZeeuKVBc+PgA=; b=jrGcPqPOBWrNqwXF2UqIYGxPLP
-	pnfP3yddFvkorp2G0RGjbFTxLeFwe6j5eAku6RUotkLKeJ4ZPT9MYcbOD5hfswMvk5Jix/RMsETxx
-	ucnz+cfAI0WBZDiQw+o+MFCoTrLPdBGUU3A2bmhOx1WZAAD2PndVfBTnFTbUuU5eL0oiUwYAIFjkx
-	SfGc9ov+glzQ573bd7J3m1d+P5sD/gVKOkoC8F6Yj6FUURiRKSL8f1ooFv3aheb5sRBSNSBxGS/VM
-	udmsfnBkpMnzAV9AHDxposEy+0LBNp9qAt6WCZBMmHb6O2aAxlL9BAawLAT2+mBFDfDpxpG5Z20QU
-	CyG/F3OQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=C7qs9vgdOqh7Nv9DgQQU2j6aajaLmY6QS5cMOvhJHwo=; b=I+ZLB5eEaU+2PIwQmi9rAugS4j
+	yGK4FIU58cTLIBvQQY8bRw+2UPwZxQ5bk8sMdo00t/2tjYPieKWc7fBC7Dgb3qWbRjnbu6WV24P1l
+	rDttu3JFFyZfxCatsKZJEuKOvUxGC5vq/MToZcAHE4lzbSBMMWqp7AbyLeimsnIwwTfauJ1CvlV4K
+	0NBynvfdLBdtIgTWX6ueH4V1aT572qvo3B2p8iiw6GKPgTycQXDRvBERnnAlUmE2y1/v7zx1hoMb3
+	0c6rxnmVnNlddQfsF4+EWafZXptFCE/rmkQ8+QZvsRUJHigAuy0D8qwZVlOBqIvgkmcFYPIUbiKQs
+	/1s7uEUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVTFJ-00000007yeh-3qqk;
-	Wed, 08 Jan 2025 10:25:05 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tVTFL-00000007yf8-0qDI;
+	Wed, 08 Jan 2025 10:25:07 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVTAD-00000007xFb-2Vyf
+	id 1tVTBJ-00000007xc5-0h9B
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Jan 2025 10:19:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736331587;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u/2KSdc12WgjZkHVfUJEDj5QbQ8qveiZeeuKVBc+PgA=;
-	b=G/1D3FrlEpF4Hlw4xAHRRL4qH3MJ5k929uFxaEhk+6fEEZMpm3DIt9zjPTbWL9/3rPRIx8
-	V9uEXCnF0giVbA3AnBMK42u9sofqFCrCrsvZ2WGQaNYkEgkEWHKnp0xLBTAybXZyVDlyTM
-	WEYt8ZVzZCFxQHf9/WPTN+5ORs5R1BA=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-675-ZvBQQE5qPc602emy9OkUMw-1; Wed,
- 08 Jan 2025 05:19:45 -0500
-X-MC-Unique: ZvBQQE5qPc602emy9OkUMw-1
-X-Mimecast-MFC-AGG-ID: ZvBQQE5qPc602emy9OkUMw
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EB3621944B2E;
-	Wed,  8 Jan 2025 10:19:42 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.74])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 687A819560AA;
-	Wed,  8 Jan 2025 10:19:35 +0000 (UTC)
-Date: Wed, 8 Jan 2025 18:19:30 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Damien Le Moal <dlemoal@kernel.org>,
-	Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, nbd@other.debian.org,
-	linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-Subject: Re: [PATCH 01/10] block: fix docs for freezing of queue limits
- updates
-Message-ID: <Z35RMhj-tyy_nSDF@fedora>
-References: <20250108092520.1325324-1-hch@lst.de>
- <20250108092520.1325324-2-hch@lst.de>
+	Wed, 08 Jan 2025 10:20:58 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id ACAC5A40C8F;
+	Wed,  8 Jan 2025 10:19:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A832BC4CEDF;
+	Wed,  8 Jan 2025 10:20:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736331656;
+	bh=Sr5csu1r/k1+4I78TRGpkFCdGBPLBm1HsXHZfEAFYng=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QXAeWW19UR5Uc2GWgAUU8XJQ0Y9EbfHBv+4+D6eboqmkJTOrbUVB3YzxsVTyS/M4R
+	 FXfyjMyMCy87j14VA5jWaE7k4GW/7gs/trNhg0nwRWBtji2VISgv3UoFu/kCNZE5o0
+	 mARAo5JtXo9rt1oZ8qes7XRflBk1TP3Pl9vx/p8N1sdRZPKXzRnP8ebafU/VVPyNm2
+	 J+O/B8n/2GPrGHNWzpPCmSAVTjy1TAL/aFzxlSldH4H6x0dndbPBEWePJg21LvIZYV
+	 RzlmI6Hexjygca8+CptGU7zHdguig7d1/mNA9w42RSh1kA1DmGu/06PcAqplO/FUdt
+	 Yk4/1Ui9IDxJg==
+Message-ID: <866f4dff-c9bf-43d1-996b-bafd830b9e61@kernel.org>
+Date: Wed, 8 Jan 2025 19:20:10 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108092520.1325324-2-hch@lst.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/10] loop: refactor queue limits updates
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: Ming Lei <ming.lei@redhat.com>, Nilay Shroff <nilay@linux.ibm.com>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ nbd@other.debian.org, linux-scsi@vger.kernel.org,
+ usb-storage@lists.one-eyed-alien.net
+References: <20250108092520.1325324-1-hch@lst.de>
+ <20250108092520.1325324-10-hch@lst.de>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <20250108092520.1325324-10-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250108_021949_708360_41FC15A8 
-X-CRM114-Status: GOOD (  12.44  )
+X-CRM114-CacheID: sfid-20250108_022057_275950_7E5569CD 
+X-CRM114-Status: UNSURE (   7.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,18 +78,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 08, 2025 at 10:24:58AM +0100, Christoph Hellwig wrote:
-> queue_limits_commit_update is the function that needs to operate on a
-> frozen queue, not queue_limits_start_update.  Update the kerneldoc
-> comments to reflect that.
+On 1/8/25 6:25 PM, Christoph Hellwig wrote:
+> Replace loop_reconfigure_limits with a slightly less encompassing
+> loop_update_limits that expects the aller to acquire and commit the
+> queue limits to prepare for sorting out the freeze vs limits lock
+> ordering.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-> Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
-Thanks,
-Ming
-
+-- 
+Damien Le Moal
+Western Digital Research
 
