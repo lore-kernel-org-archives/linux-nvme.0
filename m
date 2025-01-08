@@ -4,66 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8E0FE77188
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jan 2025 10:23:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 783AAE77188
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jan 2025 10:25:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MCI+7xV/HCNzqE2MRTPEy2ckmf1AuTtWqGP+r5bI7Nw=; b=fv321jiteHqDzlHasx0KSlfekA
-	8fVqOBi/op9ujKM/0SXnmPQR07wbPZ7TgtCgOEeidKJ0K2fUNkFBJyGN3j0YHSKlzn3Pxiy601TQv
-	xLwMtTSK08dI+smCsiuin0T2ipOHk3iw9vhZiqaUHs06zmGNPCSWV2wNjQToHwI38n04dJ52NVMww
-	uaxxuU/QO0GkoFeBLpJ/JZnJd7R5X81GOizDS3b25d6YDUejziW1xcMTmLPPu0HYkV5HOSLfXVWeu
-	YAKC5F7/wUfnOPIuuj14qna8w9jx4Facm+oWMXEgltm00wZTU6juAjxh1muJREgFwIWk9KWKWDylr
-	Q62wwJVw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u/2KSdc12WgjZkHVfUJEDj5QbQ8qveiZeeuKVBc+PgA=; b=jrGcPqPOBWrNqwXF2UqIYGxPLP
+	pnfP3yddFvkorp2G0RGjbFTxLeFwe6j5eAku6RUotkLKeJ4ZPT9MYcbOD5hfswMvk5Jix/RMsETxx
+	ucnz+cfAI0WBZDiQw+o+MFCoTrLPdBGUU3A2bmhOx1WZAAD2PndVfBTnFTbUuU5eL0oiUwYAIFjkx
+	SfGc9ov+glzQ573bd7J3m1d+P5sD/gVKOkoC8F6Yj6FUURiRKSL8f1ooFv3aheb5sRBSNSBxGS/VM
+	udmsfnBkpMnzAV9AHDxposEy+0LBNp9qAt6WCZBMmHb6O2aAxlL9BAawLAT2+mBFDfDpxpG5Z20QU
+	CyG/F3OQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVTE9-00000007yJ4-2jMV;
-	Wed, 08 Jan 2025 10:23:53 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tVTFJ-00000007yeh-3qqk;
+	Wed, 08 Jan 2025 10:25:05 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVT9W-00000007x5y-14w7
+	id 1tVTAD-00000007xFb-2Vyf
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Jan 2025 10:19:07 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id D0B9DA4073C;
-	Wed,  8 Jan 2025 10:17:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09E0BC4CEE0;
-	Wed,  8 Jan 2025 10:19:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736331545;
-	bh=dkqDR05KFDLNT/Pbc9CxeI0diORr/6V3vHanHq4U2l4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jvKNWS4v+PqOHtv4hV9noqVZ9/EmiKq07PFogOqviiUsQV//u5k/Sfp1w4KVlDYn2
-	 nPl0o40WeNGO4W7f/P/e2xwrjsjb0pi4uU7m0e0UIQnMfK7pO4DECHLNAWPUPrggSj
-	 T6+yr73UvUnY7WRPKDLRQwZ7ywYY3P9WMLg0x8AbmaalOvI4CnN6A9Q5MdRkna60aD
-	 MaGJmA2wpqp2JVuohGbuO0JyCjsW2mMamZBs0F+DCw9z/eVaZWS2Flt9Qmmj7EzrC4
-	 nZM2id5Dw8bEXYZzVPZJSAJ7+dI45N5gfaGVD0aTptnE1yB/eDbOAoeDzZhaFHoWZZ
-	 +7qGNPY18A5UA==
-Message-ID: <878a32c6-fbee-400f-891d-09db146db572@kernel.org>
-Date: Wed, 8 Jan 2025 19:18:20 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/10] block: fix queue freeze vs limits lock order in
- sysfs store methods
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Ming Lei <ming.lei@redhat.com>, Nilay Shroff <nilay@linux.ibm.com>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- nbd@other.debian.org, linux-scsi@vger.kernel.org,
- usb-storage@lists.one-eyed-alien.net
+	Wed, 08 Jan 2025 10:19:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736331587;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u/2KSdc12WgjZkHVfUJEDj5QbQ8qveiZeeuKVBc+PgA=;
+	b=G/1D3FrlEpF4Hlw4xAHRRL4qH3MJ5k929uFxaEhk+6fEEZMpm3DIt9zjPTbWL9/3rPRIx8
+	V9uEXCnF0giVbA3AnBMK42u9sofqFCrCrsvZ2WGQaNYkEgkEWHKnp0xLBTAybXZyVDlyTM
+	WEYt8ZVzZCFxQHf9/WPTN+5ORs5R1BA=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-675-ZvBQQE5qPc602emy9OkUMw-1; Wed,
+ 08 Jan 2025 05:19:45 -0500
+X-MC-Unique: ZvBQQE5qPc602emy9OkUMw-1
+X-Mimecast-MFC-AGG-ID: ZvBQQE5qPc602emy9OkUMw
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EB3621944B2E;
+	Wed,  8 Jan 2025 10:19:42 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.74])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 687A819560AA;
+	Wed,  8 Jan 2025 10:19:35 +0000 (UTC)
+Date: Wed, 8 Jan 2025 18:19:30 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Damien Le Moal <dlemoal@kernel.org>,
+	Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, nbd@other.debian.org,
+	linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+Subject: Re: [PATCH 01/10] block: fix docs for freezing of queue limits
+ updates
+Message-ID: <Z35RMhj-tyy_nSDF@fedora>
 References: <20250108092520.1325324-1-hch@lst.de>
- <20250108092520.1325324-6-hch@lst.de>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20250108092520.1325324-6-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20250108092520.1325324-2-hch@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108092520.1325324-2-hch@lst.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250108_021906_365596_BD48F517 
-X-CRM114-Status: GOOD (  13.68  )
+X-CRM114-CacheID: sfid-20250108_021949_708360_41FC15A8 
+X-CRM114-Status: GOOD (  12.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,32 +86,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/8/25 6:25 PM, Christoph Hellwig wrote:
-> queue_attr_store() always freezes a device queue before calling the
-> attribute store operation. For attributes that control queue limits, the
-> store operation will also lock the queue limits with a call to
-> queue_limits_start_update(). However, some drivers (e.g. SCSI sd) may
-> need to issue commands to a device to obtain limit values from the
-> hardware with the queue limits locked. This creates a potential ABBA
-> deadlock situation if a user attempts to modify a limit (thus freezing
-> the device queue) while the device driver starts a revalidation of the
-> device queue limits.
+On Wed, Jan 08, 2025 at 10:24:58AM +0100, Christoph Hellwig wrote:
+> queue_limits_commit_update is the function that needs to operate on a
+> frozen queue, not queue_limits_start_update.  Update the kerneldoc
+> comments to reflect that.
 > 
-> Avoid such deadlock by not freezing the queue before calling the
-> ->store_limit() method in struct queue_sysfs_entry and instead use the
-> queue_limits_commit_update_frozen helper to freeze the queue after taking
-> the limits lock.
-> 
-> (commit log adapted from a similar patch from  Damien Le Moal)
-> 
-> Fixes: ff956a3be95b ("block: use queue_limits_commit_update in queue_discard_max_store")
-> Fixes: 0327ca9d53bf ("block: use queue_limits_commit_update in queue_max_sectors_store")
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 > Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
 
--- 
-Damien Le Moal
-Western Digital Research
+Thanks,
+Ming
+
 
