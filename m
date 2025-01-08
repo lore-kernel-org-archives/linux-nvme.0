@@ -4,110 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0357E77188
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jan 2025 14:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 932E4E77188
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jan 2025 14:39:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UhkOifTAy4cWa7RdpAT29vNzHfWalx9Qq1yDHwu1mjc=; b=ll3p2C0ow20APwAgedILCODXxc
-	10R5gzSNY2pK+8HcTphBM2Amu/Kw1Vs3MpH9yP64Xc+ZqlOvU+u8ACyJjH1f8y/gEAdTEHaSO53EU
-	Y8clI0qdlrh0sdlUcZ/Ft97VMc8SsM92LlfBvdpVho168KZCnyrULLAJ6LdOMf69muoTJhd0HUbAu
-	AKe5qM1kY6qVY5IjucUoBJkxvwGx8xiwyvkkC6ZM4GRS7mah8jjM40vwyigxxPIWJgqEiSLxht9W5
-	rivYGjLlZGkiVOd1epHm4asMszTo/xz/jpJJfwFG+Hf4MW2fAbiA+8hlbIafz8gSUZiYzMSGcFJZZ
-	pT7ulrhg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Subject:Cc:To:From:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0Q5SkpUB7nvYDr5G8znzFgNJ4lPKjcvCCPURLA9g7mQ=; b=VxkJS0AQceSQoejqAQSvUSSrtr
+	w73/WkabMwj49UiRH/pTdl/ca1WC2ZLp6DSwWG9Pl4rYiAca0reX7UGYC6yy/mQD0smiMWnkQfC1S
+	O5pwD6y4OSh6QyfsL4DReb33xxgNGX7Bo33oUYDBYplbjUiMo5Eb/9+PfV0mKQ4cKfGQ6U0uwQ1Nk
+	CqU0Bfj2JF/+5k/COIWWvITxbPRZ2XOT65OM1MdxOCqtKNmNLS/U82++IODxplSva0qjw/77APoEI
+	4a0FPCz35Mx+DUsLsIdblKScixEY4wxkpyWvLagpPIJARLPEJGEYNkWIseeCHIYOyENcWrYESDFXs
+	U8KjGAQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVXBi-00000008ohq-2e4T;
-	Wed, 08 Jan 2025 14:37:38 +0000
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
+	id 1tVXD5-00000008pTC-44r8;
+	Wed, 08 Jan 2025 14:39:03 +0000
+Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVX5N-00000008nNh-1MID
+	id 1tVXD3-00000008pP9-0Do6
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Jan 2025 14:31:08 +0000
-Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
-	by mx0a-00154904.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508Dhl6q023578
-	for <linux-nvme@lists.infradead.org>; Wed, 8 Jan 2025 09:30:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=smtpout1; bh=UhkOifTAy4cWa7RdpAT29vN
-	zHfWalx9Qq1yDHwu1mjc=; b=c2Nu3UIQ57gw7qLrd5LvorJD44lX9azFmyfNFPU
-	KcQTNL3kFxahGAFuOTtmc1hts9rcQwxa8ENT8g5dV7NFAn5YPg+UN5qOLcmdfYP6
-	NWiC5NxSyOFWHX31jpnDf5jyne+SCRa57EVNaaTMsKFsmlZ3+hoQOVIPfZwc5WfW
-	yXAtj3IC4JU0/e3WBNtqwdBku1pYaX55EpdZzCvZsCqAcXHhdMiScO1O8RCpudi0
-	cagZqaeQT7aKtlHuMv/eHCukwUq/tXT8wAbvrK4tp6/OEFe8nIHY9cPoltGOH5Iu
-	bOoDPueEJzzWS+oZLmFPL9bqVgLepibx4Cs9O0PDmpaHY7w==
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-	by mx0a-00154904.pphosted.com (PPS) with ESMTPS id 441tgkr7jh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 08 Jan 2025 09:30:51 -0500 (EST)
-Received: from pps.filterd (m0133268.ppops.net [127.0.0.1])
-	by mx0a-00154901.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508EACer025286
-	for <linux-nvme@lists.infradead.org>; Wed, 8 Jan 2025 09:30:50 -0500
-Received: from esapsmtplv02.us.dell.com (esapsmtplv02.us.dell.com [143.166.203.150])
-	by mx0a-00154901.pphosted.com (PPS) with ESMTPS id 441n68vs0r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <linux-nvme@lists.infradead.org>; Wed, 08 Jan 2025 09:30:49 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=dell.com; i=@dell.com; q=dns/txt; s=smtpdev1;
-  t=1736346649; x=1767882649;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UhkOifTAy4cWa7RdpAT29vNzHfWalx9Qq1yDHwu1mjc=;
-  b=EZGYMJK1l1XMNx6ZRlJ3fLL/BaWRrLcQpFz4s/aQgXgUoKEdm3Mat+c/
-   85Hx9ZWEIRSpfYqCYmcNjkW7U+GqSvc1dLa619vcxqDsnacvlzVFyGCgI
-   YYXXwKq4E9D5GWHJMPu9nDH7A/NeJJp7CsfKc/l0W5tcrvS3hhCyAzHKZ
-   B5OhdFuYSm0ejdv6ruUE+1P9baVs5k6mUXsnKy/71gMFwQsTG2fAZm7CI
-   MykMYjjbEOLntM3U7/MV6RfWSiVinfaAjIB1iXEcZ5mylCW6LBEkMBnpH
-   KlPSU3LKcDooStdwvUXQa7iD1oPLRxBBl52gy8NYGecyP250U+AZIpnpX
-   w==;
-X-CSE-ConnectionGUID: jBcg0yQtR6KVFfYynqI6aA==
-X-CSE-MsgGUID: atU80LB2TpmkjMC0HKADzQ==
-X-LoopCount0: from 10.215.64.31
-X-MS-Exchange-CrossPremises-AuthAs: Internal
-Received: from mx2-adc.dell.com (HELO ieorr5-pvwed002.delllabs.net) ([10.215.64.31])
-  by esapsmtplv02.us.dell.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 14:30:48 +0000
-Received: from ieorr5-ppwem002.delllabs.net (100.64.0.133) by
- ieorr5-pvwed002.delllabs.net (10.215.64.31) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 8 Jan 2025 08:31:36 -0600
-Received: from ieorr5-pvwer001.delllabs.net (100.64.0.134) by
- ieorr5-ppwem002.delllabs.net (100.64.0.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 8 Jan 2025 08:30:46 -0600
-Received: from mdziegieubu1.cec.lab.emc.com (10.227.238.157) by
- smtprelay.delllabs.net (100.64.0.134) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Wed, 8 Jan 2025 08:30:46 -0600
-From: Marcin Dziegielewski <marcin.dziegielewski@dell.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <amit.engel@dell.com>, <pawel.baldysiak@dell.com>
-Subject: nvme-rdma: possible issue around error injection debugfs entries
-Date: Wed, 8 Jan 2025 09:30:45 -0500
-Message-ID: <20250108143045.1872447-1-marcin.dziegielewski@dell.com>
-X-Mailer: git-send-email 2.34.1
+	Wed, 08 Jan 2025 14:39:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:Subject
+	:Cc:To:From:MIME-Version:Date:Message-ID:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=0Q5SkpUB7nvYDr5G8znzFgNJ4lPKjcvCCPURLA9g7mQ=; t=1736347141; x=1736779141; 
+	b=HlPWWsRdMf3PXy1pSqihLwqioBs8qsrjC+0c9d1D17jUe5h7vIyF+OBoyqeIRcrPF72RWaLkCnE
+	/Ximyrnw1xH2ibaUh02GlJuL/UcHVhQOflnM0MhwqZc9vg3TRlZC1b0arcM7HH9QFJa0iYAUntSML
+	ovPP0Djf5ouKgwe9rhMB+qQR/03eBieYJnuuGlhHKMaYJT/b6ZzWZ/53iJK0q2OleUUzzYfLrG8fe
+	KiAfA6AZU8mUGkd5VjofR5XOER8Nf7gsjcPfT0GgJhAA0dDeZfOw2+jc2XtMnuzINaB3DMk21MPXY
+	aG0BynJo09Plip44lAkTMRz40HTsHWeWeZBw==;
+Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1tVXCw-006qbM-24;
+	Wed, 08 Jan 2025 15:38:54 +0100
+Message-ID: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
+Date: Wed, 8 Jan 2025 15:38:53 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-27_02,2024-09-26_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 clxscore=1011
- adultscore=0 malwarescore=0 bulkscore=0 spamscore=0 mlxscore=0
- mlxlogscore=767 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501080121
-X-Proofpoint-ORIG-GUID: vpx_Di2ps6f8aKhYrbwYFCtryl9qPuDt
-X-Proofpoint-GUID: vpx_Di2ps6f8aKhYrbwYFCtryl9qPuDt
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- mlxscore=0 adultscore=0 mlxlogscore=778 priorityscore=1501 clxscore=1011
- phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501080120
+User-Agent: Mozilla Thunderbird
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+To: Adrian Huang <ahuang12@lenovo.com>, Christoph Hellwig <hch@lst.de>
+Cc: Linux kernel regressions list <regressions@lists.linux.dev>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Jens Axboe <axboe@fb.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: [Regression] File corruptions on SSD in 1st M.2 socket of AsRock
+ X600M-STX
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1736347141;789d3e49;
+X-HE-SMSGID: 1tVXCw-006qbM-24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250108_063105_375541_3EEE133C 
-X-CRM114-Status: GOOD (  11.45  )
+X-CRM114-CacheID: sfid-20250108_063901_252624_96EB760A 
+X-CRM114-Status: GOOD (  32.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,29 +77,144 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Experts,
+[side note TWIMC: regression tracking is sadly kinda dormant temporarily
+(hopefully this will change again soon), but this was brought to my
+attention and looked kinda important]
 
-During testing one of the corner cases of our NVMe RDMA use case, we discovered
-that in the event of many failed connection attempts, the inode_cache and dentry
-slab can grow to a huge size (and is not reclaimable). Consequently, if we wait
-long enough, we can reach an OOM (Out of Memory) condition.
+Hi, Thorsten here, the Linux kernel's regression tracker.
 
-Example from crash:
-ffff88dd2abfca80      592   29007830  29007936  537184    32k  inode_cache
+Adrian, Christoph I noticed a report about a regression in
+bugzilla.kernel.org that appears to be caused by a change you too
+handled a while ago -- or it exposed an earlier problem:
 
-During debugging, we noticed that in the case of RDMA connections, these debugfs
-entries created in nvme_fault_inject_init are created before a successful RDMA
-connection. So, with many failures, these entries are created and removed
-repeatedly. This behavior likely causes some troubles for slab/debugfs.
+3710e2b056cb92 ("nvme-pci: clamp max_hw_sectors based on DMA optimized
+limitation") [v6.4-rc3]
 
-So far, we have worked around this issue by moving the point of creating these
-entries to after a successful connection, and this has fixed the issue.
+As many (most?) kernel developers don't keep an eye on the bug tracker,
+I decided to write this mail. To quote from
+https://bugzilla.kernel.org/show_bug.cgi?id=219609 :
 
-We are wondering if a patch with the same or a similar approach can be applied
-on upstream, or another approach (for example: raising the issue with debugfs
-maintainers) should be chosen here.
+> Bug 219609 - File corruptions on SSD in 1st M.2 socket of AsRock X600M-STX + Ryzen 8700G
+>
+> there are one or two bugs which were originally reported at
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1076372 . For details
+> (logs, etc.), see there. Here, I will post a summary and try to point
+> out the most relevant observations:
+> 
+> Bug 1: Write errors with Lexar NM790 NVME
+> 
+> * Occur since Debian kernel 6.5, but reproduced with upstream kernel
+> 6.11.5 (the only upstream kernel I tested)
+> * Only occur in 1st M.2 socket (not in the 2nd one on rear side)
+> * Easiest way to reproduce them is to use f3 (
+> https://fight-flash-fraud.readthedocs.io/en/latest/usage.html ). f3
+> reports overwritten sectors
+> * The errors seem not to occur in the last files of 500 file (=500 GB)
+> test runs and I never detected file system corruption (just defect
+> files; I produced probably more than thousand ones). The reason for the
+> latter observation is maybe, that file system information are written
+> last. (See see message 113 in the Debian bug report)
+> 
+> (Possible) Bug 2: Read errors with Kingston FURY Renegade
+> 
+> * Only occur in 1st M.2 socket (did not tested the rear socket, because
+> the warranty seal would to be broken in order to remove the heat sink)
+> * Almost impossible to reproduce it, only detected it in Debian kernel
+> that bases on 6.1.112
+> * 1st occurrence: I detected in an SSD intensive computation (as data
+> cache) which produced wrong results after a few days (but not in the
+> first days). The error could be reproduced with f3: The corruptions were
+> massive and different files were affected in subsequent f3read runs (==>
+> read errors). Unfortunately I did not stored the f3 logs. (I still have
+> the corrupt computation results, so it was real.)
+> * 2nd occurrence: A single defect sector (read error) in a multi-day
+> attempt to reproduce the error with the same kernel (Debian 6.1.112),
+> see message 113 in the Debian bug report
+> 
+> Consideration / Notes:
+> * These serial links (PCIe) need to be calibrated. Calibration issues
+> would explain while the errors (dis)appear under certain condition. But
+> errors like this should be detected (nothing could be found in the
+> kernel logs). Is the error correction possibly inactive? However, this
+> still does not explain why f2 reports overwritten sectors, unless the
+> signal errors occur during command / address transmission.
+> * Testing is difficult, because the machine is installed remotely and in
+> use. ATM, till about end of Janaury, can run tests for bug 1.
+> * On the AsRock X600M-STX mainboard (without chipset), the CPU (Ryzen
+> 8700G) runs in SoC (system on chip) mode. Maybe someone did not tested
+> this properly ...
+> 
+[...]
 
-Thanks,
-Marcin
+> With the help of TJ from the Debian kernel team ( https://
+> bugs.debian.org/cgi-bin/bugreport.cgi?bug=1076372 ), at least a
+> workaround could be found.
+> 
+> The bug is triggered by the patch "nvme-pci: clamp max_hw_sectors
+> based on DMA optimized limitation" (see https://lore.kernel.org/linux-
+> iommu/20230503161759.GA1614@lst.de/ ) introduced in 6.3.7
+> 
+> To examine the situation, I added this debug info (all files are
+> located in `drivers/nvme/host`):
+> 
+>> --- core.c.orig       2025-01-03 14:27:38.220428482 +0100
+>> +++ core.c    2025-01-03 12:56:34.503259774 +0100
+>> @@ -3306,6 +3306,7 @@
+>>               max_hw_sectors = nvme_mps_to_sectors(ctrl, id->mdts);
+>>       else
+>>               max_hw_sectors = UINT_MAX;
+>> +     dev_warn(ctrl->device, "id->mdts=%d,  max_hw_sectors=%d, 
+>> ctrl->max_hw_sectors=%d\n", id->mdts, max_hw_sectors, ctrl->max_hw_sectors);
+>>       ctrl->max_hw_sectors =
+>>               min_not_zero(ctrl->max_hw_sectors, max_hw_sectors);
+> 
+> 6.3.6 (last version w/o mentioned patch and w/o data corruption) says:
+> 
+>> [  127.196212] nvme nvme0: id->mdts=7,  max_hw_sectors=1024, 
+>> ctrl->max_hw_sectors=16384
+>> [  127.203530] nvme nvme0: allocated 40 MiB host memory buffer.
+> 
+> 6.3.7 (first version w/ mentioned patch and w/ data corruption) says:
+> 
+>> [   46.436384] nvme nvme0: id->mdts=7,  max_hw_sectors=1024, 
+>> ctrl->max_hw_sectors=256
+>> [   46.443562] nvme nvme0: allocated 40 MiB host memory buffer.
+> 
+> After I reverted the mentioned patch (
+> 
+>> --- pci.c.orig        2025-01-03 14:28:05.944819822 +0100
+>> +++ pci.c     2025-01-03 12:54:37.014579093 +0100
+>> @@ -3042,7 +3042,8 @@
+>>        * over a single page.
+>>        */
+>>       dev->ctrl.max_hw_sectors = min_t(u32,
+>> -             NVME_MAX_KB_SZ << 1, dma_opt_mapping_size(&pdev->dev) >> 9);
+>> +//           NVME_MAX_KB_SZ << 1, dma_opt_mapping_size(&pdev->dev) >> 9);
+>> +             NVME_MAX_KB_SZ << 1, dma_max_mapping_size(&pdev->dev) >> 9);
+>>       dev->ctrl.max_segments = NVME_MAX_SEGS;
+>>  
+>>       /*
+> 
+> ), 6.11.5 (used this version because sources were laying around) works and says:
+> 
+>> [    1.251370] nvme nvme0: id->mdts=7,  max_hw_sectors=1024, 
+>> ctrl->max_hw_sectors=16384
+>> [    1.261168] nvme nvme0: allocated 40 MiB host memory buffer.
+> 
+> Thus, the corruption occurs if `ctrl->max_hw_sectors` is set to another (a smaller) value than defined by `id->mdts`. 
+> 
+> If this should be allowed, the mentioned patch is not the (root) cause, but reversion is at least a workaround.
+
+See the ticket for more details. Note, you have to use bugzilla to reach
+the reporter, as I sadly[1] can not CCed them in mails like this.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+[1] because bugzilla.kernel.org tells users upon registration their
+"email address will never be displayed to logged out users"
 
 
