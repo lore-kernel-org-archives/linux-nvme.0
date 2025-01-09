@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73D84E77199
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2025 05:58:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6B0DE77199
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2025 05:58:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Bbwf1z/EyA9VDPM7cCNiN9DK6U/nUAnzEdDfat2CVGo=; b=SQm7HoSqNk1TZ8B/NhCCd80p6V
-	MCh2PuIssur4PnBzEOOhKOG9qHPVQKgKpdgTLEPHjqTO0BvntOYxPSgMukc3FA5lZ/1rVkkWPSUBK
-	RfmyXunzHd3FhlkXKodObWHrBwd1s9caQ0fsbXb4q3SnbExJViYqmi8RR1wuBpephOAay9ScXgT/N
-	xT9q+Y1CsAqZnrBfUGkodF+L/a/cyP0etHR9TyZDRrmD8AcoP1BA3Rkxi7c1/FZsvahtUDYgIkpcz
-	pNquTQSr1rMy9i1a4y/M1WKPoxLe+ji/n3yg8UvzrNjxEgLyCP1I8oojjRyXMafw8nyCRSd9vkKA7
-	ZWybCrNQ==;
+	bh=L1KYitiaLtdyne71sYKztm9FqgieLzzoa0AoCbHbX38=; b=gmqHihhGr22bV00/RPVMRbZeNp
+	ncmMUUeKHjDtRkdTndsXbTtIRgVK3t1QJHJEkABiGMejBNHFrcuS1yeo2osM+eMYVVK51bGTHp13N
+	31cbNUc/QAicNLZBoEskEn8T57WtrI1PXyo1AmznAJXoIizslhzTEUQy5MWrrPhS3Q1TWXT1y4ZK5
+	mGYV+y4GFT6b480NPr70I8NaUGsg7IIY8ngER5yGcM2RBtvWqTxX0VotGn+YbWMhSyLPyRgx1w14f
+	siD1fenrTDPNkE6gmhV6gdbfdJUgm5xUIa/0jNEyJM7kOt76KXvoSImdaNHISzomgwXbE5uWzLQbc
+	lMdtDDHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVlYo-0000000ArGZ-43eA;
-	Thu, 09 Jan 2025 05:58:26 +0000
+	id 1tVlYr-0000000ArJM-3WbM;
+	Thu, 09 Jan 2025 05:58:29 +0000
 Received: from 2a02-8389-2341-5b80-ddeb-cdec-70b9-e2f0.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:ddeb:cdec:70b9:e2f0] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVlYm-0000000ArEU-12Jk;
-	Thu, 09 Jan 2025 05:58:24 +0000
+	id 1tVlYp-0000000ArG4-3Hi1;
+	Thu, 09 Jan 2025 05:58:28 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Damien Le Moal <dlemoal@kernel.org>,
@@ -35,10 +35,11 @@ Cc: Damien Le Moal <dlemoal@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	nbd@other.debian.org,
 	linux-scsi@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH 03/11] block: check BLK_FEAT_POLL under q_usage_count
-Date: Thu,  9 Jan 2025 06:57:24 +0100
-Message-ID: <20250109055810.1402918-4-hch@lst.de>
+	usb-storage@lists.one-eyed-alien.net,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [PATCH 04/11] block: don't update BLK_FEAT_POLL in __blk_mq_update_nr_hw_queues
+Date: Thu,  9 Jan 2025 06:57:25 +0100
+Message-ID: <20250109055810.1402918-5-hch@lst.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250109055810.1402918-1-hch@lst.de>
 References: <20250109055810.1402918-1-hch@lst.de>
@@ -58,101 +59,160 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Otherwise feature reconfiguration can race with I/O submission.
+When __blk_mq_update_nr_hw_queues changes the number of tag sets, it
+might have to disable poll queues.  Currently it does so by adjusting
+the BLK_FEAT_POLL, which is a bit against the intent of features that
+describe hardware / driver capabilities, but more importantly causes
+nasty lock order problems with the broadly held freeze when updating the
+number of hardware queues and the limits lock.  Fix this by leaving
+BLK_FEAT_POLL alone, and instead check for the number of poll queues in
+the bio submission and poll handlers.  While this adds extra work to the
+fast path, the variables are in cache lines used by these operations
+anyway, so it should be cheap enough.
 
-Also drop the bio_clear_polled in the error path, as the flag does not
-matter for instant error completions, it is a left over from when we
-allowed polled I/O to proceed unpolled in this case.
-
+Fixes: 8023e144f9d6 ("block: move the poll flag to queue_limits")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 ---
- block/blk-core.c | 22 ++++++++++++----------
- block/blk-mq.c   | 12 ++++++++++--
- 2 files changed, 22 insertions(+), 12 deletions(-)
+ block/blk-core.c  |  7 +++----
+ block/blk-mq.c    | 26 +++++---------------------
+ block/blk-mq.h    |  6 ++++++
+ block/blk-sysfs.c |  9 ++++++++-
+ 4 files changed, 22 insertions(+), 26 deletions(-)
 
 diff --git a/block/blk-core.c b/block/blk-core.c
-index 666efe8fa202..6309b3f5a89d 100644
+index 6309b3f5a89d..32fb28a6372c 100644
 --- a/block/blk-core.c
 +++ b/block/blk-core.c
-@@ -629,8 +629,14 @@ static void __submit_bio(struct bio *bio)
- 		blk_mq_submit_bio(bio);
- 	} else if (likely(bio_queue_enter(bio) == 0)) {
- 		struct gendisk *disk = bio->bi_bdev->bd_disk;
--
--		disk->fops->submit_bio(bio);
-+	
-+		if ((bio->bi_opf & REQ_POLLED) &&
-+		    !(disk->queue->limits.features & BLK_FEAT_POLL)) {
-+			bio->bi_status = BLK_STS_NOTSUPP;
-+			bio_endio(bio);
-+		} else {
-+			disk->fops->submit_bio(bio);
-+		}
- 		blk_queue_exit(disk->queue);
- 	}
- 
-@@ -805,12 +811,6 @@ void submit_bio_noacct(struct bio *bio)
- 		}
- 	}
- 
--	if (!(q->limits.features & BLK_FEAT_POLL) &&
--			(bio->bi_opf & REQ_POLLED)) {
--		bio_clear_polled(bio);
--		goto not_supported;
--	}
--
- 	switch (bio_op(bio)) {
- 	case REQ_OP_READ:
- 		break;
-@@ -935,7 +935,7 @@ int bio_poll(struct bio *bio, struct io_comp_batch *iob, unsigned int flags)
- 		return 0;
- 
- 	q = bdev_get_queue(bdev);
--	if (cookie == BLK_QC_T_NONE || !(q->limits.features & BLK_FEAT_POLL))
-+	if (cookie == BLK_QC_T_NONE)
- 		return 0;
- 
- 	blk_flush_plug(current->plug, false);
-@@ -951,7 +951,9 @@ int bio_poll(struct bio *bio, struct io_comp_batch *iob, unsigned int flags)
+@@ -951,14 +951,13 @@ int bio_poll(struct bio *bio, struct io_comp_batch *iob, unsigned int flags)
  	 */
  	if (!percpu_ref_tryget(&q->q_usage_counter))
  		return 0;
--	if (queue_is_mq(q)) {
-+	if (!(q->limits.features & BLK_FEAT_POLL)) {
-+		ret = 0;
-+	} else if (queue_is_mq(q)) {
+-	if (!(q->limits.features & BLK_FEAT_POLL)) {
+-		ret = 0;
+-	} else if (queue_is_mq(q)) {
++	if (queue_is_mq(q)) {
  		ret = blk_mq_poll(q, cookie, iob, flags);
  	} else {
  		struct gendisk *disk = q->disk;
+ 
+-		if (disk && disk->fops->poll_bio)
++		if ((q->limits.features & BLK_FEAT_POLL) && disk &&
++		    disk->fops->poll_bio)
+ 			ret = disk->fops->poll_bio(bio, iob, flags);
+ 	}
+ 	blk_queue_exit(q);
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 2e6132f778fd..02c9232a8fff 100644
+index 02c9232a8fff..655dcc16db76 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -3096,14 +3096,22 @@ void blk_mq_submit_bio(struct bio *bio)
- 	}
- 
- 	/*
--	 * Device reconfiguration may change logical block size, so alignment
--	 * check has to be done with queue usage counter held
-+	 * Device reconfiguration may change logical block size or reduce the
-+	 * number of poll queues, so the checks for alignment and poll support
-+	 * have to be done with queue usage counter held.
- 	 */
- 	if (unlikely(bio_unaligned(bio, q))) {
- 		bio_io_error(bio);
+@@ -3105,8 +3105,7 @@ void blk_mq_submit_bio(struct bio *bio)
  		goto queue_exit;
  	}
  
-+	if ((bio->bi_opf & REQ_POLLED) &&
-+	    !(q->limits.features & BLK_FEAT_POLL)) {
-+		bio->bi_status = BLK_STS_NOTSUPP;
-+		bio_endio(bio);
-+		goto queue_exit;
-+	}
+-	if ((bio->bi_opf & REQ_POLLED) &&
+-	    !(q->limits.features & BLK_FEAT_POLL)) {
++	if ((bio->bi_opf & REQ_POLLED) && !blk_mq_can_poll(q)) {
+ 		bio->bi_status = BLK_STS_NOTSUPP;
+ 		bio_endio(bio);
+ 		goto queue_exit;
+@@ -4328,12 +4327,6 @@ void blk_mq_release(struct request_queue *q)
+ 	blk_mq_sysfs_deinit(q);
+ }
+ 
+-static bool blk_mq_can_poll(struct blk_mq_tag_set *set)
+-{
+-	return set->nr_maps > HCTX_TYPE_POLL &&
+-		set->map[HCTX_TYPE_POLL].nr_queues;
+-}
+-
+ struct request_queue *blk_mq_alloc_queue(struct blk_mq_tag_set *set,
+ 		struct queue_limits *lim, void *queuedata)
+ {
+@@ -4344,7 +4337,7 @@ struct request_queue *blk_mq_alloc_queue(struct blk_mq_tag_set *set,
+ 	if (!lim)
+ 		lim = &default_lim;
+ 	lim->features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT;
+-	if (blk_mq_can_poll(set))
++	if (set->nr_maps > HCTX_TYPE_POLL)
+ 		lim->features |= BLK_FEAT_POLL;
+ 
+ 	q = blk_alloc_queue(lim, set->numa_node);
+@@ -5032,8 +5025,6 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+ fallback:
+ 	blk_mq_update_queue_map(set);
+ 	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+-		struct queue_limits lim;
+-
+ 		blk_mq_realloc_hw_ctxs(set, q);
+ 
+ 		if (q->nr_hw_queues != set->nr_hw_queues) {
+@@ -5047,13 +5038,6 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+ 			set->nr_hw_queues = prev_nr_hw_queues;
+ 			goto fallback;
+ 		}
+-		lim = queue_limits_start_update(q);
+-		if (blk_mq_can_poll(set))
+-			lim.features |= BLK_FEAT_POLL;
+-		else
+-			lim.features &= ~BLK_FEAT_POLL;
+-		if (queue_limits_commit_update(q, &lim) < 0)
+-			pr_warn("updating the poll flag failed\n");
+ 		blk_mq_map_swqueue(q);
+ 	}
+ 
+@@ -5113,9 +5097,9 @@ static int blk_hctx_poll(struct request_queue *q, struct blk_mq_hw_ctx *hctx,
+ int blk_mq_poll(struct request_queue *q, blk_qc_t cookie,
+ 		struct io_comp_batch *iob, unsigned int flags)
+ {
+-	struct blk_mq_hw_ctx *hctx = xa_load(&q->hctx_table, cookie);
+-
+-	return blk_hctx_poll(q, hctx, iob, flags);
++	if (!blk_mq_can_poll(q))
++		return 0;
++	return blk_hctx_poll(q, xa_load(&q->hctx_table, cookie), iob, flags);
+ }
+ 
+ int blk_rq_poll(struct request *rq, struct io_comp_batch *iob,
+diff --git a/block/blk-mq.h b/block/blk-mq.h
+index c872bbbe6411..44979e92b79f 100644
+--- a/block/blk-mq.h
++++ b/block/blk-mq.h
+@@ -448,4 +448,10 @@ do {								\
+ #define blk_mq_run_dispatch_ops(q, dispatch_ops)		\
+ 	__blk_mq_run_dispatch_ops(q, true, dispatch_ops)	\
+ 
++static inline bool blk_mq_can_poll(struct request_queue *q)
++{
++	return (q->limits.features & BLK_FEAT_POLL) &&
++		q->tag_set->map[HCTX_TYPE_POLL].nr_queues;
++}
 +
- 	bio = __bio_split_to_limits(bio, &q->limits, &nr_segs);
- 	if (!bio)
- 		goto queue_exit;
+ #endif
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 767598e719ab..e9f1c82b2f3e 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -245,10 +245,17 @@ static ssize_t queue_##_name##_show(struct gendisk *disk, char *page)	\
+ 		!!(disk->queue->limits.features & _feature));		\
+ }
+ 
+-QUEUE_SYSFS_FEATURE_SHOW(poll, BLK_FEAT_POLL);
+ QUEUE_SYSFS_FEATURE_SHOW(fua, BLK_FEAT_FUA);
+ QUEUE_SYSFS_FEATURE_SHOW(dax, BLK_FEAT_DAX);
+ 
++static ssize_t queue_poll_show(struct gendisk *disk, char *page)
++{
++	if (queue_is_mq(disk->queue))
++		return sysfs_emit(page, "%u\n", blk_mq_can_poll(disk->queue));
++	return sysfs_emit(page, "%u\n",
++		!!(disk->queue->limits.features & BLK_FEAT_POLL));
++}
++
+ static ssize_t queue_zoned_show(struct gendisk *disk, char *page)
+ {
+ 	if (blk_queue_is_zoned(disk->queue))
 -- 
 2.45.2
 
