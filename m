@@ -4,82 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C3D6E77188
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2025 01:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E6C1E77188
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2025 01:39:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=NcMaIxB89aXYU0HrYQ/juYoMdoNOTBUAqo/G4Be15p4=; b=b//Hkoym11dpqbHVPWrwA7SyDy
-	eQ5Qphszx0Vyaa3IprHGrqg5afKc+VDU+er/40f00G6Si0AW89SMSrVGGdJl7UMrYtUk9pjRkZIJu
-	y+4keJpsaUt8KUMW9M5Vcf4HEN90u7+sSfhLVNXTBVKs2XDVnIZPdW2xAr4m1Zu1LbkwFclNedjRo
-	iXBAPZN7SSBDN6hJ189mNLcemKlktncS8LpmVq65OXrjkYFcOqFSgRlbbjM/C/NI2RuOFzPhUew7f
-	EHz2MU/sjgOVan512xtaF0L7swb8Jk7Cf/BhThWGFtaqYPoU9+khCvakoF6XPLia4NNnGnsF/WYnb
-	i7e1ESNQ==;
+	bh=LyBVzdx6qjl1nBYRx5h6heEx/LGj74t0PCtX7bQuelo=; b=aJAQ5jDiAoqUV8+GEAQa1osHFI
+	Oxc7DkFYu43MpLacI7f7n99QR7A8t8n3rKTmnE9buCCthcLtuWOyB5y9O2WooDtklCGppJC3XEKN2
+	BLH1uKU/Z/iy+dmvHHyfgMdZebtdKYBz57TVLSgNDn55BtrfJMSoYIoPMH2HVCJAqtiMqSpfXymUr
+	BsqchnbG4dnZ4ZKGS3/Y6klczmwDVPpHiNispAcoKOzWitwy1oB5kNs0Ourx93dcVMk9plGvWjXFp
+	29+9i95IPiPJ/hlBC5VHkLOGgJCfsDeQ1rYTHCD0AyufwF4zww2VUQrLLTPWmdEYYE56zHpo79jCM
+	PfJ4vu3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVhTx-0000000AKa9-2gaL;
-	Thu, 09 Jan 2025 01:37:09 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+	id 1tVhWJ-0000000AL0l-04Tp;
+	Thu, 09 Jan 2025 01:39:35 +0000
+Received: from mgamail.intel.com ([192.198.163.14])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVhPB-0000000AJnq-3dso
+	id 1tVhU9-0000000AKeV-1HcY
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Jan 2025 01:32:16 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-2ee46851b5eso574461a91.1
-        for <linux-nvme@lists.infradead.org>; Wed, 08 Jan 2025 17:32:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1736386332; x=1736991132; darn=lists.infradead.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NcMaIxB89aXYU0HrYQ/juYoMdoNOTBUAqo/G4Be15p4=;
-        b=YmWPb0RmACKUUkh0k3e2bHU+bqMGywQ1oJn8WX4MnCCN5UIrFRN+GNQmuXG86MvWhq
-         xMRcddMHXLhHMp/gw4gGDekroWyaxUer6Ig5a6KMZAEeSijPDQ+cmNiSQd9nxyK9tuVY
-         OWK9Byd1h587DY6eWAzaeSb9dg/8uLgIQdhQWT3EII6dLCAVBLYnXX2RhSj//DdNatem
-         nE7BgVauDkBTGSqvz+0LRPu8YlXMf+UC0rF0IG+OCezxW5xgoT3P5bJUjdrvQZdH0Xnd
-         KzWY0hHdcbdY92QeU/1PLD7B4JaIOuDCC7ht3gPE+IpJUGbQfw8z4nWhZmcC2pwlCd0o
-         7K+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736386332; x=1736991132;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NcMaIxB89aXYU0HrYQ/juYoMdoNOTBUAqo/G4Be15p4=;
-        b=utni96RQsq1BnNekO2KmGoMSYl94fpxG0q1N3Zp9ACZvEPXC3xpl8FIyQ1HmRCvMUI
-         ZXgRj57fxibaJrRlV/+Hhsno6YlbIBE9ykOKowaYv0JoqtYh6jhwep55jEB01a9IQZ3U
-         vhsw6g8HTMU4E2scMJfNmeRv/6nrW7g+2DZtOHA2klxPuQdMaZg1JawY/OtiC7tBjCb4
-         i9Yg16FvzpqzkvkZqjNbSD2cJJWgb0HPNg+CN73FaRRVTMILdzyYPuIWb4usKPH/M97J
-         rTaxpp8hN8Iu/OX23DQl/NaZzo9V/suL0D8DYCYAhgLOoN5QRCNsDQrq5JX/2JZ1FLcT
-         zKHg==
-X-Gm-Message-State: AOJu0Yz/Yxpnw4r3WnFpofJCzQSooLXWAQkcgweHz6/paRuZ4ZOYxSQp
-	V9MPfnkkqRufY4hQ5DtjxSvWGMM5RmljquYxP8Q0jKf+Y4xnyUXblOXvWZTTtIk=
-X-Gm-Gg: ASbGncv07L14e8X31aQ1W+Lddp+ev8mfYxiaB9oyI9fLnPuRmd9PfRmsA56RiY4KXtp
-	D1Ys96h2U3Pr1IrTAG5zgce34gjAyC1DIfgcHTwX3koeUGHUH1ZXbb/88VNXklEGPMSWP3l1evM
-	SmIilpp6zVahvjV0BwsG7NV8PMxUHjmrumA4qf9BZLoMVIgIZ/VCqkAsVcoEBbpKadb1FKz4scl
-	SnmF+U2yNw/KdVf7b71x1Zvv1jLXc5Yj55QQNhGcvYe8mB5h1BAPWxW3XBsL0cFmcZxulwAhjYv
-	DBTcbYWBCeO+ZcG2sBNF4tQ+nML2/NA87A==
-X-Google-Smtp-Source: AGHT+IERItTVilccsc5DojWYe/uV0P+F6n8qrBNoNDpbE0qHsRtkGk1iJvW3sm5lRqm37ICkNdryLg==
-X-Received: by 2002:a17:90b:520e:b0:2ee:9d65:65a7 with SMTP id 98e67ed59e1d1-2f548f447b8mr7523880a91.29.1736386332228;
-        Wed, 08 Jan 2025 17:32:12 -0800 (PST)
-Received: from medusa.lab.kspace.sh (c-24-7-117-60.hsd1.ca.comcast.net. [24.7.117.60])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-21a917441dfsm905895ad.96.2025.01.08.17.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 17:32:11 -0800 (PST)
-Date: Wed, 8 Jan 2025 17:32:10 -0800
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: James Smart <james.smart@broadcom.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	randyj@purestorage.com, jrani@purestorage.com
-Subject: nvme-fc: Question about __nvme_fc_abort_outstanding_ios()
-Message-ID: <Z38nGkThjH59LFrf@ceto>
+	Thu, 09 Jan 2025 01:37:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736386641; x=1767922641;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KEMwPMPL8k1q3gQKYDnAz2PHPmdJsxCzMYAj95m/jzA=;
+  b=JF6Ahwlty/dlWANl/VmS4G2rY+WZv/P1VYPQvlF30+t0TvwoupNynuLQ
+   hvwHaf6xSyn0zCa90IsujUD3KS5rTaf9DqwHDNnWWymD9LVWDqzDhlJeT
+   IJeFyiE7RnypL8DhpNEQsjYT16V/HTid+9g1ET8vJ/7LxLR2ugXipHUkX
+   QmR56wAulz6yMJisJdNDzYLTkwvDKfIqs5Px3KV3kAe2z4NawehVVbiY3
+   qC1VZhKdsK+NQzN3y17yOnmO1oWEshE2pljO2PL1CxJMfMT7IgQRjw560
+   mO5g1VgCfA3gdpCvS22KG0GNQfGg0ay0xlVqXMWxBDOABbEpeG+fNTs/k
+   Q==;
+X-CSE-ConnectionGUID: C2NzesOARyeeNz/3QtQmGQ==
+X-CSE-MsgGUID: XOBqrw8FSJuJVNT3vANPHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36858108"
+X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
+   d="scan'208";a="36858108"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 17:37:20 -0800
+X-CSE-ConnectionGUID: senC9nACRriCMVVKFCDAGg==
+X-CSE-MsgGUID: X0c68r+AQvSUNgLxWDR51g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="108375630"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 08 Jan 2025 17:37:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVhU4-000GtR-03;
+	Thu, 09 Jan 2025 01:37:16 +0000
+Date: Thu, 9 Jan 2025 09:36:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-6.14 2/36] drivers/nvme/host/tcp.c:1583:18:
+ warning: variable 'n' set but not used
+Message-ID: <202501090934.Dhw69M6j-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250108_173214_135198_C4F67046 
-X-CRM114-Status: GOOD (  11.72  )
+X-CRM114-CacheID: sfid-20250108_173721_686975_1A88EDBA 
+X-CRM114-Status: GOOD (  13.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,37 +86,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+tree:   git://git.infradead.org/nvme.git nvme-6.14
+head:   b9973aa4d0507c4969ad87763b535edb77b7dceb
+commit: bd0f5c10310122f4f1d9468467a59a6f69e46f92 [2/36] nvme-tcp: Fix I/O queue cpu spreading for multiple controllers
+config: s390-randconfig-001-20250109 (https://download.01.org/0day-ci/archive/20250109/202501090934.Dhw69M6j-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501090934.Dhw69M6j-lkp@intel.com/reproduce)
 
-I was looking at this code and I had a question about it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501090934.Dhw69M6j-lkp@intel.com/
 
-drivers/nvme/host/fc.c
-2473 static void
-2474 __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
-2475 {
-...
-...
-2503                 blk_mq_tagset_busy_iter(&ctrl->tag_set,
-2504                                 nvme_fc_terminate_exchange, &ctrl->ctrl);
-2505                 blk_mq_tagset_wait_completed_request(&ctrl->tag_set);
+All warnings (new ones prefixed by >>):
 
-nvme_fc_terminate_exchange() calls __nvme_fc_abort_op() to abort all active
-ops with status FCPOP_STATE_ACTIVE. I think these active ops map to in-flight
-requests MQ_RQ_IN_FLIGHT. After blk_mq_tagset_busy_iter() returns it is not
-guaranteed that all ops had done callback functions called on them. Some
-of these requests might still be in-flight.
+   drivers/nvme/host/tcp.c: In function 'nvme_tcp_set_queue_io_cpu':
+>> drivers/nvme/host/tcp.c:1583:18: warning: variable 'n' set but not used [-Wunused-but-set-variable]
+    1583 |         int cpu, n = 0, min_queues = INT_MAX, io_cpu;
+         |                  ^
+--
+>> drivers/nvme/host/tcp.c:1578: warning: Function parameter or struct member 'queue' not described in 'nvme_tcp_set_queue_io_cpu'
+>> drivers/nvme/host/tcp.c:1578: warning: expecting prototype for Track the number of queues assigned to each cpu using a global per(). Prototype was for nvme_tcp_set_queue_io_cpu() instead
 
-blk_mq_tagset_wait_completed_request() makes sure that we do not have pending
-completed requests, but it does not check for in-flight requests?
 
-Am I missing something obvious here?
+vim +/n +1583 drivers/nvme/host/tcp.c
 
-Why we need blk_mq_tagset_wait_completed_request() here?
-Is it possible to have in-flight requests after the function returns?
+  1567	
+  1568	/**
+  1569	 * Track the number of queues assigned to each cpu using a global per-cpu
+  1570	 * counter and select the least used cpu from the mq_map. Our goal is to spread
+  1571	 * different controllers I/O threads across different cpu cores.
+  1572	 *
+  1573	 * Note that the accounting is not 100% perfect, but we don't need to be, we're
+  1574	 * simply putting our best effort to select the best candidate cpu core that we
+  1575	 * find at any given point.
+  1576	 */
+  1577	static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+> 1578	{
+  1579		struct nvme_tcp_ctrl *ctrl = queue->ctrl;
+  1580		struct blk_mq_tag_set *set = &ctrl->tag_set;
+  1581		int qid = nvme_tcp_queue_id(queue) - 1;
+  1582		unsigned int *mq_map;
+> 1583		int cpu, n = 0, min_queues = INT_MAX, io_cpu;
+  1584	
+  1585		if (wq_unbound)
+  1586			goto out;
+  1587	
+  1588		if (nvme_tcp_default_queue(queue)) {
+  1589			mq_map = set->map[HCTX_TYPE_DEFAULT].mq_map;
+  1590			n = qid;
+  1591		} else if (nvme_tcp_read_queue(queue)) {
+  1592			mq_map = set->map[HCTX_TYPE_READ].mq_map;
+  1593			n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT];
+  1594		} else if (nvme_tcp_poll_queue(queue)) {
+  1595			mq_map = set->map[HCTX_TYPE_POLL].mq_map;
+  1596			n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
+  1597					ctrl->io_queues[HCTX_TYPE_READ];
+  1598		}
+  1599		if (WARN_ON(!mq_map))
+  1600			goto out;
+  1601	
+  1602		/* Search for the least used cpu from the mq_map */
+  1603		io_cpu = WORK_CPU_UNBOUND;
+  1604		for_each_online_cpu(cpu) {
+  1605			int num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
+  1606	
+  1607			if (mq_map[cpu] != qid)
+  1608				continue;
+  1609			if (num_queues < min_queues) {
+  1610				io_cpu = cpu;
+  1611				min_queues = num_queues;
+  1612			}
+  1613		}
+  1614		if (io_cpu != WORK_CPU_UNBOUND) {
+  1615			queue->io_cpu = io_cpu;
+  1616			atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
+  1617			set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
+  1618		}
+  1619	out:
+  1620		dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
+  1621			qid, queue->io_cpu);
+  1622	}
+  1623	
 
-Should this call be moved to nvme_fc_delete_association() after all the
-requests are aborted by LLDD?
-
-Thanks,
-Mohamed Khalfella
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
