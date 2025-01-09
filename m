@@ -4,181 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79EA6E77197
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2025 14:58:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBDEAE77199
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2025 15:44:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=221B0atVRovyEQXjI5pui6cjMEK45vgcMTSfwAXm9mA=; b=kFRi6CjrNlWif4WZ4zNfhpuSD4
-	Kw3hn5l21IVCC5OQv2xqXKXktMzJZ7h5TJgbmRTZaN2W5pVYVr4Tz6fHkxJnuLr0yxCea26vpTPJK
-	9F5MMhABON3YDXl1Ze+kvlEIHHgzIxl5YX9qMPskpH2XsBXv56pVkgFrx/pibFB29wjOXuzMVY6I4
-	llhMCvBrl4xTaob9CrhU7BiycrjyyZ3oesYlEgp9tg0zD0IomnGZ4xEOjsi7VK+YgJkxUWCvyv0q3
-	7sL1bujg7M26fpHsS7oh6TYlTc2P6wsuRwDzgmN0YBPz9L2AVfHvg9ST71AIPKvoKUXmJc0DNH7VV
-	wGSQafiw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=REyuMx279JI4Y7DCVWjAQsyCew4AYt/M1mTsC7OYiDQ=; b=CGNzCJWMZGaYvWwvgRG2QdoSll
+	qYzQxPFQ4xQLFs7h8mY9FbKuRcAdNZ4j8/Pt0sSHBVZx1UH5L+KruXVC79LMjipcZPTd8B/H8t++L
+	ACWRDPhpnoUHZz42T8LmhLU4+aoJlBcBIL5obYMfUvBcQVye/Ak1LcF4UxVjipqyXDBOGWHXkQZsN
+	7DgjXdeTF+iB5l5zpsvcPbGGAObATxVMlgBKCXzIndbzyA2cw1jACx3tcECa5Zip+uJMLEYUlXw1/
+	EhRAOeDXnET4ESaumZYGCJC0pdEpXbAlnGS4G3YoqkIVfmXkBKYrFIz3GjxijLhyDrM//32esP0Pp
+	6tZmv7Eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVtz8-0000000CKtf-24Af;
-	Thu, 09 Jan 2025 14:58:10 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1tVui9-0000000CWRE-3J3E;
+	Thu, 09 Jan 2025 15:44:41 +0000
+Received: from mout.kundenserver.de ([212.227.126.135])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVtz6-0000000CKtC-0j0G
+	id 1tVui6-0000000CWON-0P4J
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Jan 2025 14:58:09 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 509CfnRD010560;
-	Thu, 9 Jan 2025 14:58:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=221B0atVRovyEQXjI5
-	pui6cjMEK45vgcMTSfwAXm9mA=; b=B0UtA59/V6rcrSViqxvn3LS01L7m++SN0l
-	I0u6P94Iz0M2SWtJPop2q/aZgDYlGseuqIQiM6aOKPYrtTv5qnhnqy7GjEphaMW+
-	wKKdnnl86OXi9/ErPOpe4IWkm04DbP5SEzLRCvOiZn8c3G5t6ELjbvCW1vyNh2Oa
-	GrdV/5drSK3rI3VVR1YQ6l/ztbj7qvxg7WI0YBdXPQzm0TDtNnPisF12OodH49Y8
-	S0axbtmNVgTP4aTzDv3P0gjRv7oq64ZtfHQC0+vYqqJWgP1yMU055kUan+6uAVz6
-	1mvEcqBVvvlmGx69RD+WRSylIPFHLI2pihlosXqpI5WoatZRta7w==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 43xwhsrwv4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 09 Jan 2025 14:58:01 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 509DZuM9027599;
-	Thu, 9 Jan 2025 14:58:01 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2043.outbound.protection.outlook.com [104.47.58.43])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 43xuebe7wv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 09 Jan 2025 14:58:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MMkCn39Cp1PnGuRI3XrUsGWc9zpV9pJNWP9xf+TvlKLgOUFLGhnyXYMUXOXlbcKbyKMs1rVnQl65b6nnwkkhFaKgF7JmxAu/0X04De1hn1HovRgHH2YNnYcxIAQ20KAww79XgqYxW279tWlYx2DVB3xm2e/63F2CramDZOf0MX6Cp1oyy5xBSlXEWDa7Eu4n2TPtwHVpBl9uLbEQny08xcacIC2g8Ppu6okE96bYtRrwiPDHEIcIwEblp4OpdMM9+3PiMtQwKC9wmPMkKE6zEtw81JouJNCGKh6S5zb4AV7YjAqxpaV2qmG1Ttf1zCLaxM4yQAnHsjKvvpvPipsUTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=221B0atVRovyEQXjI5pui6cjMEK45vgcMTSfwAXm9mA=;
- b=ytRAH77eq6Bk2Bj56QONMbGOmEpKFrerV1MKNAmkyynViRW2GBeMr74AjvV4pyuIcOIHyFK3L7pEnFgeV/okRIXe+3TqFFTV78sexAP/zWQ1hDEWb2W5Q1b8HMmitNx7noXb671x/Emdu3bdjrxSRc0/Lde5Bnhg1ScoYuD4n/kQ/JXeTbas2DwaXLQ8nTo5vYcynnAhmdSy0ZehLs7RkntF1AVYiZoGn1/wV9BCCETT7+izqxdqF41LikJ6gT8Tl/q1Lfj+n2EBqPEKQUoQ/7P804W89VqhkImpX2bCVA+VKxgRhP4puT3e8KjG+ZzUI/85xrSsfRTfDn2SdA1vZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=221B0atVRovyEQXjI5pui6cjMEK45vgcMTSfwAXm9mA=;
- b=TUEn7OhQZTbFLKCypstFM42Q7vY5OEz+59v8ku1XaGGWd2U84oq2uMTV4udfm2X6v1oqKvqDrtDosZUPArH/gYsqBEVRNO6V6rrnWrfQOhfFxhUwkNHWj10YF/+Q1TY6usqGgYiywv7bS1qWRQbUzhLsDzfq0jj1EXHAZjKNo/g=
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
- by MN2PR10MB4400.namprd10.prod.outlook.com (2603:10b6:208:198::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Thu, 9 Jan
- 2025 14:57:58 +0000
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::5cca:2bcc:cedb:d9bf]) by CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::5cca:2bcc:cedb:d9bf%6]) with mapi id 15.20.8335.012; Thu, 9 Jan 2025
- 14:57:58 +0000
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Damien Le Moal <dlemoal@kernel.org>,
-        Ming Lei <ming.lei@redhat.com>, Nilay Shroff <nilay@linux.ibm.com>,
-        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-        nbd@other.debian.org, linux-scsi@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net
-Subject: Re: fix queue freeze and limit locking order v3
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20250109055810.1402918-1-hch@lst.de> (Christoph Hellwig's
-	message of "Thu, 9 Jan 2025 06:57:21 +0100")
-Organization: Oracle Corporation
-Message-ID: <yq1jzb4828h.fsf@ca-mkp.ca.oracle.com>
-References: <20250109055810.1402918-1-hch@lst.de>
-Date: Thu, 09 Jan 2025 09:57:56 -0500
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR04CA0012.namprd04.prod.outlook.com
- (2603:10b6:a03:40::25) To CH0PR10MB5338.namprd10.prod.outlook.com
- (2603:10b6:610:cb::8)
+	Thu, 09 Jan 2025 15:44:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=simg.de;
+	s=s1-ionos; t=1736437453; x=1737042253; i=linux-kernel@simg.de;
+	bh=REyuMx279JI4Y7DCVWjAQsyCew4AYt/M1mTsC7OYiDQ=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=o0Sl8cEoA1jUFCVW4uKPC8HPSUEuXRAIpJGZh9RY5+jaJeV0HzE97IthxkR+9QVS
+	 qAWZHDyAnkr7MMzTGhEwpjdOz/6AAwvsIUB7WkKCxfmf10apAFYIw23u8d2jiZYfM
+	 9Yuz5b7apPl1fBtbqDG1ZQnKvadOif1NmTlcjorPDz92XUSB5RjwCGpeNVj5nHBpc
+	 uQrTnIQP3G8vmQiUVtMKu/4UR/qNv7uHX5SA4+hDr2+Wrm2PXN7cDUdPfUWr49xZQ
+	 vw9CwkwN8Ftdd6hWFaKSzU6rS81DdrCteq0XPeE8TCj0oPbiFmRNnXE3kTEpc3gfT
+	 x/8N4CcRF5Tw4WtAaA==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from [192.168.1.60] ([87.158.38.246]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MKbTo-1tAvuD0Hng-00XAQG; Thu, 09 Jan 2025 16:44:13 +0100
+Message-ID: <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
+Date: Thu, 9 Jan 2025 16:44:11 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|MN2PR10MB4400:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16533aa1-8f94-441b-1f80-08dd30be0196
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+t0HhdP26yu7njxl3TIWWVvGngpvill36RsYJyLdzmLW6Xy1nWAACFQ4FtHt?=
- =?us-ascii?Q?RJbGrhFQAV04qHvffgSP8dTcguHB9Uw29JW5shmK0lCkJ9TcjEONhoYfokl9?=
- =?us-ascii?Q?5UsS4JuyJRKoVQX4RMAJzmUevaQh34Y0T4bfR5D4sufxGpqtjfVB1MhGk5zx?=
- =?us-ascii?Q?w+AadObG8qNymMcMCEVoZa2tBcvHLrLDPdh4KPUOG19kpxzoi2ejK/MRI88L?=
- =?us-ascii?Q?FreeqtLzUwuRVm4Z+IM15I7mU+VaujhAh6Snxvs0/zZ+QeMt5siuxH0rG7O9?=
- =?us-ascii?Q?OHoFJayXKL3J27upooQhHgmB5Ol8MEbSUlVLGEme7fRkD8TaxPTxmWxlEYt+?=
- =?us-ascii?Q?wEmTvpzNlFhI33uZKyWoDjjs5fyUGpRAiWeCnMu2oJBaq3QSiq1QFALVfaeq?=
- =?us-ascii?Q?byYbtYmGxiPx0bbb83Vumh6bOtpqqDM4fGseekQUtA2snV4F09xR+pLEfq3R?=
- =?us-ascii?Q?rw4Gx1EvkSGAsc3/ekjsH36Be1UzLZWVYkijUEOWvMsjtY1z6ExvqvD4Cuzi?=
- =?us-ascii?Q?MwBqVgXaIdJmsFEtLQp5TEH/GMx59MzXgKT0aC+/qi3fPY1q0RDMvNnnud2y?=
- =?us-ascii?Q?s9UnWc0+XZS/zdzDVCtHOE2ZE7Kp7e0lS1uEoMp8ii0pUOntTEsZ4z6vZqZD?=
- =?us-ascii?Q?maTWRCS5V4VBjWekfBT8GfTmV2IvVaZR89G0piOFzoN6DjmXko4dKn8iX/3c?=
- =?us-ascii?Q?v3v/aQ8A9ak6ieGNPV6Uz/T49ZKYAStX2lJnp3tMLe738LqHhK24lhtpDUwZ?=
- =?us-ascii?Q?8GunmlEdtSkQ6L/ebjpd82oi46vuPFfqF9KVwWd8Oy/EQH6T8D/6f5QYFMkv?=
- =?us-ascii?Q?7Vi+RoqvadFw7Ilu3PLKycTMuWGUA5mevk/K1k/ASOB0iHghgRap8X5paw7j?=
- =?us-ascii?Q?lIAY6vg07YZ4dPkDDecV+w2ewOpukbZ+j8x7vkZ7M+dU+EFmPAcPVXxCMSiN?=
- =?us-ascii?Q?N9wvpk6ZfUh6zQRAn37gKEjpXr2Gpg/0WhUtL/W3GVF7pKw/xfCzRvRoD700?=
- =?us-ascii?Q?DfTfI72SOascMRW2JstWjFVOdmbc3RK94M3hfexwMYw3xpOJjuwVkiFty7Jr?=
- =?us-ascii?Q?OYc3OG6ptsJ2RFol1A6fNo/KwVBzm4uRhcs+UR3W3gt8zodV61zCAjJ1YUIj?=
- =?us-ascii?Q?LBMDYdAZsoTo8BO1lvIqRVtRtXN40TfCSCtPxlroYtrQloEIQ/QSZ9aq+srb?=
- =?us-ascii?Q?hXRu0hAvgvjD8/41QRdQViEPHn5KrJUy9E95FFatMIG2eJMamRG+ezHLAvnI?=
- =?us-ascii?Q?CkdgFVO5EvzBE35G8mb1lhNcEI9PQwPEwlgL5MPYKxPBARcpZIRWc6iwHqND?=
- =?us-ascii?Q?m7ozaFEvPLn0SDWYTnMr0SkMf7zH3y4gU4/KSWjqkpZUhDGqeaLRGxwrizGO?=
- =?us-ascii?Q?L/HnKX2cEbb52W4fOYA+vQy/vOia?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?odCK+8lOme5XRXxHNAxK5+RhlWRknd1nraM/XhQaWjAXer46XK1Gdb9K0epv?=
- =?us-ascii?Q?+Oz1Tgb9ROxAt2vBAwP9i5DPXLBspEU0iUlW+YmTvmkkOCcA9cvkGlayuRzQ?=
- =?us-ascii?Q?/Xasaojxe4ANicfPwYgy3uf4uihj2g27O4PhhAyH4pfH5dO2ImBWEmb/3XDM?=
- =?us-ascii?Q?B10Nsf9gU6jh4p5mAQRDbtzkGKKY5qwnNok7KIiIZSuzqDcU6JkCZYFkAAYS?=
- =?us-ascii?Q?mbc3aoCBht1P5UOqq0gB+/trUQM439c6MI0BT06FpI44+jUFrM3uoJFzMgPo?=
- =?us-ascii?Q?a5+9ZQ6k5bI4iUxvLRsKuB+NGDXWxOJZbC6Bxi1IZRadxz+IjiYsQ0Mevskt?=
- =?us-ascii?Q?03GRRYTqHyakWVni6SmoUAROtlsrOMrskhSOJWAfP7c0098rWTOY5L26nug6?=
- =?us-ascii?Q?MNuuCEIrM1GbAk1XOItAUXjiVba8h73lwr58Pc8mURQG+U9TInYUbVFlvEIS?=
- =?us-ascii?Q?oFE4qusi6DVmUiI9vFkzuYyMvIKNu8ugauA/fMF7DIfGFcWeZLPPnsZincpn?=
- =?us-ascii?Q?8tFZymIuFcq1GzcymtEKQRHXl4VKX4DFaAZOko+EvRisPoO1fa/BkV/MjSOS?=
- =?us-ascii?Q?1/yERIWI3wSGNb/a55rQhFoFqyprmfzesCkvSRTE98zHmWFlteefqKOpkaVF?=
- =?us-ascii?Q?3oiNqr7c6Cuj/eMKiynaZqPgIInLbDOgwDzW6PlOhr9C7iFGUpxKUJX6ET83?=
- =?us-ascii?Q?LOtbI4LVsP4wGFHc0SsBKfrm//p6OVtJSGDGZ6DCioY3qWVDY2WI0XVS+289?=
- =?us-ascii?Q?MYnZLQMtsgj7xoPc19D25uxc8E4HN/6l37lRnSDWEmmPJ1v9yCWEKfXJdTCd?=
- =?us-ascii?Q?tsI5KRfdZYQM6Z30VRY3Kz1WPJ6+POUOqPB65vTpWYd6kSGc8LpmCR1RaOTO?=
- =?us-ascii?Q?h5EvL7vipztapFZtxiuNYHIxu3A27FSwqnd48kFLoyH+OG7fyYZr8u4FlMiy?=
- =?us-ascii?Q?vivAndYDVQJzScpydTL6+v4k1L0DW0rrZv8YAI0QdkQMaWdyxj0HsZFQfHsg?=
- =?us-ascii?Q?3Q1T0ceXdFULMNiPt09xJGIcWgSJweYDzxt7pIH1/tp6gubsn8ZptzQ1s2oi?=
- =?us-ascii?Q?NLPjEYnlfDM4NtgQmFVV9FA/nup5xaeCevqRVfhXo9j80/9BIFSiqPy2tr7H?=
- =?us-ascii?Q?IvjB50l1VZE1KOViwasKfLIa/W23KZKVQTPfkgBTJUAdCrrxy1113mAFGg31?=
- =?us-ascii?Q?BHn7MrN++hhPjpb0MbdB+nBnCiFJilRgsG4N0ZpYYhqq0oRhiE+pQyRQdx5/?=
- =?us-ascii?Q?jz4dTRU56BKr9uoxBnXE5so+cNwMKrJs2dOhcflA7nQ3Tlbft0B1vbw7TosW?=
- =?us-ascii?Q?w66j7/M4sNETJvbpWEJ5R5mYlRsOcVha0Oz3BzT+fhKOzilkzPWX0XoGOcXm?=
- =?us-ascii?Q?/OJ/9ZplEkeS6J8CinI8fVkRd3bRWRczUX8Sw0eUPsXCSdAllkZetq5wtmPV?=
- =?us-ascii?Q?tngEPmtCU4K1/FriMBonAq4QtpZ4KxRm6fgR7uLfZLfWSmXpyyIe4Xs2GLBX?=
- =?us-ascii?Q?HikPyJu/Asw2Qzk+LRzCETRG+C1HtuhUHsUMRx0UNYFbnS2TAJvjt0dC6PEN?=
- =?us-ascii?Q?C0HZwY18B9Fsm5D8TnXlV9xqHqYMC91U5G0Km0ZJqd8/BeRRECTH2GEvf0tz?=
- =?us-ascii?Q?kg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: YbWhbLFEJ05ayVsfAXYHtB9num30mkG9d59lrwTdoisiYkqvLgDFjU9NxSiuHdLNJdMRuJGC0B0imF66XHwQQz69lww+cSMzEBKbkPwdjsB2+oAs5dSPaSDAH0QUk2UyOLqhIZglDmPpdgcag9JN9MOnLXloM7qHRSEEZvZMSlR08o6q5RpoejnzwnMzZypU4OwlQMFKBbav073Lq/Hga8ixuFTYRo+/rA9XmwZjjGmISRCs9kd5cBa1ceo4jx41X46CvDMyLtXoWVlfUoPWpTdQFZG9JGteKqENc/8A2HVEOQ/J1x6kjhDka7hW5tI/SVrYQHZ8OumnKkPajvpsTNu2b6u3Hq3RoRyW+sVT/Zk05LA/8Y8lfPi0qa/h3vXqj/wYHZOCk6Rq9OUW5e9CToHW9jqo+rrcCACBWV7qlvQqwbA3PQfxDZyx6/S3fSYcV6ROED66QeLEQa3WV6LkDYZM91Ao5XoOF0WjnJAQ3uX351lak7R82pGQF31vCyaxx/kTBYdl2qvfEJTaYTDgUNqWtOzoxk30LtOKu9z4TSUD5wKUONV/qs38q8sYFwycOPCC3Kx77UKRfdzQ0JyuxKmEThQigPl/UH9EJ5Jcf4o=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16533aa1-8f94-441b-1f80-08dd30be0196
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 14:57:58.6280
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +6WAy+wISVa2icbz92j3tlWgTZN+xj3SQT3gp0+tKACnLLCbV+nytGnLRELqyhivt2kripxSK82O2pvOek+f8qbA6ur+enowcAskk75mV28=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4400
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-09_06,2025-01-09_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 adultscore=0
- malwarescore=0 phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2411120000
- definitions=main-2501090119
-X-Proofpoint-GUID: KVSplP-lFQ5N70p9NGbHf5qJ1ZVZ7IWw
-X-Proofpoint-ORIG-GUID: KVSplP-lFQ5N70p9NGbHf5qJ1ZVZ7IWw
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
+ X600M-STX + Ryzen 8700G
+To: Keith Busch <kbusch@kernel.org>, bugzilla-daemon@kernel.org,
+ bgravato@gmail.com
+Cc: Adrian Huang <ahuang12@lenovo.com>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ LKML <linux-kernel@vger.kernel.org>, linux-kernel@simg.de,
+ Thorsten Leemhuis <regressions@leemhuis.info>, Christoph Hellwig <hch@lst.de>
+References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
+ <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de>
+ <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
+Content-Language: en-US
+From: Stefan <linux-kernel@simg.de>
+In-Reply-To: <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pqvYp2/0Kr1HTTx2WHZQ3d71DlJObzzmVe3t2OohI9vggNfMS8J
+ MSZ9jBJ7XF1WDCv4h8bnLPz/RgQf5k1N2O5MhVSiomCWr6v5mw2WOPsnI4D6cMuTnm5A9wc
+ j89tEVi/HX5QThtj61g+uZQHANxo1tuN+SzIz2m4X6Ee07TqzGfhvVbcMlqxCHIejgk0v8+
+ bKspjKhV1yAUSN6OIKd5g==
+UI-OutboundReport: notjunk:1;M01:P0:Xa9uewqKT84=;Qf8twounhvs9z9UcFY0Kv5+wVVW
+ Wtyn4NVV+0k28Ep2xwnsiYRk3q8shF4yctjv16Pe+fTJxRoSTX8ibjKFV5NN/GOJUdJ2zTo5G
+ tGKKLGJQiW3/iRa6sM8wgidsHNuF4q8YasbcBn9QSsSYrQ/WM9n5q7Jzl4XlBSFJc+j5qZLxe
+ a7ehVeGIA31ySFENuRJtYkwPBOSvrqTCAlzIIoTWWDUCaeCOKYW0nTB5UPbL7AzxESCVM5s0a
+ wHN5bn6Sl7l5BD62WFUsnOeZrUxyHyA4Mj1c9+MXHa8UTW1CRhhAqJyjTE7w3h85Z/klW7zqS
+ 1778qui2rMJs3DHLIYmQeQ1A2tSodyQ2fk1VJJOikSWamGcp7132Y8p1Rp/5qpuPkAypKYFmJ
+ 9a9lddlDiojDJfRUEDLxoPOG0Dz6BaGEgwqMH8b3vY0vJgwpxinsp52xm5CGlLug67uxihf8J
+ g6L5RAB1NCs5jStcldhN41npLFWR2+hFHVRHpHhdbzsePegK9DcpyCuAHCsucbEOiUtCSET3Y
+ 3M9uLhLjsukKL7EYIlMVmAr17ZRUsdugcLrdkMg5aup95WKWl6k50fRmByfmPsvRJrsKENm9I
+ MtktBqc5AW0vviWXsUYmnUMHxqwb7nZmqiYbpzeI6J1E22iXysmGtFfTnaM86CUxdyPwvne7l
+ 4fuP7xsv4yvX/cJz2MX1/Wi76gIODrYm1FqkcYhd/2rmD8fleD/A5H4QQxoJCB4Eg17IsJmGy
+ nsr1+AOndU9vWTvFMEDkQFlhZS+eL6s1TwfKJbXNO6nuoDHvZRgqTQpQxLVmNACqC6eQqWiXc
+ hQVhG//QOXxnZa8H4h0QkShtgNMpIRHvf43iXPrnqNhPuEL+FyOzr9Psb6pQYQpsa2MYl/ffz
+ gpxPDcz+7aW1ayAXP8GXSwZEVTVP+yk7UMmQS+t4j/DZZFdlKhP4efp/OrzqMmKUeZqc7e/mR
+ 2JuOCMQmZE2IMK2Zos2vlwO7fRdjccDw58sLnHqvhy28kPw0DODZO44qX+guOxypLXZV4jbuA
+ QcanY5NYTuf/GGbp/79Az9hqilRNVC6e2z/f0aE
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250109_065808_346274_E22DE83E 
-X-CRM114-Status: UNSURE (   8.54  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250109_074438_419534_1859664C 
+X-CRM114-Status: GOOD (  16.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -193,17 +104,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
-Christoph,
+due to Thorstens hints, I'm trying to reply to both, the bug tracker and
+the mailing list.
 
-> this is my version of Damien's "Fix queue freeze and limit locking
-> order". A lot looks very similar, but it was done independently based
-> on the previous discussion.
+> --- Comment #13 from Keith Busch (kbusch@kernel.org) ---
+> If I'm summarizing correctly, we're seeing corruption on Lexar, Kingston=
+,
+> and now Samsung NVMe's?
 
-With the minor editorial changes addressed:
+The Kingston read errors may be something different. They are described
+in detail in messages #108 and #113 of the Debian Bug Tracker
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1076372
 
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+With the Kington, I never saw the write errors that occur with Lexar and
+Samsung on newer Kernels (and which are easy to reproduce).
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+(ATM I cannot provide test results from the Kingston SSD because the
+Lexar is installed, the PC is installed remotely and in use. Thus I
+can't swap the SSDS that often.)
+
+> # cat /sys/block/nvme0n1/queue/fua
+
+Returns "1"
+
+> --- Comment #15 from Keith Busch (kbusch@kernel.org) --- as a test,
+> could you turn off the volatile write cache?
+>
+> # sudo nvme set-feature /dev/nvme0n1 -f 6 -v 0
+Had to modify that a little bit:
+
+   $ nvme get-feature /dev/nvme0n1 -f 6
+   get-feature:0x06 (Volatile Write Cache), Current value:0x00000001
+   $ nvme set-feature /dev/nvme0 -f 6 /dev/nvme0n1 -v 0
+   set-feature:0x06 (Volatile Write Cache), value:00000000,
+cdw12:00000000, save:0
+   $ nvme get-feature /dev/nvme0n1 -f 6
+   get-feature:0x06 (Volatile Write Cache), Current value:00000000
+
+Corruptions disappear (under 6.13.0-rc6) if volatile write cache is
+disabled (and appear again if I turn it on with "-v 1").
+
+But, lspci says I have a
+
+   Shenzhen Longsys Electronics Co., Ltd. Lexar NM790 NVME SSD
+(DRAM-less) (rev 01) (prog-if 02 [NVM Express])
+
+Note the "DRAM-less". This is confirmed by
+https://www.techpowerup.com/ssd-specs/lexar-nm790-4-tb.d1591. Instead of
+this, the SSD has a (*non-*volatile) SLC write cache and it uses 40 MB
+Host-Memory-Buffer (HMB).
+
+May there be an issue with the HMB allocation/usage ?
+
+Is the mainboard firmware involved into HMB allocation/usage ? That
+would explain, why volatile write caching via HMB works in the 2nd M.2
+socket.
+
+BTW, controller is MaxioTech MAP1602A, which is different from the
+Samsung controllers.
+
+> --- Comment #14 from Bruno Gravato (bgravato@gmail.com) --- The only
+>  difference in the specs between the two M.2 slots is that one is
+> gen5x4 (the main one, which is the one with problems) and the other
+> is gen4x4 (this works fine, no errors).
+
+AFAIK this primary M.2 socket is connected to dedicated PCIe lanes of
+the CPU. On my PC, it runs in Gen4 mode (limited by SSD).
+
+The secondary M.2 socket on the rear side is probably connected to PCIe
+lanes which are usually used by a chipset -- but that socket works.
+
+Regards Stefan
 
