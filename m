@@ -4,77 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07631E77188
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2025 02:18:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3DB8E77197
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2025 05:05:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NI/7sQZJsUB7MRKETVbNrqqCnlEl+xyWkxCJ71vt8Ik=; b=rCKXd8r87attmiaDFD8bd9jg97
-	FoCpCkXyXTJ2OvKU+OR8v+2a2+Ju343x3SGRdt9PnWUynfwRyU4gltNO8ZuCL5uZLUodsSYOPuaII
-	Ja827Ftttwca0MBmycRPSGfS9gAMKAwICqYG6Jq4pKe1Yh4KHWuXxxeljQF9l/ce5zhxRnrrB7yhf
-	+gkObxVQbw33kgj4LcNrVxCS2QIrPo4x5kHVetu8HHDJqL+ytON3EMgj5201tnb26P77XgOIn71Fi
-	w25763n+5x7gXHZMmmXuT1vlJUSqU0hPlQDcb0D39tGgSBUPAQ9Mpwkxh4y5JJafVOLZS2O6zUNfr
-	jpY0QNOg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ln8YbR1XZm/SzSLmvfnrW/FXZEjocMOkYfNwh16vXbQ=; b=1stezIgUO22bVZAAbliIHYDJBl
+	0Ps6355U9nHeu7Pe6B/VJRxJ5kCZWQ/z1u2D2riTZXjXoBiNGqaskYJ8DFwX7rB/5ykri0JPNKG2B
+	gV/6eXK774DznJr2RtB2SfO/Yo2klfTznmxO1zL8cVGHfjexfy/fh8mbCxBAZvvpkEP2ZzV0j2Xp9
+	K8THgcC7aMQ/XdQTorExpzEwXDzOtGo03vebNfcwVX/Nx2sBtql3HP3bWZZWJ44eu3M9lD9c1dXDg
+	WPfMTQqZfsiwDcdjAY99sf1u56EHBrIjqnfyOvEivVtTsFFg0VMOUXdU2NlCFtSM7CrJcMVabHn0j
+	1LG/bJyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVi8G-0000000AOgM-07yz;
-	Thu, 09 Jan 2025 02:18:48 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tVkjo-0000000Aljw-3akr;
+	Thu, 09 Jan 2025 05:05:44 +0000
+Received: from mgamail.intel.com ([198.175.65.10])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVi8D-0000000AOfx-3dIG
+	id 1tVkjl-0000000AljU-2TFA
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Jan 2025 02:18:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736389124;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NI/7sQZJsUB7MRKETVbNrqqCnlEl+xyWkxCJ71vt8Ik=;
-	b=V+nN4OyWBfG3z4dZ9+afDCTv/Zd5rRxpzBQGnwrU+pVaeIu4J76RFm8jsGxEtrfRg4ilCg
-	Wq6dSNkhj+G6FW9A1ETbHZugUImcAtC2/d4pqNpNGXDOEfIvwf3gcNo5yO8nHl/+JPUVr/
-	62HOyE01WeZQZLm/6/eXVceNGUJmtWw=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-357-7FSoSldJMXm3ogIjfdzqow-1; Wed,
- 08 Jan 2025 21:18:37 -0500
-X-MC-Unique: 7FSoSldJMXm3ogIjfdzqow-1
-X-Mimecast-MFC-AGG-ID: 7FSoSldJMXm3ogIjfdzqow
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E3DF5195608B;
-	Thu,  9 Jan 2025 02:18:34 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.23])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8EB1419560AD;
-	Thu,  9 Jan 2025 02:18:28 +0000 (UTC)
-Date: Thu, 9 Jan 2025 10:18:22 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, nbd@other.debian.org,
-	linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-Subject: Re: [PATCH 03/10] block: don't update BLK_FEAT_POLL in
- __blk_mq_update_nr_hw_queues
-Message-ID: <Z38x7mzrQPEiUOpv@fedora>
-References: <20250108092520.1325324-1-hch@lst.de>
- <20250108092520.1325324-4-hch@lst.de>
- <Z35T8xeLxhXe-zAS@fedora>
- <20250108152705.GA24792@lst.de>
- <a3bd231c-0568-4dad-9268-bc7edaace94b@kernel.org>
+	Thu, 09 Jan 2025 05:05:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736399143; x=1767935143;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=icHa+z701R0gciadam6t0R2syIFwZSsfhqdtDeITtXI=;
+  b=CuS+/Flr8W+fTc3C1llHvQqtnVnQ0ZpyWLjVkm6ci9w+MoArnVhAoNd3
+   yxcesF/R0yu5GQTFFzolKEDC3HVZHS4DF0mrG7bkXLgF9i8J7N/8AzoPn
+   FKVtdurR0nc6UNr4hi+/v1CgSA48pAvME5TXiX5bX0BUdgk4cQ50p5HSR
+   C1uT5zNKchldngnUSdfc0xnMvIDeZc81k13BEYWQO8Qhq3MJL5hF7An5v
+   Or9JSqk0UuqvkwqvPCHujuyVD6189+bpMQyREoRIQ/NP2JP3opGHKM3kI
+   1y1j6ZFEjJR8TfPY3CpcGewtqGM0WzFqPqjVkEOeNUwRzFqECGkJCCTZD
+   Q==;
+X-CSE-ConnectionGUID: U1UU7crORSKYm/sfDk7vbg==
+X-CSE-MsgGUID: BqU0kVoxQgSfTO1Xxd9DAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="54063566"
+X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
+   d="scan'208";a="54063566"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 21:05:38 -0800
+X-CSE-ConnectionGUID: ba3H0r7PQ6+U3X1SRLkbkg==
+X-CSE-MsgGUID: lhaVkVYPQrOmroobyHtgQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
+   d="scan'208";a="103104711"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Jan 2025 21:05:36 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVkjc-000H47-2L;
+	Thu, 09 Jan 2025 05:05:32 +0000
+Date: Thu, 9 Jan 2025 13:05:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-6.14 2/36] drivers/nvme/host/tcp.c:1594:13:
+ warning: variable 'mq_map' is used uninitialized whenever 'if' condition is
+ false
+Message-ID: <202501091328.r4kJ6xhy-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a3bd231c-0568-4dad-9268-bc7edaace94b@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250108_181845_976102_F9721B94 
-X-CRM114-Status: GOOD (  26.19  )
+X-CRM114-CacheID: sfid-20250108_210541_763261_068BB489 
+X-CRM114-Status: GOOD (  15.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,57 +87,125 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 09, 2025 at 09:05:49AM +0900, Damien Le Moal wrote:
-> On 1/9/25 00:27, Christoph Hellwig wrote:
-> > On Wed, Jan 08, 2025 at 06:31:15PM +0800, Ming Lei wrote:
-> >>> -	if (!(q->limits.features & BLK_FEAT_POLL) &&
-> >>> -			(bio->bi_opf & REQ_POLLED)) {
-> >>> +	if ((bio->bi_opf & REQ_POLLED) && !bdev_can_poll(bdev)) {
-> >>
-> >> submit_bio_noacct() is called without grabbing .q_usage_counter,
-> >> so tagset may be freed now, then use-after-free on q->tag_set?
-> > 
-> > Indeed.  That also means the previous check wasn't reliable either.
-> > I think we can simple move the check into
-> > blk_mq_submit_bio/__submit_bio which means we'll do a bunch more
-> > checks before we eventually fail, but otherwise it'll work the
-> > same.
-> 
-> Given that the request queue is the same for all tag sets, I do not think we
+tree:   git://git.infradead.org/nvme.git nvme-6.14
+head:   b9973aa4d0507c4969ad87763b535edb77b7dceb
+commit: bd0f5c10310122f4f1d9468467a59a6f69e46f92 [2/36] nvme-tcp: Fix I/O queue cpu spreading for multiple controllers
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250109/202501091328.r4kJ6xhy-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501091328.r4kJ6xhy-lkp@intel.com/reproduce)
 
-No, it isn't same.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501091328.r4kJ6xhy-lkp@intel.com/
 
-> need to have the queue_limits_start_update()/commit_update() within the tag set
-> loop in __blk_mq_update_nr_hw_queues(). So something like this should be enough
-> for an initial fix, no ?
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 8ac19d4ae3c0..ac71e9cee25b 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -4986,6 +4986,7 @@ static void __blk_mq_update_nr_hw_queues(struct
-> blk_mq_tag_set *set,
->                                                         int nr_hw_queues)
->  {
->         struct request_queue *q;
-> +       struct queue_limits lim;
->         LIST_HEAD(head);
->         int prev_nr_hw_queues = set->nr_hw_queues;
->         int i;
-> @@ -4999,8 +5000,10 @@ static void __blk_mq_update_nr_hw_queues(struct
-> blk_mq_tag_set *set,
->         if (set->nr_maps == 1 && nr_hw_queues == set->nr_hw_queues)
->                 return;
-> 
-> +       lim = queue_limits_start_update(q);
->         list_for_each_entry(q, &set->tag_list, tag_set_list)
->                 blk_mq_freeze_queue(q);
+All warnings (new ones prefixed by >>):
 
-It could be worse, since the limits_lock is connected with lots of other
-subsystem's lock(debugfs, sysfs dir, ...), it may introduce new deadlock
-risk.
+   In file included from drivers/nvme/host/tcp.c:7:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:1583:11: warning: variable 'n' set but not used [-Wunused-but-set-variable]
+    1583 |         int cpu, n = 0, min_queues = INT_MAX, io_cpu;
+         |                  ^
+>> drivers/nvme/host/tcp.c:1594:13: warning: variable 'mq_map' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1594 |         } else if (nvme_tcp_poll_queue(queue)) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:1599:15: note: uninitialized use occurs here
+    1599 |         if (WARN_ON(!mq_map))
+         |                      ^~~~~~
+   arch/s390/include/asm/bug.h:54:25: note: expanded from macro 'WARN_ON'
+      54 |         int __ret_warn_on = !!(x);                      \
+         |                                ^
+   drivers/nvme/host/tcp.c:1594:9: note: remove the 'if' if its condition is always true
+    1594 |         } else if (nvme_tcp_poll_queue(queue)) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c:1582:22: note: initialize the variable 'mq_map' to silence this warning
+    1582 |         unsigned int *mq_map;
+         |                             ^
+         |                              = NULL
+   5 warnings generated.
 
-Thanks,
-Ming
 
+vim +1594 drivers/nvme/host/tcp.c
+
+  1567	
+  1568	/**
+  1569	 * Track the number of queues assigned to each cpu using a global per-cpu
+  1570	 * counter and select the least used cpu from the mq_map. Our goal is to spread
+  1571	 * different controllers I/O threads across different cpu cores.
+  1572	 *
+  1573	 * Note that the accounting is not 100% perfect, but we don't need to be, we're
+  1574	 * simply putting our best effort to select the best candidate cpu core that we
+  1575	 * find at any given point.
+  1576	 */
+  1577	static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+  1578	{
+  1579		struct nvme_tcp_ctrl *ctrl = queue->ctrl;
+  1580		struct blk_mq_tag_set *set = &ctrl->tag_set;
+  1581		int qid = nvme_tcp_queue_id(queue) - 1;
+  1582		unsigned int *mq_map;
+  1583		int cpu, n = 0, min_queues = INT_MAX, io_cpu;
+  1584	
+  1585		if (wq_unbound)
+  1586			goto out;
+  1587	
+  1588		if (nvme_tcp_default_queue(queue)) {
+  1589			mq_map = set->map[HCTX_TYPE_DEFAULT].mq_map;
+  1590			n = qid;
+  1591		} else if (nvme_tcp_read_queue(queue)) {
+  1592			mq_map = set->map[HCTX_TYPE_READ].mq_map;
+  1593			n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> 1594		} else if (nvme_tcp_poll_queue(queue)) {
+  1595			mq_map = set->map[HCTX_TYPE_POLL].mq_map;
+  1596			n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
+  1597					ctrl->io_queues[HCTX_TYPE_READ];
+  1598		}
+  1599		if (WARN_ON(!mq_map))
+  1600			goto out;
+  1601	
+  1602		/* Search for the least used cpu from the mq_map */
+  1603		io_cpu = WORK_CPU_UNBOUND;
+  1604		for_each_online_cpu(cpu) {
+  1605			int num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
+  1606	
+  1607			if (mq_map[cpu] != qid)
+  1608				continue;
+  1609			if (num_queues < min_queues) {
+  1610				io_cpu = cpu;
+  1611				min_queues = num_queues;
+  1612			}
+  1613		}
+  1614		if (io_cpu != WORK_CPU_UNBOUND) {
+  1615			queue->io_cpu = io_cpu;
+  1616			atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
+  1617			set_bit(NVME_TCP_Q_IO_CPU_SET, &queue->flags);
+  1618		}
+  1619	out:
+  1620		dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
+  1621			qid, queue->io_cpu);
+  1622	}
+  1623	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
