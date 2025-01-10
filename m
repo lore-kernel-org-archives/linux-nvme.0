@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4681BC3DA4A
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jan 2025 16:31:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1CB8E7719D
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jan 2025 16:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SXHELLPSPmgIbc2p+fAK2gpWX764XQ0SzUXXSD9L15s=; b=EmHD0RMMuflGRchnat3cy28vL7
-	96s+xk+HZJd1nPq+9S+7O/AZGYMaRSSNKM7u0hefeNwhfrSj/9tBj2GXl+rwRhj1gCxbz6i7dVtdh
-	wWrfHxKpaF6MXR/EOf9phaKgw9n5dG3l5/2kgkQWR9ajbfYMp50BjRTgDoSd5NmO++fPqUWyYnAGR
-	JU11ZxNp8lvuj3oxSEGFlcddOY2B23gzvz1qWYyzIVSi9+l6mg9zLDkAbmruKBjDQgk1DtQnEsDt1
-	hoo1lfYq0r6N5Qzba4mZNFlNfogjmccRP3EqDb6m+6mhuHWWybsJ+Vbhw4UyhXmt2yBYAySsrspwV
-	rDeOZxcg==;
+	bh=Rmx5HG/+ZPmzowIjfAXhpHM3IykM3Fd8XTzB+pIQh6M=; b=pdkVxOos4oEiXjYSWWGkbjueix
+	+NaXLOk2RPZX30HWfgCp/cOrA0dmP0hCt5eblpUDkV03SupDNjxR8oGI6eZPmHdeA+iOCX6BEkqi9
+	TqY/3k5sEHO5+Qj8U48WLk2oaak/w4r/kA4Mc5Wzfk1qUwUDjgiO4pFAM9iBrWr7NrOEl8PDQdthz
+	jDupnAEAk3R2QLGyo01hcTEmOJGwI/E9KDgxvncvf22SFk/pB3az1KzmKLbXu8egEa3UAo0WwQCq7
+	QmAsRmK2SCVZwwJKAlqen2n/sE50LI2/TdKhPzVjjcw9ZGRBs6otaWOnPJkxEdB+A7mgbc+v6SASp
+	jkttWYtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWHv9-0000000GGiV-0onT;
-	Fri, 10 Jan 2025 16:31:39 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tWHvC-0000000GGjq-03rM;
+	Fri, 10 Jan 2025 16:31:42 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWHqi-0000000GEzm-0P4e
+	id 1tWHqk-0000000GF0u-3gIA
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Jan 2025 16:27:05 +0000
+	Fri, 10 Jan 2025 16:27:08 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 99CF35C4490;
-	Fri, 10 Jan 2025 16:26:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9D6C4CEE4;
-	Fri, 10 Jan 2025 16:27:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 43ECC5C4363;
+	Fri, 10 Jan 2025 16:26:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAC7C4CED6;
+	Fri, 10 Jan 2025 16:27:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736526423;
-	bh=5//HpnRrVhYs9UNL8zeF3rbaQciAX5RlpgaaiZHbgaI=;
+	s=k20201202; t=1736526425;
+	bh=m9BSbBAD2bW8ZLYqHByMdg0GNOBvxPgl189ozbJAOes=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=q6z3CTM5LqYkAhnKyEgfu+nKe61Q+TUtw20L/MQGqybRIjNJX7ZZcP03cLORhgjxT
-	 lIyHkdVGy/TU6WbCHVLsGpHswnsX0VtBKs/bnxMsCPlLxFVOsZsMibMUWlA7pWQVr1
-	 xSj3/OEjYE2jmf+Dw7S4prkQZb+rthlXQlNtqtidzqznBaRr4582JQpxTovT3PMWG/
-	 Rxa1OOZhRgUNI8AlTiPQt0zwi73Mo4N19V78W26HqkFe0wjn1eQKcX7yKLZqcqmlK+
-	 eMc1FWD3EPE+RsEBiNth3A3hxrb8hBNJLWfqaxnfW0VJv4fJT1HhpIq/9RZH66UR/e
-	 OKfsItufCQb5w==
+	b=r+5ItLis6ADqjLZ00Y7vBeSuGNRtzNTJVGEtwoh4kB07EhnoA3SxtoGr/dXPCT3c1
+	 kz15npsjmJ678zcsqURO9gI2VwV24kQrHFJH8kkBl1rqSWY9Q2rdrW45LjMvFwfE3q
+	 gUZkNLyyS9gTBOQnQnKkYjVkcbaG4phZN0R2UQq8zj8yfYEgh3JzreHw95snCkDf3U
+	 dzuAbKq/fk3DMi0Dlj8MuyNuzMUii/lRG/JyH7Qaxk62A+NN9twYCnys7GuW4Lu7Z4
+	 XqvJ09YHEorEWgLvrag9v77l7BFp3nytx8ftJV8BEkJMxPVELC21G/pDlrM1pE9FXG
+	 4hJk67zGncQoQ==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Fri, 10 Jan 2025 17:26:45 +0100
-Subject: [PATCH v5 7/9] blk-mq: use hk cpus only when isolcpus=managed_irq
- is enabled
+Date: Fri, 10 Jan 2025 17:26:46 +0100
+Subject: [PATCH v5 8/9] blk-mq: issue warning when offlining hctx with
+ online isolcpus
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250110-isolcpus-io-queues-v5-7-0e4f118680b0@kernel.org>
+Message-Id: <20250110-isolcpus-io-queues-v5-8-0e4f118680b0@kernel.org>
 References: <20250110-isolcpus-io-queues-v5-0-0e4f118680b0@kernel.org>
 In-Reply-To: <20250110-isolcpus-io-queues-v5-0-0e4f118680b0@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -68,8 +68,8 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250110_082704_223815_75546170 
-X-CRM114-Status: GOOD (  17.23  )
+X-CRM114-CacheID: sfid-20250110_082706_999232_EA73BB45 
+X-CRM114-Status: GOOD (  17.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,134 +84,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When isolcpus=managed_irq is enabled all hardware queues should run on
-the housekeeping CPUs only. Thus ignore the affinity mask provided by
-the driver. Also we can't use blk_mq_map_queues because it will map all
-CPUs to first hctx unless, the CPU is the same as the hctx has the
-affinity set to, e.g. 8 CPUs with isolcpus=managed_irq,2-3,6-7 config
+When isolcpus=managed_irq is enabled, and the last housekeeping CPU for
+a given hardware context goes offline, there is no CPU left which
+handles the IOs anymore. If isolated CPUs mapped to this hardware
+context are online and an application running on these isolated CPUs
+issue an IO this will lead to stalls.
 
-  queue mapping for /dev/nvme0n1
-        hctx0: default 2 3 4 6 7
-        hctx1: default 5
-        hctx2: default 0
-        hctx3: default 1
+The kernel will not schedule IO to isolated CPUS thus this avoids IO
+stalls.
 
-  PCI name is 00:05.0: nvme0n1
-        irq 57 affinity 0-1 effective 1 is_managed:0 nvme0q0
-        irq 58 affinity 4 effective 4 is_managed:1 nvme0q1
-        irq 59 affinity 5 effective 5 is_managed:1 nvme0q2
-        irq 60 affinity 0 effective 0 is_managed:1 nvme0q3
-        irq 61 affinity 1 effective 1 is_managed:1 nvme0q4
+Thus issue a warning when housekeeping CPUs are offlined for a hardware
+context while there are still isolated CPUs online.
 
-where as with blk_mq_hk_map_queues we get
-
-  queue mapping for /dev/nvme0n1
-        hctx0: default 2 4
-        hctx1: default 3 5
-        hctx2: default 0 6
-        hctx3: default 1 7
-
-  PCI name is 00:05.0: nvme0n1
-        irq 56 affinity 0-1 effective 1 is_managed:0 nvme0q0
-        irq 61 affinity 4 effective 4 is_managed:1 nvme0q1
-        irq 62 affinity 5 effective 5 is_managed:1 nvme0q2
-        irq 63 affinity 0 effective 0 is_managed:1 nvme0q3
-        irq 64 affinity 1 effective 1 is_managed:1 nvme0q4
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- block/blk-mq-cpumap.c | 65 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ block/blk-mq.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-index 0923cccdcbcad75ad107c3636af15b723356e087..e78eebbbaf0a2e0e8e03a2b31087c62a9090808c 100644
---- a/block/blk-mq-cpumap.c
-+++ b/block/blk-mq-cpumap.c
-@@ -61,11 +61,73 @@ unsigned int blk_mq_num_online_queues(unsigned int max_queues)
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 2e6132f778fd958aae3cad545e4b3dd623c9c304..43eab0db776d37ffd7eb6c084211b5e05d41a574 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3620,6 +3620,45 @@ static bool blk_mq_hctx_has_requests(struct blk_mq_hw_ctx *hctx)
+ 	return data.has_rq;
  }
- EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
  
-+/*
-+ * blk_mq_map_hk_queues - Create housekeeping CPU to hardware queue mapping
-+ * @qmap:	CPU to hardware queue map
-+ *
-+ * Create a housekeeping CPU to hardware queue mapping in @qmap. If the
-+ * isolcpus feature is enabled and blk_mq_map_hk_queues returns true,
-+ * @qmap contains a valid configuration honoring the managed_irq
-+ * configuration. If the isolcpus feature is disabled this function
-+ * returns false.
-+ */
-+static bool blk_mq_map_hk_queues(struct blk_mq_queue_map *qmap)
++static void blk_mq_hctx_check_isolcpus_online(struct blk_mq_hw_ctx *hctx, unsigned int cpu)
 +{
-+	struct cpumask *hk_masks;
-+	cpumask_var_t isol_mask;
-+	unsigned int queue, cpu, nr_masks;
++	const struct cpumask *hk_mask;
++	int i;
 +
 +	if (!housekeeping_enabled(HK_TYPE_MANAGED_IRQ))
-+		return false;
++		return;
 +
-+	/* map housekeeping cpus to matching hardware context */
-+	hk_masks = group_cpus_evenly(qmap->nr_queues, &nr_masks);
-+	if (!hk_masks)
-+		goto fallback;
++	hk_mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
 +
-+	for (queue = 0; queue < qmap->nr_queues; queue++) {
-+		for_each_cpu(cpu, &hk_masks[queue % nr_masks])
-+			qmap->mq_map[cpu] = qmap->queue_offset + queue;
++	for (i = 0; i < hctx->nr_ctx; i++) {
++		struct blk_mq_ctx *ctx = hctx->ctxs[i];
++
++		if (ctx->cpu == cpu)
++			continue;
++
++		/*
++		 * Check if this context has at least one online
++		 * housekeeping CPU in this case the hardware context is
++		 * usable.
++		 */
++		if (cpumask_test_cpu(ctx->cpu, hk_mask) &&
++		    cpu_online(ctx->cpu))
++			break;
++
++		/*
++		 * The context doesn't have any online housekeeping CPUs
++		 * but there might be an online isolated CPU mapped to
++		 * it.
++		 */
++		if (cpu_is_offline(ctx->cpu))
++			continue;
++
++		pr_warn("%s: offlining hctx%d but there is still an online isolcpu CPU %d mapped to it, IO stalls expected\n",
++			hctx->queue->disk->disk_name,
++			hctx->queue_num, ctx->cpu);
 +	}
-+
-+	kfree(hk_masks);
-+
-+	/* map isolcpus to hardware context */
-+	if (!alloc_cpumask_var(&isol_mask, GFP_KERNEL))
-+		goto fallback;
-+
-+	queue = 0;
-+	cpumask_andnot(isol_mask,
-+		       cpu_possible_mask,
-+		       housekeeping_cpumask(HK_TYPE_MANAGED_IRQ));
-+
-+	for_each_cpu(cpu, isol_mask) {
-+		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-+		queue = (queue + 1) % qmap->nr_queues;
-+	}
-+
-+	free_cpumask_var(isol_mask);
-+
-+	return true;
-+
-+fallback:
-+	/* map all cpus to hardware context ignoring any affinity */
-+	queue = 0;
-+	for_each_possible_cpu(cpu) {
-+		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-+		queue = (queue + 1) % qmap->nr_queues;
-+	}
-+	return true;
 +}
 +
- void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
+ static bool blk_mq_hctx_has_online_cpu(struct blk_mq_hw_ctx *hctx,
+ 		unsigned int this_cpu)
  {
- 	const struct cpumask *masks;
- 	unsigned int queue, cpu, nr_masks;
+@@ -3639,8 +3678,10 @@ static bool blk_mq_hctx_has_online_cpu(struct blk_mq_hw_ctx *hctx,
+ 			continue;
  
-+	if (blk_mq_map_hk_queues(qmap))
-+		return;
-+
- 	masks = group_cpus_evenly(qmap->nr_queues, &nr_masks);
- 	if (!masks) {
- 		for_each_possible_cpu(cpu)
-@@ -120,6 +182,9 @@ void blk_mq_map_hw_queues(struct blk_mq_queue_map *qmap,
- 	if (!dev->bus->irq_get_affinity)
- 		goto fallback;
+ 		/* this hctx has at least one online CPU */
+-		if (this_cpu != cpu)
++		if (this_cpu != cpu) {
++			blk_mq_hctx_check_isolcpus_online(hctx, this_cpu);
+ 			return true;
++		}
+ 	}
  
-+	if (blk_mq_map_hk_queues(qmap))
-+		return;
-+
- 	for (queue = 0; queue < qmap->nr_queues; queue++) {
- 		mask = dev->bus->irq_get_affinity(dev, queue + offset);
- 		if (!mask)
+ 	return false;
 
 -- 
 2.47.1
