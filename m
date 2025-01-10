@@ -4,52 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5554C02181
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jan 2025 16:31:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 692EFE7719C
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jan 2025 16:31:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=COOFLuHWs6EFHBkf+qkZ1QANfg5eWDE6zOoA02KVjF4=; b=FvIKa1uQG2idjaDoTYWsDIXry4
-	JpcbYRc80uIWet1mQYLso5z+uV14IP8DBIV+DAiiXVUDAVXp1ux5bpIN3DcOpzEF5PUL2wSjFkIVR
-	cAbXGGK2rO9hVzFEIDzsn6z7M9yx3H9fZ4nVaQAIae3UrsCXRE6teBRRIsU3We3LWOZkfsPlcLU6Z
-	7MOF0tBfmpjyJV27hsWAMeYHBAr1IlS0g1UNROo8cC1iStjQHJD8FLQ9yVmv1BYNjensJp1x4h8t7
-	xfMmg21nb7wxw05mrsFKo0DIMWx8OvtK0fi4GtbuVaqpZJxm5LIGfvkXl6QWO6ShX0+FaPbDO7ehz
-	iTdPH7ig==;
+	bh=UwwNHi9ke0ZWTcE+CR0KFB5ltYRxemb/jmfz807Kf8M=; b=Z2meQNZ4OeosVFSTlI2rj+Jj1b
+	8flv5tlIQkT7Z9XiAmOcdSRViVihjKncg09tQgIGokTYlOxNb2HG+xosJItyGNcq9GYkRjlL15AXV
+	hER88VIidY0akGQfQF1Vj4uEkKXqtdsldNfZDvSvMvVzZIhPkNT6m5tOsOPJ7NWcqwQAoy08+epK1
+	ADWhTYMvW8/SbZDcfClpoHUWD9vIGy8xiiq3kHeoevXCnNptaUUXcwSPhDUCW1USnWDjrDVZ1herW
+	F0lwapwshG0LqdqPCdd75Gyb9gkiriBn774WWUFfIrqrKskSz7v5rRo1gKhU+1DfHbr8gLOY/S8yR
+	53PNoRmQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWHv4-0000000GGeR-4ByR;
-	Fri, 10 Jan 2025 16:31:35 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tWHv3-0000000GGdY-30Zh;
+	Fri, 10 Jan 2025 16:31:33 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWHqb-0000000GEwe-1CbD
+	id 1tWHqV-0000000GEuK-3zG9
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Jan 2025 16:26:58 +0000
+	Fri, 10 Jan 2025 16:26:53 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 13AE7A426B4;
-	Fri, 10 Jan 2025 16:25:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C86B1C4CED6;
-	Fri, 10 Jan 2025 16:26:55 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 6B22B5C4CB6;
+	Fri, 10 Jan 2025 16:26:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B55A8C4CEE0;
+	Fri, 10 Jan 2025 16:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736526416;
-	bh=0ycW44IR1uqmQrDJLN8IiSf67ET1Zi70MGLU1ocQlSU=;
+	s=k20201202; t=1736526411;
+	bh=QVb/GKe8Bqk7gvJ7t6g6sEH36EcUHUWPUDhvKJginFE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=tE61rrMhwqmAQPxSwk5UrlzHUuve4bybQGl0HMGMlefY5rtcLGXwBkhUrhdiEFon7
-	 pHeQSQRJqM9TfQeVSj9VryFQ02c2eIPchC/7OIoXlwYENopkVUdZNQQZYIFHvCK4K6
-	 DrgGkfGTQbDEPKeSVxIEmoZf/rfyoo9WZ2F7DIviDLZZV0vNK/uLA3Wn0FTL4UBzqz
-	 fq6bpIvVgVXPBAl2Apr/RqVHBlJhfl5yAn1nTnuzlAFiS8Ht7JHi8fleLFTO9jxtzF
-	 cn4FaYgWsSehERVeL3HbipC8BdD8iSlmIDNjVsnwfGD6WFD20ko6EZr9tR/AornfNe
-	 uPI8F6zu0XfBQ==
+	b=KkqCRO+h0O7VDRnPT7DUgC0u8T+jFoJKaRtYozvfbqZPexSXFY78WUhpbuCZwE/iU
+	 THhWtXu515eUJkCX9AsKql7qOc9vFFDEPfy+PTBiKXIJyHPchIML3W5gdhENBmNpRu
+	 QQU/Dabi56ixbc2okTxXq84HJpurQximMgOvunw2sPDUPUgfPL6P0gazOIkgfd8DOT
+	 blv0125aOJX1h+xDLFvhI3RLTaSGH2ghQIKb2g4oEbaswV+2pOr+Uo8tlP4y83/LwN
+	 aQGzFANvP+QrVXrwpFEet/4Ll6APTstXweiSjvK/cJdy8PM9TNeJJBGEd1gZJqKwAG
+	 TucYSL5TiiAmQ==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Fri, 10 Jan 2025 17:26:42 +0100
-Subject: [PATCH v5 4/9] scsi: use block layer helpers to calculate num of
- queues
+Date: Fri, 10 Jan 2025 17:26:40 +0100
+Subject: [PATCH v5 2/9] blk-mq: add number of queue calc helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250110-isolcpus-io-queues-v5-4-0e4f118680b0@kernel.org>
+Message-Id: <20250110-isolcpus-io-queues-v5-2-0e4f118680b0@kernel.org>
 References: <20250110-isolcpus-io-queues-v5-0-0e4f118680b0@kernel.org>
 In-Reply-To: <20250110-isolcpus-io-queues-v5-0-0e4f118680b0@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -68,8 +67,8 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250110_082657_465065_AE9A4282 
-X-CRM114-Status: GOOD (  16.44  )
+X-CRM114-CacheID: sfid-20250110_082652_077126_3492D2E8 
+X-CRM114-Status: GOOD (  15.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,115 +87,92 @@ Multiqueue devices should only allocate queues for the housekeeping CPUs
 when isolcpus=managed_irq is set. This avoids that the isolated CPUs get
 disturbed with OS workload.
 
-Use helpers which calculates the correct number of queues which should
-be used when isolcpus is used.
+Add two variants of helpers which calculates the correct number of
+queues which should be used. The need for two variants is necessary
+because some drivers calculate their max number of queues based on the
+possible CPU mask, others based on the online CPU mask.
 
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/scsi/megaraid/megaraid_sas_base.c | 15 +++++++++------
- drivers/scsi/qla2xxx/qla_isr.c            | 10 +++++-----
- drivers/scsi/smartpqi/smartpqi_init.c     |  5 ++---
- 3 files changed, 16 insertions(+), 14 deletions(-)
+ block/blk-mq-cpumap.c  | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/blk-mq.h |  2 ++
+ 2 files changed, 47 insertions(+)
 
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index 49abd7dd75a7b7c1ddcfac41acecbbcf7de8f5a4..59d385e5a917979ae2f61f5db2c3355b9cab7e08 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -5962,7 +5962,8 @@ megasas_alloc_irq_vectors(struct megasas_instance *instance)
- 		else
- 			instance->iopoll_q_count = 0;
+diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
+index 7d3dfe885dfac18711ae73eff510efe3877ffcb6..0923cccdcbcad75ad107c3636af15b723356e087 100644
+--- a/block/blk-mq-cpumap.c
++++ b/block/blk-mq-cpumap.c
+@@ -12,10 +12,55 @@
+ #include <linux/cpu.h>
+ #include <linux/group_cpus.h>
+ #include <linux/device/bus.h>
++#include <linux/sched/isolation.h>
  
--		num_msix_req = num_online_cpus() + instance->low_latency_index_start;
-+		num_msix_req = blk_mq_num_online_queues(0) +
-+			instance->low_latency_index_start;
- 		instance->msix_vectors = min(num_msix_req,
- 				instance->msix_vectors);
+ #include "blk.h"
+ #include "blk-mq.h"
  
-@@ -5978,7 +5979,8 @@ megasas_alloc_irq_vectors(struct megasas_instance *instance)
- 		/* Disable Balanced IOPS mode and try realloc vectors */
- 		instance->perf_mode = MR_LATENCY_PERF_MODE;
- 		instance->low_latency_index_start = 1;
--		num_msix_req = num_online_cpus() + instance->low_latency_index_start;
-+		num_msix_req = blk_mq_num_online_queues(0) +
-+			instance->low_latency_index_start;
++static unsigned int blk_mq_num_queues(const struct cpumask *mask,
++				      unsigned int max_queues)
++{
++	unsigned int num;
++
++	if (housekeeping_enabled(HK_TYPE_MANAGED_IRQ))
++		mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
++
++	num = cpumask_weight(mask);
++	return min_not_zero(num, max_queues);
++}
++
++/**
++ * blk_mq_num_possible_queues - Calc nr of queues for multiqueue devices
++ * @max_queues:	The maximal number of queues the hardware/driver
++ *		supports. If max_queues is 0, the argument is
++ *		ignored.
++ *
++ * Calculate the number of queues which should be used for a multiqueue
++ * device based on the number of possible cpu. The helper is considering
++ * isolcpus settings.
++ */
++unsigned int blk_mq_num_possible_queues(unsigned int max_queues)
++{
++	return blk_mq_num_queues(cpu_possible_mask, max_queues);
++}
++EXPORT_SYMBOL_GPL(blk_mq_num_possible_queues);
++
++/**
++ * blk_mq_num_online_queues - Calc nr of queues for multiqueue devices
++ * @max_queues:	The maximal number of queues the hardware/driver
++ *		supports. If max_queues is 0, the argument is
++ *		ignored.
++ *
++ * Calculate the number of queues which should be used for a multiqueue
++ * device based on the number of online cpus. The helper is considering
++ * isolcpus settings.
++ */
++unsigned int blk_mq_num_online_queues(unsigned int max_queues)
++{
++	return blk_mq_num_queues(cpu_online_mask, max_queues);
++}
++EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
++
+ void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
+ {
+ 	const struct cpumask *masks;
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index a0a9007cc1e36f89ebb21e699de3234a3cf9ef5b..f58172755e3464e305a86bbaa0a4509270fd7e0e 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -909,6 +909,8 @@ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
+ void blk_mq_unfreeze_queue_non_owner(struct request_queue *q);
+ void blk_freeze_queue_start_non_owner(struct request_queue *q);
  
- 		instance->msix_vectors = min(num_msix_req,
- 				instance->msix_vectors);
-@@ -6234,7 +6236,7 @@ static int megasas_init_fw(struct megasas_instance *instance)
- 		intr_coalescing = (scratch_pad_1 & MR_INTR_COALESCING_SUPPORT_OFFSET) ?
- 								true : false;
- 		if (intr_coalescing &&
--			(num_online_cpus() >= MR_HIGH_IOPS_QUEUE_COUNT) &&
-+			(blk_mq_num_online_queues(0) >= MR_HIGH_IOPS_QUEUE_COUNT) &&
- 			(instance->msix_vectors == MEGASAS_MAX_MSIX_QUEUES))
- 			instance->perf_mode = MR_BALANCED_PERF_MODE;
- 		else
-@@ -6278,7 +6280,8 @@ static int megasas_init_fw(struct megasas_instance *instance)
- 		else
- 			instance->low_latency_index_start = 1;
- 
--		num_msix_req = num_online_cpus() + instance->low_latency_index_start;
-+		num_msix_req = blk_mq_num_online_queues(0) +
-+			instance->low_latency_index_start;
- 
- 		instance->msix_vectors = min(num_msix_req,
- 				instance->msix_vectors);
-@@ -6310,8 +6313,8 @@ static int megasas_init_fw(struct megasas_instance *instance)
- 	megasas_setup_reply_map(instance);
- 
- 	dev_info(&instance->pdev->dev,
--		"current msix/online cpus\t: (%d/%d)\n",
--		instance->msix_vectors, (unsigned int)num_online_cpus());
-+		"current msix/max num queues\t: (%d/%u)\n",
-+		instance->msix_vectors, blk_mq_num_online_queues(0));
- 	dev_info(&instance->pdev->dev,
- 		"RDPQ mode\t: (%s)\n", instance->is_rdpq ? "enabled" : "disabled");
- 
-diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
-index fe98c76e9be32ff03a1960f366f0d700d1168383..c4c6b5c6658c0734f7ff68bcc31b33dde87296dd 100644
---- a/drivers/scsi/qla2xxx/qla_isr.c
-+++ b/drivers/scsi/qla2xxx/qla_isr.c
-@@ -4533,13 +4533,13 @@ qla24xx_enable_msix(struct qla_hw_data *ha, struct rsp_que *rsp)
- 	if (USER_CTRL_IRQ(ha) || !ha->mqiobase) {
- 		/* user wants to control IRQ setting for target mode */
- 		ret = pci_alloc_irq_vectors(ha->pdev, min_vecs,
--		    min((u16)ha->msix_count, (u16)(num_online_cpus() + min_vecs)),
--		    PCI_IRQ_MSIX);
-+			blk_mq_num_online_queues(ha->msix_count) + min_vecs,
-+			PCI_IRQ_MSIX);
- 	} else
- 		ret = pci_alloc_irq_vectors_affinity(ha->pdev, min_vecs,
--		    min((u16)ha->msix_count, (u16)(num_online_cpus() + min_vecs)),
--		    PCI_IRQ_MSIX | PCI_IRQ_AFFINITY,
--		    &desc);
-+			blk_mq_num_online_queues(ha->msix_count) + min_vecs,
-+			PCI_IRQ_MSIX | PCI_IRQ_AFFINITY,
-+			&desc);
- 
- 	if (ret < 0) {
- 		ql_log(ql_log_fatal, vha, 0x00c7,
-diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
-index 04fb24d77e9b5c0137f26bc41f17191cc4c49728..7636c8d1c9f14a0d887c1d517c3664f0d0df7e6e 100644
---- a/drivers/scsi/smartpqi/smartpqi_init.c
-+++ b/drivers/scsi/smartpqi/smartpqi_init.c
-@@ -5278,15 +5278,14 @@ static void pqi_calculate_queue_resources(struct pqi_ctrl_info *ctrl_info)
- 	if (reset_devices) {
- 		num_queue_groups = 1;
- 	} else {
--		int num_cpus;
- 		int max_queue_groups;
- 
- 		max_queue_groups = min(ctrl_info->max_inbound_queues / 2,
- 			ctrl_info->max_outbound_queues - 1);
- 		max_queue_groups = min(max_queue_groups, PQI_MAX_QUEUE_GROUPS);
- 
--		num_cpus = num_online_cpus();
--		num_queue_groups = min(num_cpus, ctrl_info->max_msix_vectors);
-+		num_queue_groups =
-+			blk_mq_num_online_queues(ctrl_info->max_msix_vectors);
- 		num_queue_groups = min(num_queue_groups, max_queue_groups);
- 	}
- 
++unsigned int blk_mq_num_possible_queues(unsigned int max_queues);
++unsigned int blk_mq_num_online_queues(unsigned int max_queues);
+ void blk_mq_map_queues(struct blk_mq_queue_map *qmap);
+ void blk_mq_map_hw_queues(struct blk_mq_queue_map *qmap,
+ 			  struct device *dev, unsigned int offset);
 
 -- 
 2.47.1
