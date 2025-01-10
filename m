@@ -4,66 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA6D9E7719A
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jan 2025 00:10:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EED26E7719C
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jan 2025 05:55:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wLtv1wVQtSzP27/pcRbCdalCrrvua4lZefq09H7J/Bs=; b=3CtqsAqY5VkSbgJ6kRvyzv/CJe
-	BPVg5XUpKJp3P/e/bLlz1QsYzEBZTyNBdHADBmFSuVGzHgtp3GIYJbRAjbSz0dopgDbQa39g8dBL+
-	vbczLHjAKla0ktXPqcp/F+luQFguCew3ak3QYrZgnOaLXCUcqlKQscLfHoluNemBCUGYK0mPTs88b
-	svgfvsQ+iOcL3mDgSK/mepmUXj93qBRMkNeymme0q3C4mMjBkwxoY2fMdIisuLDkcai4pHg9xyugL
-	lET5XiCP552WRR/su7TNsWMK5P+e+hgpeQnW6i52RS1QZbwmsY563bQ46uU8Ya3xtf4/++aj++Rvr
-	GR+kW7Nw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vtlfIIv1TIifp2HHnxSmy1WbKAh1rAR+Wk4iDj/Xq1s=; b=e8r3ApdAg6eE6WaQ2BFpD13SIN
+	pUUSm/ZIaXHfWL3kZ1H4Xf5S2XrSxYg7PgWOjR9OW52aCdhpxlhTzOszFW11+pwLFtOmlfY0EA4sx
+	o2gd4H5akRHlQAYP3Mpz+4hwgtuoAUqoOE0bHgxnl/0Dfm0Pqu3UtPK1j1ZvbHpZSUjcSIrBI8VlU
+	C7fZeQ/OwG58/0bmKapeqCOhHImiToQHcfU+Xn8LxlcvDESex3ymOSzKPXzNUU9/SFa+Ykjmt9hxL
+	wkpkKOXw/ZlhdkkRGl1ARYZqDfYd6IHMU6y3wvCuM1upJqYNfArbPG7BElwiOyIck0kPpCHWnZIH5
+	7JI3Ca5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tW2bU-0000000Dc1T-0FGU;
-	Fri, 10 Jan 2025 00:10:20 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tW2bQ-0000000Dc0V-3NgN
-	for linux-nvme@lists.infradead.org;
-	Fri, 10 Jan 2025 00:10:18 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B30DE5C057D;
-	Fri, 10 Jan 2025 00:09:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9CAFC4CED2;
-	Fri, 10 Jan 2025 00:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736467815;
-	bh=Y0Ev5vFJ6GI2V8OhWS1fMtIGvX6uJFWfskQrPfOqLoE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s8ddMMcOHDytrw8LpPlwyuzfeUNjRam3nGoUqXYlTGBsUDoSSmIRSIKaz3mn58tjf
-	 imZ4xGWe7H/vJjfs9kL/evXzb0mklqLXTfHAj0LP3hNr6X5vDnU9ZyzFAPjckuwYev
-	 shlD+oX6cugaJtXxYAoW4Gw9tyvRiSCpyJ3+TMw7kW9QXX5Rb/b+qqc5+e/pn2H+K5
-	 osPCMoa4NbeLa39ylst2LNq9GsPnonbntrQIUYvq9Lqb0urIGm8XkNEXECOl1kAaYw
-	 1FcQzqemS48nnOLyAiJtZqs5TzwmGRYlFNOc18VRtx080WmphedESbP6x6zh7u08TH
-	 oBIKIhiSvYgpw==
-Date: Thu, 9 Jan 2025 17:10:12 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
-	Adrian Huang <ahuang12@lenovo.com>,
-	Linux kernel regressions list <regressions@lists.linux.dev>,
-	linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [Regression] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX
-Message-ID: <Z4BlZCWzu3OV3V2U@kbusch-mbp>
-References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
- <Z36UsE5dj6j5HhkX@kbusch-mbp>
- <20250109082849.GC20724@lst.de>
+	id 1tW7z3-0000000E6bT-3WZ7;
+	Fri, 10 Jan 2025 05:55:01 +0000
+Received: from 2a02-8389-2341-5b80-76c3-a3dc-14f6-94e8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:76c3:a3dc:14f6:94e8] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tW7rn-0000000E4s0-2LJ3;
+	Fri, 10 Jan 2025 05:47:32 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Damien Le Moal <dlemoal@kernel.org>,
+	Ming Lei <ming.lei@redhat.com>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	nbd@other.debian.org,
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [PATCH 01/11] block: fix docs for freezing of queue limits updates
+Date: Fri, 10 Jan 2025 06:47:09 +0100
+Message-ID: <20250110054726.1499538-2-hch@lst.de>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250110054726.1499538-1-hch@lst.de>
+References: <20250110054726.1499538-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250109082849.GC20724@lst.de>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250109_161016_888683_0BECAE25 
-X-CRM114-Status: GOOD (  19.05  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,34 +60,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 09, 2025 at 09:28:49AM +0100, Christoph Hellwig wrote:
-> On Wed, Jan 08, 2025 at 08:07:28AM -0700, Keith Busch wrote:
-> > It should always be okay to do smaller transfers as long as everything
-> > stays aligned the logical block size. I'm guessing the dma opt change
-> > has exposed some other flaw in the nvme controller. For example, two
-> > consecutive smaller writes are hitting some controller side caching bug
-> > that a single larger trasnfer would have handled correctly. The host
-> > could have sent such a sequence even without the patch reverted, but
-> > happens to not be doing that in this particular test.
-> 
-> Yes.  This somehow reminds of the bug with an Intel SSD that got
-> really upset with quickly following writes to different LBAs inside the
-> same indirection unit.
+queue_limits_commit_update is the function that needs to operate on a
+frozen queue, not queue_limits_start_update.  Update the kerneldoc
+comments to reflect that.
 
-Good old https://bugzilla.redhat.com/show_bug.cgi?id=1402533 ...
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+---
+ block/blk-settings.c   | 3 ++-
+ include/linux/blkdev.h | 3 +--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-> But as the new smaller size is nicely aligned
-> that seems unlikely.  Maybe the higher number of commands simply overloads
-> the buggy firmware?
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 8f09e33f41f6..89d8366fd43c 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -413,7 +413,8 @@ int blk_set_default_limits(struct queue_limits *lim)
+  * @lim:	limits to apply
+  *
+  * Apply the limits in @lim that were obtained from queue_limits_start_update()
+- * and updated by the caller to @q.
++ * and updated by the caller to @q.  The caller must have frozen the queue or
++ * ensure that there are no outstanding I/Os by other means.
+  *
+  * Returns 0 if successful, else a negative error code.
+  */
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 5d40af2ef971..e781d4e6f92d 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -944,8 +944,7 @@ static inline unsigned int blk_boundary_sectors_left(sector_t offset,
+  * the caller can modify.  The caller must call queue_limits_commit_update()
+  * to finish the update.
+  *
+- * Context: process context.  The caller must have frozen the queue or ensured
+- * that there is outstanding I/O by other means.
++ * Context: process context.
+  */
+ static inline struct queue_limits
+ queue_limits_start_update(struct request_queue *q)
+-- 
+2.45.2
 
-Maybe the higher size creates different splits that better straddle some
-unreported internal boundary we don't know about. This all just points
-to some probabilisitic scenario that somehow happens more often with
-a lower transfer limit.
-
-The bugzilla reports disabling VWC makes the problem go away. That may
-be a timing thing or a caching thing, but suggests a kernel bug is less
-likely (yay!?); not easy to tell so far. It's just concerning multiple
-vendor devices are reporting a similiar observation, so maybe these are
-not even the same root problem.
 
