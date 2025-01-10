@@ -4,88 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8AA8AE77188
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jan 2025 14:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE011E7719C
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jan 2025 16:14:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y/gcAKNkCa46sAJjco4x4Dt7XCwnmRxnbzpikJ5Iyr8=; b=bz7DCJysz5oKnnihgxA7Z5JrSl
-	5+xv8AXfVVI96LoA54qQZnDvuXWCH8pOTQ6uZtbC8m9jINKxMaOJhjZ3u1EqWJNe4nfoKMcNbjayd
-	lpMVlbtSCHdSvXzNJyLVtrrkJXqGizmbiJhC65jEzgbbAqrAXJILNxZeExpmyHP0KhoNjpTZ0bE0M
-	9aFPAkRIjEQKWudSJQzsgHbi2tmF3TTGr6nSYrv03b9z7nX0+oYk8zO5sj74SBey7jKum2SW1iJ2I
-	jUophGP8k7k7tX3cmtmkgcwoTKxlV7ixsbf15heW4gTovWKXw7VT3XrHbQ3wIdSJI5KMSyywDcoFE
-	Q4zIHCSg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IxTkpTzgi+owaBpYpL+RIc8wy5x1gLPOUY9XqLSBS50=; b=WAiEZCaQaNNIuQ9mquCUtcRbjb
+	UP/UUgXQXUDOqFdsR4KEOWzEaLStgKCE5WPi8sM0Fgod7bNN03QaJEqAy7VOcwdZ7r3Xv/JHEDXtO
+	x8hwC/84wdVGJNCjoEN23nnwW7EU0mFoZcWBsNTODMrT0f5fmutrHOMiQy4AMv5fAdSCZa3q6Zhee
+	1Rl7zWGvYRRhH0ODUa+ldbkyGWZ8FL/DUVaAPHsrs93Y02TNU4OqsuM/O8dOAmgrrjDYvROeB5xJj
+	znWttE+heRwEiTBX/iyLFswrO62QvNyVrYlaFuDm1GujXbAel2aM683jFnbPU86XQl8RTEUrP9Ezj
+	W6/mvelA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWG3Z-0000000Fdl8-0hJV;
-	Fri, 10 Jan 2025 14:32:13 +0000
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31])
+	id 1tWHet-0000000GB9N-2Jt9;
+	Fri, 10 Jan 2025 16:14:51 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWG3V-0000000Fdjd-3cUN
+	id 1tWHEe-0000000G5E8-1j0I
+	for linux-nvme@bombadil.infradead.org;
+	Fri, 10 Jan 2025 15:47:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=IxTkpTzgi+owaBpYpL+RIc8wy5x1gLPOUY9XqLSBS50=; b=UBIUEPWj10Nn4s2CdnktK7jORV
+	qeNH5RPehKIUD7c3j+nZXEctqyel5dBE0UcyvaBylKb6NLNE2p0mom86U1JkjxkFG2qdnOFUPpJkC
+	+/lOxoFk1tmkGn6+bVXJzaivVVmvSs1Xn9md7aWvE/wXx/rbn8YUR6yrGT8fbLdhqtxXqFj61tR6I
+	H/k1w+cRcHOWJTmFe40DO7J4zy/m8jcAm0Z46Oum3Vs0cbHmEJO4vPx/n9yvN1AVdXF0nzMI2Sys/
+	/X0+TwLqEdz2E5rUFdSloeD9z9f2MzDknH2VAyjca6zmCz2NH/MHXFwfMjAd9p4RxC7v2L1QLkGwb
+	znuqB29g==;
+Received: from dfw.source.kernel.org ([139.178.84.217])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tWHEa-00000009pZS-2aju
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Jan 2025 14:32:11 +0000
-Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-844eb33827eso64778339f.2
-        for <linux-nvme@lists.infradead.org>; Fri, 10 Jan 2025 06:32:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1736519528; x=1737124328; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y/gcAKNkCa46sAJjco4x4Dt7XCwnmRxnbzpikJ5Iyr8=;
-        b=JzCe+FqrrqoJuE/akLJ7NwJNpHx2ixWAWR3B9KcFPTVLhYnj9do7fGzWTRb3M9nDMW
-         4fI2qho2hboOvuqOFJjbfmXWMBw0OS4jYKPv0EPnb2dluDsD3Hzbii6UURM5Z5tG5xOO
-         SMYnbVesuVclq5j9RbqcMeoyQ2nRhksq+dYWVeZ5186OeqYBonV/US5OR1qhab2D9n8z
-         aGoCDmALE6mhSQQshGqMcAA3KEQ/Cc1VDhQRHG7xfcBFGPIGZv4Kt9qHMaEsK5/cPGhu
-         +xqxGyb3ZmkGrNc4ulFR1aWw8YVHhGNBFd4srJqg1LbikA5bxrWrLZrESAhyxputbs7l
-         FvXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736519528; x=1737124328;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y/gcAKNkCa46sAJjco4x4Dt7XCwnmRxnbzpikJ5Iyr8=;
-        b=NWJsQ1ZKzeULk6deeBUvmh0uwGoCAcRz+/7KPl3SfOmJ9+xb+BMjewN7LmOriDn6rQ
-         EEdxjvme8BMPFY3fBGrIVy0H62wYDb+Pr/XoJ1cEj+yhC62IB0L+NzaulrqASXwn3Y0f
-         7kFc0s8pR9E0J3uohoDS6kVcHpVddSXVb8RVNF5GsszImDIFfWFW8L3shNC15o+2rkkt
-         jyPhYjYGjZ+NbRENTL1rKZ9ruO3ZgRufu44Jx8O2JNu1NiiYBD8n/kR10uTZ55TiNMS4
-         dbw82C792A2EFKl5odVgfcDxczk/tHB1up3mDOV9KruYvARAQjbqM/rmgzy6hDKDy9On
-         4p+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWvVIk11bRd3/5dEK2/l2n9xQmmk54uQ6+aDHXNZ6hsMvlMRWeKCLI1QhVc4+LL3cILJUDRnio4RPM0@lists.infradead.org
-X-Gm-Message-State: AOJu0YyGZ1K2TuWGVOmIM+9szZ812AkJuyoIBXXDAyYOswKQu4ybE4uZ
-	36wuN2viPCiJkJkbkLEbuF05htL67WGLXUuPYDlXyQxDyAILtd3LdmBcBgxH1BY=
-X-Gm-Gg: ASbGncuCGZAwXhX1VJ/HSgW2vQxVAW7xfQfUkQ1gucFMzuWcGbLCl1cKIZmIUBa7EAJ
-	DFX7racpG50KSM1mxB6LhhXkWlxYoWrVZ0x5XfLfTklIvhIJQVX52ngsxlEP70Ne0/qEDycglCi
-	LBLv94Rto4V6fkaNNoQWGY7AzsWF4s0VZ0nS4TJqzI7mVD1o6Dh8t9tJwDx6RMmqvg04q9FIb1H
-	P16qxHSZRPlprrb8Ucnm7YauPZswIpcZ0m0WYZiaO89Jqs=
-X-Google-Smtp-Source: AGHT+IHH04d6dGti7fVXw+0NaZh/+tDlC2458jxoW49T1h/PFC0T6YfGUhNP11btFhq4QTA6+HtDyA==
-X-Received: by 2002:a05:6602:3585:b0:84a:51e2:9f93 with SMTP id ca18e2360f4ac-84ce00c49f8mr971265339f.9.1736519528352;
-        Fri, 10 Jan 2025 06:32:08 -0800 (PST)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-84d61fc84dasm91086539f.46.2025.01.10.06.32.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 06:32:07 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Ming Lei <ming.lei@redhat.com>, 
- Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org, 
- linux-nvme@lists.infradead.org, nbd@other.debian.org, 
- linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-In-Reply-To: <20250110054726.1499538-1-hch@lst.de>
-References: <20250110054726.1499538-1-hch@lst.de>
-Subject: Re: fix queue freeze and limit locking order v4
-Message-Id: <173651952702.758529.3309066666363818120.b4-ty@kernel.dk>
-Date: Fri, 10 Jan 2025 07:32:07 -0700
+	Fri, 10 Jan 2025 15:47:43 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0D2AC5C110C;
+	Fri, 10 Jan 2025 15:46:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE28C4CED6;
+	Fri, 10 Jan 2025 15:47:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736524056;
+	bh=v3QlWihrvC2wBYTNOXQmOaLJBSc9kmxtCi5HfT3ZccA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dAcNk76w1oNPGr2sFmZrw8xAc4kYdNfx8E6sl2UWx81FpVxYE8bAMt6/elADP72aL
+	 MIAuHpS1K0Dm+Q7QdatgsJPu2TzN9pL2Aho8JoNWsFZJHmEoSXDyzvvkOaV4mVLvwi
+	 pOSPWrzh+LK2EMJwNLt1lQS0dFodw6sQBusmRfzF6PvtFyaIJuS+LvYnMbFrZjTNH8
+	 FSVxw1Yqs830DpRcjGZkz1knTN+8+d2tLBaZGbgAKUG1bp/s6ZyMvxfs4uTVt8d/Yx
+	 x1GVWWLNNyJoPmARFtMIeExZsQGGW6lZsoS9y++hBO7Q1WPNZz2cwfk6cOtAmfSL4u
+	 aHV5YQSdchyeg==
+Date: Fri, 10 Jan 2025 08:47:33 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: dwagner@suse.de, hare@suse.de, hch@lst.de, sagi@grimberg.me,
+	axboe@fb.com, gjoyce@linux.ibm.com, linux-nvme@lists.infradead.org
+Subject: Re: [PATCHv6 RFC 0/3] Add visibility for native NVMe multipath using
+ sysfs
+Message-ID: <Z4FBFSGCfHC4PYYi@kbusch-mbp>
+References: <20241213041908.1381196-1-nilay@linux.ibm.com>
+ <Z36sNBMPV7--2XHw@kbusch-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-14bd6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z36sNBMPV7--2XHw@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250110_063209_903489_2C675ABA 
-X-CRM114-Status: UNSURE (   9.03  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250110_154741_724203_53BA7C94 
+X-CRM114-Status: GOOD (  14.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,46 +88,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Fri, 10 Jan 2025 06:47:08 +0100, Christoph Hellwig wrote:
-> this is my version of Damien's "Fix queue freeze and limit locking order".
-> A lot looks very similar, but it was done independently based on the
-> previous discussion.
+On Wed, Jan 08, 2025 at 09:47:48AM -0700, Keith Busch wrote:
+> On Fri, Dec 13, 2024 at 09:48:33AM +0530, Nilay Shroff wrote:
+> > This RFC propose adding new sysfs attributes for adding visibility of
+> > nvme native multipath I/O.
+> > 
+> > The changes are divided into three patches.
+> > The first patch adds visibility for round-robin io-policy.
+> > The second patch adds visibility for numa io-policy.
+> > The third patch adds the visibility for queue-depth io-policy.
 > 
-> Changes since v3:
->  - more comment fixups
-> 
-> [...]
+> Thanks, applied to nvme-6.14.
 
-Applied, thanks!
+I think I have to back this out of nvme-6.14 for now. This appears to be
+causing a problem with blktests, test case trtype = loop nvme/058, as
+reported by Chaitanya.
 
-[01/11] block: fix docs for freezing of queue limits updates
-        commit: 9c96821b44f893fb63f021a28625d3b32c68e8b3
-[02/11] block: add a queue_limits_commit_update_frozen helper
-        commit: aa427d7b73b196f657d6d2cf0e94eff6b883fdef
-[03/11] block: check BLK_FEAT_POLL under q_usage_count
-        commit: 958148a6ac061a9a80a184ea678a5fa872d0c56f
-[04/11] block: don't update BLK_FEAT_POLL in __blk_mq_update_nr_hw_queues
-        commit: d432c817c21a48c3baaa0d28e4d3e74b6aa238a0
-[05/11] block: add a store_limit operations for sysfs entries
-        commit: a16230649ce27f8ac7dd8a5b079d9657aa96de16
-[06/11] block: fix queue freeze vs limits lock order in sysfs store methods
-        commit: c99f66e4084a62a2cc401c4704a84328aeddc9ec
-[07/11] nvme: fix queue freeze vs limits lock order
-        commit: 473106dd3aa964a62314d858f6602c95e40e6270
-[08/11] nbd: fix queue freeze vs limits lock order
-        commit: f3dec61d7544a90685f1dd9a87fd4afc751996d0
-[09/11] usb-storage: fix queue freeze vs limits lock order
-        commit: 1233751f7df722435bb93e928d64334db260b90d
-[10/11] loop: refactor queue limits updates
-        commit: b38c8be255e89ffcdeb817407222d2de0b573a41
-[11/11] loop: fix queue freeze vs limits lock order
-        commit: b03732a9c0db91522914185739505d92d3b0d816
+Here's a snippet of the kernel messages related to this:
 
-Best regards,
--- 
-Jens Axboe
-
-
+[ 9031.706759] sysfs: cannot create duplicate filename '/devices/virtual/nvme-subsystem/nvme-subsys1/nvme1n2/multipath/nvme1c4n2'
+[ 9031.706767] CPU: 41 UID: 0 PID: 52494 Comm: kworker/u192:61 Tainted:G        W  O     N 6.13.0-rc4nvme+ #109
+[ 9031.706775] Tainted: [W]=WARN, [O]=OOT_MODULE, [N]=TEST
+[ 9031.706777] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+[ 9031.706781] Workqueue: async async_run_entry_fn
+[ 9031.706790] Call Trace:
+[ 9031.706795]  <TASK>
+[ 9031.706798]  dump_stack_lvl+0x94/0xb0
+[ 9031.706806]  sysfs_warn_dup+0x5b/0x70
+[ 9031.706812]  sysfs_do_create_link_sd+0xce/0xe0
+[ 9031.706817]  sysfs_add_link_to_group+0x35/0x60
+[ 9031.706823]  nvme_mpath_add_sysfs_link+0xc3/0x160 [nvme_core]
+[ 9031.706848]  nvme_mpath_set_live+0xb9/0x1f0 [nvme_core]
+[ 9031.706865]  nvme_mpath_add_disk+0x10b/0x130 [nvme_core]
+[ 9031.706883]  nvme_alloc_ns+0x8d5/0xc80 [nvme_core]
+[ 9031.706904]  nvme_scan_ns+0x280/0x350 [nvme_core]
+[ 9031.706920]  ? do_raw_spin_unlock+0x4e/0xc0
+[ 9031.706929]  async_run_entry_fn+0x31/0x130
+[ 9031.706934]  process_one_work+0x1f9/0x630
+[ 9031.706943]  worker_thread+0x191/0x330
+[ 9031.706948]  ? __pfx_worker_thread+0x10/0x10
+[ 9031.706952]  kthread+0xe1/0x120
+[ 9031.706956]  ? __pfx_kthread+0x10/0x10
+[ 9031.706959]  ret_from_fork+0x31/0x50
+[ 9031.706965]  ? __pfx_kthread+0x10/0x10
+[ 9031.706968]  ret_from_fork_asm+0x1a/0x30
+[ 9031.706980]  </TASK>
+[ 9031.707062] block nvme1n2: failed to create link to nvme1c4n2
 
 
