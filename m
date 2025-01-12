@@ -4,81 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EB2AE7719F
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Jan 2025 12:43:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B021CE77188
+	for <linux-nvme@archiver.kernel.org>; Sun, 12 Jan 2025 12:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wXrK204023oXIXR5x8M0i0UjfhxlzSS31IlJ5QoZ/0I=; b=gr5yMc3uEOvfYARhx6n2hquaYn
-	qQZv5D8lPzIBgPhHVswncA6X47DQVFIhWIH9mkZwYJyW0+1yTA+sju/uNfBEwxXj5Xkg83yQWpwAX
-	xNkO/rmwbUQVF1Vw70weH2+5RCRHLlfXgrSqEysIKiWOaCgWeztjE3zZLIZEzRqlK+xZ4s362cJIN
-	FR1I7ntkdbLJfJfxW+OQpLz3IM89EBXtnMiVhsmfMMcwLY4dJCRTxLZ3QOSbEnJsM9D3SmS47rpd9
-	x4H4Ldf1eVkCpxUs3XZ2mb/RsE8+15a9Aw9Rkf7yCFziO3THMHNPh77qg/kdNmuboLdZGXFw03cwl
-	ez/xrPNg==;
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BCE3apbBWwTclHfhbRs/RpK2bcl2AXw+Nd7wr8CpAb0=; b=Q3z5TULFfnsiYdbMkMf9ui9Ng/
+	zD296IxEtMg2o9SjasAvetjnWsnn2h8YDCP4VBVg4c1kqesSBYE8FnSy35gdkZoC2SC9Y2Y9HgWV3
+	8I4snETLeZB9F+xGgQF/HuxzebiS2gvKJrFb+atnQcscU1218VwHto6pmPLFBkyQEbmQqcChkM1cC
+	P9aWnkiVImmBgSJVWDEkUKmy/WFbWopeZoGOuHh3K33CoHOJDB4AGMrKMXH+xodspJpHebw5M+BFd
+	ihvys7FkqCsdBqmUSX6P9xKzywbGzWE4g3Qr8JBEAFLhI8p92LyVrlg9QGbWjueVP5YQOZyW6i072
+	X9Fg+LaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWxJ4-00000002h3a-48ic;
-	Sun, 12 Jan 2025 12:43:07 +0000
+	id 1tWxJ1-00000002h1N-2bUF;
+	Sun, 12 Jan 2025 12:43:03 +0000
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWxIH-00000002gsF-3UrA
+	id 1tWxIE-00000002gq9-20Py
 	for linux-nvme@lists.infradead.org;
-	Sun, 12 Jan 2025 12:42:18 +0000
+	Sun, 12 Jan 2025 12:42:16 +0000
 Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50CCFh5b007935;
-	Sun, 12 Jan 2025 12:42:07 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50C9jCP5032455;
+	Sun, 12 Jan 2025 12:42:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=wXrK204023oXIXR5x
-	8M0i0UjfhxlzSS31IlJ5QoZ/0I=; b=sxw964txM8LBRufswkP/WcbBA6mzkeJO7
-	M7IDtyZzCDIwZVok+eZNo/0+CG33uZa38IjjNibE0DOf7Ok9bIabcv/yatlcM1I1
-	nGnMcqRIKa4i+KXeU25A6zG+RouOBkbs2qZekcUV8BHLCX1DcmbEV010gm+v/Vqf
-	R7kIn6La3p0u8oyuoOlw5ckfIIaDOPhVkz4HEzAALX7jXtr9uJOxSlZ1NC7l9q2X
-	FZWTE9H5nerib/qQG2j8OCoCHKQYB5jgKXF/hdF8Ujy2uBlBvxs00TMiB/xg604a
-	KNOh3e07nEDfYQYQYt9wTbAIOplObnyJ1o+DmN2+y/5ebG4XljRsw==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44467bh2wu-1
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=BCE3apbBWwTclHfhbRs/RpK2bcl2
+	AXw+Nd7wr8CpAb0=; b=Q1Rv8yIoXTwV0pakK0VE0+91s1fBRVPjU2sCWcGRiEtQ
+	E4VPobRZ0QKZT5zvWs+81RakJW6Ew90CGxCaJZ8uWWNuMx50CC7uonjX8r3S6xKy
+	PtafaGPdGFK1l0RnJTpATwD4oXcNULVzVmStmtyt6+i8xJfQs3dNgRC/wd+T1KT8
+	2ESuSNLf8yL0SIu10jlRFRoQjS4+QFVHVrcc5yaaDbYxYWr6n0sOJGKP9Q/e7vt0
+	SQTuRA5/AFSrfeWvJG0a5gNv64/EZS7O8hXoboLBNxbAZ/X4iQYTL1ZU3rr9BgQx
+	LFLheo2pmXr9saOELIz2JVf93iOmVJuLOwUpN6GNBQ==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44467bh2wp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 12 Jan 2025 12:42:07 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50CCfTOE017359;
-	Sun, 12 Jan 2025 12:42:06 GMT
+	Sun, 12 Jan 2025 12:42:00 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50CBYJgY002700;
+	Sun, 12 Jan 2025 12:41:59 GMT
 Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4444fjspuc-1
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4443bxswm5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 12 Jan 2025 12:42:06 +0000
+	Sun, 12 Jan 2025 12:41:59 +0000
 Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50CCg4ax13500874
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50CCfvs218612602
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 12 Jan 2025 12:42:04 GMT
+	Sun, 12 Jan 2025 12:41:57 GMT
 Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 339D820043;
-	Sun, 12 Jan 2025 12:42:04 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 719B12004B;
+	Sun, 12 Jan 2025 12:41:57 +0000 (GMT)
 Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 37EB320040;
-	Sun, 12 Jan 2025 12:42:02 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 7DEEB20040;
+	Sun, 12 Jan 2025 12:41:55 +0000 (GMT)
 Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.76.196])
 	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sun, 12 Jan 2025 12:42:02 +0000 (GMT)
+	Sun, 12 Jan 2025 12:41:55 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, sagi@grimberg.me, hch@lst.de, dwagner@suse.de,
         hare@suse.de, chaitanyak@nvidia.com, axboe@fb.com,
         gjoyce@linux.ibm.com
-Subject: [PATCHv7 RFC 3/3] nvme-multipath: Add visibility for queue-depth io-policy
-Date: Sun, 12 Jan 2025 18:11:46 +0530
-Message-ID: <20250112124154.60690-4-nilay@linux.ibm.com>
+Subject: [PATCHv7 RFC 0/3] Add visibility for native NVMe multipath using sysfs
+Date: Sun, 12 Jan 2025 18:11:43 +0530
+Message-ID: <20250112124154.60690-1-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250112124154.60690-1-nilay@linux.ibm.com>
-References: <20250112124154.60690-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: lX5LWrzXfg0e3pOqDcoP4BGfF5o9Gc46
-X-Proofpoint-ORIG-GUID: lX5LWrzXfg0e3pOqDcoP4BGfF5o9Gc46
+X-Proofpoint-GUID: Bu_4CaWfPy001ijVHVRdyxtGqNeIwEpS
+X-Proofpoint-ORIG-GUID: Bu_4CaWfPy001ijVHVRdyxtGqNeIwEpS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
@@ -88,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscor
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2501120111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250112_044217_877751_086AA7FA 
-X-CRM114-Status: GOOD (  19.28  )
+X-CRM114-CacheID: sfid-20250112_044214_566837_76702764 
+X-CRM114-Status: GOOD (  25.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,99 +103,200 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch helps add nvme native multipath visibility for queue-depth
-io-policy. It adds a new attribute file named "queue_depth" under
-namespace device path node which would print the number of active/
-in-flight I/O requests currently queued for the given path.
+Hi,
 
-For instance, if we have a shared namespace accessible from two different
-controllers/paths then accessing head block node of the shared namespace
-would show the following output:
+This RFC propose adding new sysfs attributes for adding visibility of
+nvme native multipath I/O.
 
-$ ls -l /sys/block/nvme1n1/multipath/
-nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
-nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
+The changes are divided into three patches.
+The first patch adds visibility for round-robin io-policy.
+The second patch adds visibility for numa io-policy.
+The third patch adds the visibility for queue-depth io-policy.
 
-In the above example, nvme1n1 is head gendisk node created for a shared
-namespace and the namespace is accessible from nvme1c1n1 and nvme1c3n1
-paths. For queue-depth io-policy we can then refer the "queue_depth"
-attribute file created under each namespace path:
+As we know, NVMe native multipath supports three different io policies
+(numa, round-robin and queue-depth) for selecting I/O path, however, we
+don't have any visibility about which path is being selected by multipath
+code for forwarding I/O. This RFC helps add that visibility by adding new
+sysfs attribute files named "numa_nodes" and "queue_depth" under each
+namespace block device path /sys/block/nvmeXcYnZ/. We also create a
+"multipath" sysfs directory under head disk node and then from this
+directory add a link to each namespace path device this head disk node
+points to.
 
-$ cat /sys/block/nvme1n1/multipath/nvme1c1n1/queue_depth
+Please find below output generated with this proposed RFC patch applied on
+a system with two multi-controller PCIe NVMe disks attached to it. This
+system is also an NVMf-TCP host which is connected to an NVMf-TCP target
+over two NIC cards. This system has four numa nodes online when the below
+output was captured:
+
+# cat /sys/devices/system/node/online
+0-3
+
+# lscpu
+<snip>
+NUMA:
+  NUMA node(s):           4
+  NUMA node0 CPU(s):
+  NUMA node1 CPU(s):      0-7
+  NUMA node2 CPU(s):      8-31
+  NUMA node3 CPU(s):      32-63
+<snip>
+
+Please note that numa node 0 though online, doesn't have any CPU
+currently assigned to it.
+
+# nvme list -v
+Subsystem        Subsystem-NQN                                                                                    Controllers
+---------------- ------------------------------------------------------------------------------------------------ ----------------
+nvme-subsys1     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme0, nvme1
+nvme-subsys3     nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1                                                 nvme2, nvme3
+nvme-subsys4     nvmet_subsystem                                                                                  nvme4, nvme5
+
+Device           Cntlid SN                   MN                                       FR       TxPort Address        Slot   Subsystem    Namespaces
+---------------- ------ -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
+nvme0    66     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   052e:78:00.0   U50EE.001.WZS000E-P3-C14-R1 nvme-subsys1 nvme1n1
+nvme1    65     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   058e:78:00.0   U50EE.001.WZS000E-P3-C14-R2 nvme-subsys1 nvme1n1
+nvme2    2      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0524:28:00.0   U50EE.001.WZS000E-P3-C4-R1 nvme-subsys3 nvme3n1
+nvme3    1      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0584:28:00.0   U50EE.001.WZS000E-P3-C4-R2 nvme-subsys3 nvme3n1
+nvme4    1      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100        nvme-subsys4 nvme4n1
+nvme5    2      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100        nvme-subsys4 nvme4n1
+
+Device            Generic           NSID       Usage                      Format           Controllers
+----------------- ----------------- ---------- -------------------------- ---------------- ----------------
+/dev/nvme1n1 /dev/ng1n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme0, nvme1
+/dev/nvme3n1 /dev/ng3n1   0x2          0.00   B /   5.75  GB      4 KiB +  0 B   nvme2, nvme3
+/dev/nvme4n1 /dev/ng4n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme4, nvme5
+
+
+# nvme show-topology
+nvme-subsys1 - NQN=nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=numa
+\
+ +- ns 1
+ \
+  +- nvme0 pcie 052e:78:00.0 live optimized
+  +- nvme1 pcie 058e:78:00.0 live optimized
+
+nvme-subsys3 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=round-robin
+\
+ +- ns 2
+ \
+  +- nvme2 pcie 0524:28:00.0 live optimized
+  +- nvme3 pcie 0584:28:00.0 live optimized
+
+nvme-subsys4 - NQN=nvmet_subsystem
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=queue-depth
+\
+ +- ns 1
+ \
+  +- nvme4 tcp traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100 live optimized
+  +- nvme5 tcp traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100 live optimized
+
+As we could see above, we've three shared namespaces created. In terms of
+iopolicy, we have "numa" configured for nvme-subsys1, "round-robin"
+configured for nvme-subsys3 and "queue-depth" configured for nvme-subsys4.
+
+Now, under each namespace "head disk node", we create a sysfs group
+attribute named "multipath". The "multipath" group then points to the
+each path this head disk node points to:
+
+# tree /sys/block/nvme1n1/multipath/
+/sys/block/nvme1n1/multipath/
+├── nvme1c0n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme0/nvme1c0n1
+└── nvme1c1n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme1/nvme1c1n1
+
+# tree /sys/block/nvme3n1/multipath/
+/sys/block/nvme3n1/multipath/
+├── nvme3c2n1 -> ../../../../../pci0524:28/0524:28:00.0/nvme/nvme2/nvme3c2n1
+└── nvme3c3n1 -> ../../../../../pci0584:28/0584:28:00.0/nvme/nvme3/nvme3c3n1
+
+# tree /sys/block/nvme4n1/multipath/
+/sys/block/nvme4n1/multipath/
+├── nvme4c4n1 -> ../../../../nvme-fabrics/ctl/nvme4/nvme4c4n1
+└── nvme4c5n1 -> ../../../../nvme-fabrics/ctl/nvme5/nvme4c5n1
+
+One can easily infer from the above output that for the "round-robin"
+I/O policy, configured under nvme-subsys3, the I/O workload targeted at
+nvme3n1 would toggle across nvme3c2n1 and nvme3c3n1 assuming the ana state
+of each path is optimized (as can be seen in the output of show-topology).
+
+For numa I/O policy, configured under nvme-subsys1, the "numa_nodes"
+attribute file shows the numa nodes being preferred by the respective
+namespace path. The numa nodes value is comma delimited list of nodes or
+A-B range of nodes.
+
+# cat  /sys/block/nvme1n1/multipath/nvme1c0n1/numa_nodes
+0-1
+
+# cat  /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes
+2-3
+
+From the above output, one can easily infer that I/O workload targeted at
+nvme1n1 and running on numa nodes 0 and 1 would use path nvme1c0n1.
+Similarly, I/O workload running on numa nodes 2 and 3 would use path
+nvme1c1n1.
+
+For queue-depth I/O policy, configured under nvme-subsys4, the "queue_depth"
+attribute file shows the number of active/in-flight I/O requests currently
+queued for each path.
+
+# cat  /sys/block/nvme4n1/multipath/nvme4c4n1/queue_depth
 518
 
-$cat /sys/block/nvme1n1/multipath/nvme1c3n1/queue_depth
+# cat  /sys/block/nvme4n1/multipath/nvme4c5n1/queue_depth
 504
 
->From the above output, we can infer that I/O workload targeted at nvme1n1
-uses two paths nvme1c1n1 and nvme1c3n1 and the current queue depth of each
-path is 518 and 504 respectively. Reading "queue_depth" file when
-configured io-policy is anything but queue-depth would show no output.
+From the above output, one can easily infer that I/O workload targeted at
+nvme4n1 uses two paths nvme4c4n1 and nvme4c5n1 and the current queue depth
+of each path is 518 and 504 respectively.
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/multipath.c | 12 ++++++++++++
- drivers/nvme/host/nvme.h      |  1 +
- drivers/nvme/host/sysfs.c     |  3 ++-
- 3 files changed, 15 insertions(+), 1 deletion(-)
+Changes since v6:
+    - Fix sysfs link warning menifested while running blktest nvme/058
+	  (Keith Busch, Chaitanya Kulkarni)
+    - Link to v6: https://lore.kernel.org/all/20241213041908.1381196-1-nilay@linux.ibm.com/
+Changes since v5:
+    - Fix typo in the subject line of the first patch in the series (Danied
+      Wagner)
+    - Link to v5: https://lore.kernel.org/all/20241030104156.747675-1-nilay@linux.ibm.com/
+changes since v4:
+    - Ensure that we create sysfs link from head gendisk node to each path
+      device irrespective of the ANA state of the path (Hannes Reinecke)
+    - Split the patch into three patch series and add commentary in the
+      code so that it's easy to read and understand the core logic (Sagi
+      Grimberg)
+    - Don't show any output if user reads "numa_nodes" file and configured
+      iopolicy is anything but numa; similarly don't emit any output if user
+      reads "queue_depth" file and configured iopolicy is anything but
+      queue-depth (Sagi Grimberg)
+    - Link to v4: https://lore.kernel.org/all/20240911062653.1060056-1-nilay@linux.ibm.com/
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 3f402a7f4af7..d5ff418746f7 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -976,6 +976,18 @@ static ssize_t ana_state_show(struct device *dev, struct device_attribute *attr,
- }
- DEVICE_ATTR_RO(ana_state);
- 
-+static ssize_t queue_depth_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-+
-+	if (ns->head->subsys->iopolicy != NVME_IOPOLICY_QD)
-+		return 0;
-+
-+	return sysfs_emit(buf, "%d\n", atomic_read(&ns->ctrl->nr_active));
-+}
-+DEVICE_ATTR_RO(queue_depth);
-+
- static ssize_t numa_nodes_show(struct device *dev, struct device_attribute *attr,
- 		char *buf)
- {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index fd9f2070d86f..b536133db361 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -984,6 +984,7 @@ static inline void nvme_trace_bio_complete(struct request *req)
- extern bool multipath;
- extern struct device_attribute dev_attr_ana_grpid;
- extern struct device_attribute dev_attr_ana_state;
-+extern struct device_attribute dev_attr_queue_depth;
- extern struct device_attribute dev_attr_numa_nodes;
- extern struct device_attribute subsys_attr_iopolicy;
- 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 5a5ee0beb166..498659efacba 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -258,6 +258,7 @@ static struct attribute *nvme_ns_attrs[] = {
- #ifdef CONFIG_NVME_MULTIPATH
- 	&dev_attr_ana_grpid.attr,
- 	&dev_attr_ana_state.attr,
-+	&dev_attr_queue_depth.attr,
- 	&dev_attr_numa_nodes.attr,
- #endif
- 	&dev_attr_io_passthru_err_log_enabled.attr,
-@@ -291,7 +292,7 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 		if (!nvme_ctrl_use_ana(nvme_get_ns_from_dev(dev)->ctrl))
- 			return 0;
- 	}
--	if (a == &dev_attr_numa_nodes.attr) {
-+	if (a == &dev_attr_queue_depth.attr || a == &dev_attr_numa_nodes.attr) {
- 		if (nvme_disk_is_ns_head(dev_to_disk(dev)))
- 			return 0;
- 	}
+Changes since v3:
+    - Protect the namespace dereference code with srcu read lock (Daniel Wagner)
+    - Link to v3: https://lore.kernel.org/all/20240903135228.283820-1-nilay@linux.ibm.com/
+
+Changes since v2:
+    - Use one value per one sysfs attribute (Keith Busch)
+    - Link to v2: https://lore.kernel.org/all/20240809173030.2281021-1-nilay@linux.ibm.com/
+
+Changes since v1:
+    - Use sysfs to export multipath I/O information instead of debugfs
+    - Link to v1: https://lore.kernel.org/all/20240722093124.42581-1-nilay@linux.ibm.com/
+
+Nilay Shroff (3):
+  nvme-multipath: Add visibility for round-robin io-policy
+  nvme-multipath: Add visibility for numa io-policy
+  nvme-multipath: Add visibility for queue-depth io-policy
+
+ drivers/nvme/host/core.c      |   3 +
+ drivers/nvme/host/multipath.c | 138 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  20 ++++-
+ drivers/nvme/host/sysfs.c     |  20 +++++
+ 4 files changed, 177 insertions(+), 4 deletions(-)
+
 -- 
 2.47.1
 
