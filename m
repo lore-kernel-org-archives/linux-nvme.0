@@ -4,91 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B021CE77188
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Jan 2025 12:43:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7E63E7719E
+	for <linux-nvme@archiver.kernel.org>; Sun, 12 Jan 2025 19:08:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BCE3apbBWwTclHfhbRs/RpK2bcl2AXw+Nd7wr8CpAb0=; b=Q3z5TULFfnsiYdbMkMf9ui9Ng/
-	zD296IxEtMg2o9SjasAvetjnWsnn2h8YDCP4VBVg4c1kqesSBYE8FnSy35gdkZoC2SC9Y2Y9HgWV3
-	8I4snETLeZB9F+xGgQF/HuxzebiS2gvKJrFb+atnQcscU1218VwHto6pmPLFBkyQEbmQqcChkM1cC
-	P9aWnkiVImmBgSJVWDEkUKmy/WFbWopeZoGOuHh3K33CoHOJDB4AGMrKMXH+xodspJpHebw5M+BFd
-	ihvys7FkqCsdBqmUSX6P9xKzywbGzWE4g3Qr8JBEAFLhI8p92LyVrlg9QGbWjueVP5YQOZyW6i072
-	X9Fg+LaQ==;
+	bh=4PwwYM4kwyMj45Ww7vsdxgqOaB018jmUnhj7T+KNxpk=; b=CVBxUdSLQMiiw2R11xNaJe/MMF
+	hjZurRech1wHcTm0YazMZbVGqAmqPzrzZIhC4to2Lh8H6tJCINLOYvZsV4i+pWNhpERo15M73DMOX
+	FJro5L9ZI/PQf6nUF0peDAuXMPQj/keUFkpFS17MMRy408b5axcBGozXYQoC04zQGznx+ffZXXEiJ
+	xjGINYIp0BpYkG/YWwTciAp9wTBkS1KkVqeXNdAphn5s6V+zrmhNQur/HfIYU3p8fhpfZOZpeI7Hq
+	bUpcy5lIpLc2c4508j71CccI1HR2tBrOG7u+yI16chau1xVKxusmFToCowdFsibWya18EOKnbiSF2
+	wz/90WJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWxJ1-00000002h1N-2bUF;
-	Sun, 12 Jan 2025 12:43:03 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1tX3K3-00000003J80-0O22;
+	Sun, 12 Jan 2025 19:08:31 +0000
+Received: from mgamail.intel.com ([192.198.163.8])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tWxIE-00000002gq9-20Py
+	id 1tX3Jw-00000003J7a-15Ut
 	for linux-nvme@lists.infradead.org;
-	Sun, 12 Jan 2025 12:42:16 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50C9jCP5032455;
-	Sun, 12 Jan 2025 12:42:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pp1; bh=BCE3apbBWwTclHfhbRs/RpK2bcl2
-	AXw+Nd7wr8CpAb0=; b=Q1Rv8yIoXTwV0pakK0VE0+91s1fBRVPjU2sCWcGRiEtQ
-	E4VPobRZ0QKZT5zvWs+81RakJW6Ew90CGxCaJZ8uWWNuMx50CC7uonjX8r3S6xKy
-	PtafaGPdGFK1l0RnJTpATwD4oXcNULVzVmStmtyt6+i8xJfQs3dNgRC/wd+T1KT8
-	2ESuSNLf8yL0SIu10jlRFRoQjS4+QFVHVrcc5yaaDbYxYWr6n0sOJGKP9Q/e7vt0
-	SQTuRA5/AFSrfeWvJG0a5gNv64/EZS7O8hXoboLBNxbAZ/X4iQYTL1ZU3rr9BgQx
-	LFLheo2pmXr9saOELIz2JVf93iOmVJuLOwUpN6GNBQ==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44467bh2wp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 12 Jan 2025 12:42:00 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50CBYJgY002700;
-	Sun, 12 Jan 2025 12:41:59 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4443bxswm5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 12 Jan 2025 12:41:59 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50CCfvs218612602
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 12 Jan 2025 12:41:57 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 719B12004B;
-	Sun, 12 Jan 2025 12:41:57 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7DEEB20040;
-	Sun, 12 Jan 2025 12:41:55 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.76.196])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sun, 12 Jan 2025 12:41:55 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, sagi@grimberg.me, hch@lst.de, dwagner@suse.de,
-        hare@suse.de, chaitanyak@nvidia.com, axboe@fb.com,
-        gjoyce@linux.ibm.com
-Subject: [PATCHv7 RFC 0/3] Add visibility for native NVMe multipath using sysfs
-Date: Sun, 12 Jan 2025 18:11:43 +0530
-Message-ID: <20250112124154.60690-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.47.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Bu_4CaWfPy001ijVHVRdyxtGqNeIwEpS
-X-Proofpoint-ORIG-GUID: Bu_4CaWfPy001ijVHVRdyxtGqNeIwEpS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=999
- spamscore=0 mlxscore=0 suspectscore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 priorityscore=1501 adultscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501120111
+	Sun, 12 Jan 2025 19:08:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736708904; x=1768244904;
+  h=date:from:to:cc:subject:message-id;
+  bh=NLUz/vQx2x0YldP9AYt2wzjd/0fjB4VuTBIR8zFbOwU=;
+  b=SqFYqiqSE921Qgq/Vx8OrWM4A/MBCzoKQ5afKN9HLszWrLBfc0tD5TzZ
+   IK6SCouVot9P9g2U5GTJbgea7l7uoNbJwIR5Nt7fV5NWpcVhMEHK+UUAA
+   BR/JwVt4HQXx+8aaa7crBdb03jKjVSota5pjBcr+rLPL8/eczmhJuZeyl
+   U+i+QJh2wBZdns4aCLaUw7S0ysdoc2fpl5tPC3CXZjaGRpOvN8ijNpJyZ
+   Ni4MxWmXOmZopxw58V1INlP1VJztDTMOw2tMrOS8Qm6qk4ess0hLIkpy4
+   yHV3/PG35hYzaThlW66HIGrvVPR9v1IU74PX8OiJxaKlWC0BbjACthzmW
+   A==;
+X-CSE-ConnectionGUID: LuBz2mjcSICci1yOQ/2TZQ==
+X-CSE-MsgGUID: +Gz2tHjmQhKjr7+/0RHxLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="54481151"
+X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
+   d="scan'208";a="54481151"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 11:08:19 -0800
+X-CSE-ConnectionGUID: JwvmoHcqReWVe8Vv69aDJw==
+X-CSE-MsgGUID: mjGbDZ7OSPWiw1xch2CpMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,309,1728975600"; 
+   d="scan'208";a="104733759"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 12 Jan 2025 11:08:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tX3Jn-000MJn-2J;
+	Sun, 12 Jan 2025 19:08:15 +0000
+Date: Mon, 13 Jan 2025 03:08:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.14] BUILD SUCCESS
+ 6d84dae9af94be43bb71d24353aef102fd0744da
+Message-ID: <202501130307.UMATTdIs-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250112_044214_566837_76702764 
-X-CRM114-Status: GOOD (  25.37  )
+X-CRM114-CacheID: sfid-20250112_110824_485855_A636BCE9 
+X-CRM114-Status: UNSURE (   4.75  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,201 +83,271 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+tree/branch: git://git.infradead.org/nvme.git nvme-6.14
+branch HEAD: 6d84dae9af94be43bb71d24353aef102fd0744da  nvme-pci: use correct size to free the hmb buffer
 
-This RFC propose adding new sysfs attributes for adding visibility of
-nvme native multipath I/O.
+Warning ids grouped by kconfigs:
 
-The changes are divided into three patches.
-The first patch adds visibility for round-robin io-policy.
-The second patch adds visibility for numa io-policy.
-The third patch adds the visibility for queue-depth io-policy.
+recent_errors
+|-- alpha-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- alpha-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- arc-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- arc-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- arc-randconfig-001-20250112
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- arm-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- arm-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- arm64-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- arm64-randconfig-002-20250112
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- hexagon-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- hexagon-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- i386-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- i386-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- i386-buildonly-randconfig-006-20250112
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- loongarch-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- loongarch-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- loongarch-randconfig-001-20250112
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- m68k-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- m68k-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- microblaze-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- microblaze-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- mips-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- mips-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- openrisc-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- parisc-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- parisc-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- powerpc-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- powerpc-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- riscv-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- riscv-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- s390-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- s390-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- sh-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- sh-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- sparc-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- sparc-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- sparc64-randconfig-001-20250112
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- sparc64-randconfig-002-20250112
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- um-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- um-allyesconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+|-- x86_64-allmodconfig
+|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
+`-- x86_64-allyesconfig
+    |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
+    `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
 
-As we know, NVMe native multipath supports three different io policies
-(numa, round-robin and queue-depth) for selecting I/O path, however, we
-don't have any visibility about which path is being selected by multipath
-code for forwarding I/O. This RFC helps add that visibility by adding new
-sysfs attribute files named "numa_nodes" and "queue_depth" under each
-namespace block device path /sys/block/nvmeXcYnZ/. We also create a
-"multipath" sysfs directory under head disk node and then from this
-directory add a link to each namespace path device this head disk node
-points to.
+elapsed time: 944m
 
-Please find below output generated with this proposed RFC patch applied on
-a system with two multi-controller PCIe NVMe disks attached to it. This
-system is also an NVMf-TCP host which is connected to an NVMf-TCP target
-over two NIC cards. This system has four numa nodes online when the below
-output was captured:
+configs tested: 121
+configs skipped: 3
 
-# cat /sys/devices/system/node/online
-0-3
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-# lscpu
-<snip>
-NUMA:
-  NUMA node(s):           4
-  NUMA node0 CPU(s):
-  NUMA node1 CPU(s):      0-7
-  NUMA node2 CPU(s):      8-31
-  NUMA node3 CPU(s):      32-63
-<snip>
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+alpha                               defconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250112    gcc-13.2.0
+arc                   randconfig-002-20250112    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250112    clang-20
+arm                   randconfig-002-20250112    gcc-14.2.0
+arm                   randconfig-003-20250112    clang-20
+arm                   randconfig-004-20250112    gcc-14.2.0
+arm                           sunxi_defconfig    gcc-14.2.0
+arm                         wpcm450_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250112    gcc-14.2.0
+arm64                 randconfig-002-20250112    clang-17
+arm64                 randconfig-003-20250112    clang-19
+arm64                 randconfig-004-20250112    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250112    gcc-14.2.0
+csky                  randconfig-002-20250112    gcc-14.2.0
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    clang-20
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250112    clang-20
+hexagon               randconfig-002-20250112    clang-20
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250112    gcc-12
+i386        buildonly-randconfig-002-20250112    clang-19
+i386        buildonly-randconfig-003-20250112    clang-19
+i386        buildonly-randconfig-004-20250112    gcc-12
+i386        buildonly-randconfig-005-20250112    gcc-12
+i386        buildonly-randconfig-006-20250112    clang-19
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250112    gcc-14.2.0
+loongarch             randconfig-002-20250112    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                          eyeq6_defconfig    clang-20
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250112    gcc-14.2.0
+nios2                 randconfig-002-20250112    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20250112    gcc-14.2.0
+parisc                randconfig-002-20250112    gcc-14.2.0
+parisc64                         alldefconfig    gcc-14.1.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc               randconfig-001-20250112    clang-20
+powerpc               randconfig-002-20250112    clang-19
+powerpc               randconfig-003-20250112    clang-20
+powerpc                     sequoia_defconfig    clang-17
+powerpc64             randconfig-002-20250112    gcc-14.2.0
+powerpc64             randconfig-003-20250112    clang-19
+riscv                            allmodconfig    clang-20
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-20
+riscv                               defconfig    clang-19
+riscv                 randconfig-001-20250112    clang-20
+riscv                 randconfig-002-20250112    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    clang-15
+s390                  randconfig-001-20250112    clang-16
+s390                  randconfig-002-20250112    clang-18
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-14.2.0
+sh                    randconfig-001-20250112    gcc-14.2.0
+sh                    randconfig-002-20250112    gcc-14.2.0
+sh                           se7343_defconfig    gcc-14.2.0
+sh                           se7722_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250112    gcc-14.2.0
+sparc                 randconfig-002-20250112    gcc-14.2.0
+sparc64                             defconfig    gcc-14.2.0
+sparc64               randconfig-001-20250112    gcc-14.2.0
+sparc64               randconfig-002-20250112    gcc-14.2.0
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-20
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250112    clang-20
+um                    randconfig-002-20250112    clang-20
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250112    gcc-12
+x86_64      buildonly-randconfig-002-20250112    clang-19
+x86_64      buildonly-randconfig-003-20250112    clang-19
+x86_64      buildonly-randconfig-004-20250112    clang-19
+x86_64      buildonly-randconfig-005-20250112    clang-19
+x86_64      buildonly-randconfig-006-20250112    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250112    gcc-14.2.0
+xtensa                randconfig-002-20250112    gcc-14.2.0
 
-Please note that numa node 0 though online, doesn't have any CPU
-currently assigned to it.
-
-# nvme list -v
-Subsystem        Subsystem-NQN                                                                                    Controllers
----------------- ------------------------------------------------------------------------------------------------ ----------------
-nvme-subsys1     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme0, nvme1
-nvme-subsys3     nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1                                                 nvme2, nvme3
-nvme-subsys4     nvmet_subsystem                                                                                  nvme4, nvme5
-
-Device           Cntlid SN                   MN                                       FR       TxPort Address        Slot   Subsystem    Namespaces
----------------- ------ -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
-nvme0    66     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   052e:78:00.0   U50EE.001.WZS000E-P3-C14-R1 nvme-subsys1 nvme1n1
-nvme1    65     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   058e:78:00.0   U50EE.001.WZS000E-P3-C14-R2 nvme-subsys1 nvme1n1
-nvme2    2      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0524:28:00.0   U50EE.001.WZS000E-P3-C4-R1 nvme-subsys3 nvme3n1
-nvme3    1      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0584:28:00.0   U50EE.001.WZS000E-P3-C4-R2 nvme-subsys3 nvme3n1
-nvme4    1      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100        nvme-subsys4 nvme4n1
-nvme5    2      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100        nvme-subsys4 nvme4n1
-
-Device            Generic           NSID       Usage                      Format           Controllers
------------------ ----------------- ---------- -------------------------- ---------------- ----------------
-/dev/nvme1n1 /dev/ng1n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme0, nvme1
-/dev/nvme3n1 /dev/ng3n1   0x2          0.00   B /   5.75  GB      4 KiB +  0 B   nvme2, nvme3
-/dev/nvme4n1 /dev/ng4n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme4, nvme5
-
-
-# nvme show-topology
-nvme-subsys1 - NQN=nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
-               iopolicy=numa
-\
- +- ns 1
- \
-  +- nvme0 pcie 052e:78:00.0 live optimized
-  +- nvme1 pcie 058e:78:00.0 live optimized
-
-nvme-subsys3 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
-               iopolicy=round-robin
-\
- +- ns 2
- \
-  +- nvme2 pcie 0524:28:00.0 live optimized
-  +- nvme3 pcie 0584:28:00.0 live optimized
-
-nvme-subsys4 - NQN=nvmet_subsystem
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
-               iopolicy=queue-depth
-\
- +- ns 1
- \
-  +- nvme4 tcp traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100 live optimized
-  +- nvme5 tcp traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100 live optimized
-
-As we could see above, we've three shared namespaces created. In terms of
-iopolicy, we have "numa" configured for nvme-subsys1, "round-robin"
-configured for nvme-subsys3 and "queue-depth" configured for nvme-subsys4.
-
-Now, under each namespace "head disk node", we create a sysfs group
-attribute named "multipath". The "multipath" group then points to the
-each path this head disk node points to:
-
-# tree /sys/block/nvme1n1/multipath/
-/sys/block/nvme1n1/multipath/
-├── nvme1c0n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme0/nvme1c0n1
-└── nvme1c1n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme1/nvme1c1n1
-
-# tree /sys/block/nvme3n1/multipath/
-/sys/block/nvme3n1/multipath/
-├── nvme3c2n1 -> ../../../../../pci0524:28/0524:28:00.0/nvme/nvme2/nvme3c2n1
-└── nvme3c3n1 -> ../../../../../pci0584:28/0584:28:00.0/nvme/nvme3/nvme3c3n1
-
-# tree /sys/block/nvme4n1/multipath/
-/sys/block/nvme4n1/multipath/
-├── nvme4c4n1 -> ../../../../nvme-fabrics/ctl/nvme4/nvme4c4n1
-└── nvme4c5n1 -> ../../../../nvme-fabrics/ctl/nvme5/nvme4c5n1
-
-One can easily infer from the above output that for the "round-robin"
-I/O policy, configured under nvme-subsys3, the I/O workload targeted at
-nvme3n1 would toggle across nvme3c2n1 and nvme3c3n1 assuming the ana state
-of each path is optimized (as can be seen in the output of show-topology).
-
-For numa I/O policy, configured under nvme-subsys1, the "numa_nodes"
-attribute file shows the numa nodes being preferred by the respective
-namespace path. The numa nodes value is comma delimited list of nodes or
-A-B range of nodes.
-
-# cat  /sys/block/nvme1n1/multipath/nvme1c0n1/numa_nodes
-0-1
-
-# cat  /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes
-2-3
-
-From the above output, one can easily infer that I/O workload targeted at
-nvme1n1 and running on numa nodes 0 and 1 would use path nvme1c0n1.
-Similarly, I/O workload running on numa nodes 2 and 3 would use path
-nvme1c1n1.
-
-For queue-depth I/O policy, configured under nvme-subsys4, the "queue_depth"
-attribute file shows the number of active/in-flight I/O requests currently
-queued for each path.
-
-# cat  /sys/block/nvme4n1/multipath/nvme4c4n1/queue_depth
-518
-
-# cat  /sys/block/nvme4n1/multipath/nvme4c5n1/queue_depth
-504
-
-From the above output, one can easily infer that I/O workload targeted at
-nvme4n1 uses two paths nvme4c4n1 and nvme4c5n1 and the current queue depth
-of each path is 518 and 504 respectively.
-
-Changes since v6:
-    - Fix sysfs link warning menifested while running blktest nvme/058
-	  (Keith Busch, Chaitanya Kulkarni)
-    - Link to v6: https://lore.kernel.org/all/20241213041908.1381196-1-nilay@linux.ibm.com/
-Changes since v5:
-    - Fix typo in the subject line of the first patch in the series (Danied
-      Wagner)
-    - Link to v5: https://lore.kernel.org/all/20241030104156.747675-1-nilay@linux.ibm.com/
-changes since v4:
-    - Ensure that we create sysfs link from head gendisk node to each path
-      device irrespective of the ANA state of the path (Hannes Reinecke)
-    - Split the patch into three patch series and add commentary in the
-      code so that it's easy to read and understand the core logic (Sagi
-      Grimberg)
-    - Don't show any output if user reads "numa_nodes" file and configured
-      iopolicy is anything but numa; similarly don't emit any output if user
-      reads "queue_depth" file and configured iopolicy is anything but
-      queue-depth (Sagi Grimberg)
-    - Link to v4: https://lore.kernel.org/all/20240911062653.1060056-1-nilay@linux.ibm.com/
-
-Changes since v3:
-    - Protect the namespace dereference code with srcu read lock (Daniel Wagner)
-    - Link to v3: https://lore.kernel.org/all/20240903135228.283820-1-nilay@linux.ibm.com/
-
-Changes since v2:
-    - Use one value per one sysfs attribute (Keith Busch)
-    - Link to v2: https://lore.kernel.org/all/20240809173030.2281021-1-nilay@linux.ibm.com/
-
-Changes since v1:
-    - Use sysfs to export multipath I/O information instead of debugfs
-    - Link to v1: https://lore.kernel.org/all/20240722093124.42581-1-nilay@linux.ibm.com/
-
-Nilay Shroff (3):
-  nvme-multipath: Add visibility for round-robin io-policy
-  nvme-multipath: Add visibility for numa io-policy
-  nvme-multipath: Add visibility for queue-depth io-policy
-
- drivers/nvme/host/core.c      |   3 +
- drivers/nvme/host/multipath.c | 138 ++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h      |  20 ++++-
- drivers/nvme/host/sysfs.c     |  20 +++++
- 4 files changed, 177 insertions(+), 4 deletions(-)
-
--- 
-2.47.1
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
