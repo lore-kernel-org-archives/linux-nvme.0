@@ -4,123 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A773CE7719E
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jan 2025 07:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9ECEE7719E
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jan 2025 07:23:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZEbXcZ9FxU3Bzk1bmtL3avw4j+KWudt6f1gRaHYmg5Q=; b=JwX1OohNE07DLX1eO+GhDTzCEX
-	FDuDXIpYJQjPpdtMw7hOeWkWZ/+Ym0ksVMim+sFYAtqAL/rFnrX/mjdr2EbRyylDplB0Ytdb+pFY9
-	VkwqIR+eActVusTXAQcR0Z/vMwiaOmLkIBdAoVkfho9mlzgEUgkbs8uYyVV/gRE4Ee153x4nY9UUI
-	OlKk68583S7GPn+PqPZM3CK+0XvmFniOKmDzTXAPNe8VVJUrf7sCBYUD1YESqIgtI692dvlPoyx4C
-	MEB5RkZuEAJ6hbuO6oM3/7zE6Y4LSZEtp4q5GBOQbrzO70byfVBzTUNdZyKdpcahgL3w+xnRJ8gBt
-	Lu2mGz8g==;
+	bh=QOFqz/OKng2mpmOdlz3ZYXHYAZbTaDBWXmGjJpAHPYw=; b=TW9Jn9jYZSZFgXebUGVrxz8T47
+	NVgrMVLrntcERgP9VCiVHdGBlN5InENYleO5zL0coCXNIixXxTP9eZ/Aq4y58j8rmyHp8g0swPePH
+	1yNeJfJV1z6ikO0LBW+tCQ3G5ncJxg60afi1d6BFKiC6xjGMDEdCJfmTuFYXoYUXw7I/jhLhCvE67
+	BDvPKy4sfWJr4ug1QDlvSr7Pui9NxtFsVmkjD2V+JqSaKvRTg/LE0AKXrAqr1vIvnh8bzDAZd7u6j
+	CZdc+O6QL5oSMo7aW9Z8OExlvASZF6OfNNoJTD+FNznjs0FsWhd+6pTUAji2OYDnzLwU3/GdqkTAo
+	9qibdymg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXElA-00000004Eae-4BoU;
-	Mon, 13 Jan 2025 07:21:17 +0000
+	id 1tXEnf-00000004EpN-3Kcc;
+	Mon, 13 Jan 2025 07:23:51 +0000
 Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXEkv-00000004EYB-1Dvc
+	id 1tXEnd-00000004Eot-27uL
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Jan 2025 07:21:02 +0000
+	Mon, 13 Jan 2025 07:23:50 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B369F1F37C;
-	Mon, 13 Jan 2025 07:20:58 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 34D531F37E;
+	Mon, 13 Jan 2025 07:23:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736752860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1736753028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZEbXcZ9FxU3Bzk1bmtL3avw4j+KWudt6f1gRaHYmg5Q=;
-	b=PZUS77tyQYwRnu51vZOKBXdK4rlU4q1hpLT9lqdouVhCsk+JzZcf1xBbGfVWob7RQ0J8cN
-	86tPfg+LekyxIogIK0hNKSHBn3jbv6WqRt77RD6CgspQ+My/6iQ38Od1X0dFJbaYCXUDuj
-	qTH5iJuT3Fm937u/u8JS/EokyK8Gg/Y=
+	bh=QOFqz/OKng2mpmOdlz3ZYXHYAZbTaDBWXmGjJpAHPYw=;
+	b=lkTXapxiIVqQs1YI2goF8aDH00o7PIcWE0bGwZ50ndhwENaC6zRSo+ihqH+fxB0R9yva89
+	pToKrgPX7G8x6pZduTG0iCTtgKRfOEs89swUzChq4dO10MBpo1R3DXXPH4XbDJS6sJIqPD
+	8rjsMlwG5a0VXWYKUdZsdUHEy9sY45M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736752860;
+	s=susede2_ed25519; t=1736753028;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZEbXcZ9FxU3Bzk1bmtL3avw4j+KWudt6f1gRaHYmg5Q=;
-	b=8SuTSKBJPk5fwEiApCx9Eqjh7ZqauNIoUibzOwttCsx0JUg/QzjfC3jrk8luPYaEqfU3kv
-	SBFif2m7vfHwjvCg==
+	bh=QOFqz/OKng2mpmOdlz3ZYXHYAZbTaDBWXmGjJpAHPYw=;
+	b=ZdhKumHeChZskj7AUIoUkduA6lJsvZj0E2yFD2XaOFDS4G6ls1ye4tk3vP74BUBsMhb5np
+	b02960EXrM3SxjDQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736752858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1736753027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZEbXcZ9FxU3Bzk1bmtL3avw4j+KWudt6f1gRaHYmg5Q=;
-	b=MjtXgVxq1OtTPfOK7Yma44e60zsgNZ8+Gdfv11J/rbGVbuHUJQRIJCMmPHnQYwojIdjM6m
-	mmWDBdaKMzUInGUKoJwHOKUrVQmTAc+MJHyaXCBfYSY0YGbQPDWPkdvkvcLSYK90Iv/jX2
-	lxG6WvIJYq3mkn8ka+YLurusyOrSBxQ=
+	bh=QOFqz/OKng2mpmOdlz3ZYXHYAZbTaDBWXmGjJpAHPYw=;
+	b=RyoHyhaa6rlH2NTed3hBG6l1xVfWW7iUNksG4xyaMRK0f0ss7ykhP+pA+jLz7/T8DtjsvC
+	kaJMBhVAMpYvfZwVK+VyeP51e2qWQonsVYs40uzyf2WMg9+UlNJTl+MYEPSkgWWHJxRVDd
+	vgdliXaq4IkdaWMM8NJfCPXV+o9Eb8A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736752858;
+	s=susede2_ed25519; t=1736753027;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZEbXcZ9FxU3Bzk1bmtL3avw4j+KWudt6f1gRaHYmg5Q=;
-	b=M9wkXZbberAdazkx/1bXDdLQznZ3lHGMnegB/DBFvw9x/jSt8jdgzG2ptRSPCwTudWg0Ku
-	na7jC8ZS2PfXUNDQ==
+	bh=QOFqz/OKng2mpmOdlz3ZYXHYAZbTaDBWXmGjJpAHPYw=;
+	b=x5o7pwdFEU3QNumAt/TGArffyH0YVsbkdbbpzEEUu17zfEIYuT2nnzBvSBdVVZ0RL/dxOu
+	iMoNwNtfCJips8DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4679713310;
-	Mon, 13 Jan 2025 07:20:58 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7721813310;
+	Mon, 13 Jan 2025 07:23:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1/ZsD9q+hGcZLQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 13 Jan 2025 07:20:58 +0000
-Message-ID: <15cb40c2-df67-423d-a15c-c55e2bb2b8a9@suse.de>
-Date: Mon, 13 Jan 2025 08:20:57 +0100
+	id mAe4FoK/hGfZLQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 13 Jan 2025 07:23:46 +0000
+Message-ID: <4f63b30e-54cd-4776-aeef-5257b66d9e80@suse.de>
+Date: Mon, 13 Jan 2025 08:23:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/10] block: add a queue_limits_commit_update_frozen
- helper
+Subject: Re: [PATCH 03/10] block: don't update BLK_FEAT_POLL in
+ __blk_mq_update_nr_hw_queues
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: Damien Le Moal <dlemoal@kernel.org>, Ming Lei <ming.lei@redhat.com>,
  Nilay Shroff <nilay@linux.ibm.com>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, nbd@other.debian.org,
  linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
 References: <20250108092520.1325324-1-hch@lst.de>
- <20250108092520.1325324-3-hch@lst.de>
+ <20250108092520.1325324-4-hch@lst.de>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250108092520.1325324-3-hch@lst.de>
+In-Reply-To: <20250108092520.1325324-4-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,lst.de:email,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250112_232101_484294_5844A1A0 
-X-CRM114-Status: GOOD (  11.54  )
+X-CRM114-CacheID: sfid-20250112_232349_696017_960B7471 
+X-CRM114-Status: GOOD (  14.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,23 +135,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/8/25 10:24, Christoph Hellwig wrote:
-> Add a helper that freezes the queue, updates the queue limits and
-> unfreezes the queue and convert all open coded versions of that to the
-> new helper.
+On 1/8/25 10:25, Christoph Hellwig wrote:
+> When __blk_mq_update_nr_hw_queues changes the number of tag sets, it
+> might have to disable poll queues.  Currently it does so by adjusting
+> the BLK_FEAT_POLL, which is a bit against the intent of features that
+> describe hardware / driver capabilities, but more importantly causes
+> nasty lock order problems with the broadly held freeze when updating the
+> number of hardware queues and the limits lock.  Fix this by leaving
+> BLK_FEAT_POLL alone, and instead check for the number of poll queues in
+> the bio submission and poll handlers.  While this adds extra work to the
+> fast path, the variables are in cache lines used by these operations
+> anyway, so it should be cheap enough.
 > 
+> Fixes: 8023e144f9d6 ("block: move the poll flag to queue_limits")
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-> Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
 > ---
->   block/blk-integrity.c      |  4 +---
->   block/blk-settings.c       | 24 ++++++++++++++++++++++++
->   block/blk-zoned.c          |  7 +------
->   drivers/block/virtio_blk.c |  4 +---
->   drivers/scsi/sd.c          | 17 +++++------------
->   drivers/scsi/sr.c          |  5 +----
->   include/linux/blkdev.h     |  2 ++
->   7 files changed, 35 insertions(+), 28 deletions(-)
+>   block/blk-core.c  | 17 ++++++++++++++---
+>   block/blk-mq.c    | 17 +----------------
+>   block/blk-sysfs.c |  6 +++++-
+>   block/blk.h       |  1 +
+>   4 files changed, 21 insertions(+), 20 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
