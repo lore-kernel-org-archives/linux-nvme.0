@@ -4,76 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40174E77188
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jan 2025 08:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F462E77188
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Jan 2025 15:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bPtE9uMv30rB1bHKR/a/9JJ7OoHjPuvqUCk6S++rXK0=; b=Tv7mRBlVSfFzyYglUKULeqWq3f
-	HtlinZ1m4Gvfy/gfJsHqUFyAm8ReiEHxUZHl3506nAQkUkrnZPCPgKfJ9KZAf9juwiYwrxD6DIag+
-	ft+mJOoG1VrZ56sKe59WEj9cdmC+YzHHHIuB1E9SUCE1izu8LcdS1o3fL6VbeparPPH0jGbFmFSED
-	XYVtNYdRBqtWS2vjIMDU2AXp9WBsQ0FX9d+E0Hr7fDw0VfY1aqxw+yV2ng9WRT2nQbzl85C79fT0n
-	oxoYkywH5HtSQomS2iWIPEl8Wyv2o2zQimRWMYE3130s+raaKTod/joUmxkg3cW7BF4Xb3yvPkFsM
-	NhYGFjHg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=sbVspRvH31NJw2zaJPLrPbTLMZJLdpt7JRBsUIzeJiI=; b=e+Pf4YEUO+QkPqJh/BjoXVhtnF
+	5O8ZnxTwvieh3cIywCITGBjwtuoQoe1e8+sI9SAgOxWIPK4599it7J6MI8IMpIU3t7zx7BrFPhDU5
+	CjMH106c40Lj15OJQv+ytA8WEGFFs+gW05mVVoG2C+490hzV5j9K+KgrBWCCJH8ourTZWrz6fh/7G
+	8J58T3q35ZlUwbjO8OTQDR6sgviOoXmE7P3Zs80YnnaaG2KtXnoNUlT1P3PGrHB+ptn3FATGipQl8
+	zQQcOsp19tvGZViwmOkxSQnq9BXNuW5as68Z6Db6T1t24NhPU5xj66GdxlM4EZZz6dTvTizCCQoIK
+	j7lW4ODw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXcRv-00000007qfg-0ylT;
-	Tue, 14 Jan 2025 08:38:59 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tXiyc-00000008sgH-0o9M;
+	Tue, 14 Jan 2025 15:37:10 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXcRs-00000007qdO-0sDp
+	id 1tXiyZ-00000008sfj-2D1U
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Jan 2025 08:38:57 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id AA9D7A40DCD;
-	Tue, 14 Jan 2025 08:37:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3272C4CEDD;
-	Tue, 14 Jan 2025 08:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736843934;
-	bh=WCmlIJb/eJ3RtRwBL0vbXX0Y9UrynyAEdph0c+wowPY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ssv9xXhOL7JbMMQrzlaq27YWcIfBrJoOCeudEXG9TZo+CTwB4dvd5GSjmpavw7e45
-	 mnFmWBsl8OxWd53GB8Ai3qRopj9qNOYzrIKnjN918usYV953p8Z71j8T9h8bRRgd80
-	 mbGV/Q9H0WnXVRuMYHxZFQGgigZ6wJf8UrCX5GqCfJBdnZINfpgPJQrTxLzhlJg07Y
-	 BIQWvXINHA2mvOIkrZyZDtdpZqKLm7qpvrTk+kx7XKDDXEu0pCnY7dzHvA1pZbR8yv
-	 o9iPi8YszEl9iejfRQW/qe5KSfvou9DSiPIxxOEteYKg009tI7JHlqlu+nZukZHN0U
-	 oaCRxAZ2exYjA==
-Date: Tue, 14 Jan 2025 10:38:47 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v5 00/17] Provide a new two step DMA mapping API
-Message-ID: <20250114083847.GE3146852@unreal>
-References: <cover.1734436840.git.leon@kernel.org>
+	Tue, 14 Jan 2025 15:37:08 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EFYuIE006351
+	for <linux-nvme@lists.infradead.org>; Tue, 14 Jan 2025 07:37:06 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2021-q4; bh=sbVspRvH31NJw2zaJP
+	LrPbTLMZJLdpt7JRBsUIzeJiI=; b=GMzhBEigDhOSNhVJxo8mMi8U22Vcz2k6z6
+	AHTbb00zGpVkiEWHtdSbiN0oBbki3kqv7mVMDSh5PXbxhmboOoAvRdJbaQrcsbji
+	wdzkxzL0VGnxkv/sHugZJ/nUE+pkjqTITfg5to7hdHoMondmwDvLqFBjO1p7BZPg
+	Dri+x4tdtXujLfKuSXW14UsnfD5q0LsOOw4kzbRZCoZzUy0vEQHVTSbibfPPjYfx
+	xmCwo/k43EYPWR0I9IyOuCBVhTrPAHPTeZD3YKZwLO/QvpoalCzMwbMLNnFanXrz
+	2/laaVt8bajfNW0GT1izFpnpEN4NEb8GpDXm0Y1IPNmuNNsf1YKA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 445sgn8k35-4
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 14 Jan 2025 07:37:06 -0800 (PST)
+Received: from twshared18153.09.ash9.facebook.com (2620:10d:c0a8:1b::8e35) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.14; Tue, 14 Jan 2025 15:37:03 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id A890416E36A99; Tue, 14 Jan 2025 07:36:54 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <axboe@kernel.dk>
+CC: <hch@lst.de>, <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+        kernel
+ test robot <lkp@intel.com>,
+        Guixin Liu <kanie@linux.alibaba.com>
+Subject: [PATCH] nvmet: fix rw control endian access
+Date: Tue, 14 Jan 2025 07:36:53 -0800
+Message-ID: <20250114153653.797604-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1734436840.git.leon@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: lA132biyQG9LuWE5cGVNM8EL9pvazmpd
+X-Proofpoint-ORIG-GUID: lA132biyQG9LuWE5cGVNM8EL9pvazmpd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250114_003856_373980_118FE33C 
-X-CRM114-Status: GOOD (  16.81  )
+X-CRM114-CacheID: sfid-20250114_073707_643615_15AC0E88 
+X-CRM114-Status: GOOD (  10.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,66 +85,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 17, 2024 at 03:00:18PM +0200, Leon Romanovsky wrote:
-> Changelog:
+From: Keith Busch <kbusch@kernel.org>
 
-<...>
+Fixes: 3ec5c62cfcf060e ("nvmet: handle rw's limited retry flag")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202501142128.WexgyMTv-lkp@i=
+ntel.com/
+Cc: Guixin Liu <kanie@linux.alibaba.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/target/io-cmd-bdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Christoph Hellwig (6):
->   PCI/P2PDMA: Refactor the p2pdma mapping helpers
->   dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
->   iommu: generalize the batched sync after map interface
->   iommu/dma: Factor out a iommu_dma_map_swiotlb helper
->   dma-mapping: add a dma_need_unmap helper
->   docs: core-api: document the IOVA-based API
-> 
-> Leon Romanovsky (11):
->   iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
->   dma-mapping: Provide an interface to allow allocate IOVA
->   dma-mapping: Implement link/unlink ranges API
->   mm/hmm: let users to tag specific PFN with DMA mapped bit
->   mm/hmm: provide generic DMA managing logic
->   RDMA/umem: Store ODP access mask information in PFN
->   RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
->     linkage
->   RDMA/umem: Separate implicit ODP initialization from explicit ODP
->   vfio/mlx5: Explicitly use number of pages instead of allocated length
->   vfio/mlx5: Rewrite create mkey flow to allow better code reuse
->   vfio/mlx5: Enable the DMA link API
-> 
->  Documentation/core-api/dma-api.rst   |  70 +++++
->  drivers/infiniband/core/umem_odp.c   | 250 +++++----------
->  drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
->  drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
->  drivers/infiniband/hw/mlx5/umr.c     |  12 +-
->  drivers/iommu/dma-iommu.c            | 454 +++++++++++++++++++++++----
->  drivers/iommu/iommu.c                |  84 ++---
->  drivers/pci/p2pdma.c                 |  38 +--
->  drivers/vfio/pci/mlx5/cmd.c          | 376 +++++++++++-----------
->  drivers/vfio/pci/mlx5/cmd.h          |  35 ++-
->  drivers/vfio/pci/mlx5/main.c         |  87 +++--
->  include/linux/dma-map-ops.h          |  54 ----
->  include/linux/dma-mapping.h          |  86 +++++
->  include/linux/hmm-dma.h              |  33 ++
->  include/linux/hmm.h                  |  21 ++
->  include/linux/iommu.h                |   4 +
->  include/linux/pci-p2pdma.h           |  84 +++++
->  include/rdma/ib_umem_odp.h           |  25 +-
->  kernel/dma/direct.c                  |  44 +--
->  kernel/dma/mapping.c                 |  18 ++
->  mm/hmm.c                             | 264 ++++++++++++++--
->  21 files changed, 1423 insertions(+), 693 deletions(-)
->  create mode 100644 include/linux/hmm-dma.h
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-c=
+md-bdev.c
+index 6380b60fd4900..2b09b2c69857a 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -272,7 +272,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *r=
+eq)
+ 		iter_flags =3D SG_MITER_FROM_SG;
+ 	}
+=20
+-	if (req->cmd->rw.control & NVME_RW_LR)
++	if (req->cmd->rw.control & cpu_to_le16(NVME_RW_LR))
+ 		opf |=3D REQ_FAILFAST_DEV;
+=20
+ 	if (is_pci_p2pdma_page(sg_page(req->sg)))
+--=20
+2.43.5
 
-Hi Robin,
-
-Can you please Ack the dma-iommu changes?
-
-Thanks
-
-> 
-> -- 
-> 2.47.0
-> 
-> 
 
