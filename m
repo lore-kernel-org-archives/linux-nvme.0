@@ -4,130 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9369AC02180
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 06:28:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F2D9C02187
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 06:28:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ggG1Vuf9tiZ0JKZNDTMJJvN8O1nAUNZ5coZeOdFCGi0=; b=x3RDwxkHFI9R5pa2AdjXV/rECd
-	szhSZI5XfBQgbMdxe2VCSeWhx8p0XNgvXXemrMsmZiiph/2F0CMqR3hzNMdiyxPem3/+4pPCqxCMr
-	z+ne+KP6QtKZLnrMo3FEsd6AYvstmN6p7VUtHZWDQkKyrcerRKxfTCc4adICPAsDy7uuNw3V0WBV1
-	9gFJaK/n58b4vR652o6z9WrCLGETlcraCFHtosoLPrCnli+Z5bdMj8IrVtstC1C3njN5cxWg2f6eV
-	hB/bJSF1FHPrUT0+wWW15Hg5cWEk5PLgeScKuET+LSxNt4E+udQyV4wEtyLSLrP5qCG9mIMB7PtSw
-	PUxrTNcw==;
+	bh=2jBIHZ/hTbaSHFIMylTKG2eusxkqUBnhR1cwydJaFqA=; b=1nhIMMLHsASm5vBB15EkF+Npj+
+	o2EpI7cLVmQaX/jTAl+rwpUwV5rkA7FEnjZGLzSXkU5fsd0hdoNX9Dqs+qF6IRmAiV+lK9yQkf7T7
+	CAsCFEAdHlyTMLZh6Cgy+8HO87zrMI9lg6wYXxtVkEmIOQ8cxs27HGlf6DCwlv4ztI99PNwGcFEGK
+	iNitanrW1uZSnLfmQik+dDHe6J+ZoT+vW2K2rRWCRFWZrw4xazA26RwKr9BO6a2XSbHxxVjHJ443L
+	U3uHQUFDWzEBisIsqGOZCZAVAp+kxbSLTOJBGnAtwGX2T2oHOX7HnAoPMLTdSniKlk33f6NgB0S/v
+	tk4UvdVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXwtO-0000000AmsZ-1w7B;
-	Wed, 15 Jan 2025 06:28:42 +0000
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33])
+	id 1tXwtQ-0000000Amvq-2d2T;
+	Wed, 15 Jan 2025 06:28:44 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXuEk-0000000AWcX-2KYz
+	id 1tXwrK-0000000AmHp-1xnv
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jan 2025 03:38:35 +0000
-Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-e573136107bso7889786276.3
-        for <linux-nvme@lists.infradead.org>; Tue, 14 Jan 2025 19:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736912313; x=1737517113; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ggG1Vuf9tiZ0JKZNDTMJJvN8O1nAUNZ5coZeOdFCGi0=;
-        b=Qs8B8VtRv7o1eP/nXie8gFVQydI7ofaS8XZ+M1e11kI7a47gMFR911IH9NKvPaV/co
-         3r8//Td682g6vWBeZWn3uA4Yp08l2CmQskImNYo9jp2LcRmSqPKdodorYDkZH6DGV29N
-         iis489tkxx74d+2qkgUFYywglhMJY2wDODVQjg7tuXt5h+FjBj0rUHd0TBil9evp/bd5
-         gfdEf7YCTC3mCf68e/AkIxahUXx/QxJzhxyvQp/AJ+S25IeCwvF0YzA37ra3TAgTNJBm
-         K3SyqVUdHczmtBMekW0NhSi27Lqqe+I/f8HnT8vf/SY2N7z20G6XlBi+0SQOBxpJc1NF
-         gPbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736912313; x=1737517113;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ggG1Vuf9tiZ0JKZNDTMJJvN8O1nAUNZ5coZeOdFCGi0=;
-        b=tRR7eCukMGIYhwUudtiiCSu3/b+ejGdXIn/gxiD3/PWccGXuFX1UpGU0yQaDAkj03h
-         hfHCnrPqYSiqBfrqdZ6AzZmHl3rWie4QdoLQiYrZdiOejcDk7DUQ7YcgBZAUkHw4AoHT
-         ynN+FnmQbBQVlZ/0P0PHhkhprpZBIhxJ+7edsn8B9n3dIrUAN4vNLNJhuYr89VuqoRrL
-         P7HEJySbNVD6w3qb/sB35+d9paVcng5b+NFIZ3Mr+rZmtXu/3q8gVPragsz9jUHN+Smh
-         E5F9xxmeTGMmbqzsP2oV5Kv8J1N9iu8A66UAma7q0D7Bk3KYX/xsaVhQ+7WOoIrIa+en
-         q6ew==
-X-Forwarded-Encrypted: i=1; AJvYcCVY5zhVnR6XL8KFJYUfB4H1BbK5Vzv5rtq1I1BaW4cxJTdPOtXWnoeDArmIYVbeLM6rGvog6AANypmI@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzm8AQLZ2K7tdlU+EFq3JCKkQexJ8SfpguBBF+pcfuWk4I+lGmT
-	oiPFooIdP97C7uPwxKp+j/TEXrjkSNmSTK91zpKfuIgCq0+QDJFs
-X-Gm-Gg: ASbGncuR2r1H7fBPe51wAXwQQJnah3q/bWnWKcAylvM2bXSqksaPQQhtppXqAn7IF8N
-	+a0uBHwf5qVLsYnr+hboCGnd91+BdE81cQKr+K2l21TGFML3KWWrysvPWE5zzLyOI3skQlJGL6G
-	Vl/rCFrHxia8ayfykoBunJAAz8AvAft9qs/S42J61EWJabY/jc5ROXVSZQYgHfPT3Fdw4VaCid9
-	9uYnd/KUhy6ywZ/RA8dhvdiFe0i7nld+/2v9+p75tXCrxHQ5VBNiRhj
-X-Google-Smtp-Source: AGHT+IGcxF5UAr9VMjmEWcxKQm1jPE9VpwQlX4HhGZHkGGwOlZgKnKfAZqEBywSv8uk39tmS/FGABQ==
-X-Received: by 2002:a05:690c:62ca:b0:6ef:7d51:eba6 with SMTP id 00721157ae682-6f5312a8384mr216747977b3.28.1736912312722;
-        Tue, 14 Jan 2025 19:38:32 -0800 (PST)
-Received: from localhost ([2601:347:100:5ea0:e12f:d330:c8d6:a6b7])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f546dd712esm23854477b3.79.2025.01.14.19.38.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 19:38:31 -0800 (PST)
-Date: Tue, 14 Jan 2025 22:38:30 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-crypto@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Rick Lindsley <ricklind@linux.ibm.com>,
-	Nick Child <nnac123@linux.ibm.com>,
-	Thomas Falcon <tlfalcon@linux.ibm.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	James Smart <james.smart@broadcom.com>,
-	Dick Kennedy <dick.kennedy@broadcom.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Matt Wu <wuqiang.matt@bytedance.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Daniel Jordan <daniel.m.jordan@oracle.com>,
+	Wed, 15 Jan 2025 06:26:35 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A1F9068B05; Wed, 15 Jan 2025 07:26:28 +0100 (CET)
+Date: Wed, 15 Jan 2025 07:26:28 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Greg Kurz <groug@kaod.org>, Peter Xu <peterx@redhat.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Hendrik Brueckner <brueckner@linux.ibm.com>
-Subject: Re: [PATCH 06/14] cpumask: re-introduce cpumask_next{,_and}_wrap()
-Message-ID: <Z4cttq0dfHnapkUI@thinkpad>
-References: <20241228184949.31582-1-yury.norov@gmail.com>
- <20241228184949.31582-7-yury.norov@gmail.com>
- <Z30r/6S8VBU8/Ml5@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v5 07/17] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20250115062628.GA29782@lst.de>
+References: <cover.1734436840.git.leon@kernel.org> <fa43307222f263e65ae0a84c303150def15e2c77.1734436840.git.leon@kernel.org> <ad2312e0-10d5-467a-be5e-75e80805b311@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z30r/6S8VBU8/Ml5@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+In-Reply-To: <ad2312e0-10d5-467a-be5e-75e80805b311@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250114_193834_596823_8901685C 
-X-CRM114-Status: GOOD (  32.61  )
+X-CRM114-CacheID: sfid-20250114_222634_791819_00060C23 
+X-CRM114-Status: GOOD (  30.10  )
 X-Mailman-Approved-At: Tue, 14 Jan 2025 22:28:41 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -143,89 +79,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 07, 2025 at 02:28:31PM +0100, Alexander Gordeev wrote:
-> On Sat, Dec 28, 2024 at 10:49:38AM -0800, Yury Norov wrote:
-> 
-> Hi Yury,
-> 
-> > cpumask_next_wrap_old() has two additional parameters, comparing to it's
-> > analogue in linux/find.h find_next_bit_wrap(). The reason for that is
-> > historical.
-> > 
-> > Before 4fe49b3b97c262 ("lib/bitmap: introduce for_each_set_bit_wrap()
-> > macro"), cpumask_next_wrap() was used to implement for_each_cpu_wrap()
-> > iterator. Now that the iterator is an alias to generic
-> > for_each_set_bit_wrap(), the additional parameters aren't used and may
-> > confuse readers.
-> > 
-> > All existing users call cpumask_next_wrap() in a way that makes it
-> > possible to turn it to straight and simple alias to find_next_bit_wrap().
-> > 
-> > In a couple places kernel users opencode missing cpumask_next_and_wrap().
-> > Add it as well.
-> > 
-> > Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> > ---
-> >  include/linux/cpumask.h | 37 +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 37 insertions(+)
-> > 
-> > diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> > index b267a4f6a917..18c9908d50c4 100644
-> > --- a/include/linux/cpumask.h
-> > +++ b/include/linux/cpumask.h
-> > @@ -284,6 +284,43 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
-> >  		small_cpumask_bits, n + 1);
-> >  }
-> >  
-> > +/**
-> > + * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
-> > + *			   @n and wrapping around, if needed
-> > + * @n: the cpu prior to the place to search (i.e. return will be > @n)
-> > + * @src1p: the first cpumask pointer
-> > + * @src2p: the second cpumask pointer
-> > + *
-> > + * Return: >= nr_cpu_ids if no further cpus set in both.
-> > + */
-> > +static __always_inline
-> > +unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
-> > +			      const struct cpumask *src2p)
-> > +{
-> > +	/* -1 is a legal arg here. */
-> > +	if (n != -1)
-> > +		cpumask_check(n);
-> > +	return find_next_and_bit_wrap(cpumask_bits(src1p), cpumask_bits(src2p),
-> > +		small_cpumask_bits, n + 1);
-> > +}
-> > +
-> > +/*
-> > + * cpumask_next_wrap - get the next cpu in *src, starting from
-> > + *			   @n and wrapping around, if needed
-> 
-> Does it mean the search wraps a cpumask and starts from the beginning
-> if the bit is not found and returns >= nr_cpu_ids if @n crosses itself?
-> 
-> > + * @n: the cpu prior to the place to search
-> > + * @src: cpumask pointer
-> > + *
-> > + * Return: >= nr_cpu_ids if no further cpus set in both.
-> 
-> It looks like Return is a cpumask_next_and_wrap() comment leftover.
-> 
-> > + */
-> > +static __always_inline
-> > +unsigned int cpumask_next_wrap(int n, const struct cpumask *src)
-> > +{
-> > +	/* -1 is a legal arg here. */
-> > +	if (n != -1)
-> > +		cpumask_check(n);
-> > +	return find_next_bit_wrap(cpumask_bits(src), small_cpumask_bits, n + 1);
-> > +}
-> > +
-> >  /**
-> >   * for_each_cpu - iterate over every cpu in a mask
-> >   * @cpu: the (optionally unsigned) integer iterator
-> 
-> Thanks!
+On Tue, Jan 14, 2025 at 08:50:35PM +0000, Robin Murphy wrote:
+>>   EXPORT_SYMBOL_GPL(dma_iova_free);
+>>   +static int __dma_iova_link(struct device *dev, dma_addr_t addr,
+>> +		phys_addr_t phys, size_t size, enum dma_data_direction dir,
+>> +		unsigned long attrs)
+>> +{
+>> +	bool coherent = dev_is_dma_coherent(dev);
+>> +
+>> +	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+>> +		arch_sync_dma_for_device(phys, size, dir);
+>
+> Again, if we're going to pretend to support non-coherent devices, where are 
+> the dma_sync_for_{device,cpu} calls that work for a dma_iova_state? It 
+> can't be the existing dma_sync_single ops since that would require the user 
+> to keep track of every mapping to sync them individually, and the whole 
+> premise is to avoid doing that (not to mention dma-debug wouldn't like it). 
+> Same for anything coherent but SWIOTLB-bounced.
 
-Thanks, I'll update the comments.
+That assumes you actually need to sync them.  Many DMA mapping if not
+most dma mappings are one shots - map and unmap, no sync.  And these
+will work fine here.
+
+But I guess the documentation needs to spell that out.  While I don't
+have a good non-coherent system to test, swiotlb has actually been
+tested with nvme when I implemented this part.
+
+>> +{
+>> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+>> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+>> +	struct iova_domain *iovad = &cookie->iovad;
+>> +	size_t iova_start_pad = iova_offset(iovad, phys);
+>> +	size_t iova_end_pad = iova_offset(iovad, phys + size);
+>
+> "end_pad" implies a length of padding from the unaligned end address to 
+> reach the *next* granule boundary, but it seems this is actually the 
+> unaligned tail length of the data itself. That's what confused me last 
+> time, since in the map path that post-data padding region does matter in 
+> its own right.
+
+Yeah.  Do you have a suggestion for a better name?
+
+>> +		phys_addr_t phys, size_t offset, size_t size,
+>> +		enum dma_data_direction dir, unsigned long attrs)
+>> +{
+>> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+>> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+>> +	struct iova_domain *iovad = &cookie->iovad;
+>> +	size_t iova_start_pad = iova_offset(iovad, phys);
+>> +
+>> +	if (WARN_ON_ONCE(iova_start_pad && offset > 0))
+>
+> "iova_start_pad == 0" still doesn't guarantee that "phys" and "offset" are 
+> appropriately aligned to each other.
+
+>> +	if (dev_use_swiotlb(dev, size, dir) && iova_offset(iovad, phys | size))
+>
+> Again, why are we supporting non-granule-aligned mappings in the middle of 
+> a range when the documentation explicitly says not to?
+
+It's not trying to support that, but checking that this is guaranteed
+to be the last one is harder than handling it like this.  If you have
+a suggestion for better checks that would be very welcome.
+
+>> +		if (!dev_is_dma_coherent(dev) &&
+>> +		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+>> +			arch_sync_dma_for_cpu(phys, len, dir);
+>
+> Hmm, how do attrs even work for a bulk unlink/destroy when the individual 
+> mappings could have been linked with different values?
+
+They shouldn't.  Just like randomly mixing flags doesn't work for the
+existing APIs.
+
+> (So no, irrespective of how conceptually horrid it is, clearly it's not 
+> even functionally viable to open-code abuse of DMA_ATTR_SKIP_CPU_SYNC in 
+> callers to attempt to work around P2P mappings...)
+
+What do you mean with "work around"?  I guess Leon added it to the hmm
+code based on previous feedback, but I still don't think any of our P2P
+infrastructure works reliably with non-coherent devices as
+iommu_dma_map_sg gets this wrong.  So despite the earlier comments I
+suspect this should stick to the state of the art even if that is broken.
+
 
