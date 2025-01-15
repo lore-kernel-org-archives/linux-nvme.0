@@ -4,86 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A718C02185
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 06:38:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5410C02183
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 07:27:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DeeXX8V4qNCj/nNIFb72otntWdvZMUjv7VKrUZtiTyM=; b=hMANMpcMn/NYR4pD1uWmC/Dbi0
-	8k5mKIGgoETB4e7/trgFvp2RfARUWPxNyFuplWUIXvw8kRr3F43KzZLsRCdtsqZPy6U4VKEaz5/PK
-	u4tp/eQqHftTjZT0APOXjevAiB983QT1CFP898Kyi0DfbIXviDadAJ7BPY+otsSFfIOHWeOsBl3vH
-	fnzLOCMUzfYeEvcxpVhnWNNydi4n560dLzocSKJ/nw9jf8RNvl2j3gwpXFzAFGbpH5FRjwlLOdNrZ
-	AtGF2qRwOkHZGu5oa48dp6I74296v//oFWhy5syaP6XQqNujd5rL0Wr45ZHUwJ4ORYhiVtpncBJVs
-	qRR6ScQw==;
+	bh=UEtqWmZnkkmJQ8Gt5KtEQ/SLZwf8ufb8M7nJ1GLm6xY=; b=EyFoiApT1skdSmL65WuQqtJ7ZW
+	rOIWMuJy+j729i4zl+xIhxT7rz9suq98gzEHO/sE54k5JU7ErGTiFxlj4HTkysT8c6A4ujL/TOrWp
+	mVoJ/54hwfZOeWO3M4qIMmTKU6tpX2wYgK59PegfUT/UfLnJLsQ33gutr5rsg6tpRRYplmge9ZHUQ
+	UB0gB42hF6AuPBWumQE+Yu40MvtyIerVUedcKhef+Pk6YayJMqIZreUMG2ku+jgoFaUx0B6nu7XvD
+	0XWXcyVysZc8il56s4wolhD1Eb1MzsoqQSWnbv4NcH9Z+wotalr5F/xHvXzrmzYYn3o37TnkQ8oq7
+	L5LWCPgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXx3G-0000000ApE2-0P4g;
-	Wed, 15 Jan 2025 06:38:54 +0000
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+	id 1tXxoE-0000000AvvX-2Y97;
+	Wed, 15 Jan 2025 07:27:26 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXx2O-0000000Aoy8-2isN
+	id 1tXxoB-0000000Avuc-3qu5
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jan 2025 06:38:01 +0000
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-21675fd60feso139859015ad.2
-        for <linux-nvme@lists.infradead.org>; Tue, 14 Jan 2025 22:37:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736923079; x=1737527879; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DeeXX8V4qNCj/nNIFb72otntWdvZMUjv7VKrUZtiTyM=;
-        b=OcZhxXF6TN0x9IBeLbKad0YJIs2+wrE0Rj4p2DOj/toIO17TsdPaHzQdmKXCJLXoXn
-         FZVqwsZ9FOZKQLPUofauL26o3AkgC8dwtmUc2f8Rx8OZ2x8Qop6UfOsw5/LFdwUTDrcn
-         kcYh451a1gFLBvnfuD62PQ6Oil9glawvjwguj4rlkOfMuq5jT23xw19RPZ+ho+Gi2YBz
-         Qxv/Sl2vUBOH/8brCJhrqXXYYjvAETAWaGuDBda+PL+xvqAQUzibL8qCbwchDZ3DJy1M
-         PEuCmqJVKwIuc6APl7iL2mYq35APBuiCP3VUOaBTJSlejgv1QyTZeguwK9rpSkY404ky
-         FJfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736923079; x=1737527879;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DeeXX8V4qNCj/nNIFb72otntWdvZMUjv7VKrUZtiTyM=;
-        b=wcifIxwL9FJdF9qbHo8QC2svunluxvWuPuPbzrIEH+qA7z4s0XBdr/yU2TvZoYBcaY
-         P6zoP4+S0+/7XyQOaDEuxCG7+JL+9YNmMb08clHlf7PLC+Sem8gUzBXzrYEB12Tj+ll6
-         FSA6HwMWqsL0hTRC1+u4W5EAjZcnsWp+/cgOyU9DkrDBoWCM5jB5K8/nfrHE9OgHLawX
-         hm56XtoL3GsNPUwBwE/6/ebN1pReTkxs2GOT/GM2Bd2Bx6pav6l30ZXMK94p8hho1WgA
-         QIcjrYnTywO9FyrbQR8pj0EFduqE3fQTGty/5eVUMLLzaUUpIs2QlPXUIR4h1mIaRMjG
-         2AkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUOf2mH0AIhjI1qOYpMDQ/MGOfN3PdAN1+ckuexfbxezc1cYj4JRLXSy+bhAkQs2tqXncTOsMBmQI7S@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzlh7qW36QS39OWavk/hbwfsZptSL6YbRFWQgFDqtsETkOt8/EV
-	GrZJf19JkowWm1+smQk6wuSADe5zDyduld9ib372kuuwBjJ2XzS738U3wcFTrUe4DmwCXg1qloj
-	fCpnpOM+5LArvBr+l6ax1wJgEK1M1h4aGA1Y=
-X-Gm-Gg: ASbGnctAftc7wIfBYXw6hNnYGRsNRRi2bvPnj4VEsYoposrUoqF8dtbqwuIC/HEvABz
-	T9qnSMf3uVi88sjp+BP2nhqAbJPILbXluyDDGmpwe1fTjxa6u6hJWLXZ9Uev7q/R2dGTv
-X-Google-Smtp-Source: AGHT+IEtlsZBoTLyH7bctfVhdE3Hgj0ldBoJBXJMa3OO6Cm5zOvn5pt4QNw+F1gkxmQZcLOAvuOEOGIjk+k0xKPLEmw=
-X-Received: by 2002:a17:902:c406:b0:215:3fb9:5201 with SMTP id
- d9443c01a7336-21a83fe4b43mr463249525ad.44.1736923079279; Tue, 14 Jan 2025
- 22:37:59 -0800 (PST)
+	Wed, 15 Jan 2025 07:27:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 15F36A41729;
+	Wed, 15 Jan 2025 07:25:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD41C4CEDF;
+	Wed, 15 Jan 2025 07:27:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736926042;
+	bh=W+JWGoU6jLFwbe+ZoYGQcxjcZ17AGd0C8/odV+o/TLM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PlEsLImCwnYqAoqms0P20DW62uLfIgjKyzptCpjG5UVIUXYCrzVmwk7m0oi/eJDWg
+	 i7D1HOkxJZnKKnh0C+5xD+1X+uFQNGWJ1iZOiw1yU9Qcb7+5dh8ogtNN/k0QCZgCZJ
+	 TyKE1gNFh1Eh9kiL7Z6WnV63cZKl9hwNUc02tBxWp3qPFnFGIDvADP4ssiUBQEzGog
+	 BSgaFn4z3ohejNw+thnAgwWyLPajfW6rH21UYgVzsz5O38cma/CfLRJS2ZPPOsw53e
+	 j7/TVSSizkDLGNS26gONx2q0vAi+LG3NkSnHwl81L1TUxhDeOkKbBvsH1CHdaPabMt
+	 mR77nKXe/gODQ==
+Date: Wed, 15 Jan 2025 09:27:18 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Robin Murphy <robin.murphy@arm.com>, Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v5 07/17] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20250115072718.GJ3146852@unreal>
+References: <cover.1734436840.git.leon@kernel.org>
+ <fa43307222f263e65ae0a84c303150def15e2c77.1734436840.git.leon@kernel.org>
+ <ad2312e0-10d5-467a-be5e-75e80805b311@arm.com>
+ <20250115062628.GA29782@lst.de>
 MIME-Version: 1.0
-References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
- <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de>
- <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info> <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
-In-Reply-To: <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
-From: Bruno Gravato <bgravato@gmail.com>
-Date: Wed, 15 Jan 2025 06:37:42 +0000
-X-Gm-Features: AbW1kvaUsKoAjd4YX0symRsTqpgY7AJbLMSkdBzJvPBjtNC_gann497SFL8XyWQ
-Message-ID: <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-To: Stefan <linux-kernel@simg.de>
-Cc: Keith Busch <kbusch@kernel.org>, bugzilla-daemon@kernel.org, 
-	Adrian Huang <ahuang12@lenovo.com>, 
-	Linux kernel regressions list <regressions@lists.linux.dev>, linux-nvme@lists.infradead.org, 
-	Jens Axboe <axboe@fb.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Thorsten Leemhuis <regressions@leemhuis.info>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250115062628.GA29782@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250114_223800_689665_1C70D314 
-X-CRM114-Status: GOOD (  11.87  )
+X-CRM114-CacheID: sfid-20250114_232724_085164_ECB1F1D4 
+X-CRM114-Status: GOOD (  26.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,46 +91,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I finally got the chance to run some more tests with some interesting
-and unexpected results...
+On Wed, Jan 15, 2025 at 07:26:28AM +0100, Christoph Hellwig wrote:
+> On Tue, Jan 14, 2025 at 08:50:35PM +0000, Robin Murphy wrote:
 
-I put another disk (WD Black SN750) in the main M.2 slot (the
-problematic one), but kept my main disk (Solidigm P44 Pro) in the
-secondary M.2 slot (where it doesn't have any issues).
-I rerun my test: step 1) copy a large number of files to the WD disk
-(main slot), step 2) run btrfs scrub on it and expect some checksum
-errors
-To my surprise there were no errors!
-I tried it twice with different kernels (6.2.6 and 6.11.5) and booting
-from either disk (I have linux installations on both).
-Still no errors.
+<...>
 
-I then removed the Solidigm disk from the secondary and kept the WD
-disk in the main M.2 slot.
-Rerun my tests (on kernel 6.11.5) and bang! btrfs scrub now detected
-quite a few checksum errors!
+> >> +	if (dev_use_swiotlb(dev, size, dir) && iova_offset(iovad, phys | size))
+> >
+> > Again, why are we supporting non-granule-aligned mappings in the middle of 
+> > a range when the documentation explicitly says not to?
+> 
+> It's not trying to support that, but checking that this is guaranteed
+> to be the last one is harder than handling it like this.  If you have
+> a suggestion for better checks that would be very welcome.
+> 
+> >> +		if (!dev_is_dma_coherent(dev) &&
+> >> +		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+> >> +			arch_sync_dma_for_cpu(phys, len, dir);
+> >
+> > Hmm, how do attrs even work for a bulk unlink/destroy when the individual 
+> > mappings could have been linked with different values?
+> 
+> They shouldn't.  Just like randomly mixing flags doesn't work for the
+> existing APIs.
+> 
+> > (So no, irrespective of how conceptually horrid it is, clearly it's not 
+> > even functionally viable to open-code abuse of DMA_ATTR_SKIP_CPU_SYNC in 
+> > callers to attempt to work around P2P mappings...)
+> 
+> What do you mean with "work around"?  I guess Leon added it to the hmm
+> code based on previous feedback, but I still don't think any of our P2P
+> infrastructure works reliably with non-coherent devices as
+> iommu_dma_map_sg gets this wrong.  So despite the earlier comments I
+> suspect this should stick to the state of the art even if that is broken.
 
-I then tried disabling volatile write cache with "nvme set-feature
-/dev/nvme0 -f 6 -v 0"
-"nvme get-feature /dev/nvme0 -f 6" confirmed it was disabled, but
-/sys/block/nvme0n1/queue/fua still showed 1... Was that supposed to
-turn into 0?
+Right, I was asked to set DMA_ATTR_SKIP_CPU_SYNC for PCI_P2PDMA_MAP_THRU_HOST_BRIDGE case.
+...
+  752         case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+  753                 attrs |= DMA_ATTR_SKIP_CPU_SYNC;
+  754                 pfns[idx] |= HMM_PFN_P2PDMA;
+  755                 break;
 
-I re-run my test, but I still got checksum errors on btrfs scrub. So
-disabling volatile write cache (assuming I did it correctly) didn't
-make a difference in my case.
+At this stage, we didn't change DMA/IOMMU previous behaviour and if it
+was broken for certain flows, it stays to be broken after this series
+too.
 
-I put the Solidigm disk back into the secondary slot, booted and rerun
-the test on the WD disk (main slot) just to be triple sure and still
-no errors.
-
-So it looks like the corruption only happens if only the main M.2 slot
-is occupied and the secondary M.2 slot is free.
-With two nvme disks (one on each M.2 slot), there were no errors at all.
-
-Stefan, did you ever try running your tests with 2 nvme disks
-installed on both slots? Or did you use only one slot at a time?
-
-
-Bruno
+Thanks
 
