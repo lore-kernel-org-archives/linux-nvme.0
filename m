@@ -4,84 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10CBFC02185
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 13:02:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B896C02180
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 13:14:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aNFWrOyb6MU5vxCAp0taov7L88Eyn2JokJCp7SE/Zt4=; b=aN5kSaQFZWLMB0Z1YkU9qcAIXL
-	+qii9hQ31cva4G4YRaPxgLAv00TDY281ln16cQFo7Al9EmswZWbFpM5fZEvN+5fKeLG4Mlr5EszsC
-	77g1k8NViZ0B5woZatcxsDionQGzpQwarli7gPx+k5HsH1zMtfKbePlOfB2/UzkQLQZt/ab01Loi5
-	21eSoThr89oZHVuDCh2pJ5p5ibkBJQR/U81Q7DhXbUhqu2AdzrnzK0dGdvziJb7EslqDz0An/pybn
-	/iOp18jp4QkMhW0Yd8AMY+duwzm7j7GOUJN7cfNGwQ6CeKM6DA5QCuB9DUcQR1Lnu7HgIhKAx4Fns
-	r87aqGCQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=A9Nhc81z1QBg0/4jfG0c6X5JbsRpDWcMGWCj2xBov+4=; b=FBmy1YAWAFUxxpSzuEkN5svdSn
+	OFJMwDh9sounQRb6dpn/g+cjfWWgzZJm2W/CP411IQ/zjvpVQ/jM42MFh8/X2rJAZ9GwTxX2kW6kA
+	QmMx1iz+lcDLcJtw5yp5dV/n6nvpP2MNP1wUiLht0j8Aahg3jTGdKoD9KsYaHEQ/J3jZNasjWTVVR
+	TUZuNwBSnl74fij72qM2KvRO7Fi6S8zwYVWq1yLJltG1uP4FKlgvLxjy0VQsMvDrBgHb1iKx+arAL
+	Zysg3XMkl6olskAWZohkw4Q/8csvGKpOZLajqVeKHaXA8R6C7x9m6IaBH8iLjM6PheAwTZwN7eZLX
+	1a6rFBuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tY32X-0000000Buty-3B3S;
-	Wed, 15 Jan 2025 13:02:33 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1tY3ED-0000000Bwcq-3lk7;
+	Wed, 15 Jan 2025 13:14:37 +0000
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tY1wW-0000000BkRC-1ZS1
+	id 1tY3EB-0000000BwcR-3JxK
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jan 2025 11:52:18 +0000
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4YY4975mdsz4f3jks
-	for <linux-nvme@lists.infradead.org>; Wed, 15 Jan 2025 19:51:55 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 085871A10E0
-	for <linux-nvme@lists.infradead.org>; Wed, 15 Jan 2025 19:52:11 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.104.67])
-	by APP4 (Coremail) with SMTP id gCh0CgC3Gl9aoYdnvK0ZBA--.21959S10;
-	Wed, 15 Jan 2025 19:52:10 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	hch@lst.de,
-	tytso@mit.edu,
-	djwong@kernel.org,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	chengzhihao1@huawei.com,
-	yukuai3@huawei.com,
-	yangerkun@huawei.com
-Subject: [RFC PATCH v2 6/8] block: add FALLOC_FL_WRITE_ZEROES support
-Date: Wed, 15 Jan 2025 19:46:35 +0800
-Message-Id: <20250115114637.2705887-7-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20250115114637.2705887-1-yi.zhang@huaweicloud.com>
-References: <20250115114637.2705887-1-yi.zhang@huaweicloud.com>
+	Wed, 15 Jan 2025 13:14:36 +0000
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-2efe25558ddso8366215a91.2
+        for <linux-nvme@lists.infradead.org>; Wed, 15 Jan 2025 05:14:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736946875; x=1737551675; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=A9Nhc81z1QBg0/4jfG0c6X5JbsRpDWcMGWCj2xBov+4=;
+        b=gRrR3T2Y3iEbJEmsv5cqX9mZafNr4w8QkprC5kklxPxPMZar8qhH53/bl4AWXE68ma
+         sSv7gUH8BQMUp1lxIftj8e0JQXy/oTR31PnPIDktQTE6hxQ0EsqotCrDaWmgTLPqrPgo
+         4i4O9XbdfhUVNAhIoBUvkNOP3whcmPi5aCGV2jNjx+UX5kAaVbjpeVp9XjTy4sJxHV2x
+         Qnb3UlyLlVT8As1VCESYRJgGxbmkiPm/BTTIFQpcOsOeECj6lWXYQpmUx/X63gEKULS0
+         wGFufkBgR+4FaN4OYJ+YaQaTGkIeEzEILNcp2JafDg5PkMaqX3iID23mavzqdR9DXeE/
+         XS2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736946875; x=1737551675;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A9Nhc81z1QBg0/4jfG0c6X5JbsRpDWcMGWCj2xBov+4=;
+        b=WZtwkRm4JU31n9n0XMYiUT17CrrDbLQckUNjZb18tJeXPbxSa0rWX8+z2/AfaO5EFH
+         5gLdBAWSVVfbD9+QlDz3tlcqoWD5um75JojSFksL18OuHRynaiEbjtJmKKKfewZX78v0
+         G9DngL2XeIuKTJAM4VbmK7jsainebyxLGkjhIuXY+9IQo7sT98FP0nObEUv+D20CcN+/
+         6/2BWXqfC7hZwgfw8QkDSYfugKVOx/3pYA0hJh6UCImgi7L9JOXwR2zft2JRrFP5kgqn
+         fiisZpV2nhSO2O6w914/VJkppqSgrFTEUgt+awPIhLlCqlY8khDUoBw5kzsV1lb4C6Ew
+         rHig==
+X-Forwarded-Encrypted: i=1; AJvYcCXScVIVuI0JjCtm6zUBm8cHAJvWRRYf3imisOyLSYA7UxiTMj8cjStwysk6RF6bg6MkV2oH0Fve3uFN@lists.infradead.org
+X-Gm-Message-State: AOJu0YyB8WrV2hyZNlBbcowUsFETz6IcgzlzUNAGJVSeR9/qz172z260
+	7gvt00yHtXxZ/F+lcqxr1iPPNsrotV6/XYETw+hfj482i3QbscT1VOh0jdIwo05bP7JaGixZgo+
+	MDT+FJV/siDtLe9gb8jLz+QMEmWk=
+X-Gm-Gg: ASbGnctTzCDmE5y+h5Gb8sSJzgO0+qxHg4eOdFOa8JI0ufVn7aIvBai0919LglgEM0g
+	//9I6VNLjzaUq0CBp033OoXW/RWHORpovtZPRC7dRnwy3ExMYXWoGmRA9l50X2acomkvk
+X-Google-Smtp-Source: AGHT+IGQ0R7x9YXj/h87iEBx+CVBf8QtEg+teUTy3q3W8ZCMxJ01VQONo6Wys+qd9jQey7KW+xhI8Rtvci604JXrJgs=
+X-Received: by 2002:a17:90b:2f4e:b0:2ee:f550:3848 with SMTP id
+ 98e67ed59e1d1-2f548e98ea9mr38312650a91.5.1736946874762; Wed, 15 Jan 2025
+ 05:14:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgC3Gl9aoYdnvK0ZBA--.21959S10
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zry7Wr4xCr18Cw13ury3Arb_yoW8WFykpF
-	WDXF1rJFZ0gas7WF1fCF4q9ryFya1kJrWrGayI9wn5uws3XF97Krn0gF45KryUWFy5Aw4D
-	ZF909ryY93W7ArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-	IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-	kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-	4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
-	daVFxhVjvjDU0xZFpf9x0JUljgxUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
+ <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de>
+ <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info> <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
+ <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com> <6c2a34ac-d158-4109-a166-e6d06cafa360@simg.de>
+In-Reply-To: <6c2a34ac-d158-4109-a166-e6d06cafa360@simg.de>
+From: Bruno Gravato <bgravato@gmail.com>
+Date: Wed, 15 Jan 2025 13:14:18 +0000
+X-Gm-Features: AbW1kvZTTan8HgtPgAtw62bza1hvMNTlO07oElZfaQ_VFWMvcxTcAudnz_hCQFw
+Message-ID: <CAOBLbT9LrqdHQ4-gGkRyB+vU3WnGo8f7X7m2=qK29+x=3QpzPw@mail.gmail.com>
+Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
+ X600M-STX + Ryzen 8700G
+To: Stefan <linux-kernel@simg.de>
+Cc: bugzilla-daemon@kernel.org, Keith Busch <kbusch@kernel.org>, 
+	Adrian Huang <ahuang12@lenovo.com>, 
+	Linux kernel regressions list <regressions@lists.linux.dev>, linux-nvme@lists.infradead.org, 
+	Jens Axboe <axboe@fb.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Thorsten Leemhuis <regressions@leemhuis.info>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250115_035216_758086_7DBFC49E 
-X-CRM114-Status: GOOD (  11.37  )
+X-CRM114-CacheID: sfid-20250115_051435_830513_8322ECA1 
+X-CRM114-Status: GOOD (  17.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,52 +99,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Zhang Yi <yi.zhang@huawei.com>
+On Wed, 15 Jan 2025 at 10:48, Stefan <linux-kernel@simg.de> wrote:
+> > Stefan, did you ever try running your tests with 2 nvme disks
+> > installed on both slots? Or did you use only one slot at a time?
+>
+> No, I only tested these configurations:
+>
+> 1. 1st M.2: Lexar;    2nd M.2: empty
+>     (Easy to reproduce write errors)
+> 2. 1st M.2: Kingsten; 2nd M.2: Lexar
+>     (Difficult to reproduce read errors with 6.1 Kernel, but no issues
+>     with a newer ones within several month of intense use)
+>
+> I'll swap the SSD's soon. Then I will also test other configurations and
+> will try out a third SSD. If I get corruption with other SSD's, I will
+> check which modifications help.
 
-Add support for FALLOC_FL_WRITE_ZEROES. It directly calls
-blkdev_issue_zeroout() with flags set to 0. The underlying process will
-attempt to use the fastest method for issuing zeroes. First, the block
-layer will try to issue a write zeroes command if the storage device
-supports it; if not, it will fall back to issuing zeroed data. Then, the
-storage device driver may attempt to submit an unmap write zero command
-if the device supports it; if not, the driver may fall back to
-submitting a no-unmap write zeroes command.
+So it may be that the reason you no longer had errors in config 2 is
+not because you put a different SSD in the 1st slot, but because you
+now have the 2nd slot also occupied, like me.
 
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- block/fops.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+If yours behaves like mine, I'd expect that if you swap the disks in
+config 2, that you won't have any errors as well...
+I'm very curious to see the result of that test!
 
-diff --git a/block/fops.c b/block/fops.c
-index 13a67940d040..56486de0960b 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -777,7 +777,7 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 
- #define	BLKDEV_FALLOC_FL_SUPPORTED					\
- 		(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |		\
--		 FALLOC_FL_ZERO_RANGE)
-+		 FALLOC_FL_ZERO_RANGE | FALLOC_FL_WRITE_ZEROES)
- 
- static long blkdev_fallocate(struct file *file, int mode, loff_t start,
- 			     loff_t len)
-@@ -836,6 +836,15 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
- 					     len >> SECTOR_SHIFT, GFP_KERNEL,
- 					     BLKDEV_ZERO_NOFALLBACK);
- 		break;
-+	case FALLOC_FL_WRITE_ZEROES:
-+		error = truncate_bdev_range(bdev, file_to_blk_mode(file), start, end);
-+		if (error)
-+			goto fail;
-+
-+		error = blkdev_issue_zeroout(bdev, start >> SECTOR_SHIFT,
-+					     len >> SECTOR_SHIFT, GFP_KERNEL,
-+					     0);
-+		break;
- 	default:
- 		error = -EOPNOTSUPP;
- 	}
--- 
-2.39.2
+Just to recap the results of my tests:
 
+Setup 1
+Main slot: Solidigm
+Secondary slot: (empty)
+Result: BAD - corruption happens
+
+Setup 2
+Main slot: (empty)
+Secondary slot: Solidigm
+Result: GOOD - no corruption
+
+Setup 3
+Main slot: WD
+Secondary slot: (empty)
+Result: BAD - corruption happens
+
+Setup 4
+Main slot: WD
+Secondary slot: Solidigm
+Result: GOOD - no corruption (on either disk)
+
+So, in my case, it looks like the corruption only happens if I have
+only 1 disk installed in the main slot and the secondary slot is
+empty.
+If I have the two slots occupied or only the secondary slot occupied,
+there are no more errors.
+
+
+Bruno
 
