@@ -4,79 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BF8FC02183
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 08:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49D62C02180
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 08:19:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ESjo+RlRvVUNk+hmOGUo1t6i4d8a+/1VNeaK8yB+Zfc=; b=zuUKuqAXRXl8Ezs0vEvcjFnN2Y
-	bmIHvWom+HaXE/DYTvIW39KXulOGZkPwpsVWWrObfR67wXWUa+MsJNV4WEvw+GrvW55GVNk2XyCIj
-	FhjNQeDoU0i2RFvCTKsjKpnBpvDX2XD4ogLcmYlge8pTHVGKHyEotASku8I/DJiZnrH/2KdVqRXW4
-	Tt4SD2+pHrhF6u4mgQd5RvLP7ou91n0nEf6CpMY+RsSPdpVy41g0GYDni9rlyI+4Flx58F77++qFE
-	2eFX94oXgkGSPeMDEyL8i3VQdISDY2j9KeadExJWPsb+3vhCeEsNb51vKepfGh5ByGV8aU5q2EgI1
-	6cw0hWZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2AJ1yM5JJJhLZFyLNUe0DGeTsFSP8SJa+S1NM1KhR4c=; b=TrR/ir9vccXjKPgX0ArMiy17t2
+	6aYva/kJnpVwx+9ZHXKebcLOhK7kakcTcz7mAZmw3iDIfe3i/sJIgUy5nuf8T0kiWB5uaQVGLhKsl
+	tp5jsUdr3AHmm6QijB3z4n9KhabM6qlvBpGy3YYqYbJwP5NzP0EWAeEX50dU5rNgRQLKpFaA0WY6v
+	Ai96MFS2KEZ1M8CgAIomreqAMq7WLokDf1hxrDB8jm/gYZ9RBFxghGdlgkTWpxEOu0KTbeHo2Hs+4
+	A2YBXTU1pVfezjDfnQIPQX9sxmHmQYEbi4pJOiXkftfhKsaOvIhItAHhnBbp3qc1PLh8lF9Mwz4x2
+	DMBqKBSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXyaj-0000000B3rH-3rEs;
-	Wed, 15 Jan 2025 08:17:33 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tXycM-0000000B4Ae-2gPa;
+	Wed, 15 Jan 2025 08:19:14 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXyah-0000000B3pr-2a61
+	id 1tXycK-0000000B4AD-0PSJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jan 2025 08:17:32 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id F3F2A5C5B34;
-	Wed, 15 Jan 2025 08:16:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCD6DC4CEDF;
-	Wed, 15 Jan 2025 08:17:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736929050;
-	bh=Yu7S/jLyUGhfFZjVFlk4eprtZYRxfla2Nw7nZEhy9no=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jtS4YogDlGBJKPE4uxCOLjxH7XCi5QYsOo4leoD+xgmN8tj70qVx5829WIg+sShgX
-	 yiakEsBadvxORmzL2tNvh64PTbxN2Yn7ZjPr4SYb84VfV3NxFD7kGP/KdoZOcX+tov
-	 rQJGthlfV+pWswtBJZw2US2akwQ3E9tQt/jwG/ICtUFlz/2ySVXe68KJv7W8xdw1OU
-	 pIcG2l3K1LSF8572QwfNaFSMofL4ExapBuk12HqOU0whbiq9SaXUul7IQT4rV47kiH
-	 Y6/VezMg1RWwWJ+XN6OfK0HDAZ0irI3FF3+Tw83vfWul8FBVAnUy0tZrZ3zZK1Ybu0
-	 cyRrXOGYV/nDQ==
-Date: Wed, 15 Jan 2025 10:17:26 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v5 05/17] dma-mapping: Provide an interface to allow
- allocate IOVA
-Message-ID: <20250115081726.GK3146852@unreal>
-References: <cover.1734436840.git.leon@kernel.org>
- <fac6bc6fdcf8e13bd5668386d36289ee38a8a95b.1734436840.git.leon@kernel.org>
- <ecb59036-b279-4412-9a09-40e05af3b9ea@arm.com>
+	Wed, 15 Jan 2025 08:19:13 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50ENaP4S010046;
+	Wed, 15 Jan 2025 08:18:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=2AJ1yM
+	5JJJhLZFyLNUe0DGeTsFSP8SJa+S1NM1KhR4c=; b=q+3zP25qAiP4K1n3+1GZhQ
+	XxxRMMN1PFhdhQ9oKv1tfssks40XbE2cQNLvD7GKNPW1t6XEbImXlOspyfvcI1X3
+	C+Zx7KjDf2nRRu3mNjg7fTvkcvlFh9qcnk5grkIowp56d590vDKhU/GMMHffcqBv
+	ow818OsigQ+3jfDUcnIJk6MjUO3YXAj9hYkBuiOOmVdML++PCEV/KMTHcnwsR+hh
+	+IloR2pdtzmwB8yrBkU29fRHXQuulKUyipFbtvTr4Jbo5aS5AYK3U2rO0gl9xYSG
+	MKuML42qDAous0z6z3c2u1C/brwf0w1FrpgIvuBEqkUwT7S+85SSqBeMp0ZDK0vg
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4461rbhn0e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Jan 2025 08:18:58 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50F6DaSr016976;
+	Wed, 15 Jan 2025 08:18:58 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4444fk791g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Jan 2025 08:18:58 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50F8Ivcp9306814
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 15 Jan 2025 08:18:57 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2497C5805C;
+	Wed, 15 Jan 2025 08:18:57 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 61E7458051;
+	Wed, 15 Jan 2025 08:18:55 +0000 (GMT)
+Received: from [9.171.6.63] (unknown [9.171.6.63])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 15 Jan 2025 08:18:55 +0000 (GMT)
+Message-ID: <71a9fc62-c5ca-48fe-8eca-fc0812a769ae@linux.ibm.com>
+Date: Wed, 15 Jan 2025 13:48:54 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ecb59036-b279-4412-9a09-40e05af3b9ea@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: Remove namespace when nvme_identify_ns_descs()
+ failed
+To: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <20241129140608.115282-1-hare@kernel.org>
+ <Z09Y30pUtAg0xwoR@kbusch-mbp> <4ba05af4-9464-4cdf-a306-60585793c46e@suse.de>
+ <Z1CF2vn1_xkNIVAM@kbusch-mbp> <99025917-e201-4ec9-ba04-e979f61c411b@suse.de>
+ <Z1HRkKr5LhfvfLAs@kbusch-mbp.dhcp.thefacebook.com>
+ <c737d451-f8b9-47cc-a411-4b2ed349fab0@suse.de>
+ <97a8263b-1efb-43ce-b6ad-8444cf148346@linux.ibm.com>
+ <f71a0a75-1a79-4d0f-803f-5eb8835252ef@suse.de>
+ <c0f49aed-2f93-4b31-b768-e9e354c98d42@linux.ibm.com>
+ <7aacb2fa-a7b9-4eb2-ad87-bdd24e1cd308@suse.de>
+ <b7f55b77-1bb2-4a0d-8ad9-aa78dae72cf6@linux.ibm.com>
+ <7cd569e6-324a-45bd-b06b-754464806220@suse.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <7cd569e6-324a-45bd-b06b-754464806220@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: a-iwIeZv6s9Ii5ChU7MnL2BL5mb1zwKm
+X-Proofpoint-GUID: a-iwIeZv6s9Ii5ChU7MnL2BL5mb1zwKm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-15_03,2025-01-15_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 adultscore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501150059
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250115_001731_742639_03A5E95C 
-X-CRM114-Status: GOOD (  46.60  )
+X-CRM114-CacheID: sfid-20250115_001912_264349_B897CD7E 
+X-CRM114-Status: GOOD (  24.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,174 +117,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 14, 2025 at 08:50:28PM +0000, Robin Murphy wrote:
-> On 17/12/2024 1:00 pm, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > The existing .map_page() callback provides both allocating of IOVA
-> > and linking DMA pages. That combination works great for most of the
-> > callers who use it in control paths, but is less effective in fast
-> > paths where there may be multiple calls to map_page().
-> > 
-> > These advanced callers already manage their data in some sort of
-> > database and can perform IOVA allocation in advance, leaving range
-> > linkage operation to be in fast path.
-> > 
-> > Provide an interface to allocate/deallocate IOVA and next patch
-> > link/unlink DMA ranges to that specific IOVA.
-> > 
-> > In the new API a DMA mapping transaction is identified by a
-> > struct dma_iova_state, which holds some recomputed information
-> > for the transaction which does not change for each page being
-> > mapped, so add a check if IOVA can be used for the specific
-> > transaction.
-> > 
-> > The API is exported from dma-iommu as it is the only implementation
-> > supported, the namespace is clearly different from iommu_* functions
-> > which are not allowed to be used. This code layout allows us to save
-> > function call per API call used in datapath as well as a lot of boilerplate
-> > code.
-> > 
-> > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >   drivers/iommu/dma-iommu.c   | 74 +++++++++++++++++++++++++++++++++++++
-> >   include/linux/dma-mapping.h | 49 ++++++++++++++++++++++++
-> >   2 files changed, 123 insertions(+)
-> > 
-> > diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> > index 853247c42f7d..5906b47a300c 100644
-> > --- a/drivers/iommu/dma-iommu.c
-> > +++ b/drivers/iommu/dma-iommu.c
-> > @@ -1746,6 +1746,80 @@ size_t iommu_dma_max_mapping_size(struct device *dev)
-> >   	return SIZE_MAX;
-> >   }
-> > +/**
-> > + * dma_iova_try_alloc - Try to allocate an IOVA space
-> > + * @dev: Device to allocate the IOVA space for
-> > + * @state: IOVA state
-> > + * @phys: physical address
-> > + * @size: IOVA size
-> > + *
-> > + * Check if @dev supports the IOVA-based DMA API, and if yes allocate IOVA space
-> > + * for the given base address and size.
-> > + *
-> > + * Note: @phys is only used to calculate the IOVA alignment. Callers that always
-> > + * do PAGE_SIZE aligned transfers can safely pass 0 here.
-> > + *
-> > + * Returns %true if the IOVA-based DMA API can be used and IOVA space has been
-> > + * allocated, or %false if the regular DMA API should be used.
-> > + */
-> > +bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
-> > +		phys_addr_t phys, size_t size)
-> > +{
-> > +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> > +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> > +	struct iova_domain *iovad = &cookie->iovad;
-> > +	size_t iova_off = iova_offset(iovad, phys);
-> > +	dma_addr_t addr;
-> > +
-> > +	memset(state, 0, sizeof(*state));
-> > +	if (!use_dma_iommu(dev))
-> > +		return false;
+
+
+On 1/15/25 1:32 PM, Hannes Reinecke wrote:
+> On 1/15/25 08:48, Nilay Shroff wrote:
+>>
+>>
+>> On 1/13/25 7:59 PM, Hannes Reinecke wrote:
+>>> On 1/13/25 15:12, Nilay Shroff wrote:
+>>>>
+>>>>
+>>>> On 1/13/25 1:13 PM, Hannes Reinecke wrote:
+>>>>> On 1/11/25 15:01, Nilay Shroff wrote:
+>>>>>>
+>>>>>>
+>>> [ .. ]
+>>>>> So my argument is that in this specific case the 'ANA inaccessible' nvme
+>>>>> state should _not_ be retried, but should be treated as identical to
+>>>>> 'invalid namespace' errors.
+>>>>>
+>>>> I think I got what you're trying to propose. So when this issue manifests, on host, if we
+>>>> could possibly differentiate between nvme_identify_ns_descs() failed reasons : is it failed
+>>>> because the nsid has been removed/un-mapped on the target or is it failed due to "ANA inaccessible"
+>>>> state? IMO, for "ANA inaccessible" status, we may not want to immediately remove the ns from
+>>>> the host (due to reason I mentioned earlier per NVMe spec section 8.1.3.3), however for the
+>>>> other error case we may remove the ns from the host.
+>>>> I think issuing ns descriptor list command to target for a nsid which doesn't exist on the
+>>>> target would return buffer filled with all zeros. So that might be an indication that ns has
+>>>> been removed from the target.
+>>>>    
+>>> But only if the NSID has not been remapped in the meantime.
+>>> If it has (as in my case) the ns descriptor list will be valid, it just
+>>> refers to another namespace.
+>>>
+>> If NSID has been unmapped and then remapped on the targer then in that case,
+>> host would hit the mismatch uuid case (under nvme_validate_ns()) and so host
+>> would then remove the namespace.
+>>
+>> I think there are two cases,
+>> Case1:
+>> 1. AEN triggers rescan
+>> 2. List of active nsid is retrieved
+>> -> NSID A is removed on the target
+>> 3. Scanning of NSID A fails (i.e. nvme_identify_ns_descs() returns buffer filled with all zeros)
+>> -> host removes the respective namespace
+>>
+>> Case2:
+>> 1. AEN triggers rescan
+>> 2. List of active nsid is retrieved
+>> -> NSID A is unmapped and remapped (possibly with different uuid) on target
+>> 3. Scanning of NSID A succeed
+>> 4. host finds the mismatch uuid for NSID A (i.e. nvme_validate_ns() fails)
+>> -> host removes the respective namespace
+>>   
+> Entirely correct.
+> But Case2 results in the new namespace never to be scanned, and not visible to the OS. Which is the error I'm fighting with.
 > 
-> Can you guess why that return won't ever be taken?
+Ok but then it seems that your proposed patch doesn't address Case2, isn't it? 
+It appears to me that the patch tries to address Case1 but with error code 
+of "ANA inaccessible and DNR" set. IMO for case2, we may want to schedule 
+queue scan again if nvme_validate_ns() fails due to the mismatch uuid.
 
-I will move references to pointers after this check, but like Christoph
-said, this "if ..." is taken a lot and we didn't see any issues with
-inbox GCC versions.
+Thanks,
+--Nilay
 
-> 
-> > +	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
-> > +	    iommu_deferred_attach(dev, iommu_get_domain_for_dev(dev)))
-> > +		return false;
-> > +
-> > +	if (WARN_ON_ONCE(!size))
-> > +		return false;
-> > +	if (WARN_ON_ONCE(size & DMA_IOVA_USE_SWIOTLB))
-> 
-> This looks weird. Why would a caller ever set an effectively-private flag in
-> the first place? If it's actually supposed to be a maximum size check,
-> please make it look like a maximum size check.
-
-It is in-kernel API and the idea is to warn developers of something that
-is not right and not perform defensive programming by doing size checks.
-
-<...>
-
-> > +/**
-> > + * dma_iova_free - Free an IOVA space
-> > + * @dev: Device to free the IOVA space for
-> > + * @state: IOVA state
-> > + *
-> > + * Undoes a successful dma_try_iova_alloc().
-> > + *
-> > + * Note that all dma_iova_link() calls need to be undone first.  For callers
-> > + * that never call dma_iova_unlink(), dma_iova_destroy() can be used instead
-> > + * which unlinks all ranges and frees the IOVA space in a single efficient
-> > + * operation.
-> 
-> That's only true if they *also* call dma_iova_link() in just the right way
-> too.
-
-We can update the comment section to any wording, feel free to propose.
-
-> 
-> > + */
-> > +void dma_iova_free(struct device *dev, struct dma_iova_state *state)
-> > +{
-> > +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> > +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-> > +	struct iova_domain *iovad = &cookie->iovad;
-> > +	size_t iova_start_pad = iova_offset(iovad, state->addr);
-> > +	size_t size = dma_iova_size(state);
-> > +
-> > +	iommu_dma_free_iova(cookie, state->addr - iova_start_pad,
-> > +			iova_align(iovad, size + iova_start_pad), NULL);
-> > +}
-> > +EXPORT_SYMBOL_GPL(dma_iova_free);
-> > +
-> >   void iommu_setup_dma_ops(struct device *dev)
-> >   {
-> >   	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-> > diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> > index b79925b1c433..55899d65668b 100644
-> > --- a/include/linux/dma-mapping.h
-> > +++ b/include/linux/dma-mapping.h
-> > @@ -7,6 +7,8 @@
-> >   #include <linux/dma-direction.h>
-> >   #include <linux/scatterlist.h>
-> >   #include <linux/bug.h>
-> > +#include <linux/mem_encrypt.h>
-> > +#include <linux/iommu.h>
-> 
-> Why are these being pulled in here?
-
-It is rebase leftover.
-
-> 
-> >   /**
-> >    * List of possible attributes associated with a DMA mapping. The semantics
-> > @@ -72,6 +74,21 @@
-> >   #define DMA_BIT_MASK(n)	(((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-> > +struct dma_iova_state {
-> > +	dma_addr_t addr;
-> > +	size_t __size;
-> > +};
-> > +
-> > +/*
-> > + * Use the high bit to mark if we used swiotlb for one or more ranges.
-> > + */
-> > +#define DMA_IOVA_USE_SWIOTLB		(1ULL << 63)
-> 
-> This will give surprising results for 32-bit size_t (in fact I guess it
-> might fire some build warnings already).
-
-We got none, I will change to u64.
-
-> 
-> Thanks,
-> Robin.
-
-Thanks
 
