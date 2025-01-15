@@ -4,61 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ABD36C02180
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 04:55:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BFDEC02183
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 06:28:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0qlbbBwJzayUamBG16V5o6//ujjqM4UghrZn1gCsl8o=; b=cCzy5MJNJ6LNxdVwUpUTlG80hc
-	/viGKhuvpeXTEMY7F92fFDnDdFtIrWsSRaS5qNccLoAuJqU7obbNx77d1ygg4mBlOjV+yU7a4XfQu
-	SYzQtKZpuaGavEZCamCjrjBdTLBpIYiaY2whp/FxLG2lZyKbpVFL81n2Vv9mcBWJlRissgvZemiXL
-	DD67ckGduqjki3W6f+CM+f/JrqsRYiHmH9N79zpJwU9Llsjfd2ZOzo+SK3ElLSZarWdt3cdifd8QV
-	c80xcmn9q4DtuvopVhlKpJjMMmKug8nBT5iANkZ4gDQ2oZs4+AtvJxFobQjdTDSxjIpJc2j9QzVWK
-	c7Evy//g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UmTK2k4vF2mqctoCssOfytU8KQ/2i1ya8c1dPxSZwZk=; b=Gum2YbqJegtiFg+xfBHYN2IHLp
+	/6Db7SOx4uErA92ZtcQqc66PMzngcyKBAyOVUNFMjqsyEI0M+ti5pq4KrQY79iRMgdAvlar+ud8k1
+	mumMfhP0xpR0Jo+IKHyHNL14duFix6JnwcY+EHJyceX438OEGx6AWH3k5SFYqwurO6V/9Qn1Zw47z
+	cpJQ127D4PNqT0jy3TRsWzZ0qClRcYsl36zD0RcVR24+QwpnE0j96WPkfWUbigrEF0kvREuzdGsWh
+	l+RZs1JhduYv9jk4Va41gcjH3Db1FQLzg5yDf6t222UIBhCs5J+VQSpiZi8dYk010wJm6RlrfFx7w
+	+6rdAwPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXvQs-0000000AdmW-44rN;
-	Wed, 15 Jan 2025 04:55:10 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tXwtP-0000000AmtA-0i01;
+	Wed, 15 Jan 2025 06:28:43 +0000
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXvQq-0000000Adm8-3AEi
+	id 1tXuHB-0000000AXBt-2cbh
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jan 2025 04:55:09 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 59898A4160A;
-	Wed, 15 Jan 2025 04:53:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 679AEC4CEDF;
-	Wed, 15 Jan 2025 04:55:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736916907;
-	bh=+1nQ3hmNjQnaaQcJ8igBWrkFfrTpilYeFBpl5dqRKwk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lk3En1wwpJdK1XiXuc8eZB4GL3FUJxkg/CRrPA6cug9cjscU25tnt+IWCn6VTOhBe
-	 Ncq95BF1+vXNW0LHCXkndG0X7IYHNpVmUbtP+3QU5jxOhWYQHC3+TgL30wyRjyAZot
-	 G66kI6jtfFp5Qefyj4OQK+Ab6wr88EUQGAFwqeRMcSndKN0gf5mF7rTVNU4Ejip2KG
-	 PKt4hcxKVTp1klHdRfjMUOw+K9/huXlERxgmYqOJEK2lbESv3ZCIQ9YqY78jHH7lOb
-	 o9e7huu/FGhp9T6lhQnuOTTXzyfUdczyDpa34Ldf6+nzF0Ve9CZmaMI4F9XyoilbAi
-	 KoCB8xMGbafag==
-Message-ID: <e2d6e6c2-9d37-4be0-a1c0-645231715275@kernel.org>
-Date: Wed, 15 Jan 2025 13:55:05 +0900
+	Wed, 15 Jan 2025 03:41:06 +0000
+Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-e573136107bso7891935276.3
+        for <linux-nvme@lists.infradead.org>; Tue, 14 Jan 2025 19:41:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736912464; x=1737517264; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UmTK2k4vF2mqctoCssOfytU8KQ/2i1ya8c1dPxSZwZk=;
+        b=aW3TUH//dDpTq5oFX7X1CfuAuL5b+5/YmC/BYdW81Pe6tflzq/uMiJOt9W5byuyjmC
+         66mhl40V0oUU1+wcCpJWFBCPQGTD5MllQtceAKBVTglayLFcZZZib5AAceIRsoYw/qb0
+         gAaSpD09Hr7ohPR739n7wZHyRGbdfx1ZKuKHDnLK70Ddj48dzneQRZemwW/ViUDl8YOl
+         I5lKgPhBSbOS5bGsAAMtpFGzJGsL+9IU/aFffFXTPDQYnHr9XjVTvZIFeOku8xvNKdB4
+         t5hnr+v3c0uEKz8Td3vKjTXv164tvLf/GOklTg1R8DhG72j1Dag3F+wHQo03HPybApGB
+         PIfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736912464; x=1737517264;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UmTK2k4vF2mqctoCssOfytU8KQ/2i1ya8c1dPxSZwZk=;
+        b=us41td9XXT02i66Pf7wGA9BJzFzzC/nFa2ytFp4SAJLhpc0R2lAkV04KcOkRNVE8j5
+         zdhX22DnAEloE8S6tF4YuRj0NbuatWiPIz79kK4i0CvxM4PzG1vjLcGXjuhMMGxmb36+
+         I1TNc9M0vmgBhTX5Qt3diS8GfS2TIMrXBu+FXft4+lTZqdwyBSd1mTQTnVI2gjfttghC
+         v0gJKE2B4J65hN9DDiD/r4F6cjN+wAxIFLdgivCjXIfqt71p3/HvNC2SJIP/wkCEpPdz
+         y/TixWnEyQuJBz6mGdYYNUlqGeSyayMai2yJFWybmW3JlxUTGqgDc/pc301MgVOY5O5u
+         DK0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWupxqNftuzM4yv7uVe4/YkGjxdYAGc30wF/DR8G5loaxCfClUZLw5o1//1ZQjRD6kZZwfEbnqQchNg@lists.infradead.org
+X-Gm-Message-State: AOJu0YxzlrnrT506QYqv7G9jal0fZbMPBz/1WRhdd50kLd8xiVGQg/i9
+	m5WSL11oOBlEPhBmLB0mPGRwUdCpWzPmpFY18PPosbl42MGQJAcf
+X-Gm-Gg: ASbGnct0oUG1FHkaMBjGh3tOyVMYFg1FhAewzzDBQglgfMDMbxlpC3nxjRCV84G/1nH
+	cA5QHQkcP91Nc1m4Gj95j9mOcBNjU5Lda7PWCY8j8d+vY7zMK8Vscg0HGPTcg4vfzsB8aEKyfZm
+	75WfueiNOiRArZ1pTSUURxK3+KOUK+rtsdTL0kO2RJzJL/ZpIePV4eSUAdOe0TCar5uJ41nUPkK
+	y+fApvPtgXvPLV14a1P2g18Azkdkolea3io4RxHVMPT5FDVGziwaOYV
+X-Google-Smtp-Source: AGHT+IGlCnPNZfANCVJooif/vwR9Wcfdn14fNs9Squ/CXSzhwHBTvNfC1cp1ga3/es5eAiOB92QKfQ==
+X-Received: by 2002:a05:690c:45c9:b0:6f6:cad6:6b5a with SMTP id 00721157ae682-6f6cad66c84mr8171767b3.13.1736912464441;
+        Tue, 14 Jan 2025 19:41:04 -0800 (PST)
+Received: from localhost ([2601:347:100:5ea0:e12f:d330:c8d6:a6b7])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f6c93732c9sm1796417b3.103.2025.01.14.19.41.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2025 19:41:03 -0800 (PST)
+Date: Tue, 14 Jan 2025 22:41:02 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-crypto@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Haren Myneni <haren@linux.ibm.com>,
+	Rick Lindsley <ricklind@linux.ibm.com>,
+	Nick Child <nnac123@linux.ibm.com>,
+	Thomas Falcon <tlfalcon@linux.ibm.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	James Smart <james.smart@broadcom.com>,
+	Dick Kennedy <dick.kennedy@broadcom.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Matt Wu <wuqiang.matt@bytedance.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Daniel Jordan <daniel.m.jordan@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Greg Kurz <groug@kaod.org>, Peter Xu <peterx@redhat.com>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Hendrik Brueckner <brueckner@linux.ibm.com>
+Subject: Re: [PATCH 06/14] cpumask: re-introduce cpumask_next{,_and}_wrap()
+Message-ID: <Z4cuTsHbO6yiuFKA@thinkpad>
+References: <20241228184949.31582-7-yury.norov@gmail.com>
+ <20250103174432.GA4182129@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: fix compliation errors
-To: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
-References: <20250115034722.145742-1-kch@nvidia.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20250115034722.145742-1-kch@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250103174432.GA4182129@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250114_205508_934878_A77D9F69 
-X-CRM114-Status: GOOD (  23.55  )
+X-CRM114-CacheID: sfid-20250114_194105_661776_FAA2499C 
+X-CRM114-Status: GOOD (  16.59  )
+X-Mailman-Approved-At: Tue, 14 Jan 2025 22:28:41 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,151 +143,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/15/25 12:47, Chaitanya Kulkarni wrote:
-> nvmet_alloc_ctr() only takes nvmet_alloc_ctrl_args. nvmet_alloc_ctrl
-
-s/nvmet_alloc_ctr/nvmet_alloc_ctrl
-
-> doesn't have nvmet_req argumrnt. In nvmet_alloc_ctrl nvmet_req is
-
-s/argumrnt/argument/
-
-> needed when setting up authentication capabilities since call to
-> nvmet_setup_auth() requires nvmet_req argument which later uses req->sq
-> to determnine if tls is enabled or not.
+On Fri, Jan 03, 2025 at 11:44:32AM -0600, Bjorn Helgaas wrote:
+> On Sat, Dec 28, 2024 at 10:49:38AM -0800, Yury Norov wrote:
+> > cpumask_next_wrap_old() has two additional parameters, comparing to it's
+> > analogue in linux/find.h find_next_bit_wrap(). The reason for that is
+> > historical.
 > 
-> That leads to following compliation errors:-
-
-s/compliation/compilation
-
-> When nvmet_alloc_ctrl() is called from nvmet_execute_admin_connect() use
-> nvmet_execute_admin_connect()'s function parameter nvmet_req *req as
-> a second argument to nvmet_alloc_ctrl() and when nvmet_alloc_ctrl() is
-> called from nvmet_pci_epf_create_ctrl() pass NULL as a second argument
-> since as of now we don't have a way to know if pci epf needs nvme target
-> authentication.
+> s/it's/its/
 > 
-> Also, fix the nvmet_has_auth() and nvmet_setup_auth() calls from function
-> nvmet_alloc_ctrl() by adding the nvmet_req *req argument. Fix the
-> nvmet_connect_result() call by adding the nvmet_req *req argument. Also,
-> remove the local varible nvmet_req and arg->req assignment since there
-
-s/varible/variable
-
-> is no nvmet_req *req present in the struct nvmet_alloc_ctrl_args.
-
-My bad. Thanks for fixing this. I just wonder how I did not see this problem,
-nor did the 0-day bot.
-
-With the typos fixed,
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
+> Personally I think cscope/tags/git grep make "find_next_bit_wrap()"
+> enough even without mentioning "linux/find.h".
 > 
-> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-> ---
->  drivers/nvme/target/core.c        | 8 ++++----
->  drivers/nvme/target/fabrics-cmd.c | 4 ++--
->  drivers/nvme/target/nvmet.h       | 6 +++++-
->  drivers/nvme/target/pci-epf.c     | 2 +-
->  4 files changed, 12 insertions(+), 8 deletions(-)
+> > + * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
+> > + *			   @n and wrapping around, if needed
+> > + * @n: the cpu prior to the place to search (i.e. return will be > @n)
 > 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index ef424f7e0ed6..d642d0f40b0a 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -1522,9 +1522,9 @@ static void nvmet_fatal_error_handler(struct work_struct *work)
->  	ctrl->ops->delete_ctrl(ctrl);
->  }
->  
-> -struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
-> +struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args,
-> +				    struct nvmet_req *req)
->  {
-> -	struct nvmet_req *req = args->req;
->  	struct nvmet_subsys *subsys;
->  	struct nvmet_ctrl *ctrl;
->  	u32 kato = args->kato;
-> @@ -1632,7 +1632,7 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
->  	if (args->hostid)
->  		uuid_copy(&ctrl->hostid, args->hostid);
->  
-> -	dhchap_status = nvmet_setup_auth(ctrl);
-> +	dhchap_status = nvmet_setup_auth(ctrl, req);
->  	if (dhchap_status) {
->  		pr_err("Failed to setup authentication, dhchap status %u\n",
->  		       dhchap_status);
-> @@ -1651,7 +1651,7 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
->  		nvmet_is_disc_subsys(ctrl->subsys) ? "discovery" : "nvm",
->  		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn,
->  		ctrl->pi_support ? " T10-PI is enabled" : "",
-> -		nvmet_has_auth(ctrl) ? " with DH-HMAC-CHAP" : "");
-> +		nvmet_has_auth(ctrl, req) ? " with DH-HMAC-CHAP" : "");
->  
->  	return ctrl;
->  
-> diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-> index d1e03c120893..3b3af19f8aaf 100644
-> --- a/drivers/nvme/target/fabrics-cmd.c
-> +++ b/drivers/nvme/target/fabrics-cmd.c
-> @@ -305,7 +305,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
->  	args.hostid = &d->hostid;
->  	args.kato = c->kato;
->  
-> -	ctrl = nvmet_alloc_ctrl(&args);
-> +	ctrl = nvmet_alloc_ctrl(&args, req);
->  	if (!ctrl)
->  		goto out;
->  
-> @@ -315,7 +315,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
->  		goto out;
->  	}
->  
-> -	args.result = cpu_to_le32(nvmet_connect_result(ctrl));
-> +	args.result = cpu_to_le32(nvmet_connect_result(ctrl, req));
->  out:
->  	kfree(d);
->  complete:
-> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index 845af16561ab..3dcc01da1abe 100644
-> --- a/drivers/nvme/target/nvmet.h
-> +++ b/drivers/nvme/target/nvmet.h
-> @@ -594,7 +594,8 @@ struct nvmet_alloc_ctrl_args {
->  	u16			status;
->  };
->  
-> -struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args);
-> +struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args,
-> +				    struct nvmet_req *req);
->  struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
->  				       const char *hostnqn, u16 cntlid,
->  				       struct nvmet_req *req);
-> @@ -888,6 +889,9 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
->  			 unsigned int hash_len);
->  static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
->  {
-> +	if (!req)
-> +		return false;
-> +
->  	return ctrl->host_key != NULL && !nvmet_queue_tls_keyid(req->sq);
->  }
->  int nvmet_auth_ctrl_exponential(struct nvmet_req *req,
-> diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-> index ac30b42cc622..fe7053809308 100644
-> --- a/drivers/nvme/target/pci-epf.c
-> +++ b/drivers/nvme/target/pci-epf.c
-> @@ -2013,7 +2013,7 @@ static int nvmet_pci_epf_create_ctrl(struct nvmet_pci_epf *nvme_epf,
->  	args.hostnqn = hostnqn;
->  	args.ops = &nvmet_pci_epf_fabrics_ops;
->  
-> -	ctrl->tctrl = nvmet_alloc_ctrl(&args);
-> +	ctrl->tctrl = nvmet_alloc_ctrl(&args, NULL);
->  	if (!ctrl->tctrl) {
->  		dev_err(ctrl->dev, "Failed to create target controller\n");
->  		ret = -ENOMEM;
+> Is the return really > @n if it wraps?
 
+No, this is a copy-paste error. Will fix in v2.
 
--- 
-Damien Le Moal
-Western Digital Research
+Thanks,
+Yury
 
