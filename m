@@ -4,86 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 021B3C02183
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 22:34:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FC13C02180
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Jan 2025 22:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GwNYBMLbzAbRpAKms/GYkNz/jlTd77izQq6GSO3U0B0=; b=Dk4t8bXH/JqBOufgjjlNImjsec
-	woeoTSK7Qq5S10CWT6+HgGPb2kkr4AzCl8M+uHleSDNPv46o/6yk8DvbyA1w9FeZdsiErmzlSHfp5
-	/UKZn65lT8AbCK2uS5aLLI9pwhQrU6OsECRjMFURtVxoJxobJxNSeFSA3OEevSJPTSM3z6JAfGWO1
-	ZL+7hlFgWNdZHMVt1xALOBqLfHY10P59BSGelYFZQnTwth2vHf9pBo9faMUfq7dPhyMMbfrHXsHrT
-	AAVm1UX5oOhtWBr5C6TQyUMO1AdZKIdVkJSwmQ3r9+3MYubI/OKaIrvmsZjFOgLyDwD58cRuvnhvw
-	nSVUBw7Q==;
+	bh=TmHk9ku7HsIAIqngNhPvX2MlnH/qThmCu/mj7763gkU=; b=pGpcD+fTtgzGqVM/kFv8/1mmuK
+	R8NXFxY7+p/PKdR649mqyOGmsrck3/xIfN3TE0hbsZ3GlfIVI8B0y0Bbwh/77TiXdgS2x5Y9+cnm1
+	OdyDmsu1zwgsYxjmlGTaUkflRab+AGZ3lOFer9Hl1gte1885ELR8EJt2SOn2cm8O4f4or4MAz6dsn
+	cTvAhBv/yq1hUNhbiQEEFfR3CWnZbYcI6lGctb4thu5flOg9YXdZXjCXl7u1/JVZJbPCxETFIqL/7
+	FS/RUAi1Ww6RoCHAcuV0/T7ip36jSzEBB0Zk+XeTaE24r6xZPdIXicDFV3LntzKE9Jb/t0GMUvGbF
+	5DvTX90w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYBxd-0000000DFs7-1Ep1;
-	Wed, 15 Jan 2025 22:34:05 +0000
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130])
+	id 1tYBy9-0000000DFz2-3pf6;
+	Wed, 15 Jan 2025 22:34:37 +0000
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYBxa-0000000DFrN-2gGW
+	id 1tYBy7-0000000DFyL-2PPg
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Jan 2025 22:34:03 +0000
-Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-3ce76b8d5bcso2391695ab.0
-        for <linux-nvme@lists.infradead.org>; Wed, 15 Jan 2025 14:34:02 -0800 (PST)
+	Wed, 15 Jan 2025 22:34:36 +0000
+Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-844e61f3902so26572439f.0
+        for <linux-nvme@lists.infradead.org>; Wed, 15 Jan 2025 14:34:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1736980441; x=1737585241; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1736980474; x=1737585274; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GwNYBMLbzAbRpAKms/GYkNz/jlTd77izQq6GSO3U0B0=;
-        b=UJYe6y+9LbnRzoAv4wkiQ/6WZ+l3ZMe9Qp0QPgTW21H7Q2vd8+19DVB72D3dxkw/1o
-         llsSo5ec0T5L9pMETDRbrMrE7gZd/qECDpTMrFyTLzmKbv47ZTpkmDl4y9K0XvZKRKBO
-         I6WCSQmsTDVajGLQlt/0NZaSNB3ItRZng3o+yi+dBXNqE32HNq2iXiT5uDcKV1RtgtRi
-         vl2xd1oTVwfWvV0fhvLYNkpPVkPz89OXPdIwkiZbyd8PPylUreDm1U9xgWBhUF73qqm1
-         qjNcyTox9/8/IKnQDx4nKp+wYFVyx6uHn97UGjvUqmHLEPgi63POnVhBh/3TxJU9G8d3
-         jyew==
+        bh=TmHk9ku7HsIAIqngNhPvX2MlnH/qThmCu/mj7763gkU=;
+        b=3UED0mCXy7PBz11+dtI2tI3BgqrM3Vts7algzagEMGRM0Bho2SdAz7Kn46gie0KSvG
+         xSfudVp/uTERosldMUa0TPX9Lc99kGbsD8Oyvzs7oSDoZMxLCsBwSNvxxISA+E++dOvd
+         ItZL18IWa3cuj6VLAZUuWVfT0Bu13t5aX+ME9Rqdx+TB4dUO/q48jJ/k9AOJJcJFwjiR
+         xJs3Cejxcoj/6fXWMwXhSddAYu0CGTLfDidgigEb+qUqFPUFGyVGaF59i0DSYI3eJQ1T
+         FHEltSzt3OJ8NlWXlD+24pHC6wNUFvfx6BPOW//pBlspTCKz5oFMhIQg62NP1oXXFqAd
+         7j9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736980441; x=1737585241;
-        h=content-transfer-encoding:in-reply-to:content-language:from
+        d=1e100.net; s=20230601; t=1736980474; x=1737585274;
+        h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GwNYBMLbzAbRpAKms/GYkNz/jlTd77izQq6GSO3U0B0=;
-        b=jXTJSPAX4YfZFbdS/Ji04pmsMSrvp9+XT/ygL5nVvxYkXN34YLZO7EMpfdJHSGRxQB
-         BaqG6lDFx5Z3+1l3HLVuOxXF1aJqBntywgWgLOuE2ZBPC3WwTT+ids7nFYo7P3CI2exq
-         O0awhLxWV9CouGCdS//Qkc8DTwKPaNVu2h27ATIrSujMpiwTHk3UZl9HMyqo5lYMv13r
-         XhC0BotOO8sPe15WJ3UhC30dWbcoi60Cm1eU6qTV7iXlwowLcH2eJaZXsd6JJ8iZnJmI
-         ukrdJYRms7y9RSdKHHM1U81Z1kbrerDtFCn5D79Is7QpMEgfd8bi31ajqRzZ2Vg9RiBu
-         ggDw==
-X-Forwarded-Encrypted: i=1; AJvYcCX9RwnpI38MVQCOWP9kay3JowzmgZkbbxwmBoDTaRmm09d80R0Olu9dPxgClXgDv0Erz9Cz6+m5HjKm@lists.infradead.org
-X-Gm-Message-State: AOJu0YwLVQo5FTro2IL3EpFnY0fUf32tGk0EQDsiVNEcxwngMQNB30Kv
-	zjemIylQYM3SSe72lKVfGtgAPayPDtderCgqSAexs/hraZTAGjOxMZmEgyQ+1vM=
-X-Gm-Gg: ASbGncuttEgNFPvhQezD1U/Xd/p9Y/bNkHHL19u0/5PxPU2GvDe6SGwimxNcREkfMnR
-	/nnQ295OsIcKSYk2uuvYe51QMJaSi2fdPoBy0B48+OZrLScoeRslUAbbSaC6UoJxigpxHFSr9G5
-	cBI5kmE275hMPGyIajnG93D2wayJ5ajBbr5nr+WjZVqjq3bVyD5JlNU/NPYEiey6uddrd6CTAAg
-	pz6P+0ROaizkMXFioT30wWasRkuLUMSlnObvSz6H3bgxqwRiLy3uw==
-X-Google-Smtp-Source: AGHT+IHauMAoxPlq+WGTc4WtWCelxsFWy6yXEk7hi9kHZ37F+UKUkwgkX1aSHGjr1KnoFDNPdhIJAA==
-X-Received: by 2002:a05:6e02:16c7:b0:3a7:5cda:2769 with SMTP id e9e14a558f8ab-3ce3a88ac8fmr249640705ab.12.1736980441498;
-        Wed, 15 Jan 2025 14:34:01 -0800 (PST)
+        bh=TmHk9ku7HsIAIqngNhPvX2MlnH/qThmCu/mj7763gkU=;
+        b=W+YFqargSosEelV+sRS6HTTlAEMI84Yo4+8r02fpinKzHnaHSjKVIfw41xCLNWXj/V
+         KZ9QEnaUTh/c4FnmU5k3wRL0bt7i+gtQcM+LzV/c9URDuM91ngbSYuTkNDaHVDnV3KFI
+         +irZLJLEiLyojxu4PD20pbFnHlLs1D8hciX0kk6iL/7fhesilUOSZnBh58BtyrZ8eblr
+         +LjheAF89vu68lz12pm5iDJ48BIhqd2tgU942ZhZDC1hyOUgn43+BNNbdnh+rP3GIGOr
+         XOaRNCgOFI2DujVNYYTcTUjg4BfIcO4Eq/7P2v9UfpKSmLaJtWihEvG9Vmy9WmmIhexP
+         5KwA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2qR9S0+YtbjZPLqJURGSeGl4nvXR6B6xlScZmCuM6taHMYL9wcnP8hqKPNaSaJRohobwlmzeeBoVw@lists.infradead.org
+X-Gm-Message-State: AOJu0YzyKJF6iY0o6398e+La81YclNEiZ88j36ptDTpOpbcYCUL0JFGm
+	H0sgJ9j7lx87Ac+tcymuZcJec6xCN52NSCk3JQeV1VPGsCTMvTdanFJA3gYxwJE=
+X-Gm-Gg: ASbGncvyQkY35W9J73jw3v/QElcDaCz+6hgn2UiBiZe99QNXp8defhHe51vDK898ZfD
+	FKiptJpLu29tT7/0EaAOXqEvHqmT2Pv0r7cLgTyUoeZ539JxP+Njoto3wzSPBBDEMLbVfsVLyuv
+	y5JS7rgl817XeIRGnaHw+qzvSUewqUXya3dpK2unVxnsL+v89QE8BDfGliRRGcwa+wohvh0Du65
+	vm9S23oO150hwkqc7JOC/oYYymMB0upbFhtOzwHhAK3EftxLqPvjQ==
+X-Google-Smtp-Source: AGHT+IH1Yt1wmWE7dGk5VvlpuI6GAcJqQoMsb86eISyxIBLrUYCXqALU8XwrGYsTd6Jc9CI3OtXIFQ==
+X-Received: by 2002:a05:6602:3817:b0:844:e06e:53c5 with SMTP id ca18e2360f4ac-84ce00d4878mr2830432339f.8.1736980474617;
+        Wed, 15 Jan 2025 14:34:34 -0800 (PST)
 Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ea1b718a29sm4368513173.87.2025.01.15.14.34.00
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-84d4fb52d34sm418073239f.26.2025.01.15.14.34.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jan 2025 14:34:01 -0800 (PST)
-Message-ID: <8901cba4-245b-4b02-832b-af02e5bb9cb8@kernel.dk>
-Date: Wed, 15 Jan 2025 15:33:59 -0700
+        Wed, 15 Jan 2025 14:34:33 -0800 (PST)
+Message-ID: <24cb1ed2-583b-4dd2-98d4-29b7cfb72df4@kernel.dk>
+Date: Wed, 15 Jan 2025 15:34:32 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH V2] nvmet: fix compilation errors
-To: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, dlemoal@kernel.org,
- bvanassche@acm.org
+To: Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+ hch@lst.de, sagi@grimberg.me, dlemoal@kernel.org, bvanassche@acm.org
 References: <20250115221703.62861-1-kch@nvidia.com>
-From: Jens Axboe <axboe@kernel.dk>
+ <6ca7f59b-f232-4bf0-984e-a4439e22b9ba@kernel.dk>
+ <Z4g3z8GWgoCQd8Kh@kbusch-mbp>
 Content-Language: en-US
-In-Reply-To: <20250115221703.62861-1-kch@nvidia.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Z4g3z8GWgoCQd8Kh@kbusch-mbp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250115_143402_687139_351DC4CC 
-X-CRM114-Status: GOOD (  13.57  )
+X-CRM114-CacheID: sfid-20250115_143435_619223_ED139267 
+X-CRM114-Status: GOOD (  11.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,50 +100,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/15/25 3:17 PM, Chaitanya Kulkarni wrote:
-> nvmet_alloc_ctrl() only takes nvmet_alloc_ctrl_args. nvmet_alloc_ctrl
-> doesn't have nvmet_req argument. In nvmet_alloc_ctrl nvmet_req is
-> needed when setting up authentication capabilities since call to
-> nvmet_setup_auth() requires nvmet_req argument which later uses req->sq
-> to determnine if tls is enabled or not.
+On 1/15/25 3:33 PM, Keith Busch wrote:
+> On Wed, Jan 15, 2025 at 03:22:05PM -0700, Jens Axboe wrote:
+>> What is this against? There's been no changes in the nvme tree since I
+>> pulled it, and it doesn't apply here at all to my for-6.14/block branch.
 > 
-> That leads to following compilation errors:-
-> 
-> target/fabrics-cmd.c: In function ?nvmet_execute_admin_connect?:
-> target/fabrics-cmd.c:318:35: error: too few arguments to function ?nvmet_connect_result?
->       |                       ^~~~~~~~~~~
-> target/fabrics-cmd.c:237:12: note: declared here
->   237 | static u32 nvmet_connect_result(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
->       |            ^~~~~~~~~~~~~~~~~~~~
-> make[4]: *** [/mnt/data/nvme/scripts/Makefile.build:194: target/fabrics-cmd.o] Error 1
-> make[4]: *** Waiting for unfinished jobs....
-> target/core.c: In function ?nvmet_alloc_ctrl?:
-> target/core.c:1527:37: error: ?struct nvmet_alloc_ctrl_args? has no member named ?req?
->  1527 |         struct nvmet_req *req = args->req;
->       |                                     ^~
-> target/core.c:1635:25: error: too few arguments to function ?nvmet_setup_auth?
->  1635 |         dhchap_status = nvmet_setup_auth(ctrl);
->       |                         ^~~~~~~~~~~~~~~~
-> In file included from target/trace.h:19,
->                  from target/core.c:16:
-> target/nvmet.h:879:4: note: declared here
->   879 | u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req);
->       |    ^~~~~~~~~~~~~~~~
-> target/core.c:1654:17: error: too few arguments to function ?nvmet_has_auth?
->  1654 |                 nvmet_has_auth(ctrl) ? " with DH-HMAC-CHAP" : "");
->       |                 ^~~~~~~~~~~~~~
->   889 | static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
->       |                    ^~~~~~~~~~~~~~
-> target/core.c:1527:27: warning: unused variable ?req? [-Wunused-variable]
->  1527 |         struct nvmet_req *req = args->req;
->       |                           ^~~
-> 
-> Fix these errors with addition of the nvmet_req *req parameter to
-> nvmet_alloc_ctrl(), new prototype :-
+> It looks like its against the merge result of the secure concatenation
+> series, which as you know has been withdrawn. So this patch isn't
+> necessary.
 
-I think that "what tree is this" applies to this as a whole. None of
-this seems to make sense looking at my for-next tree...
+OK, so that makes a lot more sense. In other words, it's not a problem
+at all right now.
 
 -- 
 Jens Axboe
+
 
