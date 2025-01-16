@@ -4,87 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B91AC02180
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 11:37:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47ECBC02180
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 13:22:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7stgIKmiTDblq+OqjhHkL/tfKe48xpa2yz7a5pR6Sqs=; b=qq4WcwG0yeUEAv833UTQi1zcVF
-	e0OyILIPNmQh6XRIebjMNbnpMBIZf0sELdvDyNkhmpQGeGD8BCPvyy78dNt3Zr2XU6qcL9nupAsdu
-	urCyZ6TGwGRlq5ZxDXjbNEH0K+hBd8T32xDsTWLBUzXSYmK6hLFflwCLOJMMA/TcpZODY8GSCk1vN
-	Uk0lQDVijP0b0o6dk+1xNjaejyfWGmacNyvsf/4qPCWq1dVVRkkx9BG8FnLvyc5b5Nkz6JGlNHMf3
-	IcMBRAaRyom3uHSV3aXT4WNFhOonM17Jl66i12Ph8aKZFNiMgIOeWM0nFyxDAIHwYHdOEPZhGhnOh
-	6BtO6Vag==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dkrBROOdQifatuc9FPvDmFZLsUOPy8m05nx/QgVHt7w=; b=jhscdjBlieRd7FJve3guxQEQva
+	aYJy6G+QhiOmcwO/v9TDFyN4b5gF4PZivUak7gkpvu2MJ15GW3B3abSiFwzNI082PH4FKDItbQjM7
+	O2bKyLWauF0rQX1dyENfBkcNgal1FJWfU/JYxRQykj7XgohEbHEjq8OMT41G+R9BTWPASi5ghaUbF
+	QV9VPLWhk24iq+6wH8ut/TvgxJYCigROCLE2CiU1ARaMHk2j0OzjcFi6WFRGu+OH8VH0gIoov+s7q
+	SrBpq4ElB7r/WR48V+U7UIXd8dRrJ34/A+jpBgfYmgEr+6TQUrKN1VEXRdyDIlKio27qg2ie1xE4P
+	WcSYjnnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYOBt-0000000Elfn-2A4C;
-	Thu, 16 Jan 2025 11:37:37 +0000
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+	id 1tYPpY-0000000F05f-3Hzb;
+	Thu, 16 Jan 2025 13:22:40 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYOBr-0000000Elef-0Z6V
+	id 1tYPpV-0000000F05H-464j
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Jan 2025 11:37:36 +0000
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-436a39e4891so4764895e9.1
-        for <linux-nvme@lists.infradead.org>; Thu, 16 Jan 2025 03:37:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1737027453; x=1737632253; darn=lists.infradead.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7stgIKmiTDblq+OqjhHkL/tfKe48xpa2yz7a5pR6Sqs=;
-        b=CXQG37tqQ3IO+B+eSHYlnn6Zx6a0oGGABAM21ASEPuKVhJg0HCeZWQYMO1lE6DSsBw
-         m++rDZd7+EkYvr5oPI3Vh5OeJXTBYgVseIxU/8gePU9O5bX6eTAjXJL0MXS6cNgmPraL
-         jU1Gm2F+q+mVf2xwRk+Bvr/M3PtjDwiij/aLhZEDFkMiYgerOf8G8zJj12INPoPUW8tL
-         nee19yl0O2IR2wzHuadGzgtFyQJ+z22co7mT87G7O9ouVuIFzGS4QvTn2N2HrbC29XqY
-         /k3GpwUVY3RpFeDfwOo9SrYYPm+QXuux4KT/m+u2UuATFK8jgvaq5jfs7i29TM+E2DCr
-         9ivQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737027453; x=1737632253;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7stgIKmiTDblq+OqjhHkL/tfKe48xpa2yz7a5pR6Sqs=;
-        b=F8HS4U5QadKyTdsaCLos4SwTZpXWStZVqF/LJUIsfBCWxOVUN78SXjbAssi0739c4d
-         nKpbVGfff3kshUfL1xsaSbt8sag4s3lR9bLiS5nM9QcwTZb+R91fEGPqyS9V2wrf2eXT
-         2Z1V+zU4xMNJsL8KqWuDUg2JPhEGNDV98+7HSb10o2/4oXNPraEt7jNcxD0GRLAFON9o
-         /Tu9I0cv0qQ6XqV7loS1q2V27MAJcGNreL3oEDiu7weUEtrDXn9ocLHUt6/SmV+Q5HkM
-         3bdvN1+ifQy+e3al6k5xD2yOUUA4j0/WsrDJb4cp57ad3cyk7P+8LfSWxtsH42lVSYPX
-         i7dw==
-X-Forwarded-Encrypted: i=1; AJvYcCUTnY15G0X+FG2MLTlF1tU+FELUVgwlIIXhbfPxpwmMMjZw3io3Ut3ulSU3jTD5SE9C65Qf2Iv5fGgs@lists.infradead.org
-X-Gm-Message-State: AOJu0YyH1C+FrmVp1oAvk0D94SfXWPBzCoXyUVUJhtLvfKlV3R+dOpjP
-	swN+r4ArEiy0FlrJLsqSbtwBuho7Zm7w+kXw8kqaLWNkKOAdcyBzs441jsMO57s=
-X-Gm-Gg: ASbGnct7k3oA0Oomo9tNfKcvVe9Y52KQKIQXWJGH/0idTlohr7IEzlNPjBVcAVh71b1
-	FVWCM/WtbWifH5Aj7XWAeue76seb95y6fOPlH/P1EVk1cBKbxJ9ce76/9RZINK6XUeifeY7KxWS
-	RRjR5WcXNBvEWfe5GA1FwKPz1Xd9ojwQCb8TbrNH1oEZlx4JkTqqoRk3dhuckRz1Bf8hAobYjkc
-	1DHVs6A078ZIGRoHAH7jx7RhgGOhdbxcehik1Atmqvb2jvXAxVZwy8qFC80u11uG+lGc1vZkDs2
-	wEOVnzvlXK+7VIMar/vY7Mu2bNPBbeYAfiCoU2opCr430TRh9bIUNLptDz/Cqaz+U+UGfdo6DYD
-	lAO4owv+GhJju
-X-Google-Smtp-Source: AGHT+IHwO2jJlAnxMchHosPjUJhphRNKR75DhQS708KRZDICK3q5Ej0rhK+BaRodG88L3q982CEqsw==
-X-Received: by 2002:a05:6000:178d:b0:387:8752:5691 with SMTP id ffacd0b85a97d-38a87309d15mr28920725f8f.47.1737027452786;
-        Thu, 16 Jan 2025 03:37:32 -0800 (PST)
-Received: from ?IPv6:2003:de:3746:4600:ac00:378:25cc:9f2c? (p200300de37464600ac00037825cc9f2c.dip0.t-ipconnect.de. [2003:de:3746:4600:ac00:378:25cc:9f2c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e4b82ddsm20089008f8f.71.2025.01.16.03.37.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2025 03:37:32 -0800 (PST)
-Message-ID: <737c9769145dae722b0274b2a09decf7ab474a26.camel@suse.com>
-Subject: Re: [PATCH blktests] nvme/053: do not use awk
-From: Martin Wilck <martin.wilck@suse.com>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: Luis Chamberlain <mcgrof@kernel.org>
-Date: Thu, 16 Jan 2025 12:37:31 +0100
-In-Reply-To: <20250116071754.1161787-1-shinichiro.kawasaki@wdc.com>
-References: <20250116071754.1161787-1-shinichiro.kawasaki@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 
+	Thu, 16 Jan 2025 13:22:39 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50GD8Pem005656;
+	Thu, 16 Jan 2025 13:22:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=dkrBROOdQifatuc9FPvDmFZLsUOPy8m05nx/QgVHt
+	7w=; b=dkeHiH+p30X8WWCNSu7JdVvuUwLoZ9z8nzfvh05vsXBatVZfOoQb/NHYl
+	edSq3D68SGWYaP2x8wfa8L8uYsZq4+1722KZ7K51SgtcAe5V+rE6F3LN6LJeP6UI
+	pOj3lZ4PNPsvf8cG9LDvtlob58l4LTQvqbETGVKpN0cFakEUX/eQqUA7MJ6LeHTO
+	rvGkTfnM+3SBZPkIFkHbCid053GEzuOUP+Cj/vynO9YBUi55etCifGoXUW11DKL+
+	h60WViD2CyE8pszhUk35I8czFcoIZnU0bi7kocyta32bAj7wR1zFoAgTHaFnzSWs
+	JtcqNrmgORiEFp1GDey7cIzdjx0aQ==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 446tkcjj0r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Jan 2025 13:22:36 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50GBQOo4016498;
+	Thu, 16 Jan 2025 13:22:35 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4445p1wmv0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Jan 2025 13:22:35 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50GDMXe940304964
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 16 Jan 2025 13:22:33 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 78BDA20043;
+	Thu, 16 Jan 2025 13:22:33 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5951620040;
+	Thu, 16 Jan 2025 13:22:32 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.241])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 16 Jan 2025 13:22:32 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: shinichiro.kawasaki@wdc.com, hare@suse.de, gjoyce@ibm.com
+Subject: [PATCH blktests] nvme/058: detach loop device after test finish
+Date: Thu, 16 Jan 2025 18:52:13 +0530
+Message-ID: <20250116132231.349917-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: vBLLzs6W_Bm_XKRcAgwsAhoLD9VgqoHL
+X-Proofpoint-GUID: vBLLzs6W_Bm_XKRcAgwsAhoLD9VgqoHL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-16_05,2025-01-16_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ impostorscore=0 mlxscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ mlxlogscore=826 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2501160098
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250116_033735_186583_E0C32148 
-X-CRM114-Status: GOOD (  14.52  )
+X-CRM114-CacheID: sfid-20250116_052238_026000_B7B8E789 
+X-CRM114-Status: GOOD (  12.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,101 +100,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2025-01-16 at 16:17 +0900, Shin'ichiro Kawasaki wrote:
-> Luis observed that the test case nvme/053 fails in his environment
-> [1]
-> due to the following awk error message:
->=20
-> =C2=A0awk: ...rescan.awk:2: warning: The time extension is obsolete.
-> =C2=A0Use the timex extension from gawkextlib
->=20
-> To avoid the failure and reduce dependencies, do not use awk in the
-> test
-> case. Instead, introduce the bash function get_sleep_time() to
-> calculate
-> the sleep time. Also implement the controller rescan loop in bash,
-> following Martin's original patch [2].
->=20
-> [1]
-> https://lore.kernel.org/linux-block/20241218111340.3912034-1-mcgrof@kerne=
-l.org/
-> [2]
-> https://lore.kernel.org/linux-nvme/20240822193814.106111-3-mwilck@suse.co=
-m/
->=20
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+The nvme/058 creates three (temp file backed) namespaces and
+attach each namespace to a loop device while starting the test.
+However it never detach those namespaces from the loop device
+once test finishes. Ideally, we should detach loop device from
+namespace so that the associated loop device is later destroyed
+and its resources are released. This patch helps detach each
+namespace from its associated loop device after test finishes.
 
-LGTM
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ tests/nvme/058 | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Reviewed-by: Martin Wilck <mwilck@suse.com>
-
-
-
-> ---
-> =C2=A0tests/nvme/053 | 34 ++++++++++++++--------------------
-> =C2=A01 file changed, 14 insertions(+), 20 deletions(-)
->=20
-> diff --git a/tests/nvme/053 b/tests/nvme/053
-> index 3ade8d3..99dbd38 100755
-> --- a/tests/nvme/053
-> +++ b/tests/nvme/053
-> @@ -12,8 +12,15 @@ DESCRIPTION=3D"test controller rescan under I/O
-> load"
-> =C2=A0TIMED=3D1
-> =C2=A0: "${TIMEOUT:=3D60}"
-> =C2=A0
-> +get_sleep_time() {
-> +	local duration=3D$((RANDOM % 50 + 1))
-> +
-> +	echo "$((duration / 10)).$((duration % 10))"
-> +}
-> +
-> =C2=A0rescan_controller() {
-> -	local path
-> +	local path finish
-> +
-> =C2=A0	path=3D"$1/rescan_controller"
-> =C2=A0
-> =C2=A0	[[ -f "$path" ]] || {
-> @@ -21,24 +28,12 @@ rescan_controller() {
-> =C2=A0		return 1
-> =C2=A0	}
-> =C2=A0
-> -	awk -f "$TMPDIR/rescan.awk" \
-> -	=C2=A0=C2=A0=C2=A0 -v path=3D"$path" -v timeout=3D"$TIMEOUT" -v seed=3D=
-"$2" &
-> -}
-> -
-> -create_rescan_script() {
-> -	cat >"$TMPDIR/rescan.awk" <<EOF
-> -@load "time"
-> -
-> -BEGIN {
-> -=C2=A0=C2=A0=C2=A0 srand(seed);
-> -=C2=A0=C2=A0=C2=A0 finish =3D gettimeofday() + strtonum(timeout);
-> -=C2=A0=C2=A0=C2=A0 while (gettimeofday() < finish) {
-> -	sleep(0.1 + 5 * rand());
-> -	printf("1\n") > path;
-> -	close(path);
-> -=C2=A0=C2=A0=C2=A0 }
-> -}
-> -EOF
-> +	finish=3D$(($(date +%s) + TIMEOUT))
-> +	while [[ $(date +%s) -le $finish ]]; do
-> +		# sleep interval between 0.1 and 5s
-> +		sleep "$(get_sleep_time)"
-> +		echo 1 >"$path"
-> +	done
-> =C2=A0}
-> =C2=A0
-> =C2=A0test_device() {
-> @@ -46,7 +41,6 @@ test_device() {
-> =C2=A0	local i st line
-> =C2=A0
-> =C2=A0	echo "Running ${TEST_NAME}"
-> -	create_rescan_script
-> =C2=A0
-> =C2=A0	while IFS=3D read -r line; do
-> =C2=A0		ctrls+=3D("$line")
+diff --git a/tests/nvme/058 b/tests/nvme/058
+index d230a21..99e7e81 100755
+--- a/tests/nvme/058
++++ b/tests/nvme/058
+@@ -99,6 +99,17 @@ test() {
+ 	done
+ 
+ 	_nvme_disconnect_subsys
++
++	for ((d = 1; d <= num_namespaces; d++)); do
++		local file_path
++		local blkdev
++
++		file_path="${TMPDIR}/img${d}"
++		blkdev="$(losetup -l | awk -v path="${file_path}" '$6 == path { print $1 }')"
++
++		losetup -d "${blkdev}"
++	done
++
+ 	_nvmet_target_cleanup
+ 
+ 	echo "Test complete"
+-- 
+2.47.1
 
 
