@@ -4,182 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A65BAC02188
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 17:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AEEAC02183
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 17:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2KwqKYkfrS0/ORpRT2wJhvLt+SQcJditF7aA6k0Mk4U=; b=Hnsu5lcx3ZEahBgkMQ/UH1EIMF
-	QdMYcJXbiL0WKSJqJxiJ+WwYTzA1QVFZ0xg13LOtnxsPZ4elc3UUjXdyDrG0s6yJpy2N84NoEyk+m
-	l48IjfcGzkWSnnjsC0cbkm28+waIgj0rsl/XEy5v9fGTfiz7tS3hB6Qb0rVD5TrKeuVotbiDBes6o
-	YP2ifIb5T/0sUjMg4uoxKYh7uqFoKOu/5an46/UbXwPhBeUWFCmP0gq/lrt9gZ9fgCOy+0mozzQed
-	zZZfLdsVSR2sfPTQkuil6Sj7og5vd1a080+haudoc5ZhQLtyrF/jJ/z1WmREAC91WkEv+YLevTYoh
-	deaJY1ZQ==;
+	bh=EmgiDGJ06XOUG1YIoDAkaKC1tAefzDilg41V+XocIA4=; b=l7mVpSw7Q7Hjg+BzwqLFTNrhu5
+	Fw6Mh2rF4000aPlhCBGGesvsQtFvvFw5rGPp6K5J+XnzD/GLn6pSXJuOKY5jz8ASgPv56Hv4zqf4n
+	/zJjSQtPFiEu3Ms9RdWLqNgcS1bEJIWmDCjMCxEDu6YoxU/QlKtWq3oFY+RgdkbvpnNeP7Mzp8SSq
+	KA0c8VKW/1dFzhTYQakOobJKW2iOA4KLCXYQw6b5EVocM5cbad3d5XCZENGOqxX3czE2CrqK9iD9q
+	7z/cfgBws1GNcgjFj0FMJnhoO/upubcnCVeguWVsVFayrPuZb8r3dn3JIXnNlUnBP5yuZPygQ546Z
+	GZfIDL9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYTHu-0000000Fc4O-3l5F;
-	Thu, 16 Jan 2025 17:04:10 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1tYTgb-0000000FgIc-0MbA;
+	Thu, 16 Jan 2025 17:29:41 +0000
+Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYTHn-0000000FbuA-0mdh
+	id 1tYTgX-0000000FgI9-3GRa
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Jan 2025 17:04:05 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50GH0j6t012919;
-	Thu, 16 Jan 2025 17:03:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=2KwqKYkfrS0/ORpRT2wJhvLt+SQcJditF7aA6k0Mk4U=; b=
-	iA5SBYHnHwc4Ot/PcdkgaVnKIwc6MNOMx1JAUHwQ67MPScm1R4SZWM1+Shf+Vgy2
-	NiijkSHPU646ZYbSeHENbx/4KkRMlTOHZlHXzpcnvYxVkLtx+uZxyY7Q+iBwuhFJ
-	KNC/hd2NU5Cq7lvH+jMDqDf36jGpdp8Mp5xwy0r9g/c3J9GZn+hTqXzgcCUFTvTV
-	N46gPiGOBUfzRTqheukCXqdE8jJbhXGr+TfnNlPPKdUiL8M3FVhNrQ7Cre08Pfo0
-	XjSni0Eonoux5sH+zDDSFVxv3SfWl3r1uMw7jzpH80jJV9oHuJVgD3y2ctSQ/nIA
-	bdjRlacPt7f3ul8cBkVOJw==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 446912ucqy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 16 Jan 2025 17:03:40 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 50GH2Opj005236;
-	Thu, 16 Jan 2025 17:03:38 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2043.outbound.protection.outlook.com [104.47.70.43])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4473e57p15-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 16 Jan 2025 17:03:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J7fOt2c/HBzm8srDydz3vmXkiFmwnr/btp1SQYh9szm+oB6PdFD9IjSOliNCSHCuSQwi/wF5+7Ut5bIX7zdxQwpygD28rLiI8Xrhp9eobW23Dq7zMIML/gU7AfGQyQvPw9xETfW53+kKNPMYY5Y2AUwiiqCs5J4VPay10n633VVhUX2Q6Dl/0+1COeA32KuocCliggH9SF5EPm2vX6c0u1ds/bfMQNn8CWoP2UTpSiBKUS0xW6CPmFxxAO48US5WBdPTNr5TqbpkUGfoY/YCNtANv7+CxphOSk5ZfU4/ha7yDM2TUKwCoHRXR38SWvvrm0HHMic1bgkmwVodWQzAfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2KwqKYkfrS0/ORpRT2wJhvLt+SQcJditF7aA6k0Mk4U=;
- b=mz4ULqO8cdWf/TKUswnPBIWFfJbrUYYcG/JQ3IJzcqJRcB3E89FPIPoBu/yDFb1iHmqQwRLRXNTe3fDaaEY2ZFGo5QXFB0RXIFat3OBaCub01wGG1dILjEFIIdXyQVdI8kHK5Jn/SB4y9JNwIACUcu2TcHlkPH4GSx7Ce2LLrpBngitLgGsCHSl0o1IQzIWHpK9xXy0rtaYy7u/M+pRg4Yz4xT+hZsfM3FCQujLrQjAjApFtx4T4rm5t2yt/LTslHU/LQREdoT76whsnsl3Mr+JSs1TKkaP4DQwxLIw1lzylHTiMK/vUhWlN2WqyjHccDorFTyW+9nSlyNxWWgGR2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2KwqKYkfrS0/ORpRT2wJhvLt+SQcJditF7aA6k0Mk4U=;
- b=pMAgtqVIRQ8nfGuCo7s8tzG8VEr98GeO02A5bkpgae3oJ2uo2N6fL8tSNvtdx2WivrVAvhNX7pM2Eqq6To9ikioucS+RcCMurQXervWWxVZrz6iI8GgPmO3K5CNVLcvVo8EjqZ7jCbIVlwgb0l5ykSCHRnREUWvZTW6rNC8YT0A=
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
- by PH7PR10MB5829.namprd10.prod.outlook.com (2603:10b6:510:126::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Thu, 16 Jan
- 2025 17:03:30 +0000
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::4f45:f4ab:121:e088]) by DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::4f45:f4ab:121:e088%4]) with mapi id 15.20.8356.010; Thu, 16 Jan 2025
- 17:03:30 +0000
-From: John Garry <john.g.garry@oracle.com>
-To: axboe@kernel.dk, agk@redhat.com, mpatocka@redhat.com, hch@lst.de
-Cc: song@kernel.org, yukuai3@huawei.com, kbusch@kernel.org, sagi@grimberg.me,
-        James.Bottomley@HansenPartnership.com, martin.petersen@oracle.com,
-        linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        John Garry <john.g.garry@oracle.com>
-Subject: [PATCH RFC v2 1/8] block: Add common atomic writes enable flag
-Date: Thu, 16 Jan 2025 17:02:54 +0000
-Message-Id: <20250116170301.474130-2-john.g.garry@oracle.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20250116170301.474130-1-john.g.garry@oracle.com>
-References: <20250116170301.474130-1-john.g.garry@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0283.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::18) To DM6PR10MB4313.namprd10.prod.outlook.com
- (2603:10b6:5:212::20)
+	Thu, 16 Jan 2025 17:29:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=EmgiDGJ06XOUG1YIoDAkaKC1tAefzDilg41V+XocIA4=; t=1737048577;
+	x=1737480577; b=X/DBxEUgzx/OZV3VbDlG2EY2Y2O4CURBl5iYFAMsws5iO79SXRk9L+g6qTk57
+	rOh+HZ8i1H+Zc2B/eM6lIYl8ObGB7E2CDEH0bAKcDf+757KrW9CFGuX/DvuX5VIzdnCLZ7hV0PVtp
+	24IrEwB+8nWtc75VnWqrDReTyInrOZjTurUnQUccrvn2o8N8XrQu3YqHsZvVJndEp1Y+bUR1l1lXN
+	q89toEA/UkRPqJBWutC0LzZLvVNpnP9cwc3ZvGPyvg/HM406x/Zf8dNZhZ5PWAhSkrJxQsP3+5aEn
+	rZBfpSSGtVuRVae0DBERWWMVXFOhOmsjaAY+UOElqB/XMOXUXA==;
+Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1tYTgT-0098c1-19;
+	Thu, 16 Jan 2025 18:29:33 +0100
+Message-ID: <d01f0e3c-7a0c-4255-baa0-27b31cc552d5@leemhuis.info>
+Date: Thu, 16 Jan 2025 18:29:32 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|PH7PR10MB5829:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab96874f-3d65-4fba-0db3-08dd364fb3bb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Btxe39+OA8EfJp8/LxbamsfK7wLrW24bVmbqoFYt9tNnxaiy3Tz9Q6TqnZv3?=
- =?us-ascii?Q?o1zyO9nxtnopsJPKWnwTzAdlZ656OGbp4SyzGrMt7e5Ipk4+QZFlZPZ8vF3K?=
- =?us-ascii?Q?vnehkZSJtAEMfzKFNkIfntTikO3X3bTEgYS+QYoTJhspLgWGW5wBovwBfYb/?=
- =?us-ascii?Q?UPQ75u6KdDSpYM01Z0n7RwMZq61BUXYUG4E3CZJXnJF9UiOnPjjit2PhzVYq?=
- =?us-ascii?Q?eBVbo2r1Q0bj+JQGwkW6HMyInCwJ/61cs36ezTJWY8jnTSNNKCp8HAWvAQzX?=
- =?us-ascii?Q?2gTe1GMTGRfpKLUQfS4vrapU6mm89UjKbzLgr8FDtu5Gw2AGryTIxNhHmReB?=
- =?us-ascii?Q?uRgDybPX/tgbtcmpL/dJPgCD3wQcCFGRBMUQ0F7raaNGs8tz21ZIo7Gv5LeP?=
- =?us-ascii?Q?Uz4HnIIuNqT8cnmgxJDxbRKquvbKGsGuDkUQJlx6l6tDDbjDadjMBIqLPoAM?=
- =?us-ascii?Q?rgJJgdgAWRfNsL13GDrhyvUWrnHeb10fInslPZSnrCUBLTkRETWZD+52oH+y?=
- =?us-ascii?Q?ed1jaWMmluYlBzLcmqn615ixJvWmw5XzgTEGTxQVPVCeQJIh8iF9Mkpty/H3?=
- =?us-ascii?Q?Yw6+S7hwgz6MIKig28HvENivbjd5iiVIsS7XySbeuMXKSf8hmOozQL7iQCYs?=
- =?us-ascii?Q?/5PpF/NCQfJWayU4dws/tl3h8sC+A5faJq3dFq0roNIlLMU6KOeGeMmA2C0/?=
- =?us-ascii?Q?v5DNfiJueUstTuDBTExvFFBpzG92Cqvp/vstBWNm3jZxW+cki8ShX9YGjMMV?=
- =?us-ascii?Q?3sqGBsgEcvhluFKdWzGAs5INj2/aq6viF8bkJftjahYboYESZIQ0yOlJNUiJ?=
- =?us-ascii?Q?sGzACcGeGMU9mJ5Ixv49jP78AgeZg3EVxL6CpxzxY+0TizK/qKgpzBFVFNZA?=
- =?us-ascii?Q?Ye9VjdTyM7u9DpUHoaM1CjealPRVAscn5gAvVTA79UaNm/btzOGQTkcPE4bE?=
- =?us-ascii?Q?xRf3MPR8WnKYkzKfWEzMrcjuJdVa8V9XEiUvGvB/gC23qloePKpKS8M1wZEc?=
- =?us-ascii?Q?WoawJ2WotHMdDGvwn7utOQB/E4O2AccFrGDS763cXoXxzVQGWqcwLH9ctBui?=
- =?us-ascii?Q?nMb0QId72IGFbZXje+geZZ+iatOzSTE44sDcuQHoYs9oEJ/IZGMw4wWnvrcm?=
- =?us-ascii?Q?7y8m7sNPmD5Yh1UpfmjzUkq/6cxk4oZiQg4vKD3So48CIS1K8LaqdJCOfaMB?=
- =?us-ascii?Q?uWAaFLahoUhSH0pj9ycYUoDeKsfGDeA0WOdyCy0qMgTqXCMGKYLfa2Z9aohp?=
- =?us-ascii?Q?UkhAlR7Gz/pTjSMVRc7kjV4Uy0F+IxDSQ6CmlX+rOBoVMVUm/C2k5U6MXX1N?=
- =?us-ascii?Q?rc6SqxC7SMbAB/8GhSalIdBKLF4HPVQW5ssEtLmvb4uGTQMJUJdhY6ZTh8h7?=
- =?us-ascii?Q?r0qAD3h09zzH8aRwfint2xBvveNF?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?C3Vu7J/Z4mSF19/G7O/3CS4II5gdKS8teLtBiagoS71f4+8BtP44Ihchs7f5?=
- =?us-ascii?Q?Mb5BLuPzJ9Qtk67wK/ey3iyOPOTFbU5o/mi8+mkGWRQlhp/RrQRZET7fG9br?=
- =?us-ascii?Q?9GGm8JzrOZvBxqOTo4ki3FOEhuHxCuAcCGj6TKJXg4EkMg3sY2zmWUc6oohq?=
- =?us-ascii?Q?9c8elaP5pWOa+R54iUd1obIaye3L4RfkckZy3dH+y2203VBs2If5yL5tB7of?=
- =?us-ascii?Q?kKOQwnWhk99+UWeUsgPbrW211rZ5ZIqbu6c9ss2PJNbRjjE3yEY1mkdPqnnF?=
- =?us-ascii?Q?HZDB7UCv32Tg+ufzGiuiZ7nTg2Gt/ceF7vnUP0NKDs4PhDx6Q1VPAEMI5qLn?=
- =?us-ascii?Q?dIcCdhQROtztT3B7JddoJWS4l/OfZmpPaWmKjww7eAcZghjvvVBVlK8dwMLX?=
- =?us-ascii?Q?fkVJcTG8HbH+PQCP6SqWzO+pm4X+ErbbGz7Im99UT57zy1Wxo3n2D8xwpZGV?=
- =?us-ascii?Q?34mpEGYf9GiP/7IHNE4iJ0IwLabGs6AB75HLyKJnWOjoEGFWQacxNaN08sG0?=
- =?us-ascii?Q?dtBUvWE728vZv6Cz8R80XKJs3rAHN1F9uE8n/RFQO2zag5F8/h60PMVn25oM?=
- =?us-ascii?Q?M9UYrJcRcE8Mz5ki25kJ2AAE7oULa6fRys2PYocbaDBQTu1QIRHrC8tlPX1H?=
- =?us-ascii?Q?EZufF9ryLfAp7apciIsxGDUaClDiJFRj0EbsPLCvNKYV5Y0B1oql3fFJnnql?=
- =?us-ascii?Q?Z463Oqqwgiim7Gb9jCOcVsqN4oCcsWsOOA2ocVLsTJYiLEBr+fdpx7iYPZGT?=
- =?us-ascii?Q?e9lWy2Ltr/hdJSZGdYsKNV6EKFk1Vr5Lyr6mBp4tH0C0fmcgivAzw3/JvCdw?=
- =?us-ascii?Q?P3f9+f19AAbgVu5snLiP5kp/hEuq9eUBnBa4bcFunVfnUPAflgrWKhQDOKRt?=
- =?us-ascii?Q?/1CTA/QrFDcCFAZriisavf5+hHxpmSuL+LOBitUdwHAqSD1mdFB1TrHxHJxJ?=
- =?us-ascii?Q?0NVyIy99lg5YvsTpjovEmHuBkDZR3WOqf+UdIX5nIVsH437moUpp8XA4CNI/?=
- =?us-ascii?Q?v0NGZHL3VHXsHXBeetT8LfJe02T83XuK56OFgMdyyooCCK2LqvADkVNPtsYI?=
- =?us-ascii?Q?HpGvVtLjopTumgLVVER7FudaZAsHUexhdL7Ql1XGlRfbGDIE2KxpIY221odM?=
- =?us-ascii?Q?NDg0CSYgs+aYqypOAi58cwRpADnH8tNz8GrRvMTyj/6y/2dwoIjIDvR3ag2t?=
- =?us-ascii?Q?itYmaAWlSngOe+BgstLPn/dFKtwdFmvTHkfZTJHoLzTctziz64OZSzPKo1k0?=
- =?us-ascii?Q?GSVm1ESn1Ar7tMNonyoOS7UmjUdnARfPOqKfphOSUTLtNiNhcqZL+2jcuuwA?=
- =?us-ascii?Q?y08VMgSB8cqjMfxhaTidhp42Sq+mrOHlkuAYZ7P0y3GFzMqW6/Z7op+JOqBr?=
- =?us-ascii?Q?1h++V3DNYAmODF6SRZjkO4BGnl3xgygiG17xzcy9PdURPbcQuZblER7qnEb+?=
- =?us-ascii?Q?WLXgPi/jFzBqDdJV9irA5sTOf0P5v6B+iRbli2Q0Q7t4QQAglu7QfZLMmYRK?=
- =?us-ascii?Q?weH+b2GPNIM069TX3i4AdMx5kFU8kwO86PpvzlDmMdcEzLwKILiIyUwFrYTp?=
- =?us-ascii?Q?qdKSN3Xx7R5NOZ+pg49o+bFP3DxXffPs2LLJYj6vXDLFo6TCK93fi/BWZRmb?=
- =?us-ascii?Q?PQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 8hNCL9JYo3OXDm35wEk1QGKFYmlDHeTf+V9GKIrR1fDtwphjdIwHsmImCHlfm6zN4jIDxFzzHbiG/oDiZwE1o+mJoGKzRN8R8I+WFJsd4vswOwAzLeTsbHaD74uy4oCTSDmIb72nAIWn56wQoKPxCTy4HfS/esvC8KBbh7ALSjuFMsQ5SzIbcdFygiApChX3fnR1TTNwSUYtQ+3bg1qDB4gxwIdSAC8zAHZBpiwd4bEuiW7ZWX5RzjiHuVn8FmZ/rPdGnOBfC9X2sgyIrE5IsU1dEfTWACXMtkKnqZpxfuYmnF8tgODJXjnf8pz1V45i/kos7tuXokAXvdkVw4Ixnd24whMTDuQVMh+6VLrE4KymSF6CPqtYuW/fvFX+krewS7MrWI0k/NlA3X7qs+/nEpBpDzudpyq2PoX9Am8Yhw6S6jmiBvGRcTB3JrepPTsfhUUb+fqdREZx8SZFX3PufL380d+UmGmjEIVXfIr+joTcYEzzy/42fyxypyV7bztyyHNfgS4FnB5rQQ5OC9EI1d1beInBDsn41SHF8C6VigHx+2VHDSR4oEqMj1lqjLf9QnmW+EnE4DWzoTrFpnIuJFWKwCafIYICyxcJUerzbX8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab96874f-3d65-4fba-0db3-08dd364fb3bb
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2025 17:03:30.4034
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XYxyNHzs4ECICRSKEESeyiSDX+KW5T6a2DaJ7YjFkjwA1m73KY/cd2JtLGxC22wO0Q78znTu9MA04O//2iwaNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5829
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-16_07,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 adultscore=0
- spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2411120000
- definitions=main-2501160128
-X-Proofpoint-ORIG-GUID: -PqexSUVRgudlNviQOJl-476WpvZTubi
-X-Proofpoint-GUID: -PqexSUVRgudlNviQOJl-476WpvZTubi
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
+ X600M-STX + Ryzen 8700G
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+To: "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, bugzilla-daemon@kernel.org,
+ Adrian Huang <ahuang12@lenovo.com>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ Jens Axboe <axboe@fb.com>, LKML <linux-kernel@vger.kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Stefan <linux-kernel@simg.de>,
+ Bruno Gravato <bgravato@gmail.com>
+References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
+ <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de>
+ <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
+ <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
+ <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
+ <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1737048577;d6c822d4;
+X-HE-SMSGID: 1tYTgT-0098c1-19
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250116_090403_235900_DE6E7E66 
-X-CRM114-Status: GOOD (  17.17  )
+X-CRM114-CacheID: sfid-20250116_092937_974496_FAFD1135 
+X-CRM114-Status: GOOD (  29.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -194,138 +86,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently only stacked devices need to explicitly enable atomic writes by
-setting BLK_FEAT_ATOMIC_WRITES_STACKED flag.
+On 15.01.25 09:40, Thorsten Leemhuis wrote:
+> On 15.01.25 07:37, Bruno Gravato wrote:
+>> I finally got the chance to run some more tests with some interesting
+>> and unexpected results...
+> 
+> FWIW, I briefly looked into the issue in between as well and can
+> reproduce it[1] locally with my Samsung SSD 990 EVO Plus 4TB in the main
+> M.2 slot of my DeskMini X600 using btrfs on a mainline kernel with a
+> config from Fedora rawhide.
+> 
+> So what can we that are affected by the problem do to narrow it down?
+> 
+> What does it mean that disabling the NVMe devices's write cache often
+> but apparently not always helps? It it just reducing the chance of the
+> problem occurring or accidentally working around it?
+> 
+> hch initially brought up that swiotlb seems to be used. Are there any
+> BIOS setup settings we should try? I tried a few changes yesterday, but
+> I still get the "PCI-DMA: Using software bounce buffering for IO
+> (SWIOTLB)" message in the log and not a single line mentioning DMAR.
 
-This does not work well for device mapper stacking devices, as there many
-sets of limits are stacked and what is the 'bottom' and 'top' device can
-swapped. This means that BLK_FEAT_ATOMIC_WRITES_STACKED needs to be set
-for many queue limits, which is messy.
+FWIW, I meanwhile became aware that it is normal that there are no lines
+with DMAR when it comes to AMD's IOMMU. Sorry for the noise.
 
-Generalize enabling atomic writes enabling by ensuring that all devices
-must explicitly set a flag - that includes NVMe, SCSI sd, and md raid.
+But there is a new development:
 
-Signed-off-by: John Garry <john.g.garry@oracle.com>
----
- block/blk-settings.c     | 6 ++++--
- drivers/md/raid0.c       | 2 +-
- drivers/md/raid1.c       | 2 +-
- drivers/md/raid10.c      | 2 +-
- drivers/nvme/host/core.c | 1 +
- drivers/scsi/sd.c        | 1 +
- include/linux/blkdev.h   | 4 ++--
- 7 files changed, 11 insertions(+), 7 deletions(-)
+I noticed earlier today that disabling the IOMMU in the BIOS Setup seems
+to prevent the corruption from occurring. Another user in the bugzilla
+ticket just confirmed this.
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index c8368ee8de2e..db12396ff5c7 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -175,6 +175,9 @@ static void blk_validate_atomic_write_limits(struct queue_limits *lim)
- {
- 	unsigned int boundary_sectors;
- 
-+	if (!(lim->features & BLK_FEAT_ATOMIC_WRITES))
-+		goto unsupported;
-+
- 	if (!lim->atomic_write_hw_max)
- 		goto unsupported;
- 
-@@ -611,7 +614,7 @@ static bool blk_stack_atomic_writes_head(struct queue_limits *t,
- static void blk_stack_atomic_writes_limits(struct queue_limits *t,
- 				struct queue_limits *b, sector_t start)
- {
--	if (!(t->features & BLK_FEAT_ATOMIC_WRITES_STACKED))
-+	if (!(b->features & BLK_FEAT_ATOMIC_WRITES))
- 		goto unsupported;
- 
- 	if (!b->atomic_write_hw_unit_min)
-@@ -639,7 +642,6 @@ static void blk_stack_atomic_writes_limits(struct queue_limits *t,
- 	t->atomic_write_hw_unit_max = 0;
- 	t->atomic_write_hw_unit_min = 0;
- 	t->atomic_write_hw_boundary = 0;
--	t->features &= ~BLK_FEAT_ATOMIC_WRITES_STACKED;
- }
- 
- /**
-diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
-index 7049ec7fb8eb..8fc9339b00c7 100644
---- a/drivers/md/raid0.c
-+++ b/drivers/md/raid0.c
-@@ -384,7 +384,7 @@ static int raid0_set_limits(struct mddev *mddev)
- 	lim.max_write_zeroes_sectors = mddev->chunk_sectors;
- 	lim.io_min = mddev->chunk_sectors << 9;
- 	lim.io_opt = lim.io_min * mddev->raid_disks;
--	lim.features |= BLK_FEAT_ATOMIC_WRITES_STACKED;
-+	lim.features |= BLK_FEAT_ATOMIC_WRITES;
- 	err = mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRITY);
- 	if (err) {
- 		queue_limits_cancel_update(mddev->gendisk->queue);
-diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
-index a5cd6522fc2d..9d57a88dbd26 100644
---- a/drivers/md/raid1.c
-+++ b/drivers/md/raid1.c
-@@ -3217,7 +3217,7 @@ static int raid1_set_limits(struct mddev *mddev)
- 
- 	md_init_stacking_limits(&lim);
- 	lim.max_write_zeroes_sectors = 0;
--	lim.features |= BLK_FEAT_ATOMIC_WRITES_STACKED;
-+	lim.features |= BLK_FEAT_ATOMIC_WRITES;
- 	err = mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRITY);
- 	if (err) {
- 		queue_limits_cancel_update(mddev->gendisk->queue);
-diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
-index e1e6cd7fb125..efe93b979167 100644
---- a/drivers/md/raid10.c
-+++ b/drivers/md/raid10.c
-@@ -4018,7 +4018,7 @@ static int raid10_set_queue_limits(struct mddev *mddev)
- 	lim.max_write_zeroes_sectors = 0;
- 	lim.io_min = mddev->chunk_sectors << 9;
- 	lim.io_opt = lim.io_min * raid10_nr_stripes(conf);
--	lim.features |= BLK_FEAT_ATOMIC_WRITES_STACKED;
-+	lim.features |= BLK_FEAT_ATOMIC_WRITES;
- 	err = mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRITY);
- 	if (err) {
- 		queue_limits_cancel_update(mddev->gendisk->queue);
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9e7f1bb81973..cebaacead727 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2002,6 +2002,7 @@ static void nvme_update_atomic_write_disk_info(struct nvme_ns *ns,
- 	lim->atomic_write_hw_boundary = boundary;
- 	lim->atomic_write_hw_unit_min = bs;
- 	lim->atomic_write_hw_unit_max = rounddown_pow_of_two(atomic_bs);
-+	lim->features |= BLK_FEAT_ATOMIC_WRITES;
- }
- 
- static u32 nvme_max_drv_segments(struct nvme_ctrl *ctrl)
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 3d42480deb3f..7900817db8cc 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -992,6 +992,7 @@ static void sd_config_atomic(struct scsi_disk *sdkp, struct queue_limits *lim)
- 	lim->atomic_write_hw_boundary = lim->atomic_write_hw_max * 4;
- 	lim->atomic_write_hw_unit_min = unit_min * logical_block_size;
- 	lim->atomic_write_hw_unit_max = unit_max * logical_block_size;
-+	lim->features |= BLK_FEAT_ATOMIC_WRITES;
- }
- 
- static blk_status_t sd_setup_write_same16_cmnd(struct scsi_cmnd *cmd,
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 7ac153e4423a..76f0a4e7c2e5 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -331,8 +331,8 @@ typedef unsigned int __bitwise blk_features_t;
- #define BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE \
- 	((__force blk_features_t)(1u << 15))
- 
--/* stacked device can/does support atomic writes */
--#define BLK_FEAT_ATOMIC_WRITES_STACKED \
-+/* atomic writes enabled */
-+#define BLK_FEAT_ATOMIC_WRITES \
- 	((__force blk_features_t)(1u << 16))
- 
- /*
--- 
-2.31.1
+Ciao, Thorsten
+
+> [1] see start of this thread and/or
+> https://bugzilla.kernel.org/show_bug.cgi?id=219609 for details
+> 
+>> I put another disk (WD Black SN750) in the main M.2 slot (the
+>> problematic one), but kept my main disk (Solidigm P44 Pro) in the
+>> secondary M.2 slot (where it doesn't have any issues).
+>> I rerun my test: step 1) copy a large number of files to the WD disk
+>> (main slot), step 2) run btrfs scrub on it and expect some checksum
+>> errors
+>> To my surprise there were no errors!
+>> I tried it twice with different kernels (6.2.6 and 6.11.5) and booting
+>> from either disk (I have linux installations on both).
+>> Still no errors.
+>>
+>> I then removed the Solidigm disk from the secondary and kept the WD
+>> disk in the main M.2 slot.
+>> Rerun my tests (on kernel 6.11.5) and bang! btrfs scrub now detected
+>> quite a few checksum errors!
+>>
+>> I then tried disabling volatile write cache with "nvme set-feature
+>> /dev/nvme0 -f 6 -v 0"
+>> "nvme get-feature /dev/nvme0 -f 6" confirmed it was disabled, but
+>> /sys/block/nvme0n1/queue/fua still showed 1... Was that supposed to
+>> turn into 0?
+>>
+>> I re-run my test, but I still got checksum errors on btrfs scrub. So
+>> disabling volatile write cache (assuming I did it correctly) didn't
+>> make a difference in my case.
+>>
+>> I put the Solidigm disk back into the secondary slot, booted and rerun
+>> the test on the WD disk (main slot) just to be triple sure and still
+>> no errors.
+>>
+>> So it looks like the corruption only happens if only the main M.2 slot
+>> is occupied and the secondary M.2 slot is free.
+>> With two nvme disks (one on each M.2 slot), there were no errors at all.
+>>
+>> Stefan, did you ever try running your tests with 2 nvme disks
+>> installed on both slots? Or did you use only one slot at a time?
+> 
+> $ journalctl -k | grep -i -e DMAR -e IOMMU -e AMD-Vi -e SWIOTLB
+> AMD-Vi: Using global IVHD EFR:0x246577efa2254afa, EFR2:0x0
+> iommu: Default domain type: Translated
+> iommu: DMA domain TLB invalidation policy: lazy mode
+> pci 0000:00:00.2: AMD-Vi: IOMMU performance counters supported
+> pci 0000:00:01.0: Adding to iommu group 0
+> pci 0000:00:01.3: Adding to iommu group 1
+> pci 0000:00:02.0: Adding to iommu group 2
+> pci 0000:00:02.3: Adding to iommu group 3
+> pci 0000:00:03.0: Adding to iommu group 4
+> pci 0000:00:04.0: Adding to iommu group 5
+> pci 0000:00:08.0: Adding to iommu group 6
+> pci 0000:00:08.1: Adding to iommu group 7
+> pci 0000:00:08.2: Adding to iommu group 8
+> pci 0000:00:08.3: Adding to iommu group 9
+> pci 0000:00:14.0: Adding to iommu group 10
+> pci 0000:00:14.3: Adding to iommu group 10
+> pci 0000:00:18.0: Adding to iommu group 11
+> pci 0000:00:18.1: Adding to iommu group 11
+> pci 0000:00:18.2: Adding to iommu group 11
+> pci 0000:00:18.3: Adding to iommu group 11
+> pci 0000:00:18.4: Adding to iommu group 11
+> pci 0000:00:18.5: Adding to iommu group 11
+> pci 0000:00:18.6: Adding to iommu group 11
+> pci 0000:00:18.7: Adding to iommu group 11
+> pci 0000:01:00.0: Adding to iommu group 12
+> pci 0000:02:00.0: Adding to iommu group 13
+> pci 0000:03:00.0: Adding to iommu group 14
+> pci 0000:03:00.1: Adding to iommu group 15
+> pci 0000:03:00.2: Adding to iommu group 16
+> pci 0000:03:00.3: Adding to iommu group 17
+> pci 0000:03:00.4: Adding to iommu group 18
+> pci 0000:03:00.6: Adding to iommu group 19
+> pci 0000:04:00.0: Adding to iommu group 20
+> pci 0000:04:00.1: Adding to iommu group 21
+> pci 0000:05:00.0: Adding to iommu group 22
+> AMD-Vi: Extended features (0x246577efa2254afa, 0x0): PPR NX GT [5] IA GA
+> PC GA_vAPIC
+> AMD-Vi: Interrupt remapping enabled
+> AMD-Vi: Virtual APIC enabled
+> PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
+> perf/amd_iommu: Detected AMD IOMMU #0 (2 banks, 4 counters/bank).
 
 
