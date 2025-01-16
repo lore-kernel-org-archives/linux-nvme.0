@@ -4,71 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 777D8E77188
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 07:18:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8EDAC02183
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 10:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=51M4k8xEGlSa/3RksqnF8+qMsOs/hHDHxf4Vu47OMo4=; b=3gAeX28JP99rTlibrHdQQfAJwQ
-	vxKu4bUrOd6Wokl7dEPqzLfEJdW6L836Qp4EORPKNVbNriuyuSJfewwSXBQ93cedJ7o8Ebpv2+KQk
-	OQj6/kdus18fadR5rAFud5H5AT91fs26iBqsLvStXltVM3OsNgQZoNZXpqcQszItSpD5qKpPdrr+s
-	qDwwG8UUgqr5Hkb+5ADKJ3efBPsDNAiI4uzTa4Ec72ThLTzXpJPl6s7mHP+Az9n8/TgtPe3Jy+5o9
-	aayqpBACXQCgT/SSOVhTV+vJMRulk1sAffxPk9eJ4B0EbmMvPrGtIKpfUCRtjH0t/67n9Mbrb7XN8
-	6vIHkudw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XNPtSDa6XVF4zUwXYwxaiFEArinpy1Jhqi0F1r5Nk5Q=; b=2eGAg50QCbFLqiMzPzQ7aWyo5a
+	qvQ/oqlACbGiX7ZdmaiJIMgpX7O/XB8YggppwoPY/8b768EDOJmhp3XdwUCJ9tVvg25YJ56wHzmPy
+	Y4hbNMNh/WnwsDP76ZzL/W10n6LqbLcQ5cOZx7vgfU1y7vXlt41kz8S+XeLrFm8ejp2av2kEAw+Wz
+	Qx/XL1B9NfidorH8+0YoBlaB3QnNcV2XDC7rpjIpUGBv5IemnXOoTZCMI7e61boSQDOkJVMxZifxT
+	DpcvFivHgB4iB5kWgxxIatf7Niai5eqwxkaxPCm3FDqdqDenxO7EW/nBcZmNnxgFzeHnxtPtXlg5x
+	W/GytSJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYK8f-0000000E1Hw-3DYM;
-	Thu, 16 Jan 2025 07:18:01 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1tYMk2-0000000ERpu-0nQK;
+	Thu, 16 Jan 2025 10:04:46 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYK8d-0000000E1HV-3nCc
+	id 1tYMjz-0000000ERoO-0vfa
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Jan 2025 07:18:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1737011880; x=1768547880;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pbD+DT7qqtb70lmFhSoqJ6+Jxdzx93WFHz9jDMO5/pU=;
-  b=G0yOJzDf58WIVrMbivMFuD8JkbtdUK4hflxwTCeKCvvkyPjcEI8qDFQD
-   YVX8ZdR4SKNVFSdoBropZbcWwbNkN8w/ddhPDBpGlbgn/jOy8lvqeNVgV
-   PobLucA0q5cR0geXNK5PTB9hG6Cx4uvafcVWt+fk0kYsv+B7Buz49JyBK
-   LdhMrw1uUaoJ+TWOFQwUk4ePDuh925UgqxEP+WukIt0wLVRRsnznQZqBQ
-   koAP+lG8q1tKJgvg4Zl5Du1S4yXXkYH7wnRmfiSJBtaEE1wThAZEBSzVZ
-   rcJTvMjBvrBg9zpRL8VzWtkRMPvh9UCq65jkDC2j+SGmXLM8hVSxMTYPE
-   A==;
-X-CSE-ConnectionGUID: Lns+C7R8RD+XBCZg1tV8Pg==
-X-CSE-MsgGUID: 74pHRMQOTByFCHvguaDDkg==
-X-IronPort-AV: E=Sophos;i="6.13,208,1732550400"; 
-   d="scan'208";a="36059833"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 16 Jan 2025 15:17:56 +0800
-IronPort-SDR: 6788a3ca_iFQcBE7p0mwiigG7R26TwNAYgKfYHZ+9UhxEZ8AhRBxzjKr
- jj966amFOijrDkP+cDg9OQQ1F9+IilfqDYDVopA==
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 15 Jan 2025 22:14:34 -0800
-WDCIronportException: Internal
-Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.66.30])
-  by uls-op-cesaip02.wdc.com with ESMTP; 15 Jan 2025 23:17:55 -0800
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: Martin Wilck <martin.wilck@suse.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests] nvme/053: do not use awk
-Date: Thu, 16 Jan 2025 16:17:54 +0900
-Message-ID: <20250116071754.1161787-1-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.47.0
+	Thu, 16 Jan 2025 10:04:44 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 02EF85C5CD8;
+	Thu, 16 Jan 2025 10:04:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B18E2C4CED6;
+	Thu, 16 Jan 2025 10:04:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737021882;
+	bh=umRE6v25xluhGP765JX3qQKm9iDvOyK2b54s+f7mP5w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V+LUdMcWSz6X0NwN2VNwxC18SbqevUZzZF8qtF5uuMwgUobfeARBDRExAA/Br6LLU
+	 4RsBrAC6sLgqV4uEtwS4uppHqkaEzEC95BuWO7NUpiHoE2oUkB551WKoQ9SyGe1XQ0
+	 SZKt8/9g0nHClUkYXBbbM0EdANZO63jSgVd4nQHIKPRujdjEeX4gneeDTnKMDqa5VH
+	 0WBDUV/bn4GRzPALGj2rB1j2hxX4yjdcjGBesXzU1cssKtpp01fQ0O/GSGIplAgcxg
+	 Xy6WqJUVqPMl0FzVExkqFy0HG96UvxihmvbWRrr3k5EbYsVv9eYI3hGgiVhV/5D3AE
+	 jFbIznUVIvk2g==
+Date: Thu, 16 Jan 2025 11:04:36 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Oliver Sang <oliver.sang@intel.com>
+Cc: Christoph Hellwig <hch@lst.de>, oe-lkp@lists.linux.dev, lkp@intel.com,
+	linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org, Damien Le Moal <dlemoal@kernel.org>,
+	linux-btrfs@vger.kernel.org, linux-aio@kvack.org
+Subject: Re: [linus:master] [block]  e70c301fae: stress-ng.aiol.ops_per_sec
+ 49.6% regression
+Message-ID: <Z4jZtH2lhsZ3JTZ9@ryzen>
+References: <Z2EgW8/WNfzZ28mn@xsang-OptiPlex-9020>
+ <20241217065614.GA19113@lst.de>
+ <Z3ZhNYHKZPMpv8Cz@ryzen>
+ <20250103064925.GB27984@lst.de>
+ <Z3epOlVGDBqj72xC@ryzen>
+ <Z3zlgBB3ZrGApew7@xsang-OptiPlex-9020>
+ <Z35VVvuT0nl0iDfd@ryzen>
+ <Z4DD1Lgzvv66tS3w@xsang-OptiPlex-9020>
+ <Z4efKYwbf2QYBx40@ryzen>
+ <Z4ipFFdAppraxrmA@xsang-OptiPlex-9020>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z4ipFFdAppraxrmA@xsang-OptiPlex-9020>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250115_231759_949143_15BFE246 
-X-CRM114-Status: UNSURE (   9.61  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250116_020443_348907_97C7FF19 
+X-CRM114-Status: GOOD (  22.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,86 +84,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Luis observed that the test case nvme/053 fails in his environment [1]
-due to the following awk error message:
+On Thu, Jan 16, 2025 at 02:37:08PM +0800, Oliver Sang wrote:
+> On Wed, Jan 15, 2025 at 12:42:33PM +0100, Niklas Cassel wrote:
+> > 
+> > Looking closer at the raw number for stress-ng + none scheduler, in your
+> > other email, it seems clear that the raw values from the stress-ng workload
+> > can vary quite a lot. In the long run, I wonder if we perhaps can find a
+> > workload that has less variation. E.g. fio test for IOPS and fio test for
+> > throughout. But perhaps such workloads are already part of lkp-tests?
+> 
+> yes, we have fio tests [1].
+> as in [2], we get it from https://github.com/axboe/fio
+> not sure if it's just the fio you mentioned?
 
- awk: ...rescan.awk:2: warning: The time extension is obsolete.
- Use the timex extension from gawkextlib
+Yes, that's the one :)
 
-To avoid the failure and reduce dependencies, do not use awk in the test
-case. Instead, introduce the bash function get_sleep_time() to calculate
-the sleep time. Also implement the controller rescan loop in bash,
-following Martin's original patch [2].
 
-[1] https://lore.kernel.org/linux-block/20241218111340.3912034-1-mcgrof@kernel.org/
-[2] https://lore.kernel.org/linux-nvme/20240822193814.106111-3-mwilck@suse.com/
+> 
+> our framework is basically automatic. bot merged repo/branches it monitors
+> into so-called hourly kernel, then if found performance difference with base,
+> bisect will be triggered to capture which commit causes the change.
+> 
+> due to resource constraint, we cannot allot all testsuites (we have around 80)
+> to all platforms, and there are other various reasons which could cause us to
+> miss some performance differences.
+> 
+> if you have interests, could you help check those fio-basic-*.yaml files under
+> [3]? if you can spot out the correct case, we could do more tests to check
+> e70c301fae and its parent. thanks!
+> 
+> [1] https://github.com/intel/lkp-tests/tree/master/programs/fio
+> [2] https://github.com/intel/lkp-tests/blob/master/programs/fio/pkg/PKGBUILD
+> [3] https://github.com/intel/lkp-tests/tree/master/jobs
 
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
----
- tests/nvme/053 | 34 ++++++++++++++--------------------
- 1 file changed, 14 insertions(+), 20 deletions(-)
+I'm probably not the best qualified person to review this, would be nice if e.g.
+Jens himself (or others block layer folks) could have a look at these.
 
-diff --git a/tests/nvme/053 b/tests/nvme/053
-index 3ade8d3..99dbd38 100755
---- a/tests/nvme/053
-+++ b/tests/nvme/053
-@@ -12,8 +12,15 @@ DESCRIPTION="test controller rescan under I/O load"
- TIMED=1
- : "${TIMEOUT:=60}"
- 
-+get_sleep_time() {
-+	local duration=$((RANDOM % 50 + 1))
-+
-+	echo "$((duration / 10)).$((duration % 10))"
-+}
-+
- rescan_controller() {
--	local path
-+	local path finish
-+
- 	path="$1/rescan_controller"
- 
- 	[[ -f "$path" ]] || {
-@@ -21,24 +28,12 @@ rescan_controller() {
- 		return 1
- 	}
- 
--	awk -f "$TMPDIR/rescan.awk" \
--	    -v path="$path" -v timeout="$TIMEOUT" -v seed="$2" &
--}
--
--create_rescan_script() {
--	cat >"$TMPDIR/rescan.awk" <<EOF
--@load "time"
--
--BEGIN {
--    srand(seed);
--    finish = gettimeofday() + strtonum(timeout);
--    while (gettimeofday() < finish) {
--	sleep(0.1 + 5 * rand());
--	printf("1\n") > path;
--	close(path);
--    }
--}
--EOF
-+	finish=$(($(date +%s) + TIMEOUT))
-+	while [[ $(date +%s) -le $finish ]]; do
-+		# sleep interval between 0.1 and 5s
-+		sleep "$(get_sleep_time)"
-+		echo 1 >"$path"
-+	done
- }
- 
- test_device() {
-@@ -46,7 +41,6 @@ test_device() {
- 	local i st line
- 
- 	echo "Running ${TEST_NAME}"
--	create_rescan_script
- 
- 	while IFS= read -r line; do
- 		ctrls+=("$line")
--- 
-2.47.0
+What I can see is:
+https://github.com/intel/lkp-tests/blob/master/jobs/fio-basic-local-disk.yaml
 
+seems to do:
+    - randrw
+
+but only on for SSDs, not HDDs, and only on ext4.
+
+
+
+https://github.com/intel/lkp-tests/blob/master/jobs/fio-basic-1hdd-write.yaml
+
+does test ext4, btrfs, and xfs,
+but it does not do randrw.
+
+
+What are the thresholds for these tests counting as a regression?
+Are you comparing BW, or IOPS, or both?
+
+Looking at:
+https://github.com/intel/lkp-tests/blob/master/programs/fio/parse
+
+It seems to produce points for:
+bw_MBps
+iops
+total_ios
+clat_mean_ns
+clat_stddev
+slat_mean_us
+slat_stddev
+and more.
+
+So it does seem to compare BW, IOPS, total IOs, which is what I was looking
+for.
+
+Possibly even too much, as enabling too much logging will actually affect
+the results, since you need to write way more output to the logs.
+
+But again, Jens (and other block layer folks) are the experts.
+
+
+Kind regards,
+Niklas
 
