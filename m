@@ -4,74 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AEEAC02183
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 17:29:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F142C02187
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 20:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EmgiDGJ06XOUG1YIoDAkaKC1tAefzDilg41V+XocIA4=; b=l7mVpSw7Q7Hjg+BzwqLFTNrhu5
-	Fw6Mh2rF4000aPlhCBGGesvsQtFvvFw5rGPp6K5J+XnzD/GLn6pSXJuOKY5jz8ASgPv56Hv4zqf4n
-	/zJjSQtPFiEu3Ms9RdWLqNgcS1bEJIWmDCjMCxEDu6YoxU/QlKtWq3oFY+RgdkbvpnNeP7Mzp8SSq
-	KA0c8VKW/1dFzhTYQakOobJKW2iOA4KLCXYQw6b5EVocM5cbad3d5XCZENGOqxX3czE2CrqK9iD9q
-	7z/cfgBws1GNcgjFj0FMJnhoO/upubcnCVeguWVsVFayrPuZb8r3dn3JIXnNlUnBP5yuZPygQ546Z
-	GZfIDL9A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vjLKJevC2V7Xu5ADPJrgzXE+Cum0TiiT74cho1sXgi8=; b=amVdvfR9mH8znes5APDtL5YTAk
+	+cRWUcIAyUSkxPmR15Y5hf1DcteQRlzvGGzg4BKTxG5KNc0U8u4SNs5tN0PwWOisweFMiQxoQLVNu
+	j+Ay2ZBS6H50DNbPZH3P8fgtRE3UR3AshNd6k/6YaIB3eQbxZwQA3h829226KAUKEhhEBhQKCXaT1
+	Aa9E5dTjkNjtRt+V2ctrOOzFoVXhcss/lj9B1xTImiD1TM7sZSqa0SirAhzu0KE/aC3zFHyf9luIO
+	pjPQwhrBgeGaebtWGzJ15z8lXjvRFYSnlyWw9D/93UXI2xE+Qjaaj0SlpJFufsj8UinDOdtJ3YEwQ
+	TV+rcOAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYTgb-0000000FgIc-0MbA;
-	Thu, 16 Jan 2025 17:29:41 +0000
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+	id 1tYWKT-0000000FzTI-32Wc;
+	Thu, 16 Jan 2025 20:19:01 +0000
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYTgX-0000000FgI9-3GRa
+	id 1tYWKO-0000000FzR4-11IZ
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Jan 2025 17:29:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=EmgiDGJ06XOUG1YIoDAkaKC1tAefzDilg41V+XocIA4=; t=1737048577;
-	x=1737480577; b=X/DBxEUgzx/OZV3VbDlG2EY2Y2O4CURBl5iYFAMsws5iO79SXRk9L+g6qTk57
-	rOh+HZ8i1H+Zc2B/eM6lIYl8ObGB7E2CDEH0bAKcDf+757KrW9CFGuX/DvuX5VIzdnCLZ7hV0PVtp
-	24IrEwB+8nWtc75VnWqrDReTyInrOZjTurUnQUccrvn2o8N8XrQu3YqHsZvVJndEp1Y+bUR1l1lXN
-	q89toEA/UkRPqJBWutC0LzZLvVNpnP9cwc3ZvGPyvg/HM406x/Zf8dNZhZ5PWAhSkrJxQsP3+5aEn
-	rZBfpSSGtVuRVae0DBERWWMVXFOhOmsjaAY+UOElqB/XMOXUXA==;
-Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
-	id 1tYTgT-0098c1-19;
-	Thu, 16 Jan 2025 18:29:33 +0100
-Message-ID: <d01f0e3c-7a0c-4255-baa0-27b31cc552d5@leemhuis.info>
-Date: Thu, 16 Jan 2025 18:29:32 +0100
+	Thu, 16 Jan 2025 20:18:57 +0000
+Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-6d89a727a19so24105756d6.0
+        for <linux-nvme@lists.infradead.org>; Thu, 16 Jan 2025 12:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1737058735; x=1737663535; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vjLKJevC2V7Xu5ADPJrgzXE+Cum0TiiT74cho1sXgi8=;
+        b=js3ifblFs1Rc9PSFpoUbeZxMpcntlYWGbpo+GWMgCpH19CIxzkqmXNqDRra9Lktr5p
+         RjAkTfegW6DoGYvc1ni2ACB+gL8god/7aE428oHtkG6PUNA/vap7ooswy452IZMb4z9J
+         oXb+hEryy8WwznkLVvvkMtSTToA3d0bKlAA/oA4n0vmsJVhH+o9XNrqPRdBhm5T2lx01
+         kXepiV2Gg8Qd4lRyBtfjMFrapu47A3BS1zKLU5bjBOgwAzKjgpyGggJukmAdJkSQX06a
+         dknNNQYgOKXF6HU7iS60lz5F9lW0+JzJbbZxltCEGL6nbrE9RPgyeE1HEZHCRsFZkGBm
+         hYoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737058735; x=1737663535;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vjLKJevC2V7Xu5ADPJrgzXE+Cum0TiiT74cho1sXgi8=;
+        b=sppUqskjXe64IaRufPyPUQbfyIqsPULT4S8OBR1kj+aqMIekzrSQbZU3AhL0bnJW3j
+         WOz1lADz/n/IuzwcoEWKTrhEacVAt4T9xQNQMwASvp3gP+QPeoO3xkgJI8H/5iCHoRkE
+         VS/jn9iz+L5V+sJ1xvMgUKvFoyL6If/jgi/Brxebo13tO6Cwh815bRnaAeYAyrOmWrKo
+         38sa+bfmwGqIopX2ib/0zuGowKnuBnYQKbomHKFNlffmvcM5bPfiwqNRfdnx8xqgzZU4
+         hZfexyVuvfmrAHCbCc80Hk9iHhVUjnHPYQh7a/ypf/v57ICoO0FlzUzfUmxsSs+f0bbU
+         UySw==
+X-Forwarded-Encrypted: i=1; AJvYcCXUKqV9gnfjM9xEdKdgLgPLVHUDCpvQcysJkVHT8MdusjQH3K2L69Y2mnVp0N6mvD6SuocNYzEhbObz@lists.infradead.org
+X-Gm-Message-State: AOJu0YwSLTtMS6udKq+edGo3zckD0UwFDblX6bCe8m+tLYdWf1xETxTM
+	/096iw0RoQqHs8rBeU/tBcJmRSg98U37FmnTMcYqkj8MIEq3JganDACehKjnzwA=
+X-Gm-Gg: ASbGncs1kz1uXWjJAFAxIXuujLPoQwLk+z2Ph7POmgJAbg++qnOs3YQ5X4IqCr+fnVZ
+	EQceCDrJud5lXrwK+5FZ8Xi4eFS6GcjZ+GKTIFrCOHXv7QOI1B3UpX8pxBnlgrlnI/3TJHrGROw
+	Tg08YjZ8xN+Tf8Hgky21nTdVU/vWdT5MweBJl+2O9QcgfsZg1DndW/EusMVeoRb52s7I50TkYiG
+	iu9WzID/saSjFD2tEe3t++Wx2sKhNOakR0qYFLRBNxX6MjsOToFHB/7fYa+KLgCvF1mURD/7+Az
+	PQ8Wh9B0fT9FHfSGqfpjx9raqqLoQQ==
+X-Google-Smtp-Source: AGHT+IGiuhJCb6CE3xcrJekt3qGHV8KtpIud5ATr1ePaT30zfzK6ww+BnPBnVPMzNC6cTFY+JSWjmQ==
+X-Received: by 2002:a05:6214:20a2:b0:6e1:715f:cdf5 with SMTP id 6a1803df08f44-6e192ca312amr104688286d6.15.1737058735081;
+        Thu, 16 Jan 2025 12:18:55 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e1afce4695sm3441426d6.104.2025.01.16.12.18.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2025 12:18:54 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1tYWKL-00000002y1X-3wBD;
+	Thu, 16 Jan 2025 16:18:53 -0400
+Date: Thu, 16 Jan 2025 16:18:53 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v5 07/17] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20250116201853.GE674319@ziepe.ca>
+References: <cover.1734436840.git.leon@kernel.org>
+ <fa43307222f263e65ae0a84c303150def15e2c77.1734436840.git.leon@kernel.org>
+ <ad2312e0-10d5-467a-be5e-75e80805b311@arm.com>
+ <20250115083340.GL3146852@unreal>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-To: "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>, bugzilla-daemon@kernel.org,
- Adrian Huang <ahuang12@lenovo.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- Jens Axboe <axboe@fb.com>, LKML <linux-kernel@vger.kernel.org>,
- Christoph Hellwig <hch@lst.de>, Stefan <linux-kernel@simg.de>,
- Bruno Gravato <bgravato@gmail.com>
-References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
- <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de>
- <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
- <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
- <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
- <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1737048577;d6c822d4;
-X-HE-SMSGID: 1tYTgT-0098c1-19
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250115083340.GL3146852@unreal>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250116_092937_974496_FAFD1135 
-X-CRM114-Status: GOOD (  29.03  )
+X-CRM114-CacheID: sfid-20250116_121856_288515_9816AF4B 
+X-CRM114-Status: GOOD (  11.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,119 +120,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 15.01.25 09:40, Thorsten Leemhuis wrote:
-> On 15.01.25 07:37, Bruno Gravato wrote:
->> I finally got the chance to run some more tests with some interesting
->> and unexpected results...
+On Wed, Jan 15, 2025 at 10:33:40AM +0200, Leon Romanovsky wrote:
+> > > +	do {
+> > > +		phys_addr_t phys;
+> > > +		size_t len;
+> > > +
+> > > +		phys = iommu_iova_to_phys(domain, addr);
+> > > +		if (WARN_ON(!phys))
+> > > +			continue;
+> > 
+> > Infinite WARN_ON loop, nice.
 > 
-> FWIW, I briefly looked into the issue in between as well and can
-> reproduce it[1] locally with my Samsung SSD 990 EVO Plus 4TB in the main
-> M.2 slot of my DeskMini X600 using btrfs on a mainline kernel with a
-> config from Fedora rawhide.
-> 
-> So what can we that are affected by the problem do to narrow it down?
-> 
-> What does it mean that disabling the NVMe devices's write cache often
-> but apparently not always helps? It it just reducing the chance of the
-> problem occurring or accidentally working around it?
-> 
-> hch initially brought up that swiotlb seems to be used. Are there any
-> BIOS setup settings we should try? I tried a few changes yesterday, but
-> I still get the "PCI-DMA: Using software bounce buffering for IO
-> (SWIOTLB)" message in the log and not a single line mentioning DMAR.
+> No problem, will change it to WARN_ON_ONCE.
 
-FWIW, I meanwhile became aware that it is normal that there are no lines
-with DMAR when it comes to AMD's IOMMU. Sorry for the noise.
+I think the other point is that the addr doesn't increase, so this
+loop will lock up.
 
-But there is a new development:
+Possibly just do return? I suppose something is hopelessly corrupted
+if we ever hit this..
 
-I noticed earlier today that disabling the IOMMU in the BIOS Setup seems
-to prevent the corruption from occurring. Another user in the bugzilla
-ticket just confirmed this.
-
-Ciao, Thorsten
-
-> [1] see start of this thread and/or
-> https://bugzilla.kernel.org/show_bug.cgi?id=219609 for details
-> 
->> I put another disk (WD Black SN750) in the main M.2 slot (the
->> problematic one), but kept my main disk (Solidigm P44 Pro) in the
->> secondary M.2 slot (where it doesn't have any issues).
->> I rerun my test: step 1) copy a large number of files to the WD disk
->> (main slot), step 2) run btrfs scrub on it and expect some checksum
->> errors
->> To my surprise there were no errors!
->> I tried it twice with different kernels (6.2.6 and 6.11.5) and booting
->> from either disk (I have linux installations on both).
->> Still no errors.
->>
->> I then removed the Solidigm disk from the secondary and kept the WD
->> disk in the main M.2 slot.
->> Rerun my tests (on kernel 6.11.5) and bang! btrfs scrub now detected
->> quite a few checksum errors!
->>
->> I then tried disabling volatile write cache with "nvme set-feature
->> /dev/nvme0 -f 6 -v 0"
->> "nvme get-feature /dev/nvme0 -f 6" confirmed it was disabled, but
->> /sys/block/nvme0n1/queue/fua still showed 1... Was that supposed to
->> turn into 0?
->>
->> I re-run my test, but I still got checksum errors on btrfs scrub. So
->> disabling volatile write cache (assuming I did it correctly) didn't
->> make a difference in my case.
->>
->> I put the Solidigm disk back into the secondary slot, booted and rerun
->> the test on the WD disk (main slot) just to be triple sure and still
->> no errors.
->>
->> So it looks like the corruption only happens if only the main M.2 slot
->> is occupied and the secondary M.2 slot is free.
->> With two nvme disks (one on each M.2 slot), there were no errors at all.
->>
->> Stefan, did you ever try running your tests with 2 nvme disks
->> installed on both slots? Or did you use only one slot at a time?
-> 
-> $ journalctl -k | grep -i -e DMAR -e IOMMU -e AMD-Vi -e SWIOTLB
-> AMD-Vi: Using global IVHD EFR:0x246577efa2254afa, EFR2:0x0
-> iommu: Default domain type: Translated
-> iommu: DMA domain TLB invalidation policy: lazy mode
-> pci 0000:00:00.2: AMD-Vi: IOMMU performance counters supported
-> pci 0000:00:01.0: Adding to iommu group 0
-> pci 0000:00:01.3: Adding to iommu group 1
-> pci 0000:00:02.0: Adding to iommu group 2
-> pci 0000:00:02.3: Adding to iommu group 3
-> pci 0000:00:03.0: Adding to iommu group 4
-> pci 0000:00:04.0: Adding to iommu group 5
-> pci 0000:00:08.0: Adding to iommu group 6
-> pci 0000:00:08.1: Adding to iommu group 7
-> pci 0000:00:08.2: Adding to iommu group 8
-> pci 0000:00:08.3: Adding to iommu group 9
-> pci 0000:00:14.0: Adding to iommu group 10
-> pci 0000:00:14.3: Adding to iommu group 10
-> pci 0000:00:18.0: Adding to iommu group 11
-> pci 0000:00:18.1: Adding to iommu group 11
-> pci 0000:00:18.2: Adding to iommu group 11
-> pci 0000:00:18.3: Adding to iommu group 11
-> pci 0000:00:18.4: Adding to iommu group 11
-> pci 0000:00:18.5: Adding to iommu group 11
-> pci 0000:00:18.6: Adding to iommu group 11
-> pci 0000:00:18.7: Adding to iommu group 11
-> pci 0000:01:00.0: Adding to iommu group 12
-> pci 0000:02:00.0: Adding to iommu group 13
-> pci 0000:03:00.0: Adding to iommu group 14
-> pci 0000:03:00.1: Adding to iommu group 15
-> pci 0000:03:00.2: Adding to iommu group 16
-> pci 0000:03:00.3: Adding to iommu group 17
-> pci 0000:03:00.4: Adding to iommu group 18
-> pci 0000:03:00.6: Adding to iommu group 19
-> pci 0000:04:00.0: Adding to iommu group 20
-> pci 0000:04:00.1: Adding to iommu group 21
-> pci 0000:05:00.0: Adding to iommu group 22
-> AMD-Vi: Extended features (0x246577efa2254afa, 0x0): PPR NX GT [5] IA GA
-> PC GA_vAPIC
-> AMD-Vi: Interrupt remapping enabled
-> AMD-Vi: Virtual APIC enabled
-> PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
-> perf/amd_iommu: Detected AMD IOMMU #0 (2 banks, 4 counters/bank).
-
+Jason
 
