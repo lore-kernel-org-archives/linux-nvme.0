@@ -4,108 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F142C02187
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2961C02188
 	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 20:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vjLKJevC2V7Xu5ADPJrgzXE+Cum0TiiT74cho1sXgi8=; b=amVdvfR9mH8znes5APDtL5YTAk
-	+cRWUcIAyUSkxPmR15Y5hf1DcteQRlzvGGzg4BKTxG5KNc0U8u4SNs5tN0PwWOisweFMiQxoQLVNu
-	j+Ay2ZBS6H50DNbPZH3P8fgtRE3UR3AshNd6k/6YaIB3eQbxZwQA3h829226KAUKEhhEBhQKCXaT1
-	Aa9E5dTjkNjtRt+V2ctrOOzFoVXhcss/lj9B1xTImiD1TM7sZSqa0SirAhzu0KE/aC3zFHyf9luIO
-	pjPQwhrBgeGaebtWGzJ15z8lXjvRFYSnlyWw9D/93UXI2xE+Qjaaj0SlpJFufsj8UinDOdtJ3YEwQ
-	TV+rcOAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UWcaUtuO90zmn8faUf05SzR2dGWVW4kI1CTYtfGsZ2o=; b=KBcL+3bk0NvTv+HG/9QK8cBaAd
+	hQVJw5PitI9sL1m9X/kYGfQyKLjObdkRmFKqS/wZpWRyAWqLZj8udTy5knuCJoNiGr6PmkuVp9cxb
+	gkNCdOwyYzeTQW60mu5ySmS0KM4z+gySna+nrR4HKwKwo/8kMM/nwEjUvrTBMuag+WK4PUfd3Xtko
+	nN8YXeJP0Z9vIEwM6GUeurrWhraSabXJSaCExgGtTSrPMioMhblEfOWMUapQY2RBQYdXLrynupXWi
+	7aKRv2644vJspVRUXnirqdB0xYEedlyxceaePLxBti2rmS5HPAEovxX7dmwEXOLlKg7Uq15ENzzUJ
+	F88OG/Mw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYWKT-0000000FzTI-32Wc;
+	id 1tYWKT-0000000FzT2-0Ny8;
 	Thu, 16 Jan 2025 20:19:01 +0000
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a])
+Received: from mail-mw2nam12on20624.outbound.protection.outlook.com ([2a01:111:f403:200a::624] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYWKO-0000000FzR4-11IZ
+	id 1tYWIs-0000000FzDi-2Dx2
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Jan 2025 20:18:57 +0000
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-6d89a727a19so24105756d6.0
-        for <linux-nvme@lists.infradead.org>; Thu, 16 Jan 2025 12:18:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1737058735; x=1737663535; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vjLKJevC2V7Xu5ADPJrgzXE+Cum0TiiT74cho1sXgi8=;
-        b=js3ifblFs1Rc9PSFpoUbeZxMpcntlYWGbpo+GWMgCpH19CIxzkqmXNqDRra9Lktr5p
-         RjAkTfegW6DoGYvc1ni2ACB+gL8god/7aE428oHtkG6PUNA/vap7ooswy452IZMb4z9J
-         oXb+hEryy8WwznkLVvvkMtSTToA3d0bKlAA/oA4n0vmsJVhH+o9XNrqPRdBhm5T2lx01
-         kXepiV2Gg8Qd4lRyBtfjMFrapu47A3BS1zKLU5bjBOgwAzKjgpyGggJukmAdJkSQX06a
-         dknNNQYgOKXF6HU7iS60lz5F9lW0+JzJbbZxltCEGL6nbrE9RPgyeE1HEZHCRsFZkGBm
-         hYoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737058735; x=1737663535;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vjLKJevC2V7Xu5ADPJrgzXE+Cum0TiiT74cho1sXgi8=;
-        b=sppUqskjXe64IaRufPyPUQbfyIqsPULT4S8OBR1kj+aqMIekzrSQbZU3AhL0bnJW3j
-         WOz1lADz/n/IuzwcoEWKTrhEacVAt4T9xQNQMwASvp3gP+QPeoO3xkgJI8H/5iCHoRkE
-         VS/jn9iz+L5V+sJ1xvMgUKvFoyL6If/jgi/Brxebo13tO6Cwh815bRnaAeYAyrOmWrKo
-         38sa+bfmwGqIopX2ib/0zuGowKnuBnYQKbomHKFNlffmvcM5bPfiwqNRfdnx8xqgzZU4
-         hZfexyVuvfmrAHCbCc80Hk9iHhVUjnHPYQh7a/ypf/v57ICoO0FlzUzfUmxsSs+f0bbU
-         UySw==
-X-Forwarded-Encrypted: i=1; AJvYcCXUKqV9gnfjM9xEdKdgLgPLVHUDCpvQcysJkVHT8MdusjQH3K2L69Y2mnVp0N6mvD6SuocNYzEhbObz@lists.infradead.org
-X-Gm-Message-State: AOJu0YwSLTtMS6udKq+edGo3zckD0UwFDblX6bCe8m+tLYdWf1xETxTM
-	/096iw0RoQqHs8rBeU/tBcJmRSg98U37FmnTMcYqkj8MIEq3JganDACehKjnzwA=
-X-Gm-Gg: ASbGncs1kz1uXWjJAFAxIXuujLPoQwLk+z2Ph7POmgJAbg++qnOs3YQ5X4IqCr+fnVZ
-	EQceCDrJud5lXrwK+5FZ8Xi4eFS6GcjZ+GKTIFrCOHXv7QOI1B3UpX8pxBnlgrlnI/3TJHrGROw
-	Tg08YjZ8xN+Tf8Hgky21nTdVU/vWdT5MweBJl+2O9QcgfsZg1DndW/EusMVeoRb52s7I50TkYiG
-	iu9WzID/saSjFD2tEe3t++Wx2sKhNOakR0qYFLRBNxX6MjsOToFHB/7fYa+KLgCvF1mURD/7+Az
-	PQ8Wh9B0fT9FHfSGqfpjx9raqqLoQQ==
-X-Google-Smtp-Source: AGHT+IGiuhJCb6CE3xcrJekt3qGHV8KtpIud5ATr1ePaT30zfzK6ww+BnPBnVPMzNC6cTFY+JSWjmQ==
-X-Received: by 2002:a05:6214:20a2:b0:6e1:715f:cdf5 with SMTP id 6a1803df08f44-6e192ca312amr104688286d6.15.1737058735081;
-        Thu, 16 Jan 2025 12:18:55 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e1afce4695sm3441426d6.104.2025.01.16.12.18.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2025 12:18:54 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1tYWKL-00000002y1X-3wBD;
-	Thu, 16 Jan 2025 16:18:53 -0400
-Date: Thu, 16 Jan 2025 16:18:53 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v5 07/17] dma-mapping: Implement link/unlink ranges API
-Message-ID: <20250116201853.GE674319@ziepe.ca>
-References: <cover.1734436840.git.leon@kernel.org>
- <fa43307222f263e65ae0a84c303150def15e2c77.1734436840.git.leon@kernel.org>
- <ad2312e0-10d5-467a-be5e-75e80805b311@arm.com>
- <20250115083340.GL3146852@unreal>
+	Thu, 16 Jan 2025 20:17:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UuKzLsiOevuiWVQ+mm5G0XPZzHaO1hPgW5cFL1rDjaHaLWrhH9veXds7fr93ojeCwaI1vjGEGAxlOR6rk7ttRKHFUMsnG4WsOhu0UXlgA9O9XSaJd5XXXnzzIoNtmizJuKsfoLkbhPTBd3KAerJlS4SGSREwu8nZxVsLZq4zPMQqwSKXCBmkH1k0u1zglDjskJElxfKz448EbwgrWb/PcU6K7uDK/YBFLcBZ8LYCKHeLD5GvMzuxH0v1CEzAufSwpkL0Gw0i7nxJCmzM+3sTOhRUNkMSzzpUSrHGsMPQnRKRGbiSfuaTWDYT3JmIYt5G3s3CxKlb2CVZF444ZIZMcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UWcaUtuO90zmn8faUf05SzR2dGWVW4kI1CTYtfGsZ2o=;
+ b=ZnUFpXJ+HveaOtK3NtSXKOGOfGXh6enHF4K+RZok2o420O7wHREMCgyWXR7CMmmM1XAgoktAR0huKVJGYXr1TOTx/IGWuApDcQxfUm59yEB16jEyF9sj4ZmQq0s5rWsTOBZIaXSht4+v5kENf4Bh3YAqsqjjNYO4hMydQeogOnW1CeCWk6ZDG8i/cpTQ4MkYKdwQ1TZGMhu6fDcBAlAJrtVn48vbRBRW2XjTYBA/Ym/LTIv/C/Hm7Y4E8a6l30g5Evz7w5Ic6ezw4HlpbxrvqBYTw54quVjvb9AxCeuxItRGWQIBCveFQkZcZaTzWMIeNMqj3zwvnf7pr4mpqU3P2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UWcaUtuO90zmn8faUf05SzR2dGWVW4kI1CTYtfGsZ2o=;
+ b=O/23ktz6oFz0nC7LF6o7wgUikM0I8iiJUVkZArhUNRevrrqRUQ2kYXY8KwxICe5IpStWQ8L91amsCY4fP6H+Eb4LI1pvht8syE1nNDaNHBCEXUiTfqhUrSTjA33aAKXTqpuxgFe/jhD2ynqNG4ACDFKtL6IPY8iSM6sMQNJxlVZ90hExCa2/JuTz3SDwrOJ0ZbufW5kdMawC6NCCV3vNVsULVCQOnCXLy43zlNFhwuE4dgLzYRgQCns4ZPW0cxojyQxwMOTqu8DfP/2GcjBt+CDdAgZPMjPBBivywtjQkLqC7TtGweMlKYOGPkjut2r426sgy4iyDGTnp6+58JxWfg==
+Received: from BN9PR03CA0759.namprd03.prod.outlook.com (2603:10b6:408:13a::14)
+ by IA1PR12MB8359.namprd12.prod.outlook.com (2603:10b6:208:3fc::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.14; Thu, 16 Jan
+ 2025 20:17:18 +0000
+Received: from BN2PEPF000055DE.namprd21.prod.outlook.com
+ (2603:10b6:408:13a:cafe::a5) by BN9PR03CA0759.outlook.office365.com
+ (2603:10b6:408:13a::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.14 via Frontend Transport; Thu,
+ 16 Jan 2025 20:17:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN2PEPF000055DE.mail.protection.outlook.com (10.167.245.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8377.0 via Frontend Transport; Thu, 16 Jan 2025 20:17:17 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 16 Jan
+ 2025 12:17:01 -0800
+Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 16 Jan
+ 2025 12:17:01 -0800
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>
+Subject: [PATCH] nvme-core: decode the error on add disk()
+Date: Thu, 16 Jan 2025 12:15:27 -0800
+Message-ID: <20250116201527.9252-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250115083340.GL3146852@unreal>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055DE:EE_|IA1PR12MB8359:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d74c5df-66cd-4223-9a02-08dd366ac654
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+D6KdkEWugblq7QJhUZwHepgTWXLX9dJanZt+0MvtzZlOXsp4du5bW+0ZBAK?=
+ =?us-ascii?Q?INtkhCMeHR6fXRDkkxLrzXHAlsHWMZoj4jdJwTytpBeuzxFFk6pDUxuz0SsT?=
+ =?us-ascii?Q?cvCog0D9NX1AKpel1DIIiizegIBsw0ABgfURlbclFcWtZOx+1Uab7yVRzJPl?=
+ =?us-ascii?Q?k4zAVtgMGcS0+Mlg3+lp6xX2wXvdupvAGoDPsJe661hrzAwx0yHfBDx1d4K5?=
+ =?us-ascii?Q?MIqwZEle4YfevwpgNaZHLIUXzzWvCiNttyDdtS0hJVyWxRmM8+GcuHmMvuOf?=
+ =?us-ascii?Q?AYMF/ai48avgdBuTICsO8I0R5BS7YgWi3SmjWWBMV0WW3uXPHGwUvBd1qP7a?=
+ =?us-ascii?Q?Tqjy6uQPiTtQ84PJTVIimD8j5YXi9X7cdEM4VNG67Ts2YWz4HTEd/c1QLpOe?=
+ =?us-ascii?Q?9RcjPaExEY3DvIWZa1d4P4fEDEqDnHqIQqC91O6WSkZboa+48VpXKTXVYqtM?=
+ =?us-ascii?Q?YakoUGDqhxXyGPbrmLwXnwqrAeraj4aHQh095MtZz/Z2sRHHRzLSI0e50Tq+?=
+ =?us-ascii?Q?Z2h96O44Zh5FbK1+Qu0zZB5aI6THcPacQfWF63YpkT9u7V/oqzcTh7lFSQsO?=
+ =?us-ascii?Q?1N+3NiHcWw+31ZsrqrYNFU6xeKCK4n8fNCHNkSWZpwVN5daN0bRONAe46rr1?=
+ =?us-ascii?Q?q8FEP0JfH976AcJ3HWqO8cMiAAyFSqHAoToHubLY9AL8XeL/h+5+e6QZevmU?=
+ =?us-ascii?Q?r8Wf1FBXmS0UfeUQa/bp3RtbklelaMhFGkU5DKcNthXw+xQBjA6sgxe5Sb3h?=
+ =?us-ascii?Q?W2zKe+7tnMu0C5DL0BkYdCa2MDXlOGVNlREvwbDBz6f3lzVOBJYss4iurTnI?=
+ =?us-ascii?Q?JfmGJyXb1TQXCpy+OBOHoa8p+WceXeWbsHwAMslI+fehWUkcT8M/ow84RXz4?=
+ =?us-ascii?Q?0OAcKhfhHTV024z2NnEic2shnbLOHkdLQR0Vkji4OFT6+acbld4yQ0ohf9/E?=
+ =?us-ascii?Q?JUBTj0XByfwDJTSibgaQ4JCRUdVHrrO25W16b8wrR8+WCpV5ugfvG+9Y9kFX?=
+ =?us-ascii?Q?WMess4I6obrSJUw5MqacHfTcJIoMdYZAAclydxUF61aYCOiOk36amrfvVgFR?=
+ =?us-ascii?Q?PzlxLqWdw+r4VeFkFYAuqVMCPrtppx6fqQiHeqIlp9mRAWjYhNecpLjk04Tv?=
+ =?us-ascii?Q?g0V/ErpWNGmeCUPHy0p9CV31FZNyoTeF47dg9/ZEQNEF6Z/BLL7darEtKKSi?=
+ =?us-ascii?Q?y/nP1djtilo7GpSbOt7o0HmZwIsZK02DxwmHC4OareXU4/EfHw44rtzkCnUI?=
+ =?us-ascii?Q?4C5N03mK1pPXwPsn0RaQVreOhRZbkBccdGsTKi3XgWgVBqEM+qN8H68iS5Gp?=
+ =?us-ascii?Q?RG/4UnF0uNobdUpXzGbdu4hmKntnlxkqPUYeYUSUZDmUJchIHzz7J7pe3EYK?=
+ =?us-ascii?Q?BfUcvXA0eDbuzhbsb2nvB8nD8Iqf0YyJG6D8ASNCV/oiD8Ru0tmDHAXDIpRV?=
+ =?us-ascii?Q?b47yp3/EXEXoA2ndhbc6mVdn7vyIZ8mxV19BBRtrvlj70XCf1D+CS0fUlrr1?=
+ =?us-ascii?Q?RgNPxkSDdmJ7UGM=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2025 20:17:17.6469
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d74c5df-66cd-4223-9a02-08dd366ac654
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055DE.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8359
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250116_121856_288515_9816AF4B 
-X-CRM114-Status: GOOD (  11.92  )
+X-CRM114-CacheID: sfid-20250116_121722_596415_5206222A 
+X-CRM114-Status: GOOD (  11.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,24 +146,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 15, 2025 at 10:33:40AM +0200, Leon Romanovsky wrote:
-> > > +	do {
-> > > +		phys_addr_t phys;
-> > > +		size_t len;
-> > > +
-> > > +		phys = iommu_iova_to_phys(domain, addr);
-> > > +		if (WARN_ON(!phys))
-> > > +			continue;
-> > 
-> > Infinite WARN_ON loop, nice.
-> 
-> No problem, will change it to WARN_ON_ONCE.
+While debugging the problem, it is important to know that what exact
+error returned by device_add_disk() along side the disk name. Print
+the error along with disk name when device_add_disk() fails when
+allocating the namespace.
 
-I think the other point is that the addr doesn't increase, so this
-loop will lock up.
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/nvme/host/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Possibly just do return? I suppose something is hopelessly corrupted
-if we ever hit this..
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2a0555856795..0be42f9b86b5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3868,6 +3868,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	struct nvme_ns *ns;
+ 	struct gendisk *disk;
+ 	int node = ctrl->numa_node;
++	int rc;
+ 
+ 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
+ 	if (!ns)
+@@ -3933,8 +3934,12 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	synchronize_srcu(&ctrl->srcu);
+ 	nvme_get_ctrl(ctrl);
+ 
+-	if (device_add_disk(ctrl->device, ns->disk, nvme_ns_attr_groups))
++	rc = device_add_disk(ctrl->device, ns->disk, nvme_ns_attr_groups);
++	if (rc) {
++		dev_err(ctrl->device, "%s:failed to add disk %d:%s\n",
++			__func__, rc, disk->disk_name);
+ 		goto out_cleanup_ns_from_list;
++	}
+ 
+ 	if (!nvme_ns_head_multipath(ns->head))
+ 		nvme_add_ns_cdev(ns);
+-- 
+2.40.0
 
-Jason
 
