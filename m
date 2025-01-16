@@ -4,86 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90069C02182
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 987ADC0218B
 	for <linux-nvme@archiver.kernel.org>; Thu, 23 Jan 2025 16:03:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ku8ubNYre/w13pJMtu7Kp0D6VT+U0ludZSt17Nd8EU4=; b=cO+8emUcwDDSVJY/Qbxs09R6rE
-	Xhzkx0maWQmH4oeRX5xyIWiXrq06K2lcyRi+fPQA3vK5vDXVzQ9SPfHIvnHyJG97HW48ygJUAKh8h
-	XCBF1rJ4oY5pof/Bg7IEYgTRIrdDqKKCb7ByfTMjhs8TS0NMp9kwC+cZe5pVKHzmGdkr9Cm9z93CB
-	OdY0CYAVTLy7iUaMh0rgewfacs9BOPVftd6XAQeEJeU7CwEwtlb4HSxaFs6tIAnMGFstSL29FwqHp
-	CWLHXkuIM5lKp3G854ctB+ydV0/9+QT9Tcj4ofnI1ICglusAFp+CzgMpEEfG4ygtRMZ+fiFv+G4jv
-	PAtOkEng==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EbtnCvIBhizI33olOZMwRKtKQTYB/pf/Ycf4SJQkswc=; b=4jrASDJ/E6hGLbyfkKviClcjw8
+	gczc+AjsZnBJtEpIol906hexFF0bN1WqPfl4dEN8VtSHTfeEueso+dlG0+RvlKwbqxOE9aXeyA08R
+	BSHSAYTDyzJjmg2MTsK+1tXwYBWnBZoP33tXtsRHoWpv6f4nL1K2qFQDy7ngrYX+pqJiyzkFjwO4l
+	8cyx5NMmBcXF2HzPjiPd6YpO0wVfEQOxk10u8DO6aZpNWWG2qJWT1nzShVVcfJODwVliDvN3h3sNu
+	MAE1SF9OINw60neFm3Fg0ItGaedTej/RC58CKtz4DTFEJ4KfJ+cT5Tfh8tDO4yny9MqKsA8KXXIWX
+	ab3WsIoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tazgP-0000000Cm2J-1MgJ;
-	Thu, 23 Jan 2025 16:03:53 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tazgO-0000000Cm0E-3B4b;
+	Thu, 23 Jan 2025 16:03:52 +0000
+Received: from metis.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::104])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYjD2-0000000HWr9-1b8N
+	id 1tYKi4-0000000E5bB-1udf
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Jan 2025 10:04:14 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1D1215C5710;
-	Fri, 17 Jan 2025 10:03:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAD5BC4CEE5;
-	Fri, 17 Jan 2025 10:04:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737108250;
-	bh=F8sJw/87mV5gIytPIjyBvaX8yGczgIz08QAVaYWaMzI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q9tywBk0v0rMbF2vqYafzs4kkPbPNI5m9+Y6dMJkANGUXLqUMewUXxW8CCTVE0O5+
-	 4/h08s6bsJmh1lhXo7P6OpgiTbG4BmCxLQeNTIFVqUSPWjgEnOcRiOeau5NGCxbOTS
-	 mkGR/8kOyOxWSxJVNrM04Wj+trb2Fp5EH7vOJmSdxGc/c7tqX+yYL4nz07hJZ1Cz+F
-	 R/BbHgmwV6EIXl4GFoyM6mIOCRD/RLUzC9lakllGhSiyT4MNuSLgpKtPJi6rBUs+BU
-	 R3+UWt2WOc17d19WYOWBh9efL6SYldmI8WwttyBmNNLetjghTsui0z3GCdExEIiX9G
-	 Bb2gdP4klOqaA==
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"Keith Busch" <kbusch@kernel.org>,
-	"Bjorn Helgaas" <bhelgaas@google.com>,
-	"Logan Gunthorpe" <logang@deltatee.com>,
-	"Yishai Hadas" <yishaih@nvidia.com>,
-	"Shameer Kolothum" <shameerali.kolothum.thodi@huawei.com>,
-	"Kevin Tian" <kevin.tian@intel.com>,
-	"Alex Williamson" <alex.williamson@redhat.com>,
-	"Marek Szyprowski" <m.szyprowski@samsung.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	"Andrew Morton" <akpm@linux-foundation.org>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v6 04/17] iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
-Date: Fri, 17 Jan 2025 12:03:35 +0200
-Message-ID: <0ae577f8b99f7e03c679729434c87ea7daf78955.1737106761.git.leon@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1737106761.git.leon@kernel.org>
-References: <cover.1737106761.git.leon@kernel.org>
+	Thu, 16 Jan 2025 07:54:38 +0000
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1tYKhY-00075C-P9; Thu, 16 Jan 2025 08:54:04 +0100
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1tYKhT-000DS2-0M;
+	Thu, 16 Jan 2025 08:53:59 +0100
+Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 165233A99BF;
+	Thu, 16 Jan 2025 07:53:43 +0000 (UTC)
+Date: Thu, 16 Jan 2025 08:53:42 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Kees Cook <kees@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Cheng Xu <chengyou@linux.alibaba.com>, Kai Shen <kaishen@linux.alibaba.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Christian Benvenuti <benve@cisco.com>, Nelson Escobar <neescoba@cisco.com>, Bernard Metzler <bmt@zurich.ibm.com>, Karsten Keil <isdn@linux-pingi.de>, Michal Ostrowski <mostrows@earthlink.net>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>, Mike Christie <michael.christie@oracle.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Alexander Aring <aahringo@redhat.com>, David Teigland <teigland@redhat.com>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, Namjae Jeon <linkinjeon@kernel.org>, Steve French <sfrench@samba.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, Tom Talpey <tom@talpey.com>, Simon Horman <horms@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, David Ahern <dsahern@kernel.org>, Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Oliver Hartkopp <socketcan@hartkopp.net>, Robin van der Gracht <robin@protonic.nl>, Oleksij Rempel <o.rempel@pengutronix.de>, Alexandra Winter <wintera@linux.ibm.com>, Thorsten Winkler <twinkler@linux.ibm.com>, James Chapman <jchapman@katalix.com>, Krzysztof Kozlowski <krzk@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Remi Denis-Courmont <courmisch@gmail.com>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Allison Henderson <allison.henderson@oracle.com>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, Xin Long <lucien.xin@gmail.com>, Wenjia Zhang <wenjia@linux.ibm.com>, Jan Karcher <jaka@linux.ibm.com>, "D. Wythe" <alibuda@linux.alibaba.com>, Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>, Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>, Stefano Garzarella <sgarzare@redhat.com>, Martin Schiller <ms@dev.tdt.de>, Kentaro Takeda <takedakn@nttdata.co.jp>, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Guillaume Nault <gnault@redhat.com>, Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>, Andrew Morton <akpm@linux-foundation.org>, Wu Yunchuan <yunchuan@nfschina.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, Maurizio Lombardi <mlombard@redhat.com>, David Howells <dhowells@redhat.com>, Atte =?utf-8?B?SGVpa2tpbMOk?= <atteh.mailbox@gmail.com>, Vincent Duvert <vincent.ldev@duvert.net>, Denis Kirjanov <kirjanov@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Thomas Huth <thuth@redhat.com>, Andrew Waterman <waterman@eecs.berkeley.edu>, Palmer Dabbelt <palmer@dabbelt.com>, Andrej Shadura <andrew.shadura@collabora.co.uk>, Ying Hsu <yinghsu@chromium.org>, Kuniyuki Iwashima <kuniyu@amazon.com>, Tom Parkin <tparkin@katalix.com>, Jason Xing <kernelxing@tencent.com>, Dan Carpenter <error27@gmail.com>, Hyunwoo Kim <v4bel@theori.io>, Bernard Pidoux <f6bvp@free.fr>, Sangsoo Lee <constant.lee@samsung.com>, Doug Brown <doug@schmorgal.com>, Ignat Korchagin <ignat@cloudflare.com>, Gou Hao <gouhao@uniontech.com>, Mina Almasry <almasrymina@google.com>, 
+ Abhishek Chauhan <quic_abchauha@quicinc.com>, Yajun Deng <yajun.deng@linux.dev>, Michal Luczaj <mhal@rbox.co>, Jiri Pirko <jiri@resnulli.us>, syzbot <syzkaller@googlegroups.com>, linux-kernel@vger.kernel.org, kernel@pengutronix.de, linux-rdma@vger.kernel.org, netdev@vger.kernel.org, linux-nvme@lists.infradead.org, open-iscsi@googlegroups.com, linux-scsi@vger.kernel.org, linux-arm-msm@vger.kernel.org, target-devel@vger.kernel.org, gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev, linux-cifs@vger.kernel.org, linux-hams@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org, linux-s390@vger.kernel.org, rds-devel@oss.oracle.com, linux-sctp@vger.kernel.org, tipc-discussion@lists.sourceforge.net, virtualization@lists.linux.dev, linux-x25@vger.kernel.org, linux-security-module@vger.kernel.org, syzbot+d7ce59b06b3eb14fd218@syzkaller.appspotmail.com, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] net: Convert proto_ops::getname to sockaddr_storage
+Message-ID: <20250116-light-panda-of-reverence-2f5da8-mkl@pengutronix.de>
+References: <20241217023417.work.145-kees@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nbdyd5ky7ajuduf3"
+Content-Disposition: inline
+In-Reply-To: <20241217023417.work.145-kees@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250117_020412_508458_050143A1 
-X-CRM114-Status: GOOD (  12.97  )
+X-CRM114-CacheID: sfid-20250115_235436_652352_95514C83 
+X-CRM114-Status: GOOD (  23.91  )
 X-Mailman-Approved-At: Thu, 23 Jan 2025 08:03:47 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -99,51 +80,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
 
-Add kernel-doc section for iommu_unmap and iommu_unmap_fast to document
-existing limitation of underlying functions which can't split individual
-ranges.
+--nbdyd5ky7ajuduf3
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] net: Convert proto_ops::getname to sockaddr_storage
+MIME-Version: 1.0
 
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Acked-by: Will Deacon <will@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/iommu/iommu.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+On 16.12.2024 18:34:28, Kees Cook wrote:
+> The proto_ops::getname callback was long ago backed by sockaddr_storage,
+> but the replacement of it for sockaddr was never done. Plumb it through
+> all the getname() callbacks, adjust prototypes, and fix casts.
+>=20
+> There are a few cases where the backing object is _not_ a sockaddr_storage
+> and converting it looks painful. In those cases, they use a cast to
+> struct sockaddr_storage. They appear well bounds-checked, so the risk
+> is no worse that we have currently.
+>=20
+> Other casts to sockaddr are removed, though to avoid spilling this
+> change into BPF (which becomes a much larger set of changes), cast the
+> sockaddr_storage instances there to sockaddr for the time being.
+>=20
+> In theory this could be split up into per-caller patches that add more
+> casts that all later get removed, but it seemed like there are few
+> enough callers that it seems feasible to do this in a single patch. Most
+> conversions are mechanical, so review should be fairly easy. (Famous
+> last words.)
+>=20
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+>  net/can/isotp.c                               |  3 +-
+>  net/can/j1939/socket.c                        |  2 +-
+>  net/can/raw.c                                 |  2 +-
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index ec75d14497bf..c86a57abe292 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2590,6 +2590,25 @@ size_t iommu_unmap(struct iommu_domain *domain,
- }
- EXPORT_SYMBOL_GPL(iommu_unmap);
- 
-+/**
-+ * iommu_unmap_fast() - Remove mappings from a range of IOVA without IOTLB sync
-+ * @domain: Domain to manipulate
-+ * @iova: IO virtual address to start
-+ * @size: Length of the range starting from @iova
-+ * @iotlb_gather: range information for a pending IOTLB flush
-+ *
-+ * iommu_unmap_fast() will remove a translation created by iommu_map().
-+ * It can't subdivide a mapping created by iommu_map(), so it should be
-+ * called with IOVA ranges that match what was passed to iommu_map(). The
-+ * range can aggregate contiguous iommu_map() calls so long as no individual
-+ * range is split.
-+ *
-+ * Basically iommu_unmap_fast() is the same as iommu_unmap() but for callers
-+ * which manage the IOTLB flushing externally to perform a batched sync.
-+ *
-+ * Returns: Number of bytes of IOVA unmapped. iova + res will be the point
-+ * unmapping stopped.
-+ */
- size_t iommu_unmap_fast(struct iommu_domain *domain,
- 			unsigned long iova, size_t size,
- 			struct iommu_iotlb_gather *iotlb_gather)
--- 
-2.47.1
+Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for net/can
 
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--nbdyd5ky7ajuduf3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmeIuv8ACgkQKDiiPnot
+vG/tCQgAnoYMQthE5qhN4islXZibYx3HOEVpQp20V/CdVVRH56MNpoQvsjN0F5I9
+Pe8FiGuyUR9fNqhHJPDV5qTZfzq6vRSoc7PpwLTwF9ReyzpbKcMrYcmv/Wkbso1k
+faQaG0U/F/5wp2/nsK1h/PUHRvlwFfLs41wCCmlXQDks5vvt1U+8F/0mUiM/L0yT
+SQG9iudLNDMEv22xlkR1e90s94ARgRIKcBcOZ9LudgYLwGmT8I3JAenyHET3Q8d2
+GWVaepqliLBxoq7pfWcJm1yFL8DFp2xSUy/gP7BqrfKIJoJhRqOR2EXGSgAZ6rek
+c/YmUBVaGDu2ZBkxhzlB6NKXFu9dBA==
+=LAEY
+-----END PGP SIGNATURE-----
+
+--nbdyd5ky7ajuduf3--
 
