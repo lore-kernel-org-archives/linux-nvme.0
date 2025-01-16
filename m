@@ -4,87 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4A8BC02180
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 03:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9591E77188
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Jan 2025 06:10:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V8ajfguuS2Rxfdfi6zqoxzNS63Xd85WyDdMClAf0/HI=; b=FarFfRSn1G1vAlRftXa9yMRZl4
-	d/Api7JpSm/o0YR59RN82a8BvvyZYTa0nnPAfd9ir+vofek+Fqf8ddvPbk2jiuqyONjiq8+ODofTp
-	hX8DXVckQ3PwGji7FzXEs9ZFagTnL9npuKfHPBN8+oHrccJPIfPUpZHXIrIWfx8mrvUApsZBSxLPe
-	3cbWbcii+QdQJ8qjx+d+cK8PTv4Om5u5Y5TYOrXPXGHphT5aB/GVfY3q9jHfwfzcVFiLr3KMwy50y
-	0zvcr+eaBMHlFHvLblJ30l49m89TWqhmyRL7A7qBW8cVnTi5l/z8ZA+QGnir5mu8EfJ5ks3lnhs/3
-	lOLRRagQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9Djx6DI2B3ZjoP48qQTGcUespANUShDQ/vb2/CkNwP0=; b=3uFE3Y80YqqvHu2mUR8+RII/og
+	YEf1hykts0fXBRK0RUtGIKEC/YpuN6SbyjuPIsv1sZLPM7igQ5no2nz1eulxvwOGn7ElmGR/F2RyT
+	uSZjE6GRpgyOkRdfd9mpzsIR+RK5VLbna5BPIVM0iEfq7v+rVEiUDtMeiQlR4VvCdxlEx6xR0Kwt4
+	f2as2G7+Qnzkbo4EYHno4rz8xKJC3KGpjs0XLerILp+SToWNRZCDa273QR/xtPARu5Is91+gLcw+H
+	nr0H0Xq838KKWCWJ1ihaVhmtYU07uWoj+EpB2pus6DHo+iv+CORoqPf683FuOmFMkE5NrSZzw3JsP
+	6Yfx111A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYGBf-0000000Dgsl-0mCW;
-	Thu, 16 Jan 2025 03:04:51 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1tYJ56-0000000Dvkc-0XKC;
+	Thu, 16 Jan 2025 06:10:16 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYGBb-0000000Dgri-0u4c
+	id 1tYJ53-0000000DvkH-13Fs
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Jan 2025 03:04:49 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4YYSPz5kvwz4f3jqM
-	for <linux-nvme@lists.infradead.org>; Thu, 16 Jan 2025 11:04:23 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 0B1641A0C55
-	for <linux-nvme@lists.infradead.org>; Thu, 16 Jan 2025 11:04:39 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgDHKl9Fd4hnGHdVBA--.30220S3;
-	Thu, 16 Jan 2025 11:04:38 +0800 (CST)
-Message-ID: <a8ea2143-0b10-43ba-a464-7ce3348bb5af@huaweicloud.com>
-Date: Thu, 16 Jan 2025 11:04:36 +0800
+	Thu, 16 Jan 2025 06:10:14 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 168F568BFE; Thu, 16 Jan 2025 07:10:05 +0100 (CET)
+Date: Thu, 16 Jan 2025 07:10:04 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Marco Patalano <mpatalan@redhat.com>,
+	Ewan Milne <emilne@redhat.com>,
+	James Smart <james.smart@broadcom.com>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [RFC PATCH] nvme-fc: move tagset removal to
+ nvme_fc_delete_ctrl()
+Message-ID: <20250116061004.GA25010@lst.de>
+References: <20250113124446.830697-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 0/8] fallocate: introduce FALLOC_FL_WRITE_ZEROES
- flag
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "hch@lst.de" <hch@lst.de>, "tytso@mit.edu" <tytso@mit.edu>,
- "djwong@kernel.org" <djwong@kernel.org>,
- "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
- "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
- "yukuai3@huawei.com" <yukuai3@huawei.com>,
- "yangerkun@huawei.com" <yangerkun@huawei.com>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-References: <20250115114637.2705887-1-yi.zhang@huaweicloud.com>
- <ccebada1-ac72-468e-8342-a9c645e5221e@nvidia.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <ccebada1-ac72-468e-8342-a9c645e5221e@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: gCh0CgDHKl9Fd4hnGHdVBA--.30220S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFW8AryxWrW8Kr4xAw18Zrb_yoW8Aw43pF
-	WUXrZ8KrWkuF40yrnrua17u34fXw4xCr1fArWUWFyUZ3ZxAry7CanxK3yj9FW8uF9agF1j
-	vrW8JF9rCr4FyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
-	aFAJUUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250113124446.830697-1-ming.lei@redhat.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250115_190447_639855_615F2786 
-X-CRM114-Status: GOOD (  14.81  )
+X-CRM114-CacheID: sfid-20250115_221013_441447_B54CFEAB 
+X-CRM114-Status: GOOD (  19.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,43 +64,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025/1/16 5:07, Chaitanya Kulkarni wrote:
-> On 1/15/25 03:46, Zhang Yi wrote:
->> Currently, we can use the fallocate command to quickly create a
->> pre-allocated file. However, on most filesystems, such as ext4 and XFS,
->> fallocate create pre-allocation blocks in an unwritten state, and the
->> FALLOC_FL_ZERO_RANGE flag also behaves similarly. The extent state must
->> be converted to a written state when the user writes data into this
->> range later, which can trigger numerous metadata changes and consequent
->> journal I/O. This may leads to significant write amplification and
->> performance degradation in synchronous write mode. Therefore, we need a
->> method to create a pre-allocated file with written extents that can be
->> used for pure overwriting. At the monent, the only method available is
->> to create an empty file and write zero data into it (for example, using
->> 'dd' with a large block size). However, this method is slow and consumes
->> a considerable amount of disk bandwidth, we must pre-allocate files in
->> advance but cannot add pre-allocated files while user business services
->> are running.
+On Mon, Jan 13, 2025 at 08:44:46PM +0800, Ming Lei wrote:
+> Now target is removed from nvme_fc_ctrl_free() which is the ctrl->ref
+> release handler. And even admin queue is unquiesced there, this way
+> is definitely wrong because the ctr->ref is grabbed when submitting
+> command.
 > 
-> it will be very useful if we can get some blktests for scsi/nvme/dm.
-> Please note that this not a blocker to get this path series to be merged,
-> but this will help everyone including regular tests runs we do to ensure
-> the stability of new interface.
-
-Hello, Chaitanya,
-
-Thanks for your feedback! Yeah, the proposal for this series is still under
-discussion, I will add counterpart tests to both blktests and fstests once
-the solution is determined.
-
+> And Marco observed that nvme_fc_ctrl_free() can be called from request
+> completion code path, and trigger kernel warning since request completes
+> from softirq context.
 > 
-> if you do please CC and Shinichiro (added to CC list) to we can help those
-> tests review and potentially also can provide tested by tag tht can help
-> this work to move forward.
+> Fix the issue by moveing target removal into nvme_fc_delete_ctrl(),
+> which is also aligned with nvme-tcp and nvme-rdma.
 > 
-Sure, this will be very helpful.
 
-Thanks,
-Yi.
+Yeah, the current placement is wrong.  Can I talk someone to make
+the whole setup/teardown process in nvme-fc match that of the other
+fabrics (and slightly less so PCIe) order?  I know a long time ago
+Sagi was atually looking into sharing more code as well, but that
+would be a next step.
+
+But I'd really like to have one known working sequence instead
+of various different ones.
 
 
