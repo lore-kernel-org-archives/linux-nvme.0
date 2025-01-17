@@ -4,94 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F701C02183
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 22:03:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 695FBC02183
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 22:06:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ud5I1k1mT2TYj5aNdd11m5o9FdbSdYLBuawoHgrvp7I=; b=TpB/AQnwoMCRHy8ybi62TnYiEk
-	gSWpnLanXnHuRw+BnkdMGrHCZw6S+ka4Zmb+uOBgcVmEJGFRHmUKrSs507HbILv1fPZVcTXZfC8bg
-	NVPCjdnP3w/plnC2pd4iHg8ua0FTU8X2OA3UzfNmJi0kE85nVBFUBdQZp3EOg6RxaMaf18CxWS5NL
-	rxmh9vaZvd7T8NTxMsttjR//ca0fodczNfnpS/yZOITIp2Xx9hLVIsoG5q5V0WgG24vehkCOTNAaV
-	1HhjfawMViIQm/mWsysVLeZWvDBGh9u2Kevf4L3igF6sw52xPWntLrGS3z1WvzWsMp7aAu9v902fT
-	OwSK6CIw==;
+	bh=K78DXbNOH78/MjAMf4mnwzSRNEsYwp/05NMbt7XWjEM=; b=Sp0LXaD/K1+rlucptjfGxODxTB
+	1b2saFE/zrnLaGJHAloM+38bIAOwDp04VfQ9i+/8aRvD3e5j9tBXu7sHKDvPoEskSn90ZjCYlwatt
+	F3HeEjVrsaUFha0MiheAk14Eiq8EvWA6vD/LHd1D+Pl5ye8d44bMNsqfKnYCiXRP0dRZamvUcKTkA
+	XT5VlQPzOFeQmClkJWAJ5Ss8oTJ20OR6zx6dBO3m5JyR90IN8myXmzme/F//EYe/pY0+aS9ZeMYzf
+	dfQkCcF+WxOH+x3tHMrhlZup3dhFIcnv0Wia+1pa0xR0vJ/wBlwgU1OP+DvGhiV3obRd9A4ykGv0j
+	AWGbhoSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYuRY-00000001Ras-0OOu;
-	Fri, 17 Jan 2025 22:03:56 +0000
+	id 1tYuTv-00000001Rvy-2nhW;
+	Fri, 17 Jan 2025 22:06:23 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYuRU-00000001RZq-2vNf
+	id 1tYuTt-00000001Rv9-0xjf
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Jan 2025 22:03:54 +0000
+	Fri, 17 Jan 2025 22:06:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1737151430;
+	s=mimecast20190719; t=1737151580;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ud5I1k1mT2TYj5aNdd11m5o9FdbSdYLBuawoHgrvp7I=;
-	b=KexV9G9YmmL3fikKxYrHJXSI5Qs/KMkUve/ErXptvPbo1jKJC2gNf7HXh+YgztXJacyiGb
-	oZpe1/PSfeRkbXTxq6zbpFn3uAm348gFaPTtjo/QT5iqXLAdPC+I56Cm+O5EexNI/GLS0S
-	Kt0Jhvc5NWYzqXPQLAjoA/6f/rnLmng=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=K78DXbNOH78/MjAMf4mnwzSRNEsYwp/05NMbt7XWjEM=;
+	b=UMKI+Q3PiOfRQaJi8y948Kh/mJqgKJIZur1Mkx3Lh/fCUZiAvuVdjvVw+dm8BCg6bcPcdV
+	F3It8uudLJpOJ42KITrOKKGrgUgzmHeb4Nt1EJqCpa7Syf3ZS1l78UrKoTClFhFI5C2orQ
+	FPSD733viWQvjjJAoBQGfdRwMsEhx6U=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-CRnj22BeNBS3iKXea7Ly_A-1; Fri, 17 Jan 2025 17:03:46 -0500
-X-MC-Unique: CRnj22BeNBS3iKXea7Ly_A-1
-X-Mimecast-MFC-AGG-ID: CRnj22BeNBS3iKXea7Ly_A
-Received: by mail-yb1-f198.google.com with SMTP id 3f1490d57ef6-e3988f71863so4360158276.0
-        for <linux-nvme@lists.infradead.org>; Fri, 17 Jan 2025 14:03:46 -0800 (PST)
+ us-mta-433-VDUrl9zDNpyiTliixN2jBw-1; Fri, 17 Jan 2025 17:06:18 -0500
+X-MC-Unique: VDUrl9zDNpyiTliixN2jBw-1
+X-Mimecast-MFC-AGG-ID: VDUrl9zDNpyiTliixN2jBw
+Received: by mail-yb1-f197.google.com with SMTP id 3f1490d57ef6-e3a1bc0c875so4949130276.2
+        for <linux-nvme@lists.infradead.org>; Fri, 17 Jan 2025 14:06:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737151426; x=1737756226;
+        d=1e100.net; s=20230601; t=1737151578; x=1737756378;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ud5I1k1mT2TYj5aNdd11m5o9FdbSdYLBuawoHgrvp7I=;
-        b=qHVOxnD1xM5Isrl0iYFyE8a8vqJQqhPrYIL2x+yX4CqXwXJ7fe9+OQa43/i3jOHAoz
-         oJ+wacRB1k4SMY2wYnszgez2Tfi2THPDioYSTTDVt/2/iiKRQQbOCiWHD8aH3hSehqcl
-         fTDsc2DsVwIp/4CdmKIbBitUJi3qTejhyhq+yJ8v1qiY4TVny/5uKERnDVmwqDNJjK6L
-         XfA+mavd9HhDC3pFkAir2bdmktSPvDCUddtdDJnq2jjuWR9fOR4Kj6ZfiE4uX6EQUen1
-         xp9PsVMjQYl/IC6hQ+T4FhaKCGg7AvnxX6K3gAb87E6e0Pac79Q0Aj5G2B9c9NzBJVot
-         u4hQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUGV31eZM3Q+AJ8Ev2O43UWNxErIDXJHdpJ0WXR9ERp7mISEC2rElQOkTkycMtbk8rNWY4VoCZNsqXA@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz6ZyqLM9RbmBC1sU7F7E97k8dpywTZ2DI+Gq6OvybmB1I1M10K
-	pvVIJJ5zgNR1hkI3Q5iVnSzMt+pn30FEtrMusvM9H53iaxdyDoOrBVNbF9uMaEFbrjmqlioVdJp
-	TywnWQYlLkZ6+nu9qKNaHpkcBIEqXqJivIlkSs6jT1ySf/JNxjG0p01CroOp83zQUI1JIDjM8Ub
-	zj8jaIEn9CIa5eCmfWOqoVhOkP7FPKTXt3+eCTtQ4=
-X-Gm-Gg: ASbGnctC2ksbEVy8nnOha4m+tG7r1KXQB1x08ULXjJyFIBxihRUgrYoeWJEPOvPtUW+
-	zPnzzUGiQ7u2sBptTGbI3h5vOimhint3DJaYfEDVWEKF0IfjGSlo=
-X-Received: by 2002:a05:6902:1886:b0:e53:64a6:2dda with SMTP id 3f1490d57ef6-e57b132bbcbmr3576569276.37.1737151426252;
-        Fri, 17 Jan 2025 14:03:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEQwvrSdsuqlBWpT0himi7jmlaYLUhffo5y8yQ3fW0Xeiz+oEH1S8Kb7TROawUAlUnc1hNHXFBI8DZg2pJsecE=
-X-Received: by 2002:a05:6902:1886:b0:e53:64a6:2dda with SMTP id
- 3f1490d57ef6-e57b132bbcbmr3576538276.37.1737151425895; Fri, 17 Jan 2025
- 14:03:45 -0800 (PST)
+        bh=K78DXbNOH78/MjAMf4mnwzSRNEsYwp/05NMbt7XWjEM=;
+        b=i5WKoUuBzf5siZWlk6flTvzqnd2TQbo1RQLB8WUPrurIV4UdBhLUHM33l0tU6nq3yP
+         3WER4BgHr90BmJEbsaGR88vjiW/Tv+ZDnbdsTqUFZ6+0D64cGEWllrXTWuZIooegBcGZ
+         ZOOrDkldnyRZhQiV0GcQgIaMHH8/9yYZvoOlLkC+VbKjX0SnEw9J3DTQL7/SRqDObdnG
+         KBomFgnrYTMF078sUCE4nIWPPWo3M79LFujNm73nV/J3Tz0HcJnF6vzzq8bhISUsQLVU
+         fHswTUoEPYQTeYYAswRToOrqp0ORHBxTUruRNZtDmHEFPHx6j3tb66/b+fLQpU8UkdJ7
+         5EMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUqXM2qx0UqPzWIbpee+Q92ddihNZTYRmx115DPtzuBk/P5PT21RQSli1WX4yWgpL7Kyke4GFGEo3By@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw0AQjqiWnHWor424RzlOKnI1Qg31u2o1AczhuPe129A/beO7rB
+	94bTiNgy9S0H5iYiJYGYs8FmZ/zn9z4KL7GIF8iZE21hW+iTRBRSDUz5dHy71jKm57+egytedyq
+	dniKIDqAVV4jO3pGWZCpRq/nCiff+EeDDfw5g8ns4vYwmaNi/pma9JJMBKtL/6JYQ+a6b0OyYv+
+	TFdnk7x8RHGIY8TcnpmjVmSXbVtrhh6w1f04Wf5Ac=
+X-Gm-Gg: ASbGncvd1zXwuekVyHdHESrVQcwoLVSbXkkTMXm26rWb+/B/JJHST0ayjDvcBzOoyLd
+	Hg5tJ6mA2DwUqWYM0NO8ctdK7YzgudgrMOh1IVw==
+X-Received: by 2002:a05:6902:2408:b0:e57:87b3:d2f0 with SMTP id 3f1490d57ef6-e57b1060c05mr3809089276.15.1737151578346;
+        Fri, 17 Jan 2025 14:06:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEzrd8dx9ZA0A0/5TNfLVrh3HwCOIXdMomZfPfSxbubGOO9loyHuc4IGY+reIG/Le3gICDKLnpaZ8TLfdA7HEc=
+X-Received: by 2002:a05:6902:2408:b0:e57:87b3:d2f0 with SMTP id
+ 3f1490d57ef6-e57b1060c05mr3809073276.15.1737151578118; Fri, 17 Jan 2025
+ 14:06:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20250113124446.830697-1-ming.lei@redhat.com> <CAGtn9r=bqfqm6d0ipf6pc5Rure=NdkxdX+K=gTp4iAQ6qUYVtQ@mail.gmail.com>
- <CAGtn9r=pJjpZVoGt9deesQxv=G9tC4r8ZNAWVX2nTErQWAo3Rw@mail.gmail.com>
- <CAGtn9rn=rUsaOACWyOLAx2=E++WvStwtQwyXZR=kxYmuCQQ0_A@mail.gmail.com> <Z4hnfSFc1hobsN7g@fedora>
-In-Reply-To: <Z4hnfSFc1hobsN7g@fedora>
+References: <20250113124446.830697-1-ming.lei@redhat.com> <20250116061004.GA25010@lst.de>
+In-Reply-To: <20250116061004.GA25010@lst.de>
 From: Ewan Milne <emilne@redhat.com>
-Date: Fri, 17 Jan 2025 17:03:34 -0500
-X-Gm-Features: AbW1kvZW4yj3u8b3ARg5Uoa-kojpD82rO190zgRgRbpArJE7HwxyxrUUPovWXIc
-Message-ID: <CAGtn9rkVq1VpMnF2SbdVmsN8Fv1rHKdG6kcfaWxAKoyyeML=gw@mail.gmail.com>
+Date: Fri, 17 Jan 2025 17:06:07 -0500
+X-Gm-Features: AbW1kvb_O9XXcx7mLQk4vNbyzUgKaR42L8POiBfTHKz3kQVq93BSH_baB2l5_3E
+Message-ID: <CAGtn9r=zuwKuUZP=9P-YWyMrnZprGfXqJLCO3WyMK7iDSnuSBA@mail.gmail.com>
 Subject: Re: [RFC PATCH] nvme-fc: move tagset removal to nvme_fc_delete_ctrl()
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
-	Marco Patalano <mpatalan@redhat.com>, James Smart <james.smart@broadcom.com>, 
-	Sagi Grimberg <sagi@grimberg.me>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Ming Lei <ming.lei@redhat.com>, Keith Busch <kbusch@kernel.org>, 
+	linux-nvme@lists.infradead.org, Marco Patalano <mpatalan@redhat.com>, 
+	James Smart <james.smart@broadcom.com>, Sagi Grimberg <sagi@grimberg.me>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 7TL7ImXqK3uY4gh8R2Xjkv--xF2wxumHgSFlGiIfoek_1737151426
+X-Mimecast-MFC-PROC-ID: v1m9TM2HdFOP-MGSambHRcLUjOgm0H0lQA-cnt3PWvQ_1737151578
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250117_140352_816569_31077C0D 
-X-CRM114-Status: GOOD (  20.82  )
+X-CRM114-CacheID: sfid-20250117_140621_341859_F42233E1 
+X-CRM114-Status: GOOD (  18.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,52 +104,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-So testing looks like it is showing that the WARN_ON() I referenced
-earlier goes away
-after reverting all the recent keepalive changes, all the way back to
-and including:
-
-a54a93d0e359 nvme: move stopping keep-alive into nvme_uninit_ctrl()
-
-But I think this is just because this makes the keeaplive stop early enough=
-.
-
-I think the problem is that the call do nvme_stop_keep_alive() does
-not wait unitil
-the keepalive command, if in progress, completes.  It just makes sure that
-nvme_keep_alive_work() is not queued or running.  But the keepalive command
-is asynchronous, invoked via blk_execute_rq_nowait().  (I had thought that =
-the
-ref taken on the nvme_fc_ctrl while the command was in progress would have
-covered this though.)
+I'll work with Ming & Marco on this and see if we can get this straightened=
+ out.
 
 -Ewan
 
-On Wed, Jan 15, 2025 at 8:57=E2=80=AFPM Ming Lei <ming.lei@redhat.com> wrot=
+
+On Thu, Jan 16, 2025 at 1:10=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
 e:
 >
-> Hi Ewan,
+> On Mon, Jan 13, 2025 at 08:44:46PM +0800, Ming Lei wrote:
+> > Now target is removed from nvme_fc_ctrl_free() which is the ctrl->ref
+> > release handler. And even admin queue is unquiesced there, this way
+> > is definitely wrong because the ctr->ref is grabbed when submitting
+> > command.
+> >
+> > And Marco observed that nvme_fc_ctrl_free() can be called from request
+> > completion code path, and trigger kernel warning since request complete=
+s
+> > from softirq context.
+> >
+> > Fix the issue by moveing target removal into nvme_fc_delete_ctrl(),
+> > which is also aligned with nvme-tcp and nvme-rdma.
+> >
 >
-> On Wed, Jan 15, 2025 at 12:33:50PM -0500, Ewan Milne wrote:
-> > Moving the tagset removal to the end of nvme_fc_delete_ctrl() ran OK an=
-d we
-> > no longer see the WARN_ON() seen earlier, however I think that there is=
- a
-> > potential problem with doing this because the keepalive is not stopped =
-until
-> > nvme_uninit_ctrl() is called.  On our systems w/FC kato is normally dis=
-abled
-> > so we wouldn't see any problem but this isn't true in the general case.
+> Yeah, the current placement is wrong.  Can I talk someone to make
+> the whole setup/teardown process in nvme-fc match that of the other
+> fabrics (and slightly less so PCIe) order?  I know a long time ago
+> Sagi was atually looking into sharing more code as well, but that
+> would be a next step.
 >
-> Please see e9869c85c811 ("nvme-fabrics: fix kernel crash while shutting d=
-own controller")
-> which stops the keepalive request at the entry of
-> nvme_remove_admin_tag_set().
->
-> So your above concern shouldn't exist.
->
-> Thanks,
-> Ming
+> But I'd really like to have one known working sequence instead
+> of various different ones.
 >
 
 
