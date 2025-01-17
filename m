@@ -4,99 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39823C02185
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 11:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBDCAC02183
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 11:57:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Irhj2QQiTBNUb9SSTzF7SWHwxYmY67f2A+u8b3gQU54=; b=xAKnB4ql6UTDqesQbfbfP3+TSU
-	0gd2y4DFDHHBNxpqqtiykMtGnAGJ8KCCSeCK62SNlDOholucHe9dfAHttR6iKzhxABcJ64G+9F39m
-	ai0BP9DyZY+NiXkmfrToR9XKExyOpcGroDmTfIqwWfEmOOyDilMoTmuxL0H+kE2zpvaC6SB2ViTnh
-	Hm/ZPoGiakeDeBfFCUDoDSHZULex+WYvknIJKjm9Gb4okJyMBWi7hvlx31PBrTsJANX6WK9CQmSHp
-	wHMro4PKG4i1D14f+62qj6MrpYhETGiUs7fv/rSghN9BjoZ2VJDizU28VJdcJTq8vgrouEs6/1xO9
-	2weAZnhw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pQeV0O+jL1G/DFyqYGy9184NT6E7z1zePUvfpKkhxQI=; b=G3FHZoC3wFznwwBKjOcplXg/G7
+	no7ZzNMbH+17r6WPKVPP5O3vKP1dBPJet6OMh5n3NlNfL6iJkdYMxOQ4IekU7crs3kFDOkViWxnpd
+	hZQuEx8owSHC/tWYudplpbcu95F/mbpm1VjuWoCW1l6j+7Du2x+pCK98ywDlc9OC1lTyB2iQ9UKxZ
+	3oXcnLvvUVJZkXkqUNzkcEblHupluiroi/23RA/Wd1NFDrOjFtJNoKmSP0lHThJGevXZ6Vcm7iu+a
+	pduZvLgPLDbVkjRisPkMDNQUlgmnJl8zRbg1k8MtmPX8K4+tb+G7Y2tKUQzzeY9L6iIH8Uq96YjFZ
+	T1RDcJUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYkMI-000000007Fm-0joT;
-	Fri, 17 Jan 2025 11:17:50 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1tYkyL-00000000C7k-03aJ;
+	Fri, 17 Jan 2025 11:57:09 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYjDu-0000000HXUd-1QkJ
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 17 Jan 2025 10:05:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=Irhj2QQiTBNUb9SSTzF7SWHwxYmY67f2A+u8b3gQU54=; b=KEp+lr0C5kW/nPSE9SlRZEJNHf
-	EdLmSs2TIFcNV3E+xqUBMfniAiYSbGhXTsHWmIrCWxQjCbm2zM4pyDZSLUA9WL1udMs6tvBpzeu0D
-	PfKSUiqKX1xi+SFAQ1w/im2ZzVw3b3EOcGnX7FOh7A1sa15g1VaD17qaUSB8+JOYZWqxw9CAE4aWt
-	zWfmG9HlWMNlBSD8WejF8FjE9iragXi460Fwqjumghce2FlL/HYCxwH7FtGrMtl+tCC4h4c/9+Cth
-	BlHNBc04dLtBb18ogGkfzc0zLP8lZXFP4HhONxCigYOyovfwzrFcuoRvMZq9rRVgwg8Y8XdAsKIdA
-	fHhbbBSA==;
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYjDY-0000000BOpl-1AnU
+	id 1tYkyI-00000000C6A-1WqZ
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Jan 2025 10:05:05 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id CF07FA42B32;
-	Fri, 17 Jan 2025 10:02:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8323C4CEDD;
-	Fri, 17 Jan 2025 10:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737108279;
-	bh=FJYQ7qR9hcBLpRhiPHcPvV9HvqBheLEfsFGqvBAMLaE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vExohzXD6Ujd7i5ylWAXIQ8r+KiHahR4ugS8NzRN12jXXWg6XpFDS0Az2kDJdGS3b
-	 r2P83zACaoMN4Wm74N2ASzU3RY5SHuQvegOGleRrgJR0ewKZNF1R7rYaprTdiqfZta
-	 qHAONZp/pjWD0Exsf2wMAG5W74kZ9llv+fixzaMpWuVhexQbaRl57Q96SppjOh8KaZ
-	 UB7ck8uR8pWleUg587r5ORtXxR7k4/8yK6Oa7z3askZexI38iaJksqiskbye1+z2jM
-	 yfRbYsVQg1Ux+DbZ9S99dgY9nJvxXEfXBrI8xyOVSpm8JiF79noUc1A75KueNPzS9U
-	 QWTZ4Ku7NpBiA==
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"Keith Busch" <kbusch@kernel.org>,
-	"Bjorn Helgaas" <bhelgaas@google.com>,
-	"Logan Gunthorpe" <logang@deltatee.com>,
-	"Yishai Hadas" <yishaih@nvidia.com>,
-	"Shameer Kolothum" <shameerali.kolothum.thodi@huawei.com>,
-	"Kevin Tian" <kevin.tian@intel.com>,
-	"Alex Williamson" <alex.williamson@redhat.com>,
-	"Marek Szyprowski" <m.szyprowski@samsung.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	"Andrew Morton" <akpm@linux-foundation.org>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org,
-	"Randy Dunlap" <rdunlap@infradead.org>
-Subject: [PATCH v6 08/17] dma-mapping: add a dma_need_unmap helper
-Date: Fri, 17 Jan 2025 12:03:39 +0200
-Message-ID: <9458f681274f4f0e5dd3bf3959e0b8a1ac9a4e7b.1737106761.git.leon@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1737106761.git.leon@kernel.org>
-References: <cover.1737106761.git.leon@kernel.org>
+	Fri, 17 Jan 2025 11:57:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737115025;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pQeV0O+jL1G/DFyqYGy9184NT6E7z1zePUvfpKkhxQI=;
+	b=ZKdY4jtvWMN3MUhSBM45GYN3q0HIiLvq42cv2sVsOaruWoUdAIA2SsmE3y3wgDPl+XR+eI
+	BQZuWC0l2wqn7jTJ3Ir01uGeV+zDxq70YPLGA3HWbV4wWtTyN40QJM+pUQpqGV+Yojnlgs
+	OLFn6g3xMCGD8VWzt4NoS32pFvQpsr4=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-517-X-QMKzuZMpylKLq_glYHgA-1; Fri,
+ 17 Jan 2025 06:57:02 -0500
+X-MC-Unique: X-QMKzuZMpylKLq_glYHgA-1
+X-Mimecast-MFC-AGG-ID: X-QMKzuZMpylKLq_glYHgA
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7363919560BB;
+	Fri, 17 Jan 2025 11:57:00 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.68])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9CA3F1955F10;
+	Fri, 17 Jan 2025 11:56:53 +0000 (UTC)
+Date: Fri, 17 Jan 2025 19:56:48 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	nbd@other.debian.org, ceph-devel@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
+Subject: Re: [PATCH 1/2] loop: force GFP_NOIO for underlying file systems
+ allocations
+Message-ID: <Z4pFgIqB50gz-ODi@fedora>
+References: <20250117074442.256705-1-hch@lst.de>
+ <20250117074442.256705-2-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250117074442.256705-2-hch@lst.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250117_100457_977276_49FC3A9C 
-X-CRM114-Status: GOOD (  13.44  )
+X-CRM114-CacheID: sfid-20250117_035706_475567_02CECFFB 
+X-CRM114-Status: GOOD (  22.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,71 +86,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
+On Fri, Jan 17, 2025 at 08:44:07AM +0100, Christoph Hellwig wrote:
+> File systems can and often do allocate memory in the read-write path.
+> If these allocations are done with __GFP_IO or __GFP_FS set they can
+> recurse into the file system or swap device on top of the loop device
+> and cause deadlocks.  Prevent this by forcing a noio scope over the
+> calls into the file system.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/block/loop.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+> index 1ec7417c7f00..71eccc5cfffb 100644
+> --- a/drivers/block/loop.c
+> +++ b/drivers/block/loop.c
+> @@ -1905,6 +1905,15 @@ static void loop_handle_cmd(struct loop_cmd *cmd)
+>  	int ret = 0;
+>  	struct mem_cgroup *old_memcg = NULL;
+>  	const bool use_aio = cmd->use_aio;
+> +	unsigned int memflags;
+> +
+> +	/*
+> +	 * We're calling into file system which could do be doing memory
+> +	 * allocations.  Ensure the memory reclaim does not cause I/O,
+> +	 * because that could end up in the user of this loop devices again and
+> +	 * deadlock.
+> +	 */
+> +	memflags = memalloc_noio_save();
 
-Add helper that allows a driver to skip calling dma_unmap_*
-if the DMA layer can guarantee that they are no-nops.
+If we call memalloc_noio_save() here, setting PF_MEMALLOC_NOIO can be removed
+from loop_process_work().
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- include/linux/dma-mapping.h |  5 +++++
- kernel/dma/mapping.c        | 18 ++++++++++++++++++
- 2 files changed, 23 insertions(+)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index a71e110f1e9d..d2f358c5a25d 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -406,6 +406,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
- }
-+bool dma_need_unmap(struct device *dev);
- #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
- static inline bool dma_dev_need_sync(const struct device *dev)
- {
-@@ -431,6 +432,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return false;
- }
-+static inline bool dma_need_unmap(struct device *dev)
-+{
-+	return false;
-+}
- #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
- 
- struct page *dma_alloc_pages(struct device *dev, size_t size,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index cda127027e48..3c3204ad2839 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -443,6 +443,24 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- }
- EXPORT_SYMBOL_GPL(__dma_need_sync);
- 
-+/**
-+ * dma_need_unmap - does this device need dma_unmap_* operations
-+ * @dev: device to check
-+ *
-+ * If this function returns %false, drivers can skip calling dma_unmap_* after
-+ * finishing an I/O.  This function must be called after all mappings that might
-+ * need to be unmapped have been performed.
-+ */
-+bool dma_need_unmap(struct device *dev)
-+{
-+	if (!dma_map_direct(dev, get_dma_ops(dev)))
-+		return true;
-+	if (!dev->dma_skip_sync)
-+		return true;
-+	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
-+}
-+EXPORT_SYMBOL_GPL(dma_need_unmap);
-+
- static void dma_setup_need_sync(struct device *dev)
- {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
--- 
-2.47.1
+Thanks,
+Ming
 
 
