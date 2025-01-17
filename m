@@ -4,89 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 429BEC02183
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 13:36:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD717C02183
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 14:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QVo7L/phiOwok7BqC1abUFsogRLeFl2Re0mMohXr1z4=; b=J1jakkDoqte5UN8l4aeRxVlT+E
-	wK8ZHRiNvIfXFgWVNA7wQZ4kZUGvaIDD3XUtF40mOOZcU0L4QeDdU7zwZo6aRu284G3DlyhrQFWoq
-	3cVp7kTtu6+LA1gJ2J5F+Kz2qDGaGLM/BcDkzgS7udUxMmoDjTUX7m1Rk3zG+sn2GnhOqgorl1N4p
-	dM9ALm9uzlUnkYFbbfchPaNAScYEpK+LMgdkXRV+CKpsJudi4sMAwRQyUBgZTVSLv42+kALVopHO8
-	c9k9C7BzFsZnFqo9gV5cK0b38zaYo2OoDgGRAMpIEdQg4jOJgpuD+zNWy7JhVwHoLs1w20LixJfqH
-	UCvm/dIA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=XoY2CmYqDhwCjr+LTaQT1CEx+jVsjk82eanBRDuR1qg=; b=VPiOl5rzsayv4hgCCeIEUWzZ/+
+	E4uK7LBdTv/FBpWSyylDSUQ3DIEQUpbFFBR8pxhrgtu8A5ddCLOXj/dGcI+GCGpTtsjCcrs/UIEkb
+	jnwoNbvrTwMWoDdRSN+9+yWCI56xfAczW3Dtf9cRuKHuFhy+6nXIOT+PoiQBNWPRQ7uyLEjQeDeQ5
+	3awDRCAZGjqF2y1KPZ0ja6mo7SSog8izJob9zF3CXwcgTs+q+73GYn6cO49pVVKjmkEDRcHx9v3gD
+	poLixAec0H1/wtjdmfagKVupF36BjHMZrCva1GBMSoJDuUSTS1fdR58JR6MA1S+mmCGiesXCDf9f7
+	DjD5tuFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYmWj-00000000Mpz-2E2G;
-	Fri, 17 Jan 2025 13:36:45 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+	id 1tYnpE-00000000Y4f-0ch2;
+	Fri, 17 Jan 2025 14:59:56 +0000
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYmWg-00000000MpI-2k2w
+	id 1tYnpB-00000000Y3z-4AQv
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Jan 2025 13:36:43 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-2f441791e40so2950863a91.3
-        for <linux-nvme@lists.infradead.org>; Fri, 17 Jan 2025 05:36:41 -0800 (PST)
+	Fri, 17 Jan 2025 14:59:55 +0000
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-385e0e224cbso1172002f8f.2
+        for <linux-nvme@lists.infradead.org>; Fri, 17 Jan 2025 06:59:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737121001; x=1737725801; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QVo7L/phiOwok7BqC1abUFsogRLeFl2Re0mMohXr1z4=;
-        b=EAM8dIW3XjF8tKrpNVlHCsaz7d5MAM4BRbRqqlzFG8LiG1EJawTVAW1H0w8FevJnKw
-         3WjKIH0nzz2dXnhDPBC+e8DyrbPjTyItq8yjizpCGT0mnrPHyNGPraLe0nAizc/pXVAp
-         1PiVU2xj89f9eHo6QTkjwBylwsP0Z2ETBhuyqMBYdj0URFUGx4hPS2+fosDJA3X+Bl/Y
-         3tsHLjaN0E9WbBFIOtr8e5kGL8cxlWihb5UyUgBAcWkF5vWJB7P0w1GiRnvLTrfE5Akd
-         /QRlkHus6FsgV+mwX+5xHn9Ucx+3APWBo6c+d9ZTUwof7qdeSmNHmOboZ4HGCcCGrEDK
-         xglQ==
+        d=suse.com; s=google; t=1737125992; x=1737730792; darn=lists.infradead.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XoY2CmYqDhwCjr+LTaQT1CEx+jVsjk82eanBRDuR1qg=;
+        b=OMnbYeT42P0itQu+OxMAtrvZSAfWx8ObSdiHBZDVDZpQ94I6MTWkgd3Excb0gDTcVw
+         NyEz4Nwk2P07Avr1wXeI5EVCVX6nbYoznRT9xfGnxI4zdVtlFfRGzd9u+64HByXJQf02
+         Z14B5b6PbBfgI1/XW+5+tJP+FSOkzZBJ7mzdjhvfrxYUKgSzdjzis5QJU3agR9bgwI5w
+         bHzfao11wkZU3Tvi93j/6qTnKhg8zvAPRMMWpTrhm243+bPdYvfJyauWKkGGmB+kuNHP
+         CjNq3YM+3KfNSJkaGBrQpfmjJakI6F5TS0fv61lkPhUQ0Q58ZKPWCsfFQirRNyWaqm1/
+         0qMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737121001; x=1737725801;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QVo7L/phiOwok7BqC1abUFsogRLeFl2Re0mMohXr1z4=;
-        b=XP6KYoz96fhhX+YI/50GFevgh134UzdsCd3hR8Yemb8jjsbFnNAdZBvAUDpjK4GgAX
-         KT/IsjysoXbMa2VpbVCK5EZMaVzsAzLcpXWcW8/9nt3GRx3zb1u7XN4/hvZyOCovU4YD
-         FfTj01AgJOWhEnHbu/c8ddNKN0ksDCnjUy6BYHweOS8U7NCXyYJ6DJfuRdC8TggPyN5d
-         TRU7maOa0x+tR5rW/+Ief6qI1D9b4ufCKqspKk8mDqF7sdfDT/ljfR1TQ0ocDzMARH+R
-         FCoTuWj+ut1olWYMlJhbW7T6G/tM+yERCxf2gkej3DLzoZS/oR+NPSVRDeYg2vsDyUea
-         OhWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVS+FR4Re6a2rIo5fCbN/nBSgIJygd0jjzWuNWXnHbVg0MHoh75MWmqGR3c87wUJ7t+Fi42PvfBD5Rc@lists.infradead.org
-X-Gm-Message-State: AOJu0YymRbkHeVkm4oSxPIyPMtCTsXcIQc+AcQ/nf97JWtHv1KQrqdBk
-	kwsDvpj+90hLDk6i3oMCLUcDbS3jHKlqK1KB+9pIweoNy4E8tK8jCAOqFKqHHiet7P2ATdGQDUN
-	AungH4LCemwk61jIaJ02jL0EledY=
-X-Gm-Gg: ASbGnct1PiZ0K9FoaU17UwX1plY72oQnfTrLnQslaJm3myfayPI+M53p2RNDn1/E5xI
-	JKq5m9fRcMqKmryFtkwZBQ6pZsa7hePvogcG2XmfF1mX0AfPNXskMni33LGqbYIyJaQFT
-X-Google-Smtp-Source: AGHT+IEHTPv5hTMRK4zXvRVqJQFfmEi87cZRYjPzN5FnPgoIlZsbqiWaV272Z4i2e3oeYxmEo6z79pG4EFV4U7uQ5JI=
-X-Received: by 2002:a17:90a:d44c:b0:2f1:30c8:6e75 with SMTP id
- 98e67ed59e1d1-2f782d98026mr3192289a91.32.1737121000939; Fri, 17 Jan 2025
- 05:36:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1737125992; x=1737730792;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XoY2CmYqDhwCjr+LTaQT1CEx+jVsjk82eanBRDuR1qg=;
+        b=Vn2ZFbseitk+2/sufR8TRt76uq48WMK+HZDlx7TxRSAz7j6L/nMTiyneiTOf9SMYS2
+         7E0AVw7KVwhbXiQgFiCbxjLiYwHt3uHgwc97c1EPrzCes4HsKZCSHmg9wyThmXYM30rQ
+         OfniAZyqBDo0mtxh8N2PboNrafMP0IDNJcXrDD14G6yiBp+cqIQ8myFTQ9D7Z4pkTE8K
+         jQHQP9K2ZAH5ae5BwgbFFELy4iJ1Ka8CYX6JYnvCLcyseSJAIf3+P6WJKg6DuKUy6cTI
+         KRSDyKuYUfir4m3dJs53+i4VrDKdZWs1Y+M2rPHmH6Drq5rmebl4++uMj0+drHRaPQSJ
+         MLMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgysgNmEmKFuJNWgTOFZXkn4JBVpeV+t2JIKq48JoU5aO/CRutvaMnBEvBWu7PS0jha/I+kT10Io2p@lists.infradead.org
+X-Gm-Message-State: AOJu0YzpmcZe4AtWjhQ8orduU6DUM256XRuLC8or1kyasa3zjP+jxe8j
+	Txl8ZN1VGT7M4jQ5Mu+Mul7yYWvkhd6RvDqzv1TlALigjvF6NJXYRRbIh66rNwo=
+X-Gm-Gg: ASbGnctAkS7J6cJtRESYUMT08PohuOcp7Yke24k4fTPhlEuWkZTQCa7HEQ8852qx8aa
+	sECpkvq5NLrWI2vw8RuFAxPctlabHq0AUDVkt7ZjwjsaJ00lDSFGPfOk/i6cOXEGZTrArK5q6QB
+	j3BUPO5dSChWhWMJS9QEX8fOBlWWDz3QUbvJvvW2i7uePGzBBfQXQLx55pt6L3ASJuuPeLt7UtZ
+	Frb6/y3zIVJDn4kiAznKZ2kMbPfpIdQpfObekqBOvQTqEtmFFH+LN0TbQS44feuRUenmw==
+X-Google-Smtp-Source: AGHT+IEeRJ9cpKeNPyOpv6YqDFfsJM6JExhw0J3WkruNYdK28qTCi2QUozVixRXMXz9wRrk9NPLQtg==
+X-Received: by 2002:a5d:6c6f:0:b0:38a:9ed4:9fff with SMTP id ffacd0b85a97d-38bf57c070bmr3026621f8f.51.1737125991738;
+        Fri, 17 Jan 2025 06:59:51 -0800 (PST)
+Received: from localhost (109-81-84-225.rct.o2.cz. [109.81.84.225])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3275556sm2751940f8f.72.2025.01.17.06.59.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2025 06:59:51 -0800 (PST)
+Date: Fri, 17 Jan 2025 15:59:50 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: lsf-pc@lists.linuxfoundation.org
+Cc: linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: REMINDER - LSF/MM/BPF: 2025: Call for Proposals
+Message-ID: <Z4pwZkf3px21OVJm@tiehlicka>
 MIME-Version: 1.0
-References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
- <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de>
- <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info> <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
- <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
- <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info> <20250117080507.GA25953@lst.de>
- <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
-In-Reply-To: <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
-From: Bruno Gravato <bgravato@gmail.com>
-Date: Fri, 17 Jan 2025 13:36:24 +0000
-X-Gm-Features: AbW1kvbkbBkK34A4Ax02ZPC_Ze-dz19Wri7acxvdXEP8qeEWMyEJBFXk8nhdLsQ
-Message-ID: <CAOBLbT-MFfEw_JYdGOJYxN7S_gjPmG27fMotCwZ==s0i4pdRYw@mail.gmail.com>
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Christoph Hellwig <hch@lst.de>, Stefan <linux-kernel@simg.de>, Keith Busch <kbusch@kernel.org>, 
-	bugzilla-daemon@kernel.org, Adrian Huang <ahuang12@lenovo.com>, 
-	Linux kernel regressions list <regressions@lists.linux.dev>, linux-nvme@lists.infradead.org, 
-	Jens Axboe <axboe@fb.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Mario Limonciello <mario.limonciello@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250117_053642_711853_A6161A87 
-X-CRM114-Status: GOOD (  14.49  )
+X-CRM114-CacheID: sfid-20250117_065954_032299_55A0B9A6 
+X-CRM114-Status: UNSURE (   7.94  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,28 +96,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 17 Jan 2025 at 09:51, Thorsten Leemhuis
-<regressions@leemhuis.info> wrote:
-> * Not totally sure, but it seems most or everyone affected is using a
-> Ryzen 8000 CPU -- and now one user showed up that mentioned a DeskMini
-> x600 with a Ryzen 7000 CPU is not affected (see ticket for details). But
-> that might be due to other aspects. A former colleague of mine who can
-> reproduce the problem will later test if a different CPU line really is
-> making a difference.
+Hi,
+this is a friendly reminder for LSF/MM/BPF Call for proposals - you can
+find the original announcement here: https://lore.kernel.org/all/Z1wQcKKw14iei0Va@tiehlicka/T/#u.
 
-One other different aspect for that user besides the 7000 series CPU
-is that he's using a wifi card as well (that sits in a M.2 wifi slot
-just below the main M.2 disk slot), so I wonder if that may play a
-role? I think most of us have no wifi card installed. I think I have a
-M.2 wifi card on my former NUC, I'll see if it's compatible with the
-deskmini and try it out.
+Please also note you need to fill out the following Google form to
+request attendance and suggest any topics for discussion:
 
-The other reason could be some disk models aren't affected... I think
-Stefan reported no issues on a Firecuda 520.
+          https://forms.gle/xXvQicSFeFKjayxB9
 
-I ordered a Crucial T500 1TB yesterday. It's for another machine, but
-I will try it on the deskmini x600 before deploying on the other
-machine. I should receive it in a week or so.
+The deadline to do that is Feb 1st!
 
-Bruno
+Please also note that we have decided that there will _not_ be virtual
+attendance option this year. Nor we will be streaming sessions. We are
+sorry if this is causing any inconvenience but we have concluded that
+we will use our constrained budget more efficiently this way.
+
+[1] https://lore.kernel.org/all/Z1wQcKKw14iei0Va@tiehlicka/T/#u
+-- 
+Michal Hocko
+SUSE Labs
 
