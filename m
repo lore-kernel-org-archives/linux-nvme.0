@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63193C02188
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 660DDC0218A
 	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 11:17:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,53 +12,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7cQNlFpbnVX6gUAB9amacDtsmGpZEeXHQqQoZZ1JWjE=; b=f5UNO0quDTtUs/eXYvkwPJTA1U
-	MYMcG96go1yexFG+Cd1XNm3AC7ao6WiWD0BCt1YMQEfGiRpDJ7uIN1UyWSnMQXgIWQsHucWiaHgjz
-	zZ0b8S8gcCwfSSg84oS4/lHB5uEyIT0y1Qu7VHCvaTQyB6F3WVYif4rlOGLJkAqC3B41yFvaHfAee
-	RXlDvqwuycg5cYOlFAu+oD2yTMtKzUpQmHyq5oCWQ4RfDs8FcD7Q7H8HbH6WPVbUZFgZyV7pOql5t
-	QME1JrQi3B0nRwHjPZR5p7AELJQEOCFZdhM9KA9v1TUlA+MznRswA0d+dFecgDTv2qvItCdqVNYnK
-	cOkon2uA==;
+	bh=VZZjruW+4H6/aQ089bOGP+4bjBLOtbHEOrx9Ft55JNU=; b=nIrWjivggVBsL07RsdnMEnU2at
+	nBV4w91TVbq5l5Z8P/xP033BtxbvYlOFnuy2n4y7X+VWTuLBBDSvb0me68YZAKREJU0CVWT3KHUsd
+	s0gYxHuoEQV9t/R+zybzIhyfOpkGx/kwK/T2NC8KFVRXeIOUr0oDVV/UPrWK/wvJNZVeoXe/xecbD
+	0rIpmNDRRHDuRZRKYUv36UDzQXSWQMX26Mb/eV3q16oAMT3IQb1eby84MtYvJmuVcdk8TpZxczFl1
+	sphW8ZwSzigyxmj4ju3qJto6eanbyw0wIA2euia1gJxdIkSF7AvMn67XUkkOEoBW/KyFg0oWmct8L
+	xX00fqpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYkMI-000000007G4-3GyM;
-	Fri, 17 Jan 2025 11:17:50 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1tYkMG-000000007F8-26S9;
+	Fri, 17 Jan 2025 11:17:48 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYjE0-0000000HXcR-3QB1
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 17 Jan 2025 10:05:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=7cQNlFpbnVX6gUAB9amacDtsmGpZEeXHQqQoZZ1JWjE=; b=I1WZ+tASUEKtulrOAnZXk0oeHD
-	Tq8LWL/ce//GqC7WYqyUiPDvP34Q0kqBX+BZVMJ0ToGwodpRI93CIdyjTB2/07i9mNXgpTLMm3h4l
-	Lxrf81KgxMRqKeenrk1SrqZbPlBxJR/atioJlcLNZy61O+LDw5/jiV165YqABu/CbvBSz4itie/Cu
-	DDqKuJELy2sWMvFV7vO1Mc/HmHCpF4rq0n+LiAGHUYUBc9TCru9oAUI8CEl+aIciSQnQAkkL6bsou
-	99tmQcRYFNgY0S0Eb9sLlBdFcekC0a2st+WOq25L4IBvdfnXdyjVqpKx5jlVLyShO7kdngBIgX7p7
-	FtlyIV9g==;
-Received: from nyc.source.kernel.org ([147.75.193.91])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYjDe-0000000BOqG-40U3
+	id 1tYjDG-0000000HX54-0jKP
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Jan 2025 10:05:11 +0000
+	Fri, 17 Jan 2025 10:04:27 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 3B93BA42B36;
-	Fri, 17 Jan 2025 10:02:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23080C4CEDD;
-	Fri, 17 Jan 2025 10:04:46 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id C85515C577E;
+	Fri, 17 Jan 2025 10:03:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D5CC4CEDD;
+	Fri, 17 Jan 2025 10:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737108286;
-	bh=+jQHGvycC9oSv0D+RK/HRGf1ID+TlvYCc0BZmHQ5ysU=;
+	s=k20201202; t=1737108265;
+	bh=4GN46EdgtKs52uYrnZ/WFZUZIcSUfGlvUbPZSutsKwg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bkB3BLpBVVoZs3Gx90avfaINhDI6JUWwXrziH40Dqga5ISniEhoAjLj5RvuyIUnP2
-	 j/FhgetCrfNwKwEBwX8TNjmKU0lsM7Pm5v/n4Uw9GUPIGtcA2vS3q9LsCvpPPK/eIv
-	 L8uldIG5M+jGNP4539BpUxo7/4WJ5ooV80isa85oburt/kXaLUEMukr35gGp5oWMrr
-	 OEGrAwLaD7HePIiOAuBjT8b0JnBHsO9P0LXkXPEKGZiTDDCKItyho29JtXg589lTaC
-	 2LCMMv38ZwdUq7o3kc2lfF3uOxJzIpqKgOoJ+ZOvSKGrnUZXYC4jq1uiVhj9+wJGVG
-	 cE1kPpwtR3fHA==
+	b=RDU0zUWRkFl3MkDWfMyzao/HvM6rpd/zmpenEP+vzh193nOx5NyI+FbBE4Ilqc7Vx
+	 G56EM1A1GOB7T02ywxgf3BKwOF1J635h16KKe7KqA2PzL5oeahSPCJhPuEZ46xxtRA
+	 2AKJMESFi6p5gofQY4cOg/apWaQuLFhUCGGN3cC27VT6j40aeEom8fqwLRciGdJfr+
+	 /fO9TxhIVvVJd91dkCpjU78M4DXlKEz8EhjWaU1Y7NQW/BIaY738aTUQ7tQA8gS/Rx
+	 XE+UYcek/V+wQhyAJWvxqMlIeufsuetd3Ph19B+w89RuephT5UhLPuIW2jMIfyLLG+
+	 /FpqIxESR4hlA==
 From: Leon Romanovsky <leon@kernel.org>
-To: 
+To: Christoph Hellwig <hch@lst.de>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Jens Axboe <axboe@kernel.dk>,
 	Joerg Roedel <joro@8bytes.org>,
@@ -85,17 +72,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	"Randy Dunlap" <rdunlap@infradead.org>
-Subject: [PATCH v6 14/17] RDMA/umem: Separate implicit ODP initialization from explicit ODP
-Date: Fri, 17 Jan 2025 12:03:45 +0200
-Message-ID: <5c284b0ef955d4cbbe1f0adbddfa3cd3acdd831d.1737106761.git.leon@kernel.org>
+Subject: [PATCH v6 05/17] dma-mapping: Provide an interface to allow allocate IOVA
+Date: Fri, 17 Jan 2025 12:03:36 +0200
+Message-ID: <b369de9ce7917beda15744e307a4366159740df4.1737106761.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1737106761.git.leon@kernel.org>
 References: <cover.1737106761.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250117_100504_098936_22486489 
-X-CRM114-Status: GOOD (  15.09  )
+X-CRM114-CacheID: sfid-20250117_020426_306981_AEF3E7D5 
+X-CRM114-Status: GOOD (  23.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,154 +99,200 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Create separate functions for the implicit ODP initialization
-which is different from the explicit ODP initialization.
+The existing .map_page() callback provides both allocating of IOVA
+and linking DMA pages. That combination works great for most of the
+callers who use it in control paths, but is less effective in fast
+paths where there may be multiple calls to map_page().
 
+These advanced callers already manage their data in some sort of
+database and can perform IOVA allocation in advance, leaving range
+linkage operation to be in fast path.
+
+Provide an interface to allocate/deallocate IOVA and next patch
+link/unlink DMA ranges to that specific IOVA.
+
+In the new API a DMA mapping transaction is identified by a
+struct dma_iova_state, which holds some recomputed information
+for the transaction which does not change for each page being
+mapped, so add a check if IOVA can be used for the specific
+transaction.
+
+The API is exported from dma-iommu as it is the only implementation
+supported, the namespace is clearly different from iommu_* functions
+which are not allowed to be used. This code layout allows us to save
+function call per API call used in datapath as well as a lot of boilerplate
+code.
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/infiniband/core/umem_odp.c | 91 +++++++++++++++---------------
- 1 file changed, 46 insertions(+), 45 deletions(-)
+ drivers/iommu/dma-iommu.c   | 86 +++++++++++++++++++++++++++++++++++++
+ include/linux/dma-mapping.h | 48 +++++++++++++++++++++
+ 2 files changed, 134 insertions(+)
 
-diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
-index 30cd8f353476..51d518989914 100644
---- a/drivers/infiniband/core/umem_odp.c
-+++ b/drivers/infiniband/core/umem_odp.c
-@@ -48,41 +48,44 @@
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 853247c42f7d..309d278b1d86 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1746,6 +1746,92 @@ size_t iommu_dma_max_mapping_size(struct device *dev)
+ 	return SIZE_MAX;
+ }
  
- #include "uverbs.h"
- 
--static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
--				   const struct mmu_interval_notifier_ops *ops)
-+static void ib_init_umem_implicit_odp(struct ib_umem_odp *umem_odp)
++/**
++ * dma_iova_try_alloc - Try to allocate an IOVA space
++ * @dev: Device to allocate the IOVA space for
++ * @state: IOVA state
++ * @phys: physical address
++ * @size: IOVA size
++ *
++ * Check if @dev supports the IOVA-based DMA API, and if yes allocate IOVA space
++ * for the given base address and size.
++ *
++ * Note: @phys is only used to calculate the IOVA alignment. Callers that always
++ * do PAGE_SIZE aligned transfers can safely pass 0 here.
++ *
++ * Returns %true if the IOVA-based DMA API can be used and IOVA space has been
++ * allocated, or %false if the regular DMA API should be used.
++ */
++bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
++		phys_addr_t phys, size_t size)
 +{
-+	umem_odp->is_implicit_odp = 1;
-+	umem_odp->umem.is_odp = 1;
-+	mutex_init(&umem_odp->umem_mutex);
++	struct iommu_dma_cookie *cookie;
++	struct iommu_domain *domain;
++	struct iova_domain *iovad;
++	size_t iova_off;
++	dma_addr_t addr;
++
++	memset(state, 0, sizeof(*state));
++	if (!use_dma_iommu(dev))
++		return false;
++
++	domain = iommu_get_dma_domain(dev);
++	cookie = domain->iova_cookie;
++	iovad = &cookie->iovad;
++	iova_off = iova_offset(iovad, phys);
++
++	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
++	    iommu_deferred_attach(dev, iommu_get_domain_for_dev(dev)))
++		return false;
++
++	if (WARN_ON_ONCE(!size))
++		return false;
++
++	/*
++	 * DMA_IOVA_USE_SWIOTLB is flag which is set by dma-iommu
++	 * internals, make sure that caller didn't set it and/or
++	 * didn't use this interface to map SIZE_MAX.
++	 */
++	if (WARN_ON_ONCE((u64)size & DMA_IOVA_USE_SWIOTLB))
++		return false;
++
++	addr = iommu_dma_alloc_iova(domain,
++			iova_align(iovad, size + iova_off),
++			dma_get_mask(dev), dev);
++	if (!addr)
++		return false;
++
++	state->addr = addr + iova_off;
++	state->__size = size;
++	return true;
++}
++EXPORT_SYMBOL_GPL(dma_iova_try_alloc);
++
++/**
++ * dma_iova_free - Free an IOVA space
++ * @dev: Device to free the IOVA space for
++ * @state: IOVA state
++ *
++ * Undoes a successful dma_try_iova_alloc().
++ *
++ * Note that all dma_iova_link() calls need to be undone first.  For callers
++ * that never call dma_iova_unlink(), dma_iova_destroy() can be used instead
++ * which unlinks all ranges and frees the IOVA space in a single efficient
++ * operation.
++ */
++void dma_iova_free(struct device *dev, struct dma_iova_state *state)
++{
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
++	struct iommu_dma_cookie *cookie = domain->iova_cookie;
++	struct iova_domain *iovad = &cookie->iovad;
++	size_t iova_start_pad = iova_offset(iovad, state->addr);
++	size_t size = dma_iova_size(state);
++
++	iommu_dma_free_iova(cookie, state->addr - iova_start_pad,
++			iova_align(iovad, size + iova_start_pad), NULL);
++}
++EXPORT_SYMBOL_GPL(dma_iova_free);
++
+ void iommu_setup_dma_ops(struct device *dev)
+ {
+ 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index b79925b1c433..de7f73810d54 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -72,6 +72,22 @@
+ 
+ #define DMA_BIT_MASK(n)	(((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+ 
++struct dma_iova_state {
++	dma_addr_t addr;
++	u64 __size;
++};
++
++/*
++ * Use the high bit to mark if we used swiotlb for one or more ranges.
++ */
++#define DMA_IOVA_USE_SWIOTLB		(1ULL << 63)
++
++static inline size_t dma_iova_size(struct dma_iova_state *state)
++{
++	/* Casting is needed for 32-bits systems */
++	return (size_t)(state->__size & ~DMA_IOVA_USE_SWIOTLB);
 +}
 +
-+static int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
-+			    const struct mmu_interval_notifier_ops *ops)
- {
- 	struct ib_device *dev = umem_odp->umem.ibdev;
-+	size_t page_size = 1UL << umem_odp->page_shift;
-+	unsigned long start;
-+	unsigned long end;
- 	int ret;
- 
- 	umem_odp->umem.is_odp = 1;
- 	mutex_init(&umem_odp->umem_mutex);
- 
--	if (!umem_odp->is_implicit_odp) {
--		size_t page_size = 1UL << umem_odp->page_shift;
--		unsigned long start;
--		unsigned long end;
--
--		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
--		if (check_add_overflow(umem_odp->umem.address,
--				       (unsigned long)umem_odp->umem.length,
--				       &end))
--			return -EOVERFLOW;
--		end = ALIGN(end, page_size);
--		if (unlikely(end < page_size))
--			return -EOVERFLOW;
--
--		ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
--					(end - start) >> PAGE_SHIFT,
--					1 << umem_odp->page_shift);
--		if (ret)
--			return ret;
--
--		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
--						   umem_odp->umem.owning_mm,
--						   start, end - start, ops);
--		if (ret)
--			goto out_free_map;
--	}
-+	start = ALIGN_DOWN(umem_odp->umem.address, page_size);
-+	if (check_add_overflow(umem_odp->umem.address,
-+			       (unsigned long)umem_odp->umem.length, &end))
-+		return -EOVERFLOW;
-+	end = ALIGN(end, page_size);
-+	if (unlikely(end < page_size))
-+		return -EOVERFLOW;
-+
-+	ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
-+				(end - start) >> PAGE_SHIFT,
-+				1 << umem_odp->page_shift);
-+	if (ret)
-+		return ret;
-+
-+	ret = mmu_interval_notifier_insert(&umem_odp->notifier,
-+					   umem_odp->umem.owning_mm, start,
-+					   end - start, ops);
-+	if (ret)
-+		goto out_free_map;
- 
- 	return 0;
- 
-@@ -106,7 +109,6 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
- {
- 	struct ib_umem *umem;
- 	struct ib_umem_odp *umem_odp;
--	int ret;
- 
- 	if (access & IB_ACCESS_HUGETLB)
- 		return ERR_PTR(-EINVAL);
-@@ -118,16 +120,10 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
- 	umem->ibdev = device;
- 	umem->writable = ib_access_writable(access);
- 	umem->owning_mm = current->mm;
--	umem_odp->is_implicit_odp = 1;
- 	umem_odp->page_shift = PAGE_SHIFT;
- 
- 	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
--	ret = ib_init_umem_odp(umem_odp, NULL);
--	if (ret) {
--		put_pid(umem_odp->tgid);
--		kfree(umem_odp);
--		return ERR_PTR(ret);
--	}
-+	ib_init_umem_implicit_odp(umem_odp);
- 	return umem_odp;
+ #ifdef CONFIG_DMA_API_DEBUG
+ void debug_dma_mapping_error(struct device *dev, dma_addr_t dma_addr);
+ void debug_dma_map_single(struct device *dev, const void *addr,
+@@ -277,6 +293,38 @@ static inline int dma_mmap_noncontiguous(struct device *dev,
  }
- EXPORT_SYMBOL(ib_umem_odp_alloc_implicit);
-@@ -248,7 +244,7 @@ struct ib_umem_odp *ib_umem_odp_get(struct ib_device *device,
- }
- EXPORT_SYMBOL(ib_umem_odp_get);
+ #endif /* CONFIG_HAS_DMA */
  
--void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
-+static void ib_umem_odp_free(struct ib_umem_odp *umem_odp)
- {
- 	struct ib_device *dev = umem_odp->umem.ibdev;
- 
-@@ -258,14 +254,19 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
- 	 * It is the driver's responsibility to ensure, before calling us,
- 	 * that the hardware will not attempt to access the MR any more.
- 	 */
--	if (!umem_odp->is_implicit_odp) {
--		mutex_lock(&umem_odp->umem_mutex);
--		ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
--					    ib_umem_end(umem_odp));
--		mutex_unlock(&umem_odp->umem_mutex);
--		mmu_interval_notifier_remove(&umem_odp->notifier);
--		hmm_dma_map_free(dev->dma_device, &umem_odp->map);
--	}
-+	mutex_lock(&umem_odp->umem_mutex);
-+	ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
-+				    ib_umem_end(umem_odp));
-+	mutex_unlock(&umem_odp->umem_mutex);
-+	mmu_interval_notifier_remove(&umem_odp->notifier);
-+	hmm_dma_map_free(dev->dma_device, &umem_odp->map);
++#ifdef CONFIG_IOMMU_DMA
++/**
++ * dma_use_iova - check if the IOVA API is used for this state
++ * @state: IOVA state
++ *
++ * Return %true if the DMA transfers uses the dma_iova_*() calls or %false if
++ * they can't be used.
++ */
++static inline bool dma_use_iova(struct dma_iova_state *state)
++{
++	return state->__size != 0;
 +}
 +
-+void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
++bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
++		phys_addr_t phys, size_t size);
++void dma_iova_free(struct device *dev, struct dma_iova_state *state);
++#else /* CONFIG_IOMMU_DMA */
++static inline bool dma_use_iova(struct dma_iova_state *state)
 +{
-+	if (!umem_odp->is_implicit_odp)
-+		ib_umem_odp_free(umem_odp);
++	return false;
++}
++static inline bool dma_iova_try_alloc(struct device *dev,
++		struct dma_iova_state *state, phys_addr_t phys, size_t size)
++{
++	return false;
++}
++static inline void dma_iova_free(struct device *dev,
++		struct dma_iova_state *state)
++{
++}
++#endif /* CONFIG_IOMMU_DMA */
 +
- 	put_pid(umem_odp->tgid);
- 	kfree(umem_odp);
- }
+ #if defined(CONFIG_HAS_DMA) && defined(CONFIG_DMA_NEED_SYNC)
+ void __dma_sync_single_for_cpu(struct device *dev, dma_addr_t addr, size_t size,
+ 		enum dma_data_direction dir);
 -- 
 2.47.1
 
