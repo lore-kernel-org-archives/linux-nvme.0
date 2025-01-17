@@ -4,74 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBDCAC02183
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 11:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 429BEC02183
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2025 13:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pQeV0O+jL1G/DFyqYGy9184NT6E7z1zePUvfpKkhxQI=; b=G3FHZoC3wFznwwBKjOcplXg/G7
-	no7ZzNMbH+17r6WPKVPP5O3vKP1dBPJet6OMh5n3NlNfL6iJkdYMxOQ4IekU7crs3kFDOkViWxnpd
-	hZQuEx8owSHC/tWYudplpbcu95F/mbpm1VjuWoCW1l6j+7Du2x+pCK98ywDlc9OC1lTyB2iQ9UKxZ
-	3oXcnLvvUVJZkXkqUNzkcEblHupluiroi/23RA/Wd1NFDrOjFtJNoKmSP0lHThJGevXZ6Vcm7iu+a
-	pduZvLgPLDbVkjRisPkMDNQUlgmnJl8zRbg1k8MtmPX8K4+tb+G7Y2tKUQzzeY9L6iIH8Uq96YjFZ
-	T1RDcJUw==;
+	bh=QVo7L/phiOwok7BqC1abUFsogRLeFl2Re0mMohXr1z4=; b=J1jakkDoqte5UN8l4aeRxVlT+E
+	wK8ZHRiNvIfXFgWVNA7wQZ4kZUGvaIDD3XUtF40mOOZcU0L4QeDdU7zwZo6aRu284G3DlyhrQFWoq
+	3cVp7kTtu6+LA1gJ2J5F+Kz2qDGaGLM/BcDkzgS7udUxMmoDjTUX7m1Rk3zG+sn2GnhOqgorl1N4p
+	dM9ALm9uzlUnkYFbbfchPaNAScYEpK+LMgdkXRV+CKpsJudi4sMAwRQyUBgZTVSLv42+kALVopHO8
+	c9k9C7BzFsZnFqo9gV5cK0b38zaYo2OoDgGRAMpIEdQg4jOJgpuD+zNWy7JhVwHoLs1w20LixJfqH
+	UCvm/dIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYkyL-00000000C7k-03aJ;
-	Fri, 17 Jan 2025 11:57:09 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tYmWj-00000000Mpz-2E2G;
+	Fri, 17 Jan 2025 13:36:45 +0000
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYkyI-00000000C6A-1WqZ
+	id 1tYmWg-00000000MpI-2k2w
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Jan 2025 11:57:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1737115025;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pQeV0O+jL1G/DFyqYGy9184NT6E7z1zePUvfpKkhxQI=;
-	b=ZKdY4jtvWMN3MUhSBM45GYN3q0HIiLvq42cv2sVsOaruWoUdAIA2SsmE3y3wgDPl+XR+eI
-	BQZuWC0l2wqn7jTJ3Ir01uGeV+zDxq70YPLGA3HWbV4wWtTyN40QJM+pUQpqGV+Yojnlgs
-	OLFn6g3xMCGD8VWzt4NoS32pFvQpsr4=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-517-X-QMKzuZMpylKLq_glYHgA-1; Fri,
- 17 Jan 2025 06:57:02 -0500
-X-MC-Unique: X-QMKzuZMpylKLq_glYHgA-1
-X-Mimecast-MFC-AGG-ID: X-QMKzuZMpylKLq_glYHgA
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7363919560BB;
-	Fri, 17 Jan 2025 11:57:00 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.68])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9CA3F1955F10;
-	Fri, 17 Jan 2025 11:56:53 +0000 (UTC)
-Date: Fri, 17 Jan 2025 19:56:48 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	nbd@other.debian.org, ceph-devel@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-mtd@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
-Subject: Re: [PATCH 1/2] loop: force GFP_NOIO for underlying file systems
- allocations
-Message-ID: <Z4pFgIqB50gz-ODi@fedora>
-References: <20250117074442.256705-1-hch@lst.de>
- <20250117074442.256705-2-hch@lst.de>
+	Fri, 17 Jan 2025 13:36:43 +0000
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-2f441791e40so2950863a91.3
+        for <linux-nvme@lists.infradead.org>; Fri, 17 Jan 2025 05:36:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737121001; x=1737725801; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QVo7L/phiOwok7BqC1abUFsogRLeFl2Re0mMohXr1z4=;
+        b=EAM8dIW3XjF8tKrpNVlHCsaz7d5MAM4BRbRqqlzFG8LiG1EJawTVAW1H0w8FevJnKw
+         3WjKIH0nzz2dXnhDPBC+e8DyrbPjTyItq8yjizpCGT0mnrPHyNGPraLe0nAizc/pXVAp
+         1PiVU2xj89f9eHo6QTkjwBylwsP0Z2ETBhuyqMBYdj0URFUGx4hPS2+fosDJA3X+Bl/Y
+         3tsHLjaN0E9WbBFIOtr8e5kGL8cxlWihb5UyUgBAcWkF5vWJB7P0w1GiRnvLTrfE5Akd
+         /QRlkHus6FsgV+mwX+5xHn9Ucx+3APWBo6c+d9ZTUwof7qdeSmNHmOboZ4HGCcCGrEDK
+         xglQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737121001; x=1737725801;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QVo7L/phiOwok7BqC1abUFsogRLeFl2Re0mMohXr1z4=;
+        b=XP6KYoz96fhhX+YI/50GFevgh134UzdsCd3hR8Yemb8jjsbFnNAdZBvAUDpjK4GgAX
+         KT/IsjysoXbMa2VpbVCK5EZMaVzsAzLcpXWcW8/9nt3GRx3zb1u7XN4/hvZyOCovU4YD
+         FfTj01AgJOWhEnHbu/c8ddNKN0ksDCnjUy6BYHweOS8U7NCXyYJ6DJfuRdC8TggPyN5d
+         TRU7maOa0x+tR5rW/+Ief6qI1D9b4ufCKqspKk8mDqF7sdfDT/ljfR1TQ0ocDzMARH+R
+         FCoTuWj+ut1olWYMlJhbW7T6G/tM+yERCxf2gkej3DLzoZS/oR+NPSVRDeYg2vsDyUea
+         OhWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVS+FR4Re6a2rIo5fCbN/nBSgIJygd0jjzWuNWXnHbVg0MHoh75MWmqGR3c87wUJ7t+Fi42PvfBD5Rc@lists.infradead.org
+X-Gm-Message-State: AOJu0YymRbkHeVkm4oSxPIyPMtCTsXcIQc+AcQ/nf97JWtHv1KQrqdBk
+	kwsDvpj+90hLDk6i3oMCLUcDbS3jHKlqK1KB+9pIweoNy4E8tK8jCAOqFKqHHiet7P2ATdGQDUN
+	AungH4LCemwk61jIaJ02jL0EledY=
+X-Gm-Gg: ASbGnct1PiZ0K9FoaU17UwX1plY72oQnfTrLnQslaJm3myfayPI+M53p2RNDn1/E5xI
+	JKq5m9fRcMqKmryFtkwZBQ6pZsa7hePvogcG2XmfF1mX0AfPNXskMni33LGqbYIyJaQFT
+X-Google-Smtp-Source: AGHT+IEHTPv5hTMRK4zXvRVqJQFfmEi87cZRYjPzN5FnPgoIlZsbqiWaV272Z4i2e3oeYxmEo6z79pG4EFV4U7uQ5JI=
+X-Received: by 2002:a17:90a:d44c:b0:2f1:30c8:6e75 with SMTP id
+ 98e67ed59e1d1-2f782d98026mr3192289a91.32.1737121000939; Fri, 17 Jan 2025
+ 05:36:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250117074442.256705-2-hch@lst.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
+ <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de>
+ <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info> <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
+ <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
+ <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info> <20250117080507.GA25953@lst.de>
+ <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
+In-Reply-To: <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
+From: Bruno Gravato <bgravato@gmail.com>
+Date: Fri, 17 Jan 2025 13:36:24 +0000
+X-Gm-Features: AbW1kvbkbBkK34A4Ax02ZPC_Ze-dz19Wri7acxvdXEP8qeEWMyEJBFXk8nhdLsQ
+Message-ID: <CAOBLbT-MFfEw_JYdGOJYxN7S_gjPmG27fMotCwZ==s0i4pdRYw@mail.gmail.com>
+Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
+ X600M-STX + Ryzen 8700G
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: Christoph Hellwig <hch@lst.de>, Stefan <linux-kernel@simg.de>, Keith Busch <kbusch@kernel.org>, 
+	bugzilla-daemon@kernel.org, Adrian Huang <ahuang12@lenovo.com>, 
+	Linux kernel regressions list <regressions@lists.linux.dev>, linux-nvme@lists.infradead.org, 
+	Jens Axboe <axboe@fb.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Mario Limonciello <mario.limonciello@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250117_035706_475567_02CECFFB 
-X-CRM114-Status: GOOD (  22.89  )
+X-CRM114-CacheID: sfid-20250117_053642_711853_A6161A87 
+X-CRM114-Status: GOOD (  14.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,41 +101,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 17, 2025 at 08:44:07AM +0100, Christoph Hellwig wrote:
-> File systems can and often do allocate memory in the read-write path.
-> If these allocations are done with __GFP_IO or __GFP_FS set they can
-> recurse into the file system or swap device on top of the loop device
-> and cause deadlocks.  Prevent this by forcing a noio scope over the
-> calls into the file system.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/block/loop.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index 1ec7417c7f00..71eccc5cfffb 100644
-> --- a/drivers/block/loop.c
-> +++ b/drivers/block/loop.c
-> @@ -1905,6 +1905,15 @@ static void loop_handle_cmd(struct loop_cmd *cmd)
->  	int ret = 0;
->  	struct mem_cgroup *old_memcg = NULL;
->  	const bool use_aio = cmd->use_aio;
-> +	unsigned int memflags;
-> +
-> +	/*
-> +	 * We're calling into file system which could do be doing memory
-> +	 * allocations.  Ensure the memory reclaim does not cause I/O,
-> +	 * because that could end up in the user of this loop devices again and
-> +	 * deadlock.
-> +	 */
-> +	memflags = memalloc_noio_save();
+On Fri, 17 Jan 2025 at 09:51, Thorsten Leemhuis
+<regressions@leemhuis.info> wrote:
+> * Not totally sure, but it seems most or everyone affected is using a
+> Ryzen 8000 CPU -- and now one user showed up that mentioned a DeskMini
+> x600 with a Ryzen 7000 CPU is not affected (see ticket for details). But
+> that might be due to other aspects. A former colleague of mine who can
+> reproduce the problem will later test if a different CPU line really is
+> making a difference.
 
-If we call memalloc_noio_save() here, setting PF_MEMALLOC_NOIO can be removed
-from loop_process_work().
+One other different aspect for that user besides the 7000 series CPU
+is that he's using a wifi card as well (that sits in a M.2 wifi slot
+just below the main M.2 disk slot), so I wonder if that may play a
+role? I think most of us have no wifi card installed. I think I have a
+M.2 wifi card on my former NUC, I'll see if it's compatible with the
+deskmini and try it out.
 
+The other reason could be some disk models aren't affected... I think
+Stefan reported no issues on a Firecuda 520.
 
-Thanks,
-Ming
+I ordered a Crucial T500 1TB yesterday. It's for another machine, but
+I will try it on the deskmini x600 before deploying on the other
+machine. I should receive it in a week or so.
 
+Bruno
 
