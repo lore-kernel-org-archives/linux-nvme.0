@@ -4,122 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96642C02181
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jan 2025 13:45:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E087C02182
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jan 2025 13:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=; b=EGubplQPpHGVaGJsojnubwfeMa
-	NVSRex+aqTEESuYt+KnZgaWmg2r+B0VwvOXlNo2hKMjGedLSewJrMvyFA3LWAOhuWIVUP4ydDqBHT
-	HgWDMQPtcc0JUzTrYxSyGc9mTH7YB0Yf6LqI0QGjFU73Vj14t/dkiuf3bBhFKjNg50mqqp4SChHc7
-	J3+skyK9PvxcF/1GH9L1X5wKi6tXvjGvzuVZPztiQjnWpvMkhXGu4GxY741u7ReFBNAQetEHHus9c
-	GAEvWQNjHGVF9uXRe3Bymg/cwZi77UzzpET+VrnTkVpp3hZq/VlZN2hvAJ2G5gq6LSQpsx8m7xdFn
-	L34G0atQ==;
+	bh=VZ0v0cbd64ZPwrdtfH3jB4fEvOB3Hxf44zv6kyBDS38=; b=1VWL1LNYAOCi2/Uz3JjNhNK6y7
+	K1eWScj2bXP5hfQDK7Hin+AYs4cOfEM3b0zDsXg6mt7K+uq+8DNj1FKBUvWmj+LZXvaQthSUp1ZbF
+	n4gCrboLKJspBOcyT1sFQ897qHYTDfJ6EZyKO7jYUmrZY2zms073t+iL0IyewUNPzUs7T4Jhu4cgc
+	p6u0ZCFHAQLdE4975iZQyFH2flTxujQsvgsr5dUhf+l0umoHwGgGerWGN16jFw2l8DpkbYUA7Bitc
+	ILkPHJICFrzigIqsRPfyHTrssWd+J3Tr7tiAR9uEct8VXWyBXkxdtxsbLQtXc0sPCPkRPlgdOFDSG
+	1QjYQ0Tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tZs6F-00000005hFC-2ykF;
-	Mon, 20 Jan 2025 13:45:55 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1tZsBd-00000005i1w-1HKw;
+	Mon, 20 Jan 2025 13:51:29 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tZs69-00000005hAu-1pI0
+	id 1tZsBa-00000005i0h-2qYv
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Jan 2025 13:45:50 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Mon, 20 Jan 2025 13:51:27 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7002C2117E;
-	Mon, 20 Jan 2025 13:45:46 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 213C321188;
+	Mon, 20 Jan 2025 13:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737380746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1737381085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=;
-	b=Axp/DLS6ufjFiiSl70ONlqqWfFr6hYHP2oliF0dEfM7bgJwmQgcjNkWkF3+3EcGVLero25
-	nlhjGycmwhsjfnJNJN3DJrXanMy6iXNLn7s2LjtcRTjxcW5vszLQFZW7TjwjluX/+bXiUy
-	iJ4K0mBxGDXubxNp/B+dr3KKWFcqf9A=
+	bh=VZ0v0cbd64ZPwrdtfH3jB4fEvOB3Hxf44zv6kyBDS38=;
+	b=XNmU3sVLs5h7vpQTd99JlcY5B5HFLpXlYF+gZeXfJeISgTrrK3hxWCEHMFgqLmW3BtrQFC
+	JNnLPWLbAyyWH9E+6PHFeuX5PR5VSfTA0Rj7TIXB7oyeq1HKu2Zh4WoTZMSTMKkNo6JBYc
+	huQZ/gFYSNS5quUR+vYLEnkta2jA7Uw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737380746;
+	s=susede2_ed25519; t=1737381085;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=;
-	b=dkutcqHhoK3gP03pc9UC0OG0fo8QTyMYnjYUl+G/A4DAVUoE+OcNdqs2mJozVhk/KMjSXB
-	JeqDiFpkXQ5pqqCg==
+	bh=VZ0v0cbd64ZPwrdtfH3jB4fEvOB3Hxf44zv6kyBDS38=;
+	b=S40R48lnPVe48u1diC/by1bfckfCv8tTGuGQGV5RiKucRDg0mXlt7PnMMBKqYr3DGH52Ro
+	l+V5wFnHajdkPmBQ==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XNmU3sVL;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=S40R48ln
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737380746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1737381085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=;
-	b=Axp/DLS6ufjFiiSl70ONlqqWfFr6hYHP2oliF0dEfM7bgJwmQgcjNkWkF3+3EcGVLero25
-	nlhjGycmwhsjfnJNJN3DJrXanMy6iXNLn7s2LjtcRTjxcW5vszLQFZW7TjwjluX/+bXiUy
-	iJ4K0mBxGDXubxNp/B+dr3KKWFcqf9A=
+	bh=VZ0v0cbd64ZPwrdtfH3jB4fEvOB3Hxf44zv6kyBDS38=;
+	b=XNmU3sVLs5h7vpQTd99JlcY5B5HFLpXlYF+gZeXfJeISgTrrK3hxWCEHMFgqLmW3BtrQFC
+	JNnLPWLbAyyWH9E+6PHFeuX5PR5VSfTA0Rj7TIXB7oyeq1HKu2Zh4WoTZMSTMKkNo6JBYc
+	huQZ/gFYSNS5quUR+vYLEnkta2jA7Uw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737380746;
+	s=susede2_ed25519; t=1737381085;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=;
-	b=dkutcqHhoK3gP03pc9UC0OG0fo8QTyMYnjYUl+G/A4DAVUoE+OcNdqs2mJozVhk/KMjSXB
-	JeqDiFpkXQ5pqqCg==
+	bh=VZ0v0cbd64ZPwrdtfH3jB4fEvOB3Hxf44zv6kyBDS38=;
+	b=S40R48lnPVe48u1diC/by1bfckfCv8tTGuGQGV5RiKucRDg0mXlt7PnMMBKqYr3DGH52Ro
+	l+V5wFnHajdkPmBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 587941393E;
-	Mon, 20 Jan 2025 13:45:46 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 084B41393E;
+	Mon, 20 Jan 2025 13:51:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3YMIFYpTjmeAGgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 20 Jan 2025 13:45:46 +0000
-Message-ID: <cab2575c-037d-4d9d-896c-3bd2c64c9a0b@suse.de>
-Date: Mon, 20 Jan 2025 14:45:46 +0100
+	id IuGNAd1UjmcPBQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 20 Jan 2025 13:51:25 +0000
+Message-ID: <ace57dd5-76ad-4c8d-9cfb-97ce3105f709@suse.de>
+Date: Mon, 20 Jan 2025 14:51:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] nvme-fc: do not ignore connectivity loss during
- connecting
-To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Paul Ely <paul.ely@broadcom.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250109-nvme-fc-handle-com-lost-v4-0-fe5cae17b492@kernel.org>
- <20250109-nvme-fc-handle-com-lost-v4-3-fe5cae17b492@kernel.org>
+Subject: Re: [RFC PATCH] nvme-fc: move tagset removal to nvme_fc_delete_ctrl()
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Cc: Marco Patalano <mpatalan@redhat.com>, Ewan Milne <emilne@redhat.com>,
+ James Smart <james.smart@broadcom.com>, Sagi Grimberg <sagi@grimberg.me>
+References: <20250113124446.830697-1-ming.lei@redhat.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250109-nvme-fc-handle-com-lost-v4-3-fe5cae17b492@kernel.org>
+In-Reply-To: <20250113124446.830697-1-ming.lei@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
+X-Rspamd-Queue-Id: 213C321188
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250120_054549_639428_F5590603 
-X-CRM114-Status: GOOD (  29.61  )
+X-CRM114-CacheID: sfid-20250120_055126_862501_C3D101FB 
+X-CRM114-Status: GOOD (  23.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,106 +139,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/9/25 14:30, Daniel Wagner wrote:
-> When a connectivity loss occurs while nvme_fc_create_assocation is
-> being executed, it's possible that the ctrl ends up stuck in the LIVE
-> state:
+On 1/13/25 13:44, Ming Lei wrote:
+> Now target is removed from nvme_fc_ctrl_free() which is the ctrl->ref
+> release handler. And even admin queue is unquiesced there, this way
+> is definitely wrong because the ctr->ref is grabbed when submitting
+> command.
 > 
->    1) nvme nvme10: NVME-FC{10}: create association : ...
->    2) nvme nvme10: NVME-FC{10}: controller connectivity lost.
->                    Awaiting Reconnect
->       nvme nvme10: queue_size 128 > ctrl maxcmd 32, reducing to maxcmd
->    3) nvme nvme10: Could not set queue count (880)
->       nvme nvme10: Failed to configure AEN (cfg 900)
->    4) nvme nvme10: NVME-FC{10}: controller connect complete
->    5) nvme nvme10: failed nvme_keep_alive_end_io error=4
+> And Marco observed that nvme_fc_ctrl_free() can be called from request
+> completion code path, and trigger kernel warning since request completes
+> from softirq context.
 > 
-> A connection attempt starts 1) and the ctrl is in state CONNECTING.
-> Shortly after the LLDD driver detects a connection lost event and calls
-> nvme_fc_ctrl_connectivity_loss 2). Because we are still in CONNECTING
-> state, this event is ignored.
+> Fix the issue by moveing target removal into nvme_fc_delete_ctrl(),
+> which is also aligned with nvme-tcp and nvme-rdma.
 > 
-> nvme_fc_create_association continues to run in parallel and tries to
-> communicate with the controller and these commands will fail. Though
-> these errors are filtered out, e.g in 3) setting the I/O queues numbers
-> fails which leads to an early exit in nvme_fc_create_io_queues. Because
-> the number of IO queues is 0 at this point, there is nothing left in
-> nvme_fc_create_association which could detected the connection drop.
-> Thus the ctrl enters LIVE state 4).
-> 
-> Eventually the keep alive handler times out 5) but because nothing is
-> being done, the ctrl stays in LIVE state.
-> 
-> There is already the ASSOC_FAILED flag to track connectivity loss event
-> but this bit is set too late in the recovery code path. Move this into
-> the connectivity loss event handler and synchronize it with the state
-> change. This ensures that the ASSOC_FAILED flag is seen by
-> nvme_fc_create_io_queues and it does not enter the LIVE state after a
-> connectivity loss event. If the connectivity loss event happens after we
-> entered the LIVE state the normal error recovery path is executed.
-> 
-> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> Cc: Marco Patalano <mpatalan@redhat.com>
+> Cc: Ewan Milne <emilne@redhat.com>
+> Cc: James Smart <james.smart@broadcom.com>
+> Cc: Sagi Grimberg <sagi@grimberg.me>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
 > ---
->   drivers/nvme/host/fc.c | 23 ++++++++++++++++++-----
->   1 file changed, 18 insertions(+), 5 deletions(-)
+>   drivers/nvme/host/fc.c | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 7409da42b9ee580cdd6fe78c0f93e78c4ad08675..55884d3df6f291cfddb4742e135b54a72f1cfa05 100644
+> index b81af7919e94..b94b4e50a3df 100644
 > --- a/drivers/nvme/host/fc.c
 > +++ b/drivers/nvme/host/fc.c
-> @@ -781,11 +781,19 @@ nvme_fc_abort_lsops(struct nvme_fc_rport *rport)
->   static void
->   nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
->   {
-> +	enum nvme_ctrl_state state;
-> +	unsigned long flags;
+> @@ -2389,17 +2389,11 @@ nvme_fc_ctrl_free(struct kref *ref)
+>   		container_of(ref, struct nvme_fc_ctrl, ref);
+>   	unsigned long flags;
+>   
+> -	if (ctrl->ctrl.tagset)
+> -		nvme_remove_io_tag_set(&ctrl->ctrl);
+> -
+>   	/* remove from rport list */
+>   	spin_lock_irqsave(&ctrl->rport->lock, flags);
+>   	list_del(&ctrl->ctrl_list);
+>   	spin_unlock_irqrestore(&ctrl->rport->lock, flags);
+>   
+> -	nvme_unquiesce_admin_queue(&ctrl->ctrl);
+> -	nvme_remove_admin_tag_set(&ctrl->ctrl);
+> -
+>   	kfree(ctrl->queues);
+>   
+>   	put_device(ctrl->dev);
+> @@ -3288,6 +3282,13 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+>   
+>   	cancel_work_sync(&ctrl->ioerr_work);
+>   	cancel_delayed_work_sync(&ctrl->connect_work);
 > +
->   	dev_info(ctrl->ctrl.device,
->   		"NVME-FC{%d}: controller connectivity lost. Awaiting "
->   		"Reconnect", ctrl->cnum);
->   
-> -	switch (nvme_ctrl_state(&ctrl->ctrl)) {
-> +	spin_lock_irqsave(&ctrl->lock, flags);
-> +	set_bit(ASSOC_FAILED, &ctrl->flags);
-> +	state = nvme_ctrl_state(&ctrl->ctrl);
-> +	spin_unlock_irqrestore(&ctrl->lock, flags);
+> +	if (ctrl->ctrl.tagset)
+> +		nvme_remove_io_tag_set(&ctrl->ctrl);
 > +
-> +	switch (state) {
->   	case NVME_CTRL_NEW:
->   	case NVME_CTRL_LIVE:
->   		/*
-> @@ -2542,7 +2550,6 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
->   	 */
->   	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
->   		__nvme_fc_abort_outstanding_ios(ctrl, true);
-> -		set_bit(ASSOC_FAILED, &ctrl->flags);
->   		dev_warn(ctrl->ctrl.device,
->   			"NVME-FC{%d}: transport error during (re)connect\n",
->   			ctrl->cnum);
-> @@ -3167,12 +3174,18 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
->   		else
->   			ret = nvme_fc_recreate_io_queues(ctrl);
->   	}
-> -	if (!ret && test_bit(ASSOC_FAILED, &ctrl->flags))
-> -		ret = -EIO;
->   	if (ret)
->   		goto out_term_aen_ops;
->   
-> -	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
-> +	spin_lock_irqsave(&ctrl->lock, flags);
-> +	if (!test_bit(ASSOC_FAILED, &ctrl->flags))
-> +		changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
-> +	else
-> +		ret = -EIO;
-> +	spin_unlock_irqrestore(&ctrl->lock, flags);
+> +	nvme_unquiesce_admin_queue(&ctrl->ctrl);
+> +	nvme_remove_admin_tag_set(&ctrl->ctrl);
 > +
-> +	if (ret)
-> +		goto out_term_aen_ops;
->   
->   	ctrl->ctrl.nr_reconnects = 0;
->   
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+>   	/*
+>   	 * kill the association on the link side.  this will block
+>   	 * waiting for io to terminate
+
+Not sure that'll work. We're waiting for I/Os to complete just after
+the line in the last hunk, and I guess the need a tagset to complete
+properly.
 
 Cheers,
 
