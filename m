@@ -4,71 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48095C02185
-	for <linux-nvme@archiver.kernel.org>; Sun, 19 Jan 2025 01:13:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96642C02181
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jan 2025 13:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=wKKNSvA/FHlRkXq6rWb+x+F54e8IXns6yACRFFnQoZo=; b=eHowMR38JfEMudFtgXtrW1EbH0
-	jSRaxLPfzVB9jtrJxN66JY/lgqiWrbaWGycEOkPpmVIpc82mVq/VfwOdV72jPIouLo/nUjlnlvrtu
-	A3givvD2nynq4nzGHl84rTunAsw4y4UX+5a6fWhM9jgDKY3YYWT90XGWiZUMguWCr1fFl5l+FV1d2
-	DeVqSjBcshe7SMblGKqrv4+HzgNznBBIpPbIR4S6F+uZvLU8Yh3b5+OB03r3db4yiUKGmgERUJZjl
-	5QqvoYONowSlWjzuWgHueEfBUcjZd7oR+G27KfktRw1qK1l+HtoURbxkBDzlF6h7bI5Azi9+CQSs7
-	4k7yCxaQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=; b=EGubplQPpHGVaGJsojnubwfeMa
+	NVSRex+aqTEESuYt+KnZgaWmg2r+B0VwvOXlNo2hKMjGedLSewJrMvyFA3LWAOhuWIVUP4ydDqBHT
+	HgWDMQPtcc0JUzTrYxSyGc9mTH7YB0Yf6LqI0QGjFU73Vj14t/dkiuf3bBhFKjNg50mqqp4SChHc7
+	J3+skyK9PvxcF/1GH9L1X5wKi6tXvjGvzuVZPztiQjnWpvMkhXGu4GxY741u7ReFBNAQetEHHus9c
+	GAEvWQNjHGVF9uXRe3Bymg/cwZi77UzzpET+VrnTkVpp3hZq/VlZN2hvAJ2G5gq6LSQpsx8m7xdFn
+	L34G0atQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tZJsh-0000000397d-1rOz;
-	Sun, 19 Jan 2025 01:13:39 +0000
-Received: from mgamail.intel.com ([192.198.163.11])
+	id 1tZs6F-00000005hFC-2ykF;
+	Mon, 20 Jan 2025 13:45:55 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tZJsb-00000003971-1OkS
+	id 1tZs69-00000005hAu-1pI0
 	for linux-nvme@lists.infradead.org;
-	Sun, 19 Jan 2025 01:13:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737249213; x=1768785213;
-  h=date:from:to:cc:subject:message-id;
-  bh=xCOjCchauweAPypEm1MjePe5f+1sEmSjKi6Eo9M9oxM=;
-  b=Bfa2SBazwS6703ioR9scPYoAFTDqM/Qo9m/DB2gIFgLZBeGK+d/AXiXd
-   K4m/HcpEWxsoa13KqiFpRHQjUcvif6YRPP3LAnsyBCbudQ1lXjdBRBdQs
-   0gj5TlGnGgWHlwyaGLCQ4miTPk6+oPH//bBz3YoOWVXNsOlHrK6evHQfE
-   2pC3eptNXAJD6Kf8qlLd1qzehDTum1iR367MsXlw8XrPpbh/PH8NWGFDZ
-   sZGrFhl/y1ECvQHt+2C18KvlfXr8X7WkR6pM21toGFOWMKTSTjmgoKisQ
-   1CZOqAo/hZv2T8VfuqpqBR4abdyQwcBLg6yuZjgsUFyo15BBYAF2TU+BO
-   w==;
-X-CSE-ConnectionGUID: uPs4ZOciRiieoxBVbbGitA==
-X-CSE-MsgGUID: ScgOpXsGS0uR3fTpEuSQQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="48237643"
-X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="48237643"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 17:13:26 -0800
-X-CSE-ConnectionGUID: WC36N/HxQxuAycBwe8PI/w==
-X-CSE-MsgGUID: nyQfQEmJTrGRzDLvUiEq5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106598719"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Jan 2025 17:13:25 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tZJsR-000UzH-00;
-	Sun, 19 Jan 2025 01:13:23 +0000
-Date: Sun, 19 Jan 2025 09:13:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.14] BUILD SUCCESS
- 11cb3529d18514f7d28ad2190533192aedefd761
-Message-ID: <202501190959.7sLZzUuZ-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Mon, 20 Jan 2025 13:45:50 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7002C2117E;
+	Mon, 20 Jan 2025 13:45:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737380746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=;
+	b=Axp/DLS6ufjFiiSl70ONlqqWfFr6hYHP2oliF0dEfM7bgJwmQgcjNkWkF3+3EcGVLero25
+	nlhjGycmwhsjfnJNJN3DJrXanMy6iXNLn7s2LjtcRTjxcW5vszLQFZW7TjwjluX/+bXiUy
+	iJ4K0mBxGDXubxNp/B+dr3KKWFcqf9A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737380746;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=;
+	b=dkutcqHhoK3gP03pc9UC0OG0fo8QTyMYnjYUl+G/A4DAVUoE+OcNdqs2mJozVhk/KMjSXB
+	JeqDiFpkXQ5pqqCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737380746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=;
+	b=Axp/DLS6ufjFiiSl70ONlqqWfFr6hYHP2oliF0dEfM7bgJwmQgcjNkWkF3+3EcGVLero25
+	nlhjGycmwhsjfnJNJN3DJrXanMy6iXNLn7s2LjtcRTjxcW5vszLQFZW7TjwjluX/+bXiUy
+	iJ4K0mBxGDXubxNp/B+dr3KKWFcqf9A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737380746;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QF1VONKnn8WOI8uNOYuFK4FFaffVTqc2ME1cDMhaWJo=;
+	b=dkutcqHhoK3gP03pc9UC0OG0fo8QTyMYnjYUl+G/A4DAVUoE+OcNdqs2mJozVhk/KMjSXB
+	JeqDiFpkXQ5pqqCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 587941393E;
+	Mon, 20 Jan 2025 13:45:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3YMIFYpTjmeAGgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 20 Jan 2025 13:45:46 +0000
+Message-ID: <cab2575c-037d-4d9d-896c-3bd2c64c9a0b@suse.de>
+Date: Mon, 20 Jan 2025 14:45:46 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] nvme-fc: do not ignore connectivity loss during
+ connecting
+To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Paul Ely <paul.ely@broadcom.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250109-nvme-fc-handle-com-lost-v4-0-fe5cae17b492@kernel.org>
+ <20250109-nvme-fc-handle-com-lost-v4-3-fe5cae17b492@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250109-nvme-fc-handle-com-lost-v4-3-fe5cae17b492@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250118_171333_415359_DEFF2D93 
-X-CRM114-Status: UNSURE (   5.22  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250120_054549_639428_F5590603 
+X-CRM114-Status: GOOD (  29.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,161 +134,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.14
-branch HEAD: 11cb3529d18514f7d28ad2190533192aedefd761  nvme-pci: Add TUXEDO IBP Gen9 to Samsung sleep quirk
+On 1/9/25 14:30, Daniel Wagner wrote:
+> When a connectivity loss occurs while nvme_fc_create_assocation is
+> being executed, it's possible that the ctrl ends up stuck in the LIVE
+> state:
+> 
+>    1) nvme nvme10: NVME-FC{10}: create association : ...
+>    2) nvme nvme10: NVME-FC{10}: controller connectivity lost.
+>                    Awaiting Reconnect
+>       nvme nvme10: queue_size 128 > ctrl maxcmd 32, reducing to maxcmd
+>    3) nvme nvme10: Could not set queue count (880)
+>       nvme nvme10: Failed to configure AEN (cfg 900)
+>    4) nvme nvme10: NVME-FC{10}: controller connect complete
+>    5) nvme nvme10: failed nvme_keep_alive_end_io error=4
+> 
+> A connection attempt starts 1) and the ctrl is in state CONNECTING.
+> Shortly after the LLDD driver detects a connection lost event and calls
+> nvme_fc_ctrl_connectivity_loss 2). Because we are still in CONNECTING
+> state, this event is ignored.
+> 
+> nvme_fc_create_association continues to run in parallel and tries to
+> communicate with the controller and these commands will fail. Though
+> these errors are filtered out, e.g in 3) setting the I/O queues numbers
+> fails which leads to an early exit in nvme_fc_create_io_queues. Because
+> the number of IO queues is 0 at this point, there is nothing left in
+> nvme_fc_create_association which could detected the connection drop.
+> Thus the ctrl enters LIVE state 4).
+> 
+> Eventually the keep alive handler times out 5) but because nothing is
+> being done, the ctrl stays in LIVE state.
+> 
+> There is already the ASSOC_FAILED flag to track connectivity loss event
+> but this bit is set too late in the recovery code path. Move this into
+> the connectivity loss event handler and synchronize it with the state
+> change. This ensures that the ASSOC_FAILED flag is seen by
+> nvme_fc_create_io_queues and it does not enter the LIVE state after a
+> connectivity loss event. If the connectivity loss event happens after we
+> entered the LIVE state the normal error recovery path is executed.
+> 
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/nvme/host/fc.c | 23 ++++++++++++++++++-----
+>   1 file changed, 18 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 7409da42b9ee580cdd6fe78c0f93e78c4ad08675..55884d3df6f291cfddb4742e135b54a72f1cfa05 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -781,11 +781,19 @@ nvme_fc_abort_lsops(struct nvme_fc_rport *rport)
+>   static void
+>   nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
+>   {
+> +	enum nvme_ctrl_state state;
+> +	unsigned long flags;
+> +
+>   	dev_info(ctrl->ctrl.device,
+>   		"NVME-FC{%d}: controller connectivity lost. Awaiting "
+>   		"Reconnect", ctrl->cnum);
+>   
+> -	switch (nvme_ctrl_state(&ctrl->ctrl)) {
+> +	spin_lock_irqsave(&ctrl->lock, flags);
+> +	set_bit(ASSOC_FAILED, &ctrl->flags);
+> +	state = nvme_ctrl_state(&ctrl->ctrl);
+> +	spin_unlock_irqrestore(&ctrl->lock, flags);
+> +
+> +	switch (state) {
+>   	case NVME_CTRL_NEW:
+>   	case NVME_CTRL_LIVE:
+>   		/*
+> @@ -2542,7 +2550,6 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+>   	 */
+>   	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
+>   		__nvme_fc_abort_outstanding_ios(ctrl, true);
+> -		set_bit(ASSOC_FAILED, &ctrl->flags);
+>   		dev_warn(ctrl->ctrl.device,
+>   			"NVME-FC{%d}: transport error during (re)connect\n",
+>   			ctrl->cnum);
+> @@ -3167,12 +3174,18 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>   		else
+>   			ret = nvme_fc_recreate_io_queues(ctrl);
+>   	}
+> -	if (!ret && test_bit(ASSOC_FAILED, &ctrl->flags))
+> -		ret = -EIO;
+>   	if (ret)
+>   		goto out_term_aen_ops;
+>   
+> -	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+> +	spin_lock_irqsave(&ctrl->lock, flags);
+> +	if (!test_bit(ASSOC_FAILED, &ctrl->flags))
+> +		changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+> +	else
+> +		ret = -EIO;
+> +	spin_unlock_irqrestore(&ctrl->lock, flags);
+> +
+> +	if (ret)
+> +		goto out_term_aen_ops;
+>   
+>   	ctrl->ctrl.nr_reconnects = 0;
+>   
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Warning ids grouped by kconfigs:
+Cheers,
 
-recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- arm-randconfig-003-20250118
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- hexagon-allmodconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- hexagon-allyesconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- i386-allmodconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- s390-allmodconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- s390-allyesconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- sh-allmodconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- sh-allyesconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- sparc-allmodconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- um-allmodconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-|-- um-allyesconfig
-|   |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-|   `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-`-- um-randconfig-002-20250118
-    |-- drivers-nvme-host-tcp.c:warning:Function-parameter-or-struct-member-queue-not-described-in-nvme_tcp_set_queue_io_cpu
-    `-- drivers-nvme-host-tcp.c:warning:expecting-prototype-for-Track-the-number-of-queues-assigned-to-each-cpu-using-a-global-per().-Prototype-was-for-nvme_tcp_set_queue_io_cpu()-instead
-
-elapsed time: 1443m
-
-configs tested: 98
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                         haps_hs_defconfig    gcc-13.2.0
-arc                   randconfig-001-20250118    gcc-13.2.0
-arc                   randconfig-002-20250118    gcc-13.2.0
-arm                               allnoconfig    clang-17
-arm                       aspeed_g4_defconfig    clang-20
-arm                           h3600_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250118    gcc-14.2.0
-arm                   randconfig-002-20250118    clang-20
-arm                   randconfig-003-20250118    gcc-14.2.0
-arm                   randconfig-004-20250118    gcc-14.2.0
-arm                           spitz_defconfig    gcc-14.2.0
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250118    clang-17
-arm64                 randconfig-002-20250118    gcc-14.2.0
-arm64                 randconfig-003-20250118    clang-20
-arm64                 randconfig-004-20250118    clang-15
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250118    gcc-14.2.0
-csky                  randconfig-002-20250118    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    clang-20
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250118    clang-20
-hexagon               randconfig-002-20250118    clang-20
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386        buildonly-randconfig-001-20250118    gcc-12
-i386        buildonly-randconfig-002-20250118    clang-19
-i386        buildonly-randconfig-003-20250118    clang-19
-i386        buildonly-randconfig-004-20250118    gcc-11
-i386        buildonly-randconfig-005-20250118    clang-19
-i386        buildonly-randconfig-006-20250118    clang-19
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250118    gcc-14.2.0
-loongarch             randconfig-002-20250118    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                           ip22_defconfig    gcc-14.2.0
-mips                           ip30_defconfig    gcc-14.2.0
-nios2                         10m50_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250118    gcc-14.2.0
-nios2                 randconfig-002-20250118    gcc-14.2.0
-openrisc                         alldefconfig    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                 simple_smp_defconfig    gcc-14.2.0
-openrisc                       virt_defconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                randconfig-001-20250118    gcc-14.2.0
-parisc                randconfig-002-20250118    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc               randconfig-001-20250118    clang-15
-powerpc               randconfig-002-20250118    clang-20
-powerpc               randconfig-003-20250118    clang-20
-powerpc64                        alldefconfig    clang-20
-powerpc64             randconfig-001-20250118    clang-17
-powerpc64             randconfig-002-20250118    clang-19
-powerpc64             randconfig-003-20250118    clang-20
-riscv                             allnoconfig    gcc-14.2.0
-riscv                 randconfig-001-20250118    gcc-14.2.0
-riscv                 randconfig-002-20250118    clang-20
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250118    clang-20
-s390                  randconfig-002-20250118    gcc-14.2.0
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                          kfr2r09_defconfig    gcc-14.2.0
-sh                    randconfig-001-20250118    gcc-14.2.0
-sh                    randconfig-002-20250118    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250118    gcc-14.2.0
-sparc                 randconfig-002-20250118    gcc-14.2.0
-sparc64               randconfig-001-20250118    gcc-14.2.0
-sparc64               randconfig-002-20250118    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250118    clang-17
-um                    randconfig-002-20250118    clang-15
-x86_64                            allnoconfig    clang-19
-x86_64      buildonly-randconfig-001-20250118    clang-19
-x86_64      buildonly-randconfig-002-20250118    gcc-12
-x86_64      buildonly-randconfig-003-20250118    clang-19
-x86_64      buildonly-randconfig-004-20250118    gcc-12
-x86_64      buildonly-randconfig-005-20250118    clang-19
-x86_64      buildonly-randconfig-006-20250118    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250118    gcc-14.2.0
-xtensa                randconfig-002-20250118    gcc-14.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
