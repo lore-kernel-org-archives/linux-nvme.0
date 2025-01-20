@@ -4,119 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 387CDC02181
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jan 2025 14:31:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01C1EC02181
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Jan 2025 16:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Kf+3RT6jgJ74hGvY/qY+RUR8btMXfot0LemyRs8NySo=; b=Tm7szzvQJqgOJnGtU++RnO0gBb
-	7HzFq2FMLd5YD4ngp1Z2lp+NB7tWraDLUjK6KOf00EDfPLuwllauZX9LHBX1nUBaZoTvrrE/3H7hm
-	myAUJbmaN57k+76LRbSscvce0Uvbn/ym8zkG97b5vCwNhR+AvaYkAIMIRkIFaHSJRVM84tUAvKEkK
-	ssBNf7ZAEIJk8taQOqlhlm7dKROhbpDgFk7lYVOleYWtNJmf6Lq0QvsNKaTKOXkM1FM1SfSKODBvg
-	EPwCF8jpEvsmpIONxC5dd10hstE3fwjvyNMeuedapmtJC6EmmuAQCaQRDnZoqvtt2bWvLZUwJVvns
-	MxZ7NiQw==;
+	bh=4wpnomT5QBU7SLdC6q8LZHFoRzA0TKt2BnVFF5D/DDw=; b=lTgbA4LyrRqx7fc10JSjMnLSSY
+	ujSzfTPqD36XsSDAb2yQchP7QyUh49nURnJxl50rL2H4V2RUcuyZ0s3+5UOFjDLMf0K9qwLhuKGwZ
+	tDdXIWhpwHdcO0HLePN6hqvDrlgDQ0NOk85TUHfBdrJL1cuy4ERYdEOIfLIkQKNF0SVwCURH0698A
+	SOHMiKJZ92/JL57rWoyobM6IrpTIfcaAo2NkQp0fqW4QZYYNgjke8/LOzlAidp9EuxiF9FHEImTfL
+	LeWqRNCc03qqOzoJksVTzr/KuwXjMCoJhCo3TdJOtIKFp/t4R7+SN0V32mbXdllIuRwl3idvc5XPd
+	uLpeY91A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tZsoT-00000005nPj-31TD;
-	Mon, 20 Jan 2025 14:31:37 +0000
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+	id 1tZv5v-000000064Ab-0XNF;
+	Mon, 20 Jan 2025 16:57:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tZsoR-00000005nP0-2XWJ
+	id 1tZv5s-0000000649M-21Y0
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Jan 2025 14:31:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=Kf+3RT6jgJ74hGvY/qY+RUR8btMXfot0LemyRs8NySo=; t=1737383495;
-	x=1737815495; b=nhGt3QXVHFFFPBcQ8ku7x0XhMUuzzt7XfJCG+zxcVunxikvBrkKkFnOd97z5J
-	EpJc9Y9bxgTborhaRpTpQYL2B2PB6LheZ8wCs1lXzlmtmIDskL6l6lQZ08a6R650OBwHZlgZCVChk
-	HcRutgxz/ekzuYMc2Ji6Ue3lgfp+vnscCZMI5d6y8DCktqB6jVe31sPVA2PukKMej/rxP2tZZuXAh
-	XMZaCmkYJAijG7EGDoBn7TXnGqCNYKR8PYmYdaSvPNblnq5v2kFZ0khJS8DVeoVrLjsPfL/rhrPbU
-	iHVxaz7iwZ7Mu3FW45gisIkT20BlodgU0phbGlKJBUSO4M6uaA==;
-Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
-	id 1tZsoL-0090Or-11;
-	Mon, 20 Jan 2025 15:31:29 +0100
-Message-ID: <10e39c88-4667-4c61-b3eb-3dd7ee3074c3@leemhuis.info>
-Date: Mon, 20 Jan 2025 15:31:28 +0100
+	Mon, 20 Jan 2025 16:57:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737392261;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4wpnomT5QBU7SLdC6q8LZHFoRzA0TKt2BnVFF5D/DDw=;
+	b=LS69pWWugic3Abv4cEwHfvKuSGXbvg8+APjuyZtk6hnhPTqtEcfk+2zy5jqkb+UWMUALCi
+	p7pUr/2mZwI1x8X2WuRfsimrQ/84SJ1BDhWwCwxQnsHOYFFaoxueFqb12yXV/GD/45VBJC
+	ESxnZoS2xN6V3WeT46F+UB7qG1RHPqk=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-15-ZBDNOgTMPGat13DeEKiUZg-1; Mon, 20 Jan 2025 11:57:40 -0500
+X-MC-Unique: ZBDNOgTMPGat13DeEKiUZg-1
+X-Mimecast-MFC-AGG-ID: ZBDNOgTMPGat13DeEKiUZg
+Received: by mail-yb1-f199.google.com with SMTP id 3f1490d57ef6-e5505f613e5so14021902276.0
+        for <linux-nvme@lists.infradead.org>; Mon, 20 Jan 2025 08:57:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737392259; x=1737997059;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4wpnomT5QBU7SLdC6q8LZHFoRzA0TKt2BnVFF5D/DDw=;
+        b=JCccFtVn+FbQKS4xhuGvFQn3Rv0Vw4sVWXPTfRzZIOqqrqsTOMuLrRW0VMshNhEwsq
+         OLDz/uSYWqCtZaTd7OaZVRnEWFMJ4yivrX2eY4R3mKcaDepgMN3nk12gzTnlte4jw2vg
+         l4y5NhAaiLIM9zJPuw5k5DungS4PSjJ5CCSo5C+EgGWuMrxvocyr0n4DIUMnnQTbDQ+k
+         3h8yxoW22uAxEhmuWMT4a3hIoWik8yMwIkTePMybPZmeI6Dr3KDE1TG8UrwFrBII3ADW
+         5j+yOLaoMRyq3zc/ze3shSyFmIguihVadJCCTNLUlsQGkeuFTSiqjtm+ezx7sBWTqFOt
+         OE3w==
+X-Gm-Message-State: AOJu0Yz5bHdQjfCHf6IbIftwxOUZP0iaZceV8NHMwnlgoEZudpGtY2tt
+	UgOP22LUG++RonK2nominSZ81RJdkeMWfgtvWxcSN4Mbd7HktdBzYGXvmXkC2TsuIkXFJePMi+w
+	PmWLlQGOM8K84zDUnvkLas5E4uVBudgW1MYAivcdNzcwtGIf+IOe3yuEtYZgsbcHSnfuPBluNXp
+	tDKJkDnVupJjegDDk6qG4ZwD0j61+VzIk4Pyw/L9U=
+X-Gm-Gg: ASbGncvfr2dO+pGRABqRcE4YD7evOWrtlAeyxafMN6OpAbmvA0uGnIFo6pEL4+RYTac
+	UjNcIDHY8wxckk+5eH0whIU/3s5o4JD1eteNIcmno7nXswikW8vo=
+X-Received: by 2002:a05:6902:2702:b0:e57:3da6:a1dd with SMTP id 3f1490d57ef6-e57b0c833d3mr10007610276.23.1737392259610;
+        Mon, 20 Jan 2025 08:57:39 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGUVGQ5I9iWacAXKx6eZeH77ygd0ObieIw1SFWg6fk0jzQEaTWDAk8QBQIlc/kyc4VfPeaCigObnDk59adb+3k=
+X-Received: by 2002:a05:6902:2702:b0:e57:3da6:a1dd with SMTP id
+ 3f1490d57ef6-e57b0c833d3mr10007596276.23.1737392259378; Mon, 20 Jan 2025
+ 08:57:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-From: Thorsten Leemhuis <linux@leemhuis.info>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Bruno Gravato <bgravato@gmail.com>, Stefan <linux-kernel@simg.de>,
- Keith Busch <kbusch@kernel.org>, bugzilla-daemon@kernel.org,
- Adrian Huang <ahuang12@lenovo.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@lst.de>
-References: <401f2c46-0bc3-4e7f-b549-f868dc1834c5@leemhuis.info>
- <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de>
- <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
- <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
- <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
- <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info>
- <20250117080507.GA25953@lst.de>
- <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
-Content-Language: de-DE, en-US
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1737383495;7fc9585d;
-X-HE-SMSGID: 1tZsoL-0090Or-11
+References: <20250116201527.9252-1-kch@nvidia.com>
+In-Reply-To: <20250116201527.9252-1-kch@nvidia.com>
+From: Ewan Milne <emilne@redhat.com>
+Date: Mon, 20 Jan 2025 11:57:27 -0500
+X-Gm-Features: AbW1kvbranbR8fBKwlqBi2Junqcd7g2_tPQQ4IytGnBX0JSghRgJsvpvw_EaQBc
+Message-ID: <CAGtn9rkEmr642V4851WSmKsfcs=qOSogZ-vGXkQfoVaXLFMXWQ@mail.gmail.com>
+Subject: Re: [PATCH] nvme-core: decode the error on add disk()
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de, 
+	sagi@grimberg.me
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 6axr3uo3HMdgTZrpmQ7rzubPRlxOHiFxlMG8LK6_GjQ_1737392259
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250120_063135_812686_1A35CE87 
-X-CRM114-Status: GOOD (  13.76  )
+X-CRM114-CacheID: sfid-20250120_085744_599984_B0C9C112 
+X-CRM114-Status: GOOD (  10.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,32 +102,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 17.01.25 10:51, Thorsten Leemhuis wrote:
-> On 17.01.25 09:05, Christoph Hellwig wrote:
->> On Wed, Jan 15, 2025 at 09:40:04AM +0100, Thorsten Leemhuis wrote:
+On Thu, Jan 16, 2025 at 3:19=E2=80=AFPM Chaitanya Kulkarni <kch@nvidia.com>=
+ wrote:
+>
+> While debugging the problem, it is important to know that what exact
+> error returned by device_add_disk() along side the disk name. Print
+> the error along with disk name when device_add_disk() fails when
+> allocating the namespace.
 
-> And BTW a few bits of the latest development in the bugzilla ticket
-> (https://bugzilla.kernel.org/show_bug.cgi?id=219609 ):
-> 
-> * iommu=pt and amd_iommu=off seems to work around the problem (in
-> addition to disabling the iommu in the BIOS setup).
-> 
-> * Not totally sure, but it seems most or everyone affected is using a
-> Ryzen 8000 CPU -- and now one user showed up that mentioned a DeskMini
-> x600 with a Ryzen 7000 CPU is not affected (see ticket for details). But
-> that might be due to other aspects. A former colleague of mine who can
-> reproduce the problem will later test if a different CPU line really is
-> making a difference.
+This is fine as far as it goes.  Looking at the code around namespace scann=
+ing
+there appear to be several other places where an error is silently handled =
+and
+the namespace won't show up.  e.g. if nvme_get_effects_log() -> nvme_get_lo=
+g()
+fails in nvme_alloc_ns_head().  That is beyond the intent of this one
+patch though.
 
-My former colleague Christian Hirsch (not CCed) can reproduce the
-problem reliably. He today switched the CPU to a Ryzen 7 7700 and later
-to some Ryzen 9600X – and with those things worked just fine, e.g. no
-corruptions. But they came back after putting the 8600G back in.
+Reviewed-by: Ewan D. Milne <emilne@redhat.com>
 
-Ralph, can you please add this detail to the Asrock support ticket?
-
-Ciao, Thorsten
-
-[1] he described building a x600 machine in the c't magazine, which is
-the reason why I and a few others affected and CCed build their x600 systems
 
