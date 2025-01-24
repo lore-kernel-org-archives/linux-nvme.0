@@ -4,88 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A112C02181
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jan 2025 07:48:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CA37C02181
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jan 2025 08:09:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=YipXsoNbJAtqYyVp6VRH4yyOTYcAMW9lzgNAc8k++qI=; b=OpfGCqm7mKksDbwEzm1/SW4DfL
-	orz2pjUhBHq3WTQsNQZEM80GfZycqu7otgVcksQDv5b5W9bcpLxRwSi99/KlQHhrtkgE9jq9WlbsZ
-	DATh4rFYaY5/lfZQTdeJEGenXqcX3yEX2tNg1oxXqNhJ0FtkiMSg+qRKx4mXkE6CStrl4rnRslo71
-	mXcsIzwAQzv+e0+wssI5Dka6efZjlKlIVQlB7hyJ/2JKQj6zpsEluns/FXadnfKOWbt8ii/nsCkIS
-	PtU8ktxZyW1/FtwPS6g6SKomGEPnJuUFaqTN6OFLEvTEtWXrzvb7TJbNYLbH/KyBuwHKI6PG4vcKR
-	WA6n20Sw==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zOebF37DMOymsce+6h/SiipFHAMLZWVvtXEZKwj/7ek=; b=ISHjZ/axS/0L+9239YsR4AecLT
+	nkOB20eoswVcMj+F2gxyUoqFs8+fsdbKvXtnTLtx54xeTihy/LeEXZamoHlJw7C0K1rvaGkXs4LQU
+	OAOj+sEJR7HUoBM9abbcHCiHLi78DObqBPCrQKE8Xla1XgMvfS7FDd313a9zuCZ70RBv4D+IVm3CV
+	gzJQWWgYBsHcOM06XDCd164wKZBpffdQOdSWXidZqzoS5sp0Drk/ukchT9JzwsXSbVl7fIjPFSGMl
+	rASPi7tDqIwzC1k8xCCLyrv/1ku8xz2PUIBOWnnyVkKdVZZEX0A56Jw/unjpWBJeK6d+aT6eYT9G9
+	3FshjzHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbEQ6-0000000EAIW-3NmP;
-	Fri, 24 Jan 2025 07:48:02 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1tbEkO-0000000EC6D-31pH;
+	Fri, 24 Jan 2025 08:09:00 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbEQ3-0000000EAIC-2hZ9
+	id 1tbEkL-0000000EC5W-3iyK
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Jan 2025 07:48:00 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50O7WkkV021218;
-	Fri, 24 Jan 2025 07:47:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=YipXsoNbJAtqYyVp6VRH4yyOTYcAMW9lzgNAc8k++
-	qI=; b=aUWuaCvmd4qpYm3FSzfTarp/J4nCB55GrTOmgEmCF6c16brH4afMZmZ+4
-	AtwWoKpxR+w0UNpDHI6yWfVV9Apyyz8U5CCBmgVCfdDxAnRyKTSM7uN5YBgyasxF
-	YAlmJ7SMAH3mtBSGEkN+RHzsQXsaL1VOp8eQRyvtMiKKWGOMcQCiFt17FpOkDIxs
-	BrnVPSCqQEigd7iid0Er/FJf+NrjxjGnvwlq1UtTSAF6McK8oEerTLNybv0Rr8hK
-	fzZgCaQjJ8HEQI1TRrNeyaxdCRhFGbfm0Ox3BCMtTiGjHDDZ1VqUKtqyiFzr8Cut
-	wexyHzjFfIZv0SKfPM1XjqiH/CkEQ==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44c6jng1kq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Jan 2025 07:47:58 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50O5HpHJ029604;
-	Fri, 24 Jan 2025 07:47:57 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 448qmntda2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Jan 2025 07:47:57 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50O7lt9o49283388
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Jan 2025 07:47:55 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B14AB2004D;
-	Fri, 24 Jan 2025 07:47:55 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9C2372004E;
-	Fri, 24 Jan 2025 07:47:54 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.53.174])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 24 Jan 2025 07:47:54 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: shinichiro.kawasaki@wdc.com, hare@suse.de, gjoyce@ibm.com
-Subject: [PATCHv2 blktests] nvme/058: detach loop device after test finish
-Date: Fri, 24 Jan 2025 13:17:29 +0530
-Message-ID: <20250124074753.9802-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.47.1
+	Fri, 24 Jan 2025 08:08:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737706136;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zOebF37DMOymsce+6h/SiipFHAMLZWVvtXEZKwj/7ek=;
+	b=H2uaahl13rqGP9coadgG2WsyNPKE5rO8gVwzeRiUo4e3+n0f5pxIwfPQWuAsS95xJGD1zK
+	LGaicRqUbiiJ1NMyywV9/afRAhKqW+RSKpusQ08smKGBrALioSrjuDnBalUK1+Ls2uIsb1
+	X220y/HNoZeyNPLU7wNhMLUXpWPLMcY=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-57-T9ibxge2Oi6W9Wo2ovoQlQ-1; Fri, 24 Jan 2025 03:08:54 -0500
+X-MC-Unique: T9ibxge2Oi6W9Wo2ovoQlQ-1
+X-Mimecast-MFC-AGG-ID: T9ibxge2Oi6W9Wo2ovoQlQ
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6d8f0b1023bso16493836d6.0
+        for <linux-nvme@lists.infradead.org>; Fri, 24 Jan 2025 00:08:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737706134; x=1738310934;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zOebF37DMOymsce+6h/SiipFHAMLZWVvtXEZKwj/7ek=;
+        b=SLb5jcC6WrFJC+EO3yFpXRWxcA78idjtMjSYp4bjCRbokzGNbfeuhMJ30n4Vmvx5Sw
+         cuEhv6cS8uEATsjGY8ylLGqFMqLpSNHjV1oUHXfg2OjL1xz9UCCKFuhuCBQ5FrwGSJKk
+         bwBDkYdEuIdU1kkhLztjgVr5zGQiZgopR9F3hpoKBx9QwE2jUSVYKwXq3OKOfV+kHdSh
+         rKEGJbXiHObF9rYwKEW1gC00Z6Lhxc7+YWyJadF88g8KdFM8wFBMKhW0SkHo+4A3P4dZ
+         MUMpuyf2EkRosCZePFhoOB6PDH5CpXUswgH+tTyNzh2xzRFK0jswtEyxRF+SiCGraCUK
+         1L/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUIXEZ2qQUuEeeUjvflWOPAMkGOtVbG/SisB1hyJCoK7BPtda5qEs/lnkSpu5mL7/BbXEhpRUxxPUcJ@lists.infradead.org
+X-Gm-Message-State: AOJu0YwEf17kP1puxskZastr6+Z/sdbRa5b6q04Sxdvs4q6kstrsuUfY
+	1un1G8hKj2ipOWWY5kFthOk62Gz6M9d+sEiO6jf8SLXW10BMGUnY/aMWlTh1ukGL75LdAkkfOzO
+	GPtG0aum2VHB+9+SRafeaCuD73jEfEq4pmstQ2uXTWqSg+IOY4iXB3qxS7Cxg+yk/bx+gUyVqgR
+	4oLW1C53D/TiTF2Fr6bLczeuLJ3pom4WTezijiLLpna0FNJEBDwprt
+X-Gm-Gg: ASbGnctBrAXCw4+kg7nQ8F1Spf2PAuQsVJTtBf3gcTk+1+N4ry3BZeJRnndh7YqnY96
+	UZw058Ep1vHwc+OpMQ2eBL05tFoDUNo/pwuy0QG58LuZ2R21BOrpVHA==
+X-Received: by 2002:a05:6214:3197:b0:6d4:2646:108a with SMTP id 6a1803df08f44-6e1b2159486mr362113726d6.12.1737706134098;
+        Fri, 24 Jan 2025 00:08:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGXB0WyXawe/guYBG84HmjiUbIhIbP/Q3AFDQdx+lLeyo+y/bGKB1YQt0M2h9LzF2hTfLNvcdXFIp1LEXuJbt8=
+X-Received: by 2002:a05:6214:3197:b0:6d4:2646:108a with SMTP id
+ 6a1803df08f44-6e1b2159486mr362113566d6.12.1737706133817; Fri, 24 Jan 2025
+ 00:08:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DpgLwCjwG97Sob-K2FSb1DwO3cUVQ-gK
-X-Proofpoint-ORIG-GUID: DpgLwCjwG97Sob-K2FSb1DwO3cUVQ-gK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-24_03,2025-01-23_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 suspectscore=0 adultscore=0 clxscore=1015 spamscore=0
- bulkscore=0 malwarescore=0 mlxlogscore=702 mlxscore=0 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501240053
+References: <20250123224941.1359950-1-csander@purestorage.com>
+In-Reply-To: <20250123224941.1359950-1-csander@purestorage.com>
+From: Maurizio Lombardi <mlombard@redhat.com>
+Date: Fri, 24 Jan 2025 09:08:42 +0100
+X-Gm-Features: AWEUYZkOamBE7V4lURxcUEd1JqquxWOocCxcibyFvXVGjiuc0WSqMeBMNpVt_ng
+Message-ID: <CAFL455=TMmKVZPtnX_CBF34+EtfMbq37OxQAFGJuW_u1VjEQsA@mail.gmail.com>
+Subject: Re: [PATCH v2] nvme-tcp: fix connect failure on receiving partial
+ ICResp PDU
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: aIm9Iv-agnuVxTlI1TuqKAyETeowvMHBYbpVHa6Sukg_1737706134
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250123_234759_794752_BDA4C84B 
-X-CRM114-Status: GOOD (  13.08  )
+X-CRM114-CacheID: sfid-20250124_000857_998725_30C07B88 
+X-CRM114-Status: UNSURE (   9.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,57 +106,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvme/058 creates three (temp file backed) namespaces and
-attach each namespace to a loop device while starting the test.
-However it never detach those namespaces from the loop device
-once test finishes. Ideally, we should detach loop device from
-namespace so that the associated loop device is later destroyed
-and its resources are released. This patch helps detach each
-namespace from its associated loop device after test finishes.
+=C4=8Dt 23. 1. 2025 v 23:50 odes=C3=ADlatel Caleb Sander Mateos
+<csander@purestorage.com> napsal:
+>
+>         ret =3D kernel_recvmsg(queue->sock, &msg, &iov, 1,
+>                         iov.iov_len, msg.msg_flags);
+> -       if (ret < 0) {
+> +       if (ret < sizeof(*icresp)) {
+>                 pr_warn("queue %d: failed to receive icresp, error %d\n",
+>                         nvme_tcp_queue_id(queue), ret);
+>                 goto free_icresp;
+>         }
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
-Changes from v1:
-    - keep blkdevs, which are used for setting up ns, in an array
-      and then later access the array to free/detach each blkdev
-      (Shinichiro Kawasaki)
-    - use longer option name instead of short name for readability
-      (Shinichiro Kawasaki)
----
- tests/nvme/058 | 7 +++++++
- 1 file changed, 7 insertions(+)
+There is a small problem here, suppose ret is a positive number but
+smaller than sizeof(*icresp),
+you will print a bogus error code, then you "goto free_icresp;" and
+return this random positive number to the caller.
 
-diff --git a/tests/nvme/058 b/tests/nvme/058
-index d230a21..815503f 100755
---- a/tests/nvme/058
-+++ b/tests/nvme/058
-@@ -65,11 +65,13 @@ test() {
- 	for ((d = 1; d <= num_namespaces; d++)); do
- 		local file_path
- 		local blkdev
-+		local -a blkdevs
- 		local uuid
- 
- 		file_path="${TMPDIR}/img${d}"
- 		truncate -s "${NVME_IMG_SIZE}" "${file_path}"
- 		blkdev="$(losetup -f --show "${file_path}")"
-+		blkdevs+=("$blkdev")
- 		uuid="$(uuidgen)"
- 		_create_nvmet_ns --nsid "${d}" --blkdev "${blkdev}" \
- 				 --uuid "${uuid}" --grpid "${d}" > /dev/null
-@@ -99,6 +101,11 @@ test() {
- 	done
- 
- 	_nvme_disconnect_subsys
-+
-+	for blkdev in "${blkdevs[@]}"; do
-+		losetup --detach "$blkdev"
-+	done
-+
- 	_nvmet_target_cleanup
- 
- 	echo "Test complete"
--- 
-2.47.1
+I think that if ret > 0 you should set it to -EINVAL.
+
+Maurizio
 
 
