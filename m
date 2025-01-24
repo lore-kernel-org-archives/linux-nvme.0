@@ -4,94 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 011BEC02181
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jan 2025 08:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BB16C0218B
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jan 2025 08:26:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DbFNnnjMu0a76Rzhj10JbBbSCXjigoflT9doRb1z57w=; b=zf09RpHbFOLk9k972djfz2TCDt
-	3bhHl8Ss0S4yOHwylprLtRysw3YgJl6WrFDo+aCx4a4LEW8KnZQT+CdjKm+D0pjgN7aEroTPJHSwG
-	yUrlQwQjvlCNgB+wcup3pLT3Akn/pyws1LTPqp0OdGoshsDIHPD9572dZtnVetA+JFDgC4U1jpCM9
-	658f0sd6ak9RVP5e/NVWFR6mLqYdJ1rFu6LkKDK9KVa0MApxDQFz+lvAjIwYdW/8o+Q3qs5OAShWr
-	yq/3ZniPRZg/i6RmH1a+6lrhRsXRJub9ubNL9dqFf3u4MIHX3MSjFwV63yhzf1Fhd8PLQtEdodh4v
-	50eweVeg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FDoh3i8dpHUu0bvHElCyj+EDEBKjCy2F8ouEiVOk0VU=; b=jQWSHALWQohPk2VEH8/EXLFq2B
+	ljtzCZEDhfIgMp6PbbTE0C58z0nPQ2byPm4b/HB6a/e12kTxuydkG2zyn9NyvNvii1YnNvsbZjasl
+	MhU3uAtqEeO617fHPTgUxZ+6Qv9MYE8fMnWOXP/VFMW2QtbXZgMYe7nXo3BVv58pZkVF+el7Cqg+U
+	+amq1EgxAEhF/EuDa54CZKEa1LgxEIiiXlWHOEQ09YjoH6vAYS3yUNROYPpJiGN3XKHccd3fAUlCG
+	LRChR8J7AgZGv+ttz/JbYVpBwEvXE8G5HIQSgkKydA2AJXn4+TTkwV9NQ327S1hTSSfcKtZ2OfUsb
+	R0tFcZ+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbEnm-0000000ECdZ-0Bcr;
-	Fri, 24 Jan 2025 08:12:30 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tbF1d-0000000EEug-0HAw;
+	Fri, 24 Jan 2025 08:26:49 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbEnj-0000000ECcm-1Ypr
+	id 1tbF0B-0000000EEcw-1Vgu
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Jan 2025 08:12:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1737706346;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DbFNnnjMu0a76Rzhj10JbBbSCXjigoflT9doRb1z57w=;
-	b=Qi+FgqLKRKICPw9eMWCzX/m4gK8rya23FOpgyOK8HiN98ZwbWed+dpotpGkn7HnBCApAGO
-	BshgK5yCV96wJVmF9M6fS0DiN8sTmuEagddsEc3S8uxsAdU50GVzQ+CiZM2mpsKTCx9tsJ
-	moVwwW9uH9CzAa8Fdd8SQ0Ru/M+7dW4=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-75-eiTqdwY9ME69Dv_qjOi2kg-1; Fri, 24 Jan 2025 03:12:24 -0500
-X-MC-Unique: eiTqdwY9ME69Dv_qjOi2kg-1
-X-Mimecast-MFC-AGG-ID: eiTqdwY9ME69Dv_qjOi2kg
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6df9ac8dcbeso54538906d6.3
-        for <linux-nvme@lists.infradead.org>; Fri, 24 Jan 2025 00:12:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737706344; x=1738311144;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DbFNnnjMu0a76Rzhj10JbBbSCXjigoflT9doRb1z57w=;
-        b=s+YIfP6YZNHR7TDMXqqP7IBgPbUS3Em/xK1k1xdR3Xhg/Bo5Ljq1qoKGS0ciKXeRKb
-         nRMGudM9dOkKQIQo6H3a3sd35Byw1LpjmyrsaeG+Gssm6bcGUl6G5Vb/3Di9dWfdeEMd
-         EW+9D1wbffXtGy36aI+4nnEk82VQjUodT4C41kOoBHOYnO9UXkih3T83GoZ49MXWW5Ht
-         1kDe92n55aepKdqVevsQ+ew9Cgvu7yLjQ4go75TzVgltvbkPwYBwUMHZ+d5KvRxF63e2
-         pmIDTsUIfKWzIriPp+4oFACW/7borRfiXHWbZVUrIB+ttwGZYMNrlIzGEzr1/zItO2Pi
-         Ojng==
-X-Forwarded-Encrypted: i=1; AJvYcCV4rcdIiXyIu6AiTcryWMftTsklR92ZAZX8VSVBCLSBeAzbimRRJxHGnqsvr7WG6AKovNRNLtLmv7qL@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw3KE6R9SL5FXQWrzfPW+qN8x92NZgPI22d9PGqDfgT9nc+19H7
-	hM89MvUDBAGEc40K5meGt5HBRpRGyXrSgAeoagNAadnuqk/FcrKhk9EWB2kYzqZUWzDraPlsGev
-	Q9M/BTQUojfXb0LxFwjeQb9XEz/XuGnYraSfn5NXBPs6sh7JPr7Fc82Wij2NopIn0oMfOdb9cs3
-	94EN9lcU1h7mcgPnhE2+ZBY4QTP77ANp4G/aD0rkI=
-X-Gm-Gg: ASbGnctLJnCxMvkBlt1s4OgwzPbysOmcwYoNFZ7VrTlG+FA1his6DDaFL4AlAP7uMR+
-	3wwWobDMAA6BreqGxiebt2zfVac7XSCOQIjUyCa9+JfJqmlH9iELi8w==
-X-Received: by 2002:a05:6214:3007:b0:6d8:9062:6616 with SMTP id 6a1803df08f44-6e1b216ef7dmr476176756d6.7.1737706344486;
-        Fri, 24 Jan 2025 00:12:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEgeQII13nJr8+NJnUdNhmH/TPyj/gOeh4yd2OpnfJP/UyrgTBwO51nY8Wc7FtiuB/s2LonOhxM/xPjBFsO6Hc=
-X-Received: by 2002:a05:6214:3007:b0:6d8:9062:6616 with SMTP id
- 6a1803df08f44-6e1b216ef7dmr476176536d6.7.1737706344272; Fri, 24 Jan 2025
- 00:12:24 -0800 (PST)
+	Fri, 24 Jan 2025 08:25:20 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 91B175C5C9A;
+	Fri, 24 Jan 2025 08:24:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 735D0C4CEE2;
+	Fri, 24 Jan 2025 08:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737707118;
+	bh=X71xUrnZf49v5gFjV9szcQZxNbgGeh5wbJw4Ntf1weQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BRfmwz1oJDaVGp7Unq43e4kdGiw1+6WukZdbtDJcNEbqK1Dv3PiBKpj3K0TbpRtVm
+	 NpuvUhSFY1KhUpOLuZkYWOAPx5UPJRqqu87GUi1m9/QX7o0UW4ar+CNf3VvFgDrQDb
+	 aZ2Uyi+QPiNh/TldHVJk/FMXM518n9sqMPjAlFUWoL8nwaH7ecIzYYCt+r5pPss5Uv
+	 mDxwM9mkyD8osbkFyw8itGv+MLmrUAchZ7qqp98vaT/wBszqoMJASpaf3oBeEMP4Ve
+	 CU9GMxjsrLw6a10EsQdBzCcjkyTyhULMlV7nPyCr9l2AZ/U8HWFjglMM4y9NyMCUwy
+	 zy9KYWAnmhfCg==
+From: hare@kernel.org
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH] nvmet: move percpu handling into nvmet_ns_{enable,disable}
+Date: Fri, 24 Jan 2025 09:25:05 +0100
+Message-Id: <20250124082505.140258-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20250123224941.1359950-1-csander@purestorage.com> <CAFL455=TMmKVZPtnX_CBF34+EtfMbq37OxQAFGJuW_u1VjEQsA@mail.gmail.com>
-In-Reply-To: <CAFL455=TMmKVZPtnX_CBF34+EtfMbq37OxQAFGJuW_u1VjEQsA@mail.gmail.com>
-From: Maurizio Lombardi <mlombard@redhat.com>
-Date: Fri, 24 Jan 2025 09:12:13 +0100
-X-Gm-Features: AWEUYZmxCUBsP6oN6hnn5VVjaBuIKeAyz_kb_vQQqnB46RFLtVi6_QJP-psvyOg
-Message-ID: <CAFL455kLsUfvnMZKSsU0rGyCiT5+GHNr=1bEjFz0L1kfYn9NqQ@mail.gmail.com>
-Subject: Re: [PATCH v2] nvme-tcp: fix connect failure on receiving partial
- ICResp PDU
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: dwS1bUFaO5j8UazijhyJ7oPDUPgyMKylQ0uKdbut_FI_1737706344
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250124_001227_492397_0412526F 
-X-CRM114-Status: UNSURE (   7.27  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250124_002519_486920_19634403 
+X-CRM114-Status: GOOD (  11.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,12 +71,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-p=C3=A1 24. 1. 2025 v 9:08 odes=C3=ADlatel Maurizio Lombardi <mlombard@redh=
-at.com> napsal:
-> I think that if ret > 0 you should set it to -EINVAL.
+From: Hannes Reinecke <hare@kernel.org>
 
-Small correction: if ret >=3D 0 set it to -EINVAL.
+The namespace percpu counter protects pending I/O, and we can
+only safely diable the namespace once the counter drop to zero.
+So we need to init the percpu counter in nvmet_ns_enable(), and
+wait for it to drop to zero in nvmet_ns_disable() to avoid having
+I/O pending after the namespace has been disabled.
 
-Maurizio
+Fixes: 74d16965d7ac ("nvmet-loop: avoid using mutex in IO hotpath")
+
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/target/core.c | 44 +++++++++++++++++---------------------
+ 1 file changed, 20 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 5f7b5d1f78c0..cdf8e16c1c6d 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -611,6 +611,9 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 			goto out_dev_put;
+ 	}
+ 
++	if (percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL))
++		goto out_pr_exit;
++
+ 	nvmet_ns_changed(subsys, ns->nsid);
+ 	ns->enabled = true;
+ 	xa_set_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
+@@ -618,6 +621,9 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+ 	return ret;
++out_pr_exit:
++	if (ns->pr.enable)
++		nvmet_pr_exit_ns(ns);
+ out_dev_put:
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		pci_dev_put(radix_tree_delete(&ctrl->p2p_ns_map, ns->nsid));
+@@ -643,6 +649,19 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 
+ 	mutex_unlock(&subsys->lock);
+ 
++	/*
++	 * Now that we removed the namespaces from the lookup list, we
++	 * can kill the per_cpu ref and wait for any remaining references
++	 * to be dropped, as well as a RCU grace period for anyone only
++	 * using the namepace under rcu_read_lock().  Note that we can't
++	 * use call_rcu here as we need to ensure the namespaces have
++	 * been fully destroyed before unloading the module.
++	 */
++	percpu_ref_kill(&ns->ref);
++	synchronize_rcu();
++	wait_for_completion(&ns->disable_done);
++	percpu_ref_exit(&ns->ref);
++
+ 	if (ns->pr.enable)
+ 		nvmet_pr_exit_ns(ns);
+ 
+@@ -660,25 +679,7 @@ void nvmet_ns_free(struct nvmet_ns *ns)
+ 	nvmet_ns_disable(ns);
+ 
+ 	mutex_lock(&subsys->lock);
+-
+ 	xa_erase(&subsys->namespaces, ns->nsid);
+-
+-	mutex_unlock(&subsys->lock);
+-
+-	/*
+-	 * Now that we removed the namespaces from the lookup list, we
+-	 * can kill the per_cpu ref and wait for any remaining references
+-	 * to be dropped, as well as a RCU grace period for anyone only
+-	 * using the namepace under rcu_read_lock().  Note that we can't
+-	 * use call_rcu here as we need to ensure the namespaces have
+-	 * been fully destroyed before unloading the module.
+-	 */
+-	percpu_ref_kill(&ns->ref);
+-	synchronize_rcu();
+-	wait_for_completion(&ns->disable_done);
+-	percpu_ref_exit(&ns->ref);
+-
+-	mutex_lock(&subsys->lock);
+ 	subsys->nr_namespaces--;
+ 	mutex_unlock(&subsys->lock);
+ 
+@@ -708,11 +709,8 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 	ns->nsid = nsid;
+ 	ns->subsys = subsys;
+ 
+-	if (percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL))
+-		goto out_free;
+-
+ 	if (xa_insert(&subsys->namespaces, ns->nsid, ns, GFP_KERNEL))
+-		goto out_exit;
++		goto out_free;
+ 
+ 	subsys->nr_namespaces++;
+ 
+@@ -728,8 +726,6 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 	ns->csi = NVME_CSI_NVM;
+ 
+ 	return ns;
+-out_exit:
+-	percpu_ref_exit(&ns->ref);
+ out_free:
+ 	kfree(ns);
+ out_unlock:
+-- 
+2.35.3
 
 
