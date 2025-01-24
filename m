@@ -4,83 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 691E3C02181
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jan 2025 17:33:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4CCCC02181
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jan 2025 18:03:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6wVtKuj/N/KEwJl4OfXeL0f9ssGQzB0xHZZv1GqdNz4=; b=s27HA+VhCZDMHsoIpPA1kqwFWh
-	XOXxhutjevo7SQXNrNezP95fnfRlGpCkRHcm8xYb5cC93h0DQxXVr2dLPGuzwzre+g8YRRT3RwgkT
-	GRfQIzLDo6Z5lnEtlK/rK6wcJLn2VEQCJem7gtW/XlDBEQtKwzjc9DwlzYy24TZSqewaNoaJgu6TH
-	S/gTM3Q5mBHn9i4MzbjjGbSAl6V9nGqlejtCpNHtpsJPPIqZoy3Pb0preOYFjRZIcBCjir+SfQD3z
-	TMzJRjj12XaZhpwgmcyazEDsB8mzyU0XUMf4RK9sQiap89ONbG7SKvmcweoOTYGaEKuUoM695Uil/
-	Zgbdvb1w==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=1XpCNPxx2sS27CmMIsN7upmtK0PeD89d72RGUihyz90=; b=a65Re79FPYS245aJ1r9ScXQqaH
+	8olIBsRbaZDyChgi6r3Cq+z+mnGuh+oBwB9y3aN1aY+vVQBNl4waTkKRKzOVDtjVBjTIuJJoVEApk
+	ZoWjobQ8hQRLRVCOsGd/kK+ivgpzlfbi061uM/6yCQi/JcOdaluvvTj/15dw4L26/D9xyc3x6JHBZ
+	0AtTip0CZyfveQ157X860GmrF1Dpw+uc3VmVat+mSUnYxvK0DkYESrsIP+XQQgGZpRmKislNjxG7b
+	+aCL9ZrRdcs6nWDLYNNhgeJX+fHkA8UGPF3x4cjk0muuQaVXctNPiW9agWmLR58wwRLGH2tdVr7oW
+	3nH1AZug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbNYg-0000000FDK7-3Jjc;
-	Fri, 24 Jan 2025 17:33:30 +0000
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+	id 1tbO27-0000000FG5P-00uk;
+	Fri, 24 Jan 2025 18:03:55 +0000
+Received: from mail-io1-xd62.google.com ([2607:f8b0:4864:20::d62])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbNYe-0000000FDJf-0Nvn
+	id 1tbO24-0000000FG54-1ZGi
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Jan 2025 17:33:29 +0000
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-2f7d35de32dso547202a91.3
-        for <linux-nvme@lists.infradead.org>; Fri, 24 Jan 2025 09:33:27 -0800 (PST)
+	Fri, 24 Jan 2025 18:03:53 +0000
+Received: by mail-io1-xd62.google.com with SMTP id ca18e2360f4ac-844ed31df76so11178439f.3
+        for <linux-nvme@lists.infradead.org>; Fri, 24 Jan 2025 10:03:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1737740007; x=1738344807; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6wVtKuj/N/KEwJl4OfXeL0f9ssGQzB0xHZZv1GqdNz4=;
-        b=cn/h0AEmvQeSwXHLLYCwzn7vqwa4zVQ1vTL8Jg6qmTsHqpbr1rZaiRsAdojce8SnYi
-         9QsvPyHXdfQhVyWpV3Yxh31tg1sPQtoZn8bJs6RT3wUudegR5GAcigtkvQrTGQsiKB2+
-         CDMMayqkgqvMUZd/AcKyPtxtJur9oBULQzo2evqb7Rrm3NCQwiU4UDdYsodMO5QwKn5F
-         ZaPPmCJc0aqBohKf+Q5n7SvIOV1Qt5HJbOJwItFScBDrNFCyG80LNKqtmJOS1upUHa6j
-         go+IkGBz1gkfM2Ak/r+ufvnYUm7Iv1MjNWVxuI8Si5arG191sNO7WnAucWt4ZsBpC6TT
-         i0iQ==
+        d=purestorage.com; s=google2022; t=1737741831; x=1738346631; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1XpCNPxx2sS27CmMIsN7upmtK0PeD89d72RGUihyz90=;
+        b=VbSslsgtC2GgBfD9dGK0miUl0C5GI+anmja0fKQJBBQRTTkx8jG/9bSy3g//qdijYl
+         9aqm9EDs5Qe01q+/i3FGhx4nUqXv0swp9N6AzvkTNkJx+Fq7AFEZEI8cGo4fjuupwjBn
+         C/aJK3NzIkKvkVUtcl/5TkK0UXdV3ZSSjYtxt7PBsr2T9GJFqt8lNehRQO0K42KiFYLv
+         O1pe1FpPcEINcrOU96CaaPNBlVXmISPIHXecXHqU4BmEEZb0fR17ucordqo7b1a8EoZC
+         Wfm/1nIMVIgPBew1H+7/r7RCOn/d3dOHPvyoznESVM4xfBrl4IzZ+ngPQGL3gugJIv7N
+         QpLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737740007; x=1738344807;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6wVtKuj/N/KEwJl4OfXeL0f9ssGQzB0xHZZv1GqdNz4=;
-        b=jwgFXjghgUJkPu2EUAGXZZp3K9/sOFZo5Rj5kDBJ3ICF+VpaXoxIGx0kcM/2yxT6Ze
-         Vkxh4+oXx6km8UZbHdJ/u91laQ16MA9vabyZPyXS1Fc0fJnEGZzlphMfFc4J1PqifBV9
-         ivbkXGaICVZ+Bsntz5dletlGvlHYJtatAvR6pyEq7nI7yrdK/e+Nsgt4b0KC5t0PnKvG
-         RAsG8OeXFFdkIDOmFvLHC299RmTh7x6q+M1w0NhTjbW4GGTNc2H3jZryWpF3gC9wR044
-         KK/dpqAg6MX2WjT/ivwsWyXTW7Wrgz6JLKnxXGoQUEcjsZhGQ5oNugQ8FLiqQKfD7QHA
-         qXPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWTA562ZjryC0yWeRGeKEWV+hYP1K1Ad9L5US8ev0EGZIsK4lbl/B0sE7mwRA7M43c0NGWIKdp3xGoN@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy7LoTm8+PSeBYgDkTH7cS6yTVs2j2ddbfXwA+HMJGDm53tZTCX
-	LhVpw50dc96FNyZH/2CC0JrAte/EwpFIrRIc5A9+jUs6a5PqiiTJ1RNuke4/lEXMF9Uzf8Lg6CZ
-	WT5NRn97d4EzLIy97rzL4r5ZKHvayOrCLG/yrpg==
-X-Gm-Gg: ASbGncuZCcJpenF8RXvjEJ1M7ZmzcmIXwDLvHciLOeZYVfngmXhfP4Ps781L6BhumKY
-	8uXsj5kIE9CI6W7ZlDJ70V/Qzd68ji7ChVnTj+9Fk0/yRp3pGJZCBVtM3g1m47w==
-X-Google-Smtp-Source: AGHT+IG9pBY+eUViGwSYjG8/xpzHh7csHbEpkqwh5MePR2i+lYA2ZtEDDW9r/pbKR2scmX+CG+7oKQbuMW9AeUHEFf8=
-X-Received: by 2002:a17:90a:d64b:b0:2ef:93:154e with SMTP id
- 98e67ed59e1d1-2f782d8663dmr17101646a91.5.1737740007200; Fri, 24 Jan 2025
- 09:33:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20250123224941.1359950-1-csander@purestorage.com> <CAFL455=TMmKVZPtnX_CBF34+EtfMbq37OxQAFGJuW_u1VjEQsA@mail.gmail.com>
-In-Reply-To: <CAFL455=TMmKVZPtnX_CBF34+EtfMbq37OxQAFGJuW_u1VjEQsA@mail.gmail.com>
-From: Caleb Sander <csander@purestorage.com>
-Date: Fri, 24 Jan 2025 09:33:16 -0800
-X-Gm-Features: AWEUYZmmgPnofWcUasdtI1ChzMlVw9-oQ2r-5T6VQVUqYmKGuykkRT7Xr8t38Zc
-Message-ID: <CADUfDZrjXYH-42Q1-M88CmYo1fTi2Hu_66=vk8G3Gjqpuo+rCA@mail.gmail.com>
-Subject: Re: [PATCH v2] nvme-tcp: fix connect failure on receiving partial
- ICResp PDU
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+        d=1e100.net; s=20230601; t=1737741831; x=1738346631;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1XpCNPxx2sS27CmMIsN7upmtK0PeD89d72RGUihyz90=;
+        b=hledoL+clZxvYVoTZo32HRAuwkqMXhwwxFha550OgYFBs4ElpRJygS+QbIiBGn+mzU
+         XWVNRW2224vU2qKASLcDegoaoy+uPMWsECP+aiQQFDBrrEzeG9B1ffyF8vYx02rXxEFy
+         dCOpGIfX6ca0x85zxEK/7EG2c3r0Y+J+y7SisjQUoHF6tT5m0uXTNVnJLZ4VDSC3yjkz
+         5IojMLeTlIlJ5Rwh/hCtUjlNFE6rEUg+hvb3C1W9OlSjyb52XMxsyaRaHlLgEzAoIfQS
+         L3hhB+Q7H3EV+gjPoCcfj46Hgb0a63IScNZ0ZqjG3gDr63t10+dFoKIV0xGPnXw/Izib
+         MQYw==
+X-Forwarded-Encrypted: i=1; AJvYcCXM1CeomC7GEK8WEHn90Pl+azYxEh3m9AnqXJL2JAbwN2qwYw0Yv/rGk7rIpEbW1BTvJXw4bRTKI4FW@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy+qsZiwjQUAye5AnBLZgP6fiGJE4pfcyTBfcyVm/kXePpHyRiY
+	NPUzLm+LgrsTDzMfBMAZVZiI+eTTxPeSn5w5aPORHXa/4atzxcSC2JmAeh+NjcE79OOixkkZhND
+	F3IPY4FBXXLekBvGC2/yRJirUTHe6o2F++7WHXPTdsqfHVOIH
+X-Gm-Gg: ASbGncswjgpvfvdy+ivxOc/ZPOcyTkdHojHtXiYFnq4b/BYAVWzRruz4TMqqJh/dW5W
+	BwVt0oWsHpIY/IUBtZsakHJIMYukPpry7JYTfa5WVExhxf5UiLJdO+chOnmeqGQa2G9wEt/R48l
+	kJe6f+kF7pEag9Y5Gr3VKxQaTwztkEv6OTb5RqoTsp6u/fK5WFybq+2gdUtajXVwRel2HCQELDd
+	rozaLEbtg0ljPvvWyEhXkw3cQqFsdVDmuGvLALoG4GQ+ZDlYpBz5UNWyXlKEj+yZnczGOy46LWd
+	za8a0K9LjLiP
+X-Google-Smtp-Source: AGHT+IHSFUS/grHJrmDBI0zDHi/JOfF6zLSw3MBeGwRKgw8SBBoWa3SsCeYyO+GBghV7AcvPHhgyrIsvAozB
+X-Received: by 2002:a05:6e02:160a:b0:3ce:7ac0:64c2 with SMTP id e9e14a558f8ab-3cfb15f3254mr26261215ab.1.1737741830346;
+        Fri, 24 Jan 2025 10:03:50 -0800 (PST)
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id e9e14a558f8ab-3cfc7529e56sm1290165ab.63.2025.01.24.10.03.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 10:03:50 -0800 (PST)
+X-Relaying-Domain: purestorage.com
+Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id A5F393401C3;
+	Fri, 24 Jan 2025 11:03:49 -0700 (MST)
+Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
+	id 9C02EE40B44; Fri, 24 Jan 2025 11:03:49 -0700 (MST)
+From: Caleb Sander Mateos <csander@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Maurizio Lombardi <mlombard@redhat.com>,
+	Caleb Sander Mateos <csander@purestorage.com>,
+	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH v3] nvme-tcp: fix connect failure on receiving partial ICResp PDU
+Date: Fri, 24 Jan 2025 11:03:41 -0700
+Message-ID: <20250124180342.1628060-1-csander@purestorage.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250124_093328_186682_34391986 
-X-CRM114-Status: GOOD (  12.25  )
+X-CRM114-CacheID: sfid-20250124_100352_563088_E193D76C 
+X-CRM114-Status: GOOD (  15.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,31 +106,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Good catch! I will send a v3.
+nvme_tcp_init_connection() attempts to receive an ICResp PDU but only
+checks that the return value from recvmsg() is non-negative. If the
+sender closes the TCP connection or sends fewer than 128 bytes, this
+check will pass even though the full PDU wasn't received.
 
-On Fri, Jan 24, 2025 at 12:08=E2=80=AFAM Maurizio Lombardi <mlombard@redhat=
-.com> wrote:
->
-> =C4=8Dt 23. 1. 2025 v 23:50 odes=C3=ADlatel Caleb Sander Mateos
-> <csander@purestorage.com> napsal:
-> >
-> >         ret =3D kernel_recvmsg(queue->sock, &msg, &iov, 1,
-> >                         iov.iov_len, msg.msg_flags);
-> > -       if (ret < 0) {
-> > +       if (ret < sizeof(*icresp)) {
-> >                 pr_warn("queue %d: failed to receive icresp, error %d\n=
-",
-> >                         nvme_tcp_queue_id(queue), ret);
-> >                 goto free_icresp;
-> >         }
->
-> There is a small problem here, suppose ret is a positive number but
-> smaller than sizeof(*icresp),
-> you will print a bogus error code, then you "goto free_icresp;" and
-> return this random positive number to the caller.
->
-> I think that if ret > 0 you should set it to -EINVAL.
->
-> Maurizio
->
+Ensure the full ICResp PDU is received by checking that recvmsg()
+returns the expected 128 bytes.
+
+Additionally set the MSG_WAITALL flag for recvmsg(), as a sender could
+split the ICResp over multiple TCP frames. Without MSG_WAITALL,
+recvmsg() could return prematurely with only part of the PDU.
+
+Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+---
+v3: fix return value to indicate error
+v2: add Fixes tag
+
+ drivers/nvme/host/tcp.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index dc5bbca58c6d..8cd1735772c6 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1447,15 +1447,17 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	iov.iov_len = sizeof(*icresp);
+ 	if (nvme_tcp_queue_tls(queue)) {
+ 		msg.msg_control = cbuf;
+ 		msg.msg_controllen = sizeof(cbuf);
+ 	}
++	msg.msg_flags = MSG_WAITALL;
+ 	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+ 			iov.iov_len, msg.msg_flags);
+-	if (ret < 0) {
++	if (ret < sizeof(*icresp)) {
+ 		pr_warn("queue %d: failed to receive icresp, error %d\n",
+ 			nvme_tcp_queue_id(queue), ret);
++		ret = -ECONNRESET;
+ 		goto free_icresp;
+ 	}
+ 	ret = -ENOTCONN;
+ 	if (nvme_tcp_queue_tls(queue)) {
+ 		ctype = tls_get_record_type(queue->sock->sk,
+-- 
+2.45.2
+
 
