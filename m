@@ -4,80 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 315EDC02181
-	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jan 2025 08:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F662C02181
+	for <linux-nvme@archiver.kernel.org>; Sun, 26 Jan 2025 08:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fm7J0Eiz1lA6DmnH9CSQJAH3EDgNRFhpL6R7paSGNfE=; b=FxOm2w+eTF1mFFr6lGAbTSTsZK
-	GCIQe2A+lGWDTTgpKbcqJiEzxtdJ/o9YJxg8/maDo7qtM4ll4o0j9iz3qm5VF60FH2iIsmYeCOsAJ
-	AqsKtzhNGNeqRc6BtC3nG0yjphrChcGldzM9uwZIgsLDrjTVP82yp0B7V7cHCSvev+p7xqbj6OMnc
-	hXBlsEKvHzxSiEi/LifiXJ4XeRjHgdsYgJa20JVJvKL7tdv1EIHg8yS2nI5hEvk7LcPtU/p5473qe
-	kp3xM89BrGUUbTPtE3p4+FFjV1FIXO4I1CMxm5EG2PU7Je0YxGbPCkCMuXhwooVc08RWGqd83UYuV
-	qlnK0Lzw==;
+	bh=WLbzK8FCFYPutcpBUpQuSnF0HqXcV7UVQKYAS62UvV4=; b=NrK0dhKwCk4xF8qng2gqzM06ke
+	xiNdPnqXm8JJHtj0iiy18AgPLK7lDeODU3zikEG2VeBHy1MOtGpCqUH+MbIT6jq36hbhEbvFRpJRb
+	nP7ISoHH7NZxHPrPcLH3jNMt5R0puY34iZ/NKYW/PThJsW0YL0b+cM14+YnpIfdNyp0fraGYOkyeS
+	/rFqsovTjmHZZlk85qviaw15Zsa+nWcCctM1j7doLGJHgx1oq/rhG3lo0JurmHPsffOzZ6mQ14Gel
+	fOSPgoLRQNWLgZoO9UauN7FnojeiqePQPrfjrwz8kwNOO15E0tqIsx1dxy9cYEDLk/af6DV6AQa6b
+	8l8q754g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbxcw-0000000HEfp-1LTk;
-	Sun, 26 Jan 2025 08:04:18 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1tbyCg-0000000HGH6-09mp;
+	Sun, 26 Jan 2025 08:41:14 +0000
+Received: from mx3.molgen.mpg.de ([141.14.17.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbxct-0000000HEfV-1rR5
+	id 1tbyCd-0000000HGGJ-01RZ
 	for linux-nvme@lists.infradead.org;
-	Sun, 26 Jan 2025 08:04:16 +0000
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-436202dd730so23806625e9.2
-        for <linux-nvme@lists.infradead.org>; Sun, 26 Jan 2025 00:04:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737878654; x=1738483454;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fm7J0Eiz1lA6DmnH9CSQJAH3EDgNRFhpL6R7paSGNfE=;
-        b=XGBgBAzZ6x4mDslg5+Zdvf+ewL7Hwv8g4sr3WlaZZ5M/jNz8eofgvrGUC9LPnow8Zi
-         qsb2blkmnm+6yZaQYVvxKPflFtmHjKzBHafT9a+ah2WREjGtMwSCKaidgOxel6rZaw6u
-         VxBd2WJEFi8PWZ26c2PwqhYP/4QE8+vTx2NnfwTB6Ok8622z0Y9avBgHvZEft6K8By0a
-         Tg/tGjvWRIn8xx+uvHsITVdZQ1MTx0FL9l3nSByEdEZVoMhiFaSIx+tRLXN5fya59PND
-         qCbAZbviam3y7QzwYXr3Pv0/6Jnin/5NpaIMpbeS3FownNsxXCf1SCHa+RRni9h9BLmo
-         MDrA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvz6N7GjCEXTN+b//E17j1EFJTzypQ0eUlq26ypY470MoYMSAqomHm/HI3O6nmwxO0cjdQN1BDwhx6@lists.infradead.org
-X-Gm-Message-State: AOJu0Yywdj0+37dnjNpT7W6HLiM150IRKRxB9Ze+SdxsE8srjA7wVG1q
-	QBRavfUV68J/121idp0vn86w1lfwwrfdEKcRbJ2/stUMU5lWpJXO
-X-Gm-Gg: ASbGnctexebJqlRxt7XBB+MFjQrbkED7gQUovTktzcRdnxIlLytL/FvkKZWtvnsxfKn
-	oUvnBWyoT+sK35UncvzCd4348QCSuMr4GRTDx8Hm5dHP3/ME1scBrFdX7yd3q4l7KnuhUEDSwRY
-	oGolOo+bmYWUuwSdk2i2a22srhD0xk6DJDb9k24CO3IOwYb516/b0kKNrygowZ01r372u2hwOz+
-	rfrvIfoFOcOBKGXnJPmtmLF5MfRMVSxwejiMWxu1PESnMK4fR2CKjoGp58N5DIqFfNBR1cZd9CI
-	pDymoF3Ox4Wf2ZHya0ywriuw+CnXJHAmc2P4woLf3BdCo20=
-X-Google-Smtp-Source: AGHT+IECjoHRoW8tcbEBIECay8QdYw2zrwLb1/BlC7Js9KWMJxGJ9556MUmDRpUDxKC3NmqP9P+5VA==
-X-Received: by 2002:a05:600c:1907:b0:434:effb:9f8a with SMTP id 5b1f17b1804b1-438913ef2c5mr345023385e9.15.1737878653548;
-        Sun, 26 Jan 2025 00:04:13 -0800 (PST)
-Received: from [10.50.4.206] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b179315fsm82486075e9.2.2025.01.26.00.04.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jan 2025 00:04:13 -0800 (PST)
-Message-ID: <dd9927ef-8a95-4562-b789-a01fc0daec90@grimberg.me>
-Date: Sun, 26 Jan 2025 10:04:11 +0200
+	Sun, 26 Jan 2025 08:41:12 +0000
+Received: from [192.168.0.224] (ip5f5aef0b.dynamic.kabel-deutschland.de [95.90.239.11])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id C3C3B61E64788;
+	Sun, 26 Jan 2025 09:37:09 +0100 (CET)
+Message-ID: <333105a9-3480-4694-93d6-0e092dda3751@molgen.mpg.de>
+Date: Sun, 26 Jan 2025 09:37:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: move percpu handling into
- nvmet_ns_{enable,disable}
-To: Hannes Reinecke <hare@suse.de>, hare@kernel.org,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-References: <20250124082505.140258-1-hare@kernel.org>
- <afe8968e-ff56-4907-b3ec-a79ac75d5250@grimberg.me>
- <f2dc374b-0a08-48fa-bd9f-1cfccd34446d@suse.de>
+Subject: Re: New warning `nvme nvme0: using unchecked data buffer`
+To: Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+ hch@lst.de, sagi@grimberg.me
+References: <20241118155738.2737423-1-kbusch@meta.com>
+ <20241118155738.2737423-4-kbusch@meta.com>
+ <ed59976f-d8ef-411a-b159-0bb1c6bdfa8c@molgen.mpg.de>
+ <Z03Mq9xaMXbJtm0d@kbusch-mbp.dhcp.thefacebook.com>
+ <3a851b3a-dfad-4796-94cb-42ced213e901@molgen.mpg.de>
+ <Z03XGL6wh1xV2zx5@kbusch-mbp.dhcp.thefacebook.com>
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <f2dc374b-0a08-48fa-bd9f-1cfccd34446d@suse.de>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <Z03XGL6wh1xV2zx5@kbusch-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250126_000415_484399_03CE5603 
-X-CRM114-Status: UNSURE (   9.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250126_004111_193225_C5356664 
+X-CRM114-Status: GOOD (  29.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,31 +70,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Dear Keith,
 
->>
->> On 24/01/2025 10:25, hare@kernel.org wrote:
->>> From: Hannes Reinecke <hare@kernel.org>
->>>
->>> The namespace percpu counter protects pending I/O, and we can
->>> only safely diable the namespace once the counter drop to zero.
->>> So we need to init the percpu counter in nvmet_ns_enable(), and
->>> wait for it to drop to zero in nvmet_ns_disable() to avoid having
->>> I/O pending after the namespace has been disabled.
->>>
->>> Fixes: 74d16965d7ac ("nvmet-loop: avoid using mutex in IO hotpath")
->>
->> Can you please describe the bug and scenario which you are hitting 
->> this bug?
->> It is also unclear how the above patch is causing this.
->>
->>  From quick look patch itself looks reasonable.
->
-> Should've said: this is the fix to the reported blktest failure
-> on nvme/058...
 
-OK, then please resend this patch that explains the exact issues that it 
-solves.
-Also, please rephrase your patch title to describe that this is a bug 
-fix. i.e.
-"nvmet: fix ...."
+Am 02.12.24 um 16:49 schrieb Keith Busch:
+> On Mon, Dec 02, 2024 at 04:15:03PM +0100, Paul Menzel wrote:
+>> Am 02.12.24 um 16:05 schrieb Keith Busch:
+>>> On Mon, Dec 02, 2024 at 08:56:03AM +0100, Paul Menzel wrote:
+>>>> Am 18.11.24 um 16:57 schrieb Keith Busch:
+>>>>> From: Keith Busch <kbusch@kernel.org>
+>>>>>
+>>>>> If the device supports SGLs, use these for all user requests. This
+>>>>> format encodes the expected transfer length so it can catch short buffer
+>>>>> errors in a user command, whether it occurred accidently or maliciously.
+>>>>>
+>>>>> For controllers that support SGL data mode, this is a viable mitigation
+>>>>> to CVE-2023-6238. For controllers that don't support SGL, log a warning
+>>>>
+>>>> For the layman, what is this security problem?
+>>>
+>>> The passthrough interface can't validate buffer lengths against the
+>>> command's actual payload. NVMe traditionally did not have explicit
+>>> buffer sizes encoded in commands, so this only works correctly if the
+>>> device and host both agree on what the implicit transfer size actually
+>>> is. More recent NVMe features fixed that problem with explicit buffer
+>>> sizes in the commands.
+>>>
+>>> Whether by accident or on purpose, user space can request a smaller
+>>> buffer than the device is going to transfer into it. That will corrupt
+>>> memory.
+>>
+>> Does the Linux kernel know the buffer size?
+> 
+> Not necessarily. The kernel just knows what the user requested. There
+> are some commands that the kernel could validate to make sure what the
+> user requested makes sense for the command it is sending, but there are
+> vendor specific commands and command sets that the kernel has no idea
+> how to decode, as well as new spec features always being added that
+> change how to decode existing commands, so we just have to trust the
+> user isn't abusing the interface.
+>   
+>>>>       [   14.399238] nvme nvme0: using unchecked data buffer
+>>>>
+>>>> What should a user do about it?
+>>>
+>>> Nothing for a user to do. This is an indication that the passthrough
+>>> interface has been used with a device that can only use implicit
+>>> transfer lengths. It's more of an indication that improper use of this
+>>> interface might be the cause of memory corruption observations.
+>>
+>> Could it be fixed by a firmware update?
+> 
+> Sure, it's just a spec feature that a firmware update could enable. But
+> I suspect devices supporting the feature also have hardware capabilities
+> to make it faster too, so I'm not sure if implementing in firmware is
+> desirable for all devices.
+> 
+>> I wonder if the level should be reduced then to info, or if it can be
+>> elaborated. Maybe:
+>>
+>> The PC300 NVMe SK hynix 512GB can only use implicit transfer length.
+>> Improper use might be the cause of memory corruption observations.
+> 
+> There was a proposal to lock the interface down to known commands, which
+> I am absolutely against doing. I'm open to changing the log level or
+> message text to something better, though.
+
+Sorry for not proposing something. Linux 6.13 was released with the 
+warning above. As nothing can be done about – it’s unlikely the vendor 
+is going to enable it in the firmware on released devices – I propose to 
+decrease the log level to info, and rephrase it:
+
+nvme0: Using unchecked data buffer. The passthrough interface was used 
+but the device can only use implicit transfer length. Improper use might 
+be cause for memory corruption observations. If in doubt contact the 
+hardware vendor.
+
+It’s much longer, but helps the user to understand the situation much 
+better.
+
+
+Kind regards,
+
+Paul
 
