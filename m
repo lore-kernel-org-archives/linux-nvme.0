@@ -4,55 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5014FC0218A
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 16:42:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 369D3C0218A
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 16:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=rOx1AeHGHGKJp6lInih8lKjGbwDwIlliH+FhRXZzSjE=; b=rp8DAQ+eytV6M/
-	b2ucH6CFTi0FNrFvEhN9YzYIRgw18bXb2ij/5Rs/zt0zKpP2P3wGbmuA2IR/UUKsUI34kMXS4V996
-	3oLWaLXGM8nkiBnMIhydWc41lAT178uFSyFpZgQCHp1K2GgSLHr3HsW/luHgHTsclURfAOTi9Wgyh
-	boJBhJ9/1z27ybTF5oQmei6i+cJcs+qPyRIUsLA4wVH+71G6WcdTfKfBPrcQNJ8wiEBkyfmO+mF/v
-	zac/VDisDPWT9qa49vjGlYRnTBlIgQvLs9AgzfXZPv9RDNPcCwwDEix74ySompaiB99uQ8m3m8ypD
-	hT/vYodYmL0MS1Nh3XbQ==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HRvg+WTQhS2yW6hwuENk6TL2WX75aibuJMNU+ixC8/Y=; b=3u65kyhKSpEldXEJC4N8YYTjnV
+	rQtHvDdVdpk14p26KaHIyq3DvOBtjmqCrx+1IIgwwj3aDp527G4pAarVzVdvUWsSwSO2GAm0BMuxF
+	V8t6iItmpi05egHBcXNzgFpROriEr/5D5QLRI3I3G+mfBTun0O7Wvd7z4jHRvmOP+TsKTZl9NDGl0
+	/Rit2Gd4Uwro4urmXlzP0R4xnejRfJmgVgtaO4zKwobbLDmEQAUDuHiRjMioaKic2vEc5XSNxf2AT
+	EpER5NDBpIeLRSFVjE1J3IZYcz3XiCFzHNXKplWdEZGvS47McayDfwgMk6/56xTVMU0pKO9Sg4290
+	dZIS3k9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcof9-00000005MMH-2V6z;
-	Tue, 28 Jan 2025 16:42:07 +0000
+	id 1tcofA-00000005MMR-0ioG;
+	Tue, 28 Jan 2025 16:42:08 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcoYO-00000005LPA-1d9f
+	id 1tcoYQ-00000005LPn-1coD
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jan 2025 16:35:09 +0000
+	Tue, 28 Jan 2025 16:35:11 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7E6555C5F0D;
-	Tue, 28 Jan 2025 16:34:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E27C4CED3;
-	Tue, 28 Jan 2025 16:35:06 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id C56605C60CB;
+	Tue, 28 Jan 2025 16:34:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B3AC4CEE2;
+	Tue, 28 Jan 2025 16:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738082107;
-	bh=+i4tg6wE02L6FB7dQQmetQJ529MBj4JsPPL5ArjcfAY=;
-	h=From:Subject:Date:To:Cc:From;
-	b=eAZnRNUzLBhTkcwUtzf/2S3oCvllOy3LSenFgcMWE/wrQeaesOAKayxCfp0izNXZf
-	 hlNgDNbLJj8pTwdRmMY2lp01W0LXvElaj9Ppb4HsQgkI+ql0LwsmXKpzDt4ALy99oB
-	 royjcDwmuFjjYfcqtYJ5sULcmdicMRHbYlZgTaO5o4IJU0cVFiMEI+BF3NASV9A+vx
-	 vmvSjG9exCw2vCkJEbAdbxuafSu/Vr0FPqEXhLjTMJiNwXFdxQZjEktc22HJYix4z9
-	 kKH0jiiEMWAi/67LoK9SNMxvaiJAZW1CPGzoHPEVNwXa+/3gZq6CgBvMDGewqbJ1lP
-	 DMWILvugELCdA==
+	s=k20201202; t=1738082109;
+	bh=EqUhYMGg7r3msMj02LTUSBZGnT7L9xWRdBClYC5kDdc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=tChAcbq78A2IK8uEqwPSxE4qq5nLYDCicUs6lftYelHuJSJttZ3QmaOkxr4c0boem
+	 a7G053D88tS6k46gqEaXmZzIH+mIn1Epwlo2KG5TClGaNnh+RVnwR6uEJxcZifIkSr
+	 XgQAisD/9UMsTi674UP671qj/uwYiMEe/a4WY0RAqy9cMNZ1wIDAiZ7i4LaTzgGueX
+	 0tTpSK2RS+IRaVAp3Eo5/No/D9H0Ndho2KVF1yDYFNIE59J5jjJ4m3kZwZHnAq7hy3
+	 1ZptCHkBqdXQ4nsQSjwaCLGZXFZbldjFXDx6pAlK8fxoAFJIdqsT9MSNOCaB5lGd2X
+	 dLxQlxdKaL8Wg==
 From: Daniel Wagner <wagi@kernel.org>
-Subject: [PATCH 0/3] misc nvme related fixes
-Date: Tue, 28 Jan 2025 17:34:45 +0100
-Message-Id: <20250128-nvme-misc-fixes-v1-0-40c586581171@kernel.org>
+Date: Tue, 28 Jan 2025 17:34:46 +0100
+Subject: [PATCH 1/3] nvme-tcp: rate limit error message in send path
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACUHmWcC/x3LQQqAIBBA0avErBtQIZOuEi3CmWoWWjgQQXj3p
- OXj819QLsIKU/dC4VtUztxg+w7iseadUagZnHGDsS5gvhNjEo24ycOKZuRAK3nrI0G7rsJ/aNO
- 81PoBU5XAV2EAAAA=
-X-Change-ID: 20250128-nvme-misc-fixes-07e8dad616cd
+Message-Id: <20250128-nvme-misc-fixes-v1-1-40c586581171@kernel.org>
+References: <20250128-nvme-misc-fixes-v1-0-40c586581171@kernel.org>
+In-Reply-To: <20250128-nvme-misc-fixes-v1-0-40c586581171@kernel.org>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
  Ming Lei <ming.lei@redhat.com>
@@ -61,8 +59,8 @@ Cc: James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>,
  linux-block@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_083508_478397_46AF7EAF 
-X-CRM114-Status: GOOD (  15.71  )
+X-CRM114-CacheID: sfid-20250128_083510_472336_C1FB9E9F 
+X-CRM114-Status: GOOD (  13.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,41 +75,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-While working on a patchset for TP4129 (kato corrections and
-clarifications) I run into a bunch small issues:
-
-- nvme-tcp was spamming the kernel messages, thus I think it makes sense
-to rate limit those messages. I observed this with my changes, so it
-might not happen that often in mainline right now but still I think it
-makes sense to rate limit them.
-
-- nvme-fc should use the nvme state accossor to ensure it always sees
-the current state.
-
-- blk_mq_tagset_wait_completed_request was hanging on ctrl deletion path
-and after a bit of head scratching I figured
-blk_mq_tagset_wait_completed_request does not do what it claims. After
-this fix, the shutdown path works fine and I think this could go in
-without my other pending stuff I am working on. As the only user of this
-function is the nvme subsytem, I included in this mini series.
+If a lot of request are in the queue, this message is spamming the logs,
+thus rate limit it.
 
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
-Daniel Wagner (3):
-      nvme-tcp: rate limit error message in send path
-      nvme-fc: use ctrl state getter
-      blk-mq: fix wait condition for tagset wait completed check
-
- block/blk-mq-tag.c      | 6 +++---
- drivers/nvme/host/fc.c  | 9 ++++++---
  drivers/nvme/host/tcp.c | 4 ++--
- 3 files changed, 11 insertions(+), 8 deletions(-)
----
-base-commit: fd6102e646a888931ad6ab21843c6ee4355e7525
-change-id: 20250128-nvme-misc-fixes-07e8dad616cd
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index dc5bbca58c6dcbce40cfa3de893592d768ebc939..1ed0bc10b2dffe534536b1073abc0302056aa51e 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1257,8 +1257,8 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+ 	if (ret == -EAGAIN) {
+ 		ret = 0;
+ 	} else if (ret < 0) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"failed to send request %d\n", ret);
++		dev_err_ratelimited(queue->ctrl->ctrl.device,
++				    "failed to send request %d\n", ret);
+ 		nvme_tcp_fail_request(queue->request);
+ 		nvme_tcp_done_send_req(queue);
+ 	}
+
 -- 
-Daniel Wagner <wagi@kernel.org>
+2.48.1
 
 
