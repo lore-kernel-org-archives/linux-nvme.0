@@ -4,103 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3856C0218D
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 14:24:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1CF1C0218A
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 15:07:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mSwKFariyFIkIz2C7OT20lJ2HRy8/iEqy4unexi0ZWA=; b=mD2XynUbQ+C3RyHuCsFS67P79N
-	wGOKpqHDCUdd5O+8txsnaVrplU236PZSpCp2oYv+dSrYwOO8AK/gJO8f4fl8s4dLSVRpgd+9iiSmU
-	VP7pG2zPafPzwsvOGK0s985gp48/X39hjc55oIOfEPDZOrDXP5+2YAOBCfSKDlxG2poAA4Hb8TWtk
-	2VcNS2iniHQgAYOmFkWp1zBNQpjaMxUv1ptfuFRIrj9j+KdOQrIuoAIQy0y5WMAnwDu6cZAL3o7tt
-	zTnHGnYICRrqeSKVItTP31YRcU2Lv35/niA0F4rdOSnBSi7XcH0n/Y3JD6y5x9CRHHp9QLUu7y62q
-	7jFu+Yew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iKy/i1wkQUBWeoWVu77CwP62gx1NwOIv5m+PqcqUQZM=; b=AQOaFgG5tr/a8EjdECTopsM4dB
+	H2uvIb8cM80Kra23jmaecihrSRzMUUY+NmlVxHj6+vu9Q1aVzXKZvNWh6iVJgk6QqP/D74CStoe9E
+	uXnTpofbdHMYNGWE/Vt8fXTZAY7qkc++DG4tWA9uhsh87rfFrU+vQf4O0V36cQzoAVHNGgN5LLkxA
+	zqmofvevSOG6n6giCrd0Hdl4LpTHvRD+EClblVhZU3aULtyIb81rw3qZQ6aKcmJX48IIeJyqDNdS2
+	4xXevCyqaaWwfGxLcL41Q/a1ot/00VPyJ3mN3U10cT8uXT6A493UuRv5eU/wrZTBjjGNU0snZ4ZxZ
+	bmGoWSiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcmWL-0000000531N-2RHW;
-	Tue, 28 Jan 2025 14:24:53 +0000
-Received: from mout.kundenserver.de ([212.227.126.130])
+	id 1tcnBn-000000056Pa-0BSG;
+	Tue, 28 Jan 2025 15:07:43 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcmWI-0000000530p-1hSk
+	id 1tcnBk-000000056Or-1TuO
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jan 2025 14:24:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=simg.de;
-	s=s1-ionos; t=1738074265; x=1738679065; i=linux-kernel@simg.de;
-	bh=mSwKFariyFIkIz2C7OT20lJ2HRy8/iEqy4unexi0ZWA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=xvL3OkTaqrOxzUzsTJ9Ai4OOU+c7gS7MB4stk50ObOTOnlDgTvJeFWDnzyNNykHe
-	 pZC+QiSV7Ei6l5jf2O3uxBpiUQ602JzZdM1asnUqVQVZqcW9K60HoTUhfx1j9KxlA
-	 kRMFnCI07Bppr/ey2zNE5jZVIfVQbCrN7HyfQNY4zlofGfxWmVXL3KNzmtuOxlNV4
-	 5mTw1gorLn55IYupGcQCL3NSQYQ3NrrGP20rzaU4OuFhfEYt80fWIctgUPBMjsFZy
-	 trjO9SS6Jahv0bf5Y/FArmTrfB4lSplYiyWqB7X/wL+nPsnBxf3GiRXpfqN2Vbnw+
-	 kj1yLqJOpOqxRP9v4w==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.1.60] ([93.217.97.102]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MRVy9-1trJFs0Yz7-00SCYr; Tue, 28 Jan 2025 15:24:25 +0100
-Message-ID: <e01fdde0-4760-487d-af0e-2aecf9d7ade2@simg.de>
-Date: Tue, 28 Jan 2025 15:24:24 +0100
+	Tue, 28 Jan 2025 15:07:41 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id C59CF5C5FDD;
+	Tue, 28 Jan 2025 15:06:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C888C4CED3;
+	Tue, 28 Jan 2025 15:07:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738076859;
+	bh=iKy/i1wkQUBWeoWVu77CwP62gx1NwOIv5m+PqcqUQZM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q4eVDLogK1tW4N75ASvFB+QuPDdsdVDV6sl2kPcLFgF3sV++AVrYygg8IY3qWEDFT
+	 MhcKwK+f1M0iaBYxfANo2h0vJ9WjKqW7sMjnHTF5Y5N0fjGd4bzeHBKxYHpCzK/RO6
+	 CTxfdYk/Bs369DANxLcw6tZmOPR3AKMZrf8sXk1UaNLX+emmY9YDoQg/wQf6iTEXUT
+	 3sCvpVXRKjbUJY4IYW+MN13/fAaHBpp2KubUvogV6TydWheHdg6qwsa8ndDAtVE282
+	 4A0fswJdcemHs8POB6hRi5SvhhLORAWGs93v1lWO7PJ9lxsDeI4OoA/2uReUfB/8JE
+	 aJtgHq6NTA3dA==
+Date: Tue, 28 Jan 2025 08:07:37 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+	Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org
+Subject: Re: endian fixes for nvmet
+Message-ID: <Z5jyuVNLXC4ndQt7@kbusch-mbp>
+References: <20250128075539.693870-1-hch@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-To: "Dr. David Alan Gilbert" <linux@treblig.org>, bugzilla-daemon@kernel.org
-Cc: Christoph Hellwig <hch@lst.de>, Thorsten Leemhuis <linux@leemhuis.info>,
- bugzilla-daemon@kernel.org, Mario Limonciello <mario.limonciello@amd.com>,
- Bruno Gravato <bgravato@gmail.com>, Keith Busch <kbusch@kernel.org>,
- Adrian Huang <ahuang12@lenovo.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20250109082849.GC20724@lst.de>
- <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
- <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
- <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
- <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info>
- <20250117080507.GA25953@lst.de>
- <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
- <10e39c88-4667-4c61-b3eb-3dd7ee3074c3@leemhuis.info>
- <20250128074133.GA22435@lst.de>
- <379bba80-df0f-44c5-a15e-fd4393c52b8f@simg.de> <Z5jTKTfKUeLm4uJT@gallifrey>
-Content-Language: en-US
-From: Stefan <linux-kernel@simg.de>
-In-Reply-To: <Z5jTKTfKUeLm4uJT@gallifrey>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/P/SH35o2dcXOOcdHEWfuB7XIuUjpuAcCyL91L8fn3Gf07gYgGe
- opGiETDLtflImCYl+epBa6MuxfJdJIlbgMkdI8xpPOj9Q/IFJNGvEGIjDL+lJ+igD1L/rU9
- 2gQvfKdRN5/QxRmcJ8YLg7xzzqLf0u2xbG5S2N+zsq86KTYkjebgEe4s7pNMjjP7mTpyxOS
- GFut2iv8qumgCQJijxMTw==
-UI-OutboundReport: notjunk:1;M01:P0:Utrt6PODP34=;0QnlnCFh+ie3wFy6kCKVptnOQhr
- 85ulsoTaYyCr5QmSlH8STjNzcUnWVrAFJxxFkGyMtkuvyVGLEqlKLcUYVI7uYKnwb0oMdTrrD
- rGxmUdpO82/TGXX/BsqQ3ugl5wGcdbNVpx84S0Mawnqg9C+wjD+yvdMYG8t42AcD4APtu7pMb
- wbnwtm3tS0yauuRK8vTgarnM5S1i+XDHQzPwqOXAuUgYm+zdiapyCks8wT26ly7fwncW9s2qc
- TN7IBmUgaYtVOrT6oU5p3ytzQp0qF2bJoANmWdEeduIVXX9gGfTVq9wnfYAhu0QpMeY90zrS0
- vvnLwkMIwK0Awo8lSzW4tlErULPBVKv69Al7FZqiyxzRkTzGLl/Szjiv2DUZjbILkk2Q7Vv6x
- OlVHHxsvra/7Tvb3iVbZ/gswD3qoob7LifJjWdYAEDyhf2ulVyAJJNvwphK5MD3/i2jBTGiBL
- 1BkLU9DCgnoHYGSvAJKxLKgN4yju4Yz4uPKx8a2RDhUB1+9f40TePTBa3+CHsdjHxs+eMTrpw
- kUPPfrodtG2Bi3zrS2eSS3+FgDisIpC8GSWYA1lYBxzhQXkzIO5AMes7KCHAHZ8m47Cf5UCrq
- Y6oDkHIXOhLwlsSfXdhWIWmUGMbXGaZxWSp13V3P+NPyjj3OG+VlzvRojX8uEak7EyyDilt29
- /yZo0ww97fV9Ln+Ds+rnpcUz9r7MDV991zpwglFkPEqYitZk2VRPKhWSciKUV8t88E/Isoiw1
- IKb59bilSxCFHh5VNoJL5O+SneKJknKkWPIJysqUM96BVf0Lf8PU1fgfeMLrYOSpnWKlcZ2Ti
- D1ICAAT9W+nV1mRoDanxWW166WTmuZu+vnVW7zbAxCXbq/Yg1oiy0G8sEwX3dGrxgsf9Veh57
- e7iKbPhei+fD8J9fDXyJ/0Zl6jL8MRJkDid/XlkZv1+TwRviJyOILVssWAsBI4MBlUNUCE+Rp
- XrySnr3TxedmpDaJZ285COjuMo47xa7bbvpfJ2qNvOjI0r69qvk2MzJzkFsgqACi457m+MCj5
- YwtT6lKfj/XDPdx4DCxeHlWwzgdNiDhsNZDLSUlN1Evd2EJ3g2g5D42N+8Ff+oz56mCUGNdRt
- x+gxJJCS1XTJ3EPA3wz/VOOK53AWZe+knlrDFsvDJ4MxzxNn8nENX1Qmc3kaBCqMjWWWqcOcu
- 35gG076nIw4tNoMGo/lttYDemDGM8FBTh4r0Al8BUvz87iSQjqnMCeVx9gE8FMkWiGKel7YkL
- FoXC7PKDCeInmpLH47/UmAMDlLXSSts7qX9HOw1hcqQVTqup0j8Lab0=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250128075539.693870-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_062450_724001_AA09541D 
-X-CRM114-Status: GOOD (  15.40  )
+X-CRM114-CacheID: sfid-20250128_070740_434130_2D50F1EE 
+X-CRM114-Status: UNSURE (   9.14  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,53 +72,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Tue, Jan 28, 2025 at 08:55:32AM +0100, Christoph Hellwig wrote:
+> this fixes two endian issues in the nvmet code that were added as part
+> of adding the PCIe endpoint support.
 
-Am 28.01.25 um 13:52 schrieb Dr. David Alan Gilbert:
-> Is there any characterisation of the corrupted data; last time I
-> looked at the bz there wasn't.
-
-Yes, there is. (And I already reported it at least on the Debian bug
-tracker, see links in the initial message.)
-
-f3 reports overwritten sectors, i.e. it looks like the pseudo-random
-test pattern is written to wrong position. These corruptions occur in
-clusters whose size is an integer multiple of 2^17 bytes in most cases
-(about 80%) and 2^15 in all cases.
-
-The frequency of these corruptions is roughly 1 cluster per 50 GB written.
-
-Can others confirm this or do they observe a different characteristic?
-
-Regards Stefan
-
-
-> I mean, is it reliably any of:
->     a) What's the size of the corruption?
->            block, cache line, word, bit???
->     b) Position?
->            e.g. last word in a block or something?
->     c) Data?
->            pile of zero's/ff's junk/etc?
->
->     d) Is it a missed write, old data, or partially written block?
->
-> Dave
->
->>> Puh.  I'm kinda lost on what we could do about this on the Linux
->>> side.
->>
->> Because it also depends on the CPU series, a firmware or hardware issue
->> seems to be more likely than a Linux bug.
->>
->> ATM ASRock is still trying to reproduce the issue. (I'm in contact with
->> them to. But they have Chinese new year holidays in Taiwan this week.)
->>
->> If they can't reproduce it, they have to provide an explanation why the
->> issues are seen by so many users.
->>
->> Regards Stefan
->>
->>
-
+Thanks, applied to nvme-6.14.
 
