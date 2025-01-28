@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5A4FC02195
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3315C02198
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:00:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wadsy2NxJXxqQ+ZbhJ1ZiEC/4XRrTap5C0/XqtGuMu0=; b=DcsI5CapCQrrEZQfj0EiMt037M
-	o79E/6UvCy3IhZT3GZom1AYYFZJGOFpmXgERCC9soCom9V9kFYa2bfZHFtvi8OZGZM8/wws3zUh5E
-	fqKyc/QmT0r8O4LNSK8byHrPssu0/5+WdEgOqGi6pTEHoO57k70i730i4dDdWHzO9k1vkjOY67OSd
-	l9CdoO8dxy4C2+xTnTbleCb07yHXjT89RRPz8gxCiEmXlZaoTiWN5X5fqllTxqXgi0V2KiOnFiTZl
-	RwDRyGB8h1lQrxon+eo2BI30rCEyfRN7ZXNMh0lAk/VO19Zzt0Xfv/aguDPzOPQIgvGsXaWelysy0
-	rBecNeqg==;
+	bh=HdLPh2PfgYXpuYBC8DOdOZE21MhHNYKQn7qY/vRruJc=; b=W3oyy/N8RS+pJM2268zR6dIKkO
+	u1GG+5KhVnjS8mSmIGF4GNmaygyUoc5UnXjPIggdSnTs4HHV5KAyPPn1gJ/8dQZHNP4E6KzkvxtWp
+	tn4SZwE6j3uWL+qAn1z7AFEYbJY8o2ZhYRtbsggzYw9UyfA7lriTOyMd2Y0ebNb5U7jgQnxC78ICK
+	sL8Carlb+kA+d3G+GLDsbv6Q920xzJMOpT3hgm/+8H4hpA5DUQWw0zVJ936jZ3Gzp6DtjCLJ0IZXE
+	dKqUwjRExqztj7TqxWB4ilW3RXeCTClwb7ghDLS7ofR8PDbPOwjyBCFDbAgnD0XkAIlf7nmo/t7qE
+	UmDptnNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqpQ-00000005eBd-2uoS;
-	Tue, 28 Jan 2025 19:00:52 +0000
+	id 1tcqpU-00000005eEv-1dg5;
+	Tue, 28 Jan 2025 19:00:56 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqDn-00000005Yts-1ZsV;
-	Tue, 28 Jan 2025 18:22:02 +0000
+	id 1tcqDp-00000005Yvz-3kUa;
+	Tue, 28 Jan 2025 18:22:03 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A5F412037178;
-	Tue, 28 Jan 2025 10:21:57 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A5F412037178
+	by linux.microsoft.com (Postfix) with ESMTPSA id 677F3203717D;
+	Tue, 28 Jan 2025 10:21:58 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 677F3203717D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1738088517;
-	bh=Wadsy2NxJXxqQ+ZbhJ1ZiEC/4XRrTap5C0/XqtGuMu0=;
+	s=default; t=1738088518;
+	bh=HdLPh2PfgYXpuYBC8DOdOZE21MhHNYKQn7qY/vRruJc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=na5TgR7ElKwogZ/k+Z0ybAln+R1AMEzKcOKd3gVcuZRiyqr/iXkxm5sB4wdMicFT8
-	 5cV0NYPUXQT7qjedQEwyZQIdf7RjebrBopNTxrugtd5gFZqW8w6LS7rzpaEmz3HAP1
-	 6iPQpwjqyuRZVEMFlWOaUeR52txcp6jerxVEtbhM=
+	b=hgE89/ZEGzhCC06fBSy0OuT0sQNDNNusckBiNMFdx8HObLyTLW3siMG94Pr0ZLlsb
+	 fQK9++emxz2f1q1VTPxH2f2GJNOABzUmDv5dw+7qWye+06L0MBnTU4YhBM46fW71JN
+	 PSr2aK+Cp92CEJ/69KbyMUuvjSAK/8CWtJpCo8l8=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:47 +0000
-Subject: [PATCH 02/16] scsi: lpfc: convert timeouts to secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:52 +0000
+Subject: [PATCH 07/16] libceph: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-2-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-7-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -85,8 +85,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_102159_469146_0BD84623 
-X-CRM114-Status: GOOD (  18.10  )
+X-CRM114-CacheID: sfid-20250128_102201_990703_CA4CFEC8 
+X-CRM114-Status: GOOD (  11.24  )
 X-Mailman-Approved-At: Tue, 28 Jan 2025 11:00:48 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -121,161 +121,60 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/scsi/lpfc/lpfc_init.c  |  4 ++--
- drivers/scsi/lpfc/lpfc_scsi.c  | 12 +++++-------
- drivers/scsi/lpfc/lpfc_sli.c   | 24 +++++++++---------------
- drivers/scsi/lpfc/lpfc_vport.c |  2 +-
- 4 files changed, 17 insertions(+), 25 deletions(-)
+ net/ceph/ceph_common.c | 10 ++++------
+ net/ceph/osd_client.c  |  3 +--
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index bcadf11414c8a41d6fc99d03586d55c26d0a6a0f..783ba9c6a81cdc560b8c901d383c3c4d55eedbc7 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -3361,8 +3361,8 @@ lpfc_block_mgmt_io(struct lpfc_hba *phba, int mbx_action)
- 		/* Determine how long we might wait for the active mailbox
- 		 * command to be gracefully completed by firmware.
- 		 */
--		timeout = msecs_to_jiffies(lpfc_mbox_tmo_val(phba,
--				phba->sli.mbox_active) * 1000) + jiffies;
-+		timeout = secs_to_jiffies(lpfc_mbox_tmo_val(phba,
-+				phba->sli.mbox_active)) + jiffies;
- 	}
- 	spin_unlock_irqrestore(&phba->hbalock, iflag);
+diff --git a/net/ceph/ceph_common.c b/net/ceph/ceph_common.c
+index 4c6441536d55b6323f4b9d93b5d4837cd4ec880c..0d1e303c0212cc9f70f7c54ca422b0b3ea01bf32 100644
+--- a/net/ceph/ceph_common.c
++++ b/net/ceph/ceph_common.c
+@@ -529,27 +529,25 @@ int ceph_parse_param(struct fs_parameter *param, struct ceph_options *opt,
+ 		/* 0 isn't well defined right now, reject it */
+ 		if (result.uint_32 < 1 || result.uint_32 > INT_MAX / 1000)
+ 			goto out_of_range;
+-		opt->osd_keepalive_timeout =
+-		    msecs_to_jiffies(result.uint_32 * 1000);
++		opt->osd_keepalive_timeout = secs_to_jiffies(result.uint_32);
+ 		break;
+ 	case Opt_osd_idle_ttl:
+ 		/* 0 isn't well defined right now, reject it */
+ 		if (result.uint_32 < 1 || result.uint_32 > INT_MAX / 1000)
+ 			goto out_of_range;
+-		opt->osd_idle_ttl = msecs_to_jiffies(result.uint_32 * 1000);
++		opt->osd_idle_ttl = secs_to_jiffies(result.uint_32);
+ 		break;
+ 	case Opt_mount_timeout:
+ 		/* 0 is "wait forever" (i.e. infinite timeout) */
+ 		if (result.uint_32 > INT_MAX / 1000)
+ 			goto out_of_range;
+-		opt->mount_timeout = msecs_to_jiffies(result.uint_32 * 1000);
++		opt->mount_timeout = secs_to_jiffies(result.uint_32);
+ 		break;
+ 	case Opt_osd_request_timeout:
+ 		/* 0 is "wait forever" (i.e. infinite timeout) */
+ 		if (result.uint_32 > INT_MAX / 1000)
+ 			goto out_of_range;
+-		opt->osd_request_timeout =
+-		    msecs_to_jiffies(result.uint_32 * 1000);
++		opt->osd_request_timeout = secs_to_jiffies(result.uint_32);
+ 		break;
  
-diff --git a/drivers/scsi/lpfc/lpfc_scsi.c b/drivers/scsi/lpfc/lpfc_scsi.c
-index 055ed632c14df51376126a285df728269ca1da6c..f0158fc00f783239db615b0978b6785de064535f 100644
---- a/drivers/scsi/lpfc/lpfc_scsi.c
-+++ b/drivers/scsi/lpfc/lpfc_scsi.c
-@@ -5645,9 +5645,8 @@ lpfc_abort_handler(struct scsi_cmnd *cmnd)
- 	 * cmd_flag is set to LPFC_DRIVER_ABORTED before we wait
- 	 * for abort to complete.
- 	 */
--	wait_event_timeout(waitq,
--			  (lpfc_cmd->pCmd != cmnd),
--			   msecs_to_jiffies(2*vport->cfg_devloss_tmo*1000));
-+	wait_event_timeout(waitq, (lpfc_cmd->pCmd != cmnd),
-+			   secs_to_jiffies(2*vport->cfg_devloss_tmo));
+ 	case Opt_share:
+diff --git a/net/ceph/osd_client.c b/net/ceph/osd_client.c
+index b24afec241382b60d775dd12a6561fa23a7eca45..ba61a48b4388c2eceb5b7a299906e7f90191dd5d 100644
+--- a/net/ceph/osd_client.c
++++ b/net/ceph/osd_client.c
+@@ -4989,8 +4989,7 @@ int ceph_osdc_notify(struct ceph_osd_client *osdc,
+ 	linger_submit(lreq);
+ 	ret = linger_reg_commit_wait(lreq);
+ 	if (!ret)
+-		ret = linger_notify_finish_wait(lreq,
+-				 msecs_to_jiffies(2 * timeout * MSEC_PER_SEC));
++		ret = linger_notify_finish_wait(lreq, secs_to_jiffies(2 * timeout));
+ 	else
+ 		dout("lreq %p failed to initiate notify %d\n", lreq, ret);
  
- 	spin_lock(&lpfc_cmd->buf_lock);
- 
-@@ -5911,7 +5910,7 @@ lpfc_chk_tgt_mapped(struct lpfc_vport *vport, struct fc_rport *rport)
- 	 * If target is not in a MAPPED state, delay until
- 	 * target is rediscovered or devloss timeout expires.
- 	 */
--	later = msecs_to_jiffies(2 * vport->cfg_devloss_tmo * 1000) + jiffies;
-+	later = secs_to_jiffies(2 * vport->cfg_devloss_tmo) + jiffies;
- 	while (time_after(later, jiffies)) {
- 		if (!pnode)
- 			return FAILED;
-@@ -5957,7 +5956,7 @@ lpfc_reset_flush_io_context(struct lpfc_vport *vport, uint16_t tgt_id,
- 		lpfc_sli_abort_taskmgmt(vport,
- 					&phba->sli.sli3_ring[LPFC_FCP_RING],
- 					tgt_id, lun_id, context);
--	later = msecs_to_jiffies(2 * vport->cfg_devloss_tmo * 1000) + jiffies;
-+	later = secs_to_jiffies(2 * vport->cfg_devloss_tmo) + jiffies;
- 	while (time_after(later, jiffies) && cnt) {
- 		schedule_timeout_uninterruptible(msecs_to_jiffies(20));
- 		cnt = lpfc_sli_sum_iocb(vport, tgt_id, lun_id, context);
-@@ -6137,8 +6136,7 @@ lpfc_target_reset_handler(struct scsi_cmnd *cmnd)
- 			wait_event_timeout(waitq,
- 					   !test_bit(NLP_WAIT_FOR_LOGO,
- 						     &pnode->save_flags),
--					   msecs_to_jiffies(dev_loss_tmo *
--							    1000));
-+					   secs_to_jiffies(dev_loss_tmo));
- 
- 			if (test_and_clear_bit(NLP_WAIT_FOR_LOGO,
- 					       &pnode->save_flags))
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index 3fd9723cd271c8a024b6f34e583668e973404e6f..3ccc444c018c51f7c78a8acdb9d12ead8697fbcb 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -9504,8 +9504,7 @@ lpfc_sli_issue_mbox_s3(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmbox,
- 			goto out_not_finished;
- 		}
- 		/* timeout active mbox command */
--		timeout = msecs_to_jiffies(lpfc_mbox_tmo_val(phba, pmbox) *
--					   1000);
-+		timeout = secs_to_jiffies(lpfc_mbox_tmo_val(phba, pmbox));
- 		mod_timer(&psli->mbox_tmo, jiffies + timeout);
- 	}
- 
-@@ -9629,8 +9628,7 @@ lpfc_sli_issue_mbox_s3(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmbox,
- 						       drvr_flag);
- 			goto out_not_finished;
- 		}
--		timeout = msecs_to_jiffies(lpfc_mbox_tmo_val(phba, pmbox) *
--							1000) + jiffies;
-+		timeout = secs_to_jiffies(lpfc_mbox_tmo_val(phba, pmbox)) + jiffies;
- 		i = 0;
- 		/* Wait for command to complete */
- 		while (((word0 & OWN_CHIP) == OWN_CHIP) ||
-@@ -9756,9 +9754,8 @@ lpfc_sli4_async_mbox_block(struct lpfc_hba *phba)
- 	 * command to be gracefully completed by firmware.
- 	 */
- 	if (phba->sli.mbox_active)
--		timeout = msecs_to_jiffies(lpfc_mbox_tmo_val(phba,
--						phba->sli.mbox_active) *
--						1000) + jiffies;
-+		timeout = secs_to_jiffies(lpfc_mbox_tmo_val(phba,
-+						phba->sli.mbox_active)) + jiffies;
- 	spin_unlock_irq(&phba->hbalock);
- 
- 	/* Make sure the mailbox is really active */
-@@ -9881,8 +9878,7 @@ lpfc_sli4_wait_bmbx_ready(struct lpfc_hba *phba, LPFC_MBOXQ_t *mboxq)
- 		}
- 	}
- 
--	timeout = msecs_to_jiffies(lpfc_mbox_tmo_val(phba, mboxq)
--				   * 1000) + jiffies;
-+	timeout = secs_to_jiffies(lpfc_mbox_tmo_val(phba, mboxq)) + jiffies;
- 
- 	do {
- 		bmbx_reg.word0 = readl(phba->sli4_hba.BMBXregaddr);
-@@ -13159,7 +13155,7 @@ lpfc_sli_issue_iocb_wait(struct lpfc_hba *phba,
- 	retval = lpfc_sli_issue_iocb(phba, ring_number, piocb,
- 				     SLI_IOCB_RET_IOCB);
- 	if (retval == IOCB_SUCCESS) {
--		timeout_req = msecs_to_jiffies(timeout * 1000);
-+		timeout_req = secs_to_jiffies(timeout);
- 		timeleft = wait_event_timeout(done_q,
- 				lpfc_chk_iocb_flg(phba, piocb, LPFC_IO_WAKE),
- 				timeout_req);
-@@ -13275,8 +13271,7 @@ lpfc_sli_issue_mbox_wait(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmboxq,
- 	/* now issue the command */
- 	retval = lpfc_sli_issue_mbox(phba, pmboxq, MBX_NOWAIT);
- 	if (retval == MBX_BUSY || retval == MBX_SUCCESS) {
--		wait_for_completion_timeout(&mbox_done,
--					    msecs_to_jiffies(timeout * 1000));
-+		wait_for_completion_timeout(&mbox_done, secs_to_jiffies(timeout));
- 
- 		spin_lock_irqsave(&phba->hbalock, flag);
- 		pmboxq->ctx_u.mbox_wait = NULL;
-@@ -13336,9 +13331,8 @@ lpfc_sli_mbox_sys_shutdown(struct lpfc_hba *phba, int mbx_action)
- 		 * command to be gracefully completed by firmware.
- 		 */
- 		if (phba->sli.mbox_active)
--			timeout = msecs_to_jiffies(lpfc_mbox_tmo_val(phba,
--						phba->sli.mbox_active) *
--						1000) + jiffies;
-+			timeout = secs_to_jiffies(lpfc_mbox_tmo_val(phba,
-+						phba->sli.mbox_active)) + jiffies;
- 		spin_unlock_irq(&phba->hbalock);
- 
- 		/* Enable softirqs again, done with phba->hbalock */
-diff --git a/drivers/scsi/lpfc/lpfc_vport.c b/drivers/scsi/lpfc/lpfc_vport.c
-index 3d70cc5175730b31eeaf46c89d65c0dc09367d44..cc56a73343195a263c307fab6870a0012899060a 100644
---- a/drivers/scsi/lpfc/lpfc_vport.c
-+++ b/drivers/scsi/lpfc/lpfc_vport.c
-@@ -246,7 +246,7 @@ static void lpfc_discovery_wait(struct lpfc_vport *vport)
- 	 * fabric RA_TOV value and dev_loss tmo.  The driver's
- 	 * devloss_tmo is 10 giving this loop a 3x multiplier minimally.
- 	 */
--	wait_time_max = msecs_to_jiffies(((phba->fc_ratov * 3) + 3) * 1000);
-+	wait_time_max = secs_to_jiffies((phba->fc_ratov * 3) + 3);
- 	wait_time_max += jiffies;
- 	start_time = jiffies;
- 	while (time_before(jiffies, wait_time_max)) {
 
 -- 
 2.43.0
