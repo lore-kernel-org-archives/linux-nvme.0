@@ -4,47 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0DAEC0218A
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 047C3C02195
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MrRoSF+FOHzMLN/F6LhKtUoOtRK4Dvpw4z2TjFgN7VQ=; b=BVEh+m5sVA/C9ZpgadwRzK9oEC
-	gj/KtGzR2Q2PebJLfnAtB5NLD6TX/rzzynJjwZMQdSX7w+W4wrylQLSYZNYxPCN9bmDnzBJyPFLDl
-	KPq0PIqBlT2iB9fbYOKl4MXW6KNMrXgW/QLT6FHIgpCbOum0w9o8wdMNaJxgMPCj7s+/1qpMHegJP
-	KWXTSYBsaYhIMjZ/OH+7vFXq70hymnMxcI2nobAK1uGHRqDxkCI+CRR1nr1jEKXTcN/eMNCcJUFS8
-	UzdEVofwPzcw1TO3CJk/3TVj9nWF+XKe9kbtXOSX+v1SKZq0mmpAtjRdM2XuOZccrkPVLIF1IRVRy
-	UaBLBf1A==;
+	bh=/EWqXlZOyaOm4g59VS89I2uqnGTUPl37w71b9X7s02o=; b=tLcKHmTY4Z3cOM4MEVJ+cTz0N6
+	2ohTvAAnT7bpnN9ISnI62OFXZj+3h5wTMyLyfx+0LNiBSkHjukoH6vyITJjMCf5ENUue6/SIQW89r
+	wW8w4xlGnewWxKzFpFO8CaNfRxg/8rQk/G7By5pLeZ0JitpvAb7OcGn48CEd4Or3K6UA/QdiO8Myj
+	/djtjjr2SQ7K07rlyn1JsPiHfTTSV+751YLo7S6OCrthkh7GFL3WZe6AqlDZUKv9RdwCzRhMKSpCV
+	RNUFTzurGRW7uof5EBPrbkObV1ApjM0vwAa236PJ+rh67ZbFvU3KerV6zp8HMAQk1Z1QcUBkRhod5
+	ZqVj4e8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqpY-00000005eKY-0sPL;
-	Tue, 28 Jan 2025 19:01:00 +0000
+	id 1tcqpP-00000005eAO-1VvN;
+	Tue, 28 Jan 2025 19:00:51 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqDr-00000005Yvl-3yjW;
-	Tue, 28 Jan 2025 18:22:05 +0000
+	id 1tcqDn-00000005Ytt-18M3;
+	Tue, 28 Jan 2025 18:22:01 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9DEDF2037186;
-	Tue, 28 Jan 2025 10:21:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9DEDF2037186
+	by linux.microsoft.com (Postfix) with ESMTPSA id EE39B203717A;
+	Tue, 28 Jan 2025 10:21:57 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EE39B203717A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1738088519;
-	bh=MrRoSF+FOHzMLN/F6LhKtUoOtRK4Dvpw4z2TjFgN7VQ=;
+	s=default; t=1738088518;
+	bh=/EWqXlZOyaOm4g59VS89I2uqnGTUPl37w71b9X7s02o=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VDOJ0UVcB3tdWtv0kEPgju6P8XjLVhI9v/FwUwQueJEftvBCu5K7f+pdk59MpNfkK
-	 ZNizZYJyPBz3Enx9ehl7deE8rXReMEi7MKIck08fnn53suV4apwJE6v0a75dbsKot1
-	 FOlMM/x/cVOz5FAhrxA1C4ODo0Fz3V/+H2e0Wt4U=
+	b=qifPuciLp6zYrAFWIRB9lwfoiORDq5Znn6Y1MZg447mRd521rUeXZX4ssO4a3zPi0
+	 yIeJx+BuhYKeboGXzAtI2rktLS4vmUes2TtMU1tgSIC4k2CZaQfPx4pU+CBe+A2DVU
+	 iFfDndGnNrrUEfvChktnE0Qma+AmmL/g2NBtRY68=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:22:00 +0000
-Subject: [PATCH 15/16] platform/x86: thinkpad_acpi: convert timeouts to
- secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:49 +0000
+Subject: [PATCH 04/16] ALSA: ac97: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-15-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-4-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,8 +85,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_102204_103639_3AAA2553 
-X-CRM114-Status: GOOD (  12.27  )
+X-CRM114-CacheID: sfid-20250128_102159_396575_5118C352 
+X-CRM114-Status: GOOD (  10.20  )
 X-Mailman-Approved-At: Tue, 28 Jan 2025 11:00:48 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -122,22 +121,23 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/pci/ac97/ac97_codec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 1fcb0f99695a78d392ed000b0831eb4d45eff55f..500b497c3f375f463f014ed3f3361afc9d6f3329 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -8505,7 +8505,7 @@ static void fan_watchdog_reset(void)
- 	if (fan_watchdog_maxinterval > 0 &&
- 	    tpacpi_lifecycle != TPACPI_LIFE_EXITING)
- 		mod_delayed_work(tpacpi_wq, &fan_watchdog_task,
--			msecs_to_jiffies(fan_watchdog_maxinterval * 1000));
-+			secs_to_jiffies(fan_watchdog_maxinterval));
- 	else
- 		cancel_delayed_work(&fan_watchdog_task);
- }
+diff --git a/sound/pci/ac97/ac97_codec.c b/sound/pci/ac97/ac97_codec.c
+index 6e710dce5c6068ec20c2da751b6f5372ad1df211..88ac37739b7653f69af430dd0163f5ab4ddf0d0c 100644
+--- a/sound/pci/ac97/ac97_codec.c
++++ b/sound/pci/ac97/ac97_codec.c
+@@ -2461,8 +2461,7 @@ int snd_ac97_update_power(struct snd_ac97 *ac97, int reg, int powerup)
+ 		 * (for avoiding loud click noises for many (OSS) apps
+ 		 *  that open/close frequently)
+ 		 */
+-		schedule_delayed_work(&ac97->power_work,
+-				      msecs_to_jiffies(power_save * 1000));
++		schedule_delayed_work(&ac97->power_work, secs_to_jiffies(power_save));
+ 	else {
+ 		cancel_delayed_work(&ac97->power_work);
+ 		update_power_regs(ac97);
 
 -- 
 2.43.0
