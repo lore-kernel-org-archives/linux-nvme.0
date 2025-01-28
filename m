@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2ABDC02192
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 06:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12797C0218D
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 06:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=huUEE95sh7T49Sr2DONB8in3X7
-	/mDt4sqo1fzQGYWRAVyFWAeGWAIs5PDxWCzG4P7y5EU3llwBJZ7JPZE7Oy4A/RNru+b2PXRT9xFHf
-	JbJsCYXzN7vlBOkIuBf+DDiBKQ/T2BkXqdda6wHVOTKg0xZyX8X7bJW+9F51ndfUaFwBejfGxtER1
-	0E7EnRgDTMfFaE9j1erq/+YAe5IlT6SnYVTIK711M8r9SdwQrJdaRt0tgBk5vNH30uCddE6w3nI0N
-	XsNEBiJ2Tzw2gmYe07NL6vukaK8LeA7ebzk6WNsDqdmudJL7CO5QoLzLevHPi4mC3Q925abFBnopX
-	bbMqejlQ==;
+	bh=rVnd4OQDVd4OqwxlUo00uQu3kfTHjII4+z4jJBMNvmE=; b=2BwkXV+oIVBzyjo44lTXuYVkHP
+	yNenH8CGo6hzOZq3ujNW0patw4UozZNpBifDip7B7PRQk/8NKK1lchkwPV1Hcf76HppsSG6S3Gnqd
+	yLxRDVkGWYC0uDIguMMiEn4xAodSKUnBGMmsasBzLW39pECWtnjmdk4CHo34jqfErb/+EFNtdVXLz
+	HFTdKQULOj6gw+0EnDy4sFdrULBJeItBTL82JV04cPqblIecEpaOYkkK3FRnfrKAhBKP15qt2RWDR
+	TeF0YS4uNRcqC5jGB78DI57T2BHDU/kKN0zNJNuG5X2BKXcEL+dwRzzQAui7ZOiOkGqz2Pqzquzup
+	c7KBwrng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcfKu-00000004Erm-3dNL;
-	Tue, 28 Jan 2025 06:44:36 +0000
+	id 1tcfMl-00000004F3M-2TyE;
+	Tue, 28 Jan 2025 06:46:31 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcfKr-00000004Eqt-47cX
+	id 1tcfMj-00000004F33-0GGP
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jan 2025 06:44:35 +0000
+	Tue, 28 Jan 2025 06:46:30 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 13C0B68D05; Tue, 28 Jan 2025 07:44:24 +0100 (CET)
-Date: Tue, 28 Jan 2025 07:44:23 +0100
+	id 0FEF168D05; Tue, 28 Jan 2025 07:46:24 +0100 (CET)
+Date: Tue, 28 Jan 2025 07:46:23 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Zhang Yi <yi.zhang@huaweicloud.com>
 Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
@@ -38,18 +38,18 @@ Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
 	linux-kernel@vger.kernel.org, hch@lst.de, tytso@mit.edu,
 	djwong@kernel.org, yi.zhang@huawei.com, chengzhihao1@huawei.com,
 	yukuai3@huawei.com, yangerkun@huawei.com
-Subject: Re: [RFC PATCH v2 1/8] block: introduce
- BLK_FEAT_WRITE_ZEROES_UNMAP to queue limits features
-Message-ID: <20250128064423.GA21401@lst.de>
-References: <20250115114637.2705887-1-yi.zhang@huaweicloud.com> <20250115114637.2705887-2-yi.zhang@huaweicloud.com>
+Subject: Re: [RFC PATCH v2 2/8] nvme: set BLK_FEAT_WRITE_ZEROES_UNMAP if
+ device supports DEAC bit
+Message-ID: <20250128064623.GB21401@lst.de>
+References: <20250115114637.2705887-1-yi.zhang@huaweicloud.com> <20250115114637.2705887-3-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115114637.2705887-2-yi.zhang@huaweicloud.com>
+In-Reply-To: <20250115114637.2705887-3-yi.zhang@huaweicloud.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250127_224434_158929_28084AE6 
-X-CRM114-Status: UNSURE (   8.90  )
+X-CRM114-CacheID: sfid-20250127_224629_243242_40B39803 
+X-CRM114-Status: UNSURE (   9.64  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -65,8 +65,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+I think you also need to add BLK_FEAT_WRITE_ZEROES_UNMAP to the list
+of features supported by the nvme-mpath stacking driver in
+nvme_mpath_alloc_disk, so that this gets propagated to multipathed
+devices.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Otherwise this looks good to me.
 
 
