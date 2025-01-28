@@ -4,46 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68631C02196
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:01:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13ED3C02197
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:01:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OqPAwTULz/ylA5SQSCmsIKYH/79lvRoXFrBfI1CqqYw=; b=KWZgB+XRZux7XU7bnoJLu36LkR
-	CRbmXY7T24WWJTq7aZzGgT+L0ftI+/6c8sJua25bwHr4tRFG8qW4sUdxT0IMZ8csOl1usfqqcTv2q
-	YkPhMNfMSXnSJJAuptI66RCE0IOTogvumTESFutM701n8ZSl6heaWO0qdbNUaBblkmMuSkMYORfrZ
-	tAVY06XMsXWyJ9e/hG19pLsNcT/7qaoBzJ470Bp6y5BQV3DgNaUaz6yVHLBjHU4vZx1OITr09BxM9
-	J+Oy7UgB0XLWuJuU0lhO1Fc2EAO+FXV7Rj/ITTk4NPwKopwQfPVjPIwxQbQHLgnb/3mM6hJgA8Vnd
-	iKLFDMXQ==;
+	bh=VqcHpB+vyGTp1RMX3+WFTH5f5bCj+Q9J8OolxUskrKo=; b=w3ks9uhXKqW4zvitlA6RZgG+Ve
+	xhQU+azjjA9Qxhuf6bif7pVMF/ofGcV3QFcW60Adpe9/QI07k3p/6UWh3I/2WEgSVeu+YSNAaQVut
+	AJ0FS1gbMlPLVKD4WZBtH3kVTGcIrkZ4oX/yLRgMzYAJFEU9USDnHIraIphlhQ5/9ElEP6309QofV
+	dd6b6zUYF9hSXO7jJAMJePQFqCH/mo12ysnyCCCTrnwNqsEoo54y5j+GGbuZwkBu5tiF9HVRwepg/
+	t9zFlscPFSR0nYHhP7Hm9aUZIYvmTHZc5gj2hjWyque2CAxTTA01ojUIfuNAmqjiVgm6+Z05R7Qpl
+	7Hka+LDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqpW-00000005eHt-2bWK;
-	Tue, 28 Jan 2025 19:00:58 +0000
+	id 1tcqpX-00000005eJE-1q5m;
+	Tue, 28 Jan 2025 19:00:59 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqDr-00000005YvD-0yk2;
-	Tue, 28 Jan 2025 18:22:04 +0000
+	id 1tcqDr-00000005Yvd-21Vw;
+	Tue, 28 Jan 2025 18:22:05 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 598502037184;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7B8912037183;
 	Tue, 28 Jan 2025 10:21:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 598502037184
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7B8912037183
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1738088519;
-	bh=OqPAwTULz/ylA5SQSCmsIKYH/79lvRoXFrBfI1CqqYw=;
+	bh=VqcHpB+vyGTp1RMX3+WFTH5f5bCj+Q9J8OolxUskrKo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jXfb9M/Cehjh0rKk4/gwmJMdgUjXncg0HDEC39xVRFWQkuiYphjidp7M9lcy47Bum
-	 gUNDvi3+taG7qq0jtJSKlDz1ymYX6/HH0DskMWFPIdQPzlPn2zSfXJ32Gn2cCN+9lW
-	 iIDOVi+CXaME0UAmvAJpRjEmzopqE4zm0lQ/NWzM=
+	b=ZOuwdqaZhug0KNQQ21Ohb30BhgvBJyo55qHRaa7MGqCb8wONCvj3jN/bLp9sKWWM6
+	 8bC+bT63Hpx0+HHlZCeQeaR75fGVzJRRwDfMPixaFz8dfRqI1843e4U/m+evk1P+Me
+	 /+O0qMwZndCMTYuy618bWJRmYRUItE1KI26PeEM4=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:58 +0000
-Subject: [PATCH 13/16] spi: spi-imx: convert timeouts to secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:59 +0000
+Subject: [PATCH 14/16] platform/x86/amd/pmf: convert timeouts to
+ secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-13-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-14-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -85,8 +86,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_102203_392247_1AB28A11 
-X-CRM114-Status: GOOD (  11.67  )
+X-CRM114-CacheID: sfid-20250128_102203_617992_BD13B383 
+X-CRM114-Status: GOOD (  10.58  )
 X-Mailman-Approved-At: Tue, 28 Jan 2025 11:00:48 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -121,22 +122,23 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/spi/spi-imx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/x86/amd/pmf/acpi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
-index eeb7d082c2472f954001045295b349bc2eb53197..832d6e9009ebe741779acd58c3a9450c231151bb 100644
---- a/drivers/spi/spi-imx.c
-+++ b/drivers/spi/spi-imx.c
-@@ -1449,7 +1449,7 @@ static int spi_imx_calculate_timeout(struct spi_imx_data *spi_imx, int size)
- 	timeout += 1;
+diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
+index dd5780a1d06e1dc979fcff5bafd6729bc4937eab..6b7effe80b78b7389b320ee65fa5d2373f782a2f 100644
+--- a/drivers/platform/x86/amd/pmf/acpi.c
++++ b/drivers/platform/x86/amd/pmf/acpi.c
+@@ -220,7 +220,8 @@ static void apmf_sbios_heartbeat_notify(struct work_struct *work)
+ 	if (!info)
+ 		return;
  
- 	/* Double calculated timeout */
--	return msecs_to_jiffies(2 * timeout * MSEC_PER_SEC);
-+	return secs_to_jiffies(2 * timeout);
+-	schedule_delayed_work(&dev->heart_beat, msecs_to_jiffies(dev->hb_interval * 1000));
++	schedule_delayed_work(&dev->heart_beat,
++			      secs_to_jiffies(dev->hb_interval));
+ 	kfree(info);
  }
  
- static int spi_imx_dma_transfer(struct spi_imx_data *spi_imx,
 
 -- 
 2.43.0
