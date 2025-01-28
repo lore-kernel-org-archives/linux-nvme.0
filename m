@@ -4,47 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79C0FC02192
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:00:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68631C02196
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:01:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=++CcFDhMGmgcKwzaiNwx3lMiN5jr5twzkm9Lzfmspqc=; b=AOJthyvv3cyxfPBIbqEcq5V+8Z
-	HX3LmkBS6+wEChjxExQiNYrASRQNpVwlnFGj+h9CElvZjQBXsl02ro6+IvACfLhtsdls5UHGWZqA+
-	CyVSXUitm58+IvqEboQHIuAwQEtCXT9UtP8oAANcuyhXTEg8EMXTnsGbQTM3N7N7skn62Tc9KaEtM
-	iYxk6Sy8epEVZBfaAeIEtcrT4miuQdsYsVtouJBSXVWAqH4x2B/nXf7ERNujP4swvNXfWVynSbuIJ
-	Ea3//skfmfId9dg5gfukZp0KC1G/9p1E+CJgf+fb+QQ0EPbBTmjKhU8oa3lPHG8Lnx4KOf9Ste1wk
-	mSd/v6LA==;
+	bh=OqPAwTULz/ylA5SQSCmsIKYH/79lvRoXFrBfI1CqqYw=; b=KWZgB+XRZux7XU7bnoJLu36LkR
+	CRbmXY7T24WWJTq7aZzGgT+L0ftI+/6c8sJua25bwHr4tRFG8qW4sUdxT0IMZ8csOl1usfqqcTv2q
+	YkPhMNfMSXnSJJAuptI66RCE0IOTogvumTESFutM701n8ZSl6heaWO0qdbNUaBblkmMuSkMYORfrZ
+	tAVY06XMsXWyJ9e/hG19pLsNcT/7qaoBzJ470Bp6y5BQV3DgNaUaz6yVHLBjHU4vZx1OITr09BxM9
+	J+Oy7UgB0XLWuJuU0lhO1Fc2EAO+FXV7Rj/ITTk4NPwKopwQfPVjPIwxQbQHLgnb/3mM6hJgA8Vnd
+	iKLFDMXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqpV-00000005eGd-3Ymk;
-	Tue, 28 Jan 2025 19:00:57 +0000
+	id 1tcqpW-00000005eHt-2bWK;
+	Tue, 28 Jan 2025 19:00:58 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqDq-00000005YwQ-0Neh;
+	id 1tcqDr-00000005YvD-0yk2;
 	Tue, 28 Jan 2025 18:22:04 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id DB2792037180;
-	Tue, 28 Jan 2025 10:21:58 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DB2792037180
+	by linux.microsoft.com (Postfix) with ESMTPSA id 598502037184;
+	Tue, 28 Jan 2025 10:21:59 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 598502037184
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1738088518;
-	bh=++CcFDhMGmgcKwzaiNwx3lMiN5jr5twzkm9Lzfmspqc=;
+	s=default; t=1738088519;
+	bh=OqPAwTULz/ylA5SQSCmsIKYH/79lvRoXFrBfI1CqqYw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=nOvIreoPo3EtPXnqT78hdGSPjS+BJfm76bfob6LjYY8fpAzAx+SSWBMemjjxO+8RL
-	 gtA/N4PvBwCgX5MwsErpmvFLEJEFEicnjVAtYs/DImfDKgiY3inNNwt6TIW4w8Mj2E
-	 eLHR2MK1+CS1Dd52E6DvRE+gXgt4inmHotPghBSw=
+	b=jXfb9M/Cehjh0rKk4/gwmJMdgUjXncg0HDEC39xVRFWQkuiYphjidp7M9lcy47Bum
+	 gUNDvi3+taG7qq0jtJSKlDz1ymYX6/HH0DskMWFPIdQPzlPn2zSfXJ32Gn2cCN+9lW
+	 iIDOVi+CXaME0UAmvAJpRjEmzopqE4zm0lQ/NWzM=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:55 +0000
-Subject: [PATCH 10/16] power: supply: da9030: convert timeouts to
- secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:58 +0000
+Subject: [PATCH 13/16] spi: spi-imx: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-10-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-13-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,8 +85,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_102202_249108_7E1E0288 
-X-CRM114-Status: GOOD (  11.37  )
+X-CRM114-CacheID: sfid-20250128_102203_392247_1AB28A11 
+X-CRM114-Status: GOOD (  11.67  )
 X-Mailman-Approved-At: Tue, 28 Jan 2025 11:00:48 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -122,23 +121,22 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/power/supply/da9030_battery.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/spi/spi-imx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/power/supply/da9030_battery.c b/drivers/power/supply/da9030_battery.c
-index ac2e319e95179039279dacaed1744136f679fbac..d25279c260308b6c82acb2aabf44f3749f71b703 100644
---- a/drivers/power/supply/da9030_battery.c
-+++ b/drivers/power/supply/da9030_battery.c
-@@ -502,8 +502,7 @@ static int da9030_battery_probe(struct platform_device *pdev)
+diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
+index eeb7d082c2472f954001045295b349bc2eb53197..832d6e9009ebe741779acd58c3a9450c231151bb 100644
+--- a/drivers/spi/spi-imx.c
++++ b/drivers/spi/spi-imx.c
+@@ -1449,7 +1449,7 @@ static int spi_imx_calculate_timeout(struct spi_imx_data *spi_imx, int size)
+ 	timeout += 1;
  
- 	/* 10 seconds between monitor runs unless platform defines other
- 	   interval */
--	charger->interval = msecs_to_jiffies(
--		(pdata->batmon_interval ? : 10) * 1000);
-+	charger->interval = secs_to_jiffies(pdata->batmon_interval ? : 10);
+ 	/* Double calculated timeout */
+-	return msecs_to_jiffies(2 * timeout * MSEC_PER_SEC);
++	return secs_to_jiffies(2 * timeout);
+ }
  
- 	charger->charge_milliamp = pdata->charge_milliamp;
- 	charger->charge_millivolt = pdata->charge_millivolt;
+ static int spi_imx_dma_transfer(struct spi_imx_data *spi_imx,
 
 -- 
 2.43.0
