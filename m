@@ -4,69 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBDB0C02193
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 23:42:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 313FCC0218A
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 23:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q5Z2HhQ2PrRtwrzITOcYK8bPXqgMsi4iT5n5ZXTjQPQ=; b=2rnE7M6SlI5e1tkro3P8JCmSvJ
-	ElLi+j1E+cnKrV2XmhKk+zpbsM3HjCno8NhWw/2I/j1NebHTWtdGVjva9t2jjmGLMAL4cPir2vo30
-	RLspvhlqg5sijf8iIoeUB8BdmrVNb5xggYB+MwiaLFrKWekV9vrjNtC0Lo1wxmOxc7fmCjNVh7+e+
-	5Agc8vanuH/Pv8zZuKOtcUX+dkwLsXWMByAuBcDQZAQKtg8RPbPTo0cGwuGdqDQXgEACThcuCtuOt
-	LkJU/U+8NUUQdpdnbt63Ks5+jTXT0oYXcJJAQRSB/BFSGGCkKcGggWaBublv4KHVpk6N9ynVK6eZz
-	pG7jiWfQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=6OKRVSi5+QVtZWVv7MJ9cHj72Ttwc3NUJiGqq4HrypE=; b=f+Eh630HnhbFMJU8T1wzP9wwvy
+	oq1PK3riJyYaf1z7s39uuOgy8sBkvEGMO7yBQsoLDz4W9lWXh7dbvlMY1yARVIMGar13gLxXwrS7c
+	z81YMFnlyyeGG0PVlXgqAeFgMu19h6+1KhSJj2+dIYVU8xnew0v1fia/xdtQK0mbzIJeAd0hGGBDW
+	84ITLjcNJb9qHa5vBPFfQsG6/pEVU/uILVoz56oz9+DvB9qJrs1spTOX6hYKyJrQEICym9L8HxHm7
+	4h2j1aMHlUnGgvQE0h/AwOnB1ZK+UTQKpG9okbFva6Xtp2yUWuTvBAjrARpltX720axHrEQXp4k8y
+	wjV/l+AA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcvDi-000000062p8-45z9;
-	Tue, 28 Jan 2025 23:42:14 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcvDd-000000062n8-0y8O
-	for linux-nvme@lists.infradead.org;
+	id 1tcvDf-000000062o8-37Ii;
 	Tue, 28 Jan 2025 23:42:11 +0000
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50SMfuh4017882;
-	Tue, 28 Jan 2025 23:42:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2023-11-20; bh=Q5Z2H
-	hQ2PrRtwrzITOcYK8bPXqgMsi4iT5n5ZXTjQPQ=; b=OeKe+joMedbNl20VYHErO
-	PEHPlTJhg812qwc3P759CPbjDRWMuD4ah+nxj+UybbFYSmtDUBf9C+FBX1x1uv/9
-	73eI0jnt/MmMWiwoIrRpSITNp6uqAi+6ZYbYAgf/wmbOdR8trC9umAJ7u/x5nfUQ
-	CvF92qeGr18KrX5vwS9TNo+BdWyCpTuFLBi5p0rks6uSn2AX5LBaMjl2DCoBItIE
-	wbXYcOC17le1iY36jbJRgL9XpnDtboKKyj39Km4nftgFY/gij6isCPlhRGkUIf+i
-	/8jwDGe/SVoXAGCe9fet1/bYjbrdrfV+Aj5UInceEkD67muXoxCwYmlYj9xsOzYj
-	g==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44f841r2nt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 Jan 2025 23:42:06 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 50SND7MH035925;
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tcvDc-000000062n7-3r5U
+	for linux-nvme@lists.infradead.org;
+	Tue, 28 Jan 2025 23:42:10 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50SNT09H007512;
 	Tue, 28 Jan 2025 23:42:06 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44cpdf2mxd-1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2023-11-20; bh=6OKRVSi5+QVtZWVv7MJ9cHj72Ttwc
+	3NUJiGqq4HrypE=; b=oa5pgAXMX069JLqDO//afhLVz1LuUMtjbfM00IKlc9wLk
+	CS/rd64zhZIfXIPxYrKGfPRw0O98d0alvQrySC+sVU+zTq8v0EmRw7NFnETn7pud
+	qR9gptMmIP4l83Idz8+bUN+Hd0Mw2eUWB+35Afv8Wb3XDsBYQ9rjHkDRImL7zsfr
+	Lqt4HjvqCAiGzJZEon9kAsH8qX6jOIWPAjJ5UhRpI+RmsO6qxi6jsVPA7MTi03oP
+	IM3PSVyWqS1HZlIh9p9Cb8UKZsy3qw9EM6jlA1DytchujXnt5gAjJxLkHLHv6kaJ
+	YyNHXmYBZYlnLXvEhHyXkHpLxKh8iYXNxcO1CGnug==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44f8xu80c0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 Jan 2025 23:42:06 +0000
+	Tue, 28 Jan 2025 23:42:05 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 50SLwMYc035935;
+	Tue, 28 Jan 2025 23:42:04 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44cpdf2mws-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 28 Jan 2025 23:42:04 +0000
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 50SNg3Ww019555;
-	Tue, 28 Jan 2025 23:42:05 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 50SNg3Ws019555;
+	Tue, 28 Jan 2025 23:42:03 GMT
 Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 44cpdf2mvx-3;
-	Tue, 28 Jan 2025 23:42:05 +0000
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 44cpdf2mvx-1;
+	Tue, 28 Jan 2025 23:42:03 +0000
 From: Alan Adamson <alan.adamson@oracle.com>
 To: linux-block@vger.kernel.org
 Cc: linux-scsi@vger.kernel.org, alan.adamson@oracle.com,
         linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com
-Subject: [PATCH v2 blktests 2/2] nvme/059: add atomic write tests
-Date: Tue, 28 Jan 2025 15:50:34 -0800
-Message-ID: <20250128235034.307987-3-alan.adamson@oracle.com>
+Subject: [PATCH v2 blktests 0/2] Add atomic write tests for scsi and nvme
+Date: Tue, 28 Jan 2025 15:50:32 -0800
+Message-ID: <20250128235034.307987-1-alan.adamson@oracle.com>
 X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250128235034.307987-1-alan.adamson@oracle.com>
-References: <20250128235034.307987-1-alan.adamson@oracle.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -76,11 +73,12 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 ml
  phishscore=0 suspectscore=0 adultscore=0 spamscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2411120000
  definitions=main-2501280172
-X-Proofpoint-ORIG-GUID: 5KYxZKJlFfzQ8KQ2a0RsuUiQrk4QnwzC
-X-Proofpoint-GUID: 5KYxZKJlFfzQ8KQ2a0RsuUiQrk4QnwzC
+X-Proofpoint-ORIG-GUID: NdP3q6EmR7iSka9k6gMXWK42TurPBVVn
+X-Proofpoint-GUID: NdP3q6EmR7iSka9k6gMXWK42TurPBVVn
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_154209_393672_DC383059 
-X-CRM114-Status: GOOD (  17.41  )
+X-CRM114-CacheID: sfid-20250128_154209_082720_F2E8816A 
+X-CRM114-Status: UNSURE (   8.02  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,205 +93,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Tests basic atomic write functionality using NVMe devices
-that support the AWUN and AWUPF Controller Atomic Parameters
-and NAWUN and NAWUPF Namespace Atomic Parameters.
+Changes in v2:
+- Add additional comments in common/xfs
+- Remove xfs_io and kernel version checking
+- Simplify paths for sysfs attributes
+- Fix failed case output (missing echo) in scsi/009
+- Add local variable that sets Test # and description (test_desc) for scsi/009 and nvme/059
+- Only use scsi_debug device if no scsi test device is provided.
+- nvme testing done with qemu-nvme.
+- scsi testing done with scsi_debug and qemu-scsi (no atomic write support).  No testing on
+  atomic write capable scsi devices was done.
+-------------------------------------------------------------------------------------------
+Add tests for atomic write support.
 
-Testing areas include:
+Tests will be delivered for scsi (using scsi_debug) and nvme.  NVMe can use the qemu-nvme
+emulated device that supports Controller-based Atomic Parameters (QEMU 9.2).
 
-- Verify sysfs atomic write attributes are consistent with
-  atomic write capablities advertised by the NVMe HW.
+The xfs_io utility delivered with the xfsprogs-devel package (version 6.12) is required by
+these tests.
 
-- Verify the atomic write paramters of statx are correct using
-  xfs_io.
-
-- Perform a pwritev2() (with and without RWF_ATOMIC flag) using
-  xfs_io:
-    - maximum byte size (atomic_write_unit_max_bytes)
-    - a write larger than atomic_write_unit_max_bytes
-
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- tests/nvme/059     | 151 +++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/059.out |  10 +++
- 2 files changed, 161 insertions(+)
- create mode 100755 tests/nvme/059
- create mode 100644 tests/nvme/059.out
-
-diff --git a/tests/nvme/059 b/tests/nvme/059
-new file mode 100755
-index 000000000000..032f793e222d
---- /dev/null
-+++ b/tests/nvme/059
-@@ -0,0 +1,151 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2025 Oracle and/or its affiliates
-+#
-+# Test NVMe Atomic Writes
-+
-+. tests/nvme/rc
-+. common/xfs
-+
-+DESCRIPTION="test atomic writes"
-+QUICK=1
-+
-+requires() {
-+	_nvme_requires
-+	_have_program nvme
-+	_have_xfs_io_atomic_write
-+}
-+
-+device_requires() {
-+	_require_test_dev_sysfs queue/atomic_write_max_bytes
-+	if (( $(< "${TEST_DEV_SYSFS}"/queue/atomic_write_max_bytes) == 0 )); then
-+		SKIP_REASONS+=("${TEST_DEV} does not support atomic write")
-+		return 1
-+	fi
-+}
-+
-+test_device() {
-+	local ns_dev
-+	local ctrl_dev
-+	local queue_path
-+	local nvme_awupf
-+	local nvme_nsfeat
-+	local nvme_nsabp
-+	local atomic_max_bytes
-+	local statx_atomic_max
-+	local sysfs_atomic_max_bytes
-+	local sysfs_atomic_unit_max_bytes
-+	local sysfs_logical_block_size
-+	local bytes_written
-+	local bytes_to_write
-+	local test_desc
-+
-+	echo "Running ${TEST_NAME}"
-+	ns_dev=${TEST_DEV##*/}
-+	ctrl_dev=${ns_dev%n*}
-+	queue_path="${TEST_DEV_SYSFS}/queue/"
-+
-+	test_desc="TEST 1 - Verify sysfs attributes"
-+
-+	sysfs_logical_block_size=$(cat "$queue_path"/logical_block_size)
-+	sysfs_max_hw_sectors_kb=$(cat "$queue_path"/max_hw_sectors_kb)
-+	max_hw_bytes=$(( "$sysfs_max_hw_sectors_kb" * 1024 ))
-+	sysfs_atomic_max_bytes=$(cat "$queue_path"/atomic_write_max_bytes)
-+	sysfs_atomic_unit_max_bytes=$(cat "$queue_path"/atomic_write_unit_max_bytes)
-+	sysfs_atomic_unit_min_bytes=$(cat "$queue_path"/atomic_write_unit_min_bytes)
-+
-+	if [ "$max_hw_bytes" -ge "$sysfs_atomic_max_bytes" ] &&
-+		[ "$sysfs_atomic_max_bytes" -ge "$sysfs_atomic_unit_max_bytes" ] &&
-+		[ "$sysfs_atomic_unit_max_bytes" -ge "$sysfs_atomic_unit_min_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $max_hw_bytes - $sysfs_max_hw_sectors_kb -" \
-+			"$sysfs_atomic_max_bytes - $sysfs_atomic_unit_max_bytes -" \
-+			"$sysfs_atomic_unit_min_bytes"
-+	fi
-+
-+	test_desc="TEST 2 - Verify sysfs atomic_write_unit_max_bytes is consistent "
-+	test_desc+="with NVMe AWUPF/NAWUPF"
-+	nvme_nsfeat=$(nvme id-ns /dev/"${ns_dev}" | grep nsfeat | awk '{ print $3}')
-+	nvme_nsabp=$((("$nvme_nsfeat" & 0x2) != 0))
-+	if [ "$nvme_nsabp" = 1 ] # Check if NSABP is set
-+	then
-+		nvme_awupf=$(nvme id-ns /dev/"$ns_dev" | grep nawupf | awk '{ print $3}')
-+		atomic_max_bytes=$(( ("$nvme_awupf" + 1) * "$sysfs_logical_block_size" ))
-+	else
-+		nvme_awupf=$(nvme id-ctrl /dev/"${ctrl_dev}" | grep awupf | awk '{ print $3}')
-+		atomic_max_bytes=$(( ("$nvme_awupf" + 1) * "$sysfs_logical_block_size" ))
-+	fi
-+	if [ "$atomic_max_bytes" -le "$max_hw_bytes" ]
-+	then
-+		if [ "$atomic_max_bytes" = "$sysfs_atomic_max_bytes" ]
-+		then
-+			echo "$test_desc - pass"
-+		else
-+			echo "$test_desc - fail $nvme_nsabp - $atomic_max_bytes - $sysfs_atomic_max_bytes -" \
-+				"$max_hw_bytes"
-+		fi
-+	else
-+		if [ "$sysfs_atomic_max_bytes" = "$max_hw_bytes" ]
-+		then
-+			echo "$test_desc - pass"
-+		else
-+			echo "$test_desc - fail $nvme_nsabp - $atomic_max_bytes - $sysfs_atomic_max_bytes -" \
-+				"$max_hw_bytes"
-+		fi
-+	fi
-+
-+	test_desc="TEST 3 - Verify statx is correctly reporting atomic_unit_max_bytes"
-+	statx_atomic_max=$(run_xfs_io_xstat /dev/"$ns_dev" "stat.atomic_write_unit_max")
-+	if [ "$sysfs_atomic_unit_max_bytes" = "$statx_atomic_max" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $statx_atomic_max - $sysfs_atomic_unit_max_bytes"
-+	fi
-+
-+	test_desc="TEST 4 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes "\
-+	test_desc+="with no RWF_ATOMIC"
-+	# flag - pwritev2 should be succesful.
-+        bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns_dev" "$sysfs_atomic_unit_max_bytes")
-+        if [ "$bytes_written" = "$sysfs_atomic_unit_max_bytes" ]
-+        then
-+                echo "$test_desc - pass"
-+        else
-+                echo "$test_desc - fail $bytes_written - $sysfs_atomic_unit_max_bytes"
-+        fi
-+
-+	test_desc="TEST 5 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with "
-+	test_desc+="RWF_ATOMIC flag - pwritev2 should  be succesful"
-+	bytes_written=$(run_xfs_io_pwritev2_atomic /dev/"$ns_dev" "$sysfs_atomic_unit_max_bytes")
-+	if [ "$bytes_written" = "$sysfs_atomic_unit_max_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $sysfs_atomic_unit_max_bytes"
-+	fi
-+
-+	test_desc="TEST 6 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 1 logical "
-+	test_desc+="block with no RWF_ATOMIC flag - pwritev2 should be succesful"
-+	bytes_to_write=$(( "$sysfs_atomic_unit_max_bytes" + "$sysfs_logical_block_size" ))
-+	bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns_dev" "$bytes_to_write")
-+	if [ "$bytes_written" = "$bytes_to_write" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $bytes_to_write"
-+	fi
-+
-+	test_desc="TEST 7 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + logical "
-+	test_desc+="block with RWF_ATOMIC flag - pwritev2 should not be succesful"
-+	bytes_written=$(run_xfs_io_pwritev2_atomic /dev/"$ns_dev" "$bytes_to_write")
-+	if [ "$bytes_written" = "" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $bytes_to_write"
-+	fi
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/059.out b/tests/nvme/059.out
-new file mode 100644
-index 000000000000..e803de35776f
---- /dev/null
-+++ b/tests/nvme/059.out
-@@ -0,0 +1,10 @@
-+Running nvme/059
-+TEST 1 - Verify sysfs attributes - pass
-+TEST 2 - Verify sysfs atomic_write_unit_max_bytes is consistent with NVMe AWUPF/NAWUPF - pass
-+TEST 3 - Verify statx is correctly reporting atomic_unit_max_bytes - pass
-+TEST 4 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with no RWF_ATOMIC - pass
-+TEST 5 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with RWF_ATOMIC flag - pwritev2 should  be succesful - pass
-+TEST 6 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 1 logical block with no RWF_ATOMIC flag - pwritev2 should be succesful - pass
-+pwrite: Invalid argument
-+TEST 7 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + logical block with RWF_ATOMIC flag - pwritev2 should not be succesful - pass
-+Test complete
--- 
-2.43.5
-
+The Linux Kernel 6.11 (and greater) supports Atomic Writes and is required by these tests.
 
