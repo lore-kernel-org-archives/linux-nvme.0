@@ -4,70 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAF91C0218A
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 17:20:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF12DC0218A
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 17:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mPo0Qmhd/LgFOJoY/TurPrp2onCgGxY+Z0rc3zytFz4=; b=SD9jK/dKPLL179V4MV/iOyRJ4K
-	5VooqHa1RHqUMKIqb8ONfiGvD6uKCCHPW+P0hkh6XZWXg0audlbvjDJ0HVettLOVBpGZply/9yHiz
-	Olso0I8/vHe9vliB9v6VUFty1lplDy6S7RnMskpylzeUf/6oCRFYp2O2QkzLPEsExAcrnvQUNUnxt
-	zl/tucVvopX9eNErhbjZmhv/Tx7R6iFhwsh+fxv3Jd18prcHsXUFHb5hhONa4i21UItYKQlwEUuHW
-	P8oAZPmH7MNKJLrRAjM4yx16y6TDp6uqYmhtdyo3UCTBJzqfBsAMYMTQHkeoPmOIxycy7W5qqXcvb
-	qXSjKwZQ==;
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Y7I3FQn+a3IeKpvoyXVLY346phLoqlukuEhizyoucyY=; b=phpX/Ip/mD1M9QbgNNeht+/6AB
+	6/xJIKGiq4lEzaRKz6mKvUQXGVRKFcju4Vsex0P94WLG5Z9Nny4k/TjiOyp+N1ZXJh8G//B1F8ABk
+	9/gE2RQB3kNcZ6zkBWh+BO+XnG5h/Cq/PiBkoR3ZTRmWRvG643AZi8iguiKkux/VWqKDomlqLn97k
+	6PYF2ohKtrGIdn55cqdyXIimRvWl7X7hqOS5aZVwHPZrhOPyteaPonWXlui8CC2g2GMwmstXmEoCj
+	2M9hOpAKwmwRyW76jbhG9g0w7gZYEZkojLJYywLpwa6XPnycnl0sSgN0WVGXchpB4MT1eC2hVzTE5
+	y3eIx2ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcpG7-00000005QiB-3zKZ;
-	Tue, 28 Jan 2025 17:20:19 +0000
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
+	id 1tcpG6-00000005Qhw-3MXa;
+	Tue, 28 Jan 2025 17:20:18 +0000
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcoju-00000005N7b-0Fp2
+	id 1tcojl-00000005N48-34hj
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jan 2025 16:47:03 +0000
-Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-e455bf1f4d3so8132106276.2
-        for <linux-nvme@lists.infradead.org>; Tue, 28 Jan 2025 08:47:01 -0800 (PST)
+	Tue, 28 Jan 2025 16:46:55 +0000
+Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-e3983426f80so9041980276.1
+        for <linux-nvme@lists.infradead.org>; Tue, 28 Jan 2025 08:46:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738082821; x=1738687621; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mPo0Qmhd/LgFOJoY/TurPrp2onCgGxY+Z0rc3zytFz4=;
-        b=JDqH5hr0VUVe4eUyWF3mdhzU22lrrdsT4mcQ9NL7kdNXYxQv9UQzsG+f0NoaTW80Un
-         KHyffiMAV7We+GpBkxxdtmIiHdDXqHP2bUeYTTmESOY9yzebt7+ps5kRTQAtsnaHgDTh
-         JkOEsL1q6KEU7x1xZXngk5KL9pCcqyGOxJh87xQb6gol07ogWhU+hC8odc4VbJ3z3CbS
-         AoqwBdqN5k0Ax1KzS9GRDSV1Qvk3utJ2JreWoVKv/ZU/hsLK3mgOjMqZrIhZx/nlkOl7
-         qc7c93u+heYv0KA9Kquq9axRphsP0xH0QC0SWbShUdpF7lU0skmFEXELHB5Pc0ex13Nh
-         7y4w==
+        d=gmail.com; s=20230601; t=1738082812; x=1738687612; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7I3FQn+a3IeKpvoyXVLY346phLoqlukuEhizyoucyY=;
+        b=dUkGACV75iI248keNkzdpGlTa8vSTqnbLEF85pqBQtNs4Uy5ncgRkyXbsbIDgMfMDf
+         J4wXs3+4j96i/Lbz3+0M0+fcsCUU0EHXjs5F00eBzMAZ9ld0NHtlBh9xDRLEu+SDLm5W
+         5kKCRlafcITa/pjcvHtyzmTXItOtYMVQ3oBHuZj3fBZGBbWvaT/ncJBQuip24jVoF+nS
+         opISWGjAMOLWA4pJ6gAeok4Flk5w6VZDu6pafWnRiMEEQry2R6ODBQcgvgSKf/FuJtcz
+         KyYNCbsoVpZjOqsSRZACVZ2uTm6kOqJP6OoVPpZBIXFWwMqjvqqKbM6m4cTPx1+FeDZf
+         5Exw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738082821; x=1738687621;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mPo0Qmhd/LgFOJoY/TurPrp2onCgGxY+Z0rc3zytFz4=;
-        b=A24+WnnBqvsLBNpPamg7FyTp8PMijnSjjcJv+bbGwZHEK5nMAPioLoSBvy4l6rD2x1
-         VtML/cK5dICrHXhPhEbFi30nTyr5/1IeB09o9DiIV7yj5wpllI5JDSKfSQXtr9km+jS+
-         jxP4xUgdZZjSS5Yzeh9OsbBl9rLqvrLdfdHu/Rll5CIXJzsEbEdM45UD4MsziJgs4883
-         KexBZqXfGWrPw23+TNPhISKFYRRzzI6BA/CMVw7b5Dl0eBKCkwLn0ttIOhMU+sDIp5nL
-         8s9pMgt7TUsNp0rLJg/R7+n/rmGrLlrd/tWho4tl9lfle0wgWORhns21YlUhHg7CmbpL
-         Yipg==
-X-Forwarded-Encrypted: i=1; AJvYcCXh7/nF3qKC8fv3TArwcCBjwWcsQ4TLsSBlhvLQMtsJC906P517gNpsUFVtVdwHhF3SmtQxAqpG6wYC@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxxk0Sth5ik1H3w6Cc0DSxQOU5QqpEg4ihlQ/2duVHnfuBMxgRy
-	96snvhzs16hyoM3uBumrOZzAWtrtnTG+qrud5r2z/q8x9EzUdSLH
-X-Gm-Gg: ASbGncvTrzddsvfrhK637zwy2rgucO4an5rWE1rtsMmf11eC5j2wSYoWC4djZlHvfDD
-	hqsL9Z98TMx9W0A/r/msG8qgYch/tThS4DX97jJpAsoh5CgevZEMCAsW1SApxikjPT1mgzTxwcO
-	qbYhzOVZwMTFoo9ciXPM8L5zgCJbZVhhLOThIfcJEvn4mZZDjvJ8cnQ+NyZXT4N9V4p2SGE7hiz
-	BBZAdAsHZilE52/qWVPCnXyRKPFIUkf64+NuTYELYa5Q+N3hZq1NW9SqkT+HygwsjWKzkKjHBOE
-	q2Pm6Kj3JywTueNBg54vdAMWN5WVaSSn8p7oFinmKzO+y1hEwbw=
-X-Google-Smtp-Source: AGHT+IEbCDwztaXs4775wdhVhgVxaydy6EUMlQBUSRYIasXW3lx4ypNqxsjWkznwG36W84zpcNPfgw==
-X-Received: by 2002:a05:6902:982:b0:e58:306f:e83a with SMTP id 3f1490d57ef6-e58306fe89cmr14077851276.29.1738082820769;
-        Tue, 28 Jan 2025 08:47:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738082812; x=1738687612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7I3FQn+a3IeKpvoyXVLY346phLoqlukuEhizyoucyY=;
+        b=f9bel39F7sKaMbBpDuWiTQdkaGLyhqxgXkHgFAHzCcuJOkVPrhJVesIlfGRPRWC3Ux
+         +D9WnschDAA4Qk9n6ZfuB83fwqW+niPQtn5oM3Z69jwXowx/jzhOIq38MnfvA3Q2AZrY
+         3yoP0r8CbGSgXV9eHrRm2l02MPsDiiAO0CnK9mQchW+rz5viR7/FawWpPeI3IPUXGZpX
+         /VnNCqUDq6Q+1Fjni0q7F+QGn7AjrwZL5H8HkTuvLYJXuHIztPgqDuueh58zTl6qu+xh
+         D5kMlwr++UG4cMlxSzZuTSoB5j4mfh7FBK/23YX+LQfPHNLeFMVMQZdFuKp9y6Bpz9xg
+         BykA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSPwFu2HDCAVVqUsCWoMLQDmJ0xN8h6U6aVpAVLHZ5u1lFVcxIhn4JUntbAizPuSd5yrPw4sEFmqRX@lists.infradead.org
+X-Gm-Message-State: AOJu0YzSUV9/usY0nFnf9zoKTsP9ALenhK2uyup9jiDUDMPZ1cj8tvZ0
+	F9IevWV1V7Ua6M4oCidCRghcb6Vu7Gu4KfRsMMk3VE7ONuP9NuJ8
+X-Gm-Gg: ASbGncvAXrrH0Wp1wxSwF7A+df/aesYk1LPALIlo6RuSpVuaeYi0ESQdPT5ZukdTuKp
+	FHefIRdfa4i2B91nuyGOLtvmTnWN86pjX1XHwGJ3fjHE5K5BF8C0ZGIizzk7RTQINvlmAkwpmVo
+	cKk3tDjeStVdpVL8q82Y6YwcCK3oE7vgatIr9Ux4XflrDuRa+6dSPJHk61G0B8GUdtNhLizuWfe
+	IAN5lQGAevMsvSiFQPKVWnr+Ak4tN8IPFV3/ET2SOlNG3iYcl2AqO5v12aILXFDlrnd9eCmOsqZ
+	yKUmDAYP4cMdJ2yodn85MXdsZg8E0fV3j4K2cHFv8zILcpYN8H4=
+X-Google-Smtp-Source: AGHT+IFvmgf54bypeg06iXMG7R6vW3zKyn1725RIYJUIjUALciExdJNbHjTn7B/5gtx7qirVGTp6aA==
+X-Received: by 2002:a05:6902:70c:b0:e58:5a:7694 with SMTP id 3f1490d57ef6-e58005a7945mr26770575276.20.1738082811957;
+        Tue, 28 Jan 2025 08:46:51 -0800 (PST)
 Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e589a2260a9sm196205276.37.2025.01.28.08.46.59
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e583b7697c9sm2098812276.16.2025.01.28.08.46.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 08:47:00 -0800 (PST)
+        Tue, 28 Jan 2025 08:46:51 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
@@ -129,18 +127,15 @@ To: linux-kernel@vger.kernel.org,
 	Peter Xu <peterx@redhat.com>,
 	Shrikanth Hegde <sshegde@linux.ibm.com>,
 	Hendrik Brueckner <brueckner@linux.ibm.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>
-Subject: [PATCH v2 06/13] cpumask: re-introduce cpumask_next{,_and}_wrap()
-Date: Tue, 28 Jan 2025 11:46:35 -0500
-Message-ID: <20250128164646.4009-7-yury.norov@gmail.com>
+Subject: [PATCH v2 00/13] cpumask: cleanup cpumask_next_wrap() implementation and usage
+Date: Tue, 28 Jan 2025 11:46:29 -0500
+Message-ID: <20250128164646.4009-1-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250128164646.4009-1-yury.norov@gmail.com>
-References: <20250128164646.4009-1-yury.norov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_084702_098133_11C40A1F 
-X-CRM114-Status: GOOD (  15.81  )
+X-CRM114-CacheID: sfid-20250128_084653_772106_409F37EF 
+X-CRM114-Status: GOOD (  15.68  )
 X-Mailman-Approved-At: Tue, 28 Jan 2025 09:20:17 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -156,78 +151,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-cpumask_next_wrap_old() has two additional parameters, comparing to its
-generic counterpart find_next_bit_wrap(). The reason for that is
-historical.
+cpumask_next_wrap() is overly complicated, comparing to it's generic
+version find_next_bit_wrap(), not mentioning it duplicates the above.
+It roots to the times when the function was used in the implementation
+of for_each_cpu_wrap() iterator. The function has 2 additional parameters
+that were used to catch loop termination condition for the iterator.
+(Although, only one is needed.)
 
-Before 4fe49b3b97c262 ("lib/bitmap: introduce for_each_set_bit_wrap()
-macro"), cpumask_next_wrap() was used to implement for_each_cpu_wrap()
-iterator. Now that the iterator is an alias to generic
-for_each_set_bit_wrap(), the additional parameters aren't used and may
-confuse readers.
+Since 4fe49b3b97c262 ("lib/bitmap: introduce for_each_set_bit_wrap()
+macro"), for_each_cpu_wrap() is wired to corresponding generic
+wrapping bitmap iterator, and additional complexity of
+cpumask_next_wrap() is not needed anymore.
 
-All existing users call cpumask_next_wrap() in a way that makes it
-possible to turn it to straight and simple alias to find_next_bit_wrap().
+All existing users call cpumask_next_wrap() in a manner that makes
+it possible to turn it to a straight and simple alias to
+find_next_bit_wrap().
 
-In a couple of places kernel users opencode missing cpumask_next_and_wrap().
-Add it as well.
+This series replaces historical 4-parameter cpumask_next_wrap() with a
+thin 2-parameter wrapper around find_next_bit_wrap().
 
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
-CC: Bjorn Helgaas <helgaas@kernel.org>
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- include/linux/cpumask.h | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Where it's possible to use for_each_cpu_wrap() iterator, the code is
+switched to use it because it's always preferable to use iterators over
+open loops.
 
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index b267a4f6a917..4f3d8d66e86e 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -284,6 +284,44 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
- 		small_cpumask_bits, n + 1);
- }
- 
-+/**
-+ * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
-+ *			   @n+1. If nothing found, wrap around and start from
-+ *			   the beginning
-+ * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
-+ * @src1p: the first cpumask pointer
-+ * @src2p: the second cpumask pointer
-+ *
-+ * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src1p & @src2p is empty.
-+ */
-+static __always_inline
-+unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
-+			      const struct cpumask *src2p)
-+{
-+	/* -1 is a legal arg here. */
-+	if (n != -1)
-+		cpumask_check(n);
-+	return find_next_and_bit_wrap(cpumask_bits(src1p), cpumask_bits(src2p),
-+		small_cpumask_bits, n + 1);
-+}
-+
-+/**
-+ * cpumask_next_wrap - get the next cpu in *src, starting from @n+1. If nothing
-+ *		       found, wrap around and start from the beginning
-+ * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
-+ * @src: cpumask pointer
-+ *
-+ * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src is empty.
-+ */
-+static __always_inline
-+unsigned int cpumask_next_wrap(int n, const struct cpumask *src)
-+{
-+	/* -1 is a legal arg here. */
-+	if (n != -1)
-+		cpumask_check(n);
-+	return find_next_bit_wrap(cpumask_bits(src), small_cpumask_bits, n + 1);
-+}
-+
- /**
-  * for_each_cpu - iterate over every cpu in a mask
-  * @cpu: the (optionally unsigned) integer iterator
+This series touches various scattered subsystems and To-list for the
+whole series is quite a long. To minimize noise, I send cover-letter and
+key patches #5 and 6 to every person involved. All other patches are sent
+individually to those pointed by scripts/get_maintainers.pl.
+
+I'd like to move the series with my bitmap-for-next branch as a whole.
+
+v1: https://lore.kernel.org/netdev/20241228184949.31582-1-yury.norov@gmail.com/T/
+v2:
+ - rebase on top of today's origin/master;
+ - drop #v1-10: not needed since v6.14 @ Sagi Grinberg;
+ - #2, #3: fix picking next unused CPU @ Nick Child;
+ - fix typos, cleanup comments @ Bjorn Helgaas, Alexander Gordeev;
+ - CC Christoph Hellwig for the whole series.
+
+Yury Norov (13):
+  objpool: rework objpool_pop()
+  virtio_net: simplify virtnet_set_affinity()
+  ibmvnic: simplify ibmvnic_set_queue_affinity()
+  powerpc/xmon: simplify xmon_batch_next_cpu()
+  cpumask: deprecate cpumask_next_wrap()
+  cpumask: re-introduce cpumask_next{,_and}_wrap()
+  cpumask: use cpumask_next_wrap() where appropriate
+  padata: switch padata_find_next() to using cpumask_next_wrap()
+  s390: switch stop_machine_yield() to using cpumask_next_wrap()
+  scsi: lpfc: switch lpfc_irq_rebalance() to using cpumask_next_wrap()
+  scsi: lpfc: rework lpfc_next_{online,present}_cpu()
+  PCI: hv: Switch hv_compose_multi_msi_req_get_cpu() to using
+    cpumask_next_wrap()
+  cpumask: drop cpumask_next_wrap_old()
+
+ arch/powerpc/xmon/xmon.c            |  6 +--
+ arch/s390/kernel/processor.c        |  2 +-
+ drivers/net/ethernet/ibm/ibmvnic.c  | 18 +++++---
+ drivers/net/virtio_net.c            | 12 ++---
+ drivers/pci/controller/pci-hyperv.c |  3 +-
+ drivers/scsi/lpfc/lpfc.h            | 23 +++-------
+ drivers/scsi/lpfc/lpfc_init.c       |  2 +-
+ include/linux/cpumask.h             | 69 ++++++++++++++++++++---------
+ include/linux/objpool.h             |  7 ++-
+ kernel/padata.c                     |  2 +-
+ lib/cpumask.c                       | 37 +---------------
+ 11 files changed, 81 insertions(+), 100 deletions(-)
+
 -- 
 2.43.0
 
