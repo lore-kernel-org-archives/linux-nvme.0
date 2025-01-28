@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28EB0C0218A
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 17:20:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAF91C0218A
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 17:20:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
-	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rCckKKNOPT0GHbl/F3PRHzvVHT9Q6qmCcPDx48VRDmE=; b=iq+nFCYn/I6NS+gXVVUhU6HoTh
-	oSa3vur0G9l/jcaW8DSeDo+EJY4T5HLunVJeqn6W1tWhJJ8aQkaq6pFj0gXC+yBKj4gjRomuzUaS+
-	7zaImSadSA8bPuUzU1+lKZNfYoWCkc7yohMrOTK/rnYE5IhH+wYnuobbPYOhFqCE5ajMn7rsej0MA
-	NeIk0k0HJcJmfaewowyQFFfvCuNoAQNhflDiI0hMaRRMGCCZsivEUfQy5snRfAcsUMgT/wZNgQlyY
-	EuMMwaZmQ57/1PIQkAJfQqyq4VXSDR56R5/+svJFXUhP8nG/Wmx2T4e5mf5tyEvvNgxQd3C1ju7Cd
-	K1J4H3gw==;
+	bh=mPo0Qmhd/LgFOJoY/TurPrp2onCgGxY+Z0rc3zytFz4=; b=SD9jK/dKPLL179V4MV/iOyRJ4K
+	5VooqHa1RHqUMKIqb8ONfiGvD6uKCCHPW+P0hkh6XZWXg0audlbvjDJ0HVettLOVBpGZply/9yHiz
+	Olso0I8/vHe9vliB9v6VUFty1lplDy6S7RnMskpylzeUf/6oCRFYp2O2QkzLPEsExAcrnvQUNUnxt
+	zl/tucVvopX9eNErhbjZmhv/Tx7R6iFhwsh+fxv3Jd18prcHsXUFHb5hhONa4i21UItYKQlwEUuHW
+	P8oAZPmH7MNKJLrRAjM4yx16y6TDp6uqYmhtdyo3UCTBJzqfBsAMYMTQHkeoPmOIxycy7W5qqXcvb
+	qXSjKwZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcpG7-00000005Qi3-1ZHe;
+	id 1tcpG7-00000005QiB-3zKZ;
 	Tue, 28 Jan 2025 17:20:19 +0000
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f])
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcojr-00000005N6k-2yg1
+	id 1tcoju-00000005N7b-0Fp2
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Jan 2025 16:47:00 +0000
-Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-e3a26de697fso8810982276.3
-        for <linux-nvme@lists.infradead.org>; Tue, 28 Jan 2025 08:46:59 -0800 (PST)
+	Tue, 28 Jan 2025 16:47:03 +0000
+Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-e455bf1f4d3so8132106276.2
+        for <linux-nvme@lists.infradead.org>; Tue, 28 Jan 2025 08:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738082818; x=1738687618; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1738082821; x=1738687621; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rCckKKNOPT0GHbl/F3PRHzvVHT9Q6qmCcPDx48VRDmE=;
-        b=QaLeG7hEvZ73G9yhc2uYlUCtJ3UB9YDSR4Nm74rPJqXpWZUIt0N2Ac3YLq63F/Kr3y
-         gB5AImQ3dA7NgsyhI9P8+fldm7zKJrwj5olBnFahK80h1gG19ZaxxwbrfAUhj5gcvFxX
-         4YksIRGvTWIzsX9kNYBZ8FDeBDHfXoHdlet/5yXJXTI23k2qsCdVREQts365oIu7yYC6
-         4Xnx7IQmVZ4j2WujU6XB30a6P4Dpt4VwKzvb+/sRtvIM7fJ9dYo3+5xSTc3Zt+kaFGiJ
-         iUHktDdlRTsXQ3kmpANkVsmVkIVWkKEpW/TSoyLvoUzB0fFvAmNqqquse5/2sofsGToK
-         /SgA==
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mPo0Qmhd/LgFOJoY/TurPrp2onCgGxY+Z0rc3zytFz4=;
+        b=JDqH5hr0VUVe4eUyWF3mdhzU22lrrdsT4mcQ9NL7kdNXYxQv9UQzsG+f0NoaTW80Un
+         KHyffiMAV7We+GpBkxxdtmIiHdDXqHP2bUeYTTmESOY9yzebt7+ps5kRTQAtsnaHgDTh
+         JkOEsL1q6KEU7x1xZXngk5KL9pCcqyGOxJh87xQb6gol07ogWhU+hC8odc4VbJ3z3CbS
+         AoqwBdqN5k0Ax1KzS9GRDSV1Qvk3utJ2JreWoVKv/ZU/hsLK3mgOjMqZrIhZx/nlkOl7
+         qc7c93u+heYv0KA9Kquq9axRphsP0xH0QC0SWbShUdpF7lU0skmFEXELHB5Pc0ex13Nh
+         7y4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738082818; x=1738687618;
+        d=1e100.net; s=20230601; t=1738082821; x=1738687621;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rCckKKNOPT0GHbl/F3PRHzvVHT9Q6qmCcPDx48VRDmE=;
-        b=eW9W3fC8kxByGuUiKfZ53ZqIG2m8tDydZruSBS7LIUiowbUUwndC2/YxNpxsutPIUH
-         roB7JITO5zvPrbKJ4jkVuAK9/q2YvQTV/dGw7H0SBXmHwj8AkRAlLMKqIzDNP22VItQs
-         NFNFWqpsLN4sAm4KszAGf3nondZykiE/73ZU+IpByEp1dGDP/vbCaCLQRKhGzHb/QWbj
-         sz8nLi6oHjLuKh5ZStSkmpnkVnd2zCk4AvPExADppV7dzSFvfx2X9WKL3XonRSacq154
-         yLHjNo/Rff5Sj/twvXGBPVZJrJWQCWOFUcLtrkdHHsDbIgF87BJ5wgxj8rgcW7VUaXjc
-         E6uQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWDYyN4Tc9MG2amDDesEIc4N0bG+XLZABPd8/x83DCkXrABil9FkOURTNTMrA5XQH2+4aEEtjDsFlX@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy//RIrBKbyhZNtVh4IVSoeszmf4L2CZm9F8lJ04uYjocPFnVoK
-	cG9hyfpQf/HPyzyWSyvr5McHxbKbp6cgI9LJxLILXfN1nOaocMEp
-X-Gm-Gg: ASbGnctn42rSWeql99Eq8Y/+q5wUY10dS+m7u12eAB/CUQaS/eQI/daDbtMYUQSt5ts
-	L0KDurnvTFSImbcYbPK3lO7NqBSfds1Vd9JI3yTarIpGaPRyHLcOq+3mVfnHoxyafY2kNjG2AF1
-	MQMPRI9a1sSaiVP6ZhzPLn1yllsenKvncuXvYU8FXdSmkiE2VeIdXH8YSUSJSKhRZMRkIykyth1
-	K4pQKGslakxQ4TGFmQI+cA1opu5uRTSByulKMYHG9Z+Ekpmt4noPJkka3QfU6bCO6UF7gO03+n5
-	XIY5YldVOuxw6KxomZH9XObIcDAnpNid4M6R/X4KjfdaF3LVUdQ=
-X-Google-Smtp-Source: AGHT+IFBJfNymvCDO315tC4xVxs+zkZuQynCdmKqW3cIaAkZSV4RPPUZkZxV0shs/Si+4edVpo1BeA==
-X-Received: by 2002:a05:690c:c8b:b0:6ef:ac8b:529b with SMTP id 00721157ae682-6f6eb90589fmr351241927b3.26.1738082818497;
-        Tue, 28 Jan 2025 08:46:58 -0800 (PST)
+        bh=mPo0Qmhd/LgFOJoY/TurPrp2onCgGxY+Z0rc3zytFz4=;
+        b=A24+WnnBqvsLBNpPamg7FyTp8PMijnSjjcJv+bbGwZHEK5nMAPioLoSBvy4l6rD2x1
+         VtML/cK5dICrHXhPhEbFi30nTyr5/1IeB09o9DiIV7yj5wpllI5JDSKfSQXtr9km+jS+
+         jxP4xUgdZZjSS5Yzeh9OsbBl9rLqvrLdfdHu/Rll5CIXJzsEbEdM45UD4MsziJgs4883
+         KexBZqXfGWrPw23+TNPhISKFYRRzzI6BA/CMVw7b5Dl0eBKCkwLn0ttIOhMU+sDIp5nL
+         8s9pMgt7TUsNp0rLJg/R7+n/rmGrLlrd/tWho4tl9lfle0wgWORhns21YlUhHg7CmbpL
+         Yipg==
+X-Forwarded-Encrypted: i=1; AJvYcCXh7/nF3qKC8fv3TArwcCBjwWcsQ4TLsSBlhvLQMtsJC906P517gNpsUFVtVdwHhF3SmtQxAqpG6wYC@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxxk0Sth5ik1H3w6Cc0DSxQOU5QqpEg4ihlQ/2duVHnfuBMxgRy
+	96snvhzs16hyoM3uBumrOZzAWtrtnTG+qrud5r2z/q8x9EzUdSLH
+X-Gm-Gg: ASbGncvTrzddsvfrhK637zwy2rgucO4an5rWE1rtsMmf11eC5j2wSYoWC4djZlHvfDD
+	hqsL9Z98TMx9W0A/r/msG8qgYch/tThS4DX97jJpAsoh5CgevZEMCAsW1SApxikjPT1mgzTxwcO
+	qbYhzOVZwMTFoo9ciXPM8L5zgCJbZVhhLOThIfcJEvn4mZZDjvJ8cnQ+NyZXT4N9V4p2SGE7hiz
+	BBZAdAsHZilE52/qWVPCnXyRKPFIUkf64+NuTYELYa5Q+N3hZq1NW9SqkT+HygwsjWKzkKjHBOE
+	q2Pm6Kj3JywTueNBg54vdAMWN5WVaSSn8p7oFinmKzO+y1hEwbw=
+X-Google-Smtp-Source: AGHT+IEbCDwztaXs4775wdhVhgVxaydy6EUMlQBUSRYIasXW3lx4ypNqxsjWkznwG36W84zpcNPfgw==
+X-Received: by 2002:a05:6902:982:b0:e58:306f:e83a with SMTP id 3f1490d57ef6-e58306fe89cmr14077851276.29.1738082820769;
+        Tue, 28 Jan 2025 08:47:00 -0800 (PST)
 Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f75bf90de2sm17571157b3.70.2025.01.28.08.46.57
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e589a2260a9sm196205276.37.2025.01.28.08.46.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 08:46:58 -0800 (PST)
+        Tue, 28 Jan 2025 08:47:00 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
@@ -129,17 +129,18 @@ To: linux-kernel@vger.kernel.org,
 	Peter Xu <peterx@redhat.com>,
 	Shrikanth Hegde <sshegde@linux.ibm.com>,
 	Hendrik Brueckner <brueckner@linux.ibm.com>
-Subject: [PATCH v2 05/13] cpumask: deprecate cpumask_next_wrap()
-Date: Tue, 28 Jan 2025 11:46:34 -0500
-Message-ID: <20250128164646.4009-6-yury.norov@gmail.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>
+Subject: [PATCH v2 06/13] cpumask: re-introduce cpumask_next{,_and}_wrap()
+Date: Tue, 28 Jan 2025 11:46:35 -0500
+Message-ID: <20250128164646.4009-7-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250128164646.4009-1-yury.norov@gmail.com>
 References: <20250128164646.4009-1-yury.norov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_084659_751771_8935F528 
-X-CRM114-Status: GOOD (  19.06  )
+X-CRM114-CacheID: sfid-20250128_084702_098133_11C40A1F 
+X-CRM114-Status: GOOD (  15.81  )
 X-Mailman-Approved-At: Tue, 28 Jan 2025 09:20:17 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -155,130 +156,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The next patch aligns implementation of cpumask_next_wrap() with the
-find_next_bit_wrap(), and it changes function signature.
+cpumask_next_wrap_old() has two additional parameters, comparing to its
+generic counterpart find_next_bit_wrap(). The reason for that is
+historical.
 
-To make the transition smooth, this patch deprecates current
-implementation by adding an _old suffix. The following patches switch
-current users to the new implementation one by one.
+Before 4fe49b3b97c262 ("lib/bitmap: introduce for_each_set_bit_wrap()
+macro"), cpumask_next_wrap() was used to implement for_each_cpu_wrap()
+iterator. Now that the iterator is an alias to generic
+for_each_set_bit_wrap(), the additional parameters aren't used and may
+confuse readers.
 
-No functional changes were intended.
+All existing users call cpumask_next_wrap() in a way that makes it
+possible to turn it to straight and simple alias to find_next_bit_wrap().
 
+In a couple of places kernel users opencode missing cpumask_next_and_wrap().
+Add it as well.
+
+CC: Alexander Gordeev <agordeev@linux.ibm.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
 Signed-off-by: Yury Norov <yury.norov@gmail.com>
 ---
- arch/s390/kernel/processor.c        | 2 +-
- drivers/pci/controller/pci-hyperv.c | 2 +-
- drivers/scsi/lpfc/lpfc_init.c       | 2 +-
- include/linux/cpumask.h             | 4 ++--
- kernel/padata.c                     | 2 +-
- lib/cpumask.c                       | 6 +++---
- 6 files changed, 9 insertions(+), 9 deletions(-)
+ include/linux/cpumask.h | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/arch/s390/kernel/processor.c b/arch/s390/kernel/processor.c
-index 5ce9a795a0fe..42ca61909030 100644
---- a/arch/s390/kernel/processor.c
-+++ b/arch/s390/kernel/processor.c
-@@ -72,7 +72,7 @@ void notrace stop_machine_yield(const struct cpumask *cpumask)
- 	this_cpu = smp_processor_id();
- 	if (__this_cpu_inc_return(cpu_relax_retry) >= spin_retry) {
- 		__this_cpu_write(cpu_relax_retry, 0);
--		cpu = cpumask_next_wrap(this_cpu, cpumask, this_cpu, false);
-+		cpu = cpumask_next_wrap_old(this_cpu, cpumask, this_cpu, false);
- 		if (cpu >= nr_cpu_ids)
- 			return;
- 		if (arch_vcpu_is_preempted(cpu))
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index 6084b38bdda1..c39316966de5 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -1757,7 +1757,7 @@ static int hv_compose_multi_msi_req_get_cpu(void)
- 
- 	spin_lock_irqsave(&multi_msi_cpu_lock, flags);
- 
--	cpu_next = cpumask_next_wrap(cpu_next, cpu_online_mask, nr_cpu_ids,
-+	cpu_next = cpumask_next_wrap_old(cpu_next, cpu_online_mask, nr_cpu_ids,
- 				     false);
- 	cpu = cpu_next;
- 
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index 7f57397d91a9..31622fb0614a 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -12876,7 +12876,7 @@ lpfc_irq_rebalance(struct lpfc_hba *phba, unsigned int cpu, bool offline)
- 
- 	if (offline) {
- 		/* Find next online CPU on original mask */
--		cpu_next = cpumask_next_wrap(cpu, orig_mask, cpu, true);
-+		cpu_next = cpumask_next_wrap_old(cpu, orig_mask, cpu, true);
- 		cpu_select = lpfc_next_online_cpu(orig_mask, cpu_next);
- 
- 		/* Found a valid CPU */
 diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index 30042351f15f..b267a4f6a917 100644
+index b267a4f6a917..4f3d8d66e86e 100644
 --- a/include/linux/cpumask.h
 +++ b/include/linux/cpumask.h
-@@ -296,7 +296,7 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
- 
- #if NR_CPUS == 1
- static __always_inline
--unsigned int cpumask_next_wrap(int n, const struct cpumask *mask, int start, bool wrap)
-+unsigned int cpumask_next_wrap_old(int n, const struct cpumask *mask, int start, bool wrap)
- {
- 	cpumask_check(start);
- 	if (n != -1)
-@@ -312,7 +312,7 @@ unsigned int cpumask_next_wrap(int n, const struct cpumask *mask, int start, boo
- 	return cpumask_first(mask);
+@@ -284,6 +284,44 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
+ 		small_cpumask_bits, n + 1);
  }
- #else
--unsigned int __pure cpumask_next_wrap(int n, const struct cpumask *mask, int start, bool wrap);
-+unsigned int __pure cpumask_next_wrap_old(int n, const struct cpumask *mask, int start, bool wrap);
- #endif
  
++/**
++ * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
++ *			   @n+1. If nothing found, wrap around and start from
++ *			   the beginning
++ * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
++ * @src1p: the first cpumask pointer
++ * @src2p: the second cpumask pointer
++ *
++ * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src1p & @src2p is empty.
++ */
++static __always_inline
++unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
++			      const struct cpumask *src2p)
++{
++	/* -1 is a legal arg here. */
++	if (n != -1)
++		cpumask_check(n);
++	return find_next_and_bit_wrap(cpumask_bits(src1p), cpumask_bits(src2p),
++		small_cpumask_bits, n + 1);
++}
++
++/**
++ * cpumask_next_wrap - get the next cpu in *src, starting from @n+1. If nothing
++ *		       found, wrap around and start from the beginning
++ * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
++ * @src: cpumask pointer
++ *
++ * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src is empty.
++ */
++static __always_inline
++unsigned int cpumask_next_wrap(int n, const struct cpumask *src)
++{
++	/* -1 is a legal arg here. */
++	if (n != -1)
++		cpumask_check(n);
++	return find_next_bit_wrap(cpumask_bits(src), small_cpumask_bits, n + 1);
++}
++
  /**
-diff --git a/kernel/padata.c b/kernel/padata.c
-index 418987056340..78e202fabf90 100644
---- a/kernel/padata.c
-+++ b/kernel/padata.c
-@@ -290,7 +290,7 @@ static struct padata_priv *padata_find_next(struct parallel_data *pd,
- 	if (remove_object) {
- 		list_del_init(&padata->list);
- 		++pd->processed;
--		pd->cpu = cpumask_next_wrap(cpu, pd->cpumask.pcpu, -1, false);
-+		pd->cpu = cpumask_next_wrap_old(cpu, pd->cpumask.pcpu, -1, false);
- 	}
- 
- 	spin_unlock(&reorder->lock);
-diff --git a/lib/cpumask.c b/lib/cpumask.c
-index e77ee9d46f71..c9a9b451772a 100644
---- a/lib/cpumask.c
-+++ b/lib/cpumask.c
-@@ -8,7 +8,7 @@
- #include <linux/numa.h>
- 
- /**
-- * cpumask_next_wrap - helper to implement for_each_cpu_wrap
-+ * cpumask_next_wrap_old - helper to implement for_each_cpu_wrap
-  * @n: the cpu prior to the place to search
-  * @mask: the cpumask pointer
-  * @start: the start point of the iteration
-@@ -19,7 +19,7 @@
-  * Note: the @wrap argument is required for the start condition when
-  * we cannot assume @start is set in @mask.
-  */
--unsigned int cpumask_next_wrap(int n, const struct cpumask *mask, int start, bool wrap)
-+unsigned int cpumask_next_wrap_old(int n, const struct cpumask *mask, int start, bool wrap)
- {
- 	unsigned int next;
- 
-@@ -37,7 +37,7 @@ unsigned int cpumask_next_wrap(int n, const struct cpumask *mask, int start, boo
- 
- 	return next;
- }
--EXPORT_SYMBOL(cpumask_next_wrap);
-+EXPORT_SYMBOL(cpumask_next_wrap_old);
- 
- /* These are not inline because of header tangles. */
- #ifdef CONFIG_CPUMASK_OFFSTACK
+  * for_each_cpu - iterate over every cpu in a mask
+  * @cpu: the (optionally unsigned) integer iterator
 -- 
 2.43.0
 
