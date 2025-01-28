@@ -4,47 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62852C02190
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14880C02194
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rV0pV6uCo+L2WatPjWritu1rnlahIFpB3WVk2Ubag/g=; b=CpeISKvijhfC5Fhsoe1BQtNdHV
-	k1PTRBTdMObFeSjQ/RdhFvT57Ftge8MboBdN7zP6t8pEKjudQzemTtxEsYzC/CxUQbd6DJHCdOFgQ
-	MHB7OYAzteU56d+RnJNF+2vqS5rwMaUanvU8ntm0KXA73p4FmlsU3h1Hg9+fD3dG7BwtKhGbJqgKn
-	flAZIs0v5KOPw4RR+Q2eDoj79JOBKaooeF2+IubQh972VNNEHK7ePaFmZA6ucBxvDfPGYVnRQSjTZ
-	X7I+bcnqurkDNv2GZFeHjZ9fKmUnEKfRJJsKUU8quwoUZCg032BIKONemZ9OvAWjSYFfO+8FRE/A7
-	5I5c3cHQ==;
+	bh=CFb4XrnDSERyLmvQoVXwUxR+JwVzCZvuuqJLbnh8AHY=; b=1h4BBDS1DebGtPRgrl4qT/cWIG
+	CtZypctBjSsZ65UDaGknk0M6Bgm817EWhq09AAJVbpgbZZkeRAzq5CytqgJp4/ebMafbVfnETFSld
+	17izTJClMz8CADsxd+7uq7jbdKb40X/jaWNlGd+8ZBoBU6JYXY2Mzr15WiN4j9EfZFqXxUarwxpVi
+	VTNO9KZ/EnZ5yLMT4rshBeCDepEFNt7RfquUbzy37OcR/9Wx/H8EE0q4uyhbj8p2ENA85HwPGXw7o
+	HAZdWF6ktWT7GchSwd9ba5YSvWCnIEbJ76TDKymKGwbeBp3VHT3Kzet6JjqI5Ilw9jBa1BMqMkQZg
+	4JYFCwrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqpP-00000005eAd-4BXf;
-	Tue, 28 Jan 2025 19:00:52 +0000
+	id 1tcqpR-00000005eC2-1rN5;
+	Tue, 28 Jan 2025 19:00:53 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqDn-00000005Yto-1oyq;
+	id 1tcqDp-00000005YvD-05Zk;
 	Tue, 28 Jan 2025 18:22:02 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 82D962037176;
-	Tue, 28 Jan 2025 10:21:57 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 82D962037176
+	by linux.microsoft.com (Postfix) with ESMTPSA id 1D482203717B;
+	Tue, 28 Jan 2025 10:21:58 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1D482203717B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1738088517;
-	bh=rV0pV6uCo+L2WatPjWritu1rnlahIFpB3WVk2Ubag/g=;
+	s=default; t=1738088518;
+	bh=CFb4XrnDSERyLmvQoVXwUxR+JwVzCZvuuqJLbnh8AHY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MpuX2sNpGSPCvn8+X9FT8BIYX1CfONbQBAPmYcXzwcby57+iq8EKvUSw9yit4i+7h
-	 dPFF//UAxR4uzIgeiuRZT3KuJxDL9DDxO1Shj3JGkr9ECePLei7FWUPWNCb9Vm85BJ
-	 TYvfPkoReBWVf1lpVq62IZLjI7cVTJ7HW4ILEEko=
+	b=LxxdIayMSyUMAUeZUUnUyY3SQxVmwYY5Yyy03OWU22J18lbSyq7bmmWrhs+09j8qK
+	 AdDxUAv3Opt8Wt6axGPYWRpk6/ENme+ZBSlX8IppgdX/yiYG+JdoRJjp8kHw8DUyuj
+	 x3rFLX3PefulMBej9H+RgFZR+bApgqLL7hw3/Tgc=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:46 +0000
-Subject: [PATCH 01/16] coccinelle: misc: secs_to_jiffies: Patch expressions
- too
+Date: Tue, 28 Jan 2025 18:21:50 +0000
+Subject: [PATCH 05/16] btrfs: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-1-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-5-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,9 +85,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_102159_528883_92D952E1 
-X-CRM114-Status: UNSURE (   8.74  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250128_102201_152302_EC1A3016 
+X-CRM114-Status: GOOD (  11.47  )
 X-Mailman-Approved-At: Tue, 28 Jan 2025 11:00:48 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -104,47 +102,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Teach the script to suggest conversions for timeout patterns where the
-arguments to msecs_to_jiffies() are expressions as well.
+Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+secs_to_jiffies().  As the value here is a multiple of 1000, use
+secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
+
+This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+the following Coccinelle rules:
+
+@depends on patch@
+expression E;
+@@
+
+-msecs_to_jiffies
++secs_to_jiffies
+(E
+- * \( 1000 \| MSEC_PER_SEC \)
+)
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- scripts/coccinelle/misc/secs_to_jiffies.cocci | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+ fs/btrfs/disk-io.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/coccinelle/misc/secs_to_jiffies.cocci b/scripts/coccinelle/misc/secs_to_jiffies.cocci
-index 8bbb2884ea5db939c63fd4513cf5ca8c977aa8cb..ab9880d239f7d2a8d56a481a2710369e1082e16e 100644
---- a/scripts/coccinelle/misc/secs_to_jiffies.cocci
-+++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
-@@ -11,12 +11,22 @@
+diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
+index f09db62e61a1b0e2b8b319f9605883fe0c86cf9d..ed2772d2791997b1e1d15e71d01d818b325f5173 100644
+--- a/fs/btrfs/disk-io.c
++++ b/fs/btrfs/disk-io.c
+@@ -1568,7 +1568,7 @@ static int transaction_kthread(void *arg)
  
- virtual patch
+ 	do {
+ 		cannot_commit = false;
+-		delay = msecs_to_jiffies(fs_info->commit_interval * 1000);
++		delay = secs_to_jiffies(fs_info->commit_interval);
+ 		mutex_lock(&fs_info->transaction_kthread_mutex);
  
--@depends on patch@ constant C; @@
-+@depends on patch@
-+constant C;
-+@@
- 
--- msecs_to_jiffies(C * 1000)
--+ secs_to_jiffies(C)
-+-msecs_to_jiffies
-++secs_to_jiffies
-+ (C
-+- * \( 1000 \| MSEC_PER_SEC \)
-+ )
- 
--@depends on patch@ constant C; @@
-+@depends on patch@
-+expression E;
-+@@
- 
--- msecs_to_jiffies(C * MSEC_PER_SEC)
--+ secs_to_jiffies(C)
-+-msecs_to_jiffies
-++secs_to_jiffies
-+ (E
-+- * \( 1000 \| MSEC_PER_SEC \)
-+ )
+ 		spin_lock(&fs_info->trans_lock);
+@@ -1583,9 +1583,9 @@ static int transaction_kthread(void *arg)
+ 		    cur->state < TRANS_STATE_COMMIT_PREP &&
+ 		    delta < fs_info->commit_interval) {
+ 			spin_unlock(&fs_info->trans_lock);
+-			delay -= msecs_to_jiffies((delta - 1) * 1000);
++			delay -= secs_to_jiffies(delta - 1);
+ 			delay = min(delay,
+-				    msecs_to_jiffies(fs_info->commit_interval * 1000));
++				    secs_to_jiffies(fs_info->commit_interval));
+ 			goto sleep;
+ 		}
+ 		transid = cur->transid;
 
 -- 
 2.43.0
