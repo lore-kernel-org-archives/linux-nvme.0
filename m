@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0C3BC02194
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79C0FC02192
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2025 19:00:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cIG2dfkqcecUU0JqZpchlOURAaCdxgZkNT0UTt4bvLA=; b=eWUe3K/2QYSosirFItVyTBJ2eQ
-	I6dvGErFf1hDsEMeeoZM1RHP2ztqHM6MMickkZdlqZ1NFmMPsfIifagOSAeVbFpnl5b2fzQEmc53C
-	WkpORO5HVathUEecBDH1GXrUxjc/Osuv5OuxSrt186m6QvYICz5nYdJqae6dr48Vg6AaWjFIQRBpp
-	WElGCdBZkc+KhqfRi3XHICIp7Yv4/TIsjHCAK2DCTrkPN6VcrufN1ZNrEWksescdov/tKAKpZJJYp
-	YupuWHCt3BueDhf5/rsQMFQDGzkN+H8XkFLvdfsLUN8JBphvGXi8bxm8mA5uiZaVawrse3OV/6J4C
-	riqjmGEg==;
+	bh=++CcFDhMGmgcKwzaiNwx3lMiN5jr5twzkm9Lzfmspqc=; b=AOJthyvv3cyxfPBIbqEcq5V+8Z
+	HX3LmkBS6+wEChjxExQiNYrASRQNpVwlnFGj+h9CElvZjQBXsl02ro6+IvACfLhtsdls5UHGWZqA+
+	CyVSXUitm58+IvqEboQHIuAwQEtCXT9UtP8oAANcuyhXTEg8EMXTnsGbQTM3N7N7skn62Tc9KaEtM
+	iYxk6Sy8epEVZBfaAeIEtcrT4miuQdsYsVtouJBSXVWAqH4x2B/nXf7ERNujP4swvNXfWVynSbuIJ
+	Ea3//skfmfId9dg5gfukZp0KC1G/9p1E+CJgf+fb+QQ0EPbBTmjKhU8oa3lPHG8Lnx4KOf9Ste1wk
+	mSd/v6LA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqpV-00000005eFk-0qdM;
+	id 1tcqpV-00000005eGd-3Ymk;
 	Tue, 28 Jan 2025 19:00:57 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcqDq-00000005YxH-36U3;
+	id 1tcqDq-00000005YwQ-0Neh;
 	Tue, 28 Jan 2025 18:22:04 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 367E92037182;
-	Tue, 28 Jan 2025 10:21:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 367E92037182
+	by linux.microsoft.com (Postfix) with ESMTPSA id DB2792037180;
+	Tue, 28 Jan 2025 10:21:58 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DB2792037180
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1738088519;
-	bh=cIG2dfkqcecUU0JqZpchlOURAaCdxgZkNT0UTt4bvLA=;
+	s=default; t=1738088518;
+	bh=++CcFDhMGmgcKwzaiNwx3lMiN5jr5twzkm9Lzfmspqc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=i1P5CteIH6opQQHIehVjxxbMtebMN7rXuNwBXMSI0asiaK5CTudtXAgtKgnK6I75c
-	 1ngX/e4Oyj1B1vWMI4mQPUPmJ8cuPN3FTRVbcAp1DyhUYo8gGu4rDV59iA6QKrL9uC
-	 BkxdKeiMaFW1YdRdBrMCMMVni2EQgoLc5InCNfZg=
+	b=nOvIreoPo3EtPXnqT78hdGSPjS+BJfm76bfob6LjYY8fpAzAx+SSWBMemjjxO+8RL
+	 gtA/N4PvBwCgX5MwsErpmvFLEJEFEicnjVAtYs/DImfDKgiY3inNNwt6TIW4w8Mj2E
+	 eLHR2MK1+CS1Dd52E6DvRE+gXgt4inmHotPghBSw=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:57 +0000
-Subject: [PATCH 12/16] spi: spi-fsl-lpspi: convert timeouts to
+Date: Tue, 28 Jan 2025 18:21:55 +0000
+Subject: [PATCH 10/16] power: supply: da9030: convert timeouts to
  secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-12-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-10-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,8 +86,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250128_102202_890113_2EB953B9 
-X-CRM114-Status: GOOD (  11.57  )
+X-CRM114-CacheID: sfid-20250128_102202_249108_7E1E0288 
+X-CRM114-Status: GOOD (  11.37  )
 X-Mailman-Approved-At: Tue, 28 Jan 2025 11:00:48 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -122,22 +122,23 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/spi/spi-fsl-lpspi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/power/supply/da9030_battery.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/spi/spi-fsl-lpspi.c b/drivers/spi/spi-fsl-lpspi.c
-index 40f5c8fdba765a1334710a696966232a459316e6..5e381844523440c03b1d0bbe4a044f28fbfbc738 100644
---- a/drivers/spi/spi-fsl-lpspi.c
-+++ b/drivers/spi/spi-fsl-lpspi.c
-@@ -572,7 +572,7 @@ static int fsl_lpspi_calculate_timeout(struct fsl_lpspi_data *fsl_lpspi,
- 	timeout += 1;
+diff --git a/drivers/power/supply/da9030_battery.c b/drivers/power/supply/da9030_battery.c
+index ac2e319e95179039279dacaed1744136f679fbac..d25279c260308b6c82acb2aabf44f3749f71b703 100644
+--- a/drivers/power/supply/da9030_battery.c
++++ b/drivers/power/supply/da9030_battery.c
+@@ -502,8 +502,7 @@ static int da9030_battery_probe(struct platform_device *pdev)
  
- 	/* Double calculated timeout */
--	return msecs_to_jiffies(2 * timeout * MSEC_PER_SEC);
-+	return secs_to_jiffies(2 * timeout);
- }
+ 	/* 10 seconds between monitor runs unless platform defines other
+ 	   interval */
+-	charger->interval = msecs_to_jiffies(
+-		(pdata->batmon_interval ? : 10) * 1000);
++	charger->interval = secs_to_jiffies(pdata->batmon_interval ? : 10);
  
- static int fsl_lpspi_dma_transfer(struct spi_controller *controller,
+ 	charger->charge_milliamp = pdata->charge_milliamp;
+ 	charger->charge_millivolt = pdata->charge_millivolt;
 
 -- 
 2.43.0
