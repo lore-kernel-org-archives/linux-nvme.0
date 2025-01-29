@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A81E9C02196
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2025 17:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2B4BC0218F
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2025 17:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:Cc:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=32VWyKda36DT3SVOQLKSI+Nu4mFH6I0v9p1Ypx/s/UM=; b=MXo/IOe2/3s5DJs+GJRbb4N+/5
-	8pnS6PNVR2CzGPUXIo/V5kOTnm1HHtkxKnrUacbCFPdqSuFYCPsvxjj/IWRVbxSuqjBh5WJISyuWO
-	LJp8IN52u4rrqxPgYk4Jq89pSF7mI9XSP9h1lX4levYLESAY7aDLu/a3vo7uPHCwFv+lXWuTEASEz
-	sj+gKUxJZZ0090o/Rowws/v15LgAF/c7ffLvJKKPiehBdbnv1mORCln7f3xpy2qQTPlLIINnfjDdN
-	xVwjNfUECrxoDRrkH8ENPo73gu9ctVBFfmHY6U/LK40NmeVssv2fYvd484u6/Qe+FVsxJd6Q/mrVb
-	714YVtbQ==;
+	bh=pYh2yn40lkpaqAG8En7hcsBez+8JKaFCGsBWiD832tE=; b=REwDiRcMZs9mjz6wqaWlyXuh0S
+	RLVxJsxjrzXxv5nF/RPiVHF0xY7lZ7Ab6nm0ZRGc/+yw/i+JulxPj4Y8eidV9wKt0nfnTJ1A4WAKH
+	VsJVdBbQj0Ymv1hJy2+QO6zxHqKD+pNr8xIuFydGqB8RZfYFGTiwdVuSvPoWoQRjvnt3+Wbdv0wEk
+	8wtCtNOezMwGP0focEtpIxGk1I2mCgCwkf6R/AbL40ylmJ9YFvZYRABTOya4aHK7MvoidGvWDJYi9
+	hfZa08JsshWUOJtDiSiGSVW7lmpOIcp9L1np7CitYA8vqRkzRwMNwWYUJshrof+BEepCYUTLm+bcu
+	eWUIacfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdC18-00000007VbB-41oU;
+	id 1tdC18-00000007Va2-1Q5w;
 	Wed, 29 Jan 2025 17:38:22 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdBzQ-00000007VL1-3bEd;
-	Wed, 29 Jan 2025 17:36:38 +0000
-Received: from [100.65.98.224] (unknown [20.236.10.66])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A3CA2205721D;
-	Wed, 29 Jan 2025 09:36:32 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A3CA2205721D
+	id 1tdBcS-00000007Sh3-3Pvs;
+	Wed, 29 Jan 2025 17:12:54 +0000
+Received: from [100.65.130.94] (unknown [20.236.11.69])
+	by linux.microsoft.com (Postfix) with ESMTPSA id AC3D420591A1;
+	Wed, 29 Jan 2025 09:12:50 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AC3D420591A1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1738172194;
-	bh=32VWyKda36DT3SVOQLKSI+Nu4mFH6I0v9p1Ypx/s/UM=;
+	s=default; t=1738170772;
+	bh=pYh2yn40lkpaqAG8En7hcsBez+8JKaFCGsBWiD832tE=;
 	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=WdTF6heG9MXWg27CPpr2zs00gFmg/LzwKj0Alp7kuExME9ZkmRvd6i5RlINsUJmCj
-	 gyW4AT2kMUzCtyC2BYOQAoboe3fZn9gnSQn/nvMf6cJwjiMZFtGWg0RkK4mQ7CXmnv
-	 aKvKdhLh7jtgcjd5i92zHQeesuEbYFvcBS4PUXbY=
-Message-ID: <f991dba7-79fb-490d-8ac5-6bd14f3209a8@linux.microsoft.com>
-Date: Wed, 29 Jan 2025 09:36:35 -0800
+	b=Rak3F2+8fD36df/6R9W6FIe4vLPlHDgpiHFKAtGMBHH6D5mOcR2hxxoOHOyUlYT1e
+	 yDP0p8wAmOL/TcaLg32uBJFdZTn7tWe8PR5xNYjJ+B3J6emo7glJ0gq+pyY27z7ZrW
+	 RsCXOpUAqjEEHyM/3gJpHfkTqWPKNwTSH7U1jcB0=
+Message-ID: <3e4a8a44-483b-457a-b193-4119e4adfa85@linux.microsoft.com>
+Date: Wed, 29 Jan 2025 09:12:53 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: Andrew Morton <akpm@linux-foundation.org>,
+Cc: eahariha@linux.microsoft.com, Andrew Morton <akpm@linux-foundation.org>,
  Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
  Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>,
  James Smart <james.smart@broadcom.com>,
@@ -52,10 +52,10 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
  David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
  Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
- Xiubo Li <xiubli@redhat.com>, Niklas Cassel <cassel@kernel.org>,
- Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
@@ -67,29 +67,28 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  Selvin Xavier <selvin.xavier@broadcom.com>,
  Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
  Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- eahariha@linux.microsoft.com, cocci@inria.fr, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org,
- ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-spi@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 08/16] libata: zpodd: convert timeouts to
- secs_to_jiffies()
-To: Damien Le Moal <dlemoal@kernel.org>
+ cocci@inria.fr, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+ linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 09/16] xfs: convert timeouts to secs_to_jiffies()
+To: Christoph Hellwig <hch@lst.de>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
- <20250128-converge-secs-to-jiffies-part-two-v1-8-9a6ecf0b2308@linux.microsoft.com>
- <f39cde78-19de-45fc-9c64-d3656e07d4a7@kernel.org>
+ <20250128-converge-secs-to-jiffies-part-two-v1-9-9a6ecf0b2308@linux.microsoft.com>
+ <20250129052108.GB28513@lst.de>
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
 Content-Language: en-US
-In-Reply-To: <f39cde78-19de-45fc-9c64-d3656e07d4a7@kernel.org>
+In-Reply-To: <20250129052108.GB28513@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250129_093636_952821_5971EB17 
-X-CRM114-Status: GOOD (  10.67  )
+X-CRM114-CacheID: sfid-20250129_091252_876842_97303948 
+X-CRM114-Status: GOOD (  10.27  )
 X-Mailman-Approved-At: Wed, 29 Jan 2025 09:38:17 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -105,38 +104,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/28/2025 4:21 PM, Damien Le Moal wrote:
-> On 1/29/25 3:21 AM, Easwar Hariharan wrote:
->> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
->> secs_to_jiffies().  As the value here is a multiple of 1000, use
->> secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
->>
->> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
->> the following Coccinelle rules:
->>
->> @depends on patch@
->> expression E;
->> @@
->>
->> -msecs_to_jiffies
->> +secs_to_jiffies
->> (E
->> - * \( 1000 \| MSEC_PER_SEC \)
->> )
->>
->> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+On 1/28/2025 9:21 PM, Christoph Hellwig wrote:
+> On Tue, Jan 28, 2025 at 06:21:54PM +0000, Easwar Hariharan wrote:
+>>  		else
+>> -			cfg->retry_timeout = msecs_to_jiffies(
+>> -					init[i].retry_timeout * MSEC_PER_SEC);
+>> +			cfg->retry_timeout = secs_to_jiffies(init[i].retry_timeout);
 > 
-> The subject line should be:
+> This messes up the formatting by introducing an overly long line.
 > 
-> ata: libata-zpodd: convert timeouts to secs_to_jiffies()
-> 
-> Other than that, looks good to me.
-> 
-> Acked-by: Damien Le Moal <dlemoal@kernel.org>
-> 
+> Otherwise the change looks fine.
 
-Thanks for the review and ack! I'll fix the subject line in v2.
+I'll fix this in v2. Thanks for the review!
 
 - Easwar (he/him)
-
 
