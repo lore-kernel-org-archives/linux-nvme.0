@@ -4,66 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C107C0218D
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2025 19:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC869C0218D
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2025 19:02:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K8mScd1D+wMKx+9Ennku1g730Ct4Z30SdztBFbVr5/M=; b=OOnWqkG50gdJWZas8OWjC/zGct
-	uJ/Sa9r6fCRy4eNIYLt4+TSrjQg0hmiP9FNsTUWfDQ8mp00vY/WTFhv1Sz0W2WHXI4Q2zgbQ84qob
-	xzo9TqXjAm2KVO8dqS4M5mjE8w8i93Bl6rgtCLfzZxqzKcLenHMR42i87YkVjZcSlLnvrEZft5RmY
-	nOn03BJbIm7KMZEm/jRUOF33xb6cZs+oiUWE3K0Nlo7BnYILXeP09IUnkg0KC/7qTppXDani8hK5D
-	cU1T97S4MI9WbChEEwkoxM35kHVJNr1hifLUSoB1uVlDiJqWIuMq49hK3AFA8EVAqftsgFnNDTNSw
-	ApnBxcdg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Dm3Wthh3Fmw7cWLh7JvtK6wWvuTAS9Lb+ZHNQ12VKL4=; b=S6LVGLLfqYcTe7
+	KkS2tREG/jVZLQFQWyfNlOT1F6gVXZaJN38o5NErXZHnH0Wfxx2rmy5i0wLMxzb75llBfY8IJhCBB
+	qEbQt3s8NKlf8W09D/vO2Zx2HCY3WHkJARLGVPd4wpbIMyWQp/x6ZitGNdrDtawKMUmTKD07X3Knq
+	ipHzqyOqj219MwVDNbSJd/xUaeCjor1MqclzHZUolkMK/DZA7EEUxEqOta8f3ecDbkiTfah29iIu+
+	N06XnTLex/LtX2Oo/EJq9PRV88ckqf6XntSQTarOqiiS43VGRIj0ieJf87gVW19wNDgl9JKqiM1yq
+	fh8Njm8eQ5PhuYLxCyRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdDIG-00000007eOj-2Qwk;
-	Wed, 29 Jan 2025 19:00:08 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tdDKH-00000007eYB-1Dkj;
+	Wed, 29 Jan 2025 19:02:13 +0000
+Received: from smtp-18.italiaonline.it ([213.209.10.18] helo=libero.it)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdDIE-00000007eNu-10EI
+	id 1tdDKE-00000007eXp-17pJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Jan 2025 19:00:07 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 76E4BA402B7;
-	Wed, 29 Jan 2025 18:58:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A204FC4CED1;
-	Wed, 29 Jan 2025 19:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738177204;
-	bh=DdYzmjeV/9icQoYXsznAF3pTwcZMKhok+njvTdwWX2A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gn5gAmS+DPGbSEcDKuauxmPiSSlkZFZ4AAIU11tpuIIjEvmmr2LukkZMhADxAaF8E
-	 6BCxVdzxIt7Vcu9UXCxCvAGh3sBY3CMh53qwvII0zAbzOb8aVeCeLwJwGfkOpcw/iV
-	 /5OjRLGs5h7Yzq0L21i5CwCJ0o6YhwMrW206KcGOYLyBQqZFCsidWq1ixS5YisLvrN
-	 MIUU2yNo7IDwbtMJ7g5o3j5MMYb14y7UA4nOp37B1Jz/Bj4z/f9UVRLVLZCkKpThZC
-	 OYt7Rp4I/cROWJsd6/1x1E0uylnwiIgEiHxcvW5qCIbZgdoGplNLxm5/olPBmWG3Nf
-	 dOtfgSUOumlLg==
-Date: Wed, 29 Jan 2025 12:00:02 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	hch@lst.de, sagi@grimberg.me
-Subject: Re: New warning `nvme nvme0: using unchecked data buffer`
-Message-ID: <Z5p6sruLjO9VZ_mS@kbusch-mbp>
-References: <20241118155738.2737423-1-kbusch@meta.com>
- <20241118155738.2737423-4-kbusch@meta.com>
- <ed59976f-d8ef-411a-b159-0bb1c6bdfa8c@molgen.mpg.de>
- <Z03Mq9xaMXbJtm0d@kbusch-mbp.dhcp.thefacebook.com>
- <3a851b3a-dfad-4796-94cb-42ced213e901@molgen.mpg.de>
- <Z03XGL6wh1xV2zx5@kbusch-mbp.dhcp.thefacebook.com>
- <333105a9-3480-4694-93d6-0e092dda3751@molgen.mpg.de>
+	Wed, 29 Jan 2025 19:02:11 +0000
+Received: from [192.168.1.27] ([84.220.171.3])
+	by smtp-18.iol.local with ESMTPA
+	id dDK7tLmCk5LVidDK7tuU5X; Wed, 29 Jan 2025 20:02:05 +0100
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=libero.it; s=s2021;
+	t=1738177325; bh=Dm3Wthh3Fmw7cWLh7JvtK6wWvuTAS9Lb+ZHNQ12VKL4=;
+	h=From;
+	b=0MAc0AgZm4XiO2Nn39YPgHGN17LqnPhayTPKt0H7Aav6UnK576K4ZBd3Lafz66IfR
+	 Ncf3Ql69XaTXL+5gec8nMaehgPMqfYy2KGWASIwo/vRKR4q3JLI1QhoOTh5KiInxjV
+	 OHXBZqcDh2+tMN/n6Yu7/IUWNQvh4tioq/m4AVEwYXBNFYoUi+Z5K2BIPsnFVhlr4l
+	 Gvqg42Um9TjXMjLkn3t1ZecUIfxTsmOeO5rt+BDE742+ffC4t5tCsQYcdjM3DbrCJc
+	 cLaezrDtn99Rld8xDx5kHEWqY5MfcgaHJ7/njf0gvnd4JOdt5nDDTS5oKFTNjLLHMW
+	 9GQVrXy4TJ3NA==
+X-CNFS-Analysis: v=2.4 cv=StRb6+O0 c=1 sm=1 tr=0 ts=679a7b2d cx=a_exe
+ a=hciw9o01/L1eIHAASTHaSw==:117 a=hciw9o01/L1eIHAASTHaSw==:17
+ a=IkcTkHD0fZMA:10 a=WJyTCbUXE8ZVV855lvUA:9 a=QEXdDO2ut3YA:10
+ a=ZXulRonScM0A:10 a=zZCYzV9kfG8A:10
+Message-ID: <83b8c701-7719-4e90-b435-6398e132b921@libero.it>
+Date: Wed, 29 Jan 2025 20:02:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <333105a9-3480-4694-93d6-0e092dda3751@molgen.mpg.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/3] Btrfs checksum offload
+To: Kanchan Joshi <joshi.k@samsung.com>, josef@toxicpanda.com,
+ dsterba@suse.com, clm@fb.com, axboe@kernel.dk, kbusch@kernel.org, hch@lst.de
+Cc: linux-btrfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, gost.dev@samsung.com
+References: <CGME20250129141039epcas5p11feb1be4124c0db3c5223325924183a3@epcas5p1.samsung.com>
+ <20250129140207.22718-1-joshi.k@samsung.com>
+Content-Language: en-US
+From: Goffredo Baroncelli <kreijack@libero.it>
+In-Reply-To: <20250129140207.22718-1-joshi.k@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfCkU6Ctt9veVANLcmm22pdNQVNMnyeTYb76F8RfeZVZ3cJzJxfW4tBqUf0X9NE0G0rWGDopElgxfXFLpDuRX8cHTOV8x3cuFVK7pHjUmwE+jN60QTOdw
+ JUW8PVie0x7Nr2hdmbucatzt5s5YAjK2o2+3li7rWcI8gyTikJNfL8DeJiEst2OfqmVZ7xr1zDffrAt0ugX2kVkpf5F5IqsM4dwrEzKA6HcRtmSyhTb/v5NB
+ Y5BPOaXiSOOGw5nn7PsIadJPJ8XyqrJ4L0lKOXKJJf+ZmTuC+hCDzywmOwJlJUJYa1MErFxAxmYr0iXmHFVkkv91CRGDlfr4CaNq9Pf3iRitQBdW+3IE9c42
+ qMNWp0M8cLvbYJx7+5gGFAl4yBVwg8xJQqT4tkUhIVnssL4dfvXzhxAbJG1ozkp7EfEdE2htwEgMJVfbj4/mWb6XXcjZo2jWyLpkeuyeFqIdedyMFXNNHnqB
+ CUpc6nhX65L7Mh4ZuX8prDmvqGNgLumGE0kcbQ==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250129_110006_342389_09F2F1D1 
-X-CRM114-Status: GOOD (  15.39  )
+X-CRM114-CacheID: sfid-20250129_110210_752227_62222A68 
+X-CRM114-Status: UNSURE (   7.91  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,35 +80,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: kreijack@inwind.it
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jan 26, 2025 at 09:37:09AM +0100, Paul Menzel wrote:
-> Sorry for not proposing something. Linux 6.13 was released with the warning
-> above. As nothing can be done about - it´s unlikely the vendor is going to
-> enable it in the firmware on released devices - I propose to decrease the
-> log level to info, and rephrase it:
+On 29/01/2025 15.02, Kanchan Joshi wrote:
+> TL;DR first: this makes Btrfs chuck its checksum tree and leverage NVMe
+> SSD for data checksumming.
 > 
-> nvme0: Using unchecked data buffer. The passthrough interface was used but
-> the device can only use implicit transfer length. Improper use might be
-> cause for memory corruption observations. If in doubt contact the hardware
-> vendor.
+> Now, the longer version for why/how.
 > 
-> It´s much longer, but helps the user to understand the situation much
-> better.
+> End-to-end data protection (E2EDP)-capable drives require the transfer
+> of integrity metadata (PI).
+> This is currently handled by the block layer, without filesystem
+> involvement/awareness.
+> The block layer attaches the metadata buffer, generates the checksum
+> (and reftag) for write I/O, and verifies it during read I/O.
+> 
+May be this is a stupid question, but if we can (will) avoid storing the checksum
+in the FS, which is the advantage of having a COW filesystem ?
 
-That's quite verbose!
+My understand is that a COW filesystem is needed mainly to synchronize
+csum and data. Am I wrong ?
 
-Let's take a step back a moment. This is a transfer mode the Linux nvme
-driver has always supported. It was afterall the *only* way for the
-first version of the protocol. I don't want to unnecessarily call
-attention to hardware vendors who adhere to that version of the
-spec; this is more of a notification to the people who think this was
-worth making a CVE out of it.
+[...]
 
-So let's turn down the level from warn to info. Maybe remove the check
-from the IO path and just print out device interesting capabilities
-during initial enumeration:
+BR
 
-  nvme0: SGL+ MetaSGL- Etc...
+-- 
+gpg @keyserver.linux.it: Goffredo Baroncelli <kreijackATinwind.it>
+Key fingerprint BBF5 1610 0B64 DAC6 5F7D  17B2 0EDA 9B37 8B82 E0B5
 
