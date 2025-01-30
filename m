@@ -4,126 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6753C0218A
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jan 2025 09:22:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87A93C0218A
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jan 2025 09:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wx7aZCGHZqI05fpqUcDZen/kuLIz9kgd4IntaYov6A8=; b=o8xCqeRhIfJ+I2gjNaTfvMwmeB
-	6ux8GXz5LNKqSGmy4t0n4WoIJRi6hukQHjAHq5mf/Y37p8mURrK0zZk7/2iTIoH3Wc4t8xcFi1ao9
-	JQ6/Mwi3VLZa2JhSuHReRC5A/migMKh1IPhI5CV4ajJ4Do2Mja/0LuK5SDAgoNgGFhFpoHsImcGhw
-	kmw/aPJtcHwLu6Kxn9T1dctTYOiRyX+0ZoeptLd7HdMthJIO/kNW0/lvQq5zni9LTFLSpG/rVogiF
-	9FBXAYqNkLDaMLh0vhcg1ov2UJ/28flTWOn5IWkBY+IehnNN5QOAd4YTdQXx6966gk362EojwC0Br
-	xVamynCw==;
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=HL2b46SyDwrvkIWYoi81OvrWq4Eysr5AGb4a/UeMMQM=; b=p8wjrpcTLBZ6TzEOzJVUcFW7dC
+	5ogQe8KFROZhg6V22P1pcqrk+a/Fit5EFPzuDfxkIrRGOvE9/cKtWtJ9U2aX1oArl3ZvlkRGJpcm4
+	JpBIVX9hEmua0F04er6AmHtWmHWJFhb3xChaZw9/nPDYOGYDe7jGD+ui1rDyqOUZ0H4+QLlWOAHZN
+	PLetYWqgx6SynxZX7YA6MULPXfy2NBbPOuuf4Yo3Snjn7nO8hZde73p+MlqD+642WK2zND7YfV+I+
+	GwSuZSq2uTg9VM76xp6/cVzjYJnWnnz8CQ1Qr7iBZY07r/HuiBknagjIs6lc5MPDjPwQEdcRmIhZJ
+	RlVnRC/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdQku-00000008UcQ-0j2Z;
-	Thu, 30 Jan 2025 09:22:36 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1tdQmS-00000008Un2-3zeM;
+	Thu, 30 Jan 2025 09:24:12 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdQkr-00000008Ubx-1OzU
+	id 1tdQmQ-00000008UmI-1SJa
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Jan 2025 09:22:34 +0000
+	Thu, 30 Jan 2025 09:24:12 +0000
 Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20250130092228epoutp01e29427c044e4a58504bc93428a4beae7~fbgTsy65f3119931199epoutp01c
-	for <linux-nvme@lists.infradead.org>; Thu, 30 Jan 2025 09:22:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20250130092228epoutp01e29427c044e4a58504bc93428a4beae7~fbgTsy65f3119931199epoutp01c
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250130092406epoutp04eae9bc12f6f5569c3b7bdc3f98fa077e~fbhupDJ7C1273112731epoutp04d
+	for <linux-nvme@lists.infradead.org>; Thu, 30 Jan 2025 09:24:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250130092406epoutp04eae9bc12f6f5569c3b7bdc3f98fa077e~fbhupDJ7C1273112731epoutp04d
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1738228948;
-	bh=Wx7aZCGHZqI05fpqUcDZen/kuLIz9kgd4IntaYov6A8=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=UR/iiUHQio+Ruwh19yWhLObeDCjsm65POfDFiWszE0VI0d0+wDPLB/CZ2sbPAd+uP
-	 9xnh+MWIcZMxNluHZ5nzu5+r6Ys8uQcmfVq5vd0WAygW+eTPboLlebGkLTPJZ7QhOn
-	 gsWedmxM9fbFO0K+1tV3JW8XxsgklOu1AatUucXo=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20250130092228epcas5p237fe7db3196715a946b65bda1c7b9a5f~fbgTMX06D2560325603epcas5p2I;
-	Thu, 30 Jan 2025 09:22:28 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.179]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4YkD7k5915z4x9Px; Thu, 30 Jan
-	2025 09:22:26 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D2.EB.29212.2D44B976; Thu, 30 Jan 2025 18:22:26 +0900 (KST)
+	s=mail20170921; t=1738229046;
+	bh=HL2b46SyDwrvkIWYoi81OvrWq4Eysr5AGb4a/UeMMQM=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=lUaPnMXYhwNeMB8B+YvsrITQIJrKbrlkCr9EpJRcxNHCAomubdC1iCeTRKajiMnuH
+	 gs9JzyLYDFCp/OHawbKziR4PV584ZDp35mNGqXKmDsRB6SkK7YPAKggJpGid/O6y+B
+	 bCmWeiO+7kuDEFc12RjKBgsp7JWsIXZ7c3fnvm+g=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20250130092405epcas5p42d70c6889f2557bcd170da527a833ecb~fbht1lcYn2236122361epcas5p4C;
+	Thu, 30 Jan 2025 09:24:05 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4YkD9X71gxz4x9Pv; Thu, 30 Jan
+	2025 09:24:00 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C2.02.19710.0354B976; Thu, 30 Jan 2025 18:24:00 +0900 (KST)
 Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250130092226epcas5p4c8830a18efedb85436a2167c5146058c~fbgRcCQ5P3189131891epcas5p4U;
-	Thu, 30 Jan 2025 09:22:26 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824~fbhpUXIOC0519205192epcas5p1M;
+	Thu, 30 Jan 2025 09:24:00 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
 	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250130092226epsmtrp1fc9bfa099aecd7f940cedb88d2feb898~fbgRbMQ-q2846128461epsmtrp1r;
-	Thu, 30 Jan 2025 09:22:26 +0000 (GMT)
-X-AuditID: b6c32a50-7ebff7000000721c-6c-679b44d2dd6f
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	9E.DC.18949.2D44B976; Thu, 30 Jan 2025 18:22:26 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250130092224epsmtip1d983c41a07ed41df2dd58005c2805c44~fbgP7FMmy1288612886epsmtip15;
-	Thu, 30 Jan 2025 09:22:24 +0000 (GMT)
-Message-ID: <b5fe3e15-cd7f-41ce-9ac8-70dca0fee37a@samsung.com>
-Date: Thu, 30 Jan 2025 14:52:23 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/3] Btrfs checksum offload
-To: Christoph Hellwig <hch@lst.de>
-Cc: josef@toxicpanda.com, dsterba@suse.com, clm@fb.com, axboe@kernel.dk,
-	kbusch@kernel.org, linux-btrfs@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com
-Content-Language: en-US
+	20250130092400epsmtrp159a78ca4d56e861a43ca4208e9e92dd8~fbhpTsRQ82911429114epsmtrp1Y;
+	Thu, 30 Jan 2025 09:24:00 +0000 (GMT)
+X-AuditID: b6c32a44-36bdd70000004cfe-cf-679b4530db53
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	48.92.18729.0354B976; Thu, 30 Jan 2025 18:24:00 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250130092359epsmtip26e09c636698aef1a63ab7522eb163c66~fbhoPBJSn2717827178epsmtip2Z;
+	Thu, 30 Jan 2025 09:23:59 +0000 (GMT)
 From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20250129153524.GB5356@lst.de>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJJsWRmVeSWpSXmKPExsWy7bCmhu4ll9npBg1fVSxW3+1ns5jUP4Pd
-	4sKPRiaLmwd2MlmsXH2UyeLPQ0OLSYeuMVrsvaVtcenxCnaL+cuesjtweUxsfsfucflsqcem
-	VZ1sHpuX1HvsvtnA5tG3ZRWjx/otV1k8JmzeyOrxeZNcAGdUtk1GamJKapFCal5yfkpmXrqt
-	kndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0JVKCmWJOaVAoYDE4mIlfTubovzSklSF
-	jPziElul1IKUnAKTAr3ixNzi0rx0vbzUEitDAwMjU6DChOyMTf1bWQtuclb8nWLUwPiUvYuR
-	k0NCwESi7ch7li5GLg4hgT2MEpNnrGGDcD4xSqyY28wI4XxjlDhz6QQrTMv+O4+YIRJ7GSW2
-	v+iAct4ySmzqXswCUsUrYCfxePIiZhCbRUBV4u+vq0wQcUGJkzOfgNWICshL3L81A+gQdg5h
-	AV2JHdEgUREBJYmnr86CLWYWuMAosXLPI7BWZgFxiVtP5gPZHBxsApoSFyaXgoQ5BbQlfs88
-	wwZRIi+x/e0csHMkBPZwSOw/+50R4mgXid+bT0LZwhKvjm+B+l9K4mV/G5SdLfHg0QMWCLtG
-	YsfmPqiH7SUa/txgBdnLDLR3/S59iF18Er2/n4CdIyHAK9HRJgRRrShxb9JTqE5xiYczlkDZ
-	HhIvJhyDBu5qRom7N6+xTWBUmIUUKLOQfDkLyTuzEDYvYGRZxSiVWlCcm56abFpgqJuXWg6P
-	7+T83E2M4DSsFbCDcfWGv3qHGJk4GA8xSnAwK4nwxp6bkS7Em5JYWZValB9fVJqTWnyI0RQY
-	PROZpUST84GZIK8k3tDE0sDEzMzMxNLYzFBJnLd5Z0u6kEB6YklqdmpqQWoRTB8TB6dUAxNT
-	6B7/Q7cnMGRxvNsr1BZwaUKhOAPP0vdnJ9Sb+M7LLAyX/GVuPP33t3PbS8yLLzervbpj+O7o
-	hi0dn6ynL/8q5HYtcpfQ/z2fL+9Yd2dtwBxxa9buGcnSaZ58fw6LG7LNFl6ZUtGRcGqJARdj
-	SrbPpbn7pnf/i+3KLn7y/oKCkdOv+62PBPTFfN85Orto3CzNsDvnu3qJ1OwpdlXrMpdOWLru
-	90zd4FMZWyTjp/R9kkk+uzXi5uuf4p6LNHaLBE+86eK4oj8ogDUo5y5vK6/YYkZJ/kqhzK/B
-	k1cFNouxrvzMd0C7oH+6gdVL65ZgAZfey09rV0srbmPumJewuvZ/hPGSJrvnmjHZc/5r3ldi
-	Kc5INNRiLipOBAAhsS8CTAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSnO4ll9npBv+usFqsvtvPZjGpfwa7
-	xYUfjUwWNw/sZLJYufook8Wfh4YWkw5dY7TYe0vb4tLjFewW85c9ZXfg8pjY/I7d4/LZUo9N
-	qzrZPDYvqffYfbOBzaNvyypGj/VbrrJ4TNi8kdXj8ya5AM4oLpuU1JzMstQifbsEroxN/VtZ
-	C25yVvydYtTA+JS9i5GTQ0LARGL/nUfMXYxcHEICuxkldvbNYoRIiEs0X/sBVSQssfLfc3aI
-	oteMEq2d05lAErwCdhKPJy9iBrFZBFQl/v66ChUXlDg58wkLiC0qIC9x/9YMoGZ2DmEBXYkd
-	0SBREQEliaevzjKCjGQWuMAoseTyEUaI+asZJXb9PwJ2BDPQEbeezAeaycHBJqApcWFyKUiY
-	U0Bb4vfMM2wQJWYSXVu7oMrlJba/ncM8gVFoFpIrZiGZNAtJyywkLQsYWVYxSqYWFOem5xYb
-	FhjlpZbrFSfmFpfmpesl5+duYgRHnJbWDsY9qz7oHWJk4mA8xCjBwawkwht7bka6EG9KYmVV
-	alF+fFFpTmrxIUZpDhYlcd5vr3tThATSE0tSs1NTC1KLYLJMHJxSDUx8+xiyZj76+Gm2YdND
-	WXX1KSHGbx+1MrWy7jyp+D+v0XDm77vP1OKjmNZ6Nrx54Ppraw1P/2bBNbYcHyx9mm++ufrV
-	u5exRnKXcCFr6++VT4uUPmnkqwfw7bJj0LB3NhOUXfdk4fIrShPLLR7pyh2UTrQ6wnq/0ufa
-	wVnJgWrxIqayOWc+Xli8pXl/m5TV25avT+e4bF+R1VWl5hJvUX7N+mxIYK3umrrp9r1S7nV+
-	gXEnmeb/3P5z4hObnnUNr64Vsh9a7fRP5fY7tV0rz89SbN4XmBV2N6BhQdOdg1zf3kjetZrw
-	x3SbMluV8qHvTUVaYT7r2jK2rVgZK3/ZO0rbfHKkVjtf9e7N84qvrVFiKc5INNRiLipOBACO
-	1ZfqJwMAAA==
-X-CMS-MailID: 20250130092226epcas5p4c8830a18efedb85436a2167c5146058c
+To: lsf-pc@lists.linux-foundation.org
+Cc: linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [LSF/MM/BPF TOPIC] File system checksum offload
+Date: Thu, 30 Jan 2025 14:45:45 +0530
+Message-Id: <20250130091545.66573-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrIKsWRmVeSWpSXmKPExsWy7bCmpq6B6+x0g20/zS3+PDS0OPr/LZvF
+	3lvaFpcer2C32LP3JIvF/GVP2S32vd7L7MDusXlJvcfkG8sZPfq2rGL0mLB5I6vH501yAaxR
+	2TYZqYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbmSgp5ibmptkouPgG6bpk5QDcoKZQl
+	5pQChQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgpMCvSKE3OLS/PS9fJSS6wMDQyMTIEKE7Iz
+	5j/9yFgwg73i6t4PrA2MH1i7GDk5JARMJI4dO8YCYgsJ7GaUWDC/uIuRC8j+xCjR8aWRHcL5
+	xihxuPErXMfHY3dZIRJ7GSVmvr8O5XxmlFi8cANTFyMHB5uApsSFyaUgDSICqhJ/1x8BW8Es
+	sItRYkVHNIgtLGAhcWzVdTYQmwWoZsGJU2CtvEDxpo3KELvkJWZe+s4OYvMKCEqcnPkEaoy8
+	RPPW2cwgayUETrFLnN39jRmiwUVi4ZmfUIcKS7w6voUdwpaSeNnfBmVnSzx49IAFwq6R2LG5
+	D6reXqLhzw1WkBuYgc5fv0sfYhefRO/vJ2CnSQjwSnS0CUFUK0rcm/QUqlNc4uGMJVC2h8Sl
+	VZuZIAEaK7H19hnGCYxys5B8MAvJB7MQli1gZF7FKJlaUJybnppsWmCYl1oOj8nk/NxNjOC0
+	p+Wyg/HG/H96hxiZOBgPMUpwMCuJ8Maem5EuxJuSWFmVWpQfX1Sak1p8iNEUGKoTmaVEk/OB
+	iTevJN7QxNLAxMzMzMTS2MxQSZy3eWdLupBAemJJanZqakFqEUwfEwenVAPT1o6dD7cfaIj3
+	YJNi3LWx7I2n7Lqpl7LLDrZUmtoXJTR1/S6Ve2b90HGndH4n6/vSoDutnmXv+/N/7Ns5VZB1
+	Tlte4uqN0iuV821n3+aXsvXtVy2bPSNo42+eOhmTvHVCt/b/Unpw7mFmCbvh4XvZlxU0oyz+
+	LjmgEDo/4NTBuPceUlysNR++u8bl7w4Ibn5yV2lBlOvMeBud/lm8bLkhFgs02Rdc/XJV5E5q
+	58ZNH92bjZRnhe14Ud6X9Y1R9pbCbLnFEUxXZzSaBdzIF3jSabt28tqfFt1hJRsVkqdlLVr1
+	wymN4wv7IZNF55LebhCZueRIXerTU2xpwddZK9dxcc/rnBft72q+wnDNmntKLMUZiYZazEXF
+	iQCARAMXBAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNLMWRmVeSWpSXmKPExsWy7bCSvK6B6+x0g87LchZ/HhpaHP3/ls1i
+	7y1ti0uPV7Bb7Nl7ksVi/rKn7Bb7Xu9ldmD32Lyk3mPyjeWMHn1bVjF6TNi8kdXj8ya5ANYo
+	LpuU1JzMstQifbsEroz5Tz8yFsxgr7i69wNrA+MH1i5GTg4JAROJj8fuAtlcHEICuxklPq6+
+	yAKREJdovvaDHcIWllj57zk7RNFHRom/fa1AHRwcbAKaEhcml4LUiAioSvxdf4QFpIZZ4ACj
+	RPOWNcwgCWEBC4ljq66zgdgsQEULTpxiAunlBYo3bVSGmC8vMfPSd7BdvAKCEidnPgG7gRko
+	3rx1NvMERr5ZSFKzkKQWMDKtYpRMLSjOTc8tNiwwzEst1ytOzC0uzUvXS87P3cQIDk8tzR2M
+	21d90DvEyMTBeIhRgoNZSYQ39tyMdCHelMTKqtSi/Pii0pzU4kOM0hwsSuK84i96U4QE0hNL
+	UrNTUwtSi2CyTBycUg1MwRL/d3u1eHc9mm25Lb3OWae9cMmSo6ZCPLWqN5glX+xPXLkjatZT
+	46rth+fLzk5cNemC6mzV/IolZ+t3cvB3zBHhv9S/pv/3si39tgEX5q7zeKfq4Wwm+G/drV0z
+	OxMYMgsKcnnSEqwTd2X+qPl53Hqh516R4FOfbr8Xmnh2Tt6j/KWbfFc1Hc5cc2V67AP+lCWd
+	d88mZRiGrX7AoRtnP3dRnMy8kMaPnofmefXdvuTMxHJdSbVR4881B37+u0WT6yLce15fLzxg
+	/WP+vJwsy85nPPEVXWUqyjPv3G16d9r2+9w+3pZ3otV7jGUeMNy8p9bQVHZp/6Mcpiull665
+	Rh2YyGY68/7fzorU9WeOKrEUZyQaajEXFScCAKrFmE++AgAA
+X-CMS-MailID: 20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250129141039epcas5p11feb1be4124c0db3c5223325924183a3
-References: <CGME20250129141039epcas5p11feb1be4124c0db3c5223325924183a3@epcas5p1.samsung.com>
-	<20250129140207.22718-1-joshi.k@samsung.com> <20250129153524.GB5356@lst.de>
+X-CMS-RootMailID: 20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824
+References: <CGME20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250130_012233_709860_B5DECF73 
-X-CRM114-Status: GOOD (  16.97  )
+X-CRM114-CacheID: sfid-20250130_012410_716781_B07E7464 
+X-CRM114-Status: GOOD (  13.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,30 +131,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/29/2025 9:05 PM, Christoph Hellwig wrote:
->> This patch series: (a) adds checksum offload awareness to the
->> block layer (patch #1),
-> I've skipped over the patches and don't understand what this offload
-> awareness concept does compared the file system simply attaching PI
-> metadata.
+Hi All,
 
-Difference is that FS does not have to attach any PI for offload.
+I would like to propose a discussion on employing checksum offload in
+filesystems.
+It would be good to co-locate this with the storage track, as the
+finer details lie in the block layer and NVMe driver.
 
-Offload is about the Host doing as little as possible, and the closest 
-we get there is by setting PRACT bit.
+For Btrfs, I had a fleeting chat with Joseph during the last LSFMM.
+It seemed there will be value in optimizing writes induced by the
+separate checksum tree.
+Anuj and I have developed an RFC. This may help us have a clearer
+discussion and decide the path forward.
 
-Attaching PI is not really needed, neither for FS nor for block-layer, 
-for pure offload.
-When device has "ms == pi_size" format, we only need to send I/O with 
-PRACT set and device take care of attaching integrity buffer and 
-checksum generation/verification.
-This is abstracted as 'offload type 1' in this series.
+https://lore.kernel.org/linux-block/20250129140207.22718-1-joshi.k@samsung.com/
 
-For other format "ms > pi_size" also we set the PRACT but integrity 
-buffer also needs to be passed. This is abstracted as 'offload type 2'.
-Still offload as the checksum processing is done only by the device.
-
-Block layer Auto-PI is a good place because all above details are common 
-and remain abstracted, while filesystems only need to decide whether 
-they want to send the flag (REQ_INTEGRITY_OFFLOAD) to use the facility.
+The proposed RFC maintains a generic infrastructure, allowing other
+filesystems to adopt it easily.
+XFS/Ext4 have native checksumming for metadata but not for data.
+With this approach, they could just instruct the SSD to checksum the
+data.
+But I am unsure if there are FS-specific trade-offs. Maybe that can
+also be up for the discussion.
 
