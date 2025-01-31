@@ -4,93 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54E88C0218F
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2025 17:06:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2C72C0218F
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2025 17:54:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:Cc:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tZu7Aqdcq4BHW7QoklKujtbGCaxot/XApiLegvlW9Cg=; b=vNgxEvrZa1I2T2WzmFSovFyjNY
-	2pdslOEslmfYGzIZ9+jaTjd5ZWSUt/iDgDyl1M0TeH4OMKncXswqy+w/3QQSxRrFBny5+fwN1/J12
-	yIw/XPN0eaJ8VtCtYC1DcoDyE1SRnjcY0ymj5G0akVGQjzQq9cg9Jwc/LwJCmbZPyWcJF2908qtvE
-	3Kc1d4ZBbj+v0Yge5v6YdtdNsyPVaGanXtMlMgbiiNkuJQ9GS8pBwtGK89ieYLeA3oXi7GKeoyeFk
-	+GMg/Qo01yHxDMdBC7BI357cvlcCIBzlnVJbgXaAWXRLomrqUvnOfdqTMquAFiieioSX7Joi/gslD
-	BGLde82Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kSJPnMwRJQ+10LQClf6h6DOG59t5HRLG2PXXI98TJw4=; b=vAiwPfzEKYN2rhlbXLx/QVBYrm
+	OaHRa3O8lKcikhh5m4ldQomZiwrr/BMLND/Ue1OuX1ZFbdB1+//8H01jVpyhPP6t9ClumAWAfy2Xh
+	uD7Uo34JiQlWcxQQF+7PPqicMcfJXa6kq1nBgUyUFYJ3Cwu95xQSlMJS7dvLUz7Ub75OOFi8yClSx
+	4DmBn3QVtey9+axF8oRwD94wWxZ/POCJbCOEJkUBz5xmT5M6ZJ2UXnt2FLTL3v3ARCHhLbqdYJoTO
+	DTBKbmbmXkT/bzmce+QbiNojPITT9gFT2bd3HrjeuIjOAZXx8dpAlwZZO/zS9Q0N2ndVVQVL+7+MQ
+	D6v6PhYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tduTA-0000000B4i8-0mqH;
-	Fri, 31 Jan 2025 17:06:16 +0000
-Received: from linux.microsoft.com ([13.77.154.182])
-	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdCaG-00000007a63-2jYp;
-	Wed, 29 Jan 2025 18:14:45 +0000
-Received: from [100.65.98.224] (unknown [20.236.10.163])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 28F3F2066C1F;
-	Wed, 29 Jan 2025 10:14:38 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 28F3F2066C1F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1738174479;
-	bh=tZu7Aqdcq4BHW7QoklKujtbGCaxot/XApiLegvlW9Cg=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=aAf9IIr/I90cgqgEBczLilZ7bdtCYRLZiEJHEhBdKJpSoOCumeMDEGeLf0xioaxnU
-	 Cxs0rQCB+cTOuTBJEpsGVDSTUnsyW+Sqnpdni5YRWUzescyOcAANxe89dy6cL7UnK5
-	 9o+lRZL0v3hO8jHtI+YxGsr5kQTHif7tO+OZbuMk=
-Message-ID: <670dbe5b-cf5b-4994-9a47-53b0b52a4b20@linux.microsoft.com>
-Date: Wed, 29 Jan 2025 10:14:40 -0800
+	id 1tdvEE-0000000B9xU-0Wmo;
+	Fri, 31 Jan 2025 17:54:54 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tdvEB-0000000B9x7-1aMR
+	for linux-nvme@lists.infradead.org;
+	Fri, 31 Jan 2025 17:54:52 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 79E76A420D3;
+	Fri, 31 Jan 2025 17:53:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 568FBC4CED1;
+	Fri, 31 Jan 2025 17:54:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738346089;
+	bh=jmnWEBQVsS0Q+41Et9gwBFHQd65WLB37LKlu5Iqquxg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KKwy3ExoXdD/9ExPf7mZWhrMIyC7mGfVPVbk1szF9t3dytoLHK/z3hclGTnWxhjlE
+	 XIjclp9cl3GJS4sremQDFUb1yAsuHPEuVbplDycxGt6PBqjP5ZuReyg2VNIsE8gjsF
+	 F2n2UZz5s7XczIzhiqukEQW1Y7R6SKImFP9POELuIKrpimSEzUTswwJzst0G0lwOhM
+	 AQgjY4L0ZXWZRavkThpxWq2EO9LjaRsd30zUymipDO+z4UnoEaiEP+95jjhWSP8b0d
+	 K2rVUoez0qELNvmn3RoyukPCiBQNSLSJj1G8pgXDVV+BLOz5+uGs/IU1dRf46VCSK4
+	 kYOe1jRF9WgSQ==
+Date: Fri, 31 Jan 2025 10:54:46 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+	linux-nvme@lists.infradead.org, pmenzel@molgen.mpg.de
+Subject: Re: [RFC PATCH] nvme: replace lazy sgl warn with informational
+ message
+Message-ID: <Z50OZsVUvKQHvorh@kbusch-mbp>
+References: <20250130175131.3613423-1-kbusch@meta.com>
+ <20250131074828.GA16628@lst.de>
+ <676bf767-44fc-4930-905c-292360d9c8b5@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: eahariha@linux.microsoft.com, Andrew Morton <akpm@linux-foundation.org>,
- Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
- Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>,
- James Smart <james.smart@broadcom.com>,
- Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
- Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- cocci@inria.fr, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
- linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
- linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 09/16] xfs: convert timeouts to secs_to_jiffies()
-To: Christoph Hellwig <hch@lst.de>
-References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
- <20250128-converge-secs-to-jiffies-part-two-v1-9-9a6ecf0b2308@linux.microsoft.com>
- <20250129052108.GB28513@lst.de>
- <3e4a8a44-483b-457a-b193-4119e4adfa85@linux.microsoft.com>
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <3e4a8a44-483b-457a-b193-4119e4adfa85@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <676bf767-44fc-4930-905c-292360d9c8b5@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250129_101440_750104_C3F6541E 
-X-CRM114-Status: GOOD (  12.86  )
-X-Mailman-Approved-At: Fri, 31 Jan 2025 08:02:28 -0800
+X-CRM114-CacheID: sfid-20250131_095451_479849_264DF5DC 
+X-CRM114-Status: GOOD (  23.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,24 +74,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/29/2025 9:12 AM, Easwar Hariharan wrote:
-> On 1/28/2025 9:21 PM, Christoph Hellwig wrote:
->> On Tue, Jan 28, 2025 at 06:21:54PM +0000, Easwar Hariharan wrote:
->>>  		else
->>> -			cfg->retry_timeout = msecs_to_jiffies(
->>> -					init[i].retry_timeout * MSEC_PER_SEC);
->>> +			cfg->retry_timeout = secs_to_jiffies(init[i].retry_timeout);
->>
->> This messes up the formatting by introducing an overly long line.
->>
->> Otherwise the change looks fine.
-> 
-> I'll fix this in v2. Thanks for the review!
-> 
-> - Easwar (he/him)
+On Fri, Jan 31, 2025 at 10:06:24AM +0200, Sagi Grimberg wrote:
+> On 31/01/2025 9:48, Christoph Hellwig wrote:
+> > On Thu, Jan 30, 2025 at 09:51:31AM -0800, Keith Busch wrote:
+> > > From: Keith Busch <kbusch@kernel.org>
+> > > 
+> > > Instead of warning about the device's SGL capabilities the first time we
+> > > consider using them with a passthrough command, print out what the
+> > > device is capable of during initialization. While we're at it, print
+> > > other interesting capabilities that may be useful to know when you just
+> > > have a dmesg. The ouput format was inspired by other existing subsystems
+> > > like pci.
+> > > 
+> > > And example of the new message when used with a default qemu nvme
+> > > emulated device:
+> > > 
+> > >    nvme nvme0: sgl+ meta-sgl+ sed- vwc+ apst- dsm+ wz+
+> > Printing out the capabilities sounds really useful.  But I don't see
+> > how this is useful for replacing the warning about the unchecked
+> > passthrough?
 
-Andrew seems to have fixed it up in his copy, so I'll skip this change
-in v2. Thanks Andrew!
+I thought this patch could remove the message because it tells you
+upfront what you'll get if you use the passthrough interface. The
+existing message tells you what you're getting once you actually try to
+use it, so they felt a bit redundant.
 
-- Easwar
+> I agree, I'd keep the warn_once messages.
+
+Okay. The problem with the message is that it's a new warn, but nothing
+has really changed as far as what the driver supports, so having it at
+the "warn" level caused some alarm. Any concern if it's an info_once
+instead? I just want to avoid repeat explanations on its implications;
+I've experienced several offlist discussions about it already.
 
