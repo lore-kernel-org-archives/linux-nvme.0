@@ -4,124 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF5F9C02194
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2025 13:11:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 271D6C0218F
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2025 15:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YPz+mnqDAuRhGxytNtDUw+AGJf9uG05dBV7mBgFPIKU=; b=uIsuqifrvjCe2XOJyCoXwPqNH+
-	eA7ni2V7HLmjPeHa3b3ayEN2SaCTBIGE+kJRl0RhXY1kOZyjbHJdCnFWf67xdDFurZQtSYOOuSNp3
-	W4agTNSRxWp0oac9u5lu4hm8zZiZ+AgD8AFT7CJy1q04YGf6Z8AGjvlX0tWFv/BOPubQajrjVLhGO
-	R8iLLI6rF+01v+xuT21QNEMRr+do1p5V6QBCOw4dRi6WQeN0Y2dhCI+L1yG2c38UBmX+fYESpyBy0
-	nOS8FeN0Vi/KrueNCOw6t6lnm0FBIyJ8Ufy4x7QFd1h3bynqzJwy8M48ouLxVLTm9pinAGzVK2NfS
-	xBHhJVnQ==;
+	bh=U+9HC8EV1wWIoNgKbafn8wjlhkFnTml5y5fJi9ZNauA=; b=XmsaBsgl12owEwenLxm+g+K+FI
+	xkuMhEHPFUODpDpj0RYbxs2ib7Tgfv4G1UMCwTnjq/zMMaoN6tHTeTJxsu4Jtrs0ArCZM2i7kBLir
+	102+vsho7XcaLgeJh25dsIUtUaXCFI8isdo/DmkS+yLKnH+Xnn/BXW9leC4YS91ntlJz9SI4pu3LK
+	EwoicAEfr2HrQVCfIotXsANhyUypeTDAtDtZ0BRJjSvAEw5ZP/+coBF680v5OaaqDTovbGNK8+GRH
+	6SL97TnUk7uMpuCHlYMXcQyGSt0CBepfYCraxUXaW9surR9g6eI7OpTI4572ufE9yI8FCWfzrYZkf
+	UwKc3Izw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdqny-0000000Af4A-0vVl;
-	Fri, 31 Jan 2025 13:11:30 +0000
-Received: from [203.254.224.34] (helo=mailout4.samsung.com)
+	id 1tdsiL-0000000Ap8D-30Rw;
+	Fri, 31 Jan 2025 15:13:49 +0000
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdqnr-0000000Af3l-1Avw
+	id 1tdsiI-0000000Ap7T-1WGO
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 Jan 2025 13:11:25 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250131131116epoutp046b15c0228a9f37192863d46f449c2a26~fyRXUYIL-0331303313epoutp04q
-	for <linux-nvme@lists.infradead.org>; Fri, 31 Jan 2025 13:11:16 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250131131116epoutp046b15c0228a9f37192863d46f449c2a26~fyRXUYIL-0331303313epoutp04q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1738329076;
-	bh=YPz+mnqDAuRhGxytNtDUw+AGJf9uG05dBV7mBgFPIKU=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=IRCrVGRa6VS9kX6aIc6NydUxFpJieh136u3IO68XyvcNoPXNALZAUkIWUMtLgCNO/
-	 Psou2bDZvqiFTwBMYoEXilZ7GJW0uUuppktX15Sq/T95RyWnGmVlm9pkc7A1RvbP3F
-	 hJURz1a1G50AxantaFlineDgZ0k6jgaPP8Od9zKo=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20250131131116epcas5p271bc8ad5d1711023c4b2d089800fcf9f~fyRXGK7j81952019520epcas5p2K;
-	Fri, 31 Jan 2025 13:11:16 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Ykx9G5Mhgz4x9Pv; Fri, 31 Jan
-	2025 13:11:14 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	EB.E3.19956.2FBCC976; Fri, 31 Jan 2025 22:11:14 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250131131114epcas5p1b067a3bba165e1c0bf17d0326546282d~fyRVLeJBw0442704427epcas5p1w;
-	Fri, 31 Jan 2025 13:11:14 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250131131114epsmtrp201e3e29812477ac3dc894c62795c1af3~fyRVK5I_d0528805288epsmtrp2i;
-	Fri, 31 Jan 2025 13:11:14 +0000 (GMT)
-X-AuditID: b6c32a4b-fe9f470000004df4-54-679ccbf2ae18
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	E3.FE.33707.2FBCC976; Fri, 31 Jan 2025 22:11:14 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250131131113epsmtip2c6fd8f56e41d50bcffd6222c053ed5dc~fyRUAnqkL2324023240epsmtip2z;
-	Fri, 31 Jan 2025 13:11:13 +0000 (GMT)
-Message-ID: <97f402bc-4029-48d4-bd03-80af5b799d04@samsung.com>
-Date: Fri, 31 Jan 2025 18:41:12 +0530
+	Fri, 31 Jan 2025 15:13:47 +0000
+Received: by mail-io1-xd32.google.com with SMTP id ca18e2360f4ac-844e7409f8aso54151239f.1
+        for <linux-nvme@lists.infradead.org>; Fri, 31 Jan 2025 07:13:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1738336425; x=1738941225; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U+9HC8EV1wWIoNgKbafn8wjlhkFnTml5y5fJi9ZNauA=;
+        b=Ez+Ze5Q82GVzFprun6L4PDRXR5oQxpi48SLbR4L2EfwK+hfiuaikrLD+/fRsw2tB3h
+         B9r1B1qNu1cxBKltmrE0CdZahwmOo0ov5BKoRadbkd5FkwTI8TwkRynEaKFp3BrSP1F4
+         mydKUaUO+6yLw66pf/hzi3vhn1dq142nCbe+kqNvSjFteGFfj1mqVtjVKjVOY82YTtxW
+         9+qGBMlbeKJkjQ6PfQWn0/gmWcYDRxH+G0ny/mriwJp0Vksp1jByYZGKrlsdsz6F9N3T
+         1RFB9G2/rGqsrazBvOhl5QZ9jCkT+8Fq2l7+U/OYQmed1XMiud0zHVjAcfFUpLeIMeZn
+         3LVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738336425; x=1738941225;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U+9HC8EV1wWIoNgKbafn8wjlhkFnTml5y5fJi9ZNauA=;
+        b=DIAJOZBokmXx6PIOgZ3jLiK2sDNzY/K/RIy/Ech7fTJX+uo1x+0ivMFbdexlShhD1Y
+         SY0nIiAXuOu51UI0+M23zHQk1OaxnQPOgJmuG19laSUHrRVH6bNeQ3cbt0X71zLxFVaW
+         hw3MMa2ExNsdPeO6NolCXdhXQWbfZeZXeH1aQKcDC7XPjaGFP8KHh9WzfU3fDyVru4tA
+         MpAxn15n5liniMJESf+hvh0jWdon5ta7f0kHZ0gJkEYrHPsRn2GqBBOcm0yrEVZ+0eZE
+         BMoHaDlcDAw1crbcbLZ8Sja3UTHKfdgKsZPuKO/vVdqmd/Y4nLeRppW5aaFPpPvBTtvP
+         myUA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDj1ELgCqZ05t4v2CIO9RXqlnCE8O/HDqDD7X6JgeSit46x358nHYvnK5dBlC477M/5dLeLaHdjcKW@lists.infradead.org
+X-Gm-Message-State: AOJu0YxJs/1UtAnrIo9KE99B7ECwjkbXgOk7r5IoG4eFIkg99iWwTZ8r
+	YxIyPJQb0VqrbPxtUl322Ew7NEcacPaA0UxOwpH25gNILQqnG/Zpx8YB+kacFc+GnWyiiPfuAos
+	b
+X-Gm-Gg: ASbGncsJlkpGBd13fbuTdKto2oLCEJIiFf0wAtnpfjXZXo2yRREpjj/OhUkQ4T5HnkU
+	SJNp6RuLcvlHxnC7CjKkkrMjvWrEEI+1C5WtVER8u7L7lCqG6oHTDyzSdSp62qQH8bnbEvs6QdH
+	SpR0cEg+IhoDQ1mXOcfe9HjoE0XNocB535txHKNj7hdiOXiZ87JbTn9CkQQHJubub/TdzVd6bfY
+	m435E+ofKe6dkjUxt4xASJK78CRFGxG0GLU8o72Yo0q0W7Iq5QFzIusEKiT3JNHEBzAbF30QF7T
+	m7g5Yw==
+X-Google-Smtp-Source: AGHT+IHdBYkV/Lcjpt9Dx2u2hBI2V53NbB2KTd/PWwFq4iCV5vqkwpfG1ZQm3S6I8vweH0IHJRW4Uw==
+X-Received: by 2002:a05:6602:6406:b0:843:ea9a:acc4 with SMTP id ca18e2360f4ac-85427e24fa1mr1154985639f.8.1738336424835;
+        Fri, 31 Jan 2025 07:13:44 -0800 (PST)
+Received: from [127.0.0.1] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ec746c920dsm856099173.125.2025.01.31.07.13.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jan 2025 07:13:44 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org, 
+ nbd@other.debian.org, ceph-devel@vger.kernel.org, 
+ virtualization@lists.linux.dev, linux-mtd@lists.infradead.org, 
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
+In-Reply-To: <20250131120352.1315351-2-hch@lst.de>
+References: <20250131120352.1315351-1-hch@lst.de>
+ <20250131120352.1315351-2-hch@lst.de>
+Subject: Re: [PATCH] block: force noio scope in blk_mq_freeze_queue
+Message-Id: <173833642386.354079.3672902422068183900.b4-ty@kernel.dk>
+Date: Fri, 31 Jan 2025 08:13:43 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] File system checksum offload
-To: Theodore Ts'o <tytso@mit.edu>
-Cc: lsf-pc@lists.linux-foundation.org, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, josef@toxicpanda.com
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20250130142857.GB401886@mit.edu>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBJsWRmVeSWpSXmKPExsWy7bCmlu6n03PSDU5N0bL489DQYu8tbYtL
-	j1ewW+zZe5LFYv6yp+wW+17vZbZo7fnJ7sDusXlJvcfkG8sZPZrOHGX2mLB5I6vH501yAaxR
-	2TYZqYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbmSgp5ibmptkouPgG6bpk5QDcoKZQl
-	5pQChQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgpMCvSKE3OLS/PS9fJSS6wMDQyMTIEKE7Iz
-	tk+4z1qwmL/ix4qprA2Ms3i6GDk5JARMJI7MOs3WxcjFISSwm1FixtvPjBDOJ0aJtbenssM5
-	e/8uYINp2dezjxkisZNR4k3nd6iWt4wS1z53MYJU8QrYSRz4NhPMZhFQlXhw9BYbRFxQ4uTM
-	JywgtqiAvMT9WzPYQWxhARuJ7l2HwGpEBBQlbrV8AdvALLCDUWLhqV1MIAlmAXGJW0/mA9kc
-	HGwCmhIXJpeChDkF9CQOdb+AKpGX2P52DjPEpa0cEucW6ELYLhKXPm6GigtLvDq+hR3ClpL4
-	/G4v1GfZEg8ePWCBsGskdmzuY4Ww7SUa/txgBVnLDLR2/S59iFV8Er2/n4BdIyHAK9HRJgRR
-	rShxb9JTqE5xiYczlkDZHhKXVm1mggTVBkaJO/OPsE9gVJiFFCqzkDw5C8k3sxA2L2BkWcUo
-	mVpQnJueWmxaYJyXWg6P8OT83E2M4CSq5b2D8dGDD3qHGJk4GA8xSnAwK4nwchyeky7Em5JY
-	WZValB9fVJqTWnyI0RQYPROZpUST84FpPK8k3tDE0sDEzMzMxNLYzFBJnLd5Z0u6kEB6Yklq
-	dmpqQWoRTB8TB6dUA5NAi8a5SMOT0x99+m4/o+NKbE7a7JIXsc8sax9xXW89IvRWaPYF15TH
-	nTH7Hk3MWSop8dBf4CPjPb2XR+cuXLAqVJZBe6fSw88XspxeZO8QOCveyaD5wKa47MSS2K2L
-	17fMKM2TlDxadFdj3Un7N/zmFgJTJ879d8YxSyTn+ez77dJh3T+jtEKcLKbe26FkKFWy7I0+
-	97J73Le6PsQ5S85Sndn6ynDShov6k226rlw6kvXobRtP687Uk/bbju99wzH334u73hrHjIw6
-	165vNX72rMv1+AzL6E1X6/ae8bxR0HY+gSOUcc3dTrOyeSfWnnMRtbn1Q//clKyfD6+KlKdN
-	3pSVP+tSoSOv7OPOJYs5lFiKMxINtZiLihMBlXZXACsEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrILMWRmVeSWpSXmKPExsWy7bCSvO6n03PSDaZ8FbX489DQYu8tbYtL
-	j1ewW+zZe5LFYv6yp+wW+17vZbZo7fnJ7sDusXlJvcfkG8sZPZrOHGX2mLB5I6vH501yAaxR
-	XDYpqTmZZalF+nYJXBnbJ9xnLVjMX/FjxVTWBsZZPF2MnBwSAiYS+3r2MXcxcnEICWxnlDh4
-	agcTREJcovnaD3YIW1hi5b/n7BBFrxkleh43soIkeAXsJA58m8kIYrMIqEo8OHqLDSIuKHFy
-	5hMWEFtUQF7i/q0ZYIOEBWwkuncdAqsREVCUuNXyBWwzs8AORokj3z8xQmzYwCgx4/UnsKnM
-	QGfcejIf6CQODjYBTYkLk0tBwpwCehKHul8wQZSYSXRt7YIql5fY/nYO8wRGoVlI7piFZNIs
-	JC2zkLQsYGRZxSiaWlCcm56bXGCoV5yYW1yal66XnJ+7iREcK1pBOxiXrf+rd4iRiYPxEKME
-	B7OSCC/H4TnpQrwpiZVVqUX58UWlOanFhxilOViUxHmVczpThATSE0tSs1NTC1KLYLJMHJxS
-	DUzRKxV+d2VfORY4PVPrzcHVRV6vbnNs6u77L2l1+j2f0vF7q+veT/15yTTjWmSnyP6OQ/NO
-	iom8bxD6a2s09b+5vG/YZe+3s/0i8r9nHH1u18D0rZUh4/EVbftmiaabOqJLd326Lbd3+Yk5
-	L2q0z/tlcF+exLbO5jr/71OBNbIP/2178vem16+TS6c02DMzplkbL9Pm21fVbH/rRfoZlpXs
-	Css7OArsZzaYpOx4milns8u1z+TZXA3rPKsj2/d94dMvsT94Z/2apLUxuxkTr2Vw2mb/npZZ
-	fqxIZ6mK2Pwjf1uWp2VkLrTNXj3LsfR5wyXvT92pV5cdSz6l/1f35Y0pYdM2+ddN+K/Brq99
-	ZsJaJZbijERDLeai4kQAcymx2gQDAAA=
-X-CMS-MailID: 20250131131114epcas5p1b067a3bba165e1c0bf17d0326546282d
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824
-References: <CGME20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824@epcas5p1.samsung.com>
-	<20250130091545.66573-1-joshi.k@samsung.com>
-	<20250130142857.GB401886@mit.edu>
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3-dev-14bd6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250131_051123_862137_F5216594 
-X-CRM114-Status: GOOD (  21.02  )
+X-CRM114-CacheID: sfid-20250131_071346_390937_8835F377 
+X-CRM114-Status: GOOD (  11.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,44 +102,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/30/2025 7:58 PM, Theodore Ts'o wrote:
-> On Thu, Jan 30, 2025 at 02:45:45PM +0530, Kanchan Joshi wrote:
->> I would like to propose a discussion on employing checksum offload in
->> filesystems.
->> It would be good to co-locate this with the storage track, as the
->> finer details lie in the block layer and NVMe driver.
+
+On Fri, 31 Jan 2025 13:03:47 +0100, Christoph Hellwig wrote:
+> When block drivers or the core block code perform allocations with a
+> frozen queue, this could try to recurse into the block device to
+> reclaim memory and deadlock.  Thus all allocations done by a process
+> that froze a queue need to be done without __GFP_IO and __GFP_FS.
+> Instead of tying to track all of them down, force a noio scope as
+> part of freezing the queue.
 > 
-> I wouldn't call this "file system offload".  Enabling the data
-> integrity feature or whatever you want to call it is really a block
-> layer issue.  The file system doesn't need to get involved at all.
-> Indeed, looking the patch, the only reason why the file system is
-> getting involved is because (a) you've added a mount option, and (b)
-> the mount option flips a bit in the bio that gets sent to the block
-> layer.
+> [...]
 
-Mount option was only for the RFC. If everything else gets sorted, it 
-would be about choosing whatever is liked by the Btrfs.
-   > But this could also be done by adding a queue specific flag, at which
-> point the file system doesn't need to be involved at all.  Why would
-> you want to enable the data ingregity feature on a per block I/O
-> basis, if the device supports it?
+Applied, thanks!
 
-Because I thought users (filesystems) would prefer flexibility. Per-IO 
-control helps to choose different policy for say data and meta. Let me 
-outline the differences.
+[1/1] block: force noio scope in blk_mq_freeze_queue
+      commit: 1e1a9cecfab3f22ebef0a976f849c87be8d03c1c
 
-Block-layer auto integrity
-- always attaches integrity-payload for each I/O.
-- it does compute checksum/reftag for each I/O. And this part does not 
-do justice to the label 'offload'.
+Best regards,
+-- 
+Jens Axboe
 
-The patches make auto-integrity
-- attach the integrity-buffer only if the device configuration demands.
-- never compute checksum/reftag at the block-layer.
-- keeps the offload choice at per I/O level.
 
-Btrfs checksum tree is created only for data blocks, so the patches 
-apply the flag (REQ_INTEGRITY_OFFLOAD) on that. While metadata blocks, 
-which maybe more important, continue to get checksummed at two levels 
-(block and device).
+
 
