@@ -4,91 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68DBAC0218F
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2025 16:02:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A185C0218F
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2025 16:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:Cc:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=O+JFGGFluQhzEspwlwz6aXkZ7QKW4DjxL6knEN3myoo=; b=IJw14N/UVQ2316RZRDxSjFznSr
-	rki+eIbGR/ciQtldrGvKHgWTLLEG2R5w8T6RNl23CwXl/RzYKSwjArMBCFCaBwImU36NBUzgLYuuf
-	pH5fn3c4FDMYIAma75MBnf1e3SljJAiiN3x53OEWHyn+yToDArov5uKB5OCslCmGLk+dg0eDBmFAt
-	vgx1Zti+ydOkv44G+YGWmNBMUENCtRo1ed7f1uxQbVHoNRpqVCx9YbQF3cSVX+N2jUr/0AvS6e8iJ
-	Mxe0gGVce11TugTwqq+ZNHfXWHWtxqQspDAAx1UqJ1bpw7NpEk/s9hM6+PuYZS3mX4VnjgTMl7trt
-	JlezVRbA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9J5GX40JGRvI9MJYmoalcWrwI+e7PXyi8aPZTtpgw44=; b=zAxveu4rQZdn4VHZUVIfRD70aW
+	fWAZJpHmTz9ep5sHFMzBS6kzrus1ywF5acRPDmo0N0gkg4cJatLBX40U5xT8/mcR/ZDqUMCR4MtFr
+	Ze0BQktcG1384emyh+8PSvCoDaHMVixZI6fK9HCbsJJBB9vEl9pE7T8kWEQKXJEu92sK9RC0w723d
+	Y18jf0339XG54t6TvDJo17dsNw+LkSPgvTMhLAwl+BEX8Nim0q0LiU4DpJw70/wdHwsYH2oNvPSRh
+	mTxqWVtdMH3+fDEqsOuzeSIu8/Yh4BhJenlu6n0XN2xdiwmslW9jY9gxHbYeSbGfPg+DlVUeMuoyk
+	gDbjvihQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdtTS-0000000AuUf-16B1;
-	Fri, 31 Jan 2025 16:02:30 +0000
-Received: from linux.microsoft.com ([13.77.154.182])
-	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tdFE7-00000007nDD-36Xc;
-	Wed, 29 Jan 2025 21:04:00 +0000
-Received: from [100.65.161.47] (unknown [20.236.11.29])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4FFDA2109A5E;
-	Wed, 29 Jan 2025 13:03:55 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4FFDA2109A5E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1738184637;
-	bh=O+JFGGFluQhzEspwlwz6aXkZ7QKW4DjxL6knEN3myoo=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=mY3mAkZdBwX5JW6v0rHOcPwixnNpeCwrI5i6lioeivoGl5PeSwTfMHOmjED6AV41/
-	 5wIYfQa9MecJKhXc6T7//bDDoOB4BG1MPO3Miu2pGAWJwBcdsKKFOS1hzy+NN34ovy
-	 jA6uxIox2R9YzB3PKnfuI/uqwUCqDlg2DifBsbMw=
-Message-ID: <dd0358b1-7c8a-4c9e-88c5-2e1db69a3a35@linux.microsoft.com>
-Date: Wed, 29 Jan 2025 13:03:57 -0800
+	id 1tdtkl-0000000AxbX-0M1Y;
+	Fri, 31 Jan 2025 16:20:23 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tdtki-0000000AxaV-20l2
+	for linux-nvme@lists.infradead.org;
+	Fri, 31 Jan 2025 16:20:21 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5084521109;
+	Fri, 31 Jan 2025 16:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1738340415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9J5GX40JGRvI9MJYmoalcWrwI+e7PXyi8aPZTtpgw44=;
+	b=oukUgXv7NdFo1/rpMuatC7vXNPEMSWRh4b2AtZkCZMIq+xbF67HRPXfgYdtCIiHBi4ZyC9
+	za/5/eHDUsVm2kYCtgsMNSZirGn+gDdP+m+e3XuhFFfh7Cre0SjN0y72ft8RHvEM9SIKi6
+	hg0n9trcJ3N3v8HM8Y+zWMgu3XHyuiM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1738340415;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9J5GX40JGRvI9MJYmoalcWrwI+e7PXyi8aPZTtpgw44=;
+	b=0Aa8NBEb8uKsLvJYy/TOzriSebbrtariBMFC4QiVAT31NIPhNj0Mtre3sPajvnrqqMbH0u
+	VxfyUZpo5IjsNtCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1738340414; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9J5GX40JGRvI9MJYmoalcWrwI+e7PXyi8aPZTtpgw44=;
+	b=vPZ9oEC5IDbLzQ3tJPtGt6gU0AqaDjhgoy0+vJxYYSPumiIPs456Jq8Mi7e4xBIerXuI0o
+	wcXD+4bK9McSebX93fQZnfhvx9BZvfYp+f/72bChuCaB1rHnWC0D9QvPbb4HMQBKN7jYE9
+	FL7P2qOtGskdCPKcJbwoYaBThHCXVZA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1738340414;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9J5GX40JGRvI9MJYmoalcWrwI+e7PXyi8aPZTtpgw44=;
+	b=98hoj4L68ahiJd1l7N7aT/T5PlaWCmxsSFwP0VHuQyPS8oXgrS3N7jQsgrdzAH8ceZJOr+
+	hxycBnbWsIYxqHDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 45630133A6;
+	Fri, 31 Jan 2025 16:20:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id p0MhED74nGd0HQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 31 Jan 2025 16:20:14 +0000
+Date: Fri, 31 Jan 2025 17:20:09 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-nvme@lists.infradead.org, 
+	Mohamed Khalfella <mkhalfella@purestorage.com>, Sagi Grimberg <sagi@grimberg.me>, 
+	John Meneghini <jmeneghi@redhat.com>, Randy Jennings <randyj@purestorage.com>, 
+	Keith Busch <kbusch@kernel.org>, lsf-pc@lists.linux-foundation.org
+Subject: Re: [LSF/MM/BPF TOPIC] TP4129 KATO correctoins and clarification
+Message-ID: <613065bf-ad13-489e-9d57-408684e85923@flourine.local>
+References: <63af907d-9cdd-4956-9978-4e77389b1716@suse.de>
+ <Z5yYk7vHIhMfiPz1@infradead.org>
+ <527f476b-18e3-43f9-98c3-d19a25a6488a@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
- Nicolas Palix <nicolas.palix@imag.fr>, James Smart
- <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, Xiubo Li <xiubli@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- eahariha@linux.microsoft.com, cocci@inria.fr, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-spi@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 06/16] rbd: convert timeouts to secs_to_jiffies()
-To: Andrew Morton <akpm@linux-foundation.org>,
- Ilya Dryomov <idryomov@gmail.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
- ceph-devel@vger.kernel.org, linux-block@vger.kernel.org
-References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
- <20250128-converge-secs-to-jiffies-part-two-v1-6-9a6ecf0b2308@linux.microsoft.com>
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-6-9a6ecf0b2308@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <527f476b-18e3-43f9-98c3-d19a25a6488a@suse.de>
+X-Spamd-Result: default: False [-8.30 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250129_130359_833826_7ADDF240 
-X-CRM114-Status: GOOD (  14.82  )
-X-Mailman-Approved-At: Fri, 31 Jan 2025 08:02:28 -0800
+X-CRM114-CacheID: sfid-20250131_082020_666179_E625D638 
+X-CRM114-Status: GOOD (  19.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,54 +129,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/28/2025 10:21 AM, Easwar Hariharan wrote:
-> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-> secs_to_jiffies().  As the value here is a multiple of 1000, use
-> secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
+On Fri, Jan 31, 2025 at 12:02:59PM +0100, Hannes Reinecke wrote:
+> On 1/31/25 10:32, Christoph Hellwig wrote:
+> > On Fri, Jan 31, 2025 at 10:24:31AM +0100, Daniel Wagner wrote:
+> > > Hi,
+> > > 
+> > > The KATO handling in the spec got updated via the TP4129. In short it
+> > > mandatas that failing requests should be delayed by some value before
+> > > retried on a different path.
+> > 
+> > TP4129 is broken and the TWG has been told that.  There is absolutely no
+> > point in either implementing it or rehashing the discussion over and
+> > over again.  Concentrate on making 8028 useful instead.  And if you want
+> > a discussion, "why do people people push stupid things though the
+> > NVMe TWG and then comaplain later about the lack of implementations"
+> > might be more useful.
 > 
-> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
-> the following Coccinelle rules:
-> 
-> @depends on patch@
-> expression E;
-> @@
-> 
-> -msecs_to_jiffies
-> +secs_to_jiffies
-> (E
-> - * \( 1000 \| MSEC_PER_SEC \)
-> )
-> 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> ---
->  drivers/block/rbd.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
+> Okay, let's rephrase that to 'Improve NVMe-oF error handling'.
+> We are trying to get TP8028 out into the open until LSF,
+> then we can discuss that and also how to fold in the
+> 'command cancel' patchset into the overall picture.
 
-<snip>
-
-> @@ -6283,9 +6283,9 @@ static int rbd_parse_param(struct fs_parameter *param,
->  		break;
->  	case Opt_lock_timeout:
->  		/* 0 is "wait forever" (i.e. infinite timeout) */
-> -		if (result.uint_32 > INT_MAX / 1000)
-> +		if (result.uint_32 > INT_MAX)
->  			goto out_of_range;
-> -		opt->lock_timeout = msecs_to_jiffies(result.uint_32 * 1000);
-> +		opt->lock_timeout = secs_to_jiffies(result.uint_32);
->  		break;
->  	case Opt_pool_ns:
->  		kfree(pctx->spec->pool_ns);
-> 
-
-Hi Ilya, Dongsheng, Jens, others,
-
-Could you please review this hunk and confirm the correct range check
-here? I figure this is here because of the multiplier to
-msecs_to_jiffies() and therefore unneeded after the conversion. If so, I
-noticed patch 07 has similar range checks that I neglected to fix and
-can do in a v2.
-
-Thanks,
-Easwar (he/him)
+Yes, that basically was the idea for this proposal. I should have called
+it differently. 'Improve NVMe-oF error handling' sounds about right.
 
