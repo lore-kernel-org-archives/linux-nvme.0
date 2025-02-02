@@ -4,90 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9283BC0218F
-	for <linux-nvme@archiver.kernel.org>; Sun,  2 Feb 2025 08:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F263C0218F
+	for <linux-nvme@archiver.kernel.org>; Sun,  2 Feb 2025 13:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h5gZJXr1gG8fo7EF0ILDnAS2K7ODCxc8o+NZCCDv9tQ=; b=ZwX1aXx0Qkt/ZNSpSO8wnHHb8F
-	aDAJHX/+slzPuc2HdOfy7wbtbTKeyWxewznJH8yZAnxsWvGDpnXEQE7Hyrn9Q3fIrnGu55QqOVx/k
-	/srXOEOcVr3ZgjAv5JQJkVhN2/58mlhQJamY+1LNpazrbF8U6oKKBr1H8t73gmMFWhKJWxmPYnsAY
-	77XeDe/liw7UrKcGGsr6r3lpTBmUVYcXlgoHfSazShDEGVM8Ek6KMZK4Yg7VIva5soupqRM1SMk7B
-	D7xtTmL2uRMv88RzA8Kb9Xqmxv/x1MibyIg2Xb4+17pNW856B0Hlflok0D2DEdj2248QFHq1UprF0
-	95Qz/skw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=AuN7BHu6AedjoDRuSnGwpKMSWJrm5bcMsdTtrx29lx8=; b=sMGO5eRTLquCsFlmNhOTdXk4u2
+	57RJW0mZnj6jbfCFt9ZGKQbukw44e9zQQ/hfpWGKz4RkGRItY3jedMQWpMcXSPay+1XzgYa7gRY/8
+	4QxbbbSRcx3vNN5GW5rozHvbfiSzorCXpzRphvy3a7Vp5iQsQvxNC/ja/JOZVW2zmq4jopuMVFWOY
+	x7JwfCmsOs81utdIQISO5cDVccKjHTHQA22WIBnG/8lXT/UU9ixJdYUar3vTmPWgjL302Z+VVgs9o
+	LbQrClK3dVKFKFHPuy3FmgB0Cg2MSvcLw/N5DjSIMRcvVnMxpahYU0oFad6+JK7/Q6/VLvpW7rT1L
+	7MiGsAKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1teVPS-0000000DWs8-2bzB;
-	Sun, 02 Feb 2025 08:32:54 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1teaMl-0000000Dp3u-09WL;
+	Sun, 02 Feb 2025 13:50:27 +0000
+Received: from marcansoft.com ([212.63.210.85] helo=mail.marcansoft.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1teVPN-0000000DWrj-0Wa5
-	for linux-nvme@lists.infradead.org;
-	Sun, 02 Feb 2025 08:32:50 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2f441791e40so4397281a91.3
-        for <linux-nvme@lists.infradead.org>; Sun, 02 Feb 2025 00:32:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738485168; x=1739089968; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=h5gZJXr1gG8fo7EF0ILDnAS2K7ODCxc8o+NZCCDv9tQ=;
-        b=O1+ohnhv0o7o8fVwIfw0PnkJIM28qgvJliAtZjoQlEBw8WkEIRywNxqzdVmZA55bbQ
-         ax42tjWmPW1oxtDmy71SwGbxI4zWQjLOCufXxU01+oerMu96IrYZTGzzF5rGHD+HdPo2
-         3vSvcSIeF99oItC5lD6Hy5VQ/QK0GQKb3eADwTYP6V2Qa5TXAzh+thrCpF6fnPQyCJj2
-         stRMAvf/LwWshmschUS8unk7ad38exFqCe0zIuZ/FLLl1LNrxRwFSQoYC2iBaWDF0+PM
-         ec07Cn5U6g1FmdAoVSgB4RvawGuWleUB2Fu5+pKDBYfXIFlRm3rqMJZiw6Fr+18zFPi2
-         /+2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738485168; x=1739089968;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h5gZJXr1gG8fo7EF0ILDnAS2K7ODCxc8o+NZCCDv9tQ=;
-        b=OWtFW5iy6/2Jj8zK+MZO8dG/chryQLMebcLFHiG61rXwhNlUXSqqv0t/4Lx4Qo5smP
-         tHRdgKNk2SVLEJdnzqEVmQR1755mXJyMP7UIbJEdtcdySkxtRyw4YpDqhn0wKKV1D4KP
-         Mu7+UY6ejEzYcvOAiuUklPqC+/LQwhADH9fGoew7QhKhn3JQjf+nlKbUsqNNf3bYULSa
-         WHEh0LAgQI5e3RDoIiu04hUvjEWo4SJFC4FEN/NLS2Bd5I+SnP6bE16zGuY4nmRkk/NM
-         O0qvOTAt0Kpwwb5PxxWYCglkRmFOiRp+Z1GWSVGtOzKheDFHRKMC38MR93KI1kqYxjbz
-         yeZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIXUU+lo27LJ/cEXgRaTPxciju+UFMsxdInScw8QvhNWV3dnS/Z+YeXDnhrYiIKvmPd6Jq6by4l/lv@lists.infradead.org
-X-Gm-Message-State: AOJu0YwwoUZr9s6HpAFYK6+sixoEkUuUJ8Hy3VofEQif6ZTDil3nvBjO
-	Rp9uj+6C9xXbwX3nBkRskY5nRf+dxsB+3PvhynPnt4LwrTNPu8ugWOLsstd96Pyyi9mqh3upJTf
-	i8Vq0bvCYrh15fTOYZuYn56hUknyDVKxG
-X-Gm-Gg: ASbGncsm6wp93NMzYKeevHHTLMBgUdowRsT4RIQb5dvOQoRai1y7lnmXNVkMDasCBcC
-	ns9V6mHAxTSUhTNceagIEfH7ezi/x1qyOtFxF/eJf0mkfbC9h5UFANMc0Ft/u5o7i6oH9JLgvh9
-	aTenWJpdo7zFJVZgA8Z6hHRcq8fr8=
-X-Google-Smtp-Source: AGHT+IF4Xed2UK/m1b70t2nhQ8MCa/ZGxcKczWbWLCesTg1dtRBkKclSXAXCoFAdI2mFiGLkTfshl1Z+s2zbAA4wYng=
-X-Received: by 2002:a17:90b:2742:b0:2f2:a796:26b with SMTP id
- 98e67ed59e1d1-2f83abb3480mr24835867a91.1.1738485167545; Sun, 02 Feb 2025
- 00:32:47 -0800 (PST)
+	id 1teaLQ-0000000Dows-2LBA;
+	Sun, 02 Feb 2025 13:49:05 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id B3156425EB;
+	Sun,  2 Feb 2025 13:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1738504139;
+	bh=8/oqLprNeg7EVnuTTsaaXog3vpr2RsRu8CJidMsfdTg=;
+	h=From:Date:Subject:To:Cc;
+	b=PzXFQMCE+PGJcmCW1IEEvsEBBYo/Gjae1csNzvFBnRcfao2ps/mh+lJ76FgNmGADA
+	 1OZfcDCnXJI+eUxSYyN2jJ67Idd8KjfvWNb/jUuzfFNdIxRTXcqicL5fmupKMovL6l
+	 cDv/DtsIDaPLBKAU0q1kGgizg7nytY8pXDgHSMZ+4bEwONQT3Pu+8KK9quRu6SuAhd
+	 jk7GFxpaou4Wp6pfG5LoldOontGlqoNWpSAQE1qTEcBRyTAvFtQq8ToMPl4IFhpNVZ
+	 ymuKQjahy0C+DwkXI1D+2l8HAVmV4EdyWrPX2vZHAZAnOnjgJpiknpqJeQVIuGY6Kn
+	 Q2U7u1qG9wZYw==
+From: Asahi Lina <lina@asahilina.net>
+Date: Sun, 02 Feb 2025 22:48:47 +0900
+Subject: [PATCH] soc: apple: rtkit: Pass the crashlog to the crashed()
+ callback
 MIME-Version: 1.0
-References: <20250109082849.GC20724@lst.de> <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
- <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de> <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
- <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info> <20250117080507.GA25953@lst.de>
- <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info> <10e39c88-4667-4c61-b3eb-3dd7ee3074c3@leemhuis.info>
- <20250128074133.GA22435@lst.de> <379bba80-df0f-44c5-a15e-fd4393c52b8f@simg.de>
- <Z5jTKTfKUeLm4uJT@gallifrey> <e01fdde0-4760-487d-af0e-2aecf9d7ade2@simg.de>
-In-Reply-To: <e01fdde0-4760-487d-af0e-2aecf9d7ade2@simg.de>
-From: Bruno Gravato <bgravato@gmail.com>
-Date: Sun, 2 Feb 2025 08:32:31 +0000
-X-Gm-Features: AWEUYZkyNSsitq97aeori6flZ7edGQ2TehN5fCXAeaoGoRvqgLYMRyksBa46SfI
-Message-ID: <CAOBLbT8V5DkuXzzgp2dPOZkGomqiLa_cdC=e=uWBtcWpP7L=Ww@mail.gmail.com>
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-To: Stefan <linux-kernel@simg.de>
-Cc: "Dr. David Alan Gilbert" <linux@treblig.org>, Christoph Hellwig <hch@lst.de>, 
-	Thorsten Leemhuis <linux@leemhuis.info>, Mario Limonciello <mario.limonciello@amd.com>, 
-	Keith Busch <kbusch@kernel.org>, Adrian Huang <ahuang12@lenovo.com>, 
-	Linux kernel regressions list <regressions@lists.linux.dev>, linux-nvme@lists.infradead.org, 
-	Jens Axboe <axboe@fb.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250202-rtkit-crashdump-v1-1-9d38615b4e12@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIAL53n2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDIKFbVJKdWaKbXJRYnJFSmlugm2phYmFqYp6SmGJmrgTUVVCUmpZZATY
+ xOra2FgCV2c5SYQAAAA==
+X-Change-ID: 20250202-rtkit-crashdump-e848547dad67
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, 
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Janne Grunau <j@jannau.net>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738504138; l=2448;
+ i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
+ bh=8/oqLprNeg7EVnuTTsaaXog3vpr2RsRu8CJidMsfdTg=;
+ b=07z3hDB8bILFgXEkR6JO0Is8fvSGRwvSiXVhEAahHzizx7GNkNDd1YuAqpcRxgr7DPDHhBBp2
+ fPrYpp690uXARJdHCFdhDxeYLCPPJybrk6tW3QS1ajUR03Koqql9R+O
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250202_003249_174786_6E02C654 
-X-CRM114-Status: GOOD (  20.54  )
+X-CRM114-CacheID: sfid-20250202_054904_788911_5EC3351A 
+X-CRM114-Status: GOOD (  11.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,55 +87,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I just realized I replied only to the bugzilla list. Sorry about that.
+Client drivers might want a copy of the crashlog to stash into a
+devcoredump blob. Since device memory management can be very variable,
+the actual devcoredump implementation is left to client drivers. Pass
+the raw crashlog buffer to the client callback so it can use it if
+desired.
 
-So I'm forwarding my reply to everyone else who was in CC and may not
-be getting the bugzilla emails.
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+ drivers/nvme/host/apple.c       | 2 +-
+ drivers/soc/apple/rtkit.c       | 2 +-
+ include/linux/soc/apple/rtkit.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-> > Is there any characterisation of the corrupted data; last time I
-> > looked at the bz there wasn't.
->
-> Yes, there is. (And I already reported it at least on the Debian bug
-> tracker, see links in the initial message.)
->
-> f3 reports overwritten sectors, i.e. it looks like the pseudo-random
-> test pattern is written to wrong position. These corruptions occur in
-> clusters whose size is an integer multiple of 2^17 bytes in most cases
-> (about 80%) and 2^15 in all cases.
->
-> The frequency of these corruptions is roughly 1 cluster per 50 GB written.
->
-> Can others confirm this or do they observe a different characteristic?
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 4319ab50c10d11ed81dcc002275f190e053c1be6..f46b3f179a00dad054c24ccaa0c578d64ca75ec9 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -221,7 +221,7 @@ static unsigned int apple_nvme_queue_depth(struct apple_nvme_queue *q)
+ 	return APPLE_ANS_MAX_QUEUE_DEPTH;
+ }
+ 
+-static void apple_nvme_rtkit_crashed(void *cookie)
++static void apple_nvme_rtkit_crashed(void *cookie, const void *crashlog, size_t crashlog_size)
+ {
+ 	struct apple_nvme *anv = cookie;
+ 
+diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+index e6d940292c9fbdfc4cd42020e89aca2662c5cdce..4b0783091a92324a707a0e1cd16d36dd6d984678 100644
+--- a/drivers/soc/apple/rtkit.c
++++ b/drivers/soc/apple/rtkit.c
+@@ -368,7 +368,7 @@ static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
+ 
+ 	rtk->crashed = true;
+ 	if (rtk->ops->crashed)
+-		rtk->ops->crashed(rtk->cookie);
++		rtk->ops->crashed(rtk->cookie, bfr, rtk->crashlog_buffer.size);
+ }
+ 
+ static void apple_rtkit_ioreport_rx(struct apple_rtkit *rtk, u64 msg)
+diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
+index c06d17599ae7e3d37d99495e4296932b1de3a3c7..736f530180179bd144cf85eb0f0bd93844d7188a 100644
+--- a/include/linux/soc/apple/rtkit.h
++++ b/include/linux/soc/apple/rtkit.h
+@@ -56,7 +56,7 @@ struct apple_rtkit_shmem {
+  *                 context.
+  */
+ struct apple_rtkit_ops {
+-	void (*crashed)(void *cookie);
++	void (*crashed)(void *cookie, const void *crashlog, size_t crashlog_size);
+ 	void (*recv_message)(void *cookie, u8 endpoint, u64 message);
+ 	bool (*recv_message_early)(void *cookie, u8 endpoint, u64 message);
+ 	int (*shmem_setup)(void *cookie, struct apple_rtkit_shmem *bfr);
 
-In my tests I was using real data: a backup of my files.
+---
+base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+change-id: 20250202-rtkit-crashdump-e848547dad67
 
-On one such test I copied over 300K files, variables sizes and types
-totalling about 60GB. A bit over 20 files got corrupted.
-I tried copying the files over the network (ethernet) using rsync/ssh.
-I also tried restoring the files using restic (over ssh as well). And
-I also tried copying the files locally from a SATA disk. In all cases
-I got similar results with some files being corrupted.
-The destination nvme disk was using btrfs and running btrfs scrub
-after the copy detects quite a few checksum errors.
+Cheers,
+~~ Lina
 
-I analyzed some of those corrupted files and one of them happened to
-be a text file (linux kernel source code).
-A big portion of the text was replaced with text from another file in
-the same directory (being text made it easy to find where it came
-from).
-So this was a contiguous block of text that was overwritten with a
-contiguous block of text from another file.
-If I remember correctly the other file was not corrupted (so the
-blocks weren't swapped). It looked like a certain block of text was
-written twice: on the correct file and on another file in the same
-directory.
-
-I also got some jpeg images corrupted. I was able to open and view
-(partially) those images and it looked like a portion of the image was
-repeated in a different part of it), so blocks of the same file were
-probably duplicated and overwritten within itself.
-
-The blocks being overwritten seemed to be different sizes on different files.
-
-Bruno
 
