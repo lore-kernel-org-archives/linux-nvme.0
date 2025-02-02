@@ -4,134 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46F45C02193
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 07:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31F57C02196
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 07:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jXdfqbad1okBis4E+HronChbubnNuCzXDyRer0itrCU=; b=SlnH5h4b99u9/oImdeBpIuIF4C
-	W3ONTi3OPZFyeQS2HPxlgg1Pjun5tj7PTopAxfxr5auhD1XZ2O996PvceX/f0CE3/dh6jk5oTYafR
-	Nn2a24srihRG4diLcPujUQVNkEd1CCmEQAQ8yEpJB2zhRszzdO+fHa/0toGDUq85FgSChfMxxqzQL
-	4B3W/i4IO3ZmFveH64WIWal7sIifBCINKiPhmRC9LTR1QAGRH1SpQLDGBQEIBj+JOYRxF4j1ZZVNT
-	IALS0Sj0IG+Mp37hHD+3uFtxqnXpt/4B6xtQEoZ8eqfp7IwaIFUVgxmmYKx9ncZLzLY4YeXC+k1oz
-	GqUFMEBA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:Cc:Date:Message-Id:
+	Subject:Mime-Version:From:Content-Transfer-Encoding:Content-Type:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ADJ7b6sU8EXqcKMooDphP2HOkTSKkWJf4eawCe5hRhA=; b=w6S8xDgETIXr5O4G7U4BvPZwiV
+	Nz1PYU7yWngRUJEsbsseI1DGVBRb9lp6JGvoDagr8QzxjlOpa50OYLDP/Iy5nRZiP7LB0KmErGkmP
+	ZA1JZIu7g2zEf+O6YQLfGMsFHBwyX5JdmZBtKstbPMhXuMGkQW5fIXyuFK0SIKI5AZliQL9XPO80Y
+	+0kPiUDMouc3YL6m8p8VNeCUMqO9ZE3a2FEmEkljfvlGGKJR4EMZHplBpO/g0MljtAFJTXHOhByl5
+	ZdBgRQ3Bye/SqnMKZuM0S6W/gFFTouQBQ8/PnlQNJ7VToSF9+uw+iieKDxhkyp5ZMcxFbFK493vWs
+	sEhU7+Zw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1teqm3-0000000Ei22-1glm;
-	Mon, 03 Feb 2025 07:21:39 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1teqtE-0000000Eihq-0SLz;
+	Mon, 03 Feb 2025 07:29:04 +0000
+Received: from fhigh-b2-smtp.messagingengine.com ([202.12.124.153])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1teqkc-0000000EhpF-2q50
-	for linux-nvme@lists.infradead.org;
-	Mon, 03 Feb 2025 07:20:12 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C2D15210F8;
-	Mon,  3 Feb 2025 07:20:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738567209; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jXdfqbad1okBis4E+HronChbubnNuCzXDyRer0itrCU=;
-	b=b+e1v8KxiwC6as9hteMUVLmq3A0ofKX1wIsYYOlO8Qp7UM8vkTpfucvmzVioHdSww2dc7q
-	1MFty6d1KW1OUJ9PGctMSKncgOck2SbfrMY2exvaV1Tk+MmC5J/WBdzv3lyRgaZyATcExm
-	H34q2Cew7UJJU92/gRt/0nmkDMU1ISI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738567209;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jXdfqbad1okBis4E+HronChbubnNuCzXDyRer0itrCU=;
-	b=rTkob0eRP2VkEO8U5XTQqPynMUQ7zi2z8bLBoBG5TNtYC7Ziyhae/e4zrqsZltpEfIM7H3
-	C88mMBMVFR9xKIAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Nbz5fZuZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="SeYm/L1Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738567208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jXdfqbad1okBis4E+HronChbubnNuCzXDyRer0itrCU=;
-	b=Nbz5fZuZVnaxgMnMgdWUrTBLiGQkhUN96WlzrzC3fz9Ya6A8hjXSiT7p0uOZnBKJoDL6HN
-	cUgtxM9la+5HbH9QiSKAIlqGvSOFDXPznRHjWhzKtUeFXBlV/pB/MomA5TbCb5EpMNUKG4
-	8J9hRA/JbHoYYiSjMhtjNwt2AsFiL5U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738567208;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jXdfqbad1okBis4E+HronChbubnNuCzXDyRer0itrCU=;
-	b=SeYm/L1ZC+9Pah9PutCjPJ5oiwy6Hx9WRKfG5cjjoMUu+f0QYD83iO5E+j6l/VEmZv4cC6
-	v7B2H6mSy0UWliDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 77C5913795;
-	Mon,  3 Feb 2025 07:20:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3VNKGyhuoGdWOAAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 03 Feb 2025 07:20:08 +0000
-Message-ID: <17d0b30a-758c-4a84-9879-0a070656f15e@suse.de>
-Date: Mon, 3 Feb 2025 08:20:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] nvme-tcp: fix connect failure on receiving partial
- ICResp PDU
-To: Caleb Sander <csander@purestorage.com>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Maurizio Lombardi <mlombard@redhat.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250124184311.1642797-1-csander@purestorage.com>
- <9ea74200-7cbc-4a30-9503-864dcec9b45d@suse.de>
- <CADUfDZoT7JW+d+j6YNmWJ3CKZ45gbvcUSsE6boZwE1C3iXw2_g@mail.gmail.com>
- <f75c62ce-04a7-4bc0-ae77-8ed80842bf37@suse.de>
- <CADUfDZrvHmYQgqu5GiQDrAg_MOEiRigCLCmBSO6jeyd1z+Q-JQ@mail.gmail.com>
- <3bcc6e3f-5172-40d4-a4d4-b0f914b9406b@grimberg.me>
- <CADUfDZq3ZqpP9hZhgG1gzyyggG6SCQiHqHdgbm95TU2oZ5QFUQ@mail.gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CADUfDZq3ZqpP9hZhgG1gzyyggG6SCQiHqHdgbm95TU2oZ5QFUQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C2D15210F8
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	id 1tebZ3-0000000Du4z-4AT6;
+	Sun, 02 Feb 2025 15:07:15 +0000
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 515C82540100;
+	Sun,  2 Feb 2025 10:07:10 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Sun, 02 Feb 2025 10:07:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm1; t=1738508830; x=
+	1738595230; bh=ADJ7b6sU8EXqcKMooDphP2HOkTSKkWJf4eawCe5hRhA=; b=Q
+	qQM7E9KRZGiZBRZGVIWPqp9sGFoqH9T2O7/JIU2Urajg8QsUjZTjQQdaQexb9auA
+	DAr7kY76oqXarZrpyqgV/kAjSXRGuihteZqu+YujL/tSiWQ1uxbA2qn6huzcw0Zx
+	+W9D971rSyFtYJNByzjHb8ZYPrF6GQySzZGUQlH57zRLb/jthbGyvZ08eIlTfy9j
+	j2AI0EW3oArl6jkZBycgJMda0ULG8XaEafjFjyAvJb4a1fIN49yaZKs2xqvNigyu
+	Tp0S6QoYMTA5jhIoLnTT1iQ5aqNp9nsNYSg/Whpc71YC2ixOhiRO9gPJlVDOWh81
+	UOJyp97qOWgJgJALx16rA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1738508830; x=1738595230; bh=ADJ7b6sU8EXqcKMooDphP2HOkTSK
+	kWJf4eawCe5hRhA=; b=ZEKa6wGq2h0Xy3RwElajdqDpZ/LIQLaCWc6gOZQykQkA
+	ZGptbFJX1qgV13OvKUoYpm7mav9Q2+KaUOXqozRGH00npeD77qoNw5jZtCsmI7Uw
+	fNyP5rS1lg3Za41gMemvnOY10qjEVzTSGMUAYb14m2KuHKoBK2/4bpg75HpCY4sG
+	qABiVu04dQ8O/NcOdw4DdOU5Z/FLktFW8YR0QnyEbRdSJ5zIl/bI7t3c9kt3g5Rv
+	WqmswbXWQ+Q4rD0YiLULfhGhy+mQ49uG/K//qGsxndFky26FIvAYmnvIhaRmLpO+
+	QzIniGhbvWxlFhv8nntwR5QQyQYsdP7MsRpJPKTr1Q==
+X-ME-Sender: <xms:G4qfZ0lZLAQzF4pzOEAA7wnfjz_bNrL962ahPbg2WlVWTFCXfmsh5g>
+    <xme:G4qfZz22W4TG7sNmo2np83WtKBSWNlNUS9QsA1incqekQwGbt51qwrY20sH8ITres
+    H3WQ6kstRlgM9vxzV8>
+X-ME-Received: <xmr:G4qfZyq-Y57fiIgh1CeqP5jGrctszMg4NXFp2-J8h31wOxMrZdXOrxmTFlu7FCNgTBK8wvrAIO4nsYkdbNEHKhqWPQSRLCqB24RzLnvHKrI3-HhCzmke1k8r>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeellecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpegtgffhggfukfffvefvofesthhqmhdthhdtjeen
+    ucfhrhhomhepufhvvghnucfrvghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrdguvg
+    hvqeenucggtffrrghtthgvrhhnpeejfeejudffffeukeduudeifedtjeeglefgffekudej
+    leefgefhkeffgeehgedtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghrtghpthht
+    ohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjsehjrghnnhgruhdrnh
+    gvthdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtthhopegr
+    shgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrg
+    hrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthht
+    oheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtoheprgigsghovg
+    eskhgvrhhnvghlrdgukhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnrgesrghsrghhihhlihhnrgdrnh
+    gvthdprhgtphhtthhopehsrghgihesghhrihhmsggvrhhgrdhmvg
+X-ME-Proxy: <xmx:HIqfZwkg7Qz4wQfmW-4RJhYntbKPz3J04hBaSUpSu6Ty5m0d7iry7Q>
+    <xmx:HIqfZy1-Th7VE71PTDUglVgRQliVsPQyol0PWuhGZjoo1Ak53VcqhA>
+    <xmx:HIqfZ3vDKkUEwua6LXYKi1C7SVN1jpT5Hzrhmme4ExXyBYaFwiePdg>
+    <xmx:HIqfZ-VO1zAPMeM5mH5esC9dU0cFPhNpUGp4RBMcXPZ0qLxfUXMBhQ>
+    <xmx:HoqfZ4PSuFvXaBFpL2RDtLKEeCyzOpZ3F9Ft5AzXWhGfNFMsM6rD7mGn>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 2 Feb 2025 10:07:07 -0500 (EST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Sven Peter <sven@svenpeter.dev>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] soc: apple: rtkit: Pass the crashlog to the crashed() callback
+Message-Id: <784BCC93-4BA6-420D-983D-35CD51EE3684@svenpeter.dev>
+Date: Sun, 2 Feb 2025 16:06:46 +0100
+Cc: Hector Martin <marcan@marcan.st>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Janne Grunau <j@jannau.net>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Lina Asahi <lina@asahilina.net>
+To: Lina Asahi <lina@asahilina.net>
+X-Mailer: iPhone Mail (22D63)
+X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250202_232010_879838_81C582AB 
-X-CRM114-Status: GOOD (  26.29  )
+X-CRM114-CacheID: sfid-20250202_070714_740058_435E3FD7 
+X-CRM114-Status: GOOD (  15.24  )
+X-Mailman-Approved-At: Sun, 02 Feb 2025 23:29:02 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,172 +117,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/3/25 01:19, Caleb Sander wrote:
-> On Fri, Jan 31, 2025 at 12:17 AM Sagi Grimberg <sagi@grimberg.me> wrote:
-> ...
->> Caleb, can you please make sure to test this patch with TLS?
-> 
-> Can you point me to some documentation for that? I tried setting up a
-> nvmet_tcp port to use TLS and connecting to it as described in the
-> cover letter for the patch series (https://lwn.net/Articles/941139/).
-> But the TLS Server Hello seems to fail with EACCES. Any idea what I'm
-> doing wrong?
-> $ modprobe nvmet_tcp
-> $ modprobe null_blk nr_devices=1
-> $ mkdir /sys/kernel/config/nvmet/subsystems/nqn.nvmet
-> $ echo 1 > /sys/kernel/config/nvmet/subsystems/nqn.nvmet/attr_allow_any_host
-> $ mkdir /sys/kernel/config/nvmet/subsystems/nqn.nvmet/namespaces/1
-> $ echo /dev/nullb0 >
-> /sys/kernel/config/nvmet/subsystems/nqn.nvmet/namespaces/1/device_path
-> $ echo 1 > /sys/kernel/config/nvmet/subsystems/nqn.nvmet/namespaces/1/enable
-> $ mkdir /sys/kernel/config/nvmet/ports/1
-> $ echo tcp > /sys/kernel/config/nvmet/ports/1/addr_trtype
-> $ echo ipv4 > /sys/kernel/config/nvmet/ports/1/addr_adrfam
-> $ echo 127.0.0.1 > /sys/kernel/config/nvmet/ports/1/addr_traddr
-> $ echo 4420 > /sys/kernel/config/nvmet/ports/1/addr_trsvcid
-> $ echo required > /sys/kernel/config/nvmet/ports/1/addr_treq
-> $ echo tls1.3 > /sys/kernel/config/nvmet/ports/1/addr_tsas
-> $ ln -s /sys/kernel/config/nvmet/subsystems/nqn.nvmet
-> /sys/kernel/config/nvmet/ports/1/subsystems
-> $ nvme gen-tls-key --subsysnqn nqn.nvmet --insert
-> Inserted TLS key 005e8a74
-> $ nvme gen-tls-key --subsysnqn nqn.2014-08.org.nvmexpress.discovery --insert
-> Inserted TLS key 22d676b8
-> $ tlshd &
-> $ nvme discover --transport tcp --traddr 127.0.0.1 --trsvcid 4420 --tls
-> Failed to write to /dev/nvme-fabrics: Input/output error
-> failed to add controller, error failed to write to nvme-fabrics device
-> 
-> With debug logs enabled, I see the following:
-> $ dmesg | tail -6
-> [  440.405298] nvme nvme0: connecting queue 0
-> [  440.405403] nvmet_tcp: queue 0: TLS ServerHello
-> [  440.405433] nvme nvme0: queue 0: start TLS with key 11b456f9
-> [  440.407836] nvmet_tcp: queue 0: TLS handshake done, key 0, status -13
-> [  440.422881] nvme nvme0: queue 0: TLS handshake done, key 0, status -13
-> [  440.422932] nvme nvme0: queue 0: TLS handshake complete, error 13
-> 
-> A tcpdump shows the host sending a TLS Client Hello packet and the
-> target immediately closing the connection.
-> 
+=EF=BB=BF
+>=20
+> On 2. Feb 2025, at 14:49, Asahi Lina <lina@asahilina.net> wrote:
+>=20
+> =EF=BB=BFClient drivers might want a copy of the crashlog to stash into a
+> devcoredump blob. Since device memory management can be very variable,
+> the actual devcoredump implementation is left to client drivers. Pass
+> the raw crashlog buffer to the client callback so it can use it if
+> desired.
+>=20
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
-The PSK identification has to contain the host NQN _and_ the target NQN.
-So you need to call gen-tls-key with both in order to generate a PSK
-with an identitify which can be found for a connection attempt.
 
->> Do you have a reliable way to reproduce this?
-> 
-> Sure, here's a fake Python NVMe/TCP controller that immediately closes
-> each connection after receiving the ICReq PDU:
-> ```
-> import socket
-> 
-> def recv_all(socket, length):
->      result = b''
->      while len(result) < length:
->          result += socket.recv(length - len(result))
->      return result
-> 
-> listen_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-> listen_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-> listen_sock.bind(('', 4420))
-> listen_sock.listen()
-> while True:
->      client_sock, _ = listen_sock.accept()
->      recv_all(client_sock, 128) # ICReq
->      client_sock.close()
-> ```
-> Attempting to connect to it reports an error about the ICResp PDU type
-> field even though no ICResp was sent:
-> $ nvme connect --transport tcp --traddr 192.168.1.12 --nqn nqn.abc
-> Failed to write to /dev/nvme-fabrics: Invalid argument
-> could not add new controller: invalid arguments/configuration
-> $ dmesg | tail -1
-> [1351639.614853] nvme_tcp: queue 0: bad type returned 0
-> 
-> Here's a valid scenario where the controller sends the ICResp Common
-> Header and PDU Specific Header separately (using TCP_NODELAY to ensure
-> the sends are not coalesced):
-> ```
-> import socket
-> 
-> def recv_all(socket, length):
->      result = b''
->      while len(result) < length:
->          result += socket.recv(length - len(result))
->      return result
-> 
-> def send_all(socket, data):
->      while data:
->          data = data[socket.send(data):]
-> 
-> listen_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-> listen_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-> listen_sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-> listen_sock.bind(('', 4420))
-> listen_sock.listen()
-> while True:
->      client_sock, _ = listen_sock.accept()
->      recv_all(client_sock, 128) # ICReq
->      common_header = bytes([
->          0x01, # PDU-type
->          0, # FLAGS
->          128, # HLEN
->          0, # PDO
->          128, 0, 0, 0, # PLEN
->      ])
->      send_all(client_sock, common_header)
->      ic_resp = bytes([
->          0, 0, # PFV
->          0, # CPDA
->          0, # DGST
->          0xFC, 0xFF, 0xFF, 0xFF, # MAXH2CDATA
->      ] + [0] * 112)
->      send_all(client_sock, ic_resp)
->      client_sock.close()
-> ```
-> The host refuses to connect, complaining that the MAXH2CDATA field in
-> the ICResp is invalid. But that is because it only received the Common
-> Header.
-> $ nvme connect --transport tcp --traddr 192.168.1.12 --nqn nqn.abc
-> Failed to write to /dev/nvme-fabrics: Invalid argument
-> could not add new controller: invalid arguments/configuration
-> $ dmesg | tail -1
-> [1351960.082011] nvme_tcp: queue 0: invalid maxh2cdata returned 0
-> 
-> With the patch applied, the controller closing the connection without
-> sending a ICResp PDU correctly results in a "Connection reset by peer"
-> error:
-> $ nvme connect --transport tcp --traddr 192.168.2343.066666666671.12 --nqn nqn.abc
-> Failed to write to /dev/nvme-fabrics: Connection reset by peer
-> could not add new controller: failed to write to nvme-fabrics device
-> $ dmesg | tail -1
-> [  450.050463] nvme_tcp: queue 0: failed to receive icresp, error 0
-> 
-> And when the controller sends the Common Header separately from the
-> PDU Specific Header, nvme_tcp_init_connection() now succeeds. The
-> connection attempt instead times out waiting for a response to the
-> Fabrics Connect command, since the fake NVMe/TCP controller doesn't
-> implement that:
-> $ nvme connect --transport tcp --traddr 192.168.1.12 --nqn nqn.abc
-> Failed to write to /dev/nvme-fabrics: Input/output error
-> could not add new controller: failed to write to nvme-fabrics device
-> $ dmesg | tail -3
-> [  644.728894] nvme nvme0: I/O tag 0 (0000) type 4 opcode 0x7f
-> (Connect) QID 0 timeout
-> [  644.728974] nvme nvme0: Connect command failed, error wo/DNR bit: 881
-> [  644.728999] nvme nvme0: failed to connect queue: 0 ret=881
-> 
-Thanks.
+> drivers/nvme/host/apple.c       | 2 +-
+> drivers/soc/apple/rtkit.c       | 2 +-
+> include/linux/soc/apple/rtkit.h | 2 +-
+> 3 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index 4319ab50c10d11ed81dcc002275f190e053c1be6..f46b3f179a00dad054c24ccaa0=
+c578d64ca75ec9 100644
+> --- a/drivers/nvme/host/apple.c
+> +++ b/drivers/nvme/host/apple.c
+> @@ -221,7 +221,7 @@ static unsigned int apple_nvme_queue_depth(struct appl=
+e_nvme_queue *q)
+>   return APPLE_ANS_MAX_QUEUE_DEPTH;
+> }
+>=20
+> -static void apple_nvme_rtkit_crashed(void *cookie)
+> +static void apple_nvme_rtkit_crashed(void *cookie, const void *crashlog, s=
+ize_t crashlog_size)
+> {
+>   struct apple_nvme *anv =3D cookie;
+>=20
+> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+> index e6d940292c9fbdfc4cd42020e89aca2662c5cdce..4b0783091a92324a707a0e1cd1=
+6d36dd6d984678 100644
+> --- a/drivers/soc/apple/rtkit.c
+> +++ b/drivers/soc/apple/rtkit.c
+> @@ -368,7 +368,7 @@ static void apple_rtkit_crashlog_rx(struct apple_rtkit=
+ *rtk, u64 msg)
+>=20
+>   rtk->crashed =3D true;
+>   if (rtk->ops->crashed)
+> -        rtk->ops->crashed(rtk->cookie);
+> +        rtk->ops->crashed(rtk->cookie, bfr, rtk->crashlog_buffer.size);
+> }
+>=20
+> static void apple_rtkit_ioreport_rx(struct apple_rtkit *rtk, u64 msg)
+> diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtk=
+it.h
+> index c06d17599ae7e3d37d99495e4296932b1de3a3c7..736f530180179bd144cf85eb0f=
+0bd93844d7188a 100644
+> --- a/include/linux/soc/apple/rtkit.h
+> +++ b/include/linux/soc/apple/rtkit.h
+> @@ -56,7 +56,7 @@ struct apple_rtkit_shmem {
+> *                 context.
+> */
+> struct apple_rtkit_ops {
+> -    void (*crashed)(void *cookie);
+> +    void (*crashed)(void *cookie, const void *crashlog, size_t crashlog_s=
+ize);
+>   void (*recv_message)(void *cookie, u8 endpoint, u64 message);
+>   bool (*recv_message_early)(void *cookie, u8 endpoint, u64 message);
+>   int (*shmem_setup)(void *cookie, struct apple_rtkit_shmem *bfr);
+>=20
+> ---
+> base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+> change-id: 20250202-rtkit-crashdump-e848547dad67
+>=20
+> Cheers,
+> ~~ Lina
 
-I'll see to give it a spin.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
