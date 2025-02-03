@@ -4,103 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB0B7C02193
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 19:00:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B69DC02197
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 19:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YFnj24VvreG7lG3Pu3vMo/s91BwtpspZy+voBLJyXRE=; b=WxD60CZYWcwr0FUIfApViqe64v
-	jfqbGWtIbqZ9eimFmdMpHzZOb7fW88yuyb90W80qz7gTtb58lFfjTeukuZHA14maModxBUcp3goGz
-	ugWo7BHdmQSqigIPLacg1bO7JtCRklPt8oBj2AM8ZqiC9o7NX2/iwtGgOmgHt5s7uc0i+qzl4AiPm
-	Xbr0oZAY2hbj6jv4PU8xYyMNKpwDY4vqQfq+ROCFaRiAzDVIhFLZiH3HyH3zIFvyYy/lmcY86LQ4s
-	Qhhf+18fB43xY+KoxhbZkHbqG1H0vR1UnN6XwFWKsQmwyOydJx9OgnUNHrxSIEXnSYzQtLokSR0I1
-	0L1sRHvg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9flNTk3SjhSenvUMKVuno4iemuve4oEwOqiYTm3Uods=; b=ZsLq6AIDkiJwOFHYyp9Bpl+8D0
+	0BMVfth9qPn9iAHGgwOIqlx1NS1SIfgwIs9Cek7DNjzXnvHK82K9K4TcRdCGJXLWJtlCPIykNn90b
+	gcV/sNy0wSbVa9qZAZJ3nVY+wesHgbUxc0vjD+C+kLELXUai6z2nLwg98Dg9CyRlzy+GGC8AGJTD3
+	SCSD8uOahbtO+vsoa4kl5/eS76bS8v9B5cfR2DNQXDcUxegZDFs3AtXHKzVHjdaQsL1N1aWbxI+OY
+	aBt0RO17ohIyjWEDcrdG2AU+Da2+Rkrg5by16F+gffOhhmjwn5vfxydDPv/FHcLRY45x2NLQ+pTZI
+	8GUAGobw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tf1gN-0000000GMxr-36I0;
-	Mon, 03 Feb 2025 19:00:31 +0000
-Received: from mout.kundenserver.de ([212.227.126.135])
+	id 1tf1ir-0000000GOIv-1uKj;
+	Mon, 03 Feb 2025 19:03:05 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tf1VB-0000000GKK1-2IVw
+	id 1tf1ZJ-0000000GL7p-1grP
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Feb 2025 18:48:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=simg.de;
-	s=s1-ionos; t=1738608493; x=1739213293; i=linux-kernel@simg.de;
-	bh=YFnj24VvreG7lG3Pu3vMo/s91BwtpspZy+voBLJyXRE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
-	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=yiR3wKc6N+LWPS067T1xEU+aA9y6KP4KMhzLXslFRPH5jN6atOAmeUyGOgDt1upX
-	 DFQ6lPL12Tqm8w/ieZPfdA4Mr2jaIs9TubQ473itbQKpz/EDdEjauO+Cp0NfAOnEV
-	 rOr/mf/M+4LQL6VAJvL4D4nnvce8HLDS7/Kw7ybPL7TrFfkmW5ffeT45Iw0RYDOR1
-	 7Fj+B8NAg4UjJMRVwHvwJPOL5o6Ddlqlo3/0H9uPQfUElW6zi2j/v4oby8T0pPDnh
-	 7pf008CFkuGUCcSImsUOtwYuZ4V4GZYcup4dvVcCVD0a+Cm/xiIKEwhC7idDPrsjE
-	 fViNGSeWiFU1q+0Sbw==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.1.60] ([87.158.47.249]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MLi4W-1twgrk40Dw-00J9ey; Mon, 03 Feb 2025 19:48:13 +0100
-Message-ID: <4270c0e3-161e-42d5-a6d3-f16b7fbcdc00@simg.de>
-Date: Mon, 3 Feb 2025 19:48:11 +0100
+	Mon, 03 Feb 2025 18:53:14 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 513Iqjac005147
+	for <linux-nvme@lists.infradead.org>; Mon, 3 Feb 2025 10:53:13 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
+	 bh=9flNTk3SjhSenvUMKVuno4iemuve4oEwOqiYTm3Uods=; b=cmJuY00J+3PQ
+	KaPfF3ZF1xS+2rxEKAu967P7siO8nUdw9+0DOL6zjzV/vW9+GYK8We6M9r+oju+1
+	Sx4uXOw6OiTBGStAT5gGVJEMxMjc/JB9emPnINWlIUpAWqw4DYlcDCCPdaydqj5B
+	T7P5A7G4tMuVbkvN2Vym3pOOWxzQAGbguCt1Ca+f95x5LhliwmNd0eUUANgtN0jk
+	8u1yvbExdCEFcfCbf9YKzcgviIJEJw+u3SvnP9n8cj6pUHbFexbS0Kv8SfC8RmYB
+	eGlK7pti8nmblJPBy0KDT+pwHmy9C8o8+f6K91ax7PaWjbk+iUk/cBmm7BItT5gu
+	IoSMEmA7JA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 44k3f6g04q-10
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 03 Feb 2025 10:53:12 -0800 (PST)
+Received: from twshared32179.32.frc3.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.14; Mon, 3 Feb 2025 18:52:52 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id DE67E179C2635; Mon,  3 Feb 2025 10:41:34 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <io-uring@vger.kernel.org>,
+        <linux-block@vger.kernel.org>
+CC: <linux-fsdevel@vger.kernel.org>, <asml.silence@gmail.com>,
+        <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
+        Hannes Reinecke
+	<hare@suse.de>, Nitesh Shetty <nj.shetty@samsung.com>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCHv2 09/11] nvme: add FDP definitions
+Date: Mon, 3 Feb 2025 10:41:27 -0800
+Message-ID: <20250203184129.1829324-10-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20250203184129.1829324-1-kbusch@meta.com>
+References: <20250203184129.1829324-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-From: Stefan <linux-kernel@simg.de>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>, bugzilla-daemon@kernel.org
-Cc: Christoph Hellwig <hch@lst.de>, Thorsten Leemhuis <linux@leemhuis.info>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Bruno Gravato <bgravato@gmail.com>, Keith Busch <kbusch@kernel.org>,
- Adrian Huang <ahuang12@lenovo.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20250109082849.GC20724@lst.de>
- <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
- <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
- <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
- <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info>
- <20250117080507.GA25953@lst.de>
- <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
- <10e39c88-4667-4c61-b3eb-3dd7ee3074c3@leemhuis.info>
- <20250128074133.GA22435@lst.de>
- <379bba80-df0f-44c5-a15e-fd4393c52b8f@simg.de> <Z5jTKTfKUeLm4uJT@gallifrey>
- <e01fdde0-4760-487d-af0e-2aecf9d7ade2@simg.de>
-Content-Language: en-US
-In-Reply-To: <e01fdde0-4760-487d-af0e-2aecf9d7ade2@simg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:f9RM+83asFATTdzAoEoXNJJMSOExToxSRQTNr1E6qWGNJeaLQyF
- S57KAWJOB+/4BcEw0KqA8LEijhiaROxGbBCO9oNzEdB+I5IZMFZjuAyPDC0tKYdxmsazgxp
- ysc7W1hd9y19As35jwU7UbrBmNWD/rCMXhFwW/te2drR5fFK78p63usD/fHv29p60YV9224
- FwJ7Qv93NOltqeL7F9e6A==
-UI-OutboundReport: notjunk:1;M01:P0:2xs3pvJSyk4=;JuSnkWSq5ZJcSuUA2ef0ZXq5+QD
- VPYJJN6027rReFn8B88BuG1vvhSS2i+1Q590jL+YMsbv7HIs30TjWnI1UrkeEgIPXei7gzJSa
- ORpYgs/q6c9PXLtzgVfLKBkXV6m9HlJGxWwj6TX0zkKeDURd/wStDyWdbDAwykSd87amuYb34
- /oQDSM17OH+9UTQv8Ms1neV/XX0sGioTuE8PDdPK4Dieeq91lQ/feXYiJ3J4CYHWARBL1qhZn
- TkfTsks7/lpSlxOMEgYUWs61eBNFiBHP0BhO2e7jqKT5s37EN8iLKMtDLzGAStFWOKdIpHQgS
- k2TBu7gqeQg5F9Eam+GfAegQmCxOVjJu3j+eyKLDjUp0rFPtbOBGN+Y/upciBTODiC1WrPEAv
- qw+SkljIZHPZvO7K0yk/M7g/QVtvuRwgbJ1Prqmyy7f58y4UFrR9tXXERjszjj+f9ENN9Aj/C
- SjOcYyXWil7G0B75UoP0yfe6DUdAoDsV82Zn4VvgLNdU5GKXXwXBjXmgHSmUhO2n25lFt56P0
- u7eL+V7IVCV5ti4fzx/l55ObG5lznIx3Ha+5unIGJZYsK9BKWqx6Kd+vJtM7wX9uRUak9DGqG
- cmGPxo2yPn20bSUb/rBIjo5J/FHzm8zmrguObQ75kIDZTKJ+B1HVnuXQi8ABqoQ5bCYF6wTyE
- hDTaMpQKV5ACXYbwugpE1Bru1j87KCqsg7rkMv1jrJvTDHwkSOmJd8iUHy2jDp99apx5/JshS
- YKQ/EDUJxIBregjnsTm62ZFrqtEc5xLeTvs6Xpjvz/W1iZJ80ylymKNeXzwwCByhE2ZCxNdQU
- THznIZPBG6in2X3qNwkvDuK9f0Kaff/AmroN0YpDbRBlFTHfEplHJQdvHoymJ5PtjIt5xVCG3
- iluRtHgEwPGXjIrmLMG9iwC0Jp+HBWF6Hw0mS4GpDbnLSi11eqAVAt22p7aQsj07o7XvEg8NN
- Ja+OZsugjjk+X+L9gyixyMgoyL5W8KR1bYsvPZxEw4rk67gzgn7xeDEMOx7QOJvkS78gggD+Y
- azdgNNG8q+zB7TlVYpce8orMjIc7ljh/Rt38fV5b6Jnveh0fKD4z+um5KLudCb8mkr/ue1UxE
- 08nLbAlUgxFlJJyEqlg8HwMeVeYVNWnesqUJ6eRLumNd0633xJk6K67vNHtQbISYfLNyByt7w
- bXYc80U+6zrwnpQWgAjU7TToOuD90Uq5m3/P7HFqK8SMaAKF26255VoCAPBukSRZkAg3YNZKt
- BL5HyeAW1qZy4JMcTOrrl3nGu5dEaaoodslX3koylONNCHGnA+Cw8m0=
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: CEXUrIxHLPdQG83-1eC9lfhJ3TFQXyEy
+X-Proofpoint-GUID: CEXUrIxHLPdQG83-1eC9lfhJ3TFQXyEy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-03_08,2025-01-31_02,2024-11-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250203_104857_881973_0738E2B1 
-X-CRM114-Status: GOOD (  18.39  )
+X-CRM114-CacheID: sfid-20250203_105313_449011_27E51A8C 
+X-CRM114-Status: GOOD (  11.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,75 +91,166 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+From: Christoph Hellwig <hch@lst.de>
 
-just got feedback from ASRock. They asked me to make a video from the
-corruptions occurring on my remotely (and headless) running system.
-Maybe I should make video of printing out the logs that can be found an
-the Linux and Debian bug trackers ...
+Add the config feature result, config log page, and management receive
+commands needed for FDP.
 
-Seems that ASRock is unwilling to solve the problem.
+Partially based on a patch from Kanchan Joshi <joshi.k@samsung.com>.
 
-Regards Stefan
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ include/linux/nvme.h | 77 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
-
-Am 28.01.25 um 15:24 schrieb Stefan:
-> Hi,
->
-> Am 28.01.25 um 13:52 schrieb Dr. David Alan Gilbert:
->> Is there any characterisation of the corrupted data; last time I
->> looked at the bz there wasn't.
->
-> Yes, there is. (And I already reported it at least on the Debian bug
-> tracker, see links in the initial message.)
->
-> f3 reports overwritten sectors, i.e. it looks like the pseudo-random
-> test pattern is written to wrong position. These corruptions occur in
-> clusters whose size is an integer multiple of 2^17 bytes in most cases
-> (about 80%) and 2^15 in all cases.
->
-> The frequency of these corruptions is roughly 1 cluster per 50 GB writte=
-n.
->
-> Can others confirm this or do they observe a different characteristic?
->
-> Regards Stefan
->
->
->> I mean, is it reliably any of:
->> =C2=A0=C2=A0=C2=A0 a) What's the size of the corruption?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block, cac=
-he line, word, bit???
->> =C2=A0=C2=A0=C2=A0 b) Position?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 e.g. last =
-word in a block or something?
->> =C2=A0=C2=A0=C2=A0 c) Data?
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pile of ze=
-ro's/ff's junk/etc?
->>
->> =C2=A0=C2=A0=C2=A0 d) Is it a missed write, old data, or partially writ=
-ten block?
->>
->> Dave
->>
->>>> Puh.=C2=A0 I'm kinda lost on what we could do about this on the Linux
->>>> side.
->>>
->>> Because it also depends on the CPU series, a firmware or hardware issu=
-e
->>> seems to be more likely than a Linux bug.
->>>
->>> ATM ASRock is still trying to reproduce the issue. (I'm in contact wit=
-h
->>> them to. But they have Chinese new year holidays in Taiwan this week.)
->>>
->>> If they can't reproduce it, they have to provide an explanation why th=
-e
->>> issues are seen by so many users.
->>>
->>> Regards Stefan
->>>
->>>
->
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index fe3b60818fdcf..96962c95b7d12 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -277,6 +277,7 @@ enum nvme_ctrl_attr {
+ 	NVME_CTRL_ATTR_TBKAS		=3D (1 << 6),
+ 	NVME_CTRL_ATTR_ELBAS		=3D (1 << 15),
+ 	NVME_CTRL_ATTR_RHII		=3D (1 << 18),
++	NVME_CTRL_ATTR_FDPS		=3D (1 << 19),
+ };
+=20
+ struct nvme_id_ctrl {
+@@ -663,6 +664,44 @@ struct nvme_rotational_media_log {
+ 	__u8	rsvd24[488];
+ };
+=20
++struct nvme_fdp_config {
++	__u8			flags;
++#define FDPCFG_FDPE	(1U << 0)
++	__u8			fdpcidx;
++	__le16			reserved;
++};
++
++struct nvme_fdp_ruh_desc {
++	__u8			ruht;
++	__u8			reserved[3];
++};
++
++struct nvme_fdp_config_desc {
++	__le16			dsze;
++	__u8			fdpa;
++	__u8			vss;
++	__le32			nrg;
++	__le16			nruh;
++	__le16			maxpids;
++	__le32			nns;
++	__le64			runs;
++	__le32			erutl;
++	__u8			rsvd28[36];
++	struct nvme_fdp_ruh_desc ruhs[];
++};
++
++struct nvme_fdp_config_log {
++	__le16			numfdpc;
++	__u8			ver;
++	__u8			rsvd3;
++	__le32			sze;
++	__u8			rsvd8[8];
++	/*
++	 * This is followed by variable number of nvme_fdp_config_desc
++	 * structures, but sparse doesn't like nested variable sized arrays.
++	 */
++};
++
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
+@@ -889,6 +928,7 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_register	=3D 0x0d,
+ 	nvme_cmd_resv_report	=3D 0x0e,
+ 	nvme_cmd_resv_acquire	=3D 0x11,
++	nvme_cmd_io_mgmt_recv	=3D 0x12,
+ 	nvme_cmd_resv_release	=3D 0x15,
+ 	nvme_cmd_zone_mgmt_send	=3D 0x79,
+ 	nvme_cmd_zone_mgmt_recv	=3D 0x7a,
+@@ -910,6 +950,7 @@ enum nvme_opcode {
+ 		nvme_opcode_name(nvme_cmd_resv_register),	\
+ 		nvme_opcode_name(nvme_cmd_resv_report),		\
+ 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
++		nvme_opcode_name(nvme_cmd_io_mgmt_recv),	\
+ 		nvme_opcode_name(nvme_cmd_resv_release),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
+@@ -1061,6 +1102,7 @@ enum {
+ 	NVME_RW_PRINFO_PRCHK_GUARD	=3D 1 << 12,
+ 	NVME_RW_PRINFO_PRACT		=3D 1 << 13,
+ 	NVME_RW_DTYPE_STREAMS		=3D 1 << 4,
++	NVME_RW_DTYPE_DPLCMT		=3D 2 << 4,
+ 	NVME_WZ_DEAC			=3D 1 << 9,
+ };
+=20
+@@ -1148,6 +1190,38 @@ struct nvme_zone_mgmt_recv_cmd {
+ 	__le32			cdw14[2];
+ };
+=20
++struct nvme_io_mgmt_recv_cmd {
++	__u8			opcode;
++	__u8			flags;
++	__u16			command_id;
++	__le32			nsid;
++	__le64			rsvd2[2];
++	union nvme_data_ptr	dptr;
++	__u8			mo;
++	__u8			rsvd11;
++	__u16			mos;
++	__le32			numd;
++	__le32			cdw12[4];
++};
++
++enum {
++	NVME_IO_MGMT_RECV_MO_RUHS	=3D 1,
++};
++
++struct nvme_fdp_ruh_status_desc {
++	__le16			pid;
++	__le16			ruhid;
++	__le32			earutr;
++	__le64			ruamw;
++	__u8			reserved[16];
++};
++
++struct nvme_fdp_ruh_status {
++	__u8			rsvd0[14];
++	__le16			nruhsd;
++	struct nvme_fdp_ruh_status_desc ruhsd[];
++};
++
+ enum {
+ 	NVME_ZRA_ZONE_REPORT		=3D 0,
+ 	NVME_ZRASF_ZONE_REPORT_ALL	=3D 0,
+@@ -1283,6 +1357,7 @@ enum {
+ 	NVME_FEAT_PLM_WINDOW	=3D 0x14,
+ 	NVME_FEAT_HOST_BEHAVIOR	=3D 0x16,
+ 	NVME_FEAT_SANITIZE	=3D 0x17,
++	NVME_FEAT_FDP		=3D 0x1d,
+ 	NVME_FEAT_SW_PROGRESS	=3D 0x80,
+ 	NVME_FEAT_HOST_ID	=3D 0x81,
+ 	NVME_FEAT_RESV_MASK	=3D 0x82,
+@@ -1303,6 +1378,7 @@ enum {
+ 	NVME_LOG_ANA		=3D 0x0c,
+ 	NVME_LOG_FEATURES	=3D 0x12,
+ 	NVME_LOG_RMI		=3D 0x16,
++	NVME_LOG_FDP_CONFIGS	=3D 0x20,
+ 	NVME_LOG_DISC		=3D 0x70,
+ 	NVME_LOG_RESERVATION	=3D 0x80,
+ 	NVME_FWACT_REPL		=3D (0 << 3),
+@@ -1890,6 +1966,7 @@ struct nvme_command {
+ 		struct nvmf_auth_receive_command auth_receive;
+ 		struct nvme_dbbuf dbbuf;
+ 		struct nvme_directive_cmd directive;
++		struct nvme_io_mgmt_recv_cmd imr;
+ 	};
+ };
+=20
+--=20
+2.43.5
 
 
