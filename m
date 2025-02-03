@@ -4,183 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C4D4C02193
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 20:45:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BFE3C02192
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 23:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AW/Jy9jJvWsdS8htfP0j2FW2sbenCi+SWTWfGOIhhaA=; b=q0VGyMseq2bNnGFp2FrTRJCUXP
-	9MXDDxud55wQdRngVS1x38ndcIOiFBH2ihwPOmm58o16+2cXdwskyrCrxLJatA+1dsIOYroTniezx
-	JwFwViGCkDOCagzDNXViCTBt7tIwglICsftu5Cs+RT6GTLBkGw6KD3633ShW/OcYLU1RDLTS8tabe
-	kLLCVfmNU4qR+7kaNQ6ayh2KwuGY1paaRMortlVD3KP19b4Kl+22kQS/DOYY3bCRTKjvQLS6VRr7t
-	9UTw17xURtxufdWk5Tlz0SVMdzORpdxw/KwWI2bQYTj9ky+6KTOBr+kODaiZtmXi1oT0XGnJ26DSX
-	QZKw6gsg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=M20UpxnCCjF4g6dYJIAZ+fZHXwpgnatL1DQuqP4O2ps=; b=RPDWqA7QMZlrNpuFLn649QDHq6
+	OE7Sxm57eW9s3aoMVn5s8JGpsK88KNm9DutNxEkNAFMns39ETtVBuRAsgr+vrp8ZHz6AH0fu8dfTE
+	HqzsXrABa2IB156jaf8Ta/KYT1R6ALDIncbKtjjpKrmlXf+mzAQ4N/c3FoJNFhib3ks3YI8oI8IWW
+	HqfMhOpDPIQD9en6rWFPpc6kHjhPgumxAiyMNOPuV+1ummM/o38gVtfWoXlyynxZS/bDHDd/a3OuM
+	0ZHx4Csqp0H+74VE3vuedcm9s7T/i4JgagSxizBZFcm3cn4sx/golmkhq5LL9V/nfzTXSTh18A+ED
+	pnJPRxSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tf3KJ-0000000GZoH-29JT;
-	Mon, 03 Feb 2025 20:45:51 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1tf5h6-0000000Grlq-1XWG;
+	Mon, 03 Feb 2025 23:17:32 +0000
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tf2AQ-0000000GTEt-3p3N
+	id 1tf5h3-0000000Grkk-1l7V
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Feb 2025 19:31:36 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 513JMsVq004439;
-	Mon, 3 Feb 2025 19:31:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=AW/Jy9jJvWsdS8htfP
-	0j2FW2sbenCi+SWTWfGOIhhaA=; b=ZSvpRANImZ3f2GW2DEcXXlqHBqTVVh6czV
-	xK6yYeAhCsaz51pdpVoZ/IAHq0sEX0H+PocHyzChPCaGY97KE4V7GF7D8RhuZvrI
-	ESgzAq0oYSden2U4PuhmQMCd0OTUXF4xvACfdN4q2cRdcoGFTb9XwmuoylpkEsZy
-	qXdWwO1Clj1+ik4W+YTcoNzHmSn5aShFEnf7XhWZigQ2GzOy7WoqPI2NIwjdLq8W
-	tu5cEcvbF3bPdtQlD3mmNYpGIViml7rrv22IoMwZ4539Ig4WJWf116fIWbrUJQF4
-	o4bg9ZAoYv/9G7/U+g6sQzDZSJDoqfEKuzX0VTTJ+aWEIPrFaRUA==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44hh73ka49-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 Feb 2025 19:31:29 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 513JU2O9039051;
-	Mon, 3 Feb 2025 19:31:19 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2042.outbound.protection.outlook.com [104.47.56.42])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 44j8e6t3f8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 Feb 2025 19:31:19 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KibMi4xiHu/IJHDQK9hrq7hlrDH1XVIWXcVprdzvk+G0u2wq0wj7QeEAuOTttbqtOuDx5PTF+JMl494XchOSIf+IlXctL68wUFXmJzFuydGOR87v46NJpNhc/0XBmIZwCmkSzdLkXElMkIape+h3/3yvUIBovHikfi8OpsqknyIlfCqPmwzK/9xjAtYcBXX7yJcSOFtiVO3WjhAqXebWqLlg3lveXtAQ3de55N+sqmd2Ll+0G7WOFPyQ5xHbgD71TideL+dv1m9S2XO0gZl/WCSVLb5LH+16Ex9xx8AzNu52wdwODZzeaRs0MH7CgzLkCuQnXlwt733+Z6ta2M1Z+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AW/Jy9jJvWsdS8htfP0j2FW2sbenCi+SWTWfGOIhhaA=;
- b=Ud2gQxD3wxTsSyQeL5tZQY2afbgljM/8bfg6DqrU7pmUA1pDxP2kl/uYHABLC/yIvV+5f2FL1JNn8sRWu8YYG3x81itr6Hpfp0wju+rhC3mVfR5vAkg1qR3WD4yA0dV5Gee2M6M+XPD7qaNzF37tFF51io6u6y4a5RtnyqFjQRpXOWi97OAMtiHEfm0Irom3aWgbHHCNPd/M9yuEwtWma+yLmWikl8Cdtxu73BCqLwbZzjZkGCKLepJZZnIqy8VV9KJfjN8N349tyWdzrwnuV4Zs24K4OkclusXvBIvt2X/PFQ3Uy65uHf0jOYFe6NjJopNU2FnEeQEvIfG5GG33Tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Mon, 03 Feb 2025 23:17:30 +0000
+Received: by mail-wm1-x341.google.com with SMTP id 5b1f17b1804b1-43622267b2eso50022025e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Feb 2025 15:17:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AW/Jy9jJvWsdS8htfP0j2FW2sbenCi+SWTWfGOIhhaA=;
- b=c+ZFiEUOBbxiEop8gLdfQuLwE6pzgQTL7KTHOuQgJJcLKH8dM96QtG0LkdzzMb/ZRpxeQkBQlAFPQnaR0JIuwI/SmKQ+76u3Az1ypdVj0wq6hSpJL0992TpshyHATj7HLjgDslAOWcjo+LHZMt4on/5aZUZyKwdLapToNeyxaA4=
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
- by BLAPR10MB4867.namprd10.prod.outlook.com (2603:10b6:208:321::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Mon, 3 Feb
- 2025 19:31:16 +0000
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::5cca:2bcc:cedb:d9bf]) by CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::5cca:2bcc:cedb:d9bf%4]) with mapi id 15.20.8398.025; Mon, 3 Feb 2025
- 19:31:16 +0000
-To: Christoph Hellwig <hch@lst.de>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Kanchan Joshi
- <joshi.k@samsung.com>, josef@toxicpanda.com,
-        dsterba@suse.com, clm@fb.com, axboe@kernel.dk, kbusch@kernel.org,
-        linux-btrfs@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org, gost.dev@samsung.com
-Subject: Re: [RFC 0/3] Btrfs checksum offload
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20250131074424.GA16182@lst.de> (Christoph Hellwig's message of
-	"Fri, 31 Jan 2025 08:44:24 +0100")
-Organization: Oracle Corporation
-Message-ID: <yq17c66kfxs.fsf@ca-mkp.ca.oracle.com>
-References: <CGME20250129141039epcas5p11feb1be4124c0db3c5223325924183a3@epcas5p1.samsung.com>
-	<20250129140207.22718-1-joshi.k@samsung.com>
-	<yq134h0p1m5.fsf@ca-mkp.ca.oracle.com> <20250131074424.GA16182@lst.de>
-Date: Mon, 03 Feb 2025 14:31:13 -0500
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR04CA0017.namprd04.prod.outlook.com
- (2603:10b6:a03:217::22) To CH0PR10MB5338.namprd10.prod.outlook.com
- (2603:10b6:610:cb::8)
+        d=suse.com; s=google; t=1738624648; x=1739229448; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=M20UpxnCCjF4g6dYJIAZ+fZHXwpgnatL1DQuqP4O2ps=;
+        b=UqdZrwa4I37GF0oMGEVfZA8x7Yv+yhoTqMrRmzk584ThCXfIsDGbH91B7VmKPuk53P
+         T8FVQgBHp6I6TTMhY095cjGi7LXgwVNX2YbMczKfJgWLhdC2089EnyTfpEGKrdujlouN
+         b1nn2OMzgHTwmePkS6XOLS7CJ8jbOBnjtTfXTRxb0EUFTHfDW6d/Vmq/4OgSmrsMLmO1
+         7VGIe2whMaJPea887s0awcG7ik6Rdam0p9KFPmGUkI6tT9CCabVRbac4GlbMaj9trs8y
+         GDZUmO/Xm7w6bAMRBrvF6B+gBwzRcIQPYy2BD4yp590Cd/TuqAEg+lajckwHArpMCg7z
+         8zPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738624648; x=1739229448;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M20UpxnCCjF4g6dYJIAZ+fZHXwpgnatL1DQuqP4O2ps=;
+        b=NXpdvhnSUUpHAULzfQ9H5q6JWNT+G+ZH8i0SFm5wynAkDYtK7Fkyi8Ij6+975aC5bO
+         9a7Lvv5qVcKsHP48rWB6A5Fo83lBCDOLmIBWxzhIepAgqjFYiB5VXHNMfj2JEzyWZ8iI
+         qE0m4tzB+0RtZ2tlUPc6f2lbKZnTyaU1zv9pa+rbm8k8Ps/bEsFlR51chBaesdO1PHuu
+         G+Qv+fHzNrnc7lKUrWAQtFPkAt4bRczAJ71AhiL1XKVAC6QaLxlCXa8AmnS14NEIoee7
+         diVDo6wN9XbFui+4QjuSdk9+OZ4DSgzLKB1rljsMVc0IjMvGUJrvZTwkiaY4lVJRJtbm
+         Mw4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW/tdpHdkJGEU+4icswYzewe2wJzwXAPZcDoH/3FhOvUq0gElIlV3TQ+ITtFx815ArHgzbjvSkyMoZu@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy1Wm9QZEtTEPEhqTkjLnkd1n4cYMSVAMyHPdzQnB3DLbK+okN4
+	PkuJEJIf8J20XmDlE9e5/V3mz3ZJP6k8ItuWQWOUxYEGbeaGznCLrd0Cp5MyDWg=
+X-Gm-Gg: ASbGncvIMLms2obWKi7hWucz/C/B/6RFzE9+pUQiCZFfT+eDQB2aHhjoQntRY/0erKk
+	SttU9Kupo4WBnNKBOS/8QQHwdHOGWXvJ775AxQ/IXukcBUIIdBk6jAqWubBaqvgxKFVTMYNTkgA
+	jpbwpJRLP+M5ENabUWP/V8yUFWlu+wZe6CF9xcVjOD585oV2EQ+nGhFeKmnpDyYjGE+QGkpldrH
+	zl9QigQ/A5dPxeoMQvxBJe1Sk6Ub1wgPydiulzz2FwfvkveHzBisP5plVXyxXY/LLl8iGUBN1Y9
+	lbnBuOsMMabQpp8W5x3bAmDsjSO6Ny859wRwEyUCG70=
+X-Google-Smtp-Source: AGHT+IHKDskR6a298u6J7mhd/9DgYRSdntqz5BbexE9oUnoXAFWMJ9T+mniIRnDNpv7LfLg/ZQDLWg==
+X-Received: by 2002:a5d:588d:0:b0:38a:68f4:66a2 with SMTP id ffacd0b85a97d-38c51b600f7mr18788353f8f.31.1738624647383;
+        Mon, 03 Feb 2025 15:17:27 -0800 (PST)
+Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acec0a666ddsm7087129a12.73.2025.02.03.15.17.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Feb 2025 15:17:26 -0800 (PST)
+Message-ID: <df9c2b85-612d-4ca3-ad3f-5c2e2467b83f@suse.com>
+Date: Tue, 4 Feb 2025 09:47:20 +1030
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|BLAPR10MB4867:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5beda007-aa86-4353-01a2-08dd448953ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NNqruoZHhjqVFyqOatp+csV0RtPnqLY2+sfIZXKNJp++TJRasROKAWZVPQ2b?=
- =?us-ascii?Q?K3S4sZrGgPel5c/4DT48JvKF0fgcp3a3HfXQwjzBQnvKAt/vnTLZj0bpBx/m?=
- =?us-ascii?Q?2uZOAI2cWH6exQ9enUu9UGE2cmOxQQDWY4uhL0jmrKG9UaHZMXGqgR/1PZrh?=
- =?us-ascii?Q?y2lEvOnQJxz0Mq9MxU73WYAA/7m4UvnP7QgXDiSuImSo6g0sKt3I759Z2Fz7?=
- =?us-ascii?Q?0RPgOXH22LGwv3bbNdYw7dlauZxO552RQIT5/ZvpLoxOJrJ2IU0Pb7/hXtXM?=
- =?us-ascii?Q?LAr0hNO/DF9phoaTkIksfatjO563RiNf06xwyXkgcI8JpaiHo6U2N0VJsl9G?=
- =?us-ascii?Q?u7s6u3nceeu+NIbtgONaySvYbEN8KUUSBd/pe0AKrbdT5gZRmmUcHkxDnJ6+?=
- =?us-ascii?Q?jlKqvldfDN5zZRcc7nn9J8yFRzWQKyNISta4hjo3gyX478RY/FUFUEqLWrvq?=
- =?us-ascii?Q?FlVZW7oNcItJ7FPB2iUc+zHDV2+sO5VeL2/L+4w9pl0/3+xt8wXgDYYZLX2t?=
- =?us-ascii?Q?t//9OJUL5woj/QJ6DHNfNknmiJjMtMDhpyMEtiQecPIhF10mLVV1jGtEaIvf?=
- =?us-ascii?Q?x3DWiM4cTe2L6T17o3MCuMKL0CoILjaeSb/qSPoKzc8y4wPVTmWmlJBNKeLy?=
- =?us-ascii?Q?Ucpn/ILcW4b6U9YwhtI0DJNONP6vsgq8fyfTHij6ALh3RdthVCgUGTIE4ah7?=
- =?us-ascii?Q?Ez9R6FOLckRXqTNsZbvPVI+n3J8U4F2HYqLEC1JWNjU1Pa4cvqruJ0RrExlf?=
- =?us-ascii?Q?zPG3KyHctmjys5afYB1C03OFJlbOG76PLhS/cmdr+hyVQvWbKKIdpBoL4OB/?=
- =?us-ascii?Q?ZarzOjTrJ58iuwH3D7PiG8EsWBqugrKD/9tl/mXuXuyZQyGBSzqyJjjBYTdq?=
- =?us-ascii?Q?RQR01lUKg9Yg607w+c3u8b/wGinQDCwwaq+BJeiSz0Pq0oD2l0W0HR6feoWp?=
- =?us-ascii?Q?+dTAe/3Ay0HjIKvbk6DErZJoloWF9BKrV14vNI5X0xHVLt30Ks5M2xWxjlI8?=
- =?us-ascii?Q?w4Yi3h5kqqjnoiEJcBOAyuEVQpt2ecUzR3fSd6KFMQGbXuiLdIOhDzuEu8fb?=
- =?us-ascii?Q?4C0RFYp3gGU+dn2+N8bUTi8jGaNv9tAwdnRjxvNk/wxKMiRx07mk5Q7EORnp?=
- =?us-ascii?Q?3sLUR5aAkpaUqRyTUQsk18iC2KGcokjI5ExYiMRgfJnHNZRI/6WmjuOuvx0j?=
- =?us-ascii?Q?IfaTwRHcDsfZ+RreU1Cw78vll0E9cFiVr7vVfl2/sgoLyEdIECylWcLIfjPR?=
- =?us-ascii?Q?uz5xu+G9Fsa0241asSGco7cdMfbE3AMxDa8Z0wpvHdMvLjr4Y2ylHlLoL9Zf?=
- =?us-ascii?Q?hdgN4Zyep6O1zOCk96f1c5QIxDQ08oSZtWD1fJWWfsC+n7hJ610qJoh7dq/T?=
- =?us-ascii?Q?NgvJF2C+9mUBznHWfX4tyfs23gIC?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zyc8AnQNCxPqgFLmHXxqjZ6bmFeZGMOuB7ejT/hV7iUgC0RDpDx19BgKiIUH?=
- =?us-ascii?Q?LU/UlqEU0Ic2RaFI7VtZVFfLmBVna0JBedF7Ms4UuWIWFpcK4K011keNdKQZ?=
- =?us-ascii?Q?RTn5V9oUt0EL/vaIqTk2KZGWQUZi//bt4kNQa2yWBLlcAYtkzsn/hAZA3NtI?=
- =?us-ascii?Q?pNz22A75xjMj4lLoCAafFZLnVR6nuVmjClvoVvWkLLRl9oJmAIGfZlG7XCjf?=
- =?us-ascii?Q?c44zHucI//1mPQ3M7vNKlo6FontvwO36e1aFEIuoWU6Fkb2ZVQ9Uyosg/AgB?=
- =?us-ascii?Q?Jjz/Ga8lHuRhtH0goSKBNJea5HW1gOv+NWZvMLrLGVWFiKhM6NfvCDnY+uHr?=
- =?us-ascii?Q?1xoYA5FeSKsWp0488CEKy6LUkY3OGFNKrk8KCZFc8j6BiXRa1+pZ+Ew5vB0B?=
- =?us-ascii?Q?DuILZPDEhJIWIjAHPnMl/XOV+T4nKUrqV2bny4nn1C/N5rhOHwLm3JWtYT4z?=
- =?us-ascii?Q?WZYXh877a7JsjLZbPFki34PQQBNKtisj1h3TSTn5LhloeL78TJy887LVT1kL?=
- =?us-ascii?Q?UrvO/zTJrGb0cd/mEYEdiiHWkJgFV7k0jjXDIOeyyDx64cG2bmyRGe7TTcEa?=
- =?us-ascii?Q?U/zrGFllVQjuncDkUwSJl5kFyY1NkbSEMj61HKxAGz59cdumEIfh+OBbpefw?=
- =?us-ascii?Q?K9YuqXkVGBvMxx1kIOfldQw47KhSdr/124X3YXkkSCQYZbef8Sxz4sN1KrSj?=
- =?us-ascii?Q?r6cvZHyz3ohk7brcbu+mfLJjbKdFmAdMQqBXUOuhKcapsODO6pcPmPkcXziA?=
- =?us-ascii?Q?2/pTDo2qYXGrcHJFpv1LWwEE86CVDmvMAtXoIbYxRskMHFfTyssiFfBCkZ/j?=
- =?us-ascii?Q?+t1gLi7ysPwJ1ITAT/E3RkpZBsnWe2DQAuESG0Mj9JKk1MGFFEg5X44muzRR?=
- =?us-ascii?Q?f67AlX32spVzePARqgY1quE9OBZNuKKuPpmQAEVuKqRhtjESyrTjc67nBdLw?=
- =?us-ascii?Q?WNDnVhzsAb0BPgKSFQkGUP9WbPnSXZqlhrkuVQqeN/5kdwgs/HQCWSaWHALC?=
- =?us-ascii?Q?X5qNHksmNJrBXkwwfdrZ55Mo7Lg6l9bOogioyFX1rmhQaV6OoobUNZeFfBS2?=
- =?us-ascii?Q?C6wnulqF0YWqWXQwOw2q4R6W261PS4jnEowvRGZRDG8BZChfebCFpZq+7lbf?=
- =?us-ascii?Q?ZV9PWOVIqTc5a+qZ1nWU/MHuHmGzs1W4YSeaB0T5xTT7MQaf8ycGpcwd2juI?=
- =?us-ascii?Q?FLizV62bncKLv9OV3YBSvdyQwsyBn+CgX8msG2l5+VCUt5DbJ4732xrfBvWV?=
- =?us-ascii?Q?ux+Pna1WPFnfz3uc0Us+uZkTqQFkiBHtGr3g8Q1/PRp2QYmXqrKQTb5RgaSf?=
- =?us-ascii?Q?D4ylW1kF2NRhmE0jifmEwUSeD8P8lnlNIxYFzW70LxrnyV/4649vsk43q3Mf?=
- =?us-ascii?Q?GeH8OW7x9AMjH+tjx4i/omy9iciAfRnVI7nUZCKO1kxXHIbWuqxPT/e+3LvC?=
- =?us-ascii?Q?T0lzFAvEBFYv4XbNMpDZ8YeWT/tOJOTK4yEgDd+qInsWQtlugLkPGRC4iUkP?=
- =?us-ascii?Q?MftX2uyvuFb3oFWerLuLKFzv06vZ4SW77jNsBkXUaPRutJpeY2LS6gaZM4dT?=
- =?us-ascii?Q?1hopYiVEYlEvGEdlNMOJE6DCxqpKmMcljuXGQ0En189eyMKx3/V6ldOlLl1e?=
- =?us-ascii?Q?sQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: TIckFHkTukpaFvovizOfTtrp6rersftWGNbu5vP5jivWnjjTjytKkEWTfvoCMbg68ByQ7WH8/2XAF7twgqibSXyRjDVnDvBjxtVD+dKObxRkWC1oRlCCp8DqQetYauKbT8U8X6UF9nRTP6b7nJA/o4uOhIvkHzd0h4jQQYPcCBlW6R9le79FJvW5E2B+J2hKeKyQwKLZ6ipvO/mmmuiAtcYyq7G3bOv6OyZwKPk6Vwrf7SKkziuhzReMSu4IefPT/Jxe5u4NpvzuaKFIlntDGr6nFCA8385hMpnXPaplEWXsqgxSzciVFWgLeIReJsm/ltIXIoRUr08OaXOcYbJzLVVSGIahpdXbwhFF9GaqsIMnSP7stKLeMbW8VX5EM/PHpNCbHS7gptOodYCRJ0i3x6uWuRm673AQxN/4/g/2DTbPzp/AtjmxwbW7onpJm8aRkseQXeK7lY0z3tLewx8o8/sEzM6KosmD2B1BfEjqK4aivzq8vna9mmKmrS/CsQ/e4PybveQ1qgyVfQH6Z66LDiLoeuhsnEmKhPQ9/fnRqUOCdOmSMdQ4VQShmTIgzvd041ZAcEOyrnXQMOYN5mIKbjGrERrrTwJ+VoMOUThqL1w=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5beda007-aa86-4353-01a2-08dd448953ae
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 19:31:16.3787
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2KBrnMNdcJhqOA/+RQ/EZZqhbnyb/doJszVCpW1IO14YG2N6IjMCSJztvo7cYXN9V4T8nL+Ek43WOOMFqRwpVuIlyFQMehUANtgmg7rxkzE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4867
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-03_08,2025-01-31_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=789
- phishscore=0 adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2501170000 definitions=main-2502030142
-X-Proofpoint-ORIG-GUID: CatlKx0rNFe5jZQ2Zt_K273UmYchammp
-X-Proofpoint-GUID: CatlKx0rNFe5jZQ2Zt_K273UmYchammp
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF TOPIC] File system checksum offload
+To: Kanchan Joshi <joshi.k@samsung.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ "hch@infradead.org" <hch@infradead.org>
+Cc: Theodore Ts'o <tytso@mit.edu>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>
+References: <CGME20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824@epcas5p1.samsung.com>
+ <20250130091545.66573-1-joshi.k@samsung.com>
+ <20250130142857.GB401886@mit.edu>
+ <97f402bc-4029-48d4-bd03-80af5b799d04@samsung.com>
+ <b8790a76-fd4e-49b6-bc08-44e5c3bf348a@wdc.com>
+ <Z6B2oq_aAaeL9rBE@infradead.org>
+ <bb516f19-a6b3-4c6b-89f9-928d46b66e2a@wdc.com>
+ <eaec853d-eda6-4ee9-abb6-e2fa32f54f5c@suse.com>
+ <cfe11af2-44c5-43a7-9114-72471a615de7@samsung.com>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
+In-Reply-To: <cfe11af2-44c5-43a7-9114-72471a615de7@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250203_113135_069392_393E1260 
-X-CRM114-Status: GOOD (  19.95  )
+X-CRM114-CacheID: sfid-20250203_151729_457906_0C0D642B 
+X-CRM114-Status: GOOD (  11.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -196,43 +140,51 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-Christoph,
 
-> Except for SSDs it generally doesn't - the fact that they are written
-> at the same time means there is a very high chance they will end up
-> on media together for traditional SSDs designs.
->
-> This might be different when explicitly using some form of data
-> placement scheme, and SSD vendors might be able to place PI/metadata
-> different under the hood when using a big enough customer aks for it
-> (they might not be very happy about the request :)).
+在 2025/2/3 23:57, Kanchan Joshi 写道:
+> On 2/3/2025 1:46 PM, Qu Wenruo wrote:
+>>> ell for the WAF part, it'll save us 32 Bytes per FS sector (typically
+>>> 4k) in the btrfs case, that's ~0.8% of the space.
+>>
+>> You forgot the csum tree COW part.
+>>
+>> Updating csum tree is pretty COW heavy and that's going to cause quite
+>> some wearing.
+>>
+>> Thus although I do not think the RFC patch makes much sense compared to
+>> just existing NODATASUM mount option, I'm interesting in the hardware
+>> csum handling.
+> 
+> But, patches do exactly that i.e., hardware cusm support. And posted
+> numbers [*] are also when hardware is checksumming the data blocks.
+> 
+> NODATASUM forgoes the data cums at Btrfs level, but its scope of
+> control/influence ends there, as it knows nothing about what happens
+> underneath.
+> Proposed option (DATASUM_OFFLOAD) ensures that the [only] hardware
+> checksums the data blocks.
 
-There was a multi-vendor effort many years ago (first gen SSD era) to
-make vendors guarantee that metadata and data would be written to
-different channels. But performance got in the way, obviously.
+My understanding is, if the hardware supports the extra payload, it's 
+better to let the user to configure it.
 
-> One thing that I did implement for my XFS hack/prototype is the ability
-> to store a crc32c in the non-PI metadata support by nvme.  This allows
-> for low overhead data checksumming as you don't need a separate data
-> structure to track where the checksums for a data block are located and
-> doesn't require out of place writes.  It doesn't provide a reg tag
-> equivalent or device side checking of the guard tag unfortunately.
+Btrfs already has the way to disable its data checksum. It's the end 
+users' choice to determine if they want to trust the hardware.
 
-That sounds fine. Again, I don't have a problem with having the ability
-to choose whether checksum placement or WAF is more important for a
-given application.
+The only thing that btrfs may want to interact with this hardware csum 
+is metadata.
+Doing the double checksum may waste extra writes, thus disabling either 
+the metadata csum or the hardware one looks more reasonable.
 
-> I never could come up with a good use of the app_tag for file systems,
-> so not wasting space for that is actually a good thing.
+Otherwise we're pushing for a policy (btrfs' automatic csum behavior 
+change), not a mechanism (the existing btrfs nodatacsum mount 
+option/per-inode flag).
 
-I wish we could just do 4 bytes of CRC32C + 4 bytes of ref tag. I think
-that would be a reasonable compromise between space and utility. But we
-can't do that because of the app tag escape. We're essentially wasting 2
-bytes per block to store a single bit flag.
+And inside kernels, we always provides a mechanism, not a policy.
 
-In general I think 4096+16 is a reasonable format going forward. With
-either CRC32C or CRC64 plus full LBA as ref tag.
+Thanks,
+Qu
+> 
+> [*]
+> https://lore.kernel.org/linux-block/20250129140207.22718-1-joshi.k@samsung.com/
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
 
