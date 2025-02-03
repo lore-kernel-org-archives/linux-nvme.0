@@ -4,127 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF7F2C02192
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 14:20:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19ABCC02194
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 14:26:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QwNfS/elvuC6TTEF9w98uKIzUZONTtcMv0uY0+FelKo=; b=RcLXqt0Gp5tZT9KvYwvNTHGqYY
-	ckSWAt/qq9xWFaRobQLZdlpzKLoCaR8xW8PNvIrQcxYxcxbxt8KGpApdzVFSTRCy57Oetfu7qJQVR
-	XgCzxn0DQTaFm7UgtpXK4IX3wKkmhMUPMxZwotzyZU3kg5hshH699wh1vF6K7boOA2e1WVlQaJRRD
-	uHC383csyQZQBkADbVYGxQHiuL6FZDNLZQFWh0Wo/vXt/ievFkd8F0nI47Tg/w9EwEKjpZ447PA3e
-	leZjTJA1gqUfQDm64diown3UPMShfINaVQgZdiDHnhGOlHELdtG0v+UDEr57Gz80rx8KPTJdJnQLb
-	u2pLBgeA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wApwa+Vg7pEhvhJZMOtchLW1Qtniq1LAppbarYJzbvQ=; b=d82DqzCBjd332/KcCBd8vElt+L
+	2Rqa94li1Tfu2wqmE7lrs8kkgMFh1ZmlxZwRJZmcGmSCo/SKEF283p8r9bBXzobkzUorBEMj7cTkC
+	YMGYBjUTU5avmZWnTRqvE9XEtMVcO/yROUCl80j50nJjNpARrp54hkKkb+AqQRL2EY5f/a8FQEccr
+	cPpTm+fVdzSsA/e36pou4SUv6vXK73rees9K99fL8ljeOrRAueZgyPbTQAvEBsEfR7CzRJVH6FluJ
+	HfnZ49kELCoHThUo5Hph0niOgzQx/NtGWS41aDLVVHBhGr5hCk2huQvue+Sh4dhTPwrkD/oowVEYY
+	o/AWr3Hw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1texJm-0000000FeE4-18RJ;
-	Mon, 03 Feb 2025 14:20:54 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1texPL-0000000FfRZ-01TT;
+	Mon, 03 Feb 2025 14:26:39 +0000
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1texJi-0000000FeCX-3njw
+	id 1texPH-0000000FfQE-30fZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Feb 2025 14:20:52 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 328021F391;
-	Mon,  3 Feb 2025 14:20:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738592449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QwNfS/elvuC6TTEF9w98uKIzUZONTtcMv0uY0+FelKo=;
-	b=zfuGkVDpfNbwGGN7DydJ9zHfHyKrF4wkBNiPRe1E3TjzzoKU5kdz5DNY6Fx0pIL46QxlPh
-	FHWji2FC/FkzbpACg3G1jGRH2JQDsXO8B332vV84UrwHHemHWTFjGS2f3C+gIoKJi/KVVw
-	t9oUAhTlBrVtkpU8YeCpsjuEzBdKLhI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738592449;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QwNfS/elvuC6TTEF9w98uKIzUZONTtcMv0uY0+FelKo=;
-	b=bxpVxiswxeO4PkoSWQPrU0kwHQ2N7DFvBAKHtT/lhJGQ29c/eB/KweJ93Uoz7ctJiaRVZO
-	ogzd9aZjyGaWOKBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zfuGkVDp;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bxpVxisw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738592449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QwNfS/elvuC6TTEF9w98uKIzUZONTtcMv0uY0+FelKo=;
-	b=zfuGkVDpfNbwGGN7DydJ9zHfHyKrF4wkBNiPRe1E3TjzzoKU5kdz5DNY6Fx0pIL46QxlPh
-	FHWji2FC/FkzbpACg3G1jGRH2JQDsXO8B332vV84UrwHHemHWTFjGS2f3C+gIoKJi/KVVw
-	t9oUAhTlBrVtkpU8YeCpsjuEzBdKLhI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738592449;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QwNfS/elvuC6TTEF9w98uKIzUZONTtcMv0uY0+FelKo=;
-	b=bxpVxiswxeO4PkoSWQPrU0kwHQ2N7DFvBAKHtT/lhJGQ29c/eB/KweJ93Uoz7ctJiaRVZO
-	ogzd9aZjyGaWOKBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1587113795;
-	Mon,  3 Feb 2025 14:20:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lbV3BMHQoGeaQQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 03 Feb 2025 14:20:49 +0000
-Message-ID: <49669c17-bda9-4239-9e46-f7b701facdd3@suse.de>
-Date: Mon, 3 Feb 2025 15:20:48 +0100
+	Mon, 03 Feb 2025 14:26:37 +0000
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-aaf900cc7fbso967060566b.3
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Feb 2025 06:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1738592793; x=1739197593; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wApwa+Vg7pEhvhJZMOtchLW1Qtniq1LAppbarYJzbvQ=;
+        b=d5pSsG8dRbs2Tb5Y3feIwEpCipQw3cdTGb9CbYl69oNDUaOUwibtiOs2citWcogAus
+         QS5Wqv6LcljptUm1QQaLaPGRWRr15hCazCO/LiKEoYuT8ElQdLvIAQZgrE0Tu2Vc+5Nk
+         d2NEyB8fTepZtSDUu4Nmzcr5XYsPLk8D4vanXWUmbzfxrJ2XRlKPsxRoeospvY+Ewpam
+         /wzutJgOU4/qYoD+pjbYpoZgjbPguzDyYklMa9xcG3rjVLYA8c1eTeHKav6MrJ1JdRaI
+         6XSRWK7tIru+GuFz9PFLzsjLtL1Vreq7wqi+bzBeNWM8+bozRf9PauaqK9YkVDCma4O/
+         FgmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738592793; x=1739197593;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wApwa+Vg7pEhvhJZMOtchLW1Qtniq1LAppbarYJzbvQ=;
+        b=GUqOxUXsfkCSbaZoB2GtJTJHeD+ovWkcGJKjFhYIYNSCwkifjGOe7e3qDwB2xHu7La
+         IZVcXVxNOI5mjKRj85LBIptGuJzUEV1w8kPicusWp/bH8hnKQissXNDtHs1Ms80z4tc3
+         EKgF89aHiSzS5WMOx28AE+AhRqcgQL7oRBWkmjYKwqZmQ2j0z5zk9u+wN6u3shcRABwA
+         YkTPFbpUiP4wDE790Vkntfk6i8/QJFURo6tWFuc7USricTXJDVmM9/YQy2l1hS76oUuo
+         DMxTdP0ufYLRPHciqNLqQYIQhEqupMtYGFQ9WtXRKv+P4ZFVRLwxxCtERbpTvq3lM/dc
+         /3Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCVvaDMqViojCuKw19NQrsaaFi7EF2fNAWMgRSyfK3riF5jyaY2RFj6glHAKPoPfMC3SZf9Jr9YtAoWl@lists.infradead.org
+X-Gm-Message-State: AOJu0YxWuxTJcTzmasigSmXi7Puzc9j9q/uwdQQK2Y4zQSxEB9QJ5t8+
+	FU7ILSX1RjUQyg512GSp8nD3I43IK4ETsp7bSBhN1GHYDSzGWlgZlsioNq8Tnws=
+X-Gm-Gg: ASbGncvFOlNK1b7WKzB1ApJ/CzmWBUxdU4d3T1DRKbrGde+GHaTqe+dNqezF/PRwAgg
+	lUb7t9j7hi1JFl2X8sDAkp6RFl0A5JHiixbowfStg6uDLsgfbIfN2lB0LafUZjxgw9ysfFtgYGU
+	ReR+Z3kjCJdCtuFfufeH/UHRJeDXNojeB4SEmgzu5UyutET0SgqAAlSfYAIopRd2/zPs9wavdVS
+	xj8qNd+/o1XvW+U+fXJtPU9un42VNBeU+j207zdBAbuB22JqPoc8ICAno42YnbQPBl1Nqwa38Yp
+	6oEUUA==
+X-Google-Smtp-Source: AGHT+IEMvqFtWMQcGcbew8g5CbtS87OK4kOUrbaUT5fxc6WJnZS+Qe69TNruF9V9SFX0gjEEIeYYSg==
+X-Received: by 2002:a17:907:6eab:b0:ab2:ea29:a2 with SMTP id a640c23a62f3a-ab6cfe11e85mr2509321666b.48.1738592793317;
+        Mon, 03 Feb 2025 06:26:33 -0800 (PST)
+Received: from localhost ([193.86.92.181])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ab706ce9a53sm509134266b.72.2025.02.03.06.26.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 06:26:33 -0800 (PST)
+Date: Mon, 3 Feb 2025 15:26:32 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: lsf-pc@lists.linuxfoundation.org
+Cc: linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: REMINDER - LSF/MM/BPF: 2025: Call for Proposals
+Message-ID: <Z6DSGOsqjw1ahIYi@tiehlicka>
+References: <Z4pwZkf3px21OVJm@tiehlicka>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] nvmet-tcp: support secure channel concatenation
-To: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20250122165829.11603-1-hare@kernel.org>
- <20250122165829.11603-10-hare@kernel.org> <20250128091531.GG25760@lst.de>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250128091531.GG25760@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 328021F391
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z4pwZkf3px21OVJm@tiehlicka>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250203_062051_092397_7CED78B0 
-X-CRM114-Status: GOOD (  17.85  )
+X-CRM114-CacheID: sfid-20250203_062635_757893_6F9F8862 
+X-CRM114-Status: GOOD (  13.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,68 +99,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/28/25 10:15, Christoph Hellwig wrote:
-> On Wed, Jan 22, 2025 at 05:58:28PM +0100, Hannes Reinecke wrote:
->> Evaluate the SC_C flag during DH-CHAP-HMAC negotiation and insert
->> the generated PSK once negotiation has finished.
+On Fri 17-01-25 15:59:51, Michal Hocko wrote:
+> Hi,
+> this is a friendly reminder for LSF/MM/BPF Call for proposals - you can
+> find the original announcement here: https://lore.kernel.org/all/Z1wQcKKw14iei0Va@tiehlicka/T/#u.
 > 
-> Same as for the host side, please write a much more detailed commit log.
+> Please also note you need to fill out the following Google form to
+> request attendance and suggest any topics for discussion:
 > 
-Ok.
+>           https://forms.gle/xXvQicSFeFKjayxB9
+> 
+> The deadline to do that is Feb 1st!
 
->> +	if (ctrl->dh_gid == NVME_AUTH_DHGROUP_NULL &&
->> +	    ctrl->concat) {
-> 
-> This conditional easily fits onto a single line.
-> 
-Ok.
+The deadline has passed but if you forgot or this slipped through then
+no worries you can still apply but please do so ASAP. We are going
+through all applications these days and will try to send invitations
+ASAP so that people can start planning their travel.
 
->> @@ -247,6 +263,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
->>   	struct nvmet_ctrl *ctrl = NULL;
->>   	struct nvmet_alloc_ctrl_args args = {
->>   		.port = req->port,
->> +		.sq = req->sq,
-> 
-> So this now needs to pass a sq in alloc_ctrl_args?  That needs proper
-> explanation and really should be in a prep patch.  Also please Cc
-> Damien to make sure this doesn't break the nvme PCIe endpoint code.
-> 
+Let me also remind that all the topics that are to be scheduled should
+be posted to the mailing list (CCing track specific and lsf-pc mailing
+lists). 
 
-Sure, can do.
+Let us know if you have any questions!
 
->>   	cancel_work_sync(&queue->io_work);
->> @@ -1806,6 +1808,23 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
->>   	spin_unlock_bh(&queue->state_lock);
->>   
->>   	cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
->> +
->> +	if (!status) {
->> +		struct key *tls_key = nvme_tls_key_lookup(peerid);
->> +
->> +		if (IS_ERR(tls_key)) {
->> +			pr_warn("%s: queue %d failed to lookup key %x\n",
->> +				__func__, queue->idx, peerid);
->> +			spin_lock_bh(&queue->state_lock);
->> +			queue->state = NVMET_TCP_Q_FAILED;
->> +			spin_unlock_bh(&queue->state_lock);
->> +			status = PTR_ERR(tls_key);
->> +		} else {
->> +			pr_debug("%s: queue %d using TLS PSK %x\n",
->> +				 __func__, queue->idx, peerid);
->> +			queue->nvme_sq.tls_key = tls_key;
->> +		}
-> 
-> This is almost begging for a separate helper..
-> 
-> 
-Ok, will do.
-
-Cheers,
-
-Hannes
+Thanks!
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Michal Hocko
+SUSE Labs
 
