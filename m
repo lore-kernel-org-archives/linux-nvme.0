@@ -4,40 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5030AC02193
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 08:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EAF2C02195
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 08:31:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=r1r6plQaRoAy1Nxbdg0BWrNM7QAkG9cm/NIMqGIem9Y=; b=lVtZ+ZHS9ehMmdFaOWf3k3vfRp
-	QWNPPjpjV063zbfVYwBTgy1ZCKtyRhikv58jAru95Eheb49dsVmBrvCqqnJcD2CphK5itcRlo0Ml1
-	qJAbRWSYCXLxuhyHRV+sObKUWsrM7PdqRFlRW5owwd/4u8Md+RnOCeMpThgge5G1b1Qv2DVnNzPF3
-	jLPLOsAT7OJDkkD2BPE7tAmw403DEUZ5ssQioXulGS/kW10i8+R74NpYMFgfNA990XVOcFrZR3Oag
-	h5TVXSpudi1ppr9aCmhi7b/sTNTMAaWg4ZJRkzJsdFKKvcJ3cNZjaVklTkd2EG7dI0YsjgBdZ6ph0
-	3RGflQ1w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u2SugA0o1F88d3VAFVMSjXMPwJGnAMdayAnCulnyeyo=; b=jG8uyWzUjlFD0y8WoLMCz+ZND0
+	2o0PXhU5twUEvZoFSwJ7aKIQB4uXMLBFjQ4OZxrxDs+m+R4IfjzcZZDJAviUmXxpmkAgD01E2cPb+
+	UGRr/Y8XS/tjXl8yG8RL4CvS07ejjKznKsJZWOfxXntizMYs1VR5kDVFIKeBC8/JK0O8mla9rKCz8
+	MGPk+ldP5R0h4H44etuStRuGmHhXeSjb4V7vT+93NbO6quOukp3PteBfymNO8ZCNsbtM95WOWDSu0
+	nKOxgNOF+P8BxmpQdMVZdaLPL6G7hvK4Rjff450Jl5yNW0QxzakK3eEjo3K132zyPcG7MJ6pm7h/i
+	jLvoH3qA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1terTj-0000000Else-3UiY;
-	Mon, 03 Feb 2025 08:06:47 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1terTh-0000000ElsK-1hgZ;
-	Mon, 03 Feb 2025 08:06:45 +0000
-Date: Mon, 3 Feb 2025 00:06:45 -0800
-From: "hch@infradead.org" <hch@infradead.org>
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc: "hch@infradead.org" <hch@infradead.org>,
-	Kanchan Joshi <joshi.k@samsung.com>, Theodore Ts'o <tytso@mit.edu>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>
+	id 1terrQ-0000000EqKo-26nf;
+	Mon, 03 Feb 2025 08:31:16 +0000
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1terda-0000000EnnS-2Bro
+	for linux-nvme@lists.infradead.org;
+	Mon, 03 Feb 2025 08:16:59 +0000
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4363dc916ceso31251735e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Feb 2025 00:16:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1738570616; x=1739175416; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=u2SugA0o1F88d3VAFVMSjXMPwJGnAMdayAnCulnyeyo=;
+        b=XCOF1wrOWG0EF0JmebH2+vSlEkF0QN5uZTm7JFZTGm6+CMLQVOi49yKNiHIJ16srFW
+         9jqwvo4EDVH/ofNFE1xePtGJ1SYWTyRisaREq2n/2+VJsIL1fidMyrcGA58jQZjw+MUi
+         S/6kEUUQQt7ZbccLG5UxXnb78ZA1vm+2OGHHUnwz7EYvhemo/J2jpz9veqKUSkhq8XwG
+         dd26L9ghbFwdB0TAG2z2xLQBCi5Ek3rP7nZ+jIJo7SaBf4HuFldCCszSoKmvQH2+KdDa
+         wY1wLrZPSOi/uxdO2Fa/+U6zR3jKg31hUZXAvEix1MCX2TqNJ1mSFdzht3qRB60XJ4HU
+         xzrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738570616; x=1739175416;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u2SugA0o1F88d3VAFVMSjXMPwJGnAMdayAnCulnyeyo=;
+        b=CEXJe+IHL89Jggo8SGCDfbAcYazONtbGM6qrOHLXzR/i2ZS+EHg/mu2WNbMsoxy8zJ
+         JTSbctmUbEZIzKN4/VKCoPK7NKV/0yXWfd77EvGP2HUkNK4DdHMdi8Qf0tPa7oMGynrb
+         E+Mi1BYOjeTk5iKdSs4U4nwW/t0vbEg61lDID2nCudKdLjdrQMByDXx7zDvkKRhAwGWr
+         gjaQOCWktjsP7nV4UKb3191KSWXE0Ny8FT0FkykJtpUFf77YDbtl9ugzmGUJQ2mXU/Bl
+         FGZvjX+9NS5Lh6ciXYp8nCVZbTbB2yfUeSPxUi2MbX6iI3ftPWyAD0a6VuNhgirvha88
+         4n0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUEGmzMW0mpL8CxIe2fabwU5/w41NaPmZUCKI6e/vKDF3JvRzBQvAh0HtUjWmXza/MZ+qGrqX6fyHMP@lists.infradead.org
+X-Gm-Message-State: AOJu0YwLpiQTtz9pmyZ9MXG71+D3CZ2qt+vSM0sbz7ZoHT9Xy/Lo0Zot
+	MKeMzAhUxJGpj1Q+1ixvlHFw8DRWGhKtYUxEZ5mrtrZTLjdSqWylslsEanIdFU0=
+X-Gm-Gg: ASbGncs2a6lfLWXNrl7oOI9960jy10nhfQ+0AqEeSL8VDAhtgifyiRkuYM+45oSICnP
+	sofmkZvlvd0V6RJFAYbzrp1gQ+CEnHlwgTPrW4QUukkkRMyfpXSk3ct5G6ubGWMNXHUb1KYypue
+	YQ9uoz1L4PqLn60uSOqszm1PnoLgCzAze6UUSsn7jIEQYDfDK/ySaYPQrsL4sNTUbYZwRIBO6Vh
+	Kv86smW81iT3R167sX3m+vxwpXe5Ch6AixnxS6kSDTgaXbtdLf0nyjoksfUjjts5+fX9Le5lX5J
+	G84VOv6VJAcEjXItWiMTRHXjDsTyjdryPlx1s+m+1GI=
+X-Google-Smtp-Source: AGHT+IH15pqPOTlDznwLl+zZgokUAfyKi5KnURZBIJbx7fPbd8BIuB0wt5BinEGGWyUnXHx/eQ7Duw==
+X-Received: by 2002:a05:6000:1a8a:b0:38a:8d32:2707 with SMTP id ffacd0b85a97d-38c60f77922mr10619285f8f.26.1738570615935;
+        Mon, 03 Feb 2025 00:16:55 -0800 (PST)
+Received: from ?IPV6:2403:580d:fda1::e9d? (2403-580d-fda1--e9d.ip6.aussiebb.net. [2403:580d:fda1::e9d])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acebddbb0e0sm7332278a12.12.2025.02.03.00.16.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Feb 2025 00:16:55 -0800 (PST)
+Message-ID: <eaec853d-eda6-4ee9-abb6-e2fa32f54f5c@suse.com>
+Date: Mon, 3 Feb 2025 18:46:49 +1030
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [LSF/MM/BPF TOPIC] File system checksum offload
-Message-ID: <Z6B5FdXwhXs76B5H@infradead.org>
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ "hch@infradead.org" <hch@infradead.org>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, Theodore Ts'o <tytso@mit.edu>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>
 References: <CGME20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824@epcas5p1.samsung.com>
  <20250130091545.66573-1-joshi.k@samsung.com>
  <20250130142857.GB401886@mit.edu>
@@ -45,10 +90,38 @@ References: <CGME20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824@epcas5p1
  <b8790a76-fd4e-49b6-bc08-44e5c3bf348a@wdc.com>
  <Z6B2oq_aAaeL9rBE@infradead.org>
  <bb516f19-a6b3-4c6b-89f9-928d46b66e2a@wdc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
 In-Reply-To: <bb516f19-a6b3-4c6b-89f9-928d46b66e2a@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250203_001658_569643_6FAFE6E3 
+X-CRM114-Status: GOOD (  24.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,13 +136,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 03, 2025 at 08:04:42AM +0000, Johannes Thumshirn wrote:
-> Well for the WAF part, it'll save us 32 Bytes per FS sector (typically 
+
+
+在 2025/2/3 18:34, Johannes Thumshirn 写道:
+> On 03.02.25 08:56, Christoph Hellwig wrote:
+>> On Mon, Feb 03, 2025 at 07:47:53AM +0000, Johannes Thumshirn wrote:
+>>> The thing I don't like with the current RFC patchset is, it breaks
+>>> scrub, repair and device error statistics. It nothing that can't be
+>>> solved though. But as of now it just doesn't make any sense at all to
+>>> me. We at least need the FS to look at the BLK_STS_PROTECTION return and
+>>> handle accordingly in scrub, read repair and statistics.
+>>>
+>>> And that's only for feature parity. I'd also like to see some
+>>> performance numbers and numbers of reduced WAF, if this is really worth
+>>> the hassle.
+>>
+>> If we can store checksums in metadata / extended LBA that will help
+>> WAF a lot, and also performance becaue you only need one write
+>> instead of two dependent writes, and also just one read.
+> 
+> Well for the WAF part, it'll save us 32 Bytes per FS sector (typically
 > 4k) in the btrfs case, that's ~0.8% of the space.
 
-It saves you from the cascading btree updates.  With nocow this could
-actually allow btrfs to write with WAF=1 for pure overwrites.  But even
-with data cow it will reduce a lot of churn, especially for O_SYNC
-writes.
+You forgot the csum tree COW part.
+
+Updating csum tree is pretty COW heavy and that's going to cause quite 
+some wearing.
+
+Thus although I do not think the RFC patch makes much sense compared to 
+just existing NODATASUM mount option, I'm interesting in the hardware 
+csum handling.
+
+> 
+>> The checksums in the current PI formats (minus the new ones in NVMe)
+>> aren't that good as Martin pointed out, but the biggest issue really
+>> is that you need hardware that does support metadata or PI.  SATA
+>> doesn't support it at all.  For NVMe PI support is generally a feature
+>> that is supported by gold plated fully featured enterprise devices
+>> but not the cheaper tiers.  I've heard some talks of customers asking
+>> for plain non-PI metadata in certain cheaper tiers, but not much of
+>> that has actually materialized yet.  If we ever get at least non-PI
+>> metadata support on cheap NVMe drives the idea of storing checksums
+>> there would become very, very useful.
+
+The other pain point of btrfs' data checksum is related to Direct IO and 
+the content change halfway.
+
+It's pretty common to reproduce, just start a VM with an image on btrfs, 
+set the VM cache mode to none (aka, using direct IO), and run XFS/EXT4 
+inside the VM, run some fsstress it should cause btrfs to hit data csum 
+mismatch false alerts.
+
+The root cause is the content change during direct IO, and XFS/EXT4 
+doesn't wait for folio writeback before dirtying the folio (if no 
+AS_STABLE_WRITES set).
+That's a valid optimization, but that will cause contents change.
+
+(I know there is the AS_STABLE_WRITES, but I'm not sure if qemu will 
+pass that flag to virtio block devices inside the VM)
+
+And with btrfs' checksum calculation happening before submitting the 
+real bio, it means if the contents changed after the csum calculation 
+and before bio finished, we will got csum mismatch.
+
+So if the csum can happening inside the hardware, it will solve the 
+problem of direct IO and csum change.
+
+Thanks,
+Qu
+
+>>
+>> FYI, I'll post my hacky XFS data checksumming code to show how relatively
+>> simple using the out of band metadata is for file system based
+>> checksumming.
+>>
+> 
 
 
