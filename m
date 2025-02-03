@@ -4,134 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB95DC02192
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 14:04:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98543C02192
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 14:07:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+iNyyksu3oqdbKY7StoHcCgtEjGDaVz45hLSqCNeAQc=; b=KEKFHz699Z2RY6QPbDsEMnFHv8
-	c7fuWjitbQJ1k2PT8RBv4759+c63GYyDH8oA8LScAOaYupzvqOWoYy1dU2enHpZnCjszo4uZZ3ipI
-	49gnW3eWJnADoTBFUjNiuz+M8qt1P9k5RgK728hZzI8DsHHy7QttM8ELJY6vPpalbwjp4Y0zlPcx4
-	9d72bql4OZIard07q0E97Js34GDCs4GawyfShrLBX9oDvmbPHBsgfaKe5p4WCh4+CwzZnVSZ+8K5a
-	WVhxG0jVyEd/TrVKnNFHDJ+cbfd9FWla1wzRPRB5MOxvUrLjr6mMcjaV1KlxxIC7UetfSMwoHAZ1A
-	dZehHieg==;
+	bh=3Z2VvOaQLZH/GfVj6oa0kY6R9Si36r1fT/PUdv2issg=; b=Y1qLgFYLoutpWmUI0RE+/VY3Gd
+	f+rx1xGvbP9dleUNIS5S4EhFbNWzW3R2sL/TL8iyUeEI/PDTqCYg4RPjTfF9wNCbgzteAA1YC4TVj
+	EvSbOh9DSLXdrtB/BeakHMPMYUHny2rqdyRiOQ6Vw/2Jx5i8UoZHrh/MZxdxcWNtVxgtmMknjWZF4
+	Er1fjqBKSy1QLHe1Q4Kd4GRCsukdngjCGyjR2P6kdfU7kN6Ck4DEnfkBs24nKqmOCfycgB0oA4phY
+	ti/4Fe/nABuHtmNXpx/VwaiqcCi3cYprs914CGGhLUT/FPzL3JeH4s67BidMqgboloA8HD4QgAhTV
+	Fe2gia/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tex3S-0000000FbdJ-19z8;
-	Mon, 03 Feb 2025 14:04:02 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1tex6U-0000000FcIs-1QCg;
+	Mon, 03 Feb 2025 14:07:10 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tex3P-0000000FbcX-3dlR
+	id 1tex6R-0000000FcIE-2xYS
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Feb 2025 14:04:01 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250203140356epoutp04ffb760cec9393e201fc873144a33b805~gt7NTRmga3272632726epoutp04B
-	for <linux-nvme@lists.infradead.org>; Mon,  3 Feb 2025 14:03:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250203140356epoutp04ffb760cec9393e201fc873144a33b805~gt7NTRmga3272632726epoutp04B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1738591437;
-	bh=+iNyyksu3oqdbKY7StoHcCgtEjGDaVz45hLSqCNeAQc=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=Pj3XMqFO768vu/L2hWZxg4bI8YMDpSrZ2T9FIBQLfSOFXHUb1MnKc/hcIoJjRM1PV
-	 fiWTT37RZUPaZ6Ux2yN4p5OIA2hTCyfPcx6+3M3bivY74JHrdD5wPOwTPcdCi9k2Ro
-	 JjBN0m2YZYqooGGdmBHAM9aJepR1O8dBmdSKhdfE=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20250203140356epcas5p4589e76aeacc793515748b236fce0f4ab~gt7NGV0pC1511215112epcas5p46;
-	Mon,  3 Feb 2025 14:03:56 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4YmpBg3BNhz4x9Q1; Mon,  3 Feb
-	2025 14:03:55 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	40.2D.20052.BCCC0A76; Mon,  3 Feb 2025 23:03:55 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20250203140355epcas5p39624b1d4924f53e2c4cb9dd0188160ec~gt7LfJReZ0816408164epcas5p3q;
-	Mon,  3 Feb 2025 14:03:55 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250203140355epsmtrp262868bfe281810560d487e0ae97a3698~gt7LdpY7T2289522895epsmtrp2b;
-	Mon,  3 Feb 2025 14:03:55 +0000 (GMT)
-X-AuditID: b6c32a49-3d20270000004e54-c9-67a0cccb6730
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	29.A0.33707.ACCC0A76; Mon,  3 Feb 2025 23:03:54 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250203140353epsmtip15aafa852148ac72e8e84f938bb4751eb~gt7J1A-Z81698316983epsmtip1i;
-	Mon,  3 Feb 2025 14:03:53 +0000 (GMT)
-Message-ID: <330a257d-e276-40d2-855c-8d108abfde02@samsung.com>
-Date: Mon, 3 Feb 2025 19:33:52 +0530
+	Mon, 03 Feb 2025 14:07:08 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CF99F1F391;
+	Mon,  3 Feb 2025 14:06:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1738591622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3Z2VvOaQLZH/GfVj6oa0kY6R9Si36r1fT/PUdv2issg=;
+	b=2FBKbXLlt2jMzz7Xb8afYrnVpcBevl0pQG0IofDyxp4WzhHyu45Ld0yior5GpxuwNRNURY
+	fw5cZLwx119UxGY88Ok6gM/ON6Ax/xcnlnGYRvx6/KE5nMQfmaAIZT3WcjRd741HzyHmzQ
+	lFc7yjYNFEQy3VWeO6RDa5tiHCTW7KM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1738591622;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3Z2VvOaQLZH/GfVj6oa0kY6R9Si36r1fT/PUdv2issg=;
+	b=aHWQEWxASe0Pfcz1t/9Lm3lpHPbbMjXlylRAKatUOtx7zu8cgpVlEs4zx68upI7qCybe0W
+	0UyYzHZNvwxSWMAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1738591617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3Z2VvOaQLZH/GfVj6oa0kY6R9Si36r1fT/PUdv2issg=;
+	b=IMWa8JNMa97YeZlfwMLTdQAVYXvoeDy0IAOgx60yj34/zSuBYT7pRSYgEfLK6EfyHF4ROO
+	5oaIa38MT083pBUZXAhBv3sa+9qgtgenPJWbHSQc2fqpsKynGUj/MXfO0kaSFGXDOHxw6e
+	/8TA5PBuavBA7Vgmag77AKTx1qAcLVc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1738591617;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3Z2VvOaQLZH/GfVj6oa0kY6R9Si36r1fT/PUdv2issg=;
+	b=VSKMxI1cysaIEl9E/muwb4QC/JisVAriq31JsSTwABpNjnWS6txKy+RRPSSLvY4O5G6m8g
+	f0I5FY77KGRIdFDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B446013795;
+	Mon,  3 Feb 2025 14:06:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jBlTK4HNoGc4PQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 03 Feb 2025 14:06:57 +0000
+Message-ID: <e435a745-0c47-460b-9930-7a43b76c4ac6@suse.de>
+Date: Mon, 3 Feb 2025 15:06:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/3] Btrfs checksum offload
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, "josef@toxicpanda.com"
-	<josef@toxicpanda.com>, "dsterba@suse.com" <dsterba@suse.com>, "clm@fb.com"
-	<clm@fb.com>, "axboe@kernel.dk" <axboe@kernel.dk>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, hch <hch@lst.de>
-Cc: "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"gost.dev@samsung.com" <gost.dev@samsung.com>
+Subject: Re: [PATCH 07/10] nvme-tcp: request secure channel concatenation
+To: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <20250122165829.11603-1-hare@kernel.org>
+ <20250122165829.11603-8-hare@kernel.org> <20250128091131.GF25760@lst.de>
 Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <f2ccdba4-86df-49ae-a465-1f8003fc1fb3@wdc.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPJsWRmVeSWpSXmKPExsWy7bCmhu7pMwvSDW53iVmsvtvPZjGpfwa7
-	xYUfjUwWNw/sZLJYufook8XfrntMFn8eGlpMOnSN0WLvLW2LS49XsFvMX/aU3YHbY2LzO3aP
-	y2dLPTat6mTz2Lyk3mP3zQY2j74tqxg91m+5yuIxYfNGVo/Pm+Q82g90MwVwRWXbZKQmpqQW
-	KaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gDdq6RQlphTChQKSCwu
-	VtK3synKLy1JVcjILy6xVUotSMkpMCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzjj5OaWgg6Vi
-	9szXjA2My5i7GDk5JARMJKY+eMzSxcjFISSwm1GiZcM1FpCEkMAnRomVHyMgEkD2mt29rDAd
-	L14+YIVI7ATqWHmIGcJ5C1T1vYMNpIpXwE7i/bYOpi5GDg4WARWJQ/cqIMKCEidnPgHbICog
-	L3H/1gz2LkZ2DmEBXYkd0SBTRAS6mCQOr1kONp9Z4AujxI/nR8AWMwuIS9x6Mh9sJJuApsSF
-	yaUgJqeAtcSXxa4QFfIS29/OgXrsCIfE5UmmELaLxKZ9c5kgbGGJV8e3sEPYUhKf3+1lg7Cz
-	JR48esACYddI7NjcB/WuvUTDnxusIKuYgbau36UPsYpPovf3E7BjJAR4JTrahCCqFSXuTXoK
-	1Sku8XDGEijbQ+LFhGNskHDqZJY4f7iNeQKjwiykMJmF5MdZSL6ZhbB5ASPLKkbJ1ILi3PTU
-	YtMCw7zUcnhcJ+fnbmIEp2Qtzx2Mdx980DvEyMTBeIhRgoNZSYT39PYF6UK8KYmVValF+fFF
-	pTmpxYcYTYFxM5FZSjQ5H5gV8kriDU0sDUzMzMxMLI3NDJXEeZt3tqQLCaQnlqRmp6YWpBbB
-	9DFxcEo1MK1Qyzb94OgRKKt230vt0qWnDRGhPz+9cNVsyWaxZF7DKGx3V7H5KL/J5YkOb9br
-	b/zK0TK1w0Nmn7l8t3km72/3Tys1+FiOcIcUN+QJpDRePbqmsWfxw98nVFvjHLguTu5pL2f0
-	0JynUnI1e8q8G/vSvO1fs//IeH72GPO6AEvtlqjqGzIbuPa/eszj45HYL/J2bW9N19qDGRym
-	Dv4HM7+9KZq6dG94a2r1nYc7boSrbWyZfmCKgI3z/HfNB3Rd9pi+fxG5ur5/hYGK2j+5tgsm
-	pyoeRPBx6OpVves9Hc0oZNce3PllKvf5FTP+nym7Y2C/b1uVFE/y11syIp2yzw5+/R28lvOx
-	t6tJl4K5EktxRqKhFnNRcSIAGudcC1IEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsWy7bCSnO6pMwvSDX6vNbVYfbefzWJS/wx2
-	iws/Gpksbh7YyWSxcvVRJou/XfeYLP48NLSYdOgao8XeW9oWlx6vYLeYv+wpuwO3x8Tmd+we
-	l8+Wemxa1cnmsXlJvcfumw1sHn1bVjF6rN9ylcVjwuaNrB6fN8l5tB/oZgrgiuKySUnNySxL
-	LdK3S+DKOPk5paCDpWL2zNeMDYzLmLsYOTkkBEwkXrx8wNrFyMUhJLCdUWLrpaOMEAlxieZr
-	P9ghbGGJlf+es0MUvWaUmHLnBVgRr4CdxPttHUxdjBwcLAIqEofuVUCEBSVOznzCAmKLCshL
-	3L81A6iXnUNYQFdiRzTIFBGBHiaJc+d3MYI4zAJfGCV2XrvKCDG/k1ni1sWfYIuZgY649WQ+
-	2Hw2AU2JC5NLQUxOAWuJL4tdISrMJLq2djFC2PIS29/OYZ7AKDQLyRWzkAyahaRlFpKWBYws
-	qxhFUwuKc9NzkwsM9YoTc4tL89L1kvNzNzGCY08raAfjsvV/9Q4xMnEwHmKU4GBWEuE9vX1B
-	uhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe5ZzOFCGB9MSS1OzU1ILUIpgsEwenVAOT662Ijsbv
-	FaeCJFdyxSz94zx/hgXHM8Z/qbWrhLwX3uSXiL1RuX/D2jcids4pGiUVhn7CDPWnV+nt2aTj
-	s8Ns5zrZY2k+HSUfPGpcTnQLrlqSEXf36dbF8x/ZtCs4+hu+FEwLVuxJ1lzefWvmGt/ff6Mr
-	t7Ad3BTE4bxeWPam99UTL7M/PI5g2bZi5Zf410enrtgtw9Sn9cLZ6eXbdy3x7K0J7e4hU7+7
-	B2x0MbxzqPOx+LbN8f8X5C6USU8z6ShTmjn5euJ6xwRBN+ngV8fWmuhpRTJdNda0jMjZIH7t
-	zLMjCXtFREybNgox6qj3bblRoWllekQj/q/IniceLSqLXTcUvI77tunAHwZBm+9KLMUZiYZa
-	zEXFiQBLIVlgLAMAAA==
-X-CMS-MailID: 20250203140355epcas5p39624b1d4924f53e2c4cb9dd0188160ec
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250129141039epcas5p11feb1be4124c0db3c5223325924183a3
-References: <CGME20250129141039epcas5p11feb1be4124c0db3c5223325924183a3@epcas5p1.samsung.com>
-	<20250129140207.22718-1-joshi.k@samsung.com>
-	<299a886d-c065-4b75-b0be-625710f7348c@wdc.com>
-	<572e0418-de26-47ec-b536-b63291acff52@samsung.com>
-	<73ba28f4-0588-4ca8-b64f-2a6dd593606b@wdc.com>
-	<8e548c8f-7a05-4e82-aed7-6044a0d247c9@samsung.com>
-	<f2ccdba4-86df-49ae-a465-1f8003fc1fb3@wdc.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250128091131.GF25760@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250203_060400_371566_B1E57741 
-X-CRM114-Status: GOOD (  11.22  )
+X-CRM114-CacheID: sfid-20250203_060707_887730_106EC033 
+X-CRM114-Status: GOOD (  29.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,14 +131,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/3/2025 7:10 PM, Johannes Thumshirn wrote:
-> But NODATASUM isn't something that is actively recommended unless you
-> know what you're doing. I thought of your patches as an offload of the
-> checksum tree to the T10-PI extended sector format
+On 1/28/25 10:11, Christoph Hellwig wrote:
+> On Wed, Jan 22, 2025 at 05:58:26PM +0100, Hannes Reinecke wrote:
+>> Add a fabrics option 'concat' to request secure channel concatenation.
+>> When secure channel concatenation is enabled a 'generated PSK' is inserted
+>> into the keyring such that it's available after reset.
+> 
+> That's a very sparse commit message.  What is the point of doing this?
+> What is the spec reference for the implementation?  What is the user
+> interface?  Why does this now always select NVME_KEYRING?
+> 
+>> +	if (!ctrl->opts->concat || chap->qid != 0)
+>> +		data->sc_c = NVME_AUTH_SECP_NOSC;
+>> +	else if (ctrl->opts->tls_key)
+>> +		data->sc_c = NVME_AUTH_SECP_REPLACETLSPSK;
+>> +	else
+>> +		data->sc_c = NVME_AUTH_SECP_NEWTLSPSK;
+> 
+> Took me a while to unwind this.  Why not make this a little easier as:
+> 
+> 	if (ctrl->opts->concat && chap->qid == 0) {
+> 		if (ctrl->opts->tls_key)
+> 			data->sc_c = NVME_AUTH_SECP_REPLACETLSPSK;
+> 		else
+> 			data->sc_c = NVME_AUTH_SECP_NEWTLSPSK;
+> 	} else {
+> 		data->sc_c = NVME_AUTH_SECP_NOSC;
+> 	}
+> 
+> ?
+> 
 
-You thought right, patches do "offload to T10-PI format" part. That part 
-is generic for any upper-layer user. One only needs to send flag 
-REQ_INTEGRITY_OFFLOAD for that.
-And for the other part "suppress data-csums at Btrfs level", I thought 
-of using NODATASUM.
+Ok.
+
+>> +	ret = nvme_auth_derive_tls_psk(chap->hash_id, psk, psk_len, digest, &tls_psk);
+> 
+> Overly long line.
+> 
+>> +	tls_key = nvme_tls_psk_refresh(ctrl->opts->keyring, ctrl->opts->host->nqn,
+> 
+> Same.  Not going to mention more of that, but please fix it up.
+> 
+Will do.
+
+>> +		if (ctrl->opts->concat &&
+>> +		    (ret = nvme_auth_secure_concat(ctrl, chap))) {
+> 
+> 		if (ctrl->opts->concat) {
+> 			ret = nvme_auth_secure_concat(ctrl, chap);
+> 			if (ret) {
+> 				...
+> 
+>> +	/*
+>> +	 * Only run authentication on the admin queue for
+>> 	 * secure concatenation
+>> +	 */
+> 
+> The two lines of comment can be folded in one, and it's missing a period
+> at the end of the sentence.
+> 
+
+Will be fixing it up.
+
+>> +			/*
+>> +			 * The generated PSK is stored in the
+>> +			 * fabric options
+>> +			 */
+> 
+> Missing period and not using up the line as well.
+> 
+
+Ditto.
+
+>> +/*
+>> + * The TLS key is set by secure concatenation after negotiation
+>> + * has been completed on the admin queue. We need to revoke the
+>> + * key when:
+>> + * - concatenation is enabled
+>> + *   (otherwise it's a static key set by the user)
+>> + * and
+>> + * - the generated key is present in ctrl->tls_key
+>> + *   (otherwise there's nothing to revoke)
+>> + * and
+>> + * - a valid PSK key ID has been set in ctrl->tls_pskid
+>> + *   (otherwise TLS negotiation has not run).
+>> + *
+>> + * We cannot always revoke the key, as we're calling
+>> + * nvme_tcp_alloc_admin_queue() twice during secure
+>> + * concatenation, once on a 'normal' connection to run
+>> + * the DH-HMAC-CHAP negotiation (which generates the key,
+>> + * so it _must not_ be set), and once after the negotiation
+>> + * (which uses the key, so it _must_ be set).
+>> + */
+> 
+> Another overly dense fomatting.  Are you trying to make up the
+> extra width used in the first patches? :)
+> 
+Possibly. Will be fixing it up.
+
+>> --- a/include/linux/nvme.h
+>> +++ b/include/linux/nvme.h
+>> @@ -1746,6 +1746,13 @@ enum {
+>>   	NVME_AUTH_DHGROUP_INVALID	= 0xff,
+>>   };
+>>   
+>> +enum {
+>> +	NVME_AUTH_SECP_NOSC		= 0x00,
+>> +	NVME_AUTH_SECP_SC		= 0x01,
+>> +	NVME_AUTH_SECP_NEWTLSPSK	= 0x02,
+>> +	NVME_AUTH_SECP_REPLACETLSPSK	= 0x03,
+>> +};
+> 
+> Comments please to explain what fields this applies to.  Also we
+> usuall try to split protocol definition additions into separate
+> patches.
+> 
+> 
+Ok.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
