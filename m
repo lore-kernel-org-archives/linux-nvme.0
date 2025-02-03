@@ -4,129 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E539C02196
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 13:56:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB95DC02192
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Feb 2025 14:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vmA3JMFVCugjaIu8pMze5/kIhwWYMGJ3iCDbG3F/vlE=; b=4D3NOh9FNB/WpsFRRFnQWnbNNM
-	2shfDtbFTLa/UAQgdwao/BJ4keIz9JwF5MH0or7FLSREUYOfVhwsSPMhQoVyLtHuPX3M0TvIc46Ix
-	VMBMb7BAr5HUNsL5SMzsroHFh/DyI4z/menEAgdekZpvNy8Xk9atBBxkk/acwU7nmq79rQtOxcK/R
-	8BN/zN/23+XZTaw4SGOq7j4XsY/qMLRnUfhc1j5lUrc6OUF9MgCiR6svBer+HpHejMIsnawm65GE7
-	aNDSfoXbQsmJsQt04ts9HvStBJYQ6g9a8VFtJkb//FakDVdeHe+/dSQP/cQPBXrzj3Nml6THNDSQL
-	WLmsJtLQ==;
+	bh=+iNyyksu3oqdbKY7StoHcCgtEjGDaVz45hLSqCNeAQc=; b=KEKFHz699Z2RY6QPbDsEMnFHv8
+	c7fuWjitbQJ1k2PT8RBv4759+c63GYyDH8oA8LScAOaYupzvqOWoYy1dU2enHpZnCjszo4uZZ3ipI
+	49gnW3eWJnADoTBFUjNiuz+M8qt1P9k5RgK728hZzI8DsHHy7QttM8ELJY6vPpalbwjp4Y0zlPcx4
+	9d72bql4OZIard07q0E97Js34GDCs4GawyfShrLBX9oDvmbPHBsgfaKe5p4WCh4+CwzZnVSZ+8K5a
+	WVhxG0jVyEd/TrVKnNFHDJ+cbfd9FWla1wzRPRB5MOxvUrLjr6mMcjaV1KlxxIC7UetfSMwoHAZ1A
+	dZehHieg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tewvy-0000000FaFe-1X9l;
-	Mon, 03 Feb 2025 13:56:18 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1tex3S-0000000FbdJ-19z8;
+	Mon, 03 Feb 2025 14:04:02 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tewvG-0000000Fa7f-2bis
+	id 1tex3P-0000000FbcX-3dlR
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Feb 2025 13:55:35 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B0CEE21109;
-	Mon,  3 Feb 2025 13:55:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738590928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vmA3JMFVCugjaIu8pMze5/kIhwWYMGJ3iCDbG3F/vlE=;
-	b=s5eRFBsyF6mXQ+ewAiMr5Omsh116PxtGnm7TpE/JrmkJHkiRILJlBJSMGwrQ9KSb0vIp1P
-	uelkHI7qJ9FgTOEacHqCLGUgXUgxCFVFhBiYX5iR2pSHJDFmIFrK9LqTgIXYDA7jy83WKB
-	mR4QsBkdHP0oXtiG0YW5eO35OTFBni4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738590928;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vmA3JMFVCugjaIu8pMze5/kIhwWYMGJ3iCDbG3F/vlE=;
-	b=Nmg0NYd6wqmmyfX6dcC3EEMqWINneqkcxR32PNlZCKbioZJDswpaXN5vzWptw5K8RTYEtE
-	28NH5DYALCCq4LDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YMqleeDm;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7K+5JSQs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738590924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vmA3JMFVCugjaIu8pMze5/kIhwWYMGJ3iCDbG3F/vlE=;
-	b=YMqleeDmC9O/LT8ygHbLvZ5Oe2f/dRBqr71jq/H9wEcuEjPNkaxy8vYbIRVExm0xBx12bM
-	8kc8HcAKhjcINSg3jS0LIutXYZjFuxmUXpk2d+GxIPzesxpiaiRYcfW9TGRyV/6EQla105
-	1Htcns8owMHNQIotAli2Ro16X2LUfo8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738590924;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vmA3JMFVCugjaIu8pMze5/kIhwWYMGJ3iCDbG3F/vlE=;
-	b=7K+5JSQsNHBV2NUkgmrScYgL1tEdn1wfqZtoBuGLh1RYp+Evb2v0zgfUkxV3aJdrpO9hXI
-	1eARetsZPlWKVkBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F53013795;
-	Mon,  3 Feb 2025 13:55:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zK0YIszKoGcwOQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 03 Feb 2025 13:55:24 +0000
-Message-ID: <0db4c42f-8fbb-4b78-bfdc-0e0789a53d02@suse.de>
-Date: Mon, 3 Feb 2025 14:55:24 +0100
+	Mon, 03 Feb 2025 14:04:01 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250203140356epoutp04ffb760cec9393e201fc873144a33b805~gt7NTRmga3272632726epoutp04B
+	for <linux-nvme@lists.infradead.org>; Mon,  3 Feb 2025 14:03:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250203140356epoutp04ffb760cec9393e201fc873144a33b805~gt7NTRmga3272632726epoutp04B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1738591437;
+	bh=+iNyyksu3oqdbKY7StoHcCgtEjGDaVz45hLSqCNeAQc=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=Pj3XMqFO768vu/L2hWZxg4bI8YMDpSrZ2T9FIBQLfSOFXHUb1MnKc/hcIoJjRM1PV
+	 fiWTT37RZUPaZ6Ux2yN4p5OIA2hTCyfPcx6+3M3bivY74JHrdD5wPOwTPcdCi9k2Ro
+	 JjBN0m2YZYqooGGdmBHAM9aJepR1O8dBmdSKhdfE=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20250203140356epcas5p4589e76aeacc793515748b236fce0f4ab~gt7NGV0pC1511215112epcas5p46;
+	Mon,  3 Feb 2025 14:03:56 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4YmpBg3BNhz4x9Q1; Mon,  3 Feb
+	2025 14:03:55 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	40.2D.20052.BCCC0A76; Mon,  3 Feb 2025 23:03:55 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20250203140355epcas5p39624b1d4924f53e2c4cb9dd0188160ec~gt7LfJReZ0816408164epcas5p3q;
+	Mon,  3 Feb 2025 14:03:55 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20250203140355epsmtrp262868bfe281810560d487e0ae97a3698~gt7LdpY7T2289522895epsmtrp2b;
+	Mon,  3 Feb 2025 14:03:55 +0000 (GMT)
+X-AuditID: b6c32a49-3d20270000004e54-c9-67a0cccb6730
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	29.A0.33707.ACCC0A76; Mon,  3 Feb 2025 23:03:54 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250203140353epsmtip15aafa852148ac72e8e84f938bb4751eb~gt7J1A-Z81698316983epsmtip1i;
+	Mon,  3 Feb 2025 14:03:53 +0000 (GMT)
+Message-ID: <330a257d-e276-40d2-855c-8d108abfde02@samsung.com>
+Date: Mon, 3 Feb 2025 19:33:52 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/10] nvme-keyring: add nvme_tls_psk_refresh()
-To: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20250122165829.11603-1-hare@kernel.org>
- <20250122165829.11603-6-hare@kernel.org> <20250128090044.GD25760@lst.de>
+Subject: Re: [RFC 0/3] Btrfs checksum offload
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, "josef@toxicpanda.com"
+	<josef@toxicpanda.com>, "dsterba@suse.com" <dsterba@suse.com>, "clm@fb.com"
+	<clm@fb.com>, "axboe@kernel.dk" <axboe@kernel.dk>, "kbusch@kernel.org"
+	<kbusch@kernel.org>, hch <hch@lst.de>
+Cc: "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"gost.dev@samsung.com" <gost.dev@samsung.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250128090044.GD25760@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B0CEE21109
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <f2ccdba4-86df-49ae-a465-1f8003fc1fb3@wdc.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPJsWRmVeSWpSXmKPExsWy7bCmhu7pMwvSDW53iVmsvtvPZjGpfwa7
+	xYUfjUwWNw/sZLJYufook8XfrntMFn8eGlpMOnSN0WLvLW2LS49XsFvMX/aU3YHbY2LzO3aP
+	y2dLPTat6mTz2Lyk3mP3zQY2j74tqxg91m+5yuIxYfNGVo/Pm+Q82g90MwVwRWXbZKQmpqQW
+	KaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gDdq6RQlphTChQKSCwu
+	VtK3synKLy1JVcjILy6xVUotSMkpMCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzjj5OaWgg6Vi
+	9szXjA2My5i7GDk5JARMJKY+eMzSxcjFISSwm1GiZcM1FpCEkMAnRomVHyMgEkD2mt29rDAd
+	L14+YIVI7ATqWHmIGcJ5C1T1vYMNpIpXwE7i/bYOpi5GDg4WARWJQ/cqIMKCEidnPgHbICog
+	L3H/1gz2LkZ2DmEBXYkd0SBTRAS6mCQOr1kONp9Z4AujxI/nR8AWMwuIS9x6Mh9sJJuApsSF
+	yaUgJqeAtcSXxa4QFfIS29/OgXrsCIfE5UmmELaLxKZ9c5kgbGGJV8e3sEPYUhKf3+1lg7Cz
+	JR48esACYddI7NjcB/WuvUTDnxusIKuYgbau36UPsYpPovf3E7BjJAR4JTrahCCqFSXuTXoK
+	1Sku8XDGEijbQ+LFhGNskHDqZJY4f7iNeQKjwiykMJmF5MdZSL6ZhbB5ASPLKkbJ1ILi3PTU
+	YtMCw7zUcnhcJ+fnbmIEp2Qtzx2Mdx980DvEyMTBeIhRgoNZSYT39PYF6UK8KYmVValF+fFF
+	pTmpxYcYTYFxM5FZSjQ5H5gV8kriDU0sDUzMzMxMLI3NDJXEeZt3tqQLCaQnlqRmp6YWpBbB
+	9DFxcEo1MK1Qyzb94OgRKKt230vt0qWnDRGhPz+9cNVsyWaxZF7DKGx3V7H5KL/J5YkOb9br
+	b/zK0TK1w0Nmn7l8t3km72/3Tys1+FiOcIcUN+QJpDRePbqmsWfxw98nVFvjHLguTu5pL2f0
+	0JynUnI1e8q8G/vSvO1fs//IeH72GPO6AEvtlqjqGzIbuPa/eszj45HYL/J2bW9N19qDGRym
+	Dv4HM7+9KZq6dG94a2r1nYc7boSrbWyZfmCKgI3z/HfNB3Rd9pi+fxG5ur5/hYGK2j+5tgsm
+	pyoeRPBx6OpVves9Hc0oZNce3PllKvf5FTP+nym7Y2C/b1uVFE/y11syIp2yzw5+/R28lvOx
+	t6tJl4K5EktxRqKhFnNRcSIAGudcC1IEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsWy7bCSnO6pMwvSDX6vNbVYfbefzWJS/wx2
+	iws/Gpksbh7YyWSxcvVRJou/XfeYLP48NLSYdOgao8XeW9oWlx6vYLeYv+wpuwO3x8Tmd+we
+	l8+Wemxa1cnmsXlJvcfumw1sHn1bVjF6rN9ylcVjwuaNrB6fN8l5tB/oZgrgiuKySUnNySxL
+	LdK3S+DKOPk5paCDpWL2zNeMDYzLmLsYOTkkBEwkXrx8wNrFyMUhJLCdUWLrpaOMEAlxieZr
+	P9ghbGGJlf+es0MUvWaUmHLnBVgRr4CdxPttHUxdjBwcLAIqEofuVUCEBSVOznzCAmKLCshL
+	3L81A6iXnUNYQFdiRzTIFBGBHiaJc+d3MYI4zAJfGCV2XrvKCDG/k1ni1sWfYIuZgY649WQ+
+	2Hw2AU2JC5NLQUxOAWuJL4tdISrMJLq2djFC2PIS29/OYZ7AKDQLyRWzkAyahaRlFpKWBYws
+	qxhFUwuKc9NzkwsM9YoTc4tL89L1kvNzNzGCY08raAfjsvV/9Q4xMnEwHmKU4GBWEuE9vX1B
+	uhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe5ZzOFCGB9MSS1OzU1ILUIpgsEwenVAOT662Ijsbv
+	FaeCJFdyxSz94zx/hgXHM8Z/qbWrhLwX3uSXiL1RuX/D2jcids4pGiUVhn7CDPWnV+nt2aTj
+	s8Ns5zrZY2k+HSUfPGpcTnQLrlqSEXf36dbF8x/ZtCs4+hu+FEwLVuxJ1lzefWvmGt/ff6Mr
+	t7Ad3BTE4bxeWPam99UTL7M/PI5g2bZi5Zf410enrtgtw9Sn9cLZ6eXbdy3x7K0J7e4hU7+7
+	B2x0MbxzqPOx+LbN8f8X5C6USU8z6ShTmjn5euJ6xwRBN+ngV8fWmuhpRTJdNda0jMjZIH7t
+	zLMjCXtFREybNgox6qj3bblRoWllekQj/q/IniceLSqLXTcUvI77tunAHwZBm+9KLMUZiYZa
+	zEXFiQBLIVlgLAMAAA==
+X-CMS-MailID: 20250203140355epcas5p39624b1d4924f53e2c4cb9dd0188160ec
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250129141039epcas5p11feb1be4124c0db3c5223325924183a3
+References: <CGME20250129141039epcas5p11feb1be4124c0db3c5223325924183a3@epcas5p1.samsung.com>
+	<20250129140207.22718-1-joshi.k@samsung.com>
+	<299a886d-c065-4b75-b0be-625710f7348c@wdc.com>
+	<572e0418-de26-47ec-b536-b63291acff52@samsung.com>
+	<73ba28f4-0588-4ca8-b64f-2a6dd593606b@wdc.com>
+	<8e548c8f-7a05-4e82-aed7-6044a0d247c9@samsung.com>
+	<f2ccdba4-86df-49ae-a465-1f8003fc1fb3@wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250203_055534_805331_3B69E5F6 
-X-CRM114-Status: GOOD (  13.37  )
+X-CRM114-CacheID: sfid-20250203_060400_371566_B1E57741 
+X-CRM114-Status: GOOD (  11.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,34 +146,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/28/25 10:00, Christoph Hellwig wrote:
-> On Wed, Jan 22, 2025 at 05:58:24PM +0100, Hannes Reinecke wrote:
->> +static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
->> +		const char *hostnqn, char *subnqn, u8 hmac_id,
->> +		u8 *data, size_t data_len, const char *digest)
->> +{
->> +	return ERR_PTR(-ENOTSUPP);
-> 
-> Is this supposed to be -EOPNOTSUPP?
-> 
-Possibly.
+On 2/3/2025 7:10 PM, Johannes Thumshirn wrote:
+> But NODATASUM isn't something that is actively recommended unless you
+> know what you're doing. I thought of your patches as an offload of the
+> checksum tree to the T10-PI extended sector format
 
-> Also the later added callers treat this an an error.  Should this
-> stub be reachable at all?
-> 
-Yes, and no.
-The function is called unconditionally from drivers/nvme/host/tcp.c,
-so we need to provide the stub when nvme-keyring is not available.
-I could make it conditional depending on CONFIG_NVME_KEYRING, but
-then Sagi wanted to reduce the usage of conditional compilations.
-I don't mind.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+You thought right, patches do "offload to T10-PI format" part. That part 
+is generic for any upper-layer user. One only needs to send flag 
+REQ_INTEGRITY_OFFLOAD for that.
+And for the other part "suppress data-csums at Btrfs level", I thought 
+of using NODATASUM.
 
