@@ -4,126 +4,184 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4264FC02194
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 10:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2B3AC02194
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 12:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5IY+P5cvvOpmoevl77jfAm+Tjt6iQdqDrk+JprcVQc0=; b=uzFHdWLzU9uwToH/qV4IX7vhE9
-	gQnDOFtFJj+vSxnkHSY8CXFAspHWQ8oskT/YBA3na8sN/HZFU2PIRbHt+Cj1ZTa9/KApYlzNBXH5a
-	7KsY+wLukx3a679ZimMumacAflUPh7FcW3xS10SLSnKoTCOLJOUQRhulHCDsRghb2/ia0f67PSH7z
-	PYUIF5VN3k+7OEm56GmZ+yxa3KhHFQ37GxCLLwlKY6uuJ4Sd0qh3cHTzCK421qa1u30oiRgnsSSnn
-	56eOaOxixNGXkESketdVISlQOQ3AqjsVciqVRLYVoAprR/uWHwC+suIluzF+vNxaUyNnjnnsdcFSc
-	FQ9aWmhg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OWvWWypQxJX0cnMHWVLcrbSiGjXF/QwiEoVG4rdpMls=; b=0HOosZnEwz0aPEV5p9Bdl2Sapw
+	zkVh8Axd7fA5YfxKwH8O1trESRqJ7hiBU4kXpFqumAEXx3fl8OzXJnnTevNvGzocXoYQ+0Gm79rk/
+	hLGji+6tDIzbxm5BuaoAGwaP4ANvvpWw5l+l8EmF/OTbAMKNkB25K8Lpeg5Kn7MjMY/ooU/9KqrE0
+	I0c4P9WNlSUslwX/75KB+vw9MiPlGpl8WvTyBZtUhI8PzfLMPYlSRMS9jjroxdZnibp+6Evagy6fh
+	EdxV/Y16GzxRWln8s8Y4Pzl3gy5uWBrNJ+c3U94xpz96BPhGUHqIjCl3T3/RCNhqnhVMeLSua9qsb
+	4XBVNi4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfGZ0-00000000CLv-1NYG;
-	Tue, 04 Feb 2025 10:53:54 +0000
-Received: from [203.254.224.33] (helo=mailout3.samsung.com)
+	id 1tfIRK-00000000TNm-43nt;
+	Tue, 04 Feb 2025 12:54:06 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfGYw-00000000CKv-36Kk
+	id 1tfIRH-00000000TM6-2ol0
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Feb 2025 10:53:52 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250204105343epoutp039a4dbc3ccece0cfe9c60f62c71d53bdf~g__aLmaaO1079610796epoutp03m
-	for <linux-nvme@lists.infradead.org>; Tue,  4 Feb 2025 10:53:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250204105343epoutp039a4dbc3ccece0cfe9c60f62c71d53bdf~g__aLmaaO1079610796epoutp03m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1738666423;
-	bh=5IY+P5cvvOpmoevl77jfAm+Tjt6iQdqDrk+JprcVQc0=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=Cilpea9sF1PlRXlcCfvvkHw/HsIREfS18FMxMMu3PVHH3HpT+MmKZJb4W+Wkae3Fb
-	 SKatJaTVQjexZUtVFbcYUDSw9AjVxhQkAKNEWthKtXXKBGhiRzMoRnN64QN8vJQZbi
-	 KhsBzvvhWXI0nLHzptNnTXYssEELQUDM55trVsEA=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20250204105343epcas5p22c70911c1350040eb7811b81f28b2eb7~g__Z7Nm_j1951519515epcas5p2C;
-	Tue,  4 Feb 2025 10:53:43 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4YnKwj0vQLz4x9QC; Tue,  4 Feb
-	2025 10:53:41 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7F.FF.19956.4B1F1A76; Tue,  4 Feb 2025 19:53:40 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250204105340epcas5p2d1e3cdd81a6a7f8d1f6b024c8e6f5cc0~g__XYZzOx1263412634epcas5p2b;
-	Tue,  4 Feb 2025 10:53:40 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250204105340epsmtrp1e06af5afd505e400e0e2fe38febe3194~g__XXuceC0308503085epsmtrp1r;
-	Tue,  4 Feb 2025 10:53:40 +0000 (GMT)
-X-AuditID: b6c32a4b-fd1f170000004df4-5b-67a1f1b421bb
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	C0.CC.18729.4B1F1A76; Tue,  4 Feb 2025 19:53:40 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250204105333epsmtip1faa77cbe5a0c3ca9bcaf28eba0c6db82~g__QfsJCz0166901669epsmtip1T;
-	Tue,  4 Feb 2025 10:53:32 +0000 (GMT)
-Message-ID: <94569e4b-f27a-425a-ad63-6a4f5bb4fb7d@samsung.com>
-Date: Tue, 4 Feb 2025 16:23:31 +0530
+	Tue, 04 Feb 2025 12:54:05 +0000
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 514BfqQb014453;
+	Tue, 4 Feb 2025 12:52:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2023-11-20; bh=OWvWWypQxJX0cnMHWV
+	LcrbSiGjXF/QwiEoVG4rdpMls=; b=XlrxOPj3k2pIf0+rovFQCfVPMsIze9on6J
+	5g5f2drPDmMFG0Y4BNbBBQs4j+GTNezeO6L9/CI6eKxE7cHnIvH8xMgZu2TvMi+o
+	Ii+9vcX9ArSzoGzHNMctsqqvEGZiAopGgXClGD2WIEw8C/y/6A5IkOK35PzVq7Q9
+	O5VTw2QcujR6cp6+odq0SEwpbQ0ah3vop2lnobEkerGclN1w0iPsbEOIxfUrWsAc
+	TSzjfh3GUzZyPYNHtKnX3bg3CUH+x5gBVSYfCklus5ZQaThUkSD3b7tULpMhJd8A
+	nrTTvTjB9s4187NDPFLlIGkJD/UMPN0Nv21yvo8RmNhlAugreqag==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44hhsv4s7n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 04 Feb 2025 12:52:43 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 514C8tp5004885;
+	Tue, 4 Feb 2025 12:52:42 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44j8fnxv6b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 04 Feb 2025 12:52:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UbRgCohC9fSch9RUmpHt9csteWPevEr7FSxCpBUbNYQj4M1+8m+rJDlCY+l+8+BFTK/0KNc0OfXkDTHJbZvZzbazbG9zoPtNkV2x4EqFToXWNfSgo+pUieGBUmInFEPOZxTyct3YHkmPcR6qy1dALxE3z4hXe5ySZ8iOB1KuCbMj+1Rd8edB7baaNgi1xMfGGPqs29RDQLc0ogaJBHOu7TEnW/ChM+JN7usvAI3Gnwj4RlgDsTKALH8Avz2cc+hR24tCyUjeCLlHNxSgIS0mA8rFxO/ee3fhG84QrRKtfc9yKfZfBsYyv12ulMfRQMjHr0Fc1SNnbscR0bQuisJ9XA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OWvWWypQxJX0cnMHWVLcrbSiGjXF/QwiEoVG4rdpMls=;
+ b=xELIFtLXK4R1sMuVbwVlFtRFkYqtS9M9WnWHa+Mb6+iRk1UToxUSDb4k9oOl6ekWT0DTcdd/2FwsfkgHNpqbRR0kAqk8KfpglXOOvtAKAJQ9X/yNYSe2JSz9aRNz7XiEnoF3xUS3MIhzAfdIZ4M2tM/5kWTyoSnGXPvfHd10tEAEH8mThqhfzJdpbdJQe8Om1QwiOfwER6EDUBsHaloIRQI3VotJ+JaZc7xg4uP8wiBztyCr067mAjZ1LNhV8GVRf3KG/Uw8OpgSatcLIB88APjRDW+/yyVBQ63vaEqNBO05BEQ9XNf/Z8V0maWjZBbhwYZocw8lS/Wsd590siFE5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OWvWWypQxJX0cnMHWVLcrbSiGjXF/QwiEoVG4rdpMls=;
+ b=qRi7tBuvd056J/mwhF3Mgg7MnaBqMOU4mXkMN8XNMFEKEfUxSZv/a/zWQdddqdIO6jIX+kTXikWP4hSHVoSa7cDMS2MRg08dbmhICEQNC8LA7ANk6496667tVrU5Z/0/Lij+UY+rgaBwYk1VA0KxZ3/JhOyIhbGOsFAAQI9h2Ok=
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
+ by SJ2PR10MB7016.namprd10.prod.outlook.com (2603:10b6:a03:4cf::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Tue, 4 Feb
+ 2025 12:52:39 +0000
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::5cca:2bcc:cedb:d9bf]) by CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::5cca:2bcc:cedb:d9bf%4]) with mapi id 15.20.8398.025; Tue, 4 Feb 2025
+ 12:52:39 +0000
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Kanchan Joshi
+ <joshi.k@samsung.com>, josef@toxicpanda.com,
+        dsterba@suse.com, clm@fb.com, axboe@kernel.dk, kbusch@kernel.org,
+        linux-btrfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-block@vger.kernel.org, gost.dev@samsung.com
+Subject: Re: [RFC 0/3] Btrfs checksum offload
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <20250204051208.GG28103@lst.de> (Christoph Hellwig's message of
+	"Tue, 4 Feb 2025 06:12:08 +0100")
+Organization: Oracle Corporation
+Message-ID: <yq15xlpg9tj.fsf@ca-mkp.ca.oracle.com>
+References: <CGME20250129141039epcas5p11feb1be4124c0db3c5223325924183a3@epcas5p1.samsung.com>
+	<20250129140207.22718-1-joshi.k@samsung.com>
+	<yq134h0p1m5.fsf@ca-mkp.ca.oracle.com> <20250131074424.GA16182@lst.de>
+	<yq17c66kfxs.fsf@ca-mkp.ca.oracle.com> <20250204051208.GG28103@lst.de>
+Date: Tue, 04 Feb 2025 07:52:38 -0500
+Content-Type: text/plain
+X-ClientProxiedBy: BN7PR06CA0064.namprd06.prod.outlook.com
+ (2603:10b6:408:34::41) To CH0PR10MB5338.namprd10.prod.outlook.com
+ (2603:10b6:610:cb::8)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 00/11] block write streams with nvme fdp
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	io-uring@vger.kernel.org, linux-block@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, asml.silence@gmail.com, axboe@kernel.dk,
-	hch@lst.de, sagi@grimberg.me, Keith Busch <kbusch@kernel.org>
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20250203184129.1829324-1-kbusch@meta.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMJsWRmVeSWpSXmKPExsWy7bCmlu6WjwvTDX722VjMWbWN0WL13X42
-	i5WrjzJZvGs9x2Ix6dA1RoszVxeyWOy9pW2xZ+9JFov5y56yW6x7/Z7Fgctj56y77B7n721k
-	8bh8ttRj06pONo/NS+o9dt9sYPM4d7HC4/MmuQCOqGybjNTElNQihdS85PyUzLx0WyXv4Hjn
-	eFMzA0NdQ0sLcyWFvMTcVFslF58AXbfMHKADlRTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2
-	SqkFKTkFJgV6xYm5xaV56Xp5qSVWhgYGRqZAhQnZGd8XnmQrKKjY9fwbUwNjbBcjJ4eEgInE
-	krY7TF2MXBxCArsZJWZf6WKBcD4xSmx9eI8ZwvnGKLGg5wIjTMuGWcugqvYySjw8/QOq/y2j
-	xNPzT1lBqngF7CRObDgB1sEioCLx6XU7C0RcUOLkzCdgtqiAvMT9WzPYQWxhoPoDS9Yyg9gi
-	AlUSf/pXs4EMZRboZpQ4Mf8qE0iCWUBc4taT+UA2BwebgKbEhcmlIGFOAXOJh0t62CFK5CW2
-	v50DdraEwBYOiWU/+5ghznaROLrqLxuELSzx6vgWdghbSuJlfxuUnS3x4NEDFgi7RmLH5j5W
-	CNteouHPDVaQvcxAe9fv0ofYxSfR+/sJ2DkSArwSHW1CENWKEvcmPYXqFJd4OGMJK0SJh8T8
-	qQmQoOpilLj1cxbbBEaFWUihMgvJk7OQfDMLYfECRpZVjJKpBcW56anFpgXGeanl8OhOzs/d
-	xAhOvVreOxgfPfigd4iRiYPxEKMEB7OSCO/p7QvShXhTEiurUovy44tKc1KLDzGaAqNnIrOU
-	aHI+MPnnlcQbmlgamJiZmZlYGpsZKonzNu9sSRcSSE8sSc1OTS1ILYLpY+LglGpguuo14f/V
-	+ZP8b+59kX+x7Ljr01+df6Zr9y3p6mSdc/L4kcQe9UWm2s9u/GSK6xXoUF0wka9y7TSWQ2mv
-	s54aST3Rc3cN5zF6cYX1h6eDc5FBVdYN3YUT7+5S98mKb/isanmhrfdZDcP+3AXHOnvf7roy
-	R//g9VmfVVZ27Z5wU9JNKWjl7R/1t3cJyUudrmrKvfElfKusZuQHl85jcleeWbF5LptXuoN/
-	UxFvX6pUDu//7Y4dc77U/X9oybWhVWj2Jhev0inb/xbZvF2RJDr1sqn/ihN+8R/5ne04G3qO
-	/f+iLpVxd2e8x5387Tm8IZLCl7X2SbNVnQx0y2OV4cvXtP6vUsZuUnV1qvTMc+c1lFiKMxIN
-	tZiLihMBnv+K/EYEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsWy7bCSnO6WjwvTDV5PUrWYs2obo8Xqu/1s
-	FitXH2WyeNd6jsVi0qFrjBZnri5ksdh7S9tiz96TLBbzlz1lt1j3+j2LA5fHzll32T3O39vI
-	4nH5bKnHplWdbB6bl9R77L7ZwOZx7mKFx+dNcgEcUVw2Kak5mWWpRfp2CVwZ3xeeZCsoqNj1
-	/BtTA2NsFyMnh4SAicSGWctYuhi5OIQEdjNK7Ll6gAkiIS7RfO0HO4QtLLHy33N2iKLXjBKv
-	Hh0DK+IVsJM4seEEI4jNIqAi8el1OwtEXFDi5MwnYLaogLzE/VszwAYJA9UfWLKWGcQWEaiS
-	ePn1OxvIUGaBbkaJXW0TmSE2dDFKLD3ZwgZSxQx0xq0n84G2cXCwCWhKXJhcChLmFDCXeLik
-	hx2ixEyia2sXI4QtL7H97RzmCYxCs5DcMQvJpFlIWmYhaVnAyLKKUTK1oDg3PbfYsMAwL7Vc
-	rzgxt7g0L10vOT93EyM40rQ0dzBuX/VB7xAjEwfjIUYJDmYlEd7T2xekC/GmJFZWpRblxxeV
-	5qQWH2KU5mBREucVf9GbIiSQnliSmp2aWpBaBJNl4uCUamCa3i/7oLq60EVt+ZHWKTNEulff
-	E11x2UhPR+aY9/aVzwKD4iTyX16Mb9w8fZvsSo6Tfy2DI27sNC2NtllyaFPaamFWbja+vM+X
-	Vsws8JiT8f3Z1B3K/HoztNgTPq4yWr1fXrIiNvMEb2Jx755W8752t1u73ARl5T9bHGhje6l5
-	SDmq80hGwFW+N5dmvltQyuxV9GKD5WKVh8L8B5Zfn7jwIqtovajQLa+/fIotXdoHF+f9uz8t
-	5FBypiRfpfuJSukqyzbLE/s4/vcd01ls63PlYO3PvtteS/4pTP706MDG3TUCZ1eZr3i45Eem
-	zeIELT+TtyKsQp6nfaZNeLtpWlDfz8XnzeY7zDQxvFu+tC5ViaU4I9FQi7moOBEAyrv6DyMD
-	AAA=
-X-CMS-MailID: 20250204105340epcas5p2d1e3cdd81a6a7f8d1f6b024c8e6f5cc0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250203201839epcas5p3b6f5bc0331202b3248431b338267bfb1
-References: <CGME20250203201839epcas5p3b6f5bc0331202b3248431b338267bfb1@epcas5p3.samsung.com>
-	<20250203184129.1829324-1-kbusch@meta.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|SJ2PR10MB7016:EE_
+X-MS-Office365-Filtering-Correlation-Id: 42d499ae-531f-4b9e-783f-08dd451ace9e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Ri+NL7e7CLRwnKTOKKeSPFtw4KfaiQMAPZj6+fAnJgwmUyVdqtis2xTza99R?=
+ =?us-ascii?Q?inNdtw+tO7xEbGw0HQ6VbHR0S3el0/s7rjvIS007bTSJjdCLaJzcgfL/MBTg?=
+ =?us-ascii?Q?fHTkCf7AuMUqqxh9TIXhvJJuQTeB577FqdXPZvIrz4vnkGHqrAY4tHXLoGvx?=
+ =?us-ascii?Q?2ClAQiLFit9JihUKTp5EVMSJyE14X6n9KGMFZdjNhWXDjxeJQwgA+6JW2mZw?=
+ =?us-ascii?Q?gPmwgag+k+eaxFzG/hyk3N8CaJ4vlrzOTQtGeSTJCX3BHF0rA+GNAS4SIVKk?=
+ =?us-ascii?Q?qZKu9CHTF37rIqj8PYwf2p1Nc8mUSNos6nfCgYJZw9owDDQFTRKq+gyJUn7+?=
+ =?us-ascii?Q?jzw+yzwDcmNOShvTdMf833wSUHPwT12MxQDUCt9ca+BvHpM2FQ5Dlc3/lzzp?=
+ =?us-ascii?Q?ue9FJ5Gc2T0LV5EBSKA1KEe//8j1/Rufh9NAAYCXJ8EnJM/C26GmxFE1XvLL?=
+ =?us-ascii?Q?y5Jh6NrxsxWcSl9z7veIfhjBxCZqSFABmLwQuF2HfI1YuvZeD5mzWdmYQp5b?=
+ =?us-ascii?Q?9k2h0vj0VCgSWlW7Yv5YfwzBCno+XjDnqMa+GDoJnuoJQUjUyLQeG7AnSNMM?=
+ =?us-ascii?Q?E2xwX/ZLuuqUrkbMC4soLkA8f9sVhA7Us8nwgTFHHW83UAFtt8DIrKTeYP89?=
+ =?us-ascii?Q?Rfdw3HfWrpStEjqFsENrbRkxNBk0NvUBbRYltNGDNfGTg+RP0QtDmVFpdDw+?=
+ =?us-ascii?Q?R0DuNLegdAwJrISHTBzfW/4v04qWtcAW2nQcY7yuBv1z0ZmAmvjY9RRx0/Lr?=
+ =?us-ascii?Q?Yw5/6NRdzFK51fFlCJo4pj5mgKUGj3J3w1P25E84oCrrDDlxnRVOwL3AM9EA?=
+ =?us-ascii?Q?sNLnTh8HfezFbUcb8iGq1XDOn1EmsPjXzpspVkaqw/OFozlQ1EjT7tdJ3qOx?=
+ =?us-ascii?Q?/2TSkhBF5afnjD4SucdLZAXe1sCocDrrTYtHylhsnYLv3UUm/LGlnYNsccSe?=
+ =?us-ascii?Q?mpcc6gou6ouZHt4smBWiElcAm+X7Qmukr084juT4vqpGG53uAmzGCQ56j+tL?=
+ =?us-ascii?Q?L556U+l7FDlSFd0WzxKwBZAIiJao+gNo1ts/D78KW3GCsxs5ydu5zyQTZB+A?=
+ =?us-ascii?Q?8MQjPjpI1M92/D9xC+moO8HO7u+Ic80oUQq9ToaIy+s3jv+Q+vsqebG0wegU?=
+ =?us-ascii?Q?ViViSnjANX48zS9wgn9RTPwgfuITFPutxORLUMmGCSIoERFpzzaWD5WQqG1D?=
+ =?us-ascii?Q?l6CLBZqFj9wBnKtiCZa2Nw9HtAUHhi/gbyq7eegcTZJ+8kDsSsiYvcv08NS0?=
+ =?us-ascii?Q?pqhoufV8UzIdWGy3qJfpHA/UwKS4E5WdgrUqtnguIg+z+IXU7X2li/Pgnb7T?=
+ =?us-ascii?Q?nThjL6DB6qeAEhkDkV69msAEnlvmytv9rwAiB8+Tdu5ueCxtlbRGnqfHa4rh?=
+ =?us-ascii?Q?tjkCskkdyzpk769g125TMdpJpujf?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vwiYHL3KDzT2ctzE6K1PXepUGkYNLr49PQqKJRqAcFfkyJCp6/qurfrCJIpg?=
+ =?us-ascii?Q?EZ1b6M+m7s8x4Gb1Z1XdfeO/6rwxjZSzMDu0ZiP6z7gx1lHveBvqokb56Uhs?=
+ =?us-ascii?Q?mDTMw3tw5m1vUGhaVl/6vURpn0eCXWklER6eaL/IE8Qh2VixDgRHUPdXFzUV?=
+ =?us-ascii?Q?MOrrH878Aewil4Rgsd8pHVopg33xJ6NY73UTYhKqO9mgfvBA+tmpUps6U291?=
+ =?us-ascii?Q?gpvyIKmcUGAzjMlPDm6TbYXS3uIDrsSVO80dYGCzVqjfZWdmyoOWkmDuiGzN?=
+ =?us-ascii?Q?RsbYkCHmoqCBXQpx7PhGaN4rg5HQ26odkmCktoKNF3r3Hc7Z3MR6UB0Ku9iP?=
+ =?us-ascii?Q?gmUpuTlxXhC+06xCkaK9XY5TA35rPthZeI5KiovhitlLAQD0akUBprbZZbu7?=
+ =?us-ascii?Q?+XP1irmZ4/MDUrT9oeHbfjPASoheH+0gNgxlXNjC6nZFCkt1YDWse2O2vOsa?=
+ =?us-ascii?Q?01uhk2RdmGMW8v+nHnShLxhv5BmtRGLKaJ/bO6N6/ISSDegAjSEaK/OHAQUi?=
+ =?us-ascii?Q?xzaKHhRKv1eQtOLiJlJPvPOgLJq1+J8HTDRzv1JjWuxUA0hsh7ZdLWup5BQ9?=
+ =?us-ascii?Q?IHCayEvdnEmguH7zJvQJ8COkxardKc7Ckty6wUGZvz+1PgL1W0Yb9in6n4oG?=
+ =?us-ascii?Q?JcK1belRCmG0/L2fdr5jPNvQWXEdqlUu5YC9F/ERtbkf63klpWz0VDA5pMjl?=
+ =?us-ascii?Q?GPrpMjD51OM0gH1YaQHh4Rp5+QbREFP86JaBjAx8hDvzquBBpuLP9guVMVGI?=
+ =?us-ascii?Q?luVi4NfPvhOCleCqqe9HeFG1YJjp00/sIBbkNK78Rte8khEiQbDfJsjWlY8s?=
+ =?us-ascii?Q?MCTFqdKwTQuT9gtyLaEGWqai4H/+VVGMcGJEbThEUwJwsL9Fi2ShrsTTRwqC?=
+ =?us-ascii?Q?DKMdvKSNtaQUpK+BhQD0H3T4zTS/komhHcufW49AgL4NEwcUjTxqqjv0XLH1?=
+ =?us-ascii?Q?36yZMQJ7uH2zV2pmZMd3r+0z89p53A/vFO69qGZn9d3nMqJhVD/s9p0ybKGD?=
+ =?us-ascii?Q?/n5lHDQ0YeOQqHpR7omWRVQ2Prmppf0xInn+yoOEZC4u1CXGU9NFKSBHov6m?=
+ =?us-ascii?Q?ZbZsmszizkpssxWgqTgMhCcgM5eNjolbn9bd4cCmCQjO4TFamszceggWPNsU?=
+ =?us-ascii?Q?Nj64g3vmpd8ycyMsS8TRND+rMo+uHtm8hNUAdDZA3iGly/f0XE3a5jOduWKQ?=
+ =?us-ascii?Q?nt+ApwFZUd6OSPjgtS0vpvuWyRDkyTmM2+V8vA1CSCf/nVHL1oUbXeAA+eFf?=
+ =?us-ascii?Q?tjchGpscVzfoEUtSYXor6wifAziBpvR9baAnbtlKEbRbOrmJ4sPVuEUkDFXJ?=
+ =?us-ascii?Q?+9uqZ+0zEAvNc0uPdh/8ZAAiZBQoLHWGWnwyUTotEN+/oDrEV+HHdiyITKAm?=
+ =?us-ascii?Q?vd10ExCyOnXPqUoHIG1yNeBP/6tTKBjENleg19G2F7Sm5llwKxaP4dDlPK2s?=
+ =?us-ascii?Q?9Mi9fgguzthcnyhc1EkLkZZy/kd/nhUXBT9x0juTl/OtFqCBCWRtLtnBd2dc?=
+ =?us-ascii?Q?tVrj/Dok64BerLYHe3O8RywfS+v6afSyw0VKeRBAw+B8r829mgBZgNhIbvdo?=
+ =?us-ascii?Q?rfyZzA0+Cd8p11Z9F8fcJBe0bF9NQij4DHHFYBhyGVV2yWhaIG1RilzE6eVS?=
+ =?us-ascii?Q?yw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: fG7ABYxWrVug+2T75rWhAj9uchjqcGfrOEYxmU5dzPWdjn6BSsQigrLLz5PfM0/sZccq4+pqDmX667a0LLj2TUHvPmcS6uygScPKhHvQBAJq1cWNBn1BkPAYM5WBHrZRk7aHtoXZKvDcZmtJY9uQPNiXSRo6x/EqqVg3TDsACEkXzXLv04vmhYBcBPvb19k6Fsy5VNuXoOQOGzK5oX+fOIRYDcaGKOY0XVlqVGwLudATXywzkvIgGhBCcv/G7ZnZPS6UwLDTVRew8hwAYaZBUtdCJWusTGJePI4dgPv9Ifa3j4BZoK0YInLoPA/qJaJMQ2VudC9GOTWm/3NxT6AbQ1X9nPz8RjekCSuLAeC2MHUYlIhctPoNh2xJr3aY+y9uULAUEhIj1htWrBPSDwGmfdAP43RFhGL3ysFLsB0Xm1OhYZ28vEs0+7YHVrBOg5RaomE7BCVZrLXboiVAppJHMQdHM9VTj7VoDXAj0o7UKHiPgX3tAuBMxOOqP38D//FtUsLnBa4om3zHyNe7u+7PJQnwQE2H5+cPmmjzK56kG1XOHaUJiIOZgEbKHxnEqZf9Tg5Ji4+DfczKx0LxSrTgYoleg2oQf4BGQg39NV327qY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42d499ae-531f-4b9e-783f-08dd451ace9e
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2025 12:52:39.6356
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UzKTi0Umud4aVgPtnRpS+7E4ew9UXtwox3/9Txrl+J9yizzZJRmj0WI74HnlC39fDDYxuPs0z7lMfBA68CuHrMPA37fLDOgAYh0E97FSxaU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7016
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-04_06,2025-01-31_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 suspectscore=0 adultscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2501170000
+ definitions=main-2502040102
+X-Proofpoint-GUID: TiZP5IhKtYa6MqlbRsTYZZVv5qbw1fXi
+X-Proofpoint-ORIG-GUID: TiZP5IhKtYa6MqlbRsTYZZVv5qbw1fXi
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250204_025351_363377_53C9D43E 
-X-CRM114-Status: UNSURE (   7.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250204_045403_726775_B5C3E7EB 
+X-CRM114-Status: GOOD (  15.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,7 +196,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I remember doing this but maybe twice is better than once:
 
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+Christoph,
+
+> Well, what do we actually need the app tag escape for except for
+> historical precedence?  In NVMe the app tag escape is an option for
+> deallocated blocks, but it's only one of the options, there other beeing
+> a synthetic guard/ref tag with the expected value.
+
+I have been told that some arrays use it to disable PI when writing the
+RAID parity blocks. I guess that makes sense if the array firmware is
+mixing data and parity blocks in a single write operation. For my test
+tool I just use WRPROTECT=3 to disable checking when writing "bad" PI.
+
+And obviously the original reason for the initialization pattern escape
+made sense on a disk drive that had no FTL to track whether a block was
+in a written state or not. But I really don't think any of this is
+useful in a modern SSD or even array context.
+
+>> In general I think 4096+16 is a reasonable format going forward. With
+>> either CRC32C or CRC64 plus full LBA as ref tag.
+>
+> That would also work fine.  NVMe supports 4byte crc32c + 2 byte app tag +
+> 12 byte guard tag / storage tag and 8-byte crc64 + 2 byte app tag + 6
+> byte guard / storage tag, although Linux only supports the latter so far.
+
+Yep, the CRC32C variant should be easy to wire up. I've thought about
+the storage tag but haven't really come up with a good use case. It's
+essentially the same situation as with the app tag.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
