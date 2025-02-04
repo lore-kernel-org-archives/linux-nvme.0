@@ -4,90 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D929C0218F
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 09:13:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4264FC02194
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 10:53:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+AHMI1n0um1Uc2f0ky1zL1PO/sMw1al2b0gfWEzKF20=; b=yS9/5+K/Y9Uw6QnW6Ipt+uHvBI
-	8LFbkplBfOZ6NRDhaUcVkArsSvlpPXUfU7GNiLJfVkgLzAnigeD9SOBf3+Ekiin0cbq1cFJfT0+i4
-	Q8/HpPicv5lkzdFPOkwJYlnqukrs5tr67WzDAl3Btdw0GmFCOOk8xtba9VdExjLQBTdDjO/sKWEIm
-	n9Fto1OLa2ouGInLqFRtmNciNX/KiVBlfEfVa3VrRQmnk0CeW43yDdiDd2ZirsWzQuN2kaYsu5iul
-	28AHrVIYJzHXDYoSIuyFa9tAEy3wvJBctdukUMmDQ4LkOiXxvRFxd5xhBRnZA+L01X4qTx1MkZMGG
-	3RHYLGHw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5IY+P5cvvOpmoevl77jfAm+Tjt6iQdqDrk+JprcVQc0=; b=uzFHdWLzU9uwToH/qV4IX7vhE9
+	gQnDOFtFJj+vSxnkHSY8CXFAspHWQ8oskT/YBA3na8sN/HZFU2PIRbHt+Cj1ZTa9/KApYlzNBXH5a
+	7KsY+wLukx3a679ZimMumacAflUPh7FcW3xS10SLSnKoTCOLJOUQRhulHCDsRghb2/ia0f67PSH7z
+	PYUIF5VN3k+7OEm56GmZ+yxa3KhHFQ37GxCLLwlKY6uuJ4Sd0qh3cHTzCK421qa1u30oiRgnsSSnn
+	56eOaOxixNGXkESketdVISlQOQ3AqjsVciqVRLYVoAprR/uWHwC+suIluzF+vNxaUyNnjnnsdcFSc
+	FQ9aWmhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfEze-000000000TD-2ZYD;
-	Tue, 04 Feb 2025 09:13:18 +0000
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+	id 1tfGZ0-00000000CLv-1NYG;
+	Tue, 04 Feb 2025 10:53:54 +0000
+Received: from [203.254.224.33] (helo=mailout3.samsung.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfEzY-000000000Sr-1rgg
+	id 1tfGYw-00000000CKv-36Kk
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Feb 2025 09:13:14 +0000
-Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-2ee397a82f6so8910172a91.2
-        for <linux-nvme@lists.infradead.org>; Tue, 04 Feb 2025 01:13:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738660391; x=1739265191; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+AHMI1n0um1Uc2f0ky1zL1PO/sMw1al2b0gfWEzKF20=;
-        b=SSgWXm4zFeNCc/EIK4yYkxa5nY4y94Ppc3obqYzDyrV8xltPt4lL4Mu1s50c5zkXSy
-         nTEfMib/6ycmd7Qwy+VVXzzRcFaf8PVAtvRKkeiubhN1VabQWyVdKrBUbxfvp1eAz/ay
-         fDk7ssp1f8YBZT5AuCjQeV7RYNqT/8gvA4uZafptrUFqkvkOoH+Vx8MU3EtWRvotrfnZ
-         vE3PKKBOWHEVgKyCi7Mib7OF4N6WxdjpS8dmnwdFsggCLL5TMGf0eNrbByoVQLBfT/BN
-         TSRG+SlRRE2SuBWjxu7lROHQ1DXj+cI5rQqysuGqPAVnl+ypnhGhnGGUfeZdratDtlBr
-         joaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738660391; x=1739265191;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+AHMI1n0um1Uc2f0ky1zL1PO/sMw1al2b0gfWEzKF20=;
-        b=GdQmBU2UK3GLJ4pE5OFxaNsNGZUs2Ir+cU3wTcfGAXo3VEEbf/WHWF7DwPyBrM9z1t
-         cSLU3gfL56QnNmoN2WGwZum4X10CBD0sE8LEawSgM+3C47suhiKGsatfh7BxGepfNpZV
-         +RBAYEb9Xa0ci3uCXw8n7Ma8/A8febXe6l1xlsAPQa1hwE32dcm06jLhHliio8LGGL/m
-         QbtlLKMIOiWStPtHu5cZMjyrQk2IoJyD2m2avSwcpZCw/t/K0WJhetvyQFzqNg9mtnli
-         Qw6OYAYf5ItRjYWrDaybrzmJUmAl2OFvjU2rFL+2WIJRgYm9Hp02XUnL7Pdfv9Y5nCWK
-         f8NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4K6lV1n7sXJMsWvTLFgRbME8q4ajddMUFCOVTdqNZV0G6B6ZWSAJTM1Y5TzEOS/PPCztUs5EVNT+z@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxbudp8q4yTw3wJSaaeC1i4ziwQQ1Aot8t4XQOnPnB8ezIV5XsX
-	Jz5nKipFhFZ/Xvv15LNv7kNzYaQ9SJDDHO2umKs/P9qz1Bhw5OESsGaaF1y3a8x2raA5m7Dw72z
-	JXd5APQuO3y0zFSymBTHiFBE3Uok=
-X-Gm-Gg: ASbGnctKqL3lchV56+ilV1NYNTpzN0EodsW6Fwprlc2kmY/Rrn2gf+E90JMlJ6KrhRC
-	42cQwWUlqKrAt1fxdwMC0zdEnM3n3Gsmt9j1AuhRrG5Kg+Qt3TXG5RCtpRTUTHhUEIn6/32K6R9
-	47QaGuFngKktIQ2bm9+NJy9g6mcSQ=
-X-Google-Smtp-Source: AGHT+IEjr+5p9ULMzoc/xpn7zcsHmFh9pQft0Sd8GQkkXIpsHHX4xJoLdzK+6o4pH/qlQ/u3VVH/AFYlbacH5FUEJZE=
-X-Received: by 2002:a17:90b:51cc:b0:2ea:498d:809f with SMTP id
- 98e67ed59e1d1-2f83ac5e467mr32092446a91.26.1738660391086; Tue, 04 Feb 2025
- 01:13:11 -0800 (PST)
+	Tue, 04 Feb 2025 10:53:52 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250204105343epoutp039a4dbc3ccece0cfe9c60f62c71d53bdf~g__aLmaaO1079610796epoutp03m
+	for <linux-nvme@lists.infradead.org>; Tue,  4 Feb 2025 10:53:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250204105343epoutp039a4dbc3ccece0cfe9c60f62c71d53bdf~g__aLmaaO1079610796epoutp03m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1738666423;
+	bh=5IY+P5cvvOpmoevl77jfAm+Tjt6iQdqDrk+JprcVQc0=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=Cilpea9sF1PlRXlcCfvvkHw/HsIREfS18FMxMMu3PVHH3HpT+MmKZJb4W+Wkae3Fb
+	 SKatJaTVQjexZUtVFbcYUDSw9AjVxhQkAKNEWthKtXXKBGhiRzMoRnN64QN8vJQZbi
+	 KhsBzvvhWXI0nLHzptNnTXYssEELQUDM55trVsEA=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20250204105343epcas5p22c70911c1350040eb7811b81f28b2eb7~g__Z7Nm_j1951519515epcas5p2C;
+	Tue,  4 Feb 2025 10:53:43 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4YnKwj0vQLz4x9QC; Tue,  4 Feb
+	2025 10:53:41 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	7F.FF.19956.4B1F1A76; Tue,  4 Feb 2025 19:53:40 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250204105340epcas5p2d1e3cdd81a6a7f8d1f6b024c8e6f5cc0~g__XYZzOx1263412634epcas5p2b;
+	Tue,  4 Feb 2025 10:53:40 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250204105340epsmtrp1e06af5afd505e400e0e2fe38febe3194~g__XXuceC0308503085epsmtrp1r;
+	Tue,  4 Feb 2025 10:53:40 +0000 (GMT)
+X-AuditID: b6c32a4b-fd1f170000004df4-5b-67a1f1b421bb
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C0.CC.18729.4B1F1A76; Tue,  4 Feb 2025 19:53:40 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250204105333epsmtip1faa77cbe5a0c3ca9bcaf28eba0c6db82~g__QfsJCz0166901669epsmtip1T;
+	Tue,  4 Feb 2025 10:53:32 +0000 (GMT)
+Message-ID: <94569e4b-f27a-425a-ad63-6a4f5bb4fb7d@samsung.com>
+Date: Tue, 4 Feb 2025 16:23:31 +0530
 MIME-Version: 1.0
-References: <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
- <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info> <20250117080507.GA25953@lst.de>
- <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info> <10e39c88-4667-4c61-b3eb-3dd7ee3074c3@leemhuis.info>
- <20250128074133.GA22435@lst.de> <379bba80-df0f-44c5-a15e-fd4393c52b8f@simg.de>
- <Z5jTKTfKUeLm4uJT@gallifrey> <e01fdde0-4760-487d-af0e-2aecf9d7ade2@simg.de>
- <CAOBLbT8V5DkuXzzgp2dPOZkGomqiLa_cdC=e=uWBtcWpP7L=Ww@mail.gmail.com> <20250204061208.GA29300@lst.de>
-In-Reply-To: <20250204061208.GA29300@lst.de>
-From: Bruno Gravato <bgravato@gmail.com>
-Date: Tue, 4 Feb 2025 09:12:54 +0000
-X-Gm-Features: AWEUYZklsTO1DdX17XI0s3UrJDzPBR2NguTIOGWaQniEHqaiG2AWZWpwapwJWK0
-Message-ID: <CAOBLbT_kn+5H-+RYM1UOAkxhfJnpqKMNv9_d_Ys9CgY_=TcdsA@mail.gmail.com>
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-To: Christoph Hellwig <hch@lst.de>
-Cc: Stefan <linux-kernel@simg.de>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
-	Thorsten Leemhuis <linux@leemhuis.info>, Mario Limonciello <mario.limonciello@amd.com>, 
-	Keith Busch <kbusch@kernel.org>, Adrian Huang <ahuang12@lenovo.com>, 
-	Linux kernel regressions list <regressions@lists.linux.dev>, linux-nvme@lists.infradead.org, 
-	Jens Axboe <axboe@fb.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
-	LKML <linux-kernel@vger.kernel.org>, bugzilla-daemon@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 00/11] block write streams with nvme fdp
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	io-uring@vger.kernel.org, linux-block@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, asml.silence@gmail.com, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, Keith Busch <kbusch@kernel.org>
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20250203184129.1829324-1-kbusch@meta.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMJsWRmVeSWpSXmKPExsWy7bCmlu6WjwvTDX722VjMWbWN0WL13X42
+	i5WrjzJZvGs9x2Ix6dA1RoszVxeyWOy9pW2xZ+9JFov5y56yW6x7/Z7Fgctj56y77B7n721k
+	8bh8ttRj06pONo/NS+o9dt9sYPM4d7HC4/MmuQCOqGybjNTElNQihdS85PyUzLx0WyXv4Hjn
+	eFMzA0NdQ0sLcyWFvMTcVFslF58AXbfMHKADlRTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2
+	SqkFKTkFJgV6xYm5xaV56Xp5qSVWhgYGRqZAhQnZGd8XnmQrKKjY9fwbUwNjbBcjJ4eEgInE
+	krY7TF2MXBxCArsZJWZf6WKBcD4xSmx9eI8ZwvnGKLGg5wIjTMuGWcugqvYySjw8/QOq/y2j
+	xNPzT1lBqngF7CRObDgB1sEioCLx6XU7C0RcUOLkzCdgtqiAvMT9WzPYQWxhoPoDS9Yyg9gi
+	AlUSf/pXs4EMZRboZpQ4Mf8qE0iCWUBc4taT+UA2BwebgKbEhcmlIGFOAXOJh0t62CFK5CW2
+	v50DdraEwBYOiWU/+5ghznaROLrqLxuELSzx6vgWdghbSuJlfxuUnS3x4NEDFgi7RmLH5j5W
+	CNteouHPDVaQvcxAe9fv0ofYxSfR+/sJ2DkSArwSHW1CENWKEvcmPYXqFJd4OGMJK0SJh8T8
+	qQmQoOpilLj1cxbbBEaFWUihMgvJk7OQfDMLYfECRpZVjJKpBcW56anFpgXGeanl8OhOzs/d
+	xAhOvVreOxgfPfigd4iRiYPxEKMEB7OSCO/p7QvShXhTEiurUovy44tKc1KLDzGaAqNnIrOU
+	aHI+MPnnlcQbmlgamJiZmZlYGpsZKonzNu9sSRcSSE8sSc1OTS1ILYLpY+LglGpguuo14f/V
+	+ZP8b+59kX+x7Ljr01+df6Zr9y3p6mSdc/L4kcQe9UWm2s9u/GSK6xXoUF0wka9y7TSWQ2mv
+	s54aST3Rc3cN5zF6cYX1h6eDc5FBVdYN3YUT7+5S98mKb/isanmhrfdZDcP+3AXHOnvf7roy
+	R//g9VmfVVZ27Z5wU9JNKWjl7R/1t3cJyUudrmrKvfElfKusZuQHl85jcleeWbF5LptXuoN/
+	UxFvX6pUDu//7Y4dc77U/X9oybWhVWj2Jhev0inb/xbZvF2RJDr1sqn/ihN+8R/5ne04G3qO
+	/f+iLpVxd2e8x5387Tm8IZLCl7X2SbNVnQx0y2OV4cvXtP6vUsZuUnV1qvTMc+c1lFiKMxIN
+	tZiLihMBnv+K/EYEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsWy7bCSnO6WjwvTDV5PUrWYs2obo8Xqu/1s
+	FitXH2WyeNd6jsVi0qFrjBZnri5ksdh7S9tiz96TLBbzlz1lt1j3+j2LA5fHzll32T3O39vI
+	4nH5bKnHplWdbB6bl9R77L7ZwOZx7mKFx+dNcgEcUVw2Kak5mWWpRfp2CVwZ3xeeZCsoqNj1
+	/BtTA2NsFyMnh4SAicSGWctYuhi5OIQEdjNK7Ll6gAkiIS7RfO0HO4QtLLHy33N2iKLXjBKv
+	Hh0DK+IVsJM4seEEI4jNIqAi8el1OwtEXFDi5MwnYLaogLzE/VszwAYJA9UfWLKWGcQWEaiS
+	ePn1OxvIUGaBbkaJXW0TmSE2dDFKLD3ZwgZSxQx0xq0n84G2cXCwCWhKXJhcChLmFDCXeLik
+	hx2ixEyia2sXI4QtL7H97RzmCYxCs5DcMQvJpFlIWmYhaVnAyLKKUTK1oDg3PbfYsMAwL7Vc
+	rzgxt7g0L10vOT93EyM40rQ0dzBuX/VB7xAjEwfjIUYJDmYlEd7T2xekC/GmJFZWpRblxxeV
+	5qQWH2KU5mBREucVf9GbIiSQnliSmp2aWpBaBJNl4uCUamCa3i/7oLq60EVt+ZHWKTNEulff
+	E11x2UhPR+aY9/aVzwKD4iTyX16Mb9w8fZvsSo6Tfy2DI27sNC2NtllyaFPaamFWbja+vM+X
+	Vsws8JiT8f3Z1B3K/HoztNgTPq4yWr1fXrIiNvMEb2Jx755W8752t1u73ARl5T9bHGhje6l5
+	SDmq80hGwFW+N5dmvltQyuxV9GKD5WKVh8L8B5Zfn7jwIqtovajQLa+/fIotXdoHF+f9uz8t
+	5FBypiRfpfuJSukqyzbLE/s4/vcd01ls63PlYO3PvtteS/4pTP706MDG3TUCZ1eZr3i45Eem
+	zeIELT+TtyKsQp6nfaZNeLtpWlDfz8XnzeY7zDQxvFu+tC5ViaU4I9FQi7moOBEAyrv6DyMD
+	AAA=
+X-CMS-MailID: 20250204105340epcas5p2d1e3cdd81a6a7f8d1f6b024c8e6f5cc0
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250203201839epcas5p3b6f5bc0331202b3248431b338267bfb1
+References: <CGME20250203201839epcas5p3b6f5bc0331202b3248431b338267bfb1@epcas5p3.samsung.com>
+	<20250203184129.1829324-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250204_011312_491358_04F7C77A 
-X-CRM114-Status: GOOD (  33.09  )
+X-CRM114-CacheID: sfid-20250204_025351_363377_53C9D43E 
+X-CRM114-Status: UNSURE (   7.96  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,64 +138,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 4 Feb 2025 at 06:12, Christoph Hellwig wrote:
->
-> On Sun, Feb 02, 2025 at 08:32:31AM +0000, Bruno Gravato wrote:
-> > In my tests I was using real data: a backup of my files.
-> >
-> > On one such test I copied over 300K files, variables sizes and types
-> > totalling about 60GB. A bit over 20 files got corrupted.
-> > I tried copying the files over the network (ethernet) using rsync/ssh.
-> > I also tried restoring the files using restic (over ssh as well). And
-> > I also tried copying the files locally from a SATA disk. In all cases
-> > I got similar results with some files being corrupted.
-> > The destination nvme disk was using btrfs and running btrfs scrub
-> > after the copy detects quite a few checksum errors.
->
-> So you used various different data sources, and the desintation was
-> always the nvme device in the suspect slot.
->
+I remember doing this but maybe twice is better than once:
 
-Yes, regardless of the data source, the destination was always a
-single nvme disk on the main M.2 nvme slot, with the secondary M.2
-nvme slot empty.
-I tried 3 different disks (WD, Crucial and Solidigm) with similar results.
-If I put any of those disks on the secondary M.2 slot (with the main
-slot empty) the problem doesn't occur.
-The one that intrigues me most is if I put 2 nvme disks in, occupying
-both M.2 slots, the problem doesn't occur either.
-The secondary slot must be empty for the issue to happen.
-
-I didn't try using the main M.2 slot as source instead of target, to
-see if the problem also occurs on reading as well.
-I could try that if you think it's worth testing.
-
-
-> > I analyzed some of those corrupted files and one of them happened to
-> > be a text file (linux kernel source code).
-> > A big portion of the text was replaced with text from another file in
-> > the same directory (being text made it easy to find where it came
-> > from).
-> > So this was a contiguous block of text that was overwritten with a
-> > contiguous block of text from another file.
-> > If I remember correctly the other file was not corrupted (so the
-> > blocks weren't swapped). It looked like a certain block of text was
-> > written twice: on the correct file and on another file in the same
-> > directory.
->
-> That's a very interesting pattern.
->
-> > I also got some jpeg images corrupted. I was able to open and view
-> > (partially) those images and it looked like a portion of the image was
-> > repeated in a different part of it), so blocks of the same file were
-> > probably duplicated and overwritten within itself.
-> >
-> > The blocks being overwritten seemed to be different sizes on different files.
->
-> This does sound like a fairly common pattern due to SSD FTL issues,
-> but I still don't want to rule out swiotlb, which due to the bucketing
-> could maybe also lead to these, but I can't really see how.  But the
-> fact that the affected systems seem to be using swiotlb despite no
-> good reason for them to do so still leaves me puzzled.
->
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
