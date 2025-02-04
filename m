@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E43BC0218F
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 06:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E23EDC0218F
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 06:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=4d10yRAbeQ2gQzYysZh3OCT08r
-	vky1slsrwUg8hgHGT0UCWq6dRfHwQjRh/UMk9fFTWUTurERjzHtLD9SH4c2QGbbaF/ID/qIUjfSvt
-	ceIlEIx8QIUEzVtMZO1WMnQsHX5xGA+0G5VxtluzQLUIqRseQgom/Ec9H9ALlu4sGIXKzLIs4IXru
-	VdlvY53lN1H29ZLSYCZXpNeqv1A4MB67Q2ohK6sDd3vqTv7LiQqBbE/19mRshje0WBX92u12P1JMG
-	+17vw0f6ReAB7UoDNWe5/MB/07eNbHASIGOjoa1uh3i6/8ZcWg77HNOEUfcS776oSzuwD4rXXxuX6
-	kHw5d8ow==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=FOELfmJHocZindbf0INKB8x0uR
+	uG/zg7EhyrJFTkWPOOW/2Ru607TdX0iDebVHlz5gZcaiWFloXnIOlP6ZfBY7e3Yy27WRJd1zUPk17
+	i0M1mQxpL0U/F0IfOxj5HdtzzZTQnN/PhD0OIzf7U/yQvSAg/yaJ/Q0dtqV0Jg2BWXE/tw5P+kY59
+	od3dxfk0SnMCGC7BRaUwAGbhYQwmth9o3fptrg5wyT6FppsiK7PYhbmoOOvR6oSAPPDxTTzuxpPpP
+	I+buDfIUiay9z9A/16CzqKxfMIuf+beaSTMrdZFymb3JNhzYgrdDpRgptq7lJf/Xz4/WrYT+qIYgc
+	F0TnozRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfBzp-0000000HJq8-3aRt;
-	Tue, 04 Feb 2025 06:01:17 +0000
+	id 1tfBzz-0000000HJtd-1qfA;
+	Tue, 04 Feb 2025 06:01:27 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfBzn-0000000HJpD-2hPl
+	id 1tfBzx-0000000HJs8-1W6S
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Feb 2025 06:01:16 +0000
+	Tue, 04 Feb 2025 06:01:26 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9ADEE68AFE; Tue,  4 Feb 2025 07:01:10 +0100 (CET)
-Date: Tue, 4 Feb 2025 07:01:10 +0100
+	id 0369A68D07; Tue,  4 Feb 2025 07:01:21 +0100 (CET)
+Date: Tue, 4 Feb 2025 07:01:21 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@meta.com>
 Cc: linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
@@ -38,18 +38,18 @@ Cc: linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
 	sagi@grimberg.me, Keith Busch <kbusch@kernel.org>,
 	Hannes Reinecke <hare@suse.de>,
 	Nitesh Shetty <nj.shetty@samsung.com>
-Subject: Re: [PATCHv2 10/11] nvme: register fdp parameters with the block
- layer
-Message-ID: <20250204060110.GB29177@lst.de>
-References: <20250203184129.1829324-1-kbusch@meta.com> <20250203184129.1829324-11-kbusch@meta.com>
+Subject: Re: [PATCHv2 11/11] nvme: use fdp streams if write stream is
+ provided
+Message-ID: <20250204060121.GC29177@lst.de>
+References: <20250203184129.1829324-1-kbusch@meta.com> <20250203184129.1829324-12-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250203184129.1829324-11-kbusch@meta.com>
+In-Reply-To: <20250203184129.1829324-12-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250203_220115_816034_97D63D15 
-X-CRM114-Status: UNSURE (   8.75  )
+X-CRM114-CacheID: sfid-20250203_220125_535739_AF071C24 
+X-CRM114-Status: UNSURE (   8.47  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
