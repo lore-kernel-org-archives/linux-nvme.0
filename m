@@ -4,73 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2EBDC02193
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 21:13:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB376C02194
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 21:31:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Rp5fYvpzjxUhO+asCrm+VjHu/niZwZ9xyrFGLn7LK14=; b=zy70XnYvnQ8un4DdNKRfMCSCSN
-	ennwt6//DPnv55rV0LwnsJjMME2YJwB3/4TyopkARDz2ePb2K+6i930VOGyto4u8bLRDfNW3Y8dFZ
-	PMJ08PbbVDM83P6ODajb3IDBTzHilRnYKkpzlmEqdNk+xE+Wv7pSTd+lolBg5ty02Qwu2mMQUUqSf
-	6PS2IGsuDe104Cd2kR62hI9jUnZIPPiil9zXdyItMkwSvjybsxe9oLOuNdGMO5giqOCGUrxfTnba6
-	qmwp7fFp+o9FCXrmWTWQrjvbqQuCs9/X7ax8q/tTtciwP/G3XpzpSOBvuad60nwh3+hce9gvsK8JY
-	iolnVCeg==;
+	bh=HcGHwBHCshi0yz2RQGryrnPpLkVHnABt1yCMpCIlUPI=; b=pymhXXh0feBdkTWibzLllEN39N
+	TqFRu1s5aAOi6xyHP5Dh3WUAcpK6fV+6b6xYdLNER21FiwcUpYrUIl4Fo30FOBDgMZsdH4koNJxHW
+	iXc+zyQqCt6ouJ7aIzSwk4DKfeQWVq9SGOnwxqhak1G21QGBChEqmuT/U0pAnpRr2PgKHV81iqh94
+	3nffblWTjh3IXSmx1UKwaDjnO/vxLK7p+7nnu3efTVzi/GiBc+DgbHGWxdwsk8FRQ8kqqw8anfAQR
+	FcCrH6N66Jms/O9Utp9Un7R9kAiUxlfZeNTkDep1+FPMZ/OXzRTaqf0yuIAJ5K/2BAdHCfolC8O3w
+	0jTquydA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfQEl-00000001YzV-2ND3;
-	Tue, 04 Feb 2025 21:13:39 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1tfQVh-00000001bRf-3UE6;
+	Tue, 04 Feb 2025 21:31:09 +0000
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfQEi-00000001Yz8-1Tcf
+	id 1tfPIC-00000001V8a-1ql2
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Feb 2025 21:13:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738703614;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Rp5fYvpzjxUhO+asCrm+VjHu/niZwZ9xyrFGLn7LK14=;
-	b=QXlySsAy9rwxVH8rLM8wdwh8hPost8yIzB+BOW6vxsRlLptHZ4HqBVm1yNgUMeGWbegAqB
-	9fhhKete7jBNUA0Jepg/Jhum3yaCaU8B9J7ceu0L02vGGYwavrVlMvNzkVTB1/7KZ9lolO
-	7qsRK+UsI0O+zOP2rvR9OR2LuKmxhg8=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-232-Fp5HKAoWOwi7S6GDu3ztIA-1; Tue,
- 04 Feb 2025 16:13:32 -0500
-X-MC-Unique: Fp5HKAoWOwi7S6GDu3ztIA-1
-X-Mimecast-MFC-AGG-ID: Fp5HKAoWOwi7S6GDu3ztIA
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 869391956087;
-	Tue,  4 Feb 2025 21:13:30 +0000 (UTC)
-Received: from bgurney-thinkpadp1gen5.remote.csb (unknown [10.22.65.73])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0A86830001BE;
-	Tue,  4 Feb 2025 21:13:27 +0000 (UTC)
-From: Bryan Gurney <bgurney@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
+	Tue, 04 Feb 2025 20:13:09 +0000
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-38da88e6db0so597007f8f.2
+        for <linux-nvme@lists.infradead.org>; Tue, 04 Feb 2025 12:13:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738699986; x=1739304786; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HcGHwBHCshi0yz2RQGryrnPpLkVHnABt1yCMpCIlUPI=;
+        b=ZmSRPHI4mw3QsAJEkmBDWsZiZf1FoRiZuF50UkNYzO8IrAWRTBlYqUcdHQudjJKagS
+         VQAwfw+h74NFf45B3DsFGCFM+06aaKARQ/DRZLb9RDJ69/XCFFoqUadP8klLA9OkJCa6
+         I/KYy+sf8CAD/w9+eQPsXCh3EdDapcUWnPbQBZAYUQBaYTWqM0fLZFD+fl5W9P3O3auD
+         XvSxD0iz2h3ulnlISnP7L3jj4hdh109e2v5uSrK/O/oWvUiAcamPo/m2M2Oxu+mOhPEg
+         pGK77A9pB4QZXDQpgC6lDQIZg7euxLiGzopuWPKDntyi9a2oTiIndcSsEu0l7H8kLTcT
+         hbgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738699986; x=1739304786;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HcGHwBHCshi0yz2RQGryrnPpLkVHnABt1yCMpCIlUPI=;
+        b=t8FyehuDzTyL1thJ7Hueka1S2A3nmuJQSsF4dLIuH+8pQdn04x9+Cz1Z+EsY8LeM/M
+         T5mlytQBNYYBPy9zzHsRmNEoSmQfPAW2Aap7LvOHQZwxsOCzX36OvhMmEFLDT3NJlFCs
+         6g0cPltgdCmiLLME4OF5MKw2ZjS8FfMPIaD6klsQrE6fMq+H/uifZXE/rf1dQiBGFoOK
+         Cyxq578x3KdZTJm0G6k1fwak16QIXGBv5NShZ6tHCl1sW/R46Q1dLsvvVC/lik6deOUe
+         Rtg8/h4CsaoM0nrhNUmr4oKSIWYUZQvmzdWeAJohVL9aXDRD5Rbu0C0wobL+ud21kM0i
+         0ACw==
+X-Gm-Message-State: AOJu0YwYITkg7ayiS4muU1koLEDyxP74OmpVjErlS9l8HhvYTViS9nWq
+	bX1QWtFHMzEfjwA9oYs0muZaUXfB1CaQNuJ62rYH5ws6Hq8QBKCNJfmrZI2G
+X-Gm-Gg: ASbGncttbhcPLLMRw8Z54KBhfA+Hp5+DBVWTmF4PojtU4Z8er2MFXpeauK93OsFyeEI
+	XwDTj1AFMNWgxj7KZ6+jBpeqVnpRgrV2K60x+e3XKVrFhPf5UvTjI/gwn2BMKIzzZle5qEUs6GR
+	TjVwxLrZR5hGrg1RL750gK4ZWQhlI67jUJi4J/Dmp8cWa2i9of5/S6/IqeAawQltzHtRroOwVGF
+	IFHQPGwwtroiWi57OGjyu4Wc1fKMU0ohxIDyoAaVWvHowVQ8klpjPjjTC5L5qNu9T+kLRiH6IeO
+	wP72uIkrO7KCd01s
+X-Google-Smtp-Source: AGHT+IF+VeTop4aATnyPfAkPdoHSxOw+0vdvZweY1tHe4D5i9kBHxnC20VPCDG2dWEByOUtt71EIaA==
+X-Received: by 2002:a5d:4e4c:0:b0:38a:615b:9ec0 with SMTP id ffacd0b85a97d-38db4966770mr74032f8f.54.1738699986048;
+        Tue, 04 Feb 2025 12:13:06 -0800 (PST)
+Received: from qasdev.Home ([2a02:c7c:6696:8300:f765:48ca:214d:7a05])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c102ac9sm16465093f8f.29.2025.02.04.12.13.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 12:13:05 -0800 (PST)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: james.smart@broadcom.com,
 	kbusch@kernel.org,
+	axboe@kernel.dk,
 	hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk
-Cc: jmeneghi@redhat.com,
-	bmarzins@redhat.com,
-	Bryan Gurney <bgurney@redhat.com>
-Subject: [PATCH] nvme: remove multipath module parameter
-Date: Tue,  4 Feb 2025 16:11:58 -0500
-Message-ID: <20250204211158.43126-1-bgurney@redhat.com>
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-fc: Utilise min3() to simplify queue count calculation
+Date: Tue,  4 Feb 2025 20:12:56 +0000
+Message-Id: <20250204201256.117194-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250204_131336_459263_E1517B0E 
-X-CRM114-Status: GOOD (  15.01  )
+X-CRM114-CacheID: sfid-20250204_121308_476010_052BCDD8 
+X-CRM114-Status: GOOD (  11.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,128 +97,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since device-mapper multipath will no longer be operating on NVMe
-devices, there is no longer a need for the "multipath" parameter.
+Refactor nvme_fc_create_io_queues() and nvme_fc_recreate_io_queues() to
+use the min3() macro to find the minimum between 3 values instead of
+multiple min()'s. This shortens the code and makes it easier to read.
 
-Note that, when compiled with CONFIG_NVME_MULTIPATH off multi-path
-capable controllers and namespaces will continue to present multiple
-device entries - one for each controller/namespace discovered.  This
-could be confusing, as device-mapper multipath relies upon code in
-nvme/host/multipath.c, and running device-mapper multipath with a
-kernel compiled with CONFIG_NVME_MULTIPATH disabled is not supported.
-
-Closes: https://lore.kernel.org/linux-nvme/20241121220321.40616-1-bgurney@redhat.com/
-
-Tested-by: John Meneghini <jmeneghi@redhat.com>
-Reviewed-by: John Meneghini <jmeneghi@redhat.com>
-
-Signed-off-by: Bryan Gurney <bgurney@redhat.com>
+Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
 ---
- drivers/nvme/host/core.c      | 14 ++++----------
- drivers/nvme/host/multipath.c | 14 ++++++--------
- drivers/nvme/host/nvme.h      |  2 --
- 3 files changed, 10 insertions(+), 20 deletions(-)
+ drivers/nvme/host/fc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2bcd9f710cb6..b07cd482fbc1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3809,14 +3809,6 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
- 					info->nsid);
- 			goto out_put_ns_head;
- 		}
--
--		if (!multipath) {
--			dev_warn(ctrl->device,
--				"Found shared namespace %d, but multipathing not supported.\n",
--				info->nsid);
--			dev_warn_once(ctrl->device,
--				"Support for shared namespaces without CONFIG_NVME_MULTIPATH is deprecated and will be removed in Linux 6.0.\n");
--		}
- 	}
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 094be164ffdc..4fd1669231fd 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2897,7 +2897,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	unsigned int nr_io_queues;
+ 	int ret;
  
- 	list_add_tail_rcu(&ns->siblings, &head->list);
-@@ -3915,12 +3907,14 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 		sprintf(disk->disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
- 			ctrl->instance, ns->head->instance);
- 		disk->flags |= GENHD_FL_HIDDEN;
--	} else if (multipath) {
-+	} else {
-+#ifdef CONFIG_NVME_MULTIPATH
- 		sprintf(disk->disk_name, "nvme%dn%d", ctrl->subsys->instance,
- 			ns->head->instance);
--	} else {
-+#else
- 		sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance,
- 			ns->head->instance);
-+#endif
- 	}
+-	nr_io_queues = min(min(opts->nr_io_queues, num_online_cpus()),
++	nr_io_queues = min3(opts->nr_io_queues, num_online_cpus(),
+ 				ctrl->lport->ops->max_hw_queues);
+ 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+ 	if (ret) {
+@@ -2951,7 +2951,7 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	unsigned int nr_io_queues;
+ 	int ret;
  
- 	if (nvme_update_ns_info(ns, info))
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index a85d190942bd..28ab868182b2 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -9,11 +9,6 @@
- #include <trace/events/block.h>
- #include "nvme.h"
- 
--bool multipath = true;
--module_param(multipath, bool, 0444);
--MODULE_PARM_DESC(multipath,
--	"turn on native support for multiple controllers per subsystem");
--
- static const char *nvme_iopolicy_names[] = {
- 	[NVME_IOPOLICY_NUMA]	= "numa",
- 	[NVME_IOPOLICY_RR]	= "round-robin",
-@@ -632,9 +627,11 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	 * We also do this for private namespaces as the namespace sharing flag
- 	 * could change after a rescan.
- 	 */
-+#ifdef CONFIG_NVME_MULTIPATH
- 	if (!(ctrl->subsys->cmic & NVME_CTRL_CMIC_MULTI_CTRL) ||
--	    !nvme_is_unique_nsid(ctrl, head) || !multipath)
-+	    !nvme_is_unique_nsid(ctrl, head))
- 		return 0;
-+#endif
- 
- 	blk_set_stacking_limits(&lim);
- 	lim.dma_alignment = 3;
-@@ -1038,10 +1035,11 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	size_t ana_log_size;
- 	int error = 0;
- 
-+#ifdef CONFIG_NVME_MULTIPATH
- 	/* check if multipath is enabled and we have the capability */
--	if (!multipath || !ctrl->subsys ||
--	    !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
-+	if (!ctrl->subsys || !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
- 		return 0;
-+#endif
- 
- 	/* initialize this in the identify path to cover controller resets */
- 	atomic_set(&ctrl->nr_active, 0);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2c76afd00390..6dea04f05b59 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -972,7 +972,6 @@ static inline void nvme_trace_bio_complete(struct request *req)
- 		trace_block_bio_complete(ns->head->disk->queue, req->bio);
- }
- 
--extern bool multipath;
- extern struct device_attribute dev_attr_ana_grpid;
- extern struct device_attribute dev_attr_ana_state;
- extern struct device_attribute subsys_attr_iopolicy;
-@@ -982,7 +981,6 @@ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
- 	return disk->fops == &nvme_ns_head_ops;
- }
- #else
--#define multipath false
- static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
- {
- 	return false;
+-	nr_io_queues = min(min(opts->nr_io_queues, num_online_cpus()),
++	nr_io_queues = min3(opts->nr_io_queues, num_online_cpus(),
+ 				ctrl->lport->ops->max_hw_queues);
+ 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+ 	if (ret) {
 -- 
-2.47.0
+2.39.5
 
 
