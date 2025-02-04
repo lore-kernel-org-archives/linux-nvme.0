@@ -4,54 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B4CBC0218F
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 06:26:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D929C0218F
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 09:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tHnaxwqdNPk5NX9nFB+CSaSgebLCaMXK+G71iKCz6Ww=; b=xVant408AXK3ZWT0cRPJ330IFs
-	q7N0wiA8PaVortBtKeBttDhLcqTz9jBIsX4k3r9P1IpSK0FPvyDnSA23BGJmcvIH/rLI/aNq/nfqF
-	W7MBvvOaq35L+gvrjt8L9UrTGmZ2uiudX0puVIqdRCGDz2YncgPnLNKXTESbVU54NpmL08CTM02Vx
-	QN2/YL5d63vIYKmWdESRwYFyMUHq3A83YTNsPRtwNkZ7M2hyQ180IlOwfrSS67yQETs/BIFEOqZzP
-	RTaprk3VOiouLXQ3rOR3b9TQLT839yhqDmMa2Ew1K5cH+6zkI3h58zygvmihkENNGQg0PQgC0xaXN
-	KK/5K/Rw==;
+	bh=+AHMI1n0um1Uc2f0ky1zL1PO/sMw1al2b0gfWEzKF20=; b=yS9/5+K/Y9Uw6QnW6Ipt+uHvBI
+	8LFbkplBfOZ6NRDhaUcVkArsSvlpPXUfU7GNiLJfVkgLzAnigeD9SOBf3+Ekiin0cbq1cFJfT0+i4
+	Q8/HpPicv5lkzdFPOkwJYlnqukrs5tr67WzDAl3Btdw0GmFCOOk8xtba9VdExjLQBTdDjO/sKWEIm
+	n9Fto1OLa2ouGInLqFRtmNciNX/KiVBlfEfVa3VrRQmnk0CeW43yDdiDd2ZirsWzQuN2kaYsu5iul
+	28AHrVIYJzHXDYoSIuyFa9tAEy3wvJBctdukUMmDQ4LkOiXxvRFxd5xhBRnZA+L01X4qTx1MkZMGG
+	3RHYLGHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfCO1-0000000HMXX-2D4V;
-	Tue, 04 Feb 2025 06:26:17 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1tfEze-000000000TD-2ZYD;
+	Tue, 04 Feb 2025 09:13:18 +0000
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfCNy-0000000HMWd-1222
+	id 1tfEzY-000000000Sr-1rgg
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Feb 2025 06:26:15 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 077F668AFE; Tue,  4 Feb 2025 07:26:06 +0100 (CET)
-Date: Tue, 4 Feb 2025 07:26:05 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Christoph Hellwig <hch@lst.de>, Bruno Gravato <bgravato@gmail.com>,
-	Stefan <linux-kernel@simg.de>, Keith Busch <kbusch@kernel.org>,
-	bugzilla-daemon@kernel.org, Adrian Huang <ahuang12@lenovo.com>,
-	Linux kernel regressions list <regressions@lists.linux.dev>,
-	linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of
- AsRock X600M-STX + Ryzen 8700G
-Message-ID: <20250204062605.GB29300@lst.de>
-References: <Z36UsE5dj6j5HhkX@kbusch-mbp> <20250109082849.GC20724@lst.de> <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info> <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de> <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com> <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info> <20250117080507.GA25953@lst.de> <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info> <20250117095522.GA2391@lst.de> <266965cf-9cf9-4434-be42-458e92d7366d@leemhuis.info>
+	Tue, 04 Feb 2025 09:13:14 +0000
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-2ee397a82f6so8910172a91.2
+        for <linux-nvme@lists.infradead.org>; Tue, 04 Feb 2025 01:13:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738660391; x=1739265191; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+AHMI1n0um1Uc2f0ky1zL1PO/sMw1al2b0gfWEzKF20=;
+        b=SSgWXm4zFeNCc/EIK4yYkxa5nY4y94Ppc3obqYzDyrV8xltPt4lL4Mu1s50c5zkXSy
+         nTEfMib/6ycmd7Qwy+VVXzzRcFaf8PVAtvRKkeiubhN1VabQWyVdKrBUbxfvp1eAz/ay
+         fDk7ssp1f8YBZT5AuCjQeV7RYNqT/8gvA4uZafptrUFqkvkOoH+Vx8MU3EtWRvotrfnZ
+         vE3PKKBOWHEVgKyCi7Mib7OF4N6WxdjpS8dmnwdFsggCLL5TMGf0eNrbByoVQLBfT/BN
+         TSRG+SlRRE2SuBWjxu7lROHQ1DXj+cI5rQqysuGqPAVnl+ypnhGhnGGUfeZdratDtlBr
+         joaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738660391; x=1739265191;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+AHMI1n0um1Uc2f0ky1zL1PO/sMw1al2b0gfWEzKF20=;
+        b=GdQmBU2UK3GLJ4pE5OFxaNsNGZUs2Ir+cU3wTcfGAXo3VEEbf/WHWF7DwPyBrM9z1t
+         cSLU3gfL56QnNmoN2WGwZum4X10CBD0sE8LEawSgM+3C47suhiKGsatfh7BxGepfNpZV
+         +RBAYEb9Xa0ci3uCXw8n7Ma8/A8febXe6l1xlsAPQa1hwE32dcm06jLhHliio8LGGL/m
+         QbtlLKMIOiWStPtHu5cZMjyrQk2IoJyD2m2avSwcpZCw/t/K0WJhetvyQFzqNg9mtnli
+         Qw6OYAYf5ItRjYWrDaybrzmJUmAl2OFvjU2rFL+2WIJRgYm9Hp02XUnL7Pdfv9Y5nCWK
+         f8NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4K6lV1n7sXJMsWvTLFgRbME8q4ajddMUFCOVTdqNZV0G6B6ZWSAJTM1Y5TzEOS/PPCztUs5EVNT+z@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxbudp8q4yTw3wJSaaeC1i4ziwQQ1Aot8t4XQOnPnB8ezIV5XsX
+	Jz5nKipFhFZ/Xvv15LNv7kNzYaQ9SJDDHO2umKs/P9qz1Bhw5OESsGaaF1y3a8x2raA5m7Dw72z
+	JXd5APQuO3y0zFSymBTHiFBE3Uok=
+X-Gm-Gg: ASbGnctKqL3lchV56+ilV1NYNTpzN0EodsW6Fwprlc2kmY/Rrn2gf+E90JMlJ6KrhRC
+	42cQwWUlqKrAt1fxdwMC0zdEnM3n3Gsmt9j1AuhRrG5Kg+Qt3TXG5RCtpRTUTHhUEIn6/32K6R9
+	47QaGuFngKktIQ2bm9+NJy9g6mcSQ=
+X-Google-Smtp-Source: AGHT+IEjr+5p9ULMzoc/xpn7zcsHmFh9pQft0Sd8GQkkXIpsHHX4xJoLdzK+6o4pH/qlQ/u3VVH/AFYlbacH5FUEJZE=
+X-Received: by 2002:a17:90b:51cc:b0:2ea:498d:809f with SMTP id
+ 98e67ed59e1d1-2f83ac5e467mr32092446a91.26.1738660391086; Tue, 04 Feb 2025
+ 01:13:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <266965cf-9cf9-4434-be42-458e92d7366d@leemhuis.info>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
+ <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info> <20250117080507.GA25953@lst.de>
+ <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info> <10e39c88-4667-4c61-b3eb-3dd7ee3074c3@leemhuis.info>
+ <20250128074133.GA22435@lst.de> <379bba80-df0f-44c5-a15e-fd4393c52b8f@simg.de>
+ <Z5jTKTfKUeLm4uJT@gallifrey> <e01fdde0-4760-487d-af0e-2aecf9d7ade2@simg.de>
+ <CAOBLbT8V5DkuXzzgp2dPOZkGomqiLa_cdC=e=uWBtcWpP7L=Ww@mail.gmail.com> <20250204061208.GA29300@lst.de>
+In-Reply-To: <20250204061208.GA29300@lst.de>
+From: Bruno Gravato <bgravato@gmail.com>
+Date: Tue, 4 Feb 2025 09:12:54 +0000
+X-Gm-Features: AWEUYZklsTO1DdX17XI0s3UrJDzPBR2NguTIOGWaQniEHqaiG2AWZWpwapwJWK0
+Message-ID: <CAOBLbT_kn+5H-+RYM1UOAkxhfJnpqKMNv9_d_Ys9CgY_=TcdsA@mail.gmail.com>
+Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
+ X600M-STX + Ryzen 8700G
+To: Christoph Hellwig <hch@lst.de>
+Cc: Stefan <linux-kernel@simg.de>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
+	Thorsten Leemhuis <linux@leemhuis.info>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Keith Busch <kbusch@kernel.org>, Adrian Huang <ahuang12@lenovo.com>, 
+	Linux kernel regressions list <regressions@lists.linux.dev>, linux-nvme@lists.infradead.org, 
+	Jens Axboe <axboe@fb.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
+	LKML <linux-kernel@vger.kernel.org>, bugzilla-daemon@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250203_222614_433477_7CA0D5CD 
-X-CRM114-Status: GOOD (  24.85  )
+X-CRM114-CacheID: sfid-20250204_011312_491358_04F7C77A 
+X-CRM114-Status: GOOD (  33.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,61 +102,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 17, 2025 at 11:30:47AM +0100, Thorsten Leemhuis wrote:
-> >> Side note: that "PCI-DMA: Using software bounce buffering for IO
-> >>>> (SWIOTLB)" message does show up on two other AMD machines I own as
-> >> well. One also has a Ryzen 8000, the other one a much older one.
+On Tue, 4 Feb 2025 at 06:12, Christoph Hellwig wrote:
+>
+> On Sun, Feb 02, 2025 at 08:32:31AM +0000, Bruno Gravato wrote:
+> > In my tests I was using real data: a backup of my files.
+> >
+> > On one such test I copied over 300K files, variables sizes and types
+> > totalling about 60GB. A bit over 20 files got corrupted.
+> > I tried copying the files over the network (ethernet) using rsync/ssh.
+> > I also tried restoring the files using restic (over ssh as well). And
+> > I also tried copying the files locally from a SATA disk. In all cases
+> > I got similar results with some files being corrupted.
+> > The destination nvme disk was using btrfs and running btrfs scrub
+> > after the copy detects quite a few checksum errors.
+>
+> So you used various different data sources, and the desintation was
+> always the nvme device in the suspect slot.
+>
 
-The message will aways show with > 4G of memory.  It only implies swiotlb
-is initialized, not that any device actually uses it.
+Yes, regardless of the data source, the destination was always a
+single nvme disk on the main M.2 nvme slot, with the secondary M.2
+nvme slot empty.
+I tried 3 different disks (WD, Crucial and Solidigm) with similar results.
+If I put any of those disks on the secondary M.2 slot (with the main
+slot empty) the problem doesn't occur.
+The one that intrigues me most is if I put 2 nvme disks in, occupying
+both M.2 slots, the problem doesn't occur either.
+The secondary slot must be empty for the issue to happen.
 
-> >> And BTW a few bits of the latest development in the bugzilla ticket
-> >> (https://bugzilla.kernel.org/show_bug.cgi?id=219609 ):
-> >>
-> >> * iommu=pt and amd_iommu=off seems to work around the problem (in
-> >> addition to disabling the iommu in the BIOS setup).
+I didn't try using the main M.2 slot as source instead of target, to
+see if the problem also occurs on reading as well.
+I could try that if you think it's worth testing.
 
-iommu_pt calls iommu_set_default_passthrough, which sets
-iommu_def_domain_type to IOMMU_DOMAIN_IDENTITY.  I.e. the hardware
-IOMMu is left on, but treated as a 1:1 mapping by Linux.
 
-amd_iommu=off sets amd_iommu_disabled, which calls disable_iommus,
-which from a quick read disables the hardware IOMMU.
-
-In either case we'll end up using dma-direct instead of dma-iommu.
-
-> > 
-> > That suggests the problem is related to the dma-iommu code, and
-> > my strong suspect is the swiotlb bounce buffering for untrusted
-> > device.  If you feel adventurous, can you try building a kernel
-> > where dev_use_swiotlb() in drivers/iommu/dma-iommu.c is hacked
-> > to always return false?
-> 
-> Tried that, did not help: I still get corrupted data.
-
-.. which together with this implies that the problem only happens
-when using the dma-iommu code (with or without swiotlb buffering
-for unaligned / untrusted data), and does not happen with
-dma-direct.
-
-If we assume it also is related to the optimal dma size, which
-the original report suggests, the values for that might be
-interesting.  For dma-iommu this is:
-
-	PAGE_SIZE << (IOVA_RANGE_CACHE_MAX_SIZE - 1);
-
-where IOVA_RANGE_CACHE_MAX_SIZE is 6, i.e.
-
-	PAGE_SIZE << 5 or 131072 for x86_64.
-
-for dma-direct it falls back to dma_max_mapping_size, which is
-SIZE_MAX without swiotlb, or swiotlb_max_mapping_size, which
-is a bit complicate due to minimum alignment, but in this case
-should evaluate to: 258048, which is almost twice as big.
-
-And all this unfortunately leaves me really confused.  If someone is
-interested in playing around with at the risk of data corruption it would
-be interesting to hack hardcoded values into dma_opt_mapping_size, e.g.
-plug in the 131072 used by dma-iommu while using dma-direct with the
-above iommu disable options.
+> > I analyzed some of those corrupted files and one of them happened to
+> > be a text file (linux kernel source code).
+> > A big portion of the text was replaced with text from another file in
+> > the same directory (being text made it easy to find where it came
+> > from).
+> > So this was a contiguous block of text that was overwritten with a
+> > contiguous block of text from another file.
+> > If I remember correctly the other file was not corrupted (so the
+> > blocks weren't swapped). It looked like a certain block of text was
+> > written twice: on the correct file and on another file in the same
+> > directory.
+>
+> That's a very interesting pattern.
+>
+> > I also got some jpeg images corrupted. I was able to open and view
+> > (partially) those images and it looked like a portion of the image was
+> > repeated in a different part of it), so blocks of the same file were
+> > probably duplicated and overwritten within itself.
+> >
+> > The blocks being overwritten seemed to be different sizes on different files.
+>
+> This does sound like a fairly common pattern due to SSD FTL issues,
+> but I still don't want to rule out swiotlb, which due to the bucketing
+> could maybe also lead to these, but I can't really see how.  But the
+> fact that the affected systems seem to be using swiotlb despite no
+> good reason for them to do so still leaves me puzzled.
+>
 
