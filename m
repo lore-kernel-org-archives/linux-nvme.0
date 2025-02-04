@@ -4,87 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 247D1C02193
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 22:21:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42E4CC02193
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Feb 2025 23:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xbZRn949fqsNY8W637R9IOTV62nIPAK7Olzkl6YQ3nc=; b=zVv7gSYvMhW6s1dcElkfQNlirX
-	EX3gJlrHM+IeaylYvh+FihWqyvudPHs+xuNDhwCHq1EnqxRG2iLPz0JL4ToEhXj+I6WxpDftPlu6v
-	n8vDaxK1f7VA4OVUL1DNILMg1KrokcbhnxBgzacpGiFuMmm6h5OjB+JPZcK+ci89J3JQ7nNK/nsv3
-	HDtQRpVvM1Mynj0auQ8Ty+T7qn10iVRcezU5UyQynO7jSqrmpVO0U9Ta9A3/9VtOQFHvXkQlxQ+l6
-	XCPYJW8BUQ36JC4YsRKy9XR/MLOiE1FFmmVN55srMc8jkIhVJ5gWoj34Ut8tZyAZNoIQ8pOqgBvyz
-	5ZN9XZRA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
+	Subject:Message-ID:Mime-Version:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PccTYmsXXMpwJ1Bgt7X14x/KsDA07ItC/HZRh3EEVjg=; b=xwaHSIWf5WjcnybR1baRHY/xGU
+	USNvIVGYRcLRY+pvW0Q/N0EvvSt3GXMK1NPgSOixfYul8+k28B+hY/p5qTg4P1cwppBpYu0fDmS6U
+	jbG+EPrQnCzWRkowZYPCvaguDnLxZz5jXYjMnDtA86YmNWqkrvbZPKvvnMkMOCeU2d1oX8a9ekewp
+	7lSTEK+gYUy9cNXA1Ek2pDWq0bwHSdFBvOFIjGk9KBdypvmJOVVjnfK35ifb0xF1hh/Z6sMJklR+R
+	9KEBJ1fprNioaRnMg9OkcBBfrp0SsBLfdtVBJ3kgGtBsxVxgYT5OMy8It1Fs5wuJcdJvXuEOgX6tJ
+	PPVrPFSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfRI3-00000001glB-1Wxw;
-	Tue, 04 Feb 2025 22:21:07 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+	id 1tfSTN-00000001qLL-1KEB;
+	Tue, 04 Feb 2025 23:36:53 +0000
+Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfRHx-00000001gix-3Ua6
+	id 1tfSTL-00000001qJs-1FRi
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Feb 2025 22:21:06 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-2f9d1e44bcbso173734a91.0
-        for <linux-nvme@lists.infradead.org>; Tue, 04 Feb 2025 14:21:00 -0800 (PST)
+	Tue, 04 Feb 2025 23:36:52 +0000
+Received: by mail-pj1-x1049.google.com with SMTP id 98e67ed59e1d1-2ef9da03117so17672859a91.1
+        for <linux-nvme@lists.infradead.org>; Tue, 04 Feb 2025 15:36:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1738707660; x=1739312460; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xbZRn949fqsNY8W637R9IOTV62nIPAK7Olzkl6YQ3nc=;
-        b=Wh8+EFXgJD+2HhIW3dMsa572zFSuVVDPhftPOj7DUOAxNm8+crizC0ZjLGcjkci3Va
-         JEgbR7Hazjyr+P8v6v8phyF2D6rqrj0Fe+mi2wMq3gpKzzL2votlqrybkg5MvSiDRqum
-         uIRLLRvKERvfBlmCUQZXDhwXa5huA0QwhUzC+0AImtHTpP/R5cVX9y1YwVtUcZlblWyZ
-         cmIRuxXkQfVvVAPRc2wIp13ZBDfcSZ1fBJJS/nJPlDHn9PlaitYIerPBOlMXTXnEw3la
-         UE5Oa/CR9Rw4nYh6Sj0aioTFLQAfCofN2iEQhRI/9BBn3ZxheqFhsxG05mobcG/V2ynY
-         CVwg==
+        d=google.com; s=20230601; t=1738712210; x=1739317010; darn=lists.infradead.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PccTYmsXXMpwJ1Bgt7X14x/KsDA07ItC/HZRh3EEVjg=;
+        b=ZIXDZLjyqtP/2qeuOvB2bg/ajBLuTbfPXlvo+/oK9yddubxFv14AaCd31ldVyRetwr
+         QV+W0TqZfCkZ53PfitywpmBtBJUiN3t2WYG43vQo5lwLUIOWDNo8GqNIkYV16wc/t9oc
+         vpenMrx1LuXOAyi0wnliNUk/N4fo+RdAHVsOQZ7U0q4cVnZkTmmdBxr9eUk3oLRy72VE
+         82JIUc/N9FrlsvlpGyM6twSPqu8XO6Y29ISls1wGG/t8Ynwi+FnVJ8UQGsyjdqy2bKYT
+         ALEWJ51xBuO7j6JeQOLw2+Zv5IBb/3+yE6VSFKu1TNglKFbQQZvb2NxMTNfwKvWTPYZL
+         yjXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738707660; x=1739312460;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xbZRn949fqsNY8W637R9IOTV62nIPAK7Olzkl6YQ3nc=;
-        b=oCl0/pSMy7eKgXmkP4PaPDEMk4aZMwvUdzUBjV3/GLwe3xhZyI+XssjucErWQDnNwj
-         wmXmh/fHfLAdkI4WlqSA+CrgONn3Wr3GyXiGIoppsM5IooF5knFP0APgZRtwy17QbYmx
-         JjbRV1KbncgtmivlWHqF2cVpFyQS8qb3G5JgUE74UiDURqmpGzl2IzXy+U+3qfBS3zX1
-         5FuNr9Ho7ysfVxsR3X9X3Nr9JXfRVhOkbZ5tR85UZpQUaXXNyg0O5xTVOpi5HZW0yWX8
-         MwJWnuiw7VCvSk3kwUYWf7eFOa1/qRcuEfT6Dyo9VcwKEgxexBvaapDQyucSTH0AuADC
-         4DJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUz9FaLRdPR9TbWKYY/9PGpSLyT1SB+a4mqI+nMcx1DLF/YGGUFy4vntr94C6nktxJ7LdJgO068V0X@lists.infradead.org
-X-Gm-Message-State: AOJu0YxH775XH5JzqbOMKd9fLvMVxVmInya96rPo50x0mGmK7+IzEGIe
-	iz21xzYw70xZmfBLAyO9sF9f/7xBkxn8kEavqZArsv3WGelsm/bi5wP7STnA1+Ru/UcAzQIsXHa
-	tW+Bb2gPBPNYv8RjQK2rcz0vxWVEjsGFvNk2ifQ==
-X-Gm-Gg: ASbGncusas8OYZtxKaBvEtayxF32S2Gk2sWeU9jFmGhUnyVOoSuxufoEIimVqoaLeSg
-	baxwd8h7Sf/YU0TH3ic7O0kzzY+rNUOW6mOmAdQpEobKY6YMZvbySEpO47kNsrbUkIs4PiWc=
-X-Google-Smtp-Source: AGHT+IG+hNUNubJqc2VORFiJJg7jqwxIdTac6Uw6w4/SIcexLofVy6de51cnD/zzEReswrk965OaxzRXydmvs5Gy/so=
-X-Received: by 2002:a17:90b:2883:b0:2ee:3fa7:ef23 with SMTP id
- 98e67ed59e1d1-2f9e0867b55mr241172a91.8.1738707660267; Tue, 04 Feb 2025
- 14:21:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20250124184311.1642797-1-csander@purestorage.com>
- <9ea74200-7cbc-4a30-9503-864dcec9b45d@suse.de> <CADUfDZoT7JW+d+j6YNmWJ3CKZ45gbvcUSsE6boZwE1C3iXw2_g@mail.gmail.com>
- <f75c62ce-04a7-4bc0-ae77-8ed80842bf37@suse.de> <CADUfDZrvHmYQgqu5GiQDrAg_MOEiRigCLCmBSO6jeyd1z+Q-JQ@mail.gmail.com>
- <3bcc6e3f-5172-40d4-a4d4-b0f914b9406b@grimberg.me> <CADUfDZq3ZqpP9hZhgG1gzyyggG6SCQiHqHdgbm95TU2oZ5QFUQ@mail.gmail.com>
- <17d0b30a-758c-4a84-9879-0a070656f15e@suse.de>
-In-Reply-To: <17d0b30a-758c-4a84-9879-0a070656f15e@suse.de>
-From: Caleb Sander <csander@purestorage.com>
-Date: Tue, 4 Feb 2025 14:20:48 -0800
-X-Gm-Features: AWEUYZljLajXeyBXnqrK0EM7weu9z3aaeGY93wupCoZbhd-J_3h7jiMfa2mzDM0
-Message-ID: <CADUfDZqy4tO5DxWejvBN7-xBVfCfKae4PDq70NYsgMhU+kkJ-A@mail.gmail.com>
-Subject: Re: [PATCH v4] nvme-tcp: fix connect failure on receiving partial
- ICResp PDU
-To: Hannes Reinecke <hare@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Maurizio Lombardi <mlombard@redhat.com>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+        d=1e100.net; s=20230601; t=1738712210; x=1739317010;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PccTYmsXXMpwJ1Bgt7X14x/KsDA07ItC/HZRh3EEVjg=;
+        b=KPeuGLXVOfit7P6TKGpmi5VGFL+XEXhjQwYzIa1qZAC42sKZT7XEqZ0XL9MM+HqEl7
+         KEQ+44t2C7n1K5YkMkntxAoyooC8tBWcz5A1422rAlbUNb3Ri7FIQ0NK1tOR7NNDFajr
+         GQHB0NXDYJ/jwUVjG/Pc6s9atWXRAfxZ4X81QdE692NRCzJZxdRH9sby4gOjd4O7awAG
+         XxBRsBLOYsOpYJIiVisjIAXz+mJd+5+krxwbGs1h8uLZXmqxG/QuALZqUCtXtTZBdo+n
+         zAy+TzTMh3AcZm7XGDRvMVaLebX3hYQb4SlYoycWSzINKMx0r5yi1eWyd3LoDn4Yg6py
+         hZAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXZL+l1N/b4y/6Z78rhKS8ZK80509kULqMRTG9jzYxjNr+YPiRTGZHzPbny/iEMPX7hK3EomAka18H@lists.infradead.org
+X-Gm-Message-State: AOJu0YzitrypK+6D5Yc/lioecCYviTdXqU0MIYQBbQjxfeVBx/ho6JEu
+	2Pj5Kg+8t0GQzsk2Q/ah+mj162F/uF2mhzduE4Vj/G71lwN2PQoJtrL4jKN9zALQgD4TfuZH4Q=
+	=
+X-Google-Smtp-Source: AGHT+IEC4cHzAPzitpKUV1aW4FhzQtW/deThYzZUuUEJPKQsSPlMtCwXvC+6+Ut+e7VsBvTV1FZ5l1d7og==
+X-Received: from pfey8.prod.google.com ([2002:a62:b508:0:b0:728:958a:e45c])
+ (user=jxgao job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:ac8:b0:728:e1e3:3d88
+ with SMTP id d2e1a72fcca58-730351257ccmr1028723b3a.7.1738712209843; Tue, 04
+ Feb 2025 15:36:49 -0800 (PST)
+Date: Tue,  4 Feb 2025 23:36:27 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.48.1.362.g079036d154-goog
+Message-ID: <20250204233630.3407878-1-jxgao@google.com>
+Subject: [RFC PATCH 0/3] Add an option for devices to skip SWIOTLB pre-copy on read.
+From: Jianxiong Gao <jxgao@google.com>
+To: Keith Busch <kbusch@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Robin Murphy <robin.murphy@arm.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Erdem Aktas <erdemaktas@google.com>, 
+	Vishal Annapurve <vannapurve@google.com>, Ryan Afranji <afranji@google.com>, 
+	linux-nvme@lists.infradead.org, iommu@lists.linux.dev, 
+	Jianxiong Gao <jxgao@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250204_142101_916415_E8B2A264 
-X-CRM114-Status: GOOD (  14.71  )
+X-CRM114-CacheID: sfid-20250204_153651_352916_2C020D0E 
+X-CRM114-Status: GOOD (  11.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,32 +91,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Feb 2, 2025 at 11:20=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
-...
-> The PSK identification has to contain the host NQN _and_ the target NQN.
-> So you need to call gen-tls-key with both in order to generate a PSK
-> with an identitify which can be found for a connection attempt.
+Removes an extra memory copy that occurs during IO read
+operations through the SWIOTLB. During high throughput
+read workloads, this extra copy is causing a lot of stress
+on the SWIOTLB.
 
-Got it. With "--hostnqn `cat /etc/nvme/hostnqn`" added to the nvme
-gen-tls-key commands, the discovery and connection succeed. I see the
-same behavior with and without my patch.
+With high performance devices, for example NVMe devices,
+the device will be overwriting the entire buffer. In such
+cases the entire pre-copy is redundent, only to slow down
+the overall bounce buffering.
 
-$ nvme connect-all --transport tcp --traddr 127.0.0.1 --trsvcid 4420 --tls
-$ nvme list
-Node                  Generic               SN                   Model
-                                   Namespace  Usage
-  Format           FW Rev
---------------------- --------------------- --------------------
----------------------------------------- ----------
--------------------------- ---------------- --------
-/dev/nvme1n1          /dev/ng1n1            d95671fe6e0ebf8c199c Linux
-                                   0x1        268.44  GB / 268.44  GB
-  512   B +  0 B   5.14.0-5
+We propose to add a full_buffer_write flag to the
+device_dma_parameters flag. When the flag is set the pre-copy
+can be omitted to boost performance.
 
-Hannes, is there any other information you need or do you think this
-patch can be merged?
+Jianxiong Gao (3):
+  add full_buffer_write flag to struct device_dma_parameters
+  skip swiotlb pre copy if the device does full buffer write.
+  set full_buffer_write for nvme devices.
 
-Thanks,
-Caleb
+ drivers/nvme/host/pci.c     |  1 +
+ include/linux/device.h      |  1 +
+ include/linux/dma-mapping.h | 15 +++++++++++++++
+ kernel/dma/swiotlb.c        |  3 ++-
+ 4 files changed, 19 insertions(+), 1 deletion(-)
+
+-- 
+2.48.1.362.g079036d154-goog
+
 
