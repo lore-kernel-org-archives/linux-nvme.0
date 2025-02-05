@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A679AC0219A
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 14:43:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7B36C02199
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 14:43:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nbsmQc6BOdogabvWwJMN2WWcAdfn/8sUwSEOcSYrSC8=; b=sk6QwkEluYuOtAfhbpwDdIoaGq
-	H7r2dSkk3IuZQF86EyGjA4YYjOzpVQhirXOXREGMmKzhf+8nsQJ7pMsmuWtb9Ywt+freF2zLRzz4E
-	+x7tgPpj3A1I+rXsnI4yt9nVkN+6kWuPq36OmJdKEVmGo2YfBH77FNEmSpWSXzUYyFDw1pWMUUFY6
-	BP+I/b6aW/BewlfLLFYEMU0jaqpCghKseBcBoefif9SLpDBAT9TJuXMjj63ZYMT75caYvHG4LfDZy
-	mPzncqiTrtYoDg9j4TcQELY5pDVu3ocwxGnW9ndHt3lQ2+Cb4HJzJpFxgNi/NyMAG/JlkyxwsqSuh
-	wApUC7NQ==;
+	bh=FCvKJduO115Hwr3m8euFET908wS6PQ2RwDpc3mnAlyc=; b=ry7/coI/oRD27FXBR4ohzufY2h
+	S4phsIq4FO0T0SHUlYq7mQK7uxwwgzA8+oLmG+dxSQZXpB9hi39Txs8X8ATCU3ebavJnFFW/hu+6v
+	W1XjqLTXglt1FMgJJpX8NyUcDmoO97lLR1Lq8zluYLJp9Sq05TIeKaEC5EjEwy/no4uIatuPGIDJo
+	NYEUZpnBIfeqIe/x4PkHUV65B+hCyk0CZaPHWpRBMbXUWUxCRqQMuYi2LZT2fA9dnADCqTMym4Hun
+	SSxPCOfpbs+2Es7hvUyMC9iNTrENumDy1gDTHZd7VvOZjTbH5+Z19eC0OeQsQ3QdL5+ubwceRVqPi
+	DZotSAlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfgcF-00000003aTy-3gSu;
+	id 1tfgcF-00000003aSw-04a0;
 	Wed, 05 Feb 2025 14:42:59 +0000
 Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfgak-00000003Zl8-3OR0
+	id 1tfgah-00000003Zj7-1hRC
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Feb 2025 14:41:27 +0000
+	Wed, 05 Feb 2025 14:41:25 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 03DC8A436BA;
-	Wed,  5 Feb 2025 14:39:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F37C4CED1;
-	Wed,  5 Feb 2025 14:41:25 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 7CF0CA436BC;
+	Wed,  5 Feb 2025 14:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0BCC4CEDD;
+	Wed,  5 Feb 2025 14:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738766485;
-	bh=6Ai1gt0w10mq1r3SBiKNGGAp0oww0hCWygmK6vVlFiM=;
+	s=k20201202; t=1738766482;
+	bh=h/yBzjhoClTiKMl8LmMlOxeyuG0iINYdLuYFXO+3beM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dVIn6T63yACvKBXXsPbv0oV/aj5UdNusQV2vQ8C5ZbC6U6GC5Ypa29dBOrgc9ITah
-	 U2TAX9SUR/hqSN92vnLtoQb7xOTLMg+PnnbiNUSh0+L1H0TzpXliOozFt7FoQ+G1MM
-	 UIA0BPob49QrpErBKVeEv/KcEtv9q31WiWst5vLl7lZnsnHlYix21IoxlSGm03NxAI
-	 RV+MGYJfznd5+9hZTN6AsCY4GbLPcCuiiAXkbAOUG+3MxlpKkJ26A0GWAAkMgpX+/0
-	 LaGyTOZIbH4a0RFSKNokQOz1RWmILJtaPg8PLGGFJdjK4rlyJCpFsLw/8dMY56Sdtl
-	 ab82/62QBFK3w==
+	b=EQyxrQTbpGC5ELIJR6leSqpKifyAyAeb8I25BfLUz1ZlNtPRHHXvoAx88ZmrkyhEj
+	 oiWitEtgqYTOWTpFkQbSoNIgY697J6MH3fgUibpLubW6kyqypRIhWVHQGweM5VjovX
+	 Y1kC2pXK7i3BJenUde3znE6Y9+xI1LxPrSgIzVCpeRFAFE2Mk+Y2KOQSzJRqpjmsik
+	 lZLP6NauWc5PCH6knOGMgYGQ2xZ4Jq10wd5UPj6rUnemzBirIatwxYpFvbihAfjv4l
+	 iAoBLOEQbRc5Y/oScO3iFxYYMiLToSeN6xqr8mVzjSijcHqG6FQdSWfyW/ezi5a2FL
+	 0IJKIrd4mwf4A==
 From: Leon Romanovsky <leon@kernel.org>
 To: Christoph Hellwig <hch@lst.de>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -71,17 +71,17 @@ Cc: Jens Axboe <axboe@kernel.dk>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v7 06/17] iommu/dma: Factor out a iommu_dma_map_swiotlb helper
-Date: Wed,  5 Feb 2025 16:40:26 +0200
-Message-ID: <49bf0300d6c49b784d88db6922c20dfe78f3047d.1738765879.git.leonro@nvidia.com>
+Subject: [PATCH v7 08/17] dma-mapping: add a dma_need_unmap helper
+Date: Wed,  5 Feb 2025 16:40:28 +0200
+Message-ID: <6c134d9e273433c52ca406de30112ecbc13f3b88.1738765879.git.leonro@nvidia.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1738765879.git.leonro@nvidia.com>
 References: <cover.1738765879.git.leonro@nvidia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250205_064126_989962_E819313A 
-X-CRM114-Status: GOOD (  18.37  )
+X-CRM114-CacheID: sfid-20250205_064123_577928_6447129F 
+X-CRM114-Status: GOOD (  14.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,111 +98,68 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-Split the iommu logic from iommu_dma_map_page into a separate helper.
-This not only keeps the code neatly separated, but will also allow for
-reuse in another caller.
+Add helper that allows a driver to skip calling dma_unmap_*
+if the DMA layer can guarantee that they are no-nops.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/iommu/dma-iommu.c | 73 ++++++++++++++++++++++-----------------
- 1 file changed, 41 insertions(+), 32 deletions(-)
+ include/linux/dma-mapping.h |  5 +++++
+ kernel/dma/mapping.c        | 18 ++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 309d278b1d86..80cc2c51ac99 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1161,6 +1161,43 @@ void iommu_dma_sync_sg_for_device(struct device *dev, struct scatterlist *sgl,
- 			arch_sync_dma_for_device(sg_phys(sg), sg->length, dir);
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index a71e110f1e9d..d2f358c5a25d 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -406,6 +406,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
+ {
+ 	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
  }
- 
-+static phys_addr_t iommu_dma_map_swiotlb(struct device *dev, phys_addr_t phys,
-+		size_t size, enum dma_data_direction dir, unsigned long attrs)
++bool dma_need_unmap(struct device *dev);
+ #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
+ static inline bool dma_dev_need_sync(const struct device *dev)
+ {
+@@ -431,6 +432,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
+ {
+ 	return false;
+ }
++static inline bool dma_need_unmap(struct device *dev)
 +{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iova_domain *iovad = &domain->iova_cookie->iovad;
-+
-+	if (!is_swiotlb_active(dev)) {
-+		dev_warn_once(dev, "DMA bounce buffers are inactive, unable to map unaligned transaction.\n");
-+		return DMA_MAPPING_ERROR;
-+	}
-+
-+	trace_swiotlb_bounced(dev, phys, size);
-+
-+	phys = swiotlb_tbl_map_single(dev, phys, size, iova_mask(iovad), dir,
-+			attrs);
-+
-+	/*
-+	 * Untrusted devices should not see padding areas with random leftover
-+	 * kernel data, so zero the pre- and post-padding.
-+	 * swiotlb_tbl_map_single() has initialized the bounce buffer proper to
-+	 * the contents of the original memory buffer.
-+	 */
-+	if (phys != DMA_MAPPING_ERROR && dev_is_untrusted(dev)) {
-+		size_t start, virt = (size_t)phys_to_virt(phys);
-+
-+		/* Pre-padding */
-+		start = iova_align_down(iovad, virt);
-+		memset((void *)start, 0, virt - start);
-+
-+		/* Post-padding */
-+		start = virt + size;
-+		memset((void *)start, 0, iova_align(iovad, start) - start);
-+	}
-+
-+	return phys;
++	return false;
 +}
+ #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
+ 
+ struct page *dma_alloc_pages(struct device *dev, size_t size,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index cda127027e48..3c3204ad2839 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -443,6 +443,24 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
+ }
+ EXPORT_SYMBOL_GPL(__dma_need_sync);
+ 
++/**
++ * dma_need_unmap - does this device need dma_unmap_* operations
++ * @dev: device to check
++ *
++ * If this function returns %false, drivers can skip calling dma_unmap_* after
++ * finishing an I/O.  This function must be called after all mappings that might
++ * need to be unmapped have been performed.
++ */
++bool dma_need_unmap(struct device *dev)
++{
++	if (!dma_map_direct(dev, get_dma_ops(dev)))
++		return true;
++	if (!dev->dma_skip_sync)
++		return true;
++	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
++}
++EXPORT_SYMBOL_GPL(dma_need_unmap);
 +
- dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 	      unsigned long offset, size_t size, enum dma_data_direction dir,
- 	      unsigned long attrs)
-@@ -1174,42 +1211,14 @@ dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
- 	dma_addr_t iova, dma_mask = dma_get_mask(dev);
- 
- 	/*
--	 * If both the physical buffer start address and size are
--	 * page aligned, we don't need to use a bounce page.
-+	 * If both the physical buffer start address and size are page aligned,
-+	 * we don't need to use a bounce page.
- 	 */
- 	if (dev_use_swiotlb(dev, size, dir) &&
- 	    iova_offset(iovad, phys | size)) {
--		if (!is_swiotlb_active(dev)) {
--			dev_warn_once(dev, "DMA bounce buffers are inactive, unable to map unaligned transaction.\n");
--			return DMA_MAPPING_ERROR;
--		}
--
--		trace_swiotlb_bounced(dev, phys, size);
--
--		phys = swiotlb_tbl_map_single(dev, phys, size,
--					      iova_mask(iovad), dir, attrs);
--
-+		phys = iommu_dma_map_swiotlb(dev, phys, size, dir, attrs);
- 		if (phys == DMA_MAPPING_ERROR)
--			return DMA_MAPPING_ERROR;
--
--		/*
--		 * Untrusted devices should not see padding areas with random
--		 * leftover kernel data, so zero the pre- and post-padding.
--		 * swiotlb_tbl_map_single() has initialized the bounce buffer
--		 * proper to the contents of the original memory buffer.
--		 */
--		if (dev_is_untrusted(dev)) {
--			size_t start, virt = (size_t)phys_to_virt(phys);
--
--			/* Pre-padding */
--			start = iova_align_down(iovad, virt);
--			memset((void *)start, 0, virt - start);
--
--			/* Post-padding */
--			start = virt + size;
--			memset((void *)start, 0,
--			       iova_align(iovad, start) - start);
--		}
-+			return phys;
- 	}
- 
- 	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+ static void dma_setup_need_sync(struct device *dev)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
 -- 
 2.48.1
 
