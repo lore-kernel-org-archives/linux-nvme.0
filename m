@@ -4,85 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13559C02192
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 14:43:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D639C02192
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 15:42:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8jc4NUQPjjS4VfvHj2jV5GAgx18ShSuYw6TOIM4M5Bc=; b=aw+LPHu2ZhcY4hWIMvmopNvVAE
-	HxfRnBIN+fuXqwGs33X4xPG+Acq78Z7ICXrUIiW/9zHXQzE4BSt4WlHvLduNVW+KHnK0/7uxJynf0
-	hxr6hSseLpK9v5LU12FNjHOXQK3l+LJU90h1tiLuLa/n/QS1m9d+WOrPksTs55p+upb5fE6u3Xiw8
-	f4ujoWFT9P0VqRujYNJj41VCVaJvOR8ikYQL0x+LfkQ6g6dkUweAZS5zfwMsVyDnoZDyZ4A91exB0
-	ggCHC9hyRrpLe8j1Z5444PMuFHaZrMCG7KjupwCtlhTu1RyN6xyx0xfbWZGNz1AqSS5BvT83c9uNY
-	a2HDrgow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wP5k63LIHGHvPPq7QrAq8yES/RiflMNp6QoYoNrgB7A=; b=RaRSzguZnQYbpb1DfojpEwmSjW
+	DttiSMj9qxiq1lBUkQoyTYherIrTl9K/ohAfasjppTz2aVF+myyh31XzVmlG727rzPiDkOGZX2NLo
+	YUQoxRxyI5h3xnYTbkn4vvQcgK03nG9xDTLCEO/c1XirpOxM/hUUuevk+pyk0aCITkqWftp5pvCNt
+	zCJfhxueIhwLVnLr4q9qxzyIZ3GibAGNJXHYDMW5BNNPRjnP3XLOS4RKcVs6XZWkaN9J8EgfYpABn
+	aHw2gpuxVRrshfPSQNVIe1BcXm4QyBtJTjNtHrNKTR5Z8Z+ea7d8bDSDq7kZIaI7DSG6t7HhHlCmZ
+	K+Afz7Ew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfgcZ-00000003b1d-40Pi;
-	Wed, 05 Feb 2025 14:43:19 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tfhXd-00000003ooN-2RAC;
+	Wed, 05 Feb 2025 15:42:17 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfgbO-00000003a7q-0nIt
+	id 1tfhXa-00000003onX-41a2
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Feb 2025 14:42:07 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B408A5C5530;
-	Wed,  5 Feb 2025 14:41:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93270C4CEE3;
-	Wed,  5 Feb 2025 14:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738766525;
-	bh=7aNBsgnJ1xpYJupIDdeW59JsJ73w9EGqwdcut5LVDS4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W2YNA18v52GskOrMKLkrTwzfQn8Km0PjGIUu87kMojGGjoog/10G95TBZ6vnkCJOA
-	 YBN2VL9nccEhcQB+VjXd8HFCxCAmenqSYB1f1SLAze41y9IxYfGcUyvzovhFkucE4f
-	 p08Hgr2aFu7TPrkMKUHPLcHRhBWfTuIFNxLXuqn9BzHXEN+JSM2GV9t331JEbLcVO1
-	 GSPh9+fHX0PFZ54Xj0VKJbbudJl6ZriCoRRfT0mEAv2qtfV12c5C2YyCHBJpXp/Avp
-	 6rDEaptuPvVVvZW3SFE4g/gPs6SQsVGFwUV+bcIiAAsYiTd1k+zUacXb4F76FSGdZJ
-	 rbwrAoMwir3bw==
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v7 14/17] RDMA/umem: Separate implicit ODP initialization from explicit ODP
-Date: Wed,  5 Feb 2025 16:40:34 +0200
-Message-ID: <f6ae7422e8df156e18c5b5a98a334f09d95f3519.1738765879.git.leonro@nvidia.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1738765879.git.leonro@nvidia.com>
-References: <cover.1738765879.git.leonro@nvidia.com>
+	Wed, 05 Feb 2025 15:42:16 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 40BFE68BFE; Wed,  5 Feb 2025 16:42:07 +0100 (CET)
+Date: Wed, 5 Feb 2025 16:42:06 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+	martin.petersen@oracle.com, asml.silence@gmail.com,
+	anuj1072538@gmail.com, brauner@kernel.org, jack@suse.cz,
+	viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, linux-scsi@vger.kernel.org,
+	vishak.g@samsung.com, linux-fsdevel@vger.kernel.org,
+	Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH v11 07/10] block: introduce
+ BIP_CHECK_GUARD/REFTAG/APPTAG bip_flags
+Message-ID: <20250205154206.GA13814@lst.de>
+References: <20241128112240.8867-1-anuj20.g@samsung.com> <CGME20241128113112epcas5p186ef86baaa3054effb7244c54ee2f991@epcas5p1.samsung.com> <20241128112240.8867-8-anuj20.g@samsung.com> <20250203065331.GA16999@lst.de> <20250203143948.GA17571@green245> <20250204053914.GA28919@lst.de> <20250205115134.GA16697@green245>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250205115134.GA16697@green245>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250205_064206_306747_1ED2E525 
-X-CRM114-Status: GOOD (  17.02  )
+X-CRM114-CacheID: sfid-20250205_074215_143632_F76329B5 
+X-CRM114-Status: GOOD (  19.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,157 +66,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Wed, Feb 05, 2025 at 05:21:34PM +0530, Anuj Gupta wrote:
+> On Tue, Feb 04, 2025 at 06:39:14AM +0100, Christoph Hellwig wrote:
+> > On Mon, Feb 03, 2025 at 08:09:48PM +0530, Anuj Gupta wrote:
+> > > +	if (bi->csum_type == BLK_INTEGRITY_CSUM_IP)
+> > > +		bip->bip_flags |= BIP_IP_CHECKSUM;
+> > 
+> > We'll also need to set the BIP_CHECK_GUARD flag here I think.
+> 
+> Right, I think this patch should address the problem [*]
+> I couldn't test this patch, as nvme-tcp doesn't support T10-PI and so
+> does rdma_rxe. I don't have rdma h/w to test this.
+> It would be great if someone can give this a run.
 
-Create separate functions for the implicit ODP initialization
-which is different from the explicit ODP initialization.
+I'll add support to nvmet-loop, which should make testing either.
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/infiniband/core/umem_odp.c | 91 +++++++++++++++---------------
- 1 file changed, 46 insertions(+), 45 deletions(-)
-
-diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
-index 30cd8f353476..51d518989914 100644
---- a/drivers/infiniband/core/umem_odp.c
-+++ b/drivers/infiniband/core/umem_odp.c
-@@ -48,41 +48,44 @@
- 
- #include "uverbs.h"
- 
--static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
--				   const struct mmu_interval_notifier_ops *ops)
-+static void ib_init_umem_implicit_odp(struct ib_umem_odp *umem_odp)
-+{
-+	umem_odp->is_implicit_odp = 1;
-+	umem_odp->umem.is_odp = 1;
-+	mutex_init(&umem_odp->umem_mutex);
-+}
-+
-+static int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
-+			    const struct mmu_interval_notifier_ops *ops)
- {
- 	struct ib_device *dev = umem_odp->umem.ibdev;
-+	size_t page_size = 1UL << umem_odp->page_shift;
-+	unsigned long start;
-+	unsigned long end;
- 	int ret;
- 
- 	umem_odp->umem.is_odp = 1;
- 	mutex_init(&umem_odp->umem_mutex);
- 
--	if (!umem_odp->is_implicit_odp) {
--		size_t page_size = 1UL << umem_odp->page_shift;
--		unsigned long start;
--		unsigned long end;
--
--		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
--		if (check_add_overflow(umem_odp->umem.address,
--				       (unsigned long)umem_odp->umem.length,
--				       &end))
--			return -EOVERFLOW;
--		end = ALIGN(end, page_size);
--		if (unlikely(end < page_size))
--			return -EOVERFLOW;
--
--		ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
--					(end - start) >> PAGE_SHIFT,
--					1 << umem_odp->page_shift);
--		if (ret)
--			return ret;
--
--		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
--						   umem_odp->umem.owning_mm,
--						   start, end - start, ops);
--		if (ret)
--			goto out_free_map;
--	}
-+	start = ALIGN_DOWN(umem_odp->umem.address, page_size);
-+	if (check_add_overflow(umem_odp->umem.address,
-+			       (unsigned long)umem_odp->umem.length, &end))
-+		return -EOVERFLOW;
-+	end = ALIGN(end, page_size);
-+	if (unlikely(end < page_size))
-+		return -EOVERFLOW;
-+
-+	ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
-+				(end - start) >> PAGE_SHIFT,
-+				1 << umem_odp->page_shift);
-+	if (ret)
-+		return ret;
-+
-+	ret = mmu_interval_notifier_insert(&umem_odp->notifier,
-+					   umem_odp->umem.owning_mm, start,
-+					   end - start, ops);
-+	if (ret)
-+		goto out_free_map;
- 
- 	return 0;
- 
-@@ -106,7 +109,6 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
- {
- 	struct ib_umem *umem;
- 	struct ib_umem_odp *umem_odp;
--	int ret;
- 
- 	if (access & IB_ACCESS_HUGETLB)
- 		return ERR_PTR(-EINVAL);
-@@ -118,16 +120,10 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
- 	umem->ibdev = device;
- 	umem->writable = ib_access_writable(access);
- 	umem->owning_mm = current->mm;
--	umem_odp->is_implicit_odp = 1;
- 	umem_odp->page_shift = PAGE_SHIFT;
- 
- 	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
--	ret = ib_init_umem_odp(umem_odp, NULL);
--	if (ret) {
--		put_pid(umem_odp->tgid);
--		kfree(umem_odp);
--		return ERR_PTR(ret);
--	}
-+	ib_init_umem_implicit_odp(umem_odp);
- 	return umem_odp;
- }
- EXPORT_SYMBOL(ib_umem_odp_alloc_implicit);
-@@ -248,7 +244,7 @@ struct ib_umem_odp *ib_umem_odp_get(struct ib_device *device,
- }
- EXPORT_SYMBOL(ib_umem_odp_get);
- 
--void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
-+static void ib_umem_odp_free(struct ib_umem_odp *umem_odp)
- {
- 	struct ib_device *dev = umem_odp->umem.ibdev;
- 
-@@ -258,14 +254,19 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
- 	 * It is the driver's responsibility to ensure, before calling us,
- 	 * that the hardware will not attempt to access the MR any more.
- 	 */
--	if (!umem_odp->is_implicit_odp) {
--		mutex_lock(&umem_odp->umem_mutex);
--		ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
--					    ib_umem_end(umem_odp));
--		mutex_unlock(&umem_odp->umem_mutex);
--		mmu_interval_notifier_remove(&umem_odp->notifier);
--		hmm_dma_map_free(dev->dma_device, &umem_odp->map);
--	}
-+	mutex_lock(&umem_odp->umem_mutex);
-+	ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
-+				    ib_umem_end(umem_odp));
-+	mutex_unlock(&umem_odp->umem_mutex);
-+	mmu_interval_notifier_remove(&umem_odp->notifier);
-+	hmm_dma_map_free(dev->dma_device, &umem_odp->map);
-+}
-+
-+void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
-+{
-+	if (!umem_odp->is_implicit_odp)
-+		ib_umem_odp_free(umem_odp);
-+
- 	put_pid(umem_odp->tgid);
- 	kfree(umem_odp);
- }
--- 
-2.48.1
+Note that the SCSI target code has the same issues and might be a
+little easier to test.
 
 
