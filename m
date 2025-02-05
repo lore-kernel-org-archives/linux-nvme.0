@@ -4,50 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C5D4C02197
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 16:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8EBBC02198
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 16:24:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0Eck/FvI5aIJbfN/KAkdWoe29wLTqYc/POosy7xkzE8=; b=wT7l/sFJntCli2ygF4jG91xNQb
-	2oR1Ao6UX8hmm56qLrn93H0m7z3poYC5eQ68ZC3DiJ/WXTGiM5YOZ5VYdj4z9MrvvSV2cy/TgEssQ
-	e9l+y9bDvFAwGzmFuZuHDLTPeUrtRUGUZDaWrBcFBqJxfH9VZdnoKRUSHKLiN5caZRoodaBdFQLpM
-	ExZGhdrrIUkneUl1Fs7x5urllE+e0cod3+XGMb8oP9eBBcZDaMU968oHpOv4qq0zgO977kP8Zz9sC
-	A0Byl90sE7gQVP3yztaRSKkArdMnjJHUleM5/kUnqLxU3qGUOlPMiqRImuZlBabdYltWzxeEWGhX3
-	Strt2Y3Q==;
+	bh=mforf7S3B80kJfRzuiWHHkcz9Rrxdt7g0gfiiq6rw5k=; b=c2qSehHCK1zog3CFHbau+stPx6
+	H0Lhv7u4G5k2wXWlIa+u0OF3+0K7HhK+LoWW4k/RD7fPtsE9AOTzr7+DfGPhJVFxeRS5JPY91mzaq
+	6ymrP/X/MuBcmoaVIgweWqNFySZWQQjrLDuYqp0yDi/wFZeR0mOPlt10MBe1MVjHrqKSvoAPZLpc3
+	osXyWjcSbSS7dvmOkTbBEnSfwpk6guZJGZf9pfuqOd9jHwqQXXgJuvE8yaFyV8O7EATct0Bn7VgDq
+	aotStsRsu06bA9MGFZbQMM1J/ikrFOY+i20c6r73fbDvTVgPyxmg0X5Unvhmrre8d6vVcr4BKIBif
+	LTwR120g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfi61-00000003wV9-01fO;
-	Wed, 05 Feb 2025 16:17:49 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfhtL-00000003tpH-3jb0;
-	Wed, 05 Feb 2025 16:04:43 +0000
-Date: Wed, 5 Feb 2025 08:04:43 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: "Ballard, Curtis C (HPE Storage)" <curtis.ballard@hpe.com>
-Cc: Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>,
-	Christoph Hellwig <hch@infradead.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Mohamed Khalfella <mkhalfella@purestorage.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Keith Busch <kbusch@kernel.org>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
-Subject: Re: [LSF/MM/BPF TOPIC] TP4129 KATO correctoins and clarification
-Message-ID: <Z6OMGweV-wUI3iVn@infradead.org>
-References: <63af907d-9cdd-4956-9978-4e77389b1716@suse.de>
- <Z5yYk7vHIhMfiPz1@infradead.org>
- <527f476b-18e3-43f9-98c3-d19a25a6488a@suse.de>
- <613065bf-ad13-489e-9d57-408684e85923@flourine.local>
- <PH0PR84MB1358752FEA88D5EF0971B27E98E82@PH0PR84MB1358.NAMPRD84.PROD.OUTLOOK.COM>
+	id 1tfiCu-00000003yAP-39o2;
+	Wed, 05 Feb 2025 16:24:56 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tfi6X-00000003wkY-270Q
+	for linux-nvme@lists.infradead.org;
+	Wed, 05 Feb 2025 16:18:22 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 529F4A437BA;
+	Wed,  5 Feb 2025 16:16:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E00BC4CED1;
+	Wed,  5 Feb 2025 16:18:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738772300;
+	bh=RvpzDGf5Iwop1VDAqYYlfM34uq83/esOXK9tr/k0MiQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nu5E7bEw+j30/3syrjFPv3u7g4Z3H9YUJM33CyaFwUwO3pfydwQVseUJ7jBAA0he8
+	 WwdcvFtS4OEpA6cZLAQWPLdzlWmi0sMlyIBODmG+G17/JncqrBQv5Q5mfPOeGcugAh
+	 5TE812f/AzwGM7nxuoJslC9ZgiieWvDBb4GmjpTRMB0+bFTBgkIcd3B1SZhthO89iM
+	 yZudHcABciAIoBC+o4GPUGtL9phAJJ54tvCzSiIjLO3kFhZLqWdePOtweTzyXN5abw
+	 SvNTEOp9yEjyANQbkyakKEdIwfXCq6Pc8R6yJxte1qRMl/+QQEqwZG/H4FqwQSEEIq
+	 I2dP0ampwpSMQ==
+Date: Wed, 5 Feb 2025 09:18:16 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jianxiong Gao <jxgao@google.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Erdem Aktas <erdemaktas@google.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Ryan Afranji <afranji@google.com>, linux-nvme@lists.infradead.org,
+	iommu@lists.linux.dev
+Subject: Re: [RFC PATCH 0/3] Add an option for devices to skip SWIOTLB
+ pre-copy on read.
+Message-ID: <Z6OPSFuxtEluOb8o@kbusch-mbp>
+References: <20250204233630.3407878-1-jxgao@google.com>
+ <Z6MZLWRv1hC8uLo1@smile.fi.intel.com>
+ <20250205154321.GB13814@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PH0PR84MB1358752FEA88D5EF0971B27E98E82@PH0PR84MB1358.NAMPRD84.PROD.OUTLOOK.COM>
+In-Reply-To: <20250205154321.GB13814@lst.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250205_081821_614798_4ED115B5 
+X-CRM114-Status: GOOD (  17.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,13 +82,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 31, 2025 at 06:48:20PM +0000, Ballard, Curtis C (HPE Storage) wrote:
-> If there are specific aspects of TP4129 that are broken, I would be interested in learning more about them and how they are broken.
+On Wed, Feb 05, 2025 at 04:43:21PM +0100, Christoph Hellwig wrote:
+> On Wed, Feb 05, 2025 at 09:54:21AM +0200, Andy Shevchenko wrote:
+> > On Tue, Feb 04, 2025 at 11:36:27PM +0000, Jianxiong Gao wrote:
+> > > Removes an extra memory copy that occurs during IO read
+> > > operations through the SWIOTLB. During high throughput
+> > > read workloads, this extra copy is causing a lot of stress
+> > > on the SWIOTLB.
+> > > 
+> > > With high performance devices, for example NVMe devices,
+> > > the device will be overwriting the entire buffer.
+> > 
+> > Is this really guaranteed? I can imagine surprise power cut or
+> > hotplug event, for example, just in the middle of the transfer.
+> 
+> Many command can return less data than originally mapped.  Get Log Page
+> is an example that comes to mind that is heavily used that way.
 
-Serious Curtis, we've been through this a dozen times in the TWG.
-It just adds another best effort timer that is not better than the
-one that already is there.  But you guys insist on papering over it,
-an there is no real reason for Linux to adopt that.  (despite the pages
-long John rant).
-
+It's also easy enough for a user to "mistakenly" request more memory
+than the device will transfer. The safest thing is to clear any contents
+that may get copied back to the user.
 
