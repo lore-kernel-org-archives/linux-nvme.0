@@ -4,132 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D08FC02192
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 12:35:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B493AC02192
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 14:42:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OFXNe1O8H7u+VEHWybFlvY72xtEvNQblJAGg9yvCBQE=; b=MaRxB7vLzzsvepfru6jK4XZWgy
-	6qiMY8r3M7zIwsJP1LVz0lrmTb1dUr/T/ge5bdVPvBxClVphBVOAoadumSOCIYFh999sYX/XlRv68
-	O5rA0MOqLA6nmxgwyFKWhfeqraHmhSeOW0FMBG84KT5rs/sy5XwpsZ0aNovCYrg92qk39cJCYxbvB
-	SH6AGPibTtWZQR3TDRdGOtNMMv9k76mWrQFoHvfxEa9gkNCF6SF3PKEpHqEjSfwyQvlLScxy6DmYr
-	rY0vB5ZEtKULpNxcF4gNLgKoElFDVoE+3aUczESLS8Bsuiv9hqZ/326Ak04ZabsqxJ4IfHZl8NR/Y
-	1PUAVQGw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2uvrPyRZUMxC9+qhXbSQVTKgYH+FCWfbok7ttkRBGGw=; b=f4tYTSfQTvGHX36FLyV0w4YPsu
+	zPbhyNphGtgZ+iE0Ds370wkB1Lt9FdnoKPQ3uBo/SlndwETFWhCdJwSzhD1tETIEMzvslMTofGxUj
+	3p83aLF5EO/BM4hXfHsX5ea58QyGWpa5uCY8ASHHw3xTQXkvbw2b/fg9/+eH6wsGC92gXwH76jaTj
+	LuSBqXV+uj/69DFoVrrxkiSz+fRE54doogmy8ym9OOdDnD+ps4hvmLtBcFkUr2f+IG5RLmX7mdHLH
+	i7PbdMdzoqMJZVpIcyHt8oyVwFiUWdtnEuI/as9WtXWK3QrXtj0gESBtobEaXGrzrV0fBo1Yeybo0
+	80ShNiQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfed0-00000003E8H-46oc;
-	Wed, 05 Feb 2025 12:35:38 +0000
-Received: from [203.254.224.24] (helo=mailout1.samsung.com)
+	id 1tfgcB-00000003aPp-02Om;
+	Wed, 05 Feb 2025 14:42:55 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfeUM-00000003CLU-38E8
+	id 1tfgaH-00000003ZWp-31pj
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Feb 2025 12:26:45 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20250205122636epoutp016ec4a73b0ae7f4dbca054644b5b55b51~hT4ykBo4S2491324913epoutp01k
-	for <linux-nvme@lists.infradead.org>; Wed,  5 Feb 2025 12:26:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20250205122636epoutp016ec4a73b0ae7f4dbca054644b5b55b51~hT4ykBo4S2491324913epoutp01k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1738758396;
-	bh=OFXNe1O8H7u+VEHWybFlvY72xtEvNQblJAGg9yvCBQE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Da5XInYNO4QRtc31pU0iHWRlKtF7oUWVl/bKQ/mlDuw80ksdnXhAj4AKS8Rs3Tp9U
-	 ZhrmHCUYPsPd4fHCl6jUNeIlHcQ57iJsrxFSt5uGfqvKZ7NOkbyQFY5OcxnLVY2UaM
-	 9OWPkoQIJo3vnUUeXmdTG5PjV/4ijzswXMqyV+fM=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20250205122636epcas5p1c4e24fc8327dff774be9c7231ce0a822~hT4yDsC3S1755017550epcas5p1L;
-	Wed,  5 Feb 2025 12:26:36 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4YnzxQ1vl0z4x9Pt; Wed,  5 Feb
-	2025 12:26:34 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	69.9A.29212.AF853A76; Wed,  5 Feb 2025 21:26:34 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20250205115945epcas5p3fe280131617e4b986d93b618f7a68e90~hThVzYXPP2773727737epcas5p3c;
-	Wed,  5 Feb 2025 11:59:45 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250205115945epsmtrp25acddee2195c7aa42dc3e72a28d4e07d~hThVyeLum1749417494epsmtrp2C;
-	Wed,  5 Feb 2025 11:59:45 +0000 (GMT)
-X-AuditID: b6c32a50-801fa7000000721c-e5-67a358fa37d8
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2E.9F.18949.0B253A76; Wed,  5 Feb 2025 20:59:45 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20250205115942epsmtip2d33bc80b6db05cc115c8726412cee178~hThTa-h__2344223442epsmtip2O;
-	Wed,  5 Feb 2025 11:59:42 +0000 (GMT)
-Date: Wed, 5 Feb 2025 17:21:34 +0530
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, martin.petersen@oracle.com,
-	asml.silence@gmail.com, anuj1072538@gmail.com, brauner@kernel.org,
-	jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
-	linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v11 07/10] block: introduce
- BIP_CHECK_GUARD/REFTAG/APPTAG bip_flags
-Message-ID: <20250205115134.GA16697@green245>
+	Wed, 05 Feb 2025 14:41:00 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 98F0FA436AF;
+	Wed,  5 Feb 2025 14:39:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D35C4CED1;
+	Wed,  5 Feb 2025 14:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738766456;
+	bh=Im+VBOTKpjrNCIlKnlAediWg4cQeXGnKU56wLhDT9oU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i5TpDLVigC52A1456psRIrtl7bLLBIDktmcw0zOI67fkQGwnp1mWIL5BJHncwuJWI
+	 mqpjzMII1KODdUrAyY+Oih69YDa2Cdcx+7oGlMcdjENnLejd/oM3xpmeuoenXD3eJR
+	 aN8KKUB6gkqvAfml4E7f7fJ+ScEUU33cuqGgGC9FoVesV98jhiumnS891acKPrOhvv
+	 Ufktq6S8vrLItFptTPYcVRFJODleDI3ASgS6uZmUWdekR6YHiVq6qTf2yBWgmm64a+
+	 WbDdK4GGu/LszXG1yIkuf3gbPOaVWmeBbgIGVEVpJi/PhQlHhCsyZxmhgZkOXngrYl
+	 me9VuYMeN/2Gw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v7 00/17] Provide a new two step DMA mapping API
+Date: Wed,  5 Feb 2025 16:40:20 +0200
+Message-ID: <cover.1738765879.git.leonro@nvidia.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-In-Reply-To: <20250204053914.GA28919@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA03Tf0wTVwAHcN9dez3qas4K462OUc9lBBRspZRDQUlk7BJdRrJMkAW7E86W
-	UdraH25zJmMiGjCKopNRqxQdMGDjpyIMqoYfMuWXk4wVE5AtdEQ2YMLYHBa2loPF/z738v2+
-	H/fucFTswiR4us7MGnWMlsSEvMb24ODQ+aRrallJuZB6OvecR9kqGwFVNZyPUb+1zwBq6E4z
-	QlVUdSLUVE4fj7pUmI1Qnf9OYlRB2yCgHI82Ua2OezyquMwloE791IRR5V2LCNW/0MWn+q02
-	Qexautk6LKAHei10fWUuRjd89RndMpSF0U9dj3j0meuVgO6xdwjo2frX6PqxSSRBmJwRrWGZ
-	NNYoZXWp+rR0nTqG3P2uapcqQimTh8qjqEhSqmMy2Rgybk9CaHy61nMcUnqY0Vo8QwmMyURu
-	2RFt1FvMrFSjN5ljSNaQpjUoDGEmJtNk0anDdKx5m1wm2xrhCX6QobEPP0ANduJj9+QJkAWc
-	ojzgg0NCAUsuLWB5QIiLiVYAS3OP8biHGQAvj7ej3pSY+AvAgsHwlUaN1S7gQg4AL7bO87jQ
-	rwBaa/d4zSNeh9Ul83yvMSIIdoznAK99CRK6JnqBt4wSRSjsK76xVF5H7IP9i3UCr0VEKHSO
-	TqCc18J7RWNLGR9iM6zpvLI0qR+xEd5p7EK8E0FiDIfOsw/53PbiYNHjfh7ndXCi67qAswTO
-	Tjkwzmr4bMCFcDbA7Lu3AOedMOd+/tLCKKGBNrtruRsAv7hfjXDja+Dp52PLXRFsurJiEp6s
-	sC0bQkdf1rJp+PfCCZR7XcUI/OZcP3IWBFpfOJz1hfU4b4b2lhnMCnCP18PyRZxjMKz5bosd
-	8CuBhDWYMtVsaoRBHqpjP/r/ylP1mfVg6XsPSWgCVbULYW0AwUEbgDhK+oq6b9rVYlEa88kR
-	1qhXGS1a1tQGIjzXdQ6V+KXqPT+MzqySK6JkCqVSqYgKV8pJf1F283G1mFAzZjaDZQ2scaWH
-	4D6SLGRf4lBnNpNfVh+f4Y5GG5S3B6f5juMDVeNHXx5NL6ySgrrCtyJtp0PmU/zfi58U/T49
-	siFxa8veb3W3vj6w8/2TtU6/ngdX/2lw/3AtQRbwdh3BXx2TapuO3R1T+qk7oEMSqwk4T+B1
-	c9SN4B5w/qA4r/D2oTXr3aXbKzv8VlnfeCkpSBR0NPgiOVKd+Kzjl+E5t6rtkDB8anG/qOHV
-	qcjylNyNm+CkMKXi2M8hCmlc4c0kFjsykqy9fHC6tED1x5/uwS/9e/d+ePjHx76wc/WTsm2K
-	UsvD2Xe2bziw/8L3iVdfcb5Jt+TGn7obOD3b8/kT3arAkQv+87t2uEe7nZbm5DP+3aMkz6Rh
-	5CGo0cT8B/dM+eV4BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsWy7bCSvO7GoMXpBrMPMVl8/PqbxWLOqm2M
-	Fqvv9rNZvD78idHi5oGdTBYrVx9lsnjXeo7FYvb0ZiaLo//fsllMOnSN0WLvLW2LPXtPsljM
-	X/aU3aL7+g42i+XH/zFZnP97nNXi/Kw57A6CHjtn3WX3uHy21GPTqk42j81L6j1232xg8/j4
-	9BaLR9+WVYweZxYcYff4vEnOY9OTt0wBXFFcNimpOZllqUX6dglcGU8abzAXPOCt+PUjoIFx
-	I3cXIyeHhICJxPpZC9i7GLk4hAR2M0rMmbaXBSIhIXHq5TJGCFtYYuW/51BFTxglFl1/wwyS
-	YBFQkVi38BcriM0moC5x5HkrWIOIgJLE01dnGUEamAVmM0u8nvAYrEFYIFKif/5tJhCbV0BX
-	4saDV8wQUxczSfw5/BAqIShxcuYTsDOYBbQkbvx7CRTnALKlJZb/4wAJcwroSKw/Og9ssaiA
-	ssSBbceZJjAKzkLSPQtJ9yyE7gWMzKsYJVMLinPTc4sNC4zyUsv1ihNzi0vz0vWS83M3MYKj
-	UktrB+OeVR/0DjEycTAeYpTgYFYS4T29fUG6EG9KYmVValF+fFFpTmrxIUZpDhYlcd5vr3tT
-	hATSE0tSs1NTC1KLYLJMHJxSDUy5misV90W9mNEzz7xhq0LYy+tLvqjsUN/rUJ+xZ/denzUb
-	3lxJOf6sxODWDrb7i57oMhf2tXDWC+olBKp2h2vETlhwr/PfFeFi19dJjSGXLC8pLrdftu15
-	dFuS9DFxbUldpiuF3r8uFndwmMTXiay66RHfObeViV1aJaH4zAS5bZ8rfosl/spe1H45Ueqx
-	RGWhl7cUf02m0nVlfYmtO/9UzL12tfHSS+H3vRbls3/JW54r2Wekk1mStXvRsVM7ZSZfl37r
-	80JSXYl791r2RsfZEmy5hW1fOSx6JA231f4RYd+YXl5gLLWxJu7J03USK358SY436n2xPkYn
-	5s+fi1WvZHYJR83Ovj1PmMv6kBJLcUaioRZzUXEiAHPBooI5AwAA
-X-CMS-MailID: 20250205115945epcas5p3fe280131617e4b986d93b618f7a68e90
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----knAlFONTECbX-FcfvlefBkarukSN3r7qQKLuxxl86w44aglH=_2dec9_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241128113112epcas5p186ef86baaa3054effb7244c54ee2f991
-References: <20241128112240.8867-1-anuj20.g@samsung.com>
-	<CGME20241128113112epcas5p186ef86baaa3054effb7244c54ee2f991@epcas5p1.samsung.com>
-	<20241128112240.8867-8-anuj20.g@samsung.com> <20250203065331.GA16999@lst.de>
-	<20250203143948.GA17571@green245> <20250204053914.GA28919@lst.de>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250205_042643_548114_EB3605F2 
-X-CRM114-Status: GOOD (  24.82  )
+X-CRM114-CacheID: sfid-20250205_064057_904513_B3CE9BA6 
+X-CRM114-Status: GOOD (  25.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,59 +95,162 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------knAlFONTECbX-FcfvlefBkarukSN3r7qQKLuxxl86w44aglH=_2dec9_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+From: Leon Romanovsky <leonro@nvidia.com>
 
-On Tue, Feb 04, 2025 at 06:39:14AM +0100, Christoph Hellwig wrote:
-> On Mon, Feb 03, 2025 at 08:09:48PM +0530, Anuj Gupta wrote:
-> > +	if (bi->csum_type == BLK_INTEGRITY_CSUM_IP)
-> > +		bip->bip_flags |= BIP_IP_CHECKSUM;
-> 
-> We'll also need to set the BIP_CHECK_GUARD flag here I think.
+Changelog:
+v7:
+ * Rebased to v6.14-rc1
+v6: https://lore.kernel.org/all/cover.1737106761.git.leon@kernel.org
+ * Changed internal __size variable to u64 to properly set private flag
+   in most significant bit.
+ * Added comment about why we check DMA_IOVA_USE_SWIOTLB
+ * Break unlink loop if phys is NULL, condition which we shouldn't get.
+v5: https://lore.kernel.org/all/cover.1734436840.git.leon@kernel.org
+ * Trimmed long lines in all patches.
+ * Squashed "dma-mapping: Add check if IOVA can be used" into
+   "dma: Provide an interface to allow allocate IOVA" patch.
+ * Added tags from Christoph and Will.
+ * Fixed spelling/grammar errors.
+ * Change title from "dma: Provide an  ..." to be "dma-mapping: Provide
+ * an ...".
+ * Slightly changed hmm patch to set sticky flags in one place.
+v4: https://lore.kernel.org/all/cover.1733398913.git.leon@kernel.org
+ * Added extra patch to add kernel-doc for iommu_unmap and
+ * iommu_unmap_fast
+ * Rebased to v6.13-rc1
+ * Added Will's tags
+v3: https://lore.kernel.org/all/cover.1731244445.git.leon@kernel.org
+ * Added DMA_ATTR_SKIP_CPU_SYNC to p2p pages in HMM.
+ * Fixed error unwind if dma_iova_sync fails in HMM.
+ * Clear all PFN flags which were set in map to make code.
+   more clean, the callers anyway cleaned them.
+ * Generalize sticky PFN flags logic in HMM.
+ * Removed not-needed #ifdef-#endif section.
+v2: https://lore.kernel.org/all/cover.1730892663.git.leon@kernel.org
+ * Fixed docs file as Randy suggested
+ * Fixed releases of memory in HMM path. It was allocated with kv..
+   variants but released with kfree instead of kvfree.
+ * Slightly changed commit message in VFIO patch.
+v1: https://lore.kernel.org/all/cover.1730298502.git.leon@kernel.org
+ * Squashed two VFIO patches into one
+ * Added Acked-by/Reviewed-by tags
+ * Fix docs spelling errors
+ * Simplified dma_iova_sync() API
+ * Added extra check in dma_iova_destroy() if mapped size to make code
+ * more clear
+ * Fixed checkpatch warnings in p2p patch
+ * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+   be more general
+ * Reduced the number of changes in VFIO patch
+v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
 
-Right, I think this patch should address the problem [*]
-I couldn't test this patch, as nvme-tcp doesn't support T10-PI and so
-does rdma_rxe. I don't have rdma h/w to test this.
-It would be great if someone can give this a run.
+----------------------------------------------------------------------------
+ No changes in checks, documentation and naming as no suggestion was
+ given. Everything like this can be improved in followup patches.
+----------------------------------------------------------------------------
+ LWN coverage:
+Dancing the DMA two-step - https://lwn.net/Articles/997563/
+----------------------------------------------------------------------------
 
-[*]
+Currently the only efficient way to map a complex memory description through
+the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
+they efficiently combine the two fundamental operations of sizing and allocating
+a large IOVA window from the IOMMU and processing all the per-address
+swiotlb/flushing/p2p/map details.
 
-Subject: [PATCH] nvmet: set bip_flags to specify integrity checks
+This uniqueness has been a long standing pain point as the scatterlist API
+is mandatory, but expensive to use. It prevents any kind of optimization or
+feature improvement (such as avoiding struct page for P2P) due to the
+impossibility of improving the scatterlist.
 
-A recent patch [1] changed how the driver sets checks for integrity buffer.
-The checks are now specified via newly introduced bip_flags that indicate
-how to check the integrity payload. nvme target never sets these flags.
-Modify it, so that it starts using these new bip_flags.
+Several approaches have been explored to expand the DMA API with additional
+scatterlist-like structures (BIO, rlist), instead split up the DMA API
+to allow callers to bring their own data structure.
 
-[1] https://lore.kernel.org/linux-nvme/20241128112240.8867-8-anuj20.g@samsung.com/
+The API is split up into parts:
+ - Allocate IOVA space:
+    To do any pre-allocation required. This is done based on the caller
+    supplying some details about how much IOMMU address space it would need
+    in worst case.
+ - Map and unmap relevant structures to pre-allocated IOVA space:
+    Perform the actual mapping into the pre-allocated IOVA. This is very
+    similar to dma_map_page().
 
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
----
- drivers/nvme/target/io-cmd-bdev.c | 4 ++++
- 1 file changed, 4 insertions(+)
+In this and the next series [1], examples of three different users are converted
+to the new API to show the benefits and its versatility. Each user has a unique
+flow:
+ 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+    dynamically map/unmap large numbers of single pages. This becomes
+    significantly faster in the IOMMU case as the map/unmap is now just
+    a page table walk, the IOVA allocation is pre-computed once. Significant
+    amounts of memory are saved as there is no longer a need to store the
+    dma_addr_t of each page.
+ 2. VFIO PCI live migration code is building a very large "page list"
+    for the device. Instead of allocating a scatter list entry per allocated
+    page it can just allocate an array of 'struct page *', saving a large
+    amount of memory.
+ 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+    list without having to allocate then populate an intermediate SG table.
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index c1f574fe3280..4bab24bcd6e8 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -210,6 +210,10 @@ static int nvmet_bdev_alloc_bip(struct nvmet_req *req, struct bio *bio,
- 		return PTR_ERR(bip);
- 	}
- 
-+	if (bi->csum_type)
-+		bip->bip_flags |= BIP_CHECK_GUARD;
-+	if (bi->flags & BLK_INTEGRITY_REF_TAG)
-+		bip->bip_flags |= BIP_CHECK_REFTAG;
- 	/* virtual start sector must be in integrity interval units */
- 	bip_set_seed(bip, bio->bi_iter.bi_sector >>
- 		     (bi->interval_exp - SECTOR_SHIFT));
+To make the use of the new API easier, HMM and block subsystems are extended
+to hide the optimization details from the caller. Among these optimizations:
+ * Memory reduction as in most real use cases there is no need to store mapped
+   DMA addresses and unmap them.
+ * Reducing the function call overhead by removing the need to call function
+   pointers and use direct calls instead.
+
+This step is first along a path to provide alternatives to scatterlist and
+solve some of the abuses and design mistakes.
+
+Thanks
+
+Christoph Hellwig (6):
+  PCI/P2PDMA: Refactor the p2pdma mapping helpers
+  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+  iommu: generalize the batched sync after map interface
+  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+  dma-mapping: add a dma_need_unmap helper
+  docs: core-api: document the IOVA-based API
+
+Leon Romanovsky (11):
+  iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+  dma-mapping: Provide an interface to allow allocate IOVA
+  dma-mapping: Implement link/unlink ranges API
+  mm/hmm: let users to tag specific PFN with DMA mapped bit
+  mm/hmm: provide generic DMA managing logic
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+    linkage
+  RDMA/umem: Separate implicit ODP initialization from explicit ODP
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Enable the DMA link API
+
+ Documentation/core-api/dma-api.rst   |  70 ++++
+ drivers/infiniband/core/umem_odp.c   | 250 +++++---------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+ drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+ drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+ drivers/iommu/dma-iommu.c            | 468 +++++++++++++++++++++++----
+ drivers/iommu/iommu.c                |  84 ++---
+ drivers/pci/p2pdma.c                 |  38 +--
+ drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
+ drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+ drivers/vfio/pci/mlx5/main.c         |  87 +++--
+ include/linux/dma-map-ops.h          |  54 ----
+ include/linux/dma-mapping.h          |  85 +++++
+ include/linux/hmm-dma.h              |  33 ++
+ include/linux/hmm.h                  |  21 ++
+ include/linux/iommu.h                |   4 +
+ include/linux/pci-p2pdma.h           |  84 +++++
+ include/rdma/ib_umem_odp.h           |  25 +-
+ kernel/dma/direct.c                  |  44 +--
+ kernel/dma/mapping.c                 |  18 ++
+ mm/hmm.c                             | 264 +++++++++++++--
+ 21 files changed, 1435 insertions(+), 693 deletions(-)
+ create mode 100644 include/linux/hmm-dma.h
+
 -- 
-2.25.1
+2.48.1
 
-------knAlFONTECbX-FcfvlefBkarukSN3r7qQKLuxxl86w44aglH=_2dec9_
-Content-Type: text/plain; charset="utf-8"
-
-
-------knAlFONTECbX-FcfvlefBkarukSN3r7qQKLuxxl86w44aglH=_2dec9_--
 
