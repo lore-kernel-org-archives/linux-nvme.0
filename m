@@ -4,83 +4,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BE76C02192
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Feb 2025 23:02:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47BD8C02198
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2025 06:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vw+9qMusOrDDnEO0NKnpytKkXfp/W4mbSKIt8xbYN7Y=; b=jquNQlEuAnEJPcMQUFg63nWkQ7
-	p56UKTXKiDH+pTJNDx9UIgq56ZmKRB1EM6czVGQVDYncQl/gieOWq6SN44ZejpqX0jeppBfk7/Zms
-	iCIt9pAbh4cqeJfxB0JJLeid3iy1zK7xtQNToj+zSgbbERe1qkLuFolfzjuJp1S242HDNRDpBTluG
-	kykX2MvjOj7O3XYbS5dxa1fV3fG9NaeInEZC4c1VyQ4mv/joHLeeo8RFZhK/EJqu3CzlVoDWqB3Yz
-	JZUR4WqIM5AcBgdckNy42ab+i4rabZuzDCv413YI8Me10ov+P7kEKhA+z/oaw4eqzu97tWP93VoJa
-	F4T5ot/A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tACAkOWebQoTz3FYB6wwQYiU8WQtgkKuBGC8mo4g3ps=; b=YB1DV9cEGTrTEQhWC7QlPfjht0
+	DQHSej7uHrsPGmbw4clmN0TCtEAOIIjbZi+wJFkgRmfxX/xzfKkHk49J3G6QHMzfDRRmfJcxQe5t2
+	C75aHQBC9sisB85R/yjpuXniPFPmpDlVhobfMJJbrqSAW7G4xgdeZPtuivQUNT8ITFwVk4aoMtyKE
+	cyk9FqV6phImvHEPx3KsJurNdhKZGL0UMcL0CjQxGaLFwCHjSHgAOzBHULQF7+1whU58gqQOx2Ko8
+	IMlkH/eC8WSxrzbA0PEZ+LbWwpEwFa26jhXbHWTnR4lLcEqhZjeALK30yfny9Sb/CFNGflLHrLEq5
+	Xh5MceBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfoPj-00000004n58-36tR;
-	Wed, 05 Feb 2025 23:02:35 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1tfuwo-00000005Kk7-3ztg;
+	Thu, 06 Feb 2025 06:01:10 +0000
+Received: from mail-bn8nam11on20616.outbound.protection.outlook.com ([2a01:111:f403:2414::616] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfoPf-00000004n3L-1fCv
+	id 1tfuwm-00000005KhZ-3ead
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Feb 2025 23:02:33 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 515N15Dc009518;
-	Wed, 5 Feb 2025 23:02:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2023-11-20; bh=vw+9q
-	MusOrDDnEO0NKnpytKkXfp/W4mbSKIt8xbYN7Y=; b=cKD0W1NP5S2Lt0Jjj45pL
-	/1tuVPryNQKvNbp837lA/qVpT5OrdKjnt0IjFfRzV4hPmeo/3alYC9XQO6L4fZU3
-	7NNaWpRvC/CqIkWAcv9ivYQsrrkXt8IS98XSI4ZDpW92ZBVYLJZ9orDYkq7rKN9b
-	y4fw0wTfJ6PYTkFb6Nv9IOc6oB+79hdlSQwF3uFl35E50PYJZSOVqve01dnJCopl
-	Y+R3q8DkPGffiNrYAeJ2J7Rt/xmmf+mM+OF9He3+TRc1GXZbU6h6AwVslBGr5U7f
-	0C2HccEdU4tRynzGxfHfoyC3TqHqiqNoeZyPxEFNFcWea02EXxCaPmiEsqnzF9/F
-	w==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44m50u9jnw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 05 Feb 2025 23:02:30 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 515Ll3kw022622;
-	Wed, 5 Feb 2025 23:02:29 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 44j8e9r5n1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 05 Feb 2025 23:02:28 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 515N2Rfk040085;
-	Wed, 5 Feb 2025 23:02:28 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 44j8e9r5m8-2;
-	Wed, 05 Feb 2025 23:02:28 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-block@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org, alan.adamson@oracle.com,
-        linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com
-Subject: [PATCH v3 blktests 1/2] scsi/009: add atomic write tests
-Date: Wed,  5 Feb 2025 15:10:59 -0800
-Message-ID: <20250205231100.391005-2-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250205231100.391005-1-alan.adamson@oracle.com>
+	Thu, 06 Feb 2025 06:01:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DFoaHg40w5kxNKOLEE0vaen9br3eXrGbx56mOYk6NRxrizewDlx+LjTVdFFyIjn/tE/LghI1kOhBgMS1BNoltvTf80Z6omSvB+1j43oB2ddobVUXNhXeyIlb2J+EUsgr10OoGiYNNnJnkHMpWEZ8jxQ2sacsxdRI5XcNZD01MT3DxA8NVCqoah1rgtDHCw1/8Y+r5IlHYsNwRS3xwXyZM5QAfbU6yGsD9czDc6r1mJZf/PG/IISPCq49yOJvDRUM+1t4LH/30LqurL2K8tIrKZgVjwXZ1Mr+PilZ9xnkj2Yg/jM+qqu3uLZo1JkLK9fPFtjtvu0rx5SKgyR5PmWXJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tACAkOWebQoTz3FYB6wwQYiU8WQtgkKuBGC8mo4g3ps=;
+ b=j2DplKKHyJFlskEwNiMDq2ZPb06qeUTGPzJ6eqC91d2me2Dq5d4M3Vc9nFsQmV/3A1/vpxcA5Nt/foPRVLTClFwr+ZkSF6ItivMoGP6zw419D5gZN2RKWYlzl1kkNPrdnmbW5RYjgRcVZNcu7iVaVrfznYV4X5xh1DJZBauDxGrBn8dnyoOnF6diaanL/jaadJOfai0eRhyEGhkiTMSzu5jucIBvx8C2NAc8N13lU9vLUlHgZCdA56jsUbdIJzV1MEYaGuIKh2Lj0mGym9mdRbT4A3NVE1TxuU5VMdwwX+mVDIN4JGxC9elyOQ4cuLr1RtYz0jQAUnQY+VsAKlk/kA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tACAkOWebQoTz3FYB6wwQYiU8WQtgkKuBGC8mo4g3ps=;
+ b=Bc8rveIo6/lzcEUVSu8mQrLll1+HbWVdRzDUkL3v6nMkDyuKhNDEdrtGpL9x8kfyUuhGViEErrrjFnP0pB7AtfcDP1pX+jj/tVB1t95uy3WO4N7H9iS7/wTpBtRlCUJcd9pLmQbiAsZLGeCh6rBZOZyl14FSqGL+G/Lmno+ZCDiHqmJSFDpwh8STmLHwF6eV6LNibVA1wyPIxXIt2j8dIIeZIQvnbs6BzwQlkZStLcfcX2WVZFAAEfj12HuEsQ9W4kKziSy5k4zrx00oXs0pdSIHlJW9tQYx2SHh4RO9N1u0SRaLz5K35sDrxoPGPUPrhGeX0IfVZo+D508TNdrtxw==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by SA3PR12MB7805.namprd12.prod.outlook.com (2603:10b6:806:319::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Thu, 6 Feb
+ 2025 06:01:04 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.8398.021; Thu, 6 Feb 2025
+ 06:01:04 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Alan Adamson <alan.adamson@oracle.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+CC: "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH v3 blktests 2/2] nvme/059: add atomic write tests
+Thread-Topic: [PATCH v3 blktests 2/2] nvme/059: add atomic write tests
+Thread-Index: AQHbeCIVoaC7aZ5ggEWh2e99iD8tWLM5yL4A
+Date: Thu, 6 Feb 2025 06:01:04 +0000
+Message-ID: <996a7acd-4cd3-416f-a374-659e09b58cf5@nvidia.com>
 References: <20250205231100.391005-1-alan.adamson@oracle.com>
+ <20250205231100.391005-3-alan.adamson@oracle.com>
+In-Reply-To: <20250205231100.391005-3-alan.adamson@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|SA3PR12MB7805:EE_
+x-ms-office365-filtering-correlation-id: e72e8027-2f41-4f3b-8635-08dd4673a44e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|10070799003|376014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?d05rbG1id1BZbHhFNng3NkFZaE5lNlRpRTh2akQzV0xxVTFxUUc5R3NiMUli?=
+ =?utf-8?B?cnAxbGIvVENtN2JwWHZmTy9MZGJyR2NQRUNLdGdjdmFhbGlmYTVXdEpZUWoy?=
+ =?utf-8?B?aWMvK04rbXEyYmRSdVkvMVREWWs3NVBMbHljNVB6WmkvRHJYZTUyR043YmJ5?=
+ =?utf-8?B?T09OQVBnQkhqSHkvbzlCVGovTkxmY24zYjl2WEY4MTMwT0tNUnVXRWY2NTdx?=
+ =?utf-8?B?UTJtVThtc0FMdkRvTjRNc1EzRjVhdjhwSC9GQzhoVWxFV1kzVXVaN0s4djAx?=
+ =?utf-8?B?YjZrMHY4WTNsck0vd1hFRDRDNUhORzQwYmxJaVR5aFZxUkZFMmRYMnRXU2NY?=
+ =?utf-8?B?QVJGbEpoNFVZOEdsQi9heVg2aVpvS0ZsWmpUVUN2N050RUVwMFVXWHJvMTF6?=
+ =?utf-8?B?VGxwMW43WUw2N2VkR3FuUXZRUjRaR3BwV2F2L1U0YjdKZlpESXZIVFE2UHVl?=
+ =?utf-8?B?VFJiOU9WK0dnWVVzaW5tMkovSTd3cExlclBPTlIwNjBYWm55aWxUODNqVW9N?=
+ =?utf-8?B?L21jVC9YTk5MWEVob0ZneUtjR1JqS1hiNlIraVVyUnc1NW9GQTNidWhrYnlm?=
+ =?utf-8?B?MUJsS2xyekQ5a2dZTnpSV215MklySWdhZVN1ZVluaFgrOXFxZGpIUC9sd0F0?=
+ =?utf-8?B?TFV3ODk5MHgzT0RoYmhmUjZ3SndQRnpBWktKK0J4WHpNQlMyVlV6R1VWSzhx?=
+ =?utf-8?B?dUxkdGpmY0RiTldpZUgyZldMaDNZV1dhcHVxanQyb2E0N2QwaGIwSXFocWhO?=
+ =?utf-8?B?ait5eUxHbnBwVzhvamw4RnIrdzhRdjRQZnJHMDNMNUViMk5xVktTREIxSkMw?=
+ =?utf-8?B?bXNDNVZsUTVndEZDaXhQQ1N0MUVoTXI1YnRJb0xyZVBQN3B0SksrenhSSlJv?=
+ =?utf-8?B?bTEzSUZEWUpQMG5lam9ybjM2RWZIc3dJWEJZODIvNGdwY3BxZlU0TW5OY2xw?=
+ =?utf-8?B?K3BPcTZTQytrY3NxeE9ocVp1Y0htZ1RGNERXcy9ORUVJbVB5NlBsMGVtVEhz?=
+ =?utf-8?B?c3JMVWdOajJnRUtlcUwrWkYvaUlQNlRMZldXK3ZpZ1U5YUVnR2ltdXdaNHpM?=
+ =?utf-8?B?RVlIckZYWXpuMFc5YXNSdjdQWjdMeWl4dUIyOVJKTDVJKzhZUURXd0wrYmdD?=
+ =?utf-8?B?K042T05ESWMrdHRkeE5oRUl0M1h2U3UxYWN0eDZsYXh1TXVhcnhwOEhLRlFL?=
+ =?utf-8?B?L2d0c3pzaTdsd0NRREFiUzZib1MzUlN0ZS9BVEVyTnF3ck1kcGFQS2RCbFd0?=
+ =?utf-8?B?NnQveFBuV2xlUjFJL1IxaWhROVRRSE5jcHZISWtyUnJaUEtEZHg0TXBES0lE?=
+ =?utf-8?B?N1Z1TFlvaGNydmVuT2FvSEJLeUNITGlVaHBEU0JvYUkwOFNUOVl0bXJ5NmVB?=
+ =?utf-8?B?aGQ3Y2wzdFVselNJN3ErTmQxYjR5ejY0L05DMGFxaENtdjhzV2xHdWNxL0pT?=
+ =?utf-8?B?cUw1MWZGMm4wN1ZtbEtLTmY1VTVaTFhVcG1PRWNQZWFDQ0Nwa1NOMXFzK20x?=
+ =?utf-8?B?L1JTYS9vdG5VY2duVzJrdEtNeGpKQ2ZOaDNJTVowVXFEVFdTZlRpcURJalln?=
+ =?utf-8?B?djIyUmEzYWlYMzNOemx4YjMyWDZsd216ZmF0dmtxT3hBUHFaaXd2dTR3ZWhO?=
+ =?utf-8?B?UTRFS1V5VnZIbzRyK1phWmJBVTBiMVZ4Yk5paXUyK1g0WTI2Y3J2VlhaOFNq?=
+ =?utf-8?B?eDJMeUZOT2tTM1lXbCt0OHR1TytXcThBQ0xiSUtjVjA2Sm1abmFUb2svWEVY?=
+ =?utf-8?B?QjVkQjVqRnY3K1NPMzlmSkd5dFFFa0xFWDhZTUE1bkNWTnhPaUI4YVlqcGs1?=
+ =?utf-8?B?TVpXMDJvUjBuenFGOVlrRmpJUXVrbzVmczA3ei8wRGJLZWxRZjd0alhuVURU?=
+ =?utf-8?B?UlZQNGMwSTd0M2s2bFFVRTIzQTRKcVBVWHhySzZRd3NjbHFOMGNiUktJRXdr?=
+ =?utf-8?Q?ITQMYHwVJwQ0jw7TURFywmr98p0xrLGX?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RXRJeWErRjdndTNoUE1lODR5RGpFREJLYXp2NmduZENpNHpVekI3SnNNTzBm?=
+ =?utf-8?B?eHk5SVhEb1BKd2xHQkNrbFlQb3Q3VmdidzhrZ3ZkL3VxUXRWV0FHaTVROTFD?=
+ =?utf-8?B?NGZXbGxIWUx3VGV2dFVDaTR0b2J1bzlPbUtjZHpNcHcvbmNlbEIyRit4MGNv?=
+ =?utf-8?B?QU5SdE9Od3lneXJwcnp6U2w3MVhuWDJudC9KNVpUQ1IyaGpLNUhYdmdTd1My?=
+ =?utf-8?B?SXV1OGxKR1dRQytFY3VnY2xmNnh4V1h2SW5XMURIZGorbnRqcVlIamZyZjI2?=
+ =?utf-8?B?UnIvc3F2U3Nsazc2MlgwVjRJL1F3ekF5ZEtoUUxGTkJjZDJYazBnbFVMQjdZ?=
+ =?utf-8?B?ZHlWTU4rOW5JbHBXak82aE1rclhqRjB0aDRaaEZlcG1yeWhuVXlRRnlNSjd0?=
+ =?utf-8?B?SW5qYXJSbndXVEducVp3QWhXRi8rZ0xlTEU3cmlJKzJGcWJtdXkxMlZ5dC94?=
+ =?utf-8?B?d090bCtSaXdYaFd2OHhDdE80UWZDZkFIWXlpM3czU3pDOVIvU0dBT3lRMHhI?=
+ =?utf-8?B?YmN3SmtzQ3c0RldBT1h2V1RVME45TXNtWkRRSUtwSWhvd0FkMUcwdktGa2to?=
+ =?utf-8?B?b0ZoeDA5Yk9hMWUzamVDaHROaFh6a3BESGNwRmNlT2JlUStETTc0akMyL1Nm?=
+ =?utf-8?B?NTdCb1ZGT1JyeXd0WldsZ2RCQ3NRQWQ0NlVlTmZoL09wN0sxNTZKSjhDK3ls?=
+ =?utf-8?B?Q2pJYlBwUHJaY2I3K0xPM1RySTlHcFQ0cUlnZ0FUbzA2ZlkxeEhuMlNwVTBq?=
+ =?utf-8?B?TlRJNGY5citPZUdMcmlsdFBWRitTTnRtR3FJN1h0eTJYWkRwaWJCUEpMenZT?=
+ =?utf-8?B?MlNIbG40M2cwdTBsS09TcU8yZXBKSlZVT3FtbDB4WGM4MUc1d3M0T0UreDhp?=
+ =?utf-8?B?OFJ6UytjcmgvTUhHSFFvZHRINWNUQjcwOFhKYWVxZEt5QUJ2T3NvZFA4MWRH?=
+ =?utf-8?B?V0ZHWmZJMjF3NWlBNnNhRi95SEFYNVpRRERLVlppUkFUcW4yZ2l3T2o4WWZJ?=
+ =?utf-8?B?eGJhblJlaHJzeU9NTjEvKzgwaFVNWWlPdmNGMkV3WStYYVA0Tjc2S2JxYWx0?=
+ =?utf-8?B?SFc2MTVlTkVaVGh1alZMOEFHazZiWmt0VExtb0Eyb0VvS2FKY0psMmJMMDc1?=
+ =?utf-8?B?WTNOaU5LcDNWeTZJRHF6OXlVOXN0WFlYRmNNamo5MmtLQVRpTUxLTjN5UHcr?=
+ =?utf-8?B?TGRVMm9zSzRqTWVYTmpwZXRBSmFuSWRrQktqK2tFV2pXOWsxd3RNWUtFVVNG?=
+ =?utf-8?B?UU1UY2dBWmgvSDBDSGJBN3FyaXNqTXlCNjZUdWtnSTRwbE9KMlQwSEVZRmVS?=
+ =?utf-8?B?WHpkQXkyVDlSUDY3MFBnUUc0SkpuWHQ1R1VYZ1RmZFFZMzBlZGFvYkMxWlNr?=
+ =?utf-8?B?VElLRVpwVlN4VDVaeVZpZHAvMWNCdW1hSnBnRnZBaFA2SWxQR0lRSTQrRmdo?=
+ =?utf-8?B?ZzRNVmdEelJIYy9lUGVHNld5MzNtWG9reC8xSFVKR2l4NnZwUk9SQXJiYVlY?=
+ =?utf-8?B?cGZlY0VpRmlwUmdmQ3lIWnZFN2ppeVBURU5idjA2TTBIc2VGUlZFeFppRmRq?=
+ =?utf-8?B?dXlWOFlJYXI4MEI2ei90UTBrbnR2ckh0T2laS3RZV2wzMnk0aEhRQWxXV0ZX?=
+ =?utf-8?B?a1RKUlJxYXBNenJobERscXdScHNnOTh0c0hKVlZYNlVqbG1UQkJlbCswOW5k?=
+ =?utf-8?B?RkZVamVHbFZ2c0F0ekZFdm95OHJFVGRZcVlhUC9yQ3RuTEgrZWR2MytZNUth?=
+ =?utf-8?B?eGV1ekczdlR6cjhVcm56a2tQQjF6cDR3aU5nNVpVV3hnMnVma0t1MmJmUC9j?=
+ =?utf-8?B?Z2ZhSHhadlVKRmxTd0lSbVFsYjkzclgxUXErRFVPcTRlNk1kU0hHTkowbWRB?=
+ =?utf-8?B?SVNtaGl0OTF4amVkWUE4RElHTkNvSVdGakJoNGtwWG1uN0xTWHBuUkloUDRM?=
+ =?utf-8?B?MzlIL2hkMHR1b0ttUk9QL1FOeGRzeGlPY1Fici83c01WUnBSS2htZnF0dmFj?=
+ =?utf-8?B?YlgyV0NnWERFMWZKa3V6dFNKTm1BZG56S05oak90TU1MTkZ2Y2V6cTBxNUNU?=
+ =?utf-8?B?bm51bUtnYVlQWGUzTExvdzJzT3BrdUNmRGMrdk5xSGQrTDlrVURYaTdBeGNM?=
+ =?utf-8?B?S3NUV01obDBMTkNBSTRQQ1JWdVFxZ3IrS0NPNE1kOE9mcTdhbEY4RXBmUW5r?=
+ =?utf-8?Q?8wPgU96JggXetrPB4ZoyDBGvpcImNFJEMv77HzbRvjSV?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C16309359B32914F86A07FC5A770E4B0@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-05_08,2025-02-05_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- phishscore=0 adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2501170000 definitions=main-2502050176
-X-Proofpoint-GUID: rXzr4b7jsRgsFaoyv5OTYGokqAn4qNE8
-X-Proofpoint-ORIG-GUID: rXzr4b7jsRgsFaoyv5OTYGokqAn4qNE8
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e72e8027-2f41-4f3b-8635-08dd4673a44e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2025 06:01:04.7957
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J66cyb6p3+rxHZysP2RCI0a6TCHYY34Vm93pi7h/U0xv9DVyBAlj0iaANUTCkAISFyUjgsQFR9Kx84fZmeeamw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7805
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250205_150231_556700_C673DFAD 
-X-CRM114-Status: GOOD (  23.45  )
+X-CRM114-CacheID: sfid-20250205_220108_908976_7D56E2FF 
+X-CRM114-Status: UNSURE (   8.85  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,382 +183,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Tests basic atomic write functionality. If no scsi test device is provided,
-a scsi_debug device will be used. Testing areas include:
-
-- Verify sysfs atomic write attributes are consistent with
-  atomic write attributes advertised by scsi_debug.
-- Verify the atomic write paramters of statx are correct using
-  xfs_io.
-- Perform a pwritev2() (with and without RWF_ATOMIC flag) using
-  xfs_io:
-    - maximum byte size (atomic_write_unit_max_bytes)
-    - minimum byte size (atomic_write_unit_min_bytes)
-    - a write larger than atomic_write_unit_max_bytes
-    - a write smaller than atomic_write_unit_min_bytes
-
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- common/rc          |   8 ++
- common/xfs         |  58 ++++++++++++
- tests/scsi/009     | 229 +++++++++++++++++++++++++++++++++++++++++++++
- tests/scsi/009.out |  18 ++++
- 4 files changed, 313 insertions(+)
- create mode 100755 tests/scsi/009
- create mode 100644 tests/scsi/009.out
-
-diff --git a/common/rc b/common/rc
-index bcb215d35114..06c0a416e3e1 100644
---- a/common/rc
-+++ b/common/rc
-@@ -292,6 +292,14 @@ _require_test_dev_can_discard() {
- 	return 0
- }
- 
-+_require_device_support_atomic_writes() {
-+	_require_test_dev_sysfs queue/atomic_write_max_bytes
-+	if (( $(< "${TEST_DEV_SYSFS}"/queue/atomic_write_max_bytes) == 0 )); then
-+		SKIP_REASONS+=("${TEST_DEV} does not support atomic write")
-+		return 1
-+	fi
-+}
-+
- _test_dev_queue_get() {
- 	if [[ $1 = scheduler ]]; then
- 		sed -e 's/.*\[//' -e 's/\].*//' "${TEST_DEV_SYSFS}/queue/scheduler"
-diff --git a/common/xfs b/common/xfs
-index 569770fecd53..0b1ca7c29049 100644
---- a/common/xfs
-+++ b/common/xfs
-@@ -6,6 +6,22 @@
- 
- . common/shellcheck
- 
-+_have_xfs_io_atomic_write() {
-+	local s
-+
-+	_have_program xfs_io || return $?
-+
-+	# If the pwrite command supports the -A option then this version
-+	# of xfs_io supports atomic writes.
-+	s=$(xfs_io -c help | grep pwrite | awk '{ print $4}')
-+	if [[ $s == *"A"* ]];
-+	then
-+		return 0
-+	fi
-+	SKIP_REASONS+=("xfs_io does not support the -A option")
-+	return 1
-+}
-+
- _have_xfs() {
- 	_have_fs xfs && _have_program mkfs.xfs
- }
-@@ -52,3 +68,45 @@ _xfs_run_fio_verify_io() {
- 
- 	return "${rc}"
- }
-+
-+# Use xfs_io to perform a non-atomic write using pwritev2().
-+# Args:    $1 - device to write to
-+#          $2 - number of bytes to write
-+# Returns: Number of bytes written
-+run_xfs_io_pwritev2() {
-+	local dev=$1
-+	local bytes_to_write=$2
-+	local bytes_written
-+
-+	# Perform write and extract out bytes written from xfs_io output
-+	bytes_written=$(xfs_io -d -C \
-+		"pwrite -b ${bytes_to_write} -V 1 -D 0 ${bytes_to_write}" \
-+		"$dev" | grep "wrote" | sed 's/\// /g' | awk '{ print $2 }')
-+	echo "$bytes_written"
-+}
-+
-+# Use xfs_io to perform an atomic write using pwritev2().
-+# Args:    $1 - device to write to
-+#          $2 - number of bytes to write
-+# Returns: Number of bytes written
-+run_xfs_io_pwritev2_atomic() {
-+	local dev=$1
-+	local bytes_to_write=$2
-+	local bytes_written
-+
-+	# Perform atomic write and extract out bytes written from xfs_io output
-+	bytes_written=$(xfs_io -d -C \
-+		"pwrite -b ${bytes_to_write} -V 1 -A -D 0 ${bytes_to_write}" \
-+		"$dev" | grep "wrote" | sed 's/\// /g' | awk '{ print $2 }')
-+	echo "$bytes_written"
-+}
-+
-+run_xfs_io_xstat() {
-+	local dev=$1
-+	local field=$2
-+	local statx_output
-+
-+	statx_output=$(xfs_io -c "statx -r -m 0x00010000" "$dev" | \
-+		grep "$field" | awk '{ print $3 }')
-+	echo "$statx_output"
-+}
-diff --git a/tests/scsi/009 b/tests/scsi/009
-new file mode 100755
-index 000000000000..b114d92dd3db
---- /dev/null
-+++ b/tests/scsi/009
-@@ -0,0 +1,229 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2025 Oracle and/or its affiliates
-+#
-+# Test SCSI Atomic Writes with scsi_debug
-+
-+. tests/scsi/rc
-+. common/scsi_debug
-+. common/xfs
-+
-+DESCRIPTION="test scsi atomic writes"
-+QUICK=1
-+
-+requires() {
-+	_have_driver scsi_debug
-+	_have_xfs_io_atomic_write
-+}
-+
-+device_requires() {
-+	_require_device_support_atomic_writes
-+}
-+
-+fallback_device() {
-+	local scsi_debug_params=(
-+		delay=0
-+		atomic_wr=1
-+	)
-+	if ! _configure_scsi_debug "${scsi_debug_params[@]}"; then
-+		return 1
-+		fi
-+	echo "/dev/${SCSI_DEBUG_DEVICES[0]}"
-+}
-+
-+cleanup_fallback_device() {
-+	_exit_scsi_debug
-+}
-+
-+test_device() {
-+	local scsi_debug_atomic_wr_max_length
-+	local scsi_debug_atomic_wr_gran
-+	local scsi_atomic_max_bytes
-+	local scsi_atomic_min_bytes
-+	local sysfs_max_hw_sectors_kb
-+	local max_hw_bytes
-+	local sysfs_logical_block_size
-+	local sysfs_atomic_max_bytes
-+	local sysfs_atomic_unit_max_bytes
-+	local sysfs_atomic_unit_min_bytes
-+	local statx_atomic_min
-+	local statx_atomic_max
-+	local bytes_to_write
-+	local bytes_written
-+	local test_desc
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	sysfs_logical_block_size=$(< "${TEST_DEV_SYSFS}"/queue/logical_block_size)
-+	sysfs_max_hw_sectors_kb=$(< "${TEST_DEV_SYSFS}"/queue/max_hw_sectors_kb)
-+	max_hw_bytes=$(( "$sysfs_max_hw_sectors_kb" * 1024 ))
-+	sysfs_atomic_max_bytes=$(< "${TEST_DEV_SYSFS}"/queue/atomic_write_max_bytes)
-+	sysfs_atomic_unit_max_bytes=$(< "${TEST_DEV_SYSFS}"/queue/atomic_write_unit_max_bytes)
-+	sysfs_atomic_unit_min_bytes=$(< "${TEST_DEV_SYSFS}"/queue/atomic_write_unit_min_bytes)
-+	scsi_debug_atomic_wr_max_length=$(< /sys/module/scsi_debug/parameters/atomic_wr_max_length)
-+	scsi_debug_atomic_wr_gran=$(< /sys/module/scsi_debug/parameters/atomic_wr_gran)
-+	scsi_atomic_max_bytes=$(( "$scsi_debug_atomic_wr_max_length" * "$sysfs_logical_block_size" ))
-+	scsi_atomic_min_bytes=$(( "$scsi_debug_atomic_wr_gran" * "$sysfs_logical_block_size" ))
-+
-+	test_desc="TEST 1 - Verify sysfs atomic attributes"
-+	if [ "$max_hw_bytes" -ge "$sysfs_atomic_max_bytes" ] &&
-+		[ "$sysfs_atomic_max_bytes" -ge "$sysfs_atomic_unit_max_bytes" ] &&
-+		[ "$sysfs_atomic_unit_max_bytes" -ge "$sysfs_atomic_unit_min_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $max_hw_bytes - $sysfs_max_hw_sectors_kb -" \
-+			"$sysfs_atomic_max_bytes - $sysfs_atomic_unit_max_bytes -" \
-+			"$sysfs_atomic_unit_min_bytes"
-+	fi
-+
-+	test_desc="TEST 2 - check scsi_debug atomic_wr_max_length is the same as sysfs atomic_write_max_bytes"
-+	if [ "$scsi_atomic_max_bytes" -le "$max_hw_bytes" ]
-+	then
-+		if [ "$scsi_atomic_max_bytes" = "$sysfs_atomic_max_bytes" ]
-+		then
-+			echo "$test_desc - pass"
-+		else
-+			echo "$test_desc - fail $scsi_atomic_max_bytes - $max_hw_bytes -" \
-+				"$sysfs_atomic_max_bytes"
-+		fi
-+	else
-+		if [ "$sysfs_atomic_max_bytes" = "$max_hw_bytes" ]
-+		then
-+			echo "$test_desc - pass"
-+		else
-+			echo "$test_desc - fail $scsi_atomic_max_bytes - $max_hw_bytes -" \
-+				"$sysfs_atomic_max_bytes"
-+		fi
-+	fi
-+
-+	test_desc="TEST 3 - check sysfs atomic_write_unit_max_bytes <= scsi_debug atomic_wr_max_length"
-+	if (("$sysfs_atomic_unit_max_bytes" <= "$scsi_atomic_max_bytes"))
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $sysfs_atomic_unit_max_bytes - $scsi_atomic_max_bytes"
-+	fi
-+
-+	test_desc="TEST 4 - check sysfs atomic_write_unit_min_bytes = scsi_debug atomic_wr_gran"
-+	if [ "$sysfs_atomic_unit_min_bytes" = "$scsi_atomic_min_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $sysfs_atomic_unit_min_bytes - $scsi_atomic_min_bytes"
-+	fi
-+
-+	test_desc="TEST 5 - check statx stx_atomic_write_unit_min"
-+	statx_atomic_min=$(run_xfs_io_xstat "$TEST_DEV" "stat.atomic_write_unit_min")
-+	if [ "$statx_atomic_min" = "$scsi_atomic_min_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $statx_atomic_min - $scsi_atomic_min_bytes"
-+	fi
-+
-+	test_desc="TEST 6 - check statx stx_atomic_write_unit_max"
-+	statx_atomic_max=$(run_xfs_io_xstat "$TEST_DEV" "stat.atomic_write_unit_max")
-+	if [ "$statx_atomic_max" = "$sysfs_atomic_unit_max_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $statx_atomic_max - $sysfs_atomic_unit_max_bytes"
-+	fi
-+
-+	test_desc="TEST 7 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes "
-+	test_desc+="with no RWF_ATOMIC flag - pwritev2 should be succesful"
-+	bytes_written=$(run_xfs_io_pwritev2 "$TEST_DEV" "$sysfs_atomic_unit_max_bytes")
-+	if [ "$bytes_written" = "$sysfs_atomic_unit_max_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $sysfs_atomic_unit_max_bytes"
-+	fi
-+
-+	test_desc="TEST 8 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with "
-+	test_desc+="RWF_ATOMIC flag - pwritev2 should be succesful"
-+	bytes_written=$(run_xfs_io_pwritev2_atomic "$TEST_DEV" "$sysfs_atomic_unit_max_bytes")
-+	if [ "$bytes_written" = "$sysfs_atomic_unit_max_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $sysfs_atomic_unit_max_bytes"
-+	fi
-+
-+	test_desc="TEST 9 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 512 "
-+	test_desc+="bytes with no RWF_ATOMIC flag - pwritev2 should be succesful"
-+	bytes_to_write=$(( "${sysfs_atomic_unit_max_bytes}" + "$sysfs_logical_block_size" ))
-+	bytes_written=$(run_xfs_io_pwritev2 "$TEST_DEV" "$bytes_to_write")
-+	if [ "$bytes_written" = "$bytes_to_write" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $bytes_to_write"
-+	fi
-+
-+	test_desc="TEST 10 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 512 "
-+	test_desc+="bytes with RWF_ATOMIC flag - pwritev2 should not be succesful"
-+	bytes_written=$(run_xfs_io_pwritev2_atomic "$TEST_DEV" "$bytes_to_write")
-+	if [ "$bytes_written" = "" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $bytes_to_write"
-+	fi
-+
-+	test_desc="TEST 11 - perform a pwritev2 with size of sysfs_atomic_unit_min_bytes "
-+	test_desc+="with no RWF_ATOMIC flag - pwritev2 should be succesful"
-+	bytes_written=$(run_xfs_io_pwritev2 "$TEST_DEV" "$sysfs_atomic_unit_min_bytes")
-+	if [ "$bytes_written" = "$sysfs_atomic_unit_min_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $scsi_atomic_min_bytes"
-+	fi
-+
-+	test_desc="TEST 12 - perform a pwritev2 with size of sysfs_atomic_unit_min_bytes "
-+	test_desc+="with RWF_ATOMIC flag - pwritev2 should be succesful"
-+	bytes_written=$(run_xfs_io_pwritev2_atomic "$TEST_DEV" "$sysfs_atomic_unit_min_bytes")
-+	if [ "$bytes_written" = "$sysfs_atomic_unit_min_bytes" ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		echo "$test_desc - fail $bytes_written - $scsi_atomic_min_bytes"
-+	fi
-+
-+	test_desc="TEST 13 - perform a pwritev2 with a size of sysfs_atomic_unit_min_bytes - 512 "
-+	test_desc+="bytes with no RWF_ATOMIC flag - pwritev2 should be succesful"
-+	bytes_to_write=$(( "${sysfs_atomic_unit_min_bytes}" - "${sysfs_logical_block_size}" ))
-+	if [ "$bytes_to_write" = 0 ]
-+	then
-+		echo "$test_desc - pass"
-+		echo "pwrite: Invalid argument"
-+	else
-+		bytes_written=$(run_xfs_io_pwritev2 "$TEST_DEV" "$bytes_to_write")
-+		if [ "$bytes_written" = "$bytes_to_write" ]
-+		then
-+			echo "$test_desc - pass"
-+		else
-+			echo "$test_desc - fail $bytes_written - $bytes_to_write"
-+		fi
-+	fi
-+	test_desc="TEST 14 - perform a pwritev2 with a size of sysfs_atomic_unit_min_bytes - 512 "
-+	test_desc+="bytes with RWF_ATOMIC flag - pwritev2 should fail"
-+	if [ "$bytes_to_write" = 0 ]
-+	then
-+		echo "$test_desc - pass"
-+	else
-+		bytes_written=$(run_xfs_io_pwritev2_atomic "$TEST_DEV" "$bytes_to_write")
-+		if [ "$bytes_written" = "" ]
-+		then
-+			echo "$test_desc - pass"
-+		else
-+			echo "$test_desc - fail $bytes_written - $bytes_to_write"
-+		fi
-+	fi
-+
-+	_exit_scsi_debug
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/scsi/009.out b/tests/scsi/009.out
-new file mode 100644
-index 000000000000..e31416b93515
---- /dev/null
-+++ b/tests/scsi/009.out
-@@ -0,0 +1,18 @@
-+Running scsi/009
-+TEST 1 - Verify sysfs atomic attributes - pass
-+TEST 2 - check scsi_debug atomic_wr_max_length is the same as sysfs atomic_write_max_bytes - pass
-+TEST 3 - check sysfs atomic_write_unit_max_bytes <= scsi_debug atomic_wr_max_length - pass
-+TEST 4 - check sysfs atomic_write_unit_min_bytes = scsi_debug atomic_wr_gran - pass
-+TEST 5 - check statx stx_atomic_write_unit_min - pass
-+TEST 6 - check statx stx_atomic_write_unit_max - pass
-+TEST 7 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with no RWF_ATOMIC flag - pwritev2 should be succesful - pass
-+TEST 8 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with RWF_ATOMIC flag - pwritev2 should be succesful - pass
-+TEST 9 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 512 bytes with no RWF_ATOMIC flag - pwritev2 should be succesful - pass
-+pwrite: Invalid argument
-+TEST 10 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 512 bytes with RWF_ATOMIC flag - pwritev2 should not be succesful - pass
-+TEST 11 - perform a pwritev2 with size of sysfs_atomic_unit_min_bytes with no RWF_ATOMIC flag - pwritev2 should be succesful - pass
-+TEST 12 - perform a pwritev2 with size of sysfs_atomic_unit_min_bytes with RWF_ATOMIC flag - pwritev2 should be succesful - pass
-+TEST 13 - perform a pwritev2 with a size of sysfs_atomic_unit_min_bytes - 512 bytes with no RWF_ATOMIC flag - pwritev2 should be succesful - pass
-+pwrite: Invalid argument
-+TEST 14 - perform a pwritev2 with a size of sysfs_atomic_unit_min_bytes - 512 bytes with RWF_ATOMIC flag - pwritev2 should fail - pass
-+Test complete
--- 
-2.43.5
-
+T24gMi81LzI1IDE1OjExLCBBbGFuIEFkYW1zb24gd3JvdGU6DQo+IFRlc3RzIGJhc2ljIGF0b21p
+YyB3cml0ZSBmdW5jdGlvbmFsaXR5IHVzaW5nIE5WTWUgZGV2aWNlcw0KPiB0aGF0IHN1cHBvcnQg
+dGhlIEFXVU4gYW5kIEFXVVBGIENvbnRyb2xsZXIgQXRvbWljIFBhcmFtZXRlcnMNCj4gYW5kIE5B
+V1VOIGFuZCBOQVdVUEYgTmFtZXNwYWNlIEF0b21pYyBQYXJhbWV0ZXJzLg0KPg0KPiBUZXN0aW5n
+IGFyZWFzIGluY2x1ZGU6DQo+DQo+IC0gVmVyaWZ5IHN5c2ZzIGF0b21pYyB3cml0ZSBhdHRyaWJ1
+dGVzIGFyZSBjb25zaXN0ZW50IHdpdGgNCj4gICAgYXRvbWljIHdyaXRlIGNhcGFibGl0aWVzIGFk
+dmVydGlzZWQgYnkgdGhlIE5WTWUgSFcuDQo+DQo+IC0gVmVyaWZ5IHRoZSBhdG9taWMgd3JpdGUg
+cGFyYW10ZXJzIG9mIHN0YXR4IGFyZSBjb3JyZWN0IHVzaW5nDQo+ICAgIHhmc19pby4NCj4NCj4g
+LSBQZXJmb3JtIGEgcHdyaXRldjIoKSAod2l0aCBhbmQgd2l0aG91dCBSV0ZfQVRPTUlDIGZsYWcp
+IHVzaW5nDQo+ICAgIHhmc19pbzoNCj4gICAgICAtIG1heGltdW0gYnl0ZSBzaXplIChhdG9taWNf
+d3JpdGVfdW5pdF9tYXhfYnl0ZXMpDQo+ICAgICAgLSBhIHdyaXRlIGxhcmdlciB0aGFuIGF0b21p
+Y193cml0ZV91bml0X21heF9ieXRlcw0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBBbGFuIEFkYW1zb248
+YWxhbi5hZGFtc29uQG9yYWNsZS5jb20+DQoNCkxvb2tzIGdvb2QuDQoNClJldmlld2VkLWJ5OiBD
+aGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sNCg0KDQo=
 
