@@ -4,106 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB713C02198
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2025 16:17:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8238C02198
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2025 16:19:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:Cc:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gWHYsRpoJpRnvV1mzCDmHcNTyR3nkauywhnXfvlkd7Q=; b=i/JxcToZ2Ris8isvD4/w/F/lLC
-	4aqXEfxnFjE/0SESN2Az2NyhTpH7n9ghSYKsF1CUBZM03z4yrdKXG5mYzMdpi90S7lOmX1LUPf84y
-	+RmZ8Xy3TL4bGT4nb+gOiYovttKOp6f7wEkaXlZpCS20L7W1FjYVN3M+NQheBkzgNkWckBZ5DlrGm
-	jnHUx4DW03udfJRBSUSQ7KLDs4WPxroMP4dJrVWnMqFzKXNHL/amIeeCvnGVwZxwOHXyJRytxq89w
-	KcBBf5P3r6uRVkIBBGp4YPCItDF2FJ7YIVGwD2VxM9GQ6rFHyDh/shFAh6uBtIrqv9z2wZRMkL60D
-	cgYDxreQ==;
+	bh=vVdm69LZsZ68krGUaP9kXt8m8hyGi0rmZ8yyErWTcD8=; b=rVpfFxgWnMmC0gqIzE5Bs8jE/f
+	UlZmBN5gIyuLils8hEp0CKse5L9wMn+pSwKUW0Mrs7JvjXE1RcIfRr1bavKbD6NGtUUoGFF194cv5
+	MctXcKb7dZ6FvVAmLoLTingW9VN4JbFdt/uYWZ+aVPtyXP5RHdQLTEwEh92LHGb39fo76C13jHKbt
+	//y1Xp7H0scoTotQuCnwWDaeX7AZAolZCZ2S/kvBMZjx5j5stVRyaOPwd4eQ0HRK1I9an7w89Nszl
+	4liCNZaNdTvofY0/HqcyXhCeQEWIIZAJVctXMZvAWQTPXvSAJl9nr7Jo/0hh/jR6+TPujl8DehrRp
+	9EkTduAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tg4ZI-00000006pAK-044H;
-	Thu, 06 Feb 2025 16:17:32 +0000
-Received: from mout.kundenserver.de ([212.227.126.133])
+	id 1tg4ah-00000006pX2-3Xzr;
+	Thu, 06 Feb 2025 16:18:59 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tg4Gl-00000006mNf-48F8
+	id 1tg4VS-00000006oUR-2JjT
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Feb 2025 15:58:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=simg.de;
-	s=s1-ionos; t=1738857482; x=1739462282; i=linux-kernel@simg.de;
-	bh=gWHYsRpoJpRnvV1mzCDmHcNTyR3nkauywhnXfvlkd7Q=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
-	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=g/2uuf4N41dwRDdtE5XovlH0pNJ+3JvEL2n0YhZf2Q2I/d3kHdtATo6dn37MwQOR
-	 PB2O2srh2T5nUf140Bl7tkeRoXoFqifWs/Vhfgw5vB3b1a/IicaONZ0mof1H+6Rpb
-	 5qxhLxcnI1FZ3NTK0HLSk7XK9o5GLeiWDvoR11Tk4y+KiEYwdY8RZMjN/ZFHeHGD8
-	 DwsxbjjZZc4CWDXq7ps3nrFnMMH+IL7KTAU1BIMqqkWs/5aAP415KJddziLqRgzyb
-	 fpQZVXwo0IgYLvd3ufAPc1G3RePSPYslluB0EhFCKgqV1wRLpwG0fGpDhDEQvCId9
-	 M0bxJQ6i+suW1AoScA==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.1.60] ([93.217.105.49]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N4A1h-1tFm5Q3XA9-00uuIp; Thu, 06 Feb 2025 16:58:01 +0100
-Message-ID: <45fe8146-ef86-40dd-919a-eb6c9438dafa@simg.de>
-Date: Thu, 6 Feb 2025 16:58:00 +0100
+	Thu, 06 Feb 2025 16:13:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738858412;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vVdm69LZsZ68krGUaP9kXt8m8hyGi0rmZ8yyErWTcD8=;
+	b=F/5VdY1REXIrqxo9kRb9t+CR5LqaPgUWI2URLBlDOh8yDcRN1SoVcK8rNPo0ABJTeWyI3O
+	AaozXEg0TeepeTNX4nIpqT9z2d8QKcmjxBdVluG6Wxnb3/UN0O0VdxVAcamS9sOZ1IrPrY
+	hNwQLA/YrkfJq54F2HdU2BAEZdQJxxw=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-540-T1GqqBqSPv-C-_i1YCftdg-1; Thu,
+ 06 Feb 2025 11:13:28 -0500
+X-MC-Unique: T1GqqBqSPv-C-_i1YCftdg-1
+X-Mimecast-MFC-AGG-ID: T1GqqBqSPv-C-_i1YCftdg
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 808A719153F0;
+	Thu,  6 Feb 2025 16:13:20 +0000 (UTC)
+Received: from [10.22.90.103] (unknown [10.22.90.103])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DFD4D1955BCB;
+	Thu,  6 Feb 2025 16:13:18 +0000 (UTC)
+Message-ID: <3184caaa-7254-494a-948e-4a3aefd05f4f@redhat.com>
+Date: Thu, 6 Feb 2025 11:13:17 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug 219609] File corruptions on SSD in 1st M.2 socket of AsRock
- X600M-STX + Ryzen 8700G
-From: Stefan <linux-kernel@simg.de>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>, bugzilla-daemon@kernel.org
-Cc: Christoph Hellwig <hch@lst.de>, Thorsten Leemhuis <linux@leemhuis.info>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Bruno Gravato <bgravato@gmail.com>, Keith Busch <kbusch@kernel.org>,
- Adrian Huang <ahuang12@lenovo.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20250109082849.GC20724@lst.de>
- <210e7b28-de05-44bc-9604-83a79ae131b0@leemhuis.info>
- <726275aa-a3c2-4dbd-9055-a14db93efa29@simg.de>
- <CAOBLbT8103fAyoFNF8=YcEM1sM6HodcUe=Ee5NsE2hUkfCYv7g@mail.gmail.com>
- <3b693647-5e82-4c39-8017-22cada56eb55@leemhuis.info>
- <20250117080507.GA25953@lst.de>
- <f81bb87a-c181-4973-be05-f7df84133a46@leemhuis.info>
- <10e39c88-4667-4c61-b3eb-3dd7ee3074c3@leemhuis.info>
- <20250128074133.GA22435@lst.de>
- <379bba80-df0f-44c5-a15e-fd4393c52b8f@simg.de> <Z5jTKTfKUeLm4uJT@gallifrey>
- <e01fdde0-4760-487d-af0e-2aecf9d7ade2@simg.de>
- <4270c0e3-161e-42d5-a6d3-f16b7fbcdc00@simg.de>
+Subject: Re: [nvme_tcp] possible data corruption when host detected path error
+ and resubmit IOs on another path
+To: Jiewei Ke <kejiewei.cn@gmail.com>, linux-nvme@lists.infradead.org
+References: <DD72B155-35CF-47F6-A342-13445A9E432F@gmail.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+ Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <DD72B155-35CF-47F6-A342-13445A9E432F@gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: hEfasHvLGlm2xraIvwE81T4vjnMwUJhT_8EBN18-qJo_1738858407
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-In-Reply-To: <4270c0e3-161e-42d5-a6d3-f16b7fbcdc00@simg.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:k1tqh76+Har6RGaz/VaE+uZWjGChocgvAqDX3fJ6YM6Xm05pPfu
- u02LSLCjBUwq963vTx14rAiS/9tuyTILfPvBfZfEfOzEcwFpVJE2UQ2NGGG78ArPXis3ono
- Cp4PqPu7HldeU13zkGXnsY7dAKRLfc2xPtA5zaDcn/lRBWRoxpzI3/3sZbaySecooGwSwGi
- Qvc4UY1pS+0WAxj1U/auA==
-UI-OutboundReport: notjunk:1;M01:P0:aJV2oV3/oPY=;3FuGEm5c0qzlztPwYlDxEaf8mJH
- LVd9FiAkoy2Wxy1jQaEwA0Yw7HOl+pq2bzZNm3dNcr70V6fMd0jM3AlzCZw0gEilhioUBOHTL
- rQFeRpALCp2FYGP0KUln9E22IIrCdwcpbly5gsLRmgBa0AE8krEdyMTknv/zbwUjgay0ORjfX
- 6JH29MdTN4M22Sj2A+WoN+1cPgxXt7NZ6n2qYNeq7gbYBtrrnoCxZDyfdX150angd5wNju8Ab
- d3ddZJFLUN/kyWtGv4N07XOGWFdJl0JQERIUtHfbLiKJA9KTOFPPsJM2lNOkMgBtfvqBFDxEs
- t3CHkTpsuQs7NAn/bD940ipN68zT1yURU2XpoM5fX1wZ+2AtySUfxdjB4S/b5pQnVej+AczfQ
- mk/tQLRmDskFEpajmSVFMsForIUALL52IL57q+gwVKVNNxy2y0lgpKmkw6Mpc8XNcshkOhyZT
- uwHQ0meZ3CX1m+OZRIFNTx5/QoIDX+E2WOXfSCWQvJJGmRUsV2SB8E3mODqYQNfJzWbooe7XH
- 4aJ7QSerllN098muhfqgH9PSF+EV8IBP/pScS6i2hqjLcaaMbNU7bM9QgfKtrPLPn2F8WD2it
- 7jI5OGC81JQAHQHEMuXLrlpYpILJsNpKSXsda1siW4V9xhdVEB4Qfx7wZl41Cuo08cEQPxODP
- iFsbng3AAhsHpaQbpd/JlFcdX4qak7N6Bih4zVSqhc+F66a4q4a4gc7VwhHikZrgCFxQ3CkHi
- QR0Nqv/zFg1MHlww9wdNxzzKUbbAz0xp4dOerq2YUQg7c2WTOnuC1KHUy72KPk11bs80IIWhO
- 4DIrFygycqR3MzaNyHQ+CKRfFt9FLtyjX1AUEnrVfHNQQFQ06hkqpKykxQ+PHP4x0LV+TCgcJ
- vSrTT+NgfVJvb1WqDJqlODSc/iZTK1aDcigUWBPLYO0oRVZJN3DjGCYaB7UmA+i3fiea4ndtK
- d2OnCz7I38w8TavHM0w20AHEcSN7esOuqi7rHhr1LEYZcMFodaNvT09MnCq/eZymleiNel5uy
- dbeNHUMie6DRNA5f7KHunct59Q/C+htaJriCN7p32IJe3oBreoTNDCtGXY+u5p0IootktNeGe
- bsqdFZmPXNkf6W44/oYoupIPLK5MXuyJ9sEN+RHGlur+XOhNLDqAgvF896JT9ZWUDZ9hj2s4s
- GMNHrLp/X452/sZSm+cURzh3/f917v2ib3qGASVsGlHs4a0G9gooCkl4MIf2LbHFTLDu0IiQ5
- KD8KxgdcVbZdG/1BbS3vUJX380T2CBKK7jngJ3ahrIwm8GmAkkQSJ/wwbbzTffF+PUEkhmbD+
- Xp9rVq3D4QgFOXyBZLouQ9/nOBvuePGCxJ7Xa7tsUlEuKR+i1F5svb5CVw//ilqQALlxxxepy
- /zw2NjHASoINbWfw==
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250206_075824_305313_AE388245 
-X-CRM114-Status: GOOD (  19.69  )
+X-CRM114-CacheID: sfid-20250206_081334_673057_AFCF9BA1 
+X-CRM114-Status: GOOD (  21.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,96 +90,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+Hi Jiewei.
 
-after Matthias was so kind (more than me) to make a video (!) for the
-ASRock support, and after I once again referred to this thread and the
-many users who have the same problem, ASRock is able to reproduce the
-issues.
+There have been issues reported on this list[1] were some NVMe/TCP attached storage arrays are
+experiencing data corruption during error insertion testing. These data corruption issues have
+been attributed to ghost writes in the storage array following commands replayed on the host
+during Keep Alive Timeout testing. TP4129 was developed to address those issues by introducing
+a Command Quiescence Time (CQT) timer to the protocol. TP4129 is now a part of the NVMe 2.1
+specification.
 
-Ralph, all tests in comment #40 (including the network issue) where run
-twice, because I did not collect logs and lspci outputs the first time.
-(The corruptions seem to depend on which PCIe devices / lanes (?) are
-used. That's why I also included the lspci outputs.)
+My question is: did you find this problem through some kind of testing or is this something
+you've seen during code inspection?  Are you reporting this because you've experienced data
+corruption with your NVMe/TCP controller?
 
-(As announced in initial message, I cannot run tests ATM and for a while.)
+If you have a test of some kind that allows an easy reproduction of this problem it would
+be helpful.
 
-Regards Stefan
+/John
 
+[1] https://lore.kernel.org/linux-nvme/1cea7a75-8397-126c-8a2e-8e08948237b1@grimberg.me/
 
-Am 03.02.25 um 19:48 schrieb Stefan:
-> Hi,
->
-> just got feedback from ASRock. They asked me to make a video from the
-> corruptions occurring on my remotely (and headless) running system.
-> Maybe I should make video of printing out the logs that can be found an
-> the Linux and Debian bug trackers ...
->
-> Seems that ASRock is unwilling to solve the problem.
->
-> Regards Stefan
->
->
-> Am 28.01.25 um 15:24 schrieb Stefan:
->> Hi,
->>
->> Am 28.01.25 um 13:52 schrieb Dr. David Alan Gilbert:
->>> Is there any characterisation of the corrupted data; last time I
->>> looked at the bz there wasn't.
->>
->> Yes, there is. (And I already reported it at least on the Debian bug
->> tracker, see links in the initial message.)
->>
->> f3 reports overwritten sectors, i.e. it looks like the pseudo-random
->> test pattern is written to wrong position. These corruptions occur in
->> clusters whose size is an integer multiple of 2^17 bytes in most cases
->> (about 80%) and 2^15 in all cases.
->>
->> The frequency of these corruptions is roughly 1 cluster per 50 GB
->> written.
->>
->> Can others confirm this or do they observe a different characteristic?
->>
->> Regards Stefan
->>
->>
->>> I mean, is it reliably any of:
->>> =C2=A0=C2=A0=C2=A0 a) What's the size of the corruption?
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block, ca=
-che line, word, bit???
->>> =C2=A0=C2=A0=C2=A0 b) Position?
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 e.g. last=
- word in a block or something?
->>> =C2=A0=C2=A0=C2=A0 c) Data?
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pile of z=
-ero's/ff's junk/etc?
->>>
->>> =C2=A0=C2=A0=C2=A0 d) Is it a missed write, old data, or partially wri=
-tten block?
->>>
->>> Dave
->>>
->>>>> Puh.=C2=A0 I'm kinda lost on what we could do about this on the Linu=
-x
->>>>> side.
->>>>
->>>> Because it also depends on the CPU series, a firmware or hardware iss=
-ue
->>>> seems to be more likely than a Linux bug.
->>>>
->>>> ATM ASRock is still trying to reproduce the issue. (I'm in contact wi=
-th
->>>> them to. But they have Chinese new year holidays in Taiwan this week.=
-)
->>>>
->>>> If they can't reproduce it, they have to provide an explanation why t=
-he
->>>> issues are seen by so many users.
->>>>
->>>> Regards Stefan
->>>>
->>>>
->>
->
+On 12/30/24 9:32 PM, Jiewei Ke wrote:
+> Hi experts,
+> 
+> When the NVMe host driver detects a command timeout (either admin or I/O
+> command), it triggers error recovery and attempts to resubmit the I/Os on
+> another path, provided that native multipath is enabled.
+> 
+> Taking the nvme_tcp driver as an example, the nvme_tcp_timeout function is
+> called when any command times out:
+> 
+> nvme_tcp_timeout
+>    -> nvme_tcp_error_recovery
+>      -> nvme_tcp_error_recovery_work
+>        -> nvme_tcp_teardown_io_queues
+>          -> nvme_cancel_tagset
+> 
+> nvme_cancel_tagset completes the inflight requests on the failed path and
+> then calls nvme_failover_req to resubmit them on a different path. There is
+> no wait time before the I/O is resubmitted. This means that the controller
+> on the old path may not have fully cleaned up the pending requests,
+> potentially leading to data corruption on the NVMe namespace.
+> 
+> For example, consider the following scenario:
+> 
+> 1. The host sends IO1 to path1, but then encounters a timeout for either IO1
+> or a previous I/O request (e.g., keep-alive or I/O timeout). This triggers
+> error recovery, and IO1 is retried on path2, which succeeds.
+> 
+> 2. After that, the host sends IO2 with the same LBA to path2, which also
+> succeeds.
+> 
+> 3. Meanwhile, IO1 on path1 has not been aborted and continues to execute.
+> 
+> Ultimately, IO2 gets overwritten by the residual IO1, leading to potential
+> data corruption.
+> 
+> This issue can easily be reproduced in our distributed storage system.
+> 
+> I noticed that the NVMe Base Specification 2.1, section "9.6 Communication
+> Loss Handling," provides a good description of this scenario. It introduces
+> the concept of Command Quiesce Time (CQT), which allows for a cleanup period
+> for outstanding commands on the controller. Implementing CQT could
+> potentially resolve this issue.
+> 
+> Are there any plans to add CQT support to the NVMe host driver? In the
+> absence of this feature, is there any recommended workaround for this issue?
+> For instance, could using Device Mapper be a viable substitute?
+> 
+> Thank you,
+> Jiewei
+> 
 
 
