@@ -4,91 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA790C02192
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Feb 2025 05:23:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDC09C02192
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Feb 2025 08:56:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:
-	Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pN1redW5a3r001y5kSBLm3FCgBKn5nNRc5eU1yMCAbw=; b=Y25WGcknWqpGSwIazIxnZz5BFM
-	2tkDXhsEhk/yPqQYffLJk8y7KT0XNIGAvKKr4DaKLhqCPRcp89ELmNlZcNAhuSGc2C4VFFo1P7ukh
-	204BGdyWAfExwOHKoCmFN1k2hov0i1vkXDzz+JuX/rShxmPOQ7QV79BZzwInn7X1VNY8ms79R4vCr
-	hEA6PkcWLvdHYzKNbts+SQQ4GBJsxt6ERdWxXodsVIVOvNCX2xzSNN7wtdeN60+2Cxfo/jjEx+Yju
-	1JhQ0FI+27EI1M9hpfUrJNRb9mprZZi3EVAuo50SrciI7SokPLlkXOFGXGGEKYPzY55C+uzObpL1W
-	kit6SK9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=s1rCOG6P1Gt1O2VVavW0dJMG1YSFwklhplJ4eTKRqnY=; b=Gk51PojLhc9NVrJpiXHevFP/Xx
+	N/yjeergRnLuOYE+UyrMjkdfgjxsbde/dNa9vC3x40Elw8aytRQZOXitFM7VL4zPfZfbLp7UcEg1U
+	3y68F568D+O+pKrTjI2pjk6okPyW60i2Gp+1Q2BjKByiMb8PGJCSkAq5k1YDG6RgPBAIgJzSM7kdi
+	FQw7kmhhM7NMf/JFwPffJx8qdK8Ie+fNr6/ULgByvKXjm4H20wzlPi+PFLSRB31KsRvZztY8ENyf0
+	O5/LcUiOUw2dNU5iXkkn5edZFdEHWWIy+V1scaJkkPEadKSSk1F9iBnsZq3qUzHfIpS2gSlgrRe8a
+	dEpVRlbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tgGq1-00000008MTR-2Bml;
-	Fri, 07 Feb 2025 05:23:37 +0000
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735])
+	id 1tgKAE-00000008uD1-0T0e;
+	Fri, 07 Feb 2025 08:56:42 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tgGpz-00000008MSr-2oY7
+	id 1tgK65-00000008t4H-4C86
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Feb 2025 05:23:36 +0000
-Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-7b6eb531e13so87962885a.0
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Feb 2025 21:23:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738905814; x=1739510614; darn=lists.infradead.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pN1redW5a3r001y5kSBLm3FCgBKn5nNRc5eU1yMCAbw=;
-        b=OzLWIjo2360K+Gu21a6HVGNPm3o47xiU71G49+uda0eOCGZtGnTms62sG+GhEn41fi
-         qUe3IqgUEo9kwA70EOFyV0CcXo/ryigeUb3pF+hAYnR8jrX7HEmvtFoRKmvuQsVNxG0I
-         b2sKLphGbwDDu+m/rN9Km/2cLhKdVG7/QDyUT0Ox8E5U8gcyAqjMGKfVdG0Dzc35vkST
-         im58/8AVdl55yZTalCNvEhSK7OVCeZyNulB5khIeEzWXNuwjINSDBATnoIZQqfYYTd7b
-         JmKqhLBshZisu1NVJTQ2LXR7gNb1ItvGfiLrEt+i/T8KOLV1p8dknMrzaCJAgtahJL2c
-         hrNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738905814; x=1739510614;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pN1redW5a3r001y5kSBLm3FCgBKn5nNRc5eU1yMCAbw=;
-        b=e5Cv9XjNkCpABoQp9OnzT3xxWrzdqsdhBAIBVYkpu98rdpwiFtmZ55mZPKxnP47Fzq
-         f8kORGf0sj0oNHYbYeb6IlqkQQ7hRVlm5rGwpLRiRYO2VtOEIlNTjxxLfXck7KMVlgod
-         +OVu7v2v0H0gGYtKNJaqgWPYae0OneD/AjR4eBJHR6wx22W9xdS6+tbn9lYi9LpAqkCE
-         /qZlOaayH2nTrb5YOjsl6Jh/Myhr6eozGh3R9ksGZsyolUahSCFUXXIDLEdW1vKD2R9V
-         DcO8Fs8aMl49SLOQdIORYiC1NeRpR8VPJ/mamxPfmW3lcNLADwzReW1C8zyDD3IS9jw1
-         5jQA==
-X-Gm-Message-State: AOJu0Yw5e+ZGwsOLf3Yzjz/pRwkaJmykXOJWM+qUKRKHGIrlXd1p5Vtr
-	hqJabxPAs4+aFNlsvsJ9Dq4nZi5kSe/yukasVJqkeYYnRo6tVP9fMZy1jN1O
-X-Gm-Gg: ASbGncukEkODwPlzDN3vnkTZQuIg9YzzRohY4cwCKDBUt/CqJzHJubRSXd8N2nYYJ2H
-	d5Ly/iYB+mdxM1j51Zutgs10oGjsz11uFpNhWFhD25XfgDdLVn/cKTbAPQr+yF+loFTiC8JdKMc
-	8sj8ViRqGLUSu2YwKOWzUrp+lh3xrqT3jjRFUSYcUl0Z5RIfm0p41oQr1nYl6wlZ0A6lkWygIAd
-	mSyC3j+AJxUC2PGKLaZVs8TljmFhsBlrzTe1gvmi0Cv7A/fkQ6EDcTXR1Tqsl/NMKUyhCsn1wNe
-	mQ9E5p5/FOfQMtIrDdpK3Y3Usw==
-X-Google-Smtp-Source: AGHT+IFYIIB3LxwU6R5q2lJVn1YhWIONV3LOb5MAGaoQhnREFy9EFa/I5Qyw4e1fHoX88luCrCkdnA==
-X-Received: by 2002:a05:620a:4309:b0:7b6:cb07:24bc with SMTP id af79cd13be357-7c047c49886mr329013685a.48.1738905813708;
-        Thu, 06 Feb 2025 21:23:33 -0800 (PST)
-Received: from smtpclient.apple ([191.101.132.71])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c041ecf505sm145243385a.116.2025.02.06.21.23.31
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Feb 2025 21:23:33 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
-Subject: Re: [nvme_tcp] possible data corruption when host detected path error
- and resubmit IOs on another path
-From: Jiewei Ke <kejiewei.cn@gmail.com>
-In-Reply-To: <3184caaa-7254-494a-948e-4a3aefd05f4f@redhat.com>
-Date: Fri, 7 Feb 2025 13:23:18 +0800
-Cc: linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>,
- Hannes Reinecke <hare@suse.de>,
- Daniel Wagner <dwagner@suse.de>,
- Christoph Hellwig <hch@lst.de>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E189096F-DBAA-40B4-BB57-A1B4C81C869D@gmail.com>
-References: <DD72B155-35CF-47F6-A342-13445A9E432F@gmail.com>
- <3184caaa-7254-494a-948e-4a3aefd05f4f@redhat.com>
-To: John Meneghini <jmeneghi@redhat.com>
-X-Mailer: Apple Mail (2.3774.300.61.1.2)
+	Fri, 07 Feb 2025 08:52:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738918345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s1rCOG6P1Gt1O2VVavW0dJMG1YSFwklhplJ4eTKRqnY=;
+	b=SYqi9SvZHzhasCoKUUHCuQudnJnaCqf0llwK4EavWO5YhmLvE+ytnDtwbJnZ7zl0AQt4d6
+	/G29+4sPA/JanFmbVvSPbDosLbGI5bL/iP9sanlqQzXOa21Lbs1qxRxjGTLGkWfoH6bbEb
+	LWuMV4djXUZ/6cDKBWaPBW1MmuEkzUs=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-39-ceeN-5uSNLSeWOOjE6MaNg-1; Fri,
+ 07 Feb 2025 03:52:20 -0500
+X-MC-Unique: ceeN-5uSNLSeWOOjE6MaNg-1
+X-Mimecast-MFC-AGG-ID: ceeN-5uSNLSeWOOjE6MaNg
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A30061800875;
+	Fri,  7 Feb 2025 08:52:18 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.158])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 37FC318004A7;
+	Fri,  7 Feb 2025 08:52:13 +0000 (UTC)
+Date: Fri, 7 Feb 2025 16:52:08 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"nbd@other.debian.org" <nbd@other.debian.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+Subject: Re: blktests failures with v6.14-rc1 kernel
+Message-ID: <Z6XJuIz012XATr7h@fedora>
+References: <uyijd3ufbrfbiyyaajvhyhdyytssubekvymzgyiqjqmkh33cmi@ksqjpewsqlvw>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <uyijd3ufbrfbiyyaajvhyhdyytssubekvymzgyiqjqmkh33cmi@ksqjpewsqlvw>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250206_212335_715834_F5081CC2 
-X-CRM114-Status: GOOD (  24.19  )
+X-CRM114-CacheID: sfid-20250207_005226_117521_5C578B8E 
+X-CRM114-Status: GOOD (  17.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,159 +85,203 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi John,
+Hi Shinichiro,
 
-Thanks for the info. This issue can be reproduced by this way,
+On Fri, Feb 07, 2025 at 01:24:09AM +0000, Shinichiro Kawasaki wrote:
+> Hi all,
+> 
+> I ran the latest blktests (git hash: 67aff550bd52) with the v6.14-rc1 kernel.
+> I observed 5 failures listed below. Comparing with the previous report with
+> the v6.13 kernel [1], one new failure was observed at zbd/009.
+> 
+> [1] https://lore.kernel.org/linux-nvme/rv3w2zcno7n3bgdy2ghxmedsqf23ptmakvjerbhopgxjsvgzmo@ioece7dyg2og/
+> 
+> List of failures
+> ================
+> #1: block/002
+> #2: nvme/037 (fc transport)
+> #3: nvme/041 (fc transport)
+> #4: nvme/058 (loop transport)
+> #5: zbd/009 (new)
+> 
+> 
+> Two failures observed with the v6.13 kernel are not observed with the v6.14-rc1.
+> 
+> Failures no longer observed
+> ===========================
+> #1: block/001:
+>     It looks resolved by fixes in v6.14-rc1 kernel.
+> 
+> #2: throtl/001 (CKI project, s390 arch)
+>     I was not able to find blktests runs by CKI project with the v6.14-rc1
+>     kernel.
+> 
+> 
+> Failure description
+> ===================
+> 
+> #1: block/002
+> 
+>     This test case fails with a lockdep WARN "possible circular locking
+>     dependency detected". The lockdep splats shows q->q_usage_counter as one
+>     of the involved locks. It was observed with the v6.13-rc2 kernel [2], and
+>     still observed with v6.14-rc1 kernel. It needs further debug.
+> 
+>     [2] https://lore.kernel.org/linux-block/qskveo3it6rqag4xyleobe5azpxu6tekihao4qpdopvk44una2@y4lkoe6y3d6z/
 
-1. The NVMe Host connects to two paths with a keep-alive time of 20 =
-seconds. The I/O policy uses the
-NUMA method, with only one path used to send I/O at a time. First, we =
-try to use fio to generate I/O
-and confirm which path the Host uses to send I/O, referred to as Path 1 =
-below.
+[  342.568086][ T1023] -> #0 (&mm->mmap_lock){++++}-{4:4}:
+[  342.569658][ T1023]        __lock_acquire+0x2e8b/0x6010
+[  342.570577][ T1023]        lock_acquire+0x1b1/0x540
+[  342.571463][ T1023]        __might_fault+0xb9/0x120
+[  342.572338][ T1023]        _copy_from_user+0x34/0xa0
+[  342.573231][ T1023]        __blk_trace_setup+0xa0/0x140
+[  342.574129][ T1023]        blk_trace_ioctl+0x14e/0x270
+[  342.575033][ T1023]        blkdev_ioctl+0x38f/0x5c0
+[  342.575919][ T1023]        __x64_sys_ioctl+0x130/0x190
+[  342.576824][ T1023]        do_syscall_64+0x93/0x180
+[  342.577714][ T1023]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
-root@localhost:~# cat /etc/fedora-release
-Fedora release 40 (Forty)
+The above dependency between ->mmap_lock and ->debugfs_mutex has been cut by
+commit b769a2f409e7 ("blktrace: move copy_[to|from]_user() out of ->debugfs_lock"),
+so I'd suggest to double check this one.
 
-root@localhost:~# uname -r
-6.8.5-301.fc40.x86_64
+You mentioned it can be reproduced in v6.14-rc1, but not see such warning
+from v6.14-rc1.
 
-root@localhost:~# nvme list-subsys /dev/nvme0n1
-nvme-subsys0 - NQN=3Dnqn.2020-12.com.smartx:system:linux-nvmf-subsys1
-               =
-hostnqn=3Dnqn.2014-08.org.nvmexpress:uuid:fef62b42-0c64-8019-065b-edf0617f=
-74f8
-               iopolicy=3Dnuma
-\
- +- nvme0 tcp traddr=3D10.10.130.83,trsvcid=3D8009,src_addr=3D10.10.130.20=
-6 live optimized
- +- nvme1 tcp traddr=3D10.10.130.84,trsvcid=3D8009,src_addr=3D10.10.130.20=
-6 live optimized
+> #5: zbd/009 (new)
+> 
+>     This test case fails with a lockdep WARN "possible circular locking
+>     dependency detected" [5]. The lockdep splats shows q->q_usage_counter as one
+>     of the involved locks. This is common as the block/002 failure. It needs
+>     further debug.
+> 
+> [5] kernel message during zbd/009 run
+> 
+> [  204.099296] [   T1004] run blktests zbd/009 at 2025-02-07 10:01:36
+> [  204.155021] [   T1040] sd 9:0:0:0: [sdd] Synchronizing SCSI cache
+> [  204.553613] [   T1041] scsi_debug:sdebug_driver_probe: scsi_debug: trim poll_queues to 0. poll_q/nr_hw = (0/1)
+> [  204.554438] [   T1041] scsi host9: scsi_debug: version 0191 [20210520]
+>                             dev_size_mb=1024, opts=0x0, submit_queues=1, statistics=0
+> [  204.558331] [   T1041] scsi 9:0:0:0: Direct-Access-ZBC Linux    scsi_debug       0191 PQ: 0 ANSI: 7
+> [  204.560269] [      C2] scsi 9:0:0:0: Power-on or device reset occurred
+> [  204.562871] [   T1041] sd 9:0:0:0: Attached scsi generic sg3 type 20
+> [  204.563013] [    T100] sd 9:0:0:0: [sdd] Host-managed zoned block device
+> [  204.564518] [    T100] sd 9:0:0:0: [sdd] 262144 4096-byte logical blocks: (1.07 GB/1.00 GiB)
+> [  204.565477] [    T100] sd 9:0:0:0: [sdd] Write Protect is off
+> [  204.565948] [    T100] sd 9:0:0:0: [sdd] Mode Sense: 5b 00 10 08
+> [  204.566245] [    T100] sd 9:0:0:0: [sdd] Write cache: enabled, read cache: enabled, supports DPO and FUA
+> [  204.567453] [    T100] sd 9:0:0:0: [sdd] permanent stream count = 5
+> [  204.568276] [    T100] sd 9:0:0:0: [sdd] Preferred minimum I/O size 4096 bytes
+> [  204.569067] [    T100] sd 9:0:0:0: [sdd] Optimal transfer size 4194304 bytes
+> [  204.571080] [    T100] sd 9:0:0:0: [sdd] 256 zones of 1024 logical blocks
+> [  204.593822] [    T100] sd 9:0:0:0: [sdd] Attached SCSI disk
+> [  204.901514] [   T1067] BTRFS: device fsid 15196e63-e303-48ed-9dcb-9ec397479c42 devid 1 transid 8 /dev/sdd (8:48) scanned by mount (1067)
+> [  204.910330] [   T1067] BTRFS info (device sdd): first mount of filesystem 15196e63-e303-48ed-9dcb-9ec397479c42
+> [  204.913129] [   T1067] BTRFS info (device sdd): using crc32c (crc32c-generic) checksum algorithm
+> [  204.914856] [   T1067] BTRFS info (device sdd): using free-space-tree
+> [  204.925816] [   T1067] BTRFS info (device sdd): host-managed zoned block device /dev/sdd, 256 zones of 4194304 bytes
+> [  204.929320] [   T1067] BTRFS info (device sdd): zoned mode enabled with zone size 4194304
+> [  204.935403] [   T1067] BTRFS info (device sdd): checking UUID tree
+> [  215.637712] [   T1103] BTRFS info (device sdd): last unmount of filesystem 15196e63-e303-48ed-9dcb-9ec397479c42
+> 
+> [  215.762293] [   T1110] ======================================================
+> [  215.763636] [   T1110] WARNING: possible circular locking dependency detected
+> [  215.765092] [   T1110] 6.14.0-rc1 #252 Not tainted
+> [  215.766271] [   T1110] ------------------------------------------------------
+> [  215.767615] [   T1110] modprobe/1110 is trying to acquire lock:
+> [  215.768999] [   T1110] ffff888100ac83e0 ((work_completion)(&(&wb->dwork)->work)){+.+.}-{0:0}, at: __flush_work+0x38f/0xb60
+> [  215.770700] [   T1110] 
+>                           but task is already holding lock:
+> [  215.773077] [   T1110] ffff8881205b6f20 (&q->q_usage_counter(queue)#16){++++}-{0:0}, at: sd_remove+0x85/0x130
+> [  215.774685] [   T1110] 
+>                           which lock already depends on the new lock.
+> 
+> [  215.778184] [   T1110] 
+>                           the existing dependency chain (in reverse order) is:
+> [  215.780532] [   T1110] 
+>                           -> #3 (&q->q_usage_counter(queue)#16){++++}-{0:0}:
+> [  215.782937] [   T1110]        blk_queue_enter+0x3d9/0x500
+> [  215.784175] [   T1110]        blk_mq_alloc_request+0x47d/0x8e0
+> [  215.785434] [   T1110]        scsi_execute_cmd+0x14f/0xb80
+> [  215.786662] [   T1110]        sd_zbc_do_report_zones+0x1c1/0x470
+> [  215.787989] [   T1110]        sd_zbc_report_zones+0x362/0xd60
+> [  215.789222] [   T1110]        blkdev_report_zones+0x1b1/0x2e0
+> [  215.790448] [   T1110]        btrfs_get_dev_zones+0x215/0x7e0 [btrfs]
+> [  215.791887] [   T1110]        btrfs_load_block_group_zone_info+0x6d2/0x2c10 [btrfs]
+> [  215.793342] [   T1110]        btrfs_make_block_group+0x36b/0x870 [btrfs]
+> [  215.794752] [   T1110]        btrfs_create_chunk+0x147d/0x2320 [btrfs]
+> [  215.796150] [   T1110]        btrfs_chunk_alloc+0x2ce/0xcf0 [btrfs]
+> [  215.797474] [   T1110]        start_transaction+0xce6/0x1620 [btrfs]
+> [  215.798858] [   T1110]        btrfs_uuid_scan_kthread+0x4ee/0x5b0 [btrfs]
+> [  215.800334] [   T1110]        kthread+0x39d/0x750
+> [  215.801479] [   T1110]        ret_from_fork+0x30/0x70
+> [  215.802662] [   T1110]        ret_from_fork_asm+0x1a/0x30
 
-2. Inject a 40-second I/O delay at the Target side of Path 1, exceeding =
-the default NVMe I/O timeout
-of 30 seconds. This delay will not affect the keep-alive. We use our own =
-error injection tool to add
-such I/O delay.
+Not sure why fs_info->dev_replace is required for reporting zones.
 
-3. The Host uses dd to send two write I/O and one read I/O on the same =
-offset.
+> [  215.803902] [   T1110] 
+>                           -> #2 (&fs_info->dev_replace.rwsem){++++}-{4:4}:
+> [  215.805993] [   T1110]        down_read+0x9b/0x470
+> [  215.807088] [   T1110]        btrfs_map_block+0x2ce/0x2ce0 [btrfs]
+> [  215.808366] [   T1110]        btrfs_submit_chunk+0x2d4/0x16c0 [btrfs]
+> [  215.809687] [   T1110]        btrfs_submit_bbio+0x16/0x30 [btrfs]
+> [  215.810983] [   T1110]        btree_write_cache_pages+0xb5a/0xf90 [btrfs]
+> [  215.812295] [   T1110]        do_writepages+0x17f/0x7b0
+> [  215.813416] [   T1110]        __writeback_single_inode+0x114/0xb00
+> [  215.814575] [   T1110]        writeback_sb_inodes+0x52b/0xe00
+> [  215.815717] [   T1110]        wb_writeback+0x1a7/0x800
+> [  215.816924] [   T1110]        wb_workfn+0x12a/0xbd0
+> [  215.817951] [   T1110]        process_one_work+0x85a/0x1460
+> [  215.818985] [   T1110]        worker_thread+0x5e2/0xfc0
+> [  215.820013] [   T1110]        kthread+0x39d/0x750
+> [  215.821000] [   T1110]        ret_from_fork+0x30/0x70
+> [  215.822010] [   T1110]        ret_from_fork_asm+0x1a/0x30
+> [  215.822988] [   T1110] 
+>                           -> #1 (&fs_info->zoned_meta_io_lock){+.+.}-{4:4}:
+> [  215.824855] [   T1110]        __mutex_lock+0x1aa/0x1360
+> [  215.825856] [   T1110]        btree_write_cache_pages+0x252/0xf90 [btrfs]
+> [  215.827089] [   T1110]        do_writepages+0x17f/0x7b0
+> [  215.828027] [   T1110]        __writeback_single_inode+0x114/0xb00
+> [  215.829141] [   T1110]        writeback_sb_inodes+0x52b/0xe00
+> [  215.830129] [   T1110]        wb_writeback+0x1a7/0x800
+> [  215.831084] [   T1110]        wb_workfn+0x12a/0xbd0
+> [  215.831950] [   T1110]        process_one_work+0x85a/0x1460
+> [  215.832862] [   T1110]        worker_thread+0x5e2/0xfc0
+> [  215.833826] [   T1110]        kthread+0x39d/0x750
+> [  215.834715] [   T1110]        ret_from_fork+0x30/0x70
+> [  215.835669] [   T1110]        ret_from_fork_asm+0x1a/0x30
+> [  215.836594] [   T1110] 
+>                           -> #0 ((work_completion)(&(&wb->dwork)->work)){+.+.}-{0:0}:
+> [  215.838347] [   T1110]        __lock_acquire+0x2f52/0x5ea0
+> [  215.839258] [   T1110]        lock_acquire+0x1b1/0x540
+> [  215.840156] [   T1110]        __flush_work+0x3ac/0xb60
+> [  215.841041] [   T1110]        wb_shutdown+0x15b/0x1f0
+> [  215.841915] [   T1110]        bdi_unregister+0x172/0x5b0
+> [  215.842793] [   T1110]        del_gendisk+0x841/0xa20
+> [  215.843724] [   T1110]        sd_remove+0x85/0x130
+> [  215.844660] [   T1110]        device_release_driver_internal+0x368/0x520
+> [  215.845757] [   T1110]        bus_remove_device+0x1f1/0x3f0
+> [  215.846755] [   T1110]        device_del+0x3bd/0x9c0
+> [  215.847712] [   T1110]        __scsi_remove_device+0x272/0x340
+> [  215.848727] [   T1110]        scsi_forget_host+0xf7/0x170
+> [  215.849710] [   T1110]        scsi_remove_host+0xd2/0x2a0
+> [  215.850682] [   T1110]        sdebug_driver_remove+0x52/0x2f0 [scsi_debug]
+> [  215.851788] [   T1110]        device_release_driver_internal+0x368/0x520
+> [  215.852853] [   T1110]        bus_remove_device+0x1f1/0x3f0
+> [  215.853885] [   T1110]        device_del+0x3bd/0x9c0
+> [  215.854840] [   T1110]        device_unregister+0x13/0xa0
+> [  215.855850] [   T1110]        sdebug_do_remove_host+0x1fb/0x290 [scsi_debug]
+> [  215.856947] [   T1110]        scsi_debug_exit+0x17/0x70 [scsi_debug]
+> [  215.857968] [   T1110]        __do_sys_delete_module.isra.0+0x321/0x520
+> [  215.858999] [   T1110]        do_syscall_64+0x93/0x180
+> [  215.859930] [   T1110]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [  215.860974] [   T1110] 
+>                           other info that might help us debug this:
 
-root@localhost:~# echo 234 | dd of=3D/dev/nvme0n1 oflag=3Ddirect bs=3D512 =
-count=3D1; \
-> echo 567 | dd of=3D/dev/nvme0n1 oflag=3Ddirect bs=3D512 count=3D1; \
-> dd if=3D/dev/nvme0n1 bs=3D4 count=3D1 2>/dev/null | hexdump -C
+This warning looks one real issue.
 
-0+1 records in
-0+1 records out
-4 bytes copied, 30.3181 s, 0.0 kB/s          <<<< I/O 1(data: 234) is =
-delayed and timed out, and then
-                                                  completes on the other =
-path successfully
-0+1 records in
-0+1 records out
-4 bytes copied, 0.000483626 s, 8.3 kB/s      <<<< I/O 2(data: 567) =
-completes successfully
-
-00000000  35 36 37 0a                  |567.|     <<<< data is 567 now
-00000004
-
-4. 28 seconds after the Host sends I/O 1, the Target side of Path 1 =
-shuts down the NIC.
-
-[root@node130-83 10:55:34 ~]$ sleep 28; ifconfig port-access down
-
-5. Wait until the Host completes step 3. After a while, the Host reads =
-it again but gets 234. Data
-corruption happens.
-
-root@localhost:~# dd if=3D/dev/nvme0n1 bs=3D4 count=3D1 2>/dev/null | =
-hexdump -C
-00000000  32 33 34 0a                  |234.|     <<<< data rolls back =
-to 234
-00000004
-
-Here is the explanation,
-
-1. At 0s, the Host sends I/O 1 (data: 234). I/O 1 reaches the Target =
-side of Path 1 and is delayed.
-
-2. At 28s, the network card at the Target side of Path 1 is shut down.
-
-3. At 30s, the Host detects that I/O 1 has timed out, triggering error =
-recovery. At this point, the
-Host may close the connection to Path 1. But since the NIC at the Target =
-side of Path 1 is down, the
-Target cannot detect the disconnection and cannot abort the I/O(It must =
-wait for the Keep-Alive
-timeout). The Host retries I/O 1 on another path and completes it, then =
-sends I/O 2 (data: 567) and
-completes it. The data is 567 now.
-
-4. At 40s, the Target side of Path 1 continues to execute I/O 1. The =
-data is rolled back from 567 to
-234, data corruption happens!
-
-5. At 48s, the Target side of Path 1 detects the Keep-Alive timeout and =
-disconnects the connection.
-
-There may be a question whether adjusting the I/O timeout on the Target =
-side (e.g., setting it to
-less than NVMe=E2=80=99s default 30-second I/O timeout) could prevent =
-this issue by allowing the Target side
-to abort I/O 1 before the Host detects the I/O timeout. However, if the =
-network is poor, the Target
-may have already received the I/O after a long delay and would not be =
-able to abort it in time.
-
-I think the patchset in [1] cannot completely fix this issue. To fix it, =
-after the Host finds I/O 1
-has timed out and closes the connection, it should wait for 2 * KATO to =
-let the Target detect the
-connection loss and an extra CQT to let the Target abort the inflight =
-I/O, then the Host is free to
-retry I/O on the other path.
-
-Feel free to let me know if you need more info.
 
 Thanks,
-Jiewei
-
-[1] =
-https://lore.kernel.org/linux-nvme/1cea7a75-8397-126c-8a2e-8e08948237b1@gr=
-imberg.me/
-
-> 2025=E5=B9=B42=E6=9C=887=E6=97=A5 00:13=EF=BC=8CJohn Meneghini =
-<jmeneghi@redhat.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Hi Jiewei.
->=20
-> There have been issues reported on this list[1] were some NVMe/TCP =
-attached storage arrays are
-> experiencing data corruption during error insertion testing. These =
-data corruption issues have
-> been attributed to ghost writes in the storage array following =
-commands replayed on the host
-> during Keep Alive Timeout testing. TP4129 was developed to address =
-those issues by introducing
-> a Command Quiescence Time (CQT) timer to the protocol. TP4129 is now a =
-part of the NVMe 2.1
-> specification.
->=20
-> My question is: did you find this problem through some kind of testing =
-or is this something
-> you've seen during code inspection?  Are you reporting this because =
-you've experienced data
-> corruption with your NVMe/TCP controller?
->=20
-> If you have a test of some kind that allows an easy reproduction of =
-this problem it would
-> be helpful.
->=20
-> /John
->=20
-> [1] =
-https://lore.kernel.org/linux-nvme/1cea7a75-8397-126c-8a2e-8e08948237b1@gr=
-imberg.me/
+Ming
 
 
