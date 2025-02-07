@@ -4,205 +4,170 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66E1CC02194
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2025 16:57:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1433C02198
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Feb 2025 01:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k0G9dDStVZhX1Z4X2KoBuJE/A0PXaBmUcOCwNE1rTd4=; b=no0aPyDHTFRw4ABxgKJ0bypCyT
-	u9bc+RggCW1NewTsBC7PvmRJ9/yUn9yJ8Mq5jX2xyum3rco5hq113YB4osZN9NMxOBKA/Vr6Ijp1f
-	IFQDtrhLkTvWo8AJJcFqdv2kCXXdhNOfgfwmo2X1B1fc7vbA+Wyd389cvkIV6MhY1RGEQQKcnzMRy
-	Om79mJybHtnnyuMxB0SvuN+r5zpfZEkWctn4MVKftOXZ/g2k5AYaV/F7GlozAxrakach0K4YMatkE
-	b4SdfoeufgOtV3Gki0/TH8bks7a+wSfMz6+2LlL3Kuoixc3Y8GSDFlTh9BPyNKxhEhvJuO+T7zPNB
-	O4EpwzHw==;
+	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:To:
+	From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=HsP4Jp87TtsOHZuUSWzOczCeognPqXqWkacuyAZpT5Y=; b=tUqqbCv7z0inPEcDXxYtkXKMir
+	b3vruP1mYmSs0yeeMgW4x2FpBcJA2Y737vo1WtpdNs/AaztH5vwQaLuOs4xjlTc88A/f12WkI72/o
+	GdUQFY6EU+DW3Fu9eifc7llH2FxhGmHOw+kA7qNGsm02hiaj1GA9eikSzIK3gpsyd3qFGidogHVZx
+	6AfOSOQPwmNHSJPWRM3PD/da+NgKrLwcgrWBEUzf8Y8zrx91wf+NRDPFjDfPrj6oHYVlJL3B6VCHY
+	wMDj/0eWMvLWcs1VGMsQq9ctKaWaiKdCu0BDb/r/j2gdob2Kj2uCfLsvOJrQ4AvNz2hqO/X2xMhQp
+	Mi6B5mPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tg5BR-00000006uxO-1LAh;
-	Thu, 06 Feb 2025 16:56:57 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1tgD6W-00000007wLe-05ER;
+	Fri, 07 Feb 2025 01:24:24 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tg5BO-00000006uwn-189v
+	id 1tgD6T-00000007wL0-0hit
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Feb 2025 16:56:56 +0000
-Received: from pps.filterd (m0170396.ppops.net [127.0.0.1])
-	by mx0b-00154904.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 516CxLQP021987;
-	Thu, 6 Feb 2025 11:56:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=smtpout1; bh=k
-	0G9dDStVZhX1Z4X2KoBuJE/A0PXaBmUcOCwNE1rTd4=; b=e+GaI2t/FRzNYC0mU
-	BH8jishDQD6MbnofEncNbh2eWvhGTIJq5veuFM9QdXE81u6h4IUmi1L8VgbuPKb/
-	H0uKskE+FUkM44MhrGRrsbvAYO5UthneyLQC1hWGSsudpLDTQOn4Tt8zg3MwpcSy
-	yP9BhgLdPqJJ6yi7WPCl7MHJjKuyKVrD1vcvxG0SSwyMhjuDmKiLXYVTQDCZlWlh
-	OX88nuMEyWhBsWXGG7mk/iouqISMqAacBrq219mQnbUpyInkMTBXLzWvXxiZBE5A
-	3HK8ePgTkuCSZ1yCAMvhghR52q3G4wfbJaEceDXxFQECqw7/us0HGrnz0ELc/p94
-	BN1/g==
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-	by mx0b-00154904.pphosted.com (PPS) with ESMTPS id 44hgb1x8y1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 Feb 2025 11:56:46 -0500 (EST)
-Received: from pps.filterd (m0144104.ppops.net [127.0.0.1])
-	by mx0b-00154901.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 516GO2FP030009;
-	Thu, 6 Feb 2025 11:56:45 -0500
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by mx0b-00154901.pphosted.com (PPS) with ESMTPS id 44n0jqgddb-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Feb 2025 11:56:45 -0500 (EST)
+	Fri, 07 Feb 2025 01:24:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1738891460; x=1770427460;
+  h=from:to:subject:date:message-id:content-id:
+   content-transfer-encoding:mime-version;
+  bh=vGB+I2GVRzS/eyf0r4A50QHpXzb8emHe/lPtjIbXybQ=;
+  b=bBOYytJ4QA1VaJwDLpuY9q/9XcroF07BZN/XhdB2YCYTmfXQ5385E8xM
+   Zal6fucqKY84IRcttyZeiFmrcTzts1ebi4i1GP8yfE9872F6WuCkqqGA7
+   JkUGjvcTgHNjtnjo38gVpLWroIH3aVV58c3ZJbuZ2EhCzZ7VSVh/+OJX5
+   5aB+cSeDGe/BIZGwBNhYLP1n+0bL1+bsa53kuOVfvPAf1Q8JIgkGRT2qG
+   VHOhywWlVyDKIIo7y8QeHqTzrBqQIP7OHQkuCN029DVz1nlYlL+oauSlP
+   w/qXrEOqpqwkmmBDsYrqIEYWr6iiisSlvXrs5GpWAMlG4Mx7aazFQu0kW
+   Q==;
+X-CSE-ConnectionGUID: wOMAWgRhSJSbeg7C1hpR8g==
+X-CSE-MsgGUID: 6+FBxdiyRT6lDAyzszTvFQ==
+X-IronPort-AV: E=Sophos;i="6.13,265,1732550400"; 
+   d="scan'208";a="38834628"
+Received: from mail-westcentralusazlp17013075.outbound.protection.outlook.com (HELO CY3PR05CU001.outbound.protection.outlook.com) ([40.93.6.75])
+  by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2025 09:24:12 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=b2oSku0PgFQAj0TWwXGc/sgnn7FzH42M/UMXdA2lzzzuzYlv0bPJw/SZjD8+lG3vfHqs1lt8czdAtA0VzJt5Pwd/1iN3NgCTwY67KtR8k2sjBFq33PLEiqH05eJnB+ZrHHwYhOZ/rURs30I455vaF1Nxf7iGDsxFohCEphmIJHRYDTDPhR6HWjSVUrysf3CQbL3sZt5QQWcui+4odlLn+ujK5MS152L+IIpCPvR9uyYusuRYQ2m3niJPsG/qsNI2M5C8EPCm4x+dIKkBbWLDBAkxQWLsnEyvTvj0/JhB+ehIVpH+8/cl2HmHewAiWkrtaM7Gp1pA0jZ2X6AH4SfkZw==
+ b=wL0qQdtPiJkDf4eRzRC2zuKg4hojSXfG6sL/ekaxq8Pxk9yQ0gC3teI58e32y+7ecCDhcwD2/Apd7wMjOvIec9ydWLVIW5cAQ6mGemTdcE3xRV+lUGg3KOL8aD9q9dYLqrMY+hg26br5l2y4x+Bq1mO/lWMYO86M2pd+QChhPf2paWT2hzwxZj0AiimH/eOGZBwz9ufs6K3GS9mU7YjQI+gJs+8RvTN8oa93obddUy6Hwn7EYrfED7ZCLvlrjo1UI4gQGu61r4WY5hRfIMRigUkbO5qkEWNKklc0WCKxUm9HJMKvPICyfu2rIrUS3ZMLaAT/EqM7uJ7GLDuwHkL80Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k0G9dDStVZhX1Z4X2KoBuJE/A0PXaBmUcOCwNE1rTd4=;
- b=H2TbKiffTrCEmpf43twU3u9lC4YMcmGsWFD51aupPfHZkb1Pjvum1fQtY9VO2SnW+a3fhkFZlQ5hJEkc4ZGTfh/gOcWH3hhV2rhkt5+eC9gxfR53TKRmEOe5gCBNeMyDOw2G6aSM8q0Qw3UNKx2kCAqY3Jq76KUMRGhh4qL7CE+AxkekriT/C4Li8z/0k2RyGex0e3fxJhcaMDfQQHIHL3j1KX3GX3sdKICXLACjk9IgxsUW447xe+ZguvxGNJAT29PrG0COzkLtHiuMmFwPtXf/0BJSvAhUw0eDtzq7Ea8LAg++3ildYZfcrpT5b3UNk9GPWXUZQ41p4PmsxNkPCA==
+ bh=HsP4Jp87TtsOHZuUSWzOczCeognPqXqWkacuyAZpT5Y=;
+ b=qsgBQIDYoUA0Wl1buW7tIUzaxYgV3qjx0GlHLn+3djEmtNtqdZ86Hiz7kQPgizPXKDCmjbM90E0UsXJFMebKXBMl8KM+to5ivJTbCEMauy8GgD+96m0Hsnr2pO1h6UnFabJEBOjaTgdW2XS1ezzWowZRZQEkHxdpL1ppt5qD3ODgRBw6hsvUNEGXclL0OO7XG1Y93VQrdU7fQ6J743NFicQ+kK7WQFgqqs+/HX+hY7DTzgr2U/oIGSoXpS6cuJALjScMXSpOs8ALAlClTvCErMJXI+5bWM/pKuUbfSXqDzLguYtE7EnKBxV51ViWdjpEVxJLp+F7Bek13/BL3ED37Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-Received: from CO1PR19MB4885.namprd19.prod.outlook.com (2603:10b6:303:f5::17)
- by SA1PR19MB4893.namprd19.prod.outlook.com (2603:10b6:806:1a1::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.10; Thu, 6 Feb
- 2025 16:56:41 +0000
-Received: from CO1PR19MB4885.namprd19.prod.outlook.com
- ([fe80::893d:3ce2:a0ab:1a82]) by CO1PR19MB4885.namprd19.prod.outlook.com
- ([fe80::893d:3ce2:a0ab:1a82%3]) with mapi id 15.20.8422.012; Thu, 6 Feb 2025
- 16:56:41 +0000
-From: "Engel, Amit" <Amit.Engel@Dell.com>
-To: John Meneghini <jmeneghi@redhat.com>, Jiewei Ke <kejiewei.cn@gmail.com>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-CC: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
-        Daniel
- Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>
-Subject: RE: [nvme_tcp] possible data corruption when host detected path error
- and resubmit IOs on another path
-Thread-Topic: [nvme_tcp] possible data corruption when host detected path
- error and resubmit IOs on another path
-Thread-Index: AQHbWyyDWqIS1B3hZkCQyHzi1+nTjbM6rbaAgAAK2QA=
-Date: Thu, 6 Feb 2025 16:56:41 +0000
-Message-ID: <CO1PR19MB4885DD288E25D2F763B24095EEF62@CO1PR19MB4885.namprd19.prod.outlook.com>
-References: <DD72B155-35CF-47F6-A342-13445A9E432F@gmail.com>
- <3184caaa-7254-494a-948e-4a3aefd05f4f@redhat.com>
-In-Reply-To: <3184caaa-7254-494a-948e-4a3aefd05f4f@redhat.com>
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HsP4Jp87TtsOHZuUSWzOczCeognPqXqWkacuyAZpT5Y=;
+ b=SHHW6u4vZi17dxmVFhdtY1X06gZJCp9hfIchZ8fNNKTHuGrL8QmeGqSDi+e8QyefiM9MXDKn0/zEuIImqhM2jSG9hMd098khK/uumlfz0ViSad4DsU5P0nDwX91Ep8bHZw3J+dleW4uSfiUZ1UZ6VCOWhgUZzV7QOVu8jdnPbDo=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ SA1PR04MB8856.namprd04.prod.outlook.com (2603:10b6:806:378::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8422.11; Fri, 7 Feb 2025 01:24:09 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%7]) with mapi id 15.20.8422.010; Fri, 7 Feb 2025
+ 01:24:09 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>
+Subject: blktests failures with v6.14-rc1 kernel
+Thread-Topic: blktests failures with v6.14-rc1 kernel
+Thread-Index: AQHbeP78AGAfwR9brEG+YzS4r+eveQ==
+Date: Fri, 7 Feb 2025 01:24:09 +0000
+Message-ID: <uyijd3ufbrfbiyyaajvhyhdyytssubekvymzgyiqjqmkh33cmi@ksqjpewsqlvw>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_ActionId=726e4721-9a83-4385-aca6-cc8cd6cce0b0;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_ContentBits=0;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Enabled=true;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Method=Privileged;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Name=Public
- No Visual
- Label;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_SetDate=2025-02-06T16:56:25Z;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO1PR19MB4885:EE_|SA1PR19MB4893:EE_
-x-ms-office365-filtering-correlation-id: e7502039-83c2-4b92-0057-08dd46cf3af2
-x-ld-processed: 945c199a-83a2-4e80-9f8c-5a91be5752dd,ExtAddr
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SA1PR04MB8856:EE_
+x-ms-office365-filtering-correlation-id: e7ef42bf-431b-440f-8d6a-08dd47161f35
+wdcipoutbound: EOP-TRUE
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?TEpNd2s2WU9RZFRiSS8vc2NHUjEvSC9HUDRoZUZrNnh0bExmWXA4dTIzdXJE?=
- =?utf-8?B?K01IeG9KanBTMGs5SlZKVmxZTWVqVUU4OTVtN2xnSGpBUFExZXFEZ0dSZ1BC?=
- =?utf-8?B?Ym1EcFZkbmo1TmFLazJuNEg2WU45bUVsaEYwdzgrOENlRndxUk04WE9XZ2xU?=
- =?utf-8?B?L21OelBEazBWN0VKL2NUZDVadWpiRWw4MUNSUXlNbTNzQ0NaNTd0aGVPdUM2?=
- =?utf-8?B?TzR6c2IxclFMYTZ5UVJHTHZoTTg0WlR4RE5rZTllVFJBVmFWdVJna1ZYS2Nt?=
- =?utf-8?B?aU1jQ241ek5FL1FLbW1ZemJsYk14dzdteWdqY0RSNGFScDRqU2xEOXp5QmNG?=
- =?utf-8?B?anJPdFdtRUlVSGNmdGN0cW8xbU0wVTlWSFNTT21MazZBcUpCZVRxZktDNkxX?=
- =?utf-8?B?aG4zQmtVNm1LU3BMZDBkL1dUbW1YY3M5WVV0L1NURjlvamZEWktHeTRUS2hs?=
- =?utf-8?B?K2ZXY3NpdUYvZlV5dkpEVjE2dERGMzZETjZjWHBPWDIzczFndmc1MnJ3QjVJ?=
- =?utf-8?B?dm5kV0J0VlpncE8rWGx6RXhsc0xkdUo2ZDlMV1FZU09RbnJLeXYxOG9Cek5L?=
- =?utf-8?B?VzhQR1JVVTZORDdxUnBmNVpNdkxNem8rMDd1ZVRJNDMycS83QTZTcldyM1BS?=
- =?utf-8?B?ZzdlcWZ4cGVRZExabit5a0xRTVEwV3ptNFpRWTZPZnhYa1ZKZG1qRzhyb1hK?=
- =?utf-8?B?d2Q5TGVRbHhjcGdrd09GTTcxZUhYNWRkeUJtQ3dhdHUvd2FEYjdKeW5rSlp2?=
- =?utf-8?B?ZUZQQTVIRmFQUjlNSlk0TEVCSDljTlpxQW4veDgrbVZiYmxMRzEyajdBeDFk?=
- =?utf-8?B?RU55d3Y1L3luWGg4YU5GQUVvRGtZYllFRFh5U244czE4UWI1eTExRm1wUmVV?=
- =?utf-8?B?OS9LN3NMZ0FpY0VtdXpXbktGYnN3dVZuV3Q3TmdDa0xaNktVSmtOVDFyNlNt?=
- =?utf-8?B?ZDBDaG1WcU5ZOWZwTlpFYUtmb2ZQSVJWN3pIQlpQdS82OENNTzJxTldxc09Z?=
- =?utf-8?B?b0lpMEhrSkVNWnpJMCt2bTRpSDJGZ3ZNZXY2YjdzZWNydlpvVjZvb3NlWXUr?=
- =?utf-8?B?Z2hiNmJOZWhwME5DbWlLMzF4UFBTam82dk5ib1hjM2lUYVdvZDRwcjU4L1hL?=
- =?utf-8?B?UU9QcUtaejAwRk9SN3ZqN1pMd0R1WHB2djlySHJQMk9WTWlLcWxLR0IwU2RZ?=
- =?utf-8?B?TmRHdThRTTVlM3NnZk85THRqMCtCNG1rRUhXR29WVGRNSjBOU0hyWFVoRTFQ?=
- =?utf-8?B?cklFTHVzV1dvbjBiajZoSVdPeFB3VytkOFhLVEFySHhEVktVYkZTM0VrbDdw?=
- =?utf-8?B?YnIydFpVZkdvWkt3NFF5TEhONXRCUHVUWWVZNkIyU21rcTZ2ajBQaVY2YnNn?=
- =?utf-8?B?MG1kK3VkMUZjcjZaNWVEeFZITGkzSFZIWVRpR1pDVXVWQWdON1hXcjMxMFd2?=
- =?utf-8?B?WUpOTXE3Tjg3N2lkcVgrVDlLNnNGUVNDdlhjOElPV243STlFVU5kNjdTVGIy?=
- =?utf-8?B?azN2QUx6QWY1cHExNnMrOFViSWlMWkxONzhlbUVnYVdZN3Y1OWpPR2xHaTBy?=
- =?utf-8?B?QVFRc0F6ZzNobjN4TTBLWWpzaUtUbTJBZGNWNVBFRFhqZ2dPYXV5b2NWczh3?=
- =?utf-8?B?cjN6SFg0N01HcFZUWHNWWGF4bGJiekJibkVvaWF3RXVTcVBxMHVRbFo3TUg3?=
- =?utf-8?B?VE02WFIzMGZrYXFsM21KeWx3STJsa0hqVDBWWlVkYUZVcXdRM05LN0pVQzI5?=
- =?utf-8?B?bFBvS25ZOGtLSHBGeUZyb0hhbUE3ZzkwZ1JLUmRDN015bldZSEpHYTF3Ulky?=
- =?utf-8?B?MGdPUlJTWDJvMnBhbVJOYUVTanRkaURlVlVya0pUK0xUZmRZSTQ0OHNQWXhX?=
- =?utf-8?B?T0hkTDlDQzVpOVhoN01XcjFnZHZnLzB2alZnUXBjK2FIRjF0TWNpYW9uejIy?=
- =?utf-8?Q?zTDaLpw4Pw4jb0KWTlFQyNAsZe9kM7AR?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR19MB4885.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?bTzx6TnoWPh6zGkbgMk0q1FrZguW47LM6NBGl14NckUmBCIukimLqJX8QwLU?=
+ =?us-ascii?Q?qXUvXjl7eNfwILueL7zB6ie0AG2SwdNBq8rpp+dkA8l+T1f0B43BN7Pn9dGT?=
+ =?us-ascii?Q?ZVSq9LTU3/Hk69o/As6UQuJnEt9MgK3kHWgNnM+pWd0FLui4r2nWu8FFHp1f?=
+ =?us-ascii?Q?6ucAhGwh+OsWRToPHzL6GgzMbT7nLCKiYky0HMJYcr8HFKnZDB6z9e4tr4fz?=
+ =?us-ascii?Q?1sDIrh6NbrHqiPCAglyyeMA7gqEzvNzr8NSgCWkzwIFoiJOCVj0tLHmClyfX?=
+ =?us-ascii?Q?jjT8uRbk3gdxNIonWKV+14cWD4SCktFzH8HuaSmJUoNVcBTiW/Pyf23Ng0uV?=
+ =?us-ascii?Q?f17am2OtGfJfb5zeoYfZZaQAdetFPj12fQFiClh/WYPisg3b4sW0l60pfz/D?=
+ =?us-ascii?Q?uQhetKyIAQbYIMWSQgDs5/oFWwknhiLVB+OCWeLIjxq2gc2SO5W8v6wszWq0?=
+ =?us-ascii?Q?MLK9HUujnzh+SSeJSEczkFmZ69jJJnS0gnxl8KGZh+wnNEKQt+8Fx6LaCm2A?=
+ =?us-ascii?Q?alr6SjV+aVUSzxqoh19shM0nqFE1CjVjgmbj0qgjn61bnAN3ia4ofcWxyNKu?=
+ =?us-ascii?Q?4uZKKJIUkEIeityiSM6ExoeSJ5UAYUpSbj709ZlQW7ngAO8CtleIh4cFLeZB?=
+ =?us-ascii?Q?O5TG7k78Ov+BlwRc/ghFwK8bV+xWQHZBT29zQuJQRComB4STSwyrMET+beXp?=
+ =?us-ascii?Q?pOx5lzZVsDPL0A6FLtA8DmWHzFBWasz/wVVUoYhn4YmAN9fuiZtFwU8Y2Na4?=
+ =?us-ascii?Q?iua3mCCBLNQFFjf+mW3AfCFox6FfI2xqoZpBCcWzORs5qeI//skWR9ztExrR?=
+ =?us-ascii?Q?wryPcfltHTRnZP8ARmrJdqc/vtkDhXFhHu2k2JaWX1O+jVl0cLj5JX7K2s45?=
+ =?us-ascii?Q?MXffIrMXziV3P4XxtpfsG4vXuFNuG3T9jiuiuVrf1ueimzr9ZR8Elv/QFxfp?=
+ =?us-ascii?Q?KVs3+2b4UGDaJOWyWMHeuroGfhgwmWw+Fhrfnn33xPbNcaa0VZM/UzhBfYML?=
+ =?us-ascii?Q?pzsr62GYNyl7rryWbLd6Ac2RuXxhhOHue3LdNm8/Ldo5nBDb5ujSNe6DGVLq?=
+ =?us-ascii?Q?HobwRK+sBRiBO3a1Tu3TFlBsghq1A7P3IGDr3pkWGfvhBRtXyIQ8Tg9wdSzV?=
+ =?us-ascii?Q?T8sSA+BmqGrBzjkz1MOAeW/TN8TgzLlW9ix0Vg9dhIkcNSr4ZzpvazQW4Kgf?=
+ =?us-ascii?Q?EM7irtDXHsbXZ1pqDuY2NLU73dkmAFgHeRlRih7lleluuX4bwbLq3A1BDjdn?=
+ =?us-ascii?Q?myKAbrIaA53ohxInQXlNgTnYEb6HUu3xF5sU0VCYlHo5fdlfsV67LUNSWzxS?=
+ =?us-ascii?Q?BDIER2Tpc1i7Jk2Emh5EjQphEWZzvTNTc0elIUWat75SAdWtdPkc9TagLSnu?=
+ =?us-ascii?Q?RQma8ZKfzuCV6xmk6fwqvxKnlxZK3WW7nUpIAaRpeUHeq6QKzfZp3s7XPw8D?=
+ =?us-ascii?Q?WWp9kvPlKKsZZS9Nrs3TSi7aRrCpRpkvQZoKzqxZA3SqsRCnTjXBnQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UmNpemlwbldINlZ3U2xjQ2wrZ0dIRTc3di9aK01mMmEreEZZNUEzZndnMjVn?=
- =?utf-8?B?emdjWmpBTUJaQ1Fyb1FPVUVQeERrSjBaVnhzdFhjZlh3SUdHNkxGak1RQ0dS?=
- =?utf-8?B?alBwczJxelhUNUcxeWdlY3lERmw3aFptWTlmUXJOOEVxdmIzMEFVSlNQS244?=
- =?utf-8?B?dlFjbE45UWF6M0RQK2lwTXcyTE1OcnhoSXJoZWduenlQYWg2dlR1c3VaL1d0?=
- =?utf-8?B?bDZucDhJYWJtRWpMWUl0ZmRVWlRKeDloR0prWkZxbksrVHZPK0pwLytVSHM1?=
- =?utf-8?B?a08yeG9HWEFwQnUxNkFncy90TWZJMGFJVC8wU2dadXJNTWU5Q3VXZEJSTmJJ?=
- =?utf-8?B?UUxRYkFzdndLQVdZbEZHQktFRzlFYkxZVHpGdGZpMGJVZks0akdIUXdpR3oy?=
- =?utf-8?B?T1IwaEZBL0F6SERiQmM0VU9vU0E3SEtpK1lnTjczQ2RVMXdKNWxtaGR2QWUr?=
- =?utf-8?B?S1gvZDVtUGExU0MyUnZXenVra0JhN0xlWTJMdnZxNFEzMFI1SVhEUmtNVFdY?=
- =?utf-8?B?Y1JHaHJrVCtEWjVyWHFONis3UE1wSU5VaE5IbWc5R1lMbHF2ckd6ZmRCWU1F?=
- =?utf-8?B?bGlxbzRtQmw1Q1NjeDV0UVdiM2lKUEtSeEI4YkJpbXYrREQyS3gyMkhOTmJi?=
- =?utf-8?B?Q3RLb0lvYzVLdmYydDBLL05sM0pKMkdrSmhKb0tHUUVZZHlKZU5YeUJldWIz?=
- =?utf-8?B?NndPVG9nMjhOdkllZWlPRVNTV3dtRE9QNEdUcUJOSmdpWi9DbFowc0c3QUFH?=
- =?utf-8?B?SG5MTGNianBibmJwK05zV0hkdXVHbXJpdzZOWnJLbjI5NGsxbTBEa1Z1U0FR?=
- =?utf-8?B?WVRrTkZ6ZWdybCtzRUJoTGczcTJVa1RSa1E5Ni9pWlk1VFc5eDJ4SzNoVnNh?=
- =?utf-8?B?TmZHOXYxZW1TWUJLNkJQTzdHaXAxSTl0ZzZnYzI2S2VHd3Y5SFRrV1JEc2RZ?=
- =?utf-8?B?S3cyUVNtaHArVVFNSVJhRjd2eUVQbTU5VTZmZ29kdHQyRVdWOENwbkZmM0Zx?=
- =?utf-8?B?QlgrK0h5cDhXc2l3T1dGVXVyWnhacFRMOHRVOXhSOWpMYmVEQW80TEdIZDJr?=
- =?utf-8?B?OThSaURvQXFnTEcyNzBxR3lJT2pVeTF6V2xQMzIyWE56UnhvamsrZW9MNEFG?=
- =?utf-8?B?V1RQQ2JjT1EvN1hJTTl6RmEvRUYrekJVcUkyUEhweE1HQ2tnRHZTUEM3K1dO?=
- =?utf-8?B?c3ZDU1JET3NHN3J5d25FaTFNckxZbjhlMVExYnBTcGhnWENJWEs4R2Mrczhs?=
- =?utf-8?B?UGRBOTVTT2pxaFQvOVE3V2RlT0tvN0h0MFdzRGtRMnQzL3pyRTYrRENZOG04?=
- =?utf-8?B?WHRMTmhUVWRXTU40TXpuSTZkWmFSQnZ4VkRjazlMalYxRU9qUERqS3ZEdHYv?=
- =?utf-8?B?QnpJSVlrdWtWejIvMXpEMmREdlErMjdLY1kycUx3Vm0vNEMzR1pOQmFOUmt4?=
- =?utf-8?B?NktubjFKRXFWZTJGdFczQVhVekRGd3FWQ2hJSTBpdG8xTTNCWURsZzJ6amJq?=
- =?utf-8?B?TTZQUUdyeVdGdk44eitkdUxLZ3hraFdxNHVPVkpvaTQvMVJkRjB1eWt3VzRr?=
- =?utf-8?B?UXBEcWFwOStnc0VqTFBkZE92bjBXczBDTFpud2V1MWI4MCtoMkNtOXBaSUlG?=
- =?utf-8?B?U3JHV2tyaE1OTmlIY1I0U3dFKzRmaVZoOHZXN3JLQ2x1L1FhL2hwU3NUTEFx?=
- =?utf-8?B?ZlQvZGVuSnp5UytHWS8yVkljd0oyUi9uZldEVlFvQ1U1Vkw4azh6TzdSbzF0?=
- =?utf-8?B?QzdDanZDcCtLR1pmSFZGd2VBMkNyRWM4N2FySVkzYUFqcy9jRVlqSFpucTZh?=
- =?utf-8?B?OVBCMnIyenNkQ0s1T3FpRXRJSWZBZ1JMM2tSeVVodEtlWDlHVTI1TjZ0a0l4?=
- =?utf-8?B?d0xieHYrdE1ST1lzWHNVdVhnMXVYWDRpRzlYbExXZ1VMbE1NSEJhUzR4aERt?=
- =?utf-8?B?OTUzUStVc2NqVlV5b3ZIa1FDcmFBZm85VDJ4eW5vU1k3SDhDMGc0T29FQTd2?=
- =?utf-8?B?U1ArM3Vtc0Q3TFhNTHcxOTI5S0YxMkpEQTRxM1JXTWVWNzE5c0VnMkdGK095?=
- =?utf-8?B?NEdlRlVTSGxRbGRoYS93NjFlKzBSbUZHMTRWbnFUY2pvaUtBVmtoZWNGY0Z1?=
- =?utf-8?Q?Op7PKqrCjgzFXuYx6McPs4S6X?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?6/GTJSQA/HyB42DuWrTyOyXYl9L4LBUpRaZvQL5Xn3HTIucYaVFaqK/enFPu?=
+ =?us-ascii?Q?eIoLYkt5t4oG2XZgY+qsI++qPxHbf4NKb3zDInSoQX2bPB9WZ6wmniJaWw51?=
+ =?us-ascii?Q?2CPZyZY/9zEOgZtwcdfV12yIOvwabDPh9LFv2vGKT270Mp9c/DZfeiKWs28N?=
+ =?us-ascii?Q?Q44tXNrAqCOwQL+AeZP89sKuKO98CIYpO4xnvmhXcldw3VQpqbLCGqVCA5Mq?=
+ =?us-ascii?Q?+dblU5ovumotrJxfHKxVrtxjkQ8k1rvT4cJHHlE4ghB8rPl1kxyd6wiwv/M0?=
+ =?us-ascii?Q?AyY+pwvUUHpyjWucqWoIIrBRJ2hZ6VEmk67L/u/s+8EbOmlRZRj/VrKG4aY8?=
+ =?us-ascii?Q?wg57m85fEMjSq9d/dEUn1UowIW8wJ6dqgu5fuchHzPAabQ2Vr/dE9I2GEQ4X?=
+ =?us-ascii?Q?+4P4JPjG3Mk2pU1iPMMyqyMVfyYW3zh1faqCxzd4s2NN9enqV2aGqRSyZs6a?=
+ =?us-ascii?Q?U0DKlUlyHUFGa7p2qn4rxRMlwv44efSCFaTgf+nQxNLxcC4dWsGQTyw0NOE5?=
+ =?us-ascii?Q?FqrerfNSB+URPOg6GfuJ9XEwM64J47AG9hE0fnWT+kmzYcYyiRLShHghzcvm?=
+ =?us-ascii?Q?VAb3uDkCsJ3WC3+T44OnDSOGS7kaeMNNyN+786tnJYynj19TcqOtpyn90u6C?=
+ =?us-ascii?Q?WRIcr5kjNbPmkUBTpGTbL+hHTbqwzaI0FHn7fpoWkScjM4BC2TbLNvY829t5?=
+ =?us-ascii?Q?4jkBV1750CnhLYDB3dihC2aqXg4KyoJmwtNNAghi9sSHwnEvuVhpi5+96PE5?=
+ =?us-ascii?Q?ExLTErzEMrG75isDZElhHjv9Opt+iPZFQL8HefFqJg5mnyaJZX+qnOCzPcN1?=
+ =?us-ascii?Q?igv3F+ZavPQ0QlxKbH+Cr02PBy25g3Rk8I85oadiOnG1lFcf++Aa8wlA1/jW?=
+ =?us-ascii?Q?+277Aylb1P+o2psmE4Xls9iAdjWhc9kzmy9eoTvBgCGdcsXcQOULzu85xtP0?=
+ =?us-ascii?Q?FxUaEl5MfILDA3L8Gmg3zNxttCAAdXHv21UeJRs5QRDoc29B0op8ZJjw2Vr/?=
+ =?us-ascii?Q?bmLX658vCmDNMTh/oS76Mk4pLCd0OxzWOLfizTGf8WsVrqDc1MahamzNS8bc?=
+ =?us-ascii?Q?S6TGunS0pbOzxSlfT64yIleaKX/1bPj94PaNJcuoWWGTlkAW9VYAH+FCZTU/?=
+ =?us-ascii?Q?V5xUi9OdQf/SAmlquik4ONPn0qgtXI2fRrPELC6mRD4NIiLhuZydBMeKRanK?=
+ =?us-ascii?Q?uhrN2AouRtyBUvBGNT2Zce32KDcnRl0gOoAgVED7qxav/ES/p1k7RIA1cTn+?=
+ =?us-ascii?Q?Yochf6TSvKI+QUFOspMy1yt4pZUk3vD2nRsB0h8zQJc+60A1LF30hWKl4l6E?=
+ =?us-ascii?Q?l9t2r6+0F9JQ/mYFBFVyRD3Tk5g3hkkoxJWCsDLDxBVKpLRmFwTTCjWBi/LD?=
+ =?us-ascii?Q?aLb2kNoWdRh3Zc1zfDurAZ6idJnkChw6JMbnS+DvqKVukHZubRTSB8RFsHjj?=
+ =?us-ascii?Q?nZB4Z8Ki7i6eBkLBxfRaqMc2y0jGFv+4gsHkKyG1KD2bNm4M5glHb9/fitb/?=
+ =?us-ascii?Q?l+S5ivhgJQCIM6M9k9LEW2FLjBLMe9pppaBlF9P2XhktfJ3UT6gf4UqpHUwV?=
+ =?us-ascii?Q?cB4B/bVz07aJJWbGX9pAzmtzuAynwhvz4Wd7MGA/uGmJ3Td7mrbBxZ7WdEge?=
+ =?us-ascii?Q?iCNGS4C3RKCyctIEpnQeEmE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <E0FCB687BF480346944DFB01FCFF5CAA@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: dNkd0chCMxP+7jN3Fia9pT2fsh7VXOdweE7iVo9+evAdDk/gnltriWxqFInF4U+S91eL8ISkuaq3B/zpQW4fcpouj/hiOiBx7XYssJ60+1CQLblpRa1nT6SxA+6hB0Sw23bGnDwdqPNp8wnZZA6hKuLuRkNg+qLr9edrKpMuxn8s+OY+rfRQfQJzhfYIsDS6Lv/CpEwR4+yxYLdqohjJloioasy6IcL2frG/Jcn7YB/IUjJi9xaLoV/8D/Nc8ABlfan9Qw7QP0L8dG/BkwLY2RH7o9pECxEPfYWO/6vJEAYtBJipkj4rrymQHryoNunuvKk2IS8IfnCoL8nDDVBgvKh8cst5Ptpq8M3fYc69PhZU3ebaAKt8M+QtsXPqcXrlZxhI8vX54GwBV8iaqjot63/2i0pMCAfFqfQ5yMUp2zQZg74Kp16FnT46tgUTifHHJMoL/MZ6ohw2RutvF/fQ61L2n9CsJNrKrpxgRkKV2YwMhr+7kK/1VSA0V2CDjmfI+InM0Ro9xHXzx6HhJaoHJZF1RCFRXBVVG3kV6DwXwY5rxv45o03WZdjn/NS6EDvMBDY0yL1mhOx5V5TTnxQFAf4nrSMftxltQxDJWYIv3qbo0ow+COOLbWCTGkBPQjU8
+X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR19MB4885.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7502039-83c2-4b92-0057-08dd46cf3af2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2025 16:56:41.7548
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7ef42bf-431b-440f-8d6a-08dd47161f35
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2025 01:24:09.4650
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xtIfu78jLbyjtLNRf/mvUQ28673/pqu5OOSnLQLe8O/5Dfcda0EB4QlNgKWvShh5dJAzcseCY4MYeIYlbBbNZg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB4893
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-06_05,2025-02-05_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1011 mlxscore=0 bulkscore=0 priorityscore=1501
- suspectscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502060137
-X-Proofpoint-GUID: 0JEfRaWqAEKj1iAwH4CZ23jn7gNJU0cB
-X-Proofpoint-ORIG-GUID: 0JEfRaWqAEKj1iAwH4CZ23jn7gNJU0cB
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0 spamscore=0
- malwarescore=0 phishscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0
- suspectscore=0 mlxlogscore=999 adultscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
- definitions=main-2502060135
+X-MS-Exchange-CrossTenant-userprincipalname: agSwZgp1xr+FPcl2RmxMcm9u8wELnWk7pnQnoz/IOaiya3IBbr8mmDCtFgkK67g0sudMxfJnYCNlHrUv6pKdHybU3CYxXgfRlGW9dyhE7bc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR04MB8856
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250206_085654_444093_F7081ADF 
-X-CRM114-Status: GOOD (  16.93  )
+X-CRM114-CacheID: sfid-20250206_172421_297067_AD588D7E 
+X-CRM114-Status: GOOD (  11.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -217,77 +182,362 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGVsbG8sDQoNCldlIGFsc28gY29uc2lkZXIgYWRkaW5nIENRVCBzdXBwb3J0IHRvIG91ciBOVk1l
-LVRDUCB0YXJnZXQgc29sdXRpb24gdG8gZGVhbCB3aXRoIHRoZSBiZWxvdyBwb3RlbnRpYWwgZGF0
-YSBjb3JydXB0aW9uLg0KSSBjYW4gc2F5IHRoYXQgaXRzIE5PVCBvbmx5IGEgdGhlb3JldGljYWwg
-aXNzdWUsIHdlIHdlcmUgYWJsZSB0byByZXByb2R1Y2UgdGhpcyBkYXRhIGNvcnJ1cHRpb24uDQoN
-CisxIGZvciBKaWV3ZWkncyBxdWVzdGlvbiAtLT4gIkFyZSB0aGVyZSBhbnkgcGxhbnMgdG8gYWRk
-IENRVCBzdXBwb3J0IHRvIHRoZSBOVk1lIGhvc3QgZHJpdmVyPyINCg0KVGhhbmtzLA0KQW1pdCBF
-DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBMaW51eC1udm1lIDxsaW51eC1u
-dm1lLWJvdW5jZXNAbGlzdHMuaW5mcmFkZWFkLm9yZz4gT24gQmVoYWxmIE9mIEpvaG4gTWVuZWdo
-aW5pDQpTZW50OiBUaHVyc2RheSwgNiBGZWJydWFyeSAyMDI1IDE4OjEzDQpUbzogSmlld2VpIEtl
-IDxrZWppZXdlaS5jbkBnbWFpbC5jb20+OyBsaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcN
-CkNjOiBTYWdpIEdyaW1iZXJnIDxzYWdpQGdyaW1iZXJnLm1lPjsgSGFubmVzIFJlaW5lY2tlIDxo
-YXJlQHN1c2UuZGU+OyBEYW5pZWwgV2FnbmVyIDxkd2FnbmVyQHN1c2UuZGU+OyBDaHJpc3RvcGgg
-SGVsbHdpZyA8aGNoQGxzdC5kZT4NClN1YmplY3Q6IFJlOiBbbnZtZV90Y3BdIHBvc3NpYmxlIGRh
-dGEgY29ycnVwdGlvbiB3aGVuIGhvc3QgZGV0ZWN0ZWQgcGF0aCBlcnJvciBhbmQgcmVzdWJtaXQg
-SU9zIG9uIGFub3RoZXIgcGF0aA0KDQoNCltFWFRFUk5BTCBFTUFJTF0gDQoNCkhpIEppZXdlaS4N
-Cg0KVGhlcmUgaGF2ZSBiZWVuIGlzc3VlcyByZXBvcnRlZCBvbiB0aGlzIGxpc3RbMV0gd2VyZSBz
-b21lIE5WTWUvVENQIGF0dGFjaGVkIHN0b3JhZ2UgYXJyYXlzIGFyZSBleHBlcmllbmNpbmcgZGF0
-YSBjb3JydXB0aW9uIGR1cmluZyBlcnJvciBpbnNlcnRpb24gdGVzdGluZy4gVGhlc2UgZGF0YSBj
-b3JydXB0aW9uIGlzc3VlcyBoYXZlIGJlZW4gYXR0cmlidXRlZCB0byBnaG9zdCB3cml0ZXMgaW4g
-dGhlIHN0b3JhZ2UgYXJyYXkgZm9sbG93aW5nIGNvbW1hbmRzIHJlcGxheWVkIG9uIHRoZSBob3N0
-IGR1cmluZyBLZWVwIEFsaXZlIFRpbWVvdXQgdGVzdGluZy4gVFA0MTI5IHdhcyBkZXZlbG9wZWQg
-dG8gYWRkcmVzcyB0aG9zZSBpc3N1ZXMgYnkgaW50cm9kdWNpbmcgYSBDb21tYW5kIFF1aWVzY2Vu
-Y2UgVGltZSAoQ1FUKSB0aW1lciB0byB0aGUgcHJvdG9jb2wuIFRQNDEyOSBpcyBub3cgYSBwYXJ0
-IG9mIHRoZSBOVk1lIDIuMSBzcGVjaWZpY2F0aW9uLg0KDQpNeSBxdWVzdGlvbiBpczogZGlkIHlv
-dSBmaW5kIHRoaXMgcHJvYmxlbSB0aHJvdWdoIHNvbWUga2luZCBvZiB0ZXN0aW5nIG9yIGlzIHRo
-aXMgc29tZXRoaW5nIHlvdSd2ZSBzZWVuIGR1cmluZyBjb2RlIGluc3BlY3Rpb24/ICBBcmUgeW91
-IHJlcG9ydGluZyB0aGlzIGJlY2F1c2UgeW91J3ZlIGV4cGVyaWVuY2VkIGRhdGEgY29ycnVwdGlv
-biB3aXRoIHlvdXIgTlZNZS9UQ1AgY29udHJvbGxlcj8NCg0KSWYgeW91IGhhdmUgYSB0ZXN0IG9m
-IHNvbWUga2luZCB0aGF0IGFsbG93cyBhbiBlYXN5IHJlcHJvZHVjdGlvbiBvZiB0aGlzIHByb2Js
-ZW0gaXQgd291bGQgYmUgaGVscGZ1bC4NCg0KL0pvaG4NCg0KWzFdIGh0dHBzOi8vdXJsZGVmZW5z
-ZS5jb20vdjMvX19odHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1udm1lLzFjZWE3YTc1LTgz
-OTctMTI2Yy04YTJlLThlMDg5NDgyMzdiMUBncmltYmVyZy5tZS9fXzshIUxwS0kha01zdEF5ZERo
-OVZhMnk3cW1OYUZ6TVBrNWhnREZmaW91b3VmeUZxRnZBamJ1aFRXcFVGUWs4R1ZwMlF2V3NzYk5v
-ZUVqaDhXLURVbXNkRmIkIFtsb3JlWy5da2VybmVsWy5db3JnXQ0KDQpPbiAxMi8zMC8yNCA5OjMy
-IFBNLCBKaWV3ZWkgS2Ugd3JvdGU6DQo+IEhpIGV4cGVydHMsDQo+IA0KPiBXaGVuIHRoZSBOVk1l
-IGhvc3QgZHJpdmVyIGRldGVjdHMgYSBjb21tYW5kIHRpbWVvdXQgKGVpdGhlciBhZG1pbiBvciAN
-Cj4gSS9PIGNvbW1hbmQpLCBpdCB0cmlnZ2VycyBlcnJvciByZWNvdmVyeSBhbmQgYXR0ZW1wdHMg
-dG8gcmVzdWJtaXQgdGhlIA0KPiBJL09zIG9uIGFub3RoZXIgcGF0aCwgcHJvdmlkZWQgdGhhdCBu
-YXRpdmUgbXVsdGlwYXRoIGlzIGVuYWJsZWQuDQo+IA0KPiBUYWtpbmcgdGhlIG52bWVfdGNwIGRy
-aXZlciBhcyBhbiBleGFtcGxlLCB0aGUgbnZtZV90Y3BfdGltZW91dCANCj4gZnVuY3Rpb24gaXMg
-Y2FsbGVkIHdoZW4gYW55IGNvbW1hbmQgdGltZXMgb3V0Og0KPiANCj4gbnZtZV90Y3BfdGltZW91
-dA0KPiAgICAtPiBudm1lX3RjcF9lcnJvcl9yZWNvdmVyeQ0KPiAgICAgIC0+IG52bWVfdGNwX2Vy
-cm9yX3JlY292ZXJ5X3dvcmsNCj4gICAgICAgIC0+IG52bWVfdGNwX3RlYXJkb3duX2lvX3F1ZXVl
-cw0KPiAgICAgICAgICAtPiBudm1lX2NhbmNlbF90YWdzZXQNCj4gDQo+IG52bWVfY2FuY2VsX3Rh
-Z3NldCBjb21wbGV0ZXMgdGhlIGluZmxpZ2h0IHJlcXVlc3RzIG9uIHRoZSBmYWlsZWQgcGF0aCAN
-Cj4gYW5kIHRoZW4gY2FsbHMgbnZtZV9mYWlsb3Zlcl9yZXEgdG8gcmVzdWJtaXQgdGhlbSBvbiBh
-IGRpZmZlcmVudCBwYXRoLiANCj4gVGhlcmUgaXMgbm8gd2FpdCB0aW1lIGJlZm9yZSB0aGUgSS9P
-IGlzIHJlc3VibWl0dGVkLiBUaGlzIG1lYW5zIHRoYXQgDQo+IHRoZSBjb250cm9sbGVyIG9uIHRo
-ZSBvbGQgcGF0aCBtYXkgbm90IGhhdmUgZnVsbHkgY2xlYW5lZCB1cCB0aGUgDQo+IHBlbmRpbmcg
-cmVxdWVzdHMsIHBvdGVudGlhbGx5IGxlYWRpbmcgdG8gZGF0YSBjb3JydXB0aW9uIG9uIHRoZSBO
-Vk1lIG5hbWVzcGFjZS4NCj4gDQo+IEZvciBleGFtcGxlLCBjb25zaWRlciB0aGUgZm9sbG93aW5n
-IHNjZW5hcmlvOg0KPiANCj4gMS4gVGhlIGhvc3Qgc2VuZHMgSU8xIHRvIHBhdGgxLCBidXQgdGhl
-biBlbmNvdW50ZXJzIGEgdGltZW91dCBmb3IgDQo+IGVpdGhlciBJTzEgb3IgYSBwcmV2aW91cyBJ
-L08gcmVxdWVzdCAoZS5nLiwga2VlcC1hbGl2ZSBvciBJL08gDQo+IHRpbWVvdXQpLiBUaGlzIHRy
-aWdnZXJzIGVycm9yIHJlY292ZXJ5LCBhbmQgSU8xIGlzIHJldHJpZWQgb24gcGF0aDIsIHdoaWNo
-IHN1Y2NlZWRzLg0KPiANCj4gMi4gQWZ0ZXIgdGhhdCwgdGhlIGhvc3Qgc2VuZHMgSU8yIHdpdGgg
-dGhlIHNhbWUgTEJBIHRvIHBhdGgyLCB3aGljaCANCj4gYWxzbyBzdWNjZWVkcy4NCj4gDQo+IDMu
-IE1lYW53aGlsZSwgSU8xIG9uIHBhdGgxIGhhcyBub3QgYmVlbiBhYm9ydGVkIGFuZCBjb250aW51
-ZXMgdG8gZXhlY3V0ZS4NCj4gDQo+IFVsdGltYXRlbHksIElPMiBnZXRzIG92ZXJ3cml0dGVuIGJ5
-IHRoZSByZXNpZHVhbCBJTzEsIGxlYWRpbmcgdG8gDQo+IHBvdGVudGlhbCBkYXRhIGNvcnJ1cHRp
-b24uDQo+IA0KPiBUaGlzIGlzc3VlIGNhbiBlYXNpbHkgYmUgcmVwcm9kdWNlZCBpbiBvdXIgZGlz
-dHJpYnV0ZWQgc3RvcmFnZSBzeXN0ZW0uDQo+IA0KPiBJIG5vdGljZWQgdGhhdCB0aGUgTlZNZSBC
-YXNlIFNwZWNpZmljYXRpb24gMi4xLCBzZWN0aW9uICI5LjYgDQo+IENvbW11bmljYXRpb24gTG9z
-cyBIYW5kbGluZywiIHByb3ZpZGVzIGEgZ29vZCBkZXNjcmlwdGlvbiBvZiB0aGlzIA0KPiBzY2Vu
-YXJpby4gSXQgaW50cm9kdWNlcyB0aGUgY29uY2VwdCBvZiBDb21tYW5kIFF1aWVzY2UgVGltZSAo
-Q1FUKSwgDQo+IHdoaWNoIGFsbG93cyBmb3IgYSBjbGVhbnVwIHBlcmlvZCBmb3Igb3V0c3RhbmRp
-bmcgY29tbWFuZHMgb24gdGhlIA0KPiBjb250cm9sbGVyLiBJbXBsZW1lbnRpbmcgQ1FUIGNvdWxk
-IHBvdGVudGlhbGx5IHJlc29sdmUgdGhpcyBpc3N1ZS4NCj4gDQo+IEFyZSB0aGVyZSBhbnkgcGxh
-bnMgdG8gYWRkIENRVCBzdXBwb3J0IHRvIHRoZSBOVk1lIGhvc3QgZHJpdmVyPyBJbiB0aGUgDQo+
-IGFic2VuY2Ugb2YgdGhpcyBmZWF0dXJlLCBpcyB0aGVyZSBhbnkgcmVjb21tZW5kZWQgd29ya2Fy
-b3VuZCBmb3IgdGhpcyBpc3N1ZT8NCj4gRm9yIGluc3RhbmNlLCBjb3VsZCB1c2luZyBEZXZpY2Ug
-TWFwcGVyIGJlIGEgdmlhYmxlIHN1YnN0aXR1dGU/DQo+IA0KPiBUaGFuayB5b3UsDQo+IEppZXdl
-aQ0KPiANCg0KDQo=
+Hi all,
+
+I ran the latest blktests (git hash: 67aff550bd52) with the v6.14-rc1 kerne=
+l.
+I observed 5 failures listed below. Comparing with the previous report with
+the v6.13 kernel [1], one new failure was observed at zbd/009.
+
+[1] https://lore.kernel.org/linux-nvme/rv3w2zcno7n3bgdy2ghxmedsqf23ptmakvje=
+rbhopgxjsvgzmo@ioece7dyg2og/
+
+List of failures
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+#1: block/002
+#2: nvme/037 (fc transport)
+#3: nvme/041 (fc transport)
+#4: nvme/058 (loop transport)
+#5: zbd/009 (new)
+
+
+Two failures observed with the v6.13 kernel are not observed with the v6.14=
+-rc1.
+
+Failures no longer observed
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+#1: block/001:
+    It looks resolved by fixes in v6.14-rc1 kernel.
+
+#2: throtl/001 (CKI project, s390 arch)
+    I was not able to find blktests runs by CKI project with the v6.14-rc1
+    kernel.
+
+
+Failure description
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+#1: block/002
+
+    This test case fails with a lockdep WARN "possible circular locking
+    dependency detected". The lockdep splats shows q->q_usage_counter as on=
+e
+    of the involved locks. It was observed with the v6.13-rc2 kernel [2], a=
+nd
+    still observed with v6.14-rc1 kernel. It needs further debug.
+
+    [2] https://lore.kernel.org/linux-block/qskveo3it6rqag4xyleobe5azpxu6te=
+kihao4qpdopvk44una2@y4lkoe6y3d6z/
+
+#2: nvme/037 (fc transport)
+#3: nvme/041 (fc transport)
+
+    These two test cases fail for fc transport. Refer to the report for v6.=
+12
+    kernel [3].
+
+    [3] https://lore.kernel.org/linux-nvme/6crydkodszx5vq4ieox3jjpwkxtu7mhb=
+ohypy24awlo5w7f4k6@to3dcng24rd4/
+
+#4: nvme/058 (loop transport)
+
+    This test case hangs occasionally with Oops and KASAN null-ptr-deref. I=
+t was
+    reported for the first time with the kernel v6.13 [1]. A fix patch cand=
+idate
+    was posted [4] (Thanks!). The patch needs further work.
+
+    [4] https://lore.kernel.org/linux-nvme/20250124082505.140258-1-hare@ker=
+nel.org/
+
+#5: zbd/009 (new)
+
+    This test case fails with a lockdep WARN "possible circular locking
+    dependency detected" [5]. The lockdep splats shows q->q_usage_counter a=
+s one
+    of the involved locks. This is common as the block/002 failure. It need=
+s
+    further debug.
+
+[5] kernel message during zbd/009 run
+
+[  204.099296] [   T1004] run blktests zbd/009 at 2025-02-07 10:01:36
+[  204.155021] [   T1040] sd 9:0:0:0: [sdd] Synchronizing SCSI cache
+[  204.553613] [   T1041] scsi_debug:sdebug_driver_probe: scsi_debug: trim =
+poll_queues to 0. poll_q/nr_hw =3D (0/1)
+[  204.554438] [   T1041] scsi host9: scsi_debug: version 0191 [20210520]
+                            dev_size_mb=3D1024, opts=3D0x0, submit_queues=
+=3D1, statistics=3D0
+[  204.558331] [   T1041] scsi 9:0:0:0: Direct-Access-ZBC Linux    scsi_deb=
+ug       0191 PQ: 0 ANSI: 7
+[  204.560269] [      C2] scsi 9:0:0:0: Power-on or device reset occurred
+[  204.562871] [   T1041] sd 9:0:0:0: Attached scsi generic sg3 type 20
+[  204.563013] [    T100] sd 9:0:0:0: [sdd] Host-managed zoned block device
+[  204.564518] [    T100] sd 9:0:0:0: [sdd] 262144 4096-byte logical blocks=
+: (1.07 GB/1.00 GiB)
+[  204.565477] [    T100] sd 9:0:0:0: [sdd] Write Protect is off
+[  204.565948] [    T100] sd 9:0:0:0: [sdd] Mode Sense: 5b 00 10 08
+[  204.566245] [    T100] sd 9:0:0:0: [sdd] Write cache: enabled, read cach=
+e: enabled, supports DPO and FUA
+[  204.567453] [    T100] sd 9:0:0:0: [sdd] permanent stream count =3D 5
+[  204.568276] [    T100] sd 9:0:0:0: [sdd] Preferred minimum I/O size 4096=
+ bytes
+[  204.569067] [    T100] sd 9:0:0:0: [sdd] Optimal transfer size 4194304 b=
+ytes
+[  204.571080] [    T100] sd 9:0:0:0: [sdd] 256 zones of 1024 logical block=
+s
+[  204.593822] [    T100] sd 9:0:0:0: [sdd] Attached SCSI disk
+[  204.901514] [   T1067] BTRFS: device fsid 15196e63-e303-48ed-9dcb-9ec397=
+479c42 devid 1 transid 8 /dev/sdd (8:48) scanned by mount (1067)
+[  204.910330] [   T1067] BTRFS info (device sdd): first mount of filesyste=
+m 15196e63-e303-48ed-9dcb-9ec397479c42
+[  204.913129] [   T1067] BTRFS info (device sdd): using crc32c (crc32c-gen=
+eric) checksum algorithm
+[  204.914856] [   T1067] BTRFS info (device sdd): using free-space-tree
+[  204.925816] [   T1067] BTRFS info (device sdd): host-managed zoned block=
+ device /dev/sdd, 256 zones of 4194304 bytes
+[  204.929320] [   T1067] BTRFS info (device sdd): zoned mode enabled with =
+zone size 4194304
+[  204.935403] [   T1067] BTRFS info (device sdd): checking UUID tree
+[  215.637712] [   T1103] BTRFS info (device sdd): last unmount of filesyst=
+em 15196e63-e303-48ed-9dcb-9ec397479c42
+
+[  215.762293] [   T1110] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[  215.763636] [   T1110] WARNING: possible circular locking dependency det=
+ected
+[  215.765092] [   T1110] 6.14.0-rc1 #252 Not tainted
+[  215.766271] [   T1110] -------------------------------------------------=
+-----
+[  215.767615] [   T1110] modprobe/1110 is trying to acquire lock:
+[  215.768999] [   T1110] ffff888100ac83e0 ((work_completion)(&(&wb->dwork)=
+->work)){+.+.}-{0:0}, at: __flush_work+0x38f/0xb60
+[  215.770700] [   T1110]=20
+                          but task is already holding lock:
+[  215.773077] [   T1110] ffff8881205b6f20 (&q->q_usage_counter(queue)#16){=
+++++}-{0:0}, at: sd_remove+0x85/0x130
+[  215.774685] [   T1110]=20
+                          which lock already depends on the new lock.
+
+[  215.778184] [   T1110]=20
+                          the existing dependency chain (in reverse order) =
+is:
+[  215.780532] [   T1110]=20
+                          -> #3 (&q->q_usage_counter(queue)#16){++++}-{0:0}=
+:
+[  215.782937] [   T1110]        blk_queue_enter+0x3d9/0x500
+[  215.784175] [   T1110]        blk_mq_alloc_request+0x47d/0x8e0
+[  215.785434] [   T1110]        scsi_execute_cmd+0x14f/0xb80
+[  215.786662] [   T1110]        sd_zbc_do_report_zones+0x1c1/0x470
+[  215.787989] [   T1110]        sd_zbc_report_zones+0x362/0xd60
+[  215.789222] [   T1110]        blkdev_report_zones+0x1b1/0x2e0
+[  215.790448] [   T1110]        btrfs_get_dev_zones+0x215/0x7e0 [btrfs]
+[  215.791887] [   T1110]        btrfs_load_block_group_zone_info+0x6d2/0x2=
+c10 [btrfs]
+[  215.793342] [   T1110]        btrfs_make_block_group+0x36b/0x870 [btrfs]
+[  215.794752] [   T1110]        btrfs_create_chunk+0x147d/0x2320 [btrfs]
+[  215.796150] [   T1110]        btrfs_chunk_alloc+0x2ce/0xcf0 [btrfs]
+[  215.797474] [   T1110]        start_transaction+0xce6/0x1620 [btrfs]
+[  215.798858] [   T1110]        btrfs_uuid_scan_kthread+0x4ee/0x5b0 [btrfs=
+]
+[  215.800334] [   T1110]        kthread+0x39d/0x750
+[  215.801479] [   T1110]        ret_from_fork+0x30/0x70
+[  215.802662] [   T1110]        ret_from_fork_asm+0x1a/0x30
+[  215.803902] [   T1110]=20
+                          -> #2 (&fs_info->dev_replace.rwsem){++++}-{4:4}:
+[  215.805993] [   T1110]        down_read+0x9b/0x470
+[  215.807088] [   T1110]        btrfs_map_block+0x2ce/0x2ce0 [btrfs]
+[  215.808366] [   T1110]        btrfs_submit_chunk+0x2d4/0x16c0 [btrfs]
+[  215.809687] [   T1110]        btrfs_submit_bbio+0x16/0x30 [btrfs]
+[  215.810983] [   T1110]        btree_write_cache_pages+0xb5a/0xf90 [btrfs=
+]
+[  215.812295] [   T1110]        do_writepages+0x17f/0x7b0
+[  215.813416] [   T1110]        __writeback_single_inode+0x114/0xb00
+[  215.814575] [   T1110]        writeback_sb_inodes+0x52b/0xe00
+[  215.815717] [   T1110]        wb_writeback+0x1a7/0x800
+[  215.816924] [   T1110]        wb_workfn+0x12a/0xbd0
+[  215.817951] [   T1110]        process_one_work+0x85a/0x1460
+[  215.818985] [   T1110]        worker_thread+0x5e2/0xfc0
+[  215.820013] [   T1110]        kthread+0x39d/0x750
+[  215.821000] [   T1110]        ret_from_fork+0x30/0x70
+[  215.822010] [   T1110]        ret_from_fork_asm+0x1a/0x30
+[  215.822988] [   T1110]=20
+                          -> #1 (&fs_info->zoned_meta_io_lock){+.+.}-{4:4}:
+[  215.824855] [   T1110]        __mutex_lock+0x1aa/0x1360
+[  215.825856] [   T1110]        btree_write_cache_pages+0x252/0xf90 [btrfs=
+]
+[  215.827089] [   T1110]        do_writepages+0x17f/0x7b0
+[  215.828027] [   T1110]        __writeback_single_inode+0x114/0xb00
+[  215.829141] [   T1110]        writeback_sb_inodes+0x52b/0xe00
+[  215.830129] [   T1110]        wb_writeback+0x1a7/0x800
+[  215.831084] [   T1110]        wb_workfn+0x12a/0xbd0
+[  215.831950] [   T1110]        process_one_work+0x85a/0x1460
+[  215.832862] [   T1110]        worker_thread+0x5e2/0xfc0
+[  215.833826] [   T1110]        kthread+0x39d/0x750
+[  215.834715] [   T1110]        ret_from_fork+0x30/0x70
+[  215.835669] [   T1110]        ret_from_fork_asm+0x1a/0x30
+[  215.836594] [   T1110]=20
+                          -> #0 ((work_completion)(&(&wb->dwork)->work)){+.=
++.}-{0:0}:
+[  215.838347] [   T1110]        __lock_acquire+0x2f52/0x5ea0
+[  215.839258] [   T1110]        lock_acquire+0x1b1/0x540
+[  215.840156] [   T1110]        __flush_work+0x3ac/0xb60
+[  215.841041] [   T1110]        wb_shutdown+0x15b/0x1f0
+[  215.841915] [   T1110]        bdi_unregister+0x172/0x5b0
+[  215.842793] [   T1110]        del_gendisk+0x841/0xa20
+[  215.843724] [   T1110]        sd_remove+0x85/0x130
+[  215.844660] [   T1110]        device_release_driver_internal+0x368/0x520
+[  215.845757] [   T1110]        bus_remove_device+0x1f1/0x3f0
+[  215.846755] [   T1110]        device_del+0x3bd/0x9c0
+[  215.847712] [   T1110]        __scsi_remove_device+0x272/0x340
+[  215.848727] [   T1110]        scsi_forget_host+0xf7/0x170
+[  215.849710] [   T1110]        scsi_remove_host+0xd2/0x2a0
+[  215.850682] [   T1110]        sdebug_driver_remove+0x52/0x2f0 [scsi_debu=
+g]
+[  215.851788] [   T1110]        device_release_driver_internal+0x368/0x520
+[  215.852853] [   T1110]        bus_remove_device+0x1f1/0x3f0
+[  215.853885] [   T1110]        device_del+0x3bd/0x9c0
+[  215.854840] [   T1110]        device_unregister+0x13/0xa0
+[  215.855850] [   T1110]        sdebug_do_remove_host+0x1fb/0x290 [scsi_de=
+bug]
+[  215.856947] [   T1110]        scsi_debug_exit+0x17/0x70 [scsi_debug]
+[  215.857968] [   T1110]        __do_sys_delete_module.isra.0+0x321/0x520
+[  215.858999] [   T1110]        do_syscall_64+0x93/0x180
+[  215.859930] [   T1110]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  215.860974] [   T1110]=20
+                          other info that might help us debug this:
+
+[  215.863317] [   T1110] Chain exists of:
+                            (work_completion)(&(&wb->dwork)->work) --> &fs_=
+info->dev_replace.rwsem --> &q->q_usage_counter(queue)#16
+
+[  215.866277] [   T1110]  Possible unsafe locking scenario:
+
+[  215.867927] [   T1110]        CPU0                    CPU1
+[  215.868904] [   T1110]        ----                    ----
+[  215.869880] [   T1110]   lock(&q->q_usage_counter(queue)#16);
+[  215.870878] [   T1110]                                lock(&fs_info->dev=
+_replace.rwsem);
+[  215.872075] [   T1110]                                lock(&q->q_usage_c=
+ounter(queue)#16);
+[  215.873274] [   T1110]   lock((work_completion)(&(&wb->dwork)->work));
+[  215.874332] [   T1110]=20
+                           *** DEADLOCK ***
+
+[  215.876625] [   T1110] 5 locks held by modprobe/1110:
+[  215.877579] [   T1110]  #0: ffff88811f7bc108 (&dev->mutex){....}-{4:4}, =
+at: device_release_driver_internal+0x8f/0x520
+[  215.879029] [   T1110]  #1: ffff8881022ee0e0 (&shost->scan_mutex){+.+.}-=
+{4:4}, at: scsi_remove_host+0x20/0x2a0
+[  215.880402] [   T1110]  #2: ffff88811b4c4378 (&dev->mutex){....}-{4:4}, =
+at: device_release_driver_internal+0x8f/0x520
+[  215.881861] [   T1110]  #3: ffff8881205b6f20 (&q->q_usage_counter(queue)=
+#16){++++}-{0:0}, at: sd_remove+0x85/0x130
+[  215.883302] [   T1110]  #4: ffffffffa3284360 (rcu_read_lock){....}-{1:3}=
+, at: __flush_work+0xda/0xb60
+[  215.884667] [   T1110]=20
+                          stack backtrace:
+[  215.886418] [   T1110] CPU: 0 UID: 0 PID: 1110 Comm: modprobe Not tainte=
+d 6.14.0-rc1 #252
+[  215.886422] [   T1110] Hardware name: QEMU Standard PC (i440FX + PIIX, 1=
+996), BIOS 1.16.3-3.fc41 04/01/2014
+[  215.886425] [   T1110] Call Trace:
+[  215.886430] [   T1110]  <TASK>
+[  215.886432] [   T1110]  dump_stack_lvl+0x6a/0x90
+[  215.886440] [   T1110]  print_circular_bug.cold+0x1e0/0x274
+[  215.886445] [   T1110]  check_noncircular+0x306/0x3f0
+[  215.886449] [   T1110]  ? __pfx_check_noncircular+0x10/0x10
+[  215.886452] [   T1110]  ? mark_lock+0xf5/0x1650
+[  215.886454] [   T1110]  ? __pfx_check_irq_usage+0x10/0x10
+[  215.886458] [   T1110]  ? lockdep_lock+0xca/0x1c0
+[  215.886460] [   T1110]  ? __pfx_lockdep_lock+0x10/0x10
+[  215.886464] [   T1110]  __lock_acquire+0x2f52/0x5ea0
+[  215.886469] [   T1110]  ? __pfx___lock_acquire+0x10/0x10
+[  215.886473] [   T1110]  ? __pfx_mark_lock+0x10/0x10
+[  215.886476] [   T1110]  lock_acquire+0x1b1/0x540
+[  215.886479] [   T1110]  ? __flush_work+0x38f/0xb60
+[  215.886482] [   T1110]  ? __pfx_lock_acquire+0x10/0x10
+[  215.886485] [   T1110]  ? __pfx_lock_release+0x10/0x10
+[  215.886488] [   T1110]  ? mark_held_locks+0x94/0xe0
+[  215.886492] [   T1110]  ? __flush_work+0x38f/0xb60
+[  215.886494] [   T1110]  __flush_work+0x3ac/0xb60
+[  215.886498] [   T1110]  ? __flush_work+0x38f/0xb60
+[  215.886501] [   T1110]  ? __pfx_mark_lock+0x10/0x10
+[  215.886503] [   T1110]  ? __pfx___flush_work+0x10/0x10
+[  215.886506] [   T1110]  ? __pfx_wq_barrier_func+0x10/0x10
+[  215.886515] [   T1110]  ? __pfx___might_resched+0x10/0x10
+[  215.886520] [   T1110]  ? mark_held_locks+0x94/0xe0
+[  215.886524] [   T1110]  wb_shutdown+0x15b/0x1f0
+[  215.886527] [   T1110]  bdi_unregister+0x172/0x5b0
+[  215.886530] [   T1110]  ? __pfx_bdi_unregister+0x10/0x10
+[  215.886535] [   T1110]  ? up_write+0x1ba/0x510
+[  215.886539] [   T1110]  del_gendisk+0x841/0xa20
+[  215.886543] [   T1110]  ? __pfx_del_gendisk+0x10/0x10
+[  215.886546] [   T1110]  ? _raw_spin_unlock_irqrestore+0x35/0x60
+[  215.886550] [   T1110]  ? __pm_runtime_resume+0x79/0x110
+[  215.886556] [   T1110]  sd_remove+0x85/0x130
+[  215.886558] [   T1110]  device_release_driver_internal+0x368/0x520
+[  215.886563] [   T1110]  ? kobject_put+0x5d/0x4a0
+[  215.886567] [   T1110]  bus_remove_device+0x1f1/0x3f0
+[  215.886570] [   T1110]  device_del+0x3bd/0x9c0
+[  215.886574] [   T1110]  ? __pfx_device_del+0x10/0x10
+[  215.886578] [   T1110]  __scsi_remove_device+0x272/0x340
+[  215.886581] [   T1110]  scsi_forget_host+0xf7/0x170
+[  215.886585] [   T1110]  scsi_remove_host+0xd2/0x2a0
+[  215.886587] [   T1110]  sdebug_driver_remove+0x52/0x2f0 [scsi_debug]
+[  215.886600] [   T1110]  ? kernfs_remove_by_name_ns+0xc0/0xf0
+[  215.886607] [   T1110]  device_release_driver_internal+0x368/0x520
+[  215.886610] [   T1110]  ? kobject_put+0x5d/0x4a0
+[  215.886613] [   T1110]  bus_remove_device+0x1f1/0x3f0
+[  215.886616] [   T1110]  device_del+0x3bd/0x9c0
+[  215.886619] [   T1110]  ? __pfx_device_del+0x10/0x10
+[  215.886621] [   T1110]  ? __pfx___mutex_unlock_slowpath+0x10/0x10
+[  215.886626] [   T1110]  device_unregister+0x13/0xa0
+[  215.886628] [   T1110]  sdebug_do_remove_host+0x1fb/0x290 [scsi_debug]
+[  215.886640] [   T1110]  scsi_debug_exit+0x17/0x70 [scsi_debug]
+[  215.886652] [   T1110]  __do_sys_delete_module.isra.0+0x321/0x520
+[  215.886655] [   T1110]  ? __pfx___do_sys_delete_module.isra.0+0x10/0x10
+[  215.886657] [   T1110]  ? __pfx_slab_free_after_rcu_debug+0x10/0x10
+[  215.886665] [   T1110]  ? kasan_save_stack+0x2c/0x50
+[  215.886670] [   T1110]  ? kasan_record_aux_stack+0xa3/0xb0
+[  215.886673] [   T1110]  ? __call_rcu_common.constprop.0+0xc4/0xfb0
+[  215.886677] [   T1110]  ? kmem_cache_free+0x3a0/0x590
+[  215.886679] [   T1110]  ? __x64_sys_close+0x78/0xd0
+[  215.886687] [   T1110]  do_syscall_64+0x93/0x180
+[  215.886694] [   T1110]  ? lock_is_held_type+0xd5/0x130
+[  215.886697] [   T1110]  ? __call_rcu_common.constprop.0+0x3c0/0xfb0
+[  215.886699] [   T1110]  ? lockdep_hardirqs_on+0x78/0x100
+[  215.886701] [   T1110]  ? __call_rcu_common.constprop.0+0x3c0/0xfb0
+[  215.886705] [   T1110]  ? __pfx___call_rcu_common.constprop.0+0x10/0x10
+[  215.886710] [   T1110]  ? kmem_cache_free+0x3a0/0x590
+[  215.886713] [   T1110]  ? lockdep_hardirqs_on_prepare+0x16d/0x400
+[  215.886715] [   T1110]  ? do_syscall_64+0x9f/0x180
+[  215.886717] [   T1110]  ? lockdep_hardirqs_on+0x78/0x100
+[  215.886719] [   T1110]  ? do_syscall_64+0x9f/0x180
+[  215.886721] [   T1110]  ? __pfx___x64_sys_openat+0x10/0x10
+[  215.886725] [   T1110]  ? lockdep_hardirqs_on_prepare+0x16d/0x400
+[  215.886727] [   T1110]  ? do_syscall_64+0x9f/0x180
+[  215.886729] [   T1110]  ? lockdep_hardirqs_on+0x78/0x100
+[  215.886731] [   T1110]  ? do_syscall_64+0x9f/0x180
+[  215.886734] [   T1110]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  215.886737] [   T1110] RIP: 0033:0x7f436712b68b
+[  215.886741] [   T1110] Code: 73 01 c3 48 8b 0d 8d a7 0c 00 f7 d8 64 89 0=
+1 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 b0 00 00 0=
+0 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 5d a7 0c 00 f7 d8 64 89 01 48
+[  215.886743] [   T1110] RSP: 002b:00007ffe9f1a8658 EFLAGS: 00000206 ORIG_=
+RAX: 00000000000000b0
+[  215.886750] [   T1110] RAX: ffffffffffffffda RBX: 00005559b367fd80 RCX: =
+00007f436712b68b
+[  215.886753] [   T1110] RDX: 0000000000000000 RSI: 0000000000000800 RDI: =
+00005559b367fde8
+[  215.886754] [   T1110] RBP: 00007ffe9f1a8680 R08: 1999999999999999 R09: =
+0000000000000000
+[  215.886756] [   T1110] R10: 00007f43671a5fe0 R11: 0000000000000206 R12: =
+0000000000000000
+[  215.886757] [   T1110] R13: 00007ffe9f1a86b0 R14: 0000000000000000 R15: =
+0000000000000000
+[  215.886761] [   T1110]  </TASK>
+[  215.989918] [   T1110] sd 9:0:0:0: [sdd] Synchronizing SCSI cache=
 
