@@ -4,81 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00CB0C02194
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Feb 2025 12:31:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 408DCC02194
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Feb 2025 12:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2uqmXUQfJ5Qa8X4fDVoMUCTpJSyqJ1Rvy4Nc7C5ydrc=; b=XsEtmzgbgT/pj1TBwQPN7lzy6K
-	7++O+jvjZFYx6iQhyvVAkIwcsx+VDKS84CGKSqdHT3Va8kzHlFZHIqQc9u4+UT0S0Zd/4JP8XTvOU
-	xhBQm+sl6ompdm/Pave2WC5D3m0cZs0TA/LXxVDSNxx4+gO0K9Li3nYDCyss5YaAXCHqPnoRQKs8l
-	k9lOPJxK5g8Rk0o3JC7L5GOZ6A0fanfkMUfVMi1kEzWiBh0Haofx494iu/cfqE0egepZOj0MUDxmL
-	WbhcZ5oHdMagBYxysuL8BGlRHbATMOMdTdsgQuFDp8wKQP3RaAA3jKpnNYV+Fvgm8UXY7AipttBns
-	fNMMAjyg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=R9eAjJ4t7im4A1K/cc9xt7vD4pFD+mUNQ0KMuBOQaNw=; b=AdaRQsfq6LeA7IEvivC+8WKzQ/
+	BrOBipu/WIV/NDLa85ip/CNeT+8ekP+K2AfdIV+CnagwRh3XPczMY+MiopL1QAGlSkfqltwnokSsx
+	+5UV7Xwrd9yzzFb97VEHGDbS1E6YcE5ruKxFU1DFUm6sKm3VRjHADzeDyR2rkM3QcEJeibJxOe0/D
+	beI2krOfR8Jx387l/pe9Cxeh1MiC9F0/2dRTtL/MUosox0kVEhEVmRlRk/oCnLWkoToOXyNe9Vqyi
+	34M0IySSJi1+vOfmNbrh02FGDrK+ORHmA/DSGFxGwpZWSLUVUxb+BRrGUx3j1IxmvHRnBBg7GxEev
+	X1PAWBQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tgNW1-00000009Wak-3N9L;
-	Fri, 07 Feb 2025 12:31:25 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1tgNh6-00000009Xxq-1pxz;
+	Fri, 07 Feb 2025 12:42:52 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tgNVy-00000009WZe-0thX
+	id 1tgNfz-00000009XqD-3P7r
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Feb 2025 12:31:24 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4YqCxW2pjsz4f3jMQ
-	for <linux-nvme@lists.infradead.org>; Fri,  7 Feb 2025 20:30:55 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id E83641A12BD
-	for <linux-nvme@lists.infradead.org>; Fri,  7 Feb 2025 20:31:17 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgD3Wl8V_aVnR2qtDA--.49471S3;
-	Fri, 07 Feb 2025 20:31:17 +0800 (CST)
-Message-ID: <5e4cfa32-83bc-4025-a5db-298b7c080037@huaweicloud.com>
-Date: Fri, 7 Feb 2025 20:31:16 +0800
+	Fri, 07 Feb 2025 12:41:44 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1B05B5C5E58;
+	Fri,  7 Feb 2025 12:41:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E313C4CED1;
+	Fri,  7 Feb 2025 12:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738932102;
+	bh=PiBLBtIHGu5qB7UMvHsFOUPUwnT3adQ5VTbE/0DrFMc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=vNsg6+lfN5Q6EzJLpakM9LRCRsox/m/UvPDW/ixLv/7GxFVddGdVhbkq0Ivpbxtcl
+	 siGpjDK3zL9MSMFfK6rhQ9rkuShAHofJnSh9izt0QdUqKTlqHxbBicdwlCZCrtUWx4
+	 kWrBU+uEyczet7uJ3WqLn+GwndxvuVZkrme8Yqlchsdg5Oh3Wh5HDKDYmSPPSGaMY/
+	 VDNiM4LYvsfwR6U2sjMDjpDWFB9C49EBqkYhOnJSiqyQ9N+2MR8CQELdPTFccM9JXU
+	 FZZQQ4i6STyk5vzbo7BoA4K71dp8SJGZsMCkM1ARex8X4TvY/hobZ8VA2rN/q6EARK
+	 Wwhaul5ZjUI9Q==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>,
+	Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCHv2] nvmet: Fix crash when a namespace is disabled
+Date: Fri,  7 Feb 2025 13:41:34 +0100
+Message-Id: <20250207124134.114622-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/8] block: introduce BLK_FEAT_WRITE_ZEROES_UNMAP
- to queue limits features
-To: John Garry <john.g.garry@oracle.com>
-Cc: linux-kernel@vger.kernel.org, hch@lst.de, tytso@mit.edu,
- djwong@kernel.org, chengzhihao1@huawei.com, yukuai3@huawei.com,
- yangerkun@huawei.com, Zhang Yi <yi.zhang@huawei.com>,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
-References: <20250115114637.2705887-1-yi.zhang@huaweicloud.com>
- <20250115114637.2705887-2-yi.zhang@huaweicloud.com>
- <d0f8315b-e006-498a-b3e8-77542f352d40@oracle.com>
- <dfd16793-f1fb-4ce6-8ad8-86de0818ff4e@huaweicloud.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <dfd16793-f1fb-4ce6-8ad8-86de0818ff4e@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: gCh0CgD3Wl8V_aVnR2qtDA--.49471S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCFWrKF18ZryfJryUAr4Utwb_yoW5WF4rpF
-	yvgFyDtr93tF1xAwn2vanFgFW5Zws3Aa4fGwn8tryj9rs8ZFySgFW0gFy5u347Wryfuw18
-	tFWYvr9xCa10yF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUrs
-	qXDUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250207_043122_585716_7F9A796B 
-X-CRM114-Status: GOOD (  20.24  )
+X-CRM114-CacheID: sfid-20250207_044143_938217_AA012713 
+X-CRM114-Status: GOOD (  12.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,71 +72,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025/2/7 20:22, Zhang Yi wrote:
-> On 2025/1/29 0:46, John Garry wrote:
->> On 15/01/2025 11:46, Zhang Yi wrote:
->>> From: Zhang Yi <yi.zhang@huawei.com>
->>>
->>> Currently, it's hard to know whether the storage device supports unmap
->>> write zeroes. We cannot determine it only by checking if the disk
->>> supports the write zeroes command, as for some HDDs that do submit
->>> actual zeros to the disk media even if they claim to support the write
->>> zeroes command, but that should be very slow.
->>
->> This second sentence is too long, such that your meaning is hard to understand.
->>
->>>
->>> Therefor, add a new queue limit feature, BLK_FEAT_WRITE_ZEROES_UNMAP and
->>
->> Therefore?
->>
->>> the corresponding sysfs entry, to indicate whether the block device
->>> explicitly supports the unmapped write zeroes command. Each device
->>> driver should set this bit if it is certain that the attached disk
->>> supports this command. 
->>
->> How can they be certain? You already wrote that some claim to support it, yet don't really. Well, I think that is what you meant.
->>
-> 
-> Hi, John. thanks for your reply!
-> 
-> Sorry for the late and not make it clear enough earlier. Currently, there
-> are four situations of write zeroes command (aka REQ_OP_WRITE_ZEROES)
-> supported by various disks and backend storage devices.
-> 
-> A. Devices that do not support the write zeroes command
->    These devices have bdev_limits(bdev)->max_write_zeroes_sectors set to
->    zero.
-> B. Devices that support the write zeroes command
->    These devices have bdev_limits(bdev)->max_write_zeroes_sectors set to a
->    non-zero value. They can be further categorized into three
->    sub-situations:
-> B.1. Devices that write physical zeroes to the media
->      These devices perform the write zeroes operation by physically writing
->      zeroes to the storage media, which can be very slow (e.g., HDDs).
-> B.2. Devices that support unmap write zeroes
->      These devices can offload the write zeroes operation by unmapping the
->      logical blocks, effectively putting them into a deallocated state
->      (e.g., SSDs). This operation is typically very fast, allowing
->      filesystems to use this command to quickly create zeroed files. NVMe
->      and SCSI disk drivers already support this and can query the attached
->      disks to determine whether they support unmap write zeroes (please see
->      patches 2 and 3 for details).
-> B.3. The implementation of write zeroes on disks are unknown
->      This category includes non-standard disks and some network storage
->      devices where the exact implementation of the write zeroes command is
->      unclear.
-> 
-> Currently, users can only distinguish A and B through querying
-> 
->    /sys/block/<disk>/queue/write_zeroes_unmap
-                             ^^^^^^^^^^^^^^^^^^
-Oh, sorry, it should be 'write_zeroes_max_bytes'
+The namespace percpu counter protects pending I/O, and we can
+only safely diable the namespace once the counter drop to zero.
+Otherwise we end up with a crash when running blktests/nvme/058
+(eg for loop transport):
 
-     /sys/block/<disk>/queue/write_zeroes_max_bytes
+[ 2352.930426] [  T53909] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000005: 0000 [#1] PREEMPT SMP KASAN PTI
+[ 2352.930431] [  T53909] KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
+[ 2352.930434] [  T53909] CPU: 3 UID: 0 PID: 53909 Comm: kworker/u16:5 Tainted: G        W          6.13.0-rc6 #232
+[ 2352.930438] [  T53909] Tainted: [W]=WARN
+[ 2352.930440] [  T53909] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
+[ 2352.930443] [  T53909] Workqueue: nvmet-wq nvme_loop_execute_work [nvme_loop]
+[ 2352.930449] [  T53909] RIP: 0010:blkcg_set_ioprio+0x44/0x180
 
-Thanks,
-Yi.
+as the queue is already torn down when calling submit_bio();
 
+So we need to init the percpu counter in nvmet_ns_enable(), and
+wait for it to drop to zero in nvmet_ns_disable() to avoid having
+I/O pending after the namespace has been disabled.
+
+Fixes: 74d16965d7ac ("nvmet-loop: avoid using mutex in IO hotpath")
+
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/target/core.c | 40 ++++++++++++++++++--------------------
+ 1 file changed, 19 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index cdc4a09a6e8a..2e741696f371 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -606,6 +606,9 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 			goto out_dev_put;
+ 	}
+ 
++	if (percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL))
++		goto out_pr_exit;
++
+ 	nvmet_ns_changed(subsys, ns->nsid);
+ 	ns->enabled = true;
+ 	xa_set_mark(&subsys->namespaces, ns->nsid, NVMET_NS_ENABLED);
+@@ -613,6 +616,9 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+ 	return ret;
++out_pr_exit:
++	if (ns->pr.enable)
++		nvmet_pr_exit_ns(ns);
+ out_dev_put:
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		pci_dev_put(radix_tree_delete(&ctrl->p2p_ns_map, ns->nsid));
+@@ -638,6 +644,19 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 
+ 	mutex_unlock(&subsys->lock);
+ 
++	/*
++	 * Now that we removed the namespaces from the lookup list, we
++	 * can kill the per_cpu ref and wait for any remaining references
++	 * to be dropped, as well as a RCU grace period for anyone only
++	 * using the namepace under rcu_read_lock().  Note that we can't
++	 * use call_rcu here as we need to ensure the namespaces have
++	 * been fully destroyed before unloading the module.
++	 */
++	percpu_ref_kill(&ns->ref);
++	synchronize_rcu();
++	wait_for_completion(&ns->disable_done);
++	percpu_ref_exit(&ns->ref);
++
+ 	if (ns->pr.enable)
+ 		nvmet_pr_exit_ns(ns);
+ 
+@@ -660,22 +679,6 @@ void nvmet_ns_free(struct nvmet_ns *ns)
+ 	if (ns->nsid == subsys->max_nsid)
+ 		subsys->max_nsid = nvmet_max_nsid(subsys);
+ 
+-	mutex_unlock(&subsys->lock);
+-
+-	/*
+-	 * Now that we removed the namespaces from the lookup list, we
+-	 * can kill the per_cpu ref and wait for any remaining references
+-	 * to be dropped, as well as a RCU grace period for anyone only
+-	 * using the namepace under rcu_read_lock().  Note that we can't
+-	 * use call_rcu here as we need to ensure the namespaces have
+-	 * been fully destroyed before unloading the module.
+-	 */
+-	percpu_ref_kill(&ns->ref);
+-	synchronize_rcu();
+-	wait_for_completion(&ns->disable_done);
+-	percpu_ref_exit(&ns->ref);
+-
+-	mutex_lock(&subsys->lock);
+ 	subsys->nr_namespaces--;
+ 	mutex_unlock(&subsys->lock);
+ 
+@@ -705,9 +708,6 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 	ns->nsid = nsid;
+ 	ns->subsys = subsys;
+ 
+-	if (percpu_ref_init(&ns->ref, nvmet_destroy_namespace, 0, GFP_KERNEL))
+-		goto out_free;
+-
+ 	if (ns->nsid > subsys->max_nsid)
+ 		subsys->max_nsid = nsid;
+ 
+@@ -730,8 +730,6 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 	return ns;
+ out_exit:
+ 	subsys->max_nsid = nvmet_max_nsid(subsys);
+-	percpu_ref_exit(&ns->ref);
+-out_free:
+ 	kfree(ns);
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+-- 
+2.35.3
 
 
