@@ -4,55 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94F06C02198
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Feb 2025 16:42:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3940BC0219E
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Feb 2025 19:34:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
-	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pInBy8YX1VZfoKLrPNtGqsHJ8GKtyDoFXM54Z975PS0=; b=1iPNqXz18djUuS/WkmIufjt0AZ
-	KsI7STBF/LzuN8uEmN0aWWQpQggGMjnqlD2syY+oyOmXM2N1zc4g7W0ugbggav0odIxXy+q9AH+Go
-	k9W4K3Jx2WLheq6wogqmF6XYgAoDyo0z8pImmmKG4aQtDzPCmLUSZuegZ3+V1nWzYUypUA8FPFhOm
-	hdeB1VKCNQThiv16uDYRDhI9de+PU9LcsZa5UmbkYXyhO4RRPQTyP2C/gmgAh+Gdkfk6bhBp/B96N
-	3yqxMchoBPz62M8tN7ZSEDoERfluUR98RuUFQp3cRFAa2025MLqE6ZVBQpyDbXZXZH/V7VLfXuBky
-	cCSG+2Og==;
+	bh=uiHhDHGEQBKgaz2PgoZcIooxcWU0Z6BNt/oykAlJWlk=; b=h8G+fkJRJD6AQya0gInln+oENG
+	K/XhrzNUyxxORsTbmEzq4WZj1qNG125QGqWWdpgSUUv9AdJ3/LSPJDDe6SR8kvCohZT8tmuq74Evu
+	VrinivA625gedHLPKljmQ1v4wOPsIeMqBAsfcF/EMuCzJ2Q8nGECc5QjaF/5o+49syjKxQEix27DQ
+	Kvq8iSZ0XcTSKEFvJfyx0KmeQrr+V7h8INWXauZnUke0tpr0rMcwMoVEGWXAodYDghDr1yoCxs198
+	RgoyJ7dosYjDi2R0lq9ge4IeWwS4CKANfeyH3AJlvhy9R3MAhyTfpqo8q4ss3cEjEYFTqmG81oHjP
+	JS/rPxYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1thWrw-00000000Yoh-2V3P;
-	Mon, 10 Feb 2025 16:42:48 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1thZYP-000000016QW-2hbN;
+	Mon, 10 Feb 2025 19:34:49 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1thWpV-00000000YIh-0b3X
+	id 1thXWt-00000000iIb-0fPG
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Feb 2025 16:40:18 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id dc734ee4 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Mon, 10 Feb 2025 17:40:13 +0100 (CET)
-Mime-Version: 1.0
+	Mon, 10 Feb 2025 17:25:08 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-21fa8ca8eedso1618705ad.0
+        for <linux-nvme@lists.infradead.org>; Mon, 10 Feb 2025 09:25:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1739208306; x=1739813106; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uiHhDHGEQBKgaz2PgoZcIooxcWU0Z6BNt/oykAlJWlk=;
+        b=Ccuoc3We3CFFpPYwAm4jOKKCKb4LH/RAQmloSA8EmDcnEJuIjB6FSZ6853SSixDr+W
+         5Z0ZGmqhkZltuf9ayQD1H6NQjd/Ia6BM/oJLqxlxGG45IaZJwoA2x8+oyDNZbgsauVZU
+         3cgfAwMakiLb2rt+Bu0bDOueqDtp0uVshLR7NdvXrNlPMsraYvz7Ma2LvjCzaqPYJHEz
+         CPjkjClKqAUhUvQy2tSdgJ5er1JxdHXKuJzkXj5mGkAhc9siJ1mz1G0J75pJNjuYJfwr
+         Kk8PL0qRl81V0yH8DbmWFu+85494XyzFZ/2ngZ8wWw1231mqpgqIhUylBmrbOyTK0Q4P
+         zwiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739208306; x=1739813106;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uiHhDHGEQBKgaz2PgoZcIooxcWU0Z6BNt/oykAlJWlk=;
+        b=naoWRcMUqUADKaHg2ddagv32W8pOX9ZNIjRkQ6nyDSlsfcimCyyuDE5xX4mFIH5Zbn
+         KqrH/5yMYK9VFXjg8J741ZV43HQHd6ssfi/YDVO7mE2OnwD2EgoA4U9rhAV7ParqAjFI
+         lZUDQ8tsMUrjKGbVBSrS7Jm7d16vmH8WMHHbxa6NUDlpQngBaFkxtzt/CxInKm3ToKfz
+         QOMwmsqpzqxf+j0gU8mqWxpsLEjKObml3lMB8VYIX/onCXHK5ve/E5CGTkVHEG9kwoVl
+         Bvk3IAJoWLWO6M8B8nLoIVD5O/jj856qvAtZSU1nhoI0F54moTM3HRmat3kGjhnwwZHw
+         Qj/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUNLCVXLj0BdZQFxTexaVDp2uPu+Z5omppIEVO6+Ri2JvzchJD6F5Kiybsh1KY4+sUuP8DoAbnJhx3z@lists.infradead.org
+X-Gm-Message-State: AOJu0YztrytVU6CRhXfIJSTMUPU+jslbtD9cVvWKpcotXEWxETrFIQM+
+	G/aRhZw0IkScYXwqnOU+VmT60Rv22ko3OkUNQkB29VobVAST439i8GrZ4/Oq1umduWRWmOjM7Fo
+	eCkw/HBVsNE8XiALVe96jWshUR7jkm+ChG0+iUw==
+X-Gm-Gg: ASbGncsRxBCYuE+RI/32YO4p6FYx1mcj27OUGcZJTcacKeicpHcBddmbE4xcdGsQSh/
+	rKw/m6WpO9K/inabrQ5bDV87uqKIl2yQx9kGdQBnskv/m2hiCcm0w5a0Rh0SndzYsmeRrAyk=
+X-Google-Smtp-Source: AGHT+IEucDmoU7uRoUcUzInTENWREnMD4L1AyE6xcdfr+RGfCaLMUeRX+royuye7P0fqaQr/ICee4T7+MJHFpc2xSMA=
+X-Received: by 2002:a17:902:f787:b0:21d:da9e:1465 with SMTP id
+ d9443c01a7336-21f4e771c03mr81754695ad.9.1739208306035; Mon, 10 Feb 2025
+ 09:25:06 -0800 (PST)
+MIME-Version: 1.0
+References: <20250124184311.1642797-1-csander@purestorage.com>
+ <9ea74200-7cbc-4a30-9503-864dcec9b45d@suse.de> <CADUfDZoT7JW+d+j6YNmWJ3CKZ45gbvcUSsE6boZwE1C3iXw2_g@mail.gmail.com>
+ <f75c62ce-04a7-4bc0-ae77-8ed80842bf37@suse.de> <CADUfDZrvHmYQgqu5GiQDrAg_MOEiRigCLCmBSO6jeyd1z+Q-JQ@mail.gmail.com>
+ <3bcc6e3f-5172-40d4-a4d4-b0f914b9406b@grimberg.me> <CADUfDZq3ZqpP9hZhgG1gzyyggG6SCQiHqHdgbm95TU2oZ5QFUQ@mail.gmail.com>
+ <17d0b30a-758c-4a84-9879-0a070656f15e@suse.de> <CADUfDZqy4tO5DxWejvBN7-xBVfCfKae4PDq70NYsgMhU+kkJ-A@mail.gmail.com>
+In-Reply-To: <CADUfDZqy4tO5DxWejvBN7-xBVfCfKae4PDq70NYsgMhU+kkJ-A@mail.gmail.com>
+From: Caleb Sander <csander@purestorage.com>
+Date: Mon, 10 Feb 2025 09:24:54 -0800
+X-Gm-Features: AWEUYZn8c6zrSakAY3hcSFiGE8Sm0IPAE1CQT-nVVZsAnpFS1UgYjiv8pRgN3ls
+Message-ID: <CADUfDZp5E-oc+ikHQxvFyR7nLPWiOjqKQudC04roarn5ps9w1A@mail.gmail.com>
+Subject: Re: [PATCH v4] nvme-tcp: fix connect failure on receiving partial
+ ICResp PDU
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Maurizio Lombardi <mlombard@redhat.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 10 Feb 2025 17:40:13 +0100
-Message-Id: <D7OWXONOUZ1Y.19KIRCQDVRTKN@bsdbackstore.eu>
-Subject: Re: nvme-tcp: fix a possible UAF when failing to send request
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Max Gurtovoy" <mgurtovoy@nvidia.com>, "zhang.guanghui@cestc.cn"
- <zhang.guanghui@cestc.cn>, "sagi" <sagi@grimberg.me>, "kbusch"
- <kbusch@kernel.org>, "sashal" <sashal@kernel.org>, "chunguang.xu"
- <chunguang.xu@shopee.com>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>, "linux-nvme"
- <linux-nvme@lists.infradead.org>, "linux-block"
- <linux-block@vger.kernel.org>
-X-Mailer: aerc
-References: <2025021015413817916143@cestc.cn>
- <D7OOGIOAJRUH.9LOJ3X4IUKQV@bsdbackstore.eu>
- <3f1f7ec3-cb49-4d66-b2b0-57276a6c62f0@nvidia.com>
-In-Reply-To: <3f1f7ec3-cb49-4d66-b2b0-57276a6c62f0@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250210_084017_525065_C93FF312 
-X-CRM114-Status: UNSURE (   9.03  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250210_092507_238731_268362FE 
+X-CRM114-Status: GOOD (  17.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,25 +99,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Feb 10, 2025 at 11:24 AM CET, Max Gurtovoy wrote:
->
-> It seems to me that the HOST_PATH_ERROR handling can be improved in=20
-> nvme-tcp.
->
-> In nvme-rdma we use nvme_host_path_error(rq) and nvme_cleanup_cmd(rq) in=
-=20
-> case we fail to submit a command..
->
-> can you try to replacing nvme_tcp_end_request(blk_mq_rq_from_pdu(req),=20
-> NVME_SC_HOST_PATH_ERROR); call with the similar logic we use in=20
-> nvme-rdma for host path error handling ?
+Gentle ping on this patch. Sagi reviewed it, and I don't hear any
+additional comments from Hannes.
 
-Yes, I could try to prepare a patch.
+Thanks,
+Caleb
 
-In any case, I think the main issue here is that nvme_tcp_poll()
-should be prevented from racing against io_work... and I also think
-there is a possible race condition if nvme_tcp_poll() races against
-the controller resetting code.
-
-Maurizio
+On Tue, Feb 4, 2025 at 2:20=E2=80=AFPM Caleb Sander <csander@purestorage.co=
+m> wrote:
+>
+> On Sun, Feb 2, 2025 at 11:20=E2=80=AFPM Hannes Reinecke <hare@suse.de> wr=
+ote:
+> ...
+> > The PSK identification has to contain the host NQN _and_ the target NQN=
+.
+> > So you need to call gen-tls-key with both in order to generate a PSK
+> > with an identitify which can be found for a connection attempt.
+>
+> Got it. With "--hostnqn `cat /etc/nvme/hostnqn`" added to the nvme
+> gen-tls-key commands, the discovery and connection succeed. I see the
+> same behavior with and without my patch.
+>
+> $ nvme connect-all --transport tcp --traddr 127.0.0.1 --trsvcid 4420 --tl=
+s
+> $ nvme list
+> Node                  Generic               SN                   Model
+>                                    Namespace  Usage
+>   Format           FW Rev
+> --------------------- --------------------- --------------------
+> ---------------------------------------- ----------
+> -------------------------- ---------------- --------
+> /dev/nvme1n1          /dev/ng1n1            d95671fe6e0ebf8c199c Linux
+>                                    0x1        268.44  GB / 268.44  GB
+>   512   B +  0 B   5.14.0-5
+>
+> Hannes, is there any other information you need or do you think this
+> patch can be merged?
+>
+> Thanks,
+> Caleb
 
