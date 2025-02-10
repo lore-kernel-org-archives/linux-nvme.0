@@ -4,91 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F260C0219B
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Feb 2025 06:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17027C0219B
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Feb 2025 06:40:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TDrreukPOYO7oq2sreS0k7npIsPrcaogPlyj/E66n8M=; b=Nf2B6ycFY+zt47XI6juuGq9zG6
-	QvkzUUqQtIlME+mZJN3OP+XHGusNXwYHmcPjvKjwhNwX0JYQNQQtUOje7kid2lu8lcWI3TcCwxpr9
-	s67LYgBcGiXx/00o5M9U8h+yLy7jDnNvrhi7VkqVD/9K73yQ7nc8NSL+YEUq/SE8wn+M9wuA79yPh
-	F1LA7yXqbUKyHoP6IYjxqYb8AJDQlAIF/Wu9Jl+nr+vuFyAuBm4JCH7dZO4VZLLZs26fe4bXyTPBA
-	yTFY+lIorE6LRyXrpYbzJKasz1jLt5x4Wjioyo7TNj8E/T0JFTbGl3QUGE+n9l0x+EYnzsIj6tgeW
-	MAazmQsw==;
+	bh=LxE6aeuZ6icUuNgn0+qtoSgt4QTImDEuV+J46d7tdCE=; b=dcyp3NIxH5ssKrwNt2PhkhuBM1
+	k8CLwfR1DDB/UJj1VhOrTNDbo9KrY8tSuecwpMdZn/DQMYhgqMb+8DtcT+fPJ3ESN/JUHyqBmPlYd
+	uIOn+/HVzSDjOM+6Fh5q5zosYCQP9bA4P8vt4H5Dgm1bZaWaoqY7n3ed0jXs1K/z6ev3FLTHMuFiv
+	0sy8j2JF9TZ5x7y1XTtv6T7xuLz4XaPz1LSFgU6HzZGx0qTmH+fg5H4tNhQpqL12N0DW+A3vNJP6r
+	E7VUFoZu4SeEWI4Ox4+4JaIKU2FfXuZmkVrNUepQTzkDk4H9ngSu/XOoB29qRGfGglhE8LvN5JTsw
+	hH+2t9kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1thNOx-0000000GO2S-273Q;
-	Mon, 10 Feb 2025 06:36:15 +0000
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+	id 1thNSa-0000000GOgL-1RmG;
+	Mon, 10 Feb 2025 06:40:00 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1thNOu-0000000GO1p-1Fjr
+	id 1thNSW-0000000GOev-3HP1
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Feb 2025 06:36:14 +0000
-Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-2f83a8afcbbso6184044a91.1
-        for <linux-nvme@lists.infradead.org>; Sun, 09 Feb 2025 22:36:11 -0800 (PST)
+	Mon, 10 Feb 2025 06:39:58 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-21f40deb941so79991445ad.2
+        for <linux-nvme@lists.infradead.org>; Sun, 09 Feb 2025 22:39:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739169370; x=1739774170; darn=lists.infradead.org;
+        d=linaro.org; s=google; t=1739169593; x=1739774393; darn=lists.infradead.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=TDrreukPOYO7oq2sreS0k7npIsPrcaogPlyj/E66n8M=;
-        b=rpIyqZbnrlgoSLnrRSI6cshxkXPZ9JDe4CsKQ82PTr1SuB2a1XDAANa6eBisAk69Tl
-         EaQmPXAWDTdFszPhCcdX68kGFXWmeh0Geqy1gUrl4vWgq0798/LTD9NGvOm6xrAnmDeS
-         EucTTMtxsZN9OakGL8yNYa98MWC7Y8Rl6rPymaImRY+NK9nRS/3frsYOoNmkAHOg9iVR
-         hS6khKmhvY+SJREp0NMZA4TCdBfcR6o0P74cMrppLceA2Ir2eeUhSVVU6jghOV9aAx7z
-         k6Opn5LAaKvUUb/u48n0ztOHrfCb26PXGlo1IUfIn3E+NAVD1khWKsXDZpgSJhPfDfMt
-         78YQ==
+        bh=LxE6aeuZ6icUuNgn0+qtoSgt4QTImDEuV+J46d7tdCE=;
+        b=i3Ck/sIXrvZBWstgPVReLM0AMrj0Y7DQw+xO7Td7X+2VlzJiv1qXDCa1od5vMaNoYR
+         C3Qb4ib9vSXWYTfheE9B1c8uOhqsP9xsIAMNA0d4R58wDSh9l5JryBZUB/r+Etmc3J7W
+         2DtU1qJUho1MKQnvGHv5GCuZrqFUkf6/F59JVaFNKztpp8vSg9CFGRAXL/Ewe3Ad21B+
+         uStKx/RUXnbXHXMyPZGYBozxdDwV1zjAC4RSdO+g9uDAlJC7opF3Q0T+WcDUKwNAMfqJ
+         klBtzxK4pAgm0v+//fesxjITg+BqP9Ey1cTafi+C0AV97HHPqZucVEBzb9jSVu9sUXwu
+         spcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739169370; x=1739774170;
+        d=1e100.net; s=20230601; t=1739169593; x=1739774393;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TDrreukPOYO7oq2sreS0k7npIsPrcaogPlyj/E66n8M=;
-        b=XHxsEeWW2YvCVs7ooQviDlNxscVcC78lCmB1Uj38WEHyyAJNn7IlDBco42SMBG5d03
-         qRvtyET3pvg+nh5XNai2celZX2N8WlBHslTGfSZ9OqD9mnAlWm1Qrmy1qDkunBOGZ3sP
-         9iFzcvs17tlnRTfWIFTdUqnlpVB4osORb363LE0GJ4wCfpAs78MKvv2Cx44ab5JvuENS
-         9i/0P7ysUnqrXxZ+GL9CHpGRVz7rEBIXjs80IKdhIW2k7noBBA4dzJAIoZSvtBJLHrWU
-         Z+ic51afcCa/CDykpmp3Y8Neid03jI6Jvvp5GAKrdwgiZ84XlY2GXRYyt9F1hJSF3BJV
-         JNLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3d8CR6sy0RgVGq7ITJGhwLzvc+np/FsqrPfBaZiaJYEzZb/U5LqiCeAurUOHaKFHkeLfXIHkrhkEn@lists.infradead.org
-X-Gm-Message-State: AOJu0YyMTCJ7P6JYqO2THxxiIr/KE8o/ZuWm+ILjIy6PVTdxN8PBr+qu
-	LvbBs1QF/lh/KZw099xUZZqye1fsH6bQ8PVxWvUEX97vm95tjxhM512MjDOaTQ==
-X-Gm-Gg: ASbGnctHJpKdZPe5VMVRFTnn/U9sNddSCwwPoM/fazl6vXpXQl8zzSekFUlk8Q6JmPw
-	OIc1pMkvTs0nwRhxobsgZdS0fCOmCVSxq+uPDn4zH5/f49ZQoAWl7hnmMC0kYNh8GcwTmiypVBE
-	m86OG9yWzCq+WGue3GmbYwSYdArAbpwjcSCrA0bPtZpu6smINl78arkwAhrQrBpifDMikFXSFht
-	Ijpa47Gdym4+a6a115e4RBs9hsdv1v4pNgwpgLurarToJdAvQoq90lWXmWbEzblJPP75ZFqyRYH
-	jGvifSwfLoyDt4SSO8jmi3Pm4v+g
-X-Google-Smtp-Source: AGHT+IGXtB2aMLUfrCG09NakGmZSrATPGVKEEt1AiSNhJunaG6YGYbdOydOoySS4xsS3muPtGftcOA==
-X-Received: by 2002:a17:90b:3e8a:b0:2fa:2268:1af4 with SMTP id 98e67ed59e1d1-2fa22681b43mr19550522a91.7.1739169370161;
-        Sun, 09 Feb 2025 22:36:10 -0800 (PST)
+        bh=LxE6aeuZ6icUuNgn0+qtoSgt4QTImDEuV+J46d7tdCE=;
+        b=KP//rileCwnnTXOiKXISBW8ibmxBmomjbbOH+M/moH0BzE4HgYs6tnOKtCIOIgcwUM
+         tcjwzjqdrBF+6XcGe4kmN4lH3fPCjCpm+Ph5JNg/TlXB9UchmM0tYyBxeEsd62UbloXs
+         3yqmEX/KI1EIDY0FrJ2eBt/4zQILyQs5XTHo6ICUFLcFVvG/LTOB4BWXhLeD+Ryh2skP
+         HJa2E9/HvDHV5djS/5gc2icjV/T32fdOPW/vNBlffzw/x/FxJ6Nq09jUSVdzHBoeHzyC
+         7d1yI9US1oixSfCLYW0nfp97dBSkjVQxPWWhp2yZ3aOIH0ScINP7LeQgAj7MDlOTEL6n
+         YPVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVcBkQW6LiJ+k2pLWjVUh8AfmYrMDV4zs4m24NrvM605CjwMtOo2qHLwfNp5rO0gFIdbJGDNS6JxStP@lists.infradead.org
+X-Gm-Message-State: AOJu0YyO/3xXhEkdTx9n+4gJ3Ywy1wz9hgeTKm5DBYzjnr5S1UKUEYwt
+	P01qxcrp7NOYSfm8Lp7mo9r6izVXAktNxaPsnexYzF7l7Hbigkt+aC6aMGpz0w==
+X-Gm-Gg: ASbGncvnH08jf4OUUzXsOObPNDRM4b3waQ7mKJC2ULICe5fgOlOM+H/vvaxnmgPhpzz
+	I6ZEslc7AOZu+BoMvaruGrsqPbLE/UCGxffpt6+v0UJbc++KHxTNHy+hbMTdkymVh7o2ngZLoIg
+	CH4gp0QOdqIWtCFXjesoDaQyhy8JB+1IwMwiWTi9PUB45oTJwTtBgSDWId2vcGUB0ZVo9w+MQ+0
+	+cQSy44z8eD/O0tCzQrsqwyu2R5tqKI2tdZcEm5TBABgHsYcXRQtb/F3AEUmqGAvAw9IeM+1nmS
+	qxY7UweroDeO4cq9myeB0KrC7y9S
+X-Google-Smtp-Source: AGHT+IEsvR90d7Y3wwFLt9xyFfk3qexrds3FNoWUB2eioUnWhv5DCGZoPflNo843Qb/ySzyODQ8qCA==
+X-Received: by 2002:a17:902:e946:b0:216:7cde:51a with SMTP id d9443c01a7336-21f4e72631dmr229479615ad.28.1739169593619;
+        Sun, 09 Feb 2025 22:39:53 -0800 (PST)
 Received: from thinkpad ([220.158.156.173])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa2a201b9dsm5759427a91.22.2025.02.09.22.36.06
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f368d51ebsm70739595ad.252.2025.02.09.22.39.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2025 22:36:09 -0800 (PST)
-Date: Mon, 10 Feb 2025 12:06:05 +0530
+        Sun, 09 Feb 2025 22:39:53 -0800 (PST)
+Date: Mon, 10 Feb 2025 12:09:48 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, axboe@kernel.dk,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, rafael@kernel.org, ulf.hansson@linaro.org
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	andersson@kernel.org, konradybcio@kernel.org, rafael@kernel.org,
+	ulf.hansson@linaro.org
 Subject: Re: [PATCH] nvme-pci: Use NVME_QUIRK_SIMPLE_SUSPEND for Qualcomm
  Snapdragon 8cx Gen 3 platforms
-Message-ID: <20250210063605.yp5rkraain5oqxka@thinkpad>
+Message-ID: <20250210063948.xjf5rupebhljujgd@thinkpad>
 References: <20250126050309.7243-1-manivannan.sadhasivam@linaro.org>
  <20250208185124.GA1120888@bhelgaas>
- <20250210040446.GA2823@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250210040446.GA2823@lst.de>
+In-Reply-To: <20250208185124.GA1120888@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250209_223612_340097_7EFB4DAE 
-X-CRM114-Status: GOOD (  19.09  )
+X-CRM114-CacheID: sfid-20250209_223956_826082_70E102F9 
+X-CRM114-Status: GOOD (  19.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,38 +102,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 10, 2025 at 05:04:46AM +0100, Christoph Hellwig wrote:
-> On Sat, Feb 08, 2025 at 12:51:24PM -0600, Bjorn Helgaas wrote:
-> > > +	/*
-> > > +	 * Qualcomm Snapdragon 8cx Gen 3 (SC8280XP) platforms doesn't retain
-> > > +	 * power to the PCIe bus after entering low power CX power collapse
-> > > +	 * state during system suspend. So shutdown the NVMe devices to have a
-> > > +	 * working system suspend on these platforms.
-> > > +	 */
-> > > +	if (dmi_match(DMI_PRODUCT_FAMILY, "SCP_MAKENA") ||
-> > > +	    dmi_match(DMI_PRODUCT_FAMILY, "ThinkPad X13s Gen 1"))
-> > > +		return NVME_QUIRK_SIMPLE_SUSPEND;
-> > 
-> > I certainly acknowledge that this is a big problem for users.  At the
-> > same time, this seems like a maintenance nightmare of
-> > platform-specific hacks scattered through endpoint drivers.
+On Sat, Feb 08, 2025 at 12:51:24PM -0600, Bjorn Helgaas wrote:
+> On Sun, Jan 26, 2025 at 10:33:09AM +0530, Manivannan Sadhasivam wrote:
+> > On these platforms, power to the PCIe bus is not retained if the SoC enters
+> > its own deep low power state called, CX power collapse state during system
+> > suspend. Once the SoC resumes after going through CX power collapse, all
+> > the PCIe bus state will be lost. So the NVMe devices on these platforms
+> > won't resume properly, rendering the machines useless until forcefully
+> > restarted by the users.
 > 
-> Yes.  And it's what we stated that we won't do multiple times.
+> I guess "forcefully restarted" means a power cycle?
+> 
 
-Multiple times? As I stated in the commit message, this quirk is *not* going to
-be extended for any Qcom platforms as the rest of them can retain the PCIe power
-state during CX Power Collapse.
+Yes!
 
-And we don't need this quirk in any other endpoint drivers as this chipset is
-mostly used in Laptop form factors and only the NVMe driver is found to be
-causing the issues. Rest of the endpoint drivers (WLAN, Modem) are all coping
-with PCIe power going down during system suspend.
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -3162,6 +3162,16 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+> >  	if (dmi_match(DMI_BOARD_NAME, "LXKT-ZXEG-N6"))
+> >  		return NVME_QUIRK_NO_APST;
+> >  
+> > +	/*
+> > +	 * Qualcomm Snapdragon 8cx Gen 3 (SC8280XP) platforms doesn't retain
+> > +	 * power to the PCIe bus after entering low power CX power collapse
+> > +	 * state during system suspend. So shutdown the NVMe devices to have a
+> > +	 * working system suspend on these platforms.
+> > +	 */
+> > +	if (dmi_match(DMI_PRODUCT_FAMILY, "SCP_MAKENA") ||
+> > +	    dmi_match(DMI_PRODUCT_FAMILY, "ThinkPad X13s Gen 1"))
+> > +		return NVME_QUIRK_SIMPLE_SUSPEND;
+> 
+> I certainly acknowledge that this is a big problem for users.  At the
+> same time, this seems like a maintenance nightmare of
+> platform-specific hacks scattered through endpoint drivers.
 
-> This needs to be taken on in the firmware or at least core PCI/PM
-> code.
+This chipset is only used in Laptop form factors where there are no open PCIe
+slots. And we have seen the issue with only the NVMe driver as the rest of the
+endpoint drivers (WLAN, Modem) are all behaving fine.
 
-That would be the end goal. Once that happens, we can revert this patch.
-Unfortunately, we need an interim solution to satisfy users.
+But as I mentioned comments section, this is only an interim solution.
+Obviously, we would like to have a generic solution available in PCI/PM core and
+we'd certainly work towards that. Once that happens, this quirk can be reverted.
 
 - Mani
 
