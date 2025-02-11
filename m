@@ -4,62 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 155AFC0219E
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2025 18:48:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71657C021A1
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2025 19:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dROJ93SmGf9kZKqyuSupEaRXlVxtcG3/R9t0NyoM3J0=; b=V/RuPAYd1ZRF3w1RIMoiGomAAI
-	p//cs2YoSjhWiWc3Rpii5bHS2PNY0mYhId0jyVZofFqQ8t/M5DTS/vB34XDGUGQ/QrVPQLhXCfFTD
-	OJtRpmcThOzNMrb8QEtHiJtaKMNI+i99ymvscH8l1fp8yL+zsqjj432bSpr5txd7KgIQd8wyBksvg
-	W9Wqa2WGGn3IeCuD8g82mtZTxl97NQLvgdI98VJexJ+aF4+QEGI/UQWTnhWx68/TxF7QiuK7/5G3P
-	mhrTFi1RqNySpeCS9nF0Wyg+E1wGEyC39UWex62idQuqcRlf+hTRlN/zDLd87ZLoVXaYjbNH/Dxff
-	HerQyiyg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OsIvwEcUTBMStw2MMLLuDVcTGQeCcLwOBqA9S/j+YXs=; b=BXBsAT32WAHb+nBFBnyMMfLagI
+	Q0mU2TUaKRJZW7PJIJbP+E+OBr/YiUvPYA8JZf1PEIJ1YyEWLG65Og5rs27dVYQpbyHG5pxJt2Qnp
+	/qwLoRdsghHZjaZl3f2tvOR386dPMR3tXVNLu/YchCMDjQK33GGr1X/iPr/WG8zKP7gwBDeryKsuH
+	ZLy7VPa4OGs7WtNQ3TM0XE4JVemcqMvPOu2wz/SyWKGlzbzEChxykdTerQZDDuaauKimmAcqLMgcb
+	p5jsRK1JI1At4A9RV2UN+hjDdVjapnXt0WKMwqVpr+EMOt5FTw6uR858OTW2pCkFLJWWcMAD5e9h+
+	C3+Us2mQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1thvId-00000004tw3-2qrG;
-	Tue, 11 Feb 2025 18:47:59 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1thwJ5-000000056XK-0kzv;
+	Tue, 11 Feb 2025 19:52:31 +0000
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1thv9M-00000004ryY-1NJX;
-	Tue, 11 Feb 2025 18:38:25 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id EC50B5C4949;
-	Tue, 11 Feb 2025 18:37:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79CCFC4CEDD;
-	Tue, 11 Feb 2025 18:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739299103;
-	bh=9d6jju/AIBaHpo4CcHOAS0x1UR/bdfVSyRx15+juWkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KM4EUBoMjRN48xcaieQjd0BFqnOJuWcuSbQtEJHC5hn90/M9bzWaCsy+NfatKadD5
-	 wzYebE/Daz96X02ZYwZO/u7UA4Isg1XE8pzUej0EpmicEW9MSn2gMzR83dOlOXLcJy
-	 jPOZ9OIahCPBkd2d1KDBubdKO8twfNjmRdEDCEhgFtxI69ad9Ea3KTzxSlFmMjlpaQ
-	 kDrL8M5vH5HJwy0kQRYDH8KUIvntS7ecZNLjcdd6AfWNc+ROBuLTIBeYJbccI9ym/z
-	 4T1hXfsOtpEP6QOMa1EsLNq5QoYiZohM1tlVvKkW70jVhc7kOx0PqYSWsstrLu4bTz
-	 58+lRzskHQbDA==
-Date: Tue, 11 Feb 2025 11:38:20 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] apple-nvme: bug and perf fixes
-Message-ID: <Z6uZHKwyMCWgM1a4@kbusch-mbp>
-References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+	id 1thwGj-0000000560N-3aqg
+	for linux-nvme@lists.infradead.org;
+	Tue, 11 Feb 2025 19:50:07 +0000
+Received: by mail-io1-xd32.google.com with SMTP id ca18e2360f4ac-854a68f5afcso136562239f.0
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Feb 2025 11:50:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1739303404; x=1739908204; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OsIvwEcUTBMStw2MMLLuDVcTGQeCcLwOBqA9S/j+YXs=;
+        b=VgRq+F4pK9j/IBU+z9vLcqpc6pXeJsmlRaR6k3hWF8IvrDXHdS63vuxdYAXqzd7Gp6
+         JaAdFf9P4sbM60KarzmYbNM/Pp1sqo7ffsP+EC4HdBc0IbHiNrfjP30Ej1tRRoZ0R57i
+         RKfqSebJv+HhaFvbaSiCh2fF+l0ZDo7YEiLz3ih2IIFAaS1Wu5MyCQeJN0r/10ll2TJ+
+         3rJ3MBAb6HcSs/Oq8SRVKNa/6hK88t8nDLHxkCjvoa78nAiGigvs5XAwfK7O2iFjwIGc
+         6J2JOVRTvpxl9mZR8orUBGhCoFCOGQDJjKT6kkIm68GoQ61zKJz0ubHlgfp44spWv3Ox
+         k7Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739303404; x=1739908204;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OsIvwEcUTBMStw2MMLLuDVcTGQeCcLwOBqA9S/j+YXs=;
+        b=OzlCksKvKZDTwhsfXesyMw6sNdnvmUKfrDh/ROWwR+mzVhzxdkZ7EuXyimeEA8sSGm
+         xFUioVi0hcNDbVWni4FWrqY77dtlV1hvEwzre+mCo3VlRP47C2IaAC2BokbboLL5YZB/
+         XVOci8LITW92+WY1mWzDp6OvOm8WNO9E/c/c2yM0jJbXS+5D3eLrdHcdYTDk568j+1QD
+         sb5mLOZPJ2/+IcBrr4dwvVFOIEhmSGpzKq8N5oV6GB2E86N0KETtdDZ0C0vwompvqI/3
+         wiMwk7XMOc3irlFGAISG9lRPAQNpiRQrnk6fHjU8sgg8KmALgWUrZ1GUbnNM5X9nRgIj
+         Mb8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXThHoYYZN7jovPdwbRfUvY7NW8yOGuyoxeiuOlUYy0GlX8W+8DTd4PrtK3UjyXu/OgY0dtRnwSOiVO@lists.infradead.org
+X-Gm-Message-State: AOJu0YygOCkh9AdKIrD029L6CU7muuj99Px78Qcg79CyFr6c95To1ZLj
+	MansfE7K6/jwTB3sINMoj/WBh3jSjyKQFnLszcDjf/r2AXMyc/cnN8dZKugDldn4y0TLYIo2+85
+	P
+X-Gm-Gg: ASbGnctr7agCoy8sX6YV5M3eQ5DI+5MbXX2jcZWjA3kLRdX+0pIPgofRqOqvBrlu62e
+	gNpqtBChtyXvCHwkzEJTTipPUv77YQmdNBHq7g1QEB5FcPaZwoJRA2EgIOaej/rg2j1yipRH2Un
+	F4zvNm8ASmmog3QXXS//Czwx+8f/M5e4cAM7kJfStTjbu1xLk/ob9C91fta+HUzrIauJfoQS2Gk
+	RxkIzyKPvKl+8gJ4FR8gyWT3koU7miupLgfMDC0eRfFKKq4JHkHeqRp+PtC7DdmmFqAJmGLZWxb
+	ejmBwIA8OG4=
+X-Google-Smtp-Source: AGHT+IFrTVAEGiw2EoTh/b9YW5R/KtzW2+Oh2EsbSrKLQH+zV7TjtxzGKsJ/H8T6kpwj7fxcn/baxg==
+X-Received: by 2002:a05:6602:14c3:b0:843:e667:f196 with SMTP id ca18e2360f4ac-85555c8c4eemr91680639f.4.1739303404598;
+        Tue, 11 Feb 2025 11:50:04 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ed1885b085sm77104173.69.2025.02.11.11.50.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Feb 2025 11:50:03 -0800 (PST)
+Message-ID: <84447986-6cd7-499c-834e-9aa01fad98da@kernel.dk>
+Date: Tue, 11 Feb 2025 12:50:02 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] apple-nvme: defer cache flushes by a specified amount
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+ <20250211-nvme-fixes-v1-3-6958b3aa49fe@rosenzweig.io>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20250211-nvme-fixes-v1-3-6958b3aa49fe@rosenzweig.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250211_103824_410189_C76061D4 
-X-CRM114-Status: GOOD (  13.55  )
+X-CRM114-CacheID: sfid-20250211_115006_081985_BBBAB6C5 
+X-CRM114-Status: GOOD (  15.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,20 +104,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 11, 2025 at 01:25:56PM -0500, Alyssa Rosenzweig wrote:
-> This small series fixes three unrelated issues with the Apple NVMe
-> driver.
+On 2/11/25 11:25 AM, Alyssa Rosenzweig wrote:
+> From: Jens Axboe <axboe@kernel.dk>
 > 
-> * fix NVMe on firmware/machine
-> * fix a power domain leak
-> * fix pathological driver performance with random writes
+> Cache flushes on the M1 nvme are really slow, taking 17-18 msec to
+> complete. This can slow down workloads considerably, pure random writes
+> end up being bound by the flush latency and hence run at 55-60 IOPS.
 > 
-> The first two are strict bug fixes, the last is technically an
-> optimization but given the measured 200x performance difference I do
-> consider to be a fix ;-)
+> Add a deferred flush work around to provide better performance, at a
+> minimal risk. By default, flushes are delayed at most 1 second, but this
+> is configurable.
+> 
+> With this work-around, a pure random write workload runs at ~12K IOPS
+> rather than 56 IOPS.
 
-The last two patches look good to me.
+I knew this one would bite in the ass at some point down the line ;-)
 
-I don't know anyone qualified to review the first patch, so I'll take
-your word for it if no one replies in the next few days. :)
+I do think the feature is sane, and to my knowledge we haven't had any
+issues with it since I originally wrote it 3 years ago. But I also
+think it should probably go in the block layer proper, as other
+devices might benefit from it.
+
+That said, I'm fine with parking this in the apple nvme driver for
+now, as we don't have to deal with multiple namespaces etc. Can
+always get migrated to a core feature later, if desired.
+
+-- 
+Jens Axboe
+
 
