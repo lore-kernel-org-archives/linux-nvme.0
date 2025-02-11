@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DAB8C0219D
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2025 01:30:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AD3AC0219E
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2025 01:31:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ncBhj0qB6EvYS/gnv+SyhGRrx4dKRvmbxI7Sd9MHRhI=; b=JSIAwcQ/lNuzGxJkXs5ax9TG/e
-	vUHehRfGwnSl8LffCAxixufRDEnPezMFuiKDgrN2MhZ49DrM06GpK6DLmnM1SLFLTlo3VUzAL6LNg
-	g8x+wwm6kB1eAE/j38oGgqIPu18sWtStXUCiDXOQ6Rw/y7UqfiXBsETzbC9fX+oG4lG9hRQJSRrZy
-	JF7O6B59bsL5y1280slASDGulxo1wkEpTkiZ7lPi1hMqoc5U9KHYP37N1aYHPjodSEHJckDGPgPbB
-	21WwmkvSA2vZvAyFO+C2qlp8ReEnAw6GJlusqPvy/P7/OSHRW1Bl76B0XEMnCG21v2Sb5fJtEgdyo
-	mWR6Onhg==;
+	bh=ncBhj0qB6EvYS/gnv+SyhGRrx4dKRvmbxI7Sd9MHRhI=; b=HbMbtch5gR16KL7y0eqUCKiFzi
+	fuR43pLPZmtNBFWttydI5F7jpmMRV2ZV9RNq/j6htPNPHw/Bbe+DV/6UYv+K8lA2agGvO4ZAWNpZo
+	V60wE27nqDOB8etcZq3N8f6h3llMpgdgX/bm4mmB4BhVYZaNyiggsUrhy3fGwuUIZ8TJo+N+xsL/W
+	7FkZHC1k2x6xNyg0OuOxTOkx/7Tl4MqHgvCRorcV+PaFAFj16E0Tdtz8fvCESsiBRhG8uzMbiO2Yo
+	J6SIyaVAcNutyjoHAlD/aLjZYY53RuGUhGCyxDWT5OkVr1K2j4TMHopDSKA48tivfM7g9tT0dafda
+	uSLdK5UA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1thf6D-000000026yq-0mV6;
-	Tue, 11 Feb 2025 01:30:05 +0000
+	id 1thf7q-000000027d0-2uTC;
+	Tue, 11 Feb 2025 01:31:46 +0000
 Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1thf67-000000026wx-2rI5
+	id 1thf6y-000000027HO-3AYg
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Feb 2025 01:30:00 +0000
+	Tue, 11 Feb 2025 01:30:53 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 48D82A4207E;
-	Tue, 11 Feb 2025 01:28:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EE10C4CEE8;
-	Tue, 11 Feb 2025 01:29:57 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 65134A42081;
+	Tue, 11 Feb 2025 01:29:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C498C4CED1;
+	Tue, 11 Feb 2025 01:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739237398;
+	s=k20201202; t=1739237451;
 	bh=PQUlJNnpO+6t8wiH09FmFlHDJT5lc0E4H4RlQ2457sk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RqIyCwuxKTmSfv9q9EGJunneIYJpU6zTrY1rRcwN0BdBWKHHxobr3qxaZ6ghGJ4GN
-	 DvalrmnwT08HiWdGAHzlJkjq4RaN+3Re/8wzW32myMZ1QQoXItjI41dGEZOalqXIXI
-	 0+TKlFKSxYzQ57oDOq+752BSTWseZyRp6kjmOBYaKwdFLBE64gcaqjH572hOS2m7uE
-	 Zd7M8sDxkX5UAIHLRcs3vMElw2yPVhsaIbVGHou6eNrzArhAkaBkVoF85yVidx6JAG
-	 sIVwaDu50ZwJzvcgRHBvm9b11nrWu67WhOjvVWHhjcJJvxIKaKMwusnXYSOV+Og6VC
-	 JQkdtm3pluT+A==
+	b=l4yUp1FZVjqONyA+Wee3tP3F22C6uaZwKZhsH9QOxDd+sfUXaygWQoBuWUBGvFas2
+	 GXJ4ZTlw2fbf8SB3bzLLmhDYDEb9QF4oWLJE+PsleUmAqycxCE9I4soL5yWtA6PBvd
+	 d3l5EaBT3ZYvmRhxe1r//BeIkztilFpSijSUlANB8/ASpMek6yWpEu1VOgH1eLTYzV
+	 /tKXJT0AO1MxAUmbYj3rn0xPfG/eBUbFAEzZrgxO8YRbNEKGuCrciIAycAPJZHTT/r
+	 xco90K2QR9LIxD1rzbbZRnsKFWuT9afu0DYV03IJT7ibPeBX/tevKcS+l2vmNS6ydA
+	 PXYgGXloIvQhA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -52,19 +52,19 @@ Cc: Daniel Wagner <wagi@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	james.smart@broadcom.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.13 02/21] nvme-fc: do not ignore connectivity loss during connecting
-Date: Mon, 10 Feb 2025 20:29:35 -0500
-Message-Id: <20250211012954.4096433-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 02/19] nvme-fc: do not ignore connectivity loss during connecting
+Date: Mon, 10 Feb 2025 20:30:30 -0500
+Message-Id: <20250211013047.4096767-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250211012954.4096433-1-sashal@kernel.org>
-References: <20250211012954.4096433-1-sashal@kernel.org>
+In-Reply-To: <20250211013047.4096767-1-sashal@kernel.org>
+References: <20250211013047.4096767-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.2
+X-stable-base: Linux 6.12.13
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250210_172959_858873_92C2B30B 
+X-CRM114-CacheID: sfid-20250210_173052_924986_8D6FC6AD 
 X-CRM114-Status: GOOD (  18.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
