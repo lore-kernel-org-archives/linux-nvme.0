@@ -4,60 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EEEDCC021A1
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Feb 2025 09:01:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58056C021A0
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Feb 2025 10:09:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:
-	Subject:Cc:To:From:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UP/VJGdfsOtbraVj8ueG+RzEKN8LhNs/zBe+NTzqaXM=; b=k1FZErEwRFJg7klFUJLx56dk4T
-	o5kfbdg6VqpU7QnpZCPN9wWwlTGhPSoUpdM9oePGSSoFl/jFx6KrWEp5Y8hJgGkrtPQHUbI5kKKyb
-	rj3OI3bdpKG5dFpBskjTF3Y8BEQdiXfWqqHiSW5qDaEMr0efqbQ75X6SSRveI73qR+PACGTvlNTs3
-	oFfa4UzKxzamFQaBTD0pSbDoXgZvkeCCIeceO5CNVs3wFGuuzuDp8ZwCpd3kGWWx6azAzra/zW/gE
-	PJAhrsrQDMAsRL+h6koPLojx0Liz9zdHwWcqoTFZMxJ8XHYFfd17ujoi5U2S5U0psuV4DQfLWnnSi
-	MWs8auNw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Message-ID:Mime-Version:References:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=xUQ30rhV40fcUwQmaBnExzYBwck0x6MjVWsXHWK2G7Y=; b=LfJZUh7GEpUloP7nbBNj4McN4M
+	2eNF1zj6aXXB/tngUx+/rcpvdjbmQ1zP2dbCVfGBJ77rKsjiZvfLwCSZ9EdaD2vOTH1MH+piusgps
+	4bYD7ejeYtBbwevb5fgt9PKwZp4abR4OCPbuS1RmGVzGzpbB/iL91JjXPacUhunY04F1nYkG271VO
+	Zk96j35A/YMWklpTZwYLjfN3CLoKN3jo/lmvmxkJqFiWiGFQVsCrS+U3/u7CptXp0UBtGQtICeWcH
+	5QdC/G7i3XGaQ85kLfQrPIY1RQk/wfjSI4wRoJrvW6jIAIWVkdd1homtdDLFY5pUF/pEauBdHMV/m
+	TBYHKeKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1ti8cg-00000006hji-3F2I;
-	Wed, 12 Feb 2025 09:01:34 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1ti8TV-00000006gBm-1ZLd
+	id 1ti9gT-00000006vxz-397m;
+	Wed, 12 Feb 2025 10:09:33 +0000
+Received: from [1.203.97.240] (helo=smtp.cecloud.com)
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1ti9LY-00000006qr6-1ETm
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Feb 2025 08:52:06 +0000
-Received: from localhost (25.205.forpsi.net [80.211.205.25])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id ce0058fe (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 12 Feb 2025 09:52:03 +0100 (CET)
+	Wed, 12 Feb 2025 09:47:58 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.cecloud.com (Postfix) with ESMTP id B8A1490011B;
+	Wed, 12 Feb 2025 17:47:47 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from desktop-n31qu50 (unknown [39.156.73.12])
+	by smtp.cecloud.com (postfix) whith ESMTP id P3907749T281458761199984S1739353666453316_;
+	Wed, 12 Feb 2025 17:47:47 +0800 (CST)
+X-IP-DOMAINF: 1
+X-RL-SENDER: zhang.guanghui@cestc.cn
+X-SENDER: zhang.guanghui@cestc.cn
+X-LOGIN-NAME: zhang.guanghui@cestc.cn
+X-FST-TO: mlombard@bsdbackstore.eu
+X-RCPT-COUNT: 9
+X-LOCAL-RCPT-COUNT: 0
+X-MUTI-DOMAIN-COUNT: 0
+X-SENDER-IP: 39.156.73.12
+X-ATTACHMENT-NUM: 0
+X-UNIQUE-TAG: <882da0001598ff412ba171defd5e7094>
+X-System-Flag: 0
+Date: Wed, 12 Feb 2025 17:47:45 +0800
+From: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>
+To: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>, 
+	chunguang.xu <chunguang.xu@shopee.com>
+Cc: mgurtovoy <mgurtovoy@nvidia.com>, 
+	sagi <sagi@grimberg.me>, 
+	kbusch <kbusch@kernel.org>, 
+	sashal <sashal@kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-nvme <linux-nvme@lists.infradead.org>, 
+	linux-block <linux-block@vger.kernel.org>
+Subject: Re: Re: nvme-tcp: fix a possible UAF when failing to send request
+References: <2025021015413817916143@cestc.cn>, 
+	<D7OOGIOAJRUH.9LOJ3X4IUKQV@bsdbackstore.eu>, 
+	<3f1f7ec3-cb49-4d66-b2b0-57276a6c62f0@nvidia.com>, 
+	<D7OWXONOUZ1Y.19KIRCQDVRTKN@bsdbackstore.eu>, 
+	<CAAO4dAWdsMjYMp9jdWXd_48aG0mTtVpRONqjJJ1scnc773tHzg@mail.gmail.com>, 
+	<202502111604342976121@cestc.cn>, 
+	<D7QBDBZMZTCI.1W40WVL5JJ3O7@bsdbackstore.eu>, 
+	<D7QC8AQ7J89A.32TNPSFWV1VNX@bsdbackstore.eu>
+X-Priority: 3
+X-GUID: 9D028B37-D67E-4AA1-BFBF-FC2EAB062C63
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.25.331[cn]
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Feb 2025 09:52:01 +0100
-Message-Id: <D7QC8AQ7J89A.32TNPSFWV1VNX@bsdbackstore.eu>
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>,
- "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>, "chunguang.xu"
- <chunguang.xu@shopee.com>
-Cc: "mgurtovoy" <mgurtovoy@nvidia.com>, "sagi" <sagi@grimberg.me>, "kbusch"
- <kbusch@kernel.org>, "sashal" <sashal@kernel.org>, "linux-kernel"
- <linux-kernel@vger.kernel.org>, "linux-nvme"
- <linux-nvme@lists.infradead.org>, "linux-block"
- <linux-block@vger.kernel.org>
-Subject: Re: nvme-tcp: fix a possible UAF when failing to send request
-X-Mailer: aerc
-References: <2025021015413817916143@cestc.cn>
- <D7OOGIOAJRUH.9LOJ3X4IUKQV@bsdbackstore.eu>
- <3f1f7ec3-cb49-4d66-b2b0-57276a6c62f0@nvidia.com>
- <D7OWXONOUZ1Y.19KIRCQDVRTKN@bsdbackstore.eu>
- <CAAO4dAWdsMjYMp9jdWXd_48aG0mTtVpRONqjJJ1scnc773tHzg@mail.gmail.com>
- <202502111604342976121@cestc.cn>
- <D7QBDBZMZTCI.1W40WVL5JJ3O7@bsdbackstore.eu>
-In-Reply-To: <D7QBDBZMZTCI.1W40WVL5JJ3O7@bsdbackstore.eu>
+Message-ID: <202502121747455267343@cestc.cn>
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250212_005205_750481_2DF5B23A 
-X-CRM114-Status: UNSURE (   8.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250212_014756_653187_5B282605 
+X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,41 +96,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed Feb 12, 2025 at 9:11 AM CET, Maurizio Lombardi wrote:
-> On Tue Feb 11, 2025 at 9:04 AM CET, zhang.guanghui@cestc.cn wrote:
->> Hi=C2=A0
->>
->> =C2=A0 =C2=A0 This is a=C2=A0 race issue,=C2=A0=C2=A0I can't reproduce i=
-t stably yet. I have not tested the latest kernel.=C2=A0 but in fact,=C2=A0=
-=C2=A0I've synced some nvme-tcp patches from=C2=A0 lastest upstream,
->
-> Hello, could you try this patch?
->
-> queue_lock should protect against concurrent "error recovery",
-> +	mutex_lock(&queue->queue_lock);
+wqDCoMKgwqBIaSwgVGhhbmtzLgrCoMKgwqDCoEkgd2lsbCB0ZXN0IHRoaXMgcGF0Y2gsIGJ1dCBJ
+IGFtIHdvcnJpZWQgd2hldGhlciBpdCB3aWxsIGFmZmVjdCB0aGUgcGVyZm9ybWFuY2UuClNob3Vs
+ZCB3ZSBhbHNvIGNvbnNpZGVyIG51bGwgcG9pbnRlciBwcm90ZWN0aW9uPwoKCnpoYW5nLmd1YW5n
+aHVpQGNlc3RjLmNuCgoKCkZyb206wqBNYXVyaXppbyBMb21iYXJkaQoKCgpEYXRlOsKgMjAyNS0w
+Mi0xMsKgMTY6NTIKCgoKVG86wqBNYXVyaXppbyBMb21iYXJkaTsgemhhbmcuZ3VhbmdodWlAY2Vz
+dGMuY247IGNodW5ndWFuZy54dQoKCgpDQzrCoG1ndXJ0b3ZveTsgc2FnaTsga2J1c2NoOyBzYXNo
+YWw7IGxpbnV4LWtlcm5lbDsgbGludXgtbnZtZTsgbGludXgtYmxvY2sKCgoKU3ViamVjdDrCoFJl
+OiBudm1lLXRjcDogZml4IGEgcG9zc2libGUgVUFGIHdoZW4gZmFpbGluZyB0byBzZW5kIHJlcXVl
+c3QKCgoKT24gV2VkIEZlYiAxMiwgMjAyNSBhdCA5OjExIEFNIENFVCwgTWF1cml6aW8gTG9tYmFy
+ZGkgd3JvdGU6CgoKCj4gT24gVHVlIEZlYiAxMSwgMjAyNSBhdCA5OjA0IEFNIENFVCwgemhhbmcu
+Z3VhbmdodWlAY2VzdGMuY24gd3JvdGU6CgoKCj4+IEhpwqAKCgoKPj4KCgoKPj4gwqAgwqAgVGhp
+cyBpcyBhwqAgcmFjZSBpc3N1ZSzCoMKgSSBjYW4ndCByZXByb2R1Y2UgaXQgc3RhYmx5IHlldC4g
+SSBoYXZlIG5vdCB0ZXN0ZWQgdGhlIGxhdGVzdCBrZXJuZWwuwqAgYnV0IGluIGZhY3QswqDCoEkn
+dmUgc3luY2VkIHNvbWUgbnZtZS10Y3AgcGF0Y2hlcyBmcm9twqAgbGFzdGVzdCB1cHN0cmVhbSwK
+CgoKPgoKCgo+IEhlbGxvLCBjb3VsZCB5b3UgdHJ5IHRoaXMgcGF0Y2g/CgoKCj4KCgoKPiBxdWV1
+ZV9sb2NrIHNob3VsZCBwcm90ZWN0IGFnYWluc3QgY29uY3VycmVudCAiZXJyb3IgcmVjb3Zlcnki
+LAoKCgo+ICsgbXV0ZXhfbG9jaygmcXVldWUtPnF1ZXVlX2xvY2spOwoKCgrCoAoKCgpVbmZvcnR1
+bmF0ZWx5IEkndmUganVzdCByZWFsaXplZCB0aGF0IHF1ZXVlX2xvY2sgd29uJ3Qgc2F2ZSB1cwoK
+Cgpmcm9tIHRoZSByYWNlIGFnYWluc3QgdGhlIGNvbnRyb2xsZXIgcmVzZXQsIGl0J3Mgc3RpbGwg
+cG9zc2libGUKCgoKd2UgbG9jayBhIGRlc3Ryb3llZCBtdXRleC4gU28ganVzdCB0cnkgdGhpcwoK
+CgpzaW1wbGlmaWVkIHBhdGNoLCBJIHdpbGwgdHJ5IHRvIGZpZ3VyZSBvdXQgc29tZXRoaW5nIGVs
+c2U6CgoKCsKgCgoKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC90Y3AuYyBiL2RyaXZl
+cnMvbnZtZS9ob3N0L3RjcC5jCgoKCmluZGV4IDg0MTIzOGYzOGZkZC4uYjcxNGUxNjkxYzMwIDEw
+MDY0NAoKCgotLS0gYS9kcml2ZXJzL252bWUvaG9zdC90Y3AuYwoKCgorKysgYi9kcml2ZXJzL252
+bWUvaG9zdC90Y3AuYwoKCgpAQCAtMjY2MCw3ICsyNjYwLDEwIEBAIHN0YXRpYyBpbnQgbnZtZV90
+Y3BfcG9sbChzdHJ1Y3QgYmxrX21xX2h3X2N0eCAqaGN0eCwgc3RydWN0IGlvX2NvbXBfYmF0Y2gg
+KmlvYikKCgoKc2V0X2JpdChOVk1FX1RDUF9RX1BPTExJTkcsICZxdWV1ZS0+ZmxhZ3MpOwoKCgpp
+ZiAoc2tfY2FuX2J1c3lfbG9vcChzaykgJiYgc2tiX3F1ZXVlX2VtcHR5X2xvY2tsZXNzKCZzay0+
+c2tfcmVjZWl2ZV9xdWV1ZSkpCgoKCnNrX2J1c3lfbG9vcChzaywgdHJ1ZSk7CgoKCisKCgoKKyBt
+dXRleF9sb2NrKCZxdWV1ZS0+c2VuZF9tdXRleCk7CgoKCm52bWVfdGNwX3RyeV9yZWN2KHF1ZXVl
+KTsKCgoKKyBtdXRleF91bmxvY2soJnF1ZXVlLT5zZW5kX211dGV4KTsKCgoKY2xlYXJfYml0KE5W
+TUVfVENQX1FfUE9MTElORywgJnF1ZXVlLT5mbGFncyk7CgoKCnJldHVybiBxdWV1ZS0+bnJfY3Fl
+OwoKCgp9CgoKCsKgCgoKCk1hdXJpemlvCgoKCsKgCgoKCsKgCgoK
 
-Unfortunately I've just realized that queue_lock won't save us
-from the race against the controller reset, it's still possible
-we lock a destroyed mutex. So just try this
-simplified patch, I will try to figure out something else:
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 841238f38fdd..b714e1691c30 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2660,7 +2660,10 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx,=
- struct io_comp_batch *iob)
- 	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
- 	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queu=
-e))
- 		sk_busy_loop(sk, true);
-+
-+	mutex_lock(&queue->send_mutex);
- 	nvme_tcp_try_recv(queue);
-+	mutex_unlock(&queue->send_mutex);
- 	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
- 	return queue->nr_cqe;
- }
 
-Maurizio
 
