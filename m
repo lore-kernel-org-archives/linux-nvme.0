@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 341EFC021A6
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Feb 2025 17:15:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49DFAC021A4
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Feb 2025 17:15:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zpnS5LdUZemikz3jDhlU3VLItf8J0nEAlg+TMLI01V8=; b=CI7UV1cbRk19iX3vtpG40mePX7
-	qRUWCtHCoqyu6eM9gbWMZlP8r+EIouKkzENWVVD4Ah+BUk+JAw8e/v5CGIfK1qSg5Kf3xKxRFoqzZ
-	QwIbd+zFwHGmyzaXiSPYwzotLu5z+d7iGIR8npV3r+Ywpw5EAN4bskgIWZmQlZ3v1uqLwPR2yC+Im
-	D8bRKlS1nQMxcSMmDVFy72J3HGcbiIp60XkdXaWEAPpUp2AvNokgUKxjDLrTm3jz1IjZLdppQ+Iw7
-	KaZcdd1gHvwJQUE4QvwvkIxpA7Gv2gGrsfARZQJ3Z3m3ViM7EzDs6fLd5r1rbQuZeIH/X75c+EN+2
-	eQ1scJ/A==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=EhaY44LabIRZbp1gFKZbV5ZkU6S68tdKwnnQCkN/Ysg=; b=Tu4nkWV+TlQfSAwj/9j4bVfrNg
+	sPvSw9ZMJC3Z2X2ds+YkPScLtr9vqY3bA56qx4lmwb7xGTKKy12f1NMEanY2Cn+ydsIP2RT7lWLGw
+	ntRV8z+9F/ir890TWDVF7WlOE/VFj607CRVEWXzEn42ynFnzECRWa3UlmHH7AMmLAvhb1wP/USH2B
+	0w3EJ7F+QxI9mOXG2/TF6m6MingXiINWwWY5yRjTFM7OXLUD1FeopcQ+spWHYGeGTn6AAFGDHnfzX
+	apr78mfbkKa+B3rnQO2vWwSWW60YD7wxOHMckA9M24cFReyqCE7YAfN4jTMzB+3ZxOhXsJN7pDSj+
+	k7n8NLtw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiGKI-00000008H5i-1UsA;
-	Wed, 12 Feb 2025 17:15:06 +0000
+	id 1tiGKH-00000008H57-0Raa;
+	Wed, 12 Feb 2025 17:15:05 +0000
 Received: from sender4-op-o15.zoho.com ([136.143.188.15])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiGB7-00000008DPy-3uyq
+	id 1tiGAg-00000008DK4-2Nec
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Feb 2025 17:05:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; t=1739379935; cv=none; 
+	Wed, 12 Feb 2025 17:05:12 +0000
+ARC-Seal: i=1; a=rsa-sha256; t=1739379905; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=hTuz8gGCmAz6/NBm7x2386wVyrsN941gsocYRg+g3+UXSUKRFTlU7284FPZkcYKxLK4pWRo3DqMRqevPRv1rXhICt+FsAZeZ6a7ySdt1Bm+pVT6qBjUNBqjelUbrN5p7ymdZfpTjvVLWazQ991PYC+Q6yoImo4+SR3LrQF/9k08=
+	b=XzIdDMmlQvd+7eqBZ48Ft6NFDObvfGC3Be/pMeDmAHLPoCZJGXVUw97X39UEEAiRrblYMg9eWQxWtGxx8O+AOY7du8of9Rb7iiopL+no7EDmhp/ei/Iwodm+YTmrTV6TYBr/KeYfR9PvUHuI9Rf9HEr+EX4+uC+9W6LQrxfUG1s=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1739379935; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=zpnS5LdUZemikz3jDhlU3VLItf8J0nEAlg+TMLI01V8=; 
-	b=jiiALIKpOceXbs44izIR1/J28Rhiu+Cx/2ZZM0dVt6QGBCjx1JyJvt7AAeTSI9N1cOUhlPkIzpPH2Du7brk+hZhlghWoKP730j0UjGGwSNkaohd2TeYUYbo1/NmE2dtUCkijWKLZjvVVGPds37PLSCXLUCORycH/e5j1ZO12jdk=
+	t=1739379905; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=EhaY44LabIRZbp1gFKZbV5ZkU6S68tdKwnnQCkN/Ysg=; 
+	b=Q6hdsqLSw2EQ8IoXJFpXGiIyLVC6ufy+1fbbE0nOhSS9xbF7jam4O4R/MEDsdQFi4qs5MuOVtefWGgWbtg65f2E+CfCbxSffeN6MLw6NKh3bI+beQJrfn0nLzjn0CzEZkIYsWs74w34oZI4jGGWc53o6ppxEMNQ36bUkw6iKBk4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=icenowy.me;
 	spf=pass  smtp.mailfrom=uwu@icenowy.me;
 	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739379935;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739379905;
 	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=zpnS5LdUZemikz3jDhlU3VLItf8J0nEAlg+TMLI01V8=;
-	b=oWrklSyMJV7/9lYP4MoNQlK8kEEvvLyhL/rppCWn/mwCB3z46Qx6ddcYuR+NPhDm
-	Z9vecKExVTh+9t4M8kuc8Q8eFuSwuHINgzoO+HOqYKzQuJGjFfPC4C+Lhyni3tssAU/
-	WDuWfuOhmKkqZcbj6V8/cRy9/ftPPVyW/qGaePs60Xe+fu/VtlYJ3A2bJKpy4CfTgmC
-	jznRkRkx2aeH9XmrK7vUfdx50F1YYzOlcu0b+KR1DO3E7drpqt24V4krH3KjBDZAhou
-	z4+fr0Xhve+pysuvLG7/+Rjd2Fr+nniwHC7SJSIXBAq/wntlrgSjUR858dceKeGUTyT
-	lDmNDDLbDA==
-Received: by mx.zohomail.com with SMTPS id 1739379932694459.250015065458;
-	Wed, 12 Feb 2025 09:05:32 -0800 (PST)
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=EhaY44LabIRZbp1gFKZbV5ZkU6S68tdKwnnQCkN/Ysg=;
+	b=qHWlJLzgnc9QMfKFDayNYxao2HW5JMbJuKDS1DFJa3ffaak9qasaCWlhv0RcSBXQ
+	3oETqjpXidQyELvC8sc4Kv6ckCR5CtA+OpUkiGob0VzTWXaSF++VcCoqtlrnIRXlz+6
+	m0nLTPfPTBKEB/XAd+xXfF51zWFMEpclkGlnwGCBF+Htit8Wl6j2AOut7qWo1HyTVVW
+	no1hkY7wzQcKlDHBsY515YGGoL551gwJwxOsJt3z3EKjdktHTGLoUElNfbYKL2Bo92m
+	gQ651RY/FaucuTgXU7Jy2ofel++q52NOhkhUr1W5Wp+ZuObrYuohrl9EWTtudbKhVkh
+	Vbv3G5QxAg==
+Received: by mx.zohomail.com with SMTPS id 1739379903389217.33151028331645;
+	Wed, 12 Feb 2025 09:05:03 -0800 (PST)
 From: Icenowy Zheng <uwu@icenowy.me>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -58,18 +58,17 @@ To: Keith Busch <kbusch@kernel.org>,
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH 2/2] nvme-pci: skip CMB blocks incompatible with PCI P2P DMA
-Date: Thu, 13 Feb 2025 01:04:44 +0800
-Message-ID: <20250212170444.16138-3-uwu@icenowy.me>
+Subject: [PATCH 0/2] Misc fixes on registering PCI NVMe CMB
+Date: Thu, 13 Feb 2025 01:04:42 +0800
+Message-ID: <20250212170444.16138-1-uwu@icenowy.me>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250212170444.16138-1-uwu@icenowy.me>
-References: <20250212170444.16138-1-uwu@icenowy.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250212_090538_037138_E741174F 
-X-CRM114-Status: GOOD (  15.94  )
+X-CRM114-CacheID: sfid-20250212_090510_686622_EBB1A961 
+X-CRM114-Status: UNSURE (   9.97  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,61 +83,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The PCI P2PDMA code will register the CMB block to the memory
-hot-plugging subsystem, which have an alignment requirement. Memory
-blocks that do not satisfy this alignment requirement (usually 2MB) will
-lead to a WARNING from memory hotplugging.
+Here is a small patchset that is developed during my investigation of
+a WARNING in my boot kernel log (AMD EPYC 7K62 CPU + Intel DC D4502
+SSD), which is because of the SSD's too-small CMB block (512KB only).
 
-Verify the CMB block's address and size against the alignment and only
-try to send CMB blocks compatible with it to prevent this warning.
+The first patch is a fix of the PCI DMA registration error handling
+codepath, which is just a observation-based patch (because my disk is
+only NVMe 1.2 compliant, and the register cleaned up here is only added
+in NVMe 1.4).
 
-Tested on Intel DC D4502 SSD, which has a 512K CMB block that is too
-small for memory hotplugging (thus PCI P2PDMA).
+The second patch really fixes the warning by testing the CMB block
+against the memory hotplugging alignment requirement (which the CMB
+block of my SSD surely cannot satisfy -- the alignment requirement is
+usually 2M with SPAREMEM_VMEMMAP enabled and even larger in other cases).
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
- drivers/nvme/host/pci.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+Refer to commit 6acd7d5ef264 ("libnvdimm/namespace: Enforce
+memremap_compat_align()") for a similar approach for NVDIMM subsystem.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 659ba85795a91..1a27688417b3f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1982,6 +1982,19 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 	if (offset > bar_size)
- 		return;
- 
-+	/*
-+	 * Controllers may support a CMB size larger than their BAR,
-+	 * for example, due to being behind a bridge. Reduce the CMB to
-+	 * the reported size of the BAR
-+	 */
-+	if (size > bar_size - offset)
-+		size = bar_size - offset;
-+
-+	if (!IS_ALIGNED(size, memremap_compat_align()) ||
-+	    !IS_ALIGNED(pci_resource_start(pdev, bar),
-+			memremap_compat_align()))
-+		return;
-+
- 	/*
- 	 * Tell the controller about the host side address mapping the CMB,
- 	 * and enable CMB decoding for the NVMe 1.4+ scheme:
-@@ -1992,14 +2005,6 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 			     dev->bar + NVME_REG_CMBMSC);
- 	}
- 
--	/*
--	 * Controllers may support a CMB size larger than their BAR,
--	 * for example, due to being behind a bridge. Reduce the CMB to
--	 * the reported size of the BAR
--	 */
--	if (size > bar_size - offset)
--		size = bar_size - offset;
--
- 	if (pci_p2pdma_add_resource(pdev, bar, size, offset)) {
- 		dev_warn(dev->ctrl.device,
- 			 "failed to register the CMB\n");
+Icenowy Zheng (2):
+  nvme-pci: clean up CMBMSC when registering CMB fails
+  nvme-pci: skip CMB blocks incompatible with PCI P2P DMA
+
+ drivers/nvme/host/pci.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
+
 -- 
 2.48.1
 
