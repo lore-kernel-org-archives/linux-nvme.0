@@ -4,47 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82446C021A7
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 06:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5ADEBC021A4
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 06:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4Ms3X5yTu8/X7KTrYdKSdN88IG4tvirJg5Cly6RMCjk=; b=GTPCOQfJ7qCUVyl9qMtbKTAh89
-	NLcKHpNAH0soMea1XdeOtdEcIriI1taCIUu6n2PUuLwOQ16NIjn0eQszF15TROSFDfpIkWQldW+UV
-	JsSy0ktA2rzA8sFHoFmR6f3owfpTWtXGDs10egvPSQRwQz4XFX4F4v9ZE3JE2x8oCE7qBv2Njm+Cc
-	dgAB6JUeJ2KfU9j3pa03yRu07JXoNWe5HEL7wBayW6ikywKNHX2JleUrK4Jg8OJGRl5Qd5EAHHJPZ
-	h7f78ZNOS58HaETWEbFqJdKFT77McRC2RicFpQP6vSw9dGvvT+qMQRlvAbbJbfwF61/PyHNxDAWGy
-	QkwLmnPw==;
+	bh=v5r6m2ywP8yh9T5o1LC8qrUwAXWOQCaialTHoep+phc=; b=HPKK5f4up0qOMIp1CUhhq4WKaz
+	HXT4B6KZNZUz2cNMAnjdPXjZvxEKDw912sYjmPpeXH4cGIe+U+uFVJkFhsA+Y1T3bXy1YPzFmIykp
+	km9R/GF8cVY6RCpwiiMvWRPWYtZxuOvi9Ov9r5IGj1Jg6FG/p86E/Ch5mkxkI/QzBaMe1Ecsu/Kpf
+	HLYP9mg2mFse6RKSHjV+4JiYHewwko6sRYabfzX+FuLzkpUfgzzWMkR/iSdrj8iJw6QYnLEXa7y8e
+	K0C8mav9jwhmS3PWMV2WvlgH4ehh2vV9QiFPVLm6NUPY9B5sR+ZKAxb5OM85CD1soCMLO3PrTaQIk
+	XVAAk3LA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiSbc-00000009uzv-1o6U;
-	Thu, 13 Feb 2025 06:21:48 +0000
+	id 1tiSdL-00000009vOE-3Vrc;
+	Thu, 13 Feb 2025 06:23:35 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiSah-00000009uqC-2s7n
+	id 1tiSdJ-00000009vNC-0hvf
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Feb 2025 06:20:52 +0000
+	Thu, 13 Feb 2025 06:23:34 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 71E2F68D05; Thu, 13 Feb 2025 07:20:48 +0100 (CET)
-Date: Thu, 13 Feb 2025 07:20:48 +0100
+	id C153768D05; Thu, 13 Feb 2025 07:23:29 +0100 (CET)
+Date: Thu, 13 Feb 2025 07:23:29 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Ruozhu Li <david.li@jaguarmicro.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH] nvmet-rdma: recheck queue state is LIVE in state lock
- in recv done
-Message-ID: <20250213062048.GD19608@lst.de>
-References: <20250211034543.808-1-david.li@jaguarmicro.com>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 1/2] nvme: Cleanup the definition of the controller
+ config register fields
+Message-ID: <20250213062329.GA20095@lst.de>
+References: <20250210002935.1744249-1-dlemoal@kernel.org> <20250210002935.1744249-2-dlemoal@kernel.org> <20250213060051.GD19506@lst.de> <9455ccc9-75d4-4329-938f-e5691d92caa5@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250211034543.808-1-david.li@jaguarmicro.com>
+In-Reply-To: <9455ccc9-75d4-4329-938f-e5691d92caa5@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250212_222051_896417_3110FF38 
-X-CRM114-Status: GOOD (  15.74  )
+X-CRM114-CacheID: sfid-20250212_222333_347627_5888F765 
+X-CRM114-Status: GOOD (  13.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,77 +60,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1042,12 +1042,16 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
->  		unsigned long flags;
->  
->  		spin_lock_irqsave(&queue->state_lock, flags);
-> -		if (queue->state == NVMET_RDMA_Q_CONNECTING)
-> -			list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
-> -		else
-> -			nvmet_rdma_put_rsp(rsp);
-> +		if (queue->state != NVMET_RDMA_Q_LIVE) {
+On Thu, Feb 13, 2025 at 03:07:51PM +0900, Damien Le Moal wrote:
+> I find the single enum for all the fields of the same u32 register to be a nice
+> grouping of things. But I agree that more comments would indeed be nice.
+> I can add that. But do we really need separate enums for each field ?
 
-You'll want a comment based on the commit message that the first live
-check is racy. 
+Ah, not really for each sub-field.  But the nvme code traditionally
+also used a single enum for multiple register or struct fields.  If
+I read this to quickly and that's not the case here all is fine.
 
-> +			if (queue->state == NVMET_RDMA_Q_CONNECTING)
-> +				list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
-> +			else
-> +				nvmet_rdma_put_rsp(rsp);
-> +
-> +			spin_unlock_irqrestore(&queue->state_lock, flags);
-> +			return;
-
-This gets a bit messy now.  What about a struture like this instead?
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 1afd93026f9b..ae6a123ac63f 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -996,6 +996,23 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
- 	nvmet_req_complete(&cmd->req, status);
- }
- 
-+static bool nvmet_rdma_recv_not_live(struct nvmet_rdma_queue *queue,
-+		struct nvmet_rdma_rsp *rsp)
-+{
-+	unsigned long flags;
-+	bool ret = true;
-+
-+	spin_lock_irqsave(&queue->state_lock, flags);
-+	if (queue->state == NVMET_RDMA_Q_LIVE)
-+		ret = false;
-+	else if (queue->state == NVMET_RDMA_Q_CONNECTING)
-+		list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
-+	else
-+		nvmet_rdma_put_rsp(rsp);
-+	spin_unlock_irqrestore(&queue->state_lock, flags);
-+	return ret;
-+}
-+
- static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- {
- 	struct nvmet_rdma_cmd *cmd =
-@@ -1038,18 +1055,9 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- 	rsp->n_rdma = 0;
- 	rsp->invalidate_rkey = 0;
- 
--	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
--		unsigned long flags;
--
--		spin_lock_irqsave(&queue->state_lock, flags);
--		if (queue->state == NVMET_RDMA_Q_CONNECTING)
--			list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
--		else
--			nvmet_rdma_put_rsp(rsp);
--		spin_unlock_irqrestore(&queue->state_lock, flags);
-+	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE) &&
-+	    nvmet_rdma_recv_not_live(queue, rsp))
- 		return;
--	}
--
- 	nvmet_rdma_handle_command(queue, rsp);
- }
- 
 
