@@ -4,94 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A26A2C02198
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 01:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 844AFC02198
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 02:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6lEHVr3W6APInv1drXj4r8z2ZhlFNN3qSpXoQZdDfIc=; b=ej0NoC5BbWT0D07VzmZmbZN22A
-	kaOak0b7xLgkiTE8gSt3fvY19QkRgF0pvdZhoNezzAtCLAUOMAkf0OlyRmqlaXwgXJrAKPhUoX6/4
-	6UGHV1IirqupFxkD53uhVf5aQNwcbdT7lURUo6NcqZ2lp7QAUcFtIYlDybbfT6NC/wbCSiA9XFETg
-	vsWsSSdo4Ig+Uv23gWYZGG/FVXUxQwX4qF4nYZlvcnfGm0Eu/beLBX5ZZC7WAXDGtVAxV6VWjZ8pJ
-	IK3qPnmWNhqFz/NY/Mg1RDlrzbRjXHENDql0G4eCjV3f1bdZRVfw4XL3SniKgsrp6BCDMMNc1POJ3
-	bamy8zrw==;
+	Content-Type:Message-ID:Mime-Version:References:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=NSDRTuga0MkO0W08CvcqI1raHoXXbW7VQYz2Z9EBuow=; b=nSno+f2BDMr6TliKKAAXbu+wDC
+	heft6OTU7W9hhFLo8xE1ID24+JTzQcAtHpQo0mpzpHCnySJ0W3utQ5rpPnm8y2aKtn7GIBbDk2eEo
+	LCBlr6cVwe6SxllLnKwo42vF9ai/iwn1pip4t5n8u79wYP7NQJFsW4wm6SNmPUKOOzSftf3L4fSmt
+	OOOCNGkg8GEdmkA+PQXDSX97+NHtvYdYbxHwMI43nVrFSEDHhjvCleeOetXrfE8bjTM5ZQgjvGCCf
+	n2cqPy6P62e0EyUHvNPlxcHBZunl51wtp5jQdITwZtHPZ6mH9Ww00SXF7fl6LlFqsMvgD+EXuiuKb
+	xNwH5Uiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiNjv-00000009LsN-218n;
-	Thu, 13 Feb 2025 01:10:03 +0000
-Received: from mail-pl1-x662.google.com ([2607:f8b0:4864:20::662])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiNjs-00000009Lri-3ruT
+	id 1tiObL-00000009SVr-0n7a;
+	Thu, 13 Feb 2025 02:05:15 +0000
+Received: from [1.203.97.240] (helo=smtp.cecloud.com)
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tiOaQ-00000009SOC-18R6
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Feb 2025 01:10:02 +0000
-Received: by mail-pl1-x662.google.com with SMTP id d9443c01a7336-220cd9959f6so729785ad.1
-        for <linux-nvme@lists.infradead.org>; Wed, 12 Feb 2025 17:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1739408999; x=1740013799; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6lEHVr3W6APInv1drXj4r8z2ZhlFNN3qSpXoQZdDfIc=;
-        b=MSbTCSCY7QkC2jwBaO7Wz5DQlZ67Vtcd2fA1zcO3S6NsWv/qwVHY/nyHAqEKIBlhNi
-         d8m9KRlNJYBQQk2GscQdPNfkxPxHfQfwZ3wFX6AAz5amr5uJCmc68zCSwv39eTjT8p8G
-         yDn5+mylw0dJ1/I4m3KRzSMfnVr+KZ4fvdEu87uEOitLC2ugcLdj6qtwdnDGDxgSA5Hp
-         ejosnXXJFgeo+M9CSGZObycM2vH50ebCoMqYD92+rsOOWZuhTwFh8ijtcksrYRjRL5jo
-         0oJWez5RkNRy+gtTfbo2l0cCe9lu+/fijQeYjpa1VuSM/V83FYiBg9+HKtRugzan1/RA
-         SrNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739408999; x=1740013799;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6lEHVr3W6APInv1drXj4r8z2ZhlFNN3qSpXoQZdDfIc=;
-        b=aHk1A9LE82oMefvRa3ccH3c2X2HSNz1zHpaknmmrD9HU7yV7V2zafYcr19wpPPBlfM
-         Du2ytJif0TOGlj+dx1O3TjCF3XPYioS4uegu+gOm/FoC6o889knmjPvFyi4sen0nw6jK
-         Tan1M2FMu13Vaivam1NxgAQ37Rw0apIvjlAzo4QGKIuSGn4ND7bLjpjs+k8RSjojuORg
-         mVGdv4Txm5R0Yi7BlD5s4wes/OMSJTZO/r3RiakaoZfXQTzgzvsKlVZQaQhqSgZO5cyw
-         UU8s82p+SnzsbxNUX1IuoY3ODf6ndyeF+vATGmjWuSZQrnak1VqX4jgTJAkeB7AM9rz3
-         NgCw==
-X-Forwarded-Encrypted: i=1; AJvYcCXd7TrXIHwqkoDRaFYcGkHC0cqOpfHzchd8MIEIkQolva7+5J77UriUwdT3dizI68wvfMvcb5xa1Ize@lists.infradead.org
-X-Gm-Message-State: AOJu0YyEnG2Mexy0sRw+La6OOn5wXXMLRp6AzsQIhUXVFkSnHuaKDFbi
-	XouAdzYGheg7OcqZ7VJ3S4t0IGUKej5M6j2TCk4ijkDrh/YE6s50LcdeZP2WteNPG5qThuAVsyI
-	PAyeSkKNuk7dDY0UB+XhMj4k4MCxjau3FRcOPkLB8cRscdCNn
-X-Gm-Gg: ASbGncvojF7xVi2yPTcJXE7EG+URD01sTzMPNnm9EOLzY38H33otplaVuovWDpFUzCt
-	azFQnyH65fMWWkXz3+5m7mUFsz5l8SL9owZQ84FvWJt4By+EFN5/x+Ldw0e6LA5AO0OIPvnDHmo
-	MKjAAm7L0q4jN6f7lSDYpWb480iwLLGRZYsRw2pwejM7rSJ9mwMy2vZ1WY1JSdXlZtP5l20j6TM
-	yjPqdEXZ2Sgz1KmIM+Vx5yL0/xxt+EPEe5lr9vRVlgem8PeGzJ4H4tZDi3bCpbflEEQnSmi3OGN
-	++dMEjR6Dc5fo9d9aI+uJuw=
-X-Google-Smtp-Source: AGHT+IGga4iLa/voNvhVVA3XMQq1F6Dvcpfeu03mzatdk47G4UcQP1RYPghKpXW8H/XZ9t2Pyd/qCCgRHM19
-X-Received: by 2002:a17:903:234a:b0:21f:b7f5:ee58 with SMTP id d9443c01a7336-220bbf33c58mr31451305ad.4.1739408999533;
-        Wed, 12 Feb 2025 17:09:59 -0800 (PST)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-220d5429559sm159495ad.112.2025.02.12.17.09.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 17:09:59 -0800 (PST)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id CDF103400F6;
-	Wed, 12 Feb 2025 18:09:58 -0700 (MST)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id C2AF6E416E5; Wed, 12 Feb 2025 18:09:28 -0700 (MST)
-From: Caleb Sander Mateos <csander@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Cc: Caleb Sander Mateos <csander@purestorage.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme/ioctl: add missing space in err message
-Date: Wed, 12 Feb 2025 18:09:16 -0700
-Message-ID: <20250213010917.3816029-1-csander@purestorage.com>
-X-Mailer: git-send-email 2.45.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	Thu, 13 Feb 2025 02:04:20 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.cecloud.com (Postfix) with ESMTP id 75D37900112;
+	Thu, 13 Feb 2025 10:04:14 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from desktop-n31qu50 (unknown [39.156.73.12])
+	by smtp.cecloud.com (postfix) whith ESMTP id P3907749T281457503039856S1739412253345638_;
+	Thu, 13 Feb 2025 10:04:13 +0800 (CST)
+X-IP-DOMAINF: 1
+X-RL-SENDER: zhang.guanghui@cestc.cn
+X-SENDER: zhang.guanghui@cestc.cn
+X-LOGIN-NAME: zhang.guanghui@cestc.cn
+X-FST-TO: mlombard@bsdbackstore.eu
+X-RCPT-COUNT: 9
+X-LOCAL-RCPT-COUNT: 0
+X-MUTI-DOMAIN-COUNT: 0
+X-SENDER-IP: 39.156.73.12
+X-ATTACHMENT-NUM: 0
+X-UNIQUE-TAG: <02ea9cf93b2237e61f342787f67686eb>
+X-System-Flag: 0
+Date: Thu, 13 Feb 2025 10:04:12 +0800
+From: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>
+To: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>, 
+	sagi <sagi@grimberg.me>, 
+	mgurtovoy <mgurtovoy@nvidia.com>, 
+	kbusch <kbusch@kernel.org>, 
+	sashal <sashal@kernel.org>, 
+	chunguang.xu <chunguang.xu@shopee.com>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-nvme <linux-nvme@lists.infradead.org>, 
+	linux-block <linux-block@vger.kernel.org>
+Subject: Re: Re: nvme-tcp: fix a possible UAF when failing to send request
+References: <2025021015413817916143@cestc.cn>, 
+	<D7QKRU1EXDXJ.K6ZXC4V4ZD68@bsdbackstore.eu>, 
+	<D7QLI3PYQ877.1KH6K8K08P2IP@bsdbackstore.eu>
+X-Priority: 3
+X-GUID: 6C6F996D-3B8B-4E53-B9DA-DE2606B99DCC
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.25.331[cn]
+Mime-Version: 1.0
+Message-ID: <2025021310041218941132@cestc.cn>
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250212_171001_102529_6CEE5B5E 
-X-CRM114-Status: GOOD (  13.38  )
+X-CRM114-CacheID: sfid-20250212_180418_605939_EDDA89AB 
+X-CRM114-Status: GOOD (  14.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,35 +91,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_validate_passthru_nsid() logs an err message whose format string is
-split over 2 lines. There is a missing space between the two pieces,
-resulting in log lines like "... does not match nsid (1)of namespace".
-Add the missing space between ")" and "of".
+CkhpIArCoMKgwqDCoCBpbnQgZmFjdCwgIHRoZSBjb21taXQgYWVhY2ZjZWZhMjE4ZjRlZDExZGE0
+NzhlOWI3OTE1YTM3ZDFhZmFmZiAgaGFzIGJlZW4gc3luY2hyb25pemVkLCBidXQgdGhlIGlzc3Vl
+IHN0aWxsIG9jY3Vycy4KCsKgwqDCoMKgSSB0aGluayBzbywgd2hlbiB0aGUgaG9zdCBmYWlsaW5n
+IHRvIHNlbmQgcmVxdWVzdCAtMTMsICAgbWF5YmUgb25seSBwYXJ0IG9mIHRoZSBjb21tYW5kIGhh
+cyBiZWVuIHNlbnQgb3IgIHRoZSBjb250cm9sbGVyIGhhcyByZWNldmVkICBhIGNvbXBsZXRlIGNv
+bW1hbmQuCmJ1dCB0aGUgY29udHJvbGxlciBtYXkgc2VuZCBudm1lX3RjcF9yc3AgIGFuZCAgQzJI
+VGVybVJlcSBjb25zZWN1dGl2ZWx5LiAgTm93IEkgYW0gYW5hbHl6aW5nIHRoZSBjb250cm9sbGVy
+IHNwZGsgcHJvY2Vzc2luZyBsb2dpYy4gCndoZW4gdGhlIGhvc3QgdXNlcyBudm1lX3RjcF9wb2xs
+LCAgaXQgcmVjZWl2ZXMgbnZtZV90Y3BfcnNwIGFuZCBoYW5kbGVzIGl0IGZpcnN0bHksICAgIAp0
+aGVuIHRoZSBob3N0ICBoYXZlIGEgVUFGIGFuZCBjcmFzaGVkLiAgIAoKCgoKemhhbmcuZ3Vhbmdo
+dWlAY2VzdGMuY24KCgoKwqAKCgoKRnJvbTrCoE1hdXJpemlvIExvbWJhcmRpCgoKCkRhdGU6wqAy
+MDI1LTAyLTEzwqAwMDowNwoKCgpUbzrCoE1hdXJpemlvIExvbWJhcmRpOyB6aGFuZy5ndWFuZ2h1
+aUBjZXN0Yy5jbjsgc2FnaTsgbWd1cnRvdm95OyBrYnVzY2g7IHNhc2hhbDsgY2h1bmd1YW5nLnh1
+CgoKCkNDOsKgbGludXgta2VybmVsOyBsaW51eC1udm1lOyBsaW51eC1ibG9jawoKCgpTdWJqZWN0
+OsKgUmU6IG52bWUtdGNwOiBmaXggYSBwb3NzaWJsZSBVQUYgd2hlbiBmYWlsaW5nIHRvIHNlbmQg
+cmVxdWVzdAoKCgpPbiBXZWQgRmViIDEyLCAyMDI1IGF0IDQ6MzMgUE0gQ0VULCBNYXVyaXppbyBM
+b21iYXJkaSB3cm90ZToKCgoKPgoKCgo+IFRha2luZyBhIHN0ZXAgYmFjay4gTGV0J3MgdGFrZSBh
+IGRpZmZlcmVudCBhcHByb2FjaCBhbmQgdHJ5IHRvIGF2b2lkIHRoZQoKCgo+IGRvdWJsZSBjb21w
+bGV0aW9uLgoKCgo+CgoKCj4gVGhlIHByb2JsZW0gaGVyZSBpcyB0aGF0IGFwcGFyZW50bHkgd2Ug
+cmVjZWl2ZWQgYSBudm1lX3RjcF9yc3AgY2Fwc3VsZQoKCgo+IGZyb20gdGhlIHRhcmdldCwgbWVh
+bmluZyB0aGF0IHRoZSBjb21tYW5kIGhhcyBiZWVuIHByb2Nlc3NlZCAoSSBndWVzcwoKCgo+IHRo
+ZSBjYXBzdWxlIGhhcyBhbiBlcnJvciBzdGF0dXM/KQoKCgo+CgoKCj4gU28gbWF5YmUgb25seSBw
+YXJ0IG9mIHRoZSBjb21tYW5kIGhhcyBiZWVuIHNlbnQ/CgoKCj4gV2h5IHdlIHJlY2VpdmUgdGhl
+IHJzcCBjYXBzdWxlIGF0IGFsbD8gU2hvdWxkbid0IHRoaXMgYmUgdHJlYXRlZCBhcyBhIGZhdGFs
+CgoKCj4gZXJyb3IgYnkgdGhlIGNvbnRyb2xsZXI/ICAKCi0tCgoKwqAKCgoKwqAKCgoKPiBUaGUg
+TlZNZS9UQ1Agc3BlY2lmaWNhdGlvbiBzYXlzCgoKCsKgCgoKCioqKioqKgoKCgpXaGVuIGEgY29u
+dHJvbGxlciBkZXRlY3RzIGEgZmF0YWwgZXJyb3IsIHRoYXQgY29udHJvbGxlciBzaGFsbDoKCgoK
+wqAgMS4gc3RvcCBwcm9jZXNzaW5nIGFueSBQRFVzIHRoYXQgYXJyaXZlIG9uIHRoZSBjb25uZWN0
+aW9uOyBhbmQKCgoKwqAgMi4gc2VuZCBhIEMySFRlcm1SZXEgUERVCgoKCioqKioqKgoKCgrCoAoK
+CgpBbmQgaW5kZWVkIEkgc2VlIGluIHRoZSBkbWVzZyB0aGlzOgoKCgrCoAoKCgpudm1lIG52bWUy
+OiB1bnN1cHBvcnRlZCBwZHUgdHlwZSAoMykKCgoKwqAKCgoKVGhpcyBtZWFucyB0aGUgY29udHJv
+bGxlciBkZXRlY3RlZCB0aGUgcHJvYmxlbSBhbmQgc2VudCB0byB0aGUgaG9zdCB0aGUKCgoKQzJI
+VGVybVJlcSBjb21tYW5kLiBVcG9uIHJlY2VpdmluZyB0aGlzIGNvbW1hbmQsIHRoZSBob3N0IGlz
+IHN1cHBvc2VkIHRvCgoKCmNsb3NlIHRoZSBjb25uZWN0aW9uLgoKCgrCoAoKCgpOb3cgSSBnZXQg
+aXQuCgoKCsKgCgoKClpoYW5nLCBkbyB5b3UgaGF2ZSBjb21taXQgYWVhY2ZjZWZhMjE4ZjRlZDEx
+ZGE0NzhlOWI3OTE1YTM3ZDFhZmFmZiBpbgoKCgp5b3VyIGtlcm5lbCwgSSBndWVzcyB5b3UgYXJl
+IG1pc3NpbmcgaXQuIENoZWNrIGl0IHBsZWFzZS4KCgoKwqAKCgoKTWF1cml6aW8KCgoKwqAKCgoK
+wqAKCgoKwqAKCgo=
 
-Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-Fixes: e7d4b5493a2d ("nvme: factor out a nvme_validate_passthru_nsid helper")
----
- drivers/nvme/host/ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index e8930146847a..406c1592dd7c 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -281,11 +281,11 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
- 					struct nvme_ns *ns, __u32 nsid)
- {
- 	if (ns && nsid != ns->head->ns_id) {
- 		dev_err(ctrl->device,
--			"%s: nsid (%u) in cmd does not match nsid (%u)"
-+			"%s: nsid (%u) in cmd does not match nsid (%u) "
- 			"of namespace\n",
- 			current->comm, nsid, ns->head->ns_id);
- 		return false;
- 	}
- 
--- 
-2.45.2
 
 
