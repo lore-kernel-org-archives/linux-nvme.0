@@ -4,79 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 844AFC02198
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 02:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07A85C021A8
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 05:54:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Message-ID:Mime-Version:References:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=NSDRTuga0MkO0W08CvcqI1raHoXXbW7VQYz2Z9EBuow=; b=nSno+f2BDMr6TliKKAAXbu+wDC
-	heft6OTU7W9hhFLo8xE1ID24+JTzQcAtHpQo0mpzpHCnySJ0W3utQ5rpPnm8y2aKtn7GIBbDk2eEo
-	LCBlr6cVwe6SxllLnKwo42vF9ai/iwn1pip4t5n8u79wYP7NQJFsW4wm6SNmPUKOOzSftf3L4fSmt
-	OOOCNGkg8GEdmkA+PQXDSX97+NHtvYdYbxHwMI43nVrFSEDHhjvCleeOetXrfE8bjTM5ZQgjvGCCf
-	n2cqPy6P62e0EyUHvNPlxcHBZunl51wtp5jQdITwZtHPZ6mH9Ww00SXF7fl6LlFqsMvgD+EXuiuKb
-	xNwH5Uiw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KqCKF09f1O+Lwz/LAvkuVd7GMlr4gW9NholM3AdBkhI=; b=AoTNGyN5rFdcRQ9jkINducw85J
+	06Q59KRwmUjc/3QBoqk+NQdwcdcmakBRgifvjCm5+OPIFWHL2sAKEjp3q8TvjX0bA0QqVo/2Vvu59
+	ZVoXq2DCeKMIJpHibM5BrzInwnVEv10RdLQWdlkI4vDF4qCSB9XRs0SNpuBhskv/nC+1cKFhVQ3Kh
+	BGy+BHczZEvU5g4ZtENgAyyIDZPtnnqo6Sq7/psKZkWu79JP43PkvpvCgDkSoI6jaWEIIo+XBZjzJ
+	GUmB9wyOVx7mx748pS6BuxAn/N6JzUCHQrOGm0ftIB84HrWlR7jwfncM3JtUi8V4LkLcHWiLgWJAs
+	62O3Ttjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiObL-00000009SVr-0n7a;
-	Thu, 13 Feb 2025 02:05:15 +0000
-Received: from [1.203.97.240] (helo=smtp.cecloud.com)
-	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiOaQ-00000009SOC-18R6
+	id 1tiSB2-00000009qdh-2SDH;
+	Thu, 13 Feb 2025 05:54:20 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tiSAz-00000009qZU-31S6
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Feb 2025 02:04:20 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.cecloud.com (Postfix) with ESMTP id 75D37900112;
-	Thu, 13 Feb 2025 10:04:14 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-X-ANTISPAM-LEVEL: 2
-Received: from desktop-n31qu50 (unknown [39.156.73.12])
-	by smtp.cecloud.com (postfix) whith ESMTP id P3907749T281457503039856S1739412253345638_;
-	Thu, 13 Feb 2025 10:04:13 +0800 (CST)
-X-IP-DOMAINF: 1
-X-RL-SENDER: zhang.guanghui@cestc.cn
-X-SENDER: zhang.guanghui@cestc.cn
-X-LOGIN-NAME: zhang.guanghui@cestc.cn
-X-FST-TO: mlombard@bsdbackstore.eu
-X-RCPT-COUNT: 9
-X-LOCAL-RCPT-COUNT: 0
-X-MUTI-DOMAIN-COUNT: 0
-X-SENDER-IP: 39.156.73.12
-X-ATTACHMENT-NUM: 0
-X-UNIQUE-TAG: <02ea9cf93b2237e61f342787f67686eb>
-X-System-Flag: 0
-Date: Thu, 13 Feb 2025 10:04:12 +0800
-From: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>
-To: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>, 
-	sagi <sagi@grimberg.me>, 
-	mgurtovoy <mgurtovoy@nvidia.com>, 
-	kbusch <kbusch@kernel.org>, 
-	sashal <sashal@kernel.org>, 
-	chunguang.xu <chunguang.xu@shopee.com>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-nvme <linux-nvme@lists.infradead.org>, 
-	linux-block <linux-block@vger.kernel.org>
-Subject: Re: Re: nvme-tcp: fix a possible UAF when failing to send request
-References: <2025021015413817916143@cestc.cn>, 
-	<D7QKRU1EXDXJ.K6ZXC4V4ZD68@bsdbackstore.eu>, 
-	<D7QLI3PYQ877.1KH6K8K08P2IP@bsdbackstore.eu>
-X-Priority: 3
-X-GUID: 6C6F996D-3B8B-4E53-B9DA-DE2606B99DCC
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.25.331[cn]
-Mime-Version: 1.0
-Message-ID: <2025021310041218941132@cestc.cn>
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
+	Thu, 13 Feb 2025 05:54:19 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 66BCD67373; Thu, 13 Feb 2025 06:54:06 +0100 (CET)
+Date: Thu, 13 Feb 2025 06:54:05 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme/ioctl: add missing space in err message
+Message-ID: <20250213055405.GA19370@lst.de>
+References: <20250213010917.3816029-1-csander@purestorage.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250213010917.3816029-1-csander@purestorage.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250212_180418_605939_EDDA89AB 
-X-CRM114-Status: GOOD (  14.37  )
+X-CRM114-CacheID: sfid-20250212_215417_926689_5D0AF670 
+X-CRM114-Status: GOOD (  13.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,45 +61,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-CkhpIArCoMKgwqDCoCBpbnQgZmFjdCwgIHRoZSBjb21taXQgYWVhY2ZjZWZhMjE4ZjRlZDExZGE0
-NzhlOWI3OTE1YTM3ZDFhZmFmZiAgaGFzIGJlZW4gc3luY2hyb25pemVkLCBidXQgdGhlIGlzc3Vl
-IHN0aWxsIG9jY3Vycy4KCsKgwqDCoMKgSSB0aGluayBzbywgd2hlbiB0aGUgaG9zdCBmYWlsaW5n
-IHRvIHNlbmQgcmVxdWVzdCAtMTMsICAgbWF5YmUgb25seSBwYXJ0IG9mIHRoZSBjb21tYW5kIGhh
-cyBiZWVuIHNlbnQgb3IgIHRoZSBjb250cm9sbGVyIGhhcyByZWNldmVkICBhIGNvbXBsZXRlIGNv
-bW1hbmQuCmJ1dCB0aGUgY29udHJvbGxlciBtYXkgc2VuZCBudm1lX3RjcF9yc3AgIGFuZCAgQzJI
-VGVybVJlcSBjb25zZWN1dGl2ZWx5LiAgTm93IEkgYW0gYW5hbHl6aW5nIHRoZSBjb250cm9sbGVy
-IHNwZGsgcHJvY2Vzc2luZyBsb2dpYy4gCndoZW4gdGhlIGhvc3QgdXNlcyBudm1lX3RjcF9wb2xs
-LCAgaXQgcmVjZWl2ZXMgbnZtZV90Y3BfcnNwIGFuZCBoYW5kbGVzIGl0IGZpcnN0bHksICAgIAp0
-aGVuIHRoZSBob3N0ICBoYXZlIGEgVUFGIGFuZCBjcmFzaGVkLiAgIAoKCgoKemhhbmcuZ3Vhbmdo
-dWlAY2VzdGMuY24KCgoKwqAKCgoKRnJvbTrCoE1hdXJpemlvIExvbWJhcmRpCgoKCkRhdGU6wqAy
-MDI1LTAyLTEzwqAwMDowNwoKCgpUbzrCoE1hdXJpemlvIExvbWJhcmRpOyB6aGFuZy5ndWFuZ2h1
-aUBjZXN0Yy5jbjsgc2FnaTsgbWd1cnRvdm95OyBrYnVzY2g7IHNhc2hhbDsgY2h1bmd1YW5nLnh1
-CgoKCkNDOsKgbGludXgta2VybmVsOyBsaW51eC1udm1lOyBsaW51eC1ibG9jawoKCgpTdWJqZWN0
-OsKgUmU6IG52bWUtdGNwOiBmaXggYSBwb3NzaWJsZSBVQUYgd2hlbiBmYWlsaW5nIHRvIHNlbmQg
-cmVxdWVzdAoKCgpPbiBXZWQgRmViIDEyLCAyMDI1IGF0IDQ6MzMgUE0gQ0VULCBNYXVyaXppbyBM
-b21iYXJkaSB3cm90ZToKCgoKPgoKCgo+IFRha2luZyBhIHN0ZXAgYmFjay4gTGV0J3MgdGFrZSBh
-IGRpZmZlcmVudCBhcHByb2FjaCBhbmQgdHJ5IHRvIGF2b2lkIHRoZQoKCgo+IGRvdWJsZSBjb21w
-bGV0aW9uLgoKCgo+CgoKCj4gVGhlIHByb2JsZW0gaGVyZSBpcyB0aGF0IGFwcGFyZW50bHkgd2Ug
-cmVjZWl2ZWQgYSBudm1lX3RjcF9yc3AgY2Fwc3VsZQoKCgo+IGZyb20gdGhlIHRhcmdldCwgbWVh
-bmluZyB0aGF0IHRoZSBjb21tYW5kIGhhcyBiZWVuIHByb2Nlc3NlZCAoSSBndWVzcwoKCgo+IHRo
-ZSBjYXBzdWxlIGhhcyBhbiBlcnJvciBzdGF0dXM/KQoKCgo+CgoKCj4gU28gbWF5YmUgb25seSBw
-YXJ0IG9mIHRoZSBjb21tYW5kIGhhcyBiZWVuIHNlbnQ/CgoKCj4gV2h5IHdlIHJlY2VpdmUgdGhl
-IHJzcCBjYXBzdWxlIGF0IGFsbD8gU2hvdWxkbid0IHRoaXMgYmUgdHJlYXRlZCBhcyBhIGZhdGFs
-CgoKCj4gZXJyb3IgYnkgdGhlIGNvbnRyb2xsZXI/ICAKCi0tCgoKwqAKCgoKwqAKCgoKPiBUaGUg
-TlZNZS9UQ1Agc3BlY2lmaWNhdGlvbiBzYXlzCgoKCsKgCgoKCioqKioqKgoKCgpXaGVuIGEgY29u
-dHJvbGxlciBkZXRlY3RzIGEgZmF0YWwgZXJyb3IsIHRoYXQgY29udHJvbGxlciBzaGFsbDoKCgoK
-wqAgMS4gc3RvcCBwcm9jZXNzaW5nIGFueSBQRFVzIHRoYXQgYXJyaXZlIG9uIHRoZSBjb25uZWN0
-aW9uOyBhbmQKCgoKwqAgMi4gc2VuZCBhIEMySFRlcm1SZXEgUERVCgoKCioqKioqKgoKCgrCoAoK
-CgpBbmQgaW5kZWVkIEkgc2VlIGluIHRoZSBkbWVzZyB0aGlzOgoKCgrCoAoKCgpudm1lIG52bWUy
-OiB1bnN1cHBvcnRlZCBwZHUgdHlwZSAoMykKCgoKwqAKCgoKVGhpcyBtZWFucyB0aGUgY29udHJv
-bGxlciBkZXRlY3RlZCB0aGUgcHJvYmxlbSBhbmQgc2VudCB0byB0aGUgaG9zdCB0aGUKCgoKQzJI
-VGVybVJlcSBjb21tYW5kLiBVcG9uIHJlY2VpdmluZyB0aGlzIGNvbW1hbmQsIHRoZSBob3N0IGlz
-IHN1cHBvc2VkIHRvCgoKCmNsb3NlIHRoZSBjb25uZWN0aW9uLgoKCgrCoAoKCgpOb3cgSSBnZXQg
-aXQuCgoKCsKgCgoKClpoYW5nLCBkbyB5b3UgaGF2ZSBjb21taXQgYWVhY2ZjZWZhMjE4ZjRlZDEx
-ZGE0NzhlOWI3OTE1YTM3ZDFhZmFmZiBpbgoKCgp5b3VyIGtlcm5lbCwgSSBndWVzcyB5b3UgYXJl
-IG1pc3NpbmcgaXQuIENoZWNrIGl0IHBsZWFzZS4KCgoKwqAKCgoKTWF1cml6aW8KCgoKwqAKCgoK
-wqAKCgoKwqAKCgo=
+On Wed, Feb 12, 2025 at 06:09:16PM -0700, Caleb Sander Mateos wrote:
+> nvme_validate_passthru_nsid() logs an err message whose format string is
+> split over 2 lines. There is a missing space between the two pieces,
+> resulting in log lines like "... does not match nsid (1)of namespace".
+> Add the missing space between ")" and "of".
 
-
+You might as well consolidaste the string to a single line while you're
+at it.  Otherwise this looks good.
 
 
