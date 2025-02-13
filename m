@@ -4,72 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41798C021A7
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 06:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E231C021A7
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 06:07:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZxZ7yIDRNJAgWbQ5GgsBn7MOoc4zESUrMj92p2KKbqY=; b=K8X5yh4XJXjkzkWLoflTeyuCnF
-	uzzKOhwa2dvEESiqI580Kr3LUSXvj8lRGc2IIyfVSQicvbGesLxhmq0IXBRleJA42ZOXqJO6ZNUag
-	CHSM7JIcmaM9Ncov0cL2bLGQSvvINh5HSZnv4kiaxxggfZ5Hz04M+LgMpOM7CeWrqvNALWLtqMUDx
-	dQdL/X50IffG6Nb4eQqi2EsJgUaR+xO1eU1+K0CijLMoiVBNQ00+V+MgSmrWbB/HWsy6YCBsyfu9v
-	iyKijK/yUbHChxt/HFF1wU+MRHGM0k/GyttxHtIX8NCeYXkhMgcJ1YSgYAAJ7OP4X9jHhUUhWEi60
-	OOPqeh9A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7j4Ms9PX8K20OKDDg3LZUMrbeSd6597yKnz58VsFmBE=; b=VreOIDpUwhPinF806MDhgT0D8o
+	URCh/gm5U+0cUYjX91NUL0ZbkaLFerVL8AaHuBN7yKtH/HmWK4dbWVqbvcJ47riBAkoJz6YJ7lT3P
+	8d386ug3sfAh7zrzdwhOyh8o1MLRCp7ZGtEzZYNZFgC+Rp+UMbPsJz4Eu87esO7PYMuGJvBvL/b1H
+	0DSCH6mG2S02c/a3uRUVlowNFB69zA6fA1n63izlWCeKSyNgb/gA2vbcdtWjMKofuQ2gGBZUdPHAq
+	ZASF09u07RIv7r4uo1Hn+tsqVDn7mp5RYXmlG4t9YDeCP19K27tLjM2a7Fu/0q0g6vSLJ6l2PsUhW
+	XSPH17wA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiSM1-00000009sxD-0w8J;
-	Thu, 13 Feb 2025 06:05:41 +0000
-Received: from sender4-op-o12.zoho.com ([136.143.188.12])
+	id 1tiSOE-00000009tCr-0BJt;
+	Thu, 13 Feb 2025 06:07:58 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiSLy-00000009swo-2gcX
+	id 1tiSOC-00000009tC8-0Jaq
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Feb 2025 06:05:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; t=1739426735; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=SOE4TRFa2TT1u+QYUl904QDNAiTtKmRuP2LuKhtVoIZm9/26nWXP0uNIf/7EplHZ2wWEbXJOEZcnQ5nwJzfnqVn4uoUva8Qj3U6trmxy6DkOhT9UH8fHTjHfWbyKW7BLhI9RPtopaIZ4+Nx1ofzSJNthdJtq5TCQi/EYgz/2fVI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1739426735; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ZxZ7yIDRNJAgWbQ5GgsBn7MOoc4zESUrMj92p2KKbqY=; 
-	b=PMf9kXUPIgWIeqe8DN3a0LYmfvR5Bun+o5s2amCVnX/tOCGytjVdLXGgtNwzHd8v7gdXet+rOiCbuXfFSQCpj5M1YTn8/dmrlCj/4PcL+RRLpe1R0R+U3PUvolwLMLIah4NUt9CQ0MTIlgpd7N+f3VAJp0wexovbENlVz9LQbCw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739426735;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=ZxZ7yIDRNJAgWbQ5GgsBn7MOoc4zESUrMj92p2KKbqY=;
-	b=p2iNpECGvV1yMkGWzjXYgatN8kdiskF42X4Mxa7FeCj+8TZ+VGtGrLi0EvxC2GfV
-	A6hD7pdqN0zvFv3gAyUB8IdvUFEO9JRbCo9Jw64V4TkDjiwlOCg97onNIIK01Xn4Xg+
-	PjBzBE5vG3OtUN5UweDcXOESpN58suVA96IdDmmSf0/G3DDtt1mjWBazJ7xNd3x2FNz
-	rkxC+wjf1Siq+BB4HN997R+Ru9jzPJX/JEGyK7On9pxfQtoinlziwkaE0mC8McYKHYL
-	e31hNq7w0YdTWZ4qIBg6YhjzIrcCseuM0QROStRHZyB/LhWYOThSG7zG4Olsfgsyrmx
-	VBToN6zLLA==
-Received: by mx.zohomail.com with SMTPS id 1739426734227256.68236209443637;
-	Wed, 12 Feb 2025 22:05:34 -0800 (PST)
-Message-ID: <150c3e85594e6256d4f3254bd4ef597612cf8428.camel@icenowy.me>
-Subject: Re: [PATCH 0/2] Misc fixes on registering PCI NVMe CMB
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi
- Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Date: Thu, 13 Feb 2025 14:05:29 +0800
-In-Reply-To: <20250213055449.GB19370@lst.de>
-References: <20250212170444.16138-1-uwu@icenowy.me>
-	 <20250213055449.GB19370@lst.de>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	Thu, 13 Feb 2025 06:07:57 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 0A77DA41DE1;
+	Thu, 13 Feb 2025 06:06:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49CBEC4CED1;
+	Thu, 13 Feb 2025 06:07:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739426873;
+	bh=EWtc2jWO9M8aIAApnh/TB5lWQ3IQ40QWrsnZbIeuxCg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YPhSE53xCl/WlpjZzt2hU/0nA5boSHgmpFwd4OTZw74Vmsyr+4rVXqP+yMc7gR+zU
+	 XkHJ4a7GqzHYmLtKiaRlPF9x98IWg8FW6jv04HuN4ikrnE3dXuH/2kqJ44eoC08HMp
+	 TvSyBIe/J5PpGmsOHAAfraki1/Mmfcd8xpElGYHrmJkDBFKAfvwciQvcbNK4BzVPQJ
+	 b73i7G1ISW0VgMHkLk8Myb1O56zn40d6TPh6S9oaJ3oQKa3yK0gv6QhdTQDbbghIJ4
+	 X4HkJcR8qag43+CvXU9//XcXPRzZ+oHiToHd1U51GtkzK7HCWHBB94ugK/epsWLop4
+	 Z8YvTUdnsU+oA==
+Message-ID: <9455ccc9-75d4-4329-938f-e5691d92caa5@kernel.org>
+Date: Thu, 13 Feb 2025 15:07:51 +0900
 MIME-Version: 1.0
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvme: Cleanup the definition of the controller config
+ register fields
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>
+References: <20250210002935.1744249-1-dlemoal@kernel.org>
+ <20250210002935.1744249-2-dlemoal@kernel.org> <20250213060051.GD19506@lst.de>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20250213060051.GD19506@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250212_220538_782974_252E3EC7 
-X-CRM114-Status: GOOD (  12.10  )
+X-CRM114-CacheID: sfid-20250212_220756_198098_7B978C45 
+X-CRM114-Status: UNSURE (   9.29  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,30 +77,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-=E5=9C=A8 2025-02-13=E6=98=9F=E6=9C=9F=E5=9B=9B=E7=9A=84 06:54 +0100=EF=BC=
-=8CChristoph Hellwig=E5=86=99=E9=81=93=EF=BC=9A
-> On Thu, Feb 13, 2025 at 01:04:42AM +0800, Icenowy Zheng wrote:
-> > Here is a small patchset that is developed during my investigation
-> > of
-> > a WARNING in my boot kernel log (AMD EPYC 7K62 CPU + Intel DC D4502
-> > SSD), which is because of the SSD's too-small CMB block (512KB
-> > only).
->=20
-> Hah, that's certainly and odd CMB configuration.
->=20
+On 2025/02/13 15:00, Christoph Hellwig wrote:
+>> +++ b/include/linux/nvme.h
+>> @@ -202,24 +202,35 @@ enum {
+>>  enum {
+>>  	NVME_CC_ENABLE		= 1 << 0,
+>>  	NVME_CC_EN_SHIFT	= 0,
+>> +
+>>  	NVME_CC_CSS_SHIFT	= 4,
+>> -	NVME_CC_MPS_SHIFT	= 7,
+>> -	NVME_CC_AMS_SHIFT	= 11,
+>> -	NVME_CC_SHN_SHIFT	= 14,
+>> -	NVME_CC_IOSQES_SHIFT	= 16,
+>> -	NVME_CC_IOCQES_SHIFT	= 20,
+>> +	NVME_CC_CSS_MASK	= 7 << NVME_CC_CSS_SHIFT,
+> 
+> While you're at it, maybe use a separate anonymous enum for each
+> field and a comment about which field it describes?
 
-Sure, maybe it's just intended for a little queue. Register 0x38 value
-is 0x00000004, Register 0x3c is 0x00080001, and BAR 4 is 64-bit
-prefetchable memory with size=3D512K. I tested writing arbitary data to
-the BAR 4's first few words and it correctly retains (which means they
-seem to be really memory instead of registers).
+I find the single enum for all the fields of the same u32 register to be a nice
+grouping of things. But I agree that more comments would indeed be nice.
+I can add that. But do we really need separate enums for each field ?
 
-I saw some mention of support CMB for submission queue in the brief of
-Intel D3700/3600, maybe this applies to D450x as a successor?
 
-BTW I am not sure about the relationship between Intel D series and P
-series SSDs (only knows that D series is for dual-port redundancy), and
-I have a P4511 as my boot disk (D4502 is data storage), which comes
-with no CMB at all. (P4511 and D4502 shares PCI ID, but not PCI
-subsystem ID).
+-- 
+Damien Le Moal
+Western Digital Research
 
