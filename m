@@ -4,48 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14818C021A4
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 05:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCCCBC021A7
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2025 06:00:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Av7TvMjJOPO45NdBDz/sYYOKRQ
-	lPIL0jUkh7ZP96HM/KjJd+slhKtQQsjOCeO5u4oc72nNg5gdFf2E5nO1fOvJZmvA16k9+PvJ0G01O
-	0bu/mo0pfM/SH4DJ/cMYf2nhckpK87OIT2t7dBFJ21F0lZ+eLfQi2vNr8WtOVMAcdoFTP33x3gat9
-	iGDJzQoIFMxiGDG18Z1C2X6SJRUqK5ZFikSMFzFbX4QfKbaP87/pdoihLtm3v6cR1q6/Z6zZ0Cr2S
-	cTs+8QlR7H1RxvkxFp4Vvt2F1QwBc2DffXfuDpKVzFm4yYkrqr8yNxSJ1r3Xp/YjNPdT33AX0+kfj
-	ZDHbyjVg==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=5E7qI+zQC1Mg2ngua2sl0G2a8V
+	84eETnRRY4N8dEmNSlwrGyoNsgo3lC01lOy8noHyRxtjvRqPSaAI2320317Bi5lpaO5JYl4bPmmPk
+	HZUQHF/Og39kaQ5Jv++xuylnnc09JUSFWLOakzKlfOPmyigHrxbYt5XKWjJpaTo4b8XlXpagGyIno
+	DESFhoC3sE2f3LOjtyYZh+ZF/9xLuPEhyXf/adSTcTpM3QoOBpwIjGI+VCfjhOFCCfM+SeaLevM/d
+	P1xj1equ3UJrynhzLhOK9Q7CzwhvL8YWD1LC7omg5n6e7A4JH0W9nm6FPcU+87QL3eDRDKyMTL3Hl
+	wJbKtB5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiSGG-00000009rse-2AqZ;
-	Thu, 13 Feb 2025 05:59:44 +0000
+	id 1tiSGY-00000009ryI-1Aim;
+	Thu, 13 Feb 2025 06:00:02 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tiSGD-00000009rrd-1wIP
+	id 1tiSGV-00000009rwo-2ck9
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Feb 2025 05:59:42 +0000
+	Thu, 13 Feb 2025 06:00:00 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3534A67373; Thu, 13 Feb 2025 06:59:38 +0100 (CET)
-Date: Thu, 13 Feb 2025 06:59:38 +0100
+	id 6140267373; Thu, 13 Feb 2025 06:59:56 +0100 (CET)
+Date: Thu, 13 Feb 2025 06:59:56 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Damien Le Moal <dlemoal@kernel.org>
 Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 2/3] nvmet: pci-epf: Do not uselessly write the CSTS
- register
-Message-ID: <20250213055938.GB19506@lst.de>
-References: <20250210002815.1744205-1-dlemoal@kernel.org> <20250210002815.1744205-3-dlemoal@kernel.org>
+Subject: Re: [PATCH 3/3] nvme: tcp: Fix compilation warning with W=1
+Message-ID: <20250213055956.GC19506@lst.de>
+References: <20250210002815.1744205-1-dlemoal@kernel.org> <20250210002815.1744205-4-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210002815.1744205-3-dlemoal@kernel.org>
+In-Reply-To: <20250210002815.1744205-4-dlemoal@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250212_215941_640992_BE94B6E1 
-X-CRM114-Status: UNSURE (   9.12  )
+X-CRM114-CacheID: sfid-20250212_215959_830548_D9E0CD18 
+X-CRM114-Status: UNSURE (   9.05  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
