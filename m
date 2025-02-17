@@ -4,130 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 788B9C021AA
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Feb 2025 12:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FA44C021AA
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Feb 2025 13:33:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=50RTflAjI1oQ3UvbxzIHSwhfCRZbjkO+oKW5WUkIEJ8=; b=EVi9eCfAw0F/UKPQi9+jnwpes5
-	5zan54haOy56S5LqioF5XhJGrrQob8m+0se/5qQ5UC4DS4J4DjNiIGDcZAH1pLKEA+8+zK973rY+S
-	Yj8ZCvC/7LLQPJ/T/ZyQ5iIz455WdNfgBINGIdbULgBCYtyGs5OAx3b6TW4Rs50GwHTO8Ylk2k1Dk
-	70eEkNQr1UN1zW7xzb7tZHlJpbsGgtKPsc4BirJVMCbqui8XixI8S+qtxRdxuC2Ow3srqD8Jzm3VB
-	ppglmK6WAA+f7mXCXlgNHat2rFfrKwIQR+q0DCRB5KEDHWxEYskVy9Pc5wSWXIBo8hRrhTPzHUUOB
-	wFW2Oa1Q==;
+	Content-Type:From:Subject:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=P9UDxOMqPg15gSOK7rUm5UQP+79Q5az5rgNjpHqZZAM=; b=2Z3eftrUo7aaaZcErI3liZ92fa
+	ZlqTQX04VBmWvXGEe5KH8xerk5oABX6XfpLVBve74DqcZhD+0h5fqbGzC5Km8mSgu8PWeH9f028xA
+	n8Htiwkt4OdZEBcH8PxXjF1WKMZ9AxqB2C1VAMdWjG+GjRf4LiPdUGvIOoNwpUn0j1ei8h1Ye5hR+
+	h71tIQH1ocP8H6r/t5tRL2I0kCQZv0yqje7ohwIyveafJGmNeNHYkoczup9fIGYnX9XuMqx/WGzgi
+	T/I8LDSfBpCRfQASghRC2rgFgDEC4ZsaNEdpa1OyQOK56pLq9L6I9jLmWw26Ekdr035GMlrnJ+MqI
+	BuG79SkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tk0Fw-00000004SFV-1kwh;
-	Mon, 17 Feb 2025 12:29:48 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1tk1FE-00000004gFk-3UMK;
+	Mon, 17 Feb 2025 13:33:08 +0000
+Received: from mail-yw1-f175.google.com ([209.85.128.175])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tjynY-00000004E2J-1P9B
+	id 1tk173-00000004eGu-0PPX
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Feb 2025 10:56:25 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3A1D8211B2;
-	Mon, 17 Feb 2025 10:56:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739789781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=50RTflAjI1oQ3UvbxzIHSwhfCRZbjkO+oKW5WUkIEJ8=;
-	b=M4aOqTKnajMDsWjD2SYVfaPUSPmHHtmYOwcg319DXhVj6cS9KnbCbqBhESPFIoDQFJMLvl
-	ah/Z5PYSTBdpVHSmMexKv6g6npET9xp38tu3vM/HxWcbjI6k00AvUU6xF5MvxGvkeNVYQp
-	1uuLObis7+4JSi9DXZmOBIVOX1UbRiA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739789781;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=50RTflAjI1oQ3UvbxzIHSwhfCRZbjkO+oKW5WUkIEJ8=;
-	b=DMvpJOlJFc0mb3832dZMCD0FWMXZ7JTfhNAfedIzHIjR6udjJePbrhOV76fQaJuaK73ias
-	uiiuWGkQGgMHjFBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sogz2f6x;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=X5iAvZ8V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739789780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=50RTflAjI1oQ3UvbxzIHSwhfCRZbjkO+oKW5WUkIEJ8=;
-	b=sogz2f6xf3vgucOFCsFZKRdSuEsUlcEWiPw0D2e2XBYm74W+CkZ2qcOY5s7kx9csCUqWGU
-	/L9RQ48u4JbpDhEI12gNI2Y3vZXXHSgQqTXXs177CepmAtfnFwLtr4dpzXHMCY56iZXWAn
-	Mgs2gRHYR1fEN+W9zMXfgPJ1mPpwLD0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739789780;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=50RTflAjI1oQ3UvbxzIHSwhfCRZbjkO+oKW5WUkIEJ8=;
-	b=X5iAvZ8Vtk8BfrSyCNimcsG+fTHz7A/QEKz5JNr366m6lhHiQsnLlk8ykVgXtc3TTj590P
-	hBUbnEFTd5HkMFBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E4E581379D;
-	Mon, 17 Feb 2025 10:56:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ARpENtMVs2f3WQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 17 Feb 2025 10:56:19 +0000
-Message-ID: <91041933-6a18-490c-8090-4e03d15d3cf3@suse.de>
-Date: Mon, 17 Feb 2025 11:56:14 +0100
+	Mon, 17 Feb 2025 13:24:42 +0000
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6fb6c36ba25so9358107b3.1
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Feb 2025 05:24:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739798678; x=1740403478; darn=lists.infradead.org;
+        h=content-transfer-encoding:from:content-language:subject:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P9UDxOMqPg15gSOK7rUm5UQP+79Q5az5rgNjpHqZZAM=;
+        b=g+u+pVPbKY3H2mN60Q6qIzLt7eGc+A532YT0EdoOUs4Y85OO4iruLYrePlvCLR99rh
+         uAYod2SRnSbVqQ3pmLcv2J2fcMWktFLTs6/Emfuq6xj9GgGoPAIjZN1yRZXsWIw1Pg52
+         WFPmKIG/U79RLLthRP0MSIMaLj/OyFycsrYM5Vi1L4W7BUsQDqjzoNv6lkTVyaYFxAMK
+         Kg+c1i/48x8w4jthnkIEuKYDEh1xwrPyFqqq1fuvBCxRC9AkLPfsLD+/s9VAPvPydSNQ
+         3ULVJ1MYWCBNV7wHEnQJkt8XsU8VMFmAdO6x92bZg/oYua3Qs1bAftkTtmdWl7mHKvYo
+         DsXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739798678; x=1740403478;
+        h=content-transfer-encoding:from:content-language:subject:to
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=P9UDxOMqPg15gSOK7rUm5UQP+79Q5az5rgNjpHqZZAM=;
+        b=P6ilF042oOtJOLkVPaAwqFpubmGL9DGTrP8WZE1VyXRuwqey+dyn5bjD8YRi8sY0Xp
+         9V0agIvKGQKA/FrOxL5m95zJ7+QaYek6sOpUYS4CyRTJXcQc2GJ7jtWB50OAxF1xsap4
+         1c0In0MPSXs1qfwo/D0fMKADVdrwvXOrlpnyEKPVLkBpl7ZgQxId9E/oiAaEhQu0kn4U
+         OQk8oVs1P9zAIZC1gnG4jNcBwcBxXsjFKdhBfboD9XH+zefPCOAi0KdHfz5lo30LEBtm
+         sxoEJv53dKaByAXp3+Wh98cowtoQdEStNzovwzihvwtTF+dTk6Ga3vbxbngxg1AVcsKR
+         E0pw==
+X-Forwarded-Encrypted: i=1; AJvYcCXfjdV+MwYrtf0GYjtmuEeQ7/w4X1+uL/mEihpUwO2LYWpuzUkVvMHU9/8Z/zmCekR4bQNAiUBuYC5c@lists.infradead.org
+X-Gm-Message-State: AOJu0YxK6U3SP8xJvyaVbADY7nST/0k+4X9b2YSyUY1q5sdT6IMhw5mM
+	c031yYJbC3QYbDJR/gF4dhSt55Pq2CW+YA0iDRUwzmyv0+vor0xe
+X-Gm-Gg: ASbGncuk2n/qS9z0vSNSpYppFVjFCwjtu7Xd1lcE9OBoXpNHCRtV/yjFfMbNV7gYOQK
+	Fv5Or17vfSkpMa270hId3dtMF9+5YZwYJ6PkKur+kQsUzM3aSmSlMlYRddolHfsPkjyFK+Qtf+4
+	GaS44RxQKDicKy3lukJ4yOZodorJffPXU1fm0QgfT1ua1/KkGkUu6f03C8+lfCuU3NhLfPX+bYF
+	QuHRznTxT/WWTFNmckZ0Gd6GbTgb4uFwlmJF8boxPeMCtu8yr+gXOSoEFuAhT3WczjLbRU9c+Su
+	NUhDXxPIjlo06T/RcT8Orx4SlRa4En49+UTpqEvVUA==
+X-Google-Smtp-Source: AGHT+IF/RJ1kUREAalimaVm5FY124IyhsJBxFWPD95K5398MGwlE4Z37QEyheWCUJexj/KJROctS9w==
+X-Received: by 2002:a05:690c:688f:b0:6f9:4b81:3dc7 with SMTP id 00721157ae682-6fb58a1d762mr69387017b3.1.1739798676364;
+        Mon, 17 Feb 2025 05:24:36 -0800 (PST)
+Received: from ?IPV6:2600:1702:2480:14d0::48? ([2600:1702:2480:14d0::48])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6fb361cabfbsm20749817b3.113.2025.02.17.05.24.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Feb 2025 05:24:35 -0800 (PST)
+Message-ID: <71ea150b-9ea0-3e49-6195-ebbe761bacb1@gmail.com>
+Date: Mon, 17 Feb 2025 08:24:34 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-tcp: add basic support for the C2HTermReq PDU
-To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, hare@kernel.org, mlombard@bsdbackstore.eu
-References: <20250214190012.311960-1-mlombard@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ "christopherericlentocha@gmail.com" <christopherericlentocha@gmail.com>
+Subject: [PATCH] Fix two Acer FA100 SSDs from interfering in one PC
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250214190012.311960-1-mlombard@redhat.com>
+From: Christopher Lentocha <christopherericlentocha@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 3A1D8211B2
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250217_025624_525435_DBCBB424 
-X-CRM114-Status: GOOD (  21.28  )
+X-CRM114-CacheID: sfid-20250217_052441_139119_0F3E3466 
+X-CRM114-Status: GOOD (  16.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,99 +98,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/14/25 20:00, Maurizio Lombardi wrote:
-> Previously, the NVMe/TCP host driver did not handle the C2HTermReq PDU,
-> instead printing "unsupported pdu type (3)" when received. This patch adds
-> support for processing the C2HTermReq PDU, allowing the driver
-> to print the Fatal Error Status field.
-> 
-> Example of output:
-> nvme nvme4: Received C2HTermReq (FES = Invalid PDU Header Field)
-> 
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-> ---
->   drivers/nvme/host/tcp.c  | 37 +++++++++++++++++++++++++++++++++++++
->   include/linux/nvme-tcp.h |  2 ++
->   2 files changed, 39 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 841238f38fdd..8f783185575d 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -763,6 +763,40 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
->   	return 0;
->   }
->   
-> +static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
-> +		struct nvme_tcp_term_pdu *pdu)
-> +{
-> +	u16 fes;
-> +	const char *msg;
-> +	u32 plen = le32_to_cpu(pdu->hdr.plen);
-> +
-> +	static const char * const msg_table[] = {
-> +		[NVME_TCP_FES_INVALID_PDU_HDR] = "Invalid PDU Header Field",
-> +		[NVME_TCP_FES_PDU_SEQ_ERR] = "PDU Sequence Error",
-> +		[NVME_TCP_FES_HDR_DIGEST_ERR] = "Header Digest Error",
-> +		[NVME_TCP_FES_DATA_OUT_OF_RANGE] = "Data Transfer Out Of Range",
-> +		[NVME_TCP_FES_R2T_LIMIT_EXCEEDED] = "R2T Limit Exceeded",
-> +		[NVME_TCP_FES_UNSUPPORTED_PARAM] = "Unsupported Parameter",
-> +	};
-> +
-> +	if (plen < NVME_TCP_MIN_C2HTERM_PLEN ||
-> +	    plen > NVME_TCP_MAX_C2HTERM_PLEN) {
-> +		dev_err(queue->ctrl->ctrl.device,
-> +			"Received a malformed C2HTermReq PDU (plen = %u)\n",
-> +			plen);
-> +		return;
-> +	}
-> +
-> +	fes = le16_to_cpu(pdu->fes);
-> +	if (fes && fes < ARRAY_SIZE(msg_table))
-> +		msg = msg_table[fes];
-> +	else
-> +		msg = "N/A";
-> +
-> +	dev_err(queue->ctrl->ctrl.device,
-> +		"Received C2HTermReq (FES = %s)\n", msg);
-> +}
-> +
->   static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->   		unsigned int *offset, size_t *len)
->   {
-> @@ -806,6 +840,9 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->   	case nvme_tcp_r2t:
->   		nvme_tcp_init_recv_ctx(queue);
->   		return nvme_tcp_handle_r2t(queue, (void *)queue->pdu);
-> +	case nvme_tcp_c2h_term:
-> +		nvme_tcp_handle_c2h_term(queue, (void *)queue->pdu);
-> +		return -EINVAL;
->   	default:
->   		dev_err(queue->ctrl->ctrl.device,
->   			"unsupported pdu type (%d)\n", hdr->type);
-> diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-> index e07e8978d691..e435250fcb4d 100644
-> --- a/include/linux/nvme-tcp.h
-> +++ b/include/linux/nvme-tcp.h
-> @@ -13,6 +13,8 @@
->   #define NVME_TCP_ADMIN_CCSZ	SZ_8K
->   #define NVME_TCP_DIGEST_LENGTH	4
->   #define NVME_TCP_MIN_MAXH2CDATA 4096
-> +#define NVME_TCP_MIN_C2HTERM_PLEN	24
-> +#define NVME_TCP_MAX_C2HTERM_PLEN	152
->   
->   enum nvme_tcp_pfv {
->   	NVME_TCP_PFV_1_0 = 0x0,
 
-Can you add support for nvmet, too, such that we can test the patch?
-(And maybe even a blktest script for it?)
+In order for two Acer FA100 SSDs to work in one PC (in the case of myself,
+a Lenovo Legion T5 28IMB05), and not show one drive and not the other,
+and sometimes mix up what drive shows up (randomly), these two lines of
+code need to be added, and then both of the SSDs will show up and not
+conflict when booting off of one of them. If you boot up your computer with
+both SSDs installed without this patch, you may also randomly get into a
+kernel panic (if the initrd is not set up) or stuck in the initrd "/init"
+process, it is set up, however, if you do apply this patch, there should
+not be problems with booting or seeing both contents of the drive. Tested
+with the btrfs filesystem with a RAID configuration of having the root
+drive '/' combined to make two 256GB Acer FA100 SSDs become 512GB in total
+storage.
 
-Cheers,
+Kernel Logs with patch applied (`dmesg -t | grep -i nvm`):
 
-Hannes
+```
+...
+nvme 0000:04:00.0: platform quirk: setting simple suspend
+nvme nvme0: pci function 0000:04:00.0
+nvme 0000:05:00.0: platform quirk: setting simple suspend
+nvme nvme1: pci function 0000:05:00.0
+nvme nvme1: missing or invalid SUBNQN field.
+nvme nvme1: allocated 64 MiB host memory buffer.
+nvme nvme0: missing or invalid SUBNQN field.
+nvme nvme0: allocated 64 MiB host memory buffer.
+nvme nvme1: 8/0/0 default/read/poll queues
+nvme nvme1: Ignoring bogus Namespace Identifiers
+nvme nvme0: 8/0/0 default/read/poll queues
+nvme nvme0: Ignoring bogus Namespace Identifiers
+nvme0n1: p1 p2
+...
+```
+
+Kernel Logs with patch not applied (`dmesg -t | grep -i nvm`):
+
+```
+...
+nvme 0000:04:00.0: platform quirk: setting simple suspend
+nvme nvme0: pci function 0000:04:00.0
+nvme 0000:05:00.0: platform quirk: setting simple suspend
+nvme nvme1: pci function 0000:05:00.0
+nvme nvme0: missing or invalid SUBNQN field.
+nvme nvme1: missing or invalid SUBNQN field.
+nvme nvme0: allocated 64 MiB host memory buffer.
+nvme nvme1: allocated 64 MiB host memory buffer.
+nvme nvme0: 8/0/0 default/read/poll queues
+nvme nvme1: 8/0/0 default/read/poll queues
+nvme nvme1: globally duplicate IDs for nsid 1
+nvme nvme1: VID:DID 1dbe:5216 model:Acer SSD FA100 256GB firmware:1.Z.J.2X
+nvme0n1: p1 p2
+...
+```
+
+Signed-off-by: Christopher Lentocha <christopherericlentocha@gmail.com>
+---
+  drivers/nvme/host/pci.c | 2 ++
+  1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 9197a5b17..950289405 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3706,6 +3706,8 @@ static const struct pci_device_id nvme_id_table[] = {
+  		.driver_data = NVME_QUIRK_BOGUS_NID, },
+  	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
+  		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1dbe, 0x5216),   /* Acer/INNOGRIT FA100/5216 NVMe SSD */
++		.driver_data = NVME_QUIRK_BOGUS_NID, },
+  	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
+  		.driver_data = NVME_QUIRK_BOGUS_NID, },
+  	{ PCI_DEVICE(0x1e49, 0x0021),   /* ZHITAI TiPro5000 NVMe SSD */
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.38.1
+
 
