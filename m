@@ -4,61 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B01FC02198
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 15:46:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49EACC02198
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 15:46:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1gHhFQoAATtseknrD/eHDw3a7Fd+vr21xju6PhOoMdc=; b=egGuIDT9bWnKBSBsMTazTOxqsH
-	7DYkQwkDEEVPDeXmM9hodTTrstpzOhWRdMtrO1ZF6vf2YsHIBwVeHS9gfTwnF9BtepnJRWOX2+JSe
-	v8AKOmqCYBxPN7OoPtqb2HufSnJiXfPSRT5lKgWvGdb33LZZep38GfeGHRRiC5+a/XPbrjcO2dBrT
-	A3iiOLEC+jjrGxGkQZv5+p6sfiSM2gWiV/AywSXISNzezkV23pm7qMLqsPNMowpywXLmE5E4owaZi
-	ZlCOvUt4A4pV0P7FU3y8/AE0nnLpoHWVRVRr1bwkUkZJVjFGwwxZug8ST7I4CP5rYYymduoVVqPwZ
-	+e1DZwkA==;
+	bh=QUWKAwStaXd6mg4sjqTFfQcBktACRLNdWw7p6TIVx+k=; b=ANWrbOn5I5pazRU1WaOXp6SpM7
+	R5NIOjVRKVxdHDD2DF4O4CTP/XEt5hFRQQuUTCD9JhQiSztN4LYGr4tkCQQF5TTPveUYT5acPPU62
+	0eVZiWkL8H/4Dy2XdOWiWRtzhuee87xNSVyGaopeuQRb5Eb243YOWkcT9gVfpICzMi4AHn8RnItzt
+	ZtfMv68cXe8eJmmdHrgZJ7826r12pndI+eP+uBrWZoxB2zD2ObsriI+dC/ygPnuezwLRasY9wYvMf
+	hIIa5KQoMyvg16jNwICfnvfCq5V7YGVIz/lazHbJkxbc7PXcumcWuEPeSQP7a1wPCSxKq1+foXW2W
+	QlGGNSzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkPnR-00000008onv-0VvH;
-	Tue, 18 Feb 2025 15:46:05 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tkPnt-00000008p1m-3W0P;
+	Tue, 18 Feb 2025 15:46:33 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkPnP-00000008on8-2upl
+	id 1tkPnr-00000008p0G-1Jjq
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Feb 2025 15:46:04 +0000
+	Tue, 18 Feb 2025 15:46:32 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E667A5C5ECA;
-	Tue, 18 Feb 2025 15:45:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FE53C4CEE2;
-	Tue, 18 Feb 2025 15:46:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 6F3EA5C4CCD;
+	Tue, 18 Feb 2025 15:45:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01D45C4CEE2;
+	Tue, 18 Feb 2025 15:46:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739893562;
-	bh=1gHhFQoAATtseknrD/eHDw3a7Fd+vr21xju6PhOoMdc=;
+	s=k20201202; t=1739893590;
+	bh=QUWKAwStaXd6mg4sjqTFfQcBktACRLNdWw7p6TIVx+k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BhFr+BO87kwK+jpe/Up9foGnMN+gxtagwcY7emlV4beMzZX2u9fWjw/2SWLVPD9yU
-	 1JlSdezBEtOHLbR2F2GGmcBTjdZ07U/2HkB+9BDjcVqY/Kf8CWgmpfdPox8fU4GseZ
-	 2K/L8Qv4rq2SxskgK1hGPnBhdlnV4cLQN151DW9RAJIjqCP+MrCvrimBqRY4qHDo1c
-	 Y5voWO0rQ/k0DagQcMdLyM65oN+yGWUC5DYLxMI1vLw9FgJR9I57kBZlI396XSMDve
-	 1gjXbn1u2kO0pVeq9R+DwhmF4A1HeBNxJK3ZAQBNX5TC/HS4HKV13/E3l1UmN//SHQ
-	 Q/0rg7rmdNfrw==
-Date: Tue, 18 Feb 2025 08:46:00 -0700
+	b=kxw1fCtZA4UQgH7hy4oy3TY+3wNy3HPYx32ngSgLPp3GIe7h5oMr+fVBPdqPti+Oj
+	 voKdLRrh0RdCVPuSvrQjLHmbFkSbEEzkNLtcth2Q8OfdVIEDlXmf/p/S79dOM1LvVI
+	 CkLIkDBED5AHKRTGT5aDXjXrCytMJTCjH3Pvfmudy1QB3kD3Pnl3SGti8A4HfwiFgF
+	 ijl0DlZqWjWoMP8k5/vtRXb5mZOM7L5/zgh+YPxOUFmSVQ/yiI7HNsI/paOL2fFBLT
+	 CcqdZ5TMV9cMCRVKg0oTbUzoTo2RDWpU7ZcTi4tlo2HsOxpZhVaPNM0goKcbPY8LvS
+	 b/r3hevwejDDA==
+Date: Tue, 18 Feb 2025 08:46:27 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] nvme/ioctl: add missing space in err message
-Message-ID: <Z7SrOM65-lgtLC9T@kbusch-mbp>
-References: <20250213170515.4027908-1-csander@purestorage.com>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH v2 0/2] Cleanup controller configuration register handling
+Message-ID: <Z7SrUy7eqw40LNOm@kbusch-mbp>
+References: <20250213065000.598443-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213170515.4027908-1-csander@purestorage.com>
+In-Reply-To: <20250213065000.598443-1-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250218_074603_777857_97B22473 
-X-CRM114-Status: GOOD (  10.74  )
+X-CRM114-CacheID: sfid-20250218_074631_408650_71A5854B 
+X-CRM114-Status: UNSURE (   7.36  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,12 +72,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 13, 2025 at 10:05:14AM -0700, Caleb Sander Mateos wrote:
-> nvme_validate_passthru_nsid() logs an err message whose format string is
-> split over 2 lines. There is a missing space between the two pieces,
-> resulting in log lines like "... does not match nsid (1)of namespace".
-> Add the missing space between ")" and "of". Also combine the format
-> string pieces onto a single line to make the err message easier to grep.
+On Thu, Feb 13, 2025 at 03:49:58PM +0900, Damien Le Moal wrote:
+> A couple of patches to cleanup the definition and handling of the CC
+> register. No functional changes.
 
 Thanks, applied to nvme-6.14.
 
