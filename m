@@ -4,60 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59235C021AA
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 15:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 086F9C02198
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 15:45:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lIIj+oqt2PMCaA+O9oKOfDgn6l7+YLTv5fEwnHdDFm0=; b=cnxxOKDv0Jz0D9qP6dIRtHsEG6
-	XXERet/xXF2Gb+XNQXjXsX0w7JIGRHpLcTWaHgxxJ3UAGcRnJmFI81F7FF2BGa5BhgN1yUkDRl8Vz
-	nlqphRjHDAlUW4rrkK/cFyGqvaWSUbupl4U1JSRaTkUgrNkOI8loXOv5KABb/WN8yP7isgZq3t0MF
-	TtugmxRU12uCEEuYtUfAGKrxmXadAD1xYzYap0RpmBFIyOvSv/H4XRh01jedVEHyDSTY8kz6uAwMk
-	/JRN9EIWP1lXoew5mV9jNB7Ol0xR/bF/dUb4f+mpZKHg9us8DvR3Z0Z4Ivkf90Jm39FpVspo6ymOn
-	MDfeRTrw==;
+	bh=ewocKPO37RqMwgbMtoLLZssYCPD6HkSnoLTNXJtKmRk=; b=0AlFpC0RL40/Uem/xUAI+6PONd
+	AiwanHkJf7J9GlWJxILqoA3rvLxV8RGnn1p8pC84J2wyonCk+slqL835fSCSvChhtAhjn63lYeajX
+	JPSSB+Gn5PG9PzCjQjoCqIPZCT1K39VmwL3Mfhf7WPXMD8npyR3oPaYCZpXWj6CrNYNGN+Qxu4P8B
+	XgWY/4IVfnL9EI4nPlaUdJ5KOBxzm9jqXiml3aOf+KDOIMnrFA+2bFSUsAS23jP66pdOBqvnADErD
+	0j9zAOMM5plfB6gPXLSBKfLfutAC9RMLa2tkQoEh/SycbRfMIh1gd6Tsx8/mJnko2BH3CZBsShQqj
+	JAPkCgdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkPmo-00000008oTe-3TrG;
-	Tue, 18 Feb 2025 15:45:26 +0000
+	id 1tkPn6-00000008oeh-1y00;
+	Tue, 18 Feb 2025 15:45:44 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkPmm-00000008oSY-10ZX
+	id 1tkPn2-00000008oc7-3tTn
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Feb 2025 15:45:25 +0000
+	Tue, 18 Feb 2025 15:45:42 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 776FC5C4CCD;
-	Tue, 18 Feb 2025 15:44:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF650C4CEE7;
-	Tue, 18 Feb 2025 15:45:22 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2F6015C5FA5;
+	Tue, 18 Feb 2025 15:45:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DBFBC4CEE2;
+	Tue, 18 Feb 2025 15:45:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739893523;
-	bh=5JfDhTzXE81b3tFt5BfLH1mIZ5uJJ+J8yZNrB4+zJhM=;
+	s=k20201202; t=1739893540;
+	bh=T7hySr5ecqC3x+q85ihTMQrkoCJj4NZdyMJ78ShIj+w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fjXvQnhUTNziYvvtNYmEV28btTN+TMox1tAYDrpbp7zISgYRnfXZA+72qmvVfQW8d
-	 ezUSJu3hoZVtWBCylybJJT2IFEOo/tqH6tmjz1GGZBUGA8pu9YsEfB85VW6ktrnx9r
-	 INFyLgjkZmlxBNLSPu55QBgLTotMCsbQXCaUx7wYVHWyImnVw/o4PRU1Y98ZhsPRZp
-	 PkbFutleDBDTJBmZFgMP5yQwmxF6jQBB7tn2qbaVSeI9DBXzp/h2gqCXHnyuR/pYBQ
-	 +D3AxwznbMzuBbyv6DyoWe81x1PHFNXa7q1fqH3MaG8UEsWuFCmT4mSEqQfYf4+Bnm
-	 SrFm8nhMoAh6A==
-Date: Tue, 18 Feb 2025 08:45:21 -0700
+	b=Zoh1xK9Fat+HL/1UOMTHYWdt3x+dfkDWbK1m7iXtlUeo6CaY/qncJLmN6Yw+MRLyJ
+	 n+qQNHlqaHBe8+KbEHgZVQ4DMz79KBxRR0x0Xd+iOZY1vhTb/1h4ayJGLEOrajcJnL
+	 y4teGLxkBqF8hJEfILbcwBuc9TEJrxJgFOJMGp8DzvHtClqicSqtUPWb1s4OALhB3Y
+	 Yn1HFIc+FmjvHFZVQctqmIejJuc60PXS53jG7RqzDPpO26G33oEUnzuBhnZ3Ibz/qI
+	 s+5MWpLfkdXCaKatHNrCrPOvjm+X3jcypDE4YCxc9IZh0B4dBeLY5Hp/WX2qDAKZBu
+	 zpAOuZdzUm/0g==
+Date: Tue, 18 Feb 2025 08:45:37 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v3 0/4] nvme pci-epf target and tcp host fixes
-Message-ID: <Z7SrEWGwmTzztO6I@kbusch-mbp>
-References: <20250213065231.598527-1-dlemoal@kernel.org>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Maurizio Lombardi <mlombard@redhat.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] nvme-tcp: fix connect failure on receiving partial
+ ICResp PDU
+Message-ID: <Z7SrIT9m51w8A4DC@kbusch-mbp>
+References: <20250124184311.1642797-1-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213065231.598527-1-dlemoal@kernel.org>
+In-Reply-To: <20250124184311.1642797-1-csander@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250218_074524_327205_81908FD8 
-X-CRM114-Status: UNSURE (   9.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250218_074541_024600_21B409C0 
+X-CRM114-Status: GOOD (  10.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,12 +74,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 13, 2025 at 03:52:27PM +0900, Damien Le Moal wrote:
-> All,
+On Fri, Jan 24, 2025 at 11:43:10AM -0700, Caleb Sander Mateos wrote:
+> nvme_tcp_init_connection() attempts to receive an ICResp PDU but only
+> checks that the return value from recvmsg() is non-negative. If the
+> sender closes the TCP connection or sends fewer than 128 bytes, this
+> check will pass even though the full PDU wasn't received.
 > 
-> 4 patches in this series to fix some issues with the PCI endpoint
-> function target driver and a trivial fix for a compilation warning with
-> the tcp fabrics host driver.
+> Ensure the full ICResp PDU is received by checking that recvmsg()
+> returns the expected 128 bytes.
 
 Thanks, applied to nvme-6.14.
 
