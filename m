@@ -4,86 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06F76C021AA
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 14:00:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 852BDC021AA
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 14:09:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:From:To:Subject:MIME-Version:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=mBTitMHW10mShDDuvyybiVh0MUPGAff1nlPO1Ig+Pnc=; b=zD4dqe09djEH9yxgR5HmIiFL8v
-	lSQTGez79vJHPnszkBiHcg0wu5KARwz+0PUZ5mhXGqKjwcUgE1oN5atG1e6jHtSmNuSo8wigsLXfA
-	340HodqRAiipzKXrK3SmfZn2CNxWBhmi/CugAURhwo2w4rHbl81yfIuCzvlhjskEYZ0yI54/uq6c0
-	Iu0u5a6Oy2VZll2bBq5/IECs3G3Vgm5d/NiyCjMJJUtfsOPHnU/EXqZ5xybHITVqiL7bIvYmjBS8d
-	j0lGoadbHKeZuB0y/gR2Ljf4N4rNQyHnK8b6fjyq1XFPhxsgJW8kFOcalg0IGCeKFhsUHXLcc8A9t
-	Ct2lYVeQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rMrruAE5SiJm5VJDlkLG+tKoURFhiL1O+/bcGgjwo1Y=; b=TO9CmECeQJtpGXfI4Ls+DRzxA4
+	5fwWvRK8NgcpjKNjfRy4EECHol/SNiUkbfkEG/bxmGxN+80TYoOocws5JZsfUTP5xRz1TwyfPhdOi
+	zOfOfs/gqu1JUypeFptHymczzbgt74sUUWzPDkCiW+o8Z+Fw73MzPqjK/gTT2DNyut6ncKA8neD6c
+	MY4kt9H2M8r9T8W63y/zn6LULCUvSlBClbi9Gr3DznR5gWeJsrxetSYISaT91M3p0Xw81lcy4Q2cO
+	aMS0PMwxkWTaay+8+YF6ZxCc8nNL5n6+EKQ6zqjW9BekSRyvHZcAUvk1yfy1drupe3mnr1jbHubtA
+	GIQn6UTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkO9X-00000008Pfk-0XdY;
-	Tue, 18 Feb 2025 14:00:47 +0000
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
+	id 1tkOHg-00000008RRq-1X2y;
+	Tue, 18 Feb 2025 14:09:12 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkO8K-00000008PVY-3zQf
+	id 1tkOEZ-00000008Qmb-43P6
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Feb 2025 13:59:34 +0000
-Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-e5ad75ca787so4561665276.0
-        for <linux-nvme@lists.infradead.org>; Tue, 18 Feb 2025 05:59:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739887171; x=1740491971; darn=lists.infradead.org;
-        h=content-transfer-encoding:from:to:content-language:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mBTitMHW10mShDDuvyybiVh0MUPGAff1nlPO1Ig+Pnc=;
-        b=dVMemNATtbcp4Rsxk5EFgksQN2fylLneHu2K6eIKcntjOfZpi/wwJRHb/Yv+Q7JQaL
-         VLgAtwKd5srKD4hp8W3BXLXf1uwbAoR3V0O1Z1vKMILp5VbJMy/B+g7u5/JRjr+AvKEW
-         OlCKmB+GEdiu2jWUoHzbQAaxYfj/R9VC3iYAcZ6i4g0Lo1UT1xINWZIBTTgB32zO0xfF
-         KXjNecLh9syg/9rVrckZB1OK3vu/bpeYaIXExEwZZ/HlH7i9tW1RmmN6BIelUwp3AxzJ
-         7llDJp633Yyrt4sn+UBAO13I0OWTmt27OPu5w9zpcm8dnMQ5dPvyLerVMQLW99uK6ctg
-         moHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739887171; x=1740491971;
-        h=content-transfer-encoding:from:to:content-language:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mBTitMHW10mShDDuvyybiVh0MUPGAff1nlPO1Ig+Pnc=;
-        b=nnshiw3QYQj8pPc2kdM4SWQzauHWyXIPIvst3yURh3Xeaq+QSn0XTCq0qDEcZGy/dc
-         mO6KcezGKSDIrv8ikFDfe88D7XceYCF8TMi5HqNkxdxJ64kFofos/fjIQLJ4tPGcxRsV
-         DvRD92DJyPEG/iSxsTlCDsvCkvYuGIhCeccW7NR8g+jibe8yk3oSTFkJ4sL71n1YQhrz
-         AqMrUrFpBqokjNMZzBm+j7TcvtcyRztVFa5yn6skVNBalUaUXiEMVj6nD0uY9Wfiv8RM
-         cohib5mLjUxA040c3WGgrLOP2lLPrlIa8mb+AJIbQDyYNMeLv+X6Cdbu6kbHPzvwvu9v
-         dHJA==
-X-Forwarded-Encrypted: i=1; AJvYcCU106YDmyQK3mILiZ9oRKTT4TX0jZ7EwBGT3+TcKZPhZ7AGnf3ZsWfDQ8Oa2u0kl6mJu/6cMn5pM6JU@lists.infradead.org
-X-Gm-Message-State: AOJu0YxtojC2EVisSiEhk1lvwA4MDMMDF8t7z0+ETus6pf472R1H6+Un
-	OLlx4WdKMab0xEgqVzTZz6CzNxciYPDBTsELVQBu/E/XRWJEMtPP
-X-Gm-Gg: ASbGncsdXQaYiUmuskf8NiIYudxfauKCnXasc26AGSUK3tkeU/Z+ysm4YCinFtzZUVs
-	9yomZXmYm7eJV1Pgx7yM4RWmRLzfn6ACrbT/qJYjvDs5bVvCxYowb/K3M8Iv1GU7Ey88nghLi5F
-	1ucP+MJYIdjaS3Rp+8XXec5o+OjFb7mLFRE/aVc0ii22MzLL+TXVmi+jMRkAKr135eu7l1ivGxX
-	1llc/uA/z3eFotAorAxhFIc2/pOeezXhi5/n4ArbQaznllxA6ANuk4zSpPIUgiN4D+Q03u0AisA
-	I1M9BlJIZo3h7xbGgK8eXehoYnGrfNP8PvKbsCTzxw==
-X-Google-Smtp-Source: AGHT+IGr/7yCTqFWAoZsEW/RB9JqyxCCCoN2i9ai0N6qMixFJeolznestAOTxgZkSj8FZSpKdp3qAg==
-X-Received: by 2002:a05:6902:f84:b0:e5d:cbad:c961 with SMTP id 3f1490d57ef6-e5dcbadcc01mr7758222276.22.1739887171310;
-        Tue, 18 Feb 2025 05:59:31 -0800 (PST)
-Received: from ?IPV6:2600:1702:2480:14d0::48? ([2600:1702:2480:14d0::48])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e5dae0d9aadsm3067538276.35.2025.02.18.05.59.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2025 05:59:30 -0800 (PST)
-Message-ID: <381a838c-bb8a-8e95-c35a-343601cbe8e3@gmail.com>
-Date: Tue, 18 Feb 2025 08:59:29 -0500
+	Tue, 18 Feb 2025 14:06:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739887559;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rMrruAE5SiJm5VJDlkLG+tKoURFhiL1O+/bcGgjwo1Y=;
+	b=bkwuZhVHW7JPHlf9X9ARR5YI/CI6FmR213QJgPon32hC38eVCJt42u7nVeYg+NcdeUI59+
+	ycWHsgt4XVMboYubfeuZQ1sobjLVS5BLHz7rXD/GQ3+b/EIQUTTBJXUqGz0gq+RXLxoy6a
+	3FaMWEj0O2UgBcxJRLYL/tLIdAlVMAs=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-665-EAQOEwS3P0aUyqi_ol7Jsw-1; Tue,
+ 18 Feb 2025 09:05:55 -0500
+X-MC-Unique: EAQOEwS3P0aUyqi_ol7Jsw-1
+X-Mimecast-MFC-AGG-ID: EAQOEwS3P0aUyqi_ol7Jsw_1739887554
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CC1DB1866D90;
+	Tue, 18 Feb 2025 14:05:40 +0000 (UTC)
+Received: from [10.22.65.116] (unknown [10.22.65.116])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 45BE31956094;
+	Tue, 18 Feb 2025 14:05:38 +0000 (UTC)
+Message-ID: <87850a70-4a93-492f-a6b5-fec5d5480cf4@redhat.com>
+Date: Tue, 18 Feb 2025 09:05:37 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: [PATCH] nvme-pci: quirk Acer FA100 for non-uniqueue identifiers
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: remove multipath module parameter
+To: Sagi Grimberg <sagi@grimberg.me>, kbusch@kernel.org, hch@lst.de
+Cc: bmarzins@redhat.com, Bryan Gurney <bgurney@redhat.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Marco Patalano <mpatalan@redhat.com>, axboe@kernel.dk
+References: <20250204211158.43126-1-bgurney@redhat.com>
+ <7c588344-f019-4939-8a93-0a450481d4bc@redhat.com>
+ <ea0e6445-9770-4df9-91bd-80f44cd0388e@grimberg.me>
+ <ea9537d5-721a-4b37-84d1-df797646fce2@redhat.com>
+ <ccc171d1-8de3-4632-9483-71fd5ea63d46@grimberg.me>
 Content-Language: en-US
-To: "christopherericlentocha@gmail.com" <christopherericlentocha@gmail.com>,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-From: Christopher Lentocha <christopherericlentocha@gmail.com>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <ccc171d1-8de3-4632-9483-71fd5ea63d46@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250218_055932_991039_A99DAF58 
-X-CRM114-Status: GOOD (  15.90  )
+X-CRM114-CacheID: sfid-20250218_060601_953272_F4301EAA 
+X-CRM114-Status: GOOD (  13.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,79 +91,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 2/18/25 3:19 AM, Sagi Grimberg wrote:
+>> We can send send a separate patch to address that problem, but this patch, which simply removes the nvme_core.multipath parameter
+>> has beeen fully tested and is ready to go.
+> 
+> I think that we want to print a warning in this case though. Can you resubmit with logging a warning in this case?
 
-In order for two Acer FA100 SSDs to work in one PC (in the case of
-myself, a Lenovo Legion T5 28IMB05), and not show one drive and not
-the other, and sometimes mix up what drive shows up (randomly), these
-two lines of code need to be added, and then both of the SSDs will
-show up and not conflict when booting off of one of them. If you boot
-up your computer with both SSDs installed without this patch, you may
-also randomly get into a kernel panic (if the initrd is not set up) or
-stuck in the initrd "/init" process, it is set up, however, if you do
-apply this patch, there should not be problems with booting or seeing
-both contents of the drive. Tested with the btrfs filesystem with a
-RAID configuration of having the root drive '/' combined to make two
-256GB Acer FA100 SSDs become 512GB in total storage.
+Agreed, but I was thinking that warning should go into the second patch. The second patch should disable all secondary paths when
+CONFIG_NVME_MULTPATH=N and a namespace is discovered with NMIC enabled. Basically, we don't want to instantiate more than one
+namespace when CONFIG_NVME_MULTPATH=N.
 
-Kernel Logs with patch applied (`dmesg -t | grep -i nvm`):
+But if you want to add a warning to this patch, we could do something like this:
 
-```
-...
-nvme 0000:04:00.0: platform quirk: setting simple suspend
-nvme nvme0: pci function 0000:04:00.0
-nvme 0000:05:00.0: platform quirk: setting simple suspend
-nvme nvme1: pci function 0000:05:00.0
-nvme nvme1: missing or invalid SUBNQN field.
-nvme nvme1: allocated 64 MiB host memory buffer.
-nvme nvme0: missing or invalid SUBNQN field.
-nvme nvme0: allocated 64 MiB host memory buffer.
-nvme nvme1: 8/0/0 default/read/poll queues
-nvme nvme1: Ignoring bogus Namespace Identifiers
-nvme nvme0: 8/0/0 default/read/poll queues
-nvme nvme0: Ignoring bogus Namespace Identifiers
-nvme0n1: p1 p2
-...
-```
+@@ -3909,16 +3909,23 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+                 disk->flags |= GENHD_FL_HIDDEN;
+         } else {
+  #ifdef CONFIG_NVME_MULTIPATH
+                 sprintf(disk->disk_name, "nvme%dn%d", ctrl->subsys->instance,
+                         ns->head->instance);
+  #else
+                 sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance,
+                         ns->head->instance);
++               if (info->is_shared) {
++                       dev_warn(ctrl->device,
++                               "Found shared namespace %d but multipathing not supported.\n",
++                               info->nsid);
++                       dev_warn_one(ctrl->device,
++                               "Shared namepaces without CONFIG_NVME_MULTIPATH=Y is not supported.\n")
++               }
+  #endif
+         }
 
-Kernel Logs with patch not applied (`dmesg -t | grep -i nvm`):
+         if (nvme_update_ns_info(ns, info))
+                 goto out_unlink_ns;
 
-```
-...
-nvme 0000:04:00.0: platform quirk: setting simple suspend
-nvme nvme0: pci function 0000:04:00.0
-nvme 0000:05:00.0: platform quirk: setting simple suspend
-nvme nvme1: pci function 0000:05:00.0
-nvme nvme0: missing or invalid SUBNQN field.
-nvme nvme1: missing or invalid SUBNQN field.
-nvme nvme0: allocated 64 MiB host memory buffer.
-nvme nvme1: allocated 64 MiB host memory buffer.
-nvme nvme0: 8/0/0 default/read/poll queues
-nvme nvme1: 8/0/0 default/read/poll queues
-nvme nvme1: globally duplicate IDs for nsid 1
-nvme nvme1: VID:DID 1dbe:5216 model:Acer SSD FA100 256GB firmware:1.Z.J.2X
-nvme0n1: p1 p2
-...
-```
-
-Signed-off-by: Christopher Lentocha <christopherericlentocha@gmail.com>
----
-  drivers/nvme/host/pci.c | 2 ++
-  1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9197a5b17..950289405 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3706,6 +3706,8 @@ static const struct pci_device_id nvme_id_table[] = {
-  		.driver_data = NVME_QUIRK_BOGUS_NID, },
-  	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
-  		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x1dbe, 0x5216),   /* Acer/INNOGRIT FA100/5216 NVMe SSD */
-+		.driver_data = NVME_QUIRK_BOGUS_NID, },
-  	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
-  		.driver_data = NVME_QUIRK_BOGUS_NID, },
-  	{ PCI_DEVICE(0x1e49, 0x0021),   /* ZHITAI TiPro5000 NVMe SSD */
--- 
-2.38.1
 
 
