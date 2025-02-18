@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 983DDC02198
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 15:45:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59235C021AA
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 15:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MLFbDgZbR0W0CngyBzEpaoqcA6347GMjZvFVgoPrQ8w=; b=MyLdxfdaPAPFy5dbgKMQX5md7z
-	BMIiLqN2lzLGiiKvGKjBgwd3SkDXyZ61A6BWs+2O4mS8CCx7hFgPVFfOQLEYtNF8qTIK1PiLiePWd
-	lxfZGmSyO3I2JCM+ZtbgSZq3QgEXAhgdBGx68jGGh7nxFQUfTEe+zHVikuDfxcrjOBra/5QZ3W8Sk
-	XWtfd9/h+jrfrOcy0NALDTpipM6z9BqlmcbjiGOpMK28tNVv+whcHRLp0ykZdFexmYhEZfqkkmYNX
-	MmT0XCl4KbJCOHdxuWoHWn1FGfJ6sUnmwiiK/HJWcdBJ3H/seqZ+wMYDFQdM3nR8HEPFRqaXSWXr7
-	ux8u/Bvw==;
+	bh=lIIj+oqt2PMCaA+O9oKOfDgn6l7+YLTv5fEwnHdDFm0=; b=cnxxOKDv0Jz0D9qP6dIRtHsEG6
+	XXERet/xXF2Gb+XNQXjXsX0w7JIGRHpLcTWaHgxxJ3UAGcRnJmFI81F7FF2BGa5BhgN1yUkDRl8Vz
+	nlqphRjHDAlUW4rrkK/cFyGqvaWSUbupl4U1JSRaTkUgrNkOI8loXOv5KABb/WN8yP7isgZq3t0MF
+	TtugmxRU12uCEEuYtUfAGKrxmXadAD1xYzYap0RpmBFIyOvSv/H4XRh01jedVEHyDSTY8kz6uAwMk
+	/JRN9EIWP1lXoew5mV9jNB7Ol0xR/bF/dUb4f+mpZKHg9us8DvR3Z0Z4Ivkf90Jm39FpVspo6ymOn
+	MDfeRTrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkPmU-00000008oJe-0pWL;
-	Tue, 18 Feb 2025 15:45:06 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tkPmo-00000008oTe-3TrG;
+	Tue, 18 Feb 2025 15:45:26 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkPmS-00000008oIe-1tfQ
+	id 1tkPmm-00000008oSY-10ZX
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Feb 2025 15:45:05 +0000
+	Tue, 18 Feb 2025 15:45:25 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id B8332A41236;
-	Tue, 18 Feb 2025 15:43:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE000C4CEE2;
-	Tue, 18 Feb 2025 15:45:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 776FC5C4CCD;
+	Tue, 18 Feb 2025 15:44:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF650C4CEE7;
+	Tue, 18 Feb 2025 15:45:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739893503;
-	bh=MLFbDgZbR0W0CngyBzEpaoqcA6347GMjZvFVgoPrQ8w=;
+	s=k20201202; t=1739893523;
+	bh=5JfDhTzXE81b3tFt5BfLH1mIZ5uJJ+J8yZNrB4+zJhM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qlpYIEDpNe9Jq3jAUc/NQkIeaVa9BFaYSxwGxyVm7aJtDpnljgHIx0HFx+qYN7K/O
-	 pEFvwifSseDEIz+fIt2+4bj6c9JHJLoAHCNkV3A0FDQDJoRwKZYOD4gRq3VAlB4Fl9
-	 AVdZGXOfdCU93WGN76PpQm06eqbwQKCy+2/hM93d5weC4SKWTii3CtXjxUKJPVB4Oi
-	 D/gegrZ1TihfmuNJf/j/dmX9bj2dxeUHV49kZZwMkKJ0tWGN6rD5xhTvbiaY9sMmnn
-	 REgqC++RvwfHAKq8r6lZGjIaNoQvfM7gh60RcN9hNJ5rIqGP28LjNgk0ZzB2CK+BC1
-	 sU6gFaUf/Uktg==
-Date: Tue, 18 Feb 2025 08:45:01 -0700
+	b=fjXvQnhUTNziYvvtNYmEV28btTN+TMox1tAYDrpbp7zISgYRnfXZA+72qmvVfQW8d
+	 ezUSJu3hoZVtWBCylybJJT2IFEOo/tqH6tmjz1GGZBUGA8pu9YsEfB85VW6ktrnx9r
+	 INFyLgjkZmlxBNLSPu55QBgLTotMCsbQXCaUx7wYVHWyImnVw/o4PRU1Y98ZhsPRZp
+	 PkbFutleDBDTJBmZFgMP5yQwmxF6jQBB7tn2qbaVSeI9DBXzp/h2gqCXHnyuR/pYBQ
+	 +D3AxwznbMzuBbyv6DyoWe81x1PHFNXa7q1fqH3MaG8UEsWuFCmT4mSEqQfYf4+Bnm
+	 SrFm8nhMoAh6A==
+Date: Tue, 18 Feb 2025 08:45:21 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Ruozhu Li <david.li@jaguarmicro.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH v2] nvmet-rdma: recheck queue state is LIVE in state lock
- in recv done
-Message-ID: <Z7Sq_cW000nIwMu1@kbusch-mbp>
-References: <20250216124956.3881-1-david.li@jaguarmicro.com>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH v3 0/4] nvme pci-epf target and tcp host fixes
+Message-ID: <Z7SrEWGwmTzztO6I@kbusch-mbp>
+References: <20250213065231.598527-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250216124956.3881-1-david.li@jaguarmicro.com>
+In-Reply-To: <20250213065231.598527-1-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250218_074504_552495_4B3E19B0 
-X-CRM114-Status: UNSURE (   6.72  )
+X-CRM114-CacheID: sfid-20250218_074524_327205_81908FD8 
+X-CRM114-Status: UNSURE (   9.64  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -72,13 +72,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Feb 16, 2025 at 08:49:56PM +0800, Ruozhu Li wrote:
-> The queue state checking in nvmet_rdma_recv_done is not in queue state
-> lock.Queue state can transfer to LIVE in cm establish handler between
-> state checking and state lock here, cause a silent drop of nvme connect
-> cmd.
-> Recheck queue state whether in LIVE state in state lock to prevent this
-> issue.
+On Thu, Feb 13, 2025 at 03:52:27PM +0900, Damien Le Moal wrote:
+> All,
+> 
+> 4 patches in this series to fix some issues with the PCI endpoint
+> function target driver and a trivial fix for a compilation warning with
+> the tcp fabrics host driver.
 
 Thanks, applied to nvme-6.14.
 
