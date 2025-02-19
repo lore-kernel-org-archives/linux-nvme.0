@@ -4,66 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06846C021AA
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2025 23:30:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35601C021B1
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Feb 2025 09:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jTpbqchE4y5la90C+f97efYXplv/ebGhW94eAghKbrA=; b=clBI+QadMORUfWbC4R7ZJjAJ+c
-	DJoR1yzjDARh2RpGFBAv3hZgkWpf7yiUYH9upX3Q/k4vCT0GPvPJHvjMpUAsd8bd2tlx26SFll3m6
-	BgEHq5kF3j9d748PfCi5+X63EvybMOusNEL27V2Or2PRU/L/lTg3HSyFCM7nvggY3v6evhlvHoECd
-	OvMQXVanLp8LdB0O5wvEKECHfKLOwN2m1li1y8gOFvtiuSJJsKNwxT5KTgpFesBj+8cYAgFz4lgh/
-	jKDmNoZbhtjjHKDPn1qCSp3Sfwg/iiIJS9dgfk6x6fLgNr/UEiWTmDoQ+SYCoLZ4HYG/IqMVNUGgU
-	CzCCtGSg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+oYP7ZwnEeonL1pLtE73TJ85xaesKIG0Ys99vCW5hiU=; b=Masz+mt6BGFmd7OroRd/DlLiCI
+	AJahjFBEawh4SneX2gUs4EQGdoDuscCGcWSyHnhMYWQv6/IcMzwITqvVUD0K85JUMH4JG+tL6AtkR
+	OQaXwZFrxdjqa+8Sz4wjs22+QjxSqJVYKvm7sM0t3iqFMfw3At3+hAenAZzlPlQQ8hjHcmaHQCcoJ
+	hRjX0zYJDL0ZYg0esN/ow1ZnPH0bZpyBdQtw/IhIG+pTZe3Qu1K/9GBPqwlf7uG9Sg8K6+/uR8/6H
+	9VoetGVg9YSVm0SiqO1PnZvBzUHpz2RrVfSRV7Q/yPZLLW+QWflKMIc1T8QaOpgW/2PZerW2dSpvl
+	Z+tRIdUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkX31-0000000AGEh-16p7;
-	Tue, 18 Feb 2025 23:30:39 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tkgXc-0000000BvCE-0ENn;
+	Wed, 19 Feb 2025 09:38:52 +0000
+Received: from mail.corporix.pl ([151.80.59.204])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkX2z-0000000AGE5-05Oz
+	id 1tkgGL-0000000BoZz-1iTm
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Feb 2025 23:30:38 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 28FDB5C4770;
-	Tue, 18 Feb 2025 23:29:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E351C4CEE2;
-	Tue, 18 Feb 2025 23:30:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739921436;
-	bh=3jfQmyFQ0KDMA1mSMKOSU9E0eHnBhC6uavEihYVjEu8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RKpxckDUZC3iQ94ikHGqNvnO6oX88QULGTf16h3QWyKUkHLWp/RBoVJ3R/k0uUxUN
-	 CX31lA4J4rhtlc1OE1i9Uke2mMDJ6aLkKmvYNNGHaLLxAixalPKU46L6GDa7+iIarm
-	 MnOAtl0X1akT5TFG70CJGbpcC9PIZs4OC2ASFL/8Ytua/sRCLasmhNH7BEsi0eBKWE
-	 EE0YCSnpTx8FkuMPW+wsvAg59D1DHP6EEFAoYCrCr3zkHOWY6OOwAgXQqm6iuoHZhD
-	 yuzHapHtBjqYQWfnluLBu0SqaDOxDZpIscXt3OYwsjFd/waLjER20ryK971yDH5wvm
-	 n/3sHVT/bFpOA==
-Date: Tue, 18 Feb 2025 16:30:33 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: hch@lst.de, sagi@grimberg.me, bmarzins@redhat.com,
-	Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Marco Patalano <mpatalan@redhat.com>,
-	axboe@kernel.dk, Randy Jennings <randyj@purestorage.com>
-Subject: Re: [PATCH] nvme: remove multipath module parameter
-Message-ID: <Z7UYGc25aKFL6oFj@kbusch-mbp>
-References: <20250204211158.43126-1-bgurney@redhat.com>
- <7c588344-f019-4939-8a93-0a450481d4bc@redhat.com>
- <Z7Sh-3yHbXVmRbNL@kbusch-mbp>
- <8a1730a1-1faf-4722-99e1-c3a85257b6f4@redhat.com>
- <Z7TARX-tFY3mnuU7@kbusch-mbp>
- <9495391f-eb31-4da5-95bf-e5f8eaafee38@redhat.com>
+	Wed, 19 Feb 2025 09:21:02 +0000
+Received: by mail.corporix.pl (Postfix, from userid 1002)
+	id 5267423878; Wed, 19 Feb 2025 09:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corporix.pl; s=mail;
+	t=1739956281; bh=+oYP7ZwnEeonL1pLtE73TJ85xaesKIG0Ys99vCW5hiU=;
+	h=Date:From:To:Subject:From;
+	b=AHCO9h2O/8rKFSLKfVzwlgWlJ8oT6uLNkQ3NX2huOmEAZ6AhE5mLC+17tfMkZB7I0
+	 Q3Wah2nbEqrwfswkwmcK+L6yGRicoMYzreYB3DF3Mxfcvw14t41MWzJG0BgzIecYDj
+	 72JbghWRTOmmF7QMwEtN62TjO7NJcSO1HuyHwdcI36/7JwQGGzHeFrLabXwE7AusLq
+	 /J+UtFW51qwkd0Kp+A5WtHbpGKSposAUC8WSfrVNG9j2Ri900ebMsNTgDDbbDOKKjy
+	 vvhO1icxPSzekLea9pre6wCF3McPxuzrLG/Rv9LpYiwVZQJnTAvxhCFvDmrgabuwj9
+	 8pMGZ8TO4ba+w==
+Received: by mail.corporix.pl for <linux-nvme@lists.infradead.org>; Wed, 19 Feb 2025 09:10:43 GMT
+Message-ID: <20250219074500-0.1.h.4f7i.0.u6xplcn7vp@corporix.pl>
+Date: Wed, 19 Feb 2025 09:10:43 GMT
+From: "Patryk Wysocki" <patryk.wysocki@corporix.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Zapytanie ofertowe 
+X-Mailer: mail.corporix.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9495391f-eb31-4da5-95bf-e5f8eaafee38@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250218_153037_113144_AD0601A4 
-X-CRM114-Status: GOOD (  13.96  )
+X-CRM114-CacheID: sfid-20250219_012101_586199_9CEEEDC3 
+X-CRM114-Status: UNSURE (   2.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,20 +66,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 18, 2025 at 06:06:05PM -0500, John Meneghini wrote:
-> OK, maybe you have a use case in mind. I'll assume you do: some
-> applications want to disable native nvme multipathing and to see
-> all namespace paths in user space, and they are using this parameter
-> to do it. These are ostensibly user space MP applications.
+Dzie=C5=84 dobry,
 
-You can have a ublk frontend device with individual namespace paths on
-the backend, and let ublkserver do whatever it wants with them.
+Pozwoli=C5=82em sobie na kontakt, poniewa=C5=BC jestem zainteresowany wer=
+yfikacj=C4=85 mo=C5=BCliwo=C5=9Bci nawi=C4=85zania wsp=C3=B3=C5=82pracy.
 
-> So what happens when one of these user space MP applications needs
-> a change or a bug bug fix in the kernel?  Are those patches being
-> merged into the kernel under a different auspices... is it just
-> DMMP that we don't want to enable support for?
+Wspieramy firmy w pozyskiwaniu nowych klient=C3=B3w biznesowych.
 
-I think patches exporting driver private information is a pretty clear
-indicator it's for stacking drivers.
+Czy mo=C5=BCemy porozmawia=C4=87 w celu przedstawienia szczeg=C3=B3=C5=82=
+owych informacji?=20
+
+
+Pozdrawiam
+Patryk Wysocki
 
