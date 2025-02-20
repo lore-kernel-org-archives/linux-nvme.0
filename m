@@ -4,71 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29AAEC021B2
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2025 11:20:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A04AFC021B1
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2025 11:54:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=50j8WHvULWcpnbIKbQ31ciAMP+dqwo+G1D1qpji2b9Q=; b=FZ7qAVGXnhpvxZ
-	fO9+AjG/N8BORTmRSeMLrF6uDTJt0rLKBiiHAUi7JyA/KncBI8kpp5TX5cMW68zbxWQv/6QHGErHr
-	Ay/WRe2vC4Yy1U+hVSTgV8Y+xuS+kNKPAFSlGwlT4SLioZtAw31f/PuYUqdM6dIBxbqugWEXeo8WC
-	qm9PBeVVlpe0EV3kjefzK43DCtjuaTPLRxEGmXgxogZf3m9/a+5smgAihBysfBGWFolYu09Da3oWS
-	6PT/b5S9at0bSc72IjvsJlt04nF06bFdygJ6cCQK5LMYwKjwLXe7yL8pMpn+ZAUmHLJjQ0+aLg33z
-	B4VS46jqKpPRZ/MFxYkA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dQGpVcZiBbNKocwnNlsQwtY6SB+VlsIqOo3qZynx5dw=; b=eSHDnlP6Z+Xfbful1ErpL4BXvr
+	tgQPz9O4BE4ZzzvvZVrekErPOj6Rtv1jfMzO1A3DpHGf1M/OqOGY5ldGW4ayQFKcloUdqAVxcBG0b
+	dpHgug+h5AKEBdi1Qzjy4+BS+OXvL0Fpa/e5U+NrKHfal8ZZ7DK6SutItI/E4UgEa3Hy2GLzIX1J2
+	6jB2rjj7F4mZh1iEZadwMMTz+xtR2BJhXDXZlnMIWeTmWxW/J1zFU2KfQ5uFmUD7dLT6defeFB3GL
+	Q+D4CpUkxR4EVtilQc0g22dddfwOFjSEZRvfsnkIrXPa2ZF9rlbw6whZg8DxVq2LBhJY+e6+t/KMs
+	HhHPwqZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tl4bh-00000000Vw4-110c;
-	Thu, 20 Feb 2025 11:20:41 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1tl58M-00000000etQ-2UcT;
+	Thu, 20 Feb 2025 11:54:26 +0000
+Received: from mail-northeuropeazlp170110001.outbound.protection.outlook.com ([2a01:111:f403:c200::1] helo=DB3PR0202CU003.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tl4Ze-00000000VIb-35o1
+	id 1tl58K-00000000esG-1DL0
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Feb 2025 11:18:35 +0000
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4399ee18a57so4786685e9.1
-        for <linux-nvme@lists.infradead.org>; Thu, 20 Feb 2025 03:18:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740050313; x=1740655113;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=50j8WHvULWcpnbIKbQ31ciAMP+dqwo+G1D1qpji2b9Q=;
-        b=Sc0xUn/rTKay7a4q5y0oGD4vbKoCKBHtcSKLPaLxDFJbMvby1cAwsYmzYrw6Igau+D
-         UsBYAYdw8/omjTNlboKu0ap1zEaIOKLvbCXXm4h+e1UGQCs++y8fg8Ndk1m0ZLpK7Unc
-         7Gygzl8zGXLoZ59O4kzdTZ1q/xU14hYguR0h5Q69V8vPbKlWCMEMS1U6Cre4LPojX2NQ
-         SyancS/y4NqIvd2ku+GfyOhEW+0Wdq+q7kJ9xwP+G3opeypOw7UcI54MBcW0tVDNapLw
-         i5rYnhsp60gLYgzdp384q7lKSSJ3i1hS9W721KDuNuzGaophLq6QpeNfbicGZ5cYpr2i
-         tQlA==
-X-Gm-Message-State: AOJu0YxdSX0qqYqmh75piTwhz+x5+bjikqocArAQOe6taa26hkUCgYUM
-	EmHfNxQnnCJ64x98PvI1IGibZfMKB2Qtz/fr0PJ/+DZFn06XTLscKDmnKw==
-X-Gm-Gg: ASbGncvr44jSyH5WzWxd8EmhcUhkqxkzVGVaGHRobuHMRt8pAUT3BQ6dwQrXZYd9LE1
-	GtdpwDjPGPUsoaIsuGWonc4dtJHXh66daDvtOXBHsY5dMrtRYaTxk7nVg+uRs+jAGloLhTZ/8qh
-	JeQbppAfTbm1TLbamn6K61qPqdQRdFe5jVvMZnQ2sgiTSWwNPbHOVhiRTS5uPptI9ZV0EkgOmyG
-	5zV8DrWP66zx6376gT5YVGxcqcwpzFjsQ4HU7F17wa8vJVkTPYcCDKZ7zWcTjW+H0Cu1+kWHw1R
-	7TLY8/5/jveAOreW1NVVL2ChoB/eNMyB82RfcmYk3vAcjMzhnl3SmTJCZdbIUclj
-X-Google-Smtp-Source: AGHT+IF6VoD4wzoxv8WztrHkHbxB2bEfeDiga/1rqMplm6r+1YEGDv84i6yg3qZHXWCzSg8E1JC2dA==
-X-Received: by 2002:a05:600c:4451:b0:439:9434:4f3b with SMTP id 5b1f17b1804b1-439a30b9a4bmr23342945e9.8.1740050312485;
-        Thu, 20 Feb 2025 03:18:32 -0800 (PST)
-Received: from vastdata-ubuntu2.vstd.int (89-138-75-149.bb.netvision.net.il. [89.138.75.149])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4399c5f901bsm23478065e9.3.2025.02.20.03.18.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 03:18:31 -0800 (PST)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvme-tcp: fix possible UAF in nvme_tcp_poll
-Date: Thu, 20 Feb 2025 13:18:30 +0200
-Message-ID: <20250220111830.3185561-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+	Thu, 20 Feb 2025 11:54:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x4ZsJF4f42CtEVg6l8EHML8fXnlHAG4LG5pop+0LHPdMosWtk6XfWTzkxoXQpPS59vLS753Anp58iqLM/tEXFVlZz0HRGjy144OByuxeR9k/ODCORDuCry/OT/+kszrMy+G6hYnLthTsacg4reX2lcYgdJES4ElbXUypM1H7k1H6JpWEjRSFmJOqVSJNR7V4lOJ2dM08yJkBcDPvGNlZVnI3DhwmYlrWoV44HYLe05gG0WWN/6z80RO3LLzYEt0exi5SVoPi8t7VQFcMwUl65nlYS2MSwiL2/gJYeJQ89TCgvfRGWT3/UlRK17ZBqdqP6DIGFcQeOYK2Oc+L6kl2yQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dQGpVcZiBbNKocwnNlsQwtY6SB+VlsIqOo3qZynx5dw=;
+ b=voMkkTBgbeCPuazfgLeDHJN47oh8yVkQbneGtYkIu3huhdaWUEFFWUOHyLregD2Wp13SVHULCOQEvDHQoI8rvX75l6ywCaiPUhAFuZa+cLNIRQKaSMRi/r3yDJMD4DOFuFvX9/qZFFyUGnuTvq3nGpsQdWXwVk/gjBYCVp2FhY8f2+Aj5njqrAIISDVfL6aGPbhpSwRe320QiyuzNarGA2ctKWOzGeZ7nqHznj4GtdWHUPl8qB+9kohE4NsNvZIH9mvfMMiZ2iknrtwHRgXaWmoIK+Ar7RGbAFlImSQdEo2vW/ZPJQsGrABhqbeKzpORuWy3blJRPFKaMXI7hmuSPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
+ dkim=pass header.d=volumez.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dQGpVcZiBbNKocwnNlsQwtY6SB+VlsIqOo3qZynx5dw=;
+ b=ENutehOn9t1hq06hEeEpkE/DgW1qPPZP/BJJoOCaqOegE9c9gsouweQeJI9+pRaOz3ipoobZG8XzxPkMwc1jVYCL6WSrYOQ/7pevZ4Usx3MnHxdhj/KEFfMwk0/ubxi7MDljdd4b5gSxKOrJZRjcejhTQTB0yDRBTygYweNZN0Y/bFv9c/gR0cVtodyLaZbqwBjrlPCNXhSTPu/xBeqlEAzgzr0fmKa38HZ+w1AVPdjlOzeoMkPfZbqG9WRYhypEyUIJ8ESc5RpPSf2slDh64gcfr9MKKI6DeymKwNAAlHV9t6b/HS5QzUDzZcNWWA8UGxMVY4zcCGJvDoZWze1YQg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=volumez.com;
+Received: from VI1PR04MB5389.eurprd04.prod.outlook.com (2603:10a6:803:d8::12)
+ by AM9PR04MB8081.eurprd04.prod.outlook.com (2603:10a6:20b:3e2::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Thu, 20 Feb
+ 2025 11:54:17 +0000
+Received: from VI1PR04MB5389.eurprd04.prod.outlook.com
+ ([fe80::2dc5:1126:ca5b:bf27]) by VI1PR04MB5389.eurprd04.prod.outlook.com
+ ([fe80::2dc5:1126:ca5b:bf27%4]) with mapi id 15.20.8445.017; Thu, 20 Feb 2025
+ 11:54:17 +0000
+From: Meir Elisha <meir.elisha@volumez.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	Meir Elisha <meir.elisha@volumez.com>
+Subject: [PATCH] nvmet-tcp: Fix a possible sporadic response drops in weakly ordered arch
+Date: Thu, 20 Feb 2025 13:54:09 +0200
+Message-Id: <20250220115409.3271289-1-meir.elisha@volumez.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TL0P290CA0013.ISRP290.PROD.OUTLOOK.COM
+ (2603:1096:950:5::20) To VI1PR04MB5389.eurprd04.prod.outlook.com
+ (2603:10a6:803:d8::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5389:EE_|AM9PR04MB8081:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ca334c5-8053-4524-f65e-08dd51a54dd4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zPfYLKzldRD9nDCW2Ao8ZYi7nnWPTUq9wFlebWGuhDnG3lBCIe54VIFNNCpG?=
+ =?us-ascii?Q?BXNPvdbaV2Ht0zCXrFqnp+15ZfoeIQsVnZ13y14LGlCZB7jwPHPMm7cKOM+t?=
+ =?us-ascii?Q?lnYBlFfsVj+M4NtUI/iTvSzKXqg/hbi4MuTjzh9aYOidrNbC94hmNo0/qwvr?=
+ =?us-ascii?Q?qk2LQcXZHM1bpP6rF4L/1i61QQUXr0aY07q0cnNQ+bzE+edGT90QezR36IvT?=
+ =?us-ascii?Q?+FHXr6ILLJCrntx3i951bY3r8opmWiM93MBnkyt8sr+hlTo6LWkcul857jn1?=
+ =?us-ascii?Q?f1ctKjCmC0xw+TiF3R8dELdyZ/Zj3QJSiesf06nkNSwuUWbk5+JnljViIqxv?=
+ =?us-ascii?Q?xzQ09PQnDnB91xEG+t0OsX9BVYochczWykjTKFolb5QvMpjQbOKdgUulnB0c?=
+ =?us-ascii?Q?GSxuxylGQJhKpcOSCDwy0s0eiMSVpcz3Xn/YMygJ4aLArhbZ32c8DuIPlYsx?=
+ =?us-ascii?Q?evmI8hBrZXBAcGU/sHR0IStY9r7gCjJRRC6le+DpIwX+mySwx1tAfHgnNC9x?=
+ =?us-ascii?Q?5SGqqij8ahuBOYWSgbuFOF+K0oh9j10VsF7h5q7Kms2V5fd8iyfoPfh/t7M3?=
+ =?us-ascii?Q?a9JTf1AFNFTOJfRqCv1PdD3FhMDg0AicmNLRbswWw/Y+89WEwnnKLsIlMWiL?=
+ =?us-ascii?Q?+BDcRSN3T+0m+OEUF+M6L6AeE/x6xR5ypYWKSIH2GMhOTwJIUk71hUpASNlK?=
+ =?us-ascii?Q?Jf01bYdTlIYQ4G91b6Ekwp9sI1Qe/g3DklWSPrVzKNDFnwHVd7t1orolP0gW?=
+ =?us-ascii?Q?g9/IzqnP+cNRUulUHV19ObfRMElz/E3UrEkhq+/Di8huLRfq69AJpIgOq62D?=
+ =?us-ascii?Q?V9PpRDm24mrMVkk3zKDjFMpLoz9l1njVEze4gzSjiFP2Yd0ekMEPoOm9YmhT?=
+ =?us-ascii?Q?QvMlOxcEXy+Z6gU4lR++9NYXS/51UH17uZijIXHCXYcOCUO3bNe/9yT3L4Vi?=
+ =?us-ascii?Q?8HkB99psnYKhgYaNqre5+oxWKrrlz+xI2dxRXwaSeA4ETO7vBqTEyzNQB33h?=
+ =?us-ascii?Q?0kuM6Htx8+TjNP0nfO4hB72N+f87QmeINpueia4ZGuX15/jXS4pWmdOjkbHD?=
+ =?us-ascii?Q?epCAUOUnqFFjzAk3Zl3pejE+cJoZwpRe8+9pnfzLz8niuEl8/9rBb7PouGQ+?=
+ =?us-ascii?Q?whkMBbDpNHCA1he8NCWd3iz3NqzbTHVYrZq6XHGrj7N/Rea+Mqa8b4zsr2Bw?=
+ =?us-ascii?Q?WwVS6db95SubfcADn6WNwGrdH7Fsn/ygCNTq8ys5w8l4es6Dt5oV1K4TQT7m?=
+ =?us-ascii?Q?k9vzLFGKQC4qxZdGzdGc+o5c3RvHHKeIJkyxQzrczV7KHMAqMlPGi5UjWsCm?=
+ =?us-ascii?Q?h1mdfgnTpQ6bSkjFbjy2dvXNKmVjbIMVIOVL9iULP7PYeyv4Fo3HvL6xMzp7?=
+ =?us-ascii?Q?ko5CRwwX0ipJOHLti29K0pplXF2DzwxRknCGoEtq0rDbFCiF9Z1EaGj0E4mA?=
+ =?us-ascii?Q?ZtC0AAi0B2u3q9X6pwJZglZXs06dF3Ld?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5389.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GRGuPrh7YUOpJjS6ryMzCL+7o7S484y1ARR6tV6MLgY0gzwUf1MDU+qiD66f?=
+ =?us-ascii?Q?njNp+/D5AFmzuXJHYkh5LXWjBCW+TVEysek+3ndDYxuV6Xq8Jf9/WmYYUYrz?=
+ =?us-ascii?Q?iagmEh8H6AD5FPmKRZrOFlXPZ18mfAeN+nNw03ddO/427TcfBACvbFo4az7x?=
+ =?us-ascii?Q?MKBmPqSEuAUWzhmBaTmc2932qACV3crjsvwYCDBZrcNuZZnwDaecHZY1PDMk?=
+ =?us-ascii?Q?gctU6iC0A89craN9zdmLHRhK/k3zlD5iJZpLUO9+gLCMMV+zwDvakObmVosq?=
+ =?us-ascii?Q?hTqknv3LnSPRWzcvMyLXOnGBPU9Bh6AA9ghlR6D8rDKndLGrEu8T/KyQdC4E?=
+ =?us-ascii?Q?l98HDGPSbmHX2ZV++HQulNzJJ8FELc/X5yvZrZTCL5FMg1DGrPK/mkYoeX7w?=
+ =?us-ascii?Q?x3HJDko6puN8FEkG3hR/zM4aSAZWnQ2T+4l8nqy5O/At7yPCs6O3vNhFj9MN?=
+ =?us-ascii?Q?KPvkQg+K0aIXG3FtMz/TrRkpXTkNx8KmFyearOxrhoYVANhDzA2+NlwFh7TE?=
+ =?us-ascii?Q?RpFdjNjK16Yjy5jop/CJiYdkH8y2kuK1lGsYTqUCJcjUscgGz3qeZdE5xUUW?=
+ =?us-ascii?Q?UV1FkBZ2tpJvw596jaD4gRw08HDitmoyfpZxIhAN2ecDhvRdk/bVsmsiEx0+?=
+ =?us-ascii?Q?74pmNFnpQLDTCANYMOpBzoBdlgcKpIjZyAhACeOweA7KwWsj3ip/oSkcuMTW?=
+ =?us-ascii?Q?2b/RbaQCBT7DtgLkC01jzHaqVWLan/60k4PNlJswPfoEq1UNrgdptrFHVpcA?=
+ =?us-ascii?Q?hYkI1ixo8JYZs2SC/1f14pSDSWpANJ0NHgIcsdGVV6EeX3+f51p9kyleEwZq?=
+ =?us-ascii?Q?2sIwHi03L4VoBDd/GpjY5AQ0fJwML3/l+QM+zPvOYZpVJS6Ffmly/9rhEBPD?=
+ =?us-ascii?Q?U0c7HWpyjzY7n8ZdpuHUXjDPVDDB1l/vAGn7G1uuYMdZj5LrX2eGYHXkxQN7?=
+ =?us-ascii?Q?db6MZgKVqx4pFomga11lycH/t7uYUZqWiQ3uJJ5freFsaGkefUk4/QCphZN/?=
+ =?us-ascii?Q?+Qt9aozF7I3JCTF3ZDUSg61rA2q/khXyHsdcyTzvtpcfCorh5fEgL0sR2K9H?=
+ =?us-ascii?Q?wvqqV8agHKzO6/HxRRiVfg0cjDHKXbAGDY2/dwwJvs1z30vFlAXzwxjXJjHi?=
+ =?us-ascii?Q?MKtA7g9j+w0klU+PhLmStA+eSaonf6YTK+xxME0vMB7i7Q5t6It6VZM3iJJJ?=
+ =?us-ascii?Q?K5JzF0u2WGSx7df4WpC+D/nak7bA6fqU6HS8XZgXFTpRznxDONQHKi67Ick3?=
+ =?us-ascii?Q?GsiH/oqzDT4myBEzPFVEy9s0eKMT+Ae4CHuxggorCUHheHU5wJ95+A6bXv66?=
+ =?us-ascii?Q?mUWmDqycMEXgSRCf5Xjq+lBW3XVzgT4+g//vf9R6DyP/VvUThM2HVrv3oQm/?=
+ =?us-ascii?Q?y/22dOwnGFILgyEAj0MEdYNp4zq2bML0NYiB8rUZq+hI2XulsgQ/zhWl65Al?=
+ =?us-ascii?Q?rYUlambF1XPQYrNOSrzPFCzAB16yHtVyelMkX3qohjmvqLChuXt3DCc0MEEL?=
+ =?us-ascii?Q?eOKs27GnVCmmmmL5PvSyX6LgfVfALvRJQSWdNWw+jeoWauoy/Px1vR1sxgZ1?=
+ =?us-ascii?Q?jD4LniM9wGiofj+81NL1pX1p9ybdRRCKs84IwrwyQePi/Wa4XjzIAAo3LTTg?=
+ =?us-ascii?Q?zA=3D=3D?=
+X-OriginatorOrg: volumez.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ca334c5-8053-4524-f65e-08dd51a54dd4
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5389.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 11:54:17.6219
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BdsVyl3kDgF8JNGeBCGnmej6/dct0uZjJgaPwOBXt3pr83SpsVQ4w5RJtxfYVuEM7kPdmZ1gM5E0Wk9NsGnqvw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8081
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250220_031834_809196_342AB56F 
-X-CRM114-Status: GOOD (  14.42  )
+X-CRM114-CacheID: sfid-20250220_035424_341479_6BDE6201 
+X-CRM114-Status: GOOD (  17.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,84 +155,102 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sagi@grimberg.me
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_tcp_poll() may race with the send path error handler because
-it may complete the request while it is actively being polled for
-completion, resulting in a UAF panic [1]:
+The order in which queue->cmd and rcv_state are updated is crucial.
+If these assignments are reordered by the compiler, the worker might not
+get queued in nvmet_tcp_queue_response(), hanging the IO. to enforce the
+the correct reordering, set rcv_state using smp_store_release().
 
-We should make sure to stop polling when we see an error when
-trying to read from the socket. Hence make sure to propagate the
-error so that the block layer breaks the polling cycle.
-
-[1]:
---
-[35665.692310] nvme nvme2: failed to send request -13
-[35665.702265] nvme nvme2: unsupported pdu type (3)
-[35665.702272] BUG: kernel NULL pointer dereference, address: 0000000000000000
-[35665.702542] nvme nvme2: queue 1 receive failed:  -22
-[35665.703209] #PF: supervisor write access in kernel mode
-[35665.703213] #PF: error_code(0x0002) - not-present page
-[35665.703214] PGD 8000003801cce067 P4D 8000003801cce067 PUD 37e6f79067 PMD 0
-[35665.703220] Oops: 0002 [#1] SMP PTI
-[35665.703658] nvme nvme2: starting error recovery
-[35665.705809] Hardware name: Inspur aaabbb/YZMB-00882-104, BIOS 4.1.26 09/22/2022
-[35665.705812] Workqueue: kblockd blk_mq_requeue_work
-[35665.709172] RIP: 0010:_raw_spin_lock+0xc/0x30
-[35665.715788] Call Trace:
-[35665.716201]  <TASK>
-[35665.716613]  ? show_trace_log_lvl+0x1c1/0x2d9
-[35665.717049]  ? show_trace_log_lvl+0x1c1/0x2d9
-[35665.717457]  ? blk_mq_request_bypass_insert+0x2c/0xb0
-[35665.717950]  ? __die_body.cold+0x8/0xd
-[35665.718361]  ? page_fault_oops+0xac/0x140
-[35665.718749]  ? blk_mq_start_request+0x30/0xf0
-[35665.719144]  ? nvme_tcp_queue_rq+0xc7/0x170 [nvme_tcp]
-[35665.719547]  ? exc_page_fault+0x62/0x130
-[35665.719938]  ? asm_exc_page_fault+0x22/0x30
-[35665.720333]  ? _raw_spin_lock+0xc/0x30
-[35665.720723]  blk_mq_request_bypass_insert+0x2c/0xb0
-[35665.721101]  blk_mq_requeue_work+0xa5/0x180
-[35665.721451]  process_one_work+0x1e8/0x390
-[35665.721809]  worker_thread+0x53/0x3d0
-[35665.722159]  ? process_one_work+0x390/0x390
-[35665.722501]  kthread+0x124/0x150
-[35665.722849]  ? set_kthread_struct+0x50/0x50
-[35665.723182]  ret_from_fork+0x1f/0x30
-
-Reported-by: Zhang Guanghui <zhang.guanghui@cestc.cn>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Fixes: bdaf13279192 ("nvmet-tcp: fix a segmentation fault during io parsing error")
+Signed-off-by: Meir Elisha <meir.elisha@volumez.com>
 ---
- drivers/nvme/host/tcp.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/nvme/target/tcp.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index c637ff04a052..0e390e98aaf9 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2673,6 +2673,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
- {
- 	struct nvme_tcp_queue *queue = hctx->driver_data;
- 	struct sock *sk = queue->sock->sk;
-+	int ret;
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 7c51c2a8c109..4021468c8857 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -571,10 +571,16 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
+ 	struct nvmet_tcp_cmd *cmd =
+ 		container_of(req, struct nvmet_tcp_cmd, req);
+ 	struct nvmet_tcp_queue	*queue = cmd->queue;
++	enum nvmet_tcp_recv_state queue_state = READ_ONCE(queue->state);
++	/*
++	 * Use an acquire load to ensure that any updates to queue->state are visible
++	 * before loading queue->cmd.
++	 */
++	struct nvmet_tcp_cmd *queue_cmd = smp_load_acquire(&queue->cmd);
+ 	struct nvme_sgl_desc *sgl;
+ 	u32 len;
  
- 	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
- 		return 0;
-@@ -2680,9 +2681,9 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
- 	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
- 	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue))
- 		sk_busy_loop(sk, true);
--	nvme_tcp_try_recv(queue);
-+	ret = nvme_tcp_try_recv(queue);
- 	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
--	return queue->nr_cqe;
-+	return ret < 0 ? ret : queue->nr_cqe;
+-	if (unlikely(cmd == queue->cmd)) {
++	if (unlikely(cmd == queue_cmd)) {
+ 		sgl = &cmd->req.cmd->common.dptr.sgl;
+ 		len = le32_to_cpu(sgl->length);
+ 
+@@ -583,7 +589,7 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
+ 		 * Avoid using helpers, this might happen before
+ 		 * nvmet_req_init is completed.
+ 		 */
+-		if (queue->rcv_state == NVMET_TCP_RECV_PDU &&
++		if (queue_state == NVMET_TCP_RECV_PDU &&
+ 		    len && len <= cmd->req.port->inline_data_size &&
+ 		    nvme_is_write(cmd->req.cmd))
+ 			return;
+@@ -847,8 +853,9 @@ static void nvmet_prepare_receive_pdu(struct nvmet_tcp_queue *queue)
+ {
+ 	queue->offset = 0;
+ 	queue->left = sizeof(struct nvme_tcp_hdr);
+-	queue->cmd = NULL;
+-	queue->rcv_state = NVMET_TCP_RECV_PDU;
++	WRITE_ONCE(queue->cmd, NULL);
++	/* Ensure rcv_state is visible only after queue->cmd is set */
++	smp_store_release(&queue->rcv_state, NVMET_TCP_RECV_PDU);
  }
  
- static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+ static void nvmet_tcp_free_crypto(struct nvmet_tcp_queue *queue)
 -- 
-2.43.0
+2.34.1
 
+This ordering is critical on weakly ordered architectures (such as ARM)
+so that any observer which sees the new rcv_state is guaranteed to also
+see the updated cmd. Without this guarantee (i.e if the two stores were
+reordered), a parallel context might see the new state while queue->cmd
+still holds a stale value. This could cause the inline-data check to
+return early and ultimately hang the IO.
+Additionally, I reviewed the assembly code for ARM and confirmed that
+the instructions were reordered(unlike x86), reinforcing the need for
+this change.
+
+This scenario was encountered during fio testing, which involved
+running 2 min of 4K random writes using an ARM-based machine as the
+target. We observed hanging I/O typically after 10-20 iterations.
+
+fio config used:
+[global]
+ioengine=libaio
+max_latency=45s
+end_fsync=1
+create_serialize=0
+size=3200m
+directory=/mnt/volumez/vol0
+ramp_time=30
+lat_percentiles=1
+direct=1
+filename_format=fiodata.$jobnum
+verify_dump=1
+numjobs=16
+fallocate=native
+stonewall=1
+group_reporting=1
+file_service_type=random
+iodepth=16
+runtime=5m
+time_based=1
+[random_0_100_4k]
+bs=4k
+rw=randwrite
 
