@@ -4,82 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C00FEC021B1
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2025 11:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29AAEC021B2
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2025 11:20:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x8uxDiuJb+FtwnSdvnxhyDNV/h2/dsyLMYaCTue1E1s=; b=J9QrPvou6ripM0bYvU/t7+XOBM
-	Avt9G1UrFb+ycR2aVQiqLiZXL3EI6Fi96TFmsd9G4NSf3vjTvJ2pSs6ZjWhkSLNFxNETZWkZUXo26
-	xP1Abi+d7PPvYrjnzTSz1pwHf3eDkuvelT6gUbpp3azBG+1L7wurkAT7MqsqRgp9eCZ3bsfyP+T0K
-	HbBp63QZoVqechhNi0S3lJyvdnlRp9XdAZFsXtHy00See17McbMwrucqBOlxjRBffs7Tp7PWMnUb1
-	P5qYPK7YtEuSfP0y3Vvxo/sPCKbg2W2YW/qtAykmyG3TMp6NCT6HEg0Jtd41m62AFL2okoDkwDzQn
-	U/1YYujg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=50j8WHvULWcpnbIKbQ31ciAMP+dqwo+G1D1qpji2b9Q=; b=FZ7qAVGXnhpvxZ
+	fO9+AjG/N8BORTmRSeMLrF6uDTJt0rLKBiiHAUi7JyA/KncBI8kpp5TX5cMW68zbxWQv/6QHGErHr
+	Ay/WRe2vC4Yy1U+hVSTgV8Y+xuS+kNKPAFSlGwlT4SLioZtAw31f/PuYUqdM6dIBxbqugWEXeo8WC
+	qm9PBeVVlpe0EV3kjefzK43DCtjuaTPLRxEGmXgxogZf3m9/a+5smgAihBysfBGWFolYu09Da3oWS
+	6PT/b5S9at0bSc72IjvsJlt04nF06bFdygJ6cCQK5LMYwKjwLXe7yL8pMpn+ZAUmHLJjQ0+aLg33z
+	B4VS46jqKpPRZ/MFxYkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tl4Mj-00000000RbZ-09pw;
-	Thu, 20 Feb 2025 11:05:13 +0000
-Received: from mail-lj1-f171.google.com ([209.85.208.171])
+	id 1tl4bh-00000000Vw4-110c;
+	Thu, 20 Feb 2025 11:20:41 +0000
+Received: from mail-wm1-f47.google.com ([209.85.128.47])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tl4Mg-00000000RZt-0x8y
+	id 1tl4Ze-00000000VIb-35o1
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Feb 2025 11:05:11 +0000
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30762598511so7360261fa.0
-        for <linux-nvme@lists.infradead.org>; Thu, 20 Feb 2025 03:05:09 -0800 (PST)
+	Thu, 20 Feb 2025 11:18:35 +0000
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4399ee18a57so4786685e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 20 Feb 2025 03:18:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740049508; x=1740654308;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x8uxDiuJb+FtwnSdvnxhyDNV/h2/dsyLMYaCTue1E1s=;
-        b=Pvwr4qW9OC6JJK0x3OoEIGmRESA+R2XOolH6HzbCtYTYAbo0p08zx9qS5dYzWciq2O
-         v/1GpJtGBe2VSPHM1KcbUN8LtdrgkNJoX0bctEVE2qzgQytyJngZJPSxlp7V1L59UF79
-         +V+hNtso8RVgA39vSmNrdndpiC8dPj5b1To98ZuvK8Gbz1yrQTOQAu53IkDXBhxzq3i2
-         Sn2uWtWTCovm5vSc443mzCOkrv+J8LpnOpr00d/MQstA0wcvZv3oP90ztVCS8VuKMdKW
-         1mVRE9M8nefLkrQlCgkTMuWDHm4z5HclDqaYTTRe1WVS6vpUC9LmBHnnRxGrMywsQUS8
-         hHnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVllDyZEKxXyllVkvh207v0oAxQC96IB7gs2yvFsWaqEdKd3krfhRtRyXIj4YRmnBVpFjm3Q+jR4xFs@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz1fWf4+w02myvvrUSTCMDHNIXlpnMdgQYeQnChPYi7LprBZYlf
-	QFzxB4ra8fNlQJP3GWzoxW+lKKBcoxusr9/0zk9hzVjCgQnvhb3D
-X-Gm-Gg: ASbGncvir07wjWvSs/ycfvY+7NNgRDLhgmD+92UOHZtwQOt3WHtvuMrlMfxywpbxSk5
-	MpgPtCQXsb7yDDvc3WqaEgrIsrWc1nt7M7BEbEUd7+L3VXIMgbNZ5RsK/Zme7sgcH1T+qFqtbS/
-	qLvkkLmrpYDLubYO2YoRzZoJbAJm+YKv/P8BvoApgVCKMOWPNhl1xnwgTp6A0NcZCbbz15depgX
-	hDizNKllNeLsCW9P8mNZsHIWqumcSitjWeMrUMYZfL0m4BCQvmi6T21dxohiRV+ApCZmg4H/acZ
-	s/p9jfulMWz9ycPeH5LS33/TupAtvehnulIds6NLFhoCymt99qM=
-X-Google-Smtp-Source: AGHT+IEDAzNSU4M6N6+sNoHRKE34zjwzmrWG8rZXC43x/q/qFTR8i6SDYVfamfd05Dg4BOm0XvFkhg==
-X-Received: by 2002:a05:6512:2342:b0:545:fad:a757 with SMTP id 2adb3069b0e04-5452fe56d47mr6947117e87.29.1740049508045;
-        Thu, 20 Feb 2025 03:05:08 -0800 (PST)
-Received: from [10.100.102.74] (89-138-75-149.bb.netvision.net.il. [89.138.75.149])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54531afdbdcsm1647220e87.247.2025.02.20.03.05.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2025 03:05:07 -0800 (PST)
-Message-ID: <0656b66c-dd9c-495d-b1fc-4f09e763fa66@grimberg.me>
-Date: Thu, 20 Feb 2025 13:05:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: remove multipath module parameter
-To: Nilay Shroff <nilay@linux.ibm.com>, Keith Busch <kbusch@kernel.org>,
- John Meneghini <jmeneghi@redhat.com>
-Cc: hch@lst.de, bmarzins@redhat.com, Bryan Gurney <bgurney@redhat.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Marco Patalano <mpatalan@redhat.com>, axboe@kernel.dk
-References: <20250204211158.43126-1-bgurney@redhat.com>
- <7c588344-f019-4939-8a93-0a450481d4bc@redhat.com>
- <Z7Sh-3yHbXVmRbNL@kbusch-mbp>
- <8a1730a1-1faf-4722-99e1-c3a85257b6f4@redhat.com>
- <Z7TARX-tFY3mnuU7@kbusch-mbp>
- <2ff87386-c6db-4f2e-be91-213504d99a78@linux.ibm.com>
-Content-Language: en-US
+        d=1e100.net; s=20230601; t=1740050313; x=1740655113;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=50j8WHvULWcpnbIKbQ31ciAMP+dqwo+G1D1qpji2b9Q=;
+        b=Sc0xUn/rTKay7a4q5y0oGD4vbKoCKBHtcSKLPaLxDFJbMvby1cAwsYmzYrw6Igau+D
+         UsBYAYdw8/omjTNlboKu0ap1zEaIOKLvbCXXm4h+e1UGQCs++y8fg8Ndk1m0ZLpK7Unc
+         7Gygzl8zGXLoZ59O4kzdTZ1q/xU14hYguR0h5Q69V8vPbKlWCMEMS1U6Cre4LPojX2NQ
+         SyancS/y4NqIvd2ku+GfyOhEW+0Wdq+q7kJ9xwP+G3opeypOw7UcI54MBcW0tVDNapLw
+         i5rYnhsp60gLYgzdp384q7lKSSJ3i1hS9W721KDuNuzGaophLq6QpeNfbicGZ5cYpr2i
+         tQlA==
+X-Gm-Message-State: AOJu0YxdSX0qqYqmh75piTwhz+x5+bjikqocArAQOe6taa26hkUCgYUM
+	EmHfNxQnnCJ64x98PvI1IGibZfMKB2Qtz/fr0PJ/+DZFn06XTLscKDmnKw==
+X-Gm-Gg: ASbGncvr44jSyH5WzWxd8EmhcUhkqxkzVGVaGHRobuHMRt8pAUT3BQ6dwQrXZYd9LE1
+	GtdpwDjPGPUsoaIsuGWonc4dtJHXh66daDvtOXBHsY5dMrtRYaTxk7nVg+uRs+jAGloLhTZ/8qh
+	JeQbppAfTbm1TLbamn6K61qPqdQRdFe5jVvMZnQ2sgiTSWwNPbHOVhiRTS5uPptI9ZV0EkgOmyG
+	5zV8DrWP66zx6376gT5YVGxcqcwpzFjsQ4HU7F17wa8vJVkTPYcCDKZ7zWcTjW+H0Cu1+kWHw1R
+	7TLY8/5/jveAOreW1NVVL2ChoB/eNMyB82RfcmYk3vAcjMzhnl3SmTJCZdbIUclj
+X-Google-Smtp-Source: AGHT+IF6VoD4wzoxv8WztrHkHbxB2bEfeDiga/1rqMplm6r+1YEGDv84i6yg3qZHXWCzSg8E1JC2dA==
+X-Received: by 2002:a05:600c:4451:b0:439:9434:4f3b with SMTP id 5b1f17b1804b1-439a30b9a4bmr23342945e9.8.1740050312485;
+        Thu, 20 Feb 2025 03:18:32 -0800 (PST)
+Received: from vastdata-ubuntu2.vstd.int (89-138-75-149.bb.netvision.net.il. [89.138.75.149])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4399c5f901bsm23478065e9.3.2025.02.20.03.18.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 03:18:31 -0800 (PST)
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <2ff87386-c6db-4f2e-be91-213504d99a78@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvme-tcp: fix possible UAF in nvme_tcp_poll
+Date: Thu, 20 Feb 2025 13:18:30 +0200
+Message-ID: <20250220111830.3185561-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250220_030510_276794_18C2B32B 
-X-CRM114-Status: GOOD (  27.62  )
+X-CRM114-CacheID: sfid-20250220_031834_809196_342AB56F 
+X-CRM114-Status: GOOD (  14.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,77 +80,84 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sagi@grimberg.me
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+nvme_tcp_poll() may race with the send path error handler because
+it may complete the request while it is actively being polled for
+completion, resulting in a UAF panic [1]:
 
+We should make sure to stop polling when we see an error when
+trying to read from the socket. Hence make sure to propagate the
+error so that the block layer breaks the polling cycle.
 
+[1]:
+--
+[35665.692310] nvme nvme2: failed to send request -13
+[35665.702265] nvme nvme2: unsupported pdu type (3)
+[35665.702272] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[35665.702542] nvme nvme2: queue 1 receive failed:  -22
+[35665.703209] #PF: supervisor write access in kernel mode
+[35665.703213] #PF: error_code(0x0002) - not-present page
+[35665.703214] PGD 8000003801cce067 P4D 8000003801cce067 PUD 37e6f79067 PMD 0
+[35665.703220] Oops: 0002 [#1] SMP PTI
+[35665.703658] nvme nvme2: starting error recovery
+[35665.705809] Hardware name: Inspur aaabbb/YZMB-00882-104, BIOS 4.1.26 09/22/2022
+[35665.705812] Workqueue: kblockd blk_mq_requeue_work
+[35665.709172] RIP: 0010:_raw_spin_lock+0xc/0x30
+[35665.715788] Call Trace:
+[35665.716201]  <TASK>
+[35665.716613]  ? show_trace_log_lvl+0x1c1/0x2d9
+[35665.717049]  ? show_trace_log_lvl+0x1c1/0x2d9
+[35665.717457]  ? blk_mq_request_bypass_insert+0x2c/0xb0
+[35665.717950]  ? __die_body.cold+0x8/0xd
+[35665.718361]  ? page_fault_oops+0xac/0x140
+[35665.718749]  ? blk_mq_start_request+0x30/0xf0
+[35665.719144]  ? nvme_tcp_queue_rq+0xc7/0x170 [nvme_tcp]
+[35665.719547]  ? exc_page_fault+0x62/0x130
+[35665.719938]  ? asm_exc_page_fault+0x22/0x30
+[35665.720333]  ? _raw_spin_lock+0xc/0x30
+[35665.720723]  blk_mq_request_bypass_insert+0x2c/0xb0
+[35665.721101]  blk_mq_requeue_work+0xa5/0x180
+[35665.721451]  process_one_work+0x1e8/0x390
+[35665.721809]  worker_thread+0x53/0x3d0
+[35665.722159]  ? process_one_work+0x390/0x390
+[35665.722501]  kthread+0x124/0x150
+[35665.722849]  ? set_kthread_struct+0x50/0x50
+[35665.723182]  ret_from_fork+0x1f/0x30
 
-On 19/02/2025 16:47, Nilay Shroff wrote:
->
-> On 2/18/25 10:45 PM, Keith Busch wrote:
->> On Tue, Feb 18, 2025 at 11:31:58AM -0500, John Meneghini wrote:
->>> On 2/18/25 10:06 AM, Keith Busch wrote:
->>>> On Thu, Feb 13, 2025 at 03:37:28PM -0500, John Meneghini wrote:
->>>>> Keith, Christoph and Sagi,
->>>>>
->>>>> This patch has been fully tested and analyzed by Red Hat's QA group and no
->>>>> unexpected side effects or regressions have been found. Both NVMe/FC and NVMe/TCP
->>>>> have been tested. Our QE engineer has asked me to report this upstream.
->>>> What's the harm in leaving the parameter? *I* use it so I can test both
->>>> ways without needing to compile multiple kernels.
->>> LOL.  We've been talking about this since 2017. The goal has always been to remove support for DMMP with NVMe.
->> I understand that disabling nvme native mp it is required for device
->> mapper, and I get you want to prevent the possibility of anyone using
->> dm-mp with nvme, but that isn't the only user that wants to see all
->> namespace paths.
->>   
-> Agreed! I do have nvme multi-controller disks and I toggle multipath module parameter to
-> test it both ways. One with each individual path to a shared namespace and another with
-> a single head node path and then let IO policy determine which path to choose for sending
-> IO to disk.
-> In fact, we have few nvme blktests which only runs if device is configured with single path
-> and so testing it on multi-controller nvme disk would require us to turn off multipath module
-> parameter. In that way this parameter is very handy. My typical way of
-> toggling this parameter is:
-> 1. disable multipath
-> # rmmod nvme
-> # rmmod nvme_core
-> # modprobe nvme_core multipath=0
-> # modprobe nvme
->
-> Now I could run all nvme blktests which require us disable multipath.
->
-> 2. enable multipath:
-> # rmmod nvme
-> # rmmmod nvme_core
-> # modprobe nvme_core multipath=1
-> # modprobe nvme
->
-> Now if we get away with multipath parameter then it means we have to re-compile kernel
-> disabling CONFIG_NVME_MULTIPATH option and that's something we may want to avoid,
-> if possible.
->
-> Having said that I'm not against this patch however we certainly have users who would
-> be using multipath parameter and taking away this parameter may break those user
-> application.
+Reported-by: Zhang Guanghui <zhang.guanghui@cestc.cn>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/tcp.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Sounds like the user application is already broken. This like any 
-modparam is not guaranteed
-to stay, and we already have been warning users this is temporary and 
-will be removed for years.
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index c637ff04a052..0e390e98aaf9 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2673,6 +2673,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+ {
+ 	struct nvme_tcp_queue *queue = hctx->driver_data;
+ 	struct sock *sk = queue->sock->sk;
++	int ret;
+ 
+ 	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
+ 		return 0;
+@@ -2680,9 +2681,9 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+ 	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
+ 	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue))
+ 		sk_busy_loop(sk, true);
+-	nvme_tcp_try_recv(queue);
++	ret = nvme_tcp_try_recv(queue);
+ 	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
+-	return queue->nr_cqe;
++	return ret < 0 ? ret : queue->nr_cqe;
+ }
+ 
+ static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+-- 
+2.43.0
 
->   So I'm wondering why is it not possible for RedHat to let their customer
-> know the fact that starting with RHEL-10, we don't support DMMP for NVMe device even
-> though the multipath module parameter is present?
-
-I get the testing argument, but I don't think its sufficient to keep 
-exposing a user facing
-modparam.
-
-This discussion is not specific to RHEL, if there is a real use-case 
-that we are interested in supporting,
-we can change our minds and keep it (and simply remove the log msg), but 
-I haven't heard any real
-life use-cases thus far.
 
