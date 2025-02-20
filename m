@@ -4,125 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF7B0C021AD
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2025 08:00:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A19D4C021AD
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2025 08:21:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z3Y/31AEQgxstuZ0UZ278NeUsHwU5UxgxRZ8S/efaBA=; b=FTN6OMsAA/8MVEM1N3C8vJMT2O
-	yROm+Mj2LWdfrHtifu5HJt6C6ut3iBKtQC6mmz6WwOAhRUGMcqkJVZYRzwKPqexZzEn/wK35Sy42P
-	3MzWhPsXoFjs9BLJj9Iatnp1YIewQnMdZ8S1TLiTwue6BOSBHl12NJZVaV2Y5jks/Fq/uCcO4nhyc
-	EB9460Spa9gDu9llgrrSEuoTUWG3daLwKCVElVHqoOiWcFkShhxTBSlARLxj8QwuYmAppBdAe9cAj
-	8gwWEwXSgQTHsuQDAjl5TMgJ3MDMiB90j0gY4p0OvnkIcbm07WKxImajMibyJF1vHwcnZEXsGKtDa
-	B7M1jIzw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Message-ID:Mime-Version:References:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=uWWKRY5OqdO+rjWbyCUqROOK8f0tsrcstsiLFGxs6lo=; b=2uCJhi8jDJfw6kCnWunsumRKtE
+	dC5bFgU7+eaWKVZKuOhXb/iWdWbnnBhWiZ3bWoMGuJMnUz+VZ8LI17loeMGINxXXrxVzi/JR2alES
+	BW0nVhFpqkT3VXAAQOXvhR3gUPQt7FIoniImTCETmMMSGdu9esoGOZrlaLEWVcHiwaEvQMEXVCgqk
+	L1ea/MQEZxsA634eG+tsMHTYKPlrcAt07ByBqVSMau7tIPBCfsgiMmj39kFI/cKFy82L8b7i9+EJN
+	BqAT5k7OfPiJjN+G3x2gvlXsfPCKiN/02Tg7wUDgxgsEjuV4b0tp/a1BoIkswJiWyJdAlU3cW4Fna
+	Y0Q00NmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tl1UN-0000000HGgP-14cW;
-	Thu, 20 Feb 2025 08:00:55 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tl1UJ-0000000HGfi-3cz0
+	id 1tl1no-0000000HKcX-2x1f;
+	Thu, 20 Feb 2025 08:21:00 +0000
+Received: from [1.203.97.240] (helo=smtp.cecloud.com)
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tl1nl-0000000HKbO-2w0V
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Feb 2025 08:00:53 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4CDFC210FF;
-	Thu, 20 Feb 2025 08:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740038448; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z3Y/31AEQgxstuZ0UZ278NeUsHwU5UxgxRZ8S/efaBA=;
-	b=n57tXNTW2qNlqOGlth76nN9gVsZzl1YZZ95vIkWUItc00WuDW1uYzdx1cEzKgORXoDmzhM
-	mDap7BAOwxnI7SpO+8whYxAlkdPb3mot2MG2gefY6McSS50oLtwgQ5ianTqko1AAtcISwJ
-	OvHw6Zpsg7PHwcy5oRpmV+fu1f1aLTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740038448;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z3Y/31AEQgxstuZ0UZ278NeUsHwU5UxgxRZ8S/efaBA=;
-	b=tyNXfKUEuZgByB0DccOcsQfdABmi+BTe1PNlAzA5w1jvzp4DVgx7IWJ+v6HP1xgOB6vjg0
-	zzNTIJcxsnMYoeAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cTawJ26l;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=V5afU3kx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740038447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z3Y/31AEQgxstuZ0UZ278NeUsHwU5UxgxRZ8S/efaBA=;
-	b=cTawJ26lCWq8AkcA+TuYSbYZtn3CYNIBG2xz4mKI3ggr16mJuutX7KPI5vQR2OaS7RaZ6u
-	3ZMXVR5V7zhRPI2WgrBBcKQuNPQ8ZlIV7uak2IR72KxgibQsigUbgWji+cCSIcaBjNsIhm
-	NYrbGy8dVLSD4L5qPsLX6TVjraXwN6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740038447;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Z3Y/31AEQgxstuZ0UZ278NeUsHwU5UxgxRZ8S/efaBA=;
-	b=V5afU3kxqXFTdbG+Z5mDvdmoBlbjccG0bxgb2ATDVic7VUnMnSMwn0Ul12m22vO0deayrf
-	vNvU1sLcycXqhwAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DE3E13301;
-	Thu, 20 Feb 2025 08:00:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /xoeDi/htmekVAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 20 Feb 2025 08:00:47 +0000
-Date: Thu, 20 Feb 2025 09:00:46 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
-	Hannes Reinecke <hare@suse.de>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] nvme-fc: fix schedule in atomic context
-Message-ID: <16476728-c964-4912-983e-446a44004314@flourine.local>
-References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
-X-Rspamd-Queue-Id: 4CDFC210FF
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	Thu, 20 Feb 2025 08:20:59 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.cecloud.com (Postfix) with ESMTP id CE4B7900114;
+	Thu, 20 Feb 2025 16:20:51 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from desktop-n31qu50 (unknown [39.156.73.12])
+	by smtp.cecloud.com (postfix) whith ESMTP id P3907749T281458769654128S1740039650735091_;
+	Thu, 20 Feb 2025 16:20:51 +0800 (CST)
+X-IP-DOMAINF: 1
+X-RL-SENDER: zhang.guanghui@cestc.cn
+X-SENDER: zhang.guanghui@cestc.cn
+X-LOGIN-NAME: zhang.guanghui@cestc.cn
+X-FST-TO: sagi@grimberg.me
+X-RCPT-COUNT: 8
+X-LOCAL-RCPT-COUNT: 0
+X-MUTI-DOMAIN-COUNT: 0
+X-SENDER-IP: 39.156.73.12
+X-ATTACHMENT-NUM: 0
+X-UNIQUE-TAG: <fd7484a0a686beb9490205984160b761>
+X-System-Flag: 0
+Date: Thu, 20 Feb 2025 16:20:49 +0800
+From: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>
+To: sagi <sagi@grimberg.me>, 
+	mgurtovoy <mgurtovoy@nvidia.com>, 
+	kbusch <kbusch@kernel.org>, 
+	sashal <sashal@kernel.org>, 
+	chunguang.xu <chunguang.xu@shopee.com>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-nvme <linux-nvme@lists.infradead.org>, 
+	linux-block <linux-block@vger.kernel.org>
+Subject: Re: Re: nvme-tcp: fix a possible UAF when failing to send request
+References: <2025021015413817916143@cestc.cn>, 
+	<aed9dde7-3271-4b97-9632-8380d37505d9@grimberg.me>
+X-Priority: 3
+X-GUID: 752A99AE-CBA7-430D-A461-66F2A12A1897
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.25.331[cn]
+Mime-Version: 1.0
+Message-ID: <202502201620484789268@cestc.cn>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250220_000052_045189_85FA12AC 
-X-CRM114-Status: GOOD (  20.69  )
+X-CRM114-CacheID: sfid-20250220_002058_058374_127B3DDB 
+X-CRM114-Status: GOOD (  16.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,26 +89,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 14, 2025 at 09:02:02AM +0100, Daniel Wagner wrote:
-> Shinichiro reported [1] the recent change in the nvme-fc setup path [2]
-> introduced a bug. I didn't spot the schedule call in
-> nvme_change_ctrl_state.
-> 
-> It turns out the locking is not necessary if we make the state machine a
-> bit more restrictive and only allow entering the LIVE state from
-> CONNECTING. If we do this, it's possible to ensure we either enter LIVE
-> only if there was no connection loss event. Also the connection loss
-> event handler should always trigger the reset handler to avoid a
-> read-write race on the state machine state variable.
-> 
-> I've tried to replicate the original problem once again and wrote a new
-> blktest which tries to trigger the race condition. I let it run a for a
-> while and nothing broke, but I can't be sure it is really gone. The rest
-> of the blktests also passed. Unfortunatly, the test box with FC hardware
-> is currently not working, so I can't test this with real hardware.
-> 
-> [1] https://lore.kernel.org/all/denqwui6sl5erqmz2gvrwueyxakl5txzbbiu3fgebryzrfxunm@iwxuthct377m/
-> [2] https://lore.kernel.org/all/20250109-nvme-fc-handle-com-lost-v4-3-fe5cae17b492@kernel.org/
+CkhpIArCoMKgwqDCoMKgwqDCoMKgQWZ0ZXIgdGVzdGluZyB0aGlzIHBhdGNoLCAgTm8gc2VuZGlu
+ZyByZXF1ZXN0IGZhaWx1cmUgb2NjdXJyZWQsIHRoZSBpc3N1ZSBoYXMgbm90IGJlZW4gcmVwcm9k
+dWNlZCB5ZXQuICAKSXQgbWF5IHRha2UgYSBsb25nIHRpbWUgdG8gdGVzdC4KCmJlc3Qgd2lzaGVz
+CgoKCnpoYW5nLmd1YW5naHVpQGNlc3RjLmNuCgoKCsKgCgoKCuWPkeS7tuS6uu+8msKgU2FnaSBH
+cmltYmVyZwoKCgrlj5HpgIHml7bpl7TvvJrCoDIwMjUtMDItMTfCoDE1OjQ2CgoKCuaUtuS7tuS6
+uu+8msKgemhhbmcuZ3VhbmdodWlAY2VzdGMuY247IG1ndXJ0b3ZveTsga2J1c2NoOyBzYXNoYWw7
+IGNodW5ndWFuZy54dQoKCgrmioTpgIHvvJrCoGxpbnV4LWtlcm5lbDsgbGludXgtbnZtZTsgbGlu
+dXgtYmxvY2sKCgoK5Li76aKY77yawqBSZTogbnZtZS10Y3A6IGZpeCBhIHBvc3NpYmxlIFVBRiB3
+aGVuIGZhaWxpbmcgdG8gc2VuZCByZXF1ZXN044CQ6K+35rOo5oSP77yM6YKu5Lu255Sxc2FnaWdy
+aW1AZ21haWwuY29t5Luj5Y+R44CRCgoKCsKgCgoKCsKgCgoKCsKgCgoKCk9uIDEwLzAyLzIwMjUg
+OTo0MSwgemhhbmcuZ3VhbmdodWlAY2VzdGMuY24gd3JvdGU6CgoKCj4gSGVsbG8KCgoKPgoKCgo+
+CgoKCj4KCgoKPsKgIMKgIMKgwqBXaGVuIHVzaW5nIHRoZSBudm1lLXRjcCBkcml2ZXIgaW4gYSBz
+dG9yYWdlIGNsdXN0ZXIsIHRoZSBkcml2ZXIgbWF5IHRyaWdnZXIgYSBudWxsIHBvaW50ZXIgY2F1
+c2luZyB0aGUgaG9zdCB0byBjcmFzaCBzZXZlcmFsIHRpbWVzLgoKCgo+CgoKCj4KCgoKPgoKCgo+
+IEJ5IGFuYWx5emluZyB0aGUgdm1jb3JlLCB3ZSBrbm93IHRoZSBkaXJlY3QgY2F1c2UgaXMgdGhh
+dMKgIHRoZSByZXF1ZXN0LT5tcV9oY3R4IHdhcyB1c2VkIGFmdGVyIGZyZWUuCgoKCj4KCgoKPgoK
+Cgo+CgoKCj4KCgoKPgoKCgo+IENQVTHCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoENQVTIKCgoKPgoKCgo+CgoKCj4KCgoKPiBudm1lX3RjcF9wb2xswqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgbnZtZV90Y3BfdHJ5X3NlbmTCoCAtLWZhaWxlZCB0byBzZW5k
+IHJlcXJlc3QgMTMKCgoKPgoKCgo+CgoKCj4KCgoKPsKgIMKgIMKgwqBudm1lX3RjcF90cnlfcmVj
+dsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIG52bWVfdGNwX2ZhaWxfcmVxdWVzdAoKCgo+CgoKCj4K
+CgoKPgoKCgo+wqAgwqAgwqDCoMKgIMKgwqBudm1lX3RjcF9yZWN2X3NrYsKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIG52bWVfdGNwX2VuZF9yZXF1ZXN0CgoKCj4KCgoKPgoKCgo+CgoKCj7CoCDCoCDC
+oMKgwqAgwqDCoMKgIMKgwqBudm1lX3RjcF9yZWN2X3BkdcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IG52bWVfY29tcGxldGVfcnEKCgoKPgoKCgo+CgoKCj4KCgoKPsKgIMKgIMKgwqDCoCDCoMKgwqAg
+wqDCoMKgIMKgwqBudm1lX3RjcF9oYW5kbGVfY29tcMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKg
+wqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDC
+oMKgIMKgbnZtZV9yZXRyeV9yZXEgLS3CoHJlcXVlc3QtPm1xX2hjdHggaGF2ZSBiZWVuIGZyZWVk
+LCBpcyBOVUxMLgoKCgo+CgoKCj4KCgoKPgoKCgo+wqAgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAg
+wqDCoMKgIMKgwqBudm1lX3RjcF9wcm9jZXNzX252bWVfY3FlCgoKCj4KCgoKPgoKCgo+CgoKCj7C
+oCDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgIG52bWVfY29tcGxldGVf
+cnEKCgoKPgoKCgo+CgoKCj4KCgoKPsKgIMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDC
+oMKgwqAgwqDCoMKgIMKgIG52bWVfZW5kX3JlcQoKCgo+CgoKCj4KCgoKPgoKCgo+wqAgwqAgwqDC
+oMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCBibGtf
+bXFfZW5kX3JlcXVlc3QKCgoKPgoKCgo+CgoKCj4KCgoKPgoKCgo+CgoKCj4KCgoKPgoKCgo+IHdo
+ZW4gbnZtZV90Y3BfdHJ5X3NlbmQgZmFpbGVkIHRvIHNlbmQgcmVxcmVzdCAxMywgaXQgbWF5YmUg
+YmUgcmVzdWx0ZWQgYnkgc2VsaW51eCBvciBvdGhlciByZWFzb25zLCB0aGlzIGlzIGEgcHJvYmxl
+bS4gdGhlbsKgIHRoZSBudm1lX3RjcF9mYWlsX3JlcXVlc3Qgd291bGQgZXhlY3V0ZeOAggoKCgo+
+CgoKCj4KCgoKPgoKCgo+IGJ1dCB0aGUgbnZtZV90Y3BfcmVjdl9wZHUgbWF5IGhhdmUgcmVjZWl2
+ZWQgdGhlIHJlc3BvbmRpbmcgcGR1IGFuZCB0aGUgbnZtZV90Y3BfcHJvY2Vzc19udm1lX2NxZSB3
+b3VsZCBoYXZlIGNvbXBsZXRlZCB0aGUgcmVxdWVzdC7CoCByZXF1ZXN0LT5tcV9oY3R4IHdhcyB1
+c2VkIGFmdGVyIGZyZWUuCgoKCj4KCgoKPgoKCgo+CgoKCj4gdGhlIGZvbGxvdyBwYXRjaCBpcyB0
+byBzb2x2ZSBpdC4KCgoKwqAKCgoKWmhhbmcsIHlvdXIgZW1haWwgY2xpZW50IG5lZWRzIGZpeGlu
+ZyAtIGl0IGlzIGltcG9zc2libGUgdG8gZm9sbG93IHlvdXIKCgoKZW1haWxzLgoKCgrCoAoKCgo+
+CgoKCj4KCgoKPgoKCgo+IGNhbiB5b3UgZ2l2ZcKgIHNvbWUgc3VnZ2VzdGlvbnM/wqAgdGhhbmtz
+IQoKCgrCoAoKCgpUaGUgcHJvYmxlbSBpcyB0aGUgQzJIVGVybSB0aGF0IHRoZSBob3N0IGlzIHVu
+YWJsZSB0byBoYW5kbGUgY29ycmVjdGx5LgoKCgpBbmQgaXQgYWxzbyBhcHBlYXJzIHRoYXQgbnZt
+ZV90Y3BfcG9sbCgpIGRvZXMgbm90IHNpZ25hbCBjb3JyZWN0bHkgdG8KCgoKYmxrLW1xIHRvIHN0
+b3AKCgoKY2FsbGluZyBwb2xsLgoKCgrCoAoKCgpPbmUgdGhpbmcgdG8gZG8gaXMgdG8gaGFuZGxl
+IEMySFRlcm0gUERVIGNvcnJlY3RseSwgYW5kLCBoZXJlIGlzIGEKCgoKcG9zc2libGUgZml4IHRv
+IHRyeSBmb3IgdGhlIFVBRiBpc3N1ZToKCgoKLS0KCgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZt
+ZS9ob3N0L3RjcC5jIGIvZHJpdmVycy9udm1lL2hvc3QvdGNwLmMKCgoKaW5kZXggYzYzN2ZmMDRh
+MDUyLi4wZTM5MGU5OGFhZjkgMTAwNjQ0CgoKCi0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L3RjcC5j
+CgoKCisrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L3RjcC5jCgoKCkBAIC0yNjczLDYgKzI2NzMsNyBA
+QCBzdGF0aWMgaW50IG52bWVfdGNwX3BvbGwoc3RydWN0IGJsa19tcV9od19jdHgKCgoKKmhjdHgs
+IHN0cnVjdCBpb19jb21wX2JhdGNoICppb2IpCgoKCsKgewoKCgrCoMKgwqDCoMKgwqDCoCBzdHJ1
+Y3QgbnZtZV90Y3BfcXVldWUgKnF1ZXVlID0gaGN0eC0+ZHJpdmVyX2RhdGE7CgoKCsKgwqDCoMKg
+wqDCoMKgIHN0cnVjdCBzb2NrICpzayA9IHF1ZXVlLT5zb2NrLT5zazsKCgoKK8KgwqDCoMKgwqDC
+oCBpbnQgcmV0OwoKCgrCoAoKCgrCoMKgwqDCoMKgwqDCoCBpZiAoIXRlc3RfYml0KE5WTUVfVENQ
+X1FfTElWRSwgJnF1ZXVlLT5mbGFncykpCgoKCsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCByZXR1cm4gMDsKCgoKQEAgLTI2ODAsOSArMjY4MSw5IEBAIHN0YXRpYyBpbnQgbnZtZV90Y3Bf
+cG9sbChzdHJ1Y3QgYmxrX21xX2h3X2N0eAoKCgoqaGN0eCwgc3RydWN0IGlvX2NvbXBfYmF0Y2gg
+KmlvYikKCgoKwqDCoMKgwqDCoMKgwqAgc2V0X2JpdChOVk1FX1RDUF9RX1BPTExJTkcsICZxdWV1
+ZS0+ZmxhZ3MpOwoKCgrCoMKgwqDCoMKgwqDCoCBpZiAoc2tfY2FuX2J1c3lfbG9vcChzaykgJiYK
+CgoKc2tiX3F1ZXVlX2VtcHR5X2xvY2tsZXNzKCZzay0+c2tfcmVjZWl2ZV9xdWV1ZSkpCgoKCsKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBza19idXN5X2xvb3Aoc2ssIHRydWUpOwoKCgot
+wqDCoMKgwqDCoMKgIG52bWVfdGNwX3RyeV9yZWN2KHF1ZXVlKTsKCgoKK8KgwqDCoMKgwqDCoCBy
+ZXQgPSBudm1lX3RjcF90cnlfcmVjdihxdWV1ZSk7CgoKCsKgwqDCoMKgwqDCoMKgIGNsZWFyX2Jp
+dChOVk1FX1RDUF9RX1BPTExJTkcsICZxdWV1ZS0+ZmxhZ3MpOwoKCgotwqDCoMKgwqDCoMKgIHJl
+dHVybiBxdWV1ZS0+bnJfY3FlOwoKCgorwqDCoMKgwqDCoMKgIHJldHVybiByZXQgPCAwID8gcmV0
+IDogcXVldWUtPm5yX2NxZTsKCgoKwqB9CgoKCsKgCgoKCsKgc3RhdGljIGludCBudm1lX3RjcF9n
+ZXRfYWRkcmVzcyhzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsLCBjaGFyICpidWYsIGludAoKCgpzaXpl
+KQoKCgotLQoKCgrCoAoKCgpEb2VzIHRoaXMgaGVscD8KCgoKwqAKCgoKwqAKCgo=
 
-ping
+
+
 
