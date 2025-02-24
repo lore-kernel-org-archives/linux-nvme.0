@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21FD3C021A4
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 22:10:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF0BAC021A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 22:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/yCeE44bqHsBn5fhDDB6dxdP2tA9kStXEJzNQ8w1kQo=; b=v6niMDqn778OMUxT3tQUA/JV0L
-	Mi2+HVv/aZVH5aBwthiBGgAUq2/kH8UYQeS0XcbzM6V+CmKPA0vyCum4BvR93BLQlJfw0nDQhBKhw
-	0dknzxdAFF80teCmfEgU6kGYjkK5ZyvyMDOqs42bB6PPNzwXASX/iME1ErZOMNRkH3J5CNLnlkxcX
-	HQqbWQSI5bPuaPZ8wBngQzDB300Aptqzl1uwDzjPSg1goHDLXfo6Wvcg7WxfoVl0+EMoQ+niwLboT
-	DqEtcP9M1bdo5aTOEEDj7S/PkfBND5EhDXr2st6YrX/Azg21ar67mxOQlpDFdx1WSDkTFRJmA9Qic
-	e3NaQsWw==;
+	bh=BwBebQALWtbP8g8j48tKjs/2b6aQ3oRZv6PwWsbZrd0=; b=xHCzl66IduPsITogTQdVkT4RyA
+	kWFxSn/C8X7efNyDB99gmSfJJTYXLTs8+wmYr8zAI507h+fCdSn/SfQ36goNx7km05QPFHbbbF3jY
+	3/P6GAM2Lg6hRgqQrtPYkZIG2lEHxtQnC8O9KR9mbPya2QIoSF/WeMdwFw7n6iagNzvvhNzfX0ifG
+	WulcYoTswOXxOLHQ4nDbKE1i5Wo4lw4s31NFkE0TMTfEeouWfvG8bmxEDBGGo/F+fdXgxfryqeFHD
+	/PoUIo3O8QYgpG4OWgR8IT1dupyNyURAhNrt/tCI22IFe5E389hn4Wf5u8v0ORP7kQu5hk/Rk7QO0
+	P1CzOMlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmgf9-0000000FKSm-1gQZ;
-	Mon, 24 Feb 2025 22:10:55 +0000
-Received: from tor.source.kernel.org ([2600:3c04::f03c:95ff:fe5e:7468])
+	id 1tmgly-0000000FLDQ-416H;
+	Mon, 24 Feb 2025 22:17:58 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmgf7-0000000FKS7-44W2
+	id 1tmglx-0000000FLD9-2tem
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 22:10:54 +0000
+	Mon, 24 Feb 2025 22:17:57 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 74772611F4;
-	Mon, 24 Feb 2025 22:10:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76357C4CED6;
-	Mon, 24 Feb 2025 22:10:51 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id E2388611F4;
+	Mon, 24 Feb 2025 22:17:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3465C4CED6;
+	Mon, 24 Feb 2025 22:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740435052;
-	bh=EiFR38yVsuH05Eon8HPmhaO6gO9EfG0fnrMiR8muuXs=;
+	s=k20201202; t=1740435476;
+	bh=fJYk7gNUVlrWpKa9va8rtet/bvGTyQZGCXEmhK8KYZQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sH2ItckBtZqP4XORVXsfE2cv57NQSwMAc2T2FxT2iQDrJldLq+GzqXJMzuQqO/4dl
-	 BQ9HeEi7h2lpFvVzhESJv8IdAFsptmrtDOnorI3rz/OaEOc/ijxQrkaKYKH6FhRiGR
-	 0e6sGKK0ZvxhCR2KwYPgusl1kiVPuY/4NJDymj5LEP1mqhZQ29oTmuWClCQn+zrRx4
-	 jb+36U6Ma2fUbDlzh+QLh/c0LxU+MRK3iOHwLcu9hUH9UMFkWE5K3DdgR7lweD+nns
-	 ux/ATYOkevFSjua4OyQdiLGGRb/HR7Zn1ZAvBti0iWavgVUpM1eibEW+BIIPOMlx8m
-	 1vxKO26qO1k1Q==
-Message-ID: <1c7c1d1f-7b87-4f30-9df1-0a0b8ad8bec8@kernel.org>
-Date: Tue, 25 Feb 2025 07:10:50 +0900
+	b=Q8WxzK5BicM4aGnpeGmlxBkbGDsvxgQn43U2MBY2Cx1XZowtZFBRqmbQU3J4pchQv
+	 9SKyFJ6bz+TYTvmfWglAScqLR8/in4yDGxxanrCsdIwxDzpjTP5ea+dy3QEG2Kf7XT
+	 IIIUd0zcAI2wWTaY7M+xxv+NBAi0yR7lAU4TgYeQWWTG2egmjQGivKuB2rC4++YoZO
+	 4gZ4N9HL9elT0G0vdIy5+a4DWf/l3wbm81nDplnwip3so+XuxUuTDqaK5wF3lQFddw
+	 BfabhhBHeyBiEsBLR0IgoOzDk8QApLkBEAu3Us3T4RvRmhS7h7AiS6sFYFMoDdww5o
+	 5XlPxJPFC7DEA==
+Message-ID: <08d99f95-fe9a-4f98-9cd0-326f0ef54b2f@kernel.org>
+Date: Tue, 25 Feb 2025 07:17:54 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/10] nvmet: Add 'sq' argument to alloc_ctrl_args
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20250224123818.42218-1-hare@kernel.org>
- <20250224123818.42218-9-hare@kernel.org>
+Subject: Re: [PATCH 1/6] nvme-ioctl: fold open_for_write into flags
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+ hch@lst.de, sagi@grimberg.me
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20250224182128.2042061-1-kbusch@meta.com>
+ <20250224182128.2042061-2-kbusch@meta.com>
 From: Damien Le Moal <dlemoal@kernel.org>
 Content-Language: en-US
 Organization: Western Digital Research
-In-Reply-To: <20250224123818.42218-9-hare@kernel.org>
+In-Reply-To: <20250224182128.2042061-2-kbusch@meta.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -72,12 +72,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/24/25 21:38, Hannes Reinecke wrote:
-> For secure concatenation the result of the TLS handshake will be
-> stored in the 'sq' struct, so add it to the alloc_ctrl_args struct.
+On 2/25/25 03:21, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> Cc: Damien Le Moal <dlemoal@kernel.org>
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+> Helps to reduce the number of parameters passed around.
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
 
 Looks good to me.
 
