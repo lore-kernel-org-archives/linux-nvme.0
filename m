@@ -4,59 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3EACC021B3
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 10:11:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D79DC021A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iAkALFkjbm07yjbOTekY/5/H6MhCz8lGFqEnQf+Tq3A=; b=X0QDnyAEfaxefN514XqnHSO9c/
-	KZOmBO0ZSCzemOW3+SMA+nCqkH/XDVxYk2LcHzruM0dAfPnEq7Gknej7OV7Pg4K+ggrbXWNS4fcCN
-	f0tHz3NyR5yZoaq8VXmY0eiKpQ7K22q9oEDgu3mlZd3kvjEkLBxrcKTVVxwOdozcpRefnBSVcGYVu
-	PxuCPQblOLXo2D8HAV7/u7KHnGEe/slVCWrxxLResmmYsTTiLfkGfJQAPNcSTCfYpBasqaic6GY79
-	6glm5y8GSjwBH0b0c6b3Jpa3AUs2abkJKRZlG/WcEcoHCu5SZqWTU2tDuTlF01tKN305jX6MmApV4
-	tyDmcqsQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Jm7acnu7rEBq1YV+F3SGcLIZLc4s/2vC2lQu9eG0Rjw=; b=W9nXvNX+pdV6i6QDhM2LPpSNMU
+	96xwPcBUMij2MhVecQWTlr64vK06m3FFm0zMEt4WgHJxb3TeQcAxYPLcPHLRAsUvuw52taZqF3VCQ
+	6bexqWFu6SCTIUDF7YGqoUZLX02oHqmh2ji2ChdRcIq3m0dVWBjAti1ll1/fiIQswCMxZliyFoZav
+	JzC4yh3AqMxNT2Jexm2lNvIe3xzbm3/10AlOYlR5ctrdkZZUcBB2Z1hwMT+q/Vk6mEtpiM/9VPUxY
+	ZIH12cI/Vs0T5yfPURcilADI7FGwJ6Eyc60CT/Dgp1io2YMP3mEA93OCZyecdcnRPqWilPw7XgjbD
+	HYJM1sUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmVRL-0000000D4Aj-1U84;
-	Mon, 24 Feb 2025 10:11:55 +0000
+	id 1tmWbt-0000000DN6j-0qXR;
+	Mon, 24 Feb 2025 11:26:53 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmVG4-0000000D1KJ-1L7L
+	id 1tmWT6-0000000DJHY-1bTm
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 10:00:16 +0000
+	Mon, 24 Feb 2025 11:17:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 166FF6118D;
-	Mon, 24 Feb 2025 10:00:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25EFCC4CEE6;
-	Mon, 24 Feb 2025 10:00:11 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 16FB5611A0;
+	Mon, 24 Feb 2025 11:17:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ECE5C4CEE6;
+	Mon, 24 Feb 2025 11:17:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740391215;
-	bh=A9uQN4pgxmAPTKbOEg1GKq42g3z8N6rW3R0Aq49Zw20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kviluAb3twh1PVkiWcvpyCDARNe8MqrrYLW2h9yUrUrTn0pZuxFzbRasUoA7YNfA+
-	 4NcigM7MZHIHxgohf/pvmh8bTMswk+qy+cOjP+09JtX31wZJkMQ8kMLtOZSYgVb5YE
-	 yZpKlXTIPXdd/x02BnXhFBbk3h1dGL+4kFp02pRiWpnUKOOerGvOt5QOjAe77KMWEn
-	 beuBiIkJcxm+hsnXQfArXZv46IR/pOLedE/n26LtuWcQ+cvBDssv6gQR9xy3NuVCYw
-	 jUrfb/X/mdPaEXSPtWPfweAz/V0LFd636YsbjCo2Rs3g8ng5NW/j9fe2FoB7ULeX3x
-	 7Msv0TPr4OQfw==
-Date: Mon, 24 Feb 2025 20:30:10 +1030
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH 6/8][next] nvme: target: Avoid -Wflex-array-member-not-at-end
- warnings
-Message-ID: <ef7a6920384ab2f8f83c0f630f94edc73cd65997.1739957534.git.gustavoars@kernel.org>
-References: <cover.1739957534.git.gustavoars@kernel.org>
+	s=k20201202; t=1740395867;
+	bh=YraLUL1E4en8RrwpRZQJCcyy5k+RrW+AX4PIqGJxFWw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=U3SDuNQjJE1YOdOHY1u0bfp5tAedMgTYjieGC4qZpVhltneVYdk1+k5v4yd24LUQ5
+	 dOyYD8S5bBHdu2nXKfgqVHyVBbCgo0k4C54Z5RqeEwAy8yfnzAU3JLV41/3lV30D2/
+	 wvKnn1SX349LGiBzrgvFnj+9qzkYfOZUIOOxC6k8p8ZbbidTrcRbkXbBpuxbUn8lWc
+	 jQV6TS/hUEF8CAKeg+MjNWxH6SykiCuwer4/lVI8I0RHH9KDI9sxMzZPHMqTfJweM+
+	 rcwma5yZcjUbs3pcuwOez/voy2wXLVwcwlM4EKlZwFHm03ulUe0Wmn6HeBosJRF7fo
+	 PClz1TnXzaEMg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Ruozhu Li <david.li@jaguarmicro.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.13 25/32] nvmet-rdma: recheck queue state is LIVE in state lock in recv done
+Date: Mon, 24 Feb 2025 06:16:31 -0500
+Message-Id: <20250224111638.2212832-25-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250224111638.2212832-1-sashal@kernel.org>
+References: <20250224111638.2212832-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1739957534.git.gustavoars@kernel.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.13.4
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,76 +76,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
--Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-getting ready to enable it, globally.
+From: Ruozhu Li <david.li@jaguarmicro.com>
 
-Change the type of the middle struct members currently causing trouble
-from `struct bio` to `struct bio_hdr`.
+[ Upstream commit 3988ac1c67e6e84d2feb987d7b36d5791174b3da ]
 
-We also use `container_of()` whenever we need to retrieve a pointer to
-the flexible structure `struct bio`, through which we can access the
-flexible-array member in it, if necessary.
+The queue state checking in nvmet_rdma_recv_done is not in queue state
+lock.Queue state can transfer to LIVE in cm establish handler between
+state checking and state lock here, cause a silent drop of nvme connect
+cmd.
+Recheck queue state whether in LIVE state in state lock to prevent this
+issue.
 
-With these changes fix 38 of the following warnings:
-
-drivers/nvme/target/nvmet.h:455:49: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-drivers/nvme/target/nvmet.h:462:49: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Ruozhu Li <david.li@jaguarmicro.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/nvmet.h    | 4 ++--
- drivers/nvme/target/passthru.c | 2 +-
- drivers/nvme/target/zns.c      | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/target/rdma.c | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 4be8d22d2d8d..13ee8026d3d8 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -452,14 +452,14 @@ struct nvmet_req {
- 			struct work_struct      work;
- 		} f;
- 		struct {
--			struct bio		inline_bio;
-+			struct bio_hdr		inline_bio;
- 			struct request		*rq;
- 			struct work_struct      work;
- 			bool			use_workqueue;
- 		} p;
- #ifdef CONFIG_BLK_DEV_ZONED
- 		struct {
--			struct bio		inline_bio;
-+			struct bio_hdr		inline_bio;
- 			struct work_struct	zmgmt_work;
- 		} z;
- #endif /* CONFIG_BLK_DEV_ZONED */
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 26e2907ce8bb..bff52252ffb9 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -268,7 +268,7 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
- 		return -EINVAL;
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 1afd93026f9bf..2a4536ef61848 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -996,6 +996,27 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
+ 	nvmet_req_complete(&cmd->req, status);
+ }
  
- 	if (nvmet_use_inline_bvec(req)) {
--		bio = &req->p.inline_bio;
-+		bio = container_of(&req->p.inline_bio, struct bio, __hdr);
- 		bio_init(bio, NULL, req->inline_bvec,
- 			 ARRAY_SIZE(req->inline_bvec), req_op(rq));
- 	} else {
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 29a60fabfcc8..afedbd984d39 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -570,7 +570,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
- 	}
++static bool nvmet_rdma_recv_not_live(struct nvmet_rdma_queue *queue,
++		struct nvmet_rdma_rsp *rsp)
++{
++	unsigned long flags;
++	bool ret = true;
++
++	spin_lock_irqsave(&queue->state_lock, flags);
++	/*
++	 * recheck queue state is not live to prevent a race condition
++	 * with RDMA_CM_EVENT_ESTABLISHED handler.
++	 */
++	if (queue->state == NVMET_RDMA_Q_LIVE)
++		ret = false;
++	else if (queue->state == NVMET_RDMA_Q_CONNECTING)
++		list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
++	else
++		nvmet_rdma_put_rsp(rsp);
++	spin_unlock_irqrestore(&queue->state_lock, flags);
++	return ret;
++}
++
+ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+ 	struct nvmet_rdma_cmd *cmd =
+@@ -1038,17 +1059,9 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ 	rsp->n_rdma = 0;
+ 	rsp->invalidate_rkey = 0;
  
- 	if (nvmet_use_inline_bvec(req)) {
--		bio = &req->z.inline_bio;
-+		bio = container_of(&req->z.inline_bio, struct bio, __hdr);
- 		bio_init(bio, req->ns->bdev, req->inline_bvec,
- 			 ARRAY_SIZE(req->inline_bvec), opf);
- 	} else {
+-	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&queue->state_lock, flags);
+-		if (queue->state == NVMET_RDMA_Q_CONNECTING)
+-			list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
+-		else
+-			nvmet_rdma_put_rsp(rsp);
+-		spin_unlock_irqrestore(&queue->state_lock, flags);
++	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE) &&
++	    nvmet_rdma_recv_not_live(queue, rsp))
+ 		return;
+-	}
+ 
+ 	nvmet_rdma_handle_command(queue, rsp);
+ }
 -- 
-2.43.0
+2.39.5
 
 
