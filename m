@@ -4,60 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1967C021A4
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:28:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59703C021B5
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:28:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oS6LsnRdIQwDO0QxVneuSfXM62G9F51L3J0+Lw7VrmA=; b=Z518qnGoBNI78bjLK6lViEGbLA
-	tdG2aOvC3nvpyUsnIu1av6c91o8+InaYPWyBapRo0Ho/MeH3Qe9AgWX+9tXFaRudI5saIU4S8nQ1m
-	lhlz/QRfQd12E0ASA8aTkmCpF6rqCoKer50RWIWN7w3MImsGK0Q+cW1ArFOjVkWsrreq3weRKyCiK
-	bP+2D67+VWYLUZdQpEr1G84pBn8GP7XE3vToYlxvOjsjIwuUzJOWVvpe6gxPf9QUTMciaEByTb0Mr
-	gNu+SdaD7fkDKnigHEWEwPda3h63Bt/31n93d11Mo7cQdktxi4Kcr+BzZLJ6SeAuK5VXo4Z2CWZA3
-	1V5Vrpxg==;
+	bh=eZ05WeM+CJDoKE8IUhPXQmenJckYn3Bh2p95sAJXLYE=; b=y0q0IdZgj7k5dz/28oC1ghRvDp
+	OPhLwJCanwUTcmzakNNDhdAuyvFq+zRgtIxEmGg9tCGBXluvv0NZswhr+hb5Egi9DzGJK2mOYqa1u
+	YPAlkoe4wFUA98a3cygRdyVrsmClHhj4L3ycwSz4LiK0ubya09nhcIJXHAGbWhbbcinztBO6OvPp+
+	l3NYdWFF7DoDtr8MJQN7bssFzKJ7GDLpoG1PWgvNK9rvzed6Mrn09Efwjnpy1eDIrYBb2c6b6vW0f
+	Daepoky+11+yh0DlVa7ZoMmQdQQoUAW8feFTYsBBNuZYg5tdNtEDAcPUxXKD2AvxulhGnXi+/AR4h
+	qCr3st+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmWdK-0000000DNqV-0noG;
+	id 1tmWdK-0000000DNr1-3f3M;
 	Mon, 24 Feb 2025 11:28:22 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+Received: from tor.source.kernel.org ([2600:3c04::f03c:95ff:fe5e:7468])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmWT8-0000000DJIN-15YN;
-	Mon, 24 Feb 2025 11:17:50 +0000
+	id 1tmWTG-0000000DJMN-1uer
+	for linux-nvme@lists.infradead.org;
+	Mon, 24 Feb 2025 11:17:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id EC3F2611A9;
-	Mon, 24 Feb 2025 11:17:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D7DC4CED6;
-	Mon, 24 Feb 2025 11:17:47 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 22E4C611B5;
+	Mon, 24 Feb 2025 11:17:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B71B2C4CEE6;
+	Mon, 24 Feb 2025 11:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740395869;
-	bh=LDVGiLQYV/om9iCPbzlHs+RRDrKvhxgu/48IGJERWAA=;
+	s=k20201202; t=1740395877;
+	bh=dqPuA9v4dNcw/imLKMmpcyLGTWuXEGp8WqzvpE77BxA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N4EvfZ3iTdpzan8dwcam1q0+i0m3CGliAH7xeZW5ZVIi1Cplfs8xpfxfp6TUsHXg7
-	 bAO4vnXe4Br6CbHlW74pFnFApi+DQZ/eJU1DzJzzCj14XIYX26oUNmyo7p5vIgRNIM
-	 iTZKMDgKHMKGHpDlNJQSyQNSInBLkG8ivCAfaV7KP5iwoZc4Sxx/tzRPFpznv0GGW1
-	 BEg0aSHKdx7bPbYeL1JmEUEEoC/9bAs2fv9pMVg2erlWkYQhqFc2Hj1rAQSn5clyUH
-	 I8D7bY1gpJ6E6Vm7Zh/oXjRDYI6XAdByzIXUQnrL+ag/EYDNidBKi2M20BM1/PLR8z
-	 pS0RHJwSA/MNw==
+	b=gRv/rhdf1SjMeTipnptVZsT96UQQuylA/QxkXecCo78d9SyV6oMCeTdRNrLt8Mext
+	 Vhzjd1iDwy2o1508FBfrA7Nka+Kgdl9vvs9rrx7hR326mxdYwyONfvQRK6O3uvo6mH
+	 YexruldfFLUORhF1K2NZwU2Ulvx9lLwNPHjT16Fwz3y3OOVkn2xYYbSlj/133IlhEo
+	 g5tDFdNTZb1GJT+gC69kAQ0Y/7ODxhdom1ttjafaqCewXXMPHf3WdaSvvUZeuOeBbn
+	 QnDmGkmDtNaIxhyrneSp9b9i2TfZa8m+2h0UMdjVcs+5EJCyLZUunn0WpATdwvxRzm
+	 or808WViWnLiw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hector Martin <marcan@marcan.st>,
-	Neal Gompa <neal@gompa.dev>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+Cc: Daniel Wagner <wagi@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	j@jannau.net,
-	sagi@grimberg.me,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.13 26/32] apple-nvme: Release power domains when probe fails
-Date: Mon, 24 Feb 2025 06:16:32 -0500
-Message-Id: <20250224111638.2212832-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 31/32] nvme: only allow entering LIVE from CONNECTING state
+Date: Mon, 24 Feb 2025 06:16:37 -0500
+Message-Id: <20250224111638.2212832-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250224111638.2212832-1-sashal@kernel.org>
 References: <20250224111638.2212832-1-sashal@kernel.org>
@@ -80,40 +75,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hector Martin <marcan@marcan.st>
+From: Daniel Wagner <wagi@kernel.org>
 
-[ Upstream commit eefa72a15ea03fd009333aaa9f0e360b2578e434 ]
+[ Upstream commit d2fe192348f93fe3a0cb1e33e4aba58e646397f4 ]
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
-Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+The fabric transports and also the PCI transport are not entering the
+LIVE state from NEW or RESETTING. This makes the state machine more
+restrictive and allows to catch not supported state transitions, e.g.
+directly switching from RESETTING to LIVE.
+
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/apple.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/host/core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index 4319ab50c10d1..0bca33dc48cc9 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -1518,6 +1518,7 @@ static struct apple_nvme *apple_nvme_alloc(struct platform_device *pdev)
- 
- 	return anv;
- put_dev:
-+	apple_nvme_detach_genpd(anv);
- 	put_device(anv->dev);
- 	return ERR_PTR(ret);
- }
-@@ -1551,6 +1552,7 @@ static int apple_nvme_probe(struct platform_device *pdev)
- 	nvme_uninit_ctrl(&anv->ctrl);
- out_put_ctrl:
- 	nvme_put_ctrl(&anv->ctrl);
-+	apple_nvme_detach_genpd(anv);
- 	return ret;
- }
- 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 46e04b30f6425..cf0e7c6d5502b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -564,8 +564,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 	switch (new_state) {
+ 	case NVME_CTRL_LIVE:
+ 		switch (old_state) {
+-		case NVME_CTRL_NEW:
+-		case NVME_CTRL_RESETTING:
+ 		case NVME_CTRL_CONNECTING:
+ 			changed = true;
+ 			fallthrough;
 -- 
 2.39.5
 
