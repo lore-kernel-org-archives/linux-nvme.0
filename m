@@ -4,55 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B141C021B5
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:26:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 780BCC021A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kibiuER/j6/MBapKAL8704mDpWO6hE1o4Zwg9Le/DRk=; b=NkuJdGRyOaG/+NjADNI+0aW6DD
-	TJToVRWWthHsW3UB4cgjYL1vaCL7aT6yLxsGeOkRsU+PYTL4M+CeQiHTGe8+dZPM02fW8rIMe8YaS
-	vrG6r46bdnT4Aavr/1vaIIaOJ1CsHpDaQ7ao+YZIliPM/zqYaaPe97eCd+g2j/dU/J6/veUyeLBSk
-	k2ID2FjCxTceSmHRR3NExBYPGnYJ3X8gV6L2Phmt7EqhQ9kRk2jXNv1d2ZBmqB0w6tO3Gc1JRAJVq
-	D96Y6TMe0FfOne2eL5Wp8uHjsSFYuVrp8oxjNQ1/atCBzxF+QE+PBrJHmV8jjGM+hStfWKWY9fXv6
-	c/tV3gUw==;
+	bh=W64wvaBLE2ncAEaWQEbbkG9/H+hLT6e4wOj3JRgvViY=; b=tLgI/KWa/YGXXpHnqaXevgpYQ7
+	cAJtEc5KOBIXk1IzajTuHxNKyKPHBy2/b8lv3o/AQ/QCEK/sPrHtZMmwVvxBQ7e88IabBQJzZ17+T
+	FgTIRdoezVQPVADIvYAAx3PlRbdFEsK24Se+S3i8nUUdQtBccfz9ESBH4SRvLSgndjXMU1L5aDyNC
+	VKTXqd0VlVyxBkX9wgjDTu6x/MEQeYHR4OztzfBYDg2iOPfBErnBcTBVJHJpm6tI7MW2d9AbuOZe5
+	cBa+RJZzxhGEi/nPRk/9g33/TnzSCELpv5TraIiKkrB5ornjAS4tKzDtAsCwArODXsd7cUae5PVt7
+	4q6vFjEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmWbs-0000000DN63-2FLQ;
-	Mon, 24 Feb 2025 11:26:52 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1tmWbr-0000000DN5U-3XDJ;
+	Mon, 24 Feb 2025 11:26:51 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmWT4-0000000DJH0-415a
+	id 1tmWT3-0000000DJGK-2ute
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 11:17:47 +0000
+	Mon, 24 Feb 2025 11:17:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id A39C7611AB;
-	Mon, 24 Feb 2025 11:17:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40AB4C4CED6;
-	Mon, 24 Feb 2025 11:17:45 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0702F5C669A;
+	Mon, 24 Feb 2025 11:17:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB8B5C4CEE6;
+	Mon, 24 Feb 2025 11:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740395866;
-	bh=A/yfuazG+qESiLsyBVEC3pbI9kV0+/kUKUlQ4kxi0nU=;
+	s=k20201202; t=1740395864;
+	bh=UzEgT/HDpje1yJ5QuOfWqdM8zDdkO2fm180qnShmTvM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WjS3vRDu+xfFb2/mqdkbwez2gemKwAPU8vqEmS3SD0krxViKbrkkdQTjECOO8a/m1
-	 T6TaRoMwW8v2y3mfP44pa8+zW2//q9iTnRBegeR5KL39Bg8Rsi2DlowdQjvxSzkeaM
-	 nA5RDE2JGAQfSQ/m1t009SVYPRqWXj0YWDbGe37v5QqEqVLMm1EpKArYb/OLYg2sks
-	 1VusAiJ1WYWPCwAXenPeCqZQ1s/yIGkfqcnzpVCyUTslC+fga/v1+weOOoFjTr+UPw
-	 ZMBoURt8YlF3l9vLggJm0tajjVmr/Sv8lXz9XAyO2S7NKJcR7QG374DfUlqD75dW+H
-	 XZveLj0CM9c3Q==
+	b=YE9ZfMko6DyGxbtxTmL10OZ/Axl6TJGvBui2QWKmW6W2Y+u4U6GzkjgRCE0IJJSg9
+	 pL8oDGjyBdwbOVq4AhkeKZzYeEeI3PhXZ0UNBfwmXF5snn8dACdnshNv9ZAc4DCJlT
+	 WnuoUzJ7x6lkTjyqGtx4mc5XYMM/axnnxMnY47ZGsVfXacZUOhL3SaeyfGpmpFL6pk
+	 Vw99TBWR/HV1b7olinZ0vaeRkBlXl9Gkrea31EyPPIadp3BcydGPKkiPf1ApVBy4vd
+	 KhckvBXVskL4Ui3sasGGe9g3rpLAQTuPaQxng+uyZVfhddtUjbxZnvBx9NbAx6anfJ
+	 g5OtzZZ2qiasg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Maurizio Lombardi <mlombard@redhat.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
+Cc: Christopher Lentocha <christopherericlentocha@gmail.com>,
+	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.13 24/32] nvme-tcp: add basic support for the C2HTermReq PDU
-Date: Mon, 24 Feb 2025 06:16:30 -0500
-Message-Id: <20250224111638.2212832-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 23/32] nvme-pci: quirk Acer FA100 for non-uniqueue identifiers
+Date: Mon, 24 Feb 2025 06:16:29 -0500
+Message-Id: <20250224111638.2212832-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250224111638.2212832-1-sashal@kernel.org>
 References: <20250224111638.2212832-1-sashal@kernel.org>
@@ -61,6 +62,9 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.13.4
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250224_031745_866652_A6285FA4 
+X-CRM114-Status: GOOD (  16.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,101 +79,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Maurizio Lombardi <mlombard@redhat.com>
+From: Christopher Lentocha <christopherericlentocha@gmail.com>
 
-[ Upstream commit 84e009042d0f3dfe91bec60bcd208ee3f866cbcd ]
+[ Upstream commit fcd875445866a5219cf2be3101e276b21fc843f3 ]
 
-Previously, the NVMe/TCP host driver did not handle the C2HTermReq PDU,
-instead printing "unsupported pdu type (3)" when received. This patch adds
-support for processing the C2HTermReq PDU, allowing the driver
-to print the Fatal Error Status field.
+In order for two Acer FA100 SSDs to work in one PC (in the case of
+myself, a Lenovo Legion T5 28IMB05), and not show one drive and not
+the other, and sometimes mix up what drive shows up (randomly), these
+two lines of code need to be added, and then both of the SSDs will
+show up and not conflict when booting off of one of them. If you boot
+up your computer with both SSDs installed without this patch, you may
+also randomly get into a kernel panic (if the initrd is not set up) or
+stuck in the initrd "/init" process, it is set up, however, if you do
+apply this patch, there should not be problems with booting or seeing
+both contents of the drive. Tested with the btrfs filesystem with a
+RAID configuration of having the root drive '/' combined to make two
+256GB Acer FA100 SSDs become 512GB in total storage.
 
-Example of output:
-nvme nvme4: Received C2HTermReq (FES = Invalid PDU Header Field)
+Kernel Logs with patch applied (`dmesg -t | grep -i nvm`):
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+```
+...
+nvme 0000:04:00.0: platform quirk: setting simple suspend
+nvme nvme0: pci function 0000:04:00.0
+nvme 0000:05:00.0: platform quirk: setting simple suspend
+nvme nvme1: pci function 0000:05:00.0
+nvme nvme1: missing or invalid SUBNQN field.
+nvme nvme1: allocated 64 MiB host memory buffer.
+nvme nvme0: missing or invalid SUBNQN field.
+nvme nvme0: allocated 64 MiB host memory buffer.
+nvme nvme1: 8/0/0 default/read/poll queues
+nvme nvme1: Ignoring bogus Namespace Identifiers
+nvme nvme0: 8/0/0 default/read/poll queues
+nvme nvme0: Ignoring bogus Namespace Identifiers
+nvme0n1: p1 p2
+...
+```
+
+Kernel Logs with patch not applied (`dmesg -t | grep -i nvm`):
+
+```
+...
+nvme 0000:04:00.0: platform quirk: setting simple suspend
+nvme nvme0: pci function 0000:04:00.0
+nvme 0000:05:00.0: platform quirk: setting simple suspend
+nvme nvme1: pci function 0000:05:00.0
+nvme nvme0: missing or invalid SUBNQN field.
+nvme nvme1: missing or invalid SUBNQN field.
+nvme nvme0: allocated 64 MiB host memory buffer.
+nvme nvme1: allocated 64 MiB host memory buffer.
+nvme nvme0: 8/0/0 default/read/poll queues
+nvme nvme1: 8/0/0 default/read/poll queues
+nvme nvme1: globally duplicate IDs for nsid 1
+nvme nvme1: VID:DID 1dbe:5216 model:Acer SSD FA100 256GB firmware:1.Z.J.2X
+nvme0n1: p1 p2
+...
+```
+
+Signed-off-by: Christopher Lentocha <christopherericlentocha@gmail.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/tcp.c  | 43 ++++++++++++++++++++++++++++++++++++++++
- include/linux/nvme-tcp.h |  2 ++
- 2 files changed, 45 insertions(+)
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 841238f38fdda..038b35238c26d 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -763,6 +763,40 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 	return 0;
- }
- 
-+static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
-+		struct nvme_tcp_term_pdu *pdu)
-+{
-+	u16 fes;
-+	const char *msg;
-+	u32 plen = le32_to_cpu(pdu->hdr.plen);
-+
-+	static const char * const msg_table[] = {
-+		[NVME_TCP_FES_INVALID_PDU_HDR] = "Invalid PDU Header Field",
-+		[NVME_TCP_FES_PDU_SEQ_ERR] = "PDU Sequence Error",
-+		[NVME_TCP_FES_HDR_DIGEST_ERR] = "Header Digest Error",
-+		[NVME_TCP_FES_DATA_OUT_OF_RANGE] = "Data Transfer Out Of Range",
-+		[NVME_TCP_FES_R2T_LIMIT_EXCEEDED] = "R2T Limit Exceeded",
-+		[NVME_TCP_FES_UNSUPPORTED_PARAM] = "Unsupported Parameter",
-+	};
-+
-+	if (plen < NVME_TCP_MIN_C2HTERM_PLEN ||
-+	    plen > NVME_TCP_MAX_C2HTERM_PLEN) {
-+		dev_err(queue->ctrl->ctrl.device,
-+			"Received a malformed C2HTermReq PDU (plen = %u)\n",
-+			plen);
-+		return;
-+	}
-+
-+	fes = le16_to_cpu(pdu->fes);
-+	if (fes && fes < ARRAY_SIZE(msg_table))
-+		msg = msg_table[fes];
-+	else
-+		msg = "Unknown";
-+
-+	dev_err(queue->ctrl->ctrl.device,
-+		"Received C2HTermReq (FES = %s)\n", msg);
-+}
-+
- static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 		unsigned int *offset, size_t *len)
- {
-@@ -784,6 +818,15 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 		return 0;
- 
- 	hdr = queue->pdu;
-+	if (unlikely(hdr->type == nvme_tcp_c2h_term)) {
-+		/*
-+		 * C2HTermReq never includes Header or Data digests.
-+		 * Skip the checks.
-+		 */
-+		nvme_tcp_handle_c2h_term(queue, (void *)queue->pdu);
-+		return -EINVAL;
-+	}
-+
- 	if (queue->hdr_digest) {
- 		ret = nvme_tcp_verify_hdgst(queue, queue->pdu, hdr->hlen);
- 		if (unlikely(ret))
-diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-index e07e8978d691b..e435250fcb4d0 100644
---- a/include/linux/nvme-tcp.h
-+++ b/include/linux/nvme-tcp.h
-@@ -13,6 +13,8 @@
- #define NVME_TCP_ADMIN_CCSZ	SZ_8K
- #define NVME_TCP_DIGEST_LENGTH	4
- #define NVME_TCP_MIN_MAXH2CDATA 4096
-+#define NVME_TCP_MIN_C2HTERM_PLEN	24
-+#define NVME_TCP_MAX_C2HTERM_PLEN	152
- 
- enum nvme_tcp_pfv {
- 	NVME_TCP_PFV_1_0 = 0x0,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 99c2983dbe6c8..d2eeba15c73b3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3715,6 +3715,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1dbe, 0x5216),   /* Acer/INNOGRIT FA100/5216 NVMe SSD */
++		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1e49, 0x0021),   /* ZHITAI TiPro5000 NVMe SSD */
 -- 
 2.39.5
 
