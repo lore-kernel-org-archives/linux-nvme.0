@@ -4,55 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C187C021B5
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83A4CC021A6
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2s4Slpvg23Q8+W64pDcpTsIacl0lFncqCWszfdy/rSk=; b=c0dkFJxaSMKVMp+hRSW+iyOyaD
-	8ZAxtMqHzdT9wBATvw1I5EO4H6rm9Xx9QAr4512y5swcYDgnoTUcpRHO5DCWEVasg8ZEXOmyir7IP
-	jerBHaaGUwvbB6hwTF+Gs70KoiEAV7YGzGoQkANlxI4rB/dyTZWJGw1HA7KgV5oDynvoJJfh4HfHL
-	y3IUSyPT+T9tDix4SHQXItfS6xIrW7Q+N6r926kIHWqJNCUIEYHGnCFvdt6zxKxq1h7PjtLhsiPht
-	JrJa/Q98rnPI7+OB3mNivQnQnMZ1yvNvR9qWUtCrgX66h17QRf595Ep4agUX3NM3AL0zs3Yw7cSCx
-	diZpBFbQ==;
+	bh=HSgVjV66P5MI4y+TRideCR9wzQSngZ+rXdQjlBKD+N0=; b=Mkg3VNk+VX/+66sADMPYFt+nHQ
+	Me9MoXtVVHDGqtIfS4//7hl4J7ge/vNxHLCgyZeg7HCIFsiU3Dw4G/otbNHMPcsonc5O/z3XLTAYr
+	GGOfpO7IHE6R+XeZHbGnnX0u8VajRZjqCeeb2iWBNbVxmTW8Oh2g7y4EU3Z8snqlnfS9KwRooVhxn
+	fdekLxfIfERxVRauJc8bLYcMI6dMBkuOR+EhlTll1PUy3yITvCAbhMbk5Cu/XE+Xv+x9X9ZaOthQZ
+	mPg7pWYjAECW7+YrJrTAzT9Jma02BZTnxTc6ba9u7LqmbSA0QNTO/+p+lh1zg5vQ1y2McSD6X97vB
+	E0bxW0aQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmWjN-0000000DQNd-497c;
-	Mon, 24 Feb 2025 11:34:37 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tmWjQ-0000000DQOq-2hI8;
+	Mon, 24 Feb 2025 11:34:40 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmWVe-0000000DKOq-2gna
+	id 1tmWVg-0000000DKPa-0R00
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 11:20:27 +0000
+	Mon, 24 Feb 2025 11:20:29 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 31FBE5C6A59;
-	Mon, 24 Feb 2025 11:19:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD58C4CEEB;
-	Mon, 24 Feb 2025 11:20:24 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8A8905C690A;
+	Mon, 24 Feb 2025 11:19:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F6DCC4CEE8;
+	Mon, 24 Feb 2025 11:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740396025;
-	bh=bwWqZcqslCrnTxZAJGJxH75X7i7Q0AGJPhsWGc/FhxM=;
+	s=k20201202; t=1740396027;
+	bh=WhZhiJFmlviInd25I00iuuq/F/ZpFPymnJWovYMggBc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qLo0ACEmS9Fc4iDoXuLQ/xNQTnp12A3axuaBdzOZ7quo+PavVlpbQIpHJULEg9cpF
-	 hjed1cfDT383hGo/+r5E67h0dSeeUHzrrA1M/FgNQg23yvvCFkHkiu3TYMzp0HH+Cu
-	 ySi7tbzjn1PEXWZmgFOYrVOCxS0svy7qcU83spiKgfq/wD/f4RMp/7fb6MT8035pTx
-	 yNOULhTP6nsgSMuoHj4bdxaQi3c4UXTBBdDj8fe8IniE3Agcul7W4JbQxsy/WC/i/q
-	 LDJe8mu1mhbFHHer1wG4SgyQ7iLf1mYBy5HZfiLtM6Tkj+S++vxxsCR5qI5x6s0g8O
-	 ncOVEGvuPvUmQ==
+	b=TOjvUXUu9ZTIO7G/dgvA0obQaOWwbJ6LbOpub9/LRiTOjZTTPAe2plh/ZS4//HcUr
+	 a4cfs9uP4p939slsU863zONMCr/gn7XUB2ZW+kfwLcPU6D3k1ehLzIG5XM6DZK7M8h
+	 DAlk2k2bqqIJCS2dDRF/7s8iMarDrnTm5UsIicdVdF/OAFhTMVW8/bC+tqOKPu2me4
+	 5TFglBpySyrLcYz8TC3cIcjMYio71PWKWA3sAewhbMgsgNeICwWWLsml+PSYIcZFpC
+	 3uQ1165uga8nz8dUB4/CXasdTNqWCRt0zb0vC+TY9o1A47g/091i36P8MvqM8yPJ49
+	 zVlgZDfnUqLVw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Maurizio Lombardi <mlombard@redhat.com>,
+Cc: Ruozhu Li <david.li@jaguarmicro.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 09/12] nvme-tcp: add basic support for the C2HTermReq PDU
-Date: Mon, 24 Feb 2025 06:19:57 -0500
-Message-Id: <20250224112002.2214613-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 10/12] nvmet-rdma: recheck queue state is LIVE in state lock in recv done
+Date: Mon, 24 Feb 2025 06:19:58 -0500
+Message-Id: <20250224112002.2214613-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250224112002.2214613-1-sashal@kernel.org>
 References: <20250224112002.2214613-1-sashal@kernel.org>
@@ -62,8 +63,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.129
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250224_032026_769330_F899D35C 
-X-CRM114-Status: GOOD (  15.38  )
+X-CRM114-CacheID: sfid-20250224_032028_189725_E6BB5E75 
+X-CRM114-Status: GOOD (  11.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,101 +79,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Maurizio Lombardi <mlombard@redhat.com>
+From: Ruozhu Li <david.li@jaguarmicro.com>
 
-[ Upstream commit 84e009042d0f3dfe91bec60bcd208ee3f866cbcd ]
+[ Upstream commit 3988ac1c67e6e84d2feb987d7b36d5791174b3da ]
 
-Previously, the NVMe/TCP host driver did not handle the C2HTermReq PDU,
-instead printing "unsupported pdu type (3)" when received. This patch adds
-support for processing the C2HTermReq PDU, allowing the driver
-to print the Fatal Error Status field.
+The queue state checking in nvmet_rdma_recv_done is not in queue state
+lock.Queue state can transfer to LIVE in cm establish handler between
+state checking and state lock here, cause a silent drop of nvme connect
+cmd.
+Recheck queue state whether in LIVE state in state lock to prevent this
+issue.
 
-Example of output:
-nvme nvme4: Received C2HTermReq (FES = Invalid PDU Header Field)
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Signed-off-by: Ruozhu Li <david.li@jaguarmicro.com>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/tcp.c  | 43 ++++++++++++++++++++++++++++++++++++++++
- include/linux/nvme-tcp.h |  2 ++
- 2 files changed, 45 insertions(+)
+ drivers/nvme/target/rdma.c | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 29489c2c52fb9..f7ef727ee44e3 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -694,6 +694,40 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 	return 0;
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index a6d55ebb82382..298c46834a539 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -997,6 +997,27 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
+ 	nvmet_req_complete(&cmd->req, status);
  }
  
-+static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
-+		struct nvme_tcp_term_pdu *pdu)
++static bool nvmet_rdma_recv_not_live(struct nvmet_rdma_queue *queue,
++		struct nvmet_rdma_rsp *rsp)
 +{
-+	u16 fes;
-+	const char *msg;
-+	u32 plen = le32_to_cpu(pdu->hdr.plen);
++	unsigned long flags;
++	bool ret = true;
 +
-+	static const char * const msg_table[] = {
-+		[NVME_TCP_FES_INVALID_PDU_HDR] = "Invalid PDU Header Field",
-+		[NVME_TCP_FES_PDU_SEQ_ERR] = "PDU Sequence Error",
-+		[NVME_TCP_FES_HDR_DIGEST_ERR] = "Header Digest Error",
-+		[NVME_TCP_FES_DATA_OUT_OF_RANGE] = "Data Transfer Out Of Range",
-+		[NVME_TCP_FES_R2T_LIMIT_EXCEEDED] = "R2T Limit Exceeded",
-+		[NVME_TCP_FES_UNSUPPORTED_PARAM] = "Unsupported Parameter",
-+	};
-+
-+	if (plen < NVME_TCP_MIN_C2HTERM_PLEN ||
-+	    plen > NVME_TCP_MAX_C2HTERM_PLEN) {
-+		dev_err(queue->ctrl->ctrl.device,
-+			"Received a malformed C2HTermReq PDU (plen = %u)\n",
-+			plen);
-+		return;
-+	}
-+
-+	fes = le16_to_cpu(pdu->fes);
-+	if (fes && fes < ARRAY_SIZE(msg_table))
-+		msg = msg_table[fes];
++	spin_lock_irqsave(&queue->state_lock, flags);
++	/*
++	 * recheck queue state is not live to prevent a race condition
++	 * with RDMA_CM_EVENT_ESTABLISHED handler.
++	 */
++	if (queue->state == NVMET_RDMA_Q_LIVE)
++		ret = false;
++	else if (queue->state == NVMET_RDMA_Q_CONNECTING)
++		list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
 +	else
-+		msg = "Unknown";
-+
-+	dev_err(queue->ctrl->ctrl.device,
-+		"Received C2HTermReq (FES = %s)\n", msg);
++		nvmet_rdma_put_rsp(rsp);
++	spin_unlock_irqrestore(&queue->state_lock, flags);
++	return ret;
 +}
 +
- static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 		unsigned int *offset, size_t *len)
+ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
  {
-@@ -715,6 +749,15 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 		return 0;
+ 	struct nvmet_rdma_cmd *cmd =
+@@ -1038,17 +1059,9 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ 	rsp->req.port = queue->port;
+ 	rsp->n_rdma = 0;
  
- 	hdr = queue->pdu;
-+	if (unlikely(hdr->type == nvme_tcp_c2h_term)) {
-+		/*
-+		 * C2HTermReq never includes Header or Data digests.
-+		 * Skip the checks.
-+		 */
-+		nvme_tcp_handle_c2h_term(queue, (void *)queue->pdu);
-+		return -EINVAL;
-+	}
-+
- 	if (queue->hdr_digest) {
- 		ret = nvme_tcp_verify_hdgst(queue, queue->pdu, hdr->hlen);
- 		if (unlikely(ret))
-diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-index 57ebe1267f7fb..0278ce3ad1fbd 100644
---- a/include/linux/nvme-tcp.h
-+++ b/include/linux/nvme-tcp.h
-@@ -13,6 +13,8 @@
- #define NVME_TCP_ADMIN_CCSZ	SZ_8K
- #define NVME_TCP_DIGEST_LENGTH	4
- #define NVME_TCP_MIN_MAXH2CDATA 4096
-+#define NVME_TCP_MIN_C2HTERM_PLEN	24
-+#define NVME_TCP_MAX_C2HTERM_PLEN	152
+-	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&queue->state_lock, flags);
+-		if (queue->state == NVMET_RDMA_Q_CONNECTING)
+-			list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
+-		else
+-			nvmet_rdma_put_rsp(rsp);
+-		spin_unlock_irqrestore(&queue->state_lock, flags);
++	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE) &&
++	    nvmet_rdma_recv_not_live(queue, rsp))
+ 		return;
+-	}
  
- enum nvme_tcp_pfv {
- 	NVME_TCP_PFV_1_0 = 0x0,
+ 	nvmet_rdma_handle_command(queue, rsp);
+ }
 -- 
 2.39.5
 
