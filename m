@@ -4,60 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57362C021B8
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A50FC021B6
 	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 22:31:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Nw7biZXGAv6lIJ8dxcwXuNqFUNGABtB3Yb28XrDopqc=; b=remuPBEeq8CyJE9ALquZPiugXI
-	R3SWGnLXb4UQf6N0ITqrmWKEFed0E1agAG3uOwjbfE1ilX/ZmsXCVQFSbF1GRtS2tiMW5gSjawTEc
-	4bQsPamiMMNUFpWTgrADF+xphFWUsMmFvp/2EZX49MAI/GPlu3cM+csCWFbyuF14XMiwIwzkfOKmX
-	3kyKnQBgxNESfPDenuFisYosE4HHQUtFLpKGNE/ktnIUZNbBtaQaqU+xuKTCdpqWU3MAb4p7yYGY+
-	GHNd2ZAq4iTgOuSrxrQxv7enrTj1LqvSkUe6OIqdPaO7UlR5S3H7qI6tx0e1kBJAt5Tk8j8t9kjdr
-	UOWCdEiA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6UqsUN7VzF5T/ZujnGBFyar90t0eeE8GWPy9XthEMh8=; b=K39nScj/vAM8yaHZ7liePOSzbU
+	yx4LWcZm4MpTQ0U48MKq0bRYtt4NGYGEip7OAxraJ0ScSgpEwJ4x0wFDdpDROwfHQQkbeKu1lcoiN
+	WjmidBqKjqIr1Brkp2NwDgmvrejjGZOI/sUuOKa221IOnvsX/u2VmHCLVVWcXb+AG9ND9SVjFRrZ4
+	pNIfeGHmhhg6dsWS2UAht7sa2sUQRtj34VzCjoB5Eb6JIx06UQDO8nDYukvXEkTUarycTR5iNFkon
+	wIbKDJswhppkEAyGb/IklVTaEVdqgWOlFdaKLGUHhFTICxFmOASDOZEGo3/TKNRpZMO6JIpThE3Wq
+	tBNI9hXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmgzC-0000000FNcb-3M0h;
-	Mon, 24 Feb 2025 22:31:38 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1tmgzD-0000000FNcy-2EA1;
+	Mon, 24 Feb 2025 22:31:39 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmgya-0000000FNVu-0JTU
+	id 1tmgyZ-0000000FNVo-3d31
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 22:31:00 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 74450611FA;
-	Mon, 24 Feb 2025 22:30:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61C27C4CEE6;
-	Mon, 24 Feb 2025 22:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740436259;
-	bh=p/IFHAVjap4l+ke/N/IzPoZVdLMq/7iLO94XDHC0yf0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HjyDKn9ziMRE/QvR0U0drC3Ud+3DWwUosuA1aB/xZ7jf1B6J0RSbbxl/a0EPtROJL
-	 A9GuP7X1EY0HUOPilVd6AUDSVv/Tgq6Yi45C8C85FDQNGzrKi+selLqLKbt0rHuFtx
-	 GZX7+tBnztD3dbpqtKR8Utm7Wjbm/cRBF/c+eFClPpTvxpA8PkL4LlSBgG391UXlij
-	 ZY6PgNgoCEdlNv+IFoCrJVfkvggRj9rlc88qOKJUXu1R+2ac56WMSwBU2WLubxImWz
-	 4d1HrOiNchk7mcDl8a5aRn2w9P+q341m0u48NN0NtS8IOtu54LLKSLFH2mtPsWZYjy
-	 sQTWfhl8vCEvg==
-Message-ID: <e27ba7c9-109a-4a6b-b3c0-3892502799a9@kernel.org>
-Date: Tue, 25 Feb 2025 07:30:57 +0900
+	Mon, 24 Feb 2025 22:31:01 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BA5BA68C4E; Mon, 24 Feb 2025 23:30:53 +0100 (CET)
+Date: Mon, 24 Feb 2025 23:30:53 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 2/6] nvme-ioctl: use common type for user data addresses
+Message-ID: <20250224223053.GA15518@lst.de>
+References: <20250224182128.2042061-1-kbusch@meta.com> <20250224182128.2042061-3-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] nvme-ioctl: combine alloc and map
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
- hch@lst.de, sagi@grimberg.me
-Cc: Keith Busch <kbusch@kernel.org>
-References: <20250224182128.2042061-1-kbusch@meta.com>
- <20250224182128.2042061-6-kbusch@meta.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20250224182128.2042061-6-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250224182128.2042061-3-kbusch@meta.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250224_143100_039982_411FD603 
+X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,20 +59,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/25/25 03:21, Keith Busch wrote:
+On Mon, Feb 24, 2025 at 10:21:24AM -0800, Keith Busch wrote:
 > From: Keith Busch <kbusch@kernel.org>
 > 
-> The same pattern repeats, so combine it. Also, the existing mapping
-> leaks a request if a user requests to map a vectored fixed buffer, or
-> unsupportable metadata formts, so these get fixed here too.
+> The data type is represented as a u64, but the metadata type as a __user
+> void *. These two fields represent the same thing, so treating them so
+> differently looks a bit odd. Just pick one consistent type of
+> representation.
 
-s/formts/formats
+Yes, being consistent is good.  I would normally propagate the
+proper pointer type as far as possible, but I can live with this
+version if you add a little blurb why it's preferable.
 
-Maybe split this patch to have the fix come first with a Fixes tag ?
-
-Other than that, Looks OK to me.
-
--- 
-Damien Le Moal
-Western Digital Research
 
