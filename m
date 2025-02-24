@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09912C021A4
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 22:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04FD7C021B6
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 22:24:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AO7vZwUX7g5LASH+jeef3svGuSXpEF1Sj/dGP6z1YQ8=; b=Ph1ZuSeY6q128gjRIenmVz84G7
-	JLjpL8U54WoapcN7Hujpu/v3kh39VWyUou/WcFn5bmPhsVxW3BnSW3qQeKLKgzBYos7dlT8PA6Ew2
-	KSUHUplklVWAvuX70a/KieJy6S+hX2eQShJb1YTnS+cywQTG+Fr2nyGsWvY28IY71R5Ys39uJVWNE
-	zezXfbHu1NWY1onsijK/Qt/MdO1yAKo+rtC8EzkBJPEC2H0jftMiLLawtTsK0Ffl4kT3K9YBJ4ctc
-	ESYSldKqZUju1dvIjUvHyYajnV2iHYO2jlCChfoJxd49ThUf+3ymEIO8whiw2zs1uaRpzwpgO/SKV
-	5UC7iubw==;
+	bh=FB2coRC5Xvdz2JkQeRjRUfHW18kfF2vXDsAXY+wq5yw=; b=MF1KKlC1h53nxbYGPbd4a5ebaW
+	rPhcri3yojD14hCUHRMkiveERxLMQ9AFt2QZqkYWuxGWngFh8BNgPewOUL2VgW2e4ZQEUfNElh/Y3
+	QaTBSd5qZNYeb5LcUq4k55gj6h7GdkqdD8FRAdKR+3l+ZozImhT8IHK10yBk2bV9B7cwvkW2yturf
+	d+eMxNfJpGQdqGUSYJFi2/Su9ENVUYG48yduejzsSgjlHlmZgAjUHoF4vF889TPk7yA6G6KSZWudz
+	WcjE46Qif4kCDtnTFC38kc1lLZTHZiSPskSShQlubFDLewqShHJ4IccFPrNPKKfJEZDxeT7FTa8HX
+	8U9ltQSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmgqi-0000000FLvT-2SSW;
-	Mon, 24 Feb 2025 22:22:52 +0000
+	id 1tmgsc-0000000FMKc-29BP;
+	Mon, 24 Feb 2025 22:24:50 +0000
 Received: from tor.source.kernel.org ([2600:3c04::f03c:95ff:fe5e:7468])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmgqh-0000000FLv0-3fFb
+	id 1tmgrm-0000000FMCw-2e6e
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 22:22:51 +0000
+	Mon, 24 Feb 2025 22:23:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 22522611F6;
-	Mon, 24 Feb 2025 22:22:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5CAC4CED6;
-	Mon, 24 Feb 2025 22:22:50 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 0563A611F6;
+	Mon, 24 Feb 2025 22:23:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05621C4CEE6;
+	Mon, 24 Feb 2025 22:23:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740435770;
-	bh=xzCjgK8smtrcY9LxROh/ezjTZ18hNMFYASOvBpCiD7o=;
+	s=k20201202; t=1740435837;
+	bh=kqT4tDg5dCkD3hgQSrkH5o63fPewR7O1WP+cJX4FB94=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jwDiVRlSoMFzEk2yedT5FnNnJJP/vqtbyymc9yyl2F/JCt6J6vrSZt+Wy9GmC9Sa4
-	 VAzBncGanp67bd6JhD3r+ZHsTdTJ8JS131uKI7TnxOP5KO8GLtDGmOLWGZOd11AarI
-	 3ySsvV/bSzIpM1Ic0uBMzJiu47f/H6rEBv1If8mOKI9O9EwBmBaUUKaZjuwCEqPnB/
-	 0pXerEAUcQNqgZ8j0NNvxnmYHqzXgAv+TfY6Pu2mpUzttVK+GDMRy5rlD3QRzYrwIl
-	 ImY2dx5NIXfsOrAKbIjRYkMGkwmV+FRlttQeiEg7kSju9V3o1d44qocqb4egzxO8UJ
-	 Vv2gCV3HOttuQ==
-Message-ID: <528e1820-1a98-4937-a3d0-4c959260c022@kernel.org>
-Date: Tue, 25 Feb 2025 07:22:49 +0900
+	b=m6SWXZOYcJms528jmQGsYJm/NVyFTJeLeP3ZUApiptjmqXh3Dy3+UJNPuZgWwWHTi
+	 qTEip2FB29TstLOhNSIcd74wE57+PCYfW+UDm5LLkUs6U0RBN8WyoOJiwSwJncj3IK
+	 wW7rRQdm0fBHWMwcg/7KuZVDi18H3HB7RuYg0IS9mYaXlFWiOqATEAUXKP2eiV2Auy
+	 bNKIi1U6tMUBmkDu/LtxkutGk8vIacPJnn8V8FijTcV9fUb8MwT96Tb9yD0mVr0mme
+	 4c2ZlPJgFvOirNaODU6zYAfCjbcVIj16v7XLx1atHGsUYCS1Ak+v7sxOaG8nbBhcBf
+	 mJevczY/PSiEw==
+Message-ID: <84baa0e9-de75-4a22-b5d7-b43de26a99d5@kernel.org>
+Date: Tue, 25 Feb 2025 07:23:56 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] nvme-ioctl: use common type for user data addresses
+Subject: Re: [PATCH 3/6] nvme-ioctl: fold 'vec' into flags
 To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
  hch@lst.de, sagi@grimberg.me
 Cc: Keith Busch <kbusch@kernel.org>
 References: <20250224182128.2042061-1-kbusch@meta.com>
- <20250224182128.2042061-3-kbusch@meta.com>
+ <20250224182128.2042061-4-kbusch@meta.com>
 From: Damien Le Moal <dlemoal@kernel.org>
 Content-Language: en-US
 Organization: Western Digital Research
-In-Reply-To: <20250224182128.2042061-3-kbusch@meta.com>
+In-Reply-To: <20250224182128.2042061-4-kbusch@meta.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -75,16 +75,13 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 2/25/25 03:21, Keith Busch wrote:
 > From: Keith Busch <kbusch@kernel.org>
 > 
-> The data type is represented as a u64, but the metadata type as a __user
-> void *. These two fields represent the same thing, so treating them so
-> differently looks a bit odd. Just pick one consistent type of
-> representation.
+> The vec indicator is already a flag and used as such, so use that type
+> instead of implicitly relying on a bool to happen to align to the enum
+> value.
 > 
 > Signed-off-by: Keith Busch <kbusch@kernel.org>
 
-Maybe mention that were needed nvme_to_user_ptr() to not lose the __user attribute ?
-
-Otherwise, looks OK to me.
+Looks good to me.
 
 Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
