@@ -4,50 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB4E0C021BC
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 15:07:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47BA8C021A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 15:08:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OJbmtTlGE7snnRZu4OmMC0z9QMTqabIH71AU8wkyiWI=; b=pNJzhR/9hpsUTXKwg4k8T/dYhj
-	KK9OQvZ+O89FZNP70Pxt/Wkz1vNu9qN2tCjMpew6o+9aFiTYOl5fdncjT3ad61Rouvr4WUsZUnSW8
-	sc+s5G3Ir7pKkgHmR7moSRBLZCxogzYI6DLnjbfbWjF2RFG+w4ci72jDvSB6d7NgvM27xcqvcZ/aA
-	k16baZ8Xw84ofnl0fabBPEzgQzdsel3LGgacug/H9qyaGocPuPuJalvlqvlua8UxO9CPmN15QCGPK
-	JNkwdSqa2muFRfcQT1D5P+3t8CZ3Ml6uD6AeGSyS2GlSIIAQDdzenzzzXnTI1XkcsCowtBgufxuq5
-	lwWsRm9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=x+6zpUoVmSt7mVVtidfrr/RSt6Xh/y+rsJiknX6zYf4=; b=L1L5/jPaypUVqa5L9ht07fST7i
+	IqKSMKDBnR/UUcpeOofbwPAZtv/OpbDPCEJtJdk0rCE241pmGEnp7UgsWoXzFW1ksUPSRT3Tworaf
+	36ogiq2bk1lUXzc6wX+2ZwXuI/M7xwlGm/0aj3TbJppYm9qtb8f217yJfjA9iKoKSR6pVuFVD/puY
+	USKRz/rMweadl7iRrYi1GfvXxLyBRRSV1HT96iycC2G9fuDkbqTbd1PJyc3oXR3UiYZJf+mU3HqOA
+	koG5eQEJdC6EXsgRohN/hXRUvXdfBiq92WUJjuvxHJ2W4TJFFPqR5M2umwv7viOOOUVx4UuyB/SQt
+	MIRiMKrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tma3C-0000000EDlL-1R2a;
-	Mon, 24 Feb 2025 15:07:18 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1tma4e-0000000EE3t-2ZCB;
+	Mon, 24 Feb 2025 15:08:48 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmZbD-0000000E7vC-0j8n
+	id 1tmZdr-0000000E8fI-3xdO
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 14:38:25 +0000
-Received: from localhost (25.205.forpsi.net [80.211.205.25])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id e2c9ed53 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Mon, 24 Feb 2025 15:38:18 +0100 (CET)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 24 Feb 2025 15:38:16 +0100
-Message-Id: <D80R3XYM3OZ0.K8YLZIQ7XUDW@bsdbackstore.eu>
-Cc: <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
- <linux-nvme@lists.infradead.org>, <hare@kernel.org>
-Subject: Re: [PATCH] nvme-tcp: add basic support for the C2HTermReq PDU
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Hannes Reinecke" <hare@suse.de>, "Maurizio Lombardi"
- <mlombard@redhat.com>, <kbusch@kernel.org>
-X-Mailer: aerc
-References: <20250214190012.311960-1-mlombard@redhat.com>
- <91041933-6a18-490c-8090-4e03d15d3cf3@suse.de>
-In-Reply-To: <91041933-6a18-490c-8090-4e03d15d3cf3@suse.de>
+	Mon, 24 Feb 2025 14:41:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740408065;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=x+6zpUoVmSt7mVVtidfrr/RSt6Xh/y+rsJiknX6zYf4=;
+	b=gBNtIVHbBUZn0CxSVds38IQf5KBmbhQN4hecdXOahVm0GX+MkwWVKQPvVvTf18LAEU0DuO
+	qS4txaelz8elM9FoXv07+uiARuFPFuMmPKpoydjOeQWLVDoC2c0eRhuoSKYgLVfgFw5olv
+	Rx54EQIfNHqIg2hKrXJ2H9SQJRbub3c=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-613-g1kzwIgaOduV8hn2jkZIXg-1; Mon,
+ 24 Feb 2025 09:41:03 -0500
+X-MC-Unique: g1kzwIgaOduV8hn2jkZIXg-1
+X-Mimecast-MFC-AGG-ID: g1kzwIgaOduV8hn2jkZIXg_1740408062
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E97041801A1E;
+	Mon, 24 Feb 2025 14:41:01 +0000 (UTC)
+Received: from rocky.redhat.com (unknown [10.45.224.117])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A0FD51800359;
+	Mon, 24 Feb 2025 14:40:59 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	hare@kernel.org,
+	mlombard@bsdbackstore.eu
+Subject: [PATCH] nvme-tcp: Fix a C2HTermReq error message
+Date: Mon, 24 Feb 2025 15:40:58 +0100
+Message-ID: <20250224144058.693927-1-mlombard@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: fdSU0yQT0vQgRJu7sabL8oaEyKdDZugYlFLaAkXOwaY_1740408062
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250224_063823_547531_5D2B826A 
-X-CRM114-Status: GOOD (  12.99  )
+X-CRM114-CacheID: sfid-20250224_064108_052094_199EE898 
+X-CRM114-Status: GOOD (  11.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,140 +85,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Feb 17, 2025 at 11:56 AM CET, Hannes Reinecke wrote:
-> Can you add support for nvmet, too, such that we can test the patch?
-> (And maybe even a blktest script for it?)
+In H2CTermReq, a FES with value 0x05 means "R2T Limit Exceeded"; but
+in C2HTermReq the same value has a different meaning (Data Transfer Limit
+Exceeded).
 
-Possible target-side implementation here.
+Fixes: 84e009042d0f ("nvme-tcp: add basic support for the C2HTermReq PDU")
 
-Question is if it's acceptable to send the packet in
-blocking mode (MSG_DONTWAIT unset).
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Errors in nvmet_send_c2h_term() can be safely ignored because in any
-case we are going to perform a fatal error recovery immediately after.
-
-Example of dmesg in the target:
-nvmet_tcp: queue 2: header digest error: recv 0xcf5f1cf7 expected 0x751607d=
-3
-nvmet: ctrl 1 fatal error occurred!
-
-Example of dmesg in the host:
-nvme nvme0: Received C2HTermReq (FES =3D Header Digest Error)
-nvme nvme0: C2HTermReq: invalid digest =3D 0xcf5f1cf7
-
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 7c51c2a8c109..16438f2a624d 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -217,6 +217,9 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_send_c2h_term(struct nvmet_tcp_queue *queue,
-+				enum nvme_tcp_fatal_error_status fes,
-+				u32 field_offset);
-=20
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -322,6 +325,8 @@ static int nvmet_tcp_verify_hdgst(struct nvmet_tcp_queu=
-e *queue,
- 	nvmet_tcp_hdgst(queue->rcv_hash, pdu, len);
- 	exp_digest =3D *(__le32 *)(pdu + hdr->hlen);
- 	if (recv_digest !=3D exp_digest) {
-+		/* Restore the original value for C2HTermReq */
-+		*(__le32 *)(pdu + hdr->hlen) =3D recv_digest;
- 		pr_err("queue %d: header digest error: recv %#x expected %#x\n",
- 			queue->idx, le32_to_cpu(recv_digest),
- 			le32_to_cpu(exp_digest));
-@@ -999,6 +1004,7 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_=
-tcp_queue *queue)
- 		pr_err("ttag %u unexpected data offset %u (expected %u)\n",
- 			data->ttag, le32_to_cpu(data->data_offset),
- 			cmd->rbytes_done);
-+		nvmet_send_c2h_term(queue, NVME_TCP_FES_DATA_OUT_OF_RANGE, 0);
- 		goto err_proto;
- 	}
-=20
-@@ -1012,6 +1018,8 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet=
-_tcp_queue *queue)
- 		     cmd->pdu_len =3D=3D 0 ||
- 		     cmd->pdu_len > NVMET_TCP_MAXH2CDATA)) {
- 		pr_err("H2CData PDU len %u is invalid\n", cmd->pdu_len);
-+		if (cmd->pdu_len > NVMET_TCP_MAXH2CDATA)
-+			nvmet_send_c2h_term(queue, NVME_TCP_FES_DATA_LIMIT_EXCEEDED, 0);
- 		goto err_proto;
- 	}
- 	cmd->pdu_recv =3D 0;
-@@ -1173,6 +1181,55 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_=
-queue *queue,
- 	return ret;
- }
-=20
-+static void nvmet_send_c2h_term(struct nvmet_tcp_queue *queue,
-+				enum nvme_tcp_fatal_error_status fes,
-+				u32 field_offset)
-+{
-+	struct nvme_tcp_cmd_pdu *cmd =3D &queue->pdu.cmd;
-+	struct nvme_tcp_term_pdu *term_pdu;
-+	size_t cmd_size =3D nvmet_tcp_pdu_size(cmd->hdr.type);
-+	size_t pdu_size =3D sizeof(*term_pdu) + cmd_size;
-+	struct msghdr msg =3D { .msg_flags =3D MSG_EOR };
-+	__le32 fei;
-+	struct bio_vec bvec;
-+
-+	if (!cmd_size)
-+		return;
-+
-+	term_pdu =3D kzalloc(pdu_size, GFP_KERNEL);
-+	if (!term_pdu)
-+		return;
-+
-+	switch (fes) {
-+	case NVME_TCP_FES_INVALID_PDU_HDR:
-+	case NVME_TCP_FES_UNSUPPORTED_PARAM:
-+		fei =3D field_offset;
-+		break;
-+	case NVME_TCP_FES_HDR_DIGEST_ERR:
-+		fei =3D le32_to_cpu(*(__le32 *)((u8 *)cmd + cmd->hdr.hlen));
-+		break;
-+	default:
-+		fei =3D 0;
-+		break;
-+	}
-+	term_pdu->feil =3D cpu_to_le16(lower_16_bits(fei));
-+	term_pdu->feiu =3D cpu_to_le16(upper_16_bits(fei));
-+	term_pdu->fes  =3D cpu_to_le16(fes);
-+
-+	memcpy((u8 *)term_pdu + sizeof(*term_pdu), cmd, cmd_size);
-+
-+	term_pdu->hdr.type  =3D nvme_tcp_c2h_term;
-+	term_pdu->hdr.flags =3D 0;
-+	term_pdu->hdr.hlen  =3D sizeof(*term_pdu);
-+	term_pdu->hdr.plen  =3D cpu_to_le32(pdu_size);
-+
-+	bvec_set_virt(&bvec, (void *)term_pdu, pdu_size);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, pdu_size);
-+	sock_sendmsg(queue->sock, &msg);
-+
-+	kfree(term_pdu);
-+}
-+
- static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
- {
- 	struct nvme_tcp_hdr *hdr =3D &queue->pdu.cmd.hdr;
-@@ -1223,6 +1280,7 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_qu=
-eue *queue)
-=20
- 	if (queue->hdr_digest &&
- 	    nvmet_tcp_verify_hdgst(queue, &queue->pdu, hdr->hlen)) {
-+		nvmet_send_c2h_term(queue, NVME_TCP_FES_HDR_DIGEST_ERR, 0);
- 		nvmet_tcp_fatal_error(queue); /* fatal */
- 		return -EPROTO;
- 	}
---=20
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 8a9131c95a3d..183cc58ecded 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -775,7 +775,7 @@ static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
+ 		[NVME_TCP_FES_PDU_SEQ_ERR] = "PDU Sequence Error",
+ 		[NVME_TCP_FES_HDR_DIGEST_ERR] = "Header Digest Error",
+ 		[NVME_TCP_FES_DATA_OUT_OF_RANGE] = "Data Transfer Out Of Range",
+-		[NVME_TCP_FES_R2T_LIMIT_EXCEEDED] = "R2T Limit Exceeded",
++		[NVME_TCP_FES_DATA_LIMIT_EXCEEDED] = "Data Transfer Limit Exceeded",
+ 		[NVME_TCP_FES_UNSUPPORTED_PARAM] = "Unsupported Parameter",
+ 	};
+ 
+-- 
 2.43.5
-
-
 
 
