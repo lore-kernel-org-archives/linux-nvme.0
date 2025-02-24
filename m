@@ -4,61 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62B50C021A4
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 22:48:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C33D9C021A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 23:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YUu6RIhyHTnqhUYX8cihMiaR6Pe8SQ1UERqGEfJjcaw=; b=mqmEgVV9Tor8s5muyiSyEJoIIe
-	4UveLAOSMyX2L3zqVo18SWLHCUfnQ0NYtm3RJ4/QHuHn/EoLHPjJ/AVFS2v9nhuMVLLxnQlHk4Mo2
-	duCIPEVu950PYWMPmnH+i3t7VYp9FhHEFc5J/cyoZOIAZ1DSNWJoBSUaiAc9A1QtnXDD1yKDy+0lz
-	KWhG5irVlr6IF2pRq4Bh2nn1GO/ise0/hglgM0qQgsQgKIJKFeP2n0lkmhq8yqjVWfyCiC+cvR8fm
-	5VG3Cd+H+lYdZcues99Dj04b29W8YIb0nrAHuYUSyKmMu36OgOEsH7DUF2httmX33IiezycjsoFye
-	xP6Z+07g==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=b+bhWJnq006/po1jlbl12oCks9
+	o8PNn6z1jlBaw3fmAN5VMe7ywRU0d5niKpLFnd8AWjuMtV8BnoqHspHDOIh3f+zrJZQmeDlxeLZ5g
+	ReBnliAWWRrBLxrwSke6bF5SaSvYq392TcrOsDoCKFH4SQJU04lmnX7+JoajqPzfPGYREdVNGLWQ7
+	AD2bOMwZWO0o3hjHVLFVwh4PCOgqWd1TYIxJdsAy33a1WG6i0Ngi5xg7Gu1SRCE4Hl6E0PTUsfFt6
+	4SfeXc27Pa5eQTBx9ZAa5kC/vFii7wRbUNNZ+mLq6q6PNEWPCN0UEHwof6hb7PfcUaumbeCfleQKE
+	cdoNpehA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmhF0-0000000FPeL-3NNl;
-	Mon, 24 Feb 2025 22:47:58 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tmhbP-0000000FRx4-05se;
+	Mon, 24 Feb 2025 23:11:07 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmhEx-0000000FPds-3B7d
+	id 1tmhbM-0000000FRwS-18Ji
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 22:47:56 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 3A2C55C5510;
-	Mon, 24 Feb 2025 22:47:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A808CC4CED6;
-	Mon, 24 Feb 2025 22:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740437271;
-	bh=wMIvLbJfNQQSTTOirQXS5/ZivIl0Tf5lw4VoR7IEIXs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bJsDvnncd0YreqRgTlv4bKPNhnv04I/We6HiY5S52MbmuzwfA4V7RMvboH39ZwJln
-	 mjwGXbLd4WPRXr6YlmEFMEarUUAmqslhh3Gv0nPizsXR6/T7y8QhIzutFzNSCM+FyJ
-	 BCnnEU4XzRhMdQjK2mYNmhkdgzGIGbsHgbdve5AfWuV2kJZ4Txd3Zo+tdq1lyn5kk0
-	 dfU0Uo8vd7mhoQv6PaY9B6U2q0KxmMlFedWKpy7ws4Tgccj4CeYS1L7KhqEpWEJlqy
-	 O1Aw/ie3TQhEnQxoC/62th/0kPYUMl5goms35lKr3lRGVfKwErqDfI4H72NPvoldvi
-	 8cY1Wrb/2oRYA==
-Date: Mon, 24 Feb 2025 15:47:49 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me
-Subject: Re: [PATCH 2/6] nvme-ioctl: use common type for user data addresses
-Message-ID: <Z7z3FZJxLekOpgyZ@kbusch-mbp>
-References: <20250224182128.2042061-1-kbusch@meta.com>
- <20250224182128.2042061-3-kbusch@meta.com>
- <20250224223053.GA15518@lst.de>
+	Mon, 24 Feb 2025 23:11:05 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 4097668C4E; Tue, 25 Feb 2025 00:11:00 +0100 (CET)
+Date: Tue, 25 Feb 2025 00:10:59 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/6] nvme-ioctl: fold open_for_write into flags
+Message-ID: <20250224231059.GA16691@lst.de>
+References: <20250224182128.2042061-1-kbusch@meta.com> <20250224182128.2042061-2-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250224223053.GA15518@lst.de>
+In-Reply-To: <20250224182128.2042061-2-kbusch@meta.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250224_144755_853976_CC164FEB 
-X-CRM114-Status: GOOD (  14.65  )
+X-CRM114-CacheID: sfid-20250224_151104_440824_38A504C5 
+X-CRM114-Status: UNSURE (   8.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,21 +60,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 24, 2025 at 11:30:53PM +0100, Christoph Hellwig wrote:
-> On Mon, Feb 24, 2025 at 10:21:24AM -0800, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > 
-> > The data type is represented as a u64, but the metadata type as a __user
-> > void *. These two fields represent the same thing, so treating them so
-> > differently looks a bit odd. Just pick one consistent type of
-> > representation.
-> 
-> Yes, being consistent is good.  I would normally propagate the
-> proper pointer type as far as possible, but I can live with this
-> version if you add a little blurb why it's preferable.
+Looks good:
 
-I have a reason, but it's not very good :)
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-I settled on u64 simply because that's how 'struct nvme_uring_data'
-represents both, so it makes for a tiny bit less churn in later patches. 
 
