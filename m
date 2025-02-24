@@ -4,56 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 780BCC021A4
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1967C021A4
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 11:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W64wvaBLE2ncAEaWQEbbkG9/H+hLT6e4wOj3JRgvViY=; b=tLgI/KWa/YGXXpHnqaXevgpYQ7
-	cAJtEc5KOBIXk1IzajTuHxNKyKPHBy2/b8lv3o/AQ/QCEK/sPrHtZMmwVvxBQ7e88IabBQJzZ17+T
-	FgTIRdoezVQPVADIvYAAx3PlRbdFEsK24Se+S3i8nUUdQtBccfz9ESBH4SRvLSgndjXMU1L5aDyNC
-	VKTXqd0VlVyxBkX9wgjDTu6x/MEQeYHR4OztzfBYDg2iOPfBErnBcTBVJHJpm6tI7MW2d9AbuOZe5
-	cBa+RJZzxhGEi/nPRk/9g33/TnzSCELpv5TraIiKkrB5ornjAS4tKzDtAsCwArODXsd7cUae5PVt7
-	4q6vFjEQ==;
+	bh=oS6LsnRdIQwDO0QxVneuSfXM62G9F51L3J0+Lw7VrmA=; b=Z518qnGoBNI78bjLK6lViEGbLA
+	tdG2aOvC3nvpyUsnIu1av6c91o8+InaYPWyBapRo0Ho/MeH3Qe9AgWX+9tXFaRudI5saIU4S8nQ1m
+	lhlz/QRfQd12E0ASA8aTkmCpF6rqCoKer50RWIWN7w3MImsGK0Q+cW1ArFOjVkWsrreq3weRKyCiK
+	bP+2D67+VWYLUZdQpEr1G84pBn8GP7XE3vToYlxvOjsjIwuUzJOWVvpe6gxPf9QUTMciaEByTb0Mr
+	gNu+SdaD7fkDKnigHEWEwPda3h63Bt/31n93d11Mo7cQdktxi4Kcr+BzZLJ6SeAuK5VXo4Z2CWZA3
+	1V5Vrpxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmWbr-0000000DN5U-3XDJ;
-	Mon, 24 Feb 2025 11:26:51 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tmWdK-0000000DNqV-0noG;
+	Mon, 24 Feb 2025 11:28:22 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmWT3-0000000DJGK-2ute
-	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 11:17:46 +0000
+	id 1tmWT8-0000000DJIN-15YN;
+	Mon, 24 Feb 2025 11:17:50 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0702F5C669A;
-	Mon, 24 Feb 2025 11:17:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB8B5C4CEE6;
+	by tor.source.kernel.org (Postfix) with ESMTP id EC3F2611A9;
 	Mon, 24 Feb 2025 11:17:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D7DC4CED6;
+	Mon, 24 Feb 2025 11:17:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740395864;
-	bh=UzEgT/HDpje1yJ5QuOfWqdM8zDdkO2fm180qnShmTvM=;
+	s=k20201202; t=1740395869;
+	bh=LDVGiLQYV/om9iCPbzlHs+RRDrKvhxgu/48IGJERWAA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YE9ZfMko6DyGxbtxTmL10OZ/Axl6TJGvBui2QWKmW6W2Y+u4U6GzkjgRCE0IJJSg9
-	 pL8oDGjyBdwbOVq4AhkeKZzYeEeI3PhXZ0UNBfwmXF5snn8dACdnshNv9ZAc4DCJlT
-	 WnuoUzJ7x6lkTjyqGtx4mc5XYMM/axnnxMnY47ZGsVfXacZUOhL3SaeyfGpmpFL6pk
-	 Vw99TBWR/HV1b7olinZ0vaeRkBlXl9Gkrea31EyPPIadp3BcydGPKkiPf1ApVBy4vd
-	 KhckvBXVskL4Ui3sasGGe9g3rpLAQTuPaQxng+uyZVfhddtUjbxZnvBx9NbAx6anfJ
-	 g5OtzZZ2qiasg==
+	b=N4EvfZ3iTdpzan8dwcam1q0+i0m3CGliAH7xeZW5ZVIi1Cplfs8xpfxfp6TUsHXg7
+	 bAO4vnXe4Br6CbHlW74pFnFApi+DQZ/eJU1DzJzzCj14XIYX26oUNmyo7p5vIgRNIM
+	 iTZKMDgKHMKGHpDlNJQSyQNSInBLkG8ivCAfaV7KP5iwoZc4Sxx/tzRPFpznv0GGW1
+	 BEg0aSHKdx7bPbYeL1JmEUEEoC/9bAs2fv9pMVg2erlWkYQhqFc2Hj1rAQSn5clyUH
+	 I8D7bY1gpJ6E6Vm7Zh/oXjRDYI6XAdByzIXUQnrL+ag/EYDNidBKi2M20BM1/PLR8z
+	 pS0RHJwSA/MNw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Christopher Lentocha <christopherericlentocha@gmail.com>,
-	Christoph Hellwig <hch@lst.de>,
+Cc: Hector Martin <marcan@marcan.st>,
+	Neal Gompa <neal@gompa.dev>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	j@jannau.net,
 	sagi@grimberg.me,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.13 23/32] nvme-pci: quirk Acer FA100 for non-uniqueue identifiers
-Date: Mon, 24 Feb 2025 06:16:29 -0500
-Message-Id: <20250224111638.2212832-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 26/32] apple-nvme: Release power domains when probe fails
+Date: Mon, 24 Feb 2025 06:16:32 -0500
+Message-Id: <20250224111638.2212832-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250224111638.2212832-1-sashal@kernel.org>
 References: <20250224111638.2212832-1-sashal@kernel.org>
@@ -62,9 +66,6 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.13.4
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250224_031745_866652_A6285FA4 
-X-CRM114-Status: GOOD (  16.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,84 +80,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christopher Lentocha <christopherericlentocha@gmail.com>
+From: Hector Martin <marcan@marcan.st>
 
-[ Upstream commit fcd875445866a5219cf2be3101e276b21fc843f3 ]
+[ Upstream commit eefa72a15ea03fd009333aaa9f0e360b2578e434 ]
 
-In order for two Acer FA100 SSDs to work in one PC (in the case of
-myself, a Lenovo Legion T5 28IMB05), and not show one drive and not
-the other, and sometimes mix up what drive shows up (randomly), these
-two lines of code need to be added, and then both of the SSDs will
-show up and not conflict when booting off of one of them. If you boot
-up your computer with both SSDs installed without this patch, you may
-also randomly get into a kernel panic (if the initrd is not set up) or
-stuck in the initrd "/init" process, it is set up, however, if you do
-apply this patch, there should not be problems with booting or seeing
-both contents of the drive. Tested with the btrfs filesystem with a
-RAID configuration of having the root drive '/' combined to make two
-256GB Acer FA100 SSDs become 512GB in total storage.
-
-Kernel Logs with patch applied (`dmesg -t | grep -i nvm`):
-
-```
-...
-nvme 0000:04:00.0: platform quirk: setting simple suspend
-nvme nvme0: pci function 0000:04:00.0
-nvme 0000:05:00.0: platform quirk: setting simple suspend
-nvme nvme1: pci function 0000:05:00.0
-nvme nvme1: missing or invalid SUBNQN field.
-nvme nvme1: allocated 64 MiB host memory buffer.
-nvme nvme0: missing or invalid SUBNQN field.
-nvme nvme0: allocated 64 MiB host memory buffer.
-nvme nvme1: 8/0/0 default/read/poll queues
-nvme nvme1: Ignoring bogus Namespace Identifiers
-nvme nvme0: 8/0/0 default/read/poll queues
-nvme nvme0: Ignoring bogus Namespace Identifiers
-nvme0n1: p1 p2
-...
-```
-
-Kernel Logs with patch not applied (`dmesg -t | grep -i nvm`):
-
-```
-...
-nvme 0000:04:00.0: platform quirk: setting simple suspend
-nvme nvme0: pci function 0000:04:00.0
-nvme 0000:05:00.0: platform quirk: setting simple suspend
-nvme nvme1: pci function 0000:05:00.0
-nvme nvme0: missing or invalid SUBNQN field.
-nvme nvme1: missing or invalid SUBNQN field.
-nvme nvme0: allocated 64 MiB host memory buffer.
-nvme nvme1: allocated 64 MiB host memory buffer.
-nvme nvme0: 8/0/0 default/read/poll queues
-nvme nvme1: 8/0/0 default/read/poll queues
-nvme nvme1: globally duplicate IDs for nsid 1
-nvme nvme1: VID:DID 1dbe:5216 model:Acer SSD FA100 256GB firmware:1.Z.J.2X
-nvme0n1: p1 p2
-...
-```
-
-Signed-off-by: Christopher Lentocha <christopherericlentocha@gmail.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 2 ++
+ drivers/nvme/host/apple.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 99c2983dbe6c8..d2eeba15c73b3 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3715,6 +3715,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x1dbe, 0x5216),   /* Acer/INNOGRIT FA100/5216 NVMe SSD */
-+		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1e49, 0x0021),   /* ZHITAI TiPro5000 NVMe SSD */
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 4319ab50c10d1..0bca33dc48cc9 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1518,6 +1518,7 @@ static struct apple_nvme *apple_nvme_alloc(struct platform_device *pdev)
+ 
+ 	return anv;
+ put_dev:
++	apple_nvme_detach_genpd(anv);
+ 	put_device(anv->dev);
+ 	return ERR_PTR(ret);
+ }
+@@ -1551,6 +1552,7 @@ static int apple_nvme_probe(struct platform_device *pdev)
+ 	nvme_uninit_ctrl(&anv->ctrl);
+ out_put_ctrl:
+ 	nvme_put_ctrl(&anv->ctrl);
++	apple_nvme_detach_genpd(anv);
+ 	return ret;
+ }
+ 
 -- 
 2.39.5
 
