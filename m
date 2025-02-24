@@ -4,72 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D74BC021A6
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 10:00:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3EACC021B3
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2025 10:11:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Krn4gjvkBmqA/FwymkhlEO2A4LIP8vepXPsLolf9PO8=; b=Vdq5MBlj5vMyGU05ruNuyqwSFP
-	MIUSiRWxmhrjg+FuR8cpR39wnR1TrsRHzKE+EpAvW+MwcoaBM2yaBGNXaTHfiMX5Orr4x7xAH+faz
-	RcllIqePBKq6C3RU5xyvbaIDMxKsESqYs9bo85uuPEFgaLmbnjSsjedy76n5nQ7HJSg5UsA7leK6b
-	FxI0ZcYGfCJGtCdW5arwlquPpgHzCTLeKa6rmL+wCy9+lcMdAi7UhAIm673TyljvSQeU984qEEHFd
-	OKxkqIptX1+rUldTMXixjvNvbfqn4wjs2majLRZ/d+i6JNaIhmZ4GtiqQxqjop/D3p/Uzad/lCnCW
-	wTYdyK6g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iAkALFkjbm07yjbOTekY/5/H6MhCz8lGFqEnQf+Tq3A=; b=X0QDnyAEfaxefN514XqnHSO9c/
+	KZOmBO0ZSCzemOW3+SMA+nCqkH/XDVxYk2LcHzruM0dAfPnEq7Gknej7OV7Pg4K+ggrbXWNS4fcCN
+	f0tHz3NyR5yZoaq8VXmY0eiKpQ7K22q9oEDgu3mlZd3kvjEkLBxrcKTVVxwOdozcpRefnBSVcGYVu
+	PxuCPQblOLXo2D8HAV7/u7KHnGEe/slVCWrxxLResmmYsTTiLfkGfJQAPNcSTCfYpBasqaic6GY79
+	6glm5y8GSjwBH0b0c6b3Jpa3AUs2abkJKRZlG/WcEcoHCu5SZqWTU2tDuTlF01tKN305jX6MmApV4
+	tyDmcqsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmVFr-0000000D1FL-2SfG;
-	Mon, 24 Feb 2025 10:00:03 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tmVRL-0000000D4Aj-1U84;
+	Mon, 24 Feb 2025 10:11:55 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmV9r-0000000CzgA-0cpV
+	id 1tmVG4-0000000D1KJ-1L7L
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Feb 2025 09:53:52 +0000
+	Mon, 24 Feb 2025 10:00:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 10BE75C5D8E;
-	Mon, 24 Feb 2025 09:53:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 349C1C4CED6;
-	Mon, 24 Feb 2025 09:53:39 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 166FF6118D;
+	Mon, 24 Feb 2025 10:00:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25EFCC4CEE6;
+	Mon, 24 Feb 2025 10:00:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740390829;
-	bh=g6VMlunQlRDJng03dDx4fAmN66ot/J1KNDpnUBk3Uyk=;
-	h=Date:From:To:Cc:Subject:From;
-	b=u0usiYCPpGjJz7W/r+tTDedwSQMO7Lzj2OGrQ7vpI1I6Ni/J58p4fjs01N0vVrCAy
-	 CupqoMmeyJpmyBT33Swem7HP4O4OA6qZfthw2HnsZgFr0H9T56aiYr5z8HSIvhJ3wo
-	 ILS61Ps7NSn2v37GJTsxM5FAS2tS1WmZhYCJYPxRjxaqBATn6A3KKZsis22HoJbvBC
-	 y5bUAgcJHr9xYjQfadxhzbrj9AfhEsQrt1QeJxY+PA7PsZYrl0y2GkNEOsO7eMJumX
-	 eTDcPsCHnH8iIhJ75t4YE7EeEjvUZNPoyVSCrYXZ1Xo9lYedRKjQFhXI8schHBm7m7
-	 B5W68rNG+/KDA==
-Date: Mon, 24 Feb 2025 20:23:38 +1030
+	s=k20201202; t=1740391215;
+	bh=A9uQN4pgxmAPTKbOEg1GKq42g3z8N6rW3R0Aq49Zw20=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kviluAb3twh1PVkiWcvpyCDARNe8MqrrYLW2h9yUrUrTn0pZuxFzbRasUoA7YNfA+
+	 4NcigM7MZHIHxgohf/pvmh8bTMswk+qy+cOjP+09JtX31wZJkMQ8kMLtOZSYgVb5YE
+	 yZpKlXTIPXdd/x02BnXhFBbk3h1dGL+4kFp02pRiWpnUKOOerGvOt5QOjAe77KMWEn
+	 beuBiIkJcxm+hsnXQfArXZv46IR/pOLedE/n26LtuWcQ+cvBDssv6gQR9xy3NuVCYw
+	 jUrfb/X/mdPaEXSPtWPfweAz/V0LFd636YsbjCo2Rs3g8ng5NW/j9fe2FoB7ULeX3x
+	 7Msv0TPr4OQfw==
+Date: Mon, 24 Feb 2025 20:30:10 +1030
 From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai3@huawei.com>, Carlos Maiolino <cem@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>, Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
-	Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Coly Li <colyli@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Cc: linux-raid@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-btrfs@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-bcache@vger.kernel.org
-Subject: [PATCH 0/8][next] Avoid a couple hundred
- -Wflex-array-member-not-at-end warnings
-Message-ID: <cover.1739957534.git.gustavoars@kernel.org>
+	linux-hardening@vger.kernel.org
+Subject: [PATCH 6/8][next] nvme: target: Avoid -Wflex-array-member-not-at-end
+ warnings
+Message-ID: <ef7a6920384ab2f8f83c0f630f94edc73cd65997.1739957534.git.gustavoars@kernel.org>
+References: <cover.1739957534.git.gustavoars@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250224_015351_240685_9ADE76B6 
-X-CRM114-Status: UNSURE (   9.02  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <cover.1739957534.git.gustavoars@kernel.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,47 +71,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch series aims to fix a couple hundred -Wflex-array-member-not-at-end
-warnings by creating a new tagged struct `struct bio_hdr` within flexible
-structure `struct bio`.
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-This new tagged struct will be used to fix problematic declarations
-of middle-flex-arrays in composite structs, like these[1][2][3], for
-instance.
+Change the type of the middle struct members currently causing trouble
+from `struct bio` to `struct bio_hdr`.
 
-[1] https://git.kernel.org/linus/a7e8997ae18c42d3
-[2] https://git.kernel.org/linus/c1ddb29709e675ea
-[3] https://git.kernel.org/linus/57be3d3562ca4aa6
+We also use `container_of()` whenever we need to retrieve a pointer to
+the flexible structure `struct bio`, through which we can access the
+flexible-array member in it, if necessary.
 
-Gustavo A. R. Silva (8):
-  block: blk_types.h: Use struct_group_tagged() in flex struct bio
-  md/raid5-ppl: Avoid -Wflex-array-member-not-at-end warning
-  xfs: Avoid -Wflex-array-member-not-at-end warnings
-  erofs: Avoid -Wflex-array-member-not-at-end warnings
-  btrfs: Avoid -Wflex-array-member-not-at-end warnings
-  nvme: target: Avoid -Wflex-array-member-not-at-end warnings
-  md/raid5: Avoid -Wflex-array-member-not-at-end warnings
-  bcache: Avoid -Wflex-array-member-not-at-end warnings
+With these changes fix 38 of the following warnings:
 
- drivers/md/bcache/bcache.h     |  4 +-
- drivers/md/bcache/journal.c    | 10 ++--
- drivers/md/bcache/journal.h    |  4 +-
- drivers/md/bcache/super.c      |  8 ++--
- drivers/md/raid5-ppl.c         |  8 ++--
- drivers/md/raid5.c             | 10 ++--
- drivers/md/raid5.h             |  2 +-
- drivers/nvme/target/nvmet.h    |  4 +-
- drivers/nvme/target/passthru.c |  2 +-
- drivers/nvme/target/zns.c      |  2 +-
- fs/btrfs/disk-io.c             |  4 +-
- fs/btrfs/volumes.h             |  2 +-
- fs/erofs/fileio.c              | 25 ++++++----
- fs/erofs/fscache.c             | 13 +++---
- fs/xfs/xfs_log.c               | 15 +++---
- fs/xfs/xfs_log_priv.h          |  2 +-
- include/linux/blk_types.h      | 84 ++++++++++++++++++----------------
- 17 files changed, 107 insertions(+), 92 deletions(-)
+drivers/nvme/target/nvmet.h:455:49: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+drivers/nvme/target/nvmet.h:462:49: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
 
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/nvme/target/nvmet.h    | 4 ++--
+ drivers/nvme/target/passthru.c | 2 +-
+ drivers/nvme/target/zns.c      | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 4be8d22d2d8d..13ee8026d3d8 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -452,14 +452,14 @@ struct nvmet_req {
+ 			struct work_struct      work;
+ 		} f;
+ 		struct {
+-			struct bio		inline_bio;
++			struct bio_hdr		inline_bio;
+ 			struct request		*rq;
+ 			struct work_struct      work;
+ 			bool			use_workqueue;
+ 		} p;
+ #ifdef CONFIG_BLK_DEV_ZONED
+ 		struct {
+-			struct bio		inline_bio;
++			struct bio_hdr		inline_bio;
+ 			struct work_struct	zmgmt_work;
+ 		} z;
+ #endif /* CONFIG_BLK_DEV_ZONED */
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index 26e2907ce8bb..bff52252ffb9 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -268,7 +268,7 @@ static int nvmet_passthru_map_sg(struct nvmet_req *req, struct request *rq)
+ 		return -EINVAL;
+ 
+ 	if (nvmet_use_inline_bvec(req)) {
+-		bio = &req->p.inline_bio;
++		bio = container_of(&req->p.inline_bio, struct bio, __hdr);
+ 		bio_init(bio, NULL, req->inline_bvec,
+ 			 ARRAY_SIZE(req->inline_bvec), req_op(rq));
+ 	} else {
+diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
+index 29a60fabfcc8..afedbd984d39 100644
+--- a/drivers/nvme/target/zns.c
++++ b/drivers/nvme/target/zns.c
+@@ -570,7 +570,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
+ 	}
+ 
+ 	if (nvmet_use_inline_bvec(req)) {
+-		bio = &req->z.inline_bio;
++		bio = container_of(&req->z.inline_bio, struct bio, __hdr);
+ 		bio_init(bio, req->ns->bdev, req->inline_bvec,
+ 			 ARRAY_SIZE(req->inline_bvec), opf);
+ 	} else {
 -- 
 2.43.0
 
