@@ -4,83 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3B8EC021BB
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 18:42:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4E1DC021B2
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 00:56:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jqvPWh1XotWX+Uhry/+cGJzjY5ak8C0eomurxRwFRJg=; b=oBZzcSxUFUsK/WEGzEk9hh2gX2
-	g6RSE4uDNPObpyFH9HSKqUax9c80gCwBvmxO5CceMGSl1M9rpR3f5p2Q+PLrS1EQqdmz5Iyy/GbwF
-	PsHp8ZlLxBPY5R2ijAHxDTKTlP9IqjrtZKnc/ujdQuwqShRpqy1aU9/DxoTtdr8ZM7daRDJ0GNtjC
-	mCzMSOycuSZU50n2JlOXtc/8caFYn3LPn55tVOmd2BRNL16S8CZZGyLhY+bdLu0Ko9wQesGzpcctm
-	SmBbtp1x9+EB50UdVUDz/QkoYtVe9yFniDQmDOqAq0TGKpag+juFXAtq7zqo6c7q+bGtZcMvK3DAi
-	xiOaC+Uw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:Date:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CAEEVhldvoc8F0ob7ntJxWjSZWN8MGyNUwWibkuTCoo=; b=Dn8hv7N9dKCEqWYmJwYmO7EwZd
+	DJD8vZrlU2QuyNH5pucQwUuecMrXYJRZOBI/DEbOJ/2sQaCi1GOzQexwDSkXmYVCiAfs/lucOJin0
+	KmiU1JZDvfA/to4BEdL77RQdlHxTz5rCVMHaLqOi7zkDh+LLPU/yLU7J0p4/LdboUFf+RWkdg26xA
+	I8AKb4xiHyVUTyNSJVra5fMsMzbnBV9OI5+jMQR2ou+OoytXJZuEhp0ENl1TOJn5nLZJZgtvB9Ml6
+	pdtOH6uuN5V/lqzjFjkqYY5vJn0XD12Zmxd5osB5FO+NsxYL2ztIcYffnxIrgTeHcLPFpdBQ7y0jg
+	aFR9qevw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmzse-0000000100i-0INA;
-	Tue, 25 Feb 2025 18:42:08 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1tn5jN-00000001v4Z-0j4R;
+	Wed, 26 Feb 2025 00:56:57 +0000
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmzZl-00000000uOR-2EoP
+	id 1tmzZD-00000000uAL-39GO
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Feb 2025 18:22:38 +0000
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51PHtccq028274;
-	Tue, 25 Feb 2025 18:22:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2023-11-20; bh=jqvPW
-	h1XotWX+Uhry/+cGJzjY5ak8C0eomurxRwFRJg=; b=RPhh6bNkMT/3V2e0cUm8I
-	Bp98apH+lQ6Wh04r0tjDK3BkoAQQ9Ho9yNEa75qUQkEMkEzM31vpUlSYLaYmWobO
-	KNT/DEpp360+TOOqDi2dopNW2liQce0Ft8wTwL4GY3IJ6uYHlIEUsh5cMqgWpoyE
-	EPgPNesPQKJ5TTXg9vwR1q2vGwZ/2zarXoFE5XAkl1xHPSwWP/XwPANnE8174ge1
-	tC6yIBu3BMaFYdhW9MrHu2khtAWtc33dykUMMdd+1N7NvT4IMkS+3FxJVZNNNr7y
-	rWZeOpPzudJ8414chOwKC9f1EEO4ON0KSUdsPeAh20/vSl9k5kI/uHEDqSvVcfei
-	A==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44y560604v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Feb 2025 18:22:36 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51PHA6H1024384;
-	Tue, 25 Feb 2025 18:22:35 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44y519n6yd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Feb 2025 18:22:35 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 51PIMXe6038769;
-	Tue, 25 Feb 2025 18:22:34 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 44y519n6x8-2;
-	Tue, 25 Feb 2025 18:22:34 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-block@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org, alan.adamson@oracle.com,
-        linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com
-Subject: [PATCH blktests 1/1] common/xfs: verify xfs_io supports statx atomic write attributes
-Date: Tue, 25 Feb 2025 10:31:08 -0800
-Message-ID: <20250225183108.3881328-2-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250225183108.3881328-1-alan.adamson@oracle.com>
-References: <20250225183108.3881328-1-alan.adamson@oracle.com>
+	Tue, 25 Feb 2025 18:22:04 +0000
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-307325f2436so58601541fa.0
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Feb 2025 10:22:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740507722; x=1741112522; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CAEEVhldvoc8F0ob7ntJxWjSZWN8MGyNUwWibkuTCoo=;
+        b=ZYfydjH+u0B8jEg3+2mH6DmI92upk/mxCLc2T0f9Q1isRHobKii2mXVpN5PhrHdua1
+         n4Iv/1oS7/Ix65zpMIw3z4CTmDPYDbxASucPjoe8u4msScJWhxpX/fgO/w3zsZkLrAnq
+         Z8C3Le4kiPGA2Io3ash9yg7mhtaHfiVRQ/iPpX0uNYWOYVGqTAGxkgbUQKghYX6h1w2E
+         H/VOyHjOP755QXiApKM66XXjbQFzyg77T8KOf4VQQlv/TZXeZEdhivq3SjJ1eSPPklAb
+         o32Mr4GJgD3Ot+kVzXxUQFFfxKJd5R353o7OMJhHoE7S+UhgOJHLnjRxsEp0bhk35tAZ
+         933g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740507722; x=1741112522;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CAEEVhldvoc8F0ob7ntJxWjSZWN8MGyNUwWibkuTCoo=;
+        b=dTe0qryPlAIDqHqfPFVlF5BGTuELESFFGKUzqYaD0xXGUHVpvCiXnvXQ7skzcAr+EQ
+         kCIykIM8KQ1FqmNXKS+KMe6yD29NzYiJMCYTZ0HKSpTMJRB4+DetRPJK6tY1CEusAZK4
+         /+2I1aDGUnwZB1Xf6jEm/12Kp47067nNF4xz2T5HsIkgEI/1JS/gDH/cJ1ynBXaAaheM
+         CQ5A0pTOaDrwgCIj4gMgulrRfWllCPStudN6cM2zz9tqOTN+5Yv/l5UiIHlRWRS40Snp
+         r7nbNmBW6EdWNhQS6as0zPISJIGGgrhez629YEIhh4uiwjvSDCDD1RjGY9nBG9VcT6Hj
+         DJbg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUtZ6kaoQRVXyOtOpM1bu4v6wotmt+Cbexn1X+MG8i775WgTt1FS8ZBGKZk5dDIyWO6NMl49T2talp@lists.infradead.org
+X-Gm-Message-State: AOJu0Yws+l8DdzG+7jAkyuP73kLSZwWF+5Gh3kXJAm2a262aLM5hPTAG
+	wUNP3woGNqXy5gAor9mOaoyeMnL5PNBjx+oN8G0hxz5HL365g4QM
+X-Gm-Gg: ASbGncs6ADCL3EJYafwl4z2N4MRN0TTs9jcE96qOS1G2KTO+fWunvwTKFtqtA1pVzkt
+	ddwOK46g7IMPpm3v45rLkOc708HY9TKmb4IcS1tdI1N8+PBXCpgc0mIzoO0vRJIjjGaeigikNkt
+	K0hK4U44kbQna9GwBlpSFxPT5xnVeQnYM/dLj628I13fc3fHsfBFbBnQX4UJVX/pzRuc+IAhw+o
+	3Cdy7PqDTO8ra9Pqbs01F5BKB4MPg8BPZz3+e0kYjzRNFannNWna7mr2kpltxpNfZf0f0tCQXmY
+	6Z9o4MAP9GS1/LcTZzYtIusauYW1cl3YxHjxfm7C+sM0+0fl
+X-Google-Smtp-Source: AGHT+IE6+fIcIs/2ApTBgpzTwSR439oiVm+vBAsWtJBpduyP9tKItZO3b2wVdjRM3zH98k0zKDgi3A==
+X-Received: by 2002:a05:6512:3ca8:b0:545:576:9df8 with SMTP id 2adb3069b0e04-5493c579f97mr311547e87.26.1740507721477;
+        Tue, 25 Feb 2025 10:22:01 -0800 (PST)
+Received: from pc636 (host-95-203-6-24.mobileonline.telia.com. [95.203.6.24])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-548514f9ee0sm241429e87.219.2025.02.25.10.21.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 10:22:00 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date: Tue, 25 Feb 2025 19:21:56 +0100
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Uladzislau Rezki <urezki@gmail.com>,
+	Keith Busch <keith.busch@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev@googlegroups.com, Jann Horn <jannh@google.com>,
+	Mateusz Guzik <mjguzik@gmail.com>, linux-nvme@lists.infradead.org,
+	leitao@debian.org
+Subject: Re: [PATCH v2 6/7] mm, slab: call kvfree_rcu_barrier() from
+ kmem_cache_destroy()
+Message-ID: <Z74KRHzSNbmUJUWt@pc636>
+References: <20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c@suse.cz>
+ <20240807-b4-slab-kfree_rcu-destroy-v2-6-ea79102f428c@suse.cz>
+ <Z7iqJtCjHKfo8Kho@kbusch-mbp>
+ <2811463a-751f-4443-9125-02628dc315d9@suse.cz>
+ <Z7xbrnP8kTQKYO6T@pc636>
+ <ef97428b-f6e7-481e-b47e-375cc76653ad@suse.cz>
+ <Z73p2lRwKagaoUnP@kbusch-mbp>
+ <CAOSXXT6-oWjKPV1hzXa5Ra4SPQg0L_FvxCPM0Sh0Yk6X90h0Sw@mail.gmail.com>
+ <Z74Av6tlSOqcfb-q@pc636>
+ <cca361c8-2f03-40b9-872c-0949dc70cde8@suse.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-25_06,2025-02-25_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 adultscore=0 mlxlogscore=999 bulkscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2502100000 definitions=main-2502250114
-X-Proofpoint-GUID: 1Jq9aL3QLj6_Tjn4rS3-IQVoU6JxQyzU
-X-Proofpoint-ORIG-GUID: 1Jq9aL3QLj6_Tjn4rS3-IQVoU6JxQyzU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cca361c8-2f03-40b9-872c-0949dc70cde8@suse.cz>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250225_102237_585923_6FE7A678 
-X-CRM114-Status: GOOD (  13.58  )
+X-CRM114-CacheID: sfid-20250225_102203_788129_4E4E9FC2 
+X-CRM114-Status: GOOD (  11.73  )
+X-Mailman-Approved-At: Tue, 25 Feb 2025 16:56:55 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,37 +129,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-xfs_io atomic write support is a dependency of the scsi and nvme atomic write
-tests. The xfs_io atomic write support was introduced across different
-versions so if xfs_io pwrite supports the -A (Atomic Write) option, it doesn't
-necessarily support statx atomic write fields so that needs to be verified
-separately.
+On Tue, Feb 25, 2025 at 07:11:05PM +0100, Vlastimil Babka wrote:
+> On 2/25/25 18:41, Uladzislau Rezki wrote:
+> > 
+> > but i had to adapt slightly the Vlastimil's test:
+> 
+> Great, works for me too, thanks!
+> 
+Sounds good :)
 
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- common/xfs | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/common/xfs b/common/xfs
-index 10ecda7c75c8..79e79e7f45ae 100644
---- a/common/xfs
-+++ b/common/xfs
-@@ -11,6 +11,14 @@ _have_xfs_io_atomic_write() {
- 
- 	_have_program xfs_io || return $?
- 
-+	# Determine if the statx command returns the atomic writes fields.
-+	s=$(xfs_io -c "statx -r -m 0x00010000" /dev/null | grep atomic_write_unit_min)
-+	if [[ $s == "" ]];
-+	then
-+		SKIP_REASONS+=("xfs_io does not support the statx atomic write fields")
-+		return 1
-+	fi
-+
- 	# If the pwrite command supports the -A option then this version
- 	# of xfs_io supports atomic writes.
- 	s=$(xfs_io -c help | grep pwrite | awk '{ print $4}')
--- 
-2.43.5
-
+--
+Uladzislau Rezki
 
