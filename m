@@ -4,127 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC779C021B8
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 05:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 524AFC021B8
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 07:41:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VCXl3ajc+8ZGubQRsc7OXxF8hZHNLnv0fXU3im0PirA=; b=iQ4Qf01/I8HD7+64TJtN9+mwog
-	V77v7IUpRPJE8Yv7Kkb7DndSGnSX07WF910h9u8Xwq0iegejMLC2IpegWjZ9ttCmkF0JhN2B/HV36
-	/7YLOwGYzjYp0EyN1F8Rrkr5msnTvpSHv5CEy6v1eScNZAxbaHnyhfMWeLtk2NMfPDbI1t66AzgHJ
-	Atu4R5B8wvNuMwfV9R3Aa3/JNhWhczbB1M98AzDAbcKk1qoGD1JRxctCTDBmCdT3x/oLLEeS5hhFg
-	fZxp0vGIYO0kNxmE03057Uvmt7P/kTK6+rXQOXjt3wgMHZvAr3idwqG8IClt2mK3gF30gDhBxWFQq
-	P1mvfZHQ==;
+	bh=VtHgCtgfr8kMGFXYx/22y+EVV+lxGjoO290xg333FMA=; b=eDuk847NgNAWV7WbPSLhXE3XAF
+	EUeRS/NOmiNM9b6qNMvW4pm65BC5il3Q0tnFQhRj7I28l/mqw9WI8CgdmZOgpBrm8zr+lsOX653hn
+	XwdVuQxS/8+icA033oeRExUFuKxjRxmHuA0wm2RKMJJpx3S510Ul+7CpAAjgAMR/1dyq00YS4iRzl
+	yKShlvgntc6/olLRb93kyJQ+vQqcAScJDVk1ZvgfPzO6kaP1gbYX38ZsK1wOIy+8VlvQuUmPzw3Yb
+	a4DPXLSLf0hwc5+uDYaVD/JSQ32VFlDFO9A+57KswscQaajG6C1YdQDBGBJiuCtjOFaCSGMmgQ1Bl
+	g6+l0zEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmnEs-0000000FzU6-0pzk;
-	Tue, 25 Feb 2025 05:12:14 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1tmpZO-0000000GEQO-2hxs;
+	Tue, 25 Feb 2025 07:41:34 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmnEo-0000000FzPZ-3QYf
+	id 1tmpYF-0000000GEGQ-0dbD
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Feb 2025 05:12:12 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250225051203epoutp040c77bb3d4044d0df91da4add8f128106~nW3FqjuG10097700977epoutp04h
-	for <linux-nvme@lists.infradead.org>; Tue, 25 Feb 2025 05:12:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250225051203epoutp040c77bb3d4044d0df91da4add8f128106~nW3FqjuG10097700977epoutp04h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1740460323;
-	bh=VCXl3ajc+8ZGubQRsc7OXxF8hZHNLnv0fXU3im0PirA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kfFV4Ei4dE1XoP9SgTWJS9FnDXk+KM4UurLRHZ9w/MRuW91WmPszo/xUxeJDMP1GR
-	 MWztxGMDVFQtKkJeb2uAKeM7nd8I0ub7lzLl2Z3cAwgkBLNqsbURVw79Pjn3EYa3ki
-	 F/+k+HX26sphiOUos6BVC0IVT+N8a4vD9EaGSnvc=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20250225051203epcas5p3e5bc333ffb75a03da2a22817f626fb7a~nW3FWZG1d0515805158epcas5p3N;
-	Tue, 25 Feb 2025 05:12:03 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4Z25Lp0H1wz4x9Q3; Tue, 25 Feb
-	2025 05:12:02 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	AC.9F.20052.1215DB76; Tue, 25 Feb 2025 14:12:01 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250225045519epcas5p2f1431355b6ab69305c1a431bfafbf7b6~nWoeeeuwb1006010060epcas5p2w;
-	Tue, 25 Feb 2025 04:55:19 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250225045519epsmtrp2f25a8ee5f1234328739692a4ca6fa6f4~nWoedwFPu0367803678epsmtrp22;
-	Tue, 25 Feb 2025 04:55:19 +0000 (GMT)
-X-AuditID: b6c32a49-3fffd70000004e54-42-67bd51216c0b
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	9F.4C.23488.73D4DB76; Tue, 25 Feb 2025 13:55:19 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250225045517epsmtip260411173872e85ea6cb80ea78ae41ad9~nWocTJ5_o2728127281epsmtip2c;
-	Tue, 25 Feb 2025 04:55:16 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com
-Cc: anuj1072538@gmail.com, nikh1092@linux.ibm.com,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org, dm-devel@lists.linux.dev, Anuj Gupta
-	<anuj20.g@samsung.com>, M Nikhil <nikhilm@linux.ibm.com>
-Subject: [PATCH v1 3/3] scsi: Fix incorrect integrity sysfs values when HBA
- doesn't support DIX
-Date: Tue, 25 Feb 2025 10:16:53 +0530
-Message-Id: <20250225044653.6867-4-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250225044653.6867-1-anuj20.g@samsung.com>
+	Tue, 25 Feb 2025 07:40:24 +0000
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4399d14334aso45774715e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Feb 2025 23:40:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740469221; x=1741074021;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VtHgCtgfr8kMGFXYx/22y+EVV+lxGjoO290xg333FMA=;
+        b=TXykPqJXvMdEd7U/XYBmOjLEeyI+gTt8AQt9w9xnEklw1kJpbgUx+YqfSjQDnL7WvJ
+         ivXdXA5OWme6XP0eZ/BtTXR4NcuwacMtwCVthlayOppWKCEWgGFO8t1L1h8msNbo6XQA
+         jqwDdpbgG5crfwrorBl0h/KavgfXVwAvPPKRUF/OYVwwLAgGlxEcGES4tmqb3Y+WRe6t
+         AfWNjWS9W8eHzCFAlW0X+P3aqEHbQX16hmUoMoH1hVwfCwYGVMtUH0cV0YUYmVg+xwHI
+         nLN26rl99dsAA7L5Acw3/fl1xnm6F6KcCUXTHXgcJQiAOKvHMZcnb0o8kIKgXKzZ0k69
+         cqyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVYsnW5xQUEgeOJyFeu07ejeF47UHjj/VF5qjuLsA0A/w/oepOl9rdPCXefzb0cbhyAiA6mxK7unMWk@lists.infradead.org
+X-Gm-Message-State: AOJu0YxD/TV0bCl4hMmBiJb7h9sFgQsPWInHo/MwTzX2PqPw/1GFKrs2
+	rIx36kqMFNI+1NWFJdCx/MyKKB0AUj/SFwv1bdj51/n17p7Dgzt9edyixg==
+X-Gm-Gg: ASbGncu4Zeqz65KqoFocORcvl0zEuukjVO4EHI1KCSY3EF54IUv5t729Qu6BUSeGDTt
+	HivWA1WaiNwVTrBwB6ho8BULG7r06EvephUUPGO5JpGI8BJ17GVqTNoQRY1OibVFovCVGcg1E2M
+	AOCfWGC+gWGkNqjP1CvDUE/5VAXCI1ItIaj7W9pyfElwd9ardjKyBJTfk2SZd51lhyq6oEqIy7p
+	EGjWbvZB7/7NjuZgx/t28gTOsrNSn5NFzO6EhagRxcGQ7ycK3NLYhmCcxi5wMcoeRYRHnLF7P0O
+	myw5/rxkqphyDmdcOOdAdW3rN1Nw+0iBpD2WjNAjXQ52yd2ChugFfOv8jX3W6KJnO9j+
+X-Google-Smtp-Source: AGHT+IHQnbyvhTyOrlHcZfHR9ent/NJDXIZfcWbDk/8GcX0KgndwlgQnKywMtHhfzAceRVpWe1sbsA==
+X-Received: by 2002:a05:600c:3508:b0:439:9225:2f76 with SMTP id 5b1f17b1804b1-439ae1f3b7bmr136034925e9.18.1740469220448;
+        Mon, 24 Feb 2025 23:40:20 -0800 (PST)
+Received: from [10.50.4.206] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8e7114sm1357162f8f.74.2025.02.24.23.40.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 23:40:19 -0800 (PST)
+Message-ID: <cc262c19-009f-4ca0-9fbc-f94f7bc30f38@grimberg.me>
+Date: Tue, 25 Feb 2025 09:40:18 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xbVRzHd+4t7aVZzV3H5qHLRr0ZLgyBVkt3MUUat7g7t5guRhOH2t3A
-	TYv05W2x+KQDgcgKdBpMKAwQGQwIewBjBdbJKo9Q4nAMIaBNyFIydFNkOGRhbrbcovvv8/ud
-	7+95zsFQ8QBfguWYbAxrog0EX8jr+T4hIemZo16d7N71feTS/TUeWej6ByXbA5V8sqHxNI9s
-	bR9CyC99U4D0ziaS9c3zAvLktIdPtow8QsjAjXmU7C0dBurNVK87IKBu/pBHdbZ9wadcjQOA
-	6moqoBa6qgHVP+PgU0vzszyqorsNUMuduzTCY7kqPUNnM6yUMWWZs3NMunTi8Ova/dpUpUye
-	JE8j9xFSE21k0okDRzRJr+QYQl0T0g9oQ17IpaGtViLlJRVrzrMxUr3ZaksnGEu2waKwJFtp
-	ozXPpEs2MbYX5TLZ86kh4fFcffvCA2BxCPN/qnUJHKAHKwPRGMQVcO27i1FlQIiJ8X4AL9f3
-	CTjjHoCTrc0oZ6wAeK1mAd0Icd6qiKi8AM4F+xDOWAZwqPAXQVjFx/fAwdvFIMwxuAa6xyZB
-	WITiiwDeqSzjhw+24jQ8O+RGwszD4+HFmW/WWYSTsHb0WhRXLg5WT/y9njQaT4MuX3kUp9kC
-	R6uDvDCjIU3RpZr1XiHegcGRplmECz4A66/cF3C8Ff420h1hCVz+w8vnWAdXb85H9BZYNHwV
-	cJwBi/2VoaRYqEACPN+Xwrl3wir/OYSr+xQsXwtGQkXQU7fBBCxtrY0whN7rDiScBuIUvD0H
-	uWU5ATy30oG4gNT9xDjuJ8Zx/1+5AaBtIJaxWI06xppqkZsY+3/XnGU2doL1p7z3kAcE5v5M
-	9gEEAz4AMZSIEUXnXNGJRdn0hx8xrFnL5hkYqw+khvZ9CpVsyzKH/oLJppUr0mQKpVKpSHtB
-	KSeeFhX1fq4T4zraxuQyjIVhN+IQLFriQPZMupI8i/sDXwXtj39u0dd2KXs6lI8rzpyYGB8b
-	Z1drVTPanfZ8Xa4noNgevHR8xdizFNN2erfaL80XvtOs1iee6rx6Qzpx8vfqqkHfconq2Fhc
-	grZ8YOb8QwcS5TS4NhNEk/CEM+5wbGaJ8qz/E/dbk9KvX5Xsupuvk6ofdjR8VlN2a1sBb5gd
-	rGPfuPxAptn06FvXj71V/qN3c2Njdjdi79ZllHwqKP1L0DOOOt9ejBpUdJb/ajh4wefZNFFY
-	c+GQ6s3X/FPPFiAZmYnqfjGbMj1a7Oieu4P1rcxJtxu6jGvO6qkdCjuU7LC/F5wZGex/jlbE
-	v/9yy1r8dObqmY8JnlVPy/eirJX+F/zReHZTBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKLMWRmVeSWpSXmKPExsWy7bCSvK657950g833pCw+fv3NYtE04S+z
-	xeq7/WwWCxbNZbFYufook8WkQ9cYLfbe0raYv+wpu0X39R1sFsuP/2OyuHvxKbPFzvZjjA48
-	Hjtn3WX3uHy21GPTqk42jwmLDjB6bF5S7/Fi80xGj903G9g8Pj69xeLRt2UVo8fnTXIBXFFc
-	NimpOZllqUX6dglcGatf/GQsaOCquDpnAnsD4zaOLkZODgkBE4meR33sXYxcHEICuxklLq+9
-	zwyRkJA49XIZI4QtLLHy33Oooo+MEudXNLCCJNgE1CWOPG8FKuLgEBEIkeg5YgJSwyzwnVHi
-	RMt1NpAaYYF4ifN/poDVswioSmy8uZAJxOYVsJCYc/IgK8QCeYmZl76zg9icApYSEw71soLM
-	FAKqubAyGqJcUOLkzCcsIDYzUHnz1tnMExgFZiFJzUKSWsDItIpRMrWgODc9N9mwwDAvtVyv
-	ODG3uDQvXS85P3cTIzhmtDR2ML771qR/iJGJg/EQowQHs5IIL2fmnnQh3pTEyqrUovz4otKc
-	1OJDjNIcLErivCsNI9KFBNITS1KzU1MLUotgskwcnFINTJO1b8S+L7ZwOlUl8k6cpVdXw8zy
-	4zqRl/tMOScctU1233/wX8lm30tqqTsdDz7MXP9E1ZMhpfjTsdTkxV0LXC3WfFzy8uPHPUWP
-	N5Xdlg9MTEqsPVqTlytQtNhc8eGUXM/mF5qVYcJx08qbSo399U9aZ1TNfBlcE/X1hvrnZQ0r
-	tAtr/tZeMnA+tuTZq/XdaR+6nqozv+OzY1QMdg/9v2RTjv2XtTcMPpdY2Uu9+8No+Svseevh
-	h5NbFV1T79jfKq+4Mztyv++01zyTy99eqdudcUecK8Ba4eQ9lVrF/0s6eyt/+30ULvz/p2VF
-	4ZPd75rVs6dMWWrzrClm7eP3F97YttQuiSzaoP7swCuXo0osxRmJhlrMRcWJAGfzQFsIAwAA
-X-CMS-MailID: 20250225045519epcas5p2f1431355b6ab69305c1a431bfafbf7b6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250225045519epcas5p2f1431355b6ab69305c1a431bfafbf7b6
-References: <20250225044653.6867-1-anuj20.g@samsung.com>
-	<CGME20250225045519epcas5p2f1431355b6ab69305c1a431bfafbf7b6@epcas5p2.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvmet-tcp: Fix a possible sporadic response drops in
+ weakly ordered arch
+To: Christoph Hellwig <hch@lst.de>, Meir Elisha <meir.elisha@volumez.com>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
+References: <20250223072845.3470297-1-meir.elisha@volumez.com>
+ <20250224141349.GA1022@lst.de>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20250224141349.GA1022@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250224_211211_171659_7DC24DCF 
-X-CRM114-Status: GOOD (  18.15  )
+X-CRM114-CacheID: sfid-20250224_234023_194391_8B061FAC 
+X-CRM114-Status: GOOD (  19.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,39 +88,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For SCSI disks where the host bus adapter (HBA) does not support
-Data Integrity Extensions (DIX), the write_generate and read_verify sysfs
-attributes incorrectly report 1 instead of 0.
 
-This happens because the BLK_INTEGRITY_NOGENERATE and
-BLK_INTEGRITY_NOVERIFY flags are not explicitly set when DIX is disabled.
-Fix this by properly setting these flags when DIX is not enabled.
 
-Reported-by: M Nikhil <nikhilm@linux.ibm.com>
-Link: https://lore.kernel.org/linux-block/f6130475-3ccd-45d2-abde-3ccceada0f0a@linux.ibm.com/
-Fixes: 9f4aa46f2a74 ("block: invert the BLK_INTEGRITY_{GENERATE,VERIFY} flags")
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
----
- drivers/scsi/sd_dif.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On 24/02/2025 16:13, Christoph Hellwig wrote:
+> On Sun, Feb 23, 2025 at 09:28:45AM +0200, Meir Elisha wrote:
+>> The order in which queue->cmd and rcv_state are updated is crucial.
+>> If these assignments are reordered by the compiler, the worker might not
+>> get queued in nvmet_tcp_queue_response(), hanging the IO. to enforce the
+>> the correct reordering, set rcv_state using smp_store_release().
+>>
+>> Fixes: bdaf13279192 ("nvmet-tcp: fix a segmentation fault during io parsing error")
+>>
+>> Signed-off-by: Meir Elisha <meir.elisha@volumez.com>
+>> ---
+>> Changes from v2:
+>> 	- Fix barrier semantics
+>> 	- Use rcv_state instead of state variable
+>>
+>>   drivers/nvme/target/tcp.c | 12 ++++++++----
+>>   1 file changed, 8 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+>> index 7c51c2a8c109..714d920d14e1 100644
+>> --- a/drivers/nvme/target/tcp.c
+>> +++ b/drivers/nvme/target/tcp.c
+>> @@ -571,10 +571,13 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
+>>   	struct nvmet_tcp_cmd *cmd =
+>>   		container_of(req, struct nvmet_tcp_cmd, req);
+>>   	struct nvmet_tcp_queue	*queue = cmd->queue;
+>> +	/* Pairs with store_release in nvmet_prepare_receive_pdu() */
+>> +	enum nvmet_tcp_recv_state queue_state = smp_load_acquire(&queue->rcv_state);
+> Ovely long line.
+>
+> And another thing purely cosmetic: while I generally like initializing
+> variables at declaration time, doing that for something like
+> smp_load_acquire which should go with a comment looks kinda weird.
+>
+> So maybe just split the assignment out from the declaration?
 
-diff --git a/drivers/scsi/sd_dif.c b/drivers/scsi/sd_dif.c
-index ae6ce6f5d622..be2cd06f500b 100644
---- a/drivers/scsi/sd_dif.c
-+++ b/drivers/scsi/sd_dif.c
-@@ -40,8 +40,10 @@ void sd_dif_config_host(struct scsi_disk *sdkp, struct queue_limits *lim)
- 		dif = 0; dix = 1;
- 	}
- 
--	if (!dix)
-+	if (!dix) {
-+		bi->flags |= BLK_INTEGRITY_NOGENERATE | BLK_INTEGRITY_NOVERIFY;
- 		return;
-+	}
- 
- 	/* Enable DMA of protection information */
- 	if (scsi_host_get_guard(sdkp->device->host) & SHOST_DIX_GUARD_IP)
--- 
-2.25.1
+Makes sense.
 
+>
+>> -- 
+>> 2.34.1
+>>
+>> This ordering is critical on weakly ordered architectures (such as ARM)
+> Something weird is going on with this description below the actual
+> patch.  This should normally go above.
+
+git am of the exported mbox seems to correctly drop it from the patch 
+either way.
+But I agree it should go above below the --- separator.
 
