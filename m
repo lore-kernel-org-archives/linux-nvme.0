@@ -4,123 +4,189 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83C89C021B2
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 09:57:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB8A7C021B2
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 10:54:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u9Tg9dEYZ7udPxMEHX0kWt4cgTnXDyYwcn1NW9HJ9eU=; b=N2hZp90GLv4QarfTJKi8obOTFO
-	r74ybXulwL2wgbJ+E8AW/KK5Fjv6b6UFYZbL93NkxacoFhRI6ZG62rXtupQvqP1oQauc5DgTXIQG8
-	LY4oTpuNb4v4jNYkmZrsx5kRHMwa8WRh0h8roaGrtBb08XYbP8FyVO+l7/GgFXWtiMOnY25wVOKPN
-	FSPCltz3Lt2yiT5aclrDPuAQhDqRmHNx3cKzh/bFmrHyo5YI7hi5ywRszwiLWTLnd8uL/Mv13Xouj
-	kPzlsTwMfPeTbiaEHrqrOX7+RvD/KZzSOLTFJZbQBtHFhWe7K7sYkxLZAHsnJX5wKeqhzDNKGl+RR
-	e1eZBo2w==;
+	bh=Um4Edc6A4+2zOBvDHaEzY8GwjZotkCtNM20WMP8p17U=; b=wWdf+zBKHQ2nUTo5ZH/TAyBbi0
+	hvfIq717Fkc+YbQU609eAFM84SvyPfoQiR/pKiD3y6C0vxkQX5IAuXpkedZRpEZQhtvxEofiX99qV
+	VLiOxR+9NNF87DJa/1AMxcBikBd8fZ+7cxbg7ILiR0Bd6DzQ1VY2g1+vuRfnBktXCj4svawh5/8Zd
+	33rsj/w4MAS1MGcqI+bzpqVc3nY9z3mwuzRdpA+mr+02126ZivEP8UyZCJnlPwUOdK7i2OomnPQpx
+	UIf9iEimgTg/58rLf23ULy+u7ojj09ngrnxBPOhtaBtrtssbDI4WC90OG3Ka87IvqJ7s3hCdmJSbC
+	lR7RIaYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmrgh-0000000GiB4-2BUI;
-	Tue, 25 Feb 2025 09:57:15 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1tmsaI-0000000GuUk-3pfz;
+	Tue, 25 Feb 2025 10:54:42 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmrJX-0000000GbSJ-1Emb
+	id 1tmrh6-0000000GiKu-1J94
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Feb 2025 09:33:21 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250225093314epoutp02cab077cb62a0e85499ec37124828ee74~nabH414LN2140721407epoutp02Z
-	for <linux-nvme@lists.infradead.org>; Tue, 25 Feb 2025 09:33:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250225093314epoutp02cab077cb62a0e85499ec37124828ee74~nabH414LN2140721407epoutp02Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1740475994;
-	bh=u9Tg9dEYZ7udPxMEHX0kWt4cgTnXDyYwcn1NW9HJ9eU=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=FlbrqvVwBAsl/QmPFkm+teSbc540St8uclzrQrprVoO3/vxV++HeQg7N/W5/+8rcR
-	 oS3ZZK3yycOFbAksY7ZpQuY8vhTCpxQwDasYHrYrSCb0W0Obv4JH6g/cGbljdR8KWa
-	 Ncm+1jqdtgyVsHKDE1fs3V2q5ZUJUoQvTHr0iX28=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20250225093313epcas5p1bc76f06b6383ebba24fcadfbd20c18cd~nabHfdDBU3042430424epcas5p1V;
-	Tue, 25 Feb 2025 09:33:13 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Z2C882kx6z4x9Pv; Tue, 25 Feb
-	2025 09:33:12 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	1A.2F.19710.85E8DB76; Tue, 25 Feb 2025 18:33:12 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250225093312epcas5p479591d2f85ff58caa378f811f04fcb85~nabF9H5Cy2994129941epcas5p4J;
-	Tue, 25 Feb 2025 09:33:12 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250225093312epsmtrp1290793248ddaf56e5310a0976ccfc731~nabF8avSO1979719797epsmtrp1M;
-	Tue, 25 Feb 2025 09:33:12 +0000 (GMT)
-X-AuditID: b6c32a44-36bdd70000004cfe-63-67bd8e58334f
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	88.51.18729.75E8DB76; Tue, 25 Feb 2025 18:33:11 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250225093308epsmtip1a0c70fedc7d80e522b228deff82b03ff~nabCbkKJb0445504455epsmtip1r;
-	Tue, 25 Feb 2025 09:33:07 +0000 (GMT)
-Message-ID: <a6fa497e-30de-4ad3-a864-3736b9d86cce@samsung.com>
-Date: Tue, 25 Feb 2025 15:03:04 +0530
+	Tue, 25 Feb 2025 09:57:41 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 856AF21171;
+	Tue, 25 Feb 2025 09:57:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1740477458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Um4Edc6A4+2zOBvDHaEzY8GwjZotkCtNM20WMP8p17U=;
+	b=yUnW2gK3Y0/C99QaYPcj0x8PLNlbL7OcFWUjk1YIOWChWMNQ28Bw/yMHhrDFpoxS8U1r2R
+	vzCl1Z5uzIEgaFTRg4mc+nm8ij9LotJM9lYpIneLERU0q3a6xo/DcJCIAoXp5mdJmfyspG
+	h3QGvZZ0QLPnhF4RQruc/1XkZO9Ryds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1740477458;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Um4Edc6A4+2zOBvDHaEzY8GwjZotkCtNM20WMP8p17U=;
+	b=YQq3rPArRuPUNI5lJx+kNjrzQFMmPWsweH3R7KKbaFih9Hgvd/AfhwsXFCDYccFu6a3u5d
+	KFCIBl5eT5T/4gAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=yUnW2gK3;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=YQq3rPAr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1740477458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Um4Edc6A4+2zOBvDHaEzY8GwjZotkCtNM20WMP8p17U=;
+	b=yUnW2gK3Y0/C99QaYPcj0x8PLNlbL7OcFWUjk1YIOWChWMNQ28Bw/yMHhrDFpoxS8U1r2R
+	vzCl1Z5uzIEgaFTRg4mc+nm8ij9LotJM9lYpIneLERU0q3a6xo/DcJCIAoXp5mdJmfyspG
+	h3QGvZZ0QLPnhF4RQruc/1XkZO9Ryds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1740477458;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Um4Edc6A4+2zOBvDHaEzY8GwjZotkCtNM20WMP8p17U=;
+	b=YQq3rPArRuPUNI5lJx+kNjrzQFMmPWsweH3R7KKbaFih9Hgvd/AfhwsXFCDYccFu6a3u5d
+	KFCIBl5eT5T/4gAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C88513888;
+	Tue, 25 Feb 2025 09:57:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tq1cEhKUvWdnHgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 25 Feb 2025 09:57:38 +0000
+Message-ID: <ef97428b-f6e7-481e-b47e-375cc76653ad@suse.cz>
+Date: Tue, 25 Feb 2025 10:57:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] nvme-ioctl: combine alloc and map
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	hch@lst.de, sagi@grimberg.me
-Cc: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v2 6/7] mm, slab: call kvfree_rcu_barrier() from
+ kmem_cache_destroy()
 Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20250224182128.2042061-6-kbusch@meta.com>
+To: Uladzislau Rezki <urezki@gmail.com>, Keith Busch <kbusch@kernel.org>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
+ Julia Lawall <Julia.Lawall@inria.fr>, Jakub Kicinski <kuba@kernel.org>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+ Jann Horn <jannh@google.com>, Mateusz Guzik <mjguzik@gmail.com>,
+ linux-nvme@lists.infradead.org, leitao@debian.org
+References: <20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c@suse.cz>
+ <20240807-b4-slab-kfree_rcu-destroy-v2-6-ea79102f428c@suse.cz>
+ <Z7iqJtCjHKfo8Kho@kbusch-mbp> <2811463a-751f-4443-9125-02628dc315d9@suse.cz>
+ <Z7xbrnP8kTQKYO6T@pc636>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSBWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBzdXNlLmN6PsLBlAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
+ AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJkBREIBQkRadznAAoJECJPp+fMgqZkNxIQ
+ ALZRqwdUGzqL2aeSavbum/VF/+td+nZfuH0xeWiO2w8mG0+nPd5j9ujYeHcUP1edE7uQrjOC
+ Gs9sm8+W1xYnbClMJTsXiAV88D2btFUdU1mCXURAL9wWZ8Jsmz5ZH2V6AUszvNezsS/VIT87
+ AmTtj31TLDGwdxaZTSYLwAOOOtyqafOEq+gJB30RxTRE3h3G1zpO7OM9K6ysLdAlwAGYWgJJ
+ V4JqGsQ/lyEtxxFpUCjb5Pztp7cQxhlkil0oBYHkudiG8j1U3DG8iC6rnB4yJaLphKx57NuQ
+ PIY0Bccg+r9gIQ4XeSK2PQhdXdy3UWBr913ZQ9AI2usid3s5vabo4iBvpJNFLgUmxFnr73SJ
+ KsRh/2OBsg1XXF/wRQGBO9vRuJUAbnaIVcmGOUogdBVS9Sun/Sy4GNA++KtFZK95U7J417/J
+ Hub2xV6Ehc7UGW6fIvIQmzJ3zaTEfuriU1P8ayfddrAgZb25JnOW7L1zdYL8rXiezOyYZ8Fm
+ ZyXjzWdO0RpxcUEp6GsJr11Bc4F3aae9OZtwtLL/jxc7y6pUugB00PodgnQ6CMcfR/HjXlae
+ h2VS3zl9+tQWHu6s1R58t5BuMS2FNA58wU/IazImc/ZQA+slDBfhRDGYlExjg19UXWe/gMcl
+ De3P1kxYPgZdGE2eZpRLIbt+rYnqQKy8UxlszsBNBFsZNTUBCACfQfpSsWJZyi+SHoRdVyX5
+ J6rI7okc4+b571a7RXD5UhS9dlVRVVAtrU9ANSLqPTQKGVxHrqD39XSw8hxK61pw8p90pg4G
+ /N3iuWEvyt+t0SxDDkClnGsDyRhlUyEWYFEoBrrCizbmahOUwqkJbNMfzj5Y7n7OIJOxNRkB
+ IBOjPdF26dMP69BwePQao1M8Acrrex9sAHYjQGyVmReRjVEtv9iG4DoTsnIR3amKVk6si4Ea
+ X/mrapJqSCcBUVYUFH8M7bsm4CSxier5ofy8jTEa/CfvkqpKThTMCQPNZKY7hke5qEq1CBk2
+ wxhX48ZrJEFf1v3NuV3OimgsF2odzieNABEBAAHCwXwEGAEKACYCGwwWIQSpQNQ0mSwujpkQ
+ PVAiT6fnzIKmZAUCZAUSmwUJDK5EZgAKCRAiT6fnzIKmZOJGEACOKABgo9wJXsbWhGWYO7mD
+ 8R8mUyJHqbvaz+yTLnvRwfe/VwafFfDMx5GYVYzMY9TWpA8psFTKTUIIQmx2scYsRBUwm5VI
+ EurRWKqENcDRjyo+ol59j0FViYysjQQeobXBDDE31t5SBg++veI6tXfpco/UiKEsDswL1WAr
+ tEAZaruo7254TyH+gydURl2wJuzo/aZ7Y7PpqaODbYv727Dvm5eX64HCyyAH0s6sOCyGF5/p
+ eIhrOn24oBf67KtdAN3H9JoFNUVTYJc1VJU3R1JtVdgwEdr+NEciEfYl0O19VpLE/PZxP4wX
+ PWnhf5WjdoNI1Xec+RcJ5p/pSel0jnvBX8L2cmniYnmI883NhtGZsEWj++wyKiS4NranDFlA
+ HdDM3b4lUth1pTtABKQ1YuTvehj7EfoWD3bv9kuGZGPrAeFNiHPdOT7DaXKeHpW9homgtBxj
+ 8aX/UkSvEGJKUEbFL9cVa5tzyialGkSiZJNkWgeHe+jEcfRT6pJZOJidSCdzvJpbdJmm+eED
+ w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
+ 1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <Z7xbrnP8kTQKYO6T@pc636>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplk+LIzCtJLcpLzFFi42LZdlhTXTeib2+6QdMvYYuVq48yWUw6dI3R
-	4szVhSwW85c9ZbdY9/o9iwOrx/l7G1k8Nq3qZPPYvKTeY/fNBjaPcxcrAlijsm0yUhNTUosU
-	UvOS81My89JtlbyD453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgHYrKZQl5pQChQISi4uV
-	9O1sivJLS1IVMvKLS2yVUgtScgpMCvSKE3OLS/PS9fJSS6wMDQyMTIEKE7IzlvxbwFTwhbVi
-	/bzjjA2Mv1i6GDk5JARMJFZ//8IMYgsJ7GaUuDBTCML+xChxd4dcFyMXkP2NUeLRqWY2uIY7
-	bWwQib2MEn86fzFCOG8ZJc59WAY2llfATmLtp05GEJtFQFVi6/5XrBBxQYmTM5+A1YgKyEvc
-	vzWDHcQWFrCSeHniDVi9iECixNkTm8G2MQsoS3T2fGSHsMUlbj2Zz9TFyMHBJqApcWFyKUiY
-	U8BcouHvJ6gSeYntb+cwg9wjIfCVXeLYvn/MIPUSAi4Sb8/aQjwgLPHq+BZ2CFtK4mV/G5Sd
-	LfHg0QNoqNRI7Njcxwph20s0/LnBCjKGGWjt+l36EKv4JHp/P2GCmM4r0dEmBFGtKHFv0lOo
-	TnGJhzOWQNkeEm3v9zJDQmo7o8TLa7tZJzAqzEIKlFlInpyF5JtZCJsXMLKsYpRMLSjOTU9N
-	Ni0wzEsth8d2cn7uJkZwutRy2cF4Y/4/vUOMTByMhxglOJiVRHg5M/ekC/GmJFZWpRblxxeV
-	5qQWH2I0BcbORGYp0eR8YMLOK4k3NLE0MDEzMzOxNDYzVBLnbd7Zki4kkJ5YkpqdmlqQWgTT
-	x8TBKdXAlPNBbD3DvT+Tv6z9VPJN/G+3QQKf8oQJc+w4nOM1LhQlJJXUf9brvM6+XvxpwUlF
-	mTmbrQNjQ2evSt955W7jFN5Z77Peeqi/K2MtdGSod9g/nbfvKHsoZ+4cjtATLYev6/YukhJe
-	eJwr/et3Zn8bte/t/pXrp/rd0wja8+9OeKZLcOhd/kcqle6znu0UWarO/LL40e8jzr91uaRu
-	ulUu2rIsUkVa9aDxxtZQTtuldZN/tX8y3Bq3eX/ErFU5z/LYitImC5+fVvZv5eeOR0J7PFPq
-	fyibTBNaVyHb3MSXrKPTc/srwyOTg9ONHPhYsj3Xl+iUaDowXl5SxXC+v4v9fl9T3m7nY2bl
-	LHdWvrNRYinOSDTUYi4qTgQACv9hyiAEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNLMWRmVeSWpSXmKPExsWy7bCSnG543950g0dPLSxWrj7KZDHp0DVG
-	izNXF7JYzF/2lN1i3ev3LA6sHufvbWTx2LSqk81j85J6j903G9g8zl2sCGCN4rJJSc3JLEst
-	0rdL4MpY8m8BU8EX1or1844zNjD+Yuli5OSQEDCRWH2njQ3EFhLYzSix/lMNRFxcovnaD3YI
-	W1hi5b/nQDYXUM1rRomO1QfAmnkF7CTWfupkBLFZBFQltu5/xQoRF5Q4OfMJWI2ogLzE/Vsz
-	wAYJC1hJvDzxBqxeRCBR4u7qz2A2s4CyRGfPR6gF2xklpv1qh0qIS9x6Mp+pi5GDg01AU+LC
-	5FKQMKeAuUTD30/sECVmEl1bu6DK5SW2v53DPIFRaBaSM2YhmTQLScssJC0LGFlWMUqmFhTn
-	pucWGxYY5qWW6xUn5haX5qXrJefnbmIEx4eW5g7G7as+6B1iZOJgPMQowcGsJMLLmbknXYg3
-	JbGyKrUoP76oNCe1+BCjNAeLkjiv+IveFCGB9MSS1OzU1ILUIpgsEwenVANT/MRTfD8qU3Or
-	2/8fDnP8XzNnwmKBV09Mv5eH558y9LKPffvJ6ftdr6/cE11OB90NSZv97cZSfdmHi/RjTlz6
-	Y7lZoorbqX6HUPhz3WMvlh7el/DE1rinXN361M5PXe++7c//6pA9s333093/FE7uUZ5cNDWX
-	ac3MtTs4/7EYmW115tS+/utZ9bdFi/b+NG06H9uhxhS40fLD0RxZj6t95dyNUqquJxsEa2be
-	vmvVLfrQtHke73w7n58OtwKfNDH9W+60/KtWbnHFtnbJszKNd5/0LJxdv2nhn5YmOytXIQWN
-	TJ4tLu5OQft3PU+c6uvcrmufoGP13rK9zsYtonT/7AX9Lj6bTy6tZmXv4fJXYinOSDTUYi4q
-	TgQAGRgP0f4CAAA=
-X-CMS-MailID: 20250225093312epcas5p479591d2f85ff58caa378f811f04fcb85
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250224183304epcas5p36969433068ebb71b4a631ced34beb001
-References: <20250224182128.2042061-1-kbusch@meta.com>
-	<CGME20250224183304epcas5p36969433068ebb71b4a631ced34beb001@epcas5p3.samsung.com>
-	<20250224182128.2042061-6-kbusch@meta.com>
+X-Rspamd-Queue-Id: 856AF21171
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,joelfernandes.org,joshtriplett.org,gmail.com,linux.com,google.com,goodmis.org,efficios.com,inria.fr,zx2c4.com,linux-foundation.org,linux.dev,kvack.org,vger.kernel.org,googlegroups.com,lists.infradead.org,debian.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLctujmen6hjyrx8fu4drawbuj)];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250225_013319_989350_F8590709 
-X-CRM114-Status: GOOD (  10.60  )
+X-CRM114-CacheID: sfid-20250225_015740_651451_3EB6A71E 
+X-CRM114-Status: GOOD (  42.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,21 +201,176 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/24/2025 11:51 PM, Keith Busch wrote:
-> +static struct request *nvme_alloc_user_request(struct request_queue *q,
-> +		struct nvme_command *cmd, blk_opf_t rq_flags,
-> +		blk_mq_req_flags_t blk_flags, unsigned timeout_ms, u64 ubuffer,
-> +		unsigned bufflen, u64 meta_buffer, unsigned meta_len,
-> +		struct io_uring_cmd *ioucmd, unsigned int flags)
+On 2/24/25 12:44, Uladzislau Rezki wrote:
+> On Fri, Feb 21, 2025 at 06:28:49PM +0100, Vlastimil Babka wrote:
+>> On 2/21/25 17:30, Keith Busch wrote:
+>> > On Wed, Aug 07, 2024 at 12:31:19PM +0200, Vlastimil Babka wrote:
+>> >> We would like to replace call_rcu() users with kfree_rcu() where the
+>> >> existing callback is just a kmem_cache_free(). However this causes
+>> >> issues when the cache can be destroyed (such as due to module unload).
+>> >> 
+>> >> Currently such modules should be issuing rcu_barrier() before
+>> >> kmem_cache_destroy() to have their call_rcu() callbacks processed first.
+>> >> This barrier is however not sufficient for kfree_rcu() in flight due
+>> >> to the batching introduced by a35d16905efc ("rcu: Add basic support for
+>> >> kfree_rcu() batching").
+>> >> 
+>> >> This is not a problem for kmalloc caches which are never destroyed, but
+>> >> since removing SLOB, kfree_rcu() is allowed also for any other cache,
+>> >> that might be destroyed.
+>> >> 
+>> >> In order not to complicate the API, put the responsibility for handling
+>> >> outstanding kfree_rcu() in kmem_cache_destroy() itself. Use the newly
+>> >> introduced kvfree_rcu_barrier() to wait before destroying the cache.
+>> >> This is similar to how we issue rcu_barrier() for SLAB_TYPESAFE_BY_RCU
+>> >> caches, but has to be done earlier, as the latter only needs to wait for
+>> >> the empty slab pages to finish freeing, and not objects from the slab.
+>> >> 
+>> >> Users of call_rcu() with arbitrary callbacks should still issue
+>> >> rcu_barrier() before destroying the cache and unloading the module, as
+>> >> kvfree_rcu_barrier() is not a superset of rcu_barrier() and the
+>> >> callbacks may be invoking module code or performing other actions that
+>> >> are necessary for a successful unload.
+>> >> 
+>> >> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+>> >> ---
+>> >>  mm/slab_common.c | 3 +++
+>> >>  1 file changed, 3 insertions(+)
+>> >> 
+>> >> diff --git a/mm/slab_common.c b/mm/slab_common.c
+>> >> index c40227d5fa07..1a2873293f5d 100644
+>> >> --- a/mm/slab_common.c
+>> >> +++ b/mm/slab_common.c
+>> >> @@ -508,6 +508,9 @@ void kmem_cache_destroy(struct kmem_cache *s)
+>> >>  	if (unlikely(!s) || !kasan_check_byte(s))
+>> >>  		return;
+>> >>  
+>> >> +	/* in-flight kfree_rcu()'s may include objects from our cache */
+>> >> +	kvfree_rcu_barrier();
+>> >> +
+>> >>  	cpus_read_lock();
+>> >>  	mutex_lock(&slab_mutex);
+>> > 
+>> > This patch appears to be triggering a new warning in certain conditions
+>> > when tearing down an nvme namespace's block device. Stack trace is at
+>> > the end.
+>> > 
+>> > The warning indicates that this shouldn't be called from a
+>> > WQ_MEM_RECLAIM workqueue. This workqueue is responsible for bringing up
+>> > and tearing down block devices, so this is a memory reclaim use AIUI.
+>> > I'm a bit confused why we can't tear down a disk from within a memory
+>> > reclaim workqueue. Is the recommended solution to simply remove the WQ
+>> > flag when creating the workqueue?
+>> 
+>> I think it's reasonable to expect a memory reclaim related action would
+>> destroy a kmem cache. Mateusz's suggestion would work around the issue, but
+>> then we could get another surprising warning elsewhere. Also making the
+>> kmem_cache destroys async can be tricky when a recreation happens
+>> immediately under the same name (implications with sysfs/debugfs etc). We
+>> managed to make the destroying synchronous as part of this series and it
+>> would be great to keep it that way.
+>> 
+>> >   ------------[ cut here ]------------
+>> >   workqueue: WQ_MEM_RECLAIM nvme-wq:nvme_scan_work is flushing !WQ_MEM_RECLAIM events_unbound:kfree_rcu_work
+>> 
+>> Maybe instead kfree_rcu_work should be using a WQ_MEM_RECLAIM workqueue? It
+>> is after all freeing memory. Ulad, what do you think?
+>> 
+> We reclaim memory, therefore WQ_MEM_RECLAIM seems what we need.
+> AFAIR, there is an extra rescue worker, which can really help
+> under a low memory condition in a way that we do a progress.
+> 
+> Do we have a reproducer of mentioned splat?
 
-Back in 2022, nvme_alloc_user_request used to take 12 arguments.
-For fixed-buffer support, I added two more and got 'too many arguments' 
-complaint [*]. So I did alloc/map split to trim arguments.
+I tried to create a kunit test for it, but it doesn't trigger anything. Maybe
+it's too simple, or racy, and thus we are not flushing any of the queues from
+kvfree_rcu_barrier()?
 
-This patch, in itself, is going back to 2022.
-But the last patch neutralizes 'too many arguments'.
+----8<----
+From 1e19ea78e7fe254034970f75e3b7cb705be50163 Mon Sep 17 00:00:00 2001
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Tue, 25 Feb 2025 10:51:28 +0100
+Subject: [PATCH] add test for kmem_cache_destroy in a workqueue
+
+---
+ lib/slub_kunit.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+diff --git a/lib/slub_kunit.c b/lib/slub_kunit.c
+index f11691315c2f..5fe9775fba05 100644
+--- a/lib/slub_kunit.c
++++ b/lib/slub_kunit.c
+@@ -6,6 +6,7 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/rcupdate.h>
++#include <linux/delay.h>
+ #include "../mm/slab.h"
+ 
+ static struct kunit_resource resource;
+@@ -181,6 +182,52 @@ static void test_kfree_rcu(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, 0, slab_errors);
+ }
+ 
++struct cache_destroy_work {
++        struct work_struct work;
++        struct kmem_cache *s;
++};
++
++static void cache_destroy_workfn(struct work_struct *w)
++{
++	struct cache_destroy_work *cdw;
++
++	cdw = container_of(w, struct cache_destroy_work, work);
++
++	kmem_cache_destroy(cdw->s);
++}
++
++static void test_kfree_rcu_wq_destroy(struct kunit *test)
++{
++	struct test_kfree_rcu_struct *p;
++	struct cache_destroy_work cdw;
++	struct workqueue_struct *wq;
++	struct kmem_cache *s;
++
++	if (IS_BUILTIN(CONFIG_SLUB_KUNIT_TEST))
++		kunit_skip(test, "can't do kfree_rcu() when test is built-in");
++
++	INIT_WORK_ONSTACK(&cdw.work, cache_destroy_workfn);
++	wq = alloc_workqueue("test_kfree_rcu_destroy_wq", WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
++	if (!wq)
++		kunit_skip(test, "failed to alloc wq");
++
++	s = test_kmem_cache_create("TestSlub_kfree_rcu_wq_destroy",
++				   sizeof(struct test_kfree_rcu_struct),
++				   SLAB_NO_MERGE);
++	p = kmem_cache_alloc(s, GFP_KERNEL);
++
++	kfree_rcu(p, rcu);
++
++	cdw.s = s;
++	queue_work(wq, &cdw.work);
++	msleep(1000);
++	flush_work(&cdw.work);
++
++	destroy_workqueue(wq);
++
++	KUNIT_EXPECT_EQ(test, 0, slab_errors);
++}
++
+ static void test_leak_destroy(struct kunit *test)
+ {
+ 	struct kmem_cache *s = test_kmem_cache_create("TestSlub_leak_destroy",
+@@ -254,6 +301,7 @@ static struct kunit_case test_cases[] = {
+ 	KUNIT_CASE(test_clobber_redzone_free),
+ 	KUNIT_CASE(test_kmalloc_redzone_access),
+ 	KUNIT_CASE(test_kfree_rcu),
++	KUNIT_CASE(test_kfree_rcu_wq_destroy),
+ 	KUNIT_CASE(test_leak_destroy),
+ 	KUNIT_CASE(test_krealloc_redzone_zeroing),
+ 	{}
+-- 
+2.48.1
 
 
-[*] 
-https://lore.kernel.org/linux-nvme/26490329-5b51-7334-1e2a-44edfe75d8fa@nvidia.com/
 
