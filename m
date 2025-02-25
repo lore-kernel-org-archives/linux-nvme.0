@@ -4,76 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 524AFC021B8
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 07:41:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDE80C021B2
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 07:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VtHgCtgfr8kMGFXYx/22y+EVV+lxGjoO290xg333FMA=; b=eDuk847NgNAWV7WbPSLhXE3XAF
-	EUeRS/NOmiNM9b6qNMvW4pm65BC5il3Q0tnFQhRj7I28l/mqw9WI8CgdmZOgpBrm8zr+lsOX653hn
-	XwdVuQxS/8+icA033oeRExUFuKxjRxmHuA0wm2RKMJJpx3S510Ul+7CpAAjgAMR/1dyq00YS4iRzl
-	yKShlvgntc6/olLRb93kyJQ+vQqcAScJDVk1ZvgfPzO6kaP1gbYX38ZsK1wOIy+8VlvQuUmPzw3Yb
-	a4DPXLSLf0hwc5+uDYaVD/JSQ32VFlDFO9A+57KswscQaajG6C1YdQDBGBJiuCtjOFaCSGMmgQ1Bl
-	g6+l0zEg==;
+	bh=DIOPGT4IXzb53TeFxygnnT9SVnGb3OT6S3Vyq34H2OM=; b=B0ttwZMutEWDAWjgn+5VXdjEEn
+	QYNIgeInCCheYL4Y7o+ksXPx4dmXmrNSQi7Mh3vvnqDDGRj9XReOZZl9GSOOj1A3P79Jj9KMZoH0d
+	5v7iAbKdOAVKuYLLDs/yWnyeLzTcLhfqA67OrtEz5e3rmeoiOXpUqxYpwLArOK4LXygaQDwPhLxnZ
+	vpsoZESVlW+/+zTwqitRGi80BwbbD/6pDxz3nCG2Ri7wdpvcm1I+3NQFLn2y5GDga4BbvBmgg9wXk
+	SP8yFMrNhBsvGL9PFuX0lTSYjc8zQL2KEzu5e2Hc7c6DJ//aeCgyO7U4BATmhATP0MBRjCiXsg3GO
+	1PotZjzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmpZO-0000000GEQO-2hxs;
-	Tue, 25 Feb 2025 07:41:34 +0000
-Received: from mail-wm1-f49.google.com ([209.85.128.49])
+	id 1tmpat-0000000GEg2-1Oef;
+	Tue, 25 Feb 2025 07:43:07 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmpYF-0000000GEGQ-0dbD
+	id 1tmpZe-0000000GEUy-0154
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Feb 2025 07:40:24 +0000
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4399d14334aso45774715e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 24 Feb 2025 23:40:22 -0800 (PST)
+	Tue, 25 Feb 2025 07:41:51 +0000
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-38f1e8efe82so5471132f8f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Feb 2025 23:41:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740469221; x=1741074021;
+        d=1e100.net; s=20230601; t=1740469308; x=1741074108;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VtHgCtgfr8kMGFXYx/22y+EVV+lxGjoO290xg333FMA=;
-        b=TXykPqJXvMdEd7U/XYBmOjLEeyI+gTt8AQt9w9xnEklw1kJpbgUx+YqfSjQDnL7WvJ
-         ivXdXA5OWme6XP0eZ/BtTXR4NcuwacMtwCVthlayOppWKCEWgGFO8t1L1h8msNbo6XQA
-         jqwDdpbgG5crfwrorBl0h/KavgfXVwAvPPKRUF/OYVwwLAgGlxEcGES4tmqb3Y+WRe6t
-         AfWNjWS9W8eHzCFAlW0X+P3aqEHbQX16hmUoMoH1hVwfCwYGVMtUH0cV0YUYmVg+xwHI
-         nLN26rl99dsAA7L5Acw3/fl1xnm6F6KcCUXTHXgcJQiAOKvHMZcnb0o8kIKgXKzZ0k69
-         cqyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYsnW5xQUEgeOJyFeu07ejeF47UHjj/VF5qjuLsA0A/w/oepOl9rdPCXefzb0cbhyAiA6mxK7unMWk@lists.infradead.org
-X-Gm-Message-State: AOJu0YxD/TV0bCl4hMmBiJb7h9sFgQsPWInHo/MwTzX2PqPw/1GFKrs2
-	rIx36kqMFNI+1NWFJdCx/MyKKB0AUj/SFwv1bdj51/n17p7Dgzt9edyixg==
-X-Gm-Gg: ASbGncu4Zeqz65KqoFocORcvl0zEuukjVO4EHI1KCSY3EF54IUv5t729Qu6BUSeGDTt
-	HivWA1WaiNwVTrBwB6ho8BULG7r06EvephUUPGO5JpGI8BJ17GVqTNoQRY1OibVFovCVGcg1E2M
-	AOCfWGC+gWGkNqjP1CvDUE/5VAXCI1ItIaj7W9pyfElwd9ardjKyBJTfk2SZd51lhyq6oEqIy7p
-	EGjWbvZB7/7NjuZgx/t28gTOsrNSn5NFzO6EhagRxcGQ7ycK3NLYhmCcxi5wMcoeRYRHnLF7P0O
-	myw5/rxkqphyDmdcOOdAdW3rN1Nw+0iBpD2WjNAjXQ52yd2ChugFfOv8jX3W6KJnO9j+
-X-Google-Smtp-Source: AGHT+IHQnbyvhTyOrlHcZfHR9ent/NJDXIZfcWbDk/8GcX0KgndwlgQnKywMtHhfzAceRVpWe1sbsA==
-X-Received: by 2002:a05:600c:3508:b0:439:9225:2f76 with SMTP id 5b1f17b1804b1-439ae1f3b7bmr136034925e9.18.1740469220448;
-        Mon, 24 Feb 2025 23:40:20 -0800 (PST)
+        bh=DIOPGT4IXzb53TeFxygnnT9SVnGb3OT6S3Vyq34H2OM=;
+        b=VO1N4LkKhLtzjCy5cKe47jjYki+C8A1a6l+N5HJ/4cZL+AVAio9vFfllFmmfGPfNRd
+         5BIWT2yOSZYVruwFirJzhKkaLRByfZCPDPzvtZHQmRhEWZbI5siphvTq+pPMcpHxrbVF
+         iUIkKDUBVL5wyFindRC/U6KuXGqWpgI+cPjiKM8UjUSh/kOvN9P4SJRZ+BZQ3iJ3F/Rj
+         185Ziq+dx/m9Eaz73fgVX1rTrmkpMGFdE/0edi5Wd6IIyS3wIcv/jPaF9dCbsI7ILv3H
+         pEqoOYhpA+MVV/He1dlRADkLp5BGgATK0hhUcI4V4izhdn+Hi1hRqYxSrH/y7QXdeOv7
+         SyaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXqdR9Y3u54sbDMj+Bsk8UduqKzR/4zyNOUvnD5CXf2JFCn5w0kKQRBCQYCfYws9QBkEGcnYIcZG6gw@lists.infradead.org
+X-Gm-Message-State: AOJu0YyRwEuQXlF+RpL323flWCTL3f5GsDigkpS7+d33AMCD9La2eRsa
+	nqZ4KQXHXC1j4c+rJM5hYPsOHXoa6tam2wjxyjo0H3eDZZk1YWtt
+X-Gm-Gg: ASbGnctuaeCawywo65dJT4ZcbZuy22tJAP4gbCx3V9D6D6b3zD+PXao31CnyVqhYf6m
+	0UrQolU7repJL0yCyXkizOKv/Bl/WHB9gv/DTWWrztINPmn7VrKYpiM3jpxCeUewILD8eb/PNCI
+	WZb1O3S1JxqSYbejuyazEPFeZUXxo3CuJ3XNwnXOnPMW4JYlwje4+9KC+StmPuwX7cR9++Ki9aI
+	nKNIiP0MD4mOauD59fPBtYXBbvAelJQfNk5RexS3eUKnTT2tr85VO5+Wl58m3YWoBNPoZM/ab4R
+	5ik3YKwJp91TSalnxbFHD4osqULbZ6oAe//7u+1uyI0cEi3QxMLUyfj02m6WX0AoCcCh
+X-Google-Smtp-Source: AGHT+IGZRT/WSUaWI12Xl7ecaWonLG7WmLQWcgAjEIFvCrQ79q+IFZ79WmSEIxbO7eQxIZSXHp9S3g==
+X-Received: by 2002:a5d:59a3:0:b0:385:d7f9:f157 with SMTP id ffacd0b85a97d-390cc631b55mr1473019f8f.36.1740469307804;
+        Mon, 24 Feb 2025 23:41:47 -0800 (PST)
 Received: from [10.50.4.206] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8e7114sm1357162f8f.74.2025.02.24.23.40.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8e7165sm1359975f8f.73.2025.02.24.23.41.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 23:40:19 -0800 (PST)
-Message-ID: <cc262c19-009f-4ca0-9fbc-f94f7bc30f38@grimberg.me>
-Date: Tue, 25 Feb 2025 09:40:18 +0200
+        Mon, 24 Feb 2025 23:41:47 -0800 (PST)
+Message-ID: <b4988427-c195-4c4b-ad13-524c790c1c1d@grimberg.me>
+Date: Tue, 25 Feb 2025 09:41:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvmet-tcp: Fix a possible sporadic response drops in
- weakly ordered arch
-To: Christoph Hellwig <hch@lst.de>, Meir Elisha <meir.elisha@volumez.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-References: <20250223072845.3470297-1-meir.elisha@volumez.com>
- <20250224141349.GA1022@lst.de>
+Subject: Re: [PATCH] nvme-tcp: add basic support for the C2HTermReq PDU
+To: Hannes Reinecke <hare@suse.de>,
+ Maurizio Lombardi <mlombard@bsdbackstore.eu>,
+ Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
+Cc: axboe@kernel.dk, hch@lst.de, linux-nvme@lists.infradead.org,
+ hare@kernel.org
+References: <20250214190012.311960-1-mlombard@redhat.com>
+ <91041933-6a18-490c-8090-4e03d15d3cf3@suse.de>
+ <D80R3XYM3OZ0.K8YLZIQ7XUDW@bsdbackstore.eu>
+ <0e3af565-f8e6-4647-89c3-6757f6bae3a6@suse.de>
+ <D80TVRHC1LFG.RHYVKMPXX3DF@bsdbackstore.eu>
+ <c0b813ab-c39a-4cf6-bbb4-abdd3bdf8d1a@suse.de>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250224141349.GA1022@lst.de>
+In-Reply-To: <c0b813ab-c39a-4cf6-bbb4-abdd3bdf8d1a@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250224_234023_194391_8B061FAC 
-X-CRM114-Status: GOOD (  19.95  )
+X-CRM114-CacheID: sfid-20250224_234150_056376_C53D04B6 
+X-CRM114-Status: GOOD (  16.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,53 +96,28 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 24/02/2025 16:13, Christoph Hellwig wrote:
-> On Sun, Feb 23, 2025 at 09:28:45AM +0200, Meir Elisha wrote:
->> The order in which queue->cmd and rcv_state are updated is crucial.
->> If these assignments are reordered by the compiler, the worker might not
->> get queued in nvmet_tcp_queue_response(), hanging the IO. to enforce the
->> the correct reordering, set rcv_state using smp_store_release().
+On 24/02/2025 19:03, Hannes Reinecke wrote:
+> On 2/24/25 17:48, Maurizio Lombardi wrote:
+>> On Mon Feb 24, 2025 at 5:04 PM CET, Hannes Reinecke wrote:
+>>> I really wouldn't be doing that, as we need to terminate the queue upon
+>>> fatal error and don't really want to delay that (eg by waiting for the
+>>> transfer to finish) and
 >>
->> Fixes: bdaf13279192 ("nvmet-tcp: fix a segmentation fault during io parsing error")
+>> I did some tests and it seems to work with MSG_DONTWAIT as well.
 >>
->> Signed-off-by: Meir Elisha <meir.elisha@volumez.com>
->> ---
->> Changes from v2:
->> 	- Fix barrier semantics
->> 	- Use rcv_state instead of state variable
+>> I am just wondering if calling kernel_sock_shutdown() could
+>> in some cases race with MSG_DONTWAIT, preventing the packet from
+>> being effectively sent.
+>> Not a big problem anyway because, as you said, it's a kind
+>> of best-effort thing.
 >>
->>   drivers/nvme/target/tcp.c | 12 ++++++++----
->>   1 file changed, 8 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->> index 7c51c2a8c109..714d920d14e1 100644
->> --- a/drivers/nvme/target/tcp.c
->> +++ b/drivers/nvme/target/tcp.c
->> @@ -571,10 +571,13 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
->>   	struct nvmet_tcp_cmd *cmd =
->>   		container_of(req, struct nvmet_tcp_cmd, req);
->>   	struct nvmet_tcp_queue	*queue = cmd->queue;
->> +	/* Pairs with store_release in nvmet_prepare_receive_pdu() */
->> +	enum nvmet_tcp_recv_state queue_state = smp_load_acquire(&queue->rcv_state);
-> Ovely long line.
->
-> And another thing purely cosmetic: while I generally like initializing
-> variables at declaration time, doing that for something like
-> smp_load_acquire which should go with a comment looks kinda weird.
->
-> So maybe just split the assignment out from the declaration?
+> 'xactly.
+> If in doubt we should prefer latency over correctness; and especially
+> when running over a more complicated network setup (or doing TLS) it's 
+> anyone's guess if the entire stack is still operational by the time
+> we're trying to send the c2hterm.
+> Part of the reason why it wasn't implement initially I guess :-)
 
-Makes sense.
-
->
->> -- 
->> 2.34.1
->>
->> This ordering is critical on weakly ordered architectures (such as ARM)
-> Something weird is going on with this description below the actual
-> patch.  This should normally go above.
-
-git am of the exported mbox seems to correctly drop it from the patch 
-either way.
-But I agree it should go above below the --- separator.
+Agree, this is a best effort thing. No need to jump through hoops to get 
+it...
 
