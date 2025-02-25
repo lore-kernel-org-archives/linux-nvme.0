@@ -4,149 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A6F5C021B2
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8545AC021BE
 	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 16:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kx6pGpKnocUT876q75KeR4YLWF9V9VbmUfRK4WcRRgo=; b=uK7iZCbZ/0tIfM/YgFsoieOiUM
-	0377TzGIuXkUy0U16pzHbFwxwkojV5swRKBycQDEwZrYHhMSEPcIyVMktpt/4jG8rIO9qBUyPR9wr
-	6/Vb9kzPkCU9Wcu84vDpGUC61wrtvWBvO8mOVCPbdUyKlWcLkasvpimr40ua6yHzqSKFP1lD6rURd
-	U4SI+zrGCEPJTOzm/TkWqPRdy8R///c+Aely6mOafBC4zw+mMI4ttf2p8WlKtyr5CBWjq6W7lwMIx
-	ZWKN/BCawUKUyaIcGyDrJoN3FzF9VXGUtMHjGAIyuP82prHqpDX9HfYCgB7XVkuD7ey4HN44QsIU6
-	jnzxjsHA==;
+	bh=Er8L/RidarTahqR7VycrG4OSXqfTiHAybWHQ6rol/5o=; b=ll++GDU6TrbQLEugNxNZng5mLv
+	lVSq29+hpap5957MpMb+ZwfPd5x3R2neVRcfdFt3wow05o7auSQOTk+bYKaOILumkHauZJy00V/H0
+	qboMgXTVdgexJYvNxdUZxrLikM1hPCgWZrvU+TXnPBv0DNQNZ8Rut0AzUDM1b3HVvoZhcBfU2q7YW
+	Hds59JSJkqQ55VRB6JpeIDhDJQFpq0YFvLSTA9wfvwsWqVWfFrnvIi7qRNMS15W7V3xaVDP9uXEth
+	PhdVNBZlzEh4LvjRPL4YhmxeqcSkVrYicHCWmiv/ujNIqf8VBZqHLPsbuHSFtHLLl/xOdElu/L18T
+	RVeMOXbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmxx7-00000000Fib-0LOM;
-	Tue, 25 Feb 2025 16:38:37 +0000
-Received: from mail-mw2nam12on20628.outbound.protection.outlook.com ([2a01:111:f403:200a::628] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	id 1tmxx8-00000000Fkm-2rrB;
+	Tue, 25 Feb 2025 16:38:38 +0000
+Received: from sender4-pp-f112.zoho.com ([136.143.188.112])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmv5Q-0000000HONX-3pbg
+	id 1tmv9A-0000000HP0Q-1Adb
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Feb 2025 13:35:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s5Te3MsdtXejDFChJ2CruxsSET4A+nyUeQlsrROmdd+O/pr7OuG2+7tstY3L4cwwiFjmb5uVU8aOkHd6KVRvHj9/4cg3ZbvIHDqw0DQGC2mpWg02x0VyWNB0vwZUvMEiWkiaPt+3gp4N1hUhIZemmJ0O7+EtzpQ4B5gii4UvVdTATAo7yPovkFRMT56/W8qh081NHm1oIhJlUgFVPe7r7tY2kuqqqJID+HWoeeQMN6xjXhqOPZRORHyxfAxPKmQJ45qgtT+8KeLBYJeIuPD8hDHLa33pFMRdRYG4c3jKdFbCESjUZAnKEf1k49I0GGAeptAg3VT5HLXEWGT4MN9tFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kx6pGpKnocUT876q75KeR4YLWF9V9VbmUfRK4WcRRgo=;
- b=FdrTnOL3zmPyg1Fotsz24grusVGkiOIeM6g9xM/RbSgX6VFZSwRkNIgOlvHRfvOz/ox9UVOCOvTkD+iQc2vXVk5pC8PHRVcvo+cjuNMAEvFwfW7zbO3/xWAdf4vwhq5Xl6r4XIlR+hFFL8iKMggcyczYDXL/oubR0uRvA59ZPiXQBngiH4IL683L2Yci/a3gZ7xk+5Sq3SZA46jKLsHMdW/v5p3H/eC4MVZZXEUTMbnq34m2qIARb8DlHgL7GdfJ1m4tWx6iQnaGTsrkrENbq1CFiJ5q9XH/b5ea4Zdj0+hGM848e8AIu8hPh7rU/cw1zeB6b6LqVdraVxgPhPx4dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kx6pGpKnocUT876q75KeR4YLWF9V9VbmUfRK4WcRRgo=;
- b=Bopm7g3saP02qa8ReFiIOxvetCdRyeohaWroO07QTS6yLro9r5+OrDfa5KECYpI7FiNJ5sZ2D9cc1+TH2m9bmOhHggmmvish3ZNl74djgkOs9hD43jQltDbRDwVGCWiMTWpajO5tf++S5pwYZpR/KWi5OgN7FJ924SSU7GDdvWSeL58R1gVazK8sLZqN9yna87p1yzsUP3CaKwIyrMHjuskis9vT5MYWXqeUKMfCCtqfc9AoAyz/4dbYWBMKSbIuy/ol7C16APonsleeFwIgop2+8rYvXkudl1wdbb5ajAr3+GoreWtNYq7e3I0juMmc4Xlb0gCNOyXZWimnSHIGKQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
- by CH3PR12MB7692.namprd12.prod.outlook.com (2603:10b6:610:145::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.18; Tue, 25 Feb
- 2025 13:34:56 +0000
-Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
- ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
- ([fe80::7577:f32f:798c:87cc%5]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
- 13:34:56 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Paolo Abeni <pabeni@redhat.com>, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, sagi@grimberg.me, hch@lst.de, kbusch@kernel.org,
- axboe@fb.com, chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
-Cc: Yoray Zack <yorayz@nvidia.com>, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
- borisp@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
-Subject: Re: [PATCH v26 07/20] nvme-tcp: RX DDGST offload
-In-Reply-To: <5d9340b1-02a5-4fa1-971e-a2a4baf77ef7@redhat.com>
+	Tue, 25 Feb 2025 13:38:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; t=1740490723; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=PwggEEaZ9CQ2GimeIZGS1fmbi59boeo/kXePKMhJ2kcELz5F+pwwS7V5Gu0bqr+m09VOmQJInMo6L7Ra37jdBaT4j329+JwMt4vA4F9CnP23E6AKt72MFpaeRkCzjOgj3kV7e05+kWOHM17hEAMRIYvNgD54PhBdy2rxaS/gYWc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740490723; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Er8L/RidarTahqR7VycrG4OSXqfTiHAybWHQ6rol/5o=; 
+	b=OvE8JLmbyupMizpcVZwkCvMFhKetCZ7THftrTcirYcLzMS9HHjrXKLexpCvDKLhTF5dvnlYf3CH05Yzf9eOkUMKYSEU5/aK1aVUVeFFFd5JGTheaPw3An4828MFQyGj04SSMQTinsqjmb8xPwzmUmnJgkhd3JWah+DuhiR3QEVA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=gus@collabora.com;
+	dmarc=pass header.from=<gus@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740490723;
+	s=zohomail; d=collabora.com; i=gus@collabora.com;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=Er8L/RidarTahqR7VycrG4OSXqfTiHAybWHQ6rol/5o=;
+	b=AZfPrdW1ROB8wr0BspoOIaDwRjipKL5LrmmAC/s40lMo9SX7OcCnCQmAVzZeP7V0
+	gIgHDNk2LoBapnJtGyWO21kHBVDWDSZl3iGCOGjQ2NpzF9z4XaPHR1cFw6gkXx22Qlz
+	jaZI3whC9H5swCMAfAlga/Pzk2dbPH/FaFu31tpo=
+Received: by mx.zohomail.com with SMTPS id 1740490721679326.96450953391957;
+	Tue, 25 Feb 2025 05:38:41 -0800 (PST)
+Message-ID: <5e610cabe469732582afb752a0155ccf0e0d84fb.camel@collabora.com>
+Subject: Re: [PATCH v26 00/20] nvme-tcp receive offloads
+From: Gustavo Padovan <gus@collabora.com>
+To: Paolo Abeni <pabeni@redhat.com>, Aurelien Aptel <aaptel@nvidia.com>, 
+	linux-nvme@lists.infradead.org, netdev@vger.kernel.org, sagi@grimberg.me, 
+	hch@lst.de, kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com, 
+	davem@davemloft.net, kuba@kernel.org
+Cc: aurelien.aptel@gmail.com, smalin@nvidia.com, malin1024@gmail.com, 
+ ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
+ galshalom@nvidia.com,  mgurtovoy@nvidia.com, edumazet@google.com
+Date: Tue, 25 Feb 2025 10:38:35 -0300
+In-Reply-To: <63ede1de-1ee3-4872-84b7-d65ec2f68856@redhat.com>
 References: <20250221095225.2159-1-aaptel@nvidia.com>
- <20250221095225.2159-8-aaptel@nvidia.com>
- <5d9340b1-02a5-4fa1-971e-a2a4baf77ef7@redhat.com>
-Date: Tue, 25 Feb 2025 15:34:52 +0200
-Message-ID: <253plj6ywoz.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P123CA0094.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:139::9) To SJ2PR12MB8943.namprd12.prod.outlook.com
- (2603:10b6:a03:547::17)
+	 <63ede1de-1ee3-4872-84b7-d65ec2f68856@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|CH3PR12MB7692:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23630ef3-ceeb-4e8e-e0b4-08dd55a13165
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|921020|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JQuBzScCAfzs/LXupcGO2clL+kpSzWyDcnQwR8eii8KLCc1Evt6GLtC6StOo?=
- =?us-ascii?Q?KSuAsYVCleamf8AyGkYocK5shKVQ8IAFHeXYNcHoR3Tp9rtdAs0LchwO9DCR?=
- =?us-ascii?Q?pUhh/PqCJlIMVTVvuT6c4a/3xZOYUa1+ep+mISm6eSRR+gcpEFMu6iS93xnf?=
- =?us-ascii?Q?l/2L0LfZOh1QZo6a44VYALE1yhDuFmXgJ8blXvmVZhq5fZQI8cfER9ldovh/?=
- =?us-ascii?Q?7SkgpDHsYMQnFedZ72LHXZni5AiR9BhRxJvppOXrl9nPSmpv0z5tmygMTCsh?=
- =?us-ascii?Q?aHN91hX/JoF74PBbvFV0SxsglqDWQBM8vnfT879Ftl2oz3Ozd+VowtOPqf3S?=
- =?us-ascii?Q?PB9IfieqbzHLJolvCCSHLDyhERXGVt7k/TMflLx4CWleaIdzOmHFHbhoCPd9?=
- =?us-ascii?Q?s+SnrnR+YLXLrFJp4bSUkfS6xFvIlEfZ246BwDJsm9A0x91W+OJ4T8Ed1a2S?=
- =?us-ascii?Q?5TSkqJPHdkdvMt5kMhI86n/991Yeab3uWVrZSNutfke3w1A9ddwlTgXRA3cT?=
- =?us-ascii?Q?JsT+itRM2DY76xo4nB6yndRy0W2b/fvu9jfymiaRiVZrrsH/x3kpvcrGAdQK?=
- =?us-ascii?Q?GjK+D9ZdDwYX1DUdix+XnUVvKXql5QcCIBHrmIXwIfGcr8OXwsITfJjBCS+F?=
- =?us-ascii?Q?C1KZYPXZHHqBFa0++uTakiEwTKqf2ozkGlWSuBDhTpYNfbR7JEQJ8hBzZvTR?=
- =?us-ascii?Q?894mnlaJaLvOG9T8lC5pUKnCpmHioYzCGzAXG7Wz1H8HlutYQOsR+SS4ZzJm?=
- =?us-ascii?Q?+5ubDdA7Q5yyfhV2RAF1bD/pobXAATPSts0bhkyapyd3v9NDrw0ZCAoqtCpO?=
- =?us-ascii?Q?mGvfz9nR1GIqxdvAnTqpJcZXwdROswH+uDvzPXWyjOL52k+nfN2luZBRclEP?=
- =?us-ascii?Q?GkDFM8QJHvkzqS6ob1YuXboQgPvaGS4SxpT6xzUI6e6rxalctla1Yrhl5wOc?=
- =?us-ascii?Q?R+Vld7DgW3ObZCh48sMhqSKFR94+XkmCB2fXvzTcUrLCQgXE47ypK01603b/?=
- =?us-ascii?Q?adBIeRK+OHlpubMoCd4lsqP72Hg9QHRDDBVwOHX1hB+5YOZCTDEpjT1YRdAa?=
- =?us-ascii?Q?y6uxnVTIMkDtedpNRmJzJtpajHX+Dyz/aXMX3kO5+Wm263JkP+UfqnaTBbuM?=
- =?us-ascii?Q?R9amrPKlGJfM1OJyqkopItKmRAaS7CBa3Pr0ff0p7lUwpxEDV3f02M2Z0Dmt?=
- =?us-ascii?Q?dvnc60vhhauwCLCGr383vQQj4j/S1IU3AMvsZLLRRL4PSIgiEpcgdOJgkmMQ?=
- =?us-ascii?Q?9msBcmrNwWtuitPlqDwKj/ohrr6qEz9Jsy+c/1dHOStkN/tLlihSigYT+yQ6?=
- =?us-ascii?Q?Vr7vvD36mYFAa5EX3izw/7BUy0rMIcQ7QqZor3D6RfbzMzAdWMHuib0WyKoJ?=
- =?us-ascii?Q?b5nIIxgQNKeyMA1hav22WQA6yUVdPjRBuO9zTSeOHMtgvPl0t9w+V0Fjy6q5?=
- =?us-ascii?Q?SgOf4SuqMYQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gepReLbMxMf/yyeRxMDwTwHgnBvraTMtjdTWc7et/6Uwe9n0BN8Zo5OG/qTW?=
- =?us-ascii?Q?2MWGKAyh5rzpLDkYzt8wPglw+gEteFjMmw9iai4KE2tW+x4X/b5YByzxIO4Z?=
- =?us-ascii?Q?VGwnQi3m5l777fYPmBwgFvz6C0bIQA8bb0vCcOFeNtO54VuYuz+P4caNeZBb?=
- =?us-ascii?Q?e4ttiBUCuEMlrvClXAkrif8YwaKxvSu4TtMCKjm1jnCrJk5PH4WR69FvOgpR?=
- =?us-ascii?Q?SDOQ0YAeOFvJNK+KyWbptjALGvi4iD9TjvSd+dGuYZkwLYl9mXE040TBMM71?=
- =?us-ascii?Q?4BcIklduS6QvmKiGnYqm3bwrI3zTFuO75Sq/zaKdLAbTPRFlJ8k8IVGrp7Uc?=
- =?us-ascii?Q?8mY3lmZ7nWdEihL9zDO+r/BbNZ89dFq/cD9Ffn5UoiQbmkNY2IIP7YSBtUyt?=
- =?us-ascii?Q?hUB/yjKVxOhYX1xvdMIQaZADvpWuZOfB9qhGpOr3QRRr77QmCA6pWuZMS7GE?=
- =?us-ascii?Q?0crq/9ZHjb3aCxHxSC2TTIFTPfGNnKq0FWg03LLue/bX8D/sXxAEE5k2cBFj?=
- =?us-ascii?Q?++zdEFWOKhWS1K2oH9htj6LQLRlxg+T3EQnrl0GD7Ypx2k/v4msa7ujNLxIv?=
- =?us-ascii?Q?xuUpGGs7oCs+xFG5DCxIkNW7AAfeTdmx6LlE+MUjjb7w66gdWJxvgORBqYjT?=
- =?us-ascii?Q?2LjafvgQwgtuhjzNT85MUfb6zjAl5jjFKqBRVLtsLjRmzNPyR+aU+1qb3Rhx?=
- =?us-ascii?Q?DNeVWYtDGClKE9deH3yxhqaoXKMSkyJIgks147fAnX6PEXFYffY/x+Z5pZSQ?=
- =?us-ascii?Q?lC3GD7yMLetsEHJ+ChXOuio5pB8on409JxX0VKDvwfTpwJA0oTGMGSL4SdTS?=
- =?us-ascii?Q?IiqJr7/iL1JS+No/4nU5+qtcokMthelx+knkfF8DhMiF+DNPtsbz/rMyB9Pa?=
- =?us-ascii?Q?IlFFeCNt2s+TwHJLagrmju0gpI+o8pUpiBbleBogMM0a7bqh4lFol6YvF43+?=
- =?us-ascii?Q?Zh3LVFhJ1piBM6XaVUPa7tkIRGJ54+devQtUqiGn6IvewlUcm6Qi6jfDMHzB?=
- =?us-ascii?Q?w/9uRTtunUfY9guXvgewkcOxhqI97b3ASo3VpEe7ONYlNkAy35pEhhFoh1BT?=
- =?us-ascii?Q?ItxXCTFupaOurlcceHvZjQv/tPd3B02PhqFAMmIgvCFXGYFZq2nKIIBR2n1I?=
- =?us-ascii?Q?JjI/ysy2nJ7zlqathmc0c4Sb+8tzQxuDSDdPENT6ZwFTEdwCtbBa74R81CX9?=
- =?us-ascii?Q?InpcLzPJTDKZ/VQWJcclp7EabavMZkLm00FZSwMMDFJhaaUcm2EAspDn65j1?=
- =?us-ascii?Q?1TdcnE+IPf3ikhmwKy9gq3aYjBykiVdQk57P9QTBg9pJ1paWBYeiJXxLP/hp?=
- =?us-ascii?Q?xI2q2bJ5x6etG/RQa0FKByzYi6niC0EhRk5qDt1lBR5eFWbFpmEYxpprLveP?=
- =?us-ascii?Q?wwtBx44AGUXirUxa+k2uuj64rSHeijvFUHiKyyRhtJLRtqiVo15xtEjArTLs?=
- =?us-ascii?Q?/6PsTHpKkeApNOFYUwHFGl556KdM6MKZcLsLmrZZJAGzfNDtnUq4BKpoYkmT?=
- =?us-ascii?Q?uWp3baIQBuSSZLU0ih1rtEd7L1YyIep5FUId/eduugyCCKHY2CcFjwC27FEs?=
- =?us-ascii?Q?HjpOVoJRhViMuQLy7LZuoow8XRyACLlJGbVWo7m2?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23630ef3-ceeb-4e8e-e0b4-08dd55a13165
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 13:34:56.4865
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y0XiYIp+GHNLoWdnFpOzOT2Qe9p1w8vmJKJt+BWMYCrwAtcdHi+s+2o/Dst8z6+wixwLqAsfPkYv5fy6EmYclg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7692
+X-ZohoMailClient: External
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250225_053500_958881_02498D7B 
-X-CRM114-Status: UNSURE (   3.70  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250225_053852_383547_AECD5C10 
+X-CRM114-Status: GOOD (  16.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,13 +83,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Paolo Abeni <pabeni@redhat.com> writes:
->> +static inline bool nvme_tcp_ddp_ddgst_ok(struct nvme_tcp_queue *queue)
->
-> 'inline' functions should be avoided in c files. Either drop the inline
-> keyword or move the definition to a (local) include file.
+Hello,
 
-Ok, we will drop the inline.
 
-Thanks
+On Tue, 2025-02-25 at 11:12 +0100, Paolo Abeni wrote:
+> On 2/21/25 10:52 AM, Aurelien Aptel wrote:
+> > The next iteration of our nvme-tcp receive offload series, rebased
+> > on top of yesterdays
+> > net-next 671819852118 ("Merge branch 'selftests-drv-net-add-a-
+> > simple-tso-test'")
+> >=20
+> > We are pleased to announce that -as requested by Jakub- we now have
+> > continuous integration (via NIPA) testing running for this feature.
+>=20
+> I'm sorry for the dumb question, but can you please share more
+> details
+> on this point?
+>=20
+> I don't see any self-test included here, nor any test result feeded
+> to
+> the CI:
+>=20
+> https://netdev.bots.linux.dev/devices.html
+
+
+The integration is final stages of deployment. It is happening using
+KernelCI[1] as the hardware executor with the NICs hosted on a server
+in our lab and then publishing the results for NIPA consumption. We are
+currently working with Jakub on the integration of the results produced
+by KernelCI.
+
+Since last week, NIPA generates a special branch only for hw testing.
+This is the latest one for example:=20
+https://github.com/linux-netdev/testing/commits/net-next-2025-02-25--12-00/
+
+However, it doesn't include Aurelien patches yet, as from what I
+understood from Jakub, this new tree only includes patches that
+passed the existing SW CI. Currently this series has some fails:
+
+https://patchwork.kernel.org/project/netdevbpf/list/?series=3D936360
+
+Once, we get the series to pass the SW CI, I believe the patches
+will land in the hw testing branch and then be picked up by KernelCI
+for testing.
+
+For information purposes, here is the same test but being executed
+against aaptel tree last week:
+https://dashboard.kernelci.org/test/maestro:67b8d4ace3e60eeff606d9c7
+
+
+Once things are finalized, I'll send an email to the list describing
+the integration as I believe more folks might be interested in the
+integration through KernelCI.
+
+
+[1] https://kernelci.org/
+
+
+Best,
+
+- Gus
+
+
 
