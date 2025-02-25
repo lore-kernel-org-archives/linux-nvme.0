@@ -4,70 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BDEEC021A4
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 01:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65C97C021A4
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Feb 2025 01:52:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ms8g50/1YJ68Be3VPvGpC5CwwNMeTtrPr9S/ofkhzmQ=; b=wO5yo+BGW3nqO4bFql6RqfbQg6
-	NJay6P8rAaI8ZOONfh9Abgr+c/tcvUKbfzblJ/FaVsg+x3IHmJvdM7aKH0PIzxhuCY9310lV8UdNw
-	KcF/60OANfce86hjQvakbHzeJbW63V8VNKYZGzlrlJ4gnW9LfKzE03bePCX+AIPKlOkwHV22ZYhdi
-	nWITWZYAo9sIi+/6WK1kL+hy2D2g+rxmc+a8iAuF+/yKDUeY8UgvBYYRcXENKPcMNc3brUB6AgWLb
-	6lb3UWXg+qspq/UthM2okHgv++34XQXKs4u7voxl5zv8Rc/djE3+H5Mg7ezqplEfEJ0FisvoRvAc1
-	ehQ8OxRg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Yt7FV8Is/XZOi8N7ebx2gw+ZNuxX/nMnNKn9hf0ikMI=; b=q5mjCuD4xbeRLpBDH90TnvZ9dA
+	rhuyQe3KFviN06LujxO6GoiXmr0YmMCIOH/ITbpPTRFWxV0jLr3QZ776YEMLfxnpIouWG6Yq3MVsY
+	+KQd5JfPPG2s0Pm5Pk4Qte89FfCp1OS5spteN8nJCOf1tR9W+231sMCfvsLjraKeQpEqfChSsludi
+	Gok6Y8YJ3Yc7+26oN7EUYo0T34sOJnWw8qqf3LCp+8jpZy3Z2o7VehDQRgp3GALFd3ZuA961JI4Ob
+	PJD65XeAGaqUROw41eWydOF2NsAToN+QmoeBfk5YCleTF1OuA7zpQYZlg6vpO8LOqrcCubw0rYxzf
+	r9pE+49g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmjsk-0000000FiIa-0Uui;
-	Tue, 25 Feb 2025 01:37:10 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1tmk76-0000000FjzY-3tp2;
+	Tue, 25 Feb 2025 01:52:00 +0000
+Received: from omta034.useast.a.cloudfilter.net ([44.202.169.33])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tmjrc-0000000FiFW-372A
+	id 1tmk6j-0000000Fjtb-32sR
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Feb 2025 01:36:01 +0000
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51P024U2016484
-	for <linux-nvme@lists.infradead.org>; Mon, 24 Feb 2025 17:35:59 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2021-q4; bh=ms8g50/1YJ68Be3VPv
-	GpC5CwwNMeTtrPr9S/ofkhzmQ=; b=Q8MZHmRtfAynuz2WupCt9msZnqMO2cv9aK
-	gNVgnAmlHDvfHUyOGuGKwA0YFFHXEnuVm98SYXiiconKj8fhfDvY3H8jQWldw1Ox
-	pBOiMHFMvQ009BQNwmX966K1g2CHWfprgpwhT7NmTNcgUkG/dAZ19EhgbsDFY0pD
-	so3TE5crl2TzxXrgACYPJBM1X1FVuFb+ti7XBB2cggqkgtFUaQLIWBlCu7VWYwDc
-	0wI7FYSZhhFIE3QxUnkrKUwKoGA1N8CuUDFJLBS9yFChuWhhmVcHCbPrdXI29325
-	wKnO5eb3s4PgQU1qCUR41MAh6mMf3T3QghK6lWqvkhdpagyC8WcA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4511buh9x8-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 24 Feb 2025 17:35:58 -0800 (PST)
-Received: from twshared40462.17.frc2.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Tue, 25 Feb 2025 01:35:49 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 4B375186AA841; Mon, 24 Feb 2025 17:35:51 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: <dlemoal@kernel.org>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme-ioctl: fix leaked requests on mapping error
-Date: Mon, 24 Feb 2025 17:35:47 -0800
-Message-ID: <20250225013547.1130524-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
+	Tue, 25 Feb 2025 01:51:38 +0000
+Received: from eig-obgw-6010a.ext.cloudfilter.net ([10.0.30.248])
+	by cmsmtp with ESMTPS
+	id mblHtDl4eXshwmk6XtdcbZ; Tue, 25 Feb 2025 01:51:25 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id mk6VtijhO6Lcjmk6VtiY2L; Tue, 25 Feb 2025 01:51:24 +0000
+X-Authority-Analysis: v=2.4 cv=UfxXSrSN c=1 sm=1 tr=0 ts=67bd221c
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=6Vi/Wpy7sgpXGMLew8oZcg==:17
+ a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=7T7KSl7uo7wA:10
+ a=oltRCMenW_0Ea9-Xwq4A:9 a=QEXdDO2ut3YA:10 a=Xt_RvD8W3m28Mn_h3AK8:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Yt7FV8Is/XZOi8N7ebx2gw+ZNuxX/nMnNKn9hf0ikMI=; b=FAlNsKkUoIJYZiQd1fuXC5EcHn
+	RvU4cr7cQwvw2jO60pbhr3XUqC8oJo4oagWZczJ4Mrhuytki65/XzuhYs+2iHsC2cap1CBRhRS44Z
+	5pk5CO4hRWNavWIdLB5zKgkYJLXNgsNl3r/To1FSkpr+/+9kz+2GCniwZQRGRfmgkS+Y5SHFvphB3
+	jO46v03XIDm9N5m9OVSij54DbuaANzHIIke9eiIdHKlRD7nnWxUj7HmWRFbcP4uANnaCdwqeLVqtT
+	3NoR6ligc3UErUhqO8Pj2n+Cv4xSWKNMUg/2D67jE/w+NdVG+Oz590fxQkO2QcbqbvjZPzYi/aGUw
+	spKgTMVw==;
+Received: from [45.124.203.140] (port=53629 helo=[192.168.0.158])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1tmk6U-001k4Y-2S;
+	Mon, 24 Feb 2025 19:51:23 -0600
+Message-ID: <c3c28d70-540b-4034-8a89-8a6c4dcf17ab@embeddedor.com>
+Date: Tue, 25 Feb 2025 12:21:15 +1030
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: i4tJpVBcAzlhJYyvS8Mj2Jouhp0FUcsV
-X-Proofpoint-GUID: i4tJpVBcAzlhJYyvS8Mj2Jouhp0FUcsV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-24_12,2025-02-24_02,2024-11-22_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/8][next] nvme: target: Avoid
+ -Wflex-array-member-not-at-end warnings
+To: Christoph Hellwig <hch@lst.de>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+References: <cover.1739957534.git.gustavoars@kernel.org>
+ <ef7a6920384ab2f8f83c0f630f94edc73cd65997.1739957534.git.gustavoars@kernel.org>
+ <20250224141938.GB1088@lst.de>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20250224141938.GB1088@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.infradead.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 45.124.203.140
+X-Source-L: No
+X-Exim-ID: 1tmk6U-001k4Y-2S
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.0.158]) [45.124.203.140]:53629
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 3
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfPq2aF13ox1QQKt4ephE2wp5s1Pw037Sv8f77WqyQyczTQfakFSDNWCQgLoIcbzAlyDXJnURJY9lUBHbtJzQO/zOwOCJOXJMX16pfnaD50Y2FIj1+ZN3
+ XMGvZgJp1fujZtz2Eybsg8eeJ0C3JI/NoTHWt8qwbAt5Kz0GmmG3JZMD6+HFpCunmlk3F8EwG2DNQBDN2dI83HFsvqYiyRrIcVGDuxdwSW21wql0KoiruyIy
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250224_173600_867883_AD44AAFA 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20250224_175137_887051_8569DB6D 
+X-CRM114-Status: GOOD (  11.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,58 +111,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
 
-All the callers assume nvme_map_user_request() frees the request on a
-failure. This wasn't happening on invalid metadata or io_uring command
-flags, so we've been leaking those requests.
 
-Fixes: 23fd22e55b767b ("nvme: wire up fixed buffer support for nvme passt=
-hrough")
-Fixes: 7c2fd76048e95d ("nvme: fix metadata handling in nvme-passthrough")
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
-Without this patch, here's a nasty trick to lock up a queue's hctx:
+On 25/02/25 00:49, Christoph Hellwig wrote:
+> On Mon, Feb 24, 2025 at 08:30:10PM +1030, Gustavo A. R. Silva wrote:
+>> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+>> getting ready to enable it, globally.
+>>
+>> Change the type of the middle struct members currently causing trouble
+>> from `struct bio` to `struct bio_hdr`.
+>>
+>> We also use `container_of()` whenever we need to retrieve a pointer to
+>> the flexible structure `struct bio`, through which we can access the
+>> flexible-array member in it, if necessary.
+>>
+>> With these changes fix 38 of the following warnings:
+>>
+>> drivers/nvme/target/nvmet.h:455:49: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+>> drivers/nvme/target/nvmet.h:462:49: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+>>
+> 
+> I'm not sure where you bio_hdr structure comes from, but maybe that's
+> because you annoyingly split CC over the series, and by the number of
+> patches probably also bundled unrelated changes.
 
-  for i in $(seq 1 5000); do nvme read /dev/nvme0n1 --data-size=3D4096 --=
-metadata-size=3D16; done
+Ugh, yes, I messed up my script just before creating the series.
 
- drivers/nvme/host/ioctl.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> In general our first resort here should be to move embedded bio to the
+> of containing structures.  If that's not possible you'll need to explain
+> why.
+> 
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index e8930146847af..41907b4e18694 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -128,8 +128,10 @@ static int nvme_map_user_request(struct request *req=
-, u64 ubuffer,
- 	if (!nvme_ctrl_sgl_supported(ctrl))
- 		dev_warn_once(ctrl->device, "using unchecked data buffer\n");
- 	if (has_metadata) {
--		if (!supports_metadata)
--			return -EINVAL;
-+		if (!supports_metadata) {
-+			ret =3D -EINVAL;
-+			goto out;
-+		}
- 		if (!nvme_ctrl_meta_sgl_supported(ctrl))
- 			dev_warn_once(ctrl->device,
- 				      "using unchecked metadata buffer\n");
-@@ -139,8 +141,10 @@ static int nvme_map_user_request(struct request *req=
-, u64 ubuffer,
- 		struct iov_iter iter;
-=20
- 		/* fixedbufs is only for non-vectored io */
--		if (WARN_ON_ONCE(flags & NVME_IOCTL_VEC))
--			return -EINVAL;
-+		if (WARN_ON_ONCE(flags & NVME_IOCTL_VEC)) {
-+			ret =3D -EINVAL;
-+			goto out;
-+		}
- 		ret =3D io_uring_cmd_import_fixed(ubuffer, bufflen,
- 				rq_data_dir(req), &iter, ioucmd);
- 		if (ret < 0)
---=20
-2.43.5
+Yes. Also, thanks for the feedback in your other response. I'll try to
+follow that approach and see how it goes.
 
+--
+Gustavo
 
