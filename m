@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77D40C021BF
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 00:57:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74628C021BB
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 00:57:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ho1p9T+EgqW5ri+TziTR9nEBpqCpp/MEy1wgOMQmOKY=; b=ekHjMvyFPr2RQER+13nLxGu0Ah
-	8TSuUIDirP2jT6jPioUonDmtVpSoa04hTZ/uJO5pHPOueiWDrRrq+Wlp3oNMkvKowDNmJ1Cj7tBTX
-	H8lQsJXOBjC/Q5Y/3JgZGA7XJMIRcY5Belcc4d/C90xp95yn94P0f06mBxiz9Wdpz5A+k1R0VroYr
-	TY+Lne6cNZm43gz9sOTqumo9pNHdkkZkaO2H7Hrnimx9lRrtBGdc8ef7d8HvM/YEerS0Syxew/2mv
-	p7pjORN8gozw2NV1GkeCNuw3r2U9lsthr8Oc1rFKNew5l8E4ykOeLmRrELk+T02s07gT9J8b7S1HC
-	lcYQDXZQ==;
+	bh=XNL3dldZNlw1Eq84meBUr//vKEng/ID/zFGHKMY53sg=; b=00LGZM9wtmzQbZuWHYLH36yIeA
+	ENnb0H3bD9UemObkVivGzkUUb9qhEqsHyZWzLmfPWd5oL6Pet1ciD/GIiac9/q1eLhtqXmHCC0iV3
+	dCaQeshqZj5vMnbxIvtJO+ajzy4Ev/7+NcY0JoebT6KNGYPj9TmIcbWSOdx8EzXZ3uTWXxn5nOXWc
+	NkmMVA9oI36uHSeLtQbESsXUZCuG36QF0lK5ocFjmQHZgCtTsXMUP5ti3JVFCSgo0yCRwrnkn5FqT
+	u6H9/CnzrUYe2X15oYreRvR0l8rVvDE4/ixNjiZpKVjUKH6MDn9olzMlrYCamSs6+Axjmod8PAhcU
+	6EoWpMJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn5jT-00000001vBE-3XgZ;
-	Wed, 26 Feb 2025 00:57:03 +0000
+	id 1tn5jU-00000001vCh-2lk5;
+	Wed, 26 Feb 2025 00:57:04 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn1Ms-00000001Ks7-4BgD;
+	id 1tn1Mt-00000001Ks6-0byo;
 	Tue, 25 Feb 2025 20:17:28 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 2959A206ADE3;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 544A4206ADFB;
 	Tue, 25 Feb 2025 12:17:22 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2959A206ADE3
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 544A4206ADFB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1740514642;
-	bh=ho1p9T+EgqW5ri+TziTR9nEBpqCpp/MEy1wgOMQmOKY=;
+	bh=XNL3dldZNlw1Eq84meBUr//vKEng/ID/zFGHKMY53sg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=G9tFph11Fv4vR4hm6scJe7fKKxiuuiHwgM5dUJa9rcD0K6DazlUazY3gwz7F4CLY0
-	 n+x+Wn7TB7JHxrIDrlWf5FrXGMkHRBYm+gG42H30XGodgn7ZLnsU4+T9bbNcR1j28/
-	 i/uGrozSqAqsXekEKsNJKYeqEFawNklWw2krWhmI=
+	b=Du6Fw81gtR9lc6VxhG+uolWk6DNSsR0fD03V4uHvgstLN4C99mrYAdfHxBUoITNbw
+	 0dBuGVNQZXhzAmqB9swX2y81gcwwAgNvdFZl3mtEL75lM8WadHp0lYC+JXaZXEaD0T
+	 xEVN7fx6wsqh1SZPlLtM4UUNPYU6T4vw+KsVz5dg=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 25 Feb 2025 20:17:29 +0000
-Subject: [PATCH v3 15/16] platform/x86: thinkpad_acpi: convert timeouts to
+Date: Tue, 25 Feb 2025 20:17:30 +0000
+Subject: [PATCH v3 16/16] RDMA/bnxt_re: convert timeouts to
  secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-15-a43967e36c88@linux.microsoft.com>
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-16-a43967e36c88@linux.microsoft.com>
 References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,8 +86,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250225_121727_098578_DD7D8122 
-X-CRM114-Status: GOOD (  12.47  )
+X-CRM114-CacheID: sfid-20250225_121727_255655_52071D0D 
+X-CRM114-Status: GOOD (  12.17  )
 X-Mailman-Approved-At: Tue, 25 Feb 2025 16:56:54 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -122,22 +122,22 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 2 +-
+ drivers/infiniband/hw/bnxt_re/qplib_rcfw.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index ab1cade5ef231e9a9a520bc0cca82384c911a331..d269e791f7fbc2a8ccf96f28cb476beccb57c9a7 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -8512,7 +8512,7 @@ static void fan_watchdog_reset(void)
- 	if (fan_watchdog_maxinterval > 0 &&
- 	    tpacpi_lifecycle != TPACPI_LIFE_EXITING)
- 		mod_delayed_work(tpacpi_wq, &fan_watchdog_task,
--			msecs_to_jiffies(fan_watchdog_maxinterval * 1000));
-+			secs_to_jiffies(fan_watchdog_maxinterval));
- 	else
- 		cancel_delayed_work(&fan_watchdog_task);
- }
+diff --git a/drivers/infiniband/hw/bnxt_re/qplib_rcfw.c b/drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
+index 17e62f22683b14a3571188e25fe0df3cbf1d8360..b1a18c9cb7f6c248548bc38fcb98781a3030a1b6 100644
+--- a/drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
++++ b/drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
+@@ -160,7 +160,7 @@ static int __wait_for_resp(struct bnxt_qplib_rcfw *rcfw, u16 cookie)
+ 		wait_event_timeout(cmdq->waitq,
+ 				   !crsqe->is_in_used ||
+ 				   test_bit(ERR_DEVICE_DETACHED, &cmdq->flags),
+-				   msecs_to_jiffies(rcfw->max_timeout * 1000));
++				   secs_to_jiffies(rcfw->max_timeout));
+ 
+ 		if (!crsqe->is_in_used)
+ 			return 0;
 
 -- 
 2.43.0
