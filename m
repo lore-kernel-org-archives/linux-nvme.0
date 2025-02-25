@@ -4,121 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0036EC021BB
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 00:57:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2117BC021B2
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 00:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:Cc:To:From:References:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pLp9Ea62UroP9Hu5zCjkj8kz5zOw20u3Q4aJrEzL0tk=; b=jg0VJsfbehOoznvA2+F3Idec8i
-	J1hUvVx17gxdc3Kj9QHofGjndP4qfZjv8tsFlROjcIcOVh580r6DaOnDPuUMywGsNiWG/Vk5jCar+
-	Vly18my3SkXEPQ4FiLEQltfM4qXfOwaXTBT596pr56tCcbckPgBcubVazWD3b7ISVYWH7dMGWvk/S
-	LrywyhLkcNVuYfUfrRv9d/5Zi5wdl399Zbbx1db/6LNEq+tibwEuMf+lBR+52alu+TDEYbPUtKSSV
-	jZ2jj2CClHglCh1GujheUvZF9tlGvKo26f5Iyg4HHmU/ZscXh8gMp5Fi5T5jBVNMtvkVdtIyZypsZ
-	LlfnIq/g==;
+	bh=tARq/I59R/ifvYF0dCCLUoCvyYc1ZBk7Dm3FuvihB2s=; b=0Iqz2DiEi92pK08LrazJ3zmg9V
+	7ma38BvG4hSElBIgNpHH9tvKhBKCXYMPMFclUfa5LMSJIb0ve7OsObwZtogw3pVSWlLz6G5HKjYix
+	J8BZoVY0EvuBhUbKH5zgs6fF1pjfbUQsXic1PHlIflQ+UVh3HgdqC0sdQ6oN3fb3Yxmmfdl6L76UI
+	PZ8Z/jYWEtX4U7AL2uVdVCpA2vHVC/bjOTgi0f/+1ME2vkWC70TKZ0LfBmAQZb7sqwJPhF2cc7p6E
+	kp9R+3xzc7hB921YdK8+tRNjQdBoN67yPbKotZtL5lt9jHsw+/Ksbe4Ds0vzcZzNdl5H/shDQsBTw
+	9YWvz1wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn5je-00000001vVa-18rI;
-	Wed, 26 Feb 2025 00:57:14 +0000
-Received: from mail-io1-f45.google.com ([209.85.166.45])
+	id 1tn5jf-00000001vXg-1sED;
+	Wed, 26 Feb 2025 00:57:15 +0000
+Received: from smtp-80.smtpout.orange.fr ([80.12.242.80] helo=smtp.smtpout.orange.fr)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn1Zh-00000001NCf-2HTA
-	for linux-nvme@lists.infradead.org;
-	Tue, 25 Feb 2025 20:30:43 +0000
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-8559461c2c2so159907739f.0
-        for <linux-nvme@lists.infradead.org>; Tue, 25 Feb 2025 12:30:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1740515440; x=1741120240; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pLp9Ea62UroP9Hu5zCjkj8kz5zOw20u3Q4aJrEzL0tk=;
-        b=L0I8f/C3Q35GT6gAa0mgtMtzj/z/XHece2HuFGjLD00HLJzeNBosLBPWeHCkaz8dkA
-         NdU6mK989CPwqjNn8+TN5vKgdnpCDZW1/axruj5aOKSWEDvhj1H5kBAY7oRwRN/5YM8p
-         C4fxLNYWFO5PAzr30YFSy2/6xtdGKIfJeABQKCF9PuZ+xe7lnCzdqIwOOQMM7QwmkFWE
-         tzW9TodPEjn/WnoTG6O/0qrfDtaKFm+IQxHcwHIBmR93eiFeUmo9YqHgXPguavjkdIVw
-         rYLfS/TCytvh8CALsIi0fDZGmy5hE8cK5X79qjQJEo5SP39na1jfErSesRX8dYKR30t9
-         sNKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740515440; x=1741120240;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pLp9Ea62UroP9Hu5zCjkj8kz5zOw20u3Q4aJrEzL0tk=;
-        b=Ek0VRMWmOdTV5QW4TW13PKlhzEeWgH99SMYvBLmchT0HkSs3pMS/971kpdIEjbWVKn
-         InkhL4f5rB5lebWeAvvP8ss6HRS1KiJ1drxpm+EXx2Rd3u6JZflsOFTJp8hrNbvwtRNj
-         YgmN51svkdy1SpOo1W+/jUB61+PWYDhW3vsSUDdxGb6XveXx+Q03IHi2DMf7HBlT7+Wy
-         H1oQ/beGZoKYCdOg29M+GEuWQuvKMAWyiJ70jN4F1PNEcQ7Dy0xMhyW7Cg6DeIjB7e4O
-         Lw0/cE5Q3YxdN2d6dduavQIG+p1btOuNUHDKzvZCR8sDKYjfbQTzx1sX8hjqJbABDIo/
-         q08A==
-X-Forwarded-Encrypted: i=1; AJvYcCWVv0FTmHNl1gl78LC+NF5y95kMyT+un/EZg8+lCYgbCDwO3xK2zzB8rNHQpbNSISIfJ4su4+TJc0HK@lists.infradead.org
-X-Gm-Message-State: AOJu0YxIHL3jHMH2ftMGreKEdjL4LBnTQVhXIDXtBuerDGLeS0FP+Rnk
-	z1ft+sNhLnH+WpAzqCTO0jJKf7Y/19F9JrKtKlfJIpPmdKv6HqMYm6s+FJQI7fI=
-X-Gm-Gg: ASbGncsPg2gtDGx3nxG92zmbE6ZV1jtemxySuRBcVG2CMuKIDmUKOol6Z5k1UarSIxy
-	s0HJaoy9PWqx0zAHaqo0QilJm/RfnfimstVOUYetvRtz/F5i6qBsqhdeyJ44GviTkj7WRoQnxPI
-	NO9JFHu2R1YQ5dex4EjYRZZ8YtXVvQv0DO0cNqxCqO2zmg1hGriBgPYhvd/pNwk6mhSl6XAeAYq
-	qTPCw91k5mziDcHrDe38VPzk/5fddNIg0sSgXcE9zjOizwQPBr4md/vWauQVY4Bb1bLi1iJ/K9j
-	GAFi7kqnnCx6Zose
-X-Google-Smtp-Source: AGHT+IEI1HpA9fGHJ1GdkYmfu92FscKbuH3o9L2lVKiqa4D5puwjeIXVc4djLm6mFSVg2XH039gtQg==
-X-Received: by 2002:a05:6e02:b2a:b0:3d1:968a:6d46 with SMTP id e9e14a558f8ab-3d3d1f40415mr9808255ab.6.1740515439644;
-        Tue, 25 Feb 2025 12:30:39 -0800 (PST)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d361ca3896sm4764255ab.53.2025.02.25.12.30.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 12:30:38 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
- Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
- James Smart <james.smart@broadcom.com>, 
- Dick Kennedy <dick.kennedy@broadcom.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Xiubo Li <xiubli@redhat.com>, 
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
- Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
- Selvin Xavier <selvin.xavier@broadcom.com>, 
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: cocci@inria.fr, linux-kernel@vger.kernel.org, 
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
- ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-spi@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org, 
- Takashi Iwai <tiwai@suse.de>, Carlos Maiolino <cmaiolino@redhat.com>
-In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
-Subject: Re: (subset) [PATCH v3 00/16] Converge on using secs_to_jiffies()
- part two
-Message-Id: <174051543709.2186691.13969880655903967909.b4-ty@kernel.dk>
-Date: Tue, 25 Feb 2025 13:30:37 -0700
+	id 1tn2C2-00000001Urc-0lSX;
+	Tue, 25 Feb 2025 21:10:19 +0000
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id n2BftCcRTqJDFn2BitbctU; Tue, 25 Feb 2025 22:10:09 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1740517809;
+	bh=tARq/I59R/ifvYF0dCCLUoCvyYc1ZBk7Dm3FuvihB2s=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To;
+	b=Nt/l6W83BU5mDSrDQIQy8CZKAo0h68PJvcKps3BRoVn2m6bAUl1vWhK2es/BP8BFW
+	 DN3RlPUQFqJK58J49zS8Iq+H8FIQKGC4aR3FLiDA6idBgn8tIg5Twr41t+eDK/0sPp
+	 mg1FQKV8UkENBVw737LGxuMBZo+ZBM/oK6VglExOrG9+5UCmVjY6kqG7UnMc6VpiKZ
+	 s5Dl6bX1iLuElode1uDwU8GHn7T6IquRWeHKn8Hf+NPHn6mqYOqdxW2q2i+4k7lkXn
+	 e6Eo2vgp4trckiymDN9vhHfOlmyq2Gyk1kUlSKjSw+1pc9JkNq2cH1UTJN+cQ2XgrM
+	 /ezXxEpZ+Rm3Q==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Tue, 25 Feb 2025 22:10:09 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <e53d7586-b278-4338-95a2-fa768d5d8b5e@wanadoo.fr>
+Date: Tue, 25 Feb 2025 22:09:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-94c79
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 06/16] rbd: convert timeouts to secs_to_jiffies()
+References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+ <20250225-converge-secs-to-jiffies-part-two-v3-6-a43967e36c88@linux.microsoft.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Frank.Li@nxp.com, James.Bottomley@HansenPartnership.com,
+ Julia.Lawall@inria.fr, Shyam-sundar.S-k@amd.com, akpm@linux-foundation.org,
+ axboe@kernel.dk, broonie@kernel.org, cassel@kernel.org, cem@kernel.org,
+ ceph-devel@vger.kernel.org, clm@fb.com, cocci@inria.fr,
+ dick.kennedy@broadcom.com, djwong@kernel.org, dlemoal@kernel.org,
+ dongsheng.yang@easystack.cn, dri-devel@lists.freedesktop.org,
+ dsterba@suse.com, festevam@gmail.com, hch@lst.de, hdegoede@redhat.com,
+ hmh@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net, idryomov@gmail.com,
+ ilpo.jarvinen@linux.intel.com, imx@lists.linux.dev,
+ james.smart@broadcom.com, jgg@ziepe.ca, josef@toxicpanda.com,
+ kalesh-anakkur.purayil@broadcom.com, kbusch@kernel.org,
+ kernel@pengutronix.de, leon@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-xfs@vger.kernel.org,
+ martin.petersen@oracle.com, nicolas.palix@imag.fr, ogabbay@kernel.org,
+ perex@perex.cz, platform-driver-x86@vger.kernel.org, s.hauer@pengutronix.de,
+ sagi@grimberg.me, selvin.xavier@broadcom.com, shawnguo@kernel.org,
+ sre@kernel.org, tiwai@suse.com, xiubli@redhat.com, yaron.avizrat@intel.com
+In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-6-a43967e36c88@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250225_123041_714585_E4D015EC 
-X-CRM114-Status: GOOD (  11.07  )
+X-CRM114-CacheID: sfid-20250225_131018_493862_26FF493B 
+X-CRM114-Status: GOOD (  16.95  )
 X-Mailman-Approved-At: Tue, 25 Feb 2025 16:56:55 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -134,26 +96,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Tue, 25 Feb 2025 20:17:14 +0000, Easwar Hariharan wrote:
-> This is the second series (part 1*) that converts users of msecs_to_jiffies() that
-> either use the multiply pattern of either of:
-> - msecs_to_jiffies(N*1000) or
-> - msecs_to_jiffies(N*MSEC_PER_SEC)
+Le 25/02/2025 à 21:17, Easwar Hariharan a écrit :
+> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+> secs_to_jiffies().  As the value here is a multiple of 1000, use
+> secs_to_jiffies() instead of msecs_to_jiffies() to avoid the multiplication
 > 
-> where N is a constant or an expression, to avoid the multiplication.
+> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+> the following Coccinelle rules:
 > 
-> [...]
+> @depends on patch@ expression E; @@
+> 
+> -msecs_to_jiffies(E * 1000)
+> +secs_to_jiffies(E)
+> 
+> @depends on patch@ expression E; @@
+> 
+> -msecs_to_jiffies(E * MSEC_PER_SEC)
+> +secs_to_jiffies(E)
+> 
+> While here, remove the no-longer necessary check for range since there's
+> no multiplication involved.
 
-Applied, thanks!
-
-[06/16] rbd: convert timeouts to secs_to_jiffies()
-        commit: c02eea7eeaebd7270cb8ff09049cc7e0fc9bc8da
-
-Best regards,
--- 
-Jens Axboe
+I'm not sure this is correct.
+Now you multiply by HZ and things can still overflow.
 
 
+Hoping I got casting right:
+
+#define MSEC_PER_SEC	1000L
+#define HZ 100
+
+
+#define secs_to_jiffies(_secs) (unsigned long)((_secs) * HZ)
+
+static inline unsigned long _msecs_to_jiffies(const unsigned int m)
+{
+	return (m + (MSEC_PER_SEC / HZ) - 1) / (MSEC_PER_SEC / HZ);
+}
+
+int main() {
+
+	int n = INT_MAX - 5;
+
+	printf("res  = %ld\n", secs_to_jiffies(n));
+	printf("res  = %ld\n", _msecs_to_jiffies(1000 * n));
+
+	return 0;
+}
+
+
+gives :
+
+res  = -600
+res  = 429496130
+
+with msec, the previous code would catch the overflow, now it overflows 
+silently.
+
+untested, but maybe:
+	if (result.uint_32 > INT_MAX / HZ)
+		goto out_of_range;
+
+?
+
+CJ
+
+
+> 
+> Acked-by: Ilya Dryomov <idryomov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Signed-off-by: Easwar Hariharan <eahariha-1pm0nblsJy7Jp67UH1NAhkEOCMrvLtNR@public.gmane.org>
+> ---
+>   drivers/block/rbd.c | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+> index faafd7ff43d6ef53110ab3663cc7ac322214cc8c..41207133e21e9203192adf3b92390818e8fa5a58 100644
+> --- a/drivers/block/rbd.c
+> +++ b/drivers/block/rbd.c
+> @@ -108,7 +108,7 @@ static int atomic_dec_return_safe(atomic_t *v)
+>   #define RBD_OBJ_PREFIX_LEN_MAX	64
+>   
+>   #define RBD_NOTIFY_TIMEOUT	5	/* seconds */
+> -#define RBD_RETRY_DELAY		msecs_to_jiffies(1000)
+> +#define RBD_RETRY_DELAY		secs_to_jiffies(1)
+>   
+>   /* Feature bits */
+>   
+> @@ -4162,7 +4162,7 @@ static void rbd_acquire_lock(struct work_struct *work)
+>   		dout("%s rbd_dev %p requeuing lock_dwork\n", __func__,
+>   		     rbd_dev);
+>   		mod_delayed_work(rbd_dev->task_wq, &rbd_dev->lock_dwork,
+> -		    msecs_to_jiffies(2 * RBD_NOTIFY_TIMEOUT * MSEC_PER_SEC));
+> +		    secs_to_jiffies(2 * RBD_NOTIFY_TIMEOUT));
+>   	}
+>   }
+>   
+> @@ -6283,9 +6283,7 @@ static int rbd_parse_param(struct fs_parameter *param,
+>   		break;
+>   	case Opt_lock_timeout:
+>   		/* 0 is "wait forever" (i.e. infinite timeout) */
+> -		if (result.uint_32 > INT_MAX / 1000)
+> -			goto out_of_range;
+> -		opt->lock_timeout = msecs_to_jiffies(result.uint_32 * 1000);
+> +		opt->lock_timeout = secs_to_jiffies(result.uint_32);
+>   		break;
+>   	case Opt_pool_ns:
+>   		kfree(pctx->spec->pool_ns);
+> 
 
 
