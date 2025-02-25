@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2502C19778
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 404A8C021B2
 	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 00:57:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,39 +12,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZH8umU91mi0wAcmYNb/gkPuUZx7SURsrk1GkGJenkwI=; b=tyTiXEx4FjLbQGb3gY+95vwDtE
-	JO2Uc/wVmgrVrqmG1FJLShaBXmQc8JKpJZSgNIV+LE4uZtIc69L6MCaeqXyaEisFIVqim+jj2l8yC
-	BhU2mTknVR8PSgitR1Iq4R1bWc3DbaBmUBAkvNWLgOa4vNoOEZyw9MYKsFmfRZrDoeccMT9T2Xko9
-	ewGZksVXteXqjtgZvTXRbdpdKVAlx2+QeCr1tOa/VJddiVW/98OZAzfJxQrDPtIUkL75cD7+0blwL
-	gmco0ZUuFiNPTTjfko4CVStXycyELONBC/HN5XsCoKSZtaV3ukJNZRteC/ZHbNjldqhur2d2F4d6a
-	ppiQj8Hg==;
+	bh=/rdlqcTwv5mN/sc7m2KrDg4m+dKAQX2yY+t0CXok2oY=; b=p1F9Go93OhjL8H371nU1qtgkjp
+	6JgrdunTqRFAxZWeP5sN0Lwdd78C2VHaxf9dx048f3qCFvQmIzOOi5+4fMkHZeCE3sL5zoT2Ddlhv
+	k1tb0RLjZK1erThLyWGXpKkUePc3fjshf1BLU5bSgtushVRm+Wp2eLm5vRZjDp3C5Wxr0+Tf6wkfo
+	kMd6ZJ7eMDPDlZPRcDy4k/l9z2z6A5uPe3UNGjBSjLnURfFVFJjrgTnFTd6/0uj64VQQ2bStQfc7m
+	WhGQQCG8fx9PzRXCeqxNuG1Ae2yLKiJnYzXdXwIDQ08zaPRCuQ8d1VBlADOKymf+4Jlul6qJfn/2E
+	tzMyikvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn5jS-00000001v9Z-1Ghk;
-	Wed, 26 Feb 2025 00:57:02 +0000
+	id 1tn5jR-00000001v8q-2SKC;
+	Wed, 26 Feb 2025 00:57:01 +0000
 Received: from linux.microsoft.com ([13.77.154.182])
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn1Mr-00000001Ks6-3hnU;
-	Tue, 25 Feb 2025 20:17:27 +0000
+	id 1tn1Mr-00000001Ks7-2HuE;
+	Tue, 25 Feb 2025 20:17:26 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CAF7C206AB9B;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 75931206AB6C;
 	Tue, 25 Feb 2025 12:17:21 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CAF7C206AB9B
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 75931206AB6C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1740514641;
-	bh=ZH8umU91mi0wAcmYNb/gkPuUZx7SURsrk1GkGJenkwI=;
+	bh=/rdlqcTwv5mN/sc7m2KrDg4m+dKAQX2yY+t0CXok2oY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=XJ2yFpBk3qCLV4nsMZVlvUSB6SJoAMrG/lilaGrXcFN0Lc7s5NOy3uhepXpsayAcq
-	 x07K8FkHjDySQIgscKrqdj6VScj0K5xWaPtsAkir9VsMrBs2e09ZnaVPpKQCXsFOuq
-	 vOHcRdnBLLKCxEgEkL55Xz0ft8yD2027HMK/8AS8=
+	b=rY57gui/I5s3opnKpMkUiVz2c8KEinkfrPoI4a0X58a/iSSS8lb6zsgJqkOKu7xOq
+	 seorPBf8U1Bj+VcZjFfcO6jdNkWNML7i48hryZFC0g73WPEObXszX5QqDSiVWRpKsR
+	 xhTzpQnxfRVcu8e8QVi+FGZLfxmNCa9p9IBg3p6A=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 25 Feb 2025 20:17:27 +0000
-Subject: [PATCH v3 13/16] spi: spi-imx: convert timeouts to
- secs_to_jiffies()
+Date: Tue, 25 Feb 2025 20:17:25 +0000
+Subject: [PATCH v3 11/16] nvme: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-13-a43967e36c88@linux.microsoft.com>
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-11-a43967e36c88@linux.microsoft.com>
 References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -86,8 +85,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250225_121726_009028_399D64CD 
-X-CRM114-Status: GOOD (  12.05  )
+X-CRM114-CacheID: sfid-20250225_121725_675616_A315139A 
+X-CRM114-Status: GOOD (  10.66  )
 X-Mailman-Approved-At: Tue, 25 Feb 2025 16:56:54 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -120,25 +119,30 @@ expression E;
 - * \( 1000 \| MSEC_PER_SEC \)
 )
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Acked-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/spi/spi-imx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
-index eeb7d082c2472f954001045295b349bc2eb53197..832d6e9009ebe741779acd58c3a9450c231151bb 100644
---- a/drivers/spi/spi-imx.c
-+++ b/drivers/spi/spi-imx.c
-@@ -1449,7 +1449,7 @@ static int spi_imx_calculate_timeout(struct spi_imx_data *spi_imx, int size)
- 	timeout += 1;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f028913e2e622ee348e88879c6e6b7e8f8a1cc82..24c3e1765d491daf8fd600f96788bf5765946f54 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4466,11 +4466,9 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 	nvme_auth_stop(ctrl);
  
- 	/* Double calculated timeout */
--	return msecs_to_jiffies(2 * timeout * MSEC_PER_SEC);
-+	return secs_to_jiffies(2 * timeout);
- }
+ 	if (ctrl->mtfa)
+-		fw_act_timeout = jiffies +
+-				msecs_to_jiffies(ctrl->mtfa * 100);
++		fw_act_timeout = jiffies + msecs_to_jiffies(ctrl->mtfa * 100);
+ 	else
+-		fw_act_timeout = jiffies +
+-				msecs_to_jiffies(admin_timeout * 1000);
++		fw_act_timeout = jiffies + secs_to_jiffies(admin_timeout);
  
- static int spi_imx_dma_transfer(struct spi_imx_data *spi_imx,
+ 	nvme_quiesce_io_queues(ctrl);
+ 	while (nvme_ctrl_pp_status(ctrl)) {
 
 -- 
 2.43.0
