@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE882C021BB
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 00:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1D0DC021B2
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 00:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ikev2rH24pVz9CRPhvH6wDJ7r0PdVdeh8ytItRqAYQs=; b=Yn3Zxbhhq9GT4WGowaAYn1I5QZ
-	urnHQVLn0VoTMh68zckwM27xBd57NwkRPgkfX/l39tqUC7YDwrXcotUMAVP/doIbUqSY0eT2VgLtt
-	4zYK18Vfo2tnmSw1emEi1ufqk4UDPIypwS32wREC3QJC66nBTONyu5ANg8PTmHJthWQkso2LshmgZ
-	Q/Ug8stvd0kmJ7/ZcagFA22uhOI7w5NkCS78RUdFSzOkJe4zzC5jseTZEXlIDOaRl/FWVl0fZ2coF
-	SvlO5L0qCskK/mR0JTdeYlWdLbwmHZpKUH9SHXP3OoH4DN/XXj2wrLilZcz9dO6pFb2YTxeFtzaBw
-	NlmU2Hlg==;
+	bh=IkZhwQnmhk/3MZ3WmRVfeHWvCbna6N7BrQR1jWwYokU=; b=YNDQO+lNZQjOnvhHGsC+RpGmiW
+	06/lzX1Vpji+J0DBF0rXhciBSbLj7bt5CTqF2DbCpQ3XYrmeU3JoAydEdxK4EmPc385Jcw+T0sjuz
+	zJdK0tBMh5CAQE09sxzw2md7yZq5lwUC8QZvVoKhrrael2yYDA125VJN+9cfBAOVO4p594skpsiKV
+	5FOu36q6AdsbfHUWNIdJFPgajJ38aQdndyEd2lSlWbqtSDWIKW5EEOaQAzExNTlWSXhrJ0pzLcouU
+	2zelSRtuTziLrm5HKWf6MSw24+f/YSK4bbA6F28pY3WFd0hnrWjPpxFHhLNDbM+8FAFm60XJuZLcZ
+	T+ttv5BA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn5ja-00000001vMo-0mt6;
-	Wed, 26 Feb 2025 00:57:10 +0000
+	id 1tn5jb-00000001vOq-0YCo;
+	Wed, 26 Feb 2025 00:57:11 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn1Mw-00000001KwG-1c7z;
+	id 1tn1Mw-00000001KwH-1heU;
 	Tue, 25 Feb 2025 20:17:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Cc:To:In-Reply-To:References:
 	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ikev2rH24pVz9CRPhvH6wDJ7r0PdVdeh8ytItRqAYQs=; b=Mz33AvyfORqAHLNwZhDKyClHy5
-	Cks6Vcw50K6sgIkfpe26KaH39Oe/768ECFlTNOACurdkPsJkILgUwo8M32G+w0D/WA9w3Paxgv/nH
-	u8geUi4LGLFMZ1bUeIUyazKb6t/Epy4KXAeQOHIFf8SUFKOPJpapuWoXM3IHolCAQiQwGZoF7bZsN
-	7ThBjpIulw45wMDbEccIIxtHCY1GZPqU3GETPDZw+RRmHQ1mu4tI11OaMZDOVnolw3B0MraQp9CCK
-	5RVzlS4CGcqfVEqdW7wdShl/wysm7YXnIRWUciyAFjTdy0/tA8Tnp7lalBFxVBYUDDdkcQi9grWWR
-	LZsbc90g==;
+	bh=IkZhwQnmhk/3MZ3WmRVfeHWvCbna6N7BrQR1jWwYokU=; b=VTGHmuBv4dsiI1UZj1jsJbk/4S
+	BS5ZmPnFRkKdUEcERt405q+Gf7hpUUiRtb23azalfJVXxRBl+IJAoJ3jCj7N01s7ZxF/yh7DK/W0P
+	sjM0WLZVgf/xnB9vuxpO+pzcO2TvW2Hph8/aN5K5jw/tQKivfnEOF/NFyi2Di0G+zkje8MRzlGsKA
+	oI/R0ARuhiLwIFSDCOjpt4rHMZwvuhndfnzWLhJhdurhAMNS6bPEic2da0hf9eLVkfrwBZIfjIgF1
+	x/tDHVM5hZbs2IzjfmVQEu+lYbMlWH28J+50Yvv6QuwNhstWkB06wtfYZyXH2Tz0NSJe06nMbDsdh
+	vlel861Q==;
 Received: from linux.microsoft.com ([13.77.154.182])
 	by desiato.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tn1Ms-00000003PLS-3shp;
+	id 1tn1Ms-00000003PK8-1D3k;
 	Tue, 25 Feb 2025 20:17:29 +0000
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 01AC6206ADC0;
-	Tue, 25 Feb 2025 12:17:22 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 01AC6206ADC0
+	by linux.microsoft.com (Postfix) with ESMTPSA id EE0A12069413;
+	Tue, 25 Feb 2025 12:17:20 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EE0A12069413
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1740514642;
-	bh=ikev2rH24pVz9CRPhvH6wDJ7r0PdVdeh8ytItRqAYQs=;
+	s=default; t=1740514641;
+	bh=IkZhwQnmhk/3MZ3WmRVfeHWvCbna6N7BrQR1jWwYokU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VF2S71FrpuJed9xqKlYjg6lEPxmNDlkKwcxVkdTlYjNNx9YTd26L3cLC5hHpjrpZI
-	 2Dcf45plhzYMI20gpqO2W6u6L+54iQinCmEbfV8FhZAV43vQCSYecMlSiK0b6lZyyq
-	 PFhZHeiZEzXh/3EEyPzIdAVSQzmM2Ysr+6ndIEjw=
+	b=PDr+YdzwKTpyZBicDKqcQQUqPL1iwuSQme5BjsML0hXlTVF9AZr0RQ2wXUwNPrDi5
+	 2fLTg4V0dpM1tBw+RLkMSD0aTsmmkxoeSBgL2Xo1cPwMxPo/cff0ffzHQNbO3K0hfD
+	 6uIhiei0TRTMFdIWngeYvXNz/apT7GwtHrM4bEfU=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 25 Feb 2025 20:17:28 +0000
-Subject: [PATCH v3 14/16] platform/x86/amd/pmf: convert timeouts to
+Date: Tue, 25 Feb 2025 20:17:22 +0000
+Subject: [PATCH v3 08/16] ata: libata-zpodd: convert timeouts to
  secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-14-a43967e36c88@linux.microsoft.com>
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-8-a43967e36c88@linux.microsoft.com>
 References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -100,8 +100,8 @@ Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
  Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250225_201727_398780_BFDBA1C5 
-X-CRM114-Status: GOOD (  11.78  )
+X-CRM114-CacheID: sfid-20250225_201726_703367_B5D5B45A 
+X-CRM114-Status: GOOD (  10.84  )
 X-Mailman-Approved-At: Tue, 25 Feb 2025 16:56:55 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -136,21 +136,22 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/platform/x86/amd/pmf/acpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/ata/libata-zpodd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
-index dd5780a1d06e1dc979fcff5bafd6729bc4937eab..f75f7ecd8cd91c9d55abc38ce6e46eed7fe69fc0 100644
---- a/drivers/platform/x86/amd/pmf/acpi.c
-+++ b/drivers/platform/x86/amd/pmf/acpi.c
-@@ -220,7 +220,7 @@ static void apmf_sbios_heartbeat_notify(struct work_struct *work)
- 	if (!info)
+diff --git a/drivers/ata/libata-zpodd.c b/drivers/ata/libata-zpodd.c
+index 4b83b517caec66c82b126666f6dffd09729bf845..799531218ea2d5cc1b7e693a2b2aff7f376f7d76 100644
+--- a/drivers/ata/libata-zpodd.c
++++ b/drivers/ata/libata-zpodd.c
+@@ -160,8 +160,7 @@ void zpodd_on_suspend(struct ata_device *dev)
  		return;
+ 	}
  
--	schedule_delayed_work(&dev->heart_beat, msecs_to_jiffies(dev->hb_interval * 1000));
-+	schedule_delayed_work(&dev->heart_beat, secs_to_jiffies(dev->hb_interval));
- 	kfree(info);
- }
+-	expires = zpodd->last_ready +
+-		  msecs_to_jiffies(zpodd_poweroff_delay * 1000);
++	expires = zpodd->last_ready + secs_to_jiffies(zpodd_poweroff_delay);
+ 	if (time_before(jiffies, expires))
+ 		return;
  
 
 -- 
