@@ -4,154 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 667F9C18E7C
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 11:58:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53580C021B8
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 13:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=; b=uxm8K2hxnAgVvjyUKRh5LUSZJl
-	otYfMI9OWiJt6hVH4Ggwgyq0zgFB05zWbM30npv+D81ENdje48ujpY0oBxassNbf1ajRTTvX4FOpw
-	e1WJvObKfpqTzVPPO7Jt4HmH65dtakSuM15ZlvSa2Yfh6cLeP8pFem6eQB1sjl44hHT3454yJOGta
-	0WZNxmOCK5d3Ot9Ha9VAPVYaGGhvEXG0vex9DxRn6Joc0nOGnwi9UMOAlR8x8sBQb3e4AQ3Lc91iD
-	D3aLkeNwQ+OM/6Kj/kUNfmgVfpfQ7LlCVMU68vzCPE6lxkuAnFdWSyljaVn5dS7HgAvXLKl+rH1SJ
-	bWwcHHaw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TGWA47ydXjPk/ArJwGLRdTzUR2JDCR2yxtlUSj8iJJU=; b=z8JCNUIqJPcU/JuQWAg6L4sEXF
+	WBOu/LfIVTAdFwblojbqAltQsI5gFnce3WK8wIRrUuMjGk6S2gD8UHuJR9vgosEN93uh3GaB7e9mM
+	R1DOyG3sxwrTPzRSLCRjnr+WTcBqs+1f3vXmMAOx/kkjfkSXBVHavST+xZG7TeOy04F9mOVlWd2XW
+	SxD+fZFdfhbmD73ymUiWzx7AaTOlqw4mSI7ou+Bosy88ViTYXE0tLfu+f28laIvQ8S0MTNQv72dwB
+	i4t5RpoeKfpvGAnCxg7Lg31LYccszyq+NiKO76jHfG6EMb/U4zjOnb060ZeTp3xROufNfB3MouNKD
+	f9/ylrmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnG3B-00000003ZTH-07lv;
-	Wed, 26 Feb 2025 11:58:05 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1tnHPJ-00000003pkN-26dS;
+	Wed, 26 Feb 2025 13:25:01 +0000
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnF7F-00000003OUW-1sYh
+	id 1tnFac-00000003TYl-2zMV
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Feb 2025 10:58:14 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 68A6221184;
-	Wed, 26 Feb 2025 10:58:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1740567490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=;
-	b=zqQI5+yMO6yV3jxwiKP42S0fE0YF0JhLpTM+nLG6l1933VXSW+zLE2lfLXoRZfvJxeWuu4
-	G3y8qKDjpgk2MiX8YP7+xy354Y+FKgQb5ewbL9NoYSjlf+35YjyS3AqA1PujhidnbV4mRU
-	mi4dVNgoXqxqzP9CbBcvFCHyd+BqRLY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1740567490;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=;
-	b=40ObUHLUWyTtsyo7VM6q8v3Scind4/Ubjn28AvhTB1BWxzficxhr/BOj1Ak9F9rSwSj6UN
-	+Dtsqe0OY/rifSBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=zqQI5+yM;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=40ObUHLU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1740567490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=;
-	b=zqQI5+yMO6yV3jxwiKP42S0fE0YF0JhLpTM+nLG6l1933VXSW+zLE2lfLXoRZfvJxeWuu4
-	G3y8qKDjpgk2MiX8YP7+xy354Y+FKgQb5ewbL9NoYSjlf+35YjyS3AqA1PujhidnbV4mRU
-	mi4dVNgoXqxqzP9CbBcvFCHyd+BqRLY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1740567490;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=;
-	b=40ObUHLUWyTtsyo7VM6q8v3Scind4/Ubjn28AvhTB1BWxzficxhr/BOj1Ak9F9rSwSj6UN
-	+Dtsqe0OY/rifSBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DA491377F;
-	Wed, 26 Feb 2025 10:58:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HQrvDcLzvmdaeQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 26 Feb 2025 10:58:10 +0000
-Message-ID: <8d7aabb2-2836-4c09-9fc7-8bde271e7f23@suse.cz>
-Date: Wed, 26 Feb 2025 11:59:53 +0100
+	Wed, 26 Feb 2025 11:28:35 +0000
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-30a2f240156so70073071fa.3
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2025 03:28:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740569312; x=1741174112; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TGWA47ydXjPk/ArJwGLRdTzUR2JDCR2yxtlUSj8iJJU=;
+        b=ir9w/LmxlAClcwmyAsB7nfoF2bN//raFwvHKS20SvBJU1VkYrIUohCzdZiRRfcESn+
+         RRaLTOsPOJFKR9X/8BcAvou6lWUOYQCq3iQ28HoB3vw2Zw/7jUfuuAt0RBSNzRRxtAIt
+         kBF8GjsjVB6TLZ1590LbG0NWpaC/yh+R2xDOXR+zR2XSK+j8XdC4gAbFrJ1F5EqvPbhp
+         2aGxp/ssiU1341Ijxt31wIS3zvn42kzDx0CUfgLHiLSrEvjUStUOqz4FffOiabpF8oe+
+         h7Jtj8W9jHBT0HCqaJN+hY8Vlmlo9tZTkZrfJ9/YY8LYpKAFVai8GdFBRe8iBe5KYo6m
+         cg6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740569312; x=1741174112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TGWA47ydXjPk/ArJwGLRdTzUR2JDCR2yxtlUSj8iJJU=;
+        b=oykZ0ZXI1TOKEhYQuKMt5/8LgtpNzR9dRQ2/z1HlXV4kla296oFwlZMbuZnvURndGc
+         I/dYLGntoBO5hG6DFJ8zvl6a5CyjKMscrsU/ZxhuDXOrwtTBWwOZb4XCmuvoD4ft1IcE
+         ccyQH8XB/gKeyw9DWpsXpLS8j7d5yOlX53d39C9l1DKd+mrPOEWv6FaSePo7nsk5Nbme
+         8U2bpL8vgsjDhhgGvh8/dxaqQ6yI5yJTeWVInHTdi34YMMLq056zZ2UywS1t8ycyoq0A
+         nLayd880RW9oRtyMm7sWciqjyAt1ByWlI4dcpMuN2lq4nkA/zHa1fkegUTdf0K0II/On
+         Tf6w==
+X-Forwarded-Encrypted: i=1; AJvYcCW0o25Rr+pl9kF0Xswhdh00AJ6KSvNSOOw/fwwQzMXgyofWCIqNtHmIfK98rFxwDQozwZ1JvvLzSt7d@lists.infradead.org
+X-Gm-Message-State: AOJu0YyhFGqb9zF/6O21QrzZtTP9PJzXXkpQQ09gaaFN0R9gfCvoPeBX
+	OePuQUhfW1e4SNB/6uBNujx5r6alor4vstmZ0xcRHuIBd7aPYW7K+6KkBKBnDAo3LOXWHc3o0cY
+	KYS9BPnw1OF1Jyn98L/cbNJYt99zdrS0=
+X-Gm-Gg: ASbGncuMIuCzbFWv1ujus9kGP4GEGBVLxalzndpht+xsBMf0uVUvO+1MVYRR23E+QzY
+	P42wqLEDc+oTzB1CEyovDh61JJKp1uyj6T0xUYD7UIY3htQXQLPYH7P0HeaH2lAaDTwQtYUnQfX
+	fs5Z1G9+o=
+X-Google-Smtp-Source: AGHT+IH+Zjc+bSh26ZsVjU3bqp76TTCLT0O7VaVEWFGY3H7jTf7GiuF0ZJl8GQK9eeazQ/KZTqZRV1mtBf3J32sedzA=
+X-Received: by 2002:a05:6402:254f:b0:5e0:b542:fb32 with SMTP id
+ 4fb4d7f45d1cf-5e4a0d88ac4mr3401857a12.19.1740569301171; Wed, 26 Feb 2025
+ 03:28:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] mm, slab: call kvfree_rcu_barrier() from
- kmem_cache_destroy()
-To: Uladzislau Rezki <urezki@gmail.com>, Keith Busch <keith.busch@gmail.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
- Joel Fernandes <joel@joelfernandes.org>,
- Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
- Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
- Julia Lawall <Julia.Lawall@inria.fr>, Jakub Kicinski <kuba@kernel.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
- Jann Horn <jannh@google.com>, Mateusz Guzik <mjguzik@gmail.com>,
- linux-nvme@lists.infradead.org, leitao@debian.org
-References: <20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c@suse.cz>
- <20240807-b4-slab-kfree_rcu-destroy-v2-6-ea79102f428c@suse.cz>
- <Z7iqJtCjHKfo8Kho@kbusch-mbp> <2811463a-751f-4443-9125-02628dc315d9@suse.cz>
- <Z7xbrnP8kTQKYO6T@pc636> <ef97428b-f6e7-481e-b47e-375cc76653ad@suse.cz>
- <Z73p2lRwKagaoUnP@kbusch-mbp>
- <CAOSXXT6-oWjKPV1hzXa5Ra4SPQg0L_FvxCPM0Sh0Yk6X90h0Sw@mail.gmail.com>
- <Z74Av6tlSOqcfb-q@pc636> <Z74KHyGGMzkhx5f-@pc636>
-From: Vlastimil Babka <vbabka@suse.cz>
-Content-Language: en-US
-In-Reply-To: <Z74KHyGGMzkhx5f-@pc636>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 68A6221184
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,joelfernandes.org,joshtriplett.org,gmail.com,linux.com,google.com,goodmis.org,efficios.com,inria.fr,zx2c4.com,linux-foundation.org,linux.dev,kvack.org,vger.kernel.org,googlegroups.com,lists.infradead.org,debian.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLctujmen6hjyrx8fu4drawbuj)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+References: <20250225044653.6867-1-anuj20.g@samsung.com> <CGME20250225045514epcas5p10d06ab361a4125a94933fa8235fe3fa8@epcas5p1.samsung.com>
+ <20250225044653.6867-2-anuj20.g@samsung.com> <20250225150626.GA6099@lst.de>
+In-Reply-To: <20250225150626.GA6099@lst.de>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Wed, 26 Feb 2025 16:57:42 +0530
+X-Gm-Features: AQ5f1JrVzXdezh5PQ5o_BGjgjz3qnhupiyvcy-dL-1mUwfQLc2HYvilNGs8wJSU
+Message-ID: <CACzX3AupuX0NYqBxq-7hBxU5E1v3BhHeYoeuWxYuyXqu++iMcg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] block: Fix incorrect integrity sysfs reporting for
+ DM devices
+To: Christoph Hellwig <hch@lst.de>
+Cc: Anuj Gupta <anuj20.g@samsung.com>, axboe@kernel.dk, kbusch@kernel.org, 
+	martin.petersen@oracle.com, nikh1092@linux.ibm.com, 
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, dm-devel@lists.linux.dev, 
+	M Nikhil <nikhilm@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250226_025813_640795_5CD3CE7F 
-X-CRM114-Status: GOOD (  18.60  )
+X-CRM114-CacheID: sfid-20250226_032834_751854_968E599B 
+X-CRM114-Status: GOOD (  19.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -166,107 +97,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/25/25 7:21 PM, Uladzislau Rezki wrote:
->>
-> WQ_MEM_RECLAIM-patch fixes this for me:
+> > diff --git a/block/blk-settings.c b/block/blk-settings.c
+> > index c44dadc35e1e..c32517c8bc2e 100644
+> > --- a/block/blk-settings.c
+> > +++ b/block/blk-settings.c
+> > @@ -861,7 +861,8 @@ bool queue_limits_stack_integrity(struct queue_limits *t,
+> >
+> >       if (!ti->tuple_size) {
+> >               /* inherit the settings from the first underlying device */
+> > -             if (!(ti->flags & BLK_INTEGRITY_STACKED)) {
+> > +             if (!(ti->flags & BLK_INTEGRITY_STACKED) &&
+> > +                 (bi->flags & BLK_INTEGRITY_DEVICE_CAPABLE)) {
+> >                       ti->flags = BLK_INTEGRITY_DEVICE_CAPABLE |
+> >                               (bi->flags & BLK_INTEGRITY_REF_TAG);
+> >                       ti->csum_type = bi->csum_type;
+>
+> Hmm.  I wonder if this is the correct logic.  Basically we do not want to
+> allow mixing integrity capable and not integrity devices, do we?
 
-Sounds good, can you send a formal patch then?
-Some nits below:
+It is about a situation where a non-integrity-capable device incorrectly
+reports integrity capability due to improper flag propagation. The issue
+is that BLK_INTEGRITY_DEVICE_CAPABLE is set incorrectly even when the
+first underlying device does not support integrity. This part of the patch
+tries to fix that.
+For example, when I create a dm-linear device using an integrity-incapable
+device, the resulting DM device wrongly reports integrity capability [1]
 
-> <snip>
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 4030907b6b7d..1b5ed5512782 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -1304,6 +1304,8 @@ module_param(rcu_min_cached_objs, int, 0444);
->  static int rcu_delay_page_cache_fill_msec = 5000;
->  module_param(rcu_delay_page_cache_fill_msec, int, 0444);
-> 
-> +static struct workqueue_struct *rcu_reclaim_wq;
-> +
->  /* Maximum number of jiffies to wait before draining a batch. */
->  #define KFREE_DRAIN_JIFFIES (5 * HZ)
->  #define KFREE_N_BATCHES 2
-> @@ -1632,10 +1634,10 @@ __schedule_delayed_monitor_work(struct kfree_rcu_cpu *krcp)
->         if (delayed_work_pending(&krcp->monitor_work)) {
->                 delay_left = krcp->monitor_work.timer.expires - jiffies;
->                 if (delay < delay_left)
-> -                       mod_delayed_work(system_unbound_wq, &krcp->monitor_work, delay);
-> +                       mod_delayed_work(rcu_reclaim_wq, &krcp->monitor_work, delay);
->                 return;
+Rest of the handling in this patch would not be required once we correctly
+initialize in blk_validate_integrity_limits as you suggested in the other
+reply [2]
+
+[1]
+# cat /sys/block/nvme0n1/integrity/device_is_integrity_capable
+0
+# echo 0 409600 linear /dev/nvme0n1 0 > /tmp/table
+# echo 409600 409600 linear /dev/nvme0n1 0 >> /tmp/table
+# dmsetup create two /tmp/table
+# cat /sys/block/dm-0/integrity/device_is_integrity_capable
+1
+
+[2]
+https://lore.kernel.org/linux-block/20250225150753.GB6099@lst.de/
+
+> So maybe the logic should be more something like:
+>
+>         if (!IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY))
+>                 return true;
+>
+>         if (ti->flags & BLK_INTEGRITY_STACKED) {
+>                 /* check blk_integrity compatibility */
+>         } else {
+>                 ti->flags = BLK_INTEGRITY_STACKED;
+>                 /* inherit blk_integrity, including the empty one  */
 >         }
-> -       queue_delayed_work(system_unbound_wq, &krcp->monitor_work, delay);
-> +       queue_delayed_work(rcu_reclaim_wq, &krcp->monitor_work, delay);
->  }
-> 
->  static void
-> @@ -1733,7 +1735,7 @@ kvfree_rcu_queue_batch(struct kfree_rcu_cpu *krcp)
->                         // "free channels", the batch can handle. Break
->                         // the loop since it is done with this CPU thus
->                         // queuing an RCU work is _always_ success here.
-> -                       queued = queue_rcu_work(system_unbound_wq, &krwp->rcu_work);
-> +                       queued = queue_rcu_work(rcu_reclaim_wq, &krwp->rcu_work);
->                         WARN_ON_ONCE(!queued);
->                         break;
->                 }
-> @@ -1883,7 +1885,7 @@ run_page_cache_worker(struct kfree_rcu_cpu *krcp)
->         if (rcu_scheduler_active == RCU_SCHEDULER_RUNNING &&
->                         !atomic_xchg(&krcp->work_in_progress, 1)) {
->                 if (atomic_read(&krcp->backoff_page_cache_fill)) {
-> -                       queue_delayed_work(system_unbound_wq,
-> +                       queue_delayed_work(rcu_reclaim_wq,
->                                 &krcp->page_cache_work,
->                                         msecs_to_jiffies(rcu_delay_page_cache_fill_msec));
->                 } else {
-> @@ -2120,6 +2122,10 @@ void __init kvfree_rcu_init(void)
->         int i, j;
->         struct shrinker *kfree_rcu_shrinker;
-> 
-> +       rcu_reclaim_wq = alloc_workqueue("rcu_reclaim",
-
-Should we name it "kvfree_rcu_reclaim"? rcu_reclaim sounds too generic
-as if it's part of rcu itself?
-
-> +               WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
-
-Do we want WQ_SYSFS? Or maybe only when someone asks, with a use case?
-
-Thanks,
-Vlastimil
-
-> +       WARN_ON(!rcu_reclaim_wq);
-> +
->         /* Clamp it to [0:100] seconds interval. */
->         if (rcu_delay_page_cache_fill_msec < 0 ||
->                 rcu_delay_page_cache_fill_msec > 100 * MSEC_PER_SEC) {
-> <snip>
-> 
-> it passes:
-> 
-> <snip>
-> [   15.972416] KTAP version 1
-> [   15.972421] 1..1
-> [   15.973467]     KTAP version 1
-> [   15.973470]     # Subtest: slub_test
-> [   15.973472]     # module: slub_kunit
-> [   15.973474]     1..10
-> [   15.974483]     ok 1 test_clobber_zone
-> [   15.974927]     ok 2 test_next_pointer
-> [   15.975308]     ok 3 test_first_word
-> [   15.975672]     ok 4 test_clobber_50th_byte
-> [   15.976035]     ok 5 test_clobber_redzone_free
-> [   15.976128] stackdepot: allocating hash table of 1048576 entries via kvcalloc
-> [   15.979505]     ok 6 test_kmalloc_redzone_access
-> [   16.014408]     ok 7 test_kfree_rcu
-> [   17.726602]     ok 8 test_kfree_rcu_wq_destroy
-> [   17.750323]     ok 9 test_leak_destroy
-> [   17.750883]     ok 10 test_krealloc_redzone_zeroing
-> [   17.750887] # slub_test: pass:10 fail:0 skip:0 total:10
-> [   17.750890] # Totals: pass:10 fail:0 skip:0 total:10
-> [   17.750891] ok 1 slub_test
-> <snip>
-> 
-> --
-> Uladzislau Rezki
-
+>
 
