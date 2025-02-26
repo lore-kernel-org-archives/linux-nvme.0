@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ABA79C19776
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 18:12:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9685EC021BC
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 18:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pZ7hsLEDh+ICLvM8xUOac2m7aznqbKdVGcLsSqsMS4I=; b=ZQOOfqDsyfID66LNpZNg6lUMgW
-	Cje1U2by/wQ4lOeGdLjmt85JwXAH6mibNew+3Up7ftjgNohzxSnv+373darovaIDfVqm3a5HVk4zB
-	qwd6wzVuVH5M2RqyF5LV/rTUxGPMCOP/IkIqqi+ZaMn6PkkSsbhPCoYxXykTvu6ZHM5IAuRz7Brg2
-	FyApvGpcpxWHkvc9PR7USZ5qh4J0/fDxfw/NH8aFgSRc8Pa1tqqWwUGLslNqNlt4u5WmBDTHB0w5d
-	ehuyZ43eupCf+8FFJTlp8tieFPLn5bIGFx7/9nQCLIYo43TfSq6IILldpAgOzGLaf9NW+TcWYicwd
-	1vGF+LmA==;
+	bh=VdThkb+RRcWXrvMKEbaOWgaU8H96LXHKVFz/+nZDMjc=; b=fbJtF3Lr0cVmoxoegxldRUpKvu
+	b82cgEcHS/QC2IYBoqMldj3mHIx61DOMLzYiUJ9LxDo2EPLwuqoi6yXtjra/nd4+zeDYqgo/s57Ta
+	dGoBCiNHWV37EugpwrJpoMhmALI2E/TWXESv9TmDTS1zB/UCwhdnWujAp4J0gTFt5dJdWSffdA4DX
+	sTryaz/iR9vV8lD66pS8qnZM0IuzCrog1SOrZ6SZ8QY7O2PEIjgFRaETW+tMk/zFKIgHoeYuLm00b
+	hzx37WEZB1+hNsSMJBxdw7JyFvi0ijue35YhrSwb0sqsCk+PHhVAtm67S0NVAvAcSJ8j56Ba/+C4w
+	hVVQTsGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnLtC-00000004s8I-45UH;
-	Wed, 26 Feb 2025 18:12:10 +0000
+	id 1tnLtD-00000004s94-49ha;
+	Wed, 26 Feb 2025 18:12:11 +0000
 Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnLrX-00000004quL-3p8H
+	id 1tnLrc-00000004r2C-21F3
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Feb 2025 18:10:29 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 51QFa4KI015056
-	for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2025 10:10:27 -0800
+	Wed, 26 Feb 2025 18:10:33 +0000
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 51QF150B008877
+	for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2025 10:10:31 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=pZ7hsLEDh+ICLvM8xUOac2m7aznqbKdVGcLsSqsMS4I=; b=WK4FpXcwZLgf
-	6+Zs6PKbHx1z/+iLHBlscw8pFV7q4FqD6xwU8pmpqTrpuTDZOVLGMA0aS41S49Vz
-	IUhZsjg4Ydqp/SWzR2Q2o0aimJgKV8tABojTHebzxkfxvfPCPopTxeEVxJ/lNYoL
-	cAo1Az7orO9OTs6gHg5/7M+7TuOKUbJWoFmMJvpiD8ZULJ7AS1BX36WLX+h5c4n7
-	y7+GR0LTOozZn+nXCBYzkds1KCbQ9FcUdiLxv8NpufVB9PNw8KiRt/8Hs1VZDjat
-	yD0bHIbhOkTfKU9TOftorlqN6AdlDhlotAdhfLCPYp12414jDC29Qck8Y5ubCTcl
-	8XBeOYCjpA==
+	 bh=VdThkb+RRcWXrvMKEbaOWgaU8H96LXHKVFz/+nZDMjc=; b=XvEfXI1TxAeb
+	N+3sxhH8LDJOLYcou2LHonRe+QnUAq9OAkoHVojbq9CPCexNwW+dMR0JEoW0qAqI
+	fM/YNQVHFmcv+fVfjvKPTbTtUP2jycC1nccX9PZrNGf+NW0amNW9Kpyd9BReCq8W
+	i55GxgP2XhpVdLyszDj7UmrvtbU+K/KQek5DrxhEq+onfaLOgZDOHEGTfjo00ZJF
+	Eh9AHeBBqpGiggCjVYsfhtu2MGJ9r9K2lLavwCnXNzoCUG1dAgsrVyMW09+ratFY
+	GMgPvXML7aReC42ja/hieXbpuXiCpLu6GQyVyXUhunRjg74uq0rBJlvcaWCozAQ2
+	GIiGKi8Z9w==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 4525r796mp-19
+	by m0089730.ppops.net (PPS) with ESMTPS id 45257r9fsh-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2025 10:10:26 -0800 (PST)
-Received: from twshared18153.09.ash9.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2025 10:10:31 -0800 (PST)
+Received: from twshared18153.09.ash9.facebook.com (2620:10d:c0a8:1c::11) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Wed, 26 Feb 2025 18:10:06 +0000
+ 15.2.1544.14; Wed, 26 Feb 2025 18:10:05 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id E1981187C4AE1; Wed, 26 Feb 2025 10:10:06 -0800 (PST)
+	id B0B7E187C4AD6; Wed, 26 Feb 2025 10:10:05 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <ming.lei@redhat.com>, <asml.silence@gmail.com>, <axboe@kernel.dk>,
         <linux-block@vger.kernel.org>, <io-uring@vger.kernel.org>
 CC: <bernd@bsbernd.com>, <csander@purestorage.com>,
         <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv6 4/5] io_uring: add abstraction for buf_table rsrc data
-Date: Wed, 26 Feb 2025 10:09:58 -0800
-Message-ID: <20250226181002.2574148-8-kbusch@meta.com>
+Subject: [PATCHv6 1/6] io_uring/rw: move fixed buffer import to issue path
+Date: Wed, 26 Feb 2025 10:09:53 -0800
+Message-ID: <20250226181002.2574148-3-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20250226181002.2574148-1-kbusch@meta.com>
 References: <20250226181002.2574148-1-kbusch@meta.com>
@@ -65,14 +65,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: WEFRRobqXh2m-w4UQafKKm897OJKnyJx
-X-Proofpoint-ORIG-GUID: WEFRRobqXh2m-w4UQafKKm897OJKnyJx
+X-Proofpoint-GUID: gP6lzhXd7DFad5JFyWmOOpL8-UIkYQHk
+X-Proofpoint-ORIG-GUID: gP6lzhXd7DFad5JFyWmOOpL8-UIkYQHk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-26_04,2025-02-26_01,2024-11-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250226_101028_082238_A437633E 
-X-CRM114-Status: GOOD (  21.70  )
+X-CRM114-CacheID: sfid-20250226_101032_651128_AE22A846 
+X-CRM114-Status: GOOD (  14.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,290 +89,132 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-We'll need to add more fields specific to the registered buffers, so
-make a layer for it now. No functional change in this patch.
+Registered buffers may depend on a linked command, which makes the prep
+path too early to import. Move to the issue path when the node is
+actually needed like all the other users of fixed buffers.
 
-Reviewed-by: Caleb Sander Mateos <csander@purestorage.com>
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/linux/io_uring_types.h |  6 +++-
- io_uring/fdinfo.c              |  8 +++---
- io_uring/nop.c                 |  2 +-
- io_uring/register.c            |  2 +-
- io_uring/rsrc.c                | 51 +++++++++++++++++-----------------
- 5 files changed, 36 insertions(+), 33 deletions(-)
+ io_uring/opdef.c |  4 ++--
+ io_uring/rw.c    | 39 ++++++++++++++++++++++++++++++---------
+ io_uring/rw.h    |  2 ++
+ 3 files changed, 34 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_type=
-s.h
-index c0fe8a00fe53a..a05ae4cb98a4c 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -69,6 +69,10 @@ struct io_file_table {
- 	unsigned int alloc_hint;
- };
-=20
-+struct io_buf_table {
-+	struct io_rsrc_data	data;
-+};
-+
- struct io_hash_bucket {
- 	struct hlist_head	list;
- } ____cacheline_aligned_in_smp;
-@@ -293,7 +297,7 @@ struct io_ring_ctx {
- 		struct io_wq_work_list	iopoll_list;
-=20
- 		struct io_file_table	file_table;
--		struct io_rsrc_data	buf_table;
-+		struct io_buf_table	buf_table;
-=20
- 		struct io_submit_state	submit_state;
-=20
-diff --git a/io_uring/fdinfo.c b/io_uring/fdinfo.c
-index f60d0a9d505e2..d389c06cbce10 100644
---- a/io_uring/fdinfo.c
-+++ b/io_uring/fdinfo.c
-@@ -217,12 +217,12 @@ __cold void io_uring_show_fdinfo(struct seq_file *m=
-, struct file *file)
- 			seq_puts(m, "\n");
- 		}
- 	}
--	seq_printf(m, "UserBufs:\t%u\n", ctx->buf_table.nr);
--	for (i =3D 0; has_lock && i < ctx->buf_table.nr; i++) {
-+	seq_printf(m, "UserBufs:\t%u\n", ctx->buf_table.data.nr);
-+	for (i =3D 0; has_lock && i < ctx->buf_table.data.nr; i++) {
- 		struct io_mapped_ubuf *buf =3D NULL;
-=20
--		if (ctx->buf_table.nodes[i])
--			buf =3D ctx->buf_table.nodes[i]->buf;
-+		if (ctx->buf_table.data.nodes[i])
-+			buf =3D ctx->buf_table.data.nodes[i]->buf;
- 		if (buf)
- 			seq_printf(m, "%5u: 0x%llx/%u\n", i, buf->ubuf, buf->len);
- 		else
-diff --git a/io_uring/nop.c b/io_uring/nop.c
-index ea539531cb5f6..da8870e00eee7 100644
---- a/io_uring/nop.c
-+++ b/io_uring/nop.c
-@@ -66,7 +66,7 @@ int io_nop(struct io_kiocb *req, unsigned int issue_fla=
-gs)
-=20
- 		ret =3D -EFAULT;
- 		io_ring_submit_lock(ctx, issue_flags);
--		node =3D io_rsrc_node_lookup(&ctx->buf_table, req->buf_index);
-+		node =3D io_rsrc_node_lookup(&ctx->buf_table.data, req->buf_index);
- 		if (node) {
- 			io_req_assign_buf_node(req, node);
- 			ret =3D 0;
-diff --git a/io_uring/register.c b/io_uring/register.c
-index cc23a4c205cd4..f15a8d52ad30f 100644
---- a/io_uring/register.c
-+++ b/io_uring/register.c
-@@ -926,7 +926,7 @@ SYSCALL_DEFINE4(io_uring_register, unsigned int, fd, =
-unsigned int, opcode,
- 	ret =3D __io_uring_register(ctx, opcode, arg, nr_args);
-=20
- 	trace_io_uring_register(ctx, opcode, ctx->file_table.data.nr,
--				ctx->buf_table.nr, ret);
-+				ctx->buf_table.data.nr, ret);
- 	mutex_unlock(&ctx->uring_lock);
-=20
- 	fput(file);
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index 5b234e84dcba6..c30a5cda08f3e 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -236,9 +236,9 @@ static int __io_sqe_buffers_update(struct io_ring_ctx=
- *ctx,
- 	__u32 done;
- 	int i, err;
-=20
--	if (!ctx->buf_table.nr)
-+	if (!ctx->buf_table.data.nr)
- 		return -ENXIO;
--	if (up->offset + nr_args > ctx->buf_table.nr)
-+	if (up->offset + nr_args > ctx->buf_table.data.nr)
- 		return -EINVAL;
-=20
- 	for (done =3D 0; done < nr_args; done++) {
-@@ -270,9 +270,9 @@ static int __io_sqe_buffers_update(struct io_ring_ctx=
- *ctx,
- 			}
- 			node->tag =3D tag;
- 		}
--		i =3D array_index_nospec(up->offset + done, ctx->buf_table.nr);
--		io_reset_rsrc_node(ctx, &ctx->buf_table, i);
--		ctx->buf_table.nodes[i] =3D node;
-+		i =3D array_index_nospec(up->offset + done, ctx->buf_table.data.nr);
-+		io_reset_rsrc_node(ctx, &ctx->buf_table.data, i);
-+		ctx->buf_table.data.nodes[i] =3D node;
- 		if (ctx->compat)
- 			user_data +=3D sizeof(struct compat_iovec);
- 		else
-@@ -550,9 +550,9 @@ int io_sqe_files_register(struct io_ring_ctx *ctx, vo=
-id __user *arg,
-=20
- int io_sqe_buffers_unregister(struct io_ring_ctx *ctx)
- {
--	if (!ctx->buf_table.nr)
-+	if (!ctx->buf_table.data.nr)
- 		return -ENXIO;
--	io_rsrc_data_free(ctx, &ctx->buf_table);
-+	io_rsrc_data_free(ctx, &ctx->buf_table.data);
- 	return 0;
+diff --git a/io_uring/opdef.c b/io_uring/opdef.c
+index 9344534780a02..db77df513d55b 100644
+--- a/io_uring/opdef.c
++++ b/io_uring/opdef.c
+@@ -105,7 +105,7 @@ const struct io_issue_def io_issue_defs[] =3D {
+ 		.iopoll_queue		=3D 1,
+ 		.async_size		=3D sizeof(struct io_async_rw),
+ 		.prep			=3D io_prep_read_fixed,
+-		.issue			=3D io_read,
++		.issue			=3D io_read_fixed,
+ 	},
+ 	[IORING_OP_WRITE_FIXED] =3D {
+ 		.needs_file		=3D 1,
+@@ -119,7 +119,7 @@ const struct io_issue_def io_issue_defs[] =3D {
+ 		.iopoll_queue		=3D 1,
+ 		.async_size		=3D sizeof(struct io_async_rw),
+ 		.prep			=3D io_prep_write_fixed,
+-		.issue			=3D io_write,
++		.issue			=3D io_write_fixed,
+ 	},
+ 	[IORING_OP_POLL_ADD] =3D {
+ 		.needs_file		=3D 1,
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index eb369142d64ad..728d695d2552a 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -346,31 +346,30 @@ int io_prep_writev(struct io_kiocb *req, const stru=
+ct io_uring_sqe *sqe)
+ 	return io_prep_rwv(req, sqe, ITER_SOURCE);
  }
 =20
-@@ -579,8 +579,8 @@ static bool headpage_already_acct(struct io_ring_ctx =
-*ctx, struct page **pages,
- 	}
-=20
- 	/* check previously registered pages */
--	for (i =3D 0; i < ctx->buf_table.nr; i++) {
--		struct io_rsrc_node *node =3D ctx->buf_table.nodes[i];
-+	for (i =3D 0; i < ctx->buf_table.data.nr; i++) {
-+		struct io_rsrc_node *node =3D ctx->buf_table.data.nodes[i];
- 		struct io_mapped_ubuf *imu;
-=20
- 		if (!node)
-@@ -809,7 +809,7 @@ int io_sqe_buffers_register(struct io_ring_ctx *ctx, =
-void __user *arg,
-=20
- 	BUILD_BUG_ON(IORING_MAX_REG_BUFFERS >=3D (1u << 16));
-=20
--	if (ctx->buf_table.nr)
-+	if (ctx->buf_table.data.nr)
- 		return -EBUSY;
- 	if (!nr_args || nr_args > IORING_MAX_REG_BUFFERS)
- 		return -EINVAL;
-@@ -862,7 +862,7 @@ int io_sqe_buffers_register(struct io_ring_ctx *ctx, =
-void __user *arg,
- 		data.nodes[i] =3D node;
- 	}
-=20
--	ctx->buf_table =3D data;
-+	ctx->buf_table.data =3D data;
- 	if (ret)
- 		io_sqe_buffers_unregister(ctx);
- 	return ret;
-@@ -873,7 +873,7 @@ int io_buffer_register_bvec(struct io_uring_cmd *cmd,=
- struct request *rq,
- 			    unsigned int issue_flags)
+-static int io_prep_rw_fixed(struct io_kiocb *req, const struct io_uring_=
+sqe *sqe,
++static int io_init_rw_fixed(struct io_kiocb *req, unsigned int issue_fla=
+gs,
+ 			    int ddir)
  {
- 	struct io_ring_ctx *ctx =3D cmd_to_io_kiocb(cmd)->ctx;
--	struct io_rsrc_data *data =3D &ctx->buf_table;
-+	struct io_rsrc_data *data =3D &ctx->buf_table.data;
- 	struct req_iterator rq_iter;
- 	struct io_mapped_ubuf *imu;
- 	struct io_rsrc_node *node;
-@@ -937,7 +937,7 @@ void io_buffer_unregister_bvec(struct io_uring_cmd *c=
-md, unsigned int index,
- 			       unsigned int issue_flags)
- {
- 	struct io_ring_ctx *ctx =3D cmd_to_io_kiocb(cmd)->ctx;
--	struct io_rsrc_data *data =3D &ctx->buf_table;
-+	struct io_rsrc_data *data =3D &ctx->buf_table.data;
- 	struct io_rsrc_node *node;
+ 	struct io_rw *rw =3D io_kiocb_to_cmd(req, struct io_rw);
+-	struct io_async_rw *io;
++	struct io_async_rw *io =3D req->async_data;
+ 	int ret;
 =20
- 	io_ring_submit_lock(ctx, issue_flags);
-@@ -1034,7 +1034,7 @@ static inline struct io_rsrc_node *io_find_buf_node=
-(struct io_kiocb *req,
- 		return req->buf_node;
+-	ret =3D io_prep_rw(req, sqe, ddir, false);
+-	if (unlikely(ret))
+-		return ret;
++	if (io->bytes_done)
++		return 0;
 =20
- 	io_ring_submit_lock(ctx, issue_flags);
--	node =3D io_rsrc_node_lookup(&ctx->buf_table, req->buf_index);
-+	node =3D io_rsrc_node_lookup(&ctx->buf_table.data, req->buf_index);
- 	if (node)
- 		io_req_assign_buf_node(req, node);
- 	io_ring_submit_unlock(ctx, issue_flags);
-@@ -1084,10 +1084,10 @@ static int io_clone_buffers(struct io_ring_ctx *c=
-tx, struct io_ring_ctx *src_ctx
- 	if (!arg->nr && (arg->dst_off || arg->src_off))
- 		return -EINVAL;
- 	/* not allowed unless REPLACE is set */
--	if (ctx->buf_table.nr && !(arg->flags & IORING_REGISTER_DST_REPLACE))
-+	if (ctx->buf_table.data.nr && !(arg->flags & IORING_REGISTER_DST_REPLAC=
-E))
- 		return -EBUSY;
-=20
--	nbufs =3D src_ctx->buf_table.nr;
-+	nbufs =3D src_ctx->buf_table.data.nr;
- 	if (!arg->nr)
- 		arg->nr =3D nbufs;
- 	else if (arg->nr > nbufs)
-@@ -1097,13 +1097,13 @@ static int io_clone_buffers(struct io_ring_ctx *c=
-tx, struct io_ring_ctx *src_ctx
- 	if (check_add_overflow(arg->nr, arg->dst_off, &nbufs))
- 		return -EOVERFLOW;
-=20
--	ret =3D io_rsrc_data_alloc(&data, max(nbufs, ctx->buf_table.nr));
-+	ret =3D io_rsrc_data_alloc(&data, max(nbufs, ctx->buf_table.data.nr));
- 	if (ret)
- 		return ret;
-=20
- 	/* Fill entries in data from dst that won't overlap with src */
--	for (i =3D 0; i < min(arg->dst_off, ctx->buf_table.nr); i++) {
--		struct io_rsrc_node *src_node =3D ctx->buf_table.nodes[i];
-+	for (i =3D 0; i < min(arg->dst_off, ctx->buf_table.data.nr); i++) {
-+		struct io_rsrc_node *src_node =3D ctx->buf_table.data.nodes[i];
-=20
- 		if (src_node) {
- 			data.nodes[i] =3D src_node;
-@@ -1112,7 +1112,7 @@ static int io_clone_buffers(struct io_ring_ctx *ctx=
-, struct io_ring_ctx *src_ctx
- 	}
-=20
- 	ret =3D -ENXIO;
--	nbufs =3D src_ctx->buf_table.nr;
-+	nbufs =3D src_ctx->buf_table.data.nr;
- 	if (!nbufs)
- 		goto out_free;
- 	ret =3D -EINVAL;
-@@ -1132,7 +1132,7 @@ static int io_clone_buffers(struct io_ring_ctx *ctx=
-, struct io_ring_ctx *src_ctx
- 	while (nr--) {
- 		struct io_rsrc_node *dst_node, *src_node;
-=20
--		src_node =3D io_rsrc_node_lookup(&src_ctx->buf_table, i);
-+		src_node =3D io_rsrc_node_lookup(&src_ctx->buf_table.data, i);
- 		if (!src_node) {
- 			dst_node =3D NULL;
- 		} else {
-@@ -1154,7 +1154,7 @@ static int io_clone_buffers(struct io_ring_ctx *ctx=
-, struct io_ring_ctx *src_ctx
- 	 * old and new nodes at this point.
- 	 */
- 	if (arg->flags & IORING_REGISTER_DST_REPLACE)
--		io_rsrc_data_free(ctx, &ctx->buf_table);
-+		io_sqe_buffers_unregister(ctx);
-=20
- 	/*
- 	 * ctx->buf_table must be empty now - either the contents are being
-@@ -1162,10 +1162,9 @@ static int io_clone_buffers(struct io_ring_ctx *ct=
-x, struct io_ring_ctx *src_ctx
- 	 * copied to a ring that does not have buffers yet (checked at function
- 	 * entry).
- 	 */
--	WARN_ON_ONCE(ctx->buf_table.nr);
--	ctx->buf_table =3D data;
-+	WARN_ON_ONCE(ctx->buf_table.data.nr);
-+	ctx->buf_table.data =3D data;
- 	return 0;
--
- out_free:
- 	io_rsrc_data_free(ctx, &data);
+-	io =3D req->async_data;
+-	ret =3D io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir, 0);
++	ret =3D io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
++				issue_flags);
+ 	iov_iter_save_state(&io->iter, &io->iter_state);
  	return ret;
-@@ -1190,7 +1189,7 @@ int io_register_clone_buffers(struct io_ring_ctx *c=
-tx, void __user *arg)
- 		return -EFAULT;
- 	if (buf.flags & ~(IORING_REGISTER_SRC_REGISTERED|IORING_REGISTER_DST_RE=
-PLACE))
- 		return -EINVAL;
--	if (!(buf.flags & IORING_REGISTER_DST_REPLACE) && ctx->buf_table.nr)
-+	if (!(buf.flags & IORING_REGISTER_DST_REPLACE) && ctx->buf_table.data.n=
-r)
- 		return -EBUSY;
- 	if (memchr_inv(buf.pad, 0, sizeof(buf.pad)))
- 		return -EINVAL;
+ }
+=20
+ int io_prep_read_fixed(struct io_kiocb *req, const struct io_uring_sqe *=
+sqe)
+ {
+-	return io_prep_rw_fixed(req, sqe, ITER_DEST);
++	return io_prep_rw(req, sqe, ITER_DEST, false);
+ }
+=20
+ int io_prep_write_fixed(struct io_kiocb *req, const struct io_uring_sqe =
+*sqe)
+ {
+-	return io_prep_rw_fixed(req, sqe, ITER_SOURCE);
++	return io_prep_rw(req, sqe, ITER_SOURCE, false);
+ }
+=20
+ /*
+@@ -1136,6 +1135,28 @@ int io_write(struct io_kiocb *req, unsigned int is=
+sue_flags)
+ 	}
+ }
+=20
++int io_read_fixed(struct io_kiocb *req, unsigned int issue_flags)
++{
++	int ret;
++
++	ret =3D io_init_rw_fixed(req, issue_flags, ITER_DEST);
++	if (unlikely(ret))
++		return ret;
++
++	return io_read(req, issue_flags);
++}
++
++int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags)
++{
++	int ret;
++
++	ret =3D io_init_rw_fixed(req, issue_flags, ITER_SOURCE);
++	if (unlikely(ret))
++		return ret;
++
++	return io_write(req, issue_flags);
++}
++
+ void io_rw_fail(struct io_kiocb *req)
+ {
+ 	int res;
+diff --git a/io_uring/rw.h b/io_uring/rw.h
+index a45e0c71b59d6..bf121b81ebe84 100644
+--- a/io_uring/rw.h
++++ b/io_uring/rw.h
+@@ -38,6 +38,8 @@ int io_prep_read(struct io_kiocb *req, const struct io_=
+uring_sqe *sqe);
+ int io_prep_write(struct io_kiocb *req, const struct io_uring_sqe *sqe);
+ int io_read(struct io_kiocb *req, unsigned int issue_flags);
+ int io_write(struct io_kiocb *req, unsigned int issue_flags);
++int io_read_fixed(struct io_kiocb *req, unsigned int issue_flags);
++int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags);
+ void io_readv_writev_cleanup(struct io_kiocb *req);
+ void io_rw_fail(struct io_kiocb *req);
+ void io_req_rw_complete(struct io_kiocb *req, io_tw_token_t tw);
 --=20
 2.43.5
 
