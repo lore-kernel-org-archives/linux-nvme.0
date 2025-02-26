@@ -4,127 +4,154 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62D67C021B8
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 09:58:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 667F9C18E7C
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2025 11:58:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M5n2CNT/If87O2/WgTYuEsYzy/NIOAowhCO9ovKL/mA=; b=ZXscGDgKfvf8NUuNdLFejQzyuZ
-	BRB1gPdqQ+MxLcbPvJri9x8JpFMXu+RSnVhHN7VUz+Puyx3o9nWK2Y2zb4BPNXJXE3w6FkAKtAAbt
-	2zXjxzG+AArKuGJ1+VNlgu4ooLwgE5fzut8mE7WBtWsWLoAEIW+6fwp1+uJV/mSJSPXhqt9uCgjzw
-	PBJlMd7g8GfFcorLOhT+NUorBS1l1iSVatRSU8Ptlz0Qv2FRjhxPkxCT9K664Ko1zYVpZOQn9fLa1
-	4h8pDA5ltpskXtt1n76UVt9zEejMVCSjKen09Ws0nznuRjuEbWlA2y9ltaMsqFRDQ+uhg4txoKulp
-	jDAD0XMA==;
+	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=; b=uxm8K2hxnAgVvjyUKRh5LUSZJl
+	otYfMI9OWiJt6hVH4Ggwgyq0zgFB05zWbM30npv+D81ENdje48ujpY0oBxassNbf1ajRTTvX4FOpw
+	e1WJvObKfpqTzVPPO7Jt4HmH65dtakSuM15ZlvSa2Yfh6cLeP8pFem6eQB1sjl44hHT3454yJOGta
+	0WZNxmOCK5d3Ot9Ha9VAPVYaGGhvEXG0vex9DxRn6Joc0nOGnwi9UMOAlR8x8sBQb3e4AQ3Lc91iD
+	D3aLkeNwQ+OM/6Kj/kUNfmgVfpfQ7LlCVMU68vzCPE6lxkuAnFdWSyljaVn5dS7HgAvXLKl+rH1SJ
+	bWwcHHaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnEBT-00000003CC2-2tus;
-	Wed, 26 Feb 2025 09:58:31 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1tnG3B-00000003ZTH-07lv;
+	Wed, 26 Feb 2025 11:58:05 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnE8R-00000003B26-2K22
+	id 1tnF7F-00000003OUW-1sYh
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Feb 2025 09:55:24 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Wed, 26 Feb 2025 10:58:14 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C371D1F387;
-	Wed, 26 Feb 2025 09:55:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740563721; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 68A6221184;
+	Wed, 26 Feb 2025 10:58:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1740567490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=M5n2CNT/If87O2/WgTYuEsYzy/NIOAowhCO9ovKL/mA=;
-	b=fycxGK30uI9SoB76rQO3idQAUfhKpyM5pxNWZpCMZ4UOUZ70FQ84TrMpQDnMA2iJbHOrrb
-	h8QUGLJ0qDSie9Pq2nLgHf1Tt8dB/hIP5AkMuYVOg/UAW7WzxtvNNG9pD6rnYRKv+4dWpE
-	E7OFxAVtGzzCoR9wOd4wtcQO5hqgmVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740563721;
+	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=;
+	b=zqQI5+yMO6yV3jxwiKP42S0fE0YF0JhLpTM+nLG6l1933VXSW+zLE2lfLXoRZfvJxeWuu4
+	G3y8qKDjpgk2MiX8YP7+xy354Y+FKgQb5ewbL9NoYSjlf+35YjyS3AqA1PujhidnbV4mRU
+	mi4dVNgoXqxqzP9CbBcvFCHyd+BqRLY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1740567490;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=M5n2CNT/If87O2/WgTYuEsYzy/NIOAowhCO9ovKL/mA=;
-	b=wFau2qWVSX42Xd4qmtjdpVWdtpKJk7gJXmsFbr3wxdtdbd8B3gjs9y30caghAwjmOSrXta
-	yBwPNfFyIKe2S4Aw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740563721; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=;
+	b=40ObUHLUWyTtsyo7VM6q8v3Scind4/Ubjn28AvhTB1BWxzficxhr/BOj1Ak9F9rSwSj6UN
+	+Dtsqe0OY/rifSBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=zqQI5+yM;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=40ObUHLU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1740567490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=M5n2CNT/If87O2/WgTYuEsYzy/NIOAowhCO9ovKL/mA=;
-	b=fycxGK30uI9SoB76rQO3idQAUfhKpyM5pxNWZpCMZ4UOUZ70FQ84TrMpQDnMA2iJbHOrrb
-	h8QUGLJ0qDSie9Pq2nLgHf1Tt8dB/hIP5AkMuYVOg/UAW7WzxtvNNG9pD6rnYRKv+4dWpE
-	E7OFxAVtGzzCoR9wOd4wtcQO5hqgmVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740563721;
+	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=;
+	b=zqQI5+yMO6yV3jxwiKP42S0fE0YF0JhLpTM+nLG6l1933VXSW+zLE2lfLXoRZfvJxeWuu4
+	G3y8qKDjpgk2MiX8YP7+xy354Y+FKgQb5ewbL9NoYSjlf+35YjyS3AqA1PujhidnbV4mRU
+	mi4dVNgoXqxqzP9CbBcvFCHyd+BqRLY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1740567490;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=M5n2CNT/If87O2/WgTYuEsYzy/NIOAowhCO9ovKL/mA=;
-	b=wFau2qWVSX42Xd4qmtjdpVWdtpKJk7gJXmsFbr3wxdtdbd8B3gjs9y30caghAwjmOSrXta
-	yBwPNfFyIKe2S4Aw==
+	bh=WvQMaogfR4p5vXml1R1gl73Lc4GXJegwVY6rJmvbNrQ=;
+	b=40ObUHLUWyTtsyo7VM6q8v3Scind4/Ubjn28AvhTB1BWxzficxhr/BOj1Ak9F9rSwSj6UN
+	+Dtsqe0OY/rifSBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3D4E13A53;
-	Wed, 26 Feb 2025 09:55:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DA491377F;
+	Wed, 26 Feb 2025 10:58:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jbaRJwnlvmehYwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 26 Feb 2025 09:55:21 +0000
-Message-ID: <91ae613a-7b56-4ca0-b91c-6bc1eee798b8@suse.de>
-Date: Wed, 26 Feb 2025 10:55:21 +0100
+	id HQrvDcLzvmdaeQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 26 Feb 2025 10:58:10 +0000
+Message-ID: <8d7aabb2-2836-4c09-9fc7-8bde271e7f23@suse.cz>
+Date: Wed, 26 Feb 2025 11:59:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: remove multipath module parameter
-To: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, John Meneghini <jmeneghi@redhat.com>,
- hch@lst.de, bmarzins@redhat.com, Bryan Gurney <bgurney@redhat.com>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Marco Patalano <mpatalan@redhat.com>, axboe@kernel.dk
-References: <20250204211158.43126-1-bgurney@redhat.com>
- <7c588344-f019-4939-8a93-0a450481d4bc@redhat.com>
- <Z7Sh-3yHbXVmRbNL@kbusch-mbp>
- <8a1730a1-1faf-4722-99e1-c3a85257b6f4@redhat.com>
- <Z7TARX-tFY3mnuU7@kbusch-mbp>
- <2ff87386-c6db-4f2e-be91-213504d99a78@linux.ibm.com>
- <0656b66c-dd9c-495d-b1fc-4f09e763fa66@grimberg.me>
- <Z7dct_AbaSO7uZ2h@kbusch-mbp>
+Subject: Re: [PATCH v2 6/7] mm, slab: call kvfree_rcu_barrier() from
+ kmem_cache_destroy()
+To: Uladzislau Rezki <urezki@gmail.com>, Keith Busch <keith.busch@gmail.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>,
+ Julia Lawall <Julia.Lawall@inria.fr>, Jakub Kicinski <kuba@kernel.org>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+ Jann Horn <jannh@google.com>, Mateusz Guzik <mjguzik@gmail.com>,
+ linux-nvme@lists.infradead.org, leitao@debian.org
+References: <20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c@suse.cz>
+ <20240807-b4-slab-kfree_rcu-destroy-v2-6-ea79102f428c@suse.cz>
+ <Z7iqJtCjHKfo8Kho@kbusch-mbp> <2811463a-751f-4443-9125-02628dc315d9@suse.cz>
+ <Z7xbrnP8kTQKYO6T@pc636> <ef97428b-f6e7-481e-b47e-375cc76653ad@suse.cz>
+ <Z73p2lRwKagaoUnP@kbusch-mbp>
+ <CAOSXXT6-oWjKPV1hzXa5Ra4SPQg0L_FvxCPM0Sh0Yk6X90h0Sw@mail.gmail.com>
+ <Z74Av6tlSOqcfb-q@pc636> <Z74KHyGGMzkhx5f-@pc636>
+From: Vlastimil Babka <vbabka@suse.cz>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <Z7dct_AbaSO7uZ2h@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+In-Reply-To: <Z74KHyGGMzkhx5f-@pc636>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 68A6221184
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
+	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,joelfernandes.org,joshtriplett.org,gmail.com,linux.com,google.com,goodmis.org,efficios.com,inria.fr,zx2c4.com,linux-foundation.org,linux.dev,kvack.org,vger.kernel.org,googlegroups.com,lists.infradead.org,debian.org];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLctujmen6hjyrx8fu4drawbuj)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250226_015523_762469_1FB8A1C3 
-X-CRM114-Status: GOOD (  18.15  )
+X-CRM114-CacheID: sfid-20250226_025813_640795_5CD3CE7F 
+X-CRM114-Status: GOOD (  18.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,43 +166,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/20/25 17:47, Keith Busch wrote:
-> On Thu, Feb 20, 2025 at 01:05:04PM +0200, Sagi Grimberg wrote:
->> This discussion is not specific to RHEL, if there is a real use-case
->> that we are interested in supporting, we can change our minds and keep
->> it (and simply remove the log msg), but I haven't heard any real life
->> use-cases thus far.
-> 
-> One use case: ublk.
-> 
-> Other use cases are manufacturing and debugging. Linux has been a great
-> environment for both, which don't want anything hidden behind virtual
-> devices.
-> 
-> The module parameter makes it possible to do this with your distro's
-> stock kernel that came with the CONFIG option enabled.
-> 
-> The device mapper multipath needed some layering violations out of the
-> driver to make failover work correctly/better. That's one reason it's
-> not supported here, and that's an appropriate place to draw the line on
-> what kinds of patches should be accepted.
-> 
-Plus there are some NVMe devices out there which _despite_ being PCIe do 
-report NMIC and CMIC set (I won't name names, if you came across them 
-you'll know). This is causing stacking drivers (most notably MD) to 
-behave vastly different on hotplug. Having the module option is an easy 
-way of debugging (and, in quite some cases, fixing) the issue.
+On 2/25/25 7:21 PM, Uladzislau Rezki wrote:
+>>
+> WQ_MEM_RECLAIM-patch fixes this for me:
 
-If the module option really causes issues just make it read-only; that
-way you can still set if if absolutely required, and at the same time
-catch installations which try to modify it.
+Sounds good, can you send a formal patch then?
+Some nits below:
 
-Cheers,
+> <snip>
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index 4030907b6b7d..1b5ed5512782 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -1304,6 +1304,8 @@ module_param(rcu_min_cached_objs, int, 0444);
+>  static int rcu_delay_page_cache_fill_msec = 5000;
+>  module_param(rcu_delay_page_cache_fill_msec, int, 0444);
+> 
+> +static struct workqueue_struct *rcu_reclaim_wq;
+> +
+>  /* Maximum number of jiffies to wait before draining a batch. */
+>  #define KFREE_DRAIN_JIFFIES (5 * HZ)
+>  #define KFREE_N_BATCHES 2
+> @@ -1632,10 +1634,10 @@ __schedule_delayed_monitor_work(struct kfree_rcu_cpu *krcp)
+>         if (delayed_work_pending(&krcp->monitor_work)) {
+>                 delay_left = krcp->monitor_work.timer.expires - jiffies;
+>                 if (delay < delay_left)
+> -                       mod_delayed_work(system_unbound_wq, &krcp->monitor_work, delay);
+> +                       mod_delayed_work(rcu_reclaim_wq, &krcp->monitor_work, delay);
+>                 return;
+>         }
+> -       queue_delayed_work(system_unbound_wq, &krcp->monitor_work, delay);
+> +       queue_delayed_work(rcu_reclaim_wq, &krcp->monitor_work, delay);
+>  }
+> 
+>  static void
+> @@ -1733,7 +1735,7 @@ kvfree_rcu_queue_batch(struct kfree_rcu_cpu *krcp)
+>                         // "free channels", the batch can handle. Break
+>                         // the loop since it is done with this CPU thus
+>                         // queuing an RCU work is _always_ success here.
+> -                       queued = queue_rcu_work(system_unbound_wq, &krwp->rcu_work);
+> +                       queued = queue_rcu_work(rcu_reclaim_wq, &krwp->rcu_work);
+>                         WARN_ON_ONCE(!queued);
+>                         break;
+>                 }
+> @@ -1883,7 +1885,7 @@ run_page_cache_worker(struct kfree_rcu_cpu *krcp)
+>         if (rcu_scheduler_active == RCU_SCHEDULER_RUNNING &&
+>                         !atomic_xchg(&krcp->work_in_progress, 1)) {
+>                 if (atomic_read(&krcp->backoff_page_cache_fill)) {
+> -                       queue_delayed_work(system_unbound_wq,
+> +                       queue_delayed_work(rcu_reclaim_wq,
+>                                 &krcp->page_cache_work,
+>                                         msecs_to_jiffies(rcu_delay_page_cache_fill_msec));
+>                 } else {
+> @@ -2120,6 +2122,10 @@ void __init kvfree_rcu_init(void)
+>         int i, j;
+>         struct shrinker *kfree_rcu_shrinker;
+> 
+> +       rcu_reclaim_wq = alloc_workqueue("rcu_reclaim",
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Should we name it "kvfree_rcu_reclaim"? rcu_reclaim sounds too generic
+as if it's part of rcu itself?
+
+> +               WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
+
+Do we want WQ_SYSFS? Or maybe only when someone asks, with a use case?
+
+Thanks,
+Vlastimil
+
+> +       WARN_ON(!rcu_reclaim_wq);
+> +
+>         /* Clamp it to [0:100] seconds interval. */
+>         if (rcu_delay_page_cache_fill_msec < 0 ||
+>                 rcu_delay_page_cache_fill_msec > 100 * MSEC_PER_SEC) {
+> <snip>
+> 
+> it passes:
+> 
+> <snip>
+> [   15.972416] KTAP version 1
+> [   15.972421] 1..1
+> [   15.973467]     KTAP version 1
+> [   15.973470]     # Subtest: slub_test
+> [   15.973472]     # module: slub_kunit
+> [   15.973474]     1..10
+> [   15.974483]     ok 1 test_clobber_zone
+> [   15.974927]     ok 2 test_next_pointer
+> [   15.975308]     ok 3 test_first_word
+> [   15.975672]     ok 4 test_clobber_50th_byte
+> [   15.976035]     ok 5 test_clobber_redzone_free
+> [   15.976128] stackdepot: allocating hash table of 1048576 entries via kvcalloc
+> [   15.979505]     ok 6 test_kmalloc_redzone_access
+> [   16.014408]     ok 7 test_kfree_rcu
+> [   17.726602]     ok 8 test_kfree_rcu_wq_destroy
+> [   17.750323]     ok 9 test_leak_destroy
+> [   17.750883]     ok 10 test_krealloc_redzone_zeroing
+> [   17.750887] # slub_test: pass:10 fail:0 skip:0 total:10
+> [   17.750890] # Totals: pass:10 fail:0 skip:0 total:10
+> [   17.750891] ok 1 slub_test
+> <snip>
+> 
+> --
+> Uladzislau Rezki
+
 
