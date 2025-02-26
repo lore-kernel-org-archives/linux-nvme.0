@@ -4,86 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE575C282D3
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 17:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C929BC282CD
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 17:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=tgzz89QFJHmXhY1sSg+X8U7Vwg3R1lkBYkgmHqZQDbM=; b=AKlLFlO3RNkoGL9/h5dhj35lz1
-	laG1U6ZPl2l5HFVKEdlYYDQt1hEFaognGMzJsarEccaaUpjwdN0xJsnIkPyeRVrp8QOJh6CMaytTT
-	nwieOUJW56hM+QKssWBRXqjfAuc7e6qIXxPboNSXmg+7Yx+piK286TbE0WGTD9ROi9pyoXs4xWPI4
-	0kOjsvOrNPoXZhQaziWx8Q7EgZkDDEf8WjlPoINuba5Gtth1QjG/5QwBeOfrZrcJk6YBVGOoAcYSj
-	5CQk7HNEnruo46Vn/USEGZb7FBr0hoocvYNohyKbXG1ngraiwNeDGcCKcWMXyHYWqOuJxijOkDL3H
-	JfHMzznw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:Date:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rkkyrTS/XUUgRrCusn5lCJsjmBp1WxMfD+vrhmxbdwM=; b=lk+z7HrbzYPrJwEWeZYGCJlmwz
+	zq0tN/gBAH+AtxF9s3UT65GBQQFMB2cTBbRviXFBduy4e12o0T6pxGkDkMA9ptzrqIoJv52fWj+YQ
+	d+ebNykagW2OLFRXDMq8o7G6qio7fN3b/cMoxh9FOSt/msfKz3HgvR0xNExp3+AmSBLcKeOW0zKTM
+	zTs+dSnel7ac/TsFyTc+ORV6aE94UlfH5ZW8Pt9mT6eoH+z3nsggqN2CBKmbOifbHphgjqKIAbXva
+	7XG+oLDKKDbOoaQjvtLooa+JAaFZMF5yhdetAwk33Hy097fw6pn+PS4+bavquLQnu2nEiq81kCwRp
+	dJP0N3Hg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp9YH-00000001jpj-0FBa;
-	Mon, 03 Mar 2025 17:26:01 +0000
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+	id 1tp9YD-00000001jnS-0ob5;
+	Mon, 03 Mar 2025 17:25:57 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1to2TK-0000000BVMq-0z3t
+	id 1tnJn0-00000004Qmj-0gh4
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 26 Feb 2025 15:57:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:Date:From:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rkkyrTS/XUUgRrCusn5lCJsjmBp1WxMfD+vrhmxbdwM=; b=iqKklthlS2ltUjqAy7/heFrGb7
+	7QL//0SXdajk/b68AnLxv5pz5Sa7Hobc9MYaNqJ2tV4qYFIE3GOO82P1KebsxyPwJhTxU6SiUa4K8
+	em/maSJPtlw2mZ51znnGIRrTj1kj9/f86+W7jZFbGOHlTIix70xUGY9z8StoQYv/i2EMoy7copLqH
+	gFpn/Ff56NEQ5//dH90NQmWJ2p9NooxMQVxgANtWwWAYemuUfmFiIbxKpFJmAIjbRWspNAAnIU/Ki
+	gJbmU1F/OGvG13nhG3TytYRaa8rXir6fd1hhkOo3bCaE733ZGt8ZkUHETVP5xTKtY+LXhEqareKHW
+	WuX9rBLQ==;
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tnJmx-00000003e7h-1ILU
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Feb 2025 15:40:19 +0000
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so16354725e9.0
-        for <linux-nvme@lists.infradead.org>; Fri, 28 Feb 2025 07:40:17 -0800 (PST)
+	Wed, 26 Feb 2025 15:57:37 +0000
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-30797730cbdso68815251fa.3
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2025 07:57:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740757216; x=1741362016; darn=lists.infradead.org;
-        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tgzz89QFJHmXhY1sSg+X8U7Vwg3R1lkBYkgmHqZQDbM=;
-        b=cSBaUtRFd5qTUjekXE2meE3VJL7cuwcrpQgiaCKw5BQsue2B9iD3qXFPyDzy5yByhA
-         InsN5TK/IINJLHVz2A+XaCzBS3tgxFjcR/f2fY2ricBd7OGRagohb9bHW5fMbhgH5QlH
-         OUjEzA/BJncobUdvJk8vQ+dxABv64hr9hGQgj3Dagiz/l5pw61DvSgHlGhGiMcHndeE6
-         oPE9Jk9s8EL3B2bWINadCqBxCaZQ5hayKOb5Oz8gueRDPKI/5jMs1lIOx1JnqpFJQPEp
-         ROT5MWoHkoWvq/7PCYTxUu1Br18cll+XtLhCwi8++G7Ru4DAZM2cz1FCQeNySBxNbVcL
-         vYmw==
+        d=gmail.com; s=20230601; t=1740585452; x=1741190252; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rkkyrTS/XUUgRrCusn5lCJsjmBp1WxMfD+vrhmxbdwM=;
+        b=JK1xMU/K36BF7cGy1siDei/+pgaEGadg3bcsDLRyswjqsCdV+NbWGQThtYmokDakbD
+         DB+N0liVArH4Y1GtCslTUelv2V365Ys38790EvFTDiyi7ybb38O2g7pyKOOsXTchtcPr
+         Xjb/N2K+dsJEPaJkc5ma5W8wdyYjsEwg6dqxbX4qJp2/ekiHJDQ8XavVc9a+0cgsprW9
+         EdLwM8YCOcwGyeJmb2JXW/hI1eIrLCqjfb/4iao3NqODnoHEXdYpIGFHAqzdk4QHp6vJ
+         dDcK9SsXeek7AEI0sB6bG3WHkHRKOT7p6O4eF0R6GQorDdN1uxPRd2RG8Somzgk2ixQ+
+         j11w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740757216; x=1741362016;
-        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tgzz89QFJHmXhY1sSg+X8U7Vwg3R1lkBYkgmHqZQDbM=;
-        b=NmEYeCZQKr4zGsg08L0n0lsBQnG8J+iN5zc0Eh9o8J+8yRFTLTWopIkVZEqf33DZPN
-         XAJlrlKBlbGQ9zc8WASu7Z8e8ncXaU0RIX6hmiqmjyEgi92+0VZtZbPopyAkzApL8fuL
-         uq91m86awBUejLKAlPWW/10Gj97gZKGdzmz2pmD2LeBZL05z36ad7zUFUu65XTV3EpwC
-         DmAke0P4Lpw4hVKEg1aqRw8pF0wH/g8ImJODkH9VWHTUKM2KLtyRQaYFGIW+wR7qvcin
-         tUn/Cl4bh92RRVu1Cg3bLc8ZkSVFY6rFGJJtQZhBqAyO9V1qkRM2V4JlUC7YxicRB24I
-         K+vw==
-X-Gm-Message-State: AOJu0YzPAac2f8CNQqaHlUzo0IlRwVCSyDeWM10PDZ90cBXf+CdrtxU9
-	+hWaSqrQ1GhwreXckGn/4Kk+YPU+E039I7IH/4sg1EvJOAD4U10t
-X-Gm-Gg: ASbGncufC6SGUVRc9RpYEFM42QjZP0avOUdgbFba56shM8s1cpkMwdYl4ZJsQ0H7RAg
-	YS+8jlUc6AjjcG3QhdhwEpG+RkxQG4x+9SH/Wwy58jCQUWIsDaZi/YLtxMukC1cGrJhW2JYifiq
-	CuLKk9PY6ssbajEn5EvSPTJ0qlNfsQqBbwM8RdtZf0MTr9PCA8nZFZQkXzUn8O3ajrMeMP/zSNN
-	9OTjCC6PqhoG6/dWEuf+M9UY/vsfiUTI2XtBMvnqzrziRKWO+AifnUbGRfX20ryGPhhSfCGHqrV
-	kZyc2RbBFOa+3yfLVzoFGdR/Yebwlw==
-X-Google-Smtp-Source: AGHT+IGPSVUOeko+sYWDW6v4Fk76nwc9rp77WGtOYQjUn6oL04KY6kEqoN+K5Blkf6pIJY/a+PCS4w==
-X-Received: by 2002:a05:600c:a48:b0:439:a1c7:7b2d with SMTP id 5b1f17b1804b1-43ba66da31fmr32425595e9.4.1740757216086;
-        Fri, 28 Feb 2025 07:40:16 -0800 (PST)
-Received: from qasdev.system ([2a02:c7c:6696:8300:3c09:d865:e332:1c03])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43b73717230sm59064235e9.19.2025.02.28.07.40.15
+        d=1e100.net; s=20230601; t=1740585452; x=1741190252;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rkkyrTS/XUUgRrCusn5lCJsjmBp1WxMfD+vrhmxbdwM=;
+        b=TsomwPPKnB5XGu88oBKdYivio+gmTWF0ckvwLf7YqGnzFU9KmPpB+IXwe9uS/mav2J
+         iiexyW5POIg0L0cEcAlWrhsLD+RyJrXdwTv6wjTOGe901g/Wlgt8ANm5DmSmrAZpye1A
+         2EDkhJtIRckXNathccFru6VwieKRadNLSjlgJfZrsgh+gS/KDFg4fba3ijEimOnsFks5
+         VfxUUpUQUrbf7jqc25fmumMaidwO1erHaXOlPEjcUKNqO0Hmlj74LcVWCFEH+DEfOomQ
+         V0DSDO2V/+ARbH7OG8/LnB7t/+0QV6XBLot0nJtrUTeKK0WnGyse4EcZ07iRAR2Gbcd1
+         xI5A==
+X-Forwarded-Encrypted: i=1; AJvYcCU8BNKIPV9mJCbzozyZ3V1jaX8UC3LVmOLdmzN5URgBVUZ9mFQEMGa7K/ASQ5AuLteYzEMhfOcOS9gb@lists.infradead.org
+X-Gm-Message-State: AOJu0YxmDhfe6E9SZbz9gil1c8obEwIZZTNIsfK31Q5OdadG9IvrM6YJ
+	e4bVnYcmuSd8ZHRHXcrna1JcQylGWRpI4lM4lm5SrylHGutwJSsv
+X-Gm-Gg: ASbGnctPTH+kJJzQhI1TXFzsV565GMT1qgG8G+B2H78XKd5EqFRItmAmXwgmdx5yxaU
+	MLuGKrE9D7GB56e5ULxU7bGx9LZxI13sbskkQR6UQoXxoEl8mWvdBlW679bjOmDBjOmYhjojX0f
+	6UlcXZ70wbLoPXHR1LpRZ5rbt8cToxGANIGIy/vlc5f0Y6dmmRPdu5/o3rF4BYDqur75JJJqlaO
+	lOTqt/HFY+dfsHaQduIojzFZTesU7BkGY4Ic9PuY8h+beyv2K4WODdSUD5WOeA+FQ0J8tMCxejC
+	U89Ed7FlG1fYQShblMkPmMok3z0Ge2LaSE87qut1wrMkJU/H
+X-Google-Smtp-Source: AGHT+IH82gnLNVCGTkH+G8CSGIkUHUTCF4M+N3ekP+L3X9B7O3TZpIkugYLUjhbxuKtiakwaCquXQg==
+X-Received: by 2002:a2e:9789:0:b0:308:e8d3:756d with SMTP id 38308e7fff4ca-30b7918bf8fmr31534101fa.19.1740585451801;
+        Wed, 26 Feb 2025 07:57:31 -0800 (PST)
+Received: from pc636 (host-95-203-6-24.mobileonline.telia.com. [95.203.6.24])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a819f4cffsm5537121fa.58.2025.02.26.07.57.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 07:40:15 -0800 (PST)
-Date: Fri, 28 Feb 2025 15:40:05 +0000
-From: Qasim Ijaz <qasdev00@gmail.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	James Smart <james.smart@broadcom.com>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] nvme-fc: Simplify minimum determination in two functions
-Message-ID: <Z8HY1RX5-SOjYOdx@qasdev.system>
+        Wed, 26 Feb 2025 07:57:30 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date: Wed, 26 Feb 2025 16:57:27 +0100
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Uladzislau Rezki <urezki@gmail.com>,
+	Keith Busch <keith.busch@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	kasan-dev@googlegroups.com, Jann Horn <jannh@google.com>,
+	Mateusz Guzik <mjguzik@gmail.com>, linux-nvme@lists.infradead.org,
+	leitao@debian.org
+Subject: Re: [PATCH v2 6/7] mm, slab: call kvfree_rcu_barrier() from
+ kmem_cache_destroy()
+Message-ID: <Z7855_cJh493vHNy@pc636>
+References: <ef97428b-f6e7-481e-b47e-375cc76653ad@suse.cz>
+ <Z73p2lRwKagaoUnP@kbusch-mbp>
+ <CAOSXXT6-oWjKPV1hzXa5Ra4SPQg0L_FvxCPM0Sh0Yk6X90h0Sw@mail.gmail.com>
+ <Z74Av6tlSOqcfb-q@pc636>
+ <Z74KHyGGMzkhx5f-@pc636>
+ <8d7aabb2-2836-4c09-9fc7-8bde271e7f23@suse.cz>
+ <Z78lpfLFvNxjoTNf@pc636>
+ <93f03922-3d3a-4204-89c1-90ea4e1fc217@suse.cz>
+ <Z782eoh-d48KXhTn@pc636>
+ <8899bfa5-bd8b-4d34-a149-40f30d12cb1e@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
+In-Reply-To: <8899bfa5-bd8b-4d34-a149-40f30d12cb1e@suse.cz>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250228_074018_277939_7CCAF658 
-X-CRM114-Status: GOOD (  17.87  )
+X-CRM114-CacheID: sfid-20250226_155735_395533_77E42CDE 
+X-CRM114-Status: GOOD (  19.84  )
 X-Mailman-Approved-At: Mon, 03 Mar 2025 09:25:56 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -96,56 +141,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: 6b6d7ad3-7d25-4cf2-ab96-ddeed341599a@web.de
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 28, 2025 at 01:45:21PM +0100, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Fri, 28 Feb 2025 13:38:38 +0100
+On Wed, Feb 26, 2025 at 04:46:38PM +0100, Vlastimil Babka wrote:
+> On 2/26/25 4:42 PM, Uladzislau Rezki wrote:
+> > On Wed, Feb 26, 2025 at 03:36:39PM +0100, Vlastimil Babka wrote:
+> >> On 2/26/25 3:31 PM, Uladzislau Rezki wrote:
+> >>> On Wed, Feb 26, 2025 at 11:59:53AM +0100, Vlastimil Babka wrote:
+> >>>> On 2/25/25 7:21 PM, Uladzislau Rezki wrote:
+> >>>>>>
+> >>>>> WQ_MEM_RECLAIM-patch fixes this for me:
+> >>>>
+> >>>> Sounds good, can you send a formal patch then?
+> >>>>
+> >>> Do you mean both? Test case and fix? I can :)
+> >>
+> >> Sure, but only the fix is for stable. Thanks!
+> >>
+> > It is taken by Gregg if there is a Fixes tag in the commit.
+> > What do you mean: the fix is for stable? The current Linus
+> > tree is not suffering from this?
 > 
-> Replace nested min() calls by single min3() call in two
-> function implementations.
+> I just meant the fix should be a Cc: stable, and the testcase not.
+> mm/ has an exception from "anything with Fixes: can be taken to stable"
 > 
-> This issue was transformed by using the Coccinelle software.
-> 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> ---
->  drivers/nvme/host/fc.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index b9929a5a7f4e..6eed3ecdbaf6 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2858,8 +2858,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
->  	unsigned int nr_io_queues;
->  	int ret;
-> 
-> -	nr_io_queues = min(min(opts->nr_io_queues, num_online_cpus()),
-> -				ctrl->lport->ops->max_hw_queues);
-> +	nr_io_queues = min3(opts->nr_io_queues, num_online_cpus(), ctrl->lport->ops->max_hw_queues);
->  	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
->  	if (ret) {
->  		dev_info(ctrl->ctrl.device,
-> @@ -2912,8 +2911,7 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
->  	unsigned int nr_io_queues;
->  	int ret;
-> 
-> -	nr_io_queues = min(min(opts->nr_io_queues, num_online_cpus()),
-> -				ctrl->lport->ops->max_hw_queues);
-> +	nr_io_queues = min3(opts->nr_io_queues, num_online_cpus(), ctrl->lport->ops->max_hw_queues);
->  	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
->  	if (ret) {
->  		dev_info(ctrl->ctrl.device,
-> --
-> 2.48.1
-> 
-Hi Markus,
+Got it.
 
-I have already submitted a patch for this twice in the past:
-
-4th Feb: <https://lore.kernel.org/all/20250204201256.117194-1-qasdev00@gmail.com/>
-13th Feb: <https://lore.kernel.org/all/20250213221622.81457-1-qasdev00@gmail.com/>
-> 
+--
+Uladzislau Rezki
 
