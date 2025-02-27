@@ -4,90 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D277C282C5
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 19:39:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECFE8C282C5
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 19:39:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hw6wJjdWo9Wiej484setvR6DkQWMZWwSNxLdWQ1MFf0=; b=lsLJkkeCVO9ZvUJycRlY7fxwAl
-	UYZV8aVExKLXEPYJJyPv2m9Tfe8i8dqLjm3qHZMmMgX/AoEv2CU5DEcNZPbc5lY5QfuhN8k16EG1d
-	6JcqddoWtyn5CdUU9oirWOFm5ufB70HMsQzB9Z4a0mm1wt3pKpBT9ZYv3Cq7D3jDtsHtr04XBpLnI
-	zm9s5jf2Q/hGVS/ULE/5NMUkkASxez/N2SwWoSesk0zXelZJ0omRQWg8gwyWqxM0YCm0YbsaO3+yx
-	8czl4dhQrdhiLL+Z/naplid/jzqQzxdV1xqFzQJh0HUmCsED1aHTjQJma5KIZxO9R3c/26rONrHLw
-	/DzYAW3A==;
+	bh=lRiyrt8fVejqBJOeerAkOhbzZ3qu4Psgf4opFC293kE=; b=4rfW6DWGXVVnw9h0+RTibOhYWr
+	ZZBS8chidDGNzGTxx54z4hZ3wSMYADq9Tyeh5nKVTHHGToPH7PI85+rRAdxeqKiHA10cTU51cxvlN
+	BO6ezA/wwq6YZNme8RjEwL6IIPQF1SzDZMGgq5xfl8cT0Px/+hkLMicxNUJBPtHLZF2Rylr1rNohD
+	fH5dEMP3chgJK4Aph3fEgZVk6d+S63FOCOVoFgvzI0XfJOk0oZxBo1RA28fYaGjr7hqebPWogLIdx
+	P5K6RF1Z66NcGgPGTKnepYlYl8xFVeDCWW/ucIRisBShdmNivunyaG0HXG1joCk2ctkZ4as4RoDxy
+	vKcCo/VA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnjiy-00000008XFE-3b0Y;
-	Thu, 27 Feb 2025 19:39:12 +0000
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+	id 1tnjj6-00000008XUP-0w3u;
+	Thu, 27 Feb 2025 19:39:20 +0000
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tngCf-00000007y6Q-2UY2
+	id 1tngNV-00000007zzR-0gfb
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Feb 2025 15:53:38 +0000
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-abba1b74586so158266766b.2
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 07:53:36 -0800 (PST)
+	Thu, 27 Feb 2025 16:04:51 +0000
+Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-855923e7f53so76077539f.2
+        for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 08:04:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740671615; x=1741276415; darn=lists.infradead.org;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1740672288; x=1741277088; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=hw6wJjdWo9Wiej484setvR6DkQWMZWwSNxLdWQ1MFf0=;
-        b=hbqmaOvB8Yp+5D497PYdnxl3ZsnH1z/dUZnlH9NdCmC/fur+7gSEIKWnruvNOo3Gw3
-         FduXizN7489g67/48Ntlspao+uyHv3tuhxityv9qjRffDtZHfOCe2jGSMB2JE2bfHVrX
-         1e/DKwDOdpgRMHqRUyASUAWJ8JPOP7TwgQa35vvKAnGGXSjdYE1GSs6x8pKeXfhXQuwl
-         /+lLybDtj12G27n2yg83LyDFFK77Dm/i+m7FreOcwNAEJ0NEI7ZtuuQiJjcqeL15e+6a
-         Zu46JXwwAgE1cBYIRGXyulYFkQarE6ewRUiRtFIu2p0vfmsXr2BTPlUDBDzsr2rul6K3
-         /H9g==
+        bh=lRiyrt8fVejqBJOeerAkOhbzZ3qu4Psgf4opFC293kE=;
+        b=NQZhSv/jqdhMeZ4DOcOe+MjN7egVEyCpnNbH51anJRcHURAtKs6zdk96dD9PYiPiUu
+         38oh+BltWBgQOWp4aWFJ0RRq3x/DfEuwuJ14xfv526Z95NLWKI8kXSGtjo+idYP2EvPb
+         fPiTXSvseX3SEhay2MiZMcWMJo2pWLL1DLP6qci7g9xVd2CEplBfcdpc3GxMWsCQcgdF
+         Kq+uYqBJmn6fB9ImWDR7hkvHtJN3suXR9YJtb8BDLcJ/M4nLfXsHu708fTx13ErwDsUm
+         un6Etdy9iqVvNgAA2/wzZwxPMgTQXLyQgR9IVWByCJZIhx1YvFXOs+TLs+mviPkjbDRy
+         N62g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740671615; x=1741276415;
+        d=1e100.net; s=20230601; t=1740672288; x=1741277088;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hw6wJjdWo9Wiej484setvR6DkQWMZWwSNxLdWQ1MFf0=;
-        b=od/ybN2JT66qQAgAdh+tKqXhGyB9zRsybZ843QEWI5LbCi258N+qBjj1E2sNfjkEDm
-         XQd9C8ycMOHXS8D2SJxTdroiJ6kzkqPEi7LmGpiWcpewQUH/I7SR3VKvmqLcmDRaQE9x
-         01sGZWSX9mTyqrNED0sqdCDrH8/XS1Bt3KKyrNr/FxzNMTcrbliqIcd899S4z9bJiz7B
-         r6LTbAkba5HxGoRUCvteWE5OEjGOE0xFtsp3nKPxlGLae70Hq/tHhvcwAhKs7JyAibws
-         B4OycMFsE5wItGYl8+frS4tDQVC3z7htotOWxwYrgqOZkad9/8kVfuV6hQ4ISoF5Pfsz
-         DKlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXWE6qaEuDc3iE4piRQF/CJFnd+Lt1FwttcrrGu2zzlimpemr1FrTeoVV8Ft0BgqY8kvHs3KKo/pIe@lists.infradead.org
-X-Gm-Message-State: AOJu0YyiesNEO88p7Ijqwg3hoEAJIk2INxehJ8KT59a8M9piV/P+vciU
-	5sPsJb3nm5Jwj4H+uFOWQNVH/+iTgdAZbgP5Lw2S4SYSVIm09u3q
-X-Gm-Gg: ASbGncv+0Xk8AGbkjzgsUtsVQnPuEL8VxmReEnB1NYZa6DGL8YV8yp58VJ2Pyk88eIS
-	vcJplL4dfGP+LbCPFE7Rt3nCqJ9GywcromtqxZPO6bhdFKdKFz2+v26+8NWaP1ZqC5uNgrHAW7D
-	mNNjELuGGgxMxEHuQgBHSIuQ3C2/LU3+gnTQd+7X1AMl5VQ82q0kRPSGsU6NvPlHuqr9tMSHRVa
-	8lz4WzBSdjWSoi4erNuVkWotaQ2u5EjW0okIv0/8MZOX2E1tsEhAfyBmhHxWp6EyWhAbLyRX2Fq
-	Xh/nSh8y16k3XcNzQAExOqYrTKY+McTZ0aDOjjRadSZ+xn2MzgykXkGZwGY=
-X-Google-Smtp-Source: AGHT+IF2NiaSjB15duG/MSduEve6ftOKjyFFg8HbNOjOGeFn8DcHTxCu0iO3xhPOLmOyRIiS0FP7Ug==
-X-Received: by 2002:a17:907:2d25:b0:abb:b0c0:5b6b with SMTP id a640c23a62f3a-abed0c7a055mr1542926366b.7.1740671614964;
-        Thu, 27 Feb 2025 07:53:34 -0800 (PST)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:4215])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf0c7c18a3sm139766066b.185.2025.02.27.07.53.33
+        bh=lRiyrt8fVejqBJOeerAkOhbzZ3qu4Psgf4opFC293kE=;
+        b=H9LfsEndztkp/u+WwHH8ujQr24cCaJaCKKVsQK9QAL7kH1VOMarumy+94Z1jTck4e8
+         VWbw2ebOT0K65NzxHHoEywUGgWRrurvqixqwlc0LVVKTxH+ARBv0ofj3sIUjm03XlvdU
+         qTaugaHwzCOH4WzpBPDSkV1U4p1V9bzonKin3CsNUa3LOd8tLNyGS+ZwaSEvoWCg4r1U
+         Tcq0i04l76+zj4ur5cqjk3+AUY3Tn27ENV++k+jNPuWvE0KNtvXMzLU6xFDDkqzCyjSw
+         HAlfZjg6zFicsUPlwj5LFag+2AeHGRJ36nXWH06RfY9OtX6mNVzkEz3vhaRN0ZhFYXr5
+         ilrg==
+X-Forwarded-Encrypted: i=1; AJvYcCUq7WCbESET0euU0nVbCY/6mzdn6jcECEdQxYRufh9NhvwtMBRFv4rK09quR8XOxQsIqQ78jyg3hNbB@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx/BORIEskIXeS/q/+mQaheIQXG3EA9T0E71tiUyCjJlgHWXim1
+	KpCJdRGP7OSzhB1bX0gfSqkYRD/O0A1w+/vHVhNkN4leJRUh52bPqr8ClOGhwMM=
+X-Gm-Gg: ASbGncuA6cDSxiaF8VlEWIX2RhaiwD4C5mA+CRH0iBzlA9Ke6XVf9sgtR+XlaOXjZBh
+	Mvg61PSwnI4+/Iv0lLH2jtsd0zRj4v9w+XCAuZV4KZVBuW0upWTOpOzM1LtMwMA6av0wq2J5NNn
+	68PkHvprGuh4EwjHd4vP+iEZd3ZMSRD35ytd6Fe0iOpneKYgBqwC27BrCFFlSHn7AOjYaTf2QS9
+	R3abo/an9qTyUbtYLq33rgYWG6evdRVKnbN4+vPDutFpel+Z5kKH7f/JlxPs+fBUe4ixzzweuCn
+	fLIR6qXb1Mw6IaFljT6dDA==
+X-Google-Smtp-Source: AGHT+IGo6x2FH+vlfBxEZ8Tq3JIml3qv+EqIvWjt1EPR7qM5okR5+KJCsrTuyzBX355V5+1VbV5kNQ==
+X-Received: by 2002:a05:6602:3cd:b0:855:c32e:7451 with SMTP id ca18e2360f4ac-856203d291bmr1454580939f.14.1740672288224;
+        Thu, 27 Feb 2025 08:04:48 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-858753cc685sm35937239f.38.2025.02.27.08.04.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2025 07:53:34 -0800 (PST)
-Message-ID: <844f45ac-e36e-4784-9f8d-528b022dff9c@gmail.com>
-Date: Thu, 27 Feb 2025 15:54:31 +0000
+        Thu, 27 Feb 2025 08:04:47 -0800 (PST)
+Message-ID: <01ed898e-eb6c-4ffd-8d32-f536a9f6e1bb@kernel.dk>
+Date: Thu, 27 Feb 2025 09:04:46 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCHv7 2/6] io_uring: add support for kernel registered bvecs
-To: Keith Busch <kbusch@meta.com>, ming.lei@redhat.com, axboe@kernel.dk,
- linux-block@vger.kernel.org, io-uring@vger.kernel.org
+To: Pavel Begunkov <asml.silence@gmail.com>, Keith Busch <kbusch@meta.com>,
+ ming.lei@redhat.com, linux-block@vger.kernel.org, io-uring@vger.kernel.org
 Cc: bernd@bsbernd.com, csander@purestorage.com,
  linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
 References: <20250226182102.2631321-1-kbusch@meta.com>
  <20250226182102.2631321-3-kbusch@meta.com>
+ <844f45ac-e36e-4784-9f8d-528b022dff9c@gmail.com>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20250226182102.2631321-3-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <844f45ac-e36e-4784-9f8d-528b022dff9c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250227_075337_633639_3C4799EA 
-X-CRM114-Status: UNSURE (   8.29  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250227_080449_453054_5EE1EA44 
+X-CRM114-Status: GOOD (  10.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,25 +102,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/26/25 18:20, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+On 2/27/25 8:54 AM, Pavel Begunkov wrote:
+> On 2/26/25 18:20, Keith Busch wrote:
+>> From: Keith Busch <kbusch@kernel.org>
+>>
+>> Provide an interface for the kernel to leverage the existing
+>> pre-registered buffers that io_uring provides. User space can reference
+>> these later to achieve zero-copy IO.
+>>
+>> User space must register an empty fixed buffer table with io_uring in
+>> order for the kernel to make use of it.
 > 
-> Provide an interface for the kernel to leverage the existing
-> pre-registered buffers that io_uring provides. User space can reference
-> these later to achieve zero-copy IO.
+> Can you also fail rw.c:loop_rw_iter()? Something like:
 > 
-> User space must register an empty fixed buffer table with io_uring in
-> order for the kernel to make use of it.
+> loop_rw_iter() {
+>     if ((req->flags & REQ_F_BUF_NODE) &&
+>         req->buf_node->buf->release)
+>         return -EFAULT;
+> }
 
-Can you also fail rw.c:loop_rw_iter()? Something like:
+Good point...
 
-loop_rw_iter() {
-	if ((req->flags & REQ_F_BUF_NODE) &&
-	    req->buf_node->buf->release)
-		return -EFAULT;
-}
 
 -- 
-Pavel Begunkov
+Jens Axboe
 
 
