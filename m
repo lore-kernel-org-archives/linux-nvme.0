@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 412C5C197BF
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93250C1B087
 	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 22:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,68 +12,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=717Fucz3MwnGMkuf5ctouUv4BVsW93ozRQBD9opCJkQ=; b=oLosRZt/CSJZaLF1gCEn9fmtHq
-	FuwAb5Siscp0zxVqOuo6ZLsz1xxPjPf3LAcvk1nc4qQzXr/0TKkQ0AqaHXKPIrcRUNf7Y7tHpSn/z
-	m8EFtwrcrZmfKU+QS1mIpT2R1DOsOGV23qim0XZl3u/x0QhIzyfzwyJRWtCjH0+1fZuVSrz0h0bxY
-	2QxPHyUNH5atZaClKg3G7l2pIxNdyn/TicpjoV3nBTIVDL8JIQwXjTEhadel9OPl172g1Refs4tHn
-	OPbPxTCdio16JqZwj70j2wGdLuR7qMbD5oB6alqWbOP3vsq1w6J/4fmOChrplbusfr5vwn2Eqbruo
-	opZP37qg==;
+	bh=UK4VKrnbbqRbsvlFbP+kOC2S+sGsNhIP2BWp/9Ksa3U=; b=TxlNgAziaGMZRFdLg2I0gZaeP/
+	mTpQrPmjRGUXrCjqqm02o6KOdEeBVk1a6S/QpIfznjr0mLs7w0f9oByNbe8S87rShqBeSn/BlIxhP
+	eN6KSm4Z3eQ1CgWatkI5y3DYbs0vu3rjsU/4v+Ohn9d7ZOOKgBwykKJKE1SC/ZIswaXqRo9/gY0Sq
+	wfOXMIwmgzrU2kPyAPkzgKmHERKX/5Ndwp3Obyy4V2Ec1U2N4261bOTqf8RfiKNallSHSuK+ThsQe
+	dxzw06lYy77h4CQmZ/JN6UkjIL2NS5OqQS8uFSirRAeGVztNnHIFm1wxvIPjqmgOXumb5oX1vf6ma
+	nc+HpfTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnmaZ-000000093pv-1HbT;
+	id 1tnmaZ-000000093qg-3s33;
 	Thu, 27 Feb 2025 22:42:43 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnmaX-000000093pJ-4627
+	id 1tnmaY-000000093pL-1OvC
 	for linux-nvme@bombadil.infradead.org;
-	Thu, 27 Feb 2025 22:42:41 +0000
+	Thu, 27 Feb 2025 22:42:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:Content-Transfer-Encoding
 	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:
 	Sender:Reply-To:Content-ID:Content-Description;
-	bh=717Fucz3MwnGMkuf5ctouUv4BVsW93ozRQBD9opCJkQ=; b=VtXL+4bHxuOL+zTsaPhmT3EdWk
-	JRc2etsrAGOXdWaY+MnhyH48ld2HDYdWUloy5c9KlwsoAgoFfKQqwdRGVxKrLQLHCp6yLMBS6B08R
-	3Ahxe9+6BdR/y+V3SVKgcbGw/QH2FX1Om58jN6uLgUeNNYhP3l+h7HlA9m/kX6kFYy3DRxSmjbJul
-	yS7uzyadSb9bwcSDtuRCnz/EI9BKvzDXvdgjjH9Ff9aDGYxla4ACqHB1ILvOvklQLzUVIIyh8JeET
-	Hh766kSHti4QOWxBlY79oDJEmN2CMSbBvK46CZMsG94WjBDKJ+W22+rfCbA+R/E+CSsCzPA4xh35J
-	QDn2ikug==;
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	bh=UK4VKrnbbqRbsvlFbP+kOC2S+sGsNhIP2BWp/9Ksa3U=; b=kKzQqu9E7xm9txaz3eSIkbCr2z
+	JUfU9sinY1B8TIH4I6w3WqvbGJPSqQPnAM3i0HBQ7jA4EKeskPUr2mhVWgX9iZuAd263XodeLhzwA
+	teVKro+chrplbD7MOPQwQflVvScM9Ce6X6jxetIYuAOqHzf8GlSOi2mwXar91O5QGkYR3D2vhVGB8
+	GWHUhrgixe2kijZzZAUJh69saU6wOzauFbYSNb0UhuRngbLp3lKQWWllqx2SLM+VuWSmd9aWDeYDK
+	TLU15jNg0J4TI64WuHRUohUbKVrKdHon1ffdsfv99CbjbM/IQHzJlq+SuDg3KbdLDq6DUI1pFvSo8
+	+V0gfUoQ==;
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnmXl-00000003qtw-1YGR
+	id 1tnmXd-00000003qtp-3lJq
 	for linux-nvme@lists.infradead.org;
 	Thu, 27 Feb 2025 22:42:40 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51RMdi6P011870
-	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:47 -0800
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 51RMbZ5B025607
+	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:34 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=717Fucz3MwnGMkuf5ctouUv4BVsW93ozRQBD9opCJkQ=; b=aIPfjGx1z/yV
-	5TRQN8Qjk/WqZZSDDuNdIFzdWFk0Gy7NfDnXp9GMaB/r+bEgwPL5MvZPTBzCM5u5
-	AoRF13MrFDX9FRaUygErP2dXgM0hf1DGj4f1d6pTClkFBhyUig4FjryZ50kUpBGU
-	SQP1Sq4hakF3cfgWmmqOC+9Qa7/xd4TSfB2tf/OMmZZ37XMM5GzqqfzL1ezDr69O
-	C4/n28L2+MzlNp8Z0ZwOGYochL6Si4+ZEp+L/qt7Q5lrtJhhwXhrHEfAwMqER90u
-	fCFgdRTihblFGkkQfHcjzg9ZoT8ZYCcqqbdJng3L5ykKIgi4gQzTL6eBxJJoTsHo
-	fx5nFy7gqQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 452wtb9ntv-3
+	 bh=UK4VKrnbbqRbsvlFbP+kOC2S+sGsNhIP2BWp/9Ksa3U=; b=NOGrHNhKfI1T
+	By7qcndvAVJqWeQXauCmBIF6mP6FRyBDf69DzRKde/y8lTgD6BXDa8+NYkb+tdHo
+	IdfYDKYHAbUBlnOGoWimnMlz2LcSRlO+4c+WTQZFvnjAuETBAhiAmXZhppEKY7aN
+	c92Jwi9UkpLdKTM3jxUcvmB9CpRAxL8z9GlGU/KoUUIHy5xQHZx17dp4nieYQ30c
+	JLBphyyhxkBlM6MGE6U08Kk6haVhhqXRjkpL0XTTcvQMiZ3U+klTeynvPP73g+Pp
+	bSfMHRxEAb1tp5tRBf7p9OxWzpUzA57kQFf8v9AdHcRXa5ukV8hK4SlxuKtuoxow
+	2KvAAmgEsw==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by m0001303.ppops.net (PPS) with ESMTPS id 452w27j4a9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:47 -0800 (PST)
-Received: from twshared40462.17.frc2.facebook.com (2620:10d:c0a8:1c::1b) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:34 -0800 (PST)
+Received: from twshared18153.09.ash9.facebook.com (2620:10d:c085:108::150d) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Thu, 27 Feb 2025 22:39:14 +0000
+ 15.2.1544.14; Thu, 27 Feb 2025 22:39:24 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 6DE311888280C; Thu, 27 Feb 2025 14:39:17 -0800 (PST)
+	id 8A5E21888281A; Thu, 27 Feb 2025 14:39:18 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <ming.lei@redhat.com>, <axboe@kernel.dk>, <asml.silence@gmail.com>,
         <linux-block@vger.kernel.org>, <io-uring@vger.kernel.org>
 CC: <linux-nvme@lists.infradead.org>, <csander@purestorage.com>,
         Keith Busch
 	<kbusch@kernel.org>
-Subject: [PATCHv8 1/6] io_uring/rw: move buffer_select outside generic prep
-Date: Thu, 27 Feb 2025 14:39:11 -0800
-Message-ID: <20250227223916.143006-2-kbusch@meta.com>
+Subject: [PATCHv8 6/6] io_uring: cache nodes and mapped buffers
+Date: Thu, 27 Feb 2025 14:39:16 -0800
+Message-ID: <20250227223916.143006-7-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20250227223916.143006-1-kbusch@meta.com>
 References: <20250227223916.143006-1-kbusch@meta.com>
@@ -81,14 +81,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: oTAJU6uCBkDmPDPmjFER3OlGOVeFxzVU
-X-Proofpoint-ORIG-GUID: oTAJU6uCBkDmPDPmjFER3OlGOVeFxzVU
+X-Proofpoint-ORIG-GUID: Upg_GbGtvozZPN7l8snKvY-UNKhH9F0R
+X-Proofpoint-GUID: Upg_GbGtvozZPN7l8snKvY-UNKhH9F0R
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-27_08,2025-02-27_01,2024-11-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250227_224039_530407_5CBA6A64 
-X-CRM114-Status: GOOD (  12.66  )
+X-CRM114-CacheID: sfid-20250227_224039_530531_AF10F082 
+X-CRM114-Status: GOOD (  16.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,123 +105,281 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Cleans up the generic rw prep to not require the do_import flag. Use a
-different prep function for callers that might need buffer select.
+Frequent alloc/free cycles on these is pretty costly. Use an io cache to
+more efficiently reuse these buffers.
 
-Based-on-a-patch-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- io_uring/rw.c | 45 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 28 insertions(+), 17 deletions(-)
+ include/linux/io_uring_types.h |  2 +
+ io_uring/filetable.c           |  2 +-
+ io_uring/io_uring.c            |  2 +
+ io_uring/rsrc.c                | 70 +++++++++++++++++++++++++++-------
+ io_uring/rsrc.h                |  4 +-
+ 5 files changed, 64 insertions(+), 16 deletions(-)
 
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 788f06fbd7db1..b21b423b3cf8f 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -248,8 +248,8 @@ static int io_prep_rw_pi(struct io_kiocb *req, struct=
- io_rw *rw, int ddir,
- 	return ret;
- }
+diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_type=
+s.h
+index c0fe8a00fe53a..3ce87dcd99eec 100644
+--- a/include/linux/io_uring_types.h
++++ b/include/linux/io_uring_types.h
+@@ -294,6 +294,8 @@ struct io_ring_ctx {
 =20
--static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *s=
-qe,
--		      int ddir, bool do_import)
-+static int __io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe =
-*sqe,
-+			int ddir)
- {
- 	struct io_rw *rw =3D io_kiocb_to_cmd(req, struct io_rw);
- 	unsigned ioprio;
-@@ -285,14 +285,6 @@ static int io_prep_rw(struct io_kiocb *req, const st=
-ruct io_uring_sqe *sqe,
- 	rw->len =3D READ_ONCE(sqe->len);
- 	rw->flags =3D READ_ONCE(sqe->rw_flags);
+ 		struct io_file_table	file_table;
+ 		struct io_rsrc_data	buf_table;
++		struct io_alloc_cache	node_cache;
++		struct io_alloc_cache	imu_cache;
 =20
--	if (do_import && !io_do_buffer_select(req)) {
--		struct io_async_rw *io =3D req->async_data;
--
--		ret =3D io_import_rw_buffer(ddir, req, io, 0);
--		if (unlikely(ret))
--			return ret;
--	}
--
- 	attr_type_mask =3D READ_ONCE(sqe->attr_type_mask);
- 	if (attr_type_mask) {
- 		u64 attr_ptr;
-@@ -307,26 +299,45 @@ static int io_prep_rw(struct io_kiocb *req, const s=
-truct io_uring_sqe *sqe,
- 	return 0;
- }
+ 		struct io_submit_state	submit_state;
 =20
-+static int io_rw_do_import(struct io_kiocb *req, int ddir)
-+{
-+	if (io_do_buffer_select(req))
-+		return 0;
-+
-+	return io_import_rw_buffer(ddir, req, req->async_data, 0);
-+}
-+
-+static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *s=
-qe,
-+		      int ddir)
-+{
-+	int ret;
-+
-+	ret =3D __io_prep_rw(req, sqe, ddir);
-+	if (unlikely(ret))
-+		return ret;
-+
-+	return io_rw_do_import(req, ddir);
-+}
-+
- int io_prep_read(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- {
--	return io_prep_rw(req, sqe, ITER_DEST, true);
-+	return io_prep_rw(req, sqe, ITER_DEST);
- }
-=20
- int io_prep_write(struct io_kiocb *req, const struct io_uring_sqe *sqe)
- {
--	return io_prep_rw(req, sqe, ITER_SOURCE, true);
-+	return io_prep_rw(req, sqe, ITER_SOURCE);
- }
-=20
- static int io_prep_rwv(struct io_kiocb *req, const struct io_uring_sqe *=
-sqe,
- 		       int ddir)
- {
--	const bool do_import =3D !(req->flags & REQ_F_BUFFER_SELECT);
- 	int ret;
-=20
--	ret =3D io_prep_rw(req, sqe, ddir, do_import);
-+	ret =3D io_prep_rw(req, sqe, ddir);
- 	if (unlikely(ret))
- 		return ret;
--	if (do_import)
-+	if (!(req->flags & REQ_F_BUFFER_SELECT))
- 		return 0;
-=20
- 	/*
-@@ -353,7 +364,7 @@ static int io_prep_rw_fixed(struct io_kiocb *req, con=
-st struct io_uring_sqe *sqe
- 	struct io_async_rw *io;
- 	int ret;
-=20
--	ret =3D io_prep_rw(req, sqe, ddir, false);
-+	ret =3D __io_prep_rw(req, sqe, ddir);
- 	if (unlikely(ret))
- 		return ret;
-=20
-@@ -386,7 +397,7 @@ int io_read_mshot_prep(struct io_kiocb *req, const st=
-ruct io_uring_sqe *sqe)
- 	if (!(req->flags & REQ_F_BUFFER_SELECT))
+diff --git a/io_uring/filetable.c b/io_uring/filetable.c
+index dd8eeec97acf6..a21660e3145ab 100644
+--- a/io_uring/filetable.c
++++ b/io_uring/filetable.c
+@@ -68,7 +68,7 @@ static int io_install_fixed_file(struct io_ring_ctx *ct=
+x, struct file *file,
+ 	if (slot_index >=3D ctx->file_table.data.nr)
  		return -EINVAL;
 =20
--	ret =3D io_prep_rw(req, sqe, ITER_DEST, false);
-+	ret =3D __io_prep_rw(req, sqe, ITER_DEST);
- 	if (unlikely(ret))
- 		return ret;
+-	node =3D io_rsrc_node_alloc(IORING_RSRC_FILE);
++	node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_FILE);
+ 	if (!node)
+ 		return -ENOMEM;
 =20
+diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
+index 2f5dd47e7dbf5..8f542a5f20a60 100644
+--- a/io_uring/io_uring.c
++++ b/io_uring/io_uring.c
+@@ -292,6 +292,7 @@ static void io_free_alloc_caches(struct io_ring_ctx *=
+ctx)
+ 	io_alloc_cache_free(&ctx->uring_cache, kfree);
+ 	io_alloc_cache_free(&ctx->msg_cache, kfree);
+ 	io_futex_cache_free(ctx);
++	io_rsrc_cache_free(ctx);
+ }
+=20
+ static __cold struct io_ring_ctx *io_ring_ctx_alloc(struct io_uring_para=
+ms *p)
+@@ -339,6 +340,7 @@ static __cold struct io_ring_ctx *io_ring_ctx_alloc(s=
+truct io_uring_params *p)
+ 	ret |=3D io_alloc_cache_init(&ctx->msg_cache, IO_ALLOC_CACHE_MAX,
+ 			    sizeof(struct io_kiocb), 0);
+ 	ret |=3D io_futex_cache_init(ctx);
++	ret |=3D io_rsrc_cache_init(ctx);
+ 	if (ret)
+ 		goto free_ref;
+ 	init_completion(&ctx->ref_comp);
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+index 0eceaf2e03777..450b4c039334d 100644
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -33,6 +33,8 @@ static struct io_rsrc_node *io_sqe_buffer_register(stru=
+ct io_ring_ctx *ctx,
+ #define IORING_MAX_FIXED_FILES	(1U << 20)
+ #define IORING_MAX_REG_BUFFERS	(1U << 14)
+=20
++#define IO_CACHED_BVECS_SEGS	32
++
+ int __io_account_mem(struct user_struct *user, unsigned long nr_pages)
+ {
+ 	unsigned long page_limit, cur_pages, new_pages;
+@@ -111,6 +113,22 @@ static void io_release_ubuf(void *priv)
+ 		unpin_user_page(imu->bvec[i].bv_page);
+ }
+=20
++static struct io_mapped_ubuf *io_alloc_imu(struct io_ring_ctx *ctx,
++					   int nr_bvecs)
++{
++	if (nr_bvecs <=3D IO_CACHED_BVECS_SEGS)
++		return io_cache_alloc(&ctx->imu_cache, GFP_KERNEL);
++	return kvmalloc(struct_size_t(struct io_mapped_ubuf, bvec, nr_bvecs),
++			GFP_KERNEL);
++}
++
++static void io_free_imu(struct io_ring_ctx *ctx, struct io_mapped_ubuf *=
+imu)
++{
++	if (imu->nr_bvecs > IO_CACHED_BVECS_SEGS ||
++	    !io_alloc_cache_put(&ctx->imu_cache, imu))
++		kvfree(imu);
++}
++
+ static void io_buffer_unmap(struct io_ring_ctx *ctx, struct io_mapped_ub=
+uf *imu)
+ {
+ 	if (!refcount_dec_and_test(&imu->refs))
+@@ -119,22 +137,44 @@ static void io_buffer_unmap(struct io_ring_ctx *ctx=
+, struct io_mapped_ubuf *imu)
+ 	if (imu->acct_pages)
+ 		io_unaccount_mem(ctx, imu->acct_pages);
+ 	imu->release(imu->priv);
+-	kvfree(imu);
+ }
+=20
+-struct io_rsrc_node *io_rsrc_node_alloc(int type)
++struct io_rsrc_node *io_rsrc_node_alloc(struct io_ring_ctx *ctx, int typ=
+e)
+ {
+ 	struct io_rsrc_node *node;
+=20
+-	node =3D kzalloc(sizeof(*node), GFP_KERNEL);
++	node =3D io_cache_alloc(&ctx->node_cache, GFP_KERNEL);
+ 	if (node) {
+ 		node->type =3D type;
+ 		node->refs =3D 1;
++		node->tag =3D 0;
++		node->file_ptr =3D 0;
+ 	}
+ 	return node;
+ }
+=20
+-__cold void io_rsrc_data_free(struct io_ring_ctx *ctx, struct io_rsrc_da=
+ta *data)
++bool io_rsrc_cache_init(struct io_ring_ctx *ctx)
++{
++	const int imu_cache_size =3D struct_size_t(struct io_mapped_ubuf, bvec,
++						 IO_CACHED_BVECS_SEGS);
++	const int node_size =3D sizeof(struct io_rsrc_node);
++	bool ret;
++
++	ret =3D io_alloc_cache_init(&ctx->node_cache, IO_ALLOC_CACHE_MAX,
++				  node_size, 0);
++	ret |=3D io_alloc_cache_init(&ctx->imu_cache, IO_ALLOC_CACHE_MAX,
++				   imu_cache_size, 0);
++	return ret;
++}
++
++void io_rsrc_cache_free(struct io_ring_ctx *ctx)
++{
++	io_alloc_cache_free(&ctx->node_cache, kfree);
++	io_alloc_cache_free(&ctx->imu_cache, kfree);
++}
++
++__cold void io_rsrc_data_free(struct io_ring_ctx *ctx,
++			      struct io_rsrc_data *data)
+ {
+ 	if (!data->nr)
+ 		return;
+@@ -207,7 +247,7 @@ static int __io_sqe_files_update(struct io_ring_ctx *=
+ctx,
+ 				err =3D -EBADF;
+ 				break;
+ 			}
+-			node =3D io_rsrc_node_alloc(IORING_RSRC_FILE);
++			node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_FILE);
+ 			if (!node) {
+ 				err =3D -ENOMEM;
+ 				fput(file);
+@@ -465,7 +505,8 @@ void io_free_rsrc_node(struct io_ring_ctx *ctx, struc=
+t io_rsrc_node *node)
+ 		break;
+ 	}
+=20
+-	kfree(node);
++	if (!io_alloc_cache_put(&ctx->node_cache, node))
++		kvfree(node);
+ }
+=20
+ int io_sqe_files_unregister(struct io_ring_ctx *ctx)
+@@ -527,7 +568,7 @@ int io_sqe_files_register(struct io_ring_ctx *ctx, vo=
+id __user *arg,
+ 			goto fail;
+ 		}
+ 		ret =3D -ENOMEM;
+-		node =3D io_rsrc_node_alloc(IORING_RSRC_FILE);
++		node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_FILE);
+ 		if (!node) {
+ 			fput(file);
+ 			goto fail;
+@@ -732,7 +773,7 @@ static struct io_rsrc_node *io_sqe_buffer_register(st=
+ruct io_ring_ctx *ctx,
+ 	if (!iov->iov_base)
+ 		return NULL;
+=20
+-	node =3D io_rsrc_node_alloc(IORING_RSRC_BUFFER);
++	node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
+ 	if (!node)
+ 		return ERR_PTR(-ENOMEM);
+ 	node->buf =3D NULL;
+@@ -752,10 +793,11 @@ static struct io_rsrc_node *io_sqe_buffer_register(=
+struct io_ring_ctx *ctx,
+ 			coalesced =3D io_coalesce_buffer(&pages, &nr_pages, &data);
+ 	}
+=20
+-	imu =3D kvmalloc(struct_size(imu, bvec, nr_pages), GFP_KERNEL);
++	imu =3D io_alloc_imu(ctx, nr_pages);
+ 	if (!imu)
+ 		goto done;
+=20
++	imu->nr_bvecs =3D nr_pages;
+ 	ret =3D io_buffer_account_pin(ctx, pages, nr_pages, imu, last_hpage);
+ 	if (ret) {
+ 		unpin_user_pages(pages, nr_pages);
+@@ -766,7 +808,6 @@ static struct io_rsrc_node *io_sqe_buffer_register(st=
+ruct io_ring_ctx *ctx,
+ 	/* store original address for later verification */
+ 	imu->ubuf =3D (unsigned long) iov->iov_base;
+ 	imu->len =3D iov->iov_len;
+-	imu->nr_bvecs =3D nr_pages;
+ 	imu->folio_shift =3D PAGE_SHIFT;
+ 	imu->release =3D io_release_ubuf;
+ 	imu->priv =3D imu;
+@@ -789,7 +830,8 @@ static struct io_rsrc_node *io_sqe_buffer_register(st=
+ruct io_ring_ctx *ctx,
+ 	}
+ done:
+ 	if (ret) {
+-		kvfree(imu);
++		if (imu)
++			io_free_imu(ctx, imu);
+ 		if (node)
+ 			io_put_rsrc_node(ctx, node);
+ 		node =3D ERR_PTR(ret);
+@@ -893,14 +935,14 @@ int io_buffer_register_bvec(struct io_uring_cmd *cm=
+d, struct request *rq,
+ 		goto unlock;
+ 	}
+=20
+-	node =3D io_rsrc_node_alloc(IORING_RSRC_BUFFER);
++	node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
+ 	if (!node) {
+ 		ret =3D -ENOMEM;
+ 		goto unlock;
+ 	}
+=20
+ 	nr_bvecs =3D blk_rq_nr_phys_segments(rq);
+-	imu =3D kvmalloc(struct_size(imu, bvec, nr_bvecs), GFP_KERNEL);
++	imu =3D io_alloc_imu(ctx, nr_bvecs);
+ 	if (!imu) {
+ 		kfree(node);
+ 		ret =3D -ENOMEM;
+@@ -1137,7 +1179,7 @@ static int io_clone_buffers(struct io_ring_ctx *ctx=
+, struct io_ring_ctx *src_ctx
+ 		if (!src_node) {
+ 			dst_node =3D NULL;
+ 		} else {
+-			dst_node =3D io_rsrc_node_alloc(IORING_RSRC_BUFFER);
++			dst_node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
+ 			if (!dst_node) {
+ 				ret =3D -ENOMEM;
+ 				goto out_free;
+diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
+index 7600e2736eeb3..27e545694d01e 100644
+--- a/io_uring/rsrc.h
++++ b/io_uring/rsrc.h
+@@ -48,7 +48,9 @@ struct io_imu_folio_data {
+ 	unsigned int	nr_folios;
+ };
+=20
+-struct io_rsrc_node *io_rsrc_node_alloc(int type);
++bool io_rsrc_cache_init(struct io_ring_ctx *ctx);
++void io_rsrc_cache_free(struct io_ring_ctx *ctx);
++struct io_rsrc_node *io_rsrc_node_alloc(struct io_ring_ctx *ctx, int typ=
+e);
+ void io_free_rsrc_node(struct io_ring_ctx *ctx, struct io_rsrc_node *nod=
+e);
+ void io_rsrc_data_free(struct io_ring_ctx *ctx, struct io_rsrc_data *dat=
+a);
+ int io_rsrc_data_alloc(struct io_rsrc_data *data, unsigned nr);
 --=20
 2.43.5
 
