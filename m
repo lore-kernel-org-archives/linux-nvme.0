@@ -4,62 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 173AAC19F32
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 22:40:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3CEAC19F32
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 22:40:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c/rvD21U8zQ6S1LUw7Ft4KPhPGl3wO16d7e5rYdZ1sM=; b=Ak3G35up65NaTghdm2/fzSIYXu
-	is8Yj9pj+c12Lz/+nvHhEeWMwaS2A9cmCHdmg8qNBDufNV41mJoZT9D45wLlibRBnXUd3T7vn7WDj
-	fdfLNFsU4542tmoTXxZIqZi9EHwCRVbOvMOTGpZijXzPP1NQ6TJt8GLsj1859PT86e6Srzgp73T3n
-	UxcR1oti1GhyJwNzbBiJHszTXIiL2k6tCjEWnCf4tVHQK/HE6NpZ7xjI6dHoi+fFTNsH5PZlCzWGT
-	ZLWiNTCF8+vL+VuouTde7pX/3LuRCwvT5TzWPJzbfXts80ACXRfv74yJSs8dyodIYzW8E+tKz+2/a
-	sRjyQx+A==;
+	bh=Oz2RWLCKlHp+FkPvD5TrQfmOyHekSvWyNtpF3IJ/nNs=; b=DidBIai4jgHi6RAAlzAaX5OlT4
+	adYdMPpa9jXwkeEYDCf+D8N6LlwB3pHKw+JZy6Hjz0LzBkrbcXknqUX7gR3bh8y8QgK6YhDnIg68F
+	LsfOoRDUNHpmTM7grMQ4D82Mq9P2AAF1tJjCm9+jGt99UtyZ6AcBvYpbAk/dMFOhuIDNs41VCWqG3
+	gduBl9IRqzH/0QXSmtaqdt3xp0FWFHSKNPvCR/Zweb7TqFyx/uCA71io02U6+cHYGAHuuVu6TrPyr
+	gXW7NWn080lHFdV1SsrG5xYE+nforxlT8nExfxFX9S7NzJqHDzPXiDw+ZQ2YDgmwTSpcUwa75Pa2P
+	bJcwFSFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnmY0-000000092xH-1dxx;
-	Thu, 27 Feb 2025 22:40:04 +0000
+	id 1tnmY3-000000092zC-0FQw;
+	Thu, 27 Feb 2025 22:40:07 +0000
 Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnmXs-000000092rh-2kkW
+	id 1tnmXs-000000092tg-0bkw
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Feb 2025 22:40:02 +0000
+	Thu, 27 Feb 2025 22:40:06 +0000
 Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51RMdi6M011870
-	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:47 -0800
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51RMdhws011846
+	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:51 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=c/rvD21U8zQ6S1LUw7Ft4KPhPGl3wO16d7e5rYdZ1sM=; b=Akr2HU5EQlFn
-	Ei4zV5oDaV2kKUYbt/L7XlG3V5JUGz6bI19UNQ3x6u7r8gms+h3VrQ8PqYWMazhR
-	KQ9vCXFmfOjfJADjrvtLYaPyvy5k9/pUCrmSYBlPfDg21K4X+TfMFD+LV2IbXfFp
-	YQVtdDQE1EJr17Qp0+7IaljDqwfPiEadsgK7yxbEEjPHAlCbi7QXScyvW1KidVId
-	2n14Ixw8CYdhrlLw9b1/+a7um08H8Z4z5/261pWJwWF2GzZrclfHE5OR+L4rxGj0
-	VYHaBUi0U8MO//xYYey57/2FHKVnfZWWtW64vi9B6i3bx/N0OWgDXoFJI5uzt7zY
-	7VuHBm4uZA==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 452wtb9ntv-2
+	 bh=Oz2RWLCKlHp+FkPvD5TrQfmOyHekSvWyNtpF3IJ/nNs=; b=RWt2pHWcTnAI
+	q0UTWv2qYlVNG84RUYWHmHqI0jBZYi87ShcebDLa1k1lWt/gQtcY1Kq1oc3anOps
+	XhvHb6WfN3RH9OZvxmx9aKFpGnhDzELYziYVUf0BLHHK0SrMJ31ahej4AZNduqFU
+	1ViNj5J0jY70QhQNO4XMQn8ifPHR0BOImONnnl+Pgp4Q7VoCrb9PjERmGRLohS7O
+	I4LgKxO+Wi1bNlOLlVb0bUhKe8LTtk2x1XFiEvEDbv2lGwleJgpSA1eTYkziAf4a
+	rCF2Kx8nookQZD2YaSgmQlgsY98Mf1zE6jc6NElcVxbngSTqS/peJYI/zKhywPkr
+	xKXGj4r4ng==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 452wtb9nw9-7
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:46 -0800 (PST)
-Received: from twshared40462.17.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:50 -0800 (PST)
+Received: from twshared32179.32.frc3.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Thu, 27 Feb 2025 22:39:14 +0000
+ 15.2.1544.14; Thu, 27 Feb 2025 22:39:13 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id C14AF18882811; Thu, 27 Feb 2025 14:39:17 -0800 (PST)
+	id 844791888280D; Thu, 27 Feb 2025 14:39:17 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <ming.lei@redhat.com>, <axboe@kernel.dk>, <asml.silence@gmail.com>,
         <linux-block@vger.kernel.org>, <io-uring@vger.kernel.org>
 CC: <linux-nvme@lists.infradead.org>, <csander@purestorage.com>,
-        Xinyu Zhang
-	<xizhang@purestorage.com>,
-        Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv8 3/6] nvme: map uring_cmd data even if address is 0
-Date: Thu, 27 Feb 2025 14:39:13 -0800
-Message-ID: <20250227223916.143006-4-kbusch@meta.com>
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCHv8 2/6] io_uring/rw: move fixed buffer import to issue path
+Date: Thu, 27 Feb 2025 14:39:12 -0800
+Message-ID: <20250227223916.143006-3-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20250227223916.143006-1-kbusch@meta.com>
 References: <20250227223916.143006-1-kbusch@meta.com>
@@ -67,14 +66,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: hGA1mPFNnO220ucXIUh3SCmF5ZVXQIJD
-X-Proofpoint-ORIG-GUID: hGA1mPFNnO220ucXIUh3SCmF5ZVXQIJD
+X-Proofpoint-GUID: U5Wnuk0ZmYfO-HavRZt3Q4UKgWWgQrYN
+X-Proofpoint-ORIG-GUID: U5Wnuk0ZmYfO-HavRZt3Q4UKgWWgQrYN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-27_08,2025-02-27_01,2024-11-22_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250227_143957_245302_CEAF4FFD 
-X-CRM114-Status: GOOD (  13.80  )
+X-CRM114-CacheID: sfid-20250227_144000_938255_1E8EA705 
+X-CRM114-Status: GOOD (  14.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,42 +88,134 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Xinyu Zhang <xizhang@purestorage.com>
+From: Keith Busch <kbusch@kernel.org>
 
-When using kernel registered bvec fixed buffers, the "address" is
-actually the offset into the bvec rather than userspace address.
-Therefore it can be 0.
+Registered buffers may depend on a linked command, which makes the prep
+path too early to import. Move to the issue path when the node is
+actually needed like all the other users of fixed buffers.
 
-We can skip checking whether the address is NULL before mapping
-uring_cmd data. Bad userspace address will be handled properly later when
-the user buffer is imported.
-
-With this patch, we will be able to use the kernel registered bvec fixed
-buffers in io_uring NVMe passthru with ublk zero-copy support.
-
-Reviewed-by: Caleb Sander Mateos <csander@purestorage.com>
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
-Signed-off-by: Xinyu Zhang <xizhang@purestorage.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ io_uring/opdef.c |  4 ++--
+ io_uring/rw.c    | 39 ++++++++++++++++++++++++++++++---------
+ io_uring/rw.h    |  2 ++
+ 3 files changed, 34 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index fb266cf1f8c66..98a0750c0cda5 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -512,7 +512,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, =
-struct nvme_ns *ns,
- 		return PTR_ERR(req);
- 	req->timeout =3D d.timeout_ms ? msecs_to_jiffies(d.timeout_ms) : 0;
+diff --git a/io_uring/opdef.c b/io_uring/opdef.c
+index 89f50ecadeaf3..9511262c513e4 100644
+--- a/io_uring/opdef.c
++++ b/io_uring/opdef.c
+@@ -105,7 +105,7 @@ const struct io_issue_def io_issue_defs[] =3D {
+ 		.iopoll_queue		=3D 1,
+ 		.async_size		=3D sizeof(struct io_async_rw),
+ 		.prep			=3D io_prep_read_fixed,
+-		.issue			=3D io_read,
++		.issue			=3D io_read_fixed,
+ 	},
+ 	[IORING_OP_WRITE_FIXED] =3D {
+ 		.needs_file		=3D 1,
+@@ -119,7 +119,7 @@ const struct io_issue_def io_issue_defs[] =3D {
+ 		.iopoll_queue		=3D 1,
+ 		.async_size		=3D sizeof(struct io_async_rw),
+ 		.prep			=3D io_prep_write_fixed,
+-		.issue			=3D io_write,
++		.issue			=3D io_write_fixed,
+ 	},
+ 	[IORING_OP_POLL_ADD] =3D {
+ 		.needs_file		=3D 1,
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index b21b423b3cf8f..7bc23802a388e 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -357,31 +357,30 @@ int io_prep_writev(struct io_kiocb *req, const stru=
+ct io_uring_sqe *sqe)
+ 	return io_prep_rwv(req, sqe, ITER_SOURCE);
+ }
 =20
--	if (d.addr && d.data_len) {
-+	if (d.data_len) {
- 		ret =3D nvme_map_user_request(req, d.addr,
- 			d.data_len, nvme_to_user_ptr(d.metadata),
- 			d.metadata_len, ioucmd, vec, issue_flags);
+-static int io_prep_rw_fixed(struct io_kiocb *req, const struct io_uring_=
+sqe *sqe,
++static int io_init_rw_fixed(struct io_kiocb *req, unsigned int issue_fla=
+gs,
+ 			    int ddir)
+ {
+ 	struct io_rw *rw =3D io_kiocb_to_cmd(req, struct io_rw);
+-	struct io_async_rw *io;
++	struct io_async_rw *io =3D req->async_data;
+ 	int ret;
+=20
+-	ret =3D __io_prep_rw(req, sqe, ddir);
+-	if (unlikely(ret))
+-		return ret;
++	if (io->bytes_done)
++		return 0;
+=20
+-	io =3D req->async_data;
+-	ret =3D io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir, 0);
++	ret =3D io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
++				issue_flags);
+ 	iov_iter_save_state(&io->iter, &io->iter_state);
+ 	return ret;
+ }
+=20
+ int io_prep_read_fixed(struct io_kiocb *req, const struct io_uring_sqe *=
+sqe)
+ {
+-	return io_prep_rw_fixed(req, sqe, ITER_DEST);
++	return __io_prep_rw(req, sqe, ITER_DEST);
+ }
+=20
+ int io_prep_write_fixed(struct io_kiocb *req, const struct io_uring_sqe =
+*sqe)
+ {
+-	return io_prep_rw_fixed(req, sqe, ITER_SOURCE);
++	return __io_prep_rw(req, sqe, ITER_SOURCE);
+ }
+=20
+ /*
+@@ -1147,6 +1146,28 @@ int io_write(struct io_kiocb *req, unsigned int is=
+sue_flags)
+ 	}
+ }
+=20
++int io_read_fixed(struct io_kiocb *req, unsigned int issue_flags)
++{
++	int ret;
++
++	ret =3D io_init_rw_fixed(req, issue_flags, ITER_DEST);
++	if (unlikely(ret))
++		return ret;
++
++	return io_read(req, issue_flags);
++}
++
++int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags)
++{
++	int ret;
++
++	ret =3D io_init_rw_fixed(req, issue_flags, ITER_SOURCE);
++	if (unlikely(ret))
++		return ret;
++
++	return io_write(req, issue_flags);
++}
++
+ void io_rw_fail(struct io_kiocb *req)
+ {
+ 	int res;
+diff --git a/io_uring/rw.h b/io_uring/rw.h
+index a45e0c71b59d6..bf121b81ebe84 100644
+--- a/io_uring/rw.h
++++ b/io_uring/rw.h
+@@ -38,6 +38,8 @@ int io_prep_read(struct io_kiocb *req, const struct io_=
+uring_sqe *sqe);
+ int io_prep_write(struct io_kiocb *req, const struct io_uring_sqe *sqe);
+ int io_read(struct io_kiocb *req, unsigned int issue_flags);
+ int io_write(struct io_kiocb *req, unsigned int issue_flags);
++int io_read_fixed(struct io_kiocb *req, unsigned int issue_flags);
++int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags);
+ void io_readv_writev_cleanup(struct io_kiocb *req);
+ void io_rw_fail(struct io_kiocb *req);
+ void io_req_rw_complete(struct io_kiocb *req, io_tw_token_t tw);
 --=20
 2.43.5
 
