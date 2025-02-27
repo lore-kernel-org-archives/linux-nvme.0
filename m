@@ -4,91 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93250C1B087
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 22:42:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C9C4C19F32
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 22:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UK4VKrnbbqRbsvlFbP+kOC2S+sGsNhIP2BWp/9Ksa3U=; b=TxlNgAziaGMZRFdLg2I0gZaeP/
-	mTpQrPmjRGUXrCjqqm02o6KOdEeBVk1a6S/QpIfznjr0mLs7w0f9oByNbe8S87rShqBeSn/BlIxhP
-	eN6KSm4Z3eQ1CgWatkI5y3DYbs0vu3rjsU/4v+Ohn9d7ZOOKgBwykKJKE1SC/ZIswaXqRo9/gY0Sq
-	wfOXMIwmgzrU2kPyAPkzgKmHERKX/5Ndwp3Obyy4V2Ec1U2N4261bOTqf8RfiKNallSHSuK+ThsQe
-	dxzw06lYy77h4CQmZ/JN6UkjIL2NS5OqQS8uFSirRAeGVztNnHIFm1wxvIPjqmgOXumb5oX1vf6ma
-	nc+HpfTQ==;
+	bh=wyWZOf9xnYfnqsnZGEAHx21Cj25YdeHLADaBGaGqrqY=; b=1+MOBtyVfu+185FQMgod+lz1mk
+	99VqvpcWaahuS/GnqModYbcifQzCfLcjPGKl6weJZ9ZLfMBJXNskJziyD+9v5a7q1b4nBVURhXHI/
+	iELkCntRJJ0DCotiSbxckHp+wdexf8rC7JHwhaD3HYQqUHKVMl7vAguQ0+hqV+1bS5DkKDWBvql4N
+	VsRa/aw6KIi2Bu6IuO/aXgrWhHG7djfckwsnx4OrtRCny+SG8YZYxcnHXcbRrNDSYbfX0V0Yfz3F6
+	OX532yK6BAyTRafIN9owaE2pd+h5LS2SEkQeLw6DO0fGUv81hFtXu/679XkrEteJJUQuBOUaKumhE
+	7pvkng8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnmaZ-000000093qg-3s33;
-	Thu, 27 Feb 2025 22:42:43 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1tnmdi-000000094fz-0sU2;
+	Thu, 27 Feb 2025 22:45:58 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnmaY-000000093pL-1OvC
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 27 Feb 2025 22:42:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:Content-Transfer-Encoding
-	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=UK4VKrnbbqRbsvlFbP+kOC2S+sGsNhIP2BWp/9Ksa3U=; b=kKzQqu9E7xm9txaz3eSIkbCr2z
-	JUfU9sinY1B8TIH4I6w3WqvbGJPSqQPnAM3i0HBQ7jA4EKeskPUr2mhVWgX9iZuAd263XodeLhzwA
-	teVKro+chrplbD7MOPQwQflVvScM9Ce6X6jxetIYuAOqHzf8GlSOi2mwXar91O5QGkYR3D2vhVGB8
-	GWHUhrgixe2kijZzZAUJh69saU6wOzauFbYSNb0UhuRngbLp3lKQWWllqx2SLM+VuWSmd9aWDeYDK
-	TLU15jNg0J4TI64WuHRUohUbKVrKdHon1ffdsfv99CbjbM/IQHzJlq+SuDg3KbdLDq6DUI1pFvSo8
-	+V0gfUoQ==;
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnmXd-00000003qtp-3lJq
+	id 1tnmdf-000000094fF-0Ota
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Feb 2025 22:42:40 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 51RMbZ5B025607
-	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:34 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=UK4VKrnbbqRbsvlFbP+kOC2S+sGsNhIP2BWp/9Ksa3U=; b=NOGrHNhKfI1T
-	By7qcndvAVJqWeQXauCmBIF6mP6FRyBDf69DzRKde/y8lTgD6BXDa8+NYkb+tdHo
-	IdfYDKYHAbUBlnOGoWimnMlz2LcSRlO+4c+WTQZFvnjAuETBAhiAmXZhppEKY7aN
-	c92Jwi9UkpLdKTM3jxUcvmB9CpRAxL8z9GlGU/KoUUIHy5xQHZx17dp4nieYQ30c
-	JLBphyyhxkBlM6MGE6U08Kk6haVhhqXRjkpL0XTTcvQMiZ3U+klTeynvPP73g+Pp
-	bSfMHRxEAb1tp5tRBf7p9OxWzpUzA57kQFf8v9AdHcRXa5ukV8hK4SlxuKtuoxow
-	2KvAAmgEsw==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 452w27j4a9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 14:39:34 -0800 (PST)
-Received: from twshared18153.09.ash9.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Thu, 27 Feb 2025 22:39:24 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 8A5E21888281A; Thu, 27 Feb 2025 14:39:18 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <ming.lei@redhat.com>, <axboe@kernel.dk>, <asml.silence@gmail.com>,
-        <linux-block@vger.kernel.org>, <io-uring@vger.kernel.org>
-CC: <linux-nvme@lists.infradead.org>, <csander@purestorage.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCHv8 6/6] io_uring: cache nodes and mapped buffers
-Date: Thu, 27 Feb 2025 14:39:16 -0800
-Message-ID: <20250227223916.143006-7-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250227223916.143006-1-kbusch@meta.com>
-References: <20250227223916.143006-1-kbusch@meta.com>
+	Thu, 27 Feb 2025 22:45:56 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 69F535C54E0;
+	Thu, 27 Feb 2025 22:43:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50A63C4CEE4;
+	Thu, 27 Feb 2025 22:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740696353;
+	bh=+p5E0lo3u03fgQR50E6wq/mHsi3IrLUxGn3iMOUgeNg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hjKMkSclpnSw6gXgh1+crh+wk4ZiQ992nr25s882P3SWo5BDxvTBsfDaZ23ehm93r
+	 dkbBlmZMFq9NdRKv5+HQ1HswNxKQOGvLMkq+u0UWdu+1gEJOWKrZS2bzitBJ5ObqV6
+	 7ogD4sBJoXhQqI2J/O2TQTc2yq5CbRyllbz8RCMEVN6j+dQ3x+27203304lFawbRKO
+	 5boclL4BMfc1swiyeA+hfOz9F0WZkeOcvHlXPDcClhcCH1NSJFdCXCa8vCvxKDvwnJ
+	 z4cXgJyQvYz2sSUAy1pOkwrh7HJmRISHsmkPtaATaGbCCZt/6bgtAWAN0a37ku6bv3
+	 kzhNNIqV0UhdA==
+Date: Thu, 27 Feb 2025 15:45:51 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Keith Busch <kbusch@meta.com>, ming.lei@redhat.com, axboe@kernel.dk,
+	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+	bernd@bsbernd.com, csander@purestorage.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCHv7 2/6] io_uring: add support for kernel registered bvecs
+Message-ID: <Z8DrH7sBSS752Z3o@kbusch-mbp>
+References: <20250226182102.2631321-1-kbusch@meta.com>
+ <20250226182102.2631321-3-kbusch@meta.com>
+ <844f45ac-e36e-4784-9f8d-528b022dff9c@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Upg_GbGtvozZPN7l8snKvY-UNKhH9F0R
-X-Proofpoint-GUID: Upg_GbGtvozZPN7l8snKvY-UNKhH9F0R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-27_08,2025-02-27_01,2024-11-22_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <844f45ac-e36e-4784-9f8d-528b022dff9c@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250227_224039_530531_AF10F082 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20250227_144555_178963_3850E781 
+X-CRM114-Status: GOOD (  14.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,284 +75,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Feb 27, 2025 at 03:54:31PM +0000, Pavel Begunkov wrote:
+> On 2/26/25 18:20, Keith Busch wrote:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > Provide an interface for the kernel to leverage the existing
+> > pre-registered buffers that io_uring provides. User space can reference
+> > these later to achieve zero-copy IO.
+> > 
+> > User space must register an empty fixed buffer table with io_uring in
+> > order for the kernel to make use of it.
+> 
+> Can you also fail rw.c:loop_rw_iter()? Something like:
+> 
+> loop_rw_iter() {
+> 	if ((req->flags & REQ_F_BUF_NODE) &&
+> 	    req->buf_node->buf->release)
+> 		return -EFAULT;
+> }
 
-Frequent alloc/free cycles on these is pretty costly. Use an io cache to
-more efficiently reuse these buffers.
+For posterity: the suggestion is because this function uses the
+file_operations' .read/.write callbacks, which expect __user pointers.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- include/linux/io_uring_types.h |  2 +
- io_uring/filetable.c           |  2 +-
- io_uring/io_uring.c            |  2 +
- io_uring/rsrc.c                | 70 +++++++++++++++++++++++++++-------
- io_uring/rsrc.h                |  4 +-
- 5 files changed, 64 insertions(+), 16 deletions(-)
-
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_type=
-s.h
-index c0fe8a00fe53a..3ce87dcd99eec 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -294,6 +294,8 @@ struct io_ring_ctx {
-=20
- 		struct io_file_table	file_table;
- 		struct io_rsrc_data	buf_table;
-+		struct io_alloc_cache	node_cache;
-+		struct io_alloc_cache	imu_cache;
-=20
- 		struct io_submit_state	submit_state;
-=20
-diff --git a/io_uring/filetable.c b/io_uring/filetable.c
-index dd8eeec97acf6..a21660e3145ab 100644
---- a/io_uring/filetable.c
-+++ b/io_uring/filetable.c
-@@ -68,7 +68,7 @@ static int io_install_fixed_file(struct io_ring_ctx *ct=
-x, struct file *file,
- 	if (slot_index >=3D ctx->file_table.data.nr)
- 		return -EINVAL;
-=20
--	node =3D io_rsrc_node_alloc(IORING_RSRC_FILE);
-+	node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_FILE);
- 	if (!node)
- 		return -ENOMEM;
-=20
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index 2f5dd47e7dbf5..8f542a5f20a60 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -292,6 +292,7 @@ static void io_free_alloc_caches(struct io_ring_ctx *=
-ctx)
- 	io_alloc_cache_free(&ctx->uring_cache, kfree);
- 	io_alloc_cache_free(&ctx->msg_cache, kfree);
- 	io_futex_cache_free(ctx);
-+	io_rsrc_cache_free(ctx);
- }
-=20
- static __cold struct io_ring_ctx *io_ring_ctx_alloc(struct io_uring_para=
-ms *p)
-@@ -339,6 +340,7 @@ static __cold struct io_ring_ctx *io_ring_ctx_alloc(s=
-truct io_uring_params *p)
- 	ret |=3D io_alloc_cache_init(&ctx->msg_cache, IO_ALLOC_CACHE_MAX,
- 			    sizeof(struct io_kiocb), 0);
- 	ret |=3D io_futex_cache_init(ctx);
-+	ret |=3D io_rsrc_cache_init(ctx);
- 	if (ret)
- 		goto free_ref;
- 	init_completion(&ctx->ref_comp);
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index 0eceaf2e03777..450b4c039334d 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -33,6 +33,8 @@ static struct io_rsrc_node *io_sqe_buffer_register(stru=
-ct io_ring_ctx *ctx,
- #define IORING_MAX_FIXED_FILES	(1U << 20)
- #define IORING_MAX_REG_BUFFERS	(1U << 14)
-=20
-+#define IO_CACHED_BVECS_SEGS	32
-+
- int __io_account_mem(struct user_struct *user, unsigned long nr_pages)
- {
- 	unsigned long page_limit, cur_pages, new_pages;
-@@ -111,6 +113,22 @@ static void io_release_ubuf(void *priv)
- 		unpin_user_page(imu->bvec[i].bv_page);
- }
-=20
-+static struct io_mapped_ubuf *io_alloc_imu(struct io_ring_ctx *ctx,
-+					   int nr_bvecs)
-+{
-+	if (nr_bvecs <=3D IO_CACHED_BVECS_SEGS)
-+		return io_cache_alloc(&ctx->imu_cache, GFP_KERNEL);
-+	return kvmalloc(struct_size_t(struct io_mapped_ubuf, bvec, nr_bvecs),
-+			GFP_KERNEL);
-+}
-+
-+static void io_free_imu(struct io_ring_ctx *ctx, struct io_mapped_ubuf *=
-imu)
-+{
-+	if (imu->nr_bvecs > IO_CACHED_BVECS_SEGS ||
-+	    !io_alloc_cache_put(&ctx->imu_cache, imu))
-+		kvfree(imu);
-+}
-+
- static void io_buffer_unmap(struct io_ring_ctx *ctx, struct io_mapped_ub=
-uf *imu)
- {
- 	if (!refcount_dec_and_test(&imu->refs))
-@@ -119,22 +137,44 @@ static void io_buffer_unmap(struct io_ring_ctx *ctx=
-, struct io_mapped_ubuf *imu)
- 	if (imu->acct_pages)
- 		io_unaccount_mem(ctx, imu->acct_pages);
- 	imu->release(imu->priv);
--	kvfree(imu);
- }
-=20
--struct io_rsrc_node *io_rsrc_node_alloc(int type)
-+struct io_rsrc_node *io_rsrc_node_alloc(struct io_ring_ctx *ctx, int typ=
-e)
- {
- 	struct io_rsrc_node *node;
-=20
--	node =3D kzalloc(sizeof(*node), GFP_KERNEL);
-+	node =3D io_cache_alloc(&ctx->node_cache, GFP_KERNEL);
- 	if (node) {
- 		node->type =3D type;
- 		node->refs =3D 1;
-+		node->tag =3D 0;
-+		node->file_ptr =3D 0;
- 	}
- 	return node;
- }
-=20
--__cold void io_rsrc_data_free(struct io_ring_ctx *ctx, struct io_rsrc_da=
-ta *data)
-+bool io_rsrc_cache_init(struct io_ring_ctx *ctx)
-+{
-+	const int imu_cache_size =3D struct_size_t(struct io_mapped_ubuf, bvec,
-+						 IO_CACHED_BVECS_SEGS);
-+	const int node_size =3D sizeof(struct io_rsrc_node);
-+	bool ret;
-+
-+	ret =3D io_alloc_cache_init(&ctx->node_cache, IO_ALLOC_CACHE_MAX,
-+				  node_size, 0);
-+	ret |=3D io_alloc_cache_init(&ctx->imu_cache, IO_ALLOC_CACHE_MAX,
-+				   imu_cache_size, 0);
-+	return ret;
-+}
-+
-+void io_rsrc_cache_free(struct io_ring_ctx *ctx)
-+{
-+	io_alloc_cache_free(&ctx->node_cache, kfree);
-+	io_alloc_cache_free(&ctx->imu_cache, kfree);
-+}
-+
-+__cold void io_rsrc_data_free(struct io_ring_ctx *ctx,
-+			      struct io_rsrc_data *data)
- {
- 	if (!data->nr)
- 		return;
-@@ -207,7 +247,7 @@ static int __io_sqe_files_update(struct io_ring_ctx *=
-ctx,
- 				err =3D -EBADF;
- 				break;
- 			}
--			node =3D io_rsrc_node_alloc(IORING_RSRC_FILE);
-+			node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_FILE);
- 			if (!node) {
- 				err =3D -ENOMEM;
- 				fput(file);
-@@ -465,7 +505,8 @@ void io_free_rsrc_node(struct io_ring_ctx *ctx, struc=
-t io_rsrc_node *node)
- 		break;
- 	}
-=20
--	kfree(node);
-+	if (!io_alloc_cache_put(&ctx->node_cache, node))
-+		kvfree(node);
- }
-=20
- int io_sqe_files_unregister(struct io_ring_ctx *ctx)
-@@ -527,7 +568,7 @@ int io_sqe_files_register(struct io_ring_ctx *ctx, vo=
-id __user *arg,
- 			goto fail;
- 		}
- 		ret =3D -ENOMEM;
--		node =3D io_rsrc_node_alloc(IORING_RSRC_FILE);
-+		node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_FILE);
- 		if (!node) {
- 			fput(file);
- 			goto fail;
-@@ -732,7 +773,7 @@ static struct io_rsrc_node *io_sqe_buffer_register(st=
-ruct io_ring_ctx *ctx,
- 	if (!iov->iov_base)
- 		return NULL;
-=20
--	node =3D io_rsrc_node_alloc(IORING_RSRC_BUFFER);
-+	node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
- 	if (!node)
- 		return ERR_PTR(-ENOMEM);
- 	node->buf =3D NULL;
-@@ -752,10 +793,11 @@ static struct io_rsrc_node *io_sqe_buffer_register(=
-struct io_ring_ctx *ctx,
- 			coalesced =3D io_coalesce_buffer(&pages, &nr_pages, &data);
- 	}
-=20
--	imu =3D kvmalloc(struct_size(imu, bvec, nr_pages), GFP_KERNEL);
-+	imu =3D io_alloc_imu(ctx, nr_pages);
- 	if (!imu)
- 		goto done;
-=20
-+	imu->nr_bvecs =3D nr_pages;
- 	ret =3D io_buffer_account_pin(ctx, pages, nr_pages, imu, last_hpage);
- 	if (ret) {
- 		unpin_user_pages(pages, nr_pages);
-@@ -766,7 +808,6 @@ static struct io_rsrc_node *io_sqe_buffer_register(st=
-ruct io_ring_ctx *ctx,
- 	/* store original address for later verification */
- 	imu->ubuf =3D (unsigned long) iov->iov_base;
- 	imu->len =3D iov->iov_len;
--	imu->nr_bvecs =3D nr_pages;
- 	imu->folio_shift =3D PAGE_SHIFT;
- 	imu->release =3D io_release_ubuf;
- 	imu->priv =3D imu;
-@@ -789,7 +830,8 @@ static struct io_rsrc_node *io_sqe_buffer_register(st=
-ruct io_ring_ctx *ctx,
- 	}
- done:
- 	if (ret) {
--		kvfree(imu);
-+		if (imu)
-+			io_free_imu(ctx, imu);
- 		if (node)
- 			io_put_rsrc_node(ctx, node);
- 		node =3D ERR_PTR(ret);
-@@ -893,14 +935,14 @@ int io_buffer_register_bvec(struct io_uring_cmd *cm=
-d, struct request *rq,
- 		goto unlock;
- 	}
-=20
--	node =3D io_rsrc_node_alloc(IORING_RSRC_BUFFER);
-+	node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
- 	if (!node) {
- 		ret =3D -ENOMEM;
- 		goto unlock;
- 	}
-=20
- 	nr_bvecs =3D blk_rq_nr_phys_segments(rq);
--	imu =3D kvmalloc(struct_size(imu, bvec, nr_bvecs), GFP_KERNEL);
-+	imu =3D io_alloc_imu(ctx, nr_bvecs);
- 	if (!imu) {
- 		kfree(node);
- 		ret =3D -ENOMEM;
-@@ -1137,7 +1179,7 @@ static int io_clone_buffers(struct io_ring_ctx *ctx=
-, struct io_ring_ctx *src_ctx
- 		if (!src_node) {
- 			dst_node =3D NULL;
- 		} else {
--			dst_node =3D io_rsrc_node_alloc(IORING_RSRC_BUFFER);
-+			dst_node =3D io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
- 			if (!dst_node) {
- 				ret =3D -ENOMEM;
- 				goto out_free;
-diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
-index 7600e2736eeb3..27e545694d01e 100644
---- a/io_uring/rsrc.h
-+++ b/io_uring/rsrc.h
-@@ -48,7 +48,9 @@ struct io_imu_folio_data {
- 	unsigned int	nr_folios;
- };
-=20
--struct io_rsrc_node *io_rsrc_node_alloc(int type);
-+bool io_rsrc_cache_init(struct io_ring_ctx *ctx);
-+void io_rsrc_cache_free(struct io_ring_ctx *ctx);
-+struct io_rsrc_node *io_rsrc_node_alloc(struct io_ring_ctx *ctx, int typ=
-e);
- void io_free_rsrc_node(struct io_ring_ctx *ctx, struct io_rsrc_node *nod=
-e);
- void io_rsrc_data_free(struct io_ring_ctx *ctx, struct io_rsrc_data *dat=
-a);
- int io_rsrc_data_alloc(struct io_rsrc_data *data, unsigned nr);
---=20
-2.43.5
-
+Playing devil's advocate here, I don't see how user space might know
+ahead of time if the file they opened implements the supported _iter
+versions. I think only esoteric and legacy interfaces still use it, so
+maybe we don't care.
 
