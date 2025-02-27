@@ -4,90 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECFE8C282C5
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 19:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBCD9C197BF
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 19:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lRiyrt8fVejqBJOeerAkOhbzZ3qu4Psgf4opFC293kE=; b=4rfW6DWGXVVnw9h0+RTibOhYWr
-	ZZBS8chidDGNzGTxx54z4hZ3wSMYADq9Tyeh5nKVTHHGToPH7PI85+rRAdxeqKiHA10cTU51cxvlN
-	BO6ezA/wwq6YZNme8RjEwL6IIPQF1SzDZMGgq5xfl8cT0Px/+hkLMicxNUJBPtHLZF2Rylr1rNohD
-	fH5dEMP3chgJK4Aph3fEgZVk6d+S63FOCOVoFgvzI0XfJOk0oZxBo1RA28fYaGjr7hqebPWogLIdx
-	P5K6RF1Z66NcGgPGTKnepYlYl8xFVeDCWW/ucIRisBShdmNivunyaG0HXG1joCk2ctkZ4as4RoDxy
-	vKcCo/VA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sUR5yr5xrKYtwisJP33yULREbphDWSStzk3gHg4/86Y=; b=TKh0u46ypohmgOfqT7+JsSlJVf
+	oRYIc98S1Sv9UYIIoFtnGyWjcYWTEYF+I+MBGIEHTMZSW1uSPRtXjCeMmGhN6K4SQ0Jr0XiNP3Vi1
+	W6JxjaWlokEoQfxbr72+Y2b8qEWiO/48qA21iXdyxYLPM4VSSbBjNVgIRSmnCqJHuoitL2D32Z1UW
+	MvwWk69pC45xBRSGWXZrAbLpL8cj2oYozrag3itdx0cGnVZf2FpTV1URJpEHs6Ay05exTLWP8/g8k
+	Y9qePD5mv9uNC+hyeKZFWEljZFooMiVsIuUhcnyinjA2pFyWmn+LFNbNkY3Idy5jOl1/Lx/Rhk467
+	IUd419Mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnjj6-00000008XUP-0w3u;
-	Thu, 27 Feb 2025 19:39:20 +0000
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
+	id 1tnjjM-00000008Y38-3jVH;
+	Thu, 27 Feb 2025 19:39:36 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tngNV-00000007zzR-0gfb
+	id 1tngm6-000000084nP-3AKw
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Feb 2025 16:04:51 +0000
-Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-855923e7f53so76077539f.2
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 08:04:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1740672288; x=1741277088; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lRiyrt8fVejqBJOeerAkOhbzZ3qu4Psgf4opFC293kE=;
-        b=NQZhSv/jqdhMeZ4DOcOe+MjN7egVEyCpnNbH51anJRcHURAtKs6zdk96dD9PYiPiUu
-         38oh+BltWBgQOWp4aWFJ0RRq3x/DfEuwuJ14xfv526Z95NLWKI8kXSGtjo+idYP2EvPb
-         fPiTXSvseX3SEhay2MiZMcWMJo2pWLL1DLP6qci7g9xVd2CEplBfcdpc3GxMWsCQcgdF
-         Kq+uYqBJmn6fB9ImWDR7hkvHtJN3suXR9YJtb8BDLcJ/M4nLfXsHu708fTx13ErwDsUm
-         un6Etdy9iqVvNgAA2/wzZwxPMgTQXLyQgR9IVWByCJZIhx1YvFXOs+TLs+mviPkjbDRy
-         N62g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740672288; x=1741277088;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lRiyrt8fVejqBJOeerAkOhbzZ3qu4Psgf4opFC293kE=;
-        b=H9LfsEndztkp/u+WwHH8ujQr24cCaJaCKKVsQK9QAL7kH1VOMarumy+94Z1jTck4e8
-         VWbw2ebOT0K65NzxHHoEywUGgWRrurvqixqwlc0LVVKTxH+ARBv0ofj3sIUjm03XlvdU
-         qTaugaHwzCOH4WzpBPDSkV1U4p1V9bzonKin3CsNUa3LOd8tLNyGS+ZwaSEvoWCg4r1U
-         Tcq0i04l76+zj4ur5cqjk3+AUY3Tn27ENV++k+jNPuWvE0KNtvXMzLU6xFDDkqzCyjSw
-         HAlfZjg6zFicsUPlwj5LFag+2AeHGRJ36nXWH06RfY9OtX6mNVzkEz3vhaRN0ZhFYXr5
-         ilrg==
-X-Forwarded-Encrypted: i=1; AJvYcCUq7WCbESET0euU0nVbCY/6mzdn6jcECEdQxYRufh9NhvwtMBRFv4rK09quR8XOxQsIqQ78jyg3hNbB@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx/BORIEskIXeS/q/+mQaheIQXG3EA9T0E71tiUyCjJlgHWXim1
-	KpCJdRGP7OSzhB1bX0gfSqkYRD/O0A1w+/vHVhNkN4leJRUh52bPqr8ClOGhwMM=
-X-Gm-Gg: ASbGncuA6cDSxiaF8VlEWIX2RhaiwD4C5mA+CRH0iBzlA9Ke6XVf9sgtR+XlaOXjZBh
-	Mvg61PSwnI4+/Iv0lLH2jtsd0zRj4v9w+XCAuZV4KZVBuW0upWTOpOzM1LtMwMA6av0wq2J5NNn
-	68PkHvprGuh4EwjHd4vP+iEZd3ZMSRD35ytd6Fe0iOpneKYgBqwC27BrCFFlSHn7AOjYaTf2QS9
-	R3abo/an9qTyUbtYLq33rgYWG6evdRVKnbN4+vPDutFpel+Z5kKH7f/JlxPs+fBUe4ixzzweuCn
-	fLIR6qXb1Mw6IaFljT6dDA==
-X-Google-Smtp-Source: AGHT+IGo6x2FH+vlfBxEZ8Tq3JIml3qv+EqIvWjt1EPR7qM5okR5+KJCsrTuyzBX355V5+1VbV5kNQ==
-X-Received: by 2002:a05:6602:3cd:b0:855:c32e:7451 with SMTP id ca18e2360f4ac-856203d291bmr1454580939f.14.1740672288224;
-        Thu, 27 Feb 2025 08:04:48 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-858753cc685sm35937239f.38.2025.02.27.08.04.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2025 08:04:47 -0800 (PST)
-Message-ID: <01ed898e-eb6c-4ffd-8d32-f536a9f6e1bb@kernel.dk>
-Date: Thu, 27 Feb 2025 09:04:46 -0700
+	Thu, 27 Feb 2025 16:30:16 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 500BA21179;
+	Thu, 27 Feb 2025 16:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1740673811; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sUR5yr5xrKYtwisJP33yULREbphDWSStzk3gHg4/86Y=;
+	b=m6Ehxif86p9b9oNITYwyp1MjXjGLoPJ0mdop+VruoWE7WXUsGzOliFi7YOzJI9lMuPWDu7
+	+VD4dH9+DzGdTDm/tWdfi68rTbHXrGugQAlfR16C6sB4Oq8/gFop+zgatzZwdbEkbmKbbr
+	sYB2KTarMfwQgXfXXlvJcc0NnPeURdk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1740673811;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sUR5yr5xrKYtwisJP33yULREbphDWSStzk3gHg4/86Y=;
+	b=wlToCjRyUSxIxbMMlobgiLETK7yjwIRVXWR/naJbibjZy2XSKTmP8ePo/N5HpwXfr3vAUh
+	RlhPg4PJ6++NcVDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=m6Ehxif8;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wlToCjRy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1740673811; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sUR5yr5xrKYtwisJP33yULREbphDWSStzk3gHg4/86Y=;
+	b=m6Ehxif86p9b9oNITYwyp1MjXjGLoPJ0mdop+VruoWE7WXUsGzOliFi7YOzJI9lMuPWDu7
+	+VD4dH9+DzGdTDm/tWdfi68rTbHXrGugQAlfR16C6sB4Oq8/gFop+zgatzZwdbEkbmKbbr
+	sYB2KTarMfwQgXfXXlvJcc0NnPeURdk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1740673811;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sUR5yr5xrKYtwisJP33yULREbphDWSStzk3gHg4/86Y=;
+	b=wlToCjRyUSxIxbMMlobgiLETK7yjwIRVXWR/naJbibjZy2XSKTmP8ePo/N5HpwXfr3vAUh
+	RlhPg4PJ6++NcVDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F7D41376A;
+	Thu, 27 Feb 2025 16:30:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +HQ6DxOTwGceIgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 27 Feb 2025 16:30:11 +0000
+Date: Thu, 27 Feb 2025 17:30:10 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] nvmet-fcloop: track resources via reference
+ counting
+Message-ID: <25fbe7c0-3602-41e8-b216-fec19568830b@flourine.local>
+References: <20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv7 2/6] io_uring: add support for kernel registered bvecs
-To: Pavel Begunkov <asml.silence@gmail.com>, Keith Busch <kbusch@meta.com>,
- ming.lei@redhat.com, linux-block@vger.kernel.org, io-uring@vger.kernel.org
-Cc: bernd@bsbernd.com, csander@purestorage.com,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-References: <20250226182102.2631321-1-kbusch@meta.com>
- <20250226182102.2631321-3-kbusch@meta.com>
- <844f45ac-e36e-4784-9f8d-528b022dff9c@gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <844f45ac-e36e-4784-9f8d-528b022dff9c@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org>
+X-Rspamd-Queue-Id: 500BA21179
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	MISSING_XM_UA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250227_080449_453054_5EE1EA44 
-X-CRM114-Status: GOOD (  10.30  )
+X-CRM114-CacheID: sfid-20250227_083014_959361_5A804374 
+X-CRM114-Status: GOOD (  13.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,29 +138,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/27/25 8:54 AM, Pavel Begunkov wrote:
-> On 2/26/25 18:20, Keith Busch wrote:
->> From: Keith Busch <kbusch@kernel.org>
->>
->> Provide an interface for the kernel to leverage the existing
->> pre-registered buffers that io_uring provides. User space can reference
->> these later to achieve zero-copy IO.
->>
->> User space must register an empty fixed buffer table with io_uring in
->> order for the kernel to make use of it.
+On Wed, Feb 26, 2025 at 07:45:52PM +0100, Daniel Wagner wrote:
+> static void nvmet_port_subsys_drop_link(struct config_item *parent,
+> 		struct config_item *target)
+> {
+> 	[...]
+> found:
+> 	list_del(&p->entry);
+> 	nvmet_port_del_ctrls(port, subsys);
+> 	nvmet_port_disc_changed(port, subsys);   /* XXX triggers the above UAF */
 > 
-> Can you also fail rw.c:loop_rw_iter()? Something like:
-> 
-> loop_rw_iter() {
->     if ((req->flags & REQ_F_BUF_NODE) &&
->         req->buf_node->buf->release)
->         return -EFAULT;
+> 	if (list_empty(&port->subsystems))
+> 		nvmet_disable_port(port);
+> 	up_write(&nvmet_config_sem);
+> 	kfree(p);
 > }
+> 
+> The nvmet_port_disc_changed is a bit useless, because these event will
+> never be seen by the host. Anyway, more debugging is necessary.
 
-Good point...
-
-
--- 
-Jens Axboe
-
+The problem is there is no ref counting for pe->tgtport. And in
+nvmet_port_disc_changed needs to take a ref on hostport. I am doing some
+more testing and it looks promising. Hopefully this is one of those
+famous lost words.
 
