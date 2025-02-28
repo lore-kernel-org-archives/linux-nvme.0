@@ -4,77 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C646C19776
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 08:45:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D908C19776
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 09:39:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h60l+rmxIm+Odu0LGaD3tkJXLpfS0xRKP/H1pgU79QU=; b=WWfZXlTvhTPzQeawwUazF+LJKk
-	7/PTqb9I/JQiXsSF3LOpiqOUtCVAiOunGJVOW55z+Bh8uiNY6iwlyU0v8GEPOgHgtWYsRbaN6eUk+
-	be3czUrhtpQtBvsWvtmqZLGk246eg1mwEM8577jL0B1B9p/55zt5UKT5vU+r/t8iOa1ZK04AOCEnm
-	AKWw6neYhEiiTpJfQ33/Sj297ZQSnb1n0C+N/HnfIzpds0vFGDOdCrFQZxlMEcoUmeKyb3Rl9SiL4
-	l/g4tGt4YFySu28v/z+yDTXb4boi07tpdVe+seBB3A0/e27WBi5mdK9Wm5hZq/TMjt0Wke8bfuqoM
-	oic1oDKg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=j1EmXzog6dpvM5CsDQvgfubk16lqeEYHkBYJ9o/E4yE=; b=Zsu6MQbyD+q9oUp3V1R8YXTG8s
+	FGTRQ6BOkgUIT/zuf8Rc9Q0iHvdo9VSc35Hus07XJK9eS+9WIzlBRGYZvIhZn/rT8doI0bnPp39VD
+	X/OxQNxywRBw6Td/FQ9VBwP9yLFJIANEVT150eYfywNtSX/Grx/YUq73sDMQzmim7LKjGrGSKWQNT
+	h+zF4GM9m3qs5G3znQWm35tor4oWmCoBkEqirOI3vKlwmnGMQzHzR6+qL1Ut6hZevjlpMkgd4MddQ
+	37jP4XYb+hjjQmJyE8+4iSWDz7dFEB2GNL4uLVMxGdpY11fTaZroWiC4ObnvfgUUVCYifFoOq2qX1
+	mdhHn+yA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnvzg-0000000AERZ-3z3n;
-	Fri, 28 Feb 2025 08:45:16 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1tnwqU-0000000APYh-0Akr;
+	Fri, 28 Feb 2025 09:39:50 +0000
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnvze-0000000AEQm-1k56
+	id 1tnwqR-0000000APY1-3D7b
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Feb 2025 08:45:15 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0D9021F38F;
-	Fri, 28 Feb 2025 08:45:13 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F26A813888;
-	Fri, 28 Feb 2025 08:45:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id swBhOph3wWe7PwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 28 Feb 2025 08:45:12 +0000
-Date: Fri, 28 Feb 2025 09:45:12 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/11] nvmet-fc: take tgtport reference only once
-Message-ID: <7ab71df0-e9e8-4035-a215-f5259c69fe88@flourine.local>
-References: <20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org>
- <20250226-nvmet-fcloop-v1-8-c0bd83d43e6a@kernel.org>
- <f944fdb3-081f-474a-9193-f482fe87f72b@suse.de>
+	Fri, 28 Feb 2025 09:39:48 +0000
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-5e0573a84fcso2712017a12.2
+        for <linux-nvme@lists.infradead.org>; Fri, 28 Feb 2025 01:39:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740735586; x=1741340386; darn=lists.infradead.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=j1EmXzog6dpvM5CsDQvgfubk16lqeEYHkBYJ9o/E4yE=;
+        b=xsMXoUu8bgTl7QYcj52Iqvtqb6LpVTLiZOzLVKFL2zalvoQARGhVCIQpa3+napPdJW
+         PISv6BgunpfPTEPHm5cXRhP1zdS351TEgsJFgNzVIWMwfhLm6MJ+n81H+pcby4zL/rIX
+         3pL0OIYuUoRFHRvSb/QVSxSnxyiaAekrHOb96DWczj5/WSnVN/UOlKE7qWVzB2OvBzhC
+         WHg56cVgMSV/TQi6FbM3wfVFk7/8PvBHlMy7YyXEPb6lqN93yk131M21U0jdch+NnLeD
+         Y8Nx4DYTtkmMZHvU1FlF2CEDyPhqaSadyj4sxXoOTkNeh4WEnOjp1enfp8U+NOf94Nud
+         VPIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740735586; x=1741340386;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j1EmXzog6dpvM5CsDQvgfubk16lqeEYHkBYJ9o/E4yE=;
+        b=vWLXSzCkhm32bP/NJJSjjW792jJsCepqxpSm4YesQdKmR2U2eJ19oz/yVXQO3JmhsC
+         GLfYXv7KIxIRyTZf6EKZarKlYaLyttOeXe5vrKfmWDibI0bIX1sOtkMk4Isp+sLsCDEe
+         cHm7kgB/C7X0FRo7GcQr+znVnNb02GufQQXZAk0atn+6u8IBurTXyUsQjAcgrs2QKPF7
+         MBlpq3vYIV//QRqVnBzcLtx3xwu8YIEDHuMSgGcw1k4ZniM8u1vVAcEKTyWdiyYMgrQM
+         qZjFikNXYcs+AMzNqc9FZNwelydZsx+jwL+vGueMdSw7qsngpJcTDlop17eI2YO1csIn
+         9r7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVOtL4+d0lbA5CntIiUZ05ufjC84dTtHxHnHYLWdiLmWclQ1HUhXMyWFCp0pByNbELdA1wNAlnUc0T1@lists.infradead.org
+X-Gm-Message-State: AOJu0YxYXt7fjLlfhJHSKraTn2G2WD13yMCSaOy/gRnPcnWvdpb2A2A/
+	wWKxsoV6DLgnoKFXmKnLb4rDmOsc2xPfYygsO2u2Umx9dWja5tvgC0b8QOZ3AuQ=
+X-Gm-Gg: ASbGnctQqyGkLjMNBOKkjaHh0ax4pFTyAHncUO92Fzgv388ILfLfgKH55i/A4z7JBOh
+	3pfa3Lzm8tahLIFqpXt/E1oezQecpnOVSQrFBdxisZCn9miWR9kWn87pdsdx5x0VrNCjBH7/RnO
+	jknqpfJ2vVXkSkABpl4loVnjxzug4LTdrJOaiQFeFdDyTCT6VVFHuUwLGAD56ii3yptjUMy7NjO
+	LHu1AdqvU9F5qjDviSIryLlq97/xWiFd6y5FDZPbY1fzwlIzuHd9XWHvdTHtZW3oSVakyVDp5Mg
+	cBSzOXGz8zyj9Y1CuMRzwTK6JE+c5xE=
+X-Google-Smtp-Source: AGHT+IHJ9U6y6nhglkIHEC0ZWjrm3br0eCOOxp9U+sAhp0Pingxi86o1xuAOO8VfOthG6xXZZgYDuQ==
+X-Received: by 2002:a17:907:3fa3:b0:abb:e961:ca32 with SMTP id a640c23a62f3a-abf2642bc10mr250079766b.21.1740735586007;
+        Fri, 28 Feb 2025 01:39:46 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abf0c6ed7f1sm261343266b.120.2025.02.28.01.39.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2025 01:39:45 -0800 (PST)
+Date: Fri, 28 Feb 2025 12:39:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] nvme-tcp: fix signedness bug in nvme_tcp_init_connection()
+Message-ID: <0f3be9ff-81a1-4c33-8960-75de2c239ae0@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f944fdb3-081f-474a-9193-f482fe87f72b@suse.de>
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU]
-X-Rspamd-Queue-Id: 0D9021F38F
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Mailer: git-send-email haha only kidding
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250228_004514_598954_B7242B9C 
-X-CRM114-Status: GOOD (  18.55  )
+X-CRM114-CacheID: sfid-20250228_013947_800146_1E325E19 
+X-CRM114-Status: GOOD (  15.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,32 +96,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 28, 2025 at 08:34:51AM +0100, Hannes Reinecke wrote:
-> On 2/26/25 19:46, Daniel Wagner wrote:
-> > The reference counting code can be simplified. Instead taking a tgtport
-> > refrerence at the beginning of nvmet_fc_alloc_hostport and put it back
-> > if not a new hostport object is allocated, only take it when a new
-> > hostport object is allocated.
-> > 
-> Can it really?
-> Main point of this operation is that 'tgtport' isn't going away during while
-> we're figuring out whether we need it.
-> 
-> With this patch it means that
+The kernel_recvmsg() function returns an int which could be either
+negative error codes or the number of bytes received.  The problem is
+that the condition:
 
-The tgtport is not going away. nvmet_fc_alloc_hostport can only be
-called with reference on tgtport being hold:
+	if (ret < sizeof(*icresp)) {
 
-nvmet_fc_rcv_ls_req
-  nvmet_fc_tgtport_get(tgtport)
-  nvmet_fc_handle_ls_rqst_work
-    nvmet_fc_handle_ls_rqst
-      nvmet_fc_ls_create_association
-        nvmet_fc_alloc_target_assoc
-          nvmet_fc_alloc_hostport
+is type promoted to type unsigned long and negative values are treated
+as high positive values which is success, when they should be treated as
+failure.  Add a cast so to avoid the type promotion.
 
-The goal with this patch here is to make it simpler to read where we
-take a ref. IMO, there is not really anything gained by the existing
-logic, though I agree it's not obvious that the tgtport is not going
-away. Would it be okay to add a comment?
+Fixes: 578539e09690 ("nvme-tcp: fix connect failure on receiving partial ICResp PDU")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 8a9131c95a3d..361b04ec5b5d 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1495,7 +1495,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	msg.msg_flags = MSG_WAITALL;
+ 	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+ 			iov.iov_len, msg.msg_flags);
+-	if (ret < sizeof(*icresp)) {
++	if (ret < (int)sizeof(*icresp)) {
+ 		pr_warn("queue %d: failed to receive icresp, error %d\n",
+ 			nvme_tcp_queue_id(queue), ret);
+ 		if (ret >= 0)
+-- 
+2.47.2
+
 
