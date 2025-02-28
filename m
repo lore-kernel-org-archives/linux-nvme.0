@@ -4,98 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BADAAC282C1
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 07:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32F60C19776
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 07:29:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DO4W+yYbNGBFkaIY8pbZensac7U4N30v3lzb6XcP/e0=; b=IckMmOuOriaUufaCtTqiX1bPqy
-	jLkF/4IIACuvmv+WaxH8bPTHvU3HEeTWYOhyILl2ZZQm+EROeZCH+oB16F3vmEDQm36qy23GIrSBE
-	8YKON8Jm0DLI5QQskvb8xoBYkknKDHkGC+OALNmzMo4v0PIaKGDY+K4I2FWWaFT+hm4jdtinRWI/K
-	UyhIBbAx7zkGBofUzCpgF2K7WdyqFtcElqashqEhnNdLGtPeOrP8IjKDPZRydBwWBj/ncN62I0OV5
-	sMI6ZpQvpvl9jzIZQyEpIfdg8xEAh9bRwMmTieKa0E5BOrdrjY5r3yPXnSRKo8HMVB3zVUzwAjND4
-	0tDqcVYw==;
+	bh=knzWe52WSa1rRZ0mJ2t5rcWq0B869J97x4mlC48ma3s=; b=Ocngl7CWwp/WHGydFLT65fYGD4
+	qeGEC/5Py7fYixdEJdJuzZWbHs7Xq00vhX7uHqNwDUgQOOGkXdAUsJvQqavkOPtRYvy8tJVtM+dCu
+	eYJvLKCVC10/Pex5l935nYaNCfoHECuUVsmkNX/dz0zspofFyNyokkqCS4WMNj5YQqGsFpvoIAZqw
+	28XwuzvAAmzHk2la9sK849QLuiPPsuujF2OZT+Gar8QunIQFvVcJqjEbSwjL+W5RyC6JqdILV+hZ2
+	Uwh6Ibr/vKc2hHqzc78z6qJAKQFOTEjbNIYiakOQhjqD1pexZvDn2kdWfYrF8r6RQ5BKQrrp5gv6C
+	MggRZweQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnuee-00000009ySS-49pH;
-	Fri, 28 Feb 2025 07:19:28 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1tnuok-00000009zdA-0Pfo;
+	Fri, 28 Feb 2025 07:29:54 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnuec-00000009yQA-0OUK
+	id 1tnumd-00000009zQI-1S8r
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Feb 2025 07:19:27 +0000
+	Fri, 28 Feb 2025 07:27:44 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 79CC42116F;
-	Fri, 28 Feb 2025 07:19:24 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BE3431F38F;
+	Fri, 28 Feb 2025 07:27:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740727164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1740727661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DO4W+yYbNGBFkaIY8pbZensac7U4N30v3lzb6XcP/e0=;
-	b=PZq+slE2i8dnp/KgatzcxcqjYlMWEX0XFN+d7+G/cS80NK/a12Ff0oksL5CPpOtwyWKtOX
-	0M8zLx/qd6khSCftuKG2bldXdiRq7bO1FWUhpbMjc5m/FxWiemi44iDeVFzDyesJhRw6Mo
-	Y7Kj6/mx9j8aihILUzOKMkky98XXVyU=
+	bh=knzWe52WSa1rRZ0mJ2t5rcWq0B869J97x4mlC48ma3s=;
+	b=Z9g/o0+9/2Ks5DBNGrdcFwvnAV2nlyO0dErx4PPpM9sVPmcNvX5jtZYSmhQoz9yhq9i0gu
+	BvvebHcGcTYMugDC1xo8H8fAZZKHdScjJKODjs9OBn4Usk4dHtifBi8W6AL4xGbBsnHt8O
+	QscgnZN9tBK6ttYWqc09hCtLRW2cScU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740727164;
+	s=susede2_ed25519; t=1740727661;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DO4W+yYbNGBFkaIY8pbZensac7U4N30v3lzb6XcP/e0=;
-	b=OPRFZmoTmhqkuMTiiWFGh+7Sh/AS80NWlTEoJhtXKW0pkPZlWRfjshzSVm+WJuCcyBl+hj
-	uZNsvFhd9ZsgsHAg==
-Authentication-Results: smtp-out1.suse.de;
+	bh=knzWe52WSa1rRZ0mJ2t5rcWq0B869J97x4mlC48ma3s=;
+	b=PX3HpkdqF1/P/EWs+LuAMGJH0OllHS/YtA4rr3pe2aQwBTKkZ67u1YNDFQge828dAeX5BV
+	hIsVVGZLxLFWlsAA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740727164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1740727661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DO4W+yYbNGBFkaIY8pbZensac7U4N30v3lzb6XcP/e0=;
-	b=PZq+slE2i8dnp/KgatzcxcqjYlMWEX0XFN+d7+G/cS80NK/a12Ff0oksL5CPpOtwyWKtOX
-	0M8zLx/qd6khSCftuKG2bldXdiRq7bO1FWUhpbMjc5m/FxWiemi44iDeVFzDyesJhRw6Mo
-	Y7Kj6/mx9j8aihILUzOKMkky98XXVyU=
+	bh=knzWe52WSa1rRZ0mJ2t5rcWq0B869J97x4mlC48ma3s=;
+	b=Z9g/o0+9/2Ks5DBNGrdcFwvnAV2nlyO0dErx4PPpM9sVPmcNvX5jtZYSmhQoz9yhq9i0gu
+	BvvebHcGcTYMugDC1xo8H8fAZZKHdScjJKODjs9OBn4Usk4dHtifBi8W6AL4xGbBsnHt8O
+	QscgnZN9tBK6ttYWqc09hCtLRW2cScU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740727164;
+	s=susede2_ed25519; t=1740727661;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DO4W+yYbNGBFkaIY8pbZensac7U4N30v3lzb6XcP/e0=;
-	b=OPRFZmoTmhqkuMTiiWFGh+7Sh/AS80NWlTEoJhtXKW0pkPZlWRfjshzSVm+WJuCcyBl+hj
-	uZNsvFhd9ZsgsHAg==
+	bh=knzWe52WSa1rRZ0mJ2t5rcWq0B869J97x4mlC48ma3s=;
+	b=PX3HpkdqF1/P/EWs+LuAMGJH0OllHS/YtA4rr3pe2aQwBTKkZ67u1YNDFQge828dAeX5BV
+	hIsVVGZLxLFWlsAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D39E137AC;
-	Fri, 28 Feb 2025 07:19:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 58238137AC;
+	Fri, 28 Feb 2025 07:27:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5lnCCHxjwWcQIgAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 28 Feb 2025 07:19:24 +0000
-Message-ID: <d4b09a75-30f8-4db7-a02b-25ae405f7340@suse.de>
-Date: Fri, 28 Feb 2025 08:19:19 +0100
+	id mH40E21lwWc2JQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 28 Feb 2025 07:27:41 +0000
+Message-ID: <ceb7e531-cc0b-4a4a-a97d-c578daf9d5b2@suse.de>
+Date: Fri, 28 Feb 2025 08:27:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/11] nvmet-fcloop: track ref counts for nports
+Subject: Re: [PATCH 05/11] nvmet-fcloop: track tport with ref counting
 To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  Chaitanya Kulkarni <kch@nvidia.com>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org>
- <20250226-nvmet-fcloop-v1-4-c0bd83d43e6a@kernel.org>
+ <20250226-nvmet-fcloop-v1-5-c0bd83d43e6a@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250226-nvmet-fcloop-v1-4-c0bd83d43e6a@kernel.org>
+In-Reply-To: <20250226-nvmet-fcloop-v1-5-c0bd83d43e6a@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.30 / 50.00];
@@ -115,10 +115,10 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250227_231926_277799_3AAA8733 
-X-CRM114-Status: GOOD (  23.10  )
+X-CRM114-CacheID: sfid-20250227_232743_683432_2994B323 
+X-CRM114-Status: GOOD (  23.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,186 +134,153 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2/26/25 19:45, Daniel Wagner wrote:
-> A nport object is always used in association with targerport,
-> remoteport, tport and rport objects. Add explicit references for any of
-> the associated object. This makes the unreliable reference updates in
-> the two callback fcloop_targetport_delete and fcloop_remoteport_delete
-> obsolete.
+> The tport object is created via nvmet_fc_register_targetport and freed
+> via nvmet_fc_unregister_targetport. That means after the port is
+> unregistered nothing should use it. Thus ensure with refcounting
+> that there is no user left before the unregister step.
 > 
 > Signed-off-by: Daniel Wagner <wagi@kernel.org>
 > ---
->   drivers/nvme/target/fcloop.c | 57 +++++++++++++++++++++++++++++++++++---------
->   1 file changed, 46 insertions(+), 11 deletions(-)
+>   drivers/nvme/target/fcloop.c | 52 +++++++++++++++++++++++++++++---------------
+>   1 file changed, 35 insertions(+), 17 deletions(-)
 > 
 > diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-> index de1963c34bd88d0335f70de569565740fd395a0a..80693705c069dd114b2d4f15d0482dd2d713a273 100644
+> index 80693705c069dd114b2d4f15d0482dd2d713a273..2269b4d20af2ef9bb423617b94a5f5326ea124bd 100644
 > --- a/drivers/nvme/target/fcloop.c
 > +++ b/drivers/nvme/target/fcloop.c
-> @@ -1071,16 +1071,11 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
->   	struct fcloop_rport *rport = remoteport->private;
+> @@ -233,8 +233,12 @@ struct fcloop_tport {
+>   	spinlock_t			lock;
+>   	struct list_head		ls_list;
+>   	struct work_struct		ls_work;
+> +	struct kref			ref;
+>   };
 >   
->   	flush_work(&rport->ls_work);
-> -	fcloop_nport_put(rport->nport);
->   }
->   
->   static void
->   fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
->   {
-> -	struct fcloop_tport *tport = targetport->private;
-> -
-> -	flush_work(&tport->ls_work);
-> -	fcloop_nport_put(tport->nport);
->   }
->   
-Errm. Isn't this function empty now? Can't it be remove altogether?
-
->   #define	FCLOOP_HW_QUEUES		4
-> @@ -1358,6 +1353,7 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
->   	struct nvme_fc_port_info pinfo;
->   	int ret;
->   
-> +	/* nport ref get: rport */
->   	nport = fcloop_alloc_nport(buf, count, true);
->   	if (!nport)
->   		return -EIO;
-> @@ -1375,6 +1371,9 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
->   		return ret;
+> +static int fcloop_tport_get(struct fcloop_tport *tport);
+> +static void fcloop_tport_put(struct fcloop_tport *tport);
+> +
+>   struct fcloop_nport {
+>   	struct fcloop_rport *rport;
+>   	struct fcloop_tport *tport;
+> @@ -426,6 +430,7 @@ fcloop_tport_lsrqst_work(struct work_struct *work)
+>   		spin_lock(&tport->lock);
 >   	}
->   
-> +	/* nport ref get: remoteport */
-> +	fcloop_nport_get(nport);
-> +
->   	/* success */
->   	rport = remoteport->private;
->   	rport->remoteport = remoteport;
-> @@ -1403,16 +1402,27 @@ __unlink_remote_port(struct fcloop_nport *nport)
->   		nport->tport->remoteport = NULL;
->   	nport->rport = NULL;
->   
-> +	/* nport ref put: rport */
-> +	fcloop_nport_put(nport);
-> +
->   	return rport;
+>   	spin_unlock(&tport->lock);
+> +	fcloop_tport_put(tport);
 >   }
 >   
 >   static int
->   __remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
->   {
-> -	if (!rport)
-> -		return -EALREADY;
-> +	int ret;
+> @@ -444,12 +449,16 @@ fcloop_t2h_ls_req(struct nvmet_fc_target_port *targetport, void *hosthandle,
+>   	tls_req->lsreq = lsreq;
+>   	INIT_LIST_HEAD(&tls_req->ls_list);
 >   
-> -	return nvme_fc_unregister_remoteport(rport->remoteport);
-> +	if (!rport) {
-> +		ret = -EALREADY;
-> +		goto out;
-> +	}
+> +	if (!tport)
+> +		return -ECONNABORTED;
 > +
-> +	ret = nvme_fc_unregister_remoteport(rport->remoteport);
-> +out:
-> +	/* nport ref put: remoteport */
-> +	fcloop_nport_put(nport);
-> +	return ret;
->   }
->   
->   static ssize_t
-> @@ -1434,6 +1444,9 @@ fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
->   	list_for_each_entry(tmpport, &fcloop_nports, nport_list) {
->   		if (tmpport->node_name == nodename &&
->   		    tmpport->port_name == portname && tmpport->rport) {
-> +
-> +			if (!fcloop_nport_get(tmpport))
-> +				break;
->   			nport = tmpport;
->   			rport = __unlink_remote_port(nport);
->   			break;
-> @@ -1447,6 +1460,8 @@ fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
->   
->   	ret = __remoteport_unreg(nport, rport);
->   
-> +	fcloop_nport_put(nport);
-> +
->   	return ret ? ret : count;
->   }
->   
-> @@ -1460,6 +1475,7 @@ fcloop_create_target_port(struct device *dev, struct device_attribute *attr,
->   	struct nvmet_fc_port_info tinfo;
->   	int ret;
->   
-> +	/* nport ref get: tport */
->   	nport = fcloop_alloc_nport(buf, count, false);
->   	if (!nport)
->   		return -EIO;
-> @@ -1475,6 +1491,9 @@ fcloop_create_target_port(struct device *dev, struct device_attribute *attr,
+>   	if (!tport->remoteport) {
+>   		tls_req->status = -ECONNREFUSED;
+>   		spin_lock(&tport->lock);
+>   		list_add_tail(&tls_req->ls_list, &tport->ls_list);
+>   		spin_unlock(&tport->lock);
+> -		queue_work(nvmet_wq, &tport->ls_work);
+> +		if (queue_work(nvmet_wq, &tport->ls_work))
+> +			fcloop_tport_get(tport);
+
+Don't you need to remove the 'tls_req' from the list, too, seeing that
+it'll never be transferred?
+
 >   		return ret;
 >   	}
 >   
-> +	/* nport ref get: targetport */
-> +	fcloop_nport_get(nport);
-> +
+> @@ -481,7 +490,8 @@ fcloop_t2h_xmt_ls_rsp(struct nvme_fc_local_port *localport,
+>   		spin_lock(&tport->lock);
+>   		list_add_tail(&tport->ls_list, &tls_req->ls_list);
+>   		spin_unlock(&tport->lock);
+> -		queue_work(nvmet_wq, &tport->ls_work);
+> +		if (queue_work(nvmet_wq, &tport->ls_work))
+> +			fcloop_tport_get(tport);
 
-I would rather move it to the end of the function, after we set all the
-references. But that's probably personal style...
+Same argument here.
 
+>   	}
+>   
+>   	return 0;
+> @@ -1496,6 +1506,8 @@ fcloop_create_target_port(struct device *dev, struct device_attribute *attr,
+>   
 >   	/* success */
 >   	tport = targetport->private;
->   	tport->targetport = targetport;
-> @@ -1501,16 +1520,27 @@ __unlink_target_port(struct fcloop_nport *nport)
->   		nport->rport->targetport = NULL;
->   	nport->tport = NULL;
->   
-> +	/* nport ref put: tport */
-> +	fcloop_nport_put(nport);
+> +	kref_init(&tport->ref);
 > +
+>   	tport->targetport = targetport;
+>   	tport->remoteport = (nport->rport) ?  nport->rport->remoteport : NULL;
+>   	if (nport->rport)
+> @@ -1526,21 +1538,30 @@ __unlink_target_port(struct fcloop_nport *nport)
 >   	return tport;
 >   }
 >   
->   static int
->   __targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
+> -static int
+> -__targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
+> +static void
+> +fcloop_targetport_unreg(struct kref *ref)
 >   {
-> -	if (!tport)
-> -		return -EALREADY;
-> +	int ret;
-That's iffy.
-Q1: How can you end up with a NULL tport?
-Q2: Why do we have _two_ arguments? Can't we use 'nport->tport'?
-Q3: What do you do when tport is valid and tport != nport->tport?
-
+> -	int ret;
+> +	struct fcloop_tport *tport =
+> +		container_of(ref, struct fcloop_tport, ref);
+> +	struct fcloop_nport *nport;
 >   
-> -	return nvmet_fc_unregister_targetport(tport->targetport);
-> +	if (!tport) {
-> +		ret = -EALREADY;
-> +		goto out;
-> +	}
+> -	if (!tport) {
+> -		ret = -EALREADY;
+> -		goto out;
+> -	}
+> +	nport = tport->nport;
+> +	nvmet_fc_unregister_targetport(tport->targetport);
+>   
+> -	ret = nvmet_fc_unregister_targetport(tport->targetport);
+> -out:
+>   	/* nport ref put: targetport */
+>   	fcloop_nport_put(nport);
+> -	return ret;
+> +}
 > +
-> +	ret = nvmet_fc_unregister_targetport(tport->targetport);
-> +out:
-> +	/* nport ref put: targetport */
-> +	fcloop_nport_put(nport);
-> +	return ret;
+> +static int
+> +fcloop_tport_get(struct fcloop_tport *tport)
+> +{
+> +	return kref_get_unless_zero(&tport->ref);
+> +}
+> +
+> +static void
+> +fcloop_tport_put(struct fcloop_tport *tport)
+> +{
+> +	kref_put(&tport->ref, fcloop_targetport_unreg);
 >   }
 >   
 >   static ssize_t
-> @@ -1532,6 +1562,9 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
->   	list_for_each_entry(tmpport, &fcloop_nports, nport_list) {
->   		if (tmpport->node_name == nodename &&
->   		    tmpport->port_name == portname && tmpport->tport) {
-> +
-> +			if (!fcloop_nport_get(tmpport))
-> +				break;
->   			nport = tmpport;
->   			tport = __unlink_target_port(nport);
->   			break;
-> @@ -1545,6 +1578,8 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
+> @@ -1576,8 +1597,7 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
+>   	if (!nport)
+>   		return -ENOENT;
 >   
->   	ret = __targetport_unreg(nport, tport);
+> -	ret = __targetport_unreg(nport, tport);
+> -
+> +	fcloop_tport_put(tport);
+>   	fcloop_nport_put(nport);
 >   
-> +	fcloop_nport_put(nport);
-> +
+Hmm. Are we sure that the 'tport' reference is always > 1 here? 
+Otherwise we'll end up with a funny business when the tport is deleted
+yet the nport still has a reference ..
+
 >   	return ret ? ret : count;
->   }
+> @@ -1696,9 +1716,7 @@ static void __exit fcloop_exit(void)
 >   
+>   		spin_unlock_irqrestore(&fcloop_lock, flags);
+>   
+> -		ret = __targetport_unreg(nport, tport);
+> -		if (ret)
+> -			pr_warn("%s: Failed deleting target port\n", __func__);
+> +		fcloop_tport_put(tport);
+>   
+>   		ret = __remoteport_unreg(nport, rport);
+>   		if (ret)
 > 
+
 Cheers,
 
 Hannes
