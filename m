@@ -4,88 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FBCBC197BF
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Feb 2025 23:50:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DACCC19F32
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 03:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/MrW9oYu7MINLs/fTPWfiPiv9Pd0BlSPYSGo4GMsrr0=; b=nydBA8/KwNyUeYZPyxWfwz/A0M
-	tNO+4Q1eHQQrbT0G2LYjIzVVwXzoxWE1SbBlj/aiJmpiTFQubIgTKtgKIxVbYUtj8kM5dIheXO7fg
-	mthyQMXnaG+pnZEL2Z920H7xIGTdhaDS7PqbGrZ4GSn9JZj7bXxmx2UXvqQdkAAKFzWD5TGZGnN1d
-	/DF/Nz97LnfrWbY6LTW34QNlNstjFkOBw4IUIAAwlOBh0rf5NoBTU11oM2r5wuXZc4XhdgIkUvR6D
-	rZr/KrZHADt7AJqAcYptSRR9ZxxL7w2XoAsANp11UmRjhmXyJIKtinmy+pHDMFGaQ+ys1m02DFxtG
-	YsXZ0tDA==;
+	Content-type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Mb26mU38SKiwkYcPSoVmGFcFJL8AA1v1BtKLUtjEM30=; b=mDGjEikb5nsNnofpdsOOAWjAQx
+	pHevfNSk4vLf2Wa0XDPVhXbZcL+39Wnoj2JNToDO9h5KMFrgSPHvt2UuCfQ92CA+MAQ3h3Hgdn4dX
+	AWZlUd26wPryMwXT2+CoRnuFQUXY9t7B8gKaWRgg/z5Q2zknZntbodOr6U8cbIcBr8mxVHEDsIgvo
+	sBf1JuBRuiGf3JqGB/6uTHvHPuHuLVtTCIIQVI73pGP8UsrYFHeN/krb+T85pI0YchB6Mqccl9LyR
+	K074cXrTNjh7tg5wywnY/YVaN6xqVD22mhyZFw003GC1AT0DRVwdR2box5ODFb1bJCpMLvPFDqHN+
+	BT/KdaQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnneK-00000009D9p-1DbN;
-	Thu, 27 Feb 2025 23:50:40 +0000
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d])
+	id 1tnr0j-00000009ZOS-3hoc;
+	Fri, 28 Feb 2025 03:26:01 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnneD-00000009D8b-3dwA
+	id 1tnr0h-00000009ZNf-3T2d
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Feb 2025 23:50:39 +0000
-Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-851c4ee2a37so117092539f.3
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Feb 2025 15:50:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1740700232; x=1741305032; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/MrW9oYu7MINLs/fTPWfiPiv9Pd0BlSPYSGo4GMsrr0=;
-        b=q7In69hf2aMMp+Loi4jiprijUB5FwDik/nNuzFBwo1TDK0LhXaY8nbHaCZEEwSoh/6
-         sFSviwaSsmN1HGIuHtiJJWjUjIweqxyLMEvAVF7Z5+JDHIdfTaj0YP0WXK2aFGR5WTOf
-         ljdz3F2DsoAILtjACJ7zEceb14ts/pbh3geuqnPHoBL0mQPSedNZBmQL8hOdougm2T0O
-         I2Lv9AQkWNsLEPWWVkn90UDoKz82sOcMr/1TsQGC4grCrVrgOrHLQPKzSYsxpJaaTsRy
-         Ps+8waKWvDCBCfRezAd+Wo6A5xv8gDY98pAtQPqSSwvMluN8DLrSvcq/O4LSdxolAUeJ
-         blUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740700232; x=1741305032;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/MrW9oYu7MINLs/fTPWfiPiv9Pd0BlSPYSGo4GMsrr0=;
-        b=neiFBdo0gYcUIZW578c/JuGZAbfHA/Ihytt2LljwC40MEjOqkJYrJQqxVP9UMT4kQS
-         sCPLDzRK/0bTKITeUqK+eNubHjYm/zHYK8N0pnS5s0srCwoi+vwBULeHrNQj8QOL1XUa
-         pmIuojmEJoD36aUSpDhclsuWgIR07iEn2EN+I8vH4qgLD1ptXITjxSjYfnuZXzK1pVOm
-         7ZNhGIMgEcD/oRD7AmsgnXKAxkinghU7P4nUEc1Wd+q+jEkCoj5NwC8/f6tThdv5WTTs
-         iCprDvGqTHxSGXd5Aid4eAcnsWYvQvEFZ1TGXFU91n/W19lFeP3TbEX+uYJlJ/39lThY
-         /yOQ==
-X-Gm-Message-State: AOJu0YzR4CxpGNyu9FwvtdeneA0wV5drkJvjx09kf25FdMLICX3TQwhc
-	LxtDnLzGPv+w0I/POQHdK6XyUhI1YjgK5kKAbPHryoi419g+YI4yGgpmq0DhoGg=
-X-Gm-Gg: ASbGncuvoVuSMvC7KWlnS3SNvvhaD/QiVixYdCV08+Fcc+QegqXQvQqZHTXepYYwCIq
-	XcKQZKGEWZFD1/fT8KJ3rDoT6G64j8l+SubsiRt6V5erBcxp4OCvifikAkG5AAgmc75nzvfOUvq
-	TR6FFiyvLgcddpa6dpzqjaB1evLgoKSOnWjbIGl6L/eyv9ucOnSaibzmAmmCOPMlddFPOEjCnjp
-	0hxa6NOFh0GfkF/BNsGX/aWFK/pXO3NLvMHGV2zGACdKyz6to6UI/FKyrGyEGvX5Vkz7zhxtC+O
-	kFRDLRejI1Gf0UfP9RK/y8Q=
-X-Google-Smtp-Source: AGHT+IHSRlM3w45VHLLMK6HPiygexZv4dV4SqmsXYaIZxGsowPQTTGBfz1MH1pCv0maLCVB8fNpkuw==
-X-Received: by 2002:a05:6e02:1a6b:b0:3d0:405d:e94f with SMTP id e9e14a558f8ab-3d3e6f51b7fmr14092215ab.17.1740700232541;
-        Thu, 27 Feb 2025 15:50:32 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f061c5053bsm601823173.38.2025.02.27.15.50.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2025 15:50:31 -0800 (PST)
-Message-ID: <1855c57b-13c9-49fe-b7af-a277f8c8b2c6@kernel.dk>
-Date: Thu, 27 Feb 2025 16:50:31 -0700
+	Fri, 28 Feb 2025 03:26:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740713157;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Mb26mU38SKiwkYcPSoVmGFcFJL8AA1v1BtKLUtjEM30=;
+	b=iJH435eZgUhu3deJZOGXOBxYcQ57ShXvuy/AKhP2iC2ICMM9JUgZLhuyPiozX3zGmG5OGF
+	VXxl+2fQhPW61nufBSuTWgnqVj2L41kCdfh5tFKQKI1laeL+bgXSoYng9ZcKAHn/W7N9Q6
+	i8d20Orsw6H9kfJ7ptoPWN9Ntp0Pymo=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-27-JNoKCRgCN9m92Y-vFrUZXA-1; Thu,
+ 27 Feb 2025 22:25:52 -0500
+X-MC-Unique: JNoKCRgCN9m92Y-vFrUZXA-1
+X-Mimecast-MFC-AGG-ID: JNoKCRgCN9m92Y-vFrUZXA_1740713151
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 79CF41800876;
+	Fri, 28 Feb 2025 03:25:50 +0000 (UTC)
+Received: from jmeneghi-thinkpadp1gen3.rmtusnh.csb (unknown [10.22.88.31])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 059C8180098C;
+	Fri, 28 Feb 2025 03:25:47 +0000 (UTC)
+From: John Meneghini <jmeneghi@redhat.com>
+To: kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: loberman@redhat.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	emilne@redhat.com,
+	jmeneghi@redhat.com,
+	bgurney@redhat.com
+Subject: [PATCH 0/4] nvme: make core.nvme_multipath configurable   
+Date: Thu, 27 Feb 2025 22:25:37 -0500
+Message-ID: <20250228032541.369804-1-jmeneghi@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv8 6/6] io_uring: cache nodes and mapped buffers
-To: Keith Busch <kbusch@meta.com>, ming.lei@redhat.com,
- asml.silence@gmail.com, linux-block@vger.kernel.org, io-uring@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org, csander@purestorage.com,
- Keith Busch <kbusch@kernel.org>
-References: <20250227223916.143006-1-kbusch@meta.com>
- <20250227223916.143006-7-kbusch@meta.com>
-From: Jens Axboe <axboe@kernel.dk>
-Content-Language: en-US
-In-Reply-To: <20250227223916.143006-7-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250227_155034_171239_726C3B65 
-X-CRM114-Status: UNSURE (   5.81  )
+X-CRM114-CacheID: sfid-20250227_192559_945617_222021BE 
+X-CRM114-Status: UNSURE (   8.80  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -101,18 +87,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/27/25 3:39 PM, Keith Busch wrote:
-> @@ -119,22 +137,44 @@ static void io_buffer_unmap(struct io_ring_ctx *ctx, struct io_mapped_ubuf *imu)
->  	if (imu->acct_pages)
->  		io_unaccount_mem(ctx, imu->acct_pages);
->  	imu->release(imu->priv);
-> -	kvfree(imu);
->  }
+These patches propose an alternative to outright removing the multipath
+module parameter. Rather than deleting this module parameter we control
+its appearance with a new Kconfig option named NVME_MULTIPATH_PARAM
 
-io_free_imu(ctx, imu);
+Note that the default kernel config settings produce a kernel
+with no change in functionality. By default both NVME_MULTIPATH
+and NVME_MULTIPATH_PARAM are enabled and there are no user visable
+changes.
 
-?
+To remove the core.nvme_multipath parameter simply compile with
+NVME_MULTIPATH_PARAM=n.
+
+Hopefully this compromise gives everyone what they want.
+
+Closes: https://lore.kernel.org/linux-nvme/20250204211158.43126-1-bgurney@redhat.com/
+
+John Meneghini (4):
+  nvme-multipath: change the NVME_MULTIPATH config option
+  nvme-multipath: add the NVME_MULTIPATH_PARAM config option
+  nvme: update the multipath warning in nvme_init_ns_head
+  nvme: add mulitipath warning to nvme_alloc_ns
+
+ drivers/nvme/host/Kconfig     | 28 ++++++++++++++++++++++++----
+ drivers/nvme/host/core.c      | 19 ++++++++++++++++++-
+ drivers/nvme/host/multipath.c |  3 ++-
+ 3 files changed, 44 insertions(+), 6 deletions(-)
 
 -- 
-Jens Axboe
+2.48.1
+
 
