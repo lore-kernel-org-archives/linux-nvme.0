@@ -4,128 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0608BC19776
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 07:36:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67296C19776
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 07:37:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GHG9IWymsbAXOiqL6b/BqstO5zPJX9KPvKAy7Q9m6f0=; b=g6z+csXpeFK0BrMqHWut++E7ry
-	u3hG0hJv+zP9vqE0noIV3XCa0K6u9y8pMS+i2YhmDfeQdTYac6AuiWbuMgmVdi/nbnRQrk60Ni/4z
-	7Ah0rP9T6LkxmimEPWpHx7LynZPEZlAJCHkHCZdeESlGV7kKVGYnWAQ5KokqPnWkpfuKz6ov6skWW
-	kZCpQSRVfQmLTfUCMkgFsGxVJSQevbJPUpuS/pGwBWEJ0i8mAMrrE8OUgh1w5E7PbVSYfBoPkwh99
-	1M0iclrYlbS7cfo+eFvbs+rpyDGSY6ZaIUkxXwxXZ2WjPgpxi0uHhXLI7LcJlULKdhs4fvAthYczs
-	X2XIFRSg==;
+	bh=/VkvJiMBqRwXIFM4Za5TQdUxmuJ426aRJUYRegaej+w=; b=AB1C8YxOps74l7op7e+ZlIPhde
+	rK4jzsiCHVkXmZTJtBfVKNMleXFqngkT3RWxC17vPly6CXyHWYjm7GxJ5LteslauRAyiXxQ2GT6K9
+	poUw5k6nUumzkEZ/D9+S4Id/GT8cFyZo9FinQRzXEdgKmaxTgviFa8fm8WF5Q1CY1CD4Mv/A5Qr9k
+	WVi8Zq1q1wLCMoCBgXw32BvOPFKPCUjiRQyCP+F590HkjBusS43b/wLJD7VRgcWgShZ7U0HFtfcAz
+	JN+bUuJuBkIBLgZbz/fl+10F6R3XKTcSbuzItGQSiKnmquc9fzc+iT4ZPctFyAsNkfTdLH9GMwqI2
+	sBJvLVZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnuvM-0000000A1Fh-1Fo5;
-	Fri, 28 Feb 2025 07:36:44 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1tnuw1-0000000A1UX-3DxT;
+	Fri, 28 Feb 2025 07:37:25 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnuvJ-0000000A1F5-3M3h
+	id 1tnuvz-0000000A1SY-0B1J
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Feb 2025 07:36:43 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Fri, 28 Feb 2025 07:37:24 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 45F421F38F;
-	Fri, 28 Feb 2025 07:36:40 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9DEDA2116F;
+	Fri, 28 Feb 2025 07:37:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740728200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1740728241; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GHG9IWymsbAXOiqL6b/BqstO5zPJX9KPvKAy7Q9m6f0=;
-	b=AXFSpdRhb7L5O9Vs0RDvQ9QU8c3CqzMmXXm2XpZkhOJFK/poxrr9ljlMdgAM7Fw+bkHq43
-	L5YeroXonWf3G8j8jEZZPU5wULqM2Pcb0n1k9iqD1FJB8z1fVNazV/fe6D8L6rq76Lf9Lr
-	b9hDOKAvIGbDNr5tqt/giP8LNuioDfA=
+	bh=/VkvJiMBqRwXIFM4Za5TQdUxmuJ426aRJUYRegaej+w=;
+	b=XrpMOq+g7vAwTK4X4OfcEjmI6ehDGN7j64nutqIefZxL7W1pNXEsCMmiHuYin/SrI9bGXy
+	17Te76YjNMq0NgtFAfrJK/P7ERrkNXT4JMHrm3Hqw1+NDMedXHDKtU7TROAk4S+LBr+3Od
+	75uGNyRYcKY/vgz5cSS6nebvLVruCgI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740728200;
+	s=susede2_ed25519; t=1740728241;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GHG9IWymsbAXOiqL6b/BqstO5zPJX9KPvKAy7Q9m6f0=;
-	b=/tzdDutDEG5KYgHAEaC7ezKyWtFSxwDvsGv9Cb3EnCPzrKPCIClei6sL7nBVVDSlz+3RT0
-	4UdBi13zIS6q9oAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AXFSpdRh;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/tzdDutD"
+	bh=/VkvJiMBqRwXIFM4Za5TQdUxmuJ426aRJUYRegaej+w=;
+	b=J8CccUAePnNMVDmcS1aQV1LESfSgwBVgQGo/J04SrONKMd3aw/cJFLXDdvm6dM0VfqcMRn
+	TyDzKTbkp9/gT5DA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740728200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1740728241; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GHG9IWymsbAXOiqL6b/BqstO5zPJX9KPvKAy7Q9m6f0=;
-	b=AXFSpdRhb7L5O9Vs0RDvQ9QU8c3CqzMmXXm2XpZkhOJFK/poxrr9ljlMdgAM7Fw+bkHq43
-	L5YeroXonWf3G8j8jEZZPU5wULqM2Pcb0n1k9iqD1FJB8z1fVNazV/fe6D8L6rq76Lf9Lr
-	b9hDOKAvIGbDNr5tqt/giP8LNuioDfA=
+	bh=/VkvJiMBqRwXIFM4Za5TQdUxmuJ426aRJUYRegaej+w=;
+	b=XrpMOq+g7vAwTK4X4OfcEjmI6ehDGN7j64nutqIefZxL7W1pNXEsCMmiHuYin/SrI9bGXy
+	17Te76YjNMq0NgtFAfrJK/P7ERrkNXT4JMHrm3Hqw1+NDMedXHDKtU7TROAk4S+LBr+3Od
+	75uGNyRYcKY/vgz5cSS6nebvLVruCgI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740728200;
+	s=susede2_ed25519; t=1740728241;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GHG9IWymsbAXOiqL6b/BqstO5zPJX9KPvKAy7Q9m6f0=;
-	b=/tzdDutDEG5KYgHAEaC7ezKyWtFSxwDvsGv9Cb3EnCPzrKPCIClei6sL7nBVVDSlz+3RT0
-	4UdBi13zIS6q9oAQ==
+	bh=/VkvJiMBqRwXIFM4Za5TQdUxmuJ426aRJUYRegaej+w=;
+	b=J8CccUAePnNMVDmcS1aQV1LESfSgwBVgQGo/J04SrONKMd3aw/cJFLXDdvm6dM0VfqcMRn
+	TyDzKTbkp9/gT5DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EA8EB137AC;
-	Fri, 28 Feb 2025 07:36:39 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F246137AC;
+	Fri, 28 Feb 2025 07:37:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LqLENodnwWciKAAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 28 Feb 2025 07:36:39 +0000
-Message-ID: <157bb905-0ffb-4d8c-ad82-0ea74b6aa423@suse.de>
-Date: Fri, 28 Feb 2025 08:36:39 +0100
+	id 8g/wDbFnwWdRKAAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 28 Feb 2025 07:37:21 +0000
+Message-ID: <94bbeb52-8bc3-4ee0-a163-f3e61fb7e1cb@suse.de>
+Date: Fri, 28 Feb 2025 08:37:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/11] nvmet-fc: inline nvmet_fc_delete_assoc
+Subject: Re: [PATCH 11/11] nvmet-fc: inline nvmet_fc_free_hostport
 To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  Chaitanya Kulkarni <kch@nvidia.com>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org>
- <20250226-nvmet-fcloop-v1-10-c0bd83d43e6a@kernel.org>
+ <20250226-nvmet-fcloop-v1-11-c0bd83d43e6a@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250226-nvmet-fcloop-v1-10-c0bd83d43e6a@kernel.org>
+In-Reply-To: <20250226-nvmet-fcloop-v1-11-c0bd83d43e6a@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 45F421F38F
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250227_233641_983510_238EDF30 
-X-CRM114-Status: GOOD (  10.39  )
+X-CRM114-CacheID: sfid-20250227_233723_228282_C76CFD57 
+X-CRM114-Status: GOOD (  10.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,16 +134,15 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2/26/25 19:46, Daniel Wagner wrote:
-> There is only one user for this helper function, just inline it.
+> No need for this tiny helper with only user, let's inline it.
+> And since the hostport ref counter needs to stay in sync, it's not
+> optional anymore to give back the reference.
 > 
 > Signed-off-by: Daniel Wagner <wagi@kernel.org>
 > ---
->   drivers/nvme/target/fc.c | 10 ++--------
->   1 file changed, 2 insertions(+), 8 deletions(-)
+>   drivers/nvme/target/fc.c | 12 +-----------
+>   1 file changed, 1 insertion(+), 11 deletions(-)
 > 
-But maybe a comment is in order.
-Other than that:
-
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
