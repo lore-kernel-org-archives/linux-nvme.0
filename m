@@ -4,90 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B51B9C19776
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 12:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03332C282C5
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 13:07:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=XS/kHt0Jzd2/r+Dt81keCnHWhP5OI706u2ZqfH4XrUs=; b=m+Tyg9d8V4NIB5Yyqr+LNh4NAG
-	dJYdJ6YcInNwR0hNQdAuevQO6k5aVBUwnGCe/BFCeWWGB3XqeUkn6AB6Iu2xsq7CV6/xBcW8ZE/aI
-	axRK6iMtllGUbegzUGADr0rplAYPClHV9hSZ0kw1C6TC8jR+0KBuo8c1UCCyikzPNP1ewZFF57dz6
-	qmlkh3kgmkb+z9nLZx+MEh3F7V7xBIPqf2zkICXyxlwGKQynT3ykLhXSpocHlLDR1MtIcC6Vklb7L
-	Ii/Q6C8LmS45rh/FKme8DYMZKJav/I+vPiha3nRo/P59Y+I5fPfn+7f7QWDBF6Q2dX8TRj+Z4ol0O
-	Tyg2FNfw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MOu35KTrzd/Q3JC03OViedyLFeYsWkOLSJ/UlGCVsgk=; b=K12yYsv1Fn4kscblAvLY+e1m8D
+	FOps6fAxGSligLVxXQ1aN0C3W6GHpc1QrCl9D7RDlFohewYRqzbDcuVDVcTv7SqawKK5YiC86gbkg
+	QKqh8+tFjHLxCHo0oIMJp7vbB6v1MKLqUfPJVpopQTa9TS4wiznc5VT698plnW+uEeWD9xZrkm/SH
+	fw281FgoAmSSQIVWZtLhNEfI2PtTuWJNhHfKLge67fMNHPx0cYxQnGO4XOnLl5CFWYmmaGoNnUX4E
+	qmutuwG0Kk1A4oaFLt3zzN3PtGAG8LbLux8jRMkXrPUi+8LCD1EgkgDL3XWb9rN7fPzWDLPhkhAZ6
+	9rdjfQRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnzkH-0000000AyE0-0CES;
-	Fri, 28 Feb 2025 12:45:37 +0000
-Received: from mout.web.de ([212.227.17.12])
+	id 1to05S-0000000B1Ux-1L0K;
+	Fri, 28 Feb 2025 13:07:30 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnzkE-0000000AyBe-0ZAB
+	id 1to05O-0000000B1UQ-405V
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Feb 2025 12:45:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1740746722; x=1741351522; i=markus.elfring@web.de;
-	bh=XS/kHt0Jzd2/r+Dt81keCnHWhP5OI706u2ZqfH4XrUs=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=TcWhcU0HQG+S9SVlRqiA/vRsjsaCpAZGBLTFizh/p2oxAm+qbE17MbqtGW1Jrlrw
-	 xJgrkJOxvRQpbGBUHlVPb67wqpRmf0z71pSiJhijLpRszenyzPznRQVuwlM6kGp++
-	 DS6A+/c+ZnnoR5Y+z9ZSP05TlGpoQGCv7d0Vs1FW6hYPZUlzzo/h9Ty020vkj8jaQ
-	 zoKM70PuOWFrkF8uRAhsA+nqEfLWxpYacjx6TCCPPNz7T/n3N+/fkw9C56jvreH18
-	 eLZrIJn3hl27E+zjMW6p8uPEcixQLUm6p+n94IRYwQKCl/rdeiRiItxSLjbsoC9zT
-	 92Mnc0dEhjremBdEPg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.27]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M6pUK-1twFLg1UZq-007I1m; Fri, 28
- Feb 2025 13:45:22 +0100
-Message-ID: <6b6d7ad3-7d25-4cf2-ab96-ddeed341599a@web.de>
-Date: Fri, 28 Feb 2025 13:45:21 +0100
+	Fri, 28 Feb 2025 13:07:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740748045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MOu35KTrzd/Q3JC03OViedyLFeYsWkOLSJ/UlGCVsgk=;
+	b=jU+ulS1OSqVNusbllgYl7ygRiy5obnCbkjANNjG91Ur114UiemSl8JghxItveYXReviWp9
+	JcNqqY2+9SEGFjhWXon0QUFO4fGY3Of236gXVe++8FV/olPzxkOX/TTu7Mlbj9GPkBQzf7
+	yQ0oH+Zhd9i20hz6aLg9dd2gNkURiCg=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-34-fBzFcLRHOfO0vXUG3bHy9g-1; Fri,
+ 28 Feb 2025 08:07:20 -0500
+X-MC-Unique: fBzFcLRHOfO0vXUG3bHy9g-1
+X-Mimecast-MFC-AGG-ID: fBzFcLRHOfO0vXUG3bHy9g_1740748039
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9EBF91944CFC;
+	Fri, 28 Feb 2025 13:07:18 +0000 (UTC)
+Received: from [10.22.88.31] (unknown [10.22.88.31])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A634D19560AB;
+	Fri, 28 Feb 2025 13:07:16 +0000 (UTC)
+Message-ID: <efedb363-c25f-4e4f-8a4a-3d991bdf3927@redhat.com>
+Date: Fri, 28 Feb 2025 08:07:15 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- James Smart <james.smart@broadcom.com>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Qasim Ijaz <qasdev00@gmail.com>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] nvme-fc: Simplify minimum determination in two functions
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1JnjCFQUd0ttsIBWN281lO5nPMzTF+jyUeD2O/xAf3vIJ+adx7k
- cOdE3IDMpOUADsU0Ezq+bCzt4CYYDqWZI4Df2LgkrJaVT2o5yMdxVC6PgGRZIVvquEZC5XL
- fiJF/X0XuHknjvc4NlikDHSXTtwbIHSOI3D6fIPleypTR4u6fdtuhGdcFnu6FQrfO+9M7K6
- DqofhYYC7m9T1sYkKvN9g==
-UI-OutboundReport: notjunk:1;M01:P0:T4P2JyVtn/I=;EqnSxa/PTVxsm/cBG5ow83DBN8i
- Dac87drCN06rmX+CMq0Um0gjexdwyVaCJWB55gTaE7u17FIoIZXyxVGOt78LaKZUwcx76oaCB
- mEbNcfMnpe923u/cPtkuze9+OTDKAmfmgTeGRWyKyna+slNxO2BwJc3xFXAEtlEP5SqweW6K2
- d20HdZFGEP8gGRKjZFnps0N4SBSIdjcUVSjfk9CHL4We9B3pOn0WV0q2SGATVqXobsC5G2SYE
- V92XQFymttWJUVJLpukvmkjAlxE8R9ZyPlsoNvEK9Iwdc0kYPeDri1lLFe/V/sCjuCZWL8STQ
- ny2vneUJd8+z32ujrPjSE0P5IdCGuu76VQEm+Fl/CzZXAPFr4xH3wQLdc3Wee7dEGcB/EwiDs
- 355kFZTFOsr30+A3ClJPKjKeceuySivGEznva4SXliJRd1uf+nDdTKfa3ZYJ/aIL1BmwuF2KT
- +zdYTavyynkkKI9VSPFotx8UgAqI68fMxIwJtuyGuxcNzjRtz9UBDOTvysW/i/IB4bVwnrvOT
- 44VdqlIdm9bDzea9n0lLDSYojt+Ey/rdz8p3U+VYD/ok+BbvH9Wy73We1ceWbj8eA20iA0mAW
- 2Jj/FFzHTDG21RsCtNYSmJhpz06BIViNZQ79RvvVEHqsrFO8DYliX1pWuAfrqJzt//cVxl4l7
- i8qSEwRg9Na14PJidt4PGRyfLxKw/2bhZvPiLAE1/n9jBrbbAcUCoUZLppGQ5ZCc0GAtAzgui
- Ih0wkN43h9wnwD1hLm6IuOcZ38ESi2JtmwDsDMku56s4c9wOl/nqUGSBlYXwxfEB+hRkKKcK2
- xq8V86RZYdtFp3bfyc9IfjeocB5M8i1rW6wuOQYAqS7dNKC8cElix+f6Wxd62BJSHBdOmkfRi
- N7YwB46cVOze1RAKm1PEtjHxF4/TQwTBd0otnSEsZks9jVKZ3HjUuDHXPYLPr7rN+aOd0G3xo
- oyXAij6HouBhnz36flLfCxV0jgcqbedXpSoc8IRz1UsKtdnkhLrG5e6u2PGKZKR3R+AR18VrB
- sBM/NRO1aPveldW4+PNyXfP5BEKw+VE5cEbyWY4EbyM4/zP/4ylBN/NpzS24jqXOs/VRVpd33
- LrKaZjwK4lrOreTt5FF0qJoWcbVvHOo8A2uLvVtPQg0zQcQeryxO9WmRAK4k3oux5fANZOXf0
- MMjSFgIR3z/8brwiDhzZaEBMwY3sjMCiw3ZgiXlwHO8Ts5NAAC3gCaNartl6XT5+3+t6Y/2iQ
- I/LnO9BHHePy0ikMp+DavDiqZ5Onib9H2ru2D4U8bnzW1qnpClL/5ovndZpq9MDmky+fLDM+W
- 28amjEu7Tx+Nd5V1xqvTWiVjfC31zW2RVOvEUlV+9g33MHdGZBjH0S4u1NOtJS3d1rLpByuN/
- xvMRmjaTfo0wsYCgnlAEbfSx78WzZgbI5emsA/GvN31ISEYrrKuwcNiaGZYFthI/9XqcgCvoq
- FluLISw==
+Subject: Re: [PATCH 2/4] nvme-multipath: add the NVME_MULTIPATH_PARAM config
+ option
+To: Nilay Shroff <nilay@linux.ibm.com>, kbusch@kernel.org, hch@lst.de,
+ sagi@grimberg.me
+Cc: loberman@redhat.com, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, emilne@redhat.com, bgurney@redhat.com
+References: <20250228032541.369804-1-jmeneghi@redhat.com>
+ <20250228032541.369804-3-jmeneghi@redhat.com>
+ <bc07b3df-4634-44fc-a16c-f4c3bb30e456@linux.ibm.com>
+Content-Language: en-US
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <bc07b3df-4634-44fc-a16c-f4c3bb30e456@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250228_044534_548216_EF3780D5 
-X-CRM114-Status: UNSURE (   7.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250228_050727_067363_D84C6EB6 
+X-CRM114-Status: GOOD (  16.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,47 +90,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Fri, 28 Feb 2025 13:38:38 +0100
 
-Replace nested min() calls by single min3() call in two
-function implementations.
+On 2/28/25 1:28 AM, Nilay Shroff wrote: 
+> On 2/28/25 8:55 AM, John Meneghini wrote:
+>> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+>> index 91b0346ce65a..c4251504f201 100644
+>> --- a/drivers/nvme/host/Kconfig
+>> +++ b/drivers/nvme/host/Kconfig
+>> @@ -28,6 +28,21 @@ config NVME_MULTIPATH
+>>   
+>>   	  If unsure, say Y.
+>>   
+>> +config NVME_MULTIPATH_PARAM
+>> +	bool "NVMe multipath param"
+>> +	depends on NVME_CORE && NVME_MULTIPATH
+>> +	help
+>> +	  This option enables configurable support for multipath access with
+>> +	  NVMe subsystems. If this option is enabled NVMe multipath support is
+>> +	  configured by the nvme core module parameter named "multipath". If
+>> +	  this option is disabled the nvme core module "multipath" parameter
+>> +	  is removed and support for NVMe multipath access can not be
+>> +	  configured. When this option is disabled a single /dev/nvmeXnY
+>> +	  device entry will be seen for each NVMe namespace, even if the
+>> +	  namespace is accessible through multiple controllers.
+>> +
+>> +	  If unsure, say Y.
+>> +
+> If we want to make NVME_MULTIPATH_PARAM default on then I think we need to add
+> "default y" under config NVME_MULTIPATH_PARAM.
 
-This issue was transformed by using the Coccinelle software.
+OK. I've tested all of the config options.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/nvme/host/fc.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+make mod2noconfig
+make allyesconfig
+make allmodconfig
+make oldconfig
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b9929a5a7f4e..6eed3ecdbaf6 100644
-=2D-- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2858,8 +2858,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
- 	unsigned int nr_io_queues;
- 	int ret;
+And is all seems to be working correctly, but I'll add the "default y"
+as you've suggested.
 
--	nr_io_queues =3D min(min(opts->nr_io_queues, num_online_cpus()),
--				ctrl->lport->ops->max_hw_queues);
-+	nr_io_queues =3D min3(opts->nr_io_queues, num_online_cpus(), ctrl->lport=
-->ops->max_hw_queues);
- 	ret =3D nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
- 	if (ret) {
- 		dev_info(ctrl->ctrl.device,
-@@ -2912,8 +2911,7 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl=
-)
- 	unsigned int nr_io_queues;
- 	int ret;
+>>   config NVME_VERBOSE_ERRORS
+>>   	bool "NVMe verbose error reporting"
+>>   	depends on NVME_CORE
+>> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+>> index 2a7635565083..4536ad5fbb82 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -10,10 +10,11 @@
+>>   #include "nvme.h"
+>>   
+>>   bool multipath = true;
+>> +#ifdef NVME_MULTIPATH_PARAM
+> 
+> Shouldn't it be CONFIG_NVME_MULTIPATH_PARAM instead of NVME_MULTIPATH_PARAM?
 
--	nr_io_queues =3D min(min(opts->nr_io_queues, num_online_cpus()),
--				ctrl->lport->ops->max_hw_queues);
-+	nr_io_queues =3D min3(opts->nr_io_queues, num_online_cpus(), ctrl->lport=
-->ops->max_hw_queues);
- 	ret =3D nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
- 	if (ret) {
- 		dev_info(ctrl->ctrl.device,
-=2D-
-2.48.1
+Oops.  As you can tell, I haven't tested this yet.  I'll fix this up and test these
+changes before sending a version 2 patch.
+
+/John
+  
+> Thanks,
+> --Nilay
+> 
 
 
