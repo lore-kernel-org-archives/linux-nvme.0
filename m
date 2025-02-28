@@ -4,57 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8452FC282D0
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 18:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3B5FC282C6
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 20:07:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/U7UzWbQh+keSEkUDMOM86mvhS2v5VXUMevqMtVsfbk=; b=0+/5zXoZ8ziWJf8nfZj8SvgXbx
-	kHkwBJWcOVd7GihmNL0wQhN3536xzUQPAyV1b4yqd/bLq8okrJfeXcnaXhQTpAlDdGotggM6Bgopd
-	D2tMVBWsX2LWNVfoI1YzjlOYG3/MNYHUmty2XXyuAHjFoY4dV9OOrmjdcFHed0gMcj3D7p2azcfmP
-	JkW5G6JbXB9NfZTQjDPSzcjgtZKtR2+cauiplGHAFJLpA2L7auPyIx7TTH7lrFa7yqxk3N19cyh1/
-	6jOiFwpKMV/AxvkO89orJW/kmRdQ9svYCITidgWNBAnVh694YRMy5e3KHtJkw+aar9zfihkO/t7pT
-	XHt1lzew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HJ1Nq4pcXXodfLNoK+SRpDDH/JY0EL7hd7uzSX9UuYU=; b=Qnaq6Lj85Pr5Koh4EwjmX325CS
+	VAOOBpDBThaQ5rPKbjwZBI9fTprjfdipLmdOgbNbQvmo8v7Ipqam3PCu9mr5afrwyZHztB4XmoypM
+	7fcwKiKchS/x+7kwBeOHVZU0vkuxIzdodQQuC+gHhtRkeVjSZKMsxpxQSPO1UAGntmH0cBNfLZ2tq
+	TtOuaqwFoBgwRZZLswy9LEucyJ2oV16MxWwUWzbm7WazIfoTpDOf267pKYhXCPrtOMbI6S+SogHjY
+	jECE097U8sGGkZvGN3/zp/30WJgKDAlciEM3K+zZYYSKpt4Ij5ClgP/QuNE0snEabTLTqcrImeBrg
+	YgM8NVjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1to4en-0000000C38Y-38by;
-	Fri, 28 Feb 2025 18:00:17 +0000
-Received: from tor.source.kernel.org ([2600:3c04::f03c:95ff:fe5e:7468])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1to4em-0000000C37b-1i1j
+	id 1to6dc-0000000CUuR-2Sib;
+	Fri, 28 Feb 2025 20:07:12 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1to6R7-0000000CR71-3ROs
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Feb 2025 18:00:16 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 21EC661148;
-	Fri, 28 Feb 2025 18:00:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD8CC4CEE2;
-	Fri, 28 Feb 2025 18:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740765615;
-	bh=70im7C4fH9IXW7uFm7V0dzMqCVvmg+D95gWFtPw/2VU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QU6hIfZV8Oy8PEVUayXnjQ+Q74LvlqTJcw0N5l5iqqPDasy62AlquQ1xpmgB8RSWn
-	 OFhb7DZgIUhEXTvx4rcTU+fLqKnNQprp5WDrBHJeeDNYGFHWG2AvtFRsQTtAnyV6Bf
-	 iGuBUHguGcKl54UlamrPbrTnQEwrf0zxMsGCRVAPIsm0dmHq+JKGuEseFGL2r21D/f
-	 r8kWPx9n539TxXAByHV1WBYkAnYJdPoz6BKTUgdFDYWt4+RYzaUN38PTuFrPDDZVVC
-	 gMjjH/I0REVKLnI8GqA4YaCatVEcw1G2gYBnrCcSv4zciLbEnvIhd8+OkVipzXDziI
-	 iI31tYrJB3ZFw==
-Date: Fri, 28 Feb 2025 11:00:13 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Meir Elisha <meir.elisha@volumez.com>
-Cc: Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3] nvmet-tcp: Fix a possible sporadic response drops in
- weakly ordered arch
-Message-ID: <Z8H5rfGoMEagAHb_@kbusch-mbp>
-References: <20250226072812.46089-1-meir.elisha@volumez.com>
+	Fri, 28 Feb 2025 19:54:19 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DD0F150C;
+	Fri, 28 Feb 2025 11:54:32 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 53B2F3F7D8;
+	Fri, 28 Feb 2025 11:54:13 -0800 (PST)
+Message-ID: <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+Date: Fri, 28 Feb 2025 19:54:11 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226072812.46089-1-meir.elisha@volumez.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+To: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <cover.1738765879.git.leonro@nvidia.com>
+ <20250220124827.GR53094@unreal>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250220124827.GR53094@unreal>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250228_115417_954121_D785B954 
+X-CRM114-Status: GOOD (  19.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,13 +79,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 26, 2025 at 09:28:12AM +0200, Meir Elisha wrote:
-> The order in which queue->cmd and rcv_state are updated is crucial.
-> If these assignments are reordered by the compiler, the worker might not
-> get queued in nvmet_tcp_queue_response(), hanging the IO. to enforce the
-> the correct reordering, set rcv_state using smp_store_release().
+On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
+> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
+>> From: Leon Romanovsky <leonro@nvidia.com>
+>>
+>> Changelog:
+>> v7:
+>>   * Rebased to v6.14-rc1
 > 
-> Fixes: bdaf13279192 ("nvmet-tcp: fix a segmentation fault during io parsing error")
+> <...>
+> 
+>> Christoph Hellwig (6):
+>>    PCI/P2PDMA: Refactor the p2pdma mapping helpers
+>>    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+>>    iommu: generalize the batched sync after map interface
+>>    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+>>    dma-mapping: add a dma_need_unmap helper
+>>    docs: core-api: document the IOVA-based API
+>>
+>> Leon Romanovsky (11):
+>>    iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+>>    dma-mapping: Provide an interface to allow allocate IOVA
+>>    dma-mapping: Implement link/unlink ranges API
+>>    mm/hmm: let users to tag specific PFN with DMA mapped bit
+>>    mm/hmm: provide generic DMA managing logic
+>>    RDMA/umem: Store ODP access mask information in PFN
+>>    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+>>      linkage
+>>    RDMA/umem: Separate implicit ODP initialization from explicit ODP
+>>    vfio/mlx5: Explicitly use number of pages instead of allocated length
+>>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+>>    vfio/mlx5: Enable the DMA link API
+>>
+>>   Documentation/core-api/dma-api.rst   |  70 ++++
+>   drivers/infiniband/core/umem_odp.c   | 250 +++++---------
+>>   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+>>   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+>>   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+>>   drivers/iommu/dma-iommu.c            | 468 +++++++++++++++++++++++----
+>>   drivers/iommu/iommu.c                |  84 ++---
+>>   drivers/pci/p2pdma.c                 |  38 +--
+>>   drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
+>>   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+>>   drivers/vfio/pci/mlx5/main.c         |  87 +++--
+>>   include/linux/dma-map-ops.h          |  54 ----
+>>   include/linux/dma-mapping.h          |  85 +++++
+>>   include/linux/hmm-dma.h              |  33 ++
+>>   include/linux/hmm.h                  |  21 ++
+>>   include/linux/iommu.h                |   4 +
+>>   include/linux/pci-p2pdma.h           |  84 +++++
+>>   include/rdma/ib_umem_odp.h           |  25 +-
+>>   kernel/dma/direct.c                  |  44 +--
+>>   kernel/dma/mapping.c                 |  18 ++
+>>   mm/hmm.c                             | 264 +++++++++++++--
+>>   21 files changed, 1435 insertions(+), 693 deletions(-)
+>>   create mode 100644 include/linux/hmm-dma.h
+> 
+> Kind reminder.
 
-Thanks, applied to nvme-6.14.
+...that you've simply reposted the same thing again? Without doing 
+anything to address the bugs, inconsistencies, fundamental design flaws 
+in claiming to be something it cannot possibly be, the egregious abuse 
+of DMA_ATTR_SKIP_CPU_SYNC proudly highlighting how unfit-for-purpose the 
+most basic part of the whole idea is, nor *still* the complete lack of 
+any demonstrable justification of how callers who supposedly can't use 
+the IOMMU API actually benefit from adding all the complexity of using 
+the IOMMU API in a hat but also still the streaming DMA API as well?
+
+Yeah, consider me reminded.
+
+
+
+In case I need to make it any more explicit, NAK to this not-generic 
+not-DMA-mapping API, until you can come up with either something which 
+*can* actually work in any kind of vaguely generic manner as claimed, or 
+instead settle on a reasonable special-case solution for justifiable 
+special cases. Bikeshedding and rebasing through half a dozen versions, 
+while ignoring fundamental issues I've been pointing out from the very 
+beginning, has not somehow magically made this series mature and 
+acceptable to merge.
+
+Honestly, given certain other scenarios we may also end up having to 
+deal with, if by the time everything broken is taken away, it were to 
+end up stripped all the way back to something well-reasoned like:
+
+"Some drivers want more control of their DMA buffer layout than the 
+general-purpose IOVA allocator is able to provide though the DMA mapping 
+APIs, but also would rather not have to deal with managing an entire 
+IOMMU domain and address space, making MSIs work, etc. Expose 
+iommu_dma_alloc_iova() and some trivial IOMMU API wrappers to allow 
+drivers of coherent devices to claim regions of the default domain 
+wherein they can manage their own mappings directly."
+
+...I wouldn't necessarily disagree.
+
+Thanks,
+Robin.
 
