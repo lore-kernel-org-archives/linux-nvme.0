@@ -4,72 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0D3FC19776
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 08:17:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7D9FC19776
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2025 08:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eRccp4VYUJ7iVLOPuYyafBpr1ah62bhkdlT4K+RL4I0=; b=Ag0ZjBmDoBOpZXfmqIcMj7oZUH
-	7LrTrkx/8FwwVGzn1MlXRa7Cg+lF4Jva5gZy1F3l3BNsyCJ6AqJhgKLaEcFVT4xXGVdNTS9joqRRA
-	D8NzbaUt6gz2GYp383s/ItX55oS83CNbfD30o9hpsoJO+8D2Y4SxeQ7puC9ClC369j7J1rpK+GYAS
-	N9RljPjhtCufrg2Hn3Ebt2+uBC7WTk6UD2GUiPGwiRXTlbTEpL5UDMNxFX56aC+bI2YeSmVIRtxJ5
-	6bLNFjitVpXArr+wCGsPqeZxdvL+8Clb+CDkabApUOP4wZQG35qLD51ZifCiOqOpqde0yF+4lS+yy
-	wM3blWDw==;
+	bh=MfvNRguiS2iq5y0sNZKB60jqe2ezNBZsG1kuxHfIPlI=; b=STp5j7qknxzNbD1fWY4tdBct/0
+	MWLxQY+Y++YSZh3zRS/FTn63eI0Vrx3TkYaigp9TDtg2GlQSjh+6M7bqpv9ZLNgVg7D3KaWlSjS/2
+	bp/6GExfORRX21Wnff/xMQvWtZinYvZO+fWg76kh1IR7Kj6FAggWFWPL7QwfyX/4sgVW6daCARMTQ
+	2KFdO2/lqkYMEulCN8hAnj7uWNAXd9lzrrB75d+GfzgCT49YwbOzKiFMnziaaCeGROiXMayZ1dTwJ
+	wmvduRWyTxcQYs61XcrlRDul7KB9Td3Gdi0ds8eqXp/qSwGphMd9OnLLUp/YkqIdfTAIlc2c+3fqO
+	a1J0Ky1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnvYm-0000000A8nW-1zaK;
-	Fri, 28 Feb 2025 08:17:28 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tnviD-0000000AB5a-1AF9;
+	Fri, 28 Feb 2025 08:27:13 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tnvWc-0000000A86Y-2amX
+	id 1tnva2-0000000A9Lw-1Lw5
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Feb 2025 08:15:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740730513;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eRccp4VYUJ7iVLOPuYyafBpr1ah62bhkdlT4K+RL4I0=;
-	b=aANMA/6N9+ADwy2OIwGJIeR9PLNRLSrp3kjkslju/epL5+WAy2U3EBnSpBBO/KPlStuxk8
-	Qoh6nPOSg5VCUqL+7z/mGPWjMiX/C+P6RS2Wwdv062O0lmc8YBPx+JENP4L6nlb9/FwJHL
-	1PV0OXEdDesy88tQ3QvPlLX/YwEIFUU=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-557-3m0H-eIGPiCjoB2yxgVL2w-1; Fri,
- 28 Feb 2025 03:15:11 -0500
-X-MC-Unique: 3m0H-eIGPiCjoB2yxgVL2w-1
-X-Mimecast-MFC-AGG-ID: 3m0H-eIGPiCjoB2yxgVL2w_1740730510
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	Fri, 28 Feb 2025 08:18:47 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7A23D180087B;
-	Fri, 28 Feb 2025 08:15:09 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.18])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 012F9180098C;
-	Fri, 28 Feb 2025 08:15:03 +0000 (UTC)
-Date: Fri, 28 Feb 2025 16:14:57 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: axboe@kernel.dk, asml.silence@gmail.com, linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	csander@purestorage.com, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv8 5/6] ublk: zc register/unregister bvec
-Message-ID: <Z8FwgbNtpu-bDZfR@fedora>
-References: <20250227223916.143006-1-kbusch@meta.com>
- <20250227223916.143006-6-kbusch@meta.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DA1382116F;
+	Fri, 28 Feb 2025 08:18:44 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C750C13888;
+	Fri, 28 Feb 2025 08:18:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +qZYMGRxwWeTNgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 28 Feb 2025 08:18:44 +0000
+Date: Fri, 28 Feb 2025 09:18:44 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/11] nvmet-fcloop: track ref counts for nports
+Message-ID: <dd2178ca-2875-4afb-b7d0-3a00af9f76bf@flourine.local>
+References: <20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org>
+ <20250226-nvmet-fcloop-v1-4-c0bd83d43e6a@kernel.org>
+ <d4b09a75-30f8-4db7-a02b-25ae405f7340@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227223916.143006-6-kbusch@meta.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+In-Reply-To: <d4b09a75-30f8-4db7-a02b-25ae405f7340@suse.de>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU]
+X-Rspamd-Queue-Id: DA1382116F
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250228_001514_725997_8C4A2BC7 
-X-CRM114-Status: GOOD (  10.70  )
+X-CRM114-CacheID: sfid-20250228_001846_507255_BAA28DD7 
+X-CRM114-Status: GOOD (  14.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,21 +89,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 27, 2025 at 02:39:15PM -0800, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> Provide new operations for the user to request mapping an active request
-> to an io uring instance's buf_table. The user has to provide the index
-> it wants to install the buffer.
-> 
-> A reference count is taken on the request to ensure it can't be
-> completed while it is active in a ring's buf_table.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
+On Fri, Feb 28, 2025 at 08:19:19AM +0100, Hannes Reinecke wrote:
+> >   static int
+> >   __targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
+> >   {
+> > -	if (!tport)
+> > -		return -EALREADY;
+> > +	int ret;
+> That's iffy.
+> Q1: How can you end up with a NULL tport?
 
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
+The existing code doesn't get the life time right. I don't think it's
+necessary anymore. This gets removed in the next two patches.
 
-Thanks,
-Ming
+> Q2: Why do we have _two_ arguments? Can't we use 'nport->tport'?
 
+This is addressed when the rport and tport get their own ref counting
+(next two patches).
+
+> Q3: What do you do when tport is valid and tport != nport->tport?
+
+That is not going to happen after the full series.
+
+I've tried to keep the changes logically separated. This patch here is
+only updating the nport ref counters. It took a long time to get these
+changes into a readable state. I really would like to avoid doing to
+many things in one patch.
 
