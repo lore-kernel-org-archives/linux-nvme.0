@@ -4,75 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C14BC19F32
-	for <linux-nvme@archiver.kernel.org>; Sun,  2 Mar 2025 08:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E52E0C282D1
+	for <linux-nvme@archiver.kernel.org>; Sun,  2 Mar 2025 11:50:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2ZcCNyPd0sCdA/1qAN/nBgpFd/uGAvDF6BNUo675ygY=; b=SUs3ktUZ5hsIG5A2sk+s+JmFrS
-	Zs0fEOEottVgHEmVZwhfzxtxL0b+ThJxWV0xydwoPoXkOIXssY7byUz7j/L6ni2QCMYOQ5/FCOPyf
-	lfq07Hf0gMuG9M17tmSfcn8BRI5O/TBuSkXkWVu0UCEH4dWwp43IqAX/BGuCGBN5pgfpbSRjf9Jnf
-	BMqFXRmZSXvHBClqWRl5oJxTXpEA83mWMOdQMRs76aeqVBH+VA3a9Lfjmm+9w4yySk/QgK6D2r3dD
-	2BzGe7+TUg8rUHhjP4yVNVAbB3fFNfkerL8S72YS1hKL9ytxGbkgAi2CpHmjIylTgAIyDjAi2w5Ym
-	ogamsuww==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PDWzcbxIvlIvGTw93dXaxSEzESqsRSQBbR/NvExKmkg=; b=h0tZXzYpiKbNSitvtxp9iZVl5J
+	C2ObU/fcPxvOhwmAthrEcYwpVSzFzkObsTNIhx20G/dCGc5857s5HnkIkN0YeJqw+lg9G7ynU1ltb
+	wZnekZKE9gGpfSzZMi1DxRaQCKkDtTF9o5xsbL6MBa29KPYYXBipVtJU+TPljbNwIjDuCECUyLvM0
+	mlOcpqs2Z1a3Sr1qPVlHaTVMXQL26lXRJ491zVoo6Wlwa7wenVAZoRtN8YVvG5vTLDqbynaWaVOW/
+	ZoOvm65GedM9hqrVKXk4Wegf93EC3qTO6V2NdZXm8o5f+GxNcy1nkFQcQUCCZXzYBIjuIdE6ZcRdT
+	e6+BasQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tof8Y-0000000FhJ2-2dZS;
-	Sun, 02 Mar 2025 08:57:26 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1tohpW-0000000Fw4V-1wXS;
+	Sun, 02 Mar 2025 11:49:58 +0000
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tof8W-0000000FhIr-1uQq
+	id 1tohpT-0000000Fw3s-0a8u
 	for linux-nvme@lists.infradead.org;
-	Sun, 02 Mar 2025 08:57:24 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9C4DA611B2;
-	Sun,  2 Mar 2025 08:57:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32951C4CED6;
-	Sun,  2 Mar 2025 08:57:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740905843;
-	bh=u5JYFc4YftUMjJJM2wJNEZXoeeEaIau6bF605R+aFwg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VIKIdi1EyC1UF4BWzoLUJbZam9xi3uIK8W2N0PXVxO6mVZsqAHqX/xxGb1scyaHEb
-	 Jp8clkrcxHrLhb2bU1QlavJlNpJd/KtAXX7/s5yvLUUmPN8CfsYXGL42t5a+o/O4wi
-	 0VzuN4CKCaDCzG12nSOaOB4jkb0xwB+UNDZ3Ga0HUbq0XAqYcoAr8JdqbDYMrx+tPz
-	 wchzD8xI24OSxORMajnIN+2Zoa5pBcq9cYDfrsPgQdfp6sURJVLMe/XxAsI7bvkMsr
-	 j8cUMPfH6Wcd8Llmu7zszAl9ExyG3CIQB78hRJLX5eUze8LYO5s4HGkUJ/KP3WbywR
-	 /YJ3Sdkx9KSoA==
-Date: Sun, 2 Mar 2025 10:57:17 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-Message-ID: <20250302085717.GO53094@unreal>
-References: <cover.1738765879.git.leonro@nvidia.com>
- <20250220124827.GR53094@unreal>
- <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+	Sun, 02 Mar 2025 11:49:56 +0000
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-439a1e8ba83so33372805e9.3
+        for <linux-nvme@lists.infradead.org>; Sun, 02 Mar 2025 03:49:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740916193; x=1741520993; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PDWzcbxIvlIvGTw93dXaxSEzESqsRSQBbR/NvExKmkg=;
+        b=NIVDLHcwag3qIOTSyzj92mPFzw1pzLA6AX3jh6xGJJvPy05w5Uy8Se/c0fd70fSSsf
+         hFZnxcu1D6N73QuYdVsKR7lMvTLUaNki/eMVDYOh1j0a5c5dHCqbASO8U6+SgJ/Oo71I
+         o+7k9u1xfYxwFGe2NFQezB5k7D+xEGWxL1SLzuY+dLxzSZx45XH2EnThI8ExYsEUIpCq
+         2+xvwIhvsSjfRWfpOnrokdbm1FM8+Zo78oejkARa49O74h0mpz7m45sbzefwF0a8NgoH
+         x/SoL4fTqfJMkQQ6kT+0+Y8HOw1cU/tX2fk/wV+5vEk4dGagkH1OmEzDFembLXWdnIAm
+         PgUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740916193; x=1741520993;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PDWzcbxIvlIvGTw93dXaxSEzESqsRSQBbR/NvExKmkg=;
+        b=E6o2+Nsg5nL237Y9V19sz5dV0WrsNZsAFCdPG8yyG1hl4rKt587uHWSe1N59NEBms3
+         bUtBJPOAiQ8SLtbGYg1qjBKlKcKfq74jt3tJiG5zpitR6VEPeflUQlo/hWDp7Zg1QGPY
+         IUZkuFXBoiKJQBOyRT9JJazvUbzOgITDX5P7uuxLtZp3MEuVb2nSoRJYeD16G8F+MPKM
+         YQUjMu+Kycgmx/FBJ8gP1a2jM7b02P/RGtGPAcPb0MD93kkTIBv+lCCW5yAwwIMph8fC
+         ja12sJ5WMrA28MzXpEo1279ls6PaQIH8AI55OKNXk2VhBI25DMUSPG4h898VH2iomZ36
+         fmkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVKV2z/4VZI1xcFtud0o56CSbzSSz3bMyqWiHlKczBQMitwJeGqnu1oOpIjFnAkQymJ+KWxuIa66KwG@lists.infradead.org
+X-Gm-Message-State: AOJu0YwyL/acb9Y1V2hspVom2Oye3IKhe6gVcu7r48g2DzI3r4+F4olK
+	Tr6fHyHzSMUvtqWKqJDsBImwO2GqtbLv70XiV2gIWQF3dXGuWN0/
+X-Gm-Gg: ASbGncuVRaJ3/LW0yY7CPclyjz/B/9Gf6CpsRFQ2KYtzyaL1pPSDIqLsqdux5Mn4/J4
+	gMcecTcqz73wB/AyNi5oR9H1jRUKaPJeP3WB6pyXPiStb6MYDKjFjk3BtKf7b21OU467ByeyxXL
+	CkWTkUkILO/XvvSVgwkuw7bYTkGAq+PA72ZrnjypJGdzzqTQ0fVR09NmhaGT/W3cUC+LeJRkqhr
+	iFwyQLs5pyWY5+Ag17Z/WTTx3rcIhJQGLY8a9GcymIagW1dL7IdptsGevHiTwWVQN3jxHGjjmIw
+	bTrQp50VVEbeh5NIr/Z28q1+4Zz5Y1GgN6DVWAfgkVQ1LMEgP+C1Xguv6KKZ6kygJJL178F3O44
+	7TMssEG4=
+X-Google-Smtp-Source: AGHT+IFSnVl3KaEQhdVggHE4Q1aPuMVBXNtHqEHxvCXcB1KPL9q/eBkWt8pH6VwwowmoXs0mVYntEw==
+X-Received: by 2002:a05:600c:138e:b0:439:9a43:dd62 with SMTP id 5b1f17b1804b1-43ba675a8fbmr67558155e9.24.1740916192800;
+        Sun, 02 Mar 2025 03:49:52 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43b694524c6sm125935285e9.0.2025.03.02.03.49.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Mar 2025 03:49:52 -0800 (PST)
+Date: Sun, 2 Mar 2025 11:49:51 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, Sagi
+ Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmet-tcp: switch to using the crc32c library
+Message-ID: <20250302114951.6eff96d7@pumpkin>
+In-Reply-To: <20250226190122.GA3949421@google.com>
+References: <20250226062841.60688-1-ebiggers@kernel.org>
+	<03dad20d-1293-47d1-a55d-8430fcefc0bb@suse.de>
+	<20250226190122.GA3949421@google.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250302_034955_183597_936A2ED0 
+X-CRM114-Status: GOOD (  19.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,124 +102,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 28, 2025 at 07:54:11PM +0000, Robin Murphy wrote:
-> On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
-> > On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
-> > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > 
-> > > Changelog:
-> > > v7:
-> > >   * Rebased to v6.14-rc1
-> > 
-> > <...>
-> > 
-> > > Christoph Hellwig (6):
-> > >    PCI/P2PDMA: Refactor the p2pdma mapping helpers
-> > >    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
-> > >    iommu: generalize the batched sync after map interface
-> > >    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
-> > >    dma-mapping: add a dma_need_unmap helper
-> > >    docs: core-api: document the IOVA-based API
-> > > 
-> > > Leon Romanovsky (11):
-> > >    iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
-> > >    dma-mapping: Provide an interface to allow allocate IOVA
-> > >    dma-mapping: Implement link/unlink ranges API
-> > >    mm/hmm: let users to tag specific PFN with DMA mapped bit
-> > >    mm/hmm: provide generic DMA managing logic
-> > >    RDMA/umem: Store ODP access mask information in PFN
-> > >    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
-> > >      linkage
-> > >    RDMA/umem: Separate implicit ODP initialization from explicit ODP
-> > >    vfio/mlx5: Explicitly use number of pages instead of allocated length
-> > >    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-> > >    vfio/mlx5: Enable the DMA link API
-> > > 
-> > >   Documentation/core-api/dma-api.rst   |  70 ++++
-> >   drivers/infiniband/core/umem_odp.c   | 250 +++++---------
-> > >   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
-> > >   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
-> > >   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
-> > >   drivers/iommu/dma-iommu.c            | 468 +++++++++++++++++++++++----
-> > >   drivers/iommu/iommu.c                |  84 ++---
-> > >   drivers/pci/p2pdma.c                 |  38 +--
-> > >   drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
-> > >   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
-> > >   drivers/vfio/pci/mlx5/main.c         |  87 +++--
-> > >   include/linux/dma-map-ops.h          |  54 ----
-> > >   include/linux/dma-mapping.h          |  85 +++++
-> > >   include/linux/hmm-dma.h              |  33 ++
-> > >   include/linux/hmm.h                  |  21 ++
-> > >   include/linux/iommu.h                |   4 +
-> > >   include/linux/pci-p2pdma.h           |  84 +++++
-> > >   include/rdma/ib_umem_odp.h           |  25 +-
-> > >   kernel/dma/direct.c                  |  44 +--
-> > >   kernel/dma/mapping.c                 |  18 ++
-> > >   mm/hmm.c                             | 264 +++++++++++++--
-> > >   21 files changed, 1435 insertions(+), 693 deletions(-)
-> > >   create mode 100644 include/linux/hmm-dma.h
-> > 
-> > Kind reminder.
-> 
-> ...that you've simply reposted the same thing again? Without doing anything
-> to address the bugs, inconsistencies, fundamental design flaws in claiming
-> to be something it cannot possibly be, the egregious abuse of
-> DMA_ATTR_SKIP_CPU_SYNC proudly highlighting how unfit-for-purpose the most
-> basic part of the whole idea is, nor *still* the complete lack of any
-> demonstrable justification of how callers who supposedly can't use the IOMMU
-> API actually benefit from adding all the complexity of using the IOMMU API
-> in a hat but also still the streaming DMA API as well?
+On Wed, 26 Feb 2025 19:01:22 +0000
+Eric Biggers <ebiggers@kernel.org> wrote:
 
-Can you please provide concrete list of "the bugs, inconsistencies, fundamental
-design flaws", so we can address/fix them?
+...
+> I have patches for nvme-tls almost ready too.  Just been taking my time since
+> I've been updating all other users of "crc32" and "crc32c" in the kernel too.
+> And I need to decide what to do about skb_copy_and_hash_datagram_iter().
 
-We are in v7 now and out of all postings you replied to v1 and v5 only with
-followups from three of us (Christoph, Jason and me).
+I've wondered if any of the 'copy and xxx' functions are actually worth the
+extra complexity they add.
 
-> 
-> Yeah, consider me reminded.
+The (non-Atom) Intel cpu will copy at 32 bytes/clock provided the destination
+is 32 byte aligned (so for an skb copy you may want to copy a few bytes of
+'headroom' to align the copy) (I'm not sure how any other cpu behave).
 
-Silence means agreement.
+The 'and xxx' algorithm is likely to run faster without having to worry
+about writes. May cpu can do more than 1 read/clock, but only one write.
 
-> 
-> In case I need to make it any more explicit, NAK to this not-generic
-> not-DMA-mapping API, until you can come up with either something which *can*
-> actually work in any kind of vaguely generic manner as claimed, or instead
-> settle on a reasonable special-case solution for justifiable special cases.
-> Bikeshedding and rebasing through half a dozen versions, while ignoring
-> fundamental issues I've been pointing out from the very beginning, has not
-> somehow magically made this series mature and acceptable to merge.
+I guess the main benefit is for buffers that are larger than the l1-cache
+(or half the cache size if you do the copy first).
 
-You never responded to Christoph's answers, so please try your best and
-be professional, write down the list of things you want to see handled
-in next version and it will be done. It is impossible to guess what you
-want if you are not saying it clearly.
+It is likely worse for the 'iter' functions (which scatter-gather copy a
+linear kernel buffer). They have to allow for the unusual case of multiple
+fragments - and I'd guess the initial fragments are likely to be short.
 
-The main issue which we are trying to solve "abuse of SG lists for
-things without struct page", is not going to disappear by itself.
+Although I'm not at all sure of the point of doing the IP checksum with
+the user copy. My guess is it helped NFS (8k UDP datagrams).
+These days most high performance ethernet hardware supports checksum offload.
+So RX UDP datagrams (which probably rarely matter) have a valid checksum
+and there is no point making send() checksum the transmit data.
 
-> 
-> Honestly, given certain other scenarios we may also end up having to deal
-> with, if by the time everything broken is taken away, it were to end up
-> stripped all the way back to something well-reasoned like:
-> 
-> "Some drivers want more control of their DMA buffer layout than the
-> general-purpose IOVA allocator is able to provide though the DMA mapping
-> APIs, but also would rather not have to deal with managing an entire IOMMU
-> domain and address space, making MSIs work, etc. Expose
-> iommu_dma_alloc_iova() and some trivial IOMMU API wrappers to allow drivers
-> of coherent devices to claim regions of the default domain wherein they can
-> manage their own mappings directly."
-> 
-> ...I wouldn't necessarily disagree.
+I ought to double check that the TX data is always checksummed in send()
+I don't remember a conditional - and you pretty much never need it.
+UDP TX are going to be short (no userspace NFS) and the normal path transmits
+on the callers stack - so the data is likely to be in the right cache if
+the checksum is needed.
 
-Something like that was done in first RFC version, but the overall
-feeling was that it is layer violation with unclear path to support
-swiotlb for NVMe.
-
-Thanks
-
-> 
-> Thanks,
-> Robin.
+	David
 
