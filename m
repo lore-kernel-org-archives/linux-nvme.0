@@ -4,58 +4,174 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7782FC282CD
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 14:44:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25281C282CD
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 15:16:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L74JSotHWDPUP5TBM0hQkEM8p8tPw00XqklUA9G8JwE=; b=Xj3pwykLJafK5LcmtF8s7+5keB
-	IVzftLy5ey/++xHJfxwfP7Fo5BW3BOZwxDTb/mOm/E5gpIzXUwcGcpuXB447/HBdbZwq5OxDu4TGb
-	dUdgfUnBbrUtpm81j0JTPpiCSO5PqTf23lzpUAzF82w+/KqCF1oBDIWm5bS5gDNs8io6yCOGH+hQf
-	WDc8F44us8PVGmMPUQwFTZKAfaqK+Wx3e9S8s3vUALTaI2d9Bnr6moVWFErptY106XBH8QEuUKo/S
-	LPGRNgGw26vXqjjy8MJcvDpPKWqI1I86zahnLlP3y6kx4X54eN+/s7ezTpqFgl2WfBGwZ27m/bF4T
-	+TMLA6Bg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hDyzg2ZIaSEL1bLHsWzXdQZzkglvcop85Oj47qtiMxQ=; b=RbNAfZCAr3+DJkPNAj7JPUdLbI
+	t67lh2CD45/1dhMtfPtc61+8yPkrkI6MpfEazhyiks8xbvWKEvDfqjGPnzI01em/H31O08WcX4u4H
+	0/xQ+Eg3waAKOsQubxzZy+7YErIMTp3Tloh63fH4RbYoCIjGLu+q+YjWMvbCtM/Wc6xgSrRKDp6ms
+	dnNUoNUGfuK6BcZP+X0Rqw/HzfPOjlfXMDl/+cWHOf5IeGUbjuC3WALxobyJJRdBkKcPMJ0TrzwAL
+	41V8PBWUXpzMW8LPZ+Wpr/xbBXgrKm0cKPLMUeR1DLqCo/ZTr4MKU8eKeK+w/WDZLLcAKaktRZ8ay
+	kCyxr55g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp71w-000000019hQ-065s;
-	Mon, 03 Mar 2025 14:44:28 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1tp7WU-00000001G31-3ysV;
+	Mon, 03 Mar 2025 15:16:02 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp705-000000019Me-2X2d
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 03 Mar 2025 14:42:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=L74JSotHWDPUP5TBM0hQkEM8p8tPw00XqklUA9G8JwE=; b=fMjtlw9/24EtzGGZI9GLAsjmLW
-	iinSMSOKeK8riTV5HUi8/78FGb99T3v4BDXSuHkLTUodOSGGz6ONIHOqYniE2FRj4/7HBDtdCZZFQ
-	un91u5skTOYWJH4+Ac0FkXBskIxivhSrl5npbunuU9iJNbIH1HhOIs5S0/F26TkEeiZzDW53cUUy/
-	0T2DC7YHeMmfGR9A147o3gPqBEgFfJBE90ooXKN9sMR9dT2QIUL6qADqjUKeoCPWPYMXaQzrB13j/
-	XRjDDvdZDt6Ie7PBSKGblc5hELN6ISusevEEOHNK/mff5C0BBtQvuIDnt6MDy7J7/GKNBzuFvUcdO
-	zjEgniGw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp703-0000000BlqL-0XV4;
-	Mon, 03 Mar 2025 14:42:31 +0000
-Date: Mon, 3 Mar 2025 14:42:30 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Hannes Reinecke <hare@suse.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Sagi Grimberg <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	linux-mm@kvack.org
+	id 1tp7TZ-00000001F6J-2USG
+	for linux-nvme@lists.infradead.org;
+	Mon, 03 Mar 2025 15:13:02 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 78C8821189;
+	Mon,  3 Mar 2025 15:12:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1741014779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=hDyzg2ZIaSEL1bLHsWzXdQZzkglvcop85Oj47qtiMxQ=;
+	b=MM2IStl0JxMvdBs4fsT4k7/XLzHBhsk4TM6MxZ2wKj+6vN59l2K4poBq3RNzKk0Ap6yej0
+	wIR1WgDWPTsDFRIncZ58T9EXpV+uXNjaEOGkxFKU6F8umvjMVU0u8S1nx+pSjozKuWTwvi
+	/zor9qeSS4ZIreLF5uG7h6PU2UlPOew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1741014779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=hDyzg2ZIaSEL1bLHsWzXdQZzkglvcop85Oj47qtiMxQ=;
+	b=4ABTQyUGWQ/q9DfkBMOqap9mMumiGtd1QSow+kYYn6w8jbB+VmEurHQVtGFV4MFxjtbUnr
+	9n+L8vLIj5IFG9Cg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MM2IStl0;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=4ABTQyUG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1741014779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=hDyzg2ZIaSEL1bLHsWzXdQZzkglvcop85Oj47qtiMxQ=;
+	b=MM2IStl0JxMvdBs4fsT4k7/XLzHBhsk4TM6MxZ2wKj+6vN59l2K4poBq3RNzKk0Ap6yej0
+	wIR1WgDWPTsDFRIncZ58T9EXpV+uXNjaEOGkxFKU6F8umvjMVU0u8S1nx+pSjozKuWTwvi
+	/zor9qeSS4ZIreLF5uG7h6PU2UlPOew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1741014779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=hDyzg2ZIaSEL1bLHsWzXdQZzkglvcop85Oj47qtiMxQ=;
+	b=4ABTQyUGWQ/q9DfkBMOqap9mMumiGtd1QSow+kYYn6w8jbB+VmEurHQVtGFV4MFxjtbUnr
+	9n+L8vLIj5IFG9Cg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6595813A23;
+	Mon,  3 Mar 2025 15:12:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QiB1GPvGxWcoCQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 03 Mar 2025 15:12:59 +0000
+Message-ID: <4b3be2df-4d82-45d5-b2ec-b08b2625f9d6@suse.cz>
+Date: Mon, 3 Mar 2025 16:12:59 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: Kernel oops with 6.14 when enabling TLS
-Message-ID: <Z8W_1l7lCFqMiwXV@casper.infradead.org>
+Content-Language: en-US
+To: Matthew Wilcox <willy@infradead.org>, Hannes Reinecke <hare@suse.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ linux-mm@kvack.org
 References: <08c29e4b-2f71-4b6d-8046-27e407214d8c@suse.com>
  <509dd4d3-85e9-40b2-a967-8c937909a1bf@suse.com>
  <Z8W8OtJYFzr9OQac@casper.infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8W8OtJYFzr9OQac@casper.infradead.org>
+ <Z8W_1l7lCFqMiwXV@casper.infradead.org>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <Z8W_1l7lCFqMiwXV@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 78C8821189
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250303_071301_927607_A4F0667B 
+X-CRM114-Status: GOOD (  17.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,79 +186,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 03, 2025 at 02:27:06PM +0000, Matthew Wilcox wrote:
-> We have a _lot_ of page types available.  We should mark large kmallocs
-> as such.  I'll send a patch to do that.
+On 3/3/25 15:42, Matthew Wilcox wrote:
+> On Mon, Mar 03, 2025 at 02:27:06PM +0000, Matthew Wilcox wrote:
+>> We have a _lot_ of page types available.  We should mark large kmallocs
+>> as such.  I'll send a patch to do that.
+> 
+> Can you try this?  It should fix the crash, at least.  Not sure why the
+> frozen patch triggered it.
 
-Can you try this?  It should fix the crash, at least.  Not sure why the
-frozen patch triggered it.
+Having CONFIG_PAGE_OWNER and booting with page_owner=on could make the dump
+more useful too, tell you where the dumped page was last allocated and freed.
 
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 36d283552f80..df9234e5f478 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -925,14 +925,15 @@ FOLIO_FLAG_FALSE(has_hwpoisoned)
- enum pagetype {
- 	/* 0x00-0x7f are positive numbers, ie mapcount */
- 	/* Reserve 0x80-0xef for mapcount overflow. */
--	PGTY_buddy	= 0xf0,
--	PGTY_offline	= 0xf1,
--	PGTY_table	= 0xf2,
--	PGTY_guard	= 0xf3,
--	PGTY_hugetlb	= 0xf4,
--	PGTY_slab	= 0xf5,
--	PGTY_zsmalloc	= 0xf6,
--	PGTY_unaccepted	= 0xf7,
-+	PGTY_buddy		= 0xf0,
-+	PGTY_offline		= 0xf1,
-+	PGTY_table		= 0xf2,
-+	PGTY_guard		= 0xf3,
-+	PGTY_hugetlb		= 0xf4,
-+	PGTY_slab		= 0xf5,
-+	PGTY_zsmalloc		= 0xf6,
-+	PGTY_unaccepted		= 0xf7,
-+	PGTY_large_kmalloc	= 0xf8,
- 
- 	PGTY_mapcount_underflow = 0xff
- };
-@@ -1075,6 +1076,7 @@ PAGE_TYPE_OPS(Zsmalloc, zsmalloc, zsmalloc)
-  * Serialized with zone lock.
-  */
- PAGE_TYPE_OPS(Unaccepted, unaccepted, unaccepted)
-+FOLIO_TYPE_OPS(large_kmalloc, large_kmalloc)
- 
- /**
-  * PageHuge - Determine if the page belongs to hugetlbfs
-diff --git a/mm/slub.c b/mm/slub.c
-index 1f50129dcfb3..872e1bab3bd1 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -4241,6 +4241,7 @@ static void *___kmalloc_large_node(size_t size, gfp_t flags, int node)
- 		ptr = folio_address(folio);
- 		lruvec_stat_mod_folio(folio, NR_SLAB_UNRECLAIMABLE_B,
- 				      PAGE_SIZE << order);
-+		__folio_set_large_kmalloc(folio);
- 	}
- 
- 	ptr = kasan_kmalloc_large(ptr, size, flags);
-@@ -4716,6 +4717,11 @@ static void free_large_kmalloc(struct folio *folio, void *object)
- {
- 	unsigned int order = folio_order(folio);
- 
-+	if (WARN_ON_ONCE(!folio_test_large_kmalloc(folio))) {
-+		dump_page(&folio->page, "Not a kmalloc allocation");
-+		return;
-+	}
-+
- 	if (WARN_ON_ONCE(order == 0))
- 		pr_warn_once("object pointer: 0x%p\n", object);
- 
-@@ -4725,6 +4731,7 @@ static void free_large_kmalloc(struct folio *folio, void *object)
- 
- 	lruvec_stat_mod_folio(folio, NR_SLAB_UNRECLAIMABLE_B,
- 			      -(PAGE_SIZE << order));
-+	__folio_clear_large_kmalloc(folio);
- 	folio_put(folio);
- }
- 
+In addition CONFIG_DEBUG_PAGEALLOC and booting with debug_pagealloc=on could
+potentially catch a use-after-free sooner (if something accesses the page
+via direct mapping after it's kfree()'d.
+
+But if this is due to a tight race, it could also mask the bug etc.
+
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 36d283552f80..df9234e5f478 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -925,14 +925,15 @@ FOLIO_FLAG_FALSE(has_hwpoisoned)
+>  enum pagetype {
+>  	/* 0x00-0x7f are positive numbers, ie mapcount */
+>  	/* Reserve 0x80-0xef for mapcount overflow. */
+> -	PGTY_buddy	= 0xf0,
+> -	PGTY_offline	= 0xf1,
+> -	PGTY_table	= 0xf2,
+> -	PGTY_guard	= 0xf3,
+> -	PGTY_hugetlb	= 0xf4,
+> -	PGTY_slab	= 0xf5,
+> -	PGTY_zsmalloc	= 0xf6,
+> -	PGTY_unaccepted	= 0xf7,
+> +	PGTY_buddy		= 0xf0,
+> +	PGTY_offline		= 0xf1,
+> +	PGTY_table		= 0xf2,
+> +	PGTY_guard		= 0xf3,
+> +	PGTY_hugetlb		= 0xf4,
+> +	PGTY_slab		= 0xf5,
+> +	PGTY_zsmalloc		= 0xf6,
+> +	PGTY_unaccepted		= 0xf7,
+> +	PGTY_large_kmalloc	= 0xf8,
+>  
+>  	PGTY_mapcount_underflow = 0xff
+>  };
+> @@ -1075,6 +1076,7 @@ PAGE_TYPE_OPS(Zsmalloc, zsmalloc, zsmalloc)
+>   * Serialized with zone lock.
+>   */
+>  PAGE_TYPE_OPS(Unaccepted, unaccepted, unaccepted)
+> +FOLIO_TYPE_OPS(large_kmalloc, large_kmalloc)
+>  
+>  /**
+>   * PageHuge - Determine if the page belongs to hugetlbfs
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 1f50129dcfb3..872e1bab3bd1 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -4241,6 +4241,7 @@ static void *___kmalloc_large_node(size_t size, gfp_t flags, int node)
+>  		ptr = folio_address(folio);
+>  		lruvec_stat_mod_folio(folio, NR_SLAB_UNRECLAIMABLE_B,
+>  				      PAGE_SIZE << order);
+> +		__folio_set_large_kmalloc(folio);
+>  	}
+>  
+>  	ptr = kasan_kmalloc_large(ptr, size, flags);
+> @@ -4716,6 +4717,11 @@ static void free_large_kmalloc(struct folio *folio, void *object)
+>  {
+>  	unsigned int order = folio_order(folio);
+>  
+> +	if (WARN_ON_ONCE(!folio_test_large_kmalloc(folio))) {
+> +		dump_page(&folio->page, "Not a kmalloc allocation");
+> +		return;
+> +	}
+> +
+>  	if (WARN_ON_ONCE(order == 0))
+>  		pr_warn_once("object pointer: 0x%p\n", object);
+>  
+> @@ -4725,6 +4731,7 @@ static void free_large_kmalloc(struct folio *folio, void *object)
+>  
+>  	lruvec_stat_mod_folio(folio, NR_SLAB_UNRECLAIMABLE_B,
+>  			      -(PAGE_SIZE << order));
+> +	__folio_clear_large_kmalloc(folio);
+>  	folio_put(folio);
+>  }
+>  
+
 
