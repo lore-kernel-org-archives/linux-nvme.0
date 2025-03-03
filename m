@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC0DBC282C5
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 09:54:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BB6FC282C6
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 09:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZaBDqeFxNCRFfhU8wDdqUhdW1sRjlkT1h5s23u6d0nI=; b=lDBkH/yJMmRCqPOjG8gGZ4gRrf
-	lbySRISdtVjTCFyGHLWEExPAtpDLc+MBS6jvaBU2rPCWHrLlNyijk5ct/AkwqoBkg/QV8WY1z9tOj
-	gpJhmyl95DS7ITvr5a/avrjjlsZ/Wjh2tBAWyYqD/UanH2PXdQ7cXHmlySQERQN/9OuGZmXq1AysF
-	uIrSVo/P9BZTa60nrH0OHWDBkBAwuBlrK0oOJOJiB28qPPL4uzj7vF67ryT6wjbbW+6U30yfbpe3J
-	fKz0AaVMb/ha9PP+brpkIQlU2yVpJhbYuGIDjdifC4Vvr99PKFvizbtGhIcl+PKzYspDYQ/MIxu8b
-	TGXexpJQ==;
+	bh=EbFu0dlFHD4ue6c1H0T2HHV4LvGUohbMvaX4FM2L4mE=; b=pVrvTFkCq9Qhvx7aZNXlqfID5H
+	WGvyw683EpgVdagodqXo7zvJPUOxyG1kjgEBznEv4U939IesAY8mp7L1hecuKr9DZqFSvAHr7L35t
+	rAxA6YCFk16jNVgxWrlrBb6SCIS/LPU9GsNWVyGaCeW3a2LWg2LPO16cg0KUPt8OCrHywKxpp0iHx
+	GZntiyQM/wULpUWwwXaSJKpKfpIOh/6B3Wyhy9NjLr71rq2hL170v+B41tMORpoMEBrtYF4ZHdVMx
+	GJd2+Xg9O1BefNmRzgZ+WcG/KSom5mJR8b0A7gIDefv942fJsY236Rdpr+12Nr0R4XAVXb4g3bZGk
+	1DOjXxJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp2V9-00000000DHH-0Coh;
-	Mon, 03 Mar 2025 09:54:19 +0000
-Received: from mail-sn1nam02on20624.outbound.protection.outlook.com ([2a01:111:f403:2406::624] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+	id 1tp2VT-00000000Dl5-2Lrl;
+	Mon, 03 Mar 2025 09:54:39 +0000
+Received: from mail-sn1nam02on2062f.outbound.protection.outlook.com ([2a01:111:f403:2406::62f] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp2UJ-00000000D4c-0ahw
+	id 1tp2VL-00000000DSF-0T2A
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Mar 2025 09:53:28 +0000
+	Mon, 03 Mar 2025 09:54:32 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iA4qFduTao5uBKdKfhqtXV84swzQtFUtxS5kr7Gg39v2NINigeS3NjHgzsD5tbV4wKd3nHcPpwx5RpLxieb5JAZ0HMdHj2TZQaKQGA+dkTHjTILW9vF+4tb3XOgQ9lFdCtqrDF2kA4k/3NohWn+aXWZevL+s1RKEjCU94D5m02mWsfvIdOe9S3VhxoNzF7JIPcr/Tbm58qLEvV/Ub1aLOLyqd7g6sNOiWUBjGbklO7qRWwktvUkbB1sEavHmvn4mx6szEy509WHjmlOKMVN2pQSQhh5vtA5/y5jtZ5RyXQNG8sqrqUV7QtQ5KprCnRHnUnVl2VD47HUYhvTD1FDt+w==
+ b=oCuT3Q9sOlXkHoQpt1r/oy5yFBwxoF1hSnGKWjwGcwc6gAmM6Ga/+SnVTSVqmjfA68Jod7EjYcm/uGBiQ4Py5R71bd85cIR3JMXuXuYc18uZIP4zzYONjIdtq4aky8oaFRV90mRjEiSrpz5s+KXVNrbwmoZjyGw2L3/n7NOXmp9Yq3DBaXLypbxjcSIQenM82veZJwHIKxAfz2qIt+gOMxU0e/hNw7TRgRoK20/B22j6vuyA3ySTBLZUKnw9EivHwk1CzRBJOOjhRuR5oQyMmRTuplNufQMY9Xb7yKIenqHQvKkGkghAYatkq2TqVrY4XZUrqAeBf7yWjYKkpJIL3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZaBDqeFxNCRFfhU8wDdqUhdW1sRjlkT1h5s23u6d0nI=;
- b=egQ1Lmrpt93vXBRQhUP7m9n7VUbo2Ep14EsuVji08GUBcdlL68EBMeAjSdePvLaM9wrrOsQ6+R//O6zGENHUb5TB0o0MJQYouZoGtVV66OMUzrPImKbMjhV+7z2ZWCPJsB5l6srdgXW37GOKSFT2uyZAXhFrx5ta45tANqzLWooGKyyFk0LWTB3BOtuZlGhyUSZJvY5M1IraWrVip8KhqeRls5WE9o31RAFBGRXycDcRU+1tHzogc8t6+v09GZzC+XPPSSKasAq1VYVMNihc//PqzgiLpoWbwcv8Ov1pMMLg4CwxBwCSlOhbrUB+mT+zmanJF7Q8L5CQlwiUhOmvPg==
+ bh=EbFu0dlFHD4ue6c1H0T2HHV4LvGUohbMvaX4FM2L4mE=;
+ b=bc0ij8NErt8n0EWx3YWnRTYb1lJTS96PU0yo3mRxw2HnF7+lOvpN7ukqXFsS4hqI2wL8WxI0/nLhXf8j2TDtIVqk3Q2katv7lS8+QVEx/qWbmpSRin5tRb6vdKDwyEoOLa1mgU1EkA6gNJOl69UHH+q+yEKASU4P/Q0vbFvDQXM/zYsdgPBAVFR3g14TWqVh26p/A224zf5oA7tCu075mzD2Xrt7wcYrEku70TCVXBOJ0rcQQ+ImAC6F9c7b5osIQHLs026wC7kKYKfvzOFoS4Eow4knT+oN9BvvJBqKSxR9LrBSRduU+1PwtsM0d/MqbPgiFvQIx2Qf8IptMp9Wfg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZaBDqeFxNCRFfhU8wDdqUhdW1sRjlkT1h5s23u6d0nI=;
- b=sAzGTW0XEJoHDV0nn5fb+g9T9n/k3Wt/GCbQ9HU/lMivxWPCDWFJ+jnNhF7fPBO1gZrGWJWXehj0dlxqbpjosYLiXI1XO8mLXBPITOpLChv5l5HDZlzaMoz6JyDbSXEs6M0fTb/XpgyryYQXEY+2nl68qhbx8EROlYlZlElsoNTwIq1M1HrNEKmkJynF2Io9/xuRU42VTpnS2xkkfOkIOUtErenqujX77z9F/XIoDMzimy/D+c8PUIltolGRa8tLqG++XMGeJGq6CSqBKGaRagHAwbx59ogX9+13EhOTQk0fX2FcEX8L8YG4VmOoCTvlyfzK0W1oyURDRog0XzBdyg==
+ bh=EbFu0dlFHD4ue6c1H0T2HHV4LvGUohbMvaX4FM2L4mE=;
+ b=Lq1nE2++RDQETzackEFXGuHUZq2OPKyM1AMkh1ehMMVtdzhALjRE4f5vzCYcNCnZzcCsrk0RZr9CBTO7L05eHBD2jiPaiQSxiJFFhRa97YUAIPth1XO/Li+LHQPZYDFh6lJ4gk2cJ35KM5VHoiBZ0i2a0K9oJ7YW5lfWolTwMnsGnTbSHbHjNRiMLkqxbHEQpT8iDSJR4BWMVDaRmgjqJTcBJQbK5/ZSf9hCEMEHZrO+oSsG2XIddG3M7pME2nsZT8IFTUVwuv1t2g9OxJH2ydv7GwVXlq7PS1RBail5E+2pSiIPmzzSfFkeQ/J3UxN0Cj0fAMLBNwKdAahVApl3zQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
  by CH3PR12MB8994.namprd12.prod.outlook.com (2603:10b6:610:171::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.25; Mon, 3 Mar
- 2025 09:53:21 +0000
+ 2025 09:54:26 +0000
 Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
  ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
  ([fe80::7577:f32f:798c:87cc%5]) with mapi id 15.20.8489.025; Mon, 3 Mar 2025
- 09:53:21 +0000
+ 09:54:26 +0000
 From: Aurelien Aptel <aaptel@nvidia.com>
 To: linux-nvme@lists.infradead.org,
 	netdev@vger.kernel.org,
@@ -72,97 +72,92 @@ Cc: Boris Pismenny <borisp@nvidia.com>,
 	yorayz@nvidia.com,
 	galshalom@nvidia.com,
 	mgurtovoy@nvidia.com,
-	tariqt@nvidia.com,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	dsahern@kernel.org,
-	ast@kernel.org,
-	jacob.e.keller@intel.com
-Subject: [PATCH v27 01/20] net: Introduce direct data placement tcp offload
-Date: Mon,  3 Mar 2025 09:52:45 +0000
-Message-Id: <20250303095304.1534-2-aaptel@nvidia.com>
+	tariqt@nvidia.com
+Subject: [PATCH v27 14/20] net/mlx5e: TCP flow steering for nvme-tcp acceleration
+Date: Mon,  3 Mar 2025 09:52:58 +0000
+Message-Id: <20250303095304.1534-15-aaptel@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250303095304.1534-1-aaptel@nvidia.com>
 References: <20250303095304.1534-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO3P265CA0027.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:387::17) To SJ2PR12MB8943.namprd12.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0530.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c5::13) To SJ2PR12MB8943.namprd12.prod.outlook.com
  (2603:10b6:a03:547::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|CH3PR12MB8994:EE_
-X-MS-Office365-Filtering-Correlation-Id: e150ce5f-9d4c-4738-d8a1-08dd5a393b88
+X-MS-Office365-Filtering-Correlation-Id: 50836148-7282-42f0-c448-08dd5a39620f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?aDkry6SrRh/0wb4ZxDYdbbzj14qckVvNpnXmX43w0i4SxQ5gkL+polUXNdjE?=
- =?us-ascii?Q?1pymQvIOqgXnsNC1G8ijS29p5rJBumL2iXp2xcSAw3OzOZYkXcCQZivnw9+n?=
- =?us-ascii?Q?1JAGCHXSBxYeDfsPsE8Uq5hlPSsSkGB25Np91gVSQ2fhDiHffERlhxKAK5/+?=
- =?us-ascii?Q?ZR7KOYnyJKzKn+I1iUkaSoqjI52RsOkQpJ/GZt21zcTxkffQxTs8LQFUmcsp?=
- =?us-ascii?Q?jJnKG9kZP7eVbyqmr1QNXIp4IZjcvQpUTruedilLu7/2xwr+ScopoWbTFZZi?=
- =?us-ascii?Q?uZwBF8omXdj8geZRQvIR6T+UzavdUqGDa9DPXGikzsPgkFxZ2Hf2dJfKAO31?=
- =?us-ascii?Q?K9xAw7khDsnkZxp29ioehwNDOMHtXOVJGdrYp+owAHfQ8k+Q7enuiZ+lIEbK?=
- =?us-ascii?Q?Du1m/fAfoQnalEQp25TIZU8K/Dtycy7bIUrrs9XgJu/FixrWQSuT0HSHRjkQ?=
- =?us-ascii?Q?XQBeR9iExPMLGc9F5J6AJJDkfYHWAA1v5F3e6GacZD2C2N3/V6qV8p3if8iO?=
- =?us-ascii?Q?xzYsf/b1eQbhu/98oPOQ9mMpVaCQ3fBHkxU3Kjp83+GbjuqBXTIa4wI1PLho?=
- =?us-ascii?Q?CEdJYixiujuozNooY7oL0uJRPUxANIbMvUbOCytu4OUA9lCW0En/IwR51PqI?=
- =?us-ascii?Q?w6irdC+zAg3ddwVrYlmsseRHfoRlhH4FbDCKRjW9NXHSzP9hCMtG/JCzZDOH?=
- =?us-ascii?Q?HKZOHScEB96ca67FIQaEbfcbLm9iKnP6qoy6T0CeiWw5kg8oQYkUP91xv+qC?=
- =?us-ascii?Q?F+DFHgq+XdGR591Wlhzb168sD0a3XFVwmhXPPs24IHk6rtINA9u8WBX8ZZ9T?=
- =?us-ascii?Q?sFIe1qR09m1otReuVoNpoH+jIG3LZt/2ioOp12z6GEVEYHboC8+3WLi3VBfg?=
- =?us-ascii?Q?hSOyLOHmrU26+koIdvogHVJP1lffxaB9p021bDz3vz5VXKahuIiUMsduCXrM?=
- =?us-ascii?Q?DLjid52pmWL7FYakxjc7d2Kjbj9aRvd6Lw9ID6rIoTxNMyYH29eYGRUWX2xC?=
- =?us-ascii?Q?y8+j8tIV+rVVxDSOcKVFi7iH/PjghlyMO3qKoKUeJ8j0fNr6gPVm7WsrFliK?=
- =?us-ascii?Q?yoARu8IcBoqt76iCxisr8gj4LfK7dJgphKjp7DAir8/9oZ1OmkxxZ49hIXQA?=
- =?us-ascii?Q?rNTI4pXoTpr+PxSgZ+gdDr+lvcZSGhOpBdTJJAhXRwVSDddpKkC20F9gR8gB?=
- =?us-ascii?Q?j3hMLZtfMRdNjnrPVDvRplkF4LJ/GP1FY2k9De3JhSed6qP7VJy5cx5mqBq8?=
- =?us-ascii?Q?Ln4FS2lIGeRmwbpup8WVVAVS+2ZnUemOGsrPtIydiRlNtBbWRqFStgrXZzBw?=
- =?us-ascii?Q?/SQaqJmqWPFtxiKi9S9FthEJAJPkm3E+urfmdoAyZPfKSePRLLzp/BdGV8Y/?=
- =?us-ascii?Q?zZzcYDew0tyzGh7aHBKBbOUPejki?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GcEvk4ZnBSoQ6V9K0GZ4xLCPZVXVNucXtRgfIkS2CMQM/J/kpYD8JHYyjllM?=
+ =?us-ascii?Q?OM7Q+wc+Ma5cE/kFPcWRB3sR/SZ/ohq0yKugo4k6weuajAx5BzXEUPqvxJK8?=
+ =?us-ascii?Q?AIf0BuJcRGJH2Acl3tk7Zx0dyz4PNZuLCJzN7t7l9i1ve68VAasfeogddt/q?=
+ =?us-ascii?Q?dCYabkUoDvG/1sxAVzk1HQON6JmiafL4XdGxduqhEkEgzx6ugojC5Rz+ErdM?=
+ =?us-ascii?Q?sfXdO4WbBF+t0yhAu0/ifOFDZVGCD2X5M6H1bz96wGNKHtukYIcUMoCBCK90?=
+ =?us-ascii?Q?8Fvg/RxTJe4VIqbA9qWYBclDsRE/oChZ6ODSssDzOyN5quJ+28R+hrm9y+GT?=
+ =?us-ascii?Q?mIgKNwCsJB5Dg0+gUdTeDWxhjqvQH6ZWRspRNuVF3A7sHGlsBl5pfE3qiNe+?=
+ =?us-ascii?Q?p6Ns154XSNozKtkpEVijr/y7FR6xzHa/WPIzS/U9ngyi+RZIzZ/43lg5qnxl?=
+ =?us-ascii?Q?K005IKs4liC2I0iEagnhDa3uJC7YzCpvEVBrh3Oh1qeALOsKKE44jYHc587t?=
+ =?us-ascii?Q?UMuY5mvgpIwZUQt/hTvCK/clea8qLzLgrFDTXUaQj5mCWH4j66xoHo/JUKRK?=
+ =?us-ascii?Q?K/VgBjmFp0S2joVh3YQYNB2m4VcdPcOEgYW2m/FhFLQLzQ0UXOYLpL7W+lpp?=
+ =?us-ascii?Q?YcMp6N9v/UzoHui2EMpI1ryGDd5IYeZ/lWuzxzcmZrLu8NC8dC8UCkJ8hLEh?=
+ =?us-ascii?Q?TsoyGNdlE/js68/BFrWVjRV8SSzYydPbIePfYoa7KgDoEmG2NWjR+2NQclM2?=
+ =?us-ascii?Q?Lfg6SmTTXSDvyvw/0i7NldOkmBtvaU3pRhXLQbBA0GwI2ygaaP49HYJnUKg9?=
+ =?us-ascii?Q?CejGmCIPpZQjG+GQwI9iAOwTzqLUUlFCrd75CcFd4GtCbX9mBrLtirlRbP0C?=
+ =?us-ascii?Q?eq+MDpjCNMuphTnD9bfL66oNrOjgDVL0hW9RIVI/XEMP90XvTKNT9NjfFVNm?=
+ =?us-ascii?Q?iMb1faB1hZF91F60zYL0QjRBQ30hcrjz1x08lVSUauoeRPvAdpFRN10lygv6?=
+ =?us-ascii?Q?zT6WPrR36Rv78Kx3AVqhVZLy0FbO8KytwCA6ZCsOWJjiM+C+oyjjn81HvDdG?=
+ =?us-ascii?Q?Kf+df8L8n78N6k1zzF+sM0u1fR4RgMIx3lbUrwAtUO6FpPeqJ6xR7gYgjusO?=
+ =?us-ascii?Q?ToJKXg1MSw0ZNAg+Ur6TtLKmqw5XU2YQeMsfKQ1tDU7Tf5Ld6XnRq+xrS458?=
+ =?us-ascii?Q?TsSDn4MiwyEuiDCUomOmx0F5jkAs6+0dLzEax2aiB9bAO4syru+x9faolTOr?=
+ =?us-ascii?Q?h+XmBqLMr44JcHn8/NGUy+QvD7j6IyxT4eo21o3pIP7fjaWW1A4o6406iFtz?=
+ =?us-ascii?Q?BZdGQC3KRALbz5a2zXcgYplm6WnZXr0eKJuf0sBgl3r41wpE65PSfo28/jo+?=
+ =?us-ascii?Q?5vaTgLoC6/FLmOv6o7R6/PkoGiNU?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wzoQ+mFlSMA960rY1oFreO6k92r+hf9Pd2+euXiMKk+J2OBFajE4FmbB3SRE?=
- =?us-ascii?Q?7fa9stiK57il7l7blz80e7/n8W7xcJFhfv6utkmsB/i2i4FO3OX9sMylr2P3?=
- =?us-ascii?Q?AomVHpneP6MLILBZMnJilub0faGJ3cmy7uMH2JXc1G1N+GDfUNBjJWaBM1U+?=
- =?us-ascii?Q?quRunMriwM2KdNCcuuBq5RvVtIqM4Bs1h6ld0xoYvmk7Ifvv8Ll4ZDMQeF53?=
- =?us-ascii?Q?Gwoaq8+1JE95SkBC8M+vu2uD1UuhicOru5KLhTtBjrcWKuyOP9pDOulIN+0f?=
- =?us-ascii?Q?JmevBEhc/yDUZWvPFHyw/c/ig9ltjuuEo7BC4/4EUevYtISzBsk9hWYEPJLM?=
- =?us-ascii?Q?6lH1YBOZv20DnlDGJpmzKQ8CRjhaK6/FpMaDudbUCuBeacIAxV3MPaQSk8wK?=
- =?us-ascii?Q?RokzSyV+PDZmqJkTEejCevgopISvMqslohYm3t1ZaNWSi5psNFZMn66dBHOA?=
- =?us-ascii?Q?Cp6O7Zbq5ylNGOHrrA+sIi09LQnwcWWRqmSeRgr24JtWeaDX/M4YLHJxLnkm?=
- =?us-ascii?Q?Usq9Bf8xGyubsPfTKhpQ7DSrAgNRnsw2KYXeD5oTv5HL4aZQZasL6Lz9cu6w?=
- =?us-ascii?Q?fFVIthlkssnrA6ISRkReZl7+7cZEPUGldc/fsEV3SYoK/ulEXdn+4cKxef3+?=
- =?us-ascii?Q?ggC+D/2bdL3F74PeQAuDKoMQTLpW+msVUYhI1M4BNWKjeS3HhDmmDJwlEuNY?=
- =?us-ascii?Q?uX2ej2rEwV8My5omdy4s7nT/t3GVkaN0rJTuGU1XM+EJ0/pZUWETDgNXD8lO?=
- =?us-ascii?Q?4+JK20qMw8iXs7rxFmyaJfjLQDhpTS5vMLOcXy86Rjul0xMnoZ6gn26I888j?=
- =?us-ascii?Q?ITAvYcEgrZlxXaRWUEGWcqwYIjflZU0c+GideF5xsyTM93GDUfY86rau4chJ?=
- =?us-ascii?Q?dozM6rbpv0eyK3S3yg62q1FfiyOoev00e+i21rrw4w1EOglt6+3VW6dPnvF0?=
- =?us-ascii?Q?JKz246l7x4BJZRbFSIEiXq/U6fck6HETFFmpTuLpbhnPkhGVEnp0iMx2G24O?=
- =?us-ascii?Q?1MO6cNXp5SJybUHOkFu+LdHm5njs381osQukXRWriGD07PDV+7ai73txDyt9?=
- =?us-ascii?Q?qDx/V9K+riUcKbvacKXj+2+LFFeL3Ngrr7aM2hkqYL/O4qlpbu9EEwmBhudl?=
- =?us-ascii?Q?a1lCFtv9f5+y5pYqw8FtlN3plAPcriZARy6dmnCN9tB+nOJGJNnLb/PDqpTa?=
- =?us-ascii?Q?TKFHX/w3pGlm7+YXcCeoaF5O8at3Ca87e49u/2S7Utd3yuTcRIT+KCp+M3nd?=
- =?us-ascii?Q?a/XnWbNIsr2MYSxxdYkcvQNiwu+1v5WlvV1v7/98aV3Xks/a9Uk8+vrhCtmD?=
- =?us-ascii?Q?90WEcqUSi3Y9aeInSFOhB2Yvi1+9wyQ2JYOLF7u88gE+KD/lc14Aq9pOIjhJ?=
- =?us-ascii?Q?zD1QEeSr3kc1XnQJSOdj8whHhmoi99BUz6OMccVl6hsi14vrywZb/LJeENL7?=
- =?us-ascii?Q?uMTLTRwLJLrzMYTmNPcLUvC3ttZ2ZuDcT/2IjDjzdZZVyeCeat3eesjTiESH?=
- =?us-ascii?Q?4+vL4mHiycleEjKzaM8Ag0JKYXET0nQJz2Dii3qvaWFb5QDfzYEpW3B24cSn?=
- =?us-ascii?Q?qQLj1MNGifAXdosIL4V+L1ZnmlwiQEgE1bqwiUtR?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?reajeOUY2fF0Mp8S1aw8wHO+eUXZII/hCQKFnXkK5ylx3Vne+Z/qvUBiZX8s?=
+ =?us-ascii?Q?vZmE5HVEh7UAx+Mfj/i1Feca6pB0qUnGGMqPPZAfZtxU+cR/KrjVpzetMAEo?=
+ =?us-ascii?Q?Wdg0wf2bWO1oROq5ZlGETr3c7kzLM49Ei9oNU29w2DstsyB8qcwu0XS1cBxM?=
+ =?us-ascii?Q?Iuq2x1hkIMEsM91oOLLk588aDZlUKAI8AWXz8aS2sJYTGMVTjJFoF2VglWRb?=
+ =?us-ascii?Q?ZfdvV6VTCfE/KT4RneehY1Q+702/dYNwakjJpeumd6nrxpkgKDfhykbUyEA6?=
+ =?us-ascii?Q?6asx16y9ZkAJoomjnSmBCTYTtG+NV+A1QQ4A8iwVkJ65YPQQmLrfHvvNJPMd?=
+ =?us-ascii?Q?3VfVgf5DlMTqN+g7oQ4f5Pb9CaJ6DHlizZyxNxwFOHmgg7Zv78k7N03uQQEX?=
+ =?us-ascii?Q?fjUECo7QtKRSh6ZNvxhXMbBVCukkzK1YuLXf5E3gHsaqWo2qyLe+Se/QgHQ0?=
+ =?us-ascii?Q?PaeeGGUlH2kcWGUNn8mvhVtSWbMoF7fhhkDITup7u4MLAclVsYG69ii+WSD6?=
+ =?us-ascii?Q?4ohVsI3QFtCZTmTFQYAZ9OzRHAxMi3A2fvACPcj+H7kiyP3AwhmuYvAnYppn?=
+ =?us-ascii?Q?C1Xy5wFXu4o/Begg6+ACwlpHRm4AaBfxBgME1i/YTcQWRmySS0DrkCFQ5cjR?=
+ =?us-ascii?Q?V2h4K6zbhJiJi1Voup6n1mZcwvY3dEW1iIZ/V+KG/+rEtp5nGGlnL1CJ/7tO?=
+ =?us-ascii?Q?XOkk2+hc1LVFiayYwy+Sh6QdOlYdb085Jp20AT4cGnkv33Ykw/1Mr6fkzyc0?=
+ =?us-ascii?Q?S0oOZiBoIj9XtjCDJU/42t/tLmS+5bMInwZ6HYgI5DK2jY9S0me1YqLR6Kcl?=
+ =?us-ascii?Q?aAkIlJbWewDxDjod0/KCq/Ca0GJ9ciPXoUNz1sAtqbjS3HKFpHs8y93JoJQK?=
+ =?us-ascii?Q?29nFjf4Am2T+2Vw8uqc8o5mN1qsTcMM+Xlpg/V+jX2Ia/KbYA0iyx5FZRKLO?=
+ =?us-ascii?Q?51d5GZMt0KEiWAQzYei3LxVN5NFt94eeW2Oi15j2vRZSc/BNLuj2LOaPUVBo?=
+ =?us-ascii?Q?Kk2hEBJVpnPSJ2ikChyFHelrn7cdWb/mgh0r6SRdF6Bu5yyttUuNJFPL8wNB?=
+ =?us-ascii?Q?N/ZWtxNgGKZ8H9tc40i/ncHqBuRWBNgObdTMpTC3eSn3Ha84AQ1hnzOBMMs5?=
+ =?us-ascii?Q?eBzczOdrxjmYkiUJAb4tKSwqGTUYorWuo9oZ3XpLieK1KlujVdnNwXZlU66o?=
+ =?us-ascii?Q?7R0TA9KEHKwdvATjaEVetzEPQjBCVUo2IraO/pH18IPF070djM71AviPOVuW?=
+ =?us-ascii?Q?alVibcSldJ7gxTmLD9W+iIx5X74LnBwYfAEJOPiYn4S2o4xnGxTEEmJ1bZms?=
+ =?us-ascii?Q?PkHiZ9iVHnumQIkGy1xxATbmFrWUrKvqfYeefnnR7fsmy4wPrWT3ucC/csKa?=
+ =?us-ascii?Q?5642J9Fj89Zh4pn05SLbVSw7PBj044bfsBL896nyEerKoiyF8HgUl8xgAUm8?=
+ =?us-ascii?Q?bZ6YhrDqHNcX5DXzdjoc9KMdWR1xa9F/hXOan7oADEuDAOo000JLx8ExuSxH?=
+ =?us-ascii?Q?MHCG5v5u61gJ4UjLHJd9B45AKxK99Es7ACgddr4hPZqEv00iBjP+5ErEEkft?=
+ =?us-ascii?Q?rRtOEI1iiA4m2W+BXKs5srR4H1TiJy4JmMVdX7iS?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e150ce5f-9d4c-4738-d8a1-08dd5a393b88
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50836148-7282-42f0-c448-08dd5a39620f
 X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2025 09:53:21.7717
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2025 09:54:26.2596
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cizcZB2uJcRDwLGMcYt1sjnCZ2z7Y6s4tjqCRwXMB0Hm5uOm9LNAHosCuc9gA+7nXyKHcX+lcythpHUYkwXdOQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q2ToOcAR3VpxExCQ873F7MDJNpa3AfJGwX60FFq+Q1Ezwuehm6tPGfj8DN4Z67M49MqoHuMKA/CVB7xQgJobXw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8994
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250303_015327_199975_98CD4FAE 
-X-CRM114-Status: GOOD (  22.53  )
+X-CRM114-CacheID: sfid-20250303_015431_223706_73DB137A 
+X-CRM114-Status: GOOD (  12.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -179,692 +174,68 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Boris Pismenny <borisp@nvidia.com>
 
-This commit introduces direct data placement (DDP) offload for TCP.
-
-The motivation is saving compute resources/cycles that are spent
-to copy data from SKBs to the block layer buffers and CRC
-calculation/verification for received PDUs (Protocol Data Units).
-
-The DDP capability is accompanied by new net_device operations that
-configure hardware contexts.
-
-There is a context per socket, and a context per DDP operation.
-Additionally, a resynchronization routine is used to assist
-hardware handle TCP OOO, and continue the offload. Furthermore,
-we let the offloading driver advertise what is the max hw
-sectors/segments.
-
-The interface includes the following net-device ddp operations:
-
- 1. sk_add - add offload for the queue represented by socket+config pair
- 2. sk_del - remove the offload for the socket/queue
- 3. ddp_setup - request copy offload for buffers associated with an IO
- 4. ddp_teardown - release offload resources for that IO
- 5. limits - query NIC driver for quirks and limitations (e.g.
-             max number of scatter gather entries per IO)
- 6. set_caps - request ULP DDP capabilities enablement
- 7. get_caps - request current ULP DDP capabilities
- 8. get_stats - query NIC driver for ULP DDP stats
-
-Using this interface, the NIC hardware will scatter TCP payload
-directly to the BIO pages according to the command_id.
-
-To maintain the correctness of the network stack, the driver is
-expected to construct SKBs that point to the BIO pages.
-
-The SKB passed to the network stack from the driver represents
-data as it is on the wire, while it is pointing directly to data
-in destination buffers.
-
-As a result, data from page frags should not be copied out to
-the linear part. To avoid needless copies, such as when using
-skb_condense, we mark the skb->no_condense bit.
-In addition, the skb->ulp_crc will be used by the upper layers to
-determine if CRC re-calculation is required. The two separated skb
-indications are needed to avoid false positives GRO flushing events.
-
-Follow-up patches will use this interface for DDP in NVMe-TCP.
-
-Capability bits stored in net_device allow drivers to report which
-ULP DDP capabilities a device supports. Control over these
-capabilities will be exposed to userspace in later patches.
+Both nvme-tcp and tls acceleration require tcp flow steering.
+Add reference counter to share TCP flow steering structure.
 
 Signed-off-by: Boris Pismenny <borisp@nvidia.com>
 Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
 Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
 Signed-off-by: Yoray Zack <yorayz@nvidia.com>
-Signed-off-by: Shai Malin <smalin@nvidia.com>
 Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
+Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
 ---
- include/linux/netdevice.h          |   5 +
- include/linux/skbuff.h             |  50 +++++
- include/net/inet_connection_sock.h |   6 +
- include/net/tcp.h                  |   3 +-
- include/net/ulp_ddp.h              | 326 +++++++++++++++++++++++++++++
- net/Kconfig                        |  20 ++
- net/core/Makefile                  |   1 +
- net/core/skbuff.c                  |   3 +-
- net/core/ulp_ddp.c                 |  54 +++++
- net/ipv4/tcp_input.c               |   2 +
- net/ipv4/tcp_offload.c             |   1 +
- 11 files changed, 469 insertions(+), 2 deletions(-)
- create mode 100644 include/net/ulp_ddp.h
- create mode 100644 net/core/ulp_ddp.c
+ .../ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c    | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 26a0c4e4d963..ceba93aeed5a 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -1396,6 +1396,8 @@ struct netdev_net_notifier {
-  *			   struct kernel_hwtstamp_config *kernel_config,
-  *			   struct netlink_ext_ack *extack);
-  *	Change the hardware timestamping parameters for NIC device.
-+ * struct ulp_ddp_dev_ops *ulp_ddp_ops;
-+ *	ULP DDP operations (see include/net/ulp_ddp.h)
-  */
- struct net_device_ops {
- 	int			(*ndo_init)(struct net_device *dev);
-@@ -1651,6 +1653,9 @@ struct net_device_ops {
- 	 */
- 	const struct net_shaper_ops *net_shaper_ops;
- #endif
-+#if IS_ENABLED(CONFIG_ULP_DDP)
-+	const struct ulp_ddp_dev_ops *ulp_ddp_ops;
-+#endif
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c
+index 4f83e3172767..f5c67f9cb2f9 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c
+@@ -14,6 +14,7 @@ enum accel_fs_tcp_type {
+ struct mlx5e_accel_fs_tcp {
+ 	struct mlx5e_flow_table tables[ACCEL_FS_TCP_NUM_TYPES];
+ 	struct mlx5_flow_handle *default_rules[ACCEL_FS_TCP_NUM_TYPES];
++	refcount_t user_count;
  };
  
- /**
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 14517e95a46c..3843e27fa3c4 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -848,6 +848,8 @@ enum skb_tstamp_type {
-  *	@slow_gro: state present at GRO time, slower prepare step required
-  *	@tstamp_type: When set, skb->tstamp has the
-  *		delivery_time clock base of skb->tstamp.
-+ *	@no_condense: When set, don't condense fragments (DDP offloaded)
-+ *	@ulp_crc: CRC offloaded
-  *	@napi_id: id of the NAPI struct this skb came from
-  *	@sender_cpu: (aka @napi_id) source CPU in XPS
-  *	@alloc_cpu: CPU which did the skb allocation.
-@@ -1025,6 +1027,10 @@ struct sk_buff {
- 	__u8			csum_not_inet:1;
- #endif
- 	__u8			unreadable:1;
-+#ifdef CONFIG_ULP_DDP
-+	__u8                    no_condense:1;
-+	__u8			ulp_crc:1;
-+#endif
- #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
- 	__u16			tc_index;	/* traffic control index */
- #endif
-@@ -5274,5 +5280,49 @@ static inline void skb_mark_for_recycle(struct sk_buff *skb)
- ssize_t skb_splice_from_iter(struct sk_buff *skb, struct iov_iter *iter,
- 			     ssize_t maxsize, gfp_t gfp);
+ static enum mlx5_traffic_types fs_accel2tt(enum accel_fs_tcp_type i)
+@@ -361,6 +362,9 @@ void mlx5e_accel_fs_tcp_destroy(struct mlx5e_flow_steering *fs)
+ 	if (!accel_tcp)
+ 		return;
  
-+static inline bool skb_is_no_condense(const struct sk_buff *skb)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	return skb->no_condense;
-+#else
-+	return 0;
-+#endif
-+}
++	if (!refcount_dec_and_test(&accel_tcp->user_count))
++		return;
 +
-+static inline bool skb_is_ulp_crc(const struct sk_buff *skb)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	return skb->ulp_crc;
-+#else
-+	return 0;
-+#endif
-+}
-+
-+static inline bool skb_cmp_ulp_crc(const struct sk_buff *skb1,
-+				   const struct sk_buff *skb2)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	return skb1->ulp_crc != skb2->ulp_crc;
-+#else
-+	return 0;
-+#endif
-+}
-+
-+static inline void skb_copy_no_condense(struct sk_buff *to,
-+					const struct sk_buff *from)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	to->no_condense = from->no_condense;
-+#endif
-+}
-+
-+static inline void skb_copy_ulp_crc(struct sk_buff *to,
-+				    const struct sk_buff *from)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	to->ulp_crc = from->ulp_crc;
-+#endif
-+}
-+
- #endif	/* __KERNEL__ */
- #endif	/* _LINUX_SKBUFF_H */
-diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-index d9978ffacc97..1e88149d88ac 100644
---- a/include/net/inet_connection_sock.h
-+++ b/include/net/inet_connection_sock.h
-@@ -67,6 +67,8 @@ struct inet_connection_sock_af_ops {
-  * @icsk_ulp_ops	   Pluggable ULP control hook
-  * @icsk_ulp_data	   ULP private data
-  * @icsk_clean_acked	   Clean acked data hook
-+ * @icsk_ulp_ddp_ops	   Pluggable ULP direct data placement control hook
-+ * @icsk_ulp_ddp_data	   ULP direct data placement private data
-  * @icsk_ca_state:	   Congestion control state
-  * @icsk_retransmits:	   Number of unrecovered [RTO] timeouts
-  * @icsk_pending:	   Scheduled timer event
-@@ -98,6 +100,10 @@ struct inet_connection_sock {
- 	const struct tcp_ulp_ops  *icsk_ulp_ops;
- 	void __rcu		  *icsk_ulp_data;
- 	void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
-+#ifdef CONFIG_ULP_DDP
-+	const struct ulp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
-+	void __rcu		  *icsk_ulp_ddp_data;
-+#endif
- 	unsigned int		  (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
- 	__u8			  icsk_ca_state:5,
- 				  icsk_ca_initialized:1,
-diff --git a/include/net/tcp.h b/include/net/tcp.h
-index 9745c7f18170..06e1b752612b 100644
---- a/include/net/tcp.h
-+++ b/include/net/tcp.h
-@@ -1099,7 +1099,8 @@ static inline bool tcp_skb_can_collapse_rx(const struct sk_buff *to,
- 					   const struct sk_buff *from)
+ 	accel_fs_tcp_disable(fs);
+ 
+ 	for (i = 0; i < ACCEL_FS_TCP_NUM_TYPES; i++)
+@@ -372,12 +376,17 @@ void mlx5e_accel_fs_tcp_destroy(struct mlx5e_flow_steering *fs)
+ 
+ int mlx5e_accel_fs_tcp_create(struct mlx5e_flow_steering *fs)
  {
- 	return likely(mptcp_skb_can_collapse(to, from) &&
--		      !skb_cmp_decrypted(to, from));
-+		      !skb_cmp_decrypted(to, from) &&
-+		      !skb_cmp_ulp_crc(to, from));
- }
+-	struct mlx5e_accel_fs_tcp *accel_tcp;
++	struct mlx5e_accel_fs_tcp *accel_tcp = mlx5e_fs_get_accel_tcp(fs);
+ 	int i, err;
  
- /* Events passed to congestion control interface */
-diff --git a/include/net/ulp_ddp.h b/include/net/ulp_ddp.h
-new file mode 100644
-index 000000000000..7b32bb9e2a08
---- /dev/null
-+++ b/include/net/ulp_ddp.h
-@@ -0,0 +1,326 @@
-+/* SPDX-License-Identifier: GPL-2.0
-+ *
-+ * ulp_ddp.h
-+ *   Author:	Boris Pismenny <borisp@nvidia.com>
-+ *   Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
-+ */
-+#ifndef _ULP_DDP_H
-+#define _ULP_DDP_H
-+
-+#include <linux/netdevice.h>
-+#include <net/inet_connection_sock.h>
-+#include <net/sock.h>
-+
-+enum ulp_ddp_type {
-+	ULP_DDP_NVME = 1,
-+};
-+
-+/**
-+ * struct nvme_tcp_ddp_limits - nvme tcp driver limitations
-+ *
-+ * @full_ccid_range:	true if the driver supports the full CID range
-+ */
-+struct nvme_tcp_ddp_limits {
-+	bool			full_ccid_range;
-+};
-+
-+/**
-+ * struct ulp_ddp_limits - Generic ulp ddp limits: tcp ddp
-+ * protocol limits.
-+ * Add new instances of ulp_ddp_limits in the union below (nvme-tcp, etc.).
-+ *
-+ * @type:		type of this limits struct
-+ * @max_ddp_sgl_len:	maximum sgl size supported (zero means no limit)
-+ * @io_threshold:	minimum payload size required to offload
-+ * @tls:		support for ULP over TLS
-+ * @nvmeotcp:		NVMe-TCP specific limits
-+ */
-+struct ulp_ddp_limits {
-+	enum ulp_ddp_type	type;
-+	int			max_ddp_sgl_len;
-+	int			io_threshold;
-+	bool			tls:1;
-+	union {
-+		struct nvme_tcp_ddp_limits nvmeotcp;
-+	};
-+};
-+
-+/**
-+ * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO queue
-+ *
-+ * @pfv:	pdu version (e.g., NVME_TCP_PFV_1_0)
-+ * @cpda:	controller pdu data alignment (dwords, 0's based)
-+ * @dgst:	digest types enabled (header or data, see
-+ *		enum nvme_tcp_digest_option).
-+ *		The netdev will offload crc if it is supported.
-+ * @queue_size: number of nvme-tcp IO queue elements
-+ */
-+struct nvme_tcp_ddp_config {
-+	u16			pfv;
-+	u8			cpda;
-+	u8			dgst;
-+	int			queue_size;
-+};
-+
-+/**
-+ * struct ulp_ddp_config - Generic ulp ddp configuration
-+ * Add new instances of ulp_ddp_config in the union below (nvme-tcp, etc.).
-+ *
-+ * @type:	type of this config struct
-+ * @nvmeotcp:	NVMe-TCP specific config
-+ * @affinity_hint:	cpu core running the IO thread for this socket
-+ */
-+struct ulp_ddp_config {
-+	enum ulp_ddp_type    type;
-+	int		     affinity_hint;
-+	union {
-+		struct nvme_tcp_ddp_config nvmeotcp;
-+	};
-+};
-+
-+/**
-+ * struct ulp_ddp_io - ulp ddp configuration for an IO request.
-+ *
-+ * @command_id: identifier on the wire associated with these buffers
-+ * @nents:	number of entries in the sg_table
-+ * @sg_table:	describing the buffers for this IO request
-+ * @first_sgl:	first SGL in sg_table
-+ */
-+struct ulp_ddp_io {
-+	u32			command_id;
-+	int			nents;
-+	struct sg_table		sg_table;
-+	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
-+};
-+
-+/**
-+ * struct ulp_ddp_stats - ULP DDP offload statistics
-+ * @rx_nvmeotcp_sk_add: number of sockets successfully prepared for offloading.
-+ * @rx_nvmeotcp_sk_add_fail: number of sockets that failed to be prepared
-+ *                           for offloading.
-+ * @rx_nvmeotcp_sk_del: number of sockets where offloading has been removed.
-+ * @rx_nvmeotcp_ddp_setup: number of NVMeTCP PDU successfully prepared for
-+ *                         Direct Data Placement.
-+ * @rx_nvmeotcp_ddp_setup_fail: number of PDUs that failed DDP preparation.
-+ * @rx_nvmeotcp_ddp_teardown: number of PDUs done with DDP.
-+ * @rx_nvmeotcp_drop: number of PDUs dropped.
-+ * @rx_nvmeotcp_resync: number of resync.
-+ * @rx_nvmeotcp_packets: number of offloaded PDUs.
-+ * @rx_nvmeotcp_bytes: number of offloaded bytes.
-+ */
-+struct ulp_ddp_stats {
-+	u64 rx_nvmeotcp_sk_add;
-+	u64 rx_nvmeotcp_sk_add_fail;
-+	u64 rx_nvmeotcp_sk_del;
-+	u64 rx_nvmeotcp_ddp_setup;
-+	u64 rx_nvmeotcp_ddp_setup_fail;
-+	u64 rx_nvmeotcp_ddp_teardown;
-+	u64 rx_nvmeotcp_drop;
-+	u64 rx_nvmeotcp_resync;
-+	u64 rx_nvmeotcp_packets;
-+	u64 rx_nvmeotcp_bytes;
-+
-+	/*
-+	 * add new stats at the end and keep in sync with
-+	 * Documentation/netlink/specs/ulp_ddp.yaml
-+	 */
-+};
-+
-+#define ULP_DDP_CAP_COUNT 1
-+
-+struct ulp_ddp_dev_caps {
-+	DECLARE_BITMAP(active, ULP_DDP_CAP_COUNT);
-+	DECLARE_BITMAP(hw, ULP_DDP_CAP_COUNT);
-+};
-+
-+struct netlink_ext_ack;
-+
-+/**
-+ * struct ulp_ddp_dev_ops - operations used by an upper layer protocol
-+ *                          to configure ddp offload
-+ *
-+ * @limits:    query ulp driver limitations and quirks.
-+ * @sk_add:    add offload for the queue represented by socket+config
-+ *             pair. this function is used to configure either copy, crc
-+ *             or both offloads.
-+ * @sk_del:    remove offload from the socket, and release any device
-+ *             related resources.
-+ * @setup:     request copy offload for buffers associated with a
-+ *             command_id in ulp_ddp_io.
-+ * @teardown:  release offload resources association between buffers
-+ *             and command_id in ulp_ddp_io.
-+ * @resync:    respond to the driver's resync_request. Called only if
-+ *             resync is successful.
-+ * @set_caps:  set device ULP DDP capabilities.
-+ *	       returns a negative error code or zero.
-+ * @get_caps:  get device ULP DDP capabilities.
-+ * @get_stats: query ULP DDP statistics.
-+ */
-+struct ulp_ddp_dev_ops {
-+	int (*limits)(struct net_device *netdev,
-+		      struct ulp_ddp_limits *limits);
-+	int (*sk_add)(struct net_device *netdev,
-+		      struct sock *sk,
-+		      struct ulp_ddp_config *config);
-+	void (*sk_del)(struct net_device *netdev,
-+		       struct sock *sk);
-+	int (*setup)(struct net_device *netdev,
-+		     struct sock *sk,
-+		     struct ulp_ddp_io *io);
-+	void (*teardown)(struct net_device *netdev,
-+			 struct sock *sk,
-+			 struct ulp_ddp_io *io,
-+			 void *ddp_ctx);
-+	void (*resync)(struct net_device *netdev,
-+		       struct sock *sk, u32 seq);
-+	int (*set_caps)(struct net_device *dev, unsigned long *bits,
-+			struct netlink_ext_ack *extack);
-+	void (*get_caps)(struct net_device *dev,
-+			 struct ulp_ddp_dev_caps *caps);
-+	int (*get_stats)(struct net_device *dev,
-+			 struct ulp_ddp_stats *stats);
-+};
-+
-+#define ULP_DDP_RESYNC_PENDING BIT(0)
-+
-+/**
-+ * struct ulp_ddp_ulp_ops - Interface to register upper layer
-+ *                          Direct Data Placement (DDP) TCP offload.
-+ * @resync_request:         NIC requests ulp to indicate if @seq is the start
-+ *                          of a message.
-+ * @ddp_teardown_done:      NIC driver informs the ulp that teardown is done,
-+ *                          used for async completions.
-+ */
-+struct ulp_ddp_ulp_ops {
-+	bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
-+	void (*ddp_teardown_done)(void *ddp_ctx);
-+};
-+
-+/**
-+ * struct ulp_ddp_ctx - Generic ulp ddp context
-+ *
-+ * @type:	type of this context struct
-+ * @buf:	protocol-specific context struct
-+ */
-+struct ulp_ddp_ctx {
-+	enum ulp_ddp_type	type;
-+	unsigned char		buf[];
-+};
-+
-+static inline struct ulp_ddp_ctx *ulp_ddp_get_ctx(struct sock *sk)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	struct inet_connection_sock *icsk = inet_csk(sk);
-+
-+	return (__force struct ulp_ddp_ctx *)icsk->icsk_ulp_ddp_data;
-+#else
-+	return NULL;
-+#endif
-+}
-+
-+static inline void ulp_ddp_set_ctx(struct sock *sk, void *ctx)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	struct inet_connection_sock *icsk = inet_csk(sk);
-+
-+	rcu_assign_pointer(icsk->icsk_ulp_ddp_data, ctx);
-+#endif
-+}
-+
-+static inline int ulp_ddp_setup(struct net_device *netdev,
-+				struct sock *sk,
-+				struct ulp_ddp_io *io)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	return netdev->netdev_ops->ulp_ddp_ops->setup(netdev, sk, io);
-+#else
-+	return -EOPNOTSUPP;
-+#endif
-+}
-+
-+static inline void ulp_ddp_teardown(struct net_device *netdev,
-+				    struct sock *sk,
-+				    struct ulp_ddp_io *io,
-+				    void *ddp_ctx)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	netdev->netdev_ops->ulp_ddp_ops->teardown(netdev, sk, io, ddp_ctx);
-+#endif
-+}
-+
-+static inline void ulp_ddp_resync(struct net_device *netdev,
-+				  struct sock *sk,
-+				  u32 seq)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	netdev->netdev_ops->ulp_ddp_ops->resync(netdev, sk, seq);
-+#endif
-+}
-+
-+static inline int ulp_ddp_get_limits(struct net_device *netdev,
-+				     struct ulp_ddp_limits *limits,
-+				     enum ulp_ddp_type type)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	limits->type = type;
-+	return netdev->netdev_ops->ulp_ddp_ops->limits(netdev, limits);
-+#else
-+	return -EOPNOTSUPP;
-+#endif
-+}
-+
-+static inline bool ulp_ddp_cap_turned_on(unsigned long *old,
-+					 unsigned long *new,
-+					 int bit_nr)
-+{
-+	return !test_bit(bit_nr, old) && test_bit(bit_nr, new);
-+}
-+
-+static inline bool ulp_ddp_cap_turned_off(unsigned long *old,
-+					  unsigned long *new,
-+					  int bit_nr)
-+{
-+	return test_bit(bit_nr, old) && !test_bit(bit_nr, new);
-+}
-+
-+#ifdef CONFIG_ULP_DDP
-+
-+int ulp_ddp_sk_add(struct net_device *netdev,
-+		   netdevice_tracker *tracker,
-+		   gfp_t gfp,
-+		   struct sock *sk,
-+		   struct ulp_ddp_config *config,
-+		   const struct ulp_ddp_ulp_ops *ops);
-+
-+void ulp_ddp_sk_del(struct net_device *netdev,
-+		    netdevice_tracker *tracker,
-+		    struct sock *sk);
-+
-+bool ulp_ddp_is_cap_active(struct net_device *netdev, int cap_bit_nr);
-+
-+#else
-+
-+static inline int ulp_ddp_sk_add(struct net_device *netdev,
-+				 netdevice_tracker *tracker,
-+				 gfp_t gfp,
-+				 struct sock *sk,
-+				 struct ulp_ddp_config *config,
-+				 const struct ulp_ddp_ulp_ops *ops)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline void ulp_ddp_sk_del(struct net_device *netdev,
-+				  netdevice_tracker *tracker,
-+				  struct sock *sk)
-+{}
-+
-+static inline bool ulp_ddp_is_cap_active(struct net_device *netdev,
-+					 int cap_bit_nr)
-+{
-+	return false;
-+}
-+
-+#endif
-+
-+#endif	/* _ULP_DDP_H */
-diff --git a/net/Kconfig b/net/Kconfig
-index c3fca69a7c83..bf09e302007b 100644
---- a/net/Kconfig
-+++ b/net/Kconfig
-@@ -538,4 +538,24 @@ config NET_TEST
+ 	if (!MLX5_CAP_FLOWTABLE_NIC_RX(mlx5e_fs_get_mdev(fs), ft_field_support.outer_ip_version))
+ 		return -EOPNOTSUPP;
  
- 	  If unsure, say N.
- 
-+config ULP_DDP
-+	bool "ULP direct data placement offload"
-+	help
-+	  This feature provides a generic infrastructure for Direct
-+	  Data Placement (DDP) offload for Upper Layer Protocols (ULP,
-+	  such as NVMe-TCP).
-+
-+	  If the ULP and NIC driver supports it, the ULP code can
-+	  request the NIC to place ULP response data directly
-+	  into application memory, avoiding a costly copy.
-+
-+	  This infrastructure also allows for offloading the ULP data
-+	  integrity checks (e.g. data digest) that would otherwise
-+	  require another costly pass on the data we managed to avoid
-+	  copying.
-+
-+	  For more information, see
-+	  <file:Documentation/networking/ulp-ddp-offload.rst>.
-+
-+
- endif   # if NET
-diff --git a/net/core/Makefile b/net/core/Makefile
-index d9326600e289..767ed5186d4d 100644
---- a/net/core/Makefile
-+++ b/net/core/Makefile
-@@ -20,6 +20,7 @@ obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
- obj-y += net-sysfs.o
- obj-y += hotdata.o
- obj-y += netdev_rx_queue.o
-+obj-$(CONFIG_ULP_DDP) += ulp_ddp.o
- obj-$(CONFIG_PAGE_POOL) += page_pool.o page_pool_user.o
- obj-$(CONFIG_PROC_FS) += net-procfs.o
- obj-$(CONFIG_NET_PKTGEN) += pktgen.o
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index f12815f9c83d..ebf0583c6776 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -79,6 +79,7 @@
- #include <net/mctp.h>
- #include <net/page_pool/helpers.h>
- #include <net/dropreason.h>
-+#include <net/ulp_ddp.h>
- 
- #include <linux/uaccess.h>
- #include <trace/events/skb.h>
-@@ -6912,7 +6913,7 @@ void skb_condense(struct sk_buff *skb)
- {
- 	if (skb->data_len) {
- 		if (skb->data_len > skb->end - skb->tail ||
--		    skb_cloned(skb) || !skb_frags_readable(skb))
-+		    skb_cloned(skb) || !skb_frags_readable(skb) || skb_is_no_condense(skb))
- 			return;
- 
- 		/* Nice, we can free page frag(s) right now */
-diff --git a/net/core/ulp_ddp.c b/net/core/ulp_ddp.c
-new file mode 100644
-index 000000000000..f8ebd729e119
---- /dev/null
-+++ b/net/core/ulp_ddp.c
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *
-+ * ulp_ddp.c
-+ *   Author:	Aurelien Aptel <aaptel@nvidia.com>
-+ *   Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
-+ */
-+
-+#include <net/ulp_ddp.h>
-+
-+int ulp_ddp_sk_add(struct net_device *netdev,
-+		   netdevice_tracker *tracker,
-+		   gfp_t gfp,
-+		   struct sock *sk,
-+		   struct ulp_ddp_config *config,
-+		   const struct ulp_ddp_ulp_ops *ops)
-+{
-+	int ret;
-+
-+	/* put in ulp_ddp_sk_del() */
-+	netdev_hold(netdev, tracker, gfp);
-+
-+	ret = netdev->netdev_ops->ulp_ddp_ops->sk_add(netdev, sk, config);
-+	if (ret) {
-+		dev_put(netdev);
-+		return ret;
++	if (accel_tcp) {
++		refcount_inc(&accel_tcp->user_count);
++		return 0;
 +	}
 +
-+	inet_csk(sk)->icsk_ulp_ddp_ops = ops;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(ulp_ddp_sk_add);
-+
-+void ulp_ddp_sk_del(struct net_device *netdev,
-+		    netdevice_tracker *tracker,
-+		    struct sock *sk)
-+{
-+	netdev->netdev_ops->ulp_ddp_ops->sk_del(netdev, sk);
-+	inet_csk(sk)->icsk_ulp_ddp_ops = NULL;
-+	netdev_put(netdev, tracker);
-+}
-+EXPORT_SYMBOL_GPL(ulp_ddp_sk_del);
-+
-+bool ulp_ddp_is_cap_active(struct net_device *netdev, int cap_bit_nr)
-+{
-+	struct ulp_ddp_dev_caps caps;
-+
-+	if (!netdev->netdev_ops->ulp_ddp_ops)
-+		return false;
-+	netdev->netdev_ops->ulp_ddp_ops->get_caps(netdev, &caps);
-+	return test_bit(cap_bit_nr, caps.active);
-+}
-+EXPORT_SYMBOL_GPL(ulp_ddp_is_cap_active);
-diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index d22ad553b45b..4cb00c475df7 100644
---- a/net/ipv4/tcp_input.c
-+++ b/net/ipv4/tcp_input.c
-@@ -5482,6 +5482,8 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ 	accel_tcp = kzalloc(sizeof(*accel_tcp), GFP_KERNEL);
+ 	if (!accel_tcp)
+ 		return -ENOMEM;
+@@ -393,6 +402,7 @@ int mlx5e_accel_fs_tcp_create(struct mlx5e_flow_steering *fs)
+ 	if (err)
+ 		goto err_destroy_tables;
  
- 		memcpy(nskb->cb, skb->cb, sizeof(skb->cb));
- 		skb_copy_decrypted(nskb, skb);
-+		skb_copy_no_condense(nskb, skb);
-+		skb_copy_ulp_crc(nskb, skb);
- 		TCP_SKB_CB(nskb)->seq = TCP_SKB_CB(nskb)->end_seq = start;
- 		if (list)
- 			__skb_queue_before(list, skb, nskb);
-diff --git a/net/ipv4/tcp_offload.c b/net/ipv4/tcp_offload.c
-index 2308665b51c5..cc129af92296 100644
---- a/net/ipv4/tcp_offload.c
-+++ b/net/ipv4/tcp_offload.c
-@@ -346,6 +346,7 @@ struct sk_buff *tcp_gro_receive(struct list_head *head, struct sk_buff *skb,
++	refcount_set(&accel_tcp->user_count, 1);
+ 	return 0;
  
- 	flush |= (ntohl(th2->seq) + skb_gro_len(p)) ^ ntohl(th->seq);
- 	flush |= skb_cmp_decrypted(p, skb);
-+	flush |= skb_cmp_ulp_crc(p, skb);
- 
- 	if (unlikely(NAPI_GRO_CB(p)->is_flist)) {
- 		flush |= (__force int)(flags ^ tcp_flag_word(th2));
+ err_destroy_tables:
 -- 
 2.34.1
 
