@@ -4,60 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77CA5C282C6
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 18:48:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CFD6C282CD
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 20:03:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zA8qNblY8pt/GEGYu8CvsP0wmBr2ZcD4i21K+EPbjcI=; b=oC2vexXpcJQFVHXaVW2+mLS26O
-	wwaQf3RUMYWJvMkIcfIntFShPJF9tC0jo5SPSbHqXafFZRHhNJSWBqgy/IpmLRA1EjOPSDNDB6X0t
-	0Gsjo6OJxe6ci9wzvQliqGiMfkNso3VvrOpGBmNOzf6wp1XRfak3oIQdv3IcveKKLL/0lG5mplHo7
-	hrHYYzO7kxJQc/y/XN3zi7Wun4xN0kPLVgJFUIjrh/jhbyRAPEv7hUdmARozMmmwnLQg+PyI3AFhH
-	KpV/KexuwglwrtoUUMii125KJ4hOn1k1F3ragMRjV5tBL6j/evBDIZzN22U4MeoP+wkiwTMH+J3xE
-	Rb3p18mA==;
+	bh=NWA9gAHgAwnsmHFvcWkdQwCGusSCq4dXZmyW+Pamm/I=; b=X9OarBmIFgLlTwp/zWxcrrrUR3
+	9x82vFcLp1EZdU4tUHzhky3OWAqNtrjpyTQ68wyMhJAjaQ9+11SkdgEJwCpKVVLgzLYxkl6V9CqCP
+	ntVcNMVEoNWE6NgbKO7BLQeNI4BZmbOzsCTK676bKrO5FsfkUD+ESJ0/AIfR3tgtzKErclqDU6EnW
+	QTMUEmhPsGm0lDlfIBm0BZoSk3XuqMV9OIkLIATfA39y5ZHyHhZjmg1DyYOndZGkFQrExmPlvx7a/
+	BE1hRqMmzRfiKvVsLiwij0Zvc+dlAWy7f4MtOeGsb7BFOwTk7mn9pDRgu4jbwRxcG4JwQ2bEE2KO1
+	TAUUyy9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpApa-00000001yfh-0kz5;
-	Mon, 03 Mar 2025 18:47:58 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tpC0h-000000028lr-2Xxh;
+	Mon, 03 Mar 2025 20:03:31 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpApX-00000001ydU-2Msz
+	id 1tpC0e-000000028k6-3Zm4
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Mar 2025 18:47:56 +0000
+	Mon, 03 Mar 2025 20:03:29 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 781A05C5AD6;
-	Mon,  3 Mar 2025 18:45:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B247C4CED6;
-	Mon,  3 Mar 2025 18:47:51 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2F51F5C0A5A;
+	Mon,  3 Mar 2025 20:01:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57098C4CED6;
+	Mon,  3 Mar 2025 20:03:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741027672;
-	bh=zA8qNblY8pt/GEGYu8CvsP0wmBr2ZcD4i21K+EPbjcI=;
+	s=k20201202; t=1741032207;
+	bh=NWA9gAHgAwnsmHFvcWkdQwCGusSCq4dXZmyW+Pamm/I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UVqKo77FBTo04fMaV6/BtP7g4FkD9TIKFz1CltxFaAtl9zYG4xkV9u58yDHaFVB6g
-	 YVfQP2Yh7NPnALjp4q1nkYkO57jpYqSg1Bgs93iyZ7/n1Al9CaVilPPjLJlZCPmhFh
-	 Oa7F4+oq7GCqArmW77xVvg6g7L3quIOechauIvehef/5tuMQWIJYUKQeOoO4lskCuF
-	 2uSMlM1CyrPSy3hsk8MvG86Uhmybu+78Zv98Dxj3Zy/7a4a4nfUW+ragMy2pY9kEii
-	 fBNjTfXGueZOAVlb4rZgXQKPzF/evd6Uy1yOLCUDjGpPsueRuTI9b2+5UibyWmom9M
-	 AAFIFCrQfqNiw==
-Date: Mon, 3 Mar 2025 11:47:48 -0700
+	b=p7eAzevTb5xUNeNNvBV+ZQ3no02V8rnxF7wLZrDrLn37pWa5mtQXris2D7g8gdixB
+	 GbPgNxv5sikYhyA2qWJwdPi5ZQAsFbhgkq12Rw4ZgK9qHwzMcHX7TDYcc63JjPVnPW
+	 DYg1BBF67iWFewrIz05xbuqm0xH/U7/URMu367IeqpSEffsAtmg/+i5tcMEAk6QtyV
+	 LYFaT2ICdtDufCTK33ej18Sot3fbvSZyGo7Dc6WeSuwez+lSXojPg75pk6hZdRFyD6
+	 EMEIaywh0v1bcS1vFgl2JHry7lu0jXyqcFzA68PK76SHuP2jL6r57qrvfD54KxEouN
+	 8VdknqgzXAEnQ==
+Date: Mon, 3 Mar 2025 13:03:25 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Qasim Ijaz <qasdev00@gmail.com>
-Cc: james.smart@broadcom.com, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] nvme-fc: Utilise min3() to simplify queue count
- calculation
-Message-ID: <Z8X5VJgQ7yPfVTdd@kbusch-mbp>
-References: <20250213221622.81457-1-qasdev00@gmail.com>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH 0/6] nvme ioctl cleanups
+Message-ID: <Z8YLDYyqIS0wysng@kbusch-mbp.dhcp.thefacebook.com>
+References: <20250224182128.2042061-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213221622.81457-1-qasdev00@gmail.com>
+In-Reply-To: <20250224182128.2042061-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250303_104755_655116_04140D16 
-X-CRM114-Status: UNSURE (   8.40  )
+X-CRM114-CacheID: sfid-20250303_120328_946400_7CC9C512 
+X-CRM114-Status: UNSURE (   7.44  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -73,10 +71,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 13, 2025 at 10:16:22PM +0000, Qasim Ijaz wrote:
-> Refactor nvme_fc_create_io_queues() and nvme_fc_recreate_io_queues() to
-> use the min3() macro to find the minimum between 3 values instead of
-> multiple min()'s. This shortens the code and makes it easier to read.
+On Mon, Feb 24, 2025 at 10:21:22AM -0800, Keith Busch wrote:
+> Various non-functional changes in the nvme ioctl code organaization.
 
-Thanks, applied to nvem-6.15.
+Just fyi, I'm going to redo this series after the first nvme bits for
+6.15 are merged upstream. Rebasing to a tree after that will make it
+possible to avoid some minor merge conflicts.
 
