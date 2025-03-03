@@ -4,89 +4,163 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBF4AC282C5
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 07:48:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07079C282CD
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 09:54:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LbsbyNEYb54uhiNHNi0Sebz3O0VlglRg1DC7jpquZQY=; b=VB3BdesHCMn/nOBwsnORNcBIVc
-	0Y6WhXnIXehHP+yR7gNaa7IE1QbEFLzCEn/2T4qibOMUz2XSf72kR4WgVK0GY8OyoUd2NRoJHkqe+
-	0AV1CN+6903MJ7K3bGrdxgwFF/3xVBAXWIl+HvUPa10t6LS7lwGXt/kdHsbXweZS31zlW3TDUbBhh
-	lVJku88p+RmF8T2V5lp+DxyEAk1QEpUBwssvKI6CPMXzpZGBSSpX5NE64gBn/l5VWeNYXT9XSTjoa
-	DHPy75m0zIuj0FHjI9mWxO3bQiYPED3bZkM4HgC53Fj8AVglS7MfMtaFP4UZ91k3hEyNiiiFe0M8/
-	ErSkdfxg==;
+	bh=qkhd+EVRJIAOQYRyaOqYqW9we4kxEMFUkspbe9kcIlU=; b=XgNIaJMOzaRsidLFyLwFOjLHa8
+	rM+1K7xpLMPJEU+d38C2ZsIafzJ91Lbg7aQguHpo2y3LbDksW34PCqOnNw3wvHMCngZIb2IL//P8+
+	eHvnx8hZbszZ7/ZH5nVTeUG0Hbv1KMb9ya6VjgysAGyF1bEn8HYcyeupFuC11n3dAxWbWfmCckNyp
+	hNYKSoyXsAkCTcxHy8WmxNMght3wc7kU5JDPJ4DD8VsfTmCZ1L9DJPrT3h8+QDpyoiPCujvNRg4Th
+	6WBKcgC7hthZPsaBjRCgSMa5ecXDJbaMS3JtiM5jcO4ijdIHSidKsw3aH/xar6mzNDZlaG18E281x
+	KDWDVQDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp0XD-0000000HSJS-3WOY;
-	Mon, 03 Mar 2025 07:48:19 +0000
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+	id 1tp2VB-00000000DJT-1AKh;
+	Mon, 03 Mar 2025 09:54:21 +0000
+Received: from mail-dm6nam10on20612.outbound.protection.outlook.com ([2a01:111:f403:2413::612] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp0X7-0000000HSI7-1aLm
+	id 1tp2UV-00000000D7s-0nsf
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Mar 2025 07:48:14 +0000
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-abf6f3b836aso149768166b.3
-        for <linux-nvme@lists.infradead.org>; Sun, 02 Mar 2025 23:48:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1740988091; x=1741592891; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LbsbyNEYb54uhiNHNi0Sebz3O0VlglRg1DC7jpquZQY=;
-        b=Cwv/uyjqhmQUww4TONB2C/E2q3edrUfSQpGgCs43QC6sT8MBpfK32QacNZlcqTD6cm
-         M/ZsNIvfSpM0fXlRZMwdh4SXyd03lwT9FJT45q31vQK+7CMTCgp08oWiuU1bMHhX6plB
-         FXehTzKz5VpyZKMEdSAcUVP30TqiHDA7zy9Tg65e+UARZ4B6w6gEfw5eEuj17XZEq6Ap
-         IYKH2kH02rxfskv2i6QhUtVFCu7aMKqzyOknutad10l3cmPfJ//aGNDhZoz4gs86jhWz
-         jNCCSxiPP09fZcmjSLHQZm9oMg5+MfjL0IKxQ6DRi9+Cuad+w8DdIi1uqgA08kweqP9A
-         L98w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740988091; x=1741592891;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LbsbyNEYb54uhiNHNi0Sebz3O0VlglRg1DC7jpquZQY=;
-        b=L9erGbIXBNVNSoTuGtgF+TdOWOA1MCAVATFv+jr4K+8ySLHV739Jhr/nW8GR8VNRcS
-         zbwmVBZzPGm8ZClrZEfpIOk+1skWp7NoqLV6fFHYyUMYbATv39Wiq3m79ybCekULbx4l
-         QwFOEKnPVmImDEuB2XyHgO8kZfaZlPb0hC2iB5uwx31NC763+5RMQU5L9uMVVCN3t8UZ
-         BIjfE5rwQ2S2bK3oxkUykXl/H99BM0owgsqH4+DjFuRMNP9KveBR6CCNS05KALBY/sI9
-         dh2ciQSGgLOUet9aBALxBd4NHObfKB59bhyT3yQMsKNgOINB2sVQ9jeFI2/2p6cfVD3C
-         DtRg==
-X-Gm-Message-State: AOJu0YzEHRgY6lotMLzGlP/oVq9yt1AgYH4jW3PGqkF6P3dzIanQSU5Q
-	nTDxl6hePT1066sNddRiM8ZD40Lhj3jwmRzW3h1USknjD8bt9yoheZK7is1rH/o=
-X-Gm-Gg: ASbGncsOHs2QI7tivmIyRro1iqg4GkSWC2CsvCMCOJyPjWLT4GNchPnfKuNJj1Tdgpt
-	rGfWeR6uMzQlrqrDYZI+4XwYFNOLeXNWzucN+9JRy14K0EYtLLz8abA5s32tCybziEgs9tqYM3D
-	g01uiNP7saorE0DaD/x+tKCJWaMhQIsOR0oz0/zL6AGmXqB7gPzOmGC/2ihe8wF2xGVh0KL3S1k
-	4iUrf9oWenewKsoBuhMHvudlUB+Zo+mbwnIwQzJlAYfcnZKltB9WGSGtY55+JZ18N+Ld+sAAj2Q
-	wDxY0IeaER0ywNvF5f28DAe+tcOaW+t297HefWd42xSjvZdI5w0PV25pjaG61yB+trliJOiWVEd
-	W7stnUNeK8w==
-X-Google-Smtp-Source: AGHT+IEN/KOQRG0jauTgtDMQPughhXuUV7Aw/Cetq+l5sD6X4ZpwdEPLjPATdWfnaufKMmGcXq91gg==
-X-Received: by 2002:a17:907:3fa6:b0:abf:65c8:70e5 with SMTP id a640c23a62f3a-abf65c8922cmr655138066b.25.1740988090599;
-        Sun, 02 Mar 2025 23:48:10 -0800 (PST)
-Received: from [192.168.178.47] (aftr-82-135-83-43.dynamic.mnet-online.de. [82.135.83.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac1e6a5c13bsm5906866b.132.2025.03.02.23.48.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Mar 2025 23:48:10 -0800 (PST)
-Message-ID: <509dd4d3-85e9-40b2-a967-8c937909a1bf@suse.com>
-Date: Mon, 3 Mar 2025 08:48:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Kernel oops with 6.14 when enabling TLS
-From: Hannes Reinecke <hare@suse.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Matthew Wilcox <willy@infradead.org>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- linux-nvme@lists.infradead.org, linux-mm@kvack.org
-References: <08c29e4b-2f71-4b6d-8046-27e407214d8c@suse.com>
-Content-Language: en-US
-In-Reply-To: <08c29e4b-2f71-4b6d-8046-27e407214d8c@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+	Mon, 03 Mar 2025 09:53:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MCo9voG5AmgoTboLGPzpopv1WEhrpJBkMSs0EhYOCvrH0dgrjDo216ir/l0hJnYtEupK1srvcjkuPwdD9rmVkjBZ93oA6gNubC2rGGtWLKQOJXpV8s3paiOAPVTcYXFMZaysEEZBJ7Y0HOo9u4lKoDugtdj3RR7pWeKZTs8MS5IYdPuXX1DIxWQuYWyYzYlJlnABPo+7uh3rO630L/jvDIGMEHTKtZt/QxGYhnrumkQosQODhM64vP5vMF6yE4ZFIR3j94lfmYGPiOyIK3VTMfKjcZJ3XdnQyOUT+ainapirR6T0tLMlsDgoT+VLR2fx1A0xOaXiqC7op8T4ocMcAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qkhd+EVRJIAOQYRyaOqYqW9we4kxEMFUkspbe9kcIlU=;
+ b=HcjYNgam/yUv7qU7TUOuQ3ARH8xzIAqCrQ53Nnf3ZFrUFvsNZhHuxdMpw+6JVHRn3d9IQXYhnd5xSaieU2ioMlxkn2Co3S5DS7hjzZ4kZQoYqzMfsIVRoDnugudJqUCvEk3Nd5uMN5041ATAmMOkwwXz1uU2Ah2IjSLQ1jrLK+MReui6/RmnQsJaHXW/tyWdcDdoXsJ9U65CqRXHrn5wgRfEqAnm26qgyC0KuKkHzY4TC+Y/mPH9bJVb4xmYyeRgvs9RQE64SyYQh9Oe1IS3t9Y4k1q10UQS/VJyaupjempiT9yBcJg8xoQsvR/pOJ05GzdmIVzbznlEJo8t3+ISZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qkhd+EVRJIAOQYRyaOqYqW9we4kxEMFUkspbe9kcIlU=;
+ b=KXfEQKBXRAQG9aDDyJaN8B6nv7KQvLGcF4YJYj4ursSSUIut8OrjK/MFIRsytTvx2bxaUopx6Tgm6OeYUIsnAhiY1huNYSKEdVeQPGJX6bHYzZyEF4kyTQ2tyzF1z1pLVBU29crARZIPCEXGN8BMGU9eWOye3NtelGFK5xkvUoCEy/22B4KieMe9wQQ3yszj3BjmmpOScEnKCTQoLeepCEGheiOZp/HfM8y+4Un/1zUzjVULFzGxN7wJ8H4Ozm0WbxHsgcFWRnW+tUtqyx3h1vhXz0vSceXU7IL2ZhOTO0ePpgu7Nb1qmYh4jIRGwiHnmsNCjbKRjdCP5zCG7uph/g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
+ by CH3PR12MB8994.namprd12.prod.outlook.com (2603:10b6:610:171::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.25; Mon, 3 Mar
+ 2025 09:53:36 +0000
+Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
+ ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
+ ([fe80::7577:f32f:798c:87cc%5]) with mapi id 15.20.8489.025; Mon, 3 Mar 2025
+ 09:53:36 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org,
+	sagi@grimberg.me,
+	hch@lst.de,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	chaitanyak@nvidia.com,
+	davem@davemloft.net,
+	kuba@kernel.org
+Cc: Aurelien Aptel <aaptel@nvidia.com>,
+	aurelien.aptel@gmail.com,
+	smalin@nvidia.com,
+	malin1024@gmail.com,
+	ogerlitz@nvidia.com,
+	yorayz@nvidia.com,
+	borisp@nvidia.com,
+	galshalom@nvidia.com,
+	mgurtovoy@nvidia.com,
+	tariqt@nvidia.com,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	john.fastabend@gmail.com,
+	daniel@iogearbox.net
+Subject: [PATCH v27 04/20] net/tls,core: export get_netdev_for_sock
+Date: Mon,  3 Mar 2025 09:52:48 +0000
+Message-Id: <20250303095304.1534-5-aaptel@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250303095304.1534-1-aaptel@nvidia.com>
+References: <20250303095304.1534-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P123CA0041.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600::29)
+ To SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|CH3PR12MB8994:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5712e65b-11c9-4cc1-b202-08dd5a394483
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tvP9swqxi8s4+miayNK0XwkG569UMu43yqXMaFTK0QrO+BePwt1b0EPbARSE?=
+ =?us-ascii?Q?0e9TmQCiCPDXOI1UDRdQLd0TWpIdsrt5YkOzRC/9/Kq2VlQk52RaHMnk5p1c?=
+ =?us-ascii?Q?tQa56Z4N9+8rZYUf1bOmB3PRMxhGT5qpNGCparnIVMiMp28o9U0oIEQ5WpKS?=
+ =?us-ascii?Q?zj/HlyeYB2dOsDtiO+WRKgrGCX8t1a7+R7x22Rsi/C0q0rV8aTgQhKVh2Rvw?=
+ =?us-ascii?Q?A0svbvDuoS/o7+jacOxO1RzwS4kyNpMBY6CdAQrQfRpSl0iboMDFsk9gkEBS?=
+ =?us-ascii?Q?bwgayo3Uh35Hfb3vFuuCEzwJUdiHeG0fYUsruzwqfD2kuk0qdPuBPIz+UMPa?=
+ =?us-ascii?Q?Dowid7No+SBvlcYeNBVSMUoUaJmhWgNhPE65jeF5JKk/LZAq1Ybh17EKm0RB?=
+ =?us-ascii?Q?zgmnOvGqBSi0KpGulNJrivqIRvpGiohIx8vuAdzLRd556dRdjIQpkPv/4uPh?=
+ =?us-ascii?Q?I/6kEtKKGzwJQhAUCkPySVc4Sp81f8rsS6I01dS2HphIsF/cLfn3OMPHKJRj?=
+ =?us-ascii?Q?YssBIyu4CYrZfdEumBBdYXLxoMvZpd9dTMsV5YOX5//7A4jm+n8xPSLI9+lT?=
+ =?us-ascii?Q?3ibfsbNMjgjUIBNHzlxquBqhBy0/5kG8+TsmJuYKswph6GejUcWaSaR7AVkb?=
+ =?us-ascii?Q?ALGa0OwBZ0qYrNPAiY80V7BLNSsqEqmPr2WBQsvKhLHz1zjMfL7YzYYu/vxU?=
+ =?us-ascii?Q?alKyixtsKyx22QNwrr076ZzQwo9soE6Ef3AYbASWhIvygeGdyfImI3yeJ1Xg?=
+ =?us-ascii?Q?3QaFoi90nuHnv8dN7fjWehuvqd+0mydP7qWFxpLyN8EYDTqvYrSr0eXL8eKv?=
+ =?us-ascii?Q?hBIXVw98OqIxKFVradxd9Bx8ogJOFQNZOdlO6QvrIku6W/oSJYETDZNzUvQK?=
+ =?us-ascii?Q?XL7wkaTAN3o1oz/Jys9KUceBqY4J+YK907J8eu3qa+9YInEBI0GnafaUhTz+?=
+ =?us-ascii?Q?IfW1vxtHDyUjlk22TVM63l7cx6d157PplbF0Sw5aq2nwCV3iyNIw0/HQbDl8?=
+ =?us-ascii?Q?stWMqEXXXRuTnteokdgPeQzoofCaXS+qiDvie/eXCrb4O3nUpeCeSmltYzSa?=
+ =?us-ascii?Q?Mf6etKfp4m+wLt4HML1RlCGWjt3sByIQo9oIIpPj7txoxnG8QR9Zfgh4Haxk?=
+ =?us-ascii?Q?olWUvCFCqxI66nNOGe92AuLEEAGcvovSEALPWsdaKTtH1zEAoZ8KwVLLkk34?=
+ =?us-ascii?Q?fS7kSpR0NB8Cwmsgm6o5ZOEed3wrP0l8Cury9Db/2auxeOv2ka1T8TgUTR30?=
+ =?us-ascii?Q?saOVRAUao3z2evE2ZfWDo6m8/aIOwRFQ+MqttfBsXAeE8OdWITQMhqnLLb5F?=
+ =?us-ascii?Q?IDPGrOMG3oODboGIaKBlB9vrv8NEK3d243BEKRzlCOL/WlyA4zOfsw1/iYDN?=
+ =?us-ascii?Q?BDrA+/VGim/TfwnxuHTPwyqVB9zI?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?k6XyZL+uaqs+ANjfUIcxdmOnAVB6SX+J27gbRXKmMHoWKFKjkyQW5gnSWOTc?=
+ =?us-ascii?Q?ljkO8WktNrwUzsBQnxAd4nkjrw9m3BqixHC3Oeblq34EpQKEhRcJXtNBqAbm?=
+ =?us-ascii?Q?XbaN3gKQ9w4eT2MPodAV8qPf4sJ5C3yXec2m+6WKojl5rlN/EcN1SIw4NcoF?=
+ =?us-ascii?Q?v/MZ38vkOBInfQMWPzi8H5Ldrw6Cz+g6muIt3bQ9KavhM/ZDoAYV6SnSXXZN?=
+ =?us-ascii?Q?63cpVb6qfvn1SE7LWOWdEW1YhLeWPRCYCkiZ1tYnGBbgHI8CIaCQA6hBnSwX?=
+ =?us-ascii?Q?T/Al3VACQb5vGENamDUbgLA2HVGDdlUHuRw2S/0wgDbMyk+H6uPsgfizFJxJ?=
+ =?us-ascii?Q?J/kA+/4hJUvFfiQDH0GcTcooD5GP8Xpnk9NDKO+w+4su2C7bgV0qZz3zqKll?=
+ =?us-ascii?Q?hLyMpfRTPXyanx/dkEpWqE8BPf5tFgRncMOND7bYEwGP/6BvBKaxHWVQqB7C?=
+ =?us-ascii?Q?2a2Zar2px86jeWxQOuyTlilOacdqV8RV+WHqS9VNfs6bVZoXWniIdBLrh988?=
+ =?us-ascii?Q?pjR/F8uQ9SGIfqyPDGz9P3jcAd3ymTG+zd2XGC3SxxACt3ZMf52f78z8uKHF?=
+ =?us-ascii?Q?pe57FADrpR7KTL6FlWepjmzGQCJqBVDC64c8BfDAeJOdgwItFLAc5J4DLA2G?=
+ =?us-ascii?Q?7WJTmkuEiHwtUHS03PZhczcM3yKzTUouK+oXUAA28xarxddgrnw9xixzqtCe?=
+ =?us-ascii?Q?byd8kPy4BpBujzyOqoO7xvwEFpSB+/V/0QT3pippCBd2HNlR3QdgOJK1YtyT?=
+ =?us-ascii?Q?MgzvC3zRV12u4IW4vPiT6lYqnU27/Oppo7nYGQynXhANvYkTSpIBU7QXVkC3?=
+ =?us-ascii?Q?HK0Rs10kszzmaB193xMcEwejacXv/Z8TfjFjogd82ym/sMSLS3Q/CmDbsLf0?=
+ =?us-ascii?Q?87usPn9cAGpDLn2YcPyqmPGXYMqytst/s4txqAh/RrGCZYiQ296xVIYbOhgm?=
+ =?us-ascii?Q?sWDDE5yzR+a5aprkhnEAt+CIdBTFEetnBaW2cSCYI7Vqp6WCMJrT+dQNon21?=
+ =?us-ascii?Q?ofGGQoWKaEWoqAmQCJqll1jZlrG1Y6mJxdQVIUHL2WGMQPpNNw3vUxRf3c0w?=
+ =?us-ascii?Q?bIHAR5rxM5KTKRXN+n2HtnarYnF8dQSjyhAQM6mBUUOwYQmdChEZLgAqLQtq?=
+ =?us-ascii?Q?lvOX4iHZkYxXTFHoEGyHFp94cLKNN3vkaj0PdQFZC3WvGQRRRGNPKScc+BIX?=
+ =?us-ascii?Q?YfABSZiZwMXYszLvvTYvT9Vrd+PRcttizoxM1RkC52iFldycNJIx9Wy2PS4L?=
+ =?us-ascii?Q?pWK0g0ozYRGZzQ4tjxGSTlEuNVhq8pS+IvMTsSeM5YPS9zt0SrwNs6Jj5NrT?=
+ =?us-ascii?Q?khBmsnvA/WuhxeHo6mP+60VBydutcV2aavBEUQYvzhf+4NKUesm6sedJga4E?=
+ =?us-ascii?Q?9QBYarrcugSLHJLxN+mfBq3JO8ygqTAShk1ABqPZokZlI+HvqMEAkP+Vs/yi?=
+ =?us-ascii?Q?OoI+RXYeAOY46EzCR1KI5BUupaM/BnDKfG14ornv6ewAvoYwm18Bqfw2g2XX?=
+ =?us-ascii?Q?x/Wac4/M2GAkse6l5+zqvqDP8+91npA2wumw2lUHnLogMdt/f8k1kTzwAO90?=
+ =?us-ascii?Q?h5z+0FqXQupFpD8OYcOiLlFXtgEDZGZM/GrcIK+h?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5712e65b-11c9-4cc1-b202-08dd5a394483
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2025 09:53:36.6903
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W4on99ki6Sz4gIypzY76FyMNX6OkJOkF++VWcybsqy13k7455yIOxfRib/RJv+hXAejaEEFHuxoP4WlhToE1JQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8994
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250302_234813_419700_2E93946C 
-X-CRM114-Status: UNSURE (   8.81  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250303_015339_277030_429590F8 
+X-CRM114-Status: GOOD (  15.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,264 +175,192 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/28/25 11:47, Hannes Reinecke wrote:
-> Hi Sagi,
-> 
-> enabling TLS on latest linus tree reliably crashes my system:
-> 
-> [  487.018058] ------------[ cut here ]------------
-> [  487.024046] WARNING: CPU: 9 PID: 6159 at mm/slub.c:4719 
-> free_large_kmalloc+0x15/0xa0
-> [  487.033549] Modules linked in: tls(E) nvme_tcp(E) af_packet(E) 
-> iscsi_ibft(E) iscsi_boot_sysfs(E) amd_atl(E) intel_rapl_msr(E) 
-> intel_rapl_common(E) amd64_edac(E) edac_mce_amd(E) nls_iso8859_1(E) 
-> nls_cp437(E) dax_hmem(E) vfat(E) cxl_acpi(E) fat(E) kvm_amd(E) 
-> ipmi_ssif(E) cxl_port(E) xfs(E) tg3(E) cxl_core(E) ipmi_si(E) i40e(E) 
-> kvm(E) einj(E) wmi_bmof(E) acpi_cpufreq(E) ipmi_devintf(E) libphy(E) 
-> k10temp(E) libie(E) i2c_piix4(E) i2c_smbus(E) ipmi_msghandler(E) 
-> i2c_designware_platform(E) i2c_designware_core(E) button(E) 
-> nvme_fabrics(E) nvme_keyring(E) fuse(E) efi_pstore(E) configfs(E) 
-> dmi_sysfs(E) ip_tables(E) x_tables(E) ahci(E) libahci(E) 
-> ghash_clmulni_intel(E) libata(E) sha512_ssse3(E) sd_mod(E) 
-> sha256_ssse3(E) ast(E) sha1_ssse3(E) drm_client_lib(E) scsi_dh_emc(E) 
-> i2c_algo_bit(E) aesni_intel(E) drm_shmem_helper(E) scsi_dh_rdac(E) 
-> crypto_simd(E) cryptd(E) xhci_pci(E) drm_kms_helper(E) scsi_dh_alua(E) 
-> nvme(E) sg(E) xhci_hcd(E) nvme_core(E) scsi_mod(E) drm(E) nvme_auth(E) 
-> scsi_common(E) usbcore(E) sp5100_tco(E) ccp(E)
-> [  487.033696]  wmi(E) btrfs(E) blake2b_generic(E) xor(E) raid6_pq(E) 
-> efivarfs(E)
-> [  487.033707] CPU: 9 UID: 0 PID: 6159 Comm: nvme Kdump: loaded Tainted: 
-> G        W   E      6.14.0-rc4-default+ #292 
-> f1e35f01b401c038558e67f3c2d644747de50dbd
-> [  487.033713] Tainted: [W]=WARN, [E]=UNSIGNED_MODULE
-> [  487.033715] Hardware name: Lenovo ThinkSystem SR655V3/SB27B09914, 
-> BIOS KAE111E-2.10 04/11/2023
-> [  487.033717] RIP: 0010:free_large_kmalloc+0x15/0xa0
-> [  487.033722] Code: 80 00 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 
-> 90 90 90 90 0f 1f 44 00 00 55 53 48 89 fb 48 83 ec 08 48 8b 07 a8 40 75 
-> 4b <0f> 0b 80 3d 24 4e 8e 01 00 ba 00 f0 ff ff 74 5d 9c 58 0f 1f 40 00
-> [  487.205280] RSP: 0018:ff4de44e432a7b70 EFLAGS: 00010246
-> [  487.205284] RAX: 000fffffc0000000 RBX: ffd659b280210b80 RCX: 
-> ff42118489e0cd80
-> [  487.205286] RDX: 0000000000000000 RSI: ff4211848842e000 RDI: 
-> ffd659b280210b80
-> [  487.205288] RBP: ff4de44e432a7be0 R08: 0000000000000001 R09: 
-> 0000000000000002
-> [  487.205289] R10: ff4de44e432a7c00 R11: 0000000000000104 R12: 
-> ffd659b280210b80
-> [  487.205291] R13: ff4211848842e000 R14: ff421186d0696520 R15: 
-> ff421186e19c4000
-> [  487.205292] FS:  00007f66b8ffd800(0000) GS:ff4211874d980000(0000) 
-> knlGS:0000000000000000
-> [  487.205294] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  487.205296] CR2: 00007f66b9150d7e CR3: 0000000281a5e005 CR4: 
-> 0000000000771ef0
-> [  487.205298] PKRU: 55555554
-> [  487.205306] Call Trace:
-> [  487.205309]  <TASK>
-> [  487.205314]  ? __warn+0x85/0x130
-> [  487.296763]  ? free_large_kmalloc+0x15/0xa0
-> [  487.296772]  ? report_bug+0xf8/0x1e0
-> [  487.296779]  ? handle_bug+0x50/0xa0
-> [  487.296783]  ? exc_invalid_op+0x13/0x60
-> [  487.296786]  ? asm_exc_invalid_op+0x16/0x20
-> [  487.296796]  ? free_large_kmalloc+0x15/0xa0
-> [  487.296801]  kfree+0x234/0x320
-> [  487.332065]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  487.332075]  ? nvmf_connect_admin_queue+0x105/0x1a0 [nvme_fabrics 
-> 34d997d53c805aa2fae8e8baee6a736e8da38358]
-> [  487.332081]  ? nvmf_connect_admin_queue+0xa1/0x1a0 [nvme_fabrics 
-> 34d997d53c805aa2fae8e8baee6a736e8da38358]
-> [  487.332084]  nvmf_connect_admin_queue+0x105/0x1a0 [nvme_fabrics 
-> 34d997d53c805aa2fae8e8baee6a736e8da38358]
-> [  487.332093]  nvme_tcp_start_queue+0x18f/0x310 [nvme_tcp 
-> 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
-> [  487.332102]  nvme_tcp_setup_ctrl+0xf8/0x700 [nvme_tcp 
-> 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
-> [  487.394479]  ? nvme_change_ctrl_state+0x99/0x1b0 [nvme_core 
-> 22f0ce18ead628230226a9b87ebf48eb576bf299]
-> [  487.394495]  nvme_tcp_create_ctrl+0x2e3/0x4d0 [nvme_tcp 
-> 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
-> [  487.394503]  nvmf_dev_write+0x323/0x3d0 [nvme_fabrics 
-> 34d997d53c805aa2fae8e8baee6a736e8da38358]
-> [  487.394508]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  487.394514]  vfs_write+0xd9/0x430
-> [  487.394521]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  487.394523]  ? __handle_mm_fault+0x7da/0xca0
-> [  487.394531]  ksys_write+0x68/0xe0
-> [  487.394536]  do_syscall_64+0x74/0x160
-> [  487.394543]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  487.394545]  ? __count_memcg_events+0x98/0x130
-> [  487.394550]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  487.476947]  ? count_memcg_events.constprop.163+0x1a/0x30
-> [  487.476956]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  487.476960]  ? handle_mm_fault+0xa1/0x290
-> [  487.476966]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  487.476968]  ? do_user_addr_fault+0x56b/0x830
-> [  487.476975]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  487.476977]  ? exc_page_fault+0x68/0x150
-> [  487.476983]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [  487.476989] RIP: 0033:0x7f66b91216f0
-> [  487.476994] Code: 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 
-> 90 90 90 90 90 90 90 90 90 80 3d 19 c3 0e 00 00 74 17 b8 01 00 00 00 0f 
-> 05 <48> 3d 00 f0 ff ff 77 58 c3 0f 1f 80 00 00 00 00 48 83 ec 28 48 89
-> [  487.551619] RSP: 002b:00007ffef5393ed8 EFLAGS: 00000202 ORIG_RAX: 
-> 0000000000000001
-> [  487.551623] RAX: ffffffffffffffda RBX: 000055e61c2113b0 RCX: 
-> 00007f66b91216f0
-> [  487.551625] RDX: 00000000000000ed RSI: 000055e61c2113b0 RDI: 
-> 0000000000000003
-> [  487.551627] RBP: 0000000000000003 R08: 00000000000000ed R09: 
-> 000055e61c2113b0
-> [  487.551628] R10: 0000000000000000 R11: 0000000000000202 R12: 
-> 00000000000000ed
-> [  487.551630] R13: 00007f66b9380008 R14: 000055e61c20a980 R15: 
-> 000055e61c20b100
-> [  487.551637]  </TASK>
-> [  487.551639] ---[ end trace 0000000000000000 ]---
-> [  487.551642] object pointer: 0x00000000346cb6fc
-> [  487.554112] nvme nvme1: creating 32 I/O queues.
-> [  489.396262] nvme nvme1: mapped 32/0/0 default/read/poll queues.
-> [  489.405197] Oops: general protection fault, probably for non- 
-> canonical address 0xdead000000000100: 0000 [#1] PREEMPT SMP NOPTI
-> [  489.418790] CPU: 9 UID: 0 PID: 6159 Comm: nvme Kdump: loaded Tainted: 
-> G        W   E      6.14.0-rc4-default+ #292 
-> f1e35f01b401c038558e67f3c2d644747de50dbd
-> [  489.435212] Tainted: [W]=WARN, [E]=UNSIGNED_MODULE
-> [  489.441381] Hardware name: Lenovo ThinkSystem SR655V3/SB27B09914, 
-> BIOS KAE111E-2.10 04/11/2023
-> [  489.451841] RIP: 0010:__rmqueue_pcplist+0xe1/0xc80
-> [  489.458016] Code: 06 48 83 e8 08 48 89 44 24 70 48 8b 45 00 48 39 c5 
-> 0f 84 72 01 00 00 48 8b 55 00 48 8b 32 48 8b 4a 08 48 8d 42 f8 48 89 4e 
-> 08 <48> 89 31 48 b9 00 01 00 00 00 00 ad de 48 89 0a 48 8b 4c 24 20 48
-> [  489.479905] RSP: 0018:ff4de44e432a7688 EFLAGS: 00010293
-> [  489.486567] RAX: ffd659b280210a00 RBX: ff4211874d9bf400 RCX: 
-> dead000000000100
-> [  489.495370] RDX: ffd659b280210a08 RSI: ffd659b281ed7e08 RDI: 
-> ff421184fffd60c0
-> [  489.504174] RBP: ff4211874d9bf4b0 R08: ff4211874d9bf400 R09: 
-> ff4211874d9bf4b0
-> [  489.512976] R10: 0000000000002acd R11: 0000000000000002 R12: 
-> 0000000000000003
-> [  489.521779] R13: 0000000000000003 R14: 0000000000252800 R15: 
-> ff421184fffd60c0
-> [  489.530584] FS:  00007f66b8ffd800(0000) GS:ff4211874d980000(0000) 
-> knlGS:0000000000000000
-> [  489.540460] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  489.547700] CR2: 00007f66b9150d7e CR3: 0000000281a5e005 CR4: 
-> 0000000000771ef0
-> [  489.556502] PKRU: 55555554
-> [  489.560337] Call Trace:
-> [  489.563876]  <TASK>
-> [  489.567022]  ? __die_body+0x1a/0x60
-> [  489.571728]  ? die_addr+0x38/0x60
-> [  489.576241]  ? exc_general_protection+0x19e/0x430
-> [  489.582325]  ? asm_exc_general_protection+0x22/0x30
-> [  489.588603]  ? __rmqueue_pcplist+0xe1/0xc80
-> [  489.594092]  ? __rmqueue_pcplist+0x51b/0xc80
-> [  489.599687]  get_page_from_freelist+0xe10/0x1680
-> [  489.605675]  __alloc_frozen_pages_noprof+0x171/0x340
-> [  489.612048]  new_slab+0x90/0x4d0
-> [  489.616466]  ___slab_alloc+0x6f3/0xb20
-> [  489.621469]  ? sbitmap_init_node+0x77/0x1a0
-> [  489.626961]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.633134]  ? _get_random_bytes.part.18+0x90/0x120
-> [  489.639409]  ? __slab_alloc.isra.98+0x22/0x40
-> [  489.645101]  __slab_alloc.isra.98+0x22/0x40
-> [  489.650597]  __kmalloc_node_noprof+0x218/0x510
-> [  489.656380]  ? sbitmap_init_node+0x77/0x1a0
-> [  489.661874]  ? sbitmap_init_node+0x77/0x1a0
-> [  489.667362]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.673534]  sbitmap_init_node+0x77/0x1a0
-> [  489.678830]  sbitmap_queue_init_node+0x24/0x150
-> [  489.684709]  blk_mq_init_tags+0x7e/0x110
-> [  489.689915]  blk_mq_alloc_map_and_rqs+0x44/0x320
-> [  489.695898]  __blk_mq_alloc_map_and_rqs+0x3b/0x60
-> [  489.701973]  blk_mq_alloc_tag_set+0x1f1/0x380
-> [  489.707662]  nvme_alloc_io_tag_set+0xc2/0x1a0 [nvme_core 
-> 22f0ce18ead628230226a9b87ebf48eb576bf299]
-> [  489.718534]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.724707]  ? nvme_tcp_alloc_queue+0x293/0x7b0 [nvme_tcp 
-> 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
-> [  489.735676]  ? __pfx_nvme_tcp_tls_done+0x10/0x10 [nvme_tcp 
-> 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
-> [  489.746737]  nvme_tcp_setup_ctrl+0x3ee/0x700 [nvme_tcp 
-> 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
-> [  489.757401]  nvme_tcp_create_ctrl+0x2e3/0x4d0 [nvme_tcp 
-> 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
-> [  489.768165]  nvmf_dev_write+0x323/0x3d0 [nvme_fabrics 
-> 34d997d53c805aa2fae8e8baee6a736e8da38358]
-> [  489.778732]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.784906]  vfs_write+0xd9/0x430
-> [  489.789422]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.795591]  ? __handle_mm_fault+0x7da/0xca0
-> [  489.801183]  ksys_write+0x68/0xe0
-> [  489.805700]  do_syscall_64+0x74/0x160
-> [  489.810616]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.816794]  ? __count_memcg_events+0x98/0x130
-> [  489.822580]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.828750]  ? count_memcg_events.constprop.163+0x1a/0x30
-> [  489.835606]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.841777]  ? handle_mm_fault+0xa1/0x290
-> [  489.847070]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.853241]  ? do_user_addr_fault+0x56b/0x830
-> [  489.858928]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [  489.865101]  ? exc_page_fault+0x68/0x150
-> [  489.870302]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [  489.876769] RIP: 0033:0x7f66b91216f0
-> [  489.881573] Code: 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 
-> 90 90 90 90 90 90 90 90 90 80 3d 19 c3 0e 00 00 74 17 b8 01 00 00 00 0f 
-> 05 <48> 3d 00 f0 ff ff 77 58 c3 0f 1f 80 00 00 00 00 48 83 ec 28 48 89
-> [  489.903462] RSP: 002b:00007ffef5393ed8 EFLAGS: 00000202 ORIG_RAX: 
-> 0000000000000001
-> [  489.912761] RAX: ffffffffffffffda RBX: 000055e61c2113b0 RCX: 
-> 00007f66b91216f0
-> [  489.921564] RDX: 00000000000000ed RSI: 000055e61c2113b0 RDI: 
-> 0000000000000003
-> [  489.930366] RBP: 0000000000000003 R08: 00000000000000ed R09: 
-> 000055e61c2113b0
-> [  489.939169] R10: 0000000000000000 R11: 0000000000000202 R12: 
-> 00000000000000ed
-> [  489.947970] R13: 00007f66b9380008 R14: 000055e61c20a980 R15: 
-> 000055e61c20b100
-> [  489.956783]  </TASK>
-> [  489.960024] Modules linked in: tls(E) nvme_tcp(E) af_packet(E) 
-> iscsi_ibft(E) iscsi_boot_sysfs(E) amd_atl(E) intel_rapl_msr(E) 
-> intel_rapl_common(E) amd64_edac(E) edac_mce_amd(E) nls_iso8859_1(E) 
-> nls_cp437(E) dax_hmem(E) vfat(E) cxl_acpi(E) fat(E) kvm_amd(E) 
-> ipmi_ssif(E) cxl_port(E) xfs(E) tg3(E) cxl_core(E) ipmi_si(E) i40e(E) 
-> kvm(E) einj(E) wmi_bmof(E) acpi_cpufreq(E) ipmi_devintf(E) libphy(E) 
-> k10temp(E) libie(E) i2c_piix4(E) i2c_smbus(E) ipmi_msghandler(E) 
-> i2c_designware_platform(E) i2c_designware_core(E) button(E) 
-> nvme_fabrics(E) nvme_keyring(E) fuse(E) efi_pstore(E) configfs(E) 
-> dmi_sysfs(E) ip_tables(E) x_tables(E) ahci(E) libahci(E) 
-> ghash_clmulni_intel(E) libata(E) sha512_ssse3(E) sd_mod(E) 
-> sha256_ssse3(E) ast(E) sha1_ssse3(E) drm_client_lib(E) scsi_dh_emc(E) 
-> i2c_algo_bit(E) aesni_intel(E) drm_shmem_helper(E) scsi_dh_rdac(E) 
-> crypto_simd(E) cryptd(E) xhci_pci(E) drm_kms_helper(E) scsi_dh_alua(E) 
-> nvme(E) sg(E) xhci_hcd(E) nvme_core(E) scsi_mod(E) drm(E) nvme_auth(E) 
-> scsi_common(E) usbcore(E) sp5100_tco(E) ccp(E)
-> [  489.960207]  wmi(E) btrfs(E) blake2b_generic(E) xor(E) raid6_pq(E) 
-> efivarfs(E)
-> 
-> Haven't found a culprit for that one for now, started bisecting.
-> Just wanted to report that as a heads-up, maybe you have some idea.
-> 
+* remove netdev_sk_get_lowest_dev() from net/core
+* move get_netdev_for_sock() from net/tls to net/core
+* update existing users in net/tls/tls_device.c
 
-bisect is pointing to
-9aec2fb0fd5e ("slab: allocate frozen pages")
-and, indeed, reverting this patch on top of linus current resolves
-the issue.
+get_netdev_for_sock() is a utility that is used to obtain
+the net_device structure from a connected socket.
 
-Sorry Matthew.
+Later patches will use this for nvme-tcp DDP and DDP DDGST offloads.
 
-Cheers,
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
+Signed-off-by: Shai Malin <smalin@nvidia.com>
+Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ include/linux/netdevice.h |  5 +++--
+ net/core/dev.c            | 32 ++++++++++++++++++++------------
+ net/tls/tls_device.c      | 31 +++++++++----------------------
+ 3 files changed, 32 insertions(+), 36 deletions(-)
 
-Hannes
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index ceba93aeed5a..ae98cd7b33c7 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -3378,8 +3378,9 @@ void free_netdev(struct net_device *dev);
+ struct net_device *netdev_get_xmit_slave(struct net_device *dev,
+ 					 struct sk_buff *skb,
+ 					 bool all_slaves);
+-struct net_device *netdev_sk_get_lowest_dev(struct net_device *dev,
+-					    struct sock *sk);
++struct net_device *get_netdev_for_sock(struct sock *sk,
++				       netdevice_tracker *tracker,
++				       gfp_t gfp);
+ struct net_device *dev_get_by_index(struct net *net, int ifindex);
+ struct net_device *__dev_get_by_index(struct net *net, int ifindex);
+ struct net_device *netdev_get_by_index(struct net *net, int ifindex,
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 2dd9e6f490e6..1c9497e5c7be 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -9018,27 +9018,35 @@ static struct net_device *netdev_sk_get_lower_dev(struct net_device *dev,
+ }
+ 
+ /**
+- * netdev_sk_get_lowest_dev - Get the lowest device in chain given device and socket
+- * @dev: device
++ * get_netdev_for_sock - Get the lowest device in socket
+  * @sk: the socket
++ * @tracker: tracking object for the acquired reference
++ * @gfp: allocation flags for the tracker
+  *
+- * %NULL is returned if no lower device is found.
++ * Assumes that the socket is already connected.
++ * Returns the lower device or %NULL if no lower device is found.
+  */
+-
+-struct net_device *netdev_sk_get_lowest_dev(struct net_device *dev,
+-					    struct sock *sk)
++struct net_device *get_netdev_for_sock(struct sock *sk,
++				       netdevice_tracker *tracker,
++				       gfp_t gfp)
+ {
+-	struct net_device *lower;
++	struct dst_entry *dst = sk_dst_get(sk);
++	struct net_device *dev, *lower;
+ 
+-	lower = netdev_sk_get_lower_dev(dev, sk);
+-	while (lower) {
++	if (unlikely(!dst))
++		return NULL;
++
++	dev = dst->dev;
++	while ((lower = netdev_sk_get_lower_dev(dev, sk)))
+ 		dev = lower;
+-		lower = netdev_sk_get_lower_dev(dev, sk);
+-	}
++	if (is_vlan_dev(dev))
++		dev = vlan_dev_real_dev(dev);
+ 
++	netdev_hold(dev, tracker, gfp);
++	dst_release(dst);
+ 	return dev;
+ }
+-EXPORT_SYMBOL(netdev_sk_get_lowest_dev);
++EXPORT_SYMBOL_GPL(get_netdev_for_sock);
+ 
+ static void netdev_adjacent_add_links(struct net_device *dev)
+ {
+diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+index e50b6e71df13..1a5c348a2991 100644
+--- a/net/tls/tls_device.c
++++ b/net/tls/tls_device.c
+@@ -120,22 +120,6 @@ static void tls_device_queue_ctx_destruction(struct tls_context *ctx)
+ 		tls_device_free_ctx(ctx);
+ }
+ 
+-/* We assume that the socket is already connected */
+-static struct net_device *get_netdev_for_sock(struct sock *sk)
+-{
+-	struct dst_entry *dst = sk_dst_get(sk);
+-	struct net_device *netdev = NULL;
+-
+-	if (likely(dst)) {
+-		netdev = netdev_sk_get_lowest_dev(dst->dev, sk);
+-		dev_hold(netdev);
+-	}
+-
+-	dst_release(dst);
+-
+-	return netdev;
+-}
+-
+ static void destroy_record(struct tls_record_info *record)
+ {
+ 	int i;
+@@ -1060,6 +1044,7 @@ int tls_set_device_offload(struct sock *sk)
+ 	struct tls_offload_context_tx *offload_ctx;
+ 	const struct tls_cipher_desc *cipher_desc;
+ 	struct tls_crypto_info *crypto_info;
++	netdevice_tracker netdev_tracker;
+ 	struct tls_prot_info *prot;
+ 	struct net_device *netdev;
+ 	struct tls_context *ctx;
+@@ -1072,7 +1057,7 @@ int tls_set_device_offload(struct sock *sk)
+ 	if (ctx->priv_ctx_tx)
+ 		return -EEXIST;
+ 
+-	netdev = get_netdev_for_sock(sk);
++	netdev = get_netdev_for_sock(sk, &netdev_tracker, GFP_KERNEL);
+ 	if (!netdev) {
+ 		pr_err_ratelimited("%s: netdev not found\n", __func__);
+ 		return -EINVAL;
+@@ -1166,7 +1151,7 @@ int tls_set_device_offload(struct sock *sk)
+ 	 * by the netdev's xmit function.
+ 	 */
+ 	smp_store_release(&sk->sk_validate_xmit_skb, tls_validate_xmit_skb);
+-	dev_put(netdev);
++	netdev_put(netdev, &netdev_tracker);
+ 
+ 	return 0;
+ 
+@@ -1180,7 +1165,7 @@ int tls_set_device_offload(struct sock *sk)
+ free_marker_record:
+ 	kfree(start_marker_record);
+ release_netdev:
+-	dev_put(netdev);
++	netdev_put(netdev, &netdev_tracker);
+ 	return rc;
+ }
+ 
+@@ -1188,13 +1173,15 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
+ {
+ 	struct tls12_crypto_info_aes_gcm_128 *info;
+ 	struct tls_offload_context_rx *context;
++	netdevice_tracker netdev_tracker;
+ 	struct net_device *netdev;
++
+ 	int rc = 0;
+ 
+ 	if (ctx->crypto_recv.info.version != TLS_1_2_VERSION)
+ 		return -EOPNOTSUPP;
+ 
+-	netdev = get_netdev_for_sock(sk);
++	netdev = get_netdev_for_sock(sk, &netdev_tracker, GFP_KERNEL);
+ 	if (!netdev) {
+ 		pr_err_ratelimited("%s: netdev not found\n", __func__);
+ 		return -EINVAL;
+@@ -1243,7 +1230,7 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
+ 	tls_device_attach(ctx, sk, netdev);
+ 	up_read(&device_offload_lock);
+ 
+-	dev_put(netdev);
++	netdev_put(netdev, &netdev_tracker);
+ 
+ 	return 0;
+ 
+@@ -1256,7 +1243,7 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
+ release_lock:
+ 	up_read(&device_offload_lock);
+ release_netdev:
+-	dev_put(netdev);
++	netdev_put(netdev, &netdev_tracker);
+ 	return rc;
+ }
+ 
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.com                               +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.34.1
 
 
