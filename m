@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C1BAC282C5
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 09:54:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40E57C282D0
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 09:54:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MWsA/urTyd1064o+wp7N/kBCgk6oBc/ikBXe0D5SpcM=; b=d5A/iwmaIzCHO8GagqCmaBoRy/
-	ZB7SiQj965jdqoVoM+cxoqcY/iOVUaaGmerOxyzGwls5EzPITYqyvLxpDeLaCdIIdN/3p0oR4glUF
-	ze6SZgvFAZTK5Dg65ovcHwgmxI+KfIRJMaREcApkkQ5VAQeiSa2b+dQ/jcCnZITSuoff3tqPRhcPo
-	xxy1yD8c7eBx+A/dxy8PNIdDemCBa1wZ6MIwlnD1TOiZvkl70nTHSJ1ZQyh/0RzUuCoAwABNzsKip
-	4PTlv6l/Sgeocy8NGLhk7MsqkYj4ZAA58zUJvjv61WZnmbANDjmcRuOMQOklLmM0kxSx/awzJoCI3
-	VlOkCYHA==;
+	bh=mB4ZqVADYwmoooI46OVXo5ISIlo6f2T7ljtMKnXChpk=; b=GAS0eY8Ue3HRrZVrVilrB8fpJn
+	nYki0XyGcIS7pYjQvFph9qUJAGUdct1SmarYycGp0h4xPgK/5xY5NRMFf/2Rvzt4aWk4H8BWpS45I
+	HxeBrGHcnhmRMZN3A1KQNhcE3haDpof6WwCsRLdWztJRATMcpDHFaeLf2Oq/KCwkNadutb5rR1B/8
+	kA2tZ6AhnkKNhnLVyoOoi+GBw3X2168xPlJWyVqFX17uw/JafT8TXEIfWFqA+MayBVi5sLgYj9c5x
+	NIUra/N/Zfn5CZ7FzNfod73Fy75tOo+NAI+0NIUQ2keqIm243O4YNbfwbtolmS16MOSY/gAr5DyGY
+	4KWtGeYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp2VO-00000000Dc8-2cLk;
-	Mon, 03 Mar 2025 09:54:34 +0000
-Received: from mail-sn1nam02on2062d.outbound.protection.outlook.com ([2a01:111:f403:2406::62d] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+	id 1tp2VA-00000000DIX-2J0y;
+	Mon, 03 Mar 2025 09:54:20 +0000
+Received: from mail-dm6nam10on2062d.outbound.protection.outlook.com ([2a01:111:f403:2413::62d] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp2V7-00000000DG6-2ttP
+	id 1tp2US-00000000D6W-0mCa
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Mar 2025 09:54:18 +0000
+	Mon, 03 Mar 2025 09:53:37 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p3mKRhen9zDkhlp8rDdrkS2aER9TfcepgLoEVzgLfZisQqleZYobKx0MOPjjUlaC5SbmxcXovUSPQTXizMzWe558/Wsx6YmA7GsAuPomWUrViBwmoPlkDIgLCRCsAUP5QV4ugLfoDbv1fTR2wYMYHbfcscvwNtGamZQIkQZS6QY4sj/lvvkxAX/cp8y9EzaH/Rjyc8c0xGjC5Go1HoPrCWy3GWjiUnloLHbT4emqoDExNgLX3Z8rT+22AE83KSP7zo4a2c8nf0j99R85tDX52lE6/Fn+F8cXl7k+pX8wpi4euMZQqEHPcpzSOQvhNy7IHl5dLWpl25nDIVMxe9pBSA==
+ b=SR+l8Rdy200Skh34ELTKkZzBXrrpg7IUfa6UCEn5kegDHaNKYZ4ct+xmmBg8ys/wfJSZk3TDbTqfJ0XWXI8mAQntp8ErJiO8QAMfeGtTaosXfMsoRNzGSwVpZB2LgRO7eFnWOGj9gz6DI9l9swdY5cHNblYv++PmOKJ/UlgRwM2rLiKkmx2E+z2VQucz8vAvcfLZw1NcyrbKcwGPrPs+XmuIxdNmO9E8lB1SQIOWOoW0XSCaGMEx1rWPw0Bsup/VEWdDju5nfl9yACUre2qiJzmRWIgZfvcFcm/0JDyiK7gGFl6Su+aD2XIMK+7V4xCEy6GRJA0zXT8PFbnsd/ZHzg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MWsA/urTyd1064o+wp7N/kBCgk6oBc/ikBXe0D5SpcM=;
- b=Kgtv5VHQvkLOMEpX8eWW7NNb2Eg0M6KB3VoRYSDFN82Lc2Wqbtgwn4kGXvxpKnay5elP4qYmPcMm/O4o3yh0CEkPMCIiLmJAN9M6NAI1sFQxkberCSm5dv+bw0abvwGqVW+i0P9mX4eOkXaZa7bKohQPohFyVfBOe1cO5+1f34yuWasP3byNjCFKEum9W/JVdludDTPcktN/KwRcJvmPB3YqgYNhHcwKgbzoHS5Sa55Ase02n8z3tVWnUsEOtlSCT+KJLnKLcDv7PsgEtlOs7Z2ZKzcw+BaC5M8rDTMvGaDdkVFRwIyDdwHcpvLvB03IW75a1DxvcDA2pJ+LfB2iWQ==
+ bh=mB4ZqVADYwmoooI46OVXo5ISIlo6f2T7ljtMKnXChpk=;
+ b=NkS4AGTOtjOpcbv1fNhuVk3snQIed1qpXZ9bWn0lZIqpHZS+SWFW+060l7UGamGODRRzhkNGT1RaKs3/SVrgU7VPASknaRaULokCnC2AbsxoCqYELeWdDK6CSZEtKKxY6k+rvFt0QN2rQwRQRVit3NULn5EM2em4m+PSHphw7ZXpIDRG4DzfrIotOJjjHIBNYEWXxevw7tnvWEqTOmIAZzd+V6JsWM2dDJmpAxJAXh/K4QiFsPe5XsaEABAgUK+eEgOuMZx4lgujmJGS3kxSxEYZ51UndxyaGD3BFN4H5YbUEjmrXuL9ZTGs0sXcWj7qOpBdwakWQtUWy8EW0Q23CQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MWsA/urTyd1064o+wp7N/kBCgk6oBc/ikBXe0D5SpcM=;
- b=Bxb/j3pr5Eui34BfjUhFaF+wU+NcYbGhnNJ2iLBQXhUq01sBM9suRk15aY15CwZXqnJs1euOJP/+i8e/FXRZMyhY3lj0S5YVRLIklbT7U9skI3X5mCpfYVWlJ4ll6v/ZkPan16zleqVP2Ix+Mg2q7F1ajcXF7tApxJ19Uk5PNPrU0qltk6vT2e2h5MMqlXXfolj/0EHFF/LriVkFPGww9hQCpKdXbkcdPGKQk67wHYpljJ46qZIG6eVWLc7Nf6dC/LCi5its5ER8iEj0CIFU+Rm74+sgB82o+MxmJVrjx1JNHfg7Rc7rWi9H+kRdP3RRlySZkoMKSFDRr1fPpM7ZNA==
+ bh=mB4ZqVADYwmoooI46OVXo5ISIlo6f2T7ljtMKnXChpk=;
+ b=keDWlX1PT/3Gaw0+VoyMygckICuynOh4dRjImOa19IMLHQeuFJFUe13N2cTMpE5bJmezNEQMcfHcZcXebqm5i6nczjX4eQZtInN7lUETrIMdyxI5riA7c59FlnK+ZMpUsnVmu43402XfpN33/hQmEjXXg8GtMQ5N8PmlsxMvRpcUZFacgl8PTJcF6PIMXdVI+8faPWWQG5I6BPLu8TVuXcDGVF84ymN72H4LuVjZ7xFMRzu67JcS6mTW9jkK6gPDn/6PC3qA8kDEOCTCKpEheknMza932dLkVD2DwG4MPqOcX2dHZS1Da6H0ZGeHmsjn6p/2LbBQYW05y0QeJiqrVA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
  by CH3PR12MB8994.namprd12.prod.outlook.com (2603:10b6:610:171::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.25; Mon, 3 Mar
- 2025 09:54:11 +0000
+ 2025 09:53:31 +0000
 Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
  ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
  ([fe80::7577:f32f:798c:87cc%5]) with mapi id 15.20.8489.025; Mon, 3 Mar 2025
- 09:54:11 +0000
+ 09:53:31 +0000
 From: Aurelien Aptel <aaptel@nvidia.com>
 To: linux-nvme@lists.infradead.org,
 	netdev@vger.kernel.org,
@@ -63,101 +63,103 @@ To: linux-nvme@lists.infradead.org,
 	chaitanyak@nvidia.com,
 	davem@davemloft.net,
 	kuba@kernel.org
-Cc: Or Gerlitz <ogerlitz@nvidia.com>,
-	aaptel@nvidia.com,
+Cc: aaptel@nvidia.com,
 	aurelien.aptel@gmail.com,
 	smalin@nvidia.com,
 	malin1024@gmail.com,
+	ogerlitz@nvidia.com,
 	yorayz@nvidia.com,
 	borisp@nvidia.com,
 	galshalom@nvidia.com,
 	mgurtovoy@nvidia.com,
-	tariqt@nvidia.com
-Subject: [PATCH v27 11/20] net/mlx5e: Refactor ico sq polling to get budget
-Date: Mon,  3 Mar 2025 09:52:55 +0000
-Message-Id: <20250303095304.1534-12-aaptel@nvidia.com>
+	tariqt@nvidia.com,
+	viro@zeniv.linux.org.uk,
+	akpm@linux-foundation.org
+Subject: [PATCH v27 03/20] iov_iter: skip copy if src == dst for direct data placement
+Date: Mon,  3 Mar 2025 09:52:47 +0000
+Message-Id: <20250303095304.1534-4-aaptel@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250303095304.1534-1-aaptel@nvidia.com>
 References: <20250303095304.1534-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO3P265CA0002.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:bb::7) To SJ2PR12MB8943.namprd12.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0533.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c5::18) To SJ2PR12MB8943.namprd12.prod.outlook.com
  (2603:10b6:a03:547::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|CH3PR12MB8994:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22c7f043-2828-4917-f858-08dd5a39595a
+X-MS-Office365-Filtering-Correlation-Id: acbefb5c-737b-4f29-9940-08dd5a394171
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?s7N+y0J+d5dInCwUP2LUdkTPr3HRConeplLNf1g+7yvT3A73m5VuGVKGDydA?=
- =?us-ascii?Q?nSlA44r6gvRH35iD6lo9vJjukbIPeHenNhUlkZdIM47S/g4tw7WLFCJMNsdY?=
- =?us-ascii?Q?/MOObE1vSXjnBqm5M5NFXEqwm0AcL4ItQw2V1Gn0us+08iLMKXPiVB6GQ3eg?=
- =?us-ascii?Q?t8clmchFVECBFmQpeRtIaUSxEIQ7naLz4UYM0u/jwifpoQb54SYXsq4/yHvJ?=
- =?us-ascii?Q?srYlrqflfjBRiRYdSr9zT923hXxiVt34DoHwUV/reII7shNM3PjbCyoA2GiH?=
- =?us-ascii?Q?5Cov/eOc71hy1zup7p6eRFUJJqiYoDtBlxaGbB1laY/i1LToyq1Bu1h8kH+b?=
- =?us-ascii?Q?oWtLmRPsY6BVdz6IM8Q+2vLCjrzVtWhsWIrk2hgyN8mSERNHyQ9EQH9p5ojJ?=
- =?us-ascii?Q?8ivll3ttEHfBcfXnSbYhpeY3CFZmNLcfkRR0V115tM5lUPwP4/QugvBQPpoC?=
- =?us-ascii?Q?0t0r9/IHNPRHKmJBci4ee63LFOw6cAql3Fmxoe62HoFjmfFa8/3SaQVsq2tj?=
- =?us-ascii?Q?29kyq4kksS85LbEdQtQJX7JtvLpSRTTQjn1IZMi7XICPwNgniJWzGbbCfy5Z?=
- =?us-ascii?Q?xUQ79dmAltD5BE6dXTlXon0GbbN1ESSDxnx09i34hAIvzT2UfiFMn/RYAHEC?=
- =?us-ascii?Q?4VL1bPq2GOeBBPXL0H6D+R1msxwYQXcsEC8ThyfxUZ677Cfz7NYNTCYhCEmp?=
- =?us-ascii?Q?2XWxbqC6u7rB/ZwGu844lJY1ObLVuK0+l3lQv5XlLzIFNoym2lWEv7VHN73x?=
- =?us-ascii?Q?eMCyLywIDkvcVGUgTrfRaauflhqwVMw/MZ9beqjqKxLDOjwdeTHAuaiwjIZ3?=
- =?us-ascii?Q?+hft7bKRTPBAIaksCiiNezae2MfbMQ4RjF0xAtdffQwQMs94NMyEQs0MnyZ2?=
- =?us-ascii?Q?vGpDAL9bZG3Lha9r9seeb/KPBUed62LLwuwij5m7SaHjJ9fbRRmWexshJZHd?=
- =?us-ascii?Q?P0er9IVXLSN3a0QzhPHxbzOgK+zmz0rJ0CaQDae//HZjH0z1xFzYrBsJiP/7?=
- =?us-ascii?Q?EyW/bPWeOQHW2uvRrbVLfiMM/hLAk7p3lSxUazOwh/XLpx3xyonzM3x9rxzd?=
- =?us-ascii?Q?KOYZ/qIEvP39rjmR/AMEYRrHKECZ1fOJ8gWvBrXL/Nt/8tmVc8PQTgBluDOT?=
- =?us-ascii?Q?ZnicfDt47g30pwx7iP/Mcc57iw9aG3bR2i/c1gOfGtV6BOFieLSCEVEmrkuY?=
- =?us-ascii?Q?nuQu6+hAZRBeAiuFKVBIqpBlxVuDNXdCmYxJ2rEYJiSY6NFpbbvjTzyiQLzw?=
- =?us-ascii?Q?65v9kua583j2U1CDnvXn5mZXj2O9jJWVoHmENf7/UV7s71YCAbCa2E6SahJn?=
- =?us-ascii?Q?z1dz1FdFnMkzXp8shL9ypCRp244EaLrZkkIv/uWlIUrOvXUTcd2YZW3FdzAg?=
- =?us-ascii?Q?VJ0t891pF8DzqtczGeVOjKkuFsW7?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NjmP2N+JMhSe0Zc1seNIUJobjHpmO8SwT2SsI69qF/0Cif2nTHtYgROB08ub?=
+ =?us-ascii?Q?J9PODpodb6UKdHewOKgguFtJijhYMolqyYdsA8tLsJ6s+VZkfO60+5FcmCQn?=
+ =?us-ascii?Q?fF71XoATQEGOwJ1zl8yMOzgNJefq+H9voJXW12fpgXzpaq3NSJqRUrgCw4oh?=
+ =?us-ascii?Q?oqnlo34D6gpGt2bTp9waVwRsRhWviKVakqGSd/RLYzdTfHLRoUTa0Oi4NI9Q?=
+ =?us-ascii?Q?ytaRCSNMP3KHnQSrw5qzWS14YWhjrGqbvJ3lkfMJeWMugRQWao50i7GSTgpj?=
+ =?us-ascii?Q?m/bjymdkZ/CAzG4uGszEKOv0TDx5NPPJhGhLDeT1v7LmCBeU2OvSzg7fGX3u?=
+ =?us-ascii?Q?iWt7aZhJ371Q3eLbVSmVMk7ui79kI7OJ2DCGWEeoCmjxxRYyeIY7w1hpePDk?=
+ =?us-ascii?Q?J4UxhBblVydE0CVtg3X5PRviIpnhEdnYmgezlp0k1/McXjFaFl3ba6WR/aoq?=
+ =?us-ascii?Q?ov+GNBssyZciDV6hI1SHQgqs28A+zoQLTTohdXk5DffEEiArlDbbCF4A9rSw?=
+ =?us-ascii?Q?TxkImaz5BNK6oBUzeHjvSe8PvJg8jK829OY+RWnMfrk9i2nBCfp3B5XDj6nz?=
+ =?us-ascii?Q?a4vDRT+lGGv+tzeGQLUcLu8KZKl10lM2IzUX+hBncxT7FANTToR0BM77hHoz?=
+ =?us-ascii?Q?B2RYGw3FS9El1tP6HZKBIYPGy3KNNg1hk42tIwnhl/XhwmDLBXicyMl0+I0k?=
+ =?us-ascii?Q?AIooqtl+0diYhE/H/zMehiuMlOs/oqDuTRzcHHzvlQVOwDnKFQ5YfNLasR5i?=
+ =?us-ascii?Q?xuwLuM54/7ebCwVlLj3w9tjZNX6+lV1tj4FH1Qn09GOd1l7Hm+iElkHQxE+k?=
+ =?us-ascii?Q?/cvJG/D0SvqrzsNbHVKqHnp3LTm0fCNALyrY+uecbAC20J8BLmJOffnVIAg2?=
+ =?us-ascii?Q?EC38K2Ve8nzrCpKIDXuLlDf1VD5No0VUlTM8+U6U4zwltnvx/U6hN+sMvnMG?=
+ =?us-ascii?Q?ZtjSArgvhuUg1tQkfPea6hgozwKhABehVhYyGLoKamxkujlwfMRo1rPnFlI0?=
+ =?us-ascii?Q?dkL74VWdOsSbep82Rwgh2NHwtjJ0MXg8u2uXjn33BcDmPV8k7XhzF5xcO3XW?=
+ =?us-ascii?Q?iKavS9pdu0Fc7nMbNpwHbFByStpNuokGS4yd8OkSgAUdDmfYtzFOdS+3w0Zw?=
+ =?us-ascii?Q?1tuwgR/bHUgNn6KZQ3jgLkXCCp1dFC0dtw5pQgsn8zQ6WxU+sbFkjDwQzJ/E?=
+ =?us-ascii?Q?MWZVN1GNF2FRQXaihzml5qCg5pEghYEi5jyi4E7ZoRZOVbO6HLzOVoKzOnll?=
+ =?us-ascii?Q?Aw/R40T73YHUrqMgwvBTxWRpzFupIiUNFDv1xUAsKahLF4dR291UOP14HDtL?=
+ =?us-ascii?Q?bl3kZU6VPqKf7YFJ+HxFnB3Gqj1AqEuBON6/YIiBeh89OQ7GxwaCfY44p9Yp?=
+ =?us-ascii?Q?zbAqa1pxA/Rb8tCZEZAuOU9sKbbu?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dmt1Mxn0q7CN+bPeYDXFiJCOfABGYMkvXfw7P3LG5jkS2hDMGPMG0RuspY/l?=
- =?us-ascii?Q?4++hczzNuVoTxES+hHvUJwmzRKPUjraQXOhGzVu3U9Ay5qHyZ1lTdhyswt2K?=
- =?us-ascii?Q?YXc+zOg+bx/B5y/5tiruulsFd3W+8kjQnsAZ2kNuW8lyekgPm7ZDV/c+wmMr?=
- =?us-ascii?Q?dGI0vop4HZ1o3OYne7lqaWIkSYRdZDR6hFs3bpp7plBnh51m+mMEphoJAabZ?=
- =?us-ascii?Q?4c58FChqiAAQYu0dzToKYQbJViMg3PmVf+yfKKsb/Lpp27518NQPaBdshVKa?=
- =?us-ascii?Q?I8qpatpr1hxVMersI9A6Ar6rfbHv3ovqsKpqfDZ98NxMRutrp3+zJNNNf08X?=
- =?us-ascii?Q?Vzcof/fDoBniVOBaoaUgWK8NmsYPP7/hXaUB+1GjTGRqVMsZ4a/AVnHjEe8M?=
- =?us-ascii?Q?biCdtzhTHrf8ae8d+b+t7Ai1grBqyKHk4EO7BPZGQ3lwjj64rmh8w+Cyh5Tg?=
- =?us-ascii?Q?8xc2aCuJScx6sGgI91mWv7k+E8dxlF+mK9gL6NA+7A2pgAkUSDckWjJAXVqb?=
- =?us-ascii?Q?6qdsemNbcuen2jlnXtav5xc/ROVmUqlnIRsuOQHEylG6VAQYPbRxSZnDDTSk?=
- =?us-ascii?Q?drxUzPHg3OI+fZvSoOqcrLj9OikrGVlQ+7627ZVlLi33SS4juy3zs5lebnlB?=
- =?us-ascii?Q?e029hk4DvAVw4b8xGG/XbBAfgj0jgIS1NV10cYBwi0wf58QAjb+qA281tK2l?=
- =?us-ascii?Q?CerR4zdjp4wrRDpQdteYCu47CKziOwPfOCwJ5r23vleS/r+xALTkS1IDq1v1?=
- =?us-ascii?Q?2apD9kIZJGQS9GXuP2JiCERo+/cvltr6CFFkxQnbHvOqAt+wfM++X0jWWuMy?=
- =?us-ascii?Q?J6Roed8OAdif1yWMVLnbXXJ2J7bGbl89omMAw21uFxwHdD8vd0BR5TgWMMg9?=
- =?us-ascii?Q?h1P1j2HIhXwDg2wXQQCS03YlFaJ8NPR46wsPVzkoNvbjDVXTGCHjGPVm2PQS?=
- =?us-ascii?Q?EkC8I3Tc8RcWQg+/LqpRTM+eHOrcYo9ucscUn5FQUh91MBtX0W0uA8xPtXpc?=
- =?us-ascii?Q?XHYHRCaKTi7lffkW6TD/NJ81TSAbuNKgsAg3NDkOK5yfA1nMRQpD3ufeD8k4?=
- =?us-ascii?Q?Isu1fIY1fyuurMCyhHfZo1z+3Ihl5EQzHnA1mLihI4/P3v9Sy+cmGPzuiHxV?=
- =?us-ascii?Q?nbfIa3KGch955bWJBqmk3ep2Kr/kIDeckOrE0Laf7DvAy8Uri/m2DFfvLq8T?=
- =?us-ascii?Q?EYaKscXwqcEPl7qxwLL+sQhAhCwDHDRqSquKkri5XJuoJCx4yGiNTRjlFJP+?=
- =?us-ascii?Q?YQV798svoRuKxneOsqII6JRzYQddpE/Dr2YrDP/ceNNMFxJSLHj3nil3EOw8?=
- =?us-ascii?Q?v/a80PZAhUGnMQk9AzEs0fh+TK0Jt/knYW3/1zYmxj5nmhKANOgRZ7pvtL+C?=
- =?us-ascii?Q?+oPERKAzRYelPGcw0j0NR3fvesSOZ9Hb7wuoS+LmuLGDHB/9ngLkqjlubcG8?=
- =?us-ascii?Q?YGxL0wA7KaLXqDpTA0tFfZ/0SzYcKjOk37DPxiC9s+JhFoAO4AggNhk+iyT+?=
- =?us-ascii?Q?f7PrIMCKl0csb7ItLrzkn9HQbhTSrITKW4lUDHSPQ02ZYkJajTWXGyxoxNSX?=
- =?us-ascii?Q?UtjNj2K51/uXN+FM+sFbAtoLxgUT9F248TN9Mv4h?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NKmZ4VXiAAzlspGp2UjElydF4CstPos/gvysKYweQQL6J2C4jpxo+5HA/qi9?=
+ =?us-ascii?Q?2vraV/W2Oa7306OOuLYmGbR6/H8RMbfSlDWsYrYCybG5wKqIBYdCZXmPhS+F?=
+ =?us-ascii?Q?G2qH3xwpUwrvdiWES6PYE+lVV9BxQduDHlroVXFaAQ8Ju5ZcGlnk+dFjP2wR?=
+ =?us-ascii?Q?DBHYPpu3NDYO6xNiR9jtlqFD2K8DaLX9emHDgYKlSYZW7mh8LSbRGiDu7e3L?=
+ =?us-ascii?Q?mtNR0IvvYJCzXP82w+LzyRzvuiLpaLdyZ2dzp5AVyQTQIOluiODxlurHl82b?=
+ =?us-ascii?Q?Gew57R4okmGZ/grv6VJINrhspXIq2IYg8unpK1S+Wto+aMuEiym4o/8NetAg?=
+ =?us-ascii?Q?qY8Ip0bLf8JxDXkhXA25C+keDd27nhCkLvaGfODlTTOGxY6gmDbAHD7xri6z?=
+ =?us-ascii?Q?vUO74hutkpOUHJNRf9Jt4Zpa7AS3OVnt4f8g4lF4C2L9egqI6hi/0Vr10YbP?=
+ =?us-ascii?Q?EHlyfTenW8R760s/odLQnLT55czDQIpP3drV2RRY+rCPcgywUxl5mHNW76Wi?=
+ =?us-ascii?Q?7NsHGAVF53f5/j3/cdr1ped3gl6zn52pOKb5ZpmyR8t6gVpASrYGA8R2W7rI?=
+ =?us-ascii?Q?BSXw3MbsoG9Zn86Jk2tn0weewbGVw2tBKDa5VeDGR0R32v2tcm7yYFUaRslu?=
+ =?us-ascii?Q?19jgTqv82ss6QWIW9PB+svZNiUshbYWL2gwTBk6rZWE+vjZ5FGisq36Ezx6/?=
+ =?us-ascii?Q?Wc4YCbI1hl86TgIhs7x6unuwWILD1xiaqo5ytkuGDKaA7QOOhSSmKlLyL13r?=
+ =?us-ascii?Q?yV6UTwm9Kpv7Ee3DSwX1O1SnCUKi5AtM72cOLWv0Z9G1Z+IA3/LZrQ0Ye2hr?=
+ =?us-ascii?Q?MHXW8QsbQ5ngqJ1GGKzY64y1POFldGpUCER2QUTJEPO8yGa6t4I98A03RW+8?=
+ =?us-ascii?Q?l/e/w1Y48EUkcSgjBtVKQuFbr1XArgLs65TcbRs7rlHacQPA/zzepP8fb7NK?=
+ =?us-ascii?Q?JHE+/NrXNvsG88q7/58v2x6h+tPlQ97iDML+IOCF4Fi0TxU2r4k03d5PoPNA?=
+ =?us-ascii?Q?FEwViibxRtTcDQ5P0i79Hjy5ZOsdu4bd5cRksMx2xIa0ckCMOYOa38svaPC2?=
+ =?us-ascii?Q?kIUob6nu8PxpsCgp9rhxAao6GwmOhrZ/noDKVQv6IQkFBJWx06zY0OQ2FIJ0?=
+ =?us-ascii?Q?eBKDYkbjb1wmwX4Dn+LnibqDz5WKvB/uvgzawVo+v+xniOrcYPDrMo/EogMU?=
+ =?us-ascii?Q?n6TzYHcz/EL7X5djnYCKRiM6unAaTlxRrXl/jUNbZNK/jP2prrs3ZysV/gz0?=
+ =?us-ascii?Q?V/Cw/SWhy9NU7BJr6/Uo7xa5bLJO0dtnAYOdMuLnzQbgdSWiyusvAXUkDp9K?=
+ =?us-ascii?Q?5rGuD5qOFO0s7EXRvUmIZtqjMX3ydM93rwmPmQ7a/4M3y97NfVNUaKdBTjRU?=
+ =?us-ascii?Q?AV4qsSkiISapajuU6mzumjAL4P9cmoqO/HJNpZyLdsCOyKBIF5SiTgnTvoKW?=
+ =?us-ascii?Q?RfijgZ9G76xm2mK17qCwt7qktc1iaXHAk4VBt1tTTHQS+xaIhHe8rSmsmLNh?=
+ =?us-ascii?Q?D8puMjCwLqcC8NigyA+R5zeznswulADfVBEzj3ATii0rgTlVBVOGKWgwcAIP?=
+ =?us-ascii?Q?phgeY7VuE1t9vrvJKCcL3ZR7hH9PrOfOPP7h1jtT?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22c7f043-2828-4917-f858-08dd5a39595a
+X-MS-Exchange-CrossTenant-Network-Message-Id: acbefb5c-737b-4f29-9940-08dd5a394171
 X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2025 09:54:11.7163
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2025 09:53:31.5756
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nCTFD6tVOZYBrnOopgWzzypG62N4qlNGIVb0WHq4xSoZK5ckFUCsz5hR2p6qMI6YgtoyOSATp3Q/8LiT+/XJfA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gj89Y91cRo36PRkOZFbyDTq6sGVVLQK6U4KSUvSBtOXrMscHu1+o1Y1n9D8awLj5pIzLbyeKoBEstvXpjWdDug==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8994
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250303_015417_787095_386AF97B 
-X-CRM114-Status: GOOD (  15.60  )
+X-CRM114-CacheID: sfid-20250303_015336_229421_3C4E6A7C 
+X-CRM114-Status: GOOD (  10.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -172,147 +174,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Or Gerlitz <ogerlitz@nvidia.com>
+From: Ben Ben-Ishay <benishay@nvidia.com>
 
-The mlx5e driver uses ICO SQs for internal control operations which
-are not visible to the network stack, such as UMR mapping for striding
-RQ (MPWQ) and etc more cases.
+When using direct data placement (DDP) the NIC could write the payload
+directly into the destination buffer and constructs SKBs such that
+they point to this data. To skip copies when SKB data already resides
+in the destination buffer we check if (src == dst), and skip the copy
+when it's true.
 
-The upcoming nvmeotcp offload uses ico sq for umr mapping as part of the
-offload. As a pre-step for nvmeotcp ico sqs which have their own napi and
-need to comply with budget, add the budget as parameter to the polling of
-cqs related to ico sqs.
-
-The polling already stops after a limit is reached, so just have the
-caller to provide this limit as the budget.
-
-Additionally, we move the mdev pointer directly on the icosq structure.
-This provides better separation between channels to ICO SQs for use-cases
-where they are not tightly coupled (such as the upcoming nvmeotcp code).
-
-No functional change here.
-
+Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
+Signed-off-by: Boris Pismenny <borisp@nvidia.com>
 Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
+Signed-off-by: Yoray Zack <yorayz@nvidia.com>
+Signed-off-by: Shai Malin <smalin@nvidia.com>
 Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/net/ethernet/mellanox/mlx5/core/en.h             | 1 +
- drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c | 4 ++--
- drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h        | 2 +-
- drivers/net/ethernet/mellanox/mlx5/core/en_main.c        | 5 ++---
- drivers/net/ethernet/mellanox/mlx5/core/en_rx.c          | 4 ++--
- drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c        | 4 ++--
- 6 files changed, 10 insertions(+), 10 deletions(-)
+ lib/iov_iter.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-index 769e683f2488..999c8ee8c1c0 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-@@ -539,6 +539,7 @@ struct mlx5e_icosq {
- 	/* control path */
- 	struct mlx5_wq_ctrl        wq_ctrl;
- 	struct mlx5e_channel      *channel;
-+	struct mlx5_core_dev      *mdev;
- 
- 	struct work_struct         recover_work;
- } ____cacheline_aligned_in_smp;
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
-index e75759533ae0..89807aaa870d 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
-@@ -46,7 +46,7 @@ static int mlx5e_query_rq_state(struct mlx5_core_dev *dev, u32 rqn, u8 *state)
- 
- static int mlx5e_wait_for_icosq_flush(struct mlx5e_icosq *icosq)
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 65f550cb5081..94caddc02515 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -62,7 +62,14 @@ static __always_inline
+ size_t memcpy_to_iter(void *iter_to, size_t progress,
+ 		      size_t len, void *from, void *priv2)
  {
--	struct mlx5_core_dev *dev = icosq->channel->mdev;
-+	struct mlx5_core_dev *dev = icosq->mdev;
- 	unsigned long exp_time;
- 
- 	exp_time = jiffies + msecs_to_jiffies(mlx5_tout_ms(dev, FLUSH_ON_ERROR));
-@@ -91,7 +91,7 @@ static int mlx5e_rx_reporter_err_icosq_cqe_recover(void *ctx)
- 	rq = &icosq->channel->rq;
- 	if (test_bit(MLX5E_RQ_STATE_ENABLED, &icosq->channel->xskrq.state))
- 		xskrq = &icosq->channel->xskrq;
--	mdev = icosq->channel->mdev;
-+	mdev = icosq->mdev;
- 	dev = icosq->channel->netdev;
- 	err = mlx5_core_query_sq_state(mdev, icosq->sqn, &state);
- 	if (err) {
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-index 5ec468268d1a..e710053f41fc 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-@@ -83,7 +83,7 @@ void mlx5e_trigger_irq(struct mlx5e_icosq *sq);
- void mlx5e_completion_event(struct mlx5_core_cq *mcq, struct mlx5_eqe *eqe);
- void mlx5e_cq_error_event(struct mlx5_core_cq *mcq, enum mlx5_event event);
- int mlx5e_napi_poll(struct napi_struct *napi, int budget);
--int mlx5e_poll_ico_cq(struct mlx5e_cq *cq);
-+int mlx5e_poll_ico_cq(struct mlx5e_cq *cq, int budget);
- 
- /* RX */
- INDIRECT_CALLABLE_DECLARE(bool mlx5e_post_rx_wqes(struct mlx5e_rq *rq));
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-index 5d5e7b19c396..229e5efa5a73 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-@@ -1537,6 +1537,7 @@ static int mlx5e_alloc_icosq(struct mlx5e_channel *c,
- 	int err;
- 
- 	sq->channel   = c;
-+	sq->mdev      = mdev;
- 	sq->uar_map   = mdev->mlx5e_res.hw_objs.bfreg.map;
- 	sq->reserved_room = param->stop_room;
- 
-@@ -1995,11 +1996,9 @@ void mlx5e_deactivate_icosq(struct mlx5e_icosq *icosq)
- 
- static void mlx5e_close_icosq(struct mlx5e_icosq *sq)
- {
--	struct mlx5e_channel *c = sq->channel;
--
- 	if (sq->ktls_resync)
- 		mlx5e_ktls_rx_resync_destroy_resp_list(sq->ktls_resync);
--	mlx5e_destroy_sq(c->mdev, sq->sqn);
-+	mlx5e_destroy_sq(sq->mdev, sq->sqn);
- 	mlx5e_free_icosq_descs(sq);
- 	mlx5e_free_icosq(sq);
- }
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-index 1963bc5adb18..6512ab90b800 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-@@ -988,7 +988,7 @@ static void mlx5e_handle_shampo_hd_umr(struct mlx5e_shampo_umr umr,
- 	mlx5e_shampo_fill_umr(rq, umr.len);
+-	memcpy(iter_to, from + progress, len);
++	/*
++	 * When using direct data placement (DDP) the hardware writes
++	 * data directly to the destination buffer, and constructs
++	 * IOVs such that they point to this data.
++	 * Thus, when the src == dst we skip the memcpy.
++	 */
++	if (!(IS_ENABLED(CONFIG_ULP_DDP) && iter_to == from + progress))
++		memcpy(iter_to, from + progress, len);
+ 	return 0;
  }
  
--int mlx5e_poll_ico_cq(struct mlx5e_cq *cq)
-+int mlx5e_poll_ico_cq(struct mlx5e_cq *cq, int budget)
- {
- 	struct mlx5e_icosq *sq = container_of(cq, struct mlx5e_icosq, cq);
- 	struct mlx5_cqe64 *cqe;
-@@ -1063,7 +1063,7 @@ int mlx5e_poll_ico_cq(struct mlx5e_cq *cq)
- 						 wi->wqe_type);
- 			}
- 		} while (!last_wqe);
--	} while ((++i < MLX5E_TX_CQ_POLL_BUDGET) && (cqe = mlx5_cqwq_get_cqe(&cq->wq)));
-+	} while ((++i < budget) && (cqe = mlx5_cqwq_get_cqe(&cq->wq)));
- 
- 	sq->cc = sqcc;
- 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-index 76108299ea57..af0ae65cb87c 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-@@ -179,8 +179,8 @@ int mlx5e_napi_poll(struct napi_struct *napi, int budget)
- 
- 	busy |= work_done == budget;
- 
--	mlx5e_poll_ico_cq(&c->icosq.cq);
--	if (mlx5e_poll_ico_cq(&c->async_icosq.cq))
-+	mlx5e_poll_ico_cq(&c->icosq.cq, MLX5E_TX_CQ_POLL_BUDGET);
-+	if (mlx5e_poll_ico_cq(&c->async_icosq.cq, MLX5E_TX_CQ_POLL_BUDGET))
- 		/* Don't clear the flag if nothing was polled to prevent
- 		 * queueing more WQEs and overflowing the async ICOSQ.
- 		 */
 -- 
 2.34.1
 
