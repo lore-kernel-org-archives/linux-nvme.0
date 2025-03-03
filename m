@@ -4,55 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE179C282C6
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 09:54:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02E38C282CD
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 09:55:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=++mNkM0wdDMx7CgEu88xy534tcnAUJfT05iCVQB+oBE=; b=dmaODi4ewxoxhr00pvJ1b2eK55
-	OaS3w9JCtbnvG4tim9WjoN0AezO8ByYEgwpQki+ylrLcdo6OrJw/ROHhk8C6pzctgk6gayrpvGHP7
-	rCCPadkLa2dWrbjJGfmCAro2r00/O8P2hu+5jvlIEdHbqjdMb5nc64hC+/B3NwKlm9JIVqRuA3flA
-	OT12rOaLdJxLd/AwiJ8FTWf7WOt+s+8fdXbh/QR6fVC1y3DrmdVqzegw+/i/v452/gtEPiahZsprF
-	YeKfzUshJr+T+jwLke/vS9vyMRhUmnCOJxUGXU2sgDZ5NGK51dMz2IqxeNGI6LjDfm0KLxz6yhQ6X
-	t+4qC4Ow==;
+	bh=BVkUAoPpVvB81hhVHOr7Iq215l4LBqK/8r0eErLLVAg=; b=QGKIO7JxU9NSBAqXMAGGGVWSY1
+	bmEuh6bun3RiWGFGt+XEW5yPBBM5iGBnRxYNKrWyQVoO4VsoNN14J+YSa4cAjrgjYcSH1kT4p+GJB
+	i9QtSX08HAd4pRzBQjYn1mwqOC5ocl/RlRoru4r9kiOekY27h7RnrAaseJMZFBGxtGUXtuS+zDI9/
+	ghg9PHcpLQD/o9r0WV5mt8Kwck+WWKclt7pFR3O/wZA07U+9wxQHSmEfxLsFCWODFrqjk/MlDYStc
+	ZBC2KMsudJw4nwsT4dvv8bujEK7tYzjvmZNAF/0/OpUUuFgNwpUBGlCx+mRKNFCsD4MBT8e0oZ2GD
+	yZmDsXrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp2VZ-00000000Duo-2W2z;
-	Mon, 03 Mar 2025 09:54:45 +0000
-Received: from mail-bn1nam02on2061d.outbound.protection.outlook.com ([2a01:111:f403:2407::61d] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+	id 1tp2Vz-00000000ELQ-3xLn;
+	Mon, 03 Mar 2025 09:55:11 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp2VW-00000000Dnx-0gTE
+	id 1tp2Vy-00000000EKA-3JmL
+	for linux-nvme@bombadil.infradead.org;
+	Mon, 03 Mar 2025 09:55:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Sender:Reply-To:Content-ID:Content-Description;
+	bh=BVkUAoPpVvB81hhVHOr7Iq215l4LBqK/8r0eErLLVAg=; b=Efd9izz9Jow9pq4bR8az2FMk9F
+	CtXfT8YDGyTHOkbUoFz7AzcDulqz9p+xU9+A/P4d8vnzcv7BC8obunW4TuNWQu+yR5UlkVVpCalhS
+	kgmH20+dgQO1du6ooOB+hTPUVnkqq5hYxddoZ0JjBaEIc+rarFxufDDzdljLrmpVDzqIkMG/6sWU2
+	dgWtarJS9dh+DxALTgA+U6shkEcTA6mwxjBHRo91A8eCmaaGn4+frZV7JotXWpy2oBhFjhiFhYd1o
+	TL4UKc1Fknvm9hT6JErF2Stp0EUjk+5xgDG6EAnFvnNgfn64KdX1lVTL3cu+Idg9V+ohRgjkXwM6n
+	kgqjI4Lg==;
+Received: from mail-sn1nam02on2061b.outbound.protection.outlook.com ([2a01:111:f403:2406::61b] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tp2Vj-00000004X59-2t26
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Mar 2025 09:54:45 +0000
+	Mon, 03 Mar 2025 09:55:07 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TyGhagY8YaTBxaogJYhW0J3uIu0oGhC07XBwYfbvLAdTp0DJO0F0D/sgYCJWuNNjCF1tajlg/MBHJbWHgzkzJJHMmziV/2bc1i/P+OOm1HjOaDCGzzu9ZstHxIy2Z522ykLg0tazN4M39mjCt03yuXXZYRSJXXar7E4g/FKqk8eya6/Go+tCjgVWCSe3INop090BL+//eV8pAjK/Lyq8VzaCTuUE4JwTfHihIaGF+jVIeNHlb++mSHW5zIpLzckdtue57v0Evo5+2NinAN+vYj6w/5QbA+NU97rvFen/JqyGMHCg5rx3fH8w8lpOaoniw8/nWBSDze8RzIfCWHH5QA==
+ b=SmVPn9Wtaw6qdxaHJ1Cozskr1+FqJuxR4z66VnMCqXrt8YP7N0yzxmFpmdCucHMx8MCZM6sfhfUdv/JU89r8XdxsQkAJiBVMSoM1XMeeKiOUiLZA8p02TTStZZTLLH3WVl3KdbYY7/OiKS7DjHeBU/234hnClFncnv34hYWLBCxpBln0xtAwOMSsMvrdhb/AMTkz2iaVsDkK95Fil4iGbFvSkATguzgoyvD37Tbvyl/twhu57397fuCMWVKIvETUBEeTOw6VXiClBOkwd+HI5tZnORyHrGFwfS3m5fIaUz827fdkmdGh3aUmcsy3x2kiLp4fLAXH7rZ2Ox5Yyoil2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=++mNkM0wdDMx7CgEu88xy534tcnAUJfT05iCVQB+oBE=;
- b=tVVhLZY0V6iENKM3/aKjsCtz1oDxDYsrzQiHRnarbnbP6Emp06QWQoHGctv/z83f1SSD467TWF1OoNBJN5WCOx49qyi4xewka4OEPVAye40+4xZNg/cSQAfwyIFdeDo/bt6Ly+JMS75jHPHdRv7DNwHFjAH1Mhu+DkL36tYknZxPvFW2R0bHcW8mXzNgK11woa9yzjMAlTyT/vDPvKoceF2D4zteoBVCm6tS02oEUb9JM56vGjaQRQGYBuEHwwxZJ7Pjh5glaM+cMmC188Ymlgp4o6VyY96BP9MqnjW7uziiiH5RmBDdk7RwKzB6VeF4lg2DllGpqyMY1EzmBjIhKA==
+ bh=BVkUAoPpVvB81hhVHOr7Iq215l4LBqK/8r0eErLLVAg=;
+ b=JMGbBt4rgBEEOkMtLHt+jV582VVHk/4tu18Eop1+k14zY3J+/KAyz+FTwUuALIi2No1z0GBq/Mhzix8ZFNlQFtmGGM7JfJP5Ur+PTyZA6IhTQz5nvlB34Xw7sq3NkDD7Gf5e3dg0mUy3ZFB16xC49WI5BusZkDKbJzbHvLf8MsWhWa4/hoCPVjGRakmrDYch94NnXBcsJK+aOOTBRQjCRG6IaBSUMY+iByxr0TZ2SECVyYrpqS36E+UdhDzBkwdH2zFV1fo9W79Us4SvbzHmiY/UbfocT4DTWPMwicDGVvyTlO6WdKPLjeQ/cQnTaB6kr1UA+lvcrEUj4HOYUy3PLw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=++mNkM0wdDMx7CgEu88xy534tcnAUJfT05iCVQB+oBE=;
- b=VSpeqcohvjWK301dl73Iss+qjLj+w30s28K069tbWvjvdsgASerqPa9miQ927x+cro0cL7RR0YV9fAioKo6uiDPM6SMCoghDILkSmcDgZlnCCc/DomCaYotzv8dNpE3NWxB32alGlEhvg7T2bb+ednW0acrNf8+i7uKTgugOa/t1vnEc6xROQ5FdFNCFYb4q4O0YhbTGXcxkkU4JTbAhGI5gFQKxmeRy7QDQXSI3Gh27oTBkmwD9TpYCU7XOPYhEw52E7+vdv+sPdsEVdYNViaW4l67WJecJ2cyvOCwO2djL4xKO4mrcftpwsyM96mDXnmHIAaZG/XwePMT0HvJHLw==
+ bh=BVkUAoPpVvB81hhVHOr7Iq215l4LBqK/8r0eErLLVAg=;
+ b=FVF+ogR/7mPc8LaDaWHQof9WWG+xHQPaoO0sHABargyFA7RqPT9tE6+AYAjgm7aYJhYgkeKhhyKIUZdu3LnTPxE9MmPwzwen+kGS6uoobgYJrbJb6kHkZtuyqec9KQ/VUvMor7/p0kb/2mYuRzZnSTwC+Q37W+9Nv+VZJE7nMu+SkZus0zYVaaVoUxoAkP4MomYSaGDM8BFmhP4azvbWmsDOcTzz8N1AfcQEscYCUxhpEYRs4Oh3HmhCSRFZlEgEXrF6YSCn+Mk7D8lJcA8RmCxOhimnDIfUuOhUqJyH6mA3qxf9h+oY5zVWQabk1OqUqBW1QH5FjL2makbUDET5tg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
- by CH3PR12MB8994.namprd12.prod.outlook.com (2603:10b6:610:171::7) with
+ by LV3PR12MB9187.namprd12.prod.outlook.com (2603:10b6:408:194::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.25; Mon, 3 Mar
- 2025 09:54:36 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.25; Mon, 3 Mar
+ 2025 09:54:46 +0000
 Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
  ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
  ([fe80::7577:f32f:798c:87cc%5]) with mapi id 15.20.8489.025; Mon, 3 Mar 2025
- 09:54:36 +0000
+ 09:54:45 +0000
 From: Aurelien Aptel <aaptel@nvidia.com>
 To: linux-nvme@lists.infradead.org,
 	netdev@vger.kernel.org,
@@ -73,91 +88,91 @@ Cc: aaptel@nvidia.com,
 	galshalom@nvidia.com,
 	mgurtovoy@nvidia.com,
 	tariqt@nvidia.com
-Subject: [PATCH v27 16/20] net/mlx5e: NVMEoTCP, queue init/teardown
-Date: Mon,  3 Mar 2025 09:53:00 +0000
-Message-Id: <20250303095304.1534-17-aaptel@nvidia.com>
+Subject: [PATCH v27 18/20] net/mlx5e: NVMEoTCP, async ddp invalidation
+Date: Mon,  3 Mar 2025 09:53:02 +0000
+Message-Id: <20250303095304.1534-19-aaptel@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250303095304.1534-1-aaptel@nvidia.com>
 References: <20250303095304.1534-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0133.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c4::8) To SJ2PR12MB8943.namprd12.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0535.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c5::20) To SJ2PR12MB8943.namprd12.prod.outlook.com
  (2603:10b6:a03:547::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|CH3PR12MB8994:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1e43bfa-890b-4ed4-fdb6-08dd5a396804
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|LV3PR12MB9187:EE_
+X-MS-Office365-Filtering-Correlation-Id: 59c258d2-aff9-4cd6-9536-08dd5a396dbc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?thD2zS4Kg/YcGomUmyD5pV7lwJodkMEAuleToF9OYHKrY4yUtR4FM2rblSyz?=
- =?us-ascii?Q?3Aqey6kAM6mwgJNq9GrlehVSapkAkarDdrvXmbVK5o12JrUp8RX8RKyKfgQq?=
- =?us-ascii?Q?IWxru+on5LOHK+fJesamqP/BhTppAG6b7SxeNeN8l90W4BHnhrgzvKEDIUrb?=
- =?us-ascii?Q?+sFZjc1+9rmAXYbHcCuMj6i0+ZwjiEuRYBq063qy0GmKb0pJ/PpgzGdPenOs?=
- =?us-ascii?Q?DWnCBLsdcKcbpbBDQTPVGNDwFX0/IJQVN8vAUzvQpOahXG+Ei1S+ECZiGiCi?=
- =?us-ascii?Q?9wOHlLkpwjnUXmO15po0lLdE9eIVv5gf55es4G2XNps9Q7LtwJHs+8afQQW8?=
- =?us-ascii?Q?PAFx/zvbXvEOENVsbnYljJTRAXvnKMuaIn2krUqJKSWHtzUI5jrhiXh9NYKX?=
- =?us-ascii?Q?acnWQqu3bgbMcuLUT99vxzVv87+S1VaLkizG3uAgJB7JlI3pTzSsuKSNzo47?=
- =?us-ascii?Q?pgOuzg1mvdeen4NOLm1AlvW14pTdLjpeZp7cmPCV9SJkeFhyKgzZllDM3NYU?=
- =?us-ascii?Q?mOzpZrBCsQT8AjqgVfK/Gp0BNyJkQizaqLdpbbCJE/+fT3hEQendrkws5kk+?=
- =?us-ascii?Q?y1+I0aPYf8qMJpGMwEsWGK8KajXTAr04Kas6VIXAmcwBHMnADCjd0jmt4Qag?=
- =?us-ascii?Q?7zbT2vhPbot+bd9KjJP+z6hQBFIrUoYESscVAw1EREgNqNHot5T0iUf+x42B?=
- =?us-ascii?Q?vzV5C90nOE3E4Siw2wfPFxP7pbZAt5loGoKnJSJTZB1N1FrKSXAbBCBLPIv7?=
- =?us-ascii?Q?lt3v/jLPJH0PoPCT1JUWiKACo+y3/AMwUK8vfBEhhaq3WOX6EEMbEy6hjMRJ?=
- =?us-ascii?Q?nrVhsG3ErDobz3gcpt3VwNQbKPJpsbjuySjnwm32G2q/anYOnehPkcfS8qbY?=
- =?us-ascii?Q?hAE5TB/KScSzYOtjEHSvhJkmR0eMWtJReDnry3HBcMK9cjAzFZxxmkQGlARo?=
- =?us-ascii?Q?52Soo1E/LjvJGFLBQoK65hFSKnzQdleJTXKQ78PumUuL0KoF+BZoxY02zH+i?=
- =?us-ascii?Q?ZVNsa/sfils2gnry3MxT3ERUgkySfx4ggZfsGT141XEa62dshnF9JWzdYIq8?=
- =?us-ascii?Q?LEEHxIJ8MpU6cGPGPSEeJM7jPFirnmjqg4bg70ed1r2iloKIg/9ovjOy5wOX?=
- =?us-ascii?Q?9K9wcDA5RkVOoCl+boruFvw5HUFOXMnXCZPkDCteAmo4ZWD5X53KPftpcUau?=
- =?us-ascii?Q?um82mOtf9HZqg4vm58tDiRI8DJvv/Xf5CN63xhi+VPVFK9WqvbP8QECBLr96?=
- =?us-ascii?Q?3AeoLJC8hN2CAhtHm+4gT0jkEo7gbDWAWhW9EKWbWs8xlvZGbh+a8UBV6gGw?=
- =?us-ascii?Q?JOXzqAzndL3OCcWsPtKMusobjUq8WxjzrQ9i6VRXEikDbacubVd2IhPKWMPF?=
- =?us-ascii?Q?YWBfLB2s6fNegI7PuHq+j30Hiugo?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OhIK0DN3CEbtAw4ZAV+bWKHR1oslBkOr1iKb/+kGcc01cb/U78Nnz+hS67B4?=
+ =?us-ascii?Q?HeT5HuTyHLp2KF+APuXG0WYquTmsjXAbpZloM4VqnD0uU7ZInHXUGHagn6Dq?=
+ =?us-ascii?Q?qZOADwEGJR+3beNpkzE/DT91mwncfl+NUfZP3HT5weUwV3ttCuDzQHu0zAK5?=
+ =?us-ascii?Q?A4SHKcBg0iZoytm2KbQuVXzB8Q1lpELDSrbhLw+FqsQrza4zGgrfh5GqLNE0?=
+ =?us-ascii?Q?7UE7sw3YdoIaUJmBWkNk2Bbh7G5a5ovQpnpjbJRnwb65Qkn02btN0N9Cre+k?=
+ =?us-ascii?Q?PnbE5piun9MIuFQRLAeDJg2o7yL3Yy7zero2hXxH5YbSLH6Vig2L783O8Trl?=
+ =?us-ascii?Q?7Aa2i6fXio5mv5rp0rw/DlMhT3PnLT1VZGN/MnW5Xzn02YesP4t82tNy0vwm?=
+ =?us-ascii?Q?Zv6C4TJjDRWKcf2oMmCWKSfy0A6w1CMBtzwvX8g2DdZM5lLeXH6MvzgLjgqL?=
+ =?us-ascii?Q?+Vr0U46rKAm0NTFrq5k7k3xgrP15p27WfM0gor4TuQDsG0lpSy9IvxCFTLig?=
+ =?us-ascii?Q?MLY6JAhRB3vOJC1SiaFTmofVD1Dce5Qi4+diFaH8q5eLEeHbN8+lo+zH5n/n?=
+ =?us-ascii?Q?7yLKMipOX1MKgXgpoQleyXW1H5mvTlpSz/uL9sgyUcqTSWrsFWHY4XgyyF1Q?=
+ =?us-ascii?Q?pcXqDecwJzmivn4W/ca4ZFFigtdW+SHXfz4mQ8+aT2UJkLQbc+UA9q3dH7sy?=
+ =?us-ascii?Q?0N3CZqMELxp2o0b4ZhO0W/svMWOPHMVX1uXYudKdn3BIZfs8LX5/8DIkH43O?=
+ =?us-ascii?Q?68lwTjuGG886v2lAjTd2RrRQ0PZq/IRk0yKGd22hULtIz7poNl/WFIYKfUo5?=
+ =?us-ascii?Q?N39ti16/ukVUn1yU5jTDiiHt0JLPixFW0zPKaJeDPu+f1w7LpSR20G54KScP?=
+ =?us-ascii?Q?r2ZePvZ5P7dHgDXF2wJyojBX23DPFDS2VrnlKIo+QGdYiu4pk1vvJm9SyC7e?=
+ =?us-ascii?Q?nHu2UbqCrkPWfFye1N+aFRqzCZk1fsosHeQyxB4Rxw/WY0Ed0sZAzWhmLdhs?=
+ =?us-ascii?Q?bz/wczjtBWKgkw1TfXGb8DvISpf3Gnj5o+B2PeyOBx9ZkRDbSEq/j7rLKQ6G?=
+ =?us-ascii?Q?mRpPO6r5IGfxjDj4dTdK1pNNJiNb0apA3EGjXveCPc0ZLQYq1fgiJqvWXJvH?=
+ =?us-ascii?Q?HlWc4zH6uku4jds7Az9w0FtOskgRFyjtNcg6pc6frO+C2At+ttRhmdxxJUjM?=
+ =?us-ascii?Q?BbleFVx7hG9dzGf5Hc8i0bJ9ZmWkeqVWSls4fiCpqIcBuLk05Xz8x+lzTxxR?=
+ =?us-ascii?Q?Lq0C5PFWZRZe43SO+cbo3Ik9lscJH2mvcmvELmAwWF7ZhTTFOR86oAkN4pgy?=
+ =?us-ascii?Q?hGsHGYLJGf3HLgXc9PZap9j/IBDPYYA5+3NozyVIa8FOBrBXZnl34YvfHu7I?=
+ =?us-ascii?Q?2XIiaUBXVOrnUHJPq+QXGTa6sFXZ?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KqlCgZk2pfvhHspR6e2tsNQ9J7Eby8wBUis6xlD8Hc4gckdI1TrmOMznExUF?=
- =?us-ascii?Q?RwPIS3UGL1JWKhxICRX1eOlh5TqvaS1VvLeYQ+xs+s0tk71JOELBZgvxnpik?=
- =?us-ascii?Q?KDLIsG3CxtGfXJQK/qeeFNL6IVaH5BA+WEgTP3F2BvLMPlea6/vRiL+SGfUF?=
- =?us-ascii?Q?3zqYYsO+ewSOFi2kMvpPgE9PoCtqaGwBJAFdyISlMXIu9XcW0Az6f/AkZ3oG?=
- =?us-ascii?Q?b0YT3R5ZgfT87l6AmAWPTq1OPPHzX2KCJlt9M/o3DQpEST/RtH733ABhhPs5?=
- =?us-ascii?Q?dka++V//tXjGfoAt00tbvC1UhdgCPgVfrZ4ulq3IzPKDE4ULqC16UFKgsuBF?=
- =?us-ascii?Q?pLxCmbgqQUO6TQL3But7g/3gvUp5zrdF6vdUhUGELww4TCIKugT8EGaiUzBN?=
- =?us-ascii?Q?vFaReHu9m1iF0gc0Cikvy4n0j/Zua69vL5Kzz2leF63SlPO4DxQsg+y27cyO?=
- =?us-ascii?Q?PpMkvqUUDX0kmPazXn5uvDN72jNfC6pLWYNrsH8RvdauAy7f845k1kXN/fkr?=
- =?us-ascii?Q?UtFgW7wBZW667WIWwW9HsFC7CybJcGHBuBDxu6HFN6pImAMFGJ3B/3OHe/oD?=
- =?us-ascii?Q?CARx/HKgUl1np+77E9kDRVizeMFtRS+ySai0EgVD5ULkn1dUAAR+pmp75L4/?=
- =?us-ascii?Q?GoSif7IDeORsoIfVC1GoH3VgXWK78S4419hw6AyZmKJuae4J1psuuY8E32lw?=
- =?us-ascii?Q?8wZVZi+wLaiMvDr+mtOS3FrJ4qNtTqjTF2rGAiEfPYkKyKBjeZ2Wcssy3V5J?=
- =?us-ascii?Q?40LIaVpeqLzpRMRIjfgb9JGOQ4vGgYPBzETPCYhnUwr3xOKLC9W8SQTKZ4x8?=
- =?us-ascii?Q?pLtFIegtjCSFfTnoVBmXc9P6NA+3Vccmg/3H01yFMk4MsiZkTSvueI45MAo1?=
- =?us-ascii?Q?mSIbq2qOn9J31UF7EvB65WjlLCsvZ1T1ZTltobQo0nUzQdGuQOnzzdbb0kqO?=
- =?us-ascii?Q?8jBVSFtnrNc4ILIWlk6MuLEy8B+/ciu2TE1sxdLUcB+zRUyrvDaQNhL4Jp1+?=
- =?us-ascii?Q?Oc6/XKsRUVyv7iSNTs2aARwVQ1ONdTcFozqX2y/8hWC5FR87nggHKrgNt49O?=
- =?us-ascii?Q?lKTPH2dlFa0AUzr0c+6ualNsbPyaddMH62xkxgin2ZmAucky/V59Lg/u5tze?=
- =?us-ascii?Q?TqryytziAPIJ8G1hjBCkz1OWzqzrcMYY3mS8FDiH3BsF1ciRliMuy/LFePdq?=
- =?us-ascii?Q?uYk4wT7ckSdSBYQY0HLv6sPc0o5OFrrO5o7WrbCnpjwfswDL1CMv7Ei80w3r?=
- =?us-ascii?Q?0iTYVNgjkshgNx4FiFM8fe3WQEijzcLB9VBt8MsH59+j1xRYqpWXBsrX+OQ4?=
- =?us-ascii?Q?rbOKPrOIl6UcxpeCCnwOAwh/lmrU8ZspjzcI+2npVTxawuNRQ6CiUL4UfSfv?=
- =?us-ascii?Q?KyftgRVoKFPXEED7fZT3HMeNXE2WnFdGGZXKazkYogSdPlyYJjlTXomx63FG?=
- =?us-ascii?Q?Xts9XXrLxWKQS3bbWKZj4MdmnA2BKgmNiS4Q2IMZwSgc/u1jJSoabISe9Mjk?=
- =?us-ascii?Q?Epc/FLtbRdGcd8EpRhkW/ExZbxYZDutapwl2+exzeRBmNMppXuBgiNW6GDzT?=
- =?us-ascii?Q?k9BSOjdvBUqOU/92rqD+X3RhjOZzFtXtIkoZI2/7?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0xZz24RYpMw+lgntF78d+kv8CbaGWpWYtAlBbNQM90fK87G2Vc4qR3UID6Zr?=
+ =?us-ascii?Q?VJfbeJegGFU1922is+ghauErIfGvtAhoqGIkOKiFzis0MZmU/eVQOxrDnLSb?=
+ =?us-ascii?Q?UFVPoamJcN2MXZ2NYfrIXZx/8vPzSTWbSttXSzPNM8XC03wsx+I/uQbI+aMh?=
+ =?us-ascii?Q?gLeZ0I5KyX6TPjXJUUagkRD01i98+YMCJu2MNtfX2jWZDMDB/lpl2hwwV7s8?=
+ =?us-ascii?Q?EV+Ul80LiNSGwBvNqSUsYgOliTpaFdvueIcMm0WdRt9Ns9OZ8WB3+1oxOoaX?=
+ =?us-ascii?Q?IWp/uDOPyRs08DnAPFhvAq1L8+DX9QqgMl0bA/avUTd0Ip+p5JYCkIIHZC/A?=
+ =?us-ascii?Q?BSxhW6sP+bIRB+makz4MaxOOoUooqD1fqVnxBt1SAUPKCDkndrU2ywsLN3Xx?=
+ =?us-ascii?Q?fKyQnXhzsYDA5yyWcseuvM8TX0HZjcAYBFwO6+mW7f4lAtfJ9STK8ymwd7EP?=
+ =?us-ascii?Q?dlJwcTwlgra/O67PIWwKsqyzju75Q+7y9ymH+SSdOtSuckEJCCSKXOheXfvx?=
+ =?us-ascii?Q?lN07opV82Cy6LsjFApp3/lLx3NkXTufyO4BHITgavYg3ecxnnv0ypcjQSFPQ?=
+ =?us-ascii?Q?Pm1HwnBF9VE1IGJs/234cXKEOhQlJYkRJkpiqwTJJ7z+/7PjfiMKy55YimXA?=
+ =?us-ascii?Q?QASXIY31BmJltcp+OZg5vL8BvrXnCv/23UA+T9uBN2KJJjnuLnnqWbtmtrmp?=
+ =?us-ascii?Q?xr4Hb9f237PCyrSJ3HPTuk1kD/n2a5XAT2nFrRJ223BkcCAqWxP4Q2HzDUEL?=
+ =?us-ascii?Q?v0RjT/YzGjW14iIrC5/ckWwke/lMEI/ruq4qvGbwFIrYG427yXSRlMzoKRf4?=
+ =?us-ascii?Q?7h9a+GvZCKMWrX5nkiW9/usth5lVSQmX8zoZlCWiPVCnV8CEUADTN+dMw3c0?=
+ =?us-ascii?Q?bmGpVKqPE9a0zKV8w31oFHQIuLLvKJnlxnZiUkM2VKCqr3UMRUdJafvusUKD?=
+ =?us-ascii?Q?/FAl0ayEL13EGMyfiulE4r+jwwj26bo1inuSBE6u8fT2n5FxLbc4+OxcvsUa?=
+ =?us-ascii?Q?kSm9HjPclnA5PEcpyu/3kgygZnx/W6DqMZxk/RQxfcg/AMQ93zbIkbwoNKEv?=
+ =?us-ascii?Q?PHCr2z+xfTW/FB4X4dh53a7sr+NN2OZJpQ/fu+6sUCagsWEPosKJsBtuc+Lc?=
+ =?us-ascii?Q?0NamCbAdmUfgY51IXajdUyVs3OqBI60xRSN+1Tsk3/E93TYAw6RuUNmrOJKm?=
+ =?us-ascii?Q?fxiDe0uEi8NA9GQxuxRz5jRA6QFPbU1cwcZPuz3lgpvbynldIhta0k381k+S?=
+ =?us-ascii?Q?72IMwJoL6HrUbn/AooRDBcofJk45OhYNth62mHEIi3gX7F3FcRmBOyLuurBu?=
+ =?us-ascii?Q?jCoQYHpYx8glysuf0Q3AVWeQdAlR2Th0Oa7uR98efFJ7PjvqPHEuKYGYgEgg?=
+ =?us-ascii?Q?Mv7cF2wH7x0JIDdihqBFSArrPnliU+fnzhQPfpCrNBnLv+IdOEYQWyYr+QcJ?=
+ =?us-ascii?Q?CBM3H87t+WXYh6VnIHTNIPsupWa/hYFQqmkRDjFU97YX7+MjtMb3j8K7UBez?=
+ =?us-ascii?Q?oGuwyLl8ikO30dxTz8PUaGgKliJzCOwKb0NdaDGCKvqtXkisirrNUghRANxv?=
+ =?us-ascii?Q?/axA/FtrgPtzkIC0Dq1f+B5bcX1hrv/BU+cLyeki?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1e43bfa-890b-4ed4-fdb6-08dd5a396804
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59c258d2-aff9-4cd6-9536-08dd5a396dbc
 X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2025 09:54:36.4054
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2025 09:54:45.9167
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kWiVSyCElIedlM1RCyP9wgVUox9TlHhbEa8Sg4MCfhjwgzWyZuR5UaNrp4hsysIIkqFRucf8xT6snIMpXJaSsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8994
+X-MS-Exchange-CrossTenant-UserPrincipalName: E3lRdRN0sG7I+mzU2ivZYYVcRCEgzCPZaiYwvKV+mWyCUz4aXON83Ps8oEkYtc5sReFsq2hh/+YsCyr6bjwfkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9187
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250303_015442_362399_70D91F9A 
-X-CRM114-Status: GOOD (  13.28  )
+X-CRM114-CacheID: sfid-20250303_095502_075475_0FF36180 
+X-CRM114-Status: GOOD (  14.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -174,23 +189,15 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Ben Ben-Ishay <benishay@nvidia.com>
 
-Adds the ddp ops of sk_add, sk_del and offload limits.
+After the ULP consumed the buffers of the offloaded request, it calls the
+ddp_teardown op to release the NIC mapping for them and allow the NIC to
+reuse the HW contexts associated with offloading this IO. We do a
+fast/async un-mapping via UMR WQE. In this case, the ULP does holds off
+with completing the request towards the upper/application layers until the
+HW unmapping is done.
 
-When nvme-tcp establishes new queue/connection, the sk_add op is called.
-We allocate a hardware context to offload operations for this queue:
-- use a steering rule based on the connection 5-tuple to mark packets
-  of this queue/connection with a flow-tag in their completion (cqe)
-- use a dedicated TIR to identify the queue and maintain the HW context
-- use a dedicated ICOSQ to maintain the HW context by UMR postings
-- use a dedicated tag buffer for buffer registration
-- maintain static and progress HW contexts by posting the proper WQEs.
-
-When nvme-tcp teardowns a queue/connection, the sk_del op is called.
-We teardown the queue and free the corresponding contexts.
-
-The offload limits we advertise deal with the max SG supported.
-
-[Re-enabled calling open/close icosq out of en_main.c]
+When the corresponding CQE is received, a notification is done via the
+the teardown_done ddp callback advertised by the ULP in the ddp context.
 
 Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
 Signed-off-by: Boris Pismenny <borisp@nvidia.com>
@@ -199,955 +206,209 @@ Signed-off-by: Yoray Zack <yorayz@nvidia.com>
 Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
 Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
 ---
- drivers/net/ethernet/mellanox/mlx5/core/en.h  |   4 +
- .../ethernet/mellanox/mlx5/core/en/rx_res.c   |  28 +
- .../ethernet/mellanox/mlx5/core/en/rx_res.h   |   4 +
- .../net/ethernet/mellanox/mlx5/core/en/tir.c  |  15 +
- .../net/ethernet/mellanox/mlx5/core/en/tir.h  |   2 +
- .../net/ethernet/mellanox/mlx5/core/en/txrx.h |   6 +
- .../mellanox/mlx5/core/en_accel/nvmeotcp.c    | 566 +++++++++++++++++-
- .../mellanox/mlx5/core/en_accel/nvmeotcp.h    |   4 +
- .../mlx5/core/en_accel/nvmeotcp_utils.h       |  41 ++
- .../net/ethernet/mellanox/mlx5/core/en_main.c |   8 +-
- .../net/ethernet/mellanox/mlx5/core/en_rx.c   |  15 +-
- 11 files changed, 682 insertions(+), 11 deletions(-)
+ .../net/ethernet/mellanox/mlx5/core/en/txrx.h |  4 ++
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.c    | 66 ++++++++++++++++---
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.h    |  1 +
+ .../net/ethernet/mellanox/mlx5/core/en_rx.c   |  6 ++
+ 4 files changed, 67 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-index b24209ce65a3..ab91ae9c653f 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-@@ -1057,6 +1057,10 @@ bool mlx5e_reset_rx_channels_moderation(struct mlx5e_channels *chs, u8 cq_period
- 					bool dim_enabled, bool keep_dim_state);
- 
- struct mlx5e_sq_param;
-+int mlx5e_open_icosq(struct mlx5e_channel *c, struct mlx5e_params *params,
-+		     struct mlx5e_sq_param *param, struct mlx5e_icosq *sq,
-+		     work_func_t recover_work_func);
-+void mlx5e_close_icosq(struct mlx5e_icosq *sq);
- int mlx5e_open_xdpsq(struct mlx5e_channel *c, struct mlx5e_params *params,
- 		     struct mlx5e_sq_param *param, struct xsk_buff_pool *xsk_pool,
- 		     struct mlx5e_xdpsq *sq, bool is_redirect);
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/rx_res.c b/drivers/net/ethernet/mellanox/mlx5/core/en/rx_res.c
-index 5fcbe47337b0..67548a5b9a51 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/rx_res.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/rx_res.c
-@@ -679,6 +679,34 @@ struct mlx5e_rss_params_hash mlx5e_rx_res_get_current_hash(struct mlx5e_rx_res *
- 	return mlx5e_rss_get_hash(res->rss[0]);
- }
- 
-+int mlx5e_rx_res_nvmeotcp_tir_create(struct mlx5e_rx_res *res, unsigned int rxq, bool crc_rx,
-+				     u32 tag_buf_id, struct mlx5e_tir *tir)
-+{
-+	bool inner_ft_support = res->features & MLX5E_RX_RES_FEATURE_INNER_FT;
-+	struct mlx5e_tir_builder *builder;
-+	u32 rqtn;
-+	int err;
-+
-+	builder = mlx5e_tir_builder_alloc(false);
-+	if (!builder)
-+		return -ENOMEM;
-+
-+	rqtn = mlx5e_rx_res_get_rqtn_direct(res, rxq);
-+
-+	mlx5e_tir_builder_build_rqt(builder, res->mdev->mlx5e_res.hw_objs.td.tdn, rqtn,
-+				    inner_ft_support);
-+	mlx5e_tir_builder_build_direct(builder);
-+	mlx5e_tir_builder_build_nvmeotcp(builder, crc_rx, tag_buf_id);
-+	down_read(&res->pkt_merge_param_sem);
-+	mlx5e_tir_builder_build_packet_merge(builder, &res->pkt_merge_param);
-+	err = mlx5e_tir_init(tir, builder, res->mdev, false);
-+	up_read(&res->pkt_merge_param_sem);
-+
-+	mlx5e_tir_builder_free(builder);
-+
-+	return err;
-+}
-+
- int mlx5e_rx_res_tls_tir_create(struct mlx5e_rx_res *res, unsigned int rxq,
- 				struct mlx5e_tir *tir)
- {
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/rx_res.h b/drivers/net/ethernet/mellanox/mlx5/core/en/rx_res.h
-index 3e09d91281af..f04aa2c2e8b4 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/rx_res.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/rx_res.h
-@@ -74,4 +74,8 @@ struct mlx5e_rss_params_hash mlx5e_rx_res_get_current_hash(struct mlx5e_rx_res *
- /* Accel TIRs */
- int mlx5e_rx_res_tls_tir_create(struct mlx5e_rx_res *res, unsigned int rxq,
- 				struct mlx5e_tir *tir);
-+
-+int mlx5e_rx_res_nvmeotcp_tir_create(struct mlx5e_rx_res *res, unsigned int rxq, bool crc_rx,
-+				     u32 tag_buf_id, struct mlx5e_tir *tir);
-+
- #endif /* __MLX5_EN_RX_RES_H__ */
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/tir.c b/drivers/net/ethernet/mellanox/mlx5/core/en/tir.c
-index 19499072f67f..f62daf2e724e 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/tir.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/tir.c
-@@ -146,6 +146,21 @@ void mlx5e_tir_builder_build_direct(struct mlx5e_tir_builder *builder)
- 	MLX5_SET(tirc, tirc, rx_hash_fn, MLX5_RX_HASH_FN_INVERTED_XOR8);
- }
- 
-+void mlx5e_tir_builder_build_nvmeotcp(struct mlx5e_tir_builder *builder, bool crc_rx,
-+				      u32 tag_buf_id)
-+{
-+	void *tirc = mlx5e_tir_builder_get_tirc(builder);
-+
-+	WARN_ON(builder->modify);
-+
-+	MLX5_SET(tirc, tirc, nvmeotcp_zero_copy_en, 1);
-+	MLX5_SET(tirc, tirc, nvmeotcp_tag_buffer_table_id, tag_buf_id);
-+	MLX5_SET(tirc, tirc, nvmeotcp_crc_en, !!crc_rx);
-+	MLX5_SET(tirc, tirc, self_lb_block,
-+		 MLX5_TIRC_SELF_LB_BLOCK_BLOCK_UNICAST |
-+		 MLX5_TIRC_SELF_LB_BLOCK_BLOCK_MULTICAST);
-+}
-+
- void mlx5e_tir_builder_build_tls(struct mlx5e_tir_builder *builder)
- {
- 	void *tirc = mlx5e_tir_builder_get_tirc(builder);
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/tir.h b/drivers/net/ethernet/mellanox/mlx5/core/en/tir.h
-index e8df3aaf6562..f5840c4e47af 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/tir.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/tir.h
-@@ -36,6 +36,8 @@ void mlx5e_tir_builder_build_rss(struct mlx5e_tir_builder *builder,
- 				 bool inner);
- void mlx5e_tir_builder_build_direct(struct mlx5e_tir_builder *builder);
- void mlx5e_tir_builder_build_tls(struct mlx5e_tir_builder *builder);
-+void mlx5e_tir_builder_build_nvmeotcp(struct mlx5e_tir_builder *builder, bool crc_rx,
-+				      u32 tag_buf_id);
- 
- struct mlx5_core_dev;
- 
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-index 1453195587c1..2fc4a7ce51ef 100644
+index 2fc4a7ce51ef..2589686438c0 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
 @@ -73,6 +73,7 @@ enum mlx5e_icosq_wqe_type {
  #endif
  #ifdef CONFIG_MLX5_EN_NVMEOTCP
  	MLX5E_ICOSQ_WQE_UMR_NVMEOTCP,
-+	MLX5E_ICOSQ_WQE_SET_PSV_NVMEOTCP,
++	MLX5E_ICOSQ_WQE_UMR_NVMEOTCP_INVALIDATE,
+ 	MLX5E_ICOSQ_WQE_SET_PSV_NVMEOTCP,
  #endif
  };
- 
-@@ -245,6 +246,11 @@ struct mlx5e_icosq_wqe_info {
+@@ -251,6 +252,9 @@ struct mlx5e_icosq_wqe_info {
  		struct {
- 			struct mlx5e_ktls_rx_resync_buf *buf;
- 		} tls_get_params;
-+#endif
-+#ifdef CONFIG_MLX5_EN_NVMEOTCP
+ 			struct mlx5e_nvmeotcp_queue *queue;
+ 		} nvmeotcp_q;
 +		struct {
-+			struct mlx5e_nvmeotcp_queue *queue;
-+		} nvmeotcp_q;
++			struct mlx5e_nvmeotcp_queue_entry *entry;
++		} nvmeotcp_qe;
  #endif
  	};
  };
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
-index c36bcc230455..479a2cd03b42 100644
+index 9b107a87789d..5ed60c35faf8 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
-@@ -3,6 +3,7 @@
+@@ -142,10 +142,11 @@ build_nvmeotcp_klm_umr(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe
+ 		       u16 ccid, int klm_entries, u32 klm_offset, u32 len,
+ 		       enum wqe_type klm_type)
+ {
+-	u32 id = (klm_type == KLM_UMR) ? queue->ccid_table[ccid].klm_mkey :
+-		 (mlx5e_tir_get_tirn(&queue->tir) << MLX5_WQE_CTRL_TIR_TIS_INDEX_SHIFT);
+-	u8 opc_mod = (klm_type == KLM_UMR) ? MLX5_CTRL_SEGMENT_OPC_MOD_UMR_UMR :
+-		MLX5_OPC_MOD_TRANSPORT_TIR_STATIC_PARAMS;
++	u32 id = (klm_type == BSF_KLM_UMR) ?
++		 (mlx5e_tir_get_tirn(&queue->tir) << MLX5_WQE_CTRL_TIR_TIS_INDEX_SHIFT) :
++		 queue->ccid_table[ccid].klm_mkey;
++	u8 opc_mod = (klm_type == BSF_KLM_UMR) ? MLX5_OPC_MOD_TRANSPORT_TIR_STATIC_PARAMS :
++		     MLX5_CTRL_SEGMENT_OPC_MOD_UMR_UMR;
+ 	u32 ds_cnt = MLX5E_KLM_UMR_DS_CNT(ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
+ 	struct mlx5_wqe_umr_ctrl_seg *ucseg = &wqe->uctrl;
+ 	struct mlx5_wqe_ctrl_seg *cseg = &wqe->ctrl;
+@@ -158,6 +159,13 @@ build_nvmeotcp_klm_umr(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe
+ 	cseg->qpn_ds = cpu_to_be32((sqn << MLX5_WQE_CTRL_QPN_SHIFT) | ds_cnt);
+ 	cseg->general_id = cpu_to_be32(id);
  
- #include <linux/netdevice.h>
- #include <linux/idr.h>
-+#include <linux/nvme-tcp.h>
- #include "en_accel/nvmeotcp.h"
- #include "en_accel/nvmeotcp_utils.h"
- #include "en_accel/fs_tcp.h"
-@@ -11,6 +12,11 @@
- #define MAX_NUM_NVMEOTCP_QUEUES	(4000)
- #define MIN_NUM_NVMEOTCP_QUEUES	(1)
- 
-+/* Max PDU data will be 512K */
-+#define MLX5E_NVMEOTCP_MAX_SEGMENTS (128)
-+#define MLX5E_NVMEOTCP_IO_THRESHOLD (32 * 1024)
-+#define MLX5E_NVMEOTCP_FULL_CCID_RANGE (0)
-+
- static const struct rhashtable_params rhash_queues = {
- 	.key_len = sizeof(int),
- 	.key_offset = offsetof(struct mlx5e_nvmeotcp_queue, id),
-@@ -20,6 +26,95 @@ static const struct rhashtable_params rhash_queues = {
- 	.max_size = MAX_NUM_NVMEOTCP_QUEUES,
- };
- 
-+static u32 mlx5e_get_max_sgl(struct mlx5_core_dev *mdev)
-+{
-+	return min_t(u32,
-+		     MLX5E_NVMEOTCP_MAX_SEGMENTS,
-+		     1 << MLX5_CAP_GEN(mdev, log_max_klm_list_size));
-+}
-+
-+static u32
-+mlx5e_get_channel_ix_from_io_cpu(struct mlx5e_params *params, u32 io_cpu)
-+{
-+	int num_channels = params->num_channels;
-+	u32 channel_ix = io_cpu;
-+
-+	if (channel_ix >= num_channels)
-+		channel_ix = channel_ix % num_channels;
-+
-+	return channel_ix;
-+}
-+
-+static
-+int mlx5e_create_nvmeotcp_tag_buf_table(struct mlx5_core_dev *mdev,
-+					struct mlx5e_nvmeotcp_queue *queue,
-+					u8 log_table_size)
-+{
-+	u32 in[MLX5_ST_SZ_DW(create_nvmeotcp_tag_buf_table_in)] = {};
-+	u32 out[MLX5_ST_SZ_DW(general_obj_out_cmd_hdr)];
-+	u64 general_obj_types;
-+	void *obj;
-+	int err;
-+
-+	obj = MLX5_ADDR_OF(create_nvmeotcp_tag_buf_table_in, in,
-+			   nvmeotcp_tag_buf_table_obj);
-+
-+	general_obj_types = MLX5_CAP_GEN_64(mdev, general_obj_types);
-+	if (!(general_obj_types &
-+	      MLX5_HCA_CAP_GENERAL_OBJECT_TYPES_NVMEOTCP_TAG_BUFFER_TABLE))
-+		return -EINVAL;
-+
-+	MLX5_SET(general_obj_in_cmd_hdr, in, opcode,
-+		 MLX5_CMD_OP_CREATE_GENERAL_OBJECT);
-+	MLX5_SET(general_obj_in_cmd_hdr, in, obj_type,
-+		 MLX5_GENERAL_OBJECT_TYPES_NVMEOTCP_TAG_BUFFER_TABLE);
-+	MLX5_SET(nvmeotcp_tag_buf_table_obj, obj,
-+		 log_tag_buffer_table_size, log_table_size);
-+
-+	err = mlx5_cmd_exec(mdev, in, sizeof(in), out, sizeof(out));
-+	if (!err)
-+		queue->tag_buf_table_id = MLX5_GET(general_obj_out_cmd_hdr,
-+						   out, obj_id);
-+	return err;
-+}
-+
-+static
-+void mlx5_destroy_nvmeotcp_tag_buf_table(struct mlx5_core_dev *mdev, u32 uid)
-+{
-+	u32 in[MLX5_ST_SZ_DW(general_obj_in_cmd_hdr)] = {};
-+	u32 out[MLX5_ST_SZ_DW(general_obj_out_cmd_hdr)];
-+
-+	MLX5_SET(general_obj_in_cmd_hdr, in, opcode,
-+		 MLX5_CMD_OP_DESTROY_GENERAL_OBJECT);
-+	MLX5_SET(general_obj_in_cmd_hdr, in, obj_type,
-+		 MLX5_GENERAL_OBJECT_TYPES_NVMEOTCP_TAG_BUFFER_TABLE);
-+	MLX5_SET(general_obj_in_cmd_hdr, in, obj_id, uid);
-+
-+	mlx5_cmd_exec(mdev, in, sizeof(in), out, sizeof(out));
-+}
-+
-+static void
-+fill_nvmeotcp_bsf_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe *wqe,
-+			  u16 ccid, u32 klm_entries, u16 klm_offset)
-+{
-+	u32 i;
-+
-+	/* BSF_KLM_UMR is used to update the tag_buffer. To spare the
-+	 * need to update both mkc.length and tag_buffer[i].len in two
-+	 * different UMRs we initialize the tag_buffer[*].len to the
-+	 * maximum size of an entry so the HW check will pass and the
-+	 * validity of the MKEY len will be checked against the
-+	 * updated mkey context field.
-+	 */
-+	for (i = 0; i < klm_entries; i++) {
-+		u32 lkey = queue->ccid_table[i + klm_offset].klm_mkey;
-+
-+		wqe->inline_klms[i].bcount = cpu_to_be32(U32_MAX);
-+		wqe->inline_klms[i].key = cpu_to_be32(lkey);
-+		wqe->inline_klms[i].va = 0;
++	if (!klm_entries) { /* this is invalidate */
++		ucseg->mkey_mask = cpu_to_be64(MLX5_MKEY_MASK_FREE);
++		ucseg->flags = MLX5_UMR_INLINE;
++		mkc->status = MLX5_MKEY_STATUS_FREE;
++		return;
 +	}
-+}
 +
- static void
- fill_nvmeotcp_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe *wqe, u16 ccid,
- 		      u32 klm_entries, u16 klm_offset)
-@@ -73,18 +168,149 @@ build_nvmeotcp_klm_umr(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe
- 	ucseg->flags = MLX5_UMR_INLINE | MLX5_UMR_TRANSLATION_OFFSET_EN;
- 	ucseg->xlt_octowords = cpu_to_be16(ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
- 	ucseg->xlt_offset = cpu_to_be16(klm_offset);
--	fill_nvmeotcp_klm_wqe(queue, wqe, ccid, klm_entries, klm_offset);
-+	if (klm_type == BSF_KLM_UMR)
-+		fill_nvmeotcp_bsf_klm_wqe(queue, wqe, ccid, klm_entries, klm_offset);
-+	else
-+		fill_nvmeotcp_klm_wqe(queue, wqe, ccid, klm_entries, klm_offset);
-+}
-+
-+static void
-+fill_nvmeotcp_progress_params(struct mlx5e_nvmeotcp_queue *queue,
-+			      struct mlx5_seg_nvmeotcp_progress_params *params,
-+			      u32 seq)
-+{
-+	void *ctx = params->ctx;
-+
-+	params->tir_num = cpu_to_be32(mlx5e_tir_get_tirn(&queue->tir));
-+
-+	MLX5_SET(nvmeotcp_progress_params, ctx, next_pdu_tcp_sn, seq);
-+	MLX5_SET(nvmeotcp_progress_params, ctx, pdu_tracker_state,
-+		 MLX5E_NVMEOTCP_PROGRESS_PARAMS_PDU_TRACKER_STATE_START);
-+}
-+
-+void
-+build_nvmeotcp_progress_params(struct mlx5e_nvmeotcp_queue *queue,
-+			       struct mlx5e_set_nvmeotcp_progress_params_wqe *wqe,
-+			       u32 seq)
-+{
-+	struct mlx5_wqe_ctrl_seg *cseg = &wqe->ctrl;
-+	u32 sqn = queue->sq.sqn;
-+	u16 pc = queue->sq.pc;
-+	u8 opc_mod;
-+
-+	memset(wqe, 0, MLX5E_NVMEOTCP_PROGRESS_PARAMS_WQE_SZ);
-+	opc_mod = MLX5_CTRL_SEGMENT_OPC_MOD_UMR_NVMEOTCP_TIR_PROGRESS_PARAMS;
-+	cseg->opmod_idx_opcode = cpu_to_be32((pc << MLX5_WQE_CTRL_WQE_INDEX_SHIFT) |
-+					     MLX5_OPCODE_SET_PSV | (opc_mod << 24));
-+	cseg->qpn_ds = cpu_to_be32((sqn << MLX5_WQE_CTRL_QPN_SHIFT) |
-+				   PROGRESS_PARAMS_DS_CNT);
-+	fill_nvmeotcp_progress_params(queue, &wqe->params, seq);
-+}
-+
-+static void
-+fill_nvmeotcp_static_params(struct mlx5e_nvmeotcp_queue *queue,
-+			    struct mlx5_wqe_transport_static_params_seg *params,
-+			    u32 resync_seq, bool ddgst_offload_en)
-+{
-+	void *ctx = params->ctx;
-+
-+	MLX5_SET(transport_static_params, ctx, const_1, 1);
-+	MLX5_SET(transport_static_params, ctx, const_2, 2);
-+	MLX5_SET(transport_static_params, ctx, acc_type,
-+		 MLX5_TRANSPORT_STATIC_PARAMS_ACC_TYPE_NVMETCP);
-+	MLX5_SET(transport_static_params, ctx, nvme_resync_tcp_sn, resync_seq);
-+	MLX5_SET(transport_static_params, ctx, pda, queue->pda);
-+	MLX5_SET(transport_static_params, ctx, ddgst_en,
-+		 !!(queue->dgst & NVME_TCP_DATA_DIGEST_ENABLE));
-+	MLX5_SET(transport_static_params, ctx, ddgst_offload_en, ddgst_offload_en);
-+	MLX5_SET(transport_static_params, ctx, hddgst_en,
-+		 !!(queue->dgst & NVME_TCP_HDR_DIGEST_ENABLE));
-+	MLX5_SET(transport_static_params, ctx, hdgst_offload_en, 0);
-+	MLX5_SET(transport_static_params, ctx, ti,
-+		 MLX5_TRANSPORT_STATIC_PARAMS_TI_INITIATOR);
-+	MLX5_SET(transport_static_params, ctx, cccid_ttag, 1);
-+	MLX5_SET(transport_static_params, ctx, zero_copy_en, 1);
-+}
-+
-+void
-+build_nvmeotcp_static_params(struct mlx5e_nvmeotcp_queue *queue,
-+			     struct mlx5e_set_transport_static_params_wqe *wqe,
-+			     u32 resync_seq, bool crc_rx)
-+{
-+	u8 opc_mod = MLX5_OPC_MOD_TRANSPORT_TIR_STATIC_PARAMS;
-+	struct mlx5_wqe_umr_ctrl_seg *ucseg = &wqe->uctrl;
-+	struct mlx5_wqe_ctrl_seg      *cseg = &wqe->ctrl;
-+	u32 sqn = queue->sq.sqn;
-+	u16 pc = queue->sq.pc;
-+
-+	memset(wqe, 0, MLX5E_TRANSPORT_STATIC_PARAMS_WQE_SZ);
-+
-+	cseg->opmod_idx_opcode = cpu_to_be32((pc << MLX5_WQE_CTRL_WQE_INDEX_SHIFT) |
-+					     MLX5_OPCODE_UMR | (opc_mod) << 24);
-+	cseg->qpn_ds = cpu_to_be32((sqn << MLX5_WQE_CTRL_QPN_SHIFT) |
-+				   MLX5E_TRANSPORT_STATIC_PARAMS_DS_CNT);
-+	cseg->imm = cpu_to_be32(mlx5e_tir_get_tirn(&queue->tir)
-+				<< MLX5_WQE_CTRL_TIR_TIS_INDEX_SHIFT);
-+
-+	ucseg->flags = MLX5_UMR_INLINE;
-+	ucseg->bsf_octowords = cpu_to_be16(MLX5E_TRANSPORT_STATIC_PARAMS_OCTWORD_SIZE);
-+	fill_nvmeotcp_static_params(queue, &wqe->params, resync_seq, crc_rx);
- }
+ 	if (klm_type == KLM_UMR && !klm_offset) {
+ 		ucseg->mkey_mask = cpu_to_be64(MLX5_MKEY_MASK_XLT_OCT_SIZE |
+ 					       MLX5_MKEY_MASK_LEN | MLX5_MKEY_MASK_FREE);
+@@ -259,8 +267,8 @@ build_nvmeotcp_static_params(struct mlx5e_nvmeotcp_queue *queue,
  
  static void
--mlx5e_nvmeotcp_fill_wi(struct mlx5e_icosq *sq, u32 wqebbs, u16 pi)
-+mlx5e_nvmeotcp_fill_wi(struct mlx5e_nvmeotcp_queue *nvmeotcp_queue,
-+		       struct mlx5e_icosq *sq, u32 wqebbs, u16 pi,
-+		       enum wqe_type type)
+ mlx5e_nvmeotcp_fill_wi(struct mlx5e_nvmeotcp_queue *nvmeotcp_queue,
+-		       struct mlx5e_icosq *sq, u32 wqebbs, u16 pi,
+-		       enum wqe_type type)
++		       struct mlx5e_icosq *sq, u32 wqebbs,
++		       u16 pi, u16 ccid, enum wqe_type type)
  {
  	struct mlx5e_icosq_wqe_info *wi = &sq->db.wqe_info[pi];
  
- 	memset(wi, 0, sizeof(*wi));
- 
- 	wi->num_wqebbs = wqebbs;
--	wi->wqe_type = MLX5E_ICOSQ_WQE_UMR_NVMEOTCP;
-+	switch (type) {
-+	case SET_PSV_UMR:
-+		wi->wqe_type = MLX5E_ICOSQ_WQE_SET_PSV_NVMEOTCP;
-+		wi->nvmeotcp_q.queue = nvmeotcp_queue;
+@@ -272,6 +280,10 @@ mlx5e_nvmeotcp_fill_wi(struct mlx5e_nvmeotcp_queue *nvmeotcp_queue,
+ 		wi->wqe_type = MLX5E_ICOSQ_WQE_SET_PSV_NVMEOTCP;
+ 		wi->nvmeotcp_q.queue = nvmeotcp_queue;
+ 		break;
++	case KLM_INV_UMR:
++		wi->wqe_type = MLX5E_ICOSQ_WQE_UMR_NVMEOTCP_INVALIDATE;
++		wi->nvmeotcp_qe.entry = &nvmeotcp_queue->ccid_table[ccid];
 +		break;
-+	default:
-+		/* cases where no further action is required upon completion, such as ddp setup */
-+		wi->wqe_type = MLX5E_ICOSQ_WQE_UMR_NVMEOTCP;
-+		break;
-+	}
-+}
-+
-+static void
-+mlx5e_nvmeotcp_rx_post_static_params_wqe(struct mlx5e_nvmeotcp_queue *queue, u32 resync_seq)
-+{
-+	struct mlx5e_set_transport_static_params_wqe *wqe;
-+	struct mlx5e_icosq *sq = &queue->sq;
-+	u16 pi, wqebbs;
-+
-+	spin_lock_bh(&queue->sq_lock);
-+	wqebbs = MLX5E_TRANSPORT_SET_STATIC_PARAMS_WQEBBS;
-+	pi = mlx5e_icosq_get_next_pi(sq, wqebbs);
-+	wqe = MLX5E_TRANSPORT_FETCH_SET_STATIC_PARAMS_WQE(sq, pi);
-+	mlx5e_nvmeotcp_fill_wi(NULL, sq, wqebbs, pi, BSF_UMR);
-+	build_nvmeotcp_static_params(queue, wqe, resync_seq, queue->crc_rx);
-+	sq->pc += wqebbs;
-+	mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, &wqe->ctrl);
-+	spin_unlock_bh(&queue->sq_lock);
-+}
-+
-+static void
-+mlx5e_nvmeotcp_rx_post_progress_params_wqe(struct mlx5e_nvmeotcp_queue *queue, u32 seq)
-+{
-+	struct mlx5e_set_nvmeotcp_progress_params_wqe *wqe;
-+	struct mlx5e_icosq *sq = &queue->sq;
-+	u16 pi, wqebbs;
-+
-+	wqebbs = MLX5E_NVMEOTCP_PROGRESS_PARAMS_WQEBBS;
-+	pi = mlx5e_icosq_get_next_pi(sq, wqebbs);
-+	wqe = MLX5E_NVMEOTCP_FETCH_PROGRESS_PARAMS_WQE(sq, pi);
-+	mlx5e_nvmeotcp_fill_wi(queue, sq, wqebbs, pi, SET_PSV_UMR);
-+	build_nvmeotcp_progress_params(queue, wqe, seq);
-+	sq->pc += wqebbs;
-+	mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, &wqe->ctrl);
- }
- 
- static u32
-@@ -104,7 +330,7 @@ post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue,
+ 	default:
+ 		/* cases where no further action is required upon completion, such as ddp setup */
+ 		wi->wqe_type = MLX5E_ICOSQ_WQE_UMR_NVMEOTCP;
+@@ -290,7 +302,7 @@ mlx5e_nvmeotcp_rx_post_static_params_wqe(struct mlx5e_nvmeotcp_queue *queue, u32
+ 	wqebbs = MLX5E_TRANSPORT_SET_STATIC_PARAMS_WQEBBS;
+ 	pi = mlx5e_icosq_get_next_pi(sq, wqebbs);
+ 	wqe = MLX5E_TRANSPORT_FETCH_SET_STATIC_PARAMS_WQE(sq, pi);
+-	mlx5e_nvmeotcp_fill_wi(NULL, sq, wqebbs, pi, BSF_UMR);
++	mlx5e_nvmeotcp_fill_wi(NULL, sq, wqebbs, pi, 0, BSF_UMR);
+ 	build_nvmeotcp_static_params(queue, wqe, resync_seq, queue->crc_rx);
+ 	sq->pc += wqebbs;
+ 	mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, &wqe->ctrl);
+@@ -307,7 +319,7 @@ mlx5e_nvmeotcp_rx_post_progress_params_wqe(struct mlx5e_nvmeotcp_queue *queue, u
+ 	wqebbs = MLX5E_NVMEOTCP_PROGRESS_PARAMS_WQEBBS;
+ 	pi = mlx5e_icosq_get_next_pi(sq, wqebbs);
+ 	wqe = MLX5E_NVMEOTCP_FETCH_PROGRESS_PARAMS_WQE(sq, pi);
+-	mlx5e_nvmeotcp_fill_wi(queue, sq, wqebbs, pi, SET_PSV_UMR);
++	mlx5e_nvmeotcp_fill_wi(queue, sq, wqebbs, pi, 0, SET_PSV_UMR);
+ 	build_nvmeotcp_progress_params(queue, wqe, seq);
+ 	sq->pc += wqebbs;
+ 	mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, &wqe->ctrl);
+@@ -330,7 +342,7 @@ post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue,
  	wqebbs = DIV_ROUND_UP(wqe_sz, MLX5_SEND_WQE_BB);
  	pi = mlx5e_icosq_get_next_pi(sq, wqebbs);
  	wqe = MLX5E_NVMEOTCP_FETCH_KLM_WQE(sq, pi);
--	mlx5e_nvmeotcp_fill_wi(sq, wqebbs, pi);
-+	mlx5e_nvmeotcp_fill_wi(queue, sq, wqebbs, pi, wqe_type);
+-	mlx5e_nvmeotcp_fill_wi(queue, sq, wqebbs, pi, wqe_type);
++	mlx5e_nvmeotcp_fill_wi(queue, sq, wqebbs, pi, ccid, wqe_type);
  	build_nvmeotcp_klm_umr(queue, wqe, ccid, cur_klm_entries, klm_offset,
  			       klm_length, wqe_type);
  	sq->pc += wqebbs;
-@@ -134,25 +360,328 @@ mlx5e_nvmeotcp_post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, enum wqe_type wq
- 	spin_unlock_bh(&queue->sq_lock);
+@@ -345,7 +357,10 @@ mlx5e_nvmeotcp_post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, enum wqe_type wq
+ 	struct mlx5e_icosq *sq = &queue->sq;
+ 	u32 klm_offset = 0, wqes, i;
+ 
+-	wqes = DIV_ROUND_UP(klm_length, queue->max_klms_per_wqe);
++	if (wqe_type == KLM_INV_UMR)
++		wqes = 1;
++	else
++		wqes = DIV_ROUND_UP(klm_length, queue->max_klms_per_wqe);
+ 
+ 	spin_lock_bh(&queue->sq_lock);
+ 
+@@ -844,12 +859,43 @@ void mlx5e_nvmeotcp_ctx_complete(struct mlx5e_icosq_wqe_info *wi)
+ 	complete(&queue->static_params_done);
  }
  
-+static int mlx5e_create_nvmeotcp_mkey(struct mlx5_core_dev *mdev, u8 access_mode,
-+				      u32 translation_octword_size, u32 *mkey)
++void mlx5e_nvmeotcp_ddp_inv_done(struct mlx5e_icosq_wqe_info *wi)
 +{
-+	int inlen = MLX5_ST_SZ_BYTES(create_mkey_in);
-+	void *mkc;
-+	u32 *in;
-+	int err;
++	struct mlx5e_nvmeotcp_queue_entry *q_entry = wi->nvmeotcp_qe.entry;
++	struct mlx5e_nvmeotcp_queue *queue = q_entry->queue;
++	struct mlx5_core_dev *mdev = queue->priv->mdev;
++	struct ulp_ddp_io *ddp = q_entry->ddp;
++	const struct ulp_ddp_ulp_ops *ulp_ops;
 +
-+	in = kvzalloc(inlen, GFP_KERNEL);
-+	if (!in)
-+		return -ENOMEM;
++	dma_unmap_sg(mdev->device, ddp->sg_table.sgl,
++		     ddp->nents, DMA_FROM_DEVICE);
 +
-+	mkc = MLX5_ADDR_OF(create_mkey_in, in, memory_key_mkey_entry);
-+	MLX5_SET(mkc, mkc, free, 1);
-+	MLX5_SET(mkc, mkc, translations_octword_size, translation_octword_size);
-+	MLX5_SET(mkc, mkc, umr_en, 1);
-+	MLX5_SET(mkc, mkc, lw, 1);
-+	MLX5_SET(mkc, mkc, lr, 1);
-+	MLX5_SET(mkc, mkc, access_mode_1_0, access_mode);
++	q_entry->sgl_length = 0;
 +
-+	MLX5_SET(mkc, mkc, qpn, 0xffffff);
-+	MLX5_SET(mkc, mkc, pd, mdev->mlx5e_res.hw_objs.pdn);
-+
-+	err = mlx5_core_create_mkey(mdev, mkey, in, inlen);
-+
-+	kvfree(in);
-+	return err;
-+}
-+
- static int
- mlx5e_nvmeotcp_offload_limits(struct net_device *netdev,
- 			      struct ulp_ddp_limits *limits)
- {
-+	struct mlx5e_priv *priv = netdev_priv(netdev);
-+	struct mlx5_core_dev *mdev = priv->mdev;
-+
-+	if (limits->type != ULP_DDP_NVME)
-+		return -EOPNOTSUPP;
-+
-+	limits->max_ddp_sgl_len = mlx5e_get_max_sgl(mdev);
-+	limits->io_threshold = MLX5E_NVMEOTCP_IO_THRESHOLD;
-+	limits->tls = false;
-+	limits->nvmeotcp.full_ccid_range = MLX5E_NVMEOTCP_FULL_CCID_RANGE;
- 	return 0;
- }
- 
-+static int mlx5e_nvmeotcp_queue_handler_poll(struct napi_struct *napi, int budget)
-+{
-+	struct mlx5e_nvmeotcp_queue_handler *qh;
-+	int work_done;
-+
-+	qh = container_of(napi, struct mlx5e_nvmeotcp_queue_handler, napi);
-+
-+	work_done = mlx5e_poll_ico_cq(qh->cq, budget);
-+
-+	if (work_done == budget || !napi_complete_done(napi, work_done))
-+		goto out;
-+
-+	mlx5e_cq_arm(qh->cq);
-+
-+out:
-+	return work_done;
-+}
-+
-+static void
-+mlx5e_nvmeotcp_destroy_icosq(struct mlx5e_icosq *sq)
-+{
-+	mlx5e_close_icosq(sq);
-+	mlx5e_close_cq(&sq->cq);
-+}
-+
-+static void mlx5e_nvmeotcp_icosq_err_cqe_work(struct work_struct *recover_work)
-+{
-+	struct mlx5e_icosq *sq = container_of(recover_work, struct mlx5e_icosq, recover_work);
-+
-+	/* Not implemented yet. */
-+
-+	netdev_warn(sq->channel->netdev, "nvmeotcp icosq recovery is not implemented\n");
-+}
-+
-+static int
-+mlx5e_nvmeotcp_build_icosq(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_priv *priv, int io_cpu)
-+{
-+	u16 max_sgl, max_klm_per_wqe, max_umr_per_ccid, sgl_rest, wqebbs_rest;
-+	struct mlx5e_channel *c = priv->channels.c[queue->channel_ix];
-+	struct mlx5e_sq_param icosq_param = {};
-+	struct mlx5e_create_cq_param ccp = {};
-+	struct dim_cq_moder icocq_moder = {};
-+	struct mlx5e_icosq *icosq;
-+	int err = -ENOMEM;
-+	u16 log_icosq_sz;
-+	u32 max_wqebbs;
-+
-+	icosq = &queue->sq;
-+	max_sgl = mlx5e_get_max_sgl(priv->mdev);
-+	max_klm_per_wqe = queue->max_klms_per_wqe;
-+	max_umr_per_ccid = max_sgl / max_klm_per_wqe;
-+	sgl_rest = max_sgl % max_klm_per_wqe;
-+	wqebbs_rest = sgl_rest ? MLX5E_KLM_UMR_WQEBBS(sgl_rest) : 0;
-+	max_wqebbs = (MLX5E_KLM_UMR_WQEBBS(max_klm_per_wqe) *
-+		     max_umr_per_ccid + wqebbs_rest) * queue->size;
-+	log_icosq_sz = order_base_2(max_wqebbs);
-+
-+	mlx5e_build_icosq_param(priv->mdev, log_icosq_sz, &icosq_param);
-+	ccp.napi = &queue->qh.napi;
-+	ccp.ch_stats = &priv->channel_stats[queue->channel_ix]->ch;
-+	ccp.node = cpu_to_node(io_cpu);
-+	ccp.ix = queue->channel_ix;
-+
-+	err = mlx5e_open_cq(priv->mdev, icocq_moder, &icosq_param.cqp, &ccp, &icosq->cq);
-+	if (err)
-+		goto err_nvmeotcp_sq;
-+	err = mlx5e_open_icosq(c, &priv->channels.params, &icosq_param, icosq,
-+			       mlx5e_nvmeotcp_icosq_err_cqe_work);
-+	if (err)
-+		goto close_cq;
-+
-+	spin_lock_init(&queue->sq_lock);
-+	return 0;
-+
-+close_cq:
-+	mlx5e_close_cq(&icosq->cq);
-+err_nvmeotcp_sq:
-+	return err;
-+}
-+
-+static void
-+mlx5e_nvmeotcp_destroy_rx(struct mlx5e_priv *priv, struct mlx5e_nvmeotcp_queue *queue,
-+			  struct mlx5_core_dev *mdev)
-+{
-+	int i;
-+
-+	mlx5e_accel_fs_del_sk(queue->fh);
-+
-+	for (i = 0; i < queue->size; i++)
-+		mlx5_core_destroy_mkey(mdev, queue->ccid_table[i].klm_mkey);
-+
-+	mlx5e_tir_destroy(&queue->tir);
-+	mlx5_destroy_nvmeotcp_tag_buf_table(mdev, queue->tag_buf_table_id);
-+
-+	mlx5e_deactivate_icosq(&queue->sq);
-+	napi_disable(&queue->qh.napi);
-+	mlx5e_nvmeotcp_destroy_icosq(&queue->sq);
-+	netif_napi_del(&queue->qh.napi);
-+}
-+
-+static int
-+mlx5e_nvmeotcp_queue_rx_init(struct mlx5e_nvmeotcp_queue *queue,
-+			     struct ulp_ddp_config *config,
-+			     struct net_device *netdev)
-+{
-+	struct nvme_tcp_ddp_config *nvme_config = &config->nvmeotcp;
-+	u8 log_queue_size = order_base_2(nvme_config->queue_size);
-+	struct mlx5e_priv *priv = netdev_priv(netdev);
-+	struct mlx5_core_dev *mdev = priv->mdev;
-+	struct sock *sk = queue->sk;
-+	int err, max_sgls, i;
-+
-+	if (nvme_config->queue_size >
-+	    BIT(MLX5_CAP_DEV_NVMEOTCP(mdev, log_max_nvmeotcp_tag_buffer_size)))
-+		return -EINVAL;
-+
-+	err = mlx5e_create_nvmeotcp_tag_buf_table(mdev, queue, log_queue_size);
-+	if (err)
-+		return err;
-+
-+	queue->qh.cq = &queue->sq.cq;
-+	netif_napi_add(priv->netdev, &queue->qh.napi, mlx5e_nvmeotcp_queue_handler_poll);
-+
-+	mutex_lock(&priv->state_lock);
-+	err = mlx5e_nvmeotcp_build_icosq(queue, priv, config->affinity_hint);
-+	mutex_unlock(&priv->state_lock);
-+	if (err)
-+		goto del_napi;
-+
-+	napi_enable(&queue->qh.napi);
-+	mlx5e_activate_icosq(&queue->sq);
-+
-+	/* initializes queue->tir */
-+	err = mlx5e_rx_res_nvmeotcp_tir_create(priv->rx_res, queue->channel_ix, queue->crc_rx,
-+					       queue->tag_buf_table_id, &queue->tir);
-+	if (err)
-+		goto destroy_icosq;
-+
-+	mlx5e_nvmeotcp_rx_post_static_params_wqe(queue, 0);
-+	mlx5e_nvmeotcp_rx_post_progress_params_wqe(queue, tcp_sk(sk)->copied_seq);
-+
-+	queue->ccid_table = kcalloc(queue->size, sizeof(struct mlx5e_nvmeotcp_queue_entry),
-+				    GFP_KERNEL);
-+	if (!queue->ccid_table) {
-+		err = -ENOMEM;
-+		goto destroy_tir;
-+	}
-+
-+	max_sgls = mlx5e_get_max_sgl(mdev);
-+	for (i = 0; i < queue->size; i++) {
-+		err = mlx5e_create_nvmeotcp_mkey(mdev, MLX5_MKC_ACCESS_MODE_KLMS, max_sgls,
-+						 &queue->ccid_table[i].klm_mkey);
-+		if (err)
-+			goto free_ccid_table;
-+	}
-+
-+	mlx5e_nvmeotcp_post_klm_wqe(queue, BSF_KLM_UMR, 0, queue->size);
-+
-+	if (!(WARN_ON(!wait_for_completion_timeout(&queue->static_params_done,
-+						   msecs_to_jiffies(3000)))))
-+		queue->fh = mlx5e_accel_fs_add_sk(priv->fs, sk, mlx5e_tir_get_tirn(&queue->tir),
-+						  queue->id);
-+
-+	if (IS_ERR_OR_NULL(queue->fh)) {
-+		err = -EINVAL;
-+		goto destroy_mkeys;
-+	}
-+
-+	return 0;
-+
-+destroy_mkeys:
-+	while ((i--))
-+		mlx5_core_destroy_mkey(mdev, queue->ccid_table[i].klm_mkey);
-+free_ccid_table:
-+	kfree(queue->ccid_table);
-+destroy_tir:
-+	mlx5e_tir_destroy(&queue->tir);
-+destroy_icosq:
-+	mlx5e_deactivate_icosq(&queue->sq);
-+	napi_disable(&queue->qh.napi);
-+	mlx5e_nvmeotcp_destroy_icosq(&queue->sq);
-+del_napi:
-+	netif_napi_del(&queue->qh.napi);
-+	mlx5_destroy_nvmeotcp_tag_buf_table(mdev, queue->tag_buf_table_id);
-+
-+	return err;
-+}
-+
- static int
- mlx5e_nvmeotcp_queue_init(struct net_device *netdev,
- 			  struct sock *sk,
--			  struct ulp_ddp_config *tconfig)
-+			  struct ulp_ddp_config *config)
- {
-+	struct nvme_tcp_ddp_config *nvme_config = &config->nvmeotcp;
-+	struct mlx5e_priv *priv = netdev_priv(netdev);
-+	struct mlx5_core_dev *mdev = priv->mdev;
-+	struct mlx5e_nvmeotcp_queue *queue;
-+	int queue_id, err;
-+
-+	if (config->type != ULP_DDP_NVME) {
-+		err = -EOPNOTSUPP;
-+		goto out;
-+	}
-+
-+	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-+	if (!queue) {
-+		err = -ENOMEM;
-+		goto out;
-+	}
-+
-+	queue_id = ida_simple_get(&priv->nvmeotcp->queue_ids,
-+				  MIN_NUM_NVMEOTCP_QUEUES, MAX_NUM_NVMEOTCP_QUEUES,
-+				  GFP_KERNEL);
-+	if (queue_id < 0) {
-+		err = -ENOSPC;
-+		goto free_queue;
-+	}
-+
-+	queue->crc_rx = !!(nvme_config->dgst & NVME_TCP_DATA_DIGEST_ENABLE);
-+	queue->ulp_ddp_ctx.type = ULP_DDP_NVME;
-+	queue->sk = sk;
-+	queue->id = queue_id;
-+	queue->dgst = nvme_config->dgst;
-+	queue->pda = nvme_config->cpda;
-+	queue->channel_ix = mlx5e_get_channel_ix_from_io_cpu(&priv->channels.params,
-+							     config->affinity_hint);
-+	queue->size = nvme_config->queue_size;
-+	queue->max_klms_per_wqe = MLX5E_MAX_KLM_PER_WQE(mdev);
-+	queue->priv = priv;
-+	init_completion(&queue->static_params_done);
-+
-+	err = mlx5e_nvmeotcp_queue_rx_init(queue, config, netdev);
-+	if (err)
-+		goto remove_queue_id;
-+
-+	err = rhashtable_insert_fast(&priv->nvmeotcp->queue_hash, &queue->hash,
-+				     rhash_queues);
-+	if (err)
-+		goto destroy_rx;
-+
-+	write_lock_bh(&sk->sk_callback_lock);
-+	ulp_ddp_set_ctx(sk, queue);
-+	write_unlock_bh(&sk->sk_callback_lock);
-+	refcount_set(&queue->ref_count, 1);
- 	return 0;
-+
-+destroy_rx:
-+	mlx5e_nvmeotcp_destroy_rx(priv, queue, mdev);
-+remove_queue_id:
-+	ida_simple_remove(&priv->nvmeotcp->queue_ids, queue_id);
-+free_queue:
-+	kfree(queue);
-+out:
-+	return err;
- }
- 
- static void
- mlx5e_nvmeotcp_queue_teardown(struct net_device *netdev,
- 			      struct sock *sk)
- {
-+	struct mlx5e_priv *priv = netdev_priv(netdev);
-+	struct mlx5_core_dev *mdev = priv->mdev;
-+	struct mlx5e_nvmeotcp_queue *queue;
-+
-+	queue = container_of(ulp_ddp_get_ctx(sk), struct mlx5e_nvmeotcp_queue, ulp_ddp_ctx);
-+
-+	WARN_ON(refcount_read(&queue->ref_count) != 1);
-+	mlx5e_nvmeotcp_destroy_rx(priv, queue, mdev);
-+
-+	rhashtable_remove_fast(&priv->nvmeotcp->queue_hash, &queue->hash,
-+			       rhash_queues);
-+	ida_simple_remove(&priv->nvmeotcp->queue_ids, queue->id);
-+	write_lock_bh(&sk->sk_callback_lock);
-+	ulp_ddp_set_ctx(sk, NULL);
-+	write_unlock_bh(&sk->sk_callback_lock);
-+	mlx5e_nvmeotcp_put_queue(queue);
- }
- 
- static int
-@@ -171,6 +700,13 @@ mlx5e_nvmeotcp_ddp_setup(struct net_device *netdev,
- 	return 0;
- }
- 
-+void mlx5e_nvmeotcp_ctx_complete(struct mlx5e_icosq_wqe_info *wi)
-+{
-+	struct mlx5e_nvmeotcp_queue *queue = wi->nvmeotcp_q.queue;
-+
-+	complete(&queue->static_params_done);
++	ulp_ops = inet_csk(queue->sk)->icsk_ulp_ddp_ops;
++	if (ulp_ops && ulp_ops->ddp_teardown_done)
++		ulp_ops->ddp_teardown_done(q_entry->ddp_ctx);
 +}
 +
  static void
  mlx5e_nvmeotcp_ddp_teardown(struct net_device *netdev,
  			    struct sock *sk,
-@@ -185,6 +721,26 @@ mlx5e_nvmeotcp_ddp_resync(struct net_device *netdev,
+ 			    struct ulp_ddp_io *ddp,
+ 			    void *ddp_ctx)
  {
- }
- 
-+struct mlx5e_nvmeotcp_queue *
-+mlx5e_nvmeotcp_get_queue(struct mlx5e_nvmeotcp *nvmeotcp, int id)
-+{
++	struct mlx5e_nvmeotcp_queue_entry *q_entry;
 +	struct mlx5e_nvmeotcp_queue *queue;
 +
-+	queue = rhashtable_lookup_fast(&nvmeotcp->queue_hash,
-+				       &id, rhash_queues);
-+	if (!IS_ERR_OR_NULL(queue))
-+		refcount_inc(&queue->ref_count);
-+	return queue;
-+}
++	queue = container_of(ulp_ddp_get_ctx(sk), struct mlx5e_nvmeotcp_queue, ulp_ddp_ctx);
++	q_entry  = &queue->ccid_table[ddp->command_id];
++	WARN_ONCE(q_entry->sgl_length == 0,
++		  "Invalidation of empty sgl (CID 0x%x, queue 0x%x)\n",
++		  ddp->command_id, queue->id);
 +
-+void mlx5e_nvmeotcp_put_queue(struct mlx5e_nvmeotcp_queue *queue)
-+{
-+	if (refcount_dec_and_test(&queue->ref_count)) {
-+		kfree(queue->ccid_table);
-+		kfree(queue);
-+	}
-+}
++	q_entry->ddp_ctx = ddp_ctx;
++	q_entry->queue = queue;
 +
- int set_ulp_ddp_nvme_tcp(struct net_device *netdev, bool enable)
- {
- 	struct mlx5e_priv *priv = netdev_priv(netdev);
++	mlx5e_nvmeotcp_post_klm_wqe(queue, KLM_INV_UMR, ddp->command_id, 0);
+ }
+ 
+ static void
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h
-index 29546992791f..8b29f3fde7f2 100644
+index 8b29f3fde7f2..13817d8a0aae 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h
-@@ -106,6 +106,10 @@ struct mlx5e_nvmeotcp {
- int mlx5e_nvmeotcp_init(struct mlx5e_priv *priv);
- int set_ulp_ddp_nvme_tcp(struct net_device *netdev, bool enable);
- void mlx5e_nvmeotcp_cleanup(struct mlx5e_priv *priv);
-+struct mlx5e_nvmeotcp_queue *
-+mlx5e_nvmeotcp_get_queue(struct mlx5e_nvmeotcp *nvmeotcp, int id);
-+void mlx5e_nvmeotcp_put_queue(struct mlx5e_nvmeotcp_queue *queue);
-+void mlx5e_nvmeotcp_ctx_complete(struct mlx5e_icosq_wqe_info *wi);
+@@ -109,6 +109,7 @@ void mlx5e_nvmeotcp_cleanup(struct mlx5e_priv *priv);
+ struct mlx5e_nvmeotcp_queue *
+ mlx5e_nvmeotcp_get_queue(struct mlx5e_nvmeotcp *nvmeotcp, int id);
+ void mlx5e_nvmeotcp_put_queue(struct mlx5e_nvmeotcp_queue *queue);
++void mlx5e_nvmeotcp_ddp_inv_done(struct mlx5e_icosq_wqe_info *wi);
+ void mlx5e_nvmeotcp_ctx_complete(struct mlx5e_icosq_wqe_info *wi);
  static inline void mlx5e_nvmeotcp_init_rx(struct mlx5e_priv *priv) {}
  void mlx5e_nvmeotcp_cleanup_rx(struct mlx5e_priv *priv);
- extern const struct ulp_ddp_dev_ops mlx5e_nvmeotcp_ops;
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
-index 6ef92679c5d0..fdb194c30e3b 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
-@@ -4,6 +4,35 @@
- #define __MLX5E_NVMEOTCP_UTILS_H__
- 
- #include "en.h"
-+#include "en_accel/nvmeotcp.h"
-+#include "en_accel/common_utils.h"
-+
-+enum {
-+	MLX5E_NVMEOTCP_PROGRESS_PARAMS_PDU_TRACKER_STATE_START     = 0,
-+	MLX5E_NVMEOTCP_PROGRESS_PARAMS_PDU_TRACKER_STATE_TRACKING  = 1,
-+	MLX5E_NVMEOTCP_PROGRESS_PARAMS_PDU_TRACKER_STATE_SEARCHING = 2,
-+};
-+
-+struct mlx5_seg_nvmeotcp_progress_params {
-+	__be32 tir_num;
-+	u8     ctx[MLX5_ST_SZ_BYTES(nvmeotcp_progress_params)];
-+};
-+
-+struct mlx5e_set_nvmeotcp_progress_params_wqe {
-+	struct mlx5_wqe_ctrl_seg            ctrl;
-+	struct mlx5_seg_nvmeotcp_progress_params params;
-+};
-+
-+/* macros for wqe handling */
-+#define MLX5E_NVMEOTCP_PROGRESS_PARAMS_WQE_SZ \
-+	(sizeof(struct mlx5e_set_nvmeotcp_progress_params_wqe))
-+
-+#define MLX5E_NVMEOTCP_PROGRESS_PARAMS_WQEBBS \
-+	(DIV_ROUND_UP(MLX5E_NVMEOTCP_PROGRESS_PARAMS_WQE_SZ, MLX5_SEND_WQE_BB))
-+
-+#define MLX5E_NVMEOTCP_FETCH_PROGRESS_PARAMS_WQE(sq, pi) \
-+	((struct mlx5e_set_nvmeotcp_progress_params_wqe *)\
-+	 mlx5e_fetch_wqe(&(sq)->wq, pi, sizeof(struct mlx5e_set_nvmeotcp_progress_params_wqe)))
- 
- #define MLX5E_NVMEOTCP_FETCH_KLM_WQE(sq, pi) \
- 	((struct mlx5e_umr_wqe *)\
-@@ -14,6 +43,9 @@
- #define MLX5_CTRL_SEGMENT_OPC_MOD_UMR_TIR_PARAMS 0x2
- #define MLX5_CTRL_SEGMENT_OPC_MOD_UMR_UMR 0x0
- 
-+#define PROGRESS_PARAMS_DS_CNT \
-+	DIV_ROUND_UP(MLX5E_NVMEOTCP_PROGRESS_PARAMS_WQE_SZ, MLX5_SEND_WQE_DS)
-+
- enum wqe_type {
- 	KLM_UMR,
- 	BSF_KLM_UMR,
-@@ -22,4 +54,13 @@ enum wqe_type {
- 	KLM_INV_UMR,
- };
- 
-+void
-+build_nvmeotcp_progress_params(struct mlx5e_nvmeotcp_queue *queue,
-+			       struct mlx5e_set_nvmeotcp_progress_params_wqe *wqe, u32 seq);
-+
-+void
-+build_nvmeotcp_static_params(struct mlx5e_nvmeotcp_queue *queue,
-+			     struct mlx5e_set_transport_static_params_wqe *wqe,
-+			     u32 resync_seq, bool crc_rx);
-+
- #endif /* __MLX5E_NVMEOTCP_UTILS_H__ */
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-index 3ebc8c1b53c6..e13a203b2f7a 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-@@ -1949,9 +1949,9 @@ bool mlx5e_reset_tx_channels_moderation(struct mlx5e_channels *chs, u8 cq_period
- 	return reset;
- }
- 
--static int mlx5e_open_icosq(struct mlx5e_channel *c, struct mlx5e_params *params,
--			    struct mlx5e_sq_param *param, struct mlx5e_icosq *sq,
--			    work_func_t recover_work_func)
-+int mlx5e_open_icosq(struct mlx5e_channel *c, struct mlx5e_params *params,
-+		     struct mlx5e_sq_param *param, struct mlx5e_icosq *sq,
-+		     work_func_t recover_work_func)
- {
- 	struct mlx5e_create_sq_param csp = {};
- 	int err;
-@@ -1995,7 +1995,7 @@ void mlx5e_deactivate_icosq(struct mlx5e_icosq *icosq)
- 	synchronize_net(); /* Sync with NAPI. */
- }
- 
--static void mlx5e_close_icosq(struct mlx5e_icosq *sq)
-+void mlx5e_close_icosq(struct mlx5e_icosq *sq)
- {
- 	if (sq->ktls_resync)
- 		mlx5e_ktls_rx_resync_destroy_resp_list(sq->ktls_resync);
 diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-index 8dda0eee0ab9..db5e220faf55 100644
+index db5e220faf55..0b9a8272430c 100644
 --- a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
 +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-@@ -53,6 +53,7 @@
- #include "en_accel/macsec.h"
- #include "en_accel/ipsec_rxtx.h"
- #include "en_accel/ktls_txrx.h"
-+#include "en_accel/nvmeotcp.h"
- #include "en/xdp.h"
- #include "en/xsk/rx.h"
- #include "en/health.h"
-@@ -947,16 +948,23 @@ void mlx5e_free_icosq_descs(struct mlx5e_icosq *sq)
- 		ci = mlx5_wq_cyc_ctr2ix(&sq->wq, sqcc);
- 		wi = &sq->db.wqe_info[ci];
- 		sqcc += wi->num_wqebbs;
--#ifdef CONFIG_MLX5_EN_TLS
- 		switch (wi->wqe_type) {
-+#ifdef CONFIG_MLX5_EN_TLS
- 		case MLX5E_ICOSQ_WQE_SET_PSV_TLS:
- 			mlx5e_ktls_handle_ctx_completion(wi);
+@@ -958,6 +958,9 @@ void mlx5e_free_icosq_descs(struct mlx5e_icosq *sq)
  			break;
- 		case MLX5E_ICOSQ_WQE_GET_PSV_TLS:
- 			mlx5e_ktls_handle_get_psv_completion(wi, sq);
- 			break;
--		}
  #endif
-+#ifdef CONFIG_MLX5_EN_NVMEOTCP
-+		case MLX5E_ICOSQ_WQE_SET_PSV_NVMEOTCP:
-+			mlx5e_nvmeotcp_ctx_complete(wi);
+ #ifdef CONFIG_MLX5_EN_NVMEOTCP
++		case MLX5E_ICOSQ_WQE_UMR_NVMEOTCP_INVALIDATE:
++			mlx5e_nvmeotcp_ddp_inv_done(wi);
 +			break;
-+#endif
-+		default:
-+			break;
-+		}
- 	}
- 	sq->cc = sqcc;
- }
-@@ -1060,6 +1068,9 @@ int mlx5e_poll_ico_cq(struct mlx5e_cq *cq, int budget)
+ 		case MLX5E_ICOSQ_WQE_SET_PSV_NVMEOTCP:
+ 			mlx5e_nvmeotcp_ctx_complete(wi);
+ 			break;
+@@ -1068,6 +1071,9 @@ int mlx5e_poll_ico_cq(struct mlx5e_cq *cq, int budget)
  #ifdef CONFIG_MLX5_EN_NVMEOTCP
  			case MLX5E_ICOSQ_WQE_UMR_NVMEOTCP:
  				break;
-+			case MLX5E_ICOSQ_WQE_SET_PSV_NVMEOTCP:
-+				mlx5e_nvmeotcp_ctx_complete(wi);
++			case MLX5E_ICOSQ_WQE_UMR_NVMEOTCP_INVALIDATE:
++				mlx5e_nvmeotcp_ddp_inv_done(wi);
 +				break;
- #endif
- 			default:
- 				netdev_WARN_ONCE(cq->netdev,
+ 			case MLX5E_ICOSQ_WQE_SET_PSV_NVMEOTCP:
+ 				mlx5e_nvmeotcp_ctx_complete(wi);
+ 				break;
 -- 
 2.34.1
 
