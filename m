@@ -4,51 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B73FC282CD
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 14:29:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65161C282D1
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Mar 2025 14:34:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JaHQEzFSi7TEV17qOfuXHvkYAGdpy1yk4j7JpfBPkVY=; b=BFNZdq+KiZ6CHHNzQfiVK+mKBz
-	3SlIzklHSGowFkBtI8phwMauaiXkWZ1Zq7+HhvnNtpzwi26lZ9mn5ehzqdDS0fqH26psRys1WONLH
-	K3TxLFhQPh+6KjddWOORUK5xHZl/aSsrcWaVI/w12y1/k0DdJlYkumLwGN2nKrNb9s48hsIXZVALp
-	JjCE4Anwy+VM+Wz7m5zPL19ZIGaZNkkk6QIqnXHc0v3WYTJG+0h3jJVKVUaxhIj3fUYzRRrj6OEFC
-	AZDCbl5DaHzG2vcqwXndPW5HFRIzIUJVRsBG2/5Zqph0vIijNLyYkv5dveYXw+rgEMBjLKzeZdpw/
-	pZ7NTp4g==;
+	bh=PTzadO2DnckvRJ6jl7j+mB7ira4oDWZGsSy/iOCEG/E=; b=LAPc7Ci5QH9nbCw9Ga/6hCMqFi
+	iR/0UFndu4GhBBQDDJAdScKrT2KmeGuyKgjzMNwekoKGiAwc9RSvYiZuqmwoD6gso3dUqlr3R37f/
+	IMYSl8feIf3J1Bn4d+JsYcYD6ool01forzv3GanUj2ZuA1h/4b+/XleouCaZ4pEvlOsRRtQJnH/zC
+	Rt1YbyckHGB0S6bDRzXobKHf/4LwYUQl9zLPhoPRSRcuC7r4c+oe0oUbnwX6h+z62AS/hR09iNqv1
+	XknNnYCG38vMtz0t8r+fidieFjyVXvXK7/BKuvdnCk6oGDUrEpLp5N5/599CpaihuYv6Psp7fYlLc
+	zrWSQ2fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp6nI-000000016iY-1qhB;
-	Mon, 03 Mar 2025 14:29:20 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1tp6rw-000000017Os-0ulx;
+	Mon, 03 Mar 2025 14:34:08 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tp6XB-000000012de-0I09
-	for linux-nvme@lists.infradead.org;
-	Mon, 03 Mar 2025 14:12:42 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C891568CFE; Mon,  3 Mar 2025 15:12:36 +0100 (CET)
-Date: Mon, 3 Mar 2025 15:12:36 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
-	anuj1072538@gmail.com, nikh1092@linux.ibm.com,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org, dm-devel@lists.linux.dev,
-	M Nikhil <nikhilm@linux.ibm.com>
-Subject: Re: [PATCH v2 1/2] block: ensure correct integrity capability
- propagation in stacked devices
-Message-ID: <20250303141236.GB16268@lst.de>
-References: <20250226112035.2571-1-anuj20.g@samsung.com> <CGME20250226112857epcas5p1654e62b5fff4551926622f19269c6ff4@epcas5p1.samsung.com> <20250226112035.2571-2-anuj20.g@samsung.com>
+	id 1tp6lA-000000016N6-1P98
+	for linux-nvme@bombadil.infradead.org;
+	Mon, 03 Mar 2025 14:27:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=PTzadO2DnckvRJ6jl7j+mB7ira4oDWZGsSy/iOCEG/E=; b=jpeDY1sdsl7kdGEJjFfCB8tVfI
+	rpzWNIEMkPCYt9vCLtKaZ7RzjBk7/QIkx7YExiVJi3aR1tXLj15uRKWtufG8fVXJQOIvTrH+S77Ra
+	27MoDAoLk51t9BBE+VNq7e8zZ3rzh1Zd6cUNrgbO8wQo+ef/Ovx4eW2DoHNPgfGh4x/xN5NEuMqKG
+	O5Mnvnfo2wEj7aj1i7PufG3faSwYi0WrIkYaq59bUAT1ESdRwxYbgAx3AYYQ39Sr5NljXJ0ZiArD/
+	FaRPqJCKRQEPFj4WPyAkD3CMDrxcypdnQ75u6B4lA5aEwgCBOBkSNPcKWzmPG6hXvfm/REohuVoxj
+	r8O8RoOA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tp6l8-0000000Bkxo-1gBn;
+	Mon, 03 Mar 2025 14:27:06 +0000
+Date: Mon, 3 Mar 2025 14:27:06 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Hannes Reinecke <hare@suse.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	linux-mm@kvack.org
+Subject: Re: Kernel oops with 6.14 when enabling TLS
+Message-ID: <Z8W8OtJYFzr9OQac@casper.infradead.org>
+References: <08c29e4b-2f71-4b6d-8046-27e407214d8c@suse.com>
+ <509dd4d3-85e9-40b2-a967-8c937909a1bf@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250226112035.2571-2-anuj20.g@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250303_061241_248124_9F24A058 
-X-CRM114-Status: GOOD (  17.49  )
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <509dd4d3-85e9-40b2-a967-8c937909a1bf@suse.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,25 +70,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 26, 2025 at 04:50:34PM +0530, Anuj Gupta wrote:
-> diff --git a/block/blk-settings.c b/block/blk-settings.c
-> index c44dadc35e1e..8bd0d0f1479c 100644
-> --- a/block/blk-settings.c
-> +++ b/block/blk-settings.c
-> @@ -861,7 +861,8 @@ bool queue_limits_stack_integrity(struct queue_limits *t,
->  
->  	if (!ti->tuple_size) {
->  		/* inherit the settings from the first underlying device */
-> -		if (!(ti->flags & BLK_INTEGRITY_STACKED)) {
-> +		if (!(ti->flags & BLK_INTEGRITY_STACKED) &&
-> +		    (bi->flags & BLK_INTEGRITY_DEVICE_CAPABLE)) {
->  			ti->flags = BLK_INTEGRITY_DEVICE_CAPABLE |
->  				(bi->flags & BLK_INTEGRITY_REF_TAG);
->  			ti->csum_type = bi->csum_type;
+On Mon, Mar 03, 2025 at 08:48:09AM +0100, Hannes Reinecke wrote:
+> On 2/28/25 11:47, Hannes Reinecke wrote:
+> > Hi Sagi,
+> > 
+> > enabling TLS on latest linus tree reliably crashes my system:
+> > 
+> > [  487.018058] ------------[ cut here ]------------
+> > [  487.024046] WARNING: CPU: 9 PID: 6159 at mm/slub.c:4719
+> > free_large_kmalloc+0x15/0xa0
 
-As mentioned last round this still does the wrong thing if the first
-device(s) is/are not PI-capable but the next one(s) is/are.  Please
-look into the pseudocode I posted in reply to the previous iteration
-on how to fix it.
+That's:
+
+        if (WARN_ON_ONCE(order == 0))
+                pr_warn_once("object pointer: 0x%p\n", object);
+
+And while the object pointer is obfuscated (hashed pointers), this
+wouldn't be helpful in trying to track down the problem.  Perhaps
+we could make this a VM_WARN_ON_ONCE_FOLIO() so we get the dump_page()?
+
+I'm tempted to believe this is a double-free, but then I'm not sure why
+it'd be triggered by this patch.
+
+> > [  487.296801]  kfree+0x234/0x320
+> > [  487.332084]  nvmf_connect_admin_queue+0x105/0x1a0 [nvme_fabrics
+> > 34d997d53c805aa2fae8e8baee6a736e8da38358]
+> > [  487.332093]  nvme_tcp_start_queue+0x18f/0x310 [nvme_tcp
+> > 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
+> > [  487.332102]  nvme_tcp_setup_ctrl+0xf8/0x700 [nvme_tcp
+> > 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
+> > [  487.394495]  nvme_tcp_create_ctrl+0x2e3/0x4d0 [nvme_tcp
+> > 68f6be106f52ac467179f8a0922f02aeb6fa1f1c]
+> > [  487.394503]  nvmf_dev_write+0x323/0x3d0 [nvme_fabrics
+> > 34d997d53c805aa2fae8e8baee6a736e8da38358]
+> > [  487.394514]  vfs_write+0xd9/0x430
+> > [  487.551642] object pointer: 0x00000000346cb6fc
+
+Oh, wait, that's not the crash!
+
+We continue to free the folio.  Even though we hit the "can't happen"
+case.  That's dangerous.
+
+> > [  489.405197] Oops: general protection fault, probably for non-
+> > canonical address 0xdead000000000100: 0000 [#1] PREEMPT SMP NOPTI
+
+I think we all recognise that as list poison.  I bet this is a double-free.
+
+Or it could be a wild-free.  I mean, look at kfree():
+
+        folio = virt_to_folio(object);
+        if (unlikely(!folio_test_slab(folio))) {
+                free_large_kmalloc(folio, (void *)object);
+                return;
+        }
+
+So if you call kfree() on a random pointer, chances are it's not part
+of slab, and we jump into the free_large_kmalloc() path.
+
+We have a _lot_ of page types available.  We should mark large kmallocs
+as such.  I'll send a patch to do that.
 
 
