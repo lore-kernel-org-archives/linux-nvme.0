@@ -4,65 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CC9EC021B8
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Mar 2025 20:29:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B6C2C021B8
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Mar 2025 20:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lvj3vozWqkmBCXN9KKTDXH97BLEJH6YvNtbFBYno/3c=; b=EeHghRh+MY6EqtcOGWcXBXJDoo
-	YobkKcINo3ZWAxXVWrr4HXEM5XmEfFOvYO3fQfE0nvAGlrqi7SXNhyUDNSgJfsrnppckun2SkpI+j
-	2nuY0fUUwHQKdvMYu71H9qEAgzreGup4C3u+QM24zsIS3O4J6sZB6RPLFE7avGwsPAEyFenDrKGGT
-	DMkcCbtE/H69dsk8DBb+Ig6dsCs/wy2d9e5xq31236QtE+N99vxA8m74SvSgRrDf64xPLNAJXKSg1
-	ESyuDl3k0yvj8VI5GK06PQrt3aOaMPOtJgne+uYz/muYCG+r4bXJdjhOOGYiR58aF/MliqxpOCo74
-	9fOLrOtA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6iIFedqhWb3N9WUw+rahWwqAHHg+Q/R9dVRr6Mkc640=; b=INnVyhPqlLi4hE5oN6HJp/JBhQ
+	hPdks8CH5aVR4A/oIopaRV2VcNZ6zwb7j0W8L/jSQmpipyCWn01SPVWjvyln7THNQqj4ltGcKZ8K+
+	I1U/Vptkc4OlZJMuoaWaiVH+mTGV5uvcTAJE+v76Lwvd6nuKcogDWIYahuAq8+PO3rVvF/MCiiEOm
+	Dgn/e/RSfJQevWLN1kQ6TWQyikqTFOccGs+kZr7wSSjh+H7n0x2GwPED8FJC4u8i2noH4gd8EprJB
+	wC1IoxvuxivlWreELn8vNewpbAdR6Agte4yQ6xiDaIDGcdSUb5GJZV7+0cdb0PzEmEmSZ4V/UGtj6
+	vbH4Wa8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpYtf-00000006Bl7-0Lpg;
-	Tue, 04 Mar 2025 20:29:47 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tpZMj-00000006FNi-0l4z;
+	Tue, 04 Mar 2025 20:59:49 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpWKT-00000005h4B-0Rb4
+	id 1tpY7N-000000063iB-1CBX
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Mar 2025 17:45:18 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 5CB3E5C5E0C;
-	Tue,  4 Mar 2025 17:42:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 697E0C4CEE5;
-	Tue,  4 Mar 2025 17:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741110315;
-	bh=/XYaCM7ffLPvBmOKEewqpIBZvsk+7sQeQ/ouoLNmb3A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iGsrPmrUNKRPdh6/tPUlX0DZdO3u6G1v8Z7IsvxUh0PTFWtmzC1luyNhUg54gtQsz
-	 hLBHBzARalamTAD5aPs4A0PHkO4gqajIhWvYUj4l+gRx0LG4mrT5S6rasBKofCfv20
-	 uobPfLhnY0b1eoLdz1/CkS62UAKNVzGsLyyJg89Cshk/aiw3YiYO4RdDCAVBu6ofUI
-	 YCUrz+qKrzzMkJtTwHG9EUWsd6S+6vqfSPeVPuZ2Y/CEoEwUyQIAip//uRrEFeV6fI
-	 Ly70iWwN1Bzdk7YWcT9NzZOC/jJOf8+cbIK5Way9ARjAsmre6xLdELbapWyJC1H/Ch
-	 PbxEKKV3bEQ4Q==
-Date: Tue, 4 Mar 2025 17:45:10 +0000
-From: Simon Horman <horms@kernel.org>
-To: Aurelien Aptel <aaptel@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
-	sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
-	chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org,
-	aurelien.aptel@gmail.com, smalin@nvidia.com, malin1024@gmail.com,
-	ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
-	galshalom@nvidia.com, mgurtovoy@nvidia.com, tariqt@nvidia.com
-Subject: Re: [PATCH v27 15/20] net/mlx5e: NVMEoTCP, use KLM UMRs for buffer
- registration
-Message-ID: <20250304174510.GI3666230@kernel.org>
-References: <20250303095304.1534-1-aaptel@nvidia.com>
- <20250303095304.1534-16-aaptel@nvidia.com>
+	Tue, 04 Mar 2025 19:39:54 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 62357211A0;
+	Tue,  4 Mar 2025 19:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741117191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6iIFedqhWb3N9WUw+rahWwqAHHg+Q/R9dVRr6Mkc640=;
+	b=anqvoSfEOnhz0IPcWTGSRgdqJIPeXdhfg9TnG3YDma3lIYyfUwj+9kbSwphyLo0wokxO2W
+	44BapP+OKcrPnYG5WMwrnbfXCRrCsAGwH6dTzAAEo/LhVYUv9vfk12KvLS72Ke9+xQzrI/
+	38r33aZD1jqZ4zWMcEUlbkBECsdsLJU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741117191;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6iIFedqhWb3N9WUw+rahWwqAHHg+Q/R9dVRr6Mkc640=;
+	b=1n2KVnn/CFICXg6pLnHAAW61irz5COL/8/knYOnEvhO2iEPqeDULGN3X3MyCIHu3ACYBy6
+	s+mldAt+ufwI+NAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=anqvoSfE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="1n2KVnn/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741117191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6iIFedqhWb3N9WUw+rahWwqAHHg+Q/R9dVRr6Mkc640=;
+	b=anqvoSfEOnhz0IPcWTGSRgdqJIPeXdhfg9TnG3YDma3lIYyfUwj+9kbSwphyLo0wokxO2W
+	44BapP+OKcrPnYG5WMwrnbfXCRrCsAGwH6dTzAAEo/LhVYUv9vfk12KvLS72Ke9+xQzrI/
+	38r33aZD1jqZ4zWMcEUlbkBECsdsLJU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741117191;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6iIFedqhWb3N9WUw+rahWwqAHHg+Q/R9dVRr6Mkc640=;
+	b=1n2KVnn/CFICXg6pLnHAAW61irz5COL/8/knYOnEvhO2iEPqeDULGN3X3MyCIHu3ACYBy6
+	s+mldAt+ufwI+NAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F08E313967;
+	Tue,  4 Mar 2025 19:39:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VWpROAZXx2cgEgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 04 Mar 2025 19:39:50 +0000
+Message-ID: <d9f4b78e-01d7-4d1d-8302-ed18d22754e4@suse.de>
+Date: Tue, 4 Mar 2025 20:39:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250303095304.1534-16-aaptel@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Kernel oops with 6.14 when enabling TLS
+To: Matthew Wilcox <willy@infradead.org>, Hannes Reinecke <hare@suse.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Boris Pismenny <borisp@nvidia.com>,
+ John Fastabend <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ linux-mm@kvack.org, Harry Yoo <harry.yoo@oracle.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+References: <Z8XPYNw4BSAWPAWT@casper.infradead.org>
+ <edf65d4e-90f0-4b12-b04f-35e97974a36f@suse.cz>
+ <95b0b93b-3b27-4482-8965-01963cc8beb8@suse.cz>
+ <fcfa11c6-2738-4a2e-baa8-09fa8f79cbf3@suse.de>
+ <a466b577-6156-4501-9756-1e9960aa4891@suse.cz>
+ <6877dfb1-9f44-4023-bb6d-e7530d03e33c@suse.com>
+ <db1a4681-1882-4e0a-b96f-a793e8fffb56@suse.cz>
+ <Z8cm5bVJsbskj4kC@casper.infradead.org>
+ <a4bbf5a7-c931-4e22-bb47-3783e4adcd23@suse.com>
+ <Z8cv9VKka2KBnBKV@casper.infradead.org>
+ <Z8dA8l1NR-xmFWyq@casper.infradead.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <Z8dA8l1NR-xmFWyq@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 62357211A0
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.cz,nvidia.com,gmail.com,kernel.org,grimberg.me,lists.infradead.org,vger.kernel.org,kvack.org,oracle.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250304_094517_260418_C0B8608B 
-X-CRM114-Status: GOOD (  25.65  )
+X-CRM114-CacheID: sfid-20250304_113953_464243_BB84AAD1 
+X-CRM114-Status: GOOD (  18.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,149 +158,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 03, 2025 at 09:52:59AM +0000, Aurelien Aptel wrote:
-> From: Ben Ben-Ishay <benishay@nvidia.com>
+On 3/4/25 19:05, Matthew Wilcox wrote:
+> On Tue, Mar 04, 2025 at 04:53:09PM +0000, Matthew Wilcox wrote:
+>> Right, that's what happened in the block layer.  We mark the bio with
+>> BIO_PAGE_PINNED if the pincount needs to be dropped.  As a transitional
+>> period, we had BIO_PAGE_REFFED which indicated that the page refcount
+>> needed to be dropped.  Perhaps there's something similar that network
+>> could be doing.
 > 
-> NVMEoTCP offload uses buffer registration for ddp operation.
-> Every request comprises from SG list that might consist from elements
-> with multiple combination sizes, thus the appropriate way to perform
-> buffer registration is with KLM UMRs.
+> Until that time ... how does this look as a quick hack to avoid
+> reverting the slab change?
 > 
-> UMR stands for user-mode memory registration, it is a mechanism to alter
-> address translation properties of MKEY by posting WorkQueueElement
-> aka WQE on send queue.
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index d6fed25243c3..ca08a923ac6d 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -1520,7 +1520,10 @@ static inline void folio_get(struct folio *folio)
+>   
+>   static inline void get_page(struct page *page)
+>   {
+> -	folio_get(page_folio(page));
+> +	struct folio *folio = page_folio(page);
+> +	if (WARN_ON_ONCE(folio_test_slab(folio)))
+> +		return;
+> +	folio_get(folio);
+>   }
+>   
+>   static inline __must_check bool try_get_page(struct page *page)
+> @@ -1614,6 +1617,8 @@ static inline void put_page(struct page *page)
+>   {
+>   	struct folio *folio = page_folio(page);
+>   
+> +	if (folio_test_slab(folio))
+> +		return;
+>   	folio_put(folio);
+>   }
+>   
+> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+> index 65f550cb5081..8c7fdb7d8c8f 100644
+> --- a/lib/iov_iter.c
+> +++ b/lib/iov_iter.c
+> @@ -1190,8 +1190,12 @@ static ssize_t __iov_iter_get_pages_alloc(struct iov_iter *i,
+>   		if (!n)
+>   			return -ENOMEM;
+>   		p = *pages;
+> -		for (int k = 0; k < n; k++)
+> -			get_page(p[k] = page + k);
+> +		for (int k = 0; k < n; k++) {
+> +			struct folio *folio = page_folio(page);
+> +			p[k] = page + k;
+> +			if (!folio_test_slab(folio))
+> +				folio_get(folio);
+> +		}
+>   		maxsize = min_t(size_t, maxsize, n * PAGE_SIZE - *start);
+>   		i->count -= maxsize;
+>   		i->iov_offset += maxsize;
 > 
-> MKEY stands for memory key, MKEY are used to describe a region in memory
-> that can be later used by HW.
-> 
-> KLM stands for {Key, Length, MemVa}, KLM_MKEY is indirect MKEY that
-> enables to map multiple memory spaces with different sizes in unified MKEY.
-> KLM UMR is a UMR that use to update a KLM_MKEY.
-> 
-> Nothing needs to be done on memory registration completion and this
-> notification is expensive so we add a wrapper to be able to ring the
-> doorbell without generating any.
-> 
-> Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-> Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-> Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-> Signed-off-by: Yoray Zack <yorayz@nvidia.com>
-> Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-> Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
 
-...
+Good news and bad news ...
+Good news: TLS works again!
+Bad news: no errors.
 
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
+Question to the wise: this is not the only place in iov_iter.c where we 
+do a 'get_page()'. Do we leave them and wait for others to report 
+regressions, knowing fully well that the current code _has_ issues?
+Or shouldn't we rather clean them up?
 
-...
+I guess the real fix would be to fiddle with the 'bio_add_page()' logic;
+we are always adding a 'page' reference to the bio, completely ignoring
+whether this page is a slab page or a normal one.
 
-> @@ -19,6 +20,120 @@ static const struct rhashtable_params rhash_queues = {
->  	.max_size = MAX_NUM_NVMEOTCP_QUEUES,
->  };
->  
-> +static void
-> +fill_nvmeotcp_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe *wqe, u16 ccid,
-> +		      u32 klm_entries, u16 klm_offset)
-> +{
-> +	struct scatterlist *sgl_mkey;
-> +	u32 lkey, i;
-> +
-> +	lkey = queue->priv->mdev->mlx5e_res.hw_objs.mkey;
-> +	for (i = 0; i < klm_entries; i++) {
-> +		sgl_mkey = &queue->ccid_table[ccid].sgl[i + klm_offset];
-> +		wqe->inline_klms[i].bcount = cpu_to_be32(sg_dma_len(sgl_mkey));
-> +		wqe->inline_klms[i].key = cpu_to_be32(lkey);
-> +		wqe->inline_klms[i].va = cpu_to_be64(sgl_mkey->dma_address);
-> +	}
-> +
-> +	for (; i < ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT); i++) {
-> +		wqe->inline_klms[i].bcount = 0;
-> +		wqe->inline_klms[i].key = 0;
-> +		wqe->inline_klms[i].va = 0;
-> +	}
-> +}
-> +
-> +static void
-> +build_nvmeotcp_klm_umr(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe *wqe,
-> +		       u16 ccid, int klm_entries, u32 klm_offset, u32 len,
-> +		       enum wqe_type klm_type)
-> +{
-> +	u32 id = (klm_type == KLM_UMR) ? queue->ccid_table[ccid].klm_mkey :
-> +		 (mlx5e_tir_get_tirn(&queue->tir) << MLX5_WQE_CTRL_TIR_TIS_INDEX_SHIFT);
-> +	u8 opc_mod = (klm_type == KLM_UMR) ? MLX5_CTRL_SEGMENT_OPC_MOD_UMR_UMR :
-> +		MLX5_OPC_MOD_TRANSPORT_TIR_STATIC_PARAMS;
-> +	u32 ds_cnt = MLX5E_KLM_UMR_DS_CNT(ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
-> +	struct mlx5_wqe_umr_ctrl_seg *ucseg = &wqe->uctrl;
-> +	struct mlx5_wqe_ctrl_seg *cseg = &wqe->ctrl;
-> +	struct mlx5_mkey_seg *mkc = &wqe->mkc;
+Discussion at LSF, maybe?
 
-Hi Aurelien, all,
+Cheers,
 
-I think that the lines above...
-
-> +	u32 sqn = queue->sq.sqn;
-> +	u16 pc = queue->sq.pc;
-> +
-> +	cseg->opmod_idx_opcode = cpu_to_be32((pc << MLX5_WQE_CTRL_WQE_INDEX_SHIFT) |
-> +					     MLX5_OPCODE_UMR | (opc_mod) << 24);
-> +	cseg->qpn_ds = cpu_to_be32((sqn << MLX5_WQE_CTRL_QPN_SHIFT) | ds_cnt);
-> +	cseg->general_id = cpu_to_be32(id);
-> +
-> +	if (klm_type == KLM_UMR && !klm_offset) {
-> +		ucseg->mkey_mask = cpu_to_be64(MLX5_MKEY_MASK_XLT_OCT_SIZE |
-> +					       MLX5_MKEY_MASK_LEN | MLX5_MKEY_MASK_FREE);
-> +		mkc->xlt_oct_size = cpu_to_be32(ALIGN(len, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
-> +		mkc->len = cpu_to_be64(queue->ccid_table[ccid].size);
-> +	}
-> +
-> +	ucseg->flags = MLX5_UMR_INLINE | MLX5_UMR_TRANSLATION_OFFSET_EN;
-> +	ucseg->xlt_octowords = cpu_to_be16(ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
-> +	ucseg->xlt_offset = cpu_to_be16(klm_offset);
-> +	fill_nvmeotcp_klm_wqe(queue, wqe, ccid, klm_entries, klm_offset);
-> +}
-> +
-> +static void
-> +mlx5e_nvmeotcp_fill_wi(struct mlx5e_icosq *sq, u32 wqebbs, u16 pi)
-> +{
-> +	struct mlx5e_icosq_wqe_info *wi = &sq->db.wqe_info[pi];
-> +
-> +	memset(wi, 0, sizeof(*wi));
-> +
-> +	wi->num_wqebbs = wqebbs;
-> +	wi->wqe_type = MLX5E_ICOSQ_WQE_UMR_NVMEOTCP;
-> +}
-> +
-> +static u32
-> +post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue,
-> +	     enum wqe_type wqe_type,
-> +	     u16 ccid,
-> +	     u32 klm_length,
-> +	     u32 klm_offset)
-> +{
-> +	struct mlx5e_icosq *sq = &queue->sq;
-> +	u32 wqebbs, cur_klm_entries;
-> +	struct mlx5e_umr_wqe *wqe;
-> +	u16 pi, wqe_sz;
-> +
-> +	cur_klm_entries = min_t(int, queue->max_klms_per_wqe, klm_length - klm_offset);
-> +	wqe_sz = MLX5E_KLM_UMR_WQE_SZ(ALIGN(cur_klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
-> +	wqebbs = DIV_ROUND_UP(wqe_sz, MLX5_SEND_WQE_BB);
-> +	pi = mlx5e_icosq_get_next_pi(sq, wqebbs);
-> +	wqe = MLX5E_NVMEOTCP_FETCH_KLM_WQE(sq, pi);
-> +	mlx5e_nvmeotcp_fill_wi(sq, wqebbs, pi);
-> +	build_nvmeotcp_klm_umr(queue, wqe, ccid, cur_klm_entries, klm_offset,
-> +			       klm_length, wqe_type);
-> +	sq->pc += wqebbs;
-> +	sq->doorbell_cseg = &wqe->ctrl;
-
-... and this one need (at least) to be updated for the following commit
-which is now present in net-next:
-
-bf08fd32cc55 ("net/mlx5e: Avoid a hundred -Wflex-array-member-not-at-end warnings")
-
-> +	return cur_klm_entries;
-> +}
-> +
-
-...
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
