@@ -4,179 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89FB0C021B8
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Mar 2025 19:59:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1265FC021B8
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Mar 2025 20:04:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TqyJfscKY6wPCIzvMizjhxcGjT6FdOkeaod0/a9hsx0=; b=wJLB5PIn4/IlpZlnkorEVditLf
-	qRB217MAFrwBHgSypJcYnr2OgUEVKbBWeUZJFayHVVnJr3Ya81p1oXGU9Ogk2lyCttZvB9HrQGYIH
-	MidoA8SM9nIAthWNGhPsdLaKGiVn8lPgthRQ50GaRbWDh19TZJ1UMwfk2aY6pacY2ZZsYPcg423P3
-	ztKCNknJ0dQA8erfHy+33kW2Zq2/gECbm4AUEKlzVcT1VAdUzbb3joQoX7E6Evb5mm3HJXYwpo+mY
-	04ETeIc9sVNLpw5torKWIahaFUYDSESvBAFHamDldQhb9DhX97C079VbGyEbdsyqT4tncdRwvWokx
-	s12iOiZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YOaqqactVj37NSqXHTJMYshtCr89JvWKgbuqKPkI1K0=; b=iEIALc98Yzy4ggIYhJKCjlxVTt
+	EPYsXLfrUBTIUKdmYC+YYnyRgosr2k6xlH4uK0Ew9M/csvVMUDT2/rRQERMyK0G6m+hOBMLpMQnsj
+	0GW1X+1c6+dNA2T46mxvogAcyV4mQb/rTPpux42fpjIj/n3p3TNR6Fox4vuOUnFvQmyA6trlDbkjc
+	T8f6xyNcMn8WLWC2fQ42/lnDnm6PIKOF6PJeIdZS7DNWucft4WsV1gwd2MRX7fe/7Ui5A5utTmPtr
+	xYV49tooGw+tmhF4bB3UUtFKYFy2Wh/cqVm8SkLkpZjfxKfHsRwE2Ub8CPertgC8Y4Jn2DEZRTMbD
+	ETQFHTxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpYQJ-000000068EI-1CAs;
-	Tue, 04 Mar 2025 19:59:27 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1tpYUw-00000006932-3AUE;
+	Tue, 04 Mar 2025 20:04:14 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpYC5-000000064mW-3wWg
+	id 1tpYOr-000000067tO-3su9
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 04 Mar 2025 19:57:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=YOaqqactVj37NSqXHTJMYshtCr89JvWKgbuqKPkI1K0=; b=WIfLNDjaVeQLMHNlPOGAU2k/gh
+	1g1GU22jWvt7DpPNpEh8JC2mnmrmOcipot2Bn1wwotuyRB/08laCwOkxIaYOX7GfeuG1SAgRKHHsr
+	YJVYF+MIInLS7uk2b7mv4sxauyV/fzHb97DxEhyXuSwpojm03Tzhk5FHg+ya5syzHuw9Dy4rHm06S
+	uL0SQqxNu5wUzuNpTjfpdJfcchWBy1iqix2qr26xejV1FWr6XIbQ7mUYGaFrjTASXJn0hFdMfcHif
+	q0yBI7ulYp7N9I9hlst+wt9fnOg2y2dlPqIEkDveeKzx2Z+38eR3D524+fUY52hVfgW/K3G5bqwGY
+	N6f9jTKg==;
+Received: from mgamail.intel.com ([198.175.65.17])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tpYOo-00000000CW2-0QQA
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Mar 2025 19:44:47 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3E5261F38A;
-	Tue,  4 Mar 2025 19:44:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1741117484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TqyJfscKY6wPCIzvMizjhxcGjT6FdOkeaod0/a9hsx0=;
-	b=KwlfISgxzInnNK+mCrIDlx6S7ZweHFADm0sr8xfKu+tjGKkUDGk3jJ9tdfFu4tq+GqJRWF
-	B8nTd5GgH/2hiHjaXmiRn+N7f+CTmzyJR3P/YWfiIHawZcBU01mjV7dMuKyTOi/3X0IZBA
-	g9X4oPFp4HFbZvp6k+ZakDaFlniuJS0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1741117484;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TqyJfscKY6wPCIzvMizjhxcGjT6FdOkeaod0/a9hsx0=;
-	b=fFtZr7lCsWujicLkiVU2HL0qvFTZRJXIF9/aoyt/wHbWHioxx6jQ4rOipVxJjR+FI2/BOu
-	iyRO9kzvMCzDDLCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1741117484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TqyJfscKY6wPCIzvMizjhxcGjT6FdOkeaod0/a9hsx0=;
-	b=KwlfISgxzInnNK+mCrIDlx6S7ZweHFADm0sr8xfKu+tjGKkUDGk3jJ9tdfFu4tq+GqJRWF
-	B8nTd5GgH/2hiHjaXmiRn+N7f+CTmzyJR3P/YWfiIHawZcBU01mjV7dMuKyTOi/3X0IZBA
-	g9X4oPFp4HFbZvp6k+ZakDaFlniuJS0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1741117484;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=TqyJfscKY6wPCIzvMizjhxcGjT6FdOkeaod0/a9hsx0=;
-	b=fFtZr7lCsWujicLkiVU2HL0qvFTZRJXIF9/aoyt/wHbWHioxx6jQ4rOipVxJjR+FI2/BOu
-	iyRO9kzvMCzDDLCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D36313967;
-	Tue,  4 Mar 2025 19:44:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KZ18BixYx2dbEwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 04 Mar 2025 19:44:44 +0000
-Message-ID: <27111897-0b36-4d8c-8be9-4f8bdbae88b7@suse.cz>
-Date: Tue, 4 Mar 2025 20:44:43 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Kernel oops with 6.14 when enabling TLS
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Matthew Wilcox <willy@infradead.org>,
- Hannes Reinecke <hare@suse.com>
-Cc: Boris Pismenny <borisp@nvidia.com>,
- John Fastabend <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- linux-mm@kvack.org, Harry Yoo <harry.yoo@oracle.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-References: <Z8XPYNw4BSAWPAWT@casper.infradead.org>
- <edf65d4e-90f0-4b12-b04f-35e97974a36f@suse.cz>
- <95b0b93b-3b27-4482-8965-01963cc8beb8@suse.cz>
- <fcfa11c6-2738-4a2e-baa8-09fa8f79cbf3@suse.de>
- <a466b577-6156-4501-9756-1e9960aa4891@suse.cz>
- <6877dfb1-9f44-4023-bb6d-e7530d03e33c@suse.com>
- <db1a4681-1882-4e0a-b96f-a793e8fffb56@suse.cz>
- <Z8cm5bVJsbskj4kC@casper.infradead.org>
- <a4bbf5a7-c931-4e22-bb47-3783e4adcd23@suse.com>
- <Z8cv9VKka2KBnBKV@casper.infradead.org>
- <Z8dA8l1NR-xmFWyq@casper.infradead.org>
- <d9f4b78e-01d7-4d1d-8302-ed18d22754e4@suse.de>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <d9f4b78e-01d7-4d1d-8302-ed18d22754e4@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[nvidia.com,gmail.com,kernel.org,grimberg.me,lists.infradead.org,vger.kernel.org,kvack.org,oracle.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[]
+	Tue, 04 Mar 2025 19:57:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741118274; x=1772654274;
+  h=date:from:to:cc:subject:message-id;
+  bh=cUs4LDTyspSJ8EeN4eS9Sh/FfMlCWL8TQD57gaM5oSs=;
+  b=FBXia/oexLcWZnh6n7ElWujhIRfCfNCMk1TK6OaMERO68ceYFwksfW3m
+   fZzPXrdmmNFSLleZikaaodP7rf91yAZC/Xn5maQHwCyrEbG8FKPdeLVUx
+   xDn88oVzLfPaDIgw1HJ1Kwvt3mJTs7LWvVR5zfBEl+N1byMjC0fKV/7vX
+   zpxjnMF0hr1OSl/4XySE0PdoqL3f3SKNl7LaLnk5Sk19z5WofRFI8DCx5
+   7ITL7j4PRNN9Nu0wDvfZs4Jxu00veGf/SbDteyxacNk5/C6VsodvWZMDo
+   q4EpnGQYqx9Z4WIWGbKi8kkq6jjCI8AfQgrUDjY5jmi7WykPKQZ0dz2TO
+   Q==;
+X-CSE-ConnectionGUID: BjNIqtDPQoq5rQ0mLdVYGA==
+X-CSE-MsgGUID: yQh8QNrAR0GKwGOP4e/xSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42084117"
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
+   d="scan'208";a="42084117"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 11:56:44 -0800
+X-CSE-ConnectionGUID: QxC+kJWQS5ucV5xtJhxZ9w==
+X-CSE-MsgGUID: 27gqoZj2SIGV2aQ0urX7ZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="123671736"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 04 Mar 2025 11:56:43 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpYNc-000KDq-2T;
+	Tue, 04 Mar 2025 19:56:40 +0000
+Date: Wed, 05 Mar 2025 03:56:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.15] BUILD SUCCESS
+ 13f8f3946085f178a2b2218fe700bbcd8320e08c
+Message-ID: <202503050323.g5OEior2-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250304_114446_152577_F776EAD5 
-X-CRM114-Status: GOOD (  21.57  )
+X-CRM114-CacheID: sfid-20250304_195754_633627_9ADEBB3D 
+X-CRM114-Status: UNSURE (   5.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -191,85 +98,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/4/25 20:39, Hannes Reinecke wrote:
-> On 3/4/25 19:05, Matthew Wilcox wrote:
->> On Tue, Mar 04, 2025 at 04:53:09PM +0000, Matthew Wilcox wrote:
->>> Right, that's what happened in the block layer.  We mark the bio with
->>> BIO_PAGE_PINNED if the pincount needs to be dropped.  As a transitional
->>> period, we had BIO_PAGE_REFFED which indicated that the page refcount
->>> needed to be dropped.  Perhaps there's something similar that network
->>> could be doing.
->> 
->> Until that time ... how does this look as a quick hack to avoid
->> reverting the slab change?
->> 
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index d6fed25243c3..ca08a923ac6d 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -1520,7 +1520,10 @@ static inline void folio_get(struct folio *folio)
->>   
->>   static inline void get_page(struct page *page)
->>   {
->> -	folio_get(page_folio(page));
->> +	struct folio *folio = page_folio(page);
->> +	if (WARN_ON_ONCE(folio_test_slab(folio)))
->> +		return;
->> +	folio_get(folio);
->>   }
->>   
->>   static inline __must_check bool try_get_page(struct page *page)
->> @@ -1614,6 +1617,8 @@ static inline void put_page(struct page *page)
->>   {
->>   	struct folio *folio = page_folio(page);
->>   
->> +	if (folio_test_slab(folio))
->> +		return;
->>   	folio_put(folio);
->>   }
->>   
->> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
->> index 65f550cb5081..8c7fdb7d8c8f 100644
->> --- a/lib/iov_iter.c
->> +++ b/lib/iov_iter.c
->> @@ -1190,8 +1190,12 @@ static ssize_t __iov_iter_get_pages_alloc(struct iov_iter *i,
->>   		if (!n)
->>   			return -ENOMEM;
->>   		p = *pages;
->> -		for (int k = 0; k < n; k++)
->> -			get_page(p[k] = page + k);
->> +		for (int k = 0; k < n; k++) {
->> +			struct folio *folio = page_folio(page);
->> +			p[k] = page + k;
->> +			if (!folio_test_slab(folio))
->> +				folio_get(folio);
->> +		}
->>   		maxsize = min_t(size_t, maxsize, n * PAGE_SIZE - *start);
->>   		i->count -= maxsize;
->>   		i->iov_offset += maxsize;
->> 
-> 
-> Good news and bad news ...
-> Good news: TLS works again!
-> Bad news: no errors.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.15
+branch HEAD: 13f8f3946085f178a2b2218fe700bbcd8320e08c  nvme-fc: Utilise min3() to simplify queue count calculation
 
-Wait, did you add a WARN_ON_ONCE() to the put_page() as I suggested? If yes
-and there was no error, it would have to be leaking the page. Or the path
-uses folio_put() and we'd need to put the warning there.
+elapsed time: 1452m
 
-> Question to the wise: this is not the only place in iov_iter.c where we 
-> do a 'get_page()'. Do we leave them and wait for others to report 
-> regressions, knowing fully well that the current code _has_ issues?
-> Or shouldn't we rather clean them up?
-> 
-> I guess the real fix would be to fiddle with the 'bio_add_page()' logic;
-> we are always adding a 'page' reference to the bio, completely ignoring
-> whether this page is a slab page or a normal one.
-> 
-> Discussion at LSF, maybe?
-> 
-> Cheers,
-> 
-> Hannes
+configs tested: 98
+configs skipped: 2
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                   randconfig-001-20250304    gcc-13.2.0
+arc                   randconfig-002-20250304    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                   randconfig-001-20250304    clang-21
+arm                   randconfig-002-20250304    gcc-14.2.0
+arm                   randconfig-003-20250304    clang-21
+arm                   randconfig-004-20250304    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250304    clang-21
+arm64                 randconfig-002-20250304    gcc-14.2.0
+arm64                 randconfig-003-20250304    gcc-14.2.0
+arm64                 randconfig-004-20250304    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250304    gcc-14.2.0
+csky                  randconfig-002-20250304    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250304    clang-21
+hexagon               randconfig-002-20250304    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250304    clang-19
+i386        buildonly-randconfig-002-20250304    clang-19
+i386        buildonly-randconfig-003-20250304    gcc-12
+i386        buildonly-randconfig-004-20250304    gcc-11
+i386        buildonly-randconfig-005-20250304    gcc-11
+i386        buildonly-randconfig-006-20250304    gcc-12
+i386                                defconfig    clang-19
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250304    gcc-14.2.0
+loongarch             randconfig-002-20250304    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250304    gcc-14.2.0
+nios2                 randconfig-002-20250304    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250304    gcc-14.2.0
+parisc                randconfig-002-20250304    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc               randconfig-001-20250304    gcc-14.2.0
+powerpc               randconfig-002-20250304    gcc-14.2.0
+powerpc               randconfig-003-20250304    clang-21
+powerpc64             randconfig-001-20250304    gcc-14.2.0
+powerpc64             randconfig-002-20250304    gcc-14.2.0
+powerpc64             randconfig-003-20250304    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                 randconfig-001-20250304    gcc-14.2.0
+riscv                 randconfig-002-20250304    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250304    clang-15
+s390                  randconfig-002-20250304    clang-15
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250304    gcc-14.2.0
+sh                    randconfig-002-20250304    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250304    gcc-14.2.0
+sparc                 randconfig-002-20250304    gcc-14.2.0
+sparc64               randconfig-001-20250304    gcc-14.2.0
+sparc64               randconfig-002-20250304    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250304    gcc-12
+um                    randconfig-002-20250304    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250304    clang-19
+x86_64      buildonly-randconfig-002-20250304    gcc-12
+x86_64      buildonly-randconfig-003-20250304    gcc-12
+x86_64      buildonly-randconfig-004-20250304    gcc-12
+x86_64      buildonly-randconfig-005-20250304    gcc-12
+x86_64      buildonly-randconfig-006-20250304    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250304    gcc-14.2.0
+xtensa                randconfig-002-20250304    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
