@@ -4,100 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F165C021B8
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Mar 2025 17:53:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2877C021B8
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Mar 2025 18:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pGwmGFaFYD+HWQJ7SS+pmptrp6pnqlnWuecpGe8WnK0=; b=EiUmAq/9oPEiYvzn4XOjdF2zz4
-	i/givF2zO1cXDBIZHbHoQHFS0weUxdnBaaJvfs8BuaG4XEk1geq1gNY/3EdH8bzlb6/BZq/+4Fwd2
-	BihYEp15/Wgiwxn2OalRERusGloTWafjGLI6RLtybczKBadsBNJJXDAWVUYN8y+YkMjhECDD7AXCS
-	XDFa4SVkYkONsPNysvQDyWF4rKiMArTPTm70ofpsgER3C81YTHJ+0jPArHJcd+l36/0a4Y2VC/CAM
-	JotFyEBbsfkFqkt9LTVkhFI+xsnURTWb14/jn4eH3Itr2m8F1cMzV5zNVU+NMG/oOhNdsE6t2kHgS
-	U1B3SRQQ==;
+	bh=jc0fHINLgpRpFjBoumMxo+EFHaGqMPVtOaRHH1CUD+c=; b=gcK06ecIVA9+8lSPTqsgzTHLCe
+	qVHxIHhOHawHsKokAdjaLofBp3WZBrhnPLxsCSVQVYoasRlQ9hs8/M0HdyEvo4r0KTmXGfZ4PPiYn
+	e/PUF9wgxznU3HtlfrEj4g4PLby41AToCaTmGsilSB1Az62OTehWJPEfLjXx0uYrz7CvvLDXXWdHU
+	Wa4sd3xmuLPj9A6Mpg+VlpJvLSLyktr9hUkHPOkEA9bRXO56kNcAbYeZAYiPAsG9Js66EbSGFeiaD
+	tis1sfwW9wjshV+Wq/zwKPdnuWne9Cpm6OWLPvL2dGH8BOq5l5o/0nCYZeOzoW1p/6K8V2j/cQsXE
+	w+m+h+pA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpWSO-00000005iho-3mWN;
-	Tue, 04 Mar 2025 17:53:28 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1tpWbi-00000005knl-0R75;
+	Tue, 04 Mar 2025 18:03:06 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpV0o-00000005P6Y-0sWh
+	id 1tpVCC-00000005RSF-125T
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 04 Mar 2025 16:32:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=jc0fHINLgpRpFjBoumMxo+EFHaGqMPVtOaRHH1CUD+c=; b=FU+UVDbdRPlKhHk8HPnGiTgeu5
+	7d06tpLcMXTy65g0aK30oxSMfCA9Ch6nh+en/oX4pejYc6rCP8h2Jh1DMLNR/bH0VB8x25L6Nssy9
+	9pKYWWBTkj4yec1mYc/1RGauZ1KmkE3fAnX6oj0CJOkf1xBvZBPMu/7Me46+uFXo3wcRdVDbwP68O
+	ib48t5R6tvgD42kVDdNhBOv0DOg9gLkzBCTWez+NOgoBvSLBX1NY9DwgoRKg01FNmwA5Swqd6HIPO
+	og4fLhqc4FjRbHbaxGI9fsazuYe/4jgJ7TjHx4RxaLZ0SxYOBKTcYpCGIpyamnU0acVeCFdPkdfGf
+	Dbz826HA==;
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tpVC8-0000000060N-3BS0
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Mar 2025 16:20:55 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6F6CA211AA;
-	Tue,  4 Mar 2025 16:20:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741105252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pGwmGFaFYD+HWQJ7SS+pmptrp6pnqlnWuecpGe8WnK0=;
-	b=PM6hMmRd+/nT1erOFtMpSGQn92GhMbu4gIGQx/9vOJZW4Ozouz8jr1m3Xru1mA/hIuWDha
-	G1BPknswi/FXsuthZGqiTDEdsCsWd11daEthhbBC/wlYQ73XNYFaM54U/nuf8r6TpK7mLB
-	Ra3bjQvZg6nSpkWlHWLc3Bki+7RUYxM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741105252;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pGwmGFaFYD+HWQJ7SS+pmptrp6pnqlnWuecpGe8WnK0=;
-	b=/odCAx1s7KHfzHBiJBMWOiOslbBNRshaaZhLW7F2EkeAVPnwXtKSu2qJdpdH3oZYz/SzHj
-	0hIdBTxIgyv/MeAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PM6hMmRd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/odCAx1s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741105252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pGwmGFaFYD+HWQJ7SS+pmptrp6pnqlnWuecpGe8WnK0=;
-	b=PM6hMmRd+/nT1erOFtMpSGQn92GhMbu4gIGQx/9vOJZW4Ozouz8jr1m3Xru1mA/hIuWDha
-	G1BPknswi/FXsuthZGqiTDEdsCsWd11daEthhbBC/wlYQ73XNYFaM54U/nuf8r6TpK7mLB
-	Ra3bjQvZg6nSpkWlHWLc3Bki+7RUYxM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741105252;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pGwmGFaFYD+HWQJ7SS+pmptrp6pnqlnWuecpGe8WnK0=;
-	b=/odCAx1s7KHfzHBiJBMWOiOslbBNRshaaZhLW7F2EkeAVPnwXtKSu2qJdpdH3oZYz/SzHj
-	0hIdBTxIgyv/MeAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A2DB1393C;
-	Tue,  4 Mar 2025 16:20:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FV/mAGQox2dlVwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 04 Mar 2025 16:20:52 +0000
-Message-ID: <3aa8a453-2cfe-4b54-90ac-e9596c967c8c@suse.de>
-Date: Tue, 4 Mar 2025 17:20:47 +0100
+	Tue, 04 Mar 2025 16:32:39 +0000
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-390f69e71c8so2540803f8f.0
+        for <linux-nvme@lists.infradead.org>; Tue, 04 Mar 2025 08:32:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1741105954; x=1741710754; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jc0fHINLgpRpFjBoumMxo+EFHaGqMPVtOaRHH1CUD+c=;
+        b=a5tw5fvQ3eaJDF5QKDVXMYq+kPmm0b+l+C5raJjR6SzDF+xkMpud4BSqbMZZWW6ZzX
+         auBV1oD9nQWBvjoRWVtUidQava++BXsMxslpyG4iD7AkbRvtCybQKezD9ux0Jh2cp0z6
+         +H1U0AhTTM70ionmSiAWdiuyQ0cOswVCaPsEdhMysdefLf7/BQpSXa2YD0cOEr2qGfBe
+         fwaOzcMGe+nbMXaKUgHb9W9sZjIAMhHn/jDwtNZWLdOWe1IBJ7IEksQOsHx9vP30S377
+         uc96mJtX4MeemU1D1JuaJS3ZHTlspr3ueaKsUZ2wmdwf53eh1dmAA29YEnd1C453CMS7
+         KCOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741105954; x=1741710754;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jc0fHINLgpRpFjBoumMxo+EFHaGqMPVtOaRHH1CUD+c=;
+        b=fTU8e55y2zEtnaMvWHW5cTC2zLguJGKGSWXj8G5QBbpMHc/9tkBftA26x1RAXtnxAg
+         PPVWF4KzWWhe1GiCGGjY2aLcfiEjUtI6DoPnoREMH3EuESNqlWIru8suftl3BlPAvs50
+         K8S4V3DbRsmYzzPt6Y2uvKayaM+JS8kEODs7XGzp3cKpTQYZ6/cEtqkf8WI0V/ytsj5F
+         nFbI6lDAcLcH/DVPVsIeTL4iHluzT81Tvyb3jHUpsxrUUvL5yxdt7lwsE872oSviMRWW
+         g87ZWdAYtG5l2OPJvZYOOGcjm8pw5Dh3fyHvjSsx3EbWQ508ZLrOm/2iRMGyJEsfHAo4
+         f7KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/jRixSYLYh+QUbWgvjqfkoLeTPA6Kie4wQQFro9tHi078luI+jmeXMtLHckrKK7/o+maMEq/dNm0g@lists.infradead.org
+X-Gm-Message-State: AOJu0YxjXz1dTF4/kmbR1csd4w/gJ8zaFNSWY8kIzgtgFMRjPPo7bJPc
+	MBUcfEgDibA4au7bpnKCI/NNCE8tu73refI0gQJ2uf8g1bSMGL9PncjsDo3uBz01sQT/6UYxhiK
+	wMH8=
+X-Gm-Gg: ASbGncvV42VDD/F0Wijyjh/ga439x7+8G506025RmOk0G4BbRqFvMFpJZZO5sKv89U7
+	50GmhICjeOcFG4JOtYsppk4MAEY4IqBzgrmC9pnHnSm76k/86pVJ24Mg7rTZbi3cWbT6M80tEQV
+	9U3Y7mcGH4Ab5aG0S6G4Gnegu/65vSoJB9FfQPCKZMg09yCxIYLDKovTR6rDWA5jjLkDEjvL2Ij
+	zaNRIQ70D9mgrWJLTc4B1F6RYNK+LDSR03ibitHg/chSv6MACBogD4TFCP6ALmzcg46k5utnlpq
+	QXaYcvJSEpgcuAcPrJ0ic1bB3gGwZ3vbgMcipAVATApEY21JJHhzm1bRRteV50UuIBQumTR6d2q
+	BsNaMrCcyvsHuSwY=
+X-Google-Smtp-Source: AGHT+IE9XHPKCWYKHmfXqhIFhQbBA+5LnUK+LBGTEc5R7+PxSq+ocpU3+RvEvLUOWl1sPoOEowzQ0Q==
+X-Received: by 2002:a05:6000:154e:b0:390:fe2d:3172 with SMTP id ffacd0b85a97d-391155fa457mr3008728f8f.3.1741105953921;
+        Tue, 04 Mar 2025 08:32:33 -0800 (PST)
+Received: from [192.168.178.47] (aftr-62-216-202-126.dynamic.mnet-online.de. [62.216.202.126])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47a7a2asm18282891f8f.37.2025.03.04.08.32.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Mar 2025 08:32:33 -0800 (PST)
+Message-ID: <a4bbf5a7-c931-4e22-bb47-3783e4adcd23@suse.com>
+Date: Tue, 4 Mar 2025 17:32:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Kernel oops with 6.14 when enabling TLS
-To: Vlastimil Babka <vbabka@suse.cz>, Hannes Reinecke <hare@suse.com>,
- Matthew Wilcox <willy@infradead.org>, Boris Pismenny <borisp@nvidia.com>,
- John Fastabend <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
+To: Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>
+Cc: Boris Pismenny <borisp@nvidia.com>,
+ John Fastabend <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  linux-mm@kvack.org, Harry Yoo <harry.yoo@oracle.com>,
  "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-References: <08c29e4b-2f71-4b6d-8046-27e407214d8c@suse.com>
- <509dd4d3-85e9-40b2-a967-8c937909a1bf@suse.com>
- <Z8W8OtJYFzr9OQac@casper.infradead.org>
+References: <Z8W8OtJYFzr9OQac@casper.infradead.org>
  <Z8W_1l7lCFqMiwXV@casper.infradead.org>
  <15be2446-f096-45b9-aaf3-b371a694049d@suse.com>
  <Z8XPYNw4BSAWPAWT@casper.infradead.org>
@@ -107,48 +108,15 @@ References: <08c29e4b-2f71-4b6d-8046-27e407214d8c@suse.com>
  <a466b577-6156-4501-9756-1e9960aa4891@suse.cz>
  <6877dfb1-9f44-4023-bb6d-e7530d03e33c@suse.com>
  <db1a4681-1882-4e0a-b96f-a793e8fffb56@suse.cz>
- <3a1b72be-6e2a-4b74-91f5-d51d230d22b5@suse.cz>
+ <Z8cm5bVJsbskj4kC@casper.infradead.org>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <3a1b72be-6e2a-4b74-91f5-d51d230d22b5@suse.cz>
+From: Hannes Reinecke <hare@suse.com>
+In-Reply-To: <Z8cm5bVJsbskj4kC@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 6F6CA211AA
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[suse.cz,suse.com,infradead.org,nvidia.com,gmail.com,kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250304_082054_400224_7858E98D 
-X-CRM114-Status: GOOD (  15.25  )
+X-CRM114-CacheID: sfid-20250304_163236_935539_F34F8C8E 
+X-CRM114-Status: GOOD (  26.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -163,8 +131,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/4/25 16:29, Vlastimil Babka wrote:
-> On 3/4/25 11:26, Vlastimil Babka wrote:
+On 3/4/25 17:14, Matthew Wilcox wrote:
+> On Tue, Mar 04, 2025 at 11:26:07AM +0100, Vlastimil Babka wrote:
 >> +Cc NETWORKING [TLS] maintainers and netdev for input, thanks.
 >>
 >> The full error is here:
@@ -174,16 +142,6 @@ On 3/4/25 16:29, Vlastimil Babka wrote:
 >>> On 3/4/25 09:18, Vlastimil Babka wrote:
 >>>> On 3/4/25 08:58, Hannes Reinecke wrote:
 >>>>> On 3/3/25 23:02, Vlastimil Babka wrote:
->>>>>> On 3/3/25 17:15, Vlastimil Babka wrote:
->>>>>>> On 3/3/25 16:48, Matthew Wilcox wrote:
->>>>>>>> You need to turn on the debugging options Vlastimil mentioned and try to
->>>>>>>> figure out what nvme is doing wrong.
->>>>>>>
->>>>>>> Agree, looks like some error path going wrong?
->>>>>>> Since there seems to be actual non-large kmalloc usage involved, another
->>>>>>> debug parameter that could help: CONFIG_SLUB_DEBUG=y, and boot with
->>>>>>> "slab_debug=FZPU,kmalloc-*"
->>>>>>
 >>>>>> Also make sure you have CONFIG_DEBUG_VM please.
 >>>>>>
 >>>>> Here you go:
@@ -213,61 +171,19 @@ On 3/4/25 16:29, Vlastimil Babka wrote:
 >>>>> [  134.529822] kernel BUG at ./include/linux/mm.h:1455!
 >>>>
 >>>> Yeah, just as I suspected, folio_get() says the refcount is 0.
->>>>
->>>>> [  134.529835] Oops: invalid opcode: 0000 [#1] PREEMPT SMP
->>>>> DEBUG_PAGEALLOC NOPTI
->>>>> [  134.529843] CPU: 0 UID: 0 PID: 274 Comm: kworker/0:1H Kdump: loaded
->>>>> Tainted: G            E      6.14.0-rc4-default+ #309
->>>>> 03b131f1ef70944969b40df9d90a283ed638556f
->>>>> [  134.536577] Tainted: [E]=UNSIGNED_MODULE
->>>>> [  134.536580] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
->>>>> 0.0.0 02/06/2015
->>>>> [  134.536583] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
->>>>> [  134.536595] RIP: 0010:__iov_iter_get_pages_alloc+0x676/0x710
->>>>> [  134.542810] Code: e8 4c 39 e0 49 0f 47 c4 48 01 45 08 48 29 45 18 e9
->>>>> 90 fa ff ff 48 83 ef 01 e9 7f fe ff ff 48 c7 c6 40 57 4f 82 e8 6a e2 ce
->>>>> ff <0f> 0b e8 43 b8 b1 ff eb c5 f7 c1 ff 0f 00 00 48 89 cf 0f 85 4f ff
->>>>> [  134.542816] RSP: 0018:ffffc900004579d8 EFLAGS: 00010282
->>>>> [  134.542821] RAX: 000000000000005c RBX: ffffc90000457a90 RCX:
->>>>> 0000000000000027
->>>>> [  134.542825] RDX: 0000000000000000 RSI: 0000000000000002 RDI:
->>>>> ffff88817f423748
->>>>> [  134.542828] RBP: ffffc90000457d60 R08: 0000000000000000 R09:
->>>>> 0000000000000001
->>>>> [  134.554485] R10: ffffc900004579c0 R11: ffffc90000457720 R12:
->>>>> 0000000000000000
->>>>> [  134.554488] R13: ffffea000407be40 R14: ffffc90000457a70 R15:
->>>>> ffffc90000457d60
->>>>> [  134.554495] FS:  0000000000000000(0000) GS:ffff88817f400000(0000)
->>>>> knlGS:0000000000000000
->>>>> [  134.554499] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>> [  134.554502] CR2: 0000556b0675b600 CR3: 0000000106bd8000 CR4:
->>>>> 0000000000350ef0
+> 
+> ... and it has a page_type of f5 (slab)
+> 
 >>>>> [  134.554509] Call Trace:
->>>>> [  134.554512]  <TASK>
->>>>> [  134.554516]  ? __die_body+0x1a/0x60
->>>>> [  134.554525]  ? die+0x38/0x60
->>>>> [  134.554531]  ? do_trap+0x10f/0x120
->>>>> [  134.554538]  ? __iov_iter_get_pages_alloc+0x676/0x710
->>>>> [  134.568839]  ? do_error_trap+0x64/0xa0
->>>>> [  134.568847]  ? __iov_iter_get_pages_alloc+0x676/0x710
->>>>> [  134.568855]  ? exc_invalid_op+0x53/0x60
->>>>> [  134.572489]  ? __iov_iter_get_pages_alloc+0x676/0x710
->>>>> [  134.572496]  ? asm_exc_invalid_op+0x16/0x20
->>>>> [  134.572512]  ? __iov_iter_get_pages_alloc+0x676/0x710
->>>>> [  134.576726]  ? __iov_iter_get_pages_alloc+0x676/0x710
->>>>> [  134.576733]  ? srso_return_thunk+0x5/0x5f
->>>>> [  134.576740]  ? ___slab_alloc+0x924/0xb60
->>>>> [  134.580253]  ? mempool_alloc_noprof+0x41/0x190
->>>>> [  134.580262]  ? tls_get_rec+0x3d/0x1b0 [tls
->>>>> 47f199c97f69357468c91efdbba24395e9dbfa77]
 >>>>> [  134.580282]  iov_iter_get_pages2+0x19/0x30
 >>>>
 >>>> Presumably that's __iov_iter_get_pages_alloc() doing get_page() either in
 >>>> the " if (iov_iter_is_bvec(i)) " branch or via iter_folioq_get_pages()?
->>>>
->>> Looks like it.
->>>
+> 
+> It's the bvec path:
+> 
+>                  iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
+> 
 >>>> Which doesn't work for a sub-size kmalloc() from a slab folio, which after
 >>>> the frozen refcount conversion no longer supports get_page().
 >>>>
@@ -280,29 +196,56 @@ On 3/4/25 16:29, Vlastimil Babka wrote:
 >>> Looks like a specific mistake.
 >>> tls_sw is the only user of sk_msg_zerocopy_from_iter()
 >>> (which is calling into __iov_iter_get_pages_alloc()).
+>>>
+>>> And, more to the point, tls_sw messes up iov pacing coming in from
+>>> the upper layers.
+>>> So even if the upper layers send individual iovs (where each iov might
+>>> contain different allocation types), tls_sw is packing them together
+>>> into full records. So it might end up with iovs having _different_
+>>> allocations.
+>>> Which would explain why we only see it with TLS, but not with normal
+>>> connections.
 > 
-> That's from tls_sw_sendmsg_locked(), right? But that's under:
-> 
-> if (!is_kvec && (full_record || eor) && !async_capable) {
-> 
-> Shouldn't is_kvec be true if we're dealing a kernel buffer (kmalloc()) there?
-> 
-Yes, and no.
+> I thought we'd done all the work needed to get rid of these pointless
+> refcount bumps.  Turns out that's only on the block side (eg commit
+> e4cc64657bec).  So what does networking need in order to understand
+> that some iovecs do not need to mess with the refcount?
 
-We're initializing the iter in nvme_tcp_try_send_data():
+The network stack needs to get hold of the page while transmission is 
+ongoing, as there is potentially rather deep queueing involved,
+requiring several calls to sendmsg() and friends before the page is 
+finally transmitted. And maybe some post-processing (checksums,
+digests, you name it), too, all of which require the page to be there.
 
-		bvec_set_page(&bvec, page, len, offset);
-		iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
+It's all so jumbled up ... personally, I would _love_ to do away with
+__iov_iter_get_pages_alloc(). Allocating a page array? Seriously?
 
-and 'page' is coming from bio bvec. So the bv_page could refer to a 
-kmalloced page, the bvec is still that, a bvec.
+And the problem with that is that it's always takes a page(!) reference,
+completely oblivious to the fact whether you even _can_ take a page 
+reference (eg for tail pages); we've hit this problem several times now
+(check for sendpage_ok() ...).
+
+But that's not the real issue; real issue is that the page reference is
+taken down in the very bowels of __iov_iter_get_pages_alloc(), but needs
+to be undone by the _caller_. Who might (or might not) have an idea
+that he needs to drop the reference here.
+That's why there is no straightforward conversion; you need to audit
+each and every caller and try to find out where the page reference (if 
+any) is dropped.
+Bah.
+
+Can't we (at the very least) leave it to the caller of 
+__iov_iter_get_pages() to get a page reference (he has access to the 
+page array, after all ...)? That would make the interface slightly
+better, and it'll be far more obvious to the caller what needs
+to be done.
 
 Cheers,
 
 Hannes
 -- 
 Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
+hare@suse.com                               +49 911 74053 688
 SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
 HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
