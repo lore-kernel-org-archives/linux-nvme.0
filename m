@@ -4,76 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD4EAC28B24
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 16:10:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62009C28B24
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 19:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7EFhyYRjk0NmFyx9tjONYQZAshdk/5lpm7lAwyIIxmk=; b=LJWQN1/RGyw+Vh1axwmjf0pK6r
-	AhJDvzliXRPWczSDZ0c7PFk50vqLfE5Bo9r/oo2r7Mc790L0a6foT8FceRzOFh1kTlBiKasAKrhf/
-	vAROeD2AUZzttsEskjRMwLovUkMe5WHnm5a95IU8g9zkWXO8LbxO7A8OTlDftcsI/MDUX9IQbphK+
-	LM7HqCgG6rx4fCEKtIephpdwMTwi+3BoGkYXO8+swpIgYVrAQF5i20FqniZMAPvYF/5NYFPL4VALh
-	7TEPyga8SqGFKm2jxrQuSzu7BOZW1K19HQfNHadumkIGzPSfrr3TOkxxUCYYmfmXnS0XRQ+phuQbq
-	UQaItCsw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=6XBg0j3dZ/yxwORX9i9s6Er5Zowct/wJvSO5t5uJ6zo=; b=oo1ITIuJSu3R6q8VsvZPenGCVr
+	46zSQ0UjtMqHPQpGqgj+g/EuCKshaO6rWlf15eQ+6A5bX7LgDqc3GTqdaaItAWT3TKiUwEuck/Hgz
+	hx7m/2KIhI+bTqzcY/QFq04+/fSJIUy5SA7zxRUyF6c9Nc8nfVPiDMtXRZoI0ymHWCfGOtg7z5U3K
+	hplbORu5kyx/3WUwDHLs5CfMLQWJBKfiBfK4z+LXrmq8Ch5rZxkQtlto59Nsz6LcFNHY5eeC8XT3z
+	rXk5sXHamXeZxpZh0pI00AJii8nu0yfaQpPkxQ2KH5/Pjq4OMuqMY4mHhQqVWFLJYBkIEP90P+Jxx
+	HCtcRKuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqDnf-0000000BQwz-3Z6o;
-	Thu, 06 Mar 2025 16:10:19 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1tqGrq-0000000C0JC-2l8X;
+	Thu, 06 Mar 2025 19:26:50 +0000
+Received: from mgamail.intel.com ([192.198.163.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqDhc-0000000BPkj-3dmV
+	id 1tqGro-0000000C0IK-3AWC
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Mar 2025 16:04:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741277042;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7EFhyYRjk0NmFyx9tjONYQZAshdk/5lpm7lAwyIIxmk=;
-	b=CQ4e/7ABrfGPt2VgMTyQ60SVch5cUiIHFusaE1Zm8RvScmwueaek/0aBmSkpYieQCX+QWh
-	pLxXX4AZsxY6SzEi/wusQMCcvH9U5sbLrrjLw4HpqsTi5L7nF9ah8Fp1WIUpJC4O2/NDC9
-	JAr7i1Ocl8Cg1Fcff4Nlk6n1jupyPrI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-498-on8_AtBPPomOH-XVUEl6wg-1; Thu,
- 06 Mar 2025 11:03:51 -0500
-X-MC-Unique: on8_AtBPPomOH-XVUEl6wg-1
-X-Mimecast-MFC-AGG-ID: on8_AtBPPomOH-XVUEl6wg_1741277030
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 74EDA18C0FDF;
-	Thu,  6 Mar 2025 16:03:29 +0000 (UTC)
-Received: from rocky.redhat.com (unknown [10.44.32.245])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7DFA01801747;
-	Thu,  6 Mar 2025 16:03:27 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: sagi@grimberg.me
-Cc: hare@suse.com,
-	mlombard@bsdbackstore.eu,
-	linux-nvme@lists.infradead.org,
-	kbusch@meta.com
-Subject: [PATCH V3 1/1] nvme-tcp: Prevent infinite loop if socket closes during CONNECTING state
-Date: Thu,  6 Mar 2025 17:03:22 +0100
-Message-ID: <20250306160322.1370300-2-mlombard@redhat.com>
-In-Reply-To: <20250306160322.1370300-1-mlombard@redhat.com>
-References: <20250306160322.1370300-1-mlombard@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 8_F5zbAXhojFjuTpCVM_kUhFHfS-xvhW8AQyaNTJhLY_1741277030
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+	Thu, 06 Mar 2025 19:26:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741289209; x=1772825209;
+  h=date:from:to:cc:subject:message-id;
+  bh=rPY/5PBsJskZpKUrmEEsWLP5fP2Hg118alfXxQXLcLU=;
+  b=Fl6jD1q2c1Adj2s1LOnhmTExAFb3viI24ESfKMt2f67xcU0/4guVIEUe
+   MCCz8iIuJU/L4/dh2AQq/IFZQ/atoemcw6ljzbX6zlW/thOVIEFeDrZxB
+   51RzTquaveK5kBy6HiseHazx1V4lmFim1Fi43vvyRXO4kuC17xqLe0aAE
+   WkFgeGgPfgvQweE0bV9YCzyfzrWnewIQPe8ltAj0VVRGkZh40rzVae6Na
+   nVDUYuM/LJ4cwlhDdFrUMUaGawCOq9WGapxL6ZJvfMHuroZzyaZyF8PqP
+   ymGXfJprIMLIh7XvtPZ1UUciNDEhD9nx68y3BvBp3d9o/zVKwv1JYVbn1
+   g==;
+X-CSE-ConnectionGUID: b1IvSW5eQPm2mPXmdN6k5Q==
+X-CSE-MsgGUID: FztMiSwtRF2l2autZGb/dg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="29903931"
+X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
+   d="scan'208";a="29903931"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 11:26:48 -0800
+X-CSE-ConnectionGUID: 5tDh52MuTRy/OmQPFcYBow==
+X-CSE-MsgGUID: u7j5H+xxT9O72FPM6whJ9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="150041015"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 06 Mar 2025 11:26:47 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tqGrl-000NW2-0e;
+	Thu, 06 Mar 2025 19:26:45 +0000
+Date: Fri, 07 Mar 2025 03:26:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.14] BUILD SUCCESS
+ 528361c49962708a60f51a1afafeb00987cebedf
+Message-ID: <202503070311.Cf88QySi-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250306_080404_985936_78296349 
-X-CRM114-Status: GOOD (  11.32  )
+X-CRM114-CacheID: sfid-20250306_112648_801694_E9E68643 
+X-CRM114-Status: UNSURE (   4.74  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,47 +83,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There is a potential race condition that can occur if
-the target closes the socket while the host is in the CONNECTING state.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.14
+branch HEAD: 528361c49962708a60f51a1afafeb00987cebedf  nvme-tcp: fix signedness bug in nvme_tcp_init_connection()
 
-If the socket's state changes to TCP_CLOSE, the nvme_tcp_state_change()
-function is invoked. However, nvme_tcp_error_recovery() is unable
-to transition the controller state to NVME_CTRL_RESETTING because
-the controller is still in the CONNECTING state. As a result, error
-recovery is bypassed, and the controller incorrectly transitions
-to the LIVE state with closed sockets.
+elapsed time: 1454m
 
-Subsequent attempts by the host to communicate with the target
-will result in an infinite loop.
+configs tested: 71
+configs skipped: 1
 
-Fix the bug by initiating the error recovery process in case an error
-is detected in nvme_tcp_try_send() to correctly
-handle the disconnection in case we missed this event
-while transitioning from CONNECTING to LIVE.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
+tested configs:
+alpha                           allyesconfig    gcc-14.2.0
+arc                             allmodconfig    gcc-13.2.0
+arc                             allyesconfig    gcc-13.2.0
+arc                  randconfig-001-20250306    gcc-13.2.0
+arc                  randconfig-002-20250306    gcc-13.2.0
+arm                             allmodconfig    gcc-14.2.0
+arm                             allyesconfig    gcc-14.2.0
+arm                  randconfig-001-20250306    gcc-14.2.0
+arm                  randconfig-002-20250306    gcc-14.2.0
+arm                  randconfig-003-20250306    gcc-14.2.0
+arm                  randconfig-004-20250306    clang-18
+arm64                randconfig-001-20250306    gcc-14.2.0
+arm64                randconfig-002-20250306    gcc-14.2.0
+arm64                randconfig-003-20250306    gcc-14.2.0
+arm64                randconfig-004-20250306    gcc-14.2.0
+csky                 randconfig-001-20250306    gcc-14.2.0
+csky                 randconfig-002-20250306    gcc-14.2.0
+hexagon                         allmodconfig    clang-21
+hexagon                         allyesconfig    clang-18
+hexagon              randconfig-001-20250306    clang-21
+hexagon              randconfig-002-20250306    clang-19
+i386       buildonly-randconfig-001-20250306    clang-19
+i386       buildonly-randconfig-002-20250306    clang-19
+i386       buildonly-randconfig-003-20250306    clang-19
+i386       buildonly-randconfig-004-20250306    gcc-12
+i386       buildonly-randconfig-005-20250306    gcc-12
+i386       buildonly-randconfig-006-20250306    clang-19
+loongarch            randconfig-001-20250306    gcc-14.2.0
+loongarch            randconfig-002-20250306    gcc-14.2.0
+nios2                randconfig-001-20250306    gcc-14.2.0
+nios2                randconfig-002-20250306    gcc-14.2.0
+openrisc                         allnoconfig    gcc-14.2.0
+parisc                           allnoconfig    gcc-14.2.0
+parisc               randconfig-001-20250306    gcc-14.2.0
+parisc               randconfig-002-20250306    gcc-14.2.0
+powerpc                          allnoconfig    gcc-14.2.0
+powerpc              randconfig-001-20250306    clang-21
+powerpc              randconfig-002-20250306    clang-18
+powerpc              randconfig-003-20250306    gcc-14.2.0
+powerpc64            randconfig-001-20250306    clang-18
+powerpc64            randconfig-002-20250306    clang-21
+powerpc64            randconfig-003-20250306    clang-18
+riscv                            allnoconfig    gcc-14.2.0
+riscv                randconfig-001-20250306    clang-18
+riscv                randconfig-002-20250306    gcc-14.2.0
+s390                            allmodconfig    clang-19
+s390                             allnoconfig    clang-15
+s390                            allyesconfig    gcc-14.2.0
+s390                 randconfig-001-20250306    gcc-14.2.0
+s390                 randconfig-002-20250306    clang-19
+sh                              allmodconfig    gcc-14.2.0
+sh                              allyesconfig    gcc-14.2.0
+sh                   randconfig-001-20250306    gcc-14.2.0
+sh                   randconfig-002-20250306    gcc-14.2.0
+sparc                           allmodconfig    gcc-14.2.0
+sparc                randconfig-001-20250306    gcc-14.2.0
+sparc                randconfig-002-20250306    gcc-14.2.0
+sparc64              randconfig-001-20250306    gcc-14.2.0
+sparc64              randconfig-002-20250306    gcc-14.2.0
+um                               allnoconfig    clang-18
+um                              allyesconfig    gcc-12
+um                   randconfig-001-20250306    gcc-12
+um                   randconfig-002-20250306    clang-16
+x86_64     buildonly-randconfig-001-20250306    gcc-11
+x86_64     buildonly-randconfig-002-20250306    clang-19
+x86_64     buildonly-randconfig-003-20250306    clang-19
+x86_64     buildonly-randconfig-004-20250306    clang-19
+x86_64     buildonly-randconfig-005-20250306    clang-19
+x86_64     buildonly-randconfig-006-20250306    gcc-12
+xtensa               randconfig-001-20250306    gcc-14.2.0
+xtensa               randconfig-002-20250306    gcc-14.2.0
 
-v3: Do not check for -EPIPE, just call nvme_tcp_error_recovery()
-
-v2: commit message: clarify where the error recovery is started
-
- drivers/nvme/host/tcp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 8a9131c95a3d..4e2cbad3f2bc 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1304,6 +1304,7 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
- 			"failed to send request %d\n", ret);
- 		nvme_tcp_fail_request(queue->request);
- 		nvme_tcp_done_send_req(queue);
-+		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
- 	}
- out:
- 	memalloc_noreclaim_restore(noreclaim_flag);
--- 
-2.43.5
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
