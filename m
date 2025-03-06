@@ -4,61 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 827F7C282D1
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 15:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E3B8C282D1
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 16:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M8PQXdR7OXSTS138LXvgs7UcTovqpj/TY1pOp+slBvA=; b=TPV3olQuiUnXSxgDQ2e6J7pRBR
-	spY7JCZD0ChK8nvPOZSBSVhnMsT5vdy8xdh+5i7kSEQUaczL3VPUexw2/380Nmnidp31PyBocSTCW
-	ErHFSs3ppEHux8IuEcD9EpInSPd+ZHiUlhe5Z1i2CPUxFiTL30nOuNmc63mHFLKgsZ+no5MoGzLGE
-	/WNgizTrOedBfYFu/wMELcAgCoTgeOhodKqO2iYWQcDUTbx0nvvrcZk1dYi4lbPa+TEhpKIgaTduD
-	Mcxr0fVHL7MZLcwRst65xbuxNsuLH2FImjqLM+BX7RytUmAHbMPB4+D6YDmSeqPWo/XhCPtPcoZGE
-	RQyKuJzw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+cfEalFeHj5YpvOARqzqMOax/Qs9RmowjR3UWGObzbs=; b=C6xhsDlay4NYMTSvIyO7FiSyYn
+	HqLVVhOgEfkUIi45pH3Fp6kc7QjYvnjdW0D60zvm7Uq4jgJla7YGsXAg3zkMgrdRQ8AJyuzDenVeY
+	ICCk5UqswYOPQDEqK43euUlHGg5jeULOlt3NsgR7qBv/cIkA+OUg4XlQ2kkfXWXb4pqzSyCoB6klk
+	mCsEwSybXu+4JK2jcxILm7c+CytS5CwLyre/lAJp04DMCa7dg49uxn2gpnKNo9lxZjHNRGzIsCXMC
+	tbqawnmkB9/ulBXx1TCt/8KS6OjO61CmCeoQIlD6YkrtBWPRguzkgWtgxwIXcthRPEZaeJ59ntnLl
+	SS6JVtVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqD0a-0000000BIe6-2UAe;
-	Thu, 06 Mar 2025 15:19:36 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tqDng-0000000BQx8-1o61;
+	Thu, 06 Mar 2025 16:10:20 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqD0X-0000000BId4-2rwS
+	id 1tqDhe-0000000BPm1-0tNI
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Mar 2025 15:19:34 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 038695C5807;
-	Thu,  6 Mar 2025 15:17:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09BF6C4CEE0;
-	Thu,  6 Mar 2025 15:19:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741274372;
-	bh=6QlmcIc2nD2jRS+7DaISjQLzs92eHSdVRUCSyvfiE+U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xtn10E7B3Flk/KudFeKjl5xJub3tkThiQhBBxKdUOSnCB1UmePvTjdYFkemRVZIM8
-	 ySuyZtAVgG9Zz0GOkAp4MmDSiV4aFU9UHuTc+JpLC3TYAji3//6onGDYIpurzp8Y4B
-	 yqf5Hj3L8ZfB+QhavnpGYjzyFSXFZCQnIIBhlbtek++GJ2G4sdc/0+ceT/va9rzUjT
-	 dG90gSCKd9gYC/tJOZQI+uLolQ0BWS33zgG0mrrxmwbr/5uCrLCTM95z3qWcQVUAbn
-	 u7B3eMXmpXAUlIS7w+hptHfOa2vXJn2lSq8/S1IfCNsfApCykhjxS2MiUx41NGDBd8
-	 Rzlsj9B4ydgQA==
-Date: Thu, 6 Mar 2025 08:19:29 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk,
+	Thu, 06 Mar 2025 16:04:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1741277045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+cfEalFeHj5YpvOARqzqMOax/Qs9RmowjR3UWGObzbs=;
+	b=gq49PFskU92JCZVyCVHUDTFZsdubbqCtTINvI069mO/NsR+3Rl9oDmNSnzdAkhglMBWW/E
+	JqLeyVTAGFUluzSdYf3NhPYHKZkRfiQNry269YF9m6fdhMkgzHVsJJ3LXxqHtDPP61/9rr
+	P3+2SMgAzsmpuXGTAsgaDOJyyyS0T5M=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-136-r5FlR3L8MgCsZwODH1wlMg-1; Thu,
+ 06 Mar 2025 11:03:52 -0500
+X-MC-Unique: r5FlR3L8MgCsZwODH1wlMg-1
+X-Mimecast-MFC-AGG-ID: r5FlR3L8MgCsZwODH1wlMg_1741277031
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D4D3F1828AC8;
+	Thu,  6 Mar 2025 16:03:26 +0000 (UTC)
+Received: from rocky.redhat.com (unknown [10.44.32.245])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7B5EF1801769;
+	Thu,  6 Mar 2025 16:03:24 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: sagi@grimberg.me
+Cc: hare@suse.com,
+	mlombard@bsdbackstore.eu,
 	linux-nvme@lists.infradead.org,
-	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-	Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: 6.13/regression/bisected - new nvme timeout errors
-Message-ID: <Z8m9AbD3tjNpBt6p@kbusch-mbp>
-References: <CABXGCsMcxu3pCF8jYPeqF_jN34saBwc8Fci+c-Dg2Lh7rqvuFQ@mail.gmail.com>
+	kbusch@meta.com
+Subject: [PATCH V3 0/1] Fix an infinite loop in nvme-tcp host driver
+Date: Thu,  6 Mar 2025 17:03:21 +0100
+Message-ID: <20250306160322.1370300-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABXGCsMcxu3pCF8jYPeqF_jN34saBwc8Fci+c-Dg2Lh7rqvuFQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: td3oofitvCli_JHFd9A-H_Tb9wRRMuQAKHxroQYuRNw_1741277031
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250306_071933_761795_6AA2C43B 
-X-CRM114-Status: GOOD (  17.80  )
+X-CRM114-CacheID: sfid-20250306_080406_324140_55596385 
+X-CRM114-Status: UNSURE (   8.46  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,36 +86,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 15, 2025 at 02:58:04AM +0500, Mikhail Gavrilov wrote:
-> Hi,
-> During 6.13 development cycle I spotted strange new nvme errors in the
-> log which I never seen before.
-> 
-> [87774.010474] nvme nvme1: I/O tag 0 (3000) opcode 0x1 (I/O Cmd) QID 1 timeout, aborting req_op:WRITE(1) size:131072
+I have two points I would like to discuss:
 
-...
+1) Are there any error codes other than -EAGAIN that deserve
+   a special treatment like not starting an error recovery?
 
-> I still haven't found a stable way to reproduce this.
-> But I'm pretty sure that if this error don't appearing within two
-> days, then we can assume that the kernel isn't affected by the
-> problem.
-> So I made bisection with above assumption and found this commit:
-> 
-> beadf0088501d9dcf2454b05d90d5d31ea3ba55f is the first bad commit
-> commit beadf0088501d9dcf2454b05d90d5d31ea3ba55f
-> Author: Christoph Hellwig <hch@lst.de>
-> Date:   Wed Nov 13 16:20:41 2024 +0100
-> 
->     nvme-pci: reverse request order in nvme_queue_rqs
+2) I remember that Hannes proposed an alternative approach to fix this.
+   He suggested allowing the controller to transition directly
+   from the CONNECTING to the RESETTING state.
+   However, I am wary of this solution because it would allow
+   the resetting code path to run concurrently with the
+   connecting path, potentially introducing new race condition bugs.
 
-The patch here uses the order recieved to dispatch commands in
-consequetive submission queue entries, which is supposed to be the
-desired behavior for any device. I did some testing on mailine, and it
-sure looks like the order the driver does this is optimal, so I'm not
-sure what's going on with your observation.
 
-Do you have a scheduler enabled on your device?
+Maurizio Lombardi (1):
+  nvme-tcp: Prevent infinite loop if socket closes during CONNECTING
+    state
 
-How are you generating IO? Is it a pattern I should be able to replicate
-with 'fio'?
+ drivers/nvme/host/tcp.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+-- 
+2.43.5
+
 
