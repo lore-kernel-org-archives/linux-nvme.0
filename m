@@ -4,70 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62009C28B24
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 19:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 599FBC282D1
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 20:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6XBg0j3dZ/yxwORX9i9s6Er5Zowct/wJvSO5t5uJ6zo=; b=oo1ITIuJSu3R6q8VsvZPenGCVr
-	46zSQ0UjtMqHPQpGqgj+g/EuCKshaO6rWlf15eQ+6A5bX7LgDqc3GTqdaaItAWT3TKiUwEuck/Hgz
-	hx7m/2KIhI+bTqzcY/QFq04+/fSJIUy5SA7zxRUyF6c9Nc8nfVPiDMtXRZoI0ymHWCfGOtg7z5U3K
-	hplbORu5kyx/3WUwDHLs5CfMLQWJBKfiBfK4z+LXrmq8Ch5rZxkQtlto59Nsz6LcFNHY5eeC8XT3z
-	rXk5sXHamXeZxpZh0pI00AJii8nu0yfaQpPkxQ2KH5/Pjq4OMuqMY4mHhQqVWFLJYBkIEP90P+Jxx
-	HCtcRKuw==;
+	bh=GzcVtYLuIwXLiUH6fZgTvs8oVMg1+gDbgR6VTBxNxQE=; b=cjO24DCyssDXmIpEcNH2P2HL8+
+	dzDY9qARCYHskXHcuB/FvWUTk+/10QH/PIID/DQGua412n/fZ6n7glVDxSfloTXgkAnVciCeyERAl
+	b0iia7aok5wXeR+VCNHVUQZ/xZXK7TEpyUqUq3IAiJCvqFq8Kezma8CTboEc6U4YsDXT3DPT6yy5r
+	dtzpQkt9gxEo/Cdn7TMk6tuT1DcaPo0DgHsPoTExDPyvyThKOBqJKVSUCv074R2Alaef6WtKnlzab
+	9qUCUahhvLfH7/gcdKCC4ASMrSfl3PKljFC0KeWfIo5TCcvDad1AQFv+P1XgentKxHZIL2iuiPQEH
+	ehLqFy6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqGrq-0000000C0JC-2l8X;
-	Thu, 06 Mar 2025 19:26:50 +0000
-Received: from mgamail.intel.com ([192.198.163.16])
+	id 1tqIEB-0000000CAua-0FIG;
+	Thu, 06 Mar 2025 20:53:59 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqGro-0000000C0IK-3AWC
+	id 1tqI7V-0000000C9lN-2lxu
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Mar 2025 19:26:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741289209; x=1772825209;
-  h=date:from:to:cc:subject:message-id;
-  bh=rPY/5PBsJskZpKUrmEEsWLP5fP2Hg118alfXxQXLcLU=;
-  b=Fl6jD1q2c1Adj2s1LOnhmTExAFb3viI24ESfKMt2f67xcU0/4guVIEUe
-   MCCz8iIuJU/L4/dh2AQq/IFZQ/atoemcw6ljzbX6zlW/thOVIEFeDrZxB
-   51RzTquaveK5kBy6HiseHazx1V4lmFim1Fi43vvyRXO4kuC17xqLe0aAE
-   WkFgeGgPfgvQweE0bV9YCzyfzrWnewIQPe8ltAj0VVRGkZh40rzVae6Na
-   nVDUYuM/LJ4cwlhDdFrUMUaGawCOq9WGapxL6ZJvfMHuroZzyaZyF8PqP
-   ymGXfJprIMLIh7XvtPZ1UUciNDEhD9nx68y3BvBp3d9o/zVKwv1JYVbn1
-   g==;
-X-CSE-ConnectionGUID: b1IvSW5eQPm2mPXmdN6k5Q==
-X-CSE-MsgGUID: FztMiSwtRF2l2autZGb/dg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="29903931"
-X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
-   d="scan'208";a="29903931"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 11:26:48 -0800
-X-CSE-ConnectionGUID: 5tDh52MuTRy/OmQPFcYBow==
-X-CSE-MsgGUID: u7j5H+xxT9O72FPM6whJ9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="150041015"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Mar 2025 11:26:47 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tqGrl-000NW2-0e;
-	Thu, 06 Mar 2025 19:26:45 +0000
-Date: Fri, 07 Mar 2025 03:26:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.14] BUILD SUCCESS
- 528361c49962708a60f51a1afafeb00987cebedf
-Message-ID: <202503070311.Cf88QySi-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Thu, 06 Mar 2025 20:47:06 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A1A7F5C5714;
+	Thu,  6 Mar 2025 20:44:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A85BC4CEE0;
+	Thu,  6 Mar 2025 20:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741294024;
+	bh=GzcVtYLuIwXLiUH6fZgTvs8oVMg1+gDbgR6VTBxNxQE=;
+	h=From:To:Subject:Date:From;
+	b=HzJssaA4Nzx3z2R/4738UEe1wTJb+w0CxYL6RJQze8NYIc4rMfz9dmIuwzR+Y4xUc
+	 aRPkiNZILcVGc7c+FPUmyGoDEcl51dSuWhqCrfT07WuNOKA7AQZEgVQiR1u5xY3fGM
+	 36euFrnzEhVAqDKRuX0aTdOp6AQzXt2Y2OxPDsfuht+3hJDCe5raWfbRysaeE9GMcs
+	 J2UbYteLshONIHUjVhU/jRR+NmJU3kkIV9WNfECdHkceNjWOxUts/c3hlGEgwT0Vqd
+	 cNN+xZJZzLNVmxPJcHNYUs3Smqz+o0XoyTEmnP8ZUvITxL+L9CVl3xR45TEdAPujzU
+	 JJY/GYgyQxLKQ==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Keith Busch <kbusch@kernel.org>,Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,linux-kernel@vger.kernel.org
+Subject: [bug report] nvme: fio workload hangs on 16m random read
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Thu, 06 Mar 2025 21:46:37 +0100
+Message-ID: <87a59x6g5u.fsf@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250306_112648_801694_E9E68643 
-X-CRM114-Status: UNSURE (   4.74  )
+X-CRM114-CacheID: sfid-20250306_124705_755200_1D1A5732 
+X-CRM114-Status: UNSURE (   5.51  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,91 +70,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.14
-branch HEAD: 528361c49962708a60f51a1afafeb00987cebedf  nvme-tcp: fix signedness bug in nvme_tcp_init_connection()
+Hi All,
 
-elapsed time: 1454m
+My CI system has found an issue for the following fio workload:
 
-configs tested: 71
-configs skipped: 1
+root@debian:~# insmod /mnt/v6.14-rc5-build/drivers/nvme/host/nvme-core.ko
+root@debian:~# insmod /mnt/v6.14-rc5-build/drivers/nvme/host/nvme.ko poll_queues=1
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+"fio" "--group_reporting" "--name=default" "--filename=/dev/nvme0n1"
+"--readwrite=randread" "--blocksize=16777216" "--direct=1" "--numjobs=1"
+"--ioengine=io_uring" "--iodepth=1" "--hipri=1" "--time_based=1"
+"--runtime=3000"
 
-tested configs:
-alpha                           allyesconfig    gcc-14.2.0
-arc                             allmodconfig    gcc-13.2.0
-arc                             allyesconfig    gcc-13.2.0
-arc                  randconfig-001-20250306    gcc-13.2.0
-arc                  randconfig-002-20250306    gcc-13.2.0
-arm                             allmodconfig    gcc-14.2.0
-arm                             allyesconfig    gcc-14.2.0
-arm                  randconfig-001-20250306    gcc-14.2.0
-arm                  randconfig-002-20250306    gcc-14.2.0
-arm                  randconfig-003-20250306    gcc-14.2.0
-arm                  randconfig-004-20250306    clang-18
-arm64                randconfig-001-20250306    gcc-14.2.0
-arm64                randconfig-002-20250306    gcc-14.2.0
-arm64                randconfig-003-20250306    gcc-14.2.0
-arm64                randconfig-004-20250306    gcc-14.2.0
-csky                 randconfig-001-20250306    gcc-14.2.0
-csky                 randconfig-002-20250306    gcc-14.2.0
-hexagon                         allmodconfig    clang-21
-hexagon                         allyesconfig    clang-18
-hexagon              randconfig-001-20250306    clang-21
-hexagon              randconfig-002-20250306    clang-19
-i386       buildonly-randconfig-001-20250306    clang-19
-i386       buildonly-randconfig-002-20250306    clang-19
-i386       buildonly-randconfig-003-20250306    clang-19
-i386       buildonly-randconfig-004-20250306    gcc-12
-i386       buildonly-randconfig-005-20250306    gcc-12
-i386       buildonly-randconfig-006-20250306    clang-19
-loongarch            randconfig-001-20250306    gcc-14.2.0
-loongarch            randconfig-002-20250306    gcc-14.2.0
-nios2                randconfig-001-20250306    gcc-14.2.0
-nios2                randconfig-002-20250306    gcc-14.2.0
-openrisc                         allnoconfig    gcc-14.2.0
-parisc                           allnoconfig    gcc-14.2.0
-parisc               randconfig-001-20250306    gcc-14.2.0
-parisc               randconfig-002-20250306    gcc-14.2.0
-powerpc                          allnoconfig    gcc-14.2.0
-powerpc              randconfig-001-20250306    clang-21
-powerpc              randconfig-002-20250306    clang-18
-powerpc              randconfig-003-20250306    gcc-14.2.0
-powerpc64            randconfig-001-20250306    clang-18
-powerpc64            randconfig-002-20250306    clang-21
-powerpc64            randconfig-003-20250306    clang-18
-riscv                            allnoconfig    gcc-14.2.0
-riscv                randconfig-001-20250306    clang-18
-riscv                randconfig-002-20250306    gcc-14.2.0
-s390                            allmodconfig    clang-19
-s390                             allnoconfig    clang-15
-s390                            allyesconfig    gcc-14.2.0
-s390                 randconfig-001-20250306    gcc-14.2.0
-s390                 randconfig-002-20250306    clang-19
-sh                              allmodconfig    gcc-14.2.0
-sh                              allyesconfig    gcc-14.2.0
-sh                   randconfig-001-20250306    gcc-14.2.0
-sh                   randconfig-002-20250306    gcc-14.2.0
-sparc                           allmodconfig    gcc-14.2.0
-sparc                randconfig-001-20250306    gcc-14.2.0
-sparc                randconfig-002-20250306    gcc-14.2.0
-sparc64              randconfig-001-20250306    gcc-14.2.0
-sparc64              randconfig-002-20250306    gcc-14.2.0
-um                               allnoconfig    clang-18
-um                              allyesconfig    gcc-12
-um                   randconfig-001-20250306    gcc-12
-um                   randconfig-002-20250306    clang-16
-x86_64     buildonly-randconfig-001-20250306    gcc-11
-x86_64     buildonly-randconfig-002-20250306    clang-19
-x86_64     buildonly-randconfig-003-20250306    clang-19
-x86_64     buildonly-randconfig-004-20250306    clang-19
-x86_64     buildonly-randconfig-005-20250306    clang-19
-x86_64     buildonly-randconfig-006-20250306    gcc-12
-xtensa               randconfig-001-20250306    gcc-14.2.0
-xtensa               randconfig-002-20250306    gcc-14.2.0
+fio will hang, some times immediately, some times after a few minutes.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I observed this on v6.14-rc1 and v6.14-rc5. It is not present in v6.13.
+
+Can any of you reproduce this? I was able to reproduce this on real
+hardware and in qemu.
+
+
+Best regards,
+Andreas Hindborg
+
+
 
