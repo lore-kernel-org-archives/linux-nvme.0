@@ -4,60 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FAA6C28B22
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 10:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29630C28B23
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 10:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
-	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wXGUQHDt3V1j5vgXYNhevlvl/FzXxzbHTjUJ8Xww2io=; b=mOjhbTOuBNwkJzB3yEFwopnPkQ
-	KAiDTEPFj9UCyEhvZG61/xrNb18Geh2uW5bcqJ9baEjJkYskjZfwQcqR9WlwFlYUBENxtP0xYcIzm
-	hsuGGI3XOey0J/Fdg/2OHnNHhvEtXphiCn73A+v+ldHDfiv16mceyPz8GbjyAzRliFGP5Kl+efnej
-	h6Wgytgs8Kq8K4nEmN1ZTw8x+EWAeeWkpiURqoFXv6W/0gEbYFdP+lOFPvRx4Y5Zqn75UIEWFhA/b
-	OZccDGeRvUxdVhkgbYY9BBYdZQnNlkSf8sHiMFG8tz2FM5WUbLRlvb9fj9UA2PuXHg3BhfldsPucL
-	EQ4CuDRA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8uwMk9eSw4+RYYUHHE2kXRw73rPJMGHwqh0fMuQwsaI=; b=w47OK4AaZicjiBwouNdGABAlZE
+	v034DeJahsYtMRYRCUdT2iEpFrb2b83WECUlfv6thBGFwPdfMd5G34kU9YDnvWAxhuy2XTmLzN1l+
+	7EiBGZUi8u9dgL9PFOsGkSKrEJU4EHe5bwWfKLFHSJS25H3SY3z1v3A0qg8BHJ5ULlzAPnphmVtvy
+	3ElHbf7B7Nru8Mh7BqdOIe7CMcHmj/XnEembB1zTwmOQW0xi+0q3VzlkQQM9LArWpqOkrefwrcsgs
+	f4/NCFlJo6XIYHFcUvNaPRNbWCz+ZXBpNKIuNQhdVzxi6DBRRQImwyfJGCJkilWrz+q0uxcNjRtHG
+	HqeDFU2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tq8CN-0000000AaeN-2rcr;
-	Thu, 06 Mar 2025 10:11:27 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tq8Cb-0000000AaxN-3SK8;
+	Thu, 06 Mar 2025 10:11:41 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tq71R-0000000API4-1YzV
+	id 1tq87G-0000000AaK2-2nU0
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Mar 2025 08:56:06 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id C3C045C544A;
-	Thu,  6 Mar 2025 08:53:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3041C4CEE8;
-	Thu,  6 Mar 2025 08:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741251364;
-	bh=gh+5Lo0bba1Yf9fkC90816oxGrujL43HMhi0a1rbF3c=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=k/Cy7Qoo+Md5tzfnDCdLnJtxKiOrYeQYo0NRzUuttL3VEB602Fq2PoFwt6WtsuQIB
-	 vuJ5sTdHUh4Cd8Bj8R8W51Ala2SkcZQ0i3q6AFmBR1bAlDXkHl3eQ5lGZNLxE1hPmk
-	 SEoMTOMQOqYHXhYjHsiRbkOLxvW/3qT3GMpe9VmEyhOtiI8p3bHIQed9Q893usUBGK
-	 jwVKyudThPFnbzWcAqVrNnfbSrCk8XTZSlgoX/nS8IAr9mYjgLHgykwV4/9RpJCWVw
-	 p2y6x6zrc9z3Ps65Ai2PUF5RB75vd+j5BG+XnEwoUyN6CUILMR1O7r3oVttYVIZf47
-	 NpAjPsy+HVmDg==
-From: Damien Le Moal <dlemoal@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH v2 1/2] nvmet: pci-epf: Set NVMET_PCI_EPF_Q_LIVE when a queue is fully created
-Date: Thu,  6 Mar 2025 17:55:48 +0900
-Message-ID: <20250306085549.834943-2-dlemoal@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250306085549.834943-1-dlemoal@kernel.org>
-References: <20250306085549.834943-1-dlemoal@kernel.org>
+	Thu, 06 Mar 2025 10:06:14 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B3196211AD;
+	Thu,  6 Mar 2025 10:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741255567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8uwMk9eSw4+RYYUHHE2kXRw73rPJMGHwqh0fMuQwsaI=;
+	b=Ap9xXNtuRcm/s44PvuG5kMeaQNAwIgN09BgSPKd0OGbauxWuZbC4xUxCCiuPlv4ag47rKD
+	4jk20a1jgmhPv+BYCm9usk5u6LKbEAtfvQ4nReYOC6EvZrTV6einSvrWS3Jwd2Whja40vq
+	4xCvMp5gWXqGLIjLi0EtqIqVDpNe/cI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741255567;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8uwMk9eSw4+RYYUHHE2kXRw73rPJMGHwqh0fMuQwsaI=;
+	b=t7xhbWFYi6/K9zuDgmmKrcZKPQcLd7HfmzwNNyO7J3FKO24Mrpw7sgZuudrIc7PiWTJlS0
+	Jt0BX/hG7uDKWZDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ap9xXNtu;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=t7xhbWFY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741255567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8uwMk9eSw4+RYYUHHE2kXRw73rPJMGHwqh0fMuQwsaI=;
+	b=Ap9xXNtuRcm/s44PvuG5kMeaQNAwIgN09BgSPKd0OGbauxWuZbC4xUxCCiuPlv4ag47rKD
+	4jk20a1jgmhPv+BYCm9usk5u6LKbEAtfvQ4nReYOC6EvZrTV6einSvrWS3Jwd2Whja40vq
+	4xCvMp5gWXqGLIjLi0EtqIqVDpNe/cI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741255567;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8uwMk9eSw4+RYYUHHE2kXRw73rPJMGHwqh0fMuQwsaI=;
+	b=t7xhbWFYi6/K9zuDgmmKrcZKPQcLd7HfmzwNNyO7J3FKO24Mrpw7sgZuudrIc7PiWTJlS0
+	Jt0BX/hG7uDKWZDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3D8813676;
+	Thu,  6 Mar 2025 10:06:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 384EJ49zyWfnIwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 06 Mar 2025 10:06:07 +0000
+Date: Thu, 6 Mar 2025 11:06:03 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: James Smart <james.smart@broadcom.com>, 
+	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+	Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/11] nvmet-fcloop: add ref counting to lport
+Message-ID: <bc38d0fc-0e3e-4196-b698-1528dc57421e@flourine.local>
+References: <20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org>
+ <20250226-nvmet-fcloop-v1-2-c0bd83d43e6a@kernel.org>
+ <20250305141740.GC18065@lst.de>
+ <0efdf3e7-e49e-4e2f-846b-b072169de318@flourine.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0efdf3e7-e49e-4e2f-846b-b072169de318@flourine.local>
+X-Rspamd-Queue-Id: B3196211AD
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250306_005605_487968_07D7963C 
-X-CRM114-Status: GOOD (  15.05  )
+X-CRM114-CacheID: sfid-20250306_020610_895363_28719DA2 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,96 +140,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The function nvmet_pci_epf_create_sq() use test_and_set_bit() to check
-that a submission queue is not already live and if not, set the
-NVMET_PCI_EPF_Q_LIVE queue flag to declare the sq live (ready to use).
-However, this is done on entry to the function, before the submission
-queue is actually fully initialized and ready to use. This creates a
-race situation with the function nvmet_pci_epf_poll_sqs_work() which
-looks at the NVMET_PCI_EPF_Q_LIVE queue flag to poll the submission
-queue when it is live. This race can lead to invalid DMA transfers if
-nvmet_pci_epf_poll_sqs_work() runs after the NVMET_PCI_EPF_Q_LIVE flag
-is set but before setting the sq pci address and doorbell ofset.
+On Thu, Mar 06, 2025 at 10:26:40AM +0100, Daniel Wagner wrote:
+> There is nothing which updates the ctrl in nvme_fc_unregister_localport.
+> Not really sure what to do here. fcloop obviously is now behaving
+> differently to the hw drivers. But still, this looks very fragile that
+> there is no sort of synchronization between port unregistration and ctrl
+> state.
 
-Avoid this race by only testing the NVMET_PCI_EPF_Q_LIVE flag on entry
-to nvmet_pci_epf_create_sq() and setting it after the submission queue
-is fully setup before nvmet_pci_epf_create_sq() returns success.
-Since the function nvmet_pci_epf_create_cq() also has the same racy flag
-setting pattern, also make a similar change in that function.
-
-Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
----
- drivers/nvme/target/pci-epf.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-index 565d2bd36dcd..d55ad334670c 100644
---- a/drivers/nvme/target/pci-epf.c
-+++ b/drivers/nvme/target/pci-epf.c
-@@ -1265,7 +1265,7 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
- 	struct nvmet_pci_epf_queue *cq = &ctrl->cq[cqid];
- 	u16 status;
- 
--	if (test_and_set_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags))
-+	if (test_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags))
- 		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
- 
- 	if (!(flags & NVME_QUEUE_PHYS_CONTIG))
-@@ -1300,6 +1300,8 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
- 	if (status != NVME_SC_SUCCESS)
- 		goto err;
- 
-+	set_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags);
-+
- 	dev_dbg(ctrl->dev, "CQ[%u]: %u entries of %zu B, IRQ vector %u\n",
- 		cqid, qsize, cq->qes, cq->vector);
- 
-@@ -1307,7 +1309,6 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
- 
- err:
- 	clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags);
--	clear_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags);
- 	return status;
- }
- 
-@@ -1333,7 +1334,7 @@ static u16 nvmet_pci_epf_create_sq(struct nvmet_ctrl *tctrl,
- 	struct nvmet_pci_epf_queue *sq = &ctrl->sq[sqid];
- 	u16 status;
- 
--	if (test_and_set_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags))
-+	if (test_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags))
- 		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
- 
- 	if (!(flags & NVME_QUEUE_PHYS_CONTIG))
-@@ -1355,7 +1356,7 @@ static u16 nvmet_pci_epf_create_sq(struct nvmet_ctrl *tctrl,
- 
- 	status = nvmet_sq_create(tctrl, &sq->nvme_sq, sqid, sq->depth);
- 	if (status != NVME_SC_SUCCESS)
--		goto out_clear_bit;
-+		return status;
- 
- 	sq->iod_wq = alloc_workqueue("sq%d_wq", WQ_UNBOUND,
- 				min_t(int, sq->depth, WQ_MAX_ACTIVE), sqid);
-@@ -1365,6 +1366,8 @@ static u16 nvmet_pci_epf_create_sq(struct nvmet_ctrl *tctrl,
- 		goto out_destroy_sq;
- 	}
- 
-+	set_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags);
-+
- 	dev_dbg(ctrl->dev, "SQ[%u]: %u entries of %zu B\n",
- 		sqid, qsize, sq->qes);
- 
-@@ -1372,8 +1375,6 @@ static u16 nvmet_pci_epf_create_sq(struct nvmet_ctrl *tctrl,
- 
- out_destroy_sq:
- 	nvmet_sq_destroy(&sq->nvme_sq);
--out_clear_bit:
--	clear_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags);
- 	return status;
- }
- 
--- 
-2.48.1
-
+Ah I see what's supposed to happen in this scenario.
+nvme_fc_unregister_localport will return -EINVAL when the port is still
+in use. That means fcloop is not allowed to pull the rug yet.
 
