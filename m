@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA8ABC282D1
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 10:11:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00757C28B23
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 10:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=VBjqjqJab5emzTs9NSZNZKtp8c9gcNCRG1QlezTt2DE=; b=k/PeGCzNtN5v8T+8cEUyafr9ak
-	jhu5uc0XcX6XEPmyEh/hZgbKpyEUShe/zYAmnObgKfutXDiwppY3XSnMgLno3P0hjF5F+LsS4zjNw
-	SG8xRusxyVVMqv3WCwQPOhpHs1sCkR4zQSRQiDG9A4if73qK5igLwjWrU2Nv2jo77bttU45p3EB9I
-	fsV0CYIioJod73cX5CHF7jT37sfMAcNVgrfPPJdl+iMSBT9OdCH5F2/MDa1RYnzbVZA9P4Hnhe5f3
-	+6E5y9Kn3dNqdQiHh57i8BBRSCWtcODNBtsLMTwWuPFNBGoHwFnnep+GeiP0d7iMpsd/C26sAVzHV
-	pAIrMCPQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uGD++K6rDnsK/RblqLTOQYdVcCTKDfGfGq3zkAQNeXw=; b=DdQ0jlSfaFN+uuHrkSXlJIQVkr
+	Xv68kyKsQMrhud7i5XkC289Y6HTpdh8a5ukH1NP67fDrA2Ptp0F/Fsuu+wJbBbZTnXhFoDezMBBcx
+	zHiUVEff5zNv4w02IgCsAvAFvGUvk5CdwCT99dPZrvE/fj+wk4PfN7OXWvVsqzje8retMQMVmAzwV
+	Q/rjN0mf4/dDXodgICYUcADTWaymEyH5pSY62Iu6Vud/KW+qMS5GiXejrmarCUQEaCPfZeZ0yXlqP
+	uRp4L73fAj/Kzrj9oldKabSeU3X5kiDGAH1Ac92hzqIpVP1MPCquU9DYPX3U1egHtt3qI1xvtQkYV
+	FvdkNJMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tq8CK-0000000Aac4-3uaa;
-	Thu, 06 Mar 2025 10:11:24 +0000
-Received: from guitar.tkos.co.il ([84.110.109.230] helo=mail.tkos.co.il)
+	id 1tq8CO-0000000Aaf4-1nhk;
+	Thu, 06 Mar 2025 10:11:28 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tq6zU-0000000AP1D-22zo
+	id 1tq71S-0000000APIH-0D0q
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Mar 2025 08:54:06 +0000
-Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.tkos.co.il (Postfix) with ESMTPS id A5B8D440EB9;
-	Thu,  6 Mar 2025 10:48:08 +0200 (IST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
-	s=default; t=1741250888;
-	bh=OyOGoZFFwcH//aAHC5W5+DNk+fdN3uFH9fnWmd5TFNs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=j9KKazqnbMyTgseL335zCKgXdRwVQPfnCcRIn4jL9sttEuKL9ObU+CHy9SBuUH469
-	 Z1lzuWcWcrY7dotDz3x1DToeqq3D9i7nJFhGQBcSwOKdGD241UsCVrPAu3QGNYDdyi
-	 tscNR4s78PwY7pOwzh1rWL8hXLtrSlGl0K8rzSWZuKz6iVvry5k/ixuH4pVxNwt5Fg
-	 KKIafd4sPYdGlmr414Q2yoYmvvJttTbBMkkh4hpT5UmLvGXaBXleBFUUc2VSpr8WMA
-	 06IYV9KerBWxToXAq/w24dX9ZlhNI4863kLGMeZXLnbUzz8RQO/+ATD1oBe1K9gGIO
-	 xmrGakfGIcbsg==
-From: Baruch Siach <baruch@tkos.co.il>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
+	Thu, 06 Mar 2025 08:56:07 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 760A45C55A1;
+	Thu,  6 Mar 2025 08:53:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9080BC4AF0E;
+	Thu,  6 Mar 2025 08:56:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741251365;
+	bh=mZD6gPQNpkhWm+EEF7tfenN1i12LDxhSMGFoeNFnLJw=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=c2E5dMLQ/A9+gqdC3DN7Bs4YkWZ8fjIHQl8ttZnDFKfMCnEVyJCaXRzeIqwcXeIQs
+	 i2dhFcjOuM6T5NhT/7JRc8tWPOWMYOjnpHM0Uz4kwP1n0pGT1c189SOQH+rZlAFiu2
+	 56H4U4XK2XQtsJAeaG2vhTB8xhha5AtKR3nHQMqX9BtJRf3xvqNimvncxTdtLYhL3s
+	 hdqTKTweotjlWeuxh1N0u8ljh5eFSsBUpCC8HQKUiNPritOXssR2D2hXGe/upCrXs0
+	 fvRf/ZhtJgXQjaLjgunEcXNE/U/CNHhThpnzx1j7d6LSuH+ezJFuDWKrKusfhWxMI0
+	 csq/MrglM0yDw==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	Baruch Siach <baruch@tkos.co.il>
-Subject: [PATCH] nvme-pci: remove stale comment
-Date: Thu,  6 Mar 2025 10:53:31 +0200
-Message-ID: <624210159350e1c8137b5e55cb29ae509ac21d47.1741251211.git.baruch@tkos.co.il>
-X-Mailer: git-send-email 2.47.2
+Subject: [PATCH v2 2/2] nvmet: pci-epf: Do not add an IRQ vector if not needed
+Date: Thu,  6 Mar 2025 17:55:49 +0900
+Message-ID: <20250306085549.834943-3-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250306085549.834943-1-dlemoal@kernel.org>
+References: <20250306085549.834943-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250306_005405_041678_8086455D 
-X-CRM114-Status: GOOD (  10.02  )
+X-CRM114-CacheID: sfid-20250306_005606_194770_DD042F98 
+X-CRM114-Status: GOOD (  14.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,30 +72,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The ns variable has been removed in commit 62451a2b2e7e ("nvme: separate
-command prep and issue"). Drop reference to ns in comment.
+The function nvmet_pci_epf_create_cq() always unconditionally calls
+nvmet_pci_epf_add_irq_vector() to add an IRQ vector for a completion
+queue. But this is not correct if the host requested the creation of a
+completion queue for polling, without an IRQ vector specified (i.e. the
+flag NVME_CQ_IRQ_ENABLED is not set).
 
-Fixes: 62451a2b2e7e ("nvme: separate command prep and issue")
-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+Fix this by calling nvmet_pci_epf_add_irq_vector() and setting the queue
+flag NVMET_PCI_EPF_Q_IRQ_ENABLED for the cq only if NVME_CQ_IRQ_ENABLED
+is set. While at it, also fix the error path to add the missing removal
+of the added IRQ vector if nvmet_cq_create() fails.
+
+Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/nvme/target/pci-epf.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 950289405ef2..caf5447f1af4 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -953,9 +953,6 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
- 	return ret;
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index d55ad334670c..b1e31483f157 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1271,9 +1271,6 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+ 	if (!(flags & NVME_QUEUE_PHYS_CONTIG))
+ 		return NVME_SC_INVALID_QUEUE | NVME_STATUS_DNR;
+ 
+-	if (flags & NVME_CQ_IRQ_ENABLED)
+-		set_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags);
+-
+ 	cq->pci_addr = pci_addr;
+ 	cq->qid = cqid;
+ 	cq->depth = qsize + 1;
+@@ -1290,10 +1287,11 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+ 		cq->qes = ctrl->io_cqes;
+ 	cq->pci_size = cq->qes * cq->depth;
+ 
+-	cq->iv = nvmet_pci_epf_add_irq_vector(ctrl, vector);
+-	if (!cq->iv) {
+-		status = NVME_SC_INTERNAL | NVME_STATUS_DNR;
+-		goto err;
++	if (flags & NVME_CQ_IRQ_ENABLED) {
++		cq->iv = nvmet_pci_epf_add_irq_vector(ctrl, vector);
++		if (!cq->iv)
++			return NVME_SC_INTERNAL | NVME_STATUS_DNR;
++		set_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags);
+ 	}
+ 
+ 	status = nvmet_cq_create(tctrl, &cq->nvme_cq, cqid, cq->depth);
+@@ -1308,7 +1306,8 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+ 	return NVME_SC_SUCCESS;
+ 
+ err:
+-	clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags);
++	if (test_and_clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags))
++		nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
+ 	return status;
  }
  
--/*
-- * NOTE: ns is NULL when called on the admin queue.
-- */
- static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 			 const struct blk_mq_queue_data *bd)
- {
 -- 
-2.47.2
+2.48.1
 
 
