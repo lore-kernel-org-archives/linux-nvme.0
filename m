@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00757C28B23
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FAA6C28B22
 	for <linux-nvme@archiver.kernel.org>; Thu,  6 Mar 2025 10:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,52 +12,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uGD++K6rDnsK/RblqLTOQYdVcCTKDfGfGq3zkAQNeXw=; b=DdQ0jlSfaFN+uuHrkSXlJIQVkr
-	Xv68kyKsQMrhud7i5XkC289Y6HTpdh8a5ukH1NP67fDrA2Ptp0F/Fsuu+wJbBbZTnXhFoDezMBBcx
-	zHiUVEff5zNv4w02IgCsAvAFvGUvk5CdwCT99dPZrvE/fj+wk4PfN7OXWvVsqzje8retMQMVmAzwV
-	Q/rjN0mf4/dDXodgICYUcADTWaymEyH5pSY62Iu6Vud/KW+qMS5GiXejrmarCUQEaCPfZeZ0yXlqP
-	uRp4L73fAj/Kzrj9oldKabSeU3X5kiDGAH1Ac92hzqIpVP1MPCquU9DYPX3U1egHtt3qI1xvtQkYV
-	FvdkNJMQ==;
+	bh=wXGUQHDt3V1j5vgXYNhevlvl/FzXxzbHTjUJ8Xww2io=; b=mOjhbTOuBNwkJzB3yEFwopnPkQ
+	KAiDTEPFj9UCyEhvZG61/xrNb18Geh2uW5bcqJ9baEjJkYskjZfwQcqR9WlwFlYUBENxtP0xYcIzm
+	hsuGGI3XOey0J/Fdg/2OHnNHhvEtXphiCn73A+v+ldHDfiv16mceyPz8GbjyAzRliFGP5Kl+efnej
+	h6Wgytgs8Kq8K4nEmN1ZTw8x+EWAeeWkpiURqoFXv6W/0gEbYFdP+lOFPvRx4Y5Zqn75UIEWFhA/b
+	OZccDGeRvUxdVhkgbYY9BBYdZQnNlkSf8sHiMFG8tz2FM5WUbLRlvb9fj9UA2PuXHg3BhfldsPucL
+	EQ4CuDRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tq8CO-0000000Aaf4-1nhk;
-	Thu, 06 Mar 2025 10:11:28 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tq8CN-0000000AaeN-2rcr;
+	Thu, 06 Mar 2025 10:11:27 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tq71S-0000000APIH-0D0q
+	id 1tq71R-0000000API4-1YzV
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Mar 2025 08:56:07 +0000
+	Thu, 06 Mar 2025 08:56:06 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 760A45C55A1;
-	Thu,  6 Mar 2025 08:53:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9080BC4AF0E;
-	Thu,  6 Mar 2025 08:56:04 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id C3C045C544A;
+	Thu,  6 Mar 2025 08:53:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3041C4CEE8;
+	Thu,  6 Mar 2025 08:56:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741251365;
-	bh=mZD6gPQNpkhWm+EEF7tfenN1i12LDxhSMGFoeNFnLJw=;
+	s=k20201202; t=1741251364;
+	bh=gh+5Lo0bba1Yf9fkC90816oxGrujL43HMhi0a1rbF3c=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=c2E5dMLQ/A9+gqdC3DN7Bs4YkWZ8fjIHQl8ttZnDFKfMCnEVyJCaXRzeIqwcXeIQs
-	 i2dhFcjOuM6T5NhT/7JRc8tWPOWMYOjnpHM0Uz4kwP1n0pGT1c189SOQH+rZlAFiu2
-	 56H4U4XK2XQtsJAeaG2vhTB8xhha5AtKR3nHQMqX9BtJRf3xvqNimvncxTdtLYhL3s
-	 hdqTKTweotjlWeuxh1N0u8ljh5eFSsBUpCC8HQKUiNPritOXssR2D2hXGe/upCrXs0
-	 fvRf/ZhtJgXQjaLjgunEcXNE/U/CNHhThpnzx1j7d6LSuH+ezJFuDWKrKusfhWxMI0
-	 csq/MrglM0yDw==
+	b=k/Cy7Qoo+Md5tzfnDCdLnJtxKiOrYeQYo0NRzUuttL3VEB602Fq2PoFwt6WtsuQIB
+	 vuJ5sTdHUh4Cd8Bj8R8W51Ala2SkcZQ0i3q6AFmBR1bAlDXkHl3eQ5lGZNLxE1hPmk
+	 SEoMTOMQOqYHXhYjHsiRbkOLxvW/3qT3GMpe9VmEyhOtiI8p3bHIQed9Q893usUBGK
+	 jwVKyudThPFnbzWcAqVrNnfbSrCk8XTZSlgoX/nS8IAr9mYjgLHgykwV4/9RpJCWVw
+	 p2y6x6zrc9z3Ps65Ai2PUF5RB75vd+j5BG+XnEwoUyN6CUILMR1O7r3oVttYVIZf47
+	 NpAjPsy+HVmDg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH v2 2/2] nvmet: pci-epf: Do not add an IRQ vector if not needed
-Date: Thu,  6 Mar 2025 17:55:49 +0900
-Message-ID: <20250306085549.834943-3-dlemoal@kernel.org>
+Subject: [PATCH v2 1/2] nvmet: pci-epf: Set NVMET_PCI_EPF_Q_LIVE when a queue is fully created
+Date: Thu,  6 Mar 2025 17:55:48 +0900
+Message-ID: <20250306085549.834943-2-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250306085549.834943-1-dlemoal@kernel.org>
 References: <20250306085549.834943-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250306_005606_194770_DD042F98 
-X-CRM114-Status: GOOD (  14.45  )
+X-CRM114-CacheID: sfid-20250306_005605_487968_07D7963C 
+X-CRM114-Status: GOOD (  15.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,60 +72,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The function nvmet_pci_epf_create_cq() always unconditionally calls
-nvmet_pci_epf_add_irq_vector() to add an IRQ vector for a completion
-queue. But this is not correct if the host requested the creation of a
-completion queue for polling, without an IRQ vector specified (i.e. the
-flag NVME_CQ_IRQ_ENABLED is not set).
+The function nvmet_pci_epf_create_sq() use test_and_set_bit() to check
+that a submission queue is not already live and if not, set the
+NVMET_PCI_EPF_Q_LIVE queue flag to declare the sq live (ready to use).
+However, this is done on entry to the function, before the submission
+queue is actually fully initialized and ready to use. This creates a
+race situation with the function nvmet_pci_epf_poll_sqs_work() which
+looks at the NVMET_PCI_EPF_Q_LIVE queue flag to poll the submission
+queue when it is live. This race can lead to invalid DMA transfers if
+nvmet_pci_epf_poll_sqs_work() runs after the NVMET_PCI_EPF_Q_LIVE flag
+is set but before setting the sq pci address and doorbell ofset.
 
-Fix this by calling nvmet_pci_epf_add_irq_vector() and setting the queue
-flag NVMET_PCI_EPF_Q_IRQ_ENABLED for the cq only if NVME_CQ_IRQ_ENABLED
-is set. While at it, also fix the error path to add the missing removal
-of the added IRQ vector if nvmet_cq_create() fails.
+Avoid this race by only testing the NVMET_PCI_EPF_Q_LIVE flag on entry
+to nvmet_pci_epf_create_sq() and setting it after the submission queue
+is fully setup before nvmet_pci_epf_create_sq() returns success.
+Since the function nvmet_pci_epf_create_cq() also has the same racy flag
+setting pattern, also make a similar change in that function.
 
 Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- drivers/nvme/target/pci-epf.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/nvme/target/pci-epf.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-index d55ad334670c..b1e31483f157 100644
+index 565d2bd36dcd..d55ad334670c 100644
 --- a/drivers/nvme/target/pci-epf.c
 +++ b/drivers/nvme/target/pci-epf.c
-@@ -1271,9 +1271,6 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+@@ -1265,7 +1265,7 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+ 	struct nvmet_pci_epf_queue *cq = &ctrl->cq[cqid];
+ 	u16 status;
+ 
+-	if (test_and_set_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags))
++	if (test_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags))
+ 		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
+ 
  	if (!(flags & NVME_QUEUE_PHYS_CONTIG))
- 		return NVME_SC_INVALID_QUEUE | NVME_STATUS_DNR;
+@@ -1300,6 +1300,8 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+ 	if (status != NVME_SC_SUCCESS)
+ 		goto err;
  
--	if (flags & NVME_CQ_IRQ_ENABLED)
--		set_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags);
--
- 	cq->pci_addr = pci_addr;
- 	cq->qid = cqid;
- 	cq->depth = qsize + 1;
-@@ -1290,10 +1287,11 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
- 		cq->qes = ctrl->io_cqes;
- 	cq->pci_size = cq->qes * cq->depth;
++	set_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags);
++
+ 	dev_dbg(ctrl->dev, "CQ[%u]: %u entries of %zu B, IRQ vector %u\n",
+ 		cqid, qsize, cq->qes, cq->vector);
  
--	cq->iv = nvmet_pci_epf_add_irq_vector(ctrl, vector);
--	if (!cq->iv) {
--		status = NVME_SC_INTERNAL | NVME_STATUS_DNR;
--		goto err;
-+	if (flags & NVME_CQ_IRQ_ENABLED) {
-+		cq->iv = nvmet_pci_epf_add_irq_vector(ctrl, vector);
-+		if (!cq->iv)
-+			return NVME_SC_INTERNAL | NVME_STATUS_DNR;
-+		set_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags);
- 	}
- 
- 	status = nvmet_cq_create(tctrl, &cq->nvme_cq, cqid, cq->depth);
-@@ -1308,7 +1306,8 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
- 	return NVME_SC_SUCCESS;
+@@ -1307,7 +1309,6 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
  
  err:
--	clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags);
-+	if (test_and_clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags))
-+		nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
+ 	clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags);
+-	clear_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags);
+ 	return status;
+ }
+ 
+@@ -1333,7 +1334,7 @@ static u16 nvmet_pci_epf_create_sq(struct nvmet_ctrl *tctrl,
+ 	struct nvmet_pci_epf_queue *sq = &ctrl->sq[sqid];
+ 	u16 status;
+ 
+-	if (test_and_set_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags))
++	if (test_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags))
+ 		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
+ 
+ 	if (!(flags & NVME_QUEUE_PHYS_CONTIG))
+@@ -1355,7 +1356,7 @@ static u16 nvmet_pci_epf_create_sq(struct nvmet_ctrl *tctrl,
+ 
+ 	status = nvmet_sq_create(tctrl, &sq->nvme_sq, sqid, sq->depth);
+ 	if (status != NVME_SC_SUCCESS)
+-		goto out_clear_bit;
++		return status;
+ 
+ 	sq->iod_wq = alloc_workqueue("sq%d_wq", WQ_UNBOUND,
+ 				min_t(int, sq->depth, WQ_MAX_ACTIVE), sqid);
+@@ -1365,6 +1366,8 @@ static u16 nvmet_pci_epf_create_sq(struct nvmet_ctrl *tctrl,
+ 		goto out_destroy_sq;
+ 	}
+ 
++	set_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags);
++
+ 	dev_dbg(ctrl->dev, "SQ[%u]: %u entries of %zu B\n",
+ 		sqid, qsize, sq->qes);
+ 
+@@ -1372,8 +1375,6 @@ static u16 nvmet_pci_epf_create_sq(struct nvmet_ctrl *tctrl,
+ 
+ out_destroy_sq:
+ 	nvmet_sq_destroy(&sq->nvme_sq);
+-out_clear_bit:
+-	clear_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags);
  	return status;
  }
  
