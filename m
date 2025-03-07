@@ -4,72 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61911C282D1
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Mar 2025 00:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2E6CC19F32
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Mar 2025 07:51:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N4yWQo9nalAIJJPe+0669+Fjq1LeGg4wIrlqjZLnPPU=; b=tKYfGB4XZ/FVoTvDZxb8A/P9CJ
-	D2gS5HS4mhF+mVmfEZtK27s9xuIs6hd0oDRgFBjWbcw/xfBOXYw+LZXIbI7X8dD57xqL1fY1WgqGd
-	fGfQEubu5T+avTI83xs9+a1h1ClT+POcCUNiOy9/8w7IPmNa49/kWX+L8TK69Ef7X5Eoj5JhRL3NG
-	PJ6hy8HLMJul+jUGb0/wZsICilSFi6GZYAYqcFCc3V3+bbun5zZJwlgTS5ECutxOOSOUGNjHrGY+V
-	GSY2IJ6UUeQVmXwgY27WpQQIMdwmutzLz/Gitu6SsGNC4o0Yrc5lcQZ0yHmgQCnCENSg272v1ZZJP
-	fEHjBI/Q==;
+	bh=F4i0GoYGir/9v+8oUXhoL089EGgJ8oe69PF12ReJouY=; b=VAeXEsUT+8tDLGWWv3vhFX7V3G
+	1Fna1mbBQTzZuf6xTKchzS2BlsRrlcZwbf663qbLPpmwwFEVTIAVOCnpcM9ZMD+3aFXj+Pt34iBcK
+	LNIP8+aUIV5u1/SBY+vqi9KwGMzdFFsqkrJ/hWvnOfvMrut4BPkLoXrgRH6oXimnZvNaNRqofguU/
+	AvEwSi6eJ+DlyQFT1U6ZNU8WKe+82iSG6LlSEM9VZaK3zDexRLptkx3Txd77rTB9/sXqcQWRgDLZH
+	fKCKphdD7v23bcN/wV33e1YTp8Css6limxiPYaF3pS5rtgdFAOFD4TbaoOD3JNHjCzTgXuoMt7rmU
+	zCVrSlxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqLvt-0000000Cgmc-3XJZ;
-	Fri, 07 Mar 2025 00:51:21 +0000
+	id 1tqSUq-0000000DTJF-0FeT;
+	Fri, 07 Mar 2025 07:51:52 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqLrW-0000000Cg3I-2iEO
+	id 1tqSUn-0000000DTIp-2N1V
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Mar 2025 00:46:51 +0000
+	Fri, 07 Mar 2025 07:51:50 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 115D3A45333;
-	Fri,  7 Mar 2025 00:41:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FFD8C4CEE0;
-	Fri,  7 Mar 2025 00:46:48 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 1993CA4554B;
+	Fri,  7 Mar 2025 07:46:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4CDEC4CED1;
+	Fri,  7 Mar 2025 07:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741308409;
-	bh=8pNhQWmAhUdyD5g7swxPHj4G3ZDU584ff49iiikDCS0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CjMKw7Z9r3X0zZFif14xXSNl+iQpRkd53GeL6jKpUG8smTb73GiABFRBLvmmHKDLD
-	 h46BjJem0AXzyT5r4gVHP6EaMtU/7E9IXx2dV7xVFwJ1ZZbf6SbFZE9L1av4RdpSfn
-	 tviWzhCdEpTOm5G5ldGaQX7riCoTHJ7sz1krTEZAK/EEGzqZstzUgft8OyyDkXY2OP
-	 pbhwT8heupSxcWcUOOVxOv6blA60afT6EATUBnAzfbm/5+Z0b265/Jqy51LwrF5fkZ
-	 Mq52c36vrNsZKS2txwmONqywHAAvCuiWGa6USHpPwH57uRlWbiMewD4fdd/r/qAoSF
-	 LF3VHYyz2oLRQ==
-Date: Thu, 6 Mar 2025 17:46:46 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	John Meneghini <jmeneghi@redhat.com>, bmarzins@redhat.com,
-	Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Marco Patalano <mpatalan@redhat.com>,
-	axboe@kernel.dk
-Subject: Re: [PATCH] nvme: remove multipath module parameter
-Message-ID: <Z8pB9jQALxMN6WaA@kbusch-mbp>
-References: <91ae613a-7b56-4ca0-b91c-6bc1eee798b8@suse.de>
- <20250305141554.GA18065@lst.de>
- <Z8hrJ5JVqi7TgFCn@kbusch-mbp>
- <20250305235119.GB896@lst.de>
- <Z8jk-D3EjEdyBIU5@kbusch-mbp>
- <20250306000348.GA1233@lst.de>
- <1ffebf60-5672-4cd0-bb5a-934376c16694@suse.de>
- <20250306141837.GA21353@lst.de>
- <Z8m4vzE36UHWjwep@kbusch-mbp>
- <20250306151654.GA22810@lst.de>
+	s=k20201202; t=1741333908;
+	bh=F4i0GoYGir/9v+8oUXhoL089EGgJ8oe69PF12ReJouY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=he2CqXxxR59UAosj9afHZ3nolMw9a64/Zp2ka+qPjetjig80Um1x52nhRNs6nb4kl
+	 /626mIS2lebzdjHFWznHlgpbUnospoo9bfGE1UdmSFqq0tGS8JBZg56fZcZq1IZr2J
+	 qeIMZpjLNS2xpu3eDaQB2iCWFN9/EgF2NAOgUyX1gZq4MdiWVbFj3AocY3OWKOr6Fi
+	 93OZHLEzivxYHiqs2pO1WGU2GTxUpb2BYmzlSHoVywAhN4GyFvyhpy3m6bFMFjaHEu
+	 gjgGNlJxhsD/KD692kjxp1ougMVIvY9xkYA9usFwNqMoDOzxr2+zx/za2J8ik+Oly7
+	 KWxG6GZrD0Hww==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Keith Busch" <kbusch@kernel.org>
+Cc: "Jens Axboe" <axboe@kernel.dk>,  "Christoph Hellwig" <hch@lst.de>,
+  "Sagi Grimberg" <sagi@grimberg.me>,  <linux-nvme@lists.infradead.org>,
+  <linux-kernel@vger.kernel.org>
+Subject: Re: [bug report] nvme: fio workload hangs on 16m random read
+In-Reply-To: <Z8oKvwPd4UBY1awm@kbusch-mbp> (Keith Busch's message of "Thu, 06
+	Mar 2025 13:51:11 -0700")
+References: <87a59x6g5u.fsf@kernel.org>
+	<6xoneGEavSMtUAvjbGdIem8Ul_-SpUQR6-PIpxUTiVpN2nyo_pMM7ytxJJ0gejZpCZGvXeAN3MfI0TwfcP3SbA==@protonmail.internalid>
+	<Z8oKvwPd4UBY1awm@kbusch-mbp>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Fri, 07 Mar 2025 08:51:35 +0100
+Message-ID: <87r0395ldk.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306151654.GA22810@lst.de>
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250306_164650_768257_0C1832B9 
-X-CRM114-Status: GOOD (  18.62  )
+X-CRM114-CacheID: sfid-20250306_235149_688822_CF31E99B 
+X-CRM114-Status: GOOD (  11.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,26 +75,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 06, 2025 at 04:16:54PM +0100, Christoph Hellwig wrote:
-> On Thu, Mar 06, 2025 at 08:01:19AM -0700, Keith Busch wrote:
-> 
-> > Or consider a true multiport PCIe where each port connects to a
-> > different host. Each host sees a single port so they're not using
-> > multipath capabilities, and the admin wants the MD behavior that removes
-> > a disk on hot plug. Or even if one host sees both paths of a multiport
-> > PCIe, they still might want that hot plug behavior. The module parameter
-> > makes that possible, so some equivalent should be available before
-> > removing it.
-> 
-> A module-wide parameter is absolutely the wrong way to configure it.
-> You'd ad best want it per-controller or even per-namespace.  One
-> tradeoff would be to disable the multipath code for private namespaces,
-> although that would cause problems when rescanning changes the flag.
+"Keith Busch" <kbusch@kernel.org> writes:
 
-It's not really about private vs. shared namespaces, though. There
-really is no programatic way for the driver to know what behavior the
-admin needs out of their system without user input. If you don't want a
-module parameter, then the driver will just have to default to
-something, then the user will have to do something to change it later.
-Not very pleasant compared to a simple one time boot parameter.
+> On Thu, Mar 06, 2025 at 09:46:37PM +0100, Andreas Hindborg wrote:
+>> Hi All,
+>>
+>> My CI system has found an issue for the following fio workload:
+>>
+>> root@debian:~# insmod /mnt/v6.14-rc5-build/drivers/nvme/host/nvme-core.ko
+>> root@debian:~# insmod /mnt/v6.14-rc5-build/drivers/nvme/host/nvme.ko poll_queues=1
+>>
+>> "fio" "--group_reporting" "--name=default" "--filename=/dev/nvme0n1"
+>> "--readwrite=randread" "--blocksize=16777216" "--direct=1" "--numjobs=1"
+>> "--ioengine=io_uring" "--iodepth=1" "--hipri=1" "--time_based=1"
+>> "--runtime=3000"
+>>
+>> fio will hang, some times immediately, some times after a few minutes.
+>>
+>> I observed this on v6.14-rc1 and v6.14-rc5. It is not present in v6.13.
+>>
+>> Can any of you reproduce this? I was able to reproduce this on real
+>> hardware and in qemu.
+>
+> Could you try adding this patch to your kernel?
+>
+> https://lore.kernel.org/io-uring/92b0a330-4782-45e9-8de7-3b90a94208c2@kernel.dk/
+
+Thanks Keith, at first glance that seems to solve the issue. Will
+restart my CI with this applied.
+
+
+Best regards,
+Andreas Hindborg
+
+
 
