@@ -4,86 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EC61C282EC
-	for <linux-nvme@archiver.kernel.org>; Sat,  8 Mar 2025 14:11:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8702BC28B2F
+	for <linux-nvme@archiver.kernel.org>; Sun,  9 Mar 2025 14:00:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=J10QeskcT12v/UsxJ7EeUY65TUXqux1i/qCJaeu/e6Q=; b=vMEDv3dbnhqdxzGeZFU3JqYnBH
-	vowvDqZKQUF7TqzKuEwaXiSrrzPQTA8ywtjH/jcTVO7dxWI7ci56hoo+khDsqlCikqEI04ziM4/Sn
-	6soC0XTjKFoSSx8TtxevHwu88MqLn9ztt5KXc5njvg75DnAr7h2Vcya2AubYqFnkqoo0VeSBDFM5i
-	ONwNZYJt7k2btbiruRJeryshm9yvJUx4yPfnBFd6cbhCkHKaed2rXuBJy1b68DGJ+086HWDAcI+U4
-	eVUNFliuVBWlfUpjjO5J1kOVc0gpGiK1r4PHyAMbmafWrZrZV7X4JRWZJmz02Ao9Qd2xwNzSMn5rs
-	E5byKAvQ==;
+	Content-Type:Message-ID:Mime-Version:References:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=0C8ZfqMqZuoovYFbMVUqy5GecvU3AoQHWZmmwzHJY7o=; b=Pw2M1/VKiCq+40sX4MzQT3kj5x
+	/pPLW/f95OG5M2vs/TzIOxbNkumbeXxNaIg9SpyXcxqxapnWELXL8v0zDDRxr+HFoOY0MTauYHlrL
+	wPlcuVnBBQxhMud64vSPPZV3wGyAXoCTYs71q+OmKWqTUem+N/ml0BtNGbNoPY6CnA7ZYtH8Lw1Aj
+	Pv92tnn9ZK+0k+2wqEhRUZYGNfIF6DVSwglkZ7gxY77bgeCe9AbXojLREOJb011+MuTa7bcZYxSy+
+	J5BJugtTIfxNTzdxZyYIL5eWQwcefRASzD37e008l/XHr2qyzzevPFLUmlzdoCu6Jm4EUh0prHl54
+	PecuZyrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqutd-0000000GiFB-422p;
-	Sat, 08 Mar 2025 14:11:21 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqutY-0000000GiEj-1kFM
+	id 1trHCz-00000000dsJ-45pn;
+	Sun, 09 Mar 2025 14:00:49 +0000
+Received: from [1.203.97.240] (helo=smtp.cecloud.com)
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tqUfM-0000000DoUT-31ua
 	for linux-nvme@lists.infradead.org;
-	Sat, 08 Mar 2025 14:11:17 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-2ff73032ac0so624272a91.3
-        for <linux-nvme@lists.infradead.org>; Sat, 08 Mar 2025 06:11:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741443074; x=1742047874; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J10QeskcT12v/UsxJ7EeUY65TUXqux1i/qCJaeu/e6Q=;
-        b=KAquorFNgPZrDCMuexGxu9WpxHtIn+C8GMB7xUNHNqWC0CC8lWeo6CZX9pMTOSQWba
-         8BZFvj7WKQgXV4hYuVrrAuuOcJl/n53xHjHjNjrkW0PYacdp8IF3A0tLUFhTBLUwhjkK
-         3HnEuWqPXvGWATse31/nDjjmgsWXf87pgZZ3gtv6ukBzoNT/F6l/XL3PLCo4SpzOGZaA
-         LkcMAzOMrWWCZJEtMZt7TaiDLdt2DcZgoxSNYeU2+DRjzs1pxrM8RrMkigLvghSWDwcU
-         rV9VQwlbZkO20jFsCmGIkF4EC7bQ6m66gDPWaMg7fh92n9UHdJLD2MQirOXBhtlXUh8S
-         r3iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741443074; x=1742047874;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J10QeskcT12v/UsxJ7EeUY65TUXqux1i/qCJaeu/e6Q=;
-        b=DaNSk6zASYc2kJO9wE6Q8tEE1gzqAG9nu2UsDgBPJGJWM52Va+JfyjKoSpD6idbrk6
-         k/brIGWj0GkVJPxNe1hBmIDRq0hB8CuNTjGTkHF51gdmONMRaV+oEmgjkF8oTa2QLV8T
-         qVRCZuPwvtvpXO/aTGgYMjMNGFZXrEENRy+sxc7PVDBqaYV9r/6BVcr4tt9rCS3Z4DeH
-         QRgMAUmSpRfFYtLLNf+73WI/QA/8dAI1OU9a/R4pBmij4K2Ku8DlEooxoJ8SwVKhn6Sa
-         qjS8VMfedNd2m9cdSSntlizqxB1x0huZOLhvRVCI5giwpl5MXoVspOocdUhz0IpxNIcf
-         xT9g==
-X-Gm-Message-State: AOJu0Yw3wm5Qvccq4LwBpgQInrVsSttUAADgB1B2MfVbr2NHPp72jk20
-	6kTzxKEAoUN4Gin8OA5X9s5QMI0UceoMU9RjAEO9KDyyVGzBJw/y
-X-Gm-Gg: ASbGncuScnzAeq8dBmRObeQrIuz8Zj7AJLkOTV0b3InhDfLvgmhp2MOADBfQavn2aQt
-	IpZfDOzyMggGJyJ4Vn0tZLBihrlrk9yfbryRl/+05exrbdNbdmR4pd6WQBA+2pOJn3CxKZiuV0t
-	d09EuSZyoxzXHLo9b3j0bBRz6TLzZ/xTPYTZVnlJ8nBC568q1+6yk3056zX8ATf3sXoeOqSiq+F
-	sTC7PeBejlO/Qyu4Ixpu7HX8EfGRPkFmu4Ms6xLrV1idQAR6NoZg2TZIwbJJyuAp3AQruABH08f
-	SMJaRG+79xHU7STWKlQ/Ik29TCQgwQy5N8a4HQuvI+nBG3CkVeoZdxJfNsG4tPLKokqz0Q==
-X-Google-Smtp-Source: AGHT+IHqBRpCNb80mXfZUuRQWsM9GihdP0zcIfVkkOqy7vCFy0maAPK3KAGzt53Ys1ENCYGGMsrzRQ==
-X-Received: by 2002:a05:6a00:2e97:b0:730:915c:b77 with SMTP id d2e1a72fcca58-736becaf415mr1616500b3a.1.1741443074169;
-        Sat, 08 Mar 2025 06:11:14 -0800 (PST)
-Received: from MGG23TF6W0.corp.ebay.com ([202.76.247.146])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-736c11ba2cfsm1193034b3a.122.2025.03.08.06.11.09
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 08 Mar 2025 06:11:13 -0800 (PST)
-From: Jianlin Lv <iecedge@gmail.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	jianlv@ebay.com,
-	iecedge@gmail.com
-Subject: [PATCH] nvme-pci: Remove NVME_QUIRK_BOGUS_NID for device vendors
-Date: Sat,  8 Mar 2025 22:11:02 +0800
-Message-Id: <20250308141102.34101-1-iecedge@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	Fri, 07 Mar 2025 10:10:54 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.cecloud.com (Postfix) with ESMTP id 859D5900113;
+	Fri,  7 Mar 2025 18:10:48 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from desktop-n31qu50 (unknown [39.156.73.12])
+	by smtp.cecloud.com (postfix) whith ESMTP id P3907749T281458224329072S1741342247056699_;
+	Fri, 07 Mar 2025 18:10:47 +0800 (CST)
+X-IP-DOMAINF: 1
+X-RL-SENDER: zhang.guanghui@cestc.cn
+X-SENDER: zhang.guanghui@cestc.cn
+X-LOGIN-NAME: zhang.guanghui@cestc.cn
+X-FST-TO: sagi@grimberg.me
+X-RCPT-COUNT: 8
+X-LOCAL-RCPT-COUNT: 0
+X-MUTI-DOMAIN-COUNT: 0
+X-SENDER-IP: 39.156.73.12
+X-ATTACHMENT-NUM: 0
+X-UNIQUE-TAG: <1be85d387a87dfb187ff48dbfef631eb>
+X-System-Flag: 0
+Date: Fri, 7 Mar 2025 18:10:46 +0800
+From: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>
+To: sagi <sagi@grimberg.me>, 
+	mgurtovoy <mgurtovoy@nvidia.com>, 
+	kbusch <kbusch@kernel.org>, 
+	sashal <sashal@kernel.org>, 
+	chunguang.xu <chunguang.xu@shopee.com>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-nvme <linux-nvme@lists.infradead.org>, 
+	linux-block <linux-block@vger.kernel.org>
+Subject: =?UTF-8?B?UmU6IFJlOiBudm1lLXRjcDogZml4IGEgcG9zc2libGUgVUFGIHdoZW4gZmFpbGluZyB0byBzZW5kIHJlcXVlc3TjgJDor7fms6jmhI/vvIzpgq7ku7bnlLFzYWdpZ3JpbUBnbWFpbC5jb23ku6Plj5HjgJE=?=
+References: <2025021015413817916143@cestc.cn>, 
+	<aed9dde7-3271-4b97-9632-8380d37505d9@grimberg.me>
+X-Priority: 3
+X-GUID: 975E8B81-9D52-4F73-B182-02888A113620
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.25.331[cn]
+Mime-Version: 1.0
+Message-ID: <202503071810452687957@cestc.cn>
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Bad-Reply: References but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250308_061116_456827_BF11E3FC 
-X-CRM114-Status: GOOD (  12.72  )
+X-CRM114-CacheID: sfid-20250307_021053_055546_C4F1EBFD 
+X-CRM114-Status: GOOD (  14.48  )
+X-Mailman-Approved-At: Sun, 09 Mar 2025 07:00:48 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,152 +91,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-After commit ac522fc6c316 ("nvme: don't reject probe due to duplicate IDs
-for single-ported PCIe devices") merged, vendors no longer need to use
-quirks in the PCI ID entry to work around the issue of duplicate IDs.
-The NVME_QUIRK_BOGUS_NID flag changes the format of device attribute file
-names under /dev/disk/by-id/.
-For example, /dev/disk/by-id/nvme-eui.xxx -> /dev/disk/by-id/nvme-nvme.xxx.
+CkhpIAoKICAgICAgICBBZnRlciB0ZXN0aW5nIHRoaXMgcGF0Y2gsICAgc2VuZGluZyByZXF1ZXN0
+IGZhaWx1cmUgb2NjdXJyZWQsICAgdW5mb3J0dW5hdGVseSwgdGhlIGlzc3VlIHN0aWxsIHBlcnNp
+c3RzLiAgCgoKYmVzdCB3aXNoZXMKCgoKCnpoYW5nLmd1YW5naHVpQGNlc3RjLmNuCgoKCsKgCgoK
+CuWPkeS7tuS6uu+8msKgU2FnaSBHcmltYmVyZwoKCgrlj5HpgIHml7bpl7TvvJrCoDIwMjUtMDIt
+MTfCoDE1OjQ2CgoKCuaUtuS7tuS6uu+8msKgemhhbmcuZ3VhbmdodWlAY2VzdGMuY247IG1ndXJ0
+b3ZveTsga2J1c2NoOyBzYXNoYWw7IGNodW5ndWFuZy54dQoKCgrmioTpgIHvvJrCoGxpbnV4LWtl
+cm5lbDsgbGludXgtbnZtZTsgbGludXgtYmxvY2sKCgoK5Li76aKY77yawqBSZTogbnZtZS10Y3A6
+IGZpeCBhIHBvc3NpYmxlIFVBRiB3aGVuIGZhaWxpbmcgdG8gc2VuZCByZXF1ZXN044CQ6K+35rOo
+5oSP77yM6YKu5Lu255Sxc2FnaWdyaW1AZ21haWwuY29t5Luj5Y+R44CRCgoKCsKgCgoKCsKgCgoK
+CsKgCgoKCk9uIDEwLzAyLzIwMjUgOTo0MSwgemhhbmcuZ3VhbmdodWlAY2VzdGMuY24gd3JvdGU6
+CgoKCj4gSGVsbG8KCgoKPgoKCgo+CgoKCj4KCgoKPsKgIMKgIMKgwqBXaGVuIHVzaW5nIHRoZSBu
+dm1lLXRjcCBkcml2ZXIgaW4gYSBzdG9yYWdlIGNsdXN0ZXIsIHRoZSBkcml2ZXIgbWF5IHRyaWdn
+ZXIgYSBudWxsIHBvaW50ZXIgY2F1c2luZyB0aGUgaG9zdCB0byBjcmFzaCBzZXZlcmFsIHRpbWVz
+LgoKCgo+CgoKCj4KCgoKPgoKCgo+IEJ5IGFuYWx5emluZyB0aGUgdm1jb3JlLCB3ZSBrbm93IHRo
+ZSBkaXJlY3QgY2F1c2UgaXMgdGhhdMKgIHRoZSByZXF1ZXN0LT5tcV9oY3R4IHdhcyB1c2VkIGFm
+dGVyIGZyZWUuCgoKCj4KCgoKPgoKCgo+CgoKCj4KCgoKPgoKCgo+IENQVTHCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoENQVTIKCgoKPgoKCgo+CgoKCj4KCgoKPiBu
+dm1lX3RjcF9wb2xswqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgbnZtZV90Y3BfdHJ5X3Nl
+bmTCoCAtLWZhaWxlZCB0byBzZW5kIHJlcXJlc3QgMTMKCgoKPgoKCgo+CgoKCj4KCgoKPsKgIMKg
+IMKgwqBudm1lX3RjcF90cnlfcmVjdsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIG52bWVfdGNwX2Zh
+aWxfcmVxdWVzdAoKCgo+CgoKCj4KCgoKPgoKCgo+wqAgwqAgwqDCoMKgIMKgwqBudm1lX3RjcF9y
+ZWN2X3NrYsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIG52bWVfdGNwX2VuZF9yZXF1ZXN0CgoKCj4K
+CgoKPgoKCgo+CgoKCj7CoCDCoCDCoMKgwqAgwqDCoMKgIMKgwqBudm1lX3RjcF9yZWN2X3BkdcKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIG52bWVfY29tcGxldGVfcnEKCgoKPgoKCgo+CgoKCj4KCgoK
+PsKgIMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqBudm1lX3RjcF9oYW5kbGVfY29tcMKgIMKg
+wqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDC
+oMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgbnZtZV9yZXRyeV9yZXEgLS3CoHJlcXVlc3QtPm1x
+X2hjdHggaGF2ZSBiZWVuIGZyZWVkLCBpcyBOVUxMLgoKCgo+CgoKCj4KCgoKPgoKCgo+wqAgwqAg
+wqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqBudm1lX3RjcF9wcm9jZXNzX252bWVfY3Fl
+CgoKCj4KCgoKPgoKCgo+CgoKCj7CoCDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDC
+oMKgIMKgIG52bWVfY29tcGxldGVfcnEKCgoKPgoKCgo+CgoKCj4KCgoKPsKgIMKgIMKgwqDCoCDC
+oMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgIG52bWVfZW5kX3JlcQoKCgo+CgoK
+Cj4KCgoKPgoKCgo+wqAgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKg
+wqAgwqDCoMKgIMKgwqDCoCBibGtfbXFfZW5kX3JlcXVlc3QKCgoKPgoKCgo+CgoKCj4KCgoKPgoK
+Cgo+CgoKCj4KCgoKPgoKCgo+IHdoZW4gbnZtZV90Y3BfdHJ5X3NlbmQgZmFpbGVkIHRvIHNlbmQg
+cmVxcmVzdCAxMywgaXQgbWF5YmUgYmUgcmVzdWx0ZWQgYnkgc2VsaW51eCBvciBvdGhlciByZWFz
+b25zLCB0aGlzIGlzIGEgcHJvYmxlbS4gdGhlbsKgIHRoZSBudm1lX3RjcF9mYWlsX3JlcXVlc3Qg
+d291bGQgZXhlY3V0ZeOAggoKCgo+CgoKCj4KCgoKPgoKCgo+IGJ1dCB0aGUgbnZtZV90Y3BfcmVj
+dl9wZHUgbWF5IGhhdmUgcmVjZWl2ZWQgdGhlIHJlc3BvbmRpbmcgcGR1IGFuZCB0aGUgbnZtZV90
+Y3BfcHJvY2Vzc19udm1lX2NxZSB3b3VsZCBoYXZlIGNvbXBsZXRlZCB0aGUgcmVxdWVzdC7CoCBy
+ZXF1ZXN0LT5tcV9oY3R4IHdhcyB1c2VkIGFmdGVyIGZyZWUuCgoKCj4KCgoKPgoKCgo+CgoKCj4g
+dGhlIGZvbGxvdyBwYXRjaCBpcyB0byBzb2x2ZSBpdC4KCgoKwqAKCgoKWmhhbmcsIHlvdXIgZW1h
+aWwgY2xpZW50IG5lZWRzIGZpeGluZyAtIGl0IGlzIGltcG9zc2libGUgdG8gZm9sbG93IHlvdXIK
+CgoKZW1haWxzLgoKCgrCoAoKCgo+CgoKCj4KCgoKPgoKCgo+IGNhbiB5b3UgZ2l2ZcKgIHNvbWUg
+c3VnZ2VzdGlvbnM/wqAgdGhhbmtzIQoKCgrCoAoKCgpUaGUgcHJvYmxlbSBpcyB0aGUgQzJIVGVy
+bSB0aGF0IHRoZSBob3N0IGlzIHVuYWJsZSB0byBoYW5kbGUgY29ycmVjdGx5LgoKCgpBbmQgaXQg
+YWxzbyBhcHBlYXJzIHRoYXQgbnZtZV90Y3BfcG9sbCgpIGRvZXMgbm90IHNpZ25hbCBjb3JyZWN0
+bHkgdG8KCgoKYmxrLW1xIHRvIHN0b3AKCgoKY2FsbGluZyBwb2xsLgoKCgrCoAoKCgpPbmUgdGhp
+bmcgdG8gZG8gaXMgdG8gaGFuZGxlIEMySFRlcm0gUERVIGNvcnJlY3RseSwgYW5kLCBoZXJlIGlz
+IGEKCgoKcG9zc2libGUgZml4IHRvIHRyeSBmb3IgdGhlIFVBRiBpc3N1ZToKCgoKLS0KCgoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L3RjcC5jIGIvZHJpdmVycy9udm1lL2hvc3QvdGNw
+LmMKCgoKaW5kZXggYzYzN2ZmMDRhMDUyLi4wZTM5MGU5OGFhZjkgMTAwNjQ0CgoKCi0tLSBhL2Ry
+aXZlcnMvbnZtZS9ob3N0L3RjcC5jCgoKCisrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L3RjcC5jCgoK
+CkBAIC0yNjczLDYgKzI2NzMsNyBAQCBzdGF0aWMgaW50IG52bWVfdGNwX3BvbGwoc3RydWN0IGJs
+a19tcV9od19jdHgKCgoKKmhjdHgsIHN0cnVjdCBpb19jb21wX2JhdGNoICppb2IpCgoKCsKgewoK
+CgrCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgbnZtZV90Y3BfcXVldWUgKnF1ZXVlID0gaGN0eC0+ZHJp
+dmVyX2RhdGE7CgoKCsKgwqDCoMKgwqDCoMKgIHN0cnVjdCBzb2NrICpzayA9IHF1ZXVlLT5zb2Nr
+LT5zazsKCgoKK8KgwqDCoMKgwqDCoCBpbnQgcmV0OwoKCgrCoAoKCgrCoMKgwqDCoMKgwqDCoCBp
+ZiAoIXRlc3RfYml0KE5WTUVfVENQX1FfTElWRSwgJnF1ZXVlLT5mbGFncykpCgoKCsKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKCgoKQEAgLTI2ODAsOSArMjY4MSw5IEBA
+IHN0YXRpYyBpbnQgbnZtZV90Y3BfcG9sbChzdHJ1Y3QgYmxrX21xX2h3X2N0eAoKCgoqaGN0eCwg
+c3RydWN0IGlvX2NvbXBfYmF0Y2ggKmlvYikKCgoKwqDCoMKgwqDCoMKgwqAgc2V0X2JpdChOVk1F
+X1RDUF9RX1BPTExJTkcsICZxdWV1ZS0+ZmxhZ3MpOwoKCgrCoMKgwqDCoMKgwqDCoCBpZiAoc2tf
+Y2FuX2J1c3lfbG9vcChzaykgJiYKCgoKc2tiX3F1ZXVlX2VtcHR5X2xvY2tsZXNzKCZzay0+c2tf
+cmVjZWl2ZV9xdWV1ZSkpCgoKCsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBza19idXN5
+X2xvb3Aoc2ssIHRydWUpOwoKCgotwqDCoMKgwqDCoMKgIG52bWVfdGNwX3RyeV9yZWN2KHF1ZXVl
+KTsKCgoKK8KgwqDCoMKgwqDCoCByZXQgPSBudm1lX3RjcF90cnlfcmVjdihxdWV1ZSk7CgoKCsKg
+wqDCoMKgwqDCoMKgIGNsZWFyX2JpdChOVk1FX1RDUF9RX1BPTExJTkcsICZxdWV1ZS0+ZmxhZ3Mp
+OwoKCgotwqDCoMKgwqDCoMKgIHJldHVybiBxdWV1ZS0+bnJfY3FlOwoKCgorwqDCoMKgwqDCoMKg
+IHJldHVybiByZXQgPCAwID8gcmV0IDogcXVldWUtPm5yX2NxZTsKCgoKwqB9CgoKCsKgCgoKCsKg
+c3RhdGljIGludCBudm1lX3RjcF9nZXRfYWRkcmVzcyhzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsLCBj
+aGFyICpidWYsIGludAoKCgpzaXplKQoKCgotLQoKCgrCoAoKCgpEb2VzIHRoaXMgaGVscD8KCgoK
+wqAKCgoKwqAKCgo=
 
-Considering that naming formats need to have high stability and
-recognizability, it is more prudent to make changes only for rare,
-sporadic cases rather than implementing comprehensive changes. Therefore,
-this patch remove default setting of NVME_QUIRK_BOGUS_NID flag for vendors,
-and the flag is added dynamically only when duplicate IDs is detected,
-as implemented in ac522fc6c3165f.
 
-Signed-off-by: Jianlin Lv <iecedge@gmail.com>
----
- drivers/nvme/host/pci.c | 63 +++++------------------------------------
- 1 file changed, 7 insertions(+), 56 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 640590b21728..9ae73224d4d7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3592,8 +3592,7 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_DEALLOCATE_ZEROES, },
- 	{ PCI_VDEVICE(INTEL, 0x0a54),	/* Intel P4500/P4600 */
- 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
--				NVME_QUIRK_IGNORE_DEV_SUBNQN |
--				NVME_QUIRK_BOGUS_NID, },
-+				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_VDEVICE(INTEL, 0x0a55),	/* Dell Express Flash P4600 */
- 		.driver_data = NVME_QUIRK_STRIPE_SIZE, },
- 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
-@@ -3612,11 +3611,9 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(0x1217, 0x8760), /* O2 Micro 64GB Steam Deck */
- 		.driver_data = NVME_QUIRK_DMAPOOL_ALIGN_512, },
- 	{ PCI_DEVICE(0x126f, 0x2262),	/* Silicon Motion generic */
--		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
--				NVME_QUIRK_BOGUS_NID, },
-+		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
- 	{ PCI_DEVICE(0x126f, 0x2263),	/* Silicon Motion unidentified */
--		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST |
--				NVME_QUIRK_BOGUS_NID, },
-+		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST, },
- 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY |
- 				NVME_QUIRK_NO_NS_DESC_LIST, },
-@@ -3634,11 +3631,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x15b7, 0x5008),   /* Sandisk SN530 */
- 		.driver_data = NVME_QUIRK_BROKEN_MSI },
--	{ PCI_DEVICE(0x1987, 0x5012),	/* Phison E12 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1987, 0x5016),	/* Phison E16 */
--		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
--				NVME_QUIRK_BOGUS_NID, },
-+		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x1987, 0x5019),  /* phison E19 */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x1987, 0x5021),   /* Phison E21 */
-@@ -3646,24 +3640,15 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(0x1b4b, 0x1092),	/* Lexar 256 GB SSD */
- 		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST |
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
--	{ PCI_DEVICE(0x1cc1, 0x33f8),   /* ADATA IM2P33F8ABR1 1 TB */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x10ec, 0x5762),   /* ADATA SX6000LNP */
--		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
--				NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x10ec, 0x5763),  /* ADATA SX6000PNP */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x1cc1, 0x8201),   /* ADATA SX8200PNP 512GB */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	 { PCI_DEVICE(0x1344, 0x5407), /* Micron Technology Inc NVMe SSD */
- 		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN },
--	 { PCI_DEVICE(0x1344, 0x6001),   /* Micron Nitro NVMe */
--		 .driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1c5c, 0x1504),   /* SK Hynix PC400 */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
--	{ PCI_DEVICE(0x1c5c, 0x174a),   /* SK Hynix P31 SSD */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1c5c, 0x1D59),   /* SK Hynix BC901 */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x15b7, 0x2001),   /*  Sandisk Skyhawk */
-@@ -3671,12 +3656,9 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(0x1d97, 0x2263),   /* SPCC */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x144d, 0xa80b),   /* Samsung PM9B1 256G and 512G */
--		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES |
--				NVME_QUIRK_BOGUS_NID, },
-+		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x144d, 0xa809),   /* Samsung MZALQ256HBJD 256G */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
--	{ PCI_DEVICE(0x144d, 0xa802),   /* Samsung SM953 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1cc4, 0x6303),   /* UMIS RPJTJ512MGE1QDY 512G */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x1cc4, 0x6302),   /* UMIS RPJTJ256MGE1QDY 256G */
-@@ -3697,43 +3679,12 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x2646, 0x501E),   /* KINGSTON OM3PGP4xxxxQ OS21011 NVMe SSD */
- 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
--	{ PCI_DEVICE(0x1f40, 0x1202),   /* Netac Technologies Co. NV3000 NVMe SSD */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1f40, 0x5236),   /* Netac Technologies Co. NV7000 NVMe SSD */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1e4B, 0x1001),   /* MAXIO MAP1001 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1e4B, 0x1002),   /* MAXIO MAP1002 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1e4B, 0x1202),   /* MAXIO MAP1202 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1e4B, 0x1602),   /* MAXIO MAP1602 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1dbe, 0x5216),   /* Acer/INNOGRIT FA100/5216 NVMe SSD */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1e49, 0x0021),   /* ZHITAI TiPro5000 NVMe SSD */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
- 	{ PCI_DEVICE(0x1e49, 0x0041),   /* ZHITAI TiPro7000 NVMe SSD */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
--	{ PCI_DEVICE(0xc0a9, 0x540a),   /* Crucial P2 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1d97, 0x2263), /* Lexar NM610 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1d97, 0x1d97), /* Lexar NM620 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1d97, 0x2269), /* Lexar NM760 */
--		.driver_data = NVME_QUIRK_BOGUS_NID |
--				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
--	{ PCI_DEVICE(0x10ec, 0x5763), /* TEAMGROUP T-FORCE CARDEA ZERO Z330 SSD */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x1e4b, 0x1602), /* HS-SSD-FUTURE 2048G  */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
--	{ PCI_DEVICE(0x10ec, 0x5765), /* TEAMGROUP MP33 2TB SSD */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0061),
- 		.driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0065),
--- 
-2.34.1
 
 
