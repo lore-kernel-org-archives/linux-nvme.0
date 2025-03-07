@@ -4,61 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3F86C19F32
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Mar 2025 13:29:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD43AC19F32
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Mar 2025 15:21:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EKCIMHlK8qqqcwS0fj+kePZBCTxd5H18Zqo6got0KCw=; b=nMZPrMX6mkDSBrvH+N+a2nndm8
-	FJkSiJ9wCTYHTVDZZCbSp+1hAekqDSxSGnAf14PrwkndKTJGPkILoZ8AfgkTy81KORbf/lEFj++rA
-	USlOwoBGTOXP/LBdBX7r1Zz+1iSxkQUGXVo7WAGPAcYiwZEZNBq/NkxhWPAA08/SnfAGcSX4aHfym
-	YA6Fexm4Q+iMCIvn8fkWuJuoSUBarScSZWClnqZtFFJIPt9QWx0IBBJzBC6BiB2t0gYLTV3A712VS
-	WFKeha4v4iAo7ZFQ95Jj5VEMjjF8u2UiV3u7UI51YEX2QbDZms+rslIw9NezxzqyfTaRi4AwknYf/
-	9lSpbD2g==;
+	bh=ZyFn+r1eFLX1116kt0khVRZJApepYRHlTPrywKyMS0g=; b=JZP2w1eAq4dgsG2ytwQAswPt6x
+	7EHwRf8G1fWzEXaWPgSfzEvJc8GJeHXDcx5ZTm8u5XX3gMRN56tvjHFY+NbB9iwG04fTp3hIapvnW
+	wz9A6f+hZmZ1CSxclWYRdjy4mXCqbDP50VphwM3c3thN5o27nFRXhxTJjsJ8ICU7mWPiTGmM8ol2b
+	bMm7CcbfZNyu+McScXJxPXuZUQysapwyRfkLKdoepBjT/LSbUgiuWqCC6O8gVVDGoScnT9h3ACHJZ
+	m4f0oY20SuFaes5hFuyfGnIGzVmBoGTp+zCSeKgrU89qzOnjvCq3sHVc8OdmZ/bxzjRA3eW+qbAFI
+	S10JQASg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqXle-0000000EKdH-32CZ;
-	Fri, 07 Mar 2025 13:29:34 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tqZW9-0000000Ed2y-0OQY;
+	Fri, 07 Mar 2025 15:21:41 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tqXkM-0000000EKPb-2K55
+	id 1tqZU2-0000000EcQT-3tJj
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Mar 2025 13:28:15 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 144B25C5759;
-	Fri,  7 Mar 2025 13:25:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AC08C4CED1;
-	Fri,  7 Mar 2025 13:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741354093;
-	bh=N4IGIUzFRSW8+r7dg4QlX/INjV84lJaP+wOsjXAFwss=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GJKbLVRmi81Wwc+B/esbWgZV542OTaGyPAuf5Bp/zx62tt+AM9F1odAZ7t6F4Lpih
-	 RU6ANwzUxago5p/V6jf49J/dIj8qM8yUAyG7TIhreEXE1YwUmyN9/tdrK+QUkIljQG
-	 OM/rKF00nWvvQdoNmxYGXoShSgWGESPmYF+4OMUBgl4rQ0YwnOiaIOuPwq+pXpGi7/
-	 Y7p0cJdpmy6W5/SaSc0KZ/GND6ZPcLnYbRlSydlw5PCMl2zYyYJ+5zU7L4O0tLtVGf
-	 JkOHWrno9IA1tV9KOK8WsqJ4qkmfJHB7Q5sKKTI1cgzybMN8hrYfJbqTAqlSMcXNYJ
-	 LNO6tkWsrFvyA==
-From: Hannes Reinecke <hare@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 1/3] nvme-tcp: avoid inline sending when handling R2T PDUs
-Date: Fri,  7 Mar 2025 14:28:00 +0100
-Message-Id: <20250307132802.111513-2-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20250307132802.111513-1-hare@kernel.org>
-References: <20250307132802.111513-1-hare@kernel.org>
+	Fri, 07 Mar 2025 15:19:32 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 527Dq1bH018284;
+	Fri, 7 Mar 2025 15:19:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ZyFn+r
+	1eFLX1116kt0khVRZJApepYRHlTPrywKyMS0g=; b=GDOaH9v/wTN+xgMoHyEwyT
+	uu4UmmCEo38Dxn1DemsYtqF3Pjnv5lTP07zQZl4SRWGLhRrsqHFnA6Qfp/GA6IVl
+	d4CmvFXthmN2/IhiwDD5/ZPgu8wlVnaJZTM3ZMTr4PHv/vBeYSAMYWY7CGGV/4P/
+	+f0q9U8qDjp5o9oZhQvh9p2MKjQqZNBEVipI73ZbeCeiNAMipllkLHglUOS0mhTg
+	GYaLNJLIL7PDYD11lVJwl2Ot5iYUwmO+V5VPh1CUbqcEpSS2wzaXFLSV3YKJKq0X
+	l6fkxqvLAoWlsPRYswVhwZwk5kzlKX5qp/LywkQ/xCEbMpfyfg2qJ1y2sR2czzng
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 457s6a366y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 07 Mar 2025 15:19:17 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 527EcuAV025012;
+	Fri, 7 Mar 2025 15:19:16 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 454f92f12u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 07 Mar 2025 15:19:16 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 527FJF9R10617392
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 7 Mar 2025 15:19:16 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CE85858043;
+	Fri,  7 Mar 2025 15:19:15 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AD4F558055;
+	Fri,  7 Mar 2025 15:19:11 +0000 (GMT)
+Received: from [9.61.11.159] (unknown [9.61.11.159])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  7 Mar 2025 15:19:11 +0000 (GMT)
+Message-ID: <b2c9df64-0afc-46cd-9e8d-6a3f41a4f1c7@linux.ibm.com>
+Date: Fri, 7 Mar 2025 20:49:09 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: remove multipath module parameter
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
+        John Meneghini <jmeneghi@redhat.com>, bmarzins@redhat.com,
+        Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Marco Patalano <mpatalan@redhat.com>,
+        axboe@kernel.dk
+References: <91ae613a-7b56-4ca0-b91c-6bc1eee798b8@suse.de>
+ <20250305141554.GA18065@lst.de> <Z8hrJ5JVqi7TgFCn@kbusch-mbp>
+ <20250305235119.GB896@lst.de> <Z8jk-D3EjEdyBIU5@kbusch-mbp>
+ <20250306000348.GA1233@lst.de> <1ffebf60-5672-4cd0-bb5a-934376c16694@suse.de>
+ <20250306141837.GA21353@lst.de> <Z8m4vzE36UHWjwep@kbusch-mbp>
+ <20250306151654.GA22810@lst.de> <Z8pB9jQALxMN6WaA@kbusch-mbp>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <Z8pB9jQALxMN6WaA@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: F8oRERkOXie4hKo3gKGqA87w2iHGMcmB
+X-Proofpoint-ORIG-GUID: F8oRERkOXie4hKo3gKGqA87w2iHGMcmB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-07_06,2025-03-06_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ mlxlogscore=871 adultscore=0 priorityscore=1501 phishscore=0 clxscore=1015
+ malwarescore=0 impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503070111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250307_052814_634925_CC3902B8 
-X-CRM114-Status: GOOD (  14.35  )
+X-CRM114-CacheID: sfid-20250307_071930_980783_67F38173 
+X-CRM114-Status: GOOD (  22.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,68 +114,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When handling an R2T PDU we should not attempt to send consecutive
-PDUs as we are running from an softirq context, and sending PDUs
-from the receive context will mess up latencies.
-So just queue it and let the io_work workqueue function do the work.
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- drivers/nvme/host/tcp.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 8c14018201db..034edf852878 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -391,7 +391,7 @@ static inline bool nvme_tcp_queue_more(struct nvme_tcp_queue *queue)
- }
- 
- static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
--		bool sync, bool last)
-+		bool last)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
- 	bool empty;
-@@ -405,7 +405,7 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
- 	 * are on the same cpu, so we don't introduce contention.
- 	 */
- 	if (queue->io_cpu == raw_smp_processor_id() &&
--	    sync && empty && mutex_trylock(&queue->send_mutex)) {
-+	    empty && mutex_trylock(&queue->send_mutex)) {
- 		nvme_tcp_send_all(queue);
- 		mutex_unlock(&queue->send_mutex);
- 	}
-@@ -758,7 +758,9 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 	req->ttag = pdu->ttag;
- 
- 	nvme_tcp_setup_h2c_data_pdu(req);
--	nvme_tcp_queue_request(req, false, true);
-+
-+	llist_add(&req->lentry, &queue->req_list);
-+	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
- 
- 	return 0;
- }
-@@ -2531,7 +2533,7 @@ static void nvme_tcp_submit_async_event(struct nvme_ctrl *arg)
- 	ctrl->async_req.curr_bio = NULL;
- 	ctrl->async_req.data_len = 0;
- 
--	nvme_tcp_queue_request(&ctrl->async_req, true, true);
-+	nvme_tcp_queue_request(&ctrl->async_req, true);
- }
- 
- static void nvme_tcp_complete_timed_out(struct request *rq)
-@@ -2683,7 +2685,7 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	nvme_start_request(rq);
- 
--	nvme_tcp_queue_request(req, true, bd->last);
-+	nvme_tcp_queue_request(req, bd->last);
- 
- 	return BLK_STS_OK;
- }
--- 
-2.35.3
+On 3/7/25 6:16 AM, Keith Busch wrote:
+> On Thu, Mar 06, 2025 at 04:16:54PM +0100, Christoph Hellwig wrote:
+>> On Thu, Mar 06, 2025 at 08:01:19AM -0700, Keith Busch wrote:
+>>
+>>> Or consider a true multiport PCIe where each port connects to a
+>>> different host. Each host sees a single port so they're not using
+>>> multipath capabilities, and the admin wants the MD behavior that removes
+>>> a disk on hot plug. Or even if one host sees both paths of a multiport
+>>> PCIe, they still might want that hot plug behavior. The module parameter
+>>> makes that possible, so some equivalent should be available before
+>>> removing it.
+>>
+>> A module-wide parameter is absolutely the wrong way to configure it.
+>> You'd ad best want it per-controller or even per-namespace.  One
+>> tradeoff would be to disable the multipath code for private namespaces,
+>> although that would cause problems when rescanning changes the flag.
+> 
+> It's not really about private vs. shared namespaces, though. There
+> really is no programatic way for the driver to know what behavior the
+> admin needs out of their system without user input. If you don't want a
+> module parameter, then the driver will just have to default to
+> something, then the user will have to do something to change it later.
+> Not very pleasant compared to a simple one time boot parameter.
+> 
+I think always creating multipath head node even for the disk which doesn't 
+have CMIC/NMIC capability should be useful. That way, we may then be able 
+to remove multipath module parameter? In fact, you already mentioned about
+it in one of your previous message. I see two approaches (one of them you 
+proposed and another one Christoph proposed: 
+https://lore.kernel.org/linux-nvme/Y+1aKcQgbskA2tra@kbusch-mbp.dhcp.thefacebook.com/). 
 
+Maybe in first cut we should create multipath head disk node always for 
+single/multi ported NVMe disk. Later we may enhance it and allow pinning the 
+head node for hotplug events so that head node dev name remains consistent 
+across disk add/remove hotplug events.
+
+Thanks,
+--Nilay
 
