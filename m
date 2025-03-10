@@ -4,51 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C96BBC282DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Mar 2025 14:57:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38C41C282EC
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Mar 2025 15:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UYWkAGjqTxbwulqIXIHxkVa3gnw2Zc1n+/8Rj5If9qE=; b=SX7i+QJaHvDJwPf9wlMDNqqzOO
-	nWUYAzUJTDXObgAiZvV7jaZwlr3QrnVHyKl51DlxfOJ/4p2w3NjKFISrlvcTsSBrfd0K/RwXjYySt
-	PDmJ4sz1P4jDQAWw+f2HkAC3qWCbTc4s7vAIlVULLheKsCPrroim5aKAZWIXeLYBu2pS93uvl4sdF
-	nP7hAHwBD70Jd8b2puVQiib11AMYNTZ9Fo484srwD8zm27SVC/6P4jaSyGwl1rCCQgK4WTth57Zh6
-	AEZzGXPDtZrVP1AzSQQ+0re2FUwUGlNwbfUpgogAKODQ9TyLKrrqFW1S48iyQZ14zyjWAwc+Z/WNA
-	1ZqiFGdA==;
+	bh=iP5ye8zT3XIsvH+PNGvaZLaxESkuwYpIjYNZsfXOW/Q=; b=OKM4DzVsO71iEJ2bEF3UBtRv50
+	/2d3xXuesHuJ/UrLqnKN4hra4jCfFOQzcOJZ+gTd/NWVjT4TuakbNPneMpScOvCqXe2JU3ax6RFrz
+	1P4XLG5niYyVEmvSiCq4KH8UO/9qh5gSrrP6P/p3IYpguuDPymRiA6fusdMMMFo+k3w4/8pG/0v9G
+	4cUHWiPyrSUvq/v+RXBGnMs1HwhgG3RXqFE6MNuIAbgRVThXuylLHQi0nqq36ZcPwAtsiuMcJeJaX
+	+4dmKK43PGExMSc0OA2RuqGKXu6see9LsXO7W2K29lUYPeOOd2kwwr37us8P97UhzMLrKYJxip+Vs
+	Yg17QBuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1treZp-000000033cu-1hB9;
-	Mon, 10 Mar 2025 14:57:57 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1trfD7-00000003CZ9-0LD4;
+	Mon, 10 Mar 2025 15:38:33 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1trdCJ-00000002nas-1xpA
+	id 1treHG-00000002xEJ-2y64
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Mar 2025 13:29:36 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 088C167373; Mon, 10 Mar 2025 14:29:32 +0100 (CET)
-Date: Mon, 10 Mar 2025 14:29:31 +0100
-From: Christoph Hellwig <hch@lst.de>
+	Mon, 10 Mar 2025 14:38:47 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id E005B5C667A;
+	Mon, 10 Mar 2025 14:36:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 035C7C4CEE5;
+	Mon, 10 Mar 2025 14:38:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741617525;
+	bh=qPjt2HNHOrU8xnC8hYF6piHqZ8fvgELpU+TTqGWaDSc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZoZLQtB2CfOzsZYWHAHNJ5ZdOVspZBxyum3Fuhr4XeNvl4E2Y9m2InKFy9gd1BFOE
+	 7QXxilfsOydkfSR3Xy3pRwfgO8MhwgCyp+uCMtuytrB3sNNFUxc7mt1mU2JTsaubtJ
+	 IlTL/40HvUMpA1tTeK+u9BppgC54ZH9kZO4GuoOpYz++nGf+Nir/nMbVDd/8LGPukI
+	 AzobZyZA9N2HVitqjZMN4v0Y9q0QWRCFByS+CsvQgF4c/k8aBQhW/YnxyZRdYo3ItX
+	 L5hruk4XaGQLt8EUWA4E7Fvkq31U+BPl5ZEXDWXXghKOt+7BVDc7w7yZ3bcelz3VY9
+	 gOA72rRSFE4VA==
+Date: Mon, 10 Mar 2025 08:38:42 -0600
+From: Keith Busch <kbusch@kernel.org>
 To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
-	John Meneghini <jmeneghi@redhat.com>, bmarzins@redhat.com,
-	Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Marco Patalano <mpatalan@redhat.com>,
-	axboe@kernel.dk
-Subject: Re: [PATCH] nvme: remove multipath module parameter
-Message-ID: <20250310132931.GB8956@lst.de>
-References: <Z8jk-D3EjEdyBIU5@kbusch-mbp> <20250306000348.GA1233@lst.de> <1ffebf60-5672-4cd0-bb5a-934376c16694@suse.de> <20250306141837.GA21353@lst.de> <Z8m4vzE36UHWjwep@kbusch-mbp> <20250306151654.GA22810@lst.de> <Z8pB9jQALxMN6WaA@kbusch-mbp> <b2c9df64-0afc-46cd-9e8d-6a3f41a4f1c7@linux.ibm.com> <Z8sUB2bbbMsurZmu@kbusch-mbp> <69cdaf9d-2fb4-4ee0-9c32-cc946405a23a@linux.ibm.com>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH] nvme-pci: fix stuck reset on concurrent DPC and HP
+Message-ID: <Z875cm31GNSTaiOg@kbusch-mbp>
+References: <20250307002424.3655342-1-kbusch@meta.com>
+ <46617499-17ea-44b9-9ed0-1fb5d238f54f@linux.ibm.com>
+ <Z8sPwJw2oQH3slpT@kbusch-mbp>
+ <3dcf210e-a714-4572-bd5b-01c66c594fd9@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <69cdaf9d-2fb4-4ee0-9c32-cc946405a23a@linux.ibm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <3dcf210e-a714-4572-bd5b-01c66c594fd9@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250310_062935_644066_D4D0E14B 
-X-CRM114-Status: GOOD (  13.29  )
+X-CRM114-CacheID: sfid-20250310_073846_790975_FFB6B69A 
+X-CRM114-Status: GOOD (  10.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,17 +74,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Mar 09, 2025 at 10:53:19PM +0530, Nilay Shroff wrote:
-> Yes agreed however it seems advantages of using an indirect call outweighs 
-> using the short cut to blk_mq_submit_bio. Moreover it seems the cost of 
-> indirect call is trivial because we already cache the nexthop. 
+On Sat, Mar 08, 2025 at 12:57:50PM +0530, Nilay Shroff wrote:
+> On 3/7/25 8:54 PM, Keith Busch wrote:
+> > If the pciehp removal starts after reset work's controller
+> > initialization, then nothing stops the work from sending new admin
+> > commands, and nothing will complete them. This causes the error_resume
+> > to wait for something that will never happen.
+>
+> Ok makes sense, this appears to be a tight race condition and may not be 
+> limited to one platform. This should be possible even on PPC.
 
-Indirect calls are never cheap unfortunately.
-
-> If you and Christoph are busy with other work then in that case I'll be 
-> glad to pursue this further if you agree.
-
-I'm not working in this area at the moment, so from my POV feel free
-to go ahead.
-
+Yeah, I also thought it was a very unlikely condition to hit, but I have
+a platform that deadlocks here almost every time a DPC event occurs.
 
