@@ -4,189 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF8D2C282EC
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Mar 2025 10:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 624F6C28B2E
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Mar 2025 10:46:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mN9Q2Rmp8Agt8jOiRVj1hnAEoW0nqa9Pq/ruYV005hI=; b=rIRr29sTlyVmOWfr0E3wWdiyfr
-	s/0O4IKZhp16vxU1ndSOr97iSOfEgavX46m2Y5vm6Sw69+obstjqB7AaYJNTxsUI7U7HqPf2LIVri
-	XqNF/pIGW/5VjTqzQEh/KOhawpn289fIMU5TQB6cMYunx2QoHLHrZvUkn7T9Y5J2o7M7og8HsWQVb
-	rMiyof8+jUuCqeR15adaos2e7o/yHRZ8HABASauVxTtygqnRoFAljTgxHeVBafaJrpVf061/qS4ne
-	hvRnTM3P9tBUmwSrh1mHRMF2D170+Gkm3Xrv1AfSm9RSVfkVnRoZJeTjdnQ/e2Z29ie//L0PoSL++
-	0VXCQbCQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=NZCnAOL0SeWf65quH9Oi51y08nslFhOegWHo8dPKp4M=; b=SXd4mHkUQyU8qy1EpdD0OyAzXv
+	74bF7FahiXYKoGWs0Dixhonz7X6eXsqCxICGqRR2hUL8YmQRCF0K6jesaKYiEdJ1CGggjb9EDw6pC
+	ut+WxUSm7Fpq7k59q9FLKAX96Qz28jlBNVDVlv6DAsidCtSFlHRKQGrlBVjEGkjySqVEBoM1v2Wcx
+	OnkrE7lT9CyPFSFqvPg4NvrcbMyXH7sCALe41f1VhEfBzuZ2S5DZN/Gwa5janVWlqMghriohODMJN
+	v2W+LjJzVb9tHr0GAL2H4ksTRTJHmhXs9/i9aBG1WZY6f5zRlkXlNyQwUbTYURYmM04Q2e0C8gQt4
+	vApNIQLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1trx5z-00000005MmZ-3bdp;
-	Tue, 11 Mar 2025 10:44:23 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1trx7d-00000005NE5-2JPL;
+	Tue, 11 Mar 2025 10:46:05 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1trx4L-00000005MWG-2LZL;
-	Tue, 11 Mar 2025 10:42:42 +0000
+	id 1trx5h-00000005MgJ-3kbP;
+	Tue, 11 Mar 2025 10:44:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1741689761; x=1773225761;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=mN9Q2Rmp8Agt8jOiRVj1hnAEoW0nqa9Pq/ruYV005hI=;
-  b=NrGqn8ND0b8LkwkAahVruxP/DzWGNBz/+H6FNNbELYCPjDQEnL4Qp8PV
-   iXXO1EHcgMrcvG6rsjLeZBKeAjeWU/vAT0gHBR8x9709fSKwI1TEaSsZF
-   1pqPlTK678sRltVzuYV4vIPkdcuLVhIwtOJE4zqJm67OimonzXSp8RSJK
-   c1HTY/Usd46JWrDp7zmcpnRglPrKwhw9IntjShQrvuHEr1bRM+vYvD9eC
-   vQd5G0221JtZpUgbxrErkYtYvZbOiYz1WMqcKDR4CCxEubvlhn1ItVbEI
-   eUwOKCKW3OGMPDJ/KaOkQp/QeSBKEykXeM619oNLPYiGaDPnux8iCrLJl
-   A==;
-X-CSE-ConnectionGUID: hqGnOfviRayt0RNcU6EZHA==
-X-CSE-MsgGUID: 8120jqkWRN6fMGYArMd+dw==
+  t=1741689845; x=1773225845;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=qZkpL8+UK4Jf7ALWWjcCeKVGPKdF94sM7MXUzKsePGs=;
+  b=PZADjgv4G3FITTrW9KLBdx+x+VK3yg2cg7+N56EAdPt6KvWbgdWI1KDl
+   OHokqyHLFcRl1GhbJ4kiqA6cPuVNU2IAM9RHiUOoNxIlzmqovHGrZxLWS
+   oYzVxYesv1a2dD7vKrUMYxUq/PbZoSFy4F0sy8cXu6XVZQzEquKz8FhH6
+   6PoG8Lx5gIdu9leiIQWrhxwbHEr7JvEI+Co31SgicE14zvKK6DONvf+0B
+   s8TlN+1Wk7ppBJ+2/uTnrLl3FRM0pftaN+J5muFSBHmHiq38DH3zT5SOX
+   rofeT+1ksCvl+2hTRbRAD8YPMg9tqESwumCnP9WfssaBTeQs8eMaqIdP/
+   w==;
+X-CSE-ConnectionGUID: dqtqRfg+QA+3atCzb6PFAA==
+X-CSE-MsgGUID: 03vgJBvWSX2RVvR+A6o7PQ==
 X-IronPort-AV: E=Sophos;i="6.14,238,1736784000"; 
-   d="scan'208";a="45394286"
-Received: from mail-westcentralusazlp17011031.outbound.protection.outlook.com (HELO CY4PR02CU008.outbound.protection.outlook.com) ([40.93.6.31])
-  by ob1.hgst.iphmx.com with ESMTP; 11 Mar 2025 18:42:37 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BOyC92KRMpLA8axKBCOIFXMrwwY17K1VauD6t4dFY1+RcftYOcT+OA+R0Lgx2egbGqfbe9pPOc5iYyA0nl9f5pDgkU7dfG/NRlOrdN/9/a7FtmVhJ501dIeYIhKHi1Q7LDxTkgbJEpi4tYrrFUXVb8DqF93TAAW+6kzeIOUozmd91cohrAG84zlqPmTT17j6Yw1tW3OBaUNE6GHFLT6o91i3SSEQxiNZYdibFTvFgonT6+BDpopzAQYQ2hG9TcVg/tnyq4gMCS4PXwktuEBTtvzlJ9zoL66RM/wyCrOj6ZLYjlrtoiYMKtDvVmymdtHFkI7mQWbgf3TADCQd9bcuNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mN9Q2Rmp8Agt8jOiRVj1hnAEoW0nqa9Pq/ruYV005hI=;
- b=Z57SWTXVUa1saDclfmWfhM59fOLasMnBLGeDt8NoztOALXnjFD3jG4sshUeoFmik3khRBwN7kIj6Dhscxl5j+HsDyMmPoIDqBLc8/T67kdQgu4Lyr3GOsl+d7/7WAJ+fFe7sNJZ4+tk/YZdpwGQjtRgPC9wfZnKzW4C1/2fGCJF4GEWmBTa86M+OXPhYXyfmBHf/YeHiKnE/0McAJjlqIFzyYpKJaL1Z/i9dHYwoo4VfR9yVaeRVfqXHA4Aczjuk6IzIxYw1qYqNwXHRiyBYLW1+zSzSyTQyHUHjF/TwdnIOISTXbrl7/hGRGK4Gml8vDBEogxn/ZH/8KOVGPCz1+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mN9Q2Rmp8Agt8jOiRVj1hnAEoW0nqa9Pq/ruYV005hI=;
- b=fjsCgK8/zjWUlsRdFkkzTcn3GV+I1cbqd5TKnrWlku1WET9/+3TJrH5Y0mSTlCK+Lacgcs2eKB1O3WnsTFyA3Vsy4hI1qQGc/GsqbPNAtcg5mV0wKvtDZLBHorGMdPBqiQgeKOH6BTMPrcCZgvKwuFXtkFVn50fyyJChmHODTSk=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- BY5PR04MB6674.namprd04.prod.outlook.com (2603:10b6:a03:223::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Tue, 11 Mar
- 2025 10:42:33 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%7]) with mapi id 15.20.8511.026; Tue, 11 Mar 2025
- 10:42:33 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "hch@infradead.org" <hch@infradead.org>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Jens Axboe
-	<axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg
-	<sagi@grimberg.me>, Alan Adamson <alan.adamson@oracle.com>,
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "Michael S . Tsirkin"
-	<mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
-	<xuanzhuo@linux.alibaba.com>, =?iso-8859-1?Q?Eugenio_P=E9rez?=
-	<eperezma@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
-	<stefanha@redhat.com>, Sven Peter <sven@svenpeter.dev>, Janne Grunau
-	<j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: Re: [PATCH 2/2] block: change blk_mq_add_to_batch() third argument
- type to blk_status_t
-Thread-Topic: [PATCH 2/2] block: change blk_mq_add_to_batch() third argument
- type to blk_status_t
-Thread-Index: AQHbki8tFpPA8PVXJE+J41voKxqzp7NtlnGAgAApxYA=
-Date: Tue, 11 Mar 2025 10:42:32 +0000
-Message-ID: <azwm5cno6croi4l3pbp73z53wa77i4gleetrvn5jjf7khi2e2t@ru4yijtbgluz>
-References: <20250311024144.1762333-1-shinichiro.kawasaki@wdc.com>
- <20250311024144.1762333-3-shinichiro.kawasaki@wdc.com>
- <Z8_wjZUNvM7JAWAQ@infradead.org>
-In-Reply-To: <Z8_wjZUNvM7JAWAQ@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BY5PR04MB6674:EE_
-x-ms-office365-filtering-correlation-id: dae46e68-720a-4c30-beb6-08dd60896e0c
-x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?RrZ1xj5f4sO6so/IdYkaKKEtndh8FA8GA8Y8wQILMM/+bRqKjv5VpZZZuE?=
- =?iso-8859-1?Q?4qMGTeHt88Z+Wre4d+fSuQIk45ffJuc8mejV99ttCIzu3wgLBg4gV0fKN6?=
- =?iso-8859-1?Q?rRbxEEUhHherL1qH6IKofN32UOwg7dpZ1ifmNV0gdxfXmymbmGru+C6LFK?=
- =?iso-8859-1?Q?xxslhryWU3cYOEM8IhhwOKVJi3qskxMcYcC1WgMrUE4bLY7fqVyj8olSTq?=
- =?iso-8859-1?Q?+9frlJfqd9WkbWI+hBW7EQnuERLhlkM5TdfbuouSOUMOaTQD/pOMLHkwPr?=
- =?iso-8859-1?Q?OglaqxgdwBLkj1fQio/HtECWwXhDNIPJ3n3VnvIlE8n143KynRJS4JLk0W?=
- =?iso-8859-1?Q?3Ri62Rljb7jQJA4PSej8NG4oulDXPpNeHuV54qlprOFsJFnqJAeoOvCKsG?=
- =?iso-8859-1?Q?3u559vbtXxIrvCEOcS/0h6YJGZVe5xDlYvYLVhwXTLsOYSfgaF3R3r50oy?=
- =?iso-8859-1?Q?Nb4x28pDcwAKQpIK698ruQLc49gVxfsyNlLMxT3nzNHhssyAYWIQ7HKX3p?=
- =?iso-8859-1?Q?RXO20GQL+2Ru/XvaksEpjAt8Zg2IsvELqCevqIw0+UHkRX6dLnF2GquYLg?=
- =?iso-8859-1?Q?WB/MpoLNRRi54vpuA51nskIUVzokucNP+HSf/E4beBKpLDy0G/KSBf+xGm?=
- =?iso-8859-1?Q?ReV9s3d+1K0UpPG/aP/fRAxVHQsBhEKrDII0DOdRhe1ygLlyruGKMlrMQM?=
- =?iso-8859-1?Q?i0/0MxGHAzBfQHnz71uo964LN6KC+fNgurxaFAF9aRTAYwnDoBxJ1gfShS?=
- =?iso-8859-1?Q?GKBsDCiRou4emBAbA34HeW6dzSCt/DBaq4BpjjZTezHzjQatx7Gme0T75g?=
- =?iso-8859-1?Q?kuxhCuPo4IVZpTql4qPIIx4uuVu8aqAhL99V4IFCPElGWg97YBu39UQNvw?=
- =?iso-8859-1?Q?7Ynn30fmsJQ9jaH0cu+QqMhbMcjbq3KPtg6uO9lqLLI8ACx/n9wk2xF++E?=
- =?iso-8859-1?Q?U/XYk/5L8x3B5tjvhQsYneJJZ6hlWhoZdbKO/aOirqzefFIN1B8TEBRBUT?=
- =?iso-8859-1?Q?5u4VkuEsvftOv04dTPgc+MFiIwbpvQ98hRnOSFk5A2BOP1hYtHeh2T/R6b?=
- =?iso-8859-1?Q?VTjRKiE1W3inJ/IIaAid4BUz8j1RdXZjMz82VwvsGZh03dpcN12rrLW2/x?=
- =?iso-8859-1?Q?DStNlkRt18be/cTEp2Jn7hIRfm1/BkByBnAcHlSSWpMYik7cuRpWoeDbvl?=
- =?iso-8859-1?Q?LlUleWIuvGsdl5ojkHnTVyGYbgpD5pSTZ05xg93QkuxglJNTBxeMjsrcrE?=
- =?iso-8859-1?Q?vniSYoIc9bojbVn/B3BGauW+cOMixkcPT9LTdd2We9ZjRcymj8i+hGdAAg?=
- =?iso-8859-1?Q?6ljnW7C7t3RRKYHaC/SIaG3DOrflikEHJ7doVyfXD5Iy/HYcDZ8bmNDjIi?=
- =?iso-8859-1?Q?5fy8grWZujiVAE4SFQlG0slrr5BxH69EsocPHtSfyLypyRJ4vqmLMF6/bI?=
- =?iso-8859-1?Q?rOiyVvDa3yTYxBlJ+1Hq9FJRZ1WbGxZ9enQg2iXeMcmElA2mZ6xg1fDN06?=
- =?iso-8859-1?Q?Ry7/4LdB91+BIShup44QUu?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?u9rL2Oh1f/8dwvFexYfOIcxvqbWg+8YgHA29KyPitI7hXyuKTbZSzmKLp6?=
- =?iso-8859-1?Q?kVNhzV/U1jPLYfYrej9T0MovO3x7dZ4hOT/4LYNipxbmScfs5FmbA+vHY9?=
- =?iso-8859-1?Q?x9Wut2EPcwY08aEFu2VUugOBZvuHfvpN1FaT/4hhqxJb9maXNG62fSCQ5H?=
- =?iso-8859-1?Q?3Gz81YqCclr03yYtu4p8XImrjWNyWbzawDxUPZAajm55uKChVFIP1nX8cC?=
- =?iso-8859-1?Q?ci0Lqz4E04LzVEuPKVnLx/S/Y0gDUqGGRBCjXwSJYR+qOACzyLaYbfx69L?=
- =?iso-8859-1?Q?vCtMAEUQaEtSkE1v3CUFemJN//dTAufS2/FPMbtFkSYKVLT+OTFO93YEz1?=
- =?iso-8859-1?Q?HXzikFmTPqAVhmMpYFaXsTDeADrwKadhFdiF2oxsCE/6eb4HwrOCJ86p1r?=
- =?iso-8859-1?Q?YPyz1vrS3QCE5y6C5uc1xHhHGlh+NqwlG3eIOJg1PQWA5KL+DsMjK+VXXT?=
- =?iso-8859-1?Q?PpO03kUHrhdGWc7namybk8RGlls1achmxOMGnq/GLgxoBTu2coM3lCvgUT?=
- =?iso-8859-1?Q?Np+Ww1/iVR1cCk/PHgu8xMNMjj/2GCpWSfp10AYtGxmsO0enMkPc7/Sw5z?=
- =?iso-8859-1?Q?GrRcfUFIGKhPywAjPL3wUdtYvWmat3Ep4eqsQbck8oTtfyvzgZHLN0iFR6?=
- =?iso-8859-1?Q?/p8u6/bBZJFDjfsMymzJHGUTKR4tgE3gQH7XRAgCoZYJzHMAU6II3R615h?=
- =?iso-8859-1?Q?Vsr/WI8tiDFK3aKFkK5KXenArQhc8KNbjnwTMl24YR5d6b0SZqaypXA3X7?=
- =?iso-8859-1?Q?cT9GWakSSXLOaEkI+Te/AIKlH4WjmML6fF99HZ5HMFzELrGyvwEKP9Iyst?=
- =?iso-8859-1?Q?ZYSMxOzVHOs6Rin6K856EnNj6NLmmCqdHdEvxtZdeFKhAmY3iqjtIt7VX4?=
- =?iso-8859-1?Q?x4jsmHUACz3a0WvaisUVLOzyuZrg0dKcoo4xn/zxPPLliZoix0egdrpdki?=
- =?iso-8859-1?Q?pYyqItC8jfihRM67AV/6chAIrdN+f/KJUDCZ+t+dJsb2OCaKBxp1cWVBP8?=
- =?iso-8859-1?Q?kavzk5kk8pnMSalsfat2RaCu17eOpVjwKmvQ+aepBIHwPBT0dPzI/4AQ2w?=
- =?iso-8859-1?Q?p3EQhzRgHiOVehtIonmOSJ+zBlHTxNkYibvsq7RMGQZTbxc78CZCbt69dH?=
- =?iso-8859-1?Q?9ErLbqvokSzlQaS/+02Dz6OVv3AE7hbQJQvaKKCCnhRptGLI957dBon+2O?=
- =?iso-8859-1?Q?7VViFT7Ap5CsQN8P8ngUqYgrNl/ojkJgimlk2X4zWQyd3lmzxh+6EFTJ+s?=
- =?iso-8859-1?Q?L1attQMcfmGsIa1+RZdRABnWrjlAmh+STywrrcR3pyNUa7F4H2B3SikMXm?=
- =?iso-8859-1?Q?FjPtkvlbJuXKczDjEFmBP4o2fo+Sy33aUA1FPrK/v0IP3MerBH4WIJ2zdO?=
- =?iso-8859-1?Q?INmxXEU37jqy/Vgx+9okPTGPooiO6XDcWVKh8mx1f5L5ahIYNE5Qe4bUgW?=
- =?iso-8859-1?Q?RmL07nxLrIDRbpw5BkfDcCSojav2QtRiyAXlW4XWLg0pMTKFnFTu7jyvVn?=
- =?iso-8859-1?Q?VN9BqzM1oqLnPm1s3tb+Cai9nA4q/hBULmsesfS6yjEmyssqqih18KTVEi?=
- =?iso-8859-1?Q?uHnms1/9CuPx7P8FIv2WR0aoqNOCl2c9zEkTZHu+gFUEws0JiXU5gtEBfG?=
- =?iso-8859-1?Q?PWCJklyfPWfWRVlOIPqT4Rdn8p1oH2NS6SD1Q9wnBSFEOGJgdIlrt+3zOh?=
- =?iso-8859-1?Q?2sGgb58GIiY1N6LNdoc=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <F6F867C5B4748242AB178B06DC340FEA@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="46946079"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 11 Mar 2025 18:44:05 +0800
+IronPort-SDR: 67d00620_r68Ck4ph0IbsWdoeEs6OgV6OcvQHLPeJ/84bMbqQ23oxfjB
+ LEdy6yVRRpp44T8dXcxIO5KcM9HUyLW/oo4vv2g==
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Mar 2025 02:45:04 -0700
+WDCIronportException: Internal
+Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.66.30])
+  by uls-op-cesaip01.wdc.com with ESMTP; 11 Mar 2025 03:44:02 -0700
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alan Adamson <alan.adamson@oracle.com>
+Cc: virtualization@lists.linux.dev,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH v2 1/2] nvme: move error logging from nvme_end_req() to __nvme_end_req()
+Date: Tue, 11 Mar 2025 19:43:58 +0900
+Message-ID: <20250311104359.1767728-2-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20250311104359.1767728-1-shinichiro.kawasaki@wdc.com>
+References: <20250311104359.1767728-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: w6FePRJiTDMXKScJM179qDT6h6O44lfbIrdq4pWmzwBa5375GUe++v3SEeldWz/IBHSmtXlDzBeUWlvpUGRgcyPFTXmucmDQjG1HyPhXdfUCApr5c7Ugjy12nF1Dd4853PEGDklqkQBNLuG2KzhfIx2sn/Uo3SQPNZfbvFkIeKjRQ00O8awnkSxOSy5moqZJUSaO+BP2BBKFxY841j0LL7j8BbWmOrhuibQxoIlbRsW2IAdkDS1YaCr2XthJw1VUyj6Tv/XOwFHpy6TPDfPO2bAjb/6vWloeh27fxSmW1e0f+wxYti0IFnwmNG8Xxn4+2kxLXpT0KH84WT2R5d2ZV5rMp7y1cqp+XEDvVJYIkl3nRlBzOLfLAgbpXYz1Mu4IAKKUZIkuZGwjGBQKigAiyzOJliz0JEg4hT5Xu0J7aGek5xS6atzICG8qfLxFTGOgln+LP09GjHIEMdWIw/Ppo7O7UwJYBq551x5zHlgC3xhJWg03Z92t5WSY1NLojY8w2QqRBFATjPjx/tlUL66SGoFiHf7jom5vvp0uNIGSYsIoQluuc/QLBM2H16L6cunMxIbdtnsbfI1r7MGR2uWLI7nM1cAkyT0/whACNjBqtbrAvbvKD/dyVTd0VSBkGRM+
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dae46e68-720a-4c30-beb6-08dd60896e0c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2025 10:42:32.9055
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jsgTE7d7wWAqBTQjEuV6062/Y678dxLPYF5mkJ8ut1TtFu4YtKCPIZpT20qLHaoevk7QQjVz4ah+yNAxDebwMYUd/sH0a6fHKzp7I/yFO6s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6674
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250311_034241_664284_2C6D9764 
-X-CRM114-Status: GOOD (  19.02  )
+X-CRM114-CacheID: sfid-20250311_034405_931932_B7A44E4A 
+X-CRM114-Status: GOOD (  15.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -201,38 +99,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mar 11, 2025 / 01:13, Christoph Hellwig wrote:
-> On Tue, Mar 11, 2025 at 11:41:44AM +0900, Shin'ichiro Kawasaki wrote:
-> > However, blk_mq_add_to_batch() callers do not pass negative error
-> > values. Instead, they pass status codes defined in various ways:
-> >=20
-> > - NVMe PCI and Apple drivers pass NVMe status code
-> > - virtio_blk driver passes the virtblk request header status byte
-> > - null_blk driver passes blk_status_t
->=20
-> The __force cast in null_blk should have been a big fat warning..
->=20
-> > To correct the ioerror check within blk_mq_add_to_batch(), make all
-> > callers to uniformly pass the argument as blk_status_t. Modify the
-> > callers to translate their specific status codes into blk_status_t. For
-> > this translation, export the helper function nvme_error_status(). Adjus=
-t
-> > blk_mq_add_to_batch() to translate blk_status_t back into the error
-> > number for the appropriate check.
->=20
-> This still looks a bit ugly because of all the conversions to a
-> blk_status_t just to convert it back to a errno just to check for
-> a non-zero value (blk_status_to_errno can't return a positive value).
->=20
-> I suspect simply passing a "bool is_error" might actually be cleaner
-> than that,
+Before the Commit 1f47ed294a2b ("block: cleanup and fix batch completion
+adding conditions"), blk_mq_add_to_batch() did not add failed
+passthrough requests to batch, and returned false. After the commit,
+blk_mq_add_to_batch() always adds passthrough requests to batch
+regardless of whether the request failed or not, and returns true. This
+affected error logging feature in the NVME driver.
 
-Thanks. Hannes made same comment. Wiil do so in v2.
+Before the commit, the call chain of failed passthrough request was as
+follows:
 
-> combined with a proper kerneldoc comment for
-> blk_mq_add_to_batch explaining how to set it?
+nvme_handle_cqe()
+ blk_mq_add_to_batch() .. false is returned, then call nvme_pci_complete_rq()
+ nvme_pci_complete_rq()
+  nvme_complete_rq()
+   nvme_end_req()
+    nvme_log_err_passthru() .. error logging
+    __nvme_end_req()        .. end of the rqeuest
 
-Will add it in v2.
+After the commit, the call chain is as follows:
 
-I Will send out v2 soon for furhter review.=
+nvme_handle_cqe()
+ blk_mq_add_to_batch() .. true is returned, then set nvme_pci_complete_batch()
+ ..
+ nvme_pci_complete_batch()
+  nvme_complete_batch()
+   nvme_complete_batch_req()
+    __nvme_end_req() .. end of the request, without error logging
+
+To make the error logging feature work again for passthrough requests, move the
+nvme_log_err_passthru() call from nvme_end_req() to __nvme_end_req().
+
+While at it, move nvme_log_error() call for non-passthrough requests together
+with nvme_log_err_passthru(). Even though the trigger commit does not affect
+non-passthrough requests, move it together for code simplicity.
+
+Fixes: 1f47ed294a2b ("block: cleanup and fix batch completion adding conditions")
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/core.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f028913e2e62..8359d0aa0e44 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -431,6 +431,12 @@ static inline void nvme_end_req_zoned(struct request *req)
+ 
+ static inline void __nvme_end_req(struct request *req)
+ {
++	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET))) {
++		if (blk_rq_is_passthrough(req))
++			nvme_log_err_passthru(req);
++		else
++			nvme_log_error(req);
++	}
+ 	nvme_end_req_zoned(req);
+ 	nvme_trace_bio_complete(req);
+ 	if (req->cmd_flags & REQ_NVME_MPATH)
+@@ -441,12 +447,6 @@ void nvme_end_req(struct request *req)
+ {
+ 	blk_status_t status = nvme_error_status(nvme_req(req)->status);
+ 
+-	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET))) {
+-		if (blk_rq_is_passthrough(req))
+-			nvme_log_err_passthru(req);
+-		else
+-			nvme_log_error(req);
+-	}
+ 	__nvme_end_req(req);
+ 	blk_mq_end_request(req, status);
+ }
+-- 
+2.47.0
+
 
