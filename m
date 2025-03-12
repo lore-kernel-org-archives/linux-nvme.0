@@ -4,87 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BA78C2BA1B
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Mar 2025 18:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4729DC28B28
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Mar 2025 19:33:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:In-Reply-To:References:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zK6bnzWagbOYvwm2T1Ws8TUZ1HfPduLrKfigoLYCs9k=; b=oyL+c21Ltms6B2bBU+iKE43Gk5
-	uIfIqjcAwQRCrBasA0Wnxsv8blRK3R6712EN+hxEV+JfclvevbeiAFF1x0pDDqbuBazRuHPBgWBdZ
-	c3sDoXqvtC2tXjOWlmyRV8xRiyITdPfymdeHRBP9vw9/Ap/E9+2o+mURS9EUr2+1BUmnRn7Ff+Q3R
-	af6xxZXt5bQ7TOW+sUwaEeJFmZmcFiXWMNfdExZ4VQqDNVSc92lOqeqW+wM8xkWcDiqnROG4LQfeL
-	rNSUdkTj3cHWB1gSq+tJ05tdgyooL/ugJ0G97Wj/ABaMb9y5ua2Vv2A7pfxmuNWnOxDWUhU/rNnyF
-	sD3WqdzA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0FLcKjeaLNMvII1mQW4DoI9pbBBQ4rghYqS1Yd81wNw=; b=SOmDBi644cS/8KiR7UjzdVJ/97
+	9+kwf1FFw9RfgS8l3ugvG17PVqEkcddPAoTkEZkp7wnzfa5ayLpJUPODqlcJNVmsxuJ5MFYbsxjCK
+	3cMDuRYG574xshOrN6OLw+fa16snxU4XZFdRg1+LJVSNkYiKNL+DYECfg3R56tsBPFOpfUaAQOXBn
+	GYpDmNl8ZkgNAsEJahq63IqrStDPBazMouiAENK28CV8hInu/Ad3fp/ILugtOD+GXwVyuS85KgNYH
+	Y5Uf02Jj8Ci2KGikwxQftxZ3clbCaSIH0lGprZtB4b6hV07oan4gYH1oD7Tqt7cgLMJ+gGCXbl59J
+	twoZX1dw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsQqW-00000009FeQ-0uhF;
-	Wed, 12 Mar 2025 18:30:24 +0000
-Received: from mout.perfora.net ([74.208.4.194])
+	id 1tsRp7-00000009KpC-2dfU;
+	Wed, 12 Mar 2025 19:33:01 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsQpC-00000009FSz-3GPv
+	id 1tsRp1-00000009Knp-2q7y
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Mar 2025 18:29:04 +0000
-Received: from jimw8 ([98.97.29.152]) by mrelay.perfora.net (mreueus004
- [74.208.5.2]) with ESMTPSA (Nemesis) id 1MzQ0y-1sx0on04W0-00quET; Wed, 12 Mar
- 2025 19:28:53 +0100
-From: "James R. Bergsten" <jim@thebergstens.com>
-To: "'Christoph Hellwig'" <hch@infradead.org>,
-	"'Matthew Wilcox'" <willy@infradead.org>
-Cc: "'Hannes Reinecke'" <hare@suse.de>,
-	"'Vlastimil Babka'" <vbabka@suse.cz>,
-	"'Hannes Reinecke'" <hare@suse.com>,
-	"'Boris Pismenny'" <borisp@nvidia.com>,
-	"'John Fastabend'" <john.fastabend@gmail.com>,
-	"'Jakub Kicinski'" <kuba@kernel.org>,
-	"'Sagi Grimberg'" <sagi@grimberg.me>,
-	<linux-nvme@lists.infradead.org>,
-	<linux-block@vger.kernel.org>,
-	<linux-mm@kvack.org>,
-	"'Harry Yoo'" <harry.yoo@oracle.com>,
-	<netdev@vger.kernel.org>
-References: <Z8cm5bVJsbskj4kC@casper.infradead.org> <a4bbf5a7-c931-4e22-bb47-3783e4adcd23@suse.com> <Z8cv9VKka2KBnBKV@casper.infradead.org> <Z8dA8l1NR-xmFWyq@casper.infradead.org> <d9f4b78e-01d7-4d1d-8302-ed18d22754e4@suse.de> <27111897-0b36-4d8c-8be9-4f8bdbae88b7@suse.cz> <f53b1403-3afd-43ff-a784-bdd22e3d24f8@suse.com> <d6e65c4c-a575-4389-a801-2ba40e1d25e1@suse.cz> <7439cb2f-6a97-494b-aa10-e9bebb218b58@suse.de> <Z8iTzPRieLB7Ee-9@casper.infradead.org> <Z9Gjnl5tfpY7xgea@infradead.org>
-In-Reply-To: <Z9Gjnl5tfpY7xgea@infradead.org>
-Subject: RE: Networking people smell funny and make poor life choices
-Date: Wed, 12 Mar 2025 11:28:50 -0700
-Message-ID: <052801db937c$9bbf12a0$d33d37e0$@thebergstens.com>
+	Wed, 12 Mar 2025 19:32:57 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 31902A471C0;
+	Wed, 12 Mar 2025 19:27:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10277C4CEDD;
+	Wed, 12 Mar 2025 19:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741807973;
+	bh=UqymYCmygChHTPDYtRXKIe/SXjDPGE2/pDiLoxPaWuE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b+Uk3+ueemhPDieKQx1nZ/0T/AxEPOxYIBTKKZu8d1FoyzOFJ2KMESVuqAJNe8KXO
+	 lPvJ3iwuw2HcCXBIuKgsjNyo/2cqjf8Jop9pQY7LvExmkjK5VQ2tPUtrcbiV3P0ASH
+	 IYBEgv5p8zecYfDaGdbOOAKD9I4sD8DqvB+8A/zcDu1qLHTqXjdRmMZ8Z606DedjEH
+	 z1azm63C7XF2PUIgn/hPn3OfaqKFeeH1obyQ47S5CRNm+ClQQ8oMrtBYnWFPs3mBKy
+	 LtdGBSZ3zpQjDdqi56DXmuUpg730oss4lY71gok4/eHccCcea6u0LtXsrNvTOrgrNG
+	 ex/5JVMLQJT6g==
+Date: Wed, 12 Mar 2025 21:32:49 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+Message-ID: <20250312193249.GI1322339@unreal>
+References: <cover.1738765879.git.leonro@nvidia.com>
+ <20250220124827.GR53094@unreal>
+ <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
+ <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+ <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-thread-index: AQI2rUWeLygajSlNpi7nOHx73cja5QH+C8IvAd0w/QUCBlqL4QM6XMyIAn2avhICzfEg4wKgxvSGAjQyxh8Ce7EXuQFi0EC+sgC+5wA=
-Content-Language: en-us
-X-Provags-ID: V03:K1:dcMVW0pDz5E1JPOonU9qWaZvIh+IDuHLVFneVIlFdETc33dVveN
- co1twA9Ugo5PZKV/k+r4WR/2ZVc4wvMXZO6XGkeFi3qR8cm4kSN7Er9rDAQQn2OpKfUQekK
- 1XVIeA/RxxBoaSPZ77QBYg2hW+h8FjKLg4otGWhoiv6MVVBL+FK7MuMf8u/91uNgJDY+vS8
- efdi4I1cmyyDRPbTMS6NQ==
-UI-OutboundReport: notjunk:1;M01:P0:0C6G/a5TfTo=;EQqAowdRCwMZrivTSoBJYtVAB70
- MohO5kz6kUnw5GSDAM/CFxMD1LsnEUtWNbdiLuCoG6HwUKs71eYLPumEwg7vttAekfyqxsvmn
- yoyCXakGb8r2kImoHPCPH5BO4xl+NgwLFE1gC3Cl/DAx0vJhzNIoOQQKEWiLAw5pGkzLbSI2k
- Fq1aDkD7QOrIYo7jQeaFpjGW+5heRtbNQJSGTlzZLmnlLlOf55cyaNWdGjLOJafmaNpq7yB5a
- DOJnpuW6Mb1fZB3jxZL726qcb1r/KEa7PY/HoboN1qWhCtx9YX99E6HPXB0yqq6bttx1g0BMw
- KAfp3C97/s9f3m32aEHw8mY7te7l4uFSxsg3GN5KwmNhQVsN9HqOVHqJBxJAIf/KN9dhJIQgH
- I0AehCPc9QFzGessG6jBIjrluBIOTX8RsjAlUUKTZzMCER+N3jXHtkDd3ahIRWS2YagPjNkMt
- zwGuF2rVA2/2n2h/1LPzs9gUPWnYWh1fDFD/BAsROwdtCkDqzpxvUT00uZ4k4VbCiZ+wnMpGi
- HX6Pz5h1xmJRmMBnEfR/G8V+KTtZQzthdxOj+nv6Ss0/j5arjKb+oew/UbrB4gamF+rvBuHG8
- kAh3HPBuy6aYOWTfFFeIS8gOnRkzbsZraudh71vqJs5HWzPegzX8Nc8+6+Uw2WOdHXWZICtCV
- eAOYkhvsQcq2k/O226/TBfcJTQqw9G8BwBh3YrC0ehi9aJm4GqhJWsNC7VIug65nKKWL16HYF
- XY8FDND5BHs3HH64jKaJNak+6uYMdc3BMLxmNHt7nRG3laA1WLNCdKxk2SuDRqY9EalOvX5s+
- X6Q3u2IfAK41xywS4dedXzALf109cVCy5JKvp8ZQeurBlUZ+tTOqcxb208N2D8a8ATPXNEIC6
- demkZsPEOZ8+3au0HVs/+EERrBUqHaUNmwoDGbsibhM9i1EnUavo/alh6fdxiG4vSMBi9V8zc
- Tq0dmAIaXlAh9ecICjV8z1A7dILM5mOAAAK9GwWkA4Y+QfQfVEZtaBP8vnk9w+co1ZTjhQkyD
- ulSc6wutq/im9ZUiTcPEkBC02RLDaDg4buqO3nqUosSQdL//d9HUNVywgCYh4c0QrHeVIH8yY
- MhqEU3pB4NtY5G6eHPLJD/lMMbWDhqQMx55ikTf0HxnH08fXQKoCb41ylk3tp/JI2Q5U30q+Y
- yRC8TKoPslhu5WDIA3w0TBpb5iWpVEmGsVSgcAAbIOCwTbWh2tWvQkyt6NCOxmlF0UWI3cswI
- +pnlU1UC3HMIRENDatsfARyqIrHmOc2y9og83Bmc0/v0zHSM389u55phBqoyMoQH0cuIcuoRZ
- bx2mMKpSUEQa3RF2uJt8iaPSrAhHCIgZk2GeoKEzqde7J/sSgNUUK4uLyw9dSlrOw/HGuowvr
- 4wpFqVb+jK1dzpRg==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250312_112902_881040_894688EE 
-X-CRM114-Status: GOOD (  17.73  )
+X-CRM114-CacheID: sfid-20250312_123255_842523_C8A37602 
+X-CRM114-Status: GOOD (  23.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,100 +92,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-OK another "unnecessary" old-timer storage/network story/disruption to =
-your otherwise relevant discussions (thank the subject line). If you're =
-too busy, just don't read it. =F0=9F=98=8A
+On Wed, Mar 12, 2025 at 10:28:32AM +0100, Marek Szyprowski wrote:
+> Hi Robin
+> 
+> On 28.02.2025 20:54, Robin Murphy wrote:
+> > On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
+> >> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
+> >>> From: Leon Romanovsky <leonro@nvidia.com>
+> >>>
+> >>> Changelog:
+> >>> v7:
+> >>>   * Rebased to v6.14-rc1
+> >>
+> >> <...>
+> >>
+> >>> Christoph Hellwig (6):
+> >>>    PCI/P2PDMA: Refactor the p2pdma mapping helpers
+> >>>    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+> >>>    iommu: generalize the batched sync after map interface
+> >>>    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+> >>>    dma-mapping: add a dma_need_unmap helper
+> >>>    docs: core-api: document the IOVA-based API
+> >>>
+> >>> Leon Romanovsky (11):
+> >>>    iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+> >>>    dma-mapping: Provide an interface to allow allocate IOVA
+> >>>    dma-mapping: Implement link/unlink ranges API
+> >>>    mm/hmm: let users to tag specific PFN with DMA mapped bit
+> >>>    mm/hmm: provide generic DMA managing logic
+> >>>    RDMA/umem: Store ODP access mask information in PFN
+> >>>    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+> >>>      linkage
+> >>>    RDMA/umem: Separate implicit ODP initialization from explicit ODP
+> >>>    vfio/mlx5: Explicitly use number of pages instead of allocated 
+> >>> length
+> >>>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+> >>>    vfio/mlx5: Enable the DMA link API
+> >>>
+> >>>   Documentation/core-api/dma-api.rst   |  70 ++++
+> >>   drivers/infiniband/core/umem_odp.c   | 250 +++++---------
+> >>>   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+> >>>   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+> >>>   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+> >>>   drivers/iommu/dma-iommu.c            | 468 
+> >>> +++++++++++++++++++++++----
+> >>>   drivers/iommu/iommu.c                |  84 ++---
+> >>>   drivers/pci/p2pdma.c                 |  38 +--
+> >>>   drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
+> >>>   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+> >>>   drivers/vfio/pci/mlx5/main.c         |  87 +++--
+> >>>   include/linux/dma-map-ops.h          |  54 ----
+> >>>   include/linux/dma-mapping.h          |  85 +++++
+> >>>   include/linux/hmm-dma.h              |  33 ++
+> >>>   include/linux/hmm.h                  |  21 ++
+> >>>   include/linux/iommu.h                |   4 +
+> >>>   include/linux/pci-p2pdma.h           |  84 +++++
+> >>>   include/rdma/ib_umem_odp.h           |  25 +-
+> >>>   kernel/dma/direct.c                  |  44 +--
+> >>>   kernel/dma/mapping.c                 |  18 ++
+> >>>   mm/hmm.c                             | 264 +++++++++++++--
+> >>>   21 files changed, 1435 insertions(+), 693 deletions(-)
+> >>>   create mode 100644 include/linux/hmm-dma.h
+> >>
+> >> Kind reminder.
 
-Around 1985, Gene Amdahl founded a company called Andor. Its original =
-purpose (as was with everything Gene did) was to build the smallest =
-plug-compatible mainframe.  When it was designed, someone noted it had =
-no physical room for the humongous "Bus and Tag" cables needed for =
-peripherals, so Gene raised a bit more money and started a storage =
-project too.
+<...>
 
-When the Loma Prieta earthquake happened in 1989, PG&E, the local =
-utility, lost the datacenter containing all of the information needed to =
-repair their utilities, so the service people had to do this from =
-memory.  The Public Utilities Commission didn't find this terribly =
-funny, so they said PG&E had to create a second datacenter out of the =
-area immediately and have backups there within about 24 hours, shorter =
-as time went on.  So, they shut down the primary site every night, =
-dumped to tape, then drove it up to Sacramento where these were =
-restored.  They named this CTAM for "Chevy Truck Access Method."
+> Removing the need for scatterlists was advertised as the main goal of 
+> this new API, but it looks that similar effects can be achieved with 
+> just iterating over the pages and calling page-based DMA API directly.
 
-Somehow Gene and friends heard about this and, as they already had a =
-processor, device simulation and devices, if they added some sort of =
-networking interface, they could have a local unit and a remote unit =
-doing this backup, eliminating the truck.  BTW the "front end" storage =
-group all came from Memorex.  The "back end" group mostly from Amdahl.
+Such iteration can't be enough because P2P pages don't have struct pages,
+so you can't use reliably and efficiently dma_map_page_attrs() call.
 
-This actually (somewhat) worked, and a couple of units were installed in =
-beta sites.  Sadly, Gene ran out of money (or at least didn't accept the =
-terms offered) and buggered off to start yet another mainframe company =
-which never shipped anything.
+The only way to do so is to use dma_map_sg_attrs(), which relies on SG
+(the one that we want to remove) to map P2P pages.
 
-I was the last Engineering VP at Andor, so when it folded, I grabbed a =
-few of the people and started a similar company but for the open systems =
-market instead.  We named it "Ark" at my wife's suggestion as was like =
-Noah's Ark - "disaster recovery" and "two of everything."  We mostly =
-bootstrapped, did ship product, and were acquired by LSI Logic who were =
-getting beaten around the head as EMC had a remote solution, but LSI =
-didn't. I got about a dozen US Patents Issued and enough money to =
-finally buy a house in Silicon Valley.
+> Maybe I missed something. I still see some advantages in this DMA API 
+> extension, but I would also like to see the clear benefits from 
+> introducing it, like perf logs or other benchmark summary.
 
-Our (SCSI-based) device had front end ports for the host(s), back-end =
-ones for the devices, and side ones for the networking.  Lots of =
-features, some you folks are only doing recently.  Looked like devices =
-to hosts, hosts to devices.
+We didn't focus yet on performance, however Christoph mentioned in his
+block RFC [1] that even simple conversion should improve performance as
+we are performing one P2P lookup per-bio and not per-SG entry as was
+before [2]. In addition it decreases memory [3] too.
 
-Anyway, the point of all of this is that when we sold it to customers, =
-the storage people looked at the network ports with confusion and dismay =
-(some hadn't even ordered the network lines and caused months of delay), =
-while the network people looked at the device ports as if they were full =
-of Tasmanian devils.
+[1] https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org/
+[2] https://lore.kernel.org/all/34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org/
+[3] https://lore.kernel.org/all/383557d0fa1aa393dbab4e1daec94b6cced384ab.1730037261.git.leon@kernel.org/
 
-Turned out, both network and storage expertise were very rare =
-commodities.  This was largely why most iSCSI startups failed, they =
-either did a storage product or a networking product. We pilled this off =
-because I am stupid but stubborn and wrote the RTOS myself (Linux was in =
-its infancy and the other RTOS's sucked).  Seemed a good idea at the =
-time.  Have white papers online if anybody is interested.
+So clear benefits are:
+1. Ability to use native for subsystem structure, e.g. bio for block,
+umem for RDMA, dmabuf for DRM, e.t.c. It removes current wasteful
+conversions from and to SG in order to work with DMA API.
+2. Batched request and iotlb sync optimizations (perform only once).
+3. Avoid very expensive call to pgmap pointer.
+4. Expose MMIO over VFIO without hacks (PCI BAR doesn't have struct pages).
+See this series for such a hack
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
 
-So, networking people may smell funny, but to them storage people come =
-from another galaxy.  Working in this industry at all could be =
-considered a poor life choice but that's for another time.
+Thanks
 
-Sorry. You can go back to work now.
-Jim B
-
------Original Message-----
-From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> On Behalf Of =
-Christoph Hellwig
-Sent: Wednesday, March 12, 2025 8:09 AM
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Hannes Reinecke <hare@suse.de>; Vlastimil Babka <vbabka@suse.cz>; =
-Hannes Reinecke <hare@suse.com>; Boris Pismenny <borisp@nvidia.com>; =
-John Fastabend <john.fastabend@gmail.com>; Jakub Kicinski =
-<kuba@kernel.org>; Sagi Grimberg <sagi@grimberg.me>; =
-linux-nvme@lists.infradead.org; linux-block@vger.kernel.org; =
-linux-mm@kvack.org; Harry Yoo <harry.yoo@oracle.com>; =
-netdev@vger.kernel.org
-Subject: Re: Networking people smell funny and make poor life choices
-
-On Wed, Mar 05, 2025 at 06:11:24PM +0000, Matthew Wilcox wrote:
-> Networking needs to follow block's lead and STOP GETTING REFCOUNTS ON=20
-> PAGES.
-
-The block layer never took references on pages.  The direct I/O helpers =
-that just happened to set in block/ did hold references and abused some =
-field in the bio for it (and still do for the pinning), but the =
-reference was (and the pin now is) owned by the submitter.
-
-The block layer model has always been that the submitter needs to ensure =
-memory stays allocated until the I/O has completed.  Which IMHO is the =
-only sane model for dealing with memory lifetimes vs I/O, and something =
-networking absolutely should follow.
-
-
-
+> 
+> 
+> Best regards
+> -- 
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+> 
+> 
 
