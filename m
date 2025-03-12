@@ -4,121 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96680C28B28
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Mar 2025 08:16:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D37CCC28B28
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Mar 2025 08:58:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DBaVbAFjC49NeGYTnOEYL019VhZNRYwAWAJMtBcOaxg=; b=dcaYTcMrPKaBL1BZXJPG8Z2uyu
-	vmArGVp00bHhnKa5//e7TPEXCpbcOskjX1GVP6bi9c+SOa5pfyJBWPUequRN4vAzng/rQs5WKGlQV
-	H55lbsEQKNbnEwnr4kVXgd1mpP3E/0P/VlBX3/0Bn8m4z7NP00RibS6jST/dR61mJDVxaSSUiCfAz
-	FYBp5Vz4DxLchiznTix0MUEa0yEMmvB0h2T3SuatMLGlBTSXZTduRSD/rO7Qb8TK8WDIx6qoUhR1H
-	0frITMw38jCh88minIoclKmQGGbjXvSRwDPUYnvpMu0toL0ip/8MGfm+9vyYquaN8uMI51yZRJD3O
-	WIO0yvuw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=NEdfkMsrDsObcC/VTJ18mByyhPufg8j8D9SXRzvIe6E=; b=NIMfE8IB7AbxF7ufQz56PZ44Eu
+	dZq1Tum6A/e5tSBbS3h03s/NCrLj6Fmm4a4eyOunedbS7xsdLWlRa2gM1qjPSsOoWjCQecIIUwGNq
+	7JOLlmzvNygTz/xkXQRaKfDU17+/IY7gHq+zZK5R8VFbp+7Eef7Jz1v6Ca5tz+6hjZVKRU440rKBN
+	j8gRoaEfxp2GIGtZIm584IzyRJyQ6kqeYjbBpxlx4WADCfL/Ttq3oyNCLUuBkY4MDEVQNm2APo58E
+	d6zg8QGCu99Dxu3VTqUlNtt8Kqsot68mLOC4LC2ho4mLyfkFDFg3EeK3J6uye1IRUsmBqktmNqFdC
+	bj8j3PMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsHGN-00000007oEJ-05MO;
-	Wed, 12 Mar 2025 08:16:27 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1tsHuo-00000007svO-2VTF;
+	Wed, 12 Mar 2025 08:58:14 +0000
+Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsHGK-00000007oDr-1juE
+	id 1tsHu3-00000007soa-48I1
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Mar 2025 08:16:25 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1121F21180;
-	Wed, 12 Mar 2025 08:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741767383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DBaVbAFjC49NeGYTnOEYL019VhZNRYwAWAJMtBcOaxg=;
-	b=EsMBRQKPZ/UmakzmHlbY4L2Mge9zm5GuHWfyH3ikX1ZhrvkoWfspkTPGVrgBWlSQg62KLC
-	QfZ+FuuO1weiVh7HUy8v0EgYIviotdZpxn7oboLuwOX2TWaEvDlQcxNbclsFlNtZYV8HSA
-	fF0sMX/frum+Bj/ZXeyql4E7cpjd+U4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741767383;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DBaVbAFjC49NeGYTnOEYL019VhZNRYwAWAJMtBcOaxg=;
-	b=an55AfunV1sSK4BCeqgCHT9zLfibw9nl8RHG4FRd+TN1yNoLrkg4OYpN371vaCNn57UV4m
-	SSrsY3JpeXBCpjBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741767383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DBaVbAFjC49NeGYTnOEYL019VhZNRYwAWAJMtBcOaxg=;
-	b=EsMBRQKPZ/UmakzmHlbY4L2Mge9zm5GuHWfyH3ikX1ZhrvkoWfspkTPGVrgBWlSQg62KLC
-	QfZ+FuuO1weiVh7HUy8v0EgYIviotdZpxn7oboLuwOX2TWaEvDlQcxNbclsFlNtZYV8HSA
-	fF0sMX/frum+Bj/ZXeyql4E7cpjd+U4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741767383;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DBaVbAFjC49NeGYTnOEYL019VhZNRYwAWAJMtBcOaxg=;
-	b=an55AfunV1sSK4BCeqgCHT9zLfibw9nl8RHG4FRd+TN1yNoLrkg4OYpN371vaCNn57UV4m
-	SSrsY3JpeXBCpjBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAB491377F;
-	Wed, 12 Mar 2025 08:16:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PVc4NNZC0WeZeQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 12 Mar 2025 08:16:22 +0000
-Message-ID: <224d7699-abf5-4bd9-a31e-f92973b94401@suse.de>
-Date: Wed, 12 Mar 2025 09:16:22 +0100
+	Wed, 12 Mar 2025 08:57:29 +0000
+Received: from localhost (unknown [124.16.138.129])
+	by APP-01 (Coremail) with SMTP id qwCowACXn9NtTNFnA2KCFA--.65235S2;
+	Wed, 12 Mar 2025 16:57:18 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] nvmet: pci-epf: Remove redundant 'flush_workqueue()' calls
+Date: Wed, 12 Mar 2025 16:56:25 +0800
+Message-Id: <20250312085625.1624394-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvme-tcp: sanitize request list handling
-To: Chris Leech <cleech@redhat.com>, Hannes Reinecke <hare@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20250307132802.111513-1-hare@kernel.org>
- <20250307132802.111513-3-hare@kernel.org>
- <Z9CGtUqkAR6uWWs-@my-developer-toolbox-latest>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <Z9CGtUqkAR6uWWs-@my-developer-toolbox-latest>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-CM-TRANSID: qwCowACXn9NtTNFnA2KCFA--.65235S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKF1xZFy7tr1DuryrtFyxZrb_yoWfZFgEk3
+	9rAF4kKa1Duw1qk3yUGr1YvFy0kasYqF12va95trZxta4UWw4rZw1vvws3X3s7uw10qr17
+	ury7W343Wr9rCjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbsAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+	67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+	x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+	z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+	UI43ZEXa7VUj22NtUUUUU==
+X-Originating-IP: [124.16.138.129]
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250312_011624_606241_BBA42775 
-X-CRM114-Status: GOOD (  17.22  )
+X-CRM114-CacheID: sfid-20250312_015728_403160_3E7889A6 
+X-CRM114-Status: UNSURE (   8.09  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,44 +80,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/11/25 19:53, Chris Leech wrote:
-> On Fri, Mar 07, 2025 at 02:28:01PM +0100, Hannes Reinecke wrote:
->> Validate the request in nvme_tcp_handle_r2t() to ensure it's not
->> part of any list, otherwise a malicious R2T PDU might inject a
->> loop in request list processing.
->>
->> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->> ---
->>   drivers/nvme/host/tcp.c | 11 ++++++++++-
->>   1 file changed, 10 insertions(+), 1 deletion(-)
->>
-> 
-> ...
-> 
->> @@ -759,8 +762,12 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
->>   
->>   	nvme_tcp_setup_h2c_data_pdu(req);
->>   
->> +	WARN_ON(queue->request == req);
->> +	WARN_ON(llist_on_list(&req->lentry));
->> +	WARN_ON(!list_empty(&req->entry));
->>   	llist_add(&req->lentry, &queue->req_list);
-> 
-> Are we happy with a WARN here, or should this be handled as an error?
-> The idea of an duplicate R2Ts creating a loop in req_list is
-> frightening.
-> 
-It is, but wanted to check if others see this as an issue, too.
-We actually should bail out and reset the connection; BUG_ON()
-is pretty harsh, and not really appropriate as this isn't an error
-on our side.
+'destroy_workqueue()' already drains the queue before destroying it, so
+there is no need to flush it explicitly.
 
-Cheers,
+Remove the redundant 'flush_workqueue()' calls.
 
-Hannes
+This was generated with coccinelle:
+
+@@
+expression E;
+@@
+- flush_workqueue(E);
+  destroy_workqueue(E);
+
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ drivers/nvme/target/pci-epf.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 565d2bd36dcd..82956c207b42 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1385,7 +1385,6 @@ static u16 nvmet_pci_epf_delete_sq(struct nvmet_ctrl *tctrl, u16 sqid)
+ 	if (!test_and_clear_bit(NVMET_PCI_EPF_Q_LIVE, &sq->flags))
+ 		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
+ 
+-	flush_workqueue(sq->iod_wq);
+ 	destroy_workqueue(sq->iod_wq);
+ 	sq->iod_wq = NULL;
+ 
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.25.1
+
 
