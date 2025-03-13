@@ -4,136 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B367C28B28
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Mar 2025 07:53:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12FE9C28B28
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Mar 2025 07:58:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uCJnaYfBV+bCveHsvLRPGjY00SQjzI4tFLM4k70eHG8=; b=K1IOAuwkYVG7nuO9VHai2Pl63f
-	yUYIf8U1RHQfN2P1516DrKzg4YV0KPzFTZT0hVCDnFUTvjaLjxWQihl/xiUCbBiCpqO42zXBoHGYS
-	JSxyxHaEPnb6i7ig6GMl7jBtNODdmhgVPHPiGNwIq615R6ErfRv9rpuCeOuQ7LxVP4TEGbbgWQGGy
-	TFgnBRoQh++vjzDipz4PP0spYXpl57Ry/Wv9A50KwodN39T/mFsrTbKwg/8IPKpS5wJioFgeHR5bH
-	MWAmS9pQlzwM6dUbpDImYVMWIQ+tGuLzynJM0T3avRNQiC7TNV1tdwykbqJs1i+X/NRqq0tsaZpQ+
-	pSS0Le6g==;
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ku8EyD+NwFJuBHOkTwVv7nZmRfQkB61QCF/kuQJ9ELo=; b=n0nsmFVkV8nU9sghxW6b8NMv4o
+	uhXnKx8qgSBB0VARHBDtEo7rajKwmt5we5lYqJCuQUzIHxZOVwek2da3KB8+LyrQD201VBzsmWkRZ
+	uj4O2du+4ebC/JZbsDXX+gDi6QSpgulwDQSs1CEVOUX3nfA2r+4ASzQj6abIocqXIXJT4CIOJecy8
+	jrt53EoXGh3IvFnAMW45lXF6ZqDcMbVO0T6lJQuQ1My/WeV5PMDj0hnd/ylF2evMSzsZAfgcq/M6r
+	f650/TwS8NyIl7bmurcBgfh+Qm0f98TSths2v9hLTR8Bk7HCvnDT8chaXoTPFk2Vbwa0BQzhdCoV7
+	9Sue8P/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsdO5-0000000ASxI-0ciX;
-	Thu, 13 Mar 2025 07:53:53 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1tsdSb-0000000AU35-0t1W;
+	Thu, 13 Mar 2025 07:58:33 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsdLi-0000000ARXh-0Cir
+	id 1tsdSY-0000000AU1w-3FU9
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Mar 2025 07:51:27 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 353C921180;
-	Thu, 13 Mar 2025 07:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741852284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uCJnaYfBV+bCveHsvLRPGjY00SQjzI4tFLM4k70eHG8=;
-	b=d3f+Ib2hYiNQFRoP0LDfkid1rYwpV9Zec21KuIvdFIoiFt0o5uezAIxHRJWp2srC2df/ZW
-	71DuQMIWGK0fXK6z9VpPWyhSn/VWkL6TTv7m2e7KHBdl5a3VB90GdHlkQhZBhqM0INa/cL
-	7XYw/jRgrLe59vFn9KkprNLtuk/h5Ec=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741852284;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uCJnaYfBV+bCveHsvLRPGjY00SQjzI4tFLM4k70eHG8=;
-	b=vIiANh1PBpqaqyWRcdGDgYPapfK3QDPw/xVwPB3zdoN+/N7EVZqWk1b5JsE0+aOTMhhoUc
-	rHTNRMlEscRrblBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=d3f+Ib2h;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vIiANh1P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741852284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uCJnaYfBV+bCveHsvLRPGjY00SQjzI4tFLM4k70eHG8=;
-	b=d3f+Ib2hYiNQFRoP0LDfkid1rYwpV9Zec21KuIvdFIoiFt0o5uezAIxHRJWp2srC2df/ZW
-	71DuQMIWGK0fXK6z9VpPWyhSn/VWkL6TTv7m2e7KHBdl5a3VB90GdHlkQhZBhqM0INa/cL
-	7XYw/jRgrLe59vFn9KkprNLtuk/h5Ec=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741852284;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uCJnaYfBV+bCveHsvLRPGjY00SQjzI4tFLM4k70eHG8=;
-	b=vIiANh1PBpqaqyWRcdGDgYPapfK3QDPw/xVwPB3zdoN+/N7EVZqWk1b5JsE0+aOTMhhoUc
-	rHTNRMlEscRrblBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CEC48137BA;
-	Thu, 13 Mar 2025 07:51:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OilfMHuO0mfrGQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 13 Mar 2025 07:51:23 +0000
-Message-ID: <deb1584c-67b8-4543-9017-9ca18a9ee7d8@suse.de>
-Date: Thu, 13 Mar 2025 08:51:23 +0100
+	Thu, 13 Mar 2025 07:58:31 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 844A7A45A52;
+	Thu, 13 Mar 2025 07:52:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D82AC4CEE9;
+	Thu, 13 Mar 2025 07:58:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741852709;
+	bh=i6OWKC+HZNsSQiPOZc0CNzLvTYKoMbGi9DLhMjLDB98=;
+	h=From:To:Subject:Date:From;
+	b=SjDqOQ1GnziQfrqUff2b9JzL0fjWmptc2lnSNBSC5TdUSKmxIcta087HDAuD1ixrr
+	 TGKqwEWl4GV4sF+LM6KKaciDiZR0b9yMBKXi4c34sdMKQ3S7O0FI4zcJjBhHoqxWB4
+	 ga+r9kyuZxsEzDIw86RSmX3HABz4xB8ZsCz84iP9XgqjRE6Fwmo2NZ4RJzFH6Ri2Bq
+	 qHuMDdTUnEyfu83nZmAhvz20oN+LlnWG5s+oD33bDocClRzJ8z9YzgqA3VODJvKyaF
+	 fv+EgFkZ1rUxF0fOmGMFBaTa4J9+JqyTj5jn2Gmv56vHMlZ7mbIdanXk+fFTrs3dTJ
+	 TRJ/DDBDvlCuw==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCH] nvmet: pci-epf: Remove nvmet_pci_epf_[un]map_queue()
+Date: Thu, 13 Mar 2025 16:58:14 +0900
+Message-ID: <20250313075814.1442096-1-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?Q?Re=3A_nvme-tcp=3A_fix_a_possible_UAF_when_failing_to_send?=
- =?UTF-8?B?IHJlcXVlc3TjgJDor7fms6jmhI/vvIzpgq7ku7bnlLFzYWdpZ3JpbUBnbWFpbC5j?=
- =?UTF-8?B?b23ku6Plj5HjgJE=?=
-To: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>,
- Maurizio Lombardi <mlombard@bsdbackstore.eu>, sagi <sagi@grimberg.me>,
- mgurtovoy <mgurtovoy@nvidia.com>, kbusch <kbusch@kernel.org>,
- sashal <sashal@kernel.org>, "chunguang.xu" <chunguang.xu@shopee.com>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- linux-nvme <linux-nvme@lists.infradead.org>,
- linux-block <linux-block@vger.kernel.org>
-References: <2025021015413817916143@cestc.cn>
- <aed9dde7-3271-4b97-9632-8380d37505d9@grimberg.me>
- <202503071810452687957@cestc.cn> <D8DDP6LIPOKB.2ACTHLE9FPI2A@bsdbackstore.eu>
- <2025031309485746586710@cestc.cn>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <2025031309485746586710@cestc.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 353C921180
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250313_005126_234219_80C8F8BE 
-X-CRM114-Status: GOOD (  14.06  )
+X-CRM114-CacheID: sfid-20250313_005830_954755_F67C70D9 
+X-CRM114-Status: GOOD (  12.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,44 +70,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/13/25 02:48, zhang.guanghui@cestc.cn wrote:
-> Yes, the problem here is that,  despite the nvme_tcp_try_send() failure, the target sends a response capsule for the command, leading to a UAF in the host.
-> 
-> Is it more reasonable to disable queue->rd_enabled to prevent receiving. Thanks
->   
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index be04c5f3856d..17407eb12ad9 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1203,8 +1203,9 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
->          } else if (ret < 0) {
->                  dev_err(queue->ctrl->ctrl.device,
->                          "failed to send request %d\n", ret);
-> -               nvme_tcp_fail_request(queue->request);
->                  nvme_tcp_done_send_req(queue);
-> +              queue->rd_enabled = false;
-> +              nvme_tcp_error_recovery(&queue->ctrl->ctrl);
->          }
->   out:
->          memalloc_noreclaim_restore(noreclaim_flag);
-> 
-> 
-> 
-Hmm. In principle, yes. Problem is that network is a bi-directional 
-communication, and a failure on one side doesn't necessarily imply
-a failure on the other.
-In particular when the send side fails we should _continue_ to read
-as we should be flushing the read side buffer before closing.
+The functions nvmet_pci_epf_map_queue() and nvmet_pci_epf_unmap_queue()
+are called respectively only from nvmet_pci_epf_create_cq() and
+nvmet_pci_epf_delete_cq(). Remove these functions and open-code them in
+their call site.
 
-So I agree with starting error recovery, but not with disabling the 
-reading side (as we haven't encountered a read error).
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+---
 
-Cheers,
+Note: this goes on top of the patch "nvmet: pci-epf: Keep completion
+queues mapped". I can squash these 2 patches together if preferred.
 
-Hannes
+ drivers/nvme/target/pci-epf.c | 54 +++++++++++++----------------------
+ 1 file changed, 20 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 6272cd013136..f56994a78066 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -271,36 +271,6 @@ static inline void nvmet_pci_epf_mem_unmap(struct nvmet_pci_epf *nvme_epf,
+ 	pci_epc_mem_unmap(epf->epc, epf->func_no, epf->vfunc_no, map);
+ }
+ 
+-static int nvmet_pci_epf_map_queue(struct nvmet_pci_epf_ctrl *ctrl,
+-				   struct nvmet_pci_epf_queue *queue)
+-{
+-	struct nvmet_pci_epf *nvme_epf = ctrl->nvme_epf;
+-	int ret;
+-
+-	ret = nvmet_pci_epf_mem_map(nvme_epf, queue->pci_addr,
+-				    queue->pci_size, &queue->pci_map);
+-	if (ret) {
+-		dev_err(ctrl->dev, "Failed to map queue %u (err=%d)\n",
+-			queue->qid, ret);
+-		return ret;
+-	}
+-
+-	if (queue->pci_map.pci_size < queue->pci_size) {
+-		dev_err(ctrl->dev, "Invalid partial mapping of queue %u\n",
+-			queue->qid);
+-		nvmet_pci_epf_mem_unmap(nvme_epf, &queue->pci_map);
+-		return -ENOMEM;
+-	}
+-
+-	return 0;
+-}
+-
+-static inline void nvmet_pci_epf_unmap_queue(struct nvmet_pci_epf_ctrl *ctrl,
+-					     struct nvmet_pci_epf_queue *queue)
+-{
+-	nvmet_pci_epf_mem_unmap(ctrl->nvme_epf, &queue->pci_map);
+-}
+-
+ struct nvmet_pci_epf_dma_filter {
+ 	struct device *dev;
+ 	u32 dma_mask;
+@@ -1329,10 +1299,22 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+ 	if (status != NVME_SC_SUCCESS)
+ 		goto err;
+ 
+-	ret = nvmet_pci_epf_map_queue(ctrl, cq);
++	/*
++	 * Map the CQ PCI address space and since PCI endpoint controllers may
++	 * return a partial mapping, check that the mapping is large enough.
++	 */
++	ret = nvmet_pci_epf_mem_map(ctrl->nvme_epf, cq->pci_addr, cq->pci_size,
++				    &cq->pci_map);
+ 	if (ret) {
+-		status = NVME_SC_INTERNAL | NVME_STATUS_DNR;
+-		goto err;
++		dev_err(ctrl->dev, "Failed to map CQ %u (err=%d)\n",
++			cq->qid, ret);
++		goto err_internal;
++	}
++
++	if (cq->pci_map.pci_size < cq->pci_size) {
++		dev_err(ctrl->dev, "Invalid partial mapping of queue %u\n",
++			cq->qid);
++		goto err_unmap_queue;
+ 	}
+ 
+ 	set_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags);
+@@ -1342,6 +1324,10 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+ 
+ 	return NVME_SC_SUCCESS;
+ 
++err_unmap_queue:
++	nvmet_pci_epf_mem_unmap(ctrl->nvme_epf, &cq->pci_map);
++err_internal:
++	status = NVME_SC_INTERNAL | NVME_STATUS_DNR;
+ err:
+ 	if (test_and_clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags))
+ 		nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
+@@ -1359,7 +1345,7 @@ static u16 nvmet_pci_epf_delete_cq(struct nvmet_ctrl *tctrl, u16 cqid)
+ 	cancel_delayed_work_sync(&cq->work);
+ 	nvmet_pci_epf_drain_queue(cq);
+ 	nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
+-	nvmet_pci_epf_unmap_queue(ctrl, cq);
++	nvmet_pci_epf_mem_unmap(ctrl->nvme_epf, &cq->pci_map);
+ 
+ 	return NVME_SC_SUCCESS;
+ }
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.48.1
+
 
