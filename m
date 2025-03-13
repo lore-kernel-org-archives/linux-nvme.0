@@ -4,82 +4,147 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DCA7C282DE
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9925BC28B28
 	for <linux-nvme@archiver.kernel.org>; Thu, 13 Mar 2025 05:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Message-ID:Mime-Version:References:Subject:Cc:To:From:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=6sY/7FdgPMrB92rg3PJECrh/+gGW3ra+PU0Lugn9eMY=; b=eARLBy+WQt40CNkynJtqS4Y2EH
-	Zp+A88CT4TQhVpazEP/iNSCgq5X0kf+/6ACM7ZmsDeL40NoXVqDxJ85ibefuUMvH0CewalIbbrQY5
-	LFgOnJQ0TlOKnfBJnrhjWZVpGBMoMv2lDKkPxSncIPTXzhxFsrHSTmqCLH1/JmRXQpvYVNrFImbt2
-	JQbVEZ4vlanBD3PqedHeSeeIiQrQBjs+6q2GjRSPuFrjpVxIrrLgK48UGNT91BVt8eCQXErLOa2ia
-	ysNZnsyOOPxmrhTo5n1Yat5ly7DA8o2Z154tY22DqEMDsOMm+BK82BBf8AhTK4pvFGWetjsO2kOKE
-	ufNOqWrg==;
+	bh=9Jmp5ZLIsyH8yuGTLV+R5+QG3R9RVCY2zlygWNpZ2tE=; b=weQivmEUyrx/Fupw8mnHubKC1V
+	MkfxV6Q1PmzHrf6+0u19fQVCTl/ElztgIHZazZtb76qiJfRuEwNZY9Qvo4t3h7YONriBhhf/X9B1d
+	J9fA5ut0YPjexMNYOLRYRnPjPfG3crnikzGRfaEx16WUVghvbssBT4E0PNl7EjLGEKAMtXaI+YhLd
+	ViNLz4U0p6XM9sJ8rgThmpryo8UqiSU3CmXFsU/3Twap1WBaPCL7fLiPxN9fOB/qvdB7KbKvqEGJ7
+	bZTau3a2i1P91ijkEK+ILQ4MtAzX+XFXSsq46XpNhIrTrL64C5gICyn0+Rmb0lnYHpfwKt7wvtxuv
+	eYTzI/2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsbNl-0000000AABB-0qTP;
-	Thu, 13 Mar 2025 05:45:25 +0000
-Received: from [1.203.97.240] (helo=smtp.cecloud.com)
-	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsXh4-00000009tLT-2cJS
-	for linux-nvme@lists.infradead.org;
-	Thu, 13 Mar 2025 01:49:08 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.cecloud.com (Postfix) with ESMTP id 85B3C900113;
-	Thu, 13 Mar 2025 09:48:59 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-X-ANTISPAM-LEVEL: 2
-Received: from desktop-n31qu50 (unknown [39.156.73.12])
-	by smtp.cecloud.com (postfix) whith ESMTP id P3907749T281458922156400S1741830538431531_;
-	Thu, 13 Mar 2025 09:48:58 +0800 (CST)
-X-IP-DOMAINF: 1
-X-RL-SENDER: zhang.guanghui@cestc.cn
-X-SENDER: zhang.guanghui@cestc.cn
-X-LOGIN-NAME: zhang.guanghui@cestc.cn
-X-FST-TO: mlombard@bsdbackstore.eu
-X-RCPT-COUNT: 9
-X-LOCAL-RCPT-COUNT: 0
-X-MUTI-DOMAIN-COUNT: 0
-X-SENDER-IP: 39.156.73.12
-X-ATTACHMENT-NUM: 0
-X-UNIQUE-TAG: <04ac8a49813e1ceebe4a332c09420545>
-X-System-Flag: 0
-Date: Thu, 13 Mar 2025 09:48:57 +0800
-From: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>
-To: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>, 
-	sagi <sagi@grimberg.me>, 
-	mgurtovoy <mgurtovoy@nvidia.com>, 
-	kbusch <kbusch@kernel.org>, 
-	sashal <sashal@kernel.org>, 
-	chunguang.xu <chunguang.xu@shopee.com>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-nvme <linux-nvme@lists.infradead.org>, 
-	linux-block <linux-block@vger.kernel.org>
-Subject: =?UTF-8?B?UmU6IFJlOiBudm1lLXRjcDogZml4IGEgcG9zc2libGUgVUFGIHdoZW4gZmFpbGluZyB0byBzZW5kIHJlcXVlc3TjgJDor7fms6jmhI/vvIzpgq7ku7bnlLFzYWdpZ3JpbUBnbWFpbC5jb23ku6Plj5HjgJE=?=
-References: <2025021015413817916143@cestc.cn>, 
-	<aed9dde7-3271-4b97-9632-8380d37505d9@grimberg.me>, 
-	<202503071810452687957@cestc.cn>, 
-	<D8DDP6LIPOKB.2ACTHLE9FPI2A@bsdbackstore.eu>
-X-Priority: 3
-X-GUID: FF449562-DD47-4AB7-B4CD-D0CF3D8BDFE0
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.25.331[cn]
-Mime-Version: 1.0
-Message-ID: <2025031309485746586710@cestc.cn>
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Bad-Reply: References but no 'Re:' in Subject.
+	id 1tsbNm-0000000AABJ-20Ei;
+	Thu, 13 Mar 2025 05:45:26 +0000
+Received: from [203.254.224.33] (helo=mailout3.samsung.com)
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tsatK-0000000A65E-0m3I;
+	Thu, 13 Mar 2025 05:14:03 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250313051351epoutp0360b76a551a7d63bf808c8d1942858cff~sRNOxAcUO0801908019epoutp03N;
+	Thu, 13 Mar 2025 05:13:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250313051351epoutp0360b76a551a7d63bf808c8d1942858cff~sRNOxAcUO0801908019epoutp03N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1741842831;
+	bh=9Jmp5ZLIsyH8yuGTLV+R5+QG3R9RVCY2zlygWNpZ2tE=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=hNErEb6SN3cmVmZJ10VUrqkwy++BcWjx47Uo9UVTj83RDc1tAV3yuQQfjTzlac8my
+	 AaSdViZdJopy4+rEh6F4vzhf0xvVNS5QTjWCmtEQvVdg+R3tRcd6EmmXBt3TeqisGv
+	 m5iEG3kQ2yPOBKUfqeQhrnnpLdPo9QymdXyRYIr8=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20250313051351epcas5p259ea25a093c959df9d8be994a07591ec~sRNOZ1lku1821918219epcas5p24;
+	Thu, 13 Mar 2025 05:13:51 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4ZCwdT3d8sz4x9Pt; Thu, 13 Mar
+	2025 05:13:49 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	73.65.29212.D8962D76; Thu, 13 Mar 2025 14:13:49 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20250313040150epcas5p347f94dac34fd2946dea51049559ee1de~sQOWNZ2Q31805718057epcas5p3J;
+	Thu, 13 Mar 2025 04:01:50 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250313040150epsmtrp1a7eed40ae47eb292a7062f705876c591~sQOWL7WLG1044810448epsmtrp1N;
+	Thu, 13 Mar 2025 04:01:50 +0000 (GMT)
+X-AuditID: b6c32a50-801fa7000000721c-cc-67d2698d9fec
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	E8.6E.18729.EA852D76; Thu, 13 Mar 2025 13:01:50 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250313040144epsmtip1810106b581625acc2fb4d4139e6c1a76~sQORBWe191683316833epsmtip1n;
+	Thu, 13 Mar 2025 04:01:44 +0000 (GMT)
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	Jack Wang <jinpu.wang@ionos.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>, Paolo Bonzini
+	<pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>, Juergen Gross
+	<jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, Oleksandr
+	Tyshchenko <oleksandr_tyshchenko@epam.com>, Maxim Levitsky
+	<maximlevitsky@gmail.com>, Alex Dubov <oakad@yahoo.com>, Ulf Hansson
+	<ulf.hansson@linaro.org>, Richard Weinberger <richard@nod.at>, Zhihao Cheng
+	<chengzhihao1@huawei.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>, Sven Peter <sven@svenpeter.dev>,
+	Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith
+	Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, Chaitanya
+	Kulkarni <kch@nvidia.com>, "James E.J. Bottomley"
+	<James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+	<martin.petersen@oracle.com>
+Cc: Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	xen-devel@lists.xenproject.org, linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Subject: [PATCH] block: remove unused parameter
+Date: Thu, 13 Mar 2025 09:23:18 +0530
+Message-Id: <20250313035322.243239-1-anuj20.g@samsung.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TeVCUZRye9/v2ghFaEeIdksBNJSxglzheSMrK8ps0hxFNh8GBHfhaCNhd
+	dhdCmojh8ABhETRlOdqII1gDXBBZDs0FOYc7KK4UhCJAQFAX2IBYdy3/e57n/T2/650fAzcb
+	plsxQvgSUsTnhrFoxpTqRnt7h9SQPh5b3m6BqjrSAIpPX8fR6oApUoxJaagsuxNDD3NL6Ki6
+	o4KOShT3MFT+kw+6IWWguh8eY6iobxlDOUPO6JHyMgVlqAcBmhqQYUj5cJCKGobfQv21OTTU
+	tCkFqC6+iI6+L5qio5TfamiouGUDQ3Nt+XTUeO42FW2uzVDReLMCRytaLRXdqd6gokzVHEDX
+	un+korLZBQpSlPmj2YxNKvpnZBNDLT+fRJudi3R071YJFWmqMjE0GI8O2BN5178mZPc7acRs
+	ZjogRgtVgFDJxuhE9x83KMR3Ge00IrHpEZXomBvFiF9+jcOJ/s5IQll6gUaMDtbTCNW4B1FZ
+	8C0xXZkFvK19Q/cHk9wgUmRL8gMFQSF8nhfrsI//R/6ubmyOA8cDubNs+dxw0ot18Ii3wych
+	YVvLZdlGccMityRvrljMcnpvv0gQKSFtgwViiReLFAaFCV2EjmJuuDiSz3PkkxJPDpvt7LoV
+	GBAa3LyYjwuTP4+emxzC40AmkQyMGJDpAgu66qjJwJhhxqwHsODBHZqeLAE40rBoIM8ArK1P
+	oyQDxnPLvNpHrzcA2Jxwha4nywDmPZvBdHlpTDvY9FcS0D2YM8eMYGpVHaYjOHMMgyW9T2m6
+	qB1MJ5i7nErTpaUw98BhdYRONmF6wt9bByj6Bm1gVp+Grte3w7asyec6vqUn3MzGdTkhM9kY
+	Pq68D/SGg3B0KQ3T4x1wpqWKrsdW8G/pWQPmwZX+KUOMECY03zZ434dJ7VJc1w/OtIfltU56
+	2RpeaS/D9HVNYap20mA1gTV5LzALnivJMWAIG7riDJiAhfJEoEtpxjwNNUOx6cBG9tI0spem
+	kf1fWA7wUmBFCsXhPDLQVchx4JNf/fezgYJwJXh+ZPu8a4CiYt1RDTAGUAPIwFnmJgqvHp6Z
+	SRD3TAwpEviLIsNIsRq4bq34Em5lESjYulK+xJ/j4sF2cXNzc/F4x43DsjRJUCXyzJg8roQM
+	JUkhKXrhwxhGVnGYsttz+Y3sTbKHBV5Xm6/GJg1GkwPmKiCXdjufONSa0v7nkyfa+UMXPvbT
+	SPHtCbeWYk/2vKbdfalj+k3BivW2iVOrnndDj7LbrK7u9Q0pdteqC0Z7C86qul7Z9cWHp6qP
+	fNkb4XKebyObkAY9tZxq6+LbT2QfT+UtXR1j9322993izLZPnRaz3ccfrPmsa/3g0HzkWl3E
+	RQfzo9tOFEpPbyy+/YGcZ6SUx6wu2DCWm2NNQ1Lsyh0br48Vli4HNB5rtz9ju9papMxdulyR
+	FHU++rhmZKN8jyX7sGLX3eiAV9dUKoupcKdvGo9F3RzI33mg1n36mmYwZsHPrnJV47uzJGt0
+	dzOLIg7mcvbhIjH3X+zuQzrtBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTdxjG+Z97WdADdOEAk2kzQsBR6TaTV7MxYrLl+IFEUx2OZYFGzoqR
+	S9cC22AqMJ0CqSBdJlTYvFGFOhjYAS1j03IrMoIDYQOqGykExm0omVxq21nZEr+9z+/3JM+X
+	l8EDTpEhzJGMLEGdoUiTUL5Ec4ckLLr+0KAyxuQKAlPfWQSFZS4c1oY3gfF+KQX1F/oxcFTX
+	0tDc9z0NtcYuDBquy6GxlIG2Sw8xMAwuY1A1+hosNH1FQLl1BMHUsB6DJscICe1j22HIUkVB
+	p6cUQVuhgYZvDVM0lPzWSsG1HjcG872Xaeg4/RMJnvVZEia6jTisOp0k/NzsJkFnnkdQMXCF
+	hPq5vwkw1ifBXLmHhCfjHgx6vksAT/8SDV0ttSSsmHQYjBRCXCT/zY08Xv9HP8XP6coQb68x
+	I96sv0/zAw8aCf7r8jsUf7JzgeT75u0Yf+tePs4P9WfzTXVFFG8f+ZHizRO7+JtXT/AzNyvR
+	vi2Jvm+mCGlHcgT1jthk39Tupcu4qvi9T+cnR/F8pOOLEcNw7BvcolVejHyZALYNce2lNqIY
+	iZ5yjrvzlwFt3IFcrXua3ig9RJxl5SLmFRQbwXVOn0JeIWb/EXFVLi3mDTg7jXFnxm9T3lYg
+	u4OrXtZS3jmCDefGrB97sR+7m/vdNvzf2stc5eAKvcH9ud7KyWccf8q/+OECXoY26Z9T+ufU
+	RYTVoWBBpUlXpmtkKlmG8IlUo0jXZGcopYcz05vQs0+JimxFLXVLUivCGGRFHINLxH7Gt+4q
+	A/xSFJ/lCurMJHV2mqCxolCGkAT5Bc1oUwJYpSJLOCoIKkH9v8UYUUg+NjS7c82TvCiPrCyx
+	+4eZ8ra4XqwoaR3T7G3Rnl7YtuoMP2cT1eRmhTR8aInziR8XH7j+iv9azrHNNT4FO+fWH2OH
+	o+M9itcdvdWTRVWxWtfVCvKx9oT4rCNTbk5IXPtyr8ge9YLqjKl9/yN/54EZmf5z/J2xsKnk
+	ocTzPX/umt5TvSAL3JObquo6f3J7aKZt8dE1lSwYOZeN63yr4+1j3QU5YZ6Uu5eOU9LVmNCG
+	6IJ1S7whoeWDiYO6zS99JFbKHefcq3nB4bExE6/+Opz37u7bdXZbxOz+g2IiqPEX51Zp0q0H
+	DdlPOopi9/UedY8et8jKEuOMPgOSexFb29+nbijHJYQmVSGLwtUaxb96QmhXmAMAAA==
+X-CMS-MailID: 20250313040150epcas5p347f94dac34fd2946dea51049559ee1de
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250313040150epcas5p347f94dac34fd2946dea51049559ee1de
+References: <CGME20250313040150epcas5p347f94dac34fd2946dea51049559ee1de@epcas5p3.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250312_184906_950648_DDBFD9CF 
-X-CRM114-Status: UNSURE (   8.12  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250312_221358_929579_63DC0E29 
+X-CRM114-Status: GOOD (  21.12  )
 X-Mailman-Approved-At: Wed, 12 Mar 2025 22:45:24 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,53 +160,279 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-WWVzLCB0aGUgcHJvYmxlbSBoZXJlIGlzIHRoYXQsICBkZXNwaXRlIHRoZSBudm1lX3RjcF90cnlf
-c2VuZCgpIGZhaWx1cmUsIHRoZSB0YXJnZXQgc2VuZHMgYSByZXNwb25zZSBjYXBzdWxlIGZvciB0
-aGUgY29tbWFuZCwgbGVhZGluZyB0byBhIFVBRiBpbiB0aGUgaG9zdC4gCgpJcyBpdCBtb3JlIHJl
-YXNvbmFibGUgdG8gZGlzYWJsZSBxdWV1ZS0+cmRfZW5hYmxlZCB0byBwcmV2ZW50IHJlY2Vpdmlu
-Zy4gVGhhbmtzIAogCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC90Y3AuYyBiL2RyaXZl
-cnMvbnZtZS9ob3N0L3RjcC5jCmluZGV4IGJlMDRjNWYzODU2ZC4uMTc0MDdlYjEyYWQ5IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL252bWUvaG9zdC90Y3AuYworKysgYi9kcml2ZXJzL252bWUvaG9zdC90
-Y3AuYwpAQCAtMTIwMyw4ICsxMjAzLDkgQEAgc3RhdGljIGludCBudm1lX3RjcF90cnlfc2VuZChz
-dHJ1Y3QgbnZtZV90Y3BfcXVldWUgKnF1ZXVlKQogICAgICAgIH0gZWxzZSBpZiAocmV0IDwgMCkg
-ewogICAgICAgICAgICAgICAgZGV2X2VycihxdWV1ZS0+Y3RybC0+Y3RybC5kZXZpY2UsCiAgICAg
-ICAgICAgICAgICAgICAgICAgICJmYWlsZWQgdG8gc2VuZCByZXF1ZXN0ICVkXG4iLCByZXQpOwot
-ICAgICAgICAgICAgICAgbnZtZV90Y3BfZmFpbF9yZXF1ZXN0KHF1ZXVlLT5yZXF1ZXN0KTsKICAg
-ICAgICAgICAgICAgIG52bWVfdGNwX2RvbmVfc2VuZF9yZXEocXVldWUpOworICAgICAgICAgICAg
-ICBxdWV1ZS0+cmRfZW5hYmxlZCA9IGZhbHNlOworICAgICAgICAgICAgICBudm1lX3RjcF9lcnJv
-cl9yZWNvdmVyeSgmcXVldWUtPmN0cmwtPmN0cmwpOwogICAgICAgIH0KIG91dDoKICAgICAgICBt
-ZW1hbGxvY19ub3JlY2xhaW1fcmVzdG9yZShub3JlY2xhaW1fZmxhZyk7CgoKCgp6aGFuZy5ndWFu
-Z2h1aUBjZXN0Yy5jbgoKCgrlj5Hku7bkurrvvJrCoE1hdXJpemlvIExvbWJhcmRpCgoKCuWPkemA
-geaXtumXtO+8msKgMjAyNS0wMy0xMcKgMTg6NTIKCgoK5pS25Lu25Lq677yawqB6aGFuZy5ndWFu
-Z2h1aUBjZXN0Yy5jbjsgc2FnaTsgbWd1cnRvdm95OyBrYnVzY2g7IHNhc2hhbDsgY2h1bmd1YW5n
-Lnh1CgoKCuaKhOmAge+8msKgbGludXgta2VybmVsOyBsaW51eC1udm1lOyBsaW51eC1ibG9jawoK
-CgrkuLvpopjvvJrCoFJlOiBudm1lLXRjcDogZml4IGEgcG9zc2libGUgVUFGIHdoZW4gZmFpbGlu
-ZyB0byBzZW5kIHJlcXVlc3TjgJDor7fms6jmhI/vvIzpgq7ku7bnlLFzYWdpZ3JpbUBnbWFpbC5j
-b23ku6Plj5HjgJEKCgoKT24gRnJpIE1hciA3LCAyMDI1IGF0IDExOjEwIEFNIENFVCwgemhhbmcu
-Z3VhbmdodWlAY2VzdGMuY24gd3JvdGU6CgoKCj4KCgoKPiBIaQoKCgo+CgoKCj7CoMKgwqDCoMKg
-wqDCoMKgIEFmdGVyIHRlc3RpbmcgdGhpcyBwYXRjaCzCoMKgIHNlbmRpbmcgcmVxdWVzdCBmYWls
-dXJlIG9jY3VycmVkLMKgwqAgdW5mb3J0dW5hdGVseSwgdGhlIGlzc3VlIHN0aWxsIHBlcnNpc3Rz
-LgoKCgrCoAoKCgpNYXliZSBJIGFtIGNvbXBsZXRlbHkgd3JvbmcgYnV0IEkgYW0gc3RpbGwgcXVp
-dGUgY29udmluY2VkIHRoYXQgdGhlIHByb2JsZW0gaGVyZQoKCgppcyB0aGF0LCBkZXNwaXRlIHRo
-ZSBudm1lX3RjcF90cnlfc2VuZCgpIGZhaWx1cmUsIHRoZSB0YXJnZXQgc2VuZHMgYSByZXNwb25z
-ZSBjYXBzdWxlCgoKCmZvciB0aGUgY29tbWFuZCwgbGVhZGluZyB0byBhIGRvdWJsZS1jb21wbGV0
-aW9uIGluIHRoZSBob3N0LgoKCgrCoAoKCgpTYWdpLCB3aGF0IGFib3V0IHRha2luZyB0aGlzIHBh
-dGNoOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1udm1lLzIwMjUwMzA2MTYwMzIyLjEz
-NzAzMDAtMi1tbG9tYmFyZEByZWRoYXQuY29tL1QvI3UKCgoKYW5kIGRvIGEgc3RlcCBmdXJ0aGVy
-IGJ5IG5vdCBjb21wbGV0aW5nIHRoZSByZXF1ZXN0LCBsZWF2aW5nIHRoZSBlcnJvcgoKCgpyZWNv
-dmVyeSBoYW5kbGVyIHRoZSB0YXNrIG9mIGNsZWFuaW5nIGV2ZXJ5dGhpbmcgdXA/CgoKCsKgCgoK
-CsKgCgoKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC90Y3AuYyBiL2RyaXZlcnMvbnZt
-ZS9ob3N0L3RjcC5jCgoKCmluZGV4IDMyN2YzZjJmNTM5OS4uNzJjMWQ3OTQ4Mzg2IDEwMDY0NAoK
-CgotLS0gYS9kcml2ZXJzL252bWUvaG9zdC90Y3AuYwoKCgorKysgYi9kcml2ZXJzL252bWUvaG9z
-dC90Y3AuYwoKCgpAQCAtMTMyOCw4ICsxMzI4LDggQEAgc3RhdGljIGludCBudm1lX3RjcF90cnlf
-c2VuZChzdHJ1Y3QgbnZtZV90Y3BfcXVldWUgKnF1ZXVlKQoKCgp9IGVsc2UgaWYgKHJldCA8IDAp
-IHsKCgoKZGV2X2VycihxdWV1ZS0+Y3RybC0+Y3RybC5kZXZpY2UsCgoKCiJmYWlsZWQgdG8gc2Vu
-ZCByZXF1ZXN0ICVkXG4iLCByZXQpOwoKCgotIG52bWVfdGNwX2ZhaWxfcmVxdWVzdChxdWV1ZS0+
-cmVxdWVzdCk7CgoKCm52bWVfdGNwX2RvbmVfc2VuZF9yZXEocXVldWUpOwoKCgorIG52bWVfdGNw
-X2Vycm9yX3JlY292ZXJ5KCZxdWV1ZS0+Y3RybC0+Y3RybCk7CgoKCn0KCgoKb3V0OgoKCgptZW1h
-bGxvY19ub3JlY2xhaW1fcmVzdG9yZShub3JlY2xhaW1fZmxhZyk7CgoKCsKgCgoKCsKgCgoKCk1h
-dXJpemlvCgoKCsKgCgoKCsKgCgoK
+request_queue param is not used by blk_rq_map_sg and __blk_rq_map_sg.
+remove it.
 
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+---
+ block/blk-merge.c                   | 4 ++--
+ block/bsg-lib.c                     | 2 +-
+ drivers/block/mtip32xx/mtip32xx.c   | 2 +-
+ drivers/block/rnbd/rnbd-clt.c       | 2 +-
+ drivers/block/sunvdc.c              | 2 +-
+ drivers/block/virtio_blk.c          | 2 +-
+ drivers/block/xen-blkfront.c        | 2 +-
+ drivers/memstick/core/ms_block.c    | 2 +-
+ drivers/memstick/core/mspro_block.c | 4 +---
+ drivers/mmc/core/queue.c            | 2 +-
+ drivers/mtd/ubi/block.c             | 2 +-
+ drivers/nvme/host/apple.c           | 2 +-
+ drivers/nvme/host/fc.c              | 2 +-
+ drivers/nvme/host/pci.c             | 2 +-
+ drivers/nvme/host/rdma.c            | 3 +--
+ drivers/nvme/target/loop.c          | 2 +-
+ drivers/scsi/scsi_lib.c             | 2 +-
+ include/linux/blk-mq.h              | 9 ++++-----
+ 18 files changed, 22 insertions(+), 26 deletions(-)
 
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index 1d1589c35297..fdd4efb54c6c 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -551,8 +551,8 @@ static inline struct scatterlist *blk_next_sg(struct scatterlist **sg,
+  * Map a request to scatterlist, return number of sg entries setup. Caller
+  * must make sure sg can hold rq->nr_phys_segments entries.
+  */
+-int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
+-		struct scatterlist *sglist, struct scatterlist **last_sg)
++int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
++		    struct scatterlist **last_sg)
+ {
+ 	struct req_iterator iter = {
+ 		.bio	= rq->bio,
+diff --git a/block/bsg-lib.c b/block/bsg-lib.c
+index 93523d8f8195..9ceb5d0832f5 100644
+--- a/block/bsg-lib.c
++++ b/block/bsg-lib.c
+@@ -219,7 +219,7 @@ static int bsg_map_buffer(struct bsg_buffer *buf, struct request *req)
+ 	if (!buf->sg_list)
+ 		return -ENOMEM;
+ 	sg_init_table(buf->sg_list, req->nr_phys_segments);
+-	buf->sg_cnt = blk_rq_map_sg(req->q, req, buf->sg_list);
++	buf->sg_cnt = blk_rq_map_sg(req, buf->sg_list);
+ 	buf->payload_len = blk_rq_bytes(req);
+ 	return 0;
+ }
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index 95361099a2dc..0d619df03fa9 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -2056,7 +2056,7 @@ static void mtip_hw_submit_io(struct driver_data *dd, struct request *rq,
+ 	unsigned int nents;
+ 
+ 	/* Map the scatter list for DMA access */
+-	nents = blk_rq_map_sg(hctx->queue, rq, command->sg);
++	nents = blk_rq_map_sg(rq, command->sg);
+ 	nents = dma_map_sg(&dd->pdev->dev, command->sg, nents, dma_dir);
+ 
+ 	prefetch(&port->flags);
+diff --git a/drivers/block/rnbd/rnbd-clt.c b/drivers/block/rnbd/rnbd-clt.c
+index 82467ecde7ec..15627417f12e 100644
+--- a/drivers/block/rnbd/rnbd-clt.c
++++ b/drivers/block/rnbd/rnbd-clt.c
+@@ -1010,7 +1010,7 @@ static int rnbd_client_xfer_request(struct rnbd_clt_dev *dev,
+ 	 * See queue limits.
+ 	 */
+ 	if ((req_op(rq) != REQ_OP_DISCARD) && (req_op(rq) != REQ_OP_WRITE_ZEROES))
+-		sg_cnt = blk_rq_map_sg(dev->queue, rq, iu->sgt.sgl);
++		sg_cnt = blk_rq_map_sg(rq, iu->sgt.sgl);
+ 
+ 	if (sg_cnt == 0)
+ 		sg_mark_end(&iu->sgt.sgl[0]);
+diff --git a/drivers/block/sunvdc.c b/drivers/block/sunvdc.c
+index 282f81616a78..2b33fb5b949b 100644
+--- a/drivers/block/sunvdc.c
++++ b/drivers/block/sunvdc.c
+@@ -485,7 +485,7 @@ static int __send_request(struct request *req)
+ 	}
+ 
+ 	sg_init_table(sg, port->ring_cookies);
+-	nsg = blk_rq_map_sg(req->q, req, sg);
++	nsg = blk_rq_map_sg(req, sg);
+ 
+ 	len = 0;
+ 	for (i = 0; i < nsg; i++)
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index 6a61ec35f426..a3df4d49bd46 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -226,7 +226,7 @@ static int virtblk_map_data(struct blk_mq_hw_ctx *hctx, struct request *req,
+ 	if (unlikely(err))
+ 		return -ENOMEM;
+ 
+-	return blk_rq_map_sg(hctx->queue, req, vbr->sg_table.sgl);
++	return blk_rq_map_sg(req, vbr->sg_table.sgl);
+ }
+ 
+ static void virtblk_cleanup_cmd(struct request *req)
+diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+index edcd08a9dcef..5babe575c288 100644
+--- a/drivers/block/xen-blkfront.c
++++ b/drivers/block/xen-blkfront.c
+@@ -751,7 +751,7 @@ static int blkif_queue_rw_req(struct request *req, struct blkfront_ring_info *ri
+ 	id = blkif_ring_get_request(rinfo, req, &final_ring_req);
+ 	ring_req = &rinfo->shadow[id].req;
+ 
+-	num_sg = blk_rq_map_sg(req->q, req, rinfo->shadow[id].sg);
++	num_sg = blk_rq_map_sg(req, rinfo->shadow[id].sg);
+ 	num_grant = 0;
+ 	/* Calculate the number of grant used */
+ 	for_each_sg(rinfo->shadow[id].sg, sg, num_sg, i)
+diff --git a/drivers/memstick/core/ms_block.c b/drivers/memstick/core/ms_block.c
+index 5b617c1f6789..f4398383ae06 100644
+--- a/drivers/memstick/core/ms_block.c
++++ b/drivers/memstick/core/ms_block.c
+@@ -1904,7 +1904,7 @@ static void msb_io_work(struct work_struct *work)
+ 
+ 		/* process the request */
+ 		dbg_verbose("IO: processing new request");
+-		blk_rq_map_sg(msb->queue, req, sg);
++		blk_rq_map_sg(req, sg);
+ 
+ 		lba = blk_rq_pos(req);
+ 
+diff --git a/drivers/memstick/core/mspro_block.c b/drivers/memstick/core/mspro_block.c
+index 634d343b6bdb..c9853d887d28 100644
+--- a/drivers/memstick/core/mspro_block.c
++++ b/drivers/memstick/core/mspro_block.c
+@@ -627,9 +627,7 @@ static int mspro_block_issue_req(struct memstick_dev *card)
+ 	while (true) {
+ 		msb->current_page = 0;
+ 		msb->current_seg = 0;
+-		msb->seg_count = blk_rq_map_sg(msb->block_req->q,
+-					       msb->block_req,
+-					       msb->req_sg);
++		msb->seg_count = blk_rq_map_sg(msb->block_req, msb->req_sg);
+ 
+ 		if (!msb->seg_count) {
+ 			unsigned int bytes = blk_rq_cur_bytes(msb->block_req);
+diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
+index ab662f502fe7..3ba62f825b84 100644
+--- a/drivers/mmc/core/queue.c
++++ b/drivers/mmc/core/queue.c
+@@ -523,5 +523,5 @@ unsigned int mmc_queue_map_sg(struct mmc_queue *mq, struct mmc_queue_req *mqrq)
+ {
+ 	struct request *req = mmc_queue_req_to_req(mqrq);
+ 
+-	return blk_rq_map_sg(mq->queue, req, mqrq->sg);
++	return blk_rq_map_sg(req, mqrq->sg);
+ }
+diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
+index 2836905f0152..39cc0a6a4d37 100644
+--- a/drivers/mtd/ubi/block.c
++++ b/drivers/mtd/ubi/block.c
+@@ -199,7 +199,7 @@ static blk_status_t ubiblock_read(struct request *req)
+ 	 * and ubi_read_sg() will check that limit.
+ 	 */
+ 	ubi_sgl_init(&pdu->usgl);
+-	blk_rq_map_sg(req->q, req, pdu->usgl.sg);
++	blk_rq_map_sg(req, pdu->usgl.sg);
+ 
+ 	while (bytes_left) {
+ 		/*
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index a060f69558e7..a437eee741e1 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -525,7 +525,7 @@ static blk_status_t apple_nvme_map_data(struct apple_nvme *anv,
+ 	if (!iod->sg)
+ 		return BLK_STS_RESOURCE;
+ 	sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
+-	iod->nents = blk_rq_map_sg(req->q, req, iod->sg);
++	iod->nents = blk_rq_map_sg(req, iod->sg);
+ 	if (!iod->nents)
+ 		goto out_free_sg;
+ 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index b9929a5a7f4e..1b5ad1173bc7 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2571,7 +2571,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
+ 	if (ret)
+ 		return -ENOMEM;
+ 
+-	op->nents = blk_rq_map_sg(rq->q, rq, freq->sg_table.sgl);
++	op->nents = blk_rq_map_sg(rq, freq->sg_table.sgl);
+ 	WARN_ON(op->nents > blk_rq_nr_phys_segments(rq));
+ 	freq->sg_cnt = fc_dma_map_sg(ctrl->lport->dev, freq->sg_table.sgl,
+ 				op->nents, rq_dma_dir(rq));
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 950289405ef2..a0b1c57067aa 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -812,7 +812,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	if (!iod->sgt.sgl)
+ 		return BLK_STS_RESOURCE;
+ 	sg_init_table(iod->sgt.sgl, blk_rq_nr_phys_segments(req));
+-	iod->sgt.orig_nents = blk_rq_map_sg(req->q, req, iod->sgt.sgl);
++	iod->sgt.orig_nents = blk_rq_map_sg(req, iod->sgt.sgl);
+ 	if (!iod->sgt.orig_nents)
+ 		goto out_free_sg;
+ 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 86a2891d9bcc..b5a0295b5bf4 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1476,8 +1476,7 @@ static int nvme_rdma_dma_map_req(struct ib_device *ibdev, struct request *rq,
+ 	if (ret)
+ 		return -ENOMEM;
+ 
+-	req->data_sgl.nents = blk_rq_map_sg(rq->q, rq,
+-					    req->data_sgl.sg_table.sgl);
++	req->data_sgl.nents = blk_rq_map_sg(rq, req->data_sgl.sg_table.sgl);
+ 
+ 	*count = ib_dma_map_sg(ibdev, req->data_sgl.sg_table.sgl,
+ 			       req->data_sgl.nents, rq_dma_dir(rq));
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index a9d112d34d4f..a5c41144667c 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -162,7 +162,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		}
+ 
+ 		iod->req.sg = iod->sg_table.sgl;
+-		iod->req.sg_cnt = blk_rq_map_sg(req->q, req, iod->sg_table.sgl);
++		iod->req.sg_cnt = blk_rq_map_sg(req, iod->sg_table.sgl);
+ 		iod->req.transfer_len = blk_rq_payload_bytes(req);
+ 	}
+ 
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index f1cfe0bb89b2..0d29470e86b0 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1149,7 +1149,7 @@ blk_status_t scsi_alloc_sgtables(struct scsi_cmnd *cmd)
+ 	 * Next, walk the list, and fill in the addresses and sizes of
+ 	 * each segment.
+ 	 */
+-	count = __blk_rq_map_sg(rq->q, rq, cmd->sdb.table.sgl, &last_sg);
++	count = __blk_rq_map_sg(rq, cmd->sdb.table.sgl, &last_sg);
+ 
+ 	if (blk_rq_bytes(rq) & rq->q->limits.dma_pad_mask) {
+ 		unsigned int pad_len =
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index fa2a76cc2f73..f2eff998913d 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -1165,14 +1165,13 @@ static inline unsigned short blk_rq_nr_discard_segments(struct request *rq)
+ 	return max_t(unsigned short, rq->nr_phys_segments, 1);
+ }
+ 
+-int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
+-		struct scatterlist *sglist, struct scatterlist **last_sg);
+-static inline int blk_rq_map_sg(struct request_queue *q, struct request *rq,
+-		struct scatterlist *sglist)
++int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
++		struct scatterlist **last_sg);
++static inline int blk_rq_map_sg(struct request *rq, struct scatterlist *sglist)
+ {
+ 	struct scatterlist *last_sg = NULL;
+ 
+-	return __blk_rq_map_sg(q, rq, sglist, &last_sg);
++	return __blk_rq_map_sg(rq, sglist, &last_sg);
+ }
+ void blk_dump_rq_flags(struct request *, char *);
+ 
+-- 
+2.25.1
 
 
