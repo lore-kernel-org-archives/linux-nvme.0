@@ -4,59 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B92A7C282DE
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Mar 2025 09:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C639AC2BA1B
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Mar 2025 09:01:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
-	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bYgeVvtX+Cno/WF5MQKKyOgTXymcBBDKd38eLnxoGy0=; b=SEY45YtdK9QFj60kwokEw1/p8Y
-	8bA38VFoO+Mkm6UiuxVMyLtveXeMiBaerGj3UoWx/Cf2QELC5SogPF+ub9u+U9WPS26Lx+tOle69B
-	cMTqZ1rWA581RVPkemZ9m69KsDIT0E/YabPKpM4pXIxg4ENwFDNbeg5CYKQkwA4sSaJUIXMtwD/6i
-	e/dE3OZf2rfSsD7kiyMfM4H0fosFroKQq09vHFhMbzknmhEGGb+lurH8X7SI6PWUjbrUk3E/RdtZl
-	aYx+DIZ1kISzR+ZvWZ537ru325+2AbwlXGg/aekAmR7kB+XmHhU8FU4RN7Za73QvYrym6uqknJXfM
-	VxE3wMMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5lDtB9JckTWPC7WKpDQVjAhFBP5DlwazX8ThbdplM6Q=; b=kfdBHtjGAjf/tSaKJ3RSPcw4hS
+	bTsNkeTE/POune/pNalr4wy9Y1m/HE6dgFiMrHraGlOd5scyte2VpFHK8MbuP0qun1FF7BEk5OxkU
+	mR0Kr+ps8Ad5VtfH6RS1g9bNmIsjgSzGq/h/mjuNZMd6B/3OkOlX+N8w6RTDhFQ6TCNn4L5vtBG08
+	verrjg71ZsvKPmeQpe0wCn9Ao7b1kgx34xrTntyhNKNjGmysIM8BzXniPtrHU6Il7rjC+w2zHePA9
+	TboXJdg9ue9dVs1LTVpwo/c7bNNATHrKMbtAqIwOKwlrxg0rTEi5/YMkAoctMTEWObPDI2JhU3lxC
+	GqT1F1DA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tseRJ-0000000AdhH-0DGz;
-	Thu, 13 Mar 2025 09:01:17 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1tseRI-0000000AdgE-1f9I;
+	Thu, 13 Mar 2025 09:01:16 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tseRG-0000000Adc0-0kEq
+	id 1tsePQ-0000000AdQ9-2tN2
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Mar 2025 09:01:15 +0000
-Received: from localhost (25.205.forpsi.net [80.211.205.25])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id fd0d5281 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Thu, 13 Mar 2025 10:01:09 +0100 (CET)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+	Thu, 13 Mar 2025 08:59:21 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id CDCC9A4650F;
+	Thu, 13 Mar 2025 08:53:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A845CC4CEDD;
+	Thu, 13 Mar 2025 08:59:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741856359;
+	bh=Uih/8Aelm7B5LTifK01VFfHuDsEigWvuf20c48D0JY8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=al3OzBa3ps12oOsGrrshnH5rr6EKHubYU4Fv6nWd5A/4fSBV1UZK94qZalW+SPdTB
+	 LRrMzTJfta+lUknPZgCWB7QAo4Kfdn0/PJn86Kk30FuMmh1DUU+F4ppcvxYB7EtW3+
+	 EQ9G3xzgew6iX3h/vzPF3aSyRNj9/92u6sI77opcEfWpkuZLVhjXUh1JadFVh1ZXcy
+	 LdXOtQXBL9FSLggEZfD2XOWlkrqPng3BaF6aGwHa4eanSrS40JhzyEguTWSZjjn/do
+	 H5Pc2eiYy9Yp2W3zz5JemCJeUcdVfDzdH5kaK7OaNLXl69LzGPL+HjmKZ4+G4AoxEH
+	 w6McRk3TS4TkQ==
+Message-ID: <d59ea1dd-f1f1-4ca7-b666-358354633d9e@kernel.org>
+Date: Thu, 13 Mar 2025 17:59:16 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 01/11] nvmet: Remove duplicate uuid_copy
+To: Mike Christie <michael.christie@oracle.com>, chaitanyak@nvidia.com,
+ kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, joao.m.martins@oracle.com,
+ linux-nvme@lists.infradead.org, kvm@vger.kernel.org, kwankhede@nvidia.com,
+ alex.williamson@redhat.com, mlevitsk@redhat.com
+References: <20250313052222.178524-1-michael.christie@oracle.com>
+ <20250313052222.178524-2-michael.christie@oracle.com>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20250313052222.178524-2-michael.christie@oracle.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 13 Mar 2025 10:01:07 +0100
-Message-Id: <D8F0L25A8NP6.MR1S5ORJC9XE@bsdbackstore.eu>
-Subject: =?utf-8?q?Re:_nvme-tcp:_fix_a_possible_UAF_when_failing_to_send_request?= =?utf-8?q?=E3=80=90=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8C=E9=82=AE=E4=BB=B6?= =?utf-8?q?=E7=94=B1sagigrim@gmail.com=E4=BB=A3=E5=8F=91=E3=80=91?=
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>, "Hannes Reinecke"
- <hare@suse.de>, "sagi" <sagi@grimberg.me>, "mgurtovoy"
- <mgurtovoy@nvidia.com>, "kbusch" <kbusch@kernel.org>, "sashal"
- <sashal@kernel.org>, "chunguang.xu" <chunguang.xu@shopee.com>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>, "linux-nvme"
- <linux-nvme@lists.infradead.org>, "linux-block"
- <linux-block@vger.kernel.org>
-X-Mailer: aerc
-References: <2025021015413817916143@cestc.cn>
- <aed9dde7-3271-4b97-9632-8380d37505d9@grimberg.me>
- <202503071810452687957@cestc.cn>
- <D8DDP6LIPOKB.2ACTHLE9FPI2A@bsdbackstore.eu>
- <2025031309485746586710@cestc.cn>
- <deb1584c-67b8-4543-9017-9ca18a9ee7d8@suse.de>
- <2025031316185747646815@cestc.cn> <2025031316313196627826@cestc.cn>
-In-Reply-To: <2025031316313196627826@cestc.cn>
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250313_020114_556695_665227D2 
-X-CRM114-Status: UNSURE (   5.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250313_015920_797680_26D15CB0 
+X-CRM114-Status: GOOD (  13.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,20 +76,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu Mar 13, 2025 at 9:31 AM CET, zhang.guanghui@cestc.cn wrote:
-> Hi,
->   in fact, the nvme_tcp_try_send() failure, the target may send C2HTermRe=
-q immediately. while the host receives the C2HTermReq and still starting er=
-ror recovery. =20
->  so when queue->rd_enabled is false,  can avoid starting error recovery a=
-gagin.
+On 3/13/25 14:18, Mike Christie wrote:
+> We do uuid_copy twice in nvmet_alloc_ctrl so this patch deletes one
+> of the calls.
+> 
+> Signed-off-by: Mike Christie <michael.christie@oracle.com>
+> ---
+>  drivers/nvme/target/core.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 2e741696f371..f896d1fd3326 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -1618,8 +1618,6 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+>  	}
+>  	ctrl->cntlid = ret;
+>  
+> -	uuid_copy(&ctrl->hostid, args->hostid);
+
+Good catch. But it is the other call that should be removed as that will also
+remove the if (args->hostid) as that is not needed (the 2 call sites of
+nvmet_alloc_ctrl() both set a hostid).
+
+And maybe sned this patch as a real patch as I think it can go upstream now.
+
+> -
+>  	/*
+>  	 * Discovery controllers may use some arbitrary high value
+>  	 * in order to cleanup stale discovery sessions
 
 
-Not all targets send C2HTermReq (for example, the Linux target doesn't
-at the moment) so you can't rely on that.
-In any case, calling nvme_tcp_error_recovery() twice is harmless;
-the first call moves the controller to the resetting state, the second
-call is ignored.
-
-Maurizio
+-- 
+Damien Le Moal
+Western Digital Research
 
