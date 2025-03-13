@@ -4,58 +4,181 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DE72C28B28
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Mar 2025 01:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0520C28B28
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Mar 2025 05:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=oFhw2e3bFKhZO7W+nVt6fkbKXgSjH0ygJFKVjt7+WyA=; b=yJ8jD5HcVkNNh+6znuyVYwLB8V
-	2yMLUnQdOma0RLLiik1OA6UTBJzX7IKagYrXH3RyAZtYmxUfonQ9W3qo7MqjysjRIgG36yOkXjVqD
-	AseGLyZhnxJ3ex7Tp/aci18VDwwWrMMcjnXMlQdUUZ5EdWc8XOqzSGN4M2nNv9qsapp+6YmP6m8vj
-	gENrNq+1BYjO+dm+PxtD42m5CuRph2yTjjnRGnFh92NSsSueFT9zpUb1IVAuiw6ZNxcrvYn3FmKir
-	hyYZHDWiPAzqheLdZlSSM6efbMzbcSoJR7p6VMPTgd5nL9c3WYN/FwfOhmAlfNY+FuHfJJeE2JDub
-	EBgRhc3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1ZZ0IZCL1f7yGfGrQOrKQnJntnKYkDGedUQ3OPYpeJM=; b=ANPIMLyRQoskUrQjLl4dMIcd7h
+	9I39bzggldv40ZH05yJ8v9368CyL1phBj7P6lgS4h/0kKicACZfcGEe4tztFdAg706mq4Gt97Q+H8
+	dE+0F0GR8KoARmnpotqksg52aMuC7HfIGck5IRXJW5ld3FkVS8PF/AV01RrhO6dV2nzLSVJwBrCqg
+	qrjaMRoEn1Hg2RVo0o6PSPkm4PDv+4BMZYM/Zf78b2k25usQSeCXDnpcbWZom+zEvuK6jRS8bCA5p
+	kZlmonnL3U1FqvUnHHrqp30LIP9CnAWfTsjHFJpnwPSwxWeR0WnbXOPs5tCFffoubolCeDxOepxrZ
+	xEZDR/qA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsX7a-00000009qy4-2MpR;
-	Thu, 13 Mar 2025 01:12:26 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tsb1n-0000000A7NO-3b7b;
+	Thu, 13 Mar 2025 05:22:43 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tsX7X-00000009qxV-3R1i
+	id 1tsb1i-0000000A7KJ-0y6h
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Mar 2025 01:12:25 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id EE12FA4541F;
-	Thu, 13 Mar 2025 01:06:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6785CC4CEDD;
-	Thu, 13 Mar 2025 01:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741828342;
-	bh=HdmeTIFDJxXFcEI22ln4SgtMqL8o1PnKwo4XZGbtjvE=;
-	h=From:To:Subject:Date:From;
-	b=sF6/WP1uWdMiK8Zw7G+Xw/5zNFZg9DQ79FEdUs3zdnkoXSOgllsoHqlQXD7Br6TrQ
-	 Git6h+HyV7LdjI8a26oSCB9KUcyykeIaXDtOgmlOVPHvxTlc+4wPihoB1Y5DOhp087
-	 g5j4/oriCxxgAYcQFajtis9gh6wl40+FMOQtMTErYjggLAof1Q6C+bbWT7eX+7+IiU
-	 5kmaX6yLDzjAfYaWwsAGW/96S0SQWhA1zUBtDmYLDVcgCfGWvXua2LXCAtK7n6QSP2
-	 +mBy7aq7eFP3HXwPg008ZN9R6oX67oe9PeBE0TaPulachrMhVIWxBstKoCdFPp3Qkc
-	 Y0KRficicBJFw==
-From: Damien Le Moal <dlemoal@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH] nvmet: pci-epf: Keep completion queues mapped
-Date: Thu, 13 Mar 2025 10:12:06 +0900
-Message-ID: <20250313011206.1410530-1-dlemoal@kernel.org>
-X-Mailer: git-send-email 2.48.1
-MIME-Version: 1.0
+	Thu, 13 Mar 2025 05:22:41 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52D3tjGr008203;
+	Thu, 13 Mar 2025 05:22:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=1ZZ0IZCL1f7yGfGrQOrKQnJntnKYkDGedUQ3OPYpeJM=; b=
+	ZBit9rvlqBQBWdqYUxDLHynPOOUXrTMt2QjOS9m1bxvqlji3GzsQewcGLMrRfn0a
+	42yNtCA8jsENtNUTPdMLMsRKYwkCGM7DebgiaZghtgkW+8IBYkkmZReWb5IHNFQn
+	lSZV5cjdIWXWmfDDXWnBZWC8O5vAEjQ/q1y4cb9/zrOpq9bXS2+L2fYt4Uf3I7YM
+	+a7DWoO0mvavBtACeEH4LGoq4jMirFKFGM3IOeImiQ38b6dVWVKMyKAgBhjBf8Pc
+	30CErXKy/fCG9oGVsayTfbhXtGEDhK0tpRUq3yYBp3KvocMqqr7nkRSYEeQHBMhQ
+	5ZeBGGhWnJ+w47uKsmPtnw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45au4duffc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 13 Mar 2025 05:22:33 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 52D4RGLc022384;
+	Thu, 13 Mar 2025 05:22:32 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2041.outbound.protection.outlook.com [104.47.58.41])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45atmw5mpy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 13 Mar 2025 05:22:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UsMmXEHeOWgnjALvi3Vw6cV18ZImoqZj5y+/XulTnY+iDDXeu7oXzOSPphzI41el5TzLM94P9IW7891wzdma1uqi9/7Ea5/cUue144SVC1Diga3MUI20lD+SJPjOyoir7447Og4f1Wk1nT4ejGoCQgLaNxNna3cKallc8s8m+ZzpE0nH8O3ICLX7rNg5/6uKvDZGVoFeqJFPBNrZ0wfQEqSMblKkerH4Olu6Sgr30wViKuSBBvEF7lfAAvGyHHn8o9YgNqY9rOhvDJlQ0ksi1s9Vph2vIFUuCT4sJAPcGXw8m+wrdR70MBQJmIs1d5A8LVUkoMrczDMc2IyTstfZWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1ZZ0IZCL1f7yGfGrQOrKQnJntnKYkDGedUQ3OPYpeJM=;
+ b=d3lTY9oIpq+fvoOnTGG3dWbpe51leYOpDDZHRBOAISozY/VPBjGehJAYUdRXozIR7E9JKP1WAL5piouxDpTZ+gGBlLXL8MQt9JVey3tyClhHgi0GzN9NfhTldNwy6s6GZQIEUppCOvrJS6sEmAm/D5dW04IjM40viGpfpuK2XgYggPHzHEZcCws+XL3YWBDus8ROLLNw6VK7kdJjCTWwz78Y00B6xOuIvFiYpTUi5pUB/T/GnjUWd7sODDmF+DpVTZlhKV1cz5atG/AIu2tNJOVurFWiEmFj2ujzMbQiDqtUREYoP8CxvYkjTCUfg7cEFNgN1fLFCrDYcIFC387O5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1ZZ0IZCL1f7yGfGrQOrKQnJntnKYkDGedUQ3OPYpeJM=;
+ b=PwcZeefzQJGmAXHkmoIiAG9tEbE0lKcnz+GR3KChfNG8kegonSrNciPGSGx1Lmvhmn9F2EZtQapfFXkqNOqWAUtDmhfmYNCipHBY4gz1YRedHUJdiDPCNxsUYaJPiAc+LNf0LVo7s1HwMu3YqQdQCevbVaES4ARcaDewsahkTrM=
+Received: from CY8PR10MB7243.namprd10.prod.outlook.com (2603:10b6:930:7c::10)
+ by IA0PR10MB6724.namprd10.prod.outlook.com (2603:10b6:208:43e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Thu, 13 Mar
+ 2025 05:22:30 +0000
+Received: from CY8PR10MB7243.namprd10.prod.outlook.com
+ ([fe80::b779:d0be:9e3a:34f0]) by CY8PR10MB7243.namprd10.prod.outlook.com
+ ([fe80::b779:d0be:9e3a:34f0%4]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
+ 05:22:29 +0000
+From: Mike Christie <michael.christie@oracle.com>
+To: chaitanyak@nvidia.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        joao.m.martins@oracle.com, linux-nvme@lists.infradead.org,
+        kvm@vger.kernel.org, kwankhede@nvidia.com, alex.williamson@redhat.com,
+        mlevitsk@redhat.com
+Cc: Mike Christie <michael.christie@oracle.com>
+Subject: [PATCH RFC 03/11] nvmet: Add nvmet_fabrics_ops flag to indicate SGLs not supported
+Date: Thu, 13 Mar 2025 00:18:04 -0500
+Message-ID: <20250313052222.178524-4-michael.christie@oracle.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250313052222.178524-1-michael.christie@oracle.com>
+References: <20250313052222.178524-1-michael.christie@oracle.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CH0PR13CA0012.namprd13.prod.outlook.com
+ (2603:10b6:610:b1::17) To CY8PR10MB7243.namprd10.prod.outlook.com
+ (2603:10b6:930:7c::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PR10MB7243:EE_|IA0PR10MB6724:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1baa92c-73aa-4239-ca59-08dd61ef0cf0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7bhBDHF/mp82v+b72ERQwI0yooNOn6brD7IjVqJ/6x6bQIZSpoh1tnkdeYNe?=
+ =?us-ascii?Q?BTOMXm0oLZt1WgLHdVesNlsTUSQ/97Rh1FNY54y2BQSuhErti8VdzT5+xWY5?=
+ =?us-ascii?Q?pHaJt3D5U8vcd/AgC2i13gZNZMFwyz2BnOt4eCGt0uz6/ZmoVbe4SgTTZVKK?=
+ =?us-ascii?Q?bwfPdeRVp7JaZDyTRtuTt62tdh6ptkQx0x14dbStpoX926anzSIYLuctlxfL?=
+ =?us-ascii?Q?WEExulkh5PjNAocgXrTxAM1Y56VeXipYATVPIOoEvLhaRIhXQTGka4zXsOYS?=
+ =?us-ascii?Q?bFqLft/3emN/WyLxmdNjbqDLZhUSCimMAYL31qghim1gCY9jpDZh9RrDsAFo?=
+ =?us-ascii?Q?N4+1Zt9oEKkazWHHd5xivm/0Yc7Bnm73ETbL6v4FKD7Dhs1K6mhpOqaaW9a/?=
+ =?us-ascii?Q?mhktZobEts6euSH3eFqG4psVAcRRe6FutR60NLcWbDmzGE199oRVE7zfBvyv?=
+ =?us-ascii?Q?DdMlnibEOH2BiATIm8O49Zt7HQxzT08J3YOgJVItVOfHQF/1uYpZ+eU8lwNk?=
+ =?us-ascii?Q?bQkvIeOfvRmpqPVBJPTnHMlY5HQnMpphohx/Ab6KCq8zBkJ6LhSTIpLyaUPd?=
+ =?us-ascii?Q?nPBWJioOx6LwCZD7XAblT6yZTONd+Qk1cBw1vOfTUBNxTuLHD0yQ5YYjGbNo?=
+ =?us-ascii?Q?4KhkCNocEW1wYk1Sj8ai3VyTkzbJeOB4dfE6PqX9FVqQzJtBNWOzVjanD4Wr?=
+ =?us-ascii?Q?fWgYMJn+MBAXlwGheO1AdfgQynrsBKN59nQY1lv7qWSszjliFGtNPRI0dyt/?=
+ =?us-ascii?Q?2YgV77dYSRugf7ocxj/6MMayxp50M/+Q+jaVJFw+mGSY3uwPROTlC9orHZ7m?=
+ =?us-ascii?Q?QFEjrEuJXKTTkO43vAxof/12o54QCMH48ggmZD8m6pfyVjtr2P5jqr7UVczI?=
+ =?us-ascii?Q?CPeijn7VgNxko9lwbrOC/2azpti1dQQrtLOY7wi9Jqhh9webgbAghajFjeTv?=
+ =?us-ascii?Q?AM3sRl/7aa8/j8Ps1nL4eV8wGd9mMsEq+2IlIvcydpM6Glmt7RBYfK671vdJ?=
+ =?us-ascii?Q?HPDQbPC6EYCq9Wz78lNw6vCFAvZvVMz4IXNbLiIc3uynM3WG+mxLXMJGw0Tc?=
+ =?us-ascii?Q?+yGKIaztHY7Nk6GBmVglLsi2f/4FJm4NOPe6F6q38OA5rENxsKZov+rFpV1y?=
+ =?us-ascii?Q?NfD3lEDp2CTgeqlPGaZ9EzzIvreEZZqILLA75NvdWlMHZKm0Y1S+F1zgEx0R?=
+ =?us-ascii?Q?ObwCKpPgFyuoKSoe5pQS3aDTYNrGe3RN70epLagMAhqUqZZthEWizTr3Fpv+?=
+ =?us-ascii?Q?Cc+QD3N2q+1Knr5nkzvFB4TpsDzIqbICW9l1KYK+wnP3MDIKXur0cdMuXPpI?=
+ =?us-ascii?Q?Hirc1HpBswdw7qJn25A2rzTn/r15n31JK9nzbdC/cHmGiAzXA4T+8ypRS36a?=
+ =?us-ascii?Q?Npmu8oZkWvMcCNewICxKxk/CKWyzX4aOQ6eBzSayvECWcosW5VM9soy8D3at?=
+ =?us-ascii?Q?sUSz3s48Gbs=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR10MB7243.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XfZPkBQVlDBlSuRePhL+9rVZs891eM1IF4AMqiVbehWzvyT3Yatbd3grCw0/?=
+ =?us-ascii?Q?FD3h6WH0XZUfO04ZH89RC5rALRVHUJizdUCH0NvACMEoY9sCWx+tSmPUAAnM?=
+ =?us-ascii?Q?0YbeyhH8ZNE0vFJ3FBzlTfGYzLBC81QSA9B3oEXbfPmBo/gX+HnL/GQAaBwL?=
+ =?us-ascii?Q?8jPdW8NHmMmgI7b4Mv7a8S8WzPQz685v0uNiK9VBDZnd9VEAJ5ErMkzB2qn3?=
+ =?us-ascii?Q?bjcEhdzhsI/X4su97o/QVJoUDwahdddtOdjloGU/yvgYuQO1fc0ASl/qdEBz?=
+ =?us-ascii?Q?XlSTMMZMYGIsLQe0N1SJLWDdbc9FFSECM49kbY0Dk4vhGKQRnSc96r75FBL6?=
+ =?us-ascii?Q?mz1XQ1R6MxjCG1gR6Tv4tI6rnNcntIqIu/sRHC9I07SD94MhfC/TVDIU8S1s?=
+ =?us-ascii?Q?a74ZjjEWCX9G8r+NbVXtsPiGDgU5BPupbns7+mM8fsMEuC3FfvC7uqDa8dCZ?=
+ =?us-ascii?Q?H1UYyST7uM71K80eRHAY+oh4t4AZti71IJSpzZNUPMOvSUh3wyqg/v7/NwKo?=
+ =?us-ascii?Q?ZkTjlwg1r4/vsKbKpW9TUdRK2ntZW7L4VTYJTRGpkbLXUpVlZxyHCWpYH24E?=
+ =?us-ascii?Q?gS6nhJOLfvm5XdNpfVWDRdJVNvbQ2C1bn0i2d3TcHSPXEGB3qTtvHrtZdXEv?=
+ =?us-ascii?Q?3nRy02PrM0pwU1heRlwndTh3W7hca+9d+mE9x1cItOQXkxJpdILTfGJSdBjC?=
+ =?us-ascii?Q?hytWSX7MIiTC4TmKLWj8Pd2ILKDxu9Ul8oT6XKgtsufAAzITB0oIVIFs34tS?=
+ =?us-ascii?Q?U50T6P0az5CD6e2JCssriNQiDmG9VCA6TPtOLJ1yxUHkCLH9gWs5lULGaFkU?=
+ =?us-ascii?Q?G6faAGBsgLn1PsfbByTuetOZBtdCiBVjJIalwV329/tdg8ETevsmKZ/mKEaL?=
+ =?us-ascii?Q?LIW5w6isPXiMjlqLBOGq0X12lQOYlx8XdNCyGYp3RKaYoAhUfVKviYNTXWXo?=
+ =?us-ascii?Q?3RxBHK4zFNYK4Fwx/GQQFifM2Zw7edtPGDl2FXnKS095pKZLUKIh+jNqMU+1?=
+ =?us-ascii?Q?Y0KPkmwl8VOB2DbgLOSgn1JIt353pq2FDF2USgYKoNXEh8F+SHrTfN69s7cT?=
+ =?us-ascii?Q?3Av/v3aN1ZsaffXIPF6LZsnVT0HZAEd5pp6muVRC4taGoTmMCAHrQygWy6kR?=
+ =?us-ascii?Q?yk/gOM89vlw61yDOGjCcrmIxD1Z+OAyM+fYuSEFCF/v66TBrsNFWXk67o4Ez?=
+ =?us-ascii?Q?eOHe6NrLzKwMbdIV2KQT7F8kXkz33cFNC9zpkV4BeMWdl+CUsQzmt+mXEdqR?=
+ =?us-ascii?Q?SEf5fVAOLOzRvdp+ikWGNqJwDTJXaM3lGGwPRW8iCy8RZN9lzxzdJ99DbKht?=
+ =?us-ascii?Q?Jk4UhOGw8Ruwc6/3E7ukQ9KB5+MxmTvTn8VUWSPz6u6HzjBWWCikeoXl3UNk?=
+ =?us-ascii?Q?bu8RiibUgcoznv9AzrYQPQrC+yaFg5tXCeGGGlvswlYvMtZuW5C2XSlENIoz?=
+ =?us-ascii?Q?YcEspVZ02Z3oBUfeg6r3/JQBFiSjB+Q4ewC9f47A8BSrToU8rVUQmUJnGJxb?=
+ =?us-ascii?Q?/FB9D1ukwe61UCHO6vsBcNPgbfrIpGWXsThsIKYgEYRowu9IWW5vXaKFw1/F?=
+ =?us-ascii?Q?onm2Ffo+Bo+dDA8XXFPFd+vVxq76tFQB/b7EiuZSuJvRzrZduFadYrr8Fh9d?=
+ =?us-ascii?Q?Cg=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: bNclBdoLqpjavORqnRCSJB2HgwLfrNIgJjwf/eyPFNhg0pPE4RJIaNQWYL8qkRwFN7ZyW8ITCZSVhWO2ihcgSeULizaQdESgpPQNYXA4lho41UK4RP72SBu53MccP2FYYhU5K/L+H6hMhHrxY3Colnsxomi0JCsz3kTwsY1ogSH37MXsbPOGwfxDYiyiK1mYVtqkGVH9MHU+r0LGzL6qOwqcPnsduxG5onFaHGpDA9ZlhPh3PTTDm2Fa5JQEzBxS/Yjef7To21PRJO+mD5q1pg0j3YXmAlOU5qLZiZVVbMRbVJ8fUzBaKkZ/gFRtcIzZ0M83zUX2gL4bbfAlJIzfLg2lYAJlZH9Lft729ztE1ZJc87nfGObxP4QkX1sm9+6/AlkageVvi7c3aMrekxVfPSqKnNrTyqCXBcuA7cZp5ZMaTdD0sfpA/6BcTYO2yosAXaG1TaLnC2Mw1gGlT1GgUw9fwXZA7644kTpq76FG/wviqzaeINzrhgdQhAf+NNfG1tdI/KUdj6W/zVvoytXHOqnq6991hi06gByl8stSzYBJ0bPtiRbfeYFuKSMWJs2g9AwoH2Y91xQYtX8PE7LprNIEHE3TXy/kRhqFUmUyJkI=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1baa92c-73aa-4239-ca59-08dd61ef0cf0
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR10MB7243.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 05:22:29.9494
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 99/MjLhAJe5Q8dCI2YdFSk7vJmvW66Nwx9cfoEc2Zp8K0gLl3SB+D8jZFKJ14BzFpM3WbnLkiawJabLRY06mvgXhE3h4XbNOdhC3oflX40c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6724
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-13_02,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
+ definitions=main-2503130040
+X-Proofpoint-ORIG-GUID: 8QU0jSUWpEU1ruOegEw8jGFCnz43NgtW
+X-Proofpoint-GUID: 8QU0jSUWpEU1ruOegEw8jGFCnz43NgtW
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250312_181223_987016_28A88C85 
-X-CRM114-Status: GOOD (  15.49  )
+X-CRM114-CacheID: sfid-20250312_222238_386057_ECBB366B 
+X-CRM114-Status: GOOD (  16.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,161 +193,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Instead of mapping and unmapping the completion queues memory to the
-host PCI address space whenever nvmet_pci_epf_cq_work() is called, map
-a completion queue to the host PCI address space when the completion
-queue is created with nvmet_pci_epf_create_cq() and unmap it when the
-completion queue is deleted with nvmet_pci_epf_delete_cq().
+The nvmet_mdev_pci driver does not initially support SGLs. In some
+prelim testing I don't think there will be a perf gain (the virt related
+interface may be the major bottleneck so I may not notice) so I wasn't
+sure if they will be required/needed. This adds a nvmet_fabrics_ops flag
+so we can tell nvmet core to tell the host we do not supports SGLS.
 
-This removes the completion queue mapping/unmapping from
-nvmet_pci_epf_cq_work() and significantly increases performance. For
-a single job 4K random read QD=1 workload, the IOPS is increased from
-23 KIOPS to 25 KIOPS. Some significant throughput increasde for high
-queue depth and large IOs workloads can also be seen.
-
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Signed-off-by: Mike Christie <michael.christie@oracle.com>
 ---
- drivers/nvme/target/pci-epf.c | 77 ++++++++++++++++++-----------------
- 1 file changed, 39 insertions(+), 38 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 13 +++++++------
+ drivers/nvme/target/nvmet.h     |  1 +
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-index b1e31483f157..6272cd013136 100644
---- a/drivers/nvme/target/pci-epf.c
-+++ b/drivers/nvme/target/pci-epf.c
-@@ -271,6 +271,36 @@ static inline void nvmet_pci_epf_mem_unmap(struct nvmet_pci_epf *nvme_epf,
- 	pci_epc_mem_unmap(epf->epc, epf->func_no, epf->vfunc_no, map);
- }
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index acc138bbf8f2..486ed6f7b717 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -755,12 +755,13 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	id->awun = 0;
+ 	id->awupf = 0;
  
-+static int nvmet_pci_epf_map_queue(struct nvmet_pci_epf_ctrl *ctrl,
-+				   struct nvmet_pci_epf_queue *queue)
-+{
-+	struct nvmet_pci_epf *nvme_epf = ctrl->nvme_epf;
-+	int ret;
-+
-+	ret = nvmet_pci_epf_mem_map(nvme_epf, queue->pci_addr,
-+				    queue->pci_size, &queue->pci_map);
-+	if (ret) {
-+		dev_err(ctrl->dev, "Failed to map queue %u (err=%d)\n",
-+			queue->qid, ret);
-+		return ret;
+-	/* we always support SGLs */
+-	id->sgls = cpu_to_le32(NVME_CTRL_SGLS_BYTE_ALIGNED);
+-	if (ctrl->ops->flags & NVMF_KEYED_SGLS)
+-		id->sgls |= cpu_to_le32(NVME_CTRL_SGLS_KSDBDS);
+-	if (req->port->inline_data_size)
+-		id->sgls |= cpu_to_le32(NVME_CTRL_SGLS_SAOS);
++	if (!(ctrl->ops->flags & NVMF_SGLS_NOT_SUPP)) {
++		id->sgls = cpu_to_le32(NVME_CTRL_SGLS_BYTE_ALIGNED);
++		if (ctrl->ops->flags & NVMF_KEYED_SGLS)
++			id->sgls |= cpu_to_le32(NVME_CTRL_SGLS_KSDBDS);
++		if (req->port->inline_data_size)
++			id->sgls |= cpu_to_le32(NVME_CTRL_SGLS_SAOS);
 +	}
-+
-+	if (queue->pci_map.pci_size < queue->pci_size) {
-+		dev_err(ctrl->dev, "Invalid partial mapping of queue %u\n",
-+			queue->qid);
-+		nvmet_pci_epf_mem_unmap(nvme_epf, &queue->pci_map);
-+		return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline void nvmet_pci_epf_unmap_queue(struct nvmet_pci_epf_ctrl *ctrl,
-+					     struct nvmet_pci_epf_queue *queue)
-+{
-+	nvmet_pci_epf_mem_unmap(ctrl->nvme_epf, &queue->pci_map);
-+}
-+
- struct nvmet_pci_epf_dma_filter {
- 	struct device *dev;
- 	u32 dma_mask;
-@@ -1264,6 +1294,7 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
- 	struct nvmet_pci_epf_ctrl *ctrl = tctrl->drvdata;
- 	struct nvmet_pci_epf_queue *cq = &ctrl->cq[cqid];
- 	u16 status;
-+	int ret;
  
- 	if (test_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags))
- 		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
-@@ -1298,6 +1329,12 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
- 	if (status != NVME_SC_SUCCESS)
- 		goto err;
+ 	strscpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
  
-+	ret = nvmet_pci_epf_map_queue(ctrl, cq);
-+	if (ret) {
-+		status = NVME_SC_INTERNAL | NVME_STATUS_DNR;
-+		goto err;
-+	}
-+
- 	set_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags);
- 
- 	dev_dbg(ctrl->dev, "CQ[%u]: %u entries of %zu B, IRQ vector %u\n",
-@@ -1322,6 +1359,7 @@ static u16 nvmet_pci_epf_delete_cq(struct nvmet_ctrl *tctrl, u16 cqid)
- 	cancel_delayed_work_sync(&cq->work);
- 	nvmet_pci_epf_drain_queue(cq);
- 	nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
-+	nvmet_pci_epf_unmap_queue(ctrl, cq);
- 
- 	return NVME_SC_SUCCESS;
- }
-@@ -1554,36 +1592,6 @@ static void nvmet_pci_epf_free_queues(struct nvmet_pci_epf_ctrl *ctrl)
- 	ctrl->cq = NULL;
- }
- 
--static int nvmet_pci_epf_map_queue(struct nvmet_pci_epf_ctrl *ctrl,
--				   struct nvmet_pci_epf_queue *queue)
--{
--	struct nvmet_pci_epf *nvme_epf = ctrl->nvme_epf;
--	int ret;
--
--	ret = nvmet_pci_epf_mem_map(nvme_epf, queue->pci_addr,
--				      queue->pci_size, &queue->pci_map);
--	if (ret) {
--		dev_err(ctrl->dev, "Failed to map queue %u (err=%d)\n",
--			queue->qid, ret);
--		return ret;
--	}
--
--	if (queue->pci_map.pci_size < queue->pci_size) {
--		dev_err(ctrl->dev, "Invalid partial mapping of queue %u\n",
--			queue->qid);
--		nvmet_pci_epf_mem_unmap(nvme_epf, &queue->pci_map);
--		return -ENOMEM;
--	}
--
--	return 0;
--}
--
--static inline void nvmet_pci_epf_unmap_queue(struct nvmet_pci_epf_ctrl *ctrl,
--					     struct nvmet_pci_epf_queue *queue)
--{
--	nvmet_pci_epf_mem_unmap(ctrl->nvme_epf, &queue->pci_map);
--}
--
- static void nvmet_pci_epf_exec_iod_work(struct work_struct *work)
- {
- 	struct nvmet_pci_epf_iod *iod =
-@@ -1747,11 +1755,7 @@ static void nvmet_pci_epf_cq_work(struct work_struct *work)
- 	struct nvme_completion *cqe;
- 	struct nvmet_pci_epf_iod *iod;
- 	unsigned long flags;
--	int ret, n = 0;
--
--	ret = nvmet_pci_epf_map_queue(ctrl, cq);
--	if (ret)
--		goto again;
-+	int ret = 0, n = 0;
- 
- 	while (test_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags) && ctrl->link_up) {
- 
-@@ -1798,8 +1802,6 @@ static void nvmet_pci_epf_cq_work(struct work_struct *work)
- 		n++;
- 	}
- 
--	nvmet_pci_epf_unmap_queue(ctrl, cq);
--
- 	/*
- 	 * We do not support precise IRQ coalescing time (100ns units as per
- 	 * NVMe specifications). So if we have posted completion entries without
-@@ -1808,7 +1810,6 @@ static void nvmet_pci_epf_cq_work(struct work_struct *work)
- 	if (n)
- 		nvmet_pci_epf_raise_irq(ctrl, cq, true);
- 
--again:
- 	if (ret < 0)
- 		queue_delayed_work(system_highpri_wq, &cq->work,
- 				   NVMET_PCI_EPF_CQ_RETRY_INTERVAL);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index fcf4f460dc9a..ec3d10eb316a 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -403,6 +403,7 @@ struct nvmet_fabrics_ops {
+ 	unsigned int flags;
+ #define NVMF_KEYED_SGLS			(1 << 0)
+ #define NVMF_METADATA_SUPPORTED		(1 << 1)
++#define NVMF_SGLS_NOT_SUPP		(1 << 2)
+ 	void (*queue_response)(struct nvmet_req *req);
+ 	int (*add_port)(struct nvmet_port *port);
+ 	void (*remove_port)(struct nvmet_port *port);
 -- 
-2.48.1
+2.43.0
 
 
