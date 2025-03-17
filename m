@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD399C35FF8
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D107FC35FFA
 	for <linux-nvme@archiver.kernel.org>; Mon, 17 Mar 2025 16:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,36 +12,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JgJKJNcQIDtxmPRxb5moTkOIj6qmW8pA0i6hMQY2PVw=; b=wisK8V+1xRBX6rYPtGTYnw4ZdL
-	/hGyOscK9Yiv1j6G/DXsqshU2gzoZNrPUJf6+REjsAazFx+epPOtDmVzMdSDfTdWruHHcuZ0BMbjo
-	MH5/YS9QDpL5M0miDB19X4L+lClgvYDP5hbuBvNTkzxIZZypgZvOO+cG1Sp0r2qi0dD5qNWgA44og
-	pG9mp40oxMh/wPGar02+HiSXDaxU7uvm5wyfhtdiQ0G3hrj5StFIPoh7paySagXMtuIJ3zD3hmAt8
-	GHndzkxtr02iaMBSfp1b1453MCh8KBftmrYvb4yKKRfA6KjlROKjfPtfvHSCe4ExsFXliWyfn036x
-	Do2vs44Q==;
+	bh=P2BB8+66Rs7hS7926cSLCluQKqdYcWqwNgeyx9CqAYI=; b=PsJCxJuZLpax8erO/2O8pGsvk+
+	aorrLTtOC1dXAUw84YCyogXa/+Wk2HRzRUXkY9sGJ7BSCJCz2wnU3WwJ4Bz92xX0TX/mL7MNGAgmb
+	hr6KGyDKh8JC5GjLGPreWPm1ZgXtjwl92JMOancj497tmYwxYNSPP1G5kksDZQXUgtXx+4qZNLfLz
+	47k9DduSM0gs8Z1Sm0Rrm2NJKLkhfXP22yVJ56I/pVb+F5z4jIT+PyRHm8wGoAaACtzFDZKGA1Kn5
+	2Bgp4cpvEu1ZBdaY3ueuW2P8J0ZHJLIOdBfaZLHk2m4l/WV+G4J45agi2ki/HE4X134/DSohQs3/3
+	JCU+uexw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuDVm-00000003MXr-3Mw3;
-	Mon, 17 Mar 2025 16:40:22 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tuDVl-00000003MUz-2g0F;
+	Mon, 17 Mar 2025 16:40:21 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuDUA-00000003M5L-1lSm
+	id 1tuDTM-00000003Lsx-0wkT
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Mar 2025 16:38:43 +0000
+	Mon, 17 Mar 2025 16:37:53 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 23EFCA48A4A;
-	Mon, 17 Mar 2025 16:33:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7AB1C4CEF0;
-	Mon, 17 Mar 2025 16:38:40 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id B2E615C4CED;
+	Mon, 17 Mar 2025 16:35:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60A0DC4CEE3;
+	Mon, 17 Mar 2025 16:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229521;
-	bh=tnhdK0xYIocAbOtECMDELU7SthnXQZnPfJRb5X472nQ=;
+	s=k20201202; t=1742229471;
+	bh=BkW0SLrAWLKbSYBIq6N8mJlIN9WKXlbffIL1rr/w8Q8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aALjvT7xYsHeOldOoLMYmBaX06zO09JaNV9HXUCAD5PE5KF0vKDy5RCRpuuLWPg1M
-	 q5VV9bIn7F/GHE7hcM8M3jS4HfCgVavPOdkVhyuoqKhVl1xP8J9xkoZC+r+DdDv0gj
-	 NIPwIEw++HBF0TmqMV5j5YxIUbA5H5HGvNTl60Ddvw9xMlYQ7Q7tlZbuSD2QjX7yoF
-	 w+MiJPVh+45AuFNoNQtymhXEE9Kzgec0vAa5rjDnTHAC4IARSVGSnTv2DVgm8IjmXI
-	 hKz7d8BNnKVXB/JK1RW6hE7L6cHGwzw3I55BqCWWzO4EOT/oBXGvEdSQHGeynPiIfN
-	 GBgcBBnb0zrNw==
+	b=gQMADMIRKDRnGL8q96SqVf+4eaUqlZa2z8KPfOebvgLWFlvzKuRE6L5EuCDixiIZb
+	 EbAAheTF8eFUShv720RVCdQ3GdhMuJehEHeOLd5Y3ojD0saaWT9MCipyye/I3K2QO8
+	 tVCK0wPoHtudYCKKXiHo12wq2lKPIuihOOqjnQeNmJDV0UGPTExhnUsXSieTP/EAZc
+	 p6K+TiSBzA2wMD/M07QBDhWSPapD5E/TwBkSlYBaaSNDBakQJ1IQlodM4o4fSjNHMJ
+	 q3q0sRxiH4Mh3qAQ5mAzGuHRu9VtFHg5YiIp9clWTpfL9KEmdltpC4CfGJEb2uI6pa
+	 5HDTXi7hpGLOQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,20 +50,20 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 09/13] nvme-pci: fix stuck reset on concurrent DPC and HP
-Date: Mon, 17 Mar 2025 12:38:14 -0400
-Message-Id: <20250317163818.1893102-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 11/16] nvme-pci: fix stuck reset on concurrent DPC and HP
+Date: Mon, 17 Mar 2025 12:37:20 -0400
+Message-Id: <20250317163725.1892824-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250317163818.1893102-1-sashal@kernel.org>
-References: <20250317163818.1893102-1-sashal@kernel.org>
+In-Reply-To: <20250317163725.1892824-1-sashal@kernel.org>
+References: <20250317163725.1892824-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.19
+X-stable-base: Linux 6.13.7
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250317_093842_593646_522A564A 
-X-CRM114-Status: GOOD (  19.49  )
+X-CRM114-CacheID: sfid-20250317_093752_353279_2E3B9668 
+X-CRM114-Status: GOOD (  19.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,7 +113,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e1329d4974fd6..6b37ef1eaa893 100644
+index 99c2983dbe6c8..ed62932be633f 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
 @@ -1412,9 +1412,20 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
