@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D107FC35FFA
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85AC6C35FF9
 	for <linux-nvme@archiver.kernel.org>; Mon, 17 Mar 2025 16:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,36 +12,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P2BB8+66Rs7hS7926cSLCluQKqdYcWqwNgeyx9CqAYI=; b=PsJCxJuZLpax8erO/2O8pGsvk+
-	aorrLTtOC1dXAUw84YCyogXa/+Wk2HRzRUXkY9sGJ7BSCJCz2wnU3WwJ4Bz92xX0TX/mL7MNGAgmb
-	hr6KGyDKh8JC5GjLGPreWPm1ZgXtjwl92JMOancj497tmYwxYNSPP1G5kksDZQXUgtXx+4qZNLfLz
-	47k9DduSM0gs8Z1Sm0Rrm2NJKLkhfXP22yVJ56I/pVb+F5z4jIT+PyRHm8wGoAaACtzFDZKGA1Kn5
-	2Bgp4cpvEu1ZBdaY3ueuW2P8J0ZHJLIOdBfaZLHk2m4l/WV+G4J45agi2ki/HE4X134/DSohQs3/3
-	JCU+uexw==;
+	bh=1SWjAMLXuly00EKVi7kcuO70nAcRtvjKlCONDXoIphs=; b=cCswH/cqbJjtGYG1jjMYssuNLQ
+	zAOVjp8kI+XpXbpqYc+xY3E0E1T//jvk53n+HK9PReYk5FHiLOg2vMx1ByTotibAaRuG0dmDDMwKY
+	vXOYYjBNOwtd9T3cjKElCjqJPvN33757phjJ40K+AKS2v2L11XQ79NkagchFXfrNMjkPYxtcLxUHj
+	FaS+gvFIy1PRg096mrsbzl1JGrXkayfUe/v5MYTiMEo5CQ7cYJC7M5YvHQCA1cvC2DxmmyxHh3tEF
+	L0gQW9pHEdHDXoDay5vmkjND4kokSvAWSx3j4sW8VTjzok+IPKFEqmi6y2QNIgFKifmrvGRugWZLG
+	fBKWgEsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuDVl-00000003MUz-2g0F;
-	Mon, 17 Mar 2025 16:40:21 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tuDVn-00000003MY7-1kWb;
+	Mon, 17 Mar 2025 16:40:23 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuDTM-00000003Lsx-0wkT
+	id 1tuDUj-00000003MEV-1XXV
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Mar 2025 16:37:53 +0000
+	Mon, 17 Mar 2025 16:39:18 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B2E615C4CED;
-	Mon, 17 Mar 2025 16:35:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60A0DC4CEE3;
-	Mon, 17 Mar 2025 16:37:50 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 1CA42A48791;
+	Mon, 17 Mar 2025 16:33:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F06C4CEEC;
+	Mon, 17 Mar 2025 16:39:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229471;
-	bh=BkW0SLrAWLKbSYBIq6N8mJlIN9WKXlbffIL1rr/w8Q8=;
+	s=k20201202; t=1742229556;
+	bh=/kpzgGcALURdACupa9CkgptBg02OzJ/kPFAr8jUIFgI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gQMADMIRKDRnGL8q96SqVf+4eaUqlZa2z8KPfOebvgLWFlvzKuRE6L5EuCDixiIZb
-	 EbAAheTF8eFUShv720RVCdQ3GdhMuJehEHeOLd5Y3ojD0saaWT9MCipyye/I3K2QO8
-	 tVCK0wPoHtudYCKKXiHo12wq2lKPIuihOOqjnQeNmJDV0UGPTExhnUsXSieTP/EAZc
-	 p6K+TiSBzA2wMD/M07QBDhWSPapD5E/TwBkSlYBaaSNDBakQJ1IQlodM4o4fSjNHMJ
-	 q3q0sRxiH4Mh3qAQ5mAzGuHRu9VtFHg5YiIp9clWTpfL9KEmdltpC4CfGJEb2uI6pa
-	 5HDTXi7hpGLOQ==
+	b=hBTV4M/avd+ARpjnFIQjWQ7vcqVcwniZMvUuZLX9eGsRaQ8A1Jxr2KY0O6ymak6cC
+	 +4irIGygN3CiLAmM3D7Igoa0XdaWG9HhRFj6tQZAX7mVcV+Sigx2x0dwriXCC2sVNv
+	 H4hLZfFic9otYWpa+DltPtjd/Fqd4YybhIElp/GdFSSPoPbERDeaDX4PiKwWdOb64c
+	 WvCRT2vZSFtaI8syi1KxSsaPHL+GthoWWZ6Ijh2yDHrgwR9DdCBdYet84gcK+FBPKX
+	 R99RiBuwLxJsdF3AOaT9I4PyOFJo2Iwianl4x9V7oeBzSnvZih8uzeHrzRzXhbh06n
+	 vXNyjfgr7pVfg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,20 +50,20 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.13 11/16] nvme-pci: fix stuck reset on concurrent DPC and HP
-Date: Mon, 17 Mar 2025 12:37:20 -0400
-Message-Id: <20250317163725.1892824-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 6/8] nvme-pci: fix stuck reset on concurrent DPC and HP
+Date: Mon, 17 Mar 2025 12:39:00 -0400
+Message-Id: <20250317163902.1893378-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250317163725.1892824-1-sashal@kernel.org>
-References: <20250317163725.1892824-1-sashal@kernel.org>
+In-Reply-To: <20250317163902.1893378-1-sashal@kernel.org>
+References: <20250317163902.1893378-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.7
+X-stable-base: Linux 6.6.83
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250317_093752_353279_2E3B9668 
-X-CRM114-Status: GOOD (  19.57  )
+X-CRM114-CacheID: sfid-20250317_093917_534535_8832E8C7 
+X-CRM114-Status: GOOD (  19.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,16 +113,15 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 99c2983dbe6c8..ed62932be633f 100644
+index b1310e69d07da..e74a22c452ce7 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1412,9 +1412,20 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
+@@ -1282,8 +1282,19 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
  	struct nvme_dev *dev = nvmeq->dev;
  	struct request *abort_req;
  	struct nvme_command cmd = { };
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
  	u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 	u8 opcode;
  
 +	/*
 +	 * Shutdown the device immediately if we see it is disconnected. This
@@ -137,7 +136,7 @@ index 99c2983dbe6c8..ed62932be633f 100644
  	if (nvme_state_terminal(&dev->ctrl))
  		goto disable;
  
-@@ -1422,7 +1433,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
+@@ -1291,7 +1302,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
  	 * the recovery mechanism will surely fail.
  	 */
  	mb();
