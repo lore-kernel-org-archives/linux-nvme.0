@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3118C28B28
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 10:40:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D297C282EC
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 10:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xJMj5IXoybbU6TH+ECk/ZvoUE25FmrerQf3EGwdizig=; b=UszDKmuwiHdhACw3EG40rQRUCg
-	c4RhPLxNDIFtjeSepcAPAwEmbJCWo/GR+iAHgFM76L7loCnu70l85GWt+gPtsdA66QBo9htz2Lgx+
-	VuX9M3tV322fNLwFYksG/iTg66Drkbpa1MmXBOs3JjxjQQVXjSmRSq8Mns2212ylISGfy5fmKMMYK
-	J7Nmi5Eg9DMftFNn3Iych+7+kMP/42oirjZCl7MV9KC4zpROoQhWwebZCL9GOY2HmFnva23LXpCW/
-	MDzyxkqNNd6piwWjVl7oCfhCIgJcYwDyyzzY3m7ccn2vue1CxIQSdMNG9srwjFCsdGwStqkOpjClt
-	/TNn+NDQ==;
+	bh=ZWETNUdSVVnPLOIgB3+KzsG0S3g9o2WsiDM+zzlIHxE=; b=xDDoQzP98v41ydfjKTjwxZhVp+
+	kam8K40Kgsa8/QDMyhaXXDPFJwJjpB3VXgqbq2ZngWzvJWPLnpP3ppL0ZbC8jttDeTAuLDnSjpU7z
+	AG/Z5o1TrSoGUoMtpNxxtxCt0+uWW0sz2b6ZHkD9/+f+EFadns+iF7Yk8kfsSjZaOlbVZPhMtgdFe
+	ThGa28M+OQGiinNfFBGQrQa09gT1fMWrLEwNNdGiZMVhv+nLxuwIURhmo83wazoDX5CjGIunhAobN
+	63rFR3p+4CL9fs93C4sYIh7F+NqtMjTH/VGs7s8QDwVM/f3pvVqoZJI+fPX7rjvUwU5NiTmXRKH+6
+	0AOTmnLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuUNK-00000005YSW-2jal;
-	Tue, 18 Mar 2025 10:40:46 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1tuUNM-00000005YVm-32Ih;
+	Tue, 18 Mar 2025 10:40:48 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuUNF-00000005YKh-0T46
+	id 1tuUNH-00000005YNn-1nYa
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Mar 2025 10:40:44 +0000
+	Tue, 18 Mar 2025 10:40:45 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id C896EA48F36;
-	Tue, 18 Mar 2025 10:35:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CBDC4CEEE;
-	Tue, 18 Mar 2025 10:40:39 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id E5E2E5C589E;
+	Tue, 18 Mar 2025 10:38:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30BF3C4CEF3;
+	Tue, 18 Mar 2025 10:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742294440;
-	bh=ARme07aS1QExi5VZijNLmZGcs97PRzj21jmlFT3I4Gk=;
+	s=k20201202; t=1742294442;
+	bh=LsxWRr6DZwClzttPCXevbMAdxFVVZCkmwtITF4CNm6E=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=RZ3Dlp3yBCgnt0ZQa1RFg5B32HlT4gIhYK521+ye+IQgJldWZ1Zj8V2XTRIaU6vnD
-	 nCbvkLXyrqlouBzTFTJKvIH+ebp8j8XO2zADjIz3tMTzb+tviAbBL/3btFW5CaYBLW
-	 rMTcYO8jqYh5xv+xnlV4YZOlRvjnUi1wFA6Ooh0q45b7DaffOPsRTg2p4VKTK2bVMW
-	 WnvtH9dT38t/3p6nn8moasbFzL38ZnU+cv/ohNjVwl08lXhD8u74VfN4ci0vHvapOx
-	 ypSc7pABt0/zCYei/vJiL8ZCNDlWtdsVJaoeZQ35gG8km7AKSA/ry+fj+ciWk4wWNb
-	 ifLwEQLaUbQxg==
+	b=soz2KTn7sSTwHvisSf3FNLsnFKA3B5v7bXlcXTsytIt+LuILWxJi1CAkbp0INx/Mi
+	 9lBzZs4QjhlN55kCwTGjN4K8Y1hg9Uf8M4HWOhpXEt/zW673csJnwG8xN+2IJrI3Pf
+	 XxdMJraGkm/3Wp1CZARbe2egbaRUq2kG2ilr+FrlxjpzrTQMPwGfT03cxiJkenEtne
+	 BWYx7xgtbUrPa4w29Lui2ipMqwTHhebJDpxWZy1OTP5z68F1TEDB4NyWF3QxEd1amW
+	 hj/MLWsF3pah3rXipL6qNq5BHM2gbY/VUuyzFE7+gYa1bofaySoUidyY4YKuAl+TqL
+	 lmqX+oyvQ9kyA==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Tue, 18 Mar 2025 11:40:09 +0100
-Subject: [PATCH v3 15/18] nvmet-fc: free pending reqs on tgtport unregister
+Date: Tue, 18 Mar 2025 11:40:10 +0100
+Subject: [PATCH v3 16/18] nvmet-fc: take tgtport refs for portentry
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250318-nvmet-fcloop-v3-15-05fec0fc02f6@kernel.org>
+Message-Id: <20250318-nvmet-fcloop-v3-16-05fec0fc02f6@kernel.org>
 References: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org>
 In-Reply-To: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org>
 To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
@@ -58,8 +58,8 @@ Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250318_034041_320248_B857BCBB 
-X-CRM114-Status: GOOD (  15.60  )
+X-CRM114-CacheID: sfid-20250318_034043_617698_96298302 
+X-CRM114-Status: GOOD (  15.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,82 +74,133 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When nvmet_fc_unregister_targetport is called by the LLDD, it's not
-possible to communicate with the host, thus all pending request will not
-be process. Thus explicitly free them.
+Ensure that the tgtport is not going away as long portentry has a
+pointer on it.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
-
-nvmet-fc: merge with f200af94ac9d ("nvmet-fc: free pending reqs on tgtport unregister")
 ---
- drivers/nvme/target/fc.c | 46 +++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 39 insertions(+), 7 deletions(-)
+ drivers/nvme/target/fc.c | 45 +++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 39 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index b2f5934209f9952679dc1235fb7c927818930688..d10ddcb57c1b09d871152f0d9a48f93ec6dc8685 100644
+index d10ddcb57c1b09d871152f0d9a48f93ec6dc8685..649afce908bbade0a843efc4b8b76105c164b035 100644
 --- a/drivers/nvme/target/fc.c
 +++ b/drivers/nvme/target/fc.c
-@@ -1591,6 +1591,44 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+@@ -1265,6 +1265,7 @@ nvmet_fc_portentry_bind(struct nvmet_fc_tgtport *tgtport,
+ {
+ 	lockdep_assert_held(&nvmet_fc_tgtlock);
+ 
++	nvmet_fc_tgtport_get(tgtport);
+ 	pe->tgtport = tgtport;
+ 	tgtport->pe = pe;
+ 
+@@ -1284,8 +1285,10 @@ nvmet_fc_portentry_unbind(struct nvmet_fc_port_entry *pe)
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+-	if (pe->tgtport)
++	if (pe->tgtport) {
++		nvmet_fc_tgtport_put(pe->tgtport);
+ 		pe->tgtport->pe = NULL;
++	}
+ 	list_del(&pe->pe_list);
  	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
  }
+@@ -1303,8 +1306,10 @@ nvmet_fc_portentry_unbind_tgt(struct nvmet_fc_tgtport *tgtport)
  
-+static void
-+nvmet_fc_free_pending_reqs(struct nvmet_fc_tgtport *tgtport)
-+{
-+	struct nvmet_fc_ls_req_op *lsop;
-+	struct nvmefc_ls_req *lsreq;
-+	struct nvmet_fc_ls_iod *iod;
-+	int i;
-+
-+	iod = tgtport->iod;
-+	for (i = 0; i < NVMET_LS_CTX_COUNT; iod++, i++)
-+		cancel_work(&iod->work);
-+
-+	/*
-+	 * After this point the connection is lost and thus any pending
-+	 * request can't be processed by the normal completion path. This
-+	 * is likely a request from nvmet_fc_send_ls_req_async.
-+	 */
-+	for (;;) {
-+		lsop = list_first_entry_or_null(&tgtport->ls_req_list,
-+						struct nvmet_fc_ls_req_op,
-+						lsreq_list);
-+		if (!lsop)
-+			break;
-+
-+		list_del(&lsop->lsreq_list);
-+
-+		if (!lsop->req_queued)
-+			continue;
-+
-+		lsreq = &lsop->ls_req;
-+		fc_dma_unmap_single(tgtport->dev, lsreq->rqstdma,
-+				    (lsreq->rqstlen + lsreq->rsplen),
-+				    DMA_BIDIRECTIONAL);
-+		nvmet_fc_tgtport_put(tgtport);
-+		kfree(lsop);
+ 	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+ 	pe = tgtport->pe;
+-	if (pe)
++	if (pe) {
++		nvmet_fc_tgtport_put(pe->tgtport);
+ 		pe->tgtport = NULL;
 +	}
-+}
+ 	tgtport->pe = NULL;
+ 	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+ }
+@@ -1327,6 +1332,9 @@ nvmet_fc_portentry_rebind_tgt(struct nvmet_fc_tgtport *tgtport)
+ 	list_for_each_entry(pe, &nvmet_fc_portentry_list, pe_list) {
+ 		if (tgtport->fc_target_port.node_name == pe->node_name &&
+ 		    tgtport->fc_target_port.port_name == pe->port_name) {
++			if (!nvmet_fc_tgtport_get(tgtport))
++				continue;
 +
- /**
-  * nvmet_fc_unregister_targetport - transport entry point called by an
-  *                              LLDD to deregister/remove a previously
-@@ -1619,13 +1657,7 @@ nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
+ 			WARN_ON(pe->tgtport);
+ 			tgtport->pe = pe;
+ 			pe->tgtport = tgtport;
+@@ -1664,7 +1672,6 @@ nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_fc_unregister_targetport);
  
- 	flush_workqueue(nvmet_wq);
- 
--	/*
--	 * should terminate LS's as well. However, LS's will be generated
--	 * at the tail end of association termination, so they likely don't
--	 * exist yet. And even if they did, it's worthwhile to just let
--	 * them finish and targetport ref counting will clean things up.
--	 */
 -
-+	nvmet_fc_free_pending_reqs(tgtport);
- 	nvmet_fc_tgtport_put(tgtport);
+ /* ********************** FC-NVME LS RCV Handling ************************* */
  
- 	return 0;
+ 
+@@ -2901,12 +2908,17 @@ nvmet_fc_add_port(struct nvmet_port *port)
+ 	list_for_each_entry(tgtport, &nvmet_fc_target_list, tgt_list) {
+ 		if ((tgtport->fc_target_port.node_name == traddr.nn) &&
+ 		    (tgtport->fc_target_port.port_name == traddr.pn)) {
++			if (!nvmet_fc_tgtport_get(tgtport))
++				continue;
++
+ 			/* a FC port can only be 1 nvmet port id */
+ 			if (!tgtport->pe) {
+ 				nvmet_fc_portentry_bind(tgtport, pe, port);
+ 				ret = 0;
+ 			} else
+ 				ret = -EALREADY;
++
++			nvmet_fc_tgtport_put(tgtport);
+ 			break;
+ 		}
+ 	}
+@@ -2922,11 +2934,21 @@ static void
+ nvmet_fc_remove_port(struct nvmet_port *port)
+ {
+ 	struct nvmet_fc_port_entry *pe = port->priv;
++	struct nvmet_fc_tgtport *tgtport = NULL;
++	unsigned long flags;
++
++	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
++	if (pe->tgtport && nvmet_fc_tgtport_get(pe->tgtport))
++		tgtport = pe->tgtport;
++	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+ 
+ 	nvmet_fc_portentry_unbind(pe);
+ 
+-	/* terminate any outstanding associations */
+-	__nvmet_fc_free_assocs(pe->tgtport);
++	if (tgtport) {
++		/* terminate any outstanding associations */
++		__nvmet_fc_free_assocs(tgtport);
++		nvmet_fc_tgtport_put(tgtport);
++	}
+ 
+ 	kfree(pe);
+ }
+@@ -2935,10 +2957,21 @@ static void
+ nvmet_fc_discovery_chg(struct nvmet_port *port)
+ {
+ 	struct nvmet_fc_port_entry *pe = port->priv;
+-	struct nvmet_fc_tgtport *tgtport = pe->tgtport;
++	struct nvmet_fc_tgtport *tgtport = NULL;
++	unsigned long flags;
++
++	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
++	if (pe->tgtport && nvmet_fc_tgtport_get(pe->tgtport))
++		tgtport = pe->tgtport;
++	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
++
++	if (!tgtport)
++		return;
+ 
+ 	if (tgtport && tgtport->ops->discovery_event)
+ 		tgtport->ops->discovery_event(&tgtport->fc_target_port);
++
++	nvmet_fc_tgtport_put(tgtport);
+ }
+ 
+ static ssize_t
 
 -- 
 2.48.1
