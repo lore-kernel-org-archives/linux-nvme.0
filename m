@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9ED9AC28B28
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9ED65C282EC
 	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:38:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,30 +12,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PTokjUOJvbrAsoWwumEr6T0cIjbHS8Tf+94u8tBaslQ=; b=BX5MtQrbV0UBywXAebknML3L4X
-	nCZQTbpzNLDkDxsqSeVTKMCDkFMNDAv3CUrXPvfTWSMydg3/KHDgbVYfIkuMwKtBz5K0BQhh/QhpZ
-	fdsyhIUkIXyUWx3IE/dwa2xe7LGBokOm066O1IZ424jzAEVTe+NxKzpYNRnwW0xFoPySP0Y/tye8j
-	DIKhpkIUpziGSXCCk59N37tMMdG8vYDC65i30OYOWXMYVYJCvLCboDTHwjrlj2W2+F2a8xn/uuUut
-	kSQblhuc25R/BWptgahLC6rzlIS+QPEWIrAxru+45JvyXiXyo39few1o30763p08Jz/5XpE9XJYVS
-	R/WC3SuQ==;
+	bh=3nG2FJARh40IC7xJNjabdTI0XDK84zDsACb5WKW5fL0=; b=LioADJGzuPRzZX3xJaOwPZ39el
+	EoqA92b33TQUeF5WetTMP8h/nOzM+997bo856KyWTXWY74QlBLCnNhWVpIFQaF4Io2f2Y67NvpKP3
+	JTihC7JkZupRZ9rjAaV3LFJvDs1ZJsDPqQx8uzBJoVMyBuOfatpONZXnjwdPUkVtCsno2JBCBkMIN
+	CPc2D4oJFE1TMQPoD9/K8bxq4zvaYUe7tA44QiOZ9iAcwN79raMz9yluCALiGvrGPvejE/sSEDhvB
+	hWfgocXc4OKDPcz3qSZaQd9kvAsrxVKBPMJISreiPAoJQKfOM/18ADOVWsGRjNYrlsBWywIZY5Tb4
+	uOZkM0hw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRWm-00000004xLQ-1DNx;
+	id 1tuRWm-00000004xLk-3jfM;
 	Tue, 18 Mar 2025 07:38:20 +0000
 Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRVW-00000004x1d-2zyN
+	id 1tuRVW-00000004x1q-3obD
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Mar 2025 07:37:04 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4ZH3Z23Tkkz4f3jtt
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:36:42 +0800 (CST)
+	Tue, 18 Mar 2025 07:37:05 +0000
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4ZH3Z31k9nz4f3jkr
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:36:43 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id BA61E1A1940
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:36:59 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 7F5041A1362
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:37:00 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.112.188])
-	by APP4 (Coremail) with SMTP id gCh0CgBXu1+PItlnS19YGw--.63204S5;
-	Tue, 18 Mar 2025 15:36:59 +0800 (CST)
+	by APP4 (Coremail) with SMTP id gCh0CgBXu1+PItlnS19YGw--.63204S6;
+	Tue, 18 Mar 2025 15:37:00 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-ext4@vger.kernel.org,
@@ -57,21 +57,21 @@ Cc: linux-xfs@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yukuai3@huawei.com,
 	yangerkun@huawei.com
-Subject: [PATCH blktests 1/3] scsi/010: add unmap write zeroes tests
-Date: Tue, 18 Mar 2025 15:28:33 +0800
-Message-ID: <20250318072835.3508696-2-yi.zhang@huaweicloud.com>
+Subject: [PATCH blktests 2/3] dm/003: add unmap write zeroes tests
+Date: Tue, 18 Mar 2025 15:28:34 +0800
+Message-ID: <20250318072835.3508696-3-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20250318072835.3508696-1-yi.zhang@huaweicloud.com>
 References: <20250318072835.3508696-1-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgBXu1+PItlnS19YGw--.63204S5
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFW5GrykJFy7XF48JF1DKFg_yoW8Krykp3
-	48K3ZYkr4Iqw17G3WS9F47Wr13GaykAr17ZayxW34jvrykZryakw1IgFyUJFZ3Jr93Ww4F
-	vFs5XFWFkr9rtrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: gCh0CgBXu1+PItlnS19YGw--.63204S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxZrWxZw1DKFW5JFyxJFyfCrg_yoW5Xw1fpa
+	47GF9Yyr47Wr12g3W3uF17WF1rC395ArW3Jay7Cry0krZrZ34aga4xKFy7Z34ftrZ5W3Z5
+	Aa13ta9Ykr1UtaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUm214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
 	Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
 	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
 	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
@@ -81,12 +81,12 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7KFW5GrykJFy7XF48JF1DKFg_yoW8Krykp3
 	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
 	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY
 	6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVF
-	xhVjvjDU0xZFpf9x0pRb4SwUUUUU=
+	AIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVF
+	xhVjvjDU0xZFpf9x0pRGg4-UUUUU=
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250318_003703_054242_0E1F0143 
-X-CRM114-Status: GOOD (  11.85  )
+X-CRM114-CacheID: sfid-20250318_003703_289141_4E1BEA8E 
+X-CRM114-Status: GOOD (  13.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,36 +103,61 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Test block device unmap write zeroes sysfs interface with various SCSI
-debug devices. The /sys/block/<disk>/queue/write_zeroes_unmap interface
-should return 1 if the SCSI device enable the WRITE SAME command with
-unmap functionality, and it should return 0 otherwise.
+Test block device unmap write zeroes sysfs interface with device-mapper
+stacked devices. The /sys/block/<disk>/queue/write_zeroes_unmap
+interface should return 1 if the underlying devices support the unmap
+write zeroes command, and it should return 0 otherwise.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- tests/scsi/010     | 56 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/scsi/010.out |  2 ++
- 2 files changed, 58 insertions(+)
- create mode 100755 tests/scsi/010
- create mode 100644 tests/scsi/010.out
+ common/rc        | 16 ++++++++++++++
+ tests/dm/003     | 57 ++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/dm/003.out |  2 ++
+ 3 files changed, 75 insertions(+)
+ create mode 100755 tests/dm/003
+ create mode 100644 tests/dm/003.out
 
-diff --git a/tests/scsi/010 b/tests/scsi/010
+diff --git a/common/rc b/common/rc
+index bc6c2e4..60c21f2 100644
+--- a/common/rc
++++ b/common/rc
+@@ -615,3 +615,19 @@ _io_uring_restore()
+ 		echo "$IO_URING_DISABLED" > /proc/sys/kernel/io_uring_disabled
+ 	fi
+ }
++
++# get real device path name by following link
++_real_dev()
++{
++	local dev=$1
++	if [ -b "$dev" ] && [ -L "$dev" ]; then
++		dev=`readlink -f "$dev"`
++	fi
++	echo $dev
++}
++
++# basename of a device
++_short_dev()
++{
++	echo `basename $(_real_dev $1)`
++}
+diff --git a/tests/dm/003 b/tests/dm/003
 new file mode 100755
-index 0000000..27a672c
+index 0000000..1013eb5
 --- /dev/null
-+++ b/tests/scsi/010
-@@ -0,0 +1,56 @@
++++ b/tests/dm/003
+@@ -0,0 +1,57 @@
 +#!/bin/bash
 +# SPDX-License-Identifier: GPL-3.0+
 +# Copyright (C) 2025 Huawei.
 +#
-+# Test block device unmap write zeroes sysfs interface with various scsi
-+# devices.
++# Test block device unmap write zeroes sysfs interface with device-mapper
++# stacked devices.
 +
-+. tests/scsi/rc
++. tests/dm/rc
 +. common/scsi_debug
 +
-+DESCRIPTION="test unmap write zeroes sysfs interface with scsi devices"
++DESCRIPTION="test unmap write zeroes sysfs interface with dm devices"
 +QUICK=1
 +
 +requires() {
@@ -143,48 +168,49 @@ index 0000000..27a672c
 +	_require_test_dev_sysfs queue/write_zeroes_unmap
 +}
 +
++setup_test_device() {
++	if ! _configure_scsi_debug "$@"; then
++		return 1
++	fi
++
++	local dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
++	local blk_sz="$(blockdev --getsz "$dev")"
++	dmsetup create test --table "0 $blk_sz linear $dev 0"
++}
++
++cleanup_test_device() {
++	dmsetup remove test
++	_exit_scsi_debug
++}
++
 +test() {
 +	echo "Running ${TEST_NAME}"
 +
 +	# disable WRITE SAME with unmap
-+	if ! _configure_scsi_debug lbprz=0; then
-+		return 1
-+	fi
-+	umap="$(cat "/sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap")"
++	setup_test_device lbprz=0
++	umap="$(cat "/sys/block/$(_short_dev /dev/mapper/test)/queue/write_zeroes_unmap")"
 +	if [[ $umap -ne 0 ]]; then
 +		echo "Test disable WRITE SAME with unmap failed."
 +	fi
-+	_exit_scsi_debug
++	cleanup_test_device
 +
-+	# enable WRITE SAME(16) with unmap
-+	if ! _configure_scsi_debug lbprz=1 lbpws=1; then
-+		return 1
-+	fi
-+	umap="$(cat "/sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap")"
++	# enable WRITE SAME with unmap
++	setup_test_device lbprz=1 lbpws=1
++	umap="$(cat "/sys/block/$(_short_dev /dev/mapper/test)/queue/write_zeroes_unmap")"
 +	if [[ $umap -ne 1 ]]; then
-+		echo "Test enable WRITE SAME(16) with unmap failed."
++		echo "Test enable WRITE SAME with unmap failed."
 +	fi
-+	_exit_scsi_debug
-+
-+	# enable WRITE SAME(10) with unmap
-+	if ! _configure_scsi_debug lbprz=1 lbpws10=1; then
-+		return 1
-+	fi
-+	umap="$(cat "/sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap")"
-+	if [[ $umap -ne 1 ]]; then
-+		echo "Test enable WRITE SAME(10) with unmap failed."
-+	fi
-+	_exit_scsi_debug
++	cleanup_test_device
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/scsi/010.out b/tests/scsi/010.out
+diff --git a/tests/dm/003.out b/tests/dm/003.out
 new file mode 100644
-index 0000000..6581d5e
+index 0000000..51a5405
 --- /dev/null
-+++ b/tests/scsi/010.out
++++ b/tests/dm/003.out
 @@ -0,0 +1,2 @@
-+Running scsi/010
++Running dm/003
 +Test complete
 -- 
 2.46.1
