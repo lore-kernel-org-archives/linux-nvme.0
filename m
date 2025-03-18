@@ -4,103 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECCFFC28B28
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 11:20:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA764C282EC
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 11:33:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MkpWcV8vjw1AxUR4xh5y235IjxQ4E0Apreu9leHckp4=; b=gtgcnuhoA4m/jQ0RsN/gNz34t1
-	9WzJahIohddSsg4NS997vsRXJGqA6UroDUr7SRcVvlbpQb11Y2Pu7Tp80hJB7tBaPDOoYbCVpDW7S
-	2yOpBoj3921glVZsAYnSvbqp/t0YhOPSNeng1EXUGTHkP0uy/z2rl+9Tj3vMJ/pwJJktgAMkiDJ9c
-	DSU8pyxVnC3L5zS0wORurVk8WgCQeMScuqAc3JJz8lCu+cyU9bx94372TTHwBq917zbVzeYm9qsfh
-	vBmgVnW1FscYNhwgTUUyJ3IXnniPx8VvVdGMjaw5IrwaDgTQPSf+NgDcJU9L1rG2aLZXH7V17NvIx
-	emrsgWrg==;
+	bh=gjNhfMgF5cB11e+1pTaUZPvaIvwkrpM75jYbR3au4EQ=; b=SHuQ18hdqgqpapLeTbVtag/kkS
+	tdYI7HEdlMyEYDg8xzX3X4n9Tox65k8wQBBoWIgs3szJ/qcCXFYHYqDukc+J0b+ZKr/tACE/6qVi6
+	IAHJU4n/LR+AN03vUUkLwgO3GECfzalaipScaKO5YclvUFoEkfjsHu6VtSvZoH2KRZF/30VXnkAPD
+	AlSh9SZJUXQxYhpzHPH7VJE22CB0oRw0wk4EWsdLAYVkjFLiHlOxw8UitvrtAdXstS1vpxaEKFoc6
+	wZDQHsXgBFhfRi5J+sIck6lts22QX9JM2dMij8JokI/aNtZa9AisVqZTC83V8vqM81XSAziHCFy+d
+	xIYyqVmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuUzS-00000005heZ-3rlt;
-	Tue, 18 Mar 2025 11:20:10 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1tuVCI-00000005jsd-00Cv;
+	Tue, 18 Mar 2025 11:33:26 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuUzP-00000005hd7-3mq9
+	id 1tuVCG-00000005jrp-1Euw
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Mar 2025 11:20:09 +0000
+	Tue, 18 Mar 2025 11:33:25 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2E78E1F770;
-	Tue, 18 Mar 2025 11:20:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8F33321D45;
+	Tue, 18 Mar 2025 11:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742296806; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1742297602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MkpWcV8vjw1AxUR4xh5y235IjxQ4E0Apreu9leHckp4=;
-	b=sOeD/N6Kz9hSpx20SOy5JjfJdm2/krmFkfDpsQsm9qdnJQB8voNOeXhBdu86l/Ud7DUu3X
-	3R+gDSdUlWi3eEoKWXj3RrwePsZc02FWhnmmv15MNWyoOliyxOjulc5ujKqjUNNF7WhI0p
-	AWXsGG/mQGJZhtlWzQBtRu5+kRtCTCY=
+	bh=gjNhfMgF5cB11e+1pTaUZPvaIvwkrpM75jYbR3au4EQ=;
+	b=XhZx3e3O2pLIIQx8g+cUMz6/kEc+p8ChY4CPX+ldvbByem2Kvc5jBtKLV1LRKL9MIWod69
+	pmwcR1SkfygTpzshgEOa426uOZkR+SQKaVm8flPXyodJxdnUyXvi7WRuNT7yINAYCI52lD
+	vEKXKRYVIWkukmhVXsGM2gmtfYYmpgk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742296806;
+	s=susede2_ed25519; t=1742297602;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MkpWcV8vjw1AxUR4xh5y235IjxQ4E0Apreu9leHckp4=;
-	b=5mt6eYlrmlShuWhqr9+sGQwa0BA4jJVWDuMSYjDKDkFhHs0nwPL70JAXIQJNUxn8NcI7KU
-	oOMKkYzneNr2J3AQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="sOeD/N6K";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5mt6eYlr
+	bh=gjNhfMgF5cB11e+1pTaUZPvaIvwkrpM75jYbR3au4EQ=;
+	b=0zPd2rH4KkQm9rljCX+os8+YVNdD7D0xaBTznwtzgyKJxcDyy5dSy5H1VqRkFq9Ab9ojzk
+	XxrFqyNYXhxVd5CA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XhZx3e3O;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0zPd2rH4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742296806; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1742297602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MkpWcV8vjw1AxUR4xh5y235IjxQ4E0Apreu9leHckp4=;
-	b=sOeD/N6Kz9hSpx20SOy5JjfJdm2/krmFkfDpsQsm9qdnJQB8voNOeXhBdu86l/Ud7DUu3X
-	3R+gDSdUlWi3eEoKWXj3RrwePsZc02FWhnmmv15MNWyoOliyxOjulc5ujKqjUNNF7WhI0p
-	AWXsGG/mQGJZhtlWzQBtRu5+kRtCTCY=
+	bh=gjNhfMgF5cB11e+1pTaUZPvaIvwkrpM75jYbR3au4EQ=;
+	b=XhZx3e3O2pLIIQx8g+cUMz6/kEc+p8ChY4CPX+ldvbByem2Kvc5jBtKLV1LRKL9MIWod69
+	pmwcR1SkfygTpzshgEOa426uOZkR+SQKaVm8flPXyodJxdnUyXvi7WRuNT7yINAYCI52lD
+	vEKXKRYVIWkukmhVXsGM2gmtfYYmpgk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742296806;
+	s=susede2_ed25519; t=1742297602;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MkpWcV8vjw1AxUR4xh5y235IjxQ4E0Apreu9leHckp4=;
-	b=5mt6eYlrmlShuWhqr9+sGQwa0BA4jJVWDuMSYjDKDkFhHs0nwPL70JAXIQJNUxn8NcI7KU
-	oOMKkYzneNr2J3AQ==
+	bh=gjNhfMgF5cB11e+1pTaUZPvaIvwkrpM75jYbR3au4EQ=;
+	b=0zPd2rH4KkQm9rljCX+os8+YVNdD7D0xaBTznwtzgyKJxcDyy5dSy5H1VqRkFq9Ab9ojzk
+	XxrFqyNYXhxVd5CA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 16823139D2;
-	Tue, 18 Mar 2025 11:20:06 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 75F60139D2;
+	Tue, 18 Mar 2025 11:33:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gpUaBeZW2WdsSAAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 18 Mar 2025 11:20:06 +0000
-Message-ID: <7c3f8b96-2629-4bac-b089-96437355ac91@suse.de>
-Date: Tue, 18 Mar 2025 12:20:05 +0100
+	id oHleHAJa2WemTAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 18 Mar 2025 11:33:22 +0000
+Message-ID: <e4d7f84a-dd29-4b7a-a831-a8555125bf43@suse.de>
+Date: Tue, 18 Mar 2025 12:33:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 17/18] nvmet-fc: put ref when assoc->del_work is
- already scheduled
+Subject: Re: [PATCH v3 18/18] nvme-fc: do not reference lsrsp after failure
 To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  Chaitanya Kulkarni <kch@nvidia.com>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org>
- <20250318-nvmet-fcloop-v3-17-05fec0fc02f6@kernel.org>
+ <20250318-nvmet-fcloop-v3-18-05fec0fc02f6@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250318-nvmet-fcloop-v3-17-05fec0fc02f6@kernel.org>
+In-Reply-To: <20250318-nvmet-fcloop-v3-18-05fec0fc02f6@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 2E78E1F770
+X-Rspamd-Queue-Id: 8F33321D45
+X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -108,29 +108,28 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250318_042008_087728_B9CB57B8 
-X-CRM114-Status: GOOD (  15.22  )
+X-CRM114-CacheID: sfid-20250318_043324_484403_CE62BF72 
+X-CRM114-Status: GOOD (  20.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,31 +145,79 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 3/18/25 11:40, Daniel Wagner wrote:
-> Do not leak the tgtport reference when the work is already scheduled.
+> The lsrsp object is maintained by the LLDD. The lifetime of the lsrsp
+> object is implicit. Because there is no explicit cleanup/free call into
+> the LLDD, it is not safe to assume after xml_rsp_fails, that the lsrsp
+> is still valid. The LLDD could have freed the object already.
+> 
+> With the recent changes how fcloop tracks the resources, this is the
+> case. Thus don't access lsrsp after xml_rsp_fails.
 > 
 > Signed-off-by: Daniel Wagner <wagi@kernel.org>
 > ---
->   drivers/nvme/target/fc.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/fc.c | 13 ++++++++++---
+>   1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 649afce908bbade0a843efc4b8b76105c164b035..e027986e35098acbe5f97dcbcc845b9d46b88923 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -1087,7 +1087,8 @@ static void
->   nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
->   {
->   	nvmet_fc_tgtport_get(assoc->tgtport);
-> -	queue_work(nvmet_wq, &assoc->del_work);
-> +	if (!queue_work(nvmet_wq, &assoc->del_work))
-> +		nvmet_fc_tgtport_put(assoc->tgtport);
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index b9929a5a7f4e3f3a03953379aceb90f0c1a0b561..2c32ba9ee688d7a683bbbf8fc57a5f9b32b2ab8d 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -1410,9 +1410,8 @@ nvme_fc_xmt_disconnect_assoc(struct nvme_fc_ctrl *ctrl)
 >   }
 >   
->   static bool
+>   static void
+> -nvme_fc_xmt_ls_rsp_done(struct nvmefc_ls_rsp *lsrsp)
+> +nvme_fc_xmt_ls_rsp_free(struct nvmefc_ls_rcv_op *lsop)
+>   {
+> -	struct nvmefc_ls_rcv_op *lsop = lsrsp->nvme_fc_private;
+>   	struct nvme_fc_rport *rport = lsop->rport;
+>   	struct nvme_fc_lport *lport = rport->lport;
+>   	unsigned long flags;
+> @@ -1433,6 +1432,14 @@ nvme_fc_xmt_ls_rsp_done(struct nvmefc_ls_rsp *lsrsp)
+>   	nvme_fc_rport_put(rport);
+>   }
+>   
+> +static void
+> +nvme_fc_xmt_ls_rsp_done(struct nvmefc_ls_rsp *lsrsp)
+> +{
+> +	struct nvmefc_ls_rcv_op *lsop = lsrsp->nvme_fc_private;
+> +
+> +	nvme_fc_xmt_ls_rsp_free(lsop);
+> +}
+> +
+>   static void
+>   nvme_fc_xmt_ls_rsp(struct nvmefc_ls_rcv_op *lsop)
+>   {
+> @@ -1450,7 +1457,7 @@ nvme_fc_xmt_ls_rsp(struct nvmefc_ls_rcv_op *lsop)
+>   		dev_warn(lport->dev,
+>   			"LLDD rejected LS RSP xmt: LS %d status %d\n",
+>   			w0->ls_cmd, ret);
+> -		nvme_fc_xmt_ls_rsp_done(lsop->lsrsp);
+> +		nvme_fc_xmt_ls_rsp_free(lsop);
+>   		return;
+>   	}
+>   }
 > 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Hmm. That is a weird change. 'lsop->lsrsp' clearly _was_ valid just before:
 
-cheers,
+         ret = lport->ops->xmt_ls_rsp(&lport->localport, &rport->remoteport,
+                                      lsop->lsrsp);
+         if (ret) {
+                 dev_warn(lport->dev,
+                         "LLDD rejected LS RSP xmt: LS %d status %d\n",
+                         w0->ls_cmd, ret);
+                 nvme_fc_xmt_ls_rsp_done(lsop->lsrsp);
+                 return;
+         }
+
+so ->xmt_ls_rsp() would have invalidated one of the arguments.
+Plus 'nvme_fc_xmt_ls_rsp_done()' is now a wrapper around
+'nvme_fc_xmt_ls_rsp_free()'.
+So why not go the full length and kill nvme_fc_xmt_ls_rsp_done()
+completely?
+Hmm?
+
+Cheers,
 
 Hannes
 -- 
