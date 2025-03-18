@@ -4,138 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67977C282EC
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:07:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FB68C28B28
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:32:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4BcyKe56ztD+lnm938/6LqmBi37tVsoiHEhtNJhj4sA=; b=HAW2k7m6hGrcKcq3lbHU82CDjX
-	Uyx75JilhwqiMPJ+91a8E8Zwny7P1xTqwg3IBvGb9XXqm0WXF1CMiLaa73246HP0RIU25MxS1jBkF
-	MxOWNPBnD9Fg6FhRhX0eCHNgTsdaiKUB0w0BFyyoRrnHDGB0OAJeHlSOUjDSWSSUVw4LSl64lsfSz
-	kL2QOVrXYeddtSjOy69o5G6HLDJBOC7TURNAU2SUUmAbS+aafIuFPqC9cuhJ8a4ZNi94w2whD6Emb
-	HUoGGuqKiDOtfc+HXC+Xoz6GONqjtnK8zkK5u92TgFCeJ9nI+M0VwMMOCs24zQFO2V0m1WuzW7kZ8
-	mBvmq5Wg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=u0HTO+28K6r3O3ToySpj2e1ov83izMeIf74HPHNW/LQ=; b=VT43aYzV/oQnt4gcqerKaxvkhj
+	DxVXGcAX9kZWn1J9mfAgxUUZBeJXt7M9yDbnSRwh+4krw6j71GYM/QftXJatueWtk+3dmRZ76UuTy
+	5/ql/rcVYFdnT6Z3q0RmwR5yM7KjEaWYh4VJg2MzeVscwAiaHCwKMepoAqYv/zfQY2avOhtKVm2iw
+	t1tlZu1tmNaphBecmI7V5XdfdaTTb+FtouWNOCG2SA/+ZvnQt4mu4RlbT3VyvYL4bfKu5tY0bvyDj
+	6WkfyxfujCcA20omBPzOhFQ+9PGiNLXtfXb+6E/yavpqD2uUPWq9zxBwx07Xe42qWIo0xyh6RxZEt
+	ekXycfAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuR2W-00000004ses-286H;
-	Tue, 18 Mar 2025 07:07:04 +0000
-Received: from [203.254.224.34] (helo=mailout4.samsung.com)
+	id 1tuRQd-00000004vNC-3RUH;
+	Tue, 18 Mar 2025 07:31:59 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuR2S-00000004scM-36bT
+	id 1tuRQa-00000004vKQ-1FBG
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Mar 2025 07:07:03 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250318070653epoutp0425d2911ef553cdc0a8d81a8e776d20af~t0_WCtYEX0457804578epoutp04c
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 07:06:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250318070653epoutp0425d2911ef553cdc0a8d81a8e776d20af~t0_WCtYEX0457804578epoutp04c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1742281613;
-	bh=4BcyKe56ztD+lnm938/6LqmBi37tVsoiHEhtNJhj4sA=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=NDVZQYJK5vFZn8vMYAWJyNm613DPQhfMBWmKdxUgI0vmEaF3GW/vk+qxdv1xuoYlm
-	 MbYO+X/wOfnlXfpuu0TH2ohk1a3dweYP7AJSjtLGomUPdvcIJBniAFW6cXQIHs55m0
-	 v8253dvfJZWEHAtNr9vZZhBIecVRqDPA0z/V9ugE=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20250318070653epcas5p3beda02f314d748f29f9f6fdbb6d76eff~t0_VkBnTa1730717307epcas5p34;
-	Tue, 18 Mar 2025 07:06:53 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4ZH2vW4CVYz4x9QF; Tue, 18 Mar
-	2025 07:06:47 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	6B.92.19933.78B19D76; Tue, 18 Mar 2025 16:06:47 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250318070647epcas5p2f3e162aa3a172113cbda22326e7bd34e~t0_QALYS90333203332epcas5p2D;
-	Tue, 18 Mar 2025 07:06:47 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250318070647epsmtrp2a497a90be0e121f52a9bd2bb8de63412~t0_P-YHaA2960529605epsmtrp2i;
-	Tue, 18 Mar 2025 07:06:47 +0000 (GMT)
-X-AuditID: b6c32a4a-c1fda70000004ddd-d5-67d91b8716ec
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	EB.72.23488.68B19D76; Tue, 18 Mar 2025 16:06:46 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250318070645epsmtip28678c6c9740b3ed29fd27514977523ad~t0_OdCvfv0823908239epsmtip2U;
-	Tue, 18 Mar 2025 07:06:45 +0000 (GMT)
-Message-ID: <edde46e9-403b-4ddf-bd73-abe95446590c@samsung.com>
-Date: Tue, 18 Mar 2025 12:36:44 +0530
+	Tue, 18 Mar 2025 07:31:58 +0000
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4ZH3Rk6Tgdz4f3m6g
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:31:14 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 039E31A0AD0
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:31:39 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.112.188])
+	by APP4 (Coremail) with SMTP id gCh0CgCnC2BTIdln3gNYGw--.59040S4;
+	Tue, 18 Mar 2025 15:31:38 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hch@lst.de,
+	tytso@mit.edu,
+	djwong@kernel.org,
+	john.g.garry@oracle.com,
+	bmarzins@redhat.com,
+	chaitanyak@nvidia.com,
+	shinichiro.kawasaki@wdc.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	chengzhihao1@huawei.com,
+	yukuai3@huawei.com,
+	yangerkun@huawei.com
+Subject: [PATCH xfsprogs] xfs_io: add FALLOC_FL_WRITE_ZEROES support
+Date: Tue, 18 Mar 2025 15:23:18 +0800
+Message-ID: <20250318072318.3502037-1-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.46.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] File system checksum offload
-To: "hch@infradead.org" <hch@infradead.org>
-Cc: Qu Wenruo <wqu@suse.com>, Johannes Thumshirn
-	<Johannes.Thumshirn@wdc.com>, Theodore Ts'o <tytso@mit.edu>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <Z6GivxxFWFZhN7jD@infradead.org>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCJsWRmVeSWpSXmKPExsWy7bCmpm679M10g55WGYvTExYxWfztusdk
-	8eehocXeW9oWlx6vYLfYs/cki8X8ZU/ZLfa93sts0drzk91izbqP7A5cHptXaHlsXlLvMfnG
-	ckaPpjNHmT3Wb7nK4jFh80ZWj8+b5DzaD3QzBXBEZdtkpCampBYppOYl56dk5qXbKnkHxzvH
-	m5oZGOoaWlqYKynkJeam2iq5+AToumXmAB2opFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFV
-	Si1IySkwKdArTswtLs1L18tLLbEyNDAwMgUqTMjO6Gn7zVTwV7ri+OUX7A2MV0W7GDk5JARM
-	JBo6brB2MXJxCAnsZpT4cncfM4TziVFi+bSXUJlvjBJtk/YydjFygLVMeagBEd/LKDH7wzkm
-	COcto8TjvmcsIHN5Bewk/i/7wAhiswioSmxvXQUVF5Q4OfMJmC0qIC9x/9YMdhBbWMBGonvX
-	ITaQBSIC2hKLH9eBzGQW+MAs0fZsMxNIDbOAuMStJ/OZQGrYBDQlLkwuBQlzCuhK7P/9jQWi
-	RF5i+9s5YB9ICGzhkHjd+5EF4k8XiQ13LrFC2MISr45vYYewpSQ+v9vLBmFnSzx49ACqvkZi
-	x+Y+qHp7iYY/oDDiAFqgKbF+lz7ELj6J3t9PmCBhwivR0SYEUa0ocW/SU6hOcYmHM5ZA2R4S
-	l1ZthgbVF2aJh3va2CYwKsxCCpVZSL6cheSdWQibFzCyrGKUTC0ozk1PLTYtMMpLLYfHd3J+
-	7iZGcPLV8trB+PDBB71DjEwcjIcYJTiYlUR43Z9cTxfiTUmsrEotyo8vKs1JLT7EaAqMnonM
-	UqLJ+cD0n1cSb2hiaWBiZmZmYmlsZqgkztu8syVdSCA9sSQ1OzW1ILUIpo+Jg1OqgWmV4JeV
-	KTMjWMQMWGt/W64Vk5RRnr7gsp3JLc27RTVzBaZcnPHjxYS5ax6wFWgdOS7pWpEx9xB78MMf
-	kxSNLqh52nlwFJmXNb59/N1k1gKHKxs9c4V3LzZlr9z/fF1XcCezunKv8yyPX3zi/+aICN0r
-	1phVE/vP3apgTd3GUuXADJGwmNf5R6x4X8oIXJ94YOfjZonwzUKK5d6R1Rt1mDcv3hgTsz7I
-	8/l/O6nFSw/c54mf8sHMKkfi9gMmFlP7yco75Oc/3nvQre6lc6ivTX/R369dBfLPQxk27r71
-	88y2yYfF/Kd5q/83VP92jsXGZW+Z8E3jwFiJzBWvg0926F0M7OBLcZ/rNWH1l+iO20osxRmJ
-	hlrMRcWJADEFMl1HBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsWy7bCSvG6b9M10g/3t1hanJyxisvjbdY/J
-	4s9DQ4u9t7QtLj1ewW6xZ+9JFov5y56yW+x7vZfZorXnJ7vFmnUf2R24PDav0PLYvKTeY/KN
-	5YweTWeOMnus33KVxWPC5o2sHp83yXm0H+hmCuCI4rJJSc3JLEst0rdL4MroafvNVPBXuuL4
-	5RfsDYxXRbsYOTgkBEwkpjzU6GLk4hAS2M0osezIOeYuRk6guLhE87Uf7BC2sMTKf8/ZIYpe
-	M0r0LP3MBpLgFbCT+L/sAyOIzSKgKrG9dRULRFxQ4uTMJ2C2qIC8xP1bM8AGCQvYSHTvOsQG
-	slhEQFti8eM6kJnMAh+YJZZufcEMseALs8ScmefAhjIDXXHryXwmkAY2AU2JC5NLQcKcAroS
-	+39/Y4EoMZPo2toFVS4vsf3tHOYJjEKzkJwxC8mkWUhaZiFpWcDIsopRMrWgODc9N9mwwDAv
-	tVyvODG3uDQvXS85P3cTIzjStDR2ML771qR/iJGJg/EQowQHs5IIr/uT6+lCvCmJlVWpRfnx
-	RaU5qcWHGKU5WJTEeVcaRqQLCaQnlqRmp6YWpBbBZJk4OKUamHT9LD177vsv3/vcSKtmAfO3
-	x/vnfH1nse8MT75kmJK6tJCIt0qFKoO4fso5zumKmd+Zcj/1abr/vPYmInSpfstqPsk+77XL
-	VpXmydb6PwpfZ96xwt7yUNqHXS6xbH/XvcqaUq+dFVjD1CJ6kuPR+wWzHOYZc4TEKllZRnys
-	OTvTseRaVuXsHX3JfLZH2wQe81X7hZxawPwod5KX0c+A5eWNnC/Zt3ycyXR57b3jZz9cubHc
-	wD+dNe6PWqa9B9/5q/vWnnxQuqpv2xSbm/PC2lj6piyK6BefK/7+7R9ZvUitq/XGH4+82DZX
-	VW/GlQJd4bVqxVttdf681bCZvEf0Sh3LtCdpr3aVvrp9TFLCRYmlOCPRUIu5qDgRAE9nlqMj
-	AwAA
-X-CMS-MailID: 20250318070647epcas5p2f3e162aa3a172113cbda22326e7bd34e
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824
-References: <CGME20250130092400epcas5p1a3a9d899583e9502ed45fe500ae8a824@epcas5p1.samsung.com>
-	<20250130091545.66573-1-joshi.k@samsung.com>
-	<20250130142857.GB401886@mit.edu>
-	<97f402bc-4029-48d4-bd03-80af5b799d04@samsung.com>
-	<b8790a76-fd4e-49b6-bc08-44e5c3bf348a@wdc.com>
-	<Z6B2oq_aAaeL9rBE@infradead.org>
-	<bb516f19-a6b3-4c6b-89f9-928d46b66e2a@wdc.com>
-	<eaec853d-eda6-4ee9-abb6-e2fa32f54f5c@suse.com>
-	<cfe11af2-44c5-43a7-9114-72471a615de7@samsung.com>
-	<Z6GivxxFWFZhN7jD@infradead.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgCnC2BTIdln3gNYGw--.59040S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw17Zr4DCr4kGrW5uw1kuFg_yoW5Jr18p3
+	srXF15Ka45Xry7WFWfGws7Wrn8Xw4fKF1fJr4xWw1jv3W5AFyxKF1DG3ZYv3s7WFW8Ga18
+	JFnIgFy5G3WSyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjTRRBT5DUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250318_000701_420506_278778D5 
-X-CRM114-Status: GOOD (  28.50  )
+X-CRM114-CacheID: sfid-20250318_003156_634874_2366B790 
+X-CRM114-Status: GOOD (  11.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,80 +98,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/4/2025 10:46 AM, hch@infradead.org wrote:
-> On Mon, Feb 03, 2025 at 06:57:13PM +0530, Kanchan Joshi wrote:
->> But, patches do exactly that i.e., hardware cusm support. And posted
->> numbers [*] are also when hardware is checksumming the data blocks.
-> 
-> I'm still not sure why you think the series implements hardware
-> csum support.
+From: Zhang Yi <yi.zhang@huawei.com>
 
-Series ensure that (a) that host does not compute the csum, and (b) 
-device computes.
-Not sure if you were doubting the HW instead, but I checked that part 
-with user-space nvme-passthrough program which
-- [During write] does not send checksum and sets PRACT as 1.
-- [During read] sends metadata buffer and keeps PRACT as 0.
-It reads the correct data checksum which host never computed (but device 
-did at the time of write).
+The Linux kernel is planning to support FALLOC_FL_WRITE_ZEROES in
+fallocate(2). Add FALLOC_FL_ZERO_RANGE support to fallocate utility by
+introducing a new 'fwzero' command to xfs_io.
 
-> The buf mode is just a duplicate implementation of the block layer
-> automatic PI.  The no buf means PRACT which let's the device auto
-> generate and strip PI.
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+---
+ io/prealloc.c     | 36 ++++++++++++++++++++++++++++++++++++
+ man/man8/xfs_io.8 |  5 +++++
+ 2 files changed, 41 insertions(+)
 
-Regardless of buf or no buf, it applies PRACT and only device computes 
-the checksum. The two modes are taking shape only because of the way 
-PRACT works for two different device configurations
-
-#1: when meta-size == pi-size, we don't need to send meta-buffer.
-#2: when meta-size > pi-size, we need to.
-
-Automatic PI helps for #2 as split handling of meta-buffer comes free if 
-I/O is split. But overall, this is also about abstracting PRACT details 
-so that each filesystem does not have to bother.
-And changes to keep this abstracted in Auto-PI/NVMe are not much:
-
-  block/bio-integrity.c     | 42 ++++++++++++++++++++++++++++++++++++++-
-  block/t10-pi.c            |  7 +++++++
-  drivers/nvme/host/core.c  | 24 ++++++++++++++++++++++
-  drivers/nvme/host/nvme.h  |  1 +
-
->  Especially the latter one (which is the
-> one that was benchmarked) literally provides no additional protection
-> over what the device would already do.  It's the "trust me, bro" of
-> data integrity :)  Which to be fair will work pretty well as devices
-> that support PI are the creme de la creme of storage devices and
-> will have very good internal data protection internally.  But the
-> point of data checksums is to not trust the storage device and
-> not trust layers between the checksum generation and the storage
-> device.
-
-Right, I'm not saying that protection is getting better. Just that any 
-offload is about trusting someone else with the job. We have other 
-instances like atomic-writes, copy, write-zeroes, write-same etc.
-
-> IFF using PRACT is an acceptable level of protection just running
-> NODATASUM and disabling PI generation/verification in the block
-> layer using the current sysfs attributes (or an in-kernel interface
-> for that) to force the driver to set PRACT will do exactly the same
-> thing.
-
-I had considered but that can't work because:
-
-- the sysfs attributes operate at block-device level for all read or all 
-write operations. That's not flexible for policies such "do something 
-for some writes/reads but not for others" which can translate to "do 
-checksum offload for FS data, but keep things as is for FS meta" or 
-other combinations.
-
-- If the I/O goes down to driver with , driver will start failing 
-(rather than setting PRACT) if the configuration is "meta-size > 
-pi-size". This part in nvme_setup_rw:
-
-                 if (!blk_integrity_rq(req)) {
-                         if (WARN_ON_ONCE(!nvme_ns_has_pi(ns->head)))
-                                 return BLK_STS_NOTSUPP;
-                         control |= NVME_RW_PRINFO_PRACT;
-                 }
+diff --git a/io/prealloc.c b/io/prealloc.c
+index 8e968c9f..9d126229 100644
+--- a/io/prealloc.c
++++ b/io/prealloc.c
+@@ -30,6 +30,10 @@
+ #define FALLOC_FL_UNSHARE_RANGE 0x40
+ #endif
+ 
++#ifndef FALLOC_FL_WRITE_ZEROES
++#define FALLOC_FL_WRITE_ZEROES 0x80
++#endif
++
+ static cmdinfo_t allocsp_cmd;
+ static cmdinfo_t freesp_cmd;
+ static cmdinfo_t resvsp_cmd;
+@@ -41,6 +45,7 @@ static cmdinfo_t fcollapse_cmd;
+ static cmdinfo_t finsert_cmd;
+ static cmdinfo_t fzero_cmd;
+ static cmdinfo_t funshare_cmd;
++static cmdinfo_t fwzero_cmd;
+ 
+ static int
+ offset_length(
+@@ -377,6 +382,27 @@ funshare_f(
+ 	return 0;
+ }
+ 
++static int
++fwzero_f(
++	int		argc,
++	char		**argv)
++{
++	xfs_flock64_t	segment;
++	int		mode = FALLOC_FL_WRITE_ZEROES;
++
++	if (!offset_length(argv[1], argv[2], &segment)) {
++		exitcode = 1;
++		return 0;
++	}
++
++	if (fallocate(file->fd, mode, segment.l_start, segment.l_len)) {
++		perror("fallocate");
++		exitcode = 1;
++		return 0;
++	}
++	return 0;
++}
++
+ void
+ prealloc_init(void)
+ {
+@@ -489,4 +515,14 @@ prealloc_init(void)
+ 	funshare_cmd.oneline =
+ 	_("unshares shared blocks within the range");
+ 	add_command(&funshare_cmd);
++
++	fwzero_cmd.name = "fwzero";
++	fwzero_cmd.cfunc = fwzero_f;
++	fwzero_cmd.argmin = 2;
++	fwzero_cmd.argmax = 2;
++	fwzero_cmd.flags = CMD_NOMAP_OK | CMD_FOREIGN_OK;
++	fwzero_cmd.args = _("off len");
++	fwzero_cmd.oneline =
++	_("zeroes space and eliminates holes by allocating and writing zeroes");
++	add_command(&fwzero_cmd);
+ }
+diff --git a/man/man8/xfs_io.8 b/man/man8/xfs_io.8
+index 59d5ddc5..718f018c 100644
+--- a/man/man8/xfs_io.8
++++ b/man/man8/xfs_io.8
+@@ -538,6 +538,11 @@ With the
+ .B -k
+ option, use the FALLOC_FL_KEEP_SIZE flag as well.
+ .TP
++.BI fwzero " offset length"
++Call fallocate with FALLOC_FL_WRITE_ZEROES flag as described in the
++.BR fallocate (2)
++manual page to allocate and zero blocks within the range by writing zeroes.
++.TP
+ .BI zero " offset length"
+ Call xfsctl with
+ .B XFS_IOC_ZERO_RANGE
+-- 
+2.46.1
 
 
