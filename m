@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5C0DC282EC
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAB0AC35FF8
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=9HC3CpfRbsuAKP2zEhzYPxlQ9tuZ+ciN/KKqV5RhKs0=; b=h5ElRGZ6itoLZEhrlCJyP20s0V
-	9/qwzHqUR9UNyMni/rR7sC+DUZmKNQE4e3H0tDrC6clhdOZlfXSpP98gPyMpMbcrUbfn1MTvOrinR
-	QQ2ZVtvdOZ1iYfUCPf2102LC+8UCmrB9sKdP0i57bmjC+zWgOMb435t9VF8kceH6fJ+LGn4pM/Qbu
-	cUkxAV+kf+SDpL8n5UyJPuV8grXqO6kwbqNuySfXRupHCDtFgJHShcvMJv1k23K9WQqrWoTxGywLd
-	hHhWoAOiXQ6iISZcTT2GGPZJsHyAn3r4x6pfUBEMrl7qyHRNeHTxqwMA08t1B1wg7MqzOl7u7D5/8
-	UuF3bLUQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6AkxoZFZqnLb64nzMh6j57T2U85QpNY+vLKEHEGz59E=; b=gaX/dm+ytEPz7yfeY9Kw1rvIYs
+	f+pbA3BYP7k3BKoCmonZO+2gn1vA9dyfjZjmSFLekeazkx1fxIncimp9SaHa/uuUkVU01mCVxBU+C
+	QRQurL14VkqyTlhI6phYGCbBj4xFf6Or2AgFVGwzdnKOV06mvucl/x16PUyl0paiRarhEfNgGlkNI
+	EXxx8oa4lihabypxIKnBwHBuVRHgw2R9XkTeHgaV8s63YMea1NkqQMUmDGFibj0SDrWe8qtDHbMbq
+	rPScvRugdSrPZl0FpRlRyRhZOVYeeVb9t78fDdEMrkbEIPITi7WCyCVDxHIhamDCGuphJhw61gXPA
+	aSywk5Bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRcX-00000004zC7-32wq;
-	Tue, 18 Mar 2025 07:44:17 +0000
+	id 1tuRca-00000004zEY-0xd6;
+	Tue, 18 Mar 2025 07:44:20 +0000
 Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRcT-00000004z7M-1eVy
+	id 1tuRcU-00000004z87-0XrC
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Mar 2025 07:44:16 +0000
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4ZH3kB5Trcz4f3kFJ
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:43:46 +0800 (CST)
+	Tue, 18 Mar 2025 07:44:17 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4ZH3kD66yxz4f3khR
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:43:48 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 60EEC1A0AD9
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:44:09 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 7A7AE1A058E
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:44:11 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.112.188])
-	by APP4 (Coremail) with SMTP id gCh0CgCH6189JNlnEt1YGw--.55732S4;
-	Tue, 18 Mar 2025 15:44:07 +0800 (CST)
+	by APP4 (Coremail) with SMTP id gCh0CgCH6189JNlnEt1YGw--.55732S7;
+	Tue, 18 Mar 2025 15:44:11 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-ext4@vger.kernel.org,
@@ -57,33 +57,37 @@ Cc: linux-xfs@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yukuai3@huawei.com,
 	yangerkun@huawei.com
-Subject: [RFC PATCH -next v3 00/10] fallocate: introduce FALLOC_FL_WRITE_ZEROES flag
-Date: Tue, 18 Mar 2025 15:35:35 +0800
-Message-ID: <20250318073545.3518707-1-yi.zhang@huaweicloud.com>
+Subject: [RFC PATCH -next v3 03/10] nvme-multipath: add BLK_FEAT_WRITE_ZEROES_UNMAP support
+Date: Tue, 18 Mar 2025 15:35:38 +0800
+Message-ID: <20250318073545.3518707-4-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.46.1
+In-Reply-To: <20250318073545.3518707-1-yi.zhang@huaweicloud.com>
+References: <20250318073545.3518707-1-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCH6189JNlnEt1YGw--.55732S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxKFy3AryrZF43Zr4UAFW5KFg_yoW3tryfpa
-	y8XryYkryDKryxC3s3ua1I9ryrZws5ArW3Gw4xK34UuFZ8ZF1xKFs2ga4Yqa9rZFyxW3WD
-	XFsF9r9ru3W7A3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9I14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr
-	1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j
-	6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJb
-	IYCTnIWIevJa73UjIFyTuYvjTRMv31DUUUU
+X-CM-TRANSID: gCh0CgCH6189JNlnEt1YGw--.55732S7
+X-Coremail-Antispam: 1UD129KBjvdXoWrKFy5Kr4Uuw4Uur4ktrW3GFg_yoWDArcEv3
+	W5Xr47ZFs2kF1vvrn5ur13CryvkrnxZr1xu3WSgry3Jry8Xr13Aas2vrnxtw1Yk3WY9rs2
+	9w18XF15GrWUtjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbv8FF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
+	0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+	wVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
+	8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+	vE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
+	v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+	6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+	AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE
+	2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2
+	KfnxnUUI43ZEXa7sRR0eH3UUUUU==
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250318_004413_830463_A1FA9753 
-X-CRM114-Status: GOOD (  24.84  )
+X-CRM114-CacheID: sfid-20250318_004414_360541_E6DCC8ED 
+X-CRM114-Status: UNSURE (   9.01  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,193 +104,29 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Changes since RFC v2:
- - Rebase codes on next-20250314.
- - Add support for nvme multipath.
- - Add support for NVMeT with block device backing.
- - Clear FALLOC_FL_WRITE_ZEROES if dm clear
-   limits->max_write_zeroes_sectors.
- - Complement the counterpart userspace tools(util-linux and xfs_io)
-   and tests(blktests and xfstests), please see below for details.
-Changes since RFC v1:
- - Switch to add a new write zeroes operation, FALLOC_FL_WRITE_ZEROES,
-   in fallocate, instead of just adding a supported flag to
-   FALLOC_FL_ZERO_RANGE.
- - Introduce a new flag BLK_FEAT_WRITE_ZEROES_UNMAP to the block
-   device's queue limit features, and implement it on SCSI sd driver,
-   NVMe SSD driver and dm driver.
- - Implement FALLOC_FL_WRITE_ZEROES on both the ext4 filesystem and
-   block device (bdev).
+Set the BLK_FEAT_WRITE_ZEROES_UNMAP feature while creating multipath
+stacking queue limits by default. This feature shall be disabled if any
+attached namespace does not support it.
 
-RFC v2: https://lore.kernel.org/linux-fsdevel/20250115114637.2705887-1-yi.zhang@huaweicloud.com/
-RFC v1: https://lore.kernel.org/linux-fsdevel/20241228014522.2395187-1-yi.zhang@huaweicloud.com/
-
-The counterpart userspace tools changes and tests are here:
- - util-linux: https://lore.kernel.org/linux-fsdevel/20250318073218.3513262-1-yi.zhang@huaweicloud.com/ 
- - xfsprogs: https://lore.kernel.org/linux-fsdevel/20250318072318.3502037-1-yi.zhang@huaweicloud.com/
- - xfstests: https://lore.kernel.org/linux-fsdevel/20250318072615.3505873-1-yi.zhang@huaweicloud.com/
- - blktests: https://lore.kernel.org/linux-fsdevel/20250318072835.3508696-1-yi.zhang@huaweicloud.com/
-
-Currently, we can use the fallocate command to quickly create a
-pre-allocated file. However, on most filesystems, such as ext4 and XFS,
-fallocate create pre-allocation blocks in an unwritten state, and the
-FALLOC_FL_ZERO_RANGE flag also behaves similarly. The extent state must
-be converted to a written state when the user writes data into this
-range later, which can trigger numerous metadata changes and consequent
-journal I/O. This may leads to significant write amplification and
-performance degradation in synchronous write mode. Therefore, we need a
-method to create a pre-allocated file with written extents that can be
-used for pure overwriting. At the monent, the only method available is
-to create an empty file and write zero data into it (for example, using
-'dd' with a large block size). However, this method is slow and consumes
-a considerable amount of disk bandwidth, we must pre-allocate files in
-advance but cannot add pre-allocated files while user business services
-are running.
-
-Fortunately, with the development and more and more widely used of
-flash-based storage devices, we can efficiently write zeros to SSDs
-using the unmap write zeroes command if the devices do not write
-physical zeroes to the media. For example, if SCSI SSDs support the
-UMMAP bit or NVMe SSDs support the DEAC bit[1], the write zeroes command
-does not write actual data to the device, instead, NVMe converts the
-zeroed range to a deallocated state, which works fast and consumes
-almost no disk write bandwidth. Consequently, this feature can provide
-us with a faster method for creating pre-allocated files with written
-extents and zeroed data.
-
-This series aims to implement this by:
-1. Introduce a new feature BLK_FEAT_WRITE_ZEROES_UNMAP to the block
-   device queue limit features, which indicates whether the storage is
-   device explicitly supports the unmapped write zeroes command. This
-   flag should be set to 1 by the driver if the attached disk supports
-   this command. Users can check this flag by querying:
-
-       /sys/block/<disk>/queue/write_zeroes_unmap
-
-2. Introduce a new flag FALLOC_FL_WRITE_ZEROES into the fallocate,
-   filesystems with this operaion should allocate written extents and
-   issuing zeroes to the range of the device. If the device supports
-   unmap write zeroes command, the zeroing can be accelerated, if not,
-   we currently still allow to fall back to submit zeroes data. Users
-   can verify if the device supports the unmap write zeroes command and
-   then decide whether to use it.
-
-This series implemented the BLK_FEAT_WRITE_ZEROES_UNMAP flag for SCSI,
-NVMe and device-mapper drivers, and added the FALLOC_FL_WRITE_ZEROES
-support for ext4 and raw bdev devices. Any comments are welcome.
-
-I've tested performance with this series on ext4 filesystem on my
-machine with an Intel Xeon Gold 6248R CPU, a 7TB KCD61LUL7T68 NVMe SSD
-which supports unmap write zeroes command with the Deallocated state
-and the DEAC bit. Feel free to give it a try.
-
-0. Ensure the NVMe device supports WRITE_ZERO command.
-
- $ cat /sys/block/nvme5n1/queue/write_zeroes_max_bytes
-   8388608
- $ nvme id-ns -H /dev/nvme5n1 | grep -i -A 3 "dlfeat"
-   dlfeat  : 25
-   [4:4] : 0x1   Guard Field of Deallocated Logical Blocks is set to CRC
-                 of The Value Read
-   [3:3] : 0x1   Deallocate Bit in the Write Zeroes Command is Supported
-   [2:0] : 0x1   Bytes Read From a Deallocated Logical Block and its
-                 Metadata are 0x00
-
-1. Compare 'dd' and fallocate with unmap write zeroes, the later one is
-   significantly faster than 'dd'.
-
-   Create a 1GB and 10GB zeroed file.
-    $dd if=/dev/zero of=foo bs=2M count=$count oflag=direct
-    $time fallocate -w -l $size bar
-
-    #1G
-    dd:                     0.5s
-    FALLOC_FL_WRITE_ZEROES: 0.17s
-
-    #10G
-    dd:                     5.0s
-    FALLOC_FL_WRITE_ZEROES: 1.7s
-
-2. Run fio overwrite and fallocate with unmap write zeroes
-   simultaneously, fallocate has little impact on write bandwidth and
-   only slightly affects write latency.
-
- a) Test bandwidth costs.
-  $ fio -directory=/test -direct=1 -iodepth=10 -fsync=0 -rw=write \
-        -numjobs=10 -bs=2M -ioengine=libaio -size=20G -runtime=20 \
-        -fallocate=none -overwrite=1 -group_reportin -name=bw_test
-
-   Without background zero range:
-    bw (MiB/s): min= 2068, max= 2280, per=100.00%, avg=2186.40
-
-   With background zero range:
-    bw (MiB/s): min= 2056, max= 2308, per=100.00%, avg=2186.20
-
- b) Test write latency costs.
-  $ fio -filename=/test/foo -direct=1 -iodepth=1 -fsync=0 -rw=write \
-        -numjobs=1 -bs=4k -ioengine=psync -size=5G -runtime=20 \
-        -fallocate=none -overwrite=1 -group_reportin -name=lat_test
-
-   Without background zero range:
-   lat (nsec): min=9269, max=71635, avg=9840.65
-
-   With a background zero range:
-   lat (usec): min=9, max=982, avg=11.03
-
-3. Compare overwriting in a pre-allocated unwritten file and a written
-   file in O_DSYNC mode. Write to a file with written extents is much
-   faster.
-
-  # First mkfs and create a test file according to below three cases,
-  # and then run fio.
-
-  $ fio -filename=/test/foo -direct=1 -iodepth=1 -fdatasync=1 \
-        -rw=write -numjobs=1 -bs=4k -ioengine=psync -size=5G \
-        -runtime=20 -fallocate=none -group_reportin -name=test
-
-   unwritten file:                 IOPS=20.1k, BW=78.7MiB/s
-   unwritten file + fast_commit:   IOPS=42.9k, BW=167MiB/s
-   written file:                   IOPS=98.8k, BW=386MiB/s
-
-Thanks,
-Yi.
-
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
+ drivers/nvme/host/multipath.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-[1] https://nvmexpress.org/specifications/
-    NVM Command Set Specification, section 3.2.8
-
-Zhang Yi (10):
-  block: introduce BLK_FEAT_WRITE_ZEROES_UNMAP to queue limits features
-  nvme: set BLK_FEAT_WRITE_ZEROES_UNMAP if device supports DEAC bit
-  nvme-multipath: add BLK_FEAT_WRITE_ZEROES_UNMAP support
-  nvmet: set WZDS and DRB if device supports BLK_FEAT_WRITE_ZEROES_UNMAP
-  scsi: sd: set BLK_FEAT_WRITE_ZEROES_UNMAP if device supports unmap
-    zeroing mode
-  dm: add BLK_FEAT_WRITE_ZEROES_UNMAP support
-  fs: introduce FALLOC_FL_WRITE_ZEROES to fallocate
-  block: add FALLOC_FL_WRITE_ZEROES support
-  block: factor out common part in blkdev_fallocate()
-  ext4: add FALLOC_FL_WRITE_ZEROES support
-
- Documentation/ABI/stable/sysfs-block | 14 +++++++
- block/blk-settings.c                 |  6 +++
- block/blk-sysfs.c                    |  3 ++
- block/fops.c                         | 37 +++++++++--------
- drivers/md/dm-table.c                |  7 +++-
- drivers/md/dm.c                      |  1 +
- drivers/nvme/host/core.c             | 21 +++++-----
- drivers/nvme/host/multipath.c        |  3 +-
- drivers/nvme/target/io-cmd-bdev.c    |  4 ++
- drivers/scsi/sd.c                    |  5 +++
- fs/ext4/extents.c                    | 59 ++++++++++++++++++++++------
- fs/open.c                            |  1 +
- include/linux/blkdev.h               |  8 ++++
- include/linux/falloc.h               |  3 +-
- include/trace/events/ext4.h          |  3 +-
- include/uapi/linux/falloc.h          | 18 +++++++++
- 16 files changed, 149 insertions(+), 44 deletions(-)
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 2a7635565083..82f12209446f 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -638,7 +638,8 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 
+ 	blk_set_stacking_limits(&lim);
+ 	lim.dma_alignment = 3;
+-	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL;
++	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL |
++			BLK_FEAT_WRITE_ZEROES_UNMAP;
+ 	if (head->ids.csi == NVME_CSI_ZNS)
+ 		lim.features |= BLK_FEAT_ZONED;
+ 
 -- 
 2.46.1
 
