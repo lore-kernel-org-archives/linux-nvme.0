@@ -4,56 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D54C8C282EC
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 08:08:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98F32C28B28
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 10:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bXD5ixfMQVnQm/9ZG+Sq7VooSDOkIDNBkp5z/JkUoAQ=; b=L/S2nfL9O53xkxDJwapzB8pGRc
-	W5MqYuJSYRYK3D0xgYMOppSyTvRECXZ8zF5PA808FVGdIR0eTo5yqzpRb7wjHwrtA/9cfiaEWOkza
-	xwfPZiSuk6oyusVIiIxXVIRwxQWDZFb9D/SBKGcQUE8iKbf3sN27uc/N0nckSkAxYpVyfvwHRkNki
-	fF9QwqO7DauebRpBhzqkogmtoTV8D1Q5Rw4B8AdyRn6ITPSk4eaNXqOYUrwScCAMVPrJZK1CCooJ0
-	SOT/dtfVglTf9VUlENUX3zAYTSYnMHoG2IGiMszFqZzx4IQOrKzp4AoZPhaU9LX9/151ciJvf31bV
-	abECcavg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OJwyb+TfU7mV0CiNq8BsKihXmqlx3FO3Qy6jNlQvfOY=; b=xuRkSzmOXgqnAQBwSAuLElvPE+
+	X6R3CuToA0iKJvXVRoOoTAWFHnUbaWLkRGpibf2ufR93LBY7SlynqEKDlAkI2oFo/hCgGOPvrraIS
+	Dr++09Tigg+PvSFdFVD52XGcIIvUvC5fr0VDmZilJuPzvmZ3axW4EM5aoHGVkWbsw8VZS+QBvazim
+	sMZv/o6defbBQSHjhJSA+lLXmz0aeUsoaBMbYMNi28gAJ/sorbv+6I6z9gzu18/bKj6PJ05N1CH5x
+	65Tu306/xXTNza+Pfeq3UqDf9aZteX7jJqghTsDDPK48Y8AoGeUm4noBTI4OdxEJEXZbLeXs7a9d2
+	JtOXx8wQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuS0L-000000056KD-1jM4;
-	Tue, 18 Mar 2025 08:08:53 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRz8-000000055vK-0y3G;
-	Tue, 18 Mar 2025 08:07:38 +0000
-Date: Tue, 18 Mar 2025 01:07:38 -0700
-From: "hch@infradead.org" <hch@infradead.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: "hch@infradead.org" <hch@infradead.org>, Qu Wenruo <wqu@suse.com>,
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>
-Subject: Re: [LSF/MM/BPF TOPIC] File system checksum offload
-Message-ID: <Z9kpyh_8RH5irL96@infradead.org>
-References: <20250130091545.66573-1-joshi.k@samsung.com>
- <20250130142857.GB401886@mit.edu>
- <97f402bc-4029-48d4-bd03-80af5b799d04@samsung.com>
- <b8790a76-fd4e-49b6-bc08-44e5c3bf348a@wdc.com>
- <Z6B2oq_aAaeL9rBE@infradead.org>
- <bb516f19-a6b3-4c6b-89f9-928d46b66e2a@wdc.com>
- <eaec853d-eda6-4ee9-abb6-e2fa32f54f5c@suse.com>
- <cfe11af2-44c5-43a7-9114-72471a615de7@samsung.com>
- <Z6GivxxFWFZhN7jD@infradead.org>
- <edde46e9-403b-4ddf-bd73-abe95446590c@samsung.com>
+	id 1tuUMn-00000005XjY-37kc;
+	Tue, 18 Mar 2025 10:40:13 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tuUMg-00000005Xgv-0AGh
+	for linux-nvme@lists.infradead.org;
+	Tue, 18 Mar 2025 10:40:07 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 92BE65C58A2;
+	Tue, 18 Mar 2025 10:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACEC0C4CEDD;
+	Tue, 18 Mar 2025 10:40:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742294405;
+	bh=MWm8eqM6Uuk9iRoCyRSd03Uok+xmCB8TLkbHS2USEkw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=T+Wxssv1ktILToEPxp0tOGXSSNJ5BxgwAzRuiNw98ibxuMAycNI6FdRmPLWoNVw5Y
+	 +zeVd9+Z/dzdWAkU2XfRDbs4KupVE+TGcgMMliWNyS67G9Sl40fhRXkskYNe8Zg+qJ
+	 RNju43IlP6EcgB16p8WdMcpBF2xGrhuRGW7U49SUrFINpY+sxQ9asuYcD3XHqtTcf8
+	 NO5Pb66yAO2jzrZ2wxHpyKeJ6fXNd1LrRK3swJu/X3yHLt728bv2eA/cJEkkyvJEzd
+	 86FgohH+DoSQb5s8Sjd6j2aFQuRVWJEOPsCfMbMXcIGi2TXCo0pXD73FrhTPLQMe7j
+	 /GG0hWuYVhRGg==
+From: Daniel Wagner <wagi@kernel.org>
+Date: Tue, 18 Mar 2025 11:39:55 +0100
+Subject: [PATCH v3 01/18] nvmet-fcloop: remove nport from list on last user
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <edde46e9-403b-4ddf-bd73-abe95446590c@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250318-nvmet-fcloop-v3-1-05fec0fc02f6@kernel.org>
+References: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org>
+In-Reply-To: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org>
+To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, 
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.14.2
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250318_034006_126645_B533E3FA 
+X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,34 +74,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 18, 2025 at 12:36:44PM +0530, Kanchan Joshi wrote:
-> Right, I'm not saying that protection is getting better. Just that any 
-> offload is about trusting someone else with the job. We have other 
-> instances like atomic-writes, copy, write-zeroes, write-same etc.
+The nport object has an association with the rport and lport object,
+that means we can only remove an nport object from the global nport_list
+after the last user of an rport or lport is gone.
 
-So wahst is the use case for it?  What is the "thread" model you are
-trying to protect against (where thread here is borrowed from the
-security world and implies data corruption caught by checksums).
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+---
+ drivers/nvme/target/fcloop.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-> 
-> > IFF using PRACT is an acceptable level of protection just running
-> > NODATASUM and disabling PI generation/verification in the block
-> > layer using the current sysfs attributes (or an in-kernel interface
-> > for that) to force the driver to set PRACT will do exactly the same
-> > thing.
-> 
-> I had considered but that can't work because:
-> 
-> - the sysfs attributes operate at block-device level for all read or all 
-> write operations. That's not flexible for policies such "do something 
-> for some writes/reads but not for others" which can translate to "do 
-> checksum offload for FS data, but keep things as is for FS meta" or 
-> other combinations.
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 3390215b1c1f040001985a0d33741e57f1f80cb3..09546c3161fd9828234e58641de3e53519e27824 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -1004,6 +1004,11 @@ fcloop_nport_free(struct kref *ref)
+ {
+ 	struct fcloop_nport *nport =
+ 		container_of(ref, struct fcloop_nport, ref);
++	unsigned long flags;
++
++	spin_lock_irqsave(&fcloop_lock, flags);
++	list_del(&nport->nport_list);
++	spin_unlock_irqrestore(&fcloop_lock, flags);
+ 
+ 	kfree(nport);
+ }
+@@ -1362,8 +1367,6 @@ __unlink_remote_port(struct fcloop_nport *nport)
+ 		nport->tport->remoteport = NULL;
+ 	nport->rport = NULL;
+ 
+-	list_del(&nport->nport_list);
+-
+ 	return rport;
+ }
+ 
 
-Well, we can easily do the using a per-I/O flag assuming we have a
-use caѕe for it.  But for that we need to find the use case first.
+-- 
+2.48.1
 
-So as with so many things (including some of my own), we really need
-to go back to describe the problem we're trying to fix, before
-diving deep down into the implementation.
 
