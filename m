@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FB68C28B28
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26734C282EC
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=u0HTO+28K6r3O3ToySpj2e1ov83izMeIf74HPHNW/LQ=; b=VT43aYzV/oQnt4gcqerKaxvkhj
-	DxVXGcAX9kZWn1J9mfAgxUUZBeJXt7M9yDbnSRwh+4krw6j71GYM/QftXJatueWtk+3dmRZ76UuTy
-	5/ql/rcVYFdnT6Z3q0RmwR5yM7KjEaWYh4VJg2MzeVscwAiaHCwKMepoAqYv/zfQY2avOhtKVm2iw
-	t1tlZu1tmNaphBecmI7V5XdfdaTTb+FtouWNOCG2SA/+ZvnQt4mu4RlbT3VyvYL4bfKu5tY0bvyDj
-	6WkfyxfujCcA20omBPzOhFQ+9PGiNLXtfXb+6E/yavpqD2uUPWq9zxBwx07Xe42qWIo0xyh6RxZEt
-	ekXycfAQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1TKxLGa4EVuo2fX9xM7BB/EXjuZDPytwXF2vOpuishU=; b=CBhvp5MCGQwF+EnKT5ZTukm/vv
+	HH27yR9CEurlrl45QZjbflurUrZooRG8d8HmziwnWtSy1wY8hnT5Rk32bZmSAMSkd/T3BJCVgfOZl
+	3GNu3Tc4kNxt4jaq/T79XalGShGBtu2zcP09AXGGr3qq3KAYPzhoOi0+b4mchrOaeAvH6F2tyjJ6d
+	oGSG/gPCGusRoww03EigYzNMC/ESErG82MFF+Cs5SYBuD/D9nAZqBYC9jvlBvEA2Bo3yjG3sfc4bo
+	7V16xl0md0stAZFv3J+7qpIA9xpcLv9rT/InHaEnFj2L8tHwwG1ldyFPPV5FWNWMWyBEHrBm9qR1Z
+	uru8vzRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRQd-00000004vNC-3RUH;
-	Tue, 18 Mar 2025 07:31:59 +0000
+	id 1tuRTP-00000004vp3-29yQ;
+	Tue, 18 Mar 2025 07:34:51 +0000
 Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRQa-00000004vKQ-1FBG
+	id 1tuRTL-00000004vll-3W04
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Mar 2025 07:31:58 +0000
+	Tue, 18 Mar 2025 07:34:49 +0000
 Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4ZH3Rk6Tgdz4f3m6g
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:31:14 +0800 (CST)
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4ZH3WK2HmNz4f3m6n
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:34:21 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 039E31A0AD0
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:31:39 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 672E41A10CC
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:34:45 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.112.188])
-	by APP4 (Coremail) with SMTP id gCh0CgCnC2BTIdln3gNYGw--.59040S4;
-	Tue, 18 Mar 2025 15:31:38 +0800 (CST)
+	by APP4 (Coremail) with SMTP id gCh0CgCnCl8EItlnJDdYGw--.56140S7;
+	Tue, 18 Mar 2025 15:34:45 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-ext4@vger.kernel.org,
@@ -57,33 +57,36 @@ Cc: linux-xfs@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yukuai3@huawei.com,
 	yangerkun@huawei.com
-Subject: [PATCH xfsprogs] xfs_io: add FALLOC_FL_WRITE_ZEROES support
-Date: Tue, 18 Mar 2025 15:23:18 +0800
-Message-ID: <20250318072318.3502037-1-yi.zhang@huaweicloud.com>
+Subject: [PATCH xfstests 3/5] generic/766: test fallocate write zeroes on block device
+Date: Tue, 18 Mar 2025 15:26:13 +0800
+Message-ID: <20250318072615.3505873-4-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.46.1
+In-Reply-To: <20250318072615.3505873-1-yi.zhang@huaweicloud.com>
+References: <20250318072615.3505873-1-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCnC2BTIdln3gNYGw--.59040S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw17Zr4DCr4kGrW5uw1kuFg_yoW5Jr18p3
-	srXF15Ka45Xry7WFWfGws7Wrn8Xw4fKF1fJr4xWw1jv3W5AFyxKF1DG3ZYv3s7WFW8Ga18
-	JFnIgFy5G3WSyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjTRRBT5DUUUU
+X-CM-TRANSID: gCh0CgCnCl8EItlnJDdYGw--.56140S7
+X-Coremail-Antispam: 1UD129KBjvJXoWxGry7Jw4xAFW8WF4kCry8Xwb_yoW5Kw1rpa
+	10k3W5JryFgw17Grs3uryjvr1rGanY9F4ayF97Kry5ZryktFy8JFWqgr1jqr97X3srCwsY
+	vaya9Fy3Kw4SqFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmF14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+	xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2
+	KfnxnUUI43ZEXa7sRRwID5UUUUU==
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250318_003156_634874_2366B790 
-X-CRM114-Status: GOOD (  11.80  )
+X-CRM114-CacheID: sfid-20250318_003448_212648_B046FB15 
+X-CRM114-Status: GOOD (  10.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,98 +103,132 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-The Linux kernel is planning to support FALLOC_FL_WRITE_ZEROES in
-fallocate(2). Add FALLOC_FL_ZERO_RANGE support to fallocate utility by
-introducing a new 'fwzero' command to xfs_io.
+Test the fallocate FALLOC_FL_WRITE_ZEROES command on a block device,
+including unsupported flags.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- io/prealloc.c     | 36 ++++++++++++++++++++++++++++++++++++
- man/man8/xfs_io.8 |  5 +++++
- 2 files changed, 41 insertions(+)
+ tests/generic/766     | 80 +++++++++++++++++++++++++++++++++++++++++++
+ tests/generic/766.out | 23 +++++++++++++
+ 2 files changed, 103 insertions(+)
+ create mode 100755 tests/generic/766
+ create mode 100644 tests/generic/766.out
 
-diff --git a/io/prealloc.c b/io/prealloc.c
-index 8e968c9f..9d126229 100644
---- a/io/prealloc.c
-+++ b/io/prealloc.c
-@@ -30,6 +30,10 @@
- #define FALLOC_FL_UNSHARE_RANGE 0x40
- #endif
- 
-+#ifndef FALLOC_FL_WRITE_ZEROES
-+#define FALLOC_FL_WRITE_ZEROES 0x80
-+#endif
+diff --git a/tests/generic/766 b/tests/generic/766
+new file mode 100755
+index 00000000..6f31c250
+--- /dev/null
++++ b/tests/generic/766
+@@ -0,0 +1,80 @@
++#! /bin/bash
++# SPDX-License-Identifier: GPL-2.0
++# Copyright (c) 2025 Huawei.  All Rights Reserved.
++#
++# FS QA Test No. 766
++#
++# Test fallocate(WRITE_ZEROES) on a block device, which should be able to
++# WRITE SAME (or equivalent) the range.
++#
++. ./common/preamble
++_begin_fstest blockdev rw zero
 +
- static cmdinfo_t allocsp_cmd;
- static cmdinfo_t freesp_cmd;
- static cmdinfo_t resvsp_cmd;
-@@ -41,6 +45,7 @@ static cmdinfo_t fcollapse_cmd;
- static cmdinfo_t finsert_cmd;
- static cmdinfo_t fzero_cmd;
- static cmdinfo_t funshare_cmd;
-+static cmdinfo_t fwzero_cmd;
- 
- static int
- offset_length(
-@@ -377,6 +382,27 @@ funshare_f(
- 	return 0;
- }
- 
-+static int
-+fwzero_f(
-+	int		argc,
-+	char		**argv)
-+{
-+	xfs_flock64_t	segment;
-+	int		mode = FALLOC_FL_WRITE_ZEROES;
++_register_cleanup "_cleanup" BUS
 +
-+	if (!offset_length(argv[1], argv[2], &segment)) {
-+		exitcode = 1;
-+		return 0;
-+	}
++# Import common functions.
++. ./common/filter
++. ./common/scsi_debug
 +
-+	if (fallocate(file->fd, mode, segment.l_start, segment.l_len)) {
-+		perror("fallocate");
-+		exitcode = 1;
-+		return 0;
-+	}
-+	return 0;
-+}
++# Modify as appropriate.
++_require_scsi_debug
++_require_xfs_io_command "fwzero"
 +
- void
- prealloc_init(void)
- {
-@@ -489,4 +515,14 @@ prealloc_init(void)
- 	funshare_cmd.oneline =
- 	_("unshares shared blocks within the range");
- 	add_command(&funshare_cmd);
++## 1. Test supported flags
++echo "Create with unmap writesame and format"
++dev=$(_get_scsi_debug_dev 512 512 0 4 "lbpws=1 lbpws10=1")
++_pwrite_byte 0x62 0 4m $dev >> $seqres.full
++$XFS_IO_PROG -c "fsync" $dev
 +
-+	fwzero_cmd.name = "fwzero";
-+	fwzero_cmd.cfunc = fwzero_f;
-+	fwzero_cmd.argmin = 2;
-+	fwzero_cmd.argmax = 2;
-+	fwzero_cmd.flags = CMD_NOMAP_OK | CMD_FOREIGN_OK;
-+	fwzero_cmd.args = _("off len");
-+	fwzero_cmd.oneline =
-+	_("zeroes space and eliminates holes by allocating and writing zeroes");
-+	add_command(&fwzero_cmd);
- }
-diff --git a/man/man8/xfs_io.8 b/man/man8/xfs_io.8
-index 59d5ddc5..718f018c 100644
---- a/man/man8/xfs_io.8
-+++ b/man/man8/xfs_io.8
-@@ -538,6 +538,11 @@ With the
- .B -k
- option, use the FALLOC_FL_KEEP_SIZE flag as well.
- .TP
-+.BI fwzero " offset length"
-+Call fallocate with FALLOC_FL_WRITE_ZEROES flag as described in the
-+.BR fallocate (2)
-+manual page to allocate and zero blocks within the range by writing zeroes.
-+.TP
- .BI zero " offset length"
- Call xfsctl with
- .B XFS_IOC_ZERO_RANGE
++echo "Write zeroes"
++$XFS_IO_PROG -c "fwzero 512k 1m" $dev
++
++echo "Check contents"
++md5sum $dev | sed -e "s|$dev|SCSI_DEBUG_DEV|g"
++
++echo "Destroy device"
++_put_scsi_debug_dev
++
++echo "Create w/o unmap writesame and format"
++dev=$(_get_scsi_debug_dev 512 512 0 4 "lbpws=0 lbpws10=0 lbpu=0 write_same_length=0 unmap_max_blocks=0")
++_pwrite_byte 0x62 0 4m $dev >> $seqres.full
++$XFS_IO_PROG -c "fsync" $dev
++
++echo "Write zeroes, write fallback"
++$XFS_IO_PROG -c "fwzero 512k 1m" $dev
++
++echo "Check contents"
++md5sum $dev | sed -e "s|$dev|SCSI_DEBUG_DEV|g"
++
++echo "Destroy device"
++_put_scsi_debug_dev
++
++## 2. Test unsupported flags.
++echo "Create and format"
++dev=$(_get_scsi_debug_dev 4096 4096 0 4 "lbpws=1 lbpws10=1")
++_pwrite_byte 0x62 0 4m $dev >> $seqres.full
++$XFS_IO_PROG -c "fsync" $dev
++
++echo "Unaligned write zeroes"
++$XFS_IO_PROG -c "fwzero 512 512" $dev
++
++echo "Write zeroes past MAX_LFS_FILESIZE"
++# zod = MAX_LFS_FILESIZE
++zod=$(_get_max_lfs_filesize)
++$XFS_IO_PROG -c "fwzero 512k $zod" $dev
++
++echo "Write zeroes to MAX_LFS_FILESIZE"
++$XFS_IO_PROG -c "fwzero 0 $zod" $dev
++
++echo "Write zeroes starts past EOD"
++$XFS_IO_PROG -c "fwzero 900m 1m" $dev
++
++echo "Check contents"
++md5sum $dev | sed -e "s|$dev|SCSI_DEBUG_DEV|g"
++
++echo "Destroy device"
++_put_scsi_debug_dev
++
++# success, all done
++status=0
++exit
+diff --git a/tests/generic/766.out b/tests/generic/766.out
+new file mode 100644
+index 00000000..7da0ceca
+--- /dev/null
++++ b/tests/generic/766.out
+@@ -0,0 +1,23 @@
++QA output created by 766
++Create with unmap writesame and format
++Write zeroes
++Check contents
++caa26edd6c70ce862eb7ec6f10b138a8  SCSI_DEBUG_DEV
++Destroy device
++Create w/o unmap writesame and format
++Write zeroes, write fallback
++Check contents
++caa26edd6c70ce862eb7ec6f10b138a8  SCSI_DEBUG_DEV
++Destroy device
++Create and format
++Unaligned write zeroes
++fallocate: Invalid argument
++Write zeroes past MAX_LFS_FILESIZE
++fallocate: File too large
++Write zeroes to MAX_LFS_FILESIZE
++fallocate: Invalid argument
++Write zeroes starts past EOD
++fallocate: Invalid argument
++Check contents
++b83f9394092e15bdcda585cd8e776dc6  SCSI_DEBUG_DEV
++Destroy device
 -- 
 2.46.1
 
