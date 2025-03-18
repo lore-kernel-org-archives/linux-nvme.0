@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAB0AC35FF8
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:44:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0094AC282EC
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Mar 2025 07:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6AkxoZFZqnLb64nzMh6j57T2U85QpNY+vLKEHEGz59E=; b=gaX/dm+ytEPz7yfeY9Kw1rvIYs
-	f+pbA3BYP7k3BKoCmonZO+2gn1vA9dyfjZjmSFLekeazkx1fxIncimp9SaHa/uuUkVU01mCVxBU+C
-	QRQurL14VkqyTlhI6phYGCbBj4xFf6Or2AgFVGwzdnKOV06mvucl/x16PUyl0paiRarhEfNgGlkNI
-	EXxx8oa4lihabypxIKnBwHBuVRHgw2R9XkTeHgaV8s63YMea1NkqQMUmDGFibj0SDrWe8qtDHbMbq
-	rPScvRugdSrPZl0FpRlRyRhZOVYeeVb9t78fDdEMrkbEIPITi7WCyCVDxHIhamDCGuphJhw61gXPA
-	aSywk5Bw==;
+	bh=Vd6TpP0q6XfFAXfVU4i1LDYt1EaRTsS/Cx8qdigwLmM=; b=iYSrFd3ZbBCEp1TnUsTEoNrK1/
+	AB3AtKiFdcXF715FvmlDv504ePElN1RaovaBUVjiJXBjquzvmpsm3O8r03gn17NRR+OKymW25YR+b
+	/quBkwsQx1bfT0qg+J/K80j9/O5LX3kHSiF6xWvqLi2JQMBH2PelIQAlov/RuLtY1MJPaLpJgVMt/
+	nubkffvdFCNhcUqneVkDmiYvlFUb3aXijUmnANmwNzI0Li9X8g5GMLiJFm8JWMvMAFkElwv3b9NqS
+	zG7CUeINNgCPlS8luE2AbgTLxhjoRtZO9qO7gQ4BBiyWpoD45xL4eoQDQJJGq+Vi+xTx2SEuNUtgI
+	JH6eqZbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRca-00000004zEY-0xd6;
-	Tue, 18 Mar 2025 07:44:20 +0000
-Received: from dggsgout12.his.huawei.com ([45.249.212.56])
+	id 1tuRcb-00000004zFm-1EDM;
+	Tue, 18 Mar 2025 07:44:21 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuRcU-00000004z87-0XrC
+	id 1tuRcV-00000004z8P-256p
 	for linux-nvme@lists.infradead.org;
 	Tue, 18 Mar 2025 07:44:17 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4ZH3kD66yxz4f3khR
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:43:48 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4ZH3kB0N6Qz4f3lg7
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:43:46 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 7A7AE1A058E
-	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:44:11 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 1EDE71A14E7
+	for <linux-nvme@lists.infradead.org>; Tue, 18 Mar 2025 15:44:10 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.112.188])
-	by APP4 (Coremail) with SMTP id gCh0CgCH6189JNlnEt1YGw--.55732S7;
-	Tue, 18 Mar 2025 15:44:11 +0800 (CST)
+	by APP4 (Coremail) with SMTP id gCh0CgCH6189JNlnEt1YGw--.55732S5;
+	Tue, 18 Mar 2025 15:44:09 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-ext4@vger.kernel.org,
@@ -57,37 +57,36 @@ Cc: linux-xfs@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yukuai3@huawei.com,
 	yangerkun@huawei.com
-Subject: [RFC PATCH -next v3 03/10] nvme-multipath: add BLK_FEAT_WRITE_ZEROES_UNMAP support
-Date: Tue, 18 Mar 2025 15:35:38 +0800
-Message-ID: <20250318073545.3518707-4-yi.zhang@huaweicloud.com>
+Subject: [RFC PATCH -next v3 01/10] block: introduce BLK_FEAT_WRITE_ZEROES_UNMAP to queue limits features
+Date: Tue, 18 Mar 2025 15:35:36 +0800
+Message-ID: <20250318073545.3518707-2-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20250318073545.3518707-1-yi.zhang@huaweicloud.com>
 References: <20250318073545.3518707-1-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCH6189JNlnEt1YGw--.55732S7
-X-Coremail-Antispam: 1UD129KBjvdXoWrKFy5Kr4Uuw4Uur4ktrW3GFg_yoWDArcEv3
-	W5Xr47ZFs2kF1vvrn5ur13CryvkrnxZr1xu3WSgry3Jry8Xr13Aas2vrnxtw1Yk3WY9rs2
-	9w18XF15GrWUtjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbv8FF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
-	0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-	wVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
-	8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
-	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
-	vE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
-	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
-	v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
-	6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-	AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE
-	2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2
-	KfnxnUUI43ZEXa7sRR0eH3UUUUU==
+X-CM-TRANSID: gCh0CgCH6189JNlnEt1YGw--.55732S5
+X-Coremail-Antispam: 1UD129KBjvJXoWxKF45JFW3uw4rCrW7Jry3XFb_yoW7Zry8pa
+	4DKF1Utry0gF47A3Z7C3W7Wr1a93ykCry3G3yqkw15uw42gr1IgF4kKFy5X348J3sxWay0
+	qa1UKrZ8uayUC3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmGb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGw
+	A2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
+	Ij6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
+	Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I
+	0E8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCa
+	FVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
+	Wlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j
+	6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rV
+	WUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWx
+	JrUvcSsGvfC2KfnxnUUI43ZEXa7sRMRRRJUUUUU==
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250318_004414_360541_E6DCC8ED 
-X-CRM114-Status: UNSURE (   9.01  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250318_004415_833284_A57CEF3D 
+X-CRM114-Status: GOOD (  18.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,29 +103,130 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Set the BLK_FEAT_WRITE_ZEROES_UNMAP feature while creating multipath
-stacking queue limits by default. This feature shall be disabled if any
-attached namespace does not support it.
+Currently, disks primarily implement the write zeroes command (aka
+REQ_OP_WRITE_ZEROES) through two mechanisms: the first involves
+physically writing zeros to the disk media (e.g., HDDs), while the
+second performs an unmap operation on the logical blocks, effectively
+putting them into a deallocated state (e.g., SSDs). The first method is
+generally slow, while the second method is typically very fast.
+
+For example, on certain NVMe SSDs that support NVME_NS_DEAC, submitting
+REQ_OP_WRITE_ZEROES requests with the NVME_WZ_DEAC bit can accelerate
+the write zeros operation by placing disk blocks into a deallocated
+state. However, it is difficult to ascertain whether the storage device
+supports unmap write zeroes. We cannot determine this solely by querying
+bdev_limits(bdev)->max_write_zeroes_sectors.
+
+Therefore, add a new queue limit feature, BLK_FEAT_WRITE_ZEROES_UNMAP
+and the corresponding sysfs entry, to indicate whether the block device
+explicitly supports the unmapped write zeroes command. Each device
+driver should set this bit if it is certain that the attached disk
+supports this command. If the bit is not set, the disk either does not
+support it, or its support status is unknown.
+
+For the stacked devices cases, the BLK_FEAT_WRITE_ZEROES_UNMAP should be
+supported both by the stacking driver and all underlying devices.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/multipath.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/ABI/stable/sysfs-block | 14 ++++++++++++++
+ block/blk-settings.c                 |  6 ++++++
+ block/blk-sysfs.c                    |  3 +++
+ include/linux/blkdev.h               |  3 +++
+ 4 files changed, 26 insertions(+)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 2a7635565083..82f12209446f 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -638,7 +638,8 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+index 890cde28bf90..67513c0d9233 100644
+--- a/Documentation/ABI/stable/sysfs-block
++++ b/Documentation/ABI/stable/sysfs-block
+@@ -742,6 +742,20 @@ Description:
+ 		0, write zeroes is not supported by the device.
  
- 	blk_set_stacking_limits(&lim);
- 	lim.dma_alignment = 3;
--	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL;
-+	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL |
-+			BLK_FEAT_WRITE_ZEROES_UNMAP;
- 	if (head->ids.csi == NVME_CSI_ZNS)
- 		lim.features |= BLK_FEAT_ZONED;
  
++What:		/sys/block/<disk>/queue/write_zeroes_unmap
++Date:		January 2025
++Contact:	Zhang Yi <yi.zhang@huawei.com>
++Description:
++		[RO] Devices that explicitly support the unmap write zeroes
++		operation in which a single write zeroes request with the unmap
++		bit set to zero out the range of contiguous blocks on storage
++		by freeing blocks, rather than writing physical zeroes to the
++		media. If write_zeroes_unmap is 1, this indicates that the
++		device explicitly supports the write zero command. Otherwise,
++		the device either does not support it, or its support status is
++		unknown.
++
++
+ What:		/sys/block/<disk>/queue/zone_append_max_bytes
+ Date:		May 2020
+ Contact:	linux-block@vger.kernel.org
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 6b2dbe645d23..3331d07bd5d9 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -697,6 +697,8 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 		t->features &= ~BLK_FEAT_NOWAIT;
+ 	if (!(b->features & BLK_FEAT_POLL))
+ 		t->features &= ~BLK_FEAT_POLL;
++	if (!(b->features & BLK_FEAT_WRITE_ZEROES_UNMAP))
++		t->features &= ~BLK_FEAT_WRITE_ZEROES_UNMAP;
+ 
+ 	t->flags |= (b->flags & BLK_FLAG_MISALIGNED);
+ 
+@@ -819,6 +821,10 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 		t->zone_write_granularity = 0;
+ 		t->max_zone_append_sectors = 0;
+ 	}
++
++	if (!t->max_write_zeroes_sectors)
++		t->features &= ~BLK_FEAT_WRITE_ZEROES_UNMAP;
++
+ 	blk_stack_atomic_writes_limits(t, b, start);
+ 
+ 	return ret;
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index d584461a1d84..6f00e9a8f8b6 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -261,6 +261,7 @@ static ssize_t queue_##_name##_show(struct gendisk *disk, char *page)	\
+ 
+ QUEUE_SYSFS_FEATURE_SHOW(fua, BLK_FEAT_FUA);
+ QUEUE_SYSFS_FEATURE_SHOW(dax, BLK_FEAT_DAX);
++QUEUE_SYSFS_FEATURE_SHOW(write_zeroes_unmap, BLK_FEAT_WRITE_ZEROES_UNMAP);
+ 
+ static ssize_t queue_poll_show(struct gendisk *disk, char *page)
+ {
+@@ -510,6 +511,7 @@ QUEUE_LIM_RO_ENTRY(queue_atomic_write_unit_min, "atomic_write_unit_min_bytes");
+ 
+ QUEUE_RO_ENTRY(queue_write_same_max, "write_same_max_bytes");
+ QUEUE_LIM_RO_ENTRY(queue_max_write_zeroes_sectors, "write_zeroes_max_bytes");
++QUEUE_LIM_RO_ENTRY(queue_write_zeroes_unmap, "write_zeroes_unmap");
+ QUEUE_LIM_RO_ENTRY(queue_max_zone_append_sectors, "zone_append_max_bytes");
+ QUEUE_LIM_RO_ENTRY(queue_zone_write_granularity, "zone_write_granularity");
+ 
+@@ -656,6 +658,7 @@ static struct attribute *queue_attrs[] = {
+ 	&queue_atomic_write_unit_min_entry.attr,
+ 	&queue_atomic_write_unit_max_entry.attr,
+ 	&queue_max_write_zeroes_sectors_entry.attr,
++	&queue_write_zeroes_unmap_entry.attr,
+ 	&queue_max_zone_append_sectors_entry.attr,
+ 	&queue_zone_write_granularity_entry.attr,
+ 	&queue_rotational_entry.attr,
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index e39c45bc0a97..5d280c7fba65 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -342,6 +342,9 @@ typedef unsigned int __bitwise blk_features_t;
+ #define BLK_FEAT_ATOMIC_WRITES \
+ 	((__force blk_features_t)(1u << 16))
+ 
++/* supports unmap write zeroes command */
++#define BLK_FEAT_WRITE_ZEROES_UNMAP	((__force blk_features_t)(1u << 17))
++
+ /*
+  * Flags automatically inherited when stacking limits.
+  */
 -- 
 2.46.1
 
