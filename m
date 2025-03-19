@@ -4,88 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DECD4C35FFA
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Mar 2025 16:34:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09741C35FFA
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Mar 2025 17:58:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+CxAcNeItNgRHw+6R9MixJ9jJKAhVJkbqm0TieMIIcs=; b=BoMaTg+4A7XG1BWC1x3PI/5v+k
-	sMA7xmuQCW+Yekfpt3Ls3CAo7s1Iq9F/Lx6uoL+lCfBTKOVJ3DY5U/Afmxg8Z3trSC/Xl5VPSe7Qw
-	TD+KA6xFUQ4fPcvQcI3ipAVBZWsLPsP/+kmN0Pma8Lm68RSHev1afoxhC3jaixkaYm9ygN5E27A4u
-	jtKce8iicpxjPiRcaEqSnIPg13kBreR1EEJRxM+92hloZYToGLLG3zhrQuuexa+a263FodF6MQjQg
-	6KdOhqK/3uyyNlFiitov7vpRSm0GBTlz5UBjVijl0hZ5IBHtbzU3vvWea2iGqLcMM2CQuJ2SuZxtJ
-	OSUGZTSA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tk5ycb3N9meE73NCm46CD0AtZuFHAdivFMZfwt24RPU=; b=CCZlnWY4jTB1T5y+FemabNXhC3
+	TSrj2UvezLZ2tDpsfl4tx3UY7ScBpGFKbmOsR/4l9gc6dxeKO+voYrdqjqd2Mdkjqw57voOFE8Ejq
+	J9hcmERLyZasMg5GZxci3dYdYERWt4BMf4/Xd7KhLoDKlQWXiNzJE+nVXv9Que4itz70eO1cCR0BP
+	dMfStpRfupFNI4SHioz0exY8nDSiv8jo2UD9QeKsS+H8nxiHNjnzidPUEShizyT0B3iiCTawjprYa
+	jvcNErgiTPmHP1Ob46CFOZePrQoowYblW6Yf/xAssc1GWcZ3o6J49tCq0kDOmzgUTijmgLvWnNBX/
+	TcNGI4rQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuwNG-00000009Z7z-19g5;
-	Wed, 19 Mar 2025 16:34:34 +0000
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+	id 1tuxgl-00000009mDP-2IIE;
+	Wed, 19 Mar 2025 17:58:47 +0000
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuwNC-00000009Z6w-2EgF
+	id 1tuxgh-00000009mBO-1BXN
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Mar 2025 16:34:32 +0000
-Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-5e614da8615so1741378a12.1
-        for <linux-nvme@lists.infradead.org>; Wed, 19 Mar 2025 09:34:29 -0700 (PDT)
+	Wed, 19 Mar 2025 17:58:45 +0000
+Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-7c24ae82de4so809542385a.1
+        for <linux-nvme@lists.infradead.org>; Wed, 19 Mar 2025 10:58:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1742402068; x=1743006868; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+CxAcNeItNgRHw+6R9MixJ9jJKAhVJkbqm0TieMIIcs=;
-        b=NkTM/NjqAx1gid3JxL0YqxNYmXPFo6na5J9Ls3KcUkR7oPBkxs12Dl/SUfVKri9kUY
-         s2Y6zwrOuUMbNCbdyaYA+KdmlTCYZNyLEHZAvwnUdBGfz60Ngrno8xIEHCdlUcn1WrmF
-         8XMPLSRhZYSJlAJ3fC2uANZ3AnrEcT2MtP8CM9Ksft2kHJXS3gAdZrqA2qk8y0ocZU6X
-         5pVx5RfaiXozmGAmtNQ51F3L/unR2WYLVI2qTXXfiCqH6CAaWQoeEgLrS1HFYPj6Ry2O
-         ckFT8ucJdTOhaBPaM9ydGtHNYhtpuEQqBD5j/bWvPUAw8uSLJ1oJrPfyw6QEZXxDI2EO
-         AedA==
+        d=ziepe.ca; s=google; t=1742407121; x=1743011921; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tk5ycb3N9meE73NCm46CD0AtZuFHAdivFMZfwt24RPU=;
+        b=Unal08LB0k4NomyyYmC/KkkQqAzRGfBwbdCSAH3CilmAvPHKVjdaN0UGNHLPsJnE7L
+         dvUQZVYvldkiiYB0NfidXeBaQZIn7M3NIBtiDVH5f4JGAeHoyYMRarDs5TUniE7iTq08
+         G+TOGX0DMCPKq0U60U4nuON4n/cpcDdJKt0YGZ2MkjWP38QS0XY4pmTMvJw8Gz6GCO2n
+         Aa0gMepS4nzLaE73O2YSqZYVUfGGlvyjpaA81W3cl5ScXyNDyTu56gQrw3HJW6ockQkJ
+         EseaDWYxj5mZR6CKzi4v/rCdYnvHH+AMzNjjOi9obEgvIW4eXtkWU2n6anB/QjahYVDz
+         4bKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742402068; x=1743006868;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+CxAcNeItNgRHw+6R9MixJ9jJKAhVJkbqm0TieMIIcs=;
-        b=A6gd5ERz6oXYBheE7eXuLe564jL2QStDU8H2jyEMXY2QdM1mtXcL24kt8rcU/i9867
-         D9sBWZIAFBO4B32tQQgXou2sX816P2HQO3ECksUdMTMnGs2AySRP2hvLIebmgZe4cugI
-         zFT6w3ZtFcfnPa05Qwbo9BTyLXy7zWq+9D/5CsyPoepVVyQlTJhVCs+6iLvn25ROL0v2
-         BCvYZBF6ym+b7b1deKWV9UjLtBAUNsLbRXfYrDgWThAvwW7tfyTShdHyDFNNskxGe9Tc
-         17qk1TWHVWGXU9IOZiP+YU1wK/voWFHsx1dhkQBJrVhv2ezp/epz53L+FMJVIkWk2YF6
-         y7Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCUghVelhwwwL7I4EvxEDCQcHIWIeRkvAFJMb0rwsW076r5r29aZptzT/OztTbDdc9MFyKZSPsT9mAwX@lists.infradead.org
-X-Gm-Message-State: AOJu0YxjWa8QWSz2gD+ggX5K3U8Jg0lXUtOmjuzEERKMDGCvZN0FZmMB
-	YFs21YABAwUT3p2Kf+/ZtscJxcN+j4/F8AqQqdzzs4EU6QVk9wtlQy7QXfGPH84=
-X-Gm-Gg: ASbGnctOMHeMrY79Q5HoRcqjB6xLTT75xKhoIBrrOMqbN1UO+ZiLwERG90rRVewz+sF
-	L3q/JzppUFbzidZokh4nIh5U54cF3x5k/j6/H2AAnfLrvjrkDvyqCmsYHob/U3e/k4jry4HvQDj
-	sweEBEHHABoSR8gEM2tP7MVQyaoNZquWORXVDXrv5bzbe1vUJ27DH4zlFX6mJN8z7cr8uiqwcvD
-	w2MOBJPip3v0rApZ6lkOQyeQNUNLE7y5mRTbDaxZ0FpGnQWYi4pPp7A9BuwcIGEhBT+isXa1+LE
-	NAPgHwWOPWHhU9D2NTpLZDxzLHSW8HlsqmU4lJYiEucjfQQiHitcY/rvziA/EMd+IJIMXW+5qBA
-	LARE65Ww=
-X-Google-Smtp-Source: AGHT+IEjZhPDC9JVGHvBSu0G4bsjIRJ/jfFk3xfcr9ZDEkkV+RNoKj0oTQdj7JCnbnHbtcMPXmrIPg==
-X-Received: by 2002:a05:6402:35ca:b0:5e5:ba3e:aaf6 with SMTP id 4fb4d7f45d1cf-5eb99741ec5mr112425a12.1.1742402068072;
-        Wed, 19 Mar 2025 09:34:28 -0700 (PDT)
-Received: from ?IPV6:2001:a61:2b12:fe01:4392:1ae2:7b50:54d7? ([2001:a61:2b12:fe01:4392:1ae2:7b50:54d7])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e816ad3921sm9617593a12.61.2025.03.19.09.34.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Mar 2025 09:34:27 -0700 (PDT)
-Message-ID: <14e2779b-779e-4b91-bc6f-896c5dd6821e@suse.com>
-Date: Wed, 19 Mar 2025 17:34:26 +0100
+        d=1e100.net; s=20230601; t=1742407121; x=1743011921;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tk5ycb3N9meE73NCm46CD0AtZuFHAdivFMZfwt24RPU=;
+        b=B+qyTiju/Z8Qfh2IiIFlaHtQZ+ElCFk4qgxIKrNlak9Z1c90z568jxsMq7bIzX8gDc
+         /UdpD8QBcbsYJbNDv/pA9c2m95seWpuRlK5l4qjwWyxTp5VkcLdT2u0G8n2gtWsTP7Ut
+         4X74HbAq/HH96pHhyn/PrUyclUg3jMdCyC3u7ZsiphXw9p8DTWaZrD/WsNqBG4/wtSrn
+         M6dk9ECjodOzrtlH2m2J+pm1TeHxKs3BB41a9dih8KzSwOUpFXxiG47mv9IilHagWspE
+         nO6T8tmDHem7WE++R1SU6KAnDVZCjdPH3mdOVhzv/ycYLHuIq+URs5bJ5KQpOYSMBkbE
+         j68g==
+X-Forwarded-Encrypted: i=1; AJvYcCVUcFJ3WQ+O/yFYTxac0fFWK2ECeYSrOsAe72BBfiYfDsVWPh+i08TmsRphmiBbFr0R1eyNQEpFJcXv@lists.infradead.org
+X-Gm-Message-State: AOJu0YzGl2ECMPNvOGlcw9PQEoIqb1Mjd0f7iVN2vGqLzqo72kKZyou6
+	kDiagUIqV6bLNOUBOTd3ggq5aJCUPbQhmTyIa6i4wI4zFgqvnFjwf2D1Y9/8l0A=
+X-Gm-Gg: ASbGncs3XWCYjm7peiXv8i/F0zpYtOWLmt/1aG2MJuhKdBPgGYulI1TTv5r5V/yfLcz
+	u4HHbhFWRjTE4783phr4NK9SYu2r5EbciAIxV2vKtp4AKqAVigGo5GLvSBVwHfeqB/b/j4VhqFJ
+	DgQXA1P7gJwqamhkG9Jsl7RALQbXoHuDmfr09Q2Ve2oj75FMfrIdcINNCeOGKGZIJ/fiuzDkea7
+	bXdbInslToDVqDDWpswzWvyDOy2f7mQU27SEtBeYiwBUtpiuJUjpfhNqBYdmh6zeoso/wwYJHOu
+	Lzy+pfLgV6RQgyxdh9auoo73BaaOCvHtLDobtABoHK5ZaVLBNWHPMUGUhtjAYs0i0oMDNmHFZfM
+	+zUhX/dpFzkQuCKa3YA==
+X-Google-Smtp-Source: AGHT+IH//pIx1EBbRFqDU6QPhXC6odo+Ppd2dshOt/mNgQMR0e3nRHsssO7Vo2UonDgQd/fB3+YCbw==
+X-Received: by 2002:a05:620a:3189:b0:7c5:5154:cb2 with SMTP id af79cd13be357-7c5a839688cmr568357985a.15.1742407121681;
+        Wed, 19 Mar 2025 10:58:41 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573d8a62asm885096585a.96.2025.03.19.10.58.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 10:58:40 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1tuxge-00000000Wns-1mXJ;
+	Wed, 19 Mar 2025 14:58:40 -0300
+Date: Wed, 19 Mar 2025 14:58:40 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+Message-ID: <20250319175840.GG10600@ziepe.ca>
+References: <cover.1738765879.git.leonro@nvidia.com>
+ <20250220124827.GR53094@unreal>
+ <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
+ <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+ <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
+ <20250312193249.GI1322339@unreal>
+ <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/1] C2HTermReq support for nvmet-tcp
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: sagi@grimberg.me, mlombard@bsdbackstore.eu,
- linux-nvme@lists.infradead.org, kbusch@meta.com
-References: <20250319162449.342649-1-mlombard@redhat.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.com>
-In-Reply-To: <20250319162449.342649-1-mlombard@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250319_093430_568015_8AE79F9A 
-X-CRM114-Status: GOOD (  18.27  )
+X-CRM114-CacheID: sfid-20250319_105843_322908_81D5478F 
+X-CRM114-Status: GOOD (  22.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,37 +123,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/19/25 17:24, Maurizio Lombardi wrote:
-> Hello Hannes,
-> 
-> this patch adds support for C2HTermReq in
-> nvmet-tcp as you proposed here:
-> https://lore.kernel.org/linux-nvme/91041933-6a18-490c-8090-4e03d15d3cf3@suse.de/
-> 
-> Now, the question is how to make it possible to write a blktest script
-> to test this feature.
-> 
-> I am thinking of adding a function to drivers/nvme/host/fault_inject.c
-> that corrupts the digest in random packets to trigger a digest
-> error in the target driver, so the latter will send
-> a C2HTermReq PDU back to the host.
-> Does that sounds like a good idea?
-> 
-> Maurizio Lombardi (1):
->    nvmet-tcp: add support for C2HTermReq
-> 
->   drivers/nvme/target/tcp.c | 70 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 70 insertions(+)
-> 
-Hmm. It should be possible to have a debugfs attribute to always fail 
-digest comparison, that should trigger it, no?
+On Fri, Mar 14, 2025 at 11:52:58AM +0100, Marek Szyprowski wrote:
 
-Cheers,
+> > The only way to do so is to use dma_map_sg_attrs(), which relies on SG
+> > (the one that we want to remove) to map P2P pages.
+> 
+> That's something I don't get yet. How P2P pages can be used with 
+> dma_map_sg_attrs(), but not with dma_map_page_attrs()? Both operate 
+> internally on struct page pointer.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.com                               +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+It is a bit subtle, I ran in to this when exploring enabling proper
+P2P for dma_map_resource() too.
+
+The API signatures are:
+
+dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+		size_t offset, size_t size, enum dma_data_direction dir,
+		unsigned long attrs);
+void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+		enum dma_data_direction dir, unsigned long attrs);
+
+The thing to notice immediately is that the unmap path does not get
+passed a struct page.
+
+So, lets think about the flow when the iommu is turned on. 
+
+For normal struct page memory:
+
+ - dma_map_page_attrs() allocates some IOVA and returns it in the
+   dma_addr_t and then maps the struct page to the iommu page table
+
+ - dma_unmap_page_attrs() frees the IOVA from the given dma_addr_t
+ 
+If we think about P2P now:
+
+ - dma_map_page_attrs() can inspect the struct page and determine it
+   is P2P. It computes a bus address which is not an IOVA, and does
+   not transit through the IOMMU. No IOVA allocation is performed. the
+   bus address is returned as the dma_addr_t
+
+ - dma_unmap_page_attrs() ... is impossible. We just get this
+   dma_addr_t that doesn't have enough information to tell anymore if
+   the address is a P2P bus address or not, so we can't tell if we
+   should unmap an iova from the dma_addr_t :\
+
+The sg path fixes this because it introduced a new flag in the
+scatterlist, SG_DMA_BUS_ADDRESS, that allows the sg map path to record
+the information for the unmap path so it can do the right thing.
+
+Leon's approach fixes this by putting an overarching transaction state
+around the DMA operation so that map and unmap operations can look in
+the state and determine if this is a P2P or non P2P map and then know
+how to unmap.
+
+For some background here, Christoph gave me this idea back at LSF/MM
+in Vancouver (two years ago now). At the time I was looking at
+replacing scatterlist and giving new DMA API ops to operate on a
+"scatterlist v2" structure.
+
+Christoph's vision was to make a performance DMA API path that could
+be used to implement any scatterlist-like data structure very
+efficiently without having to teach the DMA API about all sorts of 
+scatterlist-like things.
+
+Jason
 
