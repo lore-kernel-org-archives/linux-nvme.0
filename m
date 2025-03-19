@@ -4,85 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAF3FC35FFA
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Mar 2025 19:52:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4317C35FFA
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Mar 2025 21:00:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UoMsJz6uQ9Xsq6hoAcbPVlQz7ODTaS5nZ9IsZpDthKQ=; b=MCUNltf9f2dNT8eMYeF9aomj4E
-	EZOTWhLSG9N7nA/rYRPHnwUNpTG+vhW4Th0GkJ8GhAQeTtZGrBHs/hXdb9IA9vwm4xuZqKKyA5p1L
-	y1PsEAByxQ4DFpuDmQaYbWIxCS2i7E83vL+YbOvuZ8Rl5OIKrTPmyES4d0n8U49T2xoMxyb1BUG1W
-	3MEcmYmkBKNPFmxQMCJa2cw3ZL7QYvYVqFmQ3jejcTUMotkGCKuAlDeOwI7+NFMs5vcPVm6H/21UN
-	T63uaphNJxhhLg1WG+upJeYFAC4zX0y4OkHf61lzWG6F5PXEdW7VwM99+nsXui2H/S7/lhP3Y83/5
-	BpwCEXTQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=h9fA0vigQcgLewl+P2hKDh1ek8N/s4rvS4ZYh23xgGc=; b=YSNDAldFVfDol3a5POVR2KnrnE
+	Y1Sg28MD4M7qShQ9HU4AnbaQEP+77rbnCpZzxS+sev3WeLdiWffUtJb9m+v9MpqJfoWOVHA6j5YuJ
+	Y/1e+nvzd5r+QJT+KMd7l7cf6JptnhKRMegs+p7q5kNyWBs/LbD8CdaIeB98w7sAb0bxjeBzV2XK7
+	HTwN7oXRFA244+kctVkQBsiyEIGIbO+PmDP0kqQWEpT9gywN6jqkkYa3+uxkeTkou0BnyuNuX1+vc
+	aLk3X+vGRz6dyde6FxonYCFgTZCcNrLgOy6SDhlrCIV6THRVFCZuN031QpZJBU1sp+9fmObSVBp0j
+	eYL9fitQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuzSh-0000000A1Yo-08Pi;
-	Wed, 19 Mar 2025 19:52:23 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1tv0Wk-0000000A63f-0PD2;
+	Wed, 19 Mar 2025 21:00:38 +0000
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuzSe-0000000A1Y7-30qU
+	id 1tv0Wi-0000000A62c-13zL
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Mar 2025 19:52:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742413938;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UoMsJz6uQ9Xsq6hoAcbPVlQz7ODTaS5nZ9IsZpDthKQ=;
-	b=dXTbKcAECJTGq8a00vTTFKZa41lO5nogZ5Cpp9WYzi/xvEGM9VabMHqd+oFV1ETMDQiziv
-	oCT6C91IIPm3tJcfmo/fiOAOKtaOs2jMMOQx/4AZJHtlp05hS9Oe1F7s8pIHw7Qmp4EN0b
-	xOF/WbJPnfG5QZY2eGZt2qQ5XyXJZT4=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-550-pc5hPzSgOM-Mh3OFUt2lmQ-1; Wed,
- 19 Mar 2025 15:50:38 -0400
-X-MC-Unique: pc5hPzSgOM-Mh3OFUt2lmQ-1
-X-Mimecast-MFC-AGG-ID: pc5hPzSgOM-Mh3OFUt2lmQ_1742413836
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7B028180AB19;
-	Wed, 19 Mar 2025 19:50:33 +0000 (UTC)
-Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (unknown [10.6.23.247])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4E6C11956095;
-	Wed, 19 Mar 2025 19:50:31 +0000 (UTC)
-Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (localhost [127.0.0.1])
-	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.17.1) with ESMTPS id 52JJoUdr2309780
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 19 Mar 2025 15:50:30 -0400
-Received: (from bmarzins@localhost)
-	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.18.1/Submit) id 52JJoRRp2309779;
-	Wed, 19 Mar 2025 15:50:27 -0400
-Date: Wed, 19 Mar 2025 15:50:27 -0400
-From: Benjamin Marzinski <bmarzins@redhat.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, hch@lst.de,
-        tytso@mit.edu, djwong@kernel.org, john.g.garry@oracle.com,
-        chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com,
-        yi.zhang@huawei.com, chengzhihao1@huawei.com, yukuai3@huawei.com,
-        yangerkun@huawei.com
-Subject: Re: [RFC PATCH -next v3 06/10] dm: add BLK_FEAT_WRITE_ZEROES_UNMAP
- support
-Message-ID: <Z9sgAxM-hZZJtZu9@redhat.com>
-References: <20250318073545.3518707-1-yi.zhang@huaweicloud.com>
- <20250318073545.3518707-7-yi.zhang@huaweicloud.com>
+	Wed, 19 Mar 2025 21:00:37 +0000
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3913d45a148so28583f8f.3
+        for <linux-nvme@lists.infradead.org>; Wed, 19 Mar 2025 14:00:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742418034; x=1743022834; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h9fA0vigQcgLewl+P2hKDh1ek8N/s4rvS4ZYh23xgGc=;
+        b=LlDR3cUCQ+OP4Qy2qb6vN8DG2OXmq1dMLURspxv8jvaqpvDyBQcy03YriVGTImSsCF
+         W7VaRMYKaL4SsHWJWJ7nvtv4GaFhk1lzzONeetELvS2vzgyU0xYmpB3F6ez5BO/6HKiH
+         9QY9iEY8CNflwxn55XdV+hGa91NX0OZvEgNhOZ7R/DQMtn95/O3/0v6EnItHqLIjGqCN
+         WsPgKzFRiBK1iJWblFq862ZGiT4gEauR4c0/w0qhsHUSnnIqc2XHg5sn2UO9t0uOCZmc
+         /YgHRgfzm8pQv6FJ+HQpMd8QCy8GHe4swE35uI7lovSdo0vznDsYDMfdB7yUi2S6txvt
+         y07Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742418034; x=1743022834;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h9fA0vigQcgLewl+P2hKDh1ek8N/s4rvS4ZYh23xgGc=;
+        b=u20gt3Z6XrD/NXeMhHcfx28X5k8pDsdxZCJoO6GNvdw/il/9tH9TxLyPz9ENrtZSqW
+         l78NbBOJZSyaAjQZHmEQZvLo5xRuN2+8NrC2r/+yjhTW2unP9We6VDNxWm4RXYiHzSSu
+         wyqQSFnaYK8NwuTmlXypajxJw6acT1KHYq6oQa5slzCkQ9EaWJ0JEmWD3ceI48FY1qaX
+         FxA7d3jvL20TiI1hiuCp0I+nLryE83oMzsjByWFPrxhpExqbcOx7lxc3w7OLhHSz+jQG
+         UlAD9pPJry/VjXfwoz1n90+ED/tsD+9nLWHzp8BGEYDMQ64TJrL9Q79ZhBt/eP+n3oJJ
+         BxHw==
+X-Forwarded-Encrypted: i=1; AJvYcCWlau5uceUh3B7jWI838UwlvtuJKSSBsqZXLuiumnOt4GrLwStB/6FZB48OsEHHHCBpYgknVpbr4a93@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxlezm8VnUY6NzJnAoOINn6USrvlfqCV1x3YrUnqgiwM7loTs1N
+	71QMXKsIKoGIzQYZUBWy1drkvvuz4zPaeQDaWOMNqoAEtEf0eVaX
+X-Gm-Gg: ASbGnctJswWIvJkQo4/HtcA82eDQdyCkAY1ZTLpzVwSa5emUPDCiSI6bHgTh7aHzUk0
+	7l/vsNbgJzLzS4K1YRdR85RxnxGtWWVje2ynKhH+Joy89rUeIXh+MQ04Xyz6v84o32//JqM8dHt
+	Un11bNIII9nLODGnyg9VvbWI55iIFpFdObxpR3kiTZScVNRx1MAPJA7nQ98o1PyMmqxHaTds+lA
+	lZjd8QJiCjlpMAT/dsYz/B0CuUz4m1VNQyVxjMkHhvbUdTCHaqKNSoVPJrn3zEeCmB1C5txU344
+	VjLjIKBXzN1uFXcm4gMD0lviPMsfOfsWOm94pdxBqnuz6lOx85czOQh1OsTusz962j1Rl3gkSXl
+	CKQ61Ck8=
+X-Google-Smtp-Source: AGHT+IEh14hIPzocWY61j2hM9V2XCwKM6EoxuGhHTrrI0GDTgEhJ9w5eegw2wU9kY9qwW+6pbIpMug==
+X-Received: by 2002:a05:6000:21c4:b0:399:795e:d899 with SMTP id ffacd0b85a97d-399795ed8b6mr633215f8f.14.1742418034195;
+        Wed, 19 Mar 2025 14:00:34 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df3537sm21976764f8f.8.2025.03.19.14.00.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 14:00:33 -0700 (PDT)
+Date: Wed, 19 Mar 2025 21:00:32 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: <shao.mingyin@zte.com.cn>
+Cc: <hch@lst.de>, <sagi@grimberg.me>, <kch@nvidia.com>,
+ <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <yang.tao172@zte.com.cn>, <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>
+Subject: Re: [PATCH] nvme: replace max(a, min(b, c)) by clamp(b, a, c)
+Message-ID: <20250319210032.5d442b0c@pumpkin>
+In-Reply-To: <20250317153909901uOL4saBkASEN9kOmQXDoP@zte.com.cn>
+References: <20250317153909901uOL4saBkASEN9kOmQXDoP@zte.com.cn>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250318073545.3518707-7-yi.zhang@huaweicloud.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250319_125220_881715_6F3E3DF1 
-X-CRM114-Status: GOOD (  19.37  )
+X-CRM114-CacheID: sfid-20250319_140036_295239_5C98FB83 
+X-CRM114-Status: GOOD (  16.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,60 +100,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 18, 2025 at 03:35:41PM +0800, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> Set the BLK_FEAT_WRITE_ZEROES_UNMAP feature on stacking queue limits by
-> default. This feature shall be disabled if any underlying device does
-> not support it.
-> 
-Reviewed-by: Benjamin Marzinski <bmarzins@redhat.com>
+On Mon, 17 Mar 2025 15:39:09 +0800 (CST)
+<shao.mingyin@zte.com.cn> wrote:
 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> ---
->  drivers/md/dm-table.c | 7 +++++--
->  drivers/md/dm.c       | 1 +
->  2 files changed, 6 insertions(+), 2 deletions(-)
+> From: LiHaoran <li.haoran7@zte.com.cn>
 > 
-> diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-> index 453803f1edf5..d4a483287e26 100644
-> --- a/drivers/md/dm-table.c
-> +++ b/drivers/md/dm-table.c
-> @@ -598,7 +598,8 @@ int dm_split_args(int *argc, char ***argvp, char *input)
->  static void dm_set_stacking_limits(struct queue_limits *limits)
+> This patch replaces max(a, min(b, c)) by clamp(b, a, c) in the nvme
+> driver. This improves the readability.
+> 
+> Signed-off-by: LiHaoran <li.haoran7@zte.com.cn>
+> Cc: ShaoMingyin <shao.mingyin@zte.com.cn>
+> ---
+>  drivers/nvme/target/nvmet.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index fcf4f460dc9a..30804b0ca66e 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -819,7 +819,7 @@ static inline u8 nvmet_cc_iocqes(u32 cc)
+>  /* Convert a 32-bit number to a 16-bit 0's based number */
+>  static inline __le16 to0based(u32 a)
 >  {
->  	blk_set_stacking_limits(limits);
-> -	limits->features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL;
-> +	limits->features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL |
-> +			    BLK_FEAT_WRITE_ZEROES_UNMAP;
+> -	return cpu_to_le16(max(1U, min(1U << 16, a)) - 1);
+> +	return cpu_to_le16(clamp(1U << 16, 1U, a) - 1);
+
+Swap the arguments into a sane order - clamp(a, 1, 1 << 16)
+
+	David
+
 >  }
->  
->  /*
-> @@ -1848,8 +1849,10 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
->  		limits->discard_alignment = 0;
->  	}
->  
-> -	if (!dm_table_supports_write_zeroes(t))
-> +	if (!dm_table_supports_write_zeroes(t)) {
->  		limits->max_write_zeroes_sectors = 0;
-> +		limits->features &= ~BLK_FEAT_WRITE_ZEROES_UNMAP;
-> +	}
->  
->  	if (!dm_table_supports_secure_erase(t))
->  		limits->max_secure_erase_sectors = 0;
-> diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-> index 5ab7574c0c76..b59c3dbeaaf1 100644
-> --- a/drivers/md/dm.c
-> +++ b/drivers/md/dm.c
-> @@ -1096,6 +1096,7 @@ void disable_write_zeroes(struct mapped_device *md)
->  
->  	/* device doesn't really support WRITE ZEROES, disable it */
->  	limits->max_write_zeroes_sectors = 0;
-> +	limits->features &= ~BLK_FEAT_WRITE_ZEROES_UNMAP;
->  }
->  
->  static bool swap_bios_limit(struct dm_target *ti, struct bio *bio)
-> -- 
-> 2.46.1
+> 
+>  static inline bool nvmet_ns_has_pi(struct nvmet_ns *ns)
 
 
