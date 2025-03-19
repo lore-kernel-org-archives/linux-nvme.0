@@ -4,76 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5EE8C35FFC
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Mar 2025 16:25:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DECD4C35FFA
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Mar 2025 16:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YPxDfKiGwPpNmvGSyBoh4VSTQG+a8rXfseHb6N69v4o=; b=vPNMNlxlU6KffhVHX/mZqmRr0O
-	4A78BRR9xfH3H34zjNpWpl6coixXHSKbP4IyvVNsoUlIQaf6qFjl1V9adm7oEgnv9wRptobuRJR8T
-	l+HH7iGmWzy8YXTOlHqW436GP52UWdxLch3GnbCdin1HTgjlYBiH/VhcyRfbWAewTmJPxkQcO3hpT
-	evIGqUr+GGzW0n46C6FLdGYIeVuN57yOs1VOTEyZniUaqEIJ5rpO7NoxF8UN/ZGMZr9XIOf7eohG4
-	ehWP55gi4Gx9ZRITswZ7MnT3J20kJ55i3RzlydZZijQdCh3BYQxf7hEob/mf4KJJwCa7iLVBTSMYG
-	7MPlHlRA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+CxAcNeItNgRHw+6R9MixJ9jJKAhVJkbqm0TieMIIcs=; b=BoMaTg+4A7XG1BWC1x3PI/5v+k
+	sMA7xmuQCW+Yekfpt3Ls3CAo7s1Iq9F/Lx6uoL+lCfBTKOVJ3DY5U/Afmxg8Z3trSC/Xl5VPSe7Qw
+	TD+KA6xFUQ4fPcvQcI3ipAVBZWsLPsP/+kmN0Pma8Lm68RSHev1afoxhC3jaixkaYm9ygN5E27A4u
+	jtKce8iicpxjPiRcaEqSnIPg13kBreR1EEJRxM+92hloZYToGLLG3zhrQuuexa+a263FodF6MQjQg
+	6KdOhqK/3uyyNlFiitov7vpRSm0GBTlz5UBjVijl0hZ5IBHtbzU3vvWea2iGqLcMM2CQuJ2SuZxtJ
+	OSUGZTSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuwE4-00000009Xh3-411y;
-	Wed, 19 Mar 2025 16:25:04 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1tuwNG-00000009Z7z-19g5;
+	Wed, 19 Mar 2025 16:34:34 +0000
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuwE2-00000009Xg1-1nHz
+	id 1tuwNC-00000009Z6w-2EgF
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Mar 2025 16:25:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742401501;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YPxDfKiGwPpNmvGSyBoh4VSTQG+a8rXfseHb6N69v4o=;
-	b=fdjyQn7Zl0m93Ykvx8kyqsCD6csjDNSvXI/UvpXxv5xdRrBchQCtq376QkOEFQ/uvg6WEW
-	64VlHo9zuv2f0ZqUX69tir+C7nBSBvqQ5tNt135fqtMWJAhfnl+5h3el9d2E25HSC4+Rha
-	TQ/oM6kXfOGz0N3YS2k0hcjXXFKUk0Q=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-688-K3kU0tzkMseT5JCVGNxGEA-1; Wed,
- 19 Mar 2025 12:24:58 -0400
-X-MC-Unique: K3kU0tzkMseT5JCVGNxGEA-1
-X-Mimecast-MFC-AGG-ID: K3kU0tzkMseT5JCVGNxGEA_1742401497
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F12ED180AB19;
-	Wed, 19 Mar 2025 16:24:56 +0000 (UTC)
-Received: from rocky.redhat.com (unknown [10.47.238.77])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 681CA1956094;
-	Wed, 19 Mar 2025 16:24:54 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: hare@suse.com
-Cc: sagi@grimberg.me,
-	mlombard@bsdbackstore.eu,
-	linux-nvme@lists.infradead.org,
-	kbusch@meta.com
-Subject: [PATCH RFC 1/1] nvmet-tcp: add support for C2HTermReq
-Date: Wed, 19 Mar 2025 17:24:49 +0100
-Message-ID: <20250319162449.342649-2-mlombard@redhat.com>
-In-Reply-To: <20250319162449.342649-1-mlombard@redhat.com>
-References: <20250319162449.342649-1-mlombard@redhat.com>
+	Wed, 19 Mar 2025 16:34:32 +0000
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-5e614da8615so1741378a12.1
+        for <linux-nvme@lists.infradead.org>; Wed, 19 Mar 2025 09:34:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1742402068; x=1743006868; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+CxAcNeItNgRHw+6R9MixJ9jJKAhVJkbqm0TieMIIcs=;
+        b=NkTM/NjqAx1gid3JxL0YqxNYmXPFo6na5J9Ls3KcUkR7oPBkxs12Dl/SUfVKri9kUY
+         s2Y6zwrOuUMbNCbdyaYA+KdmlTCYZNyLEHZAvwnUdBGfz60Ngrno8xIEHCdlUcn1WrmF
+         8XMPLSRhZYSJlAJ3fC2uANZ3AnrEcT2MtP8CM9Ksft2kHJXS3gAdZrqA2qk8y0ocZU6X
+         5pVx5RfaiXozmGAmtNQ51F3L/unR2WYLVI2qTXXfiCqH6CAaWQoeEgLrS1HFYPj6Ry2O
+         ckFT8ucJdTOhaBPaM9ydGtHNYhtpuEQqBD5j/bWvPUAw8uSLJ1oJrPfyw6QEZXxDI2EO
+         AedA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742402068; x=1743006868;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+CxAcNeItNgRHw+6R9MixJ9jJKAhVJkbqm0TieMIIcs=;
+        b=A6gd5ERz6oXYBheE7eXuLe564jL2QStDU8H2jyEMXY2QdM1mtXcL24kt8rcU/i9867
+         D9sBWZIAFBO4B32tQQgXou2sX816P2HQO3ECksUdMTMnGs2AySRP2hvLIebmgZe4cugI
+         zFT6w3ZtFcfnPa05Qwbo9BTyLXy7zWq+9D/5CsyPoepVVyQlTJhVCs+6iLvn25ROL0v2
+         BCvYZBF6ym+b7b1deKWV9UjLtBAUNsLbRXfYrDgWThAvwW7tfyTShdHyDFNNskxGe9Tc
+         17qk1TWHVWGXU9IOZiP+YU1wK/voWFHsx1dhkQBJrVhv2ezp/epz53L+FMJVIkWk2YF6
+         y7Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCUghVelhwwwL7I4EvxEDCQcHIWIeRkvAFJMb0rwsW076r5r29aZptzT/OztTbDdc9MFyKZSPsT9mAwX@lists.infradead.org
+X-Gm-Message-State: AOJu0YxjWa8QWSz2gD+ggX5K3U8Jg0lXUtOmjuzEERKMDGCvZN0FZmMB
+	YFs21YABAwUT3p2Kf+/ZtscJxcN+j4/F8AqQqdzzs4EU6QVk9wtlQy7QXfGPH84=
+X-Gm-Gg: ASbGnctOMHeMrY79Q5HoRcqjB6xLTT75xKhoIBrrOMqbN1UO+ZiLwERG90rRVewz+sF
+	L3q/JzppUFbzidZokh4nIh5U54cF3x5k/j6/H2AAnfLrvjrkDvyqCmsYHob/U3e/k4jry4HvQDj
+	sweEBEHHABoSR8gEM2tP7MVQyaoNZquWORXVDXrv5bzbe1vUJ27DH4zlFX6mJN8z7cr8uiqwcvD
+	w2MOBJPip3v0rApZ6lkOQyeQNUNLE7y5mRTbDaxZ0FpGnQWYi4pPp7A9BuwcIGEhBT+isXa1+LE
+	NAPgHwWOPWHhU9D2NTpLZDxzLHSW8HlsqmU4lJYiEucjfQQiHitcY/rvziA/EMd+IJIMXW+5qBA
+	LARE65Ww=
+X-Google-Smtp-Source: AGHT+IEjZhPDC9JVGHvBSu0G4bsjIRJ/jfFk3xfcr9ZDEkkV+RNoKj0oTQdj7JCnbnHbtcMPXmrIPg==
+X-Received: by 2002:a05:6402:35ca:b0:5e5:ba3e:aaf6 with SMTP id 4fb4d7f45d1cf-5eb99741ec5mr112425a12.1.1742402068072;
+        Wed, 19 Mar 2025 09:34:28 -0700 (PDT)
+Received: from ?IPV6:2001:a61:2b12:fe01:4392:1ae2:7b50:54d7? ([2001:a61:2b12:fe01:4392:1ae2:7b50:54d7])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e816ad3921sm9617593a12.61.2025.03.19.09.34.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Mar 2025 09:34:27 -0700 (PDT)
+Message-ID: <14e2779b-779e-4b91-bc6f-896c5dd6821e@suse.com>
+Date: Wed, 19 Mar 2025 17:34:26 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: GltwEieePwQ7HOhpq3-u2eBG3aBMbrsa3uPywsves6w_1742401497
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/1] C2HTermReq support for nvmet-tcp
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: sagi@grimberg.me, mlombard@bsdbackstore.eu,
+ linux-nvme@lists.infradead.org, kbusch@meta.com
+References: <20250319162449.342649-1-mlombard@redhat.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.com>
+In-Reply-To: <20250319162449.342649-1-mlombard@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250319_092502_537285_896BAB59 
-X-CRM114-Status: GOOD (  14.16  )
+X-CRM114-CacheID: sfid-20250319_093430_568015_8AE79F9A 
+X-CRM114-Status: GOOD (  18.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,144 +100,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Send a C2HTermReq PDU to the host when an header digest error is
-detected, when receiving ICReq PDUs with invalid parameters or
-when H2CData PDUs have invalid data offsets or sizes.
+On 3/19/25 17:24, Maurizio Lombardi wrote:
+> Hello Hannes,
+> 
+> this patch adds support for C2HTermReq in
+> nvmet-tcp as you proposed here:
+> https://lore.kernel.org/linux-nvme/91041933-6a18-490c-8090-4e03d15d3cf3@suse.de/
+> 
+> Now, the question is how to make it possible to write a blktest script
+> to test this feature.
+> 
+> I am thinking of adding a function to drivers/nvme/host/fault_inject.c
+> that corrupts the digest in random packets to trigger a digest
+> error in the target driver, so the latter will send
+> a C2HTermReq PDU back to the host.
+> Does that sounds like a good idea?
+> 
+> Maurizio Lombardi (1):
+>    nvmet-tcp: add support for C2HTermReq
+> 
+>   drivers/nvme/target/tcp.c | 70 +++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 70 insertions(+)
+> 
+Hmm. It should be possible to have a debugfs attribute to always fail 
+digest comparison, that should trigger it, no?
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/target/tcp.c | 70 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+Cheers,
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 4f9cac8a5abe..c9aac35c90c3 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -217,6 +217,10 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
-+static void nvmet_send_c2h_term(struct nvmet_tcp_queue *queue,
-+				void *pdu,
-+				enum nvme_tcp_fatal_error_status fes,
-+				u32 field_offset);
- 
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -322,6 +326,8 @@ static int nvmet_tcp_verify_hdgst(struct nvmet_tcp_queue *queue,
- 	nvmet_tcp_hdgst(queue->rcv_hash, pdu, len);
- 	exp_digest = *(__le32 *)(pdu + hdr->hlen);
- 	if (recv_digest != exp_digest) {
-+		/* Restore the original value for C2HTermReq */
-+		*(__le32 *)(pdu + hdr->hlen) = recv_digest;
- 		pr_err("queue %d: header digest error: recv %#x expected %#x\n",
- 			queue->idx, le32_to_cpu(recv_digest),
- 			le32_to_cpu(exp_digest));
-@@ -910,11 +916,17 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
- 	}
- 
- 	if (icreq->pfv != NVME_TCP_PFV_1_0) {
-+		nvmet_send_c2h_term(queue, icreq,
-+				    NVME_TCP_FES_UNSUPPORTED_PARAM,
-+				    offsetof(struct nvme_tcp_icreq_pdu, pfv));
- 		pr_err("queue %d: bad pfv %d\n", queue->idx, icreq->pfv);
- 		return -EPROTO;
- 	}
- 
- 	if (icreq->hpda != 0) {
-+		nvmet_send_c2h_term(queue, icreq,
-+				    NVME_TCP_FES_UNSUPPORTED_PARAM,
-+				    offsetof(struct nvme_tcp_icreq_pdu, hpda));
- 		pr_err("queue %d: unsupported hpda %d\n", queue->idx,
- 			icreq->hpda);
- 		return -EPROTO;
-@@ -1006,6 +1018,8 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
- 		pr_err("ttag %u unexpected data offset %u (expected %u)\n",
- 			data->ttag, le32_to_cpu(data->data_offset),
- 			cmd->rbytes_done);
-+		nvmet_send_c2h_term(queue, data,
-+				    NVME_TCP_FES_DATA_OUT_OF_RANGE, 0);
- 		goto err_proto;
- 	}
- 
-@@ -1019,6 +1033,11 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
- 		     cmd->pdu_len == 0 ||
- 		     cmd->pdu_len > NVMET_TCP_MAXH2CDATA)) {
- 		pr_err("H2CData PDU len %u is invalid\n", cmd->pdu_len);
-+		if (cmd->pdu_len > NVMET_TCP_MAXH2CDATA) {
-+			nvmet_send_c2h_term(queue, data,
-+					    NVME_TCP_FES_DATA_LIMIT_EXCEEDED,
-+					    0);
-+		}
- 		goto err_proto;
- 	}
- 	cmd->pdu_recv = 0;
-@@ -1180,6 +1199,55 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
- 	return ret;
- }
- 
-+static void nvmet_send_c2h_term(struct nvmet_tcp_queue *queue, void *pdu,
-+				enum nvme_tcp_fatal_error_status fes,
-+				u32 field_offset)
-+{
-+	struct nvme_tcp_term_pdu *term_pdu;
-+	struct nvme_tcp_hdr *hdr = pdu;
-+	size_t cmd_size = nvmet_tcp_pdu_size(hdr->type);
-+	size_t pdu_size = sizeof(*term_pdu) + cmd_size;
-+	struct msghdr msg = { .msg_flags = MSG_EOR | MSG_DONTWAIT };
-+	struct bio_vec bvec;
-+	__le32 fei;
-+
-+	if (!cmd_size)
-+		return;
-+
-+	term_pdu = kzalloc(pdu_size, GFP_KERNEL);
-+	if (!term_pdu)
-+		return;
-+
-+	switch (fes) {
-+	case NVME_TCP_FES_INVALID_PDU_HDR:
-+	case NVME_TCP_FES_UNSUPPORTED_PARAM:
-+		fei = field_offset;
-+		break;
-+	case NVME_TCP_FES_HDR_DIGEST_ERR:
-+		fei = le32_to_cpu(*(__le32 *)((u8 *)hdr + hdr->hlen));
-+		break;
-+	default:
-+		fei = 0;
-+		break;
-+	}
-+	term_pdu->feil = cpu_to_le16(lower_16_bits(fei));
-+	term_pdu->feiu = cpu_to_le16(upper_16_bits(fei));
-+	term_pdu->fes  = cpu_to_le16(fes);
-+
-+	memcpy((u8 *)term_pdu + sizeof(*term_pdu), pdu, cmd_size);
-+
-+	term_pdu->hdr.type  = nvme_tcp_c2h_term;
-+	term_pdu->hdr.flags = 0;
-+	term_pdu->hdr.hlen  = sizeof(*term_pdu);
-+	term_pdu->hdr.plen  = cpu_to_le32(pdu_size);
-+
-+	bvec_set_virt(&bvec, (void *)term_pdu, pdu_size);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, pdu_size);
-+	sock_sendmsg(queue->sock, &msg);
-+
-+	kfree(term_pdu);
-+}
-+
- static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
- {
- 	struct nvme_tcp_hdr *hdr = &queue->pdu.cmd.hdr;
-@@ -1230,6 +1298,8 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
- 
- 	if (queue->hdr_digest &&
- 	    nvmet_tcp_verify_hdgst(queue, &queue->pdu, hdr->hlen)) {
-+		nvmet_send_c2h_term(queue, &queue->pdu,
-+				NVME_TCP_FES_HDR_DIGEST_ERR, 0);
- 		nvmet_tcp_fatal_error(queue); /* fatal */
- 		return -EPROTO;
- 	}
+Hannes
 -- 
-2.43.5
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.com                               +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
