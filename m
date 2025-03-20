@@ -4,60 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B1D0C36002
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Mar 2025 07:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F1EFC28B30
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Mar 2025 20:14:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Mime-Version:Message-ID:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=kqonjV6DLiLOY235qVbMSQ3bKyTE+melduLm3U7vTsI=; b=tmVctFmlBLsd4abHgjmbYmr56s
-	1Ju429PjRcR24Kw7VL3qruFoZTgftlMN+PRZKLZSKOs+Tge2CceKus8+pNRpkjc1R85Ij1i2seS7I
-	WgClzdVnBK8qbJ+9eoMk9mr0PIjVa9cGBShDY66gu6NoUvi7LLBg9uvsX8O5Lsf9IWpFGAQC2TI9e
-	5Sh583T/fvVlXC3U42DdU+h5VmVFdJUhTLcdhdBHp3hkW7jYuKBy7MQis/JyM8YkcdT1ymR5Gj0JE
-	IP2j/xxpwBhjehbOB2NUlaOVAElbtxXrMvF8xM7lG5EZQ5GD39XQhwXR8CZhE+vcHBo6ynfQWLWe8
-	4/yBg9AQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZhDazyaSk5DNxMJR8w0hWiH7v1lKciNp0z3ZUQcVWA8=; b=kBDs/rA7M5qg1404U89Cv7omiC
+	bNioZUP7rcMVo24lB7m3uRtQGgN49XFX/SJwdwG6OP2+wR4HBQiigrJ06fxHrw0tAabcYJOUr/Mwa
+	65cueu8T7Dg6olZDgbXJMIPZgejmJvm/AJdVUni7mNmiwGleQSBz2DJSU6PlNiKrtkvwxoYJGtX4y
+	U4yOGU2Hlyjk5xO9oc216vnj8NKZAob3oaOBznJqUzOLRRPTzhCNXOgFIjjBJ8tDROZqRRVgHtrx5
+	TZ3pLcfUwuuotEDuyoFwmtWuZW2kEtP8n0SKMmmIwQUJ7FqfiiaEH3Rni/owTbsMtgEYT9L9ylFSv
+	XsM1jEXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvAis-0000000BSsH-2oUk;
-	Thu, 20 Mar 2025 07:53:50 +0000
-Received: from mxct.zte.com.cn ([183.62.165.209])
+	id 1tvMHm-0000000D9If-3CMo;
+	Thu, 20 Mar 2025 20:14:38 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvAiU-0000000BSou-34Ku
+	id 1tvMHi-0000000D9IZ-1ElL
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Mar 2025 07:53:30 +0000
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZJHr804CBz50FXg;
-	Thu, 20 Mar 2025 15:53:12 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl2.zte.com.cn with SMTP id 52K7qwbN070824;
-	Thu, 20 Mar 2025 15:52:58 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Thu, 20 Mar 2025 15:53:00 +0800 (CST)
-Date: Thu, 20 Mar 2025 15:53:00 +0800 (CST)
-X-Zmail-TransId: 2af967dbc95c35f-2e3a9
-X-Mailer: Zmail v1.0
-Message-ID: <20250320155300346qoM6J3iYhvw5QD7AfBiqo@zte.com.cn>
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <hch@lst.de>
-Cc: <sagi@grimberg.me>, <kch@nvidia.com>, <linux-nvme@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <yang.tao172@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHYyXSBudm1ldDogcmVwbGFjZSBtYXgoYSwgbWluKGIsIGMpKSBieSBjbGFtcCh2YWwsIGxvLCBoaSk=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 52K7qwbN070824
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 67DBC968.000/4ZJHr804CBz50FXg
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250320_005328_320441_1A72ACCE 
-X-CRM114-Status: GOOD (  10.38  )
+	Thu, 20 Mar 2025 20:14:34 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id CB19161141;
+	Thu, 20 Mar 2025 20:14:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A80C4CEDD;
+	Thu, 20 Mar 2025 20:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742501673;
+	bh=DbhyLRw+ONnvGrwiPJJZfLcA19J+b0IMN0QAC/62tIs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D6+PkvIjVvoooH/vlAp518qF7Xq0+AInbvKGnsnZG7haTNblNY61Enr9/lpVfmfSK
+	 FDFHIoxA02ojU3f/bZdNnvB3zcEtq553WiOTj3aW8+u4ntXY5WbJbmmlupO/YzRyeB
+	 dk7OnSCG26bhfSg1znBaUjfTkUMAOErl/HfYOuQBJOWtMBqXUNYb17sp9oyqBEp8Nw
+	 Mih0XPG1texZBTe5KmHH3zl5AKuH8rThSAMZJkyb6a6SNeot91WNc8bodODPbEWAPI
+	 jYEGTdPKw3YFGtCUH4vqB7FF7RMgAD/Lg263T0lfJVt5pQZ/n9zBzBdoHohknhr5xi
+	 YnzP/76cB4QkQ==
+Date: Thu, 20 Mar 2025 14:14:30 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: shao.mingyin@zte.com.cn
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	yang.tao172@zte.com.cn, yang.yang29@zte.com.cn, xu.xin16@zte.com.cn
+Subject: Re: [PATCH v2] nvmet: replace max(a, min(b, c)) by clamp(val, lo, hi)
+Message-ID: <Z9x3JsGAOIVKuHjD@kbusch-mbp.dhcp.thefacebook.com>
+References: <20250320155300346qoM6J3iYhvw5QD7AfBiqo@zte.com.cn>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250320155300346qoM6J3iYhvw5QD7AfBiqo@zte.com.cn>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,33 +69,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Li Haoran <li.haoran7@zte.com.cn>
+On Thu, Mar 20, 2025 at 03:53:00PM +0800, shao.mingyin@zte.com.cn wrote:
+> From: Li Haoran <li.haoran7@zte.com.cn>
+> 
+> This patch replaces max(a, min(b, c)) by clamp(val, lo, hi) in the nvme
+> driver. The clamp() macro explicitly expresses the intent of constraining
+> a value within bounds, improving code readability.
 
-This patch replaces max(a, min(b, c)) by clamp(val, lo, hi) in the nvme
-driver. The clamp() macro explicitly expresses the intent of constraining
-a value within bounds, improving code readability.
-
-Signed-off-by: Li Haoran <li.haoran7@zte.com.cn>
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
----
-v1->v2
-Swap the arguments into a sane order.
- drivers/nvme/target/nvmet.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index fcf4f460dc9a..7b8a1483da2d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -819,7 +819,7 @@ static inline u8 nvmet_cc_iocqes(u32 cc)
- /* Convert a 32-bit number to a 16-bit 0's based number */
- static inline __le16 to0based(u32 a)
- {
--	return cpu_to_le16(max(1U, min(1U << 16, a)) - 1);
-+	return cpu_to_le16(clamp(a, 1U, 1U << 16) - 1);
- }
-
- static inline bool nvmet_ns_has_pi(struct nvmet_ns *ns)
--- 
-2.25.1
+Thanks, applied to nvme-6.15.
 
