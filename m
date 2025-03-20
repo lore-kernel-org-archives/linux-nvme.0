@@ -4,87 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13213C28B30
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 01:04:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0B5AC35FFF
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 01:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mg7MaShCaHVel04UjfQ05hzlkvIsmGwXx5O0tLD+kLs=; b=v8FXOj2H5+4Jm3gx2mzVnJwTfQ
-	r1IEArCJ+eXchjYKQ0s3t+Z0GKXvUkaZyudOPEdKfDmlyUdPua74Y/XKCkjl4qelWegxlCujM5rQt
-	lm3CGXoHgnitIHasSwJet3/5kwFSyurW++DW4jCv4ZhTROjXYKB+lsF5nrL3YZv/YsZe13s4+LFz5
-	XLfi+oDFCZ+0gFPP78w9NesVgc+wX0fwxmcxex/ipvS3EXUgTTGLhcAIMSM0VFthUR7beG5PZ2ENA
-	xPrk7Yw8wa8+b1PkASn2H14XeFyeeCtBlggAz2TrH7OX7NZuNav28sVdWjsgY6CUYpufrGSAhEZYH
-	rZ9Esgow==;
+	bh=V40Yt8b5UQP5CQRebMaM4XT/r0qYRmMZ1DD0U7kvnK4=; b=gxehvPqnN8ilkzOgCDaG9ihQ16
+	3ZKb5KLRB9AkwnYREZ61vadQ8Dwm2qyw/b1IxdPzV6dL0P8SZa6WEjVXPenapfMtcNN3OIos+TpJ9
+	o0lqFuukI70iTZiyaKqeS1v4O+JQKeoNEAVSinBXPo/mnR9hvIFJezci7pjAwq659zqVgbabT/SPs
+	FmYcgYpFtqok5sJok2qGXIXIhkAYa/lwdvUu9+n5uWQlcY7wE1rtnXLL5tkU4+/Qg9C3WvRh7kkU3
+	n5nmupQ0JcSq3xSJ+hpqsykVMmGVx7tI5ShVgDV26sphLPlw6ky4MlErYKIlRm4WdKDOlpaT/z5+b
+	08QtJGiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvQo6-0000000Dbtb-3Pq6;
-	Fri, 21 Mar 2025 01:04:18 +0000
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136])
+	id 1tvQoA-0000000Dbxt-3DQh;
+	Fri, 21 Mar 2025 01:04:22 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvQQd-0000000DZoT-1YBi
+	id 1tvPgo-0000000DUtn-46Ll
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Mar 2025 00:40:07 +0000
-Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-3cfeff44d94so5195985ab.0
-        for <linux-nvme@lists.infradead.org>; Thu, 20 Mar 2025 17:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1742517602; x=1743122402; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mg7MaShCaHVel04UjfQ05hzlkvIsmGwXx5O0tLD+kLs=;
-        b=P92A9f7zE09c7htif3qj5npCRtjwHvTOJkg5y3YlplGjjXloJHDAxCGuiT5JyFwo4X
-         m/pczbwStUunblxUYEt2+kTz6giydZZB0M4OZFf32qlljyc8eE87Cd9nEIF4pZ71d8Bm
-         phu6OJZ1FAvdjfyNxYBVk8G0H5d+QiVO1IW7bD+mhEmCDAVJ36m7mccNMvjBSaM104Un
-         3X6I9yfsH2LyQhHvopodLlYdvoO1dlziw/g2dUEuBM/rZgyQgdvEZ2jwdvwCEoAkZ+ac
-         PtFeBPBcKdKSzexl0Cl8F54sYXbJTn5HnJ9aMYiqdqEgt5JIxlTIoE2bhymM/wl8AY/R
-         eZzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742517602; x=1743122402;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mg7MaShCaHVel04UjfQ05hzlkvIsmGwXx5O0tLD+kLs=;
-        b=tyFh5JDgn+Dpwf99cZba35MQPiXp2/WE31krdH/jCrSMwOEURhlBVSCCsLDZ6hyKMg
-         1Y+9qB6Gg5Q6KGGUmsfNQNlK+6sxNBwMnQ3/HeKiROxIDuMC3ZxTAjqfwk1ZeQ+Y/nLW
-         Kgu81GuKh+dzkqtQEwVDwRhMpKvzrqoeXheblofMuorBO59LM0IjFlAVcbTF+Us1adg9
-         HuuyqLCB9pU8MlGhi8XVykb8b7azZuaUog3kQbrU6bzC+3cwuZXvrp5hi8bRH9knE6DC
-         17xc6dGiw/9btHE2DShNWhkRxzPz79YfqI8TVKFtpHKWApz/Ws9xwyvn2AoppSqZZj0n
-         fFig==
-X-Gm-Message-State: AOJu0YwXz5cQmYQx4XawoiNAl3911yD1D1Y6GZ+m50JB4L6aEvHp3k6F
-	jVxQXT78i76luYpIvoAS98WsPHMfT5GudqxBQkRO80ok3f6fszUkkf0h/IWY5xQNJJ/IN4VgCeW
-	A
-X-Gm-Gg: ASbGncussSH7ZxGCVWS3JsNTKc950jfDsBc/lRy2qtmHlIWBDvUUGOhb/YvtI2Xugqb
-	UiGUAWepWQ5TSQqlaUOYWmQt+2RvzqMS3CfZ3pQCnGE5gIN2UWen72fnLbz73AMT30ENAnlziFS
-	2PlC0U5mBqgs4H6GdZS6ZuZJrFGCQ229kQ6R/xY0L7Ky0dXfCtrZ1EHJO4EPfV319glLEV3Q39K
-	n/Ha33OQUjhHUdsBx76jx1kJI1x5brrxwI4amnyl0N7DzR7l7c3teOrCfL4dHzn2uBX+f1IOG7G
-	/JTYM+id8WAOUWOm6Fxb2SAeRo8GP6PwJrFtTcwduQ==
-X-Google-Smtp-Source: AGHT+IGU1KHLJyGpKdc48QPbg97CVsF1wiZ+yxB7HHZij+R8pVsutVVmOqdUXvHlpzHoKdwBd1jTQA==
-X-Received: by 2002:a05:6e02:19c8:b0:3d1:863e:5536 with SMTP id e9e14a558f8ab-3d596167f01mr18993495ab.18.1742517602280;
-        Thu, 20 Mar 2025 17:40:02 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f2cbdeb063sm185476173.74.2025.03.20.17.40.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Mar 2025 17:40:01 -0700 (PDT)
-Message-ID: <5d0f0ba7-e499-4ffa-8e39-7c8fe9543488@kernel.dk>
-Date: Thu, 20 Mar 2025 18:40:00 -0600
+	Thu, 20 Mar 2025 23:52:47 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250320235237euoutp014599babcc7f74935d3ed8d088dd3bbf0~up-CnVlvz0702507025euoutp01S
+	for <linux-nvme@lists.infradead.org>; Thu, 20 Mar 2025 23:52:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250320235237euoutp014599babcc7f74935d3ed8d088dd3bbf0~up-CnVlvz0702507025euoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1742514757;
+	bh=V40Yt8b5UQP5CQRebMaM4XT/r0qYRmMZ1DD0U7kvnK4=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=BxoLCTZsFrr5HpiEFgfCFVGODCKIfKbX3HyvX+POAUOf1BV746F+VZ9lBX4StFK1r
+	 h6AsoerRXR3ato2teMWP1yIOhu0jFo3UIRvXTU8ypM2b97DBeOXYM6d00OQub9e+Bl
+	 R0YCeDeXMsDhLivNl2ZXcYa+NUs9LNC8ecizvuMg=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20250320235236eucas1p2d25a78b8b13dc4ab1b2ca298ada0dfd6~up-BT_ZSP1299312993eucas1p2O;
+	Thu, 20 Mar 2025 23:52:36 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 33.34.20821.44AACD76; Thu, 20
+	Mar 2025 23:52:36 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250320235235eucas1p20083fac3310cb507f47cd27594507feb~up-Ah0Xfl1299312993eucas1p2N;
+	Thu, 20 Mar 2025 23:52:35 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250320235235eusmtrp147af0699b5659e6df38f53ef4ac28c3e~up-AhBruB1931419314eusmtrp12;
+	Thu, 20 Mar 2025 23:52:35 +0000 (GMT)
+X-AuditID: cbfec7f2-b09c370000005155-97-67dcaa4406f9
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 4F.88.19920.34AACD76; Thu, 20
+	Mar 2025 23:52:35 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250320235231eusmtip12043beb3ef63386f7348b314310b8aad~up_9CwvKL2854028540eusmtip1R;
+	Thu, 20 Mar 2025 23:52:31 +0000 (GMT)
+Message-ID: <1034b694-2b25-4649-a004-19e601061b90@samsung.com>
+Date: Fri, 21 Mar 2025 00:52:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme updates for Linux 6.15
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-References: <Z9x9U4DQA_a2erBK@kbusch-mbp.dhcp.thefacebook.com>
- <Z9ytHt3tpEMsTcbN@kbusch-mbp>
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Joerg Roedel
+	<joro@8bytes.org>, Will Deacon <will@kernel.org>, Sagi Grimberg
+	<sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Bjorn Helgaas
+	<bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas
+	<yishaih@nvidia.com>, Shameer Kolothum
+	<shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, Randy
+	Dunlap <rdunlap@infradead.org>
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Z9ytHt3tpEMsTcbN@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20250319175840.GG10600@ziepe.ca>
 Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUxTVxjOuff2tjQpuRQcB2UjK5MFNgrdNJ5kwMCw5U7/4H5sGcviGrkW
+	t1K1tYgk2zrGl11RKLCWwko3y4eF8C1gFYQiK4QJDCNiBTsTZEztBsJ0fAxHe3Xj3/M+z/N+
+	PCeHhws7yO28I4oTjFIhlYtIPtH508podLJtWhY71BiIqpobSfT4qY5EDTNnSWTNSUezfQUA
+	nW8YxNDqMkIVxiGAKg3zGDpd2cJFesckQDWeC1xUVX4cla3W4KjH9Rr6Id9KoOv2KhLdaXzK
+	QdW197jomtlJojlHEYGseZvIM20gUP/CLAc1PfiTQF03cjgod3o3qi3nJ4bSs/1mjG40NwJ6
+	7sYcoC1tanrsTitB5171cOj2+ij63OXfMfr6NTXdZjtN0m2P9Fx6yLhG0O3Wr+j59gpAX7ql
+	IelzZ0o5KUGp/Lg0Rn4kk1HGJHzKTz/v6CWPbYRkDRdWExowEKQFfjxI7YITXeOYFvB5Qqoe
+	wG8vDZJeQUgtA6hxxbPCEoC3NXr8eUeBuxBnhToA6w1zBFssAqgtrfa1C6gEaC4x+DBB7YSa
+	xRKc5QPgcMUs4cXbqDDodhm5XhxIJcO+TtYTRIlgr72E6x2KU51caJpfxLwCTgVD12y1D5OU
+	BGo9Wt8CP0oMS8bmnnnCYJen6tmpPXzo7E7RAt4mToZVRRKWDoT3nR1cFofCkVKdLwCkCgC0
+	rLkxtijezP+bC7Cut+D06CrpHYRTkbDZHsPSSXD8r7tcdr4/nPIEsCf4Q32nAWdpASzMF7Lu
+	CGhyNv23tn98Ai8GItOWVzFtCWnaEsb0/14LIGwgmFGrMmSMSqJgTopV0gyVWiETHzqa0QY2
+	P/bIhvNRN/j+/qLYATAecADIw0VBgqDC2zKhIE16KptRHj2oVMsZlQPs4BGiYMGPV/JkQkom
+	PcF8zjDHGOVzFeP5bddgqbkxO+oK9yxULue/+apiwhhge6XBP+lJZsIv4nj9njMD+6s5kfbo
+	vZaQfR91L67Y4tt7i12Wla+L392bvYTVt7uN6Ilj6hvzzNquy1+EvDEzaD8QR6jOmsqOl4X1
+	JYa/3KLTW9HFn4u4bcHY+8v+fusvuK/8un7h1MmWOOvBT4bX/7l44O/3djo/nH67qzYl1uGp
+	e5Bz8+qSOWUsemXI4Hp8C6xt8D+2CMOSbdnNqff+GI35kp7MGi6TK16aVC7dVH23sC8p0ZaZ
+	Jw+u0EVQD2vsD/PQ67EfhN9NM4QuROoGWnts68ShEUVTXYdjqnX3O11Z5ZPWiM8U+qjD2yTp
+	4bkvHhYRqnSpJApXqqT/ApX9M15HBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG8957e1uqXS61pi/oYDZxc+oqBVpflrZjH3HXLDMkhmRzG6zC
+	tTRAi70tkS1mjWMCzZyrFoFKWrTFjNK5rY1CABvo1EoMQyCSwQAH1spYikgWEoXJKM0S/vvl
+	nOc5z8nJ4eHCfk4qT6c3MUa9pkxC8om7L8KTb7zrndBmDNrTUPNPPhItrX5LovbJsyTynCpB
+	kd4agNrab2Ho+T8INTXeAehiwyyG6i7+zEXnQqMAtcaucVFz/XFkf96Koxvje9Cl0x4CjXQ1
+	k2jKt8pBriuPuGjAGSZRNHSGQJ5v1ig20UCgvoUIB139+wmBOu6f4qDqCTm6Us/P3U5H+pwY
+	7XP6AB29HwV0i99MD079QtDVN2McOvDDbtrd8xdGjwyYab+3jqT9i+e49J3GZYIOeL6iZwNN
+	gO4es5C0+7vznDzREanSaDCbmFdKDKxJJflEhjKlshwkzczOkcqy9n/2ZqZcsk+tLGbKdJWM
+	cZ/6c2lJWyhIVrxIOdFf6yIs4FeRFSTxIJUNax7U4lbA5wmpVgB7Fn/EE43tsP+ChZPgLXBl
+	1EomRE8A9J5d5MYbAkoNnbYGMs4EtRNantrwRD0Z9jdFiDhvpdLhg/HGdf0W6j3Yez2hEVES
+	GOyyceNDcaqTC4e6wlgi4QwOH12eX4/GKTEcj7iwOJOUDFpj1vW0JEoKbYNRLKFRQOs1K0hw
+	OuyINePfA6FjwyKODaMcGyyODZYWQHiBiDGz5dpyViZlNeWsWa+VFhnK/WDtp67ffhboBM65
+	p9IQwHggBCAPl4gEoto/tEJBsabqC8ZoKDSayxg2BORr17DhqVuLDGtPqTcVyhQZclm2IidD
+	nqPIkogFB0YGjwkprcbElDJMBWP834fxklItWOl0L9ItF7g+euwDqsX+HcaV9kO/hXVfpqpe
+	L25r+1Q79afD61DOvR8eyh1Gy3vempoVpvk387pVWSbvRNrC2LG9p2fGYkdP7OrUFAqTu6Em
+	N7Ksyg8etCuSH6fGQuik+8LDg/zjoV0dtfXBqzvu3VhoKSlYiKmml8r61GI3/m/KtqMVhw+3
+	z/w+XjbQ6vmw+jw7D6O5Kfbp2qqu18YqOUpD3jv5O5eKOh7e4yuH82sCz3RzH0xs6t58+/K2
+	7gGKSb/lLvDZxZbiHuPbwqG6m/MnZ1ZW1XLMtp8NCzqrXHurJ0eDw1/XZR3p0XNe8i+9vCk3
+	cDfPKa50lr5a+XG9hGBLNLLduJHV/AehhEaR3AMAAA==
+X-CMS-MailID: 20250320235235eucas1p20083fac3310cb507f47cd27594507feb
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
+References: <cover.1738765879.git.leonro@nvidia.com>
+	<20250220124827.GR53094@unreal>
+	<CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
+	<1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+	<d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
+	<20250312193249.GI1322339@unreal>
+	<adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
+	<20250319175840.GG10600@ziepe.ca>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250320_174003_693756_C16976D9 
-X-CRM114-Status: GOOD (  10.76  )
+X-CRM114-CacheID: sfid-20250320_165243_602155_137E2220 
+X-CRM114-Status: GOOD (  30.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,34 +155,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/20/25 6:04 PM, Keith Busch wrote:
-> Sending a rebased pull: our trees were out of sync in the previous pull
-> request.
-> 
-> The following changes since commit fc22b34e95ce0a294c797c397a9db671e6ff4448:
-> 
->   docs: sysfs-block: Clarify integrity sysfs attributes (2025-03-20 05:44:09 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.15-2025-03-20
-> 
-> for you to fetch changes up to 64ea88e3afa8c5b6c3f9c477da304b7a56149612:
-> 
->   nvmet: replace max(a, min(b, c)) by clamp(val, lo, hi) (2025-03-20 16:53:56 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme updates for Linux 6.15
-> 
->  - Secure concatenation for TCP transport (Hannes)
->  - Multipath sysfs visibility (Nilay)
->  - Various cleanups (Qasim, Baruch, Wang, Chen, Mike, Damien, Li)
->  - Correct use of 64-bit BARs for pci-epf target (Niklas)
->  - Socket fix for selinux when used in containers (Peijie)
+On 19.03.2025 18:58, Jason Gunthorpe wrote:
+> On Fri, Mar 14, 2025 at 11:52:58AM +0100, Marek Szyprowski wrote:
+>
+>>> The only way to do so is to use dma_map_sg_attrs(), which relies on SG
+>>> (the one that we want to remove) to map P2P pages.
+>> That's something I don't get yet. How P2P pages can be used with
+>> dma_map_sg_attrs(), but not with dma_map_page_attrs()? Both operate
+>> internally on struct page pointer.
+> It is a bit subtle, I ran in to this when exploring enabling proper
+> P2P for dma_map_resource() too.
+>
+> The API signatures are:
+>
+> dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+> 		size_t offset, size_t size, enum dma_data_direction dir,
+> 		unsigned long attrs);
+> void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+> 		enum dma_data_direction dir, unsigned long attrs);
+>
+> The thing to notice immediately is that the unmap path does not get
+> passed a struct page.
 
-Thanks Keith, pulled.
+I see, thanks for pointing this out. It looks that I've encountered this 
+issue too long time ago when I was implementing first 
+iommu-to-dma-mapping glue for ARM arch. The lack of some kind of 
+'object' returned from dma_map* (and dma_alloc*) and passed back to 
+dma_unmap* (and dma_free_*) required some non-trivial workarounds there 
+and made the unmap/free path a bit more complicated.
 
+> So, lets think about the flow when the iommu is turned on.
+>
+> For normal struct page memory:
+>
+>   - dma_map_page_attrs() allocates some IOVA and returns it in the
+>     dma_addr_t and then maps the struct page to the iommu page table
+>
+>   - dma_unmap_page_attrs() frees the IOVA from the given dma_addr_t
+>   
+> If we think about P2P now:
+>
+>   - dma_map_page_attrs() can inspect the struct page and determine it
+>     is P2P. It computes a bus address which is not an IOVA, and does
+>     not transit through the IOMMU. No IOVA allocation is performed. the
+>     bus address is returned as the dma_addr_t
+>
+>   - dma_unmap_page_attrs() ... is impossible. We just get this
+>     dma_addr_t that doesn't have enough information to tell anymore if
+>     the address is a P2P bus address or not, so we can't tell if we
+>     should unmap an iova from the dma_addr_t :\
+>
+> The sg path fixes this because it introduced a new flag in the
+> scatterlist, SG_DMA_BUS_ADDRESS, that allows the sg map path to record
+> the information for the unmap path so it can do the right thing.
+>
+> Leon's approach fixes this by putting an overarching transaction state
+> around the DMA operation so that map and unmap operations can look in
+> the state and determine if this is a P2P or non P2P map and then know
+> how to unmap.
+>
+> For some background here, Christoph gave me this idea back at LSF/MM
+> in Vancouver (two years ago now). At the time I was looking at
+> replacing scatterlist and giving new DMA API ops to operate on a
+> "scatterlist v2" structure.
+>
+> Christoph's vision was to make a performance DMA API path that could
+> be used to implement any scatterlist-like data structure very
+> efficiently without having to teach the DMA API about all sorts of
+> scatterlist-like things.
+
+Thanks for explaining one more motivation behind this patchset!
+
+Best regards
 -- 
-Jens Axboe
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
 
