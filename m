@@ -4,56 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CF71C28B30
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Mar 2025 05:48:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19E0AC28B30
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Mar 2025 06:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=whmPEYHG6N1H8UlgtSGjiPfpFSDvL0exFGvh42fP/5g=; b=0YQxnJWzvFf1UmQoHVTFuol+8q
-	WhGYPcfjlHMzqfa37/Rwf9HBsjBj/nrO+M7ghoA2gUZJgb3Mcc3zktUBCLVSKJT6OrsyDLQQC6Zhn
-	zGHH9bAxHH5K8JV/O9K/vyAtgszvgUTOc+AvgXFfU+IRi+MnFI5LyyGQ9jzooOt9zs5LbXBndeqRk
-	YuNpaJ+2y57cjRAZqmlb/ZGkF/LqITBkMVG9qf2JlnaJxsGMamcHbuSwMB7evkGfu9ztmbSGY8C0H
-	6tf3EZdPeazvt6Op4FsjDsjkPRokj4+pOa/ipu/i2gGI6W31/llg/+Bh8wvCn43Ten+xT9Q/f94C5
-	xrgIL2YA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rEDqt2Dy+5D+0SeGFYuwuhsJ+GbwXkEzfqajM5hXOQQ=; b=AFebyeR1fMe46X52cyYN5YX3MZ
+	z/umYXL+A31JQtyw3oeiKq7uqJro+SvIL1RD9h0msvBwyincrZyrbtrPvL2+GVW1BX9l6s/Yb1QBx
+	dZD7NHaQVc0Y2DLGFEjkKQvPhYmxJE4EeXY6mTSQdKv1NF+BpGPopVW0Fm3VwlG3Lf5VHRSBSwoZi
+	F8tss8SnI9cvYTEiyhbUGR0a/y8vqZEHGytE1dn7AF/sgS7+QTJu2ajaf6g8V/2c02s6+S8BtlmAd
+	sjzpF+X1Np9GhNuVzTF5EN2Fuv6k7nWZbHYL27a/+p+hNdsgvE8yTnopZSCoL12E/7p3U2A6pNh9N
+	cKSD+MDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tv8lK-0000000BFNK-15C8;
-	Thu, 20 Mar 2025 05:48:14 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tv8lH-0000000BFMr-3Blz;
-	Thu, 20 Mar 2025 05:48:11 +0000
-Date: Wed, 19 Mar 2025 22:48:11 -0700
-From: "hch@infradead.org" <hch@infradead.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: "hch@infradead.org" <hch@infradead.org>, Qu Wenruo <wqu@suse.com>,
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [LSF/MM/BPF TOPIC] File system checksum offload
-Message-ID: <Z9usG3LELEWPYSUG@infradead.org>
-References: <b8790a76-fd4e-49b6-bc08-44e5c3bf348a@wdc.com>
- <Z6B2oq_aAaeL9rBE@infradead.org>
- <bb516f19-a6b3-4c6b-89f9-928d46b66e2a@wdc.com>
- <eaec853d-eda6-4ee9-abb6-e2fa32f54f5c@suse.com>
- <cfe11af2-44c5-43a7-9114-72471a615de7@samsung.com>
- <Z6GivxxFWFZhN7jD@infradead.org>
- <edde46e9-403b-4ddf-bd73-abe95446590c@samsung.com>
- <CGME20250318080742epcas5p31b31b3024d6f7d9d150c8a7c2db4dffd@epcas5p3.samsung.com>
- <Z9kpyh_8RH5irL96@infradead.org>
- <435cf6be-98e7-4b8b-ae42-e074091de991@samsung.com>
+	id 1tv9WH-0000000BJej-2exc;
+	Thu, 20 Mar 2025 06:36:45 +0000
+Received: from [1.203.97.246] (helo=smtp.cecloud.com)
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tv9WE-0000000BJdj-0n60
+	for linux-nvme@lists.infradead.org;
+	Thu, 20 Mar 2025 06:36:44 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.cecloud.com (Postfix) with ESMTP id A16057C0115;
+	Thu, 20 Mar 2025 14:36:35 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-SKE-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from localhost.localdomain (unknown [111.48.58.12])
+	by smtp.cecloud.com (postfix) whith ESMTP id P1609374T281456747934064S1742452594471158_;
+	Thu, 20 Mar 2025 14:36:35 +0800 (CST)
+X-IP-DOMAINF: 1
+X-RL-SENDER: shaopeijie@cestc.cn
+X-SENDER: shaopeijie@cestc.cn
+X-LOGIN-NAME: shaopeijie@cestc.cn
+X-FST-TO: kbusch@kernel.org
+X-RCPT-COUNT: 9
+X-LOCAL-RCPT-COUNT: 3
+X-MUTI-DOMAIN-COUNT: 0
+X-SENDER-IP: 111.48.58.12
+X-ATTACHMENT-NUM: 0
+X-UNIQUE-TAG: <ba8584b988ac8f78fbffabd1439a33d6>
+X-System-Flag: 0
+From: shaopeijie@cestc.cn
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	zhang.guanghui@cestc.cn,
+	gechangzhong@cestc.cn,
+	Peijie Shao <shaopeijie@cestc.cn>
+Subject: [PATCH] nvme-tcp: fix selinux denied when calling sock_sendmsg
+Date: Thu, 20 Mar 2025 14:35:23 +0800
+Message-ID: <20250320063523.2201926-1-shaopeijie@cestc.cn>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <435cf6be-98e7-4b8b-ae42-e074091de991@samsung.com>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250319_233642_391313_F1530C9B 
+X-CRM114-Status: GOOD (  10.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,14 +82,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 19, 2025 at 11:36:28PM +0530, Kanchan Joshi wrote:
-> I tried to describe that in the cover letter of the PoC:
-> https://lore.kernel.org/linux-btrfs/20250129140207.22718-1-joshi.k@samsung.com/
+From: Peijie Shao <shaopeijie@cestc.cn>
 
-I don't think it does as people have pointed that out multiple times.
-Once you do checksums on the device they are not end to end, either in
-the T10 DIF definition or that of file system checksums.  You leave a
-huge glaring gap in the protection envelope.  So calling this "offload"
-is extremely dishonest and misleading.
+In a SELinux enabled kernel, socket_create() initializes the
+security label of the socket using the security label of the
+calling process, this typically works well.
+
+However, in a containerized environment like Kubernetes,
+problem arises when a privileged container(domain spc_t)
+connects to an NVMe target and mounts the NVMe as persistent
+storage for unprivileged containers(domain container_t).
+
+This is because the container_t domain cannot access
+resources labeled with spc_t, resulting in socket_sendmsg
+returning -EACCES.
+
+The solution is to use socket_create_kern() instead of
+socket_create(), which labels the socket context to kernel_t.
+Access control will then be handled by the VFS layer rather
+than the socket itself.
+
+Signed-off-by: Peijie Shao <shaopeijie@cestc.cn>
+---
+ drivers/nvme/host/tcp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 327f3f2f5399..71f7045881eb 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1790,7 +1790,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
+ 						NVME_TCP_ADMIN_CCSZ;
+ 
+-	ret = sock_create(ctrl->addr.ss_family, SOCK_STREAM,
++	ret = sock_create_kern(current->nsproxy->net_ns,
++			ctrl->addr.ss_family, SOCK_STREAM,
+ 			IPPROTO_TCP, &queue->sock);
+ 	if (ret) {
+ 		dev_err(nctrl->device,
+-- 
+2.43.0
+
+
 
 
