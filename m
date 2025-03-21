@@ -4,74 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36BD0C36008
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 21:25:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B5A5C36002
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 21:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xgEexH4YlzNQooQdAkGITDiRNkQG2ag5mUu5UecmzPo=; b=lpp3QajmrjxbCZRQM4wdZoYCX8
-	0TfPB0367I87YRjK7buiENb6x5f1Ut3GtWqhku9tdhJjYQQwZ8PBbXYoi85mexl4mybP6ZhejfjUx
-	vW97bZfWCNdTthtLm/Te75eojGGoj0DYHYa6FExmF8sgLiftUYpP4oP2WfbkMIQhrOgczvUhBUPWJ
-	IiIwxLv0/ZF2KnVFoa4ox9Ngtcy/yOhT/Gdalb129v5kyxVnaUHmJInZIxYc7+7YOmZAEh5wZBiGu
-	86GhKcn4mYE5xEiNiR6M5scktDCVJba/JzpBFSfO+NN8Fy6Qo5uAWiDiWW+VCKYG8A9kITyRYgeSt
-	uDuTxj+w==;
+	bh=0s8PHm04p4vmMdRlrDb7etA3hydAU6JK9t4r3Yd98L8=; b=2lxRaynGxuwqBHm847g+KDUkbp
+	yWQFBrjGEZk5EqKGwXCAK1FFuXcktyAT/UkhKK8sQWaC36HVh6HdpQP9kx+72YGCEXW1BJswJ/bAV
+	KGwSwzNe7Jb+rVmQqQhoxzqAE6tP+ivX++vT8dluRDw3MuzOCGWOuc0jr4p2O6rjjAptcS5e99+sR
+	leVCO0p0VPxlAjNOSTJlmpGv3IsX+YPehKwVHa0siQivhNrkcWDhEtBb/1O50V4/xYpPzuqplYI1T
+	Od59stfu1TPaKSEIRc21lG+sEaJkMRsw8ptbcvNvYpS/nx47uCT/W7lTccZrJ5L8ZwkcsjPEhT+iy
+	qVkILAqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvjsA-0000000GLrQ-09jP;
-	Fri, 21 Mar 2025 21:25:46 +0000
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+	id 1tvk4Z-0000000GNsM-04vi;
+	Fri, 21 Mar 2025 21:38:35 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvjqk-0000000GLZw-2TPN
+	id 1tvk4V-0000000GNra-1smb
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Mar 2025 21:24:19 +0000
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-301001bc6a8so615742a91.1
-        for <linux-nvme@lists.infradead.org>; Fri, 21 Mar 2025 14:24:18 -0700 (PDT)
+	Fri, 21 Mar 2025 21:38:32 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-2264aefc3b5so6494055ad.0
+        for <linux-nvme@lists.infradead.org>; Fri, 21 Mar 2025 14:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1742592258; x=1743197058; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1742593110; x=1743197910; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xgEexH4YlzNQooQdAkGITDiRNkQG2ag5mUu5UecmzPo=;
-        b=d5a51eMVIpNV7gbpaR2en593/k5Mr/1r46s03PQcBlA0725u19EPPGLMbDNPnHItDv
-         3dlGf6OLExUwW18JeQrlYLlCmeGDFJklI6ppLxgCyGPXqJ04CRcQdrx4NLAhbp150TVz
-         DF6X18u58qgX4O7GTdh/yWadTv16HoTHUShwFjvkqpyE3GRSAvZJ/WOGe9J+NseCAQGE
-         JcwQn/mVJObLME7IOY1Z2rWfmj5Mjs7wowoMYFjeap/olLR+kjrYosz2G4sIgsKh0X9m
-         LI45tB3DTMcoo+u+KIxa6RJ830h91NrXt5G+jETu03WizMYF7BJ7waYzCCq6WSfjAiZd
-         3Z0g==
+        bh=0s8PHm04p4vmMdRlrDb7etA3hydAU6JK9t4r3Yd98L8=;
+        b=CIYdPy7eau4oj4SRR/69O2qU3rGms3wP0CZiajzB6tRoTZ0mjKgZcki/s14dkD+8Hh
+         F1kkrkxcDDmOLT0he0NIJqyCS64Q6vXWNKnt9alcziynVimqJyd6SYVvyLjWa294tDnt
+         GdCjWJf90OUbExlL7M2wXph2yC/JP42z6iPxpzKrKhB3Ji14MdoQTILzsUBOXcTeq76I
+         KkZ66URbhFIw5tRz0kN10PHNiZCc4UpH04IYq8WCIo10b7mtp+STCVlcp2ci2bZknROf
+         tfEbVtA40AfbLLhtSo2Dg7aiWj4VlabGXLjGrQzlgbsF3Bfc51z+ttLs3A1XEXHVcdIm
+         oZYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742592258; x=1743197058;
+        d=1e100.net; s=20230601; t=1742593110; x=1743197910;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xgEexH4YlzNQooQdAkGITDiRNkQG2ag5mUu5UecmzPo=;
-        b=Loye8axKyngR0NQ/BIvRCBuSPaCXDjvs2lHa7uhypKBt2qdlVv35KCpM+LBHh2A226
-         weBc9SmiU+rayeC2mRv8DMeW011Y0ylj5mAPT08sqzbU2XajZ1RLJGuKO1JfiVwLPZCW
-         sW278ksZYo1Op+bl8armNuaQIBqAsfT1bhjRXHk31nViqVB6S+IUAJt6qB6U5JvM5b25
-         Wu8ABQfDyveT/IVu20oMcaBIifcQcDbzDxQtG+wXYPLZNZaUYflpORyCmfy5ALK0w4Dd
-         hGhgIdPPXWNj8m36700WoZzFAme4eEFX6M9C5bZuQw/eBPAsuKWge7K1T+Dxj+8jG+88
-         P4xg==
-X-Forwarded-Encrypted: i=1; AJvYcCVv6Ku/VRniv0RRmUOYe63qipV1qd+nW4f3tOKvsGnAlFi9SmKOYQR4Djlc3JX8DPg01QLiAeM90Q4d@lists.infradead.org
-X-Gm-Message-State: AOJu0YxKQbxTpBRsym20X3ZBGq2wjRqPXFe7OQBBHDufmgJMXJxBwSDv
-	q0Nc913c1lCBrqp8a/sprxMUhZLoA2q0JzDI7wgwjjiEjGh+iVGqbrbezh2jhh/5LeuRT3REor8
-	ije01GQVh/6GST4/ydzNFem1nPBf2mCzW7nS+bA==
-X-Gm-Gg: ASbGncs4XnMAzxWAJAFFMrmmGGFIqf6g91FwsAX6GDN9S7s7vm3Iwe0EdGS966XcoaU
-	W8P8/mwfbbLlnCnZeoMJTRVKt5PRExgk4stKfQ2dRdpR+s2DiscJFtOe14SZ2qpyLbI0SNaWl8W
-	ndbJdp+3Mg3bLATWDJEw6D20P6
-X-Google-Smtp-Source: AGHT+IEWKjJGtm5ghineH2xwXYNT84KCnqIRLDNZSQSW8P28Btfs8lapQkXp4I96X8icAPuhtpGyDCSg8I4uBIG6u90=
-X-Received: by 2002:a17:90b:3a86:b0:2ff:7b67:2358 with SMTP id
- 98e67ed59e1d1-3030fe6df4bmr2143070a91.2.1742592257499; Fri, 21 Mar 2025
- 14:24:17 -0700 (PDT)
+        bh=0s8PHm04p4vmMdRlrDb7etA3hydAU6JK9t4r3Yd98L8=;
+        b=oPyL2GK+0SZB55Zh5phtD64gppEvdq5vypBqjBkGg1ODv74Qwn0THV9y+QkYXG16z2
+         Xni2wd8aWXjo9kOZF8RJG8GIVkTheid7fbYz1tvSzHAShBBU5BkeWOAs5PFl/mQPkIg0
+         2Fs3qgl0nprC7rusQxBdQQPFLIfgtlkSbVmr+Sp7FGJ0Npev0SZGuTEG2zB6zv+qqXbB
+         EGooJgtKSHb36696Lj+C6p3JEda9zFALfvsBvyBPnQfQyrKkE38qODYgGE2KuU7YQI2e
+         Oum+dFw6UxHeDhJYOk9ZqwKjJnsdA76anGBm99MFfsTmpKaPMw8Ymnkjt8l3ekZaHG/u
+         vjQg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4HRE38bkJ6gA4hZHHZ305Vwob5BfKxATfJExmemIC6SU8dhCRTlJrTmNIGEAt6TqtZgZX9JtqEKxj@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx5T2oHw4rDMmMQ6bU/2+NIb6L98CMnASjgWfBFyoF9pbpgILLu
+	wBJGehja/OcMS2yrUEowjT74iyg0tPU741ONnx87NjJquDWVYehKjf0vwUevKGTtc+22eE2apQC
+	9YMIygjQ0o08nK3ZhGu+A4zQOcyTAxhMIb4OL/w==
+X-Gm-Gg: ASbGncu7eOHn3/j+z6Qupyqd7r6vI3NaOJwHvzLDxu4TmP4HUQ/mgZSFW5yeV22J7Fv
+	spwgxlNBaV6Hnwba2OuILETUoUBFnGODsqxGP8y0KveRqE2S0cogZTF2ODDGfublQeO/DPgBb/O
+	TS5pW5gLmICT7pzW7TKjmpL0v1
+X-Google-Smtp-Source: AGHT+IGSk+bsBxz+JO9UqX1StGRAOw80slB+xBi/7szzHuQU/IKincKxZ1fz09uQ/n1u+YujF0fQ7TN14YtlTnBH7/c=
+X-Received: by 2002:a17:902:db0e:b0:21b:b115:1dd9 with SMTP id
+ d9443c01a7336-22780c7cad0mr28361055ad.5.1742593110608; Fri, 21 Mar 2025
+ 14:38:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250321184819.3847386-1-csander@purestorage.com> <5588f0fe-c7dc-457f-853a-8687bddd2d36@gmail.com>
-In-Reply-To: <5588f0fe-c7dc-457f-853a-8687bddd2d36@gmail.com>
+References: <20250321184819.3847386-1-csander@purestorage.com>
+ <20250321184819.3847386-4-csander@purestorage.com> <8338ac70-ed0b-4df5-a052-9ab1dfec9e26@gmail.com>
+In-Reply-To: <8338ac70-ed0b-4df5-a052-9ab1dfec9e26@gmail.com>
 From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Fri, 21 Mar 2025 14:24:06 -0700
-X-Gm-Features: AQ5f1JovqdCIrHb51iECUiV7-0VxJPfIpPS2a0CZYqJvx9jgCUTe3TWJ9VOPsBk
-Message-ID: <CADUfDZo5qKymN515sFKma1Eua0bUxThM5yr_LeQHR=ahQuS_wg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Consistently look up fixed buffers before going async
+Date: Fri, 21 Mar 2025 14:38:19 -0700
+X-Gm-Features: AQ5f1JqF7084HWCX45pZ6paHlx6q6XUtczTCEEBO8pEFGjQNkwueLYbERoxLSfY
+Message-ID: <CADUfDZoELiri8Fuq3tHSsKf1XhPVaZ1eoCzfXK7g994VY4o9Vg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] io_uring/uring_cmd: import fixed buffer before going async
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>, 
 	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
@@ -80,8 +81,8 @@ Cc: Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250321_142418_664054_33670827 
-X-CRM114-Status: GOOD (  34.01  )
+X-CRM114-CacheID: sfid-20250321_143831_493226_F6ED0ACB 
+X-CRM114-Status: GOOD (  20.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,75 +97,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 21, 2025 at 1:23=E2=80=AFPM Pavel Begunkov <asml.silence@gmail.=
+On Fri, Mar 21, 2025 at 1:34=E2=80=AFPM Pavel Begunkov <asml.silence@gmail.=
 com> wrote:
 >
 > On 3/21/25 18:48, Caleb Sander Mateos wrote:
-> > To use ublk zero copy, an application submits a sequence of io_uring
-> > operations:
-> > (1) Register a ublk request's buffer into the fixed buffer table
-> > (2) Use the fixed buffer in some I/O operation
-> > (3) Unregister the buffer from the fixed buffer table
-> >
-> > The ordering of these operations is critical; if the fixed buffer looku=
-p
-> > occurs before the register or after the unregister operation, the I/O
-> > will fail with EFAULT or even corrupt a different ublk request's buffer=
-.
-> > It is possible to guarantee the correct order by linking the operations=
-,
-> > but that adds overhead and doesn't allow multiple I/O operations to
-> > execute in parallel using the same ublk request's buffer. Ideally, the
-> > application could just submit the register, I/O, and unregister SQEs in
-> > the desired order without links and io_uring would ensure the ordering.
-> > This mostly works, leveraging the fact that each io_uring SQE is preppe=
-d
-> > and issued non-blocking in order (barring link, drain, and force-async
-> > flags). But it requires the fixed buffer lookup to occur during the
-> > initial non-blocking issue.
+> > For uring_cmd operations with fixed buffers, the fixed buffer lookup
+> > happens in io_uring_cmd_import_fixed(), called from the ->uring_cmd()
+> > implementation. A ->uring_cmd() implementation could return -EAGAIN on
+> > the initial issue for any reason before io_uring_cmd_import_fixed().
+> > For example, nvme_uring_cmd_io() calls nvme_alloc_user_request() first,
+> > which can return -EAGAIN if all tags in the tag set are in use.
 >
-> In other words, leveraging internal details that is not a part
-> of the uapi, should never be relied upon by the user and is fragile.
-> Any drain request or IOSQE_ASYNC and it'll break, or for any reason
-> why it might be desirable to change the behaviour in the future.
+> That's up to command when it resolves the buffer, you can just
+> move the call to io_import_reg_buf() earlier in nvme cmd code
+> and not working it around at the io_uring side.
 >
-> Sorry, but no, we absolutely can't have that, it'll be an absolute
-> nightmare to maintain as basically every request scheduling decision
-> now becomes a part of the uapi.
+> In general, it's a step back, it just got cleaned up from the
+> mess where node resolution and buffer imports were separate
+> steps and duplicate by every single request type that used it.
 
-I thought we discussed this on the ublk zero copy patchset, but I
-can't seem to find the email. My recollection is that Jens thought it
-was reasonable for userspace to rely on the sequential prep + issue of
-each SQE as long as it's not setting any of these flags that affect
-their order. (Please correct me if that's not what you remember.)
-I don't have a strong opinion about whether or not io_uring should
-provide this guarantee, but I was under the impression this had
-already been decided. I was just trying to fix the few gaps in this
-guarantee, but I'm fine dropping the patches if Jens also feels
-userspace shouldn't rely on this io_uring behavior.
-
->
-> There is an api to order requests, if you want to order them you
-> either have to use that or do it in user space. In your particular
-> case you can try to opportunistically issue them without ordering
-> by making sure the reg buffer slot is not reused in the meantime
-> and handling request failures.
-
-Yes, I am aware of the other options. Unfortunately, io_uring's linked
-operation interface isn't rich enough to express an arbitrary
-dependency graph. We have multiple I/O operations operating on the
-same ublk request's buffer, so we would either need to link the I/O
-operations (which would prevent them from executing in parallel), or
-use a separate register/unregister operation for every I/O operation
-(which has considerable overhead). We can also wait for the completion
-of the I/O operations before submitting the unregister operation, but
-that adds latency to the ublk request and requires another
-io_uring_enter syscall.
-
-We are using separate registered buffer indices for each ublk request
-so at least this scenario doesn't lead to data corruption. And we can
-certainly handle the EFAULT when the operation goes asynchronous, but
-it would be preferable not to need to do that.
+Yes, I considered just reordering the steps in nvme_uring_cmd_io().
+But it seems easy for a future change to accidentally introduce
+another point where the issue can go async before it has looked up the
+fixed buffer. And I am imagining there will be more uring_cmd fixed
+buffer users added (e.g. btrfs). This seems like a generic problem
+rather than something specific to NVMe passthru.
+My other feeling is that the fixed buffer lookup is an io_uring-layer
+detail, whereas the use of the buffer is more a concern of the
+->uring_cmd() implementation. If only the opcodes were consistent
+about how a fixed buffer is requested, we could do the lookup in the
+generic io_uring code like fixed files already do.
+But I'm open to implementing a different fix here if Jens would prefer.
 
 Best,
 Caleb
