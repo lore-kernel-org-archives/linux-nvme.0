@@ -4,53 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27A0EC28B30
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Mar 2025 20:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14829C28B30
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 00:04:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=8ls+P2lKhBpMaTcD3tm+s1IkLkWTPnVTQ96KJmIfLIk=; b=M95pY+gAinGwOCLdZ309VqDeK2
-	+b7j+2t9aH0Y8x6RuLzelW21h6fg/vaZQPwWzW1oaI63N350rSBB3PtIi8XIEQA9+4H1i9t62gVXk
-	vM3gyiQZWnaJf/nn/dd6Y9xM3Nz03/KJrz/1ptYxfkg5Elgp1K7wxrUaS7IXA+ogavO2npUiMRj3/
-	QHo3BS68Yy1H6d6kiM2xFQ6NDkM9GJQz7UkNc05iTTQKyKZ5awKHKH9VwMsD62FodLnJlejnee45c
-	AcLgXFJQbiIoY96kAhHKGyeiNWQe8HXIj5TT0dz4xGPlV8cs0/I1eJbwe+6lCQ4z9LsytzgqrYReS
-	FmUwmI5w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MqDfdTZX49Ro6CYT+WrSsJozfYAYlbcLySx6v0PRYtM=; b=DAtleqhaw8SXHWfvODDKx6iAfO
+	6wlbOyLBPS4uDhXYSM+JM05maCG9/fiK2M9WGk5R7OBa3K+CAbpZj+O+ZV09mQjOtSQqmclwsYbDA
+	vpX2T6XDe+teHVtI6/ATv1UKIRTtf2QYxwo8CVmAWaSbkdT6u45p/eb5GC1Bk9KK9USiRkgekd4oO
+	BzbORyOOCWEzii4MtFqAuJTODM0XvkPam7zzuh/j6FRIkYcfs2AF4MSS0m9hih+Y8HXJBpTK1H/lG
+	qQh+kysu6MHWisLgXp1luZUJmj7LUuJrujYejHcVaolGOW4C4lF1FfwUOpEVLoDb1FxDEQuCQ0vtP
+	2IzQ86yg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvMhE-0000000DBKD-2rrz;
-	Thu, 20 Mar 2025 20:40:56 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1tvPsa-0000000DVi0-23cI;
+	Fri, 21 Mar 2025 00:04:52 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvMhC-0000000DBK5-2mke
+	id 1tvPsY-0000000DVhZ-0NxI
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Mar 2025 20:40:54 +0000
+	Fri, 21 Mar 2025 00:04:51 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3DE1261141;
-	Thu, 20 Mar 2025 20:40:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D950C4CEDD;
-	Thu, 20 Mar 2025 20:40:53 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 2D9C243D07;
+	Fri, 21 Mar 2025 00:04:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28330C4CEDD;
+	Fri, 21 Mar 2025 00:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742503253;
-	bh=gokjHWRdSOboYgUDu+yoX9kKPzGDrzfYNKbNT2NNu+k=;
-	h=Date:From:To:Cc:Subject:From;
-	b=QY74GIgY+pa9nAAvxX9KyVPM/1gqKvSh8qJjNXbVKuP9jaWQzhQYoXvfRCL8bFLS4
-	 QuNs/dOpSHkfnlUhh4RLLhmBsMweR3rh9BdiobSdsvj8Kk9p/kNa7K/LyGgCJHGhEA
-	 ytbWcCeZLTrIgMQFVoDJMxbRQj6s65jFRdXTeQ2qdU0aVjNfb+1OwgbgP4hv56dkNo
-	 irRRtuG3tq59+xSI3CL5b+YKAZTzeOvPQrB5He3vfWvvex3XWkGejOggiissg2knBf
-	 8EBSNFGny2tjHJXHX3FtB9jqosu7aLXIM07X91uX5aYPg/Gdl0FYl0frWV99qdU3BR
-	 Q08U5uObvmoPw==
-Date: Thu, 20 Mar 2025 14:40:51 -0600
+	s=k20201202; t=1742515489;
+	bh=60H99sDjQAFsZSWPV4GSluf0TZU4gw2JVSNRo7jafnM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HY6eQvkwT6WS/ATM7vjwbjPSv4l8rxU4cnEMVefiXinuTiJTQleTUGvXh6TknOoDe
+	 1vL63jX0GTanMg57b/DhafpXFDUO5BzQelWVpKzkFAWQvpSN6JZXBoR39Vpyk6LAHx
+	 OoHRZvbwFKNudtJ0u8gzG8HkII1Dq1urLQ7cU7vA4MdTo4NGuStcQPTDbyompShOwt
+	 CEPJBWldUb8AxNm8amDAJL8HD0XZ+rD1CJfpe6wI3bNK8eRi4gw0pfWdccgPYVAoPf
+	 wluSzp/hkQq+fD19cUWlx9Uq3RCqebQoHQtzuphn/GR+MWr+jYwm9DIlCXk/2rlteR
+	 sRPkUd5ugMemg==
+Date: Thu, 20 Mar 2025 18:04:46 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: axboe@kernel.dk
 Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: [GIT PULL] nvme updates for Linux 6.15
-Message-ID: <Z9x9U4DQA_a2erBK@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [GIT PULL] nvme updates for Linux 6.15
+Message-ID: <Z9ytHt3tpEMsTcbN@kbusch-mbp>
+References: <Z9x9U4DQA_a2erBK@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Z9x9U4DQA_a2erBK@kbusch-mbp.dhcp.thefacebook.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250320_170450_175065_394049D9 
+X-CRM114-Status: GOOD (  12.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,17 +70,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 9fcc4add3c0d6e43788d55bf7a957c1d4de8584a:
+Sending a rebased pull: our trees were out of sync in the previous pull
+request.
 
-  ublk: add DMA alignment limit (2025-02-27 07:58:13 -0700)
+The following changes since commit fc22b34e95ce0a294c797c397a9db671e6ff4448:
+
+  docs: sysfs-block: Clarify integrity sysfs attributes (2025-03-20 05:44:09 -0600)
 
 are available in the Git repository at:
 
   git://git.infradead.org/nvme.git tags/nvme-6.15-2025-03-20
 
-for you to fetch changes up to 8c38a7ac3ef5b09d438479f018280e65c4d52d09:
+for you to fetch changes up to 64ea88e3afa8c5b6c3f9c477da304b7a56149612:
 
-  nvmet: replace max(a, min(b, c)) by clamp(val, lo, hi) (2025-03-20 13:10:56 -0700)
+  nvmet: replace max(a, min(b, c)) by clamp(val, lo, hi) (2025-03-20 16:53:56 -0700)
 
 ----------------------------------------------------------------
 nvme updates for Linux 6.15
@@ -83,7 +91,7 @@ nvme updates for Linux 6.15
  - Secure concatenation for TCP transport (Hannes)
  - Multipath sysfs visibility (Nilay)
  - Various cleanups (Qasim, Baruch, Wang, Chen, Mike, Damien, Li)
- - Correct use of 64-bit BARs for pci-epf (Niklas)
+ - Correct use of 64-bit BARs for pci-epf target (Niklas)
  - Socket fix for selinux when used in containers (Peijie)
 
 ----------------------------------------------------------------
