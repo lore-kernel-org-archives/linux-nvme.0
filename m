@@ -4,91 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 216EAC36004
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 06:39:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62D9DC35FF3
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 07:47:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kEZReUn8iW86eqv9z0e1AoceSNe86I6uX8mBfUCW6kk=; b=YtLP2ohJCuZzRX5jvL+0iVYUgo
-	j74Ayq03XhK2KlEjPeHiNMpttegyYXX3cYMoK3r9OV4IRE3JuNqfo9K+24X0748dgS+oFuXtYKK15
-	XRWHusiR9fEO7QNjtGng0UZJSoFNHwP5PLVYNyaAFZW9EkbAgYX84hupVBvGghwT9rBasBxxEqIXd
-	rjmjB+UCbQHmSDCxunZ8kIj8pHrnuJxcIn/Q0pQHAbWHH5Kbdea9vIrRxqhLgygE/lkfeNjviv9tf
-	4FNAnyV2freusQCZXDBResM7t0+2r7ckv8K6xtrT4hjM0ejbki4WBTWIXdY8ui2hK1OmsLEcAOcKI
-	Hr7BCh6g==;
+	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=02/ICYHRj8fVPs3KdOzjuptNnM+qOGHxOj7m9BlCvME=; b=dn0dVy/QDrtalphu6BsmVSCtg4
+	nmxFOuLZbf+vkDRdxZ+WxEV+x5ohoa69ir4VnPcCyirKK0myA0DVoXItpba34YiXmoA+C0SjPC7zk
+	Kdkm53Cz0RFOxNuBwnj5pjMv8VfhFbxvIo5mWb7t6hSBANjT7ofcZpt+Z+COdkH8GwX/P0+1lQQhi
+	O+RrBmcX8jzWrLAxHGkDg8s1t2j2axoqVbbMZmiWlYQ4NAbRdUVQp0oTlBFWYo36qZvKfEpuMZjOn
+	6Vo06zCZgkXoeLBY4NGKi03IoCkxcxtunstGZ9PvC+7ghSdEPxqW/mN9urRy5KMh4DF7i9G7qyKdW
+	Bfg4NSpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvW2P-0000000E1GM-2Sf3;
-	Fri, 21 Mar 2025 06:39:25 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1tvX64-0000000E9Hz-3n1p;
+	Fri, 21 Mar 2025 07:47:16 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvW2M-0000000E1El-3DqD
+	id 1tvWq6-0000000E6Lx-1zUG
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Mar 2025 06:39:23 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52KKck75014318;
-	Fri, 21 Mar 2025 06:39:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=kEZReUn8iW86eqv9z
-	0e1AoceSNe86I6uX8mBfUCW6kk=; b=Enc6rz4Zc0UMQpPAzgV+C96n2zJb5EqCc
-	IFR3P1uDB8gA13jON15F9t89r2vznbWGRi6T9qpBwwR9sTPZkUVfmWGlFdPP2Ey5
-	qsZBB5lAYBWCjTvxCAPhQ1Xr6R+xru5FMNMYSYP/aJ2G4FAOBJrcgwF/HG/KXtJl
-	OpYvNf2dwsDySyV/FOQfOSwfvJ4WKNKQWK2vMG3f1rnOZMs3sO1cDUqQmUk+x3k6
-	nSqUmIuZKrh05CfNgxDATz8r1eFrbbEmXKedXIh5N7OWuYpFGcXi0/+tycu4ch0C
-	inwNVSzrrQ+H8o/Utdl+qxxz1XG82eTU/QSdXOvBN4Au+BABLrpjA==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45gt80sya1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Mar 2025 06:39:16 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52L467FA020369;
-	Fri, 21 Mar 2025 06:39:16 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45dncmm160-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Mar 2025 06:39:16 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52L6dEFq51184108
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 21 Mar 2025 06:39:14 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F0F6520049;
-	Fri, 21 Mar 2025 06:39:13 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9CD6920040;
-	Fri, 21 Mar 2025 06:39:10 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.80.43])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 21 Mar 2025 06:39:10 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-Cc: hch@lst.de, kbusch@kernel.org, hare@suse.de, sagi@grimberg.me,
-        jmeneghi@redhat.com, axboe@kernel.dk, gjoyce@ibm.com
-Subject: [RFC PATCH 2/2] nvme-multipath: remove multipath module param
-Date: Fri, 21 Mar 2025 12:07:23 +0530
-Message-ID: <20250321063901.747605-3-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250321063901.747605-1-nilay@linux.ibm.com>
-References: <20250321063901.747605-1-nilay@linux.ibm.com>
+	Fri, 21 Mar 2025 07:30:47 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4E1BC1F7D0;
+	Fri, 21 Mar 2025 07:30:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742542243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=02/ICYHRj8fVPs3KdOzjuptNnM+qOGHxOj7m9BlCvME=;
+	b=kP7pybP8WkVkZIm0SBWd2ga9g0x6qcKMIeCbmJ6nis7E2LfqQJVlThAKCNMD3adUD864CB
+	eGeQ9UwzF68+3Xb4vwaVAUl+GAjlWh6oqE+uFkQn35oiWuFidX4f88k2oL+cyFk4z9fOgR
+	YOo+W/DDys7ugIoSO2XK6KRSaJHRn9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742542243;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=02/ICYHRj8fVPs3KdOzjuptNnM+qOGHxOj7m9BlCvME=;
+	b=qIpZDbmr/Dv70/z/RaI2Oc4fdCHe+pFp/++uoZvwrOU22pvVJd9kQA/P3EsNs4lgOrzT/0
+	h2yMI/ztPdCa8sBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742542242; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=02/ICYHRj8fVPs3KdOzjuptNnM+qOGHxOj7m9BlCvME=;
+	b=aLwQjYFVhw8o76p+1w2KNpJ/lawQA1FeruFRCGiBbrheM48Ot5TMMIbzXHDo7zuZZ3uX9T
+	u2Fc95gDpMxBhq3JQcrL1UsB2xOfWKQAZM6NvqidlaBGkOwQz7vES622SvzncNRJ2sr10o
+	QjBCxaHw9rgX2IhUJ4Wle2pskY5hAoI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742542242;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=02/ICYHRj8fVPs3KdOzjuptNnM+qOGHxOj7m9BlCvME=;
+	b=NVcxxamlo61xheDRTJl3A14au43yduAfhVBluKLoCJ8tZeYZqZOLiPH0pIc4vGiWc1Yrl6
+	k27BG8P2qfV/gpCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3143F139AA;
+	Fri, 21 Mar 2025 07:30:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uk6ACqIV3WeCcgAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 21 Mar 2025 07:30:42 +0000
+Message-ID: <73a24cb2-0adf-4685-8202-27210aa014cc@suse.de>
+Date: Fri, 21 Mar 2025 08:30:37 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: lsf-pc <lsf-pc@lists.linux-foundation.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+From: Hannes Reinecke <hare@suse.de>
+Subject: [LSF/MM/BPF TOPIC] NVMe-TCP performance improvements
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: MPpH-PoQyhbRUlLARVTXzlqudwqheCb4
-X-Proofpoint-GUID: MPpH-PoQyhbRUlLARVTXzlqudwqheCb4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-21_02,2025-03-20_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 mlxlogscore=999 phishscore=0
- priorityscore=1501 mlxscore=0 adultscore=0 suspectscore=0 clxscore=1015
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2502280000 definitions=main-2503210045
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250320_233922_930115_1FB7D501 
-X-CRM114-Status: GOOD (  18.76  )
+X-CRM114-CacheID: sfid-20250321_003046_660504_611C5A2E 
+X-CRM114-Status: UNSURE (   7.37  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,113 +126,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Remove the multipath module parameter from nvme-core and make native
-NVMe multipath support explicit. Since we now always create a multipath
-head disk node, even for single-port NVMe disks, when CONFIG_NVME_
-MULTIPATH is enabled, this module parameter is no longer needed to
-toggle the behavior.
+Hi all,
 
-Users who prefer non-native multipath must disable CONFIG_NVME_MULTIPATH
-at compile time.
+a partner of ours reported a severe performance and scalability issue 
+with TLS on NVMe-TCP, where spurious I/O timeouts have been occurring 
+once the system scales up to more controllers. With enough controllers
+he even ran into timeouts during the initial connect command, rendering
+the system unusable.
+There have been several attempts to fix this (my attempts [1], spreading
+load to CPUs by Sagi [2]), but they didn't really fix the issue.
+I have since then done quite some performance analysis, but found that
+'classical' statistical methods can't easily used as we have a really
+high divergence in performance; the standard deviation vastly exceeds
+the mean value, rendering the calculation meaningless.
+Eventually I nailed down the problem with [3], but the performance 
+analysis problem remains.
+In the discussion I would like to present the performance analysis,
+and discuss ways on how the analyze the performance in the light of
+high noise in the measurements.
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/core.c      | 18 +++++++-----------
- drivers/nvme/host/multipath.c | 17 ++---------------
- drivers/nvme/host/nvme.h      |  1 -
- 3 files changed, 9 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e798809a8325..50c170425141 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3823,14 +3823,13 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
- 					info->nsid);
- 			goto out_put_ns_head;
- 		}
--
--		if (!multipath) {
--			dev_warn(ctrl->device,
--				"Found shared namespace %d, but multipathing not supported.\n",
--				info->nsid);
--			dev_warn_once(ctrl->device,
--				"Support for shared namespaces without CONFIG_NVME_MULTIPATH is deprecated and will be removed in Linux 6.0.\n");
--		}
-+#ifndef CONFIG_NVME_MULTIPATH
-+		dev_warn(ctrl->device,
-+			"Found shared namespace %d, but multipathing not supported.\n",
-+			info->nsid);
-+		dev_warn_once(ctrl->device,
-+			"Support for shared namespaces without CONFIG_NVME_MULTIPATH is deprecated and will be removed in Linux 6.0.\n");
-+#endif
- 	}
- 
- 	list_add_tail_rcu(&ns->siblings, &head->list);
-@@ -3929,9 +3928,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 		sprintf(disk->disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
- 			ctrl->instance, ns->head->instance);
- 		disk->flags |= GENHD_FL_HIDDEN;
--	} else if (multipath) {
--		sprintf(disk->disk_name, "nvme%dn%d", ctrl->subsys->instance,
--			ns->head->instance);
- 	} else {
- 		sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance,
- 			ns->head->instance);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 0f54889bd483..84211f64d178 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -9,11 +9,6 @@
- #include <trace/events/block.h>
- #include "nvme.h"
- 
--bool multipath = true;
--module_param(multipath, bool, 0444);
--MODULE_PARM_DESC(multipath,
--	"turn on native support for multiple controllers per subsystem");
--
- static const char *nvme_iopolicy_names[] = {
- 	[NVME_IOPOLICY_NUMA]	= "numa",
- 	[NVME_IOPOLICY_RR]	= "round-robin",
-@@ -671,14 +666,6 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	INIT_DELAYED_WORK(&head->remove_work, nvme_remove_head_work);
- 	head->delayed_shutdown_sec = 0;
- 
--	/*
--	 * A head disk node is always created for all types of NVMe disks
--	 * (single-ported and multi-ported), unless the multipath module
--	 * parameter is explicitly set to false.
--	 */
--	if (!multipath)
--		return 0;
--
- 	blk_set_stacking_limits(&lim);
- 	lim.dma_alignment = 3;
- 	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL;
-@@ -1262,8 +1249,8 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	size_t ana_log_size;
- 	int error = 0;
- 
--	/* check if multipath is enabled and we have the capability */
--	if (!multipath || !ctrl->subsys ||
-+	/* check if controller has ANA capability */
-+	if (!ctrl->subsys ||
- 	    !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
- 		return 0;
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4375357b8cd7..fba686b91976 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -997,7 +997,6 @@ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
- 	return disk->fops == &nvme_ns_head_ops;
- }
- #else
--#define multipath false
- static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
- {
- 	return false;
+[1] 
+https://lore.kernel.org/linux-nvme/20240618120345.64761-1-hare@kernel.org/#r
+[2] 
+https://lore.kernel.org/linux-nvme/20241224120457.576100-1-sagi@grimberg.me/
+[3] 
+https://lore.kernel.org/linux-nvme/20250307132802.111513-1-hare@kernel.org/
+
+Cheers,
+
+Hannes
 -- 
-2.47.1
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
