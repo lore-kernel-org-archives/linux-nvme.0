@@ -4,105 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74152C36000
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 19:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1305C3600C
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 20:28:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YzesUfd46zeebs0CrPG+xIoJVH8zLtMaJo8L9ii+mr0=; b=akh3ng5aIElxg9CD75WiM+NKtD
-	os91eBV+TXXa7ZocX9sD5kwQhms4xnJZAQ2WVkHydBjoCZqDt3kew0KDczdXYhQriPStkDLKXf/E2
-	e0UNjg09lbar3g7ECD9AemPmQnPX5vOzpoNMdkqzJaU5s/SEOVP/V95P5pFvAEDcvRuhwrBxmBoet
-	pLUJEphnqAPhFV/DQqH9SYO7LGb5uBN4/RbPOk4vb2cuiDoQ0iIVC7gdAcfKrBC1Pc0xb0dbuRh0q
-	DwEbjexJzfjsbhY1k2r9kl9aWa9S8OaPsiq6pGmIZJFtxB0AByzn94ojcodQDoTNY9WxhhIol44Kv
-	soamDdAg==;
+	bh=98i6jddSp1LUQoUVE86JTvhDACCODQSOsoi4JvJF9ns=; b=vACP/FLKaycD2htEvw1UnDxWqL
+	6I2dZoHaOheS1hge2slf1NccmGVp+AbHgTVYgVEGARDpYNpnfkGIUjctx/lHY0ifJpIl6oSmC7Snj
+	wF1C4isTsCVWTOkpd3H0ijW9UPUFImSePfqzEXINtQB8vtOAJDLu+GfAnxkBJcGeeVN801mxd8pYa
+	xpEQPZSMrzwiqWHTTrNorLBQjzeJKf7ZdU/ZQPO8LB5IYlP4JHfnRdotuKeaYQ/dg6gYi8TctFd2e
+	qJIREdH/48VutJFcsI71xPAxxONSaPPYwfE4ZmAEspQ29eNAEZfW13eRoluf0ppaZ4+Jiw6y7w+mT
+	l+6IwpzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tviRD-0000000G61S-3ehB;
-	Fri, 21 Mar 2025 19:53:51 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1tvizA-0000000GAPw-0Og3;
+	Fri, 21 Mar 2025 20:28:56 +0000
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tviRD-0000000G61B-0Dfr
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 21 Mar 2025 19:53:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:To:From:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=YzesUfd46zeebs0CrPG+xIoJVH8zLtMaJo8L9ii+mr0=; b=NFRNdq5t4lQtIuPCxbYvcmAOdM
-	WEKMBuUqKfh/eQ8p1IydSX7YGj+dYFihJraYqQfgERnbZ+C0b9CapwrcNxlbHTpjpwVu0Yd5gZBNB
-	C74CvTYSXf5aB6rbIPaBBR0NoTu58+UlADB/1Tv5ZomMoF8/bIQgLz+n43ZAJei4htjepGmYyeUvX
-	QDmDuCXwBp4DIGzN8LogxZ7t2FmqmNQfQc7W9Cq50rHM/17Cv22xnR2p9BxexzF2kpb5zebT+Yr1j
-	8Yqnf1uQ9UnMdtxQOpmHU5/+NiAs4a9T7CSfeyCAY2NNcycWxdjBHBkf5s5MLPJ9LBFQvTx8rIT7/
-	yAo2n2MQ==;
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tviR9-00000004WYx-3LGl
+	id 1tviuH-0000000G9iL-2umR
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Mar 2025 19:53:49 +0000
-Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-3d571ac3d7eso7156165ab.2
-        for <linux-nvme@lists.infradead.org>; Fri, 21 Mar 2025 12:53:46 -0700 (PDT)
+	Fri, 21 Mar 2025 20:23:54 +0000
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-ac2bb7ca40bso520599166b.3
+        for <linux-nvme@lists.infradead.org>; Fri, 21 Mar 2025 13:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1742586824; x=1743191624; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YzesUfd46zeebs0CrPG+xIoJVH8zLtMaJo8L9ii+mr0=;
-        b=0+A1CEW0Y0Qz17oHGIMLrNzOsoGLOfwDmE1ZW+xn0ajDOHje99PkB+uqWh8YjyHUuz
-         pZNO1hW178ijk+g1y50ngDe2Vvr4QpCRZpgZcOSGRIIG8DgjfHmUU7GQZtum0iKzFzEb
-         wxuwv6ThDg2VJpgprYOHu4JMpMcyN2gcAFbYKl6Bs+UZbOewGrMzX2iUT0JSiHarHQ/U
-         ba+hqA7GB8fBzjVGYZirwC4/XXj9fLsD9z5A96gDCCTVldxZbMYncgIoZ4KA0mEcROGx
-         wAViQwPbem2sZr1AOZcI7RAxcUrd+kfz2ppOKuvLmFhDD6+n++m9O9SUO9UcN1BDTWqM
-         alJA==
+        d=gmail.com; s=20230601; t=1742588631; x=1743193431; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=98i6jddSp1LUQoUVE86JTvhDACCODQSOsoi4JvJF9ns=;
+        b=EzSk+Q9ifJ8WLqh2/S3DJ5pH5CmDeOH+01ba//3j86rgLVKNewGCyGz9UD8B7ovK3q
+         1UB8gjNPMaEqGMHjTD6DAL/Hm2Ko5p6tBN4fG0LZfiVTYLhoPQoa/RCTLxfneSI30BT4
+         BgibvLdpEXKGvzEbMCQZdBb3n/yu/9/jkl8YbI4sCWWyjoZX4RkxjzX9qFf7DxIF/vIC
+         3oayaKY1urQCnoNX5DjUJxwWwMWSR1Y8oIBEaSQw/L986GsDtC3N7ZABgjoxE5TOAZT/
+         qGeFYZD1NWw9NHipgXk1v9xih9oaCrnPHETF2Z50t/VPEEr7eEgJe1Jg2Pfrzkxsm1Ap
+         Cknw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742586824; x=1743191624;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YzesUfd46zeebs0CrPG+xIoJVH8zLtMaJo8L9ii+mr0=;
-        b=J+sMzab74NjvY+6I60LrE5GleYxCffNmgA9KXEn2AAyymWbQBe5OBIz9BrvsyIUI1o
-         NfiKXKAPasdsfkYBBmEszN7pQvdWZWW0G8e+LgY6dmDufjpFgRDLR490l2X9YlItY/jG
-         KsWzzNP/QGKZeEuTey1Cn940MhETlRlBXJwAgViFa1WnFNnAlh682rWXHesHHTSpNPML
-         vmGzf7dGg+kEjiry8qZem5TiC3s/V6pNN1l6ZQeaPsmdE4bL8punrwJ+1bCxkrIXXALw
-         QCX4kxhG/39IHtGRBLalxhZL/hRfS/x5u3wiuYGz5EtzABqqChlghG038a6XpDByrql4
-         vYWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWEXH/7g4Ti1lih8QU6IogxZmnaHSoYj4AWvNcBU/hxcbzHYpHDofcbdt9UPqHtE6lnzHZec4LQuwv/@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz/ylACQH0mwfBts4+kjRfnpe9AhW0r57BTbn+arJ9JSzP4dUdj
-	20N7SiK+J0Rb0VBSH9YXpvbheAQ3T/9WV12XuHxEcY3BNY5oncYeh0HO8TabmwE=
-X-Gm-Gg: ASbGnctw+JSFa23smhMDWljQ4VauKR7K4IteHk6VU1b6egwqlD7Ba0sfTinxSmbaxnb
-	fsb//fdjfh/nn1Gm3vwmdv7WQktoLGKAGaMOcrdCtbtuCRq4g9HIi/+y2FmOLv7OMNE9RzKuxz2
-	l1QOdaOiAwudmLClogoGxAyUP/OELGLOFvCDT0hTDmytByUI2H9wB8Bc8SOTzNmX5kamrF10o4I
-	+JaJFM+/z5bws9ZkSomCBBO5tEzVOZD64iuDbUVQ3AFK+ynJEZ7g5DDaswd8c5HbHH265MVjM8p
-	ceyirdYr8rpMzLvdevWOJcOuLr+Y7brH96an
-X-Google-Smtp-Source: AGHT+IGn7T9SD5ve8iBciVQ/OCx5fdDy3xWn9IiJSqNMPE9sGxY4HUf5wukQHEc1lEXa/fwCOdPLkg==
-X-Received: by 2002:a05:6e02:3112:b0:3d5:894b:dfc7 with SMTP id e9e14a558f8ab-3d59616b1c9mr51603165ab.16.1742586824296;
-        Fri, 21 Mar 2025 12:53:44 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d59607e77dsm5694405ab.16.2025.03.21.12.53.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 12:53:43 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Pavel Begunkov <asml.silence@gmail.com>, Ming Lei <ming.lei@redhat.com>, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, 
- Caleb Sander Mateos <csander@purestorage.com>
-Cc: Xinyu Zhang <xizhang@purestorage.com>, io-uring@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-In-Reply-To: <20250321184819.3847386-1-csander@purestorage.com>
-References: <20250321184819.3847386-1-csander@purestorage.com>
-Subject: Re: [PATCH 0/3] Consistently look up fixed buffers before going
- async
-Message-Id: <174258682264.742943.2572990287219952668.b4-ty@kernel.dk>
-Date: Fri, 21 Mar 2025 13:53:42 -0600
+        d=1e100.net; s=20230601; t=1742588631; x=1743193431;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=98i6jddSp1LUQoUVE86JTvhDACCODQSOsoi4JvJF9ns=;
+        b=dJliUNUEJtTSdKDHH3R4SrTXcZyD0qgLgdvxU1osoP3NTZwebiZWRsYOrKThMAlx7w
+         DDebfC0eJ+jLvs6/fsqOCTQlEgER/dQ8DQ5sV8RPmuH1Qo4n6CTLriS5wD2hK9vDElb4
+         Aq8bZInWdr1S0uV+qny4muQ1hb7UV31dBCy6xSef+PEB1oYI/c+bw/0/MK6s3d47JQ39
+         4yfXZTlSd6JzDbbIzSP1MAzEeEZln1Fjwa58SlfV4TfCDcPPKFRarybAgD6NJ48r8xm4
+         nXHf7X7z2u0rzVOBJIqc8vauNES8HNtQ0D3IODHMQ3YloByu7I1bqpPmrNVyicslHMl8
+         x6Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ4k8ZVSMniZc7qfJW9uW9BzgLr/SlZxvpZQ0abOfCaY7bvto0hx02x4ajJlcSCLe3lErhUBLmAn/L@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy4/JzBeWyzFGOV5orx16m4WkWyUuN6mpH9d9X7EOMrtkjUqhbf
+	awXf48aSfAe2m25uxdSZd3PnYr4mJzRCidJkZOUjA+9P10WF6b8u
+X-Gm-Gg: ASbGncv/ycjeuBqJKyq5B5LWBPAQuOwU3JM9GUp5SQ35o5DZOTgUzet57yXvWmY/WTN
+	qIZ4xO8e4qwIRyiliSKLKufW361uk6JsCRRs2wwD1Lc3Qpz7fvCq8JQUMdEzNwzX9vKPXHyIF7+
+	8kjdnbVreRNtgyPfuExF08BbdAlEG8ghmdStEh+3zJ+l23VdPUnGXzIs1C+TlmRWuW3K/wFwzSj
+	wqezHi6LVb19cSY91zA4ZmwtfrqWV9vwfTC9f1u2+UNAy+rS6UKseuG9us90FwIPy/gbF1R7GTi
+	hHWIhB1bIspw+6asbKx8FHX5MXZB5NnLDFpK9edWfqJjirMRBkex8A==
+X-Google-Smtp-Source: AGHT+IHUOzcwaXlpNWBFMCvXm29GsUaXBZabenP63aTlTLUFy9HWP8Is4hA3JffnNo7TVQo1z8BGCw==
+X-Received: by 2002:a17:907:3e8b:b0:ac3:d0e4:3a9e with SMTP id a640c23a62f3a-ac3f251f1fbmr460422266b.43.1742588631294;
+        Fri, 21 Mar 2025 13:23:51 -0700 (PDT)
+Received: from [192.168.8.100] ([85.255.236.254])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3efb64b06sm210671766b.94.2025.03.21.13.23.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Mar 2025 13:23:50 -0700 (PDT)
+Message-ID: <5588f0fe-c7dc-457f-853a-8687bddd2d36@gmail.com>
+Date: Fri, 21 Mar 2025 20:24:43 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] Consistently look up fixed buffers before going async
+To: Caleb Sander Mateos <csander@purestorage.com>,
+ Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Xinyu Zhang <xizhang@purestorage.com>, io-uring@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20250321184819.3847386-1-csander@purestorage.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20250321184819.3847386-1-csander@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-7b9b9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250321_195348_043602_BECA8E41 
-X-CRM114-Status: GOOD (  14.96  )
+X-CRM114-CacheID: sfid-20250321_132353_754976_0A48CED2 
+X-CRM114-Status: GOOD (  19.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,8 +102,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Fri, 21 Mar 2025 12:48:16 -0600, Caleb Sander Mateos wrote:
+On 3/21/25 18:48, Caleb Sander Mateos wrote:
 > To use ublk zero copy, an application submits a sequence of io_uring
 > operations:
 > (1) Register a ublk request's buffer into the fixed buffer table
@@ -137,22 +121,23 @@ On Fri, 21 Mar 2025 12:48:16 -0600, Caleb Sander Mateos wrote:
 > and issued non-blocking in order (barring link, drain, and force-async
 > flags). But it requires the fixed buffer lookup to occur during the
 > initial non-blocking issue.
-> 
-> [...]
 
-Applied, thanks!
+In other words, leveraging internal details that is not a part
+of the uapi, should never be relied upon by the user and is fragile.
+Any drain request or IOSQE_ASYNC and it'll break, or for any reason
+why it might be desirable to change the behaviour in the future.
 
-[1/3] io_uring/net: only import send_zc buffer once
-      commit: 8e3100fcc5cbba03518b8b5c059624aba5c29d50
-[2/3] io_uring/net: import send_zc fixed buffer before going async
-      commit: 15f4c96bec5d0791904ee68c0f83ba18cab7466d
-[3/3] io_uring/uring_cmd: import fixed buffer before going async
-      commit: 70085217bec1eb8bbd19e661da9f1734ed8d35ca
+Sorry, but no, we absolutely can't have that, it'll be an absolute
+nightmare to maintain as basically every request scheduling decision
+now becomes a part of the uapi.
 
-Best regards,
+There is an api to order requests, if you want to order them you
+either have to use that or do it in user space. In your particular
+case you can try to opportunistically issue them without ordering
+by making sure the reg buffer slot is not reused in the meantime
+and handling request failures.
+
 -- 
-Jens Axboe
-
-
+Pavel Begunkov
 
 
