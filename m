@@ -4,70 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B94C8C36001
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 13:52:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB567C36002
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 14:23:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KrZk5kGC//WIGxYl3d5haSbEf3HQSQxbR0bNUoV3ulM=; b=f7C4lsUsJ1daZhEzzm1Wxc95PD
-	oFqcAJq8VDdcQu6avI9xHD1LUpBNhfPv10ZyF93x9Gnq4rByW7FJ/+xa4Zatpy7suX7npUSlgH1T7
-	gpmk4f15Hdl+j7STpr99kMyhve/Jw+UO0xNuxzyl3K06+H7/wyxXTWMMMDIqM/+uV1ZlgNTDjYxo5
-	QqXyD9bywnKXzuAOr6D16hCqCpool0l96NENVSyQx1teXVg55imvBucBKY5m8gT8JBSL5eGUA4rVe
-	0R3BNLUDVM3j7Em/S3EKlQC+9Uitgr79Soh8YSJNv39ut3j10bW9TzaVh7HlsS5Nya9b0Yzpsqt1g
-	IK4WRDDQ==;
+	bh=7+jBj4B5vc20HmZfhqTDcfMyY8bZxeLupkiMIpuVn60=; b=fcdW6URHrHuabClq4y7pTsxmcH
+	UzaS2/nakKFJpyjxMaKLO0zTYYzqlshZMA3sWyaycvsyg3lYT62maZwpSKZtLzHktnKrulvvdYKmD
+	OSkReuGAq9FceFtkvLOvkeM0U21i4PyO/RKpiU8DoyBIrJp5tNmMJIZ+5RiXYDsMBBgZSKxUTdrsu
+	rWPc5kDbULf8J5mxj1sVFuFdxe1PnlmW6wdBycDOShzh5EXeUQz/xjvxuiFb/Ub2UuP4UCxcsvh00
+	w8yCm65RGWK68NXgFHzaFD0kTJkfikMRKW5bwJIukZsAaVMIbHcwZTd58WOKQI0jqSOWxLneW75ZM
+	yz+CXLDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvcnB-0000000Ez5Z-0dq6;
-	Fri, 21 Mar 2025 13:52:09 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvcn8-0000000Ez4U-0f3P
+	id 1tvdH0-0000000F5kI-46Lp;
+	Fri, 21 Mar 2025 14:22:58 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tvdAV-0000000F49K-0HEO
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Mar 2025 13:52:08 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAF99113E;
-	Fri, 21 Mar 2025 06:52:12 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3328E3F673;
-	Fri, 21 Mar 2025 06:52:02 -0700 (PDT)
-Message-ID: <d64a40d9-0c5b-45b6-a95c-d428a4dd9640@arm.com>
-Date: Fri, 21 Mar 2025 13:52:00 +0000
+	Fri, 21 Mar 2025 14:16:16 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7EAB51FEEF;
+	Fri, 21 Mar 2025 14:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742566573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+jBj4B5vc20HmZfhqTDcfMyY8bZxeLupkiMIpuVn60=;
+	b=Kg4YUDwqBajqcf2HB7uFrBDNPMBZKEbjRoRUaEcBPXqcM9HP+9LXCeF7+YstB784ogSRQo
+	/Z9ypV60U6oF0717GrImHakVPIBvz8nBEbzcGE+mpOQxsDvDTv3+VtF/V8M6dD8f2hfoRf
+	IGcSCUcaMxWW5XYGE6LWoMNsXAfNvU0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742566573;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+jBj4B5vc20HmZfhqTDcfMyY8bZxeLupkiMIpuVn60=;
+	b=c+lekYuW/fH5RmtoidjfFyQRWAp06Pvh71Udey3hIOuB4NDMMH49d4UEcCi1d0q+oS9Vo5
+	obu0Da7JqwU6BsDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742566573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+jBj4B5vc20HmZfhqTDcfMyY8bZxeLupkiMIpuVn60=;
+	b=Kg4YUDwqBajqcf2HB7uFrBDNPMBZKEbjRoRUaEcBPXqcM9HP+9LXCeF7+YstB784ogSRQo
+	/Z9ypV60U6oF0717GrImHakVPIBvz8nBEbzcGE+mpOQxsDvDTv3+VtF/V8M6dD8f2hfoRf
+	IGcSCUcaMxWW5XYGE6LWoMNsXAfNvU0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742566573;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+jBj4B5vc20HmZfhqTDcfMyY8bZxeLupkiMIpuVn60=;
+	b=c+lekYuW/fH5RmtoidjfFyQRWAp06Pvh71Udey3hIOuB4NDMMH49d4UEcCi1d0q+oS9Vo5
+	obu0Da7JqwU6BsDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 031F913A2C;
+	Fri, 21 Mar 2025 14:16:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1M5UOax03WdoewAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 21 Mar 2025 14:16:12 +0000
+Message-ID: <b3645684-fbb7-4f8c-b702-ccb803cbda9a@suse.de>
+Date: Fri, 21 Mar 2025 15:16:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- Randy Dunlap <rdunlap@infradead.org>
-References: <cover.1738765879.git.leonro@nvidia.com>
- <20250220124827.GR53094@unreal>
- <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
- <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
- <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
+Subject: Re: [PATCH v3 02/18] nvmet-fcloop: replace kref with refcount
+To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org>
+ <20250318-nvmet-fcloop-v3-2-05fec0fc02f6@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250318-nvmet-fcloop-v3-2-05fec0fc02f6@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250321_065206_286755_0E4FDC22 
-X-CRM114-Status: GOOD (  29.45  )
+X-CRM114-CacheID: sfid-20250321_071615_261081_D09CD60E 
+X-CRM114-Status: UNSURE (   9.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,131 +135,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/03/2025 9:28 am, Marek Szyprowski wrote:
-> Hi Robin
+On 3/18/25 11:39, Daniel Wagner wrote:
+> The kref wrapper is not really adding any value ontop of refcount. Thus
+> replace the kref API with the refcount API.
 > 
-> On 28.02.2025 20:54, Robin Murphy wrote:
->> On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
->>> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
->>>> From: Leon Romanovsky <leonro@nvidia.com>
->>>>
->>>> Changelog:
->>>> v7:
->>>>    * Rebased to v6.14-rc1
->>>
->>> <...>
->>>
->>>> Christoph Hellwig (6):
->>>>     PCI/P2PDMA: Refactor the p2pdma mapping helpers
->>>>     dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
->>>>     iommu: generalize the batched sync after map interface
->>>>     iommu/dma: Factor out a iommu_dma_map_swiotlb helper
->>>>     dma-mapping: add a dma_need_unmap helper
->>>>     docs: core-api: document the IOVA-based API
->>>>
->>>> Leon Romanovsky (11):
->>>>     iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
->>>>     dma-mapping: Provide an interface to allow allocate IOVA
->>>>     dma-mapping: Implement link/unlink ranges API
->>>>     mm/hmm: let users to tag specific PFN with DMA mapped bit
->>>>     mm/hmm: provide generic DMA managing logic
->>>>     RDMA/umem: Store ODP access mask information in PFN
->>>>     RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
->>>>       linkage
->>>>     RDMA/umem: Separate implicit ODP initialization from explicit ODP
->>>>     vfio/mlx5: Explicitly use number of pages instead of allocated
->>>> length
->>>>     vfio/mlx5: Rewrite create mkey flow to allow better code reuse
->>>>     vfio/mlx5: Enable the DMA link API
->>>>
->>>>    Documentation/core-api/dma-api.rst   |  70 ++++
->>>    drivers/infiniband/core/umem_odp.c   | 250 +++++---------
->>>>    drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
->>>>    drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
->>>>    drivers/infiniband/hw/mlx5/umr.c     |  12 +-
->>>>    drivers/iommu/dma-iommu.c            | 468
->>>> +++++++++++++++++++++++----
->>>>    drivers/iommu/iommu.c                |  84 ++---
->>>>    drivers/pci/p2pdma.c                 |  38 +--
->>>>    drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
->>>>    drivers/vfio/pci/mlx5/cmd.h          |  35 +-
->>>>    drivers/vfio/pci/mlx5/main.c         |  87 +++--
->>>>    include/linux/dma-map-ops.h          |  54 ----
->>>>    include/linux/dma-mapping.h          |  85 +++++
->>>>    include/linux/hmm-dma.h              |  33 ++
->>>>    include/linux/hmm.h                  |  21 ++
->>>>    include/linux/iommu.h                |   4 +
->>>>    include/linux/pci-p2pdma.h           |  84 +++++
->>>>    include/rdma/ib_umem_odp.h           |  25 +-
->>>>    kernel/dma/direct.c                  |  44 +--
->>>>    kernel/dma/mapping.c                 |  18 ++
->>>>    mm/hmm.c                             | 264 +++++++++++++--
->>>>    21 files changed, 1435 insertions(+), 693 deletions(-)
->>>>    create mode 100644 include/linux/hmm-dma.h
->>>
->>> Kind reminder.
->>
->> ...that you've simply reposted the same thing again? Without doing
->> anything to address the bugs, inconsistencies, fundamental design
->> flaws in claiming to be something it cannot possibly be, the egregious
->> abuse of DMA_ATTR_SKIP_CPU_SYNC proudly highlighting how
->> unfit-for-purpose the most basic part of the whole idea is, nor
->> *still* the complete lack of any demonstrable justification of how
->> callers who supposedly can't use the IOMMU API actually benefit from
->> adding all the complexity of using the IOMMU API in a hat but also
->> still the streaming DMA API as well?
->>
->> Yeah, consider me reminded.
->>
->>
->>
->> In case I need to make it any more explicit, NAK to this not-generic
->> not-DMA-mapping API, until you can come up with either something which
->> *can* actually work in any kind of vaguely generic manner as claimed,
->> or instead settle on a reasonable special-case solution for
->> justifiable special cases. Bikeshedding and rebasing through half a
->> dozen versions, while ignoring fundamental issues I've been pointing
->> out from the very beginning, has not somehow magically made this
->> series mature and acceptable to merge.
->>
->> Honestly, given certain other scenarios we may also end up having to
->> deal with, if by the time everything broken is taken away, it were to
->> end up stripped all the way back to something well-reasoned like:
->>
->> "Some drivers want more control of their DMA buffer layout than the
->> general-purpose IOVA allocator is able to provide though the DMA
->> mapping APIs, but also would rather not have to deal with managing an
->> entire IOMMU domain and address space, making MSIs work, etc. Expose
->> iommu_dma_alloc_iova() and some trivial IOMMU API wrappers to allow
->> drivers of coherent devices to claim regions of the default domain
->> wherein they can manage their own mappings directly."
->>
->> ...I wouldn't necessarily disagree.
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/nvme/target/fcloop.c | 37 +++++++++++++------------------------
+>   1 file changed, 13 insertions(+), 24 deletions(-)
 > 
-> 
-> Well, this is definitely not a review I've expected. I admit that I
-> wasn't involved in this proposal nor the discussion about it and I
-> wasn't able to devote enough time for keeping myself up to date. Now
-> I've tried to read all the required backlog and I must admit that this
-> was quite demanding.
-> 
-> If You didn't like this design from the beginning, then please state
-> that early instead of pointing random minor issues in the code. There
-> have been plenty of time to discuss the overall approach if You think it
-> was wrong.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-You mean like if a year ago I'd said "this is clearly an awkward 
-reinvention of the IOMMU API" of the very first RFC, and then continued 
-to point out specific and general concerns with both the design and 
-implementation on the v1 posting in October, and then again on 
-subsequent versions? Oh yeah right that's exactly what I did do...
+Cheers,
 
-The fact that the issues summarised above are *still* present in v7 is 
-not for lack of me pointing them out. And there is no obligation for 
-maintainers to accept code with obvious significant issues just because 
-they don't have the time or inclination to personally engage in trying 
-to fix said issues.
-
-Thanks,
-Robin.
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
