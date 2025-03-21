@@ -4,143 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0B5AC35FFF
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 01:04:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 353C5C35FFF
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 01:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V40Yt8b5UQP5CQRebMaM4XT/r0qYRmMZ1DD0U7kvnK4=; b=gxehvPqnN8ilkzOgCDaG9ihQ16
-	3ZKb5KLRB9AkwnYREZ61vadQ8Dwm2qyw/b1IxdPzV6dL0P8SZa6WEjVXPenapfMtcNN3OIos+TpJ9
-	o0lqFuukI70iTZiyaKqeS1v4O+JQKeoNEAVSinBXPo/mnR9hvIFJezci7pjAwq659zqVgbabT/SPs
-	FmYcgYpFtqok5sJok2qGXIXIhkAYa/lwdvUu9+n5uWQlcY7wE1rtnXLL5tkU4+/Qg9C3WvRh7kkU3
-	n5nmupQ0JcSq3xSJ+hpqsykVMmGVx7tI5ShVgDV26sphLPlw6ky4MlErYKIlRm4WdKDOlpaT/z5+b
-	08QtJGiQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=nK0OvSq0ywdKqmElV6yaatX6YHi7pa/TyALxUsilWPY=; b=OABfZqIY26TNJQ4CaXtEmZchbj
+	Luv5+UD/klIOhqbHKJYH2Xhudj04qWFRS06KPUkVZ1xa6IDj5e7oBpFx6H+slnnomH/t7EEjZZZuw
+	zsJyrdUU+w5DI5skhnfSiS2CU5iyPhZOsJGIQtcTNJK4AOq+HsgZa7B/jy38mifi97goFXf+cA7gE
+	ol2yV0WJN/tshygY5ZlXzTchs+A05VvHd0Dmmu8z7cswUGr2kBG6k1SyJkjitPGzyR9Io8+trGA7W
+	aETxH7uYdF4DaEqY8kR8U0s3SL+iy8Sj3hBsFLqeV61HgLgKDddQwzo7FWeCupbFvbYKMaRn8Vcdx
+	RTBjtQpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvQoA-0000000Dbxt-3DQh;
-	Fri, 21 Mar 2025 01:04:22 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1tvRMd-0000000DeES-08jM;
+	Fri, 21 Mar 2025 01:39:59 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvPgo-0000000DUtn-46Ll
+	id 1tvRMZ-0000000DeE6-00Yv
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Mar 2025 23:52:47 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250320235237euoutp014599babcc7f74935d3ed8d088dd3bbf0~up-CnVlvz0702507025euoutp01S
-	for <linux-nvme@lists.infradead.org>; Thu, 20 Mar 2025 23:52:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250320235237euoutp014599babcc7f74935d3ed8d088dd3bbf0~up-CnVlvz0702507025euoutp01S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1742514757;
-	bh=V40Yt8b5UQP5CQRebMaM4XT/r0qYRmMZ1DD0U7kvnK4=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=BxoLCTZsFrr5HpiEFgfCFVGODCKIfKbX3HyvX+POAUOf1BV746F+VZ9lBX4StFK1r
-	 h6AsoerRXR3ato2teMWP1yIOhu0jFo3UIRvXTU8ypM2b97DBeOXYM6d00OQub9e+Bl
-	 R0YCeDeXMsDhLivNl2ZXcYa+NUs9LNC8ecizvuMg=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20250320235236eucas1p2d25a78b8b13dc4ab1b2ca298ada0dfd6~up-BT_ZSP1299312993eucas1p2O;
-	Thu, 20 Mar 2025 23:52:36 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 33.34.20821.44AACD76; Thu, 20
-	Mar 2025 23:52:36 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250320235235eucas1p20083fac3310cb507f47cd27594507feb~up-Ah0Xfl1299312993eucas1p2N;
-	Thu, 20 Mar 2025 23:52:35 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250320235235eusmtrp147af0699b5659e6df38f53ef4ac28c3e~up-AhBruB1931419314eusmtrp12;
-	Thu, 20 Mar 2025 23:52:35 +0000 (GMT)
-X-AuditID: cbfec7f2-b09c370000005155-97-67dcaa4406f9
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 4F.88.19920.34AACD76; Thu, 20
-	Mar 2025 23:52:35 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250320235231eusmtip12043beb3ef63386f7348b314310b8aad~up_9CwvKL2854028540eusmtip1R;
-	Thu, 20 Mar 2025 23:52:31 +0000 (GMT)
-Message-ID: <1034b694-2b25-4649-a004-19e601061b90@samsung.com>
-Date: Fri, 21 Mar 2025 00:52:30 +0100
+	Fri, 21 Mar 2025 01:39:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742521191;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nK0OvSq0ywdKqmElV6yaatX6YHi7pa/TyALxUsilWPY=;
+	b=gH1t39BUPyOO81kcUCGLDe9MAq1vA6BnpJqtSMLLkRMNS69rbYS/drG1Kfz5ySnUSS5WBQ
+	ejA1gOzU4ikBZ53mtloibxuBfxA8nHZKzsk1qKpaYlV4e/ZgMC3luyO0psBqCNju3iJY1M
+	LfwHtiaz0vDYZiEbHs0XbO1cIYd/Rmc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-489-UyO-f1-3Pj-RLwQvMSi_eQ-1; Thu,
+ 20 Mar 2025 21:39:49 -0400
+X-MC-Unique: UyO-f1-3Pj-RLwQvMSi_eQ-1
+X-Mimecast-MFC-AGG-ID: UyO-f1-3Pj-RLwQvMSi_eQ_1742521188
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 755F71809CA5
+	for <linux-nvme@lists.infradead.org>; Fri, 21 Mar 2025 01:39:48 +0000 (UTC)
+Received: from [10.22.80.230] (unknown [10.22.80.230])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5D4611800370;
+	Fri, 21 Mar 2025 01:39:47 +0000 (UTC)
+Message-ID: <ec9b97de-68d2-43d4-9f76-65d4be91d49d@redhat.com>
+Date: Thu, 20 Mar 2025 21:39:46 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Joerg Roedel
-	<joro@8bytes.org>, Will Deacon <will@kernel.org>, Sagi Grimberg
-	<sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Bjorn Helgaas
-	<bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas
-	<yishaih@nvidia.com>, Shameer Kolothum
-	<shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, Randy
-	Dunlap <rdunlap@infradead.org>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+From: John Meneghini <jmeneghi@redhat.com>
+Subject: [LSF/MM/BPF TOPIC] NVMe Cancel support
+Organization: RHEL Core Storge Team
+Cc: Maurizio Lombardi <mlombard@redhat.com>, Chris Leech <cleech@redhat.com>,
+ Ewan Milne <emilne@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ynVa_vQ8ubK6kiRRedoKxA6vib1i7dlJGHKql_rsVrs_1742521188
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250319175840.GG10600@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUxTVxjOuff2tjQpuRQcB2UjK5MFNgrdNJ5kwMCw5U7/4H5sGcviGrkW
-	t1K1tYgk2zrGl11RKLCWwko3y4eF8C1gFYQiK4QJDCNiBTsTZEztBsJ0fAxHe3Xj3/M+z/N+
-	PCeHhws7yO28I4oTjFIhlYtIPtH508podLJtWhY71BiIqpobSfT4qY5EDTNnSWTNSUezfQUA
-	nW8YxNDqMkIVxiGAKg3zGDpd2cJFesckQDWeC1xUVX4cla3W4KjH9Rr6Id9KoOv2KhLdaXzK
-	QdW197jomtlJojlHEYGseZvIM20gUP/CLAc1PfiTQF03cjgod3o3qi3nJ4bSs/1mjG40NwJ6
-	7sYcoC1tanrsTitB5171cOj2+ij63OXfMfr6NTXdZjtN0m2P9Fx6yLhG0O3Wr+j59gpAX7ql
-	IelzZ0o5KUGp/Lg0Rn4kk1HGJHzKTz/v6CWPbYRkDRdWExowEKQFfjxI7YITXeOYFvB5Qqoe
-	wG8vDZJeQUgtA6hxxbPCEoC3NXr8eUeBuxBnhToA6w1zBFssAqgtrfa1C6gEaC4x+DBB7YSa
-	xRKc5QPgcMUs4cXbqDDodhm5XhxIJcO+TtYTRIlgr72E6x2KU51caJpfxLwCTgVD12y1D5OU
-	BGo9Wt8CP0oMS8bmnnnCYJen6tmpPXzo7E7RAt4mToZVRRKWDoT3nR1cFofCkVKdLwCkCgC0
-	rLkxtijezP+bC7Cut+D06CrpHYRTkbDZHsPSSXD8r7tcdr4/nPIEsCf4Q32nAWdpASzMF7Lu
-	CGhyNv23tn98Ai8GItOWVzFtCWnaEsb0/14LIGwgmFGrMmSMSqJgTopV0gyVWiETHzqa0QY2
-	P/bIhvNRN/j+/qLYATAecADIw0VBgqDC2zKhIE16KptRHj2oVMsZlQPs4BGiYMGPV/JkQkom
-	PcF8zjDHGOVzFeP5bddgqbkxO+oK9yxULue/+apiwhhge6XBP+lJZsIv4nj9njMD+6s5kfbo
-	vZaQfR91L67Y4tt7i12Wla+L392bvYTVt7uN6Ilj6hvzzNquy1+EvDEzaD8QR6jOmsqOl4X1
-	JYa/3KLTW9HFn4u4bcHY+8v+fusvuK/8un7h1MmWOOvBT4bX/7l44O/3djo/nH67qzYl1uGp
-	e5Bz8+qSOWUsemXI4Hp8C6xt8D+2CMOSbdnNqff+GI35kp7MGi6TK16aVC7dVH23sC8p0ZaZ
-	Jw+u0EVQD2vsD/PQ67EfhN9NM4QuROoGWnts68ShEUVTXYdjqnX3O11Z5ZPWiM8U+qjD2yTp
-	4bkvHhYRqnSpJApXqqT/ApX9M15HBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG8957e1uqXS61pi/oYDZxc+oqBVpflrZjH3HXLDMkhmRzG6zC
-	tTRAi70tkS1mjWMCzZyrFoFKWrTFjNK5rY1CABvo1EoMQyCSwQAH1spYikgWEoXJKM0S/vvl
-	nOc5z8nJ4eHCfk4qT6c3MUa9pkxC8om7L8KTb7zrndBmDNrTUPNPPhItrX5LovbJsyTynCpB
-	kd4agNrab2Ho+T8INTXeAehiwyyG6i7+zEXnQqMAtcaucVFz/XFkf96Koxvje9Cl0x4CjXQ1
-	k2jKt8pBriuPuGjAGSZRNHSGQJ5v1ig20UCgvoUIB139+wmBOu6f4qDqCTm6Us/P3U5H+pwY
-	7XP6AB29HwV0i99MD079QtDVN2McOvDDbtrd8xdGjwyYab+3jqT9i+e49J3GZYIOeL6iZwNN
-	gO4es5C0+7vznDzREanSaDCbmFdKDKxJJflEhjKlshwkzczOkcqy9n/2ZqZcsk+tLGbKdJWM
-	cZ/6c2lJWyhIVrxIOdFf6yIs4FeRFSTxIJUNax7U4lbA5wmpVgB7Fn/EE43tsP+ChZPgLXBl
-	1EomRE8A9J5d5MYbAkoNnbYGMs4EtRNantrwRD0Z9jdFiDhvpdLhg/HGdf0W6j3Yez2hEVES
-	GOyyceNDcaqTC4e6wlgi4QwOH12eX4/GKTEcj7iwOJOUDFpj1vW0JEoKbYNRLKFRQOs1K0hw
-	OuyINePfA6FjwyKODaMcGyyODZYWQHiBiDGz5dpyViZlNeWsWa+VFhnK/WDtp67ffhboBM65
-	p9IQwHggBCAPl4gEoto/tEJBsabqC8ZoKDSayxg2BORr17DhqVuLDGtPqTcVyhQZclm2IidD
-	nqPIkogFB0YGjwkprcbElDJMBWP834fxklItWOl0L9ItF7g+euwDqsX+HcaV9kO/hXVfpqpe
-	L25r+1Q79afD61DOvR8eyh1Gy3vempoVpvk387pVWSbvRNrC2LG9p2fGYkdP7OrUFAqTu6Em
-	N7Ksyg8etCuSH6fGQuik+8LDg/zjoV0dtfXBqzvu3VhoKSlYiKmml8r61GI3/m/KtqMVhw+3
-	z/w+XjbQ6vmw+jw7D6O5Kfbp2qqu18YqOUpD3jv5O5eKOh7e4yuH82sCz3RzH0xs6t58+/K2
-	7gGKSb/lLvDZxZbiHuPbwqG6m/MnZ1ZW1XLMtp8NCzqrXHurJ0eDw1/XZR3p0XNe8i+9vCk3
-	cDfPKa50lr5a+XG9hGBLNLLduJHV/AehhEaR3AMAAA==
-X-CMS-MailID: 20250320235235eucas1p20083fac3310cb507f47cd27594507feb
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
-References: <cover.1738765879.git.leonro@nvidia.com>
-	<20250220124827.GR53094@unreal>
-	<CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
-	<1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
-	<d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
-	<20250312193249.GI1322339@unreal>
-	<adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
-	<20250319175840.GG10600@ziepe.ca>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250320_165243_602155_137E2220 
-X-CRM114-Status: GOOD (  30.79  )
+X-CRM114-CacheID: sfid-20250320_183955_122764_55316D9E 
+X-CRM114-Status: UNSURE (   9.33  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,80 +87,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 19.03.2025 18:58, Jason Gunthorpe wrote:
-> On Fri, Mar 14, 2025 at 11:52:58AM +0100, Marek Szyprowski wrote:
->
->>> The only way to do so is to use dma_map_sg_attrs(), which relies on SG
->>> (the one that we want to remove) to map P2P pages.
->> That's something I don't get yet. How P2P pages can be used with
->> dma_map_sg_attrs(), but not with dma_map_page_attrs()? Both operate
->> internally on struct page pointer.
-> It is a bit subtle, I ran in to this when exploring enabling proper
-> P2P for dma_map_resource() too.
->
-> The API signatures are:
->
-> dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
-> 		size_t offset, size_t size, enum dma_data_direction dir,
-> 		unsigned long attrs);
-> void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
-> 		enum dma_data_direction dir, unsigned long attrs);
->
-> The thing to notice immediately is that the unmap path does not get
-> passed a struct page.
+I am scheduled to present on the topic of NVMe Cancel support next week in the LSF/MM/BPF IO Track.
 
-I see, thanks for pointing this out. It looks that I've encountered this 
-issue too long time ago when I was implementing first 
-iommu-to-dma-mapping glue for ARM arch. The lack of some kind of 
-'object' returned from dma_map* (and dma_alloc*) and passed back to 
-dma_unmap* (and dma_free_*) required some non-trivial workarounds there 
-and made the unmap/free path a bit more complicated.
+Here's an abstract for my talk.
 
-> So, lets think about the flow when the iommu is turned on.
->
-> For normal struct page memory:
->
->   - dma_map_page_attrs() allocates some IOVA and returns it in the
->     dma_addr_t and then maps the struct page to the iommu page table
->
->   - dma_unmap_page_attrs() frees the IOVA from the given dma_addr_t
->   
-> If we think about P2P now:
->
->   - dma_map_page_attrs() can inspect the struct page and determine it
->     is P2P. It computes a bus address which is not an IOVA, and does
->     not transit through the IOMMU. No IOVA allocation is performed. the
->     bus address is returned as the dma_addr_t
->
->   - dma_unmap_page_attrs() ... is impossible. We just get this
->     dma_addr_t that doesn't have enough information to tell anymore if
->     the address is a P2P bus address or not, so we can't tell if we
->     should unmap an iova from the dma_addr_t :\
->
-> The sg path fixes this because it introduced a new flag in the
-> scatterlist, SG_DMA_BUS_ADDRESS, that allows the sg map path to record
-> the information for the unmap path so it can do the right thing.
->
-> Leon's approach fixes this by putting an overarching transaction state
-> around the DMA operation so that map and unmap operations can look in
-> the state and determine if this is a P2P or non P2P map and then know
-> how to unmap.
->
-> For some background here, Christoph gave me this idea back at LSF/MM
-> in Vancouver (two years ago now). At the time I was looking at
-> replacing scatterlist and giving new DMA API ops to operate on a
-> "scatterlist v2" structure.
->
-> Christoph's vision was to make a performance DMA API path that could
-> be used to implement any scatterlist-like data structure very
-> efficiently without having to teach the DMA API about all sorts of
-> scatterlist-like things.
+The NVMe Cancel command was added to the NVMe spec with TP4097a back in the NVMe 2.0 time frame[1].
 
-Thanks for explaining one more motivation behind this patchset!
+At that time I was working for a storage array company and was personally involved with the
+effort to add support for this protocol into the storage array's controller.
 
-Best regards
+After moving to Red Hat in the fall of 2021 I started working with my engineering
+team at Red Hat to add support for TP4097a to the Linux host.
+
+My talk next week will present the latest version of Red Hat's patches - which are based upon
+our previous versions[2] submitted for comments - and discuss some of the obstacles
+and challenges we've encountered during implementation.
+
+Almost all of these obstacles have to do with testing.  We've had these patches working in our
+lab for more than a year now, and we are happily able to send Cancel commands to the storage
+array with no problems. However, these tests are not sufficient for upstream acceptance and we've
+spent the last few months developing the nvmet patches needed to sufficiently test this feature
+with a nvmet soft target..
+
+I want to share those nvmet patches with the community and discuss what the possible next steps
+could be to get this feature accepted upstream.
+
+Many thanks to Chris Leech <cleech@redhat.com> and Maurizio Lombardi <mlombard@redhat.com> who
+have done the lions share of this work.
+
+[1] https://people.redhat.com/jmeneghi/LSFMM_2025/TP4097a_Abort_Enhancements_2021.07.26-Ratified.pdf
+[2] https://lore.kernel.org/linux-nvme/20240912081510.171857-1-mlombard@redhat.com/
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+John A. Meneghini
+Senior Principal Platform Storage Engineer
+RHEL SST - Platform Storage Group
+jmeneghi@redhat.com
 
 
