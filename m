@@ -4,46 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEF2EC36000
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 12:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B94C8C36001
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 13:52:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lDwmTkRIn+gi9XSF0Wg1H1gh21NsZqfmRJe+hAYmPDQ=; b=hQ8UiAKA75Nsslp0EBJGDae0XP
-	t2KnSMtliQaKHWgf9cVB919UCxIl2X3SgOvtsxFrgjqTyf82+9x97Zwbuyu6h4JWhFBPHOymXCTOJ
-	7kC14FbHG0TGZeJ+xd2D07WtItxUd5PMcMsdnhd4AT1R5eZeqMNBrF1N30ri3KtQKWTpwIV1idWw2
-	UlmzV3jVxAOO3wnRF9eTIuqfk5Kw5/s/mSgF7sch+dgqFCm/M50QF6W83kSJ3hAg0I+tF9v0j0Kcl
-	ualSEjKQCz6xY+t10B+i6qAlkilEbAvn3qGpRhMhxi0OaF0Jowbl0PdaVZCSJTOsqReQSZZx7mR3+
-	ZyCST0pQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KrZk5kGC//WIGxYl3d5haSbEf3HQSQxbR0bNUoV3ulM=; b=f7C4lsUsJ1daZhEzzm1Wxc95PD
+	oFqcAJq8VDdcQu6avI9xHD1LUpBNhfPv10ZyF93x9Gnq4rByW7FJ/+xa4Zatpy7suX7npUSlgH1T7
+	gpmk4f15Hdl+j7STpr99kMyhve/Jw+UO0xNuxzyl3K06+H7/wyxXTWMMMDIqM/+uV1ZlgNTDjYxo5
+	QqXyD9bywnKXzuAOr6D16hCqCpool0l96NENVSyQx1teXVg55imvBucBKY5m8gT8JBSL5eGUA4rVe
+	0R3BNLUDVM3j7Em/S3EKlQC+9Uitgr79Soh8YSJNv39ut3j10bW9TzaVh7HlsS5Nya9b0Yzpsqt1g
+	IK4WRDDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvbf1-0000000EmIs-1FJb;
-	Fri, 21 Mar 2025 12:39:39 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvbey-0000000EmIR-37oU
+	id 1tvcnB-0000000Ez5Z-0dq6;
+	Fri, 21 Mar 2025 13:52:09 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1tvcn8-0000000Ez4U-0f3P
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Mar 2025 12:39:38 +0000
-Received: from localhost (25.205.forpsi.net [80.211.205.25])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id f1fe976a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 21 Mar 2025 13:39:31 +0100 (CET)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 21 Mar 2025 13:39:30 +0100
-Message-Id: <D8LY8MIVGQLR.3TK8BZGZR9VWJ@bsdbackstore.eu>
-Subject: Re: [PATCH] When kmodpy is not available call kmod binary directly
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Michal Suchanek" <msuchanek@suse.de>, <linux-nvme@lists.infradead.org>
-X-Mailer: aerc
-References: <20250321105915.8971-1-msuchanek@suse.de>
-In-Reply-To: <20250321105915.8971-1-msuchanek@suse.de>
+	Fri, 21 Mar 2025 13:52:08 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAF99113E;
+	Fri, 21 Mar 2025 06:52:12 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3328E3F673;
+	Fri, 21 Mar 2025 06:52:02 -0700 (PDT)
+Message-ID: <d64a40d9-0c5b-45b6-a95c-d428a4dd9640@arm.com>
+Date: Fri, 21 Mar 2025 13:52:00 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <cover.1738765879.git.leonro@nvidia.com>
+ <20250220124827.GR53094@unreal>
+ <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
+ <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+ <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250321_053937_120553_10AFF42C 
-X-CRM114-Status: GOOD (  15.90  )
+X-CRM114-CacheID: sfid-20250321_065206_286755_0E4FDC22 
+X-CRM114-Status: GOOD (  29.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,57 +82,131 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri Mar 21, 2025 at 11:59 AM CET, Michal Suchanek wrote:
-> kmodpy is an unmaintained project. Python is not really good at
-> backwards compatibility. With the upstream project not keeping up with
-> python churn using the library is a maintenance burden.
+On 12/03/2025 9:28 am, Marek Szyprowski wrote:
+> Hi Robin
+> 
+> On 28.02.2025 20:54, Robin Murphy wrote:
+>> On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
+>>> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
+>>>> From: Leon Romanovsky <leonro@nvidia.com>
+>>>>
+>>>> Changelog:
+>>>> v7:
+>>>>    * Rebased to v6.14-rc1
+>>>
+>>> <...>
+>>>
+>>>> Christoph Hellwig (6):
+>>>>     PCI/P2PDMA: Refactor the p2pdma mapping helpers
+>>>>     dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+>>>>     iommu: generalize the batched sync after map interface
+>>>>     iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+>>>>     dma-mapping: add a dma_need_unmap helper
+>>>>     docs: core-api: document the IOVA-based API
+>>>>
+>>>> Leon Romanovsky (11):
+>>>>     iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+>>>>     dma-mapping: Provide an interface to allow allocate IOVA
+>>>>     dma-mapping: Implement link/unlink ranges API
+>>>>     mm/hmm: let users to tag specific PFN with DMA mapped bit
+>>>>     mm/hmm: provide generic DMA managing logic
+>>>>     RDMA/umem: Store ODP access mask information in PFN
+>>>>     RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+>>>>       linkage
+>>>>     RDMA/umem: Separate implicit ODP initialization from explicit ODP
+>>>>     vfio/mlx5: Explicitly use number of pages instead of allocated
+>>>> length
+>>>>     vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+>>>>     vfio/mlx5: Enable the DMA link API
+>>>>
+>>>>    Documentation/core-api/dma-api.rst   |  70 ++++
+>>>    drivers/infiniband/core/umem_odp.c   | 250 +++++---------
+>>>>    drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+>>>>    drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+>>>>    drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+>>>>    drivers/iommu/dma-iommu.c            | 468
+>>>> +++++++++++++++++++++++----
+>>>>    drivers/iommu/iommu.c                |  84 ++---
+>>>>    drivers/pci/p2pdma.c                 |  38 +--
+>>>>    drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
+>>>>    drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+>>>>    drivers/vfio/pci/mlx5/main.c         |  87 +++--
+>>>>    include/linux/dma-map-ops.h          |  54 ----
+>>>>    include/linux/dma-mapping.h          |  85 +++++
+>>>>    include/linux/hmm-dma.h              |  33 ++
+>>>>    include/linux/hmm.h                  |  21 ++
+>>>>    include/linux/iommu.h                |   4 +
+>>>>    include/linux/pci-p2pdma.h           |  84 +++++
+>>>>    include/rdma/ib_umem_odp.h           |  25 +-
+>>>>    kernel/dma/direct.c                  |  44 +--
+>>>>    kernel/dma/mapping.c                 |  18 ++
+>>>>    mm/hmm.c                             | 264 +++++++++++++--
+>>>>    21 files changed, 1435 insertions(+), 693 deletions(-)
+>>>>    create mode 100644 include/linux/hmm-dma.h
+>>>
+>>> Kind reminder.
+>>
+>> ...that you've simply reposted the same thing again? Without doing
+>> anything to address the bugs, inconsistencies, fundamental design
+>> flaws in claiming to be something it cannot possibly be, the egregious
+>> abuse of DMA_ATTR_SKIP_CPU_SYNC proudly highlighting how
+>> unfit-for-purpose the most basic part of the whole idea is, nor
+>> *still* the complete lack of any demonstrable justification of how
+>> callers who supposedly can't use the IOMMU API actually benefit from
+>> adding all the complexity of using the IOMMU API in a hat but also
+>> still the streaming DMA API as well?
+>>
+>> Yeah, consider me reminded.
+>>
+>>
+>>
+>> In case I need to make it any more explicit, NAK to this not-generic
+>> not-DMA-mapping API, until you can come up with either something which
+>> *can* actually work in any kind of vaguely generic manner as claimed,
+>> or instead settle on a reasonable special-case solution for
+>> justifiable special cases. Bikeshedding and rebasing through half a
+>> dozen versions, while ignoring fundamental issues I've been pointing
+>> out from the very beginning, has not somehow magically made this
+>> series mature and acceptable to merge.
+>>
+>> Honestly, given certain other scenarios we may also end up having to
+>> deal with, if by the time everything broken is taken away, it were to
+>> end up stripped all the way back to something well-reasoned like:
+>>
+>> "Some drivers want more control of their DMA buffer layout than the
+>> general-purpose IOVA allocator is able to provide though the DMA
+>> mapping APIs, but also would rather not have to deal with managing an
+>> entire IOMMU domain and address space, making MSIs work, etc. Expose
+>> iommu_dma_alloc_iova() and some trivial IOMMU API wrappers to allow
+>> drivers of coherent devices to claim regions of the default domain
+>> wherein they can manage their own mappings directly."
+>>
+>> ...I wouldn't necessarily disagree.
+> 
+> 
+> Well, this is definitely not a review I've expected. I admit that I
+> wasn't involved in this proposal nor the discussion about it and I
+> wasn't able to devote enough time for keeping myself up to date. Now
+> I've tried to read all the required backlog and I must admit that this
+> was quite demanding.
+> 
+> If You didn't like this design from the beginning, then please state
+> that early instead of pointing random minor issues in the code. There
+> have been plenty of time to discuss the overall approach if You think it
+> was wrong.
 
-Well, the original maintainer abandoned it, I did
-what I could to make kmod able to run with latest Cython v3
+You mean like if a year ago I'd said "this is clearly an awkward 
+reinvention of the IOMMU API" of the very first RFC, and then continued 
+to point out specific and general concerns with both the design and 
+implementation on the v1 posting in October, and then again on 
+subsequent versions? Oh yeah right that's exactly what I did do...
 
-https://lore.kernel.org/target-devel/CAFL455=3Dr4SuND7vL1Sr2vKzLTsgg-KL7GNz=
-zJZPe2wDDH-NQyg@mail.gmail.com/
+The fact that the issues summarised above are *still* present in v7 is 
+not for lack of me pointing them out. And there is no obligation for 
+maintainers to accept code with obvious significant issues just because 
+they don't have the time or inclination to personally engage in trying 
+to fix said issues.
 
-However I think that the fallback is ok and I will do the same
-on targetcli too, soon or later.
-
-Maurizio
-
->
-> nvmet does not use the python library in any substantial way, it only
-> loads a module once. This can be easily accomplished without any library
-> using the modprobe tool directly.
-> ---
->  nvmet/nvme.py | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
->
-> diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-> index 59efdb5b7c1b..397f103abcdb 100644
-> --- a/nvmet/nvme.py
-> +++ b/nvmet/nvme.py
-> @@ -256,9 +256,20 @@ class Root(CFSNode):
->              # Try the ctypes library included with the libkmod itself.
->              try:
->                  import kmod
-> -                kmod.Kmod().modprobe(modname)
-> -            except Exception as e:
-> -                pass
-> +
-> +                try:
-> +                    kmod.Kmod().modprobe(modname)
-> +                except Exception as e:
-> +                    pass
-> +            except ImportError:
-> +                # Try the binary specified in /proc
-> +                try:
-> +                    kmod =3D None
-> +                    with open('/proc/sys/kernel/modprobe', 'r') as f:
-> +                        kmod =3D f.read().rstrip()
-> +                    os.system(kmod + ' ' + modname)
-> +                except Exception as e:
-> +                    pass
-> =20
->      def _list_subsystems(self):
->          self._check_self()
-
+Thanks,
+Robin.
 
