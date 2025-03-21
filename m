@@ -4,95 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA93EC36007
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 20:36:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA630C36000
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 20:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zQ14CF88ps+y9JKHzrmpWKepjjCRvlmio15JuiIfmyA=; b=thQkda88LAYCwpO1/6eWsS9T1q
-	sZueO1UTdX03UhUkBFsMV6JnkweDJvMwIm1in0S49Y0wOiyDeDBXnJMAERlhF5IZ7KjjECT742IMc
-	ZtcUI93PtxTEw0rIaltTUbIik2KVV/G6n6XoCBRrqiLCWtT3ICky04qxEnidzoGECQrbHOYKGMC+R
-	Z8LiezQg162sF3jKATfPLGA6r8oXyi3tAXsgbLeixQgBbzBZs8LQokHIBGEEK21JiY1VobQfMTyuL
-	yNvXNTH+02f0qS+hWsuqUyjYxM1H3nDI+RT39H1Ix58lwUgGk9kVpv5trk/WoSe/cLt/mZIAcQOsc
-	tohEqbrQ==;
+	bh=8di2+5db+G/faMtWmD76yKgofncq+owzXn388GWGPKs=; b=ICfHzOm/WejmSTnMHpncYRA54j
+	YggySOJ+K+oQMcGTKMG2muAK5Ur2a6TiUGH08TKjQItc2efm3Xbr+p8PkN+uOtWD7WdvlNQJlWG8h
+	QieAB9gcQbHaovfK9zg/Y/dsFDwY7AQYyU5qpiDt99hvu+kYixuLViIMdNl9kVhz3rT0WO5ySJ56y
+	sJcD93cejQO9UHdzew/C4etzwbTWw70CrJJSt+mgfNhgbhWmjQt1zqtP5XD2QRtDXq7vHrAXvqnKh
+	frrQ4tWUb3am9xHYv2c3ngCz3ejKsdJIYWwERN0hXqV9ah19Yjb7R7YMOFY/DAnFnIFBqZPGhp4lH
+	A5jT4RBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvj6r-0000000GCow-4A7o;
-	Fri, 21 Mar 2025 20:36:53 +0000
-Received: from mail-pl1-x662.google.com ([2607:f8b0:4864:20::662])
+	id 1tvj7f-0000000GDCv-33UV;
+	Fri, 21 Mar 2025 20:37:43 +0000
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvj6p-0000000GClu-09Z2
+	id 1tvj7d-0000000GDBP-0xy5
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Mar 2025 20:36:52 +0000
-Received: by mail-pl1-x662.google.com with SMTP id d9443c01a7336-2240b4de10eso6966515ad.1
-        for <linux-nvme@lists.infradead.org>; Fri, 21 Mar 2025 13:36:50 -0700 (PDT)
+	Fri, 21 Mar 2025 20:37:42 +0000
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-abbb12bea54so188837366b.0
+        for <linux-nvme@lists.infradead.org>; Fri, 21 Mar 2025 13:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1742589410; x=1743194210; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zQ14CF88ps+y9JKHzrmpWKepjjCRvlmio15JuiIfmyA=;
-        b=E1vXBneUl9Fje5OPtYw3frGvAaBb5HBxgrS5jWpHZFBYvUD+kkwYhIUunMKR2pSKXP
-         P5K02IEJUpWb8+ElV2JWLWqTYz2a9drwWdgtDoMKCPV/hPWB4YpyqYVfKX1pHdPl5Lw8
-         XrmzQ6TxBNi2Vut2T+mixR7JjBPRFAJpIE0aAUciZnth8H26h563913uoCdmAv0YVsMS
-         cLoWJPNxlWTfg9wC1f9HSso8Sd+gxuigkq665aqRk+aSwIMyZ9qRIb1pJPYXzNcz2Eb/
-         TU/dWGlfXRoEfXlkdDCDpA7uvYejCYl3PSe38Nexn/WVEMRLmujrVIzaenfKNekSAhHx
-         6nig==
+        d=gmail.com; s=20230601; t=1742589459; x=1743194259; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8di2+5db+G/faMtWmD76yKgofncq+owzXn388GWGPKs=;
+        b=D3kh0fV2FPX8mJxNlPwiyjEufnTbdQRRgolTvWQ3C/FA0y/BdVAcyx2UB02wfO99je
+         mkIolfTiJgXPUcp/McvxHcsanzC+d4ethZ3KdvqXfMLJpIMORvvwbI/mSqW44f4JeIuY
+         iMRDpy0OjU0FJyeRgVQtTTyP+Sz9gyeLYUUhkZQTt61pZB7JYYFMqlJHX92gCiiMIN8a
+         YR0LJPpmP+YiEQFwvTDrbqk3G+ER1H8xfBKgZr4SRE7gCSQryiDZ/QfPKUxPlW0Dgtvo
+         eyb9R8jHZexm0UYf2Qh2SdFSfigavYqAFmcg/gGuR+YBbLgq4/7zpJfFvqNq/Nd2f4s8
+         Wj2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742589410; x=1743194210;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zQ14CF88ps+y9JKHzrmpWKepjjCRvlmio15JuiIfmyA=;
-        b=dYtDSdrAeI/eG8A8KkOYxgWy7Gwn1i6o/3mVm6ZPQ0kRHlvTAEqkGxwcdlJjOK+3RK
-         cpmT2cwNsH2S9hBNwliEESHtUFL5azRKXR60L3aDJS1D0hxZgb8Uzht9G9xsYieUUo7C
-         ZRDcuHEd5eop/3HF8kKnGl+WkhRabgrqYCEaazdu7SypcHDxcJN7d63g32x8kIq2L+iV
-         mzuCQe8cCd5OFrqNw0XHR20N1+PULDB/FZuyh/9Lg99OdlcQCazxqFdntRr9E/sxvJ3j
-         tg/herhxlstFEWET15M4rAl+Qyxd1gfkCreAxUunvfKG+4jFyww9QCV507JanbbHPVfi
-         YdvA==
-X-Gm-Message-State: AOJu0Yzh9GovkTLok9K1CnrPor2a87PTRUexZ00eU1HDK5C5PismsRXe
-	7krdIObLM2or/Ymf7L2QZMvFDJsmpD/MKT+XEZbuVJ6El5DTzCjjH+a9yD88Ytkat/Vc/kjMjey
-	zya0It07uQ302a2FiejHTSs8mb8SpttHC
-X-Gm-Gg: ASbGncs0wBY7ZQsfcHvxZs17jVoZXIkWF97kDcbIWyXqtGMedr44FyjCvN2nS/UNOeL
-	fLQL8fvjIg3HDrp3SJsiIMYENwUTopjnFAktw+4A+Fb7xvZYN8b3eAGSWy8Qd0KsQ02GiTH6LLg
-	Ogam67qWEA3EyLDd7YVgsCF2pLt0gyxVQNsMd+IRFBNnFRZ1oOJtv6mVrbVi86vMq5SbBMzVrcq
-	0IqkXdt7PTs/7mU9wm4NbAoziSqdUqvM5zUdHvNb2KUWw5zfo9LjMFQCTQ9OqENmk2VktMo1YX1
-	Vy8H5EIf3u78MH8KD7xe2jrtA+CIKGsxf1mOFR2bPrtTvDvN
-X-Google-Smtp-Source: AGHT+IFIj6bIjEm/3qgI1qYI4OA5ti99/yOaPrOtq4B6Fitpx4Zxnzfv1pINOLQ0GXzj2xQjYD6Hj0SUAHD3
-X-Received: by 2002:a17:902:f641:b0:224:1212:7da1 with SMTP id d9443c01a7336-22780e172a0mr29236135ad.13.1742589410068;
-        Fri, 21 Mar 2025 13:36:50 -0700 (PDT)
-Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.129])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-22780ef2471sm943475ad.14.2025.03.21.13.36.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 13:36:50 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 514F53400FE;
-	Fri, 21 Mar 2025 14:36:49 -0600 (MDT)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id 457E7E4195E; Fri, 21 Mar 2025 14:36:19 -0600 (MDT)
-From: Caleb Sander Mateos <csander@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH 3/3] nvme/ioctl: move fixed buffer lookup to nvme_uring_cmd_io()
-Date: Fri, 21 Mar 2025 14:36:04 -0600
-Message-ID: <20250321203604.3911446-4-csander@purestorage.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250321203604.3911446-1-csander@purestorage.com>
-References: <20250321203604.3911446-1-csander@purestorage.com>
+        d=1e100.net; s=20230601; t=1742589459; x=1743194259;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8di2+5db+G/faMtWmD76yKgofncq+owzXn388GWGPKs=;
+        b=UeoGszzfHA8+ZStIqEX8pl0pv8RcnQS3oH29HWt8cnE7yH+ZBUQSbsA86YEB3Y8Rbc
+         JUZpP0mkpfsLMWIiKbKXjO8S/87vhs+Vkp5SKUL2g8iO11yZy/oLW9CuWw2dsUrmV6JD
+         qSfOPx4DBHvn3uueRVg4Zkn+NHWv/wkR3zCSUYSdSILvhiW0UTdFcUzMjJ8boarXhS9s
+         V8CMZgRnlfBeLiTTnmnsenQjLvQfLVHAaqkQVYbEwUw68GPYKUpwziMzDy+OiBXTlPDw
+         57zPnXLcf0qYnDp7T6Jq6StwqVp7dcTNt7gMjkslUnfZzcXSBBoBRHQbxR9/I7xwMnxY
+         pK6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUOnMYKW9vBObwrH1kFJghgFjRoLCbFdg9PG/TL0+irONhwMlLb8/Sbf3OUTOZGUO/qtucBFCC79SIU@lists.infradead.org
+X-Gm-Message-State: AOJu0YyjWPGAgKVWVy4GB4fK5/CZHxpT8V00dXbGaDSLPw61reONYQDa
+	YqghoZ8G5DJ0KEsT2ryVDYOpgxbF/jID+gicJd44lRbdYfcM3iPH
+X-Gm-Gg: ASbGnctmO/48MmbcX+7iMxQ4FkEaIAqVjG8xeGy5tFn77TJoTa6rDgTnDsvZkfbHj3p
+	jI6zaI6oBz7TMSXzjPkpL+sy0bJkXu4IEy06Tgn9elpogWCahMDTBZWqTY3Nnd1u+DmJOi+stXu
+	gnd0ZFxPx9IzCrAp8AUB7xC0qDHrqWSsHztYFtM8SuBVJT/YE2dWnLW3WEah0lz/lqN2cGTU774
+	AAUa+gmVzn0vnwUSi8Zf8tSMgeO56IbB+Rf6sYMM8LHy0iX4RpXzkD5E7RYkS93bJKojUUU6R+q
+	Uk4VmxMY4JM0SUS5O7UlMD0FC9u5nPrR7eiG2l+3YwH2ck9CM0szEA==
+X-Google-Smtp-Source: AGHT+IHrRiJ1iTW0Z48ukRmGGb6XVNgOoztXQYwBBfo+m+iTY3JPOOIta58QVGB1CkULhOEnWBIKNw==
+X-Received: by 2002:a17:907:c5c9:b0:ac4:76e:cdc1 with SMTP id a640c23a62f3a-ac4076eda87mr70308966b.21.1742589459101;
+        Fri, 21 Mar 2025 13:37:39 -0700 (PDT)
+Received: from [192.168.8.100] ([85.255.236.254])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3ef8d3d2dsm211581666b.60.2025.03.21.13.37.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Mar 2025 13:37:38 -0700 (PDT)
+Message-ID: <ee6c175c-d5b7-4a1f-97b3-4ff6166c5c73@gmail.com>
+Date: Fri, 21 Mar 2025 20:38:32 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] io_uring/net: only import send_zc buffer once
+To: Caleb Sander Mateos <csander@purestorage.com>,
+ Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Xinyu Zhang <xizhang@purestorage.com>, io-uring@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20250321184819.3847386-1-csander@purestorage.com>
+ <20250321184819.3847386-2-csander@purestorage.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20250321184819.3847386-2-csander@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250321_133651_078651_B5B2BB56 
-X-CRM114-Status: GOOD (  18.92  )
+X-CRM114-CacheID: sfid-20250321_133741_276477_8AB94F6B 
+X-CRM114-Status: GOOD (  12.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,97 +103,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_map_user_request() is called from both nvme_submit_user_cmd() and
-nvme_uring_cmd_io(). But the ioucmd branch is only applicable to
-nvme_uring_cmd_io(). Move it to nvme_uring_cmd_io() and just pass the
-resulting iov_iter to nvme_map_user_request().
+On 3/21/25 18:48, Caleb Sander Mateos wrote:
+> io_send_zc() guards its call to io_send_zc_import() with if (!done_io)
+> in an attempt to avoid calling it redundantly on the same req. However,
+> if the initial non-blocking issue returns -EAGAIN, done_io will stay 0.
+> This causes the subsequent issue to unnecessarily re-import the buffer.
+> 
+> Add an explicit flag "imported" to io_sr_msg to track if its buffer has
+> already been imported. Clear the flag in io_send_zc_prep(). Call
+> io_send_zc_import() and set the flag in io_send_zc() if it is unset.
 
-Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
----
- drivers/nvme/host/ioctl.c | 40 +++++++++++++++++++++------------------
- 1 file changed, 22 insertions(+), 18 deletions(-)
+lgtm. Maybe there is a way to put it into req->flags and combine
+with REQ_F_IMPORT_BUFFER, but likely just an idea for the future.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 843371e6e1e2..feac2c2b33e1 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -112,11 +112,11 @@ static struct request *nvme_alloc_user_request(struct request_queue *q,
- 	return req;
- }
- 
- static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
--		struct io_uring_cmd *ioucmd, unsigned int flags)
-+		struct iov_iter *iter, unsigned int flags)
- {
- 	struct request_queue *q = req->q;
- 	struct nvme_ns *ns = q->queuedata;
- 	struct block_device *bdev = ns ? ns->disk->part0 : NULL;
- 	bool supports_metadata = bdev && blk_get_integrity(bdev->bd_disk);
-@@ -134,27 +134,16 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 		if (!nvme_ctrl_meta_sgl_supported(ctrl))
- 			dev_warn_once(ctrl->device,
- 				      "using unchecked metadata buffer\n");
- 	}
- 
--	if (ioucmd && (ioucmd->flags & IORING_URING_CMD_FIXED)) {
--		struct iov_iter iter;
--
--		/* fixedbufs is only for non-vectored io */
--		if (flags & NVME_IOCTL_VEC)
--			return -EINVAL;
--
--		ret = io_uring_cmd_import_fixed(ubuffer, bufflen,
--				rq_data_dir(req), &iter, ioucmd);
--		if (ret < 0)
--			return ret;
--		ret = blk_rq_map_user_iov(q, req, NULL, &iter, GFP_KERNEL);
--	} else {
-+	if (iter)
-+		ret = blk_rq_map_user_iov(q, req, NULL, iter, GFP_KERNEL);
-+	else
- 		ret = blk_rq_map_user_io(req, NULL, nvme_to_user_ptr(ubuffer),
- 				bufflen, GFP_KERNEL, flags & NVME_IOCTL_VEC, 0,
- 				0, rq_data_dir(req));
--	}
- 
- 	if (ret)
- 		return ret;
- 
- 	bio = req->bio;
-@@ -511,13 +500,28 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 	req->timeout = d.timeout_ms ? msecs_to_jiffies(d.timeout_ms) : 0;
- 
- 	if (d.addr && d.data_len) {
--		ret = nvme_map_user_request(req, d.addr,
--			d.data_len, nvme_to_user_ptr(d.metadata),
--			d.metadata_len, ioucmd, vec);
-+		struct iov_iter iter;
-+		struct iov_iter *map_iter = NULL;
-+
-+		if (ioucmd->flags & IORING_URING_CMD_FIXED) {
-+			/* fixedbufs is only for non-vectored io */
-+			if (vec) {
-+				ret = -EINVAL;
-+				goto out_free_req;
-+			}
-+
-+			ret = io_uring_cmd_import_fixed(d.addr, d.data_len,
-+					rq_data_dir(req), &iter, ioucmd);
-+			if (ret < 0)
-+				goto out_free_req;
-+		}
-+		ret = nvme_map_user_request(req, d.addr, d.data_len,
-+			nvme_to_user_ptr(d.metadata), d.metadata_len,
-+			map_iter, vec);
- 		if (ret)
- 			goto out_free_req;
- 	}
- 
- 	/* to free bio on completion, as req->bio will be null at that time */
 -- 
-2.45.2
+Pavel Begunkov
 
 
