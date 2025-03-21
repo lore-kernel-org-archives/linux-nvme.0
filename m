@@ -4,52 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00BE5C35FF3
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 05:05:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC0B1C35FF3
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Mar 2025 06:04:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hqE0DWR0QvEKKxfmQXgNlpXx/3yw+/ivNNrnEvnsOb8=; b=LK3cFz5JwiuplRBJmCoVybxMZf
-	r1kfLLy97H6KTzXHpYW1hgj+KpwxnB8VRA+QJHkZjoJuvQhWBu/0pfnf1HKJh6mfIrLNO0M2YRZ5t
-	I9VcAenOK25oc+1RWdaRjoi09sWCDf61wBkchSdOJ76pnc0JLIg7Hlh0mOZax7ExHMy84RVOEinED
-	JIaLVZRcs79ZknJher9htcKb7vOq/9+enIxdbkkIckcIpn41d1xOfE81vDEQLvwXiptq/NIQ8bZEz
-	pIvrgyLW2oZBOPo+0WjBdCqFs4ijmhw5hc2qrJJ25DbaV6jk6YL2LQaf9n9O3Pd8s9UnNu9/5Of6V
-	akH4aAxQ==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=N2V/pMD2VDPzBZBvck1yV9mpI+
+	4d2JyxD9PK5qeRwBJdhDVYrfCTWjEJXWqdYx0T/MQVHM4qBFp2u75nCFhoFdxhLc2FGiVhmqz49eN
+	6ZkDjUjKiQ4/+SX6ig2lkZ19p7YjzIo41X9350neH4kaPyLO7l+wFuw4W4/jmm6iehZ5eb2IEYBtQ
+	TZUWF7Z74se+B/zs8rWewFZehqNnM7ubAUyVdT1D3utxy/PQ6sgWCaW03+m/I52M1pca4jFs/OEsy
+	kEOkWUeaVdJVdmuvaJICTiLj+siaLtkzGEa8aq+6/UFW5IdE2hkAoNnGYfqYXpEIJOcNjVhuXKxid
+	ryo9GqJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvUZp-0000000Drcb-1iED;
-	Fri, 21 Mar 2025 05:05:49 +0000
+	id 1tvVU6-0000000Dwah-0eqh;
+	Fri, 21 Mar 2025 06:03:58 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tvUZm-0000000Drc3-38LB
+	id 1tvVU4-0000000DwZn-1apz
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Mar 2025 05:05:47 +0000
+	Fri, 21 Mar 2025 06:03:57 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B02B968AA6; Fri, 21 Mar 2025 06:05:38 +0100 (CET)
-Date: Fri, 21 Mar 2025 06:05:38 +0100
+	id F423268AA6; Fri, 21 Mar 2025 07:03:48 +0100 (CET)
+Date: Fri, 21 Mar 2025 07:03:48 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: =?utf-8?B?6YK15Z+55p2w?= <shaopeijie@cestc.cn>
-Cc: Christoph Hellwig <hch@lst.de>, kbusch <kbusch@kernel.org>,
-	axboe <axboe@kernel.dk>, sagi <sagi@grimberg.me>,
-	linux-nvme <linux-nvme@lists.infradead.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	"zhang.guanghui " <zhang.guanghui@cestc.cn>,
-	gechangzhong <gechangzhong@cestc.cn>
-Subject: Re: [PATCH] nvme-tcp: fix selinux denied when calling sock_sendmsg
-Message-ID: <20250321050538.GA2038@lst.de>
-References: <20250320072517.GA14672@lst.de> <1382721899.82743.1742525374789.JavaMail.xmail@wm-2>
+To: Daniel Wagner <wagi@kernel.org>
+Cc: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 02/18] nvmet-fcloop: replace kref with refcount
+Message-ID: <20250321060348.GA3007@lst.de>
+References: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org> <20250318-nvmet-fcloop-v3-2-05fec0fc02f6@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1382721899.82743.1742525374789.JavaMail.xmail@wm-2>
+In-Reply-To: <20250318-nvmet-fcloop-v3-2-05fec0fc02f6@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250320_220546_927757_F61A1A4D 
-X-CRM114-Status: GOOD (  13.79  )
+X-CRM114-CacheID: sfid-20250320_230356_558620_EE9D148E 
+X-CRM114-Status: GOOD (  11.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,22 +62,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[note: your mail was mangled html, I'm trying to extract the answer]
+Looks good:
 
-On Fri, Mar 21, 2025 at 10:49:34AM +0800, 邵培杰 wrote:
-> Sure. But on the target side, it's a bit different.
-> All socket operations are done in the workqueue with domain kernel_t,
-> the kernel_t can access other labels, so I think there's no issue.
-
-Indeed.
-
-> By
-> the way, switching to sock_create_kern() could skip selinux avc
-> permission check and might give a very small performance boost.
-
-It also helps to avoid copy and paste bugs..
-
-> I'll send an optimization patch later.
-
-Thanks!
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
