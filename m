@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B95FC36008
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Mar 2025 17:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 560B3C36002
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Mar 2025 17:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zI9pTE09SEnCUUwuhvk6jLvhp0JjIoGziaSbN4eddKE=; b=ECIJu06iXneemWESKexc+BMCfr
-	RK9DvAVFXh+2rYRnaBBgvvk7doZjb4OfjOgcxY70f/30ZqGscF2XpKK31Ge1O90GCo+ZHpxBkDxeI
-	NrMmPG/qkKJPKHsYfE+/qUvQEuiwnXtrUd8U+RMrydvGTNE0At1XytV0dCRNgIiSYHCUXy+hyB61b
-	blXCGkReXZHFj/9XkXwaxVtvOszsrvxFHh/mLDwi5qzpLeYBdFMJ/Wk5EjbkSodTUCYebUo8f8/Um
-	DpxWjggqSQSzIYpHwqXu4dFXDSg3aU+goTVqc2nOqAITlkaVxZ/JedRpX2nhRz60meeEEoN5XuIrI
-	0X0JSpcA==;
+	bh=Yz2osXWrElalCzIio0fRrS4N7V336cnORYficYcWn18=; b=lLBKJVYm0DiMMOSc2X1zaZb+xU
+	tNRYm4DTZiqC6spISPS3ke6e4h/22mT5ia9I2Biw18wcqfr/DYIS7L8UpRspvSdAKhgsL+0+WPOlJ
+	zqvYyOJ3Q/j6PbcrMwdONnZ67BEIEIexBnRXt11U0ClMfRYPw4ETU6gYRXW6HXdPWNcu86EvR043K
+	WWsRlAlLUniXQX/Tq98I5YCOjh+bnV14pLfo2X3AK9oWfF8Jtyxu6jHIc7w0Bb37v3DxiAiJZNWyx
+	vIHVwsFyndCasXHCS0d2Zx7RiTKz1JJh5hcUE50Ztw+8oTFeFkb9PowzflyNxDuo01xPaKyCcy86z
+	gZCYkChQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1twlvi-00000003rO9-3XOL;
-	Mon, 24 Mar 2025 17:49:42 +0000
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+	id 1twlvj-00000003rPA-2NaG;
+	Mon, 24 Mar 2025 17:49:43 +0000
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1twlvf-00000003rJy-2zIK
+	id 1twlvh-00000003rLj-1gq4
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Mar 2025 17:49:40 +0000
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-3014ae35534so7276560a91.0
-        for <linux-nvme@lists.infradead.org>; Mon, 24 Mar 2025 10:49:39 -0700 (PDT)
+	Mon, 24 Mar 2025 17:49:42 +0000
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-2ff6e91cff5so8088691a91.2
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Mar 2025 10:49:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1742838579; x=1743443379; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1742838580; x=1743443380; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zI9pTE09SEnCUUwuhvk6jLvhp0JjIoGziaSbN4eddKE=;
-        b=GAX+zpRfL1mytq3Ez0jdr7ZVld1yApgBv5Uen1yhRLSeSGSMXM23sLH1x/tIfivR4a
-         L57qjIPreThYx7tIubqW5EdaKpkjnn18fh+lq5sSkLcI5Qf3R/4HfDx8p/PjASjyCCWK
-         k/x/KASk48hQtQQnz/wwdfAfnCmCo3MrOtcOFYhrLnwFlzLJ9qEE7Okl43l+8OI+lJXt
-         YYwrnhfakP5sj5+CVIC7NtbFnH0tMeiW8yqN9dCuzwdXAy0MBWg3yMD9/tqqWmrkavFy
-         1ZeFbZY344CicrFSLjmLtC6pszmCS8l0V5TgfLxPoAIBYCAw+Gt1D23Y1A6REBtZfnLN
-         H2CQ==
+        bh=Yz2osXWrElalCzIio0fRrS4N7V336cnORYficYcWn18=;
+        b=eHtUsfquvI4L5qHgj8jQAavfZd/WrRcRD/+Lv2Dxs1aC/AmN6nc883i+GyddeJ1n/H
+         EcTQCrb2w5KE8FBHfZTo/TMY5C2c34aZ8+9h/vrRZGrNeHElz0oE0lHwOfJJQ/LbxkE5
+         B6/Ci2sCM2ux37Q9ZcYJBlqnnSiKbVu7IHI9g4Fg6HrCuXz21+QqyLG4wD9yzl84543D
+         Zjv/uTmUeb3BsnU3e5NF2x9e4n1WialbWn2rD+c/dIy5UbvJIf6dqn2sEeKUdsEHb11y
+         vKg7ZvH4yMrItmXgyevmKXiCMa0tXeN4r0AfXP9foKzGj8T5D8mjIn1tQeKQe37OAvJc
+         2PDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742838579; x=1743443379;
+        d=1e100.net; s=20230601; t=1742838580; x=1743443380;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zI9pTE09SEnCUUwuhvk6jLvhp0JjIoGziaSbN4eddKE=;
-        b=mGYHZHXq8m6m6tbaDxgeBqDLuy7GSJ8mN1iiKvglCjxhpm2lhavgjJD3vtD3vclCaO
-         F2VE3iYd4BMXngRGXSv4D3yE8Sq7bFMOi1J3XJ/cm5flStshbdhAGEeOaBofC2tFuVAB
-         kV+/p0U/mPfoo346GKE3ROTu0CNV8/9fbGEDJpf/hlandNlm5xVDNP7GOoC5ZH5KrS7V
-         6tY+3s8gyjp7PtcT1lcwdETi+g8hKR6tesyTng35FSw0BUV2zCHXCk4yZzMnD+8ZcpEI
-         NXpCkHqRF9oXQam4U46smnWb0WeaYT/BLk4Inktm+6mLH37L4nIiHRqGzwKlzYKlDVBy
-         zGTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJB2GIs8TEhdsv9nmB9mfyw7Hmp/PYeZN4F63y0DpRwDL6aA0iaRYBlv9QjCoJVS/MHCkVhy53Xeuo@lists.infradead.org
-X-Gm-Message-State: AOJu0YzMInKPfY8BPJy95rWga7iSL5fPVcBnQrC85BA7KdYTjyh1dxQI
-	QksjQdNmKmGFalC8N3f2FmcwkVBSDA8Arl2p8GLW+vtHQ6MjeX0qX0TEqiBPs/c=
-X-Gm-Gg: ASbGncvUzmHeVhiUndhYy6WvwA8DiQaPyXBokdktGnoZvgKvmauhazt460HpbVoOM6C
-	W28dUqy8dsp4fjte7O2B38uzeyCh1uXNANk1E6PAZL8xD24yMJoENioOHfaSrDr4zndPJy+5oq7
-	oEz42ESIer532NFgaDRGheJCgGcWcP+p2byQgyIvqnFrYfD9Sco2zTGDqfbJQd9fsflFinX5Ke1
-	gMNOh8Y8mSdaITzAk81W2swvY4dEMmpi2m62FLoKfxKyDvf8EXdZqW2spAfr832gRN11C0vnrsM
-	QhFTdLH8h0y7E4wTASPHRcGIxfZzSR7QqiJNWGKWhJBiw938/FE=
-X-Google-Smtp-Source: AGHT+IEizjkumELeU6R9jqpR3Ax4p0YRM++REqcaqTU4nNn7wsmzFTI5FqCg8QkO6jKcVZ9UpRwPhQ==
-X-Received: by 2002:a17:90b:5408:b0:2ff:6fc3:79c4 with SMTP id 98e67ed59e1d1-3030ff10972mr18601100a91.27.1742838578680;
-        Mon, 24 Mar 2025 10:49:38 -0700 (PDT)
+        bh=Yz2osXWrElalCzIio0fRrS4N7V336cnORYficYcWn18=;
+        b=HskIHR5NC0jZdg3B6rM0DUNZm5Uv8oWIAbqWXD7YV5MoWHX7MC7KFE1sJZzjMRy+C6
+         ySYt3hyKGhCGOanMElfUnPXZf0rvyoDdyZQXpzZWeoX0Q0FVnnY7tB1v7QEktgiOLlxy
+         l4KLt57hyTzvQboWHS2BY3EKcFJYY3iUh0eje+Lix1AA+3gr4hBkA6nwMdHQJd4cKNfi
+         napQG0PIEafTYkVYN7cYEJvtWfyCo7St2y9qQepT5USM4bPmf7h5nJrNTWTjMqnlTKB5
+         1PUdrfHzS/Hn4HGx0zGvN8noA+U2odnKM4R/WaT1LxqgpGryFilhGBW+kn0ZOkNdKRmP
+         6sHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXFyz/RJIx7Zn3KYWerX22G1SpOpdcqQvO4unfdu2syL+4Xpq52AapkD/ntUPimqCHuQnj5Pqddunga@lists.infradead.org
+X-Gm-Message-State: AOJu0YzHY81EpeVRDB/4gFeICfDrqlWKy35SZCLueRnbkYr7nePCtnCq
+	BYJ9nhovILQS3YYoBX2PVI7IzU7bLfiRM++voTaygZFY1CwF2lIurclw2dL5WqM=
+X-Gm-Gg: ASbGncsezvAhS5YxoAfVFYn6FqEFmC3to/yNDM5Kgddq1KZqGc2K1y3QvrhWMaoQwJr
+	ErDmCBppsURBAigVPl13IW5DaSHVZwJfAO0Cnrhe+NanUaKZB733ZiYjYEjez0/1SXdjIRNJP2v
+	0GkoqaaPwtRaPQubMNkLHsmUbSp0hIvrMhcDVb0+GjlX1zCJ647rjqW8c7ZZdvblzVgQZ44En42
+	/nM2cFG5B/v5Snidz8AyOCJPp9U2do0oaH3fe3vpMCTLN9/NpQyJFGf2YadvSU2UBs+iJs+GOSh
+	V7mSaWprqyGoqWKkFImv1r0j2rOdT4PDgXWk5s0cJv2M4GS4sLVA+WRcmak8yQ==
+X-Google-Smtp-Source: AGHT+IEvbZLBkadN8enrTpfI1MaG14FFBTGvRXIEJ2kVCjGfPPoMyljKBkm92M3bmOxmimTtPebNvA==
+X-Received: by 2002:a17:90b:2647:b0:2ee:d7d3:3019 with SMTP id 98e67ed59e1d1-3030fe95343mr26865713a91.12.1742838580250;
+        Mon, 24 Mar 2025 10:49:40 -0700 (PDT)
 Received: from localhost.localdomain ([2601:640:8900:32c0::e120])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-301bf576c7dsm12505821a91.3.2025.03.24.10.49.37
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-301bf576c7dsm12505821a91.3.2025.03.24.10.49.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 10:49:38 -0700 (PDT)
+        Mon, 24 Mar 2025 10:49:39 -0700 (PDT)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -81,17 +81,17 @@ Cc: Hannes Reinecke <hare@suse.de>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	mkhalfella@purestorage.com
-Subject: [RFC PATCH v1 5/7] nvme-tcp: Split nvme_tcp_teardown_io_queues() into two functions
-Date: Mon, 24 Mar 2025 10:48:58 -0700
-Message-ID: <20250324174909.3919131-6-mkhalfella@purestorage.com>
+Subject: [RFC PATCH v1 6/7] nvme-core: Add support for holding inflight requests
+Date: Mon, 24 Mar 2025 10:48:59 -0700
+Message-ID: <20250324174909.3919131-7-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250324174909.3919131-1-mkhalfella@purestorage.com>
 References: <20250324174909.3919131-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250324_104939_769333_DE7606C9 
-X-CRM114-Status: GOOD (  12.00  )
+X-CRM114-CacheID: sfid-20250324_104941_450482_6C1B4C15 
+X-CRM114-Status: GOOD (  15.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,56 +106,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move code that quiesces IO queues out of nvme_tcp_teardown_io_queues() in
-a new function nvme_tcp_suspend_io_queues(). In a later change this
-allows us to disable nvme controller without needing to tear down IO
-queues and canceling inflight requests.
+TP4129 requires nvme controller to hold inflight requests in case of
+connection loss for a certain duration of time until it is safe for
+these requests to be retried. In case there are inflight requests
+held_req_work is scheduled with the appropriate delay to cancel the
+requests. Add the necessary logic to nvme-core so that all fabric
+transports can use it.
 
 Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 ---
- drivers/nvme/host/tcp.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 61 ++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  4 +++
+ 2 files changed, 65 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 99533ff1ea20..327e37a25281 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2266,12 +2266,18 @@ static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl)
- 	}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f4b3c6a42e90..4170785ecf21 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -551,6 +551,65 @@ void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl)
  }
+ EXPORT_SYMBOL_GPL(nvme_cancel_admin_tagset);
  
--static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl)
-+static void nvme_tcp_suspend_io_queues(struct nvme_ctrl *ctrl)
- {
- 	if (ctrl->queue_count <= 1)
- 		return;
- 	nvme_quiesce_io_queues(ctrl);
- 	nvme_sync_io_queues(ctrl);
++static void nvme_held_req_work(struct work_struct *work)
++{
++	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
++			struct nvme_ctrl, held_req_work);
++	dev_info(ctrl->device, "releasing inflight requests\n");
++	nvme_cancel_tagset(ctrl);
++	nvme_cancel_admin_tagset(ctrl);
++	complete(&ctrl->held_req_completion);
 +}
 +
-+static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl)
++static bool nvme_check_inflight_request(struct request *req, void *data)
 +{
-+	if (ctrl->queue_count <= 1)
-+		return;
- 	nvme_tcp_stop_io_queues(ctrl);
- 	nvme_cancel_tagset(ctrl);
- 	nvme_tcp_free_io_queues(ctrl);
-@@ -2411,6 +2417,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 
- 	nvme_stop_keep_alive(ctrl);
- 	flush_work(&ctrl->async_event_work);
-+	nvme_tcp_suspend_io_queues(ctrl);
- 	nvme_tcp_teardown_io_queues(ctrl);
- 	/* unquiesce to fail fast pending requests */
- 	nvme_unquiesce_io_queues(ctrl);
-@@ -2432,6 +2439,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 
- static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
++	bool *inflight_reqs = data;
++
++	if (blk_mq_rq_state(req) == MQ_RQ_IN_FLIGHT) {
++		*inflight_reqs = true;
++		return false;
++	}
++	return true;
++}
++
++bool nvme_queue_held_requests_work(struct nvme_ctrl *ctrl)
++{
++	unsigned long timeout = nvmef_req_hold_timeout_ms(ctrl);
++	bool inflight_reqs = false;
++
++	if (ctrl->queue_count > 1 && ctrl->tagset)
++		blk_mq_tagset_busy_iter(ctrl->tagset,
++			nvme_check_inflight_request, &inflight_reqs);
++	if (inflight_reqs)
++		goto schedule_work;
++
++	if (ctrl->admin_tagset)
++		blk_mq_tagset_busy_iter(ctrl->admin_tagset,
++					nvme_check_inflight_request, &inflight_reqs);
++	if (!inflight_reqs)
++		return false;
++
++schedule_work:
++	dev_info(ctrl->device, "holding inflight requests for %lums\n", timeout);
++	reinit_completion(&ctrl->held_req_completion);
++	schedule_delayed_work(&ctrl->held_req_work, msecs_to_jiffies(timeout));
++	return true;
++}
++EXPORT_SYMBOL_GPL(nvme_queue_held_requests_work);
++
++void nvme_wait_for_held_requests(struct nvme_ctrl *ctrl)
++{
++	/*
++	 * Inflight requests can be held for a duration of time that is longer
++	 * than hung_task timeout. Avoid hitting hung_task timeout while waiting
++	 * for held requests to be completed.
++	 */
++	while (!wait_for_completion_timeout(&ctrl->held_req_completion,
++					    secs_to_jiffies(1)))
++		;
++}
++EXPORT_SYMBOL_GPL(nvme_wait_for_held_requests);
++
+ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state)
  {
-+	nvme_tcp_suspend_io_queues(ctrl);
- 	nvme_tcp_teardown_io_queues(ctrl);
- 	nvme_quiesce_admin_queue(ctrl);
- 	nvme_disable_ctrl(ctrl, shutdown);
+@@ -4846,6 +4905,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 
+ 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
+ 	INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
++	INIT_DELAYED_WORK(&ctrl->held_req_work, nvme_held_req_work);
++	init_completion(&ctrl->held_req_completion);
+ 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+ 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+ 	ctrl->ka_last_check_time = jiffies;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 7563332b5b7b..ed8729f93ace 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -356,6 +356,8 @@ struct nvme_ctrl {
+ 	struct work_struct async_event_work;
+ 	struct delayed_work ka_work;
+ 	struct delayed_work failfast_work;
++	struct delayed_work held_req_work;
++	struct completion held_req_completion;
+ 	struct nvme_command ka_cmd;
+ 	unsigned long ka_last_check_time;
+ 	struct work_struct fw_act_work;
+@@ -793,6 +795,8 @@ blk_status_t nvme_host_path_error(struct request *req);
+ bool nvme_cancel_request(struct request *req, void *data);
+ void nvme_cancel_tagset(struct nvme_ctrl *ctrl);
+ void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl);
++bool nvme_queue_held_requests_work(struct nvme_ctrl *ctrl);
++void nvme_wait_for_held_requests(struct nvme_ctrl *ctrl);
+ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state);
+ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown);
 -- 
 2.48.1
 
