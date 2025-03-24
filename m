@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB216C3600D
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Mar 2025 17:49:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B95FC36008
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Mar 2025 17:49:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1tXONZUZjibgEYj/WgZOKQeD7z/HbOhxU4kuAFBXA/g=; b=tXgjM9ddnCIM/Pw9pa9JO+Vv9B
-	EWkTsDr5ZgD9mhHbzS/a9wFPPHmnbaJe+xWmVpF6D4YAk+Cj2qIby2u5GPoQfW+BmXSkSFxpPS+ro
-	tl88vmNaaA9m7gmtYle6M16yJcbWXSWzhtczyulteSr5SFF0gsVLCjLXZD5Bg2kbzv3O5ZdrYe2Jv
-	eXGUathzLa12RKU0HWCkZBsw7DfP8g41IpFkuBuUsKLJPg4+fKZEBMyp+AtmErHh/r95m/XYhu//r
-	wncCMvTii+Z6T5Ze8yk7KEUxl+Bj84PiM166fXZjpQSf0OeKi1t+UTLDgEXQuFgielOaQOboXrd2l
-	wIIcUCOw==;
+	bh=zI9pTE09SEnCUUwuhvk6jLvhp0JjIoGziaSbN4eddKE=; b=ECIJu06iXneemWESKexc+BMCfr
+	RK9DvAVFXh+2rYRnaBBgvvk7doZjb4OfjOgcxY70f/30ZqGscF2XpKK31Ge1O90GCo+ZHpxBkDxeI
+	NrMmPG/qkKJPKHsYfE+/qUvQEuiwnXtrUd8U+RMrydvGTNE0At1XytV0dCRNgIiSYHCUXy+hyB61b
+	blXCGkReXZHFj/9XkXwaxVtvOszsrvxFHh/mLDwi5qzpLeYBdFMJ/Wk5EjbkSodTUCYebUo8f8/Um
+	DpxWjggqSQSzIYpHwqXu4dFXDSg3aU+goTVqc2nOqAITlkaVxZ/JedRpX2nhRz60meeEEoN5XuIrI
+	0X0JSpcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1twlvh-00000003rLk-0JMa;
-	Mon, 24 Mar 2025 17:49:41 +0000
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+	id 1twlvi-00000003rO9-3XOL;
+	Mon, 24 Mar 2025 17:49:42 +0000
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1twlve-00000003rI8-0YGB
+	id 1twlvf-00000003rJy-2zIK
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Mar 2025 17:49:39 +0000
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-2ff797f8f1bso7816456a91.3
-        for <linux-nvme@lists.infradead.org>; Mon, 24 Mar 2025 10:49:37 -0700 (PDT)
+	Mon, 24 Mar 2025 17:49:40 +0000
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-3014ae35534so7276560a91.0
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Mar 2025 10:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1742838577; x=1743443377; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1742838579; x=1743443379; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1tXONZUZjibgEYj/WgZOKQeD7z/HbOhxU4kuAFBXA/g=;
-        b=KKPlpLk6yHEads/3DXJnnDLxWyPkCc0X8PoUDmJsFTXObT6M8FXLVxKoZhu7ooj5el
-         fH5XErWz1V9Q9FkbLXQIGRfjhZDAsw1VB5txbT2RSlhyw+7wYiKMatsMySQo8p3Zr2oA
-         BRMQ3++u1JtxKCHvnc1VPytYPCu968/UQcUxztz0AQdGIPUPbnyxrFfesLOH8Yip6Pte
-         SZttIJ4x3YsP/c1td4+Cv2XgltWGoA5WXuOjySchLbG5362kbTPqDRrSQDqb723Ec911
-         glS5/vwV30MrdDYJpLMhGyv7sj0kt8mVx6nLNHdZreD5zH0u641XJGqi552dvUmJamPf
-         Cx1g==
+        bh=zI9pTE09SEnCUUwuhvk6jLvhp0JjIoGziaSbN4eddKE=;
+        b=GAX+zpRfL1mytq3Ez0jdr7ZVld1yApgBv5Uen1yhRLSeSGSMXM23sLH1x/tIfivR4a
+         L57qjIPreThYx7tIubqW5EdaKpkjnn18fh+lq5sSkLcI5Qf3R/4HfDx8p/PjASjyCCWK
+         k/x/KASk48hQtQQnz/wwdfAfnCmCo3MrOtcOFYhrLnwFlzLJ9qEE7Okl43l+8OI+lJXt
+         YYwrnhfakP5sj5+CVIC7NtbFnH0tMeiW8yqN9dCuzwdXAy0MBWg3yMD9/tqqWmrkavFy
+         1ZeFbZY344CicrFSLjmLtC6pszmCS8l0V5TgfLxPoAIBYCAw+Gt1D23Y1A6REBtZfnLN
+         H2CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742838577; x=1743443377;
+        d=1e100.net; s=20230601; t=1742838579; x=1743443379;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1tXONZUZjibgEYj/WgZOKQeD7z/HbOhxU4kuAFBXA/g=;
-        b=V+UjUhyK6eOhu20aKjajyVLwo7J4Crv9PbagTYwoDULIQdIv+DbmO5Su4dkqXMgIlv
-         fJeboyKqbHeO5d74GqYL4LBr1dh6LT3jqgUtwaAESJS949Ohtif+P+7gQpxzt9iL7HsX
-         BPTiV4myn7ujf8jjY7otzl7U1jSlIEbbY01udANjD7h59NweMqFvK6VaoUktHJNOMfoz
-         pu2RyEasC2TjeD1TujSWIFoMoNMMAD/1VPVCdKUVpPIAsz5hkyRSlzGR67gcvTICBHVl
-         DqqCCiO9l+2fq2zLgUX3bQHM+gsdGAV3SaUim+TgF7gXzqKArDWAiYUEJL3WF/O6dffy
-         6HoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7YSNnBMrgFCBGU4fm5eXihjtuBgD4gLelKimzY4kI119c/l+pgN8APBcx9FVNRBThX0cfk9U/2TXA@lists.infradead.org
-X-Gm-Message-State: AOJu0YxJ81z50jWMSxylskA5zvmg0UT3ipjbWvnQwbVcWQ5sbiZxyTCf
-	Q0ktuwMXiN9kre0GFZ54G2D07XH32NZ6cMZ8agcvfGzgIziSMAnNzTucHY5d2cc=
-X-Gm-Gg: ASbGncub2ZPbVVmTC5zWVlhtwMv76LX/vIl+hYvuPRpurRiBXS99LEAqB5uVt4nFvQb
-	Lz6pxE2/RHFeopYrTf5esfxBksULddHivJL6aWhSgTkeqP78zl0GBCdnw9y9mczXN3xZVQbV3tx
-	2Gw+vmeb1amKQ5au/TDaOm4FIPaYFZUrZDhAWwxXaUlF5GDvV89oJZxe6zJ2AE0Do/GoGxjy3cO
-	1ByY7gCDZMkl/bsIS/8+YNcsPEMxRkifnPqYoAQI0wLgb3j5bn4Qazgz520cE8ou2nnIxK320Sp
-	oETfBsuHfrD2KGAByvTCC7+VcynYu6HxT7td9tUyt1F1Ol44vU+y39Vvk2T0qQ==
-X-Google-Smtp-Source: AGHT+IFbL79g6cqinOTtCUsCU8CN6KpUY9mimdkEF3cRlYokJ0E4qTs9zViNVaPRI+5PA8mVOPtiCA==
-X-Received: by 2002:a17:90b:1dd2:b0:2fe:9e6c:add9 with SMTP id 98e67ed59e1d1-3030fea2e9cmr24583048a91.18.1742838577140;
-        Mon, 24 Mar 2025 10:49:37 -0700 (PDT)
+        bh=zI9pTE09SEnCUUwuhvk6jLvhp0JjIoGziaSbN4eddKE=;
+        b=mGYHZHXq8m6m6tbaDxgeBqDLuy7GSJ8mN1iiKvglCjxhpm2lhavgjJD3vtD3vclCaO
+         F2VE3iYd4BMXngRGXSv4D3yE8Sq7bFMOi1J3XJ/cm5flStshbdhAGEeOaBofC2tFuVAB
+         kV+/p0U/mPfoo346GKE3ROTu0CNV8/9fbGEDJpf/hlandNlm5xVDNP7GOoC5ZH5KrS7V
+         6tY+3s8gyjp7PtcT1lcwdETi+g8hKR6tesyTng35FSw0BUV2zCHXCk4yZzMnD+8ZcpEI
+         NXpCkHqRF9oXQam4U46smnWb0WeaYT/BLk4Inktm+6mLH37L4nIiHRqGzwKlzYKlDVBy
+         zGTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJB2GIs8TEhdsv9nmB9mfyw7Hmp/PYeZN4F63y0DpRwDL6aA0iaRYBlv9QjCoJVS/MHCkVhy53Xeuo@lists.infradead.org
+X-Gm-Message-State: AOJu0YzMInKPfY8BPJy95rWga7iSL5fPVcBnQrC85BA7KdYTjyh1dxQI
+	QksjQdNmKmGFalC8N3f2FmcwkVBSDA8Arl2p8GLW+vtHQ6MjeX0qX0TEqiBPs/c=
+X-Gm-Gg: ASbGncvUzmHeVhiUndhYy6WvwA8DiQaPyXBokdktGnoZvgKvmauhazt460HpbVoOM6C
+	W28dUqy8dsp4fjte7O2B38uzeyCh1uXNANk1E6PAZL8xD24yMJoENioOHfaSrDr4zndPJy+5oq7
+	oEz42ESIer532NFgaDRGheJCgGcWcP+p2byQgyIvqnFrYfD9Sco2zTGDqfbJQd9fsflFinX5Ke1
+	gMNOh8Y8mSdaITzAk81W2swvY4dEMmpi2m62FLoKfxKyDvf8EXdZqW2spAfr832gRN11C0vnrsM
+	QhFTdLH8h0y7E4wTASPHRcGIxfZzSR7QqiJNWGKWhJBiw938/FE=
+X-Google-Smtp-Source: AGHT+IEizjkumELeU6R9jqpR3Ax4p0YRM++REqcaqTU4nNn7wsmzFTI5FqCg8QkO6jKcVZ9UpRwPhQ==
+X-Received: by 2002:a17:90b:5408:b0:2ff:6fc3:79c4 with SMTP id 98e67ed59e1d1-3030ff10972mr18601100a91.27.1742838578680;
+        Mon, 24 Mar 2025 10:49:38 -0700 (PDT)
 Received: from localhost.localdomain ([2601:640:8900:32c0::e120])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-301bf576c7dsm12505821a91.3.2025.03.24.10.49.35
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-301bf576c7dsm12505821a91.3.2025.03.24.10.49.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 10:49:36 -0700 (PDT)
+        Mon, 24 Mar 2025 10:49:38 -0700 (PDT)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -81,17 +81,17 @@ Cc: Hannes Reinecke <hare@suse.de>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	mkhalfella@purestorage.com
-Subject: [RFC PATCH v1 4/7] nvme-tcp: Move freeing admin tagset out of nvme_tcp_teardown_admin_queue()
-Date: Mon, 24 Mar 2025 10:48:57 -0700
-Message-ID: <20250324174909.3919131-5-mkhalfella@purestorage.com>
+Subject: [RFC PATCH v1 5/7] nvme-tcp: Split nvme_tcp_teardown_io_queues() into two functions
+Date: Mon, 24 Mar 2025 10:48:58 -0700
+Message-ID: <20250324174909.3919131-6-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250324174909.3919131-1-mkhalfella@purestorage.com>
 References: <20250324174909.3919131-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250324_104938_191718_3A84CF61 
-X-CRM114-Status: GOOD (  12.30  )
+X-CRM114-CacheID: sfid-20250324_104939_769333_DE7606C9 
+X-CRM114-Status: GOOD (  12.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,79 +106,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Update nvme_tcp_teardown_admin_queue() to only tear down admin queue.
-Let the caller take care of freeing the tagset if needed. This change
-prepares the code to inject the delay described in TP4129 after admin
-queue is tron down and before admin tagset is freed.
+Move code that quiesces IO queues out of nvme_tcp_teardown_io_queues() in
+a new function nvme_tcp_suspend_io_queues(). In a later change this
+allows us to disable nvme controller without needing to tear down IO
+queues and canceling inflight requests.
 
 Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 ---
- drivers/nvme/host/tcp.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/nvme/host/tcp.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index d12b51ed1a9e..99533ff1ea20 100644
+index 99533ff1ea20..327e37a25281 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -2252,17 +2252,12 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
- 	return error;
- }
- 
--static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
--		bool remove)
-+static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl)
- {
- 	nvme_quiesce_admin_queue(ctrl);
- 	blk_sync_queue(ctrl->admin_q);
- 	nvme_tcp_stop_queue(ctrl, 0);
- 	nvme_cancel_admin_tagset(ctrl);
--	if (remove) {
--		nvme_unquiesce_admin_queue(ctrl);
--		nvme_remove_admin_tag_set(ctrl);
--	}
- 	nvme_tcp_free_admin_queue(ctrl);
- 	if (ctrl->tls_pskid) {
- 		dev_dbg(ctrl->device, "Wipe negotiated TLS_PSK %08x\n",
-@@ -2374,7 +2369,11 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+@@ -2266,12 +2266,18 @@ static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl)
  	}
- destroy_admin:
- 	nvme_stop_keep_alive(ctrl);
--	nvme_tcp_teardown_admin_queue(ctrl, new);
-+	nvme_tcp_teardown_admin_queue(ctrl);
-+	if (new) {
-+		nvme_unquiesce_admin_queue(ctrl);
-+		nvme_remove_admin_tag_set(ctrl);
-+	}
- 	return ret;
  }
  
-@@ -2415,7 +2414,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+-static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl)
++static void nvme_tcp_suspend_io_queues(struct nvme_ctrl *ctrl)
+ {
+ 	if (ctrl->queue_count <= 1)
+ 		return;
+ 	nvme_quiesce_io_queues(ctrl);
+ 	nvme_sync_io_queues(ctrl);
++}
++
++static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl)
++{
++	if (ctrl->queue_count <= 1)
++		return;
+ 	nvme_tcp_stop_io_queues(ctrl);
+ 	nvme_cancel_tagset(ctrl);
+ 	nvme_tcp_free_io_queues(ctrl);
+@@ -2411,6 +2417,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ 
+ 	nvme_stop_keep_alive(ctrl);
+ 	flush_work(&ctrl->async_event_work);
++	nvme_tcp_suspend_io_queues(ctrl);
  	nvme_tcp_teardown_io_queues(ctrl);
  	/* unquiesce to fail fast pending requests */
  	nvme_unquiesce_io_queues(ctrl);
--	nvme_tcp_teardown_admin_queue(ctrl, false);
-+	nvme_tcp_teardown_admin_queue(ctrl);
- 	nvme_unquiesce_admin_queue(ctrl);
- 	nvme_auth_stop(ctrl);
+@@ -2432,6 +2439,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
  
-@@ -2436,7 +2435,7 @@ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+ {
++	nvme_tcp_suspend_io_queues(ctrl);
  	nvme_tcp_teardown_io_queues(ctrl);
  	nvme_quiesce_admin_queue(ctrl);
  	nvme_disable_ctrl(ctrl, shutdown);
--	nvme_tcp_teardown_admin_queue(ctrl, shutdown);
-+	nvme_tcp_teardown_admin_queue(ctrl);
- }
- 
- static void nvme_tcp_delete_ctrl(struct nvme_ctrl *ctrl)
-@@ -2446,6 +2445,8 @@ static void nvme_tcp_delete_ctrl(struct nvme_ctrl *ctrl)
- 		nvme_unquiesce_io_queues(ctrl);
- 		nvme_remove_io_tag_set(ctrl);
- 	}
-+	nvme_unquiesce_admin_queue(ctrl);
-+	nvme_remove_admin_tag_set(ctrl);
- }
- 
- static void nvme_reset_ctrl_work(struct work_struct *work)
 -- 
 2.48.1
 
