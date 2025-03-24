@@ -4,51 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A312C36002
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Mar 2025 10:58:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7AB41C3600C
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Mar 2025 12:08:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jNq6jyyhFGEzQRVHAKOAb//fJgOIoxxfkvEDjEU0oAo=; b=xp3r+j6XHGQnp2RGrnwXMS5Kqv
-	+WS5oOF5tIh1aIuXSTFDrN2mU1Q3LLIpB+/Wto5grMRMO/lJgofLFuW6pZbJaCH7h7wQEgYfiaCM5
-	LQLoV++NP1AC9jij0qu5M9GLsJWUOqEa5eHI+otBpd+LsPWC8WY/iK9xD7OXwM13WQ8cBV3QULoMT
-	qU8VyhcKRCifsFqGMQB7Y9iDq5l1lqkOStkDCUiusPTy0k44cQC0N9CMxvGFcm1KqTGTzHLOtD7aS
-	T/yWGbmp0Rl+vuLydySxs58z3OuiNoa9FvRRVm/V0QOixDRQuDHYA6e8uXBAxhmzVan3b5Y993SYW
-	Z2IFz9og==;
+	bh=bdW3yhIavKxDtwyT7Mr5D1pQc92natuyzMUQokQ2Wr0=; b=GsngUofWO2BnPEjcKyc1579hgG
+	Iu1kiq+GyL4evLLiyt8FEVALek8Zd3aieZ0Ty7F4Y0edjh65gl40L5yBC63tUwQUxTOLvvUk+qDoN
+	X/Gh1sLxicGFjmRQHTuejRlWW01iaLNUSVP/wTLphDXnkWFrl7vDRgoxGc7Ft7Trmi7+DX2CcmwNz
+	oZktkYBoQB3iDjSLmBEm++ZbjC1XitGZdKQDlfz3LOw3usagb/E2l/nlA2QO+Jom8Bi03oBoj1Ryd
+	vn5/WhwCn2uNU2YbEefX9XsJAP5+AL0MKNaIlt/zLWd2sZnMPmDEcscMLG1Cs4R/3oHnDpola9CSM
+	Qvmk1hpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1twfVK-00000002tRF-3G5S;
-	Mon, 24 Mar 2025 10:58:02 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1twgbF-000000031Qq-0kaI;
+	Mon, 24 Mar 2025 12:08:13 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1twfML-00000002sGz-2U8z
+	id 1twgbD-000000031QH-22w4
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Mar 2025 10:48:47 +0000
-Received: from localhost (25.205.forpsi.net [80.211.205.25])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id 59e3081f (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Mon, 24 Mar 2025 11:48:40 +0100 (CET)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 24 Mar 2025 11:48:39 +0100
-Message-Id: <D8OFRDU1AVWC.1G6DIBZPLJ78@bsdbackstore.eu>
-Cc: "Christoph Hellwig" <hch@lst.de>, <axboe@kernel.dk>,
- <linux-nvme@lists.infradead.org>, "Linux List Kernel Mailing"
- <linux-kernel@vger.kernel.org>, "Linux regressions mailing list"
- <regressions@lists.linux.dev>
-Subject: Re: 6.13/regression/bisected - new nvme timeout errors
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Mikhail Gavrilov" <mikhail.v.gavrilov@gmail.com>, "Keith Busch"
- <kbusch@kernel.org>
-X-Mailer: aerc
-References: <CABXGCsMcxu3pCF8jYPeqF_jN34saBwc8Fci+c-Dg2Lh7rqvuFQ@mail.gmail.com> <Z8m9AbD3tjNpBt6p@kbusch-mbp> <CABXGCsMd_xv8jPDF_sFYhwd8GtANZ23nbaSJuCxQRO7cjPtgWg@mail.gmail.com>
-In-Reply-To: <CABXGCsMd_xv8jPDF_sFYhwd8GtANZ23nbaSJuCxQRO7cjPtgWg@mail.gmail.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250324_034845_980028_6C010D10 
-X-CRM114-Status: GOOD (  21.86  )
+	Mon, 24 Mar 2025 12:08:11 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id C294961157;
+	Mon, 24 Mar 2025 12:08:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31D81C4CEE9;
+	Mon, 24 Mar 2025 12:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742818090;
+	bh=MN4jerD6vCbfxLMpurlATwpB3u4sbGBPrL6S0ay1MPk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=D7uiS0r/ql6VYylNLycK0St8J0Pi8ApnBeggQlE3SbNMgbbAe0G6Cw+HRK3m66+si
+	 dpPkH6BF8spn/9IdDsaYXjQJzhN7qt3L2xtUnpZQOmuCrv76Gkqzw+T8tbg0gnBqwO
+	 pvB4Hm92iBUJyAGGXkgy7Hk+Fn/n4ule7n+pfhBLRx8lrquVWbtbZ3qHvAzOyFpVci
+	 vW6FlqoaHZP2cW+NPlNnpiAg/pme9GjcuD7ukm4I7pt3VBDYnCrSUbYkvyLfHJlnnF
+	 6N35ThM2i7rJD3HxaWym0ixHzhwpOXxiXYw4cOmtdSeBj9qQFrD0ZaMSVrX0xUw5iD
+	 JDCC08PAmzP4g==
+From: Daniel Wagner <wagi@kernel.org>
+Date: Mon, 24 Mar 2025 13:07:56 +0100
+Subject: [PATCH RFC 1/3] nvmet: add command quiesce time
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250324-tp4129-v1-1-95a747b4c33b@kernel.org>
+References: <20250324-tp4129-v1-0-95a747b4c33b@kernel.org>
+In-Reply-To: <20250324-tp4129-v1-0-95a747b4c33b@kernel.org>
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>, 
+ John Meneghini <jmeneghi@redhat.com>, randyj@purestorage.com, 
+ Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.14.2
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,56 +72,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun Mar 23, 2025 at 10:49 AM CET, Mikhail Gavrilov wrote:
-> On Thu, Mar 6, 2025 at 8:19=E2=80=AFPM Keith Busch <kbusch@kernel.org> wr=
-ote:
->>
->> >
->> >     nvme-pci: reverse request order in nvme_queue_rqs
->>
->> The patch here uses the order recieved to dispatch commands in
->> consequetive submission queue entries, which is supposed to be the
->> desired behavior for any device. I did some testing on mailine, and it
->> sure looks like the order the driver does this is optimal, so I'm not
->> sure what's going on with your observation.
->>
->> Do you have a scheduler enabled on your device?
->>
->> How are you generating IO? Is it a pattern I should be able to replicate
->> with 'fio'?
->
-> Sorry for not answering for a long time, but all because I was testing
-> the off-list patch that was sent to me by Maurizio Lombardi.
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 950289405ef2..990d9ef1eef9 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -989,6 +989,9 @@ static void nvme_submit_cmds(struct nvme_queue
-> *nvmeq, struct rq_list *rqlist)
->  {
->         struct request *req;
->
-> +       if (rq_list_empty(rqlist))
-> +               return;
-> +
->         spin_lock(&nvmeq->sq_lock);
->         while ((req =3D rq_list_pop(rqlist))) {
->                 struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
->
-> And I want to say right away that this patch solved my problem. I
-> double checked, and both times the system worked for 4 days without
-> errors:
->
+TP4129 introduces Command Quiesce Time (CQT) for coordinating the
+shutdown sequence when for example KATO expires.
 
-Glad to hear it worked!
+Add support to nvmet but only report CQT is available but the controller
+doesn't need any additional time when shutting down. In this case the
+spec says nvmet should report a value of 1.
 
-Keith, I think the problem here is simply that nvme_write_sq_db() ends up
-being called even when the rqlist is empty and this couldn't happen before
-the changes introduced by commit "nvme-pci: reverse request order in
-nvme_queue_rqs".
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+---
+ drivers/nvme/target/admin-cmd.c | 6 ++++++
+ drivers/nvme/target/nvmet.h     | 1 +
+ include/linux/nvme.h            | 4 +++-
+ 3 files changed, 10 insertions(+), 1 deletion(-)
 
-If you say that this change makes sense I can submit a formal patch.
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index e670dc185a967dc69c9b7d23930bb52bdcc3271a..09ac5a43f70dbe3889c1b404d6b59c0053337192 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -733,6 +733,12 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	/* We support keep-alive timeout in granularity of seconds */
+ 	id->kas = cpu_to_le16(NVMET_KAS);
+ 
++	/*
++	 * Command Quiesce Time in milliseconds. If the controller is not
++	 * need any quiencse time, the controller should set it to 1.
++	 */
++	id->cqt = cpu_to_le16(NVMET_CQT);
++
+ 	id->sqes = (0x6 << 4) | 0x6;
+ 	id->cqes = (0x4 << 4) | 0x4;
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index b540216c0c9a9138f0913f8df28fa5ae13c6397f..47ae8be6200054eaaad2dbacf23db080bf0c56c2 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -671,6 +671,7 @@ bool nvmet_subsys_nsid_exists(struct nvmet_subsys *subsys, u32 nsid);
+ 
+ #define NVMET_KAS		10
+ #define NVMET_DISC_KATO_MS		120000
++#define NVMET_CQT		1
+ 
+ int __init nvmet_init_configfs(void);
+ void __exit nvmet_exit_configfs(void);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index fe3b60818fdcfbb4baabce59f7499bc1fa07e855..983b047e7158dcb33da66a25c67684b8f1ef5a7e 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -335,7 +335,9 @@ struct nvme_id_ctrl {
+ 	__u8			anacap;
+ 	__le32			anagrpmax;
+ 	__le32			nanagrpid;
+-	__u8			rsvd352[160];
++	__u8			rsvd352[34];
++	__u16			cqt;
++	__u8			rsvd388[124];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__le16			maxcmd;
 
-Maurizio
+-- 
+2.48.1
+
 
