@@ -4,74 +4,150 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25ADFC36008
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Mar 2025 10:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F9A6C36008
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Mar 2025 11:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Date:Subject:Cc:To:From:Message-ID:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nIaOFhNr84R9BlJ0iJwxhdXvtzXEDs/CGd+I1BsLjh0=; b=yhit1llU2HObLPtM47iaeFpMwk
-	ZS7zEuLF3TrhxYVcG8CdC0iGFJ+8d1BV+fYWrOAC5/X+7b/Ez4n1axkCb/VzYmEewFqltGr6TwPEp
-	rYdZ8mZlUpxXI0b9eM2y0tDjxlAfaH07HMeS2BIFJYJ5Mmkq2A5FqarIRHOnW2dGhEqYJq320CVTl
-	1l79poJnXNF89pwuSJ2PmwNo3jvf0WMFhApazOFQTbsQZrPUloOxfrVvFT+YjlbztW4m4EcmyyE1D
-	l9zlsVr6OAa4ZvH8roGOyWI01cPTZT/3T2kQ3uR9naprcRSblVwgPM2UyRpsjq1JdK9KgnKRVXrt6
-	UW2C5ilQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IBhYCH3y7cCyz2PZ39jPr7UCyqJBws8opPmt91s/BRY=; b=v8lbkjejjvuTQG0W1oA8dfV1Hx
+	ax0n5Dsrxo54qed92uCa3gYETrHLiAadd3nsU/HG+yEvaFacQ/4+tMD/bEEL0AdtUEpZ6diNeLcUv
+	JzbYfb46H7tfFEW/pJ05rb500pGUYJ3BKcwdTgCsPF92UZ++FIRTKFsHcx4ifYCxKlSKfQH9usYuW
+	26nr+dDdNKwkO38Dm/vvtJjJL2MlLGEm5zgE8Fa0OuAVNTZxcudDj7Qtn+mE9kof4o+DohDO1C66X
+	Ql/OJ246ol/JEMkNS+UrVdTSTt7B0mAIjHbJHoUPvyeu1RqrGYzpit3R4YcQBhwcnupvELKpKzKfh
+	sW5W5RWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1txNtY-00000008AWI-3OwU;
-	Wed, 26 Mar 2025 10:22:00 +0000
-Received: from xmbghk7.mail.qq.com ([43.163.128.44])
+	id 1txOvw-00000008MMj-2BBu;
+	Wed, 26 Mar 2025 11:28:32 +0000
+Received: from mail-mw2nam12on20616.outbound.protection.outlook.com ([2a01:111:f403:200a::616] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1txNtV-00000008ATz-3t4H
+	id 1txOvt-00000008MM0-0m25
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Mar 2025 10:21:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1742984210; bh=nIaOFhNr84R9BlJ0iJwxhdXvtzXEDs/CGd+I1BsLjh0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ySsYcxuzz0TeXsWumg8EBhkaJKwJgZjEJm835boTWJuLMsMPN1sbIMLHfhWkWgCNR
-	 5eVancgDOX+UyWX0h2zkwdB5vS3AMrrYAPKx9D5Lepda5uGO0h+BtJWc3XI5PB1xz6
-	 qUM8KJwFTrIX5jRzGiW5lh+gJnXIghbn5tTAnG+w=
-Received: from localhost.localdomain ([116.128.244.169])
-	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
-	id 43082E52; Wed, 26 Mar 2025 18:16:48 +0800
-X-QQ-mid: xmsmtpt1742984208tkq0zmhro
-Message-ID: <tencent_805B80CE895FEC9294314C21C511E09C3007@qq.com>
-X-QQ-XMAILINFO: NafziRg7Bx696PoZE8VmuxEuxwmZMVJQIksu4ZfLmGJoCOTEgcoPo1ff7ggK/H
-	 Kod8y2SAecEIqw1/OwCgUmU4jTQq6brgETveUD72MbRi/Juz0waQQEpmOWnclXYtQ+N9c0RByNUp
-	 PImdAy9GM9nodXP7FH0B+gM18NNKPJmM0UYGzVNK2XHE0eBJ/0S33pu0rdUPsERP/2UJFQjx4Zsj
-	 gJEBvoJcMeaxjJ9puxyPjdoQnAcpAqHKm2fsuXHPprpQS08dZjZf4wEaXVM3tLPD7D842ZRTB49K
-	 mLZlo/u7eeAzT830/OsthGur6+eg8P1EHKuXa9m5/PbfNFIcqbz/wT4+ZO33yq2DYPcRx6atiJHB
-	 ttstHL8YUQ2qG1rKwKkF1RlKc0m8/zt6r1UaUyk3hu9XwZ85kg+Nt+IlN3DDVGZlQoyxEgPkZ0MT
-	 busOxDFBx8iP6fOSgU/RI2HB3JF43d52gU3UqocmMpDJwIQv1v7sQxCUZ80RLyGzxLxt2JPXXIDq
-	 /LWS9QpmcZaEk4v07jxN/sFkCUvfUiL9U0AT+xM7/j6I7hK9hfotleEVimUydlUpCLarRC8XLx6F
-	 Bm3n+hFjhn4XrLZd0PYHCyPhAI8vfc37e6iEEJMNecDbGEzwXwzcrxOEvijeAugUMpS0YsiWbCb4
-	 +NvlyxkT7Id7bA6G9gQot54teUOGBMxMpQ0KUyHcKRDOVhBoRSE5vqIYGPKTS1L3+kXeIYV02NEr
-	 /XisoCNbu2Oo4frtE89gwGwIE0fYcvMCN3SBqlATpMYHdTjX2M/APkYkQBs7kxIEn5eDmnzM0JEY
-	 QtOShWsyxMLtX3k3cvP6aBMDcikFZOcuC1nb48l3s7UpLJWofSzlYqv4inFNh+Fzh1WKh0598zDn
-	 +kW6IGSv6hoX9/NJNYRJtqIr2WHvczkkBggt/YANdQqq+56/0P5wcAgK1NpAHwznw6At4AoUdQBY
-	 L1I7+TNHjaWoCoOwmtOA==
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-From: Yaxiong Tian <iambestgod@qq.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Yaxiong Tian <tianyaxiong@kylinos.cn>
-Subject: [PATCH 3/3] nvme: add per-controller sysfs interface for APST configuration
-Date: Wed, 26 Mar 2025 18:16:47 +0800
-X-OQ-MSGID: <20250326101647.1353882-1-iambestgod@qq.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <tencent_FD614E97ED4F67FE2F74C9C158AB50E7C806@qq.com>
-References: <tencent_FD614E97ED4F67FE2F74C9C158AB50E7C806@qq.com>
+	Wed, 26 Mar 2025 11:28:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O5Gm27HsHkPSoCu/pRF1yPOvqX6cRs0SEmbAETKxgptHo9EBJgvcW2n8fmdxD5o70GLhb7NGrSpEz9ukGBfBpKGGy4v5OSMd3899Xp7rKy4ee2sFqlgcZNmZ4eE0VmwWRjlquNjsKVikOygP2CsfKpv7P8Pfj5t9grzkhGp60Pe28LU5EMcE74VRgcfQCInV9exin1aZYgRGOj9PmOngtYkhKDdAGuVkUkKbxGTr8WyZskeqvl5ZN9w1WlG2iaZxK13+AcZzxcDkgFUKJBpT7EMOvXLpghbMg0bzGRPmDb/9KkA85U7QWADukqSrMWVN+6qTr/7snRu3vSHV9pU4Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IBhYCH3y7cCyz2PZ39jPr7UCyqJBws8opPmt91s/BRY=;
+ b=qpK8xK1bH1ywVLnz8QbyCUTK8LGnOj3fAty6v1yIbq6yCsSj6k8U2QL6DEutqSG2pbuPb21X6L97K4sZNi910bg9eC2+HByY0YDoHAvYr4kTpfZb8y9SkNsPS7x6+n66B6qYwAxOLr/dppQbYODqjc0ufE4Z/S+gTjxFB0K0cxMcu+DLCWJyKquFPwDeVgV3Dzb0e9P9dreUSdQ593EQl8A6St7ZDGj+ZiHIghI6dR6F2QDzedbWhPKwiu+FTYPvAr+JpDDjMnt1bbDvuGv/YBDUSp3IJm4WJfmBiP5WjylIlt1kK1+QIZPXdRe1JquoO7BlCdgmrpzTist3qQsvUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IBhYCH3y7cCyz2PZ39jPr7UCyqJBws8opPmt91s/BRY=;
+ b=JeVucoA94UoxSlD8OMqIawPBbUxC0fUwrF3ruSXG33dToM1R+uM72XwAX4dmnap+uownF7pA5yP8QYtSVvHvFuXWD0dASdfA/cuJnFha2HKf5oYosArlx8JXJx/KHm4TUnJNI5uxaEoHQ0v94sxNcnryCZmYVZUTxbfY/pQtlIl0Si3AYVCRMCFb8HYgVnxmY1pfbdyU83g1FjDjww00kWA5m/JD0s69lDsUA3wx3z8kTxMyzcgVzR1IsZmEdHsWLQXULBrChMW2bbnYh4WRS+dESFzM3nEgoYJXY1hGJpA/W51jfHgA6Oxq0II9o9hnvIu9AtVgWi9bHJ5jQqZbIA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
+ by PH8PR12MB6676.namprd12.prod.outlook.com (2603:10b6:510:1c3::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Wed, 26 Mar
+ 2025 11:28:22 +0000
+Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
+ ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
+ ([fe80::7577:f32f:798c:87cc%5]) with mapi id 15.20.8534.043; Wed, 26 Mar 2025
+ 11:28:22 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Simon Horman <horms@kernel.org>, kuba@kernel.org
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org,
+ aurelien.aptel@gmail.com, smalin@nvidia.com, malin1024@gmail.com,
+ ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
+ galshalom@nvidia.com, mgurtovoy@nvidia.com, tariqt@nvidia.com
+Subject: Re: [PATCH v27 15/20] net/mlx5e: NVMEoTCP, use KLM UMRs for buffer
+ registration
+In-Reply-To: <20250304174510.GI3666230@kernel.org>
+References: <20250303095304.1534-1-aaptel@nvidia.com>
+ <20250303095304.1534-16-aaptel@nvidia.com>
+ <20250304174510.GI3666230@kernel.org>
+Date: Wed, 26 Mar 2025 13:28:18 +0200
+Message-ID: <253jz8cyqst.fsf@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0356.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18d::19) To SJ2PR12MB8943.namprd12.prod.outlook.com
+ (2603:10b6:a03:547::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|PH8PR12MB6676:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4dacf43-e927-4c47-45ac-08dd6c5950c9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?E4bNidGElAB+vPratz0FFt1nVGP25MLCu9JaYsz9ftqQ+ZQQHl8XDI3FRP8m?=
+ =?us-ascii?Q?p18NgNtxhSQGKZyYQecxsxwrBTHlbnZPQA3KF2yHeR1tSgUkEboK3p0vuEGK?=
+ =?us-ascii?Q?5/iy6j3Mh3Ze51ytWgaSag95UdNGMK+j4Wtcz7OpMtNowDAnVHLJu1zmi7JV?=
+ =?us-ascii?Q?fqVRKd8qEZ+GlBlD9HruY/N2vOaLNwO9V+M8vBOxNKghV35NW9aMwZExYAMG?=
+ =?us-ascii?Q?q73ArIB2jMb6g1hTii6r7eBdQJZ9Wq2XfLRNcmF6Cc9kLN2daCo+/P+iduVi?=
+ =?us-ascii?Q?MBAIT7HDzE65Oa6auvBi7Xt5n7hNwU2vdIYl1xjffrbsgJw2Wpxk9v6ZzlDp?=
+ =?us-ascii?Q?mxyLi4+hHh5GClZKC/paRxsKnVFsYxN7ooR6rdlhh5Tjht1QbXM55N9ahANi?=
+ =?us-ascii?Q?R4s6wiFJDY1epPNLihQfhkop4V1iTMiMiAtSC97QR13YjeaKWKB9/lUDfPPA?=
+ =?us-ascii?Q?vjoZke9ybvjthwPvfkDR4jQXKOnIuxR+9tgua5AcrvTCK5CMqJlFmvGeN2pC?=
+ =?us-ascii?Q?A0tiWyNEWlmffgHycRHsQPaxfNrjNTKjlKkl0ZjdGIwCSrZXzi3Dmg+qCyE2?=
+ =?us-ascii?Q?DFyZSUFGlIMvv8fSpyARBUL1uCuqFQmc3DfanPAwruikk4YCCD493rwS1HGF?=
+ =?us-ascii?Q?BPj7g89IHLPdqA0odfP0rGnMpVdfWSsSCL4LzCk7K4MQAxysBFAPoQDEeSya?=
+ =?us-ascii?Q?q99LJ7RLD2u8Tj97T1qY/3Ye+AuW9AaAhFYCD1ap6yDg+5M3yTrN+ZSRMtB+?=
+ =?us-ascii?Q?ur569mu1flD9cJ484i1lRwJ0s/s8skC8B3AQv0ggAET8Uw3flbwxpXd9qqxI?=
+ =?us-ascii?Q?BhUhObK4IDc/GpboaIW1/AvV4svUEAs1JJCB0j+qISMTsq7Th6vnLHQb4wIq?=
+ =?us-ascii?Q?VxeQ/NW6nwCYb0+ys94xtK9buFNiTPi6vK5+AnLnjraBxtK8LsXq5WgO2Y9M?=
+ =?us-ascii?Q?pkl1Eb1DUZiwAXoIVv1eRFLYN02OStoTZleGOUmTczzC+q7azNlMbLscsVOh?=
+ =?us-ascii?Q?ZwyyEAg0owNZd86IWmrZyoCXFgHjnG/7AmnAj+ky1XdFLuD9dITgEJe3K15k?=
+ =?us-ascii?Q?mJmW4B93AzN6kSREY2xwKwbaHTrcd499jjTeUbLpzYDQjVpphmtvSD5iPx4c?=
+ =?us-ascii?Q?ZiSF79nJYnd1jrmx5spYI371rY4NAlzQd/CTW6ndK3qAa3f5EN+xRxQvBmut?=
+ =?us-ascii?Q?YRMjc9ABKEfCGpfANWBmkumWJDvx5g4B9S8gKaDRFC/Eb/A4rcZcW92+Wo7r?=
+ =?us-ascii?Q?/6epxOrjSdjUOSlzpyh86BWoTfpjBEdei2MpeinBNH/+UK5V1sD8JYgCJXVP?=
+ =?us-ascii?Q?XTiD4yhJIBxp1O7G4OWakEvcDR0YWExD2OvVqQiPJ95Mcww9jttRfULz+zfA?=
+ =?us-ascii?Q?vv4gxMUBsAAH/9hMZu12Bl2yHOOd?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hPCak/3gdbnhWjxSXMks9eKgK/2PIl9NA9jqXna3bGZ3DgdfxR4Ab6M/AMoz?=
+ =?us-ascii?Q?/Q2SS1s5ctq5CbmD8TryfW534uW7siJf3pP2Jurcdvf7HkLIvSIPAFBWtPuO?=
+ =?us-ascii?Q?HuHSVU9eHtLW/Crdoo1rSwv9fL3mXgDGRQk15jULUqb1azgmEzO2ByVAf80w?=
+ =?us-ascii?Q?TyzjCpBFFONYP2ry2RDbVPHoa0Xe4r+ObQTmjyZGkYJRVh6/Zt3c9tqC6rvu?=
+ =?us-ascii?Q?lc2Qn65NtdeqdhHsk05qhKWXCTBvYEcvFx+IOrOYqRF7PkJCveM/EQrIrCIh?=
+ =?us-ascii?Q?+TDePblnYDSjMWeoRObN1+mykl+C3bOxfuqFP5CcvF2ccY7lNPcfTYnVxHT1?=
+ =?us-ascii?Q?UqjavyyYy04sAtQh6xBd1cUrBo+xusDFcvK1Ia6+CZqya6QsGAsE6MgwaPRD?=
+ =?us-ascii?Q?60JKlxYt4HRJytzws7q6z8tkyEOtUP8LAvnF1rINClo/yHTInn2dyklBSyCu?=
+ =?us-ascii?Q?/sHXUFKju9uroyLMpf6dcZE+A9btCn2aYDDP1vNi1M7p9EBDCy6PHkJ90Xdn?=
+ =?us-ascii?Q?NurqWk+YV4I0uq99jMhlt91OLyStONWF0+7OeXt5KgU4w/8CdEy2R48Z7IrT?=
+ =?us-ascii?Q?OEP+MV9akpm8t+eCVM/4/HghvA1Xo5W5ynmjfuZNB6CoXLwJsOvnx9AvpICD?=
+ =?us-ascii?Q?jc622apZG5UwzmX+We35S4IWDFwFKQ8BYdXyzl0l7KuqWqEM0UCaxjNDSV1y?=
+ =?us-ascii?Q?zmP0LGfASyZQ0EsFBMXgdSwsM+aP0GIOFfgooKdhRgSrxq6jDBq1f4bLXkKA?=
+ =?us-ascii?Q?lw/6Y886aB0EWC+9d+JXPHfwmebMVoyFmPYKJ4ZynVs6vz0eY1Qw+9R0PAnT?=
+ =?us-ascii?Q?hLoR5O5DplBXohaBXwze63glod2Mqo3m5Upg9U4FXEzZqfc652D8iXbINEp4?=
+ =?us-ascii?Q?fZ/1e915JlBhKgZ7ZZvokZ56VQUM3BF1sY+PkV80MZoLmxWgcw51oKNgymax?=
+ =?us-ascii?Q?I62NYT8d4glsDCnkiwunZH71TOvgZEsSbtQ4xtz1LyjCXqP72lPBSP1Uoxds?=
+ =?us-ascii?Q?2HJHWOL1Esnzr8UshlInM+mllUV48jFVTc0gcRHdHIK9vBj0yM/DQLlnCFWO?=
+ =?us-ascii?Q?sZ8cFTK+WFZ5OXGWFX92c6hPuzOBhInmvIjBxWuWubAPVg1IuKe9sIekuApN?=
+ =?us-ascii?Q?5oj3OopM4maGAxMh6ivTDYsDtvh35dnT0A9wiUnEPkGJkNk7Sn419CsZ+dBL?=
+ =?us-ascii?Q?I3dOrNtHx3KRJvw20L7dR0zYIe2deUMdaNTINp9fE63jWW85PMq1k7LfbaL4?=
+ =?us-ascii?Q?E9zbFu6FbGmIjvtdmsd1eRwhrj2I/F1kAP47TwLHT+fzltG6Ql9NBXST/3PO?=
+ =?us-ascii?Q?D9pqFH4W51Ykb12Vz2JWtb8oOULIZhPp5qjc015iszDJ4/URacXvsFz1g46P?=
+ =?us-ascii?Q?ZJzPQw3+Kba6M7uRPX4RU/A8k73uyPHqKlqGLU/nYrRqNxzkEcmxUgqdkFH/?=
+ =?us-ascii?Q?tQEFStVS3m00MEP7FCoEjDBV36aAEXKmjwgqKOuBboER95kIq4wAgHLwz6Bd?=
+ =?us-ascii?Q?6klb1xXnq2ttCEUqw/vOR10L2bD8SQiS17tcqmOZVy0xoLKuu9OY68/0viJs?=
+ =?us-ascii?Q?GTao90tfAoNd7vqbu3rYx+7J52+D5UiXy3Rya/P2?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4dacf43-e927-4c47-45ac-08dd6c5950c9
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2025 11:28:22.1432
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r1b1RLEN9Z8PcvR8PJWGG85xsKmB5qlyj47SMr5DiiPXI1lCpJq0xoPugPdMR9y1Wa8jwDazELoXtKXz20Xocg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6676
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250326_032158_332839_F408B557 
-X-CRM114-Status: GOOD (  16.80  )
+X-CRM114-CacheID: sfid-20250326_042829_226329_EB553E31 
+X-CRM114-Status: UNSURE (   7.04  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,156 +162,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Yaxiong Tian <tianyaxiong@kylinos.cn>
+Hi,
 
-Currently, APST (Autonomous Power State Transition) parameters are
-configured as module parameters affecting all controllers uniformly,
- This lacks flexibility for heterogeneous systems.
+> ... and this one need (at least) to be updated for the following commit
+> which is now present in net-next:
+>
+> bf08fd32cc55 ("net/mlx5e: Avoid a hundred -Wflex-array-member-not-at-end warnings")
 
-This patch introduces per-controller sysfs attributes under each NVMe
-controller's sysfs directory:
-- apst_primary_timeout_ms
-- apst_secondary_timeout_ms
-- apst_primary_latency_tol_us
-- apst_secondary_latency_tol_us
+We have fixed this issue and will be resending once the merge window reopens.
 
-The attributes allow runtime configuration of:
-1. Timeout values for primary/secondary states
-2. Latency tolerance requirements
+Jakub, do you want us to change anything before the next version?
 
-The existing module parameters are retained for backward compatibility
-but now only serve as default values for new controllers.
-
-Signed-off-by: Yaxiong Tian <tianyaxiong@kylinos.cn>
----
- drivers/nvme/host/core.c  | 16 ++++++++++------
- drivers/nvme/host/nvme.h  |  4 ++++
- drivers/nvme/host/sysfs.c | 36 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 50 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cfce433c5553..812e0a1f3b53 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2608,22 +2608,22 @@ static int nvme_configure_host_options(struct nvme_ctrl *ctrl)
-  * timeout value is returned and the matching tolerance index (1 or 2) is
-  * reported.
-  */
--static bool nvme_apst_get_transition_time(u64 total_latency,
-+static bool nvme_apst_get_transition_time(struct nvme_ctrl *ctrl, u64 total_latency,
- 		u64 *transition_time, unsigned *last_index)
- {
--	if (total_latency <= apst_primary_latency_tol_us) {
-+	if (total_latency <= ctrl->apst_primary_latency_tol_us) {
- 		if (*last_index == 1)
- 			return false;
- 		*last_index = 1;
--		*transition_time = apst_primary_timeout_ms;
-+		*transition_time = ctrl->apst_primary_timeout_ms;
- 		return true;
- 	}
- 	if (apst_secondary_timeout_ms &&
--		total_latency <= apst_secondary_latency_tol_us) {
-+		total_latency <= ctrl->apst_secondary_latency_tol_us) {
- 		if (*last_index <= 2)
- 			return false;
- 		*last_index = 2;
--		*transition_time = apst_secondary_timeout_ms;
-+		*transition_time = ctrl->apst_secondary_timeout_ms;
- 		return true;
- 	}
- 	return false;
-@@ -2728,7 +2728,7 @@ int nvme_configure_apst(struct nvme_ctrl *ctrl)
- 		 * for higher power states.
- 		 */
- 		if (apst_primary_timeout_ms && apst_primary_latency_tol_us) {
--			if (!nvme_apst_get_transition_time(total_latency_us,
-+			if (!nvme_apst_get_transition_time(ctrl, total_latency_us,
- 					&transition_ms, &last_lt_index))
- 				continue;
- 		} else {
-@@ -4853,6 +4853,10 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	ctrl->ka_last_check_time = jiffies;
- 
- 	mutex_init(&ctrl->apst_lock);
-+	ctrl->apst_primary_timeout_ms = apst_primary_timeout_ms;
-+	ctrl->apst_secondary_timeout_ms = apst_secondary_timeout_ms;
-+	ctrl->apst_primary_latency_tol_us = apst_primary_latency_tol_us;
-+	ctrl->apst_secondary_latency_tol_us = apst_secondary_latency_tol_us;
- 
- 	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
- 			PAGE_SIZE);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 7f8e10f5bf7a..ed9afc3c6781 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -387,6 +387,10 @@ struct nvme_ctrl {
- 	/* Power saving configuration */
- 	struct mutex apst_lock;
- 	u64 ps_max_latency_us;
-+	u64 apst_primary_timeout_ms;
-+	u64 apst_secondary_timeout_ms;
-+	u64 apst_primary_latency_tol_us;
-+	u64 apst_secondary_latency_tol_us;
- 	bool apst_enabled;
- 
- 	/* PCIe only: */
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 5003cb294d65..afa61e9c1366 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -684,6 +684,37 @@ static DEVICE_ATTR(dhchap_ctrl_secret, S_IRUGO | S_IWUSR,
- 	nvme_ctrl_dhchap_ctrl_secret_show, nvme_ctrl_dhchap_ctrl_secret_store);
- #endif
- 
-+#define nvme_apst_show_and_store_function(field)				\
-+static ssize_t field##_show(struct device *dev,		\
-+			    struct device_attribute *attr, char *buf)	\
-+{									\
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);			\
-+	return sysfs_emit(buf, "%llu\n", ctrl->field);	\
-+}									\
-+									\
-+static ssize_t field##_store(struct device *dev,		\
-+			     struct device_attribute *attr,		\
-+			     const char *buf, size_t size)		\
-+{									\
-+	int err;						\
-+	u64 data = 0;					\
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);			\
-+	err = kstrtou64(buf, 0, &data);		\
-+	if (err < 0)						\
-+		return err;						\
-+							\
-+	mutex_lock(&ctrl->apst_lock);		\
-+	ctrl->field = data; 	\
-+	mutex_unlock(&ctrl->apst_lock);		\
-+	return size;			\
-+}									\
-+static DEVICE_ATTR_RW(field);
-+
-+nvme_apst_show_and_store_function(apst_primary_timeout_ms);
-+nvme_apst_show_and_store_function(apst_secondary_timeout_ms);
-+nvme_apst_show_and_store_function(apst_primary_latency_tol_us);
-+nvme_apst_show_and_store_function(apst_secondary_latency_tol_us);
-+
- static ssize_t apst_update_store(struct device *dev,
- 					      struct device_attribute *attr,
- 					      const char *buf, size_t size)
-@@ -734,6 +765,11 @@ static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_dhchap_ctrl_secret.attr,
- #endif
- 	&dev_attr_adm_passthru_err_log_enabled.attr,
-+
-+	&dev_attr_apst_primary_timeout_ms.attr,
-+	&dev_attr_apst_secondary_timeout_ms.attr,
-+	&dev_attr_apst_primary_latency_tol_us.attr,
-+	&dev_attr_apst_secondary_latency_tol_us.attr,
- 	&dev_attr_apst_update.attr,
- 	NULL
- };
--- 
-2.25.1
-
-
+Thanks
 
