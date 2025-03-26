@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA4E1C36008
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Mar 2025 10:07:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F28C5C36008
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Mar 2025 10:16:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Date:Subject:Cc:To:From:Message-ID:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=11V6Ppzqx37uke9W1v3EMjT5frvAqdD1NpkPS7WBiS8=; b=v/IWOMr6fxat51dvTNN3CnRrAN
-	q+QziuATP26JamQeHF3A3vslEtdBSvSUsNHWZ/5+tfoO5Fig5mPocPzz0oxTEI9GJi7NSM+rCvFNr
-	DswDaljJYlOMyfXPO+0m2e9A1TOYPhj26TikFWLq/3qhY2fnF6RFwt8tkiHzX7tfZEUpWEC5Vskfz
-	JzXdamWzmBRSagUpxB3m9gNvmtIUecJdfROeTsLvd4cZpMe5zWjHx3nT4YqRB86AudEl95yQY0Nif
-	K+JPCbwIuGVgj5wDa0otikHAkKR6d/ps91aIZzKaZV9u3Ue/j8JLswrDJ4oW1oY8lLMnQ263Gnvsr
-	sj7Jp9rQ==;
+	bh=11V6Ppzqx37uke9W1v3EMjT5frvAqdD1NpkPS7WBiS8=; b=hGJGvbwfd+Ji8dBXP3nrWDo4nw
+	qRdJhRkoXhMyMcjU2D/dhRSkA7sQyxrKO9x+KNKQF+tlrmDkJGfnhfiKduDLvIu1+DNnUjn46L1/4
+	WtXDPEoU6Y/Ksg5mUxf1ZYt2Ue3A9mylqMcc6CWRIn6+I5QXMNA9rJz4BbrfQxDUEm3C9AIsfDl74
+	ES6+NwQeNAQvkGo716ncg/FSOX81naJgmgRf1hRfnzTBo1pOjuM7XbTiWXdwzmErSWcXwVOgyFM6O
+	yTa8Cjkthwdl8HFj6GHuMCCHgkebMAS7NyoaA35mrMrbugBFVgz9eaeY99x8VFQHmVAg1oh5jwjzP
+	QpV9C4Hg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1txNfK-000000087YG-27Nv;
-	Wed, 26 Mar 2025 10:07:18 +0000
-Received: from xmbghk7.mail.qq.com ([43.163.128.49])
+	id 1txNoG-000000089MK-2V3t;
+	Wed, 26 Mar 2025 10:16:32 +0000
+Received: from out203-205-221-236.mail.qq.com ([203.205.221.236])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1txNes-000000087Ru-42db
+	id 1txNnd-000000089Jn-3dI1
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Mar 2025 10:07:16 +0000
+	Wed, 26 Mar 2025 10:15:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1742983598; bh=11V6Ppzqx37uke9W1v3EMjT5frvAqdD1NpkPS7WBiS8=;
+	t=1742984150; bh=11V6Ppzqx37uke9W1v3EMjT5frvAqdD1NpkPS7WBiS8=;
 	h=From:To:Cc:Subject:Date;
-	b=kt1TsZrPEDQyg5p7UhwVmm95Po8cT+Ti6uCtmbvW5X5Nhn7zuaJuKlEZlL82T2BwD
-	 6eMs0w3KMczW+1k5rCAPvMy7JDSuIahCgcsyKigJOoxRgfuh6vDGKyesmQ2K6/wxyO
-	 h63bXiBBPj6OhMkVH7mBsH6+KqO5+RpdeHVSYMQQ=
+	b=C4nkqd3teuBmaYzx6wNAgVfPtESI28m6aszFmWuQ8SuqfJbNros4Q85Nw51H+7Tcy
+	 EvSg7ptrQkZJyCWYzNVa++6i/OklPRB3QOwwsU1UGjsi2tsv5BwcRt2szO6lZdqbxv
+	 +rYoySBRn8TRIuZlwpVjKOVZmIE4+QSokffGthWk=
 Received: from localhost.localdomain ([116.128.244.169])
-	by newxmesmtplogicsvrszgpua8-1.qq.com (NewEsmtp) with SMTP
-	id 1A40FA8D; Wed, 26 Mar 2025 18:06:36 +0800
-X-QQ-mid: xmsmtpt1742983596t640hwne1
-Message-ID: <tencent_08386388426E23693951B6B09D78BF0E2508@qq.com>
-X-QQ-XMAILINFO: MKQst53PCfggzNBQsZ5bQi6ShZPnoKO5qX6Ouz5NkULKXT45QLP4IxOVxq2LsD
-	 iauNHEUlYuFx4YynfKf1RxBfe74ZLYIgwojAy4GTpEQ+UHrnqw/b5v2jgGq0tNOKyGqa4Y2lyU2U
-	 CaiZvlK+0tvUGPnJGVV6HLDvjTtAW8UHLHMPClxfEa5bj6zTDGnaZx7nu4EFgOo16n89XUykUWsx
-	 oLZQkG2bG3dl4x1ecNjmWNTsCj8eCaSGfJCQ+Lkzu2x7JqNV5c2LZpiul8Yfu0aavwN1Yh5JqW/u
-	 hGH3NpuPOQWIZMN+Q29Oeif5Krv+iNgBn2pw0KkaYD/zaBpP0KEfVKsuTm/WPfmVCIcElbYGKk1w
-	 dS0AXTXX+KusbXeIbclk7tYPDrP2UNQs8WMf5jecUmhiY0NPUCJjwJ7Cz1VwzOTEzf+fBpbtBP/B
-	 2Dn8/Bizjl18+dwCa1PJeZhK66gqVAK/T7enFW0mW7CSPopHrZqwCWulGF54KCJngE3jYBSHXHjF
-	 R/akBSYQgKFYy3wbFJ3790WeTjFI+MxvxL33Tk5Zdv6aLs8i0o26ae3FSe+74hof8rK6xsEOZCsh
-	 +gtqXriEPVCvozXpBr/tmoO5xeyWuW1qPho8Nl+QMVY5C9MZTxNE8xMi/f3kJ1MdIqD4e56JCmAG
-	 onvAjVvezGcEajpvcK0IFhPdMXcu0fHiixz3S0I1LRVH253rKeFk2uBld+ka4uOt3eFoNP93E29K
-	 nJreqAX7juwhMxPMu6VyjD5Zw+UtumuKe4OfIwqD14FNvBFx+Y1tjupCxUgEYxS9rmt+B7i2Fm2v
-	 spR3AocO/j185/xYGPlvbe9YBEYiU/PcVtyA+hnaNl28C7k8VYIss1Ndp7RGfWfNpklbNjZob/Ru
-	 9OyJ0PoVMHtA0OMqKY1uwuOaqnYTGLkugJYDJExpvY7Se4hkGZn2qzMROr/YKxSaPOzeH+fLVk9C
-	 CWmY05CPEHgPa0ZeCyVYURjrzILtGRtCyEK5CwTSt9EjMmZzhih1FVdJlOVRgmrZcURwJsz1TaWu
-	 5oLo1mNA==
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
+	id 9CB1E93; Wed, 26 Mar 2025 18:02:28 +0800
+X-QQ-mid: xmsmtpt1742983348tymg8gqam
+Message-ID: <tencent_788D1D0B2D8FF4E718D8627502FE0A949C0A@qq.com>
+X-QQ-XMAILINFO: MMvVzQSdFuTpw/8JYyJ3ooYbJzsFXNTv1AzBVLrEzcEDozd7Gi3pxJXXng3JTf
+	 4EyF9cys7CNem1txEpdA0W/FqJcoHUOotZzyj9sjtBKblw0YDcUmBbddAjUXNzyClLjm+VSPPY0Z
+	 H7xWsuMkfTmJ9lR0gclwtET0zyi2mTsXIQQPHjnQ/eAmMBxQseDA/EAgNB0S4gyxnKHz6zxToGlT
+	 tjMe7224lEQuxLFAilMZ789i5APrAo0JxreeMeP+wodSLgLafET17iUlYIZz4ZCPJiQjeZ73mucp
+	 +rkMoAUy/CBjbTSKMlc/aV4bPeRcHcIpkVAZdUcdbNQjW9m9d8KnGSLCPG9JcpqI2HQTGfWhAHxO
+	 Npd+//ypEMa8h4R70oLh8htZi9GZ3nwj1cNEbRwcDVSMVcOBk/SY4AZjt8Iy0We2GgUzLeebRu/p
+	 qBFuiYUp+xFNvt48laKMQ1J6Dr1n+9DonEz4wXFJNmqOfsjqFlC3/vErNAr6gWA0rx5DO5o2PIYp
+	 vaog3W+fk7bfDs4U6+ijKX6F4uzGZc8psttgGXbTl30QYtyCCY2qsN6+fTOZj55cjpauP8zopAEw
+	 XJmS43XMGNR2otxD5reKGKl6sucBOp77lGRnCSOMxgJTDNyxO/wL+gw3dB4QGlyr/sCE7YYZZz3/
+	 CUmzUByLesj+q0wjY5DDMZGwnDes+ndQpZmt6YuiHVaKkwNX8yGCSl4kMC5eKzII09I4Q1mCcewT
+	 n38w2IlxgZKp9wiA9RaC/buwz38BSmI0/dRFcs7csJMQzrnaK6nKlVqynXmR0BOFeY5wC6gtcPku
+	 kjdADH9/q3d5EHjeWv0FvgC2XupewcexET9C1Lo/S6VdhGZMuUOFHJBSPD2deAjfpjkKE1US/Be/
+	 qt8PVzA9rrS1l7N3VmgMZYacoxTAUbuMKK9DfR6SSSvvrOslsk1Txur/5CdU9yM6muEGXG476kk4
+	 6RAb8+PoYJ1iUAJsnIOPPwdWYgxB6hAYQ4fHLTFojRgBrUp8w2tcAjgidERJ8NWDZJD/S0eMuXL2
+	 bSmbDr+w==
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
 From: Yaxiong Tian <iambestgod@qq.com>
 To: kbusch@kernel.org,
 	axboe@kernel.dk,
@@ -63,14 +63,14 @@ Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Yaxiong Tian <tianyaxiong@kylinos.cn>
 Subject: [PATCH 0/3] nvme: Add sysfs interface for APST configuration management
-Date: Wed, 26 Mar 2025 18:06:31 +0800
-X-OQ-MSGID: <20250326100634.1319638-1-iambestgod@qq.com>
+Date: Wed, 26 Mar 2025 18:02:24 +0800
+X-OQ-MSGID: <20250326100227.1306684-1-iambestgod@qq.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250326_030715_585504_45763F57 
-X-CRM114-Status: UNSURE (   7.06  )
+X-CRM114-CacheID: sfid-20250326_031554_204471_1A3F7D8E 
+X-CRM114-Status: UNSURE (   6.97  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
