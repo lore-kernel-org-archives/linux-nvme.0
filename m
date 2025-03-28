@@ -4,74 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC71FC28B20
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Mar 2025 19:40:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F7C1C28B20
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Mar 2025 19:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=aPYEBolGkAf+sLLKEgEIwtTazseXBI5R66S//AmPrAQ=; b=Y2341lFVIdiFtclXe7HYTYF6A7
-	kmoibj51a1MCCoDaznaLhclrDe1so3Wa72EMZUrOdBeBJnlYCEFNm/Z+HeiujEyYLYQdaYJYLs/Vx
-	GbRL8WG2a1l9Lu5hjOCysPcFDsFuzFh+iZ0pAMD8oGg5aOi5XZe7+R0KJM+3egvDD5P2amYKLpAPf
-	3vcmd0KObjDhidMv1Tp4uqfuo6NuTD6VNnqfikEhlnx71Lhsi+AIVwM4ga296pCNI1+ATd4zo5CKo
-	YsnUYyxT8NxlmbsMuZfSUkBms/SLhSaa4eiwFNIicaNOCtYs+tfpweJj3eBzLRIhsQECFg9mz3lRb
-	W2GfmVUg==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jVDLjf96+CIUoJN5Qi13tgNS9/4rLlwNZkSbNFjDtK8=; b=w1vVnbGtDpSOaf3rxouZNar+ZV
+	9nOc80YFHqoaTy6D2jEbM/kX+cbldGYpH3orjgoxzT4E/xDdzZHC9bsiprM5HEDb/iKwKlnYUU4th
+	G6i5Jq9tjb5nsbW45nfa0VkDBAtH0VyWlrs8qhIY/iO+H+NylHhmu0W4QXfYO1LsKeSbTG0SP0FHw
+	Uh9DHi7tKT+9ZNWKWjqied8WsFCDRVTwDk6rTL9HM5TBAus/qunzf2UhWrxsIzIKuUeSy7QDawup9
+	68tIzIxBCXrqZm9juYgLA0hp32AHW8P9ZGMJnqeq8A920PeElyo0QCmlHV6FDQdZZ8Z/fw4ePOspp
+	B/gu/W5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tyFZD-0000000EBlB-3aTz;
-	Fri, 28 Mar 2025 19:40:35 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1tyFiC-0000000ECyp-3HMM;
+	Fri, 28 Mar 2025 19:49:52 +0000
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tyFXK-0000000EBMq-1eL8
+	id 1tyFiA-0000000ECyJ-0Hpa
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Mar 2025 19:38:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743190716;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=aPYEBolGkAf+sLLKEgEIwtTazseXBI5R66S//AmPrAQ=;
-	b=Q5toKNlqOollRf/N0RzuuppLKGJOcozckOeQbN9EAkTYS43tbNx6cdLIB9rVL3dqPLA2tW
-	HRMB4hPNBGgjLeCqfKxR9wJiZaNNhTAeZzcP4pIdiltpDovY4/1KgjtwQb/Ti1WPhr0ePu
-	USk/LB3SXvArPoqZwGYJMW1F9+RG7Hw=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-443-JLtafciQNr-tdUaIGXvj7A-1; Fri,
- 28 Mar 2025 15:38:34 -0400
-X-MC-Unique: JLtafciQNr-tdUaIGXvj7A-1
-X-Mimecast-MFC-AGG-ID: JLtafciQNr-tdUaIGXvj7A_1743190713
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4E373180AF5C;
-	Fri, 28 Mar 2025 19:38:32 +0000 (UTC)
-Received: from jmeneghi-thinkpadp1gen3.rmtusnh.csb (unknown [10.17.17.223])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1F4461828A84;
-	Fri, 28 Mar 2025 19:38:28 +0000 (UTC)
-From: John Meneghini <jmeneghi@redhat.com>
-To: kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: loberman@redhat.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	emilne@redhat.com,
-	jmeneghi@redhat.com,
-	bgurney@redhat.com
-Subject: [PATCH v3 0/5] nvme: make core.nvme_multipath configurable 
-Date: Fri, 28 Mar 2025 15:38:21 -0400
-Message-ID: <20250328193826.356257-1-jmeneghi@redhat.com>
+	Fri, 28 Mar 2025 19:49:51 +0000
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-2ff53b26af2so588170a91.0
+        for <linux-nvme@lists.infradead.org>; Fri, 28 Mar 2025 12:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1743191388; x=1743796188; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jVDLjf96+CIUoJN5Qi13tgNS9/4rLlwNZkSbNFjDtK8=;
+        b=E7m8Jm3cD8T40VbvmfXXwn3rBclILgSlheSM53UAo8D8LYTJd0cNgEq3SRHiXh5FE4
+         6K6ZHqmnYlKmR09FFfnXCf7lNdTlESY72ZXb2D6e7Czx92Wm+/pY0Xu5WJj7vyu30yVJ
+         cjKe53HoooXiStRfHAM07m8NSVCKqWTbELTMZhPUqQ6ljUknOtgboaUsjed0bRcoefEu
+         lWGmKOseX5jF+Ol7zQ+JyuBeXwJrn8uN1BQop4Z7H4nIohFx/325rFvWqh8QRZCprJNo
+         YioKuPsJCKVU1to29Is0S+PfUKKjXp74FZwtXPZWgqEvA9FUJfNOiwwjdFKaOb6xmKtG
+         1tDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743191388; x=1743796188;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jVDLjf96+CIUoJN5Qi13tgNS9/4rLlwNZkSbNFjDtK8=;
+        b=rTT8NuBknVR1J8aBN9SjQ4fFAt1kQNZH7kXcZtSHrzXGq5CWyTLtA5Xe3Q1waKmaUt
+         Z6wEiYNdCHVKUF/VEFA69FYM+qkwo624jgkNKEMDh+F+R8nV2xXDgSXSDsS5cV/0OpEz
+         adLmW6EU9v+Reb1x1Rj5Yzn+euO/tvozEQ+wOGOUVY5iyvaPtgGjPnFM9k5u6zmBsQtM
+         1UqhyATT73d5g87w0Nufwl7Z7Blp5gngzE69KUi0BmT72NXdZhSxlMKyIYMmAgxUJcvd
+         qt/nkU1Ihg0O+JlJXICRrpBGCrGdxsa+lc6P1AL70Gcoh0JxeFRprmn/58AviKGRcId9
+         jQ5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWAlrwZkIBlsX6y2vOXj6IwO7HT5gxFDXO+zhmeThaTGH2xtiZpMr70kuA0S4ZiuCEgsh0+Y/0u9xpu@lists.infradead.org
+X-Gm-Message-State: AOJu0YyHAres31GQKnbZSMr5R0chPwL+qV8S1/nemfywiV1Or4TdTXk+
+	UHl1Fd/eMXJzVcsg+jZXEluQec80AecgMnffxAwCwx6VCI5ZafGPSAk8siE6EkaQACzpW886tcw
+	3yOaIpHdAO0cd3zhxIyXW7dk/KkmgsKQo1bwaYA==
+X-Gm-Gg: ASbGncvh39DO7FqMZLPnOA9Ny7eyTie3TgKTHQjGz0gRewiVY7tATbbo6n/MaNJiRdf
+	JPeTmSYN4ccoTXz155nLp97P4fc3v7dTLzHFK5WBdBkiJjkQp7hTJqXtYtAObdpz0gW0P3+aknU
+	oA1sJbm71oEKU6Iqfaa1umoB4YukYwCKY1nl4=
+X-Google-Smtp-Source: AGHT+IGrl/mKQfFw/+XjS8bzX76MdoEk88bqdDe6coxyEavvPIofC41z6Z7UbgR1Z4PlFwBz7py/lYatV3/VrQbVZ04=
+X-Received: by 2002:a17:90b:3e8d:b0:301:1c11:aa7a with SMTP id
+ 98e67ed59e1d1-305321512bdmr289975a91.3.1743191388477; Fri, 28 Mar 2025
+ 12:49:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+References: <20250328193826.356257-1-jmeneghi@redhat.com> <20250328193826.356257-4-jmeneghi@redhat.com>
+In-Reply-To: <20250328193826.356257-4-jmeneghi@redhat.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Fri, 28 Mar 2025 12:49:37 -0700
+X-Gm-Features: AQ5f1Jo3KdNQ8qCtKv_TRQl0FksSqMC2EEdES0mrQoJ0kwJ1SERO0qy9kiXvybo
+Message-ID: <CADUfDZoXg39h-5gi+aVj2u1H6HC4Beyp2XPTrjJ_PMDPf11dQg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] nvme: add the NVME_ENABLE_MULTIPATH_PARAM config option
+To: John Meneghini <jmeneghi@redhat.com>
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, loberman@redhat.com, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	emilne@redhat.com, bgurney@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250328_123838_502901_5109AAE7 
-X-CRM114-Status: GOOD (  19.99  )
+X-CRM114-CacheID: sfid-20250328_124950_112133_6DE6AA84 
+X-CRM114-Status: GOOD (  19.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,167 +95,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As agreed at LSF/MM here is a v3 patch set which includes the 
-new CONFIG_NVME_ENABLE_MULTIPATH_PARAM option.
+On Fri, Mar 28, 2025 at 12:42=E2=80=AFPM John Meneghini <jmeneghi@redhat.co=
+m> wrote:
+>
+> The CONFIG_NVME_ENABLE_MULTIPATH_PARAM option controls the
+> core_nvme.multipath parameter. When CONFIG_NVME_ENABLE_MULTIPATH_PARAM=3D=
+n
+> the multipath parameter is removed from the kernel and nvme multipathing
+> is permanently enabled.  When CONFIG_NVME_ENABLE_MULTIPATH_PARAM=3Dy the
+> nvme multipath parameter is added to the kernel and nvme multipath
+> support is controlled by the core_nvme.multipath parameter.
+>
+> By default CONFIG_NVME_ENABLE_MULTIPATH_PARAM=3Dy
+>
+> Signed-off-by: John Meneghini <jmeneghi@redhat.com>
+> Tested-by: John Meneghini <jmeneghi@redhat.com>
+> Reviewed-by: Bryan Gurney <bgurney@redhat.com>
+> ---
+>  drivers/nvme/host/Kconfig     | 11 +++++++++++
+>  drivers/nvme/host/multipath.c |  2 ++
+>  2 files changed, 13 insertions(+)
+>
+> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+> index d47dfa80fb95..8c04b6b93982 100644
+> --- a/drivers/nvme/host/Kconfig
+> +++ b/drivers/nvme/host/Kconfig
+> @@ -28,6 +28,17 @@ config NVME_MULTIPATH
+>
+>           If unsure, say Y.
+>
+> +config NVME_ENABLE_MULTIPATH_PARAM
+> +       bool "NVMe enable multipath param"
+> +       depends on NVME_CORE && NVME_MULTIPATH
+> +       default y
+> +       help
+> +         This option enables the core_nvme.multipath parameter.
+> +         If this option is disabled the core_nvme.multipath parameter
+> +         is excluded from the kernel.
+> +
+> +         If unsure, say Y.
+> +
+>  config NVME_VERBOSE_ERRORS
+>         bool "NVMe verbose error reporting"
+>         depends on NVME_CORE
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.=
+c
+> index 6b12ca80aa27..83084093e8db 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -10,9 +10,11 @@
+>  #include "nvme.h"
+>
+>  bool multipath =3D true;
+> +#ifdef CONFIG_NVME_ENABLE_MULTIPATH_PARAM
+>  module_param(multipath, bool, 0444);
+>  MODULE_PARM_DESC(multipath,
+>         "turn on native support for multiple controllers per subsystem");
+> +#endif
 
-NOTE: we agreed to call this CONFIG_NVME_DISBALE_MULTIPATH_PARAM.
-However, during testing I realized that we needed to make the 
-logic positive or else many of the default make 'config' rules
-would produce the wrong results. 
+If CONFIG_NVME_ENABLE_MULTIPATH_PARAM is disabled, could you #define
+multipath false in place of the global variable? That would allow the
+compiler to optimize out the multipath checks and the resulting dead
+code.
 
-For example:
-
- make localmodconfig
- make allmodconfig 
-
-would end up compiling out the core_nvme.multipath
-parameter, and I don't think this is what we want.
-
-To remove the core.nvme_multipath one needs to 
-explicity overide the default setting by saying
-CONFIG_NVME_ENABLE_MULTIPATH_PARAM=n.
-
-The current default setting for this option is
-
-  CONFIG_NVME_ENABLE_MULTIPATH_PARAM=y.
-
-To remove the core_nvme.multipath one needs to 
-explicity overide the default setting by saying
-CONFIG_NVME_ENABLE_MULTIPATH_PARAM=n.
-
-Keith, I suggest that we add these to nvme-6.16 since there are a few
-more changes than I had planned for. I'd like these patches to get some
-soak time before they merge.
-
-Closes: https://lore.kernel.org/linux-nvme/20241121220321.40616-1-bgurney@redhat.com/
-Closes: https://lore.kernel.org/linux-nvme/20250204211158.43126-1-bgurney@redhat.com/
-Closes: https://lore.kernel.org/linux-nvme/20250228032541.369804-1-jmeneghi@redhat.com/ 
-
-Signed-off-by: John Meneghini <jmeneghi@redhat.com>
-
-Changes Since v2
-
-Changed the patch order and added:
-
-  nvme: add NVME_ENABLE_MULTIPATH_PARAM for loongarch
-  nvme: add NVME_ENABLE_MULTIPATH_PARAM for powerpc skiroot
-
-I'm not 100% sure these two are needed but it would be
-better to be safe than sorry. 
-
-  nvme-multipath: add the NVME_ENABLE_MULTIPATH_PARAM config option
-
-Changed the name of this config option from 
-NVME_MULTIPATH_PARAM to NVME_ENABLE_MULTIPATH_PARAM and
-Fixed up the Kconfig description.
-
-Tested the following make options:
-
-  make localmodconfig
-  make alldefconfig
-  make mod2noconfig
-  make allyesconfig
-  make allmodconfig
-  make olddefconfig
-  make oldconfig - accept all defaults
-
-These all provide no change in current behavior.
-
-Changes Since v1
-
-Rebased patches to nvme-v6.15
-
-  nvme: add mulitipath warning to nvme_alloc_ns
-
-Dropped this patch because the dmesg it produced was redundant and not
-needed. Testing multiport devices with CONFIG_NVME_MULTIPATH disabled
-show the following console message at boot.
-
-[167523.157284] nvme nvme5: Found shared namespace 1, but multipathing not supported.
-[167523.217083] nvme nvme6: Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.
-
-  nvme-multipath: add the NVME_MULTIPATH_PARAM config option
-
-Fixed up the Kconfig description for NVME_MULTIPATH_PARAM.
-Add default y and tested the follow Kconfig options.
-
-Tested the following:
-
-  make mod2noconfig
-  make allyesconfig
-  make allmodconfig
-  make olddefconfig
-  make oldconfig - accept all defaults
-
-No change in current behavior.
-
-  nvme: update the multipath warning in nvme_init_ns_head
-
-Tests ran with CONFIG_NVME_MULTIPATH=y and CONFIG_NVME_MULTIPATH_PARM=n
-
-No change in current behavior except:
-
-  [root@rhel-storage-108 ~]# cat /sys/module/nvme_core/parameters/multipath
-  cat: /sys/module/nvme_core/parameters/multipath: No such file or directory
-  
-The following does nothing, just like it does when CONFIG_NVME_MULTIPATH=n
-
-  [root@rhel-storage-108 ~]# grubby --update-kernel=ALL --args="nvme_core.multipath=N"
-  [root@rhel-storage-108 ~]# reboot now
-  .
-  .
-  .
-  [root@rhel-storage-108 ~]# cat /proc/cmdline
-  BOOT_IMAGE=(hd1,gpt2)/vmlinuz-6.14.0-rc2_config_ana4a+ ...  nvme_core.multipath=N
-  [root@rhel-storage-108 ~]# cat /sys/module/nvme_core/parameters/multipath
-  cat: /sys/module/nvme_core/parameters/multipath: No such file or directory
-
-Tests ran with CONFIG_NVME_MULTIPATH=y and CONFIG_NVME_MULTIPATH_PARM=y
-
-  There is no change in current behavior:
-
-Tests ran with CONFIG_NVME_MULTIPATH=y, CONFIG_NVME_MULTIPATH_PARM=y
-and nvme_core.multipath=N
-
-  [  372.040105] nvme nvme4: Found shared namespace 1, but multipathing not supported.
-  [  372.047606] nvme nvme4: Shared namespace support requires core_nvme.multipath=Y.
-                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			                   new message
-  [  372.105469] nvme nvme5: creating 2 I/O queues.
-  [  372.110383] nvme nvme5: mapped 2/0/0 default/read/poll queues.
-  [  372.125480] nvme nvme5: new ctrl: NQN ....
-  [  372.166081] nvme nvme5: Found shared namespace 1, but multipathing not supported.
-  [  372.235964] nvme nvme6: creating 2 I/O queues.
-  [  372.240926] nvme nvme6: mapped 2/0/0 default/read/poll queues.
-  [  372.255964] nvme nvme6: new ctrl: NQN ....
-  [root@rhel-storage-108 ~]# cat /sys/module/nvme_core/parameters/multipath
-  N
-  [root@rhel-storage-108 ~]# grubby --remove-args="nvme_core.multipath=N" --update-kernel=ALL
-  [root@rhel-storage-108 ~]# grubby --info=ALL | grep nvme_core 
-  [root@rhel-storage-108 ~]# reboot now
-  .
-  .
-  .
-  [root@rhel-storage-108 ~]# cat /sys/module/nvme_core/parameters/multipath
-  Y
-
-
-
-John Meneghini (5):
-  nvme: update the multipath warning in nvme_init_ns_head
-  nvme: change the NVME_MULTIPATH config option description
-  nvme: add the NVME_ENABLE_MULTIPATH_PARAM config option
-  nvme: add NVME_ENABLE_MULTIPATH_PARAM for loongarch
-  nvme: add NVME_ENABLE_MULTIPATH_PARAM for powerpc skiroot
-
- arch/loongarch/configs/loongson3_defconfig |  1 +
- arch/powerpc/configs/skiroot_defconfig     |  1 +
- drivers/nvme/host/Kconfig                  | 24 ++++++++++++++++++----
- drivers/nvme/host/core.c                   |  2 +-
- drivers/nvme/host/multipath.c              |  2 ++
- 5 files changed, 25 insertions(+), 5 deletions(-)
-
--- 
-2.48.1
-
+Best,
+Caleb
 
