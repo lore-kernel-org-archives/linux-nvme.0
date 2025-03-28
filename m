@@ -4,74 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC0A8C3600C
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Mar 2025 17:56:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B889C3600B
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Mar 2025 01:38:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=e7qhW86gw6ksGrHv917jkoJ0GWbsFORRxJCR5hvi1mw=; b=T9bgCRvugsmQ/Z7XuDnbhX1jfA
-	HR6I9E3dci8EdJJJqV3NII5JNxsCTJtvBmh7HkhClYtED2uGlcEN0MFV2eF3nuXPq/R1aKSZDQF/j
-	vjasrYKCwTrMLkgpJdmP9WqhrQLIMLbSZ8L2MWOGIiDNl8a1IUf+myYBhN8SqI4cv4NtA0GwBmPdM
-	ojrgVX1iDCQ9IxD3K+SmQppFjG3f0AT7/PQyElr8sAgGGSlVSmUd3BKFKZtZS76b8+RmW8h1M9wJt
-	3UczuVy9xAZkkmvlFpZKu0bqygmwO/Da4myMkMoJWMkyy0YnwVbnEzZZN/57FMRmSmJ71fgnLSc5b
-	+NsfeafQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Date:Subject:Cc:To:From:Message-ID:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=9j5d/J8zcsc5onhRmFuStFe5/dVv8ZloWD0b6T9BVks=; b=alV4D4IGs4J7RToHOB1+v51T6S
+	hE3mCjDK+BYsng03Zitv1a8tT8mK992FC12rhD7x0GiFCAiCYdNcXW3+TPdxlxyarvl5W72zObN2B
+	5/6Aiyqsv/Yqg5E3n40Ts6yQOMDmLF6yOjxI2ngmaSVrQuqjEIPYFjyanj0OHpyXyxeJMGJMffjEN
+	BQMzqgQv8/BCkMQNHmPSn/PazkzC+ZkvV7ftn6E/hEF74ojUV7NqcbkqpaEJeqe/kltp5DIcFETZw
+	zoYjvoJf9iuz6nB3oSt0QO9MG0eQofxfVsNGAH0wjBs036bPWPBGHZsWALpx2EhDySR4h0/uRzfRp
+	6eQHlYIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1txrSu-0000000BhQm-1nQs;
-	Thu, 27 Mar 2025 17:56:28 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1txygH-0000000CM0U-1vqQ;
+	Fri, 28 Mar 2025 01:38:45 +0000
+Received: from out203-205-221-239.mail.qq.com ([203.205.221.239])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1txrSs-0000000BhPv-2sVz;
-	Thu, 27 Mar 2025 17:56:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=e7qhW86gw6ksGrHv917jkoJ0GWbsFORRxJCR5hvi1mw=; b=AmCJf6kahzOBXmlRcZU8wcX3UF
-	vmpXttqhE88Uw9luLugvLY8ttEAe3Qrdn/hrMNYj1RpQrsF+oakUI7Cd3NAYtbi8bVOxVO7VF+pba
-	OygCb1bDerYbCdHAEuH9l3HNniJ5IjxjEqEyOV++P1P2pESA00mnNENWicqltuP/mcd+9rVC60uWk
-	WAXxKcEQL66uC31I2kut7Ui8EdyOvI8TmSbdySN8Qy/5Ndm5pQcV7UEw0NaBa6acY6rFLUmrc2SNw
-	QjEzkFN7uacSjs9MLeTdSwAHAerZ7cznOYlNPS8hVZKhbuUaB0Vvk/3YEdUBeCgRHT3M8IjUyuna/
-	vxJ0avNw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1txrSi-0000000FIF4-1ITi;
-	Thu, 27 Mar 2025 17:56:16 +0000
-Date: Thu, 27 Mar 2025 17:56:16 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-Message-ID: <Z-WRQOYEvOWlI34w@casper.infradead.org>
-References: <cover.1738765879.git.leonro@nvidia.com>
- <20250220124827.GR53094@unreal>
- <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
- <20250302085717.GO53094@unreal>
- <e024fe3d-bddf-4006-8535-656fd0a3fada@arm.com>
+	id 1txygE-0000000CM02-0wwB
+	for linux-nvme@lists.infradead.org;
+	Fri, 28 Mar 2025 01:38:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1743125914; bh=9j5d/J8zcsc5onhRmFuStFe5/dVv8ZloWD0b6T9BVks=;
+	h=From:To:Cc:Subject:Date;
+	b=piaMnolpT8Ns+3xwKntupyzCLef6BpBf+fwtygP+wwb1NwtTNrii8m7bO2hCrMgYs
+	 YHmgK5F2YQhfiESSAJguIWYP7VVWgOoQNnR/WyXMuZJu2AEM21em5AQCAoQfs4qLhq
+	 r6S5jOG4yYozbUdWWQbAbvv0VXdKK2DoJqHhnKmo=
+Received: from localhost.localdomain ([116.128.244.169])
+	by newxmesmtplogicsvrszb21-0.qq.com (NewEsmtp) with SMTP
+	id 98D004FD; Fri, 28 Mar 2025 09:38:13 +0800
+X-QQ-mid: xmsmtpt1743125893t1l3naihh
+Message-ID: <tencent_4A5421BA11BD9C5B5BF3CEA95FD212AB3107@qq.com>
+X-QQ-XMAILINFO: NbgegmlEc3Juz8M7sFYLcR+S2gUYWW88+ryy6gT64V8NCj4docy/xDcvjiPm9M
+	 LSAki3QnsVpmF2d4RcsYT+c/x2BH8fxVtlzpZst4EWiaIe4X4hSvBpE8IPt/NMgSK/wmZxqERESN
+	 EqiReWMHMQf9+6cAYEBtAvWvP72J0BIbcGsowh+jG/F+LXwY/3u57yWDqx2fqMJQzB6BCIFNU5f8
+	 sIUILE1JhEs/Njh/EmDrYTAcVJwHWem+H7LzDdolaLZ0LhW5iAmLnv7676RcZSsli0oOQXDQcfmr
+	 v3fSmvPKSfy/gfVHdwLhmm25Wz7aVwjUx6Bt5ia9HCgUBZSR7QSTHfoIkqVwRTq8KuY3IRosWWlQ
+	 PC4OTrRzOJwf5AszMqVvU1KzKnHFxfKxqmp5rrJUpfOjOcD87SWjGWtDpUEpMLusOQkEglGEsE4X
+	 xOzusL+YKWFqvm47QHjExU+gS431ouvlq9uIctx8w5pWUfATwlVQvaAXupKsEStdhfp4QUby02wn
+	 tLc/dSixNNT0ujJcYq8D9otMEzJ6bNw7Q5KNyRYPHnJoy/9qy0rTjA7Iz9jzncO9jD28W8lEI4Bz
+	 De4eqTMbEGFtrrEjOYTpEnxkhf0Ujg5q/Q+WvsAnphif6sPgOYB2d0DCLfLlAN3TScr0adn8tfcQ
+	 6PTeW2ayTv8zjlWGRub4hKuCkeCkSOPEBsenoz/CC/YPFhYStGPpnVN4re80pg+ozAsIItMG07Jh
+	 25LvylM0mCkcf56tKk/i4G13suZcaYMVG35cXCoA/WwqvH7LsopS0qggE7rU78+wyrE0wTKb9N7S
+	 i9fSvNKASVxzOonYUekX6qFKrJG0ZQb0bHlvUQCR+oHDS6cky0/I10HX7HwvhZeDAnKSfjfr6FuL
+	 ZZwK7JvmswWav5NmcdBzYMi4nmKCkCvkcDtzrad0C6OiOmf5JRlYjNGbkRhun75Bi5r9uzB81iAZ
+	 w+TJl/BpYBnKGCT5gtPib0DPqIF1AURqCD03en7H8=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+From: Yaxiong Tian <iambestgod@qq.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Yaxiong Tian <tianyaxiong@kylinos.cn>
+Subject: [PATCH v2 0/3] nvme: Add sysfs interface for APST configuration management
+Date: Fri, 28 Mar 2025 09:38:08 +0800
+X-OQ-MSGID: <20250328013808.88688-1-iambestgod@qq.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e024fe3d-bddf-4006-8535-656fd0a3fada@arm.com>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250327_183842_788111_EABB07FC 
+X-CRM114-Status: UNSURE (   7.26  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,48 +85,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 21, 2025 at 04:05:22PM +0000, Robin Murphy wrote:
-> > The main issue which we are trying to solve "abuse of SG lists for
-> > things without struct page", is not going to disappear by itself.
-> 
-> What everyone seems to have missed is that while it is technically true that
-> the streaming DMA API doesn't need a literal struct page, it still very much
-> depends on something which having a struct page makes it sufficiently safe
-> to assume: that what it's being given is valid kernel memory that it can do
-> things like phys_to_virt() or kmap_atomic() on. A completely generic DMA
-> mapping API which could do the right thing for any old PFN on any system
-> would be a very hard thing to achieve, and I suspect even harder to do
-> efficiently. And pushing the complexity into every caller to encourage and
-> normalise drivers calling virt_to_phys() all over (_so_ many bugs there...)
-> and pass magic flags to influence internal behaviour of the API
-> implementation clearly isn't scalable. Don't think I haven't seen the other
-> thread where Christian had the same concern that this "sounds like an
-> absolutely horrible design."
+From: Yaxiong Tian <tianyaxiong@kylinos.cn>
 
-Doing I/O to memory which does not have a struct page is the whole point
-of this series (and many many more patches to come in the future).
+This series enhances NVMe APST (Autonomous Power State Transition) support by:
+1. Adding warnings for PST table allocation failures
+2. Exposing APST tables via sysfs for runtime inspection
+3. Providing per-controller sysfs interface for APST configuration
 
-This is very useful functionality to have.  Xen can do it, which is
-advantageous for a hypervisor as it really doesn't use the struct page
-for anything; that memory is assigned to the guest and the host only
-needs the page in order to do I/O on belaf of the guest.
+The changes allow better visibility and control of power management settings
+through userspace tools while maintaining the existing functionality.
 
-I first came up against this problem with the 3DXP project, which is now
-dead but there are other similar projects that involve giving each
-machine in a cluster access to a large amount of shared memory, and
-there's not really a good place to allocate the memmap from.
-And the only reason to allocate memmap is so that we can do I/O to
-this memory.
+Yaxiong Tian (3):
+  nvme: Add warning for PST table memory allocation failure in
+    nvme_configure_apst
+  nvme: add sysfs interface for APST table updates
+  nvme: add per-controller sysfs interface for APST configuration
 
-I'm sure there are other use cases.  Given that nVidia are so
-interested in this, I would guess that at least one of them involves
-a graphics card.
+Changes Since v1
 
-I don't think that phys_to_virt() is something that has ever been
-guaranteed to work (HIGHEMEM and so on).  I do think that we should
-support kmap_local_phys() for these things -- there's no need to
-have a struct page for that.
+Add mutex_lock in nvme_set_latency_tolerance() for Potential competition 
+between nvme_set_latency_tolerance() and apst_update_store().
 
-I haven't looked at the implementation, but I think we need to agree
-that this is useful functionality to have, or this isn't going anywhere.
+
+ drivers/nvme/host/core.c  | 24 ++++++++++------
+ drivers/nvme/host/nvme.h  |  6 ++++
+ drivers/nvme/host/sysfs.c | 59 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 81 insertions(+), 8 deletions(-)
+
+-- 
+2.25.1
+
 
