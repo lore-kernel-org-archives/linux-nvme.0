@@ -4,145 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F081FC28B20
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Mar 2025 14:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D26DDC28B20
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Mar 2025 14:57:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lO48Yx1dRxN6L1ypDuwiGhfZgN4Rzqi6MuK49Ng7t8Q=; b=PbIqgZoUiRbZFEEFvwGJCgvK59
-	QdjJcv2lci7UkJFkSQ0zN457tg42eNns73f5qHRTMnlkRjUtLJc8es/rLIP4y7EKXbVUMflX1zdTu
-	28RSh+bf5L0Wz4u7g8rtAGKDIBO33wTICopsaSYp/9PzIoY5Hf2RLILLBBtAuhKUN/RvpV8bOJNRh
-	FUF1huiAtnD3YfJAp4y85nNw81oUwlGZIs6BSW2/GKVDaQnDO5TYlkmI5OhrmSIBF2JEWSpxDVJg6
-	dlXb9qjaFXHeR/szPlfdJLtCynr/89cTb3a4EO8t4TfbepBFMg/PmK1VTapUdpZBsO0WhxMHN+f3I
-	kbZqXUtA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PiM/K3/LNJeWfZPJqlTVMyu2+2d/PdeW0HFMNzOHQgI=; b=aRNPpuI90u7eRnijjsbnCF4znL
+	UQyLbQTwbpFFIunTDhd45/l2VM+SPPMUn3HozlpJBwbfG3+U10WUje4X2+yhhZkoXmWBVjpC1Gg5H
+	shkE5RshvkgtsSsjEmW92Gb2sGyYi6SDFfdMZmBrlQhQ85HHjjPzFRLwYkGJuQq1EF7G5Zn8bi2Nv
+	DwR/pPoh/kcyt/dqaMNrMrGAeGBTV14MyPVbjdS1iZfLHuRhD0fA9KXGFtdhnYFVbfVyLXgZtz/kj
+	WOr4Ov6+JCeo3tN40IiM9EbgLInPmzmzQKX9PgsLYB5ynmqgS4De1iB+Mn7t+mzW9JyWbyqmXPFzY
+	6Ws7wzbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tyB7r-0000000DfNj-011K;
-	Fri, 28 Mar 2025 14:56:03 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1tyB8n-0000000DfeS-1ZhR;
+	Fri, 28 Mar 2025 14:57:01 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tyAXn-0000000DZRr-20dL
+	id 1tyAe0-0000000Daa8-1kq5
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Mar 2025 14:18:49 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250328141842euoutp02e5faa20227af04a38533bbed8c7ca340~w-UOC8n7Y2941729417euoutp02O
-	for <linux-nvme@lists.infradead.org>; Fri, 28 Mar 2025 14:18:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250328141842euoutp02e5faa20227af04a38533bbed8c7ca340~w-UOC8n7Y2941729417euoutp02O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1743171522;
-	bh=lO48Yx1dRxN6L1ypDuwiGhfZgN4Rzqi6MuK49Ng7t8Q=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=LzJ9hYAuVORDdpPDNoaAsSxqQPvxAGN70JzbeWTmHFXBBQgApzHABzlGOwL7v/NTq
-	 Bt8Py3MY06YHzpCwrOOD4l40Zl0MQ/FF8ERl5yImACnQCUZssD16PAHT56NCF007wz
-	 90uDi0LLMtuZPUD23/QJMqJdaUkIsTHwBiJmT6tk=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20250328141841eucas1p1619292970847f923dcfe86bb5c47ab46~w-UNvtGSP2939129391eucas1p1d;
-	Fri, 28 Mar 2025 14:18:41 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id C6.C6.20821.1CFA6E76; Fri, 28
-	Mar 2025 14:18:41 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250328141841eucas1p246ea46aed1be0fbf2d32f4681bff0ebf~w-UNT_XZY0412104121eucas1p2i;
-	Fri, 28 Mar 2025 14:18:41 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250328141841eusmtrp2242bde5cbf852d9b3900ec6a0b0bf6da~w-UNS7Wbt0154501545eusmtrp2_;
-	Fri, 28 Mar 2025 14:18:41 +0000 (GMT)
-X-AuditID: cbfec7f2-b11c470000005155-8c-67e6afc17b98
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id A7.C7.19920.1CFA6E76; Fri, 28
-	Mar 2025 14:18:41 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250328141839eusmtip22afc9ba3e6f88769393f971c378bbae1~w-ULzCb-Z1176711767eusmtip2M;
-	Fri, 28 Mar 2025 14:18:39 +0000 (GMT)
-Message-ID: <c916a21e-2d95-476d-9895-4d91873fc5d5@samsung.com>
-Date: Fri, 28 Mar 2025 15:18:39 +0100
+	Fri, 28 Mar 2025 14:25:13 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 621D05C6336;
+	Fri, 28 Mar 2025 14:22:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2C3C4CEE5;
+	Fri, 28 Mar 2025 14:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743171911;
+	bh=NF/NsSaGzQgrMigKCwS79D/GaMkgDB1dF0QZBIL8yIY=;
+	h=Date:From:To:Cc:Subject:From;
+	b=ssWLEUdC5GNsvoMJw38U3qhtmJvRq8N1dBTq7LkgnL8xO0IlrsTkgpZumRr0pG3AX
+	 aFzuIbON/gO2TowE6260ADpKUebYVtEPYQ27EbonDBXNKWVpUvLKv7mamMzORYOUGi
+	 MhY41QxstEx5GV51XPMYOS5dMwzekAgNGWvmSBvigv44abzCnlgAtr3sLfVCRepwsS
+	 J9e+G6gOPwWnm4BINDcgUofRaVzpRImDNHLMCr6xVjZgXPB/0SJPkzdhrvSYf+IdJJ
+	 fJ6sRdSKD1TDKKF/IT5l2oeaZcKjdTKp5ePxPCLOmbzwxrkDgM0azke3y1GsV6qcow
+	 R7DZCpwq7wKmA==
+Date: Fri, 28 Mar 2025 08:25:08 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] nvme-loop: Avoid -Wflex-array-member-not-at-end warning
+Message-ID: <Z-axRObjXYjIHGQC@kspp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Joerg Roedel
-	<joro@8bytes.org>, Will Deacon <will@kernel.org>, Sagi Grimberg
-	<sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Bjorn Helgaas
-	<bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas
-	<yishaih@nvidia.com>, Shameer Kolothum
-	<shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, Randy
-	Dunlap <rdunlap@infradead.org>
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250322004130.GS126678@ziepe.ca>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0xTVxzuaW/vvTS2uxYmR6cjqWEPl7Uj2eMsoLJA3DViHHu4jOhYM+8K
-	4aUtdUyTiQRhFiYVZYUWC4yCCAQEZlGUjVZmyxigAzbpamFZqQg0rMg2pWaM9uLGf9/5Hr/v
-	/E4OyRNfwjeQqZnZjDJTni7BBZj5xsOhFy2tHsVLDyakqLK1GUd/LRXjqOlOCY5MeSnI3VMI
-	0IWm77locQGhinI7QAbdFBedNFwkUKn1Z4DqvJcIVFl2CJ1drOOhbscLqKbAhKHhrkocuZqX
-	+KiqfpJAA0YbjjzWLzFkOrGMvE4dhix/uPmoZWYOQ52jeXyU73wF1ZcJYjfSbouRSzcbmwHt
-	GfUAurpdTQ+52jA6v9fLpzsattC11+5x6eEBNd3eeBKn2+dLCdpe7sfoDtMxeqqjAtBXx3Jx
-	uvbUGf5bYUmCmANMeuphRinb9pEgxVVTzz9oF+cUjw2BXFAl0oAQElIvQ1/hKE8DBKSYagDw
-	xm0bPyCIqQUA68oBK9wHUOe/Ax4nbk3cwljTeQAnF5JZkw9AX4WTCAhCahtsah4KTsKoSDhd
-	6uCx/FrYV+EOhp+kIuC4ozzoD6XiYY/5dNATRkngt12nicBQHmUmoH7Kxw0IPCocOtxVQYxT
-	UVDj1eABHELJoLHfxWc9EbDTWxncB1LdAjhWNsJnrx0PB4w/rKwQCqdt3xAs3giXrgSGBgKF
-	AFb7x1cOWgBz7zpWEtHQObi4XEcuVzwPW7tkLP0GvPnnb0SAhpQI3vauZS8hgqVmHY+lhfCL
-	AjHrfgbqbS3/1Vpu/sTTAol+1bvoV62pX7WO/v/eaoA1gnBGrcpQMKqoTOZTqUqeoVJnKqQf
-	Z2W0g+Wf3f+Pbf4yODftk1oBlwRWAEmeJEy4fsStEAsPyD87wiizkpXqdEZlBU+RmCRc+PV3
-	JxRiSiHPZtIY5iCjfKxyyZANudwd+2y1u+b6x/UciSlyZnechJIl1vSqZt3xYW+WvL6Gsz02
-	YSH577vX7Rfn9xr2J3I+3AOjYyzJO1skv86F9l0w+jBfQbT/uPZHTsMnxLqxWUPao63D+4jo
-	Pp9j73ZTI6mNsHlEZnlqvPq+9omchznvlnNadr+2xmI/luY8/JyhbZ1+fCDhF//+9WrzB73Z
-	5DWdKi7JOfn5SIzrq9B3PC5r0YBXTt/Lcm4KGQlXOaHm2d8TwvqV08pXW+OSrh6dLYrdLNqE
-	Py051/P+2WzDoevwvYnJK/NHyrr37Kiwt5XUDmYZNw++/WDnrqPFx21bTxX10ImyzsjzUzmX
-	DdKZR/lTeRJMlSKP2sJTquT/AioQlFtIBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJKsWRmVeSWpSXmKPExsVy+t/xe7oH1z9LN5hxkc9izvo1bBbf/vew
-	Way+289msaQpw+LJgXZGi5WrjzJZ/PpiYTFzxglGi9nTXzBZdM7ewG4x6dA1Roulb7eyW8yZ
-	Wmgx5ddSZou9t7QtFrYtYbG4vGsOm8W9Nf9ZLeYve8pucXbecTaLZ4d6WSyWtAJZb+9MZ7E4
-	+OEJq8W61+9ZLLZfbWK1aLljarFsKpeDjMeTg/OYPNbMW8Po8ezqM0aPBZtKPc7f28ji0XLk
-	LavH5hVaHov3vGTyuHy21GPTqk42j02fJrF7nJjxm8Vj85J6jxebZzJ67L7ZwOaxuG8ya4BI
-	lJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7GvYXL
-	WAtOCFX03DzP2MA4n6+LkZNDQsBE4uKDiyxdjFwcQgJLGSVamtqZIBIyEienNbBC2MISf651
-	sUEUvWeUOHNsGSNIglfATmL1mvNgRSwCqhKvJt1ihogLSpyc+YQFxBYVkJe4f2sGO4gtLOAi
-	cWDbRLAaEQEliX27JrKDDGUW2MEucXHXcSaIDc+ZJf52HwLrYBYQl7j1ZD7YSWwChhJdb0HO
-	4OTgFNCXmHf6HitEjZlE19YuRghbXmL72znMExiFZiE5ZBaSUbOQtMxC0rKAkWUVo0hqaXFu
-	em6xoV5xYm5xaV66XnJ+7iZGYJraduzn5h2M81591DvEyMTBeIhRgoNZSYRX8sqTdCHelMTK
-	qtSi/Pii0pzU4kOMpsDQmMgsJZqcD0yUeSXxhmYGpoYmZpYGppZmxkrivG6Xz6cJCaQnlqRm
-	p6YWpBbB9DFxcEo1MFldaJWPjrp8esKyTQs39a9UPna0699GGZvqxVrZ/Os/tK/rO79/ab2J
-	le6Uzt+/AhhsVefceLSfwc2YK/L/qhsbJhX5r/apvuecIXGXNVfrpphdj+vqWS9UbEVy4h+d
-	3tdz9A5zYfifi62yU6vfK7judn5w0HxL9cmj999GxvsVFSzI1Y3945SdYOV8c+HLvHPfmoML
-	ub/+mO0treTxo55p5XXxsB2/whqjhP+eLsgL2tcUedx3oU79lK4bbzka1PjS7TU9NfVnBPuY
-	TZ4n86Bp4enTZSr/Zq7ScXQ4yWjM6u63uHD9G/HCo4t4nQ7yRjFMZ4yT26/+vLKep6HxZe73
-	Nk0v3w9bvGdOc/mrpcRSnJFoqMVcVJwIAGW+P3ncAwAA
-X-CMS-MailID: 20250328141841eucas1p246ea46aed1be0fbf2d32f4681bff0ebf
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
-References: <cover.1738765879.git.leonro@nvidia.com>
-	<20250220124827.GR53094@unreal>
-	<CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
-	<1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
-	<d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
-	<20250312193249.GI1322339@unreal>
-	<adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
-	<20250319175840.GG10600@ziepe.ca>
-	<1034b694-2b25-4649-a004-19e601061b90@samsung.com>
-	<20250322004130.GS126678@ziepe.ca>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250328_071848_163562_CA34B1BA 
-X-CRM114-Status: GOOD (  23.82  )
+X-CRM114-CacheID: sfid-20250328_072512_498969_F99A3397 
+X-CRM114-Status: GOOD (  11.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,56 +71,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 22.03.2025 01:41, Jason Gunthorpe wrote:
-> On Fri, Mar 21, 2025 at 12:52:30AM +0100, Marek Szyprowski wrote:
->>> Christoph's vision was to make a performance DMA API path that could
->>> be used to implement any scatterlist-like data structure very
->>> efficiently without having to teach the DMA API about all sorts of
->>> scatterlist-like things.
->> Thanks for explaining one more motivation behind this patchset!
-> Sure, no problem.
->
-> To close the loop on the bigger picture here..
->
-> When you put the parts together:
->
->   1) dma_map_sg is the only API that is both performant and fully
->      functional
->
->   2) scatterlist is a horrible leaky design and badly misued all over
->      the place. When Logan added SG_DMA_BUS_ADDRESS it became quite
->      clear that any significant changes to scatterlist are infeasible,
->      or at least we'd break a huge number of untestable legacy drivers
->      in the process.
->
->   3) We really want to do full featured performance DMA *without* a
->      struct page. This requires changing scatterlist, inventing a new
->      scatterlist v2 and DMA map for it, or this idea here of a flexible
->      lower level DMA API entry point.
->
->      Matthew has been talking about struct-pageless for a long time now
->      from the block/mm direction using folio & memdesc and this is
->      meeting his work from the other end of the stack by starting to
->      build a way to do DMA on future struct pageless things. This is
->      going to be huge multi-year project but small parts like this need
->      to be solved and agreed to make progress.
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-Again, thanks for another summary!
+Move the conflicting declaration to the end of the structure. Notice
+that `struct nvme_loop_iod` is a flexible structure --a structure
+that contains a flexible-array member.
 
->   4) In the immediate moment we still have problems in VFIO, RDMA, and
->      DRM managing P2P transfers because dma_map_resource/page() don't
->      properly work, and we don't have struct pages to use
->      dma_map_sg(). Hacks around the DMA API have been in the kernel for
->      a long time now, we want to see a properly architected solution.
+Fix the following warning:
 
-What kind of a fix is needed to dma_map_resource()/dma_unmap_resource() 
-API to make it usable with P2P DMA? It looks that this API is closest to 
-the mentioned dma_map_phys() and has little clients, so potentially 
-changing the function signature should be quite easy.
+drivers/nvme/target/loop.c:36:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
 
-Best regards
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/nvme/target/loop.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index a5c41144667c..d02b80803278 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -33,10 +33,12 @@ struct nvme_loop_ctrl {
+ 
+ 	struct list_head	list;
+ 	struct blk_mq_tag_set	tag_set;
+-	struct nvme_loop_iod	async_event_iod;
+ 	struct nvme_ctrl	ctrl;
+ 
+ 	struct nvmet_port	*port;
++
++	/* Must be last --ends in a flexible-array member. */
++	struct nvme_loop_iod	async_event_iod;
+ };
+ 
+ static inline struct nvme_loop_ctrl *to_loop_ctrl(struct nvme_ctrl *ctrl)
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+2.43.0
 
 
