@@ -4,94 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20B84C36008
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Apr 2025 07:23:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39A88C36008
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Apr 2025 07:33:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YbK/lSI2RgWL02dSJG6n2F8wLSVyJfyg/T4OBuslLqU=; b=qXU+aBzukBhQZyPADgax7nuEaa
-	nRoriupCeS/FjhE3v9VTDf8Rm5mzjV/kXUhVpNI2orMj70MmegLv1oE/A2wyVCdqAWerQNIUQIcfN
-	m0Y2HMpv7nfhKeSK/4pOaZ/+fo+NXB3QnmWtkPiXEAF0fEw1IJZX5AyN5lvLpMxfYF1lA38f9q/GK
-	p9A0A+HNrSAtNVB2WesfX52rYkJJRAm0z2zxY8BUdC+eUVdzgHlvvAa29gD4RBYvjVrVUOFianhPK
-	zyUOxKaoh/LFHjrajevP2I7faHvWY4n6XWrQTdRvs0cSMo2bTI9G4cP9H4M9qKJCJwMOqiclLZFlM
-	Js050Oxw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=; b=2FwVom9sDgwD422ynWkre02PG0
+	po4cuYY/wkqhv7GABI7PIZwO3A6ufvgwXYI8Yh7vNLdZ6dkCpcGtOLgRwlnfXdzEq8yPYdVOvDyt5
+	bCAr3km8qmw9qSwseuQPk0jJ/szRXTLvJOPPBvxAgJMSqEomrAcdHryNoo6ctRI/bW0a4gLUufYh6
+	GL+Rl6GrKrm3DjITBkKXT/8UtCGh8M082cGOaz/yTh/brNjH4oINvdbFw+j8H+d8u21HAHftBRxI2
+	LhL2OpLEsrsh7TLdJ1oxi1Wbq+PvPdoMdropUy6dT6+x4sDvtEXxhySpTgTjn+ZGRKd6kYyPTHhnO
+	KClSeLkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tzVy2-00000002BEX-1DkS;
-	Tue, 01 Apr 2025 07:23:26 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1tzW7F-00000002CaI-3OJD;
+	Tue, 01 Apr 2025 07:32:57 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tzVvr-00000002AzK-06w9
+	id 1tzW7C-00000002CZw-2j3o
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Apr 2025 07:21:13 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5313jt7J026566;
-	Tue, 1 Apr 2025 07:20:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=YbK/lS
-	I2RgWL02dSJG6n2F8wLSVyJfyg/T4OBuslLqU=; b=ZnuHMiZXg9aSBSKB8o1Xrz
-	W2XSbdeeSndoGY7P857+Ij/yNPm7t/1ZOAhr0/KxN23eyST7tClF/CjzOl4v8aff
-	/qpGUHk1jdiURiDK6/7svzw+obCErzM+yiYGKR/7ws2jeSih3hQXdc2bXD94XF06
-	ukne2xLX6R7oSwc/32jTtObnUNsebOvm6kBjtv9SJQOECHKmpAlmhCa1SU7sNDKp
-	gqwqhTc2PrHBtFwHKUCHS3Bzx/qr1BvJROTEr+8Jh0StXtWgumCiBWzJR6x2iILe
-	ZK5lbz9Bvxw3CT9jBbBqExdcJqO6YO7g4YPfAw6gVLyFOrYZweLni4ejPD+C+XRg
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45r8h9rtuv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Apr 2025 07:20:43 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5315eno7005399;
-	Tue, 1 Apr 2025 07:20:42 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 45pww293m4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Apr 2025 07:20:42 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5317KfHE21758716
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 1 Apr 2025 07:20:42 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BBB8C5804B;
-	Tue,  1 Apr 2025 07:20:41 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AEA2858055;
-	Tue,  1 Apr 2025 07:20:39 +0000 (GMT)
-Received: from [9.109.198.185] (unknown [9.109.198.185])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  1 Apr 2025 07:20:39 +0000 (GMT)
-Message-ID: <a292b36f-f7f0-48c6-a0d3-5d7e7db3f883@linux.ibm.com>
-Date: Tue, 1 Apr 2025 12:50:38 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Tue, 01 Apr 2025 07:32:56 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E9440211A2;
+	Tue,  1 Apr 2025 07:32:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743492771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=;
+	b=VIU50m3/a1VUsu/gZhFVkAUEad08b1NZIHyew1lZKeP0UFzNWSJQirGqRhI30hIol2cAI1
+	KdTe2H60tNJ1wrsP0m/puVhClEa0jo/4VND83b3Rvh+9nYzj9EYIiAj7wkQBRcPZMNzYko
+	xL5cKZuvV8wqtiy64rLLmJGrXCZkcoc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743492771;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=;
+	b=pza6XZnKNGfqr8yJdyiEBjintaIGtRaMsTK8Thv4QY7EWY0btWuifGd9SgbmkjcAkFdsvC
+	o+Jz4p16gpVJeKCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rvvAh8bP;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8R2E1GMW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743492770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=;
+	b=rvvAh8bP1FpE78nf/Cu7jRXpQTtq3PvI0kJ0+XdUYAyj4t7aJ3EiK1ALye5i6AmslZIQnm
+	H6mcndQAIDc+RsH703EA1ywDQBHHo/SwWl0ZdEypmlyIK5fb2/RgnE6VbZUYYbxroHiWjF
+	mf/1aiHi1kqKdx/8/CPT3npYo3Mvmc4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743492770;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=;
+	b=8R2E1GMWpuqjVatYUxJ2HoDqxG5pH0AGjYQvjh+FzTQhVFI4FdaxgGdFruCSCwqOOzCIDV
+	Awb4Tfq526soZ9Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D19DE138A5;
+	Tue,  1 Apr 2025 07:32:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vUy5MaKW62emVgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 01 Apr 2025 07:32:50 +0000
+Date: Tue, 1 Apr 2025 09:32:50 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Keith Busch <kbusch@kernel.org>, Keith Busch <kbusch@meta.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "wagi@kernel.org" <wagi@kernel.org>, "hch@lst.de" <hch@lst.de>, 
+	Nilay Shroff <nilay@linux.ibm.com>
 Subject: Re: [PATCH] nvme-cli: attach ns to local controller if none specified
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-        wagi@kernel.org
-Cc: hch@lst.de, dwagner@suse.de, Keith Busch <kbusch@kernel.org>
+Message-ID: <c12c169c-4b5e-425a-91e1-e9e6ad47b8e8@flourine.local>
 References: <20250331190843.2431830-1-kbusch@meta.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20250331190843.2431830-1-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bnsCwvXUu7b8-QXf73a5mZCx8b1l73v9
-X-Proofpoint-GUID: bnsCwvXUu7b8-QXf73a5mZCx8b1l73v9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-01_02,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- bulkscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- mlxscore=0 clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504010046
+ <f6567009-341e-44d4-94fd-feb92526d80d@nvidia.com>
+ <Z-sBp3YQp60oS-e9@kbusch-mbp.dhcp.thefacebook.com>
+ <2fbd6fdd-7977-4499-9539-3d1290506b48@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2fbd6fdd-7977-4499-9539-3d1290506b48@nvidia.com>
+X-Rspamd-Queue-Id: E9440211A2
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250401_002111_093723_D52ACA50 
-X-CRM114-Status: GOOD (  22.40  )
+X-CRM114-CacheID: sfid-20250401_003254_860923_28CCD1E2 
+X-CRM114-Status: GOOD (  16.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,60 +138,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 4/1/25 12:38 AM, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+On Mon, Mar 31, 2025 at 09:16:49PM +0000, Chaitanya Kulkarni wrote:
+> On 3/31/25 13:57, Keith Busch wrote:
+> > On Mon, Mar 31, 2025 at 08:37:31PM +0000, Chaitanya Kulkarni wrote:
+> > > if not then do we need add a version check so it will stay as backward
+> > > compatible ?
+> > I don't follow what you mean here. What version of what component could
+> > be checked to guide this behavior?
 > 
-> Assume the user meant to attach the namespace to the controller the
-> command was sent to if the user didn't provide a controller id list.
-> 
-> Suggested-by: Nilay Shroff <nilay@linux.ibm.com>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  nvme.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/nvme.c b/nvme.c
-> index bb412843..7a2c2e9f 100644
-> --- a/nvme.c
-> +++ b/nvme.c
-> @@ -2953,9 +2953,6 @@ static int nvme_attach_ns(int argc, char **argv, int attach, const char *desc, s
->  
->  	num = argconfig_parse_comma_sep_array_u16(cfg.cntlist,
->  						  list, ARRAY_SIZE(list));
-> -	if (!num)
-> -		fprintf(stderr, "warning: empty controller-id list will result in no actual change in namespace attachment\n");
-> -
->  	if (num == -1) {
->  		nvme_show_error("%s: controller id list is malformed", cmd->name);
->  		return -EINVAL;
-> @@ -2965,7 +2962,18 @@ static int nvme_attach_ns(int argc, char **argv, int attach, const char *desc, s
->  	if (!cntlist)
->  		return -ENOMEM;
->  
-> -	nvme_init_ctrl_list(cntlist, num, list);
-> +	if (argconfig_parse_seen(opts, "controllers")) {
-> +		nvme_init_ctrl_list(cntlist, num, list);
-> +	} else {
-> +		struct nvme_id_ctrl ctrl = { 0 };
-> +
-> +		if (nvme_cli_identify_ctrl(dev, &ctrl)) {
-> +			perror("identify-ctrl");
-> +			return -errno;
-> +		}
-> +		cntlist->identifier[0] = ctrl.cntlid;
+> if we can only enable this functionality for nvme-cli/libnvme for the 
+> current version and any other versions after current version.
 
-Thanks Keith for working on this!
+This is a new feature which is backwards compatible as I understand it.
+If a user provides the -c option it still does exactly what it supposed
+to do.
 
-I think we also need to set the num of cntrls in the list here. In this particular case, 
-we need to add the following line after we initialize the cntrl identifier:
+> In case nvme-cli or libnvme has a version below the current version, then
+> it can follow the original behavior, will this work or not ?
 
-cntlist->num = cpu_to_le16(1);
+Older version will complain, that you need to provide the controller id,
+newer ones will just assume you wanted the first controller.
 
-Otherwise changes looks good to me. 
-
-Thanks,
---Nilay
-
+For extra points, this could be documented in the docs :)
 
