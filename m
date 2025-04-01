@@ -4,126 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39A88C36008
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Apr 2025 07:33:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2101AC36014
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Apr 2025 07:44:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=; b=2FwVom9sDgwD422ynWkre02PG0
-	po4cuYY/wkqhv7GABI7PIZwO3A6ufvgwXYI8Yh7vNLdZ6dkCpcGtOLgRwlnfXdzEq8yPYdVOvDyt5
-	bCAr3km8qmw9qSwseuQPk0jJ/szRXTLvJOPPBvxAgJMSqEomrAcdHryNoo6ctRI/bW0a4gLUufYh6
-	GL+Rl6GrKrm3DjITBkKXT/8UtCGh8M082cGOaz/yTh/brNjH4oINvdbFw+j8H+d8u21HAHftBRxI2
-	LhL2OpLEsrsh7TLdJ1oxi1Wbq+PvPdoMdropUy6dT6+x4sDvtEXxhySpTgTjn+ZGRKd6kYyPTHhnO
-	KClSeLkA==;
+	bh=gntbv8PkI3XRCr/Ll5QirjrHZcm9trf1F915DpwNZuk=; b=1lS1CbYRts0FSNGdqSIU/DdAiv
+	lJC+OCwWp+i/0ZGbkeHSIoDJbMomGwkJejPkD6kA4cTNrqxVMTatSxCX0KT/djO4MG6iZOtJUIMtF
+	9XsPN1WwszbBFNIt5cLu79xamvfXujfsgy1jxEoK5GHzbiQeVvxzXrIcRvSAjN8E4mRMnB+DsOq9g
+	zs4b9waikX+uP2FQ3tLQfIhp6Tc5pazgzN6U6LLvBjGR8e5UBMOJo3l9vzVMDG+SB1wDWTPlSHEbq
+	c3KWcNzPv+cpCdaNqtqYc20XLOzeB5jMKZfmG+bPljllBL9+jkn7qCt0tuyyrhp0GcwQhIjycAKg9
+	1bRg0eaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tzW7F-00000002CaI-3OJD;
-	Tue, 01 Apr 2025 07:32:57 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1tzWIT-00000002Dv5-1atD;
+	Tue, 01 Apr 2025 07:44:33 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tzW7C-00000002CZw-2j3o
+	id 1tzQ8A-00000001hwj-2WBC
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Apr 2025 07:32:56 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E9440211A2;
-	Tue,  1 Apr 2025 07:32:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743492771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=;
-	b=VIU50m3/a1VUsu/gZhFVkAUEad08b1NZIHyew1lZKeP0UFzNWSJQirGqRhI30hIol2cAI1
-	KdTe2H60tNJ1wrsP0m/puVhClEa0jo/4VND83b3Rvh+9nYzj9EYIiAj7wkQBRcPZMNzYko
-	xL5cKZuvV8wqtiy64rLLmJGrXCZkcoc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743492771;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=;
-	b=pza6XZnKNGfqr8yJdyiEBjintaIGtRaMsTK8Thv4QY7EWY0btWuifGd9SgbmkjcAkFdsvC
-	o+Jz4p16gpVJeKCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rvvAh8bP;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8R2E1GMW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743492770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=;
-	b=rvvAh8bP1FpE78nf/Cu7jRXpQTtq3PvI0kJ0+XdUYAyj4t7aJ3EiK1ALye5i6AmslZIQnm
-	H6mcndQAIDc+RsH703EA1ywDQBHHo/SwWl0ZdEypmlyIK5fb2/RgnE6VbZUYYbxroHiWjF
-	mf/1aiHi1kqKdx/8/CPT3npYo3Mvmc4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743492770;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9k90JjjyHbxUV1ZzVPGjdPSRo/zHPxkDnF3HfxKV6uI=;
-	b=8R2E1GMWpuqjVatYUxJ2HoDqxG5pH0AGjYQvjh+FzTQhVFI4FdaxgGdFruCSCwqOOzCIDV
-	Awb4Tfq526soZ9Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D19DE138A5;
-	Tue,  1 Apr 2025 07:32:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vUy5MaKW62emVgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 01 Apr 2025 07:32:50 +0000
-Date: Tue, 1 Apr 2025 09:32:50 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Keith Busch <kbusch@kernel.org>, Keith Busch <kbusch@meta.com>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "wagi@kernel.org" <wagi@kernel.org>, "hch@lst.de" <hch@lst.de>, 
-	Nilay Shroff <nilay@linux.ibm.com>
-Subject: Re: [PATCH] nvme-cli: attach ns to local controller if none specified
-Message-ID: <c12c169c-4b5e-425a-91e1-e9e6ad47b8e8@flourine.local>
-References: <20250331190843.2431830-1-kbusch@meta.com>
- <f6567009-341e-44d4-94fd-feb92526d80d@nvidia.com>
- <Z-sBp3YQp60oS-e9@kbusch-mbp.dhcp.thefacebook.com>
- <2fbd6fdd-7977-4499-9539-3d1290506b48@nvidia.com>
+	Tue, 01 Apr 2025 01:09:32 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A66A45C10B8;
+	Tue,  1 Apr 2025 01:07:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 978F4C4CEE3;
+	Tue,  1 Apr 2025 01:09:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743469769;
+	bh=xnDKz4hdm/kkZqcWSzvYO96l5CqeHbCretys4W9iu2o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ce0nhRfsh4foP8kliSiSC0eCyy1P530wNZv1yXlz0fhnntdzc2pHj8ehJ73sKloVM
+	 C0cw7cUj+BIc9kmwIU3OVnx2X/5KZolUkXS2nrcBmOD80XEOnwWEu+qaNld4IC1Lbz
+	 ktTwM4BKKx5FIv7O9NfsPq2v7mz23KDqI6mFjPh6003pPohStRGfOcfyHzqdAMOVmD
+	 1gOusmiwUbvZzBP/fZDRftY7IT+SckUkPyIVGM5JFjlw/2fk+9/Ns880REt1nFz5Or
+	 pRuSFvVxXKUnth/AX3auD+qu9VK2N7OyoDzrtCOl5aOlD0WNxZyXTU1dmfK4K2DInq
+	 5BLO5MT41pJgw==
+Date: Mon, 31 Mar 2025 18:09:27 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>, Daniel Gomez <da.gomez@samsung.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+Message-ID: <Z-s8x_YyGEYTz8BJ@bombadil.infradead.org>
+References: <cover.1738765879.git.leonro@nvidia.com>
+ <20250220124827.GR53094@unreal>
+ <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+ <20250302085717.GO53094@unreal>
+ <e024fe3d-bddf-4006-8535-656fd0a3fada@arm.com>
+ <Z+KjVVpPttE3Ci62@ziepe.ca>
+ <20250325144158.GA4558@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2fbd6fdd-7977-4499-9539-3d1290506b48@nvidia.com>
-X-Rspamd-Queue-Id: E9440211A2
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+In-Reply-To: <20250325144158.GA4558@unreal>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250401_003254_860923_28CCD1E2 
-X-CRM114-Status: GOOD (  16.89  )
+X-CRM114-CacheID: sfid-20250331_180930_702386_36DB6523 
+X-CRM114-Status: GOOD (  16.94  )
+X-Mailman-Approved-At: Tue, 01 Apr 2025 00:44:30 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,26 +95,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 31, 2025 at 09:16:49PM +0000, Chaitanya Kulkarni wrote:
-> On 3/31/25 13:57, Keith Busch wrote:
-> > On Mon, Mar 31, 2025 at 08:37:31PM +0000, Chaitanya Kulkarni wrote:
-> > > if not then do we need add a version check so it will stay as backward
-> > > compatible ?
-> > I don't follow what you mean here. What version of what component could
-> > be checked to guide this behavior?
+On Tue, Mar 25, 2025 at 04:41:58PM +0200, Leon Romanovsky wrote:
+> On Tue, Mar 25, 2025 at 09:36:37AM -0300, Jason Gunthorpe wrote:
+> > On Fri, Mar 21, 2025 at 04:05:22PM +0000, Robin Murphy wrote:
 > 
-> if we can only enable this functionality for nvme-cli/libnvme for the 
-> current version and any other versions after current version.
+> <...>
+> 
+> > > So what is it now, a layering violation in a hat with still no clear path to
+> > > support SWIOTLB?
+> > 
+> > I was under the impression Leon had been testing SWIOTLB?
+> 
+> Yes, SWIOTLB works
 
-This is a new feature which is backwards compatible as I understand it.
-If a user provides the -c option it still does exactly what it supposed
-to do.
+We will double check too.
 
-> In case nvme-cli or libnvme has a version below the current version, then
-> it can follow the original behavior, will this work or not ?
+> and Christoph said it more than once that he tested
+> NVMe conversion patches and they worked.
 
-Older version will complain, that you need to provide the controller id,
-newer ones will just assume you wanted the first controller.
+We've taken this entire series and the NVMe patches and have built on
+top of them. The nvme-pci driver does not have scatter list chaining
+support, and we don't want to support that because it is backwards.
+Instead, the two step DMA API lets us actually remove all that scatter
+list cruft and provide a single solution for direct IO and io-uring
+command passthrough to support large IOs [0] [1] and logical block sizes
+up to 2 MiB.
 
-For extra points, this could be documented in the docs :)
+We continue to plan to work on this and are happy to test this further.
+
+Clearly, we don't want any regressions on NVMe.
+
+[0] https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
+[1] https://lore.kernel.org/all/Z9v-1xjl7dD7Tr-H@bombadil.infradead.org/
+
+  Luis
 
