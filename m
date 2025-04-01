@@ -4,84 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B9D8C3600C
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Mar 2025 23:57:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E26DC3600C
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Apr 2025 00:48:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZEq/Fka6YRBKENdOliwx1ILIyB+IBRwt7XPFaRfOBxw=; b=DPOpM4jyxlzqS+QRNSgRiecBva
-	tVrkzwEtCoVOON1lIKyX8g9sLb0X9/dnwvdB5WpQ6uGbWkEZLMLUK9peE89M/giCN9gs/q+fPQ7na
-	9Q4IiIkb507cL5yAQQUqHmJR4+IHwRWXjeWFVy18XSVCMtgwDxO/RxLXHINXobHGpZPxe87lWyb7C
-	M66ZksevSCVG5yfvDe/ZZXc6x1wHjTq+03APx/J4pIEVB+DvawLPO5On0XWtW+3Pk1sNm5hh8eWlq
-	8il/SWWbOxo6PfgnHyjBRr/qnTtoZrA27cbNvbpgoCP2D8LRRvNzufFNzYBW/nbc6TO9Ys7tovBti
-	y9YChygA==;
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=5ndbVkIth02lM2moYzGnZClHCA37EO7xQlyVsyVkRQU=; b=EffdJ1QJ3aWcCKYTkrs0p1Ao7F
+	0LONfpwkt8Q/fqz8SD1VRmeTIGe9r78za+pWJjdhvDU44cqxSpAduxhDAz+TVzPv1S4bXrRoXFKPV
+	BVROSfxRmc8f1b0BUUGFy6QvPeITecoPdMBGXKqT2DeHpPVaeSVxfzflqMLUPQDMy0VR4WsS6kmzj
+	Rst/yvLGwbCRRcTJ7yvKzMKMy1xEjwfwgDTko6QbCwHxfoNQqPz1MILOphevnHk7RYtxQ9q21KXH5
+	tOetkDcYwrf5WDFeX4LcboPE+Rj0osWQDhfTWGyJZzHIT5ElIinOT9eW2RN91lX0LrjkT/38tCAQI
+	GIpwL4OQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tzP0B-00000001cNz-1dww;
-	Mon, 31 Mar 2025 23:57:11 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+	id 1tzPnJ-00000001gCy-1CUY;
+	Tue, 01 Apr 2025 00:47:57 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tzOz5-00000001cKX-2nxK
+	id 1tzPnG-00000001gCd-3i22
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Mar 2025 23:56:05 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-3054e2d13a7so284663a91.2
-        for <linux-nvme@lists.infradead.org>; Mon, 31 Mar 2025 16:56:02 -0700 (PDT)
+	Tue, 01 Apr 2025 00:47:56 +0000
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-2295d78b45cso4006935ad.0
+        for <linux-nvme@lists.infradead.org>; Mon, 31 Mar 2025 17:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1743465362; x=1744070162; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZEq/Fka6YRBKENdOliwx1ILIyB+IBRwt7XPFaRfOBxw=;
-        b=MCr9KOgNVcblMOvrkL2bTDU4zszzDIVMJPdrQWVsoccdLd7DezTPhax+vhriKiUXpn
-         Qwev/1VrxA9gwVFy2o7e/NuVOl7C93t7DD5sLtse9PcaONH2A0wNbZcfzNKseqKGsxYU
-         Iv31JCh/Xmkyr4TcEcim4o9Z/DZt1Lax7acZfZZWN2j4+TcG2xtM7qlFJIdXqsteDtDy
-         eImvAj+VYxSI92CEBM9Dor9ZByY51dDRsID+0cjdbqJyeWZGJCuf8QepNCNB4YJUIIz2
-         382u2IzrTUiXFEpBoS1yE9Udo+hNwg8beFwPh9kQl5KHeR4/AJr/Qkxes3AyVAFFQTuC
-         pLAg==
+        d=gmail.com; s=20230601; t=1743468473; x=1744073273; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ndbVkIth02lM2moYzGnZClHCA37EO7xQlyVsyVkRQU=;
+        b=OkO3PGrCvqhuWOko9NF+jXEsxTG2aE7nhgF4SH0Py2Q6s7pkrGxt2wp6RxWZukB72+
+         0swzomkICcBghSHiw68fLYkLS0Usk9k1pTyipY8HT/Ic+7DtacfRZB7pZG1ugkQekEjk
+         0Rb3n0Dzk5GDdbG2iWtI+p/C3A0QRXoA4ghEkA2s0Ypd/0SPqiMLG11WgJQJAcvsmwWM
+         YNGtIR3fA0zU0Ey+qH/ONHWKccJo1KjrnPyTG5HMVsMy0xcZkjeci7Tc34GoqojCpFCS
+         BWFy5DVH3YKdAqvcuOgbXGGfgnOg+oxwXipIjiyCkZZOTBfmZnD0Id2G9u9A3/r6uRaB
+         RfEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743465362; x=1744070162;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZEq/Fka6YRBKENdOliwx1ILIyB+IBRwt7XPFaRfOBxw=;
-        b=r/nHC2HVKM05a5L+JBln9wOqJVuOzgf0oEIHKQrCACM7KCLyp+rr6ApFv5U6kVkgz+
-         /VCJvfmzHdmATqGH92HkCviUgyU8p7PVrd8NYsubCIDs6Ti4pOCift9HG/5Mn8J52f84
-         azePmIoigVeci6yCZD1BQOjcYJ7wvqdDd6+LTZkYBfNk27KTvXUY5fJl5dVzA3u3D42K
-         rm8yyym7MgojTP12sEFvDDx3hmaiH56+dtadSSKTXmbL8LG8T7UWz5pmRxB/e+i5KFvU
-         0FvYTGjmJE1kXaLO3GlgGf8jhNSXAG5+jiQHU8Mt21hGEc+/xWP+I9wgdHuj8rYKdVQd
-         +pWA==
-X-Forwarded-Encrypted: i=1; AJvYcCUND4hRvh/7aEcyQZH8+xuAfj1I+B6I/3lAJkqW3G9K0cblIhywM0nz+CzzkJDb34oC0VRsS3RSrnPu@lists.infradead.org
-X-Gm-Message-State: AOJu0YwJ5ZJCLcD9G3rhrbaN5H2yLD5fT9EoOvcG19fiRz59NnPSpH4X
-	OJga6XAG2Suoypgd1USlgb/n+v8hVNLIsUzrjnoSIycRc+jb9ThdJardrFTx02hzjNN2o5sKZxo
-	CLG6x4aL/l4KgXPk2uLWB1twmNcXT6wNRPFPoB5YWUbhT40BZvd+2og==
-X-Gm-Gg: ASbGncs2IJAlhjjiNxbCu9m/rTn3yhsxZFe7Dbryd0GwHqXcLD7mG5lf9iZevZkI/9M
-	I37k6czx0F9CLALoyHvHPzykpKM4AfA3fxUZ2VzVmIzdjU3dmp3j+ej5xl8T4zRtcxFvP1CcFUH
-	CWoOuqeaBLXp+Wd9VaCk2jQ7Zy
-X-Google-Smtp-Source: AGHT+IEGH/a3rGABDa2/mh2XtCmOTSKeNqoAZuyY5b3WmNkh66z8tCEG7KQAC/uJtaXSfm9b8H+tCKGTp34mrusVN3w=
-X-Received: by 2002:a17:90b:3e8c:b0:2ff:6666:529d with SMTP id
- 98e67ed59e1d1-30562e93988mr179869a91.6.1743465362263; Mon, 31 Mar 2025
- 16:56:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743468473; x=1744073273;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ndbVkIth02lM2moYzGnZClHCA37EO7xQlyVsyVkRQU=;
+        b=kg5UdjOa5pmzXWI9dLmMEL8t8f3cmsJBeqYGcBDT0KV6tr0EBDcoG0nZ8vp+TFQgT0
+         UxnPoL1u8M+SkMWqSJ0OpjUe8g+ZjDEslcFjGev8XjGF/yG0oYixtswqgihSMUNZ8EKr
+         0F3q5S+urYGn0FZXRmXe1sVZo9RylkWQIUeyAR/BDlf+lLj2CD3xgVx/5YF9z/2bqlfb
+         jPBau6W7UTJ4UXuxX4zc3NfmNT6WytHi2qzPMOLZLyqOlnjF2IKnfwRMDFYs30OdTcjW
+         HXIin6/RQxcHniMMNVgei140Xjuw5IP5+pqC2h6Sqqa4TkZzCi2stSh7oHvL8XBxW73B
+         LXjg==
+X-Gm-Message-State: AOJu0YyZFimgg0YEDW6sxBh1AXvYWlYqftLRwoVIQ7y7ab40GCNk1Wna
+	+He7tq9e/2ZCcxYcRTesdvUphz7IsONnuabHSFwDyRaT7BWVlyw9LQ6uuUmcj3M=
+X-Gm-Gg: ASbGnctdZwz+qfwGhSBeGi6fxqbxBNdqKYsef0unRF2AWWkxCYZQq+N71r3MuI8SBrl
+	jEIA2t6yv36RYurhavxRLbNdd/E9LAp2POKtMNSkzZHIajig1BEZAjuSAw2ODQuQRagIUHnRwDc
+	MYCCqDG8aO0lzp5pD04UxKiLSQprzZ+SX54JLjjguAE0mp78s6GD07ZQvh40twg8ABcXJim//wJ
+	k5c7s8Wo4rU3UYsl92dKD6QdW7ldZi8kwQR32JzsgPMyzbZNuucVU2H5tdBokGjRtBRYgbaw660
+	noVxhOMMQE/NcfkO41VoTMnI4ZqCW/9YloWBLyu3eu3Q
+X-Google-Smtp-Source: AGHT+IHl0OKCl+ieQEesHXPE0XcY9RNckdx+U4FTJvC9MtJqicAkeQEEKpxjGLMAuFH/wqC/yejKzA==
+X-Received: by 2002:a17:903:22d2:b0:223:5379:5e4e with SMTP id d9443c01a7336-2292f9423b7mr201070135ad.10.1743468473284;
+        Mon, 31 Mar 2025 17:47:53 -0700 (PDT)
+Received: from fedora.. ([2804:14c:64:af90::1001])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291f1ce283sm76093395ad.126.2025.03.31.17.47.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Mar 2025 17:47:52 -0700 (PDT)
+From: Marcelo Moreira <marcelomoreira1905@gmail.com>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH] nvmet: replace strncpy with strscpy
+Date: Mon, 31 Mar 2025 21:47:28 -0300
+Message-ID: <20250401004748.29172-1-marcelomoreira1905@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250328193826.356257-1-jmeneghi@redhat.com> <20250328193826.356257-4-jmeneghi@redhat.com>
- <CADUfDZoXg39h-5gi+aVj2u1H6HC4Beyp2XPTrjJ_PMDPf11dQg@mail.gmail.com> <e22e3cd8-f792-4f20-9624-76e973cf4940@redhat.com>
-In-Reply-To: <e22e3cd8-f792-4f20-9624-76e973cf4940@redhat.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Mon, 31 Mar 2025 16:55:50 -0700
-X-Gm-Features: AQ5f1JqEc-i7jWqvdZxWprnCNGoZvK041yZkM41VIWbo0NwE3LXl8I8l3z6zTBs
-Message-ID: <CADUfDZoNdUBuX06FB+jsduS=shgPTKxbr_dYdtS+adEe2hnVWg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] nvme: add the NVME_ENABLE_MULTIPATH_PARAM config option
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, loberman@redhat.com, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	emilne@redhat.com, bgurney@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250331_165603_891101_8E0ECA8E 
-X-CRM114-Status: GOOD (  17.70  )
+X-CRM114-CacheID: sfid-20250331_174754_920436_DDED043C 
+X-CRM114-Status: UNSURE (   9.95  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,42 +97,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 31, 2025 at 7:29=E2=80=AFAM John Meneghini <jmeneghi@redhat.com=
-> wrote:
->
-> On 3/28/25 3:49 PM, Caleb Sander Mateos wrote:
-> >>   bool multipath =3D true;
-> >> +#ifdef CONFIG_NVME_ENABLE_MULTIPATH_PARAM
-> >>   module_param(multipath, bool, 0444);
-> >>   MODULE_PARM_DESC(multipath,
-> >>          "turn on native support for multiple controllers per subsyste=
-m");
-> >> +#endif
-> > If CONFIG_NVME_ENABLE_MULTIPATH_PARAM is disabled, could you #define
-> > multipath false in place of the global variable? That would allow the
-> > compiler to optimize out the multipath checks and the resulting dead
-> > code.
->
-> If we #define multipath to be false that would permanently disable the mu=
-ltipath code
-> when CONFIG_NVME_ENABLE_MULTIPATH_PARAM=3Dn, and this is not what we want=
-. The purpose
-> of CONFIG_NVME_ENABLE_MULTIPATH_PARAM=3Dn is to simply remove the core_nv=
-me.multipath
-> parameter from the kernel so the user no longer has the ability to change
-> the bool multipath variable.  We want multipath to be true.
+strncpy() is deprecated due to its lack of NULL-termination
+guarantees and unnecessary zero-padding of the destination buffer.
+Use strscpy() instead.
 
-Sorry, I just meant to #define multipath to a constant. I mixed up the
-boolean value. If CONFIG_NVME_MULTIPATH is set, of course it should be
-true, not false. If CONFIG_NVME_MULTIPATH is not set, multipath is
-already defined as false.
+Link: https://github.com/KSPP/linux/issues/90
 
-My point was just that the compiler will pessimistically assume a
-global variable with extern visibility could be written from some
-other translation unit at any time. But
-CONFIG_NVME_ENABLE_MULTIPATH_PARAM removes the only way for the global
-variable to change at runtime, so it can just be a constant.
+Signed-off-by: Marcelo Moreira <marcelomoreira1905@gmail.com>
+---
+ drivers/nvme/target/discovery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best,
-Caleb
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index df7207640506..c06f3e04296c 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -119,7 +119,7 @@ static void nvmet_format_discovery_entry(struct nvmf_disc_rsp_page_hdr *hdr,
+ 	memcpy(e->trsvcid, port->disc_addr.trsvcid, NVMF_TRSVCID_SIZE);
+ 	memcpy(e->traddr, traddr, NVMF_TRADDR_SIZE);
+ 	memcpy(e->tsas.common, port->disc_addr.tsas.common, NVMF_TSAS_SIZE);
+-	strncpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
++	strscpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
+ }
+ 
+ /*
+-- 
+2.49.0
+
 
