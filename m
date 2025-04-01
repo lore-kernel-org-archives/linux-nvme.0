@@ -4,91 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5440DC36010
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Apr 2025 22:50:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22005C36010
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Apr 2025 22:52:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cHs5W9Agx7nnPQHFBLM0m8yp6t9xN8mS1lfVhguB2kw=; b=A+9aLCmiTfvOoO5G5SIeVHnF04
-	fUeOpeabyCTVCc6eAqVVKCH7mcD/KijziHpXV3hxJa1DnVYnf+1ULn6yxun4IinWm5nsdZoxcE1X/
-	Vk5ACCYeJBCUar/0/ZVk0l4MmmPJ6sFubWSXoPntLkhiPuV+XzXZlwl8/otj6KsqETSMLndK3HTY5
-	wCTL68NgivgxwpQYyLyU6y8c1aFchmH+hDji69z3qb8yfGDHYDHqT0A7ik/x+VgT3Y3aLcEF/+JBl
-	A2JF/E9bmKPRZunDhkNlGKHYGnCQa+k10qpWW1J3gimv6ayVOPDE99jpLn0S9rHtcwy3IqnIREtuB
-	1NfgNvPg==;
+	bh=iI7sdOvqzMHAfneYQOUBoUjRGPWMRuAyZQ1PmovLgz8=; b=ZS+SBUurnKjSUx5wjrwuJ/ma5h
+	OUq3ZdaQt26ww/fsnZvUFVC4H9qqclnYHRwv6nYFyX3yQv0SPZxsyip/M8I6oHtlMm2fPbcZ1L8iR
+	x1zAVALZIvkZQ/p9j13pXvJsW/cdzlVVgcmuQzDKISF6yO7hKv4YQebARaUpXIVwz+SSXmzRqkY1p
+	ApqRPrfxAPh3Gy3nIrRdYvQt0g3c7Itz6jcEE2dxjY8wNVJOz0sX3ZH7T3ApJcIWzXOckiehHcrAn
+	huUCoJKoUZym8RJfi5g5KeGUR+1sqdiT51ptM1U2tsgqKtD7WBHg0vSpYWVpLMANdMvqIsYAIrNX9
+	HiU9gMDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tzkRQ-00000004ZGv-3wiP;
-	Tue, 01 Apr 2025 22:50:44 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1tzkSy-00000004Zs2-1KFJ;
+	Tue, 01 Apr 2025 22:52:20 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tzkOL-00000004Yy6-1BBy
+	id 1tzkSw-00000004Zre-1jRQ
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Apr 2025 22:47:34 +0000
+	Tue, 01 Apr 2025 22:52:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1743547653; x=1775083653;
+  t=1743547938; x=1775083938;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=4Wd4T3nw/dYnS1ErC9vXJdoMnro1bemZtWkZ470emnU=;
-  b=WI9zDoh8eJKEbrQWQXRAadEdrzVFKzVuAddz3X9ZZZJpD7XLOIbJffDS
-   TC3Z6CS3GIDU8yvQSSLpfL1JpkWmTSdismSOY0mUYaXfo6yKRXFxYbGMH
-   hWroXkiYap+5K2KbHxU3DZucIaRrvmpXoV9Te++ZcI3L7+xEjRQuUa1U+
-   aTPVjXb1qXZJkuDfqT0p6w02VsFE+9wN4OsqrAP3cc6YdIhltzTKuPCZE
-   IUAaWaN1PJHmhhOOWwrK5shCD6Cq+6hZd352C4eSIOoaZgnAexWebHm2D
-   pwhXp5KaD29O+tlFnIJ9mH9ehlUk22uodf3TuPJMHuB7lbDhLkaOU5+To
-   w==;
-X-CSE-ConnectionGUID: uXmKIBJgRgmH8xLEJlLTjQ==
-X-CSE-MsgGUID: lNmiz+iFQ9ajIMmd7qgw2Q==
+  bh=c6IaoaB//udSbzdLSmjoR/uskXiHID/7Szo0Duxsi+4=;
+  b=A7OKgLm3WppDqmk+LRF1PzV6UYMKtZN66Wyj35J5wwOD2QhrLcB611rY
+   u6cbk6+JBYJnL4UDBQJJRerUpO/9c52s22eh03W4s6p9Z5avgKM29PqOy
+   iRhjEP4z20aizhl9Crm7XpSwkm697fGm5ZWV+5UIDyrr9mevHpzqsINuF
+   srhjsAo8bM+vrD8RlCI2mcSauyFElc/GuR3XV62towlhgAwx5KrFW/yvj
+   MjdEv2iZBJ5jCY1K5AzbzXlL//Kx/1sUZ4JCK3JKXycfYzGbo/HthByJs
+   25Qdi+hfEoum8qhbRrovHx4k+As9/cmtK/eZ0/YO0roeekCA3gRpUD7oJ
+   g==;
+X-CSE-ConnectionGUID: +vcg6hzNS9aHrLknfnPFyA==
+X-CSE-MsgGUID: UohW3IEPTzKIVJlzA3c8nw==
 X-IronPort-AV: E=Sophos;i="6.14,294,1736784000"; 
-   d="scan'208";a="70962284"
-Received: from mail-mw2nam04lp2171.outbound.protection.outlook.com (HELO NAM04-MW2-obe.outbound.protection.outlook.com) ([104.47.73.171])
-  by ob1.hgst.iphmx.com with ESMTP; 02 Apr 2025 06:47:31 +0800
+   d="scan'208";a="67235740"
+Received: from mail-westusazlp17013079.outbound.protection.outlook.com (HELO SJ2PR03CU002.outbound.protection.outlook.com) ([40.93.1.79])
+  by ob1.hgst.iphmx.com with ESMTP; 02 Apr 2025 06:52:16 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mweFsznCJs4/dp4pyvIgOh7d8kpxyUkcFUWK2SM9rSk3hKjN8CyKhYY0Mi1ahY/B7Ib/Ms2/zl4FMB5qZhSfgh9DWHeHs7eMBBaYz+q/AvKTAe8rD+kgfVz9XO2PqEEDHva90s2qCqj37rq3HIw6L2uFrUNVxlZ6MTRYzP14ycf1EBtjntG6xH4Jc7DMonuYSQQJzWr79i5onOzwYRaiqkv1ytKMeXDZX4qRrTUOv2bYaTk/3Q/m1WUvL+CL5sfRk2kxkUffMWYD+tSAenpr0ke7gU4dmi26VqFtdnM3laY9zV/QthgO4dr8um6TLOWU5/LqPohQpC17RprrSipdDg==
+ b=AeR8hkKxt1Ja/3smoYfBEDhs4+G1cSR4V9tmd6bRvQY6YgBFWCkddFOYAAtmavAehI75eTenIXkcETHa2uOV5DGjuSSNBsw5OO1+lr+PDzIdu1Zkq/0H7wDnCAOBJ1ZmESXS3XcMurvnbjpEAMpRwaj35GyCDdpB45kwDGd1k7TPtVJ2YzxUykCpBX/Ov8vXM2BuO/4LJO0BDhkHTClzn9u8tOCUAZs/TEz/d0FcuyKsas5srJIl8DyhvVA03hIOBP787HYH9tmfy2OKQXYscqErJnIZ4hZGZgoACTJHJqP5RODLdFQVNdiFti6MmQUSJBgQyDXFirSKc95hTsoDaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cHs5W9Agx7nnPQHFBLM0m8yp6t9xN8mS1lfVhguB2kw=;
- b=HAyV1fIA13ZeJYPZZatyKK+UHgcK0IiNoKh+QuR34xUl9AEJ6Krr9icy/1SVKUbTog5SlxkOpqjnubjKD+oYpzlqwaLj8lGfJqf6rEvyBYNd631U+J6lgb2VxDHOBRzGJqbpixk2qkqVgle6RVvWXEQf4xgJiAObs9pvlw15O6hxCVQyqHoGX3bZWptBqHV4DjvLCmEClp7tGw7jG/m6yqwlghToHIFJplSY4DMSri+MfbW9r8ss1Twp0JtQvXeBHp+QJcam5r9J+EiMI8nx2FhDOWzLdIt4J/q/uXGnnmpuCPvHfoE4xlYyPRdiw+XfOqohpItdLQyB5afimW5fbA==
+ bh=iI7sdOvqzMHAfneYQOUBoUjRGPWMRuAyZQ1PmovLgz8=;
+ b=oVDzcT3C94DRAD6Q78GICAZYE0N3owzM+eM1ZGTd8Pei+rFcIYhs/TZeuWUgiUhrDWAXdfraWWM751g1qM6LnDyANK7qTIKFD10/mXMJitshnvzgVEwNMO8CDmjtGBa6KYVFDX55E7N9ekAzKEekvOmXs3Y+p1w5akFCaYZ/fcJflCRCl/VG9ZMt6nLco3znpdn4Xq/yq3GOYIcnQmmXVHDZfwvl3bS9Ot2gj5HhVNvTwibi4P46FV6dCcVOZeu8QovXE+M+tplCLbz/kMesw332aQMMNO7FoLnrWfDDnzezHsLQxMZdESG2RoPVb5veej/r4TS86/sj7UcSFj2Fgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cHs5W9Agx7nnPQHFBLM0m8yp6t9xN8mS1lfVhguB2kw=;
- b=gV5J08qbqlXiDbIlcz9vxQpSegSj8qyVUP/+JGc+uaMUqsqOzROZcYsFYWlXCkQC7REVNBMo4pSInU+fByt86QEy8zals/dyuUWcY9Sw7pIGZa6Rm0D7HkLUQ+oUWIuHegvP99mHVwls+e+nfKa2+qqWm/Pa0wTHplJg9Il2dhc=
+ bh=iI7sdOvqzMHAfneYQOUBoUjRGPWMRuAyZQ1PmovLgz8=;
+ b=q+A4CBNxUfbWit+bZOgK1PJJW0WPk58xOSKKgNqQBNoZJSamGb2ay3DMnMsWw+0XldiQ8VLIccYGH7Lvzh7vorEjEsDB0bwDQXqfQwqJO9Ekyprc3oJB+aUP0KI+dTovGpbciEDA2dRcxSMi/jKobEJzjPxbMan1fN8vYXM1ESQ=
 Received: from MN2PR04MB6862.namprd04.prod.outlook.com (2603:10b6:208:1ed::18)
- by SA0PR04MB7404.namprd04.prod.outlook.com (2603:10b6:806:e9::19) with
+ by SJ0PR04MB8470.namprd04.prod.outlook.com (2603:10b6:a03:4d7::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Tue, 1 Apr
- 2025 22:47:29 +0000
+ 2025 22:52:14 +0000
 Received: from MN2PR04MB6862.namprd04.prod.outlook.com
  ([fe80::67d7:8033:78e7:9eb8]) by MN2PR04MB6862.namprd04.prod.outlook.com
  ([fe80::67d7:8033:78e7:9eb8%4]) with mapi id 15.20.8534.043; Tue, 1 Apr 2025
- 22:47:29 +0000
+ 22:52:14 +0000
 From: Kamaljit Singh <Kamaljit.Singh1@wdc.com>
-To: Damien Le Moal <dlemoal@kernel.org>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>, hch <hch@lst.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: Niklas Cassel <cassel@kernel.org>
+To: Niklas Cassel <cassel@kernel.org>
+CC: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk"
+	<axboe@kernel.dk>, hch <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Damien Le Moal
+	<dlemoal@kernel.org>
 Subject: Re: [PATCH v1 1/1] nvme: add admin controller support. prohibit ioq
  creation for admin & disco ctrlrs
 Thread-Topic: [PATCH v1 1/1] nvme: add admin controller support. prohibit ioq
  creation for admin & disco ctrlrs
-Thread-Index: AQHboCmElT3ixkj0uEiWsWJv1g7nM7OJG8CAgARc5iCAAfUvCw==
-Date: Tue, 1 Apr 2025 22:47:29 +0000
-Message-ID: <MN2PR04MB68620030DBBDB25900DE3E82BCAC2@MN2PR04MB6862.namprd04.prod.outlook.com>
+Thread-Index: AQHboCmElT3ixkj0uEiWsWJv1g7nM7OM286AgAJ/nZ+AABS5Zg==
+Date: Tue, 1 Apr 2025 22:52:14 +0000
+Message-ID: <MN2PR04MB68629F5634238CCB432DD9FDBCAC2@MN2PR04MB6862.namprd04.prod.outlook.com>
 References: <20250328213640.798910-1-kamaljit.singh1@wdc.com>
- <20250328213640.798910-2-kamaljit.singh1@wdc.com>
- <ca53c3a8-8af2-4e34-b0e6-3571cbec4bee@kernel.org>
- <BY5PR04MB6849189D63EBB6EF4B66AD42BCAD2@BY5PR04MB6849.namprd04.prod.outlook.com>
-In-Reply-To: <BY5PR04MB6849189D63EBB6EF4B66AD42BCAD2@BY5PR04MB6849.namprd04.prod.outlook.com>
+ <20250328213640.798910-2-kamaljit.singh1@wdc.com> <Z-pDY0aNYLgtiCUc@ryzen>
+ <BY5PR04MB68491AD9C47CD7AB9B552098BCAC2@BY5PR04MB6849.namprd04.prod.outlook.com>
+In-Reply-To: <BY5PR04MB68491AD9C47CD7AB9B552098BCAC2@BY5PR04MB6849.namprd04.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -97,90 +96,89 @@ msip_labels:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wdc.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR04MB6862:EE_|SA0PR04MB7404:EE_
-x-ms-office365-filtering-correlation-id: 10a80a03-82f7-4c54-eb89-08dd716f2e91
+x-ms-traffictypediagnostic: MN2PR04MB6862:EE_|SJ0PR04MB8470:EE_
+x-ms-office365-filtering-correlation-id: eaa4da1c-50e1-46bc-07bd-08dd716fd8b0
 x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
 wdcipoutbound: EOP-TRUE
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: =?Windows-1252?Q?AOUJyAnuHSpWCyquKH2ssZ+Q2rPaGekoGkh03PLWmWwfhE/hAZMsV08B?=
- =?Windows-1252?Q?9ir1GNw4hJe1DLUEcW4796TeTNn8C2oEeOcnmoZlROINAaV3R0PlIrko?=
- =?Windows-1252?Q?BgpgosNHm6rMNneWLB47lxldHoZSdmwlbf+q3Yo5ZVJW9PluosUVIYN0?=
- =?Windows-1252?Q?qYcT+a/LwtFgPrXtV8lFMlDphhUV/M6f7NRzDLIAAzLsuzU1v3wNgIrn?=
- =?Windows-1252?Q?woFAhR/qVCEN6wb0VPSuzukjjl922uUvPHcf8Cp+zMtqNKHkPSSyP91Z?=
- =?Windows-1252?Q?61jK/h/06hjx2qzqE74OgxEYbbPDv3cBeALMNAVYocGf8uGI0JEQH/GY?=
- =?Windows-1252?Q?iqdamMNEUwP1LhaNythWsmfB7TH3J1nRL1OxiHfgoeZk+ui0qPJZoIVQ?=
- =?Windows-1252?Q?5vxiKwyVFmjkl1IdzeMjUFVtjIBW1OxktxLEnYTsmyX+H0uxtGj28F/Q?=
- =?Windows-1252?Q?wA02G8rbbShZ4UYWdiU79Lux+/OFA9hiAH5WVrLwSka+C8dH2bRj9hSj?=
- =?Windows-1252?Q?WnRBWK7vNXYbAfpmSKng7XsGpXyKD9Y8QC/ZfHZo9dsHgMSeOzKVI7vV?=
- =?Windows-1252?Q?718mLlaDkEnWtvFinFRWmnMVmDbGS0w9Q7V40YWEhc9sndZl28Bn6FDD?=
- =?Windows-1252?Q?6qYP2XzNi0rRm4OXaJjsefTfniDcVa3Q09LIRXCTQSUjaX2T/fvPgJhI?=
- =?Windows-1252?Q?lkqq6tEe+JgW9dLQTHgLrdUclpXiAZ+l1qj1/sAbkGPcyR9ZH4dWf2En?=
- =?Windows-1252?Q?LG2vUNSWtn+VzW3ZRv7F4UR18c6pXaBmX2X8q4SS3o/ZM+81zoXbUQdH?=
- =?Windows-1252?Q?+ONbtaqd6BKIe2cgV7fPG/C4OEiC9KGbFCaP1qM+JBiiqH3G+BdtlYRS?=
- =?Windows-1252?Q?fO63iZO7DPdF0ct8TTlNGKRmBTrQNHktZ9uXnnj2AaErtFKf9WtSQLEX?=
- =?Windows-1252?Q?RN2UxRHtvRzmLJO/Ox0rjbZrbaGb879Z8xU8XEjiboJ8Nt3xKfvqTdq6?=
- =?Windows-1252?Q?s0TetRSHi8VkKyDKy86To2ZjxXyzgvKxaa0QL1UbtAm2T42Fh9Eyu6XT?=
- =?Windows-1252?Q?T4e3/4NwxKu2msRzR8KnCt7odiPr5ggU0QDzJY7JvC0WoOrAGM4Gahcx?=
- =?Windows-1252?Q?oIddjj+5TPE/4t3BUmE2KUXY0DRC19rV0FN9c2N+zZFcz4Vj7lHZFJ64?=
- =?Windows-1252?Q?i+RXr/x16mn4scKhNmbxHYU0T4tDgTjBj/KblNJfEhFigc/rbysG1hwV?=
- =?Windows-1252?Q?TZkhcec6CSizGp6xKJCywvCUSp1T0PohlPrkQ5yNHA7gJ8E4T+82s35D?=
- =?Windows-1252?Q?U0A/7pLLtqbfar39Wkfhp9AKlqI86rYCKt6FkBVZOYSBe7mHo/yx5yVm?=
- =?Windows-1252?Q?Y+mpUY0QpspWRFk4K8IYDe3FEKjx1OCn9ish6iXHTqvndUQutDaP2UUy?=
- =?Windows-1252?Q?Xzes6fGYR3x+AOwtvsg8jrL8eEXJzpJbgOvhKPtAOIb20NFpqCKjIcmR?=
- =?Windows-1252?Q?/AJKMvIRRAm2DeW//mqWNcBWdbtU4qYZUzog5OfhLenpfnfYXrEpLnCY?=
- =?Windows-1252?Q?EmHbrXYeQgbz/ra7?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR04MB6862.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?h3YZ1Co58DwYbiH2k2ANMEMJxilHRW5mHkXBfJUsSkl0r3r0H/YGNWrga/?=
+ =?iso-8859-1?Q?GCNTVl9zS+y7KKZJLj+jZWFfdIl6+Av3PTfeKpoyFvpaYgUtMwkfnUjWrB?=
+ =?iso-8859-1?Q?u+8fZgAO8JYrztjHy4ORyGZ9oi7W+nOYuGn2trSlNjxQv2sMvPRVETO7Pm?=
+ =?iso-8859-1?Q?gTENDPxBKTsS/aFTsFj7FqYelrVGkfOQJc3ZvAuECJMNB6hj9qhfIAEC2Y?=
+ =?iso-8859-1?Q?8xNkCBid054JUABUT+xm/9hn6eaxoGZQC5iOw26vMuOa5IgNM0qdC9Sl9W?=
+ =?iso-8859-1?Q?7yepKZMpL5uTEmnVeNfQgOYGNXw2/kcqgjmGq1ZT74HhpDwRH81kG+U5+o?=
+ =?iso-8859-1?Q?2b5EelOr6IJchl2WD68upUfe106Y/ZzIBYOSGoBYG7WhQih7AjnfP7gR0x?=
+ =?iso-8859-1?Q?1563Yir2V59c3qqqzGjymZSyet4ZZD0qkmwT1Dttw994CcY/TehFgOCQsZ?=
+ =?iso-8859-1?Q?8mKcOAPhf+G9JkIJIIrvCNPXt/ae5exD8G75wKgV1qxJnvMUeDdjB9P09W?=
+ =?iso-8859-1?Q?dNwE+FteuI243Wdz8E/qz3d6cmX1o6vX0bBZqHN51jxBDFuMJttNNljsEZ?=
+ =?iso-8859-1?Q?IlmwZQq+5tbhfglXuvmbwpkf8J2PleIGCHKf767XNwWQbD6wzAq8RNrXsN?=
+ =?iso-8859-1?Q?VvX1NIZcRp+Ndi/tTkAwyBqrAnq6+CaarQkTznsDwTovRC05B1OK8Wu9OR?=
+ =?iso-8859-1?Q?GmyRlUW/pExMQ7jQph3tLX+Gcd/dOWkdbLvnUpAj2fDHqPyVo3vQcBt7wp?=
+ =?iso-8859-1?Q?edCZ4vQWhvmYuFD0SMi1Zh2pasrpCH+1gRZQfFistnpN6xbh3ZYIOwAfy7?=
+ =?iso-8859-1?Q?7isCnxk9zFV1dhNRvSfJAoWf0qqyrK/FyVWUGvUP2inUVoEVTjShBvNtFo?=
+ =?iso-8859-1?Q?4eqLmEMLmZxdasvHj4LMSePJtz0DQUhGYsB0iHkeB/Oedv6/hyWvtEXgfn?=
+ =?iso-8859-1?Q?2V3b8i/9Lo9Id2ea81HDrYL1bXMtIfVo5GAL6L2l4Q4oGrt6pTcGghH80M?=
+ =?iso-8859-1?Q?Wu1p/HBPto0WQDNE5jLvgwIA1/M9JgFrbVE8MvzP7ELVMLgCftnYW2wn6c?=
+ =?iso-8859-1?Q?/mhlRinDaLYgkSDf+DmR0Trf8ORh/QEaagD0i8YiU7kLcgSmbyT78w1aZU?=
+ =?iso-8859-1?Q?q7YkNL1b9OvjzFuylOu2vHVIAvbj7rqJ4RF9JQL3A8jWXXLIBeL7jc0+tY?=
+ =?iso-8859-1?Q?+JFgxVjTgMP7IGuZkxPUfmZR7ohLUr0Gcup9hum+WNfgpUt2w1yMk9ybUY?=
+ =?iso-8859-1?Q?EHu/oHY6jZRzRFVgbXqUX5fKgqdBnNYdpmDI9s9ndUqrnaFQSekPIK5ObA?=
+ =?iso-8859-1?Q?o0cZCChu8koPE5cAKxVOSz4xEJoHJxmIyTFtyEEUQQHk4tsKm4zz5bLwm5?=
+ =?iso-8859-1?Q?q9OBIDUoS7YWPxw+dQ/4zZ1DAewtrmXk1EGMOI+zcONA8EGaS6W6ipwCEA?=
+ =?iso-8859-1?Q?ZGtNEuZh6tg4IGAJSR8ajuC+IJE6rKiDRk7noyVVozSWF1DUsTIWTkIuxe?=
+ =?iso-8859-1?Q?VmeVvKrRuLPWxol82i3Cq4?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR04MB6862.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?ZCwmkY/hFHFTOaN14MDnELrF3Ff7kRh/m8cMteC8sAQYX86y7Exm2vhz?=
- =?Windows-1252?Q?WzS6zr0vwCqXJEoXQA0GqPQKUMA2zDy3qL5PY/83RbkCCKXfPQYihgFE?=
- =?Windows-1252?Q?oazy6EPwRRKgCfBdlhFdaq+zF8mbXRLs4676qa7tYKhA+cNFv+tjntRj?=
- =?Windows-1252?Q?P6VmJ10PhZm7OJhW0OgWqGad5HErctHK/HzmqJyZBCNF24hdpFzMI67f?=
- =?Windows-1252?Q?B2kphtE2IDHMp/V6z19OlAdARRYi6PU5hFStydHSzwWF2yDXdF8eCRxe?=
- =?Windows-1252?Q?K15PJJbN6i5049+Z3afPzyR0EqhIEz5AektPI5cayXFBckzkU8BHpPk8?=
- =?Windows-1252?Q?nbcXfRU1XgCWvYTfg0ufAoYcP2ZhBpZFKtkPnvnT4smhWaBQ/TmLfTJm?=
- =?Windows-1252?Q?0C6+YGSzU6As2+oH2zEHmUlAeBhnXIUVzFRMWkUvueQeeO21v1lYUeZ5?=
- =?Windows-1252?Q?fxhbzhX47Nif+FbH7yAiFb8qgKmCtRJs7EE2T769GtCb1EIxs6tY98kS?=
- =?Windows-1252?Q?w1CaWLCi7qiVQGjaNQymrKykrokTZuon3+nAhRsu5qgMsJyaRFK8Yn6X?=
- =?Windows-1252?Q?Dr/dsXsbM0QWT8KTxuJXqEtiT311yZY1bPIomjY7iG5YHRXnDBaV6wDK?=
- =?Windows-1252?Q?yHGpDY8XYN5wP2LCOUJdoiscgd8DRA90oxiif5xVvt+MrJlhv0vgat+c?=
- =?Windows-1252?Q?r41AtOs32xC7UtPAdiLF/D8xsnsNQq/If/aSc/da5x4HyU3AowNWLRlP?=
- =?Windows-1252?Q?iDaVudhumZYYp6LPyVEu+R6I/x2JNnlxBuBDZh9DviLFgXjwdDpxQWME?=
- =?Windows-1252?Q?P2w+mxdt9Bv6nzzCjU67xRE99LdaNxalRUq4qSG2DlkuX1G0F9GfEbp5?=
- =?Windows-1252?Q?49nP7bvmilISlLn/b8+PH9PF+4olpV1bnMouHpFRRPpH0WzVzxZXoXZg?=
- =?Windows-1252?Q?SdWAtZ9bZLbAqTBAaG5yUjt7jn/OTDmCxkGoqad2u+T3kri1UWrYctcL?=
- =?Windows-1252?Q?LpdzEpzp/BcpiyO8OoPlhBCTDl80p904q4fXSZ2FAi0eUHwVnoffWT/N?=
- =?Windows-1252?Q?aAb88gMLPDwaz4zXTkWFJUmD+qx07jGm58G6k5yhpm4xuqGtZ1qxqLVf?=
- =?Windows-1252?Q?ZP9vkgDz0Y6QTqNIC9tnR2oFlaCPrAeTZiMUNrr6spePQbnua+NWUtXv?=
- =?Windows-1252?Q?idOl8EC9+g0k0+Fnlh1imRc3dejmL1qG2LniZEYdxeCRmIk5cNlzwcEx?=
- =?Windows-1252?Q?HESPV0px9Q/hnEM/8lLrcJwTO8y70V66Kav/5BxdULQJHSAA1hrP3/XB?=
- =?Windows-1252?Q?DrL7755toGyItGNFgTv6UsLhwZINwjD0SquhEC/4TiBm15GAHVgYUHgK?=
- =?Windows-1252?Q?Tq765CzKmRhqoY8vUhqXRCttVyV/RMIcxQ+ULScg5ncZcz3MMZShOb1t?=
- =?Windows-1252?Q?wyLPIlds1pW6h4F+ahW4rHCKqqO+q2ojMXv4eprdBSVnfuLr+xSaPMxD?=
- =?Windows-1252?Q?gJpkJY0+q2i39GOA90vFogMCVBCorb9jI+4PijZoznUJRcbRNwyATgOH?=
- =?Windows-1252?Q?GYRSQLFS2Li278B78+GXDiajq/KYdHi4/Wrldj2YyOkbunIDTsbFMgWw?=
- =?Windows-1252?Q?nWedYlNTrRUZHuu9oArmMO7hFGM2+TxmJ2GfHSL8QBT3cfogMHeWZHcQ?=
- =?Windows-1252?Q?zvZIooRCDfi2/LTyZNvpeaJo00z2LU0s?=
-Content-Type: text/plain; charset="Windows-1252"
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?g2w0VOs/JfehQvZRMxZAWbTAspEKbVz+cyT3JJBbIX8t7BXc8QDp1gdy7Z?=
+ =?iso-8859-1?Q?WRSsjh5OikQTpIP4oVHagnKJovT6cYqJaVMlU0oq4EYk+rPW0F1wbBo1sF?=
+ =?iso-8859-1?Q?fUXZxaEiM9OtkwKNv/KJaXHC1NrZ1OjOS34qyMPnD0sba0ZfavrFPmnY6a?=
+ =?iso-8859-1?Q?Qt22ZJVwfobfbieAJcjcLRuqEN8ZXGWNN5yJlDCazFDeBAJk7snGWLHyZ/?=
+ =?iso-8859-1?Q?Ue/AP8Fw7o91Rs9UJ9EpkSXHkN4ckyOzUtLMewIFk3n+oUlxzryDCAVHrL?=
+ =?iso-8859-1?Q?hcsGk6E059+f0m2aCR3ftGJ1bQcbK0qdsofLRONwfOOaHSnC4f9hT9n04V?=
+ =?iso-8859-1?Q?GwWM3Sm0yxP6CgxjUsFkGONijUO/ua2IN6SdcMUA+AlfQ09Rz0eEox4xzG?=
+ =?iso-8859-1?Q?Cqmu4lZXnrpQtenuG8raPBTNx47rmju65IJvEsyU/DkXOqq9XregaWJRRq?=
+ =?iso-8859-1?Q?dtoLQz4SHEx5hgQX1WwSBWWmWdwBiXEKn9yY8LzgBSUm3mq25+NMBb96xa?=
+ =?iso-8859-1?Q?kVBbGUYD6fJSXGFXatuxOM54wqq1TfyyPe34GgJpM0jZ3HwCTZPFOdpVZo?=
+ =?iso-8859-1?Q?hhj637iyDC6uZNUy35Xbjj3VYTqZC3Vv116U5WsZrkzafP4ggtEQHt5btq?=
+ =?iso-8859-1?Q?lBqwuiTh69GmiSdiu4uXVzYfjNS86NuhYtu7lEolyMHQCAYi1sOTZCdJfu?=
+ =?iso-8859-1?Q?S9S3f02gYpF8NpC7ozybYRKO7EUdLQB8lx2QRTQix4i/BJ+HW4yZYO/T0i?=
+ =?iso-8859-1?Q?8aUPLb2A98IyNQsz9S4VQ6Y6+N2FhVy7zPwJPhKnHOHE5qXCfy6r1y8gpx?=
+ =?iso-8859-1?Q?lpk+T5c+DDTLAjT+XAKi28V+7BTGEtFBlqU9r6bQ0sz2h1xM1/VEFCYp2C?=
+ =?iso-8859-1?Q?xuQMABbWOeq9KRCJXVjqWjj2pfAtBclV7CrbvWfSPupom9nelJnQ/gGxKo?=
+ =?iso-8859-1?Q?i3ZWSENlXzKoOZIJGy8QnH/l//v9OHfOba6Lb1u/q0xcGBas2cC3eloAPU?=
+ =?iso-8859-1?Q?GW3HlYI1N1BPlMz37hR8W2NBlosLW9E4AKgJPz+HvjqcaWTTNiVkI+AzsC?=
+ =?iso-8859-1?Q?rxOsrEWa7liOLU+uB6mkFOrciCRsmp37cs2beIlRmF4CR6K/gL2knOl8ZV?=
+ =?iso-8859-1?Q?IhSY4pba89OvH6FqiiaS0ds0/ukvowq5U2zoYOXu8IXVnd2et4bfQV4cAl?=
+ =?iso-8859-1?Q?dwKJCN3RQFXjx8qoC4kGk1dj6Zsy1PTlSHuFcGnyWIPM7kZ1/4R2vtBHox?=
+ =?iso-8859-1?Q?6xLmyhbqT6+FSrlmtXvWaRfzCamrH+0aiLtejZvKZnXtqSJo11580kFj0B?=
+ =?iso-8859-1?Q?4fPKEgHCHZta9qZ1nZky8wzqXl1LR/mqSJO8OmvvaQzKKyLxthcU1D5WbU?=
+ =?iso-8859-1?Q?2InUWPByP5EPGKCi0JwDJd9ZGJsfpekrNiJziZOW1cXRyIzu8ypHZLyBvY?=
+ =?iso-8859-1?Q?REyZUv0hxATjMVj1Jx4KohmZ0dSsMP+zt1SXHgqU4eFIS/Oi8yHbzwDq7d?=
+ =?iso-8859-1?Q?79yRk92KXiQnZoPePz6scwLbeIEWRmpWljs/6PCKo33i7vf/DkJuV8SBqe?=
+ =?iso-8859-1?Q?x9323Ud2el98i/IJ2Ua4IAzioT/SyDXZZ2/gNF1JHGEAodTqEC+NjoRVGF?=
+ =?iso-8859-1?Q?fickurk7jqsk1jHwU+6OLF77oaDo5dvUZC?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: +WQOpQUXJcXVdhHrI1byhlD/idbcleB7PxLk/v60RRLDQX2VsxsKPLO6ydNTRl9rcEtv07kphCDCsAJr2KnbOWfwMWTtcktLOokm+WqcmxDT03clHuwnkFBWpbWYKYEDRvZ8dDqhnnUqjBXYAQiSRPqaf7zY574/TQ3MK3IWwiNkVrovAGnILnL8TErR2OgfAjZfxBjG9baQt2MINLKhlYzGPFNkzz+fugsTDHvOnQpiKg92f7ucTCaY0VdcDGCcd+7mTRL8fYNkVU4zQR6m+eHYOKQPAOlyFWapff4Oxd0T1Yk4ecWDldXypa2zcw9FspV8cmeCrwYFFUJSuS3CupD2cuXiZS5IAUPX9fwv1ZPRmFOeRlm0o1OhpWNZNrGeq/jksBqjqvNJYK7gAwdxD4C0iKKz4iaH6eqrKU+DplOfCf89ieySWTSTg/PUXBfLVFU+qtSObHwmVz6/5gIZkAtrmTRHM2GYVF6B7tUkB7jvFpK40QZTJvpfjt8q20gSAG/yF1s3j2TFp7f3ja4CLP/hJ9w2yrVUsHzevXPRG0JiAXxL9JpQnHCb8wtm8IcrSL9S65DW43IPYLbkNFuPjR0w5k1smJbwq7eeXq5w6NMY4OHwGN9r+4GE1JYIrIot
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: rF8V1ARjhMG9V7ryCFkppnXEG3DhTwPiJUYwuMCSWVlh2u84eGXaFoun/tKd/Nn+fFZuHm4DqRCO4AMqlpxM5dM0rZOrAW3pL765G7stEX/8Rn8YYL7RUHOminKowXc6x4KzMmjLKLDxhAHN298JZUr41II+DmJ5i7+6SthBSyGveRksU+AjJshikb8diEJriXVRfhUxk62laDLBDa1PkAivIPBLR8dCGxLEJRHbot2mrP7sqLZnnQllT2emnh/zIfffU4fsvx/lrCPlJxsKeQeDqTfMGRWGS2flBBwBeY7dY4gMxElgrHZwntrchhPMhgcStKr4FPGR7+KXKwli++bUEPQ7EcPWiEXurj1XHWbVnu//Hs71wRAVQdbzF9RhmwkMwKP+G+nxsaUWgs5OsqOyIbnmoBofqgNIF/Nx1jCyzTc5qCgTiv9RaRwnva89WnzahDsubjtXJBxhzUr9o2dhf6ctmRdytS23aye8d6lCcEyO7Vf3JQ5hznYHyMrYPCPrfQ5e08NMrJgntQjbPI1CHmq7HDoHbVoMr0ba3YmTY4L6QP998z23irLf5jRwMDT0f8EbDxVBDyWCaiGzAHFDLLmkY/zE5cfuRHULbIJ15MB052UQe+xNczWZqwJx
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB6862.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10a80a03-82f7-4c54-eb89-08dd716f2e91
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2025 22:47:29.2770
+X-MS-Exchange-CrossTenant-Network-Message-Id: eaa4da1c-50e1-46bc-07bd-08dd716fd8b0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2025 22:52:14.6620
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4g+jR5//apAwIBNMebrMRk6PG/LTLecDg/YmNBLOXdPJ4NPFO0b6RFDvfOnMwzw9UCX3cC+KoIi8/9K817QLQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR04MB7404
+X-MS-Exchange-CrossTenant-userprincipalname: aP2mPKl+6pndnbeELNdnYvMbwYqzLOEuBeaC2/vbJA9Dqz0YnlFzyPKl0HTPU54ai//Hzlf2hkbNSeKJSrPVvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB8470
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250401_154733_422541_9CA36A6A 
-X-CRM114-Status: GOOD (  19.24  )
+X-CRM114-CacheID: sfid-20250401_155218_464195_70A07BD0 
+X-CRM114-Status: UNSURE (   8.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -195,114 +193,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Damien,=0A=
- =0A=
-On 2025/03/28 15:09, Damien Le Moal wrote:=0A=
+Hi Niklas,=0A=
+=0A=
+On 2025/03/31 00:25, Niklas Cassel wrote:=0A=
+=0A=
+>Like Damien said,=0A=
+>=0A=
 >> Added capability to connect to an administrative controller by=0A=
-> =0A=
->s/Added/Add=0A=
-Done=0A=
- =0A=
->> preventing ioq creation for admin-controllers. Also prevent ioq creation=
+>> preventing ioq creation for admin-controllers.=0A=
+>=0A=
+>patch 2/4,=0A=
+>I think I deserve:=0A=
+>Suggested-by: Niklas Cassel <cassel@kernel.org>=0A=
+>=0A=
+>on this patch.=0A=
+You sure do. I wasn't aware of this designation. I'll add it. Thanks for=0A=
+all your help.=0A=
 =0A=
->> for discovery-controllers as the spec prohibits them.=0A=
- =0A=
->This second part should be a different (preparatory) patch.=0A=
-I've separated it as its own patch. Sorry took a while to procure the setup=
 =0A=
-But I=92ve tested it now. Will share updated patch-set.=0A=
- =0A=
-You were right, it is a pain using Outlook for kernel work :(=0A=
-Vim to the rescue for now.=0A=
- =0A=
->> =0A=
->> * Added nvme_admin_ctrl() to check for an administrative controller=0A=
- =0A=
->s/Added/Add=0A=
->And this should be a different preparatory patch.=0A=
-Sounds good.=0A=
- =0A=
->> =0A=
 >> * Renamed nvme_discovery_ctrl() to nvmf_discovery_ctrl() as discovery is=
 =0A=
 >>   more relevant to fabrics=0A=
- =0A=
->I do not think that is necessary since this is testing the controller type=
-,=0A=
->which may be limited to fabrics or not.=0A=
-I undid that rename and moved the function as Niklas suggested, to core.c.=
+>=0A=
+>patch 1/4, you need to move the function, but can keep the name.=0A=
+Like I replied to Damien, I wasn't able to easily move these to host/nvme.h=
 =0A=
-I tried moving nvme_discovery_ctrl(), nvme_admin_ctrl &=0A=
-nvme_update_ctrl_queue_count() to host/nvme.h but couldn't since target/=0A=
-passthru.c includes that host header & fails compilation.=0A=
- =0A=
-To make it work that way we would have to include host/fabrics.h in target/=
+so they're in core.c.=0A=
 =0A=
-passthru.c but that's causing a lot of unresolved symbols and requires a=0A=
-different/larger commit. Also, it may not even be desirable as it will furt=
-her=0A=
-pollute the target code with host specific header.  Please comment.=0A=
- =0A=
- =0A=
->> @@ -2863,13 +2858,19 @@ static int nvme_init_subsystem(struct nvme_ctrl =
-*ctrl, struct nvme_id_ctrl *id)=0A=
->>       else=0A=
->>               subsys->subtype =3D NVME_NQN_NVME;=0A=
->> =0A=
->> -     if (nvme_discovery_ctrl(ctrl) && subsys->subtype !=3D NVME_NQN_DIS=
-C) {=0A=
->> +     if (nvmf_discovery_ctrl(ctrl) && subsys->subtype !=3D NVME_NQN_DIS=
-C) {=0A=
->>               dev_err(ctrl->device,=0A=
->>                       "Subsystem %s is not a discovery controller",=0A=
->>                       subsys->subnqn);=0A=
->>               kfree(subsys);=0A=
->>               return -EINVAL;=0A=
->>       }=0A=
->> +     if (nvme_admin_ctrl(ctrl)) {=0A=
->> +             dev_info(ctrl->device,=0A=
->> +                     "Subsystem %s is an administrative controller",=0A=
->> +                     subsys->subnqn);=0A=
->> +     }=0A=
- =0A=
->Is this really necessary ? In any case, please remove the curly brackets.=
+I'll separate into patches as you suggested.=0A=
 =0A=
-I've removed it. I had started off by adding a dev_err check similar to=0A=
-the one for discovery ctrl above it but since there is no unique identifier=
-=0A=
-(like the SUBNQN or unique port) for an admin controller, I turned it into=
-=0A=
-a dev_info to at least announce the presence of an admin controller. Any=0A=
-suggestions for error validation at init time?=0A=
- =0A=
- =0A=
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c=0A=
->> index 299e3c19df9d..0f3150411bd5 100644=0A=
->> --- a/drivers/nvme/host/rdma.c=0A=
->> +++ b/drivers/nvme/host/rdma.c=0A=
->> @@ -1030,6 +1030,17 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_=
-ctrl *ctrl, bool new)=0A=
->>               goto destroy_admin;=0A=
->>       }=0A=
->> =0A=
->> +     /* An admin or discovery controller has one admin queue, but no I/=
-O queues */=0A=
->> +     if (nvme_admin_ctrl(&ctrl->ctrl) || nvmf_discovery_ctrl(&ctrl->ctr=
-l)) {=0A=
->> +             ctrl->ctrl.queue_count =3D 1;=0A=
->> +     } else if (ctrl->ctrl.queue_count < 2) {=0A=
->> +             /* I/O controller with no I/O queues is not allowed */=0A=
->> +             ret =3D -EOPNOTSUPP;=0A=
->> +             dev_err(ctrl->ctrl.device,=0A=
->> +                     "I/O controller doesn't allow zero I/O queues!\n")=
-;=0A=
->> +             goto destroy_admin;=0A=
->> +     }=0A=
- =0A=
->This is identical to the change for tcp, so maybe make this a helper funct=
-ion ?=0A=
-I've converted it into nvme_update_ctrl_queue_count() and added it to host/=
-nvme.h.=0A=
-Will be in the next patch-set.=0A=
- =
+Thanks,=0A=
+Kamaljit=0A=
 
