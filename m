@@ -4,58 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0EAB7C3600C
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Apr 2025 14:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD926C3600C
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Apr 2025 14:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kz7kTMiUXatS23BONeE1P0qll3os2DhBQ8wjy9d+oXQ=; b=C2w2FOmn6RsGjj4n10mjBAoecD
-	pjbjwnr8NKg2INcMs4cF06krcJggh5DHz6gzOUI/O/JVIpehOmwDwXAgYmlfqAJo2yjEqrusndwvW
-	k3ml2/B7UI7CZZyZni//2m3vmLgiGFvEpJap8O7NqCAfYf7Cbg0PiD9I8U/xrZCBLtYciIg+64i8z
-	bKo4awXLj3hnRmdL8+i4VQYs2mfcwj2yPI+JaOjxCiDjLJpN8BxeXjpJgSSqzCDNesQhQqSAjZ1tB
-	wxzvQ3WEcme5hGvIt2B+az6pIiPurOgl24MHImwfJM/UVrSI9SauGnWZ3CRDYR5DQsL4IgreLGtS9
-	VZi9dnUw==;
+	bh=LfYtQQCADLXKFG0SXz3sIOQqVjZmpWSQEnGsdDD4xd0=; b=tdc3zJWHScnugwlaBs8EON1Q3F
+	9rCN7xR81vQgryWIJkrGOtfFpTD4+BtuxHzw9OyMP7xvvCW5gcYAhzYj8roPQ0zfmbzTkAYQu82sa
+	M9g1TIblRd5EKM7tCFIFtKwIXedF8lY0IwNme0GvQbUNh1Bf0rXVJu8T0dOtSdHHto5z4PC8NxxzW
+	B7hylzBvUeBBiXo8WExVXZikgFvzy7hFKEGoK3dxwuNjE4y4mhAVTdRkVo+B5T/l/GwoVT7iSW0Qt
+	/xtvNNGv081JN4x2BhrR9PT0OM73ktESfHH2CsEaxU01GHb8BnfW/Rf19llsQD7sByVzyPHef5/iF
+	66c2U68Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0LrK-000000097q7-1fO7;
-	Thu, 03 Apr 2025 14:47:58 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
-	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0LrI-000000097nj-0sOb
+	id 1u0Ltn-000000098Xo-3lht;
+	Thu, 03 Apr 2025 14:50:31 +0000
+Received: from [1.203.97.246] (helo=smtp.cecloud.com)
+	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1u0Ls9-0000000987b-2waw
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Apr 2025 14:47:56 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7203068438;
-	Thu,  3 Apr 2025 14:47:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E11BAC4CEE5;
-	Thu,  3 Apr 2025 14:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743691675;
-	bh=lCnEaRTtzJ+0EOJv9vLnKCtNCJbYHCwQzN1uu9PtQ8o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pdwmVcwz5GIJxxyCvBQxbXvVRly7xdxeXE0ByFWRasbpcU6EoJepyGpxfJHlg2DEx
-	 Vw6QivjWHp9yYsorwkalukHOMRJ38gOE9ndWsolWe0gtNB4GGe8QQ2/mc3yA3OOQvb
-	 1NzlCAH2gXDIRhvpde10U3q+P8u2S3irYTeLjzK2C+pgtQDcXqkg+Z2BIoc3oQcY0r
-	 AzAlE15O3DIBJd/TQgzM9obqgz7i4FFvv93yl441Ac6AA9Y+OSo3Tm3jzTxIyXml7Y
-	 G0B8XBmkL9h237L/vbgjMyS49p1mEUnDZ0uFbrNhTD/DG0VtU/qEe0qdKDFG4Hi1ti
-	 lhGsoaRAWR4sw==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 2/2] nvmet: implement persistent read-only namespace feature
-Date: Thu,  3 Apr 2025 16:47:47 +0200
-Message-Id: <20250403144747.43043-3-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20250403144747.43043-1-hare@kernel.org>
-References: <20250403144747.43043-1-hare@kernel.org>
+	Thu, 03 Apr 2025 14:48:52 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.cecloud.com (Postfix) with ESMTP id 22BE07C0112;
+	Thu,  3 Apr 2025 22:48:43 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-SKE-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from localhost.localdomain (unknown [111.48.58.12])
+	by smtp.cecloud.com (postfix) whith ESMTP id P1609374T281456773296496S1743691722030876_;
+	Thu, 03 Apr 2025 22:48:43 +0800 (CST)
+X-IP-DOMAINF: 1
+X-RL-SENDER: shaopeijie@cestc.cn
+X-SENDER: shaopeijie@cestc.cn
+X-LOGIN-NAME: shaopeijie@cestc.cn
+X-FST-TO: kbusch@kernel.org
+X-RCPT-COUNT: 9
+X-LOCAL-RCPT-COUNT: 3
+X-MUTI-DOMAIN-COUNT: 0
+X-SENDER-IP: 111.48.58.12
+X-ATTACHMENT-NUM: 0
+X-UNIQUE-TAG: <a40d0e84f2240df21e6bc4039f702bdc>
+X-System-Flag: 0
+From: shaopeijie@cestc.cn
+To: kbusch@kernel.org,
+	sagi@grimberg.me,
+	axboe@kernel.dk,
+	hch@lst.de
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	gechangzhong@cestc.cn,
+	zhang.guanghui@cestc.cn,
+	Peijie Shao <shaopeijie@cestc.cn>
+Subject: [PATCH v2] nvme-tcp: Fix netns UAF introduced by commit 1be52169c348
+Date: Thu,  3 Apr 2025 22:47:48 +0800
+Message-ID: <20250403144748.3399661-1-shaopeijie@cestc.cn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <bd5f2f8a-94f0-43b0-af02-565422d12032@cestc.cn>
+References: <bd5f2f8a-94f0-43b0-af02-565422d12032@cestc.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250403_074850_879926_DEA76E28 
+X-CRM114-Status: GOOD (  15.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,158 +84,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Per default we try to open the 'device_path' read-write, which might
-fail if the device is read-only. So retry with opening read-only, and
-implement a new 'persistent_ro' flag if we did so.
-And map that flag onto the 'Permanently Write Protect' setting in the
-write protection feature.
+From: Peijie Shao <shaopeijie@cestc.cn>
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
+The patch is for nvme-tcp host side.
+
+commit 1be52169c348
+("nvme-tcp: fix selinux denied when calling sock_sendmsg")
+uses sock_create_kern instead of sock_create to solve SELinux
+problem, however sock_create_kern does not take a reference of
+the given netns, which results in a use-after-free when the
+non-init_net netns is destroyed before sock_release.
+
+For example: a container not share with host's network namespace
+doing a 'nvme connect', and is stopped without 'nvme disconnect'.
+
+The patch changes parameter current->nsproxy->net_ns to init_net,
+makes the socket always belongs to the host. It also naturally
+avoids changing sock's netns from previous creator's netns to
+init_net when sock is re-created by nvme recovery path
+(workqueue is in init_net namespace).
+
+Signed-off-by: Peijie Shao <shaopeijie@cestc.cn>
 ---
- drivers/nvme/target/admin-cmd.c   | 15 +++++++++++----
- drivers/nvme/target/configfs.c    |  5 +++++
- drivers/nvme/target/core.c        |  2 ++
- drivers/nvme/target/io-cmd-bdev.c | 11 +++++++++++
- drivers/nvme/target/io-cmd-file.c | 21 +++++++++++++++++----
- drivers/nvme/target/nvmet.h       |  1 +
- 6 files changed, 47 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 43f819b0f89b..2fea7ab05408 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -1098,7 +1098,7 @@ static void nvmet_execute_id_cs_indep(struct nvmet_req *req)
- 	id->nstat = NVME_NSTAT_NRDY;
- 	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
- 	id->nmic = NVME_NS_NMIC_SHARED;
--	if (req->ns->readonly)
-+	if (req->ns->readonly || req->ns->persistent_ro)
- 		id->nsattr |= NVME_NS_ATTR_RO;
- 	if (req->ns->bdev && !bdev_nonrot(req->ns->bdev))
- 		id->nsfeat |= NVME_NS_ROTATIONAL;
-@@ -1225,8 +1225,13 @@ static u16 nvmet_set_feat_write_protect(struct nvmet_req *req)
- 			req->ns->readonly = false;
- 		break;
- 	case NVME_NS_NO_WRITE_PROTECT:
--		req->ns->readonly = false;
--		status = 0;
-+		if (req->ns->persistent_ro)
-+			status = NVME_SC_FEATURE_NOT_CHANGEABLE | \
-+				NVME_STATUS_DNR;
-+		else {
-+			req->ns->readonly = false;
-+			status = 0;
-+		}
- 		break;
- 	default:
- 		break;
-@@ -1418,7 +1423,9 @@ static u16 nvmet_get_feat_write_protect(struct nvmet_req *req)
- 		return result;
+Changes in v2:
+    1. Fix style problems reviewed by Christoph Hellwig, thanks!
+    2. Add 'nvme-tcp:' prefix for the patch.
+
+Version v1:
+Hi all,
+This is the v1 patch. Before this version, I tried to
+get_net(current->nsproxy->net_ns) in nvme_tcp_alloc_queue() to
+fix the issue, but failed to find a suitable placeto do
+put_net(). Because the socket is released by fput() internally.
+I think code like below:
+    nvme_tcp_free_queue() {
+        fput()
+        put_net()
+    }
+can not ensure the socket was released before put_net, since
+someone is still holding the file.
+
+So I would like to use the 'init_net' net namespace.
+
+---
+ drivers/nvme/host/tcp.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 26c459f0198d..9b1d0ad18b77 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1789,8 +1789,14 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
+ 						NVME_TCP_ADMIN_CCSZ;
  
- 	mutex_lock(&subsys->lock);
--	if (req->ns->readonly == true)
-+	if (req->ns->persistent_ro == true)
-+		result = NVME_NS_WRITE_PROTECT_PERMANENT;
-+	else if (req->ns->readonly == true)
- 		result = NVME_NS_WRITE_PROTECT;
- 	else
- 		result = NVME_NS_NO_WRITE_PROTECT;
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index cb03b448ae6d..1efe1ed2ae50 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -840,6 +840,11 @@ static ssize_t nvmet_ns_readonly_store(struct config_item *item,
- 		mutex_unlock(&ns->subsys->lock);
- 		return -EINVAL;
- 	}
-+	if (ns->persistent_ro && val == false) {
-+		pr_err("the ns:%d is permanently read-only\n", ns->nsid);
-+		mutex_unlock(&ns->subsys->lock);
-+		return -EACCES;
-+	}
- 	ns->readonly = val;
- 	mutex_unlock(&ns->subsys->lock);
- 	return count;
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 2e741696f371..42605c67cbeb 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -725,6 +725,8 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
- 
- 	uuid_gen(&ns->uuid);
- 	ns->buffered_io = false;
-+	ns->readonly = false;
-+	ns->persistent_ro = false;
- 	ns->csi = NVME_CSI_NVM;
- 
- 	return ns;
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 83be0657e6df..f28dfac2b9fe 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -91,6 +91,17 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- 				BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
- 	if (IS_ERR(ns->bdev_file)) {
- 		ret = PTR_ERR(ns->bdev_file);
-+		if (ret == -EACCES) {
-+			ns->bdev_file = bdev_file_open_by_path(ns->device_path,
-+						BLK_OPEN_READ, NULL, NULL);
-+			if (IS_ERR(ns->bdev_file)) {
-+				ret = PTR_ERR(ns->bdev_file);
-+			} else {
-+				ns->readonly = true;
-+				ns->persistent_ro = true;
-+				ret = 0;
-+			}
-+		}
- 		if (ret != -ENOTBLK) {
- 			pr_err("failed to open block device %s: (%d)\n",
- 					ns->device_path, ret);
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 2d068439b129..770dec653bab 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -41,10 +41,23 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
- 	ns->file = filp_open(ns->device_path, flags, 0);
- 	if (IS_ERR(ns->file)) {
- 		ret = PTR_ERR(ns->file);
--		pr_err("failed to open file %s: (%d)\n",
--			ns->device_path, ret);
--		ns->file = NULL;
--		return ret;
-+		if (ret == -EACCES) {
-+			flags = O_RDONLY | O_LARGEFILE;
-+			ns->file = filp_open(ns->device_path, flags, 0);
-+			if (IS_ERR(ns->file)) {
-+				ret = PTR_ERR(ns->file);
-+			} else {
-+				ns->readonly = true;
-+				ns->persistent_ro = true;
-+				ret = 0;
-+			}
-+		}
-+		if (ret) {
-+			pr_err("failed to open file %s: (%d)\n",
-+			       ns->device_path, ret);
-+			ns->file = NULL;
-+			return ret;
-+		}
- 	}
- 
- 	nvmet_file_ns_revalidate(ns);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 29ae0657ba8f..166add3c119f 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -103,6 +103,7 @@ struct nvmet_ns {
- 	struct block_device	*bdev;
- 	struct file		*file;
- 	bool			readonly;
-+	bool			persistent_ro;
- 	u32			nsid;
- 	u32			blksize_shift;
- 	loff_t			size;
+-	ret = sock_create_kern(current->nsproxy->net_ns,
+-			ctrl->addr.ss_family, SOCK_STREAM,
++	/*
++	 * sock_create_kern() does not take a reference to
++	 * current->nsproxy->net_ns, use init_net instead.
++	 * This also avoid changing sock's netns from previous
++	 * creator's netns to init_net when sock is re-created
++	 * by nvme recovery path.
++	 */
++	ret = sock_create_kern(&init_net, ctrl->addr.ss_family, SOCK_STREAM,
+ 			IPPROTO_TCP, &queue->sock);
+ 	if (ret) {
+ 		dev_err(nctrl->device,
 -- 
-2.35.3
+2.43.0
+
+
 
 
