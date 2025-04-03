@@ -4,50 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E06D1C3600C
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Apr 2025 04:49:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B5CBC3600C
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Apr 2025 07:01:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AIHNDYt8zOEvKEXYIrILWGrGrQWiz0c8MVzsxSmYm5A=; b=mr/v5Xb8iHqsTSOQ7KAUuGjUru
-	CtrzTacd+Tpr/yButF/MGNCEyI9e6Qa4r7HfOxi7x4pJlFv7ELQ8GxlxbvOYC5lDamotibQCmMA3o
-	SJxm0C0yRghkoNEmL7/mA9OCWAFAGjWFiUbtQiu4hkGzM5qbPLITJzToEPfvL0F6o4hW8Wj9tJZ/1
-	bKcCKZFLaw4F9Ax4JHxeDdeR0b8MxjbPUsE7hmWxDOyloAm7/XaomWCZJ3Yd0ZZWJ0tXtf4UaOVbf
-	/RxEspv6dVXQEhzcuRyLN7NmcM8kIuJbF2puFCXfGiYq2Dkj+vR5DWJ/d7G0x4lSXFGQNfIp3RYNd
-	rTPs0RHw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=k6rfX5xoz/Krm/0Qiz4MzvyqTrd1KUiBnPwf01qXJgA=; b=Uv2kWN/3eNVHlGDkfX2hbIVt7j
+	B9cfb2QbqPrGlRvYduttkIpD4PZjzC4o5FODg48VHAtkkC/M87eUfg90qMhPphyPgegqbXwn1h1xF
+	5j6O++RIV8WoscNH39utvUvNK/XX1JUZU3lSFhpa3MFXpmjGhXWtt/hS3VGpgBM0sQMLgGqzo0j5Y
+	DXbGtgZxfUAE5BiBz3Uph2LVa9ONv2fbWCrfMiQCJMf8g1s08UX/NA4eR6zlsweKavgTDS+Pl4iDD
+	lnUjHu/maSRsJe/qMDHznKMMcdjLiNV1BG6901IoSVyCJ9BxhljJzBaa3MLNpEWScDWLyQkNoUtNn
+	bmpK0omg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0CVr-00000007lsQ-0Qc3;
-	Thu, 03 Apr 2025 04:49:11 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1u0Ea5-0000000810f-3DQl;
+	Thu, 03 Apr 2025 07:01:41 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0CVo-00000007ls3-181r
+	id 1u0EUI-00000007zdA-3Mo9
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Apr 2025 04:49:09 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1FC6568C7B; Thu,  3 Apr 2025 06:49:02 +0200 (CEST)
-Date: Thu, 3 Apr 2025 06:49:01 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Kamaljit Singh <kamaljit.singh1@wdc.com>, axboe@kernel.dk, hch@lst.de,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, niklas.cassel@wdc.com,
-	damien.lemoal@wdc.com
-Subject: Re: [PATCH v1 1/1] nvme: add admin controller support. prohibit
- ioq creation for admin & disco ctrlrs
-Message-ID: <20250403044901.GD22803@lst.de>
-References: <20250328213640.798910-1-kamaljit.singh1@wdc.com> <20250328213640.798910-2-kamaljit.singh1@wdc.com> <Z-qur5YnK2ZtiRR3@kbusch-mbp.dhcp.thefacebook.com>
+	Thu, 03 Apr 2025 06:55:42 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 22A0D68424;
+	Thu,  3 Apr 2025 06:55:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ACEFC4CEE8;
+	Thu,  3 Apr 2025 06:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743663341;
+	bh=JY2hqLwKFAWaqgIGwVbQ63KHiFU602HpIvQkyIqYJ2Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oV87Lf+++xDrJFDoPChjlWcRx4e0nv3HGYNfIieKMgbvoD23VNQwY+zFZLWYA2bJ3
+	 4AnaJkSkPI/Tv3s226We8jqeMdy9YihrXxW1vLtDqJM/VWQRuZLVdlP4E3v0K51CaQ
+	 KHDdPC5YK/+YOi8WLm8x7EaRu7sKnAi62naXeQNuqTFF9FvYmm1WcMp4eP/8/K+5a9
+	 cFO2zW9AeMePvqPGf1UiaNg7QOjkTnZZNwrUId/uHP9Y1sYftN34GOvhBgPvezE2hT
+	 I0IWF/O2Q5n6YYxC6WKjzM3Ld77B9Hdfd97zjH1RPFdbPdVHPQ2jhiBOFJeVFH0KsH
+	 Sh3fuOLmvL06w==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>,
+	Chris Leech <cleech@redhat.com>
+Subject: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
+Date: Thu,  3 Apr 2025 08:55:22 +0200
+Message-Id: <20250403065522.90807-4-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20250403065522.90807-1-hare@kernel.org>
+References: <20250403065522.90807-1-hare@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z-qur5YnK2ZtiRR3@kbusch-mbp.dhcp.thefacebook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250402_214908_550715_F6F1A375 
-X-CRM114-Status: GOOD (  20.86  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,38 +71,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 31, 2025 at 09:03:11AM -0600, Keith Busch wrote:
-> On Fri, Mar 28, 2025 at 02:36:40PM -0700, Kamaljit Singh wrote:
-> > -static inline bool nvme_discovery_ctrl(struct nvme_ctrl *ctrl)
-> > -{
-> > -	return ctrl->opts && ctrl->opts->discovery_nqn;
-> > -}
-> > -
-> 
-> I suppose it's fine to rename this function with an nvmf_ prefix, but
-> it's not really related to the rest of the patch and makes the diff
-> larger than necessary.
+When the socket is busy processing nvme_tcp_try_recv() might
+return -EAGAIN, but this doesn't automatically imply that
+the sending side is blocked, too.
+So check if there are pending requests once nvme_tcp_try_recv()
+returns -EAGAIN and continue with the sending loop to avoid
+I/O stalls.
 
-It isn't, nvmf_ is really for code in the fabrics library and not used
-by core code.
+Acked-by: Chris Leech <cleech@redhat.com>
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/host/tcp.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> > +	/* An admin or discovery controller has one admin queue, but no I/O queues */
-> > +	if (nvme_admin_ctrl(&ctrl->ctrl) || nvmf_discovery_ctrl(&ctrl->ctrl)) {
-> > +		ctrl->ctrl.queue_count = 1;
-> > +	} else if (ctrl->ctrl.queue_count < 2) {
-> > +		/* I/O controller with no I/O queues is not allowed */
-> > +		ret = -EOPNOTSUPP;
-> > +		dev_err(ctrl->ctrl.device,
-> > +			"I/O controller doesn't allow zero I/O queues!\n");
-> > +		goto destroy_admin;
-> > +	}
-> 
-> The queue_count comes from the user. If the user provides a bad value
-> for an IO controller, you're erroring. If they provide a bad value for a
-> discovery or admin controller, you override the value. Why the different
-> behavior?
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 1a319cb86453..87f1d7a4ea06 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1389,9 +1389,12 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 		result = nvme_tcp_try_recv(queue);
+ 		if (result > 0)
+ 			pending = true;
+-		else if (unlikely(result < 0))
++		else if (unlikely(result < 0) && result != -EAGAIN)
+ 			return;
+ 
++		if (nvme_tcp_queue_has_pending(queue))
++			pending = true;
++
+ 		if (!pending || !queue->rd_enabled)
+ 			return;
+ 
+-- 
+2.35.3
 
-Also we historically do allow I/O controllers without I/O queues to
-allow for various kinds of recovery action.  So I don't think we
-should change that.
 
