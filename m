@@ -4,78 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67393C3600C
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Apr 2025 07:15:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6E98C3600C
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Apr 2025 07:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GgThBuknXaD3lwbCXtPebulyQHktE8jqziVCkvGpKHg=; b=YoR0wTLCtsJoza2g96OVM5uazU
-	nCiDVyF6CHWSfdLugFObfeq9MNg8r1bMpP1UCb9yH8dzYE22c2iByMaeKdP+NpA6/AKlQzMBDS0da
-	w0jBf/RFXg1yeDlLDgFsFSEe1Blzkcm3rMmmacuyreLBl6KeTUtH+9uV/10laShn7tgi2E1f7ojsb
-	0IyjngPdGkPRBM/PO+SW5gLsvIwJx+vILAvrTXIKrydTTd8JMjaAvF8Fe6eGgcEUBClMha4o14TO9
-	woDDONp0bQG8phmsvj3YZU8tvaFBJtKp5RO0w09iUCz5oIxbLhDMP9UmaC8xg5blcYWzEU83/ZnFm
-	QWEf8hDA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=4LGC4AEtQnLkeXR9HVSyr9dL0xUBwV2AJw6cSMUBEBQ=; b=Q81nSnxI5pSdF7/EYM+Z9o1StI
+	HTsfB82ybqMAHF12VLHjrX8Yfk9fyRTPvxB2UGBSd45kCgCzmMq8VNHeEqaJZaXKeMaA1sPUh6rYH
+	01ehx1mSNwfPaXEvCoQM3RBOm2+MnWo47XV5qamZ4+UqgkxqnOzscQCIPlj14GKANET8bobMYWtj9
+	dn1sw0pFeiNKcWbrL73DutW1YRWZ3qyLHx2OuNIOtzjKe93DR77c+WwHCj0Yfgohw+QR0ciwF+AqB
+	6X9jA2mc04AEKJlLudSHbN2bnmdOUzmkgupGH1+hjaXMsRZkaqSB4ySQTHD6qgYqrCu6hitKeGJ+W
+	zbqLG4+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0Enf-000000084Le-3vWH;
-	Thu, 03 Apr 2025 07:15:43 +0000
-Received: from out162-62-57-49.mail.qq.com ([162.62.57.49])
+	id 1u0ErT-000000084z8-17yz;
+	Thu, 03 Apr 2025 07:19:39 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0Enc-000000084Ka-2eVB
+	id 1u0ErS-000000084yW-0Sr6
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Apr 2025 07:15:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1743664526; bh=GgThBuknXaD3lwbCXtPebulyQHktE8jqziVCkvGpKHg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=uz3St6b/C2YSQFNiOZ+8qKl2bE4pk3XPo3ejaa21CTWNKzpPmYZKfh9Bti/fP6S8w
-	 OHwpwiJFbBCAuZertBtXl+ab86BMiTV6TXWBCoWeWQJ/exDeC244wZf+PnGrl87FHK
-	 b20+5aQXcfAxZjTYommJHEf4lq2frm9KjxumRCP8=
-Received: from [10.42.13.21] ([116.128.244.169])
-	by newxmesmtplogicsvrsza36-0.qq.com (NewEsmtp) with SMTP
-	id 228A7AA3; Thu, 03 Apr 2025 15:08:40 +0800
-X-QQ-mid: xmsmtpt1743664120tjvpap32a
-Message-ID: <tencent_0B50E848464E942D6467F86F53C9DED88606@qq.com>
-X-QQ-XMAILINFO: OZZSS56D9fAjqmL7MHMzvCf4yMzMA6sLrx+XNuJIq/WDFmj19VAC4kGSYB/7QH
-	 QggSR3AujGjYwbL52QY+TV+B0Ithj54H3+ktR6TgNoX4DFiogfaRtnRhepCugfhfNXZfCK3TjlU0
-	 l+g18J4TBHWTlZUqOUGZ+B42osEFmv8SzZL5P+1umzFlAtEizNuRyux2CFzmQfkFDeA3HFyZuVPK
-	 gejinWdMxHKlZ/wPx2VhWqFdX6vis3LMNF0ixPXt2hZvjRZ9fWHAOu4UZMfXoF7aUaWVAEITkEQt
-	 DoIYwUjJ3PKXMVa1n0GqWhCSR5bp8KBIEyp8pqezKxGCTdppzRwRzv9QrK2qIXEW8Ha0U46ChP7X
-	 YqfqLLoUNtuFlKsWFLWeY77Z6fphU7j/Uq0n/HWI/ap2+d+0uJNCE+xqS9H/IjL7Mxamy6HYd1rU
-	 1JS3nrJl2LbLES3uEts+HoCby1O3OgLZJpf30R5w/DNeGINSH+PFhOe0q6uYbt5tQR3TXlVG8meJ
-	 dJA3mE5YIBU/yPRMFRWyjKprcR1UXMV3KHvZFQslMloY8zJE/CLdXn9f2bGyeTA9vM6YNqAGJzN8
-	 L8JDibWucgHIz+h9ZHMe/at1gq6afzDmVy7WddpvDczM7CsU9+ff5chuAUodROw1muGnM6JgGUJ6
-	 rgEBwh1omB03MCmowjaGXQ05KfWVK+PTfOiymz9jOFzTTmGj0yEjqXuyUw2d4Dd8NXiVmZQ7b5ie
-	 bUL8lG4Ff8ltbVmDY8DcpXRbvR9GEDDKjSIR7iixz/cRqjnY6qGlqOj/XhYkYBDtcdQreTypRN6R
-	 YO2ISJWNUXd9xb5iE0Ic9SRJC5ZTnD7InbDmGPLnvOjGc8lUoOfiCj4lyH1VhrydV1KGEl+UUyks
-	 OxnyevVhX3hOKKIXN7G/2hf9GHZLfhWlUDDqrF5RUjusW4QOMr6j4UKuqBgrTT/v9hcAF6WDOceu
-	 TIf2Z2J6zESpgxl/7TJKHl1q2DS4g1s8FH3JvXnRc=
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-OQ-MSGID: <d7b88e2a-7090-40a0-8bdc-9b60678e204d@qq.com>
-Date: Thu, 3 Apr 2025 15:08:40 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] nvme: Add warning for PST table memory allocation
- failure in nvme_configure_apst
+	Thu, 03 Apr 2025 07:19:38 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 901CB68422;
+	Thu,  3 Apr 2025 07:19:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6E9EC4CEE8;
+	Thu,  3 Apr 2025 07:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743664777;
+	bh=7/bCulPxh64RkCE6BkjHo3fusfbzBTF+eZWn1BscDiY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aWahlQjhPEM4WwRVW5CkFe4DRhpv0z3cWyeePspst8VDgL5WLTpxKxoUOEfddUO28
+	 15CRorgZ7dSyD+58L9kGZ2gSnIp8r3Kh7axFOlUwPmSdi77DDf+OzCyX9WvvAkRtbj
+	 FxnmdVgxeKfphB33CeaNgsCk9u4QA/UM885TSvJb6DkHrwEldwiJ/ebQojFfvul4G8
+	 HcL5moOK/JrGV/eUneRthjPkucU2KjpPm2EklNtxfY2cV1aDVamoLWa4QUdArwixWx
+	 sHbkSdFRo0ZEq1DWwIHm3Axu1eteyw5tYMOKnYK5ONq0O5/4KK0FsDgZMTLomDgnxO
+	 +mpDGcMZmekMQ==
+From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
- chaitanyak@nvidia.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, Yaxiong Tian <tianyaxiong@kylinos.cn>,
- Chaitanya Kulkarni <kch@nvidia.com>
-References: <tencent_4612952C8C5109058CD8E688D81276A2FD0A@qq.com>
- <tencent_A06D513AE17E9D4B4AC66E84F447FE730C09@qq.com>
- <20250403042557.GD22360@lst.de>
-Content-Language: en-US
-From: Yaxiong Tian <iambestgod@qq.com>
-In-Reply-To: <20250403042557.GD22360@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH 0/2] nvme: missed AENs during scanning
+Date: Thu,  3 Apr 2025 09:19:28 +0200
+Message-Id: <20250403071930.52154-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250403_001541_220215_C7A05BF6 
-X-CRM114-Status: UNSURE (   8.83  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,17 +68,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi all,
 
+I have been tracking down a long-standing issue from one of our partners
+which had a test where namespaces have been remapped in quick succession.
+The operation was to remove a namespace and add a new namespace at the same
+NSID with a different UUID and different ANA group ID.
+And that repeated in quick succession.
+There had been several attempts to fix this ([1], [2], and the patch from
+Keith in 1f021341eef4 ("nvme-multipath: defer partition scanning")), but
+the test case continued to fail ending up with all paths in ANA Inaccessible.
 
-在 2025/4/3 12:25, Christoph Hellwig 写道:
-> On Tue, Apr 01, 2025 at 05:26:52PM +0800, Yaxiong Tian wrote:
->> +		dev_warn(ctrl->device, "Failed to allocate pst table; not using APST\n");
-> 
-> Please avoid the overly long line:
-> 
-> 		dev_warn(ctrl->device,
-> 			"Failed to allocate pst table; not using APST\n");
+Eventually it turned out that we're skipping NS Changed AENs; if namescan
+scanning is active when we receive a NS Changed AEN we'll simply ignore it,
+and do not re-read the namespace list as we should.
+Additionally the NVMe base spec states (NVMe Base Specification v2.1, Figure
+151 'Asynchonous Event Information - Notice': Asymmetric Namespace Access Change):
 
-Thanks, I Will fix in v4.
+  A controller shall not send this even if an Attached Namespace Attribute Changed
+  asynchronous event [ .. ] is sent for the same event.
+
+so we need to re-read the ANA log page after we rescanned the namespace list to
+update the ANA states of the new namespaces.
+
+As usual, comments and reviews are welcome.
+
+[1] https://lore.kernel.org/linux-nvme/20240902111548.41430-1-hare@kernel.org/
+[2] https://lore.kernel.org/linux-nvme/20241007100134.21104-1-hare@kernel.org/
+
+Hannes Reinecke (2):
+  nvme: requeue namespace scan on missed AENs
+  nvme: re-read ANA log page after ns scan completes
+
+ drivers/nvme/host/core.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+-- 
+2.35.3
 
 
