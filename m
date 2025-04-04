@@ -4,120 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA6ADC36010
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Apr 2025 12:54:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73984C36010
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Apr 2025 20:07:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5qbKrD0h+S0pJh/V1i4JkUn/lVc2CMhJrcitjKBTUiw=; b=TTaEMfQ0Ad+haUGuRWQvGAnAvA
-	/HRNHJ8M4bj0ozUQ620veCriAQBEUSJZ5r/KbNxOnLbbU3CGTJ8vrOerl1SV9OkeRY1gaDS0SECQe
-	cY8riWz2pt21kf5LKchG60dFb8183bdKLd5eDI5nD6MwDKGQ1QhGrVgyEU9rgA0acd5xbVR3dpcya
-	PjkxFkI4y3AMFVB1/2DccOVpePRNPV13fgtNltW+i+AUinbM63uf6wd5yTUjiITtfEAULIGsjDPQR
-	6QYTY3Vjwia1KoqgezebfZ2ljZTIpz7EVkztTKl4aIvWlBpxEloFs98E1A4Zdcq6tnk1gw3RP1Z0/
-	WTjesbtw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2M1hpXYJrQhzvhFIXGwXFXDV00AlUZW/lxOdiQ1kbxM=; b=4eHO+AZdxYyG46qscD6CTGGrn7
+	7XoECDKlZo+kX5kCQ0NQa3cXWJDWW/vuiL//tLl1OuzFjVPRQroST8VyXB2ylhr7MflOYdqlTqNe7
+	Goe2ww5BHMLadKa9rCX4WFj59p8O4H7w07cuzNR2CkHmqCkLQuGd1Zh0johYCW5ELtJCanb3YhMBs
+	9ev2VGSJiqvr2E4PIWt9p6K2pR0uabXKzzsty+nCpcGF+NbLSRAqVLVsd0tsCrf7LDRVQueSdWVRq
+	Za+gmtoAZoqSR1sJifLD7n4J5typRc+c8hazqkScE8upD3YR0F9T+heNKSu5YS3ar692Y7x/K+Sxh
+	/UQG1OcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0gYu-0000000BjMt-3riB;
-	Fri, 04 Apr 2025 12:54:20 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1u0nJd-0000000Cjxg-0x8I;
+	Fri, 04 Apr 2025 20:07:01 +0000
+Received: from mail-yw1-x1164.google.com ([2607:f8b0:4864:20::1164])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u0gYc-0000000BjIR-0pg0
+	id 1u0nJb-0000000Cjx3-0l6t
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Apr 2025 12:54:03 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6A215211C8;
-	Fri,  4 Apr 2025 12:54:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743771240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5qbKrD0h+S0pJh/V1i4JkUn/lVc2CMhJrcitjKBTUiw=;
-	b=mpHfzesVONj8GHap3OQH/01AVAmhXxRXyWIyGO1xYtdPRexIU2g9NnZyiN7rDZDrU/iWms
-	YzzitzESBwk+AEGbty8B0tSdKRYU7U4Gqp5tR6OO/KWKR7FMx+rWMaNbobyoXOZO4jcJT/
-	9EarQ9zFJ46D3L7lf6NsLoOkR7bu4kA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743771240;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5qbKrD0h+S0pJh/V1i4JkUn/lVc2CMhJrcitjKBTUiw=;
-	b=UuGB+zpXixPX6SbQsrbINqUbfSvydyqgGp95Apo1tecmyuEhy4UyC4oDywRDsFTaZslUm5
-	Pa4Qg4AH3Dd0e/BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743771240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5qbKrD0h+S0pJh/V1i4JkUn/lVc2CMhJrcitjKBTUiw=;
-	b=mpHfzesVONj8GHap3OQH/01AVAmhXxRXyWIyGO1xYtdPRexIU2g9NnZyiN7rDZDrU/iWms
-	YzzitzESBwk+AEGbty8B0tSdKRYU7U4Gqp5tR6OO/KWKR7FMx+rWMaNbobyoXOZO4jcJT/
-	9EarQ9zFJ46D3L7lf6NsLoOkR7bu4kA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743771240;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5qbKrD0h+S0pJh/V1i4JkUn/lVc2CMhJrcitjKBTUiw=;
-	b=UuGB+zpXixPX6SbQsrbINqUbfSvydyqgGp95Apo1tecmyuEhy4UyC4oDywRDsFTaZslUm5
-	Pa4Qg4AH3Dd0e/BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46B4F13691;
-	Fri,  4 Apr 2025 12:54:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Rrs5D2jW72coUQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 04 Apr 2025 12:54:00 +0000
-Date: Fri, 4 Apr 2025 14:53:59 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: James Smart <jsmart2021@gmail.com>
-Cc: Daniel Wagner <wagi@kernel.org>, 
-	James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 10/18] nvmet-fcloop: allocate/free fcloop_lsreq
- directly
-Message-ID: <2a012944-576c-469e-965d-080d841d191d@flourine.local>
-References: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org>
- <20250318-nvmet-fcloop-v3-10-05fec0fc02f6@kernel.org>
- <4937c9f8-fbc7-46d4-a14f-262a0244f1f0@gmail.com>
+	Fri, 04 Apr 2025 20:07:00 +0000
+Received: by mail-yw1-x1164.google.com with SMTP id 00721157ae682-7020d8b110aso24843117b3.1
+        for <linux-nvme@lists.infradead.org>; Fri, 04 Apr 2025 13:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1743797217; x=1744402017; darn=lists.infradead.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2M1hpXYJrQhzvhFIXGwXFXDV00AlUZW/lxOdiQ1kbxM=;
+        b=O2lY2fn7+33+uE5qPLvxdJ5MAF2U3Q4llpt8oBtxrG9S/oSG6DRvZAOvgSr1coW1GD
+         1bh9RiMjBpMbqVRdmgnDlrYWENW6YEYEU0TNXIhx8MiRlVOFpz1Q8fgSTLU/gTh5IUgW
+         3IKFuUkhJ0JTkVW8xzAZlBP2iTjrpPFA10Bj4uvebvEmwQkuy2zLMAMQNrysXjIukeec
+         BP7Nb5GvDLtonrW9bR+3X72Fq3gz8avhtUL3YVRCeVEiKGdoPgawoTTT2QU/keVff8Sd
+         XN0VqKRK8XmT8F2+Mf8OL8tBGxN2jREPWkqQqj7/TQZRgBxBfJ6JKVdJ2gyO4NdWMDNJ
+         W/LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743797217; x=1744402017;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2M1hpXYJrQhzvhFIXGwXFXDV00AlUZW/lxOdiQ1kbxM=;
+        b=jHGZlh5MaIR5/FI5dchzVjNTJUQ7DFt7fVNRvoKIwfjj1nk760CctmXZdUFPYCZ+Az
+         GLJmRcEyWKGnw2mKUTB0E4upiZXSP/4eYEtEk36lKC+EUZ80/AAwZppV2McuKQLMMSxb
+         xXls8Lsobj5E1mUt9sxQ1XSuDbmWKl3/yWhld7RZMxA5CUGJJ63ROVqtlaI1S16Ef7pb
+         ziBOBqza0eCEvfadRDLohCuo5t/Gc4DJaieLhupvzgGWHt8+epIYQ+1PTzJ0ibgGsEF4
+         8yiGkSZ1n2abSqctx9vhe7jRwM++yQHfhDIjJ1sNAbZNHdVj7gCJbMeIT+ZYXznvAmzD
+         UMHg==
+X-Gm-Message-State: AOJu0YxHID8DAB/JOffciEPqlkUN66CVEJKpG2/qIGFr/02ThO7/TCG0
+	yli1JsNl6IwowNPNS2o3p+abOCKU2w5axHx76Eej6Jgv+GBPfjmSL1R0I0j7dHN0IcusMHibta4
+	qeBpT0I+9G/K8Fky95mYKReIJT/J5rl/I
+X-Gm-Gg: ASbGncvHEdyAUPo8EWTOwL4fnV0CGpqCa8KSQNZaMH7rN4IzZ8fsRPmbd2tsrbLTbXq
+	AMAtGKvQWF3g45APxz8d+Jz7U9GzYrNRdzjO3MHHMnl/PkSwRbwfWIDBaF9pmiNq4QMNh9CKXiW
+	ZxfbuRAN3BSmadC7sgoqGN4SPrpezr2GtswfSykJwBeLuacTJJ5r4VitREK/94P3A4BmpNcZjgH
+	5nPVDx1CFLjQ4rv3XzrBsE8eSqQCgL4aoyI89PMs3n7hAjDRGH5IEDe6uTfx7VOAamr+bki+irB
+	Rr2izIShdeoxjNpJTqmrQG1ufLO8izZ9GO1HuPWSBk8BknV/FA==
+X-Google-Smtp-Source: AGHT+IFcGdONDC85B/gSZoS4J+FgxMFotj48il2SfT+fCyI/ofRzxNcF2q2hE6zWGGUchQgcgJzgPHx2gnpx
+X-Received: by 2002:a05:690c:4493:b0:6f0:23da:49a3 with SMTP id 00721157ae682-703e14f5708mr68698877b3.8.1743797217304;
+        Fri, 04 Apr 2025 13:06:57 -0700 (PDT)
+Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.129])
+        by smtp-relay.gmail.com with ESMTPS id 00721157ae682-703d1faebb6sm4324697b3.59.2025.04.04.13.06.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 13:06:57 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [IPv6:2620:125:9007:640:7:70:36:0])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 998883401CC;
+	Fri,  4 Apr 2025 14:06:55 -0600 (MDT)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id 86E48E40F18; Fri,  4 Apr 2025 14:06:55 -0600 (MDT)
+From: Uday Shankar <ushankar@purestorage.com>
+Date: Fri, 04 Apr 2025 14:06:43 -0600
+Subject: [PATCH] nvme: multipath: fix return value of nvme_available_path
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4937c9f8-fbc7-46d4-a14f-262a0244f1f0@gmail.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-0.999];
-	NEURAL_HAM_SHORT(-0.20)[-0.994];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250404-nvme_type-v1-1-920053372832@purestorage.com>
+X-B4-Tracking: v=1; b=H4sIANI78GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDEwMT3byy3NT4ksqCVN1EixRTE8PUtDTjlEQloPqCotS0zAqwWdGxtbU
+ A0tRvhVsAAAA=
+X-Change-ID: 20250404-nvme_type-a8d541eff3da
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Hannes Reinecke <hare@kernel.org>, Uday Shankar <ushankar@purestorage.com>
+X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250404_055402_536500_E0F706A0 
-X-CRM114-Status: GOOD (  26.91  )
+X-CRM114-CacheID: sfid-20250404_130659_419595_B3D0936F 
+X-CRM114-Status: GOOD (  12.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,97 +106,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi James,
+The function returns bool so we should return false, not NULL. No
+functional changes are expected.
 
-On Wed, Mar 19, 2025 at 03:47:20PM -0700, James Smart wrote:
-> On 3/18/2025 3:40 AM, Daniel Wagner wrote:
-> > fcloop depends on the host or the target to allocate the fcloop_lsreq
-> > object. This means that the lifetime of the fcloop_lsreq is tied to
-> > either the host or the target. Consequently, the host or the target must
-> > cooperate during shutdown.
-> > 
-> > Unfortunately, this approach does not work well when the target forces a
-> > shutdown, as there are dependencies that are difficult to resolve in a
-> > clean way.
-> 
-> ok - although I'm guessing you'll trading one set of problems for
-> another.
+Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+---
+ drivers/nvme/host/multipath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, there is no free lunch :)
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 6b12ca80aa27305a759990348c4c107655664d94..94152cf423f165aaba9cbb57f370ef4708365f1a 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -427,7 +427,7 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+ 	struct nvme_ns *ns;
+ 
+ 	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
+-		return NULL;
++		return false;
+ 
+ 	list_for_each_entry_srcu(ns, &head->list, siblings,
+ 				 srcu_read_lock_held(&head->srcu)) {
 
-So far I was able to deal with new problems. I've run the updated series
-over night with the nasty blktest case where the target is constantly
-removed and added back without any problems.
+---
+base-commit: 0514a1379e11c6b8038674f43a478b0857d47a5e
+change-id: 20250404-nvme_type-a8d541eff3da
 
-> > @@ -353,10 +354,13 @@ fcloop_h2t_ls_req(struct nvme_fc_local_port *localport,
-> >   			struct nvme_fc_remote_port *remoteport,
-> >   			struct nvmefc_ls_req *lsreq)
-> >   {
-> > -	struct fcloop_lsreq *tls_req = lsreq->private;
-> >   	struct fcloop_rport *rport = remoteport->private;
-> > +	struct fcloop_lsreq *tls_req;
-> >   	int ret = 0;
-> > +	tls_req = kmalloc(sizeof(*tls_req), GFP_KERNEL);
-> > +	if (!tls_req)
-> > +		return -ENOMEM;
-> >   	tls_req->lsreq = lsreq;
-> >   	INIT_LIST_HEAD(&tls_req->ls_list);
-> > @@ -387,19 +391,23 @@ fcloop_h2t_xmt_ls_rsp(struct nvmet_fc_target_port *targetport,
-> >   	struct nvme_fc_remote_port *remoteport = tport->remoteport;
-> >   	struct fcloop_rport *rport;
-> > +
-> > +	if (!remoteport) {
-> > +		kfree(tls_req);
-> > +		return -ECONNREFUSED;
-> > +	}
-> > +
-> don't do this - this is not a path the lldd would generate.
+Best regards,
+-- 
+Uday Shankar <ushankar@purestorage.com>
 
-Ok, after looking at it again, I think I don't need it.
-
-> 
-> >   	memcpy(lsreq->rspaddr, lsrsp->rspbuf,
-> >   		((lsreq->rsplen < lsrsp->rsplen) ?
-> >   				lsreq->rsplen : lsrsp->rsplen));
-> >   	lsrsp->done(lsrsp);
-> 
-> This done() call should always be made regardless of the remoteport
-> presence.
-> 
-> instead, put the check here
-> 
->         if (!remoteport) {
->             kfree(tls_req);
->             return 0;
->         }
-
-Will do
-
-> > @@ -475,18 +491,21 @@ fcloop_t2h_xmt_ls_rsp(struct nvme_fc_local_port *localport,
-> >   	struct nvmet_fc_target_port *targetport = rport->targetport;
-> >   	struct fcloop_tport *tport;
-> > +	if (!targetport) {
-> > +		kfree(tls_req);
-> > +		return -ECONNREFUSED;
-> > +	}
-> > +
-> 
-> same here - don't do this - this is not a path the lldd would
-> generate.
-
-The early return and freeing tls_req is necessary. If the host doesn't
-expect the error code, then fine. I'll remove it. The reason why we need
-it is:
-
-  The target port is gone. The target doesn't expect any response
-  anymore and the ->done call is not valid because the resources have
-  been freed by nvmet_fc_free_pending_reqs.
-
-  We end up here from delete association exchange:
-  nvmet_fc_xmt_disconnect_assoc sends a async request.
-
-I am adding this as comment here.
-
-Thanks for the review. Highly appreciated!
-Daniel
 
