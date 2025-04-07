@@ -4,79 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18C5CC3600C
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Apr 2025 01:26:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FEF1C36010
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Apr 2025 06:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/OIJU9QPMxtFCYIcP7p8yixB8viOTUvvg7p+Re86knI=; b=aHi0ciemAk/BGZDJpXV/z3xzYP
-	4xGlB7KUJEI8S7U6halBFyPYOTEwa6/0Oobh52R4bz9eByt1ezapVaELSj7zPk5VR7t107NvcGTbv
-	BxGIHx2SkN0YBWZ89pzSJKGDbtOEQNK3T1BAjzMh37TEsuo5LIRyNLdsNY6G09+BlPWle1xfKh9YS
-	LsuidYRYopf+89hvWn3lWjxhcmZs/0q6noGuX7oYb+qBXycad9gYNkz4cNSP7nKytQnV4foHUK51/
-	e7d7KrF9FUGj5Xvgb6boSr9kGrlHX9krri5S1Vff3yaHdAualtsQHN8aLZpswBAJdP6VAwxGxQnLU
-	m7B5Z+QQ==;
+	bh=O+XjjzMkfjeVbxb9FPIyy1N94OzAvhANwAGCeDQ5DdI=; b=cpChpjMbaHyt6IFqQyMbIswM+b
+	LqZC8tpeeOl0ZkFl9iUNqXUKoOv4FjHDoSyKbDC/zso1jJ9zwQp7/UMZfHzPv1sITufWNNU3LcK8z
+	DdXEB7unvyjRam2c7y2p07EFSopwZ2xk0WD3Y2MjUV7iVwwkToPELfNC39R5IpDxVCQQcuXo1exPX
+	Qd2nxtsSqAhjcSPyZcHnhRVgwtEkI7Jeztzxc1hlOvM5H9MhT6oqQ3NWxEfz1I24B7Ntkb14hqmf4
+	7wG9keGWfoGE5YlAVkfSVr6eZ/3lQ/RQAjSjSvg1qYUNUYMVqE85pazDgKiDvpQe6EO7dfMAhhQff
+	FRN+Rdjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u1bFx-0000000G7Z1-1bpw;
-	Mon, 07 Apr 2025 01:26:33 +0000
-Received: from out203-205-221-202.mail.qq.com ([203.205.221.202])
+	id 1u1fhy-0000000GXDn-11HF;
+	Mon, 07 Apr 2025 06:11:46 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u1bFn-0000000G7YG-3ydA
+	id 1u1fhv-0000000GXD6-0oLR
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Apr 2025 01:26:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1743989176; bh=/OIJU9QPMxtFCYIcP7p8yixB8viOTUvvg7p+Re86knI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bSbEpvWBjsan4ne8fJd5DMA95AJpAzdgmy0uxqI0msh1TerGIr7LAOkHRILvDtva6
-	 ff9E+TyP+z/jXJQ1ASWTZEGUf1ZaUyqaPb3P6/vMA5kDainitMq4SfvhCJIkPBQyb4
-	 zezh1aHL6NvKviMnDEbPgJaVK8Yrie4ysZrlP/lo=
-Received: from [10.42.13.21] ([116.128.244.169])
-	by newxmesmtplogicsvrszc13-0.qq.com (NewEsmtp) with SMTP
-	id 675B6ADF; Mon, 07 Apr 2025 09:25:53 +0800
-X-QQ-mid: xmsmtpt1743989153tyv7wq22r
-Message-ID: <tencent_6A42A1EE91831C3D5B94CECC5F8B12C3B107@qq.com>
-X-QQ-XMAILINFO: NySneyYf/AjRBuw7u62X6Bzn4S6kIUfuTENl0LNV/au7n1wtpWG8htnPxbPS5n
-	 wNd3KZZpjBZ+A6rYKfcH2bVsYgdfdGk6Fyf6p/8V1KNLEU74KbSF7l5MM1VmG9MDif1P4v6nkBqr
-	 kTI4qwk5+hoqANiQ9Qf+pi7OiB2M78kZ3VW7fU4i4IVM5Wi7E3Rsh1BVYhsavZ0GGE7Us5iKsuDz
-	 DqRA0As94KaeXyFPDQLMILY8C3rkg5Q9nIINpfydu+56kcPfWAsOC1rEvg20cAv9JP+BYJ3FWONb
-	 DsUaAwN6oAJLC57heindqnTTLk2/1ro7XEQnxKPEir68ZR06yVV/YPpMYBxWWr317eRn5nxNX60q
-	 d8C2EyweuqlfUF60Q50OzB/Ykm+SrMZ1RkLgifwViv7yx3EucM5KEhmUTvrNWk/ME+pGVRIPgt8B
-	 iyeNOrX/tJmBcUvtn+R1WOSrvlFBBVQm8z9j5DObPEeLNArk9fs0xt98PyE0VzB2s7sJyhbjV0Uk
-	 uAYvsq29XOq625JN1A27ExrbsU+sot3Pnad5q9s5pSE1sdz9Wxq4eBDnw54DtXApzOmgcEO2CHWj
-	 uEtx00/zMHu+dt8tWTHjdaXmCbh3ctKRZ+gXA2BOD4FDXFkBn48CaMGyOvTX+dcSLyoDu9u/dpeC
-	 KP92/KUfu2s1Bu5HcSH8gCFMrFrPT26ZQ7wYCpXBTm4jTZsm1ORoV9AT+6uJJJSwr4Pd/WXtcmoX
-	 JdyC9xHuwyLCCJuPjiKcq1MpGsv+yA1MzfXkaG+8ldBRHdfY0yPeqMO3isG3GGGninLcZxddCzv2
-	 e1lehheUJVGcOoHQF4WjN/LAqmiZdxHMtyUxFgjBPIhsFEvawLPahhvevTcf3GMfqIMV9UbFh0iv
-	 VCXeX63ze92vwPeesrOU9goZIwjvGXKZS2sw2tq6fvbRZlrHdEEv1L7siV+EKoAPcztkHqkiIPWr
-	 TnbP1sJC0=
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-OQ-MSGID: <5f596d63-b11e-4728-a782-4551a0eead04@qq.com>
-Date: Mon, 7 Apr 2025 09:25:53 +0800
+	Mon, 07 Apr 2025 06:11:44 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F01BC1F38D;
+	Mon,  7 Apr 2025 06:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744006300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O+XjjzMkfjeVbxb9FPIyy1N94OzAvhANwAGCeDQ5DdI=;
+	b=tX5EWpnJEhcdTU0nMkiCT3i+6wF/EETTNAV2/u+SkGiX+rAsmAaZiecYp8MJsfWM8rT44u
+	6JYdHq3k9/eu5187DomiXHSWfjYEw3ap6ghNcRgeB2xqLLmmDKaFBazZ0SDI1iei+1P9Jl
+	5XUNCeysKHsBjO9f8i3lDg8uH5VqNpQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744006300;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O+XjjzMkfjeVbxb9FPIyy1N94OzAvhANwAGCeDQ5DdI=;
+	b=D2OQjzqwkSvC4CAP119bwJchTrJ/m/W4Tzj4ntOFpAzruh1NsNXycellDG1NrYwqVStyyh
+	gDko6WVjMndM8wCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EIZQd6Ww;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tPmgoaK3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744006299; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O+XjjzMkfjeVbxb9FPIyy1N94OzAvhANwAGCeDQ5DdI=;
+	b=EIZQd6Ww8dThax+So+kpJ6eIVPI8e4lXUgHqehNqX1l54zBLbYr4AcPxQWWgWs7ad2xhni
+	HRtnSAsr4UF5tGkZnCT0Alkwi3rIjYfCmS7aGqYPeTN8mgjOauuLwMEa4zb+NO76NBR7Vk
+	AD6prF45BcopZIgsl/efMjlnyP0FOFE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744006299;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O+XjjzMkfjeVbxb9FPIyy1N94OzAvhANwAGCeDQ5DdI=;
+	b=tPmgoaK3F4VNF1ad6v+ip3yeO5aSk2UMtCJSvv3VWNQVhuFjZ2CGtwSNW6rxA/ETdbmm9r
+	Il9VQMz2ppV+jfAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A9C613691;
+	Mon,  7 Apr 2025 06:11:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id T8roI5ts82ddAQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 07 Apr 2025 06:11:39 +0000
+Message-ID: <3a8c6bea-231d-42ac-a980-d1e959aaaeed@suse.de>
+Date: Mon, 7 Apr 2025 08:11:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/3] nvme: Add sysfs interface for APST configuration
- management
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
- chaitanyak@nvidia.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, Yaxiong Tian <tianyaxiong@kylinos.cn>,
- alexey.bogoslavsky@wdc.com
-References: <tencent_4612952C8C5109058CD8E688D81276A2FD0A@qq.com>
- <20250403042504.GB22360@lst.de>
- <tencent_D00C9DD2BF00258063B042172328396DB608@qq.com>
- <20250404082950.GA8928@lst.de>
+Subject: Re: [PATCH V4 1/2] nvme-tcp: Prevent infinite loop if socket closes
+ during CONNECTING state
+To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@meta.com
+Cc: hare@kernel.org, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+ mlombard@bsdbackstore.eu, zhang.guanghui@cestc.cn, loberman@redhat.com
+References: <20250404082801.1614252-1-mlombard@redhat.com>
+ <20250404082801.1614252-2-mlombard@redhat.com>
 Content-Language: en-US
-From: Yaxiong Tian <iambestgod@qq.com>
-In-Reply-To: <20250404082950.GA8928@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250404082801.1614252-2-mlombard@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: F01BC1F38D
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250406_182624_642906_EEE35E02 
-X-CRM114-Status: UNSURE (   8.73  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250406_231143_398344_86B96112 
+X-CRM114-Status: GOOD (  17.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,21 +142,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-在 2025/4/4 16:29, Christoph Hellwig 写道:
-> On Thu, Apr 03, 2025 at 03:05:37PM +0800, Yaxiong Tian wrote:
->> These two patches don't fundamentally change the APST configuration policy,
->> but rather enable users to configure various APST parameters in real-time
->> across different devices. As mentioned in commit <ebd8a93aa4f5> ("nvme:
->> extend and modify the APST configuration algorithm"):
+On 4/4/25 10:28, Maurizio Lombardi wrote:
+> There is a potential race condition that can occur if
+> the target closes the socket while the host is in the CONNECTING state.
 > 
-> And who are those users?  What tools do they use.  What settings do they
-> set and why?
-The three issues you mentioned were actually partially addressed in the 
-previous email, or at least touched upon.
+> If the socket's state changes to TCP_CLOSE, the nvme_tcp_state_change()
+> function is invoked. However, nvme_tcp_error_recovery() is unable
+> to transition the controller state to NVME_CTRL_RESETTING because
+> the controller is still in the CONNECTING state. As a result, error
+> recovery is bypassed, and the controller incorrectly transitions
+> to the LIVE state with closed sockets.
+> 
+> Subsequent attempts by the host to communicate with the target
+> will result in an infinite loop.
+> 
+> Fix the bug by initiating the error recovery process to correctly
+> handle the disconnection in case we missed this event
+> while transitioning from CONNECTING to LIVE.
+> 
+> Tested-by: Laurence Oberman <loberman@redhat.com>
+> Fixes: 3f2304f8c6d6 ("nvme-tcp: add NVMe over TCP host driver")
+> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+> ---
+>   drivers/nvme/host/tcp.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 26c459f0198d..f1e2b0417b39 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -1329,6 +1329,7 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+>   			"failed to send request %d\n", ret);
+>   		nvme_tcp_fail_request(queue->request);
+>   		nvme_tcp_done_send_req(queue);
+> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+>   	}
+>   out:
+>   	memalloc_noreclaim_restore(noreclaim_flag);
 
-In any case, I agree with applying a universal setting for APST, as I 
-don’t have a good tool to handle this either Now.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
+Cheers
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
