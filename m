@@ -4,76 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DDFAC369A3
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Apr 2025 18:51:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CBEAC36018
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Apr 2025 18:51:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4c5PRsn7O6BsPB6gXPg8wPIUVPeFNKSYbt0iMRi41U8=; b=w/tZdjqYQgPokhf8CPXiwQwt4Z
-	i4KP6P/X6XjtGGMfBiXSrmwpYfrOI0CFgiJpuA11VpHVzIO1DuSuBSI+zK76eRl7NrzvMcGJ2RzEf
-	PyxUpTCJ2+7YqsTHo0hbgMQWTeYAQM2QvzEeg/iwgEoZXqIORX8RqcjjHHkn94SRF9m3c3+4OPziy
-	rMqCji669p9EqOFW8RU5qVIKvObNXDtffNK1vrupnJ/Mpt0SGGHiBrdIVOCW0n7CQetmQUA/FUl+C
-	FMEIctkhGfkLP098HVGan3HPMO+RhXtI6b9DK6BBgbJwHuRbgEJGfohXcYrgP5abZ3mOZCFH1g2Fu
-	nnzdRJaA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=baVKLeM7WHBLlQh+WgHqVI3rFznl0sitR4T0Nxcrdc4=; b=uk3ualGfjqgFH7qwlJm4lof91P
+	wlP9WNhubN5R7juxguDVwsCh2eZM8xrFR+F+0+3TyUJqIrx4wUqdpdSlPdboiwnOgDYku9IYlsrYX
+	mX+bAio+u8Whum7bQZ6tnz/aCB+oKB7rp42XwEuEW9KbiO0KK9iSjM3f/zzT9UIVHfZXDqs6B53hZ
+	2bwPsfLssNwBtbiY0Ky3PFHqobk9fupxS3xJtHoZVdNkUorIAg2vvBa3AF86UYVx66rnc1f3t+b5D
+	qVKqHbUrNEGHGSfIu1flGA4RXDhI8H0SHmvXz39NKU0kZwkpH/3ClD8jGk5QBJIR/b50ZgkUEo530
+	hPnl8+Kw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u1rZR-00000001etH-46Jb;
-	Mon, 07 Apr 2025 18:51:45 +0000
-Received: from smtp-fw-52003.amazon.com ([52.119.213.152])
+	id 1u1rZa-00000001f7n-00yM;
+	Mon, 07 Apr 2025 18:51:54 +0000
+Received: from mgamail.intel.com ([192.198.163.13])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u1q8N-00000001Lhx-1sUt
+	id 1u1qMK-00000001Nhl-3oyo
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Apr 2025 17:19:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1744046383; x=1775582383;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4c5PRsn7O6BsPB6gXPg8wPIUVPeFNKSYbt0iMRi41U8=;
-  b=eaR2odb138pBvOBR3DWoQYkRxLagAPFmrheJbBPE1ct+jYCCYuv9zeQp
-   2SH0G1Z7+tEvh0Wei3JTN6IC/N+4STDTlnraIN+89B0dQmLgTafGWwwnz
-   UYt43/jnY3G5+rf2Erlk50yuV0Y4S4HnGZNabm9FGxRRlLJPcpobW+fL4
-   Y=;
-X-IronPort-AV: E=Sophos;i="6.15,194,1739836800"; 
-   d="scan'208";a="81542275"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 17:19:39 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [10.0.21.151:46951]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.21.195:2525] with esmtp (Farcaster)
- id 8729d04d-4f18-40af-b169-77f6624111b8; Mon, 7 Apr 2025 17:19:39 +0000 (UTC)
-X-Farcaster-Flow-ID: 8729d04d-4f18-40af-b169-77f6624111b8
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Mon, 7 Apr 2025 17:19:37 +0000
-Received: from 6c7e67bfbae3.amazon.com (10.106.101.45) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Mon, 7 Apr 2025 17:19:34 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <hch@lst.de>
-CC: <axboe@kernel.dk>, <gechangzhong@cestc.cn>, <kbusch@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-	<netdev@vger.kernel.org>, <sagi@grimberg.me>, <shaopeijie@cestc.cn>,
-	<zhang.guanghui@cestc.cn>, <kuniyu@amazon.com>
-Subject: Re: [PATCH v2] nvme-tcp: Fix netns UAF introduced by commit 1be52169c348
-Date: Mon, 7 Apr 2025 10:18:18 -0700
-Message-ID: <20250407171925.28802-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250407143121.GA11876@lst.de>
-References: <20250407143121.GA11876@lst.de>
+	Mon, 07 Apr 2025 17:34:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744047249; x=1775583249;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wwJBiJeKkSPe6kcf4zOW6RqX05gQTd0yHo0lgGGty/s=;
+  b=nfjajgKqM17jsxSZtF+RYPmzEeY6LQK5x9Caq+v4Fzt12sv8kNj80aZj
+   Jfds6m0rW5Y8uq0uwVih/ii7qtomyPcFzh3fsytja+hE+NJ5DXrba15Jc
+   HooKZo/l9vgpNAb/tAjEyFi2fpBtoT7Y1vKIoFKQ8OhD94gd76O0mg8b0
+   LvpXcjZMTSf6BD0JJ//ngdZ7tik6732kOpe8Ni/lw2pO+GkC4yco4xEy8
+   UTBUxQMEtt3Wt0xbalDszyCWuj4rLOAFN0cu8sohQKv1JRilQpALUSWCM
+   BcM992P3rRD2lkquaytiRBX5ixvwwy1+5C+Iwpqo5wlgU1zQjyEZswC94
+   w==;
+X-CSE-ConnectionGUID: 4rhuz4aCQHirY2bRpxb0QA==
+X-CSE-MsgGUID: /I9GfvYVTha6Rt6TmXmZDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="48158726"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="48158726"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 10:34:08 -0700
+X-CSE-ConnectionGUID: H031O1ksQHmNW5uZ5M7Kcw==
+X-CSE-MsgGUID: ftI/Cg1sSWy8xCyT3BwvIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="133223000"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 07 Apr 2025 10:34:07 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u1qMF-0003el-2z;
+	Mon, 07 Apr 2025 17:34:03 +0000
+Date: Tue, 8 Apr 2025 01:33:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>
+Subject: [linux-nvme:nvme-6.15 3/4] drivers/nvme/host/core.c:4302:5: warning:
+ 'CONFIG_NVME_MULTIPATH' is not defined, evaluates to 0
+Message-ID: <202504080139.KuphZ8ZZ-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.106.101.45]
-X-ClientProxiedBy: EX19D035UWB002.ant.amazon.com (10.13.138.97) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250407_101943_638583_D51D12FE 
-X-CRM114-Status: GOOD (  12.55  )
+X-CRM114-CacheID: sfid-20250407_103408_962889_ACD7E504 
+X-CRM114-Status: GOOD (  15.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,33 +86,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
-Date: Mon, 7 Apr 2025 16:31:21 +0200
-> I had another look at this patch, and it feels wrong to me.  I don't
-> think we are supposed to create sockets triggered by activity in
-> a network namespace in the global namespace even if they are indirectly
-> created through the nvme interface.  But maybe I'm misunderstanding
-> how network namespaces work, which is entirely possible.
-> 
-> So to avoid the failure I'd be tempted to instead revert commit
-> 1be52169c348 until the problem is fully sorted out.
+tree:   git://git.infradead.org/nvme.git nvme-6.15
+head:   9e270930d683ff0207fed7f303988a7ad63ddfcb
+commit: a98aa32696a1a19814a2f97853400b28622c6a8f [3/4] nvme: re-read ANA log page after ns scan completes
+config: riscv-randconfig-002-20250408 (https://download.01.org/0day-ci/archive/20250408/202504080139.KuphZ8ZZ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504080139.KuphZ8ZZ-lkp@intel.com/reproduce)
 
-The followup patch is wrong, and the correct fix is to take a reference
-to the netns by sk_net_refcnt_upgrade().
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504080139.KuphZ8ZZ-lkp@intel.com/
 
----8<---
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 26c459f0198d..72d260201d8c 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1803,6 +1803,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 		ret = PTR_ERR(sock_file);
- 		goto err_destroy_mutex;
- 	}
-+
-+	sk_net_refcnt_upgrade(queue->sock->sk);
- 	nvme_tcp_reclassify_socket(queue->sock);
- 
- 	/* Single syn retry */
----8<---
+All warnings (new ones prefixed by >>):
+
+>> drivers/nvme/host/core.c:4302:5: warning: 'CONFIG_NVME_MULTIPATH' is not defined, evaluates to 0 [-Wundef]
+    4302 | #if CONFIG_NVME_MULTIPATH
+         |     ^
+   1 warning generated.
+
+
+vim +/CONFIG_NVME_MULTIPATH +4302 drivers/nvme/host/core.c
+
+  4254	
+  4255	static void nvme_scan_work(struct work_struct *work)
+  4256	{
+  4257		struct nvme_ctrl *ctrl =
+  4258			container_of(work, struct nvme_ctrl, scan_work);
+  4259		int ret;
+  4260	
+  4261		/* No tagset on a live ctrl means IO queues could not created */
+  4262		if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE || !ctrl->tagset)
+  4263			return;
+  4264	
+  4265		/*
+  4266		 * Identify controller limits can change at controller reset due to
+  4267		 * new firmware download, even though it is not common we cannot ignore
+  4268		 * such scenario. Controller's non-mdts limits are reported in the unit
+  4269		 * of logical blocks that is dependent on the format of attached
+  4270		 * namespace. Hence re-read the limits at the time of ns allocation.
+  4271		 */
+  4272		ret = nvme_init_non_mdts_limits(ctrl);
+  4273		if (ret < 0) {
+  4274			dev_warn(ctrl->device,
+  4275				"reading non-mdts-limits failed: %d\n", ret);
+  4276			return;
+  4277		}
+  4278	
+  4279		if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events)) {
+  4280			dev_info(ctrl->device, "rescanning namespaces.\n");
+  4281			nvme_clear_changed_ns_log(ctrl);
+  4282		}
+  4283	
+  4284		mutex_lock(&ctrl->scan_lock);
+  4285		if (!nvme_id_cns_ok(ctrl, NVME_ID_CNS_NS_ACTIVE_LIST)) {
+  4286			nvme_scan_ns_sequential(ctrl);
+  4287		} else {
+  4288			/*
+  4289			 * Fall back to sequential scan if DNR is set to handle broken
+  4290			 * devices which should support Identify NS List (as per the VS
+  4291			 * they report) but don't actually support it.
+  4292			 */
+  4293			ret = nvme_scan_ns_list(ctrl);
+  4294			if (ret > 0 && ret & NVME_STATUS_DNR)
+  4295				nvme_scan_ns_sequential(ctrl);
+  4296		}
+  4297		mutex_unlock(&ctrl->scan_lock);
+  4298	
+  4299		/* Requeue if we have missed AENs */
+  4300		if (test_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events))
+  4301			nvme_queue_scan(ctrl);
+> 4302	#if CONFIG_NVME_MULTIPATH
+  4303		else
+  4304			/* Re-read the ANA log page to not miss updates */
+  4305			queue_work(nvme_wq, &ctrl->ana_work);
+  4306	#endif
+  4307	}
+  4308	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
