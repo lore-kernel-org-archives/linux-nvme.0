@@ -4,62 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3D92C369A6
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Apr 2025 15:30:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11E28C369A4
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Apr 2025 15:29:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PLCKLD7jJginmrqRR1ygojgIzLVA1xBJqojnWd8D0nQ=; b=CY6+Tx+8IoD4eoNY44sGgwME/u
-	V4leig+BsVf8W+ZWWrx9kjlLrCGXIjBsZAUkgB0vA8ilemDca5DlV+KEpK5agCC3//qWb8mexfuDZ
-	Wgg3HQwTkCDhup4ctX/8dSQ7OfKJ6IhGGAmonmztbCUVgmKr4doRPMuCwyMAD6CWCCvsc85X7DInb
-	oKZThwvITLZOWimSHHWHgzL07xBXLL1NnFcXXG2hRC0cyjDxqjvM1Qbrwdk+cJ/4c53absye8q+yb
-	9EUAzxs2NZv8m6yUNoEKBPWddKQn2NjUWx6/Ds2YbYzqY7BsGrfiGeu5QfQ9TBZxvHeHi8R4WQ2Ie
-	sDlYTsrA==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=qT+qyYQzUw77bm57EfZvxmThbGtniGpKGKLzkLCzv6o=; b=XM+K+dsAfyYYHs
+	6BRvaDzU2kK+g+7V0basld2VZkBebWXRYquNTIVka3qVdd5N9RvtFehY7eJfRfchl62Vtq2yoO9Bw
+	Zxy6qwRKO1uSBT9VqVlGJca9FXHBA5+kh+ZQZwffZkJwNfutR9aTER9eUaatzSvUkwWJVTyTBnrmG
+	feOaU58PTEh4oUSOAvJi7Eb3g/qenLGq5eRYh1ATteZDQBc2MN2Fl5nl07FENPsUsILIvPfmaV2JV
+	8VFGQsYPVzA7PkrP78zzoMV6rgVxV3E5W6vCXDh3ap7UNeEkyGG2Oryj6uysILEkvKdt4/eYoG4F5
+	yw/8VcORV9LzywlE43lA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2Atk-00000004cTI-1mRL;
-	Tue, 08 Apr 2025 15:30:00 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1u2Atf-00000004cOp-3COq;
+	Tue, 08 Apr 2025 15:29:55 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2AtC-00000004cIN-3hGK
+	id 1u2Asz-00000004cFk-0xFZ
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Apr 2025 15:29:27 +0000
+	Tue, 08 Apr 2025 15:29:13 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0D6B45C5E24;
-	Tue,  8 Apr 2025 15:27:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D86C4CEE5;
-	Tue,  8 Apr 2025 15:29:25 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 7101768429;
+	Tue,  8 Apr 2025 15:29:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BAB0C4CEEA;
+	Tue,  8 Apr 2025 15:29:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744126165;
-	bh=O5GHwCVJjRcxblaYbgVMKB2kCGt6YrQb7Ba5ru7hUuo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=B/P2rIHL6acwI//GuwPxF9W4886pJxQCrbbkjHHMcNrjaLOFOjwx//wZ9f7+YZqK6
-	 +fQscAGwC+bsz19GNevNIfrmKmms8VmAUzW946bebPOJ6mHDod9uNUStMdyjyA9Edu
-	 0RJweyEDCRH799Hjqf05sI7/zKno+XnqMgl/+RtcPUJybo4YER2LldsENj/E+wDE/F
-	 DF9g7tp+FAzuNDcdhbAsJzSiXvoEoQppmioO2GqLskGMISJn0EPDKNZvWszRqmJHk0
-	 Bn7okh5zyI6AaSh23ZpJ6qW8H6IMfbJgCT8nDW7nxP+CoHy1wpvf9knIDcQPjTNOPy
-	 4xt4nva6aa8EA==
+	s=k20201202; t=1744126152;
+	bh=aIoMkgJTvkjTjvFmIUdpv6qDltcnB/ZgVTiXC4CU8BE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=k7cHhRXfqXqM+rOB73brR5i91oVIRlWW/ZrrFuRVZHwqCgHlLyUR+Lg2y7Sel8Boh
+	 8ExGdPehfrc4vrVc8uOuZ1+rtjGBUtUu/lgI3nAdONahJHYPYBWnFHDFrVxMQpkNvA
+	 L3b4GfBAw+bx9nzmI/LxvQvjUUVTfqtB1aQsr9bVw6GMA9b6w4iQ6nbq8rdjM2hTpY
+	 5zQqy+IcFWgXL907IT6r0d1QK+NR3fdSVRUlI8TTi09WaB9DpZEINSntO95ldgVnXp
+	 uh4smA/aKy3ARVwOJQKFo/2DNhbNXhdDtye1yvMCM4fg0hwNiu2odxmMMmAKrh6eY3
+	 QYK7rNhextjsA==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Tue, 08 Apr 2025 17:29:07 +0200
-Subject: [PATCH 5/8] nvmet-fc: inline nvmet_fc_free_hostport
+Subject: [PATCH 0/8] nvmet-fcloop: bunch of fixes and cleanups
+Date: Tue, 08 Apr 2025 17:29:02 +0200
+Message-Id: <20250408-nvmet-fcloop-part-one-v1-0-382ec97ab7eb@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250408-nvmet-fcloop-part-one-v1-5-382ec97ab7eb@kernel.org>
-References: <20250408-nvmet-fcloop-part-one-v1-0-382ec97ab7eb@kernel.org>
-In-Reply-To: <20250408-nvmet-fcloop-part-one-v1-0-382ec97ab7eb@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAL5A9WcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDEwML3byy3NQS3bTknPz8At2CxKIS3fy8VF3jJDOjVBOL5NREQ2MloN6
+ CotS0zAqwudGxtbUAyyitCmcAAAA=
+X-Change-ID: 20250408-nvmet-fcloop-part-one-3b62e48cea13
 To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
  Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
  Jens Axboe <axboe@kernel.dk>, Hannes Reinecke <hare@suse.de>
 Cc: James Smart <jsmart2021@gmail.com>, linux-nvme@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250408_082926_983751_1067AE18 
-X-CRM114-Status: GOOD (  12.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,74 +73,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-No need for this tiny helper with only one user, let's inline it.
+The refcount nvmet-fcloop series is getting a bit long [1]. Here are the
+various fixes and small cleanups which are independent of the refcount
+changes.
 
-And since the hostport ref counter needs to stay in sync, it's not
-optional anymore to give back the reference.
+Only the first patch is new, the rest has already been revied by
+Christoph and Hannes. I've gave this series a good test run and there
+shouldn't be any regressions.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+I've got a some more simple patches (with reviews) but they will
+introduce regressions, because they depend on the refcount feature.
+
+[1] https://lore.kernel.org/all/20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org/
+
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/nvme/target/fc.c | 22 ++++++----------------
- 1 file changed, 6 insertions(+), 16 deletions(-)
+Daniel Wagner (8):
+      nvmet-fcloop: swap list_add_tail arguments
+      nvmet-fcloop: replace kref with refcount
+      nvmet-fcloop: add ref counting to lport
+      nvmet-fc: inline nvmet_fc_delete_assoc
+      nvmet-fc: inline nvmet_fc_free_hostport
+      nvmet-fc: update tgtport ref per assoc
+      nvmet-fc: take tgtport reference only once
+      nvmet-fc: put ref when assoc->del_work is already scheduled
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 6487c46ebba8d12e573d19fe8c39d526492c506a..6d64dadcb356b78b522d0deaa433cc745bfcd8f6 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -995,16 +995,6 @@ nvmet_fc_hostport_get(struct nvmet_fc_hostport *hostport)
- 	return kref_get_unless_zero(&hostport->ref);
- }
- 
--static void
--nvmet_fc_free_hostport(struct nvmet_fc_hostport *hostport)
--{
--	/* if LLDD not implemented, leave as NULL */
--	if (!hostport || !hostport->hosthandle)
--		return;
--
--	nvmet_fc_hostport_put(hostport);
--}
--
- static struct nvmet_fc_hostport *
- nvmet_fc_match_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- {
-@@ -1184,7 +1174,7 @@ nvmet_fc_target_assoc_free(struct kref *ref)
- 	/* Send Disconnect now that all i/o has completed */
- 	nvmet_fc_xmt_disconnect_assoc(assoc);
- 
--	nvmet_fc_free_hostport(assoc->hostport);
-+	nvmet_fc_hostport_put(assoc->hostport);
- 	spin_lock_irqsave(&tgtport->lock, flags);
- 	oldls = assoc->rcv_disconn;
- 	spin_unlock_irqrestore(&tgtport->lock, flags);
-@@ -1449,11 +1439,6 @@ nvmet_fc_free_tgtport(struct kref *ref)
- 	struct nvmet_fc_tgtport *tgtport =
- 		container_of(ref, struct nvmet_fc_tgtport, ref);
- 	struct device *dev = tgtport->dev;
--	unsigned long flags;
--
--	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
--	list_del(&tgtport->tgt_list);
--	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
- 
- 	nvmet_fc_free_ls_iodlist(tgtport);
- 
-@@ -1614,6 +1599,11 @@ int
- nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
- {
- 	struct nvmet_fc_tgtport *tgtport = targetport_to_tgtport(target_port);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
-+	list_del(&tgtport->tgt_list);
-+	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
- 
- 	nvmet_fc_portentry_unbind_tgt(tgtport);
- 
+ drivers/nvme/target/fc.c     | 60 ++++++++++++-----------------------
+ drivers/nvme/target/fcloop.c | 74 ++++++++++++++++++++++++--------------------
+ 2 files changed, 60 insertions(+), 74 deletions(-)
+---
+base-commit: 0514a1379e11c6b8038674f43a478b0857d47a5e
+change-id: 20250408-nvmet-fcloop-part-one-3b62e48cea13
 
+Best regards,
 -- 
-2.49.0
+Daniel Wagner <wagi@kernel.org>
 
 
