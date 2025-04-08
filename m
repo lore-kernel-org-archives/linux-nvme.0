@@ -4,75 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E761BC369A5
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Apr 2025 13:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE4EDC369A9
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Apr 2025 13:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=M6xR5Xe9P/3EIIh5swGspyIXMH0crqNW/0Evpig/XMs=; b=NRqgvcSPHWiAN66Lg4XPRO+Qtc
-	PPCCuuVAyGqRuKH8uDQW1R7i1iDDMOnxJT5Uvj6Fx6lfomW9JORMugGrU9l8IztNeIDYdZ2FYPPAz
-	gj3v+T8C/tW0EFA7vnRR9QCG0dWV6ZDtlEWpZqVIpNcr6Diby5L4fdKeHUGz9UAC7WcYlqA1HQuug
-	b7MWC9fRCy6NFTCPFBKftdFtaMLO9fsitNgo48Gycd5CfbbeGSBmGy1sCZ42Qak+H8TPOmvs8KUYj
-	MnqkKwfZ/YJeZERzYEtTp0FgKzM2THTvcpwUjDHKpYoEejfrTsLDpN3FARU9DgDH3SqOEeVOt7Nap
-	FUXLbWzw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Y2epGjcmKvJhQTpWKHhYmv8HYnIBJ+VqFT0VdqeNyqM=; b=ng0o/govCEal+9TG2S+aIOCijD
+	Q7QxgEAm5D9K8WNM+WHHe6Ck/spe2sKOynD1JrTGrhRKnK+QpNQKhXNi9PQjcHImzzt0cKX8V3g82
+	0hqnaYdQQkjGKZ5axmA3TE8k0WOjgFPAVcZyywpRjQd3RQOIooybb0ZJUd3tYwIm3W9HGRO9dKlYR
+	bDPLczVu4+1ZshFLH9CM9rFTTk09LuoF7Bh0QR/FgvgN7Nxhibtf+UdTHTJC6axukXAgg1tgF7uaL
+	GGzNORj9tTzoUxK/ZzgXIxH4Lf5/t7pBwINocBv3YTzG9QdDQJxn+JMiUbvgOE29M6Qlo4NVynvTo
+	YPGY9+Eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u28m2-000000046OZ-15b4;
-	Tue, 08 Apr 2025 13:13:54 +0000
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133])
+	id 1u28mB-000000046fC-0sI9;
+	Tue, 08 Apr 2025 13:14:03 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u26a6-00000003klk-0xy4
+	id 1u26zu-00000003pOO-3jIi
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Apr 2025 10:53:27 +0000
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-6fee50bfea5so44431107b3.1
-        for <linux-nvme@lists.infradead.org>; Tue, 08 Apr 2025 03:53:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744109601; x=1744714401; darn=lists.infradead.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=M6xR5Xe9P/3EIIh5swGspyIXMH0crqNW/0Evpig/XMs=;
-        b=BXJ5IHDtIzPrlUQYyLZJDJ6unkEjDEvh9KXT+nxH0u2bCSP8surAlbsyUaP/o+jE5R
-         gxQ4CPuuwlamcsJR88VE3D5S2cYGhoZnGc/Fyoz/J1v1HnextX3kUVSNKXBelV3t8ch1
-         GZbjBsWVbWLAyoaldP/7/VXoWPQJHpUYUOhBGuQSOKxSyNa016W7z7s4imAdmcWBDjI2
-         P0Obdz9yd7uXjb4RatLLRwSk14X/ImCCBqFHhdmmz9H7n2HwF/JdBJ31S3O8h1MnBpyc
-         c4OqLqzCDJeey+3grvuzj1fTRlqPbd28BNlNJnDIGpGRA2KZvVlHYkp7abI69+tU9JYz
-         MRpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744109601; x=1744714401;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M6xR5Xe9P/3EIIh5swGspyIXMH0crqNW/0Evpig/XMs=;
-        b=H9444eFMwYTQ6+bo9Lc8vafMnFgJ3kJ68k0wiL+uiGb3szKzubHhTMmw9yAoPmDe4x
-         GGaGiKzaTIpXEJD35iWLQVshvbg3C2h2gSUQ5AgR1xM4cMiXpPO62eVv3W2crOQiMPsU
-         YPp/A/3VTy/W/mdxVeLEgCiAbgX9SypACtsM3qGdKlPxkfwK6pRmWRkL58degmnIicbw
-         aoPd5W4PHENSJYf1MT5njF3SQJMKG1dnecvu1NkfK1OKWdN3h2HvHKjTfy0SRmSquJP7
-         dExug4hVVwYYTOOP/JDNRa2kazvyEo5HvO0YNaP/yGGecJnmAtR1HBdAAw48O0Eu15Wt
-         FhZA==
-X-Gm-Message-State: AOJu0YywaE6gxHm/wg+0oJ+4K6J75F2VrcLdiDS9nUZBq4Y44y7UimQi
-	j2iU7lw3hSh0n70kQcsCvXKGrFaGFlQ1XizwLm4J+trxmnHaBK//rEvmd/tMUSy0JQpHRn/a8RC
-	uDHvwzJENSWkldrgMaq3ZkH/BnOZVqTVE
-X-Gm-Gg: ASbGncvq/fzoLfP5mfhQsVLcMNLk+y58koBgepl/ToCYCEXLkBwyVGdRY/zRTHdBmU/
-	o33RJXqDuMPbFWYAtQtRaPNrohuqqXV77JH1J9iP9Ofz7iUc2yae8EtVO7ZAJQwgpxJb6Syz1oD
-	b1Zm3Gozlyf2sgPqntpRV566q/6xo=
-X-Google-Smtp-Source: AGHT+IFaTbl2vTe9r6X9CjAjxjeU+EMmhlwWSWHX/qxzqZ9vaYYnjm5tQrVd8EM2iI89JuGFHEZsuAKBmJlMylyLGd4=
-X-Received: by 2002:a05:690c:c01:b0:6fd:4485:9255 with SMTP id
- 00721157ae682-703e1633bacmr254571637b3.24.1744109601298; Tue, 08 Apr 2025
- 03:53:21 -0700 (PDT)
+	Tue, 08 Apr 2025 11:20:08 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5AC652111F;
+	Tue,  8 Apr 2025 11:20:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744111203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y2epGjcmKvJhQTpWKHhYmv8HYnIBJ+VqFT0VdqeNyqM=;
+	b=ZjSNMmcpuKoFAbwrpTD/N3QE2g+JjQyjYIKW2DfBbLAYrGSq6bu5m3WA/bJqrDi1orIeqq
+	3Kx4Rc1JcxDVETnH8lqcwsJUMIemXwcJEEmbWY+4qX3uKuTz3V7e5pv778QdMN1bB8pWCa
+	FkG8hUaqN5aRJ/pKLNbtgtFzKpDtRDM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744111203;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y2epGjcmKvJhQTpWKHhYmv8HYnIBJ+VqFT0VdqeNyqM=;
+	b=uRaQTp4HM1YiYFlOYbCX+gu+BBcd3TuO5em2xQbrxFM/F4mG3/Crwan046WPqnppAnqLsP
+	qm/r1DVFdhuO4+DA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ou1eIImZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3NECoo1T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744111202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y2epGjcmKvJhQTpWKHhYmv8HYnIBJ+VqFT0VdqeNyqM=;
+	b=ou1eIImZxqXvyBcPgJZLf+434L96g38FQ+GLqb/4KwM0udIIgD8hUm6TdDGDxjaMEMANqz
+	zBxnO/2C8eEhfGUEOTr/HPL1+zM5sLYBvCZLSlSCa7/J5AkfVrOVp1W72qhai7TqFDeqw0
+	ESKtF4CFbYm2RrFFM4BpoubtAuCk0o8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744111202;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y2epGjcmKvJhQTpWKHhYmv8HYnIBJ+VqFT0VdqeNyqM=;
+	b=3NECoo1TAy+G1ykYMFG+aK1bPcYEl9VlHbzG03xzZ1pKPCk5/N38A75At/yLm869W7bc/Q
+	ctG6CFKWguaUZVBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B56A13691;
+	Tue,  8 Apr 2025 11:20:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rRlvEWIG9WdDCAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 08 Apr 2025 11:20:02 +0000
+Date: Tue, 8 Apr 2025 13:20:01 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Daniel Wagner <wagi@kernel.org>, 
+	James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 10/18] nvmet-fcloop: allocate/free fcloop_lsreq
+ directly
+Message-ID: <3bca3fe4-3a1c-43f9-a0c2-96ab1887f3c8@flourine.local>
+References: <20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org>
+ <20250318-nvmet-fcloop-v3-10-05fec0fc02f6@kernel.org>
+ <603b438e-02f6-4f01-8ffa-12ab6ec8e745@suse.de>
+ <984ea057-de15-472a-9be3-79594f6bfc00@flourine.local>
 MIME-Version: 1.0
-From: Anton Gavriliuk <antosha20xx@gmail.com>
-Date: Tue, 8 Apr 2025 13:53:09 +0300
-X-Gm-Features: ATxdqUGOOG-U1tRopJGbkPDKekTTOtdhcB7uKP8bJ_xEy-7RWiFiLGEck_tjXxQ
-Message-ID: <CAAiJnjpzCfDViPDsixbyOe3V3w5EMDa-ScEt0jod9b-YJjJw7Q@mail.gmail.com>
-Subject: nvmetcli restore fails in add_subsystem
-To: linux-nvme@lists.infradead.org
-Content-Type: multipart/mixed; boundary="0000000000003c545006324229b5"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <984ea057-de15-472a-9be3-79594f6bfc00@flourine.local>
+X-Rspamd-Queue-Id: 5AC652111F
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,flourine.local:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250408_035326_279442_B23DF511 
-X-CRM114-Status: UNSURE (   7.98  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250408_042007_080626_E34ED37D 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,111 +141,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---0000000000003c545006324229b5
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Mar 18, 2025 at 02:58:35PM +0100, Daniel Wagner wrote:
+> On Tue, Mar 18, 2025 at 12:17:11PM +0100, Hannes Reinecke wrote:
+> > > +	tls_req = kmalloc(sizeof(*tls_req), GFP_KERNEL);
+> > > +	if (!tls_req)
+> > > +		return -ENOMEM;
+> > 
+> > This cries out for kmem_cache_alloc() ...
+> 
+> Okay, will switch to this API. FWIW, in the same call path there are
+> more kmallocs.
 
-Hello
-
-I'm trying to set up an NVMe/FC target on Fedora Server 42 beta.
-Config file attached.
-
-HBAs I use SN1600Q, and according to Marvell
-(https://www.marvell.com/content/dam/marvell/en/public-collateral/hpe/hpe-marvell-datasheet-sn1600q-adapter-hpe.pdf)
-it supports NVMe over FC.
-
-[root@localhost anton]# nvmetcli restore nvme_fc_1_link
-Traceback (most recent call last):
-  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 668, in
-add_subsystem
-    os.symlink("%s/subsystems/%s" % (self.configfs_dir, nqn),
-    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-               "%s/subsystems/%s" % (self._path, nqn))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-OSError: [Errno 6] No such device or address:
-'/sys/kernel/config/nvmet/subsystems/testnqn' ->
-'/sys/kernel/config/nvmet/ports/1/subsystems/testnqn'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/bin/nvmetcli", line 754, in <module>
-    main()
-    ~~~~^^
-  File "/usr/bin/nvmetcli", line 736, in main
-    funcs[sys.argv[1]](savefile)
-    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
-  File "/usr/bin/nvmetcli", line 681, in restore
-    errors = nvme.Root().restore_from_file(from_file)
-  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 394, in
-restore_from_file
-    return self.restore(config, clear_existing=clear_existing,
-           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                        abort_on_error=abort_on_error)
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 376, in restore
-    Port.setup(self, t, err_func)
-    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 732, in setup
-    port.add_subsystem(s)
-    ~~~~~~~~~~~~~~~~~~^^^
-  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 671, in
-add_subsystem
-    raise CFSError("Could not symlink %s in configFS: %s" % (nqn, e))
-nvmet.nvme.CFSError: Could not symlink testnqn in configFS: [Errno 6]
-No such device or address:
-'/sys/kernel/config/nvmet/subsystems/testnqn' ->
-'/sys/kernel/config/nvmet/ports/1/subsystems/testnqn'
-[root@localhost anton]#
-
-[root@localhost anton]#
-[root@localhost anton]# rpm -qa|grep -i nvmetcli
-nvmetcli-0.8-1.fc42.noarch
-[root@localhost anton]#
-
-[root@localhost anton]# rpm -qa|grep -i nvmetcli
-nvmetcli-0.8-1.fc42.noarch
-[root@localhost anton]# dmesg
-[ 1094.242081] nvmet: adding nsid 1 to subsystem testnqn
-[root@localhost anton]#
-[root@localhost anton]# cat /var/log/messages
-Apr  8 12:31:34 localhost kernel: nvmet: adding nsid 1 to subsystem testnqn
-Apr  8 12:31:34 localhost python3[2198]: detected unhandled Python
-exception in '/usr/bin/nvmetcli'
-Apr  8 12:31:34 localhost abrt-server[2199]: Deleting problem
-directory Python3-2025-04-08-12:31:34-2198 (dup of
-Python3-2025-04-08-12:17:05-2084)
-Apr  8 12:31:34 localhost systemd[1]: Started
-dbus-:1.3-org.freedesktop.problems@2.service.
-Apr  8 12:31:34 localhost audit[1]: SERVICE_START pid=1 uid=0
-auid=4294967295 ses=4294967295 subj=kernel
-msg='unit=dbus-:1.3-org.freedesktop.problems@2 comm="systemd"
-exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=?
-res=success'
-Apr  8 12:31:34 localhost abrt-notification[2211]: Process 2084
-(nvmetcli) of user 0 encountered an uncaught
-"%s/subsystems/%s" % (self._path, nqn)) exception
-
-Anton
-
---0000000000003c545006324229b5
-Content-Type: application/octet-stream; name=nvme_fc_1_link
-Content-Disposition: attachment; filename=nvme_fc_1_link
-Content-Transfer-Encoding: base64
-Content-ID: <f_m98dq09x0>
-X-Attachment-Id: f_m98dq09x0
-
-ewogICJob3N0cyI6IFsKICAgIHsKICAgICAgIm5xbiI6ICJob3N0bnFuIgogICAgfQogIF0sCiAg
-InBvcnRzIjogWwogICAgewogICAgICAiYWRkciI6IHsKICAgICAgICAiYWRyZmFtIjogImZjIiwK
-ICAgICAgICAidHJhZGRyIjogIm5uLTB4NTE0MDJlYzAxNDg2NWY1Nzpwbi0weDUxNDAyZWMwMTQ4
-NjVmNTYiLAogICAgICAgICJ0cmVxIjogIm5vdCBzcGVjaWZpZWQiLAogICAgICAgICJ0cnN2Y2lk
-IjogIm5vbmUiLAogICAgICAgICJ0cnR5cGUiOiAiZmMiCiAgICAgIH0sCiAgICAgICJwb3J0aWQi
-OiAxLAogICAgICAicmVmZXJyYWxzIjogW10sCiAgICAgICJzdWJzeXN0ZW1zIjogWwogICAgICAg
-ICJ0ZXN0bnFuIgogICAgICBdCiAgICB9CiAgXSwKICAic3Vic3lzdGVtcyI6IFsKICAgIHsKICAg
-ICAgImFsbG93ZWRfaG9zdHMiOiBbXSwKICAgICAgImF0dHIiOiB7CiAgICAgICAgImFsbG93X2Fu
-eV9ob3N0IjogIjEiCiAgICAgIH0sCiAgICAgICJuYW1lc3BhY2VzIjogWwogICAgICAgIHsKICAg
-ICAgICAgICJkZXZpY2UiOiB7CiAgICAgICAgICAgICJuZ3VpZCI6ICIiLAogICAgICAgICAgICAi
-cGF0aCI6ICIvZGV2L252bWUwbjEiCiAgICAgICAgICB9LAogICAgICAgICAgImVuYWJsZSI6IDEs
-CiAgICAgICAgICAibnNpZCI6IDEKICAgICAgICB9CiAgICAgIF0sCiAgICAgICJucW4iOiAidGVz
-dG5xbiIKICAgIH0KICBdCn0K
---0000000000003c545006324229b5--
+This change send me down yet another rabbit hole because when
+deallocatin the cache, it reported a leak caused by a list_add_tail(x,
+y) vs list_add_tail(y,x) bug which I missed the last time...
 
