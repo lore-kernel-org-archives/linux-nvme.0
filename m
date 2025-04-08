@@ -4,75 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2245C369A1
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Apr 2025 09:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E761BC369A5
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Apr 2025 13:13:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c2X+K+LYczlWva2ZOAywArN79IeOIVAb8dEsmCJejNc=; b=q1f59Wbka4m6OgYecPl5qNkpX2
-	cqs4hzLYu4h95mh9H3TXK8VrUShUrmD5r9CEAdv4uS1f351MWJvk9qcKRYo/9uiceCcTJ0fHANNaU
-	0P6tgbhVIMXDc+BVfz2p1ZoGbhM5cS/8vVwKBhb9inVoaZJRgoNRrl6ydLYVSLEOQDAp0XrhyUvXZ
-	VWVN12PKB69QMDv9bfcjEp7pHlIs0TvJDzIlHA6ubFmsEGDUrLcGCxDiADWJOzPwJW+314PA7Q0yU
-	sHXIhs6FTCJICJsmxXL4akLx7yPpfUF/tIheNOUbubdp6/Jdfy24q6TFjHTvXZJcDvKZN56RrBkrG
-	EOQZNRrw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=M6xR5Xe9P/3EIIh5swGspyIXMH0crqNW/0Evpig/XMs=; b=NRqgvcSPHWiAN66Lg4XPRO+Qtc
+	PPCCuuVAyGqRuKH8uDQW1R7i1iDDMOnxJT5Uvj6Fx6lfomW9JORMugGrU9l8IztNeIDYdZ2FYPPAz
+	gj3v+T8C/tW0EFA7vnRR9QCG0dWV6ZDtlEWpZqVIpNcr6Diby5L4fdKeHUGz9UAC7WcYlqA1HQuug
+	b7MWC9fRCy6NFTCPFBKftdFtaMLO9fsitNgo48Gycd5CfbbeGSBmGy1sCZ42Qak+H8TPOmvs8KUYj
+	MnqkKwfZ/YJeZERzYEtTp0FgKzM2THTvcpwUjDHKpYoEejfrTsLDpN3FARU9DgDH3SqOEeVOt7Nap
+	FUXLbWzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u25bj-00000003Vn8-3o3E;
-	Tue, 08 Apr 2025 09:51:03 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1u28m2-000000046OZ-15b4;
+	Tue, 08 Apr 2025 13:13:54 +0000
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133])
 	by bombadil.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u25No-00000003TJ0-1VMx
+	id 1u26a6-00000003klk-0xy4
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Apr 2025 09:36:41 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 6AACBA49072;
-	Tue,  8 Apr 2025 09:31:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0753EC4CEE5;
-	Tue,  8 Apr 2025 09:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744104998;
-	bh=NhA7bxfJCNkME8DTstpV9tqh1cqwE1796oGVhCFkVEw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qwQoubicBlwx2gQbUo50rP967w+XMv47NsMLywWTYtyGuAp1td/sdBTgSUn8+kPQB
-	 fpkInfJ3IGClbrwHkVDrV9MC+bK01DWfRDA1k5ibOWFPhQu2r90hhfRXaHkC7rI8CY
-	 JmhEnPFE8w7BFzhcup9gIkcEfo/IE7x/NIBy3VPyvrInTBz4TChPjqZu0BjRI05Z6N
-	 BVNWN2qR+IrTuL9p/hSVuWoRl08X/dWaW/rfSgZ1zsPdAx6OFJUdqjTJvzfi88TtdY
-	 PFVAim52t2E2+80SXPdL/ZjYKHresFPgLByNe23qr9h/1xYb//iLbIutdrlTPY3NOP
-	 7GyL0i9pp8UBQ==
-Date: Tue, 8 Apr 2025 11:36:32 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ntb@lists.linux.dev, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 2/3] PCI: endpoint: improve fixed_size bar handling
- when allocating space
-Message-ID: <Z_TuIP-k1yLbjcys@ryzen>
-References: <20250407-pci-ep-size-alignment-v3-0-865878e68cc8@baylibre.com>
- <20250407-pci-ep-size-alignment-v3-2-865878e68cc8@baylibre.com>
- <Z_Pw3I2xO7BMSGWW@ryzen>
- <1jjz7wvuyj.fsf@starbuckisacylon.baylibre.com>
+	Tue, 08 Apr 2025 10:53:27 +0000
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-6fee50bfea5so44431107b3.1
+        for <linux-nvme@lists.infradead.org>; Tue, 08 Apr 2025 03:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744109601; x=1744714401; darn=lists.infradead.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=M6xR5Xe9P/3EIIh5swGspyIXMH0crqNW/0Evpig/XMs=;
+        b=BXJ5IHDtIzPrlUQYyLZJDJ6unkEjDEvh9KXT+nxH0u2bCSP8surAlbsyUaP/o+jE5R
+         gxQ4CPuuwlamcsJR88VE3D5S2cYGhoZnGc/Fyoz/J1v1HnextX3kUVSNKXBelV3t8ch1
+         GZbjBsWVbWLAyoaldP/7/VXoWPQJHpUYUOhBGuQSOKxSyNa016W7z7s4imAdmcWBDjI2
+         P0Obdz9yd7uXjb4RatLLRwSk14X/ImCCBqFHhdmmz9H7n2HwF/JdBJ31S3O8h1MnBpyc
+         c4OqLqzCDJeey+3grvuzj1fTRlqPbd28BNlNJnDIGpGRA2KZvVlHYkp7abI69+tU9JYz
+         MRpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744109601; x=1744714401;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M6xR5Xe9P/3EIIh5swGspyIXMH0crqNW/0Evpig/XMs=;
+        b=H9444eFMwYTQ6+bo9Lc8vafMnFgJ3kJ68k0wiL+uiGb3szKzubHhTMmw9yAoPmDe4x
+         GGaGiKzaTIpXEJD35iWLQVshvbg3C2h2gSUQ5AgR1xM4cMiXpPO62eVv3W2crOQiMPsU
+         YPp/A/3VTy/W/mdxVeLEgCiAbgX9SypACtsM3qGdKlPxkfwK6pRmWRkL58degmnIicbw
+         aoPd5W4PHENSJYf1MT5njF3SQJMKG1dnecvu1NkfK1OKWdN3h2HvHKjTfy0SRmSquJP7
+         dExug4hVVwYYTOOP/JDNRa2kazvyEo5HvO0YNaP/yGGecJnmAtR1HBdAAw48O0Eu15Wt
+         FhZA==
+X-Gm-Message-State: AOJu0YywaE6gxHm/wg+0oJ+4K6J75F2VrcLdiDS9nUZBq4Y44y7UimQi
+	j2iU7lw3hSh0n70kQcsCvXKGrFaGFlQ1XizwLm4J+trxmnHaBK//rEvmd/tMUSy0JQpHRn/a8RC
+	uDHvwzJENSWkldrgMaq3ZkH/BnOZVqTVE
+X-Gm-Gg: ASbGncvq/fzoLfP5mfhQsVLcMNLk+y58koBgepl/ToCYCEXLkBwyVGdRY/zRTHdBmU/
+	o33RJXqDuMPbFWYAtQtRaPNrohuqqXV77JH1J9iP9Ofz7iUc2yae8EtVO7ZAJQwgpxJb6Syz1oD
+	b1Zm3Gozlyf2sgPqntpRV566q/6xo=
+X-Google-Smtp-Source: AGHT+IFaTbl2vTe9r6X9CjAjxjeU+EMmhlwWSWHX/qxzqZ9vaYYnjm5tQrVd8EM2iI89JuGFHEZsuAKBmJlMylyLGd4=
+X-Received: by 2002:a05:690c:c01:b0:6fd:4485:9255 with SMTP id
+ 00721157ae682-703e1633bacmr254571637b3.24.1744109601298; Tue, 08 Apr 2025
+ 03:53:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1jjz7wvuyj.fsf@starbuckisacylon.baylibre.com>
+From: Anton Gavriliuk <antosha20xx@gmail.com>
+Date: Tue, 8 Apr 2025 13:53:09 +0300
+X-Gm-Features: ATxdqUGOOG-U1tRopJGbkPDKekTTOtdhcB7uKP8bJ_xEy-7RWiFiLGEck_tjXxQ
+Message-ID: <CAAiJnjpzCfDViPDsixbyOe3V3w5EMDa-ScEt0jod9b-YJjJw7Q@mail.gmail.com>
+Subject: nvmetcli restore fails in add_subsystem
+To: linux-nvme@lists.infradead.org
+Content-Type: multipart/mixed; boundary="0000000000003c545006324229b5"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250408_023640_542939_2239B2A6 
-X-CRM114-Status: GOOD (  26.55  )
+X-CRM114-CacheID: sfid-20250408_035326_279442_B23DF511 
+X-CRM114-Status: UNSURE (   7.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,62 +87,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 07, 2025 at 05:43:00PM +0200, Jerome Brunet wrote:
-> On Mon 07 Apr 2025 at 17:35, Niklas Cassel <cassel@kernel.org> wrote:
-> 
-> > Hello Jerome,
-> >
-> > On Mon, Apr 07, 2025 at 04:39:08PM +0200, Jerome Brunet wrote:
-> >> When trying to allocate space for an endpoint function on a BAR with a
-> >> fixed size, the size saved in the 'struct pci_epf_bar' should be the fixed
-> >> size. This is expected by pci_epc_set_bar().
-> >> 
-> >> However, if the fixed_size is smaller that the alignment, the size saved
-> >> in the 'struct pci_epf_bar' matches the alignment and it is a problem for
-> >> pci_epc_set_bar().
-> >> 
-> >> To solve this, continue to allocate space that match the iATU alignment
-> >> requirement but save the size that matches what is present in the BAR.
-> >> 
-> >> Fixes: 2a9a801620ef ("PCI: endpoint: Add support to specify alignment for buffers allocated to BARs")
-> >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> >> ---
-> >>  drivers/pci/endpoint/pci-epf-core.c | 25 +++++++++++++++++--------
-> >>  1 file changed, 17 insertions(+), 8 deletions(-)
-> >> 
-> >> diff --git a/drivers/pci/endpoint/pci-epf-core.c b/drivers/pci/endpoint/pci-epf-core.c
-> >> index b7deb0ee1760b23a24f49abf3baf53ea2f273476..fb902b751e1c965c902c5199d57969ae0a757c2e 100644
-> >> --- a/drivers/pci/endpoint/pci-epf-core.c
-> >> +++ b/drivers/pci/endpoint/pci-epf-core.c
-> >> @@ -225,6 +225,7 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
-> >>  	struct device *dev;
-> >>  	struct pci_epf_bar *epf_bar;
-> >>  	struct pci_epc *epc;
-> >> +	size_t size;
-> >>  
-> >>  	if (!addr)
-> >>  		return;
-> >> @@ -237,9 +238,12 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
-> >>  		epf_bar = epf->sec_epc_bar;
-> >>  	}
-> >>  
-> >> +	size = epf_bar[bar].size;
-> >> +	if (epc_features->align)
-> >> +		size = ALIGN(size, epc_features->align);
-> >
-> > Personally, I think that you should just save the aligned_size / mem_size /
-> > backing_mem_size as a new struct member, as that avoids the risk that someone
-> > later modifies pci_epf_alloc_space() but forgets to update
-> > pci_epf_free_space() accordingly.
-> 
-> I tried but it looked a bit silly to store that when it was only a
-> matter of calling ALIGN() with parameters we already had, and it is
-> supposed to be only used in those two functions.
+--0000000000003c545006324229b5
+Content-Type: text/plain; charset="UTF-8"
 
-Another advantage is that you could kill patch 1/3 in this series, as
-there would be no need to supply epc_features to pci_epf_free_space().
+Hello
 
+I'm trying to set up an NVMe/FC target on Fedora Server 42 beta.
+Config file attached.
 
-Kind regards,
-Niklas
+HBAs I use SN1600Q, and according to Marvell
+(https://www.marvell.com/content/dam/marvell/en/public-collateral/hpe/hpe-marvell-datasheet-sn1600q-adapter-hpe.pdf)
+it supports NVMe over FC.
+
+[root@localhost anton]# nvmetcli restore nvme_fc_1_link
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 668, in
+add_subsystem
+    os.symlink("%s/subsystems/%s" % (self.configfs_dir, nqn),
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               "%s/subsystems/%s" % (self._path, nqn))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 6] No such device or address:
+'/sys/kernel/config/nvmet/subsystems/testnqn' ->
+'/sys/kernel/config/nvmet/ports/1/subsystems/testnqn'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/bin/nvmetcli", line 754, in <module>
+    main()
+    ~~~~^^
+  File "/usr/bin/nvmetcli", line 736, in main
+    funcs[sys.argv[1]](savefile)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/bin/nvmetcli", line 681, in restore
+    errors = nvme.Root().restore_from_file(from_file)
+  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 394, in
+restore_from_file
+    return self.restore(config, clear_existing=clear_existing,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        abort_on_error=abort_on_error)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 376, in restore
+    Port.setup(self, t, err_func)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 732, in setup
+    port.add_subsystem(s)
+    ~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/lib/python3.13/site-packages/nvmet/nvme.py", line 671, in
+add_subsystem
+    raise CFSError("Could not symlink %s in configFS: %s" % (nqn, e))
+nvmet.nvme.CFSError: Could not symlink testnqn in configFS: [Errno 6]
+No such device or address:
+'/sys/kernel/config/nvmet/subsystems/testnqn' ->
+'/sys/kernel/config/nvmet/ports/1/subsystems/testnqn'
+[root@localhost anton]#
+
+[root@localhost anton]#
+[root@localhost anton]# rpm -qa|grep -i nvmetcli
+nvmetcli-0.8-1.fc42.noarch
+[root@localhost anton]#
+
+[root@localhost anton]# rpm -qa|grep -i nvmetcli
+nvmetcli-0.8-1.fc42.noarch
+[root@localhost anton]# dmesg
+[ 1094.242081] nvmet: adding nsid 1 to subsystem testnqn
+[root@localhost anton]#
+[root@localhost anton]# cat /var/log/messages
+Apr  8 12:31:34 localhost kernel: nvmet: adding nsid 1 to subsystem testnqn
+Apr  8 12:31:34 localhost python3[2198]: detected unhandled Python
+exception in '/usr/bin/nvmetcli'
+Apr  8 12:31:34 localhost abrt-server[2199]: Deleting problem
+directory Python3-2025-04-08-12:31:34-2198 (dup of
+Python3-2025-04-08-12:17:05-2084)
+Apr  8 12:31:34 localhost systemd[1]: Started
+dbus-:1.3-org.freedesktop.problems@2.service.
+Apr  8 12:31:34 localhost audit[1]: SERVICE_START pid=1 uid=0
+auid=4294967295 ses=4294967295 subj=kernel
+msg='unit=dbus-:1.3-org.freedesktop.problems@2 comm="systemd"
+exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=?
+res=success'
+Apr  8 12:31:34 localhost abrt-notification[2211]: Process 2084
+(nvmetcli) of user 0 encountered an uncaught
+"%s/subsystems/%s" % (self._path, nqn)) exception
+
+Anton
+
+--0000000000003c545006324229b5
+Content-Type: application/octet-stream; name=nvme_fc_1_link
+Content-Disposition: attachment; filename=nvme_fc_1_link
+Content-Transfer-Encoding: base64
+Content-ID: <f_m98dq09x0>
+X-Attachment-Id: f_m98dq09x0
+
+ewogICJob3N0cyI6IFsKICAgIHsKICAgICAgIm5xbiI6ICJob3N0bnFuIgogICAgfQogIF0sCiAg
+InBvcnRzIjogWwogICAgewogICAgICAiYWRkciI6IHsKICAgICAgICAiYWRyZmFtIjogImZjIiwK
+ICAgICAgICAidHJhZGRyIjogIm5uLTB4NTE0MDJlYzAxNDg2NWY1Nzpwbi0weDUxNDAyZWMwMTQ4
+NjVmNTYiLAogICAgICAgICJ0cmVxIjogIm5vdCBzcGVjaWZpZWQiLAogICAgICAgICJ0cnN2Y2lk
+IjogIm5vbmUiLAogICAgICAgICJ0cnR5cGUiOiAiZmMiCiAgICAgIH0sCiAgICAgICJwb3J0aWQi
+OiAxLAogICAgICAicmVmZXJyYWxzIjogW10sCiAgICAgICJzdWJzeXN0ZW1zIjogWwogICAgICAg
+ICJ0ZXN0bnFuIgogICAgICBdCiAgICB9CiAgXSwKICAic3Vic3lzdGVtcyI6IFsKICAgIHsKICAg
+ICAgImFsbG93ZWRfaG9zdHMiOiBbXSwKICAgICAgImF0dHIiOiB7CiAgICAgICAgImFsbG93X2Fu
+eV9ob3N0IjogIjEiCiAgICAgIH0sCiAgICAgICJuYW1lc3BhY2VzIjogWwogICAgICAgIHsKICAg
+ICAgICAgICJkZXZpY2UiOiB7CiAgICAgICAgICAgICJuZ3VpZCI6ICIiLAogICAgICAgICAgICAi
+cGF0aCI6ICIvZGV2L252bWUwbjEiCiAgICAgICAgICB9LAogICAgICAgICAgImVuYWJsZSI6IDEs
+CiAgICAgICAgICAibnNpZCI6IDEKICAgICAgICB9CiAgICAgIF0sCiAgICAgICJucW4iOiAidGVz
+dG5xbiIKICAgIH0KICBdCn0K
+--0000000000003c545006324229b5--
 
