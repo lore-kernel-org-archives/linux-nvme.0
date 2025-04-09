@@ -4,123 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02F2BC36002
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Apr 2025 12:13:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 548BBC36002
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Apr 2025 19:00:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VhXbsLGlI96dTIe8IVakZngpQhH2r8EWXx2rnlhF9fc=; b=CmUoYVeV98yAnwHcVO+Mu0wR5f
-	E98hQ8rHPon5Ioou5KZ27FrUzWgOGEBxA0NhPxLz5RDQDM7ktUwRq5ZQCd+/Ir7JZ4BTFvD/7h+2o
-	SjEoZ0uV+W1pvkdG9wAW62jaUMqTgmyNF95jROwKqNRw6261R0dc6UZy0XvZfMo91qUbMRglOoPKI
-	fhczGANHQH3RhPGuq4/9296zMLC7h6nKmUlCGCSeoy1Qr0rGsc6XayUF985L1R1BDHm8BY1vOpaDZ
-	vWlr6SWcea3T/lbawjX0P9rr9zbkgmzRFYfellEJM/s4Ek9KWXDmC/d17pQIj6VXXkI4VRaLmMEqU
-	ipPrvU/Q==;
+	bh=yUNACYB7ZQ6lX8QcuM3N+m4K+jQ+syftIy3C0OOnZGc=; b=fZ39RJ1LJ2SpZ8wEE2DFii1Cvs
+	0nL3Y+VGi6NhPZ1qjIvZaaMcKcbaJXWhL1Z/K89eGrbG6pBktrGthWcitMkpBAh5hmKFxX+6lySLO
+	jlCmdEx50Qu+dy3LOhvTtXbeuoFIw9PPa1pHxk6Lq+gR6JAW2/PW/gZg5fwrO67UZtm20bP3K7rFZ
+	RAsY+XhB3YWxfwpgbu5aLBNmmWKtD1dlEDIF907ux9IIg5+ptN7aOW3PlbTbDeX7M/qKjb5MWjVoL
+	ERdJsfr941nXxFfHegPiIJc+FbZG1agZCxVnanZUvRXrRPxmcR0Qjjj1l9U8yl78RseaUH1r9HAaH
+	roKQhMZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2UJ2-000000076tY-0gqB;
-	Wed, 09 Apr 2025 12:13:24 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1u2afJ-00000008FrR-29uZ;
+	Wed, 09 Apr 2025 19:00:49 +0000
+Received: from smtp-fw-80009.amazon.com ([99.78.197.220])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2UIz-000000076sK-2UQX
+	id 1u2afH-00000008FqC-068w
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Apr 2025 12:13:23 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DF2B521164;
-	Wed,  9 Apr 2025 12:13:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744200799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhXbsLGlI96dTIe8IVakZngpQhH2r8EWXx2rnlhF9fc=;
-	b=uq9Ou1IYKNSFBUYk8Qu5Yp1T3o9MhAk0s3NnOcFCA6yfuTlq+6ZrffuQbGRnbZY/8v6ZVo
-	KSteZyR2YqOMr6h+ah5AOiS6x05xUyzurwx/8h7KqAANO5nVh0v6oQ2OrSbbDB5ERTae1M
-	MaFjeTTMLkRNJfUy8swEWKTZqTIm6PU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744200799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhXbsLGlI96dTIe8IVakZngpQhH2r8EWXx2rnlhF9fc=;
-	b=Nf36imu22eCyldWCSa7zROmGL0qVmjVhZshSF3hDg7+X7fh8jpihuYD9vqBcjOspg5QoAV
-	5c7//B46GRJYjHDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744200799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhXbsLGlI96dTIe8IVakZngpQhH2r8EWXx2rnlhF9fc=;
-	b=uq9Ou1IYKNSFBUYk8Qu5Yp1T3o9MhAk0s3NnOcFCA6yfuTlq+6ZrffuQbGRnbZY/8v6ZVo
-	KSteZyR2YqOMr6h+ah5AOiS6x05xUyzurwx/8h7KqAANO5nVh0v6oQ2OrSbbDB5ERTae1M
-	MaFjeTTMLkRNJfUy8swEWKTZqTIm6PU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744200799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhXbsLGlI96dTIe8IVakZngpQhH2r8EWXx2rnlhF9fc=;
-	b=Nf36imu22eCyldWCSa7zROmGL0qVmjVhZshSF3hDg7+X7fh8jpihuYD9vqBcjOspg5QoAV
-	5c7//B46GRJYjHDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D019A137AC;
-	Wed,  9 Apr 2025 12:13:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dmHYMV9k9mcOJwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 09 Apr 2025 12:13:19 +0000
-Date: Wed, 9 Apr 2025 14:13:15 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Anton Gavriliuk <antosha20xx@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Daniel Wagner <wagi@kernel.org>, 
-	linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: Re: nvmetcli restore fails in add_subsystem
-Message-ID: <ab6c0856-8398-4bc2-881e-ebf1ff80934c@flourine.local>
-References: <CAAiJnjpzCfDViPDsixbyOe3V3w5EMDa-ScEt0jod9b-YJjJw7Q@mail.gmail.com>
- <Z_Y3AYFzE3L2ujBW@infradead.org>
- <527963f3-1b89-4604-bc76-b3a18bb330a6@flourine.local>
- <CAAiJnjoft3gSsg-TYgyiBVpWiTjWztF=3E-aJpuaeZLCNrT-hg@mail.gmail.com>
+	Wed, 09 Apr 2025 19:00:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1744225246; x=1775761246;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=yUNACYB7ZQ6lX8QcuM3N+m4K+jQ+syftIy3C0OOnZGc=;
+  b=JPdFcZmqpSR2JXbPT4e9ncslodaLvbc5snw1By66UP6HcWMVqWEdBQtn
+   ph32aibXDSBF+3ycFBMipUAOjsQ8WcDHeDz0iqNLffauFNHo1QXst+VpI
+   VAXhATXKBAsWEpXj/Zf7DRKJ9rP7xJVQvh83fUn9t3m99ffIZ3nZcC5DL
+   Q=;
+X-IronPort-AV: E=Sophos;i="6.15,201,1739836800"; 
+   d="scan'208";a="189739463"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 19:00:42 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [10.0.7.35:8487]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.21.195:2525] with esmtp (Farcaster)
+ id ab1dab9e-4ded-407e-9ade-34655e86e8e0; Wed, 9 Apr 2025 19:00:42 +0000 (UTC)
+X-Farcaster-Flow-ID: ab1dab9e-4ded-407e-9ade-34655e86e8e0
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 9 Apr 2025 19:00:41 +0000
+Received: from 6c7e67bfbae3.amazon.com (10.187.170.41) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 9 Apr 2025 19:00:39 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <hch@lst.de>
+CC: <axboe@kernel.dk>, <kbusch@kernel.org>, <kuni1840@gmail.com>,
+	<kuniyu@amazon.com>, <linux-kernel@vger.kernel.org>,
+	<linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <shaopeijie@cestc.cn>
+Subject: Re: [PATCH] nvme-tcp: Fix use-after-free of netns by kernel TCP socket.
+Date: Wed, 9 Apr 2025 11:59:37 -0700
+Message-ID: <20250409190031.38942-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250409084446.GA2771@lst.de>
+References: <20250409084446.GA2771@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAiJnjoft3gSsg-TYgyiBVpWiTjWztF=3E-aJpuaeZLCNrT-hg@mail.gmail.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.992];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo]
+Content-Type: text/plain
+X-Originating-IP: [10.187.170.41]
+X-ClientProxiedBy: EX19D037UWB004.ant.amazon.com (10.13.138.84) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250409_051321_776964_12D10909 
-X-CRM114-Status: GOOD (  11.19  )
+X-CRM114-CacheID: sfid-20250409_120047_104688_B425ACD0 
+X-CRM114-Status: GOOD (  10.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,25 +87,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 09, 2025 at 02:58:17PM +0300, Anton Gavriliuk wrote:
-> The link - https://documentation.suse.com/sles/15-SP6/html/SLES-all/cha-nvmeof.html
+From: Christoph Hellwig <hch@lst.de>
+Date: Wed, 9 Apr 2025 10:44:46 +0200
+> Thanks, applied to nvme-6.15.
+
+Thanks!
+
 > 
-> is quite confused me,
->
-> 17.4.3 Marvell
+> > To fix such problems, let's hold netns ref by sk_net_refcnt_upgrade().
+> > 
+> > We had the same issue in CIFS, SMC, etc, and applied the same
+> > solution, see commit ef7134c7fc48 ("smb: client: Fix use-after-free
+> > of network namespace.") and commit 9744d2bf1976 ("smc: Fix
+> > use-after-free in tcp_write_timer_handler().").
 > 
-> FC-NVMe is supported on QLE269x and QLE27xx adapters. FC-NVMe support
-> is enabled by default in the Marvell® QLogic® QLA2xxx Fibre Channel
-> driver.
+> I wish the netns APIs would be a little more robus to prevent these
+> bugs from creeping in everywhere..
 
-I think this paragraph only talks about the host side support.
+Can't agree more!
 
-> So if "the qla2xxx driver or/and the HBA firmware do not support the
-> target mode anymore.", it is not clear, will NVMe/FC target work with
-> QLE269x and QLE27xx adapters or not.
+Actually, last year I tried to clean up such APIs to prevent this type
+of issue.
+https://lore.kernel.org/netdev/20241213092152.14057-1-kuniyu@amazon.com/
 
-Let me back paddle a bit. My failed attempt (or that one from my
-colleague) might just be a bad combination of driver/HBA. Without asking
-Marvell directly it's not clear what the status is.
-
+I'll revise this in this cycle once the fix reaches net tree.
 
