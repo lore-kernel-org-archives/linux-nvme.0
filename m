@@ -4,51 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC7E7C369AB
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Apr 2025 11:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93663C3601E
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Apr 2025 11:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8RIENUipbPnPcNezkAE3vmNOAiaclo1CE6Lp7trw+TY=; b=JvTy7IUGpUheT5tvKAXa6lGh1+
-	uu2VKUdJcyFhwj6BQYOhvlJMjmsf3grJqMY+tO1KctD0+cxao9/tVxPRgTMZ8HM/Wqb/LolLUnJtZ
-	RQRtq40emL1rIpsmaC6AyTBe6oPQwn2EO91lAHaDgWibVj7iaJr3sKjPts0JHpLShgo0NhtSGhdby
-	nJHbYP3wE7M0WwxzYs1jhNwfP/CRkScDGA8G5s2VuJiwdBF3+E7l0Xnkx/EbFLSk/utmjl89n4n3g
-	HJ4pkxqKKMK7TXDHpCOniP+JEkZalhxlSoRJ5Exqhmi1zr+MY5cV0AbUBUbaNsdG6vhiNG0aTdtrh
-	C5+O+Kzg==;
+	bh=tWUSRdHDGQt5cFnS2XZN2nxKNKZWnmb9kpXv9rmHFlA=; b=pdn/VRWI6KASWnfTijqw1v4DcA
+	2IWNmHOBFOMJ1Ba3gsBVTzj71RugU6Qm5Y5CQLShr+Gal8mHCqRk4Ojf+ZbR+k4q2P7J/eDJxpYwP
+	63E/+NYr862pJ1qmD/XkkHVdPKVCVOkZ/V/3CLX0xYlPaW2NLPtCS7CmkREcOkbfT0h4TWoRYS+ub
+	zgdR/1MKVBu54SYFOXS+DinDoriI2UguD73gkMrd4OIapI6sLyGRaD3dnvlZ6GXoofnGWvjMznTpx
+	RWKA3oJBHn13PhLvZJkYgrS+CwHSpz1/gSoRJ+yZC7jhDkMF6Qn0gmDr6G8dDNCMTlG/MXCLUv7TL
+	HuXPHjJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2qN2-0000000AM3J-1loN;
-	Thu, 10 Apr 2025 11:47:00 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1u2qN3-0000000AM5C-3hDY;
+	Thu, 10 Apr 2025 11:47:01 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2qHc-0000000AKr8-1PAv
+	id 1u2qHh-0000000AKsn-1H2a
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Apr 2025 11:41:25 +0000
+	Thu, 10 Apr 2025 11:41:30 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id CE1E15C1043;
-	Thu, 10 Apr 2025 11:39:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37028C4CEDD;
-	Thu, 10 Apr 2025 11:41:23 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id ACFD75C1043;
+	Thu, 10 Apr 2025 11:39:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3438FC4CEE3;
+	Thu, 10 Apr 2025 11:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744285283;
-	bh=EWB/sYzoB8CsG9hgCZR+RFlRMAyDx5p/cXloDsy+UNE=;
+	s=k20201202; t=1744285288;
+	bh=bWfF/z6J6VjDnFu295fwOKQGsLQiUbigzuCMF8Epxkw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JPUZt9RSeiO/4YQ+MT8jIdFJcRgt7qA0dP1SZOktGtqhvXqAISDEIbq6F9H+FNjYK
-	 BPER5HUO1SHEV23d3JJJXIcejJuZMYL+AEi7+XNrdc3vpATcgOBSgdB0AAB7pvBpg5
-	 qEFm3brS/PLSabgWffWrZD4H9nmdupYyXGbOfl+q/8/So3wJgptnWdGl4h9b1DCBv5
-	 kMMF8Z6inz4Z9PSJ6Pb4JLV816MmwYD07c0v4IUiwimX+FPlIPQodC21sH4hhgtW3X
-	 KkVbGAH3zDiQOjqk4bDAVSzQkBmRCbqJYKW/MmDcl79nUPGhZP9ctmbPCadd+ungjH
-	 7gV5MvrXbtA2Q==
+	b=JPiVKglfVo+fyuImYcbulSnJ7vhHV+tBKSfXGj1B0SpwuzPduy5PAe8H9E6JRewjc
+	 kCGDaNHa6PCDQFZmHCIBWpNrM8U3na1TqiVFdSNq0FUAV/G2yHgZptx21kAHEuV4Iq
+	 g7Q7WXa8Gdt3DoU8EZ5NOGWJrPbZAtC0DZlbbWK7LHO1aKydPOx5dJpiMpEUeUakRv
+	 xgV/daa9VIBExMnf6geVP/zgpIZLtxDEacLmwjCPjKgOQl0r9WZbjYmxyfXzhP8kU6
+	 bzcTOKTstm+QC0Z6pOdNJ0IAjA2JgStNQRdjXG5X3u84xH/xOhbbXhV0BCfGsaieg5
+	 qsgKITGpMWqbw==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Thu, 10 Apr 2025 13:41:08 +0200
-Subject: [PATCH v4 05/14] nvmet-fcloop: update refs on tfcp_req
+Date: Thu, 10 Apr 2025 13:41:10 +0200
+Subject: [PATCH v4 07/14] nvmet-fcloop: access fcpreq only when holding
+ reqlock
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250410-nvmet-fcloop-v4-5-7e5c42b7b2cb@kernel.org>
+Message-Id: <20250410-nvmet-fcloop-v4-7-7e5c42b7b2cb@kernel.org>
 References: <20250410-nvmet-fcloop-v4-0-7e5c42b7b2cb@kernel.org>
 In-Reply-To: <20250410-nvmet-fcloop-v4-0-7e5c42b7b2cb@kernel.org>
 To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
@@ -58,8 +59,8 @@ Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250410_044124_423916_B346F97A 
-X-CRM114-Status: GOOD (  11.74  )
+X-CRM114-CacheID: sfid-20250410_044129_461068_BCB1FD47 
+X-CRM114-Status: GOOD (  13.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,51 +75,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Track the lifetime of the in-flight tfcp_req to ensure
-the object is not freed too early.
+The abort handling logic expects that the state and the fcpreq are only
+accessed when holding the reqlock lock.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+While at it, only handle the aborts in the abort handler.
+
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/nvme/target/fcloop.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/nvme/target/fcloop.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 1a8ae33c1699be3b7a2a7170dff77e324c127ebb..b54467b285181d6909c6592eb166cf4fe6fbe54c 100644
+index 0c0117e03adc81c643e90a7e7832ff087a4c2fd7..9adaee3c7129f7e270842c5d09f78de2e108479a 100644
 --- a/drivers/nvme/target/fcloop.c
 +++ b/drivers/nvme/target/fcloop.c
-@@ -566,7 +566,8 @@ fcloop_call_host_done(struct nvmefc_fcp_req *fcpreq,
+@@ -619,12 +619,13 @@ fcloop_fcp_recv_work(struct work_struct *work)
+ {
+ 	struct fcloop_fcpreq *tfcp_req =
+ 		container_of(work, struct fcloop_fcpreq, fcp_rcv_work);
+-	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
++	struct nvmefc_fcp_req *fcpreq;
+ 	unsigned long flags;
+ 	int ret = 0;
+ 	bool aborted = false;
+ 
+ 	spin_lock_irqsave(&tfcp_req->reqlock, flags);
++	fcpreq = tfcp_req->fcpreq;
+ 	switch (tfcp_req->inistate) {
+ 	case INI_IO_START:
+ 		tfcp_req->inistate = INI_IO_ACTIVE;
+@@ -639,16 +640,19 @@ fcloop_fcp_recv_work(struct work_struct *work)
  	}
+ 	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
  
- 	/* release original io reference on tgt struct */
--	fcloop_tfcp_req_put(tfcp_req);
-+	if (tfcp_req)
-+		fcloop_tfcp_req_put(tfcp_req);
- }
- 
- static bool drop_fabric_opcode;
-@@ -671,6 +672,7 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
- 		break;
- 	default:
- 		spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
-+		fcloop_tfcp_req_put(tfcp_req);
- 		WARN_ON(1);
- 		return;
- 	}
-@@ -958,8 +960,10 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
- 
- 	spin_lock(&inireq->inilock);
- 	tfcp_req = inireq->tfcp_req;
--	if (tfcp_req)
--		fcloop_tfcp_req_get(tfcp_req);
-+	if (tfcp_req) {
-+		if (!fcloop_tfcp_req_get(tfcp_req))
-+			tfcp_req = NULL;
+-	if (unlikely(aborted))
+-		ret = -ECANCELED;
+-	else {
+-		if (likely(!check_for_drop(tfcp_req)))
+-			ret = nvmet_fc_rcv_fcp_req(tfcp_req->tport->targetport,
+-				&tfcp_req->tgt_fcp_req,
+-				fcpreq->cmdaddr, fcpreq->cmdlen);
+-		else
+-			pr_info("%s: dropped command ********\n", __func__);
++	if (unlikely(aborted)) {
++		/* the abort handler will call fcloop_call_host_done */
++		return;
 +	}
- 	spin_unlock(&inireq->inilock);
++
++	if (unlikely(check_for_drop(tfcp_req))) {
++		pr_info("%s: dropped command ********\n", __func__);
++		return;
+ 	}
++
++	ret = nvmet_fc_rcv_fcp_req(tfcp_req->tport->targetport,
++				   &tfcp_req->tgt_fcp_req,
++				   fcpreq->cmdaddr, fcpreq->cmdlen);
+ 	if (ret)
+ 		fcloop_call_host_done(fcpreq, tfcp_req, ret);
+ }
+@@ -663,9 +667,10 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+ 	unsigned long flags;
  
- 	if (!tfcp_req)
+ 	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+-	fcpreq = tfcp_req->fcpreq;
+ 	switch (tfcp_req->inistate) {
+ 	case INI_IO_ABORTED:
++		fcpreq = tfcp_req->fcpreq;
++		tfcp_req->fcpreq = NULL;
+ 		break;
+ 	case INI_IO_COMPLETED:
+ 		completed = true;
+@@ -688,10 +693,6 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+ 		nvmet_fc_rcv_fcp_abort(tfcp_req->tport->targetport,
+ 					&tfcp_req->tgt_fcp_req);
+ 
+-	spin_lock_irqsave(&tfcp_req->reqlock, flags);
+-	tfcp_req->fcpreq = NULL;
+-	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
+-
+ 	fcloop_call_host_done(fcpreq, tfcp_req, -ECANCELED);
+ 	/* call_host_done releases reference for abort downcall */
+ }
 
 -- 
 2.49.0
