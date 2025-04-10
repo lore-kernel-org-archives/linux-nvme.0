@@ -4,201 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBA0BC369A6
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Apr 2025 11:18:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0E2DC369A8
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Apr 2025 11:46:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/TiubfoGd6FiJa4dlphsd7/zk2zxUCm3jGyIhclpF+E=; b=fVfEKc/T2T9u8nEVVcqVKy6w4d
-	nFUDQbONZWIVamjCdCNKnlGiviecviSjBNKaUzDwIhOliWfHtAL4P6fB1HOE7DovoN7jHjAnIFX3y
-	NpBsx1Q5srTlRiceBSMCeGkDQN3u5QdsAMWhaoRQdysOFuEQqLnqhSLCTNl23wwDVO1XFmt2k9Lch
-	RWwdkO5x+RCi20j9DUg0tk6OF2ZJVNv12Y6wMDXKdFmusfVSUYmhcNvbUmYA8eKovLgkSOKW9Hi1u
-	u0pfCsb69u7Az7+Y4LBXJ9YuBpumEghrSaCwPhX4BHQhDfnCsHEU5uj6zxESGRytJNIj2RImBHYdN
-	A5MlTZYA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=XBMNUFfE2AeTHIXskwTEs0bOV1pDNiLtFtXLgXdjcmg=; b=Juhu7iB5NW5F2e
+	8UccFK/OZtjxytMyhe9jS0utJiYlpnquhWIqWQNoF2AWDjrJbKlUWpEWUCU2xKVwIOOp9IlEGG2A1
+	rnMIDTEes16p1TsmGq3QEo9OB5npUAxVAKNOWMasuk9k686BqKoeXAOL72izUeRmu7nyEQabAawHc
+	XGezqB7XZ7bpbY/mRUeVgdMBrUuafBTAD5S16L4SduCOjAE8BogTKoFuU5XQFb0CkwLuC1Z2Knm6K
+	L8EWtOSzabXAup1PC3Wo0qVDfGham++5GeL6l1nRbPCF2iQ+Uw/U7AytZfwniaI+7PwrHPKKq4DE6
+	QVe9yQJw16Q+0P9Pl+zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2pvo-0000000AFqZ-1XiK;
-	Thu, 10 Apr 2025 11:18:52 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1u2qMy-0000000ALzX-37Xq;
+	Thu, 10 Apr 2025 11:46:56 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2osZ-0000000A3Jz-2kDD;
-	Thu, 10 Apr 2025 10:11:29 +0000
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53A9rP3R005645;
-	Thu, 10 Apr 2025 10:11:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=/TiubfoGd6FiJa4dlphsd7/zk2zxUCm3jGyIhclpF+E=; b=
-	aJa4dLhgligusKkyqfr/37YCyz+4jXmeWmPUQAx/uvnZisXpK6O9eUz2IyXsfl0G
-	h846HYc9OWFPYoKnISDVC+XWfzoQ0WnsOCD1OqKVkSwtNZc9QjTSE+AJM4TSosgt
-	LMhKJqbExuH3vRuXhm80tViXF/WPTPcNym8d3o7BHDdEtUoSW0wHGqC+N/rWDe49
-	WF7T5l924+MeT8FjZOy06ZjUjcgaC6b8HhaXrIiK4YdO4N1zzKgtTljHgzknitJE
-	jLhGXU8QcLSN9EGjxQr+EybBuZO8k3iWywCDgKFvlr5N67livhaM/9TdGFbpsTtl
-	G1UWkJ2C/qw4mxNAiSWVWA==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45xbqsg117-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 10 Apr 2025 10:11:26 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53A9omEm016476;
-	Thu, 10 Apr 2025 10:11:25 GMT
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazlp17011030.outbound.protection.outlook.com [40.93.14.30])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45ttyc10nv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 10 Apr 2025 10:11:25 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IIJR+6IrW9dbA67gRleAMZ/H59QjrODC9qmBPGMxDHxR3IySjvfoJHj2RwmlzCYg5R/cT08ScOLFVVMO1cm3GfJtX5gufmIl3rFoIoIgEIGCX9aMwVoWqS6CU7QRfQkLTKtxCwSVjRJ43LT/FCHtd09E7SExuMzyCbEkvbrJ76WT+syCkN9q/jIX8b/rUkULoDO2MgkWGdcF08ljzfRhmjbJxEnevPoOqxo95dYkmHk0Hm7cgxpFq6Voga6ywCQSncJxSwpH/b3u+s5GgznDi3MPAnJaMk9OdO7kzTFlFtIrwktQji/6wFyHRI831sZKMekmG8EFAFS00eNseWHYww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/TiubfoGd6FiJa4dlphsd7/zk2zxUCm3jGyIhclpF+E=;
- b=HWXOttIa5LRh30CR1B0vuKL8MDL0YrjWETbcnnDCoIBMsYTqrl5fviCqKLJsdh5wIpUjE0RWgUpYBF7w2mASZ34HfDPY88uof3FlmR93/E3Xzf7ni6UXPea4Ut8xgP7loCaXSw75qnCxHPss5Ss4tkbqnOBzonxikmV0KGwYisCUwmut8Ri+2crQw4auAs187qS/lMNwK/8qnS7Tnr+OgMSiu0xGolSOXgqU8JU2j/n14X0n6E8KjsQ5lau9RD5mj0QJx+IFkujlVvRTSzCtjf8LUGDdyJ2rTvnjivwhzOHh2yTNUl7HmF9HRaJaa7kqS/vXDBmJoQIUnt2dCOkHOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/TiubfoGd6FiJa4dlphsd7/zk2zxUCm3jGyIhclpF+E=;
- b=NCg86LdBhmWaoJmZyL7tncQYG9pDJfd7HSfTIa/TduD/Z8U7iCTjCee8uPEbKNH0lTf1JTXRqSgcbSorNvO84KfBKqaQQKTl8vqA2S+f2Ac+uMajB7+9UJWBOSiznvfLGzPf0O6Z2zooCXhZHw69p2ZwFgaiwuy1fR7mx73GuWI=
-Received: from DM6SPR01MB0118.namprd10.prod.outlook.com (2603:10b6:5:295::18)
- by CY8PR10MB6490.namprd10.prod.outlook.com (2603:10b6:930:5e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.46; Thu, 10 Apr
- 2025 10:11:23 +0000
-Received: from DM6SPR01MB0118.namprd10.prod.outlook.com
- ([fe80::c04c:7e64:6721:98a2]) by DM6SPR01MB0118.namprd10.prod.outlook.com
- ([fe80::c04c:7e64:6721:98a2%4]) with mapi id 15.20.8632.021; Thu, 10 Apr 2025
- 10:11:23 +0000
-Message-ID: <ca30c1ea-409e-4656-835f-31d29354c53a@oracle.com>
-Date: Thu, 10 Apr 2025 11:11:20 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: Issue with AWUPF when using multiple controllers in a subsystem
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        "alan.adamson@oracle.com" <alan.adamson@oracle.com>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <4a2e4561-9311-40c9-aa65-87e7a2e5b041@oracle.com>
- <90792c66-d0ca-401d-b171-57faea2c2cab@nvidia.com>
- <Z_Y3V6i7dG5Hr635@infradead.org>
- <34d750b4-88b0-4e4d-8545-3550175529aa@oracle.com>
- <Z_eNLCn_e1vFOu9m@infradead.org>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <Z_eNLCn_e1vFOu9m@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P189CA0032.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5dd::18) To DM6SPR01MB0118.namprd10.prod.outlook.com
- (2603:10b6:5:295::18)
+	id 1u2qHQ-0000000AKnh-1mkc
+	for linux-nvme@lists.infradead.org;
+	Thu, 10 Apr 2025 11:41:13 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4D1915C1043;
+	Thu, 10 Apr 2025 11:38:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A884AC4CEDD;
+	Thu, 10 Apr 2025 11:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744285271;
+	bh=78Det0/D9k2bLPYo0jadQ6JWc+orCxvNYIetRM+uM4g=;
+	h=From:Subject:Date:To:Cc:From;
+	b=E+PckHIlJ+E6OH6AvZWwt8WCv9JzmvqF3ksK9DWs5x5ih9lyl3/5N/5cDojixGOtH
+	 fN8Yp/Z2YuAj3jfDPHAPxOor5hFOnxoOKU63BxdMazU9NbN9bioBTfoZNtGMLj2gUE
+	 DqjJPi5oHXH7MWT3/DMwzD8HXuFJhOuivhe6G3S3MfH4nQuqWJIEDjxUapIzXdodUM
+	 dVu/NHpi4dBngkhf7MXfrwW3JsjA9cIqUpMpeuVnMjh4Jg9ZZG0n9ImDZtDQB8Fc5E
+	 t4gziRXQVrFSk90X5AG9eWE2eUg8DYL3Sl4OW9VsORxVw0Mri8UNvHfHuMKv6ItzYP
+	 1T3K2EkUIv70Q==
+From: Daniel Wagner <wagi@kernel.org>
+Subject: [PATCH v4 00/14] nvmet-fcloop: track resources via reference
+ counting
+Date: Thu, 10 Apr 2025 13:41:03 +0200
+Message-Id: <20250410-nvmet-fcloop-v4-0-7e5c42b7b2cb@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6SPR01MB0118:EE_|CY8PR10MB6490:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf3de42b-381f-41fe-f913-08dd78180bd8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M0taRG5FTjRYSjRtaGpOVXg0UGsxd0lrcEdyTHlnMWtBbDdFclhOQU1zc2tk?=
- =?utf-8?B?N1NxUTljbUVJeU16MWZ4NmZ3SFYzVCt5SG1uck8xVHF1MjBEaElGWGNlVXZQ?=
- =?utf-8?B?SEdhL05xaTdqYllUU1Z1cUttMEdYTGFtaXhFd3hmRlRRS2tHTU53anpDVVFx?=
- =?utf-8?B?NWRhSGtldEJWYzZCZWxSZ2J0VXRrQi9aU1lvNjNxa0JXMFJERDhJUkJOSUZl?=
- =?utf-8?B?cnBwSG0wSUt2Z0NkZzl3WFMwVXpGeGg4Q3pBSFhkS0ltYlBXNG9qMXYyeHRk?=
- =?utf-8?B?UzR5Ry9YdTNMbExtME91dFlEd2NaY0h3YlJPVEwzTDhIUEREaU5TbDN6K1VB?=
- =?utf-8?B?WDl5ZS9lTU95NmVGaGdMNFNvTkQ0VG1qRmg5QUlpR3hGNm0rQkZKa0Z5MmZY?=
- =?utf-8?B?elVzZTNJbmdTYjJOZ0x4SHp0U244WGlQcUxmMHkvNGJleTM1b0h5a3Jobkdp?=
- =?utf-8?B?Ty9PMW9WS0ZGaTdSTE5IL0U4eUUrREd0VHd4R21nZ0VGdnZrOEZUZmdleUk5?=
- =?utf-8?B?Z1BTS3pWdXRvdDE5MGkrdkcrNzVWWTlKTFVuNFY0cWgwMnhYaE9rUXR6Z3Mv?=
- =?utf-8?B?ZmdZZW5sZk5tRFNhMFJOT0lPZzVBRkltQ0Vyb1dMdkZIdVp3c0VFMUlQL0xW?=
- =?utf-8?B?dnhudXkyMmtSMm1XMGRoY3lQdGFiK2c4cWVOMWxxd3o5RUlya25OK3RHQ2ZZ?=
- =?utf-8?B?U0xJVTFwNm8rbkRGSU5oY3NKQ3RDQTNiTEF4M2l6UXpWUXN1SGJ1ODBNZFov?=
- =?utf-8?B?QWFEbEhjK3oxS3NyYmtaRjNTOWZKU2t2MEROSDFhbkI1UTVtYkRiT2hEcGVx?=
- =?utf-8?B?dE1qUFRXN3NRZDAxVThEeWs0dkpsRzVlRDJEU2ZNTHFyTWNPVGdKWSt5Tit4?=
- =?utf-8?B?YVo5VmJRMmhxMHdQMStPcjdhcW90b0dQaGtCOVM3aGZvanZTNFRMOE1ndldr?=
- =?utf-8?B?dURpd1FKNE91WWRIOVFnc0ZzR1F5c0F5RXdhWTZvWm0ydkZaN1Yxc2xEdVMw?=
- =?utf-8?B?YXp1eGZGTk5HSC9hNy95SVY5S0poSDFVWUhneklYeSs5ZFo4b3Z2NmxHTjJw?=
- =?utf-8?B?L2RVV1hGYmsyVUlidXErL3U4Y2xzTkViVkNURnhuM3F3UWdLelpPWU51QkdI?=
- =?utf-8?B?VGx5VWU3V0xKMTg4N2hYV3dvODlxelNpbE5xb1B1NG0vRjYzaDZnbGhiWVAr?=
- =?utf-8?B?N3JCbFRPOFpuUXBqYW5SSEtTT3hYQkxBM3J6alBSTUJxZFF3ZXlESzZoUzk2?=
- =?utf-8?B?ZFl0L1ZCQ0JIZlFVMmxOU0RBRzRBem9ia3hqZ0R0elpXY3NrN25Tc3Y2eXc2?=
- =?utf-8?B?SW11bUVzeFlETzZRNDJZSG1RQWpUTDZlNFNXd0d1WS9qaE12TnRjVzRObG1w?=
- =?utf-8?B?K1JjZzQ4NFc1WnRBSEl1RThCZzRCNFp0eSthTFdua1RBYU5KekVvOW5EQk5t?=
- =?utf-8?B?VCtyYUd1UTh4clhMZVgrcTFjLzhnK1B3T0lOQWNLVG9zMW9ZTldYYzg1WnZN?=
- =?utf-8?B?QmU3eS9EdjZNRmdSYzVRd2ZZc0xxcU9nL1dwZEFHaGkxdjZ2dDdwWFVFWG1O?=
- =?utf-8?B?anhQK3VVb0ZSeDkwR2JmQlNlY01MaGtCb0RYeGlEcWdBZGRBdTRpclp0MmRP?=
- =?utf-8?B?WTZTUzhNajZVMUxlM1lnUjNGVEh4UndEekZEWFE4bmJrdWM5ZFFxMmJkZlBK?=
- =?utf-8?B?ZHJEVXdNaGl5TDNVRnFieUluaWgya1Y0RFJwa2tsZGRpMitJN0pGYnd4ZDFm?=
- =?utf-8?B?SFc3aFpJMzVwaWdtSEthaWVGUEJBK1RkQjhUZ0lGZC9sN3RtOWZCSzN3a01B?=
- =?utf-8?B?VUYrSlFUTmpsQThtdXhkeWZWS3krSFBUSTh4TWt0ZUF2TVQyUnVwZzF2VklO?=
- =?utf-8?Q?VmlR69zarXIDw?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6SPR01MB0118.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RVJhV2FEN0xPK3QwcVFnMGM5cEhrbEJlRkRUZjhJUzNORGc2UWhjVU40OHZh?=
- =?utf-8?B?ZXJ4cGJGc2k3VGQ5RHpXSVIrMnlFTXF3NjJPcjNuOXFLZWkwV2FIc0JiakNo?=
- =?utf-8?B?WmorODZabVl2RVFoaDkxMVpBN0dpUkVGTWMyS1RzRDFMdFZrL2JYK2dOd3JC?=
- =?utf-8?B?MWtKY2xxVVpBRkl5anAvUGRxT29waEYrdGYwUzQ3emdlRjFuMXpiY0QvOG95?=
- =?utf-8?B?U2swY2ZVVzdTM0c2VUJpb29ackRrbVVoSDRYdUVuWU5nOUgvOWNZWlRMZmo1?=
- =?utf-8?B?VGxWMElqQmh1YXhMeWZReS9Wb25vS1J5bGlZTHd2ZXFoSktNV0dxcEw0Z0FB?=
- =?utf-8?B?dDhubVBqQVE5eU43eC92aTQvK3FxSlpmRTFUZGNMZHdMTnVob0NCdVZhdUVS?=
- =?utf-8?B?azlWYXpsaVo1NmN1c3czRHcyK0ZmaHkvNnQvbnhVL28vSEZNQThhSzVNTHc5?=
- =?utf-8?B?STF4c0tJWHVMVk41WXBpVUNEb3NOMWQ1WU9ianhuNURhcnBnZUZqb0hENWVy?=
- =?utf-8?B?K2h2V0hHWWR0U2lNMmIvaXpITXRZQXY1TVNuSi9yRHBWbU9JODhrREJ4UDA2?=
- =?utf-8?B?b0hnWVZrQkVmZW9KY0ZpZ2RJSlhRcnJTMVNndWpYYXM1YnN1UlQwTWZ4WWZo?=
- =?utf-8?B?blpqY09zTWlJK2tZSmxROEVXQXJ1VmdTWTZQV0o3L2JLcU9tb2FSUXRhaDMy?=
- =?utf-8?B?amRWZmhwZ205K2tMSlcvM1FpVmFZVVdVS1ZZakRBZVlmSXhEbjBYWlFnZ2NI?=
- =?utf-8?B?TVJaVHNrYmsvMDNTZTFka0VMUWtiZlFRaUJuMTFGZEtNK0JMMHRTTG1rRGU5?=
- =?utf-8?B?QnBoemIvSWhUSmhQSkNsRHd5OVZGZWFYRlBONC8zZVltQldJdW9NTWd3b29Y?=
- =?utf-8?B?Q0cyOG5IUDdpaFFlMEV4V25xSDFaYVl4MGFnUVFFbjM5NDUrbmJvVDdoaFlu?=
- =?utf-8?B?bmdhSkZyNkJITzd1ekdaL1EvYUNBWkxMYkdKYUNoYXhBNnlHSGJVbzZuQzNs?=
- =?utf-8?B?UXM0ZFJ6UjVIZFFybm13Y2l5UnRvYkllMUFGb1JvR0pxUmpISmxDYi9SVWQ2?=
- =?utf-8?B?N290OUU4VUhST0xYM3ltekQ2TG42MVF2REJpM3JiUTAyRnJkM1NscUFjaGNP?=
- =?utf-8?B?Q2pqRFBaUU1JbnFTanlIRTJnbDI0Sk5WbFhyczk0MEtLeTNCZkxCQm9ZWVJG?=
- =?utf-8?B?RzlvZE42UVJVOVRITnJqTS92VHhrSnVRNC9PR1Y0bDdmbTFQdzVCcm4zczJy?=
- =?utf-8?B?Zk92WVRoZGlEU2RiVDhBQ0h5T0hmeExQL0NvY3FjSlN5d2xTV1FtN3JTQjZ1?=
- =?utf-8?B?UXRGT1dmSzFPRU1sb0F5a044VmE0QXB1Z014RkRsL08xNUQ3RVpUMHVZeWp1?=
- =?utf-8?B?Uk5EVG5sM3N0NGg1ZWczd1lQeHFsQlVjekNLV2ZXcDBoTmtyTGJkN0hlWVcr?=
- =?utf-8?B?VnhVdkVmZnZXdlhqNzdoMjk2N1NJRzI5WlpmK2RqTU9RMlhZek5JL3pFd3JB?=
- =?utf-8?B?S3BTZDlCR1prV2h3S0grT1psTi9pV2dHbVlHdEtXWlIwS01CM21oeXRKWDRa?=
- =?utf-8?B?MmlOcGFCK1I4WXY0d0VHVnQ4NDZVc3FjSFVGZEFDMHRCZnM4M3JZeU5iYUdF?=
- =?utf-8?B?SForSkZXMC9pYkZkbEFKNmlmM0hObytQSWIwZG91VUNRZlQzdDQzbHluOWN3?=
- =?utf-8?B?L0RkR25hcXhQTEdteDV2SldtbHpJelcvZUM1WmpQR0s4dFh2MExiUEJoUkFS?=
- =?utf-8?B?ZnFEWFRwLzNFaDNoRnd6cEdka2pPMUZITXoxUlJXNDFmajJsWEhzYnlQTUZi?=
- =?utf-8?B?MmVndE1uVGRGNjdTeVV3KzY3ZjBoN1dhZjRCWlY5RFZSNSt5RXY5UVhKY0FR?=
- =?utf-8?B?dVdLa005OHhhSnFoQkRpS0ZpQmtGQjF4ZUltaVlxdmpjMjZZYWttSkZDc0Ev?=
- =?utf-8?B?THpBSm1BSFd6R0hRU0FyeE1TVTh4MWdpSzd0NnpJM1RBaERsMThpY2VKQkV5?=
- =?utf-8?B?SDkxQ3p0eENIMkdTTStidzdCMHpWam5oZnRZV3NBcWlzUHVUdzJDc2dRZTNa?=
- =?utf-8?B?NXV0NjM5R0kzWlhlU01ob2YyU0piMFhOWEF2VE5wSGRIODdWUERnSnY2aW10?=
- =?utf-8?B?NHl1a2crcUxNdGwzZDBkYlRYQkx5Zzh2YnN3S0prNndtc2ZjcUlXTkc2ZnlM?=
- =?utf-8?B?Umc9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 0r71w4izyw+hgWc8Fmwa0/ooJN3p5tW2BTWugtlQ6bfE/LI7pViYF2UJlT19xqnnvodL2mlBNGqZdpNmVXOvAkM9wTXZK66Wo9C7/EZ1zN4XHm17GSfi5Qd9YC8HyNkD1wNChqgmxUFkwJlk7CJlLRHOWGTlNX//qgqUWi1gy+XedObUg4PQersBQonwj05uh7DgXJCoB7y3B4sfVwieHOXkGXmT5RfF6kxMujTAZ07gwRsTMHZczQ5WmukivuO2+wlE5uMYWRx3wcaxKvIyWw3YxxFPoWwIncDKA75efVSFLIiDhhYENduatvQ+U1ZUY0n7O1TYPHCFO84C2MKfeUnqGlL+Zrn5k6wrunr3rsvrUZHC7AraDMHT8VGHcXM0T/JKPmtRIVWCRhleB9IrBNyoY/eCK0KNYM3xq5yOZII7XK0ypiqw+CCMi+Txj/7m3RptRzMYSbiDIk+hDbKMhh6lQYI8zJPlqBpTDMNFkI7gAJxGP82OOYOPn88UfU4KK8IzzrYxPUFLfqYhMjKJh+ucpcdd+lqCgaZHPULcOT0X6IhmeL9JduFtgIqOr/nInwqrg/GNYdEoo6+EPrWap+Z8FVSSdrSMPTeeElkBz0Q=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf3de42b-381f-41fe-f913-08dd78180bd8
-X-MS-Exchange-CrossTenant-AuthSource: DM6SPR01MB0118.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 10:11:23.2094
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gogi3nAFgPer0Sdndom92/97IDPAamw7fISSggVg+Bo15Irqgclk1Mwx9bREyVAy5M1j5ugwDRz0FuFc/3K3CA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6490
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-10_01,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 suspectscore=0
- bulkscore=0 adultscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
- definitions=main-2504100075
-X-Proofpoint-GUID: wECaT74AmCLNoMu6EAMxzNi_a2sK2DGa
-X-Proofpoint-ORIG-GUID: wECaT74AmCLNoMu6EAMxzNi_a2sK2DGa
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFCu92cC/2WQS07DMABErxJ5jZF/ddKuuAdi4Tjj1qK1UztYo
+ Kp3x02QIGE5I70nzdxIRvLI5NDcSELx2cdQg3pqiD2ZcAT1Q81EMLFjgisaygUTdfYc40iNVvt
+ Wdn0LDVKRMcH5z1n3+lbzyecppq/ZXvij/REJvRYVThm1rB86OSgJbV7ekQLOzzEdycNUxC8tO
+ d/QotLOKmZ7rTDgPy3/0t2GlpVmOwfLnGXC6RV9X2YlXD/qOdOyjVyQs5nPOTSzVbGNdTRpojF
+ gmSY7AbtvTX2qX+vv35Bw9pKDAQAA
+X-Change-ID: 20250214-nvmet-fcloop-a649738b7e6e
+To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, 
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250410_031128_061905_1A87AAD9 
-X-CRM114-Status: GOOD (  18.71  )
+X-CRM114-CacheID: sfid-20250410_044112_582572_C6ED920B 
+X-CRM114-Status: GOOD (  14.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -213,44 +79,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/04/2025 10:19, Christoph Hellwig wrote:
-> On Thu, Apr 10, 2025 at 10:09:53AM +0100, John Garry wrote:
->> This, combined with no dedicated NVMe command to issue a write atomically
->> (which could error for out-of-limits size/crossing boundary), is pretty
->> concerning.
-> 
-> Agreed.  Given that Oracle is actually a major user of NVMe, can you
-> bring that to the working group's attention?  That works much better
-> than a random Linux maintainer.
+The main changes are the reordering (so that the tests pass for each
+patch) and holding the lock in fcloop_nport_alloc. Also I've
+splitted the different changes so that it is simpler to follow, e.g.
+'nvmet-fcloop: refactor fcloop_delete_local_port'
 
-Sure, I'll ask someone.
+Note blktests nvme/030 test is likely to fail if the
+70-nvmf-autoconnect.rules is active. In this case two discovery are
+running in parallel and nvme-cli/libnvme gets out of sync. I don't see a
+problem in blktests, but maybe I am just blind:
 
-> 
->> As an aside, I found the scope of the boundary definition to be quite vague
->> as well.
-> 
-> It used to be really horrible, but got a major rework for multiple
-> atomicy in NVMe 2.2 (or was it 2.1?). 
+nvme/030 (tr=fc) (ensure the discovery generation counter is updated appropriately) [failed]
+    runtime  1.843s  ...  1.719s
+    --- tests/nvme/030.out      2023-08-30 08:39:08.428409596 +0000
+    +++ /tmp/blktests/nodev_tr_fc/nvme/030.out.bad      2025-04-10 10:56:05.146372112 +0000
+    @@ -1,2 +1,6 @@
+     Running nvme/030
+    +Failed to open ctrl nvme1, errno 11
+    +Failed to open ctrl nvme1, errno 11
+    +failed to get discovery log: Bad file descriptor
 
-I am not really talking about multiple atomicy here, but something more 
-basic...
+The host, target and fcloop work just fine:
 
-> Which version did you check?
+[ 1434.556136] run blktests nvme/030 at 2025-04-10 10:56:03
+[ 1434.779180] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[ 1434.858814] nvme nvme1: NVME-FC{0}: create association : host wwpn 0x20001100aa000001  rport wwpn 0x20001100ab000001: NQN "nqn.2014-08.org.nvmexpress.discovery"
+[ 1434.860275] (NULL device *): {0:0} Association created
+[ 1434.861773] nvmet: Created discovery controller 1 for subsystem nqn.2014-08.org.nvmexpress.discovery for NQN nqn.2014-08.org.nvmexpress:uuid:a94a718e-09b2-4b5b-898a-116845846761.
+[ 1434.864704] nvme nvme1: NVME-FC{0}: controller connect complete
+[ 1434.865082] nvme nvme1: NVME-FC{0}: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", hostnqn: nqn.2014-08.org.nvmexpress:uuid:a94a718e-09b2-4b5b-898a-116845846761
+[ 1434.871357] nvme nvme1: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+[ 1434.953940] nvmet: adding nsid 1 to subsystem blktests-subsystem-2
+[ 1434.954581] (NULL device *): {0:0} Association deleted
+[ 1435.007936] (NULL device *): {0:0} Association freed
+[ 1435.009560] (NULL device *): Disconnect LS failed: No Association
+[ 1435.060507] nvme nvme2: NVME-FC{1}: create association : host wwpn 0x20001100aa000001  rport wwpn 0x20001100ab000001: NQN "nqn.2014-08.org.nvmexpress.discovery"
+[ 1435.061682] (NULL device *): {0:0} Association created
+[ 1435.062499] nvmet: Created discovery controller 1 for subsystem nqn.2014-08.org.nvmexpress.discovery for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+[ 1435.064831] nvme nvme2: NVME-FC{1}: controller connect complete
+[ 1435.065244] nvme nvme2: NVME-FC{1}: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+[ 1435.070407] nvme nvme2: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+[ 1435.143134] (NULL device *): {0:0} Association deleted
+[ 1435.181772] (NULL device *): {0:0} Association freed
+[ 1435.182360] (NULL device *): Disconnect LS failed: No Association
 
-I am specifically referring to NSFEAT.NSABP, which is now described in 
-NVM Command Set Specification 1.1.
+When disabling the udev rule this test will pass.
 
-I just found it odd that NSABP is related to boundary, but describes 
-whether NAWUN et al fields are used or not (but not whether NABSPF is 
-valid). Having said that, I'd think that NABSPF is always valid from 
-2.1.4.4 Atomic Boundaries "The namespace supports Atomic Boundaries if
-NABSN or NABSPF are set to non-zero values".
+This series goes on top of [1]. I've already collected some more patches,
+e.g. fixing the '(NULL device *)' log output. But let's get this first
+sorted out.
 
-But from "Figure 4: Atomicity Parameters for Single Atomicity Mode", 
-"Namespace Atomic Boundary Parameters" cell, it tells to refer to 
-"Identify Namespace data structure" which describes NSFEAT.NSABP; 
-however it does also describe NABSPF.
+[1] https://lore.kernel.org/all/20250408-nvmet-fcloop-part-one-v1-0-382ec97ab7eb@kernel.org/
 
-I am getting the feeling that the kernel driver should not check 
-NSFEAT.NSABP on whether NABSPF is valid (which it does today).
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+---
+Changes in v4:
+- reordered patches so that they pass the tests each on of its own
+- addressed feedback from Christop, Hannes and James.
+- hold lock while looking up nport and insert nport operation in fcloop_nport_alloc
+- dropped patches from 20250408-nvmet-fcloop-part-one-v1-0-382ec97ab7eb@kernel.org
+- Link to v3: https://lore.kernel.org/r/20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org
+
+Changes in v3:
+- fixed memory leaks
+- allocates fcloop_lsreq in fcloop directly
+- prevent double free due to unregister race
+- collected tags
+- Link to v2: https://lore.kernel.org/r/20250311-nvmet-fcloop-v2-0-fc40cb64edea@kernel.org
+
+Changes in v2:
+- drop tport and rport ref counting, use implicit synchronisation
+- a bunch of additional fixes in existing ref countig
+- replaced kref with refcount
+- Link to v1: https://lore.kernel.org/r/20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org
+
+---
+Daniel Wagner (14):
+      nvmet-fcloop: track ref counts for nports
+      nvmet-fcloop: remove nport from list on last user
+      nvmet-fcloop: refactor fcloop_nport_alloc and track lport
+      nvmet-fcloop: refactor fcloop_delete_local_port
+      nvmet-fcloop: update refs on tfcp_req
+      nvmet-fcloop: add missing fcloop_callback_host_done
+      nvmet-fcloop: access fcpreq only when holding reqlock
+      nvmet-fcloop: prevent double port deletion
+      nvmet-fcloop: allocate/free fcloop_lsreq directly
+      nvmet-fcloop: don't wait for lport cleanup
+      nvmet-fcloop: drop response if targetport is gone
+      nvmet-fc: free pending reqs on tgtport unregister
+      nvmet-fc: take tgtport refs for portentry
+      nvme-fc: do not reference lsrsp after failure
+
+ drivers/nvme/host/fc.c       |  13 +-
+ drivers/nvme/target/fc.c     |  85 +++++++--
+ drivers/nvme/target/fcloop.c | 437 ++++++++++++++++++++++++++++---------------
+ 3 files changed, 364 insertions(+), 171 deletions(-)
+---
+base-commit: 70289ae5cac4d3a39575405aaf63330486cea030
+change-id: 20250214-nvmet-fcloop-a649738b7e6e
+prerequisite-message-id: 20250408-nvmet-fcloop-part-one-v1-0-382ec97ab7eb@kernel.org
+prerequisite-patch-id: 5609b665472db8125a4f1f920968cc39c96183d2
+prerequisite-patch-id: 2a94f274688ff575b94f91f89f200cc909baf45c
+prerequisite-patch-id: b16688fc6fa83015f2c4a0c51d2efc332489ec82
+prerequisite-patch-id: 69de6f3a56ef97a0c538aeb0dddb55e23f75145f
+prerequisite-patch-id: 22b574d0f00c75602bde3bd57830558b9f254be9
+prerequisite-patch-id: 2c152988159cdbd472319c5e53e389512f814eaf
+prerequisite-patch-id: db9c266ce9b624a93e670212034daae7a65975df
+prerequisite-patch-id: 9441bab1a48608cab69f198afed7f5cc05832306
+
+Best regards,
+-- 
+Daniel Wagner <wagi@kernel.org>
+
 
