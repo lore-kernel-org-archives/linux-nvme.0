@@ -4,59 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1B13C3601E
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Apr 2025 01:01:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 871DEC3601E
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Apr 2025 01:43:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eWMRE5n89Q3oYkFXKVPTa6twiNvPyEdAxJTN67+MhUw=; b=r5hswh1smMD7F79/IVUIyxgIPE
-	wOhIr0l6RSSBbvpVMONrKUEkWp4NZ0obOck+nUlChuBh9IfAcpN7WsVw3iSLdjwnKSizprnfLy/Cb
-	ks/tO3LW9EPG/VbdsWP5LE/bU2MX49K/QrviykCLUeHVJhkaRMQ/XEsfci35Sn2bowIUDEj1n/XK7
-	aab/THAvSZB82T6VWqJ7ZokBWHTuaTl19xkPq2KrKxpxVh0qgVhqmRbG5y6wVs6kAySmgbZ2FPMAT
-	Emtew7eHJhDHg8DT3Suqqw1LSCyGbCJEyX9RmKna062BMyWuFOq9IanQtRm0T+RHH3NQp3HWoZ5JG
-	95+ZnVCg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rFZ0QbnEPSTOtYkzH/k3PUcoSgPQYyur8q4ynZlsKps=; b=W5wGPEHmWK/Z4jixqFFZHHR0+4
+	jRhaFIuuSIbzE4HADCQIiS/QF4WY0sg9nmh2htaKRkK9mA00a7gCMs0aeBYLu8Vc5G9E+4dgsv0E+
+	APBYZEBTO2HdNW8dWGMjg0FAL3BO4DHUzZ71Qi7PW8ZA6L4Y1/aPaRcd0SskkxWVq2PdnY+8nqlMK
+	7d3cNLHmCWlLiYRim7gCMck6v1VxbT3zYoocAc2frnnOBPGx5qEeEEzWYvsbh+EtrUVZuIMxL5Hwq
+	jlpxxsvNkN0JWQo0ZQmufKV4+aoUV2Q4koBJ9WaH9vLmHiTIjyv95FsSQA7qy+OgS2WDgKQqaLwpj
+	H9xLBnMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u32lQ-0000000CBTL-0hzj;
-	Fri, 11 Apr 2025 01:01:00 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1u33Q2-0000000CGHW-1cJR;
+	Fri, 11 Apr 2025 01:42:58 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u32lN-0000000CBSw-44tL
+	id 1u33Pz-0000000CGFr-0jFB
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Apr 2025 01:00:59 +0000
+	Fri, 11 Apr 2025 01:42:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9EE0D49D68;
-	Fri, 11 Apr 2025 01:00:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE890C4CEDD;
-	Fri, 11 Apr 2025 01:00:56 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id D5385A42FB3;
+	Fri, 11 Apr 2025 01:37:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8544EC4CEE3;
+	Fri, 11 Apr 2025 01:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744333257;
-	bh=IZQOMUCRZMQQWtM6OcdHrUH6XhdRKk/HRVzljAfM710=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZAwKfep6K3oiRaFe1hTvFwDXcf4I+mbWig2RNAIMwjjEY39lz8/suy8bHXlXQszVb
-	 Ql5OOKR2QTZFC0eQeeh/kfNz+g8TWaqjrLa9tagjoi6IK1N5Ir2GB8mKMJlDoB4fEr
-	 GS3owUSbJ7Oc+2qhpfwsyhcxv2D1WpsskrDAwWc14xNG1mhP0zV8Z3lL+Hf/6qjS3w
-	 05PjzGVP9jWxyqKKY+xOd1xI3Z+pTdXPeFRwSBYHW4bgHFY/2KEm7FyBJgGY5QLBAX
-	 Y2u4sc6dQS3c7GbnPR8/qYYoxMBBAxFFpMcDOgHsnGSvY7Zen3D1ZZHw47wvgjQpts
-	 PFRkCCYERwp/g==
+	s=k20201202; t=1744335774;
+	bh=UN2CuVhZz8jMYldoIkeu/TcOsUEYwn3owGgLo0QFvp0=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=lEt9d/M7SGDeKGpZn/qSvPKqM+zX/iBSGnx9tsZmHTKP4c2hLVfAlyrOo2w9vGNc4
+	 0ZvRJUV9PzxHtCRVtGnm1t37eYcfCjJvCPTmENkL/lS8dlnML66OBTcfmDCpi6//Sd
+	 XK/T24DX5CDR74AVLcrLgwHVwZZD1/Pz8L7vFDxjjxXhYCVIZYhYAqFGtDhT1wx90e
+	 XCRE1MOvRe2TI8YDVL1lVmLHulVUK1f8T4adS2aq97OLJ94fpnJ1u4wi6lZUb5TnQA
+	 8v5as0zs67RgRyss7xovrMfuDZXs2N2OnCiy6PVX7U+pDHjhx4/odesnvHUJfYFQdf
+	 10dg/WQXGBCsA==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH] nvmet: auth: Avoid sparse warning in nvmet_auth_sq_free()
-Date: Fri, 11 Apr 2025 10:00:15 +0900
-Message-ID: <20250411010015.1017829-1-dlemoal@kernel.org>
+Subject: [PATCH v2 1/3] nvmet: pci-epf: Always fully initialize completion entries
+Date: Fri, 11 Apr 2025 10:42:09 +0900
+Message-ID: <20250411014211.1070887-2-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250411014211.1070887-1-dlemoal@kernel.org>
+References: <20250411014211.1070887-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250410_180058_026474_7612716A 
-X-CRM114-Status: GOOD (  10.55  )
+X-CRM114-CacheID: sfid-20250410_184255_337607_17EAD799 
+X-CRM114-Status: GOOD (  16.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,32 +72,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When compiling with C=1, the following sparse warning is generated:
+For a command that is normally processed through the command request
+execute() function, the completion entry for the command is initialized
+by __nvmet_req_complete() and nvmet_pci_epf_cq_work() only needs to set
+the status field and the phase of the completion entry before posting
+the entry to the completion queue.
 
-auth.c:243:23: warning: Using plain integer as NULL pointer
+However, for commands that are failed due to an internal error (e.g. the
+command data buffer allocation fails), the command request execute()
+function is not called and __nvmet_req_complete() is never executed for
+the command, leaving the command completion entry uninitialized. For
+such command failed before calling req->execute(), the host ends up
+seeing completion entries with an invalid submission queue ID and
+command ID.
 
-Avoid this warning by using NULL to instead of 0 to set the sq tls_key
-pointer.
+Avoid such issue by always fully initilizing a command completion entry
+in nvmet_pci_epf_cq_work(), setting the entry submission queue head, ID
+and command ID.
 
-Fixes: fa2e0f8bbc68 ("nvmet-tcp: support secure channel concatenation")
+Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+Cc: stable@vger.kernel.org
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- drivers/nvme/target/auth.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/pci-epf.c | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 0b0645ac5df4..cef8d77f477b 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -240,7 +240,7 @@ void nvmet_auth_sq_free(struct nvmet_sq *sq)
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 51c27b32248d..43296c05319c 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1648,16 +1648,17 @@ static int nvmet_pci_epf_process_sq(struct nvmet_pci_epf_ctrl *ctrl,
  {
- 	cancel_delayed_work(&sq->auth_expired_work);
- #ifdef CONFIG_NVME_TARGET_TCP_TLS
--	sq->tls_key = 0;
-+	sq->tls_key = NULL;
- #endif
- 	kfree(sq->dhchap_c1);
- 	sq->dhchap_c1 = NULL;
+ 	struct nvmet_pci_epf_iod *iod;
+ 	int ret, n = 0;
++	u16 head = sq->head;
+ 
+ 	sq->tail = nvmet_pci_epf_bar_read32(ctrl, sq->db);
+-	while (sq->head != sq->tail && (!ctrl->sq_ab || n < ctrl->sq_ab)) {
++	while (head != sq->tail && (!ctrl->sq_ab || n < ctrl->sq_ab)) {
+ 		iod = nvmet_pci_epf_alloc_iod(sq);
+ 		if (!iod)
+ 			break;
+ 
+ 		/* Get the NVMe command submitted by the host. */
+ 		ret = nvmet_pci_epf_transfer(ctrl, &iod->cmd,
+-					     sq->pci_addr + sq->head * sq->qes,
++					     sq->pci_addr + head * sq->qes,
+ 					     sq->qes, DMA_FROM_DEVICE);
+ 		if (ret) {
+ 			/* Not much we can do... */
+@@ -1666,12 +1667,13 @@ static int nvmet_pci_epf_process_sq(struct nvmet_pci_epf_ctrl *ctrl,
+ 		}
+ 
+ 		dev_dbg(ctrl->dev, "SQ[%u]: head %u, tail %u, command %s\n",
+-			sq->qid, sq->head, sq->tail,
++			sq->qid, head, sq->tail,
+ 			nvmet_pci_epf_iod_name(iod));
+ 
+-		sq->head++;
+-		if (sq->head == sq->depth)
+-			sq->head = 0;
++		head++;
++		if (head == sq->depth)
++			head = 0;
++		WRITE_ONCE(sq->head, head);
+ 		n++;
+ 
+ 		queue_work_on(WORK_CPU_UNBOUND, sq->iod_wq, &iod->work);
+@@ -1761,8 +1763,17 @@ static void nvmet_pci_epf_cq_work(struct work_struct *work)
+ 		if (!iod)
+ 			break;
+ 
+-		/* Post the IOD completion entry. */
++		/*
++		 * Post the IOD completion entry. If the IOD request was
++		 * executed (req->execute() called), the CQE is already
++		 * initialized. However, the IOD may have been failed before
++		 * that, leaving the CQE not properly initialized. So always
++		 * initialize it here.
++		 */
+ 		cqe = &iod->cqe;
++		cqe->sq_head = cpu_to_le16(READ_ONCE(iod->sq->head));
++		cqe->sq_id = cpu_to_le16(iod->sq->qid);
++		cqe->command_id = iod->cmd.common.command_id;
+ 		cqe->status = cpu_to_le16((iod->status << 1) | cq->phase);
+ 
+ 		dev_dbg(ctrl->dev,
 -- 
 2.49.0
 
