@@ -4,53 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5A9EC36010
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Apr 2025 14:18:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34331C36010
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Apr 2025 16:55:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GBrnXt5W94TgeLiXXzBYrd6qWWjrzLkKT1v/hTJZtbs=; b=TqdsO3/drzcwWo24clAU4zBZlT
-	14rZ4CfOZ0Nb6aHkuOufY5VVMIbvmobv5XZcPpeWCek+P7Jh99NLloxGpQ1yTP6Niv0muSZ7o+hbm
-	cxzGiHfNKxV0WP+E/7BctZ4vhrkNZMUfWKxJOPlZ6YofVA/DfFQ38N82QGAcT4MxsvJCtQXmTEmk8
-	qe824cP0HjmBSs58ty5JmNEdYTQl+pi4lGlmQsDmh02A+N7Hz2AdTIve/peqtc3Ru4ALbM4Jtszhl
-	PvHVjsnQUZf36F2wNDWKxTHPxUJTe1aC2N09wYFKvmwzLNSlPlkn1Vh7VGw1yqKhxP+RGOoCMKERO
-	8QVHpoAA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=X0ufIEoNyj3oR0IYewqEF9lLAz1QUMF0bHnORwk+1hQ=; b=Aohqrcq5YZJJlmrqgbacicFlfo
+	IwxBfRRyUv+KAZRBEdBC5z1Jkvz5MjHAJX8qmnnVZaFyoU5grruvPFfIxEEOMnQ15yIoXu3Zzw1LZ
+	hDQfTnC0BP0d3uJ5fdpcYHxo9krOk2TUOvqznkt7aNbuRbP8MA29vRVW2qsLbRsbuYm8su1kB3MjX
+	puJ3uiYeFdoG4ln5N5v04nYyDV3jNkFz0ro08lWoW2sfOtjUBC7UaFcx+ik9+aH5iX1zSiMgU4y/8
+	z5WiPCZINMZCa10eMQHzPJAPaAuAKBQkpkjCTBsOCTUohb0dOj4ZeLmAhWxz+otkgfKb+q6psYBM+
+	jwouhLhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u3FDT-0000000E3rb-3wxB;
-	Fri, 11 Apr 2025 14:18:47 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1u3Hee-0000000EQnv-2F8V;
+	Fri, 11 Apr 2025 16:55:00 +0000
+Received: from smtpbgeu1.qq.com ([52.59.177.22])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u3Eml-0000000DzU8-42Lh
+	id 1u3C1d-0000000DRIT-2JTo
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Apr 2025 13:51:13 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id e110ab2d (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 11 Apr 2025 15:51:10 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 11 Apr 2025 15:51:09 +0200
-Message-Id: <D93UWXK7696X.2QHJV38V6Z0NJ@bsdbackstore.eu>
-Cc: "linux-nvme" <linux-nvme@lists.infradead.org>, "Daniel Wagner"
- <wagi@monom.org>
-Subject: Re: nvmetcli creates tilde directories
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>, "Richard Weinberger"
- <richard@nod.at>
-X-Mailer: aerc
-References: <1957517818.260072969.1744184635348.JavaMail.zimbra@nod.at>
- <D91YFPG2AMZG.1QFEKLMBO5J9Q@bsdbackstore.eu>
- <821291480.260286905.1744188830524.JavaMail.zimbra@nod.at>
- <D91ZEKL37IT1.1KQCRPYZJ6J16@bsdbackstore.eu>
-In-Reply-To: <D91ZEKL37IT1.1KQCRPYZJ6J16@bsdbackstore.eu>
+	Fri, 11 Apr 2025 10:54:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1744368814;
+	bh=X0ufIEoNyj3oR0IYewqEF9lLAz1QUMF0bHnORwk+1hQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=p4feHx0p+uyXjRmm0Fh1YM+W6uyVeqlOpxoVLDyQqqL1K0cO+qYKtns3HG2AkZHGw
+	 Lh+XRX5pm6Yz9A06BoVGe+h2zZsJsCMEI0WxP3Ty/SiUQVlm0FSjaKjVRPkm6TndWR
+	 FF/mJXOj0j7PAYTQTh1mQwJ2TIBNWEFTyzrq9kDM=
+X-QQ-mid: izesmtp89t1744368797te5117757
+X-QQ-Originating-IP: IPlCEmE7xzZ8ozIOcwucNJTzsElxK9Oh578T97Ar7i4=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 11 Apr 2025 18:53:13 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 3300532361145628569
+EX-QQ-RecipientCnt: 39
+From: Chen Linxuan <chenlinxuan@uniontech.com>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Chengchang Tang <tangchengchang@huawei.com>,
+	Junxian Huang <huangjunxian6@hisilicon.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-mm@kvack.org,
+	llvm@lists.linux.dev
+Subject: [RFC PATCH 0/7] kernel-hacking: introduce CONFIG_NO_AUTO_INLINE
+Date: Fri, 11 Apr 2025 18:52:59 +0800
+Message-ID: <E9B8B40E39453E89+20250411105306.89756-1-chenlinxuan@uniontech.com>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: izesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: NNy5VkfPTUBBcmzEQL7gJYMkRMwDXd9sA3Ie/+sW28mdx9tjiY7lL0AB
+	kZPoqBLUtK51UlG/54tbzRLbvRuwCMIeJfiY0lwSm0Gc8Mhzj5BlxXD1CCpmUfF9OKjfY+P
+	bSPgR14rkhpQYINf0+iKjwzjgP/s72xmujqHnJrkrduq+GQZV07AxjQ9V9k3ebnoaOzC093
+	yA/xqFl4aZ0leAaSjHYnTmLAM3VD0SBX4HVpk6j+ok33VhmrWCeGwFxUbXlOSpKNnnPFb1D
+	2em9GmdU6zCsM0tRnJ2SpqTbDZvAu3Terb5PbQdSd6a4PeUZm1CdcXHuF5GHN5sMCPvto/F
+	aUOXsJ+eOiF12eex1OKud28MiFufd3C9axpkwzvUAJMK9Nx9igUN1RMGkoOgJ8dHV24AuKE
+	gsB6utdERdV5x0PcM8Ho6LLOaeWldIQcXFi8wo2CpWf8TaQ8fd+4cSj19wan+dSFu0yZQXw
+	Pz1Zj2BZySMxIzRknWjWMQvoo3720MjOBWZxVw/YJFo1IU03UHL1Zm6SqxTEBkWnGrwQPPz
+	zwJT3e4YcSBEvDj9OqtRB26UKddQyyksB7pBQlUkQGwHYI6v4KrrnwJnSaXiK2VgHY5U+ri
+	9meK+XD9PgHlY6iFVYJq22KBIPL9/33fKacaQzd/t/7M+NeT7YZlRf3WPoZmuatbwwW8mHI
+	xN0oedUf5Xg8JnENvpTPlZagOzSQQcoi+E1u3fIXpRVMsfdtUgI5T3/RWPzt1v2S0HMILaC
+	C9sjOGytZaMk+ZpF1Ln38yiJJ9ANSir8Xvmj2n606kowiy2amaOFr/q6RLA9FNx5eDl1eZ3
+	F+cmIficnUh3fJaOAN2i0GZQfgBhSzbuQS1cirp/DiZdsy4PMMvO/82VxW+HQLiOpUzqe8C
+	CeA+F+HlWB5o0dHDS41dMXSUBklz4dUuKucv9F7LchFE8YVTf9muwLNGs6/gsZ5r7wEiQJo
+	rj8V4LjemM3Vufou5FlFef3yAbMWD/X+HQUdIGJHqaAh1kXY2y8oVi5Pe1MnBbzlAnnwivd
+	jdpqnL8lirVP+lzaZqrMsNNsS148NfZFp00c+DcctfI2RLRm+fJ0T3OpzXFv9icQRfsm08Q
+	ndHsF5aQpxw
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250411_065112_359014_B13DCCE6 
-X-CRM114-Status: UNSURE (   5.37  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250411_035422_040209_030A9EFC 
+X-CRM114-Status: GOOD (  10.47  )
+X-Mailman-Approved-At: Fri, 11 Apr 2025 09:54:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,20 +128,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed Apr 9, 2025 at 10:56 AM CEST, Maurizio Lombardi wrote:
->
-> Ok, 2.0.0 switched to Pathlib library and
-> I see where the bug is now.
->
-> A patch is gonna be pushed soon.
->
+This series introduces a new kernel configuration option NO_AUTO_INLINE,
+which can be used to disable the automatic inlining of functions.
 
-FYI, I merged a patch in configshell that should
-fix this bug.
+This will allow the function tracer to trace more functions
+because it only traces functions that the compiler has not inlined.
 
-https://github.com/open-iscsi/configshell-fb/pull/84
+Previous discussions can be found here:
+Link: https://lore.kernel.org/all/20181028130945.23581-3-changbin.du@gmail.com/
 
-Thanks,
-Maurizio
+Chen Linxuan (2):
+  drm/i915/pxp: fix undefined reference to
+    `intel_pxp_gsccs_is_ready_for_sessions'
+  RDMA/hns: initialize db in update_srq_db()
+
+Winston Wen (5):
+  nvme: add __always_inline for nvme_pci_npages_prp
+  mm: add __always_inline for page_contains_unaccepted
+  vfio/virtio: add __always_inline for virtiovf_get_device_config_size
+  tpm: add __always_inline for tpm_is_hwrng_enabled
+  lib/Kconfig.debug: introduce CONFIG_NO_AUTO_INLINE
+
+ Makefile                                   |  6 ++++++
+ drivers/char/tpm/tpm-chip.c                |  2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h |  8 ++++++--
+ drivers/infiniband/hw/hns/hns_roce_hw_v2.c |  2 +-
+ drivers/nvme/host/pci.c                    |  2 +-
+ drivers/vfio/pci/virtio/legacy_io.c        |  2 +-
+ lib/Kconfig.debug                          | 15 +++++++++++++++
+ mm/page_alloc.c                            |  2 +-
+ 8 files changed, 32 insertions(+), 7 deletions(-)
+
+-- 
+2.48.1
 
 
