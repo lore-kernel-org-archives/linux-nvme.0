@@ -4,65 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C4FCC3601E
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Apr 2025 00:36:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1B13C3601E
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Apr 2025 01:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QLrLCkbG4+MmTKqGtzjpdUQMTQG3poId7mGaG8IlM6M=; b=CZQiCGcr7DCSYlExznETg/ixfX
-	npKgPxdIzyDOFuZctzxeEGjRmQr+6sR4ypHIZQzuPTOTJbU+axCKV98xqVmIBneXVVicvaw59NyCv
-	uL8URO3emX6SAwLucm5M9emH3tL4cTOLFCqSqkDGlBMQJPBylqRfSzBnVMm75IHc1n3dVoIcGaTbC
-	lnaHfVXyM1bZBj/z8Sfgg3NAWW1fa6wdzwL9CkWCTutVAn6GZPEl9LC0fWUzA4HwsQ/Cb4AqU9i0J
-	hwuQdpTZRRlsZa2swJpp7/CiMDgDCxTA3FCSgVYyO8O1GrMpuPHvqoD0k3PPrVsCwohL6gECP+sm0
-	bfJle5ow==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=eWMRE5n89Q3oYkFXKVPTa6twiNvPyEdAxJTN67+MhUw=; b=r5hswh1smMD7F79/IVUIyxgIPE
+	wOhIr0l6RSSBbvpVMONrKUEkWp4NZ0obOck+nUlChuBh9IfAcpN7WsVw3iSLdjwnKSizprnfLy/Cb
+	ks/tO3LW9EPG/VbdsWP5LE/bU2MX49K/QrviykCLUeHVJhkaRMQ/XEsfci35Sn2bowIUDEj1n/XK7
+	aab/THAvSZB82T6VWqJ7ZokBWHTuaTl19xkPq2KrKxpxVh0qgVhqmRbG5y6wVs6kAySmgbZ2FPMAT
+	Emtew7eHJhDHg8DT3Suqqw1LSCyGbCJEyX9RmKna062BMyWuFOq9IanQtRm0T+RHH3NQp3HWoZ5JG
+	95+ZnVCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u32Nr-0000000C8sQ-364L;
-	Fri, 11 Apr 2025 00:36:39 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1u32lQ-0000000CBTL-0hzj;
+	Fri, 11 Apr 2025 01:01:00 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u32N1-0000000C8qP-2EEt
+	id 1u32lN-0000000CBSw-44tL
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Apr 2025 00:35:48 +0000
+	Fri, 11 Apr 2025 01:00:59 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id C915E5C58F9;
-	Fri, 11 Apr 2025 00:33:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8AC1C4CEDD;
-	Fri, 11 Apr 2025 00:35:45 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 9EE0D49D68;
+	Fri, 11 Apr 2025 01:00:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE890C4CEDD;
+	Fri, 11 Apr 2025 01:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744331746;
-	bh=XtJJOOt8gWa7dnIvjuaS7+ixKnGnSqsS9mV25ir/iQE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WzV7QqjQOsS/fktdyia/PILd3uWW944OYIkE+6bmEzOI987WvcVShdfd8MqT644Ju
-	 tTiDtgu083PCbVeWOX2aol8U6/ZT/ZPWdooGSAO0QpO89NFnPfy6+GtCJPiqKmOvWc
-	 tUAOMjsmOV9QTEyMsXd3QRIfKXHUIDPt991IIqHxVOKH3CkhJrWO8rrsmtHuB1DNuM
-	 BrIJVzTsrNGAAm10xL6/Do6ev1oYimI3hJT7iaVompvAOWJrJgLDK/8/XIN+J1n8i0
-	 LW0A9D5tNnZ1ZWtFhukrjdFnvZl6+qwjbJ4OVQ6Rlgya7NEh4swSzumn72C7mvUUHt
-	 8tI8TBdzB/HUw==
-Message-ID: <47d0ee0c-2656-49f2-a5c7-3c3c8a6ef18f@kernel.org>
-Date: Fri, 11 Apr 2025 09:35:44 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvmet: pci-epf: Clear CC and CSTS when disabling the
- controller
-To: Niklas Cassel <cassel@kernel.org>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-References: <20250408024733.690966-1-dlemoal@kernel.org>
- <20250408024733.690966-3-dlemoal@kernel.org> <Z_exWy7bMlkaLMb2@ryzen>
-Content-Language: en-US
+	s=k20201202; t=1744333257;
+	bh=IZQOMUCRZMQQWtM6OcdHrUH6XhdRKk/HRVzljAfM710=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZAwKfep6K3oiRaFe1hTvFwDXcf4I+mbWig2RNAIMwjjEY39lz8/suy8bHXlXQszVb
+	 Ql5OOKR2QTZFC0eQeeh/kfNz+g8TWaqjrLa9tagjoi6IK1N5Ir2GB8mKMJlDoB4fEr
+	 GS3owUSbJ7Oc+2qhpfwsyhcxv2D1WpsskrDAwWc14xNG1mhP0zV8Z3lL+Hf/6qjS3w
+	 05PjzGVP9jWxyqKKY+xOd1xI3Z+pTdXPeFRwSBYHW4bgHFY/2KEm7FyBJgGY5QLBAX
+	 Y2u4sc6dQS3c7GbnPR8/qYYoxMBBAxFFpMcDOgHsnGSvY7Zen3D1ZZHw47wvgjQpts
+	 PFRkCCYERwp/g==
 From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <Z_exWy7bMlkaLMb2@ryzen>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH] nvmet: auth: Avoid sparse warning in nvmet_auth_sq_free()
+Date: Fri, 11 Apr 2025 10:00:15 +0900
+Message-ID: <20250411010015.1017829-1-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250410_173547_635499_0558B377 
-X-CRM114-Status: UNSURE (   8.86  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250410_180058_026474_7612716A 
+X-CRM114-Status: GOOD (  10.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,24 +71,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/10/25 20:54, Niklas Cassel wrote:
->> +static void nvmet_pci_epf_clear_ctrl_config(struct nvmet_pci_epf_ctrl *ctrl)
->> +{
->> +	struct nvmet_ctrl *tctrl = ctrl->tctrl;
->> +
->> +	/* Initialize controller status. */
->> +	tctrl->csts = 0;
->> +	ctrl->csts = 0;
-> 
-> This can be written on one line:
-> tctrl->csts = ctrl->csts = 0;
+When compiling with C=1, the following sparse warning is generated:
 
-I am aware of this, but really dislike this style as I think it makes the code
-less readable. So unless the nvme maintainers insist on this change, I prefer
-leaving this as I wrote it.
+auth.c:243:23: warning: Using plain integer as NULL pointer
 
+Avoid this warning by using NULL to instead of 0 to set the sq tls_key
+pointer.
 
+Fixes: fa2e0f8bbc68 ("nvmet-tcp: support secure channel concatenation")
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+---
+ drivers/nvme/target/auth.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index 0b0645ac5df4..cef8d77f477b 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -240,7 +240,7 @@ void nvmet_auth_sq_free(struct nvmet_sq *sq)
+ {
+ 	cancel_delayed_work(&sq->auth_expired_work);
+ #ifdef CONFIG_NVME_TARGET_TCP_TLS
+-	sq->tls_key = 0;
++	sq->tls_key = NULL;
+ #endif
+ 	kfree(sq->dhchap_c1);
+ 	sq->dhchap_c1 = NULL;
 -- 
-Damien Le Moal
-Western Digital Research
+2.49.0
+
 
