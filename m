@@ -4,64 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BD9EC369A2
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 17:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 947BFC369B2
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 20:19:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JxGOkAbVdmj7AmHw1DY9h8eefv02QpbrHu8t7QJiRLw=; b=m6WLqzi6CBK2b6JC1HQoxR5326
-	OK+zTgGJbd73a7d3SyotUjXsaA0LUwJ4SjULvJcGdY32sany2POX9sDFN2p6q2zDXhmnRD0N6DY0J
-	b8cycOEEyw5zrBhIenzNsdlSVzWnJFAppFGmgnwkzS2tikyR/6nz0mL23JMNXzHyX8hiqlA/nopqp
-	aK08fyqzAo82Bgq7+e4/VP3ATp1Z+Np7f/4dZ94Fzk8/lOHkmQaud1tln3Ih4ZuVRJI5JQZ8Jdqke
-	KDmkPMz4sJHb6uLWioDI5RmvTU+teQULHgikCdDRrj+DSGYKkayqH0iMon+fpQVPPX19h0ShHn1+J
-	bGeKJHwg==;
+	bh=30fljFDyjk9jIrreZ8/GOnxDhnFStsR/c9FJ7/1q/ic=; b=J/jTBMEc8pja05vI9rOh1oPh6p
+	Jz0jeF+Q3PZhcHF4mJwoXzUJyjX9VWPY8IjI1zTFAaFmOkhhg6CpANzHs08sWY0Ta48AU5TUMwdDX
+	gSSdEXfv2g5lWsqSBGVDdzb1s5NvKK6DJeFVtM34FQENbCnBPtazyhVR66OICz0Keqev1KZLnc02i
+	MiHRLUbpFbKC0wUrbP/l4Q++wCjtFUvqj+BR+vQpjVVX52o3ex5BtO8nB8hNFj18RZ8UVfLtQDoO7
+	amWh0UB1tcT9Q+FgskSZvlyTzYXelRybLEQvyKVjzha9h/579sp6hwhDcwxGqP/Gpvo6ZQCkwHpqn
+	5WKMaW2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4O57-000000031b5-45Tk;
-	Mon, 14 Apr 2025 17:58:54 +0000
+	id 1u4QHD-00000003Rcs-1LNM;
+	Mon, 14 Apr 2025 20:19:31 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4O55-000000031ac-33sv
+	id 1u4QH5-00000003Rbl-05KW
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Apr 2025 17:58:53 +0000
+	Mon, 14 Apr 2025 20:19:24 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 11DAEA4A146;
-	Mon, 14 Apr 2025 17:53:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF146C4CEE5;
-	Mon, 14 Apr 2025 17:58:49 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id A9F69A49BAE;
+	Mon, 14 Apr 2025 20:13:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F50C4CEE2;
+	Mon, 14 Apr 2025 20:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744653530;
-	bh=ZNn/kiHP/e/f8CiGEnI1Fw0s3hL8+dt9l/8Au/xM5e8=;
+	s=k20201202; t=1744661961;
+	bh=VcBYwknK3PevCEJXb5AsZ/jDttNi559Kvn6jseNlQ48=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DDbazaS+q2HUAODMV5Gc7jLhEzKMq7OdU/p9DY+T7sQykbFUUyhzMSy0H3i1uAtVX
-	 xXziXzESTt9w4TWbD8fK64t20pppd+K7XSzAnt6f+YxS6ezv0HRQVV8BdCzsRk02S2
-	 QcEKUIs73ijWvLY4hnGw3z3r78lFUcmRObOzW4pS032rRIDUtQNp/cAWa1cA84Qhg3
-	 F1Bwg9tsW55L2pBoP3zTLf5iQHfS21Iq7vA0sh5V1Q78WpHBytDajImBkCPx1viMU4
-	 /FXAwrrtSn0hnEfVbxzYZ5JbA1o1QNxKxGJ+hYHYSQruSs5uyUrK59Y/2S+VIthxAC
-	 MpdAr/LHWcLuA==
-Date: Mon, 14 Apr 2025 11:58:41 -0600
+	b=tcwVcf44YgdPqm7cowyz/Zc0TU78VqhwbxpIAVDQ7+NvzAy2yVtxHiG32rjOoxZ86
+	 DM/X/hmwzQ225h69K0WjMev9FB+GFpSQTOLAukns5PeSEOdG+9SlvSy/lFeRd6S1eM
+	 PBhwdpM2+NlctUj59VuES3gc7/4AgHThVvWwGUKFYXbPwQcklxCz7OPAPlggliRyCC
+	 Z4D7izAQfdoAJ6hZraRushoux2J1U0qvDxTNp1nL8z4DzyhwceKjt90w/76P7xsL4l
+	 86P0vCyAaG3dthMEySUu8Xp1MVQwe6CUASHAZ6cuRAfXWYKb1kgDLRPMyAzE45/5hW
+	 s3GKss95vV08g==
+Date: Mon, 14 Apr 2025 14:19:13 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 2/3] nvmet: pci-epf: Clear CC and CSTS when disabling the
- controller
-Message-ID: <Z_1M0VrD1STfeGjP@kbusch-mbp.dhcp.thefacebook.com>
-References: <20250408024733.690966-1-dlemoal@kernel.org>
- <20250408024733.690966-3-dlemoal@kernel.org>
- <Z_eCmfXXjmarMnQl@kbusch-mbp>
- <e1337822-e0d4-43b6-8fdf-8df521f23cae@kernel.org>
+To: John Meneghini <jmeneghi@redhat.com>
+Cc: hch@lst.de, sagi@grimberg.me, loberman@redhat.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	emilne@redhat.com, bgurney@redhat.com
+Subject: Re: [PATCH v2 2/3] nvme-multipath: add the NVME_MULTIPATH_PARAM
+ config option
+Message-ID: <Z_1twUvRSifuQPCQ@kbusch-mbp.dhcp.thefacebook.com>
+References: <20250322232848.225140-1-jmeneghi@redhat.com>
+ <20250322232848.225140-3-jmeneghi@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e1337822-e0d4-43b6-8fdf-8df521f23cae@kernel.org>
+In-Reply-To: <20250322232848.225140-3-jmeneghi@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250414_105851_830299_A992C1B6 
-X-CRM114-Status: GOOD (  22.98  )
+X-CRM114-CacheID: sfid-20250414_131923_260371_9C873EFA 
+X-CRM114-Status: GOOD (  15.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,50 +74,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 11, 2025 at 09:32:53AM +0900, Damien Le Moal wrote:
-> On 4/10/25 17:34, Keith Busch wrote:
-> > On Tue, Apr 08, 2025 at 11:47:32AM +0900, Damien Le Moal wrote:
-> >> @@ -1895,6 +1912,11 @@ static void nvmet_pci_epf_disable_ctrl(struct nvmet_pci_epf_ctrl *ctrl)
-> >>  	nvmet_pci_epf_delete_cq(ctrl->tctrl, 0);
-> >>  
-> >>  	ctrl->csts &= ~NVME_CSTS_RDY;
-> >> +	if (shutdown) {
-> >> +		ctrl->csts |= NVME_CSTS_SHST_CMPLT;
-> >> +		ctrl->cc &= ~NVME_CC_ENABLE;
-> >> +		nvmet_pci_epf_bar_write32(ctrl, NVME_REG_CC, ctrl->cc);
-> >> +	}
-> >>  }
-> > 
-> > I think this is probably okay, but I don't know if it's necessary to be
-> > messing with CC.EN that the host didn't request. The qemu emulated nvme
-> > doesn't do this, at least. But it looks like that would all work out in
-> > the end anyway, so again, I think it's fine.
-> 
-> Maybe qemu clears/resets all the registers of the BAR when it does a shutdown ?
-> I did not check the code. But here, if we do not clear EN, *and* the host does
-> not first disable the controller before trying to re-enable it (like the linux
-> host pci driver does), after the shutdown, we fail to detect that the host set
-> EN again since we can only detect that by polling and comparing to the previous
-> value.
+On Sat, Mar 22, 2025 at 07:28:47PM -0400, John Meneghini wrote:
+> +config NVME_MULTIPATH_PARAM
+> +	bool "NVMe multipath param"
+> +	depends on NVME_CORE && NVME_MULTIPATH
+> +	default y
+> +	help
+> +	  This option controls the inclusion of the NVMe core module
+> +	  "multipath" parameter. If this option is disabled the
+> +	  nvme_core.multipath parameter is excluded from the kernel.
+> +	  If this option is enabled the nvme_core.multipath parameter
+> +	  is included in the kernel.
+> +
+> +	  If unsure, say Y.
+> +
+>  config NVME_VERBOSE_ERRORS
+>  	bool "NVMe verbose error reporting"
+>  	depends on NVME_CORE
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 6b12ca80aa27..cad76de2830a 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -10,10 +10,11 @@
+>  #include "nvme.h"
+>  
+>  bool multipath = true;
+> +#ifdef CONFIG_NVME_MULTIPATH_PARAM
+>  module_param(multipath, bool, 0444);
+>  MODULE_PARM_DESC(multipath,
+>  	"turn on native support for multiple controllers per subsystem");
+> -
+> +#endif
 
-The spec has some text explaining the host needs to handle a shutdown
-controller with CC.EN set in section 3.6.1:
+John,
 
-  To start executing commands on the controller after that controller
-  reports controller shutdown processing complete (...) utilizing the
-  CC.EN bit:
-
-    o if the CC.EN bit is set to `1´, then a Controller Level Reset is
-      required to clear the CC.EN bit to `0´ on that controller and the
-      CC.EN bit is subsequently required to be set to `1´ as part of the
-      initialization sequence 
-
-
-So I guess some hosts just aren't handling this? No biggie, linux will
-react accordingly either way.
-
-I didn't find anything that requires a shutdown controller retain CC.EN,
-so clearing it on the condition is probably fine. I never really fully
-understood why a disabled vs shutdown-ready controller needed such
-distinctions anyway.
+Is this the logic and wording you want this option to be? You, or at
+least somebody, suggested to rename it DISABLE_MULTIPATH", default "n".
+The end result is just a matter of setting it accordingly; I just don't
+want to stall getting your feature in over a miscommunication. Thanks!
 
