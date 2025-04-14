@@ -4,56 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18AB4C369B2
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 13:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06987C369B2
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 13:27:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dRZbPNgh6H79Rwhs41OwkdDFEtRj0spCjzrmdqEIN8k=; b=VxwtTNlGbsIonD1C7jEfv+M5go
-	Fw+6/vtA2hOmknvNmJhuaMPZSeX04dfLU1K542UHYKqYo4aBPa0W9fxQa7ZkusV7PGGva9rPubszp
-	6/R64IJy+T4hVO5IsKw+5QoRAmKsn/1lFyLvlpVqcKWAUS8ihzp2PB3yjQL2LbY3W358QAkkMc6FN
-	lKkB+K6k//XS3+C/K0xA9tHOuonKqv6oMUV/M9+Kja9W57/p1xAxVFh9mLEEgCBLPbZ0h7z63dJ59
-	lsTTgJuoE9EL911RTPCif2QcvSpSV+erPBRFx3M50IB9cbT7YgUHKQz8ydNATKbnxFOnxT8Cw7h16
-	TNXjD9hg==;
+	bh=hzCq3un4gjLQgOBJc/Whk6CDN7BbFqovKFQl1LIiFjY=; b=wvUZyKeKNlw22DKtxNrxVsfhg2
+	ag3e6e6juQvAONVy23Gt8m3wkGFnhGQHbzxWSHoabtlUrt2o8DtyF8mozyJacBermiuyPN76TD1zx
+	1RBshg2Ed8ZsG78IHf4EzYoO1RLPAzgXkE7x7KHpytMIS3lVrKjRabfsSfpRBUcFB8g/YJorC5WQ/
+	P1zMXki0FSEjJc9BZbgq96Z7yFhMG1CfyTFIMC2qv5ZG/fRMM5U2sURYumR2MAXF694quLGxdCDZr
+	DZhrSDTipK7FqmJ5THVHrSpeP40+wy3sLrsH5aCWH767Olxs1LtYUbUqMkNHDUDbH0U90/68F6xbZ
+	cZ0Nhg6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4Jpy-000000027b1-2X0G;
-	Mon, 14 Apr 2025 13:26:58 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1u4JqF-000000027i5-1KdG;
+	Mon, 14 Apr 2025 13:27:15 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4Jpv-000000027ZB-1QtU
+	id 1u4JqD-000000027h4-0o1b
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Apr 2025 13:26:56 +0000
+	Mon, 14 Apr 2025 13:27:14 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2036E4359D;
-	Mon, 14 Apr 2025 13:26:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC91AC4CEE9;
-	Mon, 14 Apr 2025 13:26:53 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 891185C5527;
+	Mon, 14 Apr 2025 13:24:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7BD2C4CEE9;
+	Mon, 14 Apr 2025 13:27:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744637214;
-	bh=3mmWf7aL2pXLiP/H5JF5mbA92xb7zwsGt3ckJCNigyM=;
+	s=k20201202; t=1744637232;
+	bh=zoAf7BIuluC1txZ4yjQEbLP0gHpfXijkojicAkawmCM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BZ+Sjidy3r1jI83G4iRLZ2lnrsspoVeYJbBif4HpO7EN9fNG3T850QejrxwjFvzXZ
-	 RkOBhyoA1jFrtBMndDmgd/vxVRrOiXHxo/7oLjMFM+A/P7VL9eD0wSyOy39KUCfABc
-	 onGGDRwn6rDGzvgF+qGpgIkhNLHIpGlytq70kVS2zEm6LCNOYlXpBhmb0r27xeH5og
-	 AB6eaPK/FIRAQVQYpCiXYimzr4UtHfFtTlSv8sFMMhhpFYe7KKC6cZ1eTppuzDi2yh
-	 qW1kBLXKv1Aa30s+V6NmnlNHKi5FrSGSbAnP1gXq0xF1kn9eYMFkQZ8h7P3sHqXy+o
-	 PMQ9848a3jSKQ==
+	b=NAP7EW30SE3nJGotBTbW+jXUmTaTyIpAd8QfV8q6yoiRge0Rx4j+NQFIiNerygyTz
+	 mEJccVEQwOxUWPfhFeSX++zvIgK+6HK23ETYKcOVMsGDK/Yb+37deOCrpQI8Chm/0X
+	 aCVXm/MB9zAVBLT9wQJeRGrQMKZX7T87j1PyJOmDDvNK+akjSPHYuaw9N7n1il//HN
+	 sIOgNhXgKBE0VGWkS6+Bsg7+78Uq2NTD1RgZYtOZoOQtG+UIdJ/kqI/ttAIjHmw5VJ
+	 yG4dQBguFT7jfy+ETJj1gRCw8Z+iwSAXImtjJc9AbrRnINKZQrSN7rOXZg28n0shVx
+	 P/+LChaA7Se8A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Uday Shankar <ushankar@purestorage.com>,
+Cc: Daniel Wagner <wagi@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
 	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
-	kbusch@kernel.org,
+	james.smart@broadcom.com,
 	sagi@grimberg.me,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.14 18/34] nvme: multipath: fix return value of nvme_available_path
-Date: Mon, 14 Apr 2025 09:25:54 -0400
-Message-Id: <20250414132610.677644-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 26/34] nvmet-fc: take tgtport reference only once
+Date: Mon, 14 Apr 2025 09:26:02 -0400
+Message-Id: <20250414132610.677644-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250414132610.677644-1-sashal@kernel.org>
 References: <20250414132610.677644-1-sashal@kernel.org>
@@ -63,8 +65,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.2
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250414_062655_401828_C6021634 
-X-CRM114-Status: GOOD (  10.91  )
+X-CRM114-CacheID: sfid-20250414_062713_271931_90F5C19C 
+X-CRM114-Status: GOOD (  13.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,33 +81,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Uday Shankar <ushankar@purestorage.com>
+From: Daniel Wagner <wagi@kernel.org>
 
-[ Upstream commit e3105f54a51554fb1bbf19dcaf93c4411d2d6c8a ]
+[ Upstream commit b0b26ad0e1943de25ce82a7e5af3574f31b1cf99 ]
 
-The function returns bool so we should return false, not NULL. No
-functional changes are expected.
+The reference counting code can be simplified. Instead taking a tgtport
+refrerence at the beginning of nvmet_fc_alloc_hostport and put it back
+if not a new hostport object is allocated, only take it when a new
+hostport object is allocated.
 
-Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/multipath.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/fc.c | 22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 2a76355650830..f39823cde62c7 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -427,7 +427,7 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- 	struct nvme_ns *ns;
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 3ef4beacde325..a3a6dfe98d6fc 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1042,33 +1042,24 @@ nvmet_fc_alloc_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
+ 	struct nvmet_fc_hostport *newhost, *match = NULL;
+ 	unsigned long flags;
  
- 	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
--		return NULL;
-+		return false;
++	/*
++	 * Caller holds a reference on tgtport.
++	 */
++
+ 	/* if LLDD not implemented, leave as NULL */
+ 	if (!hosthandle)
+ 		return NULL;
  
- 	list_for_each_entry_srcu(ns, &head->list, siblings,
- 				 srcu_read_lock_held(&head->srcu)) {
+-	/*
+-	 * take reference for what will be the newly allocated hostport if
+-	 * we end up using a new allocation
+-	 */
+-	if (!nvmet_fc_tgtport_get(tgtport))
+-		return ERR_PTR(-EINVAL);
+-
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+ 	match = nvmet_fc_match_hostport(tgtport, hosthandle);
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 
+-	if (match) {
+-		/* no new allocation - release reference */
+-		nvmet_fc_tgtport_put(tgtport);
++	if (match)
+ 		return match;
+-	}
+ 
+ 	newhost = kzalloc(sizeof(*newhost), GFP_KERNEL);
+-	if (!newhost) {
+-		/* no new allocation - release reference */
+-		nvmet_fc_tgtport_put(tgtport);
++	if (!newhost)
+ 		return ERR_PTR(-ENOMEM);
+-	}
+ 
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+ 	match = nvmet_fc_match_hostport(tgtport, hosthandle);
+@@ -1077,6 +1068,7 @@ nvmet_fc_alloc_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
+ 		kfree(newhost);
+ 		newhost = match;
+ 	} else {
++		nvmet_fc_tgtport_get(tgtport);
+ 		newhost->tgtport = tgtport;
+ 		newhost->hosthandle = hosthandle;
+ 		INIT_LIST_HEAD(&newhost->host_list);
 -- 
 2.39.5
 
