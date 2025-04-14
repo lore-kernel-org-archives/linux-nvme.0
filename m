@@ -4,79 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFCABC369B2
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 20:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CFA5C369B2
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 20:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E2LkNKoJc272ydRzthwkmkOA8tAzFNblF5gb1AnCUMY=; b=w54YH9sdF17keRS/LwioP0pNNO
-	NJOvtPBxvXpirEccUCh69JDldn3yDuQfS7xq8cnXmlwHT9ksJ6FNAwqaP/gKzJ/7MLc6eTlhXTKpD
-	PvKqfOX6oPicQ7h66yzYS0AjScyF5a26Q6idXhmW+rufdyZgKnQoGdd2iJADUyx48845fEHyH8qgQ
-	SmMLl9g5fyQp/MBCORRUwi3ErYJK14BXtdkS7wZH5FvhxAal+O24RQWlyhlWupwfcxnbN5bKbj3P7
-	kz/yMMS2ZzTalTRGPQGBeDAefcCZrqp2rc3Mhbx9+2Asl/FK7lfC1TOPM17FsvHHr8/C2D3PxlzSA
-	d36+PfkQ==;
+	bh=nlytvZP5X3CSrXmWUdkGKMPgo0qr8e0WWy1oK5IDg2s=; b=pGrdqH5xN3RtW/gov5Wsm54x/c
+	ezxIWIMZ8LUCJPbwn5LHVonW0bZ2Znhkh+qTwd73z/7otV2zLZlA2v/fc/Si3vj56O3Jgcnny/k6E
+	h+lIfgS/25OSvc0dcTu3yStF9XoL3mw0UQ4x09dhdQt9XGvkOQVZwkhOX5ZKnkM0Nxs2GwRvQl4ES
+	99zk8MhSOzF+c0dY4qlEBdUZn1o0i+H/tJx2UtrP12iOLQhskshAbmxbWOmpk1EtKvo33Dxsg6/kF
+	3vH9VpZ0BOd+Ub5SDgymRv+t++dcWfKt7pIYVjkro9hkhgbuU7zQ6ZX1yJkMEF/FFeKYnNd1TODnQ
+	+5GMIXFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4QMW-00000003SBu-24xl;
-	Mon, 14 Apr 2025 20:25:00 +0000
-Received: from mail-ed1-f53.google.com ([209.85.208.53])
+	id 1u4QR4-00000003TJm-14pn;
+	Mon, 14 Apr 2025 20:29:42 +0000
+Received: from mail-ed1-f44.google.com ([209.85.208.44])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4QMT-00000003SBR-0WnQ
+	id 1u4QQh-00000003TAU-1i0G
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Apr 2025 20:24:58 +0000
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5e5c9662131so7316701a12.3
-        for <linux-nvme@lists.infradead.org>; Mon, 14 Apr 2025 13:24:56 -0700 (PDT)
+	Mon, 14 Apr 2025 20:29:20 +0000
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e6ff035e9aso8963817a12.0
+        for <linux-nvme@lists.infradead.org>; Mon, 14 Apr 2025 13:29:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744662295; x=1745267095;
+        d=1e100.net; s=20230601; t=1744662558; x=1745267358;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E2LkNKoJc272ydRzthwkmkOA8tAzFNblF5gb1AnCUMY=;
-        b=PnGkbiZYIPh4jw/RPUL5FYTfWLpekAGGfJ8AP7ocrReY04eOqQkujzbissOcmtMet7
-         Grv7w+zPF5+Ff9z+NrHyfDTHtFLFS0qyf1FIxZHbeAycOzr+jnjEhofzEsvxRpZ5VVWz
-         CSx65ldGCQrrOABEn/G7v8s/DhSv23Oelcif9DSEBDEMt4jaOiXSTMkyxCwo47W1tdLh
-         qCXSXFbiz4rMbmM+t/x+2QVIwiBMV7Oe2hQWsH4HhrjPhLyDWWOF87LgllcGjfhk0VTn
-         Y5nO5aUV/89y63pcWIcUavY7oUwuMN1AN7yUBpNF2FsQcokwTH1K4xlT9VIcmykh6j+b
-         A1jw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCW5imUXS8id5g1Axmgi8yuiQnRnLvkZwpFCmUsd1jcd7sbU+xfo8qRhxOArKiVx5IqLX2bybgG9xJ@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw21TUbUgIhDVOXiWi5EzWl/nw1LiGyHfp873JGTMYEQL1EfLXd
-	X7fkBUbDp6CO3vFBD6Kj++OWTVs4Zn3PhQzaMpIdzhIhbRzBe28e
-X-Gm-Gg: ASbGnctvZ7Tbh/JQjx6qwE1RRU9mLW6Ihn7tOuWQW67bDNG5kXIvY7v8UFbyHPWqCCd
-	3ZubHSijsuYIohAF7TACkrHCkdxohgtYILScMQ1RFheGn8oCrhy9wFirS4MVd0MF1TnBEEgBpeG
-	NsdVj7/sKYE/YT4u/LMp7oRG30X8cSbbaDlb3z8ILWcHqBURNLIKrYKcBRc5hSwEP4ve2H6/ey3
-	S0zZdWp+Rq5VPpjAz9zY7UQlqV+EfgRG76E+YNnHv6/nNzZoAME6Uc9XJw03DwmjOurrBXrMuLe
-	Da+kQCQSjW3YSiddQgslCNC+ifHsXdvn8FP8wKqZaMDiSAXqvxILtPOFHRri3stzykQufpEc
-X-Google-Smtp-Source: AGHT+IHxohZGmSZaj8ggXot0Fybgw4bB7sItRPJMrEy7ou0tonrSVQMKuZ80+8w13XGkrJdYQ6BPtQ==
-X-Received: by 2002:a05:6402:3508:b0:5e8:bdb4:2891 with SMTP id 4fb4d7f45d1cf-5f36fefd97cmr10803175a12.30.1744662295123;
-        Mon, 14 Apr 2025 13:24:55 -0700 (PDT)
+        bh=nlytvZP5X3CSrXmWUdkGKMPgo0qr8e0WWy1oK5IDg2s=;
+        b=EnKemFRGuOlcNoYF+KEc2V8kgEZToSVoXYV2haxoyy8Mfu9f1Z559pu5lNTZLn3/r4
+         JDFi5g0rMSMC3wcC6WSfStdzrVRNgpnQsD8iTqxmnHNap4oFqo2Sds2TpHOGp1+phwWn
+         YuzM9hvvbsucGR8eQuCi4q0RUCvrTzdT6KNX09rtUqZeuLSICHmJO7WZHbiQ805PDdFw
+         CQdL/ueE7J7Ejt8rvy7abw8dtoUJSCcY8H03qO8EwsgTR7fH5Jcswp7E5B6+M0bCD2EN
+         tmzlaMj7SboYkil9k5lIVRyN850KIIefHClw+3NWOUrFzAf2v3m/XlG+RZDdr4N09Pnv
+         9cEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVnoXeYO4aDCM40UfSro2bT970nANUzEN8RmU9n3hKLARy5Du381uRrNJoBehKAU1QxxVxU3Gw35euj@lists.infradead.org
+X-Gm-Message-State: AOJu0YyPrpBUSlWcq7/750lcv30k0lSv2xEO7iFMG4eWNQmk2QlEyAY1
+	hpQaQ6x/+7FeUSw20g9tqbylAf0c8+KzVh+qwZWmvJDamAZX5Y41
+X-Gm-Gg: ASbGncvBOqL+ffyDdB1eKLrOwmWMAniPVmyaA1IiuQzzctVqWY0q6XYdZbVHgibQ9u9
+	/JUrelkxa4WUlgukjaKzFektgTWx7YXfCNIcVeg4fHjBGvM06WhGSKdNSCz9H+EFyLQRhj580QH
+	OhMvtju1zONfHg+lD5o+cD3q+VvcBayi/StFt89/fzdX+26O4sXO9PJAu8LmlcuxgmevfAq1Xr2
+	g8GmGWwDA8tyeHx6DULjO2q2d4o1U36oWncx4JVDPZcebz6xldrMGCxaLdiHHfKxVth2D8v7SXq
+	F8KwTX7lnecwZQpXNGLWT0gmTh4SRcvUT7xu5tLE3cu2Auy89vcCeuY16WrennC5McZu5Y1B
+X-Google-Smtp-Source: AGHT+IGqIrTYsuxHXeCb1GmEWBbCf7GeBZn8udIbwTsPefrG5bmRbeUC5ajXnAoRhxUZycAM6conIw==
+X-Received: by 2002:a05:6402:26d1:b0:5e6:13bf:2c7c with SMTP id 4fb4d7f45d1cf-5f36fb8a121mr9524802a12.9.1744662557747;
+        Mon, 14 Apr 2025 13:29:17 -0700 (PDT)
 Received: from [10.10.9.121] (u-1j-178-175-199.4bone.mynet.it. [178.175.199.47])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f36ef56e61sm5450346a12.23.2025.04.14.13.24.54
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f36ee5500dsm5394725a12.4.2025.04.14.13.29.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Apr 2025 13:24:54 -0700 (PDT)
-Message-ID: <1dc5d8ca-fed8-47f4-80f1-cd2a404384fd@grimberg.me>
-Date: Mon, 14 Apr 2025 23:24:54 +0300
+        Mon, 14 Apr 2025 13:29:17 -0700 (PDT)
+Message-ID: <5feed30d-4752-41b6-bf53-2f9abafaf3ad@grimberg.me>
+Date: Mon, 14 Apr 2025 23:29:16 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
+Subject: Re: [PATCH 2/3] nvme-tcp: sanitize request list handling
 To: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
  Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chris Leech <cleech@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20250403065522.90807-1-hare@kernel.org>
- <20250403065522.90807-4-hare@kernel.org>
- <ee4379d7-53f8-4399-ba94-be9113b11b48@grimberg.me>
- <09aca7f3-4911-4a6f-a49d-25da590bf8c6@suse.de>
+ <20250403065522.90807-3-hare@kernel.org>
+ <f30a41f0-496b-4ad7-a0aa-01f2d5eade73@grimberg.me>
+ <a7d0fb4a-e0b4-4ede-911d-993acdfebd42@suse.de>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <09aca7f3-4911-4a6f-a49d-25da590bf8c6@suse.de>
+In-Reply-To: <a7d0fb4a-e0b4-4ede-911d-993acdfebd42@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250414_132457_163706_412C89FD 
-X-CRM114-Status: GOOD (  24.77  )
+X-CRM114-CacheID: sfid-20250414_132919_446471_88B34383 
+X-CRM114-Status: GOOD (  18.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,77 +92,46 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 14/04/2025 9:21, Hannes Reinecke wrote:
-> On 4/14/25 01:09, Sagi Grimberg wrote:
+On 14/04/2025 15:35, Hannes Reinecke wrote:
+> On 4/14/25 01:00, Sagi Grimberg wrote:
 >>
 >>
 >> On 03/04/2025 9:55, Hannes Reinecke wrote:
->>> When the socket is busy processing nvme_tcp_try_recv() might
->>> return -EAGAIN, but this doesn't automatically imply that
->>> the sending side is blocked, too.
->>> So check if there are pending requests once nvme_tcp_try_recv()
->>> returns -EAGAIN and continue with the sending loop to avoid
->>> I/O stalls.
->>>
->>> Acked-by: Chris Leech <cleech@redhat.com>
->>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->>> ---
->>>   drivers/nvme/host/tcp.c | 5 ++++-
->>>   1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>> index 1a319cb86453..87f1d7a4ea06 100644
->>> --- a/drivers/nvme/host/tcp.c
->>> +++ b/drivers/nvme/host/tcp.c
->>> @@ -1389,9 +1389,12 @@ static void nvme_tcp_io_work(struct 
->>> work_struct *w)
->>>           result = nvme_tcp_try_recv(queue);
->>>           if (result > 0)
->>>               pending = true;
->>> -        else if (unlikely(result < 0))
->>> +        else if (unlikely(result < 0) && result != -EAGAIN)
->>>               return;
+>>> Validate the request in nvme_tcp_handle_r2t() to ensure it's not
+>>> part of any list, otherwise a malicious R2T PDU might inject a
+>>> loop in request list processing.
 >>
->> The way that the send path was done - is that EAGAIN returns 0 
->> (success returns >0, failure returns <0)
->> Perhaps we can make recv do the same?
+>> Not clear what do you mean by "malicious R2T PDU".
+>> Can you please clarify what you have seen/observed in the commit msg 
+>> (i.e. what led you to this patch)?
 >>
-> I guess we can.
->
->>> +        if (nvme_tcp_queue_has_pending(queue))
->>> +            pending = true;
->>> +
->>
->> Something is not clear to me, this suggest that try_send was not able 
->> to send data on the socket, shouldn't a .write_space() callback wake 
->> you when
-> > the socket send buffer gets some space? Why> do you immediately try 
-> more even if you're sendmsg is returning EAGAIN?
->>
-> But that's precisely the point: sendmsg() did _not_ return -EAGAIN.
-> recvmsg() did.
+> This is coming from code inspection only.
+> In nvme_tcp_handle_r2t() we are looking up a request by the 'command_id'
+> value in the pdu, and then add it to 'queue->req_list' without further
+> checking.
+> So if a malicious R2T packet is received containing the command_id of
+> a command currently on 'queue->req_list' we'll end up with duplicate
+> entries on the list.
 
-What did try_send return? Why didn't it set pending?
+I think this falls into a bucket of a bunch checks that the host does 
+not do. But ok.
 
 >
+> [ .. ]
 >
-> We just imply that nvme_tcp_try_send() will return -EAGAIN once 
-> nvme_tcp_try_recv() did.
->
-> Which is wrong; -EAGAIN on reception can be due to a number of factors,
-> and does _not_ imply in any shape or form that sending will exhibit
-> the same error.
+>>> @@ -773,7 +785,8 @@ static int nvme_tcp_handle_r2t(struct 
+>>> nvme_tcp_queue *queue,
+>>>       nvme_tcp_setup_h2c_data_pdu(req);
+>>>       llist_add(&req->lentry, &queue->req_list);
+>>> -    queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+>>> +    if (list_empty(&queue->send_list))
+>>> +        queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+>>
+>> Is this change mandatory? looks out of place.
+>>
+> Arguably an optimisation. I can leave it out.
 
-I get that recv returning EAGAIN, we should not return from io_work(). 
-The second check
-is not clear to me. If try_recv got stuff, we set pending=1, if try_send 
-was able to send, we set
-pending=1. They should be independent. Why is this check in the end of 
-the loop correct.
-
-It can be that the queue has pending requests, but there is no room in 
-the socket send buffer,
-otherwise, it would have set pending=1 no?
-
-I am missing something.
+When it comes in this context it is not clear what it is designed to do. 
+Don't mind having it,
+but lets separate it from this patch.
 
