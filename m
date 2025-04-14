@@ -4,52 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2DC3C3601E
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 07:25:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41C22C369B4
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 07:56:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8DhkEdAqtQqF1PUonIzfsefD+11Figh+0F2JFgGGObM=; b=PxXcXHvMqMQfXMC6XQ2ZUbi6JV
-	koUhmUDr7tdVMLgoGcjKPRDHxFhNn7x7ODK4zdVgyoBW8L3FRFNZxkI28hKWbzQ2RjVKo5ti7Sxeq
-	5NauH5ilMUe4N35I+ylhxWKG4HibZiU3PaItfkIdStBVGpDQ60tgxucPQDoJ07ECpeF6+39ZaX6Ek
-	xHK8fectpQjOqqpDayxyeTgvuV9ELfZGrNzALRu/aa4nEe5lliCXQWETiSlQNRqXjhiQsaJeLMmoR
-	Mg4oHfse8OQuQjfTj6Yr8Sb2v8yIhAQe20en7piqUj4JTaE3t00qOV45pUwc0dh+18AXjX5PemeWu
-	WjJOwZ8g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=COht1CALZmZz8MRkow5xVDQUyVzx29Nu6ozA/Y0jgb4=; b=UbBK/62DIushinqR3w75+6i9L/
+	y4xUNbrc0Ln+MPw2bghVWaa/3rk342ZizusNCeDpqJe8ArxTj3+CTHZrxMOwpg1SDA3pFzNisbzZI
+	GsBhJnMf470YN1blR2r/gDPpueGe9QK4vR65nF8efBVUa2U6HIDcznooh70oFGaSRZW2njivC8e48
+	zsa6ROk0U7gXM2gIbh6HyRIFiZUiseVyYVckVOI9gC4CF6IjAVXyE1cJhn5PDczMef3F/2lfMN4Sb
+	LhbICMhEs/m+w46ZPQ3O/YtmWYjqR7nsavsTpO8AI5S1PSL42SBFAAg/z3ofdlThVlzugt/yJQECN
+	17rDxaag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4ECD-00000000v9S-3991;
-	Mon, 14 Apr 2025 07:25:33 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1u4Eg8-000000010Em-0Dat;
+	Mon, 14 Apr 2025 07:56:28 +0000
+Received: from mail.commetro.pl ([217.61.16.142])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4ECA-00000000v8y-2w2T
+	id 1u4Efk-000000010A3-2VfZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Apr 2025 07:25:32 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id 4e69d0a0 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Mon, 14 Apr 2025 09:25:26 +0200 (CEST)
-Mime-Version: 1.0
+	Mon, 14 Apr 2025 07:56:05 +0000
+Received: by mail.commetro.pl (Postfix, from userid 1002)
+	id CEA6C82CF4; Mon, 14 Apr 2025 09:55:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=commetro.pl; s=mail;
+	t=1744617362; bh=COht1CALZmZz8MRkow5xVDQUyVzx29Nu6ozA/Y0jgb4=;
+	h=Date:From:To:Subject:From;
+	b=fuA6EohW1FqxENseDdQnoU6Gj5kzwUND3kNaGl8lPxHhJxL2G8tK0DSkJuYECK+/F
+	 lhKRLmlWcZX24fMk9IeEHmMUj/pfKecYjsosiLcSL9uuo7ILge1GChIkSmmBwUTpIe
+	 T931nvGx5AQts8ORbtOxollfXUbOWxr3ZPmrRL++kfaK97kaNLgbDMXFbylaD/VgUd
+	 discTPRvkeDgO0fEc8ANOVEKR+HBLHaVatPXBRbVsAYgoPCEKkcDhUgrTrDs1q/OKm
+	 iA0q9izb+TzlYqQaYTx7qZJWOhs5sGssxx1+WD5J8GULnKbIzHqCky8m/GKCm85uwe
+	 GwfXYBvMVLZOA==
+Received: by mail.commetro.pl for <linux-nvme@lists.infradead.org>; Mon, 14 Apr 2025 07:55:54 GMT
+Message-ID: <20250414084500-0.1.1z.n313.0.8ewjneo64w@commetro.pl>
+Date: Mon, 14 Apr 2025 07:55:54 GMT
+From: =?UTF-8?Q?"Jaros=C5=82aw_Kownacki"?= <jaroslaw.kownacki@commetro.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: =?UTF-8?Q?Pytanie_o_ofert=C4=99?=
+X-Mailer: mail.commetro.pl
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 14 Apr 2025 09:25:25 +0200
-Message-Id: <D966L87J0CQ2.2WV0U5JZEMZ9Q@bsdbackstore.eu>
-Cc: <hare@kernel.org>, <linux-nvme@lists.infradead.org>,
- <zhang.guanghui@cestc.cn>, <loberman@redhat.com>
-Subject: Re: [PATCH V4 1/2] nvme-tcp: Prevent infinite loop if socket closes
- during CONNECTING state
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Sagi Grimberg" <sagi@grimberg.me>, "Maurizio Lombardi"
- <mlombard@redhat.com>, <kbusch@meta.com>
-X-Mailer: aerc
-References: <20250404082801.1614252-1-mlombard@redhat.com>
- <20250404082801.1614252-2-mlombard@redhat.com>
- <c4695327-0a0d-4b8c-a852-ee2ce4beb924@grimberg.me>
-In-Reply-To: <c4695327-0a0d-4b8c-a852-ee2ce4beb924@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250414_002531_075784_00D48B5D 
-X-CRM114-Status: GOOD (  16.22  )
+X-CRM114-CacheID: sfid-20250414_005604_757087_1EFC19F1 
+X-CRM114-Status: UNSURE (   1.48  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,44 +66,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Apr 14, 2025 at 12:44 AM CEST, Sagi Grimberg wrote:
->
->
-> On 04/04/2025 11:28, Maurizio Lombardi wrote:
->> There is a potential race condition that can occur if
->> the target closes the socket while the host is in the CONNECTING state.
->>
->> If the socket's state changes to TCP_CLOSE, the nvme_tcp_state_change()
->> function is invoked. However, nvme_tcp_error_recovery() is unable
->> to transition the controller state to NVME_CTRL_RESETTING because
->> the controller is still in the CONNECTING state. As a result, error
->> recovery is bypassed, and the controller incorrectly transitions
->> to the LIVE state with closed sockets.
->
-> I think that the issue is that the controller moves to LIVE state - it=20
-> shouldn't.
-> However its not clear where this happens.
->
->>
->> Subsequent attempts by the host to communicate with the target
->> will result in an infinite loop.
->>
->> Fix the bug by initiating the error recovery process to correctly
->> handle the disconnection in case we missed this event
->> while transitioning from CONNECTING to LIVE.
->
-> The problem is in the initial connect - here there is no error recovery
-> and we want to propagate the error to the user.
+Dzie=C5=84 dobry,
 
-Maybe there are other problems that I've not found, but this race
-condition definitely exists.
-This can be reproduced by deleting the port, target-side, with nvmetcli
-just after the connection has been estabilished, before the controller
-goes LIVE.
-Yes, it's quite hard to hit it in practice, but if you want to see it
-yourself, a small sleep in the right place in the host driver will
-help you.
+Czy potrzebuj=C4=85 Pa=C5=84stwo aktualnie nowych klient=C3=B3w ?
 
-Maurizio
+Skutecznie pomagamy rozpoczyna=C4=87 rozmowy handlowe z klientami zainter=
+esowanymi Pa=C5=84stwa ofert=C4=85.
 
+Zapraszam do kontaktu zwrotnego.
+
+
+Pozdrawiam serdecznie
+Jaros=C5=82aw Kownacki
 
