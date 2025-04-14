@@ -4,69 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7891C369B2
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 13:30:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8D66C369B9
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 13:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tYsmlOT5GxYgSLJwU+21J22ia9V2iVsXN94QgOs+tk4=; b=VWlu7fZ4dF5WhAbHziju4ptm7+
-	UhQdKdr00B6kby0AS8EXFOqlPz6sJ86w95wcRizyZAmrYXl6Wl1Hv2DEVsoLEWQc2evwtucUF2x6o
-	h60phRJuh/LH4tpPNdHcyUCckR56ctf0jquEoh/1/okyC8Ji2wN4uuK7/LqDQxv6R+MWJGBpg7MrJ
-	7RLh/7cFFUfHADz3jXDzfvSyWgzGIzI7xdlYtUxceEGjBV7bYoJyHfN1vSryyWs2e6VX38NKKd9fA
-	I28YwyEcGTAJWtVEErxlcaclL8VDp+hvks1+d+FcfV/1+znbJy8f9Ae/RhvY79ospJCeFjq/P/Fpn
-	SD/OIP1w==;
+	bh=goaEgVYAmt4aow4PEsXESAdV3yf6rtorepplz98trVY=; b=2fc1zaS/1yP3iwXRQW+c+PZG8m
+	UNPiZq1qYMaEDSLyk4yPRVfSimwt7Gvm6VY7LCgNl+jZlFGcJmuCMMWyBOANVhvEd63j5IEHs+FyY
+	mPvwh+SuUkN0hB80kkYo/VY0kdDkHZbQtiqj9V503k2AyA2mjVN3Q61iQI6swp6z0sLBZ6zwODTZN
+	kgvKKx/QJzLVPXQAqVRdnX98vjpdUXA4QtSdnv2UNTB23z362mKkGB9n5oqAuK8vOcKS/TjbR3WoI
+	JVuqreOKYLee4sh/xpIkfnGPKXZ8ou05rhC00Z7WK4MVa+1l4W/oFzG9yJSjfjeiOvjRmFk04EABY
+	rpANDKUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4JtD-000000028iy-1kKG;
-	Mon, 14 Apr 2025 13:30:19 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1u4JtF-000000028kk-0MQR;
+	Mon, 14 Apr 2025 13:30:21 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4JrV-000000028Fq-1sYO
+	id 1u4JsI-000000028TP-17VD
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Apr 2025 13:28:34 +0000
+	Mon, 14 Apr 2025 13:29:23 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E3D335C5580;
-	Mon, 14 Apr 2025 13:26:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59594C4CEE2;
-	Mon, 14 Apr 2025 13:28:31 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 05C1149F50;
+	Mon, 14 Apr 2025 13:29:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAAABC4CEE9;
+	Mon, 14 Apr 2025 13:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744637312;
-	bh=gmCfe1COb9qkb2Vi9dOY8JKW+Czq0eYOsx8yhYbnm9M=;
+	s=k20201202; t=1744637361;
+	bh=Pg6gCQBdEpkh4I0IgeWbw45o0IqIzFFpIq3s+sJzhjE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OrPY+ZhEW3+DOvf6b+ZXBq2xujvtr9QOi/DMVIw5HBIwks8O/GOTQwuDKhkfjqLkR
-	 bIBXr6kgaw66fsgpWnCWNWzj6LFjK3lPWMmV3qqAvGzcf2Pgs3w87OhLue2XR1+TT2
-	 xBUID10piJdhzeMr0l2f4uCibxGmYOeapH0pI9W41Xrpk9ZxL2fOFwufbXAPhVew7E
-	 HKoZncVuhLoDtFCTLL6nW4KKkcNAp33V1TrcthpbI9G1vDZP4QeOMX5lyODTL1eOZ2
-	 suRTDPhsiLBnwu292PbOvLM9qw2eTcO9GclnRoIXJmQ/Tpyd+VgivbrS8LFh4NK9sg
-	 ksg5dOO3zNn1g==
+	b=RElN7r77S5yWeybi5dbMERozugb2jENe79wBMaCC3loszV37oarvgwkVsOdoXqPA5
+	 COO5OspkEOrfxzrcHwwUeLsDykD3SL4jyMiNU4/6c9DeUMz3FrcsSAzH6IZK2MGRlb
+	 EvqChYeqEVDJ5XywFxalxUfnM9ZJSizf4rOUKnmXTg78AzYlau4e9Dm018IgSx6DD0
+	 LYFFCT0SV6giEj22vUXGuB/7I+M+Qx4vZbyYBnC4Xm4qRJhHvfAYbZNPUFyag3WvMH
+	 RZhiCs8iad8FYcn8Aei4jGQwRfRNrLM4gekxVoO7kyLO40S47WGgUXxm0oQPfV74KG
+	 2Yy2iQGk4kWFg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Daniel Wagner <wagi@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
+Cc: Hannes Reinecke <hare@kernel.org>,
+	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
-	james.smart@broadcom.com,
 	sagi@grimberg.me,
-	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.13 27/34] nvmet-fc: put ref when assoc->del_work is already scheduled
-Date: Mon, 14 Apr 2025 09:27:21 -0400
-Message-Id: <20250414132729.679254-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 13/30] nvme: re-read ANA log page after ns scan completes
+Date: Mon, 14 Apr 2025 09:28:30 -0400
+Message-Id: <20250414132848.679855-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250414132729.679254-1-sashal@kernel.org>
-References: <20250414132729.679254-1-sashal@kernel.org>
+In-Reply-To: <20250414132848.679855-1-sashal@kernel.org>
+References: <20250414132848.679855-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.11
+X-stable-base: Linux 6.12.23
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250414_062833_521085_63CA7043 
-X-CRM114-Status: GOOD (  10.36  )
+X-CRM114-CacheID: sfid-20250414_062922_326516_C5A5DA1D 
+X-CRM114-Status: GOOD (  12.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,34 +79,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Daniel Wagner <wagi@kernel.org>
+From: Hannes Reinecke <hare@kernel.org>
 
-[ Upstream commit 70289ae5cac4d3a39575405aaf63330486cea030 ]
+[ Upstream commit 62baf70c327444338c34703c71aa8cc8e4189bd6 ]
 
-Do not leak the tgtport reference when the work is already scheduled.
+When scanning for new namespaces we might have missed an ANA AEN.
 
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+The NVMe base spec (NVMe Base Specification v2.1, Figure 151 'Asynchonous
+Event Information - Notice': Asymmetric Namespace Access Change) states:
+
+  A controller shall not send this even if an Attached Namespace
+  Attribute Changed asynchronous event [...] is sent for the same event.
+
+so we need to re-read the ANA log page after we rescanned the namespace
+list to update the ANA states of the new namespaces.
+
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/fc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index a3a6dfe98d6fc..0dfffb3f39b06 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1103,7 +1103,8 @@ static void
- nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
- {
- 	nvmet_fc_tgtport_get(assoc->tgtport);
--	queue_work(nvmet_wq, &assoc->del_work);
-+	if (!queue_work(nvmet_wq, &assoc->del_work))
-+		nvmet_fc_tgtport_put(assoc->tgtport);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 587385b59b865..f7519c07ed3c4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4277,6 +4277,11 @@ static void nvme_scan_work(struct work_struct *work)
+ 	/* Requeue if we have missed AENs */
+ 	if (test_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events))
+ 		nvme_queue_scan(ctrl);
++#ifdef CONFIG_NVME_MULTIPATH
++	else
++		/* Re-read the ANA log page to not miss updates */
++		queue_work(nvme_wq, &ctrl->ana_work);
++#endif
  }
  
- static bool
+ /*
 -- 
 2.39.5
 
