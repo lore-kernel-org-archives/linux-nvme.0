@@ -4,122 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9A35C3601E
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 06:22:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76BA3C3601E
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 07:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YYdAssA5CZHDHNnO359XOHqGZEqUyxiEuaVj0NqkiS4=; b=2XhLO7jzSLWYU6uZdXO/PsGN0G
-	vS5m0SlLcqIffvTF9moI50j//o5dySdmHMxwOd/vXBniTTC+KC0q243LzjV4u1q/7Jq/aG9iXx0ZS
-	nqUq6svkY1NqL7HBnMij9QAbKOzcH+AQazz9Pnk7P3z8xkAa8V7nHd/FzwlStowq5dK4signwSeZZ
-	1NzV7gkCfbe+LwjWw0hUqeKx26isWBXKFIFbP5uO8S7b655xw29W/IDbB224bujMNuOs81RY9lxhn
-	Zay2K+Npzl69514fQqQsji6d3qeOVxHqPNpnZ7UL4Rt10Y04aPxbEL4pwa9eQDEmpfQMa5BiJiFf1
-	AdHZ4QbQ==;
+	Content-Type:MIME-Version:Date:Message-ID:To:Subject:From:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8juwAuA5QfCK9G0ZTyfkhbvbUPbhRFAk1K5ddM/3Al8=; b=rkQ//l9JV+jKCTEoXeZGU/+Ugy
+	yc+g8IZoKVzrpM8VqUpDHN2nnNyNWD3taTJTaRE67wPrOb3Wqn8QGLQD6dNeLChyTDP6d8zno+g4R
+	CiEJQrItcqR7smWeypOBM6lOFNmFdLYXE1xIiXtqxumBQn4Yd4dNYPkrW1Od7LsEm6ed551JsiIl7
+	Jj6pqrj2TstGRaFtrqkAsuXVn77IM27pKRiTeW9vCxm9S5li+9Qq2KX1A41BE7LPfvPxlGBg8o1dq
+	tiWe2L8vpEkIYlBwxbvB6DM0DWRefMH0lWD5VUKpf33dVg8pUWP5c+TTJczOt2a0ipke1GXMX4eJE
+	gY9vBxQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4DCo-00000000mat-2qME;
-	Mon, 14 Apr 2025 06:22:06 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1u4DxU-00000000tR6-09wT;
+	Mon, 14 Apr 2025 07:10:20 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4DCl-00000000maS-3AzD
+	id 1u4Dvu-00000000tFm-49lA
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Apr 2025 06:22:05 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 55A2B1F397;
-	Mon, 14 Apr 2025 06:22:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744611720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YYdAssA5CZHDHNnO359XOHqGZEqUyxiEuaVj0NqkiS4=;
-	b=iCBD3+8mWs/4GUp7u/eV6HtpAKBmKbiYcIuxLn5iuGFgK12vcdfJII6CBmwgyzRZ4KYAHf
-	f1QE9CcTd3ShjrIqeYu3GTyMoZm4CjXdlmNd4iBjlsLlkjKGlUWXP3CKBHfW26mfTa39tv
-	UkF/QR2YAWG9khD/fsmWKh/jPbk639w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744611720;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YYdAssA5CZHDHNnO359XOHqGZEqUyxiEuaVj0NqkiS4=;
-	b=GrsCjS+ToXK2NXFJ5pZCpshX23EEoAnegjeqexbkKic2CXHL5mqINQHpV2MFA8PTW33mKu
-	/jycE559ABW+7HCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744611720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YYdAssA5CZHDHNnO359XOHqGZEqUyxiEuaVj0NqkiS4=;
-	b=iCBD3+8mWs/4GUp7u/eV6HtpAKBmKbiYcIuxLn5iuGFgK12vcdfJII6CBmwgyzRZ4KYAHf
-	f1QE9CcTd3ShjrIqeYu3GTyMoZm4CjXdlmNd4iBjlsLlkjKGlUWXP3CKBHfW26mfTa39tv
-	UkF/QR2YAWG9khD/fsmWKh/jPbk639w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744611720;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YYdAssA5CZHDHNnO359XOHqGZEqUyxiEuaVj0NqkiS4=;
-	b=GrsCjS+ToXK2NXFJ5pZCpshX23EEoAnegjeqexbkKic2CXHL5mqINQHpV2MFA8PTW33mKu
-	/jycE559ABW+7HCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 152391336F;
-	Mon, 14 Apr 2025 06:22:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CPz5Aoip/GeIdwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 14 Apr 2025 06:22:00 +0000
-Message-ID: <09aca7f3-4911-4a6f-a49d-25da590bf8c6@suse.de>
-Date: Mon, 14 Apr 2025 08:21:59 +0200
+	Mon, 14 Apr 2025 07:08:45 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-227cf12df27so30951175ad.0
+        for <linux-nvme@lists.infradead.org>; Mon, 14 Apr 2025 00:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744614522; x=1745219322; darn=lists.infradead.org;
+        h=content-language:content-transfer-encoding:mime-version:user-agent
+         :date:message-id:to:subject:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8juwAuA5QfCK9G0ZTyfkhbvbUPbhRFAk1K5ddM/3Al8=;
+        b=f0z3Q2G1inS7ioZgDDE3sZa9U///jdfTSiDJoBWzxmD4xPUJFr4Sr/MkQ4Xk70rS8f
+         cKUyBbO/KLjFdshhjafAK19SmF9bvJkTdBoD3aa7BfJMlfmk8f6k8pJzk2+5ndahFFmN
+         fHBrabyBzZx5kmziR5iIgDyPzyswBg6pyTkruVBV05qiDG7/JnpNGSdYCdZ41tQdv1dV
+         t/IdqCEKKSXTLUp5gxpOVQFvsX8Q7ua6+do8+AogQ0LY0BxK1lytlyP27n2zyxwAlpW5
+         wtbCgC8gEqVwHtE0AT5yYEDWWzQRm5pDfyM627EQnsjBIediB3N0Ru7lJ1uDJQ3jZuOO
+         Uh7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744614522; x=1745219322;
+        h=content-language:content-transfer-encoding:mime-version:user-agent
+         :date:message-id:to:subject:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8juwAuA5QfCK9G0ZTyfkhbvbUPbhRFAk1K5ddM/3Al8=;
+        b=OwhXyPahxL3DP35xpwMkZMQZHmp6j+6NDMxNbzMffb/HAB4ZKcEhQDOSf421lqjFla
+         jooKF36L+zEHbxzSlrKD5gL2AMrTYFo5JCfKjJtUog55TWd9K+AHCQBBSqCjRa9GI6SC
+         4DzVqY4+7Qc/a8R0GKDCOPzKRzjJumfY/TZtpNM2QOV2fbWjC0VQi8sH1817jgD3ST4E
+         cBEApj045d4WJNEg/rtMlWvVXU2f7abHnx56qYTH+vE6XU63ZPPZTNaoehcg9eB4x8aF
+         UtHaHZ/YPe/Vq3E4Ry6BYFDuqCC/15TmVo2VqQ5Wiej8tLvueur29suhfSZ97+Fywg8l
+         hN0g==
+X-Forwarded-Encrypted: i=1; AJvYcCX7XWZgXM0cCHCZHb0mQ+GzZIATcobbMQr16g5xpfzkAR+DdJM/0cqq7xvU7piLxXhpks1P39dfnsym@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz+Wa5MMKrJJIIqws9i2r+x/GPpYrGiphzJgUxRlpa7dSkZ/LYh
+	0Ed0/bOxW2Y4ci7ByLXcJ0Qu7X65/qKco6el+YN0MUndwV+zFuzI
+X-Gm-Gg: ASbGncsUSATSDqPY1YAtPUUkjqI6AI9YrIhXwkza2wag20T0M+xMLOj9gg8A6LaLYMU
+	2cA8Nx//xFdbc4ewOmSrHO/Rs3A6d4udGbAHcv4QQTk0ryjyM5BtHCR5190zD/lrJojVqvQfeRM
+	/yHZ6/qVs5iUAYwTXO2bbVhwLgc9KcmeRGcio2CoC/fhlbsKQVnCdl00XRoyB8YV3+QXFERH5x3
+	pBjplC9wIRrDaKZqPnBp+WqerfEp2ZpVVFy54e5s1bjr6BtB1vzd168111gxNNNBEDjkF+xx4i+
+	BvLXR1vnUUH+hjuGYYYKQuZnLHYSyeErl3dFwF48jDVMJ5Mj4WLxV5CIpkKpJJvp4Xnfw/BzNjA
+	=
+X-Google-Smtp-Source: AGHT+IFI+TJHtXuU1Um1khf1rw63watwMWDxf39z1l44AL0ytJFyYwaYRdKUfwGI9oSBq3JyA0oBxA==
+X-Received: by 2002:a17:903:2ac5:b0:223:607c:1d99 with SMTP id d9443c01a7336-22be9f68255mr174065865ad.0.1744614521164;
+        Mon, 14 Apr 2025 00:08:41 -0700 (PDT)
+Received: from [0.0.0.0] ([103.127.219.137])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7cc9202sm92845015ad.211.2025.04.14.00.08.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Apr 2025 00:08:40 -0700 (PDT)
+From: Linjun Bao <meljbao@gmail.com>
+Subject: nvme: potential stack collision when running nvme_setup_io_queues and
+ nvme_user_cmd in parallel
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Message-ID: <3c6be8cb-753a-6efb-e2a6-5686740e6361@gmail.com>
+Date: Mon, 14 Apr 2025 15:08:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chris Leech <cleech@redhat.com>
-References: <20250403065522.90807-1-hare@kernel.org>
- <20250403065522.90807-4-hare@kernel.org>
- <ee4379d7-53f8-4399-ba94-be9113b11b48@grimberg.me>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ee4379d7-53f8-4399-ba94-be9113b11b48@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250413_232203_951768_E73332EC 
-X-CRM114-Status: GOOD (  22.22  )
+X-CRM114-CacheID: sfid-20250414_000843_040386_B0D07CE7 
+X-CRM114-Status: GOOD (  16.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,72 +100,482 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/14/25 01:09, Sagi Grimberg wrote:
-> 
-> 
-> On 03/04/2025 9:55, Hannes Reinecke wrote:
->> When the socket is busy processing nvme_tcp_try_recv() might
->> return -EAGAIN, but this doesn't automatically imply that
->> the sending side is blocked, too.
->> So check if there are pending requests once nvme_tcp_try_recv()
->> returns -EAGAIN and continue with the sending loop to avoid
->> I/O stalls.
->>
->> Acked-by: Chris Leech <cleech@redhat.com>
->> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->> ---
->>   drivers/nvme/host/tcp.c | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index 1a319cb86453..87f1d7a4ea06 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -1389,9 +1389,12 @@ static void nvme_tcp_io_work(struct work_struct 
->> *w)
->>           result = nvme_tcp_try_recv(queue);
->>           if (result > 0)
->>               pending = true;
->> -        else if (unlikely(result < 0))
->> +        else if (unlikely(result < 0) && result != -EAGAIN)
->>               return;
-> 
-> The way that the send path was done - is that EAGAIN returns 0 (success 
-> returns >0, failure returns <0)
-> Perhaps we can make recv do the same?
-> 
-I guess we can.
+Hi there,
 
->> +        if (nvme_tcp_queue_has_pending(queue))
->> +            pending = true;
->> +
-> 
-> Something is not clear to me, this suggest that try_send was not able to 
-> send data on the socket, shouldn't a .write_space() callback wake you when
- > the socket send buffer gets some space? Why> do you immediately try 
-more even if you're sendmsg is returning EAGAIN?
-> 
-But that's precisely the point: sendmsg() did _not_ return -EAGAIN.
-recvmsg() did.
+This is Linjun Bao from Solidigm, a SSD vendor. Recently we get some drive drop report from customer, and we confirm this is solid on the latest kernel.
 
-We just imply that nvme_tcp_try_send() will return -EAGAIN once 
-nvme_tcp_try_recv() did.
+## Issue Description
+This issue happens across different platform, from Intel BHS server to several desktop system. This issue happens on newer kernel including
+5.19, 6.0, 6.3 and 6.6, but older kernel 5.14 does not have such issue. This issue happens on SSDs from different vendors.
 
-Which is wrong; -EAGAIN on reception can be due to a number of factors,
-and does _not_ imply in any shape or form that sending will exhibit
-the same error.
+This issue is easily reproduced under test scenario below. Two scripts are running concurrently, one is keeping sending nvme reset to the SSD, another is keeping querying smart log from the same SSD. After several reset cycles, when issue happens, the dmesg message prints out "nvme nvme0: I/O 11 QID 0 timeout, disable controller, nvme nvme0: Disabling device after reset failure: -4".
 
-> This is specific to TLS I assume here?
+Using the kernel 6.6.85 (almost latest) to debug, from both Lecory PCIe trace and kernel ftrace, it shows the host stops sending out nvme_admin_create_cq or nvme_admin_create_sq during the nvme_reset_work. This issue happens only when the nvme_queue_rq() from user cmd executes just after the nvme_queue_rq() from nvme_setup_io_queues(), and with the same CPU core and thread.
+In the example below, I marked "Q" as parent cmd is nvme_setup_io_queues(). "L" as parent cmd is user cmd of getting smart log.
 
-Not necessarily; I've seen it with my performance testing on 10GigE
-with normal TCP, too. TLS is just an easier way to reproduce it.
+```
+ 13)    <idle>-0    => kworker-151717
+ ------------------------------------------
+ 13)Q ! 561.302 us  |        } /* nvme_execute_rq [nvme_core] */
+ 19)L   0.125 us    |            nvme_init_request [nvme_core]();
+ 13)Q ! 563.722 us  |      } /* nvme_submit_sync_cmd [nvme_core] */
+ 19)L   1.244 us    |          }
+ 19)L   1.549 us    |          nvme_map_user_request [nvme_core]();
+ 13)Q               |      nvme_submit_sync_cmd [nvme_core]() {
+ 13)Q   0.368 us    |        nvme_init_request [nvme_core]();
+ 19)L               |          nvme_passthru_start [nvme_core]() {
+ 13)Q               |        nvme_execute_rq [nvme_core]() {
+ 19)L   0.140 us    |            nvme_command_effects [nvme_core]();
+ 19)L   0.348 us    |          }
+ 19)L + 13.250 us   |          nvme_execute_rq [nvme_core]();
+ 13)Q               |          nvme_queue_rq [nvme]() {
+ 13)Q               |            nvme_setup_cmd [nvme_core]() {
+ 13)Q               |              /* nvme_setup_cmd: nvme0: qid=0, cmdid=8214, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_create_sq sqid=19, qsize=1023, sq_flags=0x1, cqid=19) */
+ 13)Q   1.716 us    |            }
+ 13)Q   0.494 us    |            nvme_prep_rq.part.0 [nvme]();
+ 13)Q   3.718 us    |          }
+ 13)L               |          nvme_queue_rq [nvme]() {
+ 13)L               |            nvme_fail_nonready_command [nvme_core]() {
+ 13)L               |              nvme_complete_rq [nvme_core]() {
+ 13)L               |                /* nvme_complete_rq: nvme0: qid=0, cmdid=0, opcode=2, res=0x0, retries=0, flags=0x2, status=0x370 */
+ 13)L               |                nvme_end_req [nvme_core]() {
+ 13)L   0.411 us    |                  nvme_error_status [nvme_core]();
+ 13)L   3.194 us    |                }
+ 13)L   4.299 us    |              }
+ 13)L   4.952 us    |            }
+ 13)L   5.729 us    |          }
+ 19)L   0.158 us    |          nvme_passthru_end [nvme_core]();
+ 19)L + 18.486 us   |        }
+ 19)L + 19.510 us   |      }
+ 19)L + 19.731 us   |    }
+ 19)L + 19.966 us   |  }
+ 19)L               |  nvme_release [nvme_core]() {
+ 19)L   0.159 us    |    nvme_ns_release [nvme_core]();
+ 19)L   0.433 us    |  }
 
-Cheers,
+// this nvme_admin_create_sq completion irq comes way later, 60s after the host sets nvme admin cmd timeout
+ ## line 3165365
+ 12)  nvme-303232   =>    <idle>-0  
+ ------------------------------------------
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+ 12)               |  nvme_irq [nvme]() {
+ 12)               |  /* nvme_sq: nvme0: qid=0, head=27, tail=27 */
+ 12)   1.341 us    |  }
+ 12)               |  nvme_pci_complete_rq [nvme]() {
+ 12)               |    nvme_complete_rq [nvme_core]() {
+ 12)               |      /* nvme_complete_rq: nvme0: qid=0, cmdid=8214, opcode=1, res=0x0, retries=0, flags=0x1, status=0x0 */
+ 12)               |      nvme_end_req [nvme_core]() {
+ 12)   0.076 us    |        nvme_error_status [nvme_core]();
+ 12)   1.486 us    |      }
+ 12)   1.794 us    |    }
+ 12)   2.087 us    |  }
+```
+
+A call stack ftrace shows more. Among the lines that I comment "wield behavior here," the call stack for nvme_fail_nonready_command <-nvme_queue_rq seems wrong, for an user nvme smart cmd during nvme_create_io_queues(), it should go the path nvme_fail_nonready_command <- nvme_queue_rq <- blk_mq_dispatch_rq_list <-...<- nvme_execute_rq <- nvme_submit_user_cmd since this NVMe is in CONNECTING status, but the trace shows nvme_fail_nonready_command <- nvme_queue_rq <- ... <- nvme_submit_sync_cmd <- nvme_setup_io_queues. This is wrong, since this user cmd is now using the same thread kworker/u40:5-302 and cpu core #19, I believe some stack collision happens, and this user cmd wrongly uses the stack for the sync cmd from nvme_setup_io_queues, that's the reason why there is no further create sq/cq cmds afterwards. But I do not know how to debug further, please do help guide me.
+```
+=> cpu_startup_entry
+ => start_secondary
+ => secondary_startup_64_no_verify
+           <...>-20136   [018]L .....   744.363379: nvme_open <-blkdev_get_whole
+   kworker/u40:5-302     [019]Q .....   744.363379: nvme_setup_io_queues_trylock <-nvme_setup_io_queues
+   kworker/u40:5-302     [019]Q .....   744.363380: <stack trace>
+ => nvme_setup_io_queues_trylock
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+   kworker/u40:5-302     [019]Q .....   744.363381: nvme_init_queue <-nvme_setup_io_queues
+   kworker/u40:5-302     [019]Q .....   744.363382: <stack trace>
+ => nvme_init_queue
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+           <...>-20136   [018]L .....   744.363383: <stack trace>
+ => nvme_open
+ => blkdev_get_whole
+ => blkdev_get_by_dev
+ => blkdev_open
+ => do_dentry_open
+ => vfs_open
+ => path_openat
+ => do_filp_open
+ => do_sys_openat2
+ => do_sys_open
+ => __x64_sys_openat
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363383: nvme_ns_open <-nvme_open
+           <...>-20136   [018]L .....   744.363385: <stack trace>
+ => nvme_ns_open
+ => nvme_open
+ => blkdev_get_whole
+ => blkdev_get_by_dev
+ => blkdev_open
+ => do_dentry_open
+ => vfs_open
+ => path_openat
+ => do_filp_open
+ => do_sys_openat2
+ => do_sys_open
+ => __x64_sys_openat
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363390: nvme_ioctl <-blkdev_ioctl
+           <...>-20136   [018]L .....   744.363391: <stack trace>
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363391: nvme_ctrl_ioctl <-nvme_ioctl
+           <...>-20136   [018]L .....   744.363392: <stack trace>
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363392: nvme_user_cmd.constprop.0 <-nvme_ctrl_ioctl
+           <...>-20136   [018]L .....   744.363393: <stack trace>
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363393: nvme_validate_passthru_nsid.isra.0 <-nvme_user_cmd.constprop.0
+           <...>-20136   [018]L .....   744.363394: <stack trace>
+ => nvme_validate_passthru_nsid.isra.0
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363394: nvme_cmd_allowed <-nvme_user_cmd.constprop.0
+           <...>-20136   [018]L .....   744.363395: <stack trace>
+ => nvme_cmd_allowed
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363395: nvme_submit_user_cmd <-nvme_user_cmd.constprop.0
+           <...>-20136   [018]L .....   744.363396: <stack trace>
+ => nvme_submit_user_cmd
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363396: nvme_alloc_user_request <-nvme_submit_user_cmd
+           <...>-20136   [018]L .....   744.363397: <stack trace>
+ => nvme_alloc_user_request
+ => nvme_submit_user_cmd
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363399: nvme_init_request <-nvme_alloc_user_request
+           <...>-20136   [018]L .....   744.363400: <stack trace>
+ => nvme_init_request
+ => nvme_alloc_user_request
+ => nvme_submit_user_cmd
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363400: nvme_map_user_request <-nvme_submit_user_cmd
+           <...>-20136   [018]L .....   744.363401: <stack trace>
+ => nvme_map_user_request
+ => nvme_submit_user_cmd
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+   kworker/u40:5-302     [019]Q .....   744.363402: nvme_submit_sync_cmd <-nvme_setup_io_queues
+   kworker/u40:5-302     [019]Q .....   744.363403: <stack trace>
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+           <...>-20136   [018]L .....   744.363404: nvme_passthru_start <-nvme_submit_user_cmd
+   kworker/u40:5-302     [019]Q .....   744.363405: nvme_init_request <-__nvme_submit_sync_cmd
+           <...>-20136   [018]L .....   744.363405: <stack trace>
+ => nvme_passthru_start
+ => nvme_submit_user_cmd
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363405: nvme_command_effects <-nvme_passthru_start
+   kworker/u40:5-302     [019]Q .....   744.363405: <stack trace>
+ => nvme_init_request
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+   kworker/u40:5-302     [019]Q .....   744.363406: nvme_execute_rq <-__nvme_submit_sync_cmd
+           <...>-20136   [018]L .....   744.363406: <stack trace>
+ => nvme_command_effects
+ => nvme_passthru_start
+ => nvme_submit_user_cmd
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363406: nvme_execute_rq <-nvme_submit_user_cmd
+   kworker/u40:5-302     [019]Q .....   744.363407: <stack trace>
+ => nvme_execute_rq
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+           <...>-20136   [018]L .....   744.363407: <stack trace>
+ => nvme_execute_rq
+ => nvme_submit_user_cmd
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+   kworker/u40:5-302     [019]Q .....   744.363408: nvme_queue_rq <-blk_mq_dispatch_rq_list
+   kworker/u40:5-302     [019]Q .....   744.363409: <stack trace>
+ => nvme_queue_rq
+ => blk_mq_dispatch_rq_list
+ => __blk_mq_sched_dispatch_requests
+ => blk_mq_sched_dispatch_requests
+ => blk_mq_run_hw_queue
+ => blk_execute_rq
+ => nvme_execute_rq
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+   kworker/u40:5-302     [019]Q .....   744.363409: nvme_setup_cmd <-nvme_queue_rq
+   kworker/u40:5-302     [019]Q .....   744.363410: <stack trace>
+ => nvme_setup_cmd
+ => nvme_queue_rq
+ => blk_mq_dispatch_rq_list
+ => __blk_mq_sched_dispatch_requests
+ => blk_mq_sched_dispatch_requests
+ => blk_mq_run_hw_queue
+ => blk_execute_rq
+ => nvme_execute_rq
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+   kworker/u40:5-302     [019]Q .....   744.363411: nvme_setup_cmd: nvme0: qid=0, cmdid=0, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_create_cq cqid=13, qsize=1023, cq_flags=0x3, irq_vector=13)
+   kworker/u40:5-302     [019]Q .....   744.363411: nvme_setup_cmd: nvme0: qid=0, cmdid=0, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_create_cq cqid=13, qsize=1023, cq_flags=0x3, irq_vector=13)
+   kworker/u40:5-302     [019]Q .....   744.363411: nvme_setup_cmd: nvme0: qid=0, cmdid=57352, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_create_cq cqid=13, qsize=1023, cq_flags=0x3, irq_vector=13)
+   kworker/u40:5-302     [019]Q .....   744.363412: nvme_prep_rq.part.0 <-nvme_queue_rq
+   kworker/u40:5-302     [019]Q .....   744.363413: <stack trace>
+ => nvme_prep_rq.part.0
+ => nvme_queue_rq
+ => blk_mq_dispatch_rq_list
+ => __blk_mq_sched_dispatch_requests
+ => blk_mq_sched_dispatch_requests
+ => blk_mq_run_hw_queue
+ => blk_execute_rq
+ => nvme_execute_rq
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+ ## wield behavior here
+   kworker/u40:5-302     [019]Q ...1.   744.363413: nvme_queue_rq: nvme_sq_copy_cmd
+   kworker/u40:5-302     [019]L .....   744.363415: nvme_fail_nonready_command <-nvme_queue_rq
+   kworker/u40:5-302     [019]L .....   744.363416: <stack trace>
+ => nvme_fail_nonready_command
+ => nvme_queue_rq
+ => blk_mq_dispatch_rq_list
+ => __blk_mq_sched_dispatch_requests
+ => blk_mq_sched_dispatch_requests
+ => blk_mq_run_hw_queue
+ => blk_execute_rq
+ => nvme_execute_rq
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+   kworker/u40:5-302     [019]L .....   744.363417: nvme_complete_rq <-nvme_fail_nonready_command
+   kworker/u40:5-302     [019]L .....   744.363418: <stack trace>
+ => nvme_complete_rq
+ => nvme_fail_nonready_command
+ => nvme_queue_rq
+ => blk_mq_dispatch_rq_list
+ => __blk_mq_sched_dispatch_requests
+ => blk_mq_sched_dispatch_requests
+ => blk_mq_run_hw_queue
+ => blk_execute_rq
+ => nvme_execute_rq
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+   kworker/u40:5-302     [019]L .....   744.363418: nvme_complete_rq: nvme0: qid=0, cmdid=0, opcode=2, res=0x0, retries=0, flags=0x2, status=0x370
+   kworker/u40:5-302     [019]L .....   744.363418: nvme_end_req <-nvme_complete_rq
+   kworker/u40:5-302     [019]L .....   744.363419: <stack trace>
+ => nvme_end_req
+ => nvme_complete_rq
+ => nvme_fail_nonready_command
+ => nvme_queue_rq
+ => blk_mq_dispatch_rq_list
+ => __blk_mq_sched_dispatch_requests
+ => blk_mq_sched_dispatch_requests
+ => blk_mq_run_hw_queue
+ => blk_execute_rq
+ => nvme_execute_rq
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+   kworker/u40:5-302     [019]L .....   744.363420: nvme_error_status <-nvme_end_req
+   kworker/u40:5-302     [019]L .....   744.363421: <stack trace>
+ => nvme_error_status
+ => nvme_end_req
+ => nvme_complete_rq
+ => nvme_fail_nonready_command
+ => nvme_queue_rq
+ => blk_mq_dispatch_rq_list
+ => __blk_mq_sched_dispatch_requests
+ => blk_mq_sched_dispatch_requests
+ => blk_mq_run_hw_queue
+ => blk_execute_rq
+ => nvme_execute_rq
+ => __nvme_submit_sync_cmd
+ => nvme_submit_sync_cmd
+ => nvme_setup_io_queues
+ => nvme_reset_work
+ => process_scheduled_works
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+           <...>-20136   [018]L .....   744.363429: nvme_passthru_end <-nvme_submit_user_cmd
+           <...>-20136   [018]L .....   744.363430: <stack trace>
+ => nvme_passthru_end
+ => nvme_submit_user_cmd
+ => nvme_user_cmd.constprop.0
+ => nvme_ctrl_ioctl
+ => nvme_ioctl
+ => blkdev_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363449: nvme_release <-blkdev_put_whole
+           <...>-20136   [018]L .....   744.363450: <stack trace>
+ => nvme_release
+ => blkdev_put_whole
+ => blkdev_put
+ => blkdev_release
+ => __fput
+ => __fput_sync
+ => __x64_sys_close
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+           <...>-20136   [018]L .....   744.363451: nvme_ns_release <-nvme_release
+           <...>-20136   [018]L .....   744.363452: <stack trace>
+ => nvme_ns_release
+ => nvme_release
+ => blkdev_put_whole
+ => blkdev_put
+ => blkdev_release
+ => __fput
+ => __fput_sync
+ => __x64_sys_close
+```
+
+
 
