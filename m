@@ -4,76 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE542C369B2
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 22:09:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1D27C369B5
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Apr 2025 22:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=t6n62gYUQsnyIM3WRr1qmkqtu/
-	t2yykR+zE7ek0PDphtvDWI6STk38VOEskOXKJwwDSTIH/AM+WC077dCyACNHPekgfpX1OQkdOMtRu
-	OIBFhW2T4Fx5LWqSTR7svUyfdXVbiz7MbbWXXs9ytD6tIeVmEVtFcW1Xr7CC9JZt3NrY20mZG7hhs
-	FSHAA+QcRFRY6IBPhc8Xeq1L3I1gdJW9U9FQ60xFFPLy2tsPpvdAvMM7MB7wapISNDYo31oK3ytSa
-	PUDL84eyjeMKrIJfYOWnURds+oJYbPKwOEDkYR7G2xJZ8B/XxjLnEM3VLAIqDIuYIKsRiS1MBJzJX
-	DrvlU/6w==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=cQkJUfpFwZxhG/i0oLHUj1K0uq
+	YVCJFVjwuOxMnkl7KC0tCIebOOx3SQcQdrh+9kyLnkA2Ot0hikgIyuHRLyj85j84MXiaWLG4e+uTN
+	FvOuictkSTDvEGUhZd/cl6b4e3hQw5RifVvKgBgQcA64kAZlDA/MKKoHVXhwaSNgQ5Ej6burJWpgq
+	Bm9WRDvYjWCRGa1lKe3uAo9/uh7opV5j1VeOQ3dFF90yUavMSA3aRpCv4BSJbWDpUpmrIUuGbLX2+
+	6o28VC4N+bFcvT65V9To3v+pzIPGyetCjicpJslS4wXjdqZlSJT9ou71wOTZMQ2a5PpjYK0bi8QqP
+	QSl6bj8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4Rzl-00000003gqn-2pXX;
-	Mon, 14 Apr 2025 22:09:37 +0000
-Received: from mail-ej1-f46.google.com ([209.85.218.46])
+	id 1u4Rzm-00000003grn-2BFk;
+	Mon, 14 Apr 2025 22:09:38 +0000
+Received: from mail-ej1-f53.google.com ([209.85.218.53])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4Rxl-00000003g0F-2F5C
+	id 1u4RzU-00000003gk8-3zlr
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Apr 2025 22:07:34 +0000
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ac2aeada833so950946866b.0
-        for <linux-nvme@lists.infradead.org>; Mon, 14 Apr 2025 15:07:33 -0700 (PDT)
+	Mon, 14 Apr 2025 22:09:22 +0000
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac29fd22163so779773766b.3
+        for <linux-nvme@lists.infradead.org>; Mon, 14 Apr 2025 15:09:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744668452; x=1745273252;
+        d=1e100.net; s=20230601; t=1744668559; x=1745273359;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=ivs8LEwiClTp6HrUMiLJPnM7eKiUYd/ASlPoyLGZUX6TX6YSs3xq/m6SQ3mk87OAhk
-         WmlCLAsXcrosxOaesahaR00sb20balGso4IMNNqpEnxPa5L7cjVTDefOwoyAl8x1DqB+
-         /5uGRDi5kgdrkFBq/SnWzjcgUbUg+0NH0weTT0FOVXtsY/qNWQ+3AaUOY+vFA91upDvB
-         qJB4YNsiOPkpUunsektMEpZYAC0Z4Vq0PAAM0AYhZRWkJ7Hq2EHSh745+0QjJp1Cly5k
-         7DK8ca7Upz3prlgsYNSFSFx/wI0bFkaibU+f1leHbSVTxVPdnkAae45pDrYr7iN1i5I4
-         MWHw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdOITg1XSjHo7smHY0Qm/1gVmkC79HZNalb3l7rQKZoDdcxxJruNENmps1eQpMDQZFjqriVw6WvnJv@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz9Lqd6aHVVTGtmNwa0VgNX3t1sciWVUcgwgW7x5rEeHJFTaGBQ
-	qC7zRR7Cxb5zLBln+iGE6UpVX8Pgld5dtcu/3JLHNtpkK6kwmzm7
-X-Gm-Gg: ASbGncvavTZ2ItjAPUshg9wjyU4v1vIg4SnD32cU3JwzM7F/ipWixxyshcwAXOCWvnu
-	9fs3BnCUixXqEzVNs6NbeG9GLMk0aCbDPrim9jbmm3HGAAR02WrklsLqK3+Dvop/xrZh0PTjcQS
-	SF2G3gjIce1dwzWu1TXyrF2cCNyQalGN9yQ9n0vjheOapHG6jtzt2ZzROde80Pi4kY5RCy1BD4d
-	lkUv6xszWZBkvJpy/uufOMaRm+ZabfdOh226djqKDLI8U5GymXvq+sIli/BhKQYMlPiqG9E6eb0
-	RFIUPOAOzUrnrboz8kBbescxuvT4anfKv79lj9MDkFnOvEfd7e3f6LBA1oehbOE/WCa8JIcq
-X-Google-Smtp-Source: AGHT+IFZj4iDJJXAIv4Qoo3kRrnu//pI7ung5Nqa6kAmkj3GZ0l//RFn9e4UIeTzc84BJzAHTyVDqQ==
-X-Received: by 2002:a17:907:a595:b0:acb:1fe5:434a with SMTP id a640c23a62f3a-acb1fe5495cmr28291466b.14.1744668451855;
-        Mon, 14 Apr 2025 15:07:31 -0700 (PDT)
+        b=Be4iK2KjnHEVj+umDa3UdcJ69IQX8gaALazZLxwvSzhcR4j0dIL/kaj8UU6l2p0nuA
+         m/E3JyVA0VBrqaGCsRk3VzkJkislOabWcz458sgppfm5MjXLSW9aeLVysp9LjRQMjuQd
+         pYXrE4Eg/fHXTHa906Zsrsdso9gfWW9xayVJBlWa+LlxXw6b5O0vPc9GK3iMsOPSPUgG
+         DqDnp9qbbpjffhMJb8BC+Z1b049UmE7qt/fw4AuQe1FQMdnFlUJyOrw/mcNt6uaATydV
+         Q5USH6QFs8XsVu2X9orwgVRxi0uaHvDfr2z0ryi9/+ZG0IysF9nEzqaVMkL5gh9hZ1kq
+         0Ywg==
+X-Forwarded-Encrypted: i=1; AJvYcCVCF3jAvt+uY/9BHDkaQUrqSyih4ggu4n6SZlIKBTDO2YcfeDFLpp1HaDsVTpvC4OGavQJRapa8AKmG@lists.infradead.org
+X-Gm-Message-State: AOJu0YxCWbMG5kZ9+uLxtpnGFAnQxb4Ub2fV5e8K7gbTZ54NKPEJtyfe
+	DL0+bTv12mT3Q1d8bHZFYkpHdbgSJrP4HkksGXQEok9+BgiFIy2/DvYoIYIf
+X-Gm-Gg: ASbGncvhZoWYbD6/BTj0qEgjwMIZRucenHq2jZvpgD3CxZZ+9s1uzqywO6jd2QvhRo3
+	C+N6XsHRwIib/c2jYPHqDRLCZKS2+bh3xN77mVNwb2vmK4WsTd4sTkc5Ln2hxIWyaJipBcxmTIn
+	t90H0e/qseRpNjCLjfzxhvZaQFPfLR87cUnBmdNMLhDHIK6mzjpqtRPBvYJ2jskwbStpDO4dT9u
+	gE65WHRKudR96jAbAA2qi6E4LVB1aRFOfdRscSN2tTXf6oGhCkrKmb7N3N7tBa42Z8A5Ych29l2
+	HbKjFw9lqSV9NcpcYwxJbvJKoWPEN1P74gqo8q1yT7T+QwbgOBrlmjJFr+NsIGCS3SGpzVvw
+X-Google-Smtp-Source: AGHT+IGa8K+Y23T6nWqY03beoSA2OIEe7xMUXteJExek/QlY8eBcN4ZcgXzVOSFUzPCOxzBecneFVw==
+X-Received: by 2002:a17:907:7e8f:b0:ac7:cfcb:c3e3 with SMTP id a640c23a62f3a-acad36a0883mr1378520066b.45.1744668559165;
+        Mon, 14 Apr 2025 15:09:19 -0700 (PDT)
 Received: from [10.10.9.121] (u-1j-178-175-199.4bone.mynet.it. [178.175.199.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1c021f2sm964103266b.86.2025.04.14.15.07.31
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1c00c53sm976066266b.75.2025.04.14.15.09.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Apr 2025 15:07:31 -0700 (PDT)
-Message-ID: <59e528b8-a3dc-479c-9f0f-31856c76fb41@grimberg.me>
-Date: Tue, 15 Apr 2025 01:07:30 +0300
+        Mon, 14 Apr 2025 15:09:18 -0700 (PDT)
+Message-ID: <94478dce-05e3-4cc8-8ef2-467e00109575@grimberg.me>
+Date: Tue, 15 Apr 2025 01:09:18 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvmet: pci-epf: Clear CC and CSTS when disabling the
- controller
-To: Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-References: <20250408024733.690966-1-dlemoal@kernel.org>
- <20250408024733.690966-3-dlemoal@kernel.org>
+Subject: Re: [PATCH] nvme: fixup boot failure on nvme-pci
+To: hare@kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Srikanth Aithal <sraithal@amd.com>
+References: <20250414120509.49638-1-hare@kernel.org>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250408024733.690966-3-dlemoal@kernel.org>
+In-Reply-To: <20250414120509.49638-1-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250414_150733_563682_87FFF64A 
-X-CRM114-Status: UNSURE (   5.03  )
+X-CRM114-CacheID: sfid-20250414_150920_981472_E7B3B279 
+X-CRM114-Status: UNSURE (   5.39  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
