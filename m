@@ -4,62 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BA0CC369AB
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Apr 2025 15:00:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1EF9C369AB
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Apr 2025 15:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:
+	Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ThqIT2AP0ALdm3s55dR+LeeXUEMOdOL616ZKy1RI59M=; b=t3Z9C2ty55FLSyimhnoxLbcUgx
-	g54vEqkXaExz2I9hAz7M28E8/9XLNs8TZE0AmbYdswNFRUQJj2fcEBFCysFsP2tzmMnk5SBXy+8Cu
-	lfHW2OvxM4QpUj6TyfpqC1C+N7AfxTOgrJbIDo1nk01NhlCcNY+frZx9IskTnI9BGBYyLlzZpBf/e
-	cURcVlc6ggczxLHVRzNnCIG+Y651zmy7xlBor8dOwMF+xNNiHxmSY9xm2tZ8UyGroJLu26dNrEH1x
-	SBTxt36mIwwMfS6eicMWbd9yTUqAAUvnBxDMtJ5tPWV8uVPocgypmpzFDXtDDzs/d4BQdOXyOLUwd
-	C/eAiUHQ==;
+	bh=6Rq73IbpUmNtbdh1FOL4RVMdkG0NHYMFilgFpf4Rdoc=; b=bw/vCGHgUxDQCQze5E/uogooOF
+	vWMZZRSGVwZl5xFCLzjlfZPKHU+HPM2XH87HyucxUOlZGOmAgrXCW7P8DzxOQh3ZfnMXMsM9N0ri+
+	40XVyaC1oRWlAHkXgIfkTb6nkkIuoemNdGFaW6JbaA96eO4eRi2OPDrtstIMZGCofD6nV0Uuowx5U
+	XknpQu6y9ik6E+NNJj6GZW5ocpo42HBgxwHJPdBYDFeahK8LVKRIfIiksw+kpoEi05pp/ADh5OVZ+
+	nLWJq+uUdHLmCMzulHV1FvBZ8K6+9GwTMgUIhYWNh4TWrY9KesHBrjbXbHCueaklmKhG0fDAHShT3
+	R7EYtKeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4hm2-00000006BnS-3eS9;
-	Tue, 15 Apr 2025 15:00:30 +0000
-Received: from out-177.mta0.migadu.com ([91.218.175.177])
+	id 1u4hw6-00000006DCN-3osn;
+	Tue, 15 Apr 2025 15:10:54 +0000
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4hlz-00000006Bi5-24Ok
+	id 1u4huR-00000006Cwm-2VJn
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Apr 2025 15:00:30 +0000
-Message-ID: <3cf845ac-fd87-4808-bb53-c4495b03e68e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744729222;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ThqIT2AP0ALdm3s55dR+LeeXUEMOdOL616ZKy1RI59M=;
-	b=JfOw9fE3XB20w4yNNTribRYtTimDQReFh7xmzCU5IRTsrYinXOz2Tpu126UMgv2DdFSmfF
-	l9moYHqc2nW+tDq9a7NQpfU3vMcb0Ne6VA7h7f5zXZ05L1Crkw+rdqmsz+CxLdsgbeEZpG
-	/MLeubNBGS+ONK3ru+xr5gY8wxM+Ouk=
-Date: Tue, 15 Apr 2025 17:00:20 +0200
-MIME-Version: 1.0
-Subject: Re: [bug report] blktests nvme/061 hang with rdma transport and siw
- driver
-To: Bernard Metzler <BMT@zurich.ibm.com>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-Cc: Daniel Wagner <wagi@kernel.org>
-References: <r5676e754sv35aq7cdsqrlnvyhiq5zktteaurl7vmfih35efko@z6lay7uypy3c>
- <BN8PR15MB2513CD2A5725F5A035AE905699B22@BN8PR15MB2513.namprd15.prod.outlook.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <BN8PR15MB2513CD2A5725F5A035AE905699B22@BN8PR15MB2513.namprd15.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+	Tue, 15 Apr 2025 15:09:12 +0000
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-30332dfc820so6379663a91.2
+        for <linux-nvme@lists.infradead.org>; Tue, 15 Apr 2025 08:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smartx-com.20230601.gappssmtp.com; s=20230601; t=1744729751; x=1745334551; darn=lists.infradead.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Rq73IbpUmNtbdh1FOL4RVMdkG0NHYMFilgFpf4Rdoc=;
+        b=TQ9egHzaqRCJTa3w4IK5SWFll9N0HvXQogCaxRQeMo/0PtfpnzxWQS4OP01vSj3FAd
+         3g7lr3eiQ8orxOMBvAkEPpRB0tv4HTq+uuZ9y8PsxSC9ERIDKodroCfEoXrFWIR/k68R
+         aLZugLRxLAPT4TTbhZ6txiYhS/nDhzOABQM0mTjCO4J3P2uCFLG9qUhUFEm+q6ql5qd9
+         r0oLNRKVuJq3PsVSIJk+TkRKYAu/HXHYJLlZrqX1OSBtB64llk7p2GpTPFY1uM8cZKab
+         6XQ1IDd0jZubIQEPTEbzet/tOw0rnLw2cTx04ih0RsAzG9NlUwkM/rLwebg1N5lXzViU
+         XnDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744729751; x=1745334551;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6Rq73IbpUmNtbdh1FOL4RVMdkG0NHYMFilgFpf4Rdoc=;
+        b=hYAsinGjDszKtXeQ1rsRb+DqcqCmqCpdZf6qNlkOI4JRl0QUgi32lrymfl7PEnyYUY
+         tn97w7+9JUw5o7xVa6YEbqkYIBamuxU/Q8fKAJ666NCx/z7wDDDeQ28cLfZSDCWwpQF+
+         sWyu6Gj36GfUyOVuxkYgVMgDA/3179ROl3cPNd3d87cj3LGmVR1Bp1HHAyRx5UfwV1pX
+         TSApEttgahqILokXS+Uk+cSfCmlxc6uU91Mh/HG2fzn7xHIauaB3+mTtUT/PpJwD3qB8
+         2ykD0OrS6s9u7RQvTBXbcezFmLSyNJn8crTpT7u22KSTRCxLBfyBv+Q/OErN5QPB12cT
+         YOqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWsHWHRyB4/Z4Ci7AqF4YdodDfhbTPUQ8jxbIcpeTBNv09lUic1j+8NWI9fKfhBt9ZQcC1rgfIkDULA@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxhq+ZdYREzgTDjNbZbGMFkFIdqw7cAPLCfdoohZBz8jzz22Uye
+	Pb5pFw1YQTUPSMCjo03R/50PlaNSnRT6l6gnfYeJih56lCvEkQiYP6wAyfVpefQ=
+X-Gm-Gg: ASbGncvQwkicSttx2wi2dlQF6zPCidtpcL6T/UKvOzssTJIjcPfX9otGBPEeGJXoasL
+	SeCNf+PNqScrdM/bK76R2/0it4Lbe8WAS4hZW53DhtdQSdYyAR4OtFq1t+mt0zl8QOxtg8pDjsQ
+	tqDBztI215ld/rWe6JESIGlHbLb0NcVZ/FEZJCeXNiKgfXrjYKyWM+dynrGIo9jsp4EF43bohBM
+	popkUOgpawCktsGryYeC92xNnQYo58+38pZlT+1lTR1y5NN9pEyOVa0FYiOYIA1EGffQUl+fskQ
+	71B24/8MryLdlbeNr7wIG/5kEIGMwYmWxGvEqNYYlH8=
+X-Google-Smtp-Source: AGHT+IFKXx8B3GB3eZVGQf50YCeku81UOza8x5Lsxk7p5cMtrXUHnRiBtRcjsGpqtgvr2s85lCgtXA==
+X-Received: by 2002:a17:90b:2f05:b0:303:703f:7f8 with SMTP id 98e67ed59e1d1-3082367fac1mr20946681a91.34.1744729750330;
+        Tue, 15 Apr 2025 08:09:10 -0700 (PDT)
+Received: from smtpclient.apple ([103.85.74.92])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3082a58c27csm8475039a91.20.2025.04.15.08.09.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Apr 2025 08:09:09 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.300.61.1.2\))
+Subject: Re: [PATCH RFC 3/3] nvme: delay failover by command quiesce timeout
+From: Jiewei Ke <jiewei@smartx.com>
+In-Reply-To: <424fe473-8472-42b8-99c7-8b0534771343@flourine.local>
+Date: Tue, 15 Apr 2025 23:08:55 +0800
+Cc: wagi@kernel.org,
+ hare@suse.de,
+ hch@lst.de,
+ jmeneghi@redhat.com,
+ kbusch@kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org,
+ mkhalfella@purestorage.com,
+ randyj@purestorage.com,
+ sagi@grimberg.me
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <7A03047E-4267-42E7-A1BB-E0D86FC57986@smartx.com>
+References: <8F2489FD-1663-4A52-A50B-F15046AC2878@163.com>
+ <424fe473-8472-42b8-99c7-8b0534771343@flourine.local>
+To: Daniel Wagner <dwagner@suse.de>
+X-Mailer: Apple Mail (2.3774.300.61.1.2)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250415_080028_833485_FE652730 
-X-CRM114-Status: UNSURE (   7.07  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250415_080911_637967_E8B555EF 
+X-CRM114-Status: GOOD (  35.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,62 +108,143 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 15.04.25 15:09, Bernard Metzler wrote:
+Hi Daniel,
 
-> [  106.826346] rdma_rxe: loaded
-> [  106.832164] loop: module loaded
-> [  107.066868] run blktests nvme/061 at 2025-04-15 15:03:04
-> [  107.081270] infiniband eno1_rxe: set active
-> [  107.081274] infiniband eno1_rxe: added eno1
-> [  107.089683] infiniband enp4s0f4d1_rxe: set active
-> [  107.089687] infiniband enp4s0f4d1_rxe: added enp4s0f4d1
-> [  107.264770] loop0: detected capacity change from 0 to 2097152
-> [  107.267376] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [  107.271276] nvmet_rdma: enabling port 0 (10.0.0.2:4420)
-> [  107.312957] BUG: kernel NULL pointer dereference, address: 0000000000000028
-> [  107.312973] #PF: supervisor read access in kernel mode
-> [  107.312979] #PF: error_code(0x0000) - not-present page
-> [  107.312986] PGD 0 P4D 0
-> [  107.312992] Oops: Oops: 0000 [#1] SMP PTI
-> [  107.312999] CPU: 1 UID: 0 PID: 123 Comm: kworker/u32:4 Not tainted 6.15.0-rc2 #1 PREEMPT(undef)
-> [  107.313008] Hardware name: LENOVO 10A6S05601/SHARKBAY, BIOS FBKTD8AUS 09/17/2019
-> [  107.313016] Workqueue: rxe_wq do_work [rdma_rxe]
-> [  107.313030] RIP: 0010:rxe_mr_copy+0x58/0x230 [rdma_rxe]
+> 2025=E5=B9=B44=E6=9C=8815=E6=97=A5 20:34=EF=BC=8CDaniel Wagner =
+<dwagner@suse.de> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Hi Jiewei,
+>=20
+> On Thu, Apr 10, 2025 at 11:44:13PM +0800, Jiewei Ke wrote:
+>> I just noticed that your patchset addresses a similar issue to the =
+one I =E2=80=99m
+>> trying to solve with my recently submitted patchset [1]. Compared to =
+your
+>> approach, mine differs in a few key aspects:
+>>=20
+>> 1. Only aborted requests are delayed for retry. In the current =
+implementation,
+>> nvmf_complete_timed_out_request and nvme_cancel_request set the =
+request status
+>> to NVME_SC_HOST_ABORTED_CMD. These requests are usually already sent =
+to the
+>> target, but may have timed out or been canceled before a response is =
+received.
+>> Since the target may still be processing them, the host needs to =
+delay retrying
+>> to ensure the target has completed or cleaned up the stale requests. =
+On the
+>> other hand, requests that are not aborted =E2=80=94 such as those =
+that never got
+>> submitted due to no usable path (e.g., from nvme_ns_head_submit_bio), =
+or those
+>> that already received an ANA error from the target =E2=80=94 do not =
+need
+>> delayed retry.
+>=20
+> If I understand you correctly, you are concerned about delaying all
+> commands even these which are not transmitted yet. If there are no
+> garantees on ordering it would be possible to failover these commands
+> immediately. Sure something which could be improved in my series.
 
-Hi, Bernard
+Yes, your patchset delays all commands. In fact, some distinction needs =
+to be made:
+commands with path errors and those that haven't been sent yet can be =
+failed over
+immediately. You might consider applying the delay only to commands with =
+status
+NVME_SC_HOST_ABORTED_CMD.
 
-An interesting test. Can you find the line number of 
-(rxe_mr_copy+0x58/0x230) with crash tool?
+>> 2. The host explicitly disconnects and stops KeepAlive before delay =
+scheduling
+>> retrying requests. This aligns with Section 9.6 "Communication Loss =
+Handling"
+>> of the NVMe Base Specification 2.1. Once the host disconnects, the =
+target may
+>> take up to the KATO interval to detect the lost connection and begin =
+cleaning
+>> up any remaining requests. Retrying too early may still lead to data
+>> corruption issues.
+>=20
+> The host error handler is executed thus all communication is stopped.
+> This part hasn't changed. Not sure what you are referring too. The =
+only
+> thing which changes in this series is when we enqueue the failed
+> commands again.
 
-Thus we can find what variable is becoming NULL pointer.
+In your patch as shown below, I think nvme_schedule_failover should be =
+called after
+nvme_rdma_teardown_admin_queue for two reasons:
 
-Thanks a lot.
-Zhu Yanjun
+* nvme_rdma_teardown_io_queues will call nvme_cancel_tagset, and then =
+the inflight
+  commands will be added to the ctrl's request_list. So =
+nvme_schedule_failover should be
+  after nvme_rdma_teardown_io_queues to kick them.
 
-> [  107.313041] Code: 83 7f 7c 04 49 89 f6 48 89 d3 41 89 cd 0f 84 f9 00 00 00 89 ca e8 68 f7 ff ff 85 c0 0f 85 95 01 00 00 49 8b 84 24 f0 00 00 00 <f6> 40 28 02 74 28 44 8b 45 d4 44 89 e9 48 89 da 4c 89 f6 4c 89 e7
-> [  107.313055] RSP: 0018:ffffb00b40467cc8 EFLAGS: 00010246
-> [  107.313062] RAX: 0000000000000000 RBX: ffff8f64434f804a RCX: 0000000000000400
-> [  107.313070] RDX: 0000000000000400 RSI: ffff8f64b8c9cc00 RDI: ffff8f64bef78a00
-> [  107.313077] RBP: ffffb00b40467d00 R08: 0000000000000000 R09: ffff8f6440b68e00
-> [  107.313084] R10: ffffb00b40467d50 R11: ffff8f6440b68e00 R12: ffff8f64bef78a00
-> [  107.313091] R13: 0000000000000400 R14: ffff8f64b8c9c800 R15: ffff8f64470d1000
-> [  107.313098] FS:  0000000000000000(0000) GS:ffff8f6b8dc9e000(0000) knlGS:0000000000000000
-> [  107.313106] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  107.313129] CR2: 0000000000000028 CR3: 000000069d81a004 CR4: 00000000001706f0
-> [  107.313148] Call Trace:
-> [  107.313164]  <TASK>
-> [  107.313170]  rxe_receiver+0x1310/0x26d0 [rdma_rxe]
-> [  107.313180]  do_task+0x6b/0x1f0 [rdma_rxe]
-> [  107.313189]  do_work+0xe/0x20 [rdma_rxe]
-> [  107.313198]  process_one_work+0x1b3/0x400
-> [  107.313206]  worker_thread+0x25b/0x370
-> [  107.313212]  kthread+0x116/0x240
-> [  107.313218]  ? __pfx_worker_thread+0x10/0x10
-> [  107.313225]  ? _raw_spin_unlock_irq+0x17/0x40
-> [  107.313233]  ? __pfx_kthread+0x10/0x10
-> [  107.313239]  ret_from_fork+0x3c/0x60
-> [  107.313246]  ? __pfx_kthread+0x10/0x10
-> [  107.313253]  ret_from_fork_asm+0x1a/0x30
-> [  107.313260]  </TASK>
+* This does not follow the rule of starting the delay timer(aka =
+nvme_schedule_failover)
+   after all communication is stopped.
 
+> @@ -2153,6 +2154,7 @@ static const struct blk_mq_ops =
+nvme_rdma_admin_mq_ops =3D {
+> =20
+> static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool =
+shutdown)
+> {
+> + nvme_schedule_failover(&ctrl->ctrl);
+> nvme_rdma_teardown_io_queues(ctrl, shutdown);
+> nvme_quiesce_admin_queue(&ctrl->ctrl);
+> nvme_disable_ctrl(&ctrl->ctrl, shutdown);
+> nvme_rdma_teardown_admin_queue(ctrl, shutdown);
+
+>> @@ -2178,6 +2180,7 @@ static void nvme_rdma_shutdown_ctrl(struct =
+nvme_rdma_ctrl *ctrl, bool shutdown)
+>> nvme_quiesce_admin_queue(&ctrl->ctrl);
+>> nvme_disable_ctrl(&ctrl->ctrl, shutdown);
+>> nvme_rdma_teardown_admin_queue(ctrl, shutdown);
+>> + nvme_delay_kick_retry_lists(&ctrl->ctrl); <<< delay kick retry
+>> after teardown all queues
+>=20
+> Without the kick it hangs. The admin has explicitly removed the ctrl.
+>=20
+> As I already said, this is a RFC for the sake to figure out if this
+> approach is a good idea. We all agreed, we should first try to sort =
+this
+> out before introducing a new queue. There are many problems which it
+> will introduce, like the one from above 'why delaying not send
+> requests?', 'What happens when we have several short
+> disconnects/connects?', ...
+>=20
+> BTW, there is already a hack in disconnect/connect state transition.
+> Ideally we solve this in a more generic manner.
+
+I agree that introducing a controller-level queue is necessary, these =
+commands pending
+retry should be uniformly delayed after the controller finishes =
+disconnecting.
+
+Regarding the issue of multiple connections and disconnections, in my =
+patchset I avoided
+using delayed_work, and instead used a synchronous msleep approach. This =
+prevents
+premature retries.
+
+If we use delayed_work, the following issue may arise: during a =
+controller reset, suppose
+an inflight command (command 1) is canceled and added to the =
+controller=E2=80=99s request_list,
+then the connection is torn down and nvme_schedule_failover is called. =
+Command 1 will
+be scheduled to retry after 30 seconds. And then the reconnection =
+completes, but
+command 2 encounters an I/O timeout and is also added to the =
+request_list. At this point,
+the 30-second delay expires, and command 2 might be mistakenly retried =
+immediately.
+
+The current state machine cannot avoid this issue if using delayed_work.
+
+Thanks,
+Jiewei=
 
