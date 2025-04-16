@@ -4,97 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BABA4C369AB
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Apr 2025 00:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE1F1C369AB
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Apr 2025 00:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=s1BeglVl5V4o/Bv4MNYA8HZfcp4/8kdwxBCW7kEmm38=; b=sWNiRYDaDwOLzuCA+07jkjF3Sm
-	61t0uuLfPBHCp+XslhfoPo0qOFlURzQhMQoUBJq7Y0j8kwq7FoadVmCnn6kHV1Ndo7a31lnSH2/40
-	vleB0NzHUvryn97TIJj6pw8JiO6OzTacqFIqytiDbp2aoSfAodz7Qw6HIlt+Z2nt90uRQSvs556dW
-	sOD3rSIJGmuOepcujdNrpBzZ605sIqFzrZ8WPOzV9e1mOJRZb075Dv95NAQj5Owulgooq4ItU25xS
-	vzN4txFCqu9XZbi+2t1Ri0+0tEYZ+fHoJU0nUAVeWyByVmH+UpgOzQ5uwYJp2DqltbWuAlS2CFp72
-	HzVOtbnw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Iw0pUso11WucIlqdtormnEIGUdCPzU4SSaBeRiqQKmE=; b=vKydEBjoz3I/YHGQ3Q49tlplDQ
+	QCyw0osyQ8c7SPh3EP3ztK9i51tYo/5vW9wLOd4cst0LxVFgf78NkHkZOYQIz8mfuZy8fis1fokGj
+	lzrqNUF0IREZ4gwsAHQIOD47oBG0cjKiX4GliYcRS502zH9ifPXxj9KtKWkwyjFJIPzjH/14Xh9Ut
+	Z7fC/j/VV95WsfDQ8flmiFnWyv9PjW4DsYjG5923fmySY1TYg0skkjsnMQiWC8104d9uZVryiRxNQ
+	aU4XaIecyZx0DKBWge9tXEFUoywP5d4R3UiMDWvGiyzbSO3r/FUsqXxP5PybXVfXJIA2d2s0dBAV0
+	Rk8KeMRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4qWN-00000007da9-3k9g;
-	Wed, 16 Apr 2025 00:20:55 +0000
-Received: from omta38.uswest2.a.cloudfilter.net ([35.89.44.37])
+	id 1u4qYq-00000007eD5-21ox;
+	Wed, 16 Apr 2025 00:23:28 +0000
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4qW0-00000007dTe-2sTa
+	id 1u4qYo-00000007eCE-2QGJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Apr 2025 00:20:34 +0000
-Received: from eig-obgw-5008a.ext.cloudfilter.net ([10.0.29.246])
-	by cmsmtp with ESMTPS
-	id 4bJ3uGV6EAfjw4qVouCR56; Wed, 16 Apr 2025 00:20:21 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id 4qVnuRRV9UxvT4qVouphgZ; Wed, 16 Apr 2025 00:20:20 +0000
-X-Authority-Analysis: v=2.4 cv=SqKW6uO0 c=1 sm=1 tr=0 ts=67fef7c4
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=B3fuDwYyW55wTQKIj88FGw==:17
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=CpFGIHgWpZrg6UVlTl0A:9 a=QEXdDO2ut3YA:10 a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=s1BeglVl5V4o/Bv4MNYA8HZfcp4/8kdwxBCW7kEmm38=; b=Tus3AVpuBOJzRWt/kY+9xi+3BS
-	WhuaVT6hUU4KACDczFzoFwIJK44rC7YwdfOJbU9gCRQgBIeFCTvroZclz0p07WxBBUI1TFNKmoPFS
-	bR16XKnSjc/ZkF6RzKcGjW1nBNgWFbeRxGlUNjMpicjR/rwBPqyAaJq5I7rA6LeXUdpsoiFoELjSy
-	BMXW+8zHq0VtzNdeelXjytqQ6wasRoH8i6AQx9YpOWy4KMVm/mYvP++CQaGPCjcv+llWZVxHVK8G1
-	6vKx3knYXo3D+tTBj0tr/dC4ShqcQ6DLIH8263qVeZcEvVIgRErNsEGPpQuQriS9mtp+M/NCoqk/z
-	QnFbtNrg==;
-Received: from [201.172.174.147] (port=56116 helo=[192.168.15.14])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1u4qVm-00000000nFf-2h71;
-	Tue, 15 Apr 2025 19:20:19 -0500
-Message-ID: <a1c6fd4e-69b4-4698-bc5d-ef02cf7312e4@embeddedor.com>
-Date: Tue, 15 Apr 2025 18:20:03 -0600
+	Wed, 16 Apr 2025 00:23:27 +0000
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-2240b4de12bso84196795ad.2
+        for <linux-nvme@lists.infradead.org>; Tue, 15 Apr 2025 17:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1744763006; x=1745367806; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Iw0pUso11WucIlqdtormnEIGUdCPzU4SSaBeRiqQKmE=;
+        b=SmgajhJcdQfbydZOsKmHgNEzY3CcYWx3F+tuIpxevF0yifz+XgP9AKp4dSY8AtJkpm
+         M2JZDqzpqTZfhTWqXA01RhkpEFxK+WNKUcIDpwBW5FFdihFBIpjb/CQM6r6XOJoZJMLy
+         fSXFKn7+6NJJgGB7Y5kQ+MtqPxZYemxNElAZpt3Pc8xhCXamSnnkFu+qaE6ibEWudBOe
+         qSyX2Zm1hV0WIsxDOsYTnBTMojMKhv2AuufyObwJgShxiPAHwT1/Gg/0fTywq8H79mT7
+         zYo2azHMNay0awVXwUvoOQG3UWWUHD/HCCEfws928grjm5S96ch8fEqRTAaurf8MCvQt
+         UaVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744763006; x=1745367806;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Iw0pUso11WucIlqdtormnEIGUdCPzU4SSaBeRiqQKmE=;
+        b=Vs2PzmjtwueV/J3SmC7AXT0kc8zMLlGVksDQG9GHq+kRiL7pl22lgmD84HlLlpUuQw
+         et8D1mDLzjXxUTJbV+cXUUX0j8bsnNyyqtkEqeOwUDL1zqW3htIuIOm1LAL9GJ3k4bWD
+         knTtv6MI/E8Xp+d2ABiNeQV4Q0hjlyWcaYFzx2u9JABT8Fgj9eSAyXUFOvR8VAzoU3/n
+         eDZUnSVumLoOEfZRv72isDAMPf0OxmtgL28a5SoG1kiDuXTljvws+bZMnYIq7z01Ib7B
+         HNcQtA8mAGIAL1vb1JNxSmWXCgcnMaHn3+My/or62Y/ssC1jsdTVRLx0E08F4sYzp2Cq
+         47eA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTeYh+9PZIQvcLru19H04BFFSZfuh4ZdNadXKhXggAX9O12+gi10xJQCpnS4OJnHldlXtAOHKVykLd@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw/m97L4xq9YDenhnW87yr4RsaSbTyhVIYwsUmoywJt1+inXFqJ
+	eh4IrRVMAmQIS9HOxIES3TpDOXJiKw+rZhtcpAf4h5tosnjpV/OTJbBZ2Q72Uj4=
+X-Gm-Gg: ASbGnct2IBLmdbXH476/89EFG1wKMnguZJtM+w0DN1BHsmLYvo/D775+2M+t2dy3VJG
+	3hkBsXqw9+26w5kiOR980oYFL8cGt1n5bzJufQMuGK6u9emeQzXfMCEh2g/C4xHMraZ7fWOi9Fi
+	dWG1MzobCc2bFLKOyUXTz1sK7ShCYfH3SFHeTZ22PpaMnUtKje0mRVpg7fpxHgLQC8wX80z4cbK
+	E4orp/ZJ0BDaClauE5R6Nfzi+g451ZEt3lZVg6za1ejGtpCwUQXUFm+9T0rkJpKVW8WXTruqp4L
+	ZIUUk+Y8VIfRCV1zdBSFd9MOTleyHi2e0tg6j/Dm7izfOD5jvxPz8/Ooj+6ZIw==
+X-Google-Smtp-Source: AGHT+IGJeuMbV3k0jW0loSUVH+gLC2S4UZu8cTZSGuHwWDNvXgkQSKSyUr1KJ9g5nRzZz+sWuGPBcQ==
+X-Received: by 2002:a17:903:2a83:b0:229:1717:8812 with SMTP id d9443c01a7336-22c316d894dmr19110515ad.0.1744763005749;
+        Tue, 15 Apr 2025 17:23:25 -0700 (PDT)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-22c33fe7289sm1417125ad.244.2025.04.15.17.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 17:23:25 -0700 (PDT)
+Date: Tue, 15 Apr 2025 17:23:24 -0700
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Daniel Wagner <wagi@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	John Meneghini <jmeneghi@redhat.com>, randyj@purestorage.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 3/3] nvme: delay failover by command quiesce timeout
+Message-ID: <20250416002324.GB78596-mkhalfella@purestorage.com>
+References: <20250324-tp4129-v1-0-95a747b4c33b@kernel.org>
+ <20250324-tp4129-v1-3-95a747b4c33b@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] nvme-loop: Avoid -Wflex-array-member-not-at-end
- warning
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>
-References: <Z-axRObjXYjIHGQC@kspp>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <Z-axRObjXYjIHGQC@kspp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.infradead.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.172.174.147
-X-Source-L: No
-X-Exim-ID: 1u4qVm-00000000nFf-2h71
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.14]) [201.172.174.147]:56116
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 4
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfF0dRLC9EP72Ehw5CF2xn/tz2iJXLY+qtkPg8pnWdLzZfgOxatteAUylZdVjPFlJoySqUT+DYOhkctyJaDAno0l3XYLkOTYNu45bZc0WvjGk3ZgvNkSF
- 8Ywz3eFkJa4Um+L9BNbe+DV30hshehWI/XrJ0Z/aWWv09QE3+Ro4QLJZJ983oVILW5cPSoD3oYo3+simkk/BgRUjXGZLTJnXFJTVERUo5+VpEMvc6u8Xou9t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250324-tp4129-v1-3-95a747b4c33b@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250415_172032_791733_1EC6F4EC 
-X-CRM114-Status: GOOD (  12.58  )
+X-CRM114-CacheID: sfid-20250415_172326_619372_54D3996B 
+X-CRM114-Status: GOOD (  26.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,47 +99,134 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
-
-Friendly ping: who can take this patch, please? :)
-
-Thanks!
--Gustavo
-
-On 28/03/25 08:25, Gustavo A. R. Silva wrote:
-> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-> getting ready to enable it, globally.
+On 2025-03-24 13:07:58 +0100, Daniel Wagner wrote:
+> The TP4129 mendates that the failover should be delayed by CQT.  Thus when
+> nvme_decide_disposition returns FAILOVER do not immediately re-queue it on
+> the namespace level instead queue it on the ctrl's request_list and
+> moved later to the namespace's requeue_list.
 > 
-> Move the conflicting declaration to the end of the structure. Notice
-> that `struct nvme_loop_iod` is a flexible structure --a structure
-> that contains a flexible-array member.
-> 
-> Fix the following warning:
-> 
-> drivers/nvme/target/loop.c:36:33: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
 > ---
->   drivers/nvme/target/loop.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/nvme/host/core.c      | 19 ++++++++++++++++
+>  drivers/nvme/host/fc.c        |  4 ++++
+>  drivers/nvme/host/multipath.c | 52 ++++++++++++++++++++++++++++++++++++++++---
+>  drivers/nvme/host/nvme.h      | 15 +++++++++++++
+>  drivers/nvme/host/rdma.c      |  2 ++
+>  drivers/nvme/host/tcp.c       |  1 +
+>  6 files changed, 90 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-> index a5c41144667c..d02b80803278 100644
-> --- a/drivers/nvme/target/loop.c
-> +++ b/drivers/nvme/target/loop.c
-> @@ -33,10 +33,12 @@ struct nvme_loop_ctrl {
->   
->   	struct list_head	list;
->   	struct blk_mq_tag_set	tag_set;
-> -	struct nvme_loop_iod	async_event_iod;
->   	struct nvme_ctrl	ctrl;
->   
->   	struct nvmet_port	*port;
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 135045528ea1c79eac0d6d47d5f7f05a7c98acc4..f3155c7735e75e06c4359c26db8931142c067e1d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -239,6 +239,7 @@ static void nvme_do_delete_ctrl(struct nvme_ctrl *ctrl)
+>  
+>  	flush_work(&ctrl->reset_work);
+>  	nvme_stop_ctrl(ctrl);
+> +	nvme_flush_failover(ctrl);
+>  	nvme_remove_namespaces(ctrl);
+>  	ctrl->ops->delete_ctrl(ctrl);
+>  	nvme_uninit_ctrl(ctrl);
+> @@ -1310,6 +1311,19 @@ static void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
+>  	queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
+>  }
+>  
+> +void nvme_schedule_failover(struct nvme_ctrl *ctrl)
+> +{
+> +	unsigned long delay;
 > +
-> +	/* Must be last --ends in a flexible-array member. */
-> +	struct nvme_loop_iod	async_event_iod;
->   };
->   
->   static inline struct nvme_loop_ctrl *to_loop_ctrl(struct nvme_ctrl *ctrl)
+> +	if (ctrl->cqt)
+> +		delay = msecs_to_jiffies(ctrl->cqt);
+> +	else
+> +		delay = ctrl->kato * HZ;
+> +
+> +	queue_delayed_work(nvme_wq, &ctrl->failover_work, delay);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_schedule_failover);
+> +
+>  static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
+>  						 blk_status_t status)
+>  {
+> @@ -1336,6 +1350,8 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
+>  		dev_err(ctrl->device,
+>  			"failed nvme_keep_alive_end_io error=%d\n",
+>  				status);
+> +
+> +		nvme_schedule_failover(ctrl);
+>  		return RQ_END_IO_NONE;
+>  	}
+>  
+> @@ -4716,6 +4732,7 @@ EXPORT_SYMBOL_GPL(nvme_remove_io_tag_set);
+>  
+>  void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+>  {
+> +	nvme_schedule_failover(ctrl);
+>  	nvme_mpath_stop(ctrl);
+>  	nvme_auth_stop(ctrl);
+>  	nvme_stop_failfast_work(ctrl);
+> @@ -4842,6 +4859,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>  
+>  	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
+>  	INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
+> +	INIT_DELAYED_WORK(&ctrl->failover_work, nvme_failover_work);
+> +	INIT_LIST_HEAD(&ctrl->failover_list);
+>  	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+>  	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+>  	ctrl->ka_last_check_time = jiffies;
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index cdc1ba277a5c23ef1afd26e6911b082f3d12b215..bd897b29cd286008b781bbcb4230e08019da6b6b 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2553,6 +2553,8 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+>  {
+>  	enum nvme_ctrl_state state = nvme_ctrl_state(&ctrl->ctrl);
+>  
+> +	nvme_schedule_failover(&ctrl->ctrl);
+> +
+>  	/*
+>  	 * if an error (io timeout, etc) while (re)connecting, the remote
+>  	 * port requested terminating of the association (disconnect_ls)
+> @@ -3378,6 +3380,8 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+>  	/* will block will waiting for io to terminate */
+>  	nvme_fc_delete_association(ctrl);
+>  
+> +	nvme_schedule_failover(&ctrl->ctrl);
+> +
+>  	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+>  		dev_err(ctrl->ctrl.device,
+>  			"NVME-FC{%d}: error_recovery: Couldn't change state "
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 2a7635565083046c575efe1793362ae10581defd..a14b055796b982df96609f53174a5d1334c1c0c4 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -86,9 +86,11 @@ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
+>  void nvme_failover_req(struct request *req)
+>  {
+>  	struct nvme_ns *ns = req->q->queuedata;
+> +	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
+>  	u16 status = nvme_req(req)->status & NVME_SCT_SC_MASK;
+>  	unsigned long flags;
+>  	struct bio *bio;
+> +	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
+>  
+>  	nvme_mpath_clear_current_path(ns);
+>  
+> @@ -121,9 +123,53 @@ void nvme_failover_req(struct request *req)
+>  	blk_steal_bios(&ns->head->requeue_list, req);
+>  	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+>  
+> -	nvme_req(req)->status = 0;
+> -	nvme_end_req(req);
+> -	kblockd_schedule_work(&ns->head->requeue_work);
+> +	spin_lock_irqsave(&ctrl->lock, flags);
+> +	list_add_tail(&req->queuelist, &ctrl->failover_list);
+> +	spin_unlock_irqrestore(&ctrl->lock, flags);
+> +
 
+In case the delay in nvme_schedule_failover() is larget than request
+timeout, is it possible for timeout callback to be called while a
+request is sitting in failover_list?
+
+Is there any guarantee to prevent this from happening? I understand from
+the patch that we do not want this to happen, right?
 
