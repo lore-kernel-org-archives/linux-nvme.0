@@ -4,90 +4,178 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3231DC369AB
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Apr 2025 00:40:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D95B0C369AB
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Apr 2025 02:50:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mKvupK0kFMuv87h84KnhuI4pxcpKOLxjmuEk9QDadj4=; b=lSU2hIzkt9RgLEN2pKvO/60QVs
-	3O9dNM7oJ2c/AYioUXTO5U30c2MRn3h7ph3vdP2E8zsXwl1ic1+2llrDsyLj4ajMyV7BdXLI2Ikk7
-	N+a92BJa09YtOjoFjrJPTWDBjKh3VijkCC7GMYwPUHMX63okjcKvCNVIaxWDOH5ZjGKa/m4RlHJxS
-	YiogcYuZjOw7nsP8/3xiNxGgmNcJ0FMSvO/L/UCaZA0K2qyaOh0mX6yiRBnU50Vu59mlY5aL48+sn
-	2gJ/mf1TJv58qz2wlvBp2H0dpjlItWNbccvkjLhRPlrvwTe9iLyJFxhXJHoy22/0Rboya8Rcx0fJX
-	cDuPdwmg==;
+	bh=l67HlN2JhdWf+05hFcH8HPVmV3pzqTIRbgRO6NmOv0I=; b=HC8jCGMKUFMOmMygLXCf+fhqBT
+	D+PY0lBI8FxK5tohtwMYnJVT93SgiDGm8iH7kMgefIsR3ZKnYtpb/r1oqG306xVI4igOMwiKrWMSP
+	rUe58hbGIoTcwk3pTBFaojTmc19Mm/uyU8RzuJlVOe/BSQpWWrR/dlYgF2o+omKB0Il1KYLkVCeyD
+	tuhoZQEPL7LqRkw6OaSqyXUOF7P1ebIfUPiY57l1xfa2QbW5SqxOb2x7xqXZEF+l2aRsibYBnw6oc
+	8k/UjOxuUrn3eIGkG6mz2A2RF9uQir6kM4kx2zgf3HorzX58g4HD6Cb0cYlMrvOk+Sla3Z7WcmJ/d
+	vNPfnXKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4qpC-00000007gO6-2LUW;
-	Wed, 16 Apr 2025 00:40:22 +0000
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+	id 1u4srE-00000007ytH-3jkL;
+	Wed, 16 Apr 2025 02:50:36 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4qp9-00000007gMg-1u6P
+	id 1u4srB-00000007ysq-3aSQ
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Apr 2025 00:40:20 +0000
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-b074d908e56so2326553a12.2
-        for <linux-nvme@lists.infradead.org>; Tue, 15 Apr 2025 17:40:18 -0700 (PDT)
+	Wed, 16 Apr 2025 02:50:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1744771834; x=1776307834;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=uHDJ56ihQxqzNduy7UQ7IhREGhJSFdDbRz7bXWR9lo0=;
+  b=Oep5QcS+mMipyc2mX68UYKHIubxzcfyhLGuM2XdnIbSwSP4WQ1qGABq0
+   laduNVMNlpMV435vuAYRW5Mgq46Zeq+d5QcxqqBw2h3FInRJ0mmbRsdG1
+   LaDUpmlsNVbiWwoTfOs6hH4xmZXx0SLBLjzAEXr/+bTghVBQn53rXtuSK
+   PpU0tTIilopRj57O6l5BAdxVESlMD6aL2qp9uRrRZluF1ZTB2ZWiHkk67
+   +V1EjJUlJ6wrZ0PjN8iW4wpbPeInEgxhf6ITUp9j8/2w/Sk+WBLihIo1D
+   GZSe3EUdAg+7203CdYFFMJEDg8C0b8p7zRaHn8GmFKJdpafVhhF/v5j0y
+   w==;
+X-CSE-ConnectionGUID: m+ZZ1zd4SKWuriGJBXuDvQ==
+X-CSE-MsgGUID: 5FcwXkpMSLOG3ssxQKIJEA==
+X-IronPort-AV: E=Sophos;i="6.15,215,1739808000"; 
+   d="scan'208";a="76892075"
+Received: from mail-eastus2azlp17010018.outbound.protection.outlook.com (HELO BN1PR04CU002.outbound.protection.outlook.com) ([40.93.12.18])
+  by ob1.hgst.iphmx.com with ESMTP; 16 Apr 2025 10:50:31 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CoqzaFU3wtHgJhGt8TMfAQlStlClMLbTtqG9/p2G2nAHaC++B/OxI8KFyu7X0v6ugdwfFnWeqbBWUEscoezB4qEpkQzZuNWnym2D3kMLja4ahBtgwfFbiN9jUARBcP44G00f/YeFOWH9awGAxoLFqHRPqMObt+mOADpZPMDls1efZJK2rq8vgPxqHggl1o+S78eK5qHpnVrqGLyaneXvrB+zjibeeX1VbbC8qdHDxtX/6LGiLoyONZQ7J47SThPgITXoc+/o3Vepj+ew0X47sKwzKt4kt9XL/Z9/pL91whv7oE3HaxL/cKPOQ9rV/4Pm1epmY9ecpWluufI5ostrDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l67HlN2JhdWf+05hFcH8HPVmV3pzqTIRbgRO6NmOv0I=;
+ b=dpOqdbOELRaPD6a7F/3lwayTJXOrfwlAtbeZMPPo3RM2a1tDvuhonXGNQmg7qmqdG4OpM96ynWUJ+FW7TtpZkty+LhqYIrL5AB8sq4wbNHnUsfPOqMlwi/vFzm1KWrenQjnLTQOgqTCu7rj3il+Cl1fxmwZ2CHF5MTDe/DAMr0Lxni/avhVBhGaDE47Nt10zYoX5NbH2KxkuWNIf9dtFyY65GV5ABEsLqTyrlvCmRCnIP+s8gN8NaOf7ZLiBfZVvbniLFn0gRDr7LEh9uuNE3AXfNJYvn+Fqmjb4RyCm/QYwa/fcPTBrRaiC8w2q5dkSJs4tk9lSwZDd8Hs81r8QjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1744764018; x=1745368818; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mKvupK0kFMuv87h84KnhuI4pxcpKOLxjmuEk9QDadj4=;
-        b=dqWzx/tNK50zGhAATVD5XfHTW3AgF15hNYnCiXoYVmRnl5NRyAg1Pe5vHqb+85HsBe
-         7F3vne+h/ynhZ8Q1q8Wt6InqyLZQv76Kw/GZaOhAyDoWiXERU33li0y8vM1RhaMo6gAl
-         wUMwTRS87O6KxgsDUr1bmLohKTIf0KKoim/1nUZuWoTU6kxrM7qUYlBJJxGaXi8t5nq5
-         ZzykMfITwgwI4QJxpxnavOjQNOsq2asE+FWJrXMblEkj2r4HuhjEHJYW3dllYuPjaMdi
-         CP5V0Vr9BWr8MlWF4bWUFwK+RGBb1GkWy3t63sxgmD4YL4Pn9st0OcnJt3NyxA9j5KTX
-         g16Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744764018; x=1745368818;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mKvupK0kFMuv87h84KnhuI4pxcpKOLxjmuEk9QDadj4=;
-        b=rQsDIWjF/ZdCQqdGuOtV6lrZraYLL0paOt5V7+JyGzBhT8TH7KbSwM5miW7gF1bid0
-         18Kyhuss9f5603y1Fpq+HsojpBCW9RGgyUAqi4eDtu46YmLCfDL36rnBDsy2mIiRJEH7
-         YN2VV3ES2cB4hS7r4LGSlM5AtMwV5op5Df+2+JzwBS9FTqhOGqOn81hp9vWZooUFvr3U
-         QvX51uuhLkPDm6+0EVSm9q8+eQPrYxSPfKZkYcmHw7HttZrRDH2sBlvpphWmuHmUG7Cg
-         x8ZLPoRj+aNY589WIvNTpocMijKKelqcm4LO+EyFUksJxFybRBvYwGmU45f6G2qENODn
-         1H+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXvzsrjH8rbf16cftYuKttWZ8pEtZpe5nePKkOo0B5enLzAKGPiaso7O4QxokgVTVDC8Y2wy9br1L1v@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz6ohOY2UNpvxDOfuvYsfmdQ6L8IpI+rsnT/1B+6mR1TiK/VRtF
-	XYUBuV3WGJD57G3VF6CZPYkXiFUA028xFEQHavDZLWIcfv2Q5KzUGpiPWxYqIIw=
-X-Gm-Gg: ASbGncvv4QFxabV+YrOAgyTOU/H7dqlKiE0IBMumhWBHqxoKaQmLIVx3LP2sFZR44Xz
-	2W4i262zO+ByMCqI6HwbuWJ1tmzaDV5Bk+rlelaT7kgsrXlfMat+XkOPtAKZ54IBY0JJWAg+9mf
-	WTTDcXTxMyS4yekay54k+feaCXP49CD+AdXY9Tz/lvqQux3Awk9cWt2F79Kos4D8/yEDuVmWtf9
-	XVAVVagyzLoWVbG7UiQGgmiRe3Y+GMX2qevP+mTvAmnJNewJ09UQyiIYp7NhT0YA3278GsaB9Ea
-	ghXMNzquiT8LxCbLCXoOyhW9MnLp1sqp4Num0zfH6HbweWlOuFX4RuZSZx/czQ==
-X-Google-Smtp-Source: AGHT+IEsrlIBzKt6yTxcyg6Hws7JrK8IfsbekYUm7Fhq39aPcW8AFdlZ5Qt88SVUn25nWyBkBOgvMA==
-X-Received: by 2002:a17:90b:582e:b0:301:c5cb:7b13 with SMTP id 98e67ed59e1d1-3085eea783cmr1842670a91.3.1744764018287;
-        Tue, 15 Apr 2025 17:40:18 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-308613b3719sm275979a91.33.2025.04.15.17.40.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 17:40:17 -0700 (PDT)
-Date: Tue, 15 Apr 2025 17:40:16 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	John Meneghini <jmeneghi@redhat.com>, randyj@purestorage.com,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 3/3] nvme: delay failover by command quiesce timeout
-Message-ID: <20250416004016.GC78596-mkhalfella@purestorage.com>
-References: <20250324-tp4129-v1-0-95a747b4c33b@kernel.org>
- <20250324-tp4129-v1-3-95a747b4c33b@kernel.org>
- <20250410085137.GE1868505-mkhalfella@purestorage.com>
- <6f0d50b2-7a16-4298-8129-c3a0b1426d26@flourine.local>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l67HlN2JhdWf+05hFcH8HPVmV3pzqTIRbgRO6NmOv0I=;
+ b=rI1lZz/qhXJnfGEPnKMGh6VlbBr6AbwbAxY1/KyNXi05XFfSGmTgX8ZapJFhU7567Sz6qZekoJPUjoFKz/lAUTmvMZsLWNLpC9QdFhGj1cuGJj8wdqQMOoU98r2kwOdTXXJpQ6p8MYZzZil1a7h7n3OuhQG0p+Y53+4zfSjRR20=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ SA2PR04MB7708.namprd04.prod.outlook.com (2603:10b6:806:142::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.21; Wed, 16 Apr
+ 2025 02:50:29 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%7]) with mapi id 15.20.8632.030; Wed, 16 Apr 2025
+ 02:50:29 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Zhu Yanjun <yanjun.zhu@linux.dev>
+CC: Bernard Metzler <BMT@zurich.ibm.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, Daniel Wagner <wagi@kernel.org>
+Subject: Re: [bug report] blktests nvme/061 hang with rdma transport and siw
+ driver
+Thread-Topic: [bug report] blktests nvme/061 hang with rdma transport and siw
+ driver
+Thread-Index: AQHbrfdhJhGSraouF0ezotWmIGdrJbOksFwwgAAh6wCAAMZmAA==
+Date: Wed, 16 Apr 2025 02:50:28 +0000
+Message-ID: <mrdhqtchtzw5f7ypno6d5g4fwh7heoyx5nyjvfak46cneprdrm@o4q2olnuq4gg>
+References: <r5676e754sv35aq7cdsqrlnvyhiq5zktteaurl7vmfih35efko@z6lay7uypy3c>
+ <BN8PR15MB2513CD2A5725F5A035AE905699B22@BN8PR15MB2513.namprd15.prod.outlook.com>
+ <3cf845ac-fd87-4808-bb53-c4495b03e68e@linux.dev>
+In-Reply-To: <3cf845ac-fd87-4808-bb53-c4495b03e68e@linux.dev>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SA2PR04MB7708:EE_
+x-ms-office365-filtering-correlation-id: 0fb4ce3f-2355-4131-058f-08dd7c91728a
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?j+brmZKJOq72uJwZbYkMSpnNVdwC5fOJB164e3N3PP0KLfeRJpreWLAtl8hV?=
+ =?us-ascii?Q?GAetEfE0MEv2tq11lVUvxgWl6+GQto1HqNNmk8mRGBkUocjg8BP5P6cgZWHq?=
+ =?us-ascii?Q?I6l+x/QliaKKm7MJ5xRn822jP98W9CJE8D06PQb4clgCHbGWSdfba+FHir3c?=
+ =?us-ascii?Q?eP0tqsKwjEWSscgtI+X4y8Pe6EFs6JPFxZkAqWtIOJx6jMurtHIR3fWl1DE0?=
+ =?us-ascii?Q?rmsF3Fofn3L32KWMC5G4g7Qo+gFzlbEO10X7oUpNcE8Uw0SvPTfcYO0+MZhL?=
+ =?us-ascii?Q?YIuh3F5bwKZK1ypZVSOzLszIGR1F0l1g/VOwWrWsJlKySKf4sm/nR3hzJV9D?=
+ =?us-ascii?Q?1zuMmx5Vpf/Zv648ol1LqS0oKPDkdytOxZ9+FrAds5lrJ5lPgnccwabiqezy?=
+ =?us-ascii?Q?knQttK1H5IF2jrcEytRrj09lhZ8bjvwLPagtw6Ep+SWABZqi2r9XVX687wQa?=
+ =?us-ascii?Q?cWWrgD7hvAQi6Ory3tUYY7y68SNAIdDvHqOJkd7dtnl3v5aHtU9ENC4dxb53?=
+ =?us-ascii?Q?QZBhysr6yLcDNAOOx/9utr30VJwOXh4Lb9ADEdksx5+ggZ4dy2K1+idMDGaj?=
+ =?us-ascii?Q?dEs+lDt09QAKamL4wvYa2im2VsSbjpOOh/x3SC/D8BTfmg0OAh9v6r1YEZsY?=
+ =?us-ascii?Q?5vF9byddqM6GuoMs7aHrQBqT1ADQv357/okG7DmROchhgxUQcA+qz6AGHYo3?=
+ =?us-ascii?Q?fzYCkvvDXFmnMLSpeUGrmvP8XLlxIG2gL6e566N3qNW4gni4BXz6JlZsg7TC?=
+ =?us-ascii?Q?vhyBts6L0+u1nikd8PpNUqJC1aETCpumwNsJ6Xlogg6sjk0RLpu93ZdPMVQ3?=
+ =?us-ascii?Q?Ytz0v1njvb1T1UzWrHbvqKrsrxGxGsCWpFIOZDHK8/B37SmfGLzBAIIt1N3d?=
+ =?us-ascii?Q?WIeVd2n6IroAHxAiPFmrDlWoOYHy/rH+QcpkELffs+/Ju12gU8bC/nwR4sMq?=
+ =?us-ascii?Q?M2XoUmackT1dc2A0cAjknNL2rWK7mzfV2Oob02V0VmKpDEj3tBe7AkeUKYj9?=
+ =?us-ascii?Q?ejsSx0zt0Vzi+pfyt9+K4L9GnSHiYsvELvb5SPk4wfiNvEmqp2j7Ly4cqyXZ?=
+ =?us-ascii?Q?hhR8keENyEdv+aVSgwHHfZvmjNb3G3+WD5jgDZNIbYlyMXPMbGq5+JTmNloW?=
+ =?us-ascii?Q?U+yTBhEgMnQHPmVBOyxwjUbDMrk6R8PusNdxrKAeHQsE4b9pT4F3D4xnIGcE?=
+ =?us-ascii?Q?VLYhSmNwTF+NGy6hZofhKD/hw/dbxKRDb5OZ6nIG/t0hPKsJS55DDaCH/Fcg?=
+ =?us-ascii?Q?hPwy4ow7YwbJ1/S6LG16pCY4yHDCZLf3YBMouJWAKh7zzaTo3YNWXhWuyn99?=
+ =?us-ascii?Q?BE82qA3OOYNafbARS3XX7VFOOFPn9GX6k0N2pEmGGqR4dh+/Tmte3dbubFuF?=
+ =?us-ascii?Q?HYnvMt84UJmd+gSpoQVMZULTVlQe2k76s6vLJbLz2p5Q9cDviGEqu/bxW8EU?=
+ =?us-ascii?Q?my5kwVKoVaob6ykOH1qhwvzyWpOYElRsn+E6p/1VO1eXsOMDBXFO/PrxSl8D?=
+ =?us-ascii?Q?elWpuw5VSQwBLZc=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cotmweTLD9qwpjan50myF/4/qPZ0ZhytbPWP5cAA3aQ4RVwftdJzjgJADlsC?=
+ =?us-ascii?Q?lqJXbuikXNhm6uwAGTTQmyHLauh3kmoTGDJq+mGi5ChYVcxmJXiXCnbkB6vB?=
+ =?us-ascii?Q?+OKFym2DvAFMwcbAyvkcAEopwEukYt8zUKmecubhk1kAkU32OJFykitoyQow?=
+ =?us-ascii?Q?yao8ym1BDeC2k323XiAxeGd5iAJfQQwm5RP2ZnEz5OcUnnC8MogNMVUi8AJQ?=
+ =?us-ascii?Q?XN+za6NhqTGE8PMSaGK164rIby62cF+HZj/RbH9ot6bA7cgLTDmjO6Zft67b?=
+ =?us-ascii?Q?m5xEVMXM9S25U9VFrOLdJcGr1bSfnAvkb7FW3QYnWmgjiEtYw/VQHS0V3PCd?=
+ =?us-ascii?Q?FMWlm0MdGQBh2PYqDzhbHRirH0jj0GCZ0p8g1h4UEm8GX9RsZw3N7NDlBw4s?=
+ =?us-ascii?Q?g9wm+Ly6oKN2vVTjiOr+8JowbAMD6NaWO0qhIEmzvL/b6xwsVjv00mHlskUr?=
+ =?us-ascii?Q?A/TLU4RDsGUmK/kWJNE7spqOSat0zz1SLki1OHahBhGBbKQYzKVPO3XzokmT?=
+ =?us-ascii?Q?sKlqIX/XUi5RSnZ7FSTNj+CKFNZVtcNtmAxWRMxVmnChkDipR8HGGCTS1GyA?=
+ =?us-ascii?Q?7UQij4QpPNJ3UHOJBEsqXnSoEr2uvZ0ngNc7hyMm19vRRsKuaJMS8JZEqpW1?=
+ =?us-ascii?Q?NJKT/0Wcmtcyk3Bj+V5Pvcji4zoGyGg52J9YvkNlk28goV+/SsKEyjAHjD+c?=
+ =?us-ascii?Q?d7jcMBYoVkpz5B2ZTqoGto4abEsjuI5cquQCwUZbl3iz77Or6Begv5oLUAVZ?=
+ =?us-ascii?Q?FdoAmQdTdzBTBQoGO/04L/1lPfDJC96pmtKVZD40UVBJpm0ObK8V97txIOtT?=
+ =?us-ascii?Q?/9MVwXdfiiYWzB88VCAuVUar9WRrLnZZAk8GqHtjmeWO2hSRrzRrzcQyGiWG?=
+ =?us-ascii?Q?rFTKBmu4563Zdmim+P00Lc+mL08t5oDTCvuLB5nhSE2/qMpR/HhqyS9aBsaM?=
+ =?us-ascii?Q?74sC+2t4z1hbNG5+HiHBMliQ+PKI3N452lE1Tx3Qg4cOF696N0B3Au7XVICX?=
+ =?us-ascii?Q?dtIfHsSxdm3QSSG1vJKdnHavyLa6CIa8gUNztVDOUyiS+Q65+MlusE66milI?=
+ =?us-ascii?Q?F/kIjwxmfeyOQluhL4edALtBIerfWP7qmSqPFKQ/IXIqAeeGng8uGnL62m9P?=
+ =?us-ascii?Q?sD9ctijhFqXAAZP86OTnIreQhZdq4okIWAY5vW1n8yfAjtPuyIIAdBPgfD8a?=
+ =?us-ascii?Q?v6UQ9PFLjJmPsxsj+MdCQgB0hraMuVWBvRptl7liCkqIAFSfhokTzPJjdwEy?=
+ =?us-ascii?Q?DnZhM6VZ7y8tD91FfKYqIlLIBtFmGbSOU+N2YEAAyrhnkqvANbou/ieKBBX5?=
+ =?us-ascii?Q?MFlqy1OMVESsMSjNGAMv3Il8K/LwiZhHnUK3nd0xS28826oACdhhEz3MeT7S?=
+ =?us-ascii?Q?msHr2cjtHQwcK1srvRfGNuC/6RDQFUE2mFSbsfiWGDIG28y7zYh3z3ytCYcw?=
+ =?us-ascii?Q?FP6voigqaIR2/zjr1DMeqM6FfiVmcX/g+sQEW7oUXoMjWs1c6zEpL9dKG1nK?=
+ =?us-ascii?Q?2RNkFA5fcOUTKsvMtOPjduzW3w/4pwaFoxmZJwq7leb/a+5EiSaABeeUO8Wc?=
+ =?us-ascii?Q?3/CF1RS4u/XI1u3lNPt3WmG6WytnubgnHW8WVTtrgMg7J6Vo/awgMmaA4d7b?=
+ =?us-ascii?Q?Dw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <65481BCD35B7F641A65E763F75D5CC2A@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f0d50b2-7a16-4298-8129-c3a0b1426d26@flourine.local>
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 08AVYbhjebghToQok0qcxmQl3fpB6ST3Pnx3CYV4LBWO5HztxLX+Wy1dzi4e6OzqCupnQ6/EbpVTiVrDmAqETTtBT5S0GuPeff9MpzfyJsuoTC/jPH0vPg2GTI19F0m30EdNJaKUrFXbW1NRccVSbGxW4duEg8L2wg/fpFD4xwARMSRo3gFt2SPz/nSR4AERBYIdo91eAFBOZ/AHqqazcHQWe3YGRfMPAbMI24Jo/UpTcPMAVtdahwXmWYDV6LJc9LyjZcNRAUYuIumZdkcLHp6lMATmwS2t5uZfO2YfpTLVagsBnClPeii1fXmyyjyRYzWIZ7gHaCcN2qE5DbyQBy6GBCSWNlL9QcL7ouoaWwy9P+CuwncRQTOaKadUlYE2n1lcjUcdZsPB7mJdsLpZOAekdzrKYQGAeyp9Yr/zod0PvUWILDBKy8D1/Bp5rT1Zc0/AtBw351KIHwB6OwpcUDBhoID0RR9ecb5pkw+f7JpLdZkcITjY+L2pueqzmxf5EU0YEzToTKUQtEf6CVZUwq5eYV8S8TtqUfkL2JNJRKS2pzgihXibhJ6WTQRyYS10dm/UZQ/y84M4eIvGiYv/4dYes1CDismcvf2+P2TEcpJSv82xft5muQQ084eqsQXO
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fb4ce3f-2355-4131-058f-08dd7c91728a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2025 02:50:28.9674
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QZwpyEfNfW98uajAmoNWOVsgGj10EAzzV86Q3m35PKOSZrNj0FDhFF+tcQDePY9nq2bSsG+5Dr1LQnyNV5uV5WTL0Cf8JolZRMSBV+VaP3k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR04MB7708
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250415_174019_533481_82E73449 
-X-CRM114-Status: GOOD (  27.71  )
+X-CRM114-CacheID: sfid-20250415_195033_923554_0A1E7094 
+X-CRM114-Status: GOOD (  14.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,82 +190,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025-04-15 14:17:48 +0200, Daniel Wagner wrote:
-> On Thu, Apr 10, 2025 at 01:51:37AM -0700, Mohamed Khalfella wrote:
-> > > +void nvme_schedule_failover(struct nvme_ctrl *ctrl)
-> > > +{
-> > > +	unsigned long delay;
-> > > +
-> > > +	if (ctrl->cqt)
-> > > +		delay = msecs_to_jiffies(ctrl->cqt);
-> > > +	else
-> > > +		delay = ctrl->kato * HZ;
-> > 
-> > I thought that delay = m * ctrl->kato + ctrl->cqt
-> > where m = ctrl->ctratt & NVME_CTRL_ATTR_TBKAS ? 3 : 2
-> > no?
-> 
-> The failover schedule delay is the additional amount of time we have to
-> wait for the target to cleanup (CQT). If the CTQ is not valid I thought
-> the spec said to wait for a KATO. Possible I got that wrong.
-> 
-> The factor 3 or 2 is relavant for the timeout value for the KATO command
-> we schedule. The failover schedule timeout is ontop of the command
-> timeout value.
-> 
-> > > --- a/drivers/nvme/host/multipath.c
-> > > +++ b/drivers/nvme/host/multipath.c
-> > > @@ -86,9 +86,11 @@ void nvme_mpath_start_freeze(struct nvme_subsystem *subsys)
-> > >  void nvme_failover_req(struct request *req)
-> > >  {
-> > >  	struct nvme_ns *ns = req->q->queuedata;
-> > > +	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
-> > >  	u16 status = nvme_req(req)->status & NVME_SCT_SC_MASK;
-> > >  	unsigned long flags;
-> > >  	struct bio *bio;
-> > > +	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
-> > >  
-> > >  	nvme_mpath_clear_current_path(ns);
-> > >  
-> > > @@ -121,9 +123,53 @@ void nvme_failover_req(struct request *req)
-> > >  	blk_steal_bios(&ns->head->requeue_list, req);
-> > >  	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
-> > >  
-> > > -	nvme_req(req)->status = 0;
-> > > -	nvme_end_req(req);
-> > > -	kblockd_schedule_work(&ns->head->requeue_work);
-> > > +	spin_lock_irqsave(&ctrl->lock, flags);
-> > > +	list_add_tail(&req->queuelist, &ctrl->failover_list);
-> > > +	spin_unlock_irqrestore(&ctrl->lock, flags);
-> > 
-> > I see this is the only place where held requests are added to
-> > failover_list.
-> > 
-> > - Will this hold admin requests in failover_list?
-> 
-> Yes.
-> 
-> > - What about requests that do not go through nvme_failover_req(), like
-> >   passthrough requests, do we not want to hold these requests until it
-> >   is safe for them to be retried?
-> 
-> Pasthrough commands should fail immediately. Userland is in charge here,
-> not the kernel. At least this what should happen here.
+On Apr 15, 2025 / 17:00, Zhu Yanjun wrote:
+> On 15.04.25 15:09, Bernard Metzler wrote:
+>=20
+> > [  106.826346] rdma_rxe: loaded
+> > [  106.832164] loop: module loaded
+> > [  107.066868] run blktests nvme/061 at 2025-04-15 15:03:04
+> > [  107.081270] infiniband eno1_rxe: set active
+> > [  107.081274] infiniband eno1_rxe: added eno1
+> > [  107.089683] infiniband enp4s0f4d1_rxe: set active
+> > [  107.089687] infiniband enp4s0f4d1_rxe: added enp4s0f4d1
+> > [  107.264770] loop0: detected capacity change from 0 to 2097152
+> > [  107.267376] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> > [  107.271276] nvmet_rdma: enabling port 0 (10.0.0.2:4420)
+> > [  107.312957] BUG: kernel NULL pointer dereference, address: 000000000=
+0000028
+> > [  107.312973] #PF: supervisor read access in kernel mode
+> > [  107.312979] #PF: error_code(0x0000) - not-present page
+> > [  107.312986] PGD 0 P4D 0
+> > [  107.312992] Oops: Oops: 0000 [#1] SMP PTI
+> > [  107.312999] CPU: 1 UID: 0 PID: 123 Comm: kworker/u32:4 Not tainted 6=
+.15.0-rc2 #1 PREEMPT(undef)
+> > [  107.313008] Hardware name: LENOVO 10A6S05601/SHARKBAY, BIOS FBKTD8AU=
+S 09/17/2019
+> > [  107.313016] Workqueue: rxe_wq do_work [rdma_rxe]
+> > [  107.313030] RIP: 0010:rxe_mr_copy+0x58/0x230 [rdma_rxe]
+>=20
+> Hi, Bernard
+>=20
+> An interesting test. Can you find the line number of
+> (rxe_mr_copy+0x58/0x230) with crash tool?
+>=20
+> Thus we can find what variable is becoming NULL pointer.
 
-I see your point. Unless I am missing something these requests should be
-held equally to bio requests from multipath layer. Let us say app
-submitted write a request that got canceled immediately, how does the app
-know when it is safe to retry the write request?
+I observe the failure too, but I also observe the recent patch [1] avoids i=
+t.
+With the patch applied to the kernel v6.15-rc2, I no longer observe the fai=
+lure
+repeating the test case 100 times using rxe driver.
 
-Holding requests like write until it is safe to be retried is the whole
-point of this work, right?
-
-> 
-> > - In case of controller reset or delete if nvme_disable_ctrl()
-> >   successfully disables the controller, then we do not want to add
-> >   canceled requests to failover_list, right? Does this implementation
-> >   consider this case?
-> 
-> Not sure. I've tested a few things but I am pretty sure this RFC is far
-> from being complete.
+[1] https://lore.kernel.org/linux-rdma/20250402032657.1762800-1-lizhijian@f=
+ujitsu.com/=
 
