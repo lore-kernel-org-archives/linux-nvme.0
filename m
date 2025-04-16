@@ -4,124 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B52B4C369BD
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Apr 2025 12:31:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19C2FC369BD
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Apr 2025 13:39:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HWj6JTdASeWQHaA+9GTxsyBFog3/7N3ZQNvJzRT3EAs=; b=F9Y49djq2Tfl+VxAkaeruFinvc
-	5A90q85kz99mpGPpv1ZDCdFxDwQ1k1UhOgB0LUu9MaINKnmfXMf5Ac3rJHNjYnDB43JgHNoMoUmHn
-	mdwqO/p/c7PEYkjEZ9Pm01SmGbo2YMsOJGR5JE7BIRHRAxVZ+7/ZVIlzII8i5BqSRpe4nWXxq2bOO
-	sWIGb3/yE1/5LXYmOi13SlqOL0x3+J2uQr2eubo5lpbPSuOGqraXFh4I1uoR+Q3VpbuMQADGKZHww
-	0NOWs8pCCAZYUuorEV52Ejh/Jxpi6sGBCqtye+jhuoKj1wo39qQ8N2EYQ+40tP9QgHp7a67MLFZQn
-	ngbgOLOw==;
+	bh=HQPjVTwAlpJP7gDyjMdFPiWvjeOPxcDyZfzJMUg3hr8=; b=Brgo5d5rp4UX0gaUFlHu/eWSOU
+	BD5OP+IvUObnEScXLtoWPRZkhfdc0KYDRrH2aAPtbFspJMFSW9i2SfUkGV9eEzthmgWemPb90xpLj
+	VeQn5Db1AxeaWnCSOkyLj8UNcfUYXBpChtKbRiGLExLNgr9eYhbQ2nkdedFRypRqmp3DUB44drJIm
+	0PEa8cXnKwYLgxUcTyw+ln9G6UHPhxFAg1kdRI8PZs6AoJlSFigrx8Lgg3Kz8g5U+z2fSktZ9jsD0
+	qAKZeZ7CM4IOTN2hGKayrv+ZvsqrAa/tHdo+6v2sxXSvFshIZGtv3ZU6ssDEBJq6G/usqXDsrLWcM
+	hcWJt3YA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u51v2-00000009WK2-1vnP;
-	Wed, 16 Apr 2025 12:31:08 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1u52yw-00000009gfw-46fX;
+	Wed, 16 Apr 2025 13:39:14 +0000
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u51qX-00000009VPW-3uA2
+	id 1u52yu-00000009gep-1lH3
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Apr 2025 12:26:31 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 586131F461;
-	Wed, 16 Apr 2025 12:26:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744806388; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HWj6JTdASeWQHaA+9GTxsyBFog3/7N3ZQNvJzRT3EAs=;
-	b=avzqWaoYg1m97bvEnKsDtA7e0/50oJ00tDS1MRxg5LlhOHwoGM5BJOuQX53muCHoNv5z+x
-	haWn8F/u2bPUAFJhHDPaqDguId3QVyMh1qI51laS+mbaP+vX6NL0fLzylFQDveugHbVknH
-	n76ZfHKfCBPee0cVeh18Y24ffxxr380=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744806388;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HWj6JTdASeWQHaA+9GTxsyBFog3/7N3ZQNvJzRT3EAs=;
-	b=feRXZkRBd+MzI+Iy57Xd6sAQfqzD7JiWbYpol2hElYRKXEVqnuvjQKujrE6LYL3B9jsFwE
-	03UNe5x7ZjCfRoBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744806388; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HWj6JTdASeWQHaA+9GTxsyBFog3/7N3ZQNvJzRT3EAs=;
-	b=avzqWaoYg1m97bvEnKsDtA7e0/50oJ00tDS1MRxg5LlhOHwoGM5BJOuQX53muCHoNv5z+x
-	haWn8F/u2bPUAFJhHDPaqDguId3QVyMh1qI51laS+mbaP+vX6NL0fLzylFQDveugHbVknH
-	n76ZfHKfCBPee0cVeh18Y24ffxxr380=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744806388;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HWj6JTdASeWQHaA+9GTxsyBFog3/7N3ZQNvJzRT3EAs=;
-	b=feRXZkRBd+MzI+Iy57Xd6sAQfqzD7JiWbYpol2hElYRKXEVqnuvjQKujrE6LYL3B9jsFwE
-	03UNe5x7ZjCfRoBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49F9F139A1;
-	Wed, 16 Apr 2025 12:26:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jOJlEfSh/2dTKAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 16 Apr 2025 12:26:28 +0000
-Date: Wed, 16 Apr 2025 14:26:23 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, bluca@debian.org, Hannes Reinecke <hare@suse.de>, 
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: nvme-cli connect regression
-Message-ID: <d7737471-8b06-4a78-af2a-6d8e3fb8ba38@flourine.local>
-References: <b0904029-2ffd-4ea9-a8b7-bf7d4182ea29@flourine.local>
- <6b081163-2b00-4de9-85c1-7bc72909f90c@grimberg.me>
- <066cb0d9-95b1-49ac-92b4-43a212d0a7fa@flourine.local>
- <076c96a5-f399-457f-9ef1-491d81e0d8fb@grimberg.me>
- <CADUfDZo8mRaaT3RhXXGJiXmkkgUmY6+=O8cEPp2rE-U-LMupKg@mail.gmail.com>
+	Wed, 16 Apr 2025 13:39:13 +0000
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-22423adf751so62895955ad.2
+        for <linux-nvme@lists.infradead.org>; Wed, 16 Apr 2025 06:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1744810751; x=1745415551; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HQPjVTwAlpJP7gDyjMdFPiWvjeOPxcDyZfzJMUg3hr8=;
+        b=DlAFZ5jKzjBkgt2isVzpd5AICi5eo0GATvQzV0ygfWd1EP1YWe7j2dHK9uOZkTrspj
+         Q2Qf6rE4rafmQGeKKP8kEfTVf+BXrMljcf6eBs19DRrduyJ+Y3MckuJO6ErgZH8YmsVI
+         sOW78jJkj5E78ZqbIwi6a+m16VpB1IBR/HipnT3silQiuaGyRBVTYm0An0YAdUFluSTz
+         Ys24Sv7vT3fl5KuLHAwDYi8xmCBB6JLdmy1m+uy9Vn1H4mJGz93QhnG9gg8rBBI+24uY
+         TcM56tTOHE/HfIS0DLjKoVsmIyV+KA00CzZjPUuo/IMH96lRVtthyR6TcCNxtAy+nEPy
+         1suQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744810751; x=1745415551;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HQPjVTwAlpJP7gDyjMdFPiWvjeOPxcDyZfzJMUg3hr8=;
+        b=gVhJ38mEcraeMca4CZ0GAeA7xEw+tKPDhqMcfoUcI5MrGKTEPO0oaMGQgFuHXVWSkN
+         ObOofk5Q4aqL4cOuxUpNCQQk4nWeBfm20hgIxM7idjXhC4HtZExjTZtXTrYREuVfp1q6
+         j2xc7eQxe5I/fxNLD13cC7yO4VMbeFZAWIeokRFaQdm1mZnz/TQuBtwRjzJWMPzC5aWl
+         jSA+94JDANEZcquTXU8crDYOcxYPopAYZKeYgLbiI60zNb2uWWMxC0Sscw1OvMGG/0il
+         P5p3LFV5yDKjRZcX4IQXBfG//p49yMOoLMpsFPuL+IQZGk/338I4ddqoQZ5O41cFDtlU
+         8CyA==
+X-Forwarded-Encrypted: i=1; AJvYcCXKFOpr06BkrFWAo6GDmptM7KF5ZW6x7IDQ5TBkagz6JADfZ4NOs2uuj4uKI0ZG+WQ2UcXjgBOZ049x@lists.infradead.org
+X-Gm-Message-State: AOJu0YwqoiakQZIsG6NTj/Mk/oCX/Uwi1YZ9nNIBOvXYCRGo5NbSFtDK
+	+dtSwjdiL0UpXIdFtK0/Cblx+Qgo+enzs59GdIyyE0E4mQaDTJDj+Lkb6YTEM0I=
+X-Gm-Gg: ASbGnctyCkOJATAu8vY7mXjcYyVxONV1qN7SSBIz3RaELYjPbxIEkXV9Coq78gJNPWH
+	FLP1waPwSFRTAEPqdNkLjKDkXaomRr1rucMR8YwqpX2dndVw6oGIFCQThC6jb56YKgw8Tjq0S0l
+	EJvXz8ZiEegNuw6Vs8qw/gSwnrruPycJJfnfwMytcX3AyLhurgdP8MW1l+g26GWHmasQN71O+4P
+	GX2wNdc15pGXy17L3DvOa9g9nb2XKgP2ifNIv1OqTXk4rq211C208oAwYOla/0kNSMZyTFeVbOP
+	1guJk2xyVaKM/jpCev+Ef7fbybpAuxYJ8qu0okofMOaywMI=
+X-Google-Smtp-Source: AGHT+IFoIPNDkQn7oVxuncqn9fPhp4/UfPtkr5qC8X0Eb/ohId2zdqpFsmOhFASawm3nULqiEQTX4g==
+X-Received: by 2002:a17:903:2383:b0:229:1717:8826 with SMTP id d9443c01a7336-22c358fd48bmr33065235ad.28.1744810751270;
+        Wed, 16 Apr 2025 06:39:11 -0700 (PDT)
+Received: from medusa.lab.kspace.sh ([2601:640:8900:32c0::c137])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-22c33fcbf61sm13589115ad.201.2025.04.16.06.39.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 06:39:10 -0700 (PDT)
+Date: Wed, 16 Apr 2025 06:39:09 -0700
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Daniel Wagner <wagi@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	John Meneghini <jmeneghi@redhat.com>, randyj@purestorage.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 3/3] nvme: delay failover by command quiesce timeout
+Message-ID: <20250416133909.GH1868505-mkhalfella@purestorage.com>
+References: <20250324-tp4129-v1-0-95a747b4c33b@kernel.org>
+ <20250324-tp4129-v1-3-95a747b4c33b@kernel.org>
+ <20250410085137.GE1868505-mkhalfella@purestorage.com>
+ <6f0d50b2-7a16-4298-8129-c3a0b1426d26@flourine.local>
+ <20250416001738.GA78596-mkhalfella@purestorage.com>
+ <22e48664-63f3-4cc0-8b99-f56e98204e5b@flourine.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADUfDZo8mRaaT3RhXXGJiXmkkgUmY6+=O8cEPp2rE-U-LMupKg@mail.gmail.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+In-Reply-To: <22e48664-63f3-4cc0-8b99-f56e98204e5b@flourine.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250416_052630_119674_0561557A 
-X-CRM114-Status: GOOD (  13.50  )
+X-CRM114-CacheID: sfid-20250416_063912_498793_811758D8 
+X-CRM114-Status: GOOD (  28.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,24 +104,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 15, 2025 at 02:26:40PM -0700, Caleb Sander Mateos wrote:
-> On Tue, Apr 15, 2025 at 2:14 PM Sagi Grimberg <sagi@grimberg.me> wrote:
-> > Its not great that we now get sporadic EINTR errors. I am wandering what
-> > is triggering this?
-> >
-> > Caleb, did you see this?
+On 2025-04-16 08:57:19 +0200, Daniel Wagner wrote:
+> On Tue, Apr 15, 2025 at 05:17:38PM -0700, Mohamed Khalfella wrote:
+> > Help me see this:
+> > 
+> > - nvme_failover_req() is the only place reqs are added to failover_list.
+> > - nvme_decide_disposition() returns FAILOVER only if req has REQ_NVME_MPATH set.
+> > 
+> > How/where do admin requests get REQ_NVME_MPATH set?
 > 
-> Yes, I did see it. I don't understand where EINTR could come from
-> aside from the userspace process receiving a signal while waiting for
-> the ICResp (or hitting the 10 second timeout waiting to receive the
-> PDU). I don't understand how the switch to MSG_WAITALL would affect
-> this. A tcpdump might be helpful to understand whether the controller
-> is actually sending the full ICResp timely.
+> Admin commands don't set REQ_NVME_MPATH. This is what the current code
+> does and I have deliberately decided not to touch this with this RFC.
+> 
+> Given how much discussion the CQT/CCR feature triggers, I don't think
+> it's a good idea to add this topic to this discussion.
+> 
 
-I think I can reproduce it. I have two connections and do a
+The point is that holding requests at nvme_failover_req() does not cover
+admin requests. Do you plan to add support for holding admin requests in
+the next revision of these patches?
 
-   while nvme read ....; do yes; done
+> > > > - What about requests that do not go through nvme_failover_req(), like
+> > > >   passthrough requests, do we not want to hold these requests until it
+> > > >   is safe for them to be retried?
+> > > 
+> > > Pasthrough commands should fail immediately. Userland is in charge here,
+> > > not the kernel. At least this what should happen here.
+> > > 
+> > > > - In case of controller reset or delete if nvme_disable_ctrl()
+> > > >   successfully disables the controller, then we do not want to add
+> > > >   canceled requests to failover_list, right? Does this implementation
+> > > >   consider this case?
+> > > 
+> > > Not sure. I've tested a few things but I am pretty sure this RFC is far
+> > > from being complete.
+> > 
+> > I think it does not, and maybe it should honor this. Otherwise every
+> > controller reset/delete will end up holding requests unnecessarily.
+> 
+> Yes, this is one of the problems with the failover queue. It could be
+> solved by really starting to track the delay timeout for each commands.
+> But this is a lot of logic code and complexity. Thus during the
+> discussion at LSFMM everyone including me, said failover queue idea
+> should not be our first choice.
 
-and block one of the connections, when the error handler kicks in the id
-ns command fails with EINTR.
+Got it. I assume this will be addressed in the next revision?
 
