@@ -4,77 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E909C369C2
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Apr 2025 22:28:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B32EFC369BD
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Apr 2025 23:01:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vLXIcNB2dNqZHO5kN4XEB47LdiINz6npNcPFnNhzrrI=; b=cg6vWKFMWxIUJcZNDc/tDVxCjm
-	cfeSHotWhjTxzHXrOPU/qVYEBQ3Vu2IW1o8uO5c/ao06DBvpANUWm7vC9uj0NuZ7NDPUJ0u5JKis8
-	6vDkefMrRU56yszEoKSvJlLREX5ZkkoI+IzEYy4ijRo9sjzDY1qDOmzoDByjYbG74yYd7oAlf79uD
-	0UKIURORt/tkoXKOzcSDWtQU2ly4iS0W2V7jKZjffU9Yoth6pHXuX+UCl/A7U45hdytfFQNNFCFzB
-	uQz3FfQ3G7uGKxlc4fiVt4X18j3x/0yiPcHRSHORzIYrqquWXesaq+D/grVObIC0zw6CT1cs3InHl
-	z7z9vp5A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=R0SEFSDms0Srjc0vCBYMqkmnUZuH7wz5CdiiKrbnvac=; b=1391l0DcQLxp2MTAfyvo+5yZou
+	NjGQ/8ks933rHxzeu7Q1NMpr1Rhg8K9u3/he/a216cCCOOurV4eNpYR+5dYtTbxTlHDSdYrzd7AJ4
+	lt9cf0c79JAmHCmSuPTBpamlnLGxbz4L+GQOX6cXrBiI/UiMaeA3Xawy9O80ZFdrFoduGV1eHUbKS
+	j8ytGaDH/T2VMCLOwBR37IuGvqIlPlKq8W9qVmoMa8jfq2SO6+mnJHvhWgVljug188o+IEwlMt9yu
+	TgvRxOx0H69IP8uzv5ucuHNuE2R0cTnIKJZk4lg6FDLOT2/cpb/HH2uOVqEYW3KioemsUFDEJbo+t
+	ImldaIKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5BF2-0000000B2nO-0N3k;
-	Wed, 16 Apr 2025 22:28:24 +0000
-Received: from mail-ej1-f50.google.com ([209.85.218.50])
+	id 1u5Bkn-0000000B6cI-2nw0;
+	Wed, 16 Apr 2025 23:01:13 +0000
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5BEz-0000000B2mk-2eUb
+	id 1u5Biu-0000000B6MJ-33sw
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Apr 2025 22:28:22 +0000
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac29fd22163so18289166b.3
-        for <linux-nvme@lists.infradead.org>; Wed, 16 Apr 2025 15:28:21 -0700 (PDT)
+	Wed, 16 Apr 2025 22:59:17 +0000
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-736c3e7b390so88524b3a.2
+        for <linux-nvme@lists.infradead.org>; Wed, 16 Apr 2025 15:59:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1744844355; x=1745449155; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R0SEFSDms0Srjc0vCBYMqkmnUZuH7wz5CdiiKrbnvac=;
+        b=E9IqNIEz2VQb0MqD0kFKy3i4Tw0hkhKYqGq8CgJBlV6RRp7ZXex+pi26sxWnTgYBz/
+         938+WxKAafeMcT454twy72AmKThthwz7N4jorWpp8CZQH/HkUK9pN2NX+wO/iVw0oOOy
+         9yzMqOBK4tupvWD4pBx8WgpucXV19QIjX4EOTXAoJ1btjp9rjn54vm1lZfBBA+ZI+ocV
+         SFWdaXOYdAcaS9O53Q1G4145NIqCLLbbudIC1BuSRDRBgTg2xSqmdNHETNltyA0VC24B
+         SJ1dcOf0H2RZksbuABWuN+vky3Kc2QbMvEDO1hDTsUT+6p5bpg9v0GWg9rH7mYjOzfHX
+         OwzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744842500; x=1745447300;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vLXIcNB2dNqZHO5kN4XEB47LdiINz6npNcPFnNhzrrI=;
-        b=QRkjtNNq5Xf3xtZq0xq3Q62UxtiT0BW1WlRD1FMv2rj5FK6Zm/VCZtsM5xDTeIZzMz
-         bJc9QwNfKTp8S4KH0NA2HTtse4ZvdTawAMCODVHKJgVdXXzJEclKHyOQfzm8n3mGAaQO
-         2lJNOPO3R9TAo1hkqd2YMcK4eK4NDn/QNG5FH2D5Nvu4IeBusg159x3vT6j5gJp8u+81
-         Wp0GDknSo4IKi11ymYgx6Tan8dF3QXBH5yYcIB7CFHM3hR9z9oEkRYQ4Ll2tRrvmshr1
-         sfe0WloqOoRMceXcqMkHR/REYdHiHw9z1StVZ7hKD9WcP9/sJaTWyqvULffT7QJE2t97
-         tGDA==
-X-Forwarded-Encrypted: i=1; AJvYcCXzedNqWWrxa6h5KWdvztaURTPKR0N7B42pGDQHJHRRq+SfnADpInrKSrtKyoEybfPNVKRA5xYLPxFy@lists.infradead.org
-X-Gm-Message-State: AOJu0YzUOqDlEPmcuAe7PGNwY4NvlFsLle5EeGY/gorP6OtUPWWvLIOr
-	ktxm2yLiGdh5uF1aCUj9PwnZjvhC7xqL/j+FOwoEMHLTDji6ABAP
-X-Gm-Gg: ASbGnct7FhixiHMdncZDY3NAnPst7zEZce+9QnyCN+lW32/o7h+5TN6cNqq5O1BnNyl
-	i8kOSUGqWJf4n2Guda9j39XwlzNANSB7jgjMjbHj2umIhaCCgLA72ysYTMeLx3fcChjW8toVJIN
-	Io6ZwNeoNbomh3rmAKpsRWTc2H9lPac8olHGwsY4cjANNLBpxJ4hOTBSEColSUagVjjbF/vExKy
-	d3tlFa+U5awfLCIDkLGPu3Q+b6suskA2GvXiLSZkvkO9F8OlEHOfwysVghriTUjsiK0smhCgu/K
-	oL14VL2YPWta7hB7iWJ4SQHcVjTfmvMbRAI5xUAc6YAw2+MJYV7WrojMUs4UGaqkYpLeFi9E
-X-Google-Smtp-Source: AGHT+IE66MK140D8u8gY3fJ1WwNMy/+TpZEUr5U5+ozRQZocYFFew7ec0rrKY2/fy11ZE0Lh9XadPg==
-X-Received: by 2002:a17:907:7e8b:b0:abf:6d24:10bb with SMTP id a640c23a62f3a-acb42b6bc66mr268788866b.44.1744842499440;
-        Wed, 16 Apr 2025 15:28:19 -0700 (PDT)
-Received: from [10.10.9.121] (u-1j-178-175-199.4bone.mynet.it. [178.175.199.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb3cd635bcsm196820566b.24.2025.04.16.15.28.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Apr 2025 15:28:18 -0700 (PDT)
-Message-ID: <0278196f-ecd8-4282-af2c-b63fdceaf831@grimberg.me>
-Date: Thu, 17 Apr 2025 01:28:18 +0300
+        d=1e100.net; s=20230601; t=1744844355; x=1745449155;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R0SEFSDms0Srjc0vCBYMqkmnUZuH7wz5CdiiKrbnvac=;
+        b=rLOelyT63btz9TuJFsUUiso4RS4ZXk3nyfnu99cGCv1pF66U5px1fhsaR5GegodJxu
+         ekj6uwolld45C7uluXGDD5z0tyITyG2Fva0rwAQYHWtzWO7uUXftTBGX/w4h3+4wGHZz
+         yKebIuzczlZFfwHPbLVKrgyg6RkHzpGTGUHMwYIBleqntAp+VZqF9mvXNdtyNQ2owcQs
+         DbOtrI/XujaJS95sJ9hLhjed+rkX/rqpzzxmt1O3lWJFfmdOwpuUmgm3/iliEAHI+Acr
+         1R+tUPvUnZFGQhm3/E2t4ngu94dVNvPOOU9ObAec8FFDZxkrkzZrG7ZsmDkD7tz02KET
+         j75A==
+X-Forwarded-Encrypted: i=1; AJvYcCVNEaiM4la6Ph4FjOlFFWla9kAJ0P8DLK+SN69bx0W/8ilhxVQ+LAR89IGlumI3KQyBog2CXtBcA6/t@lists.infradead.org
+X-Gm-Message-State: AOJu0YwZcaMwGyJUOrKh1f74fDwgXSEOzffASPpsOfzqcsMMdHZapGn9
+	zzof48Q2ZNbg4ayWNCh/8zZJr8fLOwWmHv9SW9eA8ztp28CxMlpdqeGXGGqerEc=
+X-Gm-Gg: ASbGncss1/4s60yJEeR5SKQOA6nLQlg081TrIa2xI6eHBsLhN6gbVYCSNFT6ZJqsXGW
+	X0mpjd4dyM+ZN/RJGHh5PVqR0eISjdz2SGCRJTF5Q3A6KPrgwcca6NW1SzsQ1Y8NQkoY8xESJI2
+	NEn/sC+8JBV++ViyOElO3YDzZMItBpM/koxGEZUagSswmgwKAEQJ8Iq0eapzkuxGML+blIGudg0
+	59+mVPwDm4Yv5GVJNY/oQLnlMccVbiocnbNQ8WG0urXlBkTCeeR6WMBnb6jWPwLgO11rEyew+kq
+	lO9SUc+IVmG0injmYKmEiGMccFoBWTosvFuvHOqMrvrY7TY=
+X-Google-Smtp-Source: AGHT+IFSEYg7McQOY/czenNGbNNAfA2OUrmKCVnpYselYnTzk2rudOCU17EHO8GEU4xVRm4hqObtOA==
+X-Received: by 2002:a05:6a20:c797:b0:1ee:a914:1d67 with SMTP id adf61e73a8af0-203b3e505f1mr6482906637.2.1744844355423;
+        Wed, 16 Apr 2025 15:59:15 -0700 (PDT)
+Received: from medusa.lab.kspace.sh ([2601:640:8900:32c0::c137])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-b0b220e997asm1836362a12.37.2025.04.16.15.59.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 15:59:14 -0700 (PDT)
+Date: Wed, 16 Apr 2025 15:59:13 -0700
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Daniel Wagner <dwagner@suse.de>, Daniel Wagner <wagi@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	John Meneghini <jmeneghi@redhat.com>, randyj@purestorage.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 3/3] nvme: delay failover by command quiesce timeout
+Message-ID: <20250416225913.GA2476975-mkhalfella@purestorage.com>
+References: <20250324-tp4129-v1-0-95a747b4c33b@kernel.org>
+ <20250324-tp4129-v1-3-95a747b4c33b@kernel.org>
+ <20250410085137.GE1868505-mkhalfella@purestorage.com>
+ <6f0d50b2-7a16-4298-8129-c3a0b1426d26@flourine.local>
+ <20250416004016.GC78596-mkhalfella@purestorage.com>
+ <3dad09ce-151d-41fc-8137-56a931c4c224@flourine.local>
+ <20250416135318.GI1868505-mkhalfella@purestorage.com>
+ <df6cd26e-551a-4bc1-bdc6-9c715e502aa8@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report] blktests nvme/062 hang
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Caleb Sander Mateos <csander@purestorage.com>
-Cc: Hannes Reinecke <hare@suse.de>,
- Alistair Francis <Alistair.Francis@wdc.com>
-References: <5hdonndzoqa265oq3bj6iarwtfk5dewxxjtbjvn5uqnwclpwt6@a2n6w3taxxex>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <5hdonndzoqa265oq3bj6iarwtfk5dewxxjtbjvn5uqnwclpwt6@a2n6w3taxxex>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df6cd26e-551a-4bc1-bdc6-9c715e502aa8@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250416_152821_688858_976B0B6E 
-X-CRM114-Status: GOOD (  15.63  )
+X-CRM114-CacheID: sfid-20250416_155916_767482_219AED88 
+X-CRM114-Status: GOOD (  26.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,251 +106,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 2025-04-17 01:21:08 +0300, Sagi Grimberg wrote:
+> 
+> 
+> On 16/04/2025 16:53, Mohamed Khalfella wrote:
+> > On 2025-04-16 10:30:11 +0200, Daniel Wagner wrote:
+> >> On Tue, Apr 15, 2025 at 05:40:16PM -0700, Mohamed Khalfella wrote:
+> >>> On 2025-04-15 14:17:48 +0200, Daniel Wagner wrote:
+> >>>> Pasthrough commands should fail immediately. Userland is in charge here,
+> >>>> not the kernel. At least this what should happen here.
+> >>> I see your point. Unless I am missing something these requests should be
+> >>> held equally to bio requests from multipath layer. Let us say app
+> >>> submitted write a request that got canceled immediately, how does the app
+> >>> know when it is safe to retry the write request?
+> >> Good question, but nothing new as far I can tell. If the kernel doesn't
+> >> start to retry passthru IO commands, we have to figure out how to pass
+> >> additional information to the userland.
+> >>
+> > nvme multipath does not retry passthru commands. That is said, there is
+> > nothing prevents userspace from retrying canceled command immediately
+> > resulting in the unwanted behavior these very patches try to address.
+> 
+> userspace can read the controller cqt and implement the retry logic on 
+> its own.
+> If it doesn't/can't, it should use normal fs io. the driver does not 
+> handle passthru retries.
 
+passthru requests are not very different from normal IO. If the driver
+holds normal IO requests to prevent corruption, it should hold passthru
+requests too, for the same reason, no?
 
-On 16/04/2025 9:31, Shinichiro Kawasaki wrote:
-> Hello all,
->
-> Recently the new test case nvme/062 was added, which tests
-> "TLS-encrypted connections". I ran it with the kernel v6.15-rc2, and observed
-> "BUG: kernel NULL pointer dereference" followed by system hang [1].
->
->    When I had run the test case with v6.14 kernel, I had not observed the
->    failure. However, I noticed that when I repeat the test case several times on
->    the v6.14 kernel, the same failure happens. It looks that the problem has been
->    existing for a while, and kernel changes between v6.14 and v6.15-rc2 increased
->    the failure ratio.
->
-> Actions for fix will be appreciated. I can run tests with debug patches or fix
-> candidate patches.
->
-> [1]
->
-> [  285.443497][ T1440] run blktests nvme/062 at 2025-04-16 14:41:30
-> [  285.586272][ T1531] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [  285.596633][ T1532] nvmet: Allow non-TLS connections while TLS1.3 is enabled
-> [  285.601564][ T1535] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-> [  285.646164][ T1542] nvme nvme1: failed to connect socket: -512
-> [  285.651941][   T48] nvmet_tcp: failed to allocate queue, error -107
-> [  285.654954][   T65] nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-> [  285.658205][ T1542] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.
-> [  285.659759][ T1542] nvme nvme1: creating 4 I/O queues.
-> [  285.662596][ T1542] nvme nvme1: mapped 4/0/0 default/read/poll queues.
-> [  285.665446][ T1542] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-> [  285.763327][ T1560] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-> [  285.923585][ T1567] nvme nvme1: failed to connect socket: -512
-> [  285.932856][  T120] nvmet_tcp: failed to allocate queue, error -107
-> [  286.035851][   T98] nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349, TLS.
-> [  286.038496][ T1567] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.
-> [  286.040096][ T1567] nvme nvme1: creating 4 I/O queues.
-> [  286.070856][ T1567] nvme nvme1: mapped 4/0/0 default/read/poll queues.
-> [  286.074999][ T1567] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-> [  286.200199][ T1604] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-> [  286.388688][ T1617] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [  286.406950][ T1621] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-> [  286.460711][ T1628] nvme_tcp: queue 0: failed to receive icresp, error -4
+IMO, keeping the request holding logic in the driver makes more sense
+than implementing it in userspace. One reason is that CCR can help
+release requests held requests faster.
 
-Adding Caleb as well I see here also icresp failed with -4
-Should we hadd special handling for -EINTR?
-
-> [  286.462026][    C0] BUG: kernel NULL pointer dereference, address: 0000000000000000
-> [  286.462814][    C0] #PF: supervisor instruction fetch in kernel mode
-> [  286.463796][    C0] #PF: error_code(0x0010) - not-present page
-> [  286.464392][    C0] PGD 8000000140620067 P4D 8000000140620067 PUD 114201067 PMD 0
-> [  286.465086][    C0] Oops: Oops: 0010 [#1] SMP KASAN PTI
-> [  286.465559][    C0] CPU: 0 UID: 0 PID: 1628 Comm: nvme Not tainted 6.15.0-rc2+ #11 PREEMPT(voluntary)
-> [  286.466393][    C0] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
-> [  286.467147][    C0] RIP: 0010:0x0
-> [  286.467420][    C0] Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-> [  286.467977][    C0] RSP: 0018:ffff8883ae008580 EFLAGS: 00010246
-> [  286.468425][    C0] RAX: 0000000000000000 RBX: ffff88813fd34100 RCX: ffffffffa386cc43
-> [  286.469019][    C0] RDX: 1ffff11027fa68b6 RSI: 0000000000000008 RDI: ffff88813fd34100
-> [  286.469545][    C0] RBP: ffff88813fd34160 R08: 0000000000000000 R09: ffffed1027fa682c
-> [  286.470072][    C0] R10: ffff88813fd34167 R11: 0000000000000000 R12: ffff88813fd344c3
-> [  286.470585][    C0] R13: ffff88813fd34112 R14: ffff88813fd34aec R15: ffff888132cdd268
-> [  286.471070][    C0] FS:  00007fe3c04c7d80(0000) GS:ffff88840743f000(0000) knlGS:0000000000000000
-> [  286.471644][    C0] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  286.472543][    C0] CR2: ffffffffffffffd6 CR3: 000000012daca000 CR4: 00000000000006f0
-> [  286.473500][    C0] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [  286.474467][    C0] DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 0000000000000400
-> [  286.475453][    C0] Call Trace:
-> [  286.476102][    C0]  <IRQ>
-> [  286.476719][    C0]  tcp_fin+0x2bb/0x440
-> [  286.477429][    C0]  tcp_data_queue+0x190f/0x4e60
-> [  286.478174][    C0]  ? __build_skb_around+0x234/0x330
-> [  286.478940][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.479659][    C0]  ? __pfx_tcp_data_queue+0x10/0x10
-> [  286.480431][    C0]  ? tcp_try_undo_loss+0x640/0x6c0
-> [  286.481196][    C0]  ? seqcount_lockdep_reader_access.constprop.0+0x82/0x90
-> [  286.482046][    C0]  ? kvm_clock_get_cycles+0x14/0x30
-> [  286.482769][    C0]  ? ktime_get+0x66/0x150
-> [  286.483433][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.484146][    C0]  tcp_rcv_established+0x6e4/0x2050
-> [  286.484857][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.485523][    C0]  ? ipv4_dst_check+0x160/0x2b0
-> [  286.486203][    C0]  ? __pfx_tcp_rcv_established+0x10/0x10
-> [  286.486917][    C0]  ? lock_release+0x217/0x2c0
-> [  286.487595][    C0]  tcp_v4_do_rcv+0x4d6/0x9b0
-> [  286.488279][    C0]  tcp_v4_rcv+0x2af8/0x3e30
-> [  286.488904][    C0]  ? raw_local_deliver+0x51b/0xad0
-> [  286.489551][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.490198][    C0]  ? __pfx_tcp_v4_rcv+0x10/0x10
-> [  286.490813][    C0]  ? __pfx_raw_local_deliver+0x10/0x10
-> [  286.491487][    C0]  ? __pfx_nf_confirm+0x10/0x10 [nf_conntrack]
-> [  286.492275][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.492900][    C0]  ip_protocol_deliver_rcu+0x8f/0x370
-> [  286.493579][    C0]  ip_local_deliver_finish+0x297/0x420
-> [  286.494268][    C0]  ip_local_deliver+0x168/0x430
-> [  286.494867][    C0]  ? __pfx_ip_local_deliver+0x10/0x10
-> [  286.495498][    C0]  ? __pfx_ip_local_deliver_finish+0x10/0x10
-> [  286.496204][    C0]  ? ip_rcv_finish_core+0x19a/0x1f20
-> [  286.496806][    C0]  ? lock_release+0x217/0x2c0
-> [  286.497414][    C0]  ip_rcv+0x455/0x6e0
-> [  286.497945][    C0]  ? __pfx_ip_rcv+0x10/0x10
-> [  286.498550][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.499137][    C0]  ? __pfx_ip_rcv_finish+0x10/0x10
-> [  286.499763][    C0]  ? lock_release+0x217/0x2c0
-> [  286.500327][    C0]  ? dl_scaled_delta_exec+0xd1/0x2c0
-> [  286.500922][    C0]  ? __pfx_ip_rcv+0x10/0x10
-> [  286.501480][    C0]  __netif_receive_skb_one_core+0x166/0x1b0
-> [  286.502173][    C0]  ? __pfx___netif_receive_skb_one_core+0x10/0x10
-> [  286.502903][    C0]  ? lock_acquire+0x2b2/0x310
-> [  286.503487][    C0]  ? process_backlog+0x372/0x1350
-> [  286.504087][    C0]  ? lock_release+0x217/0x2c0
-> [  286.504642][    C0]  process_backlog+0x3b9/0x1350
-> [  286.505214][    C0]  ? process_backlog+0x372/0x1350
-> [  286.505779][    C0]  __napi_poll.constprop.0+0xa6/0x490
-> [  286.506363][    C0]  net_rx_action+0x92e/0xe10
-> [  286.506889][    C0]  ? __pfx_net_rx_action+0x10/0x10
-> [  286.507437][    C0]  ? timerqueue_add+0x1f0/0x320
-> [  286.507977][    C0]  ? sched_clock_cpu+0x68/0x540
-> [  286.508492][    C0]  ? lock_acquire+0x2b2/0x310
-> [  286.509043][    C0]  ? kvm_sched_clock_read+0xd/0x20
-> [  286.509607][    C0]  ? handle_softirqs+0x1aa/0x7d0
-> [  286.510187][    C0]  handle_softirqs+0x1f2/0x7d0
-> [  286.510754][    C0]  ? __pfx_handle_softirqs+0x10/0x10
-> [  286.511348][    C0]  ? irqtime_account_irq+0x181/0x290
-> [  286.511937][    C0]  ? __dev_queue_xmit+0x85d/0x3450
-> [  286.512510][    C0]  do_softirq.part.0+0x89/0xc0
-> [  286.513100][    C0]  </IRQ>
-> [  286.513548][    C0]  <TASK>
-> [  286.513953][    C0]  __local_bh_enable_ip+0x112/0x140
-> [  286.514522][    C0]  ? __dev_queue_xmit+0x85d/0x3450
-> [  286.515072][    C0]  __dev_queue_xmit+0x872/0x3450
-> [  286.515619][    C0]  ? nft_do_chain+0xe16/0x15b0 [nf_tables]
-> [  286.516252][    C0]  ? __pfx___dev_queue_xmit+0x10/0x10
-> [  286.516817][    C0]  ? selinux_ip_postroute+0x43c/0xc50
-> [  286.517433][    C0]  ? __pfx_selinux_ip_postroute+0x10/0x10
-> [  286.518061][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.518606][    C0]  ? ip_output+0x164/0x4a0
-> [  286.519149][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.519671][    C0]  ? ip_finish_output2+0x17d5/0x1fb0
-> [  286.520258][    C0]  ip_finish_output2+0xb4b/0x1fb0
-> [  286.520787][    C0]  ? __pfx_ip_finish_output2+0x10/0x10
-> [  286.521355][    C0]  ? __ip_finish_output+0x15d/0x750
-> [  286.521890][    C0]  ip_output+0x164/0x4a0
-> [  286.522372][    C0]  ? __pfx_ip_output+0x10/0x10
-> [  286.522872][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.523402][    C0]  ? _raw_spin_unlock_irqrestore+0x4c/0x60
-> [  286.524031][    C0]  ? __pfx_ip_finish_output+0x10/0x10
-> [  286.524605][    C0]  ? __ip_queue_xmit+0x999/0x2260
-> [  286.525200][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.525744][    C0]  ? ipv4_dst_check+0x16a/0x2b0
-> [  286.526279][    C0]  ? lock_release+0x217/0x2c0
-> [  286.526793][    C0]  __ip_queue_xmit+0x1883/0x2260
-> [  286.527324][    C0]  ? __skb_clone+0x54c/0x730
-> [  286.527827][    C0]  __tcp_transmit_skb+0x209b/0x37a0
-> [  286.528374][    C0]  ? __pfx___tcp_transmit_skb+0x10/0x10
-> [  286.528952][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.529472][    C0]  ? seqcount_lockdep_reader_access.constprop.0+0x82/0x90
-> [  286.530152][    C0]  ? trace_hardirqs_on+0x12/0x120
-> [  286.530691][    C0]  tcp_write_xmit+0xb81/0x88b0
-> [  286.531224][    C0]  ? mod_memcg_state+0x4d/0x60
-> [  286.531736][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.532253][    C0]  __tcp_push_pending_frames+0x90/0x320
-> [  286.532826][    C0]  tcp_send_fin+0x141/0xb50
-> [  286.533352][    C0]  ? __pfx_tcp_send_fin+0x10/0x10
-> [  286.533908][    C0]  ? __local_bh_enable_ip+0xab/0x140
-> [  286.534495][    C0]  inet_shutdown+0x243/0x320
-> [  286.535077][    C0]  nvme_tcp_alloc_queue+0xb3b/0x2590 [nvme_tcp]
-> [  286.535709][    C0]  ? do_raw_spin_lock+0x129/0x260
-> [  286.536314][    C0]  ? __pfx_nvme_tcp_alloc_queue+0x10/0x10 [nvme_tcp]
-> [  286.536996][    C0]  ? do_raw_spin_unlock+0x54/0x1e0
-> [  286.537550][    C0]  ? _raw_spin_unlock+0x29/0x50
-> [  286.538127][    C0]  ? do_raw_spin_lock+0x129/0x260
-> [  286.538664][    C0]  ? __pfx_do_raw_spin_lock+0x10/0x10
-> [  286.539249][    C0]  ? nvme_tcp_alloc_admin_queue+0xd5/0x340 [nvme_tcp]
-> [  286.539892][    C0]  ? __wake_up+0x40/0x60
-> [  286.540392][    C0]  nvme_tcp_alloc_admin_queue+0xd5/0x340 [nvme_tcp]
-> [  286.541047][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.541589][    C0]  nvme_tcp_setup_ctrl+0x8b/0x7a0 [nvme_tcp]
-> [  286.542254][    C0]  ? _raw_spin_unlock_irqrestore+0x4c/0x60
-> [  286.542887][    C0]  ? __pfx_nvme_tcp_setup_ctrl+0x10/0x10 [nvme_tcp]
-> [  286.543568][    C0]  ? trace_hardirqs_on+0x12/0x120
-> [  286.544166][    C0]  ? _raw_spin_unlock_irqrestore+0x35/0x60
-> [  286.544792][    C0]  ? nvme_change_ctrl_state+0x196/0x2e0 [nvme_core]
-> [  286.545477][    C0]  nvme_tcp_create_ctrl+0x839/0xb90 [nvme_tcp]
-> [  286.546126][    C0]  nvmf_dev_write+0x3db/0x7e0 [nvme_fabrics]
-> [  286.546775][    C0]  ? rw_verify_area+0x69/0x520
-> [  286.547334][    C0]  vfs_write+0x218/0xe90
-> [  286.547854][    C0]  ? do_syscall_64+0x9f/0x190
-> [  286.548408][    C0]  ? trace_hardirqs_on_prepare+0xdb/0x120
-> [  286.549037][    C0]  ? syscall_exit_to_user_mode+0x93/0x280
-> [  286.549659][    C0]  ? __pfx_vfs_write+0x10/0x10
-> [  286.550259][    C0]  ? do_syscall_64+0x9f/0x190
-> [  286.550840][    C0]  ? syscall_exit_to_user_mode+0x8e/0x280
-> [  286.551516][    C0]  ? trace_hardirqs_on_prepare+0xdb/0x120
-> [  286.552180][    C0]  ? syscall_exit_to_user_mode+0x93/0x280
-> [  286.552834][    C0]  ? ksys_read+0xf5/0x1c0
-> [  286.553386][    C0]  ? __pfx_ksys_read+0x10/0x10
-> [  286.553964][    C0]  ksys_write+0xf5/0x1c0
-> [  286.554499][    C0]  ? __pfx_ksys_write+0x10/0x10
-> [  286.555072][    C0]  ? trace_hardirqs_on_prepare+0xdb/0x120
-> [  286.555698][    C0]  ? syscall_exit_to_user_mode+0x93/0x280
-> [  286.556319][    C0]  ? do_syscall_64+0x54/0x190
-> [  286.556866][    C0]  do_syscall_64+0x93/0x190
-> [  286.557420][    C0]  ? rcu_read_unlock+0x17/0x60
-> [  286.557986][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.558526][    C0]  ? lock_release+0x217/0x2c0
-> [  286.559087][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.559659][    C0]  ? count_memcg_events.constprop.0+0x4a/0x60
-> [  286.560476][    C0]  ? exc_page_fault+0x7a/0x110
-> [  286.561064][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.561647][    C0]  ? lock_release+0x217/0x2c0
-> [  286.562257][    C0]  ? do_user_addr_fault+0x171/0xa00
-> [  286.562839][    C0]  ? do_user_addr_fault+0x4a2/0xa00
-> [  286.563453][    C0]  ? irqentry_exit_to_user_mode+0x84/0x270
-> [  286.564112][    C0]  ? rcu_is_watching+0x11/0xb0
-> [  286.564677][    C0]  ? irqentry_exit_to_user_mode+0x84/0x270
-> [  286.565317][    C0]  ? trace_hardirqs_on_prepare+0xdb/0x120
-> [  286.565922][    C0]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [  286.566542][    C0] RIP: 0033:0x7fe3c05e6504
-> [  286.567102][    C0] Code: c7 00 16 00 00 00 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 80 3d c5 8b 10 00 00 74 13 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 54 c3 0f 1f 00 55 48 89 e5 48 83 ec 20 48 89
-> [  286.568931][    C0] RSP: 002b:00007fff76444f58 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-> [  286.569807][    C0] RAX: ffffffffffffffda RBX: 000000003b40d930 RCX: 00007fe3c05e6504
-> [  286.570621][    C0] RDX: 00000000000000cf RSI: 000000003b40d930 RDI: 0000000000000003
-> [  286.571443][    C0] RBP: 0000000000000003 R08: 00000000000000cf R09: 000000003b40d930
-> [  286.572246][    C0] R10: 0000000000000000 R11: 0000000000000202 R12: 000000003b40cd60
-> [  286.573069][    C0] R13: 00000000000000cf R14: 00007fe3c07417f8 R15: 00007fe3c073502e
-> [  286.573886][    C0]  </TASK>
-> [  286.574374][    C0] Modules linked in: tls nvmet_tcp nvmet nvme_tcp nvme_fabrics nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables qrtr sunrpc 9pnet_virtio ppdev 9pnet netfs e1000 parport_pc i2c_piix4 parport pcspkr i2c_smbus loop fuse dm_multipath nfnetlink vsock_loopback vmw_vsock_virtio_transport_common vmw_vsock_vmci_transport vsock vmw_vmci zram bochs drm_client_lib drm_shmem_helper drm_kms_helper xfs nvme nvme_core drm sym53c8xx nvme_keyring scsi_transport_spi nvme_auth floppy serio_raw ata_generic pata_acpi qemu_fw_cfg [last unloaded: nvmet]
-> [  286.579925][    C0] CR2: 0000000000000000
-> [  286.580535][    C0] ---[ end trace 0000000000000000 ]---
-> [  286.581263][    C0] RIP: 0010:0x0
-> [  286.581844][    C0] Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-> [  286.582684][    C0] RSP: 0018:ffff8883ae008580 EFLAGS: 00010246
-> [  286.583467][    C0] RAX: 0000000000000000 RBX: ffff88813fd34100 RCX: ffffffffa386cc43
-> [  286.584416][    C0] RDX: 1ffff11027fa68b6 RSI: 0000000000000008 RDI: ffff88813fd34100
-> [  286.585365][    C0] RBP: ffff88813fd34160 R08: 0000000000000000 R09: ffffed1027fa682c
-> [  286.586255][    C0] R10: ffff88813fd34167 R11: 0000000000000000 R12: ffff88813fd344c3
-> [  286.587123][    C0] R13: ffff88813fd34112 R14: ffff88813fd34aec R15: ffff888132cdd268
-> [  286.587940][    C0] FS:  00007fe3c04c7d80(0000) GS:ffff88840743f000(0000) knlGS:0000000000000000
-> [  286.588843][    C0] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  286.589649][    C0] CR2: ffffffffffffffd6 CR3: 000000012daca000 CR4: 00000000000006f0
-> [  286.590547][    C0] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [  286.591462][    C0] DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 0000000000000400
-> [  286.592361][    C0] Kernel panic - not syncing: Fatal exception in interrupt
-> [  286.594493][    C0] Kernel Offset: 0x20000000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
-> [  286.595673][    C0] ---[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
-
+> 
+> >
+> >>> Holding requests like write until it is safe to be retried is the whole
+> >>> point of this work, right?
+> >> My first goal was to address the IO commands submitted via the block
+> >> layer. I didn't had the IO passthru interface on my radar. I agree,
+> >> getting the IO passthru path correct is also good idea.
+> > Okay. This will be addressed in the next revision, right?
+> 
+> I don't think it should. passthru IO requires the issuer to understand 
+> the nvme
+> device, and CQT falls under this definition.
 
