@@ -4,91 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF17AC369B2
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3F34C369C9
 	for <linux-nvme@archiver.kernel.org>; Thu, 17 Apr 2025 14:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UhFIu5HVdURktam60nNxxbGkq33x6ItCQpMeJA+AaLg=; b=iPq0/Wu9iCPBbn1A+bnui1oMVO
-	CqMKYRW8SL9fttDAnZz5dEjdtSsIcfiu4fx6hOuIo26YwMUZ0mvyrY9gsbDO3kghQ4YgQNBlzqCmk
-	vT765BsuBSEHXCmKrtVZD87IzZp5jQ7RRKx/jS2KXrsEy2iHkq45XSOr2S04peIcWbF1ZeNkG+gUX
-	2fPoB41n9Pz6ljlGcLn8aQhRrZeJRNEjO7Lv70gKn64N5WOyVWo0pMhajKIPkefjC0BuFOrp+I7ub
-	ZAnX8xMj2JQG6Lld+Bi/TeqPdDosd0oS0B6wRC3Q3efE6U1TlbGfKihE7ulc1vlwUCxl1KpCFOPvI
-	/NdupyTQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LqfUuO9r71//cuPt7ZT753ol9bLl5yx2RLMYt6uBqX8=; b=Yu6mSYjfceUzeV7x3VpooGDVZ2
+	CPztc1Z8RlU9dzKQOR/1dkSBxYerMh/pCBU7lJzNk4VepFSWHUV/NozNwgXpyvAoyyMamjwfRxvZK
+	sltXUPBy9HUeKB2EtDGg3m2yI4eSaIl4/tNiTG1bGj2gecOcQK+N3PVxhAnrC4AVuSWTA+bwwE565
+	oCZCk9Azcwt6bLa1atIWpUr/zhsmYcI95dRNbsqYl9w7awPrjLetO4J4uABHVuutqWbKXPj95D7Gp
+	7Tva694NAQQPlCUSEpVe0eQ+9xCTwXXFgO34s4AQKpErl8Wq7G+0m+heqYtN62TZfJIXyrzbWXVZx
+	E9gDJtZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5Po2-0000000DEnv-3csV;
-	Thu, 17 Apr 2025 14:01:30 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1u5Po1-0000000DEnB-05tJ;
+	Thu, 17 Apr 2025 14:01:29 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5Pme-0000000DEcs-3ftr
+	id 1u5Pmb-0000000DEaj-0PV1
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Apr 2025 14:00:06 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53HBsefP019755;
-	Thu, 17 Apr 2025 14:00:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=UhFIu5HVdURktam60
-	nNxxbGkq33x6ItCQpMeJA+AaLg=; b=JmdE38T98OeiZV6MOUbthdEFTjOwoo98c
-	FKq4HIIZPbqezq3dPwXmcimWfFNjmX/LapkypXGOtnQWH8TJ2pPHpsOaL+1ecMx9
-	lQc+z44MT5RVqQGvGGdx0v8TiyUvy9lwJOkdhnvWOBNtn70BnVUev7LEwLqUCUl2
-	oqCeObE1Cazfcwn9zDLYfsdZSsy5TCL6xorU2RhhNSRIJyvJu/H3i0Tr1pDt4Wws
-	0V7amfgVTg9D6LcwVNqztZXH0kdC8o1CorwIdXK4fkFAfo7wXVYL0gendYNraaU1
-	YD270jeHWUTlPwg9uIhLWWDw4n4ZWSSltk5SXgnFeOH3xaT0LmFoQ==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 462ph0bcp2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Apr 2025 13:59:59 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53HDJ1SL024900;
-	Thu, 17 Apr 2025 13:59:58 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4602gtp94w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 17 Apr 2025 13:59:58 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53HDxvK159179268
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 17 Apr 2025 14:00:02 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53H81oPE017994;
 	Thu, 17 Apr 2025 13:59:57 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 27AF22004D;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=LqfUuO9r71//cuPt7ZT753ol9bLl5yx2RLMYt6uBq
+	X8=; b=MvIS8wq8ncBERB8BSUhZBM6b4OZtS/t6HV8yw0w/Yiw4pqt+weYIytQSQ
+	BRfFs9Bnq4xHfbvDpu3Lyy6W7a7TdUo8dg5QNWbwD6PknQvKzzJBCPb+teZmdmOo
+	Kcv6NGAuIHUO1qGpIla+eQDIqciOBTsTtI/2B/91ed84x9Mu9c/cm/nv0hz/hM8f
+	vXiymli1RLPzaPGfIGSeRvaPcjtd0pR2TkDOBOn0PQvAkyhjgT0iLTUqvKn+uzJl
+	U4MXm5Q/YeHMRJ+UrR0g2jy9hSiAM7s+qPu5hkrv7HM7nNqc8LdEL+tJ1kRx5soT
+	XLH1MeJSM/0MSmjBLJIuAFb+y/9NA==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 462mhu409d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Thu, 17 Apr 2025 13:59:57 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53HAM1r9017174;
+	Thu, 17 Apr 2025 13:59:56 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 46040m5u1y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Apr 2025 13:59:55 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53HDxrHW49349112
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 17 Apr 2025 13:59:54 GMT
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E145220040;
-	Thu, 17 Apr 2025 13:59:55 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id DC0F420043;
+	Thu, 17 Apr 2025 13:59:53 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A30B520040;
+	Thu, 17 Apr 2025 13:59:52 +0000 (GMT)
 Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.111.1.254])
 	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 17 Apr 2025 13:59:55 +0000 (GMT)
+	Thu, 17 Apr 2025 13:59:52 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: dwagner@suse.de, hare@kernel.org, kbusch@kernel.org, gjoyce@ibm.com
-Subject: [PATCHv2 2/4] tree: add queue-depth attribute for nvme path object
-Date: Thu, 17 Apr 2025 19:29:44 +0530
-Message-ID: <20250417135951.239447-3-nilay@linux.ibm.com>
+Subject: [PATCHv2 0/4] libnvme: add support for discovering multipath of a shared ns
+Date: Thu, 17 Apr 2025 19:29:42 +0530
+Message-ID: <20250417135951.239447-1-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250417135951.239447-1-nilay@linux.ibm.com>
-References: <20250417135951.239447-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=QJdoRhLL c=1 sm=1 tr=0 ts=6801095f cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=XR8D0OoHHMoA:10 a=VnNF1IyMAAAA:8 a=Ht8HIYEzmufRDo8zFfwA:9
-X-Proofpoint-GUID: 2SOhkkU5kYIc-03oUXgeBLlvU8sxaKwr
-X-Proofpoint-ORIG-GUID: 2SOhkkU5kYIc-03oUXgeBLlvU8sxaKwr
+X-Authority-Analysis: v=2.4 cv=Hvd2G1TS c=1 sm=1 tr=0 ts=6801095d cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=SPq7MFt2JQEO-bUaDlEA:9
+X-Proofpoint-ORIG-GUID: o0cVfZx6zEFD7hVvf4fq0q-8Gk1ZLoBU
+X-Proofpoint-GUID: o0cVfZx6zEFD7hVvf4fq0q-8Gk1ZLoBU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-17_04,2025-04-17_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- adultscore=0 mlxlogscore=981 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2502280000 definitions=main-2504170101
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=861 suspectscore=0
+ malwarescore=0 bulkscore=0 clxscore=1015 impostorscore=0 mlxscore=0
+ phishscore=0 priorityscore=1501 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504170101
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250417_070005_044673_9CB94E12 
-X-CRM114-Status: GOOD (  18.22  )
+X-CRM114-CacheID: sfid-20250417_070001_142782_C86ACEBF 
+X-CRM114-Status: GOOD (  15.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,103 +102,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a new attribute named "queue_depth" under the NVMe path object. This
-attribute is used by the iopolicy "queue-depth", which was introduced in
-kernel v6.11. However, the corresponding sysfs attribute for queue depth
-was only added in kernel v6.14.
+Hi,
 
-The queue_depth value can be useful for observing which paths are selected
-for I/O forwarding, based on the depth of each path. To support this,
-export the attribute in libnvme.map so it can be accessed via nvme-cli.
+Recently released Linux kernel v6.15-rc1 added support for easily discovering
+multiple paths to a shared NVMe namespace. This multipath information is
+exposed to userspace via a new sysfs group attribute named "multipath",
+located under /sys/block/<ns-blkdev>/. More details on this functionality
+can be found here [1].
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- src/libnvme.map    |  1 +
- src/nvme/private.h |  1 +
- src/nvme/tree.c    | 12 +++++++++++-
- src/nvme/tree.h    |  8 ++++++++
- 4 files changed, 21 insertions(+), 1 deletion(-)
+This patch series leverages that new functionality to discover multiple paths
+to a shared namespace and exposes that information in libnvme so that it can
+later be used by nvme-cli.
 
-diff --git a/src/libnvme.map b/src/libnvme.map
-index 4314705f..e53fad6b 100644
---- a/src/libnvme.map
-+++ b/src/libnvme.map
-@@ -317,6 +317,7 @@ LIBNVME_1_0 {
- 		nvme_path_get_ctrl;
- 		nvme_path_get_name;
- 		nvme_path_get_ns;
-+		nvme_path_get_queue_depth;
- 		nvme_path_get_sysfs_dir;
- 		nvme_paths_filter;
- 		nvme_read_config;
-diff --git a/src/nvme/private.h b/src/nvme/private.h
-index f45c5823..f94276e2 100644
---- a/src/nvme/private.h
-+++ b/src/nvme/private.h
-@@ -34,6 +34,7 @@ struct nvme_path {
- 	char *sysfs_dir;
- 	char *ana_state;
- 	int grpid;
-+	int queue_depth;
- };
- 
- struct nvme_ns_head {
-diff --git a/src/nvme/tree.c b/src/nvme/tree.c
-index bd7fb53e..b7a38a07 100644
---- a/src/nvme/tree.c
-+++ b/src/nvme/tree.c
-@@ -903,6 +903,11 @@ const char *nvme_path_get_name(nvme_path_t p)
- 	return p->name;
- }
- 
-+int nvme_path_get_queue_depth(nvme_path_t p)
-+{
-+	return p->queue_depth;
-+}
-+
- const char *nvme_path_get_ana_state(nvme_path_t p)
- {
- 	return p->ana_state;
-@@ -921,7 +926,7 @@ void nvme_free_path(struct nvme_path *p)
- static int nvme_ctrl_scan_path(nvme_root_t r, struct nvme_ctrl *c, char *name)
- {
- 	struct nvme_path *p;
--	_cleanup_free_ char *path = NULL, *grpid = NULL;
-+	_cleanup_free_ char *path = NULL, *grpid = NULL, *queue_depth = NULL;
- 	int ret;
- 
- 	nvme_msg(r, LOG_DEBUG, "scan controller %s path %s\n",
-@@ -955,6 +960,11 @@ static int nvme_ctrl_scan_path(nvme_root_t r, struct nvme_ctrl *c, char *name)
- 		sscanf(grpid, "%d", &p->grpid);
- 	}
- 
-+	queue_depth = nvme_get_path_attr(p, "queue_depth");
-+	if (queue_depth) {
-+		sscanf(queue_depth, "%d", &p->queue_depth);
-+	}
-+
- 	list_node_init(&p->nentry);
- 	list_node_init(&p->entry);
- 	list_add_tail(&c->paths, &p->entry);
-diff --git a/src/nvme/tree.h b/src/nvme/tree.h
-index 9f382e9c..a9082f8e 100644
---- a/src/nvme/tree.h
-+++ b/src/nvme/tree.h
-@@ -867,6 +867,14 @@ const char *nvme_path_get_sysfs_dir(nvme_path_t p);
-  */
- const char *nvme_path_get_ana_state(nvme_path_t p);
- 
-+/**
-+ * nvme_path_get_queue_depth() - Queue depth of an nvme_path_t object
-+ * @p: &nvme_path_t object
-+ *
-+ * Return: Queue depth of @p
-+ */
-+int nvme_path_get_queue_depth(nvme_path_t p);
-+
- /**
-  * nvme_path_get_ctrl() - Parent controller of an nvme_path_t object
-  * @p:	&nvme_path_t object
+There are four patches in this series:
+The first patch adds support for discovering NVMe paths using the sysfs 
+"multipath" group attribute.
+The second patch adds a new "queue_depth" attribute under the NVMe path 
+object.
+The third patch adds a new "numa_nodes" attribute under the NVMe path object.
+The fourth patch extends the sysfs tree dump test to validate multipath link 
+support 
+
+[1]: https://lore.kernel.org/all/20250112124154.60690-1-nilay@linux.ibm.com/
+
+Changes from v1:
+    - Fixed kernel version typo in the cover letter and commit
+    - Updated the commit in first patch to explain the change in some
+      detail (Daniel Wagner)
+    - Added fourth patch to validate changes (Daniel Wagner)  
+
+Nilay Shroff (4):
+  tree: add support for discovering nvme paths using sysfs multipath
+    link
+  tree: add queue-depth attribute for nvme path object
+  tree: add attribute numa_nodes for NVMe path object
+  test: extend sysfs tree dump test
+
+ src/libnvme.map                  |   2 +
+ src/nvme/filters.c               |   6 +
+ src/nvme/filters.h               |   9 ++
+ src/nvme/json.c                  |  90 +++++++++++++--
+ src/nvme/private.h               |  11 +-
+ src/nvme/tree.c                  | 184 ++++++++++++++++++++++---------
+ src/nvme/tree.h                  |  25 +++++
+ test/sysfs/data/tree-pcie.out    |  53 +++++++--
+ test/sysfs/data/tree-pcie.tar.xz | Bin 19712 -> 12656 bytes
+ 9 files changed, 308 insertions(+), 72 deletions(-)
+
 -- 
 2.49.0
 
