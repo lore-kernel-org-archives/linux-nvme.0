@@ -4,88 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB7C5C369C2
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Apr 2025 12:36:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF17AC369B2
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Apr 2025 14:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bCVyYVrtKOBFzuIw/BRxSXJq2vJQsJUFfVx+zDaigBY=; b=hjIq2s2h+3CeF5+Ma0GKUH4Do5
-	l0tFSUDSaaHwD3jltaBmrIYtJU/zfvEvxNm9+9BF/Ei6c+9jN1C4u0xURj2jH8sgKIqdQ0XRiTxzw
-	AwW/0D7VjaiKJNB/fOKHg6ltxYP/VylasjbSu16HePr1AqMZHcWqm1g5FHme7Ubyc64GafZcBzdxi
-	uDoUpUyLWUAyMzLFJLRedj5j58DP4fl5xclr79SVQSwrr01VVFc0bjTbIuHqxVQSHE5nChby50jZv
-	rt7HA9VXuSqYWCezPwX/5Je76KzAZwqftbi29OJ7Re+83xvvT9GLHg15d2Ky6cQ9n+MJRwNwf5rFp
-	eqS/he+Q==;
+	bh=UhFIu5HVdURktam60nNxxbGkq33x6ItCQpMeJA+AaLg=; b=iPq0/Wu9iCPBbn1A+bnui1oMVO
+	CqMKYRW8SL9fttDAnZz5dEjdtSsIcfiu4fx6hOuIo26YwMUZ0mvyrY9gsbDO3kghQ4YgQNBlzqCmk
+	vT765BsuBSEHXCmKrtVZD87IzZp5jQ7RRKx/jS2KXrsEy2iHkq45XSOr2S04peIcWbF1ZeNkG+gUX
+	2fPoB41n9Pz6ljlGcLn8aQhRrZeJRNEjO7Lv70gKn64N5WOyVWo0pMhajKIPkefjC0BuFOrp+I7ub
+	ZAnX8xMj2JQG6Lld+Bi/TeqPdDosd0oS0B6wRC3Q3efE6U1TlbGfKihE7ulc1vlwUCxl1KpCFOPvI
+	/NdupyTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5OTM-0000000Cyye-1mIY;
-	Thu, 17 Apr 2025 12:36:04 +0000
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
+	id 1u5Po2-0000000DEnv-3csV;
+	Thu, 17 Apr 2025 14:01:30 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5ODH-0000000Cuci-3GsR
+	id 1u5Pme-0000000DEcs-3ftr
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Apr 2025 12:19:29 +0000
-Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-8616b7ad03bso11492939f.0
-        for <linux-nvme@lists.infradead.org>; Thu, 17 Apr 2025 05:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1744892366; x=1745497166; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bCVyYVrtKOBFzuIw/BRxSXJq2vJQsJUFfVx+zDaigBY=;
-        b=RMMFb+cNE6Og/paW91kVT3Pnxjb6K0S+Dy4u6/T+ixr2fiPzaiF4vNVjM3termI3Gl
-         K9EgXbq2U3dhpqyyzqNpTOgJNFqhsjncCjqj8oaYu0XTNMbPx/nmp+zIKWY5/0LgkDgj
-         RC7Vlzt/4CVk+K/WqAmWw4ija5a+fnnVjSeh7nTxnU6ZNB8kjOsjwbSlIAeplVFaqHyW
-         905w9Zphqo9rAGawx/jmbvAHMTb3kwaZF6mXXONh8SaFxIJNRXw+2VYaoCsEwHEX32x7
-         VCRnACiNwSATA2GFCAg4qhCrEcvQ7wajtLAyq7Tw/sCqaItp0RayAhUVABXB8UrZuDEz
-         KDEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744892366; x=1745497166;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bCVyYVrtKOBFzuIw/BRxSXJq2vJQsJUFfVx+zDaigBY=;
-        b=SJpH0sqnkqOm7dIuU2RU/Sj87bm04yiA7vm+QnG8DyC2RTuQUSlD76wU5nyscn7wNW
-         L6GOjmApr/Ld1DFDa9GiUVrSmloiO20vQv7yHM4GvpT7dPDj+SpKMz20Hhi9tgUr78yT
-         Km6g1NfYPGhFqgRwfSO+CkqoFVAN3SkzyZShPU3cMnl1mj2TexoxAN0Tck7tQTml5ZGS
-         wPl28tJy17KvUEPKqvrWxpwxkSMwkPWSUAR6PVnBCu8CYQHt746hpr/+OHgZ6oLDahL8
-         eBSljJiugMtiho45Vv8J0jaj18iNov99HJBoU8ReEdgMsHbRhTTAt00Dykrr7DcNBP0h
-         drnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXBjDN0eRdXMc1/YIhIg3cr0Jz1P9gobGLo6afYpw6HtEv4Oy0ymfJLmYJdugRkh/j8hnma7qYR8nAS@lists.infradead.org
-X-Gm-Message-State: AOJu0YyFiZKJux8Y/ml8LDAwCfAVW2ODIZuiYY57dFHo1n27VApX/4B5
-	rKKfboR6SptqbLrK1HH2g3A4VEHsDdQrQRDCAwodYdjYgs6OCy6wNoZj8Dk/CTM=
-X-Gm-Gg: ASbGncuMNk6l9pbFn4fXqiSAb6lOQycuuLZEymmUnoPe7EoXZkry1g7LLOE7wyzX2BN
-	SGMLoej17K+484kzacH16lSQoT5Sid0tE1ZmSF6+zAxWVvhvfo9CAR/Cja1QtMR9gyOixL84Eqn
-	UU8nVlDPumP6cfLzCOaM1P9jcsmpOUMXdynaQgdeZTZzBwah90LdwmrPLIJtujIgEtOV8TSnG8S
-	uruu5PX6D6X+jjuFliLAROOxUF7/iMbMoNm01VJ/cUtMvAnDcsaWsON3KqB4un5LhqEyu91pyy0
-	c5Z9ztatABr45+BaCGyRFNN9pKF9B7ZlAUvTkHLpuIG9e0mv
-X-Google-Smtp-Source: AGHT+IFxN2fVUF8+aXwwbC3OrT+G4BayntFAvihGJjXPkvu6KzSNQ0SIqbg1CP/sS7JBnPH5xE1/vQ==
-X-Received: by 2002:a05:6602:4006:b0:855:cca0:ed2c with SMTP id ca18e2360f4ac-861c57bc69emr600785439f.10.1744892366322;
-        Thu, 17 Apr 2025 05:19:26 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f505d16679sm4193000173.35.2025.04.17.05.19.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Apr 2025 05:19:25 -0700 (PDT)
-Message-ID: <b84e959c-c8a9-4f73-aaad-5b905117e3af@kernel.dk>
-Date: Thu, 17 Apr 2025 06:19:24 -0600
+	Thu, 17 Apr 2025 14:00:06 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53HBsefP019755;
+	Thu, 17 Apr 2025 14:00:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=UhFIu5HVdURktam60
+	nNxxbGkq33x6ItCQpMeJA+AaLg=; b=JmdE38T98OeiZV6MOUbthdEFTjOwoo98c
+	FKq4HIIZPbqezq3dPwXmcimWfFNjmX/LapkypXGOtnQWH8TJ2pPHpsOaL+1ecMx9
+	lQc+z44MT5RVqQGvGGdx0v8TiyUvy9lwJOkdhnvWOBNtn70BnVUev7LEwLqUCUl2
+	oqCeObE1Cazfcwn9zDLYfsdZSsy5TCL6xorU2RhhNSRIJyvJu/H3i0Tr1pDt4Wws
+	0V7amfgVTg9D6LcwVNqztZXH0kdC8o1CorwIdXK4fkFAfo7wXVYL0gendYNraaU1
+	YD270jeHWUTlPwg9uIhLWWDw4n4ZWSSltk5SXgnFeOH3xaT0LmFoQ==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 462ph0bcp2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Apr 2025 13:59:59 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53HDJ1SL024900;
+	Thu, 17 Apr 2025 13:59:58 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4602gtp94w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Apr 2025 13:59:58 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53HDxvK159179268
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 17 Apr 2025 13:59:57 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 27AF22004D;
+	Thu, 17 Apr 2025 13:59:57 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E145220040;
+	Thu, 17 Apr 2025 13:59:55 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.111.1.254])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 17 Apr 2025 13:59:55 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hare@kernel.org, kbusch@kernel.org, gjoyce@ibm.com
+Subject: [PATCHv2 2/4] tree: add queue-depth attribute for nvme path object
+Date: Thu, 17 Apr 2025 19:29:44 +0530
+Message-ID: <20250417135951.239447-3-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250417135951.239447-1-nilay@linux.ibm.com>
+References: <20250417135951.239447-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.15
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-References: <aACj5pg7dLAsfZ1u@infradead.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aACj5pg7dLAsfZ1u@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=QJdoRhLL c=1 sm=1 tr=0 ts=6801095f cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=XR8D0OoHHMoA:10 a=VnNF1IyMAAAA:8 a=Ht8HIYEzmufRDo8zFfwA:9
+X-Proofpoint-GUID: 2SOhkkU5kYIc-03oUXgeBLlvU8sxaKwr
+X-Proofpoint-ORIG-GUID: 2SOhkkU5kYIc-03oUXgeBLlvU8sxaKwr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-17_04,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ adultscore=0 mlxlogscore=981 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015 malwarescore=0
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2502280000 definitions=main-2504170101
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250417_051927_954254_6B4ABECE 
-X-CRM114-Status: GOOD (  12.08  )
+X-CRM114-CacheID: sfid-20250417_070005_044673_9CB94E12 
+X-CRM114-Status: GOOD (  18.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,30 +103,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/17/25 12:47 AM, Christoph Hellwig wrote:
-> The following changes since commit 0b7a4817756c7906d0a8112c953ce88d7cd8d4c6:
-> 
->   ublk: don't suggest CONFIG_BLK_DEV_UBLK=Y (2025-04-15 18:59:33 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.15-2025-04-17
-> 
-> for you to fetch changes up to ad91308d3bdeb9d90ef4a400f379ce461f0fb6a7:
-> 
->   nvmet: pci-epf: cleanup link state management (2025-04-16 07:37:37 +0200)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.15
-> 
->  - fix scan failure for non-ANA multipath controllers (Hannes Reinecke)
->  - fix multipath sysfs links creation for some cases (Hannes Reinecke)
->  - PCIe endpoint fixes (Damien Le Moal)
->  - use NULL instead of 0 in the auth code (Damien Le Moal)
+Add a new attribute named "queue_depth" under the NVMe path object. This
+attribute is used by the iopolicy "queue-depth", which was introduced in
+kernel v6.11. However, the corresponding sysfs attribute for queue depth
+was only added in kernel v6.14.
 
-Pulled, thanks.
+The queue_depth value can be useful for observing which paths are selected
+for I/O forwarding, based on the depth of each path. To support this,
+export the attribute in libnvme.map so it can be accessed via nvme-cli.
 
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ src/libnvme.map    |  1 +
+ src/nvme/private.h |  1 +
+ src/nvme/tree.c    | 12 +++++++++++-
+ src/nvme/tree.h    |  8 ++++++++
+ 4 files changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/src/libnvme.map b/src/libnvme.map
+index 4314705f..e53fad6b 100644
+--- a/src/libnvme.map
++++ b/src/libnvme.map
+@@ -317,6 +317,7 @@ LIBNVME_1_0 {
+ 		nvme_path_get_ctrl;
+ 		nvme_path_get_name;
+ 		nvme_path_get_ns;
++		nvme_path_get_queue_depth;
+ 		nvme_path_get_sysfs_dir;
+ 		nvme_paths_filter;
+ 		nvme_read_config;
+diff --git a/src/nvme/private.h b/src/nvme/private.h
+index f45c5823..f94276e2 100644
+--- a/src/nvme/private.h
++++ b/src/nvme/private.h
+@@ -34,6 +34,7 @@ struct nvme_path {
+ 	char *sysfs_dir;
+ 	char *ana_state;
+ 	int grpid;
++	int queue_depth;
+ };
+ 
+ struct nvme_ns_head {
+diff --git a/src/nvme/tree.c b/src/nvme/tree.c
+index bd7fb53e..b7a38a07 100644
+--- a/src/nvme/tree.c
++++ b/src/nvme/tree.c
+@@ -903,6 +903,11 @@ const char *nvme_path_get_name(nvme_path_t p)
+ 	return p->name;
+ }
+ 
++int nvme_path_get_queue_depth(nvme_path_t p)
++{
++	return p->queue_depth;
++}
++
+ const char *nvme_path_get_ana_state(nvme_path_t p)
+ {
+ 	return p->ana_state;
+@@ -921,7 +926,7 @@ void nvme_free_path(struct nvme_path *p)
+ static int nvme_ctrl_scan_path(nvme_root_t r, struct nvme_ctrl *c, char *name)
+ {
+ 	struct nvme_path *p;
+-	_cleanup_free_ char *path = NULL, *grpid = NULL;
++	_cleanup_free_ char *path = NULL, *grpid = NULL, *queue_depth = NULL;
+ 	int ret;
+ 
+ 	nvme_msg(r, LOG_DEBUG, "scan controller %s path %s\n",
+@@ -955,6 +960,11 @@ static int nvme_ctrl_scan_path(nvme_root_t r, struct nvme_ctrl *c, char *name)
+ 		sscanf(grpid, "%d", &p->grpid);
+ 	}
+ 
++	queue_depth = nvme_get_path_attr(p, "queue_depth");
++	if (queue_depth) {
++		sscanf(queue_depth, "%d", &p->queue_depth);
++	}
++
+ 	list_node_init(&p->nentry);
+ 	list_node_init(&p->entry);
+ 	list_add_tail(&c->paths, &p->entry);
+diff --git a/src/nvme/tree.h b/src/nvme/tree.h
+index 9f382e9c..a9082f8e 100644
+--- a/src/nvme/tree.h
++++ b/src/nvme/tree.h
+@@ -867,6 +867,14 @@ const char *nvme_path_get_sysfs_dir(nvme_path_t p);
+  */
+ const char *nvme_path_get_ana_state(nvme_path_t p);
+ 
++/**
++ * nvme_path_get_queue_depth() - Queue depth of an nvme_path_t object
++ * @p: &nvme_path_t object
++ *
++ * Return: Queue depth of @p
++ */
++int nvme_path_get_queue_depth(nvme_path_t p);
++
+ /**
+  * nvme_path_get_ctrl() - Parent controller of an nvme_path_t object
+  * @p:	&nvme_path_t object
 -- 
-Jens Axboe
+2.49.0
 
 
