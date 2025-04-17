@@ -4,88 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DE6CC369B2
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Apr 2025 07:14:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CC12C369C7
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Apr 2025 07:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
-	bh=T6zcHwN1BLl5JXSNfFYDIr9I+bhl12LMPDBNHYxeHY0=; b=1PumSFN18pdpstA3pY1YEWmg1i
-	JcjQsa7LPnu+vS5BcY8aXF+QIB9foTIUBsb0MZnlngIFbqfeKXUnHVpcQ0o5bNX+eXl0o6qecZmAL
-	P7vvRgaXAbbg4GzJnUsCvLpze3tt8h2LXCG4OLdAZwW5/M8p7hyguImuIvK6J3eAOB/IpqhQnwY+c
-	iFjHhnXRb/Ktpy/9k3uOgvAjskqmji3u/yyZdSvl2UNJeH7rMYKCkB3amXsPdSNRLzF2VwSO7+aks
-	IMIr8p0vNfFXYCDGmcIBn2Adw0lYHpdK8r8wqW1U/Wjvp5qs/u0B3SJv4WbWAMzt+JuqGTEfk3qAE
-	o8MUJZzQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6dSncrwBO8AkU7U883YKLKGYF1Otz1wvxPOVFx6BArc=; b=M2fX6Va6bOWvjbJD4XdKlSk+Ly
+	VAjWvNC/VZdYgnMBsvR0ZdqktyVZamcHsS5vVtOvWpdwaNFmxijR5jlhmkRFIeY9fpXVu+hGHUQhp
+	GWkQG0UWqqaXfndSPxFnBror2Grc0lcVno+hDd/hW10VePdpIGplDabLZ9/yGh9MBXkGU3rLNLuGx
+	gvhQh721mmHnr9v0UqgjBdI4TLbmTWgp9dwnoYJIP6Ui19yH2QirbLJYkYT/ADQVyRFwmAHTYMWI6
+	eER9D/4RDGeatxkfXF0Ieq2rYezu/NGWupLa68ARTs2WSZchmn65KFf/gMchJEYW4AU0YlPu7a6Rp
+	SlC41ubA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5JRm-0000000C2ty-1sfZ;
-	Thu, 17 Apr 2025 07:14:06 +0000
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+	id 1u5Jfc-0000000C5qL-1iu2;
+	Thu, 17 Apr 2025 07:28:24 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5JRj-0000000C2td-31tD
+	id 1u5JfZ-0000000C5pE-13fq
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Apr 2025 07:14:04 +0000
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-227c7e57da2so4449265ad.0
-        for <linux-nvme@lists.infradead.org>; Thu, 17 Apr 2025 00:14:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1744874043; x=1745478843; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=T6zcHwN1BLl5JXSNfFYDIr9I+bhl12LMPDBNHYxeHY0=;
-        b=glUMxntgYdL8Nu7n5TW9F37lu9pSOHImw1IdyEcyJNqqVm2fL3+yffT9+hVtj6sWRQ
-         km94df7E5lN//oadlpYV/+zu40rwjcsmdrs1muxq2+z8puFvMK7adxdCrE9qpHqvevIe
-         8Ttv5MHkAQOmxGWoGbCCjs7oI9QHzSdde0/bJMGcQ0/CVeM96ED6ZgpHNDPd6Xt8u/8s
-         TMM3ZP8LvbT8rBk/KH2nmR7LOWOrwcawwDXQ83adXl83u6MwZPNvOUVrVtVUaNGBVQyF
-         pNL3+wGgFs3R09cyR8I9z/gYuze9RNo5DWERw1q249nxy17R18clmW3noRPXevUfVSW1
-         Jm1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744874043; x=1745478843;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=T6zcHwN1BLl5JXSNfFYDIr9I+bhl12LMPDBNHYxeHY0=;
-        b=rvtT1h9pRnjgREtiVDuLU13+Mq646Z4aD6kyHtqaoKOPPNpYOn/SVJc4olaY2yYqSp
-         aQpblYJpIq+5Dsteo0HnccdjHzZnlktu6gahRLNtTKwgvuejdZAqUGXd6qseSD/rWSH2
-         vnaLh+ToYGkN6XhLKA53pu98Qtxaj9JOo/EcDvW1QoexDW9anWna7Rx1b20qMkOD8hCu
-         Ph97QTNuS8ktvMT7HUzDEwzLX8g9IQYPEENGCroRxPTYRatqU4OUbhw2oPkKGNdm7c4j
-         C/Yc2G9z3DtaVwmIBKqYaxEN6HyKccHxqMt0sesiSX2eErC6tXFM1lBhsrtqvbcBHpQ5
-         e98Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWb5lfOO8GLMG4sPmgeYCMAEbBPd8AYmjjbkz7bEnEyLwsfqFURSJEpJtCRg66HPQM2WKbTxI6Y5zuY@lists.infradead.org
-X-Gm-Message-State: AOJu0YzDmGlr7fYWMHvAk6cTO0qi8axxj4hb6aAaaPyh1z4OAV1/fAMJ
-	a2vNUDkDylT7XrBFFF+2dKQKhvFitQNlPW5aK2JZxOnE9aYRGfE78jJLQG0kcH0=
-X-Gm-Gg: ASbGncuOpOJX35gcTGISTlz3dPjOT8ebp0eBQpH4PvGr+3TaZYyQvj1fiFYglrOEjmq
-	kCNKVTsM7jdyHmwFx6Hqx9vKphwtvR1WdRHF0kW0vvTdNPcTKxlqh2uMt3s0BVmPyleMwPRj+sE
-	TCwHjri+Y9zn5M3+58KZtqjzBufsgjREfR5yz9k7w52IabksMHZifd8UJfkH+nIX2JaWbh89SgF
-	sA3ov1HPWbk7dVvMtAeUoRhebfpVx+Mt/FrQcUuthFkBYVl28nK2tAivyXGnU98Gf3YKd9ZyODX
-	MdOZhTIDOQtblgwmt+F3ERFU3ef2lnVTiFOWw5dhrVOoJ/wk
-X-Google-Smtp-Source: AGHT+IE9WE7/IxnT6LbEplrnxfOoEfdd5gnal3tr1FUfzfXxzP7fSwcssNMYVvc33Y7AiyFP7uj+kA==
-X-Received: by 2002:a17:903:2391:b0:216:6901:d588 with SMTP id d9443c01a7336-22c358ddc27mr81129245ad.15.1744874042759;
-        Thu, 17 Apr 2025 00:14:02 -0700 (PDT)
-Received: from purestorage.com ([208.88.159.128])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c33f2c9e9sm26342045ad.106.2025.04.17.00.14.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 00:14:02 -0700 (PDT)
-Date: Thu, 17 Apr 2025 01:13:59 -0600
-From: Michael Liang <mliang@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Michael Liang <mliang@purestorage.com>,
-	Mohamed Khalfella <mkhalfella@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] nvme-tcp: wait socket wmem to drain in queue stop
-Message-ID: <20250417071359.iw3fangcfcuopjza@purestorage.com>
+	Thu, 17 Apr 2025 07:28:22 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B5C6211A3;
+	Thu, 17 Apr 2025 07:28:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744874899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6dSncrwBO8AkU7U883YKLKGYF1Otz1wvxPOVFx6BArc=;
+	b=AqhSeuSvdZCHTyRuVkiWNpzqRCvgiUX7jp0tfVUEwzJpktRA88TI/inSuODB9iAojPniO+
+	tU/7UXAGBLljRqlvGqKHilNhKfrzbp70IlhkTjy+0YqTHG814ZzY1uxSX43j2fdimaovmw
+	IUv/TmsH9MLidxD9hVkMN5uhJh/jtXg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744874899;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6dSncrwBO8AkU7U883YKLKGYF1Otz1wvxPOVFx6BArc=;
+	b=AsmHGf9qffU36YMtxAYWDX1q8xJL/xtH7j6TXHorg6UWvJJfONfBpy0Ls4pY1Lf+pCKCPc
+	7aVJ4j12fgYrTCBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744874899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6dSncrwBO8AkU7U883YKLKGYF1Otz1wvxPOVFx6BArc=;
+	b=AqhSeuSvdZCHTyRuVkiWNpzqRCvgiUX7jp0tfVUEwzJpktRA88TI/inSuODB9iAojPniO+
+	tU/7UXAGBLljRqlvGqKHilNhKfrzbp70IlhkTjy+0YqTHG814ZzY1uxSX43j2fdimaovmw
+	IUv/TmsH9MLidxD9hVkMN5uhJh/jtXg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744874899;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6dSncrwBO8AkU7U883YKLKGYF1Otz1wvxPOVFx6BArc=;
+	b=AsmHGf9qffU36YMtxAYWDX1q8xJL/xtH7j6TXHorg6UWvJJfONfBpy0Ls4pY1Lf+pCKCPc
+	7aVJ4j12fgYrTCBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C58E8137CF;
+	Thu, 17 Apr 2025 07:28:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2F0aLpKtAGjGTgAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 17 Apr 2025 07:28:18 +0000
+Message-ID: <cb868bc8-ded2-4635-afbb-098f378f74db@suse.de>
+Date: Thu, 17 Apr 2025 09:28:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 3/3] nvme: delay failover by command quiesce timeout
+To: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Daniel Wagner <dwagner@suse.de>, Daniel Wagner <wagi@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ John Meneghini <jmeneghi@redhat.com>, randyj@purestorage.com,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250324-tp4129-v1-0-95a747b4c33b@kernel.org>
+ <20250324-tp4129-v1-3-95a747b4c33b@kernel.org>
+ <20250410085137.GE1868505-mkhalfella@purestorage.com>
+ <6f0d50b2-7a16-4298-8129-c3a0b1426d26@flourine.local>
+ <20250416004016.GC78596-mkhalfella@purestorage.com>
+ <3dad09ce-151d-41fc-8137-56a931c4c224@flourine.local>
+ <20250416135318.GI1868505-mkhalfella@purestorage.com>
+ <df6cd26e-551a-4bc1-bdc6-9c715e502aa8@grimberg.me>
+ <20250416225913.GA2476975-mkhalfella@purestorage.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250416225913.GA2476975-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250417071036.a7nhovuokg7w2n5r@purestorage.com>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250417_001403_759441_8E4D744E 
-X-CRM114-Status: GOOD (  16.91  )
+X-CRM114-CacheID: sfid-20250417_002821_436778_9E2F3BF7 
+X-CRM114-Status: GOOD (  19.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,77 +142,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch addresses a data corruption issue observed in nvme-tcp during
-testing.
+On 4/17/25 00:59, Mohamed Khalfella wrote:
+> On 2025-04-17 01:21:08 +0300, Sagi Grimberg wrote:
+>>
+>>
+>> On 16/04/2025 16:53, Mohamed Khalfella wrote:
+>>> On 2025-04-16 10:30:11 +0200, Daniel Wagner wrote:
+>>>> On Tue, Apr 15, 2025 at 05:40:16PM -0700, Mohamed Khalfella wrote:
+>>>>> On 2025-04-15 14:17:48 +0200, Daniel Wagner wrote:
+>>>>>> Pasthrough commands should fail immediately. Userland is in charge here,
+>>>>>> not the kernel. At least this what should happen here.
+>>>>> I see your point. Unless I am missing something these requests should be
+>>>>> held equally to bio requests from multipath layer. Let us say app
+>>>>> submitted write a request that got canceled immediately, how does the app
+>>>>> know when it is safe to retry the write request?
+>>>> Good question, but nothing new as far I can tell. If the kernel doesn't
+>>>> start to retry passthru IO commands, we have to figure out how to pass
+>>>> additional information to the userland.
+>>>>
+>>> nvme multipath does not retry passthru commands. That is said, there is
+>>> nothing prevents userspace from retrying canceled command immediately
+>>> resulting in the unwanted behavior these very patches try to address.
+>>
+>> userspace can read the controller cqt and implement the retry logic on
+>> its own.
+>> If it doesn't/can't, it should use normal fs io. the driver does not
+>> handle passthru retries.
+> 
+> passthru requests are not very different from normal IO. If the driver
+> holds normal IO requests to prevent corruption, it should hold passthru
+> requests too, for the same reason, no?
+> 
+> IMO, keeping the request holding logic in the driver makes more sense
+> than implementing it in userspace. One reason is that CCR can help
+> release requests held requests faster.
+> 
+One thing to keep in mind: We cannot hold requests during controller 
+reset. Requests are an index into a statically allocated array from
+the request queue, which gets deleted when the request queue is
+removed during controller teardown.
 
-Issue description:
-In an NVMe native multipath setup, when an I/O timeout occurs, all inflight
-I/Os are canceled almost immediately after the kernel socket is shut down.
-These canceled I/Os are reported as host path errors, triggering a failover
-that succeeds on a different path.
+So I _really_ would like to exclude handling of admin and passthrough
+commands for now, as there are extremely few commands which are not
+idempotent. If we really care we can just error them out upon submission
+until error recovery is done.
+But I'm not sure if it's worth the hassle; at this time we don't even
+handle admin commands correctly (admin commands should not be affected
+by the ANA status, yet they are).
 
-However, at this point, the original I/O may still be outstanding in the
-host's network transmission path (e.g., the NIC’s TX queue). From the
-user-space app's perspective, the buffer associated with the I/O is considered
-completed since they're acked on the different path and may be reused for new
-I/O requests.
+Cheers,
 
-Because nvme-tcp enables zero-copy by default in the transmission path,
-this can lead to corrupted data being sent to the original target, ultimately
-causing data corruption.
-
-We can reproduce this data corruption by injecting delay on one path and
-triggering i/o timeout.
-
-To prevent this issue, this change ensures that all inflight transmissions are
-fully completed from host's perspective before returning from queue
-stop. To handle concurrent I/O timeout from multiple namespaces under
-the same controller, always wait in queue stop regardless of queue's state.
-
-This aligns with the behavior of queue stopping in other NVMe fabric transports.
-
-Reviewed-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
-Signed-off-by: Michael Liang <mliang@purestorage.com>
----
- drivers/nvme/host/tcp.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 26c459f0198d..62d73684e61e 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1944,6 +1944,21 @@ static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
- 	cancel_work_sync(&queue->io_work);
- }
- 
-+static void nvme_tcp_stop_queue_wait(struct nvme_tcp_queue *queue)
-+{
-+	int timeout = 100;
-+
-+	while (timeout > 0) {
-+		if (!sk_wmem_alloc_get(queue->sock->sk))
-+			return;
-+		msleep(2);
-+		timeout -= 2;
-+	}
-+	dev_warn(queue->ctrl->ctrl.device,
-+		 "qid %d: wait draining sock wmem allocation timeout\n",
-+		 nvme_tcp_queue_id(queue));
-+}
-+
- static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
- {
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-@@ -1961,6 +1976,7 @@ static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
- 	/* Stopping the queue will disable TLS */
- 	queue->tls_enabled = false;
- 	mutex_unlock(&queue->queue_lock);
-+	nvme_tcp_stop_queue_wait(queue);
- }
- 
- static void nvme_tcp_setup_sock_ops(struct nvme_tcp_queue *queue)
+Hannes
 -- 
-2.34.1
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
