@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DCD4C369D1
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 16:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5015AC369AB
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 16:43:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=64bvEziqIqkOwBB7re6FcDkKPN5ka2L+26a9RulOEBc=; b=D2m81XvKE3QhZn7AmdrEWXnDZU
-	NIpZgkt1SNdw31yX9nt70q0lhY1EfC3yQt+1yDALLG1hCRAPUj9xfWN3p07g5pevjZbbKMddhwYTf
-	VEX9t8KPjg6LmOEuIX0mvda7fEdnIkFZGqFF8spJbQX0xetn514e5KZCBZMffmiXOZrMwSUE09c6u
-	qfmXk+WdUZOWLOHedxY5TseGSMz2XSmD/GFwdvL7NCM88DbgV7a6cC6Gra8rK/h1UgVuhdU05hQdY
-	ke0uW4CqGh1RaYCYl9ym3kIo7gnhQ/I6KkTZrQcDLXwMmkkxrJyi+Iarf3SkSh1OTdqPPEbGmZZ58
-	OW1PCsWg==;
+	bh=a/9JAuJ6nDihBVjlWWw+2Br2+Xp7oX5O50e95MYwtJU=; b=ITkZOpR5AKu9NBDXqg68/OYIaA
+	mn+Ha3piacrLivsVnJli3Op4hqYrfR8MMtD+SH0Gp+qXFurHEoeAUIU7pggJrBoj/IOXeg5P91hLw
+	KNctrfU4iR+mdldnSA5bWFP+NwbYAZA0KCSM3VOFP3TkJU7lb5L9mh6zVRekEuNme2f6XOzxvP79P
+	NQAPT9fzGSDvH0HDv0gIpzh/vco7ch1fEslOUkgIUWhbda6Pjcg4bOtuAe/6/ia4XX9f6kRuRQYao
+	gFf+TUEqfJq7DEc2QSQRjn+Z20etjYFWh0l7BDXDYb2NP/R7Ucpua1VuR02N6ZcPMJLZUi9+HYRMz
+	qsCxy+Vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5ont-0000000H0Pc-3Rm8;
-	Fri, 18 Apr 2025 16:43:01 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1u5onu-0000000H0RM-3Gr1;
+	Fri, 18 Apr 2025 16:43:02 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5fXC-0000000FJoe-3lua
+	id 1u5fXG-0000000FJrs-3lCq
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Apr 2025 06:49:12 +0000
+	Fri, 18 Apr 2025 06:49:15 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 68F9C4A5E5;
-	Fri, 18 Apr 2025 06:49:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6641C4CEED;
-	Fri, 18 Apr 2025 06:49:09 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id AC2AF6847F;
+	Fri, 18 Apr 2025 06:48:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73A98C4CEED;
+	Fri, 18 Apr 2025 06:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744958950;
-	bh=N1HUOLU+ttnzf/3ybaKHIW9+rXGpeuXFWkN+tCZjvtw=;
+	s=k20201202; t=1744958954;
+	bh=qQletnJaF7pOl/YxdJHeuXwYFAE585SGa2cjLoQ5DoY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=I08Kler6wqRQQ7rbxaeetMugZS71jb8mapQi4fv2gWhXk/IeOFGZmKMgxApIo+xGm
-	 nSLozzo5Zai3u2EhSsELCh0+qGAZrW76S8NMrMelt01UOopvpDNwnYLFMsnmfxoK8H
-	 86RZZH1DShfd4p+U0S4kTAjAOYFjydCu5JXAvay+Rto6dWZTszj5HvAaUE1JGV0yx9
-	 /4RWXKGAYOamM0IlRj+p1hwvUN+g9SSKUexLrvcSk3pNhm6IpiE9F6gwUBGCKJ8U7h
-	 fv4CyLkbiEz6/2E2EKiwFgg1uIpWFSbc7VNH5uZ9OgB1+Xxky2jubkzAPfD7vtyPus
-	 /X7pF9RzfrbUA==
+	b=kGbgHoFUSuS37T5Z9+FRfdcTF9/Ywy9giL96Pa8JUvOqsSNsc0Q+PEnEF9RXkJ4JW
+	 lRZyvvadquyyaYY+QMz2qqgPChEs+yX83TK5BavYmSSttyg61I2TuCaIvllZLXbF61
+	 q8vmVr1YBUs49eQxmHK6Pv6pVOlUxspXiB2Kq2Um6lJPZdFcTq4AXyhwU3GF2vS03g
+	 /Jxigfhh1U8nafiD9SvuIwCW0++wrQq7WQQ6773r5prJ5JvzYDx5oPGwelxemuyOXA
+	 k8Bo5yLA4q7exFpwuopwVn+6foBQm+ykU5AsYKM7eMN9oeMfCZXT7yS8ucRlcPv7MK
+	 qppxmz9hDFteQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -80,17 +80,14 @@ Cc: Jake Edge <jake@lwn.net>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Leon Romanovsky <leonro@nvidia.com>
-Subject: [PATCH v8 19/24] block: don't merge different kinds of P2P transfers in a single bio
-Date: Fri, 18 Apr 2025 09:47:49 +0300
-Message-ID: <6b7a99e4bd1b541a342bfb0c7c0fbbfd815d77dc.1744825142.git.leon@kernel.org>
+Subject: [PATCH v8 20/24] blk-mq: add scatterlist-less DMA mapping helpers
+Date: Fri, 18 Apr 2025 09:47:50 +0300
+Message-ID: <87b151a3791d71e58ec6f1b42bcf5fe06304cf80.1744825142.git.leon@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1744825142.git.leon@kernel.org>
 References: <cover.1744825142.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250417_234910_983927_E7BC330D 
-X-CRM114-Status: GOOD (  22.53  )
 X-Mailman-Approved-At: Fri, 18 Apr 2025 09:39:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,108 +105,283 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-To get out of the dma mapping helpers having to check every segment for
-it's P2P status, ensure that bios either contain P2P transfers or non-P2P
-transfers, and that a P2P bio only contains ranges from a single device.
+Add a new blk_rq_dma_map / blk_rq_dma_unmap pair that does away with
+the wasteful scatterlist structure.  Instead it uses the mapping iterator
+to either add segments to the IOVA for IOMMU operations, or just maps
+them one by one for the direct mapping.  For the IOMMU case instead of
+a scatterlist with an entry for each segment, only a single [dma_addr,len]
+pair needs to be stored for processing a request, and for the direct
+mapping the per-segment allocation shrinks from
+[page,offset,len,dma_addr,dma_len] to just [dma_addr,len].
 
-This means we do the page zone access in the bio add path where it should
-be still page hot, and will only have do the fairly expensive P2P topology
-lookup once per bio down in the dma mapping path, and only for already
-marked bios.
+The major downside of this API is that the IOVA collapsing only works
+when the driver sets a virt_boundary that matches the IOMMU granule.
+
+Note that struct blk_dma_vec, struct blk_dma_mapping and blk_rq_dma_unmap
+aren't really block specific, but for they are kept with the only mapping
+routine to keep things simple.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- block/bio.c               | 17 ++++++++++-------
- block/blk-merge.c         | 17 +++++++++++------
- include/linux/blk_types.h |  2 ++
- 3 files changed, 23 insertions(+), 13 deletions(-)
+ block/blk-merge.c          | 166 +++++++++++++++++++++++++++++++++++++
+ include/linux/blk-mq-dma.h |  62 ++++++++++++++
+ 2 files changed, 228 insertions(+)
+ create mode 100644 include/linux/blk-mq-dma.h
 
-diff --git a/block/bio.c b/block/bio.c
-index 3047fa3f4b32..279eac2396bf 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -928,8 +928,6 @@ static bool bvec_try_merge_page(struct bio_vec *bv, struct page *page,
- 		return false;
- 	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
- 		return false;
--	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
--		return false;
- 
- 	*same_page = ((vec_end_addr & PAGE_MASK) == ((page_addr + off) &
- 		     PAGE_MASK));
-@@ -998,11 +996,16 @@ static int bio_add_page_int(struct bio *bio, struct page *page,
- 	if (bio->bi_iter.bi_size > UINT_MAX - len)
- 		return 0;
- 
--	if (bio->bi_vcnt > 0 &&
--	    bvec_try_merge_page(&bio->bi_io_vec[bio->bi_vcnt - 1],
--				page, len, offset, same_page)) {
--		bio->bi_iter.bi_size += len;
--		return len;
-+	if (bio->bi_vcnt > 0) {
-+		struct bio_vec *bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
-+
-+		if (bvec_try_merge_page(bv, page, len, offset, same_page)) {
-+			bio->bi_iter.bi_size += len;
-+			return len;
-+		}
-+	} else {
-+		if (is_pci_p2pdma_page(page))
-+			bio->bi_opf |= REQ_P2PDMA | REQ_NOMERGE;
- 	}
- 
- 	if (bio->bi_vcnt >= bio->bi_max_vecs)
 diff --git a/block/blk-merge.c b/block/blk-merge.c
-index fdd4efb54c6c..d9691e900cc6 100644
+index d9691e900cc6..7024846360c9 100644
 --- a/block/blk-merge.c
 +++ b/block/blk-merge.c
-@@ -320,12 +320,17 @@ int bio_split_rw_at(struct bio *bio, const struct queue_limits *lim,
- 	unsigned nsegs = 0, bytes = 0;
+@@ -7,6 +7,8 @@
+ #include <linux/bio.h>
+ #include <linux/blkdev.h>
+ #include <linux/blk-integrity.h>
++#include <linux/blk-mq-dma.h>
++#include <linux/dma-mapping.h>
+ #include <linux/scatterlist.h>
+ #include <linux/part_stat.h>
+ #include <linux/blk-cgroup.h>
+@@ -535,6 +537,170 @@ static bool blk_map_iter_next(struct request *req,
+ 	return true;
+ }
  
- 	bio_for_each_bvec(bv, bio, iter) {
--		/*
--		 * If the queue doesn't support SG gaps and adding this
--		 * offset would create a gap, disallow it.
--		 */
--		if (bvprvp && bvec_gap_to_prev(lim, bvprvp, bv.bv_offset))
--			goto split;
-+		if (bvprvp) {
++#define blk_phys_to_page(_paddr) \
++ 	(pfn_to_page(__phys_to_pfn(_paddr)))
++ 
++/*
++ * The IOVA-based DMA API wants to be able to coalesce at the minimal IOMMU page
++ * size granularity (which is guaranteed to be <= PAGE_SIZE and usually 4k), so
++ * we need to ensure our segments are aligned to this as well.
++ *
++ * Note that there is no point in using the slightly more complicated IOVA based
++ * path for single segment mappings.
++ */
++static inline bool blk_can_dma_map_iova(struct request *req,
++		struct device *dma_dev)
++{
++	return !((queue_virt_boundary(req->q) + 1) &
++		dma_get_merge_boundary(dma_dev));
++}
++
++static bool blk_dma_map_bus(struct request *req, struct device *dma_dev,
++		struct blk_dma_iter *iter, struct phys_vec *vec)
++{
++	iter->addr = pci_p2pdma_bus_addr_map(&iter->p2pdma, vec->paddr);
++	iter->len = vec->len;
++	return true;
++}
++
++static bool blk_dma_map_direct(struct request *req, struct device *dma_dev,
++		struct blk_dma_iter *iter, struct phys_vec *vec)
++{
++	iter->addr = dma_map_page(dma_dev, blk_phys_to_page(vec->paddr),
++			offset_in_page(vec->paddr), vec->len, rq_dma_dir(req));
++	if (dma_mapping_error(dma_dev, iter->addr)) {
++		iter->status = BLK_STS_RESOURCE;
++		return false;
++	}
++	iter->len = vec->len;
++	return true;
++}
++
++static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
++		struct dma_iova_state *state, struct blk_dma_iter *iter,
++		struct phys_vec *vec)
++{
++	enum dma_data_direction dir = rq_dma_dir(req);
++	unsigned int mapped = 0;
++	int error = 0;
++
++	iter->addr = state->addr;
++	iter->len = dma_iova_size(state);
++
++	do {
++		error = dma_iova_link(dma_dev, state, vec->paddr, mapped,
++				vec->len, dir, 0);
++		if (error)
++			break;
++		mapped += vec->len;
++	} while (blk_map_iter_next(req, &iter->iter, vec));
++
++	error = dma_iova_sync(dma_dev, state, 0, mapped);
++	if (error) {
++		iter->status = errno_to_blk_status(error);
++		return false;
++	}
++
++	return true;
++}
++
++/**
++ * blk_rq_dma_map_iter_start - map the first DMA segment for a request
++ * @req:	request to map
++ * @dma_dev:	device to map to
++ * @state:	DMA IOVA state
++ * @iter:	block layer DMA iterator
++ *
++ * Start DMA mapping @req to @dma_dev.  @state and @iter are provided by the
++ * caller and don't need to be initialized.  @state needs to be stored for use
++ * at unmap time, @iter is only needed at map time.
++ *
++ * Returns %false if there is no segment to map, including due to an error, or
++ * %true it it did map a segment.
++ *
++ * If a segment was mapped, the DMA address for it is returned in @iter.addr and
++ * the length in @iter.len.  If no segment was mapped the status code is
++ * returned in @iter.status.
++ *
++ * The caller can call blk_rq_dma_map_coalesce() to check if further segments
++ * need to be mapped after this, or go straight to blk_rq_dma_map_iter_next()
++ * to try to map the following segments.
++ */
++bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
++		struct dma_iova_state *state, struct blk_dma_iter *iter)
++{
++	unsigned int total_len = blk_rq_payload_bytes(req);
++	struct phys_vec vec;
++
++	iter->iter.bio = req->bio;
++	iter->iter.iter = req->bio->bi_iter;
++	memset(&iter->p2pdma, 0, sizeof(iter->p2pdma));
++	iter->status = BLK_STS_OK;
++
++	/*
++	 * Grab the first segment ASAP because we'll need it to check for P2P
++	 * transfers.
++	 */
++	if (!blk_map_iter_next(req, &iter->iter, &vec))
++		return false;
++
++	if (IS_ENABLED(CONFIG_PCI_P2PDMA) && (req->cmd_flags & REQ_P2PDMA)) {
++		switch (pci_p2pdma_state(&iter->p2pdma, dma_dev,
++				blk_phys_to_page(vec.paddr))) {
++		case PCI_P2PDMA_MAP_BUS_ADDR:
++			return blk_dma_map_bus(req, dma_dev, iter, &vec);
++		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
 +			/*
-+			 * If the queue doesn't support SG gaps and adding this
-+			 * offset would create a gap, disallow it.
++			 * P2P transfers through the host bridge are treated the
++			 * same as non-P2P transfers below and during unmap.
 +			 */
-+			if (bvec_gap_to_prev(lim, bvprvp, bv.bv_offset))
-+				goto split;
-+		} else {
-+			if (is_pci_p2pdma_page(bv.bv_page))
-+				bio->bi_opf |= REQ_P2PDMA | REQ_NOMERGE;
++			req->cmd_flags &= ~REQ_P2PDMA;
++			break;
++		default:
++			iter->status = BLK_STS_INVAL;
++			return false;
 +		}
- 
- 		if (nsegs < lim->max_segments &&
- 		    bytes + bv.bv_len <= max_bytes &&
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index dce7615c35e7..94cf146e8ce6 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -378,6 +378,7 @@ enum req_flag_bits {
- 	__REQ_DRV,		/* for driver use */
- 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
- 	__REQ_ATOMIC,		/* for atomic write operations */
-+	__REQ_P2PDMA,		/* contains P2P DMA pages */
- 	/*
- 	 * Command specific flags, keep last:
- 	 */
-@@ -410,6 +411,7 @@ enum req_flag_bits {
- #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
- #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
- #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
-+#define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
- 
- #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
- 
++	}
++
++	if (blk_can_dma_map_iova(req, dma_dev) &&
++	    dma_iova_try_alloc(dma_dev, state, vec.paddr, total_len))
++		return blk_rq_dma_map_iova(req, dma_dev, state, iter, &vec);
++	return blk_dma_map_direct(req, dma_dev, iter, &vec);
++}
++EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_start);
++
++/**
++ * blk_rq_dma_map_iter_next - map the next DMA segment for a request
++ * @req:	request to map
++ * @dma_dev:	device to map to
++ * @state:	DMA IOVA state
++ * @iter:	block layer DMA iterator
++ *
++ * Iterate to the next mapping after a previous call to
++ * blk_rq_dma_map_iter_start().  See there for a detailed description of the
++ * arguments.
++ *
++ * Returns %false if there is no segment to map, including due to an error, or
++ * %true it it did map a segment.
++ *
++ * If a segment was mapped, the DMA address for it is returned in @iter.addr and
++ * the length in @iter.len.  If no segment was mapped the status code is
++ * returned in @iter.status.
++ */
++bool blk_rq_dma_map_iter_next(struct request *req, struct device *dma_dev,
++		struct dma_iova_state *state, struct blk_dma_iter *iter)
++{
++	struct phys_vec vec;
++
++	if (!blk_map_iter_next(req, &iter->iter, &vec))
++		return false;
++
++	if (iter->p2pdma.map == PCI_P2PDMA_MAP_BUS_ADDR)
++		return blk_dma_map_bus(req, dma_dev, iter, &vec);
++	return blk_dma_map_direct(req, dma_dev, iter, &vec);
++}
++EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_next);
++
+ static inline struct scatterlist *blk_next_sg(struct scatterlist **sg,
+ 		struct scatterlist *sglist)
+ {
+diff --git a/include/linux/blk-mq-dma.h b/include/linux/blk-mq-dma.h
+new file mode 100644
+index 000000000000..588dc3c1ad1f
+--- /dev/null
++++ b/include/linux/blk-mq-dma.h
+@@ -0,0 +1,62 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef BLK_MQ_DMA_H
++#define BLK_MQ_DMA_H
++
++#include <linux/blk-mq.h>
++#include <linux/pci-p2pdma.h>
++
++struct blk_dma_iter {
++	/* Output address range for this iteration */
++	dma_addr_t			addr;
++	u32				len;
++
++	/* Status code. Only valid when blk_rq_dma_map_iter_* returned false */
++	blk_status_t			status;
++
++	/* Internal to blk_rq_dma_map_iter_* */
++	struct req_iterator		iter;
++	struct pci_p2pdma_map_state	p2pdma;
++};
++
++bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
++		struct dma_iova_state *state, struct blk_dma_iter *iter);
++bool blk_rq_dma_map_iter_next(struct request *req, struct device *dma_dev,
++		struct dma_iova_state *state, struct blk_dma_iter *iter);
++
++/**
++ * blk_rq_dma_map_coalesce - were all segments coalesced?
++ * @state: DMA state to check
++ *
++ * Returns true if blk_rq_dma_map_iter_start coalesced all segments into a
++ * single DMA range.
++ */
++static inline bool blk_rq_dma_map_coalesce(struct dma_iova_state *state)
++{
++	return dma_use_iova(state);
++}
++
++/**
++ * blk_rq_dma_map_coalesce - try to DMA unmap a request
++ * @req:	request to unmap
++ * @dma_dev:	device to unmap from
++ * @state:	DMA IOVA state
++ * @mapped_len: number of bytes to unmap
++ *
++ * Returns %false if the callers needs to manually unmap every DMA segment
++ * mapped using @iter or %true if no work is left to be done.
++ */
++static inline bool blk_rq_dma_unmap(struct request *req, struct device *dma_dev,
++		struct dma_iova_state *state, size_t mapped_len)
++{
++	if (req->cmd_flags & REQ_P2PDMA)
++		return true;
++
++	if (dma_use_iova(state)) {
++		dma_iova_destroy(dma_dev, state, mapped_len, rq_dma_dir(req), 0);
++		return true;
++	}
++
++	return !dma_need_unmap(dma_dev);
++}
++
++#endif /* BLK_MQ_DMA_H */
 -- 
 2.49.0
 
