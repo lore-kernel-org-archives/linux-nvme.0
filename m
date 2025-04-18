@@ -4,78 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 394F3C369AB
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 11:49:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A871C369CA
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 14:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EVAZkueF6TO3vmEWTnRcjkq4LoD47LWe63XR/UPIPzA=; b=OZd32Dug+ZW+mhvTVDcyu+HXrA
-	LjlZXJNRYp5xnCvEo0sC6v6TqiRZReX+vt8kuuJFYrx162pcIXrfShHS066eusnxpqoOlnt3C1Whs
-	PGI8X8AyQxpr5rw+eiCdyNJta5iFfX5nGPMnwB+4y4+QAqqr1SbSYQfWAHDoTowwvZ/G7NYa8PkIN
-	RZud8Fj66zc/dXxZl9+Sp1BHjEFRCOl2T/Nh9THnAZ+xtMkmIm+H/m3TcSpeydj7M1pPESk0uz0XT
-	U+j+mgdpaogjgb8r3uzEY5d9+XFmUAIkp5vMqhvQ/GI1tmYa7yR4JwHlg7sBmEDXBWlxkeNSg63wM
-	k2W2h4AA==;
+	bh=a3Cf4+5znQawmv06mXcSZw7fd4AQqZlTEDiNv9WvQ7E=; b=syWCi8MqXDbmMjPQPSIVBsRtoi
+	t7/9F55GnXkC9KCm0BaK5uDXdbtKGONBrycx57uKWp1w5c+5Dyh7zIyySOicIwNMzrZPguQGavvYH
+	BYVQ/EaYXodVNGhAkruRVrG7yqh7sgMOVutbYdYZfovPlr4poAFWCW4kVpkTFT+fKRSOy1jw14VQb
+	QWTD5tUPNGqjw5aNDhIqEKPlS/1/FLg8dp6o7iTkUySILFy6nXiTHGZ640Lg+bhRf5jIIEzegyXdN
+	wMW8Pe8asfIessODmiIXHy8omnZLWIWow9nxLw5bq4luleptvytzK/Iyw0RPIeo77QWttGqCXKcAa
+	T7B1vBvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5kDs-0000000G0Kp-0rge;
-	Fri, 18 Apr 2025 11:49:32 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1u5mbu-0000000GPLa-0BLT;
+	Fri, 18 Apr 2025 14:22:30 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5kDp-0000000G0K0-33Yn
+	id 1u5mbs-0000000GPKJ-1n5E
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Apr 2025 11:49:30 +0000
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39ee5ac4321so1598721f8f.1
-        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 04:49:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744976968; x=1745581768;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EVAZkueF6TO3vmEWTnRcjkq4LoD47LWe63XR/UPIPzA=;
-        b=tDgmBTYpld91ovrljV59qXGMW6wIA1Aap3i8D9NqwlJG1FdioIX5buBH4Js3uU4Hdo
-         JrWy8cqOuHvgBp8AJCHWzF2jXr5NaTlZ2p8VmuP4EDwY22cxMi1Axegpi3nlTXTg2Xcq
-         2ydc6EC0NWXakLcIE7Mu4HZ682mWqJCJ/e+YMQh6lAnb+y/gJtExWQIhoLk6IDKvvtdm
-         G7umYrOEAtWNb2YL8f5Hc5LDQaJ2Ri2+ye36gvubhhTxIUgS+R1soAz0KmD0HAO0vunq
-         Dm137RIKuI10frsdpP26jT7Al/8Y4BliBcJ0ZC0d9yx14Ll1EtstgZZKINge2gDAcGNG
-         qOvw==
-X-Forwarded-Encrypted: i=1; AJvYcCUO5C+n4Vpwz16+Af9uAYYz7u2OmWzF0tAW8HK/SejyPYMfGr4P+AYHMmDkaDMKX7TVBDm19QJ/y/xV@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywc6wR/olmxzanay+HkH7FaSAU7x49qbotL8z0xHjFJC1w3YkQM
-	dPizhiRX0N3makCP1Lr/3ftQjoK4HPR0qgK1cnhFMqx7IdJWdJUq
-X-Gm-Gg: ASbGncvuAtBv/enBfAkw+boIMKJCE6oCAwq6sDwhBjp+9mw1sfWRK05XNSdkdUiIq9a
-	hol6fBEEp+7F0y3qZybdKgnrWdaVWPHfIAMn7pNbTir0rHn5D1TWYT4WZaKiTP/G0Rb266+L9Nr
-	dYNQnEnLzWq2qumQWWJ2rri0cbxrh0GbL+JAGXZdS98o6iO6NrGUk/yv5O4Ua85FwDyQ1okEPKT
-	wUeGp+uAWP29k/SYvEZRiJkO8AWRMHke1q6z198RkklhZzemD266qiStLVo6uN6TkYGVhqxjeM+
-	ZR5g41St/48HhtpldLx+jMtsWRfj1Ca6zm3rw/QSOMKALufmsdk=
-X-Google-Smtp-Source: AGHT+IHAD5tCrAKdlb+hKiBaU767bCq+juH84w7mFehf7472CiKBwwZN5Ga2ogjoWSPneMEPliij4w==
-X-Received: by 2002:a5d:5987:0:b0:39e:e438:8e4b with SMTP id ffacd0b85a97d-39efbaf6e96mr1812477f8f.50.1744976967991;
-        Fri, 18 Apr 2025 04:49:27 -0700 (PDT)
-Received: from [10.100.102.67] ([95.35.174.203])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d6db117sm19288545e9.26.2025.04.18.04.49.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Apr 2025 04:49:27 -0700 (PDT)
-Message-ID: <4683e355-166f-4b9a-a3ea-529f7b058a84@grimberg.me>
-Date: Fri, 18 Apr 2025 14:49:25 +0300
+	Fri, 18 Apr 2025 14:22:29 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53IBTCqK019255;
+	Fri, 18 Apr 2025 14:22:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=a3Cf4+
+	5znQawmv06mXcSZw7fd4AQqZlTEDiNv9WvQ7E=; b=AWGHqNabuZ2brhDVBwuPJW
+	+PhC3/amIm23nDWsrhFUxEyCmrkxfsH41xqYfF/lOGd/w0HY5qxrLCbQAOFN+Az1
+	8+Xpl37jwElZ16lBVbPS6t7Dm98vddYqvXMn99VrtH7NY+ZLFbxvdwmn1Jm+hdNQ
+	wUa9dTwTfM8aZeAmzMTGWgum0C3pOn6FiANFHwkq5jdsNRhluZCG2oHP/If65Kr6
+	Pe5QailIcwyPuZWHGyYCKPIkIWSfC4LSTUxB7mdJWC/ZxfgLgbELXMguHyQukGC2
+	iUz6GMRgecss1VmUwe7ArsSi8xxM0sv1Vyfh88ayjzTjbfc0R96ixZBxzO8Dc57g
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 463bm12vk7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Apr 2025 14:22:11 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53IDCkot016722;
+	Fri, 18 Apr 2025 14:22:11 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 460572jput-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Apr 2025 14:22:11 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53IEMAFt26018494
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 18 Apr 2025 14:22:10 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 05D8858052;
+	Fri, 18 Apr 2025 14:22:10 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 654BB58056;
+	Fri, 18 Apr 2025 14:22:07 +0000 (GMT)
+Received: from [9.111.33.1] (unknown [9.111.33.1])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 18 Apr 2025 14:22:07 +0000 (GMT)
+Message-ID: <e50e568c-9a9b-4306-a2f4-e108791e83d2@linux.ibm.com>
+Date: Fri, 18 Apr 2025 19:52:06 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] nvme-tcp: wait socket wmem to drain in queue stop
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Michael Liang <mliang@purestorage.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
-Cc: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250417071359.iw3fangcfcuopjza@purestorage.com>
- <acc46429-6228-475e-8fd8-bc3d43c7f710@grimberg.me>
+Subject: Re: [RFC PATCH 2/2] nvme-multipath: remove multipath module param
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+        kbusch@kernel.org, hare@suse.de, sagi@grimberg.me, jmeneghi@redhat.com,
+        axboe@kernel.dk, gjoyce@ibm.com
+References: <20250321063901.747605-1-nilay@linux.ibm.com>
+ <20250321063901.747605-3-nilay@linux.ibm.com> <20250407144555.GB12216@lst.de>
+ <f05dd764-9299-4c20-998a-f3b1d45bacf8@linux.ibm.com>
+ <20250409104515.GB5359@lst.de>
 Content-Language: en-US
-In-Reply-To: <acc46429-6228-475e-8fd8-bc3d43c7f710@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20250409104515.GB5359@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=WaUMa1hX c=1 sm=1 tr=0 ts=68026014 cx=c_pps a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=_EqFHIO4WOhHW-ejzvAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: ZPMG74TzNc1ujRm5jyNMKy-f8Dmr2jay
+X-Proofpoint-ORIG-GUID: ZPMG74TzNc1ujRm5jyNMKy-f8Dmr2jay
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-18_04,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 adultscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 mlxlogscore=716 suspectscore=0 phishscore=0 malwarescore=0
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504180104
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250418_044929_770773_C31FF6A1 
-X-CRM114-Status: GOOD (  24.23  )
+X-CRM114-CacheID: sfid-20250418_072228_597798_BAE3E512 
+X-CRM114-Status: GOOD (  18.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,166 +114,31 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 4/18/25 14:30, Sagi Grimberg wrote:
->
->
-> On 4/17/25 10:13, Michael Liang wrote:
->> This patch addresses a data corruption issue observed in nvme-tcp during
->> testing.
->>
->> Issue description:
->> In an NVMe native multipath setup, when an I/O timeout occurs, all 
->> inflight
->> I/Os are canceled almost immediately after the kernel socket is shut 
->> down.
->> These canceled I/Os are reported as host path errors, triggering a 
->> failover
->> that succeeds on a different path.
->>
->> However, at this point, the original I/O may still be outstanding in the
->> host's network transmission path (e.g., the NIC’s TX queue). From the
->> user-space app's perspective, the buffer associated with the I/O is 
->> considered
->> completed since they're acked on the different path and may be reused 
->> for new
->> I/O requests.
->>
->> Because nvme-tcp enables zero-copy by default in the transmission path,
->> this can lead to corrupted data being sent to the original target, 
->> ultimately
->> causing data corruption.
->>
->> We can reproduce this data corruption by injecting delay on one path and
->> triggering i/o timeout.
->>
->> To prevent this issue, this change ensures that all inflight 
->> transmissions are
->> fully completed from host's perspective before returning from queue
->> stop. To handle concurrent I/O timeout from multiple namespaces under
->> the same controller, always wait in queue stop regardless of queue's 
->> state.
->>
->> This aligns with the behavior of queue stopping in other NVMe fabric 
->> transports.
->>
->> Reviewed-by: Mohamed Khalfella <mkhalfella@purestorage.com>
->> Reviewed-by: Randy Jennings <randyj@purestorage.com>
->> Signed-off-by: Michael Liang <mliang@purestorage.com>
->> ---
->>   drivers/nvme/host/tcp.c | 16 ++++++++++++++++
->>   1 file changed, 16 insertions(+)
->>
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index 26c459f0198d..62d73684e61e 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -1944,6 +1944,21 @@ static void __nvme_tcp_stop_queue(struct 
->> nvme_tcp_queue *queue)
->>       cancel_work_sync(&queue->io_work);
->>   }
->>   +static void nvme_tcp_stop_queue_wait(struct nvme_tcp_queue *queue)
->> +{
->> +    int timeout = 100;
->> +
->> +    while (timeout > 0) {
->> +        if (!sk_wmem_alloc_get(queue->sock->sk))
->> +            return;
->> +        msleep(2);
->> +        timeout -= 2;
->> +    }
->> +    dev_warn(queue->ctrl->ctrl.device,
->> +         "qid %d: wait draining sock wmem allocation timeout\n",
->> +         nvme_tcp_queue_id(queue));
->> +}
->> +
->>   static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
->>   {
->>       struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
->> @@ -1961,6 +1976,7 @@ static void nvme_tcp_stop_queue(struct 
->> nvme_ctrl *nctrl, int qid)
->>       /* Stopping the queue will disable TLS */
->>       queue->tls_enabled = false;
->>       mutex_unlock(&queue->queue_lock);
->> +    nvme_tcp_stop_queue_wait(queue);
->>   }
->>     static void nvme_tcp_setup_sock_ops(struct nvme_tcp_queue *queue)
->
-> This makes sense. But I do not want to pay this price serially.
-> As the concern is just failover, lets do something like: diff --git 
-> a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c index 
-> 5041cbfd8272..d482a8fe2c4b 100644 --- a/drivers/nvme/host/tcp.c +++ 
-> b/drivers/nvme/host/tcp.c @@ -2031,6 +2031,8 @@ static void 
-> nvme_tcp_stop_io_queues(struct nvme_ctrl *ctrl) for (i = 1; i < 
-> ctrl->queue_count; i++) nvme_tcp_stop_queue(ctrl, i); + for (i = 1; i 
-> < ctrl->queue_count; i++) + 
-> nvme_tcp_stop_queue_wait(&ctrl->queues[i]); } static int 
-> nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl, @@ -2628,8 +2630,10 
-> @@ static void nvme_tcp_complete_timed_out(struct request *rq) { 
-> struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq); struct nvme_ctrl 
-> *ctrl = &req->queue->ctrl->ctrl; + int idx = 
-> nvme_tcp_queue_id(req->queue); - nvme_tcp_stop_queue(ctrl, 
-> nvme_tcp_queue_id(req->queue)); + nvme_tcp_stop_queue(ctrl, idx); + 
-> nvme_tcp_stop_queue_wait(&ctrl->queues[idx]); 
-> nvmf_complete_timed_out_request(rq); }
+On 4/9/25 4:15 PM, Christoph Hellwig wrote:
+> On Tue, Apr 08, 2025 at 08:05:20PM +0530, Nilay Shroff wrote:
+>> Okay, we can add an option to avoid making this behavior "the default".
+>> So do you recommend adding a module option for opting in this behavior 
+>> change or something else?
+> 
+> I guess a module option as default makes sense.  I'd still love to figure
+> out a way to have per-controller options of some kind as e.g. this
+> option make very little sense for thunderbolt-attached external devices.
+> 
+> But unfortunately I'm a bit lost what a good interface for that would be.
+> 
+> 
+I don't know how to make this option per-controller as you know the 
+head node, typically, refers to namespace paths and each path then 
+refers to different controller. So if we were to make this option
+per controller then how could we handle it in case one controller has
+this option set but then the another controller doesn't set this 
+option. It could be confusing. 
+ 
+How about module option "nvme_core.multipath_head_always"? The default is
+set to false. So now it becomes two step process:
+1. modprobe nvme_core multipath_head_always=Y && modprobe nvme
+2. echo "<val>" > /sys/block/nvme0XnY/delayed_shutdown_sec     
 
-Or perhaps something like:
---
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 5041cbfd8272..3e206a2cbbf3 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1944,7 +1944,7 @@ static void __nvme_tcp_stop_queue(struct 
-nvme_tcp_queue *queue)
-         cancel_work_sync(&queue->io_work);
-  }
-
--static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
-+static void nvme_tcp_stop_queue_nowait(struct nvme_ctrl *nctrl, int qid)
-  {
-         struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-         struct nvme_tcp_queue *queue = &ctrl->queues[qid];
-@@ -1963,6 +1963,29 @@ static void nvme_tcp_stop_queue(struct nvme_ctrl 
-*nctrl, int qid)
-         mutex_unlock(&queue->queue_lock);
-  }
-
-+static void nvme_tcp_wait_queue(struct nvme_ctrl *nctrl, int qid)
-+{
-+       struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+       struct nvme_tcp_queue *queue = ctrl->queues[qid];
-+       int timeout = 100;
-+
-+       while (timeout > 0) {
-+               if (!sk_wmem_alloc_get(queue->sock->sk))
-+                       return;
-+               msleep(2);
-+               timeout -= 2;
-+       }
-+       dev_warn(queue->ctrl->ctrl.device,
-+                "qid %d: timeout draining sock wmem allocation expired\n",
-+                nvme_tcp_queue_id(queue));
-+}
-+
-+static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
-+{
-+       nvme_tcp_stop_queue_nowait(nctrl, qid);
-+       nvme_tcp_wait_queue(nctrl, qid);
-+}
-+
-  static void nvme_tcp_setup_sock_ops(struct nvme_tcp_queue *queue)
-  {
-write_lock_bh(&queue->sock->sk->sk_callback_lock);
-@@ -2030,7 +2053,9 @@ static void nvme_tcp_stop_io_queues(struct 
-nvme_ctrl *ctrl)
-         int i;
-
-         for (i = 1; i < ctrl->queue_count; i++)
--               nvme_tcp_stop_queue(ctrl, i);
-+               nvme_tcp_stop_queue_nowait(ctrl, i);
-+       for (i = 1; i < ctrl->queue_count; i++)
-+               nvme_tcp_wait_queue(ctrl, i);
-  }
-
-  static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl,
---
+Thanks,
+--Nilay
 
