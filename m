@@ -4,51 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1516C369AB
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 16:43:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3D98C369AB
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 16:43:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=llIYarjLr33QmseFzyvD6GLcZCMxkLnldD/Y5Bv2ZDo=; b=OD6/9x01A1+XcAm+t4kJrlCRCW
-	8g26PGe66UfNAynoiXyXgDSK8QwN/zIMi0VeRnfyoWxXEdlOWfszxB6TAcBnlgTQ3Q+zdm4eltJF9
-	Ilt3/pCJbbyb/e/5EbKZAuhWBUpmI/QI1kG2Des29mm3QL5ubnK4bUi7IgB9WgETbDAzcwJ9URNav
-	FSt28pl2rPo4g1kgKHk0Rk+UMW0XCMQi4wHIcpVVAN7+U+vC83jt0eSsrzRyhK1xqZrs1txZk2xMU
-	OvbEGpyfjW1vI2LJMGfIqkHaHWqvkHTXkErhuwSnP4pcCQhzP+HuOVE/jNIh/rzTOVsya5djH1mlB
-	5srYIm7g==;
+	bh=Apema9hJmPv6bbP4STg4j5++huvkZ85a9+z8ec7sdgk=; b=kFAgtY//RsE0ehHjsRN5i8Gs8k
+	oPCb9tLSI3QxvZf32cwdCFMxBIaKQ3Nss02bZCe59P7UxgpD0dFV+DgR38YnSnLPM+rANsQhDc5Bn
+	pdWG/mSvjsR1rKS9jbt0oKbuxbTl6O4si19BewXtu72A+rA6ssrBpNPqwlodyS5imQvOoLbE4+nkE
+	dIyGjS5U9dYMiY4welqrqRGJLQThn2GjT1Owc/5rgO3X5HvS4fq6q/JaGcSy/qtkP/IwGNpLfRg7Z
+	UJRvUSCXZ6mCaSb2y+h5SkvIyQDyrKFsdmB8PPktc78FvQQMAk1WyrE144gssvOCTTnfnf35d3gRI
+	v9+64Kqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5ooX-0000000H1MH-0ddx;
-	Fri, 18 Apr 2025 16:43:41 +0000
+	id 1u5ooZ-0000000H1OT-0D61;
+	Fri, 18 Apr 2025 16:43:43 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5ji9-0000000FwwM-3U45
+	id 1u5jlC-0000000FxJs-0YCt
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Apr 2025 11:16:45 +0000
+	Fri, 18 Apr 2025 11:19:54 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id CF72C61137;
-	Fri, 18 Apr 2025 11:16:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 900E0C4CEE2;
-	Fri, 18 Apr 2025 11:16:42 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id CB66B61120;
+	Fri, 18 Apr 2025 11:19:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E2DC4CEE2;
+	Fri, 18 Apr 2025 11:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744975003;
-	bh=dvINVulNQm/q8ensffkaywCQHGoNQIxMaLroxrA224U=;
+	s=k20201202; t=1744975193;
+	bh=A7wvqwnqYa5lljVCih9QNkNHMM3IhtbdB0k5O3y2uik=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WQ/C0ZYEmhZxfgAy6oSrCwtec97rYq+IQy72i0QXVT4Nic+OEanmNLKKsvIIV8Ekj
-	 1x7gsGqeeh1osAlFFL0KDLYmWqa0wjQIuod7vLi1OTJlGC5z4qe7QRZ5wj4SS2nqE7
-	 +SH+NS44ZZFAhuBE2ycaahgJLhmerUsAv+G4MIEsX1IMHt8ijPEtQJjO7xQyt6BtQo
-	 tyiaXeqr34eQH5l7zL728IAWC+FUE2oBIwfQLJxm+CM1SCDOXGLW0mSvG5V+8GFATT
-	 SZvt1I0LYqXvIMwiZgIyzpqRSI5Z5otseG0yxNbcvWknZp/i/ZkFcDocEdXEtgjD/p
-	 CTvTVJqZ7YpdQ==
-Date: Fri, 18 Apr 2025 14:16:39 +0300
+	b=WdeyXvfarIVDZXIlsrZR6q+ZWN3+pN643rg0mOwmYV5A6pKmeRqB/JWY/8ObUAnJi
+	 Y1EqzpJAMsZxftxRUhP7InpbxA68zM7a6DddpAF30J+LhDbBYnrB+4R7SOQ7Z46AGH
+	 mSi5EInuDvbHAH3PcbwmhGvxSQxVx4wSnWHM7vjrcR9bDC4KkeIuhcfdENyorCWU9U
+	 438m+H5AQfvv/rBCcHLE3C4f92y96s5caeLMC+3sz+c/1NNlmdYlYVYpkbEWVlcolR
+	 bcqe1xg8mMIU5XVaCBr+Sxo15YaqwuuASTpzG37swqcijwKEEM/LYAGrbVM4ttt8Qo
+	 U7pz/uTfDL03g==
+Date: Fri, 18 Apr 2025 14:19:49 +0300
 From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>
-Cc: Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Kanchan Joshi <joshi.k@samsung.com>, Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
 	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -68,15 +70,17 @@ Cc: Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
 	Luis Chamberlain <mcgrof@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v8 00/24] Provide a new two step DMA mapping API
-Message-ID: <20250418111639.GB199604@unreal>
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>
+Subject: Re: [PATCH v8 24/24] nvme-pci: optimize single-segment handling
+Message-ID: <20250418111949.GC199604@unreal>
 References: <cover.1744825142.git.leon@kernel.org>
+ <670389227a033bd5b7c5aa55191aac9943244028.1744825142.git.leon@kernel.org>
+ <1284adf3-7e93-4530-9921-408c5eaeb337@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1744825142.git.leon@kernel.org>
+In-Reply-To: <1284adf3-7e93-4530-9921-408c5eaeb337@kernel.org>
 X-Mailman-Approved-At: Fri, 18 Apr 2025 09:39:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -92,24 +96,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 18, 2025 at 09:47:30AM +0300, Leon Romanovsky wrote:
-> Following recent on site LSF/MM 2025 [1] discussion, the overall
-> response was extremely positive with many people expressed their
-> desire to see this series merged, so they can base their work on it.
+On Fri, Apr 18, 2025 at 05:02:38PM +0900, Damien Le Moal wrote:
+> On 4/18/25 15:47, Leon Romanovsky wrote:
+> > From: Kanchan Joshi <joshi.k@samsung.com>
+> > 
+> > blk_rq_dma_map API is costly for single-segment requests.
+> > Avoid using it and map the bio_vec directly.
+> > 
+> > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/nvme/host/pci.c | 65 +++++++++++++++++++++++++++++++++++++----
+> >  1 file changed, 60 insertions(+), 5 deletions(-)
+
+<...>
+
+> >  static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+> >  {
+> >  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> > +	unsigned int nr_segments = blk_rq_nr_phys_segments(req);
+> > +	dma_addr_t dma_addr;
+> > +
+> > +	if (nr_segments == 1 && (iod->flags & IOD_SINGLE_SEGMENT)) {
 > 
-> It includes, but not limited:
->  * Luis's "nvme-pci: breaking the 512 KiB max IO boundary":
->    https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
->  * Chuck's NFS conversion to use one structure (bio_vec) for all types
->    of RPC transports:
->    https://lore.kernel.org/all/913df4b4-fc4a-409d-9007-088a3e2c8291@oracle.com
->  * Matthew's vision for the world without struct page:
->    https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
+> nvme_pci_setup_prps() calls nvme_try_setup_prp_simple() which sets
+> IOD_SINGLE_SEGMENT if and only if the req has a single phys segment. So why do
+> you need to count the segments again here ? Looking at the flag only should be
+> enough, no ?
 
-The link here should be https://lore.kernel.org/all/Z-WRQOYEvOWlI34w@casper.infradead.org/
-
->  * Confidential computing roadmap from Dan:
->    https://lore.kernel.org/all/6801a8e3968da_71fe29411@dwillia2-xfh.jf.intel.com.notmuch
+Yes, you are right. There is no need in extra check of nr_segments and
+it is enough to rely on IOD_SINGLE_SEGMENT.
 
 Thanks
 
