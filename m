@@ -4,83 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D54BC369C9
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 10:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC7DEC369AB
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 10:53:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=d7lh68vGB9Q5qCSPY4qSJXzKxs/7qNh9HTtaXcCPM7I=; b=NZh0j0ipLXT2mzQ+ssyFv7a+eF
-	HmSuttVdEVcmMrBMuskRxTPhQEGi6+RSyEidLTmEe9PLcvHEl1QxwpLOfnmx6R+JCLJTcneU9BVKh
-	m3gKis6bh0bsFy71t83/XzfxMDm1MxzHL2RlxJdRDDkv9nLW9R5q76uhQWTc1rM0YNkzo3P9joGQh
-	lkgkjUDGj4c0wWztTUcl6oD831tUoWif0twWXPd4Sk7iW8pvfbLDLkjVK8xGyf98jwNE4/w28QFFK
-	A5Ky99LtA+CJHW4bwNl0ydW1jFSmNz4HNDtKOe5q7VI8omojyo26n/6IEPGmoZT+mLuKyNq9/4w0E
-	Yp1gPQSw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=chicRdpt/RHl6Og52i4WwN8FqyTqPtr7pyE/vQ8o7sU=; b=OhVzsmoKLJTEo3SoDkgQiLWydX
+	4JWFy2kJ7woFlOjhjKry2nzJsBM46D5y4PQt5IuS2KX0Cv/X0O/rFivZRcg5uj69Es2+nS735YcOl
+	tcgAnJ/XrEINV6MDqUvLVzgWGBmaJ8K7lhAjJlDmweSPXBWbKQkqRy4Uwlz2dtKcZXVT9A5TCCFK8
+	FGlJqTfC4QV1dsKPhuSUo9FgZUCnfs9v/4diHm3c7r9M0R/oxWTbp3Z2tjCu4PVcC+T62C0O/2Spk
+	RORjtT6S6kcPitkwnjmAgnzafQ/SbTvSb4CijRcjeeeRvOqiOSnOtIBMeYNcX5uU7+3NEKmBuroM4
+	dQxhT1fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5jJa-0000000FuYX-1NbW;
-	Fri, 18 Apr 2025 10:51:22 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1u5jLj-0000000Furu-3XFW;
+	Fri, 18 Apr 2025 10:53:35 +0000
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5jJY-0000000FuY2-12tM
+	id 1u5jLg-0000000FurL-40IU
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Apr 2025 10:51:21 +0000
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso13915225e9.2
-        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 03:51:19 -0700 (PDT)
+	Fri, 18 Apr 2025 10:53:34 +0000
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso13931395e9.2
+        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 03:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sigma-star.at; s=google; t=1744973611; x=1745578411; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=chicRdpt/RHl6Og52i4WwN8FqyTqPtr7pyE/vQ8o7sU=;
+        b=butyKoHMsjrWRqPVj3mwwgGwHqiX8Vtxxxi4B1iv2y3tT6ENUN1yFx+GIx87pv8JBC
+         L3tRx/43dNWDEXo6Vbv2QWWnox5OlN+mtFfFmb0Zh95GVkdzn0hmHulJzKwXS1kPURYM
+         2UXJl+LX9ixXSxzt5cNPkv88qQbMl4wDnB77tmT6R+3V+evYNOTWqpyeVngtPvmgLMaE
+         J8ZTiRMHtG+tJfHVOHyjdpPOlcv96omhVXa3rwxSr6zLp64Vd5mJ6U7x+8Cx9stKPN9n
+         Kgl889GTFls9RmgcuwD6RR2xskjC7MwSqZGfC0PW5q6qCb4VywzNK3ZQkSPq6MhrTB4m
+         Oprw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744973478; x=1745578278;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d7lh68vGB9Q5qCSPY4qSJXzKxs/7qNh9HTtaXcCPM7I=;
-        b=GYv5fvGUXaLPKKkl/Gb3wfu08NpbQ7/FKgNt0N/4yVsP6KJsSUMrZf7Qk9p4oxj+1w
-         fY4vQNq1T6Ic+NTg6rSwuuodg5xOjxHog+05WDjHDdfLAcEEX0Epn6aig/XHCdByApM/
-         hWUPvMqdgZyE31ooiyJpjNPdDSAHxGTfOedbCWOceGyZTiJnhRe73ou7KSIOlL0RRFF6
-         GDGGPZQ4L/nDHwnS6W/JGXwS1mB7qd83LmVHAR+UKXDQi/KWhNXp4QQC/dWPrxzBfbMH
-         i7TVvWFJskxCpae6451XgbQ5E3mCu0zdLv5PYvjZjgg6ZHsh14i9lwofAlJB336Nkl/9
-         a27Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVrOMnsQBxa+d2W5YofMRg8WXC+91Gch3qb/R7I3zDvRrfIXDqBXv9RBJP+v0V7QTJudFH2K/Gr6ate@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzv6PODWfCpCjf8L0l6AglWK8eTjUKUnofwg+K/dtN3+p2ZVY3o
-	lie0ZAuZP6S/RJQTszhtlJvz7D7/XmHAyvzXvknbkaK17vGtJPGrcAwYymtp
-X-Gm-Gg: ASbGnctiUXrTpDx9hnKV917spBrs5j/9SDq6F1gqTnXYjVtW52obUNE07bi2MY5BvzZ
-	ji9MVTwblPJSRbRucTqWF4d6up6+3p+6E9RMzuG1F1lnu003IzzBJktB144gbeUCLtVZbVR1L92
-	9yOpjE+n+KWou+tyZSAy/2ZbaTlj6VLQE+UjmOPhpPhwCS/KqdfqCxJQkcfTpLGjLeSKS6885XZ
-	+w4d+vxUjKVm2AYWhYAsw4/wDyiAQ9mnlGNultThN2ssyxDYzdttTpPjLUZeeIMaaE+/E2+/QVA
-	5vKUp17GVVo3zL7FPPpIJ78nWlDvvFZ3TODUUyxF
-X-Google-Smtp-Source: AGHT+IEdcOQDDzc9fXztICZj5NbG/GomTerl3BMFFqybL6qziYgJi8280UGSGVS4apgNA0RSw5edoA==
-X-Received: by 2002:a05:600c:3594:b0:43c:fbba:41ba with SMTP id 5b1f17b1804b1-4406ac2035bmr17279025e9.28.1744973477782;
-        Fri, 18 Apr 2025 03:51:17 -0700 (PDT)
-Received: from [10.100.102.67] ([95.35.174.203])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d6db117sm17419105e9.26.2025.04.18.03.51.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Apr 2025 03:51:16 -0700 (PDT)
-Message-ID: <ee011198-9a15-44e5-a18e-02d3844ee48b@grimberg.me>
-Date: Fri, 18 Apr 2025 13:51:14 +0300
+        d=1e100.net; s=20230601; t=1744973611; x=1745578411;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=chicRdpt/RHl6Og52i4WwN8FqyTqPtr7pyE/vQ8o7sU=;
+        b=fgIEO4+L2VYsIqIg0Qx/wEQ1/freLb7Q7kMChFIgXMKE7F59j3tHBPVDaVp7Zn7kT5
+         HvYtLwjToPpwc3gko3St0FqJO8wWxnv0RRx1zhiPG89X+MT5Aig6o4muWIc+2bi7cGvY
+         QOpBlniskfpeRVD/hNmlS4w/7yqXlBTwLfOu2oZdCADep8YZ8xQsgAfu7zpiYKVuhhP7
+         L0ZvgbNljN7UNNiVB2u7nl9ekd7mtpZRwLvyA0vCy7vrpSMr5E97OS9cf9IakfHduh01
+         4ln1k6GfDa9YF3h+3ti+Cmpm6I9nOPfh1nnHN9uu17t0hESe9zYoQczBDal9QJRQeT5X
+         3/+g==
+X-Gm-Message-State: AOJu0YwqxljpJfWVXE5B56nTPK2uFPju8f5+IhrN5rN/PVUwXGSyocIy
+	4una/gyr6F4ErSOJIxBlQ+iVzxpEUdOE8D8Z5/6cVTmCd7CLrxyNT8IJT2j9MhV+3MHgHDw2dWd
+	B
+X-Gm-Gg: ASbGncssUnTjzuYBFZ6JbHMk2dqE+LPqvedYDbKrZAnhL8MSGIy2M9j+1m/dVox+k+v
+	Zjkj5Wg6gdjbtTfNHOfuI3hYzpIOquQvQI+Bvu6wNw/LOW01nN9NGxRxJDWPQ/rXy/cAnqYGffh
+	b0QW7/B8zL/4eeTTcYhcXZgXPJj3aPvxsfWpbQE0GlpuIDCXI72KiymnHP1MfoNBvTvCoqOnSWR
+	jELGV+bQfClc8DSc4sU652NxoYBnsTJPAcHPUzKqCRR95rD6rQxiDNhWFkrB5NNGn/VGxXgFHNI
+	6/MemKDOmhGsfHchsjyY7WVSM1Qw+8Q7bjUBSCQMei9jm2y/2drEgntn/T15gvHMdj873uf1k3T
+	UelkzO+dV
+X-Google-Smtp-Source: AGHT+IFRGae/w+LSe2Wb9xwhXf4HEpT8dkNYJ3tTEo4SBBzlp0BYf8M0aTZt7D6qMJek4Sctywyk2g==
+X-Received: by 2002:a05:600c:1c81:b0:43d:2313:7b49 with SMTP id 5b1f17b1804b1-4406ab970bfmr16426115e9.12.1744973611145;
+        Fri, 18 Apr 2025 03:53:31 -0700 (PDT)
+Received: from somecomputer (84-115-238-41.cable.dynamic.surfer.at. [84.115.238.41])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5d712esm17389405e9.36.2025.04.18.03.53.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 03:53:30 -0700 (PDT)
+From: Richard Weinberger <richard@sigma-star.at>
+To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Damien Le Moal <dlemoal@kernel.org>
+Cc: Richard Weinberger <richard@nod.at>, kch@nvidia.com, sagi@grimberg.me,
+ hch@lst.de, upstream+nvme@sigma-star.at
+Subject: Re: [RFC PATCH] nvmet: Make blksize_shift configurable
+Date: Fri, 18 Apr 2025 12:53:28 +0200
+Message-ID: <6281253.5x4bddO4Km@anvil>
+In-Reply-To: <9f8fdcc0-53ae-4255-b221-b4e787320c44@kernel.org>
+References: <20250418090834.2755289-1-richard@nod.at> <8418057.aG60p0z9Xu@anvil>
+ <9f8fdcc0-53ae-4255-b221-b4e787320c44@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
-To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Hannes Reinecke <hare@suse.de>,
- Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chris Leech <cleech@redhat.com>
-References: <20250403065522.90807-1-hare@kernel.org>
- <20250403065522.90807-4-hare@kernel.org>
- <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
- <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
- <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
- <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
- <BY5PR04MB684996C1DB38F3BC4386B55EBCBC2@BY5PR04MB6849.namprd04.prod.outlook.com>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <BY5PR04MB684996C1DB38F3BC4386B55EBCBC2@BY5PR04MB6849.namprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250418_035120_288220_F5E5BC47 
-X-CRM114-Status: GOOD (  16.27  )
+X-CRM114-CacheID: sfid-20250418_035332_993765_9F213281 
+X-CRM114-Status: GOOD (  21.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,95 +100,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Freitag, 18. April 2025 12:23 Damien Le Moal wrote:
+> On 4/18/25 18:56, Richard Weinberger wrote:
+> > On Freitag, 18. April 2025 11:37 'Damien Le Moal' via upstream wrote:
+> >>> +	if (!ns->blksize_shift)
+> >>> +		ns->blksize_shift =3D blksize_bits(bdev_logical_block_size(ns->bde=
+v));
+> >>
+> >> If the user set logical block size is smaller than the block dev logic=
+al block
+> >> size, this is not going to work... No ? Am I missing something ?
+> >=20
+> > Likely, yes.
+> > TBH, I'm not sure whether it makes actually sense for the bdev case to =
+make
+> > blksize_shift configurable.
+>=20
+> Probably not... I do understand the value for the file case though.
 
+The use case is exposing ready-to-use cloud images like:
+https://cloud.debian.org/images/cloud/bookworm/20250416-2084/debian-12-gene=
+ric-amd64-20250416-2084.raw
 
-On 4/18/25 02:03, Kamaljit Singh wrote:
-> Sagi,
-> I tried both of these patches but looks like #1 causes an infinite loop. dmesg was full of panics.
-> I had tried just #1 and later with #1+#2. Both failed the same way.
+via NVme-of TCP.
+Yesterday I did so and figured that no GPT partitions got detected because =
+of different block sizes.
+Setting the block size in nvmet to 512 made it work.
 
-That's no good :)
+If there are better ways to achieve the same, I'm open for suggestions.
 
-Can you share the panics? This version should be identical to what
-Hannes introduced in:
+>=20
+> > The case I see most benefit is the backing file case.
+> >=20
+> >>> +	if (!ns->blksize_shift) {
+> >>> +		/*
+> >>> +		 * i_blkbits can be greater than the universally accepted
+> >>> +		 * upper bound, so make sure we export a sane namespace
+> >>> +		 * lba_shift.
+> >>> +		 */
+> >>> +		ns->blksize_shift =3D min_t(u8,
+> >>> +				file_inode(ns->file)->i_blkbits, 12);
+> >>
+> >> This will work for any block size, regardless of the FS block size, bu=
+t only if
+> >> ns->buffered_io is true. Doesn't this require some more checks with re=
+gards to
+> >> O_DIRECT (!ns->buffered_io case) ?
+> >=20
+> > Good catch. I'll add a check.
+>=20
+> And by the way, you need to check for STATX_DIOALIGN since some FS (e.g. =
+xfs)
+> can handle direct IOs that are not aligned to the FS block size. See the =
+recent
+> changes in drivers/block/loop.c to improve direct IO handling, specifical=
+ly, the
+> function loop_query_min_dio_size().
 
-@@ -1389,9 +1389,12 @@ static void nvme_tcp_io_work(struct work_struct *w)
-  		result = nvme_tcp_try_recv(queue);
-  		if (result > 0)
-  			pending = true;
--		else if (unlikely(result < 0))
-+		else if (unlikely(result < 0) && result != -EAGAIN)
-  			return;
+Ok!
 
+Thanks,
+//richard
 
->
->> How about these two (untested) patches:
->> [1 based on your recv-side fix]:
->> --diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index 72d260201d8c..4eb9a2dec07e 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -1348,7 +1348,7 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue
->> *queue)
->>           queue->nr_cqe = 0;
->>           consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
->>           release_sock(sk);
->> -       return consumed;
->> +       return consumed == -EAGAIN ? 0 : consumed;
->>    }
->>
->>    static void nvme_tcp_io_work(struct work_struct *w)
->> --
->>
->> [2 based on your partial write fix]:
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index 4eb9a2dec07e..daf59e75cf15 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -129,6 +129,7 @@ enum nvme_tcp_queue_flags {
->>           NVME_TCP_Q_LIVE         = 1,
->>           NVME_TCP_Q_POLLING      = 2,
->>           NVME_TCP_Q_IO_CPU_SET   = 3,
->> +       NVME_TCP_Q_WAKE_SENDER  = 4,
->>    };
->>
->>    enum nvme_tcp_recv_state {
->> @@ -1063,6 +1064,7 @@ static void nvme_tcp_write_space(struct sock *sk)
->>           queue = sk->sk_user_data;
->>           if (likely(queue && sk_stream_is_writeable(sk))) {
->>                   clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
->> +               set_bit(NVME_TCP_Q_WAKE_SENDER, &queue->flags);
->>                   queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->>           }
->>           read_unlock_bh(&sk->sk_callback_lock);
->> @@ -1357,6 +1359,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
->>                   container_of(w, struct nvme_tcp_queue, io_work);
->>           unsigned long deadline = jiffies + msecs_to_jiffies(1);
->>
->> +       clear_bit(NVME_TCP_Q_WAKE_SENDER, &queue->flags);
->>           do {
->>                   bool pending = false;
->>                   int result;
->> @@ -1376,7 +1379,15 @@ static void nvme_tcp_io_work(struct work_struct *w)
->>                   else if (unlikely(result < 0))
->>                           return;
->>
->> -               if (!pending || !queue->rd_enabled)
->> +               /* did we get some space after spending time in recv ? */
->> +               if (nvme_tcp_queue_has_pending(queue) &&
->> +                   sk_stream_is_writeable(queue->sock->sk))
->> +                       pending = true;
->> +
->> +               if (!queue->rd_enabled)
->> +                       return;
->> +
->> +               if (!pending && !test_bit(NVME_TCP_Q_WAKE_SENDER,
->> &queue->flags))
->>                           return;
->>
->>           } while (!time_after(jiffies, deadline)); /* quota is exhausted */
->> --
->>   
-> -Kamaljit
+=2D-=20
+=E2=80=8B=E2=80=8B=E2=80=8B=E2=80=8B=E2=80=8Bsigma star gmbh | Eduard-Bodem=
+=2DGasse 6, 6020 Innsbruck, AUT UID/VAT Nr:
+ATU 66964118 | FN: 374287y
+
 
 
