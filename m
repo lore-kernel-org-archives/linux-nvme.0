@@ -4,88 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC7DEC369AB
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 10:53:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA167C369AB
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 10:55:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=chicRdpt/RHl6Og52i4WwN8FqyTqPtr7pyE/vQ8o7sU=; b=OhVzsmoKLJTEo3SoDkgQiLWydX
-	4JWFy2kJ7woFlOjhjKry2nzJsBM46D5y4PQt5IuS2KX0Cv/X0O/rFivZRcg5uj69Es2+nS735YcOl
-	tcgAnJ/XrEINV6MDqUvLVzgWGBmaJ8K7lhAjJlDmweSPXBWbKQkqRy4Uwlz2dtKcZXVT9A5TCCFK8
-	FGlJqTfC4QV1dsKPhuSUo9FgZUCnfs9v/4diHm3c7r9M0R/oxWTbp3Z2tjCu4PVcC+T62C0O/2Spk
-	RORjtT6S6kcPitkwnjmAgnzafQ/SbTvSb4CijRcjeeeRvOqiOSnOtIBMeYNcX5uU7+3NEKmBuroM4
-	dQxhT1fg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=htrqPFRpzRnl0KOS41IYrQLR1c
+	Fk/UPcNDXF6qnH9MkctpSF1MyG6agfUam0HP9IEUUX/81S2DTONOUIHnF1TLbF7j5NIB7RiFoQGcJ
+	tI9SO+PrcLj1A62oiO60pCCMiM3Alr88bEqGtc9Yyp8ccZIHstvAlkTTR6Yt90qreoZuUHmXmoTEw
+	0RAMPweRiKwM+TJGq+rLbyEa3KHxOHHevw6hedSFxIyDvJsLkNsj3ukajBtqZvoOoVMoySe4r+sDl
+	nAfqL/vsCDohB/ivZicS4pYy+67DxzZ/LcQHxsYVIvrc6Psu3j/Z/Y95L5TUVOcYHFs5Ityc1as+N
+	agh6Hkbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5jLj-0000000Furu-3XFW;
-	Fri, 18 Apr 2025 10:53:35 +0000
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+	id 1u5jNC-0000000Fv4Y-2JiG;
+	Fri, 18 Apr 2025 10:55:06 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5jLg-0000000FurL-40IU
+	id 1u5jNA-0000000Fv49-38Ph
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Apr 2025 10:53:34 +0000
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso13931395e9.2
-        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 03:53:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sigma-star.at; s=google; t=1744973611; x=1745578411; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=chicRdpt/RHl6Og52i4WwN8FqyTqPtr7pyE/vQ8o7sU=;
-        b=butyKoHMsjrWRqPVj3mwwgGwHqiX8Vtxxxi4B1iv2y3tT6ENUN1yFx+GIx87pv8JBC
-         L3tRx/43dNWDEXo6Vbv2QWWnox5OlN+mtFfFmb0Zh95GVkdzn0hmHulJzKwXS1kPURYM
-         2UXJl+LX9ixXSxzt5cNPkv88qQbMl4wDnB77tmT6R+3V+evYNOTWqpyeVngtPvmgLMaE
-         J8ZTiRMHtG+tJfHVOHyjdpPOlcv96omhVXa3rwxSr6zLp64Vd5mJ6U7x+8Cx9stKPN9n
-         Kgl889GTFls9RmgcuwD6RR2xskjC7MwSqZGfC0PW5q6qCb4VywzNK3ZQkSPq6MhrTB4m
-         Oprw==
+	Fri, 18 Apr 2025 10:55:06 +0000
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3913958ebf2so1637582f8f.3
+        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 03:55:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744973611; x=1745578411;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=chicRdpt/RHl6Og52i4WwN8FqyTqPtr7pyE/vQ8o7sU=;
-        b=fgIEO4+L2VYsIqIg0Qx/wEQ1/freLb7Q7kMChFIgXMKE7F59j3tHBPVDaVp7Zn7kT5
-         HvYtLwjToPpwc3gko3St0FqJO8wWxnv0RRx1zhiPG89X+MT5Aig6o4muWIc+2bi7cGvY
-         QOpBlniskfpeRVD/hNmlS4w/7yqXlBTwLfOu2oZdCADep8YZ8xQsgAfu7zpiYKVuhhP7
-         L0ZvgbNljN7UNNiVB2u7nl9ekd7mtpZRwLvyA0vCy7vrpSMr5E97OS9cf9IakfHduh01
-         4ln1k6GfDa9YF3h+3ti+Cmpm6I9nOPfh1nnHN9uu17t0hESe9zYoQczBDal9QJRQeT5X
-         3/+g==
-X-Gm-Message-State: AOJu0YwqxljpJfWVXE5B56nTPK2uFPju8f5+IhrN5rN/PVUwXGSyocIy
-	4una/gyr6F4ErSOJIxBlQ+iVzxpEUdOE8D8Z5/6cVTmCd7CLrxyNT8IJT2j9MhV+3MHgHDw2dWd
-	B
-X-Gm-Gg: ASbGncssUnTjzuYBFZ6JbHMk2dqE+LPqvedYDbKrZAnhL8MSGIy2M9j+1m/dVox+k+v
-	Zjkj5Wg6gdjbtTfNHOfuI3hYzpIOquQvQI+Bvu6wNw/LOW01nN9NGxRxJDWPQ/rXy/cAnqYGffh
-	b0QW7/B8zL/4eeTTcYhcXZgXPJj3aPvxsfWpbQE0GlpuIDCXI72KiymnHP1MfoNBvTvCoqOnSWR
-	jELGV+bQfClc8DSc4sU652NxoYBnsTJPAcHPUzKqCRR95rD6rQxiDNhWFkrB5NNGn/VGxXgFHNI
-	6/MemKDOmhGsfHchsjyY7WVSM1Qw+8Q7bjUBSCQMei9jm2y/2drEgntn/T15gvHMdj873uf1k3T
-	UelkzO+dV
-X-Google-Smtp-Source: AGHT+IFRGae/w+LSe2Wb9xwhXf4HEpT8dkNYJ3tTEo4SBBzlp0BYf8M0aTZt7D6qMJek4Sctywyk2g==
-X-Received: by 2002:a05:600c:1c81:b0:43d:2313:7b49 with SMTP id 5b1f17b1804b1-4406ab970bfmr16426115e9.12.1744973611145;
-        Fri, 18 Apr 2025 03:53:31 -0700 (PDT)
-Received: from somecomputer (84-115-238-41.cable.dynamic.surfer.at. [84.115.238.41])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5d712esm17389405e9.36.2025.04.18.03.53.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 03:53:30 -0700 (PDT)
-From: Richard Weinberger <richard@sigma-star.at>
-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Damien Le Moal <dlemoal@kernel.org>
-Cc: Richard Weinberger <richard@nod.at>, kch@nvidia.com, sagi@grimberg.me,
- hch@lst.de, upstream+nvme@sigma-star.at
-Subject: Re: [RFC PATCH] nvmet: Make blksize_shift configurable
-Date: Fri, 18 Apr 2025 12:53:28 +0200
-Message-ID: <6281253.5x4bddO4Km@anvil>
-In-Reply-To: <9f8fdcc0-53ae-4255-b221-b4e787320c44@kernel.org>
-References: <20250418090834.2755289-1-richard@nod.at> <8418057.aG60p0z9Xu@anvil>
- <9f8fdcc0-53ae-4255-b221-b4e787320c44@kernel.org>
+        d=1e100.net; s=20230601; t=1744973703; x=1745578503;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=YaSQd9mSe2sXn/OA65jDJTd5DZJLpSLsK957HRWNyYCOCbUcWoFUfHWvEE6rtDi7wk
+         ZD6RsBRRBT/8VOM480Gzkftut2YoUiCpGT/YeNGUevXW/ocGiTInT4OyHxkM8cXIfsLu
+         QmUyMn2YBxyy9hw9PzXELchVz0GzIm08UMXo2R/sruE23+Da/zn/lkITiz5mEz68v/Vc
+         4ytYEHRUKlQkKe0mHWSKExVBXELuTBKyvZR840WvrELGrFt9hqbOSzeM1BC6vnYwhJ4Z
+         5LEtfIU27LKuR7I+jgzC6fhqeolKIZYsmDTCclxmjPGB2BN9df+ffq/RQV2e/gJoYaUb
+         DhIg==
+X-Gm-Message-State: AOJu0Yw3L9c035aXSmOa3YUVaaRT+wzO4xBxyKlOIfZxRSkIubD3ycNR
+	66uSaAQcZDbRtJlvxPNjtQ6g9Ld8q/B0cVAq9Fo67KWElj1phKk8
+X-Gm-Gg: ASbGncvS0dvgWB98QniCpfvbdNTHMIGhzis5DugThy51YZSHaCugJob5R8Yh0oWYGz5
+	jWBcA0QX5bANuJc7WbRygcA3dkCrm2wbrf7lDQMyXCdrKzUY32QEnCpD1m7ej2+gyMv9OZGB3M3
+	qRotjw6kQbFq8K4dTsB6qB538yRm02uF+BC8HyzSmX1tU++dzPQEOX3go1m4QCEkVHogdu1djk3
+	cwI95r5gYrTc2io8DXhnGhH2NoUGpOeGbcROTbZEsAZxYxTTnEqmur2lxRgXLJWQHh18Cx4JvC3
+	HS0Q66XVjVfTYSdMMZ6hAxPG6EIDW0H+5fAEcRb3
+X-Google-Smtp-Source: AGHT+IFTMnm9+bfwTjn7vrtWKhFTRku5ftbLqGSkkbWOuXv0EEKFnV3+WhSXuKtWzRUp57rrY8EEUA==
+X-Received: by 2002:a05:6000:2489:b0:39c:f0d:9146 with SMTP id ffacd0b85a97d-39efbace605mr1682750f8f.45.1744973702792;
+        Fri, 18 Apr 2025 03:55:02 -0700 (PDT)
+Received: from [10.100.102.67] ([95.35.174.203])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5acce9sm17980005e9.13.2025.04.18.03.54.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Apr 2025 03:54:58 -0700 (PDT)
+Message-ID: <07238ec6-ef31-453a-a57f-d22117e9b76b@grimberg.me>
+Date: Fri, 18 Apr 2025 13:54:56 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvmet: Fix out-of-bounds access in nvmet_enable_port
+To: Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org, dlemoal@kernel.org, kbusch@kernel.org,
+ kch@nvidia.com, hch@lst.de, upstream+nvme@sigma-star.at
+References: <20250418080250.2736590-1-richard@nod.at>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20250418080250.2736590-1-richard@nod.at>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250418_035332_993765_9F213281 
-X-CRM114-Status: GOOD (  21.59  )
+X-CRM114-CacheID: sfid-20250418_035504_819144_F158CDD9 
+X-CRM114-Status: UNSURE (   5.02  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,72 +87,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Freitag, 18. April 2025 12:23 Damien Le Moal wrote:
-> On 4/18/25 18:56, Richard Weinberger wrote:
-> > On Freitag, 18. April 2025 11:37 'Damien Le Moal' via upstream wrote:
-> >>> +	if (!ns->blksize_shift)
-> >>> +		ns->blksize_shift =3D blksize_bits(bdev_logical_block_size(ns->bde=
-v));
-> >>
-> >> If the user set logical block size is smaller than the block dev logic=
-al block
-> >> size, this is not going to work... No ? Am I missing something ?
-> >=20
-> > Likely, yes.
-> > TBH, I'm not sure whether it makes actually sense for the bdev case to =
-make
-> > blksize_shift configurable.
->=20
-> Probably not... I do understand the value for the file case though.
-
-The use case is exposing ready-to-use cloud images like:
-https://cloud.debian.org/images/cloud/bookworm/20250416-2084/debian-12-gene=
-ric-amd64-20250416-2084.raw
-
-via NVme-of TCP.
-Yesterday I did so and figured that no GPT partitions got detected because =
-of different block sizes.
-Setting the block size in nvmet to 512 made it work.
-
-If there are better ways to achieve the same, I'm open for suggestions.
-
->=20
-> > The case I see most benefit is the backing file case.
-> >=20
-> >>> +	if (!ns->blksize_shift) {
-> >>> +		/*
-> >>> +		 * i_blkbits can be greater than the universally accepted
-> >>> +		 * upper bound, so make sure we export a sane namespace
-> >>> +		 * lba_shift.
-> >>> +		 */
-> >>> +		ns->blksize_shift =3D min_t(u8,
-> >>> +				file_inode(ns->file)->i_blkbits, 12);
-> >>
-> >> This will work for any block size, regardless of the FS block size, bu=
-t only if
-> >> ns->buffered_io is true. Doesn't this require some more checks with re=
-gards to
-> >> O_DIRECT (!ns->buffered_io case) ?
-> >=20
-> > Good catch. I'll add a check.
->=20
-> And by the way, you need to check for STATX_DIOALIGN since some FS (e.g. =
-xfs)
-> can handle direct IOs that are not aligned to the FS block size. See the =
-recent
-> changes in drivers/block/loop.c to improve direct IO handling, specifical=
-ly, the
-> function loop_query_min_dio_size().
-
-Ok!
-
-Thanks,
-//richard
-
-=2D-=20
-=E2=80=8B=E2=80=8B=E2=80=8B=E2=80=8B=E2=80=8Bsigma star gmbh | Eduard-Bodem=
-=2DGasse 6, 6020 Innsbruck, AUT UID/VAT Nr:
-ATU 66964118 | FN: 374287y
-
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
