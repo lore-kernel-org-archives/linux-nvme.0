@@ -4,101 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AEEDC369C9
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 10:50:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D54BC369C9
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 10:51:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f+lM4cEzPuR1OwgDyvqurF/Q8Z6R8y2GB0k/HxgdlZ4=; b=DmRoU3gC7ib1tXUovjnZWP290N
-	c+bF3ng65kEtnifN2ip+ZzKsgY6tFtyv8C5ENmq/zrTz4AHll4yhezhVGVPBE0hxqmMUK0RWMocya
-	YF6J8OcB1+k0Oxbjg7bnSPbGuzpl9jXYlNMsYV2FMFvYz5Gwp3Bbbneik+e+6XPlkRKQzCHx0G4s6
-	cRNprYbx34M8R8JYvMJ0QzFSsBlfQWKy+5jQvna8EI2eZYCR0qkgMRVZFzrTAYue7/6+jbHv4f8Hl
-	IjoStfkcAaERRO4RRhjveMkCw7fDXh+K1k1e/ezHfvrlj6qCYOC8WqMrojqUJfk8W+82vJJS9bLeC
-	BXVHEO/A==;
+	bh=d7lh68vGB9Q5qCSPY4qSJXzKxs/7qNh9HTtaXcCPM7I=; b=NZh0j0ipLXT2mzQ+ssyFv7a+eF
+	HmSuttVdEVcmMrBMuskRxTPhQEGi6+RSyEidLTmEe9PLcvHEl1QxwpLOfnmx6R+JCLJTcneU9BVKh
+	m3gKis6bh0bsFy71t83/XzfxMDm1MxzHL2RlxJdRDDkv9nLW9R5q76uhQWTc1rM0YNkzo3P9joGQh
+	lkgkjUDGj4c0wWztTUcl6oD831tUoWif0twWXPd4Sk7iW8pvfbLDLkjVK8xGyf98jwNE4/w28QFFK
+	A5Ky99LtA+CJHW4bwNl0ydW1jFSmNz4HNDtKOe5q7VI8omojyo26n/6IEPGmoZT+mLuKyNq9/4w0E
+	Yp1gPQSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5jIC-0000000FuH5-2Uc4;
-	Fri, 18 Apr 2025 10:49:56 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1u5jJa-0000000FuYX-1NbW;
+	Fri, 18 Apr 2025 10:51:22 +0000
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5jEd-0000000Ftxr-0hAL
+	id 1u5jJY-0000000FuY2-12tM
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Apr 2025 10:46:16 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53HLY7Yg013172;
-	Fri, 18 Apr 2025 10:46:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=f+lM4c
-	EzPuR1OwgDyvqurF/Q8Z6R8y2GB0k/HxgdlZ4=; b=PFmyxDiWD35qppSCTbO/oj
-	f14wOS4F3a50spIrDDgR7MfC6+AzaKpGLfxGR1qSYI2nOsablUICij86d39efWIP
-	sUQPAmSPf2n3g5osNnoFFROo2PKUAIaNOSiXaaG93Q2utpJXjfmk3ol7s/uSg+go
-	2kVhl8BJvrykDDpK2G2HoqcD5iL7W7uNz8nvfZneGX9gpyho+T8QYPptZSWK17XW
-	Dp6obm0Ny4jfgli6JU25h+KOKAeu0kW499Vw3JH7+O2v/an9RVcyWHfSANM/ijUa
-	E1QaExQB4MMUYvGQ+VNefvq9aZ8C7g3iBJiz/DAMxJBE4BIZIJDWx0auK8MPrHCA
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46397mtq1t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Apr 2025 10:46:04 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53IAJfYG001265;
-	Fri, 18 Apr 2025 10:46:03 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4602w0ah5n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Apr 2025 10:46:03 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53IAk2Ge24707592
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 18 Apr 2025 10:46:02 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 344AD58050;
-	Fri, 18 Apr 2025 10:46:02 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7960458045;
-	Fri, 18 Apr 2025 10:45:58 +0000 (GMT)
-Received: from [9.111.35.56] (unknown [9.111.35.56])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 18 Apr 2025 10:45:58 +0000 (GMT)
-Message-ID: <385cbcd5-fcb1-4f98-bdf7-80b16d4f5f8e@linux.ibm.com>
-Date: Fri, 18 Apr 2025 16:15:55 +0530
+	Fri, 18 Apr 2025 10:51:21 +0000
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso13915225e9.2
+        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 03:51:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744973478; x=1745578278;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d7lh68vGB9Q5qCSPY4qSJXzKxs/7qNh9HTtaXcCPM7I=;
+        b=GYv5fvGUXaLPKKkl/Gb3wfu08NpbQ7/FKgNt0N/4yVsP6KJsSUMrZf7Qk9p4oxj+1w
+         fY4vQNq1T6Ic+NTg6rSwuuodg5xOjxHog+05WDjHDdfLAcEEX0Epn6aig/XHCdByApM/
+         hWUPvMqdgZyE31ooiyJpjNPdDSAHxGTfOedbCWOceGyZTiJnhRe73ou7KSIOlL0RRFF6
+         GDGGPZQ4L/nDHwnS6W/JGXwS1mB7qd83LmVHAR+UKXDQi/KWhNXp4QQC/dWPrxzBfbMH
+         i7TVvWFJskxCpae6451XgbQ5E3mCu0zdLv5PYvjZjgg6ZHsh14i9lwofAlJB336Nkl/9
+         a27Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVrOMnsQBxa+d2W5YofMRg8WXC+91Gch3qb/R7I3zDvRrfIXDqBXv9RBJP+v0V7QTJudFH2K/Gr6ate@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzv6PODWfCpCjf8L0l6AglWK8eTjUKUnofwg+K/dtN3+p2ZVY3o
+	lie0ZAuZP6S/RJQTszhtlJvz7D7/XmHAyvzXvknbkaK17vGtJPGrcAwYymtp
+X-Gm-Gg: ASbGnctiUXrTpDx9hnKV917spBrs5j/9SDq6F1gqTnXYjVtW52obUNE07bi2MY5BvzZ
+	ji9MVTwblPJSRbRucTqWF4d6up6+3p+6E9RMzuG1F1lnu003IzzBJktB144gbeUCLtVZbVR1L92
+	9yOpjE+n+KWou+tyZSAy/2ZbaTlj6VLQE+UjmOPhpPhwCS/KqdfqCxJQkcfTpLGjLeSKS6885XZ
+	+w4d+vxUjKVm2AYWhYAsw4/wDyiAQ9mnlGNultThN2ssyxDYzdttTpPjLUZeeIMaaE+/E2+/QVA
+	5vKUp17GVVo3zL7FPPpIJ78nWlDvvFZ3TODUUyxF
+X-Google-Smtp-Source: AGHT+IEdcOQDDzc9fXztICZj5NbG/GomTerl3BMFFqybL6qziYgJi8280UGSGVS4apgNA0RSw5edoA==
+X-Received: by 2002:a05:600c:3594:b0:43c:fbba:41ba with SMTP id 5b1f17b1804b1-4406ac2035bmr17279025e9.28.1744973477782;
+        Fri, 18 Apr 2025 03:51:17 -0700 (PDT)
+Received: from [10.100.102.67] ([95.35.174.203])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d6db117sm17419105e9.26.2025.04.18.03.51.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Apr 2025 03:51:16 -0700 (PDT)
+Message-ID: <ee011198-9a15-44e5-a18e-02d3844ee48b@grimberg.me>
+Date: Fri, 18 Apr 2025 13:51:14 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/2] nvme-multipath: introduce delayed removal of the
- multipath head node
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-        kbusch@kernel.org, hare@suse.de, sagi@grimberg.me, jmeneghi@redhat.com,
-        axboe@kernel.dk, gjoyce@ibm.com
-References: <20250321063901.747605-1-nilay@linux.ibm.com>
- <20250321063901.747605-2-nilay@linux.ibm.com> <20250407144413.GA12216@lst.de>
- <5db5ab7b-fdf2-4b40-86fc-3ab4ccff9a41@linux.ibm.com>
- <20250409104326.GA5359@lst.de>
+Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
+To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Hannes Reinecke <hare@suse.de>,
+ Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chris Leech <cleech@redhat.com>
+References: <20250403065522.90807-1-hare@kernel.org>
+ <20250403065522.90807-4-hare@kernel.org>
+ <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
+ <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
+ <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
+ <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
+ <BY5PR04MB684996C1DB38F3BC4386B55EBCBC2@BY5PR04MB6849.namprd04.prod.outlook.com>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20250409104326.GA5359@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: z9Lq6T5CgwolRtJ-aTGyW827M0PVonFK
-X-Proofpoint-GUID: z9Lq6T5CgwolRtJ-aTGyW827M0PVonFK
-X-Authority-Analysis: v=2.4 cv=b+6y4sGx c=1 sm=1 tr=0 ts=68022d6c cx=c_pps a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=8Hd5KiJbEzgm8ycHHukA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-18_03,2025-04-17_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 mlxlogscore=999 phishscore=0 clxscore=1015 suspectscore=0
- mlxscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504180077
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <BY5PR04MB684996C1DB38F3BC4386B55EBCBC2@BY5PR04MB6849.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250418_034615_229757_1B34A68E 
-X-CRM114-Status: GOOD (  22.40  )
+X-CRM114-CacheID: sfid-20250418_035120_288220_F5E5BC47 
+X-CRM114-Status: GOOD (  16.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,83 +97,93 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 4/9/25 4:13 PM, Christoph Hellwig wrote:
-> On Tue, Apr 08, 2025 at 07:37:48PM +0530, Nilay Shroff wrote:
->>>> +	 * For non-fabric controllers we support delayed removal of head disk
->>>> +	 * node. If we reached up to here then it means that head disk is still
->>>> +	 * alive and so we assume here that even if there's no path available
->>>> +	 * maybe due to the transient link failure, we could queue up the IO
->>>> +	 * and later when path becomes ready we re-submit queued IO.
->>>> +	 */
->>>> +	if (!(test_bit(NVME_NSHEAD_FABRICS, &head->flags)))
->>>> +		return true;
->>>
->>> Why is this conditional on fabrics or not?  The same rationale should
->>> apply as much if not more for fabrics controllers.
->>>
->> For fabrics we already have options like "reconnect_delay" and 
->> "max_reconnects". So in case of fabric link failures, we delay 
->> the removal of the head disk node based on those options.
-> 
-> Yes.  But having entirely different behavior for creating a multipath
-> node and removing it still seems like a rather bad idea.
-> 
-Yes agreed, but as you know for the NVMeoF, connection is retried (for 
-instrance fabric link goes down) at the respective fabric driver layer. 
-However for NVMe over PCIe, our proposal is to handle the delayed removal
-of the multipath head node in the NVMe stacked (multipath) driver layer. 
-If we want to unify this behavior across PCIe and fabric controllers then 
-we may allow setting delayed removal of head node option even to the fabric 
-connection however as we know that fabric already supports such behavior 
-at driver layer (by virtue of reconnection_delay and max_reconnects options), 
-IMO, it may not be worthwhile to add this (delayed removal of multipath head
-node) support for the fabric connection.
+On 4/18/25 02:03, Kamaljit Singh wrote:
+> Sagi,
+> I tried both of these patches but looks like #1 causes an infinite loop. dmesg was full of panics.
+> I had tried just #1 and later with #1+#2. Both failed the same way.
 
-If the current proposed implementation seems conditional for fabrics, we may
-change it such that we don't have any explicit checks for the fabrics in the
-nvme_available_path function and so it could be re-written as follows:
+That's no good :)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 0f54889bd483..47a3723605f6 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -428,16 +428,6 @@ static bool nvme_available_path(struct nvme_ns_head *head)
-        if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-                return NULL;
- 
--       /*
--        * For non-fabric controllers we support delayed removal of head disk
--        * node. If we reached up to here then it means that head disk is still
--        * alive and so we assume here that even if there's no path available
--        * maybe due to the transient link failure, we could queue up the IO
--        * and later when path becomes ready we re-submit queued IO.
--        */
--       if (!(test_bit(NVME_NSHEAD_FABRICS, &head->flags)))
--               return true;
--
-        list_for_each_entry_srcu(ns, &head->list, siblings,
-                                 srcu_read_lock_held(&head->srcu)) {
-                if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
-@@ -451,6 +441,10 @@ static bool nvme_available_path(struct nvme_ns_head *head)
-                        break;
-                }
-        }
-+
-+       if (head->delayed_shutdown_sec)
-+               return true;
-+
-        return false;
- }
- static void nvme_ns_head_submit_bio(struct bio *bio)
+Can you share the panics? This version should be identical to what
+Hannes introduced in:
+
+@@ -1389,9 +1389,12 @@ static void nvme_tcp_io_work(struct work_struct *w)
+  		result = nvme_tcp_try_recv(queue);
+  		if (result > 0)
+  			pending = true;
+-		else if (unlikely(result < 0))
++		else if (unlikely(result < 0) && result != -EAGAIN)
+  			return;
 
 
-Please note that head->delayed_shutdown_sec is exported to user via sysfs.
-The default value of this variable is zero. So it's only when the value 
-of head->delayed_shutdown_sec is set to a non-zero, we allow delayed removal 
-of head node. Moreover, as discussed above, we may not want to export this 
-option to user if the head node refers to the fabric connection. So this 
-option shall be exclusively available to non-fabric multipath connections. 
+>
+>> How about these two (untested) patches:
+>> [1 based on your recv-side fix]:
+>> --diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 72d260201d8c..4eb9a2dec07e 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -1348,7 +1348,7 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue
+>> *queue)
+>>           queue->nr_cqe = 0;
+>>           consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
+>>           release_sock(sk);
+>> -       return consumed;
+>> +       return consumed == -EAGAIN ? 0 : consumed;
+>>    }
+>>
+>>    static void nvme_tcp_io_work(struct work_struct *w)
+>> --
+>>
+>> [2 based on your partial write fix]:
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 4eb9a2dec07e..daf59e75cf15 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -129,6 +129,7 @@ enum nvme_tcp_queue_flags {
+>>           NVME_TCP_Q_LIVE         = 1,
+>>           NVME_TCP_Q_POLLING      = 2,
+>>           NVME_TCP_Q_IO_CPU_SET   = 3,
+>> +       NVME_TCP_Q_WAKE_SENDER  = 4,
+>>    };
+>>
+>>    enum nvme_tcp_recv_state {
+>> @@ -1063,6 +1064,7 @@ static void nvme_tcp_write_space(struct sock *sk)
+>>           queue = sk->sk_user_data;
+>>           if (likely(queue && sk_stream_is_writeable(sk))) {
+>>                   clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+>> +               set_bit(NVME_TCP_Q_WAKE_SENDER, &queue->flags);
+>>                   queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+>>           }
+>>           read_unlock_bh(&sk->sk_callback_lock);
+>> @@ -1357,6 +1359,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>>                   container_of(w, struct nvme_tcp_queue, io_work);
+>>           unsigned long deadline = jiffies + msecs_to_jiffies(1);
+>>
+>> +       clear_bit(NVME_TCP_Q_WAKE_SENDER, &queue->flags);
+>>           do {
+>>                   bool pending = false;
+>>                   int result;
+>> @@ -1376,7 +1379,15 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>>                   else if (unlikely(result < 0))
+>>                           return;
+>>
+>> -               if (!pending || !queue->rd_enabled)
+>> +               /* did we get some space after spending time in recv ? */
+>> +               if (nvme_tcp_queue_has_pending(queue) &&
+>> +                   sk_stream_is_writeable(queue->sock->sk))
+>> +                       pending = true;
+>> +
+>> +               if (!queue->rd_enabled)
+>> +                       return;
+>> +
+>> +               if (!pending && !test_bit(NVME_TCP_Q_WAKE_SENDER,
+>> &queue->flags))
+>>                           return;
+>>
+>>           } while (!time_after(jiffies, deadline)); /* quota is exhausted */
+>> --
+>>   
+> -Kamaljit
 
-Thanks,
---Nilay
 
