@@ -4,83 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47AFFC369CF
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 16:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58329C369CA
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 16:43:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5xnYUnjlPLMuKhibM+7cC9sCIRKgMq6xtZ4OhCazpOY=; b=XFmypOzg1Yt39nJeqDRzuk+3ib
-	FCdg3hMc/mSXBVX03HG2g7wZek13CJnPYMSJp+uaPWGzl6nva7rtd3w5KQFDGcdj41v0Xdvv16gSK
-	ZwIskW2ggBcGwCphi8/Tc/rssr/P1nMKyRyxKCXtF2CBUR7Lczf5BGKEF4RusTAjgfNMd2ipNUHWY
-	j9tSLAfVcHx6OTIvAljR9W591Y8GR8e0CFzqfBVtyMU9tJc/YgUQCPw2iuXh8phqVRxAc0/YI1Hup
-	MT78p0AclGHldyLZfgUPCa9P20mnPfTTR0FPqdXyV5lUgpnzXTxRBF+y/5QHsN6F797rXG/P7f2G2
-	Z3Y/5OzA==;
+	bh=XMi6RjNLnii56OiqqTtBYh/fDGXu3JBH/VNIF3fIEn0=; b=rSnx/VLN+9TONtZSITnPngouob
+	Zj0NM2d/KmFjdb5wjtE/m/Iftyyk8LkMrdJlBrL6ksYyihSeywqnOwhn6csO5uDpz9lEMqYhhm5Sh
+	8J6f2liCnej5B1O/NHkVjN74nKSh7Cp6q8XFmzOO6lruOEU5+Xl3sbLW7tJFbfPSSjJ5xxEdcnM8x
+	bHMRwwbGn0/uljFZbCWHddhvI7jkXBJHKzIcA5WSxvGLR4j/RWY9leNE0vU2ovT1xM5Xox2q+JUW5
+	fl7y32X6QjlTtCswWkqvAHnyhh3ZuEfxSJpt5Gjq/UdU+swfOB2Y+XFgt96CbhfRHIEqNXBkNVGrX
+	wEN+fiNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5ooS-0000000H1F5-3IFd;
-	Fri, 18 Apr 2025 16:43:36 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1u5ooV-0000000H1IY-1NLI;
+	Fri, 18 Apr 2025 16:43:39 +0000
+Received: from mail-qt1-f170.google.com ([209.85.160.170])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5ggQ-0000000FYxR-0J9U
+	id 1u5iuJ-0000000FrV8-0RsP
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Apr 2025 08:02:47 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7563DA4B31F;
-	Fri, 18 Apr 2025 07:57:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B3F4C4CEE2;
-	Fri, 18 Apr 2025 08:02:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744963364;
-	bh=dp/a0KQW6s1HUowZp3pVpovc87ZhWIisQB2UIJrvz9E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AfNjpKOb21ywlYC/OrmRmyZovar5QMJh+pzsXdQLXpgfvDc8s2FeKsSSmY9uXRTYw
-	 7wueHQYcigWmtPF+uctGlYB6aqVtEHv+CpGDOHl1li5M44Rc5SMCIoY6/r9MejZdQH
-	 YfSW7LPrPI/uKn3wu+W+GH0hzdb2JPLJEoABq2IVJ2AT4uHQc0IkJaUk/JTNFeZucb
-	 KZbcgbbNjw/HEo4kl9nYCTZuLh5jAH55WgCZcGrxraZ5NX/CyK0uoSq8QRicV6VWFF
-	 2omjCGL8y8CFmi6A3Nbm1MMks5Iz1Jz1pZsFO4W6VoN007BeBsG1aNaiETWWvXDioq
-	 cwUe4iTyuUaEg==
-Message-ID: <1284adf3-7e93-4530-9921-408c5eaeb337@kernel.org>
-Date: Fri, 18 Apr 2025 17:02:38 +0900
+	Fri, 18 Apr 2025 10:25:16 +0000
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4774193fdffso23692321cf.1
+        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 03:25:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744971913; x=1745576713;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XMi6RjNLnii56OiqqTtBYh/fDGXu3JBH/VNIF3fIEn0=;
+        b=bVyQ6ttR7JN2jz7bIK5qJDhllHW+FEqcaJLQMgFstyuOUu12frjvF4PKGF0sH1yO5g
+         ZtNNra9PPw8v7hDN0wlYQhu50kyBtQSLK0AwHvGws6LAnAapHr7Ps6nogBSgegj6eTGo
+         cmCWYDAuwTL53kwXmqqCuborq8Yy0E3MdnQDrktg+G0r5s85QK3VzZcHbn0yV0lLWT+1
+         yiIXFBXIfCuaMLTWEQomH/XeeAFEGjJaRjNh4GQ0xrjxUxMqR3Ps412AUi7SFFytw7Ip
+         tFtfzqq0gzBVDjahsXex6QMERSLRAWI4Yyb+dxvpzEW0BNuJxY8lFHpd6dfuQnWRK8VP
+         Opaw==
+X-Forwarded-Encrypted: i=1; AJvYcCVO8EJHh9Yf2eoLFg/XU6vWSsN0DzRarOdteeohvNjt0IutfbHh2KiGvksKf8YlNt1P1n7ehBge2Dgj@lists.infradead.org
+X-Gm-Message-State: AOJu0YwMiCcd/cAVNVnvt2EcY6oWtRw50/pVibO2zF1LZ/BV61djWfYy
+	Dhe3x8MHUOzZfavOMAdg4iqYmL7XBDisTA6XD8FSk0CjiZwCDu1Ypjf8DhMm+mPktA==
+X-Gm-Gg: ASbGncsCfXwxJSkDBR290C0R8lcgBto3qLd8qUyCJzSSY6kXa2G0PYUQeJcPLXyXanA
+	n4eQIDNskEzY19U4nOKJ6HYMdWnSrW1zAPpPlX1J9X1TtlT5iGtX8wiRH+qma9kWUX+ykwJLy1x
+	NBcFvZU0OoeP14dVNGUEbNL8++/Z2hykFMuo/fFDAM/dmMPg+mdmGbeXHZmxUJfoObwY9YOq8AS
+	ZR0KX+3WMYh0cFNcQkQ+NHS5jhZ4NUOu8eLhitDjJa8UuU8VTWMNkAxwcV05o+O/ODapsTP7pMp
+	jk+w5aBrADVRLDYmDHYPW+7AmYYwBI3KHlpqow2/R033iUIJe0ldiep2LJhEyTv+
+X-Google-Smtp-Source: AGHT+IEKJZWW+CA0u03L2I1YwGaBuPS3Jq/Tgj4wyFEY1P0tyWIjeS90rjHfjPUoep1kge+Jl0aKkA==
+X-Received: by 2002:ac8:5807:0:b0:47a:e6e1:c04f with SMTP id d75a77b69052e-47aec4cb1fdmr34086211cf.46.1744971913152;
+        Fri, 18 Apr 2025 03:25:13 -0700 (PDT)
+Received: from localhost.localdomain (ip170.ip-51-81-44.us. [51.81.44.170])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47ae9c17673sm9266701cf.13.2025.04.18.03.25.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 03:25:12 -0700 (PDT)
+From: Chen Linxuan <me@black-desk.cn>
+To: bvanassche@acm.org
+Cc: akpm@linux-foundation.org,
+	alex.williamson@redhat.com,
+	axboe@kernel.dk,
+	changbin.du@intel.com,
+	chenlinxuan@uniontech.com,
+	hch@lst.de,
+	jarkko@kernel.org,
+	jgg@ziepe.ca,
+	justinstitt@google.com,
+	kbusch@kernel.org,
+	kevin.tian@intel.com,
+	kvm@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org,
+	llvm@lists.linux.dev,
+	masahiroy@kernel.org,
+	morbo@google.com,
+	nathan@kernel.org,
+	nick.desaulniers+lkml@gmail.com,
+	nicolas.schier@linux.dev,
+	peterhuewe@gmx.de,
+	sagi@grimberg.me,
+	shameerali.kolothum.thodi@huawei.com,
+	virtualization@lists.linux.dev,
+	wentao@uniontech.com,
+	yishaih@nvidia.com
+Subject: Re: [PATCH RFC v2 5/5] lib/Kconfig.debug: introduce CONFIG_NO_AUTO_INLINE
+Date: Fri, 18 Apr 2025 18:24:53 +0800
+Message-ID: <20250418102453.982042-1-me@black-desk.cn>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <bb713790-0b68-4d91-831c-b18fa1ea01a9@acm.org>
+References: <bb713790-0b68-4d91-831c-b18fa1ea01a9@acm.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 24/24] nvme-pci: optimize single-segment handling
-To: Leon Romanovsky <leon@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Jake Edge <jake@lwn.net>,
- Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
- Zhu Yanjun <zyjzyj2000@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org,
- Niklas Schnelle <schnelle@linux.ibm.com>,
- Chuck Lever <chuck.lever@oracle.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Dan Williams
- <dan.j.williams@intel.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Nitesh Shetty <nj.shetty@samsung.com>, Leon Romanovsky <leonro@nvidia.com>
-References: <cover.1744825142.git.leon@kernel.org>
- <670389227a033bd5b7c5aa55191aac9943244028.1744825142.git.leon@kernel.org>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <670389227a033bd5b7c5aa55191aac9943244028.1744825142.git.leon@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250418_010246_261527_46A6C3C9 
-X-CRM114-Status: GOOD (  26.94  )
+X-CRM114-CacheID: sfid-20250418_032515_143326_D9BBA04D 
+X-CRM114-Status: GOOD (  14.16  )
 X-Mailman-Approved-At: Fri, 18 Apr 2025 09:39:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -96,160 +113,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/18/25 15:47, Leon Romanovsky wrote:
-> From: Kanchan Joshi <joshi.k@samsung.com>
+On 4/17/25 5:04 PM, Bart Van Assche wrote:
+> On 4/16/25 2:44 AM, Chen Linxuan via B4 Relay wrote:
+> > 2. Make it depends on X86 and LOONGARCH,
+> >     as I haven't test other architectures
 > 
-> blk_rq_dma_map API is costly for single-segment requests.
-> Avoid using it and map the bio_vec directly.
+> That sounds weird to me. Shouldn't this option be made architecture-
+> independent?
+
+It should, but I have only tested it on X86 and LOONGARCH.
+
 > 
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/nvme/host/pci.c | 65 +++++++++++++++++++++++++++++++++++++----
->  1 file changed, 60 insertions(+), 5 deletions(-)
+> > +config NO_AUTO_INLINE
+> > +	bool "Disable compiler auto-inline optimizations (EXPERIMENTAL)"
+> > +	default n
+> > +	depends on CC_IS_GCC && (X86 || LOONGARCH)
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 8d99a8f871ea..cf020de82962 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -216,6 +216,11 @@ struct nvme_queue {
->  	struct completion delete_done;
->  };
->  
-> +enum {
-> +	IOD_LARGE_DESCRIPTORS = 1, /* uses the full page sized descriptor pool */
-> +	IOD_SINGLE_SEGMENT = 2, /* single segment dma mapping */
-> +};
-> +
->  /*
->   * The nvme_iod describes the data in an I/O.
->   */
-> @@ -224,7 +229,7 @@ struct nvme_iod {
->  	struct nvme_command cmd;
->  	bool aborted;
->  	u8 nr_descriptors;	/* # of PRP/SGL descriptors */
-> -	bool large_descriptors;	/* uses the full page sized descriptor pool */
-> +	unsigned int flags;
->  	unsigned int total_len; /* length of the entire transfer */
->  	unsigned int total_meta_len; /* length of the entire metadata transfer */
->  	dma_addr_t meta_dma;
-> @@ -529,7 +534,7 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
->  static inline struct dma_pool *nvme_dma_pool(struct nvme_dev *dev,
->  		struct nvme_iod *iod)
->  {
-> -	if (iod->large_descriptors)
-> +	if (iod->flags & IOD_LARGE_DESCRIPTORS)
->  		return dev->prp_page_pool;
->  	return dev->prp_small_pool;
->  }
-> @@ -630,6 +635,15 @@ static void nvme_free_sgls(struct nvme_dev *dev, struct request *req)
->  static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
->  {
->  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> +	unsigned int nr_segments = blk_rq_nr_phys_segments(req);
-> +	dma_addr_t dma_addr;
-> +
-> +	if (nr_segments == 1 && (iod->flags & IOD_SINGLE_SEGMENT)) {
+> Why "depends on CC_IS_GCC"? Please make sure that both gcc and clang are
+> supported.
 
-nvme_pci_setup_prps() calls nvme_try_setup_prp_simple() which sets
-IOD_SINGLE_SEGMENT if and only if the req has a single phys segment. So why do
-you need to count the segments again here ? Looking at the flag only should be
-enough, no ?
+I make it depends on CC_IS_GCC because
 
-> +		dma_addr = le64_to_cpu(iod->cmd.common.dptr.prp1);
-> +		dma_unmap_page(dev->dev, dma_addr, iod->total_len,
-> +				rq_dma_dir(req));
-> +		return;
-> +	}
->  
->  	if (!blk_rq_dma_unmap(req, dev->dev, &iod->dma_state, iod->total_len)) {
->  		if (iod->cmd.common.flags & NVME_CMD_SGL_METABUF)
-> @@ -642,6 +656,41 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
->  		nvme_free_descriptors(dev, req);
->  }
->  
-> +static bool nvme_try_setup_prp_simple(struct nvme_dev *dev, struct request *req,
-> +				      struct nvme_rw_command *cmnd,
-> +				      struct blk_dma_iter *iter)
-> +{
-> +	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> +	struct bio_vec bv = req_bvec(req);
-> +	unsigned int first_prp_len;
-> +
-> +	if (is_pci_p2pdma_page(bv.bv_page))
-> +		return false;
-> +	if ((bv.bv_offset & (NVME_CTRL_PAGE_SIZE - 1)) + bv.bv_len >
-> +	    NVME_CTRL_PAGE_SIZE * 2)
-> +		return false;
-> +
-> +	iter->addr = dma_map_bvec(dev->dev, &bv, rq_dma_dir(req), 0);
-> +	if (dma_mapping_error(dev->dev, iter->addr)) {
-> +		iter->status = BLK_STS_RESOURCE;
-> +		goto out;
-> +	}
-> +	iod->total_len = bv.bv_len;
-> +	cmnd->dptr.prp1 = cpu_to_le64(iter->addr);
-> +
-> +	first_prp_len = NVME_CTRL_PAGE_SIZE -
-> +			(bv.bv_offset & (NVME_CTRL_PAGE_SIZE - 1));
-> +	if (bv.bv_len > first_prp_len)
-> +		cmnd->dptr.prp2 = cpu_to_le64(iter->addr + first_prp_len);
-> +	else
-> +		cmnd->dptr.prp2 = 0;
-> +
-> +	iter->status = BLK_STS_OK;
-> +	iod->flags |= IOD_SINGLE_SEGMENT;
-> +out:
-> +	return true;
-> +}
-> +
->  static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
->  					struct request *req)
->  {
-> @@ -652,6 +701,12 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
->  	dma_addr_t prp1_dma, prp2_dma = 0;
->  	unsigned int prp_len, i;
->  	__le64 *prp_list;
-> +	unsigned int nr_segments = blk_rq_nr_phys_segments(req);
-> +
-> +	if (nr_segments == 1) {
-> +		if (nvme_try_setup_prp_simple(dev, req, cmnd, &iter))
-> +			return iter.status;
-> +	}
->  
->  	if (!blk_rq_dma_map_iter_start(req, dev->dev, &iod->dma_state, &iter))
->  		return iter.status;
-> @@ -693,7 +748,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
->  
->  	if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) >
->  	    NVME_SMALL_DESCRIPTOR_SIZE / sizeof(__le64))
-> -		iod->large_descriptors = true;
-> +		iod->flags |= IOD_LARGE_DESCRIPTORS;
->  
->  	prp_list = dma_pool_alloc(nvme_dma_pool(dev, iod), GFP_ATOMIC,
->  			&prp2_dma);
-> @@ -808,7 +863,7 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
->  	}
->  
->  	if (entries > NVME_SMALL_DESCRIPTOR_SIZE / sizeof(*sg_list))
-> -		iod->large_descriptors = true;
-> +		iod->flags |= IOD_LARGE_DESCRIPTORS;
->  
->  	sg_list = dma_pool_alloc(nvme_dma_pool(dev, iod), GFP_ATOMIC, &sgl_dma);
->  	if (!sg_list)
-> @@ -932,7 +987,7 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
->  
->  	iod->aborted = false;
->  	iod->nr_descriptors = 0;
-> -	iod->large_descriptors = false;
-> +	iod->flags = 0;
->  	iod->total_len = 0;
->  	iod->total_meta_len = 0;
->  
+1. Clang do not have `-fno-inline-small-functions`
+   and `-fno-inline-functions-called-once`.
 
+2. If we wrap those options with cc-option,
+   Clang 18.1.3 fails to compile test_bitmap_const_eval(),
+   with config KASAN and TEST_BITMAP is enabled.
 
--- 
-Damien Le Moal
-Western Digital Research
+   Comments above test_bitmap_const_eval() says that:
+
+   > /*
+   >  * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
+   >  * To workaround it, GCOV is force-disabled in Makefile for this configuration.
+   >  */
+
+   It seems there are some issues with Clang's compile-time evaluations.
+
+So I think there are some ways to workaround this problem:
+
+1. Make NO_AUTO_INLINE depends on CC_IS_GCC;
+2. Make NO_AUTO_INLINE depends on KASAN=n;
+3. Disable NO_AUTO_INLINE for TEST_BITMAP
+   like how we handle CC_IS_CLANG && KASAN && GCOV in lib/Makefile:
+
+   > ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_KASAN),yy)
+   > # FIXME: Clang breaks test_bitmap_const_eval when KASAN and GCOV are enabled
+   > GCOV_PROFILE_test_bitmap.o := n
+   > endif
+
+Which one do you prefer or do you have any other suggestions?
+
+> 
+> Thanks,
+> 
+> Bart.
 
