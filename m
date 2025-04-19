@@ -4,108 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B307C369C9
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Apr 2025 19:13:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDA30C369BD
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Apr 2025 04:34:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NgbC0Ho51LBhNAGrJS6KpfvBsql1IBS8J1NX4yoaH+M=; b=lvh8fYAjlEJ3lUtniM2VojSnIo
-	XuBnNLAktHPyKPP9M412A4hrX0nMNmWyQZwFbz3x7WNFYY716kEzK6ONNcwwzXZMNpMdkCrM+bZkM
-	uMADaUH+gehNofPfYTgUT0kswv5FEJh2JGT90qmQ93zVuG0O+lFJiS2VRlbI0tOgYrhsuofXPJqMt
-	tfw/ocMrxe22IbRb6uPPB5BqbjXnBrMyxvxFR+K13Z2TJ83Woh9Oyj2Xnoj5ETcG8JJ6LE/cHBT3m
-	qd8/kA5Md+9MF4wUWUvq404VxtDn02OaqbqU7oaS8YgX7mxIqpXmCpD0ij6ZjDARn+vXBkF4RACtA
-	1wFoq3ug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uXzOal0nfIQ8bFg2XccSM090HwsdWEh3UWZ58CwncMQ=; b=BywGTSH1mbxGZv6BcoZhOzyrtR
+	fgu97EQSbTQ1shq0dF0+34UYzWsB0ii6q16VoB51JbEGwqqxc0czMGBnCXB5sQdYt/WuqSfBDiSy0
+	p0c5xZNJUJpsJK2UwraNZf3hirVSJC7lXfyld2iq0o//pSkntSv7bY7AIhen1vH4mHsvT2TyxkZsN
+	vidJ2BkA+jQs1z3H9tUCIP6fpbTEG/FIRAfmF2/5/NMYlvbg4P/yRQOIM6qMn02o9tLIFkOBpfDZp
+	Pj66sd3737pdcFCB061wxAO1GKeVNvOePlxAl2aqAclto37bny3iJx/AxDHkafnYCWQM6g2KPmLT1
+	ag/9xRGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5r9l-0000000HZSx-1nXa;
-	Fri, 18 Apr 2025 19:13:45 +0000
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
+	id 1u5zuL-00000000pRR-1Xsw;
+	Sat, 19 Apr 2025 04:34:25 +0000
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5kfT-0000000G3E1-3q08
+	id 1u5zuD-00000000pR5-1HuL
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Apr 2025 12:18:06 +0000
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-85e15dc8035so59768339f.0
-        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 05:18:03 -0700 (PDT)
+	Sat, 19 Apr 2025 04:34:18 +0000
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-736c1cf75e4so2204826b3a.2
+        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 21:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1744978683; x=1745583483; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NgbC0Ho51LBhNAGrJS6KpfvBsql1IBS8J1NX4yoaH+M=;
-        b=QN8R7DYZrPU21Sjnt45M9KaAuIB7qB07yA2nhmuu7Z6L5bAJV1XZ0XQntaqDLRxCdc
-         1sw57KKad97CmDaZizZ/lCWcVpTq3aY+3P9IqwzHpCF1FxgrLgiKqHo9E41900kDimTl
-         NLGTpw8B9yPuLAe8v2NqG4uQ95lSLE4vTXEb7MnkxeJaRRmw0sWMHFTjr2a/u4SPnGN1
-         0GY2MLc3W7E2JiwKVQQz77UOTPkNh3rKomH1EnIxN3PB1oOOuWJ0MuvGM848YW0SC4W8
-         AXW+Ab8j0heUMMwDdjbkALk2uneJ+5u/8kK0+wLoev9lE80B9bPx+XLOsnA54f27rW6O
-         Z+xg==
+        d=linaro.org; s=google; t=1745037256; x=1745642056; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uXzOal0nfIQ8bFg2XccSM090HwsdWEh3UWZ58CwncMQ=;
+        b=iZ8y0pxr5Y6cxUxSW5zyRgEGYYgb6m0arlqnvwWjQmHcyNkAtjG+CdajoLSZn5883P
+         KMcheMq3PsN0Zq9sW7sm6DfBn3R3gdBKYwMAbWjD8cBdT2s8ndj+CErrcmT1r49b3ILu
+         OhotnI10ONJDxEa4C5JZprYa4097bkBj+UgdtuR0/cMU9zo1ed22krXd54xNd6YZReht
+         dK4SoLcFL19o6t3dB3szIJGupra2zArqvL/PZamR+TRI7NBGXpj79X9Q3a0MsAAlTV+K
+         nQWo3TCFVjDsq0WGMGjgxIBKs9Bf7NFzhaiUisc4WTJGYUwAnJcpF9jtu+JJ1899YWh1
+         DoVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744978683; x=1745583483;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1745037256; x=1745642056;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NgbC0Ho51LBhNAGrJS6KpfvBsql1IBS8J1NX4yoaH+M=;
-        b=D9hEV6QQOy0FG6S1qdcKhsdotv57KnuJbTGNttp/7lb9ElzKm3STPC/9VNp4crk6mH
-         7ozUzqJBjA8Vahm4I8fQJ0LuXKSwpcP2KQWcQt95gskrrV+aFV6oWrHn8c3ffO2/znd/
-         J51Po4SdpXo+Rlv8G+bvY4W3aJItr7LHoI5JkWdSee3HiZAmNfP6G/XfyrF0+AjmdJKR
-         pEeqygX6odIMWWdwK+rD48VLJ/oKHtrzHzqeswOkBB2aid8eq5unbPxvqZmP1naPtcSJ
-         cliMsarx0HNN5Lk+NwOZ5lrzFa4Uf3vZyJ8+RfPtNGUQVc5Vc7whjKXzVFE0wD38tTlM
-         V4vA==
-X-Forwarded-Encrypted: i=1; AJvYcCWBTnaOUUScVPCWquK42RnOPDedMqNCigYCxwpgC4mbaBT+er6icImlX1KjwnzZZeHLhsVzUN+AvjZm@lists.infradead.org
-X-Gm-Message-State: AOJu0YwdEjXXNZMnE4eiRZ/a84ZQIuXKzRMd2qONCN75RtNBAsPCPcnY
-	US+kGn1d+yjDJ1HJchpPRbiLpuS4asUaFkB3l01N8NQSOeISdpY0sM8DiwnZqAw=
-X-Gm-Gg: ASbGncuSyBne5PZvCKTkVYhRwDzyhYyKmKX3vGtN4T+wXcu5xTzhv7XQ2qrJhHYxr0x
-	Vg0dlrWfeNuOBHVXhHL3h8UzkivlPLjngZO1c/u77MW3OaHbdeGK+2X0d670BK3Qdm+vpHvSNLb
-	X6Hdv0kHR6LbmExOLVQOdp1SQt3g5tT85hvN0tFvqtT2M1xeR3uFJBi0sEQ0zwI3C4Bf8NDIDGc
-	X+MLBfqkHiRpERwA79QFNKNSacarNPEJhkwDCFa24ukgitcrWtgDZR3nddn+R7D5aiiPTqTaRZC
-	crBf23F6TZ1dxWMBdByeXFnifh7km1zAx1E9QvF4KahWTxEl
-X-Google-Smtp-Source: AGHT+IEcKW8yUly7My6VmHwOUQO6x2LKb/qwvAEzz9JLvNvB2Bo85wGWvtKeixpJ/OLzr9zB/iMeqQ==
-X-Received: by 2002:a05:6e02:17cd:b0:3d8:211c:9891 with SMTP id e9e14a558f8ab-3d88ed7c3fcmr25688805ab.2.1744978682766;
-        Fri, 18 Apr 2025 05:18:02 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f6a3957613sm406821173.120.2025.04.18.05.18.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Apr 2025 05:18:02 -0700 (PDT)
-Message-ID: <93ef8629-4040-4773-beac-03c62f848727@kernel.dk>
-Date: Fri, 18 Apr 2025 06:18:00 -0600
+        bh=uXzOal0nfIQ8bFg2XccSM090HwsdWEh3UWZ58CwncMQ=;
+        b=b6LLTovjBWYFtCkUff3uhVLsBz4/IfIgPigFk/sX76lKcshjYmQk25ip8e4THFVvTZ
+         pk/1ILCHZlmfrVcJQHMzCun4k4J67bh2+Wbba/y7/elW0FtVWo3sOHpuzwXzP8r3TrAH
+         1oSnCPquLNuWJHLdfEJ80fhBSKsOjlq8oCfBZORG6xmkA+2tLsKjzAu7lSq5EHKp1h9O
+         GNHvZ72aMq1+whNCsEaWTg6OT8mVPN3nh1rxImHo0MqJGh8iA/cqTotmNyCizvBWT2xr
+         jEBwXnxKKQxzz41xvJtmfatPI9EFSeWhmBzanQGNzZsZ4UNVj2qQB3uuS+flKgappwSL
+         jZxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWmRP+f3NkbugeC/c+3HExPegP4DUWQV96+rb74/uqUfzKWlyOABLAfTSFTIMfdJrqGnaMkbEX9tsYG@lists.infradead.org
+X-Gm-Message-State: AOJu0YwFhJZz7osHLvQteXhsowdARRwqzcXC/gNOk6ppSblb2q4gkzKO
+	f4d9yvlXnn25z5hqdOvmidKUPTc6LvOHnl8gJhwBEsLw6HQta740lvCwrh3GNQ==
+X-Gm-Gg: ASbGnctZa2TcKHYkgUYjtmgVtao7oi8MIuMWWc8MkI0fDZmI9PVGmqleou/EobX951O
+	13W8FXu1PBxcbtEvGLHGE/SBwgW1AKMau/EMexwZfY/SEdsGqfKzF180QCh4bsWFXA79ZU///hH
+	8a11dS2N9vKFGIsloX1O7zVudTfrN82jKe+iPbikGzRDjdkN6FNMMLSEQnYl+F47kdiH590tly/
+	1VrNJx8Xu+seb13EXuAmwLj3sE+Yp0UezixLsJ3qWyotRb6sXaawEK6D9431D9fGkKOD4ulVfri
+	2JtM3JsTS67NKmUBWJq53kswjhMzJCxec01iOKbBBANznzRqvLrA
+X-Google-Smtp-Source: AGHT+IEP9iQj2KkpKrslEj+551ckgO39xK+3CJrtgDzGeG3sOciJvji42KgL9hedUsr1SldlGwzI4w==
+X-Received: by 2002:a05:6a00:4606:b0:739:3f55:b23f with SMTP id d2e1a72fcca58-73dc14d3124mr5780129b3a.14.1745037256037;
+        Fri, 18 Apr 2025 21:34:16 -0700 (PDT)
+Received: from thinkpad ([220.158.156.81])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbfa58333sm2450467b3a.118.2025.04.18.21.34.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 21:34:15 -0700 (PDT)
+Date: Sat, 19 Apr 2025 10:04:08 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>, 
+	Allen Hubbe <allenbh@gmail.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>, 
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, ntb@lists.linux.dev, 
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 2/3] PCI: endpoint: improve fixed_size bar handling
+ when allocating space
+Message-ID: <xzn36fjifrwgmxpymmn6v7truzan5of37oxvvriegitnqeuwwr@cgrckqiittfh>
+References: <20250407-pci-ep-size-alignment-v3-0-865878e68cc8@baylibre.com>
+ <20250407-pci-ep-size-alignment-v3-2-865878e68cc8@baylibre.com>
+ <Z_Pw3I2xO7BMSGWW@ryzen>
+ <1jjz7wvuyj.fsf@starbuckisacylon.baylibre.com>
+ <Z_TuIP-k1yLbjcys@ryzen>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/24] Provide a new two step DMA mapping API
-To: Leon Romanovsky <leon@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-Cc: Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
- Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
- Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org,
- Niklas Schnelle <schnelle@linux.ibm.com>,
- Chuck Lever <chuck.lever@oracle.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Dan Williams
- <dan.j.williams@intel.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Chaitanya Kulkarni <kch@nvidia.com>
-References: <cover.1744825142.git.leon@kernel.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <cover.1744825142.git.leon@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z_TuIP-k1yLbjcys@ryzen>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250418_051804_157340_D857FB79 
-X-CRM114-Status: GOOD (  13.13  )
-X-Mailman-Approved-At: Fri, 18 Apr 2025 09:39:28 -0700
+X-CRM114-CacheID: sfid-20250418_213417_361836_67936265 
+X-CRM114-Status: GOOD (  29.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,32 +110,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/18/25 12:47 AM, Leon Romanovsky wrote:
-> Following recent on site LSF/MM 2025 [1] discussion, the overall
-> response was extremely positive with many people expressed their
-> desire to see this series merged, so they can base their work on it.
-> 
-> It includes, but not limited:
->  * Luis's "nvme-pci: breaking the 512 KiB max IO boundary":
->    https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
->  * Chuck's NFS conversion to use one structure (bio_vec) for all types
->    of RPC transports:
->    https://lore.kernel.org/all/913df4b4-fc4a-409d-9007-088a3e2c8291@oracle.com
->  * Matthew's vision for the world without struct page:
->    https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
->  * Confidential computing roadmap from Dan:
->    https://lore.kernel.org/all/6801a8e3968da_71fe29411@dwillia2-xfh.jf.intel.com.notmuch
-> 
-> This series is combination of effort of many people who contributed ideas,
-> code and testing and I'm gratefully thankful for them.
+On Tue, Apr 08, 2025 at 11:36:32AM +0200, Niklas Cassel wrote:
+> On Mon, Apr 07, 2025 at 05:43:00PM +0200, Jerome Brunet wrote:
+> > On Mon 07 Apr 2025 at 17:35, Niklas Cassel <cassel@kernel.org> wrote:
+> > 
+> > > Hello Jerome,
+> > >
+> > > On Mon, Apr 07, 2025 at 04:39:08PM +0200, Jerome Brunet wrote:
+> > >> When trying to allocate space for an endpoint function on a BAR with a
+> > >> fixed size, the size saved in the 'struct pci_epf_bar' should be the fixed
+> > >> size. This is expected by pci_epc_set_bar().
+> > >> 
+> > >> However, if the fixed_size is smaller that the alignment, the size saved
+> > >> in the 'struct pci_epf_bar' matches the alignment and it is a problem for
+> > >> pci_epc_set_bar().
+> > >> 
+> > >> To solve this, continue to allocate space that match the iATU alignment
+> > >> requirement but save the size that matches what is present in the BAR.
+> > >> 
+> > >> Fixes: 2a9a801620ef ("PCI: endpoint: Add support to specify alignment for buffers allocated to BARs")
+> > >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> > >> ---
+> > >>  drivers/pci/endpoint/pci-epf-core.c | 25 +++++++++++++++++--------
+> > >>  1 file changed, 17 insertions(+), 8 deletions(-)
+> > >> 
+> > >> diff --git a/drivers/pci/endpoint/pci-epf-core.c b/drivers/pci/endpoint/pci-epf-core.c
+> > >> index b7deb0ee1760b23a24f49abf3baf53ea2f273476..fb902b751e1c965c902c5199d57969ae0a757c2e 100644
+> > >> --- a/drivers/pci/endpoint/pci-epf-core.c
+> > >> +++ b/drivers/pci/endpoint/pci-epf-core.c
+> > >> @@ -225,6 +225,7 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
+> > >>  	struct device *dev;
+> > >>  	struct pci_epf_bar *epf_bar;
+> > >>  	struct pci_epc *epc;
+> > >> +	size_t size;
+> > >>  
+> > >>  	if (!addr)
+> > >>  		return;
+> > >> @@ -237,9 +238,12 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
+> > >>  		epf_bar = epf->sec_epc_bar;
+> > >>  	}
+> > >>  
+> > >> +	size = epf_bar[bar].size;
+> > >> +	if (epc_features->align)
+> > >> +		size = ALIGN(size, epc_features->align);
+> > >
+> > > Personally, I think that you should just save the aligned_size / mem_size /
+> > > backing_mem_size as a new struct member, as that avoids the risk that someone
+> > > later modifies pci_epf_alloc_space() but forgets to update
+> > > pci_epf_free_space() accordingly.
 
-Since I previously complained about performance regressions from this
-series, I re-tested the current code. I no longer see a performance
-regression on a AMD EPYC 9754 256 core box, nor on AMD EPYC 7763 128
-core box.
++1. It is always a better approach to store the aligned size during allocation
+and use it while freeing. It indeed avoids the alloc/free to go unsymmetry in
+the future.
 
-Tested-by: Jens Axboe <axboe@kernel.dk>
+> > 
+> > I tried but it looked a bit silly to store that when it was only a
+> > matter of calling ALIGN() with parameters we already had, and it is
+> > supposed to be only used in those two functions.
+> 
+> Another advantage is that you could kill patch 1/3 in this series, as
+> there would be no need to supply epc_features to pci_epf_free_space().
+> 
+
+Yes!
+
+- Mani
 
 -- 
-Jens Axboe
+மணிவண்ணன் சதாசிவம்
 
