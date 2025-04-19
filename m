@@ -4,98 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDA30C369BD
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Apr 2025 04:34:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A622C369BD
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Apr 2025 16:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uXzOal0nfIQ8bFg2XccSM090HwsdWEh3UWZ58CwncMQ=; b=BywGTSH1mbxGZv6BcoZhOzyrtR
-	fgu97EQSbTQ1shq0dF0+34UYzWsB0ii6q16VoB51JbEGwqqxc0czMGBnCXB5sQdYt/WuqSfBDiSy0
-	p0c5xZNJUJpsJK2UwraNZf3hirVSJC7lXfyld2iq0o//pSkntSv7bY7AIhen1vH4mHsvT2TyxkZsN
-	vidJ2BkA+jQs1z3H9tUCIP6fpbTEG/FIRAfmF2/5/NMYlvbg4P/yRQOIM6qMn02o9tLIFkOBpfDZp
-	Pj66sd3737pdcFCB061wxAO1GKeVNvOePlxAl2aqAclto37bny3iJx/AxDHkafnYCWQM6g2KPmLT1
-	ag/9xRGA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bB/ExXw5iMg6WYOEtmSHjkeGKxxaETAwbiI9Epa5lsc=; b=YiAbXQ+hQyzwP3KlazCYs/YbuM
+	8plB+K2HV+Q1oYQgA6sFm2lZNOWypTU6UL8gec4mYrB7NWjFLFE0v6a0CQpMIPpezewuxtmKGmzIg
+	k8lCgB0Co57q8J6v2b74ecfGcLAaGiAAFyPMFHFGjNmJS5LYl43X74mCMJ5Ww+vZfNS2WhScZWNSz
+	bSaDx9CwjQoOMe+fX6N2QdGsNgCRR0lJPq1sG62KHB+w1fQLjlmAPQChASMCUWk/PY6MD8vR2loMc
+	6xwP4NQujrSdIzz452Dq2amcwt9AIxTcx5GWkwDU2wTtghfYe8z6Vsqb94Z4uwlw8RbJZaFxoGiNk
+	ssS3pPCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5zuL-00000000pRR-1Xsw;
-	Sat, 19 Apr 2025 04:34:25 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1u6Am9-00000001VuZ-11I0;
+	Sat, 19 Apr 2025 16:10:41 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u5zuD-00000000pR5-1HuL
+	id 1u6Am6-00000001Vtz-2rpl
 	for linux-nvme@lists.infradead.org;
-	Sat, 19 Apr 2025 04:34:18 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-736c1cf75e4so2204826b3a.2
-        for <linux-nvme@lists.infradead.org>; Fri, 18 Apr 2025 21:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745037256; x=1745642056; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uXzOal0nfIQ8bFg2XccSM090HwsdWEh3UWZ58CwncMQ=;
-        b=iZ8y0pxr5Y6cxUxSW5zyRgEGYYgb6m0arlqnvwWjQmHcyNkAtjG+CdajoLSZn5883P
-         KMcheMq3PsN0Zq9sW7sm6DfBn3R3gdBKYwMAbWjD8cBdT2s8ndj+CErrcmT1r49b3ILu
-         OhotnI10ONJDxEa4C5JZprYa4097bkBj+UgdtuR0/cMU9zo1ed22krXd54xNd6YZReht
-         dK4SoLcFL19o6t3dB3szIJGupra2zArqvL/PZamR+TRI7NBGXpj79X9Q3a0MsAAlTV+K
-         nQWo3TCFVjDsq0WGMGjgxIBKs9Bf7NFzhaiUisc4WTJGYUwAnJcpF9jtu+JJ1899YWh1
-         DoVA==
+	Sat, 19 Apr 2025 16:10:39 +0000
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d2d952eb1so19655755e9.1
+        for <linux-nvme@lists.infradead.org>; Sat, 19 Apr 2025 09:10:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745037256; x=1745642056;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1745079036; x=1745683836;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uXzOal0nfIQ8bFg2XccSM090HwsdWEh3UWZ58CwncMQ=;
-        b=b6LLTovjBWYFtCkUff3uhVLsBz4/IfIgPigFk/sX76lKcshjYmQk25ip8e4THFVvTZ
-         pk/1ILCHZlmfrVcJQHMzCun4k4J67bh2+Wbba/y7/elW0FtVWo3sOHpuzwXzP8r3TrAH
-         1oSnCPquLNuWJHLdfEJ80fhBSKsOjlq8oCfBZORG6xmkA+2tLsKjzAu7lSq5EHKp1h9O
-         GNHvZ72aMq1+whNCsEaWTg6OT8mVPN3nh1rxImHo0MqJGh8iA/cqTotmNyCizvBWT2xr
-         jEBwXnxKKQxzz41xvJtmfatPI9EFSeWhmBzanQGNzZsZ4UNVj2qQB3uuS+flKgappwSL
-         jZxg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmRP+f3NkbugeC/c+3HExPegP4DUWQV96+rb74/uqUfzKWlyOABLAfTSFTIMfdJrqGnaMkbEX9tsYG@lists.infradead.org
-X-Gm-Message-State: AOJu0YwFhJZz7osHLvQteXhsowdARRwqzcXC/gNOk6ppSblb2q4gkzKO
-	f4d9yvlXnn25z5hqdOvmidKUPTc6LvOHnl8gJhwBEsLw6HQta740lvCwrh3GNQ==
-X-Gm-Gg: ASbGnctZa2TcKHYkgUYjtmgVtao7oi8MIuMWWc8MkI0fDZmI9PVGmqleou/EobX951O
-	13W8FXu1PBxcbtEvGLHGE/SBwgW1AKMau/EMexwZfY/SEdsGqfKzF180QCh4bsWFXA79ZU///hH
-	8a11dS2N9vKFGIsloX1O7zVudTfrN82jKe+iPbikGzRDjdkN6FNMMLSEQnYl+F47kdiH590tly/
-	1VrNJx8Xu+seb13EXuAmwLj3sE+Yp0UezixLsJ3qWyotRb6sXaawEK6D9431D9fGkKOD4ulVfri
-	2JtM3JsTS67NKmUBWJq53kswjhMzJCxec01iOKbBBANznzRqvLrA
-X-Google-Smtp-Source: AGHT+IEP9iQj2KkpKrslEj+551ckgO39xK+3CJrtgDzGeG3sOciJvji42KgL9hedUsr1SldlGwzI4w==
-X-Received: by 2002:a05:6a00:4606:b0:739:3f55:b23f with SMTP id d2e1a72fcca58-73dc14d3124mr5780129b3a.14.1745037256037;
-        Fri, 18 Apr 2025 21:34:16 -0700 (PDT)
-Received: from thinkpad ([220.158.156.81])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbfa58333sm2450467b3a.118.2025.04.18.21.34.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 21:34:15 -0700 (PDT)
-Date: Sat, 19 Apr 2025 10:04:08 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>, 
-	Allen Hubbe <allenbh@gmail.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, ntb@lists.linux.dev, 
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 2/3] PCI: endpoint: improve fixed_size bar handling
- when allocating space
-Message-ID: <xzn36fjifrwgmxpymmn6v7truzan5of37oxvvriegitnqeuwwr@cgrckqiittfh>
-References: <20250407-pci-ep-size-alignment-v3-0-865878e68cc8@baylibre.com>
- <20250407-pci-ep-size-alignment-v3-2-865878e68cc8@baylibre.com>
- <Z_Pw3I2xO7BMSGWW@ryzen>
- <1jjz7wvuyj.fsf@starbuckisacylon.baylibre.com>
- <Z_TuIP-k1yLbjcys@ryzen>
+        bh=bB/ExXw5iMg6WYOEtmSHjkeGKxxaETAwbiI9Epa5lsc=;
+        b=vWuNspyqvQ3D8NHZrac/N6Tu4cQeXVsjqcbtMsoLCNjmErtY8OgWn+gX9dPwwtqtwy
+         UbXPuviIyYBCq9dW/QKGaFOVhaPoNjaJZQpRgDSjz5LT5g/Kpi7zCv6Vbd/DKm6jKSIq
+         oKLl+lNeef9pmrjL9GGZ5CnamzQ0EEfE35pQX3F2m3TEhcqVr+l41xLM8Rl2HvdpOXCu
+         DsekTnc4ah1bSEqNxWfISUjmMfWdIKHKleS9xjtXslPO7ptKsVZl3HL9GzCLSk8AI2lJ
+         pALXRRwqrnUMKaJVYZK9zjWSG2MucrqJPDVYVP9b9Y8IBfRytPMynxcjv0J391/aKLR5
+         83xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPpPrFe1a3EF7ZYVTD5i7KEgg1LIHrDIzsu1uwcfqfIJpT8GcmZLshr3ClWf8nibFd3a4Ado07PbM0@lists.infradead.org
+X-Gm-Message-State: AOJu0YydMOJ9btQ8/sY5Q/XxKx1nz8grBDBrLI+48kFHlRwfPGVsK7yq
+	wzvHCDIH4ItetaPu/RKJxjEqkovh4QLvkae7mCoE4nG7LnqFevGp
+X-Gm-Gg: ASbGncuumgA3MsQNWBQ9i8CZiOTYdWZm7JtNkvPfHfbP1kb1JRNNvy+njrS4qFgq1eh
+	R3mJ1y/KBypuzMYufXFYC+oduuxHrqweByhdbMzlI9s9uZBvDdfgDOgxyFjgM68qtzqPVDc7bgP
+	KKzY7Ud5gLDu+MdgzYNNk8PNhE8zvPj50sJzYzBJmIeHSypbbWWe8LlI+uN9CrudyqzwGt05ime
+	5i0bqqmrPDjJvkHqWIXAS2VHsjggVqzNrTKjtWU4ZdY+/fsvOqJqpxBiG/Aa+3fvlfR2H54lbOW
+	fJEPp4Pz3WaxFBGV+DY41OkRaihtCIV7vvWCC/36
+X-Google-Smtp-Source: AGHT+IE//zYrCbWCs5FQllWd383P9LUuIA9OoR90m4B4TDBjQqEVvz2IfL5CogUrcjQ3EOLZX/iPgA==
+X-Received: by 2002:a05:600c:138e:b0:43d:172:50b1 with SMTP id 5b1f17b1804b1-4406ac1ff50mr49374345e9.29.1745079035995;
+        Sat, 19 Apr 2025 09:10:35 -0700 (PDT)
+Received: from [10.100.102.67] ([95.35.174.203])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5a9e50sm67026505e9.6.2025.04.19.09.10.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Apr 2025 09:10:35 -0700 (PDT)
+Message-ID: <cb444a0b-ecaa-4f46-8323-e5c39a8c71e7@grimberg.me>
+Date: Sat, 19 Apr 2025 19:10:33 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z_TuIP-k1yLbjcys@ryzen>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
+To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Hannes Reinecke <hare@suse.de>,
+ Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chris Leech <cleech@redhat.com>
+References: <20250403065522.90807-1-hare@kernel.org>
+ <20250403065522.90807-4-hare@kernel.org>
+ <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
+ <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
+ <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
+ <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
+ <BY5PR04MB684996C1DB38F3BC4386B55EBCBC2@BY5PR04MB6849.namprd04.prod.outlook.com>
+ <ee011198-9a15-44e5-a18e-02d3844ee48b@grimberg.me>
+ <BY5PR04MB6849262F5822EC7132BE7414BCBF2@BY5PR04MB6849.namprd04.prod.outlook.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <BY5PR04MB6849262F5822EC7132BE7414BCBF2@BY5PR04MB6849.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250418_213417_361836_67936265 
-X-CRM114-Status: GOOD (  29.12  )
+X-CRM114-CacheID: sfid-20250419_091038_732365_66B26BD9 
+X-CRM114-Status: GOOD (  29.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,72 +97,138 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 08, 2025 at 11:36:32AM +0200, Niklas Cassel wrote:
-> On Mon, Apr 07, 2025 at 05:43:00PM +0200, Jerome Brunet wrote:
-> > On Mon 07 Apr 2025 at 17:35, Niklas Cassel <cassel@kernel.org> wrote:
-> > 
-> > > Hello Jerome,
-> > >
-> > > On Mon, Apr 07, 2025 at 04:39:08PM +0200, Jerome Brunet wrote:
-> > >> When trying to allocate space for an endpoint function on a BAR with a
-> > >> fixed size, the size saved in the 'struct pci_epf_bar' should be the fixed
-> > >> size. This is expected by pci_epc_set_bar().
-> > >> 
-> > >> However, if the fixed_size is smaller that the alignment, the size saved
-> > >> in the 'struct pci_epf_bar' matches the alignment and it is a problem for
-> > >> pci_epc_set_bar().
-> > >> 
-> > >> To solve this, continue to allocate space that match the iATU alignment
-> > >> requirement but save the size that matches what is present in the BAR.
-> > >> 
-> > >> Fixes: 2a9a801620ef ("PCI: endpoint: Add support to specify alignment for buffers allocated to BARs")
-> > >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> > >> ---
-> > >>  drivers/pci/endpoint/pci-epf-core.c | 25 +++++++++++++++++--------
-> > >>  1 file changed, 17 insertions(+), 8 deletions(-)
-> > >> 
-> > >> diff --git a/drivers/pci/endpoint/pci-epf-core.c b/drivers/pci/endpoint/pci-epf-core.c
-> > >> index b7deb0ee1760b23a24f49abf3baf53ea2f273476..fb902b751e1c965c902c5199d57969ae0a757c2e 100644
-> > >> --- a/drivers/pci/endpoint/pci-epf-core.c
-> > >> +++ b/drivers/pci/endpoint/pci-epf-core.c
-> > >> @@ -225,6 +225,7 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
-> > >>  	struct device *dev;
-> > >>  	struct pci_epf_bar *epf_bar;
-> > >>  	struct pci_epc *epc;
-> > >> +	size_t size;
-> > >>  
-> > >>  	if (!addr)
-> > >>  		return;
-> > >> @@ -237,9 +238,12 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
-> > >>  		epf_bar = epf->sec_epc_bar;
-> > >>  	}
-> > >>  
-> > >> +	size = epf_bar[bar].size;
-> > >> +	if (epc_features->align)
-> > >> +		size = ALIGN(size, epc_features->align);
-> > >
-> > > Personally, I think that you should just save the aligned_size / mem_size /
-> > > backing_mem_size as a new struct member, as that avoids the risk that someone
-> > > later modifies pci_epf_alloc_space() but forgets to update
-> > > pci_epf_free_space() accordingly.
 
-+1. It is always a better approach to store the aligned size during allocation
-and use it while freeing. It indeed avoids the alloc/free to go unsymmetry in
-the future.
 
-> > 
-> > I tried but it looked a bit silly to store that when it was only a
-> > matter of calling ALIGN() with parameters we already had, and it is
-> > supposed to be only used in those two functions.
+On 4/18/25 21:55, Kamaljit Singh wrote:
+> Sagi,
 > 
-> Another advantage is that you could kill patch 1/3 in this series, as
-> there would be no need to supply epc_features to pci_epf_free_space().
+> From: Sagi Grimberg <sagi@grimberg.me>
+> Date: Friday, April 18, 2025 at 03:51
+>>> Sagi,
+>>> I tried both of these patches but looks like #1 causes an infinite loop. dmesg was full of panics.
+>>> I had tried just #1 and later with #1+#2. Both failed the same way.
 > 
+>> That's no good :)
+> 
+>> Can you share the panics? This version should be identical to what
+>> Hannes introduced in:
+> Sorry, I'm posting ~200 lines at the bottom, starting from the beginning of the panic until the next "---cut here---". I can send the whole dmesg as attachment as well. Please let me know.
 
-Yes!
+No need.
 
-- Mani
+However the log prints are WARN messages that does not exist in any of
+the patches.
 
--- 
-மணிவண்ணன் சதாசிவம்
+> 
+> The patches I applied are these:
+> 1: nvme-tcp: partial write tcp-q-wake-sender untested by Sagi
+> 2: nvme-tcp: recv-side EAGAIN untested fix by Sagi
+> 3: nvme-tcp: fix I/O stalls on congested sockets
+
+The patch I suggested was a replacement for patch (3). Didn't you
+get conflicts?
+
+> 4: nvme-tcp: sanitize request list handling
+> 5: nvme-tcp: avoid inline sending when handling R2T PDUs
+> 6: tls: use independent record sz for data sends  <--- this is my internal/temp fix for a TLS send issue we found
+> You can probably ignore #6.
+
+Ignoring.
+
+
+> [4]         nvme-tcp: sanitize request list handling
+> 
+>      Validate the request in nvme_tcp_handle_r2t() to ensure it's not
+>      part of any list, otherwise a malicious R2T PDU might inject a
+>      loop in request list processing.
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 40dce5dc3ff5..4647d5d547f8 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -455,6 +455,7 @@ nvme_tcp_fetch_request(struct nvme_tcp_queue *queue)
+>          }
+> 
+>          list_del(&req->entry);
+> +       init_llist_node(&req->lentry);
+>          return req;
+>   }
+> 
+> @@ -562,6 +563,8 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+>          req->queue = queue;
+>          nvme_req(rq)->ctrl = &ctrl->ctrl;
+>          nvme_req(rq)->cmd = &pdu->cmd;
+> +       init_llist_node(&req->lentry);
+> +       INIT_LIST_HEAD(&req->entry);
+> 
+>          return 0;
+>   }
+> @@ -773,8 +776,12 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
+> 
+>          nvme_tcp_setup_h2c_data_pdu(req);
+> 
+> +       WARN_ON(queue->request == req);
+> +       WARN_ON(llist_on_list(&req->lentry));
+> +       WARN_ON(!list_empty(&req->entry));
+
+These are not included in Hannes patch afaict.
+I'm assuming that these are the stack traces that are firing...
+
+Can you please share the output of gdb:
+l *nvme_tcp_recv_skb+0x115e
+
+My assumption is that in your case, queue->request is still referenced
+with the current request when the r2t for it arrives, which is very much
+possible...
+
+So this means that the patch "nvme-tcp: sanitize request list handling"
+is wrong, queue->request may still be referenced when its r2t arrives.
+
+I think this patch needs the following:
+--
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index f2c829f1aff6..c2d4893ecb94 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -767,8 +767,7 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue 
+*queue,
+                 return -EPROTO;
+         }
+
+-       if (queue->request == req ||
+-           llist_on_list(&req->lentry) ||
++       if (llist_on_list(&req->lentry) ||
+             !list_empty(&req->entry)) {
+                 dev_err(queue->ctrl->ctrl.device,
+                         "req %d unexpected r2t while processing request\n",
+--
+
+Or in your case - remove the above:
+--
+	WARN_ON(queue->request == req);
+--
+
+
+
+> ================================
+> Snapshot of panic messages:
+> 
+> ...
+> [2025-04-16 22:55:32.992] [Wed Apr 16 22:55:34 2025] nvme nvme0: QID 0x0: traddr=10.10.10.223,trsvcid=4420,sport=0x8ac6,dport=0x1144
+> [2025-04-16 22:55:33.445] [Wed Apr 16 22:55:34 2025] nvme nvme0: D3 entry latency set to 16 seconds
+> [2025-04-16 22:55:33.898] [Wed Apr 16 22:55:35 2025] nvme nvme0: queue_size 128 > ctrl sqsize 17, clamping down
+> [2025-04-16 22:55:33.929] [Wed Apr 16 22:55:35 2025] nvme nvme0: creating 3 I/O queues.
+> [2025-04-16 22:55:35.398] [Wed Apr 16 22:55:36 2025] nvme nvme0: mapped 3/0/0 default/read/poll queues.
+> [2025-04-16 22:55:35.445] [Wed Apr 16 22:55:36 2025] nvme nvme0: QID 0x1: traddr=10.10.10.223,trsvcid=4420,sport=0x8ac8,dport=0x1144
+> [2025-04-16 22:55:35.508] [Wed Apr 16 22:55:36 2025] nvme nvme0: QID 0x2: traddr=10.10.10.223,trsvcid=4420,sport=0x8ad4,dport=0x1144
+> [2025-04-16 22:55:35.554] [Wed Apr 16 22:55:36 2025] nvme nvme0: QID 0x3: traddr=10.10.10.223,trsvcid=4420,sport=0x8ad8,dport=0x1144
+> [2025-04-16 22:55:35.632] [Wed Apr 16 22:55:37 2025] nvme nvme0: new ctrl: NQN "nqn.2015-09.com.wdc:nvme.1", addr 10.10.10.223:4420, hostnqn: nqn.2014-08.org.nvmexpress:host.0
+> [2025-04-16 22:55:36.195] [Wed Apr 16 22:55:37 2025] nvme nvme0: Failed to get ANA log: 16386
+> [2025-04-16 22:55:43.023]
+> [2025-04-16 22:55:43.492]
+> [2025-04-16 22:56:24.758] [Wed Apr 16 22:56:26 2025] ------------[ cut here ]------------
+> [2025-04-16 22:56:24.758] [Wed Apr 16 22:56:26 2025] WARNING: CPU: 22 PID: 134878 at tcp.c:782 nvme_tcp_recv_skb+0x115e/0x11c0 [nvme_tcp]
+
+My assumption is that this is a result of
+WARN_ON(queue->request == req);
 
