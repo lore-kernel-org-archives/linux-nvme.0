@@ -4,84 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE047C369AB
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Apr 2025 14:52:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2872BC369AB
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Apr 2025 15:04:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QENNCrjCWntef3deRbb4YDB7wTorwvsVGVDTK+xRntE=; b=Xvo2qa+RA+b3Y6jTsJqsnnRa31
-	cI5R+rmhKBGayrTdxL0tKvtAMaS8PX53vRfcl7FH4bL6QPwi1Nih2pA/dgi+9mB0eiAj6Pk89mlbw
-	+R70GeSLtMhS109emXvsqbd3Mk1OEjlxM+Wtyrbyluf6Td/X3iSzAq2V6rO7E8wjLMOJrzeKjtGra
-	hVcQhv96B//f6ari035QgGiecpOUSVBrMyx80CdxsOh15c8r2wKEfd5+G38t6NMqaMyVDOm8PMDv4
-	kj3OTk4ZZJYuWA+ej02YJNBONpMr02i5tVUtjDHh8bDPdcuI996pV3zxxcgFoMGHblPJJA+h5Wpn5
-	Ai33I3xw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QvoL8n038tRQQThSj8dghpYys9J1HTJG96WFUhEbnK0=; b=D11cJ4J951aJLgk8K7tj4KrT7c
+	Pd5k//I8Ry4XbaX6xbMe1TDhl4JJBGyZsbKs0QOzvoUDUnWiEbSpsfQuwPBRSOVN3a7EAC7uu/cHW
+	K6N1qpNoJkXPs+W02hhdy/5+yC7pjccJpP2xAMKgrg/CjZfAsTReiQr9k45h49hDSp2VeiEeqySEW
+	hXHCkvOpEfvVe+NU8X1cvSIMQSZf9rfbBoIXqqhCvyKP8LOVfcoiQP4ONTqtyB3uhOaMpOfZPgMKo
+	ByaNCcSxzJQR0TfsM8ORykR5B3CCjj+saOMYiC1Q6BulwKc3+Zrs5eZkKsp4Aj167+xy9hVkm6tnS
+	BfCSM7Wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u6sVa-00000004VIy-15kv;
-	Mon, 21 Apr 2025 14:52:30 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1u6shX-00000004Wue-2P48;
+	Mon, 21 Apr 2025 15:04:51 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u6sTf-00000004UxM-2TnM
+	id 1u6OoM-00000002J9y-2YJt
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Apr 2025 14:50:32 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2ff67f44fcaso968824a91.3
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Apr 2025 07:50:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1745247031; x=1745851831; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QENNCrjCWntef3deRbb4YDB7wTorwvsVGVDTK+xRntE=;
-        b=UfbJlCFoWuydskfTRPaeNTEsS3eoRH7DiX3vgQExN32dcHMAko6QUWVlM4HZvT6F14
-         MuZVDRpAj2n913d2ztbR9B6SMP5fMQ8f3oRC/UmmLAAfJDz8wZCS7B9RZSxQtqSpd63H
-         dCWKVzkAjo7krL7NMnG1UgvaXAWlbGnd9HjbeF/CL+D1aDwE5CxsBW5mxbaSt2nlSpql
-         d7JqlGyi/CKL7oU416RKi8Y3jbbg3cuV0/2U4oQ8yIPLNkA3mr1mT4kUoCv1xvOjr7SP
-         226Zx3yFdSrd1Vwjlk/Rg+oklimhwfTR3IkMmVl1MOAqC8KNwPSfWow9K7NkmgtWUPl1
-         HBYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745247031; x=1745851831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QENNCrjCWntef3deRbb4YDB7wTorwvsVGVDTK+xRntE=;
-        b=C96i+M1HQrdHaGUKHZZknhYWScF9t4uypuDfBGVIJH0H4E14k+KhF6tF8gFVOtRGJO
-         VQzoeuDmzt/mYfz9zX8MQHwnlY38vRBA+SBT69Q4dI/Le8gM15/1+zwC+PLrccCr6uZb
-         JgS25V+yhhwbqA2THyCK0veytRhrJ7ljkT399EzAiK0btqCuh/ntGIF7nP1Wd6yPoZ94
-         Tom3NRh9TNbEZgDfe7TC4EqFDNLSLvh5OPDiXvRWAaJ6lh5bN4Y+DiA8xIGnw1ProCo7
-         PmCNxB01JmeNZKg9A0GzqGoxgdSTDOloV3mWFsshJHwjL/2OTDyl0/meCAordIrG6Kbx
-         TbAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVeK/Y83gotZiPi5dyhGFFcgBRffkRBqteF7M583hubUKwgi9GKJYoOyoNs2aLJesFrJuoeN+kH86mK@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyxzr8NwWGY9DCkDQtxtOoIrQPBwztfHWdz9g6SbDJtaztNQqFu
-	voH8GGyLT6F28SHhzOYCYiJaBwov7TJiuTuR1XjKjvIfH6pH0t69ZufNl1ryYz4xBWRshCwukNl
-	gjVH7/E4nY1jgayzyeFn6me66ASlPC52xYwHqPQ==
-X-Gm-Gg: ASbGnctgaVSQsnsOggUMC0w3vLO+EkxNEaFiVPA9anUKWemRpQGOgkgiX0CHqJ9xoW6
-	30QIXXVf2DOW/j9B2qoY+Rf/iGEeg4xOkNCHfS5bXVDSIkLVWjEfi/gqgRrmgwU65Hcm7o7kzpg
-	/DPB447BMs1pO4FqK71pyBjQ==
-X-Google-Smtp-Source: AGHT+IHGyIn8Ggts2Cc0qvPGykqovnuCA00psLfWjJbSCUbMZNw6jer7jEaCr1NDs6Jo7lxB27P4MZf4Q205Us9cxvc=
-X-Received: by 2002:a17:90b:3b82:b0:2ff:6bcf:5411 with SMTP id
- 98e67ed59e1d1-3087bb313f0mr6899291a91.1.1745247030715; Mon, 21 Apr 2025
- 07:50:30 -0700 (PDT)
+	Sun, 20 Apr 2025 07:09:54 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 5D0AA60007;
+	Sun, 20 Apr 2025 07:09:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 858A7C4CEE2;
+	Sun, 20 Apr 2025 07:09:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745132991;
+	bh=DnPJAtQCAT1601If/hRz83wTZ4UHqcQsShHrfo6H7rM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RDz9qVfpkRY4EAI36WaskxJdBPEHUlHFbAqFkCaVljTQw2lc/CZWqFZnCOm8MUu+u
+	 UrnadqItcqjJX8psssUB220xLgoCNkTErsCMMfM+LcQNv/lN9+7iyBAixDzSSYRERs
+	 9QvymfQ6DxqnBDFAPnDfrK3vcmVwiHkXZQebyeCwLRbHisYArdA1/1Ng8W7pTvxGdN
+	 ExFInLH9/9MK/zmr0slhL5h+cLRxxF3IiVZqx3CiPDDOuIqmNXHF3wJ8GD6rscX14G
+	 v8WEpFME6iQdRojmcM1vpWqjFnfXt8wLrQZoE00EvORp7GOiurN3OrarLMgd6b2C6G
+	 j2uwfP3dJ++Dg==
+Date: Sun, 20 Apr 2025 10:09:46 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v8 20/24] blk-mq: add scatterlist-less DMA mapping helpers
+Message-ID: <20250420070946.GA10635@unreal>
+References: <cover.1744825142.git.leon@kernel.org>
+ <87b151a3791d71e58ec6f1b42bcf5fe06304cf80.1744825142.git.leon@kernel.org>
+ <65b0070e-3386-4725-8e8a-15b0409b8368@oracle.com>
 MIME-Version: 1.0
-References: <CGME20250420164653epcas5p10dba2c638655fd4b16c6553d5125a3a0@epcas5p1.samsung.com>
- <20250420164450.1144416-1-csander@purestorage.com> <ba40abc8-8b41-4e2c-a700-04e8e424bcc3@samsung.com>
-In-Reply-To: <ba40abc8-8b41-4e2c-a700-04e8e424bcc3@samsung.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Mon, 21 Apr 2025 07:50:19 -0700
-X-Gm-Features: ATxdqUF55Ax7ibERHwBXWAwdTqIHaIXovQcmFJZCKc-VxqIvQ5GCvoXYN6uIH88
-Message-ID: <CADUfDZpDS6GUOhhM=je1hiKd-iAQLR6c6pWCyS-qTuutKNWzuw@mail.gmail.com>
-Subject: Re: [PATCH] nvme/pci: make PRP list DMA pools per-NUMA-node
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250421_075031_675913_4F86BEFF 
-X-CRM114-Status: GOOD (  10.77  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <65b0070e-3386-4725-8e8a-15b0409b8368@oracle.com>
+X-Mailman-Approved-At: Mon, 21 Apr 2025 08:03:40 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,22 +95,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 21, 2025 at 12:09=E2=80=AFAM Kanchan Joshi <joshi.k@samsung.com=
-> wrote:
->
-> On 4/20/2025 10:14 PM, Caleb Sander Mateos wrote:
-> >   static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
-> >                         unsigned int hctx_idx)
->
-> Missing this handling for admin queue.
->
-> We may go to that case (i.e., admin command with data payload > 1
-> segment) less often. But when we do, this code will give
-> null-pointer-deference.
+On Fri, Apr 18, 2025 at 11:33:09PM +0530, ALOK TIWARI wrote:
+> 
+> 
+> > + * Start DMA mapping @req to @dma_dev.  @state and @iter are provided by the
+> > + * caller and don't need to be initialized.  @state needs to be stored for use
+> > + * at unmap time, @iter is only needed at map time.
+> > + *
+> > + * Returns %false if there is no segment to map, including due to an error, or
+> > + * %true it it did map a segment.
+> 
+> typo - it it -> if it
 
-Good catch, will fix in v2. I'll also adopt your suggestion of
-dynamically allocating the per-NUMA-node pool list.
-
-Thanks,
-Caleb
+Thanks, will fix all types on my dma-split-wip branch.
 
