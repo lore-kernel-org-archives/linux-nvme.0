@@ -4,85 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A622C369BD
-	for <linux-nvme@archiver.kernel.org>; Sat, 19 Apr 2025 16:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 287ECC369C2
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Apr 2025 06:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bB/ExXw5iMg6WYOEtmSHjkeGKxxaETAwbiI9Epa5lsc=; b=YiAbXQ+hQyzwP3KlazCYs/YbuM
-	8plB+K2HV+Q1oYQgA6sFm2lZNOWypTU6UL8gec4mYrB7NWjFLFE0v6a0CQpMIPpezewuxtmKGmzIg
-	k8lCgB0Co57q8J6v2b74ecfGcLAaGiAAFyPMFHFGjNmJS5LYl43X74mCMJ5Ww+vZfNS2WhScZWNSz
-	bSaDx9CwjQoOMe+fX6N2QdGsNgCRR0lJPq1sG62KHB+w1fQLjlmAPQChASMCUWk/PY6MD8vR2loMc
-	6xwP4NQujrSdIzz452Dq2amcwt9AIxTcx5GWkwDU2wTtghfYe8z6Vsqb94Z4uwlw8RbJZaFxoGiNk
-	ssS3pPCA==;
+	bh=kMW4fvPFuojcmaWACfE+86JvZbwXndDrxVjxQIjcb1I=; b=l+Kgmi6M4EE5PEeXskRM4P71Fc
+	+Cud59y410tmGJY1SrtX6PAdcF6I/p8LB+jcqI/90R2wpM4HR8zf7wIvEDNoCZqSUYh/ngUSap/NR
+	gupBA06znMuWHj/89k9ahnw3pFe6p7mLW7jKiwh634GFcxORFjDHUTEWDrqXxSgB43Yo21n0Q/8gd
+	gQOJJqjqB6riDz+iZJtIBJIj8dVyJNYan9h7QNvBfS2e6y4SZLekqn66PFddH21mYfU8WP8fOmgno
+	6ibOXtoHKunZEhsaHjf3wSyugUuFx077bAyAaH0imqgIh2feyO2vgg4460L4lRx92uTj6zkSjifMV
+	IC1KB7AA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u6Am9-00000001VuZ-11I0;
-	Sat, 19 Apr 2025 16:10:41 +0000
-Received: from mail-wm1-f54.google.com ([209.85.128.54])
+	id 1u6NtD-00000002FsH-3NhA;
+	Sun, 20 Apr 2025 06:10:51 +0000
+Received: from mail-wm1-f42.google.com ([209.85.128.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u6Am6-00000001Vtz-2rpl
+	id 1u6Nt6-00000002FrU-2DuB
 	for linux-nvme@lists.infradead.org;
-	Sat, 19 Apr 2025 16:10:39 +0000
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d2d952eb1so19655755e9.1
-        for <linux-nvme@lists.infradead.org>; Sat, 19 Apr 2025 09:10:37 -0700 (PDT)
+	Sun, 20 Apr 2025 06:10:45 +0000
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfdc2c8c9so16922515e9.2
+        for <linux-nvme@lists.infradead.org>; Sat, 19 Apr 2025 23:10:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745079036; x=1745683836;
+        d=1e100.net; s=20230601; t=1745129442; x=1745734242;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bB/ExXw5iMg6WYOEtmSHjkeGKxxaETAwbiI9Epa5lsc=;
-        b=vWuNspyqvQ3D8NHZrac/N6Tu4cQeXVsjqcbtMsoLCNjmErtY8OgWn+gX9dPwwtqtwy
-         UbXPuviIyYBCq9dW/QKGaFOVhaPoNjaJZQpRgDSjz5LT5g/Kpi7zCv6Vbd/DKm6jKSIq
-         oKLl+lNeef9pmrjL9GGZ5CnamzQ0EEfE35pQX3F2m3TEhcqVr+l41xLM8Rl2HvdpOXCu
-         DsekTnc4ah1bSEqNxWfISUjmMfWdIKHKleS9xjtXslPO7ptKsVZl3HL9GzCLSk8AI2lJ
-         pALXRRwqrnUMKaJVYZK9zjWSG2MucrqJPDVYVP9b9Y8IBfRytPMynxcjv0J391/aKLR5
-         83xQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXPpPrFe1a3EF7ZYVTD5i7KEgg1LIHrDIzsu1uwcfqfIJpT8GcmZLshr3ClWf8nibFd3a4Ado07PbM0@lists.infradead.org
-X-Gm-Message-State: AOJu0YydMOJ9btQ8/sY5Q/XxKx1nz8grBDBrLI+48kFHlRwfPGVsK7yq
-	wzvHCDIH4ItetaPu/RKJxjEqkovh4QLvkae7mCoE4nG7LnqFevGp
-X-Gm-Gg: ASbGncuumgA3MsQNWBQ9i8CZiOTYdWZm7JtNkvPfHfbP1kb1JRNNvy+njrS4qFgq1eh
-	R3mJ1y/KBypuzMYufXFYC+oduuxHrqweByhdbMzlI9s9uZBvDdfgDOgxyFjgM68qtzqPVDc7bgP
-	KKzY7Ud5gLDu+MdgzYNNk8PNhE8zvPj50sJzYzBJmIeHSypbbWWe8LlI+uN9CrudyqzwGt05ime
-	5i0bqqmrPDjJvkHqWIXAS2VHsjggVqzNrTKjtWU4ZdY+/fsvOqJqpxBiG/Aa+3fvlfR2H54lbOW
-	fJEPp4Pz3WaxFBGV+DY41OkRaihtCIV7vvWCC/36
-X-Google-Smtp-Source: AGHT+IE//zYrCbWCs5FQllWd383P9LUuIA9OoR90m4B4TDBjQqEVvz2IfL5CogUrcjQ3EOLZX/iPgA==
-X-Received: by 2002:a05:600c:138e:b0:43d:172:50b1 with SMTP id 5b1f17b1804b1-4406ac1ff50mr49374345e9.29.1745079035995;
-        Sat, 19 Apr 2025 09:10:35 -0700 (PDT)
-Received: from [10.100.102.67] ([95.35.174.203])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5a9e50sm67026505e9.6.2025.04.19.09.10.34
+        bh=kMW4fvPFuojcmaWACfE+86JvZbwXndDrxVjxQIjcb1I=;
+        b=aoBxAMq3mRL8GcrOYMNGB3+dPnMoQXBJLi2GRDnXwS5714XAI8gsqHIo7sSEqnIY12
+         Gz4ccRvEmxJLnyOFBo5wojwBoXb9sCaHmLVFQzfBeJgXEItcI9XUk1AxuYG+1WjnGhRp
+         TKjE5Jd9oHRt5mI0PG4nl34gTb527moWMGxfRr6MQ3BARtRuvsc/MGPr8v5KXoc2mi+B
+         sCi2+lzZgacDve0G8bDJ8Z/yNnLXEWAd9sHWw7koCLMd3NqU852OrWvbxx7lt+rhtsnp
+         9Vmh8dIoCFexJrP3Njir2qd5pB3PDH2rr1DgE1ubpP+8GQXrHzh7HRZtGt6TAnbh3S8f
+         aU/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUQPErwETCTfLM+bX6mjB/Za0Es0quGJFFDm7CQbrobH4cdfUQ/xsM6rY3aeuw7ML5uYl8uEiFP3lni@lists.infradead.org
+X-Gm-Message-State: AOJu0YysiUtSIN0VMNyzD7UqTMB4MBAB4umijrauvtoul/2B7wwAprAF
+	pFcWis4N/aFD6A6wusI707A9obT8pFIvslC0jG2HOWrlbp9WUm3s
+X-Gm-Gg: ASbGnctVUfUX9tFf6bx1tryv46kWqrU5/7kqHjpo/EYvlzS098TJAoC3MxPN+w/6xDi
+	ZqsXu2UEDHWE9zy7s4EPwAsqlu3yN3rqBvYaFB8yz6YDTcdq55zCN6U8EqtraUW6WJ+BxFaQ2IW
+	JCWiN+lqNUaZig+fXQMA6ZkmguESvwkQm6e7on+YyNSkh+5kwbX3DOyauV7mDrL9yChLDewetXF
+	VOzWShX1YakSkZnUYbz/A0xl6kFMJb0gWzBaYqT1g068P6dabr3rRe5InK4lArrhEgdj17Q/mJR
+	8SMZEgEKsVUIqqEdVkzkD+3nx6aFLwkUliEAYVcfHQKR3kxxgwgsMXbyjeSqBhufvUW3thC6MU0
+	Wep4nng==
+X-Google-Smtp-Source: AGHT+IH2uOJo6cTZC3bNf4K3tJmcGtT7cvc1CxjN2zQIQlFmlp39AUAS/ih7kssaw4WIh4jlWlXNEw==
+X-Received: by 2002:a05:600c:3c89:b0:43c:e70d:4504 with SMTP id 5b1f17b1804b1-4406abb05eemr68594645e9.19.1745129442278;
+        Sat, 19 Apr 2025 23:10:42 -0700 (PDT)
+Received: from [10.50.5.11] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5acc9esm88546465e9.13.2025.04.19.23.10.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 19 Apr 2025 09:10:35 -0700 (PDT)
-Message-ID: <cb444a0b-ecaa-4f46-8323-e5c39a8c71e7@grimberg.me>
-Date: Sat, 19 Apr 2025 19:10:33 +0300
+        Sat, 19 Apr 2025 23:10:41 -0700 (PDT)
+Message-ID: <78298ce0-3f40-4726-a1a0-fc7aac883bc4@grimberg.me>
+Date: Sun, 20 Apr 2025 09:10:40 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
-To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Hannes Reinecke <hare@suse.de>,
- Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
+Subject: Re: [bug report] blktests nvme/062 hang
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chris Leech <cleech@redhat.com>
-References: <20250403065522.90807-1-hare@kernel.org>
- <20250403065522.90807-4-hare@kernel.org>
- <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
- <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
- <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
- <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
- <BY5PR04MB684996C1DB38F3BC4386B55EBCBC2@BY5PR04MB6849.namprd04.prod.outlook.com>
- <ee011198-9a15-44e5-a18e-02d3844ee48b@grimberg.me>
- <BY5PR04MB6849262F5822EC7132BE7414BCBF2@BY5PR04MB6849.namprd04.prod.outlook.com>
+ Hannes Reinecke <hare@suse.de>, Alistair Francis <Alistair.Francis@wdc.com>
+References: <5hdonndzoqa265oq3bj6iarwtfk5dewxxjtbjvn5uqnwclpwt6@a2n6w3taxxex>
+ <0278196f-ecd8-4282-af2c-b63fdceaf831@grimberg.me>
+ <CADUfDZqa6dWFgkPX=FHyekKyXBCkm-_3bigcbF2BddUUnste9w@mail.gmail.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <BY5PR04MB6849262F5822EC7132BE7414BCBF2@BY5PR04MB6849.namprd04.prod.outlook.com>
+In-Reply-To: <CADUfDZqa6dWFgkPX=FHyekKyXBCkm-_3bigcbF2BddUUnste9w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250419_091038_732365_66B26BD9 
-X-CRM114-Status: GOOD (  29.15  )
+X-CRM114-CacheID: sfid-20250419_231044_574742_55F51321 
+X-CRM114-Status: GOOD (  18.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,136 +93,65 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 4/18/25 21:55, Kamaljit Singh wrote:
-> Sagi,
-> 
-> From: Sagi Grimberg <sagi@grimberg.me>
-> Date: Friday, April 18, 2025 at 03:51
->>> Sagi,
->>> I tried both of these patches but looks like #1 causes an infinite loop. dmesg was full of panics.
->>> I had tried just #1 and later with #1+#2. Both failed the same way.
-> 
->> That's no good :)
-> 
->> Can you share the panics? This version should be identical to what
->> Hannes introduced in:
-> Sorry, I'm posting ~200 lines at the bottom, starting from the beginning of the panic until the next "---cut here---". I can send the whole dmesg as attachment as well. Please let me know.
+On 18/04/2025 20:01, Caleb Sander Mateos wrote:
+> On Wed, Apr 16, 2025 at 3:28 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+>>
+>>
+>> On 16/04/2025 9:31, Shinichiro Kawasaki wrote:
+>>> Hello all,
+>>>
+>>> Recently the new test case nvme/062 was added, which tests
+>>> "TLS-encrypted connections". I ran it with the kernel v6.15-rc2, and observed
+>>> "BUG: kernel NULL pointer dereference" followed by system hang [1].
+>>>
+>>>     When I had run the test case with v6.14 kernel, I had not observed the
+>>>     failure. However, I noticed that when I repeat the test case several times on
+>>>     the v6.14 kernel, the same failure happens. It looks that the problem has been
+>>>     existing for a while, and kernel changes between v6.14 and v6.15-rc2 increased
+>>>     the failure ratio.
+>>>
+>>> Actions for fix will be appreciated. I can run tests with debug patches or fix
+>>> candidate patches.
+>>>
+>>> [1]
+>>>
+>>> [  285.443497][ T1440] run blktests nvme/062 at 2025-04-16 14:41:30
+>>> [  285.586272][ T1531] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>>> [  285.596633][ T1532] nvmet: Allow non-TLS connections while TLS1.3 is enabled
+>>> [  285.601564][ T1535] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+>>> [  285.646164][ T1542] nvme nvme1: failed to connect socket: -512
+>>> [  285.651941][   T48] nvmet_tcp: failed to allocate queue, error -107
+>>> [  285.654954][   T65] nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+>>> [  285.658205][ T1542] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.
+>>> [  285.659759][ T1542] nvme nvme1: creating 4 I/O queues.
+>>> [  285.662596][ T1542] nvme nvme1: mapped 4/0/0 default/read/poll queues.
+>>> [  285.665446][ T1542] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+>>> [  285.763327][ T1560] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
+>>> [  285.923585][ T1567] nvme nvme1: failed to connect socket: -512
+>>> [  285.932856][  T120] nvmet_tcp: failed to allocate queue, error -107
+>>> [  286.035851][   T98] nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349, TLS.
+>>> [  286.038496][ T1567] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.
+>>> [  286.040096][ T1567] nvme nvme1: creating 4 I/O queues.
+>>> [  286.070856][ T1567] nvme nvme1: mapped 4/0/0 default/read/poll queues.
+>>> [  286.074999][ T1567] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+>>> [  286.200199][ T1604] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
+>>> [  286.388688][ T1617] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>>> [  286.406950][ T1621] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+>>> [  286.460711][ T1628] nvme_tcp: queue 0: failed to receive icresp, error -4
+>> Adding Caleb as well I see here also icresp failed with -4
+>> Should we hadd special handling for -EINTR?
+> What do you have in mind? As far as I can tell, the only relevant
+> place in net code that could result in -EINTR is sock_intr_errno(),
+> which is only returned when the current task has a signal pending. (If
+> there is evidence to the contrary, I would love to see it! Maybe
+> tracing signal_generate/signal_deliver would illuminate what's going
+> on?) Returning immediately from the syscall when there's a pending
+> signal and letting userspace handle the signal and choose to retry the
+> syscall seems like standard practice.
 
-No need.
+We need to understand why this test crashes, and why other tests 
+(outside of blktests)
+are regressing.
 
-However the log prints are WARN messages that does not exist in any of
-the patches.
-
-> 
-> The patches I applied are these:
-> 1: nvme-tcp: partial write tcp-q-wake-sender untested by Sagi
-> 2: nvme-tcp: recv-side EAGAIN untested fix by Sagi
-> 3: nvme-tcp: fix I/O stalls on congested sockets
-
-The patch I suggested was a replacement for patch (3). Didn't you
-get conflicts?
-
-> 4: nvme-tcp: sanitize request list handling
-> 5: nvme-tcp: avoid inline sending when handling R2T PDUs
-> 6: tls: use independent record sz for data sends  <--- this is my internal/temp fix for a TLS send issue we found
-> You can probably ignore #6.
-
-Ignoring.
-
-
-> [4]         nvme-tcp: sanitize request list handling
-> 
->      Validate the request in nvme_tcp_handle_r2t() to ensure it's not
->      part of any list, otherwise a malicious R2T PDU might inject a
->      loop in request list processing.
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 40dce5dc3ff5..4647d5d547f8 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -455,6 +455,7 @@ nvme_tcp_fetch_request(struct nvme_tcp_queue *queue)
->          }
-> 
->          list_del(&req->entry);
-> +       init_llist_node(&req->lentry);
->          return req;
->   }
-> 
-> @@ -562,6 +563,8 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
->          req->queue = queue;
->          nvme_req(rq)->ctrl = &ctrl->ctrl;
->          nvme_req(rq)->cmd = &pdu->cmd;
-> +       init_llist_node(&req->lentry);
-> +       INIT_LIST_HEAD(&req->entry);
-> 
->          return 0;
->   }
-> @@ -773,8 +776,12 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
-> 
->          nvme_tcp_setup_h2c_data_pdu(req);
-> 
-> +       WARN_ON(queue->request == req);
-> +       WARN_ON(llist_on_list(&req->lentry));
-> +       WARN_ON(!list_empty(&req->entry));
-
-These are not included in Hannes patch afaict.
-I'm assuming that these are the stack traces that are firing...
-
-Can you please share the output of gdb:
-l *nvme_tcp_recv_skb+0x115e
-
-My assumption is that in your case, queue->request is still referenced
-with the current request when the r2t for it arrives, which is very much
-possible...
-
-So this means that the patch "nvme-tcp: sanitize request list handling"
-is wrong, queue->request may still be referenced when its r2t arrives.
-
-I think this patch needs the following:
---
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index f2c829f1aff6..c2d4893ecb94 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -767,8 +767,7 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue 
-*queue,
-                 return -EPROTO;
-         }
-
--       if (queue->request == req ||
--           llist_on_list(&req->lentry) ||
-+       if (llist_on_list(&req->lentry) ||
-             !list_empty(&req->entry)) {
-                 dev_err(queue->ctrl->ctrl.device,
-                         "req %d unexpected r2t while processing request\n",
---
-
-Or in your case - remove the above:
---
-	WARN_ON(queue->request == req);
---
-
-
-
-> ================================
-> Snapshot of panic messages:
-> 
-> ...
-> [2025-04-16 22:55:32.992] [Wed Apr 16 22:55:34 2025] nvme nvme0: QID 0x0: traddr=10.10.10.223,trsvcid=4420,sport=0x8ac6,dport=0x1144
-> [2025-04-16 22:55:33.445] [Wed Apr 16 22:55:34 2025] nvme nvme0: D3 entry latency set to 16 seconds
-> [2025-04-16 22:55:33.898] [Wed Apr 16 22:55:35 2025] nvme nvme0: queue_size 128 > ctrl sqsize 17, clamping down
-> [2025-04-16 22:55:33.929] [Wed Apr 16 22:55:35 2025] nvme nvme0: creating 3 I/O queues.
-> [2025-04-16 22:55:35.398] [Wed Apr 16 22:55:36 2025] nvme nvme0: mapped 3/0/0 default/read/poll queues.
-> [2025-04-16 22:55:35.445] [Wed Apr 16 22:55:36 2025] nvme nvme0: QID 0x1: traddr=10.10.10.223,trsvcid=4420,sport=0x8ac8,dport=0x1144
-> [2025-04-16 22:55:35.508] [Wed Apr 16 22:55:36 2025] nvme nvme0: QID 0x2: traddr=10.10.10.223,trsvcid=4420,sport=0x8ad4,dport=0x1144
-> [2025-04-16 22:55:35.554] [Wed Apr 16 22:55:36 2025] nvme nvme0: QID 0x3: traddr=10.10.10.223,trsvcid=4420,sport=0x8ad8,dport=0x1144
-> [2025-04-16 22:55:35.632] [Wed Apr 16 22:55:37 2025] nvme nvme0: new ctrl: NQN "nqn.2015-09.com.wdc:nvme.1", addr 10.10.10.223:4420, hostnqn: nqn.2014-08.org.nvmexpress:host.0
-> [2025-04-16 22:55:36.195] [Wed Apr 16 22:55:37 2025] nvme nvme0: Failed to get ANA log: 16386
-> [2025-04-16 22:55:43.023]
-> [2025-04-16 22:55:43.492]
-> [2025-04-16 22:56:24.758] [Wed Apr 16 22:56:26 2025] ------------[ cut here ]------------
-> [2025-04-16 22:56:24.758] [Wed Apr 16 22:56:26 2025] WARNING: CPU: 22 PID: 134878 at tcp.c:782 nvme_tcp_recv_skb+0x115e/0x11c0 [nvme_tcp]
-
-My assumption is that this is a result of
-WARN_ON(queue->request == req);
+I would like to understand if the source is MSG_WAITALL, and why.
 
