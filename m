@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07F21C369D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Apr 2025 02:25:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D548C369D3
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Apr 2025 02:25:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8odCDeolXe0y006L2frznMn4wbjwyj+fg/Rxy4ls9aI=; b=Xv1ColtTU7GyniPEMR2UJnjnyx
-	YW3NOqG0+BP/IraPcRA2sv9vzH2wVfuzfWKt+QSj8D2WTygeGhbFfGS2WEisDcwhrhjviIBJXpb+Q
-	CNxOrRu5kxKwC4zI2tHiQtez0to49NqnvCgGCgjBFCcyzPEEkOS4q1aD4Ln/C4Ho5ueGCLcT+jZPY
-	pq8tLXGgf54z1VMKL4N5vC8Tt+tuGMtfypDKD5TnhL3UMVKZxaqnoVnNShx0xJRUG4bbO1vtf7cZw
-	qLoUn3wAT18CrEMp5QKoyN68Yvsm2aVsxP+mK3DysnGCqPzR0qj3USxV/joxEwhDd6rwtovyHEctX
-	l4ct9FVQ==;
+	bh=u0JD7kUetOWs4MeapXBChWCMcM/I0vAWXzZPFhQOQrc=; b=J7my5Vl3VX7Tcpj1g7fIdTgGEv
+	0Zsfz34EEdhUjr6Z0m2XLjUKpCw2Xu2OuOH/y3Z466yVEImJ5SAriGy2HT6E/dBoJ9DjUupLLalLi
+	THa/4U6mW/Eso9ou7XZv04mL7WwK1EA+J3Ly4Lhjax8NgQWqZCg3ZP1E3Gmyi6LEykzPcno4Sbc5Y
+	JUxhTV49T85YE6mpqHJSjrrtDJ2icyiG9rLADESDixSzGXaLxMWmPMCwJfhhbc+Ngrf+Eqix3X0Ek
+	OFVViS0sbxMChGQ4RSXKOWutb+YIyywsWNReVKrOdeexsDZl4VNz0ReagisTpYKpw6l/Cw2ClaY3a
+	BKTeQtpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u6gqz-00000003Pi3-1ozs;
-	Mon, 21 Apr 2025 02:25:49 +0000
-Received: from dggsgout12.his.huawei.com ([45.249.212.56])
+	id 1u6gr0-00000003PjI-234q;
+	Mon, 21 Apr 2025 02:25:50 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u6gqp-00000003PWP-3VX0
+	id 1u6gqp-00000003PWZ-3ZJQ
 	for linux-nvme@lists.infradead.org;
 	Mon, 21 Apr 2025 02:25:43 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4Zgq2n1TdVz4f3jXd
-	for <linux-nvme@lists.infradead.org>; Mon, 21 Apr 2025 10:25:05 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4Zgq2y3Mj6z4f3jtK
+	for <linux-nvme@lists.infradead.org>; Mon, 21 Apr 2025 10:25:14 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 165001A1B4D
-	for <linux-nvme@lists.infradead.org>; Mon, 21 Apr 2025 10:25:29 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 02B341A058E
+	for <linux-nvme@lists.infradead.org>; Mon, 21 Apr 2025 10:25:33 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.112.188])
-	by APP4 (Coremail) with SMTP id gCh0CgA3m1+MrAVoFxZkKA--.3102S6;
-	Mon, 21 Apr 2025 10:25:28 +0800 (CST)
+	by APP4 (Coremail) with SMTP id gCh0CgA3m1+MrAVoFxZkKA--.3102S11;
+	Mon, 21 Apr 2025 10:25:32 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-ext4@vger.kernel.org,
@@ -58,36 +58,36 @@ Cc: linux-xfs@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yukuai3@huawei.com,
 	yangerkun@huawei.com
-Subject: [RFC PATCH v4 02/11] nvme: set BLK_FEAT_WRITE_ZEROES_UNMAP if device supports DEAC bit
-Date: Mon, 21 Apr 2025 10:15:00 +0800
-Message-ID: <20250421021509.2366003-3-yi.zhang@huaweicloud.com>
+Subject: [RFC PATCH v4 07/11] fs: statx add write zeroes unmap attribute
+Date: Mon, 21 Apr 2025 10:15:05 +0800
+Message-ID: <20250421021509.2366003-8-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20250421021509.2366003-1-yi.zhang@huaweicloud.com>
 References: <20250421021509.2366003-1-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgA3m1+MrAVoFxZkKA--.3102S6
-X-Coremail-Antispam: 1UD129KBjvJXoW7ury8Ar4xJF4kuF15CrWUCFg_yoW8Cw4kpF
-	W3Xa42k348WF47C3sxXw47AFy3Gw1kGa4jgFn7K345Wr13A34Fgr1rKa43XFWkX3s3uayY
-	yFZ8G3s7Ca15XwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
-	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
-	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-	IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
-	xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
-	Ja73UjIFyTuYvjTRNiSHDUUUU
+X-CM-TRANSID: gCh0CgA3m1+MrAVoFxZkKA--.3102S11
+X-Coremail-Antispam: 1UD129KBjvJXoWxJw45Zr4fWry3uw4DAw45GFg_yoW5Aw45pF
+	WkGFy8GF4FgFWUuw4vk3W7Zw15t3WYkr4UA3yUKw10kFWDtr1IgF93CFyjyrnYqrZ7C3y3
+	XF9rK347uay2k3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+	z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+	IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+	kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+	AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
+	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
+	4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
+	daVFxhVjvjDU0xZFpf9x0pRQJ5wUUUUU=
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250420_192540_187457_979F0561 
-X-CRM114-Status: GOOD (  12.23  )
+X-CRM114-CacheID: sfid-20250420_192540_190057_FCF4AB6D 
+X-CRM114-Status: GOOD (  14.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,56 +104,84 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-When the device supports the Write Zeroes command and the DEAC bit, it
-indicates that the deallocate bit in the Write Zeroes command is
-supported, and the bytes read from a deallocated logical block are
-zeroes. This means the device supports unmap Write Zeroes, so set the
-BLK_FEAT_WRITE_ZEROES_UNMAP feature to the device's queue limit.
+Add a new attribute flag to statx to determine whether a bdev or a file
+supports the unmap write zeroes command.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- drivers/nvme/host/core.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ block/bdev.c              | 4 ++++
+ fs/ext4/inode.c           | 9 ++++++---
+ include/uapi/linux/stat.h | 1 +
+ 3 files changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b502ac07483b..b2cece376f30 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2223,22 +2223,25 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	if (!nvme_init_integrity(ns->head, &lim, info))
- 		capacity = 0;
+diff --git a/block/bdev.c b/block/bdev.c
+index 4844d1e27b6f..29b0e5feb138 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -1304,6 +1304,10 @@ void bdev_statx(struct path *path, struct kstat *stat,
+ 			queue_atomic_write_unit_max_bytes(bd_queue));
+ 	}
  
--	ret = queue_limits_commit_update(ns->disk->queue, &lim);
--	if (ret) {
--		blk_mq_unfreeze_queue(ns->disk->queue, memflags);
--		goto out;
--	}
--
--	set_capacity_and_notify(ns->disk, capacity);
--
- 	/*
- 	 * Only set the DEAC bit if the device guarantees that reads from
- 	 * deallocated data return zeroes.  While the DEAC bit does not
- 	 * require that, it must be a no-op if reads from deallocated data
- 	 * do not return zeroes.
- 	 */
--	if ((id->dlfeat & 0x7) == 0x1 && (id->dlfeat & (1 << 3)))
-+	if ((id->dlfeat & 0x7) == 0x1 && (id->dlfeat & (1 << 3))) {
- 		ns->head->features |= NVME_NS_DEAC;
-+		if (lim.max_write_zeroes_sectors)
-+			lim.features |= BLK_FEAT_WRITE_ZEROES_UNMAP;
-+	}
++	if (bdev_write_zeroes_unmap(bdev))
++		stat->attributes |= STATX_ATTR_WRITE_ZEROES_UNMAP;
++	stat->attributes_mask |= STATX_ATTR_WRITE_ZEROES_UNMAP;
 +
-+	ret = queue_limits_commit_update(ns->disk->queue, &lim);
-+	if (ret) {
-+		blk_mq_unfreeze_queue(ns->disk->queue, memflags);
-+		goto out;
-+	}
+ 	stat->blksize = bdev_io_min(bdev);
+ 
+ 	blkdev_put_no_open(bdev);
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 94c7d2d828a6..38caf2f39c6d 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -5653,6 +5653,7 @@ int ext4_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 	struct inode *inode = d_inode(path->dentry);
+ 	struct ext4_inode *raw_inode;
+ 	struct ext4_inode_info *ei = EXT4_I(inode);
++	struct block_device *bdev = inode->i_sb->s_bdev;
+ 	unsigned int flags;
+ 
+ 	if ((request_mask & STATX_BTIME) &&
+@@ -5672,8 +5673,6 @@ int ext4_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 
+ 		stat->result_mask |= STATX_DIOALIGN;
+ 		if (dio_align == 1) {
+-			struct block_device *bdev = inode->i_sb->s_bdev;
+-
+ 			/* iomap defaults */
+ 			stat->dio_mem_align = bdev_dma_alignment(bdev) + 1;
+ 			stat->dio_offset_align = bdev_logical_block_size(bdev);
+@@ -5695,6 +5694,9 @@ int ext4_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 		generic_fill_statx_atomic_writes(stat, awu_min, awu_max);
+ 	}
+ 
++	if (S_ISREG(inode->i_mode) && bdev_write_zeroes_unmap(bdev))
++		stat->attributes |= STATX_ATTR_WRITE_ZEROES_UNMAP;
 +
-+	set_capacity_and_notify(ns->disk, capacity);
- 	set_disk_ro(ns->disk, nvme_ns_is_readonly(ns, info));
- 	set_bit(NVME_NS_READY, &ns->flags);
- 	blk_mq_unfreeze_queue(ns->disk->queue, memflags);
+ 	flags = ei->i_flags & EXT4_FL_USER_VISIBLE;
+ 	if (flags & EXT4_APPEND_FL)
+ 		stat->attributes |= STATX_ATTR_APPEND;
+@@ -5714,7 +5716,8 @@ int ext4_getattr(struct mnt_idmap *idmap, const struct path *path,
+ 				  STATX_ATTR_ENCRYPTED |
+ 				  STATX_ATTR_IMMUTABLE |
+ 				  STATX_ATTR_NODUMP |
+-				  STATX_ATTR_VERITY);
++				  STATX_ATTR_VERITY |
++				  STATX_ATTR_WRITE_ZEROES_UNMAP);
+ 
+ 	generic_fillattr(idmap, request_mask, inode, stat);
+ 	return 0;
+diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+index f78ee3670dd5..279ce7e34df7 100644
+--- a/include/uapi/linux/stat.h
++++ b/include/uapi/linux/stat.h
+@@ -251,6 +251,7 @@ struct statx {
+ #define STATX_ATTR_VERITY		0x00100000 /* [I] Verity protected file */
+ #define STATX_ATTR_DAX			0x00200000 /* File is currently in DAX state */
+ #define STATX_ATTR_WRITE_ATOMIC		0x00400000 /* File supports atomic write operations */
++#define STATX_ATTR_WRITE_ZEROES_UNMAP	0x00800000 /* File supports unmap write zeroes */
+ 
+ 
+ #endif /* _UAPI_LINUX_STAT_H */
 -- 
 2.46.1
 
