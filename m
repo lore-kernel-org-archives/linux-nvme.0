@@ -4,78 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B0B7C369C2
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 13:03:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 268EDC369D3
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 13:18:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rwS5Z1QObT2KlW52KPIui4CmpQqEJswXv+WZsP87AQ4=; b=XFFj34r9axKnISs4AOrEhLq+D0
-	lgt3o02jYT3kwTwYn4hiEaZDVcH9I+KTdFrDv84BzM7Ugpn0I9SiOo9Dt3HUWnSQCayxEr/RhB7cd
-	0l7/6lsjfdW9D0EdcP34wPuY46HRy138nPvxf8wkN8aiBYvnyk1i6Vk+ADDoC/gtqfQgci6ENpizG
-	OzVeNAU9oRKJAssKJ2G/6skxfWFLae5k9Fr1OMk47WaJSaxPhnamUuCeM9Im4uUht+C6s+PD1DJe2
-	mt77+EzQuu+BtO5wlfcaBZ37h3CM/aq3ui4S1VwcIHK9k1vOMR9FKP3ghjvuSriX9qexRpZKdPylh
-	jfFaoHYg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=5SCNpT7fxknXxFl2jrf1TuKGByQegnZorIene7qFnoQ=; b=xt9mL8Xl+bm5RrVRmMrEIUtQtj
+	fnNGRaJuF7+xdJ3grYbLBt9QkctHzNcgsTj4lOMtidS1KTv9qLvmDZWAEf7Mwvh8p9khId4mwfFzb
+	5VoHnF3wMhZCIeMdD9x3/eRKjR9rHqCuoQGl2mJJK6TM5oj+YypxwWnLyFf9nNJyUiBzTP0Zhgg6g
+	zpPum0R2hk2saUGiVojcO//IFrPALZE/MVV1o8xTuQYx3QgTice8SYh2IVccptunu4AJSxkzzaXEr
+	BRC1cyoadJQpOEDPxraeobVOVTZd1wNv4ygOYuoXiUOSlat+hT8+6Cp7TSpXapT75/WTXLV0ZUUuD
+	5fsPpHIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7DI1-00000007DyF-2jQD;
-	Tue, 22 Apr 2025 13:03:53 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1u7DVw-00000007GUn-15MP;
+	Tue, 22 Apr 2025 13:18:16 +0000
+Received: from smtpbgbr2.qq.com ([54.207.22.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7CBv-000000071PV-2nYK
+	id 1u7Cbw-0000000756y-2rwl
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Apr 2025 11:53:32 +0000
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39ee5ac4321so5391886f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 22 Apr 2025 04:53:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745322810; x=1745927610;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rwS5Z1QObT2KlW52KPIui4CmpQqEJswXv+WZsP87AQ4=;
-        b=xODTS1ZDu04VZZLZoWMDIc0tyP2UUQmXDw8z8jUZwhpe72RjEw47PNV9YK7K5wCWJ/
-         uFDo8bgri+eUh4h+NgISLGKhQI5Gp4LBoomzpG5holaNAA0OOlHV/3oFAQW4dQsVPVTC
-         L86Hgynx7eVQQxHntn9hWrvOGda9+c+L8sthLjzGh1Gmr8Dzeu/1AHFPShNDdjAxDMbN
-         6cXo0jj68EmyfWdladr9Ki7NbVHxvWUipdF/z5/eXmC8rLPey7EJrFo7FSS/z9aQBsPA
-         TBjW6zb578edUY2SAEWTpVLGCSCFh2yUpCP0JrOnYh2BtjHAKCXuNH245Ot1RoEHuqJ0
-         y6Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCVQO0vzwlTUnGPEvx/l++H3Ik/op8Vq2nMbEbMoZgA8+tI99Ua2H1TqngkIWe6a+RxP3PyXIZk8YyjP@lists.infradead.org
-X-Gm-Message-State: AOJu0YwnYYu2ZgFLDQHHgMTAxdx818FAB3cIYWM/N+Xy4yyGxrzUhjmr
-	0LjrFxHEC6L0HgYGzYDehseIrPSON9+MuxaMbRwJiQJfisQBuWc4gAnAYg==
-X-Gm-Gg: ASbGnctzjfYZl8KJ0guk68yrG/nOIAuy62ZLYB3HvcfilYpXmXk4O19M5yzsrz4vAZm
-	OU0xhTijgLreAyKIfZWXPej+Kgzh1R0YtvTQtO+437z7OTHy40AYUsoMaN+Swkdu9rytnGhCuln
-	GlYFh5OWkFXYz4Fa8ff6i2KR3JFYAb2Mqfkr1OL2G5WAw+ydQTzZDmOINqRGc4UZhCxRS9KdRbm
-	pE5SdxFllgj/q4qPaHyGYWgWliaTo+4qXl73n7d+/0gOiCBuit0Yjx+Vj6cWeMPUlrrbEj23skT
-	koqY02mTDu39uAeoydRKxrvEAmU8wirkWjZCYINV3D2NONBJSKcFa0iH388NRdiFvCTBgkCZZ8D
-	6si3kRg==
-X-Google-Smtp-Source: AGHT+IFQPQikS9tfx8dxYSXvYg6ZLPFqwkw3J+2/JqN++g0gt3hZJ1+4QT03fAj2WZJLh9tdl0XEpQ==
-X-Received: by 2002:a05:6000:381:b0:39c:30fc:20 with SMTP id ffacd0b85a97d-39efbad7d4cmr12337102f8f.37.1745322810229;
-        Tue, 22 Apr 2025 04:53:30 -0700 (PDT)
-Received: from [10.50.5.11] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4a4f2dsm15135764f8f.95.2025.04.22.04.53.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 04:53:29 -0700 (PDT)
-Message-ID: <31cd8d05-09ca-46f9-8753-665feaeb7e6b@grimberg.me>
-Date: Tue, 22 Apr 2025 14:53:28 +0300
+	Tue, 22 Apr 2025 12:20:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1745324318;
+	bh=5SCNpT7fxknXxFl2jrf1TuKGByQegnZorIene7qFnoQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=YeERTYnr0iPBwxxu585clwjh6tne9u4UQOglhCHm7R0UmmJ/e2yRmV/kyLl0a+3/P
+	 pZ+pyWJvGsKBWJ5HykWHiiK18r+D20E3JiswMrxfcZmo+jHjyW3XO2p+aApJsfG5uI
+	 wJ1I6zDmaEUaaS8gFe1mCsyHRqoatyijJHKbnxXU=
+X-QQ-mid: zesmtpip4t1745324305t656bd8bb
+X-QQ-Originating-IP: hg4RPvjNFuLrioiProjFSc49eEpyxOtoEar038BepTs=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 22 Apr 2025 20:18:23 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 10097217200537655222
+EX-QQ-RecipientCnt: 10
+From: WangYuli <wangyuli@uniontech.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	zhanjun@uniontech.com,
+	niecheng1@uniontech.com,
+	guanwentao@uniontech.com,
+	WangYuli <wangyuli@uniontech.com>
+Subject: [PATCH] drivers/nvme: Add quirks for device 126f:1001
+Date: Tue, 22 Apr 2025 20:17:25 +0800
+Message-ID: <5AE9DE3EEA7F8772+20250422121725.162229-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvmet: Restrict in-band config files to root
-To: Richard Weinberger <richard@nod.at>, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, a.hindborg@kernel.org, leitao@debian.org,
- kch@nvidia.com, hch@lst.de, upstream+nvme@sigma-star.at
-References: <20250420104726.2963750-1-richard@nod.at>
- <20250420104726.2963750-2-richard@nod.at>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250420104726.2963750-2-richard@nod.at>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NSFPwCZBl/JL32ntyGBy9Q3mW9UddCZTUV5t+1cCxs4qJ99NqCD2k8LO
+	tQADOJH/tTvmcQ9bi7Fi8Im9BJP4vYVLgoVYyZ20bgmm+Yqe+1zkD7+RxwpSQYReuzgkexZ
+	26ZUrue3/gyvmijbnakwcMlWVRPlNVY/KV4H3WF24oWLYkZDu5g+m1aOkRdbb5whsnYJE2C
+	Sp6zi3sfQTHtJ7TspJu3YuxsaeueLyuQNjyLWYykr/7CiKv2byJGW/3cFwEMyf5sSMQbS/X
+	KQBioXB3pSGRNQuXgXPas0wSg1a6cGwd77Zp0bWUDd5gxc62ppIBpkMUXx+KBenVK8cNK1R
+	4DvARuYhxvHbOBe34xV5v6U3E6fnSlfp68qT9J8kJDm+tgnkZ6x5CkjLBuO/M71G/aYVfmT
+	u8bz1DFh0ve6iSXv6lHAGnwpJlY/mQ3SgRAke9YIXOg4QJNvvdmBeYt6OeQlL2BzC10XZIO
+	9v7zpcdEjoB/F1O2duMgTDIugSLIDLSQgTpAWPyLN8nyAgB5VFLK7Y8cS7XPQzSmPX/PF5i
+	ecpSPC2yFJE+Hqf+qV4MGKVc+vlGtRkccwxt8EQMJLy+EEcrVIJo+qfkf3tr12BUjgK96DK
+	TNG5HYBM/JL2V6nhw+mqaKdkV0UHglQpMK2r3aBmG2nRv7L8aW70J36N0n41L8/kr5lX70u
+	WsP4bwef4Y2/Ni+symA0C5gQAFJPehsNkGuWgXAa8btFgoszNsQpXAp7wcdv+ZWEA8zDahl
+	DRZHq6jzaAt/Y65WiT+57Ocxu0slge342+m1oXAKisAQbY0y8Rj7dDYGFcqNhVigTCnujoW
+	W8B89CuiW7+IcUbQQUcyatOlwhIr5mmrEYDA90JbgcH5MPO3ldK6MSUH/sSgBhtq+Zm8EdT
+	RIKtkHTFSPjm2CZKRxKilmis3YMzQjYdjHiSX6jebxcfKvtu2oju5uPhfMoczJddT0nFVoV
+	1L6aI2h7akpCkKlGky492wk6WgyUUpkxBJ4qHq0UaWDmydIa1cyP++JbmHpK9lVB9gZX3x9
+	h0fC56/Jji/Ou/xocvch+8ZLZwwQqrOcmo0no+89vEnjrfGUQ28UyInYdgN98=
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_045331_707797_64904C39 
-X-CRM114-Status: UNSURE (   5.30  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250422_052025_727612_0FFA8AC7 
+X-CRM114-Status: GOOD (  10.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,7 +97,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Not sure who uses nvmet outside of root user, but looks fine to me:
+From: Wentao Guan <guanwentao@uniontech.com>
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+This commit adds NVME_QUIRK_NO_DEEPEST_PS and NVME_QUIRK_BOGUS_NID for
+device [126f:1001].
+
+It is similar to commit e89086c43f05 ("drivers/nvme: Add quirks for
+device 126f:2262")
+
+Diff is according the dmesg, use NVME_QUIRK_IGNORE_DEV_SUBNQN.
+
+dmesg | grep -i nvme0:
+  nvme nvme0: pci function 0000:01:00.0
+  nvme nvme0: missing or invalid SUBNQN field.
+  nvme nvme0: 12/0/0 default/read/poll queues
+
+Link:https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e89086c43f0500bc7c4ce225495b73b8ce234c1f
+Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b178d52eac1b..de0ab1da99c8 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3623,6 +3623,9 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1217, 0x8760), /* O2 Micro 64GB Steam Deck */
+ 		.driver_data = NVME_QUIRK_DMAPOOL_ALIGN_512, },
++	{ PCI_DEVICE(0x126f, 0x1001),	/* Silicon Motion generic */
++		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
++				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_DEVICE(0x126f, 0x2262),	/* Silicon Motion generic */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_BOGUS_NID, },
+-- 
+2.49.0
+
 
