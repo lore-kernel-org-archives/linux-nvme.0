@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA3F4C369D8
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 14:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B80DC369DC
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 14:36:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UnX3SwBrFlJmAEIyOKmv2MkVZ0z5pQYpYBguMGQREqw=; b=ZgV0XH2n0a0HTAro8mrichmFCF
-	MJTcggW4bSJiwe1yMKdOcVDvTiIf2keVkX2ocbZOXlXSF5FT+PIodaM7jXvJv3IVfwc5L7hK/QSyi
-	SQLSW14VSmyyZK1q618Pw6o4VGxlOi+6Xzc9p8J1gjgTLYFRHiuLyXDrJcl/dOR1iVbtKOJqXdKDz
-	1bSErXFucHLI0kRSDzpQDDwIosiBmuWMger4Xz7oHm+VAByOyVBVjfmrgv3aZ5ngV4Eb4K0DS5r9U
-	EvYW/W6ZZkobt8q3Y1ccPm5F8z75mkPSWR4aXyTTPt5inS+ypGdxickFZ6yFLsls5de3tMgkSz0x0
-	tZZ06C7g==;
+	bh=TYvXi1TpKC1h5IFpnBbfMBEHpcp7CB83EeRxS4K9NPQ=; b=0idlCKCrhX24wLIR9Mn5la283J
+	t424erQbpxJNzTLcMJxzq+lYt48Rxa2Z2YVgPscu+ERnaNTTZBQi0/2vAyM2gW35gsfLOCNAzsRTT
+	CjjmbWKfD7WhEV8vwRzvHvSJ6xXOhpa2LlfPjr9MHlTFCHyHp0mP6b1PuYcJP4Bh3e1M5/Ptt2fwb
+	3i62McbuZT6jRrbzhJLi/5xEbKZErL5XlJqNoRpOJ77pxnoOvzLY8tvj8ZPJDJhTfSYkiWBKWjkfm
+	9YtCHNzrHchAbFvVLJ7ga75K8xRjyhtXtay5ZH2P+Ij3QlMgtortzJLIxbhrzxJk3MzO3yKXQgqae
+	QTqkMMpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7EjE-00000007Wdi-0lZS;
-	Tue, 22 Apr 2025 14:36:04 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1u7EjF-00000007Wf3-3U7z;
+	Tue, 22 Apr 2025 14:36:05 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u78Ir-00000006AEE-2kme
+	id 1u7Bvm-00000006yJg-3hu2
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Apr 2025 07:44:26 +0000
+	Tue, 22 Apr 2025 11:36:52 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id A085444996;
-	Tue, 22 Apr 2025 07:44:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1566FC4CEE9;
-	Tue, 22 Apr 2025 07:44:24 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 103FCA4B95E;
+	Tue, 22 Apr 2025 11:31:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA605C4CEE9;
+	Tue, 22 Apr 2025 11:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745307865;
-	bh=IkpCJe6iK3e0zmgzu4HOe7msfQx4RRcdkVXQ/zE59nM=;
+	s=k20201202; t=1745321809;
+	bh=r6X7KW5xA2Bid9qqNeraU4aDSG9uP20Keu4UbEk1LHc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UWT8zpQsdCGRmAI20Z+3AYlApwN36Cmhj6cwB5IbEbE/IARvNVu0tWdo4mIoQ7tla
-	 jNP/ANqauZjnvPJUDWeJ8zADeaD5f36aQ2RWsAs+HUooXKhuTuo6yu/E07zazBROX6
-	 xznqv+BPsU6Ncghg2SNTxJe37syfeyaxQcr9WAF/Foen5407hErRIFOLLYGI7pgvGN
-	 CyJIqFICxTnqDUBmc1sGRXnHfviqEbMmgDyblOZ2xNZJFl02u19GY6Nbpt7EgtHA8c
-	 CrDGpNwLguDhhfqO7ogHBVTsHjC7XaO9VuKIwQLJaY5iHytN6aNXhIGafF6/jV6lt1
-	 HqZxDZY2NWy3Q==
-Date: Tue, 22 Apr 2025 10:44:19 +0300
+	b=FJq30b87/TflnB9DVVipFNU57Znk7OWclwNiEv1U1CkREJE7TpnQD5/hqoZtIuTZJ
+	 dTPGGSPbMLaLEb2zNkLd3Q778H6VAa8OOBofqBahNpMdxezfgyVohmR6Rd9GiEqit6
+	 rqQQDP3Pc8mFmUp7rVwkCwExrNjkUbpZzr5cC8mMpJGiZVgmXx+K5vas3ebglhBMWf
+	 RVeOeSh6BNTXES/fWcmFmi51oMgzzUf4ye8EeNe7AB8tBKDLrYmlZv3p0jO5PK+S/3
+	 YSBQMCWgd1JztmQ+CpvrmAO4qjEfa68n3WyOSSCxk7QhEyBqnidI1p8GTad9JjjkB8
+	 RxKZi4poFx/gQ==
+Date: Tue, 22 Apr 2025 14:36:43 +0300
 From: Leon Romanovsky <leon@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -72,7 +72,7 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Nitesh Shetty <nj.shetty@samsung.com>
 Subject: Re: [PATCH v8 24/24] nvme-pci: optimize single-segment handling
-Message-ID: <20250422074419.GD48485@unreal>
+Message-ID: <20250422113643.GE48485@unreal>
 References: <cover.1744825142.git.leon@kernel.org>
  <670389227a033bd5b7c5aa55191aac9943244028.1744825142.git.leon@kernel.org>
  <20250422043955.GA28077@lst.de>
@@ -81,8 +81,8 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20250422043955.GA28077@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_004425_730500_DD941151 
-X-CRM114-Status: GOOD (  25.55  )
+X-CRM114-CacheID: sfid-20250422_043651_050159_13EB32FD 
+X-CRM114-Status: GOOD (  25.39  )
 X-Mailman-Approved-At: Tue, 22 Apr 2025 07:26:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -123,17 +123,17 @@ On Tue, Apr 22, 2025 at 06:39:56AM +0200, Christoph Hellwig wrote:
 > 
 > Add a patch if we want the try_ version of, although when keeping
 > the optimization for SGLs as well that are will look a bit different.
+
+I uploaded new tag dma-split-Apr-22 with the changes. At the end, I
+decided to keep SGL optimized path too, but didn't create separate
+patch for try_* variants as they require block iterator, which is
+introduced in conversion patch only.
+
 > 
 > I'm happy to give away my patch authorship credits if that helps with
 > the folding.
 
-I used this patch separation for two reasons:
-1. Your conversion patch is absolutely correct and this patch is an
-optimization.
-2. Wanted to make sure that I'll post to the ML the code exactly as it
-was tested.
-
-I'll try to split/fold this patch now.
+I kept you as an author. Please advise if I need to change it to be someone else.
 
 Thanks
 
