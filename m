@@ -4,113 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79CA0C369C2
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 16:33:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0531C369D7
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 18:33:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ExdkWFS3PjXe/Dbc/bXhKvoVp3dzgWOeR9qxYAnKhmY=; b=uYzwuZMpiyG9kTN1pK8PBBvrVr
-	vKPE6EzAL8HhgZ8uVAEMHTtJlxgC31UrVgbs5+uKpYV7FDrGwV/fn3RvT/pwWBPOGo+fyjfh4qwfi
-	2JSdpad73/vrUsbWqjCDSX3Har89ZeUW5aMSnbvozZAqnMjEcbbcH5ZZnqxTqTsl+92FgWwrCVJE1
-	R9OjBfW5XkFfpYKgP/DxEN1b8Mlungx4JGgKlaczx8jW2AA9Xh/MZg6jOYU53xn9Z4GCMxgK2AJQy
-	OHpU5MoVBbnPR898Re/wsXWPuJUX9v8+AtrTYzbZp7IsW0eeCXMaATGiQUpN4OrnZGNiJ40OFGkou
-	gLUZC7xQ==;
+	bh=Z3tB0h9RksPJEIyvjsBpowsXLr2+CyDhWSQ1RmiUmY8=; b=ceaqNSPWIUk/ikT6OH1IoBWpGb
+	MTxqFKlW1hUtNh8Co5/68e/cwcq9jwuVugoIj+fRB3C/DyrG9MFIItHry2zSz72/ehaDTPvfAJSfC
+	opfSNo21R5H0NvywjtTk4UvLZsxQbzmYlidw6TIaKpSAu3BMMlcjmF3I27rYPj3y/6meUhwK9xqTy
+	qTrf0QT5TZv+b+0dHLX3GQEI6jBM4LfT/VpmhxIdBaTU9FbjnKMkGJwx8qzugyF9bbPhPGGPzQUi5
+	k//kiIDTtWs3AyI7mW35VXyz1cQit9vLzPHu/RRdLcsl7QMNVEi3bIJE+jnUU7gOJr6MaOXIGF89Q
+	9zJyoWCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7GYl-00000007vKW-3s32;
-	Tue, 22 Apr 2025 16:33:23 +0000
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+	id 1u7IQz-00000008Ang-3yz3;
+	Tue, 22 Apr 2025 18:33:29 +0000
+Received: from mail-io1-xd63.google.com ([2607:f8b0:4864:20::d63])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7F1A-00000007a4I-3OJG
+	id 1u7GM2-00000007sbK-2C08
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Apr 2025 14:54:39 +0000
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so46578755e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 22 Apr 2025 07:54:36 -0700 (PDT)
+	Tue, 22 Apr 2025 16:20:15 +0000
+Received: by mail-io1-xd63.google.com with SMTP id ca18e2360f4ac-85dce1987e5so16054539f.2
+        for <linux-nvme@lists.infradead.org>; Tue, 22 Apr 2025 09:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745333675; x=1745938475; darn=lists.infradead.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ExdkWFS3PjXe/Dbc/bXhKvoVp3dzgWOeR9qxYAnKhmY=;
-        b=m8rxDzlXLosVn8sQ4JcO80LCXuiuRk6qLDE66P3ygKvPx/RwaUDs8sUq0UJ4g0tzE2
-         7PNzlBETtUVsvhm56vhA6aacvQxc9VkqjtkBiB3uGJmZm3oVeYRd+Q7QQ+CwpHcpLXwI
-         7YxxyJCxAi39qTv0/4EJFemlmPkUDvDbhiaPrk4rRr2m4mIoBi2TXposGcR2pngTQBa+
-         5RfNJmnYHIYoVBeBdFQjFrqWSfPUWfJXy5lp4GNnqaQ3Z5CEOmLCyv61m/jeh0qiskhJ
-         53YOst71GrqhqyxvSkdk+K9R49AFnu0GUnTS2/3PzDRagFFMfwSCRx7IKnC5DQX4BJh6
-         DVMw==
+        d=purestorage.com; s=google2022; t=1745338813; x=1745943613; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z3tB0h9RksPJEIyvjsBpowsXLr2+CyDhWSQ1RmiUmY8=;
+        b=gTwgKxcn/1ZNXjdXcR7Z4NmIE21SnURG4sTXsSzW6solfyr7ofkNDwzFkyV8ujDgWF
+         iA57e9wOuprkQeMxAHlLQApHWMbmTijcXqWlDZUlAS9uGCScbM4dC+N78f1HVDNhlrX0
+         qrqilaJO/0Pl+HVC5thP/ss0KllgLih55aPb8S/bL5WinjS8QLPGzrl/FuO23q2l3fBJ
+         3C8h7V0eaGlsBulr00iLOIGeIiCfBvKMrWRJopyOAXeTqi8L9/CN0ayEsXEFclmB/9uG
+         ZNDNm4GWySijeMvZVlV8ljcU4klIGc0smk+8qJ1DGZGZniaO/XsVJzp2Klw1LWmLWzue
+         7ymg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745333675; x=1745938475;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1745338813; x=1745943613;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ExdkWFS3PjXe/Dbc/bXhKvoVp3dzgWOeR9qxYAnKhmY=;
-        b=msIuTOQH7TbOVR7lF+7RWOh1Yoxe/MqHo8JWmvE3l7oFldIVY8JwBCpZb6JdaMI/HY
-         YDIImP7H33rdDeBrCCMvFBYVXMp/Ul4fn2sRnFKw4gi6hZhQ4+qBN4uMVcBAj69xJgHG
-         zItDb8lzzJyahRndGFIHX9fq6tH8oOZj1eL8bW4o87ypCSBYzWQj/As2oe51QAjw5Vb5
-         8aQg4Z+yDnKgQAWoeojaekycY9p/r22x1reTveQ/rUhZaEwbTgtHLqfl/bqbG2fweFbA
-         G4TCxXKeoNevkX7/vRQUyMmKWWwOPHZwOITa+pjccyEyS0evKYsFGHzW3OpAVF3OSRI6
-         mI/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXpkL0TvuHfs/D8M+BGWRg8Z2//eMUlzKUlFFJY2ueOx1n/ItV0+1ls+CymLYpYAwwPiMhvZ87hDISz@lists.infradead.org
-X-Gm-Message-State: AOJu0YyRQiyztiQ5fLkQybTtKkHwt37Wy/aRSbIEhVtybkKNW4hbx/fp
-	TDmflgXM63QK1B6KEVdwAXmoZynASfB2M6snvaEGvLkIw59dO70EA4s/SWZ4414=
-X-Gm-Gg: ASbGnctPhnyTpM3iq6uw98ibjLjH5Xp8j7rJkGMQ6H4gjZZMDwzV70FwE+oNPuStjEV
-	xTqTVlDAa/XxNCqAH8ScRx/JiS2kX7/JmmInLf6B0rZoxQ/kD5QMVso6g/YWBfjauQAG4h/f02Q
-	w18sx1UHURXKD0dtVE65th3aTMxrBnxzExqagP+5GJl48FPP60i+sLQyYK308E+cLeLwE8+x2DB
-	sWeNgZMjBWbqqRqqqBu+CZT4E0SavpbBL+5QydD36QcmbEzaZKFLqr076qw9TlR3CvWzM9UWbiB
-	0KYgdSF2LB/CS8OdsANKiwK1fDyn9bMcLgeUO37XRRDoiIx5cZK2fqM=
-X-Google-Smtp-Source: AGHT+IEETbq5XFAfg5FeeK1CWsmUukRX4l/5LgF2s+uEV4e4L2MV/SS+HmQwhOulznZpXEph1AgW5g==
-X-Received: by 2002:a05:6000:2510:b0:39c:12ce:1112 with SMTP id ffacd0b85a97d-39ef90916b5mr14296744f8f.21.1745333675135;
-        Tue, 22 Apr 2025 07:54:35 -0700 (PDT)
-Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:5f77:7d42:6228:3358])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4406d5a9de9sm177304635e9.6.2025.04.22.07.54.34
+        bh=Z3tB0h9RksPJEIyvjsBpowsXLr2+CyDhWSQ1RmiUmY8=;
+        b=R39EljEuhBf7paNYm7AbvnYPEh9NpBPs+8KAFk2N9igJbH+v2U2Wks3oYggUFvGgSX
+         Lg8ktJ17ga8e5DmiJdYz/o4TwdOPnnucuk5MYHb9OHuCP2G0u2DZXyCTBK8PxfZJ1XBy
+         YLqnfMtxZeAy0Hl1ogJqNtlnKM9ldm+YEMa0Ypghp9/zlmTKB4QJTCxK+iHitnMgjdvw
+         2DY1340WiyrJr5UPsPomyuPmw2nyejcp1DdvpEJj3GmsOnf7HjwmkJ9v/bBy9o8gJpJu
+         trsT1dJE1rgnPVkBwMQBs2lc0WpXmSpdFlQXh5UK6HJThlioCPguwC9x7SDbY0m2Ym/v
+         B2VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAtJp9Cb6ozlg3DcmJyaoPtjYDZWxa4+GsKmL/SjP09K4P2ek9N0e9Zg0o65ltDNhc/IjgNtRnj3QR@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy/sBzCASSB8mdhprB6asVMOB75KFB4mPO1LTo1EjIztZ6ItuLe
+	a2uKcc1Ji7x9Is6vUDyGJ9l+w0P5+/TrqVY4CGJukCwBnyfhNcevYwPzU+ROchop1BcqfGvPTU1
+	MeEvUT5/zNvcvQsTZeoUgHK9wDImfLpo9
+X-Gm-Gg: ASbGnctBK+oC8V3UMgEb/0UR0Ax8JoWBXqxRwm9B5M1zZzJQBOo+ZjntoL9VK5R/lbE
+	N3IW3DfczvSJSYKngFnHt5F/kwDXiRgBdXFmBMRxRokjjJc7wIawaPvmOCQjor1p7eBuB87+AZv
+	HPF1FKmpz3wFGysrKUQfAvNY5rudomL6NhJOG578vZL2jzBLUnEPjFWsdZo66QayGt/bcx0fjR2
+	YTnc1My+VTQs5E530up7GHHumoGNKt8aKtXV/n7Y+q9LDbQDm0BJT0DrXaSVWoNZWlkM7h0IjId
+	FLcil2Q89ngcD35R2dJvxRQB2f8Uiou7uK8L92xgHhSc
+X-Google-Smtp-Source: AGHT+IFOuBh78/Arra/8VT8CFCwZ10+p/3FjWjMAdwvGeQ6A51CGkqMAbb3nYKQwFscJ/2uEL6kvG5FRiJiU
+X-Received: by 2002:a05:6602:150d:b0:85a:fe80:cdd1 with SMTP id ca18e2360f4ac-861dbc66cccmr448575239f.0.1745338813592;
+        Tue, 22 Apr 2025 09:20:13 -0700 (PDT)
+Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.129])
+        by smtp-relay.gmail.com with ESMTPS id ca18e2360f4ac-861d9603fe4sm39101339f.2.2025.04.22.09.20.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 07:54:34 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Tue, 22 Apr 2025 16:54:19 +0200
-Subject: [PATCH v4 1/2] PCI: endpoint: improve fixed_size bar handling when
- allocating space
+        Tue, 22 Apr 2025 09:20:13 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id F2964340363;
+	Tue, 22 Apr 2025 10:20:12 -0600 (MDT)
+Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
+	id EFFB3E41D06; Tue, 22 Apr 2025 10:20:12 -0600 (MDT)
+From: Caleb Sander Mateos <csander@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Kanchan Joshi <joshi.k@samsung.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Caleb Sander Mateos <csander@purestorage.com>
+Subject: [PATCH v4 1/2] nvme/pci: factor out nvme_init_hctx() helper
+Date: Tue, 22 Apr 2025 10:19:58 -0600
+Message-ID: <20250422161959.1958205-2-csander@purestorage.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250422161959.1958205-1-csander@purestorage.com>
+References: <20250422161959.1958205-1-csander@purestorage.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250422-pci-ep-size-alignment-v4-1-6bd58443fee9@baylibre.com>
-References: <20250422-pci-ep-size-alignment-v4-0-6bd58443fee9@baylibre.com>
-In-Reply-To: <20250422-pci-ep-size-alignment-v4-0-6bd58443fee9@baylibre.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Jon Mason <jdmason@kudzu.us>, 
- Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Marek Vasut <marek.vasut+renesas@gmail.com>, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
- Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>, linux-pci@vger.kernel.org, 
- linux-kernel@vger.kernel.org, ntb@lists.linux.dev, 
- linux-nvme@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4249; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=OeAjeCW91zOMarXM0kb3jzoSPAPF26xRkDPsEfYcHsk=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBoB62neNdYS0rNPcjwIqteNfi5mysq9qc+xVwMk
- VScu+42jpqJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCaAetpwAKCRDm/A8cN/La
- hQMuD/94sBI1ts5f3oxCtZsY9RoXDtXYwn3cTiRTEDYF7fL8Op98EiGWcTYhB4dutn7hTR2d40g
- cXo+mc7XIljWXLXpETSXbyLwK78PqdA868JyvhPAiQOvjjlncWuU6UAhgNM9eJDjVDdagpC9Dqa
- 6evRYZS2SBMqfrEXmUDJx4ElUwI8Em2XEAJWCMiSEjzIqqvTtizlKQGRcTGi4AAOdIUcNa9jsr5
- GCR7RXVOkTlo5FEUsh1zmKQcAd0RGnOxL5csgDfmCCRixRzuR+jXWYingmMIscd2d83l5Yk95jt
- WIpZ4Nl6yfQ45BG080rQMK+NwmPedlOByTsUceehldOGPaRn1rYYgZALkrTogPDpZCxzwTa5iLf
- 0x9aSfAH9Fcr2sH9YtZcUtnGGQ6+dR6Ta6tczKD8z9NdvUBlqfgM/v2XWi+U4ETMw48xWW8Q4P5
- 2d5l1eDB33gO059069B27rorvqYrc2ch6VA6cwIuY1/uJo2AjqLYRaxU7y5gflP/aOGEWZ4a317
- hHX9bRQwouG/qElI3eGPtxQwYeouwFFklJ2n6vdeQmcEvlElMSooKPE3aHO/HKZIvOymUHHw/3J
- xBxL0tAgXRKzZAB5xC1EtcZe53WHlIPCvK9bvr2Pfvcc0AOGfMFJIkD0A+romszh+CWo2Jk/Jwb
- CFFGTHItAq5LAJA==
-X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
- fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_075436_866187_48257DD7 
-X-CRM114-Status: GOOD (  20.79  )
+X-CRM114-CacheID: sfid-20250422_092014_558526_FE641A2F 
+X-CRM114-Status: GOOD (  14.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,115 +109,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When trying to allocate space for an endpoint function on a BAR with a
-fixed size, the size saved in the 'struct pci_epf_bar' should be the fixed
-size. This is expected by pci_epc_set_bar().
+nvme_init_hctx() and nvme_admin_init_hctx() are very similar. In
+preparation for adding more logic, factor out a nvme_init_hctx() helper.
+Rename the old nvme_init_hctx() to nvme_io_init_hctx().
 
-However, if the fixed_size is smaller that the alignment, the size saved
-in the 'struct pci_epf_bar' matches the alignment and it is a problem for
-pci_epc_set_bar().
-
-To solve this, continue to allocate space that match the iATU alignment
-requirement, saving it as .aligned_size, then save the size that matches
-what is present in the BAR.
-
-Fixes: 2a9a801620ef ("PCI: endpoint: Add support to specify alignment for buffers allocated to BARs")
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/pci/endpoint/pci-epf-core.c | 21 ++++++++++++++-------
- include/linux/pci-epf.h             |  3 +++
- 2 files changed, 17 insertions(+), 7 deletions(-)
+ drivers/nvme/host/pci.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/pci/endpoint/pci-epf-core.c b/drivers/pci/endpoint/pci-epf-core.c
-index 394395c7f8decfa2010469655a4bd58a002993fd..982db6c1fbe77653f6a74a31df5c4e997507d2d8 100644
---- a/drivers/pci/endpoint/pci-epf-core.c
-+++ b/drivers/pci/endpoint/pci-epf-core.c
-@@ -236,12 +236,13 @@ void pci_epf_free_space(struct pci_epf *epf, void *addr, enum pci_barno bar,
- 	}
- 
- 	dev = epc->dev.parent;
--	dma_free_coherent(dev, epf_bar[bar].size, addr,
-+	dma_free_coherent(dev, epf_bar[bar].aligned_size, addr,
- 			  epf_bar[bar].phys_addr);
- 
- 	epf_bar[bar].phys_addr = 0;
- 	epf_bar[bar].addr = NULL;
- 	epf_bar[bar].size = 0;
-+	epf_bar[bar].aligned_size = 0;
- 	epf_bar[bar].barno = 0;
- 	epf_bar[bar].flags = 0;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b178d52eac1b..642890ddada5 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -395,32 +395,33 @@ static int nvme_pci_npages_prp(void)
+ 	unsigned max_bytes = (NVME_MAX_KB_SZ * 1024) + NVME_CTRL_PAGE_SIZE;
+ 	unsigned nprps = DIV_ROUND_UP(max_bytes, NVME_CTRL_PAGE_SIZE);
+ 	return DIV_ROUND_UP(8 * nprps, NVME_CTRL_PAGE_SIZE - 8);
  }
-@@ -264,7 +265,7 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
- 			  enum pci_epc_interface_type type)
+ 
+-static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+-				unsigned int hctx_idx)
++static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data, unsigned qid)
  {
- 	u64 bar_fixed_size = epc_features->bar[bar].fixed_size;
--	size_t align = epc_features->align;
-+	size_t aligned_size, align = epc_features->align;
- 	struct pci_epf_bar *epf_bar;
- 	dma_addr_t phys_addr;
- 	struct pci_epc *epc;
-@@ -285,12 +286,17 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
- 			return NULL;
- 		}
- 		size = bar_fixed_size;
-+	} else {
-+		/* BAR size must be power of two */
-+		size = roundup_pow_of_two(size);
- 	}
+ 	struct nvme_dev *dev = to_nvme_dev(data);
+-	struct nvme_queue *nvmeq = &dev->queues[0];
+-
+-	WARN_ON(hctx_idx != 0);
+-	WARN_ON(dev->admin_tagset.tags[0] != hctx->tags);
++	struct nvme_queue *nvmeq = &dev->queues[qid];
++	struct blk_mq_tags *tags;
  
--	if (align)
--		size = ALIGN(size, align);
--	else
--		size = roundup_pow_of_two(size);
-+	/*
-+	 * Allocate enough memory to accommodate the iATU alignment requirement.
-+	 * In most cases, this will be the same as .size but it might be different
-+	 * if, for example, the fixed size of a BAR is smaller than align.
-+	 */
-+	aligned_size = align ? ALIGN(size, align) : size;
++	tags = qid ? dev->tagset.tags[qid - 1] : dev->admin_tagset.tags[0];
++	WARN_ON(tags != hctx->tags);
+ 	hctx->driver_data = nvmeq;
+ 	return 0;
+ }
  
- 	if (type == PRIMARY_INTERFACE) {
- 		epc = epf->epc;
-@@ -301,7 +307,7 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
- 	}
+-static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+-			  unsigned int hctx_idx)
++static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
++				unsigned int hctx_idx)
+ {
+-	struct nvme_dev *dev = to_nvme_dev(data);
+-	struct nvme_queue *nvmeq = &dev->queues[hctx_idx + 1];
++	WARN_ON(hctx_idx != 0);
++	return nvme_init_hctx(hctx, data, 0);
++}
  
- 	dev = epc->dev.parent;
--	space = dma_alloc_coherent(dev, size, &phys_addr, GFP_KERNEL);
-+	space = dma_alloc_coherent(dev, aligned_size, &phys_addr, GFP_KERNEL);
- 	if (!space) {
- 		dev_err(dev, "failed to allocate mem space\n");
- 		return NULL;
-@@ -310,6 +316,7 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
- 	epf_bar[bar].phys_addr = phys_addr;
- 	epf_bar[bar].addr = space;
- 	epf_bar[bar].size = size;
-+	epf_bar[bar].aligned_size = aligned_size;
- 	epf_bar[bar].barno = bar;
- 	if (upper_32_bits(size) || epc_features->bar[bar].only_64bit)
- 		epf_bar[bar].flags |= PCI_BASE_ADDRESS_MEM_TYPE_64;
-diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
-index 879d19cebd4fc6d8df9d724e3a52fa7fbd61e535..23b0878c2665db1c21e6e83543c33149ab1e0009 100644
---- a/include/linux/pci-epf.h
-+++ b/include/linux/pci-epf.h
-@@ -114,6 +114,8 @@ struct pci_epf_driver {
-  * @phys_addr: physical address that should be mapped to the BAR
-  * @addr: virtual address corresponding to the @phys_addr
-  * @size: the size of the address space present in BAR
-+ * @aligned_size: the size actually allocated to accommodate the iATU alignment
-+ *                requirement.
-  * @barno: BAR number
-  * @flags: flags that are set for the BAR
-  */
-@@ -121,6 +123,7 @@ struct pci_epf_bar {
- 	dma_addr_t	phys_addr;
- 	void		*addr;
- 	size_t		size;
-+	size_t		aligned_size;
- 	enum pci_barno	barno;
- 	int		flags;
+-	WARN_ON(dev->tagset.tags[hctx_idx] != hctx->tags);
+-	hctx->driver_data = nvmeq;
+-	return 0;
++static int nvme_io_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
++			     unsigned int hctx_idx)
++{
++	return nvme_init_hctx(hctx, data, hctx_idx + 1);
+ }
+ 
+ static int nvme_pci_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+ 		unsigned int numa_node)
+@@ -1813,11 +1814,11 @@ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ static const struct blk_mq_ops nvme_mq_ops = {
+ 	.queue_rq	= nvme_queue_rq,
+ 	.queue_rqs	= nvme_queue_rqs,
+ 	.complete	= nvme_pci_complete_rq,
+ 	.commit_rqs	= nvme_commit_rqs,
+-	.init_hctx	= nvme_init_hctx,
++	.init_hctx	= nvme_io_init_hctx,
+ 	.init_request	= nvme_pci_init_request,
+ 	.map_queues	= nvme_pci_map_queues,
+ 	.timeout	= nvme_timeout,
+ 	.poll		= nvme_poll,
  };
-
 -- 
-2.47.2
+2.45.2
 
 
