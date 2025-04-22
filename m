@@ -4,103 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FE91C369D7
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 10:29:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28E9FC369C2
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 10:44:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TzQsfqrqZUC+j2kc+7gJ1TbtLFTAtUUAK08SBEDTU8M=; b=DzXct+7UF26ZhAMNUbolX0fSZt
-	fpT6RkVvwofgrbfaCQMiGQgjl6kq+lLiRlCNtI7M+Ya7oQcaXsBHC2OZvc6AVIoPYuW3ZfpWCtafa
-	66kEKiaV/mr4ciP8ly1Hxl2zBziChrF7mmMpQAxrIuNAyZKkpkbP8c4aDM0G0pSKrbwnCzpoC46z/
-	ZINiTtwc+ICbrdPfCeCiDKW1Y6olp/YgklNFUu4LWcTx2h7dDPzYHa4iMORAQcQCALpHiz2sXZPa/
-	qOyTdQPyImeKQ59HbQcQYe7evS+9tW2Geb5m+qVVsTcgHoXmWikARrUrFxW9cX4fGoVGpt/eliUPN
-	PE1OsQkA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mGzF1BfsJBbf/8QVFHMdGiOuMyzcPji1pxZT5HE/7G0=; b=UkikPyVONIYmQeCrnM3TOFJLFe
+	9j5sXQ7IMPt6H7YMU/9Nx+a9HcqxalqtkAnqKwaDBCNBxR+XQo0BttbQkNAcc82i1HL19ps4cfXKR
+	SGSy880XzfzPT3RWbRCZflE8bTmsmxy5UkTYbRYxyHF+z6Fp9gB+GtKm10ZrXR8zYUGjP6HMqze4p
+	EfJbd2sq6MzqvdBqHI53vveF4Dqav5HpubaMYDv+CcMLIBQN5EtxXwZCELUhCB0vYG5SySDu1mOUP
+	P8o8hcEoiqpLXyyinPeWIXSS6tnQk0eXar6+Hih1AQ++75jwXr+lSAlI4N8PrrJV5zfTqErui92tv
+	fNkJs2Dg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7AsG-00000006lz7-2b7M;
-	Tue, 22 Apr 2025 10:29:08 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1u7B6z-00000006okY-3FeJ;
+	Tue, 22 Apr 2025 10:44:21 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7AIy-00000006deY-2ID8
+	id 1u7AZ9-00000006h15-1MA1
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Apr 2025 09:52:41 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53M8bY9d007716;
-	Tue, 22 Apr 2025 09:52:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=TzQsfq
-	rqZUC+j2kc+7gJ1TbtLFTAtUUAK08SBEDTU8M=; b=DS/M568RyxabSn16/T03Ew
-	ExFs/0Q/+ZHHGEHyKsrSiweuhbwoEYURUjmIWCcxFkLlbKTPb/1zaee00GjZilTa
-	WKRglZNrujmIen0o1YD14zbZdyV6xxVolTTXRaKC0xfPfZQUMuO5UtQq8Sqz/HGI
-	uc2sZ2JA9IBG2Fsy9Q0b4MMHzi2loWhGR9tIsQhsYEro2iLpaWIn8jWAQBuSj823
-	jWTVYZ3aBqOZV1hrxvOV//Bz9IdLQR1ZWq9gSH7cyAtVCDn0pWYNwD1XrzDEdEYY
-	oF24SUFgOe/UzBkVs/kMMRbBGE6lsFhvqjbYeQXTF/qy2ZtV8plzMoD7ikMp2r/A
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4667rq8bgm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Apr 2025 09:52:29 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53M7R2UF015450;
-	Tue, 22 Apr 2025 09:52:28 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 464qnkj61b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Apr 2025 09:52:28 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53M9qR758782438
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Apr 2025 09:52:27 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5042E58056;
-	Tue, 22 Apr 2025 09:52:27 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 48B3958054;
-	Tue, 22 Apr 2025 09:52:23 +0000 (GMT)
-Received: from [9.43.46.43] (unknown [9.43.46.43])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 22 Apr 2025 09:52:22 +0000 (GMT)
-Message-ID: <3ae885c1-b72b-4c5e-80cf-fe54d66c1fb3@linux.ibm.com>
-Date: Tue, 22 Apr 2025 15:22:20 +0530
+	Tue, 22 Apr 2025 10:09:24 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6F3241F38D;
+	Tue, 22 Apr 2025 10:09:20 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 508BC139D5;
+	Tue, 22 Apr 2025 10:09:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BKKzENBqB2i0cQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 22 Apr 2025 10:09:20 +0000
+Date: Tue, 22 Apr 2025 12:09:04 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org, 
+	hare@kernel.org, kbusch@kernel.org, gjoyce@ibm.com
+Subject: Re: [PATCHv2 4/4] test: extend sysfs tree dump test
+Message-ID: <e0ede3ff-d9f7-42a8-8179-ecba47b756c5@flourine.local>
+References: <20250417135951.239447-1-nilay@linux.ibm.com>
+ <20250417135951.239447-5-nilay@linux.ibm.com>
+ <949760d8-c279-4899-bf4f-62290d78fee6@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/2] nvme-multipath: introduce delayed removal of the
- multipath head node
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-        kbusch@kernel.org, hare@suse.de, sagi@grimberg.me, jmeneghi@redhat.com,
-        axboe@kernel.dk, gjoyce@ibm.com
-References: <20250321063901.747605-1-nilay@linux.ibm.com>
- <20250321063901.747605-2-nilay@linux.ibm.com> <20250407144413.GA12216@lst.de>
- <5db5ab7b-fdf2-4b40-86fc-3ab4ccff9a41@linux.ibm.com>
- <20250409104326.GA5359@lst.de>
- <385cbcd5-fcb1-4f98-bdf7-80b16d4f5f8e@linux.ibm.com>
- <20250422073607.GA31849@lst.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20250422073607.GA31849@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: w-uW46tXJDVbfbopZlCixQdN9FPH6Q6A
-X-Proofpoint-ORIG-GUID: w-uW46tXJDVbfbopZlCixQdN9FPH6Q6A
-X-Authority-Analysis: v=2.4 cv=D59HKuRj c=1 sm=1 tr=0 ts=680766dd cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=Wu5T-vUgRJGWpmTwq_gA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-22_04,2025-04-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 mlxlogscore=771 mlxscore=0
- bulkscore=0 impostorscore=0 adultscore=0 malwarescore=0 priorityscore=1501
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504220067
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <949760d8-c279-4899-bf4f-62290d78fee6@suse.de>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: 6F3241F38D
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_025240_751354_435A9C23 
-X-CRM114-Status: GOOD (  15.52  )
+X-CRM114-CacheID: sfid-20250422_030923_505488_01F5A32C 
+X-CRM114-Status: GOOD (  10.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,21 +87,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Apr 22, 2025 at 08:28:48AM +0200, Hannes Reinecke wrote:
+> Not a big fan of having tar.gz files in git. Can't we create it on the
+> fly and only store text files?
 
+Creating is not really an option, we could just store test data in the
+tree directly. I don't expect that the size of the repo is increasing a
+lot as the objects in git are also compressed. My main concern is that
+we have a lot of new files:
 
-On 4/22/25 1:06 PM, Christoph Hellwig wrote:
-> On Fri, Apr 18, 2025 at 04:15:55PM +0530, Nilay Shroff wrote:
->>         }
->> +
->> +       if (head->delayed_shutdown_sec)
->> +               return true;
->> +
-> 
-> Please add a comment explaining this check, but otherwise that sounds
-> fine.  Your text below is a good start for that.
-> 
-yup, this will be added in the next version of the patch.
+$ tar tf config-pcie.tar.xz
+sys/class/nvme/
+sys/class/nvme/nvme1
+sys/class/nvme/nvme0
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/uevent
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/cntlid
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/address
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/nvme0c0n1/
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/nvme0c0n1/uevent
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/nvme0c0n1/ext_range
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/nvme0c0n1/metadata_bytes
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/nvme0c0n1/range
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/nvme0c0n1/alignment_offset
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/nvme0c0n1/diskseq
+sys/devices/pci0000:00/0000:00:06.0/0000:0f:00.0/nvme/nvme0/nvme0c0n1/power/
+[...]
 
-Thanks,
---Nilay
+Currently there are three tar.xz files. If the general mood is that
+there shouldn't be any tar.xz files around, I am fine to get rid of them.
 
