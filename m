@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6442DC369D7
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B194C3DA4A
 	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 14:36:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,28 +12,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hYlGbAf0RGey9RFXPCMsCmrXYb553xfhYApUNZh+0vQ=; b=SKs+/HBf2xJPr3Qv9l6XKg6I1f
-	8y+69a+kxyPi7XKeZEEXdeiuWHF4QnnY9hicY1/i8XOoaelcryQFSun4xViZSHwO1Njw6/R1Akwq/
-	1jhedaH4vJaxMkT970concgYP1Ki1gtIJEWw9VGLerzB9seUtdSSVfzMELo+skvSSFia7yHe7V+OA
-	7RCTu+wfNO47Fo1DEKu0hV3P+dip07j0aHchnY1moxIYClDpfg535rPzsTUZ7NOUpLlYXrXAY1vOv
-	dfLpGjHZjsRdnL47E7rLku/+EFJMfraCWh/BEPi9mKIMlrwZhDIIn15YGLLAP3oNOdyc99ehH4Ft8
-	EpRa6S5w==;
+	bh=r+FwOLpkfRRdP7sahhwbAXUb6SK7eA2OSUN+DrdC9T0=; b=l5ZYqLsW/KigBZufgMlz3ve5if
+	U9ZRM8yBh2piHMfcL2NgpELnotsISVxNWfAqW0flB703GrtOQWn5KV++knF2UrS6qcqYhjUfMVLwF
+	R22m5inO0CavVYrUmQaUcK9m2TsByxcYhUvOtW0Xs/oB/UHDuxYukEdSF7ooFC38uNx/Pwf++xlIN
+	TAIkfEkjH0KpjyOk4f9GMRes9uVGvk5tOYMC6cTKr1Wms/JK54StUn4vhf2YPqrrmICznrVEDc7DF
+	2nUczw8PzyI9prgT8NuMB6IxOx6HDHEStiZH2uyrcOEN6YZgzK7G+kxJlRf49gIXIN+kxBVxWl7if
+	Gq0Lq/Ng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7EjD-00000007Wca-21dM;
-	Tue, 22 Apr 2025 14:36:03 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1u7EjB-00000007Wbu-2T98;
+	Tue, 22 Apr 2025 14:36:01 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u787J-000000068H0-1YXx
+	id 1u776s-00000005xDS-2mS9
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Apr 2025 07:32:31 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0CE9D68AA6; Tue, 22 Apr 2025 09:32:22 +0200 (CEST)
-Date: Tue, 22 Apr 2025 09:32:21 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Tue, 22 Apr 2025 06:28:00 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id AA1105C5967;
+	Tue, 22 Apr 2025 06:25:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9B52C4CEED;
+	Tue, 22 Apr 2025 06:27:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745303277;
+	bh=K/UAYNGW+EGbI1H04eX8UxOvRa4n5wUxixuO/0uoGJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QW0rpbcaMDKlHGvmZFs7EWfVYZTF2SFlCR50sPjI+BZbZ+rHRKg33QAuRqAlmeKwl
+	 hw7/8EB+Yc0MAW3Qcc2No4o//tS1EIta9xnfM9gwive45sVzdc1MfufZEM0Je7cU3m
+	 aXN/RYcmHmsTtDrU6rhjAoII86M7gR1jEbLMKaR9rTZKG93G7wFS8Bjt72MK3PgKrb
+	 X182oDyajkgEYMC5steH0iQSzN8PjLNC22mBrm580ovmf0wwFTcBd93ktJ5YL0a7IO
+	 bXn39Vspt4zw+2SnWqR9Y2E16qv8ASf3RlJw/1bovKeC3C1ijPotmMOhEnBsDMenV+
+	 mMzYy0qavmPEA==
+Date: Tue, 22 Apr 2025 09:27:52 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
 	Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
@@ -57,18 +69,21 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Matthew Wilcox <willy@infradead.org>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v8 23/24] nvme-pci: convert to blk_rq_dma_map
-Message-ID: <20250422073221.GA31688@lst.de>
-References: <cover.1744825142.git.leon@kernel.org> <f06a04098cb14e1051bddec8a7bdebe1c384d983.1744825142.git.leon@kernel.org> <20250422050050.GB28077@lst.de> <20250422072606.GC48485@unreal>
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v8 04/24] iommu: add kernel-doc for iommu_unmap and
+ iommu_unmap_fast
+Message-ID: <20250422062752.GA48485@unreal>
+References: <cover.1744825142.git.leon@kernel.org>
+ <d3ad1e84d896aea97ebbd01c414fb1f07dc791d3.1744825142.git.leon@kernel.org>
+ <20250422042330.GA27723@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422072606.GC48485@unreal>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20250422042330.GA27723@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_003229_695095_69741DEC 
-X-CRM114-Status: GOOD (  32.24  )
+X-CRM114-CacheID: sfid-20250421_232758_753421_E6021382 
+X-CRM114-Status: GOOD (  12.93  )
 X-Mailman-Approved-At: Tue, 22 Apr 2025 07:26:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -84,59 +99,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 22, 2025 at 10:26:06AM +0300, Leon Romanovsky wrote:
-> On Tue, Apr 22, 2025 at 07:00:50AM +0200, Christoph Hellwig wrote:
-> > > +	dma_len = min_t(u32, length, NVME_CTRL_PAGE_SIZE - (dma_addr & (NVME_CTRL_PAGE_SIZE - 1)));
+On Tue, Apr 22, 2025 at 06:23:30AM +0200, Christoph Hellwig wrote:
+> On Fri, Apr 18, 2025 at 09:47:34AM +0300, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
 > > 
-> > And overly long line slipped in here during one of the rebases.
-> > 
-> > > +		/*
-> > > +		 * We are in this mode as IOVA path wasn't taken and DMA length
-> > > +		 * is morethan two sectors. In such case, mapping was perfoormed
-> > > +		 * per-NVME_CTRL_PAGE_SIZE, so unmap accordingly.
-> > > +		 */
-> > 
-> > Where does this comment come from?  Lots of spelling errors, and I
-> > also don't understand what it is talking about as setors are entirely
-> > irrelevant here.
+> > Add kernel-doc section for iommu_unmap and iommu_unmap_fast to document
+> > existing limitation of underlying functions which can't split individual
+> > ranges.
 > 
-> I'm trying to say when this do {} while is taken and sector is a wrong
-> word to describe NVME_CTRL_PAGE_SIZE. Let's remove this comment.
+> This actually only adds kerneldoc to iommu_unmap_fast.
 
-Yes, I'd say drop it.
+Thanks, Jason documented iommu_unmap in this patch.
+https://lore.kernel.org/r/3-v3-b3a5b5937f56+7bb-arm_no_split_jgg@nvidia.com
 
-> > With the addition of metadata SGL support this also needs to check
-> > NVME_CMD_SGL_METASEG.
-> > 
-> > The commit message should also really mentioned that someone
-> > significantly altered the patch for merging with latest upstream,
-> > as I as the nominal author can't recognize some of that code.
-> 
-> Someone :), I thought that adding my SOB is enough.
-
-Well, it also has Chaitanya's, so it must have passed through both of
-you at least.  Usually you want to add a little line explaining what you
-changed for non-trivial changes when changing it.
-
->         if (!blk_rq_dma_unmap(req, dev->dev, &iod->dma_meta_state,
->                               iod->total_meta_len)) {
-> -               if (entries == 1) {
-> +               if (iod->cmd.common.flags & NVME_CMD_SGL_METASEG) {
-> +                       unsigned int i;
-> +
-> +                       for (i = 0; i < entries; i++)
-> +                               dma_unmap_page(dev->dev,
-> +                                      le64_to_cpu(sg_list[i].addr),
-> +                                      le32_to_cpu(sg_list[i].length), dir);
-> +               } else {
->                         dma_unmap_page(dev->dev, iod->meta_dma,
-> -                                      rq_integrity_vec(req).bv_len,
-> -                                      rq_dma_dir(req));
-> +                                      rq_integrity_vec(req).bv_len, dir);
->                         return;
-
-It would be nice if we could share a bit of code with the data
-mapping, but I'm not sure that's possible.  I'll try to look into
-it and review things more carefully once I've reduced my backlog.
-
+I'll update the commit message.
 
