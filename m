@@ -4,52 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B80DC369DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 14:36:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6442DC369D7
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 14:36:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TYvXi1TpKC1h5IFpnBbfMBEHpcp7CB83EeRxS4K9NPQ=; b=0idlCKCrhX24wLIR9Mn5la283J
-	t424erQbpxJNzTLcMJxzq+lYt48Rxa2Z2YVgPscu+ERnaNTTZBQi0/2vAyM2gW35gsfLOCNAzsRTT
-	CjjmbWKfD7WhEV8vwRzvHvSJ6xXOhpa2LlfPjr9MHlTFCHyHp0mP6b1PuYcJP4Bh3e1M5/Ptt2fwb
-	3i62McbuZT6jRrbzhJLi/5xEbKZErL5XlJqNoRpOJ77pxnoOvzLY8tvj8ZPJDJhTfSYkiWBKWjkfm
-	9YtCHNzrHchAbFvVLJ7ga75K8xRjyhtXtay5ZH2P+Ij3QlMgtortzJLIxbhrzxJk3MzO3yKXQgqae
-	QTqkMMpQ==;
+	bh=hYlGbAf0RGey9RFXPCMsCmrXYb553xfhYApUNZh+0vQ=; b=SKs+/HBf2xJPr3Qv9l6XKg6I1f
+	8y+69a+kxyPi7XKeZEEXdeiuWHF4QnnY9hicY1/i8XOoaelcryQFSun4xViZSHwO1Njw6/R1Akwq/
+	1jhedaH4vJaxMkT970concgYP1Ki1gtIJEWw9VGLerzB9seUtdSSVfzMELo+skvSSFia7yHe7V+OA
+	7RCTu+wfNO47Fo1DEKu0hV3P+dip07j0aHchnY1moxIYClDpfg535rPzsTUZ7NOUpLlYXrXAY1vOv
+	dfLpGjHZjsRdnL47E7rLku/+EFJMfraCWh/BEPi9mKIMlrwZhDIIn15YGLLAP3oNOdyc99ehH4Ft8
+	EpRa6S5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7EjF-00000007Wf3-3U7z;
-	Tue, 22 Apr 2025 14:36:05 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1u7EjD-00000007Wca-21dM;
+	Tue, 22 Apr 2025 14:36:03 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7Bvm-00000006yJg-3hu2
+	id 1u787J-000000068H0-1YXx
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Apr 2025 11:36:52 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 103FCA4B95E;
-	Tue, 22 Apr 2025 11:31:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA605C4CEE9;
-	Tue, 22 Apr 2025 11:36:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745321809;
-	bh=r6X7KW5xA2Bid9qqNeraU4aDSG9uP20Keu4UbEk1LHc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FJq30b87/TflnB9DVVipFNU57Znk7OWclwNiEv1U1CkREJE7TpnQD5/hqoZtIuTZJ
-	 dTPGGSPbMLaLEb2zNkLd3Q778H6VAa8OOBofqBahNpMdxezfgyVohmR6Rd9GiEqit6
-	 rqQQDP3Pc8mFmUp7rVwkCwExrNjkUbpZzr5cC8mMpJGiZVgmXx+K5vas3ebglhBMWf
-	 RVeOeSh6BNTXES/fWcmFmi51oMgzzUf4ye8EeNe7AB8tBKDLrYmlZv3p0jO5PK+S/3
-	 YSBQMCWgd1JztmQ+CpvrmAO4qjEfa68n3WyOSSCxk7QhEyBqnidI1p8GTad9JjjkB8
-	 RxKZi4poFx/gQ==
-Date: Tue, 22 Apr 2025 14:36:43 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Tue, 22 Apr 2025 07:32:31 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 0CE9D68AA6; Tue, 22 Apr 2025 09:32:22 +0200 (CEST)
+Date: Tue, 22 Apr 2025 09:32:21 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Kanchan Joshi <joshi.k@samsung.com>, Jake Edge <jake@lwn.net>,
-	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
 	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -69,20 +56,19 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Luis Chamberlain <mcgrof@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Dan Williams <dan.j.williams@intel.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>
-Subject: Re: [PATCH v8 24/24] nvme-pci: optimize single-segment handling
-Message-ID: <20250422113643.GE48485@unreal>
-References: <cover.1744825142.git.leon@kernel.org>
- <670389227a033bd5b7c5aa55191aac9943244028.1744825142.git.leon@kernel.org>
- <20250422043955.GA28077@lst.de>
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v8 23/24] nvme-pci: convert to blk_rq_dma_map
+Message-ID: <20250422073221.GA31688@lst.de>
+References: <cover.1744825142.git.leon@kernel.org> <f06a04098cb14e1051bddec8a7bdebe1c384d983.1744825142.git.leon@kernel.org> <20250422050050.GB28077@lst.de> <20250422072606.GC48485@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422043955.GA28077@lst.de>
+In-Reply-To: <20250422072606.GC48485@unreal>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_043651_050159_13EB32FD 
-X-CRM114-Status: GOOD (  25.39  )
+X-CRM114-CacheID: sfid-20250422_003229_695095_69741DEC 
+X-CRM114-Status: GOOD (  32.24  )
 X-Mailman-Approved-At: Tue, 22 Apr 2025 07:26:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -98,42 +84,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 22, 2025 at 06:39:56AM +0200, Christoph Hellwig wrote:
-> On Fri, Apr 18, 2025 at 09:47:54AM +0300, Leon Romanovsky wrote:
-> > From: Kanchan Joshi <joshi.k@samsung.com>
+On Tue, Apr 22, 2025 at 10:26:06AM +0300, Leon Romanovsky wrote:
+> On Tue, Apr 22, 2025 at 07:00:50AM +0200, Christoph Hellwig wrote:
+> > > +	dma_len = min_t(u32, length, NVME_CTRL_PAGE_SIZE - (dma_addr & (NVME_CTRL_PAGE_SIZE - 1)));
 > > 
-> > blk_rq_dma_map API is costly for single-segment requests.
-> > Avoid using it and map the bio_vec directly.
+> > And overly long line slipped in here during one of the rebases.
+> > 
+> > > +		/*
+> > > +		 * We are in this mode as IOVA path wasn't taken and DMA length
+> > > +		 * is morethan two sectors. In such case, mapping was perfoormed
+> > > +		 * per-NVME_CTRL_PAGE_SIZE, so unmap accordingly.
+> > > +		 */
+> > 
+> > Where does this comment come from?  Lots of spelling errors, and I
+> > also don't understand what it is talking about as setors are entirely
+> > irrelevant here.
 > 
-> This needs to be folded into the earlier patches or split prep patches
-> instead of undoing work done earlier, preferably combined with a bit
-> of code movement so that the new nvme_try_setup_prp_simple stays in
-> the same place as before and the diff shows it reusing code.
-> 
-> E.g. change
-> 
-> "nvme-pci: use a better encoding for small prp pool allocations" to
-> already use the flags instead of my boolean, and maybe include 
-> abort in the flags instead of using a separate bool so that we
-> don't increase hte iod size.
-> 
-> Slot in a new patch after that that dropping the single SGL segment
-> fastpath if we think we don't need that, although if we need the PRP
-> one I suspect that one would still be very helpful as well.
-> 
-> Add a patch if we want the try_ version of, although when keeping
-> the optimization for SGLs as well that are will look a bit different.
+> I'm trying to say when this do {} while is taken and sector is a wrong
+> word to describe NVME_CTRL_PAGE_SIZE. Let's remove this comment.
 
-I uploaded new tag dma-split-Apr-22 with the changes. At the end, I
-decided to keep SGL optimized path too, but didn't create separate
-patch for try_* variants as they require block iterator, which is
-introduced in conversion patch only.
+Yes, I'd say drop it.
 
+> > With the addition of metadata SGL support this also needs to check
+> > NVME_CMD_SGL_METASEG.
+> > 
+> > The commit message should also really mentioned that someone
+> > significantly altered the patch for merging with latest upstream,
+> > as I as the nominal author can't recognize some of that code.
 > 
-> I'm happy to give away my patch authorship credits if that helps with
-> the folding.
+> Someone :), I thought that adding my SOB is enough.
 
-I kept you as an author. Please advise if I need to change it to be someone else.
+Well, it also has Chaitanya's, so it must have passed through both of
+you at least.  Usually you want to add a little line explaining what you
+changed for non-trivial changes when changing it.
 
-Thanks
+>         if (!blk_rq_dma_unmap(req, dev->dev, &iod->dma_meta_state,
+>                               iod->total_meta_len)) {
+> -               if (entries == 1) {
+> +               if (iod->cmd.common.flags & NVME_CMD_SGL_METASEG) {
+> +                       unsigned int i;
+> +
+> +                       for (i = 0; i < entries; i++)
+> +                               dma_unmap_page(dev->dev,
+> +                                      le64_to_cpu(sg_list[i].addr),
+> +                                      le32_to_cpu(sg_list[i].length), dir);
+> +               } else {
+>                         dma_unmap_page(dev->dev, iod->meta_dma,
+> -                                      rq_integrity_vec(req).bv_len,
+> -                                      rq_dma_dir(req));
+> +                                      rq_integrity_vec(req).bv_len, dir);
+>                         return;
+
+It would be nice if we could share a bit of code with the data
+mapping, but I'm not sure that's possible.  I'll try to look into
+it and review things more carefully once I've reduced my backlog.
+
 
