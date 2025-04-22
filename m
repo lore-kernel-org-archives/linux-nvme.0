@@ -4,98 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6E7FC369C2
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 15:48:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5208FC369C2
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 16:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nc5sGGF3L8/wJHVP3oGXkCMBHi6xzZLZKtDy3YpoBQY=; b=RohN2OfmjxgRA0RKLad6apVUCX
-	mOltnU4LSwnqlHeNGaY4omQSIJ0uV5hxD2bNV2cXixMchZFr6N2uPU/Z+0hKVNkr1/2WDrk20v2mq
-	A8UOrn4IgZ/h3yX6wFcj6s6uz4EZXmKTSI5iXKIpIWZkcumH+w+4oD+XJKD+0vzPvFCBt9xzb8BED
-	OA+2M3X2WFQeY99twSV8M8qqxEHztPsywS21i0j233hDxYw6je8yDmm7YwqW/FLbnTkDVHSCGpOjr
-	zS3aw/3HT2kuLgf2q8tRR6Xtu20Fz+eykpFoJSwUFttrXJ74UdsB2KFxRzAKo2bKgO68iwR08s5lh
-	NHE6booA==;
+	bh=3rDEe0RbbOdS/AATPa77SHHta5wsKCuUdsdnept9/i0=; b=K9fUwWOt5A+AML64OPJF2DL2M8
+	qLPzMdlz4LZxXx0d5tMIfILjdsaBKDKrFS37mX+0scPxYvifXkjxuQogoHYT72xvGDJ0dkIby06qc
+	L0vrgLxTSd9aA6oW4WA1J9KK6l9VE4t8gjIurJ2cRjC9OeLPW+4qECmEBIopT0MCR0q/WuxlZocrq
+	Dq1zcybDN4mGJzjrH1N6WkC6Jr2KsdlNh7mz0aKsg2y8PHx0pxZMfx8mtNah6b5aMpcof7vsxjn6X
+	a3zTJQt+psXmFtVIE1IupsNTTwylCsHK9qNjjiR+mJ6TV6PEkMzqFsJWq4EC4JHjyPUAlDsOIH3pg
+	3Lt6XFwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7FrW-00000007n16-1NCQ;
-	Tue, 22 Apr 2025 15:48:42 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1u7GYm-00000007vKw-2L7c;
+	Tue, 22 Apr 2025 16:33:24 +0000
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7EgG-00000007Vtl-1W9g
+	id 1u7F1B-00000007a4R-2gYi
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Apr 2025 14:33:01 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53MCb5W7006025;
-	Tue, 22 Apr 2025 14:32:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=nc5sGG
-	F3L8/wJHVP3oGXkCMBHi6xzZLZKtDy3YpoBQY=; b=hIl5HIA8tMtWKf6Q9xVpcp
-	8yNwCm8a6uLZjpB9WM7KOqwP0F7MO0Md+lNdP2Ijos0Fnsb5iDhNW7L+sMuelZqk
-	j3zVo1J95m8CKw4MleX6gQ6sDWddy09s1sNh2csg41go962racs0/8frc/ziDsXr
-	BjY6xcCbvOlkxiVZBs6wFFZOdN2Ao9oWcKe10IF8shZsYaKphIXCCCpGohdKhQpm
-	eW69EhMy7asMdzpBzuqwr7xUSkfUk7RsSTOwhmgtZMHbyGJMJP56arHTuMlCoA0a
-	ploYoIX7iIINvujSdYKT29zlte3XU7f7JpEqOBfjCx9LGpdtAmvypOuosrQJ3ldg
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 466b97gjk3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Apr 2025 14:32:55 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53MBIRo0002904;
-	Tue, 22 Apr 2025 14:32:54 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 464q5nk83g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Apr 2025 14:32:54 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53MEWsCB22610354
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Apr 2025 14:32:54 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7CB7E58052;
-	Tue, 22 Apr 2025 14:32:54 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 760E158045;
-	Tue, 22 Apr 2025 14:32:51 +0000 (GMT)
-Received: from [9.43.46.43] (unknown [9.43.46.43])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 22 Apr 2025 14:32:51 +0000 (GMT)
-Message-ID: <20e5b90b-3c2c-4be8-8119-b14fab733a5a@linux.ibm.com>
-Date: Tue, 22 Apr 2025 20:02:49 +0530
+	Tue, 22 Apr 2025 14:54:39 +0000
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso44143595e9.3
+        for <linux-nvme@lists.infradead.org>; Tue, 22 Apr 2025 07:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745333676; x=1745938476; darn=lists.infradead.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3rDEe0RbbOdS/AATPa77SHHta5wsKCuUdsdnept9/i0=;
+        b=hQzFx77DsGl5KD+Y33LFa3ZTordDxjNIPBeqau/3Au7kZWQB6kcWcoKSHcUUbDaayG
+         E0W6Idnr2Wv9jJ3MdyItYOFV9XGD8u9kBMMgn0ZF2SaLdUQQHxRVUvPs1z7uuuhlHoe2
+         ongZYfVNS/HLtKy4QnM/Ki1B74DtgPHMQOrS2DJsUj4tr+8YWP2wxDIHHRNSwF1rmYxW
+         YagKdwpETRgzQLesVeBYx4MfJ/GsqRpxTay8P6fKzpZDRMSS2ld5PzhjJNM49rF7FJNm
+         CW5R4vfMBdqFxuru4SSFkPZc5DHj5iT/xsuO7WA019C+Nf50Ie+AVFMypBEnqILvFx0z
+         NLyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745333676; x=1745938476;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3rDEe0RbbOdS/AATPa77SHHta5wsKCuUdsdnept9/i0=;
+        b=Ld98WPliy5OtwBXZPV81/DX2G8QcZtdmutaEyWUAT5Pu/TXFE/A9a0Ft0RPPldvZUt
+         5O21ckwzo6Txz4h6E3FI33C8r3D26HI9HzF6peJVKxffhJZSbPzM08DcI5lMst0EjMfw
+         QwudBEXxdeIXssAlC/6AGQz7PR4usMz02YsSywIBl3PIt9/VUxvrnm+JRGviFs3asp75
+         JY4cp11Z7tmDS8ERwoAQMMIROzbApXbukzzeiM6HGwFh6jhTY7ASacL/MHbqmMuijuYj
+         YDV37m8QMO/jHqsEnIlQcGWdEidvagbaDf2APjTgsodcLCpMAVZeThq9kSg9ysLZWgqh
+         11mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWujeG3yhStojTxptt80+0zRYnjd98smm2I2Za+uPkYflib038m4lmXU8aDebRYmlmxoe1YkDy1a9Pa@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywnkpk6geK0wO4eO0l34/9R8nA53cCC7LAWkryZhleXe8sL9PAT
+	kR0daV04I+dtdionBGPr2pSEnbaZ4n/LfmEdTIr/JE/TPCD0Svr0Qtc4LnUVvjQ=
+X-Gm-Gg: ASbGncsPgaPq3ybKYSZsJNV1GowXdAnKdAZfwhhIbBmXW4j0cambUzqgPAFKcIs5c0A
+	lmA+8tmHzLv0z8rK/3YGwBU7u3nDEPpkRNNqt+n3Gp63SSwKArq4XmTqJfO+/lRr2C6al/gb1LX
+	2prKmIawOOdJRFpNB8Q4EfBqB/9NIjMK7VZ2B/CgvnbftJXPmpP4y95HK3YszJAkSESEkyWlVjK
+	3S2h9gQjt+rmfhulesFtQcoiAYdm6ls23dISJK/9oquUcDaFYfaQoLI/+vnOE4xQmeyhM+FQr2M
+	yvJ/ReTiaw0hYqe74Doj4qkuREDUyfoYTmsvoPJTrn1WuGOtfRxUt6E=
+X-Google-Smtp-Source: AGHT+IEHe9ogthRxFY7pkZ9zNymwt1Ec/5ZjUlqRd9V4GcqMYQk4PWKK1SwQmMeK1MT1bv8SF2U33w==
+X-Received: by 2002:a05:600c:cc4:b0:43b:d0fe:b8ac with SMTP id 5b1f17b1804b1-4406ac0fcd2mr156057715e9.30.1745333675957;
+        Tue, 22 Apr 2025 07:54:35 -0700 (PDT)
+Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:5f77:7d42:6228:3358])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4406d5a9de9sm177304635e9.6.2025.04.22.07.54.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Apr 2025 07:54:35 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+Date: Tue, 22 Apr 2025 16:54:20 +0200
+Subject: [PATCH v4 2/2] PCI: endpoint: pci-epf-vntb: simplify ctrl/spad
+ space allocation
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 2/4] tree: add queue-depth attribute for nvme path
- object
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, hare@kernel.org, kbusch@kernel.org, gjoyce@ibm.com
-References: <20250417135951.239447-1-nilay@linux.ibm.com>
- <20250417135951.239447-3-nilay@linux.ibm.com>
- <0e70314a-3c08-40ab-ac53-e9fb7e379f44@suse.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <0e70314a-3c08-40ab-ac53-e9fb7e379f44@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: nyb_L5DPRudiUCkKOCytI3mSDVSexh50
-X-Proofpoint-ORIG-GUID: nyb_L5DPRudiUCkKOCytI3mSDVSexh50
-X-Authority-Analysis: v=2.4 cv=FIgbx/os c=1 sm=1 tr=0 ts=6807a897 cx=c_pps a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VnNF1IyMAAAA:8 a=zH0chscHYlN6rDLQaksA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-22_07,2025-04-22_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 spamscore=0
- phishscore=0 impostorscore=0 malwarescore=0 suspectscore=0 mlxscore=0
- clxscore=1015 bulkscore=0 adultscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504220106
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250422-pci-ep-size-alignment-v4-2-6bd58443fee9@baylibre.com>
+References: <20250422-pci-ep-size-alignment-v4-0-6bd58443fee9@baylibre.com>
+In-Reply-To: <20250422-pci-ep-size-alignment-v4-0-6bd58443fee9@baylibre.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Jon Mason <jdmason@kudzu.us>, 
+ Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>, linux-pci@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, ntb@lists.linux.dev, 
+ linux-nvme@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2649; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=vNv6q0bb1dhXpfiDx4lYdoPPd0v2qIBg86Rmq+6QIeY=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBoB62oAlm5zh6kLkXaBtIcf8aDVYddmeLBSWeQi
+ XhVglIZiCmJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCaAetqAAKCRDm/A8cN/La
+ hSkCD/wNWHhJ4cR/8B3D/R49ys+RdE4Bbqm+jlq1I1CdaFEvLvfu7zqcK2uUCJgEHB/iD/wAKW4
+ QGXnhdnuRp6wbcUyqTwLQ/Sph5gS16lt4f0Mni38YYbG/dszfdh75UG42nC6cMc3ygrbCgIzmuG
+ lNNawfVSwxxU+D8jPu2Snhi0V4NvlAimuTUvhDkcJfzupu6EoFb9dteMt24N77VXLZG9hP0J26+
+ ncsj+RGbYB5clw4CHgk1LgF7BHcHZ/QYRHAfuFqqOcRSrbIQtWsGwPFge8FxvkoJ5pulSf6gtEL
+ mWmuOlrToxDkaDqiNTHUDrT/GvKUiSMsfA+zTlbv1oW2bQ015APm0g21MAucgoFLwYX0YXjO7Jy
+ MNu1zDU0m+7fg1f09LfG8uubUEn+Dv8Dpp/yYH8v2x5Pfi0ZPFqlXhk35ynAj2G9YbrqarOS5XT
+ ykQasjDllM+ulO0ZEQNPZjRKPIa52MWyjOFPloc1ylwcohyQdtUg3VgEmZuSnGvpJmQtOlrJjD5
+ +eEMrTMDgaancCIC3bb6CYWs8bzq+/ogx40Ki6dU+9B8Q2YdeYdchCXR/Huo1mXmf3/nNzMEY2F
+ 6eO1HQ+BhCB95bGVdzq8Wt7N4mjHvC0RkvtCqEBoMq0Vyi+4Hvpw8NROfWKnlVrndqFQFmXBo0S
+ CqNTm9baZl4Azzw==
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_073300_540800_12B0603E 
-X-CRM114-Status: GOOD (  23.84  )
+X-CRM114-CacheID: sfid-20250422_075437_685752_86AE0295 
+X-CRM114-Status: GOOD (  15.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,114 +125,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+When allocating the shared ctrl/spad space, epf_ntb_config_spad_bar_alloc()
+should not try to handle the size quirks for underlying BAR, whether it is
+fixed size or alignment. This is already handled by pci_epf_alloc_space().
 
+Also, when handling the alignment, this allocate more space than necessary.
+For example, with a spad size of 1024B and a ctrl size of 308B, the space
+necessary is 1332B. If the alignment is 1MB,
+epf_ntb_config_spad_bar_alloc() tries to allocate 2MB where 1MB would have
+been more than enough.
 
-On 4/22/25 11:56 AM, Hannes Reinecke wrote:
-> On 4/17/25 15:59, Nilay Shroff wrote:
->> Add a new attribute named "queue_depth" under the NVMe path object. This
->> attribute is used by the iopolicy "queue-depth", which was introduced in
->> kernel v6.11. However, the corresponding sysfs attribute for queue depth
->> was only added in kernel v6.14.
->>
->> The queue_depth value can be useful for observing which paths are selected
->> for I/O forwarding, based on the depth of each path. To support this,
->> export the attribute in libnvme.map so it can be accessed via nvme-cli.
->>
->> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->> ---
->>   src/libnvme.map    |  1 +
->>   src/nvme/private.h |  1 +
->>   src/nvme/tree.c    | 12 +++++++++++-
->>   src/nvme/tree.h    |  8 ++++++++
->>   4 files changed, 21 insertions(+), 1 deletion(-)
->>
->> diff --git a/src/libnvme.map b/src/libnvme.map
->> index 4314705f..e53fad6b 100644
->> --- a/src/libnvme.map
->> +++ b/src/libnvme.map
->> @@ -317,6 +317,7 @@ LIBNVME_1_0 {
->>           nvme_path_get_ctrl;
->>           nvme_path_get_name;
->>           nvme_path_get_ns;
->> +        nvme_path_get_queue_depth;
->>           nvme_path_get_sysfs_dir;
->>           nvme_paths_filter;
->>           nvme_read_config;
->> diff --git a/src/nvme/private.h b/src/nvme/private.h
->> index f45c5823..f94276e2 100644
->> --- a/src/nvme/private.h
->> +++ b/src/nvme/private.h
->> @@ -34,6 +34,7 @@ struct nvme_path {
->>       char *sysfs_dir;
->>       char *ana_state;
->>       int grpid;
->> +    int queue_depth;
->>   };
->>     struct nvme_ns_head {
->> diff --git a/src/nvme/tree.c b/src/nvme/tree.c
->> index bd7fb53e..b7a38a07 100644
->> --- a/src/nvme/tree.c
->> +++ b/src/nvme/tree.c
->> @@ -903,6 +903,11 @@ const char *nvme_path_get_name(nvme_path_t p)
->>       return p->name;
->>   }
->>   +int nvme_path_get_queue_depth(nvme_path_t p)
->> +{
->> +    return p->queue_depth;
->> +}
->> +
->>   const char *nvme_path_get_ana_state(nvme_path_t p)
->>   {
->>       return p->ana_state;
->> @@ -921,7 +926,7 @@ void nvme_free_path(struct nvme_path *p)
->>   static int nvme_ctrl_scan_path(nvme_root_t r, struct nvme_ctrl *c, char *name)
->>   {
->>       struct nvme_path *p;
->> -    _cleanup_free_ char *path = NULL, *grpid = NULL;
->> +    _cleanup_free_ char *path = NULL, *grpid = NULL, *queue_depth = NULL;
->>       int ret;
->>         nvme_msg(r, LOG_DEBUG, "scan controller %s path %s\n",
->> @@ -955,6 +960,11 @@ static int nvme_ctrl_scan_path(nvme_root_t r, struct nvme_ctrl *c, char *name)
->>           sscanf(grpid, "%d", &p->grpid);
->>       }
->>   +    queue_depth = nvme_get_path_attr(p, "queue_depth");
->> +    if (queue_depth) {
->> +        sscanf(queue_depth, "%d", &p->queue_depth);
->> +    }
->> +
->>       list_node_init(&p->nentry);
->>       list_node_init(&p->entry);
->>       list_add_tail(&c->paths, &p->entry);
->> diff --git a/src/nvme/tree.h b/src/nvme/tree.h
->> index 9f382e9c..a9082f8e 100644
->> --- a/src/nvme/tree.h
->> +++ b/src/nvme/tree.h
->> @@ -867,6 +867,14 @@ const char *nvme_path_get_sysfs_dir(nvme_path_t p);
->>    */
->>   const char *nvme_path_get_ana_state(nvme_path_t p);
->>   +/**
->> + * nvme_path_get_queue_depth() - Queue depth of an nvme_path_t object
->> + * @p: &nvme_path_t object
->> + *
->> + * Return: Queue depth of @p
->> + */
->> +int nvme_path_get_queue_depth(nvme_path_t p);
->> +
->>   /**
->>    * nvme_path_get_ctrl() - Parent controller of an nvme_path_t object
->>    * @p:    &nvme_path_t object
-> 
-> As discussed: saving the 'queue_depth' attribute is a bad idea, as it
-> changes frequently.
-> I'd rather read the attribute value from sysfs whenever
-> 'nvme_path_get_queue_depth' is called, and use the tree structure only
-> to hold the pathname.
-> 
-Yes correct, but I thought we discussed about implementing non-cached
-version of API in libnvme 2.x. So I implemented cached version of 
-queue_depth API. Daniel can you confirm? 
+Drop the handling of the BAR size quirks and let
+pci_epf_alloc_space() handle that. Just make sure the 32bits SPAD register
+are aligned on 32bits.
 
-Thanks,
---Nilay
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ drivers/pci/endpoint/functions/pci-epf-vntb.c | 26 +++-----------------------
+ 1 file changed, 3 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+index 874cb097b093ae645bbc4bf3c9d28ca812d7689d..e4da3fdb000723e3adad01f0ddf230ecc0e572a7 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
++++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+@@ -408,11 +408,9 @@ static void epf_ntb_config_spad_bar_free(struct epf_ntb *ntb)
+  */
+ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
+ {
+-	size_t align;
+ 	enum pci_barno barno;
+ 	struct epf_ntb_ctrl *ctrl;
+ 	u32 spad_size, ctrl_size;
+-	u64 size;
+ 	struct pci_epf *epf = ntb->epf;
+ 	struct device *dev = &epf->dev;
+ 	u32 spad_count;
+@@ -422,31 +420,13 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
+ 								epf->func_no,
+ 								epf->vfunc_no);
+ 	barno = ntb->epf_ntb_bar[BAR_CONFIG];
+-	size = epc_features->bar[barno].fixed_size;
+-	align = epc_features->align;
+-
+-	if ((!IS_ALIGNED(size, align)))
+-		return -EINVAL;
+-
+ 	spad_count = ntb->spad_count;
+ 
+-	ctrl_size = sizeof(struct epf_ntb_ctrl);
++	ctrl_size = ALIGN(sizeof(struct epf_ntb_ctrl), sizeof(u32));
+ 	spad_size = 2 * spad_count * sizeof(u32);
+ 
+-	if (!align) {
+-		ctrl_size = roundup_pow_of_two(ctrl_size);
+-		spad_size = roundup_pow_of_two(spad_size);
+-	} else {
+-		ctrl_size = ALIGN(ctrl_size, align);
+-		spad_size = ALIGN(spad_size, align);
+-	}
+-
+-	if (!size)
+-		size = ctrl_size + spad_size;
+-	else if (size < ctrl_size + spad_size)
+-		return -EINVAL;
+-
+-	base = pci_epf_alloc_space(epf, size, barno, epc_features, 0);
++	base = pci_epf_alloc_space(epf, ctrl_size + spad_size,
++				   barno, epc_features, 0);
+ 	if (!base) {
+ 		dev_err(dev, "Config/Status/SPAD alloc region fail\n");
+ 		return -ENOMEM;
+
+-- 
+2.47.2
 
 
