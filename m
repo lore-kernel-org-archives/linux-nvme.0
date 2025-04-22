@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17C40C369D3
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA3F4C369D8
 	for <linux-nvme@archiver.kernel.org>; Tue, 22 Apr 2025 14:36:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,43 +12,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Hiz0XZWPT72LbrWLyfmBYt1lYoLQTeN12HPNWRdYzoc=; b=p8eRW2GBN2y3rJU3PrjolencQs
-	cB55FWFmqv7XY2bAqTf3M7/4bN5aegtu+gqRw8HVZJwSR3aUqotZW+ysLrYcBxrhs3LR7hTqLJZFn
-	vwbs5cnY2A60fo79hNYC+QqYe4+j3sb+G6HmSR3tFuj8yeg/t02TIsc8c+8sWR1ac6nDq/0VLrlrk
-	2srMGhMuE2l3Rkbqv3TtUI8qbPko2bsQ1wkoxA1XTq5N6g8UOlzF/9+T6N9nPKHG/EFhsbK4Dp0BI
-	vYDk7lNfIuQ5x4OV20UjnQLQSTaQDuyeV+9taW5D44ZZN2WGn1dLWJH62uG0dD/oxDXkjhQ7WcSkv
-	LiaSzx2A==;
+	bh=UnX3SwBrFlJmAEIyOKmv2MkVZ0z5pQYpYBguMGQREqw=; b=ZgV0XH2n0a0HTAro8mrichmFCF
+	MJTcggW4bSJiwe1yMKdOcVDvTiIf2keVkX2ocbZOXlXSF5FT+PIodaM7jXvJv3IVfwc5L7hK/QSyi
+	SQLSW14VSmyyZK1q618Pw6o4VGxlOi+6Xzc9p8J1gjgTLYFRHiuLyXDrJcl/dOR1iVbtKOJqXdKDz
+	1bSErXFucHLI0kRSDzpQDDwIosiBmuWMger4Xz7oHm+VAByOyVBVjfmrgv3aZ5ngV4Eb4K0DS5r9U
+	EvYW/W6ZZkobt8q3Y1ccPm5F8z75mkPSWR4aXyTTPt5inS+ypGdxickFZ6yFLsls5de3tMgkSz0x0
+	tZZ06C7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7EjC-00000007WcN-3PBU;
-	Tue, 22 Apr 2025 14:36:02 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1u7EjE-00000007Wdi-0lZS;
+	Tue, 22 Apr 2025 14:36:04 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u781E-000000066uK-2Atb
+	id 1u78Ir-00000006AEE-2kme
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Apr 2025 07:26:14 +0000
+	Tue, 22 Apr 2025 07:44:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id A30A3A4B932;
-	Tue, 22 Apr 2025 07:20:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D2DEC4CEE9;
-	Tue, 22 Apr 2025 07:26:10 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A085444996;
+	Tue, 22 Apr 2025 07:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1566FC4CEE9;
+	Tue, 22 Apr 2025 07:44:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745306771;
-	bh=xN+WXXtReip5UqyzmA8L0bQhenwCbDjSz9Q+yfqmAMs=;
+	s=k20201202; t=1745307865;
+	bh=IkpCJe6iK3e0zmgzu4HOe7msfQx4RRcdkVXQ/zE59nM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T+kjxQ3DEPfKwlnz4ZsUDQJrurgBpYIvnlrJCi1o7bGuhNceV40t7HE/1xO8wR9Yb
-	 XqXYR6OJwsS92ouacGloivohWNsdc7yQTCXlieXHyMZSDeI4gKtISD5bdXJ7qypls6
-	 6bZi9HB9VfNpBB8VY/FRmXpBsoECeH0PTBRIxfT9fPPKnqee23MIdkAqBcDi3rUZ+4
-	 /BJqBQFefNqgzuto6SdwGElfoODTNQUBkGR4gebKND6VNauPo2sYytZqQICgsqeqij
-	 kpC9oyp1tE0IjwFexsb18IzStSzuJpdjBQFiXvjt/3to/J7JYYIZd8gnhECeIAhlc7
-	 0z3AdWi9XN8uA==
-Date: Tue, 22 Apr 2025 10:26:06 +0300
+	b=UWT8zpQsdCGRmAI20Z+3AYlApwN36Cmhj6cwB5IbEbE/IARvNVu0tWdo4mIoQ7tla
+	 jNP/ANqauZjnvPJUDWeJ8zADeaD5f36aQ2RWsAs+HUooXKhuTuo6yu/E07zazBROX6
+	 xznqv+BPsU6Ncghg2SNTxJe37syfeyaxQcr9WAF/Foen5407hErRIFOLLYGI7pgvGN
+	 CyJIqFICxTnqDUBmc1sGRXnHfviqEbMmgDyblOZ2xNZJFl02u19GY6Nbpt7EgtHA8c
+	 CrDGpNwLguDhhfqO7ogHBVTsHjC7XaO9VuKIwQLJaY5iHytN6aNXhIGafF6/jV6lt1
+	 HqZxDZY2NWy3Q==
+Date: Tue, 22 Apr 2025 10:44:19 +0300
 From: Leon Romanovsky <leon@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Kanchan Joshi <joshi.k@samsung.com>, Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
 	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -68,20 +69,20 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Luis Chamberlain <mcgrof@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v8 23/24] nvme-pci: convert to blk_rq_dma_map
-Message-ID: <20250422072606.GC48485@unreal>
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>
+Subject: Re: [PATCH v8 24/24] nvme-pci: optimize single-segment handling
+Message-ID: <20250422074419.GD48485@unreal>
 References: <cover.1744825142.git.leon@kernel.org>
- <f06a04098cb14e1051bddec8a7bdebe1c384d983.1744825142.git.leon@kernel.org>
- <20250422050050.GB28077@lst.de>
+ <670389227a033bd5b7c5aa55191aac9943244028.1744825142.git.leon@kernel.org>
+ <20250422043955.GA28077@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422050050.GB28077@lst.de>
+In-Reply-To: <20250422043955.GA28077@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_002612_692034_ECD6FD9B 
-X-CRM114-Status: GOOD (  28.21  )
+X-CRM114-CacheID: sfid-20250422_004425_730500_DD941151 
+X-CRM114-Status: GOOD (  25.55  )
 X-Mailman-Approved-At: Tue, 22 Apr 2025 07:26:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -97,92 +98,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 22, 2025 at 07:00:50AM +0200, Christoph Hellwig wrote:
-> > +	dma_len = min_t(u32, length, NVME_CTRL_PAGE_SIZE - (dma_addr & (NVME_CTRL_PAGE_SIZE - 1)));
+On Tue, Apr 22, 2025 at 06:39:56AM +0200, Christoph Hellwig wrote:
+> On Fri, Apr 18, 2025 at 09:47:54AM +0300, Leon Romanovsky wrote:
+> > From: Kanchan Joshi <joshi.k@samsung.com>
+> > 
+> > blk_rq_dma_map API is costly for single-segment requests.
+> > Avoid using it and map the bio_vec directly.
 > 
-> And overly long line slipped in here during one of the rebases.
+> This needs to be folded into the earlier patches or split prep patches
+> instead of undoing work done earlier, preferably combined with a bit
+> of code movement so that the new nvme_try_setup_prp_simple stays in
+> the same place as before and the diff shows it reusing code.
 > 
-> > +		/*
-> > +		 * We are in this mode as IOVA path wasn't taken and DMA length
-> > +		 * is morethan two sectors. In such case, mapping was perfoormed
-> > +		 * per-NVME_CTRL_PAGE_SIZE, so unmap accordingly.
-> > +		 */
+> E.g. change
 > 
-> Where does this comment come from?  Lots of spelling errors, and I
-> also don't understand what it is talking about as setors are entirely
-> irrelevant here.
-
-I'm trying to say when this do {} while is taken and sector is a wrong
-word to describe NVME_CTRL_PAGE_SIZE. Let's remove this comment.
-
+> "nvme-pci: use a better encoding for small prp pool allocations" to
+> already use the flags instead of my boolean, and maybe include 
+> abort in the flags instead of using a separate bool so that we
+> don't increase hte iod size.
 > 
-> > +	if (!blk_rq_dma_unmap(req, dev->dev, &iod->dma_state, iod->total_len)) {
-> > +		if (iod->cmd.common.flags & NVME_CMD_SGL_METABUF)
-> > +			nvme_free_sgls(dev, req);
+> Slot in a new patch after that that dropping the single SGL segment
+> fastpath if we think we don't need that, although if we need the PRP
+> one I suspect that one would still be very helpful as well.
 > 
-> With the addition of metadata SGL support this also needs to check
-> NVME_CMD_SGL_METASEG.
+> Add a patch if we want the try_ version of, although when keeping
+> the optimization for SGLs as well that are will look a bit different.
 > 
-> The commit message should also really mentioned that someone
-> significantly altered the patch for merging with latest upstream,
-> as I as the nominal author can't recognize some of that code.
+> I'm happy to give away my patch authorship credits if that helps with
+> the folding.
 
-Someone :), I thought that adding my SOB is enough.
+I used this patch separation for two reasons:
+1. Your conversion patch is absolutely correct and this patch is an
+optimization.
+2. Wanted to make sure that I'll post to the ML the code exactly as it
+was tested.
 
-> 
-> > +	unsigned int entries = req->nr_integrity_segments;
-> >  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> >  
-> > +	if (!blk_rq_dma_unmap(req, dev->dev, &iod->dma_meta_state,
-> > +			      iod->total_meta_len)) {
-> > +		if (entries == 1) {
-> > +			dma_unmap_page(dev->dev, iod->meta_dma,
-> > +				       rq_integrity_vec(req).bv_len,
-> > +				       rq_dma_dir(req));
-> > +			return;
-> >  		}
-> >  	}
-> >  
-> > +	dma_pool_free(dev->prp_small_pool, iod->meta_list, iod->meta_dma);
-> 
-> This now doesn't unmap for entries > 1 in the non-IOVA case.
+I'll try to split/fold this patch now.
 
-I forgot to unmap SGL metadata, in non-SGL, the metadata is the size of
-one entry. There is no "entries > 1" for non-SGL path.
-
-WDYT?
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a9c298a45bf1..73dbedd7daf6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -839,13 +839,21 @@ static __always_inline void nvme_unmap_metadata(struct nvme_dev *dev,
- {
-        unsigned int entries = req->nr_integrity_segments;
-        struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-+       struct nvme_sgl_desc *sg_list = iod->meta_list;
-+       enum dma_data_direction dir = rq_dma_dir(req);
-
-        if (!blk_rq_dma_unmap(req, dev->dev, &iod->dma_meta_state,
-                              iod->total_meta_len)) {
--               if (entries == 1) {
-+               if (iod->cmd.common.flags & NVME_CMD_SGL_METASEG) {
-+                       unsigned int i;
-+
-+                       for (i = 0; i < entries; i++)
-+                               dma_unmap_page(dev->dev,
-+                                      le64_to_cpu(sg_list[i].addr),
-+                                      le32_to_cpu(sg_list[i].length), dir);
-+               } else {
-                        dma_unmap_page(dev->dev, iod->meta_dma,
--                                      rq_integrity_vec(req).bv_len,
--                                      rq_dma_dir(req));
-+                                      rq_integrity_vec(req).bv_len, dir);
-                        return;
-                }
-        }
-
-
-
-> 
+Thanks
 
