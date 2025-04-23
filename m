@@ -4,85 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6521FC369CB
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 22:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2E14C369CB
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 23:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2nz+gipDjmANXat/46iFhAh6Yk8nUwnIL8n2w46JbNo=; b=33RX5Z2B6OwcivGNxjH6aLld4D
-	fQ6jRwOPS7ZSLoygfQakXbBqcsftnA7iGgVVo/DTID8S5xae1M5QPP3O2PeziiRFve8YMkLUAQGLe
-	T+BVLKKzWT3zYSpLZZYxasBfTak/xU+w7c5gv0Ecjja2Ret0wyMqcOgQD47nTYJ5OQ3f8zDKB3PpB
-	MuTjVqLhjmuV0q0odHR23/ftu0+oa4faCmGbxJdBx3PvDM8/I5WFxIN6YxWI3/UjmgPQ8YX1s+155
-	VGtcohY/g8nKiuhLlxJe/Q4yxZqtCZppNOPN+XDAz+4kasRQ+/lzorByFo0YwY3+VRmNAdIcwCmyy
-	3cWOJTfw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0Go7qZaXvLQqCMqWTP9/Yf9f9Qu/B9pFeocBe+GrV9o=; b=yv7i+hWzF4+mnlaeEB10I6sp+o
+	JNjcZC+MHlH2vJ47Dy/4h+rbIPBvorMIkQFuGjRTUMNER0vLDtl8A5or9QCPNKZZ6ehc2cwhJnZap
+	LwLaBvtAfXgbCPRtycYJPNeGjUD+yTE8P4lVY6LqKphp97x8vaiYFQ6h0TmCOCs1/m1ixbZDS3E01
+	aSn+9yp+1gbsyjbVrwTWFCf0yRN6HzcipZas8NmGAS3av3RpT75IMToC7BR1pjFf7CFq20oCA75oG
+	5dunPbJqlDAiYlXtgKg14ioO3FgQ2fDS7vge7VKYklIYg8S8MVvL0CU8ols+kww8faluA86ofyCFY
+	xAZFqTIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7iid-0000000CD1B-0SOq;
-	Wed, 23 Apr 2025 22:37:27 +0000
-Received: from mail-vk1-xa2c.google.com ([2607:f8b0:4864:20::a2c])
+	id 1u7jW5-0000000CGSY-2C8k;
+	Wed, 23 Apr 2025 23:28:33 +0000
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7iia-0000000CD0n-1RI2
+	id 1u7jW3-0000000CGRw-3KKb
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Apr 2025 22:37:25 +0000
-Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-52403e39a23so257638e0c.2
-        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 15:37:23 -0700 (PDT)
+	Wed, 23 Apr 2025 23:28:33 +0000
+Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-7c54f67db99so179528885a.1
+        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 16:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745447843; x=1746052643; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2nz+gipDjmANXat/46iFhAh6Yk8nUwnIL8n2w46JbNo=;
-        b=GIteAbqmHHNeM/kf1yYq232yYveXI4PXgj9mdXmohclkhAV5Yvp/6apW65LlJ2r5oO
-         +RwcDhZqE75iletXLLEWTuTmFAPWPzweWzkrfHPbg9thgeX639pWtdz/UGwK/Cgr4TiW
-         EMlvu2YgEjQP+8JE2usheQjep9uV/1f6+kNthUdXfNeuwplIfUO6DSrr2lYT3vsfByZX
-         uBIP8eo32qIFbWxTJYyLmjPXFsdV2c3pMx6Po5Pg8MEMfMJpNl19NXgHuQGgqO2IfFhw
-         bu/zzA0dmK6ISFPZlbkNFsHae1pCHF70rPhbUWQjO+btYAvNsLtvfTqDyyvQxFX6mn5B
-         u8dw==
+        d=ziepe.ca; s=google; t=1745450910; x=1746055710; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Go7qZaXvLQqCMqWTP9/Yf9f9Qu/B9pFeocBe+GrV9o=;
+        b=MtJa4NZyr77Yt/ZmGjN7+FmKzo9EpN5AvuatfyLHGhywDO7F6g/Ae4+KS8xuW96GtI
+         jhcyx5T//59oYt2MpNyPMbw+0Rq9xwCFKmsMK3bpSeHiuhJZNtWG5PpRn9nBadg+nV3D
+         MPxeWZEJiu5awL2TpaKeBbCr68gp6GFDPulig/5UrHGz0cpwTkaILUp8MqKEFlspQCeF
+         XnYXXaNFS6sHguCytkNp0GlfOfW68e7Gn+yamkdV/1VSJFpPjmbygyD4AcD3P/T7ghVi
+         vkkn+Cz6nBZunAa6uwu/cx4GPY1iiZQbDmniMrRhQefLA6DEJn9o4SpVfaDdP9yaniv8
+         77qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745447843; x=1746052643;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2nz+gipDjmANXat/46iFhAh6Yk8nUwnIL8n2w46JbNo=;
-        b=AQY965uZ0TzdlW/t4i/HPmJDm2kWiOa6QhTCiJsftmRQcpYKCHB/51DUduTctb7Rop
-         GfGcxqlSZb0Ud9JZop/MR4mPigf59d1CRPw3iYh1DRl13/c7EUvLb/mLIo66uAH+FGb8
-         ZL6AO7EY09TubpOQGpAR+yM41ad1HIoxSbxOtGvIjOAH6ce4o5tsuUsjcOkL0s6BJuJf
-         +p5E4HuDedLaBM2+Lz1j3QFLn/MmZ9+poxY5dfL9LfANhoMSj7fEpgWiHMEhrW7bMkKn
-         l7CAqH2xdcbKSA4z1acHkg+DyYqWBFWcBn6Zl59JgkBv88Ll8Ga/NafjvF4HS8nB2Yd+
-         G0Ww==
-X-Forwarded-Encrypted: i=1; AJvYcCVk4CYKiD0TfubJ5WRF8u4fvY2bcju/pn9wFAA8ofM1/peBDTuRC4Ci6I4drUiSr5Y7HZ+2AekIlT8b@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyw0wYuuqfGpre+LfOK+zT2cCkrTcO5xKM9HkGlShgCF0BnJ3c0
-	MdS8wWcAzC1GkIAf/fsthdyfe4dHnaRgipHIOY2XUmBKs8ijAIChc/Br5my4CmCSQ4q/VyTv7sn
-	WlkvlQNw45t6n54PabDIYPLUrGNA=
-X-Gm-Gg: ASbGncvP2ZW1FjkZ+Gmta726IqS7eMmUaQqeo9yV/54mlLHcUjyy4uqyxkRocv+4ion
-	uTP0xJi06dChaPwDJQ5DyH6CtAG0+NvpVXOBnZCaJNuanBAJR1BnxIe0rYXpwy7fFRPqmN6eS5E
-	5I7Lz+wsE2l8Byz3vhNz9vI4ipezMf3RacDWcOOP+cct9okfDRPCZo
-X-Google-Smtp-Source: AGHT+IHI49KmhaFnzTJnRm4xJm2Aet7c253pNW/wHNviVly6fNSvQqCW25sHSp8xGsWqLRlJRP+9TlfgYP5nWK4UgN8=
-X-Received: by 2002:a05:6102:2b83:b0:4c3:6ba1:3aac with SMTP id
- ada2fe7eead31-4d38cf2f542mr835602137.3.1745447843065; Wed, 23 Apr 2025
- 15:37:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745450910; x=1746055710;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0Go7qZaXvLQqCMqWTP9/Yf9f9Qu/B9pFeocBe+GrV9o=;
+        b=bADwzyiGFyxGrjoi8Zd1kiJqWT/xg2OJpJd52af2pJMVc66zUGJtUYSHSpqZvZkFxx
+         rMsv2E57eLB4d0sesGdcCVPi98qoRxjs3FWU/K1gi/192R9RV6k4Igp6Gq+eFSzia/xe
+         TRv7uiLwKyntd2aYnOaiSsivD7qbRlVRACGCk8kQu01f2RjBhrREkKxemrFVnRe9Rrwg
+         ktgk5rgrqzlNRYzrJAohP84qbVXFyJCBiscQwtUOtrU0o98qipra9cGG+dzz0VvqdAs+
+         0s0S3Ndy3d4NjfORlcPEPrOCTkM2R6NsAXG6SL9nfy6urnmnS9mNGcjRtU+WWOXX+8mD
+         VF/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVhUvfGa0LVyswKutlKNH8c6kz3OD5EdihIquOc5D3k5JDmMHpV9JxF81RVxCV2s7+VjY3syuID6zzK@lists.infradead.org
+X-Gm-Message-State: AOJu0YxSs9QNcS5n0gnTLXOwC5tBmZX0Fbh2VQEUFqvYWvTxeQi7Jm7t
+	3yyP1i7Fzxq/bCNjMKoIXfm+ww0YwX52mgHOnt2iX3isMibVz0uUQuHpVcwNcAE=
+X-Gm-Gg: ASbGncvt4EbDzQ4otdV1GeGT5LycKhZVsh8/b7yZw/0R3Skl1uDMm8T8a4Z7cjKol+L
+	UlFTeAh/UShAXwJ1U6XpanHjpIKP0Ub3UE8n9ib/Eg7rTo8elsF0JjjsL/bHjnyuEv4tSWqPCwF
+	8/nkbtJVnIkaINOCq01qkT5l0atL7K2cTO5/ZvfrbM150PkKqx8ldcdwuCay/F2tnYT+u2pzae4
+	T9ntsPdu7L+8CutO164oBBWW61HeceNhFwsJhxlL3rN5P7QUZrEMw4jSTLqbpofMPHm7IVlUnKf
+	qH2/KD6wIO7QJ2OECIkhytmtpKs93hA/4CnAYvyD83nL75OFaOB1Ss5TPOBFGlZOKh6eqNw+WqO
+	BhCHhH1QGBoABEGErRkc=
+X-Google-Smtp-Source: AGHT+IHQwoUGFyqXOFOgVitrB4+AxVC8d+UTNu2w6OYf0KswkT4EXsvYxHqs0LgYSSaBSDPbedDu/w==
+X-Received: by 2002:a05:620a:2887:b0:7c0:a1c8:1db3 with SMTP id af79cd13be357-7c9585c5877mr36268185a.11.1745450909829;
+        Wed, 23 Apr 2025 16:28:29 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c958e7f154sm2581385a.76.2025.04.23.16.28.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 16:28:29 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1u7jW0-00000007PIX-0JOv;
+	Wed, 23 Apr 2025 20:28:28 -0300
+Date: Wed, 23 Apr 2025 20:28:28 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: jane.chu@oracle.com
+Cc: logane@deltatee.com, hch@lst.de, gregkh@linuxfoundation.org,
+	willy@infradead.org, kch@nvidia.com, axboe@kernel.dk,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: Report: Performance regression from ib_umem_get on zone device
+ pages
+Message-ID: <20250423232828.GV1213339@ziepe.ca>
+References: <fe761ea8-650a-4118-bd53-e1e4408fea9c@oracle.com>
 MIME-Version: 1.0
-References: <20250423060621.632581-1-alistair.francis@wdc.com>
- <ed993f55-bdfc-4376-951d-9af4a4f461a9@suse.de> <CAKmqyKOBOCV=mU0BRdZu2vPzx-+3fkp7qJXiTXF7dPM35eXguw@mail.gmail.com>
-In-Reply-To: <CAKmqyKOBOCV=mU0BRdZu2vPzx-+3fkp7qJXiTXF7dPM35eXguw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 24 Apr 2025 08:36:57 +1000
-X-Gm-Features: ATxdqUELk8bpIDMoB69M1_GWUpYFpptzfdIs_SlWACvuN0IwPs0Ca46TI0LrsUg
-Message-ID: <CAKmqyKMby=+0-dwCeVGYS5rPqGqS26yabbw1K6Kg_j3NdGXMLQ@mail.gmail.com>
-Subject: Re: [PATCH] nvmet-tcp: don't restore null sk_state_change
-To: Hannes Reinecke <hare@suse.de>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	csander@purestorage.com, shinichiro.kawasaki@wdc.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fe761ea8-650a-4118-bd53-e1e4408fea9c@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_153724_390501_D0311F3B 
-X-CRM114-Status: GOOD (  20.65  )
+X-CRM114-CacheID: sfid-20250423_162831_940333_1CA52E08 
+X-CRM114-Status: GOOD (  16.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,62 +105,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 24, 2025 at 7:47=E2=80=AFAM Alistair Francis <alistair23@gmail.=
-com> wrote:
->
-> On Wed, Apr 23, 2025 at 4:21=E2=80=AFPM Hannes Reinecke <hare@suse.de> wr=
-ote:
-> >
-> > On 4/23/25 08:06, Alistair Francis wrote:
-> > > queue->state_change is set as part of nvmet_tcp_set_queue_sock(), but=
- if
-> > > the TCP connection isn't established when nvmet_tcp_set_queue_sock() =
-is
-> > > called then queue->state_change isn't set and sock->sk->sk_state_chan=
-ge
-> > > isn't replaced.
-> > >
-> > > As such we don't need to restore sock->sk->sk_state_change if
-> > > queue->state_change is NULL.
-> > >
-> > Good catch!
-> >
-> > [ .. ]
-> >
-> > > Resolves: https://lore.kernel.org/linux-nvme/5hdonndzoqa265oq3bj6iarw=
-tfk5dewxxjtbjvn5uqnwclpwt6@a2n6w3taxxex/
-> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > > We could also remove the `sock->sk->sk_state !=3D TCP_ESTABLISHED` ch=
-eck
-> > > in nvmet_tcp_set_queue_sock() if that's prefered.
+On Wed, Apr 23, 2025 at 12:21:15PM -0700, jane.chu@oracle.com wrote:
 
-Actually that by itself isn't enough to fix the NULL dereference. We
-still need the NULL check from this patch.
+> So this looks like a case of CPU cache thrashing, but I don't know to fix
+> it. Could someone help address the issue?  I'd be happy to help verifying.
 
-So I think this patch as it currently is should be the fix
+I don't know that we can even really fix it if that is the cause.. But
+it seems suspect, if you are only doing 2M at a time per CPU core then
+that is only 512 struct pages or 32k of data. The GUP process will
+have touched all of that if device-dax is not creating folios. So why
+did it fall out of the cache?
 
-Alistair
+If it is creating folios then maybe we can improve things by
+recovering the folios before adding the pages.
 
-> > >
-> > Please do.
-> > We cannot influence what the network stack did, so if there ever were a
-> > modification which caused the ->state_change callback _not_ to be set
-> > the whole issue pops up again.
->
-> If queue->state_change isn't set for any other reason this patch
-> should also work, but I'll remove the `sock->sk->sk_state !=3D
-> TCP_ESTABLISHED` check as well
->
-> Alistair
->
-> >
-> > Cheers,
-> >
-> > Hannes
-> > --
-> > Dr. Hannes Reinecke                  Kernel Storage Architect
-> > hare@suse.de                                +49 911 74053 688
-> > SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> > HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Or is something weird going on like the device-dax is using 1G folios
+and all of these pins and checks are sharing and bouncing the same
+struct page cache lines?
+
+Can the device-dax implement memfd_pin_folios()?
+
+> The flow of a single test run:
+>   1. reserve virtual address space for (61440 * 2MB) via mmap with PROT_NONE
+> and MAP_ANONYMOUS | MAP_NORESERVE| MAP_PRIVATE
+>   2. mmap ((61440 * 2MB) / 12) from each of the 12 device-dax to the
+> reserved virtual address space sequentially to form a continual VA
+> space
+
+Like is there any chance that each of these 61440 VMA's is a single
+2MB folio from device-dax, or could it be?
+
+IIRC device-dax does could not use folios until 6.15 so I'm assuming
+it is not folios even if it is a pmd mapping?
+
+Jason
 
