@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E93FC369D7
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6717DC369CB
 	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 18:47:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,67 +12,67 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=I+fayQ/PBTnrOfxtrw3IgFnI1QJK9xAjEiHuuXs7Kpg=; b=420QO3bZwSkHfMcVNrZQImcI03
-	EvpNc6kJ5Mh6zmjxPoWndz2s5hCXXDffzQJrQuS2xSdnjKMzvGyds4kj5vLdrgLWPMi4jH4i9U2WC
-	KtARVrOrDhZxippj2taAQuwTR1C/GRBhbjK0IlxQnhY5XOzZXioMmbTfkMP38ap3X/DLObLifDcmL
-	WpqHMCwTGRsw8MbV2fk2/mbwUT9KRCY8Cr1T7iXx8VZYvoOHuCcopw4Y1FRC3qN2C/6pjIzCarVCr
-	Hw9csJSkt3boblrco5r4+ycDldBG5rhgIziiOnN37P53F2OPuseoceqjT2Y557iXofJfiZTUNR40L
-	HMGo0plw==;
+	bh=IO21pmrwIRca1fPgD174SCTD3P5B2ca9Ykqyd/DD35Q=; b=VzRZo8QPsA+Ur/plHtLCXrJkn4
+	j15rX7bA2a2pXjfiCZtIu3aQCH0PEmxis3i9nKgPwZ1jkSnn+MSWmtxht0jZ2jKlyO0QgUmEZWyXf
+	+JCCr9TLLP1kimvaAt0uvJynyMh0k1UIAsLDTK1PyDhRNVgRT5g6Qr4AEGtALAwGn5GpwxTxS8f3H
+	FCMsEKr0J2Ab3+hbKuhyJMPUid7C/9LQOqRqgfTpPc4EqHLTEu1Lqb+TekjR4+nlEK8O+EOTu8NVq
+	/ccbg4tSLBG2L8BeSAuBZBEHcYloDq4dsu54irkzJt2d3JHTidAqLHMUxTpzj68xjKS/dYoo1DpDS
+	846QE/FA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7f7s-0000000Bd7W-22jx;
-	Wed, 23 Apr 2025 18:47:16 +0000
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c])
+	id 1u7f7r-0000000Bd74-3MnU;
+	Wed, 23 Apr 2025 18:47:15 +0000
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7dzt-0000000BHUR-3S5t
+	id 1u7du6-0000000BGfY-3eBk
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Apr 2025 17:34:59 +0000
-Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-7c0e135e953so8169885a.2
-        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 10:34:57 -0700 (PDT)
+	Wed, 23 Apr 2025 17:29:00 +0000
+Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-476a304a8edso1008561cf.3
+        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 10:28:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1745429696; x=1746034496; darn=lists.infradead.org;
+        d=ziepe.ca; s=google; t=1745429338; x=1746034138; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I+fayQ/PBTnrOfxtrw3IgFnI1QJK9xAjEiHuuXs7Kpg=;
-        b=C7LHAkb3oSw3XQyfh06G9hFiv1vtNYerRIxAQZn6DwVpKE83TX81LskMJFWSRiyl7W
-         gQ1+BjrJIJOg0/FR/m0OrfE816J4aLm/JeLsG/W8ZiZIrEX0mam9UfPxUBOB5fb3DFPq
-         u/aRjcaUWINSCICPOPFDjDiBJR9aigeD/4TX2437yVaVS+WIxGE1VdDAmiQDQVQBIRWV
-         WdthL3R6/yBpX90Q3szB820LebQm270rZMj6vk0lHXUuFGViq0lORT7IMqzzKPutGBcP
-         OHBdd4lS+j0ryCobBSQhVXKyPfBXtTx2J9Y1IgaGxQE2s7T50a+gIkEamjKO8JmSR2r3
-         OmeQ==
+        bh=IO21pmrwIRca1fPgD174SCTD3P5B2ca9Ykqyd/DD35Q=;
+        b=AuelOR7FNpdsgDZkFWW1pIwFj4QTu/Y5gbZwrmVi/BbaazvDI5O2fEhrDhF9/8fPNa
+         gnwFZ6Rel1hTpzIvFnA25sKs7I9Ox9ni7buYMNgIukcdQIDlVbZvAR7Arfd7BPCqUidM
+         R3ysQUAREU9bqp7so/B/qXKB1vxueNidn34M7drvh9755dw4SAqU8+EQfgqOYGjkoUQ5
+         gYRUpbYglDoXzRP44kVtq70SVQdDnPes50M5ot0A52jV6rsawnMigiGZFo8v/hXdtdny
+         9JGLJNsz9FbbpEPWZDsUR/C9nGDCq1cFOxhr/cxMmg8+85txMapy+vVQ+Sg4lvHHTjxF
+         8f7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745429696; x=1746034496;
+        d=1e100.net; s=20230601; t=1745429338; x=1746034138;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I+fayQ/PBTnrOfxtrw3IgFnI1QJK9xAjEiHuuXs7Kpg=;
-        b=khxwRwNFiylRoH9Gbiv63fN5NVPKraKcaWSosmn04W2hUdgNHB5aQsPkR6auGTx/bH
-         YZn4PolHXUdwMHS5iMmOZ5Rk8h1hxgGp8gXYv8l51dkbAyYw7l/6d8/8eog/5qrAw4jX
-         GDlTuJ/WiO14+BX1ajMYtGjU9xnN18IvBALDNnwTJihK6VaO9n5g3goSTvrrw0i6wZMB
-         gJIUMDf341EYAjC0+8504ogpBw5Hnr6ueKq7g2ihU+pJSy2TcHcXaMPCAWPXfrHVsIWJ
-         GYBecfSJbMPs6THy9lb7pcri7G6oYJrCybpeZ9HfTUYkYJUulauLcQKSpanZSG6vMIg9
-         WpGg==
-X-Forwarded-Encrypted: i=1; AJvYcCWfGcCH1F1SCBp4HNNcVQZmLzkpOzobGocsJ9WtKnmDFbWf+quWuty46ATls81/9Y+U+qLW2BP+OeZY@lists.infradead.org
-X-Gm-Message-State: AOJu0YyCYdAM+v3sYJYeXzPJpm3ItkSyFvAWrHqb9EOP4IBTjhsRNqTH
-	nGQpDOfTEp8oJdWs7+c6h1EXPuUdKn400rm6zzU64nd9nWjuyg/JdxwwY6syGVw=
-X-Gm-Gg: ASbGncvK8iU2eYY/VnAnmjEuK4J8pwj4v3VVzkwc/HS1MAMQGFI1zf8b/EZ3ZS02btW
-	jXwIR6tDNrDsRNup2Gk5FBn+clkL9uiQme2ISbNHD24t0I8/usmtZrebpFEgfOTRdH1FzXtm48N
-	PLrJf3eSudR+ahhKzWx6xiRDmZfyOV1YSdRegmjdJaeG11EGtER8pR6LI18thT08/a0mnNVw4Fe
-	HWOsglc3ywX+b754M5eLdxLn3wfU6+47XmZbkNzCFTglSDCYHII07hiQAjgsLTaRvKsbX/0+EP5
-	f/pIYtyl4POPrWd/XckCqIaJFMxqKWLvaicKA5QbspMlTeTO+lGHz0qTEn/AwbgPg2f0iRBgh8k
-	E8jPcuOJ4Tc3HuPOvbIc=
-X-Google-Smtp-Source: AGHT+IHrcKTZfJXCAhkO2WaOum0PT2hRMW3vGaRhpe2sCjwAXzgjbldqD9beTUKDcznlrIIPKNuBAw==
-X-Received: by 2002:a05:620a:2953:b0:7c7:97ff:ca42 with SMTP id af79cd13be357-7c955e7c7d7mr65261285a.41.1745429696505;
-        Wed, 23 Apr 2025 10:34:56 -0700 (PDT)
+        bh=IO21pmrwIRca1fPgD174SCTD3P5B2ca9Ykqyd/DD35Q=;
+        b=tj/3DGYz12e/Qeh0ivs9BYXqlk7ssExDLNDuKUeySUS+pBLqVJWRA1B6WmB6pgBJ8T
+         fy1j+m0azFm74x2GdHJdT51vajucpK9zQKC2sxAnvICaN79399zqdLPlyCkGY8YBnzhD
+         Dsn0/q5nkZztdvtjgchIAYmjFk3ItSueTl5E9HDPR7X/TvKjka+rMZtIkpurVbYvxt8O
+         0UdntMMEBANq7rqECprTlNeHom4gKWZd4nqqddSCuVy83xXGByPOZ8whW4Wj1UTE0dPk
+         gDN18gSVCi+IZn/2BDPnRrxQs6dzuuyJkPu4ILBkVxg+lsxkwypvsx4waKm/tazOKR2e
+         8WLA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0sLw63gNoZOsjC1jV0lsyqyYbO/WUBibfFB3YbqZ7V1IyoM6boeqYBH2KZ7jJvWdstzm6xjOwFR0x@lists.infradead.org
+X-Gm-Message-State: AOJu0YyOmchMzSNZZEdhP85xf9t9Jk2BNpqXJnf0Pkb5MV9OVPsZ67TA
+	jlJN+gSe8JEFgjXyUxS5OIGhMUeumyoIE6RAUbrEy+FE7NjOS71yQDKOxnSXdSo=
+X-Gm-Gg: ASbGncsdhXa+sEGpd/E4PLktgDKzfKrhg7YdlDb2wV5klGxbRZzTuQi5O7yXBbXe/p8
+	KWXNB3hwt1ncHY/3+mgqgifmFmhdOdO8eCxrWQpiEx/bLGYkIuNx4ZadLBQvDRASaWJYWDX/IzH
+	CLWQtm1LKQXDe2PPYstNOtjN0uqwQNoT1T9Y0NrDB4W2Fwtclseb91nBJx6bUNhQY+r39ITtYnD
+	jNpKBCJIA8IThlp1hE9hztGHK52eLJIdtWeD8alJ2ZxLDCam+7TvugiO/W19Rs5fPTe/w53+BkK
+	G+ArtHhkceDsEuSH07ahNH+mcdLCxSOoVqqwPcIFVDPOc22YMC9eyFxdXi9MN4RhcSV4v8Q0zT8
+	+Ugx6G2nWQrf8I7F7dYI=
+X-Google-Smtp-Source: AGHT+IFhccZU7hwIpoqF9kdgyBZNm8CDnNWVmBsNPQQ6+B1QKTjLAh4Uz8aWpAuaS2cilFrr6VCiig==
+X-Received: by 2002:a05:622a:18a6:b0:477:5c21:2e1f with SMTP id d75a77b69052e-47e77a9e41emr774971cf.34.1745429337818;
+        Wed, 23 Apr 2025 10:28:57 -0700 (PDT)
 Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c925a8bf65sm707741185a.25.2025.04.23.10.34.55
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47ae9c3b5c3sm71026671cf.21.2025.04.23.10.28.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 10:34:56 -0700 (PDT)
+        Wed, 23 Apr 2025 10:28:57 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1u7dzr-00000007LbA-2PtY;
-	Wed, 23 Apr 2025 14:34:55 -0300
-Date: Wed, 23 Apr 2025 14:34:55 -0300
+	id 1u7du4-00000007LYP-3LLk;
+	Wed, 23 Apr 2025 14:28:56 -0300
+Date: Wed, 23 Apr 2025 14:28:56 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Leon Romanovsky <leon@kernel.org>
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -101,18 +101,17 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v9 12/24] RDMA/umem: Store ODP access mask information in
- PFN
-Message-ID: <20250423173455.GN1213339@ziepe.ca>
+Subject: Re: [PATCH v9 11/24] mm/hmm: provide generic DMA managing logic
+Message-ID: <20250423172856.GM1213339@ziepe.ca>
 References: <cover.1745394536.git.leon@kernel.org>
- <f81331e55cf95b941e6c57f940a2a204141bf2e1.1745394536.git.leon@kernel.org>
+ <3abc42885831f841dd5dfe78d7c4e56c620670ea.1745394536.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f81331e55cf95b941e6c57f940a2a204141bf2e1.1745394536.git.leon@kernel.org>
+In-Reply-To: <3abc42885831f841dd5dfe78d7c4e56c620670ea.1745394536.git.leon@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_103457_869949_8A887B5C 
-X-CRM114-Status: GOOD (  13.01  )
+X-CRM114-CacheID: sfid-20250423_102858_912959_0162F235 
+X-CRM114-Status: GOOD (  19.73  )
 X-Mailman-Approved-At: Wed, 23 Apr 2025 11:34:49 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -128,21 +127,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 23, 2025 at 11:13:03AM +0300, Leon Romanovsky wrote:
+On Wed, Apr 23, 2025 at 11:13:02AM +0300, Leon Romanovsky wrote:
 > From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> As a preparation to remove dma_list, store access mask in PFN pointer
-> and not in dma_addr_t.
+> HMM callers use PFN list to populate range while calling
+> to hmm_range_fault(), the conversion from PFN to DMA address
+> is done by the callers with help of another DMA list. However,
+> it is wasteful on any modern platform and by doing the right
+> logic, that DMA list can be avoided.
+> 
+> Provide generic logic to manage these lists and gave an interface
+> to map/unmap PFNs to DMA addresses, without requiring from the callers
+> to be an experts in DMA core API.
 > 
 > Tested-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/infiniband/core/umem_odp.c   | 103 +++++++++++----------------
->  drivers/infiniband/hw/mlx5/mlx5_ib.h |   1 +
->  drivers/infiniband/hw/mlx5/odp.c     |  37 +++++-----
->  drivers/infiniband/sw/rxe/rxe_odp.c  |  14 ++--
->  include/rdma/ib_umem_odp.h           |  14 +---
->  5 files changed, 70 insertions(+), 99 deletions(-)
+
+I don't think Jens tested the RDMA and hmm parts :)
+
+> +	/*
+> +	 * The HMM API violates our normal DMA buffer ownership rules and can't
+> +	 * transfer buffer ownership.  The dma_addressing_limited() check is a
+> +	 * best approximation to ensure no swiotlb buffering happens.
+> +	 */
+
+This is a bit unclear, HMM inherently can't do cache flushing or
+swiotlb bounce buffering because its entire purpose is to DMA directly
+and coherently to a mm_struct's page tables. There are no sensible
+points we could put the required flushing that wouldn't break the
+entire model.
+
+FWIW I view that fact that we now fail back to userspace in these
+cases instead of quietly malfunction to be a big improvement.
+
+> +bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
+> +{
+> +	struct dma_iova_state *state = &map->state;
+> +	dma_addr_t *dma_addrs = map->dma_list;
+> +	unsigned long *pfns = map->pfn_list;
+> +	unsigned long attrs = 0;
+> +
+> +#define HMM_PFN_VALID_DMA (HMM_PFN_VALID | HMM_PFN_DMA_MAPPED)
+> +	if ((pfns[idx] & HMM_PFN_VALID_DMA) != HMM_PFN_VALID_DMA)
+> +		return false;
+> +#undef HMM_PFN_VALID_DMA
+
+If a v10 comes I'd put this in a const function level variable:
+
+          const unsigned int HMM_PFN_VALID_DMA = HMM_PFN_VALID | HMM_PFN_DMA_MAPPED;
 
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
