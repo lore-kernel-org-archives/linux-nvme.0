@@ -4,104 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55FF8C369CB
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 06:53:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D9E1C369D3
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 06:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4U00Um2A5WXJ4SbW7ZK/p6efa+xV1QJA1UoUNHItMu8=; b=Mdr7kFkbZuwflBFBBXyUDv2hOM
-	9da06V8K9GE18EfGoeGdHujNTLA9iO4O0vu53qk4jd1KiuvSivMkK7LE1TimRl6n58EDl/EC5geQf
-	Q4eQCHcMnMRLfBHBH4FZUGVt2QpOzN6yrMNPGFIgfgn5v62sqlDsL1GtMIIENVaw716hTBQLVnpDp
-	yhKyOMEE9DJkKoNqnxoUPScAXgUegNpN8X0g4FiTl895kMwtCRmNU7k5uvOP/l9wY00Ov8lMltX29
-	74v2L4e1ZWcgCdS3/v4SK/9Q8fXolsCdrjdZJvtaDVr2FLj3OlmS0nG3808+FbDv3vLfxo6GHJhDD
-	KEgE6aJg==;
+	bh=9VPilbHRhk/K5ZBOCPJOvfextA3nm+QGqvwc1ZzV5TM=; b=bNjq9y4V8+9D6MBzfsrTHlQ1gK
+	1LBmDcDVIDnDWP6ziW61tgdy9I1tXf6KqZWdbLp/LW9e/Io9rHeSJ5BdtGAe/vckbLUGHDs6Zch4s
+	h/f7XQqmYaXd3aMq6x+9obuOcyke6Sp3q872cXVQDczPbpx0J1Ca8+FtyUiCsOIIT3B6o2qSlKpXE
+	H/8CofMoBpQLxn0j/8zAZRWXVEi3GKaWMHNEPiXH8+DXTrgTfQmnotjUQvcW3cYp56V0BsiJ6TF3l
+	xptUcP/SDSo/cdIzD3PBCX1GATluzVMsNON0v14/gQMS7Lo9vjXvcerZvS0kWlt1XSJvC/SGSzEV7
+	n5Daphsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7Tz6-00000009Ov8-0HbO;
-	Wed, 23 Apr 2025 06:53:28 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1u7U15-00000009PQX-1Rzk;
+	Wed, 23 Apr 2025 06:55:31 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7TN3-00000009JvS-00X5
+	id 1u7TUG-00000009KZq-3OYj
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Apr 2025 06:14:10 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53ML3JEI014707;
-	Wed, 23 Apr 2025 06:14:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=4U00Um
-	2A5WXJ4SbW7ZK/p6efa+xV1QJA1UoUNHItMu8=; b=N78JBNyhUawJJ7Y76ZEcK4
-	tUd9ZGz+GB8hngAXj2AARLnxmH8IEXLz5ihWWMRf+hg7xofFyQQbB7AI0bhOqG8r
-	EDBEVvRm4ECOjGe8HkmjUzxSjciPX3FNIVhC22M1XXLZvVf41DSEb8XLEUjtIl0P
-	K6ogqRmgeCLUgjYJSra1GKJXp7wKKW8+QZw7QVZGFPTj+5cCL/e/65EADUsP827Y
-	C8l2KbVrC1eU0z4rlyUe0vU1os4QNSmGN6XGx9PlXL+weAk3E8DgT2oT6GX9nTVH
-	r0QxkO/ozkw3FrZT7yjeQIxU82RW72PVmBrhqC3cDqCv45gT5zUv5PztOZi4i3tQ
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 466jpe1skm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Apr 2025 06:14:00 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53N1aD0T022271;
-	Wed, 23 Apr 2025 06:13:59 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 466jfx9p9k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Apr 2025 06:13:59 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53N6DwMx32768638
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 23 Apr 2025 06:13:59 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DCA0A58059;
-	Wed, 23 Apr 2025 06:13:58 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4445F58058;
-	Wed, 23 Apr 2025 06:13:56 +0000 (GMT)
-Received: from [9.43.53.143] (unknown [9.43.53.143])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 23 Apr 2025 06:13:55 +0000 (GMT)
-Message-ID: <0b9d9fdc-6cf9-4140-a73d-01671de4b997@linux.ibm.com>
-Date: Wed, 23 Apr 2025 11:43:54 +0530
+	Wed, 23 Apr 2025 06:21:38 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EBC23211AC;
+	Wed, 23 Apr 2025 06:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745389295; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9VPilbHRhk/K5ZBOCPJOvfextA3nm+QGqvwc1ZzV5TM=;
+	b=X7Tb+4sc7oYXND0gqmrAIbZJesKIuL30YKbKYHRx+y12CsFOeB9+TVa/GLRwIyhcbbD78o
+	6Hti29YjdZNfDFD9Cr+j5+OwhiibXqDjPfaViuWXzFXR3YMl821pknaLuqbV259NR0BJ53
+	37zj55ZTLuUhDdp1zVuxQozN/3UoTRE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745389295;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9VPilbHRhk/K5ZBOCPJOvfextA3nm+QGqvwc1ZzV5TM=;
+	b=8ah17k4tlHNGLNyFsInWpEMI06n1G/oYmvYHOQ73tFJVOEzvbbbTNbuufkVhzoi1m4litV
+	CGX5muDiEH5K61Ag==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iBMizeFU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/43G+4pW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745389294; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9VPilbHRhk/K5ZBOCPJOvfextA3nm+QGqvwc1ZzV5TM=;
+	b=iBMizeFUGVmXg3/TYWINQZTpv1Vm+4mUS6BZepdRTDLs+WAZ+VcBeZCC4sVt2j96u7eXKK
+	ageVRzjrXZB+bWOrdoiR/CwFsxW6GDRcTHC9PcGJSXL0WhBYEhOgJhZyvnL2fNXJ0g6Xa8
+	dDs7kzqx7RgDXzP8yiyFaqCtc+073Ps=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745389294;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9VPilbHRhk/K5ZBOCPJOvfextA3nm+QGqvwc1ZzV5TM=;
+	b=/43G+4pWMt7toMjzbn4SdHmsBSPj+7t3F8HAu1PnEI5uLu1JOuQWi+pvHqhfyQhKVHQtZS
+	50olcOPJd/CyOBBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8683C13691;
+	Wed, 23 Apr 2025 06:21:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fY6rHu6GCGisUQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 23 Apr 2025 06:21:34 +0000
+Message-ID: <ed993f55-bdfc-4376-951d-9af4a4f461a9@suse.de>
+Date: Wed, 23 Apr 2025 08:21:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 2/4] tree: add queue-depth attribute for nvme path
- object
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
-        hare@kernel.org, kbusch@kernel.org, gjoyce@ibm.com
-References: <20250417135951.239447-1-nilay@linux.ibm.com>
- <20250417135951.239447-3-nilay@linux.ibm.com>
- <0e70314a-3c08-40ab-ac53-e9fb7e379f44@suse.de>
- <20e5b90b-3c2c-4be8-8119-b14fab733a5a@linux.ibm.com>
- <ad838a6d-6180-4c00-85b2-448393689478@flourine.local>
+Subject: Re: [PATCH] nvmet-tcp: don't restore null sk_state_change
+To: Alistair Francis <alistair23@gmail.com>, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, csander@purestorage.com,
+ shinichiro.kawasaki@wdc.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20250423060621.632581-1-alistair.francis@wdc.com>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ad838a6d-6180-4c00-85b2-448393689478@flourine.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: cdS0FwCFctNV_W_oqjzrchguYT8H5blp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDAzOSBTYWx0ZWRfXz0V5dI8xhis9 pP+XuCoLMEwRILRKrrkFH67AlaMftYuRsuRZN+T6eZzJkhA8CXD6v9UlABeJu9IkxFr4NhAmUwM ulFJKc4f3Jm18WWEEj44AUMToCBN8gXuAhgVNkVAPA+vmX+R/ycTjDKEO3ZqXzTIWtfrCs2lEYj
- A7lin3w7MZCLRglgN84NapknXADpnPyPDtFgsCSwbHEhZzGjDLVIBKXna22G84kjRRGMjD8aBGZ JL/AI0K8i/6SG9dR4X2jhghmTZ/jdZh0XxPe7ejiyRiYj6wApPej5QMEiUNAAsMJKO9nLRvjhtV KNkBhey+Mpz369TOTAiPfYMQjMQX8zA8pYJnLGbuG5TraoP1jy5Ev3JUjNGeqluQd8nF0jz/FKg
- jEY9E2Ie9F7UNYV6JjVuEOGwPVRhS954Y5wbVucy1bwKXh9Dmo/EXYI3FrtTzvn8/Ca85a/b
-X-Proofpoint-GUID: cdS0FwCFctNV_W_oqjzrchguYT8H5blp
-X-Authority-Analysis: v=2.4 cv=IdWHWXqa c=1 sm=1 tr=0 ts=68088528 cx=c_pps a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=sxAane7pClyoPD3ogREA:9 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10 a=zZCYzV9kfG8A:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-23_03,2025-04-22_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- malwarescore=0 phishscore=0 impostorscore=0 bulkscore=0 spamscore=0
- priorityscore=1501 suspectscore=0 adultscore=0 mlxlogscore=742
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504230039
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250423060621.632581-1-alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: EBC23211AC
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com,lst.de,grimberg.me,nvidia.com,lists.infradead.org];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250422_231409_177716_A1B69737 
-X-CRM114-Status: GOOD (  14.64  )
+X-CRM114-CacheID: sfid-20250422_232136_999240_DA06C40E 
+X-CRM114-Status: UNSURE (   9.67  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,26 +142,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 4/22/25 10:53 PM, Daniel Wagner wrote:
-> On Tue, Apr 22, 2025 at 08:02:49PM +0530, Nilay Shroff wrote:
->>> As discussed: saving the 'queue_depth' attribute is a bad idea, as it
->>> changes frequently.
->>> I'd rather read the attribute value from sysfs whenever
->>> 'nvme_path_get_queue_depth' is called, and use the tree structure only
->>> to hold the pathname.
->>>
->> Yes correct, but I thought we discussed about implementing non-cached
->> version of API in libnvme 2.x. So I implemented cached version of 
->> queue_depth API. Daniel can you confirm? 
+On 4/23/25 08:06, Alistair Francis wrote:
+> queue->state_change is set as part of nvmet_tcp_set_queue_sock(), but if
+> the TCP connection isn't established when nvmet_tcp_set_queue_sock() is
+> called then queue->state_change isn't set and sock->sk->sk_state_change
+> isn't replaced.
 > 
-> I was under the impression that we agreed on the default being
-> non-cached. As it doesn't really make sense to have a cached anyway.
+> As such we don't need to restore sock->sk->sk_state_change if
+> queue->state_change is NULL.
+> 
+Good catch!
 
-Okay, my bad.. probably some misunderstanding on my part.
-I will fix this in the next version of this patch.
+[ .. ]
 
-Thanks,
---Nilay 
+> Resolves: https://lore.kernel.org/linux-nvme/5hdonndzoqa265oq3bj6iarwtfk5dewxxjtbjvn5uqnwclpwt6@a2n6w3taxxex/
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> We could also remove the `sock->sk->sk_state != TCP_ESTABLISHED` check
+> in nvmet_tcp_set_queue_sock() if that's prefered.
+> 
+Please do.
+We cannot influence what the network stack did, so if there ever were a 
+modification which caused the ->state_change callback _not_ to be set
+the whole issue pops up again.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
