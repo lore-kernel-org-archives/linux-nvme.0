@@ -4,80 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B670C369D7
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 18:38:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53D1AC369D9
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 18:38:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wWxVg46eMCFdiWQ6X6K5wh7BwyllE/TFgcnWyILw7vo=; b=K99/ftzt81kpq/3Lq35j/X0l7A
-	icUWA4ESGntS3r4tv99L4dAF2lFI22ygISij4Wuba8MMaqbLHqZQmAlFe/RQmnPZ9FTZUTOSJiNHV
-	GelXZa/ueUfBpqYui9qBj3cWqCD0WbD/e/DbX9xSXYVTIkYbXhL8gcxazfBemUDxIxpcZ4PIc6/Mm
-	JIz4Ql1i5mPyleuKe2H2LCqTqS7XvVNHyXrE+ywBuaGeqNRzdjWWU/LCT8Lyt+rrd4U3GQVE9Y959
-	15CYISx2GiFGnl87LwHZu0q8WYWnq3al2FS7dSlmcu5uujb+bOV6tNncFSWB3VSVSvgAsQdkGECdU
-	aMycVVjg==;
+	bh=sAA3ahIS+2Nb+9ARKVTXCSjk2uwR/TOFzjA5DEQnqxg=; b=CnFueW6j3SwGTVOWx9Suiv0p1x
+	X5ZsvBxHlsPtV0VHVlA7c47m2EfCPjZDHhCudYuXvLZxQI1lvLFW9NHM5ZGOBUVs/u7SklBnTmeZY
+	AGd4p8esKPRJ+ULy8iTzd1DUqxQ+Ele66zF2Txfldc/1fXlKT6iMMwIHQasrF1ShOk1K/RfNXlHlA
+	XOGnGP7xLU+hWc2qq25m54m4RhOLo7L8/iDZXCUhxLLpBYP3apBszmtPuQKwKSP+eOwnA4lKum86f
+	MfDWe836D8zrBYYPu/PjbXKjyaDMgj+LS6Nbuc/GQRR525yebNiJjB1hb4Hq7gc1clGA6FXjzEkT+
+	U5MeDm4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7ezd-0000000BbUz-03ks;
-	Wed, 23 Apr 2025 18:38:45 +0000
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830])
+	id 1u7eze-0000000BbVz-1SnV;
+	Wed, 23 Apr 2025 18:38:46 +0000
+Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7dSQ-0000000BCn4-44Fk
+	id 1u7dhE-0000000BEUT-43Uy
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Apr 2025 17:00:24 +0000
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-4766cb762b6so1237361cf.0
-        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 10:00:22 -0700 (PDT)
+	Wed, 23 Apr 2025 17:15:42 +0000
+Received: by mail-ua1-x92e.google.com with SMTP id a1e0cc1a2514c-86b9d9b02cbso65650241.1
+        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 10:15:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1745427621; x=1746032421; darn=lists.infradead.org;
+        d=ziepe.ca; s=google; t=1745428539; x=1746033339; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wWxVg46eMCFdiWQ6X6K5wh7BwyllE/TFgcnWyILw7vo=;
-        b=mgYHez6XbGTzxHGdGw/LqrinWtdbKFLH/qRsJHyxM12sZjldaibRsCzA3aLM8nBowV
-         70e5Q1aEBYAOOpqGeWpOkx2UljOGYCfRrDuOBnQTF+C5FkgFY7KsfvQK4sor/fsp0aPN
-         KVqkAk6ULvptzFhihImcb/SsNbkSBsKHTxhdseM9wuJjx8aOZqmDVA9FKC/1yBcKC+z9
-         /RT4+OKlH92ctUTCwanI3LzIqzhYYW5P4FuQZfxUxP6/sR0rEshPkcGigq108XZxok8j
-         Zh0AmQiYw620I1AnWXSVNf5pBWdbqYsM2T7qa8e9+sJ880+sBIr0su7ooRkocmw132dT
-         TB8w==
+        bh=sAA3ahIS+2Nb+9ARKVTXCSjk2uwR/TOFzjA5DEQnqxg=;
+        b=ClEkfranxwIjzVBEQh32d/+7twQAsAY3UK4YiOlSCrSRqL64e/dawJuv94n3Y89RpF
+         DB5kJRqw9CjRVBNabgYA/0VSYD77Fz1ugKeVxwPm94b4mtpvqjqWlTVYKz4Ph5wcncY9
+         /HFogC/NNHuUsRFGGUBlaMAHnmkc0MnrFOXxVzUrg2NbNZz9YZMpmK/k/BozclQMlrzx
+         t5OmAVX4GeiwLAoM/qiSPmNmBRfgoYdxvJEEttlpttqwi5MsLYP5zR+HFSNml7fggp/z
+         Feg39+YPKEpjHYSRg7nB0E6GJ4waHsPy3ObHEkTYoy52bClv+9KqSH3GrShFxzxvnOnW
+         jcAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745427621; x=1746032421;
+        d=1e100.net; s=20230601; t=1745428539; x=1746033339;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wWxVg46eMCFdiWQ6X6K5wh7BwyllE/TFgcnWyILw7vo=;
-        b=fW19MGlWrhR6cMc3ExNFuh8QHUHw6ABwdmwInB3WXTFi/r5ab6wFc6VO7aBgbXFYbK
-         XkdatGBI7TBV7stw0/Q2fYNwUGCcmECjrCXIOVqko6IgFpXWSguClJsksdarvWeeKsm2
-         6gobYefvZiohIXikDYpbGR/xrGTwLZ2xuG3957o1nrNKjf5pWdMkQizPwAIvHpv4KeOX
-         vgSbnJ8QOaoBn1jcdJPODXgb6i16XB/jwUDd2s9dCvmqPBnQPvdymtoy0EzY2SWaQwn+
-         nJxZ/cLTlUCHn7CHhdOxOJCQbeZnntunYAPOZpfnaty7UYShxug4kkbYjeevSJRQN4c6
-         jQ5w==
-X-Forwarded-Encrypted: i=1; AJvYcCUiY6HG/dliJ6lhRWmqIzZcFl0vDHPq1aqetwCQOrumECPRahQ4SAdKf5XfiwrDCmybg2SGHRb35lys@lists.infradead.org
-X-Gm-Message-State: AOJu0YwPdO3SKurowU7mnqQyGp1W/PwKSsofywH/c6sCbNjh67nMo22P
-	ITfIq3ygdlFGu4hpMiJ6qtSg3e4lMgDeSDpXuaTU26E7sCfYolo6DHmbeM7kmMQ=
-X-Gm-Gg: ASbGncu8JEWvZxAYL3s/+PCZ9AxTHXV0Cfko0NcO2fd5TAES0BoEGdyBiiUejjk+IKi
-	vir6tkFXDJ/JyVg1dtyOfmqY/fGgHYE6OyhMR6mlg7vY3YJX49mxtsyT7JS/Hbr4355h8Dvep3Y
-	Po4sNeTGqspxzu86u6rvGGrBu2FT+XRnpXKh30m4e+9tzYGGF6hQmXOGo38I7Bs8AQORihftK/F
-	q5A5ad2cOqzvTsxYW6iaKTJVcm/gB28VugQK8FQ2s9FG6gNJn5/n8Jw30G80gx5GtC0K/4raXxU
-	Q8TLkAPPsmrLVV4Zt4BDwFMbYPiXtXLm7zuxcaLyLLa2K/R2iQs/c/p1lVLvGPBLBxwAO8KrShM
-	JnOwAcWgmU22rcJNwRd54iRWdKopkJw==
-X-Google-Smtp-Source: AGHT+IHksHmB8zXVAbJv0K8R7XmlcjQan86yStXGt3YpvcZVpCrvagDTNNdOsaaJ2R0ZGC6sR1O+4g==
-X-Received: by 2002:a05:622a:118f:b0:47e:641:9665 with SMTP id d75a77b69052e-47e0641979dmr20773641cf.5.1745427621264;
-        Wed, 23 Apr 2025 10:00:21 -0700 (PDT)
+        bh=sAA3ahIS+2Nb+9ARKVTXCSjk2uwR/TOFzjA5DEQnqxg=;
+        b=glhsDEcrVg7nvzuidj+f3Axr5gANhYr/NkpW+lU5r9789Bj9tKQmRwm5a8fasLCP6X
+         ak7hPJow6MThHnUSZg2uf1frVNljzCO/7V1RXwTj3ykUwjFrYnawJIQDEIxY7cPCWZHx
+         1jDbVEEEOE3Sh8FgfunEHwh3snVFBQuiXJjMPw4xDREDk++BTCJGUTUekd8g0wftGOUL
+         XbzYqgiwKYhgrPM03y1mCAilky8HK+jsRiy+BBorADoB6vxN/bSYsZxaMuJBIL3lvXmw
+         SRV46pbvt6Gi2L2YHoGHeDGA4dy+znONIgfIcMHUzy/d7aIZiHowfgq93xzjvNetWutk
+         nlwg==
+X-Forwarded-Encrypted: i=1; AJvYcCXoYwk07cfSPyW1FuGSBbjBWQsoT2d/AkZynZ+NWC7mXV760H2i2wH9rHZKViwciaNs2rhUxnAJR2ml@lists.infradead.org
+X-Gm-Message-State: AOJu0YwfyI4DwhMtr3+C6rP1CVJi1n0pkEXoSNVMPgD4rxmYwcv6UpNv
+	NwcIEKcDK107L+7ASfviKTVqJ3V50tZD1dzJ5TuRD2JCVqJxR4Bnx+AERFX/9lg=
+X-Gm-Gg: ASbGncs9aVNzjXVR3i1sBkVLTWCRp2QSE7RIc1TfXCGSHIlczFZjPAis2tHva1eo4X0
+	Ay2YO16lg3KJf7sNvUXuz08v4DZmZuPQAENZ6Fs3ZEcmdo32JkkIqEmn79CfAFXZbU23ty5brCy
+	wqnBRMOC/8CwVMSXX1g8MwLHlw3Dc/kh/KUsR6oMMrzY8hNzy26yW+0p6QVQ1NQTvtDMzdhMG1k
+	URmifNtQ9g1zJ7Z55Uqeof5+qNX/HYT3Ynra9mfTVphsL71ZtAEVpp1wS/thdtZE5ESCOzSI8rW
+	UEHyJh/DIcfrI+Msj1771tuyfXPatddf9/keT3FzWsyd6lSaLGinFoCgV8o7tgi5tvnKbz4nv3r
+	fXGvU3K6KJa18zS4eJxFW/WpYxMcu/Q==
+X-Google-Smtp-Source: AGHT+IG91ka296h4XrJ4QPDo73jdYlZoOj1Zkc9PInMILwbVuqXEZMd5w4C/WgEttaatAxBubBvu3Q==
+X-Received: by 2002:a05:6122:3c54:b0:529:24f8:dbdd with SMTP id 71dfb90a1353d-529253da601mr17813854e0c.4.1745428538734;
+        Wed, 23 Apr 2025 10:15:38 -0700 (PDT)
 Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2bfcfd0sm72347416d6.82.2025.04.23.10.00.20
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52a74d3a2d0sm79186e0c.40.2025.04.23.10.15.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 10:00:20 -0700 (PDT)
+        Wed, 23 Apr 2025 10:15:38 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1u7dSO-00000007LHo-0vIz;
-	Wed, 23 Apr 2025 14:00:20 -0300
-Date: Wed, 23 Apr 2025 14:00:20 -0300
+	id 1u7dhB-00000007LQW-2UhV;
+	Wed, 23 Apr 2025 14:15:37 -0300
+Date: Wed, 23 Apr 2025 14:15:37 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Leon Romanovsky <leon@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>, Jake Edge <jake@lwn.net>,
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
 	Jonathan Corbet <corbet@lwn.net>, Zhu Yanjun <zyjzyj2000@gmail.com>,
 	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
@@ -100,21 +100,19 @@ Cc: Leon Romanovsky <leon@kernel.org>, Keith Busch <kbusch@kernel.org>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>
-Subject: Re: [PATCH v9 23/24] nvme-pci: convert to blk_rq_dma_map
-Message-ID: <20250423170020.GI1213339@ziepe.ca>
+	Leon Romanovsky <leonro@nvidia.com>
+Subject: Re: [PATCH v9 03/24] iommu: generalize the batched sync after map
+ interface
+Message-ID: <20250423171537.GJ1213339@ziepe.ca>
 References: <cover.1745394536.git.leon@kernel.org>
- <7c5c5267cba2c03f6650444d4879ba0d13004584.1745394536.git.leon@kernel.org>
- <20250423092437.GA1895@lst.de>
- <20250423100314.GH48485@unreal>
- <20250423154712.GA32009@lst.de>
+ <2ce6a74ddf5e13a7fdb731984aa781a15f17749d.1745394536.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250423154712.GA32009@lst.de>
+In-Reply-To: <2ce6a74ddf5e13a7fdb731984aa781a15f17749d.1745394536.git.leon@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_100023_009085_4EC701D1 
-X-CRM114-Status: GOOD (  17.94  )
+X-CRM114-CacheID: sfid-20250423_101541_007926_613B6293 
+X-CRM114-Status: GOOD (  16.71  )
 X-Mailman-Approved-At: Wed, 23 Apr 2025 11:34:49 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -130,25 +128,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 23, 2025 at 05:47:12PM +0200, Christoph Hellwig wrote:
-> On Wed, Apr 23, 2025 at 01:03:14PM +0300, Leon Romanovsky wrote:
-> > On Wed, Apr 23, 2025 at 11:24:37AM +0200, Christoph Hellwig wrote:
-> > > I don't think the meta SGL handling is quite right yet, and the
-> > > single segment data handling also regressed.  Totally untested
-> > > patch below, I'll try to allocate some testing time later today.
-> > 
-> > Christoph,
-> > 
-> > Can we please progress with the DMA patches and leave NVMe for later?
-> > NVMe is one the users for new DMA API, let's merge API first.
+On Wed, Apr 23, 2025 at 11:12:54AM +0300, Leon Romanovsky wrote:
+> From: Christoph Hellwig <hch@lst.de>
 > 
-> We'll need to merge the block/nvme patches through the block tree
-> anyway to avoid merges from hell, so yes.
+> For the upcoming IOVA-based DMA API we want to use the interface batch the
+> sync after mapping multiple entries from dma-iommu without having a
+> scatterlist.
 
-RDMA has been having conflicts on the ODP patches too, so yeah we need
-a shared branch and this thing into each trees. I'd rely on Marek to
-make the shared branch and I'll take the RDMA parts on top.
+Grammer:
 
-Thanks,
+ For the upcoming IOVA-based DMA API we want to batch the
+ ops->iotlb_sync_map() call after mapping multiple IOVAs from
+ dma-iommu without having a scatterlist. Improve the API.
+
+ Add a wrapper for the map_sync as iommu_sync_map() so that callers don't
+ need to poke into the methods directly.
+
+ Formalize __iommu_map() into iommu_map_nosync() which requires the
+ caller to call iommu_sync_map() after all maps are completed.
+
+ Refactor the existing sanity checks from all the different layers
+ into iommu_map_nosync().
+
+>  drivers/iommu/iommu.c | 65 +++++++++++++++++++------------------------
+>  include/linux/iommu.h |  4 +++
+>  2 files changed, 33 insertions(+), 36 deletions(-)
+
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+
+> +	/* Discourage passing strange GFP flags */
+> +	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
+> +				__GFP_HIGHMEM)))
+> +		return -EINVAL;
+
+There is some kind of overlap with the new iommu_alloc_pages_node()
+here that does a similar check, nothing that can be addressed in this
+series but maybe a TBD for later..
+
 Jason
 
