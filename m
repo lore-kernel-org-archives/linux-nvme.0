@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DF6DC369CB
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 13:52:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 436C2C369CB
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 13:52:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ADb8iLJRdW0Ry1V+6OuVQg+LI4dcsJlwmeD1ojicEdE=; b=m1+2DpdwXhfkYKvM/dpbg9ZbFE
-	7JCjw8igoPGBeZOXXNi0nlqiYJXj2RZ8SSbdIX6PGV8Tpm1Ul8ij/Ys4jSVVYjlpPKQY3wBJ+w3II
-	wxzTGuGOl0TcWqyYpizNhjCkyyem5vqeZCWfk7MKLRdS06PaceZWNOd4xLZNaLkWfbzDKsB4poVXU
-	vqGvsiYHug9oGJzgzdQT4lc75oE/hWWHn8b4KPeMrwcPPGLdNSXrmfdu/LChpp+4gbZLynfaa3Zi+
-	SwDvnbb2jGFRB2ApuxT3aZW9kiLDgK3nsjIor40gHfDx247/jsVBk1Dd+uIbVW9jdvHjSPHp8ElMw
-	UQhrRE+Q==;
+	bh=SEvzmKXxpa8ksOQYylXMo2JMjDuOUiTCCxYTgwkIu84=; b=xutgRtQx4s/VIAHytwtoD0MRfN
+	v/jsaL9wrzNhapFq5basCkDC3xhswduCdJLjX/q1Z4GY31zDlKZASQmH7gVMuSacFBcI1tb8MlphH
+	wbVJDeWFuYUY73u20Bb88avOoz44trrdSlmdGloRPPR5MX0v8a7Fvp0MMNXoas+mYPCItH9N6m8HO
+	ng8EFXjlw7OmkOtf4LLkC8loBgditelvipMYs6nCDibAELKJ79ZUmKnAWD5g0bXlOWLdpHPvUwui6
+	x6ljblByE4a0lh4IVRZ1m+PfDWcgD4v6PVoqJsb9QZuFx9PHYZnFTfqfUAkRt3e9IRbtJ+L3GOeHC
+	JVLC/ICQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7aWx-0000000Ah7S-2XOj;
-	Wed, 23 Apr 2025 13:52:51 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1u7aWz-0000000Ah9r-1yyU;
+	Wed, 23 Apr 2025 13:52:53 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7a32-0000000Aah5-0N30
+	id 1u7a34-0000000AahY-1s1s
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Apr 2025 13:21:57 +0000
+	Wed, 23 Apr 2025 13:21:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 1561DA4CF1D;
-	Wed, 23 Apr 2025 13:16:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31595C4CEEB;
-	Wed, 23 Apr 2025 13:21:54 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 0054B614B4;
+	Wed, 23 Apr 2025 13:21:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D07AC4CEE2;
+	Wed, 23 Apr 2025 13:21:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745414514;
-	bh=jEKbG5pfx1l0nP/U7lRUSa0XqnGWbsgWmnMw8er6V34=;
+	s=k20201202; t=1745414517;
+	bh=Tey/jPpQIblgm+n0ERiQKMTVIjHrNonHGj1c23bE1TI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jzWha6uN0bFoLp+pynvr6Qq7QaBXn4MpvOqJuWg79gf5JQ6n05ziPj2Ry6ACqs04m
-	 8fkJmtTMPQImBUdyBrgQNVGmctFiRrXN7SFIFce7Eg62ufQjgueG98QsNzKRpSTAOu
-	 eGJeqS4/o/nP1s0vS6lC0ucHWpM8JME2/luGSmVIO38Lw6R/pnufrTV0EDHVl0EEQj
-	 /QyqXuAq5mo2cooJNFGhP+bL2QxFiEpW54HTr5F7wAb1UfG1RPUZ5E2Ab+tgvNVCnG
-	 xNCW1sF5D7M/WjF9smYsX213KA5Q2Qs+X5ecoAwmuEsQiKIvdNq4yKmSLpa38c8ci8
-	 qHVKr+AApzXvw==
+	b=uLpuNQbNhpNFPrDqVYIJf7ZITW/2plxwZ71K2XSin348fPNDJYAYNZoZ572kRrlrG
+	 u4O9JqHO0Wie633RCDKS5eYB7B+EejdcowQpOTIb51KDqa8EbuhZxrrlGp1HdLJe1z
+	 MtbrOGIMiZXiMRiIi23pSCkC1oQIcCVE1PLHXf8MIealK40LAkdiCzESl37e95tWg4
+	 Fy/T/l8ePCsKy0Mn3ToKiaCH4040wOrZwtmO7r7S7cfpIelK4H68aCZzgAnmkQ32SX
+	 EzLwzJtIB4Z27FN1gL7+RE+KCazacq2ACUca+Iv3Bbl2hhfI1nHZSfVjopq5cjmwEZ
+	 TSw1xUE1mVKwA==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Wed, 23 Apr 2025 15:21:44 +0200
-Subject: [PATCH v5 01/14] nvmet-fcloop: track ref counts for nports
+Date: Wed, 23 Apr 2025 15:21:45 +0200
+Subject: [PATCH v5 02/14] nvmet-fcloop: remove nport from list on last user
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250423-nvmet-fcloop-v5-1-3d7f968728a5@kernel.org>
+Message-Id: <20250423-nvmet-fcloop-v5-2-3d7f968728a5@kernel.org>
 References: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
 In-Reply-To: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
 To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
@@ -57,9 +57,6 @@ Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_062156_272852_3AA78DA9 
-X-CRM114-Status: GOOD (  16.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,268 +71,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A nport object is always used in association with targerport,
-remoteport, tport and rport objects. Add explicit references for any of
-the associated object. This ensures that nport is not removed too early
-on shutdown sequences.
+The nport object has an association with the rport and lport object,
+that means we can only remove an nport object from the global nport_list
+after the last user of an rport or lport is gone.
 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/nvme/target/fcloop.c | 133 +++++++++++++++++++++++++++++--------------
- 1 file changed, 90 insertions(+), 43 deletions(-)
+ drivers/nvme/target/fcloop.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 641201e62c1bafa13986642c6c4067b35f784edd..2b23e43ef4403fa4d70c66263f7750165d2ddc72 100644
+index 2b23e43ef4403fa4d70c66263f7750165d2ddc72..2cce7649af276528360395b6d58f03183c11da20 100644
 --- a/drivers/nvme/target/fcloop.c
 +++ b/drivers/nvme/target/fcloop.c
-@@ -1047,8 +1047,14 @@ static void
- fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
+@@ -1019,9 +1019,15 @@ fcloop_lport_get(struct fcloop_lport *lport)
+ static void
+ fcloop_nport_put(struct fcloop_nport *nport)
  {
- 	struct fcloop_rport *rport = remoteport->private;
-+	unsigned long flags;
- 
- 	flush_work(&rport->ls_work);
-+
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	rport->nport->rport = NULL;
-+	spin_unlock_irqrestore(&fcloop_lock, flags);
-+
- 	fcloop_nport_put(rport->nport);
- }
- 
-@@ -1056,8 +1062,14 @@ static void
- fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
- {
- 	struct fcloop_tport *tport = targetport->private;
-+	unsigned long flags;
- 
- 	flush_work(&tport->ls_work);
-+
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	tport->nport->tport = NULL;
-+	spin_unlock_irqrestore(&fcloop_lock, flags);
-+
- 	fcloop_nport_put(tport->nport);
- }
- 
-@@ -1184,6 +1196,37 @@ __wait_localport_unreg(struct fcloop_lport *lport)
- 	return ret;
- }
- 
-+static struct fcloop_nport *
-+__fcloop_nport_lookup(u64 node_name, u64 port_name)
-+{
-+	struct fcloop_nport *nport;
-+
-+	list_for_each_entry(nport, &fcloop_nports, nport_list) {
-+		if (nport->node_name != node_name ||
-+		    nport->port_name != port_name)
-+			continue;
-+
-+		if (fcloop_nport_get(nport))
-+			return nport;
-+
-+		break;
-+	}
-+
-+	return NULL;
-+}
-+
-+static struct fcloop_nport *
-+fcloop_nport_lookup(u64 node_name, u64 port_name)
-+{
-+	struct fcloop_nport *nport;
 +	unsigned long flags;
 +
+ 	if (!refcount_dec_and_test(&nport->ref))
+ 		return;
+ 
 +	spin_lock_irqsave(&fcloop_lock, flags);
-+	nport = __fcloop_nport_lookup(node_name, port_name);
++	list_del(&nport->nport_list);
 +	spin_unlock_irqrestore(&fcloop_lock, flags);
 +
-+	return nport;
-+}
+ 	kfree(nport);
+ }
  
- static ssize_t
- fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
-@@ -1365,6 +1408,8 @@ __unlink_remote_port(struct fcloop_nport *nport)
- {
- 	struct fcloop_rport *rport = nport->rport;
- 
-+	lockdep_assert_held(&fcloop_lock);
-+
- 	if (rport && nport->tport)
+@@ -1414,8 +1420,6 @@ __unlink_remote_port(struct fcloop_nport *nport)
  		nport->tport->remoteport = NULL;
  	nport->rport = NULL;
-@@ -1377,9 +1422,6 @@ __unlink_remote_port(struct fcloop_nport *nport)
- static int
- __remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
- {
--	if (!rport)
--		return -EALREADY;
+ 
+-	list_del(&nport->nport_list);
 -
- 	return nvme_fc_unregister_remoteport(rport->remoteport);
+ 	return rport;
  }
  
-@@ -1387,8 +1429,8 @@ static ssize_t
- fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
- 		const char *buf, size_t count)
- {
--	struct fcloop_nport *nport = NULL, *tmpport;
--	static struct fcloop_rport *rport;
-+	struct fcloop_nport *nport;
-+	struct fcloop_rport *rport;
- 	u64 nodename, portname;
- 	unsigned long flags;
- 	int ret;
-@@ -1397,24 +1439,24 @@ fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
- 	if (ret)
- 		return ret;
- 
--	spin_lock_irqsave(&fcloop_lock, flags);
--
--	list_for_each_entry(tmpport, &fcloop_nports, nport_list) {
--		if (tmpport->node_name == nodename &&
--		    tmpport->port_name == portname && tmpport->rport) {
--			nport = tmpport;
--			rport = __unlink_remote_port(nport);
--			break;
--		}
--	}
-+	nport = fcloop_nport_lookup(nodename, portname);
-+	if (!nport)
-+		return -ENOENT;
- 
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	rport = __unlink_remote_port(nport);
- 	spin_unlock_irqrestore(&fcloop_lock, flags);
- 
--	if (!nport)
--		return -ENOENT;
-+	if (!rport) {
-+		ret = -ENOENT;
-+		goto out_nport_put;
-+	}
- 
- 	ret = __remoteport_unreg(nport, rport);
- 
-+out_nport_put:
-+	fcloop_nport_put(nport);
-+
- 	return ret ? ret : count;
- }
- 
-@@ -1465,6 +1507,8 @@ __unlink_target_port(struct fcloop_nport *nport)
- {
- 	struct fcloop_tport *tport = nport->tport;
- 
-+	lockdep_assert_held(&fcloop_lock);
-+
- 	if (tport && nport->rport)
- 		nport->rport->targetport = NULL;
- 	nport->tport = NULL;
-@@ -1475,9 +1519,6 @@ __unlink_target_port(struct fcloop_nport *nport)
- static int
- __targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
- {
--	if (!tport)
--		return -EALREADY;
--
- 	return nvmet_fc_unregister_targetport(tport->targetport);
- }
- 
-@@ -1485,8 +1526,8 @@ static ssize_t
- fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
- 		const char *buf, size_t count)
- {
--	struct fcloop_nport *nport = NULL, *tmpport;
--	struct fcloop_tport *tport = NULL;
-+	struct fcloop_nport *nport;
-+	struct fcloop_tport *tport;
- 	u64 nodename, portname;
- 	unsigned long flags;
- 	int ret;
-@@ -1495,24 +1536,24 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
- 	if (ret)
- 		return ret;
- 
--	spin_lock_irqsave(&fcloop_lock, flags);
--
--	list_for_each_entry(tmpport, &fcloop_nports, nport_list) {
--		if (tmpport->node_name == nodename &&
--		    tmpport->port_name == portname && tmpport->tport) {
--			nport = tmpport;
--			tport = __unlink_target_port(nport);
--			break;
--		}
--	}
-+	nport = fcloop_nport_lookup(nodename, portname);
-+	if (!nport)
-+		return -ENOENT;
- 
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	tport = __unlink_target_port(nport);
- 	spin_unlock_irqrestore(&fcloop_lock, flags);
- 
--	if (!nport)
--		return -ENOENT;
-+	if (!tport) {
-+		ret = -ENOENT;
-+		goto out_nport_put;
-+	}
- 
- 	ret = __targetport_unreg(nport, tport);
- 
-+out_nport_put:
-+	fcloop_nport_put(nport);
-+
- 	return ret ? ret : count;
- }
- 
-@@ -1609,8 +1650,8 @@ static int __init fcloop_init(void)
- 
- static void __exit fcloop_exit(void)
- {
--	struct fcloop_lport *lport = NULL;
--	struct fcloop_nport *nport = NULL;
-+	struct fcloop_lport *lport;
-+	struct fcloop_nport *nport;
- 	struct fcloop_tport *tport;
- 	struct fcloop_rport *rport;
- 	unsigned long flags;
-@@ -1621,7 +1662,7 @@ static void __exit fcloop_exit(void)
- 	for (;;) {
- 		nport = list_first_entry_or_null(&fcloop_nports,
- 						typeof(*nport), nport_list);
--		if (!nport)
-+		if (!nport || !fcloop_nport_get(nport))
- 			break;
- 
- 		tport = __unlink_target_port(nport);
-@@ -1629,13 +1670,19 @@ static void __exit fcloop_exit(void)
- 
- 		spin_unlock_irqrestore(&fcloop_lock, flags);
- 
--		ret = __targetport_unreg(nport, tport);
--		if (ret)
--			pr_warn("%s: Failed deleting target port\n", __func__);
-+		if (tport) {
-+			ret = __targetport_unreg(nport, tport);
-+			if (ret)
-+				pr_warn("%s: Failed deleting target port\n", __func__);
-+		}
- 
--		ret = __remoteport_unreg(nport, rport);
--		if (ret)
--			pr_warn("%s: Failed deleting remote port\n", __func__);
-+		if (rport) {
-+			ret = __remoteport_unreg(nport, rport);
-+			if (ret)
-+				pr_warn("%s: Failed deleting remote port\n", __func__);
-+		}
-+
-+		fcloop_nport_put(nport);
- 
- 		spin_lock_irqsave(&fcloop_lock, flags);
- 	}
 
 -- 
 2.49.0
