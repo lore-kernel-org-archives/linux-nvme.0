@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26F3FC369D7
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F067AC369CB
 	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 11:15:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,36 +12,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W6Sf5HF6wK2zSXMRmSetEddD6WjqlO4aIF9w7KgOU+8=; b=wD1YhWM6zH+1lHBGFURmEEgo8x
-	Ha1Ic6c2baNFZWRhWexsIGgMRBsktQAwjhc+Zfa5oVHFH5E8wH7kWnaC+aBeLx7alvGVp+7S8FD0S
-	Ks8yzQOuFA0YG90IDP7Uhcnc7D7ZBcrmakD7uQrAuMGB8+N34xpiwXPkjUR3ojhs2FgRL9YrPbGKE
-	NPm78qQw0e19SnnZxHP0vard6eF1H8hEAWDSse2ATL7hueA+3/cHMEh8J9ab0ZACs+DM15MxirMET
-	j+nIL7U3zGz5zj4T9ztuONn+jwPNgs2+Nek8kbXT+CvliiT0WvfoChMLv3yn2kFyc46lgiWjHojNs
-	+SRMT1sw==;
+	bh=VBhxS03x/N+QPuvmIttk61Cuvg4jv0PZyZSVf8talVI=; b=iHkkFk3i/Wz1Jk4Qf5UgnG0kkl
+	ate5W9jutuuzQYs65lP15imjzcHMIJ8upcyAFCuKMbwsdHkIiF2aT4nFDCyvUkmqbwQmPHNOyxxVj
+	xlL+cu5ceapMZY//Yca6n1wqtcOsa49Bpmg8BEO2bVhAyyNNUpnw2I+ZHKIVKfF1EIT8JKR3cCoGd
+	ylgp4uU7VniWQ3xriuCJwUWjl9RxVYi1E4IvnUTnPFH3C98hlpk+QBn/ZSc0Lqmu8CGipD1Lqmber
+	+QA6deAZK0vvj6ykiTkDMR/UYKU/dR7gD/3uFwrwqRS6AadP+2IMm4jY6kfE9jZdTsecZ9Q0SbqMu
+	kiRpOT1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7Y50-0000000AHue-1LBf;
-	Wed, 23 Apr 2025 11:15:50 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1u7Y4k-0000000AHaa-1kSp;
+	Wed, 23 Apr 2025 11:15:34 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7VGJ-00000009fZj-38VK
+	id 1u7VF3-00000009ehU-2P7r
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Apr 2025 08:15:21 +0000
+	Wed, 23 Apr 2025 08:14:02 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id D996EA4C26A;
-	Wed, 23 Apr 2025 08:09:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD660C4CEE2;
-	Wed, 23 Apr 2025 08:15:17 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id C7D374A520;
+	Wed, 23 Apr 2025 08:13:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 324F4C4AF09;
+	Wed, 23 Apr 2025 08:14:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745396118;
-	bh=UaKpIS/gS7437zv6/V/pxWOCRAoH+oFaLCUvPin30s0=;
+	s=k20201202; t=1745396041;
+	bh=ntyAEM4ivirILRCYAooDxCIgXhWM3OZDXa/hz/Q6s3M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NofN87+72BCRSSQQNcJM7BnAk2/zp6n26RRmmzRKzNNDIDzDxf7x9j5or/AYNU3NK
-	 pxZ+GCa1hGpfisAiugTwi+s30cVTowRRzF/1wid4zBtcgQRZnnHxxgx2hoWugHNZoz
-	 xCnUujBt9y1ZYOOPmdxdDFKy7kWi6AWlMqXNpcdoL0nyM+ov6CJ9SL/tCEv79Sw3zI
-	 sTBN8T8ntAmWGbX/zDrhzgr3Ob/v12rI/qu53cABhfFLWgNW8I5lypNYJaUQZHWOse
-	 5qAQ1z3cOS5zxFU6G6fBapgBmaFFGZIiAY1PiCSn29wsfzSdo6gXMqBwveI5EyFmNg
-	 EX76tiDXfWXCg==
+	b=iWRbBV32dZZ/UP0AVVSi56h6eugDoKF8qNS6m/jZaAzDMfPfeebn0s1U2HsFGOCoD
+	 U/E9tAlfuub44yG8kx59Kq15s2hJ5BwwrhPMB/JTJ546biCbuua4/H+lLuj5Zczkqj
+	 Dgd37kJDP188KNQWPP4Q+FcX64FrWMliiQrmFXbRvzcRkW8Df51gxoOWhisvge2x1J
+	 sDNzYAVRO/SRXF8aUH03r/owPqxSu1w5Bkb5elEzsvEB1YwgAA8AMhPvpU/mcDsxDV
+	 gNm2Xpw0Whog/lQAcI09Ri+zG9uFdFkEy7JPOOXVwkvzTqaTUDySSrESKTsDga1iXK
+	 S7gNWt+6A3OWw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -80,17 +80,17 @@ Cc: Jake Edge <jake@lwn.net>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Leon Romanovsky <leonro@nvidia.com>
-Subject: [PATCH v9 21/24] nvme-pci: remove struct nvme_descriptor
-Date: Wed, 23 Apr 2025 11:13:12 +0300
-Message-ID: <25eefb156cc6f660a5df28b685545e6b7ec60426.1745394536.git.leon@kernel.org>
+Subject: [PATCH v9 03/24] iommu: generalize the batched sync after map interface
+Date: Wed, 23 Apr 2025 11:12:54 +0300
+Message-ID: <2ce6a74ddf5e13a7fdb731984aa781a15f17749d.1745394536.git.leon@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1745394536.git.leon@kernel.org>
 References: <cover.1745394536.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_011519_913829_55ADFF59 
-X-CRM114-Status: GOOD (  22.15  )
+X-CRM114-CacheID: sfid-20250423_011401_669644_6690D2FA 
+X-CRM114-Status: GOOD (  21.41  )
 X-Mailman-Approved-At: Wed, 23 Apr 2025 03:40:46 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,188 +108,166 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-There is no real point in having a union of two pointer types here, just
-use a void pointer as we mix and match types between the arms of the
-union between the allocation and freeing side already.
+For the upcoming IOVA-based DMA API we want to use the interface batch the
+sync after mapping multiple entries from dma-iommu without having a
+scatterlist.
 
-Also rename the nr_allocations field to nr_descriptors to better describe
-what it does.
+For that move more sanity checks from the callers into __iommu_map and
+make that function available outside of iommu.c as iommu_map_nosync.
+
+Add a wrapper for the map_sync as iommu_sync_map so that callers don't
+need to poke into the methods directly.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Will Deacon <will@kernel.org>
 Tested-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/nvme/host/pci.c | 57 +++++++++++++++++------------------------
- 1 file changed, 24 insertions(+), 33 deletions(-)
+ drivers/iommu/iommu.c | 65 +++++++++++++++++++------------------------
+ include/linux/iommu.h |  4 +++
+ 2 files changed, 33 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b178d52eac1b..638e759b29ad 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -43,7 +43,7 @@
- #define NVME_MAX_KB_SZ	8192
- #define NVME_MAX_SEGS	128
- #define NVME_MAX_META_SEGS 15
--#define NVME_MAX_NR_ALLOCATIONS	5
-+#define NVME_MAX_NR_DESCRIPTORS	5
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index c8033ca66377..3dc47f62d9ff 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2440,8 +2440,8 @@ static size_t iommu_pgsize(struct iommu_domain *domain, unsigned long iova,
+ 	return pgsize;
+ }
  
- static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0444);
-@@ -219,30 +219,22 @@ struct nvme_queue {
- 	struct completion delete_done;
- };
+-static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+-		       phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++int iommu_map_nosync(struct iommu_domain *domain, unsigned long iova,
++		phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+ {
+ 	const struct iommu_domain_ops *ops = domain->ops;
+ 	unsigned long orig_iova = iova;
+@@ -2450,12 +2450,19 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	phys_addr_t orig_paddr = paddr;
+ 	int ret = 0;
  
--union nvme_descriptor {
--	struct nvme_sgl_desc	*sg_list;
--	__le64			*prp_list;
--};
++	might_sleep_if(gfpflags_allow_blocking(gfp));
++
+ 	if (unlikely(!(domain->type & __IOMMU_DOMAIN_PAGING)))
+ 		return -EINVAL;
+ 
+ 	if (WARN_ON(!ops->map_pages || domain->pgsize_bitmap == 0UL))
+ 		return -ENODEV;
+ 
++	/* Discourage passing strange GFP flags */
++	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
++				__GFP_HIGHMEM)))
++		return -EINVAL;
++
+ 	/* find out the minimum page size supported */
+ 	min_pagesz = 1 << __ffs(domain->pgsize_bitmap);
+ 
+@@ -2503,31 +2510,27 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	return ret;
+ }
+ 
+-int iommu_map(struct iommu_domain *domain, unsigned long iova,
+-	      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++int iommu_sync_map(struct iommu_domain *domain, unsigned long iova, size_t size)
+ {
+ 	const struct iommu_domain_ops *ops = domain->ops;
+-	int ret;
 -
- /*
-  * The nvme_iod describes the data in an I/O.
-- *
-- * The sg pointer contains the list of PRP/SGL chunk allocations in addition
-- * to the actual struct scatterlist.
-  */
- struct nvme_iod {
- 	struct nvme_request req;
- 	struct nvme_command cmd;
- 	bool aborted;
--	s8 nr_allocations;	/* PRP list pool allocations. 0 means small
--				   pool in use */
-+	/* # of PRP/SGL descriptors: (0 for small pool) */
-+	s8 nr_descriptors;
- 	unsigned int dma_len;	/* length of single DMA segment mapping */
- 	dma_addr_t first_dma;
- 	dma_addr_t meta_dma;
- 	struct sg_table sgt;
- 	struct sg_table meta_sgt;
--	union nvme_descriptor meta_list;
--	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
-+	void *meta_list;
-+	void *descriptors[NVME_MAX_NR_DESCRIPTORS];
- };
+-	might_sleep_if(gfpflags_allow_blocking(gfp));
  
- static inline unsigned int nvme_dbbuf_size(struct nvme_dev *dev)
-@@ -544,8 +536,8 @@ static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
- 	dma_addr_t dma_addr = iod->first_dma;
- 	int i;
+-	/* Discourage passing strange GFP flags */
+-	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
+-				__GFP_HIGHMEM)))
+-		return -EINVAL;
++	if (!ops->iotlb_sync_map)
++		return 0;
++	return ops->iotlb_sync_map(domain, iova, size);
++}
  
--	for (i = 0; i < iod->nr_allocations; i++) {
--		__le64 *prp_list = iod->list[i].prp_list;
-+	for (i = 0; i < iod->nr_descriptors; i++) {
-+		__le64 *prp_list = iod->descriptors[i];
- 		dma_addr_t next_dma_addr = le64_to_cpu(prp_list[last_prp]);
+-	ret = __iommu_map(domain, iova, paddr, size, prot, gfp);
+-	if (ret == 0 && ops->iotlb_sync_map) {
+-		ret = ops->iotlb_sync_map(domain, iova, size);
+-		if (ret)
+-			goto out_err;
+-	}
++int iommu_map(struct iommu_domain *domain, unsigned long iova,
++	      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++{
++	int ret;
  
- 		dma_pool_free(dev->prp_page_pool, prp_list, dma_addr);
-@@ -567,11 +559,11 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+-	return ret;
++	ret = iommu_map_nosync(domain, iova, paddr, size, prot, gfp);
++	if (ret)
++		return ret;
  
- 	dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
+-out_err:
+-	/* undo mappings already done */
+-	iommu_unmap(domain, iova, size);
++	ret = iommu_sync_map(domain, iova, size);
++	if (ret)
++		iommu_unmap(domain, iova, size);
  
--	if (iod->nr_allocations == 0)
--		dma_pool_free(dev->prp_small_pool, iod->list[0].sg_list,
-+	if (iod->nr_descriptors == 0)
-+		dma_pool_free(dev->prp_small_pool, iod->descriptors[0],
- 			      iod->first_dma);
--	else if (iod->nr_allocations == 1)
--		dma_pool_free(dev->prp_page_pool, iod->list[0].sg_list,
-+	else if (iod->nr_descriptors == 1)
-+		dma_pool_free(dev->prp_page_pool, iod->descriptors[0],
- 			      iod->first_dma);
- 	else
- 		nvme_free_prps(dev, req);
-@@ -629,18 +621,18 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 	nprps = DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
- 	if (nprps <= (256 / 8)) {
- 		pool = dev->prp_small_pool;
--		iod->nr_allocations = 0;
-+		iod->nr_descriptors = 0;
- 	} else {
- 		pool = dev->prp_page_pool;
--		iod->nr_allocations = 1;
-+		iod->nr_descriptors = 1;
- 	}
- 
- 	prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
- 	if (!prp_list) {
--		iod->nr_allocations = -1;
-+		iod->nr_descriptors = -1;
- 		return BLK_STS_RESOURCE;
- 	}
--	iod->list[0].prp_list = prp_list;
-+	iod->descriptors[0] = prp_list;
- 	iod->first_dma = prp_dma;
- 	i = 0;
- 	for (;;) {
-@@ -649,7 +641,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
- 			if (!prp_list)
- 				goto free_prps;
--			iod->list[iod->nr_allocations++].prp_list = prp_list;
-+			iod->descriptors[iod->nr_descriptors++] = prp_list;
- 			prp_list[0] = old_prp_list[i - 1];
- 			old_prp_list[i - 1] = cpu_to_le64(prp_dma);
- 			i = 1;
-@@ -719,19 +711,19 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 
- 	if (entries <= (256 / sizeof(struct nvme_sgl_desc))) {
- 		pool = dev->prp_small_pool;
--		iod->nr_allocations = 0;
-+		iod->nr_descriptors = 0;
- 	} else {
- 		pool = dev->prp_page_pool;
--		iod->nr_allocations = 1;
-+		iod->nr_descriptors = 1;
- 	}
- 
- 	sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
- 	if (!sg_list) {
--		iod->nr_allocations = -1;
-+		iod->nr_descriptors = -1;
- 		return BLK_STS_RESOURCE;
- 	}
- 
--	iod->list[0].sg_list = sg_list;
-+	iod->descriptors[0] = sg_list;
- 	iod->first_dma = sgl_dma;
- 
- 	nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, entries);
-@@ -870,7 +862,7 @@ static blk_status_t nvme_pci_setup_meta_sgls(struct nvme_dev *dev,
- 		goto out_unmap_sg;
- 
- 	entries = iod->meta_sgt.nents;
--	iod->meta_list.sg_list = sg_list;
-+	iod->meta_list = sg_list;
- 	iod->meta_dma = sgl_dma;
- 
- 	cmnd->flags = NVME_CMD_SGL_METASEG;
-@@ -923,7 +915,7 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
- 	blk_status_t ret;
- 
- 	iod->aborted = false;
--	iod->nr_allocations = -1;
-+	iod->nr_descriptors = -1;
- 	iod->sgt.nents = 0;
- 	iod->meta_sgt.nents = 0;
- 
-@@ -1048,8 +1040,7 @@ static __always_inline void nvme_unmap_metadata(struct nvme_dev *dev,
- 		return;
- 	}
- 
--	dma_pool_free(dev->prp_small_pool, iod->meta_list.sg_list,
--		      iod->meta_dma);
-+	dma_pool_free(dev->prp_small_pool, iod->meta_list, iod->meta_dma);
- 	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
- 	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
+ 	return ret;
  }
-@@ -3801,7 +3792,7 @@ static int __init nvme_init(void)
- 	BUILD_BUG_ON(IRQ_AFFINITY_MAX_SETS < 2);
- 	BUILD_BUG_ON(NVME_MAX_SEGS > SGES_PER_PAGE);
- 	BUILD_BUG_ON(sizeof(struct scatterlist) * NVME_MAX_SEGS > PAGE_SIZE);
--	BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_ALLOCATIONS);
-+	BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_DESCRIPTORS);
+@@ -2627,26 +2630,17 @@ ssize_t iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+ 		     struct scatterlist *sg, unsigned int nents, int prot,
+ 		     gfp_t gfp)
+ {
+-	const struct iommu_domain_ops *ops = domain->ops;
+ 	size_t len = 0, mapped = 0;
+ 	phys_addr_t start;
+ 	unsigned int i = 0;
+ 	int ret;
  
- 	return pci_register_driver(&nvme_driver);
- }
+-	might_sleep_if(gfpflags_allow_blocking(gfp));
+-
+-	/* Discourage passing strange GFP flags */
+-	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
+-				__GFP_HIGHMEM)))
+-		return -EINVAL;
+-
+ 	while (i <= nents) {
+ 		phys_addr_t s_phys = sg_phys(sg);
+ 
+ 		if (len && s_phys != start + len) {
+-			ret = __iommu_map(domain, iova + mapped, start,
++			ret = iommu_map_nosync(domain, iova + mapped, start,
+ 					len, prot, gfp);
+-
+ 			if (ret)
+ 				goto out_err;
+ 
+@@ -2669,11 +2663,10 @@ ssize_t iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+ 			sg = sg_next(sg);
+ 	}
+ 
+-	if (ops->iotlb_sync_map) {
+-		ret = ops->iotlb_sync_map(domain, iova, mapped);
+-		if (ret)
+-			goto out_err;
+-	}
++	ret = iommu_sync_map(domain, iova, mapped);
++	if (ret)
++		goto out_err;
++
+ 	return mapped;
+ 
+ out_err:
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index ccce8a751e2a..ce472af8e9c3 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -872,6 +872,10 @@ extern struct iommu_domain *iommu_get_domain_for_dev(struct device *dev);
+ extern struct iommu_domain *iommu_get_dma_domain(struct device *dev);
+ extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 		     phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
++int iommu_map_nosync(struct iommu_domain *domain, unsigned long iova,
++		phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
++int iommu_sync_map(struct iommu_domain *domain, unsigned long iova,
++		size_t size);
+ extern size_t iommu_unmap(struct iommu_domain *domain, unsigned long iova,
+ 			  size_t size);
+ extern size_t iommu_unmap_fast(struct iommu_domain *domain,
 -- 
 2.49.0
 
