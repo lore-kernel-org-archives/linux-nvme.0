@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D137C369D8
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC174C369D7
 	for <linux-nvme@archiver.kernel.org>; Wed, 23 Apr 2025 11:15:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,43 +12,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aYAyae37IaB32Oy1GcFpZFgFNGQZO6/gAsOWWQ3BC1k=; b=Vsd8nYF6FNDgKnWPH86ofNfFoG
-	iyjV92EU9dOfUYrOwLhWta6mst3NUrr7rfHKODonvZLaSx009SXBXG2msxRqVpn10Ev1Y4FZ/PO7C
-	PS6/+QCdBtF58KDJDeHjsCJRJ0JKw6zH/H4D7YmUJ5+zgNBKa+SNCYdVH+YXZsGXWHfjNdstlvEc7
-	+sVZ5x2YjvQsn9QgCSedj479YLXRKku9EHYg4CGRzW+XsW7prLZusEIwetksteBD+gz34aphSnAYb
-	dReAIRfuzWiSC2XCPMaeMGbqBNjE0DJJa+DI76FBzbuJn5US+oxIwKPggoTrlPbNlOZ/goOaCMzCB
-	9QMGzZNQ==;
+	bh=Hbnp3re4zFMgSXhktVk/2yAmZRSrN2dtVBTPlCM9IdY=; b=0vORjiHTzipEIonSALLAZo36ec
+	OXXu2sxoDCrX9S/0ChVPERyDUrfz1huS4HJPcHqx5FEwqC902wMWWxWn3/ttLRBQMVHU/JzTtPXId
+	KSqmeUDIKBZX68lj8EjMtgRKnsl0CYjPu2c3vNryNuoMpLfo4U7Dx5ecG9iEeHohO7TNOFBU4JEOn
+	LAQtZ0kTVxf/rs5LmNpeRDnWQR5FItppxkd1aROuO4/PqwihDn5A6WtNbCA8b4TW5gN13woyauVFX
+	dpim80Ddx04HvyI6WK7ddVev+dUqirL65VIBgkR3bKsXqr+TrmgrpqPyCrVY2+mwGbJpzL4z7di6U
+	p/zihZEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7Y4s-0000000AHhd-1yo1;
-	Wed, 23 Apr 2025 11:15:42 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1u7Y4j-0000000AHaQ-2CQ5;
+	Wed, 23 Apr 2025 11:15:33 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7VFp-00000009fF0-10yr
+	id 1u7VEz-00000009efR-2SIk
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Apr 2025 08:14:49 +0000
+	Wed, 23 Apr 2025 08:13:59 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id BA235615E9;
-	Wed, 23 Apr 2025 08:14:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6795FC4CEE2;
-	Wed, 23 Apr 2025 08:14:47 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id C88C74A4D5;
+	Wed, 23 Apr 2025 08:13:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 839A6C4CEEA;
+	Wed, 23 Apr 2025 08:13:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745396088;
-	bh=j4KzyiiyZODesV03LVJXzVBe5z505XWdFMHi6zBkELo=;
+	s=k20201202; t=1745396037;
+	bh=K8J9gdjztHxIgoOhF0UMyK323miQYlX3WBl0Qvd7eDE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YHVp0x5P610ROP7ncTqe91xRDzlhMHWtCmStBfBBdRNqhucX/NkK707LZO5D2Q0gk
-	 c+pmqOMUItWTHvMTmD1HWrIn82ehYyPhknqLcxsh7JPKhb8/u24442cUs0gjC4zcCu
-	 37AyqS1Tgfv7FSfk3iJRrdU/3aTqG1Xq36j1Ta4EzGIDU64ESjfn6693/5bkBk/jMs
-	 QhcY7yOw0IB+bDLQmye2lYpn7ZmwbXinSS9KZ10J1yLGl5ZlW5GmDqrkmHM64+l4rP
-	 KytUCY3NCea+NzAF8FCOqKBOt/7BVYhACQzUu/uRSp1SqKonj1ho8sz6H6hdw2brL2
-	 mcrAJ7AXcz4hQ==
+	b=c3CTmYSroagwQIsnCMbKG7I3X9fng+sM7aJFYUTJuNomzH2on+EhpOjLcrjZHSfIY
+	 z6omJ/Vr4N66JG3eg14RGDGVfnS79PuOPa4cickInlRZaA97nX0moFaANIG+A2seOZ
+	 Y5PwCaBizvJPxHXoQWQtZ0R5yq08di1wZOorDc2IjZBlMBGPLpBEavsfpQXhu7+lnK
+	 z4ACsuMmfOH+tfcb9higZOfZEaixbgtplueh9fnU5pyJ9FKpU4suJmt/MjCjpDD21L
+	 4cwy4G7wESdND9V/Q77vOzkp2SqP06oerycbagKHengP82PQxAVi70Tt8kV2jnjrNU
+	 5hAXvFAw3qCfQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Jake Edge <jake@lwn.net>,
+Cc: Jake Edge <jake@lwn.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
 	Zhu Yanjun <zyjzyj2000@gmail.com>,
@@ -79,15 +78,19 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Matthew Wilcox <willy@infradead.org>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH v9 11/24] mm/hmm: provide generic DMA managing logic
-Date: Wed, 23 Apr 2025 11:13:02 +0300
-Message-ID: <3abc42885831f841dd5dfe78d7c4e56c620670ea.1745394536.git.leon@kernel.org>
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>
+Subject: [PATCH v9 01/24] PCI/P2PDMA: Refactor the p2pdma mapping helpers
+Date: Wed, 23 Apr 2025 11:12:52 +0300
+Message-ID: <3a962f9039f0265de939f4c81924ee8208fc93a6.1745394536.git.leon@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1745394536.git.leon@kernel.org>
 References: <cover.1745394536.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250423_011357_706272_C092E793 
+X-CRM114-Status: GOOD (  31.34  )
 X-Mailman-Approved-At: Wed, 23 Apr 2025 03:40:46 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,332 +106,280 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+From: Christoph Hellwig <hch@lst.de>
 
-HMM callers use PFN list to populate range while calling
-to hmm_range_fault(), the conversion from PFN to DMA address
-is done by the callers with help of another DMA list. However,
-it is wasteful on any modern platform and by doing the right
-logic, that DMA list can be avoided.
+The current scheme with a single helper to determine the P2P status
+and map a scatterlist segment force users to always use the map_sg
+helper to DMA map, which we're trying to get away from because they
+are very cache inefficient.
 
-Provide generic logic to manage these lists and gave an interface
-to map/unmap PFNs to DMA addresses, without requiring from the callers
-to be an experts in DMA core API.
+Refactor the code so that there is a single helper that checks the P2P
+state for a page, including the result that it is not a P2P page to
+simplify the callers, and a second one to perform the address translation
+for a bus mapped P2P transfer that does not depend on the scatterlist
+structure.
 
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Tested-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/hmm-dma.h |  33 ++++++
- include/linux/hmm.h     |   4 +
- mm/hmm.c                | 215 +++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 251 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/hmm-dma.h
+ drivers/iommu/dma-iommu.c   | 47 +++++++++++++++++-----------------
+ drivers/pci/p2pdma.c        | 38 ++++-----------------------
+ include/linux/dma-map-ops.h | 51 +++++++++++++++++++++++++++++--------
+ kernel/dma/direct.c         | 43 +++++++++++++++----------------
+ 4 files changed, 91 insertions(+), 88 deletions(-)
 
-diff --git a/include/linux/hmm-dma.h b/include/linux/hmm-dma.h
-new file mode 100644
-index 000000000000..f58b9fc71999
---- /dev/null
-+++ b/include/linux/hmm-dma.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/* Copyright (c) 2024 NVIDIA Corporation & Affiliates */
-+#ifndef LINUX_HMM_DMA_H
-+#define LINUX_HMM_DMA_H
-+
-+#include <linux/dma-mapping.h>
-+
-+struct dma_iova_state;
-+struct pci_p2pdma_map_state;
-+
-+/*
-+ * struct hmm_dma_map - array of PFNs and DMA addresses
-+ *
-+ * @state: DMA IOVA state
-+ * @pfns: array of PFNs
-+ * @dma_list: array of DMA addresses
-+ * @dma_entry_size: size of each DMA entry in the array
-+ */
-+struct hmm_dma_map {
-+	struct dma_iova_state state;
-+	unsigned long *pfn_list;
-+	dma_addr_t *dma_list;
-+	size_t dma_entry_size;
-+};
-+
-+int hmm_dma_map_alloc(struct device *dev, struct hmm_dma_map *map,
-+		      size_t nr_entries, size_t dma_entry_size);
-+void hmm_dma_map_free(struct device *dev, struct hmm_dma_map *map);
-+dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
-+			   size_t idx,
-+			   struct pci_p2pdma_map_state *p2pdma_state);
-+bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx);
-+#endif /* LINUX_HMM_DMA_H */
-diff --git a/include/linux/hmm.h b/include/linux/hmm.h
-index a1ddbedc19c0..1bc33e4c20ea 100644
---- a/include/linux/hmm.h
-+++ b/include/linux/hmm.h
-@@ -23,6 +23,8 @@ struct mmu_interval_notifier;
-  * HMM_PFN_WRITE - if the page memory can be written to (requires HMM_PFN_VALID)
-  * HMM_PFN_ERROR - accessing the pfn is impossible and the device should
-  *                 fail. ie poisoned memory, special pages, no vma, etc
-+ * HMM_PFN_P2PDMA - P2P page
-+ * HMM_PFN_P2PDMA_BUS - Bus mapped P2P transfer
-  * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output transformation
-  *                      to mark that page is already DMA mapped
-  *
-@@ -43,6 +45,8 @@ enum hmm_pfn_flags {
- 	 * Sticky flags, carried from input to output,
- 	 * don't forget to update HMM_PFN_INOUT_FLAGS
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index cb7e29dcac15..a8f9fd93e150 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1359,7 +1359,6 @@ int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 	struct scatterlist *s, *prev = NULL;
+ 	int prot = dma_info_to_prot(dir, dev_is_dma_coherent(dev), attrs);
+ 	struct pci_p2pdma_map_state p2pdma_state = {};
+-	enum pci_p2pdma_map_type map;
+ 	dma_addr_t iova;
+ 	size_t iova_len = 0;
+ 	unsigned long mask = dma_get_seg_boundary(dev);
+@@ -1389,28 +1388,30 @@ int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 		size_t s_length = s->length;
+ 		size_t pad_len = (mask - iova_len + 1) & mask;
+ 
+-		if (is_pci_p2pdma_page(sg_page(s))) {
+-			map = pci_p2pdma_map_segment(&p2pdma_state, dev, s);
+-			switch (map) {
+-			case PCI_P2PDMA_MAP_BUS_ADDR:
+-				/*
+-				 * iommu_map_sg() will skip this segment as
+-				 * it is marked as a bus address,
+-				 * __finalise_sg() will copy the dma address
+-				 * into the output segment.
+-				 */
+-				continue;
+-			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+-				/*
+-				 * Mapping through host bridge should be
+-				 * mapped with regular IOVAs, thus we
+-				 * do nothing here and continue below.
+-				 */
+-				break;
+-			default:
+-				ret = -EREMOTEIO;
+-				goto out_restore_sg;
+-			}
++		switch (pci_p2pdma_state(&p2pdma_state, dev, sg_page(s))) {
++		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
++			/*
++			 * Mapping through host bridge should be mapped with
++			 * regular IOVAs, thus we do nothing here and continue
++			 * below.
++			 */
++			break;
++		case PCI_P2PDMA_MAP_NONE:
++			break;
++		case PCI_P2PDMA_MAP_BUS_ADDR:
++			/*
++			 * iommu_map_sg() will skip this segment as it is marked
++			 * as a bus address, __finalise_sg() will copy the dma
++			 * address into the output segment.
++			 */
++			s->dma_address = pci_p2pdma_bus_addr_map(&p2pdma_state,
++						sg_phys(s));
++			sg_dma_len(s) = sg->length;
++			sg_dma_mark_bus_address(s);
++			continue;
++		default:
++			ret = -EREMOTEIO;
++			goto out_restore_sg;
+ 		}
+ 
+ 		sg_dma_address(s) = s_iova_off;
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 19214ec81fbb..8d955c25aed3 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -1004,40 +1004,12 @@ static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct dev_pagemap *pgmap,
+ 	return type;
+ }
+ 
+-/**
+- * pci_p2pdma_map_segment - map an sg segment determining the mapping type
+- * @state: State structure that should be declared outside of the for_each_sg()
+- *	loop and initialized to zero.
+- * @dev: DMA device that's doing the mapping operation
+- * @sg: scatterlist segment to map
+- *
+- * This is a helper to be used by non-IOMMU dma_map_sg() implementations where
+- * the sg segment is the same for the page_link and the dma_address.
+- *
+- * Attempt to map a single segment in an SGL with the PCI bus address.
+- * The segment must point to a PCI P2PDMA page and thus must be
+- * wrapped in a is_pci_p2pdma_page(sg_page(sg)) check.
+- *
+- * Returns the type of mapping used and maps the page if the type is
+- * PCI_P2PDMA_MAP_BUS_ADDR.
+- */
+-enum pci_p2pdma_map_type
+-pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
+-		       struct scatterlist *sg)
++void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
++		struct device *dev, struct page *page)
+ {
+-	if (state->pgmap != page_pgmap(sg_page(sg))) {
+-		state->pgmap = page_pgmap(sg_page(sg));
+-		state->map = pci_p2pdma_map_type(state->pgmap, dev);
+-		state->bus_off = to_p2p_pgmap(state->pgmap)->bus_offset;
+-	}
+-
+-	if (state->map == PCI_P2PDMA_MAP_BUS_ADDR) {
+-		sg->dma_address = sg_phys(sg) + state->bus_off;
+-		sg_dma_len(sg) = sg->length;
+-		sg_dma_mark_bus_address(sg);
+-	}
+-
+-	return state->map;
++	state->pgmap = page_pgmap(page);
++	state->map = pci_p2pdma_map_type(state->pgmap, dev);
++	state->bus_off = to_p2p_pgmap(state->pgmap)->bus_offset;
+ }
+ 
+ /**
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index e172522cd936..c3086edeccc6 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -443,6 +443,11 @@ enum pci_p2pdma_map_type {
  	 */
-+	HMM_PFN_P2PDMA     = 1UL << (BITS_PER_LONG - 5),
-+	HMM_PFN_P2PDMA_BUS = 1UL << (BITS_PER_LONG - 6),
- 	HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 7),
+ 	PCI_P2PDMA_MAP_UNKNOWN = 0,
  
- 	HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 8),
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 51fe8b011cc7..c0bee5aa00fc 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -10,6 +10,7 @@
-  */
- #include <linux/pagewalk.h>
- #include <linux/hmm.h>
-+#include <linux/hmm-dma.h>
- #include <linux/init.h>
- #include <linux/rmap.h>
- #include <linux/swap.h>
-@@ -23,6 +24,7 @@
- #include <linux/sched/mm.h>
- #include <linux/jump_label.h>
- #include <linux/dma-mapping.h>
-+#include <linux/pci-p2pdma.h>
- #include <linux/mmu_notifier.h>
- #include <linux/memory_hotplug.h>
++	/*
++	 * Not a PCI P2PDMA transfer.
++	 */
++	PCI_P2PDMA_MAP_NONE,
++
+ 	/*
+ 	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
+ 	 * traverse the host bridge and the host bridge is not in the
+@@ -471,21 +476,47 @@ enum pci_p2pdma_map_type {
  
-@@ -41,7 +43,8 @@ enum {
- 
- enum {
- 	/* These flags are carried from input-to-output */
--	HMM_PFN_INOUT_FLAGS = HMM_PFN_DMA_MAPPED,
-+	HMM_PFN_INOUT_FLAGS = HMM_PFN_DMA_MAPPED | HMM_PFN_P2PDMA |
-+			      HMM_PFN_P2PDMA_BUS,
+ struct pci_p2pdma_map_state {
+ 	struct dev_pagemap *pgmap;
+-	int map;
++	enum pci_p2pdma_map_type map;
+ 	u64 bus_off;
  };
  
- static int hmm_pfns_fill(unsigned long addr, unsigned long end,
-@@ -620,3 +623,213 @@ int hmm_range_fault(struct hmm_range *range)
- 	return ret;
+-#ifdef CONFIG_PCI_P2PDMA
+-enum pci_p2pdma_map_type
+-pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
+-		       struct scatterlist *sg);
+-#else /* CONFIG_PCI_P2PDMA */
++/* helper for pci_p2pdma_state(), do not use directly */
++void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
++		struct device *dev, struct page *page);
++
++/**
++ * pci_p2pdma_state - check the P2P transfer state of a page
++ * @state:	P2P state structure
++ * @dev:	device to transfer to/from
++ * @page:	page to map
++ *
++ * Check if @page is a PCI P2PDMA page, and if yes of what kind.  Returns the
++ * map type, and updates @state with all information needed for a P2P transfer.
++ */
+ static inline enum pci_p2pdma_map_type
+-pci_p2pdma_map_segment(struct pci_p2pdma_map_state *state, struct device *dev,
+-		       struct scatterlist *sg)
++pci_p2pdma_state(struct pci_p2pdma_map_state *state, struct device *dev,
++		struct page *page)
++{
++	if (IS_ENABLED(CONFIG_PCI_P2PDMA) && is_pci_p2pdma_page(page)) {
++		if (state->pgmap != page_pgmap(page))
++			__pci_p2pdma_update_state(state, dev, page);
++		return state->map;
++	}
++	return PCI_P2PDMA_MAP_NONE;
++}
++
++/**
++ * pci_p2pdma_bus_addr_map - map a PCI_P2PDMA_MAP_BUS_ADDR P2P transfer
++ * @state:	P2P state structure
++ * @paddr:	physical address to map
++ *
++ * Map a physically contiguous PCI_P2PDMA_MAP_BUS_ADDR transfer.
++ */
++static inline dma_addr_t
++pci_p2pdma_bus_addr_map(struct pci_p2pdma_map_state *state, phys_addr_t paddr)
+ {
+-	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
++	WARN_ON_ONCE(state->map != PCI_P2PDMA_MAP_BUS_ADDR);
++	return paddr + state->bus_off;
  }
- EXPORT_SYMBOL(hmm_range_fault);
-+
-+/**
-+ * hmm_dma_map_alloc - Allocate HMM map structure
-+ * @dev: device to allocate structure for
-+ * @map: HMM map to allocate
-+ * @nr_entries: number of entries in the map
-+ * @dma_entry_size: size of the DMA entry in the map
-+ *
-+ * Allocate the HMM map structure and all the lists it contains.
-+ * Return 0 on success, -ENOMEM on failure.
-+ */
-+int hmm_dma_map_alloc(struct device *dev, struct hmm_dma_map *map,
-+		      size_t nr_entries, size_t dma_entry_size)
-+{
-+	bool dma_need_sync = false;
-+	bool use_iova;
-+
-+	if (!(nr_entries * PAGE_SIZE / dma_entry_size))
-+		return -EINVAL;
-+
-+	/*
-+	 * The HMM API violates our normal DMA buffer ownership rules and can't
-+	 * transfer buffer ownership.  The dma_addressing_limited() check is a
-+	 * best approximation to ensure no swiotlb buffering happens.
-+	 */
-+#ifdef CONFIG_DMA_NEED_SYNC
-+	dma_need_sync = !dev->dma_skip_sync;
-+#endif /* CONFIG_DMA_NEED_SYNC */
-+	if (dma_need_sync || dma_addressing_limited(dev))
-+		return -EOPNOTSUPP;
-+
-+	map->dma_entry_size = dma_entry_size;
-+	map->pfn_list = kvcalloc(nr_entries, sizeof(*map->pfn_list),
-+				 GFP_KERNEL | __GFP_NOWARN);
-+	if (!map->pfn_list)
-+		return -ENOMEM;
-+
-+	use_iova = dma_iova_try_alloc(dev, &map->state, 0,
-+			nr_entries * PAGE_SIZE);
-+	if (!use_iova && dma_need_unmap(dev)) {
-+		map->dma_list = kvcalloc(nr_entries, sizeof(*map->dma_list),
-+					 GFP_KERNEL | __GFP_NOWARN);
-+		if (!map->dma_list)
-+			goto err_dma;
-+	}
-+	return 0;
-+
-+err_dma:
-+	kvfree(map->pfn_list);
-+	return -ENOMEM;
-+}
-+EXPORT_SYMBOL_GPL(hmm_dma_map_alloc);
-+
-+/**
-+ * hmm_dma_map_free - iFree HMM map structure
-+ * @dev: device to free structure from
-+ * @map: HMM map containing the various lists and state
-+ *
-+ * Free the HMM map structure and all the lists it contains.
-+ */
-+void hmm_dma_map_free(struct device *dev, struct hmm_dma_map *map)
-+{
-+	if (dma_use_iova(&map->state))
-+		dma_iova_free(dev, &map->state);
-+	kvfree(map->pfn_list);
-+	kvfree(map->dma_list);
-+}
-+EXPORT_SYMBOL_GPL(hmm_dma_map_free);
-+
-+/**
-+ * hmm_dma_map_pfn - Map a physical HMM page to DMA address
-+ * @dev: Device to map the page for
-+ * @map: HMM map
-+ * @idx: Index into the PFN and dma address arrays
-+ * @p2pdma_state: PCI P2P state.
-+ *
-+ * dma_alloc_iova() allocates IOVA based on the size specified by their use in
-+ * iova->size. Call this function after IOVA allocation to link whole @page
-+ * to get the DMA address. Note that very first call to this function
-+ * will have @offset set to 0 in the IOVA space allocated from
-+ * dma_alloc_iova(). For subsequent calls to this function on same @iova,
-+ * @offset needs to be advanced by the caller with the size of previous
-+ * page that was linked + DMA address returned for the previous page that was
-+ * linked by this function.
-+ */
-+dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
-+			   size_t idx,
-+			   struct pci_p2pdma_map_state *p2pdma_state)
-+{
-+	struct dma_iova_state *state = &map->state;
-+	dma_addr_t *dma_addrs = map->dma_list;
-+	unsigned long *pfns = map->pfn_list;
-+	struct page *page = hmm_pfn_to_page(pfns[idx]);
-+	phys_addr_t paddr = hmm_pfn_to_phys(pfns[idx]);
-+	size_t offset = idx * map->dma_entry_size;
-+	unsigned long attrs = 0;
-+	dma_addr_t dma_addr;
-+	int ret;
-+
-+	if ((pfns[idx] & HMM_PFN_DMA_MAPPED) &&
-+	    !(pfns[idx] & HMM_PFN_P2PDMA_BUS)) {
-+		/*
-+		 * We are in this flow when there is a need to resync flags,
-+		 * for example when page was already linked in prefetch call
-+		 * with READ flag and now we need to add WRITE flag
-+		 *
-+		 * This page was already programmed to HW and we don't want/need
-+		 * to unlink and link it again just to resync flags.
-+		 */
-+		if (dma_use_iova(state))
-+			return state->addr + offset;
-+
-+		/*
-+		 * Without dma_need_unmap, the dma_addrs array is NULL, thus we
-+		 * need to regenerate the address below even if there already
-+		 * was a mapping. But !dma_need_unmap implies that the
-+		 * mapping stateless, so this is fine.
-+		 */
-+		if (dma_need_unmap(dev))
-+			return dma_addrs[idx];
-+
-+		/* Continue to remapping */
-+	}
-+
-+	switch (pci_p2pdma_state(p2pdma_state, dev, page)) {
-+	case PCI_P2PDMA_MAP_NONE:
-+		break;
-+	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-+		attrs |= DMA_ATTR_SKIP_CPU_SYNC;
-+		pfns[idx] |= HMM_PFN_P2PDMA;
-+		break;
-+	case PCI_P2PDMA_MAP_BUS_ADDR:
-+		pfns[idx] |= HMM_PFN_P2PDMA_BUS | HMM_PFN_DMA_MAPPED;
-+		return pci_p2pdma_bus_addr_map(p2pdma_state, paddr);
-+	default:
-+		return DMA_MAPPING_ERROR;
-+	}
-+
-+	if (dma_use_iova(state)) {
-+		ret = dma_iova_link(dev, state, paddr, offset,
-+				    map->dma_entry_size, DMA_BIDIRECTIONAL,
-+				    attrs);
-+		if (ret)
-+			goto error;
-+
-+		ret = dma_iova_sync(dev, state, offset, map->dma_entry_size);
-+		if (ret) {
-+			dma_iova_unlink(dev, state, offset, map->dma_entry_size,
-+					DMA_BIDIRECTIONAL, attrs);
-+			goto error;
-+		}
-+
-+		dma_addr = state->addr + offset;
-+	} else {
-+		if (WARN_ON_ONCE(dma_need_unmap(dev) && !dma_addrs))
-+			goto error;
-+
-+		dma_addr = dma_map_page(dev, page, 0, map->dma_entry_size,
-+					DMA_BIDIRECTIONAL);
-+		if (dma_mapping_error(dev, dma_addr))
-+			goto error;
-+
-+		if (dma_need_unmap(dev))
-+			dma_addrs[idx] = dma_addr;
-+	}
-+	pfns[idx] |= HMM_PFN_DMA_MAPPED;
-+	return dma_addr;
-+error:
-+	pfns[idx] &= ~HMM_PFN_P2PDMA;
-+	return DMA_MAPPING_ERROR;
-+
-+}
-+EXPORT_SYMBOL_GPL(hmm_dma_map_pfn);
-+
-+/**
-+ * hmm_dma_unmap_pfn - Unmap a physical HMM page from DMA address
-+ * @dev: Device to unmap the page from
-+ * @map: HMM map
-+ * @idx: Index of the PFN to unmap
-+ *
-+ * Returns true if the PFN was mapped and has been unmapped, false otherwise.
-+ */
-+bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
-+{
-+	struct dma_iova_state *state = &map->state;
-+	dma_addr_t *dma_addrs = map->dma_list;
-+	unsigned long *pfns = map->pfn_list;
-+	unsigned long attrs = 0;
-+
-+#define HMM_PFN_VALID_DMA (HMM_PFN_VALID | HMM_PFN_DMA_MAPPED)
-+	if ((pfns[idx] & HMM_PFN_VALID_DMA) != HMM_PFN_VALID_DMA)
-+		return false;
-+#undef HMM_PFN_VALID_DMA
-+
-+	if (pfns[idx] & HMM_PFN_P2PDMA_BUS)
-+		; /* no need to unmap bus address P2P mappings */
-+	else if (dma_use_iova(state)) {
-+		if (pfns[idx] & HMM_PFN_P2PDMA)
-+			attrs |= DMA_ATTR_SKIP_CPU_SYNC;
-+		dma_iova_unlink(dev, state, idx * map->dma_entry_size,
-+				map->dma_entry_size, DMA_BIDIRECTIONAL, attrs);
-+	} else if (dma_need_unmap(dev))
-+		dma_unmap_page(dev, dma_addrs[idx], map->dma_entry_size,
-+			       DMA_BIDIRECTIONAL);
-+
-+	pfns[idx] &=
-+		~(HMM_PFN_DMA_MAPPED | HMM_PFN_P2PDMA | HMM_PFN_P2PDMA_BUS);
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(hmm_dma_unmap_pfn);
+-#endif /* CONFIG_PCI_P2PDMA */
+ 
+ #endif /* _LINUX_DMA_MAP_OPS_H */
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index b8fe0b3d0ffb..cec43cd5ed62 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -462,34 +462,33 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+ 		enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	struct pci_p2pdma_map_state p2pdma_state = {};
+-	enum pci_p2pdma_map_type map;
+ 	struct scatterlist *sg;
+ 	int i, ret;
+ 
+ 	for_each_sg(sgl, sg, nents, i) {
+-		if (is_pci_p2pdma_page(sg_page(sg))) {
+-			map = pci_p2pdma_map_segment(&p2pdma_state, dev, sg);
+-			switch (map) {
+-			case PCI_P2PDMA_MAP_BUS_ADDR:
+-				continue;
+-			case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+-				/*
+-				 * Any P2P mapping that traverses the PCI
+-				 * host bridge must be mapped with CPU physical
+-				 * address and not PCI bus addresses. This is
+-				 * done with dma_direct_map_page() below.
+-				 */
+-				break;
+-			default:
+-				ret = -EREMOTEIO;
++		switch (pci_p2pdma_state(&p2pdma_state, dev, sg_page(sg))) {
++		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
++			/*
++			 * Any P2P mapping that traverses the PCI host bridge
++			 * must be mapped with CPU physical address and not PCI
++			 * bus addresses.
++			 */
++			break;
++		case PCI_P2PDMA_MAP_NONE:
++			sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
++					sg->offset, sg->length, dir, attrs);
++			if (sg->dma_address == DMA_MAPPING_ERROR) {
++				ret = -EIO;
+ 				goto out_unmap;
+ 			}
+-		}
+-
+-		sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
+-				sg->offset, sg->length, dir, attrs);
+-		if (sg->dma_address == DMA_MAPPING_ERROR) {
+-			ret = -EIO;
++			break;
++		case PCI_P2PDMA_MAP_BUS_ADDR:
++			sg->dma_address = pci_p2pdma_bus_addr_map(&p2pdma_state,
++					sg_phys(sg));
++			sg_dma_mark_bus_address(sg);
++			continue;
++		default:
++			ret = -EREMOTEIO;
+ 			goto out_unmap;
+ 		}
+ 		sg_dma_len(sg) = sg->length;
 -- 
 2.49.0
 
