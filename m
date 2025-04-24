@@ -4,97 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C763C369D5
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 16:03:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32546C369D5
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 16:03:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vY2fR86vwxaJL8mev8ZKItOGofuMn/aYR4r7fXiLEDQ=; b=Kit+7zW9rtxD78W51T8iQRorcX
-	sGswIQK0TjgKfxt3Sp83oeBcdswln4EMhVOP49zUvQo9KsBekWoeSihXNHrel5srujg1O7GpCDub5
-	+su9ME8t36w9ej6tJH3N6j9Ou5rsWv1mzKCFiF2m0a3sE5TRoe2pFoG4p7T5ifiPue1ddqsn0w1PF
-	ZCI282KqnzmWQx7DqCjjECowldQLAeKtkVqpek3k2OxxrD5AUng6Jm5zUCsxWzyr2Sbf7BOG3NqhJ
-	DiOiny1mI/5ZuozBHgb70to3SByZBeJQc4rRLZvweTb9ok//d9fZP+YlNUa+gRjUxPAv6UPOo7p7e
-	RRzeYJkw==;
+	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=; b=sNKfVsmYZct9PRY/m9/jAn5x9J
+	SYLPby3XfDThFoS+Pje3HWJZsud1KKClW4ebskW7p8d/Vvpctlq2+lOEnpZJeRbJiaHE+RbVwrM47
+	9YCkLB3Wom/MZghwZXPk+Fx42tgBqlJ/x7X5M8akn1QDSmJ+Vt9myH6Q2o/rsK20mfXQXV6FS+z+Q
+	fI/ZEnjoExKKAXEBpsBv/M6HD8Z1yxvkHWjfLhXib5jpjWwT3+IrvT5itY9a7B83Jkj9M+xOW7GO2
+	xbkZG8lwZkbB09qTzdb4fwuIrAcfAw5iWHLkeEf/v2o6E805Geu259DbOzy2rqcCTRoquo4pH0ahR
+	tyJ79geQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7z34-0000000EZkT-1onS;
-	Thu, 24 Apr 2025 16:03:38 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1u7z38-0000000EZol-1uEX;
+	Thu, 24 Apr 2025 16:03:42 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7up1-0000000DrsS-2iBY
+	id 1u7v4b-0000000Due6-38qy
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 24 Apr 2025 11:48:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=; b=cBDEekFFpP79c4tCXcVYJ32yZS
+	WtaJeb7jfKdqEih7CckMIspjLAz+IWposPjyHv/3Z1zksnHkmBu2+GoEEjqJJn0Kd4e12PnLEWh9s
+	meUAl3u9W5b1bi4gbVNl8ifzYoKPEKkLcHgQddP4ZHJCUKQV+FxqEs7EA5pE2pizZmKheD0VlC7c+
+	2ERB9WK4ZM0Ou/jvybG7YwSi3B2QYn5018hPSPEFevEVBVHgVd3swmPdbQFEIrqiNgVNjLs/QY0Ko
+	EDofGhbtpqwILt/IJfmRNG3gXem4NJtg92tavQVA/DKNall7FklpB7nALepzf0iUk+fdsp1jz0r2k
+	19e0nLVQ==;
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	by desiato.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1u7v4Z-0000000BmKO-0F2v
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 11:32:53 +0000
+	Thu, 24 Apr 2025 11:48:56 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2039A1F452;
-	Thu, 24 Apr 2025 11:32:50 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8312821187;
+	Thu, 24 Apr 2025 11:48:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745494370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1745495333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vY2fR86vwxaJL8mev8ZKItOGofuMn/aYR4r7fXiLEDQ=;
-	b=K2lVWxS4Jst9GDo7hdDhId5aNOvNOj8Iq1whAwkATzxEzftpqMidJ3DDBk7IrbZCeRJgIU
-	n+ZxxDuipXkl23UlaDjN0w0UddoW38Yl93GF+91WIoqBM5Y2lY6aouuZT/AgkXFZLrEoZ9
-	Naz10Z027m2qZqYYv6APbyoaYusKN3M=
+	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=;
+	b=wSyWe2CzFlLlpG9kmBchLfZv1XvfhnwmeJa9ZX1JUK4rbQPf6D+hZbTKtHeViULbhkBNk7
+	kjrBuITHBRvuNybw7tXfvES5tkepATYVtRVKfZ3kgzsEMIPtdbZ1c2WQwHPCfnfK+okCzh
+	f653epe14VW026e2wwbaFlqUpURFq3M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745494370;
+	s=susede2_ed25519; t=1745495333;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vY2fR86vwxaJL8mev8ZKItOGofuMn/aYR4r7fXiLEDQ=;
-	b=1rfChyWeILfTopLYhU+YohmcXwM3FhuHyGcZceoR3gotPkREiIyiyxMN+r3ua2OTtp4Zwx
-	400quaPpZoxrZnBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=K2lVWxS4;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1rfChyWe
+	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=;
+	b=Mbka+LAb88zsxPKWvASUo7Vozs9yscltMx1nLaobolFPNQCgZXaK4cJV63Ry+rW9dC15Lf
+	Ef+IgIrGe3z9G/DA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wSyWe2Cz;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Mbka+LAb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745494370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1745495333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vY2fR86vwxaJL8mev8ZKItOGofuMn/aYR4r7fXiLEDQ=;
-	b=K2lVWxS4Jst9GDo7hdDhId5aNOvNOj8Iq1whAwkATzxEzftpqMidJ3DDBk7IrbZCeRJgIU
-	n+ZxxDuipXkl23UlaDjN0w0UddoW38Yl93GF+91WIoqBM5Y2lY6aouuZT/AgkXFZLrEoZ9
-	Naz10Z027m2qZqYYv6APbyoaYusKN3M=
+	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=;
+	b=wSyWe2CzFlLlpG9kmBchLfZv1XvfhnwmeJa9ZX1JUK4rbQPf6D+hZbTKtHeViULbhkBNk7
+	kjrBuITHBRvuNybw7tXfvES5tkepATYVtRVKfZ3kgzsEMIPtdbZ1c2WQwHPCfnfK+okCzh
+	f653epe14VW026e2wwbaFlqUpURFq3M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745494370;
+	s=susede2_ed25519; t=1745495333;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vY2fR86vwxaJL8mev8ZKItOGofuMn/aYR4r7fXiLEDQ=;
-	b=1rfChyWeILfTopLYhU+YohmcXwM3FhuHyGcZceoR3gotPkREiIyiyxMN+r3ua2OTtp4Zwx
-	400quaPpZoxrZnBg==
+	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=;
+	b=Mbka+LAb88zsxPKWvASUo7Vozs9yscltMx1nLaobolFPNQCgZXaK4cJV63Ry+rW9dC15Lf
+	Ef+IgIrGe3z9G/DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 023BF1393C;
-	Thu, 24 Apr 2025 11:32:49 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68F5A1393C;
+	Thu, 24 Apr 2025 11:48:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eEGeOWEhCminPQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 24 Apr 2025 11:32:49 +0000
-Date: Thu, 24 Apr 2025 13:32:49 +0200
+	id Nrw6FyUlCmgAQgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 24 Apr 2025 11:48:53 +0000
+Date: Thu, 24 Apr 2025 13:48:52 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Hannes Reinecke <hare@suse.de>
 Cc: Daniel Wagner <wagi@kernel.org>, 
 	James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
 	Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 08/14] nvmet-fcloop: prevent double port deletion
-Message-ID: <54dc62a9-22f4-44a2-a1e6-b7e1b44f2d1a@flourine.local>
+Subject: Re: [PATCH v5 10/14] nvmet-fcloop: don't wait for lport cleanup
+Message-ID: <c1f207f3-6657-4803-90df-a059353ba6da@flourine.local>
 References: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
- <20250423-nvmet-fcloop-v5-8-3d7f968728a5@kernel.org>
- <10fec246-82a6-40bf-a522-ea3de7fa0624@suse.de>
+ <20250423-nvmet-fcloop-v5-10-3d7f968728a5@kernel.org>
+ <05ac9a81-66a9-4bbc-92e0-6ff47a6dc7ad@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <10fec246-82a6-40bf-a522-ea3de7fa0624@suse.de>
-X-Rspamd-Queue-Id: 2039A1F452
+In-Reply-To: <05ac9a81-66a9-4bbc-92e0-6ff47a6dc7ad@suse.de>
+X-Rspamd-Queue-Id: 8312821187
 X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -102,31 +117,29 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,flourine.local:mid,suse.de:dkim]
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_043251_978786_2CC81311 
-X-CRM114-Status: GOOD (  10.49  )
+X-CRM114-CacheID: sfid-20250424_124855_262757_214BFAF7 
+X-CRM114-Status: GOOD (  14.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,23 +154,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 24, 2025 at 12:17:32PM +0200, Hannes Reinecke wrote:
-> >   	struct fcloop_rport *rport = remoteport->private;
-> > +	bool delete_port = true;
-> >   	unsigned long flags;
-> >   	flush_work(&rport->ls_work);
-> >   	spin_lock_irqsave(&fcloop_lock, flags);
-> > +	if (test_and_set_bit(PORT_DELETED, &rport->flags))
-> > +		delete_port = false;
-> >   	rport->nport->rport = NULL;
-> >   	spin_unlock_irqrestore(&fcloop_lock, flags);
-> > +	if (!delete_port)
-> > +		return;
-> > +
-> 
-> The double negation is hard to follow. Can't you
-> rename it to 'put_port' or somesuch and invert the logic?
+On Thu, Apr 24, 2025 at 12:21:09PM +0200, Hannes Reinecke wrote:
+> > @@ -1776,7 +1763,7 @@ static void __exit fcloop_exit(void)
+> >   		spin_unlock_irqrestore(&fcloop_lock, flags);
+> > -		ret = __wait_localport_unreg(lport);
+> > +		ret = __localport_unreg(lport);
+> >   		if (ret)
+> >   			pr_warn("%s: Failed deleting local port\n", __func__);
+> > 
+> And who is freeing the allocated fcloop_lsreq structures?
 
-Yes, was also not really happy with it but didn't really come up with a
-good name. Thanks!
+After a fcloop_lsreq is allocated it is put on either rport->ls_list or
+tport->ls_list and later freed in fcloop_tport_lsrqst_work, resp.
+fcloop_rport_lsrqst_work for the non-error case (or in the callbacks).
+
+That means when the localport is unregistered successfully there are no
+fcloop_lsreq around. The issue is what to do when __localport_unreq
+returns an error.
+
+This code could loop forever when the port_state is not in
+FC_OBJSTATE_ONLINE when calling nvme_fc_unregister_localport(). This
+should not happen (it did before this series) but now it shouldn't be
+the case anymore. I suppose a pr_warn_once() and a sleep might be a good
+idea to avoid a busy loop?
 
