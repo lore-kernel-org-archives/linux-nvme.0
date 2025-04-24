@@ -4,108 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37DAAC369D9
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 12:13:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76577C369C2
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 13:00:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JBNjeFWNj+l9ru6mCK7IYz7qgtgjTXYNZBHsQZntGsQ=; b=a/bd7A0Akgy5XAmvtKb8qaPSpc
-	biLio9HEChDWvJy3Q7CMnA8RNM+ibOXFN9M6/1fYM243M74/qQJegwADR8QlxSajSjr7BYV54+6x/
-	LlrqU+MmrUIqXuUoo2EDhTzgESpfEpHIRSMIH1BU8oDzRhzrboye5TMHmulaH2KS8qcxMJpWDdjRs
-	V9lWUyecafAL3j5dlmkfN2MMAsLhFHwZ1DW2msceqDoeyLk6JbjbW7YMeSKP3u5KyzhpYqNeuPb5k
-	bXdtYO0pUe8vUmD6IS843mgDJgke1XhLDz1LQOBIwDppKKT57nzOcd7Kng4wUCPm0pZ9Ag1IBKivv
-	r8PsUheA==;
+	bh=i/K2W5ncqSvxvGO0gXZwnTTuYSRLi6Dm3a0SywDMhEQ=; b=nZGBV7oi4yGtzI6IUY6PS0aOup
+	bU5pmrE9ricvZYMffuHSexq9YaKEhjMOPXbR94jvXGy1ewntLm1IrimQrul1ot7dDPi8A7sRJgmQa
+	4Ic4M/WT2qb5dP4O5zl3mXGqLj4Wokv5G1xZCizWR1gp/n/r8O/5OUPoaEw/jaBzHHAdDdtWAYvgD
+	tcpfxJQQlOFCa7+eZeIm6zZuhFnZ2+uw9BBIMfa7TR3BwZskDqUo4vHElDinfjETdFMukcHxwfFzx
+	V/Xzwy8phr6xVVtTgFbHDLa6P1dSTHx9mz/BJsn7Cx5VEago1v4jLdKJeWLF39hAE/L6x/+E79x0d
+	XA/yAWJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7vSC-0000000DzPw-1nAQ;
-	Thu, 24 Apr 2025 12:13:20 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1u7wBa-0000000E7bD-19sk;
+	Thu, 24 Apr 2025 13:00:14 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7sE9-0000000DOcJ-0cDv
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 24 Apr 2025 08:46:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=JBNjeFWNj+l9ru6mCK7IYz7qgtgjTXYNZBHsQZntGsQ=; b=MBsGIQLWnmLyK1NT3kI1016fXB
-	DVqdnqqiX/03FB2a4VaEqcmjH8++K+v9aV2Es3I+kqzVcpRK7+lYWbGawpKa1J3LduraGQXQ1V5gu
-	X7zLaIH1Q8QnrFziRG36d0AxpUv12EXaNhR6Ybq5gUmA5sKldfyCrvy2DaBSASHO09lbFT+R9u5xF
-	+1BxLsMyr0UB9p09iT6nEx80r7fmdV3Bkz54jWOxI0d2+OXPHep19oU1cZJM8nA7qfm542rg4GvFi
-	QWEv6s4jUxFlwMkXDnUGu647zqu+/0ezzE31u3Ns9Qug9eV5W+78eKsQO9l5fqRNXKrJgkGzNvM1k
-	ePGzfHeA==;
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
-	by desiato.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u7sE5-0000000Bdii-48CU
+	id 1u7uWi-0000000Dokh-07JZ
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 08:46:35 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id AF4F04A162;
-	Thu, 24 Apr 2025 08:46:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F4A0C4CEED;
-	Thu, 24 Apr 2025 08:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745484392;
-	bh=ki3q6dIyPVLY9OlwYT9gx2mvHOve0ih8UQqOIXQy4sw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uSR+lBTuzs9lAfUp6ETUwd/e83HDQBPN+bi2x6d+WcXRuXqISLxR1KnZmPcANDNPl
-	 XcusVwWrcgl5ZwxaQMTClZZp6wv04VyBadsXr0ChBep2yGTn0yT6aRBkv0qe3YHnsu
-	 Xbfy/GOWPkZiF5ouAX9EAiGXmE23jYsBtArkcpCT8edU46pm2SHyttUmmiowtlF9le
-	 jBdsLZ0dV8tCc+abgC1OkQo4yqWtl296bgiFLL3P131EcMwOFukXU6T1YRIKWY0DCS
-	 vfhRiecYS5EGzJ47VScGPAGcWrDrAIXqhECCrbNzQ/i5dx+Y8dYPFcg8gKvkI2s3k1
-	 MO9hwaOX8jurQ==
-Date: Thu, 24 Apr 2025 11:46:26 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>,
-	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v9 10/24] mm/hmm: let users to tag specific PFN with DMA
- mapped bit
-Message-ID: <20250424084626.GQ48485@unreal>
-References: <cover.1745394536.git.leon@kernel.org>
- <0a7c1e06269eee12ff8912fe0da4b7692081fcde.1745394536.git.leon@kernel.org>
- <7185c055-fc9e-4510-a9bf-6245673f2f92@redhat.com>
- <20250423181706.GT1213339@ziepe.ca>
- <36891b0e-d5fa-4cf8-a181-599a20af1da3@redhat.com>
- <20250423233335.GW1213339@ziepe.ca>
- <20250424080744.GP48485@unreal>
- <20250424081101.GA22989@lst.de>
+	Thu, 24 Apr 2025 11:13:57 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2157521125;
+	Thu, 24 Apr 2025 11:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745493233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i/K2W5ncqSvxvGO0gXZwnTTuYSRLi6Dm3a0SywDMhEQ=;
+	b=QeONCUYQxIo3psidYLLYfgzG2yRpVA55gy9E8Ao1SjxfXW84hwnSrBKKjchZi1UUUtdIpG
+	PUHCVTpWg0iyw++SXS9WGGVDyPYI/4+8WpBTxuPlcAEF2YHc0XLqHJuJ2HpZS4CiAQuBKR
+	TdhRVmiF3l95H4kLjBiwrdKrPzfb0nI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745493233;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i/K2W5ncqSvxvGO0gXZwnTTuYSRLi6Dm3a0SywDMhEQ=;
+	b=ZRgl3WivlM9PbiPVp7ZRwv58I12rxKQD3xHZrSi6rpE1jQPRqO00E/W6x7Pe/JP+2WtUJG
+	QGpzz7UMpcF2fZCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745493233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i/K2W5ncqSvxvGO0gXZwnTTuYSRLi6Dm3a0SywDMhEQ=;
+	b=QeONCUYQxIo3psidYLLYfgzG2yRpVA55gy9E8Ao1SjxfXW84hwnSrBKKjchZi1UUUtdIpG
+	PUHCVTpWg0iyw++SXS9WGGVDyPYI/4+8WpBTxuPlcAEF2YHc0XLqHJuJ2HpZS4CiAQuBKR
+	TdhRVmiF3l95H4kLjBiwrdKrPzfb0nI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745493233;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i/K2W5ncqSvxvGO0gXZwnTTuYSRLi6Dm3a0SywDMhEQ=;
+	b=ZRgl3WivlM9PbiPVp7ZRwv58I12rxKQD3xHZrSi6rpE1jQPRqO00E/W6x7Pe/JP+2WtUJG
+	QGpzz7UMpcF2fZCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05950139D0;
+	Thu, 24 Apr 2025 11:13:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id j42wOvAcCmguOAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 24 Apr 2025 11:13:52 +0000
+Date: Thu, 24 Apr 2025 13:13:48 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Daniel Wagner <wagi@kernel.org>, 
+	James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 01/14] nvmet-fcloop: track ref counts for nports
+Message-ID: <9d18c084-afd5-4bd7-8650-496b88584ed4@flourine.local>
+References: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
+ <20250423-nvmet-fcloop-v5-1-3d7f968728a5@kernel.org>
+ <002aee76-9114-4029-85b3-aa04e8ef76ed@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424081101.GA22989@lst.de>
+In-Reply-To: <002aee76-9114-4029-85b3-aa04e8ef76ed@suse.de>
+X-Spamd-Result: default: False [-8.30 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_094634_385862_706F1EC2 
-X-CRM114-Status: GOOD (  15.64  )
-X-Mailman-Approved-At: Thu, 24 Apr 2025 04:18:00 -0700
+X-CRM114-CacheID: sfid-20250424_041356_216087_7B7F21F8 
+X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,44 +130,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 24, 2025 at 10:11:01AM +0200, Christoph Hellwig wrote:
-> On Thu, Apr 24, 2025 at 11:07:44AM +0300, Leon Romanovsky wrote:
-> > > I see, so yes order occupies 5 bits [-4,-5,-6,-7,-8] and the
-> > > DMA_MAPPED overlaps, it should be 9 not 7 because of the backwardness.
-> > 
-> > Thanks for the fix.
-> 
-> Maybe we can use the chance to make the scheme less fragile?  i.e.
-> put flags in the high bits and derive the first valid bit from the
-> pfn order?
-> 
+On Thu, Apr 24, 2025 at 12:08:33PM +0200, Hannes Reinecke wrote:
+> > +	nport = fcloop_nport_lookup(nodename, portname);
+> > +	if (!nport)
+> > +		return -ENOENT;
+> > +	spin_lock_irqsave(&fcloop_lock, flags);
+> > +	tport = __unlink_target_port(nport);
+> >   	spin_unlock_irqrestore(&fcloop_lock, flags);
+> Hmm. This now has a race condition; we're taking the lock
+> during lokup, drop the lock, take the lock again, and unlink
+> the port.
+> Please do a __fcloop_nport_lookup() function which doesn't
+> take a lock and avoid this race.
 
-It can be done too. This is what I got:
-
-   38 enum hmm_pfn_flags {
-   39         /* Output fields and flags */
-   40         HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
-   41         HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
-   42         HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
-   43         /*
-   44          * Sticky flags, carried from input to output,
-   45          * don't forget to update HMM_PFN_INOUT_FLAGS
-   46          */
-   47         HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 4),
-   48         HMM_PFN_P2PDMA     = 1UL << (BITS_PER_LONG - 5),
-   49         HMM_PFN_P2PDMA_BUS = 1UL << (BITS_PER_LONG - 6),
-   50
-   51         HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 11),
-   52
-   53         /* Input flags */
-   54         HMM_PFN_REQ_FAULT = HMM_PFN_VALID,
-   55         HMM_PFN_REQ_WRITE = HMM_PFN_WRITE,
-   56
-   57         HMM_PFN_FLAGS = ~((1UL << HMM_PFN_ORDER_SHIFT) - 1),
-   58 };
-
-So now, we just need to move HMM_PFN_ORDER_SHIFT if we add new flags
-and HMM_PFN_FLAGS will be updated automatically.
-
-Thanks
+The lock is protecting the list iteration not the object itself. The
+lookup function will increase the refcount, so it doesn't get freed
+after the unlock. How is this racing?
 
