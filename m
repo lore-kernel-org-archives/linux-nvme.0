@@ -4,124 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47727C369C2
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 16:04:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77252C369D5
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 16:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZXpcopgfjV4IQOkDA8ZDLPpADRvWAQ28wmPHFKfWvk8=; b=VqFPZnztuEHJYYUXRB+a8nN+uS
-	Y99cAXvVacXWnlsFyHOjO79w7iXi8ZUbf/aitIakPIBbNY7Gs5WdCsWmhIBvL3JZfZFAex0HFMCiN
-	fwzbA2qvY8ogeU1Dk/inZlDc8PJ1vO54kg2AkTMm8BgmEbGsap2/Tt+4dJiTWMArMqfojkqm+/n8m
-	+ZvL/hF/D60mKiE028PLlSwvVuZTbbXZCAzpScULj56vEA6L7eK69OW5kwd/T/e2Ugoj+qWcSIkE0
-	rkh6sj7kdLH887fLVNAsAeyjCoLzV0CXXbXIJTUAoLbp1c4r9JxcNrxeecosr8JdM4H79jJI3p0Kk
-	T0mX11vw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tZWbCJXHjo38J7VbRbR+2vYQ4wLkNzWtqg5EEa2ZAIw=; b=kBvnOsTEGIPlS19jKwowUSdknV
+	VDBLZjlvuf1W+8BDJbzzGZo7vZ8+i1yZb9jXxDytFdghUNNuxbJ9xwZtZVVR4lo4Ys3EIxdW42Xs8
+	ejcbZm//MRfmskkAgyzLiI90mJPYEhExUWY/6raMfeSdgXIUP5vFVTByK3Cy1ITLVzDjPFHwikojk
+	kd8oAna9B0YDXvsJh4fD7jrFTLcX35ehPCnYH0fWm8q9YBjSynBbHkGS0ncAKozzx6TlFuBiCgoig
+	/mbxFFeTERfdPZGwGBrYlfo04EJaWESn2Fxhj4x4EK3Xfxf31nQcGpZbYMPECtWyMj23w+bYultWy
+	w/hFfV6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7z3V-0000000EaVR-2As8;
-	Thu, 24 Apr 2025 16:04:05 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1u7z3h-0000000Eao9-1ISd;
+	Thu, 24 Apr 2025 16:04:17 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7vPK-0000000DyTh-0AQx
+	id 1u7w2e-0000000E5c3-2HfH
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 12:10:23 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 899A61F44E;
-	Thu, 24 Apr 2025 12:10:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745496620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZXpcopgfjV4IQOkDA8ZDLPpADRvWAQ28wmPHFKfWvk8=;
-	b=Z+TnmlSJq0Hp3Ydhacir7K5kAMJdOB/XjX+bHym09XC/hlAnacLbbFfCHm+Jq/0iq65zlS
-	EkVOTU6JtlR/5qc1rtbB25lfk3sR9tyOOBL1V/TknfyGDPPsTrAE9o5sTnRzidsMUy6AQy
-	eTPe7E7AAsFHWKlvdCkQ4cl0g3kDDNA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745496620;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZXpcopgfjV4IQOkDA8ZDLPpADRvWAQ28wmPHFKfWvk8=;
-	b=SLD6AS08fiPrQmjCgEy/XDOSMdL0PqLGI12aMpBLkIxiUJhD1fTPiywX1sTluGvK1V/vnL
-	R8bwurOKjzaUfXAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745496620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZXpcopgfjV4IQOkDA8ZDLPpADRvWAQ28wmPHFKfWvk8=;
-	b=Z+TnmlSJq0Hp3Ydhacir7K5kAMJdOB/XjX+bHym09XC/hlAnacLbbFfCHm+Jq/0iq65zlS
-	EkVOTU6JtlR/5qc1rtbB25lfk3sR9tyOOBL1V/TknfyGDPPsTrAE9o5sTnRzidsMUy6AQy
-	eTPe7E7AAsFHWKlvdCkQ4cl0g3kDDNA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745496620;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZXpcopgfjV4IQOkDA8ZDLPpADRvWAQ28wmPHFKfWvk8=;
-	b=SLD6AS08fiPrQmjCgEy/XDOSMdL0PqLGI12aMpBLkIxiUJhD1fTPiywX1sTluGvK1V/vnL
-	R8bwurOKjzaUfXAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6EBAE1393C;
-	Thu, 24 Apr 2025 12:10:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gMHoGSwqCmhbSAAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 24 Apr 2025 12:10:20 +0000
-Message-ID: <8a3093b6-d5b2-496d-828a-0667abbf1670@suse.de>
-Date: Thu, 24 Apr 2025 14:10:20 +0200
+	Thu, 24 Apr 2025 12:51:01 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 5A9FC5C635E;
+	Thu, 24 Apr 2025 12:48:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73038C4CEE8;
+	Thu, 24 Apr 2025 12:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745499057;
+	bh=8H9DLsIGypKjg5EA6FxGNO666pgvRrUO/QmIpk1Dbt4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NF+hNjrGDHMWirFNyLpGK+CGY/Wtnrcaz8GKXJy/bE0XGkdVLaecqnHgHaxGfEhML
+	 7jpVM/H7S49o+1K+eHQ2EgfO2HX4uAVtcvGRrWZJiMPUTyBYsPFQrSWaQDyWiksE4I
+	 zYCVGwUO0Zy3g+Q9YtT5JjZ6L4/EJc4YcANsfzc5P8J46J4DvIu422Ekpr+LWz/xu5
+	 1tDTRL8fevCgQaBA+DwfgEVIfNxbm2kn1CppO/72VC+Bxe/6aX19AeSe+j5ZVvsX6c
+	 jKIeV1sk1Atk76qflMRZe3BT+0W+nn49+KZBrII6YRZh59RXG6gb+f1yfN7sBXtrbi
+	 XI5m2BF99M4Cw==
+Date: Thu, 24 Apr 2025 15:50:52 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v9 10/24] mm/hmm: let users to tag specific PFN with DMA
+ mapped bit
+Message-ID: <20250424125052.GS48485@unreal>
+References: <cover.1745394536.git.leon@kernel.org>
+ <0a7c1e06269eee12ff8912fe0da4b7692081fcde.1745394536.git.leon@kernel.org>
+ <7185c055-fc9e-4510-a9bf-6245673f2f92@redhat.com>
+ <20250423181706.GT1213339@ziepe.ca>
+ <36891b0e-d5fa-4cf8-a181-599a20af1da3@redhat.com>
+ <20250423233335.GW1213339@ziepe.ca>
+ <20250424080744.GP48485@unreal>
+ <20250424081101.GA22989@lst.de>
+ <20250424084626.GQ48485@unreal>
+ <20250424120703.GY1213339@ziepe.ca>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/14] nvmet-fcloop: don't wait for lport cleanup
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
- <20250423-nvmet-fcloop-v5-10-3d7f968728a5@kernel.org>
- <05ac9a81-66a9-4bbc-92e0-6ff47a6dc7ad@suse.de>
- <c1f207f3-6657-4803-90df-a059353ba6da@flourine.local>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <c1f207f3-6657-4803-90df-a059353ba6da@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424120703.GY1213339@ziepe.ca>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_051022_230295_0F595273 
-X-CRM114-Status: GOOD (  17.70  )
+X-CRM114-CacheID: sfid-20250424_055100_669706_5FDE0C59 
+X-CRM114-Status: GOOD (  17.81  )
+X-Mailman-Approved-At: Thu, 24 Apr 2025 07:04:07 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,43 +107,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/24/25 13:48, Daniel Wagner wrote:
-> On Thu, Apr 24, 2025 at 12:21:09PM +0200, Hannes Reinecke wrote:
->>> @@ -1776,7 +1763,7 @@ static void __exit fcloop_exit(void)
->>>    		spin_unlock_irqrestore(&fcloop_lock, flags);
->>> -		ret = __wait_localport_unreg(lport);
->>> +		ret = __localport_unreg(lport);
->>>    		if (ret)
->>>    			pr_warn("%s: Failed deleting local port\n", __func__);
->>>
->> And who is freeing the allocated fcloop_lsreq structures?
+On Thu, Apr 24, 2025 at 09:07:03AM -0300, Jason Gunthorpe wrote:
+> On Thu, Apr 24, 2025 at 11:46:26AM +0300, Leon Romanovsky wrote:
+> > On Thu, Apr 24, 2025 at 10:11:01AM +0200, Christoph Hellwig wrote:
+> > > On Thu, Apr 24, 2025 at 11:07:44AM +0300, Leon Romanovsky wrote:
+> > > > > I see, so yes order occupies 5 bits [-4,-5,-6,-7,-8] and the
+> > > > > DMA_MAPPED overlaps, it should be 9 not 7 because of the backwardness.
+> > > > 
+> > > > Thanks for the fix.
+> > > 
+> > > Maybe we can use the chance to make the scheme less fragile?  i.e.
+> > > put flags in the high bits and derive the first valid bit from the
+> > > pfn order?
+> >
+> > It can be done too. This is what I got:
 > 
-> After a fcloop_lsreq is allocated it is put on either rport->ls_list or
-> tport->ls_list and later freed in fcloop_tport_lsrqst_work, resp.
-> fcloop_rport_lsrqst_work for the non-error case (or in the callbacks).
+> Use genmask:
+
+I can do it too, will change.
+
 > 
-> That means when the localport is unregistered successfully there are no
-> fcloop_lsreq around. The issue is what to do when __localport_unreq
-> returns an error.
+> enum hmm_pfn_flags {
+> 	HMM_FLAGS_START = BITS_PER_LONG - PAGE_SHIFT,
+> 	HMM_PFN_FLAGS = GENMASK(BITS_PER_LONG - 1, HMM_FLAGS_START),
 > 
-> This code could loop forever when the port_state is not in
-> FC_OBJSTATE_ONLINE when calling nvme_fc_unregister_localport(). This
-> should not happen (it did before this series) but now it shouldn't be
-> the case anymore. I suppose a pr_warn_once() and a sleep might be a good
-> idea to avoid a busy loop?
-
-My point was more: you call kmem_cache_destroy() unconditionally upon
-exit. But the boilerplate says that you have to free all allocations
-from the kmem_cache before that call.
-Yet the exit function doesn't do that.
-Question is: what are the guarantees that the cache is empty upon exit?
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> 	/* Output fields and flags */
+> 	HMM_PFN_VALID = 1UL << HMM_FLAGS_START + 0,
+> 	HMM_PFN_WRITE = 1UL << HMM_FLAGS_START + 1,
+> 	HMM_PFN_ERROR = 1UL << HMM_FLAGS_START + 2,
+> 	HMM_PFN_ORDER_MASK = GENMASK(HMM_FLAGS_START + 7, HMM_FLAGS_START + 3),
+> 
+> 	/* Input flags */
+> 	HMM_PFN_REQ_FAULT = HMM_PFN_VALID,
+> 	HMM_PFN_REQ_WRITE = HMM_PFN_WRITE,
+> };
+> 
+> Jason
 
