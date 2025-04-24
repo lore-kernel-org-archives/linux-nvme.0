@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CCC7C369AB
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 05:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE637C369AB
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 05:14:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=mwqJGLXa3EAidTG/liVU6a4cnyQu2reXyeYpfOL0Vno=; b=KaYgClqWAZUz101T6c1RIWcVUd
-	L+nZVxfGzHt7G/QbyDNYb/N+BvE5oGmqhGkg4eDjikDs5zmg4lr0iLNVVmn5vSRPR5yNhFNmYC8Wy
-	BmQ8igA0Z8I90EUSOBsLVDq/SNy4EipLBSpogzesh/UGdRg82zH45Hqz+RWwnv6PloX5lHC4Xzp3z
-	iUNZUx8Tu+kknpHSbWtEcNfG0otlzo4f/woq6RRFu+o0lWAsG24Cki5CTcceYnFQ72nNj1zoZZlG/
-	4p90Du5T7LixlZWaT04Ty5tRRGGRz9Kii9C3OD84CrTGPhHvzsSS2YA1AAmTQXlknjXzO3pDFwtgl
-	CRoWdcaA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xzSOwX9yW6WNKlj8yrhcI3Zo/7pC8tMAAJeXFna9CpI=; b=odxGFp+OO8IWgEjiFR1kGa660+
+	u0W/ngsS2fMwhXH3LhiYAPGEApme10Wy9TrTj/YS+cjPLZjSfIGzWbmgRqhcy9v2CTSxLLBxcnff9
+	gllHbHpCli+919geZDwVWELRKzSvVLMGYwrHfwditOewfH8C+cdF+oaHAx9jZmE5oBcuGDWXEet3x
+	RFmAdu71oVBv81kByBObGAzcYAkTBQdl4xTOpG9GliWnxE8LAF71obOSgZiFcRPTt33hIdUHXPsqO
+	t0BSE7lmTcwXAdJzb45FiaguKt44JyKzeIe92xf3x40iuSwl3t36yJOia4dXCyZXC43/uQlMqE55J
+	cYJdA6hQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7ouo-0000000CrLe-2c2Q;
-	Thu, 24 Apr 2025 05:14:26 +0000
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+	id 1u7out-0000000CrN0-12y6;
+	Thu, 24 Apr 2025 05:14:31 +0000
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7oul-0000000CrKl-2FUg
+	id 1u7ouq-0000000CrLs-2Lgq
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 05:14:24 +0000
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-3035858c687so490394a91.2
-        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 22:14:22 -0700 (PDT)
+	Thu, 24 Apr 2025 05:14:29 +0000
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-b0b2d0b2843so428550a12.2
+        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 22:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745471662; x=1746076462; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mwqJGLXa3EAidTG/liVU6a4cnyQu2reXyeYpfOL0Vno=;
-        b=W58Ft8+oTaoJsrDbofOGLKhbkLpZmSmZ7kQjTDfLk52x55efEzh/PAgi74UQ+Lx10Y
-         aFSLejnCcdG4NOB+cmx7IzwYPsi27MnAtaI+x/qaw7SNw0KVDbvOV5SmXhr32J3zDk/l
-         vAJ1erZcRE9HtqeC0HsnHWkQZb1jG56FD4mBniC5lil5gSGApSMvMLg34VFmcsknZcVJ
-         cPrsROpOoEPdctV/QfJAojV0z1Xgnn5FRB9UcluDGGjFxkF3BG/T9ZRX30TQ9ljrmJEx
-         KoNu7NlnTUqnNFcKl1EZohVT81HXWR2PSA2IK6WjDL3TDbIc38eDRsWDayxBUFs6esA1
-         QVdA==
+        d=gmail.com; s=20230601; t=1745471667; x=1746076467; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xzSOwX9yW6WNKlj8yrhcI3Zo/7pC8tMAAJeXFna9CpI=;
+        b=S8kR59jyBmhZqfghNhn99c9u3PHF4xcwa1CfnAW0+nLHo/vQN6joQIQTD4ud+yKoH0
+         CBh2zrCAojzlBo6/qHIUpfOLFViEcKQptEGAned5yWAualGkYTWO6HEUtF4nWoFnVSb7
+         YTtfh3hccD5E4rsKnN4beMrtMLZdFi0FUcytO4M7+r/fPvt5LFWSSnEwXTtXCzSmJUd7
+         895wNxI2SzdSK3XdZHHX/2jVdKA2EvhRYZ46Xz2PiHJ0UKdRvuv8iv+O7a9jxjVLZ2qG
+         e8/JSFAVXY0JC2m0jI3sYRnF6YEt/4R1s8SqfWimp9PbaDlDoi+Ayx89TE37S5QXTFQb
+         t6BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745471662; x=1746076462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mwqJGLXa3EAidTG/liVU6a4cnyQu2reXyeYpfOL0Vno=;
-        b=heSKZzZwraYX8bM8igFaQvwaMJI8HQxtDHW6v+1AWwe0b9OaYpN9zDPsbBYtswq9Rl
-         s1WuH1yFgwgEdMk67I2h9p5wto74CSRRzrHqxjSczVH1TaTkwfTK7+ZTSL0KDPtn8Kpc
-         O3jLURm/9skf2G8LPQmwUedC1X9JTJi5cN3F/lf3SDrvLUOHOEdy14gUBjuFVxHn7R0L
-         nLOvT+27DjbBuC5HyNP4keRbryNt8FyMpvaMV3gJpe2akh0oHOFnW2zcxqoUY6Mdiszb
-         quPiL4OLJC2e29mLnwA/7nXNZpLf2fQYubs6cEbPrmyNyMKmjCPPDcWbG4Siew4QeljE
-         1ZTQ==
-X-Gm-Message-State: AOJu0Yx5uiy5Q24h9pIDTyNuGXKoESbBJbVx1rsuBv01cbTGYs+rz4LT
-	+LX0k7mNQgcf00Y1HsVJiZO68ayIy5z+FCk68MbBelwTVVfBzPPiYNhZPiSW
-X-Gm-Gg: ASbGncvNQSOQ98Wb/qm6CBIHFOZjMgnTqn5yVrW3KnwT93CWxiIK9NGeRMa3ArDykng
-	p0ZDkkHbir1K5/gKnAzorNaQU4A2/j3wqN2NNIy1L0e4LzpaX7AhaHZxAeQCdEgzyRcZAqh4wAY
-	2FV/Xvn00BCeTdXCmzezPOpFpuRzCqciSQqu8BpoE41C7UeEML52+lHlJU9gByiPkpQTB1bESgV
-	P70fn+3AHpchuSxWfe5SaaCsP4wNE7w9/saZfHTakfE9CyC5uPYVJeARMm8jKoLZEQAcew1MJox
-	9kaS1cpdzl0nlRH3h69X0Dps5bRqQ3tOvprmfQOkFbfUY+UDYWJwTCM5Tg==
-X-Google-Smtp-Source: AGHT+IFgIjLLbeuYrJwVRgnRqVTLrO/XwctsTrJC0RhcKGwb9mA20Uef0cvGRhlmhfVk5XXwaXvWGQ==
-X-Received: by 2002:a17:90a:e7c5:b0:2ee:db8a:2a01 with SMTP id 98e67ed59e1d1-309ed3425ebmr1975587a91.30.1745471661696;
-        Wed, 23 Apr 2025 22:14:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745471667; x=1746076467;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xzSOwX9yW6WNKlj8yrhcI3Zo/7pC8tMAAJeXFna9CpI=;
+        b=m0l4pZE1sUHNU7SX7dMUjZejBTYS5lakZUd31+RsTMKv/xrLewSriwNDmceIadQOlj
+         fLe7QdlAimTmTvUV4e0OlXxL08zW6hcG+2a4JLVpKykGYy13W+3cQMhFu0WiBWnfNvI4
+         0wWpB23qCiIbdsIgPi+fvbCAKcFkN9hk3SdC239UCPvXWVU4PNy/PK4c1rb4gNXARqSG
+         FP3AUIc2+Mvz/2m+KYxtjQX5pCnbP53bWfKjaqa41S4tytBIjlOPw3SJI/gYd2mjpf60
+         3+ilGoz2tlrYdGEqrA1fnFPkKb0JYjv1Ukf+yV9G5+APFtv3yMeBl3A2At5PBzYCO6de
+         jfPA==
+X-Gm-Message-State: AOJu0Yw11t4qQ4KG+dTwWAEil+PXYqOlT6A4FvwqdBws90dF1cCb9Vs8
+	XgyWVjY9BpblyfyPfDvsXcndpSC5EpiNQJormGwe+eaxIgk+1NSqV9rEUw6y
+X-Gm-Gg: ASbGncsoWW0aaEFd6LPN/b/KGXSHKkAEYq/nemyXhdNO8oF0Vz0QTW/kBS9yn+XaiHn
+	LkuiE017rqQU8kuEBRihPi9HnjzjtNzEAVvcGxz5JV/gmpyxsApvElib7aIHLHwx/aIO4+xAHX5
+	89TrdyLTQ7CO2d5BpFf+mCONfd+QcMJ6LJ7DbfCZtRBt5xJ9sBzXqU7d8FvzmeBfrmGzvjPYpP4
+	KAJ+4Y5DKrsnwXNOes9BQPeEWglKB2dQgUjIt7WZQumc4eHlAi92tqjh/BDPY0fKjKM5obgU5iy
+	v0b2rYDuW/035pL9QRP/UhLMdRFe99pvV6/l1UD+sG6UdnI=
+X-Google-Smtp-Source: AGHT+IGBx3gm+izsItiejGvtAXh+2qOe+2kwKKzQXgCP4IcCM/ScKykIgH3oJQgDXbbNUyXGUoTl9A==
+X-Received: by 2002:a17:90b:2648:b0:2fe:8a84:e033 with SMTP id 98e67ed59e1d1-309ed26d231mr2176802a91.2.1745471666930;
+        Wed, 23 Apr 2025 22:14:26 -0700 (PDT)
 Received: from fedora.. ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef097bdbsm324771a91.26.2025.04.23.22.14.17
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef097bdbsm324771a91.26.2025.04.23.22.14.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 22:14:21 -0700 (PDT)
+        Wed, 23 Apr 2025 22:14:26 -0700 (PDT)
 From: Wilfred Mallawa <wilfred.opensource@gmail.com>
 To: linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
@@ -76,15 +77,17 @@ Cc: dlemoal@kernel.org,
 	alistair.francis@wdc.com,
 	cassel@kernel.org,
 	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [PATCH 0/5] pci: nvmet: support completion queue sharing by multiple submission queues
-Date: Thu, 24 Apr 2025 15:13:48 +1000
-Message-ID: <20250424051352.7980-2-wilfred.opensource@gmail.com>
+Subject: [PATCH 1/5] nvmet: add a helper function for cqid checking
+Date: Thu, 24 Apr 2025 15:13:49 +1000
+Message-ID: <20250424051352.7980-3-wilfred.opensource@gmail.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250424051352.7980-2-wilfred.opensource@gmail.com>
+References: <20250424051352.7980-2-wilfred.opensource@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_221423_586502_71DBAB98 
-X-CRM114-Status: GOOD (  12.80  )
+X-CRM114-CacheID: sfid-20250423_221428_604729_EE817322 
+X-CRM114-Status: GOOD (  15.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,90 +104,85 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Hi all,
+This patch adds a new helper function nvmet_check_io_cqid(). It is to be
+used when parsing host commands for IO CQ creation/deletion and IO SQ
+creation to ensure that the specified IO completion queue identifier
+(CQID) is not 0 (Admin queue ID). This is a check that already occurs in
+the nvmet_execute_x() functions prior to nvmet_check_cqid.
 
-For the NVMe PCI transport, the NVMe specification allows different
-submission queues (SQs) to share completion queues (CQs), however,
-this is not supported in the current NVMe target implementation.
-Until now, the nvmet target implementation enforced a 1:1 relationship
-between SQs and CQs, which is not specification compliant for the NVMe
-PCI transport.
+With the addition of this helper function, the CQ ID checks in the
+nvmet_execute_x() function can be removed, and instead simply call
+nvmet_check_io_cqid() in place of nvmet_check_cqid().
 
-This patch series adds support for CQ sharing between multiple SQs in the
-NVMe target driver, in line with the NVMe PCI transport specification.
-This series implements reference counting for completion queues to ensure
-proper lifecycle management when shared across multiple submission queues.
-This ensures that we retain CQs until all referencing SQs are deleted
-first, thereby avoiding premature CQ deletions.
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+ drivers/nvme/target/admin-cmd.c | 14 ++------------
+ drivers/nvme/target/core.c      |  7 +++++++
+ drivers/nvme/target/nvmet.h     |  1 +
+ 3 files changed, 10 insertions(+), 12 deletions(-)
 
-Sample callchain with CQ refcounting for the PCI endpoint target
-(pci-epf)
-=================================================================
-
-i.   nvmet_execute_create_cq -> nvmet_pci_epf_create_cq -> nvmet_cq_create
-     -> nvmet_cq_init			[cq refcount = 1]
-
-ii.  nvmet_execute_create_sq -> nvmet_pci_epf_create_sq -> nvmet_sq_create
-     -> nvmet_sq_init -> nvmet_cq_get	[cq refcount = 2]
-
-iii. nvmet_execute_delete_sq -> nvmet_pci_epf_delete_sq ->
-     nvmet_sq_destroy -> nvmet_cq_put	[cq refcount = 1]
-
-iv.  nvmet_execute_delete_cq -> nvmet_pci_epf_delete_cq -> nvmet_cq_put
-					[cq refcount = 0]
-
-For NVMe over fabrics, CQ sharing is not supported per specification,
-however, the fabrics drivers are updated to integrate the new
-API changes. No functional change is intended here.
-
-Testing
-=======
-
-Core functionality changes were tested with a Rockchip-based Rock5B PCIe
-endpoint setup using the pci-epf driver. The host kernel was modified to
-support queue sharing. In the test setup, this resulted in IO SQs 1 & 2
-using IO CQ 1 and IO SQ 3 & 4 using IO CQ 2.
-
-Testing methodology includes:
-
-For PCI:
-
-1. Boot up host
-2. Assert that the endpoint device is detected as an NVMe drive
-   (IO CQs/SQs are created)
-3. Run FIOs
-4. Unbind NVMe driver (IO SQs then CQs are deleted)
-5. Rebind NVMe driver (IO SQs then CQs are created)
-6. Run FIOs
-
-For NVMe over fabrics: Using NVMe loop driver:
-
-Note that there is no queue sharing supported for fabrics.
-
-1. Connect command (IO queues are created)
-2. Run FIOs
-3. Disconnect command (IO queues are deleted)
-
-Thanks!
-
-Wilfred Mallawa (5):
-  nvmet: add a helper function for cqid checking
-  nvmet: cq: prepare for completion queue sharing
-  nvmet: fabrics: add CQ init and destroy
-  nvmet: support completion queue sharing
-  nvmet: Simplify nvmet_req_init() interface
-
- drivers/nvme/target/admin-cmd.c   | 31 ++++------
- drivers/nvme/target/core.c        | 94 ++++++++++++++++++++++++-------
- drivers/nvme/target/fabrics-cmd.c |  8 +++
- drivers/nvme/target/fc.c          | 10 ++--
- drivers/nvme/target/loop.c        | 23 +++++---
- drivers/nvme/target/nvmet.h       | 24 +++++---
- drivers/nvme/target/pci-epf.c     | 11 ++--
- drivers/nvme/target/rdma.c        |  8 ++-
- drivers/nvme/target/tcp.c         |  8 ++-
- 9 files changed, 147 insertions(+), 70 deletions(-)
-
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index acc138bbf8f2..753166fbb133 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -96,12 +96,7 @@ static void nvmet_execute_delete_cq(struct nvmet_req *req)
+ 		goto complete;
+ 	}
+ 
+-	if (!cqid) {
+-		status = NVME_SC_QID_INVALID | NVME_STATUS_DNR;
+-		goto complete;
+-	}
+-
+-	status = nvmet_check_cqid(ctrl, cqid);
++	status = nvmet_check_io_cqid(ctrl, cqid);
+ 	if (status != NVME_SC_SUCCESS)
+ 		goto complete;
+ 
+@@ -127,12 +122,7 @@ static void nvmet_execute_create_cq(struct nvmet_req *req)
+ 		goto complete;
+ 	}
+ 
+-	if (!cqid) {
+-		status = NVME_SC_QID_INVALID | NVME_STATUS_DNR;
+-		goto complete;
+-	}
+-
+-	status = nvmet_check_cqid(ctrl, cqid);
++	status = nvmet_check_io_cqid(ctrl, cqid);
+ 	if (status != NVME_SC_SUCCESS)
+ 		goto complete;
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 71f8d06998d6..4c0643a72f66 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -856,6 +856,13 @@ u16 nvmet_check_cqid(struct nvmet_ctrl *ctrl, u16 cqid)
+ 	return NVME_SC_SUCCESS;
+ }
+ 
++u16 nvmet_check_io_cqid(struct nvmet_ctrl *ctrl, u16 cqid)
++{
++	if (!cqid)
++		return NVME_SC_QID_INVALID | NVME_STATUS_DNR;
++	return nvmet_check_cqid(ctrl, cqid);
++}
++
+ u16 nvmet_cq_create(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq,
+ 		    u16 qid, u16 size)
+ {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index b6db8b74dc4a..2f70db1284c9 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -572,6 +572,7 @@ void nvmet_execute_get_features(struct nvmet_req *req);
+ void nvmet_execute_keep_alive(struct nvmet_req *req);
+ 
+ u16 nvmet_check_cqid(struct nvmet_ctrl *ctrl, u16 cqid);
++u16 nvmet_check_io_cqid(struct nvmet_ctrl *ctrl, u16 cqid);
+ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
+ 		u16 size);
+ u16 nvmet_cq_create(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
 -- 
 2.49.0
 
