@@ -4,52 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E26B3C369C2
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 18:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1A5AC369AB
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 18:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kTXevQogvmyvPJM2RWaxYHS6lWv0xKARBC4QVUGb94A=; b=BJtT9X5pUEyyEuVNLna5TPPBj+
-	zsclE6zIuCcEdilivM3gm9pvZyjwwTOtSuby+eXbfo21QXXD1nlBdZLo1Wj1TnXIR1OZsFfdqAhYr
-	DIcyo+vO32AxQ4cpcAVwJe65F4rYM3ruGqODGVF4B/likZzmC745+VckZTT87sVabmToAkXKFsdXg
-	AyDn4cfACHAvFrYJBKOZvkPNVj5biBXUaIIeYX3BIhOJGDSyNKh/nlPTkTIKLMuAz4s1IS2xf0p74
-	y5u9cY3qrcNWiFAGZsK0l8LSKWVLytgYPVskpzwtKX2GZTsX09DYuEuU+//vHy65TETQhH4X5n2HZ
-	PhB7mIkQ==;
+	bh=Z6svzt1x1mC554bsRoRw8kg4s3922MIrLQnEZlc5Y/4=; b=PIxqSOY/gGzYFtvMgYjg22AMUH
+	lWJDg/oFL6OgWNc6Q1U2e0POFIbB26SVoaQFoJh90+rRTglGyvV+wss2WGNkuNdQaJwrZVaal6bT0
+	PNB0rmlsZ1zljsAbFkda2qwgKl6IJ7JPM0aiipVpasZoPr/YRisZ7qHVDZvFztk/nb2zku4Gj6vVe
+	gIL3W9RMlYxsB8IDl6nDXUPCVsjKqdX8d/nB6oltCHRb4O88E2eeATpVbBxKvSDxYf1q3R8OlqN8f
+	gJej1lycnDVWTg/MDK8L+Ffc4BB5Tg7IhOuR5EgGPo77Kfv7M/6FUpoRv4a9H/9IwIBzvQswaGQ2q
+	eGifgXDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u81B4-0000000EzwJ-14So;
-	Thu, 24 Apr 2025 18:20:02 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1u81B9-0000000F02E-1Mnc;
+	Thu, 24 Apr 2025 18:20:07 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u81B0-0000000EzsM-3Ell
+	id 1u81B6-0000000Ezxs-090f
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 18:20:01 +0000
+	Thu, 24 Apr 2025 18:20:05 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 1139FA4D080;
-	Thu, 24 Apr 2025 18:14:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F28C1C4CEEA;
-	Thu, 24 Apr 2025 18:19:56 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 09CD74A717;
+	Thu, 24 Apr 2025 18:20:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4049C4CEEE;
+	Thu, 24 Apr 2025 18:20:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745518797;
-	bh=cn/aLNjMYvGd2HTIAiQ86uSjaLpDO2Qv48JF8/ZeT+s=;
+	s=k20201202; t=1745518803;
+	bh=ESLdMXYBM3B8MU09r7uQESEbFY24U9of5fSwsUyPBL4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ujIfsSbyoDrtHF/4fhpzDtYdGBHksXoWSKCVU4cIIYUlCeqP3/4PInM9ggtQ6N404
-	 kntqKsSZEN7TvoOcnAJ763IfLXrJQqVpmh/VVR2ZlLePrA1eohflkh6up/9c1SjRbq
-	 5pwEmc2HDCzInvOzh3Og+00tWAXZtaObP1EXxaXDqXZUf3seAweBea38uDplVWzIoe
-	 YK3hGV9yhByzdtwYMGhCUmBJXNLM470c0+T7Xqbjsd9F9rJDa8kaCq70+oq7p/WtOI
-	 RnOQ3abJh3lz+W5xRn4+xfFTGKAlaBPwCNjpel6dQm/apprNxe6+VDQgORSZaFGSIU
-	 zEWCVQqn/HoeQ==
+	b=WSddQFb9HoKtNj6oN8xQVX7nVnG+gaRSYoD7m8LEVY3dlkMKfMZkSXpjhcca8ycRg
+	 03cQHbU7111SE9ATw/9KS29owS6bvX/iWpOcrwwWOwbLO6sJN2RV9Ja+iPw9cVgijj
+	 UeMPYH1J7Oon7hLiTMvqbiTeF/tBqbjvz4gibIgBqfPP7qtjteQMbIMFmBG5ZmQycU
+	 xf9bZDpIJ4yu8iQ/2OTfWPk/OK0m0kdItX+XqhGlOYRZKh8ycg8JYZTUvUVZL78lVN
+	 Yn24hf+C8wGB7Y2Z5CRVBOgTiqpLEzmakSCboCh7qsT2KF2l73scWgmAEUQWO+WVS4
+	 BY+yOrg3h2f+Q==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Thu, 24 Apr 2025 20:19:43 +0200
-Subject: [PATCH v6 4/9] scsi: use block layer helpers to calculate num of
- queues
+Date: Thu, 24 Apr 2025 20:19:45 +0200
+Subject: [PATCH v6 6/9] isolation: introduce io_queue isolcpus type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-isolcpus-io-queues-v6-4-9a53a870ca1f@kernel.org>
+Message-Id: <20250424-isolcpus-io-queues-v6-6-9a53a870ca1f@kernel.org>
 References: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
 In-Reply-To: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -69,8 +68,8 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_111958_952301_75CC5CCF 
-X-CRM114-Status: GOOD (  15.68  )
+X-CRM114-CacheID: sfid-20250424_112004_116166_897A8BBD 
+X-CRM114-Status: GOOD (  13.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,121 +84,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Multiqueue devices should only allocate queues for the housekeeping CPUs
-when isolcpus=managed_irq is set. This avoids that the isolated CPUs get
-disturbed with OS workload.
+Multiqueue drivers spreading IO queues on all CPUs for optimal
+performance. The drivers are not aware of the CPU isolated requirement
+and will spread all queues ignoring the isolcpus configuration.
 
-Use helpers which calculates the correct number of queues which should
-be used when isolcpus is used.
+Introduce a new isolcpus mask which allows the user to define on which
+CPUs IO queues should be placed. This is similar to the managed_irq but
+for drivers which do not use the managed IRQ infrastructure.
 
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/scsi/megaraid/megaraid_sas_base.c | 15 +++++++++------
- drivers/scsi/qla2xxx/qla_isr.c            | 10 +++++-----
- drivers/scsi/smartpqi/smartpqi_init.c     |  5 ++---
- 3 files changed, 16 insertions(+), 14 deletions(-)
+ include/linux/sched/isolation.h | 1 +
+ kernel/sched/isolation.c        | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index 28c75865967af36c6390c5ee5767577ec1bcf779..a5f1117f3ddb20da04e0b29fd9d52d47ed1af3d8 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -5962,7 +5962,8 @@ megasas_alloc_irq_vectors(struct megasas_instance *instance)
- 		else
- 			instance->iopoll_q_count = 0;
+diff --git a/include/linux/sched/isolation.h b/include/linux/sched/isolation.h
+index d8501f4709b583b8a1c91574446382f093bccdb1..6b6ae9c5b2f61a93c649a98ea27482b932627fca 100644
+--- a/include/linux/sched/isolation.h
++++ b/include/linux/sched/isolation.h
+@@ -9,6 +9,7 @@
+ enum hk_type {
+ 	HK_TYPE_DOMAIN,
+ 	HK_TYPE_MANAGED_IRQ,
++	HK_TYPE_IO_QUEUE,
+ 	HK_TYPE_KERNEL_NOISE,
+ 	HK_TYPE_MAX,
  
--		num_msix_req = num_online_cpus() + instance->low_latency_index_start;
-+		num_msix_req = blk_mq_num_online_queues(0) +
-+			instance->low_latency_index_start;
- 		instance->msix_vectors = min(num_msix_req,
- 				instance->msix_vectors);
+diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
+index 81bc8b329ef17cd3a3f5ae0a20ca02af3a1a69bc..687b11f900e31ab656e25cae263f15f6d8f46a9a 100644
+--- a/kernel/sched/isolation.c
++++ b/kernel/sched/isolation.c
+@@ -11,6 +11,7 @@
+ enum hk_flags {
+ 	HK_FLAG_DOMAIN		= BIT(HK_TYPE_DOMAIN),
+ 	HK_FLAG_MANAGED_IRQ	= BIT(HK_TYPE_MANAGED_IRQ),
++	HK_FLAG_IO_QUEUE	= BIT(HK_TYPE_IO_QUEUE),
+ 	HK_FLAG_KERNEL_NOISE	= BIT(HK_TYPE_KERNEL_NOISE),
+ };
  
-@@ -5978,7 +5979,8 @@ megasas_alloc_irq_vectors(struct megasas_instance *instance)
- 		/* Disable Balanced IOPS mode and try realloc vectors */
- 		instance->perf_mode = MR_LATENCY_PERF_MODE;
- 		instance->low_latency_index_start = 1;
--		num_msix_req = num_online_cpus() + instance->low_latency_index_start;
-+		num_msix_req = blk_mq_num_online_queues(0) +
-+			instance->low_latency_index_start;
+@@ -224,6 +225,12 @@ static int __init housekeeping_isolcpus_setup(char *str)
+ 			continue;
+ 		}
  
- 		instance->msix_vectors = min(num_msix_req,
- 				instance->msix_vectors);
-@@ -6234,7 +6236,7 @@ static int megasas_init_fw(struct megasas_instance *instance)
- 		intr_coalescing = (scratch_pad_1 & MR_INTR_COALESCING_SUPPORT_OFFSET) ?
- 								true : false;
- 		if (intr_coalescing &&
--			(num_online_cpus() >= MR_HIGH_IOPS_QUEUE_COUNT) &&
-+			(blk_mq_num_online_queues(0) >= MR_HIGH_IOPS_QUEUE_COUNT) &&
- 			(instance->msix_vectors == MEGASAS_MAX_MSIX_QUEUES))
- 			instance->perf_mode = MR_BALANCED_PERF_MODE;
- 		else
-@@ -6278,7 +6280,8 @@ static int megasas_init_fw(struct megasas_instance *instance)
- 		else
- 			instance->low_latency_index_start = 1;
- 
--		num_msix_req = num_online_cpus() + instance->low_latency_index_start;
-+		num_msix_req = blk_mq_num_online_queues(0) +
-+			instance->low_latency_index_start;
- 
- 		instance->msix_vectors = min(num_msix_req,
- 				instance->msix_vectors);
-@@ -6310,8 +6313,8 @@ static int megasas_init_fw(struct megasas_instance *instance)
- 	megasas_setup_reply_map(instance);
- 
- 	dev_info(&instance->pdev->dev,
--		"current msix/online cpus\t: (%d/%d)\n",
--		instance->msix_vectors, (unsigned int)num_online_cpus());
-+		"current msix/max num queues\t: (%d/%u)\n",
-+		instance->msix_vectors, blk_mq_num_online_queues(0));
- 	dev_info(&instance->pdev->dev,
- 		"RDPQ mode\t: (%s)\n", instance->is_rdpq ? "enabled" : "disabled");
- 
-diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
-index fe98c76e9be32ff03a1960f366f0d700d1168383..c4c6b5c6658c0734f7ff68bcc31b33dde87296dd 100644
---- a/drivers/scsi/qla2xxx/qla_isr.c
-+++ b/drivers/scsi/qla2xxx/qla_isr.c
-@@ -4533,13 +4533,13 @@ qla24xx_enable_msix(struct qla_hw_data *ha, struct rsp_que *rsp)
- 	if (USER_CTRL_IRQ(ha) || !ha->mqiobase) {
- 		/* user wants to control IRQ setting for target mode */
- 		ret = pci_alloc_irq_vectors(ha->pdev, min_vecs,
--		    min((u16)ha->msix_count, (u16)(num_online_cpus() + min_vecs)),
--		    PCI_IRQ_MSIX);
-+			blk_mq_num_online_queues(ha->msix_count) + min_vecs,
-+			PCI_IRQ_MSIX);
- 	} else
- 		ret = pci_alloc_irq_vectors_affinity(ha->pdev, min_vecs,
--		    min((u16)ha->msix_count, (u16)(num_online_cpus() + min_vecs)),
--		    PCI_IRQ_MSIX | PCI_IRQ_AFFINITY,
--		    &desc);
-+			blk_mq_num_online_queues(ha->msix_count) + min_vecs,
-+			PCI_IRQ_MSIX | PCI_IRQ_AFFINITY,
-+			&desc);
- 
- 	if (ret < 0) {
- 		ql_log(ql_log_fatal, vha, 0x00c7,
-diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
-index 0da7be40c925807519f5bff8d428a29e5ce454a5..7212cb96d0f9a337578fa2b982afa3ee6d17f4be 100644
---- a/drivers/scsi/smartpqi/smartpqi_init.c
-+++ b/drivers/scsi/smartpqi/smartpqi_init.c
-@@ -5278,15 +5278,14 @@ static void pqi_calculate_queue_resources(struct pqi_ctrl_info *ctrl_info)
- 	if (reset_devices) {
- 		num_queue_groups = 1;
- 	} else {
--		int num_cpus;
- 		int max_queue_groups;
- 
- 		max_queue_groups = min(ctrl_info->max_inbound_queues / 2,
- 			ctrl_info->max_outbound_queues - 1);
- 		max_queue_groups = min(max_queue_groups, PQI_MAX_QUEUE_GROUPS);
- 
--		num_cpus = num_online_cpus();
--		num_queue_groups = min(num_cpus, ctrl_info->max_msix_vectors);
-+		num_queue_groups =
-+			blk_mq_num_online_queues(ctrl_info->max_msix_vectors);
- 		num_queue_groups = min(num_queue_groups, max_queue_groups);
- 	}
- 
++		if (!strncmp(str, "io_queue,", 9)) {
++			str += 9;
++			flags |= HK_FLAG_IO_QUEUE;
++			continue;
++		}
++
+ 		/*
+ 		 * Skip unknown sub-parameter and validate that it is not
+ 		 * containing an invalid character.
 
 -- 
 2.49.0
