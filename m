@@ -4,113 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B840C369AB
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 09:37:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21D3AC369AB
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 11:02:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3rDEe0RbbOdS/AATPa77SHHta5wsKCuUdsdnept9/i0=; b=SxYh5/pihS+G17TX1tOfMPKPeG
-	UfVdXoOrzx4UTNDiMVeYw8FOyMfCyXrTF3jqK8m54mCMCy2u94QwTujn8B/OCoabR5dfJQSvu83y7
-	43G7jt84qy+50jNnj3Pfghhm1tBidJwyEF8xqNSQHZA/kuq5abnxtaFW1gHVpZmUZD2CVwdj2gZZ0
-	OZ6yxJ2vCMZHmiUQYcZc4M74VLIlOIObN4/7okPnLRnZlnncJzGKY4rWMA8fKSY64uWe+gThOrZkA
-	PExUqvv/6D9C1ZNDZwNYzArQKNAZBDtOyHHk9JsSVSIus1FUYJrBdwG+4cyh3vaUV6yjFzWPd1OxL
-	BK3n7SOA==;
+	bh=82I/BRNzKzsNwtHvWAerd41AS1jV/jwLqQuF5hjo/ng=; b=R/fXJg0NJgj/BUspun1Pzx8YpY
+	juomjhQ4DPjFfMrDZ9MiSydTb8XVB42HonBN+LPdXGcUorirl/RbqqTu1gjgzj49P9l/eScq2i8VH
+	MrdCooFIXpNj5wt6IU0Pdst2ZS2fGdH6nD/z5SJAtyNacTpvUZ60sSTfJ3islZjmGnU4ds+h1hRQR
+	+d6aq4XuPKajhDorWqQKNiXUEcJokxlMBhwg/JEdZh69uQVBRipWIV/BCePn+5PnVLtmk8FYulLmc
+	yjAbFTII/cmn8RHi96nqulc/8K3pXdEESeFnriMD7K/D21cRQlpQBmT2GXHee+KdReFKwKUhtiNfg
+	edrpMCeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7t1I-0000000DWjx-0pnL;
-	Thu, 24 Apr 2025 09:37:24 +0000
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+	id 1u7uLW-0000000DmlL-0RBF;
+	Thu, 24 Apr 2025 11:02:22 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7s2M-0000000DKuj-3soJ
+	id 1u7tVV-0000000DcN9-0t20
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 08:34:28 +0000
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-39c0dfad22aso503283f8f.2
-        for <linux-nvme@lists.infradead.org>; Thu, 24 Apr 2025 01:34:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745483665; x=1746088465; darn=lists.infradead.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3rDEe0RbbOdS/AATPa77SHHta5wsKCuUdsdnept9/i0=;
-        b=TbKpF7IeQF92HZRULJDWCocUr4jTMby27NkZ38ShpU9IwlfTFfLNbPPQFyQ4wPNIh3
-         oEeMbgXHxxgAwaMyHy2ftVCcj/EO/2tLtfjtN/P7DdGIHVmkQ86Q5fLMQRibVQ97pNeq
-         7MVr8vbj1y6DdIqEYMUEzqIuO5FynKeKUiyD+xyQG6slr4jGakkRvcvSi7X8QSOxZtxR
-         mzvJLa6NQMmOUR1e+7KoW/mRolQoZa4ZDD3rIlADfyG92tIFE2aKVED8Ey0Yeex16TfS
-         xBNwij21xQxXsntp9b4c/4EWwsin36htayy2Ku+g3a3bvVnGXXpi8egNd6Jkt8GmxJYj
-         s0vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745483665; x=1746088465;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3rDEe0RbbOdS/AATPa77SHHta5wsKCuUdsdnept9/i0=;
-        b=n5jiKoYAmqjmbAAo9S0mYuEfe2yrAzzuc2VbYm3R5KT+MaIr3YdwuQboAUZXNw6cef
-         LOJ3sMiR+7jsVbB5pm1E2lwGIsww6IT9vW8tyO7Wk20yGWEcB7D/moJJWwawSKKw7lx1
-         4+NZc+378B1cS9NjXApjdRcHXxH5ewmc0S+Q6CnhEHHfH4j1X7dfDnHHnp/pe6SBBWdr
-         sUIgoYX5h6VntfclbCoKSUP/7iQh9/Ld9gjUPWbdseNp13aNWl6lbECMRXukIgLwrwI5
-         fCZTtr4r3uFswZKqQawijTxupfdcokFePIXSsiz/cXdNrc2fkJI9E2J2brSVFpdEAOzj
-         4cuA==
-X-Forwarded-Encrypted: i=1; AJvYcCWC6nRVW4DahDZZJKtMv6WcS1EGskzWzv2OmGa/BpMehuOxavwzIl7tU2JMEj+bkEbmaXPaz2T2052A@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw2Vr9TGd4TP7tewdn3CdUUoHGQPAL7194ZJ0mzmpPd2/6a6bGp
-	DdsLI/2iVJJtCOQ3i4ReTKw7rlnFp7VLrai0SF35dzi7lt7yMkfMNKX5RyIbxNA=
-X-Gm-Gg: ASbGncvbzE5fSHSrZ8sJgrBLn2Ieu7exGsF0Kx47c+giNxP1Y/NQQUAXGklD7H4Vv47
-	8E+mtR2/e3m6bDYPNz5Wq+G8BlsCcs6GkffXU2Hx1FsdlrxhPOKnzS+TmP+Gp40fFFu5nG2vjHh
-	+ebGqi/BBpZueEIKw22Oxu3Uv1KslNdckOhqKEeUtGxwts0Z2sT8kO2gB4VS5lKlivx+Rv0h0x6
-	W/KlUSuMdW2/JNB8XR8UwqLlNX3WTiH7GYZAWhUcpDE2b4km21V01FO92v4ebFV/R4eIL9fQxos
-	hKaBn/dVYx1Cb66sI2KUdMbFZEJmZh8fcXfQwcjRlAPdHKdeQAMoRQ==
-X-Google-Smtp-Source: AGHT+IHB/1fPMi8W8gNYBZX9ahiEF0UFgajqPwu4G1ECbDegN3oYFc0PmydKXsVY2MSnx6gtJ+HsoQ==
-X-Received: by 2002:a5d:47cb:0:b0:39c:2661:4ce0 with SMTP id ffacd0b85a97d-3a06cf5ac06mr1515723f8f.13.1745483665163;
-        Thu, 24 Apr 2025 01:34:25 -0700 (PDT)
-Received: from toaster.baylibre.com ([2a01:e0a:3c5:5fb1:f74:6a9a:365b:4453])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a06d4c6c56sm1323881f8f.60.2025.04.24.01.34.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 01:34:24 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Thu, 24 Apr 2025 10:34:05 +0200
-Subject: [PATCH v5 2/2] PCI: endpoint: pci-epf-vntb: simplify ctrl/spad
- space allocation
+	Thu, 24 Apr 2025 10:08:38 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ED0211F399;
+	Thu, 24 Apr 2025 10:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745489314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=82I/BRNzKzsNwtHvWAerd41AS1jV/jwLqQuF5hjo/ng=;
+	b=T5b2y0se5ygLY2+Ig1nTkEhgfxfH74MB7F0hChVGGNyy2tOzmDEbS4UH75c5nhGlvzE9ZA
+	WI4zGdNvcvY9cUlxEssauSDcURH6F7SjPLAdmcfVypnI8wposT7zOZbmF80u/eIEqkTwjh
+	KlgbdAUiKb4lYc/MuXK4GHe3lXJiKaM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745489314;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=82I/BRNzKzsNwtHvWAerd41AS1jV/jwLqQuF5hjo/ng=;
+	b=SwVf5t5zSeoLo64GZMWeepMhip30k2kvKkk+WjN6XycOwWSCvebD8ua7Ik2CBlNclrKIUB
+	Y+gWOgrAwC+2B8Ag==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745489313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=82I/BRNzKzsNwtHvWAerd41AS1jV/jwLqQuF5hjo/ng=;
+	b=sYA88nYeeNRLa1rlK7jBzHoTWBXleP+hZRMv9D1ZX8LG4zlY+xf+DK2W6ZFssHae6Knigc
+	WPH6zO2sKq0x5eGMd8dlXVcfYZBOO/7Ri7r0H411ZTlroArlEw0urKNnedum5FeKyaE9RZ
+	GiePRBlM/6NHLZTrAadTzZHuZk7xx4M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745489313;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=82I/BRNzKzsNwtHvWAerd41AS1jV/jwLqQuF5hjo/ng=;
+	b=FaUjLC4pyeAopY8y4gHp6XK8XFDFDpyKyRCaQbyB3wzNvvgT2ZsSNUQob73OSkL03eJABH
+	DGLrtjT5QlO1kxCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D59481393C;
+	Thu, 24 Apr 2025 10:08:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WGI+M6ENCmggJQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 24 Apr 2025 10:08:33 +0000
+Message-ID: <002aee76-9114-4029-85b3-aa04e8ef76ed@suse.de>
+Date: Thu, 24 Apr 2025 12:08:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-pci-ep-size-alignment-v5-2-2d4ec2af23f5@baylibre.com>
-References: <20250424-pci-ep-size-alignment-v5-0-2d4ec2af23f5@baylibre.com>
-In-Reply-To: <20250424-pci-ep-size-alignment-v5-0-2d4ec2af23f5@baylibre.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Jon Mason <jdmason@kudzu.us>, 
- Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 01/14] nvmet-fcloop: track ref counts for nports
+To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Marek Vasut <marek.vasut+renesas@gmail.com>, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
- Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>, linux-pci@vger.kernel.org, 
- linux-kernel@vger.kernel.org, ntb@lists.linux.dev, 
- linux-nvme@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2649; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=vNv6q0bb1dhXpfiDx4lYdoPPd0v2qIBg86Rmq+6QIeY=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBoCfeNM/XnkovbNkugaUgh+qynHCUCtYyhIWFEg
- Mnjh1220EuJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCaAn3jQAKCRDm/A8cN/La
- henkD/kBk6sa7qTps24wEDvGqFqWVTIMapEBlE7MOo2mVVheqN1DbKKPyXp+48xcqqo8mSJ6y6k
- HDSdfWCOuf0uq9OGCHGxshry3J0/RdzHPn70ZRsT9f1zAt3SooEvxkL5mA0h9NWJaQc4Mjmsx8v
- YkjxiCooDpDHAQodmmZoGJf86HQLybBrSskdskNA9w4+4C7FfPOeXl+QhtjTZhPQp0NR8jvPoDU
- ywoj23FUzDHXoarguypcLl731tXJMsbJKYViABXBcWXD6YH8lPE4aooJnOAzOvDL6ENz2hxmDTu
- fTeYO9LgGa+H2WGmZF+cBCwQlgu+Ezk/mbQap7S5qbJHtXplFrNRY38Tph5tRGYK+ruB8ie3bt9
- wFhs3SN9FSwFCe1OWxO6LJwlMu1jSfIFOo4QHqtfOjgnnccRcjQp4o7d6ji51GNYl2GyaKc5XwQ
- k/TUGW7BD2nMECwtXKLcobsEj+dLOzEjnx847/4IpfzHCBvunz67EzlZb7iSypHXN9kpdSp1BVN
- qtgc7vck/211s5WWWYbNvQskBEvB27/mx29Yp4OI67ZQ3qn7Gh99oZQq+IJPU9scrsnwrYepWUL
- Da5yGlyxLBV3u33uJjya3KgcvgRBCXS7Ksg2GJcpcbEqV7euamaxHnV8uiYlm2HlTKDUJP3IV2V
- uinIHWXjuwaRucg==
-X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
- fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
+ <20250423-nvmet-fcloop-v5-1-3d7f968728a5@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250423-nvmet-fcloop-v5-1-3d7f968728a5@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_013426_965336_DA8D3EFF 
-X-CRM114-Status: GOOD (  14.74  )
+X-CRM114-CacheID: sfid-20250424_030837_404296_D25B29A9 
+X-CRM114-Status: GOOD (  25.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,78 +134,285 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When allocating the shared ctrl/spad space, epf_ntb_config_spad_bar_alloc()
-should not try to handle the size quirks for underlying BAR, whether it is
-fixed size or alignment. This is already handled by pci_epf_alloc_space().
+On 4/23/25 15:21, Daniel Wagner wrote:
+> A nport object is always used in association with targerport,
+> remoteport, tport and rport objects. Add explicit references for any of
+> the associated object. This ensures that nport is not removed too early
+> on shutdown sequences.
+> 
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/nvme/target/fcloop.c | 133 +++++++++++++++++++++++++++++--------------
+>   1 file changed, 90 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index 641201e62c1bafa13986642c6c4067b35f784edd..2b23e43ef4403fa4d70c66263f7750165d2ddc72 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -1047,8 +1047,14 @@ static void
+>   fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
+>   {
+>   	struct fcloop_rport *rport = remoteport->private;
+> +	unsigned long flags;
+>   
+>   	flush_work(&rport->ls_work);
+> +
+> +	spin_lock_irqsave(&fcloop_lock, flags);
+> +	rport->nport->rport = NULL;
+> +	spin_unlock_irqrestore(&fcloop_lock, flags);
+> +
+>   	fcloop_nport_put(rport->nport);
+>   }
+>   
+> @@ -1056,8 +1062,14 @@ static void
+>   fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
+>   {
+>   	struct fcloop_tport *tport = targetport->private;
+> +	unsigned long flags;
+>   
+>   	flush_work(&tport->ls_work);
+> +
+> +	spin_lock_irqsave(&fcloop_lock, flags);
+> +	tport->nport->tport = NULL;
+> +	spin_unlock_irqrestore(&fcloop_lock, flags);
+> +
+>   	fcloop_nport_put(tport->nport);
+>   }
+>   
+> @@ -1184,6 +1196,37 @@ __wait_localport_unreg(struct fcloop_lport *lport)
+>   	return ret;
+>   }
+>   
+> +static struct fcloop_nport *
+> +__fcloop_nport_lookup(u64 node_name, u64 port_name)
+> +{
+> +	struct fcloop_nport *nport;
+> +
+> +	list_for_each_entry(nport, &fcloop_nports, nport_list) {
+> +		if (nport->node_name != node_name ||
+> +		    nport->port_name != port_name)
+> +			continue;
+> +
+> +		if (fcloop_nport_get(nport))
+> +			return nport;
+> +
+> +		break;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static struct fcloop_nport *
+> +fcloop_nport_lookup(u64 node_name, u64 port_name)
+> +{
+> +	struct fcloop_nport *nport;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&fcloop_lock, flags);
+> +	nport = __fcloop_nport_lookup(node_name, port_name);
+> +	spin_unlock_irqrestore(&fcloop_lock, flags);
+> +
+> +	return nport;
+> +}
+>   
+>   static ssize_t
+>   fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
+> @@ -1365,6 +1408,8 @@ __unlink_remote_port(struct fcloop_nport *nport)
+>   {
+>   	struct fcloop_rport *rport = nport->rport;
+>   
+> +	lockdep_assert_held(&fcloop_lock);
+> +
+>   	if (rport && nport->tport)
+>   		nport->tport->remoteport = NULL;
+>   	nport->rport = NULL;
+> @@ -1377,9 +1422,6 @@ __unlink_remote_port(struct fcloop_nport *nport)
+>   static int
+>   __remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
+>   {
+> -	if (!rport)
+> -		return -EALREADY;
+> -
+>   	return nvme_fc_unregister_remoteport(rport->remoteport);
+>   }
+>   
+> @@ -1387,8 +1429,8 @@ static ssize_t
+>   fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
+>   		const char *buf, size_t count)
+>   {
+> -	struct fcloop_nport *nport = NULL, *tmpport;
+> -	static struct fcloop_rport *rport;
+> +	struct fcloop_nport *nport;
+> +	struct fcloop_rport *rport;
+>   	u64 nodename, portname;
+>   	unsigned long flags;
+>   	int ret;
+> @@ -1397,24 +1439,24 @@ fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
+>   	if (ret)
+>   		return ret;
+>   
+> -	spin_lock_irqsave(&fcloop_lock, flags);
+> -
+> -	list_for_each_entry(tmpport, &fcloop_nports, nport_list) {
+> -		if (tmpport->node_name == nodename &&
+> -		    tmpport->port_name == portname && tmpport->rport) {
+> -			nport = tmpport;
+> -			rport = __unlink_remote_port(nport);
+> -			break;
+> -		}
+> -	}
+> +	nport = fcloop_nport_lookup(nodename, portname);
+> +	if (!nport)
+> +		return -ENOENT;
+>   
+> +	spin_lock_irqsave(&fcloop_lock, flags);
+> +	rport = __unlink_remote_port(nport);
+>   	spin_unlock_irqrestore(&fcloop_lock, flags);
+>   
+> -	if (!nport)
+> -		return -ENOENT;
+> +	if (!rport) {
+> +		ret = -ENOENT;
+> +		goto out_nport_put;
+> +	}
+>   
+>   	ret = __remoteport_unreg(nport, rport);
+>   
+> +out_nport_put:
+> +	fcloop_nport_put(nport);
+> +
+>   	return ret ? ret : count;
+>   }
+>   
+> @@ -1465,6 +1507,8 @@ __unlink_target_port(struct fcloop_nport *nport)
+>   {
+>   	struct fcloop_tport *tport = nport->tport;
+>   
+> +	lockdep_assert_held(&fcloop_lock);
+> +
+>   	if (tport && nport->rport)
+>   		nport->rport->targetport = NULL;
+>   	nport->tport = NULL;
+> @@ -1475,9 +1519,6 @@ __unlink_target_port(struct fcloop_nport *nport)
+>   static int
+>   __targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
+>   {
+> -	if (!tport)
+> -		return -EALREADY;
+> -
+>   	return nvmet_fc_unregister_targetport(tport->targetport);
+>   }
+>   
+> @@ -1485,8 +1526,8 @@ static ssize_t
+>   fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
+>   		const char *buf, size_t count)
+>   {
+> -	struct fcloop_nport *nport = NULL, *tmpport;
+> -	struct fcloop_tport *tport = NULL;
+> +	struct fcloop_nport *nport;
+> +	struct fcloop_tport *tport;
+>   	u64 nodename, portname;
+>   	unsigned long flags;
+>   	int ret;
+> @@ -1495,24 +1536,24 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
+>   	if (ret)
+>   		return ret;
+>   
+> -	spin_lock_irqsave(&fcloop_lock, flags);
+> -
+> -	list_for_each_entry(tmpport, &fcloop_nports, nport_list) {
+> -		if (tmpport->node_name == nodename &&
+> -		    tmpport->port_name == portname && tmpport->tport) {
+> -			nport = tmpport;
+> -			tport = __unlink_target_port(nport);
+> -			break;
+> -		}
+> -	}
+> +	nport = fcloop_nport_lookup(nodename, portname);
+> +	if (!nport)
+> +		return -ENOENT;
+>   
+> +	spin_lock_irqsave(&fcloop_lock, flags);
+> +	tport = __unlink_target_port(nport);
+>   	spin_unlock_irqrestore(&fcloop_lock, flags);
+>   
+Hmm. This now has a race condition; we're taking the lock
+during lokup, drop the lock, take the lock again, and unlink
+the port.
+Please do a __fcloop_nport_lookup() function which doesn't
+take a lock and avoid this race.
 
-Also, when handling the alignment, this allocate more space than necessary.
-For example, with a spad size of 1024B and a ctrl size of 308B, the space
-necessary is 1332B. If the alignment is 1MB,
-epf_ntb_config_spad_bar_alloc() tries to allocate 2MB where 1MB would have
-been more than enough.
+> -	if (!nport)
+> -		return -ENOENT;
+> +	if (!tport) {
+> +		ret = -ENOENT;
+> +		goto out_nport_put;
+> +	}
+>   
+>   	ret = __targetport_unreg(nport, tport);
+>   
+> +out_nport_put:
+> +	fcloop_nport_put(nport);
+> +
+>   	return ret ? ret : count;
+>   }
+>   
+> @@ -1609,8 +1650,8 @@ static int __init fcloop_init(void)
+>   
+>   static void __exit fcloop_exit(void)
+>   {
+> -	struct fcloop_lport *lport = NULL;
+> -	struct fcloop_nport *nport = NULL;
+> +	struct fcloop_lport *lport;
+> +	struct fcloop_nport *nport;
+>   	struct fcloop_tport *tport;
+>   	struct fcloop_rport *rport;
+>   	unsigned long flags;
+> @@ -1621,7 +1662,7 @@ static void __exit fcloop_exit(void)
+>   	for (;;) {
+>   		nport = list_first_entry_or_null(&fcloop_nports,
+>   						typeof(*nport), nport_list);
+> -		if (!nport)
+> +		if (!nport || !fcloop_nport_get(nport))
+>   			break;
+>   
+>   		tport = __unlink_target_port(nport);
+> @@ -1629,13 +1670,19 @@ static void __exit fcloop_exit(void)
+>   
+>   		spin_unlock_irqrestore(&fcloop_lock, flags);
+>   
+> -		ret = __targetport_unreg(nport, tport);
+> -		if (ret)
+> -			pr_warn("%s: Failed deleting target port\n", __func__);
+> +		if (tport) {
+> +			ret = __targetport_unreg(nport, tport);
+> +			if (ret)
+> +				pr_warn("%s: Failed deleting target port\n", __func__);
+> +		}
+>   
+And same here; don't drop the lock after lookup.
 
-Drop the handling of the BAR size quirks and let
-pci_epf_alloc_space() handle that. Just make sure the 32bits SPAD register
-are aligned on 32bits.
+> -		ret = __remoteport_unreg(nport, rport);
+> -		if (ret)
+> -			pr_warn("%s: Failed deleting remote port\n", __func__);
+> +		if (rport) {
+> +			ret = __remoteport_unreg(nport, rport);
+> +			if (ret)
+> +				pr_warn("%s: Failed deleting remote port\n", __func__);
+> +		}
+> +
+> +		fcloop_nport_put(nport);
+>   
+>   		spin_lock_irqsave(&fcloop_lock, flags);
+>   	}
+> 
 
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
- drivers/pci/endpoint/functions/pci-epf-vntb.c | 26 +++-----------------------
- 1 file changed, 3 insertions(+), 23 deletions(-)
+Cheers,
 
-diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
-index 874cb097b093ae645bbc4bf3c9d28ca812d7689d..e4da3fdb000723e3adad01f0ddf230ecc0e572a7 100644
---- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
-@@ -408,11 +408,9 @@ static void epf_ntb_config_spad_bar_free(struct epf_ntb *ntb)
-  */
- static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
- {
--	size_t align;
- 	enum pci_barno barno;
- 	struct epf_ntb_ctrl *ctrl;
- 	u32 spad_size, ctrl_size;
--	u64 size;
- 	struct pci_epf *epf = ntb->epf;
- 	struct device *dev = &epf->dev;
- 	u32 spad_count;
-@@ -422,31 +420,13 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
- 								epf->func_no,
- 								epf->vfunc_no);
- 	barno = ntb->epf_ntb_bar[BAR_CONFIG];
--	size = epc_features->bar[barno].fixed_size;
--	align = epc_features->align;
--
--	if ((!IS_ALIGNED(size, align)))
--		return -EINVAL;
--
- 	spad_count = ntb->spad_count;
- 
--	ctrl_size = sizeof(struct epf_ntb_ctrl);
-+	ctrl_size = ALIGN(sizeof(struct epf_ntb_ctrl), sizeof(u32));
- 	spad_size = 2 * spad_count * sizeof(u32);
- 
--	if (!align) {
--		ctrl_size = roundup_pow_of_two(ctrl_size);
--		spad_size = roundup_pow_of_two(spad_size);
--	} else {
--		ctrl_size = ALIGN(ctrl_size, align);
--		spad_size = ALIGN(spad_size, align);
--	}
--
--	if (!size)
--		size = ctrl_size + spad_size;
--	else if (size < ctrl_size + spad_size)
--		return -EINVAL;
--
--	base = pci_epf_alloc_space(epf, size, barno, epc_features, 0);
-+	base = pci_epf_alloc_space(epf, ctrl_size + spad_size,
-+				   barno, epc_features, 0);
- 	if (!base) {
- 		dev_err(dev, "Config/Status/SPAD alloc region fail\n");
- 		return -ENOMEM;
-
+Hannes
 -- 
-2.47.2
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
