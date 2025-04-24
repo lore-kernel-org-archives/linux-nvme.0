@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1320C369D7
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 07:43:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E22BC369D1
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 07:44:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZiauGp3t3Y5wyzlZDuhCItT1kNHTvnQlRo4eHOpOvFo=; b=49BEpAp1ZiIm0T91zuhqygtPp5
-	OaEdnL8S36udokIkbiosIfnHJOSRoehmIlHU1LZL4JCzxRJL7L4BXVAzVGzzL4sbSP4LxoY3HHnqw
-	5Tp2SsF4ciaRqoAAYOmY6VOBH6hfB1cdxp59kLGIyh3ppYyCLV/quwojEUfKxIXD4LbDQcjiWCltK
-	kbZtNDIP5ebTr5dDXtlNIydaNsQIPgBFarqXYnvFg0Zt9Lp7JLe89KMfFRWmBVYBxmAG4L+/RqYaP
-	cugRH2NLyBgEhgg7gGX806gzfY+3ZcrfOgXSTRWapFwf29cGFAGzvyFC2/cvYlx4TCMN8j3tjK4d2
-	mD+T/l/Q==;
+	bh=4ZAQxJmOsFsTTi0D+tSRQfOw+J2rVVKEfb31WKljAbA=; b=cXOqLAn3H68np7aa4kcKuA7rDy
+	0Elu1Aql3QJfMmQf/ZeUhZpMCuJGeGoXc7ANfnq3026IraKhK3L6MszQGk9zXggTPB58v5oTgS8hH
+	qo7F5YCJYs+Uh28mKLXyZ049qnD7C4xVllQ9t0d7oYTFkpPUaPrA8f7Cc+6DlowhkLtaDFoqKaOpt
+	q6Nt8994/Vm/e4pmk2fVkQMuWv5QhNxQBdNEFjuSsOrXruECdBYADd2HT/NE9Nqd+nhy72eKwKcHY
+	m12Clclqc3SagWadcyId7iQnaqepDWVQked43AR32/5Ob79CsgBqGX4uQZN4jiXlIsXg5nt/ckUOp
+	+O4SpB5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7rFT-0000000DE9N-3gpg;
-	Thu, 24 Apr 2025 07:43:55 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1u7rFU-0000000DE9V-24xB;
+	Thu, 24 Apr 2025 07:43:56 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7qUQ-0000000D3sS-20o8
+	id 1u7qoJ-0000000D6uV-2xUp
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 06:55:19 +0000
+	Thu, 24 Apr 2025 07:15:52 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id A4C85A41AA1;
-	Thu, 24 Apr 2025 06:49:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A31C4CEE3;
-	Thu, 24 Apr 2025 06:55:16 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id CF48E44CBE;
+	Thu, 24 Apr 2025 07:15:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B8E3C4CEE3;
+	Thu, 24 Apr 2025 07:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745477717;
-	bh=O2NhhAxby4h2wdAG9lotXu0r8Mq+CnbUeKJ51V9RGiM=;
+	s=k20201202; t=1745478951;
+	bh=pTkF/OxNxP3a5nhNTZxPZtH9LiokbdzIPY4lcClh0Q0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JBMG74Uf2ayBsAyXOsGDu/Pky6ixNS1c4BDJHd4lwbNECLO5LrTPDLt1r0eNUPLy0
-	 ynut6BgnWakwJKSAx+8FK+EGFCkITnvLnelLONPxIjuG0tdC90cdj3pniHXtHm9Fxa
-	 wl45/ZTtb8BKv0iNv76Ij9tfHUWh6rTMYx7CAUO3rppkqiaLH7xleBCQXesauRPbp2
-	 FUUzSE+hvgKs3WwAsv1qWr/zBPK1T2EbndRkbynGnImy0ZnvZycZXxoAzu4XEX+teR
-	 a2VWk0rzolhjEPmNfygA5hJqIMt43/HcuEsUyDD2XFjdC06yV7sioUDVdESF6SAvcW
-	 F+H5S2kqGr5vg==
-Date: Thu, 24 Apr 2025 09:55:11 +0300
+	b=aBTgU71uDQ76gGQRWfJMAVuYX3A0QbPaLJvEVuFRBRrxPSIlRhqbBqclL9MgN42Mz
+	 mOyKpbfujbO9d4jcdRZl8T1Go5m+UqQxIRaX0tVYAWP8gY0N23/sDzG80Ns8/xrjOx
+	 yRFGVRmXxsj5fmUE6A3mSSt4ikS5jl7uqbR1Q9jdp7zW3uELJvckJZvlrjbWQLAFMI
+	 rlKfp1i/mcS2aG+fPOR4bIoU7h9FpaLggeY2LHT/xOyqKlGS/6YJVHuNgwdRNVVRsH
+	 wu0LFFiidEyDynwIeD0OFcSLI8I/quvZGtTqBj02iqPtvdHAUsLiUcS2TnnGA7c1LM
+	 7VSAaFBMPFnUw==
+Date: Thu, 24 Apr 2025 10:15:45 +0300
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@ziepe.ca>
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -70,19 +70,18 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v9 03/24] iommu: generalize the batched sync after map
- interface
-Message-ID: <20250424065511.GL48485@unreal>
+Subject: Re: [PATCH v9 11/24] mm/hmm: provide generic DMA managing logic
+Message-ID: <20250424071545.GM48485@unreal>
 References: <cover.1745394536.git.leon@kernel.org>
- <2ce6a74ddf5e13a7fdb731984aa781a15f17749d.1745394536.git.leon@kernel.org>
- <20250423171537.GJ1213339@ziepe.ca>
+ <3abc42885831f841dd5dfe78d7c4e56c620670ea.1745394536.git.leon@kernel.org>
+ <20250423172856.GM1213339@ziepe.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250423171537.GJ1213339@ziepe.ca>
+In-Reply-To: <20250423172856.GM1213339@ziepe.ca>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_235518_649138_3C061629 
-X-CRM114-Status: GOOD (  22.31  )
+X-CRM114-CacheID: sfid-20250424_001551_789844_15B76851 
+X-CRM114-Status: GOOD (  27.48  )
 X-Mailman-Approved-At: Thu, 24 Apr 2025 00:42:45 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -98,51 +97,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 23, 2025 at 02:15:37PM -0300, Jason Gunthorpe wrote:
-> On Wed, Apr 23, 2025 at 11:12:54AM +0300, Leon Romanovsky wrote:
-> > From: Christoph Hellwig <hch@lst.de>
+On Wed, Apr 23, 2025 at 02:28:56PM -0300, Jason Gunthorpe wrote:
+> On Wed, Apr 23, 2025 at 11:13:02AM +0300, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
 > > 
-> > For the upcoming IOVA-based DMA API we want to use the interface batch the
-> > sync after mapping multiple entries from dma-iommu without having a
-> > scatterlist.
+> > HMM callers use PFN list to populate range while calling
+> > to hmm_range_fault(), the conversion from PFN to DMA address
+> > is done by the callers with help of another DMA list. However,
+> > it is wasteful on any modern platform and by doing the right
+> > logic, that DMA list can be avoided.
+> > 
+> > Provide generic logic to manage these lists and gave an interface
+> > to map/unmap PFNs to DMA addresses, without requiring from the callers
+> > to be an experts in DMA core API.
+> > 
+> > Tested-by: Jens Axboe <axboe@kernel.dk>
 > 
-> Grammer:
+> I don't think Jens tested the RDMA and hmm parts :)
+
+I know, but he posted his Tested-by tag on cover letter and b4 picked it
+for whole series. I decided to keep it as is.
+
 > 
->  For the upcoming IOVA-based DMA API we want to batch the
->  ops->iotlb_sync_map() call after mapping multiple IOVAs from
->  dma-iommu without having a scatterlist. Improve the API.
+> > +	/*
+> > +	 * The HMM API violates our normal DMA buffer ownership rules and can't
+> > +	 * transfer buffer ownership.  The dma_addressing_limited() check is a
+> > +	 * best approximation to ensure no swiotlb buffering happens.
+> > +	 */
 > 
->  Add a wrapper for the map_sync as iommu_sync_map() so that callers don't
->  need to poke into the methods directly.
+> This is a bit unclear, HMM inherently can't do cache flushing or
+> swiotlb bounce buffering because its entire purpose is to DMA directly
+> and coherently to a mm_struct's page tables. There are no sensible
+> points we could put the required flushing that wouldn't break the
+> entire model.
 > 
->  Formalize __iommu_map() into iommu_map_nosync() which requires the
->  caller to call iommu_sync_map() after all maps are completed.
+> FWIW I view that fact that we now fail back to userspace in these
+> cases instead of quietly malfunction to be a big improvement.
 > 
->  Refactor the existing sanity checks from all the different layers
->  into iommu_map_nosync().
+> > +bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
+> > +{
+> > +	struct dma_iova_state *state = &map->state;
+> > +	dma_addr_t *dma_addrs = map->dma_list;
+> > +	unsigned long *pfns = map->pfn_list;
+> > +	unsigned long attrs = 0;
+> > +
+> > +#define HMM_PFN_VALID_DMA (HMM_PFN_VALID | HMM_PFN_DMA_MAPPED)
+> > +	if ((pfns[idx] & HMM_PFN_VALID_DMA) != HMM_PFN_VALID_DMA)
+> > +		return false;
+> > +#undef HMM_PFN_VALID_DMA
 > 
-> >  drivers/iommu/iommu.c | 65 +++++++++++++++++++------------------------
-> >  include/linux/iommu.h |  4 +++
-> >  2 files changed, 33 insertions(+), 36 deletions(-)
+> If a v10 comes I'd put this in a const function level variable:
+> 
+>           const unsigned int HMM_PFN_VALID_DMA = HMM_PFN_VALID | HMM_PFN_DMA_MAPPED;
 > 
 > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> 
-> > +	/* Discourage passing strange GFP flags */
-> > +	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
-> > +				__GFP_HIGHMEM)))
-> > +		return -EINVAL;
-> 
-> There is some kind of overlap with the new iommu_alloc_pages_node()
-> here that does a similar check, nothing that can be addressed in this
-> series but maybe a TBD for later..
 
-This series is based on pure -rc1 to allow creation of shared branch,
-while you removed iommu_alloc_pages_node() in IOMMU tree. So we must
-merge it first and tidy the code after that.
+I have no idea if v10 is needed. DMA API is stable for a long time and
+only DMA part should go in shared branch. Everything else will need to
+go through relevant subsystems anyway.
 
 Thanks
 
 > 
 > Jason
-> 
 
