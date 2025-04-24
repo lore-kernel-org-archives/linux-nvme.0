@@ -4,76 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4589CC369C2
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 17:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 819E9C369AB
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 17:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ILnIg8485nbBCITzT3YOtYhPQStGWU6yt+zuqVUPzGc=; b=SWaGR9D+7XGaHbkk/e65cex14O
-	gtabLoBxBoNxT0Fqk+48B2sJmZ5+Lg6xree6EijEk32cMWQJe1x4y9MgibnvAZHYFBpaev/2eVcEF
-	6Zc1v1XjoGQC2fx3Oz9Ao8t32LtEEHjlmi496ksVJG5p+59yr8+4OOs5sIqYKqERCbCNyTcJ+gU6E
-	GQfcPRTwWuBdNKiFcTgQlKd6i2yAsl6gngIOtnLjwi5Vp2Sxu01PAmr5dZNx3QjeFsBGZ3CxiyzKR
-	0zrWRCyg6b5ekwBoEVkWDFlYoM4XMjXB9okWLj3YleVnpWjU4+IiamVF0i4C74z/+3/PpPvRIZxZO
-	xf9YqRvw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Q7ZGm3rblj2kgAcpsN0EQih8yO5JOg9TsIGPUfiFTgs=; b=r78pJHYAJgRUMepEVhUL8ILX7u
+	a29r3wOMgIeDv4UyslQ/pTfAX3g6fSFA6yZKpT20ui0qMB433hAgWjreV7ms9LEhn1FfGKQmlwMPg
+	91uyDMO1BBRfSsqwqu0DvbifyEhhYj6jclmkwOSsd3RCpM20MhHGvCo5DtsSesrbS5eUPh8gIlNHK
+	JXQHuAF7GV8HfmHR1YhGVvSzffuWcPEDQln4FAslEXGXt8U7xe/2NNwIeIV/yVP673E7GyS687au7
+	8nwVrgly3JT2413nYwV86c3/W5iUEFo4u6A2Q0ryOqrlBxJW+7BleHJwSq//2nbxMPVf+BxJGtCte
+	Lj+skokw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u80DH-0000000EsI0-0drY;
-	Thu, 24 Apr 2025 17:18:15 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1u80HI-0000000EsoQ-2cdb;
+	Thu, 24 Apr 2025 17:22:24 +0000
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u80DD-0000000EsHA-3Pry
+	id 1u7ymU-0000000EX9D-1mU0
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 17:18:13 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 53OGWRD0024937
-	for <linux-nvme@lists.infradead.org>; Thu, 24 Apr 2025 10:18:09 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2021-q4; bh=ILnIg8485nbBCITzT3
-	YOtYhPQStGWU6yt+zuqVUPzGc=; b=TIKcCA2CVAgA+Z2Sgr9meKoS9Jw1uMFisU
-	ZIpkFM4Ppd1fX+nhWXziBh66IeO6iv5SrkrapqIyTDRmWwYLwDyeF1P4bRAakdKI
-	UCLSksT8bQxHRL6FG3Gqj4srkCRxPx+eiI/46DAY4OXZ4L2SQVpvdVjN9ipcVbPF
-	MRz1FwnWrK4nRHNnDRc9PgqQ+wfj7i/IjAwEkU9GbM5nBAKWrgWDuLx0WvWjratj
-	wPOen5DEy7RPemH7WK3JUNFxsKqfUyyY3oI+DXdAXSDsBCFhCKgixR5MS/3Vkbwj
-	ehqmVNNb2faH+/rcS82wcIibdRdVqTkV2qAyvO83RJ79BZMNKpfQ==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 467k9mk7dc-5
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 24 Apr 2025 10:18:09 -0700 (PDT)
-Received: from twshared11145.37.frc1.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1748.10; Thu, 24 Apr 2025 17:18:06 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 435F61AB09BEB; Thu, 24 Apr 2025 10:18:02 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>,
-        Dhankaran Singh Ajravat
-	<dhankaran@meta.com>
-Subject: [PATCH] nvme-pci: fix queue unquiesce check on slot_reset
-Date: Thu, 24 Apr 2025 10:18:01 -0700
-Message-ID: <20250424171801.2300390-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.47.1
+	Thu, 24 Apr 2025 15:46:31 +0000
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-3087a70557bso214988a91.2
+        for <linux-nvme@lists.infradead.org>; Thu, 24 Apr 2025 08:46:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1745509589; x=1746114389; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q7ZGm3rblj2kgAcpsN0EQih8yO5JOg9TsIGPUfiFTgs=;
+        b=d9gTGnigFpIFV6Jt+erXG9c+IeL3F9z2NG9egLTrSoX6ErZM+bDbVkhsedMCI/ZF6U
+         6lAw7EX4gzv5oEuPzc116JH+WUqIlexTQHUocRbSNUccFT2Gx5Z7XxTABU5GjCTm/KHG
+         93/GJbDKn8mNQJf/mCF4xG1dvxZWlcBtfZYMRWIaX2ZxpjYTXuTOWFIeLQ1TJZRv5Irm
+         /zJPiqrMTKeMLKqCpqKGmvme54sq8otyxLdnvFgdGgneYUEOYXIkg3QZ4w73h0IbWV94
+         ppPiCDzGIZpdPkvxwgx8ExTe3r6M7XHK8e1+5nKzFtI9Q576US10i1Mhcz56KlkQByz1
+         FWZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745509589; x=1746114389;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q7ZGm3rblj2kgAcpsN0EQih8yO5JOg9TsIGPUfiFTgs=;
+        b=Deh0ub2wb7EwlnYYpkQrbm51rX4vpyRSZj5mGSXPLY16WdptEmYsRGruyl9iwED72I
+         XKY22SOfu4QzELACzqUYFGnt0S3m/Ff09kYvDi4Z75jCgfsUYT55kDzWBGHBDqsISvE/
+         52u/AdJWS/RkG8yUuf8s9nc9zKDM0rP8H/hUNxTpOp1DKqScJQ67b+80rHELt8wyD0ku
+         LvlbGEuTOGsOUpGn2Kwos8OM5IS6V1DEIeefoHw8uvF5WSzESrkymppTKsITvFj1/wln
+         yOj9ryxoJZv3H6SB3UZx2F5C0x9gXjGhu7vK1tGjJOcAuvJTfAJYwpdYjNpKDVcuA5g3
+         5Jaw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGPm4j/thgvlMSEVnF29PbV8Wzg3DCKu8GImmIOk4fP0y7AlKu6UKkKpeuwNdpaPv2xeyyuLYu1o46@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw9h3DFD/v7XN6kt/8wfyRZgrI1zSv7SvCkjbE4+wX1TJrw7G3S
+	/CZ21/huKaZEJlPy8R83HkHxfg07LNLNR1r4EAB0bGiUFtVXW+aaZWufeMuX4H1QJkJg1kazb8K
+	lb+UmTsuylafkC9/oXTrQWV+1b1vwMR9QTc0dvg==
+X-Gm-Gg: ASbGncukjuXkTnwxjsM/xEPS9wiTKjfVXOrqXjhqjP4+GPzMzOyOd6eIU84BzJt/caM
+	iOoq9zVpaByUiB+nMFvioAJr+GK1k2TMj84nwh0h+8oJ4RvuvALZSFH2ZreRgKMYcjQTXeC2QBx
+	CU6BOoLmXhaWkLqXxCHmbi
+X-Google-Smtp-Source: AGHT+IHNf2GMNeqL16Klsm77Qm5cAQu6Mvza6m/E48PAkzIQkLWGytFSKzo4VUqKfp8jikfzSzd9uZhcyM0JdWSseY0=
+X-Received: by 2002:a17:90b:3906:b0:2ff:5759:549a with SMTP id
+ 98e67ed59e1d1-309ed24cc88mr1987895a91.1.1745509589025; Thu, 24 Apr 2025
+ 08:46:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250422220952.2111584-1-csander@purestorage.com>
+ <20250422220952.2111584-4-csander@purestorage.com> <20250424141249.GA18970@lst.de>
+ <aApbYhyeYcCifoYI@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <aApbYhyeYcCifoYI@kbusch-mbp.dhcp.thefacebook.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Thu, 24 Apr 2025 08:46:16 -0700
+X-Gm-Features: ATxdqUHCi4C_REHlKrLnX5wREYYxsmbvpIQODsvqs0AotMM04vU2aN13a--TT-4
+Message-ID: <CADUfDZqA0v-i1=TSkW6HkUNdN-_954Kq0hJS4H4cgbPb5o9EgA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] nvme/pci: make PRP list DMA pools per-NUMA-node
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
+	Andrew Morton <akpm@linux-foundation.org>, Kanchan Joshi <joshi.k@samsung.com>, 
+	linux-nvme@lists.infradead.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=cKPgskeN c=1 sm=1 tr=0 ts=680a7251 cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8 a=_Qq6qd6OV63giPMY3-sA:9 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-ORIG-GUID: agyU1h_ItV-s5W6vJncqEIK6J1o5vVwG
-X-Proofpoint-GUID: agyU1h_ItV-s5W6vJncqEIK6J1o5vVwG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDExOSBTYWx0ZWRfXxxbSsVJUdh9T d+Fjbe2ceF2vpf4SDbPVfXziZsS98UY84Sw4Ivwx88GoEHnj2XLLS55MaSlsvHvbJLgDrFk8iki FicCMPpObtwS8KIdVIAshXndkTUToOe2W9/b5ZBqjMqfZpTg+oxK9WzJAQv8cDdzz7ZuApz92F5
- s9mIGFl6jZY+hXEZniTUT3432DDsMjV433rqbdygqZf+MK7nbN9pcFogb5MBe/NHog400ZYX9FF k6BcOFhFpewwcJ0/uyhX5ds1rxY2pfRhyRm8RWVABPs+VMqvoTnqoWootO7iRvoiTAsYHAbzEmR PDt8evedORMHrZHFiLjuXf4gcSKPvvKSGGZeVugtiUmQg0uR3/92cKiEktkj/Mxqrlzm3aPzZux
- a9mI1y7cgpvxHwH96am4BERcQn4wqTi55HtQCo1zKbmLtx+bJuuc13vmEj1REgXLNJRrGfas
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-24_07,2025-04-24_02,2025-02-21_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_101812_068619_294487BE 
-X-CRM114-Status: GOOD (  12.02  )
+X-CRM114-CacheID: sfid-20250424_084630_500741_EE27AA10 
+X-CRM114-Status: GOOD (  22.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,34 +98,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Apr 24, 2025 at 8:40=E2=80=AFAM Keith Busch <kbusch@kernel.org> wro=
+te:
+>
+> On Thu, Apr 24, 2025 at 04:12:49PM +0200, Christoph Hellwig wrote:
+> > On Tue, Apr 22, 2025 at 04:09:52PM -0600, Caleb Sander Mateos wrote:
+> > > NVMe commands with more than 4 KB of data allocate PRP list pages fro=
+m
+> > > the per-nvme_device dma_pool prp_page_pool or prp_small_pool.
+> >
+> > That's not actually true.  We can transfer all of the MDTS without a
+> > single pool allocation when using SGLs.
+>
+> Let's just change it to say discontiguous data, then.
+>
+> Though even wtih PRP's, you could transfer up to 8k without allocating a
+> list, if its address is 4k aligned.
 
-A zero return means the reset was successfully scheduled. We don't want
-to unquiesce the queues while the reset_work is pending, as that will
-just flush out requeued requests to a failed completion.
+Right, it depends on the alignment of the data pages. Christoph is
+correct that commands using SGLs don't need to allocate PRP list
+pages, however not all NVMe controllers support SGLs for data
+transfers.
 
-Fixes: 71a5bb153be104 ("nvme: ensure disabling pairs with unquiesce")
-Reported-by: Dhankaran Singh Ajravat <dhankaran@meta.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> > > Each call
+> > > to dma_pool_alloc() and dma_pool_free() takes the per-dma_pool spinlo=
+ck.
+> > > These device-global spinlocks are a significant source of contention
+> > > when many CPUs are submitting to the same NVMe devices. On a workload
+> > > issuing 32 KB reads from 16 CPUs (8 hypertwin pairs) across 2 NUMA no=
+des
+> > > to 23 NVMe devices, we observed 2.4% of CPU time spent in
+> > > _raw_spin_lock_irqsave called from dma_pool_alloc and dma_pool_free.
+> > >
+> > > Ideally, the dma_pools would be per-hctx to minimize
+> > > contention. But that could impose considerable resource costs in a
+> > > system with many NVMe devices and CPUs.
+> >
+> > Should we try to simply do a slab allocation first and only allocate
+> > from the dmapool when that fails?  That should give you all the
+> > scalability from the slab allocator without very little downsides.
+>
+> The dmapool allocates dma coherent memory, and it's mapped for the
+> remainder of lifetime of the pool. Allocating slab memory and dma
+> mapping per-io would be pretty costly in comparison, I think.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b178d52eac1b7..c9e2a5450bc0f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3575,7 +3575,7 @@ static pci_ers_result_t nvme_slot_reset(struct pci_=
-dev *pdev)
-=20
- 	dev_info(dev->ctrl.device, "restart after slot reset\n");
- 	pci_restore_state(pdev);
--	if (!nvme_try_sched_reset(&dev->ctrl))
-+	if (nvme_try_sched_reset(&dev->ctrl))
- 		nvme_unquiesce_io_queues(&dev->ctrl);
- 	return PCI_ERS_RESULT_RECOVERED;
- }
---=20
-2.47.1
+I'm not very familiar with the DMA subsystem, but this was my impression to=
+o.
 
+Thanks,
+Caleb
 
