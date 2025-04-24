@@ -4,90 +4,203 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DD00C369AB
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 05:14:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3DCDC369C2
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 05:35:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ta7qCmDS5qrMjMtteq3ylr92RTTV8eT/kSEYwIS8108=; b=SbS63HIA2t67zQ/ByEi3JBbC3N
-	T6qzj7OwbBXyd76Khz/49G4HvhsYuaRM5hJAaQgcnTAdPVgRmTxLIdLIzSQ+NxgBnXdcu8Atpv9Iq
-	zPpg9NtMQQq5LwS+g8MoypgZpKXA2HkYXSWTspvQ1z3vWGn8yw9COurnDn3VE2DbyrXcBc2f0q82B
-	xRVcYvDSz+2STPo9U8BpAdROrGoCU7c8CFjsrqmJsQzw7S7F3Q5kB4c53Ln3Bp9txjHJdywDABgD1
-	RnDzf/qKrjKdc0SsyuMHa5hnS2oODr79FPWgBrA4TN2koavK0Xra5zn9FjcmBS9WrbMhs+Xq8z9Gy
-	1ntAzKXQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eTo6++m3n/LmRvWsYbPHOPY9AuaHzPydvOR0y3KyRuo=; b=dRbXMyot3pgGMHllTtczEDzCZZ
+	N8wocoUEuB1B06Igp6ENxgh6ikNVsyCneWukktNBI+jtRfI39Lkd2H1+wZREh8nIfKKkqCkLFyVZy
+	f7QSfWhVXGd6Xvb7iow3tvckLpe2RvOUGd+VOwAAsrtXCYCfQNfwjKOnsAP97I7i1+vshn0v+fITV
+	GvG3flGEJtwb9pvRuypobADhXQjNJL5zZ3TY/v+xQt7gctFgxXmfEcPH3PgFPtifu6wPiPt8glexg
+	3km3CFkAsvByAPlYju0U17ihdk1v/BHtCLLo7ng05YZ6tnUFxYINC8t4VGyLHRhTTWsXa8Rsiybd4
+	mqfWsF1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7ovH-0000000CrYN-0JSM;
-	Thu, 24 Apr 2025 05:14:55 +0000
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+	id 1u7pFA-0000000CtWR-3FtG;
+	Thu, 24 Apr 2025 05:35:28 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7ovE-0000000CrWm-2K59
+	id 1u7pF8-0000000CtVk-0rcL
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 05:14:53 +0000
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-3031354f134so495732a91.3
-        for <linux-nvme@lists.infradead.org>; Wed, 23 Apr 2025 22:14:52 -0700 (PDT)
+	Thu, 24 Apr 2025 05:35:27 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53O4gfhC004252;
+	Thu, 24 Apr 2025 05:35:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=eTo6++m3n/LmRvWsYbPHOPY9AuaHzPydvOR0y3KyRuo=; b=
+	HhgghJxt8l2wTPjXzPWa8ra59WrLaqkcxgAA7TNIWJUXQMtWiU0qHSDZtSp38JmK
+	yV8kZtYiDhevUEauXSZIPHcFctRbCeOCrplROO4m1Gk3VEHMLkQ512wXKBCqybOz
+	WlpT3/V72Qh6omrOmzYjK+7AM8K1BtTowAbi2VLDfUFyifIB3qNl3aq19dj4rJh4
+	pHYQIMjRn+wCn7Ez/26LiYo0uUeanBn0MfM6FevcAIPQDlgH81EToHGik/qwUjHs
+	miIT1SIC2MsDqP9fkpwWn72URlu8lIrFftBMV0J44QGSI1p72vdIuH2+7maCsVO5
+	6ixCoRJEPh5ZcwVshCPa7g==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 467egng1r1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 24 Apr 2025 05:35:15 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53O2fQIn025044;
+	Thu, 24 Apr 2025 05:35:14 GMT
+Received: from cy4pr05cu001.outbound.protection.outlook.com (mail-westcentralusazlp17010004.outbound.protection.outlook.com [40.93.6.4])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 466jbrkjas-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 24 Apr 2025 05:35:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pUh/OA4Tmc1XjalD9nsdNGjPfW/jxVp84oD4E08h4qOMuBwS/Bw/IWYzVx/yge65xWe68c7xu1YdE6aHOlSSjUmP8EB9ZAHeNvfRbn54fgy2azCm5WF5OChnKILuUn5aY8iKNVe7TaCIw9PMiwAAoI/YbIHg75hf5cxB4l3qd/TslkYROUrKWdjz1Voky7AJ0+bYoj2j1S8fJDEmm+VCztfs51Eu8j5XXfKQZ3xOu+/UvDH5sZ4vMH0nHujZHqeypjH9wJdxovWmOKiE+WES3WZTKhXTebCQmt125qzNKhMjeq8A6V1ne+ja5fdFNKNBP4d9UgmrlJFIVYHlGRCE/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eTo6++m3n/LmRvWsYbPHOPY9AuaHzPydvOR0y3KyRuo=;
+ b=qdkJt57pov6yFGXUX8kAuWIQNGeAomQO82S8T5cxF0NbHcSCKIBN9rnrKGxIQXRz8wIjpfH5ds1EIJINhzD8zZMwBMs9o2n9whYHFbPqJLVuX/lZARZjwvZSwowWFj97pjYayEu2PrWeg3PvgEtTmTWJSRs2QPOte88PSNm3bYzHxPlKYpenWRWqr/+IJg+TP/hW3b65S6IKkPuNqLzytGfd3AeReO7ZQ4eODGfditvPeMXruSm3joQLj6oO7qxTcprcXWIs/jCqmFDO/5P2Zp+w4XGOGsWhmQ2lUTKeDYf/FjWxYomLYBlVuZM5NXMBhPYgaU+vWCieHkIn4fTtVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745471691; x=1746076491; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ta7qCmDS5qrMjMtteq3ylr92RTTV8eT/kSEYwIS8108=;
-        b=GPxECJaNNHuh8sswCRUQNhfDcW1BQau503S1Q5Q8nAMuHP0K3qqEN0m94dD28+5plo
-         +4p7sPJluQ91ChYMFqptTMFF8EzIeIha3ixE+tN+pkyNqAMcT6gd0R/6GUeszVEJXiZU
-         B5ZeHSgCX3ZiAvAy9Y3KmlJUh1v0IDqd29Djt2b+1Wkn51tFL8iUxI5lGFNZM463cR2s
-         ORCDRj76bGBxQ1/yEM7Mw0WFEHlmhgOsC3FnI+Yx5oCwewCZ7PX7EFILC0oGWV+tVVvG
-         HoCtiyduPNOC8lhI/P/ZavTIHOCPI9yUBk9GTXgldUA7FLW0MLPaLW+lIVcMsV54wmJV
-         0VBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745471691; x=1746076491;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ta7qCmDS5qrMjMtteq3ylr92RTTV8eT/kSEYwIS8108=;
-        b=iSkZLnBPdJH1JNYPfZZvPJL+56ikxLRewcif3FtUJnWGNnEKN+prL0DQsEczyYVNzw
-         QjTrHfARzXaelnmyWMkhtfluffqhDs9O/YrpL2NVZ1HAcL5oUoGsrtF6JB1D7pIvQ7Ut
-         pC5hBBuY2+yyyabqtc2X4RUn6c8bCVZkcPcPD0AH4qBgGOGW/CaIdqNx6wbIEkurhdtt
-         nlIuZ94dW8Cx4GFJENSRm6ByEl8UAsbch9X+1hpEYIMaLp5xDcqi97tX+MMeA4uG+bC1
-         fsUxu02sb6Wo/RfkK7zH3G7ExCkrelpLHNH9nxQnEp9UMRyINaK2CQ/e9S4IIaItlBJH
-         kLRg==
-X-Gm-Message-State: AOJu0Yw40BoN9+QrQrcSankKkpOUR9xQenysu9MtOe74QzHbHXUP21pw
-	ibmz50R3W17bTA+4M2Lan6ByiPM30nTCOgFueSJbDewrGE4eE/p/GRo2jpja
-X-Gm-Gg: ASbGnct7eiVgcPKSu1uWWgihJKJMWPIc7U5xMSf/zW2NHSkSR9aSKa+pG5EyohNGlqH
-	HU4UWoZRITulmrO+d5SOu4sbUF6lCRftw3ZgB7nGtX5wFOXqYOBggfaFk5kpJx0yz9CZo74vBcs
-	4XhRE94ixWMh+E95pirnwxBRyE39Olq/YT34KO44WBMAw8M0UNhBEMfDMY4GKgvz18Um8mHFJIB
-	gji3QQvvqjJ2ULWdiaXKldOS8chiZlar4lSe+SgMvIaqIlMs2gfFgMxF6IhCdPwSf+Xsgb9l1oe
-	YV9+a9doeTLxnxzsfPEsOCQOW7TFp1ck5p3rrB7bbEt4i4w=
-X-Google-Smtp-Source: AGHT+IFBpGdT4y2Wafu+hQ+G03IYU3TIFgAMNjgjbKIRqBwz0bqAcrUsLMfCsC4przWGxox9QQFE+A==
-X-Received: by 2002:a17:90b:6c3:b0:2f9:c144:9d13 with SMTP id 98e67ed59e1d1-309ed31aeeemr2202937a91.24.1745471691083;
-        Wed, 23 Apr 2025 22:14:51 -0700 (PDT)
-Received: from fedora.. ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef097bdbsm324771a91.26.2025.04.23.22.14.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 22:14:50 -0700 (PDT)
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: dlemoal@kernel.org,
-	alistair.francis@wdc.com,
-	cassel@kernel.org,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [PATCH 5/5] nvmet: Simplify nvmet_req_init() interface
-Date: Thu, 24 Apr 2025 15:13:53 +1000
-Message-ID: <20250424051352.7980-7-wilfred.opensource@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250424051352.7980-2-wilfred.opensource@gmail.com>
-References: <20250424051352.7980-2-wilfred.opensource@gmail.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eTo6++m3n/LmRvWsYbPHOPY9AuaHzPydvOR0y3KyRuo=;
+ b=FABk6RJAy7C1FGZlCJLNM4rGuSVPgedsT1bnurRF0d/20+yYCxLcyuRSAjNaEYy56Ocxb3I9hjIkncsrm8IPn6TVg/drkkX/pAx83UThcdzGZrlAQxTbvnyND3rEx+uNHAug1EDJ9X2zL+J9p4bryG2TrsSR4inOwxGwZMDcyvY=
+Received: from SA2PR10MB4780.namprd10.prod.outlook.com (2603:10b6:806:118::5)
+ by SJ5PPF1849371D1.namprd10.prod.outlook.com (2603:10b6:a0f:fc02::78e) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Thu, 24 Apr
+ 2025 05:35:11 +0000
+Received: from SA2PR10MB4780.namprd10.prod.outlook.com
+ ([fe80::b66:5132:4bd6:3acb]) by SA2PR10MB4780.namprd10.prod.outlook.com
+ ([fe80::b66:5132:4bd6:3acb%3]) with mapi id 15.20.8655.030; Thu, 24 Apr 2025
+ 05:35:11 +0000
+Message-ID: <84867704-1b25-422a-8c56-6422a2ef50a9@oracle.com>
+Date: Wed, 23 Apr 2025 22:35:06 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: Report: Performance regression from ib_umem_get on zone device
+ pages
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: logane@deltatee.com, hch@lst.de, gregkh@linuxfoundation.org,
+        willy@infradead.org, kch@nvidia.com, axboe@kernel.dk,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-block@vger.kernel.org
+References: <fe761ea8-650a-4118-bd53-e1e4408fea9c@oracle.com>
+ <20250423232828.GV1213339@ziepe.ca>
+Content-Language: en-US
+From: jane.chu@oracle.com
+In-Reply-To: <20250423232828.GV1213339@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0249.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::14) To SA2PR10MB4780.namprd10.prod.outlook.com
+ (2603:10b6:806:118::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PR10MB4780:EE_|SJ5PPF1849371D1:EE_
+X-MS-Office365-Filtering-Correlation-Id: c9003dd1-64c4-434e-3bc9-08dd82f1c81d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WUdteHZuQ1BtSmdsMi81V3AzOGVNblQrRElnczdIaWFGalhPSk1jbFloRnBm?=
+ =?utf-8?B?RE1EaitwMkpGVmkxZytEcjVFNFJDU0oxMzEzRERKcGxMdVcyY29ZTDhTUEVr?=
+ =?utf-8?B?K1d1aVBoUjRXMHhTVVp1Z21EL2wxdk9weWxTRWxxaklqMkl5RHlJM0VEVDN6?=
+ =?utf-8?B?SE0veEttTldhY1RYcTI2dGd0eHpMdkpNTG1uNDZOOFRuRTZJUmdJV2Z3R0ky?=
+ =?utf-8?B?bDN4NDVZVVRwK21YLytsd2VDWUhwYkhVOGRWYmlFNTBDWXI3UVA1U2laMzgy?=
+ =?utf-8?B?OHZZRTYwcEkrd0wvR3NYYXM2VjVVSWRuMUFpUEdmc29mdkdIWHMxbmt0SkJH?=
+ =?utf-8?B?Mmp2TDhiSXp3UXVnZm5GLzc1TldmVzVMbFVhRDYrQmFvWkZRdjRzQkNDSVE5?=
+ =?utf-8?B?QktLVzI5dnViQ2I2U1R1a3c5QXpIL1RUVkY3czBuRmN1bUsvM09nZFRGYm1B?=
+ =?utf-8?B?cFRza21LRldkOWczKzFJbmdGazg4MjhBMFVmdG1PUnplKytCQjBkbUZvblZu?=
+ =?utf-8?B?SnFRT21GbzZrTDJFVVpOUnZuZHhkYnI5K0VoVDRUTUpFRzlUTkZHWVNuOVNw?=
+ =?utf-8?B?OTYxV1ZWeGEvSjNIYUhxQjRmbnUxUWFDbVcrYmpaRHdaYkZSZEtHU2JoTmVz?=
+ =?utf-8?B?dmEwbmwxbEF2VXZnMXhCWnpXT2FrWjk2Z0tPeVRzVDdvK2VYWUZwaC9vUnQx?=
+ =?utf-8?B?VGZlSWViUFgzaVdZVGRvMWc3aHZvdTMzS3pTYzBKVWVLZW00cWlLSGVHRHZl?=
+ =?utf-8?B?eU1QQk5TdU9ZcHl1ZEg0UjBYUldiTmdWQXZpQTA5eWJXWGFMTHBmYjhTTVFK?=
+ =?utf-8?B?UjJLYVJmVnp1SVhodm1iODVFRGRFNnJPT251UFJHbXEvR0ZtaUtvVk9Pa1VF?=
+ =?utf-8?B?WGZxenZINTBydnVhUGtMeVEzWU5PaDVKY1BzeGxRN3hTQ21RY2x2Z3oxOXlT?=
+ =?utf-8?B?VEt2VmxnT3d5aC9GUDJoWmRtQUo3VURma2tSTzFDZEM3ZTBJdG1wOEd1U09l?=
+ =?utf-8?B?Q0ZNbUVMcytkc25tc2xaV2lZVE42UTA0c2dDMVJsVkI0NVBmemtzR3VXQjRD?=
+ =?utf-8?B?TWl4WVgwdVpYOVR4UGRkRlFpSmZkMnU0NitFQ0Q0N2dsb0kxdmNLYjBRUlFF?=
+ =?utf-8?B?N2tRNXFkR1RFNzFNeSsxQTB2dDQvZW9USlZ6YTlCdmIwL3VRMUk4WTZyZmUw?=
+ =?utf-8?B?RUV5WURBS3ljTjhjYk5lOG9iVCtCNldRbUJ3TXFKN2RibFhNdGJxUXVqUith?=
+ =?utf-8?B?akVVNUhrRFRId29vRlhLUTV1SFJleEhGSEZmN0pUUEwzRTNwMW13UlJkSU5R?=
+ =?utf-8?B?UWdVVnBnbXBjQ0o1VTl5c20wdDh2a0JMcC94SDZOY01wZUFNWUkvVGxjS0ZY?=
+ =?utf-8?B?MVgwZUVYRUsrNVAwY1JIUzBxbDArRDRIcnFxNnFnZUM4WmF3NVlQNEZkNEhX?=
+ =?utf-8?B?R3d5a3J2T3FXUTNWZDJEd0VzR205YmdvU29zUTk4QTFYVkF1K21ic042SnZ2?=
+ =?utf-8?B?MUtZUnhiOGJRUHA0VDRKV2F0L2xMZmFSOU00Q3RvTXRIbGYvZXpVWHFmVU9j?=
+ =?utf-8?B?eVJZcEtGY1N4NWlxZDFrOGppMHFWRmNEYnVmUkRybXVZZVRLeGdPZjk4bExT?=
+ =?utf-8?B?Mm5OdTdTd2k0KytVU3JSaUlXNk0vckpUOWxOTHp5WjlSR2xzNkNMWFZYV28r?=
+ =?utf-8?B?MlZGUFNCaHArZFoyN0RpRDZ3Y2wxZTNreUJZaExhYTZBQVZGcTN4cVR4K1JB?=
+ =?utf-8?B?NU5pZ2VyOUVsTFh2ekhlYlJqUzc2OVhaSmYva25EWHFVOTBzeTJ5Q01vYWl3?=
+ =?utf-8?B?b0FndnVZMDB1b0hRU090bkVDb3JML3R4cCtmVHRrL2JTR3kxU1hLb3BVWHNw?=
+ =?utf-8?B?WE0zNzBxTUdmSTc2UWpQcVFJdXE1TUxJVmlEQm1VNFNzR2RoSm5OZTZGek9P?=
+ =?utf-8?Q?QC4Iwq0tvs8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR10MB4780.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MDRPd3BVYlVEaEIyQndTU2pvUXkwMXhFLzhleHJ6bEZPbDR0cVRoU3lEUW14?=
+ =?utf-8?B?SFh4SnQ0emtLUFFvVUJrZ3dNRHdqMi9SWkgrVzVHTFBhR25QeEN1THlQRWlz?=
+ =?utf-8?B?ck1GcElldzl1UWRGV0Y0Rm54MUFlc2JwRU92YTN6UUIvMkJqdENteWRycXM5?=
+ =?utf-8?B?dnlHNzBUaUIvaVZvYWY1djJQUlZ4Q0lRNDhCRUIrLzRpZ1ZaVE8xVGJqcU9H?=
+ =?utf-8?B?SGExZ2pVQ01YRS9EMXFHS1A2OFhPRE90UThQQWgxSW15NEpsZ1NEUThPY2VI?=
+ =?utf-8?B?UzhHeEtnQldvSXBKUDhVcHUvNm9DOENDNkI4NmNmRGlINmRidEx4dkYvYmYy?=
+ =?utf-8?B?SUgvMlMzdWhPWnhpMGQ1NnZmZUoyLzkyZ2JXM1AxUzFwcVBGTitLcmo3Q0M0?=
+ =?utf-8?B?QllwSDhvVC9IUkFjS2EyQThPYW9qMEdLMWgxY0xjTkdZTjN0MmljeElXK1p0?=
+ =?utf-8?B?SWpWNDlYNVhUY2pLVHVPVTh5RHAvbWZVc0IxSENIdXYxWHYrTWd3TzRYaGlt?=
+ =?utf-8?B?aE1TWWtlUjg5T1FjVXhjRzY4dTdFcVZGR1B1QkhYQWZDYTRVZWIxRGpsZWdw?=
+ =?utf-8?B?R2NjbVN6L3J1RFlsOXJQTzRoYTdCRXp4aDRReWRsa1FnbDRxNVRLa3RyOHdj?=
+ =?utf-8?B?Z2NDZDl4bnV6WUp0enJ4ME04b2VLdklRaVJQZGwwTmhwcEFRMG91SVluZUdj?=
+ =?utf-8?B?WXZUSGZUckRDZEZPRkd3eVhOU1BYTURpcnl4djMwdjRXVlppd0pqcHAxWGl3?=
+ =?utf-8?B?MEZlVVZHd2ZFRDZZVFM1NkI2N2drNWdzMXIzWVQzcStiR2JvTVR1eVQvYzg3?=
+ =?utf-8?B?VEoxV0xPUGJZNU5lc2xSMnR2SzJLVURNSnpEWE1TVTVsendhdVMrZUZpd2lB?=
+ =?utf-8?B?eHdEWHRvVUpTbHJnMDFtR3IveEpvaWdhWmZYWGJaTUlDOWlObnI4TExRRS9O?=
+ =?utf-8?B?U0d5MVdzdDQ5TVFQQlRlTXJQZDdGZ25HaU1ld0VhQUQ5ZDdiRWdlcERCVis4?=
+ =?utf-8?B?dTFiaWFsbTdLSi9NVUZMSkUzbTB3NnRSTnV0dDUxZ0pvcFVtTS9ULzB0cU9p?=
+ =?utf-8?B?MllRajBpN0grSFVyMWcvRm1RakRKbTdSOWRNNnhlN0V0NDUvcEVkNDNjQyta?=
+ =?utf-8?B?ZkN2YjhQd09SN08yT2IzNjFEd1BOdDIyRlVFNkkrL2NRZUdIdjBzSnhpQ2pL?=
+ =?utf-8?B?OVFFQ0RFVG5ORnFOV2RZVC9laFl0MXlESmlTeGpVQnVDZjBFNnZHSmkyVDAv?=
+ =?utf-8?B?MnRUbEErcEp6Q3lnME1NbmF5cTBhcHFCWWkzakF5TGpLZXRldC90b0NvdUpU?=
+ =?utf-8?B?NVAraldERkhaNk16QXZxQWZ6ekNVbi85dGpiT2d2c01wdTdWdXFPTlBjR3lm?=
+ =?utf-8?B?dzFIbWhncHk1YkZsd2xiaXphZk1MVzhHM08yT2JJdXByMml1c21tM1lLTk9V?=
+ =?utf-8?B?RGMvbjZ4VzFFUjJZcXdDeDhNSFpTcGhTd3F0aGIzWHBkOWMzNklsR3ZJcjIw?=
+ =?utf-8?B?TXYxWUsrQVFGZENsd3A1Q0p6cGIxZVNWaWhFeGJKWnV6SU0yeXdjLzZmQ3FY?=
+ =?utf-8?B?WVJLRHFsM1dwcnZwalp1OGNCZE16cDJvWXdKZHZOV0huOE83SDFxbmdOMEY5?=
+ =?utf-8?B?VE9yaUZYbitQRVBSTDRUcHdPc0pYdDF6d0xGVTdsQXA5REVzRlpRNVdUNUpW?=
+ =?utf-8?B?VlFNZ2NiWkhoZ3Fqbjd0MlBFejZEV0lCSVdFeWRPWjNHTWxoWkRVWGJWZUp1?=
+ =?utf-8?B?TkZ3T0NkMCtyNzA1emJEdXFWUFhidDlvODVtWGU3RzVQTzJQN2ExTW13a20z?=
+ =?utf-8?B?VHpQS0txbEZqVk0zZExoYVdpdjc0Z2luQUNCbGg3NnlJS1JLWE03N1VOVzZo?=
+ =?utf-8?B?cFMwV1grUW9oQ3BtOWZHOW4vWE53NnR3aWNVd2ZzK0pGcTlKVnNSc09xQnA3?=
+ =?utf-8?B?WkpHMnMxZkdrMzRMdk9QcCtHWEcvaUhDdGhuaERXSmI5c0JyQW9FTVZQWEZl?=
+ =?utf-8?B?V3V4MXBBSXdZY0JDVDBHT1FVYlBPOU9FUC9aY1R2d0ZXRTBLM040Y2pNQklx?=
+ =?utf-8?B?a0IxejNhK3NjdXNzT0NrZCt2Mkh2aUpuRXhYT2hnV1l6eTZId2Rkc1QrdzlW?=
+ =?utf-8?Q?rE9WcTmPXR7QREXfv5ScwN4rL?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: /zrBxidf+e6KtzXmkhZNfGUzN0+GiX/BT0WnF1dyg9XEDgbisHcPbGOfHRnD+CyV7Fp4C7CwXiRKoO3RPCGIgWVGC/taQNyN8Oe7gjo+vIOKfvTjjRUBGlrQgQ0KAc0tfmQmj0WIeNMqXRZOdHUyt8gKkAGWkjvYDzfxIcawK9Qw+LxJ6xh2BR7jIBg5F+o1Em8Fqtl4LcUR75zmugEwfGdLEsoNwtCgGYFUN3pqLCOZoh8Qob53S3B2GXwh+i15RQSzL91+ZaFYHbgTA/WjnGTNapy8rusMlnwSLzkBICgK7G72lq3aoz1/4vaFs9NwEAhJVE/ouhZJzG2VruDJco04ZSgWOej9xfwca9P6z+yOhgMC5+v0/ONI5erTjq7lAFZr/SRw8DxEwqLqcoXKy3bYKX+MDSONRPJtCAzOBb0n0ogQJMyQyU4TNWYj6Xj/rRAMPhKI3WkIpSbsvHZywxH8PqAhsSBIfzhaO/U/YQXTrMuURgApx+Jr5cdd/0pi7+NR0rVhJUWcYxeDfi8AwK7451oCso+BY3yRswYQXAbWW4YGpeGWPbFWN6XucQ834g/BhU+gb8etxEqHDYJ2yl1btvDFFKZ/5fDOCaVfNTk=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9003dd1-64c4-434e-3bc9-08dd82f1c81d
+X-MS-Exchange-CrossTenant-AuthSource: SA2PR10MB4780.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 05:35:11.5724
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dbglvPhYaAfFNtk9YDPj6nNP6CQVefRZ3XF4Qvx7g4lT/YzLakkl5MJhEEhpuw+sQ81YAINpJVUh/Od/MSGxcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF1849371D1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
+ definitions=2025-04-24_01,2025-04-22_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
+ suspectscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2504070000 definitions=main-2504240034
+X-Proofpoint-ORIG-GUID: TyoGVM7Jj4KSqUpzau4w5FMHGL2LLTku
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDAzNCBTYWx0ZWRfX22kLMVhHXLEj +gq+msiYi5TFAm05fns0x5rgH4jMRUzDRRs9TlJOu/mSnK/fLxI3kwNVbQu1mcczDsut0SMZtWb g3s7IPtCg8zD0nDHNSdwLTfC/0SCwckSnNCF7GnBHbVQeir2EurNTweuxIYYtO3SjXcbtXxUM0K
+ KzMj3Bt7lnwW9iUK6NHz619BmF0+2ySp+FiUGmdoFscSWimzG89WQXEBgQp1WUQYxN2nnrDhrhB fnd7vQ5uZpMSkqg+sGjC1CVJvxTQsJZ3siVQSI1MhAIBaFzG5bhG1h7/L5zIHgUdmSYHtQRpUbu Rw+CemcmqYYztKcjLuLCTAX5hL7Y6Yjx+pdG1W0w3qI//wPPF7x3e5HeH/SucJ9ayJ2cvhPwUAy bGaOjvQY
+X-Proofpoint-GUID: TyoGVM7Jj4KSqUpzau4w5FMHGL2LLTku
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_221452_601244_AAAD434E 
-X-CRM114-Status: GOOD (  14.35  )
+X-CRM114-CacheID: sfid-20250423_223526_245411_CB2AFA71 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,141 +215,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Now that a submission queue holds a reference to its completion queue,
-there is no need to pass the cq argument to nvmet_req_init(), so remove it.
+On 4/23/2025 4:28 PM, Jason Gunthorpe wrote:
+>> The flow of a single test run:
+>>    1. reserve virtual address space for (61440 * 2MB) via mmap with PROT_NONE
+>> and MAP_ANONYMOUS | MAP_NORESERVE| MAP_PRIVATE
+>>    2. mmap ((61440 * 2MB) / 12) from each of the 12 device-dax to the
+>> reserved virtual address space sequentially to form a continual VA
+>> space
+> Like is there any chance that each of these 61440 VMA's is a single
+> 2MB folio from device-dax, or could it be?
+> 
+> IIRC device-dax does could not use folios until 6.15 so I'm assuming
+> it is not folios even if it is a pmd mapping?
+> 
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
----
- drivers/nvme/target/core.c    | 6 +++---
- drivers/nvme/target/fc.c      | 5 +----
- drivers/nvme/target/loop.c    | 6 ++----
- drivers/nvme/target/nvmet.h   | 4 ++--
- drivers/nvme/target/pci-epf.c | 3 +--
- drivers/nvme/target/rdma.c    | 3 +--
- drivers/nvme/target/tcp.c     | 3 +--
- 7 files changed, 11 insertions(+), 19 deletions(-)
+I just ran the mr registration stress test in 6.15-rc3, much better!
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index d989880bbafc..042039011d7c 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1153,13 +1153,13 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
- 	return ret;
- }
- 
--bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
--		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops)
-+bool nvmet_req_init(struct nvmet_req *req, struct nvmet_sq *sq,
-+		const struct nvmet_fabrics_ops *ops)
- {
- 	u8 flags = req->cmd->common.flags;
- 	u16 status;
- 
--	req->cq = cq;
-+	req->cq = sq->cq;
- 	req->sq = sq;
- 	req->ops = ops;
- 	req->sg = NULL;
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 2e813e51549c..6d3344726f84 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2534,10 +2534,7 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 	fod->data_sg = NULL;
- 	fod->data_sg_cnt = 0;
- 
--	ret = nvmet_req_init(&fod->req,
--				&fod->queue->nvme_cq,
--				&fod->queue->nvme_sq,
--				&nvmet_fc_tgt_fcp_ops);
-+	ret = nvmet_req_init(&fod->req, &fod->queue->nvme_sq, &nvmet_fc_tgt_fcp_ops);
- 	if (!ret) {
- 		/* bad SQE content or invalid ctrl state */
- 		/* nvmet layer has already called op done to send rsp. */
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 9354a58456e0..80f8281a98c3 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -148,8 +148,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	nvme_start_request(req);
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 	iod->req.port = queue->ctrl->port;
--	if (!nvmet_req_init(&iod->req, &queue->nvme_cq,
--			&queue->nvme_sq, &nvme_loop_ops))
-+	if (!nvmet_req_init(&iod->req, &queue->nvme_sq, &nvme_loop_ops))
- 		return BLK_STS_OK;
- 
- 	if (blk_rq_nr_phys_segments(req)) {
-@@ -181,8 +180,7 @@ static void nvme_loop_submit_async_event(struct nvme_ctrl *arg)
- 	iod->cmd.common.command_id = NVME_AQ_BLK_MQ_DEPTH;
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 
--	if (!nvmet_req_init(&iod->req, &queue->nvme_cq, &queue->nvme_sq,
--			&nvme_loop_ops)) {
-+	if (!nvmet_req_init(&iod->req, &queue->nvme_sq, &nvme_loop_ops)) {
- 		dev_err(ctrl->ctrl.device, "failed async event work\n");
- 		return;
- 	}
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index d3795b09fcc4..df69a9dee71c 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -561,8 +561,8 @@ u32 nvmet_fabrics_admin_cmd_data_len(struct nvmet_req *req);
- u16 nvmet_parse_fabrics_io_cmd(struct nvmet_req *req);
- u32 nvmet_fabrics_io_cmd_data_len(struct nvmet_req *req);
- 
--bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
--		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops);
-+bool nvmet_req_init(struct nvmet_req *req, struct nvmet_sq *sq,
-+		const struct nvmet_fabrics_ops *ops);
- void nvmet_req_uninit(struct nvmet_req *req);
- size_t nvmet_req_transfer_len(struct nvmet_req *req);
- bool nvmet_check_transfer_len(struct nvmet_req *req, size_t len);
-diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-index e5030bca18ee..99a46b6bd231 100644
---- a/drivers/nvme/target/pci-epf.c
-+++ b/drivers/nvme/target/pci-epf.c
-@@ -1596,8 +1596,7 @@ static void nvmet_pci_epf_exec_iod_work(struct work_struct *work)
- 		goto complete;
- 	}
- 
--	if (!nvmet_req_init(req, &iod->cq->nvme_cq, &iod->sq->nvme_sq,
--			    &nvmet_pci_epf_fabrics_ops))
-+	if (!nvmet_req_init(req, &iod->sq->nvme_sq, &nvmet_pci_epf_fabrics_ops))
- 		goto complete;
- 
- 	iod->data_len = nvmet_req_transfer_len(req);
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 2e5c32298818..432bdf7cd49e 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -976,8 +976,7 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
- 		cmd->send_sge.addr, cmd->send_sge.length,
- 		DMA_TO_DEVICE);
- 
--	if (!nvmet_req_init(&cmd->req, &queue->nvme_cq,
--			&queue->nvme_sq, &nvmet_rdma_ops))
-+	if (!nvmet_req_init(&cmd->req, &queue->nvme_sq, &nvmet_rdma_ops))
- 		return;
- 
- 	status = nvmet_rdma_map_sgl(cmd);
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 2223cfd00b58..493e680ddcf7 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1077,8 +1077,7 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_queue *queue)
- 	req = &queue->cmd->req;
- 	memcpy(req->cmd, nvme_cmd, sizeof(*nvme_cmd));
- 
--	if (unlikely(!nvmet_req_init(req, &queue->nvme_cq,
--			&queue->nvme_sq, &nvmet_tcp_ops))) {
-+	if (unlikely(!nvmet_req_init(req, &queue->nvme_sq, &nvmet_tcp_ops))) {
- 		pr_err("failed cmd %p id %d opcode %d, data_len: %d, status: %04x\n",
- 			req->cmd, req->cmd->common.command_id,
- 			req->cmd->common.opcode,
--- 
-2.49.0
+What's changed?  is it folio for device-dax?  none of the code in 
+ib_umem_get() has changed though, it still loops through 'npages' doing
+
+   pinned = pin_user_pages_fast(cur_base,
+         min_t(unsigned long, npages, PAGE_SIZE / sizeof(struct page *)),
+         gup_flags, page_list);
+   ret = sg_alloc_append_table_from_pages(&umem->sgt_append, page_list, 
+pinned, 0,
+         pinned << PAGE_SHIFT, ib_dma_max_seg_size(device), npages, 
+GFP_KERNEL);
+
+for up to 64 4K-pages at a time, and zone_device_pages_have_same_pgmap() 
+is expected to be called for each 4K page, showing no awareness of large 
+folio.
+
+thanks,
+-jane
+
 
 
