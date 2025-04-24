@@ -4,80 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CDCFC369D8
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 13:50:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC5D4C369C2
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 13:52:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tJdKg0AM7bnavIX4fjpcO9tgoXWYFgs3Zwbw1mNNCAM=; b=1rQIwPtPz3CMKN0NiCgV9q8+K1
-	K4O5EjDXbNafcRZBceI7QW6naBZlZ7x3xLIW4grJa9MgjksNZpKHRyUd1TlKwGP+SGLxG7QEjwmOp
-	0B9FQlOFrLa5vvpQ+wqR4cEHUaGn7PAk52GPIX/g740k0QQiFLIMVSSRbOy/cBig7wMpHYmTdYfLY
-	SqaEg1nmWQPBhzoLMdSv1EGQrBgQt9Z4BQyIsrwlOVXmcYMnsx54oUbFuV0EXDCknR5S/akEkhH7h
-	JEHGwmA6pNB6PmkpZkbxGKRP7FXjV4LN/meREdJr5ifDL38NtCwTEmeR52Fzz5gVobythxy50Uhfk
-	eAHV54TQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2t0TWwoG7f9YsNTtW+kGMC8SR5v5qT56DFtVKfvVtTE=; b=I/3ejrsdOfM3NwtYnFG1vnFM9B
+	sWYw+NmsWOT17fU9+5QNzUknRi27Y/n3vp2dnFtmYvxHHPhXib3KN1eKLwdE8764o54aKgHsRVxe9
+	DmJ5wSzgIjWa4HIKXLU6kS+lpVnZs/MFekkHowdPa+yS0KWznIroYCv/d6GQadCmZU+nMLejbUS8c
+	RrRtzsPUq2ZtGDiLGJJHQ5JrSt1pQqGe1zql1me+PMAZxQldARbiowmbRuXYClAa8cIWsxOjANRI5
+	M9fL+Bkir4VEhRqlnpWMCrEu4ULs4S5t7VIe48ZVRM4W6T0dwz26v0UlhmMyLCuOfD11xFphRhb1r
+	9MDih/MA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7wxo-0000000EFrv-1kwk;
-	Thu, 24 Apr 2025 13:50:04 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1u7x00-0000000EGje-3qTG;
+	Thu, 24 Apr 2025 13:52:20 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7wAT-0000000E7O5-0Jxt
+	id 1u7thf-0000000Deec-1kEp
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 12:59:06 +0000
+	Thu, 24 Apr 2025 10:21:12 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A859A1F445;
-	Thu, 24 Apr 2025 12:59:03 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E272521170;
+	Thu, 24 Apr 2025 10:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745490070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2t0TWwoG7f9YsNTtW+kGMC8SR5v5qT56DFtVKfvVtTE=;
+	b=wq9G5fdDOFV027hKveuIbr3COfsK3yd6CE3DaFc99Il6vDAMurxpNqWnDvM50Hdn0FFQMc
+	VPd+gntn48Iko+ThEXZzl+c5G5Tx5qaC03qLStHZwjznQm7lNFcStSo4oNuIQERr2kVwsp
+	zWLgYjKsp19BpvUO6ljC+jEqLxky8nA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745490070;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2t0TWwoG7f9YsNTtW+kGMC8SR5v5qT56DFtVKfvVtTE=;
+	b=7qzyewYoJPKDFKD3EOyfsXCkoOmB7bEWSaUG8/lwNzFDMUtyfHODA6WqyCcGE2czT9Cp3I
+	54MHnKUKetu37rAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Yhzr6B0a;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3jKVYwRt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745490069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2t0TWwoG7f9YsNTtW+kGMC8SR5v5qT56DFtVKfvVtTE=;
+	b=Yhzr6B0ayBJYu95t81xuqdd+h6SUScVInBmPDPMNoXQfYhi5eAU8kJXwb+Af16/Ym3KuPt
+	ZBKfeobVF8mfbtG0EAEmdv2gK47Fo3lkEyPu2ObglyG9/MteJbF6LW6EHH5gyVOOu2kvku
+	/CBOMljMYxFPsYZK8mqKjRUbRmIr2Tc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745490069;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2t0TWwoG7f9YsNTtW+kGMC8SR5v5qT56DFtVKfvVtTE=;
+	b=3jKVYwRtFzFGI3Sy+/P4HP+LA29Hhju5M+YJnknupeRkBNvv1AvEo5LUHy0k1NLS8gRgF3
+	htGOSVxTZatV7BAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BEB2139D0;
-	Thu, 24 Apr 2025 12:59:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C72B8139D0;
+	Thu, 24 Apr 2025 10:21:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 65bLH5c1Cmg+VgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 24 Apr 2025 12:59:03 +0000
-Date: Thu, 24 Apr 2025 14:58:58 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, 
-	James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+	id fCTVL5UQCmjSKAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 24 Apr 2025 10:21:09 +0000
+Message-ID: <05ac9a81-66a9-4bbc-92e0-6ff47a6dc7ad@suse.de>
+Date: Thu, 24 Apr 2025 12:21:09 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 10/14] nvmet-fcloop: don't wait for lport cleanup
-Message-ID: <11c9e291-b7dd-453c-82d8-09d068b6b69c@flourine.local>
+To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 References: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
  <20250423-nvmet-fcloop-v5-10-3d7f968728a5@kernel.org>
- <05ac9a81-66a9-4bbc-92e0-6ff47a6dc7ad@suse.de>
- <c1f207f3-6657-4803-90df-a059353ba6da@flourine.local>
- <8a3093b6-d5b2-496d-828a-0667abbf1670@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8a3093b6-d5b2-496d-828a-0667abbf1670@suse.de>
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: A859A1F445
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250423-nvmet-fcloop-v5-10-3d7f968728a5@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: E272521170
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_055905_253662_4B04311A 
-X-CRM114-Status: UNSURE (   9.90  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250424_032111_607991_4C2D712C 
+X-CRM114-Status: GOOD (  18.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,13 +144,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 24, 2025 at 02:10:20PM +0200, Hannes Reinecke wrote:
-> My point was more: you call kmem_cache_destroy() unconditionally upon
-> exit. But the boilerplate says that you have to free all allocations
-> from the kmem_cache before that call.
-> Yet the exit function doesn't do that.
-> Question is: what are the guarantees that the cache is empty upon exit?
+On 4/23/25 15:21, Daniel Wagner wrote:
+> The lifetime of the fcloop_lsreq is not tight to the lifetime of the
+> host or target port, thus there is no need anymore to synchronize the
+> cleanup path anymore.
+> 
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/nvme/target/fcloop.c | 21 ++++-----------------
+>   1 file changed, 4 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index 47ce51183a66b4b37fc850cced2ddf70be2cdb42..ca11230bffedb0f2313a99e24e54e892daf0d644 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -207,7 +207,6 @@ static LIST_HEAD(fcloop_nports);
+>   struct fcloop_lport {
+>   	struct nvme_fc_local_port *localport;
+>   	struct list_head lport_list;
+> -	struct completion unreg_done;
+>   	refcount_t ref;
+>   };
+>   
+> @@ -1083,9 +1082,6 @@ fcloop_localport_delete(struct nvme_fc_local_port *localport)
+>   	struct fcloop_lport_priv *lport_priv = localport->private;
+>   	struct fcloop_lport *lport = lport_priv->lport;
+>   
+> -	/* release any threads waiting for the unreg to complete */
+> -	complete(&lport->unreg_done);
+> -
+>   	fcloop_lport_put(lport);
+>   }
+>   
+> @@ -1238,18 +1234,9 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+>   }
+>   
+>   static int
+> -__wait_localport_unreg(struct fcloop_lport *lport)
+> +__localport_unreg(struct fcloop_lport *lport)
+>   {
+> -	int ret;
+> -
+> -	init_completion(&lport->unreg_done);
+> -
+> -	ret = nvme_fc_unregister_localport(lport->localport);
+> -
+> -	if (!ret)
+> -		wait_for_completion(&lport->unreg_done);
+> -
+> -	return ret;
+> +	return nvme_fc_unregister_localport(lport->localport);
+>   }
+>   
+>   static struct fcloop_nport *
+> @@ -1332,7 +1319,7 @@ fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
+>   	if (!lport)
+>   		return -ENOENT;
+>   
+> -	ret = __wait_localport_unreg(lport);
+> +	ret = __localport_unreg(lport);
+>   	fcloop_lport_put(lport);
+>   
+>   	return ret ? ret : count;
+> @@ -1776,7 +1763,7 @@ static void __exit fcloop_exit(void)
+>   
+>   		spin_unlock_irqrestore(&fcloop_lock, flags);
+>   
+> -		ret = __wait_localport_unreg(lport);
+> +		ret = __localport_unreg(lport);
+>   		if (ret)
+>   			pr_warn("%s: Failed deleting local port\n", __func__);
+>   
+> 
+And who is freeing the allocated fcloop_lsreq structures?
 
-The first loop will only terminate when all request have been freed,
-thus it is safe to destroy the cache afterwards.
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
