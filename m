@@ -4,51 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EB45C369C2
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 18:19:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 332ECC369C2
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 18:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yYHiYejuyzMvtTyduiS4zBHQRqce33ZqPy+/1k3QOrs=; b=yIDCP0kpOA0tE9XJZ3OnnCja+4
-	AZxsDFSDc8vChNJo8pKA/PVHX8ih+7naYYyPe7c01VcId4isr+nOqFBGzEY699hO4E4h8a4GD/frd
-	ludKP13cRobPrxkPUcPl6YHGXWUQ77Yp7XdYu0EBzT4LllXZSqwcP0OLLZbxeyDMivVwd5Xnr39xZ
-	taLEiilCv2ymKxfFgR+HVt/f5YX/loPrBkV3PRd2k1SazH3RfwQIkyjE3lKPMXR4ue0gG1doUdISS
-	L82GVJ2ZvGwTwC5zhHxbWPZstWhI7Awo/DlWJaTvEYqyWPwT2D6oLaUYlYClYU/B9DK3EDyKsyAMR
-	GCXbakJw==;
+	bh=1pkT0mT4REWvzaXED2te9m99S43Y5Lpy4oaDtXCXVw8=; b=0RlaZnKl0mbvqK5pzUsg34CDh8
+	ki5Y2bh1kGaMyZtSpsv2fRA+zNdTcW/33Y2AzFxcs+LQkJBch6xgPhIE/f2SQnQtZr0AIm4JrY2y0
+	8WQKcQe6g5OuCoKiRJumHHzvGir9SsHL1CQwftWgEXr+jJ9eHa6NcrjVzBzSD7VrmftErJGlbSBL/
+	WjWpaneJxaYwaC8RcRTNYG0YftgOKowEKvPQb34nHZbfahGlY7CEZKzns7hMQJT1+N3NK4tOwDDOh
+	RLmz8YCybD8W2lOGoVmo16RIv2FO6b33Vk92QFmEO648mbCuRJNgi4K6q0Z/RmbhYoOoMO7v2naYE
+	zH1O8B7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u81Ax-0000000Ezp0-0ZML;
-	Thu, 24 Apr 2025 18:19:55 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1u81B1-0000000EztZ-2Z0L;
+	Thu, 24 Apr 2025 18:19:59 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u81Au-0000000Ezmu-1gvG
+	id 1u81Ax-0000000Ezp1-2LZV
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 18:19:53 +0000
+	Thu, 24 Apr 2025 18:19:57 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 299324A7AF;
-	Thu, 24 Apr 2025 18:19:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1490DC4CEE3;
-	Thu, 24 Apr 2025 18:19:51 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id D96BEA4D081;
+	Thu, 24 Apr 2025 18:14:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF269C4CEF0;
+	Thu, 24 Apr 2025 18:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745518791;
-	bh=f6sLhWLNagZY9XRHD4d7BNg+tMcaz2lFqt2rqAjJjGg=;
+	s=k20201202; t=1745518794;
+	bh=ok6xPrZqMzj+pYA0b2w0oFvw0PB4VPK6RSYzfiVkDs4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=fbdMUKeGWwMjJERfSlSZeWEmQeMLGEdo6klkJmeyyVtR0QbTpM5JQWYx2vNqp69gG
-	 HpXez2i1UI1CuXGApm8LQccBssU6R09hJqnHdbm0QeqO1cggMHntVkDLKyjU9ZPSqD
-	 lj4+8RBDKymttnR6MDAFL7MQX/Yv+bYL7S0owsdIlfewG75LOjfjFbF7h3y+g/NtAV
-	 859MrTH4dTHjMkfBadxWfKIMcf2zL8Z3blE/P8FvZvK0Mw4gd1EPwNwSlx24T/5Fj6
-	 Xr+/tPIGTAnYwBQ8t1hqp6NWV2dFP6d8UqvrBCVvPe20YwegfX+DAUOxehUehE9cyW
-	 ki0ZEVdusQOjA==
+	b=uBOlEZKBSib8YU5vBRS+rzjM30Tzh2DoF8SmxfVGZ40u4kG+z1iBuJ1YYa5TuzJ+E
+	 K29lL3XrcN9mi/wlaQCz2p5XcvI0AEk4rqYIQj4Q0+1gfutkmTTAgFZfI7DDyXKOE2
+	 oUpz/xbUodeoYK7oRUr7kcA4v2y3MJUwkNqPVA3TVDTSXki9wFUkhVN+BW6cIx9kqw
+	 eLdDWGpof5wsS9ErUeSrom/DhdQ1S/5odHIVzYeceWhcEWbRs/kDb0u9h2mBL76cQA
+	 WEZ4myBfmfOPbeVzlqzXY6DutFgxxU51roTLOh/LHFjsBcVgcnIhEf8lTnPIFSDCva
+	 cMv9hQM3yn1tw==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Thu, 24 Apr 2025 20:19:41 +0200
-Subject: [PATCH v6 2/9] blk-mq: add number of queue calc helper
+Date: Thu, 24 Apr 2025 20:19:42 +0200
+Subject: [PATCH v6 3/9] nvme-pci: use block layer helpers to calculate num
+ of queues
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-isolcpus-io-queues-v6-2-9a53a870ca1f@kernel.org>
+Message-Id: <20250424-isolcpus-io-queues-v6-3-9a53a870ca1f@kernel.org>
 References: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
 In-Reply-To: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -68,8 +69,8 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_111952_534343_A7A522FC 
-X-CRM114-Status: GOOD (  14.37  )
+X-CRM114-CacheID: sfid-20250424_111955_695931_4FD409B1 
+X-CRM114-Status: GOOD (  13.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,92 +89,39 @@ Multiqueue devices should only allocate queues for the housekeeping CPUs
 when isolcpus=io_queue is set. This avoids that the isolated CPUs get
 disturbed with OS workload.
 
-Add two variants of helpers which calculates the correct number of
-queues which should be used. The need for two variants is necessary
-because some drivers calculate their max number of queues based on the
-possible CPU mask, others based on the online CPU mask.
+Use helpers which calculates the correct number of queues which should
+be used when isolcpus is used.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- block/blk-mq-cpumap.c  | 45 +++++++++++++++++++++++++++++++++++++++++++++
- include/linux/blk-mq.h |  2 ++
- 2 files changed, 47 insertions(+)
+ drivers/nvme/host/pci.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-index 269161252add756897fce1b65cae5b2e6aebd647..6e6b3e989a5676186b5a31296a1b94b7602f1542 100644
---- a/block/blk-mq-cpumap.c
-+++ b/block/blk-mq-cpumap.c
-@@ -12,10 +12,55 @@
- #include <linux/cpu.h>
- #include <linux/group_cpus.h>
- #include <linux/device/bus.h>
-+#include <linux/sched/isolation.h>
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b178d52eac1b7f7286e217226b9b3686d07b7b6c..2b1aa6833a12a5ecf7b293461a115026f97ea94c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -81,7 +81,7 @@ static int io_queue_count_set(const char *val, const struct kernel_param *kp)
+ 	int ret;
  
- #include "blk.h"
- #include "blk-mq.h"
+ 	ret = kstrtouint(val, 10, &n);
+-	if (ret != 0 || n > num_possible_cpus())
++	if (ret != 0 || n > blk_mq_num_possible_queues(0))
+ 		return -EINVAL;
+ 	return param_set_uint(val, kp);
+ }
+@@ -2448,7 +2448,8 @@ static unsigned int nvme_max_io_queues(struct nvme_dev *dev)
+ 	 */
+ 	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
+ 		return 1;
+-	return num_possible_cpus() + dev->nr_write_queues + dev->nr_poll_queues;
++	return blk_mq_num_possible_queues(0) + dev->nr_write_queues +
++		dev->nr_poll_queues;
+ }
  
-+static unsigned int blk_mq_num_queues(const struct cpumask *mask,
-+				      unsigned int max_queues)
-+{
-+	unsigned int num;
-+
-+	if (housekeeping_enabled(HK_TYPE_MANAGED_IRQ))
-+		mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
-+
-+	num = cpumask_weight(mask);
-+	return min_not_zero(num, max_queues);
-+}
-+
-+/**
-+ * blk_mq_num_possible_queues - Calc nr of queues for multiqueue devices
-+ * @max_queues:	The maximal number of queues the hardware/driver
-+ *		supports. If max_queues is 0, the argument is
-+ *		ignored.
-+ *
-+ * Calculate the number of queues which should be used for a multiqueue
-+ * device based on the number of possible cpu. The helper is considering
-+ * isolcpus settings.
-+ */
-+unsigned int blk_mq_num_possible_queues(unsigned int max_queues)
-+{
-+	return blk_mq_num_queues(cpu_possible_mask, max_queues);
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_num_possible_queues);
-+
-+/**
-+ * blk_mq_num_online_queues - Calc nr of queues for multiqueue devices
-+ * @max_queues:	The maximal number of queues the hardware/driver
-+ *		supports. If max_queues is 0, the argument is
-+ *		ignored.
-+ *
-+ * Calculate the number of queues which should be used for a multiqueue
-+ * device based on the number of online cpus. The helper is considering
-+ * isolcpus settings.
-+ */
-+unsigned int blk_mq_num_online_queues(unsigned int max_queues)
-+{
-+	return blk_mq_num_queues(cpu_online_mask, max_queues);
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
-+
- void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
- {
- 	const struct cpumask *masks;
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 8eb9b3310167c36f8a67ee8756a97d1274f8e73b..feed1dcaeef51c8db49d3fe667c64ecc824ce655 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -941,6 +941,8 @@ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- void blk_mq_unfreeze_queue_non_owner(struct request_queue *q);
- void blk_freeze_queue_start_non_owner(struct request_queue *q);
- 
-+unsigned int blk_mq_num_possible_queues(unsigned int max_queues);
-+unsigned int blk_mq_num_online_queues(unsigned int max_queues);
- void blk_mq_map_queues(struct blk_mq_queue_map *qmap);
- void blk_mq_map_hw_queues(struct blk_mq_queue_map *qmap,
- 			  struct device *dev, unsigned int offset);
+ static int nvme_setup_io_queues(struct nvme_dev *dev)
 
 -- 
 2.49.0
