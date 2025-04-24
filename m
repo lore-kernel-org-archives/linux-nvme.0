@@ -4,203 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74453C369D3
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 01:49:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B3D9C369CB
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 02:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nYu3qUJbhusnloRkvjRMq9LbrDuGr9+VaJu/yAE1kuI=; b=AGu5PrMy3NU6klhjn4PPSdr0ea
-	Eh7dD+s7Oi0ltpxsg3vUs0SgiyLgAh+rY/3jufN3qA2n6lqVB9RsHa/FrpMEgofsiEghKkuaXmOOU
-	HE726T7b+DCwKNS5LaVsvvy6g5GwiiRhs6zHIcy0990UhlG3ie/+flz13+GebX36GKYGV7Qt3eKxE
-	3bNFGAbHgzmEnFVTqmbGQso3zgJ9IyeACJ6BO6WZfrGQWJ9aqhFTt2V1YuNFS6MZIr0RY5c5xeDju
-	W2rUmvs5afmNJMJihMcnGky0JmUEqrlME9xhKthh7ISI4CxhcK5r+NYkxSu4SaWx0cplM+xhjumsm
-	g9RjWdUQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UbigUt5KF6vtXvm6Rdds6/wGeynUAGYeuhwG5Sk2oq4=; b=DctdqVDInAm9o1I2P+1CniDtw7
+	wePuBtMVV9qszkzhnEoM3DMNMkYqT2oAOEcxhRM7qlzZ7FznyOWa0OTstGZAxRs94bwUAf0weYahK
+	ZEmninW+2sf4hAN9lr+GIXDULa2mqFIDd1XGJvMbPcMDmwCb+64ejnoTSt987NDWHp4tkziwfzQ+V
+	wbbq1xh7SHC3qF6m8I4LpVWAhzCrLF0VJ3g6o4IXSRXYJPlT7jQ1B5imyyZMXvytl54KQiacwGRDO
+	YFVKedytdc/BWtig7tKoZ1cqlLuefhsag5u9WYCS0/2jcrQzl7Y43Yj5esioI7WbcudpFaXt919ln
+	BIcsEdUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7lio-0000000CZ6p-25UZ;
-	Thu, 24 Apr 2025 01:49:50 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1u7mY7-0000000Cd7W-40VC;
+	Thu, 24 Apr 2025 02:42:51 +0000
+Received: from smtpbg154.qq.com ([15.184.224.54])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7lil-0000000CZ5h-3AYH
+	id 1u7mY3-0000000Cd6v-06AR
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 01:49:49 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53NLMuog013977;
-	Thu, 24 Apr 2025 01:49:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=nYu3qUJbhusnloRkvjRMq9LbrDuGr9+VaJu/yAE1kuI=; b=
-	MYYkVp18WUF8MAUncs3G3iOwpH+rQqMJ2NsBeMhciViiCiKhhNPYO6w6GI90MzPW
-	y6HvIyY35pyX8bbj7kFXEmJQZc/eNUW+yOorc2soEwgPyORmyoxEWXdxmRAsu+j9
-	nEydXEU/DX7mcfYz4FN1E+HVwRXeosemWzp25ujzthcBM2SZITCOkLJnrafbpOlc
-	GftZ6s9OEyLSirP/XlT2WTe4RV0F6Wx5az/o8P8MK2MKnUCkCX2tcxTEFFseA3C1
-	FKWDD4k3hk/8pneuh0BM4rTzl7a5c6xUL/z3Q8ezgOLW6ZVr5K+Jw8KkMnq7w7C3
-	fVf0Fr5F0CM6iELs2CgwUA==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 466jhdjtqd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 24 Apr 2025 01:49:36 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53O0MnaG017418;
-	Thu, 24 Apr 2025 01:49:35 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 466jvfwr1r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 24 Apr 2025 01:49:35 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GvqIvExkleUkEodH1lffNcON6GgmLeu4cHTnUZvS0sOVrThNdwzU41nBFQLEV+33aw/6ZFlYfjUpKubzZWgA571MChxQfhl6Mi4PKyr6hni0BdwcwZcbF6qwKh0OBOlxU83vQptokuXDF8TQpgYKC7u0KqHEkOOlN4oR5dyVjsiCkdmPMXVVnhZ9jnGOkPYSuUR5l23xGB6D8HEE2xKjDbWLDP4FZl/SEQusp/uJSFoLMX5S2Gbij1d6GpPtpWb2MDb6COPFmke5f6KqRa1J3o2ObCPwOn1U1kaqvuCyWzehTsA9l65EGORBe9zB9gOtdR2MBpMtTmyKlmsoZG8byA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nYu3qUJbhusnloRkvjRMq9LbrDuGr9+VaJu/yAE1kuI=;
- b=QBSGxHtJh1Ygc3peBp3+ogSgWzo5bsS1moHYjWX0Apvzn1Pg+xHy4xqN2/TdX7xWVUTFVH6dlC5Rs3LS1tJPeJ+yhDQfkjoYmbzdIdChvYgiShazECpkxboQcn1lFlOc2DwZhIhSjb85UH8SswcqXvTFLACnFbDfikasUJWp3DuRDWOP1LHpCgl0K95hZAUvzONGS591WT1FJoXpYtEHW4YJ/MMBsSGiAFsnLWuRTuB8X1eNJxdqeOOrpgMm23Tgz0G0GRZVvw4krAtAHPbctNVZMM9xdGPdXywqED6gMSRvU4ONGwhsuC1aOdw9gfi8C711v2jG+rTgmpAWTkQYhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nYu3qUJbhusnloRkvjRMq9LbrDuGr9+VaJu/yAE1kuI=;
- b=uKCnBtmqoaCOKotj2J0dZ37cyB5hIRxISQRubJ5R3A1eh0X5Zoke2K6RxmU1wqk9QXY5j6R93Hj12iOwUj4N75BmcBp3a2yTq3vFK9DUJylnlW36Chu0rcmeVIsWLWAIvJthvPXWVqNff+Ub6o8ZxmTSTlbggHyxm/1N6PdwxH0=
-Received: from SA2PR10MB4780.namprd10.prod.outlook.com (2603:10b6:806:118::5)
- by CY5PR10MB6024.namprd10.prod.outlook.com (2603:10b6:930:3c::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.33; Thu, 24 Apr
- 2025 01:49:33 +0000
-Received: from SA2PR10MB4780.namprd10.prod.outlook.com
- ([fe80::b66:5132:4bd6:3acb]) by SA2PR10MB4780.namprd10.prod.outlook.com
- ([fe80::b66:5132:4bd6:3acb%3]) with mapi id 15.20.8655.030; Thu, 24 Apr 2025
- 01:49:33 +0000
-Message-ID: <914dfa88-d36c-44c2-a7d6-22f6fbd2b86f@oracle.com>
-Date: Wed, 23 Apr 2025 18:49:30 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: Report: Performance regression from ib_umem_get on zone device
- pages
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: logane@deltatee.com, hch@lst.de, gregkh@linuxfoundation.org,
-        willy@infradead.org, kch@nvidia.com, axboe@kernel.dk,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org
-References: <fe761ea8-650a-4118-bd53-e1e4408fea9c@oracle.com>
- <20250423232828.GV1213339@ziepe.ca>
-Content-Language: en-US
-From: jane.chu@oracle.com
-In-Reply-To: <20250423232828.GV1213339@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0223.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::18) To SA2PR10MB4780.namprd10.prod.outlook.com
- (2603:10b6:806:118::5)
+	Thu, 24 Apr 2025 02:42:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1745462502;
+	bh=UbigUt5KF6vtXvm6Rdds6/wGeynUAGYeuhwG5Sk2oq4=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=mWXSd5kJFIEnBsc9l34FezvD80G0YxzvpQaijlpCmt65Kqf0ysS1ciXke8SQ55TfR
+	 skXMoQx7/oMq1B+4pj6KUuBWW4ld87fXPDZuf/EhNfBLzo9pNjQsvhHyHwAymVMfTi
+	 NL4cs3s10FHMK/jSjqmFneu5ajLRmUwI2AmXZrx8=
+X-QQ-mid: izesmtp83t1745462490t61fbef5e
+X-QQ-Originating-IP: qd4J+Brc3gEv+XdEw9ds53FUz9UbATLTkRp8ND+qv6Q=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 24 Apr 2025 10:41:28 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 15135516614704015789
+EX-QQ-RecipientCnt: 12
+From: Wentao Guan <guanwentao@uniontech.com>
+To: kbusch@kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: hch@lst.de,
+	linux-kernel@vger.kernel.org,
+	hedgehog-002@163.com,
+	rugk+github@posteo.de,
+	sean.anderson@linux.dev,
+	wangyuli@uniontech.com,
+	zhanjun@uniontech.com,
+	niecheng1@uniontech.com,
+	wentaoguan@vip.qq.com,
+	Wentao Guan <guanwentao@uniontech.com>
+Subject: [PATCH] drivers/nvme: Add quirks for WDC Blue SN550 15b7:5009
+Date: Thu, 24 Apr 2025 10:40:10 +0800
+Message-Id: <20250424024010.308175-1-guanwentao@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PR10MB4780:EE_|CY5PR10MB6024:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f49b051-4f14-4917-390b-08dd82d242b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?b0ZiSWl2d05ITnBBdzR4WTFUM3FXRmIrOHIyTHFOcnhhc1E2YkdUUW5IRmNr?=
- =?utf-8?B?dEowSFhHbFFnMXZQdkNleVU4YlZLRktQdy9vUUtVYWFOTzZNNllWdkFLNXpv?=
- =?utf-8?B?WE4wRlVpdGxBVnF4T2doVmdSdURJalFsV1VQQ09hNjVIc3FQSVdSY1pCYlNF?=
- =?utf-8?B?My9wbDN1NXp2eFlpaHRMaWxQV1VBQlMvenJxTHZ4SkZYcUI2Yk5mT2k0RGsr?=
- =?utf-8?B?ZWY0SW5HSGYrZzZORDU1TFdpY2hBZFllMzUwck5rSFVpNjJsQ2NwR0t6OE9W?=
- =?utf-8?B?S1dMWm9EUzZrYXJ2ekFHVlk1cDB3ZFU2R1JsVk5JcXJ6RjRDWElKRUNsWHpP?=
- =?utf-8?B?VWE3Y3NjZ0Q5R2p0bmZ6RDcyQ2hkdWYvUmJIK3dCSEFIb2tQdTV0bUF3SC9N?=
- =?utf-8?B?aFNwZkQzRUpsajVsU3NpTXQ3ZGZJWWE2ZVJNNTdwYmZZUnRvK1daTXVBRGpo?=
- =?utf-8?B?R3pjeC9KLzdEODltTy8wb2ladHJQZHpJanJXbUxiSldGUnVmU0l2bysxbUl5?=
- =?utf-8?B?b2VNeFdHc2tMd0VITnV2d3dZL3h2Tjl4UnpyS24yRmpoNkIxN2Njekk3WFZM?=
- =?utf-8?B?c3g1M2NGRk15RjQ4bnZxR0lPd3ZNc1VUTjVJNWRZWWlBSlZwSjFUK0REMHVV?=
- =?utf-8?B?Ny9xbnc2RVVYZHVQb3hhc1BKUXFtT1ZDYWtacFl6MEFvWnNTWmtqR1p6WDBq?=
- =?utf-8?B?MEhmY3BVS2hGN3BaYkFwbm1MYkRRVVNzSHMwc2N2ano3SWdiakJ6RitqdCta?=
- =?utf-8?B?ZEhkd1JQa1hXSGluL0EvamZ2WVdqU1gwZXBNclhwNHFwa3ovaEFyQnRjT2h1?=
- =?utf-8?B?a0VlWCtPenhlcDQ2VWx3enUyM3VaV0MvaXlmaHB5TjJGMTcyMzlORXhOY3F5?=
- =?utf-8?B?Q1N0ZHBrOG1mYVVSMVo4OW13ZHlQWDFKQnU1Y2hNN3hySDdUdnZoMDYzVklT?=
- =?utf-8?B?MTNybk5rL3hZU0RER3hxWmJLWDlZTEp0UDlZUFBIRzJtUUthU3laUlllanpr?=
- =?utf-8?B?UDFuVDNWUE1OWndGZ1BIRWIyRGQ4MGpTcXFLTVZrYTRPRGVBUVhQQ04wakN4?=
- =?utf-8?B?ZDBjdlJwM1lJd1ZvK1lKbGJCUmFhZllzZWl4aE9Oc0dzM284aVV5UDhJT3lD?=
- =?utf-8?B?OEN1enhmTExZaE9mcEdFdWtEZFg5WGVMMUVtK1FXVStZZUZmcCtrZ1E0UGtu?=
- =?utf-8?B?RFZjQmZOdEp2blBxZ2RINjNVdW5aWkV1REp4OHp1NHNrL1BBVGJHZjhZUXdS?=
- =?utf-8?B?ZUsrUWZJSXBGT0Y2TURNTlEwVjFDT3BuVHBpKzlzOXdYUXNocy8zSTBhazdW?=
- =?utf-8?B?dWQzZUtHS3B5eGZxY3Urb2F5ODRseXVxdFhIWjF1WGJvQklIQzIrT1BwM05m?=
- =?utf-8?B?Z0V2QXpXRVhiTCtRRTdnd0ZpeVNSeVl3SklMY3hqQTNZaFMvOWVVOHZJcDFy?=
- =?utf-8?B?clBQZFhoQlZLZlRCNXduNnhGcXQ4cHVwY21XKzdSbHd1eU50U1pRV1k1REgx?=
- =?utf-8?B?cVl5NEZaM3N3ZlNnY0t1VVhFa2hFRGZGSWVialJ0L0VjV2IvNTNyb2pOTTNw?=
- =?utf-8?B?VXJrMTc3eDFWbmdKZ1BjSm9FRFpKNE5hSU1weDJKZmhPZnV2UWNobkh0VTZL?=
- =?utf-8?B?M3N5OTkxZlFoV1UxanJRU1NZR2x4ckhMa3hSNy9KSStmSkhiNU9wcVIxSHNS?=
- =?utf-8?B?WmVxVHZWQWxDOFUvSTlUbFpDWitsV3JJRVhsV2ZEeGxVUDZ2dlFvSkNDTm5C?=
- =?utf-8?B?bk5tekI2dUFaMFBOdUR6a2p4aU0zUm5qK3NUY2hsVTl4aTg5NWpqNHJFeGts?=
- =?utf-8?B?cVNuSzk2QkQxWEROR3FSaHBhM0s5d0grQlJvWFQ0U3FqcjBXUTFEam5uQ1Rl?=
- =?utf-8?B?RWtJb3NVT3VyelVGNGNOYnp6ekpheGVxQ1p1VEJjVmR5ZWxDZ0Z5ai8vMGIz?=
- =?utf-8?Q?Nii/LzCfim4=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR10MB4780.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Yjc3UERPVFNWNXhIUHA5NGREbk1RZUEwQVgvQURKUWN1ZldFd29GazI4aUJs?=
- =?utf-8?B?cFI0T1NNYllsb2lxZWNTeUZ4cHRqUmJiZjdwbEdaUUcxa2h4WnFPcmhQZ2FT?=
- =?utf-8?B?OUdBV3RsSUNMQ2RaUm1DSnNXUitaSk9GejQ4ZS9LVmllQWxqVWZuTjNMMTRS?=
- =?utf-8?B?QXBPNzcxS0ZxOXVqRkxhZVpTRklsTHJKaGlMajVxeFNGdEFNL3o4U2ljd0kx?=
- =?utf-8?B?L0ZpSXY0Wm1idjlJbm42aEFZY24vS0JocXJydTVTK29UR1Eza21BODEzWjFT?=
- =?utf-8?B?Ym5GOTVPdm9OSXUrc3pybHpuMVZlQjVna2FHRndLVy80a0NFVUJIUlF2Wnl5?=
- =?utf-8?B?Vm9naTdTRjFnZWtKU0FwR043S2liV0VtdlludDhTNzlyaVhHQStmcXJqRkNp?=
- =?utf-8?B?ZDBBVlFtbUllbDdTT3BQVXlxMUR4cVV0VFd1TmQrcnlmbmh2ZW1oVGwwMGcw?=
- =?utf-8?B?NU9vcUNBaGgxaDFwczBVdzNERUtDSTJwclRyczBKdk5taHVZbGxaUXpWS0ZS?=
- =?utf-8?B?YkxyREEzU2VNRjVxSkZ0M2hlUUFHQjlhUnRRM3ZqeVNLWklCZVNvY3RoWStp?=
- =?utf-8?B?cFVrRCtpWVRNSjN4Z1RQYWlxRnlGaHRhZDdtb1RLU2h5TXAvSmxYaVZPQUNW?=
- =?utf-8?B?UnlacitDdGVUdVlRN01yazNRKzJIaGFHeWxqMFNiUGUyRDJNcjhMamlOMDZy?=
- =?utf-8?B?WXFCK1IrU2pYUm4yTlQ4U3p4bDZGTmlPU2VUUTBwZFRGZEtGYzJQcE5LS05t?=
- =?utf-8?B?OVJYSGVYUHR5SXVJaWxhL3pTM1craUtiNnhwZ1RVMHhCL0puVWE0dU1RVVFu?=
- =?utf-8?B?Qk9OdVA5dUM2bms4MHBRUVlGT2Qxd3lZTmFzM09ZbGtqYThoSGJ4bzlrb3VE?=
- =?utf-8?B?Q3g2THVHRW81dC9yQjhhZXEwY3BabWJFZGhpL2YvTUk2SExGS09FRjBDWFVL?=
- =?utf-8?B?TDQ1U0F0QS91VmkrUHcvU0pMTjRQbjNSVWZXcXkxSFMwR0hlc3E5S3VIUG51?=
- =?utf-8?B?WWg2bGl4ZXA3UjV0anFlYUZrci9BL3hOMXpybjZ1L2haeHVmUW45eVA1T3hM?=
- =?utf-8?B?ekF1bVJTYUZ1SzZVRG1JcjdKVm81Y0hoY2NDMjRnc1NRZHFXdmExVzNsbjBk?=
- =?utf-8?B?Rk9KdVpoVmhUK2pCcWxkc29BRFdRNE5hRk9kUVZ0c2VPOWErU0JpMFFZV2c3?=
- =?utf-8?B?eEc3VHAvV1QvZTNLc2x6N0dNKytlMlY5OGVJUk9PYjRCeFk2bjhoZEs5SGJz?=
- =?utf-8?B?V0dWa0hLeHlxZURHcnd3TE5oRjNJVmhIVXVBTmY4d1g2SUlPdTcveXFkSUpG?=
- =?utf-8?B?V3NmU0ZhQ01JRkNua1E1UTg1WGlBV1ducm5xYW83b3FGdmJnVkxjeVAydTN6?=
- =?utf-8?B?VUt3SUY5SzExZWZUcTc3ZnczeVFWZGUxQzJBaTBVbmVXZ3dzVVYwOWc2MkRR?=
- =?utf-8?B?VEpDamE0SGN1aXZ1elNXYjdYV05jbDdST21vc1NyaXRKNkd0NXQ1UFhTZEVt?=
- =?utf-8?B?NG9tcU04MTVvZTV5dURlUFVxNkdmUDNIOWJob0pYdHJOaGluYTRIY1JyRXFW?=
- =?utf-8?B?Uk15bWtoV0pIYWJlVlJ3aUl2bm9ucmVJdndDbnA2UE1rckYrLzE4RkU2L0dT?=
- =?utf-8?B?VUxXZXV6ditmenM2Y2tzTWM3VGl3QnM1SWsyV0V6VlN6cGsxRmtzcnhUd2h1?=
- =?utf-8?B?N21SVmRlcFYzRnpybzdGWG9pMDlvM1RXQmpIcnJSRGZBZEVVSVdseHJGRjRy?=
- =?utf-8?B?TTdGNzZmazVSb0RaczRad2xXTUt3Q3RMMTBUeEtjbWR3OWIvOG9lZVZiRFJX?=
- =?utf-8?B?U2E5QVNDS1J6RkZkMk41OGt3d3QzM25lZUtzOEd4c2h4ekpxczhjNExPT2Zu?=
- =?utf-8?B?aHpYMmVZZmt2SlJURXlKTC8vWDdGRzZTb1RlT3g0Nk43cjhsZDUrMkFPaUlt?=
- =?utf-8?B?YlZWT28xcTYzcitkd2xleWZUQVJnYkFVT0xXem4wa3RHOVYxbHNzMm9iK2Rm?=
- =?utf-8?B?TW0xUy90VmYxckcwNHdacUs0NUE0NzNjN0lzcG1QTnpCVzBhTWpoQW5CcUhW?=
- =?utf-8?B?MXAyTXhWWnM5YlN2dTRoUWdCVVlpWHBSVEFab0NjSlVqSzZ4LzdIcExPOU45?=
- =?utf-8?Q?cReQWMzByYhOJ0YcU7aADS7HR?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: sTCsRy+iAzGM0cB2lNEk7FoMf+4y1Nw9EGwHrFl6Aiv6Syx8Ti5AKKN3gqXvpEzlBssPrh19wX84fKpzwJ0QvvA9nFUyDp0XR5ZLYc/0PfOr1ZM2CdmAT5J0EgDIMmLukcFH6JQbkQytMzRejvwb4BK2uUNHIJdo/nilG2bkuYL/MwJ63VnXvnuIjQe3Q1cdsyVJ9pdWWuJVK+KS0hVGlCYau1m75xReaE3+xQG/apz283BZPOuPp4g8mg8rOgvna1APN4fHE4a64/vFNA8hETfo/zPPpelj6ehYIJNsFyebL65v78wpK/ErRRLbb3cGLonSffbK5u58PuhC7NAztuZDcwfdyWT/BjNBAbdihgREI4LcqWr5mbUVk1YbhPGuHhPGFKQ+df+U1sNQY2FHIL2qY2bI1rGWIfBxpnbFfU9+K2mnk8EzIUrNPVRylKxf3IZHHBr0giU6iOrFa4ZprcrHaNQSE5GFYFQ+WS8BrpP08rjBYXq2kA/Zqn/csuFaE78mDWOKJp+j0o9HuTsNGgocW3wQAnBmMohsof5oQSve95hqD9vzzMSNoqAuxBSXmqr9xZd+d8y7tWrZuY02pacEN4zsmSDD2vQp5V7Y6LA=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f49b051-4f14-4917-390b-08dd82d242b2
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR10MB4780.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 01:49:33.2234
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YyWvy4GeajadcdfWEW/BBiuqhru4cJ1yrd7KzAXWGGCh+nQ+8pT7WtvAjFrMppx4ONHmx6qPOjA/1QfRt1Gx9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6024
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
- definitions=2025-04-24_01,2025-04-22_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
- mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2504070000 definitions=main-2504240009
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDAwOSBTYWx0ZWRfX5PlOThrX7yeY Zs1Aj3xeIRLC8hORwKGYJ+m1r+s1V6SxNR4smeU5Ps1dzfDeiNZNu9XxXIgC4SQtov2EfODspRu h5u4+9hUUJvMaafyvZnlbcvQtW8A2fYNWXmCfVTzCB7btsVAPahZmHZVEEw+Hpk2m4StoEalFSp
- 19cZyt7xH1Y6xTGCqIPGsrmROHyCBN24xRbLAh42X9qAAWi4kRk5bzCRewvBuLComWLcljroGm7 l0M4iK2qTRpnjL4r+xnQAUDhu+lSBQ8bK8dEgA3lIFQglC5RDOqbKTQH5nGqPP2tqNeKtpOv4um 9XzYCrctio7xuMgao7tHweV+XtmFDTfXxjHzxpBwrx2e61xjomUKS+gCeLU7BH319sTB1KnfTP9 6IWiNTkb
-X-Proofpoint-ORIG-GUID: rxo0B5AohoNfJ67Rhegdu582KtUyhw5m
-X-Proofpoint-GUID: rxo0B5AohoNfJ67Rhegdu582KtUyhw5m
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: izesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5a-0
+X-QQ-XMAILINFO: NojR6Ao/DkED1phwD+1NzoJUorjo/29SwbVNxXdxoYfr1sU90zFegIYa
+	erT0CKxF2OBKrbxoL2JGWFZmx0nS3ma0Ev7P43dXrTKxuamQzYWv6jwhpM3DTJ8KUM2Y7F9
+	pZfl/BXdUUkFk6UtwDuG3KWx8auvYC2P6iNnuANOj5FmVua6zlsitf4oB3+DIw55l2+1gb9
+	0xj7sFK9atuun4eUoLM9KnKrubmCM7GCSwftjxeQSB9mVRydbW0l1JzNxWrUpeltFwpXXLT
+	+J6+DQf+GOvV/t1d0qH4G6jvR5+2uOhJO6OFT3Eb1e4+BdCV1LyVFI4Tmv7Egi+dAfJGhKk
+	bar+eLTGRDZWtQlBv3z+QhMkIuAgvx6pk17nCE/l5VBK+g9YnSQIx56iav425q+wN+dfhx9
+	VxTVLc6E1t0a2ZaUynHOREz7nUdw/62pjildDkwU+68vzU8G8gbrSfSooSrQeDxLTboSWMR
+	t/W7x4s5NXkHkwjGg2aXvk86W3TNALYcZbpBfUtIFy3yDLuRKRops79kwEv4/RgKjt5ns+8
+	bbL0m+zxlDQiq+sbU8goG0bWqs1REG4xRBVPk5/j0M+n4GO0OvTmvcbF+FzSmavhQFaS3R/
+	DP/5XJNkRRQkXq5ezYiz9m+pOYNPYTR8WrgIPtnnmaAApvVTTIqWYmssvHYAdtx8zdKbJ14
+	T/Ic2Y78eahilWflc5Mqn97W6JVJ0o+I9od7bYS0kqO3whphLT/+17WpBh28p81juUKjMvO
+	ZP3J+ABDriuWMfiTwakhn75tuaRW34dCQz//CGAMwf9PXI1pfRX9w3AgW65D5XAql7TbQiu
+	L5u3OnHeF+77cgDKe+c1oxx1Pp1Ay8cmVIK7vrL+uf0LknaQkeJUy18Mbv1IO9+rvl32Xhn
+	tNyPAXMQDYUryGEgafptqICjMQHW6YSVSs5VGuup3iFVqhYKzaC3fjJZ/tkCgsJhmeFJ91X
+	THQjzAJymVafDQk0+d8bhHk9JuvaXr9oLYjm9ROg8sprHyMVmS0Vm/RGkwHZksVyzhbQ0ch
+	v9iDf88GAfOxqKaE/YX5ekK1cGBSRwHUWi0O18NFskGr0c9EEoln0UEG9RgXSQ2WUQk5Hal
+	Q==
+X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+X-QQ-RECHKSPAM: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250423_184947_916818_670CF455 
-X-CRM114-Status: GOOD (  25.69  )
+X-CRM114-CacheID: sfid-20250423_194247_723716_5246A04B 
+X-CRM114-Status: GOOD (  10.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -215,69 +100,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Add two quirks for the WDC Blue SN550 (PCI ID 15b7:5009) based on user
+reports and hardware analysis:
 
-On 4/23/2025 4:28 PM, Jason Gunthorpe wrote:
-> On Wed, Apr 23, 2025 at 12:21:15PM -0700, jane.chu@oracle.com wrote:
-> 
->> So this looks like a case of CPU cache thrashing, but I don't know to fix
->> it. Could someone help address the issue?  I'd be happy to help verifying.
-> 
-> I don't know that we can even really fix it if that is the cause.. But
-> it seems suspect, if you are only doing 2M at a time per CPU core then
-> that is only 512 struct pages or 32k of data. The GUP process will
-> have touched all of that if device-dax is not creating folios. So why
-> did it fall out of the cache?
-> 
-> If it is creating folios then maybe we can improve things by
-> recovering the folios before adding the pages.
-> 
-> Or is something weird going on like the device-dax is using 1G folios
-> and all of these pins and checks are sharing and bouncing the same
-> struct page cache lines?
+NVME_QUIRK_NO_DEEPEST_PS:
+liaozw talked to me the problem and solved with
+nvme_core.default_ps_max_latency_us=0, so add the quirk.
+I also found some reports in the following link.
 
-I used ndctl to create 12 device-dax instances in 2M alignment by 
-default, and mmap the device-dax memory in 2M alignment and 2M-multiple 
-size, that should lead to the default 2MB hugepage mapping.
+NVME_QUIRK_BROKEN_MSI:
+after get the lspci from Jack Rio.
+I think that the disk also have NVME_QUIRK_BROKEN_MSI.
+described in commit d5887dc6b6c0 ("nvme-pci: Add quirk for broken MSIs")
+as sean said in link which match the MSI 1/32 and MSI-X 17.
 
-> 
-> Can the device-dax implement memfd_pin_folios()?
+Log:
+lspci -nn | grep -i memory
+03:00.0 Non-Volatile memory controller [0108]: Sandisk Corp SanDisk Ultra 3D / WD PC SN530, IX SN530, Blue SN550 NVMe SSD (DRAM-less) [15b7:5009] (rev 01)
+lspci -v -d 15b7:5009
+03:00.0 Non-Volatile memory controller: Sandisk Corp SanDisk Ultra 3D / WD PC SN530, IX SN530, Blue SN550 NVMe SSD (DRAM-less) (rev 01) (prog-if 02 [NVM Express])
+        Subsystem: Sandisk Corp WD Blue SN550 NVMe SSD
+        Flags: bus master, fast devsel, latency 0, IRQ 35, IOMMU group 10
+        Memory at fe800000 (64-bit, non-prefetchable) [size=16K]
+        Memory at fe804000 (64-bit, non-prefetchable) [size=256]
+        Capabilities: [80] Power Management version 3
+        Capabilities: [90] MSI: Enable- Count=1/32 Maskable- 64bit+
+        Capabilities: [b0] MSI-X: Enable+ Count=17 Masked-
+        Capabilities: [c0] Express Endpoint, MSI 00
+        Capabilities: [100] Advanced Error Reporting
+        Capabilities: [150] Device Serial Number 00-00-00-00-00-00-00-00
+        Capabilities: [1b8] Latency Tolerance Reporting
+        Capabilities: [300] Secondary PCI Express
+        Capabilities: [900] L1 PM Substates
+        Kernel driver in use: nvme
+dmesg | grep nvme
+[    0.000000] Command line: BOOT_IMAGE=/vmlinuz-6.12.20-amd64-desktop-rolling root=UUID= ro splash quiet nvme_core.default_ps_max_latency_us=0 DEEPIN_GFXMODE=
+[    0.059301] Kernel command line: BOOT_IMAGE=/vmlinuz-6.12.20-amd64-desktop-rolling root=UUID= ro splash quiet nvme_core.default_ps_max_latency_us=0 DEEPIN_GFXMODE=
+[    0.542430] nvme nvme0: pci function 0000:03:00.0
+[    0.560426] nvme nvme0: allocated 32 MiB host memory buffer.
+[    0.562491] nvme nvme0: 16/0/0 default/read/poll queues
+[    0.567764]  nvme0n1: p1 p2 p3 p4 p5 p6 p7 p8 p9
+[    6.388726] EXT4-fs (nvme0n1p7): mounted filesystem ro with ordered data mode. Quota mode: none.
+[    6.893421] EXT4-fs (nvme0n1p7): re-mounted r/w. Quota mode: none.
+[    7.125419] Adding 16777212k swap on /dev/nvme0n1p8.  Priority:-2 extents:1 across:16777212k SS
+[    7.157588] EXT4-fs (nvme0n1p6): mounted filesystem r/w with ordered data mode. Quota mode: none.
+[    7.165021] EXT4-fs (nvme0n1p9): mounted filesystem r/w with ordered data mode. Quota mode: none.
+[    8.036932] nvme nvme0: using unchecked data buffer
+[    8.096023] block nvme0n1: No UUID available providing old NGUID
 
-Could you elaborate? or perhaps Dan Williams could comment?
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5887dc6b6c054d0da3cd053afc15b7be1f45ff6
+Link: https://lore.kernel.org/all/20240422162822.3539156-1-sean.anderson@linux.dev/
+Reported-by: liaozw <hedgehog-002@163.com>
+Closes: https://bbs.deepin.org.cn/post/286300
+Reported-by: rugk <rugk+github@posteo.de>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=208123
+Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> 
->> The flow of a single test run:
->>    1. reserve virtual address space for (61440 * 2MB) via mmap with PROT_NONE
->> and MAP_ANONYMOUS | MAP_NORESERVE| MAP_PRIVATE
->>    2. mmap ((61440 * 2MB) / 12) from each of the 12 device-dax to the
->> reserved virtual address space sequentially to form a continual VA
->> space
-> 
-> Like is there any chance that each of these 61440 VMA's is a single
-> 2MB folio from device-dax, or could it be?
-
-That's 61440 mrs of 2MB each, they came from 12 device-dax.
-The test process mmap them into its pre-reserved VMA, so the entire VMA 
-range is 61440 * 2M = 122880MB, or about 31million 4K-pages.
-
-When it comes to mr registration via ibv_reg_mr(), there'll be about 
-31million of ->pgmap dereferences from "a->pgmap == b->pgmap", give the 
-small L1 Dcache, that is how I see the cache thrashing happening.
-
-> 
-> IIRC device-dax does could not use folios until 6.15 so I'm assuming
-> it is not folios even if it is a pmd mapping?
-
-Probably not, there are very little change to device-dax, but Dan can 
-correct me.
-
-In theory, the problem could be observed by using any kind of zone 
-device pages for the mrs, have you seen anything like this?
-
-thanks,
--jane
-
-> 
-> Jason
-> 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8eee28282b1e9..b6153f595076b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3453,6 +3453,9 @@ static const struct pci_device_id nvme_id_table[] = {
+ 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_DEVICE(0x15b7, 0x5008),   /* Sandisk SN530 */
+ 		.driver_data = NVME_QUIRK_BROKEN_MSI },
++	{ PCI_DEVICE(0x15b7, 0x5009),   /* Sandisk SN550 */
++		.driver_data = NVME_QUIRK_BROKEN_MSI |
++				NVME_QUIRK_NO_DEEPEST_PS },
+ 	{ PCI_DEVICE(0x1987, 0x5012),	/* Phison E12 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1987, 0x5016),	/* Phison E16 */
+-- 
+2.20.1
 
 
