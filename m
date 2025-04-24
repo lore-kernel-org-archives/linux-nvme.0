@@ -4,61 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4FB3C369C2
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 16:07:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0748CC369AB
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 16:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8bYjJFvQS35SDJcCJWORo0DhaNJBhkeJWgzxAxJLxJQ=; b=Cci3KsF3sGmfoDHGkZ1twPOJVm
-	dsz97DnVvjnKA8aJsflUve2IWC1wyDiY8S1+A63wBW49KCw9EIsETj7JPXL3gdGdunY1YEELpsSVj
-	e6li7HVDa3MeCycv+Gnf0+SERUwun+qkL+1IRONJl8uv4d0FjW7gTufBWVIXJf7EaOHw9rfZy/ttO
-	7S14x/NdXKDZOvK1zvxq0rk6CIeBJpU5YrdzIkraWYNzVAqntYSm6MIiLbKrG6FhIY0U0jQQZQAtT
-	mkMky9r3akgprOQQclgtEU5CdSrTAllh8Oi2TJqLu86iEPCvZkWg0UXA6mfQl95DCvSkS0hWYZihh
-	XesQ5RKw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Ji/0WU0Hkm/Wd/Ac+aaMEEcuwdORU+nluLgv81PFOFU=; b=31TjqW62TxQn+v72EeCe6vwyCP
+	vv3FrVtQHKHFOAjL5PaQK7Xn7D2H/8ZS71mLMKV1xqQs3zxRmFLRAB3V+iLAty5jDjxLXGSIzLd45
+	tKlGuwx0Ma30TGe2xdloOdtbQ++2r4pCyHDwF2be70mG0b9k56V6qbqq/MphS1GPftTfs3QZnNlIl
+	QCArsClW5qNWs6aR+IjGXiPlVHaW6FBkAjwZaePIyT1z9J9Qb+kCMSC6O5lLA5E1PPR5h+xXf+gjq
+	Mn046pNjo6H3XOrGspIIruDQk0WKPgK9+t0qTrS4u75faDo4LmmV6j91G06bU2xEfLjxd+37nT02K
+	k6DnESdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7z71-0000000Efuz-3uAi;
-	Thu, 24 Apr 2025 16:07:43 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1u7zWN-0000000ElMZ-0yTq;
+	Thu, 24 Apr 2025 16:33:55 +0000
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7ygY-0000000EWU9-0sls
+	id 1u7zDn-0000000Ehqb-0fHw
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 15:40:22 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8B2DA6845D;
-	Thu, 24 Apr 2025 15:39:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A503BC4CEE3;
-	Thu, 24 Apr 2025 15:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745509221;
-	bh=m79yZBVMxE4AA+f552+EtExtizaGN1TqMSESd2aS1SA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F4SnX1SpGM96KuxInmm2t03yLng6qqivRc2wHB4xd8CtP+uvMU7jkKFpKZe45BteH
-	 zqcj1DUZMShku6uzUtSBDI5rx5uEh1QHaFhgPxUGwXNZbuShRbDVG+xHDAzy3OPROr
-	 rU+2l58DxT4fbGkZO8xoTv6BlTIx00VCgB+eat7UHHYIaDKSumURqvQC09O/ZPdBkK
-	 0HQGmwElb4FhGgmcEB25UvRzoltQujcCwEWIvnR1GDjHtHFmnfnlwYXFHVMuRoNIDH
-	 x9AJZp8qsMfWve6AsPQDHkOEovPrQ+qb5dceT168S5fh8FnQW7YJsliQPupcjWm/1m
-	 HGS+iQba20kDw==
-Date: Thu, 24 Apr 2025 09:40:18 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Caleb Sander Mateos <csander@purestorage.com>,
-	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] nvme/pci: make PRP list DMA pools per-NUMA-node
-Message-ID: <aApbYhyeYcCifoYI@kbusch-mbp.dhcp.thefacebook.com>
-References: <20250422220952.2111584-1-csander@purestorage.com>
- <20250422220952.2111584-4-csander@purestorage.com>
- <20250424141249.GA18970@lst.de>
+	Thu, 24 Apr 2025 16:14:44 +0000
+Received: by mail-il1-x143.google.com with SMTP id e9e14a558f8ab-3d91b55bd39so7018275ab.0
+        for <linux-nvme@lists.infradead.org>; Thu, 24 Apr 2025 09:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1745511282; x=1746116082; darn=lists.infradead.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ji/0WU0Hkm/Wd/Ac+aaMEEcuwdORU+nluLgv81PFOFU=;
+        b=J1KY4sz7bQMioYGO0eCTQSE6oGqM9l1zwNX1WrQqJBZqIk12PJHO2zfmvrfu32YwHa
+         y4bQ21kUQNLYoHWG4CjtJujoEZvxCf0DJn52qQrl/VMpnaGYjvBcgJR61oYF/l7CYPpB
+         JcYmRqyjFui4trBSIAm1PmQw1CcW6DAKOWszPcIEadRPNej8PFuRTpwNIiP0RdkSZKeu
+         E5VPLjsiNNDzMna6GUxZ5JlBUkQRY2BAL/aM6afPVpmYKdmqV9eLi9ClDAfFk0K+1k+2
+         PS5ie+OxM/ONbwOP9eFPdDTDpK3WonYeOlFcWGpFdm/7hqp+iNJm0d5j4XDsYCWM6r3x
+         nhNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745511282; x=1746116082;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ji/0WU0Hkm/Wd/Ac+aaMEEcuwdORU+nluLgv81PFOFU=;
+        b=pUG8sC8FWFdYfz9E5gXgD+OBjePpYwQQZrhcQjxt+qQgZjc65dn20+F0ei14ienr/Z
+         fxgsvN+BBmnXyVJqD2TcKNewvKP2q/wuTsymZ5ew/nVxS0uw3pPvivTL1/EIUlsx50qK
+         G/LMhL/XbJ1+yiXVR2HWOo3FGKHAGKXTOWoaZk9kV08kfgZQVnvGpy0nW1i3WE9pNEzR
+         iCh/i6q1hAuIpYgctaab8Oete7XaD88fb7vpgJP2x3SmoraOA8gL0BIlqZuHZHVt/dtO
+         tBoONUYAEXQgs/zi7Zb0g7xF76+XLXn9i3XQY5MKUqXn1B2zhd3t7yNrGo/N7Lk1UWM5
+         GF3g==
+X-Forwarded-Encrypted: i=1; AJvYcCX9NYenBvcBCvDCQUdiOjULiukUZDz/8Md8Ataq6p1pqka/L8mw3om+H/g1IxPPp+iXvSlP5N1jzKe3@lists.infradead.org
+X-Gm-Message-State: AOJu0YxUCO/Xzt+FtI+/7mWNj2tYSbdtW6mi7DKl4R1ZHqEVsZA7HBnb
+	vMAsEQwPCYiD+XzP0E0FXvuxkOIrqudiz5z9um+tO97A4nK9clbuh+E3z9lEMr4=
+X-Gm-Gg: ASbGncvwdgUgG3WEVZNh1NXG3HIK6i89vVBiFwtlmhS1wHb27Mcnr2y2lyMcBzctlMs
+	PHXPBqeKw8u7+5Q3aaDXfTSQwmWLZbLOcdLTcZBDDAhoLfHGQzpuzlcpmZEbNA/AN9sdWu6N7pH
+	OaOQgeW+keNetAXYKqD3hAVdLy/H06NBnBzgGBhtUM5+JqO/sXr5r+ldo1oXc3w8OtIL6VAy5NB
+	q9G5Baijv0TH/l20nMaA3qDY8aRT+wt//O6m1DE6vJis9wUFBf8KDspIVHdmN4U8PoHR+6DcLyL
+	B4eyZA/Y7pAQljpAXx/iFexh5u9nBoMOGt0Z2wIgGLOPaoqt
+X-Google-Smtp-Source: AGHT+IHFPgnElAxZcqW1tgQiIZ2Unus+4rkzCDBPFWFzjHn1qt49SXmEjV32GZC2wJh6qjNVKHSPSw==
+X-Received: by 2002:a05:6602:3f0a:b0:864:4a3a:2567 with SMTP id ca18e2360f4ac-864598fb52fmr28809239f.11.1745511281657;
+        Thu, 24 Apr 2025 09:14:41 -0700 (PDT)
+Received: from purestorage.com ([208.88.159.129])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f824ba0eb9sm333003173.110.2025.04.24.09.14.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 09:14:41 -0700 (PDT)
+Date: Thu, 24 Apr 2025 10:14:38 -0600
+From: Michael Liang <mliang@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Michael Liang <mliang@purestorage.com>,
+	Mohamed Khalfella <mkhalfella@purestorage.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/1] nvme-tcp: wait socket wmem to drain in queue stop
+Message-ID: <20250424161438.g2fyo4ozvburf2rh@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424141249.GA18970@lst.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250424_091443_198609_D07F1BFD 
+X-CRM114-Status: UNSURE (   8.58  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,36 +97,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 24, 2025 at 04:12:49PM +0200, Christoph Hellwig wrote:
-> On Tue, Apr 22, 2025 at 04:09:52PM -0600, Caleb Sander Mateos wrote:
-> > NVMe commands with more than 4 KB of data allocate PRP list pages from
-> > the per-nvme_device dma_pool prp_page_pool or prp_small_pool.
-> 
-> That's not actually true.  We can transfer all of the MDTS without a
-> single pool allocation when using SGLs.
+Changes in v3:
+ - Use nowait to stop all queues first then wait;
+ - Check queue allocation flag in wait to avoid accessing after free;
+ - Link to v2: https://lore.kernel.org/linux-nvme/20250417071036.a7nhovuokg7w2n5r@purestorage.com/
 
-Let's just change it to say discontiguous data, then.
+Michael Liang (1):
+  nvme-tcp: wait socket wmem to drain in queue stop
 
-Though even wtih PRP's, you could transfer up to 8k without allocating a
-list, if its address is 4k aligned.
- 
-> > Each call
-> > to dma_pool_alloc() and dma_pool_free() takes the per-dma_pool spinlock.
-> > These device-global spinlocks are a significant source of contention
-> > when many CPUs are submitting to the same NVMe devices. On a workload
-> > issuing 32 KB reads from 16 CPUs (8 hypertwin pairs) across 2 NUMA nodes
-> > to 23 NVMe devices, we observed 2.4% of CPU time spent in
-> > _raw_spin_lock_irqsave called from dma_pool_alloc and dma_pool_free.
-> > 
-> > Ideally, the dma_pools would be per-hctx to minimize
-> > contention. But that could impose considerable resource costs in a
-> > system with many NVMe devices and CPUs.
-> 
-> Should we try to simply do a slab allocation first and only allocate
-> from the dmapool when that fails?  That should give you all the
-> scalability from the slab allocator without very little downsides.
+ drivers/nvme/host/tcp.c | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
-The dmapool allocates dma coherent memory, and it's mapped for the
-remainder of lifetime of the pool. Allocating slab memory and dma
-mapping per-io would be pretty costly in comparison, I think.
+-- 
+2.34.1
+
 
