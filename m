@@ -4,67 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69270C369AB
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 18:20:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20BC7C369D5
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 18:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7Cz77d1OyEcbrZ7zEvXybunM0xlQBSdzHJ1hhSnOoCY=; b=VtUxqU46R7OdRTYPGLbPENdhHW
-	qCsPZ4m1JTCn7nbVJ1c0lyaPzIjKwFqcZILhr2DpAQhmeJMOGejUsLK/cL04meUGk83i35feREH4X
-	Ks10Qhf2Z18sZ2CPvZCqrlRb9wXE9mtDkF5hT49ZRzSVZqSKl+O1+fitF2VbilyukB/E2gfURrkC5
-	15TH6fJvgK4M/dT3fsRqCt9yf3NyWsToyYR4NktGzGMh51AByw6znJ9vlakL2tTRsdDEv5JHo6kew
-	Eu8b1weQYvv6nkChFS+VnEzIPwHA9Iw8Yaur4fYeGd8uIFzfZUwgatcSldJ1OsIYtwMqYerB6e/Mn
-	CrKms+Mg==;
+	bh=tIzp6N3l34lb49Vc9P9Z55GvUPVrr2bmL0BMIypyUv8=; b=EQxZ/y6lAjXaypBv4n9CmbAXZ1
+	C02wYWmVhg6h6XQHhXU7OQV/uYoUNfgH6RfmemIXdCXMadJF+p/t0n92w8+ovm8NkxItb1pzpeeYi
+	Ix+aeIPQUANqKOzRq8dOBXBU7Ys4McENFkQPNGLPU8yiLDs3neeQgWhK0eH6vOcpkzco4K+rfU2w1
+	Q7beB7SabZxIBCxmQFGyOKWfNLV1ebgZbpqtLHk4vDIpLxrtI8DspqrRFTfeWpzljdIXkkE7p3hlK
+	SiKra6ACA03M8LVc8GH/RVJaG6yAfqmM9JEhe78P3vn7stGJSlPRQrIOTwWAO0G/wdW1dZyUIukA0
+	TIKo7vBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u81BG-0000000F0A2-3aiZ;
-	Thu, 24 Apr 2025 18:20:14 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1u81BI-0000000F0C1-2bCv;
+	Thu, 24 Apr 2025 18:20:16 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u81BF-0000000F08d-3xlZ
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 24 Apr 2025 18:20:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7Cz77d1OyEcbrZ7zEvXybunM0xlQBSdzHJ1hhSnOoCY=; b=bFkhoQ9Y/wknBwcbNJzCKwklq5
-	Uxs9xyDjnkghCzfPLcN3udSx7YI/OtnVpABN6rsQWIgtXRWrRP13uzgPLwaNdynRLcm+fYpxmB5gC
-	FMrFA2L1Yj5XvHVGTM+OyTIOy0HqdUGuPoydxy9kvbU90nfmeveZTU0DrEX2Kuu+ob5HpXDSMzJs0
-	45dSFeuQ6zN2l6t2MM18jwL6EmgxkgsEkqF8EH66fT/2lq5GmUxUn91GaVCtvF3d9Z0D3YxUZSRhf
-	q4rgIAO9QlbKAplsZYoWVDX/ol5mtqZGmZS42RjoKDZbvIA2W5FPAMKU/eQJ/DHu2Iw4+8RAt4SKq
-	+ATGp8Tg==;
-Received: from nyc.source.kernel.org ([147.75.193.91])
-	by desiato.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u81BD-0000000Btm1-0wOM
+	id 1u81BF-0000000F087-0VlE
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 18:20:12 +0000
+	Thu, 24 Apr 2025 18:20:14 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id A300AA4D087;
-	Thu, 24 Apr 2025 18:14:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B944FC4CEEC;
-	Thu, 24 Apr 2025 18:20:05 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 6DE1BA4D089;
+	Thu, 24 Apr 2025 18:14:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 802EAC4CEEA;
+	Thu, 24 Apr 2025 18:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745518806;
-	bh=rDjb0DnW4LDPOm6D5bF8M2KSEcAP2XD//Ks8fwkXcCQ=;
+	s=k20201202; t=1745518812;
+	bh=AXA4x2vMWdvsJD5ZZl+of9Llu+mBLzfjSGJCkdx0VW0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=F8Y8nlZC79aLc3KNS7NrtR2sYGxEg8KVRlqfDnSMPI05cYTPuAseVrQToUgnuPf4y
-	 a3wPYh0MR/lVC3BQ0cNnBKO6pUdEV+lcmiRDvm4gHF0ApkxX5Cjj43Q4SB5DM8R8KS
-	 s7gtXRPciyuONuDPY4HbHFjNv4pUDC4lSt6e0A0rddUQuhyxDJny4R9FvqfTzBBFUI
-	 FN1Wg8cG5xqabey9LjzCgWxouyumM5B4qjursw0xxpAOjpHiCYE91LF+HtMQXj9dhS
-	 MzxPpm0pT+bjSP/UxP51jsZVQKG0vMzy7g33LD4WTJ0siJMBmpwR+ClV3u6MOLS4+3
-	 xRHmXUXGXx7Ig==
+	b=how6HOg4xUd6cxF5Runi3vtMopYXzUiZqPCkh7yY5A/H6/k5svrmHDM7XiIz1q3ma
+	 SCF02zEuUcIuA5CgDZOYO5ohyY0Hl+8gJ45yLDzOE5zjzceogSpzKcqViPBB1vwyAE
+	 adOYVggFJIH2aIm2JAgS6zQEN7IcZngXyv5ZXJdLXkIU4W7Fl7MXvnJ/WcgwzAc1qt
+	 2gK72HuBkvXifXx+WDd7V8ycU3/XlsFnP5XDYDE5fm/wBSRGtg5BB/ObPyXrMT+5mf
+	 MKDTAQxnd07mHXF6gm14HkmEHDir9usojRd/B6GzJS3AlUT33zOUOq/02ruSNDwxum
+	 9pixCn0zcieOg==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Thu, 24 Apr 2025 20:19:46 +0200
-Subject: [PATCH v6 7/9] lib/group_cpus: honor housekeeping config when
- grouping CPUs
+Date: Thu, 24 Apr 2025 20:19:48 +0200
+Subject: [PATCH v6 9/9] blk-mq: prevent offlining hk CPU with associated
+ online isolated CPUs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-isolcpus-io-queues-v6-7-9a53a870ca1f@kernel.org>
+Message-Id: <20250424-isolcpus-io-queues-v6-9-9a53a870ca1f@kernel.org>
 References: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
 In-Reply-To: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -84,8 +69,8 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_192011_485739_010B2827 
-X-CRM114-Status: GOOD (  18.73  )
+X-CRM114-CacheID: sfid-20250424_112013_304729_64A9CDE8 
+X-CRM114-Status: GOOD (  17.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,135 +85,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-group_cpus_evenly distributes all present CPUs into groups. This ignores
-the isolcpus configuration and assigns isolated CPUs into the groups.
+When isolcpus=io_queue is enabled, and the last housekeeping CPU for a
+given hctx would go offline, there would be no CPU left which handles
+the IOs. To prevent IO stalls, prevent offlining housekeeping CPUs which
+are still severing isolated CPUs..
 
-Make group_cpus_evenly aware of isolcpus configuration and use the
-housekeeping CPU mask as base for distributing the available CPUs into
-groups.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- lib/group_cpus.c | 82 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 79 insertions(+), 3 deletions(-)
+ block/blk-mq.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 44 insertions(+), 2 deletions(-)
 
-diff --git a/lib/group_cpus.c b/lib/group_cpus.c
-index 016c6578a07616959470b47121459a16a1bc99e5..707997bca55344b18f63ccfa539ba77a89d8acb6 100644
---- a/lib/group_cpus.c
-+++ b/lib/group_cpus.c
-@@ -8,6 +8,7 @@
- #include <linux/cpu.h>
- #include <linux/sort.h>
- #include <linux/group_cpus.h>
-+#include <linux/sched/isolation.h>
- 
- #ifdef CONFIG_SMP
- 
-@@ -330,7 +331,7 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index c2697db591091200cdb9f6e082e472b829701e4c..aff17673b773583dfb2b01cb2f5f010c456bd834 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3627,6 +3627,48 @@ static bool blk_mq_hctx_has_requests(struct blk_mq_hw_ctx *hctx)
+ 	return data.has_rq;
  }
  
- /**
-- * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * group_possible_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-  * @numgrps: number of groups
-  * @nummasks: number of initialized cpumasks
-  *
-@@ -346,8 +347,8 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
-  * We guarantee in the resulted grouping that all CPUs are covered, and
-  * no same CPU is assigned to multiple groups
-  */
--struct cpumask *group_cpus_evenly(unsigned int numgrps,
--				  unsigned int *nummasks)
-+static struct cpumask *group_possible_cpus_evenly(unsigned int numgrps,
-+						  unsigned int *nummasks)
++static bool blk_mq_hctx_check_isolcpus_online(struct blk_mq_hw_ctx *hctx, unsigned int cpu)
++{
++	const struct cpumask *hk_mask;
++	int i;
++
++	if (!housekeeping_enabled(HK_TYPE_IO_QUEUE))
++		return true;
++
++	hk_mask = housekeeping_cpumask(HK_TYPE_IO_QUEUE);
++
++	for (i = 0; i < hctx->nr_ctx; i++) {
++		struct blk_mq_ctx *ctx = hctx->ctxs[i];
++
++		if (ctx->cpu == cpu)
++			continue;
++
++		/*
++		 * Check if this context has at least one online
++		 * housekeeping CPU in this case the hardware context is
++		 * usable.
++		 */
++		if (cpumask_test_cpu(ctx->cpu, hk_mask) &&
++		    cpu_online(ctx->cpu))
++			break;
++
++		/*
++		 * The context doesn't have any online housekeeping CPUs
++		 * but there might be an online isolated CPU mapped to
++		 * it.
++		 */
++		if (cpu_is_offline(ctx->cpu))
++			continue;
++
++		pr_warn("%s: trying to offline hctx%d but there is still an online isolcpu CPU %d mapped to it\n",
++			hctx->queue->disk->disk_name,
++			hctx->queue_num, ctx->cpu);
++		return true;
++	}
++
++	return false;
++}
++
+ static bool blk_mq_hctx_has_online_cpu(struct blk_mq_hw_ctx *hctx,
+ 		unsigned int this_cpu)
  {
- 	unsigned int curgrp = 0, nr_present = 0, nr_others = 0;
- 	cpumask_var_t *node_to_cpumask;
-@@ -427,6 +428,81 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps,
- 	*nummasks = nr_present + nr_others;
- 	return masks;
- }
-+
-+/**
-+ * group_mask_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * @numgrps: number of groups
-+ * @cpu_mask: CPU to consider for the grouping
-+ * @nummasks: number of initialized cpusmasks
-+ *
-+ * Return: cpumask array if successful, NULL otherwise. And each element
-+ * includes CPUs assigned to this group.
-+ *
-+ * Try to put close CPUs from viewpoint of CPU and NUMA locality into
-+ * same group. Allocate present CPUs on these groups evenly.
-+ */
-+static struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
-+					      const struct cpumask *cpu_mask,
-+					      unsigned int *nummasks)
-+{
-+	cpumask_var_t *node_to_cpumask;
-+	cpumask_var_t nmsk;
-+	int ret = -ENOMEM;
-+	struct cpumask *masks = NULL;
-+
-+	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
-+		return NULL;
-+
-+	node_to_cpumask = alloc_node_to_cpumask();
-+	if (!node_to_cpumask)
-+		goto fail_nmsk;
-+
-+	masks = kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
-+	if (!masks)
-+		goto fail_node_to_cpumask;
-+
-+	build_node_to_cpumask(node_to_cpumask);
-+
-+	ret = __group_cpus_evenly(0, numgrps, node_to_cpumask, cpu_mask, nmsk,
-+				  masks);
-+
-+fail_node_to_cpumask:
-+	free_node_to_cpumask(node_to_cpumask);
-+
-+fail_nmsk:
-+	free_cpumask_var(nmsk);
-+	if (ret < 0) {
-+		kfree(masks);
-+		return NULL;
-+	}
-+	*nummasks = ret;
-+	return masks;
-+}
-+
-+/**
-+ * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * @numgrps: number of groups
-+ * @nummasks: number of initialized cpusmasks
-+ *
-+ * Return: cpumask array if successful, NULL otherwise.
-+ *
-+ * group_possible_cpus_evently() is used for distributing the cpus on all
-+ * possible cpus in absence of isolcpus command line argument.
-+ * group_mask_cpu_evenly() is used when the isolcpus command line
-+ * argument is used with managed_irq option. In this case only the
-+ * housekeeping CPUs are considered.
-+ */
-+struct cpumask *group_cpus_evenly(unsigned int numgrps,
-+				  unsigned int *nummasks)
-+{
-+	if (housekeeping_enabled(HK_TYPE_IO_QUEUE)) {
-+		return group_mask_cpus_evenly(numgrps,
-+				housekeeping_cpumask(HK_TYPE_IO_QUEUE),
-+				nummasks);
-+	}
-+
-+	return group_possible_cpus_evenly(numgrps, nummasks);
-+}
- #else /* CONFIG_SMP */
- struct cpumask *group_cpus_evenly(unsigned int numgrps,
- 				  unsigned int *nummasks)
+@@ -3647,7 +3689,7 @@ static bool blk_mq_hctx_has_online_cpu(struct blk_mq_hw_ctx *hctx,
+ 
+ 		/* this hctx has at least one online CPU */
+ 		if (this_cpu != cpu)
+-			return true;
++			return blk_mq_hctx_check_isolcpus_online(hctx, this_cpu);
+ 	}
+ 
+ 	return false;
+@@ -3659,7 +3701,7 @@ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
+ 			struct blk_mq_hw_ctx, cpuhp_online);
+ 
+ 	if (blk_mq_hctx_has_online_cpu(hctx, cpu))
+-		return 0;
++		return -EINVAL;
+ 
+ 	/*
+ 	 * Prevent new request from being allocated on the current hctx.
 
 -- 
 2.49.0
