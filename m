@@ -4,142 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32546C369D5
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 16:03:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42078C369AB
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 16:03:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=; b=sNKfVsmYZct9PRY/m9/jAn5x9J
-	SYLPby3XfDThFoS+Pje3HWJZsud1KKClW4ebskW7p8d/Vvpctlq2+lOEnpZJeRbJiaHE+RbVwrM47
-	9YCkLB3Wom/MZghwZXPk+Fx42tgBqlJ/x7X5M8akn1QDSmJ+Vt9myH6Q2o/rsK20mfXQXV6FS+z+Q
-	fI/ZEnjoExKKAXEBpsBv/M6HD8Z1yxvkHWjfLhXib5jpjWwT3+IrvT5itY9a7B83Jkj9M+xOW7GO2
-	xbkZG8lwZkbB09qTzdb4fwuIrAcfAw5iWHLkeEf/v2o6E805Geu259DbOzy2rqcCTRoquo4pH0ahR
-	tyJ79geQ==;
+	bh=oZL+E3RNHbpFWOEVEZ+vdGqOh3AavrEOxiuPbcP0VN0=; b=du6l81xdZLcJEPfN4JFR82sLGB
+	2ykBYR9XVsm0XCNUt0fNtlF9zvTOtWBkTFdtMUTGjqELeP8U3TeJXLdHVdfdziAHkvI+/wl3qJyFP
+	Tz+9Y3uaIbz1tq8RtlancyoYwMJfRrAOC/PCyuWbJhuNjVFa3bqq8rFOUBITdq0+fAtJIr2gVoiDg
+	PkawJoC6HFMxmZV9CkNldyo7tPMryqM8fSJimGO2SecSs3ykGJP1+zjZ7VU30bI+r3cGkUx1tlS4X
+	2mOzdUjfDJJwQQzrdOHlX6tNsj3A8cD9aduCpPVN9dfimmPzz5KuSMRTEPeHmPYI6/0pasnciqTTo
+	8lmunwlA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7z38-0000000EZol-1uEX;
-	Thu, 24 Apr 2025 16:03:42 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1u7z3L-0000000EaDe-3zpr;
+	Thu, 24 Apr 2025 16:03:55 +0000
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7v4b-0000000Due6-38qy
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 24 Apr 2025 11:48:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=; b=cBDEekFFpP79c4tCXcVYJ32yZS
-	WtaJeb7jfKdqEih7CckMIspjLAz+IWposPjyHv/3Z1zksnHkmBu2+GoEEjqJJn0Kd4e12PnLEWh9s
-	meUAl3u9W5b1bi4gbVNl8ifzYoKPEKkLcHgQddP4ZHJCUKQV+FxqEs7EA5pE2pizZmKheD0VlC7c+
-	2ERB9WK4ZM0Ou/jvybG7YwSi3B2QYn5018hPSPEFevEVBVHgVd3swmPdbQFEIrqiNgVNjLs/QY0Ko
-	EDofGhbtpqwILt/IJfmRNG3gXem4NJtg92tavQVA/DKNall7FklpB7nALepzf0iUk+fdsp1jz0r2k
-	19e0nLVQ==;
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
-	by desiato.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u7v4Z-0000000BmKO-0F2v
+	id 1u7vH0-0000000Dx00-2CZp
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 11:48:56 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8312821187;
-	Thu, 24 Apr 2025 11:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745495333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=;
-	b=wSyWe2CzFlLlpG9kmBchLfZv1XvfhnwmeJa9ZX1JUK4rbQPf6D+hZbTKtHeViULbhkBNk7
-	kjrBuITHBRvuNybw7tXfvES5tkepATYVtRVKfZ3kgzsEMIPtdbZ1c2WQwHPCfnfK+okCzh
-	f653epe14VW026e2wwbaFlqUpURFq3M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745495333;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=;
-	b=Mbka+LAb88zsxPKWvASUo7Vozs9yscltMx1nLaobolFPNQCgZXaK4cJV63Ry+rW9dC15Lf
-	Ef+IgIrGe3z9G/DA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wSyWe2Cz;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Mbka+LAb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745495333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=;
-	b=wSyWe2CzFlLlpG9kmBchLfZv1XvfhnwmeJa9ZX1JUK4rbQPf6D+hZbTKtHeViULbhkBNk7
-	kjrBuITHBRvuNybw7tXfvES5tkepATYVtRVKfZ3kgzsEMIPtdbZ1c2WQwHPCfnfK+okCzh
-	f653epe14VW026e2wwbaFlqUpURFq3M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745495333;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=642kJ82oQUCGe+oDaUnZ8xGsd2REFvEZPgvdPkU74UA=;
-	b=Mbka+LAb88zsxPKWvASUo7Vozs9yscltMx1nLaobolFPNQCgZXaK4cJV63Ry+rW9dC15Lf
-	Ef+IgIrGe3z9G/DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68F5A1393C;
-	Thu, 24 Apr 2025 11:48:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Nrw6FyUlCmgAQgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 24 Apr 2025 11:48:53 +0000
-Date: Thu, 24 Apr 2025 13:48:52 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, 
-	James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 10/14] nvmet-fcloop: don't wait for lport cleanup
-Message-ID: <c1f207f3-6657-4803-90df-a059353ba6da@flourine.local>
-References: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
- <20250423-nvmet-fcloop-v5-10-3d7f968728a5@kernel.org>
- <05ac9a81-66a9-4bbc-92e0-6ff47a6dc7ad@suse.de>
+	Thu, 24 Apr 2025 12:01:47 +0000
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-6ecfc7fb2aaso9165886d6.0
+        for <linux-nvme@lists.infradead.org>; Thu, 24 Apr 2025 05:01:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1745496105; x=1746100905; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oZL+E3RNHbpFWOEVEZ+vdGqOh3AavrEOxiuPbcP0VN0=;
+        b=R9pb96cysG40byYjk3HxMTh9xAGQqS8mv6w9+QvHOMOdl0Ua8+fR93zJSN6foR8VKN
+         eaUqNdtZyYS6fcHq0UaIho/hEnA9Kvk4r6oJtZ9EAOqLnmFjPlP9RqkoxdiesoipidUp
+         +c2U/CDrTiOnD9r6yYnPLgIAEtl9hB39f2jkyC2so09TB+SHavSMji/74uzLpCMm16vW
+         f3A3g/87CZz9MzAkmeJgnVptGv+3TPaXXwlBkpcSl/BXBtkx6r0V1P8xf33EDfzwz/m8
+         B8I3gevRAQODZ+BINPg1yOpX11IVQBkxxDCqfl6vC3Owxvz/Hs3bex07m2UdwUUJISiJ
+         E1XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745496105; x=1746100905;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oZL+E3RNHbpFWOEVEZ+vdGqOh3AavrEOxiuPbcP0VN0=;
+        b=Qs23fgXCGnELDjRhJ+noiq85kh9s4HBgvzxiqlivBIhD9eqmpi3R+bDD5C6v0SAfxy
+         PezVKrotMlmrn2MMsVFj4YQU++TVyGg34323pap8aAU2wdZHQQW6urmc/dP5wUgKDE2t
+         Mxcx4AZwW9HOeG0S5rxWrJhEX4/Gg60c9fZGVuOz4gsQOB5XBIhkLCQ2Iu6UAy1eV8Be
+         QxotNQkHiQFKdTZD4JLoAY3tJpByKsODC2eMcwvYZjv093TcIQCIvgpjqOF4nheX+jIf
+         R0Gt3OUjC5+5UeFpVkem0KNiFmkGnMpFRvzyzkBX5037XBDGujewWwMS1cbYUcFOgU2N
+         G3Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCVmEzqftY961qk0dkBhAcnE3J/2xipenqcVjY2LoXV/AWoyNJproIOpbnCCqHxvaL9EQLncMWr8OP58@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxg4eaQoof3QhWJyJGcuj2YD4wph5cBcFKSOVjn75JZk1YK7IUO
+	VzN7YCcm4AH/ssPcs+YWkdFERf1UZlm4ZJFSG90Vwp54R3kd6/n2QHOk5AbkjOQ=
+X-Gm-Gg: ASbGncuSsLWP5i5SYb5P08nm/UR3qUT2lNQ21Z8o0+glK83OTjJ8DWLBM7YJqJCHhjy
+	+LriPGW156KMs6RbBg9lXB8Wkc8chy/djkrv5JTQgOVacR2bm7VnBJ6rrxDOIMULXi41Q3h0EZL
+	17gMSv9bnqjHa19Dhwoo6wZkUZrU0TufVa8QsJdWhEl/YhxEyTBm/LQHUtGYpD0RZ6XyW7vmR7Z
+	i8hDwJU3LbWQ4OZpwvW3iqNcZ+tHzwTCtUpkAw0xcl3a6n9f+9Kdvzol3rswdzes4HlnxuZnoEp
+	Gd+1e7yAlZLwdK39H96h3hnEeGgnGBVZxOfkSmgDpV/T9E1KWSZXjad17+bpPqXoGMBPZznRAtr
+	ed2NC7WIjF+K9eUO/9uU=
+X-Google-Smtp-Source: AGHT+IExjEYw2YciNBoIdkd9/pqHrN50d+y5G+B8wJfJbAXK4p9NBvT5uybfEubjkC+mcuj7maAkHA==
+X-Received: by 2002:a05:6214:d02:b0:6f2:d260:b2f4 with SMTP id 6a1803df08f44-6f4bfc95a23mr43959916d6.37.1745496104857;
+        Thu, 24 Apr 2025 05:01:44 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4c093870bsm8528646d6.45.2025.04.24.05.01.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 05:01:44 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1u7vGx-00000007T99-2aD0;
+	Thu, 24 Apr 2025 09:01:43 -0300
+Date: Thu, 24 Apr 2025 09:01:43 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: jane.chu@oracle.com
+Cc: logane@deltatee.com, hch@lst.de, gregkh@linuxfoundation.org,
+	willy@infradead.org, kch@nvidia.com, axboe@kernel.dk,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: Report: Performance regression from ib_umem_get on zone device
+ pages
+Message-ID: <20250424120143.GX1213339@ziepe.ca>
+References: <fe761ea8-650a-4118-bd53-e1e4408fea9c@oracle.com>
+ <20250423232828.GV1213339@ziepe.ca>
+ <84867704-1b25-422a-8c56-6422a2ef50a9@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <05ac9a81-66a9-4bbc-92e0-6ff47a6dc7ad@suse.de>
-X-Rspamd-Queue-Id: 8312821187
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,flourine.local:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+In-Reply-To: <84867704-1b25-422a-8c56-6422a2ef50a9@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_124855_262757_214BFAF7 
-X-CRM114-Status: GOOD (  14.17  )
+X-CRM114-CacheID: sfid-20250424_050146_671079_FA4BAB92 
+X-CRM114-Status: GOOD (  18.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,27 +107,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 24, 2025 at 12:21:09PM +0200, Hannes Reinecke wrote:
-> > @@ -1776,7 +1763,7 @@ static void __exit fcloop_exit(void)
-> >   		spin_unlock_irqrestore(&fcloop_lock, flags);
-> > -		ret = __wait_localport_unreg(lport);
-> > +		ret = __localport_unreg(lport);
-> >   		if (ret)
-> >   			pr_warn("%s: Failed deleting local port\n", __func__);
+On Wed, Apr 23, 2025 at 10:35:06PM -0700, jane.chu@oracle.com wrote:
+> 
+> On 4/23/2025 4:28 PM, Jason Gunthorpe wrote:
+> > > The flow of a single test run:
+> > >    1. reserve virtual address space for (61440 * 2MB) via mmap with PROT_NONE
+> > > and MAP_ANONYMOUS | MAP_NORESERVE| MAP_PRIVATE
+> > >    2. mmap ((61440 * 2MB) / 12) from each of the 12 device-dax to the
+> > > reserved virtual address space sequentially to form a continual VA
+> > > space
+> > Like is there any chance that each of these 61440 VMA's is a single
+> > 2MB folio from device-dax, or could it be?
 > > 
-> And who is freeing the allocated fcloop_lsreq structures?
+> > IIRC device-dax does could not use folios until 6.15 so I'm assuming
+> > it is not folios even if it is a pmd mapping?
+> 
+> I just ran the mr registration stress test in 6.15-rc3, much better!
+> 
+> What's changed?  is it folio for device-dax?  none of the code in
+> ib_umem_get() has changed though, it still loops through 'npages' doing
 
-After a fcloop_lsreq is allocated it is put on either rport->ls_list or
-tport->ls_list and later freed in fcloop_tport_lsrqst_work, resp.
-fcloop_rport_lsrqst_work for the non-error case (or in the callbacks).
+I don't know, it is kind of strange that it changed. If device-dax is
+now using folios then it does change the access pattern to the struct
+page array somewhat, especially it moves all the writes to the head
+page of the 2MB section which maybe impacts the the caching?
 
-That means when the localport is unregistered successfully there are no
-fcloop_lsreq around. The issue is what to do when __localport_unreq
-returns an error.
-
-This code could loop forever when the port_state is not in
-FC_OBJSTATE_ONLINE when calling nvme_fc_unregister_localport(). This
-should not happen (it did before this series) but now it shouldn't be
-the case anymore. I suppose a pr_warn_once() and a sleep might be a good
-idea to avoid a busy loop?
+Jason
 
