@@ -4,105 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42D59C369D1
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 11:13:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5D4BC369AB
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Apr 2025 11:23:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=yBFB54Gn3nNDRE8EXoYgsgvdZtnUB689hFaMicMZtaA=; b=rdqstjpfg8gdVXTOzQW4ONnoYf
-	eRK1g4JYlINjJzUx6kCbE+N/nO0cgQOySdYVhzqjSQc+MNmBjq9R1HcSX/QMVX0MkVPpwYDKm/ubH
-	D2Fk04acvxzn1AuI4a0SPLofgoxCW+QW7c5C37MfybLyzTQwWSclBamB98zLUVWE1lH/FIqveye36
-	SyZM/7ePbkgyzQOrqisF/3pNUGOzHasK9XZZmDCJ6fqXR/LMYQgN/RTFkrvILtHsjQxZc7YNvG04K
-	7RtIabRK4siR0+2Dsy3LU81KCWMd4m8XX9dtDHwLnW0oDzUZGt5L64WBkGJy8x44nHcAgW6L34ur8
-	s8nhKbZg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oXu0xToKAPO25fLhe2rMHBfxuHS/THmrVmv/bkCC9KY=; b=jAVbC0uO8COdFSKMggSQFgSlFI
+	wODlyh9Y2JWdrcNgfKC86wu7RV6GYklt9LIlsqLqniXflQeH34S7dWE8VZdeA7fMgkkWzK2E43U+c
+	7uuvlrJCpvBSAyHmj9XDRNgzBP7aj1wtme7DZ2+faSEGYfHo8hGdfUWmG92trPjYCY7X8O3sK2BA9
+	JTN2cKRHb3rXJmEXw4k8sg7sp1dBK1K1tZQ6az9MbUKaUwjcnroQUqgs8FJRI5hDKFPWr120GMGZL
+	FpHBLT0mxVdYzwULBosqCXeVD0bRuWj32pI8fTCfPmwEE2ptAxe97GUdkm9GAPfq4et45aid4gJ3x
+	ddLPEysA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7uWU-0000000DofN-2bQI;
-	Thu, 24 Apr 2025 11:13:42 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1u7uff-0000000DqEB-06qJ;
+	Thu, 24 Apr 2025 11:23:11 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7taW-0000000DdHt-3tyf
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 24 Apr 2025 10:13:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=yBFB54Gn3nNDRE8EXoYgsgvdZtnUB689hFaMicMZtaA=; b=TCe0sjbbtVHeyyZpqEyr0hOvzV
-	w7tCXqBn+fCRV6RFLLLOAScb9NFR1G2t+QsRApDpelyj7lDNXT7O18ktIPlrjv4HqtvuxD+SXjV1S
-	7dB8kYWImMGtESMSX1rWmvyHp8oIqcc3zuBoQ9gDr3EIPsbYAFtNY72xqi9ieexFo4dOX+vs7DiSn
-	0yl58hble75WMsee2WG1fjoatSUFxnUB0GsPWWXLQZntkKOfDXxgcbizRndsMSxx9rEHW31xyEDr7
-	ZLARAZZSSaO/2GJXPNi1//qJfCO733zUuRVAiGvvEYdXltY0Rlt4UF/oskRl8IMmL54fRuiauS6u/
-	MrVVXUAg==;
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
-	by desiato.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u7taU-0000000Bj0g-0SQV
+	id 1u7teB-0000000De5d-092W
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Apr 2025 10:13:47 +0000
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-2279915e06eso8155455ad.1
-        for <linux-nvme@lists.infradead.org>; Thu, 24 Apr 2025 03:13:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745489622; x=1746094422; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yBFB54Gn3nNDRE8EXoYgsgvdZtnUB689hFaMicMZtaA=;
-        b=TcpgityXKnuMiqYv15bpHGpS/sC5Yn7V1MvnyIeCytbSD3sCbtYxdcsc/zCcwtTg8K
-         UW2k0ijWHidiW8omEOPihsGWMs7DiGZ8xWTGQbIfTgPK1LuQGWW0SVanu8jSAeCnJI2x
-         GEgQEYGHzBobPM+whn38rAKhuNFtYbqPYuesPhWapyaBqeyIPE+pmRgHT0MiGyq8znUj
-         nFIkRekDTXG1DmW74x4X02S+8tSEfEP647jcTHWQlBjK6SKgblWkidAglz9BtK1N69hX
-         n9BVGAz4M2yYUU2+aOVH9QFqhzomV1aKV94O0rsrZ7kaoKV06LdJ2dJb3O/HXR/Tz+5y
-         b0dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745489622; x=1746094422;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yBFB54Gn3nNDRE8EXoYgsgvdZtnUB689hFaMicMZtaA=;
-        b=Oh8VEc1vVqvUM+pO25S69+OZ11aeHNXYM1gePBrXGVjpiCjtSUxiYE/nDcCsGMcbe0
-         N+qYuSpORTJPkqMJNhoX487BgkSJkNnb2ABOrY5j82/viJHPEc3ptKAC/PLCF8OrQWcQ
-         /Yba+O+Urfsuj7HQjSQx0xKUavHAu93n51fuctPpNHl3wdX+BG4gwEXUCJu5jPZs7Ofp
-         MtJlZ0P8B7U8SQy9eeXxZo4N0eCSMfrpb/IM77oiNJEqszJ+vf4iIUSBBmrUB15Sf7xq
-         UQA3rYK2dXnwOaSTGcqEBuQXiO9LnUkMJHs3Ikp3ZFtyUMjLe5SF1rvavW8N07Aw6mSv
-         TcHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTBoLjTpr3QKhL2Bwkp3vRLYlfxEMMuWWNkqwdsb689jarprFBoTGo8UqtuT4u6fFbQjOaRWnrRQpS@lists.infradead.org
-X-Gm-Message-State: AOJu0YxDBU0sq+DGhHYldNsteXOeeiqMOQjn9Ib0KTLuVlT6NSRGfZin
-	3wv20qorF+hgWdyTbAI1ElQGMH6UjLclDniar64no74FtvCdAcDyTKKDkg==
-X-Gm-Gg: ASbGncs9DF+ZantFgir2+GfDvZMo6nzLii0lFuA4gxr7uOCdzAIyc7dJrXwMobDs4Yr
-	O5FZyLgi+LeXmpJ7tEkh+es5x1OqsCcl2ilH6GeLs0KkzDZ9IEb28hdbvCDHbT+GiRgT7NCSJEt
-	OA2tWarZMuqu0hCWuwypbJYZWA+PqKN/duLCW0bgE7/fyluCf0VQLoVri0J8AeghAZ211S1GO2M
-	7YGvZpg+TVB2fTR1qV7ztU9WrMbCmSloLeUVcI887iZrKaIJtfA/EUvrExRjhkDrYD67pTBYblx
-	l+r9uHRy9Dv/JTfJwwgnwGQSe4eh+yjHwGosTmRMDYU4WaiJzF1WU08718sqQAL8VTisDvgw4iq
-	zwOKC+X9U7Htw5JY5liTAXZvAFB5G7M9R7AmI+LBgQlPIvQ==
-X-Google-Smtp-Source: AGHT+IFATTwWVJ/AfelUjlOp/xcFig/uKd002TvXRDkZi6STfYNX0b3cQIwXiO9DEaSO8LylPiJ1MQ==
-X-Received: by 2002:a17:902:eccf:b0:223:4c09:20b8 with SMTP id d9443c01a7336-22db3d78552mr26499625ad.37.1745489622144;
-        Thu, 24 Apr 2025 03:13:42 -0700 (PDT)
-Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4dc75besm9536275ad.61.2025.04.24.03.13.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 03:13:41 -0700 (PDT)
-From: Alistair Francis <alistair23@gmail.com>
-X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
-To: hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	hare@suse.de,
-	alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH] nvme-tcp: select tls config when tcp tls is enabled
-Date: Thu, 24 Apr 2025 20:13:33 +1000
-Message-ID: <20250424101333.2908504-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.49.0
+	Thu, 24 Apr 2025 10:17:36 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1F4AF1F399;
+	Thu, 24 Apr 2025 10:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745489853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oXu0xToKAPO25fLhe2rMHBfxuHS/THmrVmv/bkCC9KY=;
+	b=s4nSWQtCo6+QGjsRUDwCGwwpQ/fpa53Eh8lU/LstcikM8KFwYcQ9AMWJhaHh1+jE9GdA4d
+	5ZPOIiDJ2/kFlniRZy1sIHrLG1+Oxj2FA78Pn2mFfcTNaYapxssjre7rKMTIQxHzuhkPab
+	WoZUgcnLztL1IfQaRel/8N9IlHU3nOI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745489853;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oXu0xToKAPO25fLhe2rMHBfxuHS/THmrVmv/bkCC9KY=;
+	b=uBmBj3A6z5PZfg79qv/WL/gZE5Q/6V6mRY5TBcET26WLX+N/oeOMFdfjxMaGtJ7zamJy8w
+	mdqIV88re7KEV6DQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=s4nSWQtC;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uBmBj3A6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745489853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oXu0xToKAPO25fLhe2rMHBfxuHS/THmrVmv/bkCC9KY=;
+	b=s4nSWQtCo6+QGjsRUDwCGwwpQ/fpa53Eh8lU/LstcikM8KFwYcQ9AMWJhaHh1+jE9GdA4d
+	5ZPOIiDJ2/kFlniRZy1sIHrLG1+Oxj2FA78Pn2mFfcTNaYapxssjre7rKMTIQxHzuhkPab
+	WoZUgcnLztL1IfQaRel/8N9IlHU3nOI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745489853;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oXu0xToKAPO25fLhe2rMHBfxuHS/THmrVmv/bkCC9KY=;
+	b=uBmBj3A6z5PZfg79qv/WL/gZE5Q/6V6mRY5TBcET26WLX+N/oeOMFdfjxMaGtJ7zamJy8w
+	mdqIV88re7KEV6DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA92A139D0;
+	Thu, 24 Apr 2025 10:17:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rFqzMrwPCmjTJwAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 24 Apr 2025 10:17:32 +0000
+Message-ID: <10fec246-82a6-40bf-a522-ea3de7fa0624@suse.de>
+Date: Thu, 24 Apr 2025 12:17:32 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/14] nvmet-fcloop: prevent double port deletion
+To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org>
+ <20250423-nvmet-fcloop-v5-8-3d7f968728a5@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250423-nvmet-fcloop-v5-8-3d7f968728a5@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 1F4AF1F399
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250424_111346_267024_9339E5D5 
-X-CRM114-Status: UNSURE (   9.86  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250424_031735_221747_49AD6DFC 
+X-CRM114-Status: GOOD (  18.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,28 +144,117 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ensure that TLS support is enabled in the kernel when
-NVME_TARGET_TCP_TLS is enabled. This allows TLS secure channels to be
-used out of the box.
+On 4/23/25 15:21, Daniel Wagner wrote:
+> The delete callback can be called either via the unregister function or
+> from the transport directly. Thus it is necessary ensure resources are
+> not freed multiple times.
+> 
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/nvme/target/fcloop.c | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+> 
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index 9adaee3c7129f7e270842c5d09f78de2e108479a..014cc66f92cb1db0a81a79d2109eae3fff5fd38a 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -215,6 +215,9 @@ struct fcloop_lport_priv {
+>   	struct fcloop_lport *lport;
+>   };
+>   
+> +/* The port is already being removed, avoid double free */
+> +#define PORT_DELETED	0
+> +
+>   struct fcloop_rport {
+>   	struct nvme_fc_remote_port	*remoteport;
+>   	struct nvmet_fc_target_port	*targetport;
+> @@ -223,6 +226,7 @@ struct fcloop_rport {
+>   	spinlock_t			lock;
+>   	struct list_head		ls_list;
+>   	struct work_struct		ls_work;
+> +	unsigned long			flags;
+>   };
+>   
+>   struct fcloop_tport {
+> @@ -233,6 +237,7 @@ struct fcloop_tport {
+>   	spinlock_t			lock;
+>   	struct list_head		ls_list;
+>   	struct work_struct		ls_work;
+> +	unsigned long			flags;
+>   };
+>   
+>   struct fcloop_nport {
+> @@ -1067,14 +1072,20 @@ static void
+>   fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
+>   {
+>   	struct fcloop_rport *rport = remoteport->private;
+> +	bool delete_port = true;
+>   	unsigned long flags;
+>   
+>   	flush_work(&rport->ls_work);
+>   
+>   	spin_lock_irqsave(&fcloop_lock, flags);
+> +	if (test_and_set_bit(PORT_DELETED, &rport->flags))
+> +		delete_port = false;
+>   	rport->nport->rport = NULL;
+>   	spin_unlock_irqrestore(&fcloop_lock, flags);
+>   
+> +	if (!delete_port)
+> +		return;
+> +
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- drivers/nvme/target/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+The double negation is hard to follow. Can't you
+rename it to 'put_port' or somesuch and invert the logic?
 
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index fb7446d6d682..4c253b433bf7 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -98,6 +98,7 @@ config NVME_TARGET_TCP_TLS
- 	bool "NVMe over Fabrics TCP target TLS encryption support"
- 	depends on NVME_TARGET_TCP
- 	select NET_HANDSHAKE
-+	select TLS
- 	help
- 	  Enables TLS encryption for the NVMe TCP target using the netlink handshake API.
- 
+>   	fcloop_nport_put(rport->nport);
+>   }
+>   
+> @@ -1082,14 +1093,20 @@ static void
+>   fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
+>   {
+>   	struct fcloop_tport *tport = targetport->private;
+> +	bool delete_port = true;
+>   	unsigned long flags;
+>   
+>   	flush_work(&tport->ls_work);
+>   
+>   	spin_lock_irqsave(&fcloop_lock, flags);
+> +	if (test_and_set_bit(PORT_DELETED, &tport->flags))
+> +		delete_port = false;
+>   	tport->nport->tport = NULL;
+>   	spin_unlock_irqrestore(&fcloop_lock, flags);
+>   
+> +	if (!delete_port)
+> +		return;
+> +
+Same here.
+
+>   	fcloop_nport_put(tport->nport);
+>   }
+>   
+> @@ -1433,6 +1450,7 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
+>   	rport->nport = nport;
+>   	rport->lport = nport->lport;
+>   	nport->rport = rport;
+> +	rport->flags = 0;
+>   	spin_lock_init(&rport->lock);
+>   	INIT_WORK(&rport->ls_work, fcloop_rport_lsrqst_work);
+>   	INIT_LIST_HEAD(&rport->ls_list);
+> @@ -1530,6 +1548,7 @@ fcloop_create_target_port(struct device *dev, struct device_attribute *attr,
+>   	tport->nport = nport;
+>   	tport->lport = nport->lport;
+>   	nport->tport = tport;
+> +	tport->flags = 0;
+>   	spin_lock_init(&tport->lock);
+>   	INIT_WORK(&tport->ls_work, fcloop_tport_lsrqst_work);
+>   	INIT_LIST_HEAD(&tport->ls_list);
+> 
+Cheers,
+
+Hannes
 -- 
-2.49.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
