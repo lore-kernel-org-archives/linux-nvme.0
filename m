@@ -4,61 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBBD4C369C2
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Apr 2025 10:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7339FC369D1
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Apr 2025 11:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QI2cEW3F5h52iZc9Ehoq+VJxwqTbDjwmj72cYYMyc9I=; b=J98v8CPzIefM9sGOahDQyiszGr
-	1I5h9XavzOs86iXnfX7+fDIDFQKzwCW/yqvX+USGn8H/KJQnzgHBLN2iaDlPE5ePtQ+4UeNKZI4eb
-	+OkSTWIs8dXCHj4f0dki+I+pn25feHuOScjTE7Tc/5Vr4GHAGuBK/y+CCvyuuWRMEuKP8pTNRHI/u
-	tHnJF7vMDaeLGyZaycETJTuFh4+LayBTuhB7wH7LmBgJDblhSUJsaUNzulY9lX9hVEbYX579hZNDt
-	cEuec4UiOlYX724IqEtXhvVm3pzHCHRxGfjONmoMrmQGf0w8ZkUEdIeQAPvmxYPUKiPH5xLyeI+Lo
-	Ts6/ooNQ==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=p2zo2UfRzUZaHqQ1QefSwwTrNtbpRRErBDV0I1xM50s=; b=r9VIGKC1+ApCR4NvtYN384tprE
+	s7F/ndLF6wgTlQh/OhDQIFvqB96uY5REe6oz3RMf4dPuwWQmdo3CYHjBHzlNzyvknjF/rkqag6i7V
+	AF3m4ZwN6Sn2IwGJMjyj4uRa1lyVLAK8DI485Vf11uPktnrMMwlr4Y9JmOnnhUEooR3gYK5zfjF8y
+	TdNCbc59NTGVSNxFY6fafr8leSbQXRWEyNOfZOw1NwgFz5amPGaeS6Agghun9NDR3ppfnu6b/wieL
+	yoDHJTtoEFDvUxHFbAhv9Qvrr5n1vAShd7NF4sDbX6xHSX6dvsWKtyTpgDrXfyyasqBbCkhrLBFR/
+	rIctUWZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8GeS-0000000Gop6-1wAw;
-	Fri, 25 Apr 2025 10:51:24 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1u8H0S-0000000GtU4-3Q5g;
+	Fri, 25 Apr 2025 11:14:08 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8FSH-0000000GZ1D-2JnD
+	id 1u8Fgo-0000000Gbrc-3k0B
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Apr 2025 09:34:46 +0000
+	Fri, 25 Apr 2025 09:49:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5B8BBA4D052;
-	Fri, 25 Apr 2025 09:29:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BC31C4CEE4;
-	Fri, 25 Apr 2025 09:34:42 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4B6325C64AE;
+	Fri, 25 Apr 2025 09:47:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B4BC4CEEA;
+	Fri, 25 Apr 2025 09:49:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745573684;
-	bh=eF/09S/9IBNPld7zX3f0A47z7FRFSqrO+3+PW1APB/E=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WoEd6HKIogY+K7TbklkYk6Zw6pcaYtCjkk0N6FtEG1gFgNWKG+q0+lgjwbhoJJyX2
-	 WjoUmIskxrHODfOmnS71GViqAOcI8rsgbeeyaH7kyJ/Qn8r8+6ZOnqlLKTl2qVhVZI
-	 HJLeXEjoa+sNjE/cX/iogNssfQcka5V5IhjS2xXpPwCSmxMTKVL525q89CQlzOcAfo
-	 3pg5+IhsIvMN/vSsOlb9+Mikpilys6KatpapTIUvj+HrSRydY1czbSaRgKoTEcCcBk
-	 RvV5UmGfC1H+c78zM4EjxzUNTcoGoLeInJRC6IZgMDV/wuW6z5RkN7bpn4Aox5QCVG
-	 w1WvIi47iFx4A==
+	s=k20201202; t=1745574586;
+	bh=8TIDxXtmA4qujOvX3IUr3Ml+rVGSUwp/Saf9SNAh+ho=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LJmMMpyzwlAYD4rsdkJvFBeIcloYrLxr6y4vOaF9vD343xmkbvAVO8YAmqQNQ3ozi
+	 O9R34XR3/PwClHqmZwBuZB+YJnJ6PuIBTCDSLg4aY6ngY3FhfbElHtKpSfUEEV/FxC
+	 As05wisPvogOGuiE20bwPlxdXG2EZPEdR34vVX0a1TUQ9B2KXtUu6jO/kDsyFmtQkZ
+	 h/G0gHAAS6qxBoTfM21EzJTUoC+apkGC7N54ZQqQg1UzRdUoSjbRmjDLP6lsO61iW3
+	 lz9fYVTl1Yebb9pTXD6UbQgl3jMagUPzAEWJTiEcvIUhsCQyVEzqb/ufIu4/CL9wen
+	 mKmOWtBAPZPVQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>,
-	Yi Zhang <yi.zhang@redhat.com>,
-	Maurizio Lombardi <mlombard@bsdbackstore.eu>
-Subject: [PATCH] nvmet-auth: always free derived key data
-Date: Fri, 25 Apr 2025 11:34:34 +0200
-Message-Id: <20250425093434.36383-1-hare@kernel.org>
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH 02/12] nvme-auth: use SHASH_DESC_ON_STACK
+Date: Fri, 25 Apr 2025 11:49:17 +0200
+Message-Id: <20250425094927.102656-3-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20250425094927.102656-1-hare@kernel.org>
+References: <20250425094927.102656-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250425_023445_648338_E9DCCFEF 
-X-CRM114-Status: GOOD (  10.65  )
+X-CRM114-CacheID: sfid-20250425_024946_972975_EA779261 
+X-CRM114-Status: UNSURE (   9.77  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,37 +74,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-After calling nvme_auth_derive_tls_psk() we need to free the resulting
-psk data, as either TLS is disable (and we don't need the data anyway)
-or the psk data is copied into the resulting key (and can be free, too).
+Use SHASH_DESC_ON_STACK to avoid explicit allocation.
 
-Fixes: fa2e0f8bbc68 ("nvmet-tcp: support secure channel concatenation")
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Suggested-by: Maurizio Lombardi <mlombard@bsdbackstore.eu>
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/nvme/target/auth.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/nvme/common/auth.c | 23 ++++++-----------------
+ 1 file changed, 6 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 3f9fad732350..8f67fc21149c 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -656,13 +656,12 @@ void nvmet_auth_insert_psk(struct nvmet_sq *sq)
- 		pr_warn("%s: ctrl %d qid %d failed to refresh key, error %ld\n",
- 			__func__, sq->ctrl->cntlid, sq->qid, PTR_ERR(tls_key));
- 		tls_key = NULL;
--		kfree_sensitive(tls_psk);
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index d6dfc4ff39a2..918c92cbd8c5 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -242,7 +242,7 @@ int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
+ {
+ 	const char *hmac_name;
+ 	struct crypto_shash *key_tfm;
+-	struct shash_desc *shash;
++	SHASH_DESC_ON_STACK(shash, key_tfm);
+ 	u8 *transformed_data;
+ 	u8 *key_data;
+ 	size_t transformed_len;
+@@ -287,39 +287,28 @@ int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
+ 		goto out_free_tfm;
  	}
- 	if (sq->ctrl->tls_key)
- 		key_put(sq->ctrl->tls_key);
- 	sq->ctrl->tls_key = tls_key;
- #endif
+ 
+-	shash = kmalloc(sizeof(struct shash_desc) +
+-			crypto_shash_descsize(key_tfm),
+-			GFP_KERNEL);
+-	if (!shash) {
+-		ret = -ENOMEM;
+-		goto out_free_transformed_data;
+-	}
 -
-+	kfree_sensitive(tls_psk);
- out_free_digest:
- 	kfree_sensitive(digest);
- out_free_psk:
+ 	shash->tfm = key_tfm;
+ 	ret = crypto_shash_setkey(key_tfm, key->key, key->len);
+ 	if (ret < 0)
+-		goto out_free_shash;
++		goto out_free_transformed_data;
+ 	ret = crypto_shash_init(shash);
+ 	if (ret < 0)
+-		goto out_free_shash;
++		goto out_free_transformed_data;
+ 	ret = crypto_shash_update(shash, nqn, strlen(nqn));
+ 	if (ret < 0)
+-		goto out_free_shash;
++		goto out_free_transformed_data;
+ 	ret = crypto_shash_update(shash, "NVMe-over-Fabrics", 17);
+ 	if (ret < 0)
+-		goto out_free_shash;
++		goto out_free_transformed_data;
+ 	ret = crypto_shash_final(shash, transformed_data);
+ 	if (ret < 0)
+-		goto out_free_shash;
++		goto out_free_transformed_data;
+ 
+-	kfree(shash);
+ 	crypto_free_shash(key_tfm);
+ 	*transformed_secret = transformed_data;
+ 
+ 	return transformed_len;
+ 
+-out_free_shash:
+-	kfree(shash);
+ out_free_transformed_data:
+ 	kfree(transformed_data);
+ out_free_tfm:
 -- 
 2.35.3
 
