@@ -4,77 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23546C369D1
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Apr 2025 21:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CDA1C369D1
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Apr 2025 21:55:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MVVbo4ROS446ViNmU/AD2hQGyqQ0dbBdWmkbwu91I+0=; b=joFzyp5kkI+ABoZYWSLcDm7MHA
-	5HB8dCwZlGzYmecG43vWOmwBXw5ID7GYsOwEdVaI49G3jOgXyXyWPZk2h7O2Cra79Jjsrz0YgJg/H
-	knvAXbWEX0wB7/U8+lnSOfxiW+EA4jZaL1HYqHNrQ/C7qME9jV5vZHR0vMTmIa/D5O8WkMMTZIZGj
-	F/sMCJcDgoL7RXSYKh/pN765etYA8Rtf9Tp+zOogpNmArGL1eXbI9kekrByXBRdy/orqOMMI+eXxe
-	gDlEg1GDPiRr7cUesAQocqov1EjvJqIPaW5zv3F/EeDo/7DxtLqmgXohMn7uXx/GFkQ5T6wwvtIuj
-	7W1urPPw==;
+	bh=GCVptkgQ2dk9HxktXaM/8b3HLAcTwm5o3wEOs4DSA6g=; b=lDrjPuc6ecSJpd4mWs4Ps/C804
+	Sc3fjoVE20/B89Ud4I/+CnJ6K9EssCIPa54Hfc7sqs33UZbgQMkMg8YapBEGHZ46w1icbCZsaqbLA
+	z/v4uCWjm0fFBgb5mAlER7Rnl/zqZQ0fnVwzEg9JqI3y2laxzZhGfCOkJvnoxMw8c6KO1hbNHPs2A
+	FXzawXuw8XkJzPynDrw/ZA5YCPSeN+ZpiZY95nm1rpkz+ip2lwwvyK3JMiJt1yOTF6Ji85umWb9cX
+	/YM0wHBu3HtMWHBlEK79UVGegq/klSwo0mQt50AtwsfWD2YArWrQV2i0yz0FHtEzmAqE9q0aUorXl
+	H7lUhLnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8QzN-00000000ybI-2Jkl;
-	Fri, 25 Apr 2025 21:53:41 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1u8R1R-00000000z2P-1cXW;
+	Fri, 25 Apr 2025 21:55:49 +0000
+Received: from mail-wr1-f51.google.com ([209.85.221.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8QzG-00000000yY1-0lYs
+	id 1u8R1P-00000000z1r-1eXE
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Apr 2025 21:53:35 +0000
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43d0782d787so17327265e9.0
-        for <linux-nvme@lists.infradead.org>; Fri, 25 Apr 2025 14:53:33 -0700 (PDT)
+	Fri, 25 Apr 2025 21:55:48 +0000
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3913d129c1aso1831504f8f.0
+        for <linux-nvme@lists.infradead.org>; Fri, 25 Apr 2025 14:55:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745618012; x=1746222812;
+        d=1e100.net; s=20230601; t=1745618145; x=1746222945;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MVVbo4ROS446ViNmU/AD2hQGyqQ0dbBdWmkbwu91I+0=;
-        b=UPuy7QwLasncfCJ/SK8lzuho9OQQagL9Podz7d70g/PrDcuQwLN7mZ0i8dDXixRIsV
-         PgYpXeCIGBXOEBPZaFA72h3BtjB+PkGlKUfc3abjmy8/0zW1H/UFdcomhrNNYA1+9keT
-         9gsJixkPPKFwHy90XAkZy3LqcKlDs+2WcLHp9OKHJ+Y40DtdS9xJbz4ubjHHjajfcOBj
-         uAqxNw457VYiWJoWfSclZFMdT3v7h1CoK8I8DT+YZxai7tI4vW4XKURd4El3D2LThTUS
-         QLvuiiFASEyI6Qd3QKYakhIuMkW2QlJ7a4CYV0jYx3Jov10iJ3sFzpMlR4vVgX4LR8CT
-         KsYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVX7OFMjdCDYoNCWlTKgbikDGH/Bd2oZjQ204Txz57DTPSXhtPov+XG2zWPK7eBuTMip339zwWMcgMr@lists.infradead.org
-X-Gm-Message-State: AOJu0YzPSk6f/IW1Yc6hdLWjEW9eOgPrs7iB9VvwMtDeXNEOk+9EEH0Q
-	+BB6IRyjsZ3a+w5cH+Bk3/b5o2zn9fkWyZukuyvm7UfBXtJewp0S
-X-Gm-Gg: ASbGncvd75E+358ZVL30ykhjUJdQ0r9X7oOUW7T+EIOPD1MAyIIJ1/v9ruMCXEGDJ2G
-	1WabM9nuqxo5BHHLwKIjYte3Sly3N9GNffloUahNLe5lnmhJsneIkaKtk+Z2dapNjHYt5Y+hRvw
-	vvQ505xMinvImSV9oBmc+bG7ouhfeEaeiNwJnBqO/JSbjPT9sfDp3yv4BJJC63ajRIWY9pRuKCm
-	qsbEf1+E8J+YXV3Db6ki943BE+JoFaGgHGQpDdcYCT8ikegE8aBN9iJ3A0CIc+5dL6YVwg1arBm
-	6/DPaPHiuRYgQ6oYlJnn25vXc+eD/FETL21SlQRE
-X-Google-Smtp-Source: AGHT+IGSD+ivcGxPzjE4UnDxqHkDSfK+l5KI6zUPiQ4sOkdq5u51vTEljeieRQYpKNmD6n+VeRTiMQ==
-X-Received: by 2002:a05:600c:1e1c:b0:440:6a1a:d89f with SMTP id 5b1f17b1804b1-440a64c14bdmr35479365e9.4.1745618012216;
-        Fri, 25 Apr 2025 14:53:32 -0700 (PDT)
+        bh=GCVptkgQ2dk9HxktXaM/8b3HLAcTwm5o3wEOs4DSA6g=;
+        b=sEEFs6slmwJVEFXBaDvphr+JfNVaAU2UJw59GkTOyWqNS8zmr0fQGFXGZiya9mN3xf
+         5GKm24M0DgVcBSHRg9WnDKUMP70v8/iWx2Qciqz6ghfbWrY1NROaDwtFV20L1RrXIRxx
+         9XqgR8zNH2erAYmij+bJl594BfFfj771xgYG+ifqGLV85rgmN4BA2AHzHEwZyBBd0Qtv
+         mHEcu+wjT25udgHyMTtldEyojcljr95i7A9mpXMBjSlBEsHDvPRPh6BrBZNjNTwikktP
+         S0vAjWEOuvgsvHFQu9nIH2l8IH6m2uBuKFJk0rJ7RjNcikqYFCWEdmmYCaFqAeEAnZFY
+         /2mg==
+X-Forwarded-Encrypted: i=1; AJvYcCXvSZ22n5kYeKDBtHm5D+wInjynR3xejNMQS9aKxLvpI4P49jKpbEaLyr+3wn/BZybFKNs9v0SNUhDz@lists.infradead.org
+X-Gm-Message-State: AOJu0YxheZiGm0vaLXBIBEG7Wt2uByjuXyxv/wt0TacxQMGwl929Oq9n
+	r/Xn3jD3shiPyrwiBJiVo3QxMN+xJL3+J9f2tuyLX85i8DBGhYm5
+X-Gm-Gg: ASbGncsvE8uIzvj3eUfczX58B52ROQRzaKlOF6FXPGdUlfPNv5qYhASvyoL2ZeNWQI8
+	VaNIIdXxbOJXIVdrjQxu2GHFddeHv97t8IxHHeeTgy16fvjl07bISpZ3UlFwUnS8aqYgE2Rvb4Z
+	ACGbtNWB0M2oRUmILu+Bhhiwm7Sl3rXGEtN2rpv4NpLRnaVTtBqErBfUsFUEvK6hE8fe7gP6ORb
+	BvnsZT14hQ/c6a8QBRe5SczNSyUo+UvLl1iDVNBgiR9VpJG+ZWAU7zuDDcAcQfUf5Bb0T02Ccqf
+	Dfl5VBmaXf5ftYBiCLrzUB20xSMSGZJVhPcn/hZ0
+X-Google-Smtp-Source: AGHT+IEXPx8wbUCBejsIICCUc/QeHePInnhpIUXrc1pYCnmDXFFyPGjuHWwun/aS/9z1MBocmwGX6A==
+X-Received: by 2002:a05:6000:290d:b0:39f:d0a:5b23 with SMTP id ffacd0b85a97d-3a074d08a7emr2875911f8f.17.1745618145356;
+        Fri, 25 Apr 2025 14:55:45 -0700 (PDT)
 Received: from [10.100.102.74] ([95.35.174.203])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2ad112sm69015145e9.24.2025.04.25.14.53.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073ca5225sm3527276f8f.33.2025.04.25.14.55.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Apr 2025 14:53:31 -0700 (PDT)
-Message-ID: <a306a2b0-bd7c-4376-8c26-738b5c7c9807@grimberg.me>
-Date: Sat, 26 Apr 2025 00:53:30 +0300
+        Fri, 25 Apr 2025 14:55:44 -0700 (PDT)
+Message-ID: <976af4b7-578b-4e47-a2ff-7c74af0b9afa@grimberg.me>
+Date: Sat, 26 Apr 2025 00:55:43 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] nvme-tcp: wait socket wmem to drain in queue stop
-To: Michael Liang <mliang@purestorage.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
-Cc: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250424161750.jwbdohybrqftuioe@purestorage.com>
+Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
+To: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chris Leech <cleech@redhat.com>
+References: <20250403065522.90807-1-hare@kernel.org>
+ <20250403065522.90807-4-hare@kernel.org>
+ <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
+ <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
+ <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
+ <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
+ <eda7a691-037b-442d-bd36-a31f93e95cb1@suse.de>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250424161750.jwbdohybrqftuioe@purestorage.com>
+In-Reply-To: <eda7a691-037b-442d-bd36-a31f93e95cb1@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250425_145334_218105_B3E782CF 
-X-CRM114-Status: GOOD (  18.07  )
+X-CRM114-CacheID: sfid-20250425_145547_441056_0D6F9659 
+X-CRM114-Status: GOOD (  34.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,49 +94,209 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Given that this is a fix - lets rename the patch title to say that.
-
-nvme-tcp: fix possible data corruption caused by premature queue removal 
-and I/O failover
 
 
-On 24/04/2025 19:17, Michael Liang wrote:
-> This patch addresses a data corruption issue observed in nvme-tcp during
-> testing.
->
-> Issue description:
-> In an NVMe native multipath setup, when an I/O timeout occurs, all inflight
-> I/Os are canceled almost immediately after the kernel socket is shut down.
-> These canceled I/Os are reported as host path errors, triggering a failover
-> that succeeds on a different path.
->
-> However, at this point, the original I/O may still be outstanding in the
-> host's network transmission path (e.g., the NIC’s TX queue). From the
-> user-space app's perspective, the buffer associated with the I/O is considered
-> completed since they're acked on the different path and may be reused for new
-> I/O requests.
->
-> Because nvme-tcp enables zero-copy by default in the transmission path,
-> this can lead to corrupted data being sent to the original target, ultimately
-> causing data corruption.
->
-> We can reproduce this data corruption by injecting delay on one path and
-> triggering i/o timeout.
->
-> To prevent this issue, this change ensures that all inflight transmissions are
-> fully completed from host's perspective before returning from queue
-> stop. To handle concurrent I/O timeout from multiple namespaces under
-> the same controller, always wait in queue stop regardless of queue's state.
->
-> This aligns with the behavior of queue stopping in other NVMe fabric transports.
+On 24/04/2025 14:26, Hannes Reinecke wrote:
+> On 4/17/25 00:09, Sagi Grimberg wrote:
+>>
+>>
+>> On 16/04/2025 10:56, Hannes Reinecke wrote:
+>>> On 4/15/25 23:35, Sagi Grimberg wrote:
+>>>>
+>>>>
+>>>> On 15/04/2025 10:07, Hannes Reinecke wrote:
+>>>>> On 4/3/25 08:55, Hannes Reinecke wrote:
+>>>>>> When the socket is busy processing nvme_tcp_try_recv() might
+>>>>>> return -EAGAIN, but this doesn't automatically imply that
+>>>>>> the sending side is blocked, too.
+>>>>>> So check if there are pending requests once nvme_tcp_try_recv()
+>>>>>> returns -EAGAIN and continue with the sending loop to avoid
+>>>>>> I/O stalls.
+>>>>>>
+>>>>>> Acked-by: Chris Leech <cleech@redhat.com>
+>>>>>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+>>>>>> ---
+>>>>>>   drivers/nvme/host/tcp.c | 5 ++++-
+>>>>>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>>>>>> index 1a319cb86453..87f1d7a4ea06 100644
+>>>>>> --- a/drivers/nvme/host/tcp.c
+>>>>>> +++ b/drivers/nvme/host/tcp.c
+>>>>>> @@ -1389,9 +1389,12 @@ static void nvme_tcp_io_work(struct 
+>>>>>> work_struct *w)
+>>>>>>           result = nvme_tcp_try_recv(queue);
+>>>>>>           if (result > 0)
+>>>>>>               pending = true;
+>>>>>> -        else if (unlikely(result < 0))
+>>>>>> +        else if (unlikely(result < 0) && result != -EAGAIN)
+>>>>>>               return;
+>>>>>>   +        if (nvme_tcp_queue_has_pending(queue))
+>>>>>> +            pending = true;
+>>>>>> +
+>>>>>>           if (!pending || !queue->rd_enabled)
+>>>>>>               return;
+>>>>>
+>>>>> The various 'try_send' function will return -EAGAIN for a partial 
+>>>>> send.
+>>>>> But it doesn't indicate a blocked Tx, rather we should retry 
+>>>>> directly.
+>>>>> Hence this check.
+>>>>>
+>>>>> Unless you tell me differently and even a partial send will cause
+>>>>> ->write_space() to be invoked, then we wouldn't _need_ it.
+>>>>
+>>>> Umm, that is my understanding. If you tried to send X and were able to
+>>>> send Y where Y < X, you shouldn't have to keep trying in a busy 
+>>>> loop, the stack should tell you when you can send again.
+>>>>
+>>> Okay, I could try that.
+>>>
+>>>>> It would
+>>>>> still be an optimisation as we're saving the round-trip via socket
+>>>>> callbacks.
+>>>>
+>>>> But you are doing a busy loop on a socket that cannot accept new 
+>>>> data, there are other sockets that the kthread can be working on.
+>>>>
+>>> But we might be _sending_ data, right?
+>>
+>> I'd say that odds are you're not in the next attempt...
+>>
+>>>
+>>>>>
+>>>>> We could aim for a different error here, to differentiate between a
+>>>>> 'real' EAGAIN and a partial send.
+>>>>> Whatever you prefer.
+>>>>
+>>>> I still don't understand why a partial send warrants a busy loop 
+>>>> call to sock_sendmsg...
+>>>>
+>>> This is, it's not just sendmsg. It's the combination of send and recv.
+>>
+>> I agree with you that the recv fix is correct.
+>>
+>>> In my tests I have seen sendmsg return with a partial/incomplete 
+>>> status,
+>>> consequently recvmsg has nothing to receive, and io_work stops.
+>>> And that is what the patch fixes.
+>>
+>> The question is if the recv fix is sufficient?
+>>
+>>>
+>>> I haven't checked the ->write_space() callback (which should've been 
+>>> triggered), but my feeling is that the ->write_space() callback
+>>> hit when we were still busy processing, so the queue_work() went
+>>> nowhere.
+>>
+>> That makes sense.
+>>
+>>>
+>>> Maybe we can fix it with setting a flag when ->write_space()
+>>> triggers ('hey, more data to process'), to be evaluated during
+>>> the io_work() loop. But that would be pretty close to the
+>>> check 'nvme_tcp_queue_has_pending', so I'm not sure if we
+>>> gain anything.
+>>
+>> How about checking sk_stream_is_writeable() instead?
+>> I think we also need to flag the queue for the write_space during IO 
+>> work...
+>>
+>>>
+>>> And I really haven't seen any detrimental performance effects
+>>> with this patch; in the contrary, performance was on par,
+>>> and if anything standard deviation went down.
+>>
+>> Still you agree that busy looping a socket that may not have space is 
+>> less efficient?
+>> When there are other queues waiting to execute io_work?
+>>
+>> I agree there is a problem here, but I am trying to figure out what 
+>> we want to do here.
+>>
+>> How about these two (untested) patches:
+>> [1 based on your recv-side fix]:
+>> --diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 72d260201d8c..4eb9a2dec07e 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -1348,7 +1348,7 @@ static int nvme_tcp_try_recv(struct 
+>> nvme_tcp_queue *queue)
+>>          queue->nr_cqe = 0;
+>>          consumed = sock->ops->read_sock(sk, &rd_desc, 
+>> nvme_tcp_recv_skb);
+>>          release_sock(sk);
+>> -       return consumed;
+>> +       return consumed == -EAGAIN ? 0 : consumed;
+>>   }
+>>
+>>   static void nvme_tcp_io_work(struct work_struct *w)
+>> -- 
+>>
+>> [2 based on your partial write fix]:
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 4eb9a2dec07e..daf59e75cf15 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -129,6 +129,7 @@ enum nvme_tcp_queue_flags {
+>>          NVME_TCP_Q_LIVE         = 1,
+>>          NVME_TCP_Q_POLLING      = 2,
+>>          NVME_TCP_Q_IO_CPU_SET   = 3,
+>> +       NVME_TCP_Q_WAKE_SENDER  = 4,
+>>   };
+>>
+>>   enum nvme_tcp_recv_state {
+>> @@ -1063,6 +1064,7 @@ static void nvme_tcp_write_space(struct sock *sk)
+>>          queue = sk->sk_user_data;
+>>          if (likely(queue && sk_stream_is_writeable(sk))) {
+>>                  clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+>> +               set_bit(NVME_TCP_Q_WAKE_SENDER, &queue->flags);
+>>                  queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue- 
+>>  >io_work);
+>>          }
+>>          read_unlock_bh(&sk->sk_callback_lock);
+>> @@ -1357,6 +1359,7 @@ static void nvme_tcp_io_work(struct work_struct 
+>> *w)
+>>                  container_of(w, struct nvme_tcp_queue, io_work);
+>>          unsigned long deadline = jiffies + msecs_to_jiffies(1);
+>>
+>> +       clear_bit(NVME_TCP_Q_WAKE_SENDER, &queue->flags);
+>>          do {
+>>                  bool pending = false;
+>>                  int result;
+>> @@ -1376,7 +1379,15 @@ static void nvme_tcp_io_work(struct 
+>> work_struct *w)
+>>                  else if (unlikely(result < 0))
+>>                          return;
+>>
+>> -               if (!pending || !queue->rd_enabled)
+>> +               /* did we get some space after spending time in recv 
+>> ? */
+>> +               if (nvme_tcp_queue_has_pending(queue) &&
+>> + sk_stream_is_writeable(queue->sock->sk))
+>> +                       pending = true;
+>> +
+>> +               if (!queue->rd_enabled)
+>> +                       return;
+>> +
+>> +               if (!pending && !test_bit(NVME_TCP_Q_WAKE_SENDER, 
+>> &queue->flags))
+>>                          return;
+>>
+>>          } while (!time_after(jiffies, deadline)); /* quota is 
+>> exhausted */
+>> -- 
+>>
+> While trying to sift through the patches trying to come up with
+> a next version:
+> Why do you check for Q_WAKE_SENDER after checking for
+> sk_stream_is_writable?
+> Surely sk_stream_is_writable() is a necessary condition for 
+> nvme_tcp_try_send(), no?
 
-We need a "Fixes: " tag, even if it goes all the way to day-0...
-
->
-> Reviewed-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> Reviewed-by: Randy Jennings <randyj@purestorage.com>
-> Signed-off-by: Michael Liang <mliang@purestorage.com>
-
-Please resend, but you can add to your v4
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Right after the check sk_stream_is_writeable(), there could have new 
+room in the socket
+send buffer, state_change() fired, and queued io_work, before we get to 
+the pending
+check. This is the "lost event" problem.
 
