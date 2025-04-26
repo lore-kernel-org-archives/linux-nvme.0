@@ -4,77 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8BC6C3ABA3
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 11:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77434C369DC
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 13:04:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DsJw2lvYwiq12LP4zFq0KdvgXLOSONLU5r9+iJsiPhk=; b=mVQZIbXsDVImJZbC+KYYBUFvOA
-	+n5ML7U807HeObYqWSFXBf4xlEwLDu/sCuzI0QAGhxIWc2chr09+VzqHZVpv6RelsR8xSF1xfX2Jq
-	G/bCcnyGpictBgD/DJhQz/DG0aJGukbK/Rlld/K+oQWL9YSeF2EUblc74W82HcaFxS1YXQBiY2xJs
-	RK/z7hX/iTpNDUuq8J4eJ5EJMw1AdzHTyI6TpPabQU9rQNAyky8+PQoasOuX73mnvpqA1JoGdNJFV
-	crqY3FbBQvZDcmCsyH/pQhcHi8+CPEEDlLziDCO3iapoPPYQeJTuuOSmYqb5H3kQHpKLGd6eP0qFd
-	GBWDRoHg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=N9OKLboyRSWd9iZcPYqjA5xqgR2wK92sFoH7sofxhbE=; b=NmrTemvAHR0Qlv/280+QCK8FUj
+	rAB0DaBloltEevtjH3+ABDBwJewnLLbAx9TkdwVcWzS77dLkldY7s7NUHaWnaUU/ZbHdYKn4+l0M0
+	S8xd7Z/YkKRYJwg0y8GAwg5ROlk/bHHgK+l4mDrAnWPBKPo/tubGhEaRRrkEy1O8OpxfPZmQup5W4
+	17hYG+fgnMN4yQF+5Oa3jjWwaOC+iuGztr8GbkGq+CqUs33ukJLTbiWXbOxJsknyhQWUkhn4rf5EC
+	98uR4qOvxqEpAtR3Kpf6nNlQrzqhusycHgamxp4JcVj5kuDNvL+ACTsFj8LH9ffx1zvUgR3xf5mXx
+	VdHuohXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9N3U-0000000630t-1DM8;
-	Mon, 28 Apr 2025 11:53:48 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1u9O9X-00000006JLl-2mK3;
+	Mon, 28 Apr 2025 13:04:07 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9MbE-00000005wlI-1eWV
+	id 1u8TIx-00000001Box-0ayN
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 11:24:37 +0000
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso41608945e9.2
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 04:24:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745839471; x=1746444271;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DsJw2lvYwiq12LP4zFq0KdvgXLOSONLU5r9+iJsiPhk=;
-        b=XEJWpB4MKWVz+Wrh5B5u4xFNNChT/sUwT9ifiqNcj/v7gLoaNBX8CsiOImtP6Ld0BE
-         WopEzvdqbP0tN+IS4O68wSUulXPf4ao7uQl8exKEC8tk5WsrhEdKnEoEYi7GMYLWPPb3
-         5PpSe/WpI+XoWSeo2vjvdMMOcCL6LyTkbrsOfwAGPtX5lC8d75pVEjaRuiDlTMFAr2Rf
-         0e0elGwO84Rs9IMSYrrZ20P/E/4UxSX8kmFQl+C9e1hh+LmxZ79pxMAm1ouXV0YA7mUC
-         6tjRA67ZqXdFfY9Tyfw59SLsEy+EjCzeEzP7DDBDKv6OQToqHRhlvdxprIKU1gYVZq5B
-         4ETQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX3RcIREsr4BYLdUKIXcgl8KPnsnLgDBHSKnStkj2EbNWmjw4S4FfQn/70JXB7S4c0LfWj+dtymIyZ7@lists.infradead.org
-X-Gm-Message-State: AOJu0YzxCqJItzl8GyGgwYtzx4Ldjh3JhSLnj2uZhXC5BnXv+2vAwn1u
-	iovlN2odpSvPBTJkdkEQNFILHuOj/B3uT5RyLXZE+oOU5RSY2F/8X6PHqA==
-X-Gm-Gg: ASbGncuBtOYE49EB0tpwR8Y/+0Hr2R363Hy16cHQzTVmveVFoU9esWT0QsykcFXGOvc
-	ACh+MLOQNiipLqGRZ4kiI5H89qOikAqgqavpGTrDuaa0ndTZSqeNTFkksFRHh6dpzpGBSlpxpAL
-	GGOouGznqTx/i43XaKYt5Zf9DQZoXAWf6SNxx74MLWDRRoFAfzAOwJ1RLo3NTl4Y32bP0A4rzsX
-	z4CFuvu8gul/Aw/IgpuxGKtfFhuEQUS7QmLVsZXqMK9zfol8QUBZ6oj3R8tfAa6V12jwuDRgYVh
-	JmIXzDks62WqwZQ0oDGjwtRrFFS6B/XsxgVW8Kx7CtFx2jZkB7fTzcw6InmqUKIE57FiPhlbTe4
-	XAUEg8Q==
-X-Google-Smtp-Source: AGHT+IGKQ+nEam+7sy5gS+XmIKJ0n53OYiBcSMynw7r6xFSsTHyrkN28r+AYnRu0KSu6tlQJIMuzoQ==
-X-Received: by 2002:a05:600c:3b1d:b0:43c:fa52:7d2d with SMTP id 5b1f17b1804b1-440ab845efdmr43812385e9.20.1745839471278;
-        Mon, 28 Apr 2025 04:24:31 -0700 (PDT)
-Received: from [10.50.5.11] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-440a530f6e6sm120205355e9.17.2025.04.28.04.24.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Apr 2025 04:24:30 -0700 (PDT)
-Message-ID: <b1bab4bb-c957-4020-8ddf-2f430124e7b6@grimberg.me>
-Date: Mon, 28 Apr 2025 14:24:29 +0300
+	Sat, 26 Apr 2025 00:22:04 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1E5D95C6C9A;
+	Sat, 26 Apr 2025 00:19:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A96C4CEE4;
+	Sat, 26 Apr 2025 00:22:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745626921;
+	bh=h50G9mpEZaBwJcj8NBjbBVE9qsIsc9fyuWGRd2gmBsM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uSx9KLDJxnN6lYn0LOZiC4gIIRTMcevzUKTtv7QtHq94vnzWzXAWCWK4YS8t/lvCv
+	 alHXKJFiqiZH5uLDlN+4stNQPEDcFlWuzLtnpyGxFQaHCXmY/sJ3NasmNfPQ10XOsD
+	 wUw2k76EwWqC8e0qBP5fC1orpyG4CQVrSTzu1rraBPS49Yf+gV2ATcRoe77STUECZ4
+	 KJl2G7PvDJa9oNMl3b9jsvgxkMxCD7AlH1dhdpNSZwOELkRM++Hgq3UOE+eTSBx7Az
+	 pefT0sVbAaXyzhhHb4ziaDfP3nFsriO8NgoukTNrsqDiCzAfPrcBbyGzvg66JNeo6z
+	 O2DMUdv81udLg==
+Date: Fri, 25 Apr 2025 17:21:59 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>
+Subject: Re: [PATCH v9 01/24] PCI/P2PDMA: Refactor the p2pdma mapping helpers
+Message-ID: <aAwnJwLeOs7rfkHL@bombadil.infradead.org>
+References: <cover.1745394536.git.leon@kernel.org>
+ <3a962f9039f0265de939f4c81924ee8208fc93a6.1745394536.git.leon@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvme-tcp: fix I/O stalls on congested sockets
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Kamaljit Singh <kamaljit.singh@wdc.com>, Chris Leech <cleech@redhat.com>
-References: <20250428065040.32663-1-hare@kernel.org>
- <20250428065040.32663-3-hare@kernel.org>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250428065040.32663-3-hare@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a962f9039f0265de939f4c81924ee8208fc93a6.1745394536.git.leon@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_042436_435502_9D3B6D43 
-X-CRM114-Status: GOOD (  18.53  )
+X-CRM114-CacheID: sfid-20250425_172203_225844_DB234F2A 
+X-CRM114-Status: GOOD (  18.31  )
+X-Mailman-Approved-At: Mon, 28 Apr 2025 05:19:58 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,49 +97,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, Apr 23, 2025 at 11:12:52AM +0300, Leon Romanovsky wrote:
+> From: Christoph Hellwig <hch@lst.de>
+> 
+> The current scheme with a single helper to determine the P2P status
+> and map a scatterlist segment force users to always use the map_sg
+> helper to DMA map, which we're trying to get away from because they
+> are very cache inefficient.
+> 
+> Refactor the code so that there is a single helper that checks the P2P
+> state for a page, including the result that it is not a P2P page to
+> simplify the callers, and a second one to perform the address translation
+> for a bus mapped P2P transfer that does not depend on the scatterlist
+> structure.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> Tested-by: Jens Axboe <axboe@kernel.dk>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
+Might make it easier for patch review to split off adding
+__pci_p2pdma_update_state() in a seprate patch first. Other than that,
+looks good.
 
-On 28/04/2025 9:50, Hannes Reinecke wrote:
-> When the socket is busy processing nvme_tcp_try_recv() might
-> return -EAGAIN, but this doesn't automatically imply that
-> the sending side is blocked, too.
-> So check if there are pending requests once nvme_tcp_try_recv()
-> returns -EAGAIN and continue with the sending loop to avoid
-> I/O stalls.
->
-> Acked-by: Chris Leech <cleech@redhat.com>
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> ---
->   drivers/nvme/host/tcp.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 10ccd7cf5b8c..5c73af022273 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1363,7 +1363,7 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
->   	queue->nr_cqe = 0;
->   	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
->   	release_sock(sk);
-> -	return consumed;
-> +	return consumed == -EAGAIN ? 0 : consumed;
->   }
->   
->   static void nvme_tcp_io_work(struct work_struct *w)
-> @@ -1391,6 +1391,11 @@ static void nvme_tcp_io_work(struct work_struct *w)
->   		else if (unlikely(result < 0))
->   			return;
->   
-> +		/* did we get some space after spending time in recv? */
-> +		if (nvme_tcp_queue_has_pending(queue) &&
-> +		    sk_stream_is_writeable(queue->sock->sk))
-> +			pending = true;
-> +
->   		if (!pending || !queue->rd_enabled)
->   			return;
->   
+Reviewed-by: Luis Chamberlain <mcgrof@kenrel.org>
 
-Looks fine,
-
-Need Kamaljit to verify it.
+  Luis
 
