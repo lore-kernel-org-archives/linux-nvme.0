@@ -4,51 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C4B7C3ABA6
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 13:04:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FB4BC369DC
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 13:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9rjDHHnXKIq/IYLRYNz7omC4hZWk80Ktl1m/BymvYWI=; b=r6POStOTdpm0unIfAR4ctywqQE
-	+iATIM6vIEnR7Nbf8fRyW5o0ijEcFNRAEskH/SG/3Xa9h0bwvOTvCPehAII+Jug9Gieg05caOE4Pu
-	TOpg8epPKAdyScJaBnS76zTGbKbUyYxu+AOnvZBesxPwpgqGkfmxEE/OFEXN+0DS9gsdKqlq7OlKa
-	6+bw3TxulPyeG3nFDQf26QX7RqDxr821/qRK/l6PpxPZKlF3PV7NzvXKoBoIEhrLj5MjbkNkjgrzT
-	ZRM9W5mNx5kwgZW65ZuJVLV+cQV3vvxPko/odR4Dn8Y+WyK6OFfFS46caYulF2buI1yDM3QXc2LvM
-	ytcu0+wg==;
+	bh=6Gr3w/d1UJKZquNXHZ8lAWaGO2oZ25Rf2nCXz2l8Hzo=; b=lI1IM6j95bU7GRKFuYE/Z+/qp1
+	z2HRIMEgOsX0hiPEh6MQnJ/DZ2hEHi9gLOt73kUdOdzzvyHCeM3zSJL7uKeajShDttmHCqXqgX7qp
+	KE2nYXLZVSyRfRmLOfzeQm0SIh04Jv8Wl+vvCxF5rd++7Th1sH0F2i1sKrc/RW77n1pPl2HrpUP21
+	pni9FULptajz/xhtuuXegyJsfU1vYKdclePFcDd6fy8fimOgXvUnR1wE8zRqJhwRwSG/xh+mIz0lt
+	u88Zl1XJ1Kt+0bwG6hK03aH7Q8mVxbYGuWXHXOtF9olR7A+HbRok2yjAKGHLdeNh+q5X57TMB3e1c
+	0MSaoU1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9O9Z-00000006JNK-2Vnp;
-	Mon, 28 Apr 2025 13:04:09 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1u9O9b-00000006JOT-01aV;
+	Mon, 28 Apr 2025 13:04:11 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8TpP-00000001DYb-2Vz9
+	id 1u8U7m-00000001En7-3hu3
 	for linux-nvme@lists.infradead.org;
-	Sat, 26 Apr 2025 00:55:37 +0000
+	Sat, 26 Apr 2025 01:14:36 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 3B05EA4D392;
-	Sat, 26 Apr 2025 00:50:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9371CC4CEE4;
-	Sat, 26 Apr 2025 00:55:32 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id EC4EF5C7080;
+	Sat, 26 Apr 2025 01:12:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D45A8C4CEE4;
+	Sat, 26 Apr 2025 01:14:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745628933;
-	bh=BOXccjPCEJxJiPSX1YxnZeQAyhQmKv1c/BGHYEt+AQI=;
+	s=k20201202; t=1745630073;
+	bh=2LCUrZMeV2HZzBU2CuLrVTRtvZm5lDggJtqpE4KrVpY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uiSMb7zCbEnm/zWGn7r9DqfOzGFDieaQGHpUN/NLclU8yohOsRJV0b8VlvZ8vHnfZ
-	 j629XNFsK92BCIGb/47jnK6G+v1TLnv5qMOk0YCv2pbyxQ5uVV9cUeyWrhVs/54ym1
-	 X5kJdXQtjULkoUqi3pPYuKDIbr4YZdscn9yNnLfv4WPbHgpS65N8AtFsS2gsgeeVNY
-	 SuX3OHwk8XVamrwdbLNpTKGGWFQ9HIrTpqsC2+ALw2nHooGVf3ZGkVpolFHelMSllb
-	 QVl1DmjsAa5DeVaTSawCaZggs4AUOfWX3v/Z/ZMIpMfeyRV0MR0Kb5ebrxolRAKJ/8
-	 NXVVDs+pM3rpQ==
-Date: Fri, 25 Apr 2025 17:55:31 -0700
+	b=q5DnBKuzNiqtvCl6bt5OSuQ4Tc06r1bDEkNLVpzhjD6vhR5V5lliPHNnef8KwuRTG
+	 YUUrqLo48zbTsbToeDLKvt7DHSn7KOpZkaC7YPm/XMeVJox3cmAD22GhCnSbz8Hgep
+	 eMz7yioUwd3EDW+jW9mv2QPglXm4OO5jDGi7umHe0BslaXl3e3veXTl+YrY1kifVHi
+	 4XQITuMZUb873n0U8G2mYYDyiy9Fz5rUgdyja1NzYtgg1qwPX5nxLWdauAOlbasW+s
+	 3b6rwAUYeWMKhP2es1RmPrWaM/kXo2KHDrF5OfYVP4QcQ83jMavfxt/JRQoUA1WruP
+	 ddvaSB+syb4UQ==
+Date: Fri, 25 Apr 2025 18:14:31 -0700
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: Leon Romanovsky <leon@kernel.org>
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Leon Romanovsky <leonro@nvidia.com>, Jake Edge <jake@lwn.net>,
+	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
 	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
 	Zhu Yanjun <zyjzyj2000@gmail.com>,
 	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
@@ -71,18 +70,19 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v9 04/24] iommu: add kernel-doc for iommu_unmap_fast
-Message-ID: <aAwvAzZdVigusu8J@bombadil.infradead.org>
+	Leon Romanovsky <leonro@nvidia.com>
+Subject: Re: [PATCH v9 06/24] iommu/dma: Factor out a iommu_dma_map_swiotlb
+ helper
+Message-ID: <aAwzd_PE6U4ukQQp@bombadil.infradead.org>
 References: <cover.1745394536.git.leon@kernel.org>
- <9becc0989ed0a6770e4e320580d1152b716acd0d.1745394536.git.leon@kernel.org>
+ <9ef79ed6c24d12cfea7e6f491da48ae170a5f3f3.1745394536.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9becc0989ed0a6770e4e320580d1152b716acd0d.1745394536.git.leon@kernel.org>
+In-Reply-To: <9ef79ed6c24d12cfea7e6f491da48ae170a5f3f3.1745394536.git.leon@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250425_175535_766340_BFE41A89 
-X-CRM114-Status: GOOD (  10.12  )
+X-CRM114-CacheID: sfid-20250425_181434_963701_C17BAC74 
+X-CRM114-Status: GOOD (  11.74  )
 X-Mailman-Approved-At: Mon, 28 Apr 2025 05:19:58 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -98,15 +98,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 23, 2025 at 11:12:55AM +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On Wed, Apr 23, 2025 at 11:12:57AM +0300, Leon Romanovsky wrote:
+> From: Christoph Hellwig <hch@lst.de>
 > 
-> Add kernel-doc section for iommu_unmap_fast to document existing
-> limitation of underlying functions which can't split individual ranges.
+> Split the iommu logic from iommu_dma_map_page into a separate helper.
+> This not only keeps the code neatly separated, but will also allow for
+> reuse in another caller.
 > 
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Acked-by: Will Deacon <will@kernel.org>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > Tested-by: Jens Axboe <axboe@kernel.dk>
 > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
