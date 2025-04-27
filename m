@@ -4,91 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C610C369AB
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Apr 2025 05:32:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C491AC369D3
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Apr 2025 10:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bAGmY7yo0g2n+TufxO6Ywq+m1ucWI9iMILpnSTrl26c=; b=NLB0hAmhqsLHkRE2b15E1k003z
-	WkDQznvCtrOMZiUYhY9Llh/+/jfnHGfEy3RbCkWBNog89JHXmdquAT/MJhf5AYIkK0BxrP+WU9JBJ
-	LyFjqQP5DiImGFsfw9fPYbdabYJf7bJ5PrJZ4NWBFuaePzMjPjafhtQMYB+Xq1X7BpQj47fhxrkMR
-	xxHhq6XjvA2Rc4s/1joq6w/B6INRKmdGGiCUYEtlOzLpf25RH+BCzI6SE+8LwJL3VcDXWNG2ZCZM5
-	XLc63JIBVvQ4HfLI9wcwlP5Gg5wevy+uJtrcfq47Z7loJMEH9ToCYyE/s408h0OfcIIM4edu8fpGy
-	4APVIUKg==;
+	bh=ljk43xtIhuZJm+NVg03EJzyD0vryP3mX6f5pOhBhi5M=; b=vsyCuv8SMlXXDBthhQphxGpHPg
+	KDefut8wymQ6ylrhOA3e6IOkhJDfyuXZdLlZKbMfJCKUc2xfXWxnC6L4UQbOqYjru9XlswBVm43Lj
+	gxAHr8IHuq9zDXaL8QlEeU27jCJhBCpbrQeXH3AVdk8bB0Lo1F/aC3XEhBLlKqOzPo56QH65eSFMd
+	/V0r0VpwBP4swd1uC0Tv31+lkcOhhPBm0suDYNDFo7j6CxEN7ThX2e+2ahu8BN7fr00ifatunYpNb
+	Dygc67x7AfteS0FWylaBxnLVzWa5D08Dky4nOf/iO6myZUeBtA98qTp/VDvS3DpQ6waGJsiLcIwUp
+	1l9cIh9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8ucl-00000002vYE-0KPP;
-	Sun, 27 Apr 2025 05:32:19 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1u8zMn-00000003MZZ-2rw4;
+	Sun, 27 Apr 2025 10:36:09 +0000
+Received: from mail-ua1-f51.google.com ([209.85.222.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8ucY-00000002vWW-11fT
+	id 1u8zMj-00000003MZ6-2bus
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Apr 2025 05:32:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745731923;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bAGmY7yo0g2n+TufxO6Ywq+m1ucWI9iMILpnSTrl26c=;
-	b=UQ4/4EPcTQtj3uO29lDrX/9mYg239BTYaOYm4azKVpmWWpm6tBvpkhE8wJ0MOpqiGs1dzA
-	B7SbTlrmaHqtvcdIvFZbcsM4vJCEQkDV9lLyPjggPjOShVESWR1woGcDe1LcIW136Bgo3+
-	IP5NEFPft7+5NZFZ0t7aVXI3SNg248I=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-136-n71-BPtJNyer4VLwFUFq5Q-1; Sun, 27 Apr 2025 01:32:02 -0400
-X-MC-Unique: n71-BPtJNyer4VLwFUFq5Q-1
-X-Mimecast-MFC-AGG-ID: n71-BPtJNyer4VLwFUFq5Q_1745731921
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-30bfd1faeeaso15747731fa.1
-        for <linux-nvme@lists.infradead.org>; Sat, 26 Apr 2025 22:32:02 -0700 (PDT)
+	Sun, 27 Apr 2025 10:36:08 +0000
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86b9b1def28so3747171241.3
+        for <linux-nvme@lists.infradead.org>; Sun, 27 Apr 2025 03:36:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745731918; x=1746336718;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bAGmY7yo0g2n+TufxO6Ywq+m1ucWI9iMILpnSTrl26c=;
-        b=b2owY4/3bLyjNY8ndA743pk9/XafwhBbQB3XAJLdqf3qp/+1eWWkZHieDIbPHll/Fy
-         yRMRLYTKLKTmUxURZSti0I5hqbXbZ7CKks3vz3aXVhPDdp0LDiLxnNv4xwMQJ5EK2T83
-         d21dr20sSZ/Cu+owU15UgShq4y7fRcQQvZcmAxD+6twJLkkXrAVe1zpgMIu8GOmVySND
-         +P1kAVTg46Bi4Ljs/WX7I3qGvtAt91+FTkL0pNbZJw6ONgAvkfxEVKAR29R/gC9HOSBT
-         TMDQwz5cyF5fZeqHn8i+Bul364BdYVcjc1+jrLLOHn8LRjmKTrhI6lSOFrsdrnkiA0O2
-         WQjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXo5XW2hmnGByIjJ6qQwYkeqFd7fRa7pTdGm/KyTvAJKEl/QBUCdtz1Lb9EZDf2HzFLNJ8kv5p4MOk2@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz7gcwLKDaYSyrWhvRinAHQXj+N3+ykAIInubYr+QcqmIhzCdeW
-	qSyUZjHQOkN3nAJ2p8RjkzYs5BNENJhwOx6wvlolTPAg5kQ7/RVNzW9tGnt73g2FifWg0HBOehF
-	azQ7fyFfylunmKwY2wA5Vqcdjoj3h4ZOxA+d/ciJORNgm5EA2FavBSj5B+MuYvr8VkkA13VTzuK
-	Drubsuqgjl6PztomHH2aWDyqpuu6LQbZ1Dcw8HdXLem3gLPPtvOw==
-X-Gm-Gg: ASbGnctKdeTSyvqrNshKrL5Pw7wZPvKpH2JEyaW5DiWnJzAPDSxg+LBek4m59D80vID
-	K2j0YBqqE2KfZZIRty2AXo/edUF/KrimpzXeFxY3cPBQfb9SWGHmXXIiLWJlLcZblEen/Ww==
-X-Received: by 2002:a2e:b88a:0:b0:30c:dbf:519f with SMTP id 38308e7fff4ca-319ddd66a48mr12473051fa.35.1745731918014;
-        Sat, 26 Apr 2025 22:31:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFI+sEGbgken7Nhb0j2iRao5LcvY0tdD2oWHoLGsBFk98kQ+OqZO3f94Hu6L71NRdcScMGUxRpbOmIHYLHGruw=
-X-Received: by 2002:a2e:b88a:0:b0:30c:dbf:519f with SMTP id
- 38308e7fff4ca-319ddd66a48mr12472981fa.35.1745731917663; Sat, 26 Apr 2025
- 22:31:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745750164; x=1746354964;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ljk43xtIhuZJm+NVg03EJzyD0vryP3mX6f5pOhBhi5M=;
+        b=RAuiexxJar/w6HN7KSrG+/DxYBSKKZXVZVtAqLnVQhZthd+gXXtzzyVNbQB+A2bzmz
+         ciHWDKffWUq2xm/iHorl7fJvPQGOt8Ckpfjt5V3KxgAyrDxjSwzTYpv8C+4Rnq8fdGDC
+         7BD2lZ90sy7/pHQQptg80YXtWCcjr4lPBicgHDOrF8RW2gYP2zvPuKWFBrMbKCZhZP6U
+         ekvPfjvHwgof5PSuMMFDzHc2oOyyWu9JHM91UhfTHY0zHY3RXND1E7+WWoWCcSFoBfQj
+         os+m8Mf5fZy5I93SroQaICl9U8j4COgSUheQBWcOrP2QjBPEF5+DeBRMJpbk/EBTbd31
+         wtUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmMKTiDMyavg34oEt9YvVWCdS1Ye3CJ6aMEvIfhBOjhs7lJ4Vegf0d6EReIqeEgloF597EUGUulmMl@lists.infradead.org
+X-Gm-Message-State: AOJu0YypZMOn1aowNWxV4m1kYm2H8Xyy244DZdcfFDeHPweYvSxy7NKb
+	2dqDDOpYhuZe86Rxp5Qo/LVyaqhWIYMa7BPBwU0/5VximeEYtx35
+X-Gm-Gg: ASbGncvstQsZwtFyrdDeXNcgmhzRqtUnlfG89t3pFg8RV6hbrG1AV2W4liZ51KPXftS
+	yuLPK9JDYpV+bBNgj4tYH3q5d3Jm6b91QKcCWh2gYXhP4qA/bv7OVN4WodPwOwjN1eI+FkpRxFu
+	Mn/Fx4+/nJWu0cGDkw/XAaj5rSzamxd+ZxDpr6xyX2t5VglKiqOJ5aoM3fe66AH1qvKwBE8IFJx
+	UZ0AjaEzmzbg7XnZ8TOdXN1eC/YNFZHvmoghDc5eupqImsmRoMzxqLtPnmjgD/7LyrhGwsbpMdW
+	UHtPH81l2uhy3te/dK/zfzLU7xuvET8QlcGhv2vojHFbzIeGVQmzl9b3EiCgRuT6Z4MXGvICCQ/
+	xn2V2UQ==
+X-Google-Smtp-Source: AGHT+IEWN/Z+lcHCHdSSurBYIwDx1JiFa+lFycfW37ELCCHQvRjgcZvceu15Ch5wfcslFG+AGnsmnw==
+X-Received: by 2002:a05:6102:15aa:b0:4bb:9b46:3f6f with SMTP id ada2fe7eead31-4d5432e770amr5426524137.1.1745750163672;
+        Sun, 27 Apr 2025 03:36:03 -0700 (PDT)
+Received: from [10.50.5.11] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4d3d75bcca3sm1489618137.25.2025.04.27.03.36.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Apr 2025 03:36:02 -0700 (PDT)
+Message-ID: <6202ffd4-4a32-4f85-ab87-ac5a087c2f1a@grimberg.me>
+Date: Sun, 27 Apr 2025 13:35:58 +0300
 MIME-Version: 1.0
-References: <20250425093434.36383-1-hare@kernel.org>
-In-Reply-To: <20250425093434.36383-1-hare@kernel.org>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Sun, 27 Apr 2025 13:31:45 +0800
-X-Gm-Features: ATxdqUFRFEiKudxGoc7Uo606uvrh8XgN1A4Ls9JjO1RioG1pM_WNQLnFNFKoUO0
-Message-ID: <CAHj4cs-g8ZeQwzkjjfsDubPxeQ5xGC3feyFdVG5DABSYQtQ7tw@mail.gmail.com>
-Subject: Re: [PATCH] nvmet-auth: always free derived key data
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org, Maurizio Lombardi <mlombard@bsdbackstore.eu>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: dv60Xm7mEvvlszBmsEZiJ54HkiywjZ73-INSr-jUYUc_1745731921
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
+To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Hannes Reinecke <hare@suse.de>,
+ Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chris Leech <cleech@redhat.com>
+References: <20250403065522.90807-1-hare@kernel.org>
+ <20250403065522.90807-4-hare@kernel.org>
+ <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
+ <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
+ <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
+ <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
+ <eda7a691-037b-442d-bd36-a31f93e95cb1@suse.de>
+ <976af4b7-578b-4e47-a2ff-7c74af0b9afa@grimberg.me>
+ <30b16579-1a28-4d01-9afd-8ff3996db42d@grimberg.me>
+ <BY5PR04MB68490F6DD7F1FDBE6999B54BBC842@BY5PR04MB6849.namprd04.prod.outlook.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <BY5PR04MB68490F6DD7F1FDBE6999B54BBC842@BY5PR04MB6849.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250426_223206_357211_A738F1C0 
-X-CRM114-Status: GOOD (  16.91  )
+X-CRM114-CacheID: sfid-20250427_033605_663924_E6862993 
+X-CRM114-Status: GOOD (  17.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,54 +99,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 25, 2025 at 5:40=E2=80=AFPM Hannes Reinecke <hare@kernel.org> w=
-rote:
+
+
+On 26/04/2025 2:47, Kamaljit Singh wrote:
+> Sagi,
 >
-> After calling nvme_auth_derive_tls_psk() we need to free the resulting
-> psk data, as either TLS is disable (and we don't need the data anyway)
-> or the psk data is copied into the resulting key (and can be free, too).
+>>> Right after the check sk_stream_is_writeable(), there could have new
+>>> room in the socket
+>>> send buffer, state_change() fired, and queued io_work, before we get
+>>> to the pending
+>>> check. This is the "lost event" problem.
+>> Actually, this is incorrect. write_space() -> queue_work(io_work) will
+>> be re-queued if io_work
+>> is currently running. Hence I'm not sure that this flag is needed.
+>>
+>> Kamaljit, can you run with the below and report if it fixes your problem?
+> With the last set of fixes that included list_del_init() you suggested, all
+> tests have been stable. I'm not seeing any more issues. Are you asking to
+> test this patch regardless? If so, does this need to be in addition to
+> previous patches?
+
+Instead of my patch that introduces WAKE_SENDER - apply just the change 
+below
+that looks at sk_stream_is_writeable() only. I no longer think that the 
+other changes in that patch solve anything.
 >
-> Fixes: fa2e0f8bbc68 ("nvmet-tcp: support secure channel concatenation")
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Suggested-by: Maurizio Lombardi <mlombard@bsdbackstore.eu>
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-
-Thanks for the fix:
-
-Tested-by: Yi Zhang <yi.zhang@redhat.com>
-
-> ---
->  drivers/nvme/target/auth.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-> index 3f9fad732350..8f67fc21149c 100644
-> --- a/drivers/nvme/target/auth.c
-> +++ b/drivers/nvme/target/auth.c
-> @@ -656,13 +656,12 @@ void nvmet_auth_insert_psk(struct nvmet_sq *sq)
->                 pr_warn("%s: ctrl %d qid %d failed to refresh key, error =
-%ld\n",
->                         __func__, sq->ctrl->cntlid, sq->qid, PTR_ERR(tls_=
-key));
->                 tls_key =3D NULL;
-> -               kfree_sensitive(tls_psk);
->         }
->         if (sq->ctrl->tls_key)
->                 key_put(sq->ctrl->tls_key);
->         sq->ctrl->tls_key =3D tls_key;
->  #endif
-> -
-> +       kfree_sensitive(tls_psk);
->  out_free_digest:
->         kfree_sensitive(digest);
->  out_free_psk:
-> --
-> 2.35.3
->
-
-
---=20
-Best Regards,
-  Yi Zhang
+>> --
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 4d20fcc0a230..835e29014841 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -1390,6 +1390,11 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>>                   else if (unlikely(result < 0))
+>>                           return;
+>>
+>> +               /* did we get some space after spending time in recv? */
+>> +               if (nvme_tcp_queue_has_pending(queue) &&
+>> +                   sk_stream_is_writeable(queue->sock->sk))
+>> +                       pending = true;
+>> +
+>>                   if (!pending || !queue->rd_enabled)
+>>                           return;
+>> --
+> Thanks,
+> Kamaljit
 
 
