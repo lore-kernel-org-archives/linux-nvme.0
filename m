@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97AFDC369DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 13:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDF31C369D5
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 13:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qCa76q1ahoLrStPUZ1HORo3uEnrl9RES5uxwWZe7CmU=; b=2NQWjywZz748mcKgJd2wiMK4YS
-	WPi6PFKP/wWZsKBpXuo+6qN3ooBpNjb3S1IoKZg3Q7a98xF4E9nfno99rt9vibUB9EEOP92yR0ynr
-	FcMgCXOhFEmtfbFmf18kC484s2mqpM61BJf0FJC2lH6qhYkgfN4+8mWDbikNQUJuyU0o+rTX5Ul2F
-	1kBP99OKK1VNdNf2VYcpPFYBHk0u+PM083mg2XhdXzW2P3MQw4Iv85YLg1Dq3+lLxgDsIfceemHko
-	0GNySeop4A5H2q+nbC7FGNIIgru8Fnk4v7DKEUlaIO7DEVWwH2Rj4pRn/9irK1YH/qib7eKdlWNu1
-	/3aji66A==;
+	bh=yuTEcEqbJ5b/BSlup/EjJyouGcoJebwoTOVTOXZZSCk=; b=bkDZ1B3s3cMxQUeINPk3+gjdKD
+	sA1bBJnG3t7f1piSYVOW2/tf161cKEtqQLNVRl7DSob0XFOjNrswtuH7fY1u9E8WWPOenFyX2QSpY
+	Q8PgCud+Ew5x2WYUmoDUtC53Gv2t2o6F4eNKEgMo6pS5pCkvT/lQKqxw/zQWHxrnqUwiHYRfiehJT
+	Z7qezIwZdE5ErbDSKvSw0XpSAA//bZNkpnIL+KOyCsyfOsE3X9hHeyyRA1dbEA/nD1DcROYCwID8I
+	drZgfKKcduoaHoyvnGW0jFR0jlLSFrFAH+TynoVu5l0bzsuqJ3kAh3wofp9SbXBS/OfJdzKO5Riku
+	NJ8PEo0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9O9f-00000006JTW-3num;
-	Mon, 28 Apr 2025 13:04:15 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1u9O9h-00000006JVV-0SZx;
+	Mon, 28 Apr 2025 13:04:17 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8wqa-0000000388O-421F
+	id 1u8x8Z-000000039MF-3MUa
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Apr 2025 07:54:45 +0000
+	Sun, 27 Apr 2025 08:13:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id D8CCC61157;
-	Sun, 27 Apr 2025 07:54:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0855AC4CEE3;
-	Sun, 27 Apr 2025 07:54:42 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id DC8C05C5BAD;
+	Sun, 27 Apr 2025 08:11:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 103DBC4CEE3;
+	Sun, 27 Apr 2025 08:13:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745740484;
-	bh=Del72uuLK4HjhoyvAuoYd0zF0NkA3zOArQZGDqNBzxs=;
+	s=k20201202; t=1745741598;
+	bh=n1LP0hWDAYYPPGoxCmhHUpx37KloYPiSW/LsrkJ+pog=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SuhJkBrkNS4zwAXk7vhnnjTRZkEidT0ML4s+9rRbQ/rk7cTAt0pbTsqWAepTmBVWl
-	 5AfnI/cgdAGSNmV4OtvHzHVqZhuz50Cf5oQnXgSPE590Z0og8OdcRKn9XbJDelW+UI
-	 KcY7yLSDQOGGLvnH6aXAbHKg2fTfrqJ2/1hToU+wGxgFKB8y5jpuflRKtTuHFow3c/
-	 AcSBIxFBVboHWrcPdTuGaTQ6qglA8niAauD8MT1BQRbl3OVnUBIUFmBpPnUOOsHCBM
-	 DToX3YsnhAxRwlCrJ7Z4xLOVkIGDKPmgikA0N4H6UuIg1CNUJMIx8fR6GdZ4hW2y/U
-	 KWMW5Qk/iOztg==
-Date: Sun, 27 Apr 2025 10:54:39 +0300
+	b=l/Og4bFjNyyLOyqiobd0OX+NlvlhiWMjlqCuR7bjQ3koqjqNsiHAbxhyy+n6EFWpx
+	 F0s02toBkpYSqLGr5zllGOwnm/YR+cBtijfhM7TVWEWRlqZZD7tdVQ2f1cr6H3j+vY
+	 /V4qD4omORMMjdDmZK0stm+5Mw4PJdjUhKlKsl6UBn8mYclrE4YOqm0/14yFLod31h
+	 ZCy3hMjY93C/oDHv0y2/amWuCxtPm2rAUMkBEU2/j5WJZJ36ZRGs00HmVVhJdNAAU3
+	 OAmjF5VOgM3oeArUzKcU+xI7P+9v0yugvVf2x9c6hhu7fKaqUTKAgYRmAQgjnW9EMm
+	 4KL9ASZVaAifQ==
+Date: Sun, 27 Apr 2025 11:13:12 +0300
 From: Leon Romanovsky <leon@kernel.org>
 To: Luis Chamberlain <mcgrof@kernel.org>
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -70,16 +70,18 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v9 03/24] iommu: generalize the batched sync after map
- interface
-Message-ID: <20250427075439.GD5848@unreal>
+Subject: Re: [PATCH v9 07/24] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20250427081312.GE5848@unreal>
 References: <cover.1745394536.git.leon@kernel.org>
- <2ce6a74ddf5e13a7fdb731984aa781a15f17749d.1745394536.git.leon@kernel.org>
- <aAwuMuR3tpWtyCTa@bombadil.infradead.org>
+ <2d6ca43ef8d26177d7674b9e3bdf0fe62b55a7ed.1745394536.git.leon@kernel.org>
+ <aA1iRtCsPkuprI-X@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aAwuMuR3tpWtyCTa@bombadil.infradead.org>
+In-Reply-To: <aA1iRtCsPkuprI-X@bombadil.infradead.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250427_011319_930226_83467296 
+X-CRM114-Status: GOOD (  37.21  )
 X-Mailman-Approved-At: Mon, 28 Apr 2025 05:19:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,29 +97,161 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 25, 2025 at 05:52:02PM -0700, Luis Chamberlain wrote:
-> On Wed, Apr 23, 2025 at 11:12:54AM +0300, Leon Romanovsky wrote:
-> > From: Christoph Hellwig <hch@lst.de>
+On Sat, Apr 26, 2025 at 03:46:30PM -0700, Luis Chamberlain wrote:
+> On Wed, Apr 23, 2025 at 11:12:58AM +0300, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
 > > 
-> > For the upcoming IOVA-based DMA API we want to use the interface batch the
-> > sync after mapping multiple entries from dma-iommu without having a
-> > scatterlist.
+> > Introduce new DMA APIs to perform DMA linkage of buffers
+> > in layers higher than DMA.
+> > 
+> > In proposed API, the callers will perform the following steps.
+> > In map path:
+> > 	if (dma_can_use_iova(...))
+> > 	    dma_iova_alloc()
+> > 	    for (page in range)
+> > 	       dma_iova_link_next(...)
+> > 	    dma_iova_sync(...)
+> > 	else
+> > 	     /* Fallback to legacy map pages */
+> >              for (all pages)
+> > 	       dma_map_page(...)
+> > 
+> > In unmap path:
+> > 	if (dma_can_use_iova(...))
+> > 	     dma_iova_destroy()
+> > 	else
+> > 	     for (all pages)
+> > 		dma_unmap_page(...)
+> > 
+> > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > Tested-by: Jens Axboe <axboe@kernel.dk>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/iommu/dma-iommu.c   | 261 ++++++++++++++++++++++++++++++++++++
+> >  include/linux/dma-mapping.h |  32 +++++
+> >  2 files changed, 293 insertions(+)
+> > 
+> > diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> > index d2c298083e0a..2e014db5a244 100644
+> > --- a/drivers/iommu/dma-iommu.c
+> > +++ b/drivers/iommu/dma-iommu.c
+> > @@ -1818,6 +1818,267 @@ void dma_iova_free(struct device *dev, struct dma_iova_state *state)
+> >  }
+> >  EXPORT_SYMBOL_GPL(dma_iova_free);
+> >  
+> > +static int __dma_iova_link(struct device *dev, dma_addr_t addr,
+> > +		phys_addr_t phys, size_t size, enum dma_data_direction dir,
+> > +		unsigned long attrs)
+> > +{
+> > +	bool coherent = dev_is_dma_coherent(dev);
+> > +
+> > +	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+> > +		arch_sync_dma_for_device(phys, size, dir);
 > 
-> This reads odd, how about:
+> So arch_sync_dma_for_device() is a no-op on some architectures, notably x86.
+> So since you're doing this work and given the above pattern is common on
+> the non iova case, we could save ourselves 2 branches checks on x86 on
+> __dma_iova_link() and also generalize savings for the non-iova case as
+> well. For the non-iova case we have two use cases, one with the attrs on
+> initial mapping, and one without on subsequent sync ops. For the iova
+> case the attr is always consistently used.
+
+I want to believe that compiler will discards these "if (!coherent &&
+!(attrs & DMA_ATTR_SKIP_CPU_SYNC)))" branch if case is empty.
+
 > 
-> For the upcoming IOVA-based DMA API, we want to batch the sync operation
-> after mapping multiple entries from dma-iommu without requiring a
-> scatterlist.
+> So we could just have something like this:
 > 
-> Other than that:
+> #ifdef CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE
+> static inline void arch_sync_dma_device(struct device *dev,
+>                                         phys_addr_t paddr, size_t size,
+>                                         enum dma_data_direction dir)
+> {
+>     if (!dev_is_dma_coherent(dev))
+>         arch_sync_dma_for_device(paddr, size, dir);
+> }
+> 
+> static inline void arch_sync_dma_device_attrs(struct device *dev,
+>                                               phys_addr_t paddr, size_t size,
+>                                               enum dma_data_direction dir,
+>                                               unsigned long attrs)
+> {
+>     if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+>         arch_sync_dma_for_device(paddr, size, dir);
+> }
+> #else
+> static inline void arch_sync_dma_device(struct device *dev,
+>                                         phys_addr_t paddr, size_t size,
+>                                         enum dma_data_direction dir)
+> {
+> }
+> 
+> static inline void arch_sync_dma_device_attrs(struct device *dev,
+>                                               phys_addr_t paddr, size_t size,
+>                                               enum dma_data_direction dir,
+>                                               unsigned long attrs)
+> {
+> }
+> #endif
+
+The problem is that dev_is_dma_coherent() and DMA_ATTR_SKIP_CPU_SYNC
+checks are scattered over all dma-iommu.c file with different
+combinations. While we can do new static functions for small number of
+use cases, it will be half-solution.
+
+> 
+> > +/**
+> > + * dma_iova_link - Link a range of IOVA space
+> > + * @dev: DMA device
+> > + * @state: IOVA state
+> > + * @phys: physical address to link
+> > + * @offset: offset into the IOVA state to map into
+> > + * @size: size of the buffer
+> > + * @dir: DMA direction
+> > + * @attrs: attributes of mapping properties
+> > + *
+> > + * Link a range of IOVA space for the given IOVA state without IOTLB sync.
+> > + * This function is used to link multiple physical addresses in contiguous
+> > + * IOVA space without performing costly IOTLB sync.
+> > + *
+> > + * The caller is responsible to call to dma_iova_sync() to sync IOTLB at
+> > + * the end of linkage.
+> > + */
+> > +int dma_iova_link(struct device *dev, struct dma_iova_state *state,
+> > +		phys_addr_t phys, size_t offset, size_t size,
+> > +		enum dma_data_direction dir, unsigned long attrs)
+> > +{
+> > +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> > +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> > +	struct iova_domain *iovad = &cookie->iovad;
+> > +	size_t iova_start_pad = iova_offset(iovad, phys);
+> > +
+> > +	if (WARN_ON_ONCE(iova_start_pad && offset > 0))
+> > +		return -EIO;
+> > +
+> > +	if (dev_use_swiotlb(dev, size, dir) && iova_offset(iovad, phys | size))
+> 
+> There is already a similar check for the non-iova case for this on
+> iommu_dma_map_page() and a nice comment about what why this checked,
+> this seems to be just screaming for a helper:
+> 
+> /*                                                                       
+>  * Checks if a physical buffer has unaligned boundaries with respect to
+>  * the IOMMU granule. Returns non-zero if either the start or end
+>  * address is not aligned to the granule boundary.
+> */
+> static inline size_t iova_unaligned(struct iova_domain *iovad,
+>                                     phys_addr_t phys,
+> 				    size_t size)
+> {                                                                                
+> 	return iova_offset(iovad, phys | size);
+> }  
+
+I added this function, thanks.
+ 
+> Other than that, looks good.
 > 
 > Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-
-I used Jason's proposal
-https://lore.kernel.org/all/20250423171537.GJ1213339@ziepe.ca
-
-Thanks
-
 > 
 >   Luis
 
