@@ -4,99 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F627C369C2
-	for <linux-nvme@archiver.kernel.org>; Sat, 26 Apr 2025 02:08:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C610C369AB
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Apr 2025 05:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z70/ocLe9ndcQrFKMiE0tdyuA0H8cSwf3KgSSnH+OZY=; b=L6eKy+67TLdcCnYyLIHvowK/rC
-	jFdMCajPzVrZxTG/2xcpKEuKaogKSQrknDEdJba2u13YXLg1PSRA1loseefJIfn32hc8Bp6ZiV7Mc
-	EEThtPATNi4hnzq9l1bgE1qPNSi2ZlpfZHK/PnCujm5+ojlW51ruw4IG8VOv6/9l43c0swgM/xxpz
-	wmeNlpZm3BF3DxOMaA/80kgFVggqsMLRC88axvMzAb0rhWHF+ftSVgb/VWAcxKf8+Vg+IdCYzweLn
-	cm86sUqyZL1/BQu5YmhcYOTKejDqZ6UDJ0ghM4zrfbkuQp/GdqWHUrjJlvJuY91ni457YWcX2k6z9
-	3Htgx/RA==;
+	bh=bAGmY7yo0g2n+TufxO6Ywq+m1ucWI9iMILpnSTrl26c=; b=NLB0hAmhqsLHkRE2b15E1k003z
+	WkDQznvCtrOMZiUYhY9Llh/+/jfnHGfEy3RbCkWBNog89JHXmdquAT/MJhf5AYIkK0BxrP+WU9JBJ
+	LyFjqQP5DiImGFsfw9fPYbdabYJf7bJ5PrJZ4NWBFuaePzMjPjafhtQMYB+Xq1X7BpQj47fhxrkMR
+	xxHhq6XjvA2Rc4s/1joq6w/B6INRKmdGGiCUYEtlOzLpf25RH+BCzI6SE+8LwJL3VcDXWNG2ZCZM5
+	XLc63JIBVvQ4HfLI9wcwlP5Gg5wevy+uJtrcfq47Z7loJMEH9ToCYyE/s408h0OfcIIM4edu8fpGy
+	4APVIUKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8UxU-00000001Hr5-2zV0;
-	Sat, 26 Apr 2025 02:08:00 +0000
-Received: from mail-pl1-x664.google.com ([2607:f8b0:4864:20::664])
+	id 1u8ucl-00000002vYE-0KPP;
+	Sun, 27 Apr 2025 05:32:19 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u8UxR-00000001Hpq-1BIY
+	id 1u8ucY-00000002vWW-11fT
 	for linux-nvme@lists.infradead.org;
-	Sat, 26 Apr 2025 02:07:58 +0000
-Received: by mail-pl1-x664.google.com with SMTP id d9443c01a7336-227e29b6c55so4993015ad.1
-        for <linux-nvme@lists.infradead.org>; Fri, 25 Apr 2025 19:07:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1745633276; x=1746238076; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z70/ocLe9ndcQrFKMiE0tdyuA0H8cSwf3KgSSnH+OZY=;
-        b=U0n3tKdK4DsHvTjmkrDDG3Xv8/vepEm67Wkq/qVN4gNi/BxTZwGYj75pYoYve5HdNI
-         N9ufKmnEUMXaRH/r3rl4ckk1LmMcTnIy0XD5soNxw0gLCUUXBAqeC0n2cdU8Mf7aBV3j
-         0fnNt8pQXxd0skmNIG/MTB59FNRMIhl3pV3EA+JGcg1X0bmOfWr8P63EXOOGDn2vvYZL
-         Zl2vmuQvu7ZV5x64PLj1i5Fao+FQBVrFefR13iI1I1ItwrvvOlGWTmcwx6G2PrebABEd
-         k6vSCYp9O1lpatpkRsQwwhgPDdTJwev6NVDyi1BUBckyBGyrCzx1cxNMhGJ/CdNJ5yyE
-         BgLQ==
+	Sun, 27 Apr 2025 05:32:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745731923;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bAGmY7yo0g2n+TufxO6Ywq+m1ucWI9iMILpnSTrl26c=;
+	b=UQ4/4EPcTQtj3uO29lDrX/9mYg239BTYaOYm4azKVpmWWpm6tBvpkhE8wJ0MOpqiGs1dzA
+	B7SbTlrmaHqtvcdIvFZbcsM4vJCEQkDV9lLyPjggPjOShVESWR1woGcDe1LcIW136Bgo3+
+	IP5NEFPft7+5NZFZ0t7aVXI3SNg248I=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-136-n71-BPtJNyer4VLwFUFq5Q-1; Sun, 27 Apr 2025 01:32:02 -0400
+X-MC-Unique: n71-BPtJNyer4VLwFUFq5Q-1
+X-Mimecast-MFC-AGG-ID: n71-BPtJNyer4VLwFUFq5Q_1745731921
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-30bfd1faeeaso15747731fa.1
+        for <linux-nvme@lists.infradead.org>; Sat, 26 Apr 2025 22:32:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745633276; x=1746238076;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1745731918; x=1746336718;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z70/ocLe9ndcQrFKMiE0tdyuA0H8cSwf3KgSSnH+OZY=;
-        b=h4qcFClXCRrGYbhAw9swuGZW60CPJqheFLbT6mRaeuhcDxuNkD+2Uztq701mvspQ4a
-         DtCP5uz6Ik5FAo5v8NcFnl4A2/uMuizc1jWSR7vLJWC8w7SaL9OoN/bXl530Rd8OVNgi
-         UYN5Xy4tGN/w7VSpDQvwRychulFzxmBAZi+HHkbuYQxyW8oSxgu4tordBLzlwvhTp8Ht
-         2qQQNBJ2J+AWKahOqPXX6dzN5bR7Zw1vCyPsh2AkeD5cKS554LtonJABhwk/jsNftTHX
-         YRaZcKmj5mCmdRYYVhvrYgxO2KsNG8K+qeT8x66eClLFMOFPUmQVz9aTuj1WsQZZ7MQo
-         P/Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQtdqILZBjrfVlCWbB+soi94YvNLPUK5wVNYKJV1PmUjgCRTWAoJ8khYxWbX606hNQqFqEX1qGbMUw@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw6ukgW+quBmYjN7qWoAFw0GLX5DOuda5Q71K4jfoJEb6CHmRmq
-	qxZbIa5cGwMtQruTsMvKvnfI0fRxqTFgx1qAz1b73jrMza9I+qpWSrdER+ybsRMsYEna+lTlw6V
-	FPUMiy64O0qpxpOUduPx1A6WnvdiG9lLPVmCRTxar72pSV9Vo
-X-Gm-Gg: ASbGnctViADXo7dEcrJc33EXYQ/cCsGymt/3fwAhw7B0fhfm6U4dSQaXRt2mTv7svvP
-	qkn+HfsRyc7MXUHIiUvC8xJuhwoipZ3qgxioK4z1RMYcq5rkLmsiKYRECeTL8lZ+MccD1uCE30T
-	4cseOocgMJ2rDD+jnmho7jhoBu99gWm23u0T7irI491W5cJAgRVi0omr/lS6RZAeaFIQmexSxDH
-	GYLNMDnONOEUockn9xyfYpFsGF2g+5PnLpWmXf85LSzPojcRaQV9bKsB6iJNZ8bUex5qEeVjD0P
-	o1JeHiEDDtd7En8CrXusYy01X+EqTw==
-X-Google-Smtp-Source: AGHT+IEulsOmKO4sgUil3cqmh9Xg2ydaQ8ijeOqIsJOY/rWdqDrzJZvwB2xMFq9zFifYJhH8Z0JN0UgN+RXx
-X-Received: by 2002:a17:902:d590:b0:21f:3e2d:7d43 with SMTP id d9443c01a7336-22dbf73b05dmr23686325ad.13.1745633276515;
-        Fri, 25 Apr 2025 19:07:56 -0700 (PDT)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-22db4f4523csm2250405ad.69.2025.04.25.19.07.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 19:07:56 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id D32F7340231;
-	Fri, 25 Apr 2025 20:07:55 -0600 (MDT)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id D0AABE41C66; Fri, 25 Apr 2025 20:07:55 -0600 (MDT)
-From: Caleb Sander Mateos <csander@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Kanchan Joshi <joshi.k@samsung.com>,
-	linux-nvme@lists.infradead.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v6 1/3] dmapool: add NUMA affinity support
-Date: Fri, 25 Apr 2025 20:06:34 -0600
-Message-ID: <20250426020636.34355-2-csander@purestorage.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250426020636.34355-1-csander@purestorage.com>
-References: <20250426020636.34355-1-csander@purestorage.com>
+        bh=bAGmY7yo0g2n+TufxO6Ywq+m1ucWI9iMILpnSTrl26c=;
+        b=b2owY4/3bLyjNY8ndA743pk9/XafwhBbQB3XAJLdqf3qp/+1eWWkZHieDIbPHll/Fy
+         yRMRLYTKLKTmUxURZSti0I5hqbXbZ7CKks3vz3aXVhPDdp0LDiLxnNv4xwMQJ5EK2T83
+         d21dr20sSZ/Cu+owU15UgShq4y7fRcQQvZcmAxD+6twJLkkXrAVe1zpgMIu8GOmVySND
+         +P1kAVTg46Bi4Ljs/WX7I3qGvtAt91+FTkL0pNbZJw6ONgAvkfxEVKAR29R/gC9HOSBT
+         TMDQwz5cyF5fZeqHn8i+Bul364BdYVcjc1+jrLLOHn8LRjmKTrhI6lSOFrsdrnkiA0O2
+         WQjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXo5XW2hmnGByIjJ6qQwYkeqFd7fRa7pTdGm/KyTvAJKEl/QBUCdtz1Lb9EZDf2HzFLNJ8kv5p4MOk2@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz7gcwLKDaYSyrWhvRinAHQXj+N3+ykAIInubYr+QcqmIhzCdeW
+	qSyUZjHQOkN3nAJ2p8RjkzYs5BNENJhwOx6wvlolTPAg5kQ7/RVNzW9tGnt73g2FifWg0HBOehF
+	azQ7fyFfylunmKwY2wA5Vqcdjoj3h4ZOxA+d/ciJORNgm5EA2FavBSj5B+MuYvr8VkkA13VTzuK
+	Drubsuqgjl6PztomHH2aWDyqpuu6LQbZ1Dcw8HdXLem3gLPPtvOw==
+X-Gm-Gg: ASbGnctKdeTSyvqrNshKrL5Pw7wZPvKpH2JEyaW5DiWnJzAPDSxg+LBek4m59D80vID
+	K2j0YBqqE2KfZZIRty2AXo/edUF/KrimpzXeFxY3cPBQfb9SWGHmXXIiLWJlLcZblEen/Ww==
+X-Received: by 2002:a2e:b88a:0:b0:30c:dbf:519f with SMTP id 38308e7fff4ca-319ddd66a48mr12473051fa.35.1745731918014;
+        Sat, 26 Apr 2025 22:31:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFI+sEGbgken7Nhb0j2iRao5LcvY0tdD2oWHoLGsBFk98kQ+OqZO3f94Hu6L71NRdcScMGUxRpbOmIHYLHGruw=
+X-Received: by 2002:a2e:b88a:0:b0:30c:dbf:519f with SMTP id
+ 38308e7fff4ca-319ddd66a48mr12472981fa.35.1745731917663; Sat, 26 Apr 2025
+ 22:31:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250425093434.36383-1-hare@kernel.org>
+In-Reply-To: <20250425093434.36383-1-hare@kernel.org>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Sun, 27 Apr 2025 13:31:45 +0800
+X-Gm-Features: ATxdqUFRFEiKudxGoc7Uo606uvrh8XgN1A4Ls9JjO1RioG1pM_WNQLnFNFKoUO0
+Message-ID: <CAHj4cs-g8ZeQwzkjjfsDubPxeQ5xGC3feyFdVG5DABSYQtQ7tw@mail.gmail.com>
+Subject: Re: [PATCH] nvmet-auth: always free derived key data
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-nvme@lists.infradead.org, Maurizio Lombardi <mlombard@bsdbackstore.eu>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: dv60Xm7mEvvlszBmsEZiJ54HkiywjZ73-INSr-jUYUc_1745731921
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250425_190757_322562_301213E6 
-X-CRM114-Status: GOOD (  21.57  )
+X-CRM114-CacheID: sfid-20250426_223206_357211_A738F1C0 
+X-CRM114-Status: GOOD (  16.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,187 +103,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Fri, Apr 25, 2025 at 5:40=E2=80=AFPM Hannes Reinecke <hare@kernel.org> w=
+rote:
+>
+> After calling nvme_auth_derive_tls_psk() we need to free the resulting
+> psk data, as either TLS is disable (and we don't need the data anyway)
+> or the psk data is copied into the resulting key (and can be free, too).
+>
+> Fixes: fa2e0f8bbc68 ("nvmet-tcp: support secure channel concatenation")
+> Reported-by: Yi Zhang <yi.zhang@redhat.com>
+> Suggested-by: Maurizio Lombardi <mlombard@bsdbackstore.eu>
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
 
-Introduce dma_pool_create_node(), like dma_pool_create() but taking an
-additional NUMA node argument. Allocate struct dma_pool on the desired
-node, and store the node on dma_pool for allocating struct dma_page.
-Make dma_pool_create() an alias for dma_pool_create_node() with node set
-to NUMA_NO_NODE.
+Thanks for the fix:
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- include/linux/dmapool.h | 17 +++++++++++++----
- mm/dmapool.c            | 16 ++++++++++------
- 2 files changed, 23 insertions(+), 10 deletions(-)
+Tested-by: Yi Zhang <yi.zhang@redhat.com>
 
-diff --git a/include/linux/dmapool.h b/include/linux/dmapool.h
-index f632ecfb4238..bbf1833a24f7 100644
---- a/include/linux/dmapool.h
-+++ b/include/linux/dmapool.h
-@@ -9,19 +9,20 @@
-  */
- 
- #ifndef LINUX_DMAPOOL_H
- #define	LINUX_DMAPOOL_H
- 
-+#include <linux/nodemask_types.h>
- #include <linux/scatterlist.h>
- #include <asm/io.h>
- 
- struct device;
- 
- #ifdef CONFIG_HAS_DMA
- 
--struct dma_pool *dma_pool_create(const char *name, struct device *dev, 
--			size_t size, size_t align, size_t allocation);
-+struct dma_pool *dma_pool_create_node(const char *name, struct device *dev,
-+			size_t size, size_t align, size_t boundary, int node);
- 
- void dma_pool_destroy(struct dma_pool *pool);
- 
- void *dma_pool_alloc(struct dma_pool *pool, gfp_t mem_flags,
- 		     dma_addr_t *handle);
-@@ -33,12 +34,13 @@ void dma_pool_free(struct dma_pool *pool, void *vaddr, dma_addr_t addr);
- struct dma_pool *dmam_pool_create(const char *name, struct device *dev,
- 				  size_t size, size_t align, size_t allocation);
- void dmam_pool_destroy(struct dma_pool *pool);
- 
- #else /* !CONFIG_HAS_DMA */
--static inline struct dma_pool *dma_pool_create(const char *name,
--	struct device *dev, size_t size, size_t align, size_t allocation)
-+static inline struct dma_pool *dma_pool_create_node(const char *name,
-+	struct device *dev, size_t size, size_t align, size_t boundary,
-+	int node)
- { return NULL; }
- static inline void dma_pool_destroy(struct dma_pool *pool) { }
- static inline void *dma_pool_alloc(struct dma_pool *pool, gfp_t mem_flags,
- 				   dma_addr_t *handle) { return NULL; }
- static inline void dma_pool_free(struct dma_pool *pool, void *vaddr,
-@@ -47,10 +49,17 @@ static inline struct dma_pool *dmam_pool_create(const char *name,
- 	struct device *dev, size_t size, size_t align, size_t allocation)
- { return NULL; }
- static inline void dmam_pool_destroy(struct dma_pool *pool) { }
- #endif /* !CONFIG_HAS_DMA */
- 
-+static inline struct dma_pool *dma_pool_create(const char *name,
-+	struct device *dev, size_t size, size_t align, size_t boundary)
-+{
-+	return dma_pool_create_node(name, dev, size, align, boundary,
-+				    NUMA_NO_NODE);
-+}
-+
- static inline void *dma_pool_zalloc(struct dma_pool *pool, gfp_t mem_flags,
- 				    dma_addr_t *handle)
- {
- 	return dma_pool_alloc(pool, mem_flags | __GFP_ZERO, handle);
- }
-diff --git a/mm/dmapool.c b/mm/dmapool.c
-index f0bfc6c490f4..4de531542814 100644
---- a/mm/dmapool.c
-+++ b/mm/dmapool.c
-@@ -54,10 +54,11 @@ struct dma_pool {		/* the pool */
- 	size_t nr_pages;
- 	struct device *dev;
- 	unsigned int size;
- 	unsigned int allocation;
- 	unsigned int boundary;
-+	int node;
- 	char name[32];
- 	struct list_head pools;
- };
- 
- struct dma_page {		/* cacheable header for 'allocation' bytes */
-@@ -197,16 +198,17 @@ static void pool_block_push(struct dma_pool *pool, struct dma_block *block,
- 	pool->next_block = block;
- }
- 
- 
- /**
-- * dma_pool_create - Creates a pool of consistent memory blocks, for dma.
-+ * dma_pool_create_node - Creates a pool of consistent memory blocks, for dma.
-  * @name: name of pool, for diagnostics
-  * @dev: device that will be doing the DMA
-  * @size: size of the blocks in this pool.
-  * @align: alignment requirement for blocks; must be a power of two
-  * @boundary: returned blocks won't cross this power of two boundary
-+ * @node: optional NUMA node to allocate structs 'dma_pool' and 'dma_page' on
-  * Context: not in_interrupt()
-  *
-  * Given one of these pools, dma_pool_alloc()
-  * may be used to allocate memory.  Such memory will all have "consistent"
-  * DMA mappings, accessible by the device and its driver without using
-@@ -219,12 +221,13 @@ static void pool_block_push(struct dma_pool *pool, struct dma_block *block,
-  * boundaries of 4KBytes.
-  *
-  * Return: a dma allocation pool with the requested characteristics, or
-  * %NULL if one can't be created.
-  */
--struct dma_pool *dma_pool_create(const char *name, struct device *dev,
--				 size_t size, size_t align, size_t boundary)
-+struct dma_pool *dma_pool_create_node(const char *name, struct device *dev,
-+				      size_t size, size_t align, size_t boundary,
-+				      int node)
- {
- 	struct dma_pool *retval;
- 	size_t allocation;
- 	bool empty;
- 
-@@ -249,11 +252,11 @@ struct dma_pool *dma_pool_create(const char *name, struct device *dev,
- 	else if ((boundary < size) || (boundary & (boundary - 1)))
- 		return NULL;
- 
- 	boundary = min(boundary, allocation);
- 
--	retval = kzalloc(sizeof(*retval), GFP_KERNEL);
-+	retval = kzalloc_node(sizeof(*retval), GFP_KERNEL, node);
- 	if (!retval)
- 		return retval;
- 
- 	strscpy(retval->name, name, sizeof(retval->name));
- 
-@@ -262,10 +265,11 @@ struct dma_pool *dma_pool_create(const char *name, struct device *dev,
- 	INIT_LIST_HEAD(&retval->page_list);
- 	spin_lock_init(&retval->lock);
- 	retval->size = size;
- 	retval->boundary = boundary;
- 	retval->allocation = allocation;
-+	retval->node = node;
- 	INIT_LIST_HEAD(&retval->pools);
- 
- 	/*
- 	 * pools_lock ensures that the ->dma_pools list does not get corrupted.
- 	 * pools_reg_lock ensures that there is not a race between
-@@ -293,11 +297,11 @@ struct dma_pool *dma_pool_create(const char *name, struct device *dev,
- 		}
- 	}
- 	mutex_unlock(&pools_reg_lock);
- 	return retval;
- }
--EXPORT_SYMBOL(dma_pool_create);
-+EXPORT_SYMBOL(dma_pool_create_node);
- 
- static void pool_initialise_page(struct dma_pool *pool, struct dma_page *page)
- {
- 	unsigned int next_boundary = pool->boundary, offset = 0;
- 	struct dma_block *block, *first = NULL, *last = NULL;
-@@ -333,11 +337,11 @@ static void pool_initialise_page(struct dma_pool *pool, struct dma_page *page)
- 
- static struct dma_page *pool_alloc_page(struct dma_pool *pool, gfp_t mem_flags)
- {
- 	struct dma_page *page;
- 
--	page = kmalloc(sizeof(*page), mem_flags);
-+	page = kmalloc_node(sizeof(*page), mem_flags, pool->node);
- 	if (!page)
- 		return NULL;
- 
- 	page->vaddr = dma_alloc_coherent(pool->dev, pool->allocation,
- 					 &page->dma, mem_flags);
--- 
-2.45.2
+> ---
+>  drivers/nvme/target/auth.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+> index 3f9fad732350..8f67fc21149c 100644
+> --- a/drivers/nvme/target/auth.c
+> +++ b/drivers/nvme/target/auth.c
+> @@ -656,13 +656,12 @@ void nvmet_auth_insert_psk(struct nvmet_sq *sq)
+>                 pr_warn("%s: ctrl %d qid %d failed to refresh key, error =
+%ld\n",
+>                         __func__, sq->ctrl->cntlid, sq->qid, PTR_ERR(tls_=
+key));
+>                 tls_key =3D NULL;
+> -               kfree_sensitive(tls_psk);
+>         }
+>         if (sq->ctrl->tls_key)
+>                 key_put(sq->ctrl->tls_key);
+>         sq->ctrl->tls_key =3D tls_key;
+>  #endif
+> -
+> +       kfree_sensitive(tls_psk);
+>  out_free_digest:
+>         kfree_sensitive(digest);
+>  out_free_psk:
+> --
+> 2.35.3
+>
+
+
+--=20
+Best Regards,
+  Yi Zhang
 
 
