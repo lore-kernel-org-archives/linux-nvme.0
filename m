@@ -4,82 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 912B0C369DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 20:12:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16E91C3ABA3
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 20:12:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v4DHTb7AvO4YicH+xSWtDalbuQanacnJSYHX0xM691I=; b=MllT1wWC6hZBmZgXH6RyTkHAX0
-	PG2T78mNKX9np4TeaZ0lFql8G7QBsvxfrvoFUguyCpPR2Zl7LtiDNcRI2tcuooGiP8CSii5kOwGfW
-	jj2VHiEkS2s1qky8vQ73MgrlGUdALK4OhG8hOK+ESfrOlUYcGaNT4lrhuLZW+PZpjhSTbbww7GRy9
-	xCT8TxK5C5PTrsSaQqZ/qnlg7DiXhdP1ipNhGwDjKEfHHb+MZhufVn8PD1DiSm3pqC7/oyJ+lJjS9
-	0DTXCWk6z608N+lFfqY9i4kdKRTOqi64hS3UeqCg4v2qBoQk9e6S7InCe4WS9Qq4FodQc9JNjLJtw
-	v7uznFGA==;
+	bh=Pwh48c4CvWu4Mh6c0UxMsCYmgmmJH/KAsrSENlzdaiY=; b=s90mv3xGKsJMM9+6t89iCDucuM
+	6iSQ7BjUumYAZ8EpTJFCxW+VZQJKtzBCaZ/8z/pMA5DTKd5Uk+beKsw7bIWiOTTnVG8AomncFFK29
+	13LT5wJdeBK0la1I9ybEPS6mrCSs5cUBzRTcgvIts9hTj/fuLi52aIsm3WytfqUoJi5I3i+JS/RE6
+	dcq9+JwYfRb7Lrk3gzJtcQyIjl1VZU0hPQiZ21dnc+3xHmWXqvKBMmqar084EnExHflpLrTqczz3H
+	z7KR5pA6MzBFz06zUpgoRmTvCEjX3SSLXC/LVMxILx3h5RrVlnXlUPlMznjbDKN7piGP42qHoLQT/
+	wYG+syqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9UqG-00000007QUa-3TSZ;
-	Mon, 28 Apr 2025 20:12:40 +0000
-Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33])
+	id 1u9UqI-00000007QV0-2bDb;
+	Mon, 28 Apr 2025 20:12:42 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9OLa-00000006QmW-2PyZ
+	id 1u9SJV-0000000767k-16xB
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 13:16:35 +0000
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-6ecfc7ed0c1so47304626d6.3
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 06:16:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1745846193; x=1746450993; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v4DHTb7AvO4YicH+xSWtDalbuQanacnJSYHX0xM691I=;
-        b=OciQqDHa78ZPS5WT4ft8VCfVZTc/5qqIONCbhcwWkysS7jssIcUd5syabCQye338ee
-         0QmXL1DqCyaSYtwWszYIWcDV7RYVzeRJ24BcQb81eRq8g7cEdX/hvIhXuDv6GMI8u731
-         XJ44OPukfpmyuk7nJT3N0Z5i5wBcSTarnu10coqlcxjuLJ638I+aabKGx4iBPygNzXU3
-         Vn1bjdbDgKBVgvpNOn84mqFbbRnb8TKmNg9d0RQG0UUS3soa/kBKrw5vpWUYDOVTeBCr
-         wZSyfflSZRwFRsfgzNVyDwu1Ru2Pmk+/tNPE4gRDn3q2ItYGxDV54s6uJ26jMYIsO2fY
-         L5vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745846193; x=1746450993;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v4DHTb7AvO4YicH+xSWtDalbuQanacnJSYHX0xM691I=;
-        b=GrukN/TQpLXDGqXNKVEAU0uaRsrtiVzjyhzVCU5pZ5ahqDDi+443r1mvisfh7ZGivk
-         NwWbQOAhvADZ6V+OJAyNuh/L4lsvEPtDpyCSFm6OW79uZYQYXmCNGVVqH12g1thXf9yI
-         t8sZ/2O7Hx2y3qkBNhhY6WhKoT7oZRW+L439RDeI5sejpK1fmnPJLvNYxrwbO9ihQnNM
-         Tefp9VatbiVg5ytHEeZGeAIcFvamD0duPqDcA3FcVNyDARrkKLL2ib/zu37hd1VbWPMx
-         DcNig2yFTmD3654/ijWOMFta3/0BH67U6co/1HGGm0/nmJXnDeGuLg03C4GGPzAp+3VY
-         zNHw==
-X-Forwarded-Encrypted: i=1; AJvYcCU82iuOvzON+Fsu5+FZiJ+aTZlSSkB/Qeur47sKuoSac4ECtFOYy+7PTRM4g1+vORCSQWRygazB6Nm5@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzm2CaF5u7mbMdZttuEOyES8/iWH7pib09HIKf3x8B6Jl2iYOSD
-	LcU3uhDpITpDhYiD4RvYcL+fhGzIsNfYw4QnPZky/vE51FbrR1ALtzzngDWYWgw=
-X-Gm-Gg: ASbGncsOKz8d8Gg8mOgwEEtT7LQAlYMjIp6U3Bem2KilrE4a+Pnum5/wY/wFtj8wyzj
-	FEAnuP234zYuOj05sF8mpFJNhxBAw7DKjnebfRTVnAao1v4sWNLRnNi6fLUxcNhxZVVpFp/xAeK
-	Wkd+wnfxs0R25U7qA4wz8+3WLapGBO9cGnHkQbZjUgsgg3JjzV5li4ciA808/ZjKSkn3wFNM3gV
-	7yFe86N+pGGtfXpAIG/U/+DJlB8xfUBnHG10DqxpviebPyqmSfK4B9n8Ke5R3tIFdrN2LrdasfY
-	aJyI+auVZn/WDhyiuW9RS2HxG0WJiMxfM8HlvyhUvSDRTk5wjRCISdNhhQJUMVXNt42TsZmkRbZ
-	mIID8eLyv2rtJxyB0cRE=
-X-Google-Smtp-Source: AGHT+IGm1OrVyo7NrhtixKONc1TT2Ec0eky4BVMvt9fZIav2cWhkRh7ddfgsBqvKXcfpG60XtXV5Kw==
-X-Received: by 2002:a05:6214:76c:b0:6f2:d367:56bf with SMTP id 6a1803df08f44-6f4cba51bd9mr207427746d6.31.1745846192886;
-        Mon, 28 Apr 2025 06:16:32 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4c74d3dcbsm53164536d6.50.2025.04.28.06.16.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 06:16:32 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1u9OLX-00000009TaN-1zxp;
-	Mon, 28 Apr 2025 10:16:31 -0300
-Date: Mon, 28 Apr 2025 10:16:31 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
+	Mon, 28 Apr 2025 17:30:42 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id D646D49AFD;
+	Mon, 28 Apr 2025 17:30:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78575C4CEE4;
+	Mon, 28 Apr 2025 17:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745861438;
+	bh=ab2ae8e/65ivTF8ecHo7+deewxqwGOGmR1WVeufmqHc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EFNCyztKW7+/Evx7uEJGPtK2SefAgYmqtED4ANsvGmvDwBuQlhn5S/nOmqu3WBR1z
+	 +VFQyVwyP+0O2cMp8wyAXepn0PBELCi0ksp0PKLJBKlMwsEdig7AFEj4wICYu3fAJQ
+	 /zZeikIV4GSdae/Y2/DwH4bks++gRwmwp9dpfRTMH4Z1ZCpPgQcQmi4pOO08SmuMpb
+	 PTiv7J0eh/bS37eMFbiD7C8K8hWZiVIArkSUuuY+DzvZ8SoAg2vgkigVBG4ZUgJkdE
+	 7Vrm2LUXRrJhMi9MPNfGblL+7IObYzGv0HZAEJnZAxGsJP7ubWBtZWh1DwAjICEoUP
+	 0fglvd90xB7zw==
+Date: Mon, 28 Apr 2025 11:30:34 -0600
+From: Keith Busch <kbusch@kernel.org>
 To: Leon Romanovsky <leon@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
-	Jonathan Corbet <corbet@lwn.net>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
 	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -88,7 +57,7 @@ Cc: Luis Chamberlain <mcgrof@kernel.org>,
 	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
 	Kevin Tian <kevin.tian@intel.com>,
 	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
@@ -96,23 +65,25 @@ Cc: Luis Chamberlain <mcgrof@kernel.org>,
 	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
 	Niklas Schnelle <schnelle@linux.ibm.com>,
 	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v9 07/24] dma-mapping: Implement link/unlink ranges API
-Message-ID: <20250428131631.GB1213339@ziepe.ca>
-References: <cover.1745394536.git.leon@kernel.org>
- <2d6ca43ef8d26177d7674b9e3bdf0fe62b55a7ed.1745394536.git.leon@kernel.org>
- <aA1iRtCsPkuprI-X@bombadil.infradead.org>
- <20250427081312.GE5848@unreal>
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>
+Subject: Re: [PATCH v10 23/24] nvme-pci: convert to blk_rq_dma_map
+Message-ID: <aA-7Oh4T-mDGvLXh@kbusch-mbp.dhcp.thefacebook.com>
+References: <cover.1745831017.git.leon@kernel.org>
+ <007e00134d49160d5edab94a72c35b7b91429b09.1745831017.git.leon@kernel.org>
+ <aA-w20gOKus5hyAV@kbusch-mbp.dhcp.thefacebook.com>
+ <20250428172225.GG5848@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250427081312.GE5848@unreal>
+In-Reply-To: <20250428172225.GG5848@unreal>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_061634_726908_39999B15 
-X-CRM114-Status: GOOD (  13.91  )
+X-CRM114-CacheID: sfid-20250428_103041_345063_670E0927 
+X-CRM114-Status: GOOD (  20.30  )
 X-Mailman-Approved-At: Mon, 28 Apr 2025 13:12:39 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -128,19 +99,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Apr 27, 2025 at 11:13:12AM +0300, Leon Romanovsky wrote:
-> > So arch_sync_dma_for_device() is a no-op on some architectures, notably x86.
-> > So since you're doing this work and given the above pattern is common on
-> > the non iova case, we could save ourselves 2 branches checks on x86 on
-> > __dma_iova_link() and also generalize savings for the non-iova case as
-> > well. For the non-iova case we have two use cases, one with the attrs on
-> > initial mapping, and one without on subsequent sync ops. For the iova
-> > case the attr is always consistently used.
+On Mon, Apr 28, 2025 at 08:22:25PM +0300, Leon Romanovsky wrote:
+> On Mon, Apr 28, 2025 at 10:46:19AM -0600, Keith Busch wrote:
+> > On Mon, Apr 28, 2025 at 12:22:29PM +0300, Leon Romanovsky wrote:
+> > > +	do {
+> > > +		if (WARN_ON_ONCE(mapped == entries)) {
+> > > +			iter.status = BLK_STS_IOERR;
+> > > +			break;
+> > > +		}
+> > > +		nvme_pci_sgl_set_data(&sg_list[mapped++], &iter);
+> > 
+> > I think this should say "++mapped" so that the data blocks start at
+> > index 1 (continued below...)
+> > 
+> > > +		iod->total_len += iter.len;
+> > > +	} while (blk_rq_dma_map_iter_next(req, dev->dev, &iod->dma_meta_state,
+> > > +				 &iter));
+> > >  
+> > > -out_unmap_sg:
+> > > -	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
+> > > -out_free_sg:
+> > > -	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
+> > > -	return BLK_STS_RESOURCE;
+> > > +	nvme_pci_sgl_set_seg(sg_list, sgl_dma, mapped);
+> > 
+> > because this here is setting sg_list index 0 to be the segment
+> > descriptor.
+> > 
+> > And you also need to increment sgl_dma to point to the element after
+> > sg_list, otherwise it's pointing right back to itself, creating a looped
+> > list.
 > 
-> I want to believe that compiler will discards these "if (!coherent &&
-> !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))" branch if case is empty.
+> Thanks for pointing to the difference between data_map and metadata_map,
 
-Yeah, I'm pretty sure it will
-
-Jason
+Yeah, They're different because the SQE has 16 bytes available for the
+data map, so the command can fit an SGL descriptor directly in its
+submission entry. The metadata field only has 8 bytes in the SQE, so we
+have to set it to the address of an external SGL segment descriptor.
 
