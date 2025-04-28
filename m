@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A523C369D5
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59888C3ABA5
 	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 20:12:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,43 +12,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5GZBa/47FHII5r3Bd/vKP2S9Pm6ZZUX7GYk9R5ZvQu0=; b=tA63wBZ9BmqimES3lMBgNp3tPr
-	mrP83eZJMamqQfLG66GCHhEMRLjQ2L0/0LOoc7FXnp2DTquXvYiab3wqU+N1ZrxZ0OcoVF/e1BahA
-	JC3FRhekPeW4WSlJcNfwM68C4JCpLS0hdJd/KGOPMc544v4z1RYGL0ApvSXFLawQMkq3YWtXKvtXM
-	boFWP5Dto+aD2nfcGvnWAKhHgQ3mr/+s2AG0hIdoT8V13SATXhG0VenZi5zagein4wrX2nPKtzDgj
-	w7Zsc19RQTVa2QSQSPnzMnHYLPLhGU3dB+mshZlHjo8fFl/TvXIxcqYCc7ZbvV3ni5k3VpcqdI73w
-	ZcNWuchg==;
+	bh=2WLXXc1Yi64psx1K8SyCH/DyA6CIUelvdICwIFrC5sQ=; b=fOBErGosu+IXsj9t8mEPa1DAZg
+	rqpZ7ygXSFcr9Lm8CYGGcxsmETCB1WJmBr1A3BlOwDFcfLGK+kZj+yGdyU/2ySwkHrB2vH8o/Z/x2
+	mPX+tvRW7EBuzteL5vgf16xE9M17VQKyIVNXEWw/1Pu5kS5EGn6cpu5f/Czjb+CBKqFHZNhq2s4z5
+	S8VkYcKunjus3WbFZ9piDVbTx2bpttpf+QudCnIDuIk8RxA07UVa1BTFTjD3fvOFI4TUTr/Awp2e7
+	9qIlaEjIV397Ggfqlb2rBE1JLQxMHWh5IK24fnLm9PGl8kT55aSPCYC7jSRTyrrl05NdimTEcx2II
+	J3IGt/wA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9UqK-00000007QWq-45UR;
-	Mon, 28 Apr 2025 20:12:44 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1u9UqH-00000007QUh-1ibJ;
+	Mon, 28 Apr 2025 20:12:41 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9SBa-000000074jN-3onP
+	id 1u9OPC-00000006RWU-2Ubr
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 17:22:33 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 36268A4B537;
-	Mon, 28 Apr 2025 17:17:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C8E4C4CEE4;
-	Mon, 28 Apr 2025 17:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745860949;
-	bh=gYg74JiB5JakFxosXZhQLQiNqGZNU3mPT/z4lhxtdMs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dCCvX7rC72JWr7s0YvTI7g9kE+dAdbJ9qPCeyBTmld4lQ3lxym1bm5n7CK23ZbPA3
-	 4ZspxkotQfcA+i0UwXLwN+ARCHDhSheR12H/DrKO3QMjiR9Ix5T+qkG3Wq7c95k8Tz
-	 ocl6oT61kcsd5Tad4FjMD4Pn4uru4Gg4+Eu1WtxWXOO184jGJ4GXBgm5SoZb6Op0pi
-	 QZXhP9YFwutRlAOVwL49o6dg7f+L4Eee5j6ByGmpfbcxHXRKiLSTIAztxNr7Di0lAf
-	 zRT0ZI+MoU0PfyQuo6YBGUoloJs2gfsBYCL/17f3Mc9Ve1W2QoJQtDaZJQRRe0I+AR
-	 DNToLbBLnWQGA==
-Date: Mon, 28 Apr 2025 20:22:25 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Mon, 28 Apr 2025 13:20:20 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3A2B668C4E; Mon, 28 Apr 2025 15:20:06 +0200 (CEST)
+Date: Mon, 28 Apr 2025 15:20:06 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
 	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
 	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -65,25 +54,22 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
 	Niklas Schnelle <schnelle@linux.ibm.com>,
 	Chuck Lever <chuck.lever@oracle.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>
-Subject: Re: [PATCH v10 23/24] nvme-pci: convert to blk_rq_dma_map
-Message-ID: <20250428172225.GG5848@unreal>
-References: <cover.1745831017.git.leon@kernel.org>
- <007e00134d49160d5edab94a72c35b7b91429b09.1745831017.git.leon@kernel.org>
- <aA-w20gOKus5hyAV@kbusch-mbp.dhcp.thefacebook.com>
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v9 07/24] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20250428132006.GA30966@lst.de>
+References: <cover.1745394536.git.leon@kernel.org> <2d6ca43ef8d26177d7674b9e3bdf0fe62b55a7ed.1745394536.git.leon@kernel.org> <aA1iRtCsPkuprI-X@bombadil.infradead.org> <20250427081312.GE5848@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aA-w20gOKus5hyAV@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <20250427081312.GE5848@unreal>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_102231_073652_3BCB875C 
-X-CRM114-Status: GOOD (  17.65  )
-X-Mailman-Approved-At: Mon, 28 Apr 2025 13:12:44 -0700
+X-CRM114-CacheID: sfid-20250428_062018_773142_1E0443B4 
+X-CRM114-Status: GOOD (  17.93  )
+X-Mailman-Approved-At: Mon, 28 Apr 2025 13:12:39 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,48 +84,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 28, 2025 at 10:46:19AM -0600, Keith Busch wrote:
-> On Mon, Apr 28, 2025 at 12:22:29PM +0300, Leon Romanovsky wrote:
-> > +	do {
-> > +		if (WARN_ON_ONCE(mapped == entries)) {
-> > +			iter.status = BLK_STS_IOERR;
-> > +			break;
-> > +		}
-> > +		nvme_pci_sgl_set_data(&sg_list[mapped++], &iter);
+On Sun, Apr 27, 2025 at 11:13:12AM +0300, Leon Romanovsky wrote:
+> > So arch_sync_dma_for_device() is a no-op on some architectures, notably x86.
+> > So since you're doing this work and given the above pattern is common on
+> > the non iova case, we could save ourselves 2 branches checks on x86 on
+> > __dma_iova_link() and also generalize savings for the non-iova case as
+> > well. For the non-iova case we have two use cases, one with the attrs on
+> > initial mapping, and one without on subsequent sync ops. For the iova
+> > case the attr is always consistently used.
 > 
-> I think this should say "++mapped" so that the data blocks start at
-> index 1 (continued below...)
-> 
-> > +		iod->total_len += iter.len;
-> > +	} while (blk_rq_dma_map_iter_next(req, dev->dev, &iod->dma_meta_state,
-> > +				 &iter));
-> >  
-> > -out_unmap_sg:
-> > -	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
-> > -out_free_sg:
-> > -	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
-> > -	return BLK_STS_RESOURCE;
-> > +	nvme_pci_sgl_set_seg(sg_list, sgl_dma, mapped);
-> 
-> because this here is setting sg_list index 0 to be the segment
-> descriptor.
-> 
-> And you also need to increment sgl_dma to point to the element after
-> sg_list, otherwise it's pointing right back to itself, creating a looped
-> list.
+> I want to believe that compiler will discards these "if (!coherent &&
+> !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))" branch if case is empty.
 
-Thanks for pointing to the difference between data_map and metadata_map,
-I see it now:
-        sgl_dma += sizeof(*sg_list);
-	nvme_pci_sgl_set_seg(sg_list, sgl_dma, entries);
-	for_each_sg(sgl, sg, entries, i)
-	        nvme_pci_sgl_set_data(&sg_list[i + 1], sg);
+Yes, it is the poster child for dead code elimination using the
+IS_ENABLED() helper.
 
-Thanks
+> checks are scattered over all dma-iommu.c file with different
+> combinations. While we can do new static functions for small number of
+> use cases, it will be half-solution.
 
-> 
-> > +	if (unlikely(iter.status))
-> > +		nvme_unmap_metadata(dev, req);
-> > +	return iter.status;
-> >  }
+Don't bother.
+
 
