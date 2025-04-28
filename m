@@ -4,62 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95723C369DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 15:03:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07F87C3ABA4
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 15:23:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cuAXcpbNwTgS2iDlnDZv3PoErAWbPS8J39IupsxBu+g=; b=u0K440V2Rmozw4MZoGDfJ+Ylue
-	bes8UbYzIV2ZCc3meOjSikFxTjTEiBsZTceJV36TZ2yMFPcLBYbfHEXue6rKg9XGwdCfI0V5st+U8
-	xJMBy92QAfVQdsR9dScD6m30NZZWzvhr1nEIHGpitwsi5G0Q3upa2dH7eVp1teLLSdFhHD+r50wXf
-	cT2RHO0qImivNeEO+/uKtm9d0EkHzhz7htjNl5mu0xj1+nEuB3usNxLYSEbCal+q41OlYtxVv+Khr
-	gozKTxa9AxmrskW6OjnxexhAV5rU7xnyMTWnGuajBd7owrNQOF087HjnFxGPoA7zrLvHVNhcER4ev
-	npUCZO8g==;
+	bh=6Qcf4ajR8DTaAVVm8dHJYvwvf+GeXYW1cu5TecDVwJY=; b=IuHHsavqbh51Z6Lj7LgBcEWRnv
+	5z05sElEdMf50cy/qQB7IBf4J2w4VzasPRULmPj+46E3YzeDJ8aIwRy/JRymA+pFyWya56m5lW0sb
+	D5sDkcO6eTfl9cNL7fjOACuQNjjISdizoduunGuYLAoDEmUqcVlruH2qNlswZK7i/L5s8GzUxFYrv
+	6ubP7XHWiHWvoayiOMBCeJaJ4o5c2Rue4StAM1pDsI8gEKggBMyIZFf1pekf/hxGFR+JILDXwV3kA
+	m1VdtYgFX5m65j2W4eh3lEDTRlTZj4BsD52/CPkCiw9rU/FZlFdsBwe5tE2od7nCasJV1TLxQjCH8
+	ZNYkK6XQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9Q0g-00000006i2t-1s5R;
-	Mon, 28 Apr 2025 15:03:06 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1u9QJz-00000006kN7-37vg;
+	Mon, 28 Apr 2025 15:23:03 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9PzD-00000006htG-0VLz
+	id 1u9QJx-00000006kLy-0Bbz
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 15:01:35 +0000
+	Mon, 28 Apr 2025 15:23:02 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 6547A61160;
-	Mon, 28 Apr 2025 15:01:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CD34C4CEE4;
-	Mon, 28 Apr 2025 15:01:33 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 01E0844207;
+	Mon, 28 Apr 2025 15:22:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BBC9C4CEE4;
+	Mon, 28 Apr 2025 15:22:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745852494;
-	bh=L6ftK1YtwSLWu98J7GlkvJulgQ+u3Pn+RMrpNruh2uE=;
+	s=k20201202; t=1745853777;
+	bh=7Q1gEOvYnSoJSnGZOkVo3FeqEG8LjxQ/oq/0yGiaF/I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jKomr+ICxOawI2rdS0SCrvtRMfjWOcjyj8hcN9Uofmfmil44KIDpcxgbY8A2d+7L6
-	 rRe/4m3GpyptKvl8EXKhKcuHo2ixiN6BruOJ4eII5btvDX05tka4qMe7SOiJgJhabY
-	 JBg4ACLLwa84UreJSXs98zBiqUo6CoNGYq+pMdJ0hmmpXq3B/a0WU21ZHvvzMH4Nmz
-	 RfRnyNK3uM892O8OIenalsk9zLHcpv4B/7UdBOGT5UoYLT8qWvhWkTsJ9rJwwvkXYh
-	 PmyQRnOt1o16VtOr/Nx0GqRwXCsn3Fru7pXFiCnaOnxnWfkcRnnan4zXdebn4KJD+d
-	 mMPrCSOViY5MA==
-Date: Mon, 28 Apr 2025 09:01:31 -0600
+	b=kXIvcZoAOT8tqW3YNfmsS+Wq6tgNawY8qT4szU6k1tK1kt+d4uwZCVux3PbRC1rEj
+	 7ngXPdWz0FlZ0IBMSJRjmHbEZ55wlNWrgMgXMio+qw4oep+E92/JGzJF915HJecr1J
+	 WMUP4U/H/vIKTu2tNuGJMNF9F6WXlI7wknfxEcNn7xb5i8jOsNQwXitUtc4bxVTU3r
+	 8or89NAbYa3qI0ZAjyIYOiMlsGYmBeZSaE9omXBX4YnEFJiuqyxG3qOSHpipo/Wj7H
+	 nERu3orSQEpBrNbl4PJuF26RqgpQ0zH/lwkZBSBLF9FPuQfXlQLMbfpVusSk9qiZL1
+	 qhOG0Dh8wSCZA==
+Date: Mon, 28 Apr 2025 09:22:55 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Caleb Sander Mateos <csander@purestorage.com>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/3] dmapool: add NUMA affinity support
-Message-ID: <aA-YS8Bv0kO75jdk@kbusch-mbp.dhcp.thefacebook.com>
-References: <20250426020636.34355-1-csander@purestorage.com>
- <20250426020636.34355-2-csander@purestorage.com>
- <cb443e86-2639-4ed5-8d9c-00aa5e200f7e@oracle.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	Dhankaran Singh Ajravat <dhankaran@meta.com>
+Subject: Re: [PATCH] nvme-pci: fix queue unquiesce check on slot_reset
+Message-ID: <aA-dT-iVfnSVx_6u@kbusch-mbp.dhcp.thefacebook.com>
+References: <20250424171801.2300390-1-kbusch@meta.com>
+ <20250425131935.GA5460@lst.de>
+ <aAudOMQi05je8ADN@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cb443e86-2639-4ed5-8d9c-00aa5e200f7e@oracle.com>
+In-Reply-To: <aAudOMQi05je8ADN@kbusch-mbp.dhcp.thefacebook.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250428_082301_102996_FACB7CE3 
+X-CRM114-Status: GOOD (  18.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,18 +73,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 28, 2025 at 11:35:12AM +0100, John Garry wrote:
-> >   static struct dma_page *pool_alloc_page(struct dma_pool *pool, gfp_t mem_flags)
-> >   {
-> >   	struct dma_page *page;
-> > -	page = kmalloc(sizeof(*page), mem_flags);
-> > +	page = kmalloc_node(sizeof(*page), mem_flags, pool->node);
-> >   	if (!page)
-> >   		return NULL;
+On Fri, Apr 25, 2025 at 08:33:28AM -0600, Keith Busch wrote:
+> On Fri, Apr 25, 2025 at 03:19:35PM +0200, Christoph Hellwig wrote:
+> > On Thu, Apr 24, 2025 at 10:18:01AM -0700, Keith Busch wrote:
+> > > From: Keith Busch <kbusch@kernel.org>
+> > > 
+> > > A zero return means the reset was successfully scheduled. We don't want
+> > > to unquiesce the queues while the reset_work is pending, as that will
+> > > just flush out requeued requests to a failed completion.
+> > > 
+> > > Fixes: 71a5bb153be104 ("nvme: ensure disabling pairs with unquiesce")
+> > 
+> > Sounds like this code path isn't get teste all the much if this stuck
+> > around for so long..
 > 
-> For pool->node != NUMA_NO_NODE, pool->node == numa_node_id(), right? I
-> mean, aren't we on a CPU in pool->node here?
+> The conditions that trigger pcie errors were the primary concern. Of
+> course you'll get IO errors, right? The pcie connection is flakey! But
+> we are supposed retry IO's after recovery, which we weren't doing, and
+> that was a secondary concern I embaressingly overlooked for many
+> reports.
 
-Not necessarily. blk-mq hctx's could span numa nodes. We just want to
-register the dma pool with whichever one is the first node.
+We can still take this right? It is a good fix, even if we misunderstood
+why IO was failing for over a year there.
 
