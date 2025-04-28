@@ -4,104 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90478C369D3
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 07:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7521C369D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 09:30:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=R23FCT6upMUICY5e5yi7gKI289TI9HBN4syIytuQ13A=; b=3Gwy6gdhY/+ijaghS1SkJQjYux
-	gW5SZSy/PcVYCiHruzxFcXo2BX9YZX0r6xG+lJe21JaUKlPZlkIzg9qKxbUBdtmr13WcSlvveRDbw
-	7y9vHfszL3IBy7oBiHJ12vJVcL459WOboBN56jalPGKpxYQCFttzkxgB12gmI3IjVia/6sYIacaRy
-	TTy1KgUk1h65KFAdQZ4VLx6pw0iDUuhyDBUnuunkgCxLz9SVY522IcFZV09naFLLHKkCXWadeHRGs
-	Sdh4ddvHkp9ECIBd1uaaPyp0ZrYcb3GAEkg2mR4+MODzH8WxmGf1mNPVWHHP0Ee9XHEnPPun/PKQ6
-	4PH31CFQ==;
+	bh=d/bNeTdvjHYrvtVqneHMpZo6cI8ZgzfDVJVEbW+R4ak=; b=BJPJCnenhF9gWSjJkhnLCqgmDq
+	C/hDM41yYj5YevgmWvXlbNd5rzR/PZaeyF65Vuh1YxfMOO9R0/5zSOZ7qkeBXpl4ucduhElFOyFqC
+	pSm5QArnAdfE33BaeZ5ehH2SOgTnHCvVXGTd0+9v7zXtfb+ylaElyh8DD6gqpOxtLO0IUiCcu5MPo
+	1CqzH3AB80DvGhwrjAV/n3aEsshI76DTZN6YLlpGIGPzHhfDVQJfRCvC25iF+c1NQ/XFRBJaEKX56
+	e3yCk2QvnV5plTmAx8ShcTtFfrfzSTRdTOGXknxXdUnjbAzfW94FRuXAeO4UVBDzpCOYtRvDadizt
+	rRf4M2yw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9JJI-00000005KEr-4Bc6;
-	Mon, 28 Apr 2025 07:53:53 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1u9KoX-00000005cvd-3vgR;
+	Mon, 28 Apr 2025 09:30:13 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9J64-00000005HA3-3kIB
+	id 1u9KPs-00000005Xqh-1KfB
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 07:40:15 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53RLtMRP008942;
-	Mon, 28 Apr 2025 07:40:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=R23FCT
-	6upMUICY5e5yi7gKI289TI9HBN4syIytuQ13A=; b=M/vJawf3e3pg1zlxsm+CbF
-	OXqtI5Q1RgxMEgrJSfi1rSd04KQ91KtWnTdENAcFW+dEM0BwzMPHJAkTmSi7rS5M
-	0WroUK0GHedOzfH/8gJSqCl1XZ4dGTRUcZAh66r2Y7rvD8Zt3icYCndhTDaX1JNc
-	n0PuasNvwefVrIkGck98mT2TErny3l3I7yR8l/WpIwyq/G2yybCPmaf1q//QaFEL
-	Rs27DnDu/UyvFWmBkL0TxptwDgF4QzlUptSXeOxmi/xuhij//qR4/tH73VkXQpXg
-	dOFovp4yxmZKr1Yv9WSOhRUZ956+YDRu4khlxzad87nhlVSlY2phOOBba1765KWw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 469v5khw77-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Apr 2025 07:40:07 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53S6Itvs031628;
-	Mon, 28 Apr 2025 07:40:06 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4699ttwhs0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Apr 2025 07:40:06 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53S7e55s31261300
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Apr 2025 07:40:05 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B800958067;
-	Mon, 28 Apr 2025 07:40:05 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B98805805D;
-	Mon, 28 Apr 2025 07:40:01 +0000 (GMT)
-Received: from [9.43.89.161] (unknown [9.43.89.161])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 28 Apr 2025 07:40:01 +0000 (GMT)
-Message-ID: <6305bdd1-97bd-44a5-98f7-a167b7c64c0d@linux.ibm.com>
-Date: Mon, 28 Apr 2025 13:09:59 +0530
+	Mon, 28 Apr 2025 09:04:46 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4ZmHZY5x2gzKHLxh
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 17:04:37 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id CB0091A18F0
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 17:04:36 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP4 (Coremail) with SMTP id gCh0CgDHK2CiRA9o7nM7Kw--.50307S3;
+	Mon, 28 Apr 2025 17:04:36 +0800 (CST)
+Message-ID: <a5d847d1-9799-4294-ac8f-e78d73e3733d@huaweicloud.com>
+Date: Mon, 28 Apr 2025 17:04:34 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCHv2 1/3] nvme-multipath: introduce delayed removal of
- the multipath head node
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org
-Cc: hch@lst.de, kbusch@kernel.org, hare@suse.de, jmeneghi@redhat.com,
-        axboe@kernel.dk, martin.petersen@oracle.com, gjoyce@ibm.com
-References: <20250425103319.1185884-1-nilay@linux.ibm.com>
- <20250425103319.1185884-2-nilay@linux.ibm.com>
- <859e8758-83a2-46d2-81ed-c5199f326508@grimberg.me>
+Subject: Re: [PATCH blktests 2/3] dm/003: add unmap write zeroes tests
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ hch <hch@lst.de>, "tytso@mit.edu" <tytso@mit.edu>,
+ "djwong@kernel.org" <djwong@kernel.org>,
+ "john.g.garry@oracle.com" <john.g.garry@oracle.com>,
+ "bmarzins@redhat.com" <bmarzins@redhat.com>,
+ "chaitanyak@nvidia.com" <chaitanyak@nvidia.com>,
+ "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
+ "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+ "yukuai3@huawei.com" <yukuai3@huawei.com>,
+ "yangerkun@huawei.com" <yangerkun@huawei.com>
+References: <20250318072835.3508696-1-yi.zhang@huaweicloud.com>
+ <20250318072835.3508696-3-yi.zhang@huaweicloud.com>
+ <t4vmmsupkbffrp3p33okbdjtf6il2ahp5omp2s5fvuxkngipeo@4thxzp4zlcse>
+ <7b0319ac-cad4-4285-800c-b1e18ee4d92b@huaweicloud.com>
+ <6p2dh577oiqe7lfaexv4fzct4aqhc56lxrz2ecwwctvbuxrjx3@oual7hmxfiqc>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <859e8758-83a2-46d2-81ed-c5199f326508@grimberg.me>
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <6p2dh577oiqe7lfaexv4fzct4aqhc56lxrz2ecwwctvbuxrjx3@oual7hmxfiqc>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: tep60Gd0Xl1XIbTP1rYFJzoznczwNCsF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDA2MiBTYWx0ZWRfX6TbtyUJyCY3C mRX/IeTHeF+i7YWDbjrWLNuddrmPvxEB2PrkaES8x5xuPhTCCSNaLCky10Ur1vcwdOQcKbp4S/x E2rahWS3DeE4gJObhsV783rmAfatDHj+nDeS1R02lUZxzoTCxQt4HJecMfJ83gUXlCfT7wjtGuB
- Ij9jr22Tv+YRftgbUvegElHfR+NwlFcWLKecjkC6hz8FozTZcnkM/y0olZAsX0UZ4IBaDcXaArA bl7vo9KVowVQWeIYVgcIwMlgfkXqpZvPz04Vlskxar2YVXq9CayzOEU7uP8W8TQC4lvwc8luxHq CLnY2b2HTtgKnepTK2L/GegAb76yvhu5vy4lIhNq2SJw+N+Qt2IGWO5GqeJqmBmgwZyRQdgxwF0
- iNnmnMxx4vicr9Abi2PalW52/CPXYUcBg5nqK+hP6SB9ZDtq1+TTWYTWKhN4f9QPuHJueMfm
-X-Proofpoint-GUID: tep60Gd0Xl1XIbTP1rYFJzoznczwNCsF
-X-Authority-Analysis: v=2.4 cv=DvxW+H/+ c=1 sm=1 tr=0 ts=680f30d7 cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=QUCVYTkQBvY6EVLPVrYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-28_02,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 spamscore=0 mlxlogscore=830 phishscore=0
- impostorscore=0 suspectscore=0 adultscore=0 clxscore=1015
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504280062
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: gCh0CgDHK2CiRA9o7nM7Kw--.50307S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxWF4DXFWxKw1xCw17Xr1kKrg_yoW5KF4kpr
+	yfAFyvyrW7KF12qr1jvF1fZr1ayw4rGw17Xw13Jry0y3yDZr1agFZ7KF4Uuas7XrW3uF40
+	vay7Wa9I9w15tFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_004012_946052_DCA1E910 
-X-CRM114-Status: UNSURE (   9.82  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250428_020444_710939_84E47749 
+X-CRM114-Status: GOOD (  20.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,20 +104,126 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 4/26/25 3:56 AM, Sagi Grimberg wrote:
->>   @@ -3688,6 +3688,8 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
->>       ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
->>       ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
->>       kref_init(&head->ref);
->> +    if (ctrl->opts)
+On 2025/4/28 16:13, Shinichiro Kawasaki wrote:
+> On Apr 28, 2025 / 12:32, Zhang Yi wrote:
+>> On 2025/4/3 15:43, Shinichiro Kawasaki wrote:
+> [...]
+>>>> +
+>>>> +setup_test_device() {
+>>>> +	if ! _configure_scsi_debug "$@"; then
+>>>> +		return 1
+>>>> +	fi
+>>>
+>>> In same manner as the 1st patch, I suggest to check /queue/write_zeroes_unmap
+>>> here.
+>>>
+>>> 	if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap ]]; then
+>>> 		_exit_scsi_debug
+>>> 		SKIP_REASONS+=("kernel does not support unmap write zeroes sysfs interface")
+>>> 		return 1
+>>> 	fi
+>>>
+>>> The caller will need to check setup_test_device() return value.
+>>
+>> Sure.
+>>
+>>>
+>>>> +
+>>>> +	local dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
+>>>> +	local blk_sz="$(blockdev --getsz "$dev")"
+>>>> +	dmsetup create test --table "0 $blk_sz linear $dev 0"
+>>>
+>>> I suggest to call _real_dev() here, and echo back the device name.
+>>>
+>>> 	dpath=$(_real_dev /dev/mapper/test)
+>>> 	echo ${dpath##*/}
+>>>
+>>> The bash parameter expansion ${xxx##*/} works in same manner as the basename
+>>> command. The caller can receive the device name in a local variable. This will
+>>> avoid a bit of code duplication, and allow to avoid _short_dev().
+>>>
+>>
+>> I'm afraid this approach will not work since we may set the
+>> SKIP_REASONS parameter. We cannot pass the device name in this
+>> manner as it will overlook the SKIP_REASONS setting when the caller
+>> invokes $(setup_test_device xxx), this function runs in a subshell.
 > 
-> While this check is correct, perhaps checking ctrl->ops->flags & NVME_F_FABRICS
-> would be clearer.
+> Ah, that's right. SKIP_REASONS modification in subshell won't work.
 > 
-Sure, I'd update this in the next patch.
+>>
+>> If you don't like _short_dev(), I think we can pass dname through a
+>> global variable, something like below:
+>>
+>> setup_test_device() {
+>> 	...
+>> 	dpath=$(_real_dev /dev/mapper/test)
+>> 	dname=${dpath##*/}
+>> }
+>>
+>> if ! setup_test_device lbprz=0; then
+>> 	return 1
+>> fi
+>> umap="$(< "/sys/block/${dname}/queue/write_zeroes_unmap")"
+>>
+>> What do you think?
+> 
+> I think global variable is a bit dirty. So my suggestion is to still echo back
+> the short device name from the helper, and set the SKIP_REASONS after calling
+> the helper, as follows:
+> 
+> diff --git a/tests/dm/003 b/tests/dm/003
+> index 1013eb5..e00fa99 100755
+> --- a/tests/dm/003
+> +++ b/tests/dm/003
+> @@ -20,13 +20,23 @@ device_requries() {
+>  }
+>  
+>  setup_test_device() {
+> +	local dev blk_sz dpath
+> +
+>  	if ! _configure_scsi_debug "$@"; then
+>  		return 1
+
+Hmm, if we encounter an error here, the test will be skipped instead of
+returning a failure. This is not the expected outcome.
 
 Thanks,
---Nilay
+Yi.
+
+>  	fi
+>  
+> -	local dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
+> -	local blk_sz="$(blockdev --getsz "$dev")"
+> +        if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap ]]; then
+> +		_exit_scsi_debug
+> +                return 1
+> +        fi
+> +
+> +	dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
+> +	blk_sz="$(blockdev --getsz "$dev")"
+>  	dmsetup create test --table "0 $blk_sz linear $dev 0"
+> +
+> +	dpath=$(_real_dev /dev/mapper/test)
+> +	echo ${dpath##*/}
+>  }
+>  
+>  cleanup_test_device() {
+> @@ -38,17 +48,21 @@ test() {
+>  	echo "Running ${TEST_NAME}"
+>  
+>  	# disable WRITE SAME with unmap
+> -	setup_test_device lbprz=0
+> -	umap="$(cat "/sys/block/$(_short_dev /dev/mapper/test)/queue/write_zeroes_unmap")"
+> +	local dname
+> +	if ! dname=$(setup_test_device lbprz=0); then
+> +		SKIP_REASONS+=("kernel does not support unmap write zeroes sysfs interface")
+> +		return 1
+> +	fi
+> +	umap="$(cat "/sys/block/${dname}/queue/zoned")"
+>  	if [[ $umap -ne 0 ]]; then
+>  		echo "Test disable WRITE SAME with unmap failed."
+>  	fi
+>  	cleanup_test_device
+> 
+
 
