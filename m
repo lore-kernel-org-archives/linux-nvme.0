@@ -4,104 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6737DC369D1
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Apr 2025 17:18:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CC44C369C2
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 03:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KGfvwG0lJjJnssDIjMncK4zxO5Uxbjv3u3y95m4bzb0=; b=cmYcn/JAitTTTPAh6UpOUtsb7e
-	tnBl8vqIH5oaXFsEyGBmGEPbKG/tJWSQabp0f70vXLptOfd+5gmdR+lEp2f/aGlcEa86emHc9UQAi
-	ZxPFU7R6PTmM3v5Nv8Fplru4qIZeFnepRIXj3FpPXEiJ1Iz9OZ1B+uRLtoE2K7iA02AqIJUJvRbj2
-	b439kpUGjbYkLIbYQhQfjGI9dbLxk6xxzSVFvWgKDUuKaSx9QSI7Mc7xQeREpd//EHBqIz/XP5Qpm
-	KhWKV/5m3AkeGsPRMf6M5TK8eZNs810YzKjQzkDB8AB+q7yEscW9WftZ74Ld81rtDXmoK1EHRwmey
-	UCZAJaTQ==;
+	bh=kIkJtOipM8jnwCr7i79r3pNCBmMdCrvPlNCSWeyMmJ4=; b=BFyOuVD59jvwVCqOs6OcvRoJlb
+	ijl1JBUIXo4ads95ez1OFVm5sX0D+HprO7/kqhDT583mobbga8pnu/7J0wS9xUz4p+HW/daP2rxZB
+	g3JiAcEcXYPQUt5Fja9u3FYfq8WvU2+8mE9wn0EpwYXvvLwH56PdV0JEv7m3bWOz+zd//TCqIwYjt
+	+plI1S0a8YQrPX+kq/FMQlDnfRbSckoERwdq7jhpW5R3d447NyoNnT2lFtkhl2ap2tWQQQM+Idtus
+	30g34cy0H7sFaolBZTdq3VsY8BE68+mgj8N59+53S61f+8vXA+o+BIpAu+KdILpTs3QmLxHERfl4G
+	Jfbd67FA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u95dt-00000003otv-3z0f;
-	Sun, 27 Apr 2025 17:18:13 +0000
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+	id 1u9FGt-00000004RDJ-0rOj;
+	Mon, 28 Apr 2025 03:35:07 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u95ds-00000003ota-0Dl7
+	id 1u9FGp-00000004QzC-2rrz
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Apr 2025 17:18:13 +0000
-Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-308702998fbso3286683a91.1
-        for <linux-nvme@lists.infradead.org>; Sun, 27 Apr 2025 10:18:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745774291; x=1746379091; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KGfvwG0lJjJnssDIjMncK4zxO5Uxbjv3u3y95m4bzb0=;
-        b=B9TwYPxbN8u1OY1iaF2C5xd9vmRxY1wHB6CSSl+dajt05PWMIKxMt4iAhJyuJ8mmWv
-         d//uV3Ggm9Da88z+r+DbuF7Dse1RL8zedcMx1ENj+OeY+gSCRxSagSGOejmxqgTrhtpO
-         dnuWJzZek8DzYD1Pz8TGw9IR5U2+Auggx+TknSyrviqr2loXGnHZUA7OXeCfwKyyPeDK
-         d0VYCdZIgsL1KRwIrBMK1ePzN++S6K4Us0yMhtjpuIsQAKEnZt3SuW3Y/EH8TItfYY2Y
-         OpqZpBTwUvGlfFNifRt/lhHUNp3Z+Cj2HVWjhGH7VHhABW2XKHrvLGdKPvDzdOpQeNDC
-         MsLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745774291; x=1746379091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KGfvwG0lJjJnssDIjMncK4zxO5Uxbjv3u3y95m4bzb0=;
-        b=jz3l+w1FttnSmcBbBcjDRpPeqNZlFa6mWOHvc4oEsUaLA327O19mExtk6Zy8KxUiDR
-         nPzu0S5SCU4UOSlwYjMTEL5KxAXzIVP3F6E5cat4ozetYPZ1pEQT3u6Dj1Vsw/BbG8hS
-         S69hr/HF4DxRPD3c3rmnhdPdFkfB6vy2ZEntuN2mhQDv0AmGTgwk5t//3nEd758+Jf3l
-         KUTtH/3VnFAiXCkdS9VwYpa86ZdFBhHuPk6aiuwitACxzgN40deUCUeEFn2Yo7R1gGFV
-         2jjXLBioYNB1K6yjYrdIPOYtmKt0hVJUgg3r73+Z1vo7zhqE4BztDizzvOWQXOYcONeh
-         6TGA==
-X-Forwarded-Encrypted: i=1; AJvYcCXAzKFidKFy4xo1X4H6CptVm92ZlAFNTLmuBWg1AK5JlQUYiIbVEf2SDfV58fW/R7wLKld+Z6bTdo91@lists.infradead.org
-X-Gm-Message-State: AOJu0YzibNrvYIekJJiCN7T1JAO0ar44LMKRTbyYf1n0czFim7JhJnzS
-	TQJzgsnW/uzBRO9/hO82m9sH/s627ACN255qeuKxUSdWya0tch31Jbzh4e+n+g==
-X-Gm-Gg: ASbGncvyIlBiYIwRLtwtp++muZDBh7pVgPLxgWC4M150zpWcUU5hIF8LIEXnw8TOywt
-	i3Y7tw8gj1iBKvQ3yzveIhu+YQQ4KgkhpaE3kOSnSXc+tleALcwHk5zxAo7CSwbfMz3lZOLKLTb
-	GuG1PlUtR9X8bZIv2l3oFzR9pSWoa6/BkwnhOMe8u3MTD6D4MO9jVeQQFg3inbCB/TnNI99q88+
-	wonlPWy5JoycQCnrtDX8CQD1VD8dkhjTHtOC9RwQ0KNn0snLUC0xjfc/tvV2AtG7G/G4o038NNA
-	2/JcOae5/ogotjoM6V0yddEDLzg3FWaLJyZ/iahXrHenepr2EEhS
-X-Google-Smtp-Source: AGHT+IGEJGjOrAHuRlC8FW7W5k8PqHO+m0uDpo2VUIDPeTQamnBsMG6rTDTesDmrV+/O1+7KTWI9/w==
-X-Received: by 2002:a17:90b:1f84:b0:2ee:f677:aa14 with SMTP id 98e67ed59e1d1-30a013075b4mr8795318a91.13.1745774291083;
-        Sun, 27 Apr 2025 10:18:11 -0700 (PDT)
-Received: from thinkpad.. ([120.60.52.11])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50e7741sm66038245ad.156.2025.04.27.10.18.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Apr 2025 10:18:10 -0700 (PDT)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Jerome Brunet <jbrunet@baylibre.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ntb@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	Niklas Cassel <cassel@kernel.org>
-Subject: Re: [PATCH v5 0/2] PCI: endpoint: space allocation fixups
-Date: Sun, 27 Apr 2025 22:47:55 +0530
-Message-ID: <174577426298.86106.8309026357756060948.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250424-pci-ep-size-alignment-v5-0-2d4ec2af23f5@baylibre.com>
-References: <20250424-pci-ep-size-alignment-v5-0-2d4ec2af23f5@baylibre.com>
+	Mon, 28 Apr 2025 03:35:05 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4Zm8CB2TvHz4f3l2C
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 11:32:22 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 050FB1A0C12
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 11:32:48 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP4 (Coremail) with SMTP id gCh0CgBXu1_d9g5ov1YkKw--.49750S3;
+	Mon, 28 Apr 2025 11:32:47 +0800 (CST)
+Message-ID: <6db8d3e6-44ce-4b2b-b496-ec0104aee997@huaweicloud.com>
+Date: Mon, 28 Apr 2025 11:32:45 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH blktests 1/3] scsi/010: add unmap write zeroes tests
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ hch <hch@lst.de>, "tytso@mit.edu" <tytso@mit.edu>,
+ "djwong@kernel.org" <djwong@kernel.org>,
+ "john.g.garry@oracle.com" <john.g.garry@oracle.com>,
+ "bmarzins@redhat.com" <bmarzins@redhat.com>,
+ "chaitanyak@nvidia.com" <chaitanyak@nvidia.com>,
+ "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
+ "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+ "yukuai3@huawei.com" <yukuai3@huawei.com>,
+ "yangerkun@huawei.com" <yangerkun@huawei.com>
+References: <20250318072835.3508696-1-yi.zhang@huaweicloud.com>
+ <20250318072835.3508696-2-yi.zhang@huaweicloud.com>
+ <krhbty6cnaj3zv4bka4jmpwmm74v7k3cts6csp6yoc7xjexoyu@6yrwd7rr2rip>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <krhbty6cnaj3zv4bka4jmpwmm74v7k3cts6csp6yoc7xjexoyu@6yrwd7rr2rip>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgBXu1_d9g5ov1YkKw--.49750S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxXFy8Cw48GryUuFyUZFWrXwb_yoW5Gry5pF
+	WxGa9Ykr1ktr17G3WSvF45Wr13J3yfAr47AFWxCw1UCr98Zryakr1IgrWUWa4fGrZ8Gw1F
+	y3WUXFySkryUt3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250427_101812_105479_DC414083 
-X-CRM114-Status: UNSURE (   8.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250427_203504_030022_19F93119 
+X-CRM114-Status: GOOD (  17.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,26 +102,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hello Shinichiro！
 
-On Thu, 24 Apr 2025 10:34:03 +0200, Jerome Brunet wrote:
-> This patchset fixes problems while trying to allocate space for PCI
-> endpoint function.
+I apologize for the significant delay, and I greatly appreciate your
+review and suggestions.
+
+On 2025/4/3 15:26, Shinichiro Kawasaki wrote:
+> Hello Zhang, thank you for the patches.
 > 
-> The problems, and related fixups, have been found while trying to link two
-> renesas rcar-gen4 r8a779f0-spider devices with the vNTB endpoint
-> function. This platform has 2 configurable BAR0 and BAR2, with an alignment
-> of 1MB, and fairly small fixed BAR4 of 256B.
+> On Mar 18, 2025 / 15:28, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> Test block device unmap write zeroes sysfs interface with various SCSI
+>> debug devices. The /sys/block/<disk>/queue/write_zeroes_unmap interface
+>> should return 1 if the SCSI device enable the WRITE SAME command with
+>> unmap functionality, and it should return 0 otherwise.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> ---
+>>  tests/scsi/010     | 56 ++++++++++++++++++++++++++++++++++++++++++++++
+>>  tests/scsi/010.out |  2 ++
+>>  2 files changed, 58 insertions(+)
+>>  create mode 100755 tests/scsi/010
+>>  create mode 100644 tests/scsi/010.out
+>>
+>> diff --git a/tests/scsi/010 b/tests/scsi/010
+>> new file mode 100755
+>> index 0000000..27a672c
+>> --- /dev/null
+>> +++ b/tests/scsi/010
+>> @@ -0,0 +1,56 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: GPL-3.0+
+>> +# Copyright (C) 2025 Huawei.
+>> +#
+>> +# Test block device unmap write zeroes sysfs interface with various scsi
+>> +# devices.
+>> +
+>> +. tests/scsi/rc
+>> +. common/scsi_debug
+>> +
+>> +DESCRIPTION="test unmap write zeroes sysfs interface with scsi devices"
+>> +QUICK=1
+>> +
+>> +requires() {
+>> +	_have_scsi_debug
+>> +}
+>> +
+>> +device_requries() {
+>> +	_require_test_dev_sysfs queue/write_zeroes_unmap
+>> +}
 > 
-> [...]
+> The device_requries() hook does not work for test cases which implement test().
+> It is rather dirty, but I think we need to delay the check for
+> write_zeroes_unmap sysfs attribute availability until test() gets called.
+> See below for my idea.
+> 
 
-Applied, thanks!
+Indeed, I completely missed that.
 
-[1/2] PCI: endpoint: improve fixed_size bar handling when allocating space
-      commit: df4b24b510c9ceac32aeb3ed5904fd93b06a51b8
-[2/2] PCI: endpoint: pci-epf-vntb: simplify ctrl/spad space allocation
-      commit: b47493ff0d43608257a24d65f5b26a4a6376ff9b
+>> +
+>> +test() {
+>> +	echo "Running ${TEST_NAME}"
+>> +
+>> +	# disable WRITE SAME with unmap
+>> +	if ! _configure_scsi_debug lbprz=0; then
+>> +		return 1
+>> +	fi
+> 
+> I suggest to check queue/write_zeroes_unmap here. If it's not available, set
+> SKIP_REASONS and return like this (totally untested):
+> 
+> 	if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap ]]; then
+> 		_exit_scsi_debug
+> 		SKIP_REASONS+=("kernel does not support unmap write zeroes sysfs interface")
+> 		return 1
+> 	fi
+> 
 
-Best regards,
--- 
-Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Yeah, I agree with you. For now, there is no helper available for
+checking the sysfs interface of the SCSI debugging device.
+
+I will add a new helper setup_test_device() in this test as the
+following two patches do, and put this check into that helper.
+
+Thanks,
+Yi.
+
 
