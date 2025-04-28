@@ -4,117 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1866C369D5
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 14:16:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95723C369DC
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 15:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JUOzAxXpKBY4ook23eb1wMZSaBWWaCk1yZbynmV9x3o=; b=ipUbY6d0v0ecshubxInYZToZVi
-	eA68x9ZVLsUsfRCQqDq25hhaKeVPxbPZVw3LPc350H+qg+UEhn+7dHWTaGfIVsSvnyB3kbTOP8oOO
-	dExzcydHqtkwbod6s8M5VBoZq5Z/rPoqU0IQ+EMhCcHVh+wFrlKrlQO7hEiGjBF8K6o1hnx7SeGGw
-	AnDt75egBSAVHgnfgiDoehdT2Izp4pDiGKzEbZ4Er2Cla2P3NhRGQWVsPvHsLPtJoxDk3tKjEPY/s
-	kk6EtZche8Qh/oMYRAQW5HKfe6/EY4Vx27geB6AIQwSby0/U5ulF7o9TO4eqpU0Oa1xIKS+w571gI
-	DcKW/MBA==;
+	bh=cuAXcpbNwTgS2iDlnDZv3PoErAWbPS8J39IupsxBu+g=; b=u0K440V2Rmozw4MZoGDfJ+Ylue
+	bes8UbYzIV2ZCc3meOjSikFxTjTEiBsZTceJV36TZ2yMFPcLBYbfHEXue6rKg9XGwdCfI0V5st+U8
+	xJMBy92QAfVQdsR9dScD6m30NZZWzvhr1nEIHGpitwsi5G0Q3upa2dH7eVp1teLLSdFhHD+r50wXf
+	cT2RHO0qImivNeEO+/uKtm9d0EkHzhz7htjNl5mu0xj1+nEuB3usNxLYSEbCal+q41OlYtxVv+Khr
+	gozKTxa9AxmrskW6OjnxexhAV5rU7xnyMTWnGuajBd7owrNQOF087HjnFxGPoA7zrLvHVNhcER4ev
+	npUCZO8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9PHE-00000006bA8-0SGB;
-	Mon, 28 Apr 2025 14:16:08 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1u9Q0g-00000006i2t-1s5R;
+	Mon, 28 Apr 2025 15:03:06 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9Nqy-00000006FM9-1pyV
+	id 1u9PzD-00000006htG-0VLz
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 12:44:57 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CB3E02126D;
-	Mon, 28 Apr 2025 12:44:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745844292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JUOzAxXpKBY4ook23eb1wMZSaBWWaCk1yZbynmV9x3o=;
-	b=pe+YRST1OP+34LABw2QHHeQ7zKy8Ya5MQa8F1VIbo0Yk7df4af1pWAa+iCN7rXK5FvC1Jz
-	3ouWIFeFyi4r7bIEsqrvhpthaCir6RaijyXTbUOoikB6O4dXzh1al/7Uk9A/ni7e6X3hch
-	BdRk/Jusyz5cmGRuPDni8qKfT0syHMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745844292;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JUOzAxXpKBY4ook23eb1wMZSaBWWaCk1yZbynmV9x3o=;
-	b=TvPH6gN6ocZjlPq4K+9umzWp/IMG5ctz2c5iQ0W38gIe3xELhCcQ4k/njRW/zmiklER13z
-	CqnYeUzsXDk6mXCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745844292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JUOzAxXpKBY4ook23eb1wMZSaBWWaCk1yZbynmV9x3o=;
-	b=pe+YRST1OP+34LABw2QHHeQ7zKy8Ya5MQa8F1VIbo0Yk7df4af1pWAa+iCN7rXK5FvC1Jz
-	3ouWIFeFyi4r7bIEsqrvhpthaCir6RaijyXTbUOoikB6O4dXzh1al/7Uk9A/ni7e6X3hch
-	BdRk/Jusyz5cmGRuPDni8qKfT0syHMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745844292;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JUOzAxXpKBY4ook23eb1wMZSaBWWaCk1yZbynmV9x3o=;
-	b=TvPH6gN6ocZjlPq4K+9umzWp/IMG5ctz2c5iQ0W38gIe3xELhCcQ4k/njRW/zmiklER13z
-	CqnYeUzsXDk6mXCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B84BA13A25;
-	Mon, 28 Apr 2025 12:44:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WzURLER4D2juVAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 28 Apr 2025 12:44:52 +0000
-Date: Mon, 28 Apr 2025 14:44:48 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Daniel Wagner <wagi@kernel.org>, Keith Busch <kbusch@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>, 
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] nvme: only allow entering LIVE from CONNECTING state
-Message-ID: <cb46aa83-8033-4d64-a3c7-420172c3f3f5@flourine.local>
-References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
- <20250214-nvme-fc-fixes-v1-1-7a05d557d5cc@kernel.org>
- <0134ea15-8d5f-41f7-9e9a-d7e6d82accaa@roeck-us.net>
+	Mon, 28 Apr 2025 15:01:35 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 6547A61160;
+	Mon, 28 Apr 2025 15:01:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CD34C4CEE4;
+	Mon, 28 Apr 2025 15:01:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745852494;
+	bh=L6ftK1YtwSLWu98J7GlkvJulgQ+u3Pn+RMrpNruh2uE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jKomr+ICxOawI2rdS0SCrvtRMfjWOcjyj8hcN9Uofmfmil44KIDpcxgbY8A2d+7L6
+	 rRe/4m3GpyptKvl8EXKhKcuHo2ixiN6BruOJ4eII5btvDX05tka4qMe7SOiJgJhabY
+	 JBg4ACLLwa84UreJSXs98zBiqUo6CoNGYq+pMdJ0hmmpXq3B/a0WU21ZHvvzMH4Nmz
+	 RfRnyNK3uM892O8OIenalsk9zLHcpv4B/7UdBOGT5UoYLT8qWvhWkTsJ9rJwwvkXYh
+	 PmyQRnOt1o16VtOr/Nx0GqRwXCsn3Fru7pXFiCnaOnxnWfkcRnnan4zXdebn4KJD+d
+	 mMPrCSOViY5MA==
+Date: Mon, 28 Apr 2025 09:01:31 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Caleb Sander Mateos <csander@purestorage.com>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/3] dmapool: add NUMA affinity support
+Message-ID: <aA-YS8Bv0kO75jdk@kbusch-mbp.dhcp.thefacebook.com>
+References: <20250426020636.34355-1-csander@purestorage.com>
+ <20250426020636.34355-2-csander@purestorage.com>
+ <cb443e86-2639-4ed5-8d9c-00aa5e200f7e@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0134ea15-8d5f-41f7-9e9a-d7e6d82accaa@roeck-us.net>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_054456_624540_3B809C52 
-X-CRM114-Status: GOOD (  24.96  )
+In-Reply-To: <cb443e86-2639-4ed5-8d9c-00aa5e200f7e@oracle.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,54 +74,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Apr 27, 2025 at 08:59:13AM -0700, Guenter Roeck wrote:
-> Hi,
+On Mon, Apr 28, 2025 at 11:35:12AM +0100, John Garry wrote:
+> >   static struct dma_page *pool_alloc_page(struct dma_pool *pool, gfp_t mem_flags)
+> >   {
+> >   	struct dma_page *page;
+> > -	page = kmalloc(sizeof(*page), mem_flags);
+> > +	page = kmalloc_node(sizeof(*page), mem_flags, pool->node);
+> >   	if (!page)
+> >   		return NULL;
 > 
-> On Fri, Feb 14, 2025 at 09:02:03AM +0100, Daniel Wagner wrote:
-> > The fabric transports and also the PCI transport are not entering the
-> > LIVE state from NEW or RESETTING. This makes the state machine more
-> > restrictive and allows to catch not supported state transitions, e.g.
-> > directly switching from RESETTING to LIVE.
-> > 
-> > Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> 
-> nvme_handle_aen_notice(), when handling NVME_AER_NOTICE_FW_ACT_STARTING,
-> sets the state to RESETTING and and triggers a worker. This worker
-> waits for firmware activation to complete and then tries to set the
-> state back to LIVE. This step now fails.
-> 
-> Possibly the handling of NVME_AER_NOTICE_FW_ACT_STARTING needs to be
-> improved. However, leaving the NVME in RESETTING state after an
-> NVME_AER_NOTICE_FW_ACT_STARTING event is worse.
-> 
-> I think this patch should be reverted at least for the time being until
-> the handling of NVME_AER_NOTICE_FW_ACT_STARTING no longer relies on a
-> direct state change from RESETTING to LIVE.
+> For pool->node != NUMA_NO_NODE, pool->node == numa_node_id(), right? I
+> mean, aren't we on a CPU in pool->node here?
 
-ee59e3820ca9 ("nvme-fc: do not ignore connectivity loss during connecting")
-f13409bb3f91 ("nvme-fc: rely on state transitions to handle connectivity loss")
-
-are depending on the fact that is not possible to switch from
-NEW/RESETTING directly into LIVE.
-
-I think it would be better to fix the worker instead dropping this patch
-and the above fix for the fc transport.
-
-What about:
-
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b502ac07483b..d3c4eacf607f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4493,7 +4493,8 @@ static void nvme_fw_act_work(struct work_struct *work)
-                msleep(100);
-        }
-
--       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
-+       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING) ||
-+           !nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
-                return;
-
-        nvme_unquiesce_io_queues(ctrl);
+Not necessarily. blk-mq hctx's could span numa nodes. We just want to
+register the dma pool with whichever one is the first node.
 
