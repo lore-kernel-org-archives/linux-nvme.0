@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3BB4C36005
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 09:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67E32C36005
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 09:40:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
 	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kfKu2fVtxQy14EZpTl34Ep/v5Qxtki06llhlpg/25eY=; b=dr3TrUxjg2fA7++eo8nRVy66nN
-	vUdaJmFg8R96sz06pOfEr339wJiQlH29tGpfppDHSfel+qj/Rcq3Lk7I0fucDuU2trQtc15l/euhO
-	kViM29+ejJrzi3lENMKnA2zXIJDVoYXVwQKmYfjuOl+D3Oq7YSARb+QQc1X5GQIUwJrMuJ8KGjSkE
-	c480BboX7Nt8PiCKJYpZpPQgTfPuWKDxE/GaTSE3a8IvcHpu5tu077cQ/+H6iEWA1kbUznu/jSdwc
-	w0Deg9l2PVpJxH2NbsHveAMBvQI4vxU/oqL8sW6r8aie4OWAuSS+yL0Tzy7V8mpnfovWK4v9zhSlf
-	nb7UCqsA==;
+	bh=hR9wgLkVZkbE+w9MPva/OMGPacKKZD7ap4VMuuIUVkM=; b=Uc7O2XNhMm3mTkcUS1ty3sTcr/
+	VQAFlkhDPiKq3K2DwBZPpIIahAcPCJ4U95oDJQXptX/ZUJ7ikfXZtXTfJSa+vjdBahbZXiDTS6+Xd
+	a1QBAQCom36VlqVl5F3oykqL4Km/w3BVEjnYBFwu2iCooyiMLrhDZgxKK6L2Os7eAmGZeKYzueV9A
+	Kd8YHppDEFI4mYKMH+YytbRYnShKVpt9MSdhOc82+o3IZ/CCeU4dpwwq80tpbz5+gWyjx5bnbi4cn
+	x/Gzsc3v/6Io1i+W8qAvmBxoqAbkKDlzgUgfmNzFnrEKYsfRQYR4laCbmSEkmy4Os2bzIf9Qr3oLu
+	QXZX0v5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9KpI-00000005dFm-2yIf;
-	Mon, 28 Apr 2025 09:31:00 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1u9KyG-00000005gER-22cN;
+	Mon, 28 Apr 2025 09:40:16 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9Jca-00000005N9C-11lf
+	id 1u9Kjp-00000005bO7-242s
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 08:13:49 +0000
+	Mon, 28 Apr 2025 09:25:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1745828028; x=1777364028;
+  t=1745832321; x=1777368321;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:content-id:content-transfer-encoding:
    mime-version;
-  bh=BX8KUK57GRpDpO4aBs/S6kTt7injAiBM0zkGMQDlTKE=;
-  b=YSEfIoHKv8GcOjpJQXX5f2nNjDLUh6pBoswMsuN5PKbTbVNByG6RgPne
-   jwPlN6VK1vwL/Q68lkZCrd12dNADnITGKRTs7RAUBbkRxtSGVSYBlYp/W
-   /2Lt4/uUCJ6d73o+Y2xw3Aj5lpnlwR3VenxaTbBX4zcc9feeVyU5/m+zy
-   WI31xKeQ9dPdmzObthcdDHW8z3Fx7OZvuCCejk2PhMDZYZEpq2bsp0py2
-   86V08qpwumUaQANBSEoVvS2nL72aeEHre/yzdjZ0FJKzeKVaDOhB96Sil
-   oE/e7LuH/NenLPCh0ZWC9Bpg0LLqs/waOi+GABEcyUTiNtJWbn21YLoBa
-   A==;
-X-CSE-ConnectionGUID: GyG5ROxYSdyV2AtQ9w4KhQ==
-X-CSE-MsgGUID: 1rEiUhG9ROONVzQeArvtvQ==
+  bh=oX6nXmeBS/Juxjb3OgiZnajNxDLm1ZaubWkzP/j7Qgk=;
+  b=CiF+pe7rN6ATSyLdQ8NHNGHJzMf7EtIsFMaQdY415VmIpIk7wbC8AZ42
+   HHaZSmTMHD6/tVrwhTAV8g5twtztnpUveGHvd4iRivLYgbSSu3JXkmUm3
+   iYJcs3bc5KBCRfIS0UvAdrsPQGBLoR+Ct0b2ocTPAUtvr4GRh+Xw0G1GP
+   fLGpUKQYg747eSJiGLffBhVRFxOIxCjd5ooar7Awb/KEiSKcS7/A7Wi+a
+   yQMmziJWUo+kn9n5BAb/IBGFtxvaBFwE9nFZGiXIh0T3nl5IYtP7u9kWc
+   78N+dp46a4mxB4TOnLLc7oGH3uDtH0wImxzPITuWdx3wvgj5jTUF5ad/O
+   g==;
+X-CSE-ConnectionGUID: kLupZn4oTqaGgf4jrcqyYw==
+X-CSE-MsgGUID: 9pFFNAFyS4qNzH4EyiWHFw==
 X-IronPort-AV: E=Sophos;i="6.15,245,1739808000"; 
-   d="scan'208";a="82625075"
-Received: from mail-co1nam11lp2175.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.175])
-  by ob1.hgst.iphmx.com with ESMTP; 28 Apr 2025 16:13:43 +0800
+   d="scan'208";a="76688501"
+Received: from mail-co1nam11lp2174.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.174])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Apr 2025 17:25:18 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EflGW405nEaxAG57lj2Xl+C9mR6SB4jwILK6cB1CbnCHSfg21OKVO+QPc4EtTKJgXRHXc/0Q53aEyEgsnv3fy5L0dAEWXgRGzsd0RhaG8CC7kPwG9bEwa6PQB4/TNi5kPRDZEG6TAPnL8XeRcsb4xJI9wsCd548WvGBKds61J58e2ocZIPbO/PvXnYGHrTBvqRae5Hz44Etzl18gaXvBYCaDrB2Wrij0tTpwLasbVFeVBh/nAv9NkNRseVxMmOerfNE+YtgvAPskxz543e2TuAByPhuYPs2NJ0OleNQT1k8c3tLk5KTdtuswiTBmuMw8bTpPZlQ2ax/SRLShOlsaog==
+ b=bSdKaZ5iFoVmV4VjQDo8a6z2oIVPIQ6mITpwAMk2zSVFUbq84SwzRoA5mBdEd3VzMoqf5F8BQeO1BH3RP7LAw16RpfazoYP4LFdzpk5jTciphS8B4JkMOqZ5lykpDreTIZvy1R/wFtMdGif50W21wNoYVDKZC7viagBw7FRuCA5k2Px0wfuO+WoAuBU1vTlXcG3u1oQntPSSscUgG1+yA/y470eWPg/d5CQL0R+f3gV8dfqdKJpcWvrAX8AB1lfz8X4WfbYxRD1bQOLVS1r2uVhyklqeFiZpmU8QRX6x4HEgRob3/qojpgYgNUhr/Nf28yUQThg2GDStf5Bbq7vwZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kfKu2fVtxQy14EZpTl34Ep/v5Qxtki06llhlpg/25eY=;
- b=N1z0yrreyAuBMCTdBO2it35DCNuz/BfZOThoCy2lMRkTcRmEqKEEcPByzt+PtQU4Ae+o8P1bgIuU9VWD8G8yUZ5MikR53y3k7I18TBMBXINE6s+aAygrwgT1os4+xfGRYAq8MkqBu9Qsip2yLQaKQsew1KwrKBl14DFxTD0RKx2rwcxnX7a/vg5ItD4Qu04Js8LfxuRx4w4vAgtl1FRXaMI+Sdf5XU75/X6TPljm8Q3A61EJL/vL0R+SOu0i/uv9z2Bq60Ye5rvSsUZuCeZzpcFkYW974YM8ewEwFXZVztK+IWBXhVErmWCBmqOhma2c8qwb3muBbx9M6FnB4awtjw==
+ bh=hR9wgLkVZkbE+w9MPva/OMGPacKKZD7ap4VMuuIUVkM=;
+ b=YAyZhdrK/5/prpHOU6TiYxdOrhPO+fvg9tSSfb2bO0oynxdSDnnRKh0OXEmgqmddBizWxIUgFm+8VIS24//el+JhWrmIjlhPLFuvH0hzXvOqYAEy9+uOWEddyPjxT5DtWx5jKP7+dovIqNFSo8l0NYWz0M71K4XwAp79Me+V+My7XCA0sCChQRe+6hZst24ySGugY02htSFUOj20rcUxpm1J73Qb5GT/bJskFIJ8UdjDTUJNLHcGoh2CxDzsY4yC0frTZL8fQ6ZXGH/RgVKnoq/vboQQe3Fyicuig50yCwnUAr4/hsdMcpaVSYuW5YvZMHaujvvBVR4uNPInPoqPVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kfKu2fVtxQy14EZpTl34Ep/v5Qxtki06llhlpg/25eY=;
- b=ybkry2pFqjX/jeaigTDHv4x1ihswrcshLldUvvbXahOA899TLI7AoTnXOyk5WX9RmbVtPA0T3wDb3cxUCFWD+nDPsW2s31ubZn2pkCbVhUyhqsZ2Jcn811m9Ke9nB3fNScszGbOMxHWW4pehHDcNz9I/8iKM5arDEA1sCtQAKME=
+ bh=hR9wgLkVZkbE+w9MPva/OMGPacKKZD7ap4VMuuIUVkM=;
+ b=gXjgYK4C5UVaM6Od69EdkihiVMhnqHTkJKoHtCVLImNQAWwunzXvAhyG0yliGXike5s5uJXXIMOMFXV5hpHHSAJfjkP3SMYoJR4eC6gvaf3AYieKr8pglKSx/FjwuN4s03iM2QTbIaV/WJDfVVgTqaEGbUEXBApBNJiDecFbOrU=
 Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- BN0PR04MB8031.namprd04.prod.outlook.com (2603:10b6:408:15a::17) with
+ SJ2PR04MB8535.namprd04.prod.outlook.com (2603:10b6:a03:4f7::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.29; Mon, 28 Apr
- 2025 08:13:42 +0000
+ 2025 09:25:14 +0000
 Received: from DM8PR04MB8037.namprd04.prod.outlook.com
  ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
  ([fe80::b27f:cdfa:851:e89a%7]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
- 08:13:41 +0000
+ 09:25:13 +0000
 From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 To: Zhang Yi <yi.zhang@huaweicloud.com>
 CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
@@ -89,14 +89,16 @@ CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
 	<yukuai3@huawei.com>, "yangerkun@huawei.com" <yangerkun@huawei.com>
 Subject: Re: [PATCH blktests 2/3] dm/003: add unmap write zeroes tests
 Thread-Topic: [PATCH blktests 2/3] dm/003: add unmap write zeroes tests
-Thread-Index: AQHbl9iSuzW1B+y3X0qB2g4C3g3UvLORqIwAgCcUv4CAAD3pAA==
-Date: Mon, 28 Apr 2025 08:13:41 +0000
-Message-ID: <6p2dh577oiqe7lfaexv4fzct4aqhc56lxrz2ecwwctvbuxrjx3@oual7hmxfiqc>
+Thread-Index: AQHbl9iSuzW1B+y3X0qB2g4C3g3UvLORqIwAgCcUv4CAAD3pAIAADjkAgAAFxYA=
+Date: Mon, 28 Apr 2025 09:25:13 +0000
+Message-ID: <pbuxtmwqk5bdmxckwwkjob3lh6mg3et52w3xdvsnjjwmofschm@pkotcbnp4ypt>
 References: <20250318072835.3508696-1-yi.zhang@huaweicloud.com>
  <20250318072835.3508696-3-yi.zhang@huaweicloud.com>
  <t4vmmsupkbffrp3p33okbdjtf6il2ahp5omp2s5fvuxkngipeo@4thxzp4zlcse>
  <7b0319ac-cad4-4285-800c-b1e18ee4d92b@huaweicloud.com>
-In-Reply-To: <7b0319ac-cad4-4285-800c-b1e18ee4d92b@huaweicloud.com>
+ <6p2dh577oiqe7lfaexv4fzct4aqhc56lxrz2ecwwctvbuxrjx3@oual7hmxfiqc>
+ <a5d847d1-9799-4294-ac8f-e78d73e3733d@huaweicloud.com>
+In-Reply-To: <a5d847d1-9799-4294-ac8f-e78d73e3733d@huaweicloud.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -104,88 +106,88 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wdc.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BN0PR04MB8031:EE_
-x-ms-office365-filtering-correlation-id: fd50e60c-09d5-4c05-cdab-08dd862c968b
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SJ2PR04MB8535:EE_
+x-ms-office365-filtering-correlation-id: 36fcb551-a641-47ac-fed1-08dd863694c0
 x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
 wdcipoutbound: EOP-TRUE
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?aVZPOCq0+YOfBGQp8Xped2HSyjz6L0/2YiCJR77A895YkhNBFL09ueci6viR?=
- =?us-ascii?Q?tMT3XJYP13l3QlZlAFphynBuPDuAzA0nGdAT3ig7Yzkf+TFSwz7PD4tXrOO4?=
- =?us-ascii?Q?8dA3a8z+pGZMeM8IYnGOltfZp1oYZOXdQi7Wz/BWKGL7Tus7VqJWPzuQSm4P?=
- =?us-ascii?Q?LThBMrfW+1jNjAX75B5uZ9rhyCcKCRW1SRohxti+Atelhuol3ubZTZldUltB?=
- =?us-ascii?Q?8g1lY6gj4XhuCCwKojFXggqCNX0TkRZMn6XOBNYG1dtBUJ6vtI5hEEatuzMs?=
- =?us-ascii?Q?tHcvKXCD8XrhAH6d19EbMXXmnusVywqx3O6E+6x9xlaxsaSVyGdhw6p5822f?=
- =?us-ascii?Q?MQAOB40y6N6h+jZFSvxQgkg/rsi2G8GgqSRbiKbBjatf6QZvZ6Eo205tXf+A?=
- =?us-ascii?Q?/fPM6aMMcLFDF2olRk+ZKG47c7gafY7UHZXDHMIOPEJIjpq8auKPFY+zvI6e?=
- =?us-ascii?Q?tDbpqEO4Kcnzl5RUSU6g6N09GfYIm0rpaiDTXgOpTbMAHm8TNjakq2PuBpjp?=
- =?us-ascii?Q?IrkrAym8p+K7TiXqQWvpak4sinDXlUEORSNLeQXh8unLfp4eDQ4WdJHMot4d?=
- =?us-ascii?Q?IXnj83I1aB73m9LWrV0szcVSuo/tuGkuUbkoLBMhtmDamuhDA6exDZLp58Eh?=
- =?us-ascii?Q?u9z5O206pKWyH1U8lgvJfTgdj6m6iEwW/uQHGkJV8HcO6rKP9z825QNiFwf0?=
- =?us-ascii?Q?TJGNdXznAP86eTOiy9VrtUvxQCJdHAmBjoS22pFuW8G8/ahUdcK+Csq5ZYMf?=
- =?us-ascii?Q?5MppR7Eld+MG2ikqdQCOJkQMNQOmfekqh+3Frn2DUL7Avk3+rlLCixVUZu66?=
- =?us-ascii?Q?XI6YCHIKlWsiLrwFAXlEehLiFNj5j/c2mRtsNrL698vTsfuhQCKQ8T4l+hns?=
- =?us-ascii?Q?WrNb8RamV39E3l1BvwyOqTvrUD9KjH2ZXz5gDMqrn07d7VOYxQ+lcYj54VD2?=
- =?us-ascii?Q?hZtcKLqhtQw+ggFZmuwHUll/s4WbOk0MBVqvXcLnforagBAY40DRq3S1fwZo?=
- =?us-ascii?Q?ywqw2lTVIoL5fUr6YOEYINPLKtbpkm0esQr+A9M3wxyCGLxPodUpftxzWZ0x?=
- =?us-ascii?Q?XcQiEWJHZsOALfi4hWekKUV4K3gSup/Jiw4/+8pwHw3PR8OE4W1q6rfJVBwI?=
- =?us-ascii?Q?x1pAu9zeI6/swY/Kkx6ya3qQs1xV3+0kFin/eJlYQi40gCbA9ZLJmsvOadgk?=
- =?us-ascii?Q?qSNnE49AMNpvI3ulIC2piId4ZFCk23JMU9DXvvSgp5F2GcAy72cP/tSY3JQ1?=
- =?us-ascii?Q?owLsh+ZLiO+YOykEJ/+WPyYIXAXUGLYnBeSyuVv/TXhyls5Zzwz81bV5m1ln?=
- =?us-ascii?Q?vkoqUk9MKrPl97VVetqF8ITD9Ot9GwJZoYLTr5xNwcEs1BFnTWGOv7pEnldG?=
- =?us-ascii?Q?DUQ/dDMOufvluPLGfD14wpvfRXgfyCjIpkcVs+ajhK8utdpbTWm9imQWJall?=
- =?us-ascii?Q?KjJtm+eh2rRoYZ2XfMvhPS7HxuDGECGus5IWxHDz0RDIdLtrETM16Q=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?6Z0VzYIIgHU4EAWOLL10s/uByuNeC8bRqrYId1qm252xs6F8YKYfifSzG2h5?=
+ =?us-ascii?Q?k6GvPiQDQJ1FRcKPTDPxskFwhGt7cXdpbs0lCeplnnuUPG12QvBHCQIilszL?=
+ =?us-ascii?Q?dfVDfubVpzZAV5ID0EDifUta5TvL9e28tHr+CP6cP3tZ0+tiJ5NIQfqribnl?=
+ =?us-ascii?Q?jnlzf2/zOG/u//+1KkN5Rk1OkZog0lMkHPW3iTs7EintNGlA7wIR4bQC9/bq?=
+ =?us-ascii?Q?zTkNTyTpy0VWtSEuqh4HXQ4PZylVsCaJqtPTUjdxDpKdnH8GGYVaRODpq5iR?=
+ =?us-ascii?Q?m47OVbGu+FnHdNAohysqSZ/IJQMGDXpgrZTzTcyZxEXhJCgUY03KeizD6Eft?=
+ =?us-ascii?Q?c7V9qpAzerwAO06xVhODWwnwzV3nSz++LS5YdVRXES0wveXLB6lASRvMQXr4?=
+ =?us-ascii?Q?XikDQVOIOq/Jwo2M6E3z4RUkE168Ay4eASehGEeN0XeMYoaOoD2YfwzyZ1gK?=
+ =?us-ascii?Q?HLrBF7uXj375FyzfoFQ9lbwhEFZ2Vw7Hl2F2eQhQWuFrju0YzzGil+Po8oJg?=
+ =?us-ascii?Q?TjvJoKDKlJYW7UX0U2MfS8vEsCnCVgmoqBzB4yZXaMEBrtZPUGwjfffHL4VE?=
+ =?us-ascii?Q?I8y+mEYd4UdDB4h9NdsbmVy6kZzLyO1jtVv/K4j9qJ6jtOGnjfwboXjOC3Ki?=
+ =?us-ascii?Q?po/qGbczeuw+pocBgi9ryji2eZHYEQcyDKNqtROtSEVCun5Eb2k2hCE2Ma3S?=
+ =?us-ascii?Q?b9Md6HUm33/OLF/QGCVEvAknkbfkM7JDEBQ98D++4FOzEkqISgKfFryB705a?=
+ =?us-ascii?Q?tRjeho0osARKSJhHm0VN8hN1VaUi9L42HWaSSJRw3huqENaM5wxAEL9LRbXW?=
+ =?us-ascii?Q?GwqJ8krhcRgKjqdTBw8DxXgsWmRAjf2kgZsJboPPOGZY+ixR0d7a0ITkY0i/?=
+ =?us-ascii?Q?02ItctBijpXzoZ8RmR34fNKIgOP6K30x5YrlQK7G0nh/DibaWBAU4wU2jqa9?=
+ =?us-ascii?Q?silPXDQJoAc5Ecy+DS3hbO/Hl24nz8vOPOtFQGQTXZXJy+5IYTnhLV5uzh0/?=
+ =?us-ascii?Q?ete/0wqUilZ2JMG8RuKJW6i0gw1NiDv8pFBKomGmhRXqrHc+dME8eI6S2u7j?=
+ =?us-ascii?Q?j334DOTqoqJO9bWwAebyAdkspnStL5v8+itTVrquXEZIYWBlD5gghmKbJjU2?=
+ =?us-ascii?Q?mus/PfVFXmcRhx/+iaHBAG6RF46pouzJ1PFOhLqECNrcFn9WmFczSY1Cap1c?=
+ =?us-ascii?Q?7ulK1+YAXKvsDSMIuxv6eMw4/RyH+1hSmWQj7RQ4/v5xCufQaL3prCesBYI+?=
+ =?us-ascii?Q?eMJobnnQu6BP0k7nBtfZvR8NYdOmOFeBTq/riH8wn4XgFpObsSlDrkkxXHkL?=
+ =?us-ascii?Q?D60KErCkgYbTYB3LAvPCb4+SQrsPqFRbA8rQCJAv8s4virSV8nY6pMHUw20Q?=
+ =?us-ascii?Q?YGzYETJXDQ9QPcq4lVrnWd9qBiuiHtarOA/l+P8ZoQpd7oQvy42WKqPZEU+L?=
+ =?us-ascii?Q?WrjHrCcPZSydzogFZSYd/RVu/iBu9Xwp+qx00uFAd8rPUN0QOrsqfw=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?boIfkJEDjOY1mJ1ZHkeHQS358D7gFe/FaKRn/LtgGmRy9b3ulvIf2wkfbjZ8?=
- =?us-ascii?Q?o7bNRIkuUtKZBm/C3YXYVt8RHzW1WJzBdKwvedlOOumpvJC5AA/o2VJewHox?=
- =?us-ascii?Q?PAPoSqTwKQ0nl9XTFHnbnXFPOivI5L2h9MANBdQGZEklyce3+uvkNHfrZZSH?=
- =?us-ascii?Q?W1fnNw3yxsXd41hCdU9XWJlDU/wQcK614F0kJ0QR4a9+nUH0P3Zz+7ws+lBk?=
- =?us-ascii?Q?JM6F4VyzYB7cNspSIpFYeSVtYpzmjJec61GbcTE3Pgrb7S18BCZVJQtSI/hT?=
- =?us-ascii?Q?gOr1lT/HNNO7TdDP/ktp25us6ASwlxgBB8PYv/GK5hZ3dw4WabB6RAoRm+N0?=
- =?us-ascii?Q?L2vS3GiEnzZ/+w+z1yv2u/hegzmipLBi4AIKJLmImk35kABTuemCmKinjKPl?=
- =?us-ascii?Q?d6+NVK4xGuP4GbwMJcvlScx2EKnq7LHmYNick3+HNxb6aSSkvdoyoys4CBoO?=
- =?us-ascii?Q?FSHJ2Ncq16GyEC0N8kdRsmjhe1w4Sgi+K84BELXiGtSkpdDUIxzzhUwSo7j9?=
- =?us-ascii?Q?irrZVDuWSjLmGHE/wDcfgslpceVSftaA3CrqXlnhLFsSp3x3yGtST2A5jfo8?=
- =?us-ascii?Q?AhmZK2D7NaWc75JP5xOu1i/zKNtLYRnAJAGCphDXpTqIaYes4c4OMVyzTRWA?=
- =?us-ascii?Q?CkFUTCxIu/fSDy3tvUIxf22bOW2J3oN+OFhDS7ypsuvv3vuwOJ+bQ2R7OTzt?=
- =?us-ascii?Q?HwxFhMiMPEyH07SrPbKyec4GoFxDJ5oEQ/1w2JuSpjUKJLwXkYa1YyRqbynS?=
- =?us-ascii?Q?8Zeovmi2RtCildnx/v7BrHYuKdf2KvtsFgWbl1iiOTAu/HejF3Aj4RLn6F6n?=
- =?us-ascii?Q?47O21BXA5Vp6aqKr3pctq5WJKV+hTQBB25mP7yYsr+hf4nRDIkO9iT06hBn1?=
- =?us-ascii?Q?Lt0HyHwJBSPcM1CBfIcgmK5wLt0AAw1PffMA3K2TUUF2CPIif6SAx4Lu67Lz?=
- =?us-ascii?Q?54hiFLyas1wQAu1Q443GQ8fTaS0K/b7LWzup75+CamUX0VXFF7iAnkoySV7r?=
- =?us-ascii?Q?vHXVdxBc+ATnnpI5qitnVQGsGopKZurGOOYv5Us8Kuqt9GeMC0Uhh9xTUdzn?=
- =?us-ascii?Q?LBaRdmWQhADzmWAQT2cAWlw1GlZuZWw7Ov6fGiMuANMnE1XQ2cgk2LOvPRd/?=
- =?us-ascii?Q?UR1qCrM5xTfG50CcMFesDK5K0yo6xoYLl2VLboRpXxyO899javFMeJezEbc+?=
- =?us-ascii?Q?M9kF2KFS2F+je/GU0O5D8XjJtF6SSZFeFMacpYEYusDS4Ne/F43RiEVgDNf9?=
- =?us-ascii?Q?PBNwNHI/E+IjbULB2iCvcbZmsGFaZCUcd9FhZqof9TuusHlx7DPzDc9z3tSF?=
- =?us-ascii?Q?BcoOpS/xuzrZBdNrLXCE0sGhOyjqpkHVLPpe+p703ThrIgmAH0roGYHGeyd/?=
- =?us-ascii?Q?JzUn9cnypVM984bCp2SH+QbXVgFSDf/2C7+8EX/yjOJRcHtHShk6pWfsEP8g?=
- =?us-ascii?Q?TCyotrRo+aWerApIJUSLpnIpQxOE4RzftxNdTNrzP7v2Uzp6p3zXFnyE2xPP?=
- =?us-ascii?Q?ffK9vwhzRdhCwj1Sp7Vn5sF9T7tmHj6wxnK7PUuOj4WWoZSwfsapI238XRIJ?=
- =?us-ascii?Q?wYQ4opu7lqKEGhInoV5BXEyLjKB0O/CnK16E62JaghVq7eycuH/TrcJVsYla?=
- =?us-ascii?Q?rdGLCKXdbeN6HnhtD6X5x2w=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?s6ESpwzyDOVkmNDYGOGhPKBUJf3XwDABDSGiWXTozoXr9KRsAeEB3cu15gjf?=
+ =?us-ascii?Q?9Mb9jNbZlRZ94tRfJVmXqfUXc/KA1tW4afLqPYoHoJNaa6c0bDr90txUskPG?=
+ =?us-ascii?Q?5LxQtb2jrou3D30Ir46A/3MVY5jcWL7B3KfaqQKHg8HXlT2Uq1//D5JL0qOx?=
+ =?us-ascii?Q?VIHJALInFbn0ims90n1yWZ+4nk/n45n4oZGKuAL8CROMpmh2mLKRKLHID+W7?=
+ =?us-ascii?Q?kZXR6WclYI6jVVBKmgweHw2FTV62qZCIY6BMF1+BJ2GVq8OsGWegOE9Yssu1?=
+ =?us-ascii?Q?+TMaGGxn19pPs+cuz4MkQGmtTzzoYH4G0uVnNesxDx5WZ2eFr4uImS+TRLiJ?=
+ =?us-ascii?Q?qB2Xz3QKTiUb8VmWmqUPpUZt6+saoxG1L0l5KeASQ5EFuz1VsrI/y/dsM/fq?=
+ =?us-ascii?Q?cBeNa70V8ksMmIiy3oazbXLm5+x41QVdvKNxR2bJcdttzLYD5sbZ7O4Fe/sk?=
+ =?us-ascii?Q?V0k2ddP8Nn5S/IkynmR6Hs0P7ClyuErrr1CDw6kHTwtvgViOAtrNORagqMVo?=
+ =?us-ascii?Q?RGaO29oi3jsr9B/jxQPdHq2L0Dw8mid33gN2WY93etOfArg76CwRXUJCdrnI?=
+ =?us-ascii?Q?5KgX3qfxTD3dnLUacP5AIga/7sIpU/py2bP4VK5Dn8ETxr+rCOAe3cCDREZE?=
+ =?us-ascii?Q?7V88q6/CQiO8qOPGJFyAuSXiT+jIUNqu4/ym4VzHbiZaG1ZeAC+MULlsBocZ?=
+ =?us-ascii?Q?ufeijcrmguupvEhAo7fHys/tRvofw0ZBJEKxtkQAFK7vPh0wBZzFrVpRWtIW?=
+ =?us-ascii?Q?Y97GOstyb+F5fw3E5sVJ/657B7ZVh+CUKGtC0VM39bYLLRjfllHJ1eHPUlZM?=
+ =?us-ascii?Q?nSo7+hpdoKCCq80w27gMwrdJhOvk8DYWryaXJrl/nsQAOvrsw8jGme4+mhpP?=
+ =?us-ascii?Q?KyhJ/0PjOEd67WXJEan+3HvYVsopURN/msCFQJL9MM0Uk2JLW3/XKZLLDkW0?=
+ =?us-ascii?Q?5i/ve5b2AM0982MFOiPCxfOUa9ofn8BvcQcaF5mU33kq6VJWI9yfAx/VtiSM?=
+ =?us-ascii?Q?fWuUDUvaZNodunnkU7HYBw/q99n4w7v1+D13GkmxUp5VxpGJ8LoswIBj5zny?=
+ =?us-ascii?Q?htgDb2+m2tZBXNDkzMHq7q0a8I07qaZzY3EPVkC2gZw08FxMkH2MQL2ReS2a?=
+ =?us-ascii?Q?my13Ps/BVdcOtXguh7Pjiu2YEFGqmfohvIu0REw+TfBqWgEJJrPh/+Q8JiQO?=
+ =?us-ascii?Q?zg1/5JoW0X8iwgfutPlDpE4FJFkVE4HulIStkkybNIAu8JZIfUtT7YHZjS5a?=
+ =?us-ascii?Q?XWXH7o6hB1q0PrqdXZMgdaeqsI2wbj2lyjEPmGJ1+iJhux4lUs+1J2cRq8Fn?=
+ =?us-ascii?Q?XuE9cYvy1eQnW8eVmFzcKpQMU+EBIlAmCHRRB8LTIZclHiJCK9Bgey/StQRK?=
+ =?us-ascii?Q?0mtHB/jAGemuLTPbYVFSvZhC/R8eAGfO+3iL0cr2rjODSjE5ohfGkiKfUq91?=
+ =?us-ascii?Q?ICKho1+bEO6wePkF6o51rr+6uZR+LysE7X3IpzjIrhE8KTucguaAuczElrWB?=
+ =?us-ascii?Q?uPI4Q6vyEkpEEETcDKjB11Efr7b9erAWGxkkPyYGNGxcAir2T4tSEsF317BL?=
+ =?us-ascii?Q?U+WrygHA0ETWt2rLjiEb18StczzU/mHUyeCWHo5/o3CsvBABT9vONXgPoZe4?=
+ =?us-ascii?Q?ge1cs5vBlRdmd0eaJ5sOZzc=3D?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <76954AC95BF2414FA1FB4ADF099E6AA8@namprd04.prod.outlook.com>
+Content-ID: <DB648B97E4A7044F8780DE4778F92023@namprd04.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: zpGiZAfrpHcPamDeyhXHXuV0EGcHJSdIEYIurnXR0140soWuV9DM9Fuct0LIyJptGooNKJPNI2yJy3c/nNPipCARrZrCxsdBaamO+Hfx/Tm1XkxdFySpwpLp0aAzTBrc4D741vok1SG7wJ6thm33Rr5w5uWroSJmlm+QufILAJfrxnlTtzLLbEFsNDvlSKZK2bnwy3WXfTg83OGbDNbUg0GORBNzgV4B8mnMMc1+F6KuWoVAQOazibAZvaHpxt+E6kZutSUBp0de13clYPt5mEIkDVMckyepPoHIwin1fKC4+Jsld7AXC6c770jHLTCydEu2uA5cUfJuY1PKohMzTVFICRk1kTVnbYqPzRt+XkiaqRmq/o3ujeEt1uWdxlPjagkjU0aQX8RbbiGkbnaIG0q8U4h3dbY7Ws+O9sbBnAO0wXWDEMEq/MtzJHvsRyvB1I6jkiBVFZtS/Yo82pPax3fwpqbBBaJBoDn1MrQ1XHp1Y16sZ06zdLXXIgTcjsXecVE4ah6Meq3sUVTEbz01+m4v+Lu4wO4MfMmklPlXR3QUzfdb+eHqWe0dF7UJKiP17qpgFs5rLWK3MHcAI5NQR72y2mYVlOXSNClGRL3nt6FQTEqc6rk1RnO6E1tH/YXl
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: XxGo3dX+VbqXcSNcc0ltxWRXJ3F9kAIG0Pqiijx6wjB6OOVH9q2EGU7CS7I1ufGOM9/0OFHDDDmnqVCpHRttlvd7UixapowH8PnE5ebKHFeiz/WZJGJjo7E0Mzb0MTXUwgvPdN6F4F4tabbsoKIfxQ9A2RTCCVqsB7u5+rNg9+dFCNStpWNgC2S31vK4yrQmrhAxPG8cOBAHLw83oWAl+lgRhaXoOLYiNlgMtVglnz6oqOzGI0GbmGn+Ge9EVYvY+fUFFPbM3kfmgLHEJOTJbNTB+f0Xxb3dK98A29KE0RUwA+5tw1Z2zgKos4QxzBdQ0fq+9XfKtPxcolpJBIfOn+9uECNp3NAacOKSGF33UadpskMTyXlqvISgK+OmH3kONV+iRLpO41J3vwz71Du/j+32fSJpjxl237siV4m8tTEbesilmr0cORkgey1Rms67WZPrTPpZ+JshIzAfT1U4VtXDQy6c0D4Wk2NJpp7MhRAbGQ9+ntNssPp4JDVEaYMSgF/lAFFTpLxiaDIR/uwhzRscIHYyb5MHDI+mqA2Ddb3yYsTN25y0OZGiRzBIO7s0tbAAkXNxvzLgjMecyL9U7pw8ikoj/g/d6PZ7cABtpYxQTQEkrLGDiW86a3SjtiYI
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd50e60c-09d5-4c05-cdab-08dd862c968b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2025 08:13:41.8570
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36fcb551-a641-47ac-fed1-08dd863694c0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2025 09:25:13.8326
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Jqmo9httSuQSLL64tGfJjzIKcT0JKNOmnc5+NM2FOsalpRKlgP3L4Ux9B9mCzm9GN/sYfudXP+bdbtVjFmn4mutZEQHvIRE7WjuAD4Jzch4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR04MB8031
+X-MS-Exchange-CrossTenant-userprincipalname: gEXtk+5X5HfVtp4OVGK4dMm48wN9Afg6gv2e4a6A4a1WArcN4PkPWMQmJyzST/ZKNND1Z8YIHr3MaNkKJHjStOBXw+kATm6MH9SGWHmfARM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR04MB8535
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_011348_406087_B9DAE5E2 
-X-CRM114-Status: GOOD (  26.62  )
+X-CRM114-CacheID: sfid-20250428_022521_577634_F9B600C1 
+X-CRM114-Status: GOOD (  32.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -200,86 +202,126 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 28, 2025 / 12:32, Zhang Yi wrote:
-> On 2025/4/3 15:43, Shinichiro Kawasaki wrote:
-[...]
-> >> +
-> >> +setup_test_device() {
-> >> +	if ! _configure_scsi_debug "$@"; then
-> >> +		return 1
-> >> +	fi
+On Apr 28, 2025 / 17:04, Zhang Yi wrote:
+> On 2025/4/28 16:13, Shinichiro Kawasaki wrote:
+> > On Apr 28, 2025 / 12:32, Zhang Yi wrote:
+> >> On 2025/4/3 15:43, Shinichiro Kawasaki wrote:
+> > [...]
+> >>>> +
+> >>>> +setup_test_device() {
+> >>>> +	if ! _configure_scsi_debug "$@"; then
+> >>>> +		return 1
+> >>>> +	fi
+> >>>
+> >>> In same manner as the 1st patch, I suggest to check /queue/write_zero=
+es_unmap
+> >>> here.
+> >>>
+> >>> 	if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_un=
+map ]]; then
+> >>> 		_exit_scsi_debug
+> >>> 		SKIP_REASONS+=3D("kernel does not support unmap write zeroes sysfs =
+interface")
+> >>> 		return 1
+> >>> 	fi
+> >>>
+> >>> The caller will need to check setup_test_device() return value.
+> >>
+> >> Sure.
+> >>
+> >>>
+> >>>> +
+> >>>> +	local dev=3D"/dev/${SCSI_DEBUG_DEVICES[0]}"
+> >>>> +	local blk_sz=3D"$(blockdev --getsz "$dev")"
+> >>>> +	dmsetup create test --table "0 $blk_sz linear $dev 0"
+> >>>
+> >>> I suggest to call _real_dev() here, and echo back the device name.
+> >>>
+> >>> 	dpath=3D$(_real_dev /dev/mapper/test)
+> >>> 	echo ${dpath##*/}
+> >>>
+> >>> The bash parameter expansion ${xxx##*/} works in same manner as the b=
+asename
+> >>> command. The caller can receive the device name in a local variable. =
+This will
+> >>> avoid a bit of code duplication, and allow to avoid _short_dev().
+> >>>
+> >>
+> >> I'm afraid this approach will not work since we may set the
+> >> SKIP_REASONS parameter. We cannot pass the device name in this
+> >> manner as it will overlook the SKIP_REASONS setting when the caller
+> >> invokes $(setup_test_device xxx), this function runs in a subshell.
 > >=20
-> > In same manner as the 1st patch, I suggest to check /queue/write_zeroes=
-_unmap
-> > here.
+> > Ah, that's right. SKIP_REASONS modification in subshell won't work.
 > >=20
-> > 	if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unma=
-p ]]; then
-> > 		_exit_scsi_debug
-> > 		SKIP_REASONS+=3D("kernel does not support unmap write zeroes sysfs in=
-terface")
-> > 		return 1
-> > 	fi
+> >>
+> >> If you don't like _short_dev(), I think we can pass dname through a
+> >> global variable, something like below:
+> >>
+> >> setup_test_device() {
+> >> 	...
+> >> 	dpath=3D$(_real_dev /dev/mapper/test)
+> >> 	dname=3D${dpath##*/}
+> >> }
+> >>
+> >> if ! setup_test_device lbprz=3D0; then
+> >> 	return 1
+> >> fi
+> >> umap=3D"$(< "/sys/block/${dname}/queue/write_zeroes_unmap")"
+> >>
+> >> What do you think?
 > >=20
-> > The caller will need to check setup_test_device() return value.
+> > I think global variable is a bit dirty. So my suggestion is to still ec=
+ho back
+> > the short device name from the helper, and set the SKIP_REASONS after c=
+alling
+> > the helper, as follows:
+> >=20
+> > diff --git a/tests/dm/003 b/tests/dm/003
+> > index 1013eb5..e00fa99 100755
+> > --- a/tests/dm/003
+> > +++ b/tests/dm/003
+> > @@ -20,13 +20,23 @@ device_requries() {
+> >  }
+> > =20
+> >  setup_test_device() {
+> > +	local dev blk_sz dpath
+> > +
+> >  	if ! _configure_scsi_debug "$@"; then
+> >  		return 1
 >=20
-> Sure.
->=20
-> >=20
-> >> +
-> >> +	local dev=3D"/dev/${SCSI_DEBUG_DEVICES[0]}"
-> >> +	local blk_sz=3D"$(blockdev --getsz "$dev")"
-> >> +	dmsetup create test --table "0 $blk_sz linear $dev 0"
-> >=20
-> > I suggest to call _real_dev() here, and echo back the device name.
-> >=20
-> > 	dpath=3D$(_real_dev /dev/mapper/test)
-> > 	echo ${dpath##*/}
-> >=20
-> > The bash parameter expansion ${xxx##*/} works in same manner as the bas=
-ename
-> > command. The caller can receive the device name in a local variable. Th=
-is will
-> > avoid a bit of code duplication, and allow to avoid _short_dev().
-> >=20
->=20
-> I'm afraid this approach will not work since we may set the
-> SKIP_REASONS parameter. We cannot pass the device name in this
-> manner as it will overlook the SKIP_REASONS setting when the caller
-> invokes $(setup_test_device xxx), this function runs in a subshell.
+> Hmm, if we encounter an error here, the test will be skipped instead of
+> returning a failure. This is not the expected outcome.
 
-Ah, that's right. SKIP_REASONS modification in subshell won't work.
+Ah, rigth. That's not good.
+How about to return differnt values for the failure case above,
 
 >=20
-> If you don't like _short_dev(), I think we can pass dname through a
-> global variable, something like below:
+> Thanks,
+> Yi.
 >=20
-> setup_test_device() {
-> 	...
-> 	dpath=3D$(_real_dev /dev/mapper/test)
-> 	dname=3D${dpath##*/}
-> }
->=20
-> if ! setup_test_device lbprz=3D0; then
-> 	return 1
-> fi
-> umap=3D"$(< "/sys/block/${dname}/queue/write_zeroes_unmap")"
->=20
-> What do you think?
+> >  	fi
+> > =20
+> > -	local dev=3D"/dev/${SCSI_DEBUG_DEVICES[0]}"
+> > -	local blk_sz=3D"$(blockdev --getsz "$dev")"
+> > +        if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zer=
+oes_unmap ]]; then
+> > +		_exit_scsi_debug
+> > +                return 1
 
-I think global variable is a bit dirty. So my suggestion is to still echo b=
-ack
-the short device name from the helper, and set the SKIP_REASONS after calli=
-ng
-the helper, as follows:
+and this "should skip" case?
+
 
 diff --git a/tests/dm/003 b/tests/dm/003
-index 1013eb5..e00fa99 100755
+index 1013eb5..5e617fd 100755
 --- a/tests/dm/003
 +++ b/tests/dm/003
-@@ -20,13 +20,23 @@ device_requries() {
+@@ -19,14 +19,26 @@ device_requries() {
+ 	_require_test_dev_sysfs queue/write_zeroes_unmap
  }
 =20
++readonly TO_SKIP=3D255
++
  setup_test_device() {
 +	local dev blk_sz dpath
 +
@@ -292,19 +334,19 @@ index 1013eb5..e00fa99 100755
 +        if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_=
 unmap ]]; then
 +		_exit_scsi_debug
-+                return 1
-+        fi
++		return $TO_SKIP
++	fi
 +
 +	dev=3D"/dev/${SCSI_DEBUG_DEVICES[0]}"
 +	blk_sz=3D"$(blockdev --getsz "$dev")"
  	dmsetup create test --table "0 $blk_sz linear $dev 0"
 +
 +	dpath=3D$(_real_dev /dev/mapper/test)
-+	echo ${dpath##*/}
++	echo "${dpath##*/}"
  }
 =20
  cleanup_test_device() {
-@@ -38,17 +48,21 @@ test() {
+@@ -38,17 +50,25 @@ test() {
  	echo "Running ${TEST_NAME}"
 =20
  	# disable WRITE SAME with unmap
@@ -312,9 +354,13 @@ unmap ]]; then
 -	umap=3D"$(cat "/sys/block/$(_short_dev /dev/mapper/test)/queue/write_zero=
 es_unmap")"
 +	local dname
-+	if ! dname=3D$(setup_test_device lbprz=3D0); then
-+		SKIP_REASONS+=3D("kernel does not support unmap write zeroes sysfs inter=
-face")
++	dname=3D$(setup_test_device lbprz=3D0)
++	ret=3D$?
++	if ((ret)); then
++		if ((ret =3D=3D TO_SKIP)); then
++			SKIP_REASONS+=3D("kernel does not support unmap write zeroes sysfs inte=
+rface")
++		fi
 +		return 1
 +	fi
 +	umap=3D"$(cat "/sys/block/${dname}/queue/zoned")"
@@ -322,4 +368,5 @@ face")
  		echo "Test disable WRITE SAME with unmap failed."
  	fi
  	cleanup_test_device
+ =
 
