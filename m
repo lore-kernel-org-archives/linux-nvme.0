@@ -4,94 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2585CC369DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 13:56:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5A1EC3ABA5
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 14:16:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pJKEgmROlQA1CPM8Sgt6BwjhaAbp/NZd+UOiiX/xuBk=; b=dSWyiGSUBDCNQV6QEGVjnyW4FR
-	c2BJGsouiTteT97iBwXG15eUlOj/zmIPGsgL/VjIcrlWBrJonsryrtOmG0nRqPVmHIFFw1sRaXc7v
-	Uv9NNFZ1i+KMjiMsg+SkrOdaC7RokL67tyZEP4wH4hWu3Zlgzr7zzmxbGaWSvSK0Om3sZKMvyUZye
-	s+a/wpEHYA9cTDZPTBpXTOe/3MHrVmWkbPbRoKU7WEmZM7bOzenXwz6VD0xixXcusI8k82nlEYH+L
-	NsICAq+j2iYGZTwOxEqqgOdtDfsPNjnqmTJTd4UxmHyNu7aPKUVLegQFRkQOZzpQHNAhSODRp4OwG
-	aIpd+ZZw==;
+	bh=52+yGXnF7WmaQpmnHD64Abc8GOERoL17UyX9Asn2VWA=; b=KlTf1EVzQcSI8t0yPan/zXikK6
+	gzbcupE33pvxuQTbhfMt/D6YCIIDsGxXpSrsI4wfPxTlmCHLNENFYa8aNQH7M4918ri4Z1jd2O9eT
+	RwT7ZXXcGsYuJKxm5jmZs+P5SD8t8GnPB30M5qeO09G+p7nJ1pTijbTLhNWiGNuiNlOM3givHRJfk
+	IypzOh0WpmZS+8os2Nr+3iMfyehwGHNnNo11oqDO8QF6dyJCRQERN5oXoq7GjydsbPflcabXcUJR0
+	QaaZ3DkoTuja41jwFJon9Uzuq2SKas3LCJEq4dMhHbg3kZIUOfTkD3gYqt5YUC/xep2ZdHnw16AKx
+	oWCon3OQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9OyH-00000006Yr4-2Mmw;
-	Mon, 28 Apr 2025 13:56:33 +0000
-Received: from dggsgout12.his.huawei.com ([45.249.212.56])
+	id 1u9PH8-00000006b59-3eSk;
+	Mon, 28 Apr 2025 14:16:02 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9Oxa-00000006YaM-3NcD
+	id 1u9Kir-00000005b38-1EKv
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 13:55:53 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4ZmQ2V3LGgzKHLxw
-	for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 21:55:46 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 72CB21A0EBB
-	for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 21:55:45 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgDXOl_fiA9o2mtPKw--.49456S3;
-	Mon, 28 Apr 2025 21:55:45 +0800 (CST)
-Message-ID: <58f1e9e2-8c4f-42a0-800e-cefe17a7faaa@huaweicloud.com>
-Date: Mon, 28 Apr 2025 21:55:43 +0800
+	Mon, 28 Apr 2025 09:24:23 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id E9A814A93F;
+	Mon, 28 Apr 2025 09:24:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C09AC4CEE4;
+	Mon, 28 Apr 2025 09:24:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745832260;
+	bh=JltzEs94lpehyHx6nl6wHRaPQKIRgU/HyWicrIFjUro=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=DyqXQ6VBPGUV60WqF+uTbZzXAsUAIJ9C1BCb2KV9m8F42ozYCzXInlnKQFxIS2b36
+	 s+SctZer4F7Q5NkzQQld7WJZo9qsmkj9svarVHnHcf2ojzaBTAeBo4/HXSAAYmAED9
+	 0xAI51RXFcaNAViqGFTvgw71I5NRyjdQoBDcESxnGQBEZOfbe7wMnLan2Z1+J+qRj+
+	 8OEN5Dl/+rgO5hpebjkaj1SMCY1/3eRJ/TzmFUnFCx9NWXXoE71dQT6bHrYlzaqCDj
+	 cQfDk5LtjtwfeRrBMl5iLWmlcl+SqiMKCEXYnYeUEY8YsO01MnQzVcNjFdveNAbkls
+	 vBmDT0QLSZCQA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH v10 24/24] nvme-pci: store aborted state in flags variable
+Date: Mon, 28 Apr 2025 12:22:30 +0300
+Message-ID: <ef01afea04a2aca3217ce1b52ec99bcd80e99f00.1745831017.git.leon@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1745831017.git.leon@kernel.org>
+References: <cover.1745831017.git.leon@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests 2/3] dm/003: add unmap write zeroes tests
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- hch <hch@lst.de>, "tytso@mit.edu" <tytso@mit.edu>,
- "djwong@kernel.org" <djwong@kernel.org>,
- "john.g.garry@oracle.com" <john.g.garry@oracle.com>,
- "bmarzins@redhat.com" <bmarzins@redhat.com>,
- "chaitanyak@nvidia.com" <chaitanyak@nvidia.com>,
- "yi.zhang@huawei.com" <yi.zhang@huawei.com>,
- "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
- "yukuai3@huawei.com" <yukuai3@huawei.com>,
- "yangerkun@huawei.com" <yangerkun@huawei.com>
-References: <20250318072835.3508696-1-yi.zhang@huaweicloud.com>
- <20250318072835.3508696-3-yi.zhang@huaweicloud.com>
- <t4vmmsupkbffrp3p33okbdjtf6il2ahp5omp2s5fvuxkngipeo@4thxzp4zlcse>
- <7b0319ac-cad4-4285-800c-b1e18ee4d92b@huaweicloud.com>
- <6p2dh577oiqe7lfaexv4fzct4aqhc56lxrz2ecwwctvbuxrjx3@oual7hmxfiqc>
- <a5d847d1-9799-4294-ac8f-e78d73e3733d@huaweicloud.com>
- <pbuxtmwqk5bdmxckwwkjob3lh6mg3et52w3xdvsnjjwmofschm@pkotcbnp4ypt>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <pbuxtmwqk5bdmxckwwkjob3lh6mg3et52w3xdvsnjjwmofschm@pkotcbnp4ypt>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgDXOl_fiA9o2mtPKw--.49456S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFWrKw1xuF1UAr17ur45KFg_yoWrKF1kpr
-	yfAFyktrWUKF17tr1jvF13Zr1ay3y5Gw17Xw15Jry8A34qvr13KFZ7GF4Uuas7XrW3ZF40
-	vayUXa9I9r15tFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_065551_330380_0B7E46B9 
-X-CRM114-Status: GOOD (  21.53  )
+X-CRM114-CacheID: sfid-20250428_022421_379164_14106116 
+X-CRM114-Status: GOOD (  14.66  )
+X-Mailman-Approved-At: Mon, 28 Apr 2025 05:19:59 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,169 +106,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025/4/28 17:25, Shinichiro Kawasaki wrote:
-> On Apr 28, 2025 / 17:04, Zhang Yi wrote:
->> On 2025/4/28 16:13, Shinichiro Kawasaki wrote:
->>> On Apr 28, 2025 / 12:32, Zhang Yi wrote:
->>>> On 2025/4/3 15:43, Shinichiro Kawasaki wrote:
->>> [...]
->>>>>> +
->>>>>> +setup_test_device() {
->>>>>> +	if ! _configure_scsi_debug "$@"; then
->>>>>> +		return 1
->>>>>> +	fi
->>>>>
->>>>> In same manner as the 1st patch, I suggest to check /queue/write_zeroes_unmap
->>>>> here.
->>>>>
->>>>> 	if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap ]]; then
->>>>> 		_exit_scsi_debug
->>>>> 		SKIP_REASONS+=("kernel does not support unmap write zeroes sysfs interface")
->>>>> 		return 1
->>>>> 	fi
->>>>>
->>>>> The caller will need to check setup_test_device() return value.
->>>>
->>>> Sure.
->>>>
->>>>>
->>>>>> +
->>>>>> +	local dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
->>>>>> +	local blk_sz="$(blockdev --getsz "$dev")"
->>>>>> +	dmsetup create test --table "0 $blk_sz linear $dev 0"
->>>>>
->>>>> I suggest to call _real_dev() here, and echo back the device name.
->>>>>
->>>>> 	dpath=$(_real_dev /dev/mapper/test)
->>>>> 	echo ${dpath##*/}
->>>>>
->>>>> The bash parameter expansion ${xxx##*/} works in same manner as the basename
->>>>> command. The caller can receive the device name in a local variable. This will
->>>>> avoid a bit of code duplication, and allow to avoid _short_dev().
->>>>>
->>>>
->>>> I'm afraid this approach will not work since we may set the
->>>> SKIP_REASONS parameter. We cannot pass the device name in this
->>>> manner as it will overlook the SKIP_REASONS setting when the caller
->>>> invokes $(setup_test_device xxx), this function runs in a subshell.
->>>
->>> Ah, that's right. SKIP_REASONS modification in subshell won't work.
->>>
->>>>
->>>> If you don't like _short_dev(), I think we can pass dname through a
->>>> global variable, something like below:
->>>>
->>>> setup_test_device() {
->>>> 	...
->>>> 	dpath=$(_real_dev /dev/mapper/test)
->>>> 	dname=${dpath##*/}
->>>> }
->>>>
->>>> if ! setup_test_device lbprz=0; then
->>>> 	return 1
->>>> fi
->>>> umap="$(< "/sys/block/${dname}/queue/write_zeroes_unmap")"
->>>>
->>>> What do you think?
->>>
->>> I think global variable is a bit dirty. So my suggestion is to still echo back
->>> the short device name from the helper, and set the SKIP_REASONS after calling
->>> the helper, as follows:
->>>
->>> diff --git a/tests/dm/003 b/tests/dm/003
->>> index 1013eb5..e00fa99 100755
->>> --- a/tests/dm/003
->>> +++ b/tests/dm/003
->>> @@ -20,13 +20,23 @@ device_requries() {
->>>  }
->>>  
->>>  setup_test_device() {
->>> +	local dev blk_sz dpath
->>> +
->>>  	if ! _configure_scsi_debug "$@"; then
->>>  		return 1
->>
->> Hmm, if we encounter an error here, the test will be skipped instead of
->> returning a failure. This is not the expected outcome.
-> 
-> Ah, rigth. That's not good.
-> How about to return differnt values for the failure case above,
-> 
->>
->> Thanks,
->> Yi.
->>
->>>  	fi
->>>  
->>> -	local dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
->>> -	local blk_sz="$(blockdev --getsz "$dev")"
->>> +        if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap ]]; then
->>> +		_exit_scsi_debug
->>> +                return 1
-> 
-> and this "should skip" case?
-> 
-> 
-> diff --git a/tests/dm/003 b/tests/dm/003
-> index 1013eb5..5e617fd 100755
-> --- a/tests/dm/003
-> +++ b/tests/dm/003
-> @@ -19,14 +19,26 @@ device_requries() {
->  	_require_test_dev_sysfs queue/write_zeroes_unmap
->  }
->  
-> +readonly TO_SKIP=255
-> +
->  setup_test_device() {
-> +	local dev blk_sz dpath
-> +
->  	if ! _configure_scsi_debug "$@"; then
->  		return 1
->  	fi
->  
-> -	local dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
-> -	local blk_sz="$(blockdev --getsz "$dev")"
-> +        if [[ ! -f /sys/block/${SCSI_DEBUG_DEVICES[0]}/queue/write_zeroes_unmap ]]; then
-> +		_exit_scsi_debug
-> +		return $TO_SKIP
-> +	fi
-> +
-> +	dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
-> +	blk_sz="$(blockdev --getsz "$dev")"
->  	dmsetup create test --table "0 $blk_sz linear $dev 0"
-> +
-> +	dpath=$(_real_dev /dev/mapper/test)
-> +	echo "${dpath##*/}"
->  }
->  
->  cleanup_test_device() {
-> @@ -38,17 +50,25 @@ test() {
->  	echo "Running ${TEST_NAME}"
->  
->  	# disable WRITE SAME with unmap
-> -	setup_test_device lbprz=0
-> -	umap="$(cat "/sys/block/$(_short_dev /dev/mapper/test)/queue/write_zeroes_unmap")"
-> +	local dname
-> +	dname=$(setup_test_device lbprz=0)
-> +	ret=$?
-> +	if ((ret)); then
-> +		if ((ret == TO_SKIP)); then
-> +			SKIP_REASONS+=("kernel does not support unmap write zeroes sysfs interface")
-> +		fi
-> +		return 1
-> +	fi
-> +	umap="$(cat "/sys/block/${dname}/queue/zoned")"
->  	if [[ $umap -ne 0 ]]; then
->  		echo "Test disable WRITE SAME with unmap failed."
->  	fi
->  	cleanup_test_device
->  
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Yeah, I believe this will work, and it looks good to me. Thank you for
-the suggestion！
+Instead of keeping dedicated "bool aborted" variable, let's reuse
+newly introduced flags variable and save space.
 
-Thanks,
-Yi.
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ drivers/nvme/host/pci.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index eb835425b496..9f3e2d8cbd04 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -219,6 +219,7 @@ struct nvme_queue {
+ enum {
+ 	IOD_LARGE_DESCRIPTORS = 1 << 0, /* uses the full page sized descriptor pool */
+ 	IOD_SINGLE_SEGMENT = 1 << 1, /* single segment dma mapping */
++	IOD_ABORTED = 1 << 2, /* abort timed out commands */
+ };
+ 
+ /*
+@@ -227,7 +228,6 @@ enum {
+ struct nvme_iod {
+ 	struct nvme_request req;
+ 	struct nvme_command cmd;
+-	bool aborted;
+ 	u8 nr_descriptors;	/* # of PRP/SGL descriptors */
+ 	u8 flags;
+ 	unsigned int total_len; /* length of the entire transfer */
+@@ -1027,7 +1027,6 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 	blk_status_t ret;
+ 
+-	iod->aborted = false;
+ 	iod->nr_descriptors = 0;
+ 	iod->flags = 0;
+ 	iod->total_len = 0;
+@@ -1576,7 +1575,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
+ 	 * returned to the driver, or if this is the admin queue.
+ 	 */
+ 	opcode = nvme_req(req)->cmd->common.opcode;
+-	if (!nvmeq->qid || iod->aborted) {
++	if (!nvmeq->qid || (iod->flags & IOD_ABORTED)) {
+ 		dev_warn(dev->ctrl.device,
+ 			 "I/O tag %d (%04x) opcode %#x (%s) QID %d timeout, reset controller\n",
+ 			 req->tag, nvme_cid(req), opcode,
+@@ -1589,7 +1588,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
+ 		atomic_inc(&dev->ctrl.abort_limit);
+ 		return BLK_EH_RESET_TIMER;
+ 	}
+-	iod->aborted = true;
++	iod->flags |= IOD_ABORTED;
+ 
+ 	cmd.abort.opcode = nvme_admin_abort_cmd;
+ 	cmd.abort.cid = nvme_cid(req);
+-- 
+2.49.0
 
 
