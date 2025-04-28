@@ -4,74 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E86A4C369DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 13:07:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF4AFC369D5
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Apr 2025 13:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a/l2o6PbIvhGTxkfi6z3TuPhlSt81OUbkxBgnnsi/0U=; b=VnMUZPH1Iz63SA4dUUD3+j/s7w
-	tZCiiay+C3SuQR27Gi6wMG707zptoAlB+aQk2WrK8eEquU/M+365tUOEPzhNRSsThvYBCmSF1IVmm
-	Wc1KhyoDL9bFHLUtT/SkQXDayzFTj0+TSSWIGh+yg9Br2NG9Rh4rDrMK20bpHJAa5F8EHGIwQwGqs
-	IaflwKO5ERHeu9obmjHlBvnTN1KL+UvRbYC9x8A17Lpi2OKKKfJzwPiCJVzrul2TDWkjH/2vlNoR7
-	2m5rUSX/bfiHOPSRHjER2EMPrgzNNjzBZDqPBEDBPgWdNHsJrNPx7//R87cpGvVBdLNKaN71NWUUg
-	FjSAWxow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LKCfsUSiVgaMGLYlRKMuDqRi+jxJnou69nt3LDKwSkY=; b=1vEeNyV4ZxnIKlj2csnAN5Nw7F
+	a/bceGg4nEbiT/ir0gHtxz70DIhn9vyP2zC/v0Dt5PTlb5qW/5P56zd7Rl/xCOKBVzoV+svFcyBLA
+	XI8nv3TQAQJFAByANuDZdw+HcDqGRCDr6XyTRMb5bXRBh1QD301wRRRtwf0SMtpforBGnzf+pYT9D
+	z1rasf7zEiGRq0PSQzFnJuDIl3cfxDNsUnL6uzDnjyHi0HQsHzPH5qCSMZx+7YjiZ8DZ+BLBsrd5M
+	5IvsP/tUXyOnSljbywQfA5iV5OVs6sYSihmyAJzRDegyWc8Gc+VvM58er5O7CQZkNgNlA/n6qfLwh
+	OGSSC07w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9OCa-00000006N1n-3JbT;
-	Mon, 28 Apr 2025 13:07:16 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1u9Op8-00000006WxW-09Tv;
+	Mon, 28 Apr 2025 13:47:06 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9Njf-00000006DS0-1vfd
+	id 1u9OQD-00000006RuR-0e8O
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Apr 2025 12:37:24 +0000
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1745843839;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	Mon, 28 Apr 2025 13:21:22 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 332161F390;
+	Mon, 28 Apr 2025 13:21:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745846479; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a/l2o6PbIvhGTxkfi6z3TuPhlSt81OUbkxBgnnsi/0U=;
-	b=pc0UgzqpiLeAwBOUf1EJA8/rnl6Ee7rR73sZp9CIU4LXS0xPWGeCeNAFS7PRI7DiiAw7vF
-	wswDPHH2rRmdFjJdwWV+ZXaja72eKXMY9kZd8d7p3qh/cMwwsv8/NjtMcGj59xn+9HjxHV
-	872egQZIYk5ea0etvvKZn4G9666sI23+Xts3+lqV8VqQOXDyM+3ruRNd6cFeST+rrsK1e/
-	f2u2nyVSyrm5krrf2eiwmy8J4cetjFmFQj5M8wUMZiUax+mimWSfEOsYV/EtSy0AYZpwk5
-	yyUl41OjCOc9Mk+MEDtZPM0Y+kZl7ecKdpClcF3eFKnnb4smrOZIw3HPpdBgtA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1745843839;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	bh=LKCfsUSiVgaMGLYlRKMuDqRi+jxJnou69nt3LDKwSkY=;
+	b=dFdSM1hXoQ/DErZ4LG7lSkry0rA/fgCYFkaoBc2RiJf4m1k+EEmCspgKpu6/C+YaRlExAX
+	HV+7xysk2dNcMbQTsn4YhrXZAHD5sS4ZSSOUcRJKvjV/pfIIyMQBOHPBr43t8fsJGhrzti
+	eoR/1FINAXmDDzdd+fsX2FNuemi2YHE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745846479;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a/l2o6PbIvhGTxkfi6z3TuPhlSt81OUbkxBgnnsi/0U=;
-	b=aZCuGCW55jbdINBj1Vh3BbucF7jCF4dyzI4t3VbS9xKnEXP3D87a5rE41TKPSqrP+IUt6M
-	GlGSH2+4YXHzhsBQ==
-To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, Keith
- Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
- <sagi@grimberg.me>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, Costa Shulyupin
- <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, Valentin
- Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, Ming Lei
- <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, Mel
- Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
- storagedev@microchip.com, virtualization@lists.linux.dev,
- GR-QLogic-Storage-Upstream@marvell.com, Daniel Wagner <wagi@kernel.org>
-Subject: Re: [PATCH v6 1/9] lib/group_cpus: let group_cpu_evenly return
- number initialized masks
-In-Reply-To: <20250424-isolcpus-io-queues-v6-1-9a53a870ca1f@kernel.org>
-References: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
- <20250424-isolcpus-io-queues-v6-1-9a53a870ca1f@kernel.org>
-Date: Mon, 28 Apr 2025 14:37:19 +0200
-Message-ID: <87ikmoqx6o.ffs@tglx>
+	bh=LKCfsUSiVgaMGLYlRKMuDqRi+jxJnou69nt3LDKwSkY=;
+	b=Ds0IHOTwBrmtL9+kBlcqWdlfdH0ryq2b4FpcVnfjdrwA0NaRod110CF8WThug4H3+eBr+s
+	NM4y6ImOwJvap4Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745846479; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LKCfsUSiVgaMGLYlRKMuDqRi+jxJnou69nt3LDKwSkY=;
+	b=dFdSM1hXoQ/DErZ4LG7lSkry0rA/fgCYFkaoBc2RiJf4m1k+EEmCspgKpu6/C+YaRlExAX
+	HV+7xysk2dNcMbQTsn4YhrXZAHD5sS4ZSSOUcRJKvjV/pfIIyMQBOHPBr43t8fsJGhrzti
+	eoR/1FINAXmDDzdd+fsX2FNuemi2YHE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745846479;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LKCfsUSiVgaMGLYlRKMuDqRi+jxJnou69nt3LDKwSkY=;
+	b=Ds0IHOTwBrmtL9+kBlcqWdlfdH0ryq2b4FpcVnfjdrwA0NaRod110CF8WThug4H3+eBr+s
+	NM4y6ImOwJvap4Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12A7113A25;
+	Mon, 28 Apr 2025 13:21:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id blcPBM+AD2ikYAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 28 Apr 2025 13:21:19 +0000
+Message-ID: <9763c4cf-8ca5-45d4-b723-270548ca1001@suse.de>
+Date: Mon, 28 Apr 2025 15:21:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvme: only allow entering LIVE from CONNECTING state
+To: Daniel Wagner <dwagner@suse.de>, Guenter Roeck <linux@roeck-us.net>
+Cc: Daniel Wagner <wagi@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
+ <20250214-nvme-fc-fixes-v1-1-7a05d557d5cc@kernel.org>
+ <0134ea15-8d5f-41f7-9e9a-d7e6d82accaa@roeck-us.net>
+ <cb46aa83-8033-4d64-a3c7-420172c3f3f5@flourine.local>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <cb46aa83-8033-4d64-a3c7-420172c3f3f5@flourine.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-8.30 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_053723_782092_F28735C8 
-X-CRM114-Status: GOOD (  21.90  )
+X-CRM114-CacheID: sfid-20250428_062121_340461_3EE5923F 
+X-CRM114-Status: GOOD (  26.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,128 +138,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 24 2025 at 20:19, Daniel Wagner wrote:
+On 4/28/25 14:44, Daniel Wagner wrote:
+> On Sun, Apr 27, 2025 at 08:59:13AM -0700, Guenter Roeck wrote:
+>> Hi,
+>>
+>> On Fri, Feb 14, 2025 at 09:02:03AM +0100, Daniel Wagner wrote:
+>>> The fabric transports and also the PCI transport are not entering the
+>>> LIVE state from NEW or RESETTING. This makes the state machine more
+>>> restrictive and allows to catch not supported state transitions, e.g.
+>>> directly switching from RESETTING to LIVE.
+>>>
+>>> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+>>
+>> nvme_handle_aen_notice(), when handling NVME_AER_NOTICE_FW_ACT_STARTING,
+>> sets the state to RESETTING and and triggers a worker. This worker
+>> waits for firmware activation to complete and then tries to set the
+>> state back to LIVE. This step now fails.
+>>
+>> Possibly the handling of NVME_AER_NOTICE_FW_ACT_STARTING needs to be
+>> improved. However, leaving the NVME in RESETTING state after an
+>> NVME_AER_NOTICE_FW_ACT_STARTING event is worse.
+>>
+>> I think this patch should be reverted at least for the time being until
+>> the handling of NVME_AER_NOTICE_FW_ACT_STARTING no longer relies on a
+>> direct state change from RESETTING to LIVE.
+> 
+> ee59e3820ca9 ("nvme-fc: do not ignore connectivity loss during connecting")
+> f13409bb3f91 ("nvme-fc: rely on state transitions to handle connectivity loss")
+> 
+> are depending on the fact that is not possible to switch from
+> NEW/RESETTING directly into LIVE.
+> 
+> I think it would be better to fix the worker instead dropping this patch
+> and the above fix for the fc transport.
+> 
+> What about:
+> 
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index b502ac07483b..d3c4eacf607f 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4493,7 +4493,8 @@ static void nvme_fw_act_work(struct work_struct *work)
+>                  msleep(100);
+>          }
+> 
+> -       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+> +       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING) ||
+> +           !nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+>                  return;
+> 
+>          nvme_unquiesce_io_queues(ctrl);
 
-"let group_cpu_evenly return number initialized masks' is not a
-sentence.
+I would rather have a separate state for firmware activation.
+(Ab-)using the 'RESETTING' state here has direct implications
+with the error handler, as for the error handler 'RESETTING'
+means that the error handler has been scheduled.
+Which is not true for firmware activation.
 
-  Let group_cpu_evenly() return the number of initialized masks
+Cheers,
 
-is actually parseable.
-
-> group_cpu_evenly might allocated less groups then the requested:
-
-group_cpu_evenly() might have .... then requested.
-
-> group_cpu_evenly
->   __group_cpus_evenly
->     alloc_nodes_groups
->       # allocated total groups may be less than numgrps when
->       # active total CPU number is less then numgrps
->
-> In this case, the caller will do an out of bound access because the
-> caller assumes the masks returned has numgrps.
->
-> Return the number of groups created so the caller can limit the access
-> range accordingly.
->
-> --- a/include/linux/group_cpus.h
-> +++ b/include/linux/group_cpus.h
-> @@ -9,6 +9,7 @@
->  #include <linux/kernel.h>
->  #include <linux/cpu.h>
->  
-> -struct cpumask *group_cpus_evenly(unsigned int numgrps);
-> +struct cpumask *group_cpus_evenly(unsigned int numgrps,
-> +				  unsigned int *nummasks);
-
-One line
-
->  #endif
-> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> index 44a4eba80315cc098ecfa366ca1d88483641b12a..d2aefab5eb2b929877ced43f48b6268098484bd7 100644
-> --- a/kernel/irq/affinity.c
-> +++ b/kernel/irq/affinity.c
-> @@ -70,20 +70,21 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
->  	 */
->  	for (i = 0, usedvecs = 0; i < affd->nr_sets; i++) {
->  		unsigned int this_vecs = affd->set_size[i];
-> +		unsigned int nr_masks;
-
-  unsigned int nr_masks, this_vect = ....
-
->  		int j;
-
-As yoou touch the loop anyway, move this into the for ()
-
-> -		struct cpumask *result = group_cpus_evenly(this_vecs);
-> +		struct cpumask *result = group_cpus_evenly(this_vecs, &nr_masks);
->  
->  		if (!result) {
->  			kfree(masks);
->  			return NULL;
->  		}
->  
-> -		for (j = 0; j < this_vecs; j++)
-
-                for (int j = 0; ....)
-
-> +		for (j = 0; j < nr_masks; j++)
->  			cpumask_copy(&masks[curvec + j].mask, &result[j]);
->  		kfree(result);
->  
-> -		curvec += this_vecs;
-> -		usedvecs += this_vecs;
-> +		curvec += nr_masks;
-> +		usedvecs += nr_masks;
->  	}
->  
->  	/* Fill out vectors at the end that don't need affinity */
-> diff --git a/lib/group_cpus.c b/lib/group_cpus.c
-> index ee272c4cefcc13907ce9f211f479615d2e3c9154..016c6578a07616959470b47121459a16a1bc99e5 100644
-> --- a/lib/group_cpus.c
-> +++ b/lib/group_cpus.c
-> @@ -332,9 +332,11 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
->  /**
->   * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
->   * @numgrps: number of groups
-> + * @nummasks: number of initialized cpumasks
->   *
->   * Return: cpumask array if successful, NULL otherwise. And each element
-> - * includes CPUs assigned to this group
-> + * includes CPUs assigned to this group. nummasks contains the number
-> + * of initialized masks which can be less than numgrps.
->   *
->   * Try to put close CPUs from viewpoint of CPU and NUMA locality into
->   * same group, and run two-stage grouping:
-> @@ -344,7 +346,8 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
->   * We guarantee in the resulted grouping that all CPUs are covered, and
->   * no same CPU is assigned to multiple groups
->   */
-> -struct cpumask *group_cpus_evenly(unsigned int numgrps)
-> +struct cpumask *group_cpus_evenly(unsigned int numgrps,
-> +				  unsigned int *nummasks)
-
-No line break required.
-
->  {
->  	unsigned int curgrp = 0, nr_present = 0, nr_others = 0;
->  	cpumask_var_t *node_to_cpumask;
-> @@ -421,10 +424,12 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
->  		kfree(masks);
->  		return NULL;
->  	}
-> +	*nummasks = nr_present + nr_others;
->  	return masks;
->  }
->  #else /* CONFIG_SMP */
-> -struct cpumask *group_cpus_evenly(unsigned int numgrps)
-> +struct cpumask *group_cpus_evenly(unsigned int numgrps,
-> +				  unsigned int *nummasks)
-
-Ditto.
-
-Other than that:
-
-Acked-by: Thomas Gleixner <tglx@linutronix.de>
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
