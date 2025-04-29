@@ -4,81 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC2E2C369D5
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 00:32:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B454C369D5
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 00:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eXiERkLA7yuiD/WWQ5j7ldoL76oti+3ntnUwAl7rlLU=; b=QEo0UOUwioU0o853LghISn+mTK
-	tAXPIXNeNLOYVh/NfuJaM+0NMNkDDZHlCtMMCaZV0eDQk1pLZs5725fiws5zDmCoD50bWQUcy+TO+
-	HlDGxyEVSiF6fcPp3qvIySxt9Gt4GbBwGl6jD2Y5PxR1mqNVuiHp6QGT++PCM/TzUhu8HutWGkwq3
-	JNLnSEJJKioFwkEn6mw0KHC1S8cwvuRDfvFKwKF+08Hj+8ZIjbrvp4s3pdb7HSgBNmyqFbGU+I3QH
-	+KUYzZ7HtpHeDKe/9HtxY3ZiOCCEqxYZoq9xNaJyNc8KWRvrzQrGiE50zP4M95Pw6YewnovRAMDIr
-	+8Suda9g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=R/bNT3QCm+5HXii/nBKCcmEN9QkMNXX0g0Y3mbu1zXQ=; b=4/2Mz15tsshtuUahsqFIJpq8dR
+	eP2gVwrRDiO39gBrQn1rOi391OtlqMHPO/TRyrIotyqe9ZTnx3AKzkvk0eMbHBB/BGh5XCYZSsFqZ
+	UPQJF9V/HkztDIkCrEBlYfwV59cPvvFaafWnUWlDb7TW7FLcFVo+4nD9NOEhhpbHOqOzUYLuQ6+Mm
+	Fb51uMLYBUPSzXkLnUqfHuRQgiPbNSo03hAs2b97YqVRr7RvlSZAA0UK/toXFPeN72BYtEKvDvyYC
+	fhHF+QknSua0NTmVEISo5+nELanWXbtTwmaqy8LdnuWgOrHY/HunH3CUUn2psy+k2HPENpEhXJV3S
+	MFduS1Xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9Yu8-00000007toD-0xFu;
-	Tue, 29 Apr 2025 00:32:56 +0000
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
+	id 1u9YvP-00000007u1T-3sWg;
+	Tue, 29 Apr 2025 00:34:15 +0000
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9Yu4-00000007tna-46ee
+	id 1u9YvK-00000007tyA-1gDL
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Apr 2025 00:32:54 +0000
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-6feab7c5f96so49191127b3.3
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 17:32:52 -0700 (PDT)
+	Tue, 29 Apr 2025 00:34:15 +0000
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-6ff4faf858cso38202447b3.2
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Apr 2025 17:34:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745886771; x=1746491571; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eXiERkLA7yuiD/WWQ5j7ldoL76oti+3ntnUwAl7rlLU=;
-        b=dXxPxFavSY9S7R4Ns3Mfe0Bdu+KsrKC3gkKQOmDkADvZ6ILB2UI0CCtez2lK3iRSb8
-         g/vGh0COVXbzvNGSynNcQ8zKFX8Ra+KEhKoOLMV5VPzVFouiIFBVy3ilftDfLHOGBOvk
-         2HKfQY2jhVh/vCJZ8IfI+/4DKruPxob4aYZ8LWTTgfppBfZSifVeXe5uQ3srX4+u8bYE
-         a8SsTV4mLNNL20IMI/hnZ8bK7n9wsNcoQT+kA8q4NaPlOOEoRElAW8K2PW5v2kyCkmU0
-         5JreNrHIHGcpBNWAyr0sCW/36WyX3itXpYUvDmrUs/0IDWdaFSNJuFFLka+04E2sDbGl
-         b7ow==
+        d=gmail.com; s=20230601; t=1745886849; x=1746491649; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R/bNT3QCm+5HXii/nBKCcmEN9QkMNXX0g0Y3mbu1zXQ=;
+        b=h+MBgUQNBrjE/JjniEhvMzADqckICZrg2k3yNIrSFN9eyFepfHHf6IdBGF2eSftjdv
+         nKha3OmUGKR/ahme9k7p44qI+6yr8SIKofHsSOKHnNtLTJOWyZy3xz1VE5vzh0sJlkoD
+         e4M9TU4yfOE0WaQjymRobaE8qGKGb9S18SlfBVJrE8AcAMmy4muBcKn1CH6WxK7f2N24
+         QMbHyHFlQvIM0DXhTv2oeRU6idpTUNkG/oq7Ua0o5PgLd4s2ri3/7iRi/qa8ENFFLfrv
+         iwP4XmLauo1LMDpftmqsnJuF/TEmo4TXRDhAyFXCSUqveQdqmFK8dkKOTW/+tzXaYnE5
+         hYhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745886771; x=1746491571;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eXiERkLA7yuiD/WWQ5j7ldoL76oti+3ntnUwAl7rlLU=;
-        b=mW1JUrwE+fDuuFc43QGs1zWC98471X8n3mkoCET7VsMLy35WoZV3dfCQSDnk/e5GvX
-         lY31GBTy0+nofpf09Qc85DrLcPaar/rVEUJF53EwvKJHpQs5loQ6pJKOBGJFJBoX07ph
-         I9RnWpC1pd7Yc3IYHavcuw/J3IYTOte63dymxvFpYSgXc6WWLXPdJ/AEHmyBS9ding7f
-         G5noc+WFT+faehBnJlsHJkKZSlyYspDM9s+B468/8xgvzukSXz2Kpwcpvc/PhvD3EhSA
-         c9feXURxYnTLY8m9FjVJjYR30dRumaYhnKheGKKfeuPS3GuzmLRRj8lU3mVmfzW/w585
-         D1Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCXVrfetxV4NTMVIrY5H40H9ZY0ht/FnwD35erpJ4xZeagJBEM96Vvqu3+e/BirU/A7/WEX1KBpHxRB8@lists.infradead.org
-X-Gm-Message-State: AOJu0YxuMxo+ifo6PaXqLkOkquV2wv4lXFWJBuz6gs9VC/yiXJsR8sI8
-	qmnwMT1O56s/RKU7vow5EB9RqonJaUz3wUWgKHWasDrV8HfVlVuaFaNIemdDZDF4ha2pBOEYFZ5
-	uOaisSi6iarbup1fMT/rFahzsViI=
-X-Gm-Gg: ASbGnctO87vwAc1PwyW+7N9KKk3M1wB1v+Ntm3ncbRjD3im6okXCBrSAoilLNkrqdQn
-	TYDMJxjrm7ilw0nvjIWLYAWshZzEYdjIbl4C79WzpIw+uHXSsGbukJpYy+RxAxfCGDC5Bqzw3Fn
-	s9iTAlaF5F0MmyNNLWQbcVxCY=
-X-Google-Smtp-Source: AGHT+IFg4M2EgSbzb3qG4MF8cx0ULesbJGSXGkun8LRVe+Zaz4awkpImlKHQxNm3nsUjjkmN1YFI561/qWnYk1bMx/U=
-X-Received: by 2002:a05:690c:6f8c:b0:6ef:761e:cfc with SMTP id
- 00721157ae682-7085f23732emr147006977b3.25.1745886771428; Mon, 28 Apr 2025
- 17:32:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745886849; x=1746491649;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R/bNT3QCm+5HXii/nBKCcmEN9QkMNXX0g0Y3mbu1zXQ=;
+        b=rO9PUDlIQsAm0vZpaRkYBVRcWGaXgKBaEVqvLFdXJ5+r7RPcNXSzKMfaKXoI/yEloY
+         b3fpF+Z5KgUR407jrxSOtuUGOv34c6o44J4gjSCUh+XUusmT8gu9bfhpkUzLsx1oOaA5
+         vmkEkzR+tu4AuTG/83Ke7+5MHh3fI5pp9LgFf+TFaWOcDbKYAmQ2O6JJjtAQoMcs7b16
+         wm6EPtMndEXKKdvcgGSTZwODgIQtU5BMI0nFAnJnM/Ho6y4Schy9LC86F6WaQG6HVsgL
+         H304xQAmqvlLGsNv61WBiANK66c7L1n+SPnYcBVVY2QXL6R8pxcEdpn2vcnVi7bCNIzn
+         vAkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUefdayjLOoqoGjFOl6HHXZp4SVXEXvHJdyjRrJoRDhfp+f0++eA85cmmTW6dALoPWomnfbkJcDQ0Zl@lists.infradead.org
+X-Gm-Message-State: AOJu0YyiWVZR/8qMGxu6qHtZqFje4uHUhisB4yODb5GPc5Cxa0x4gg5d
+	gFfUPdGJoH03/e/KRMyncR6b8eYha2gBpf45rGaqshBnZ2pitpJwODJKNag7IDOOJeI+4i9Pdav
+	C1dTpOHp3u0rhrnaYr7TAKpP0akk=
+X-Gm-Gg: ASbGnctVibozqkxxQKjLfEO3cXXFPcLaJ7QtCcjN5a4d2th1mKxev5BjP4kNsDqqxuT
+	sc0GIZi/FWJ2zZWjlJq8Dr1q4B7/O9HUAFd62fMEFL8CKqSf+P+zl+EQ82e8QPG/mmsfrER/JMf
+	AokHQwYxLdUMITFIMc7RFzQOg=
+X-Google-Smtp-Source: AGHT+IEGnkHnVEGFnjSW2b1OqykcPp10zCsxNzBtGjJEggdM64dVIABc4pzTRnWXg867P+9brS8y9M8I0JDjCZL4cwE=
+X-Received: by 2002:a05:690c:884:b0:708:39f9:ae49 with SMTP id
+ 00721157ae682-70899749458mr29800717b3.29.1745886849192; Mon, 28 Apr 2025
+ 17:34:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250428063635.125879-1-hare@kernel.org> <20250428063635.125879-4-hare@kernel.org>
-In-Reply-To: <20250428063635.125879-4-hare@kernel.org>
+References: <20250428063635.125879-1-hare@kernel.org> <20250428063635.125879-2-hare@kernel.org>
+In-Reply-To: <20250428063635.125879-2-hare@kernel.org>
 From: Justin Tee <justintee8345@gmail.com>
-Date: Mon, 28 Apr 2025 17:30:57 -0700
-X-Gm-Features: ATxdqUHIGy0T4NGOQRb64lNlldbMWLYy1gZf40lApfT5WJfC5OEb__lGQEHepRE
-Message-ID: <CABPRKS9yTExMW+PdJHnXiftck8dQQcF-RxVUt75M=P2bTnfmHA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] lpfc: enable FPIN notification for NVMe
+Date: Mon, 28 Apr 2025 17:32:15 -0700
+X-Gm-Features: ATxdqUF3SYReFA0xM-HiG6Mn95jR5Pm3r4-7_bHxZq7OoM9Kw9ffIOcnvDZl5Co
+Message-ID: <CABPRKS-xkcB8mv0huFkOqC10T1Pw2io_GAvfDA2+a6z8rUSDqw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] fc_els: use 'union fc_tlv_desc'
 To: hare@kernel.org
 Cc: Justin Tee <justin.tee@broadcom.com>, James Smart <jsmart2021@gmail.com>, 
 	Dick Kennedy <dick.kennedy@broadcom.com>, Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
 	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250428_173253_013923_7DF5A221 
-X-CRM114-Status: UNSURE (   8.80  )
+X-CRM114-CacheID: sfid-20250428_173410_437004_A7B08D5F 
+X-CRM114-Status: UNSURE (   9.37  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -96,27 +98,57 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Hi Hannes,
 
-May we qualify the call to nvme_fc_fpin_rcv with something like this?
+May we also update lpfc=E2=80=99s function header argument=E2=80=99s descri=
+ption name as well?
 
 diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index cf1fbfb15c5d..ea76b4550e30 100644
+index cf1fbfb15c5d..9abab90edc61 100644
 --- a/drivers/scsi/lpfc/lpfc_els.c
 +++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -10251,8 +10251,11 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport,
-void *p, u32 fpin_length)
-                if (deliver) {
-                        fc_host_fpin_rcv(lpfc_shost_from_vport(vport),
-                                         fpin_length, (char *)fpin, 0);
--                       nvme_fc_fpin_rcv(vport->localport,
--                                        fpin_length, (char *)fpin);
-+#if (IS_ENABLED(CONFIG_NVME_FC))
-+                       if (vport->cfg_enable_fc4_type == LPFC_ENABLE_BOTH)
-+                               nvme_fc_fpin_rcv(vport->localport,
-+                                                fpin_length, (char *)fpin);
-+#endif
-                }
-                desc_cnt++;
-        }
+@@ -9938,7 +9938,7 @@ lpfc_display_fpin_wwpn(struct lpfc_hba *phba,
+__be64 *wwnlist, u32 cnt)
+ /**
+  * lpfc_els_rcv_fpin_li - Process an FPIN Link Integrity Event.
+  * @phba: Pointer to phba object.
+- * @tlv:  Pointer to the Link Integrity Notification Descriptor.
++ * @li:  Pointer to the Link Integrity Notification Descriptor.
+  *
+  * This function processes a Link Integrity FPIN event by logging a messag=
+e.
+  **/
+@@ -9968,7 +9968,7 @@ lpfc_els_rcv_fpin_li(struct lpfc_hba *phba,
+struct fc_fn_li_desc *li)
+ /**
+  * lpfc_els_rcv_fpin_del - Process an FPIN Delivery Event.
+  * @phba: Pointer to hba object.
+- * @tlv:  Pointer to the Delivery Notification Descriptor TLV
++ * @del:  Pointer to the Delivery Notification Descriptor TLV
+  *
+  * This function processes a Delivery FPIN event by logging a message.
+  **/
+@@ -10005,7 +10005,7 @@ lpfc_els_rcv_fpin_del(struct lpfc_hba *phba,
+struct fc_fn_deli_desc *del)
+ /**
+  * lpfc_els_rcv_fpin_peer_cgn - Process a FPIN Peer Congestion Event.
+  * @phba: Pointer to hba object.
+- * @tlv:  Pointer to the Peer Congestion Notification Descriptor TLV
++ * @pc:  Pointer to the Peer Congestion Notification Descriptor TLV
+  *
+  * This function processes a Peer Congestion FPIN event by logging a messa=
+ge.
+  **/
+@@ -10039,7 +10039,7 @@ lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba
+*phba, struct fc_fn_peer_congn_desc *
+ /**
+  * lpfc_els_rcv_fpin_cgn - Process an FPIN Congestion notification
+  * @phba: Pointer to hba object.
+- * @tlv:  Pointer to the Congestion Notification Descriptor TLV
++ * @cgn:  Pointer to the Congestion Notification Descriptor TLV
+  *
+  * This function processes an FPIN Congestion Notifiction.  The notificati=
+on
+  * could be an Alarm or Warning.  This routine feeds that data into driver=
+'s
 
 Regards,
 Justin
