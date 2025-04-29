@@ -4,84 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57473C3ABA5
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 21:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61A82C369DC
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 22:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HG98OKRKV7KQ7Zt3pam/rRWORZSyCPBdGUM9BZPIIoA=; b=eWlL79LahWdidlsLQUn8eIrfTf
-	IfoI/Dgkoso48m9HNK4dAQIokw2XjSymq10iFAwvXijMBkrTSYkSJFwJAg0YpRJOTjnlo8QcTmee9
-	N+eAYnywQ7uMXh67B9ZeWwTUCdHPlc5/xc7is0XMdMpSspQrfty1t7qjI3AaIrbSB04YeQE/mTvhn
-	XXIAyuEXxu2FyWyaiJU8QcmwVVII+rhLyV0KQRq7t1QinH6ZXw/UlNp19YrXLCCw8g/ibaTHjXS7d
-	W/4cRy89JWZ1/Wt493u4Nls6JXL+f6/T+7Q4TasUfjgPqXNoLhIdk9GsJi93QbI8KeBn8n0uLTlvM
-	IW/mt12w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iaUHLg0dvW7boTjUUUvyGYJuf0k+x8BYZi5xJbGoCrE=; b=HJw+3rDVKm6eOCh0Dy/C9g/ooC
+	XpCNSMUsZfb0ef8HNLrhbjbq7ORgS6oMrK+AmJtP8UFvH5R+tZsMe8PfviiQ3eFitErBjqQKOneyG
+	B4F7HmfDy3M8WmkRDnW9+awSn56vqxDLH1k0p0+Ct39TmrIebtn2QRgwh/XkOUTAuFnPixFkbALY9
+	dzAPkB8IMYCeBDjPiWrPKGAzgE48Z3ZUhiM6JdWJ0GHErLzgtmoO2tgvBacQTJM3aFVkGUZqF6mmr
+	IYYSef6XL4VNSg5O4RhI83sWMgsaNkMNcVRsA1YMj3EhYuLdsIRT7RMEIPNtRXN4PFtv5lp3zqEQA
+	J1ynR8tQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9sX5-0000000ArNF-1h1c;
-	Tue, 29 Apr 2025 21:30:27 +0000
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e])
+	id 1u9t4V-0000000Aw8O-3xvG;
+	Tue, 29 Apr 2025 22:04:59 +0000
+Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9sX3-0000000ArMd-0lqH
+	id 1u9t4T-0000000Aw7s-2Wyy
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Apr 2025 21:30:26 +0000
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-7081165a238so50424377b3.1
-        for <linux-nvme@lists.infradead.org>; Tue, 29 Apr 2025 14:30:24 -0700 (PDT)
+	Tue, 29 Apr 2025 22:04:58 +0000
+Received: by mail-ua1-x929.google.com with SMTP id a1e0cc1a2514c-875b8e006f8so2446770241.0
+        for <linux-nvme@lists.infradead.org>; Tue, 29 Apr 2025 15:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745962224; x=1746567024; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HG98OKRKV7KQ7Zt3pam/rRWORZSyCPBdGUM9BZPIIoA=;
-        b=PYo4aKhzIq+w53uvnLzmZEv3j7krwrxlClHooWiLlHZniCkFFQy97ytdt/lcFYCW72
-         hoqZ+ukI3dx4Hm2GyPpBnKdkIISlMy2ck0S35qD8L0PfJQaDWmDseFrxg6/68Zztg1V7
-         4y9V/o5yJcjx1awiPvZBkBFSb31ndtgoZXOubvTWqXNWhh0tIfo7TXduSLVXXMSi1RYk
-         5Nc9hcu+LsP28+cGkmujhDV703TLsJPFj40Z7B4GAbOf97mO5++s21B6dIjHfgn4PGf0
-         HR8DzBWUtqyIH2beUcj91HqYYGdbARdHVFztJ/JNyG4+P0yw53GVMfIB9naLLl+3yugh
-         Tsiw==
+        d=gmail.com; s=20230601; t=1745964296; x=1746569096; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iaUHLg0dvW7boTjUUUvyGYJuf0k+x8BYZi5xJbGoCrE=;
+        b=VwzpoxPtBUVTMeo9l43XxuXk9ef02KN7ltIBjXcPW0YsRGNLXcNo3g8GfgUwd4kGgd
+         rBNZKAwtI+JVzc3NreHUpQfpMm3GZEk//8mSO5Biu7oGU9T4TQNCn4jVg/qRejQ2SeEE
+         WFYmVZgz28BiBXHw99YGK/GtBMF26y3ZCp8CFVF7jjau3f/TUvgloKcGsgeB8Gshn/7V
+         aRa5n5t0dXnw57fGIG5V5j5EiwYJUUd7ySOxpRqIXrU6Gc10LN+BHO5qXpfz171Yq0+q
+         zHKMCTu3C69GnPbrMT/d5m3tnfbYyawprc6XPyJAWg+rbnX8m4d81oqgoH7w8FkSbQM3
+         Wd0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745962224; x=1746567024;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HG98OKRKV7KQ7Zt3pam/rRWORZSyCPBdGUM9BZPIIoA=;
-        b=jQwEU1NNpmLH2ICbh33x9HAYrGSSjmyC+5FJlWepmv4FmBRWzy4BxrJ6sJipnjNbWU
-         NdDSw8KGJeaXAeQDt7XXuOJnxk+dIGSmGim8KYFXVSccYyptjPHKuvgkY56017ga5XPq
-         NfSZQHRmHVi8ZtowIREFA+GwSwNeOL12NaZkYkw9cLEOym4TMUXCboOA/AzyxHizoL4Z
-         R6AqMynreYNNGZ8AG9hSik2+abBGHvEX+TXJXHn37bHJv6sTpHYfCie5apiwDOF4ofYc
-         6wKhFYeVdbU/KMFqJmV5IezCTAh5MtLO7g4qqDu54H/MuTUglx6O7QMIE9tXf7nI0ABC
-         surQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWskXfYkCKRjvRdlV3cVsjOJZQshDPWkeB9qMLEq8jg7ov6ixI0gIQPOb4iD3zcl+mO+3xBdw6h0qJ0@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz3JVNTZIUWdnEyr9f30cOAQf1gx69cO9IVAIZAOSjLdeHrhnAi
-	Pb0nL23pPecAH8Alhqd9eb8BtSdDJZQDUwEYF71hTgQVO7oFbiuqmkGzTSOY69o0hnjnxyK/IA2
-	Ft2sgL/uMjIO9qI3N4dS7+VYGH8o=
-X-Gm-Gg: ASbGncs0sRYIKVu6XqrOzQdVaBHqufGRfH/MOX1q/j0eXVwFzSMGGaZPs83uNna+Lwc
-	xZTQRVM34jNzldrPUL/voP4uf87RmB3XXe11xM36wSt+XMnPkTmoe6AGIEV+NN2ro+DA2eqr8pb
-	1HpysDPsFN8BJ6SuQb1Gwe8zE=
-X-Google-Smtp-Source: AGHT+IFyyr+P/CpAR/MEAHuZ1TSUK50iFPwQwrd4EpLBGQbPsavyznqcfWO3lI7u1wPplNBVysrvoTNsIvaylMCdieo=
-X-Received: by 2002:a05:690c:6113:b0:6f9:7b99:8a29 with SMTP id
- 00721157ae682-708abe33e9emr15525087b3.34.1745962223989; Tue, 29 Apr 2025
- 14:30:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745964296; x=1746569096;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iaUHLg0dvW7boTjUUUvyGYJuf0k+x8BYZi5xJbGoCrE=;
+        b=OJNZlq0a0ARZoIz5kDbepHlV0K97K+5T3oWgzC4Z3wPx16BuOgnCGq83D73OuXvSSm
+         LyAzBHWRWRiO/pzENM++2aSC2Cp6Uho6vVMHIuBRv/09Q3rA3WH69SWxA1HH6gRpEfgi
+         OI/Ubqmid+ntVz0y8djwMHTklLZtsayCTCjY2AVSz9dSuhCM6D3W3ka1HSL9e7aI4vNz
+         SWxSX35bw+80DUg0KlmGEnT95pMbvsPcXnO3tSByvBotYO0XjUxnPMtwNgDuvIAG1tin
+         /vKSWGFZmhH1v94M2tnkth53G/0PrT+p7lhfcyZbwVJdo0Q7IzwFvNV8hzad2f5Pt6zm
+         ZpXw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRQdZuYNKmazPnclscagyTOEtLBR+PGb/+TRrsUAHNv+qhZuFXMD54sM3GP8dy4LvNRbUUYEqUxyZ5@lists.infradead.org
+X-Gm-Message-State: AOJu0YzVvMKuMRiTdZfOKCy+/iG7mLWLN2jyw9MiXAerCZUNiXW/lKJ4
+	SMjKXH8NI1sdQdZgtr/wncnrLJ57ld+IDLmyLCK3D4++sHIIOMrUl2T1Ox9Jebpy0QeH7mgU7qU
+	Hh8VkLJURcWPUgOr130s/SwkRCm8=
+X-Gm-Gg: ASbGncshBqEtDUE1xro/fWoN0dYUJ/m/+VhXodfbMPIX73NsAk1xjQqAScpepxLZEKF
+	kmmX8QxY4Zk5gwF6PQvF1iwkJ1z0EC819hcyc+g6PHOPzyd8glsGI3ElYV8HwosOjdu4duBwqwB
+	V2R/l9pCF+8o3FvElpUxecMdgLmNDHjXBeKS+SvMRpnUP3oTeA3jCLkJ4kFjyDiB8=
+X-Google-Smtp-Source: AGHT+IHrW5PKeQEDp0a0r+ljMXTdHqx4SsIY3Lt49lIO3TlKoEwST57w3Hw/dVsYtfCoLK6co3qKpVMvds+sdwumiKM=
+X-Received: by 2002:a05:6122:222a:b0:520:af9c:c058 with SMTP id
+ 71dfb90a1353d-52acd7a3977mr904933e0c.5.1745964295676; Tue, 29 Apr 2025
+ 15:04:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250428063635.125879-1-hare@kernel.org> <20250428063635.125879-4-hare@kernel.org>
- <CABPRKS9yTExMW+PdJHnXiftck8dQQcF-RxVUt75M=P2bTnfmHA@mail.gmail.com> <301c144b-b3e1-4dfb-8f11-9aafd56ef993@suse.de>
-In-Reply-To: <301c144b-b3e1-4dfb-8f11-9aafd56ef993@suse.de>
-From: Justin Tee <justintee8345@gmail.com>
-Date: Tue, 29 Apr 2025 14:28:28 -0700
-X-Gm-Features: ATxdqUGxQPnl6gunnh17ACRvTyi3XSbM3bissdr5unB9H7GAAvKULrUh3dz_bHs
-Message-ID: <CABPRKS9JyUQxPMUDhUQgvVfDhMexKrNGc1zLFTHkd9FD4Y_V_Q@mail.gmail.com>
-Subject: Re: [PATCH 3/4] lpfc: enable FPIN notification for NVMe
-To: Hannes Reinecke <hare@suse.de>
-Cc: hare@kernel.org, Justin Tee <justin.tee@broadcom.com>, 
-	James Smart <jsmart2021@gmail.com>, Dick Kennedy <dick.kennedy@broadcom.com>, 
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org
+References: <20250424101333.2908504-1-alistair.francis@wdc.com>
+ <20250429125505.GA13574@lst.de> <aBEPcVursIG8fab6@kbusch-mbp>
+In-Reply-To: <aBEPcVursIG8fab6@kbusch-mbp>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 30 Apr 2025 08:04:29 +1000
+X-Gm-Features: ATxdqUE9I9yRs_Sv0ELYR0FjEo5w0O9A-VsUGc8YEBhKMma9pQyKFOd0PNZ40nQ
+Message-ID: <CAKmqyKO=Fv8g0+EGFG6LAHqMCvXY2BEaD8ujB=h-SmCyQVnWow@mail.gmail.com>
+Subject: Re: [PATCH] nvme-tcp: select tls config when tcp tls is enabled
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, kch@nvidia.com, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, hare@suse.de, 
+	Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250429_143025_228980_1670A204 
-X-CRM114-Status: UNSURE (   9.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250429_150457_639954_C204A41B 
+X-CRM114-Status: GOOD (  16.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,32 +96,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> That should rather be a 'cfg_enable_fc4_type & LPFC_ENABLE_NVME', right?
-Yes, please (:
+On Wed, Apr 30, 2025 at 3:42=E2=80=AFAM Keith Busch <kbusch@kernel.org> wro=
+te:
+>
+> On Tue, Apr 29, 2025 at 02:55:05PM +0200, Christoph Hellwig wrote:
+> > On Thu, Apr 24, 2025 at 08:13:33PM +1000, Alistair Francis wrote:
+> > > Ensure that TLS support is enabled in the kernel when
+> > > NVME_TARGET_TCP_TLS is enabled. This allows TLS secure channels to be
+> > > used out of the box.
+> >
+> > How did the code even build before this?
+>
+> The nvme tls code doesn't appear to use any symbols that depend on
+> CONFIG_TLS, so I guess it would compile but wouldn't work at runtime. ?
 
-But also, something like this to ensure our NVME target driver mode is excluded:
+Yep. It happily builds but then just doesn't work, with no obvious error.
 
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index cf1fbfb15c5d..fdf4568e171e 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -10251,8 +10251,12 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport,
-void *p, u32 fpin_length)
-                if (deliver) {
-                        fc_host_fpin_rcv(lpfc_shost_from_vport(vport),
-                                         fpin_length, (char *)fpin, 0);
--                       nvme_fc_fpin_rcv(vport->localport,
--                                        fpin_length, (char *)fpin);
-+#if (IS_ENABLED(CONFIG_NVME_FC))
-+                       if (vport->cfg_enable_fc4_type & LPFC_ENABLE_NVME &&
-+                           !phba->nvmet_support)
-+                               nvme_fc_fpin_rcv(vport->localport,
-+                                                fpin_length, (char *)fpin);
-+#endif
-                }
-                desc_cnt++;
-        }
-
-Regards,
-Justin
+Alistair
 
