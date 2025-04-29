@@ -4,56 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CA7EC369DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 08:17:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54BA4C3ABA9
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 08:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Bu1BAeBtItlUtuVx8rQ1j5bqaofovsrsW/8C8wQklVk=; b=qV093YBmlIsmCpxogihoqsrFcf
-	T0Re9uszYzy3tZ4iPzuFFbQ37XYpterw+4vUzAw8vLhuQJPFCA1IPryXnuR1bHnpTyCthOjP7p/9a
-	hQkfbCZbs+XR0FfN2CG3XCQp6JKpRHYnCCKacyX5DHMZi4wDgCqgbDKQLJo62cin21mF1D3xHRaqr
-	GkqUYBVxVQjKMuslkpbf7nPntdIUyWMM8Dg86RJGlQNHW0x6dTP+qyYJdX7+5mokpcz1VZo+HIbAQ
-	lTXOEWIMLOSfBWGb2GkLBB94ly+BqUoMpIQM/GnnQ+tZKW4u1Pejd04y96stUH1I+wDlvSlvETq8D
-	FP5eMsEA==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=X57M1LWC2gr1ctDX+GLigE7+LGO+/gJDvHDm3WHaEuw=; b=aU+w4n/6p12bou/eRU4TgCQ8mP
+	3+laggM7xecWBuGlthThtNA5bsPw+ZSNQ1+ZPO91zFNqm163BjMFrt1qePlGqcoDXyQI5Zz8ux0tq
+	FCQ8cL2dr+gmBfweVv+Pct+W9NFktFoHrRm4SleCeIQmJR3NiUw3A1eo8YzzeRhoCinYs+Nawiifx
+	xR/sLohP5zGCeb6eZXCn5ljzoelWES4hqrR2bpK+ZVGJhiFWWOFVqhAd90Io9ZofH4w+bfrORNuFv
+	vcoZrhiB3PaTdD/j23NmWA06QEV8u4JHfJXmu9bvhYkQP8c1s3hYFNMx6Eqz77xUAUUhytsxL4cYT
+	OUI5ZtRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9gA3-00000008thd-3YK6;
-	Tue, 29 Apr 2025 08:17:51 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1u9gA8-00000008tlS-3jFs;
+	Tue, 29 Apr 2025 08:17:56 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9gA3-00000008thA-0ZUP
+	id 1u9gA7-00000008tji-0Pf3
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Apr 2025 08:17:51 +0000
+	Tue, 29 Apr 2025 08:17:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id D3CC261120;
-	Tue, 29 Apr 2025 08:17:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED24EC4CEEA;
-	Tue, 29 Apr 2025 08:17:48 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 85061A4BF05;
+	Tue, 29 Apr 2025 08:12:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84FEEC4CEEA;
+	Tue, 29 Apr 2025 08:17:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745914670;
-	bh=Tbqe598cScBCydjp05DY7PLdFp8LqLyPlqyU2yA3REc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XvPNV4dHt4t+KHlfcxvVvnKx4gOJbzhVWEn1X7efdUO4mmtZxuPfIfD29VTP6gl4+
-	 cAbNNK0nOnzBHqpw+ntGXszO8p3DoDASpa1v/8UiU6o1GIKkiqFyU15ArWN3QAlNRf
-	 F22tjOppuc9vMf58wcy+pNFFpE/NJMkIiI4K2FtwDSEH+x1dTwyEW7mFj3nqZvhZ9Z
-	 krDTl+8dbfPbOsFouNmuni7XajfxXE1p4SOXBZzoEDvPMIupYCPGMYp0FOU9ierYwI
-	 U9pdx0abFGiWOwvEO5JDYZtiq6r2iKZKlrSXi1Wmq8gdrYIyLEnhtr9DNu7IomZ+Ah
-	 Svo88nY0PjrDA==
+	s=k20201202; t=1745914674;
+	bh=edJSsMhUqr4cisTaFnSZ1H0bjTz5DkQL6fFWSMFyh8U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ohmpvakUpztX5HESh2BE4gKM+/a3CLFqkazhxxMOmkYsQsxkzS34yDn8ZCGjMAsvv
+	 BBGsee94EF86TKc7VZSPEc4d8kesD7BH+UuvjTVE77Su/ngPAv1wOq3x+MQyLhM6mX
+	 hJ4rSXGM+pPCUubbE+OI/qHObhfVr190gQ4QLDQCC6wSXDiiE+ufTjdaMNeS/PGdlQ
+	 3ywmY4qLheb4ybZQwxl3lH37LYVhSVEULWTbv994aJ/LorxztkhX3BW1V0zOTOrh2M
+	 +YBqN8/SsbIEe1jjpoycE28nqT2UJQG34AkA7bFgdrAd+3bPFbGpsS8b4p2EDmdLsc
+	 aI8d4Si7N3NNw==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCHv5 0/2] nvme-tcp: fixup I/O stall on congested sockets
-Date: Tue, 29 Apr 2025 10:17:37 +0200
-Message-Id: <20250429081739.44820-1-hare@kernel.org>
+	Hannes Reinecke <hare@kernel.org>,
+	Chris Leech <cleech@redhat.com>
+Subject: [PATCH 2/2] nvme-tcp: fix I/O stalls on congested sockets
+Date: Tue, 29 Apr 2025 10:17:39 +0200
+Message-Id: <20250429081739.44820-3-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20250429081739.44820-1-hare@kernel.org>
+References: <20250429081739.44820-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250429_011755_205937_664D44D1 
+X-CRM114-Status: GOOD (  12.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,45 +74,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+When the socket is busy processing nvme_tcp_try_recv() might
+return -EAGAIN, but this doesn't automatically imply that
+the sending side is blocked, too.
+So check if there are pending requests once nvme_tcp_try_recv()
+returns -EAGAIN and continue with the sending loop to avoid
+I/O stalls.
 
-I have been chasing keep-alive timeouts with TLS enabled in the last few
-weeks (monthsA, even ...). On larger setups (eg with 32 queues) the connection
-never got established properly as I've been hitting keep-alive timeouts before
-the last queue got connected.
-Turns out that occasionally we simply do not send the keep-alive request; it's
-been added to the request list but the io_work workqueue function is never
-restarted as it bails out after nvme_tcp_try_recv() returns -EAGAIN.
-During debugging I also found that we're quite lazy with the list
-handling of requests, so I've added a patche to ensure that all list
-elements are properly terminated.
+Acked-by: Chris Leech <cleech@redhat.com>
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/host/tcp.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-As usual, comments and reviews are welcome.
-
-Changes to v4:
-- Drop check for 'queue->req' as noticed by Sagi
-
-Changes to v3:
-- Drop first patch as it already had been applied
-- Include reviews from Sagi
-- Check for sk_sock_is_writeable() to avoid requeing io_work when
-  the socket is blocked
-
-Changes to v2:
-- Removed AEN patches again
-
-Changes to the original submission:
-- Include reviews from Chris Leech
-- Add patch to requeue namespace scan
-- Add patch to re-read ANA log page
-
-Hannes Reinecke (2):
-  nvme-tcp: sanitize request list handling
-  nvme-tcp: fix I/O stalls on congested sockets
-
- drivers/nvme/host/tcp.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 1c39a307456c..eb4222c5a77a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1361,7 +1361,7 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+ 	queue->nr_cqe = 0;
+ 	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
+ 	release_sock(sk);
+-	return consumed;
++	return consumed == -EAGAIN ? 0 : consumed;
+ }
+ 
+ static void nvme_tcp_io_work(struct work_struct *w)
+@@ -1389,6 +1389,11 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 		else if (unlikely(result < 0))
+ 			return;
+ 
++		/* did we get some space after spending time in recv? */
++		if (nvme_tcp_queue_has_pending(queue) &&
++		    sk_stream_is_writeable(queue->sock->sk))
++			pending = true;
++
+ 		if (!pending || !queue->rd_enabled)
+ 			return;
+ 
 -- 
 2.35.3
 
