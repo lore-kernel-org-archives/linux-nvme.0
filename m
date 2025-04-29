@@ -4,88 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72A59C369DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 16:46:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE0C4C369DC
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 16:46:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ct21xWdxCB9HRUiwxLc9z7fHQwq6ssXoKt/SvcdUbtQ=; b=ngR0XcDb8he0eO/L29IzA/+FXP
-	W1DQ2WBqgM1Ceq1weJhgYruz+6EmZwxjdZP2KD7Q8mSEwv0Ltowu5FweuE4oq7dQ17UnFJLfBafIv
-	Um8xSv6VicEjSnxFttx3emjHjkxbIQWGgCykzGuSZBNsXr7iyt2sKH2cWWXkE0IcZQxn3xvhLYLJS
-	5gjjASWtsEOQZ+cFI5tmf51bdS4G4f77CyDDYr7E+EMe8RqhBkwg3qUN+SklGz8Y6iiFfCncEUXQB
-	8Ii0yZFnjUzSOjrUziFFnsPstgb6nHFOdjSRr2lmXDTJt9CX1CbsKRzCwLfvkaCBQXaRfsLetWEB3
-	u6CYO5Vw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kVHP1h0FhA8vh77DKQEGNILt5KJpnumqkzmu5LvDnek=; b=X6T4IoeVBS1CgDGLpdzrUA2rU2
+	gtRipNJ4GEmS1WfYQvgHsDEpuuwZ/Fyf/RFcFIC/HjIbLqf78uORSN/OSC9ds7VAOrZ4TpmlYtcH7
+	8/7V6OhT7mQxBo/NT5mL7WN9a4dloKdNgjM7OTEcF3hkjxX8XJerCsjeObuiEt+ayCoBQni5+Xb2+
+	BgrFVKUrFMkOtQ2lnG08ZOB5eUzPUXzpnP1MW8KlK7r0IDqNRV6UsMBM7ig6Eld+P2iib7rZA92Xs
+	dSGxmbcIs32Kq3ojEyWisJF76Qnw/VayUKIMJeb+KwDY2OL2X/ltFX73nQ2W3WNOtz3ltrzQVgKxj
+	KDXw6iSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9o64-0000000AIXW-1ywM;
-	Tue, 29 Apr 2025 16:46:16 +0000
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
+	id 1u9o6Y-0000000AIxL-1QZM;
+	Tue, 29 Apr 2025 16:46:46 +0000
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9lmp-00000009w8A-0aXI
+	id 1u9nzq-0000000AHkX-0Qnp
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Apr 2025 14:18:16 +0000
-Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-3d93c060279so15237425ab.3
-        for <linux-nvme@lists.infradead.org>; Tue, 29 Apr 2025 07:18:14 -0700 (PDT)
+	Tue, 29 Apr 2025 16:39:51 +0000
+Received: by mail-io1-xd43.google.com with SMTP id ca18e2360f4ac-86135ac9542so897039f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 29 Apr 2025 09:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1745936294; x=1746541094; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=purestorage.com; s=google2022; t=1745944787; x=1746549587; darn=lists.infradead.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ct21xWdxCB9HRUiwxLc9z7fHQwq6ssXoKt/SvcdUbtQ=;
-        b=fo/zSy59NfoqP2bpSChHhP8MBjEQCLQqQdjUjU2LgWVC89dPHCd+gwhLwuV7MpP7pE
-         zMJpqZ0WPqRlBDZT1E1efVziGmSWwN+Iz7vRNgeXXzdJxbZFQZuR+N/hE4XZjMdSGTsf
-         cKoUPrh70A02pZbP+xur7lzYpO50/8plmMeIkg4xCcdbpKLvYEZuzlnXrDZxPxv/PUzH
-         O/LIr4yQhBq66TsLuuKni9WEg8QwyxkmohXOSyuSCZ36zFj67mN1PZITZkhVsNPO+dZe
-         ElJl3OL+lfsPUamit6Zvw3LLXt09G7bQwriLuIS4htVOUH+K+J1NeXhkTmbT1xoU1tF+
-         EvMw==
+        bh=kVHP1h0FhA8vh77DKQEGNILt5KJpnumqkzmu5LvDnek=;
+        b=FceozPZIH02N+024WYSj0dSZzFuE7jvN14iCrFTkmRkwyhP+6Di1l/4FMjkxr+MZXq
+         xPOHPp9tS5PUIzgQIbTA7ZgG1HZFX9WcEVVJQ27HOS7DWG3esYayHXmOgFVXFUZ+2Hea
+         f4mb//7oE/jK2JDedQIlE7IjKKpdoBgF9GhUHLDubJmSUMalQEPuhp7mcyWQR/domWGw
+         +PIROmZj6eI8Reqc1LZAtZ7axwWi53DQvFqYwOfnHEduVG6zREk41m/Imw1yvtAHd1af
+         0sbMb3z4NMvwQ2HbhGryZIpGVgbVgRDds4TEkrDemUEFfTf8vbAlhzyc3pWtpYUUcZPV
+         Ttrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745936294; x=1746541094;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1745944787; x=1746549587;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ct21xWdxCB9HRUiwxLc9z7fHQwq6ssXoKt/SvcdUbtQ=;
-        b=wGD3jTB8KugKwcY9jcPuJrbZCWEN8aCfCdd4T4jDWlOwOw4BmuuHqPiTF884JlJTJl
-         s3e6vkuCygRE0h/wfN6ieS5x+Nis+1F8EnX+p5GTL82DbTDkc6Js3knrPW4VcmQrnQNs
-         CrGn8u2mV2xqHc4b0cSMHk5fw9UD7KwvUd38qoPEXYehvZ+lBBtMFL/cCaF9S6amVcZj
-         ZpaOrcZDBNsSLllB9gHm5WqTip25hBLX1mELejPAQUPuLSZD3uX6xUQIPs2baOA/pShw
-         ElnIaF49RFArUVKJiBrpE8meOOPbNhJ5QEiW6J1PYknlEsnac9uDwJt14fg8i7vc43Mj
-         SAdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCpIRjOfda1qmIrgh2amhuOLDeviJ0Wit5eedR7Gymv4W9PsWPjR62H4c8lyq0uMe0U71T1SdWWU6c@lists.infradead.org
-X-Gm-Message-State: AOJu0Yynsi/a3VZ0pDnYtM3QbTxCoFUO7/Xad3Eg9EEClKBqugjkdvZc
-	iezoxBNDEYs2eqqUSH95b4c0sOH3hx+0Rx3hS6DJb4Q10AKK6SF4krJGPDCqRKk=
-X-Gm-Gg: ASbGncsSOOYtbfiVNQilhMMLjDn9fxNlkIbMaMvLC57QDVxoRi3xwFcrN8cPZWBuZWP
-	5YT3J2Kv8Pu/qcVB8XfUB/98QD1Mb4tl1/oj+LxbmZY3NxE180RbpCRXN60gf82AqQFy1fSzrs0
-	t4iNJmgKclZiSTraGrfzh/Fdb97Pc2s4EZh+yjRkX7tCet7x9K2YzXLjqeZnksYRVIEmcHDmj2e
-	pKELajT+r1A71dprHN4pWF8JJ7NLVH+5vSop2EY9kUms0DzD9izsd/I1exRRYfu+3aNgHFB4J9F
-	xRk5BnQUDYxq0WbEGUTGiSV+ATQLP4l5Qvn3rQ==
-X-Google-Smtp-Source: AGHT+IHuiCJGsqae9ZdX+4qg1+WYrhBCWzNGXs395/7RKh0IZae2mEXWpmr4vKGMEWDLTxiPRMPSxQ==
-X-Received: by 2002:a05:6e02:1a0b:b0:3d8:2197:1aa0 with SMTP id e9e14a558f8ab-3d95d274128mr35517885ab.11.1745936293716;
-        Tue, 29 Apr 2025 07:18:13 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d95f2b4d6asm3520465ab.24.2025.04.29.07.18.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Apr 2025 07:18:13 -0700 (PDT)
-Message-ID: <061eef36-4a3c-42e8-95c7-1b45d00844c7@kernel.dk>
-Date: Tue, 29 Apr 2025 08:18:12 -0600
+        bh=kVHP1h0FhA8vh77DKQEGNILt5KJpnumqkzmu5LvDnek=;
+        b=S7OtqOWeIG95F23JeJyAog7LZgU+oB+6ozL51f44XylEMDXb/9s5SlWqc1QxApmE+n
+         KF/2t2uERrRYty1v301s3TboQmFDz+LdCcBajyn/NPSt125obg2W6xnllV/2yzefwPmK
+         0DzoXcn0gVWi/DS7EsVptJvnN4lIFzRrFFKBNo9dQ8TSJcpSTnq9YOOzlbP36wHgvzgd
+         zY1afRAdaeXsK7Qri3buK5ztJjI80aR/kCO+RncNW/LIKHElYGx7pRZV+Vd3ZvgV66Q+
+         vtI9kpvkMTZOvc7g8PE5heNew4acFLeXSWd05gR2XuQDatHtjvmVvPnhQcxrUiw0Pa9B
+         phQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVnPVNKrj6saBI1WfyXyqGtT2ZDL0sMcMTAPeH20U2dG6cP4MSQdMiysdHc0BB+Fik7EszuDZDGHIuh@lists.infradead.org
+X-Gm-Message-State: AOJu0YxtEgZjVKWSi43RWfi+LC9VKd2Hs+/oBy+9mt8lSPnfjcrnWbHL
+	xWXQBeA/PZT2q1dk/3z8WhJE9VTRVdjagOCg+q8zeUQLsyQ3f0z6f5aKw5SRRCQ=
+X-Gm-Gg: ASbGnctoXRekYviaw6kS4sKV6SeypJ9wIZTvL1IlujIdIQRG/idXn7MoeG8Pv9B7ibE
+	03GAqqZUijmcygMckvCu4IXO8jxtE3IkYPwiHg5KNJHGoyVLseDJ5hgTjjHqnTn7E8AWwhvga7p
+	K611AT62jzbaNt3QDsVHvT1lLKGqwkvLnlItK8T1RmgaPwsDvSM+IcB0lvJ9v1ekAocaET5KL8O
+	+a8tAg+PUu8ViJgKowccVeyQEdnA2QOnzF7NpRoZKY2dREf2H35E5LmY764gH8Uai7h6b4Iv5zB
+	x7XQVx1/23n+F5W+FYxowJA9r/cnJLcrSHy2WZ6XWqA3zwdo
+X-Google-Smtp-Source: AGHT+IHIRuRCn5egZBsOPgCsa0klPEqz/M5zuoaBUYj+b9wi0hp8Qj7ANdB4KHlWZkpvOWGbx5p0cw==
+X-Received: by 2002:a6b:e706:0:b0:85b:5c9a:a9ce with SMTP id ca18e2360f4ac-86489d5e7a0mr441239739f.6.1745944787611;
+        Tue, 29 Apr 2025 09:39:47 -0700 (PDT)
+Received: from purestorage.com ([208.88.159.128])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f863149aacsm351917173.111.2025.04.29.09.39.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Apr 2025 09:39:47 -0700 (PDT)
+Date: Tue, 29 Apr 2025 10:39:44 -0600
+From: Michael Liang <mliang@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Michael Liang <mliang@purestorage.com>,
+	Mohamed Khalfella <mkhalfella@purestorage.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/1] nvme-tcp: fix possible data corruption caused by
+ premature queue
+Message-ID: <20250429163944.tvyrxt7z6c55abk2@purestorage.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-tcp: select tls config when tcp tls is enabled
-To: Hannes Reinecke <hare@suse.de>, Alistair Francis <alistair23@gmail.com>,
- hch@lst.de, sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
-References: <20250424101333.2908504-1-alistair.francis@wdc.com>
- <a2aa71cc-b30f-4d48-aa1d-9058fcdbb6d0@suse.de>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <a2aa71cc-b30f-4d48-aa1d-9058fcdbb6d0@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250429_071815_455135_2D1A7D8C 
-X-CRM114-Status: UNSURE (   8.59  )
+X-CRM114-CacheID: sfid-20250429_093950_166521_6F8366C1 
+X-CRM114-Status: UNSURE (   9.17  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -101,17 +98,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/29/25 7:17 AM, Hannes Reinecke wrote:
-> On 4/24/25 12:13, Alistair Francis wrote:
->> Ensure that TLS support is enabled in the kernel when
->> NVME_TARGET_TCP_TLS is enabled. This allows TLS secure channels to be
->> used out of the box.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Changes in v4:
+ - Change subject and add "Fixes" tag per suggestion;
+ - Link to v3: https://lore.kernel.org/linux-nvme/20250424161438.g2fyo4ozvburf2rh@purestorage.com/
 
-Fixes tag, please...
+Michael Liang (1):
+  nvme-tcp: fix possible data corruption caused by premature queue
+    removal and I/O failover
+
+ drivers/nvme/host/tcp.c | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
 -- 
-Jens Axboe
+2.34.1
 
 
