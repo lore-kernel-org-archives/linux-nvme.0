@@ -4,107 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 895B5C369CB
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 07:18:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CA7EC369DC
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Apr 2025 08:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7aV03GQwtdoYoVExI6iFcE8tGIHoJ5rouNEh9AQYfK4=; b=zu5CFBy3QTXwF2hLoqcL/Q3WJj
-	PEp6qmDKsWHYHucJuAhiQzrKkcyekbznAx/j5VvbETRXufZVkFzVajXUwTvXBdyr36IooUUnE2sHw
-	ep7fLu79512qWFleAvQbCrLpcEkZgHbUtryLahkE8MFZR3g7OH+0y8I1f/dvWPEh1awhR8cnhUhJf
-	sNrD7kA7FkxN3jIwXrARi+2EdJyY//8WOOfyzugHqbmV+LQfSkkiZQ16g971RARB1A321SInPek9d
-	WDLUVDoKdlhWSyxpmf7nPJgdvPyKGJC1/L6X939QHobmojG4EXNae6a6I7Rri8/8z2+K62TplauXK
-	FLlGi4Tw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Bu1BAeBtItlUtuVx8rQ1j5bqaofovsrsW/8C8wQklVk=; b=qV093YBmlIsmCpxogihoqsrFcf
+	T0Re9uszYzy3tZ4iPzuFFbQ37XYpterw+4vUzAw8vLhuQJPFCA1IPryXnuR1bHnpTyCthOjP7p/9a
+	hQkfbCZbs+XR0FfN2CG3XCQp6JKpRHYnCCKacyX5DHMZi4wDgCqgbDKQLJo62cin21mF1D3xHRaqr
+	GkqUYBVxVQjKMuslkpbf7nPntdIUyWMM8Dg86RJGlQNHW0x6dTP+qyYJdX7+5mokpcz1VZo+HIbAQ
+	lTXOEWIMLOSfBWGb2GkLBB94ly+BqUoMpIQM/GnnQ+tZKW4u1Pejd04y96stUH1I+wDlvSlvETq8D
+	FP5eMsEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9fEl-00000008inp-3tkH;
-	Tue, 29 Apr 2025 07:18:39 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1u9gA3-00000008thd-3YK6;
+	Tue, 29 Apr 2025 08:17:51 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u9fCQ-00000008iUt-2SEi
+	id 1u9gA3-00000008thA-0ZUP
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Apr 2025 07:16:16 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53T4EShX006492;
-	Tue, 29 Apr 2025 07:15:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=7aV03G
-	QwtdoYoVExI6iFcE8tGIHoJ5rouNEh9AQYfK4=; b=e0QjWCjj8SjrU0luhHqgIn
-	/4DkFA+9mLNDhN93lovypz4/ublhcm7UQLVKLQSrqxhTKxj4+C/abBgFJcDQJ6UB
-	ThNd9npmXB+oyg4ikenxsIyp1pJr7RCm7pXJmHddL4rHfueP+dKL4Q/qQADduRDi
-	/Gey8Ii+4KyNOpWdXVpdLND9r1g4Q2EgS1QiLYTZMkXHHsYIBcLVVtmbSK7tWXqR
-	7K0lTQxhh0FMdHSZj72zlr9lEU8vz0eNMOYPWd4xpIEqo/KRo44xtH1JoCSOJ2yx
-	QnzNFIRHV9dhkdCn0Vn9lIO0tFzb84vkY35k1o/cWHkwacKjYW2stXwPU+GsSAnw
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46ahs99rms-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Apr 2025 07:15:56 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53T53O8f001791;
-	Tue, 29 Apr 2025 07:15:55 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 469bamj222-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Apr 2025 07:15:55 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53T7FsUb10551976
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 29 Apr 2025 07:15:54 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 554355805A;
-	Tue, 29 Apr 2025 07:15:54 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EA8BD58052;
-	Tue, 29 Apr 2025 07:15:50 +0000 (GMT)
-Received: from [9.109.198.140] (unknown [9.109.198.140])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 29 Apr 2025 07:15:50 +0000 (GMT)
-Message-ID: <b9bb4b91-a4a0-4cbd-85ae-969efffe0951@linux.ibm.com>
-Date: Tue, 29 Apr 2025 12:45:49 +0530
+	Tue, 29 Apr 2025 08:17:51 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id D3CC261120;
+	Tue, 29 Apr 2025 08:17:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED24EC4CEEA;
+	Tue, 29 Apr 2025 08:17:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745914670;
+	bh=Tbqe598cScBCydjp05DY7PLdFp8LqLyPlqyU2yA3REc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XvPNV4dHt4t+KHlfcxvVvnKx4gOJbzhVWEn1X7efdUO4mmtZxuPfIfD29VTP6gl4+
+	 cAbNNK0nOnzBHqpw+ntGXszO8p3DoDASpa1v/8UiU6o1GIKkiqFyU15ArWN3QAlNRf
+	 F22tjOppuc9vMf58wcy+pNFFpE/NJMkIiI4K2FtwDSEH+x1dTwyEW7mFj3nqZvhZ9Z
+	 krDTl+8dbfPbOsFouNmuni7XajfxXE1p4SOXBZzoEDvPMIupYCPGMYp0FOU9ierYwI
+	 U9pdx0abFGiWOwvEO5JDYZtiq6r2iKZKlrSXi1Wmq8gdrYIyLEnhtr9DNu7IomZ+Ah
+	 Svo88nY0PjrDA==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCHv5 0/2] nvme-tcp: fixup I/O stall on congested sockets
+Date: Tue, 29 Apr 2025 10:17:37 +0200
+Message-Id: <20250429081739.44820-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCHv2 2/3] nvme: introduce multipath_head_always module
- param
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, jmeneghi@redhat.com,
-        axboe@kernel.dk, martin.petersen@oracle.com, gjoyce@ibm.com
-References: <20250425103319.1185884-1-nilay@linux.ibm.com>
- <20250425103319.1185884-3-nilay@linux.ibm.com>
- <38a93938-8a9c-4d6a-9f74-af1aa957fd74@suse.de>
- <a33c691a-d4f6-4cd8-96e0-17e2e4078d37@linux.ibm.com>
- <89f3680d-442e-47cc-822e-f00f474dd597@suse.de>
- <cdbd9209-420e-4c1b-a0f4-30b2c7e9cfb3@linux.ibm.com>
- <10ba7fa9-15e9-48b9-a8ac-e7c3982a211c@suse.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <10ba7fa9-15e9-48b9-a8ac-e7c3982a211c@suse.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=LuKSymdc c=1 sm=1 tr=0 ts=68107cac cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VnNF1IyMAAAA:8 a=suXFO0RFTPWXlh4RyD0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: ZmxwjD5ODKJdn-BgocbfxI1kII73leZd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDA1MiBTYWx0ZWRfX9/POqAjCvvWr hmBZLK6cPmAVT7rALa09TiWMZX6RU5zOhxL8ycnTC8DrAuUQOHq5hJTnwOmCJkEZ7KCt8T1PEX+ smQIeEqQNZO8DG5Ow+pDOKir2WH3ZikWTmj6BgKwckp5kQbujN0qMQuaRcxCUPYxjERo2RMuGuG
- fk7M6qtU3R+4vIHy90zKsN2gZKCSrRO0J2ygv5N1DenrTj/tHQKl44z8PzYmzoSujqR6YqGyGil AWG2RfBm4zkurz/FyKwbTmM0ngnw3SXg5/EMrcYACvd+UInBqhr5ByO3mMBRMBLLzAJYGou1rll 11WYbL3VbZA+0McX1N9MPbKYD1njG3dR8qExf5pMyQGn3BShRj+6lOlrfFCPSCyRmAFkYw2gpTz
- 1O+/P/7C7E3kJFO2IosTz+eyOCgKjniKgk3tVGHXHya48OOOExRA0XwyM3hWatw1QAzcXCr4
-X-Proofpoint-GUID: ZmxwjD5ODKJdn-BgocbfxI1kII73leZd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-29_02,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- mlxlogscore=999 clxscore=1015 spamscore=0 lowpriorityscore=0
- priorityscore=1501 bulkscore=0 mlxscore=0 impostorscore=0 suspectscore=0
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504290052
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250429_001614_638052_15E5AA85 
-X-CRM114-Status: GOOD (  25.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,92 +68,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi all,
 
+I have been chasing keep-alive timeouts with TLS enabled in the last few
+weeks (monthsA, even ...). On larger setups (eg with 32 queues) the connection
+never got established properly as I've been hitting keep-alive timeouts before
+the last queue got connected.
+Turns out that occasionally we simply do not send the keep-alive request; it's
+been added to the request list but the io_work workqueue function is never
+restarted as it bails out after nvme_tcp_try_recv() returns -EAGAIN.
+During debugging I also found that we're quite lazy with the list
+handling of requests, so I've added a patche to ensure that all list
+elements are properly terminated.
 
-On 4/29/25 12:31 PM, Hannes Reinecke wrote:
-> On 4/29/25 08:24, Nilay Shroff wrote:
->>
->>
->> On 4/29/25 11:19 AM, Hannes Reinecke wrote:
->>> On 4/28/25 09:39, Nilay Shroff wrote:
->>>>
->>>>
->>>> On 4/28/25 12:27 PM, Hannes Reinecke wrote:
->>>>> On 4/25/25 12:33, Nilay Shroff wrote:
->>>>>> Currently, a multipath head disk node is not created for single-ported
->>>>>> NVMe adapters or private namespaces. However, creating a head node in
->>>>>> these cases can help transparently handle transient PCIe link failures.
->>>>>> Without a head node, features like delayed removal cannot be leveraged,
->>>>>> making it difficult to tolerate such link failures. To address this,
->>>>>> this commit introduces nvme_core module parameter multipath_head_always.
->>>>>>
->>>>>> When this param is set to true, it forces the creation of a multipath
->>>>>> head node regardless NVMe disk or namespace type. So this option allows
->>>>>> the use of delayed removal of head node functionality even for single-
->>>>>> ported NVMe disks and private namespaces and thus helps transparently
->>>>>> handling transient PCIe link failures.
->>>>>>
->>>>>> By default multipath_head_always is set to false, thus preserving the
->>>>>> existing behavior. Setting it to true enables improved fault tolerance
->>>>>> in PCIe setups. Moreover, please note that enabling this option would
->>>>>> also implicitly enable nvme_core.multipath.
->>>>>>
->>>>>> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->>>>>> ---
->>>>>>     drivers/nvme/host/multipath.c | 70 +++++++++++++++++++++++++++++++----
->>>>>>     1 file changed, 63 insertions(+), 7 deletions(-)
->>>>>>
->>>>> I really would model this according to dm-multipath where we have the
->>>>> 'fail_if_no_path' flag.
->>>>> This can be set for PCIe devices to retain the current behaviour
->>>>> (which we need for things like 'md' on top of NVMe) whenever the
->>>>> this flag is set.
->>>>>
->>>> Okay so you meant that when sysfs attribute "delayed_removal_secs"
->>>> under head disk node is _NOT_ configured (or delayed_removal_secs
->>>> is set to zero) we have internal flag "fail_if_no_path" is set to
->>>> true. However in other case when "delayed_removal_secs" is set to
->>>> a non-zero value we set "fail_if_no_path" to false. Is that correct?
->>>>
->>> Don't make it overly complicated.
->>> 'fail_if_no_path' (and the inverse 'queue_if_no_path') can both be
->>> mapped onto delayed_removal_secs; if the value is '0' then the head
->>> disk is immediately removed (the 'fail_if_no_path' case), and if it's
->>> -1 it is never removed (the 'queue_if_no_path' case).
->>>
->> Yes if the value of delayed_removal_secs is 0 then the head is immediately
->> removed, however if value of delayed_removal_secs is anything but zero
->> (i.e. greater than zero as delayed_removal_secs is unsigned) then head
->> is removed only after delayed_removal_secs is elapsed and hence disk
->> couldn't recover from transient link failure. We never pin head node
->> indefinitely.
->>
->>> Question, though: How does it interact with the existing 'ctrl_loss_tmo'? Both describe essentially the same situation...
->>>
->> The delayed_removal_secs is modeled for NVMe PCIe adapter. So it really
->> doesn't interact or interfere with ctrl_loss_tmo which is fabric controller
->> option.
->>
-> Not so sure here.
-> You _could_ expand the scope for ctrl_loss_tmo to PCI, too;
-> as most PCI devices will only ever have one controller 'ctrl_loss_tmo'
-> will be identical to 'delayed_removal_secs'.
-> 
-> So I guess my question is: is there a value for fabrics to control
-> the lifetime of struct ns_head independent on the lifetime of the
-> controller?
-> 
-The ctrl_loss_tmo option doesn't actually controls the lifetime of
-ns_head. In fact, the ctrl_loss_tmo allows the fabric I/O commands to
-fail fast so that I/O commands don't get stuck while host NVMe-oF 
-controller is in reconnect state. User may not want to wait longer
-while the fabric controller enters into reconnect state when it
-loses connection with the target. Typically, the default reconnect
-timeout is 10 minutes which is way longer than the expected timeout
-of 30 seconds for any I/O command to fail. 
-You may find more details in this commit 8c4dfea97f15 ("nvme-fabrics:
-reject I/O to offline device") which implements the ctrl_loss_tmo.
+As usual, comments and reviews are welcome.
 
-Thanks,
---Nilay
+Changes to v4:
+- Drop check for 'queue->req' as noticed by Sagi
+
+Changes to v3:
+- Drop first patch as it already had been applied
+- Include reviews from Sagi
+- Check for sk_sock_is_writeable() to avoid requeing io_work when
+  the socket is blocked
+
+Changes to v2:
+- Removed AEN patches again
+
+Changes to the original submission:
+- Include reviews from Chris Leech
+- Add patch to requeue namespace scan
+- Add patch to re-read ANA log page
+
+Hannes Reinecke (2):
+  nvme-tcp: sanitize request list handling
+  nvme-tcp: fix I/O stalls on congested sockets
+
+ drivers/nvme/host/tcp.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
+
+-- 
+2.35.3
+
 
