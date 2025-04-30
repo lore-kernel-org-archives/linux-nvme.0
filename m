@@ -4,78 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9139C369D9
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Apr 2025 16:11:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3374C3ABA9
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Apr 2025 16:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8QdI9zAXM1EXk6JfijMSDnvKDuolz6Ggda+w8j/WGZE=; b=rkzdyiUQUQGKTrEeZZfc78JJgV
-	6QYIWDQVzBVejqbSUTR81Xq9iUNrLKy3kIS5NQ6kl+LcLHaclbrPt9qybWX8befEwzuQg3jp5gX8q
-	tw9UFWTqdaGZHXhbonbAsFmg3nhRfKKZoyf+iI1n5MhCLWEhIjGPiF4djuxwkmCRfAT7wFmso2dw1
-	XwCG4DEPG37QPsN7uYNqkLFx2WWtdF/7ZOdCiqj9cdt/UVNddOyUI6UAEv2w93m+4GA8kf4B66FtZ
-	xPql20Et3V3q+mL9tJ0pDj3QIInEMIy85roYWtskkSW2z02k0qhVn3HVlDEZR7tjYFEL+Zzeu3xri
-	nZSXBMTw==;
+	bh=iJJqUV5zTq4SuKAwpTIhgwruln11bq0nuEzvblXoSi0=; b=WO8ev55PKVRnUp3bvOhfBy7WnS
+	OyRIrSJxyC3dhhZw/sMHEZp8apA2FII614mVgkmnmgpCm1CCcO07TEK8+gHNt7NDrAuT6dJbp48y2
+	i4y3+hrQm+j/Wg6tVOYyrqb2Nk5saFE6IHORR0ALQ/H4j/Hxf4tUdH/5TOFDTFtuVLnf9f7mOpHx+
+	qm1jKIw7GtizcFkv18vapJ6HFf5PxcAQWuIl4NtygYygkzRlIqaKAOBY907yFx/BppPWxrQ3wZoAB
+	ad0r+2rh1V9IRYFjC4qD0K2j/hT8bymuQWIYS+l7YFpNdlIjLgSxWcUQgWpwCDrhs3WiaZhRDUrvt
+	hk6nbfUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAA1r-0000000DOK9-1eou;
-	Wed, 30 Apr 2025 16:11:23 +0000
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+	id 1uAA32-0000000DOWp-0G9B;
+	Wed, 30 Apr 2025 16:12:36 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAA1o-0000000DOJk-2jSg
+	id 1uAA2z-0000000DOVp-34uS
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Apr 2025 16:11:21 +0000
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-223fd89d036so3625ad.1
-        for <linux-nvme@lists.infradead.org>; Wed, 30 Apr 2025 09:11:20 -0700 (PDT)
+	Wed, 30 Apr 2025 16:12:35 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-739525d4e12so98280b3a.3
+        for <linux-nvme@lists.infradead.org>; Wed, 30 Apr 2025 09:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746029479; x=1746634279; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1746029553; x=1746634353; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=8QdI9zAXM1EXk6JfijMSDnvKDuolz6Ggda+w8j/WGZE=;
-        b=DjhoC6IexVL8Fd2ViNNxu/6aCPCUjnKB4nrb+iVcVd5yo5vXY3/cwO2+MNpl1NkWkN
-         hL9TrrvXxKXTD7OrzgjXpf+cQCThUbm88d1zO3te+sZm1T6zwj3AlmvT00QF9zqSZoFy
-         W71EfEQH2xRkXXebj2jxkNjo7+RzHkBnQdvQL/zAbaRbwl2/d9/jbp6ofO/v26kwOtYY
-         h0fWRIxKnjhg72Larl7epa/LpV6W4nMpcnP90yTvkDmvW2CLKWviTywV6YBiPnq8fRFE
-         nOB/V1+SYYkUBjqq5Cg+AjYhcwIvvOioCF/afn7VMl0UmX7WaE6B2UU71olNqf7wNLUc
-         5tJw==
+        bh=iJJqUV5zTq4SuKAwpTIhgwruln11bq0nuEzvblXoSi0=;
+        b=UIjLKW2euksfr6l+FzjYaBjbFei7p+ou5kdjy1yFueEg7D+dp/ofCfKlAObDrVpp0X
+         GWpS3qlP34baR/tl578iOIldpCmCVMGR5dYfJJby/DctdZJl4hgCJCLWXptjE+LfAQD9
+         1xGIKzz8PPras12QYnNmBkHWyMLfUSZ+QiGkTh23v6YvXra1WF0BmUPo7IhhD0QuAHp+
+         T33DQlfVxyHTW94Gaw4EtwRwCdc+8zyInZ+XDNnATaHwxQJ+qk9/j0M5P5NM41wq53gY
+         SFwJQlnleXhkyp/lQqAbpK3PKd3KPQid9UKT7mqw1CkHUuiAyKQu8RLELHF2TjCY7GyO
+         cg2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746029479; x=1746634279;
+        d=1e100.net; s=20230601; t=1746029553; x=1746634353;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8QdI9zAXM1EXk6JfijMSDnvKDuolz6Ggda+w8j/WGZE=;
-        b=njKeF7pps/ctYG3U3o4YeBWQIfKAT9LjZMqNxLmrSZ3nVzNolU5LffGReK1GTQKPoN
-         X0TV8xS/bPdyQRuHGLyjYfKE12MEae/fyAlnKl478BLNO6cTi7JUVYy/GO6LMa1Yg0hD
-         6Y98NZL1wOX56URQzIch0p6CqZHRNG/rOeXef+Aph9+2D6YwlOjK9RvEaTfnze/Qc7JK
-         swCnghtsAHYvbJVFP6JSn7rofzMtd23tml3xYQ23WYt5IY4/pgBDc2HymXTsN2zI9w+q
-         7JSv3pAW5xmgIG6Dev/zzI/sD4dDgGUmcTDEqwN7vKqijJmCgnhZ1FkNHfSjubSTulDC
-         JZ3A==
-X-Forwarded-Encrypted: i=1; AJvYcCW1AJEQCo2qvxMRhNd34q+UHpnRW1ZUCnpszbqN0PkaRqWP86050hAB2P1vQbLOwa6rORaRbcDSR5Ca@lists.infradead.org
-X-Gm-Message-State: AOJu0YzQd3aQH38x8ZaaVaqwvp8z0vLUFhqkmPmm1Wp4w8GEeicaUxTS
-	JwQS/w5nB/+7Ws133DT9KuQKI5nAqnMG5GdyrCK70/k88fhPBp64
-X-Gm-Gg: ASbGncubp7x+O4vxiJsgV/xx5fQXN6e3ZKe8hid5CoEhQOzQ71crI4G+rYK+wGc4WGp
-	uX+CDw3mwxP7dgO1+siGfnfiDEjL9qztOBrVEZxggZPFaLRf0VuDJPxtB5Yv9TJf2q7R040Yme0
-	QM4oUCCcrWFBeRu1PWAQhcUj7xpUkvACKRiervERNRqkT6sXrOfQFhTNy+SzPJQW7pLUDKAC5KL
-	s47oOYia2fGYHOnUi9IWCQSuW98WknUkFc/9y6kVw1lGMN7tkXqMLWYvCZO40N8OuNgcJd4zBiM
-	91Lm+XixMWv2F8z7HfUhYVGLudSJx0Z7l7ZswxcYKAGcFc+5mYwI2t4eamxcYq7aiFqq9/NfumY
-	F0g0QLbFMuI9dgA==
-X-Google-Smtp-Source: AGHT+IE3LWuBObioSz5WRjpUQmOLiurHOMha6G61MD9ycBRKzq1jJmOJGa4KadiZiBM16zRrb9XsyQ==
-X-Received: by 2002:a17:902:ccc3:b0:215:9bc2:42ec with SMTP id d9443c01a7336-22df5838ce0mr44920465ad.47.1746029479561;
-        Wed, 30 Apr 2025 09:11:19 -0700 (PDT)
+        bh=iJJqUV5zTq4SuKAwpTIhgwruln11bq0nuEzvblXoSi0=;
+        b=SifRtA9HWQaIkzT/zm6iIdbMfVu/nr9Hto8aAtPO5BZIpqTFdQvrc27J4ZIoLJSxnu
+         C+ZLO2spoDvNMrDb5qTOg/7muV3ANfkEw5j7oKp/3Yt9GZNHIci9jYIRpIA7uGn94Xm+
+         tz7aQtcL2A1q+i/fKQw393tc6Ydhl9K95JiB+xACUOyEcUL8Qr0DfD3FruuJil+rCOWt
+         jtCJGcXQ7byNHdHzIgFzcL178xKR8cWpRZJ5dLtnkaUhxFF/VU2+WjYN9XQo9/8KWHIt
+         woRnfj0oAZCAqsfcIO0kt/h/XKJJsuvezWE/tiSiehRnbfun754qKXJveDdJqCt/BlhJ
+         xiWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaMFNGw8CZUm3laYfotbU/awQjD/TFnS9Q8sH2OUNnByNZEaeI3MNPgjJLFbdTfIO+OpY5uGeiwpOW@lists.infradead.org
+X-Gm-Message-State: AOJu0YwyogZU0o7wOGbS9vJNy4ywGsWActRaS0DHHDs/OR3gCKIc6lLs
+	Q4V2y0IIOo/xUCAPY3n2RbuPA2CD7Q0cRhyxSGoyRX8WWUVXPWFL
+X-Gm-Gg: ASbGncsYxaMScpys068z79FwFHn/NFVDf8vYr/FTA/OQ0++8Z+A0dNbFxs9SY9OB33W
+	GQ8+OXERn53+aQ29UncqNF9obGvTpILzQzLDlNjJc3c6Dhc77GmaFkdmk0+qQGi8MeDGSUyDmA0
+	4Uxn/0dRAPI3xyEMYXBDkHBdLNda5jzehMhzaSwAEp1OI0RFcg3sQ4QX44l+3vDPrqBwLaNH1un
+	x8q2CSzUso9oQ77tJ1AqNwZ2EUMLYduSncsR5vLaPcRUG9cArPeKcp+F7HuQo6rAotqCILcB8yS
+	QbtcW7UYL4Tf+v55UPiGdBa9TnhnJOBX0D+Gyk+6qdKG1qolP8k6pU1h1iGLdnShKOxHUmZRXzN
+	H8XEQqgQfe9i85Q==
+X-Google-Smtp-Source: AGHT+IF1QxhqmtfoW+P880p2hcKc4dZLjzz4WUl32BwIYhDdro/3mUFzvKg09FJiMUNCnseO1GodKA==
+X-Received: by 2002:a05:6a00:a22:b0:737:9b:582a with SMTP id d2e1a72fcca58-74038aac069mr6336536b3a.24.1746029552601;
+        Wed, 30 Apr 2025 09:12:32 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4dbd230sm123543045ad.77.2025.04.30.09.11.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74039a5c244sm1899143b3a.134.2025.04.30.09.12.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Apr 2025 09:11:18 -0700 (PDT)
-Message-ID: <2ec928ad-cd84-4964-9f7b-c414033412cb@roeck-us.net>
-Date: Wed, 30 Apr 2025 09:11:17 -0700
+        Wed, 30 Apr 2025 09:12:31 -0700 (PDT)
+Message-ID: <d8fa9332-9475-433e-a203-e376845dcc66@roeck-us.net>
+Date: Wed, 30 Apr 2025 09:12:30 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] nvme: only allow entering LIVE from CONNECTING state
-To: Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>
+To: Keith Busch <kbusch@kernel.org>, Daniel Wagner <dwagner@suse.de>
 Cc: Hannes Reinecke <hare@suse.de>, Daniel Wagner <wagi@kernel.org>,
  Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
@@ -89,6 +89,7 @@ References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
  <253e0551-d4d7-4ffe-8842-daecf1f6c753@roeck-us.net>
  <aBEdkUky_-bfgISv@kbusch-mbp>
  <8121b8d6-2b30-4086-b2fb-bce354f203dc@flourine.local>
+ <aBJJQoOBhaXj7P36@kbusch-mbp>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -134,12 +135,12 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <8121b8d6-2b30-4086-b2fb-bce354f203dc@flourine.local>
+In-Reply-To: <aBJJQoOBhaXj7P36@kbusch-mbp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250430_091120_699453_78A0DE57 
-X-CRM114-Status: GOOD (  24.64  )
+X-CRM114-CacheID: sfid-20250430_091233_777424_58C40C81 
+X-CRM114-Status: GOOD (  23.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,71 +155,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/29/25 23:43, Daniel Wagner wrote:
-> On Tue, Apr 29, 2025 at 11:42:25AM -0700, Keith Busch wrote:
->> On Tue, Apr 29, 2025 at 11:23:25AM -0700, Guenter Roeck wrote:
->>> On 4/29/25 11:13, Keith Busch wrote:
->>>> On Mon, Apr 28, 2025 at 03:21:18PM +0200, Hannes Reinecke wrote:
->>>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>>>>> index b502ac07483b..d3c4eacf607f 100644
->>>>>> --- a/drivers/nvme/host/core.c
->>>>>> +++ b/drivers/nvme/host/core.c
->>>>>> @@ -4493,7 +4493,8 @@ static void nvme_fw_act_work(struct work_struct *work)
->>>>>>                    msleep(100);
->>>>>>            }
+On 4/30/25 09:01, Keith Busch wrote:
+> On Wed, Apr 30, 2025 at 08:43:04AM +0200, Daniel Wagner wrote:
+>> On Tue, Apr 29, 2025 at 11:42:25AM -0700, Keith Busch wrote:
+>>> On Tue, Apr 29, 2025 at 11:23:25AM -0700, Guenter Roeck wrote:
+>>>> On 4/29/25 11:13, Keith Busch wrote:
+>>>>> On Mon, Apr 28, 2025 at 03:21:18PM +0200, Hannes Reinecke wrote:
+>>>>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>>>>>> index b502ac07483b..d3c4eacf607f 100644
+>>>>>>> --- a/drivers/nvme/host/core.c
+>>>>>>> +++ b/drivers/nvme/host/core.c
+>>>>>>> @@ -4493,7 +4493,8 @@ static void nvme_fw_act_work(struct work_struct *work)
+>>>>>>>                    msleep(100);
+>>>>>>>            }
+>>>>>>>
+>>>>>>> -       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+>>>>>>> +       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING) ||
+>>>>>>> +           !nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+>>>>>>>                    return;
+>>>>>>>
+>>>>>>>            nvme_unquiesce_io_queues(ctrl);
 >>>>>>
->>>>>> -       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
->>>>>> +       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING) ||
->>>>>> +           !nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
->>>>>>                    return;
->>>>>>
->>>>>>            nvme_unquiesce_io_queues(ctrl);
+>>>>>> I would rather have a separate state for firmware activation.
+>>>>>> (Ab-)using the 'RESETTING' state here has direct implications
+>>>>>> with the error handler, as for the error handler 'RESETTING'
+>>>>>> means that the error handler has been scheduled.
+>>>>>> Which is not true for firmware activation.
 >>>>>
->>>>> I would rather have a separate state for firmware activation.
->>>>> (Ab-)using the 'RESETTING' state here has direct implications
->>>>> with the error handler, as for the error handler 'RESETTING'
->>>>> means that the error handler has been scheduled.
->>>>> Which is not true for firmware activation.
+>>>>> But the point of having firmware activation set the state to RESETTING
+>>>>> was to fence off error handling from trying to schedule a real reset.
+>>>>> The fw activation work schedules its own recovery if it times out, but
+>>>>> we don't want any other recovery action or user requested resets to
+>>>>> proceed while an activation is still pending.
 >>>>
->>>> But the point of having firmware activation set the state to RESETTING
->>>> was to fence off error handling from trying to schedule a real reset.
->>>> The fw activation work schedules its own recovery if it times out, but
->>>> we don't want any other recovery action or user requested resets to
->>>> proceed while an activation is still pending.
+>>>> Not only that; there are various checks against NVME_CTRL_RESETTING
+>>>> sprinkled through the code. What is the impact of introducing a new state
+>>>> without handling all those checks ?
 >>>
->>> Not only that; there are various checks against NVME_CTRL_RESETTING
->>> sprinkled through the code. What is the impact of introducing a new state
->>> without handling all those checks ?
+>>> Good point, bad things will happen if these checks are not updated to
+>>> know about the new state. For example, nvme-pci will attempt aborting IO
+>>> or disabling the controller on a timeout instead of restarting the timer
+>>> as desired.
+>>>
+>>> Can we just revert the commit that prevented the RESETTING -> LIVE
+>>> transtion for now?
 >>
->> Good point, bad things will happen if these checks are not updated to
->> know about the new state. For example, nvme-pci will attempt aborting IO
->> or disabling the controller on a timeout instead of restarting the timer
->> as desired.
->>
->> Can we just revert the commit that prevented the RESETTING -> LIVE
->> transtion for now?
+>> Unfortunately, it will break the FC error handling again(*). The
+>> simplest fix is right above, add the transition from RESETTING to
+>> CONNECTING and then to LIVE, IMO.
 > 
-> Unfortunately, it will break the FC error handling again(*). The
-> simplest fix is right above, add the transition from RESETTING to
-> CONNECTING and then to LIVE, IMO.
+> Gotcha, yes, that looks like the simplest fix for the current release
+> then. We need to be careful with adding new states, so we can revisit
+> Hannes' suggestion for 6.16 if we really want to split this.
 > 
-> (*) ee59e3820ca9 ("nvme-fc: do not ignore connectivity loss during connecting")
->      f13409bb3f91 ("nvme-fc: rely on state transitions to handle connectivity loss")
+> If you send the simple fix as a formal patch, please add my review and
+> the "Fixes:" tag.
+> 
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
 
-I don't know if having nvme-fc _depend_ on state transition restrictions is good
-or bad, and I don't know anything about the NVME state machine.
+Please feel free to add mine as well:
 
-However, given that there _is_ a real regression in the code right now, I agree
-that the solution (or call it workaround) suggested by Daniel (or something
-similar) should be the way to go, and it would be easy to backport. After all,
-firmware update is now broken in all stable release branches, and that is not
-a good situation to be in.
-
-Introducing a new state for firmware updates should be done carefully and not be
-part of a regression fix which needs to be backported to all stable release
-branches.
-
-Thanks,
-Guenter
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
 
