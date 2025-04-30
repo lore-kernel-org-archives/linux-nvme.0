@@ -4,131 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD926C369D9
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Apr 2025 06:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B41DFC369D9
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Apr 2025 06:44:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qfYXUjVjOyNlQjKzmBA4Z/LIvZ+skq8QMJWdoQyNa/Q=; b=M/LwzjQi8sR2g2mgor1GXTRFD9
-	NUk4qBzqKAWibBfimi8ikNMIdYY8Hn9g5+ZhpeLkypF0a1nwNpxUWeHe6+67OybeUYAtXjErR7LuY
-	jcDrrQeOu6SXhA3JALsqA+HNuZKOMNhA7M2nuJmqnbcMA1LCkMzCmDGCFXA+oCUbAOIa027AMC5u6
-	+nIn2NUGuljk6z0WGiDp56kfhUXIWKNLu/G98iDSFpoDPQjJw6/OaUu5cYPaMBx9nnNNeYrenhToY
-	fi7SkaVps6G6biwGXY3/V0Ku9P7Av7GqWPyRogNi9NUE9llg/x6ca/GrgQDJOn9kYdgaYXLGtBDzH
-	cQ6Qdlqg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=c07lb+O2RrNYtXRjvdK15QLO5xAGy7hLNxPxDwDrnQg=; b=hiLbua1zXaZv0+v7psX/MSqKVm
+	kqabMCXTuQwvsP3Iu22DGZ6vdbIF60TrFtFUiqX0DJapVTft0tBD4IChMTxv3JmE1t2AtR5WcLlLX
+	nQLu7uB4VvapCphJ1m1Sqg10718KGInl6a+C5AdTIRQqc+2Lsb1oCN+3bFCnv7a/FfAqFyDoRvn8U
+	P7kF9b8ndj4Oi1NimbIYlVNLWHUIQfIEtz7q+QMRxu82V49UkE//aIPMxyDmAQsV84KAfezjWDhmY
+	yvAErZ5O4zK6RGEMX9T6P9Yo4ZK856TqkexwOrf1dqyZJq3BqiiwRDul5A6WUO9qeh9Di5ZK7tS/0
+	SGdIyoRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uA0gS-0000000Bq45-03ds;
-	Wed, 30 Apr 2025 06:12:40 +0000
+	id 1uA1BJ-0000000BtnF-289b;
+	Wed, 30 Apr 2025 06:44:33 +0000
 Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uA0gP-0000000Bq38-2SZl
+	id 1uA1A2-0000000Btey-2AYm
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Apr 2025 06:12:38 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Wed, 30 Apr 2025 06:43:15 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4238A1F7C3;
-	Wed, 30 Apr 2025 06:12:36 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0A8451F7BF;
+	Wed, 30 Apr 2025 06:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745993556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1745995393; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qfYXUjVjOyNlQjKzmBA4Z/LIvZ+skq8QMJWdoQyNa/Q=;
-	b=ct5jAEERK/ZkSYKAUjkawleT9FvhZLvNR/muEA0IZqxWM+Mwd/MOvk6fA9fi88GR3Y8S6M
-	W3Uo2xESyvxJDMeFL8yP2Kt+3Jc0NH+hz3+cDL7QzEXvXCWbpFZrskiB23D+8LK27qHRNr
-	c2oxmywNzNtASmZYdXZUuPvSln0R4bw=
+	bh=c07lb+O2RrNYtXRjvdK15QLO5xAGy7hLNxPxDwDrnQg=;
+	b=nKrS5p1UI2IcgjJDkMdXYB9MPnZaUQRPcO+n6hy0/2sFRTMpzSyi1B36y8eNKJVGc0x+R4
+	zJqYrxVvHMTItgLJBZY93ABtaCK8RvLsuBNheC3STArVpYKpmUUVOJWSb0D1+MQjoExAHc
+	Quq0uJLjqc9FN+S/SYdwEFrUjiWPmpw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745993556;
+	s=susede2_ed25519; t=1745995393;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qfYXUjVjOyNlQjKzmBA4Z/LIvZ+skq8QMJWdoQyNa/Q=;
-	b=gB/vHzdPhJswM9+G9DYeuR6feFzE8aMRfcx+Ir/o/bTfbb39C1/kjD/Zd7GAw7lDStWXCt
-	maskKlPTnkZNO0CA==
+	bh=c07lb+O2RrNYtXRjvdK15QLO5xAGy7hLNxPxDwDrnQg=;
+	b=RDnnzwI95B7WovRCDRFUsuozJrbba4W472Ph++Eft2hZ70evljDIMgYRioTDmg52CNFTVp
+	QlduB0C6GYpEasCQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ct5jAEER;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="gB/vHzdP"
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745993556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1745995393; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qfYXUjVjOyNlQjKzmBA4Z/LIvZ+skq8QMJWdoQyNa/Q=;
-	b=ct5jAEERK/ZkSYKAUjkawleT9FvhZLvNR/muEA0IZqxWM+Mwd/MOvk6fA9fi88GR3Y8S6M
-	W3Uo2xESyvxJDMeFL8yP2Kt+3Jc0NH+hz3+cDL7QzEXvXCWbpFZrskiB23D+8LK27qHRNr
-	c2oxmywNzNtASmZYdXZUuPvSln0R4bw=
+	bh=c07lb+O2RrNYtXRjvdK15QLO5xAGy7hLNxPxDwDrnQg=;
+	b=nKrS5p1UI2IcgjJDkMdXYB9MPnZaUQRPcO+n6hy0/2sFRTMpzSyi1B36y8eNKJVGc0x+R4
+	zJqYrxVvHMTItgLJBZY93ABtaCK8RvLsuBNheC3STArVpYKpmUUVOJWSb0D1+MQjoExAHc
+	Quq0uJLjqc9FN+S/SYdwEFrUjiWPmpw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745993556;
+	s=susede2_ed25519; t=1745995393;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qfYXUjVjOyNlQjKzmBA4Z/LIvZ+skq8QMJWdoQyNa/Q=;
-	b=gB/vHzdPhJswM9+G9DYeuR6feFzE8aMRfcx+Ir/o/bTfbb39C1/kjD/Zd7GAw7lDStWXCt
-	maskKlPTnkZNO0CA==
+	bh=c07lb+O2RrNYtXRjvdK15QLO5xAGy7hLNxPxDwDrnQg=;
+	b=RDnnzwI95B7WovRCDRFUsuozJrbba4W472Ph++Eft2hZ70evljDIMgYRioTDmg52CNFTVp
+	QlduB0C6GYpEasCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C0914139E7;
-	Wed, 30 Apr 2025 06:12:35 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E288713A25;
+	Wed, 30 Apr 2025 06:43:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id F0TzLFO/EWhUZQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 30 Apr 2025 06:12:35 +0000
-Message-ID: <b39f8a89-29ce-4888-b639-7dae108bfd53@suse.de>
-Date: Wed, 30 Apr 2025 08:12:35 +0200
+	id D8DsNIDGEWiebgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 30 Apr 2025 06:43:12 +0000
+Date: Wed, 30 Apr 2025 08:43:04 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, Hannes Reinecke <hare@suse.de>, 
+	Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] nvme: only allow entering LIVE from CONNECTING state
+Message-ID: <8121b8d6-2b30-4086-b2fb-bce354f203dc@flourine.local>
+References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
+ <20250214-nvme-fc-fixes-v1-1-7a05d557d5cc@kernel.org>
+ <0134ea15-8d5f-41f7-9e9a-d7e6d82accaa@roeck-us.net>
+ <cb46aa83-8033-4d64-a3c7-420172c3f3f5@flourine.local>
+ <9763c4cf-8ca5-45d4-b723-270548ca1001@suse.de>
+ <aBEW4W40ZelIXfs2@kbusch-mbp>
+ <253e0551-d4d7-4ffe-8842-daecf1f6c753@roeck-us.net>
+ <aBEdkUky_-bfgISv@kbusch-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: select tls config when tcp tls is enabled
-To: Alistair Francis <alistair23@gmail.com>, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
-References: <20250429224025.3077488-1-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250429224025.3077488-1-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4238A1F7C3
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aBEdkUky_-bfgISv@kbusch-mbp>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com,lst.de,grimberg.me,nvidia.com,lists.infradead.org];
 	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250429_231237_773113_1867E29D 
-X-CRM114-Status: GOOD (  13.99  )
+X-CRM114-CacheID: sfid-20250429_234314_704252_FD4CB90F 
+X-CRM114-Status: GOOD (  29.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,41 +133,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/30/25 00:40, Alistair Francis wrote:
-> Ensure that TLS support is enabled in the kernel when
-> NVME_TCP_TLSS is enabled. This allows TLS secure channels to be
-> used out of the box.
+On Tue, Apr 29, 2025 at 11:42:25AM -0700, Keith Busch wrote:
+> On Tue, Apr 29, 2025 at 11:23:25AM -0700, Guenter Roeck wrote:
+> > On 4/29/25 11:13, Keith Busch wrote:
+> > > On Mon, Apr 28, 2025 at 03:21:18PM +0200, Hannes Reinecke wrote:
+> > > > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > > > > index b502ac07483b..d3c4eacf607f 100644
+> > > > > --- a/drivers/nvme/host/core.c
+> > > > > +++ b/drivers/nvme/host/core.c
+> > > > > @@ -4493,7 +4493,8 @@ static void nvme_fw_act_work(struct work_struct *work)
+> > > > >                   msleep(100);
+> > > > >           }
+> > > > > 
+> > > > > -       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+> > > > > +       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING) ||
+> > > > > +           !nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+> > > > >                   return;
+> > > > > 
+> > > > >           nvme_unquiesce_io_queues(ctrl);
+> > > > 
+> > > > I would rather have a separate state for firmware activation.
+> > > > (Ab-)using the 'RESETTING' state here has direct implications
+> > > > with the error handler, as for the error handler 'RESETTING'
+> > > > means that the error handler has been scheduled.
+> > > > Which is not true for firmware activation.
+> > > 
+> > > But the point of having firmware activation set the state to RESETTING
+> > > was to fence off error handling from trying to schedule a real reset.
+> > > The fw activation work schedules its own recovery if it times out, but
+> > > we don't want any other recovery action or user requested resets to
+> > > proceed while an activation is still pending.
+> > 
+> > Not only that; there are various checks against NVME_CTRL_RESETTING
+> > sprinkled through the code. What is the impact of introducing a new state
+> > without handling all those checks ?
 > 
-> Fixes: be8e82caa68 ("nvme-tcp: enable TLS handshake upcall")
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   drivers/nvme/host/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
+> Good point, bad things will happen if these checks are not updated to
+> know about the new state. For example, nvme-pci will attempt aborting IO
+> or disabling the controller on a timeout instead of restarting the timer
+> as desired.
 > 
-> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-> index d47dfa80fb95..4d64b6935bb9 100644
-> --- a/drivers/nvme/host/Kconfig
-> +++ b/drivers/nvme/host/Kconfig
-> @@ -102,6 +102,7 @@ config NVME_TCP_TLS
->   	depends on NVME_TCP
->   	select NET_HANDSHAKE
->   	select KEYS
-> +	select TLS
->   	help
->   	  Enables TLS encryption for NVMe TCP using the netlink handshake API.
->   
-I would have folded it into the previous patch.
+> Can we just revert the commit that prevented the RESETTING -> LIVE
+> transtion for now?
 
-Otherwise:
+Unfortunately, it will break the FC error handling again(*). The
+simplest fix is right above, add the transition from RESETTING to
+CONNECTING and then to LIVE, IMO.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+(*) ee59e3820ca9 ("nvme-fc: do not ignore connectivity loss during connecting")
+    f13409bb3f91 ("nvme-fc: rely on state transitions to handle connectivity loss")
 
