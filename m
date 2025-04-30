@@ -4,69 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 556EAC369D9
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88B65C3ABA9
 	for <linux-nvme@archiver.kernel.org>; Wed, 30 Apr 2025 17:08:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YkV2RlXO3P9NrTiTXoXq/ulhEyki8O6fo6En8yZI1eM=; b=UksTu1s6XEGUtFrpOYO98MkBsA
-	JaGvS4/H17oV1/C2BOo9bI4m9vthu4xhHt3kA5CzraURwOMo2lS+eLAFAsudwYKCZQlFopM6V3qnx
-	29XjZVWhHnae4ACBRl/wqZiH8iSoLTNJ0p2I9qUprrLwGiat/lySdzvnuIvTvGUd4ZEezFqIXKuY7
-	cO5m0vfTMHIvLoU+kBk78K2g6wvUuPof+XDqs0vlBh0sdhtvj2ndlrsS8AOgVPbov3NEJclQ3mzQJ
-	InIgAGWTV3sCWHYp2h3c9zkdWBSywtMBGTuwaZRW5qufAuAOeWgZEjgo6AOzQgIaq4y4Oz5oxmXIU
-	c6mlT8GA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pwFpNG8rsKw5A1aXwTo66HrAdH1zCXYAcwV7zBbg8X0=; b=2+laCqCctPPX3GxBwlpqjog3GP
+	dVYLncVdw5eT0H/xMGLatcqJSgadr/PaCKKPvMWe2M3zJTzA53RJsVwNsP2bRiKoGqz+Ta8fBiu8k
+	8a92duCi7BDaUWivRhSfpj6hMqcM9MEchWfa7grcfxRMDPg0j9zZYhevlNYF+FhowrDIlG8PQgOoi
+	5XtFgl3NQuzCb6mcGFfp2XzY2O5ZlElpOGqft7ES4iHlXq//DH4oqA6c9Uudazcsd+0MMJWI894gN
+	isZ9OyBXId+CL9sIYBMRmFc7MHNR33iVkz27xcjOJn2qVptsZ4hFKb2LpKyHALFh/IvlGxJCEuv+d
+	+Bc9nCKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAAvR-0000000DWPy-3Waa;
+	id 1uAAvR-0000000DWPq-0yLR;
 	Wed, 30 Apr 2025 17:08:49 +0000
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAAvO-0000000DWOl-3G4U
+	id 1uAAvO-0000000DWOc-1ILt
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Apr 2025 17:08:48 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53UFMu6k021230;
-	Wed, 30 Apr 2025 17:08:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=YkV2R
-	lXO3P9NrTiTXoXq/ulhEyki8O6fo6En8yZI1eM=; b=IG0AF0wGGOQDS7FgCiwTG
-	+LWp0w7RAr9uJKXGuWiAmdxQF2xjM4Km6v68q8GHQPnGA1BryfxXCvEPTzn+mfRC
-	6wyn/YC8kfwAiAdrU0jP6BcCYzlbhy0NfvxDj7wUsC8bI8bh0JHdqHOY99WLTBcA
-	y31iNQeOybViG6Y5Ye2IQyJs0j5u6eUYPLbEhJEs7e4Qal9KQ/aOj3jQ97Gx8wYN
-	i/vU9uMLTvriY/EktTOVZX9CsdNRWamsgyow3Uy4/Z1PIIkW9dT6ONV+irEyvnQ3
-	6vizGEPsGfXCFSIqFN9HeMyy7y7BbzNACSb4A3uJEif+4jQ6X8hhd/JC388qbId7
-	Q==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46b6um9p1m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 30 Apr 2025 17:08:38 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53UGDaIM001521;
-	Wed, 30 Apr 2025 17:08:37 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 468nxbk59g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 30 Apr 2025 17:08:37 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 53UH8Y2R039653;
+	Wed, 30 Apr 2025 17:08:47 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53UFNK6H001613;
 	Wed, 30 Apr 2025 17:08:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=pwFpNG8rsKw5A1aXwTo66HrAdH1zC
+	XYAcwV7zBbg8X0=; b=iYA15hr4TPmlaw9sxDQE16/pi2Ce8GRgpIFf/cSzhwCcp
+	1Ny8vGtTXzT+oGLJQ9Z5Go6X1LgSDI9winqZvj+qgfcSVpA1HKMbq4bHEa6vNX9H
+	IC3Da3+jH3IIdHmcANY5qlXGSJV3CQgqRkIIq5+ykZpsOtqpGucEpL9iTQ+GOjK2
+	qDYqlJx9X3MiNbkEKm97G6w2g0tmMW/UQm3NlSjEGiZEU+71uPzGipYkFfwVfL49
+	FYvsjvyn6FHWbvKXBf3ENBHZBEDfal+6mA0m5Cz/w3+cXxPlhf6mtcwrp2qRuwF6
+	CKj6Hl3I4noFBYDPAqpJC7pKt/YFVRoCbXsUqGuww==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46b6uksq2m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Apr 2025 17:08:36 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53UGSZa0001309;
+	Wed, 30 Apr 2025 17:08:35 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 468nxbk58r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Apr 2025 17:08:35 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 53UH8Y2N039653;
+	Wed, 30 Apr 2025 17:08:35 GMT
 Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 468nxbk587-3;
-	Wed, 30 Apr 2025 17:08:36 +0000
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 468nxbk587-1;
+	Wed, 30 Apr 2025 17:08:34 +0000
 From: Alan Adamson <alan.adamson@oracle.com>
 To: linux-nvme@lists.infradead.org
 Cc: alan.adamson@oracle.com, kch@nvidia.com, kbusch@kernel.org, hch@lst.de,
         sagi@grimberg.me
-Subject: [PATCH 2/2] nvme: all namespaces in a subsystem must adhere to a common atomic write size
-Date: Wed, 30 Apr 2025 10:18:30 -0700
-Message-ID: <20250430171830.1494033-3-alan.adamson@oracle.com>
+Subject: [PATCH 0/2] NVMe Atomic Write fixes
+Date: Wed, 30 Apr 2025 10:18:28 -0700
+Message-ID: <20250430171830.1494033-1-alan.adamson@oracle.com>
 X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250430171830.1494033-1-alan.adamson@oracle.com>
-References: <20250430171830.1494033-1-alan.adamson@oracle.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -76,15 +73,15 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamsc
  mlxlogscore=999 adultscore=0 suspectscore=0 malwarescore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2504070000
  definitions=main-2504300124
-X-Authority-Analysis: v=2.4 cv=dfSA3WXe c=1 sm=1 tr=0 ts=68125916 b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=XR8D0OoHHMoA:10 a=yPCof4ZbAAAA:8 a=BlVjgIUVm_Q3PvKB96IA:9 cc=ntf awl=host:13129
-X-Proofpoint-GUID: pOQ47v8eMQ4rrJutXM0UHzl50FKJwnrU
-X-Proofpoint-ORIG-GUID: pOQ47v8eMQ4rrJutXM0UHzl50FKJwnrU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDEyMyBTYWx0ZWRfX6r/prRHQ0wuu 8C1yjoJ2bLVd2hro8bcoNys/pZRRWJWZAT+vFM1BFw+mvInvLK5kQ3vQdf82Wnw6tKoBv6GFVOj CRHD2AzwrF0pvCUy0/PKctkQFWHTYHqcEAHjuj6rD0OUX0B/X2Nl3nIPfG/WE3KFox8Hn/+v/hi
- 2RU42yaMKycRJiVyt3YjpRGQIvR4N0XBQsIH+pYOQQ7m4Hvr4lFTGvThHUB5vx7DuPg4gloEC9A Jr3pjOmmcmwdyk5dgy8xNhQC8FscZPjKXEZXF1BHpw7PcCBFzhyBlJJmSiLdmB2QaAukWVpQC2P 4E/yVadgGpCyULJXJ6BfWi0wax7ZfoJTQIR7bQu2AtFXt8UID/p7tkRTTDulr2tT4+IV+x4lskL
- k/l+kw7rHfsGuyIIK1mRSH+XRpp4SuT8qlP7FovSDldIBvFYxYFQlsZN/9tuld4poNOhFb1h
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDEyMyBTYWx0ZWRfX5ASb1OWCn7xo yoXB5tIPG6RvAOD0GjZg20z39wNmxMwX7wnK5Q7sAJgHn9viwsuQNVb1vdocklXRoZqbMQqObDz htd1wIWVj0eo4J+tj34FbyL+Djwvqtu0ZZwEEWoulJKK2jbLQ5DffXOR5pGT/QXD7iu269IuFW7
+ /4sRIEI35ySt0aORg/U6iqo6FQlCACRco/o566mtCYcZbVP1RTcpd7sCokyTfJhfL+IoyvBBcgp PNWmKa1vdYHwl/s6mVMKdun8tj3TdIZ40OfQ2NpZBmNihQ81SI2xRXY6STxQCIDbxvy9GCtn01I 6tZ1Kxmz+JGbTZKnLQG9+OeLvAOALTwczdkEvSb6Jc1f29ZhOyUGZBZfcLBDqwuXU6neuRAZZfz
+ UsEFsaaagyRDNkUOsRJi80HIEIVmwhHXQG4dfCdw9SoKKTXFvdoGwCzGU1xEa6e4i1ZngiQ7
+X-Proofpoint-GUID: hCvd6nOcj8MrM-v8kEvXQ_SqDiuUoEPI
+X-Authority-Analysis: v=2.4 cv=A5VsP7WG c=1 sm=1 tr=0 ts=68125914 b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=XR8D0OoHHMoA:10 a=-t_EKD55RRY5nFo_hg8A:9 cc=ntf awl=host:13129
+X-Proofpoint-ORIG-GUID: hCvd6nOcj8MrM-v8kEvXQ_SqDiuUoEPI
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250430_100846_936892_9B5B8ECF 
-X-CRM114-Status: GOOD (  16.94  )
+X-CRM114-CacheID: sfid-20250430_100846_634852_9D69DC82 
+X-CRM114-Status: GOOD (  10.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,89 +96,141 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The first namespace that is configured in a subsystem will define the
-subsystem's atomic write size.  This will be based on either AWUPF or
-NAWUPF. Configuring subsequent namespaces in the subsystem requires its
-atomic write size as defined by its AWUPF or NAWUPF to match the
-subsystem's atomic write size. If a namespace doesn't adhere to the
-subsystem's atomic write size, its atomic queue limits will be based on an
-atomic write size of 512 bytes and an error message will be logged.
+This patch set includes 2 fixes for NVMe Atomic Writes that are reproducable
+when CMIC.MCTRS (multi-controller support) is set:
 
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- drivers/nvme/host/core.c | 20 +++++++++++++++++---
- drivers/nvme/host/nvme.h |  3 ++-
- 2 files changed, 19 insertions(+), 4 deletions(-)
+    nvme: multipath: atomic queue limits need to be inherited for multipathing
+    nvme: all namespaces in a subsystem must adhere to a common atomic write size
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index eb6ea8acb3cc..e0fe53b919a8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2059,7 +2058,21 @@ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
- 		if (id->nsfeat & NVME_NS_FEAT_ATOMICS && id->nawupf)
- 			atomic_bs = (1 + le16_to_cpu(id->nawupf)) * bs;
- 		else
--			atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
-+			atomic_bs = (1 + ns->ctrl->awupf) * bs;
-+
-+		/*
-+		 * Set subsystem atomic bs.
-+		 */
-+		if (ns->ctrl->subsys->atomic_bs) {
-+			if (atomic_bs != ns->ctrl->subsys->atomic_bs) {
-+				pr_err_ratelimited("%s: Inconsistent Atomic Write Size: Subsystem=%d bytes, Controller/Namespace=%d bytes\n",
-+					ns->disk ? ns->disk->disk_name : "?",
-+					ns->ctrl->subsys->atomic_bs,
-+					atomic_bs);
-+				atomic_bs = bs;
-+			}
-+		} else
-+			ns->ctrl->subsys->atomic_bs = atomic_bs;
- 
- 		nvme_update_atomic_write_disk_info(ns, id, lim, bs, atomic_bs);
- 	}
-@@ -3031,7 +3045,6 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		kfree(subsys);
- 		return -EINVAL;
- 	}
--	subsys->awupf = le16_to_cpu(id->awupf);
- 	nvme_mpath_default_iopolicy(subsys);
- 
- 	subsys->dev.class = &nvme_subsys_class;
-@@ -3441,7 +3454,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		dev_pm_qos_expose_latency_tolerance(ctrl->device);
- 	else if (!ctrl->apst_enabled && prev_apst_enabled)
- 		dev_pm_qos_hide_latency_tolerance(ctrl->device);
--
-+	ctrl->awupf = le16_to_cpu(id->awupf);
- out_free:
- 	kfree(id);
- 	return ret;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 51e078642127..ff1d94468613 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -410,6 +410,7 @@ struct nvme_ctrl {
- 
- 	enum nvme_ctrl_type cntrltype;
- 	enum nvme_dctype dctype;
-+	u16 awupf;
- };
- 
- static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
-@@ -442,11 +443,11 @@ struct nvme_subsystem {
- 	u8			cmic;
- 	enum nvme_subsys_type	subtype;
- 	u16			vendor_id;
--	u16			awupf;	/* 0's based awupf value. */
- 	struct ida		ns_ida;
- #ifdef CONFIG_NVME_MULTIPATH
- 	enum nvme_iopolicy	iopolicy;
- #endif
-+	u32			atomic_bs;
- };
- 
- /*
+QEMU v10.0 can be used to reproduce and validate the fixes.
+
+
+nvme: multipath: atomic queue limits need to be inherited for multipathing
+--------------------------------------------------------------------------
+- Include BLK_FEAT_ATOMIC_WRITES feature when allocating multipath disk (nvme_mpath_alloc_disk).
+
+
+QEMU Config
+===========
+-device nvme,id=nvme-ctrl-0,serial=nvme-1,atomic.dn=off,atomic.awun=31,atomic.awupf=15 \
+    -drive file=/dev/nullb2,if=none,id=nvm-1 \
+    -device nvme-ns,drive=nvm-1,bus=nvme-ctrl-0,nsid=1 \
+-device nvme,id=nvme-ctrl-1,serial=nvme-2,atomic.dn=off,atomic.awun=31,atomic.awupf=7 \
+    -drive file=/dev/nullb3,if=none,id=nvm-2 \
+    -device nvme-ns,drive=nvm-2,bus=nvme-ctrl-1,nsid=2 \
+-device nvme,id=nvme-ctrl-2,serial=nvme-3,atomic.dn=off,atomic.awun=127,atomic.awupf=63 \
+    -drive file=/dev/nullb4,if=none,id=nvm-3 \
+    -device nvme-ns,drive=nvm-3,bus=nvme-ctrl-2 \
+
+
+Before
+======
+[root@localhost ~]# nvme id-ctrl /dev/nvme1n1 | grep cmic
+cmic      : 0x2
+[root@localhost ~]# nvme id-ctrl /dev/nvme1n1 | grep awupf
+awupf     : 63
+[root@localhost ~]# nvme id-ns /dev/nvme1n1 | grep nawupf
+nawupf  : 0
+[root@localhost ~]# cat /sys/block/nvme1n1/queue/atomic_write_max_bytes
+0
+[root@localhost ~]# 
+
+AFTER
+=====
+[root@localhost ~]# nvme id-ctrl /dev/nvme1n1 | grep cmic
+cmic      : 0x2
+[root@localhost ~]# nvme id-ctrl /dev/nvme1n1 | grep awupf
+awupf     : 63
+[root@localhost ~]# nvme id-ns /dev/nvme1n1 | grep nawupf
+nawupf  : 0
+[root@localhost ~]#  cat /sys/block/nvme1n1/queue/atomic_write_max_bytes
+32768
+[root@localhost ~]# 
+
+
+
+
+
+
+nvme: all namespaces in a subsystem must adhere to a common atomic write size
+------------------------------------------------------------------------------
+- Replace awupf field in nvme_subsystem struct with atomic_bs.  The atomic_bs 
+value with awupf or nawupf. (nvme_update_disk_info)
+- When a namespace is added, the atomic write size (from awupf or nawupf) is
+checked with subsys->atomic_bs.  If they don't match, the atomic write size is
+set to 512 (1U << head->lba_shift) and a message in logged. (nvme_update_disk_info)
+
+
+QEMU Config
+===========
+-device nvme-subsys,id=subsys0 \
+    -device nvme,serial=deadbeef,id=nvme0,subsys=subsys0,atomic.dn=off,atomic.awun=31,atomic.awupf=15 \
+        -drive id=ns1,file=/dev/nullb1,if=none \
+        -device nvme-ns,drive=ns1,bus=nvme0,nsid=1,zoned=false,shared=false \
+    -device nvme,serial=deadbeef,id=nvme1,subsys=subsys0,atomic.dn=off,atomic.awun=63,atomic.awupf=31 \
+        -drive id=ns2,file=/dev/nullb2,if=none \
+        -device nvme-ns,drive=ns2,bus=nvme1,nsid=2,zoned=false,shared=false \
+
+
+BEFORE
+======
+[root@localhost ~]# nvme id-ctrl /dev/nvme0n1 | grep cmic
+cmic      : 0x2
+[root@localhost ~]#  nvme id-ctrl /dev/nvme0n1 | grep awupf
+awupf     : 15
+[root@localhost ~]# nvme id-ns /dev/nvme0n1 | grep nawupf
+nawupf  : 0
+[root@localhost ~]# cat /sys/block/nvme0n1/queue/atomic_write_max_bytes
+8192
+[root@localhost ~]# nvme id-ctrl /dev/nvme0n2 | grep cmic
+cmic      : 0x2
+[root@localhost ~]# nvme id-ctrl /dev/nvme0n2 | grep awupf
+awupf     : 31
+[root@localhost ~]# nvme id-ns /dev/nvme0n2 | grep nawupf
+nawupf  : 0
+[root@localhost ~]# cat /sys/block/nvme0n2/queue/atomic_write_max_bytes
+8192
+[root@localhost ~]# 
+
+AFTER
+=====
+[root@localhost ~]# nvme id-ctrl /dev/nvme0n1 | grep cmic
+cmic      : 0x2
+[root@localhost ~]# nvme id-ctrl /dev/nvme0n1 | grep awupf
+awupf     : 15
+[root@localhost ~]# nvme id-ns /dev/nvme0n1 | grep nawupf
+nawupf  : 0
+[root@localhost ~]# cat /sys/block/nvme0n1/queue/atomic_write_max_bytes
+8192
+[root@localhost ~]#  nvme id-ctrl /dev/nvme0n2 | grep cmic
+cmic      : 0x2
+[root@localhost ~]#  nvme id-ctrl /dev/nvme0n2 | grep awupf
+awupf     : 31
+[root@localhost ~]# nvme id-ns /dev/nvme0n2 | grep nawupf
+nawupf  : 0
+[root@localhost ~]# cat /sys/block/nvme0n2/queue/atomic_write_max_bytes
+512
+
+Console Message:
+[    2.852814] nvme0c1n2: Inconsistent Atomic Write Size: Subsystem=8192 bytes, Controller/Namespace=16384 bytes
+
+
+
+
+Alan Adamson (2):
+  nvme: multipath: atomic queue limits need to be inherited for
+    multipathing
+  nvme: all namespaces in a subsystem must adhere to a common atomic
+    write size
+
+ drivers/nvme/host/core.c       | 20 +++++++++++++++++---
+ drivers/nvme/host/multipath.c  |  3 ++-
+ drivers/nvme/host/nvme.h       |  3 ++-
+ drivers/ras/amd/atl/internal.h |  3 +++
+ drivers/ras/amd/atl/umc.c      | 19 +++++++++++++++++--
+ drivers/ras/amd/fmpm.c         |  9 ++++++++-
+ 6 files changed, 49 insertions(+), 8 deletions(-)
+
 -- 
 2.43.5
 
