@@ -4,104 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0590EC3ABAC
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 May 2025 16:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 237C8C3ABAA
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 May 2025 16:07:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H+PQK7cd6vQouY+QWssyC04ldZ+G2r7jfC6DHSaivAY=; b=GSLIYlOidPjXoa4oERNFuVoK3o
-	2Y2+P9tcBFjLNrgJPMgeUtiYpITE3gT90V2DNynrb23hDdYj/MDbY8iFRQkeHmoS+6/162JRKwG05
-	4wqP63eQukLJYyE0igLetOkibrumcBEsMKIT39S2/iz2sa8Lnpo8iIViCAGmtbGRsgonK0/Bnuo4F
-	384RTOGK3JXw5fxqW2ulkUzZUighy12MxWwxHd7oN6NmzsmIMd6Xxt/SdQaHpac70rrzL5nLVT7OX
-	9KjB1NXlWuCPMYUTlRm29Z8+Q3XHzFhGvy27Yv55y2BvPJGyLAXamfFWBWNbZFgt8ClMz+JB+0mFp
-	86/NCheg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mVd/Wmr9f709MYLpm+vtOoBhQg0rDtu6lXhVFlb+QTY=; b=o7rz4VgDDpq1wF26sPLsvUPymK
+	DN1vyXLzB9xE3o9QGP5gxiZmS7u/4THf2B42nH4iNIB10cU5wOaDXdq2WYHGld2QN9M8/jxeMbnVw
+	nqKshUL1cq0etKLMiNsQftfVVWT4US83dHFf0EgDVrB8MJ9vwtgH+eV9JiiO72gKGyfd4H8bgD4GK
+	NXBbpfpjzzLbEwYXtH8yvqV7VcbboscVYrkEArSdkOvRfEOrzDqCggDm0ipK7MGgT4vieUgzeJHPw
+	5pxebCXziywc4x6bbvkHLHXVg7gKFIySQxcI3lUxYX+JIp/RF3kboWsfCbhFXdbrNmGXL0lTrNgEt
+	6mg9WJ0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAsrP-00000002QtC-1WXz;
-	Fri, 02 May 2025 16:03:35 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1uAsvF-00000002RZY-2riN;
+	Fri, 02 May 2025 16:07:33 +0000
+Received: from mail-koreacentralazlp170130007.outbound.protection.outlook.com ([2a01:111:f403:c40f::7] helo=SEYPR02CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAsmt-00000002Ptv-3agO
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 02 May 2025 15:58:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=H+PQK7cd6vQouY+QWssyC04ldZ+G2r7jfC6DHSaivAY=; b=j2J6Hp756R7zehuGJQvhFX+5Db
-	vqFJRUAiX3qS9l5/Nj6yr05RzmVvrkgmBqGiyWzKdQDnjVYpf0HJAgbHenUCVD/tSkDtvRUvg9BSn
-	6S/q8XUyW+u0Cm2f6rr4X54KS8vnBZ3B/hNneh2/hAALYb8Np7mk0D8GO4KIW0QCxM/RD1WU0vKfg
-	2+39t9Fkcc19uvHUhSYI6dc8bozxdMhtqED9vdWOn95QuVPURc7qmoEExemygsEUx3ErchDmyOGUG
-	ILEOEwqINU9dRy6FywFEdWhrreeGB2sxBef4Mj3FMCEYl5UjquB4RE8L5E9sOtchXvGqH6BvZW4os
-	XRd/nCNQ==;
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
-	by desiato.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uAsmm-0000000F31K-2zvD
+	id 1uAssj-00000002RBU-3gKt
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 May 2025 15:58:54 +0000
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-22c33ac23edso26757305ad.0
-        for <linux-nvme@lists.infradead.org>; Fri, 02 May 2025 08:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746201523; x=1746806323; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=H+PQK7cd6vQouY+QWssyC04ldZ+G2r7jfC6DHSaivAY=;
-        b=WqxiXPwaUrNppcYX0ChuPeG7Duas4jleDDByiRprj/wk7mtpPWZrBk9TWV0Ze5BwdS
-         /WLMIfcnfsF+pQLwVfBCsIuDRVDRrPsWPgbwv78fmAgvrKSlZadJrhxhQlcm+ddA9OhB
-         gH4DG0QgpXu2lGWpQ3w14DOMYetP4SmxbH7iaHV9Vsd5sd4c2DATUdtruOQyT2XU/44a
-         l8k7CA7tRF+9qr4IfzxFDFVqszOa7nIKnBH9UXv4nUKV4R0g9Nc9b63V+x2HSCShP6fk
-         cAhhIEe2XxArLB5Yq0df96WitzogPUb7bFcuZEWGu64krilkaizhfEhbthcNL3SqhrZ0
-         Jisw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746201523; x=1746806323;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H+PQK7cd6vQouY+QWssyC04ldZ+G2r7jfC6DHSaivAY=;
-        b=LyK/275wttbFrlR6osSFzF/P6sXrHyIfp57K0NEU+CPMTqbPx8WPIy1K2LWdB9sxTx
-         lsIrjqULhL6qWJ8QCRYdfuLdFS7B+oTVj38NJboczoHWTndJVWJVWv/QiFkPYtc1y09u
-         xf5aykT4ktRhzv4xXImnMlR7y/IvbTanoeBpfYaH8f2yVP0h/M598wiUU4jgvADKztIe
-         NldDUpgJAgIvYBGfMzE9VXCYxp6bFr6e9b1iFiHQO5EDuvKLGoOy+gyQHZYByYpCzO+K
-         TzoVdaFF9Q6cTGZVQrKJ7Mv1c43f0UzvT1Lom2PY0F1658mxlOGGRFOZVj8t18yT7Ly0
-         zYug==
-X-Forwarded-Encrypted: i=1; AJvYcCUb54Dev3G6/ngN/nvmySiFXEing9o8jeurRVMs9is8dfYz7VB/L07JACgtyLDBqZbq+sFz/dpXIPIo@lists.infradead.org
-X-Gm-Message-State: AOJu0YzfpmzPfnXEd6PvNt/h1GD1XRCgsE8bufXl7NUepYeeKw/vRbOJ
-	6Fsoae74HeoeZR4uO8Yw/pXMXNvmMir7i3spn+MqmpRC2Qx9zvz8QryG5kvdnQ==
-X-Gm-Gg: ASbGncu+1nkLGfEemCmKU+trvFj5T3zAkXwzBFCW9xT28lwEgFS1m0TMhcE9KuDY3Rm
-	QeGPuURmUd975x2x7CYjd7hvqGY3+eK90t0gdPoFx0eNbLBfWwcHa6PWVJ+yE0PQULk+hWw4G0a
-	QNGgdkCs3Ow/3ojXvCvAKHZJroCjUnl38X5JOj4PXTkTMvHSrs6GMfi4W0cw+58IBDxY51buq6d
-	kVQdoickFgXDtAkL7S+/M+jaDMqN0Jzwu8OmNhBUMIPutXd39B7eGr1LBqSdKGZJ2loEc/aYxzr
-	Ai3ENnaRAQPQw20Fy6g8uEdU/FnB6klUgo4JfTpmfT1maTvw4iiaAJM4JbqTPwMs
-X-Google-Smtp-Source: AGHT+IFlt0LgLQmKQSlUwziRdLcwFuwYuvRWbdQ8rrLtwPvn17wSyVYVfRE70VydKdb5hQWDriS11A==
-X-Received: by 2002:a17:902:da91:b0:224:10a2:cad9 with SMTP id d9443c01a7336-22e1039fdebmr55655375ad.41.1746201522811;
-        Fri, 02 May 2025 08:58:42 -0700 (PDT)
-Received: from thinkpad ([220.158.156.122])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1522952csm9134125ad.185.2025.05.02.08.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 08:58:42 -0700 (PDT)
-Date: Fri, 2 May 2025 21:28:38 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Hans Zhang <hans.zhang@cixtech.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, axboe@kernel.dk, 
-	hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+	Fri, 02 May 2025 16:04:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wKOUErx+RfJPsjaTgBCTdMzlkd/VJ7gPGiRl1nl8A4JgP5nAM2dnMD0TXwGngkTAiuAP3EpsES5xv0eZKDH84hTHx6EbFahAZ2/7BQ0qekd4QRxjP7KSkKzBULYMDFTGFKuYESDekyYmSjKgbHXgeIpQTgCRySik092KTdBwlK15W1a7WZcPDRixC5DPMiX/XmVGzBIv4aGO1QzIb/YUzimrsFBf856/5shbNR/5tc6/Y+uuhZi8szboEtby/cMMVW6nHYwYLu4khNDrCoLED9Md6PXdZLEpR0uofMzmNznrLrcyi/frgJkWEFK8j6uj0Yz9QW5x9TIBWc8jGUh32g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mVd/Wmr9f709MYLpm+vtOoBhQg0rDtu6lXhVFlb+QTY=;
+ b=Gui3jkaMwJo7ZvySeUap0UavS/yLUTBBmzb3B781fwKscnkKTy7QvqlkljARNS4MNIcNiS2CoHdYpF2pNG4lJvCTMltMdl+uQADQeYm51PzTTcFQwAylu/KcfoyqXdpaCEds2JhE0MSR8i/1Ib/ErUM7e9uXWw8cE8BMGyFLwEHPcqmUn+0rZB8M4iypeg9HCrG+mNsyVJC7vOHbDgS+/K/fdr10IaBs5kcxWn1Xn09Jiau0fVTdIy1/0s9Hblq1nQ979W8EDOy2CPTnHZtXVSbOyk+yVVf3TT7StZtj/1WuCU2cC6h+btJcPu6cOzB/zagdCyE34p+trutZ4y1jNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=grimberg.me smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from TYAPR01CA0205.jpnprd01.prod.outlook.com (2603:1096:404:29::25)
+ by KL1PR06MB6649.apcprd06.prod.outlook.com (2603:1096:820:fc::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.20; Fri, 2 May
+ 2025 16:04:48 +0000
+Received: from OSA0EPF000000CC.apcprd02.prod.outlook.com
+ (2603:1096:404:29:cafe::99) by TYAPR01CA0205.outlook.office365.com
+ (2603:1096:404:29::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.42 via Frontend Transport; Fri,
+ 2 May 2025 16:04:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
+ smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ OSA0EPF000000CC.mail.protection.outlook.com (10.167.240.58) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8699.20 via Frontend Transport; Fri, 2 May 2025 16:04:47 +0000
+Received: from [172.16.64.208] (unknown [172.16.64.208])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 1324240A5A01;
+	Sat,  3 May 2025 00:04:46 +0800 (CST)
+Message-ID: <87820fb9-cfd4-4b7c-b015-9626d5253a5f@cixtech.com>
+Date: Sat, 3 May 2025 00:04:43 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] nvme-pci: Fix system hang when ASPM L1 is enabled during
  suspend
-Message-ID: <z4bq25pr35cklwoodz34pnfaopfrtbjwhc6gvbhbsvnwblhxia@frmtb3t3m4nk>
-References: <20250502150027.GA818097@bhelgaas>
- <be8321e5-d048-4434-9b2a-8159e9bdba43@cixtech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <be8321e5-d048-4434-9b2a-8159e9bdba43@cixtech.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+References: <20250502032051.920990-1-hans.zhang@cixtech.com>
+ <zbjd6ee22eqdu2caajq5gcwfqmq3vzz4down5jhxx7tsryu2at@ywng3qn5bbas>
+Content-Language: en-US
+From: Hans Zhang <hans.zhang@cixtech.com>
+In-Reply-To: <zbjd6ee22eqdu2caajq5gcwfqmq3vzz4down5jhxx7tsryu2at@ywng3qn5bbas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000CC:EE_|KL1PR06MB6649:EE_
+X-MS-Office365-Filtering-Correlation-Id: f45371ba-8cee-4c25-1f47-08dd89930fcf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aURHTFNpM3ZYT09PS0J4WHBRRFRibGwrL1hRMTVKMG9oTHpaT21rTnYzTFgz?=
+ =?utf-8?B?cWVUejJqd2svZ0NPYjMzaFhTQmxqR0gyUmRyTnUvazNuNVZyc0hYRjgxNmwx?=
+ =?utf-8?B?NjZJRVpyUFJ1UXdwcHhmVGFmaUVRdWlvUllQMVQyTHNpTXlyNTVxWDdVVmF3?=
+ =?utf-8?B?ZUxTU29FVnErZEJpeUgxbDhQNm5icVRUdkswR1RVWDRDbG1SMmdmbTlDbkhJ?=
+ =?utf-8?B?YloxTXN2di9WaS9hUERsVGJ0VkwzV00zMXIrMlROM09IVDVXbU51MjIvbVhr?=
+ =?utf-8?B?d3dYYlV3SUhqOGNtNmd0NVN0K0p0UTF4NzdESURTUnVsUGFvVEhTRHVsa0dI?=
+ =?utf-8?B?UDRQVEN2aXpkSVpoR0RCNXNKVWpRZDJEcklYdzY5RWJoTXF2dHhIaElsY2FC?=
+ =?utf-8?B?cFZCQzE0ZWRrcWtyUVpHNkZPRHc4Si85MnFxcjFncXNOOFBBVkVGYzgwWEgr?=
+ =?utf-8?B?UkUvdFRxVThVTkFaTnNoTGR2MTdzd2hoTS84WFJyNEprSS9GNm5CZUdTT1kw?=
+ =?utf-8?B?UkxReWNvdkdueTZ5REtsTTVBdnBSOGVIVXhybzFnSk56TEFzYS9jQ3FHeTRp?=
+ =?utf-8?B?RmFaK3dIRTJ0VHpIS2NsSWZFL0VGQUVGT0dRcGpCTG5iOUxHNnVGWk1LbEFH?=
+ =?utf-8?B?QXl1emdNbVByWi9tRE5qY1RBaHNCeUNnbENGWUhPanlwZHBWS2FNNnl5NDhJ?=
+ =?utf-8?B?amNqNEhybEhEU21ONmYzYlF4Y1JHS3BodkNEbHAwQlZUTUtnbkRmaHBNTHVG?=
+ =?utf-8?B?MUFjL1hTanhYcS80azFVTHRKWm9GVWZvbXNSZmlwVDlDNkMxMktxamlHU3cy?=
+ =?utf-8?B?ZlgxYkhpOHhJSnNhUUswV2NyZ293OTlwVUdPdmh4dzhQQjdWdm01Rmp5MlRu?=
+ =?utf-8?B?LzFnbmZHZWhpeSsrNHVOVldEMDR6cFNad1ZSbTVnY3ROMTlldDJNaXBnV21Y?=
+ =?utf-8?B?bUdOMEpqd0EzYlFNRkdZcDhFejZXNStyRFZFNDhUbjRtODRDcWJuOWZJUFhq?=
+ =?utf-8?B?Mi9rNENRQXAxUmNjVmc4MEI5Si9rZHowNytMR3lqUFFvK0M4K2tWK2liQ3Zz?=
+ =?utf-8?B?VjkvVVBmeUV5ejdVVUlLcDk5UkN2TTJ2b1B3SVFGQnFGYVZyMGlweXJQVU1P?=
+ =?utf-8?B?M2ZpK1ZOZ1NIM2lSLy9QanpTbXNEQXVkbkFCd0RvOUtnTEUxaGxrWCs0K21s?=
+ =?utf-8?B?bUxYVEZWaDBmckgwNVQ2SXdMUW8xTEVyMTUrOXNkdVdYVHVHb2RQWm9VRVgx?=
+ =?utf-8?B?a2Uvd1psTzhET0UrczVNVTIwMEZPdGhkS3RtWFZWZlIzNmRzSitaZDlFYjE0?=
+ =?utf-8?B?RFplZDArdWlYazFQVDB2bnRMNzlyV093S3d6cFRkc24zV2xKMmM2MVAwbDVP?=
+ =?utf-8?B?VmtaMEZmWGVKakt2TE1BV2JOTGtlUWlJNU5FYTNmTkYwNzlNL1lkdnk4dEo2?=
+ =?utf-8?B?bkQ2bTVCV25uTHNGakU5TG93WC9EaExCQmllbnhOTXBFMm1mcTQ3clRtc1Fa?=
+ =?utf-8?B?Q2JaZGpyNnBWYU9DeEdQRHowL3VwZkFSZjVXeUpiZnZESnFrSE5xQWxOR1dq?=
+ =?utf-8?B?MmhDRjZaNGJQQlNlU25SdzdndEc0QXNNdWxNbDd6eEZFdGJlRGtySWVGbFlz?=
+ =?utf-8?B?ZGx2eGltMXBHY3RjTmwxdk85TjZmckhXNWpHOTJNM0tpSFdBbGpaNTZKZ0hR?=
+ =?utf-8?B?b0hOOTRxZ3N3OTd0b0xsc1cyaUdxd1NlTTc4YWdVL0Y5SU9aaUkyU1gzVlhW?=
+ =?utf-8?B?UWh0S1c5d1h1N3RLNkgraDhqY2dKNWg1V1lJdzdhK2pwUlRMdGZ4eENveWp0?=
+ =?utf-8?B?Z0gwT0JzOGNBL3U1Tm9GVmZhTmFIYzNtMlBiR3V1RGhMNnF5MU9JeGFIbmh3?=
+ =?utf-8?B?RUNpY013SklaaU5NQUFvYUcwQzIrNlJVZ2ROb1Z2SlQ4N3grQ3JORlFpTTdx?=
+ =?utf-8?B?ZVJnNzg4WW1jWlR3b3VsdzlvdlhiTWVoTmloK3E2K1dWOE9xblQxT3pqdkVZ?=
+ =?utf-8?B?RkVyMnZWZDBwbVo0Y0pESUI1SW4vNzdEZ1kweFA3M2J5LzkyNnJ0T2lBbVVE?=
+ =?utf-8?Q?WgRuUj?=
+X-Forefront-Antispam-Report: CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1102;
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2025 16:04:47.0678
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f45371ba-8cee-4c25-1f47-08dd89930fcf
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource: OSA0EPF000000CC.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6649
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250502_165849_750094_AF4B6371 
-X-CRM114-Status: GOOD (  27.40  )
+X-CRM114-CacheID: sfid-20250502_090457_919630_4B99DB72 
+X-CRM114-Status: GOOD (  10.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,89 +148,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 02, 2025 at 11:49:07PM +0800, Hans Zhang wrote:
-> 
-> 
-> On 2025/5/2 23:00, Bjorn Helgaas wrote:
-> > EXTERNAL EMAIL
-> > 
-> > On Fri, May 02, 2025 at 11:20:51AM +0800, hans.zhang@cixtech.com wrote:
-> > > From: Hans Zhang <hans.zhang@cixtech.com>
-> > > 
-> > > When PCIe ASPM L1 is enabled (CONFIG_PCIEASPM_POWERSAVE=y), certain
-> > 
-> > CONFIG_PCIEASPM_POWERSAVE=y only sets the default.  L1 can be enabled
-> > dynamically regardless of the config.
-> > 
-> 
-> Dear Bjorn,
-> 
-> Thank you very much for your reply.
-> 
-> Yes. To reduce the power consumption of the SOC system, we have enabled ASPM
-> L1 by default.
-> 
-> > > NVMe controllers fail to release LPI MSI-X interrupts during system
-> > > suspend, leading to a system hang. This occurs because the driver's
-> > > existing power management path does not fully disable the device
-> > > when ASPM is active.
-> > 
-> > I have no idea what this has to do with ASPM L1.  I do see that
-> > nvme_suspend() tests pcie_aspm_enabled(pdev) (which seems kind of
-> > janky and racy).  But this doesn't explain anything about what would
-> > cause a system hang.
-> 
-> [   92.411265] [pid:322,cpu11,kworker/u24:6]nvme 0000:91:00.0: PM: calling
-> pci_pm_suspend_noirq+0x0/0x2c0 @ 322, parent: 0000:90:00.0
-> [   92.423028] [pid:322,cpu11,kworker/u24:6]nvme 0000:91:00.0: PM:
-> pci_pm_suspend_noirq+0x0/0x2c0 returned 0 after 1 usecs
-> [   92.433894] [pid:324,cpu10,kworker/u24:7]pcieport 0000:90:00.0: PM:
-> calling pci_pm_suspend_noirq+0x0/0x2c0 @ 324, parent: pci0000:90
-> [   92.445880] [pid:324,cpu10,kworker/u24:7]pcieport 0000:90:00.0: PM:
-> pci_pm_suspend_noirq+0x0/0x2c0 returned 0 after 39 usecs
-> [   92.457227] [pid:916,cpu7,bash]sky1-pcie a070000.pcie: PM: calling
-> sky1_pcie_suspend_noirq+0x0/0x174 @ 916, parent: soc@0
-> [   92.479315] [pid:916,cpu7,bash]cix-pcie-phy a080000.pcie_phy:
-> pcie_phy_common_exit end
-> [   92.487389] [pid:916,cpu7,bash]sky1-pcie a070000.pcie:
-> sky1_pcie_suspend_noirq
-> [   92.494604] [pid:916,cpu7,bash]sky1-pcie a070000.pcie: PM:
-> sky1_pcie_suspend_noirq+0x0/0x174 returned 0 after 26379 usecs
-> [   92.505619] [pid:916,cpu7,bash]sky1-audss-clk
-> 7110000.system-controller:clock-controller: PM: calling
-> genpd_suspend_noirq+0x0/0x80 @ 916, parent: 7110000.system-controller
-> [   92.520919] [pid:916,cpu7,bash]sky1-audss-clk
-> 7110000.system-controller:clock-controller: PM: genpd_suspend_noirq+0x0/0x80
-> returned 0 after 1 usecs
-> [   92.534214] [pid:916,cpu7,bash]Disabling non-boot CPUs ...
-> 
-> 
-> Hans: Before I added the printk for debugging, it hung here.
-> 
-> 
-> I added the log output after debugging printk.
-> 
-> Sky1 SOC Root Port driver's suspend function: sky1_pcie_suspend_noirq
-> Our hardware is in STR(suspend to ram), and the controller and PHY will lose
-> power.
-> 
-> So in sky1_pcie_suspend_noirq, the AXI,APB clock, etc. of the PCIe
-> controller will be turned off. In sky1_pcie_resume_noirq, the PCIe
-> controller and PHY will be reinitialized. If suspend does not close the AXI
-> and APB clock, and the AXI is reopened during the resume process, the APB
-> clock will cause the reference count of the kernel API to accumulate
-> continuously.
+
+
+On 2025/5/2 23:45, Manivannan Sadhasivam wrote:
+> On Fri, May 02, 2025 at 11:20:51AM +0800,hans.zhang@cixtech.com  wrote:
+>> From: Hans Zhang<hans.zhang@cixtech.com>
+>>
+>> When PCIe ASPM L1 is enabled (CONFIG_PCIEASPM_POWERSAVE=y), certain
+>> NVMe controllers fail to release LPI MSI-X interrupts during system
+>> suspend, leading to a system hang. This occurs because the driver's
+>> existing power management path does not fully disable the device
+>> when ASPM is active.
+>>
+> Why can't you add quirks for those NVMe devices instead?
 > 
 
-So this is the actual issue (controller loosing power during system suspend) and
-everything else (ASPM, MSIX write) are all side effects of it.
+Dear Mani,
 
-Yes, this issue is more common with several vendors and we need to come up with
-a generic solution instead of hacking up the client drivers. I'm planning to
-work on it in the coming days. Will keep you in the loop.
+static int nvme_init_identify(struct nvme_ctrl *ctrl)
+   if (!ctrl->identified) {
+     for (i = 0; i < ARRAY_SIZE(core_quirks); i++) {
+	if (quirk_matches(id, &core_quirks[i]))
+	  ctrl->quirks |= core_quirks[i].quirks;
+	}
 
-- Mani
 
--- 
-மணிவண்ணன் சதாசிவம்
+quirk_matches needs to match the vid of each NVMe SSD. At present, I 
+have added all the vid available on the market to the quirks table, 
+which seems very unreasonable.
+
+Best regards,
+Hans
 
