@@ -4,83 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5679C3ABB2
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 May 2025 17:23:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66CF0C3ABAA
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 May 2025 18:07:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FGKG+bqqtU1mFVGRnDFZ9YvbYaqYm4zslqMRs/wrJK4=; b=svhsZXzAwnmCsffEOQ866vy6Kt
-	cVXvhO7fkXJNbJLx+Pd8CM5QfoLdpmW1YyEVMNsws+c6owEnsaBa+aOgK3elR+WCQQLrrjk4crCgI
-	m9USUDE1OjDC6aE6f2/97ZRCYxyfpjVKyQecPKyfWfL2Lx3l4H+I8zuSSwGpy1gTZJJiJ2QEwTV3c
-	xB097sjKkUTM5rzhmI/NMuU6C4SVVQw2n3ey/xhwzyu9VGirByF92tH/FVOP5v00bkEuoU46Tpy4Z
-	kB6zlRCGzqDWkv6th3aEE5bQEzDl95saB+hw11huOzNv7TPGU4xIbvISLDrjV76JroHhbeLWLqNkP
-	pSmjOMFQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zcSLiUz4ebnW8auKGRYJu0KQ8ZdZMC2lQaQD2lbQrvw=; b=lkQofVLLGLA0tUb6lHGcLTwDrW
+	H/FGhuBSds6gKJPGuymHJoH8qQ8sx6ZVaKqXpCRbMQTcIQuzUWMbqP8Gr9XHn9//Bwentf+wIYApm
+	rECI5THUOBNTwNOnxhKde0+yW9f1mChB3gTIpW1zZmW8LJczJoER6udg/lHclV0+gEFp4k7EMfcjf
+	lZLcH1YXcUSIQCEziuxlFB525LqVFumCWGghoY5LqCFl+t1+MssW7LJl6juOzwOEh6HXLK7yQmle8
+	PP3XzJYTmKevCICdGFVMa0zt7CpeBh4mpPVuOm5XqlwwNOvwSPaM9PH3OxRj53H5CWe3G4tE6Z83u
+	Xa2lQdww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAu6Q-00000002e0w-2OP8;
-	Fri, 02 May 2025 17:23:10 +0000
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+	id 1uAun8-00000002k9t-1PjA;
+	Fri, 02 May 2025 18:07:18 +0000
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAtYs-00000002ZHn-1qCX
+	id 1uAulS-00000002jyt-35ei
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 May 2025 16:48:31 +0000
-Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-af51b57ea41so286672a12.2
-        for <linux-nvme@lists.infradead.org>; Fri, 02 May 2025 09:48:30 -0700 (PDT)
+	Fri, 02 May 2025 18:05:35 +0000
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-2240b4de12bso39714015ad.2
+        for <linux-nvme@lists.infradead.org>; Fri, 02 May 2025 11:05:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1746204509; x=1746809309; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FGKG+bqqtU1mFVGRnDFZ9YvbYaqYm4zslqMRs/wrJK4=;
-        b=c0qA82h6GbD9f05WKYm+DIcKhmkv87r8SuiaZ90t3U3zkjmzY+8OrSI3/isGsdibzS
-         jM/V9XaogiLNWlXfJe0TNRKo53pS7JeL4574V/mGZ//aG1wWpIvgUrojUiJD8hqE2wfv
-         rScdeQKGchkpsGSKRDnRQBfG5MyZOyrOxsqRq+lIcjFOB1dqp9Sq27tKACd0En+WuYE2
-         oq09XiC3hn0TXUnOpmKkQfNQ3XQuNWsIgum97T5MBZsdlviUqoKBmCClfN4h8mkyXX7v
-         Ll7P5hlIJuXFDT+vnT3N1ur75VbILpEGZYQUClS3dsmkxK+VGEBL2z3ChybLXEF8bhpC
-         dewg==
+        d=linaro.org; s=google; t=1746209134; x=1746813934; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zcSLiUz4ebnW8auKGRYJu0KQ8ZdZMC2lQaQD2lbQrvw=;
+        b=dcTVK1a+EVcqMr941iHHFsuLVy+71jj2Uj32Om7HeV00qJjnW77drDTygTvNV1/xAc
+         mfdFxpH/4oZXkYkMRXoxfzC01dSWeauV/V0CrQguW+upFadjQ9JiLO/Q68OY0I9BvNmA
+         6FBxVIPR0vz5KHLECtt6M84KFjU3uyk1C0P5iSBBaIXBVSb8jcsWjSwRwPQOUersnSIq
+         IzmUPhHTR3EZzV77y4m9Q+dHGVzAe6jWh+BmqUDw3Yz6dh0PFR/r0LyvvSF9YlcHCcZl
+         Lz5Fygb3BFJSTa68+BjJS0e49dAwPB5X9z33Qni82uo8QOLhY75ll0/2eYl/y2r+Vq07
+         UonQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746204509; x=1746809309;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FGKG+bqqtU1mFVGRnDFZ9YvbYaqYm4zslqMRs/wrJK4=;
-        b=r+QEJ89CgvRw1hAsa5o2VkzjoA1u4M6vSIa69I4Jxu4uAkMNHxLsjHFWTOYtn1xCRh
-         Ah0SKNnoCMs2DWh6cLajNdVflevOen9WRAAD5d+Yyn4sbojhZ5HMZwqZjKqToCqOKtlX
-         z/iHhE2fYjHWzfFK08tK+K/dUv24Wg+7niYlFsYy9351CP3AopzobWPbYpd8zPXfq80L
-         5tCrk2j0/Qh6l2foIzOquDHO7+TCBx32ygsUQ/01XBqjx31LmOD88x3j6e64O1NgnXV0
-         jC5WMinAvKVkeWMRSenr0oY0wdCvr2czGIGt4/4YmcK7l7wlIQSLwuT4xwQhhAo6pStx
-         JNDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSm0k1S4/FTHDdnWzunODR4Y+AuOBZ4UtGNxBbTyh3jinuQS8TATe3bGfztxksCWG7U2XPTCBA9sqb@lists.infradead.org
-X-Gm-Message-State: AOJu0YyQl25iMFQ7DihVZcVMpiiCAOW6f0uVF6L5VrHA/kzcvt9P0PEY
-	I3zQhP4kFIPY/yV+kc7zJGHWh2TmN2fXFR1pJC08S87AO19Nz6qENdn/KliXGhm59l40tMizTrS
-	OAQ9VjtTrYvsMKC0uDOOIXONQ06CKw+pWyvzFUw==
-X-Gm-Gg: ASbGncva0DoZNeeSUb0H51g4c8xtVcPhKnLUdCqvy84IrW7yI8r6Q0MvuUGhIUZPmoJ
-	R6lJBUYb6uKZ/zp6FkNbY70beYRhRaRyeygiVDbufDTZTJrdRuCYQxOLJVrCIihSeRV+SbNg885
-	zHXOgeKsfzFMuM1GXHwjDl
-X-Google-Smtp-Source: AGHT+IEELL9u72c1Fg2kejI58mub1eHMZr6Gpc7Bc6hBIFC204l0EKzL5sGiaFODbZX/MTt3DAVSgDpVZmluKrqjuK4=
-X-Received: by 2002:a17:90b:38c3:b0:305:5f31:6c63 with SMTP id
- 98e67ed59e1d1-30a4e6f7e74mr2199297a91.6.1746204509624; Fri, 02 May 2025
- 09:48:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746209134; x=1746813934;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zcSLiUz4ebnW8auKGRYJu0KQ8ZdZMC2lQaQD2lbQrvw=;
+        b=KTwY+M0w4LpmBsouXK/GeM2Ahz+XbiM6S0RbFP1EOdnOpH14q1D+YuZEZvZ0vCwgVZ
+         Wb4NjIxx4Nzn5SpD2XKCSSg6hFKotHgpCJTNPS2gCYNVoi6l3LYVU0agy49RamccLq3Y
+         MbItT2HAQJYgYHcM93XVrGqM2tNscXIJNyywiiFk8cmdYOYg0+mw8HxxPzRzkLqA/l3V
+         pWAzZ5etO9LJDsyShrCdVeKAL0BiKPDv/nQmx7Q18xykOQ6IvEApKqSSyJIlwgqOeoSI
+         Zg8OOzIAr2JoEtCxKEgMRST+ETmIBafs7c8ttvQPPadxR6KXTHbkrEcDQr4DD0IjdSPW
+         iiwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUXCyF84XqiGQVZRE+xcPVb4u1jePt/L8wLWL7coFXbMbiXJG2besQ2isfxWLSuLd0KI4Jib/sPZ6A5@lists.infradead.org
+X-Gm-Message-State: AOJu0YxEKrzaVqU/WrTCjQSSkj8foifgU3N5osY2FHovkkuAaHjwLFvE
+	rqlbj1QWfndgTf3EaS54QkFLYjgRSg8B6GL8/BKZYqwEcmqwqPalwFjqkuFPFw==
+X-Gm-Gg: ASbGncu7RraDnCV/UyvUei79wwDwbBg8sog2L0NB4B9KPS9nuFx6Mqvpmrh8dWHqYkP
+	efqOqfEFTg28LFss5xwjRGpwcKDGEq4C0oT5d/t4dyZ3Tx/RGRnTouCEsvFOwomiYRQc6kA+vvH
+	Z4C/+VQMo8TmjoCyvfWzz5zzMaugWRlPz+RqfYorJLT3f5p/mnWPISgwjpNshLt8b62MlwyS+ks
+	cMMYdunURV9c0KDaDZQzOh/8LmmchYzNMC5l9iJSRgbZL+XWiweICAlZUXeqaNrPThGcwqUuGZj
+	dokvX3GAkFric3HSBUEXSbQsADICxSIL+eJaIuqbQ7lDaMgt5vrIQQ==
+X-Google-Smtp-Source: AGHT+IEYeLUys5tfLkjUspsmDDI1Cb1YA+edBh30Ni418v1MT8XNeWwFc7kK/LBz4rDgcz2jBf4ikw==
+X-Received: by 2002:a17:903:2c9:b0:21f:7e12:5642 with SMTP id d9443c01a7336-22e102c79d0mr54635905ad.18.1746209133893;
+        Fri, 02 May 2025 11:05:33 -0700 (PDT)
+Received: from thinkpad ([220.158.156.122])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e150eae63sm10793605ad.18.2025.05.02.11.05.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 May 2025 11:05:33 -0700 (PDT)
+Date: Fri, 2 May 2025 23:35:29 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Hans Zhang <hans.zhang@cixtech.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, axboe@kernel.dk, 
+	hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: Fix system hang when ASPM L1 is enabled during
+ suspend
+Message-ID: <onw47gzc6mda2unsew36b2cmp2et3ijrjqlmgpueeko5vucgph@wrkaiqlbo2fp>
+References: <20250502150027.GA818097@bhelgaas>
+ <be8321e5-d048-4434-9b2a-8159e9bdba43@cixtech.com>
+ <z4bq25pr35cklwoodz34pnfaopfrtbjwhc6gvbhbsvnwblhxia@frmtb3t3m4nk>
+ <433f2678-86c1-4ff6-88d1-7ed485cf44b7@cixtech.com>
+ <58e343d9-adf3-4853-9dec-df7c1892d6b2@cixtech.com>
 MIME-Version: 1.0
-References: <20250426020636.34355-1-csander@purestorage.com>
-In-Reply-To: <20250426020636.34355-1-csander@purestorage.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Fri, 2 May 2025 09:48:17 -0700
-X-Gm-Features: ATxdqUHt_RY6WlfG-cFs204ON7jneR73r_rcAj43sEs6pcYPHQ6F77sRjndgWok
-Message-ID: <CADUfDZr=OWv-bt+rzNQZ7zii9JyNxmkYCJxXCiCNsoHhT5UcYw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/3] nvme/pci: PRP list DMA pool partitioning
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <58e343d9-adf3-4853-9dec-df7c1892d6b2@cixtech.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250502_094830_514586_159FAC01 
-X-CRM114-Status: GOOD (  21.78  )
+X-CRM114-CacheID: sfid-20250502_110534_802119_290EEF89 
+X-CRM114-Status: GOOD (  33.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,72 +104,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
-It seems like there is consensus on this series and all patches have
-multiple reviews. Would it be possible to queue it up for 6.16? The
-NVMe tree seems like it would make sense, though maybe the dmapool
-patch needs to go through the mm tree?
+On Sat, May 03, 2025 at 12:20:52AM +0800, Hans Zhang wrote:
+> 
+> 
+> On 2025/5/3 00:07, Hans Zhang wrote:
+> > 
+> > 
+> > On 2025/5/2 23:58, Manivannan Sadhasivam wrote:
+> > > EXTERNAL EMAIL
+> > > 
+> > > On Fri, May 02, 2025 at 11:49:07PM +0800, Hans Zhang wrote:
+> > > > 
+> > > > 
+> > > > On 2025/5/2 23:00, Bjorn Helgaas wrote:
+> > > > > EXTERNAL EMAIL
+> > > > > 
+> > > > > On Fri, May 02, 2025 at 11:20:51AM +0800, hans.zhang@cixtech.com wrote:
+> > > > > > From: Hans Zhang <hans.zhang@cixtech.com>
+> > > > > > 
+> > > > > > When PCIe ASPM L1 is enabled (CONFIG_PCIEASPM_POWERSAVE=y), certain
+> > > > > 
+> > > > > CONFIG_PCIEASPM_POWERSAVE=y only sets the default.  L1 can be enabled
+> > > > > dynamically regardless of the config.
+> > > > > 
+> > > > 
+> > > > Dear Bjorn,
+> > > > 
+> > > > Thank you very much for your reply.
+> > > > 
+> > > > Yes. To reduce the power consumption of the SOC system, we have
+> > > > enabled ASPM
+> > > > L1 by default.
+> > > > 
+> > > > > > NVMe controllers fail to release LPI MSI-X interrupts during system
+> > > > > > suspend, leading to a system hang. This occurs because the driver's
+> > > > > > existing power management path does not fully disable the device
+> > > > > > when ASPM is active.
+> > > > > 
+> > > > > I have no idea what this has to do with ASPM L1.  I do see that
+> > > > > nvme_suspend() tests pcie_aspm_enabled(pdev) (which seems kind of
+> > > > > janky and racy).  But this doesn't explain anything about what would
+> > > > > cause a system hang.
+> > > > 
+> > > > [   92.411265] [pid:322,cpu11,kworker/u24:6]nvme 0000:91:00.0:
+> > > > PM: calling
+> > > > pci_pm_suspend_noirq+0x0/0x2c0 @ 322, parent: 0000:90:00.0
+> > > > [   92.423028] [pid:322,cpu11,kworker/u24:6]nvme 0000:91:00.0: PM:
+> > > > pci_pm_suspend_noirq+0x0/0x2c0 returned 0 after 1 usecs
+> > > > [   92.433894] [pid:324,cpu10,kworker/u24:7]pcieport 0000:90:00.0: PM:
+> > > > calling pci_pm_suspend_noirq+0x0/0x2c0 @ 324, parent: pci0000:90
+> > > > [   92.445880] [pid:324,cpu10,kworker/u24:7]pcieport 0000:90:00.0: PM:
+> > > > pci_pm_suspend_noirq+0x0/0x2c0 returned 0 after 39 usecs
+> > > > [   92.457227] [pid:916,cpu7,bash]sky1-pcie a070000.pcie: PM: calling
+> > > > sky1_pcie_suspend_noirq+0x0/0x174 @ 916, parent: soc@0
+> > > > [   92.479315] [pid:916,cpu7,bash]cix-pcie-phy a080000.pcie_phy:
+> > > > pcie_phy_common_exit end
+> > > > [   92.487389] [pid:916,cpu7,bash]sky1-pcie a070000.pcie:
+> > > > sky1_pcie_suspend_noirq
+> > > > [   92.494604] [pid:916,cpu7,bash]sky1-pcie a070000.pcie: PM:
+> > > > sky1_pcie_suspend_noirq+0x0/0x174 returned 0 after 26379 usecs
+> > > > [   92.505619] [pid:916,cpu7,bash]sky1-audss-clk
+> > > > 7110000.system-controller:clock-controller: PM: calling
+> > > > genpd_suspend_noirq+0x0/0x80 @ 916, parent: 7110000.system-controller
+> > > > [   92.520919] [pid:916,cpu7,bash]sky1-audss-clk
+> > > > 7110000.system-controller:clock-controller: PM:
+> > > > genpd_suspend_noirq+0x0/0x80
+> > > > returned 0 after 1 usecs
+> > > > [   92.534214] [pid:916,cpu7,bash]Disabling non-boot CPUs ...
+> > > > 
+> > > > 
+> > > > Hans: Before I added the printk for debugging, it hung here.
+> > > > 
+> > > > 
+> > > > I added the log output after debugging printk.
+> > > > 
+> > > > Sky1 SOC Root Port driver's suspend function: sky1_pcie_suspend_noirq
+> > > > Our hardware is in STR(suspend to ram), and the controller and
+> > > > PHY will lose
+> > > > power.
+> > > > 
+> > > > So in sky1_pcie_suspend_noirq, the AXI,APB clock, etc. of the PCIe
+> > > > controller will be turned off. In sky1_pcie_resume_noirq, the PCIe
+> > > > controller and PHY will be reinitialized. If suspend does not
+> > > > close the AXI
+> > > > and APB clock, and the AXI is reopened during the resume
+> > > > process, the APB
+> > > > clock will cause the reference count of the kernel API to accumulate
+> > > > continuously.
+> > > > 
+> > > 
+> > > So this is the actual issue (controller loosing power during system
+> > > suspend) and
+> > > everything else (ASPM, MSIX write) are all side effects of it.
+> > > 
+> 
+> Dear Mani,
+> 
+> There are some things I don't understand here. Why doesn't the NVMe SSD
+> driver release the MSI/MSIx interrupt when ASPM is enabled? However, if ASPM
+> is not enabled, the MSI/MSIx interrupt will be released instead.
+> 
 
-Thanks,
-Caleb
+You mean by calling pci_free_irq_vectors()? If so, the reason is that if ASPM is
+unavailable, then the NVMe cannot be put into low power APST state during
+suspend. So shutting down it is the only sane option to save power, with the
+cost of increased resume latency. But if ASPM is available, then the driver
+doesn't shut the NVMe as it relies on APST to keep the NVMe controller/memory in
+low power mode.
 
-On Fri, Apr 25, 2025 at 7:07=E2=80=AFPM Caleb Sander Mateos
-<csander@purestorage.com> wrote:
->
-> NVMe commands with over 8 KB of discontiguous data allocate PRP list
-> pages from the per-nvme_device dma_pool prp_page_pool or prp_small_pool.
-> Each call to dma_pool_alloc() and dma_pool_free() takes the per-dma_pool
-> spinlock. These device-global spinlocks are a significant source of
-> contention when many CPUs are submitting to the same NVMe devices. On a
-> workload issuing 32 KB reads from 16 CPUs (8 hypertwin pairs) across 2
-> NUMA nodes to 23 NVMe devices, we observed 2.4% of CPU time spent in
-> _raw_spin_lock_irqsave called from dma_pool_alloc and dma_pool_free.
->
-> Ideally, the dma_pools would be per-hctx to minimize contention. But
-> that could impose considerable resource costs in a system with many NVMe
-> devices and CPUs.
->
-> As a compromise, allocate per-NUMA-node PRP list DMA pools. Map each
-> nvme_queue to the set of DMA pools corresponding to its device and its
-> hctx's NUMA node. This reduces the _raw_spin_lock_irqsave overhead by
-> about half, to 1.2%. Preventing the sharing of PRP list pages across
-> NUMA nodes also makes them cheaper to initialize.
->
-> Allocating the dmapool structs on the desired NUMA node further reduces
-> the time spent in dma_pool_alloc from 0.87% to 0.50%.
->
-> Caleb Sander Mateos (2):
->   nvme/pci: factor out nvme_init_hctx() helper
->   nvme/pci: make PRP list DMA pools per-NUMA-node
->
-> Keith Busch (1):
->   dmapool: add NUMA affinity support
->
->  drivers/nvme/host/pci.c | 171 +++++++++++++++++++++++-----------------
->  include/linux/dmapool.h |  17 +++-
->  mm/dmapool.c            |  16 ++--
->  3 files changed, 121 insertions(+), 83 deletions(-)
->
-> v6:
-> - Clarify description of when PRP list pages are allocated (Christoph)
-> - Add Reviewed-by tags
->
-> v5:
-> - Allocate dmapool structs on desired NUMA node (Keith)
-> - Add Reviewed-by tags
->
-> v4:
-> - Drop the numa_node < nr_node_ids check (Kanchan)
-> - Add Reviewed-by tags
->
-> v3: simplify nvme_release_prp_pools() (Keith)
->
-> v2:
-> - Initialize admin nvme_queue's nvme_prp_dma_pools (Kanchan)
-> - Shrink nvme_dev's prp_pools array from MAX_NUMNODES to nr_node_ids (Kan=
-chan)
->
-> --
-> 2.45.2
->
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
