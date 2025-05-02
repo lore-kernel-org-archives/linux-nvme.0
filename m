@@ -4,98 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F10E0C3ABAC
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 May 2025 13:53:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15D45C3ABAC
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 May 2025 15:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Date:Cc:To:From:Subject:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fw+2fgqJXUvfDafZCmkw7YHyRvYA12vaOFaX55khMis=; b=zCtVIwaIyWnZWGOKi1cF4Ln/1f
-	Ra3q6uecjy10of2HHkV+jAnxp6tIVPyxUzwd8XvYrA/lC1UTHxV9Bc3M+u9XbE2JnuVNPBpGg4Aai
-	IFw4fnfzNHeEgnyujwZFuqZhiMfGCmj7PC9u+/GNqnq7cSs2gl7ivshzkIGh0+NXD9paiTTmJ3Ce/
-	GVvvjSveB+AVgzAoG51GsIA4kTq6f8mfl1OF7/PTtNyM2+PzJxRW7Sudg+FtQvWq7BUMXcjyEes77
-	JP4vMxxbfBbYlqeUH/tSXyhE0TCUHBzZsiSyAeBCwnrWECDcI+DJNiLhBaUAZwRCBm1RYmKew+Okl
-	CzDUk+KQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=4YUYyybCo2Drx3m8qAkikfIkM3AlqWhqmjb4pTjwbEE=; b=pFSpYiwjmJ8IRW
+	Jr4CrgylZilCR3T/9vDN4WrrfOGFGF2pU1fiXouG0HajpjUoITRjxekctXoTae85WU8d4vguSjYo0
+	WMDuhbJHJs68bHdd/g8xmieaqAxjLeHsRTQG32wB5Sbfgv+qjyqn98fo+lJyTG/+2P6UnOegW9LQA
+	Es2CqLppp/X5GdHTIt1k+dzP85qqcyuImRYCPnF/nMD3VNywBvPbdmKCpnTc9GNXmh2oklmNZJ7Lt
+	gNKq1znirml+FvRCF0GNVYddXycl73Lza/8oKBRMgZwFzeUZvbOChh29ga8ywcm2KMy7TIVN53KWW
+	eNo5iN0JxiKH4xJAaciw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAqpk-000000026vW-3x0C;
-	Fri, 02 May 2025 13:53:44 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1uArxF-00000002GyZ-0JHu;
+	Fri, 02 May 2025 15:05:33 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAqpC-000000026uA-0YfU
+	id 1uArsM-00000002GKA-2UA4
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 May 2025 13:53:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746193989;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fw+2fgqJXUvfDafZCmkw7YHyRvYA12vaOFaX55khMis=;
-	b=i7PkFuZATudKsNWmAKXRuq3+FSx3urb7lV80XbMzgTU73Eoq8SuNLBDYWnLYSDNjl4XdDs
-	M6BGw6nGMvljcSWXhLlZdH/rQyLoVLzPVBluQ//f8qJ436xlc/zF0ZjGJrmIfEm8+ACJ1I
-	8OT4AgoA3FMOKUtfbqO/nhvJMEulUDQ=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-382-0NooPpP5Pp6QTKqnj8jGOA-1; Fri, 02 May 2025 09:53:08 -0400
-X-MC-Unique: 0NooPpP5Pp6QTKqnj8jGOA-1
-X-Mimecast-MFC-AGG-ID: 0NooPpP5Pp6QTKqnj8jGOA_1746193987
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-400b3a7e434so1536646b6e.0
-        for <linux-nvme@lists.infradead.org>; Fri, 02 May 2025 06:53:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746193987; x=1746798787;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fw+2fgqJXUvfDafZCmkw7YHyRvYA12vaOFaX55khMis=;
-        b=uKTHbRlOtLMkiQB1Eq3nP5M/NAhsllMaT02Pzd03Y0tihXTo55mADO0+PMg2RSc+4x
-         mdQnYsdjCdJcmCkFZm0qllXIeoJEr7S866YC8tGuZ60ynunavq/fZOSbI3Qa1ENOlvjw
-         jOQjxXBB5kq9v2cmFh7BoRKHRR5U0WtY1Ek35XaNDv9EQ1zqhOXXTudsMjOnbEuhYRjr
-         3lV6pz+9/cn+9WDqLOrX3OaU7pSQ0I0EfoZbjft2p8DghWbpUsvAtxrR8JDYZQ6e3v29
-         45Q1PzbGvNyGF3NG9sdEeh++t9oCSyJjNoJ0ZZv1D/sUVIL7C8RRsDxK7BfzvOqLd6e0
-         wGGg==
-X-Gm-Message-State: AOJu0Yy1lzHqThVQEww64Kv1C4gpTyggg4IHmxsHE9a4vqFsC8pPBcAv
-	xBbtD/P0ediq1AeUw1iCRkUzXY5Avnw/qFAXn/0sT9pdw8XptCkrr8QA3lLD9Zi38EUjswMb4oD
-	HHeJjR9tovtAAZgW7/K6d10b0URQEXn/3/oIXcGaTicDOnUN/6Df/d3daILLSOjUx
-X-Gm-Gg: ASbGncs5ElIs53p1bq5fHjdDOUTV1o2BmPBKMvkL13wnr/1AdaSNenlJ9jygrOSjLMW
-	bFXN5VDnYj1K2ShlirY+QXnctvRVrsfwknri9rKYV0Qn2LTflUEGuK7uVCHBWC0/06UDZ1Plp+m
-	h3jSeW60vCazFGMCPaVduoT6V2WJ30K0wJBxkaxRuIPUwfzZIl5WD8LH49aUraMhc1CzT/aWe3O
-	Rdu2holq6Hji8k7t6YGl+JoNJc8ye/tJkOaHx+O/awb80V26Bl7O0pPEJ4a/nZ6Nomy6E/DGhMR
-	e4do1uc2hhSl5AwepB4Mlxfb8EpKc7dfrwHX2+IjslARv2Uea+peqkcTOiUv5A==
-X-Received: by 2002:a05:6808:6a96:b0:401:e610:3c56 with SMTP id 5614622812f47-4034138833dmr1703554b6e.13.1746193987352;
-        Fri, 02 May 2025 06:53:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE9J3Rm/9OufCsJh+twRbuyVXmrf1LSGsq8nqx7UvZL7sv6WsC9sRIHvSPGFbm63n3+VyPuoA==
-X-Received: by 2002:a05:6808:6a96:b0:401:e610:3c56 with SMTP id 5614622812f47-4034138833dmr1703548b6e.13.1746193987037;
-        Fri, 02 May 2025 06:53:07 -0700 (PDT)
-Received: from ?IPv6:2600:6c64:4e7f:603b:fc4d:8b7c:e90c:601a? ([2600:6c64:4e7f:603b:fc4d:8b7c:e90c:601a])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4033dc61752sm565808b6e.40.2025.05.02.06.53.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 06:53:04 -0700 (PDT)
-Message-ID: <5356546913f4961efba282b0e12ac4344beea027.camel@redhat.com>
-Subject: Re: Samsung  PM1733 MZXL53T2HBLS-00AH3 and duplicate id's may need
- a quirk
-From: Laurence Oberman <loberman@redhat.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, "Lombardi, Maurizio"
-	 <mlombard@redhat.com>, bgurney@redhat.com
-Date: Fri, 02 May 2025 09:53:03 -0400
-In-Reply-To: <aBSnz1r3NsoUya4b@infradead.org>
-References: <b368dde2186500caf71464bc966cf22953c5124a.camel@redhat.com>
-	 <aBSnz1r3NsoUya4b@infradead.org>
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
+	Fri, 02 May 2025 15:00:31 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2C96F5C5BC5;
+	Fri,  2 May 2025 14:58:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9EC5C4CEE4;
+	Fri,  2 May 2025 15:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746198029;
+	bh=8aiCnHx6TWw1iE5xKN7o3tAkYwOoStTtmDIkoORe3Zw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=dzCQfIz7v1iUmcBwntCNPQxjLJrJREtBsxmKbr9i3UUBx3u/ubcBCcwXfl/6C9UV+
+	 0xNYx8a82Z4L44tov8D14FsRRHCjZj8UbIMlElbuGycFH4DcqeArKFccRiMGkONMeM
+	 uL9W0AZl8Cu0H+BwlbATo715JqAqMsrL5VrDbpyGVakDzSL0a5cpx1XZILGyglmAxi
+	 jPGGTfalfwwzPgdD1cHtQ1VltFOcAewjFDK5C9PNhvebOfGHY1F6esK2QLzwF17mRc
+	 RawJLZEpm71wD1BO1DJp8Ja/c8fdheHTzka6OkZI25YL09wqc1zX81FK6k0vb/yvl6
+	 8g4USY6yetoWQ==
+Date: Fri, 2 May 2025 10:00:27 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: hans.zhang@cixtech.com
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	manivannan.sadhasivam@linaro.org, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: Fix system hang when ASPM L1 is enabled during
+ suspend
+Message-ID: <20250502150027.GA818097@bhelgaas>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: MDYLKnrLnjKwGYh5JPNE5bM1pAgGNI2lrAlU_xaKuE8_1746193987
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250502032051.920990-1-hans.zhang@cixtech.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250502_065310_239469_62787244 
-X-CRM114-Status: UNSURE (   8.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250502_080030_686830_8371379E 
+X-CRM114-Status: GOOD (  15.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,16 +72,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 2025-05-02 at 04:09 -0700, Christoph Hellwig wrote:
-> Please ask the vendor (or OEM) for a fix instead.=C2=A0 This is gravely
-> broken behavior.
->=20
->=20
+On Fri, May 02, 2025 at 11:20:51AM +0800, hans.zhang@cixtech.com wrote:
+> From: Hans Zhang <hans.zhang@cixtech.com>
+> 
+> When PCIe ASPM L1 is enabled (CONFIG_PCIEASPM_POWERSAVE=y), certain
 
-Thank you Christoph
-I made the vendor aware that they need to fix this.
+CONFIG_PCIEASPM_POWERSAVE=y only sets the default.  L1 can be enabled
+dynamically regardless of the config.
 
-Regards
-Laurence
+> NVMe controllers fail to release LPI MSI-X interrupts during system
+> suspend, leading to a system hang. This occurs because the driver's
+> existing power management path does not fully disable the device
+> when ASPM is active.
 
+I have no idea what this has to do with ASPM L1.  I do see that
+nvme_suspend() tests pcie_aspm_enabled(pdev) (which seems kind of
+janky and racy).  But this doesn't explain anything about what would
+cause a system hang.
+
+> The fix adds an explicit device disable and reset preparation step
+> in the suspend path after successfully setting the power state.
+> This ensures proper cleanup of interrupt resources even when ASPM
+> L1 is enabled, preventing the system from hanging during suspend.
+
+Maybe there's a clue in the 600 lines of debug output that I trimmed,
+but without some interpretation, I have no idea how to find it.
+
+Unless you see similar problems on other systems, I would suspect an
+issue with the SoC or the SoC driver where you do see problems.
+
+Bjorn
 
