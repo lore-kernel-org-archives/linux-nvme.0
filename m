@@ -4,140 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F6DCC369C2
-	for <linux-nvme@archiver.kernel.org>; Sat,  3 May 2025 14:37:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0013BC369C2
+	for <linux-nvme@archiver.kernel.org>; Sat,  3 May 2025 21:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j3dEtCBjQChu7SeoI4xxG8dNuxDLgmO92LQ3qPIljcg=; b=tIyl7yUEpjG0tQPlVQcjswyidB
-	1mM9au+RfB9UvlKRqQaOWSvyOCGZb7yaj8eRiaUt7FJppYiAN2xT9sVS4BJHyIGKgcdFhUn50sykY
-	mxY0/HTNPY+LBEU6l7I8Inzx4cuH2KIqVGTuAej/7id2tY0cBFeHd7MjEeJShsYOi6WU97d4OzrCL
-	yzbwXlmFCUj/+skPCYmzf/Xjar5AwM9/9EuAs3KcX0YzqaCrpodXeUJoDMo5HGc5SkQEK103ubzbt
-	vHpYoGg1C4suNNlyYYZo7A9K0tm9Vrdqiy2gBiyCS030MCG2AvVRDYmr7fw9Y31/OVmx2e3C32zMB
-	qEa2+okA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=br3AFfEUnRj5fngutK9i/jnbo6o4VEmVTfhs6OGnjfY=; b=WgaEyhx1NQC1o510IUFyh9qp2s
+	hGMGvUv37GCdi1/aSy88rqWkm5TWqthWPkmcm93dcVoNGwKWTEuNLnS8g9015NbTSPHXkXZcaqL4u
+	5RhQCsH5f37JdWkqtrsXkVvG2Mw0jUXYl6lb8bAz+9XehROeW9PazgdCoRGhHspN+r0pR31M1qsiA
+	abVpw7pAUoRPY/Yie1M0GxvEwjEX3miKJAyy2jjOj6jH3YPZJw5KcmKLbJ9mNA72wEdRanQhyVNZm
+	WsA//kV8lXgMCad+t2FeSG5diaFuDLCg5alCxgNDSIBKlxaGzE40DuKqEaYTPpZn8nnxXzivuNm8M
+	pMC/bgvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBDzB-00000003yLf-1hQn;
-	Sat, 03 May 2025 14:37:01 +0000
-Received: from mail-koreacentralazlp170130007.outbound.protection.outlook.com ([2a01:111:f403:c40f::7] helo=SEYPR02CU001.outbound.protection.outlook.com)
+	id 1uBK2B-00000004VNs-3vdL;
+	Sat, 03 May 2025 21:04:31 +0000
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBDz5-00000003yK9-3JfW
+	id 1uBK29-00000004VNW-1uoG
 	for linux-nvme@lists.infradead.org;
-	Sat, 03 May 2025 14:36:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y1Jn99GY0Z5vvhVeb4HxfhTNbfpiusJVqQbUddqrd39qCvE0stR3HCja8n1dW9AiXn1sxnuSZGhbrpXdfriH2dm+ULg/gQVvxw6AD8MNnw+Mh2VsQcmIexwA5U2sqwihkxoy/JP50FzaUkt8FNgUiPeXrx5HzP1NM2P1qs7Hsej8uUZsQ1lx4CZX/J7bKWw0neXErLb5Zdn7Vak6YUpUqSSvWiAI23Bo2zTB58uZiQU1m9SwCuwLGeMmbE//VltrtzgLYmhz8mIztjhpqWOYPOUdLI9IG9YAr7fK8kQJUVzmL4Kppxl4kg5MB/aEigavjnbyVBWSEMZ6kZqL/7HS9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j3dEtCBjQChu7SeoI4xxG8dNuxDLgmO92LQ3qPIljcg=;
- b=INaHg8x5lLa/zd0YswRLYBAeSufTVOuZeY+JrOYu+vjBqOy1pCzLDt/clN7Xmw20juyUBrilDh5sR0mjsfcTuB6Jo5Iz2NEIDeMol4M7fSC96SlukgRYPZzhtB2156v2zweokDRjL1CwZQ6XMJ6WQrRJIDzqbB/xhhjdCZ8gM2yNXPq/f2UmE2wSPDBrKabl3kBlrxLU/u/ycUIUA3iJLdN+XAkd9NzDnvKR92TMaS6d8LwPRizIVP03eZSmi6+wjRvFRZSiOdYS5y/486mvoefwdy9q3GJlEcpa1jTOYpGJns/7uTmAInX9Idchs0iSDTnIemoq79wrDFIOfcNRuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=grimberg.me smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from TYCP286CA0276.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3c9::13)
- by TYZPR06MB5843.apcprd06.prod.outlook.com (2603:1096:400:285::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.20; Sat, 3 May
- 2025 14:36:36 +0000
-Received: from TY2PEPF0000AB84.apcprd03.prod.outlook.com
- (2603:1096:400:3c9:cafe::91) by TYCP286CA0276.outlook.office365.com
- (2603:1096:400:3c9::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.26 via Frontend Transport; Sat,
- 3 May 2025 14:36:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
- smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- TY2PEPF0000AB84.mail.protection.outlook.com (10.167.253.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.20 via Frontend Transport; Sat, 3 May 2025 14:36:35 +0000
-Received: from [172.16.64.208] (unknown [172.16.64.208])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 3313641604E5;
-	Sat,  3 May 2025 22:36:34 +0800 (CST)
-Message-ID: <8c590b78-6f54-4ae2-9263-3553b5e27527@cixtech.com>
-Date: Sat, 3 May 2025 22:36:30 +0800
+	Sat, 03 May 2025 21:04:30 +0000
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-703cd93820fso26349087b3.2
+        for <linux-nvme@lists.infradead.org>; Sat, 03 May 2025 14:04:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746306267; x=1746911067; darn=lists.infradead.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=br3AFfEUnRj5fngutK9i/jnbo6o4VEmVTfhs6OGnjfY=;
+        b=axd32kaYD52sZ5bklD3n9eWy+NmtBXYySkYm9ntQ3yXME2WYt2WSZ5Yavj8LlvIJLB
+         wNE6kBtKfS24wQd4ULruttmHP5FoBCjueW54cXbdToPBiHHFwUB5SqmvHagyDFAHSykl
+         C7V3i5WeBBOBJltMRFXZ0xFFM4LARBmZfiOoPYeuCrnJeCeX1PjckZw9YowpkdUvOTSd
+         /1xaVYZiTfAkCdnLbtMEOwkL+6IgAVZjaRMBVH4qmXr3QIr5cqBErZ7aatFjImaT1u9J
+         nppHA8mcW5wWzgmTEGKUruDxTZBBI792t9Cy4DyY30cA0jkJdedIrJKYw8IuOmrCBB/4
+         nN7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746306267; x=1746911067;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=br3AFfEUnRj5fngutK9i/jnbo6o4VEmVTfhs6OGnjfY=;
+        b=k132NaWosOfLgIMd2/P1n6P/h7dmmhl+YUw0aDNfD0ByWOWiFQOZXWoVDRm5kKhMq2
+         y3NO3f59hBCverCZTZTLCZuEFIT9DSPWmZvXyn9b9VY1vvRDsjdXcbdg5p2FWNvqNhzC
+         usMU28ElE8lwWduraYPiLnKSFdnE8dqXTuiVIbQw8M7tvHl4V/XFmTDdtNjfBAmos4aN
+         80H+ycrCZ8gcOkMEKRClLP++Nk14CWJSq+vrt7tlwXyPNa1Xo+fFXUo5LrrUx5IDiY68
+         OOT+5am48Dox9Qsb8BNKkS25bbBACTVdo2V6YGMzfrqovlfie8C1pexNqDxpny4QO2eV
+         IR3w==
+X-Gm-Message-State: AOJu0YyPs9Zwu2xpDgEMAxkrr5wnqaBJ/KpuQ8A+fteKJII06osfpKg+
+	YN8QstwrfSuKc+B5Hje7aXCDekJ/XR1DZeKL7yybSOMyXDeLPLZ/AmpAlT/fLkvb8wFY3b3wF+a
+	qhRu6mpumPyZchJm9fmlYfBmlMuy3lahL
+X-Gm-Gg: ASbGncuIixZ+jGP6uOPEDBLUj09xaPBaw2+8iXjYRnCEORlWL3dqZ5uQova5opngfpA
+	doos5VWfHVibeYTsktwIsGylne/w2RtKsO4u7mk9zwC/sBYP7rkOeeESjq3nbPaZMpgPiSlx0FA
+	iO4JE1CNtSTc7VipEOiNJ57kk=
+X-Google-Smtp-Source: AGHT+IHjWMwIpVGk5acPczMKOLon4kb4Of7gY7UH90xYcJMj3Qz1mxC67hPh9/VUlSLK8VvSInnDjskvLmOwYFf1MzM=
+X-Received: by 2002:a05:690c:6885:b0:6fb:b2c0:71da with SMTP id
+ 00721157ae682-708eaf6ebd3mr30699717b3.36.1746306267614; Sat, 03 May 2025
+ 14:04:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-pci: Fix system hang when ASPM L1 is enabled during
- suspend
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, kbusch@kernel.org, axboe@kernel.dk,
- hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-References: <20250502150027.GA818097@bhelgaas>
- <be8321e5-d048-4434-9b2a-8159e9bdba43@cixtech.com>
- <z4bq25pr35cklwoodz34pnfaopfrtbjwhc6gvbhbsvnwblhxia@frmtb3t3m4nk>
- <433f2678-86c1-4ff6-88d1-7ed485cf44b7@cixtech.com>
- <58e343d9-adf3-4853-9dec-df7c1892d6b2@cixtech.com>
- <onw47gzc6mda2unsew36b2cmp2et3ijrjqlmgpueeko5vucgph@wrkaiqlbo2fp>
-Content-Language: en-US
-From: Hans Zhang <hans.zhang@cixtech.com>
-In-Reply-To: <onw47gzc6mda2unsew36b2cmp2et3ijrjqlmgpueeko5vucgph@wrkaiqlbo2fp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB84:EE_|TYZPR06MB5843:EE_
-X-MS-Office365-Filtering-Correlation-Id: b666e743-01c4-4e7c-44d9-08dd8a4fe80c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y2o4V0I4T0ZnTG95NnRwS2dDU2pxRFgvYXJXVHZrWktRaEQwd1c5a3BYUS9J?=
- =?utf-8?B?d0FXQTR2WUwvc21DQlFobFRJNzI1NUlkcFNZU3FhOUJDb1YrVWFVVDY1azl1?=
- =?utf-8?B?SFNQcUNUTHBRSTB1STc5UDVaZ3NVUlltVG1jcVNiTTA3eGtaVnV5Tk51OUEv?=
- =?utf-8?B?bVVXNlA5S1pHaC9VZWRRVUVVeG03SWl0clVSaFlqekNvbUtvNXdCelNHOVdH?=
- =?utf-8?B?RDF4cEFzNU1vandDL01aUktnSmpaSEcrMXpOOTNVbkM5QXhHeGZmNHVBRW9J?=
- =?utf-8?B?T2dyNEpJUEMzTG9tWkUyZUJiY01BQkE4QjlPTjR2QjNQLzh6eWZseTliSGV1?=
- =?utf-8?B?ZHhyUWNrQmsxN1VJMnA0RnRDNGlHbnpWZHVBbHQ2Q2wrV0pxNHZudE0zMys1?=
- =?utf-8?B?S1VmRWxKa3BDbjZRR0NOSEhnbXdNMWR2alRZRkZUU08za3dDWVliYW9vUlRj?=
- =?utf-8?B?YUo4dFJwVC85MzBaNmpUaDVjeUVxK0dqemVTWVNTRXdrREdSK2JuK2pzU05G?=
- =?utf-8?B?MzVmeFFsYUdYWTBqMmdydjhITnY5T3NoTGFNMUdaSGh1MzV1YmRQNzNsNDdr?=
- =?utf-8?B?aTJiaVRXM09adm81UTQ1V3ROZE5kNW8vM3hMMDF1aGNGZTVSa282ZVF4cGto?=
- =?utf-8?B?dXdjVkxkNlFCNnYvT1NxalZSbjJJZ2g0M1ZOU3kveWY2WFl6ZFFqeDlrUXFo?=
- =?utf-8?B?V056WFlvQ1JBWmZkYXMxWW10TGRJRk9NNDVjbVB0dlJPZlVkYTduQWJQSjk4?=
- =?utf-8?B?SjdYc042SnFVYmJUQWtmZThFN0JiYi9qaFVhNHB6UnpWaFFLbFA1N1BoZjBm?=
- =?utf-8?B?UXpRd2diTEI0VGRpOXQxeVQ5amtrQktJTnZhbGI4R0F6d1FaWjVYWnFmSXFt?=
- =?utf-8?B?RUxZa2ZRUTYvNnhGa0N0WXRsWTdhZmxpR25VL2c3WE9GY3JXZ2x0dDRDeUxI?=
- =?utf-8?B?RmRnTzJMOFRjMDlnUUlucXdDQWNWTm9ZbUZER2lvQUJoQzRHclVBa0U5OXpE?=
- =?utf-8?B?OVcxTXhlOXZwV01LYWtxanIrRUFtcVJpWE9DekV6aUJqdDlPT25Ec1kyUVVi?=
- =?utf-8?B?bHh6c3g4MDJOTnI2QWNLY1Ard0s0UkpPMmhjT0pCaFJtb090MjlTRUJrV200?=
- =?utf-8?B?QUIzYkJNa2pIWWttb1lBVTQxajRDbEcweGFML0g4bS9mZTJWVXMyR010LzlF?=
- =?utf-8?B?N0RFWEpCRnVvdUtlaUNXdVAvTERDZUFqdXdxekltZ0VFbzJBamhENk9nb3NK?=
- =?utf-8?B?MlFTWnBHZE5WZlZXSnVKTWgxd1hJWXFwRWVZK0Y0M2RWQU1TYTYyVy8yaVUv?=
- =?utf-8?B?YW0vQ2oxVnhpdGpTWS9XWjh6QVdXNktPc21tVUpzZmxPWWV6NUdnRXF0RC9U?=
- =?utf-8?B?MHplUmlGSk0xdkJDRDB5V0RpWEZmMk9GY09JaHd3Yll6elV3VnBBWVNIVC9o?=
- =?utf-8?B?TFZLV0xXeWlJTjdhM0pNbnBWUW5XNk50Y01XSlNReUNIQ2hkSWQxOWYraVAz?=
- =?utf-8?B?b09zMjFMbUZKZlA3R2t6b2F6aUo4YVRTUFpwWEVXMUZteGVjMk9qQnovYmhB?=
- =?utf-8?B?cnZWZVRtMHFBUDhucnl3NHBFM29pSWY5QXB1REc1RHZ3YStncVVtWjFYaXV6?=
- =?utf-8?B?aFdFdEVORDdPaUpLSlZmaEJUeENDSmhORlVyUC9qMlZuSVhHT0xIS080UXV2?=
- =?utf-8?B?QUxCZTZ2R3NhTGJNZjZtRG4xMFIxb0RmZ1F6NmZwcmppWlFKSUprMkxuMEdY?=
- =?utf-8?B?bVpjZXVJTHN5ei81azB2dDRqd0ZxUHVMbm05Z1hCUGZhaDNSK20xTktnSndj?=
- =?utf-8?B?bW45UnMrbUJUU1BYS05jVU11MnJ0Zi95WUVuQjlwa2txdUlMblJNOW12S1VK?=
- =?utf-8?B?UkdwQ3g3NjVBMkRXODFEWElycUxIejBxdGxxeUpxOGszeXdETXRTWjZhdjZv?=
- =?utf-8?B?dzJnS1RYeFppRjBRK015RXRpVkVyc041ZHU1UTNVaWtGWnA1dDBKKy9qYWVS?=
- =?utf-8?B?bWJMaTJoaDNLT3duNnhXdjNNMXBmRlNFelVyNGdLTkNZQnVidFpmRlkwaHk1?=
- =?utf-8?Q?OScg+F?=
-X-Forefront-Antispam-Report: CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1102;
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2025 14:36:35.1307
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b666e743-01c4-4e7c-44d9-08dd8a4fe80c
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource: TY2PEPF0000AB84.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5843
+From: Anton Gavriliuk <antosha20xx@gmail.com>
+Date: Sun, 4 May 2025 00:04:16 +0300
+X-Gm-Features: ATxdqUFr-5CKZ9PwkiQVFmKolcwZrtyZDYs9OA0G7N565qFChOI4t3qYlcqjGec
+Message-ID: <CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-QzmZBMmtr1oC=fOOgAQ@mail.gmail.com>
+Subject: Sequential read from NVMe/XFS twice slower on Fedora 42 than on Rocky 9.5
+To: linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250503_073655_827931_30E5ABC8 
-X-CRM114-Status: GOOD (  20.98  )
+X-CRM114-CacheID: sfid-20250503_140429_496992_3E4D80BF 
+X-CRM114-Status: UNSURE (   3.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,124 +87,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+There are 12 Kioxia CM-7 NVMe SSDs configured in mdadm/raid0 and
+mounted to /mnt.
 
+Exactly the same fio command running under Fedora 42
+(6.14.5-300.fc42.x86_64) and then under Rocky 9.5
+(5.14.0-503.40.1.el9_5.x86_64) shows twice the performance difference.
 
-On 2025/5/3 02:05, Manivannan Sadhasivam wrote:
-> EXTERNAL EMAIL
-> 
-> On Sat, May 03, 2025 at 12:20:52AM +0800, Hans Zhang wrote:
->>
->>
->> On 2025/5/3 00:07, Hans Zhang wrote:
->>>
->>>
->>> On 2025/5/2 23:58, Manivannan Sadhasivam wrote:
->>>> EXTERNAL EMAIL
->>>>
->>>> On Fri, May 02, 2025 at 11:49:07PM +0800, Hans Zhang wrote:
->>>>>
->>>>>
->>>>> On 2025/5/2 23:00, Bjorn Helgaas wrote:
->>>>>> EXTERNAL EMAIL
->>>>>>
->>>>>> On Fri, May 02, 2025 at 11:20:51AM +0800, hans.zhang@cixtech.com wrote:
->>>>>>> From: Hans Zhang <hans.zhang@cixtech.com>
->>>>>>>
->>>>>>> When PCIe ASPM L1 is enabled (CONFIG_PCIEASPM_POWERSAVE=y), certain
->>>>>>
->>>>>> CONFIG_PCIEASPM_POWERSAVE=y only sets the default.  L1 can be enabled
->>>>>> dynamically regardless of the config.
->>>>>>
->>>>>
->>>>> Dear Bjorn,
->>>>>
->>>>> Thank you very much for your reply.
->>>>>
->>>>> Yes. To reduce the power consumption of the SOC system, we have
->>>>> enabled ASPM
->>>>> L1 by default.
->>>>>
->>>>>>> NVMe controllers fail to release LPI MSI-X interrupts during system
->>>>>>> suspend, leading to a system hang. This occurs because the driver's
->>>>>>> existing power management path does not fully disable the device
->>>>>>> when ASPM is active.
->>>>>>
->>>>>> I have no idea what this has to do with ASPM L1.  I do see that
->>>>>> nvme_suspend() tests pcie_aspm_enabled(pdev) (which seems kind of
->>>>>> janky and racy).  But this doesn't explain anything about what would
->>>>>> cause a system hang.
->>>>>
->>>>> [   92.411265] [pid:322,cpu11,kworker/u24:6]nvme 0000:91:00.0:
->>>>> PM: calling
->>>>> pci_pm_suspend_noirq+0x0/0x2c0 @ 322, parent: 0000:90:00.0
->>>>> [   92.423028] [pid:322,cpu11,kworker/u24:6]nvme 0000:91:00.0: PM:
->>>>> pci_pm_suspend_noirq+0x0/0x2c0 returned 0 after 1 usecs
->>>>> [   92.433894] [pid:324,cpu10,kworker/u24:7]pcieport 0000:90:00.0: PM:
->>>>> calling pci_pm_suspend_noirq+0x0/0x2c0 @ 324, parent: pci0000:90
->>>>> [   92.445880] [pid:324,cpu10,kworker/u24:7]pcieport 0000:90:00.0: PM:
->>>>> pci_pm_suspend_noirq+0x0/0x2c0 returned 0 after 39 usecs
->>>>> [   92.457227] [pid:916,cpu7,bash]sky1-pcie a070000.pcie: PM: calling
->>>>> sky1_pcie_suspend_noirq+0x0/0x174 @ 916, parent: soc@0
->>>>> [   92.479315] [pid:916,cpu7,bash]cix-pcie-phy a080000.pcie_phy:
->>>>> pcie_phy_common_exit end
->>>>> [   92.487389] [pid:916,cpu7,bash]sky1-pcie a070000.pcie:
->>>>> sky1_pcie_suspend_noirq
->>>>> [   92.494604] [pid:916,cpu7,bash]sky1-pcie a070000.pcie: PM:
->>>>> sky1_pcie_suspend_noirq+0x0/0x174 returned 0 after 26379 usecs
->>>>> [   92.505619] [pid:916,cpu7,bash]sky1-audss-clk
->>>>> 7110000.system-controller:clock-controller: PM: calling
->>>>> genpd_suspend_noirq+0x0/0x80 @ 916, parent: 7110000.system-controller
->>>>> [   92.520919] [pid:916,cpu7,bash]sky1-audss-clk
->>>>> 7110000.system-controller:clock-controller: PM:
->>>>> genpd_suspend_noirq+0x0/0x80
->>>>> returned 0 after 1 usecs
->>>>> [   92.534214] [pid:916,cpu7,bash]Disabling non-boot CPUs ...
->>>>>
->>>>>
->>>>> Hans: Before I added the printk for debugging, it hung here.
->>>>>
->>>>>
->>>>> I added the log output after debugging printk.
->>>>>
->>>>> Sky1 SOC Root Port driver's suspend function: sky1_pcie_suspend_noirq
->>>>> Our hardware is in STR(suspend to ram), and the controller and
->>>>> PHY will lose
->>>>> power.
->>>>>
->>>>> So in sky1_pcie_suspend_noirq, the AXI,APB clock, etc. of the PCIe
->>>>> controller will be turned off. In sky1_pcie_resume_noirq, the PCIe
->>>>> controller and PHY will be reinitialized. If suspend does not
->>>>> close the AXI
->>>>> and APB clock, and the AXI is reopened during the resume
->>>>> process, the APB
->>>>> clock will cause the reference count of the kernel API to accumulate
->>>>> continuously.
->>>>>
->>>>
->>>> So this is the actual issue (controller loosing power during system
->>>> suspend) and
->>>> everything else (ASPM, MSIX write) are all side effects of it.
->>>>
->>
->> Dear Mani,
->>
->> There are some things I don't understand here. Why doesn't the NVMe SSD
->> driver release the MSI/MSIx interrupt when ASPM is enabled? However, if ASPM
->> is not enabled, the MSI/MSIx interrupt will be released instead.
->>
-> 
-> You mean by calling pci_free_irq_vectors()? If so, the reason is that if ASPM is
-> unavailable, then the NVMe cannot be put into low power APST state during
-> suspend. So shutting down it is the only sane option to save power, with the
-> cost of increased resume latency. But if ASPM is available, then the driver
-> doesn't shut the NVMe as it relies on APST to keep the NVMe controller/memory in
-> low power mode.
-> 
+/mnt/testfile size 1TB
+server's total dram 192GB
 
-Dear Mani,
+Fedora 42
 
-Thank you for your explanation.
+[root@localhost ~]# fio --name=test --rw=read --bs=256k
+--filename=/mnt/testfile --direct=1 --numjobs=1 --iodepth=64 --exitall
+--group_reporting --ioengine=libaio --runtime=30 --time_based
+test: (g=0): rw=read, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T)
+256KiB-256KiB, ioengine=libaio, iodepth=64
+fio-3.39-44-g19d9
+Starting 1 process
+Jobs: 1 (f=1): [R(1)][100.0%][r=49.6GiB/s][r=203k IOPS][eta 00m:00s]
+test: (groupid=0, jobs=1): err= 0: pid=2465: Sat May  3 17:51:24 2025
+  read: IOPS=203k, BW=49.6GiB/s (53.2GB/s)(1487GiB/30001msec)
+    slat (usec): min=3, max=1053, avg= 4.60, stdev= 1.76
+    clat (usec): min=104, max=4776, avg=310.53, stdev=29.49
+     lat (usec): min=110, max=4850, avg=315.13, stdev=29.82
 
-Best regards,
-Hans
+Rocky 9.5
+
+[root@localhost ~]# fio --name=test --rw=read --bs=256k
+--filename=/mnt/testfile --direct=1 --numjobs=1 --iodepth=64 --exitall
+--group_reporting --ioengine=libaio --runtime=30 --time_based
+test: (g=0): rw=read, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T)
+256KiB-256KiB, ioengine=libaio, iodepth=64
+fio-3.39-44-g19d9
+Starting 1 process
+Jobs: 1 (f=1): [R(1)][100.0%][r=96.0GiB/s][r=393k IOPS][eta 00m:00s]
+test: (groupid=0, jobs=1): err= 0: pid=15467: Sun May  4 00:00:39 2025
+  read: IOPS=390k, BW=95.3GiB/s (102GB/s)(2860GiB/30001msec)
+    slat (nsec): min=1111, max=183816, avg=2117.94, stdev=1412.34
+    clat (usec): min=81, max=1086, avg=161.60, stdev=19.67
+     lat (usec): min=82, max=1240, avg=163.72, stdev=19.73
+
+Anton
 
