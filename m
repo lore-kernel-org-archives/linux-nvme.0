@@ -4,82 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A5ACC3ABB0
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 May 2025 07:23:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A50BC369DC
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 May 2025 17:53:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N1NwuG/e4xVsHdGCaYu3EUBwEEpbWOPwWienDO7qyI8=; b=TvMwQeDrhvI/FzTTnIhuSe6ZFh
-	4fbKY9dLWwiOTmv5yfg9CJoYpOagx3muSs3AUKcM335jp1XAjlzTyrox7XfWHMB7M1gZhhgnfwgU/
-	HbTQutpI7jmPcg0psFk9Wceh8eXSYY2WBphjfdtCZmz/BDzwnF3lk/qmA3Lw9fZwFCCjA1TotLlTp
-	KmabAwTD1D/mPjYhN81PZxemoWcIYrwKzEfrg4Rl685DhWSlfANi87nLOqwC9cXeViOg8tZP+KtmP
-	UuU+z45RMRgGX5MCY1v6oz9IgnfbsNVoN0qvJvWG570GcSDRjwk1iNBv4524PeRzYjujtHyPu8Hqe
-	U8UW6PKg==;
+	bh=lyDfKPjNrw9GhTHvu33uhSh2XcINi0hrCe0EFvX5jbc=; b=CzIk5+aha2cKwnZzS0Li3o6LGI
+	SxmkuCWqJEoxlri/rIFepwRCuQe8Vq7AUYgWAfBxUtfhkamIlMtYeNqU4OZhCHAwQLuQVVAH/MQ8M
+	lFjMVcNmIOH/g5ZBUQoEBde0QmZWAeecwoCeDVdzLJRVvblc3/rKV3jpn/6IKVBOzv3LACLxyZhck
+	nWa5aA29o3WimZfSwriHV5jr3aF/ZZXi4i5UZsOPOsvJbCbXwkFd4VhV+/HI+P3j7+txwChQ+aiwN
+	dCi9pB5SB0kKSYMhFzpWEUsJ6gxS9u/FKfonNGo1a1ncyJHx4O2LcdGmhotUqIzAtbuWwEo67Oqxr
+	tRsNSq3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBTgv-00000004xXq-0fWF;
-	Sun, 04 May 2025 07:23:13 +0000
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
+	id 1uBdX7-00000005m6O-17SA;
+	Sun, 04 May 2025 17:53:45 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBTgs-00000004xXK-1kWN
+	id 1uBdUk-00000005llw-452y
 	for linux-nvme@lists.infradead.org;
-	Sun, 04 May 2025 07:23:11 +0000
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-7053f85f059so28178717b3.2
-        for <linux-nvme@lists.infradead.org>; Sun, 04 May 2025 00:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746343389; x=1746948189; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N1NwuG/e4xVsHdGCaYu3EUBwEEpbWOPwWienDO7qyI8=;
-        b=V0qaqnaSCtZ1fXuFwZfeoXY5oEPfjXM9LNhBAjq154vOOd5Hwyh2oXsppKNzT1XR0A
-         cL3Z4ey5W1CKV+4BTawegWD1pvJpfTx7tL23+dcMOpxbf2opX6JMjGvtyx8abW9n+SYr
-         /Nd5QZYhFxDO13A8u6C91i8dS6MAJcWF3CFVqgiwBAKFacVEat+DBQVrsXbY1RwF8sbf
-         HDDEL+349ezBPanXWB866gpUF08lhtD3Pldr4R6FDjVlYSLouHMeseatwEmrffYxA/3a
-         nkIa9IAowlSyw+YpRXcMzUMq9+kF22rgK9TrLpNlYxmjaoAosZDc5QpW6engmsumM6mW
-         X35w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746343389; x=1746948189;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N1NwuG/e4xVsHdGCaYu3EUBwEEpbWOPwWienDO7qyI8=;
-        b=V1Vqr4krXD8pcDL4sCLv51Es5qgJYvw9RJPRd8beJoyvVOvBvuTVkXHeDVOjzND4C+
-         RG3/g4+K8P5lkCF0HpvTjN31MQpgzGEv0iE3K69tn/M1+YOnY/7p5606Cb5gRFutIH6n
-         szzH8QKhV6OEnAfvOgvR7K4W9KTlu46sKG1QU46M7fbcDF+BqXvohRG9RrzL5rtkYx2i
-         ht8+p26ZmOZV6p+E39LCDtvRA2kYr3LZ2KKTp6xOsLrr1HlmTpfWUUJXIVK2JC60OfNe
-         44MoytPpwiyYwTFWeKT40fxQDZLUzh7MZrgd36eGgZQvv6cbHnZH6L/6kU4o02oZ7XSn
-         dL1w==
-X-Gm-Message-State: AOJu0Ywk48cTa1nCP9SC0SRD6QkRT8g0qfnBgAchwmPvIwvH56Ac49T4
-	QdqeejmRFWYw3yJveNYkFjDmU7sJTE8Ymt43bMnfZON+QEJnJgw28bLy3ktQlm1ahv6n988ZfuP
-	frkNkyPLf2K6hYkXDgABSc5UHQGo=
-X-Gm-Gg: ASbGncvZeXLJYhPYMRs0t6CHLGCodLvK65bRetxwcVycm20VlM7oCS0H0FYBzm62DLi
-	DiUxc/MYY84esmezdLtSGTwJLZSO9n6Bg+MYpqeSs2AqX5W6/gpZt7x2NEzxzd4QH06+GagesRG
-	zO5A3ovRZnnfbgcHoh86tISD4=
-X-Google-Smtp-Source: AGHT+IEAwS2M8BjFUUCYCsFeM+hsNE3mh+qrGuGCxsuJvXJpwQsJ1i0nwL10/qyygP5cPmYT3g7jz+LvmQvXIC3EEGs=
-X-Received: by 2002:a05:690c:6e0d:b0:708:3dee:d76e with SMTP id
- 00721157ae682-708eaf01991mr37566527b3.22.1746343389158; Sun, 04 May 2025
- 00:23:09 -0700 (PDT)
+	Sun, 04 May 2025 17:51:20 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 544HBJsu003287;
+	Sun, 4 May 2025 17:51:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=lyDfKPjNrw9GhTHvu
+	33uhSh2XcINi0hrCe0EFvX5jbc=; b=r0UbFfk+NjPekr+/m5ZzIgGw6mVXcp+18
+	jsaeYgnYjcDi+t9M3liZ8O3EgG3OrvlJ9LmOCbBD4HH9FId37w/SgK1/vxHCVOq8
+	+S1Vo9c9Z7z3WcTWdqXYHVqiszAMXLFaS90I1DxCauemXDKFn0Yssj89XzC4TqAF
+	edZyKvXwhwlIxpEIpKgRYWu1YNCBCtjyVQoFYG+U00JUu0i84tOcWcCknZ4JeIeo
+	R3U1R5Gd1GbT1zeAUJyPGyqog1L5x8kFVeoAFNbSPVVrafwUPvoggVDyjGdfd5dt
+	vzYX4LqN5KB6HMd/OXLpIulUSlJvWaW7LI3ZZ2pLV30+OqoAuxxNw==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46dw40276n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 04 May 2025 17:51:05 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 544DNYVx014112;
+	Sun, 4 May 2025 17:51:04 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 46dypkaft2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 04 May 2025 17:51:04 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 544Hp2M643385166
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 4 May 2025 17:51:02 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8882320043;
+	Sun,  4 May 2025 17:51:02 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8B83D20040;
+	Sun,  4 May 2025 17:50:58 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.67.80.251])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Sun,  4 May 2025 17:50:58 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, hare@suse.de,
+        jmeneghi@redhat.com, axboe@kernel.dk, martin.petersen@oracle.com,
+        gjoyce@ibm.com
+Subject: [RFC PATCHv3 1/3] nvme-multipath: introduce delayed removal of the multipath head node
+Date: Sun,  4 May 2025 23:20:39 +0530
+Message-ID: <20250504175051.2208162-2-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250504175051.2208162-1-nilay@linux.ibm.com>
+References: <20250504175051.2208162-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-References: <CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-QzmZBMmtr1oC=fOOgAQ@mail.gmail.com>
- <aBaVsli2AKbIa4We@dread.disaster.area>
-In-Reply-To: <aBaVsli2AKbIa4We@dread.disaster.area>
-From: Anton Gavriliuk <antosha20xx@gmail.com>
-Date: Sun, 4 May 2025 10:22:58 +0300
-X-Gm-Features: ATxdqUHb2MJMovNmfI4rEyQJRRdEB_WPt7NXFPP2gOUuPbI6O4-CFxmT27fJsGM
-Message-ID: <CAAiJnjor+=Zn62n09f-aJw2amX2wxQOb-2TB3rea9wDCU7ONoA@mail.gmail.com>
-Subject: Re: Sequential read from NVMe/XFS twice slower on Fedora 42 than on
- Rocky 9.5
-To: Dave Chinner <david@fromorbit.com>
-Cc: linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=KefSsRYD c=1 sm=1 tr=0 ts=6817a909 cx=c_pps a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8 a=9r6QK0OtAAAA:8 a=VnNF1IyMAAAA:8 a=DTMsr3doGu-G-1WCqLEA:9
+ a=1CNFftbPRP8L7MoqJWF3:22 a=TxIH8fH_K59pr5-VUUuU:22
+X-Proofpoint-ORIG-GUID: 1T6WQKkX8tuNtf7HSXUAUUSZjE_nlFCY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA0MDE2NiBTYWx0ZWRfX02aSLAenNTVt oG/arsxK400JtXH8CHc7VzjjoPdIPx6ajnVq/4VsTziMl0gP+xyMM/93/nlLkgRJ9qLkoLSVUch ZZw391jKHrbUOGXhcFaDMqOseQdm7hOBN/hDnXZYkcstNjEWkTCtIJQUl4lXzPpGTAS0+GG2hMC
+ lxZf2IDIk4LkWzfRV8Itx6KmjgcK1dZQ+DWGQXiVEtGDZvYvFnDyfQ6gZc+i2Ou/mOIL5FRZG2V qIL1pxVrntiJB1lPGdOxkng2+Y+9VvSD8XbjoTHjTepMYaAhn8ABTcmddLT0hF2gVhLEMdnGGwq CA7YkjBGRKAEH0+YYmvKRL3vQi9BrXoshOyhTSSvkgy/504rzSmLZ5NEC2Yqu5s3NoHgTORi0Uj
+ Dr1hbWaS2UtYSP1vAajiHcQ/BhGTHgmkgEEgb5+j5jnJr4WzuiUZWB50pEV68u9sBq7e7+Da
+X-Proofpoint-GUID: 1T6WQKkX8tuNtf7HSXUAUUSZjE_nlFCY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-04_07,2025-04-30_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 mlxlogscore=999
+ adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 spamscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505040166
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250504_002310_483574_7C74D433 
-X-CRM114-Status: GOOD (  14.03  )
+X-CRM114-CacheID: sfid-20250504_105119_138122_E4BA3526 
+X-CRM114-Status: GOOD (  31.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,119 +110,368 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> What's the comparitive performance of an identical read profile
-> directly on the raw MD raid0 device?
+Currently, the multipath head node of a PCIe NVMe disk is removed
+immediately as soon as all paths of the disk are removed. However,
+this can cause issues in scenarios where:
 
-Rocky 9.5 (5.14.0-503.40.1.el9_5.x86_64)
+- The disk hot-removal followed by re-addition.
+- Transient PCIe link failures that trigger re-enumeration,
+  temporarily removing and then restoring the disk.
 
-[root@localhost ~]# df -mh /mnt
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/md127       35T  1.3T   34T   4% /mnt
+In these cases, removing the head node prematurely may lead to a head
+disk node name change upon re-addition, requiring applications to
+reopen their handles if they were performing I/O during the failure.
 
-[root@localhost ~]# fio --name=3Dtest --rw=3Dread --bs=3D256k
---filename=3D/dev/md127 --direct=3D1 --numjobs=3D1 --iodepth=3D64 --exitall
---group_reporting --ioengine=3Dlibaio --runtime=3D30 --time_based
-test: (g=3D0): rw=3Dread, bs=3D(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T)
-256KiB-256KiB, ioengine=3Dlibaio, iodepth=3D64
-fio-3.39-44-g19d9
-Starting 1 process
-Jobs: 1 (f=3D1): [R(1)][100.0%][r=3D81.4GiB/s][r=3D334k IOPS][eta 00m:00s]
-test: (groupid=3D0, jobs=3D1): err=3D 0: pid=3D43189: Sun May  4 08:22:12 2=
-025
-  read: IOPS=3D363k, BW=3D88.5GiB/s (95.1GB/s)(2656GiB/30001msec)
-    slat (nsec): min=3D971, max=3D312380, avg=3D1817.92, stdev=3D1367.75
-    clat (usec): min=3D78, max=3D1351, avg=3D174.46, stdev=3D28.86
-     lat (usec): min=3D80, max=3D1352, avg=3D176.27, stdev=3D28.81
+To address this, introduce a delayed removal mechanism of head disk
+node. During transient failure, instead of immediate removal of head
+disk node, the system waits for a configurable timeout, allowing the
+disk to recover.
 
-Fedora 42 (6.14.5-300.fc42.x86_64)
+During transient disk failure, if application sends any IO then we
+queue it instead of failing such IO immediately. If the disk comes back
+online within the timeout, the queued IOs are resubmitted to the disk
+ensuring seamless operation. In case disk couldn't recover from the
+failure then queued IOs are failed to its completion and application
+receives the error.
 
-[root@localhost anton]# df -mh /mnt
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/md127       35T  1.3T   34T   4% /mnt
+So this way, if disk comes back online within the configured period,
+the head node remains unchanged, ensuring uninterrupted workloads
+without requiring applications to reopen device handles.
 
-[root@localhost ~]# fio --name=3Dtest --rw=3Dread --bs=3D256k
---filename=3D/dev/md127 --direct=3D1 --numjobs=3D1 --iodepth=3D64 --exitall
---group_reporting --ioengine=3Dlibaio --runtime=3D30 --time_based
-test: (g=3D0): rw=3Dread, bs=3D(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T)
-256KiB-256KiB, ioengine=3Dlibaio, iodepth=3D64
-fio-3.39-44-g19d9
-Starting 1 process
-Jobs: 1 (f=3D1): [R(1)][100.0%][r=3D41.0GiB/s][r=3D168k IOPS][eta 00m:00s]
-test: (groupid=3D0, jobs=3D1): err=3D 0: pid=3D5685: Sun May  4 10:14:00 20=
-25
-  read: IOPS=3D168k, BW=3D41.0GiB/s (44.1GB/s)(1231GiB/30001msec)
-    slat (usec): min=3D3, max=3D273, avg=3D 5.63, stdev=3D 1.48
-    clat (usec): min=3D67, max=3D2800, avg=3D374.99, stdev=3D29.90
-     lat (usec): min=3D72, max=3D2914, avg=3D380.62, stdev=3D30.22
+A new sysfs attribute, named "delayed_removal_secs" is added under head
+disk blkdev for user who wish to configure time for the delayed removal
+of head disk node. The default value of this attribute is set to zero
+second ensuring no behavior change unless explicitly configured.
 
+Link: https://lore.kernel.org/linux-nvme/Y9oGTKCFlOscbPc2@infradead.org/
+Link: https://lore.kernel.org/linux-nvme/Y+1aKcQgbskA2tra@kbusch-mbp.dhcp.thefacebook.com/
+Suggested-by: Keith Busch <kbusch@kernel.org>
+Suggested-by: Christoph Hellwig <hch@infradead.org>
+[nilay: reworked based on the original idea/POC from Christoph and Keith]
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/core.c      |  10 ++-
+ drivers/nvme/host/multipath.c | 137 +++++++++++++++++++++++++++++++---
+ drivers/nvme/host/nvme.h      |  25 ++++++-
+ drivers/nvme/host/sysfs.c     |  13 ++++
+ 4 files changed, 171 insertions(+), 14 deletions(-)
 
-Anton
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index eb6ea8acb3cc..0f6b01f10c70 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3560,7 +3560,7 @@ static struct nvme_ns_head *nvme_find_ns_head(struct nvme_ctrl *ctrl,
+ 		 */
+ 		if (h->ns_id != nsid || !nvme_is_unique_nsid(ctrl, h))
+ 			continue;
+-		if (!list_empty(&h->list) && nvme_tryget_ns_head(h))
++		if (nvme_tryget_ns_head(h))
+ 			return h;
+ 	}
+ 
+@@ -3688,6 +3688,8 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
+ 	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
+ 	kref_init(&head->ref);
++	if (ctrl->ops->flags & NVME_F_FABRICS)
++		nvme_mpath_set_fabrics(head);
+ 
+ 	if (head->ids.csi) {
+ 		ret = nvme_get_effects_log(ctrl, head->ids.csi, &head->effects);
+@@ -3804,7 +3806,8 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		}
+ 	} else {
+ 		ret = -EINVAL;
+-		if (!info->is_shared || !head->shared) {
++		if ((!info->is_shared || !head->shared) &&
++		    !list_empty(&head->list)) {
+ 			dev_err(ctrl->device,
+ 				"Duplicate unshared namespace %d\n",
+ 				info->nsid);
+@@ -4008,7 +4011,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	mutex_lock(&ns->ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+ 	if (list_empty(&ns->head->list)) {
+-		list_del_init(&ns->head->entry);
++		if (!nvme_mpath_queue_if_no_path(ns->head))
++			list_del_init(&ns->head->entry);
+ 		last_path = true;
+ 	}
+ 	mutex_unlock(&ns->ctrl->subsys->lock);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 250f3da67cc9..f3f981c9f3ec 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -442,7 +442,24 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+ 			break;
+ 		}
+ 	}
+-	return false;
++
++	/*
++	 * If "head->delayed_removal_secs" is configured (i.e., non-zero), do
++	 * not immediately fail I/O. Instead, requeue the I/O for the configured
++	 * duration, anticipating that if there's a transient link failure then
++	 * it may recover within this time window. This parameter is exported to
++	 * userspace via sysfs, and its default value is zero. It is internally
++	 * mapped to NVME_NSHEAD_QUEUE_IF_NO_PATH. When delayed_removal_secs is
++	 * non-zero, this flag is set to true. When zero, the flag is cleared.
++	 *
++	 * Note: This option is not exposed to the users for NVMeoF connections.
++	 * In fabric-based setups, fabric link failure is managed through other
++	 * parameters such as "reconnect_delay" and "max_reconnects" which is
++	 * handled at respective fabric driver layer. Therefor, head->delayed_
++	 * removal_secs" is intended exclusively for non-fabric (e.g., PCIe)
++	 * multipath configurations.
++	 */
++	return nvme_mpath_queue_if_no_path(head);
+ }
+ 
+ static void nvme_ns_head_submit_bio(struct bio *bio)
+@@ -617,6 +634,40 @@ static void nvme_requeue_work(struct work_struct *work)
+ 	}
+ }
+ 
++static void nvme_remove_head(struct nvme_ns_head *head)
++{
++	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
++		/*
++		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
++		 * to allow multipath to fail all I/O.
++		 */
++		kblockd_schedule_work(&head->requeue_work);
++
++		nvme_cdev_del(&head->cdev, &head->cdev_device);
++		synchronize_srcu(&head->srcu);
++		del_gendisk(head->disk);
++		nvme_put_ns_head(head);
++	}
++}
++
++static void nvme_remove_head_work(struct work_struct *work)
++{
++	struct nvme_ns_head *head = container_of(to_delayed_work(work),
++			struct nvme_ns_head, remove_work);
++	bool shutdown = false;
++
++	mutex_lock(&head->subsys->lock);
++	if (list_empty(&head->list)) {
++		list_del_init(&head->entry);
++		shutdown = true;
++	}
++	mutex_unlock(&head->subsys->lock);
++	if (shutdown)
++		nvme_remove_head(head);
++
++	module_put(THIS_MODULE);
++}
++
+ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ {
+ 	struct queue_limits lim;
+@@ -626,6 +677,8 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 	spin_lock_init(&head->requeue_lock);
+ 	INIT_WORK(&head->requeue_work, nvme_requeue_work);
+ 	INIT_WORK(&head->partition_scan_work, nvme_partition_scan_work);
++	INIT_DELAYED_WORK(&head->remove_work, nvme_remove_head_work);
++	head->delayed_removal_secs = 0;
+ 
+ 	/*
+ 	 * Add a multipath node if the subsystems supports multiple controllers.
+@@ -659,6 +712,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 	set_bit(GD_SUPPRESS_PART_SCAN, &head->disk->state);
+ 	sprintf(head->disk->disk_name, "nvme%dn%d",
+ 			ctrl->subsys->instance, head->instance);
++	nvme_tryget_ns_head(head);
+ 	return 0;
+ }
+ 
+@@ -1015,6 +1069,49 @@ static ssize_t numa_nodes_show(struct device *dev, struct device_attribute *attr
+ }
+ DEVICE_ATTR_RO(numa_nodes);
+ 
++static ssize_t delayed_removal_secs_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct gendisk *disk = dev_to_disk(dev);
++	struct nvme_ns_head *head = disk->private_data;
++	int ret;
++
++	mutex_lock(&head->subsys->lock);
++	ret = sysfs_emit(buf, "%u\n", head->delayed_removal_secs);
++	mutex_unlock(&head->subsys->lock);
++	return ret;
++}
++
++static ssize_t delayed_removal_secs_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct gendisk *disk = dev_to_disk(dev);
++	struct nvme_ns_head *head = disk->private_data;
++	unsigned int sec;
++	int ret;
++
++	ret = kstrtouint(buf, 0, &sec);
++	if (ret < 0)
++		return ret;
++
++	mutex_lock(&head->subsys->lock);
++	head->delayed_removal_secs = sec;
++	if (sec)
++		set_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags);
++	else
++		clear_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags);
++	mutex_unlock(&head->subsys->lock);
++	/*
++	 * Ensure that update to NVME_NSHEAD_QUEUE_IF_NO_PATH is seen
++	 * by its reader.
++	 */
++	synchronize_srcu(&head->srcu);
++
++	return count;
++}
++
++DEVICE_ATTR_RW(delayed_removal_secs);
++
+ static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
+ 		struct nvme_ana_group_desc *desc, void *data)
+ {
+@@ -1138,18 +1235,38 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
+ 
+ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
+ {
+-	if (!head->disk)
+-		return;
+-	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+-		nvme_cdev_del(&head->cdev, &head->cdev_device);
++	bool shutdown = false;
++
++	mutex_lock(&head->subsys->lock);
++	/*
++	 * We are called when all paths have been removed, and at that point
++	 * head->list is expected to be empty. However, nvme_remove_ns() and
++	 * nvme_init_ns_head() can run concurrently and so if head->delayed_
++	 * removal_secs is configured, it is possible that by the time we reach
++	 * this point, head->list may no longer be empty. Therefore, we recheck
++	 * head->list here. If it is no longer empty then we skip enqueuing the
++	 * delayed head removal work.
++	 */
++	if (!list_empty(&head->list))
++		goto out;
++
++	if (head->delayed_removal_secs) {
+ 		/*
+-		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
+-		 * to allow multipath to fail all I/O.
++		 * Ensure that no one could remove this module while the head
++		 * remove work is pending.
+ 		 */
+-		synchronize_srcu(&head->srcu);
+-		kblockd_schedule_work(&head->requeue_work);
+-		del_gendisk(head->disk);
++		if (!try_module_get(THIS_MODULE))
++			goto out;
++		queue_delayed_work(nvme_wq, &head->remove_work,
++				head->delayed_removal_secs * HZ);
++	} else {
++		list_del_init(&head->entry);
++		shutdown = true;
+ 	}
++out:
++	mutex_unlock(&head->subsys->lock);
++	if (shutdown)
++		nvme_remove_head(head);
+ }
+ 
+ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 51e078642127..b2d02425dc3c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -503,7 +503,11 @@ struct nvme_ns_head {
+ 	struct work_struct	partition_scan_work;
+ 	struct mutex		lock;
+ 	unsigned long		flags;
+-#define NVME_NSHEAD_DISK_LIVE	0
++	struct delayed_work	remove_work;
++	unsigned int		delayed_removal_secs;
++#define NVME_NSHEAD_DISK_LIVE		0
++#define NVME_NSHEAD_FABRICS		1
++#define NVME_NSHEAD_QUEUE_IF_NO_PATH	2
+ 	struct nvme_ns __rcu	*current_path[];
+ #endif
+ };
+@@ -986,12 +990,23 @@ extern struct device_attribute dev_attr_ana_grpid;
+ extern struct device_attribute dev_attr_ana_state;
+ extern struct device_attribute dev_attr_queue_depth;
+ extern struct device_attribute dev_attr_numa_nodes;
++extern struct device_attribute dev_attr_delayed_removal_secs;
+ extern struct device_attribute subsys_attr_iopolicy;
+ 
+ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+ {
+ 	return disk->fops == &nvme_ns_head_ops;
+ }
++static inline void nvme_mpath_set_fabrics(struct nvme_ns_head *head)
++{
++	set_bit(NVME_NSHEAD_FABRICS, &head->flags);
++}
++static inline bool nvme_mpath_queue_if_no_path(struct nvme_ns_head *head)
++{
++	if (test_bit(NVME_NSHEAD_QUEUE_IF_NO_PATH, &head->flags))
++		return true;
++	return false;
++}
+ #else
+ #define multipath false
+ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+@@ -1079,6 +1094,14 @@ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+ {
+ 	return false;
+ }
++static inline void nvme_mpath_set_fabrics(struct nvme_ns_head *head)
++{
++
++}
++static inline bool nvme_mpath_queue_if_no_path(struct nvme_ns_head *head)
++{
++	return false;
++}
+ #endif /* CONFIG_NVME_MULTIPATH */
+ 
+ int nvme_ns_get_unique_id(struct nvme_ns *ns, u8 id[16],
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 6d31226f7a4f..51633670d177 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -260,6 +260,7 @@ static struct attribute *nvme_ns_attrs[] = {
+ 	&dev_attr_ana_state.attr,
+ 	&dev_attr_queue_depth.attr,
+ 	&dev_attr_numa_nodes.attr,
++	&dev_attr_delayed_removal_secs.attr,
+ #endif
+ 	&dev_attr_io_passthru_err_log_enabled.attr,
+ 	NULL,
+@@ -296,6 +297,18 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ 		if (nvme_disk_is_ns_head(dev_to_disk(dev)))
+ 			return 0;
+ 	}
++	if (a == &dev_attr_delayed_removal_secs.attr) {
++		struct nvme_ns_head *head = dev_to_ns_head(dev);
++		struct gendisk *disk = dev_to_disk(dev);
++
++		/*
++		 * This attribute is only valid for head node and non-fabric
++		 * setup.
++		 */
++		if (!nvme_disk_is_ns_head(disk) ||
++				test_bit(NVME_NSHEAD_FABRICS, &head->flags))
++			return 0;
++	}
+ #endif
+ 	return a->mode;
+ }
+-- 
+2.49.0
 
-=D0=B2=D1=81, 4 =D0=BC=D0=B0=D1=8F 2025=E2=80=AF=D0=B3. =D0=B2 01:16, Dave =
-Chinner <david@fromorbit.com>:
->
-> On Sun, May 04, 2025 at 12:04:16AM +0300, Anton Gavriliuk wrote:
-> > There are 12 Kioxia CM-7 NVMe SSDs configured in mdadm/raid0 and
-> > mounted to /mnt.
-> >
-> > Exactly the same fio command running under Fedora 42
-> > (6.14.5-300.fc42.x86_64) and then under Rocky 9.5
-> > (5.14.0-503.40.1.el9_5.x86_64) shows twice the performance difference.
-> >
-> > /mnt/testfile size 1TB
-> > server's total dram 192GB
-> >
-> > Fedora 42
-> >
-> > [root@localhost ~]# fio --name=3Dtest --rw=3Dread --bs=3D256k
-> > --filename=3D/mnt/testfile --direct=3D1 --numjobs=3D1 --iodepth=3D64 --=
-exitall
-> > --group_reporting --ioengine=3Dlibaio --runtime=3D30 --time_based
-> > test: (g=3D0): rw=3Dread, bs=3D(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T=
-)
-> > 256KiB-256KiB, ioengine=3Dlibaio, iodepth=3D64
-> > fio-3.39-44-g19d9
-> > Starting 1 process
-> > Jobs: 1 (f=3D1): [R(1)][100.0%][r=3D49.6GiB/s][r=3D203k IOPS][eta 00m:0=
-0s]
-> > test: (groupid=3D0, jobs=3D1): err=3D 0: pid=3D2465: Sat May  3 17:51:2=
-4 2025
-> >   read: IOPS=3D203k, BW=3D49.6GiB/s (53.2GB/s)(1487GiB/30001msec)
-> >     slat (usec): min=3D3, max=3D1053, avg=3D 4.60, stdev=3D 1.76
-> >     clat (usec): min=3D104, max=3D4776, avg=3D310.53, stdev=3D29.49
-> >      lat (usec): min=3D110, max=3D4850, avg=3D315.13, stdev=3D29.82
->
-> > Rocky 9.5
-> >
-> > [root@localhost ~]# fio --name=3Dtest --rw=3Dread --bs=3D256k
-> > --filename=3D/mnt/testfile --direct=3D1 --numjobs=3D1 --iodepth=3D64 --=
-exitall
-> > --group_reporting --ioengine=3Dlibaio --runtime=3D30 --time_based
-> > test: (g=3D0): rw=3Dread, bs=3D(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T=
-)
-> > 256KiB-256KiB, ioengine=3Dlibaio, iodepth=3D64
-> > fio-3.39-44-g19d9
-> > Starting 1 process
-> > Jobs: 1 (f=3D1): [R(1)][100.0%][r=3D96.0GiB/s][r=3D393k IOPS][eta 00m:0=
-0s]
-> > test: (groupid=3D0, jobs=3D1): err=3D 0: pid=3D15467: Sun May  4 00:00:=
-39 2025
-> >   read: IOPS=3D390k, BW=3D95.3GiB/s (102GB/s)(2860GiB/30001msec)
-> >     slat (nsec): min=3D1111, max=3D183816, avg=3D2117.94, stdev=3D1412.=
-34
-> >     clat (usec): min=3D81, max=3D1086, avg=3D161.60, stdev=3D19.67
-> >      lat (usec): min=3D82, max=3D1240, avg=3D163.72, stdev=3D19.73
-> >
->
-> Completely latency has doubled on the fc42 kernel. For a read, there
-> isn't much in terms of filesystem work to be done on direct IO
-> completion, so I'm not sure this is a filesystem issue...
->
-> What's the comparitive performance of an identical read profile
-> directly on the raw MD raid0 device?
->
-> -Dave.
-> --
-> Dave Chinner
-> david@fromorbit.com
 
