@@ -4,96 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACD1CC369DC
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 May 2025 17:54:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CC92C369DC
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 May 2025 23:20:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=yVLKQxjTCGCx6Qg9VklGSq0EUNVqUDLjlPZdtic647A=; b=N+N9CGm4Hljo05/ci1Wm98NXt3
-	cs+TLWzQnBBLzxTTZD41l1U42DV9QmJCLAOi5hWip3Y77lWu/B2pheGE0DMvA8UjrjCvDnp3+bgvv
-	/ZitUsTIeJ0VruGOt639EyfWg3YIv5EnLc7jFJFYdCOD2w+eI3Bg6GZit7HikKbIxE1GebR7ACe7A
-	MtpmjUPZKNZVEw+iRWgmOrCG3I4Rw8ACXH+p2iDuMubLMnOZLTuMUgAYQ82SzDWDGABZRm+b194QF
-	7gCCrSo4slmPssuhak+zU16Zwgc7G6ukTiwnnY/DrsxlgXVy50R8aKg/jucmsH+PCgbiZV2WB35NT
-	UJL3j1nw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kfeBgs4UborAOcvG4HnMDQYljLnZG29GLGTw9gpzQk8=; b=3FcjeLC/Fp9xWp8hIMXwgQFLAS
+	P/4LOlfuVZa9KJofoQVl4qV+Ye6ByVSmLMzRhX8xs5CIWKmF52nHN8HrRROnsTkZ9R8M+4HAMaSCx
+	i4+bvvwLUz9nj/hHUVJVuBzzHww7TxNjCTURMcbPY/Fjdo/V85ywzWLm/ZO0uCVmms4aGCVTQq4fM
+	MItT3AazV+shbCHhM7AWWOSxdgq1SvsX0sxx3tqZbJFbFOClyobnQzz7Y0p17X2UPtZpfWAqyzbOm
+	fHgdSOilzwloFs3yGNvviQ5DN8fa0zVubOt7PiYiqY1PzDdFX0VjbgbajA3MoY9C32KLbSYxJmuWg
+	CY0gbKbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBdX6-00000005lzZ-2miz;
-	Sun, 04 May 2025 17:53:44 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1uBidj-000000066wq-0zx0;
+	Sun, 04 May 2025 23:20:55 +0000
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBdUk-00000005llv-20Lv
+	id 1uBidd-000000066wP-2g1N
 	for linux-nvme@lists.infradead.org;
-	Sun, 04 May 2025 17:51:19 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 544AftV3021452;
-	Sun, 4 May 2025 17:51:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=yVLKQxjTCGCx6Qg9VklGSq0EUNVqUDLjlPZdtic64
-	7A=; b=QMCj4MSB8BSkPalcr7Yj6hPdMmtT0akKd9raDJgjwaZx759EKMXrubY59
-	H4RnnboXHFtUD0un1JMyaXIf+dsWmaeHZD5TKIHaTU2lckHwd9aIIFzHmet2v42a
-	BmdkQX17VftG5IvoNgJPa6oy0CkPFrCPPn9dHUZ/Y+cWCk0VQ+AVOTRZ3NLjJ7jk
-	/CdczS5P67QPJxduPNNq9ObVtDARdh4W5mHg5AeFUyagoiH1Xfb9uJ06MFSK+WcW
-	44BEjPRyf/z3nc4OEecI+nOccuqRpnWpFe9rw4EbP9SQHWymBDaQ5Wc0OH00zeMG
-	6Wgj1DxfI2Ig8mv+OZZzPjxaNQAwg==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46e6pr8w36-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 04 May 2025 17:51:00 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 544E5MHJ013861;
-	Sun, 4 May 2025 17:50:59 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 46e0622c0a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 04 May 2025 17:50:59 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 544Hov0S39911746
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 4 May 2025 17:50:58 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CF56E20043;
-	Sun,  4 May 2025 17:50:57 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D021420040;
-	Sun,  4 May 2025 17:50:53 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.67.80.251])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sun,  4 May 2025 17:50:53 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, hare@suse.de,
-        jmeneghi@redhat.com, axboe@kernel.dk, martin.petersen@oracle.com,
-        gjoyce@ibm.com
-Subject: [RFC PATCHv3 0/3] improve NVMe multipath handling
-Date: Sun,  4 May 2025 23:20:38 +0530
-Message-ID: <20250504175051.2208162-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.49.0
+	Sun, 04 May 2025 23:20:52 +0000
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-736c277331eso4431820b3a.1
+        for <linux-nvme@lists.infradead.org>; Sun, 04 May 2025 16:20:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1746400848; x=1747005648; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kfeBgs4UborAOcvG4HnMDQYljLnZG29GLGTw9gpzQk8=;
+        b=Gt3uGGp2GacTDgsMlbCVwLEGZ4LdRp9ai8VQepV0wgySdrWL1LBCrGKeNOP+nJuGOJ
+         jJC5wawSPH2qBblsqIgfO/c3gMnq9ZYSLnzChOAEgIVxaKPmCkxIaH2nCgMyyUEs22lt
+         ZP3bKqn4pGX5O6BtYV3ntGF/v0vmW/Ie3+f4EgNV8g0iVIVFMc1tRdS5lrYVSMjxkL19
+         l0nKypf0c1/NALU0A5lHizFEgVo1zL5ur9i9v8sh6x9bdnqBR78QB93Texr7F87AZu5c
+         vzB5S/MHNCak3xkRSuu9bI1LwwjaEc33AVejAsSfi24DyAy9onhXIWQVol6cUzi7SJW6
+         QA/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746400848; x=1747005648;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kfeBgs4UborAOcvG4HnMDQYljLnZG29GLGTw9gpzQk8=;
+        b=WMJsK5Lx12vPrlDVzvIWDpfKk26XkyBLQCUdYaP4eppUCFfmJln1IerAorGnWLHzG9
+         iPcezDhZ749IOCdtxFU6mBtfFB+d0ikkJYsYMONawB2kLBKTu1fiL6jNh80qiVWSfsgS
+         a305w7nK5o1h5IjZLNxmIdfTzraFEDlegxtGxpGgHG9RDaxcBpx8qZzBTQZLWAsVVQmJ
+         Zo/Mj1aGfpj+mUfmRnpntQOp7LkKt0rBSssSHBxaNyuL0ChBLcL/YNOfTjm8vJifBHPJ
+         o8DTSwU4wz6H/RMZC8z+6fTm8MC0R5rP5f5dYeugN+twEDxBwx2gliwDVYZaZOpYpFML
+         JUOg==
+X-Gm-Message-State: AOJu0YxxTPMsjPLZN52gb09V5LbX9xD8CFkqGjZMQoAkeRGyjX4VkH/i
+	g51GsJJwach6YwtCdBDA0XarVV/p62eKWTxzgZO0C6gWgsYQoYH1/teJfFNtoMs=
+X-Gm-Gg: ASbGncs/7/4erQK+kUnUAy/kA0BVm/actK0GpSk3o73TLInudAzT82WxiJeYn1f9Pq6
+	h42O5KUKsnKkBNNdXFWjVah3yzJ+ffg/242Pm6BuDO0djl6sAthD//dpNL5/YvuMeXzGZkq7taD
+	XFJlr9TJxAXOPROEzEMq3RoJGIw2mJyOJidcMoYInMaeHspy6xAi/HBOQyv0Ig5ilP7O7hjnxGS
+	ivQFDy0DTSTTMV0aHbu43oJsl2c4MdFYnq9MuXRq9lblf2YwNMSG3qAKtoJJ21aq4HwawSbHe5D
+	de7bc2h3QSvlq5xytqTSEiu4/9AHUSj+xBhju8/D0pLPLf1oDItLNudkOCBzBwS0XbHiBNWUMGT
+	eVl2K23qSQHWqIQ==
+X-Google-Smtp-Source: AGHT+IGCM1oKSvy7l0H2B/hDL6kgsXjWiZgAvEkfu7nnKuE8VkwYZd2FK8GVtUX6+MWy4Rlsv/R+Rg==
+X-Received: by 2002:a05:6a21:3416:b0:1ee:450a:8259 with SMTP id adf61e73a8af0-20bd8d4b1cdmr21085599637.18.1746400848366;
+        Sun, 04 May 2025 16:20:48 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-60-96.pa.nsw.optusnet.com.au. [49.181.60.96])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-740590218bdsm5548747b3a.99.2025.05.04.16.20.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 May 2025 16:20:47 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.98.2)
+	(envelope-from <david@fromorbit.com>)
+	id 1uBhDp-0000000H1tf-2dG5;
+	Mon, 05 May 2025 07:50:05 +1000
+Date: Mon, 5 May 2025 07:50:05 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Anton Gavriliuk <antosha20xx@gmail.com>
+Cc: linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+	linux-block@vger.kernel.org
+Subject: Re: Sequential read from NVMe/XFS twice slower on Fedora 42 than on
+ Rocky 9.5
+Message-ID: <aBfhDQ6lAPmn81j0@dread.disaster.area>
+References: <CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-QzmZBMmtr1oC=fOOgAQ@mail.gmail.com>
+ <aBaVsli2AKbIa4We@dread.disaster.area>
+ <CAAiJnjor+=Zn62n09f-aJw2amX2wxQOb-2TB3rea9wDCU7ONoA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Cu2/cm4D c=1 sm=1 tr=0 ts=6817a904 cx=c_pps a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8 a=9r6QK0OtAAAA:8 a=VnNF1IyMAAAA:8 a=dAkqvE83TVYWYi81bWwA:9
- a=1CNFftbPRP8L7MoqJWF3:22 a=TxIH8fH_K59pr5-VUUuU:22
-X-Proofpoint-GUID: PPk11J6N64WCddOvVSwRubTdeGEqK6rW
-X-Proofpoint-ORIG-GUID: PPk11J6N64WCddOvVSwRubTdeGEqK6rW
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA0MDE2NiBTYWx0ZWRfX9ZudvqoNegga oAeFU2Qd0dlBFUutWFHSQPO/2XDLkpLz1vIPcBJ/DaM51iftKOP8fgPv2wWVygp3l+59ILqMRsA /LxDwgmoWGd1PaBb7+Faq2pHdmthrllkHgYqkCpmPEGaSfdKZZm7VfaTmSjymJaknV4fvE0pCPL
- j5oRz92G5M6GU9X0B0qelacLJ1hMLF2syvf4zkCUCqDIxUtHPnCu+FaqzH0kSVq44OJODmnANhL xGQXjy/RTegvHMqGT5xXeBgFByysiZT7GH+EJ9tEB/BaI5R3RK47XAH/5CJYd0Dm/MlWxkwUKkg 6jxc474fpb/2qoMnEyFEXEbPCIwmO9mYWer9cPuDyJqZ8vHhpukE2e8U+dAKFI77oInIcyScW2i
- I3lMoszC0L/it5RvBrH1bMAUI+h6F99UmUXNKTjRlkSyvKf22FqI06oXOLWflqBvw8G1dKyM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-04_07,2025-04-30_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- spamscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 adultscore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505040166
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAiJnjor+=Zn62n09f-aJw2amX2wxQOb-2TB3rea9wDCU7ONoA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250504_105118_649973_D7D3BBF1 
-X-CRM114-Status: GOOD (  18.82  )
+X-CRM114-CacheID: sfid-20250504_162050_619796_8F0ADEB7 
+X-CRM114-Status: GOOD (  10.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,92 +103,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+[cc linux-block]
 
-This patch series introduces improvements to NVMe multipath handling by
-refining the removal behavior of the multipath head node and simplifying
-configuration options. The idea/POC for this change was originally
-proposed by Christoph[1] and Keith[2]. I worked upon their original
-idea/POC and implemented this series.
+[original bug report: https://lore.kernel.org/linux-xfs/CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-QzmZBMmtr1oC=fOOgAQ@mail.gmail.com/ ]
 
-The first patch in the series addresses an issue where the multipath
-head node of a PCIe NVMe disk is removed immediately when all disk paths
-are lost. This can cause problems in scenarios such as:
-- Hot removal and re-addition of a disk.
-- Transient PCIe link failures that trigger re-enumeration,
-  briefly removing and restoring the disk.
+On Sun, May 04, 2025 at 10:22:58AM +0300, Anton Gavriliuk wrote:
+> > What's the comparitive performance of an identical read profile
+> > directly on the raw MD raid0 device?
+> 
+> Rocky 9.5 (5.14.0-503.40.1.el9_5.x86_64)
+> 
+> [root@localhost ~]# df -mh /mnt
+> Filesystem      Size  Used Avail Use% Mounted on
+> /dev/md127       35T  1.3T   34T   4% /mnt
+> 
+> [root@localhost ~]# fio --name=test --rw=read --bs=256k
+> --filename=/dev/md127 --direct=1 --numjobs=1 --iodepth=64 --exitall
+> --group_reporting --ioengine=libaio --runtime=30 --time_based
+> test: (g=0): rw=read, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T)
+> 256KiB-256KiB, ioengine=libaio, iodepth=64
+> fio-3.39-44-g19d9
+> Starting 1 process
+> Jobs: 1 (f=1): [R(1)][100.0%][r=81.4GiB/s][r=334k IOPS][eta 00m:00s]
+> test: (groupid=0, jobs=1): err= 0: pid=43189: Sun May  4 08:22:12 2025
+>   read: IOPS=363k, BW=88.5GiB/s (95.1GB/s)(2656GiB/30001msec)
+>     slat (nsec): min=971, max=312380, avg=1817.92, stdev=1367.75
+>     clat (usec): min=78, max=1351, avg=174.46, stdev=28.86
+>      lat (usec): min=80, max=1352, avg=176.27, stdev=28.81
+> 
+> Fedora 42 (6.14.5-300.fc42.x86_64)
+> 
+> [root@localhost anton]# df -mh /mnt
+> Filesystem      Size  Used Avail Use% Mounted on
+> /dev/md127       35T  1.3T   34T   4% /mnt
+> 
+> [root@localhost ~]# fio --name=test --rw=read --bs=256k
+> --filename=/dev/md127 --direct=1 --numjobs=1 --iodepth=64 --exitall
+> --group_reporting --ioengine=libaio --runtime=30 --time_based
+> test: (g=0): rw=read, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T)
+> 256KiB-256KiB, ioengine=libaio, iodepth=64
+> fio-3.39-44-g19d9
+> Starting 1 process
+> Jobs: 1 (f=1): [R(1)][100.0%][r=41.0GiB/s][r=168k IOPS][eta 00m:00s]
+> test: (groupid=0, jobs=1): err= 0: pid=5685: Sun May  4 10:14:00 2025
+>   read: IOPS=168k, BW=41.0GiB/s (44.1GB/s)(1231GiB/30001msec)
+>     slat (usec): min=3, max=273, avg= 5.63, stdev= 1.48
+>     clat (usec): min=67, max=2800, avg=374.99, stdev=29.90
+>      lat (usec): min=72, max=2914, avg=380.62, stdev=30.22
 
-In such cases, premature removal of the head node may result in a device
-node name change, requiring applications to reopen device handles if
-they were performing I/O during the failure. To mitigate this, we
-introduce a delayed removal mechanism. Instead of removing the head node
-immediately, the system waits for a configurable timeout, allowing the
-disk to recover. If the disk comes back online within this window, the
-head node remains unchanged, ensuring uninterrupted workloads.
+So the MD block device shows the same read performance as the
+filesystem on top of it. That means this is a regression at the MD
+device layer or in the block/driver layers below it. i.e. it is not
+an XFS of filesystem issue at all.
 
-A new sysfs attribute, delayed_removal_secs, allows users to configure
-this timeout. By default, it is set to 0 seconds, preserving the
-existing behavior unless explicitly changed.
-
-The second patch in the series introduced multipath_always_on module
-param. When this option is set, it forces creating multipath head disk
-node even for single ported NVMe disks or private namespaces and thus
-allows delayed head node removal. This would help handle transient PCIe
-link failures transparently even in case of single ported NVMe disk or a
-private namespace.
-
-The third patch in the series doesn't make any functional changes but
-just renames few of the function name which improves code readability
-and it better aligns function names with their actual roles.
-
-These changes should help improve NVMe multipath reliability and simplify
-configuration. Feedback and testing are welcome!
-
-[1] https://lore.kernel.org/linux-nvme/Y9oGTKCFlOscbPc2@infradead.org/
-[2] https://lore.kernel.org/linux-nvme/Y+1aKcQgbskA2tra@kbusch-mbp.dhcp.thefacebook.com/
-
-Changes from v2:
-    - Rename multipath_head_always to multipath_always_on (Hannes Reinecke)
-    - Map delayed_removal_secs to queue_if_no_path internally; if delayed_
-      removal_secs is non-zero then queue_if_no_path is set otherwise its
-      unset (Hannes Reinecke)
-    - Few minor code readability improvements in the second patch while
-      handling multipath_param_set and multipath_always_on_set (hch)
-    - Avoid the race in shutdown namespace removal by deleting head->entry
-      during the first critical section of the nvme_ns_remove for the case
-      head delayed_removal is not configured (hch)
-    - Use ctrl->ops->flags & NVME_F_FABRICS to determine whether the 
-      ctrl uses fabric setup (Sagi)
-
-Link to v2: https://lore.kernel.org/all/20250425103319.1185884-1-nilay@linux.ibm.com/
-
-Changes from v1:
-    - Renamed delayed_shutdown_sec to delayed_removal_secs as "shutdown"
-      has a special meaning when used with NVMe device (Martin Petersen)
-    - Instead of adding mpath head disk node always by default, added new
-      module option nvme_core.multipath_head_always which when set creates
-      mpath head disk node (even for a private namespace or a namespace
-      backed by single ported nvme disk). This way we can preserve the
-      default old behavior.(hch)
-    - Renamed nvme_mpath_shutdown_disk function as shutdown as in the NVMe
-      context, the term "shutdown" has a specific technical meaning. (hch)
-    - Undo changes which removed multipath module param as this param is
-      still useful and used for many different things.
-
-Link to v1: https://lore.kernel.org/all/20250321063901.747605-1-nilay@linux.ibm.com/
-
-Nilay Shroff (3):
-  nvme-multipath: introduce delayed removal of the multipath head node
-  nvme: introduce multipath_always_on module param
-  nvme: rename nvme_mpath_shutdown_disk to nvme_mpath_remove_disk
-
- drivers/nvme/host/core.c      |  14 ++-
- drivers/nvme/host/multipath.c | 213 +++++++++++++++++++++++++++++++---
- drivers/nvme/host/nvme.h      |  33 +++++-
- drivers/nvme/host/sysfs.c     |  13 +++
- 4 files changed, 244 insertions(+), 29 deletions(-)
-
+-Dave.
 -- 
-2.49.0
-
+Dave Chinner
+david@fromorbit.com
 
