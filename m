@@ -4,113 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76591C3ABB6
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 May 2025 12:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B246BC3ABB0
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 May 2025 13:21:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mfu+tu5hpHDhrhemjgH6VucLj0HupA6g7txg5hR1fns=; b=ZuqmZtVc4fZAS0GKiSVMm2gPeS
-	QF6EeH4L1R/UU4aZh4zNSYhZghrtp8xPLalVT9IBGCAQ5AkV1I2tfvj/sACfrE4gSF1OfJpc/miS3
-	fx6W/KQXiobrix2dDvEtxypAz1BFBPy0IoCMiFesUFyMPJLeUaeKC8z7jt0ypRd+UYRAQJKPkeZrv
-	7ky2iVidJx/s8Qx03OvfjiCJ3fbatPjxzGpLRP68ZvUtbpbu73ZkgUVDzoQel/mKMi0LJklp2OVkO
-	9obVOoRvPvXkCmPPtLEg37xk+D7XknIFrrdZhWH1H4PFo0IfTHX746GIeRijXiEwRjv+SCEjBPD1W
-	Xw/SIUqQ==;
+	bh=WXxjmZzTZfEBHh+6lNJEO/2R0ym+HESIpAkBG5qWpKA=; b=IbVBFug3AldFi9LZ7Vauy1aZoD
+	YQt4H1Eu1RfYal4gexDhUIGp4h1ExTs28rRp7JejmtwthIKS3VG93lRsm1/ZrN9FEprAiARajDWNs
+	QbkiT/+TBz5XiM7mX/lJo0DIJ47WulOm27q8kYKxbQe1rdt90BpfhoT5EN2D/Vg5C26MxEvl4tcrs
+	+77D/TMy0OjjKRUkCjS0W4uUMWVxuFi0DUP7ry2qU0WvEV1JnXRKOKNVDFCNRInvyvo1Yjt6sZSg4
+	ZWI8hixPDdGqYCSED+1vWAmT3MHXAGvZsdGQyNJuAlVYyaSmTlfvmlHjwnVWlQaAioWTBHnjFrP/P
+	eGpQl/3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBvFM-00000007O7J-27Sp;
-	Mon, 05 May 2025 12:48:36 +0000
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
+	id 1uBvkn-00000007S5v-0HZl;
+	Mon, 05 May 2025 13:21:05 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uBuwU-00000007JbP-3U2F
+	id 1uBvYN-00000007Qh9-0Txu
 	for linux-nvme@lists.infradead.org;
-	Mon, 05 May 2025 12:29:08 +0000
-Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-6e8fce04655so47271306d6.3
-        for <linux-nvme@lists.infradead.org>; Mon, 05 May 2025 05:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1746448145; x=1747052945; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mfu+tu5hpHDhrhemjgH6VucLj0HupA6g7txg5hR1fns=;
-        b=jh4BcaVR1QiUrehQe0xrBq8y0Lp4FDoRCymwnsKhoHyZ2C7vWtb0QLp2q14ryZucHV
-         zBbXDzZPfGJxSbAfuHoauCQVJYOQzWVpFkGDQb3cdYN8cIdsQ5tOHFbeTeQgkgj3Ov0R
-         NpHmDkwBOY5PAsApSbvoSpvLTTp7nmmSch8pTdaoPdVd8JcDUgYdBGA4RKflchHMfvyk
-         ohTqfUTbMZBLTnjCeP9eYsHgl09g5+LThk+Lh+FVkgHT7xSwEPqvLNMBSkM8Lh9KLNim
-         p3caXXGVflRnr7UKiW+pdTm6kH3PkaCTIWqA9BLmSZQVPGNhlFgM9PEhdJUU76qZIyJG
-         aUaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746448145; x=1747052945;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mfu+tu5hpHDhrhemjgH6VucLj0HupA6g7txg5hR1fns=;
-        b=KaT7Ol5kSw1vZOc0YskzYROlFct4F4qF/mET23N+xjAqJRiBTV9GXXWCBc1fmNBp60
-         IIzP58yLIV4Ks1F5LXTJEZ4Iqlw/8c9Q7dxRpShIvbJBf1Ra7hIN5oWs0A5kyP8GiBAQ
-         ufTnm0NexrbA7I5owi8oqnp58+Ssvu/maVhNHINqioCWVJ8Nfor/pkH9VCUOMw4aRV5S
-         pIozoOmO7s5ZEsFnol5nJvOOKqotLm0B8g3wI8IEgivRxV0JyuqU5WafQUd3B6atlefq
-         M73w7mMpzNMBBQbA11suvJBHYmuKA8tyc8KQ+KKuSkb3rnezvKCQA6zkpGhPXPfAlTta
-         xF9g==
-X-Forwarded-Encrypted: i=1; AJvYcCW79Tan36TCaY0xibtfoDCSxnkZ1rOvPXXIkMdEn0E7UG1ASIbVHGZ2uaulh0QwWIqQmk+h2DMafeuj@lists.infradead.org
-X-Gm-Message-State: AOJu0YznGJTJ+NoQBAYv1bessu5RbKZ5FJQiqRSfvSEaP9aCaL1aloUG
-	s2W3CflA8azv472NHvSAkvQM9HW9FE9tLmGJvkwfih6zSaUq6yz6tybZiyxpATc=
-X-Gm-Gg: ASbGncsjFxKVluwIXv3sP/LHbJSbA3U1OglkxE73u1KSm50o4NEoEYUZTTcEhpln6eJ
-	vihbx4HN0jPwL96ZWkmJWCPulL2dC8/FhMxSycWfkvl5miHCteGWmpe1jY6+qFntBXJysjDoSB3
-	xPT0m8YNAxY1SKmqAJtN/uqZ3uV94IMLjsW7BF5Tz3AllhJ9X0szfly5vKV9vHpzIrOEICLLRPH
-	SS47sDLNh2pGeubbG+hUZCRBHy7St8zV5inqlaR+Sn4GgoT54ZYnjMBA2J5rRrXO2kM1VW45gPP
-	3E0LuPXOOcFIFjkGhYDiKO4F/4khs3DBirkVce5n2RbqgzbGdwbEsJCrLFk49Hedslk2+lspJ9t
-	4rQdz5nHlLWq0FgJvot4=
-X-Google-Smtp-Source: AGHT+IHrrCkbPkXSi1eXZMzeybSC5P++W/lKXALdeEOdhNPGMmZG6yFN5oZZyeIbSctGCJtNUEnJAg==
-X-Received: by 2002:a05:6214:b69:b0:6d8:99cf:d2db with SMTP id 6a1803df08f44-6f523852b68mr146814446d6.38.1746448144313;
-        Mon, 05 May 2025 05:29:04 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f50f3c3887sm54983076d6.38.2025.05.05.05.29.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 May 2025 05:29:03 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1uBuwQ-0000000GxAs-3q1W;
-	Mon, 05 May 2025 09:29:02 -0300
-Date: Mon, 5 May 2025 09:29:02 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
-	Jonathan Corbet <corbet@lwn.net>, Zhu Yanjun <zyjzyj2000@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v11 0/9] Provide a new two step DMA mapping API
-Message-ID: <20250505122902.GF2260621@ziepe.ca>
-References: <cover.1746424934.git.leon@kernel.org>
+	Mon, 05 May 2025 13:08:17 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250505130807euoutp01b321ce96b546c2b05396299e9d8bcf78~8o3ceIX8O0514305143euoutp01P
+	for <linux-nvme@lists.infradead.org>; Mon,  5 May 2025 13:08:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250505130807euoutp01b321ce96b546c2b05396299e9d8bcf78~8o3ceIX8O0514305143euoutp01P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1746450487;
+	bh=WXxjmZzTZfEBHh+6lNJEO/2R0ym+HESIpAkBG5qWpKA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=Tc5piz5nJbLpFSzb8y5lM2nHWcBXmxK4Zee96yGe/VCA0ACHTwqXf6/QDdALCoar/
+	 uV/cQ0FdS/I6s6+pC0xej3WaukeNMudMQ/6tOhvs5YxMBdDhSzy2kRt6dz5P04EBoG
+	 LxbPXmi4bigceLWAaUEXw7nPCcUAQ78+CChZ+Ow8=
+Received: from eucas1p1.samsung.com (unknown [182.198.248.177]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20250505130807eucas1p180739e2b967a7f4c662af18a97f15366~8o3cPGD8A2478524785eucas1p1O;
+	Mon,  5 May 2025 13:08:07 +0000 (GMT)
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250505130807eucas1p16879714c1ddf294099f336159a37d1ac~8o3b-oe2M1786317863eucas1p1V;
+	Mon,  5 May 2025 13:08:07 +0000 (GMT)
+Received: from CAMSPWEXC02.scsc.local (unknown [106.1.227.4]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250505130806eusmtip233af277787ca1e2cc67accc31179c936~8o3b8cVY-1986119861eusmtip2T;
+	Mon,  5 May 2025 13:08:06 +0000 (GMT)
+Received: from localhost (106.110.32.122) by CAMSPWEXC02.scsc.local
+	(106.1.227.4) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 5 May
+	2025 14:08:06 +0100
+Date: Mon, 5 May 2025 15:08:06 +0200
+From: Javier Gonzalez <javier.gonz@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: Keith Busch <kbusch@kernel.org>, Judy Brock <judy.brock@samsung.com>,
+	"Ballard, Curtis C (HPE Storage)" <curtis.ballard@hpe.com>, Hannes Reinecke
+	<hare@suse.de>, "hare@kernel.org" <hare@kernel.org>, Sagi Grimberg
+	<sagi@grimberg.me>, "wagi@lst.de" <wagi@lst.de>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH 0/2] nvme: handle partially unique NID value
+Message-ID: <heivqjw2a33ero36rit3uyu3h377jym35caeg3amnkhk5ra7wf@eodk7wld4j6b>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Disposition: inline
-In-Reply-To: <cover.1746424934.git.leon@kernel.org>
+In-Reply-To: <20250505111111.GB11508@lst.de>
+X-Originating-IP: [106.110.32.122]
+X-ClientProxiedBy: CAMSPWEXC02.scsc.local (106.1.227.4) To
+	CAMSPWEXC02.scsc.local (106.1.227.4)
+X-CMS-MailID: 20250505130807eucas1p16879714c1ddf294099f336159a37d1ac
+X-Msg-Generator: CA
+X-RootMTR: 20250502082359uscas1p1e2a9858dcc9200ab1d1d863c4495fc0a
+X-EPHeader: CA
+cpgsPolicy: EUCPGSC10-065,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250502082359uscas1p1e2a9858dcc9200ab1d1d863c4495fc0a
+References: <3e6fb1f6-d6f0-4f33-9389-dff37daae7b0@suse.de>
+	<20250414114128.GA13822@lst.de>
+	<PH0PR84MB1358448342C273E7C7BA808898BC2@PH0PR84MB1358.NAMPRD84.PROD.OUTLOOK.COM>
+	<CGME20250502082359uscas1p1e2a9858dcc9200ab1d1d863c4495fc0a@uscas1p1.samsung.com>
+	<eee8de0a44074dd3bfb0fc6ec425b647@samsung.com>
+	<20250502102505.GA13055@lst.de>
+	<27a99b458f0144fba094726e4f470552@samsung.com> <aBWRfiwJkeYGB0Og@kbusch-mbp>
+	<r5b5gwy6vf56ropgbcx6fyi6qvgnwtzvdz5xjnofln3jvcx2zm@d4dvfkawab2x>
+	<20250505111111.GB11508@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250505_052906_980090_9DB69FF9 
-X-CRM114-Status: GOOD (  14.38  )
-X-Mailman-Approved-At: Mon, 05 May 2025 05:40:34 -0700
+X-CRM114-CacheID: sfid-20250505_060815_709947_15302C1F 
+X-CRM114-Status: GOOD (  12.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,19 +104,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 05, 2025 at 10:01:37AM +0300, Leon Romanovsky wrote:
-> Hi Marek,
-> 
-> These are the DMA/IOMMU patches only, which have not seen functional
-> changes for a while.  They are tested and reviewed and ready to merge.
-> 
-> We will work with relevant subsystems to merge rest of the conversion
-> patches. At least some of them will be done in next cycle to reduce
-> merge conflicts.
+On 05.05.2025 13:11, Christoph Hellwig wrote:
+>On Mon, May 05, 2025 at 11:51:39AM +0200, Javier Gonzalez wrote:
+>> I think we should let HPE distros carry this quirk for drives where they
+>> would not want to roll a FW update.
+>
+>Or just goddamn people to upgrade the broken firmware.  Without it
+>their data is at risk, so they'd better do it.
+>
+>Also maybe this is a lesson to SSDs vendors (and I really mean all of
+>them) that if they can't push back ob broken "features" due to market
+>dynamics they should at least OEM brand the devices in the identify
+>data so that the blame gets deflected to the right party.
 
-Please lets have this on a branch so I can do the rdma parts this
-cycle.
-
-Thanks,
-Jason
+Agree. The dynamics of how OEMs want to apply FW updates is up to them,
+but there is no doubt this has been a mess. Hope we have learned a
+lesson...
 
