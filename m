@@ -4,95 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD384C3ABBF
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 May 2025 02:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3BF7C3ABBC
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 May 2025 03:00:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TZtudP8whc5JWyiBQCvGvrdC2CkTXwDmcdreRv5eyPQ=; b=HUemM2sbIfQGNnOxQdWRRgRYq5
-	bJMfgjFmlI3Qg+eawkMDWg5qbtO/nlZ8uDmoMgp7sfqZfspAI6BGHZob4tw7h0oqU6e3wo19xb8+4
-	lqy2A1cQJcSPCmq6lPrmmYDx6IYsiLx2fNnLfssJa3H0a0n0QK+717UrUOvrxKYonwZioLfwCuTcd
-	LP4S+HiB3TcnpJ03VWNw8iCtbNhdYfHX4cei/VflfrAvZUVSqucTmwUhHdAt6HR1DTVAh0pLDO4ac
-	LWGZYH2pMPACh/VT9mR8onFhFhIhv/2/aU4SEQyixloem+fN1oJ8NhsxiMRLQcoPiTtT+Evaqnqs1
-	hP0UJcIA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=K5FMQ+4XCUXvB2/wLMiuy7tlCfZi/8QSr+8//5mTeks=; b=wVMcrhClYG7+z8108pTmbIyK+T
+	zv3m2WBnDUXfXIZG4ChXaGeRX6vrbjnVlkvZZ5ggiKf3bl/JSjLhRTBGg23x7Qg1xvGKj0+OIA6gV
+	HhHjFlvA/iydo9Pomp8YgtiUOW5WBxMejbNlo8AvYnxN77lmHcnf6eh4461Y41yPYzUpDDShLi6mo
+	dzHW5n9kCAsu/bsikTW7fICpT0Rwnvgp4gYwiBC2pYi8rrjiyF5UUpOAaa1bhigjcF8N5bVMQsIE0
+	lndg/fYrIM6BAe+3FNeJ4Kgn/ypIgiqY6yiBDpgZND7azzqeRwv5jqEGeaWVh1Cqt4kcy78JZ/Dil
+	djiA7hhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uC7xM-00000009jDi-1EDa;
-	Tue, 06 May 2025 02:22:52 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+	id 1uC8Y3-00000009sut-0zpA;
+	Tue, 06 May 2025 03:00:47 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uC4jS-00000008uVe-0ght
+	id 1uC4oG-00000008vsO-3bMv
 	for linux-nvme@lists.infradead.org;
-	Mon, 05 May 2025 22:56:19 +0000
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so4552369b3a.0
-        for <linux-nvme@lists.infradead.org>; Mon, 05 May 2025 15:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1746485777; x=1747090577; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZtudP8whc5JWyiBQCvGvrdC2CkTXwDmcdreRv5eyPQ=;
-        b=gacvIqOxkLYnJin0H34mb0wnDMEQQYHPUtCLqmH7DvQ+5jLmGp9o/hLGRJcOLPkSKS
-         yOrsyuqES6gDVquX0VOOIOR7vzG4hca5hofBnkF4BCYN9p4cmBn3ylkuxPwm8pE+VhLh
-         oS3H+cmbpxuKNyoXiM0TakKgv//PDWQWDXMvebcoQO25SV0ndwZtIMKPpOGYDUiFV0Ia
-         KeXCGQnk7F5pbuXS80rD1j55SXoduhnW6/2ohL8vj/sA2p8fFcmD5d0vlbXQsC0poZGo
-         uRb6E07GfzlgudxB0CUxz5r7dAmYQTo4FJiAqY0yLAxcWWq1kRSDmeMSDidA7fbYWYkP
-         94dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746485777; x=1747090577;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TZtudP8whc5JWyiBQCvGvrdC2CkTXwDmcdreRv5eyPQ=;
-        b=Hbrepm3eXnCY1teKHOxJNSl39QLpLcXRCuw45C1ehPMVMvIM/Tq4idS3i3TSxm//TY
-         SP03ZinNtJVut5fNq5qjSMMG8pzit3/SsVwf05t472t5ePTe43uQphFa4/12mN8Bi7nm
-         h/A8RwkxtB2j5bWJt5awrXmGUlxTfifr8HWkp/iQQ5LlVs0m+KIbJt+X0pSdVj17+wuP
-         zitqYc0euarDi47ReW1qsyDNtUNzcPoICcmwEqGvdFSip1fX0Rt0h9kcloDayGyFq3mp
-         amZrAwQy0m5qX5YgWguPHrX9G0HWkB7nDEbq9/GZNkA7dRQooPJlwU36ggcpcdjuMtB9
-         uNHw==
-X-Forwarded-Encrypted: i=1; AJvYcCW49ImnBDVQufoU/RQrEq05okxBWei/5UOa2Lj0gJrZuC01CPOIiVHpVSgAKXP7rAme85GO41ow3UeG@lists.infradead.org
-X-Gm-Message-State: AOJu0YxE1H1N7t+Pxypk+l03WHHzkiv4PJkEIqJVnae20sOaVjmGGvDb
-	ZJKcQ+tf/blhMXDnoHRVQ4UhO/GTAHH3qXTRSbjKCV0ZmJw898cpCeRClGFJwOk=
-X-Gm-Gg: ASbGncvKYfz+aEezbDuaGqwZtcsuzAfIUYKjkohXYoQioVTNixLascgFCO0drSQ0GiF
-	5DlJJNFo4bNsJPLbds58rUgndVnCdREEiR3HCrELkMb/JgG6SPkchZMw38CI7XiVThHs87qqjj1
-	UN3+iI9iYlvISBZo2ac4nvE0qZY4ylwWxdpMFDyyg1kCUvliVOI/YqbZhWAFXsUcu8kVNb/uYLR
-	CQ3FJMkKGa1JqS9TgTj2SvwXbHGl3dAH9uelz5iE3sPcnZv9ZUjy0gNRfxAG2z7QtOsUH/J6dG8
-	BZtxqMQw/ADI5hnCLwUB2oOkbHyz+GmJL49ID4KDlNZ8hJTOQJ1MSrYEHvnJpfwJ4L+4+0779/8
-	bJAVaBqkjPfdAiQ==
-X-Google-Smtp-Source: AGHT+IG0junclw7g29Tiqwx2VjZpghoTqY/gPZ70p9955vnBkCywMNmCzZAK8v7YO3Z5zsZcGqWWmQ==
-X-Received: by 2002:a05:6a20:cf90:b0:1f5:64a4:aeac with SMTP id adf61e73a8af0-21182ec067cmr1039329637.33.1746485777257;
-        Mon, 05 May 2025 15:56:17 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-60-96.pa.nsw.optusnet.com.au. [49.181.60.96])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74058db9200sm7423761b3a.42.2025.05.05.15.56.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 May 2025 15:56:16 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.98.2)
-	(envelope-from <david@fromorbit.com>)
-	id 1uC4jN-0000000HT0R-0Pro;
-	Tue, 06 May 2025 08:56:13 +1000
-Date: Tue, 6 May 2025 08:56:13 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Laurence Oberman <loberman@redhat.com>
-Cc: Anton Gavriliuk <antosha20xx@gmail.com>, linux-nvme@lists.infradead.org,
-	linux-xfs@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: Sequential read from NVMe/XFS twice slower on Fedora 42 than on
- Rocky 9.5
-Message-ID: <aBlCDTm-grqM4WtY@dread.disaster.area>
-References: <CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-QzmZBMmtr1oC=fOOgAQ@mail.gmail.com>
- <aBaVsli2AKbIa4We@dread.disaster.area>
- <CAAiJnjor+=Zn62n09f-aJw2amX2wxQOb-2TB3rea9wDCU7ONoA@mail.gmail.com>
- <aBfhDQ6lAPmn81j0@dread.disaster.area>
- <7c33f38a52ccff8b94f20c0714b60b61b061ad58.camel@redhat.com>
- <a1f322ab801e7f7037951578d289c5d18c6adc4d.camel@redhat.com>
+	Mon, 05 May 2025 23:01:16 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 69C91629D2;
+	Mon,  5 May 2025 23:00:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D643AC4CEE4;
+	Mon,  5 May 2025 23:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746486076;
+	bh=VUG9QuunpnT/Cw2Hq0jcFjdmziSDloJ7N9vAzyTbyfM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RRnxKyNU70XYMjMWZ1En+Ih5ZMax72PM/nH0fvRx2JOsrbZu38k+MWrPF6phe0lFb
+	 UjhdljU9g8duVKAl49NF8RBMifiZOmzBX5OTYiShQQxMD7oUKmPdwxHfNd1fHuZ30R
+	 8v8c1Dmpp6483d0UNFNUPsAnRAUau0p4CIam3g/mhux2fpcin44rSM9gnkklkRpZlO
+	 fUHpA11R3AHWlXCFDi6Qprf2LfQ3CU1ced+jVvUeft6qUYlwJkD+r+Q3fXt7QavcIR
+	 bJdhj6l6IQb7P64csHP9pGCi7Nux8QfjD2HwK3DjI3ZAbGE0x1uVHBs/a8mZDRtosV
+	 XGNJ5sew8m4TQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Xinyu Zhang <xizhang@purestorage.com>,
+	Caleb Sander Mateos <csander@purestorage.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Ming Lei <ming.lei@redhat.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.6 142/294] nvme: map uring_cmd data even if address is 0
+Date: Mon,  5 May 2025 18:54:02 -0400
+Message-Id: <20250505225634.2688578-142-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
+References: <20250505225634.2688578-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a1f322ab801e7f7037951578d289c5d18c6adc4d.camel@redhat.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250505_155618_211943_567D47BC 
-X-CRM114-Status: GOOD (  19.34  )
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.89
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,44 +78,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 05, 2025 at 09:21:19AM -0400, Laurence Oberman wrote:
-> On Mon, 2025-05-05 at 08:29 -0400, Laurence Oberman wrote:
-> > On Mon, 2025-05-05 at 07:50 +1000, Dave Chinner wrote:
-> > > So the MD block device shows the same read performance as the
-> > > filesystem on top of it. That means this is a regression at the MD
-> > > device layer or in the block/driver layers below it. i.e. it is not
-> > > an XFS of filesystem issue at all.
-> > > 
-> > > -Dave.
-> > 
-> > I have a lab setup, let me see if I can also reproduce and then trace
-> > this to see where it is spending the time
-> > 
-> 
-> 
-> Not seeing 1/2 the bandwidth but also significantly slower on Fedora42
-> kernel.
-> I will trace it
-> 
-> 9.5 kernel - 5.14.0-503.40.1.el9_5.x86_64
-> 
-> Run status group 0 (all jobs):
->    READ: bw=14.7GiB/s (15.8GB/s), 14.7GiB/s-14.7GiB/s (15.8GB/s-
-> 15.8GB/s), io=441GiB (473GB), run=30003-30003msec
-> 
-> Fedora42 kernel - 6.14.5-300.fc42.x86_64
-> 
-> Run status group 0 (all jobs):
->    READ: bw=10.4GiB/s (11.2GB/s), 10.4GiB/s-10.4GiB/s (11.2GB/s-
-> 11.2GB/s), io=313GiB (336GB), run=30001-30001msec
+From: Xinyu Zhang <xizhang@purestorage.com>
 
-So is this MD chunk size related? i.e. what is the chunk size
-the MD device? Is it smaller than the IO size (256kB) or larger?
-Does the regression go away if the chunk size matches the IO size,
-or if the IO size vs chunk size relationship is reversed?
+[ Upstream commit 99fde895ff56ac2241e7b7b4566731d72f2fdaa7 ]
 
--Dave.
+When using kernel registered bvec fixed buffers, the "address" is
+actually the offset into the bvec rather than userspace address.
+Therefore it can be 0.
+
+We can skip checking whether the address is NULL before mapping
+uring_cmd data. Bad userspace address will be handled properly later when
+the user buffer is imported.
+
+With this patch, we will be able to use the kernel registered bvec fixed
+buffers in io_uring NVMe passthru with ublk zero-copy support.
+
+Reviewed-by: Caleb Sander Mateos <csander@purestorage.com>
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
+Signed-off-by: Xinyu Zhang <xizhang@purestorage.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Link: https://lore.kernel.org/r/20250227223916.143006-4-kbusch@meta.com
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/host/ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 4ce31f9f06947..83908f2dd07fe 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -618,7 +618,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		return PTR_ERR(req);
+ 	req->timeout = d.timeout_ms ? msecs_to_jiffies(d.timeout_ms) : 0;
+ 
+-	if (d.addr && d.data_len) {
++	if (d.data_len) {
+ 		ret = nvme_map_user_request(req, d.addr,
+ 			d.data_len, nvme_to_user_ptr(d.metadata),
+ 			d.metadata_len, 0, &meta, ioucmd, vec);
 -- 
-Dave Chinner
-david@fromorbit.com
+2.39.5
+
 
