@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7AA4C3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7ACDC3ABC5
 	for <linux-nvme@archiver.kernel.org>; Tue,  6 May 2025 16:01:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,94 +12,94 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8aC0iu4ntzgbduxwIsWFSVIL0mxp4STZHoEOULQX0RI=; b=31ZqgGzOVlaWfzckkTVd4OMt3J
-	g5+XyVaFkerfq7vuf7rpOIB8wHT8vqLuGdye7phSDZQbw3DR8dOuZkj4246IpESQUgNNSJxylxl0D
-	NR5egzBSgqs+QpawiHBH3MBegNqFvn05z0eAijZSBYB/RvHk2/MVPhmi5UQUAC0YPADiTL0BdFyhH
-	iYyTG1y1awj8EyJR+Vr94JeS9LiwFCCCFlACY1AMTub/V0YdCR1jbMFW3QApL+GZHW190yO8zleC8
-	itpI2B6lIUcosYqTgukD32hxBsqucBmnaw+m4npuhYY40ZcwUBqUtNAe0tvseZnv452CherMOpucF
-	S1y4CDeQ==;
+	bh=eAt1TC33VEZKhra4JdmMfO0QKM/NIeusGmijSmzNAoM=; b=lPNBTe3+b9VauxhN23cOHGXw8Q
+	9t4lSe0dko3yUTVHPbgPfLAaf2iblUiOO6BdCQir6HJ+MLa6r8AtYH9Ax/8dBlmt9U9ZihwKekx8N
+	nDZNKH50VuvvvGDn0FMHi3BUhTUYcOs1SsTNOS3qnk3DkH84nzv8IqAKSlzaLbmPSmNzp0Wu7ujp0
+	Oc3ZEwKDKeQEcSXcR81OmRJGFqFqsNRKXHw2QOOa+7eNrIMBVDx0f+Xvd8ULQP35XMSupoTb1Zhc3
+	P66dGIL8KLmqWWlM66DQabRqW3G4gzZY3naEC5TrOekweDFVbHTVDpTq60ZDco5wYfR29NSQ9KzmX
+	82XtpO5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCKjG-0000000CaDM-2zS0;
-	Tue, 06 May 2025 16:01:10 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1uCKjJ-0000000CaGt-2ahE;
+	Tue, 06 May 2025 16:01:13 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCHNm-0000000Bu7O-1f8a
+	id 1uCHNx-0000000BuEk-2hQT
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 May 2025 12:26:55 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20250506122642epoutp016b552414563e53e6e9c2cdef8b1487fe~878kDy-N32804028040epoutp01b
-	for <linux-nvme@lists.infradead.org>; Tue,  6 May 2025 12:26:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20250506122642epoutp016b552414563e53e6e9c2cdef8b1487fe~878kDy-N32804028040epoutp01b
+	Tue, 06 May 2025 12:26:59 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250506122655epoutp023fe9f493c1083c7efbd28c80799f7472~878w8B9is0473504735epoutp02T
+	for <linux-nvme@lists.infradead.org>; Tue,  6 May 2025 12:26:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250506122655epoutp023fe9f493c1083c7efbd28c80799f7472~878w8B9is0473504735epoutp02T
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1746534402;
-	bh=8aC0iu4ntzgbduxwIsWFSVIL0mxp4STZHoEOULQX0RI=;
+	s=mail20170921; t=1746534416;
+	bh=eAt1TC33VEZKhra4JdmMfO0QKM/NIeusGmijSmzNAoM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dHwExi6pr6dQMg27zg3uk7spIStYQ7EFVrDFG30UDg8IQ3CUxhltSixDggT6aXj+E
-	 25ON2uZ7Ky0/YxDFcJK9i1asw1t9YGCRpVl2Psag0C1nDhQGF2XDRfzK1kxOaEVhbh
-	 XgHplos/e9wAUdLUrTBlqhfPc3nySk/SYr05Hzu8=
+	b=NoWiVmDQEZUfT2ZpaVFQMyQV3Yq+IU9yx11r8ZHo8526edorEqAfePIAYsbQ1qUNY
+	 8ZrujfOCB1uygcqDtgVTdN3cGZGQTmoznN7hzPv4bK5XKhginqwHn7EGgERp5ro/SS
+	 qw2eUjByMMPCDpvS/+TORl9wESJxwTa0UcJG10U8=
 Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
 	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20250506122641epcas5p35019744778d94ee4ce88bbde6da04ef6~878jidzAM0387503875epcas5p3M;
-	Tue,  6 May 2025 12:26:41 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4ZsHgz6Ytpz6B9m4; Tue,  6 May
-	2025 12:26:39 +0000 (GMT)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20250506122638epcas5p364107da78e115a57f1fa91436265edeb~878g9s7uU1254712547epcas5p3E;
-	Tue,  6 May 2025 12:26:38 +0000 (GMT)
+	20250506122655epcas5p3963211a08a66813ef441cbf8ed7a413a~878wkyES03215232152epcas5p31;
+	Tue,  6 May 2025 12:26:55 +0000 (GMT)
+Received: from epcas5p4.samsung.com (unknown [182.195.38.180]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4ZsHhF6Jvmz6B9m4; Tue,  6 May
+	2025 12:26:53 +0000 (GMT)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250506122653epcas5p1824d4af64d0b599fde2de831d8ebf732~878uko59V0784707847epcas5p1N;
+	Tue,  6 May 2025 12:26:53 +0000 (GMT)
 Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250506122638epsmtrp101da3f6a9a86b6e08723a626b726585f~878g9A6w62555625556epsmtrp10;
-	Tue,  6 May 2025 12:26:38 +0000 (GMT)
-X-AuditID: b6c32a2a-d57fe70000002265-59-6819fffe1864
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20250506122653epsmtrp268652cf3359e450be94a9d41ddbf4d4a~878ujGNsm0522005220epsmtrp2T;
+	Tue,  6 May 2025 12:26:53 +0000 (GMT)
+X-AuditID: b6c32a2a-d63ff70000002265-6e-681a000dccfd
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
 	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B1.6E.08805.EFFF9186; Tue,  6 May 2025 21:26:38 +0900 (KST)
+	F3.6E.08805.D000A186; Tue,  6 May 2025 21:26:53 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250506122637epsmtip2acc13ee0a12e95a5610fc0d10b7183c9~878fZJoHZ1679416794epsmtip2a;
-	Tue,  6 May 2025 12:26:37 +0000 (GMT)
+	20250506122651epsmtip2c19c1d52165df07f6ff54d495a437a19~878s2hELM1663216632epsmtip2X;
+	Tue,  6 May 2025 12:26:51 +0000 (GMT)
 From: Kanchan Joshi <joshi.k@samsung.com>
 To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, asml.silence@gmail.com
 Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org, Hannes
 	Reinecke <hare@suse.de>, Nitesh Shetty <nj.shetty@samsung.com>, Kanchan
 	Joshi <joshi.k@samsung.com>
-Subject: [PATCH v16 03/11] block: introduce max_write_streams queue limit
-Date: Tue,  6 May 2025 17:47:24 +0530
-Message-Id: <20250506121732.8211-4-joshi.k@samsung.com>
+Subject: [PATCH v16 11/11] nvme: use fdp streams if write stream is provided
+Date: Tue,  6 May 2025 17:47:32 +0530
+Message-Id: <20250506121732.8211-12-joshi.k@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250506121732.8211-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCLMWRmVeSWpSXmKPExsWy7bCSvO6//5IZBju+aVvMWbWN0WL13X42
-	iz2LJjFZrFx9lMniXes5Fouj/9+yWUw6dI3RYu8tbYs9e0+yWMxf9pTdYtvv+cwO3B47Z91l
-	97h8ttRj06pONo/NS+o9dt9sYPPo27KK0WPz6WqPz5vkAjiiuGxSUnMyy1KL9O0SuDJ+XPrH
-	XNAgU9HyqZOpgXGeRBcjJ4eEgInEhZ65rCC2kMBuRompz5Qg4uISzdd+sEPYwhIr/z0HsrmA
-	aj4ySuyd8ZSxi5GDg01AU+LC5FKQGhGBAImXix8zg9QwC3xglNgzcTYjSEJYwFNi+ZsNzCD1
-	LAKqEr1rqkDCvALmEuf/z2WDmC8vMfPSd7BdnAIWEsv3zGKEuMdc4sXRI+wQ9YISJ2c+YQGx
-	mYHqm7fOZp7AKDALSWoWktQCRqZVjJKpBcW56bnFhgVGeanlesWJucWleel6yfm5mxjBEaGl
-	tYNxz6oPeocYmTgYDzFKcDArifDevy+ZIcSbklhZlVqUH19UmpNafIhRmoNFSZz32+veFCGB
-	9MSS1OzU1ILUIpgsEwenVAMT04R7xtk/2/YvOJeVNMV1hq5wtET28qfXzzF/52gz/dbj2fRb
-	hv2il/Mlx+WXT6++yrNC8qawT/ID+0uMHCH/3mb8rm098epPmcvHqvY+kSPSBWurpB6lPtXb
-	eezWnuxUdb2bk0S1z9w+lXx5m1bu8/hi5VkzS16cZDqdlpFX1PREUXqi6WdFlycKq6M5JR75
-	X3+mX7CmtrC2rMIm/n8s867Lr/h/R4rP2lxW2tozUYavXuLJ1paiZ4ISsr+6/z2MPjzBOMv+
-	QeBBTvMpPbGhN2qsSoUFnjDK+ou1FfekfFF7O+98w6OvhVkPAo/NPJ10LtPLSyL0kMXuqqUv
-	Ti7Y1JHx8sDz1BWPXrDpulQosRRnJBpqMRcVJwIAIR4M4vcCAAA=
-X-CMS-MailID: 20250506122638epcas5p364107da78e115a57f1fa91436265edeb
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGLMWRmVeSWpSXmKPExsWy7bCSvC4vg1SGwbUeLos5q7YxWqy+289m
+	sWfRJCaLlauPMlm8az3HYnH0/1s2i0mHrjFa7L2lbbFn70kWi/nLnrJbbPs9n9mB22PnrLvs
+	HpfPlnpsWtXJ5rF5Sb3H7psNbB59W1Yxemw+Xe3xeZNcAEcUl01Kak5mWWqRvl0CV8ae5iNM
+	Ba9FK7qeXWNpYPwq2MXIySEhYCJxfsN6ti5GLg4hgd2MEssPf2eESIhLNF/7wQ5hC0us/Pec
+	HaLoI6PE+UUNQA4HB5uApsSFyaUgNSICARIvFz9mBqlhFvjAKLFn4mywQcICPhIzZ+5jBbFZ
+	BFQl7kycCmbzClhIzL77igligbzEzEvfwZZxAsWX75kF1iskYC7x4ugRdoh6QYmTM5+wgNjM
+	QPXNW2czT2AUmIUkNQtJagEj0ypGydSC4tz03GLDAqO81HK94sTc4tK8dL3k/NxNjOCo0NLa
+	wbhn1Qe9Q4xMHIyHGCU4mJVEeO/fl8wQ4k1JrKxKLcqPLyrNSS0+xCjNwaIkzvvtdW+KkEB6
+	YklqdmpqQWoRTJaJg1OqgUlBTeBT2h7hgHXmVbrvY9/1/g2WN5hVzxe45NFBuYpp0ue3Pr6a
+	o1T4LK3+mr6MD6NI2/OH9d1FVs5nJWWll5st7fu2Wui+1ooFqmbTbvbVR/rUPdkRvzvA51Pf
+	r99rGRiUDBkWaC/fvctqh5qB8jLhKaY52Y+fNPyokl97YM30xqtne7LOLjN/a9OkYPTEwWCl
+	g55x3M3She38gQ8SheqO8tqx/V1etGRa4ZpQ/zfXN3yWTL3Yc2GlX21k88STMqm/mmbP8FmQ
+	Wipff+M1y6c9OYbc/Yv3qeVkBFW1qBs+NZnYqvHE/tnSvyGZrJPWPbF4V8V9Lnfp6i79hJ35
+	ua0+UUEx7pd8PgTozOc5pMRSnJFoqMVcVJwIAMo9x6P5AgAA
+X-CMS-MailID: 20250506122653epcas5p1824d4af64d0b599fde2de831d8ebf732
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250506122638epcas5p364107da78e115a57f1fa91436265edeb
+X-CMS-RootMailID: 20250506122653epcas5p1824d4af64d0b599fde2de831d8ebf732
 References: <20250506121732.8211-1-joshi.k@samsung.com>
-	<CGME20250506122638epcas5p364107da78e115a57f1fa91436265edeb@epcas5p3.samsung.com>
+	<CGME20250506122653epcas5p1824d4af64d0b599fde2de831d8ebf732@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250506_052649_380421_6AC8696E 
-X-CRM114-Status: GOOD (  18.81  )
+X-CRM114-CacheID: sfid-20250506_052657_990832_3C010CC8 
+X-CRM114-Status: GOOD (  20.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,94 +116,93 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Drivers with hardware that support write streams need a way to export how
-many are available so applications can generically query this.
+Maps a user requested write stream to an FDP placement ID if possible.
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
-[hch: renamed hints to streams, removed stacking]
-Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 ---
- Documentation/ABI/stable/sysfs-block | 7 +++++++
- block/blk-sysfs.c                    | 3 +++
- include/linux/blkdev.h               | 9 +++++++++
- 3 files changed, 19 insertions(+)
+ drivers/nvme/host/core.c | 31 ++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
-index 11545c9e2e93..8bbe1eca28df 100644
---- a/Documentation/ABI/stable/sysfs-block
-+++ b/Documentation/ABI/stable/sysfs-block
-@@ -547,6 +547,13 @@ Description:
- 		[RO] Maximum size in bytes of a single element in a DMA
- 		scatter/gather list.
- 
-+What:		/sys/block/<disk>/queue/max_write_streams
-+Date:		November 2024
-+Contact:	linux-block@vger.kernel.org
-+Description:
-+		[RO] Maximum number of write streams supported, 0 if not
-+		supported. If supported, valid values are 1 through
-+		max_write_streams, inclusive.
- 
- What:		/sys/block/<disk>/queue/max_segments
- Date:		March 2010
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 1f9b45b0b9ee..986cdba4f550 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -134,6 +134,7 @@ QUEUE_SYSFS_LIMIT_SHOW(max_segments)
- QUEUE_SYSFS_LIMIT_SHOW(max_discard_segments)
- QUEUE_SYSFS_LIMIT_SHOW(max_integrity_segments)
- QUEUE_SYSFS_LIMIT_SHOW(max_segment_size)
-+QUEUE_SYSFS_LIMIT_SHOW(max_write_streams)
- QUEUE_SYSFS_LIMIT_SHOW(logical_block_size)
- QUEUE_SYSFS_LIMIT_SHOW(physical_block_size)
- QUEUE_SYSFS_LIMIT_SHOW(chunk_sectors)
-@@ -488,6 +489,7 @@ QUEUE_LIM_RO_ENTRY(queue_max_hw_sectors, "max_hw_sectors_kb");
- QUEUE_LIM_RO_ENTRY(queue_max_segments, "max_segments");
- QUEUE_LIM_RO_ENTRY(queue_max_integrity_segments, "max_integrity_segments");
- QUEUE_LIM_RO_ENTRY(queue_max_segment_size, "max_segment_size");
-+QUEUE_LIM_RO_ENTRY(queue_max_write_streams, "max_write_streams");
- QUEUE_RW_ENTRY(elv_iosched, "scheduler");
- 
- QUEUE_LIM_RO_ENTRY(queue_logical_block_size, "logical_block_size");
-@@ -642,6 +644,7 @@ static struct attribute *queue_attrs[] = {
- 	&queue_max_discard_segments_entry.attr,
- 	&queue_max_integrity_segments_entry.attr,
- 	&queue_max_segment_size_entry.attr,
-+	&queue_max_write_streams_entry.attr,
- 	&queue_hw_sector_size_entry.attr,
- 	&queue_logical_block_size_entry.attr,
- 	&queue_physical_block_size_entry.attr,
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index a9bd945e87b9..3747fbbd65fa 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -402,6 +402,8 @@ struct queue_limits {
- 	unsigned short		max_integrity_segments;
- 	unsigned short		max_discard_segments;
- 
-+	unsigned short		max_write_streams;
-+
- 	unsigned int		max_open_zones;
- 	unsigned int		max_active_zones;
- 
-@@ -1285,6 +1287,13 @@ static inline unsigned int bdev_max_segments(struct block_device *bdev)
- 	return queue_max_segments(bdev_get_queue(bdev));
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f25e03ff03df..52331a14bce1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -672,6 +672,7 @@ static void nvme_free_ns_head(struct kref *ref)
+ 	ida_free(&head->subsys->ns_ida, head->instance);
+ 	cleanup_srcu_struct(&head->srcu);
+ 	nvme_put_subsystem(head->subsys);
++	kfree(head->plids);
+ 	kfree(head);
  }
  
-+static inline unsigned short bdev_max_write_streams(struct block_device *bdev)
-+{
-+	if (bdev_is_partition(bdev))
-+		return 0;
-+	return bdev_limits(bdev)->max_write_streams;
-+}
+@@ -995,6 +996,18 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 	if (req->cmd_flags & REQ_RAHEAD)
+ 		dsmgmt |= NVME_RW_DSM_FREQ_PREFETCH;
+ 
++	if (op == nvme_cmd_write && ns->head->nr_plids) {
++		u16 write_stream = req->bio->bi_write_stream;
 +
- static inline unsigned queue_logical_block_size(const struct request_queue *q)
- {
- 	return q->limits.logical_block_size;
++		if (WARN_ON_ONCE(write_stream > ns->head->nr_plids))
++			return BLK_STS_INVAL;
++
++		if (write_stream) {
++			dsmgmt |= ns->head->plids[write_stream - 1] << 16;
++			control |= NVME_RW_DTYPE_DPLCMT;
++		}
++	}
++
+ 	if (req->cmd_flags & REQ_ATOMIC && !nvme_valid_atomic_write(req))
+ 		return BLK_STS_INVAL;
+ 
+@@ -2240,7 +2253,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 	struct nvme_fdp_config fdp;
+ 	struct nvme_command c = {};
+ 	size_t size;
+-	int ret;
++	int i, ret;
+ 
+ 	/*
+ 	 * The FDP configuration is static for the lifetime of the namespace,
+@@ -2280,6 +2293,22 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 	}
+ 
+ 	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
++	if (!head->nr_plids)
++		goto free;
++
++	head->plids = kcalloc(head->nr_plids, sizeof(head->plids),
++			      GFP_KERNEL);
++	if (!head->plids) {
++		dev_warn(ctrl->device,
++			 "failed to allocate %u FDP placement IDs\n",
++			 head->nr_plids);
++		head->nr_plids = 0;
++		ret = -ENOMEM;
++		goto free;
++	}
++
++	for (i = 0; i < head->nr_plids; i++)
++		head->plids[i] = le16_to_cpu(ruhs->ruhsd[i].pid);
+ free:
+ 	kfree(ruhs);
+ 	return ret;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 3e14daa4ed3e..7aad581271c7 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -498,6 +498,7 @@ struct nvme_ns_head {
+ 	struct gendisk		*disk;
+ 
+ 	u16			nr_plids;
++	u16			*plids;
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	struct bio_list		requeue_list;
+ 	spinlock_t		requeue_lock;
 -- 
 2.25.1
 
