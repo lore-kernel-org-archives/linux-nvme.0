@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7ACDC3ABC5
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB244C3ABBE
 	for <linux-nvme@archiver.kernel.org>; Tue,  6 May 2025 16:01:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,94 +12,95 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eAt1TC33VEZKhra4JdmMfO0QKM/NIeusGmijSmzNAoM=; b=lPNBTe3+b9VauxhN23cOHGXw8Q
-	9t4lSe0dko3yUTVHPbgPfLAaf2iblUiOO6BdCQir6HJ+MLa6r8AtYH9Ax/8dBlmt9U9ZihwKekx8N
-	nDZNKH50VuvvvGDn0FMHi3BUhTUYcOs1SsTNOS3qnk3DkH84nzv8IqAKSlzaLbmPSmNzp0Wu7ujp0
-	Oc3ZEwKDKeQEcSXcR81OmRJGFqFqsNRKXHw2QOOa+7eNrIMBVDx0f+Xvd8ULQP35XMSupoTb1Zhc3
-	P66dGIL8KLmqWWlM66DQabRqW3G4gzZY3naEC5TrOekweDFVbHTVDpTq60ZDco5wYfR29NSQ9KzmX
-	82XtpO5Q==;
+	bh=unJTCCEaXXXg5wwDLxh3fhnhvj31mJgiMXpUO+QUVoU=; b=GYDyDe5wOGusjxydfsLNB9XOUE
+	59twkGHTBrSkoHFlpMgcavnlh1+zxyfXBcIPCp+VcjzT8OPG1XXbb313QGbraVu38SsAjE69x+lPD
+	KqcYCTGE/zToM5GNFqdEQufYnSQlhndBW86EX2D1EeYvROyYokb0YXKpiTMdpwr6gIbvbf344QqaM
+	TUvVkSWS9kbrXbZITGpEj1+Lm241UhXe3IrxjTApig/N7gu+q/Vgc54IKLrS/WcVEpKLnxrs1CldI
+	0bXv8ILv6fAwkJRIP4JRL4+TIIu2Wnn7Sg7m8X9jOdoFw/mcPod31MKUiIbuCDOfYN0dhd8Z4CfCf
+	pe01tGuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCKjJ-0000000CaGt-2ahE;
-	Tue, 06 May 2025 16:01:13 +0000
+	id 1uCKjF-0000000CaBn-1hhz;
+	Tue, 06 May 2025 16:01:09 +0000
 Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCHNx-0000000BuEk-2hQT
+	id 1uCHNn-0000000Bu8i-0tA7
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 May 2025 12:26:59 +0000
+	Tue, 06 May 2025 12:26:54 +0000
 Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250506122655epoutp023fe9f493c1083c7efbd28c80799f7472~878w8B9is0473504735epoutp02T
-	for <linux-nvme@lists.infradead.org>; Tue,  6 May 2025 12:26:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250506122655epoutp023fe9f493c1083c7efbd28c80799f7472~878w8B9is0473504735epoutp02T
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250506122645epoutp021019b1a79407be271dfc965c5e089de1~878nQMz5T0463604636epoutp02b
+	for <linux-nvme@lists.infradead.org>; Tue,  6 May 2025 12:26:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250506122645epoutp021019b1a79407be271dfc965c5e089de1~878nQMz5T0463604636epoutp02b
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1746534416;
-	bh=eAt1TC33VEZKhra4JdmMfO0QKM/NIeusGmijSmzNAoM=;
+	s=mail20170921; t=1746534405;
+	bh=unJTCCEaXXXg5wwDLxh3fhnhvj31mJgiMXpUO+QUVoU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NoWiVmDQEZUfT2ZpaVFQMyQV3Yq+IU9yx11r8ZHo8526edorEqAfePIAYsbQ1qUNY
-	 8ZrujfOCB1uygcqDtgVTdN3cGZGQTmoznN7hzPv4bK5XKhginqwHn7EGgERp5ro/SS
-	 qw2eUjByMMPCDpvS/+TORl9wESJxwTa0UcJG10U8=
+	b=Py3eGWMuuoiWYpqYm6d9XuxO0+OeGeICb+3ygrLo19E9SKvDL+i0uNAQulRfEYGaG
+	 uuJK9Zr0VQ11obPEmgfV03el7L1LjxX1SOomxkCrnhUmGDjvTr/IOSvsVzQmsIRHaf
+	 V4T4wqThPiddIIyPorVAbFezO71fuVVhNgnziby8=
 Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20250506122655epcas5p3963211a08a66813ef441cbf8ed7a413a~878wkyES03215232152epcas5p31;
-	Tue,  6 May 2025 12:26:55 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4ZsHhF6Jvmz6B9m4; Tue,  6 May
-	2025 12:26:53 +0000 (GMT)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250506122653epcas5p1824d4af64d0b599fde2de831d8ebf732~878uko59V0784707847epcas5p1N;
-	Tue,  6 May 2025 12:26:53 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250506122653epsmtrp268652cf3359e450be94a9d41ddbf4d4a~878ujGNsm0522005220epsmtrp2T;
-	Tue,  6 May 2025 12:26:53 +0000 (GMT)
-X-AuditID: b6c32a2a-d63ff70000002265-6e-681a000dccfd
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20250506122645epcas5p44fd15f89441c0df298a9b93e64b028f8~878mvrcdp0663906639epcas5p4z;
+	Tue,  6 May 2025 12:26:45 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4ZsHh32mF2z6B9m4; Tue,  6 May
+	2025 12:26:43 +0000 (GMT)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250506122642epcas5p267fef037060e55d1e9c0055b0dfd692e~878kab1vq2629526295epcas5p2F;
+	Tue,  6 May 2025 12:26:42 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250506122642epsmtrp18afea66031e60e23bd1a87beac41edaf~878kYxaoB2592625926epsmtrp1B;
+	Tue,  6 May 2025 12:26:42 +0000 (GMT)
+X-AuditID: b6c32a29-55afd7000000223e-91-681a00025fa8
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	F3.6E.08805.D000A186; Tue,  6 May 2025 21:26:53 +0900 (KST)
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	CC.B6.08766.2000A186; Tue,  6 May 2025 21:26:42 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250506122651epsmtip2c19c1d52165df07f6ff54d495a437a19~878s2hELM1663216632epsmtip2X;
-	Tue,  6 May 2025 12:26:51 +0000 (GMT)
+	20250506122640epsmtip25724ed78f8c9f291b05de63988079d32~878ixpy5s1679416794epsmtip2c;
+	Tue,  6 May 2025 12:26:40 +0000 (GMT)
 From: Kanchan Joshi <joshi.k@samsung.com>
 To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, asml.silence@gmail.com
 Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-nvme@lists.infradead.org, Hannes
 	Reinecke <hare@suse.de>, Nitesh Shetty <nj.shetty@samsung.com>, Kanchan
 	Joshi <joshi.k@samsung.com>
-Subject: [PATCH v16 11/11] nvme: use fdp streams if write stream is provided
-Date: Tue,  6 May 2025 17:47:32 +0530
-Message-Id: <20250506121732.8211-12-joshi.k@samsung.com>
+Subject: [PATCH v16 05/11] block: expose write streams for block device
+ nodes
+Date: Tue,  6 May 2025 17:47:26 +0530
+Message-Id: <20250506121732.8211-6-joshi.k@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250506121732.8211-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGLMWRmVeSWpSXmKPExsWy7bCSvC4vg1SGwbUeLos5q7YxWqy+289m
-	sWfRJCaLlauPMlm8az3HYnH0/1s2i0mHrjFa7L2lbbFn70kWi/nLnrJbbPs9n9mB22PnrLvs
-	HpfPlnpsWtXJ5rF5Sb3H7psNbB59W1Yxemw+Xe3xeZNcAEcUl01Kak5mWWqRvl0CV8ae5iNM
-	Ba9FK7qeXWNpYPwq2MXIySEhYCJxfsN6ti5GLg4hgd2MEssPf2eESIhLNF/7wQ5hC0us/Pec
-	HaLoI6PE+UUNQA4HB5uApsSFyaUgNSICARIvFz9mBqlhFvjAKLFn4mywQcICPhIzZ+5jBbFZ
-	BFQl7kycCmbzClhIzL77igligbzEzEvfwZZxAsWX75kF1iskYC7x4ugRdoh6QYmTM5+wgNjM
-	QPXNW2czT2AUmIUkNQtJagEj0ypGydSC4tz03GLDAqO81HK94sTc4tK8dL3k/NxNjOCo0NLa
-	wbhn1Qe9Q4xMHIyHGCU4mJVEeO/fl8wQ4k1JrKxKLcqPLyrNSS0+xCjNwaIkzvvtdW+KkEB6
-	YklqdmpqQWoRTJaJg1OqgUlBTeBT2h7hgHXmVbrvY9/1/g2WN5hVzxe45NFBuYpp0ue3Pr6a
-	o1T4LK3+mr6MD6NI2/OH9d1FVs5nJWWll5st7fu2Wui+1ooFqmbTbvbVR/rUPdkRvzvA51Pf
-	r99rGRiUDBkWaC/fvctqh5qB8jLhKaY52Y+fNPyokl97YM30xqtne7LOLjN/a9OkYPTEwWCl
-	g55x3M3She38gQ8SheqO8tqx/V1etGRa4ZpQ/zfXN3yWTL3Yc2GlX21k88STMqm/mmbP8FmQ
-	Wipff+M1y6c9OYbc/Yv3qeVkBFW1qBs+NZnYqvHE/tnSvyGZrJPWPbF4V8V9Lnfp6i79hJ35
-	ua0+UUEx7pd8PgTozOc5pMRSnJFoqMVcVJwIAMo9x6P5AgAA
-X-CMS-MailID: 20250506122653epcas5p1824d4af64d0b599fde2de831d8ebf732
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKLMWRmVeSWpSXmKPExsWy7bCSvC4Tg1SGwccJYhZzVm1jtFh9t5/N
+	Ys+iSUwWK1cfZbJ413qOxeLo/7dsFpMOXWO02HtL22LP3pMsFvOXPWW32PZ7PrMDt8fOWXfZ
+	PS6fLfXYtKqTzWPzknqP3Tcb2Dz6tqxi9Nh8utrj8ya5AI4oLpuU1JzMstQifbsErozDm68w
+	F/wUqZh26glbA+MKwS5GTg4JAROJ3xtusXYxcnEICexmlNjTtpsNIiEu0XztBzuELSyx8t9z
+	doiij4wSq64fY+pi5OBgE9CUuDC5FKRGRCBA4uXix8wgNcwCH4AGTZzNCJIQFvCVeP5lPQtI
+	PYuAqkTjzTCQMK+AucSVc78ZIebLS8y89B1sF6eAhcTyPbPA4kJANS+OHmGHqBeUODnzCQuI
+	zQxU37x1NvMERoFZSFKzkKQWMDKtYpRMLSjOTc8tNiwwzEst1ytOzC0uzUvXS87P3cQIjgkt
+	zR2M21d90DvEyMTBeIhRgoNZSYT3/n3JDCHelMTKqtSi/Pii0pzU4kOM0hwsSuK84i96U4QE
+	0hNLUrNTUwtSi2CyTBycUg1MXlFGJ2/tyH/h+Tujxkd67eN3ryXbHhjIXvb+ysJ/sMw3cMXc
+	3d/vLvle92l3Wq2vqli38qOT0j8O3KmRZKn13vG8ZYbrxp/JER659lY3LNV+TPpyl+FB4Yzt
+	7xlt90Q63vq2d8uOwzWfHWLlSj3n/wren7Na8kzP3306E+I9Vlq+6DMUTdW+uI83LGi6u/7F
+	A4y3zFy57xhOvanWaPNuzuZjJXtbFgQbXb24gzXvdMibR53WDSbbb7x7cqs+LefI3ReT/Zua
+	blgefNq+dalX6xH/2xOZ36Rsu7KwyPlv8oK/xhtdjIyVEpO3fN4Qt/HSyRDvyaq2kw2TD3m7
+	qkptin1jedHaYsrh75LvubM+liqxFGckGmoxFxUnAgDBeGbl+AIAAA==
+X-CMS-MailID: 20250506122642epcas5p267fef037060e55d1e9c0055b0dfd692e
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250506122653epcas5p1824d4af64d0b599fde2de831d8ebf732
+X-CMS-RootMailID: 20250506122642epcas5p267fef037060e55d1e9c0055b0dfd692e
 References: <20250506121732.8211-1-joshi.k@samsung.com>
-	<CGME20250506122653epcas5p1824d4af64d0b599fde2de831d8ebf732@epcas5p1.samsung.com>
+	<CGME20250506122642epcas5p267fef037060e55d1e9c0055b0dfd692e@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250506_052657_990832_3C010CC8 
-X-CRM114-Status: GOOD (  20.50  )
+X-CRM114-CacheID: sfid-20250506_052649_357351_191FA0A4 
+X-CRM114-Status: GOOD (  17.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,95 +115,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+From: Christoph Hellwig <hch@lst.de>
 
-Maps a user requested write stream to an FDP placement ID if possible.
+Use the per-kiocb write stream if provided, or map temperature hints to
+write streams (which is a bit questionable, but this shows how it is
+done).
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+[kbusch: removed statx reporting]
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 ---
- drivers/nvme/host/core.c | 31 ++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 31 insertions(+), 1 deletion(-)
+ block/fops.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f25e03ff03df..52331a14bce1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -672,6 +672,7 @@ static void nvme_free_ns_head(struct kref *ref)
- 	ida_free(&head->subsys->ns_ida, head->instance);
- 	cleanup_srcu_struct(&head->srcu);
- 	nvme_put_subsystem(head->subsys);
-+	kfree(head->plids);
- 	kfree(head);
- }
+diff --git a/block/fops.c b/block/fops.c
+index b6d7cdd96b54..1309861d4c2c 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -73,6 +73,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *iocb,
+ 	}
+ 	bio.bi_iter.bi_sector = pos >> SECTOR_SHIFT;
+ 	bio.bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
++	bio.bi_write_stream = iocb->ki_write_stream;
+ 	bio.bi_ioprio = iocb->ki_ioprio;
+ 	if (iocb->ki_flags & IOCB_ATOMIC)
+ 		bio.bi_opf |= REQ_ATOMIC;
+@@ -206,6 +207,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
+ 	for (;;) {
+ 		bio->bi_iter.bi_sector = pos >> SECTOR_SHIFT;
+ 		bio->bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
++		bio->bi_write_stream = iocb->ki_write_stream;
+ 		bio->bi_private = dio;
+ 		bio->bi_end_io = blkdev_bio_end_io;
+ 		bio->bi_ioprio = iocb->ki_ioprio;
+@@ -333,6 +335,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
+ 	dio->iocb = iocb;
+ 	bio->bi_iter.bi_sector = pos >> SECTOR_SHIFT;
+ 	bio->bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
++	bio->bi_write_stream = iocb->ki_write_stream;
+ 	bio->bi_end_io = blkdev_bio_end_io_async;
+ 	bio->bi_ioprio = iocb->ki_ioprio;
  
-@@ -995,6 +996,18 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 	if (req->cmd_flags & REQ_RAHEAD)
- 		dsmgmt |= NVME_RW_DSM_FREQ_PREFETCH;
+@@ -398,6 +401,26 @@ static ssize_t blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+ 	if (blkdev_dio_invalid(bdev, iocb, iter))
+ 		return -EINVAL;
  
-+	if (op == nvme_cmd_write && ns->head->nr_plids) {
-+		u16 write_stream = req->bio->bi_write_stream;
++	if (iov_iter_rw(iter) == WRITE) {
++		u16 max_write_streams = bdev_max_write_streams(bdev);
 +
-+		if (WARN_ON_ONCE(write_stream > ns->head->nr_plids))
-+			return BLK_STS_INVAL;
++		if (iocb->ki_write_stream) {
++			if (iocb->ki_write_stream > max_write_streams)
++				return -EINVAL;
++		} else if (max_write_streams) {
++			enum rw_hint write_hint =
++				file_inode(iocb->ki_filp)->i_write_hint;
 +
-+		if (write_stream) {
-+			dsmgmt |= ns->head->plids[write_stream - 1] << 16;
-+			control |= NVME_RW_DTYPE_DPLCMT;
++			/*
++			 * Just use the write hint as write stream for block
++			 * device writes.  This assumes no file system is
++			 * mounted that would use the streams differently.
++			 */
++			if (write_hint <= max_write_streams)
++				iocb->ki_write_stream = write_hint;
 +		}
 +	}
 +
- 	if (req->cmd_flags & REQ_ATOMIC && !nvme_valid_atomic_write(req))
- 		return BLK_STS_INVAL;
- 
-@@ -2240,7 +2253,7 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 	struct nvme_fdp_config fdp;
- 	struct nvme_command c = {};
- 	size_t size;
--	int ret;
-+	int i, ret;
- 
- 	/*
- 	 * The FDP configuration is static for the lifetime of the namespace,
-@@ -2280,6 +2293,22 @@ static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 	}
- 
- 	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
-+	if (!head->nr_plids)
-+		goto free;
-+
-+	head->plids = kcalloc(head->nr_plids, sizeof(head->plids),
-+			      GFP_KERNEL);
-+	if (!head->plids) {
-+		dev_warn(ctrl->device,
-+			 "failed to allocate %u FDP placement IDs\n",
-+			 head->nr_plids);
-+		head->nr_plids = 0;
-+		ret = -ENOMEM;
-+		goto free;
-+	}
-+
-+	for (i = 0; i < head->nr_plids; i++)
-+		head->plids[i] = le16_to_cpu(ruhs->ruhsd[i].pid);
- free:
- 	kfree(ruhs);
- 	return ret;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3e14daa4ed3e..7aad581271c7 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -498,6 +498,7 @@ struct nvme_ns_head {
- 	struct gendisk		*disk;
- 
- 	u16			nr_plids;
-+	u16			*plids;
- #ifdef CONFIG_NVME_MULTIPATH
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
+ 	nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_VECS + 1);
+ 	if (likely(nr_pages <= BIO_MAX_VECS)) {
+ 		if (is_sync_kiocb(iocb))
 -- 
 2.25.1
 
