@@ -4,94 +4,142 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47080C3ABBE
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 May 2025 23:35:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DA0CC3ABBC
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 May 2025 23:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ovyunJMzY2BM/vnqYqDfx0z8WEcxzxmQSFfHAJD53dQ=; b=hl2TBt4YEpEXmgfBRbSsvC4x5E
-	QSENUVZlhNombO1mesUvlWRMu/ArfqMPuhZsbADamYHNGWuuAB34NbzbV0n8mJOqnnC5rxNXsWcf5
-	gDOC59OP6U34q6Tg1f9l0e5s94d47j0PCbHRs3LMwxM4H9mKLdSLM/KTd8a0jUBX+0vXo0CnwTyb4
-	yHTehXAm/n8q25xSCJO7BD5bsLzWIWOPDrERZfI0rQyos50FQS459cDu6iQsqDtAeVQAUrDJd0iWe
-	sobYwhFC1Rq5U9MEYHocBez0IyDxauy38tvyPAUOgmB7YPKXZ//wd9TkxvEGv182684GrPx65l/NO
-	WfrGI6cg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=r0hU5NZ4KbBbDEp5ykYrSzS8QxNddTlWW2mMuuFyv74=; b=CCd+612FTcv0Tu2Ig1f4AY9WT5
+	zJ3Pr13bfXn6B8VVaYznyga6xCVoyDBY+PtK6taaYKnpRifXNDHPvW8OBrs6q79uP/BrATA/2Zo0Y
+	svzVUtujkFhi3csgHakgIE7ElRXreYxNdveWDMhPS1aqmHkWahjyRJtfwPQjPJCFOdpZerfqMlRhL
+	SSBtuNWPm/YqX6jop/bQQkC5wDvxeZAkWCWJ1R/hiO3ZOG8ljIroM5+NeqBlPPzfXFTrpLTIuENqB
+	kqCCqQ+naggVjQMui9IU77jN83PkrZKqOwR5GQ98j9nY6VFicLoTPVrTf6TWAhjcWamZALGr321M2
+	3oj5Mkgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCRpB-0000000DfnV-3bAk;
-	Tue, 06 May 2025 23:35:45 +0000
-Received: from mail-il1-x164.google.com ([2607:f8b0:4864:20::164])
+	id 1uCRpM-0000000Dfsz-03RW;
+	Tue, 06 May 2025 23:35:56 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCMUo-0000000CuZP-42pL
+	id 1uCMfP-0000000Cvy0-1s9E
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 May 2025 17:54:24 +0000
-Received: by mail-il1-x164.google.com with SMTP id e9e14a558f8ab-3d821d6f629so1563265ab.1
-        for <linux-nvme@lists.infradead.org>; Tue, 06 May 2025 10:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1746554062; x=1747158862; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ovyunJMzY2BM/vnqYqDfx0z8WEcxzxmQSFfHAJD53dQ=;
-        b=J6GvLDJOxZ/g0w/uct459gwvp9K2M+T2QrLo9PpyzV/6FgZlrJ5KUw53FnHO54Ctlt
-         8fcocOtl+u/EMgUissLpor+2RmoSKpz/LQT1FR1fQHVGggmTARzd2c3AXTirlsYPzT2E
-         Pf4y85KlYomKn/MMf/r70lmYxPvjL0ZRGF1BOx4BrrT5PzrLwDm/JVQLTM/+Oje1UnoC
-         C/INi/jntzowd2l46C5u9971p/eHZLfQ0Jz1DEQvcI6a3jcWCGVqb7HBV3GeVoL+TgGp
-         YEcANiVs4zYkXYQo9QpBfW6P+/v9xLblyGu/Q7gzJR3G1WGLamR+zl83pEwZWsMuDne6
-         CO3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746554062; x=1747158862;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ovyunJMzY2BM/vnqYqDfx0z8WEcxzxmQSFfHAJD53dQ=;
-        b=GYXkZE3pouk54hVyDu5Cu0ECsgj1bjgx/TjuUbRK4iWbDCEkg7cRlMfRyUnb4Is8VP
-         FgKjEmFUJnLuDMZdR7r4HCaPFAwnEKfdMDIwOe/z8zcev5VukbLsTYbvTMjy8r4E4k3G
-         pc2qkVHT0lkMKI8mtYIK6RnjmVoN+WYty1lsWG3m5Qn94wvLoUGjtPGdn2RixvQ/h9y7
-         bhg2Mdj2llsFjatqfb+eGC4za9NhkeabSCJtynKONafJn9atgl5QrNIMC7I6P2yFP32n
-         W5a+Pb8M+y4HLHPItCmAdg6PARqsUCWEd9F2QjpWyt0CfhoOuUZ8mnHRo9hj4hdX7CoM
-         vhEA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/WXwtWEHKRDaj1pzOfsneWp6IiwaGjMxw7ihJQ5CQW0SlgiCrrXOt0WHf6W80U/2b02vjsCWQk8IJ@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyk6+OVGMdWSf5L4cSnBtV16d+B480Uiuk08NxVmK+kjTHXTZCa
-	c5QRfGQH23ShONcrn62nk2UXVqzHwhrBbdYgdOmAfZFkCgMw+m9AflOfXqSQRPRHcM5uL+yerGn
-	hno0B4KxntTlGxZsNeQOlyiSuK36MTn9kpvkRaMZIFEwKa1HJ
-X-Gm-Gg: ASbGncvzlOPHthX0aSxo1JEMLMXWB7nFtHCSVjL1WF1gljfHZ6TpAt/krR9iuQZodmT
-	ZOdnU/MdeDUPtbwtLX/XwxyczGjWOZM0ap4C/0/01Pdxll+IAgWyFU7Zvvq/DJo5VqGZglBP4XO
-	IyFb1jrdDjLRTwH1YmsghdZOA964cI2ILzowPoCDN8h3LNHp2UwutvKdWLItTXUTLXLecTQenMB
-	ybyoLDB942jqYU3x6hqd0X7KiBN7Y41niGSmQoZI1DN+p+VdWcIVIW3KkcKzdWEKzKNNe6xsSlJ
-	pRPgj+GN+x4g+n9UtAHjYQ+tWq+WAQ==
-X-Google-Smtp-Source: AGHT+IGG5+67z8CZz9trHjpJ22gnk/1CqPuiaRkSCUUxhooa3Yd+geotR/Vte9dYVNo7S+ByK3+DgGrMmhi2
-X-Received: by 2002:a05:6e02:1b0e:b0:3d9:2961:fa01 with SMTP id e9e14a558f8ab-3da723e7850mr3279115ab.3.1746554061783;
-        Tue, 06 May 2025 10:54:21 -0700 (PDT)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id e9e14a558f8ab-3d975e34c17sm22713665ab.2.2025.05.06.10.54.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 10:54:21 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (unknown [IPv6:2620:125:9007:640:ffff::418a])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 6E8953401CE;
-	Tue,  6 May 2025 11:54:21 -0600 (MDT)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id 67ED5E41E7B; Tue,  6 May 2025 11:54:21 -0600 (MDT)
-From: Caleb Sander Mateos <csander@purestorage.com>
-To: Kanchan Joshi <joshi.k@samsung.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Caleb Sander Mateos <csander@purestorage.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme: fix write_stream_granularity initialization
-Date: Tue,  6 May 2025 11:54:12 -0600
-Message-ID: <20250506175413.1936110-1-csander@purestorage.com>
-X-Mailer: git-send-email 2.45.2
+	Tue, 06 May 2025 18:05:20 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A7BFD211BF;
+	Tue,  6 May 2025 18:05:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1746554716; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r0hU5NZ4KbBbDEp5ykYrSzS8QxNddTlWW2mMuuFyv74=;
+	b=KIXr2ew1oWlBlBjkfnbjCpSCbtV2XqOrIUYEeKGh7i5uCDpWek/fMsxID+RMwa62qjPUbd
+	o6GqPvCe1E7qSklxLHGHWLSC2dl0TkFY1VPS/p1wL5TX0D2h3G1ksWxDAmzDkx0CWwGqj6
+	UyEGYqcCrBjvefnbsUZT1h7/vMKTiOM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1746554716;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r0hU5NZ4KbBbDEp5ykYrSzS8QxNddTlWW2mMuuFyv74=;
+	b=zX2hhdFGRv4pSiBxXi/X5BLqKcsRJx2vHP6VucvIefHOQuECNxSTsIkEEN+ejYGB22Q6n0
+	dptqbmLre18ddHAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KIXr2ew1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zX2hhdFG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1746554716; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r0hU5NZ4KbBbDEp5ykYrSzS8QxNddTlWW2mMuuFyv74=;
+	b=KIXr2ew1oWlBlBjkfnbjCpSCbtV2XqOrIUYEeKGh7i5uCDpWek/fMsxID+RMwa62qjPUbd
+	o6GqPvCe1E7qSklxLHGHWLSC2dl0TkFY1VPS/p1wL5TX0D2h3G1ksWxDAmzDkx0CWwGqj6
+	UyEGYqcCrBjvefnbsUZT1h7/vMKTiOM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1746554716;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r0hU5NZ4KbBbDEp5ykYrSzS8QxNddTlWW2mMuuFyv74=;
+	b=zX2hhdFGRv4pSiBxXi/X5BLqKcsRJx2vHP6VucvIefHOQuECNxSTsIkEEN+ejYGB22Q6n0
+	dptqbmLre18ddHAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 606FB137CF;
+	Tue,  6 May 2025 18:05:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +oexFVxPGmjVDAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 06 May 2025 18:05:16 +0000
+Message-ID: <4cff2b68-32e8-4593-8a91-345171ae147f@suse.de>
+Date: Tue, 6 May 2025 20:05:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
+To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Sagi Grimberg
+ <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chris Leech <cleech@redhat.com>
+References: <20250403065522.90807-1-hare@kernel.org>
+ <20250403065522.90807-4-hare@kernel.org>
+ <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
+ <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
+ <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
+ <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
+ <eda7a691-037b-442d-bd36-a31f93e95cb1@suse.de>
+ <976af4b7-578b-4e47-a2ff-7c74af0b9afa@grimberg.me>
+ <30b16579-1a28-4d01-9afd-8ff3996db42d@grimberg.me>
+ <BY5PR04MB68490F6DD7F1FDBE6999B54BBC842@BY5PR04MB6849.namprd04.prod.outlook.com>
+ <6202ffd4-4a32-4f85-ab87-ac5a087c2f1a@grimberg.me>
+ <BY5PR04MB6849D4BF87755B82A073BBDABC89A@BY5PR04MB6849.namprd04.prod.outlook.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <BY5PR04MB6849D4BF87755B82A073BBDABC89A@BY5PR04MB6849.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: A7BFD211BF
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250506_105423_046375_1253F6A5 
-X-CRM114-Status: GOOD (  14.15  )
+X-CRM114-CacheID: sfid-20250506_110519_633274_BEA4E6E5 
+X-CRM114-Status: GOOD (  20.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,37 +154,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-write_stream_granularity is set to max(info->runs, U32_MAX), which means
-that any RUNS value less than 2 ** 32 becomes U32_MAX, and any larger
-value is silently truncated to an unsigned int.
+Hi Kamaljit,
 
-Use min() instead to provide the correct semantics, capping RUNS values
-at U32_MAX.
+On 5/6/25 19:40, Kamaljit Singh wrote:
+> Hi Sagi,
+> 
+>  >On 26/04/2025 2:47, Kamaljit Singh wrote:
+>  >> Sagi,
+>  >>
+>  >>>> Right after the check sk_stream_is_writeable(), there could have new
+>  >>>> room in the socket
+>  >>>> send buffer, state_change() fired, and queued io_work, before we get
+>  >>>> to the pending
+>  >>>> check. This is the "lost event" problem.
+>  >>> Actually, this is incorrect. write_space() -> queue_work(io_work) will
+>  >>> be re-queued if io_work
+>  >>> is currently running. Hence I'm not sure that this flag is needed.
+>  >>>
+>  >>> Kamaljit, can you run with the below and report if it fixes your 
+> problem?
+>  >> With the last set of fixes that included list_del_init() you 
+> suggested, all
+>  >> tests have been stable. I'm not seeing any more issues. Are you 
+> asking to
+>  >> test this patch regardless? If so, does this need to be in addition to
+>  >> previous patches?
+>  >
+>  >Instead of my patch that introduces WAKE_SENDER - apply just the change
+>  >below
+>  >that looks at sk_stream_is_writeable() only. I no longer think that the
+>  >other changes in that patch solve anything.
+> Sorry, I was away on PTO. Working now to get the below patch tested.
+> 
+Can you please retest with the patchset '[PATCHv5 0/2] nvme-tcp: fixup 
+I/O stall on congested sockets' _only_ ?
+(on top of nvme-6.16 latest, of course).
+I think I _should_ have included all the suggestions floating here,
+but we need to have confirmation.
 
-Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-Fixes: 30b5f20bb2dd ("nvme: register fdp parameters with the block layer")
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks a bunch.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 52331a14bce1..a9fb8cd54420 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2390,11 +2390,11 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	if (!nvme_init_integrity(ns->head, &lim, info))
- 		capacity = 0;
- 
- 	lim.max_write_streams = ns->head->nr_plids;
- 	if (lim.max_write_streams)
--		lim.write_stream_granularity = max(info->runs, U32_MAX);
-+		lim.write_stream_granularity = min(info->runs, U32_MAX);
- 	else
- 		lim.write_stream_granularity = 0;
- 
- 	ret = queue_limits_commit_update(ns->disk->queue, &lim);
- 	if (ret) {
+Cheers,
+
+Hannes
 -- 
-2.45.2
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
