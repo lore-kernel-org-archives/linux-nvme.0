@@ -4,94 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21863C3ABAC
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 May 2025 07:07:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E144C3ABBE
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 May 2025 07:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VkZrOOrwesoOfCNxjVHlBlb8TSpQI4ooMhqJRD1ib8I=; b=nf4tE3NZR5sTI0lVN8tg4+HPVw
-	3Vr0HHxUQYJmVJiX+sxl7crWHLnDEjD4p4p0nSxwQ5RU6Sk9z99tt2nj6wZu11FaMPJ8vnxra+Y09
-	T4hw8VSX5q+DuGqwAEOl8E31dRCr4iIWmwLl+jM5GDoAVRZ3yg9KcaQ8AfSw+jl6gCS5Z1dSgu1t8
-	IR78p1YXArlu5l7eqzNZ+Lq7F260u5If1mNGCr2ySskNanRqzOE1bMIQ/I3duIzCSurvwyELDp7e+
-	9jkHzeRaoBVYWBcGPLS9mjy592g1MpTWURjLPY6mW579P1S6+Q/t2M2EQLvaVA9FRrn42Pt0rxH8t
-	tPdb7/Ig==;
+	bh=RK8CB/ILucoxkojMLroxyaAqpj6rXkr8cb1h0tuO+FM=; b=kF109JNyj/yOuqSQ95B55xH3ML
+	9Xi6dl8GMXtP4aag8YStHltng2uTGyVr9pMMtR+yjFQP+ZRkgYMceZpQGcL2c5PKjHw2Kg/RKgivC
+	xZRMFjiglds2rH85/KmPrrqVhqetCfVbwXx7F+n9TLQdRubbQz8fFtl9uL8MIszfZ9CDGdVVsVpxM
+	NtR/rMK2sjSWE3v16OQeEdXj/yrpAAGZZ9j5pmKyhv8vtwWEnTAaVYsY1ypda+jjn+kocjzJ0H3Rz
+	ER7SidRfiDVYExTOJsZ2wdMsI/vlvX8APgx8K0Cs2au0pAV72De16Cn47GtN5TGsFlcUM1d05Yht/
+	O7ey/2NQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCCOi-0000000AqDA-3bGX;
-	Tue, 06 May 2025 07:07:24 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1uCCbV-0000000AteJ-33f4;
+	Tue, 06 May 2025 07:20:37 +0000
+Received: from smtpbgeu2.qq.com ([18.194.254.142])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCCOg-0000000AqAI-0oZL
+	id 1uC86F-00000009lpg-49mt
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 May 2025 07:07:24 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250506070716euoutp02cacf75663ea0d16de03a84b7cbfa353d~83lrEXcZq1113211132euoutp02s
-	for <linux-nvme@lists.infradead.org>; Tue,  6 May 2025 07:07:16 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250506070716euoutp02cacf75663ea0d16de03a84b7cbfa353d~83lrEXcZq1113211132euoutp02s
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1746515236;
-	bh=VkZrOOrwesoOfCNxjVHlBlb8TSpQI4ooMhqJRD1ib8I=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=RYfJoffqph09IlDMbCSJcsfKbKP8vL/CPsLERb0qXkPfDrVLVzJhoxeqtkKv/eHzk
-	 w5UbQmXSflOMsjVl4HwqiDWMXRhJjLeG6RcbvSYGkvC5s0Q9Yhn3tiSLsLK8j6VZKu
-	 6ogkTKnr3w6Hi/gpM65rgT7l8JMp0HzY1SSuokUI=
-Received: from eucas1p2.samsung.com (unknown [182.198.248.175]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20250506070716eucas1p257951b1b54d5574db3b2e96388030c99~83lqu2o521162711627eucas1p2C;
-	Tue,  6 May 2025 07:07:16 +0000 (GMT)
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250506070716eucas1p11f1abcd2b3bf5b31e361a5fc93098b8e~83lqVGATx3272832728eucas1p1i;
-	Tue,  6 May 2025 07:07:16 +0000 (GMT)
-Received: from CAMSPWEXC02.scsc.local (unknown [106.1.227.4]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250506070716eusmtip1e1fdbd638b79a548e31eaa1f5cfdab45~83lqRVm3b2241222412eusmtip1C;
-	Tue,  6 May 2025 07:07:16 +0000 (GMT)
-Received: from localhost (106.110.32.122) by CAMSPWEXC02.scsc.local
-	(106.1.227.4) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 6 May
-	2025 08:07:15 +0100
-Date: Tue, 6 May 2025 09:07:15 +0200
-From: Javier Gonzalez <javier.gonz@samsung.com>
-To: Laurence Oberman <loberman@redhat.com>
-CC: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, "Judy
- Brock" <judy.brock@samsung.com>, "Ballard, Curtis C (HPE Storage)"
-	<curtis.ballard@hpe.com>, Hannes Reinecke <hare@suse.de>, "hare@kernel.org"
-	<hare@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, "wagi@lst.de"
-	<wagi@lst.de>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH 0/2] nvme: handle partially unique NID value
-Message-ID: <7lafwfw4xdsqjr5dddd6td6jfumawnayze3bvb7dmn7szvwrxx@rwnx4ksaep56>
+	Tue, 06 May 2025 02:32:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1746498699;
+	bh=RK8CB/ILucoxkojMLroxyaAqpj6rXkr8cb1h0tuO+FM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=kafLiDKXS816BmywaQFx+/F9Y6knLlHjegnJC8EOCpdTsnxr/e1yaY6y4wWVWU5Cc
+	 pEmJcSIFvrEg1Nxq/uND+kyneyz+lm4cL848VLV2wWlvOab3SEPuOTkyOQdSj+ClQW
+	 LZ+Ex6H0L9ikuOIyZud7Tr25Wd3PVQAdT9G4v3o8=
+X-QQ-mid: esmtpsz17t1746498663t4c1b9905
+X-QQ-Originating-IP: 2vhUXsJq6NqiLO1Htm0IxhFYAPx746WeA0MvTVyM9nk=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 06 May 2025 10:30:59 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 1353101163767275647
+EX-QQ-RecipientCnt: 52
+From: Chen Linxuan <chenlinxuan@uniontech.com>
+To: hch@lst.de
+Cc: akpm@linux-foundation.org,
+	alex.williamson@redhat.com,
+	andreyknvl@gmail.com,
+	axboe@kernel.dk,
+	boqun.feng@gmail.com,
+	boris.ostrovsky@oracle.com,
+	bp@alien8.de,
+	changbin.du@intel.com,
+	chenlinxuan@uniontech.com,
+	dave.hansen@linux.intel.com,
+	dvyukov@google.com,
+	hannes@cmpxchg.org,
+	hpa@zytor.com,
+	jackmanb@google.com,
+	jarkko@kernel.org,
+	jgg@ziepe.ca,
+	jgross@suse.com,
+	justinstitt@google.com,
+	kasan-dev@googlegroups.com,
+	kbusch@kernel.org,
+	kevin.tian@intel.com,
+	kvm@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org,
+	llvm@lists.linux.dev,
+	masahiroy@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	morbo@google.com,
+	nathan@kernel.org,
+	nick.desaulniers+lkml@gmail.com,
+	nicolas.schier@linux.dev,
+	paulmck@kernel.org,
+	peterhuewe@gmx.de,
+	peterz@infradead.org,
+	sagi@grimberg.me,
+	shameerali.kolothum.thodi@huawei.com,
+	surenb@google.com,
+	tglx@linutronix.de,
+	torvalds@linux-foundation.org,
+	vbabka@suse.cz,
+	virtualization@lists.linux.dev,
+	wentao@uniontech.com,
+	x86@kernel.org,
+	xen-devel@lists.xenproject.org,
+	yishaih@nvidia.com,
+	ziy@nvidia.com
+Subject: Re: [PATCH RFC v3 0/8] kernel-hacking: introduce CONFIG_NO_AUTO_INLINE
+Date: Tue,  6 May 2025 10:30:53 +0800
+Message-ID: <AB2D78307A5FD403+20250506023053.541751-1-chenlinxuan@uniontech.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250429123504.GA13093@lst.de>
+References: <20250429123504.GA13093@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0da89e8321755b798b47d17da76b7e28d28c43b9.camel@redhat.com>
-X-Originating-IP: [106.110.32.122]
-X-ClientProxiedBy: CAMSPWEXC02.scsc.local (106.1.227.4) To
-	CAMSPWEXC02.scsc.local (106.1.227.4)
-X-CMS-MailID: 20250506070716eucas1p11f1abcd2b3bf5b31e361a5fc93098b8e
-X-Msg-Generator: CA
-X-RootMTR: 20250502082359uscas1p1e2a9858dcc9200ab1d1d863c4495fc0a
-X-EPHeader: CA
-cpgsPolicy: EUCPGSC10-065,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250502082359uscas1p1e2a9858dcc9200ab1d1d863c4495fc0a
-References: <PH0PR84MB1358448342C273E7C7BA808898BC2@PH0PR84MB1358.NAMPRD84.PROD.OUTLOOK.COM>
-	<CGME20250502082359uscas1p1e2a9858dcc9200ab1d1d863c4495fc0a@uscas1p1.samsung.com>
-	<eee8de0a44074dd3bfb0fc6ec425b647@samsung.com>
-	<20250502102505.GA13055@lst.de>
-	<27a99b458f0144fba094726e4f470552@samsung.com> <aBWRfiwJkeYGB0Og@kbusch-mbp>
-	<r5b5gwy6vf56ropgbcx6fyi6qvgnwtzvdz5xjnofln3jvcx2zm@d4dvfkawab2x>
-	<20250505111111.GB11508@lst.de>
-	<heivqjw2a33ero36rit3uyu3h377jym35caeg3amnkhk5ra7wf@eodk7wld4j6b>
-	<0da89e8321755b798b47d17da76b7e28d28c43b9.camel@redhat.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: MIXayioyWBZjdXIIg9vqEFEP1rndaeDbBxgcX+6TdOBY4fgPWBVGCH7p
+	2JsHdKJTuNk6u8AM4q4ieHCa2JqpFTHWwRRL4JiA/mhRy6XEomq0Rcxy/vNg3zyQ8FVuKLk
+	8u8FKj8M5lKtxCc/AqTb4cgg61ofZ0b0vrixlYN4JBF1kCxPgn8qobIDmHUgdW9IFOYw1+N
+	NzCrUuumdTal59UvJXIVIFoyfA9UBsYY3QApHJufslFjIYbt35eMNpV5rvVKf1I/YYKCDNC
+	P9yTyAZep/MN4DPY0aYU4VKEhzq4hfUEtrTG+yS8IFi8cu4WnxADpZzlhEfh6sgIPFr9D/5
+	LAjp9zJsR/w/WJBlV0/AeccvTg2ivMv8/8ld0KRxxvkD56dIxmj6YXZNshVuONjuE0nJjBO
+	/ZkGZ6luDwhjEO+vkDN/jlP28nAAeQhf+qskcK1/Y9pNoGKLQM3DBAIcozpo04ivN/6cYTB
+	mj2nrsDyaK1C+tCjVrjTPZFIfhssizrE/gf8iGN1F7O/hmuxJwA/dK3NI1t8SeRqO7lQz4L
+	B4hzjQne+6C9oeYpkB+VOOK9PsOSswtEhn02iTK5I9PQ+Ycv7ivq6ZY5n6oWMcqKlxPN7BO
+	H5JnZY5xmDNSQq3b5Wuosg7tUvfTmTgSSX4FEIzlh0XnGAcc9uh0LsxhMPWJEoyR1zYtXT8
+	wYAyFsEm6cQkmgHkhA1RIcJKVmauWeY1Ior96a9f1buQZB8VVfJt+WJbMtDmDfETYG5hNrJ
+	v32eTkTlFFTYKKE7IcWnK/aaTY4CI/qOHh5uVSzxCPgXjhOLX3h3MBL7nZPgOYEiV7v/m1b
+	LeNwKkEEMf/YAs1XwZqw6xD/OrRuB9gCzaDRun3T8Eq2tb0DK8XA3tPUX/869R/Ki7azM8P
+	ztB3y+QhyBBY/ymt6WbrLX+aRWFcGEL38eFBGQtoKi2UIVz7HU4hJjuodhguJq7uPcST0KO
+	L2QyrEpCbzrrs0aGqC9GCbTWQp+Bzf9NeEGo3iubNJE93+fc0YEPkQoz3WNGg0lh7Q8ZEbe
+	a4N/7YW8KVwYAvMNJi3geZoASlc1w=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250506_000722_808155_00581C88 
-X-CRM114-Status: GOOD (  23.15  )
+X-CRM114-CacheID: sfid-20250505_193204_853914_47159114 
+X-CRM114-Status: GOOD (  17.60  )
+X-Mailman-Approved-At: Tue, 06 May 2025 00:20:37 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,38 +142,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 05.05.2025 09:49, Laurence Oberman wrote:
->On Mon, 2025-05-05 at 15:08 +0200, Javier Gonzalez wrote:
->> On 05.05.2025 13:11, Christoph Hellwig wrote:
->> > On Mon, May 05, 2025 at 11:51:39AM +0200, Javier Gonzalez wrote:
->> > > I think we should let HPE distros carry this quirk for drives
->> > > where they
->> > > would not want to roll a FW update.
->> >
->> > Or just goddamn people to upgrade the broken firmware.  Without it
->> > their data is at risk, so they'd better do it.
->> >
->> > Also maybe this is a lesson to SSDs vendors (and I really mean all
->> > of
->> > them) that if they can't push back ob broken "features" due to
->> > market
->> > dynamics they should at least OEM brand the devices in the identify
->> > data so that the blame gets deflected to the right party.
->>
->> Agree. The dynamics of how OEMs want to apply FW updates is up to
->> them,
->> but there is no doubt this has been a mess. Hope we have learned a
->> lesson...
->>
+On Tue, 29 Apr 2025 14:35:04 +0200 Christoph Hellwig wrote:
+
+> On Tue, Apr 29, 2025 at 12:06:04PM +0800, Chen Linxuan via B4 Relay wrote:
 >
->Seems what I sent last week is the same issue.
->For now we will fix this in a RHEL only kernel until the vendor gets
->F/W fixes out.
+> > This series introduces a new kernel configuration option NO_AUTO_INLINE,
+> > which can be used to disable the automatic inlining of functions.
+> >
+> > This will allow the function tracer to trace more functions
+> > because it only traces functions that the compiler has not inlined.
+>
+> This still feels like a bad idea because it is extremely fragile.
 
-This is great. Thanks for the support Laurence!
+I'm not entirely sure if we're on the same page regarding this issue.
+However, I'd like to address the concerns about the fragility of NO_AUTO_INLINE.
 
-Curtis,
+Maintaining NO_AUTO_INLINE to function correctly is indeed challenging,
+and I share some reservations about whether it should exist as a Kbuild option,
+which is precisely why this patch series is submitted as an RFC.
+I cannot even guarantee that I've addressed all existing issues in the current
+kernel repository with this patch series, as testing all possible compilation
+configurations is beyond my capabilities.
 
-With SUSE and RedHat picking this quirk, is it enough on your end?
+Looking at the functions where I've added __always_inline in this patch series,
+nearly all of them require inlining specifically because their calls need to be
+resolved at compile time.
 
+The fundamental source of this fragility stems from the fact that compiler
+auto-inlining decisions aren't well-defined. If these functions were to change
+in the future for unrelated reasons - for example, if they became longer - and
+the compiler consequently decided not to automatically inline them, these same
+issues would surface regardless.
 
