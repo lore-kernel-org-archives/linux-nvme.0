@@ -4,69 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1A79C3ABC6
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 03:46:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59173C3ABC7
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 03:46:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VREm6d5DY+p6HmNoMtaFraOmXVaq1PxY5QP+NQgD+wA=; b=hNStKQCGYIM7EHXRVvrqj6rJMd
-	ObiuH42pGXvXFHFH+oYz9QMK4iya2OCl795E+FLdhF2JSQbLVnIkfoURrsfuyaNp4Pvp2lKw6Dk/c
-	VIfhyUMbwK/roK23IOrczuzrqia7m734wq8C7W18hL9yIxUwHUy+3VFQV3H+q5qq+vM54mOEakkUU
-	jW5RKVxY4I4cDPdXa9fq1ZotjSOFmFVgNlPQ1jH8kASdN9qTumZWJBJdt+WCdHaZgBJJwfrweBqjL
-	gUlRPFmT2D3i7n7Jxl9qbTeQ/Fp2Ao8DoZlq2iXENCPnoxV8PfXHcZvFW77L7IV8okMXlDsA+DG1Y
-	kIu/GzTw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yMIauxUIuW+HoqF685ItcdozcY2TEvm8DOxp+4JrKME=; b=hkUN0+5yoLQfds1QurtPZSVSN6
+	7YYrpnlfpQRJx+cbg3GBo894b+9grl4Mx2fv34xL1KUznwsFPbZDablIQSQP5vsW1Ouxj96rck66D
+	FRp+B611K2enNlT9MfpgwZ6URenC8D+hDbx4XqO1Df2pglSgedKXUjRYxPQixyEkl/BvaFjnoKPLs
+	gOavinT5NURv43E7dhBf1pXWlqejZ9g2v1buxdzU9ZNyOTAkqrQgNF7tr+cpaPrfmp6Ya5QOZwn1Z
+	/tW7au5LFFTfPYyfmR8zgQ55k2dUfgSY2EiAnG0DoNrNYGls4gvREC6Eh0UsCgGlCHSthyRc1fFd5
+	5/qFJHpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCVjr-0000000E6zv-3MPG;
-	Wed, 07 May 2025 03:46:31 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uCVju-0000000E754-2GkV;
+	Wed, 07 May 2025 03:46:34 +0000
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCPzU-0000000DRew-2Ovd
+	id 1uCQ73-0000000DT23-28Q2
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 May 2025 21:38:18 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id C72B9A48572;
-	Tue,  6 May 2025 21:38:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD26C4CEE4;
-	Tue,  6 May 2025 21:38:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746567495;
-	bh=4bEhfC7cIkwf06OeSU6GXLBBjgl7lVeWSVlpBrfPtwg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s0bAqhaDGHWvsH/bj17B1tT/5tWxDiQphCXayvcouYy8cIp/7DlaZ9waCQ8q55QMF
-	 vMYQpaIfZCaY/2/IhEoeQpPpwuJgGLj1e11mrmCUmAi9LBIZa4N20TTHOb7NwjKwlv
-	 hLJrql+hx5qwkCUrNlL7NMSu9OTJoahq96stz8UrhBVgPR6ArNr4EpplGt/ZD7qJTb
-	 3dm2wG7q5Yswyp8hvqUOqTUXMDgp7cJzG4WgpJSoaPeR2P1qUu47hDKrsZaSxIrJd3
-	 MrDj2GlQ7mHgmGACHkLLBVBXUif9GZtTL+IAtGnxHeN7K35As2Rmp4ApNgTNs1pJcI
-	 7j2xhvScgtkPQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 3/3] nvmet-tcp: don't restore null sk_state_change
-Date: Tue,  6 May 2025 17:38:05 -0400
-Message-Id: <20250506213805.2983809-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250506213805.2983809-1-sashal@kernel.org>
-References: <20250506213805.2983809-1-sashal@kernel.org>
+	Tue, 06 May 2025 21:46:08 +0000
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-72d3b48d2ffso6667812b3a.2
+        for <linux-nvme@lists.infradead.org>; Tue, 06 May 2025 14:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1746567964; x=1747172764; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yMIauxUIuW+HoqF685ItcdozcY2TEvm8DOxp+4JrKME=;
+        b=Ra16hTFAxa0jln9hTeJYPfoecEARRazww9kmc5E+eF/ySxN5pUNOpaZXIWlbrikcA8
+         R74LMgl+Lr66tasQojqffwgq5y/7ATvbMXAwk0hvhyH/0kgWUtqQd94XCQm0MYbgfdAQ
+         ojnAqf+sRjrwBdgSwyruEAVmubWfuXTA6NZUxIxA2J8VXXviT/eiWel8S9c0l7wfk7Tj
+         ebE68ywjXS24ZMslYJDlMXcx5esXi/woB+QWRVUw7/PlV85w5uxKJyn4MCSXyA4px6MQ
+         JzG+XlgrUtAKz5LXDxdESUxZX9EF6EiKz6EM97bYzNeXJA8DxbJXdkQOXSn2/GdEOzQi
+         gKAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746567964; x=1747172764;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yMIauxUIuW+HoqF685ItcdozcY2TEvm8DOxp+4JrKME=;
+        b=wRK1tfzz6uojIH71ER7Uk8CX/iUjnEoXcATAd0Edz4uD9MA/cQSRtgNmkqxBE7+OlE
+         n2VjoTJvfIg8NcP+R1aRkNjBfuuIXXH1SyejX6AY1wMIk/2/5uQlJXgZ2WWZEUs0WNpS
+         puhLCu4+Eq/TXckq9wxcCsMqNWLvKehWdOtMWMonnRsCAPREk4jrv59JJUzlN0cTOYXw
+         nmwVru4it7Ky0H+zD6k23yhyafM656CHe5+QbtZ2eciyYben7xpgzZCpQKCKR+Nr2u+F
+         S8UGinYa91rhiTXn3xHcXbpgNsYpSgeOL9F/i676SinoWO40FyXGgJDDsKCmD3MtlzGw
+         OxNg==
+X-Forwarded-Encrypted: i=1; AJvYcCVqos1KndHET+ULDiNBcevBOHrmo9tmUa3ssQZIPmfdDi2paWhICxwfxaChGHl4ZJAEA+kZvRuFyUM0@lists.infradead.org
+X-Gm-Message-State: AOJu0YxwoXlQ70hkPP4Nh85g1kgH+SRvbZyx45kBo6OAmW9dQpmdvQ72
+	lkGvooDH/uqrIcevk+J6jZKQVMZ4WB75sIy47Sy73OowXYj6Rcn0brtrUKMeVOM=
+X-Gm-Gg: ASbGnctpUX1uLf54+WxNc8kEJtwJ0ji/M939CBiUsFJbBUyQAixfeMqtsUfsz996KXn
+	6LpRhKd64bEpp4VeBmH6O9MiFywWzhXRg9cHXh112mVBUCkXmcEoOF6EaicV+pQwSxo14vgrdG1
+	hezErzUw96RKoyF0QcEhAiqNKFtBonejam9A6ZLefWDHJjux3jVib87O9MFTw/N7TFUlmLW+nVL
+	98F1dZi9FInWjAMASdEw2DU9ZtTDND7IVquLpAgZN94GXiAwda9rs1xCLTQD7m4Uq7OhxCjG1Wi
+	nYlQys+g8r0N2EopUXcO4qKqch7BXrxhKaBciuzAiMbiSmHMcGNQpTKHDoplTHOc94YhXZymK1F
+	puToQYdscbKbr6w==
+X-Google-Smtp-Source: AGHT+IEDv1UiP/xCxZrA1w8m+KQBBlf4+RMLlDiU6bPNRxHPNwXX75ish2am3Kh1zQ+4fNgAJNLx6A==
+X-Received: by 2002:a05:6a20:9e49:b0:203:becd:f98c with SMTP id adf61e73a8af0-2148bc12e8cmr1101048637.13.1746567964591;
+        Tue, 06 May 2025 14:46:04 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-60-96.pa.nsw.optusnet.com.au. [49.181.60.96])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-740590a463fsm9917368b3a.173.2025.05.06.14.46.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 May 2025 14:46:04 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.98.2)
+	(envelope-from <david@fromorbit.com>)
+	id 1uCQ6z-00000000GTQ-0jbm;
+	Wed, 07 May 2025 07:46:01 +1000
+Date: Wed, 7 May 2025 07:46:01 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Anton Gavriliuk <antosha20xx@gmail.com>
+Cc: Laurence Oberman <loberman@redhat.com>, linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: Sequential read from NVMe/XFS twice slower on Fedora 42 than on
+ Rocky 9.5
+Message-ID: <aBqDGY1i3RePyzaB@dread.disaster.area>
+References: <CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-QzmZBMmtr1oC=fOOgAQ@mail.gmail.com>
+ <aBaVsli2AKbIa4We@dread.disaster.area>
+ <CAAiJnjor+=Zn62n09f-aJw2amX2wxQOb-2TB3rea9wDCU7ONoA@mail.gmail.com>
+ <aBfhDQ6lAPmn81j0@dread.disaster.area>
+ <7c33f38a52ccff8b94f20c0714b60b61b061ad58.camel@redhat.com>
+ <a1f322ab801e7f7037951578d289c5d18c6adc4d.camel@redhat.com>
+ <aBlCDTm-grqM4WtY@dread.disaster.area>
+ <CAAiJnjo87CEeFrkHbXtQM-=+K9M8uEpythLthWTwM_-i4HMA_Q@mail.gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.293
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAiJnjo87CEeFrkHbXtQM-=+K9M8uEpythLthWTwM_-i4HMA_Q@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250506_143816_743425_C842AC14 
-X-CRM114-Status: GOOD (  12.99  )
+X-CRM114-CacheID: sfid-20250506_144605_734337_ECF92F79 
+X-CRM114-Status: GOOD (  12.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,226 +109,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On Tue, May 06, 2025 at 02:03:37PM +0300, Anton Gavriliuk wrote:
+> > So is this MD chunk size related? i.e. what is the chunk size
+> > the MD device? Is it smaller than the IO size (256kB) or larger?
+> > Does the regression go away if the chunk size matches the IO size,
+> > or if the IO size vs chunk size relationship is reversed?
+> 
+> According to the output below, the chunk size is 512K,
 
-[ Upstream commit 46d22b47df2741996af277a2838b95f130436c13 ]
+Ok.
 
-queue->state_change is set as part of nvmet_tcp_set_queue_sock(), but if
-the TCP connection isn't established when nvmet_tcp_set_queue_sock() is
-called then queue->state_change isn't set and sock->sk->sk_state_change
-isn't replaced.
+`iostat -dxm 5` output during the fio run on both kernels will give
+us some indication of the differences in IO patterns, queue depths,
+etc.
 
-As such we don't need to restore sock->sk->sk_state_change if
-queue->state_change is NULL.
+Silly question: if you use DM to create the same RAID 0 array
+with a dm table such as:
 
-This avoids NULL pointer dereferences such as this:
+0 75011629056 striped 12 1024 /dev/nvme7n1 0 /dev/nvme0n1 0 ....  /dev/nvme12n1 0
 
-[  286.462026][    C0] BUG: kernel NULL pointer dereference, address: 0000000000000000
-[  286.462814][    C0] #PF: supervisor instruction fetch in kernel mode
-[  286.463796][    C0] #PF: error_code(0x0010) - not-present page
-[  286.464392][    C0] PGD 8000000140620067 P4D 8000000140620067 PUD 114201067 PMD 0
-[  286.465086][    C0] Oops: Oops: 0010 [#1] SMP KASAN PTI
-[  286.465559][    C0] CPU: 0 UID: 0 PID: 1628 Comm: nvme Not tainted 6.15.0-rc2+ #11 PREEMPT(voluntary)
-[  286.466393][    C0] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
-[  286.467147][    C0] RIP: 0010:0x0
-[  286.467420][    C0] Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-[  286.467977][    C0] RSP: 0018:ffff8883ae008580 EFLAGS: 00010246
-[  286.468425][    C0] RAX: 0000000000000000 RBX: ffff88813fd34100 RCX: ffffffffa386cc43
-[  286.469019][    C0] RDX: 1ffff11027fa68b6 RSI: 0000000000000008 RDI: ffff88813fd34100
-[  286.469545][    C0] RBP: ffff88813fd34160 R08: 0000000000000000 R09: ffffed1027fa682c
-[  286.470072][    C0] R10: ffff88813fd34167 R11: 0000000000000000 R12: ffff88813fd344c3
-[  286.470585][    C0] R13: ffff88813fd34112 R14: ffff88813fd34aec R15: ffff888132cdd268
-[  286.471070][    C0] FS:  00007fe3c04c7d80(0000) GS:ffff88840743f000(0000) knlGS:0000000000000000
-[  286.471644][    C0] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  286.472543][    C0] CR2: ffffffffffffffd6 CR3: 000000012daca000 CR4: 00000000000006f0
-[  286.473500][    C0] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  286.474467][    C0] DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 0000000000000400
-[  286.475453][    C0] Call Trace:
-[  286.476102][    C0]  <IRQ>
-[  286.476719][    C0]  tcp_fin+0x2bb/0x440
-[  286.477429][    C0]  tcp_data_queue+0x190f/0x4e60
-[  286.478174][    C0]  ? __build_skb_around+0x234/0x330
-[  286.478940][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.479659][    C0]  ? __pfx_tcp_data_queue+0x10/0x10
-[  286.480431][    C0]  ? tcp_try_undo_loss+0x640/0x6c0
-[  286.481196][    C0]  ? seqcount_lockdep_reader_access.constprop.0+0x82/0x90
-[  286.482046][    C0]  ? kvm_clock_get_cycles+0x14/0x30
-[  286.482769][    C0]  ? ktime_get+0x66/0x150
-[  286.483433][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.484146][    C0]  tcp_rcv_established+0x6e4/0x2050
-[  286.484857][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.485523][    C0]  ? ipv4_dst_check+0x160/0x2b0
-[  286.486203][    C0]  ? __pfx_tcp_rcv_established+0x10/0x10
-[  286.486917][    C0]  ? lock_release+0x217/0x2c0
-[  286.487595][    C0]  tcp_v4_do_rcv+0x4d6/0x9b0
-[  286.488279][    C0]  tcp_v4_rcv+0x2af8/0x3e30
-[  286.488904][    C0]  ? raw_local_deliver+0x51b/0xad0
-[  286.489551][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.490198][    C0]  ? __pfx_tcp_v4_rcv+0x10/0x10
-[  286.490813][    C0]  ? __pfx_raw_local_deliver+0x10/0x10
-[  286.491487][    C0]  ? __pfx_nf_confirm+0x10/0x10 [nf_conntrack]
-[  286.492275][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.492900][    C0]  ip_protocol_deliver_rcu+0x8f/0x370
-[  286.493579][    C0]  ip_local_deliver_finish+0x297/0x420
-[  286.494268][    C0]  ip_local_deliver+0x168/0x430
-[  286.494867][    C0]  ? __pfx_ip_local_deliver+0x10/0x10
-[  286.495498][    C0]  ? __pfx_ip_local_deliver_finish+0x10/0x10
-[  286.496204][    C0]  ? ip_rcv_finish_core+0x19a/0x1f20
-[  286.496806][    C0]  ? lock_release+0x217/0x2c0
-[  286.497414][    C0]  ip_rcv+0x455/0x6e0
-[  286.497945][    C0]  ? __pfx_ip_rcv+0x10/0x10
-[  286.498550][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.499137][    C0]  ? __pfx_ip_rcv_finish+0x10/0x10
-[  286.499763][    C0]  ? lock_release+0x217/0x2c0
-[  286.500327][    C0]  ? dl_scaled_delta_exec+0xd1/0x2c0
-[  286.500922][    C0]  ? __pfx_ip_rcv+0x10/0x10
-[  286.501480][    C0]  __netif_receive_skb_one_core+0x166/0x1b0
-[  286.502173][    C0]  ? __pfx___netif_receive_skb_one_core+0x10/0x10
-[  286.502903][    C0]  ? lock_acquire+0x2b2/0x310
-[  286.503487][    C0]  ? process_backlog+0x372/0x1350
-[  286.504087][    C0]  ? lock_release+0x217/0x2c0
-[  286.504642][    C0]  process_backlog+0x3b9/0x1350
-[  286.505214][    C0]  ? process_backlog+0x372/0x1350
-[  286.505779][    C0]  __napi_poll.constprop.0+0xa6/0x490
-[  286.506363][    C0]  net_rx_action+0x92e/0xe10
-[  286.506889][    C0]  ? __pfx_net_rx_action+0x10/0x10
-[  286.507437][    C0]  ? timerqueue_add+0x1f0/0x320
-[  286.507977][    C0]  ? sched_clock_cpu+0x68/0x540
-[  286.508492][    C0]  ? lock_acquire+0x2b2/0x310
-[  286.509043][    C0]  ? kvm_sched_clock_read+0xd/0x20
-[  286.509607][    C0]  ? handle_softirqs+0x1aa/0x7d0
-[  286.510187][    C0]  handle_softirqs+0x1f2/0x7d0
-[  286.510754][    C0]  ? __pfx_handle_softirqs+0x10/0x10
-[  286.511348][    C0]  ? irqtime_account_irq+0x181/0x290
-[  286.511937][    C0]  ? __dev_queue_xmit+0x85d/0x3450
-[  286.512510][    C0]  do_softirq.part.0+0x89/0xc0
-[  286.513100][    C0]  </IRQ>
-[  286.513548][    C0]  <TASK>
-[  286.513953][    C0]  __local_bh_enable_ip+0x112/0x140
-[  286.514522][    C0]  ? __dev_queue_xmit+0x85d/0x3450
-[  286.515072][    C0]  __dev_queue_xmit+0x872/0x3450
-[  286.515619][    C0]  ? nft_do_chain+0xe16/0x15b0 [nf_tables]
-[  286.516252][    C0]  ? __pfx___dev_queue_xmit+0x10/0x10
-[  286.516817][    C0]  ? selinux_ip_postroute+0x43c/0xc50
-[  286.517433][    C0]  ? __pfx_selinux_ip_postroute+0x10/0x10
-[  286.518061][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.518606][    C0]  ? ip_output+0x164/0x4a0
-[  286.519149][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.519671][    C0]  ? ip_finish_output2+0x17d5/0x1fb0
-[  286.520258][    C0]  ip_finish_output2+0xb4b/0x1fb0
-[  286.520787][    C0]  ? __pfx_ip_finish_output2+0x10/0x10
-[  286.521355][    C0]  ? __ip_finish_output+0x15d/0x750
-[  286.521890][    C0]  ip_output+0x164/0x4a0
-[  286.522372][    C0]  ? __pfx_ip_output+0x10/0x10
-[  286.522872][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.523402][    C0]  ? _raw_spin_unlock_irqrestore+0x4c/0x60
-[  286.524031][    C0]  ? __pfx_ip_finish_output+0x10/0x10
-[  286.524605][    C0]  ? __ip_queue_xmit+0x999/0x2260
-[  286.525200][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.525744][    C0]  ? ipv4_dst_check+0x16a/0x2b0
-[  286.526279][    C0]  ? lock_release+0x217/0x2c0
-[  286.526793][    C0]  __ip_queue_xmit+0x1883/0x2260
-[  286.527324][    C0]  ? __skb_clone+0x54c/0x730
-[  286.527827][    C0]  __tcp_transmit_skb+0x209b/0x37a0
-[  286.528374][    C0]  ? __pfx___tcp_transmit_skb+0x10/0x10
-[  286.528952][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.529472][    C0]  ? seqcount_lockdep_reader_access.constprop.0+0x82/0x90
-[  286.530152][    C0]  ? trace_hardirqs_on+0x12/0x120
-[  286.530691][    C0]  tcp_write_xmit+0xb81/0x88b0
-[  286.531224][    C0]  ? mod_memcg_state+0x4d/0x60
-[  286.531736][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.532253][    C0]  __tcp_push_pending_frames+0x90/0x320
-[  286.532826][    C0]  tcp_send_fin+0x141/0xb50
-[  286.533352][    C0]  ? __pfx_tcp_send_fin+0x10/0x10
-[  286.533908][    C0]  ? __local_bh_enable_ip+0xab/0x140
-[  286.534495][    C0]  inet_shutdown+0x243/0x320
-[  286.535077][    C0]  nvme_tcp_alloc_queue+0xb3b/0x2590 [nvme_tcp]
-[  286.535709][    C0]  ? do_raw_spin_lock+0x129/0x260
-[  286.536314][    C0]  ? __pfx_nvme_tcp_alloc_queue+0x10/0x10 [nvme_tcp]
-[  286.536996][    C0]  ? do_raw_spin_unlock+0x54/0x1e0
-[  286.537550][    C0]  ? _raw_spin_unlock+0x29/0x50
-[  286.538127][    C0]  ? do_raw_spin_lock+0x129/0x260
-[  286.538664][    C0]  ? __pfx_do_raw_spin_lock+0x10/0x10
-[  286.539249][    C0]  ? nvme_tcp_alloc_admin_queue+0xd5/0x340 [nvme_tcp]
-[  286.539892][    C0]  ? __wake_up+0x40/0x60
-[  286.540392][    C0]  nvme_tcp_alloc_admin_queue+0xd5/0x340 [nvme_tcp]
-[  286.541047][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.541589][    C0]  nvme_tcp_setup_ctrl+0x8b/0x7a0 [nvme_tcp]
-[  286.542254][    C0]  ? _raw_spin_unlock_irqrestore+0x4c/0x60
-[  286.542887][    C0]  ? __pfx_nvme_tcp_setup_ctrl+0x10/0x10 [nvme_tcp]
-[  286.543568][    C0]  ? trace_hardirqs_on+0x12/0x120
-[  286.544166][    C0]  ? _raw_spin_unlock_irqrestore+0x35/0x60
-[  286.544792][    C0]  ? nvme_change_ctrl_state+0x196/0x2e0 [nvme_core]
-[  286.545477][    C0]  nvme_tcp_create_ctrl+0x839/0xb90 [nvme_tcp]
-[  286.546126][    C0]  nvmf_dev_write+0x3db/0x7e0 [nvme_fabrics]
-[  286.546775][    C0]  ? rw_verify_area+0x69/0x520
-[  286.547334][    C0]  vfs_write+0x218/0xe90
-[  286.547854][    C0]  ? do_syscall_64+0x9f/0x190
-[  286.548408][    C0]  ? trace_hardirqs_on_prepare+0xdb/0x120
-[  286.549037][    C0]  ? syscall_exit_to_user_mode+0x93/0x280
-[  286.549659][    C0]  ? __pfx_vfs_write+0x10/0x10
-[  286.550259][    C0]  ? do_syscall_64+0x9f/0x190
-[  286.550840][    C0]  ? syscall_exit_to_user_mode+0x8e/0x280
-[  286.551516][    C0]  ? trace_hardirqs_on_prepare+0xdb/0x120
-[  286.552180][    C0]  ? syscall_exit_to_user_mode+0x93/0x280
-[  286.552834][    C0]  ? ksys_read+0xf5/0x1c0
-[  286.553386][    C0]  ? __pfx_ksys_read+0x10/0x10
-[  286.553964][    C0]  ksys_write+0xf5/0x1c0
-[  286.554499][    C0]  ? __pfx_ksys_write+0x10/0x10
-[  286.555072][    C0]  ? trace_hardirqs_on_prepare+0xdb/0x120
-[  286.555698][    C0]  ? syscall_exit_to_user_mode+0x93/0x280
-[  286.556319][    C0]  ? do_syscall_64+0x54/0x190
-[  286.556866][    C0]  do_syscall_64+0x93/0x190
-[  286.557420][    C0]  ? rcu_read_unlock+0x17/0x60
-[  286.557986][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.558526][    C0]  ? lock_release+0x217/0x2c0
-[  286.559087][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.559659][    C0]  ? count_memcg_events.constprop.0+0x4a/0x60
-[  286.560476][    C0]  ? exc_page_fault+0x7a/0x110
-[  286.561064][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.561647][    C0]  ? lock_release+0x217/0x2c0
-[  286.562257][    C0]  ? do_user_addr_fault+0x171/0xa00
-[  286.562839][    C0]  ? do_user_addr_fault+0x4a2/0xa00
-[  286.563453][    C0]  ? irqentry_exit_to_user_mode+0x84/0x270
-[  286.564112][    C0]  ? rcu_is_watching+0x11/0xb0
-[  286.564677][    C0]  ? irqentry_exit_to_user_mode+0x84/0x270
-[  286.565317][    C0]  ? trace_hardirqs_on_prepare+0xdb/0x120
-[  286.565922][    C0]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[  286.566542][    C0] RIP: 0033:0x7fe3c05e6504
-[  286.567102][    C0] Code: c7 00 16 00 00 00 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 80 3d c5 8b 10 00 00 74 13 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 54 c3 0f 1f 00 55 48 89 e5 48 83 ec 20 48 89
-[  286.568931][    C0] RSP: 002b:00007fff76444f58 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-[  286.569807][    C0] RAX: ffffffffffffffda RBX: 000000003b40d930 RCX: 00007fe3c05e6504
-[  286.570621][    C0] RDX: 00000000000000cf RSI: 000000003b40d930 RDI: 0000000000000003
-[  286.571443][    C0] RBP: 0000000000000003 R08: 00000000000000cf R09: 000000003b40d930
-[  286.572246][    C0] R10: 0000000000000000 R11: 0000000000000202 R12: 000000003b40cd60
-[  286.573069][    C0] R13: 00000000000000cf R14: 00007fe3c07417f8 R15: 00007fe3c073502e
-[  286.573886][    C0]  </TASK>
+to create a similar 38TB raid 0 array, do you see the same perf
+degradation?
 
-Closes: https://lore.kernel.org/linux-nvme/5hdonndzoqa265oq3bj6iarwtfk5dewxxjtbjvn5uqnwclpwt6@a2n6w3taxxex/
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/target/tcp.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 11c8506e04ca3..bac81baa49c13 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1338,6 +1338,9 @@ static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
- {
- 	struct socket *sock = queue->sock;
- 
-+	if (!queue->state_change)
-+		return;
-+
- 	write_lock_bh(&sock->sk->sk_callback_lock);
- 	sock->sk->sk_data_ready =  queue->data_ready;
- 	sock->sk->sk_state_change = queue->state_change;
+-Dave.
 -- 
-2.39.5
-
+Dave Chinner
+david@fromorbit.com
 
