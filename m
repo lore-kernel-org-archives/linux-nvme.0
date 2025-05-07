@@ -4,85 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C02BFC3ABBF
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 15:40:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84E5BC3ABC0
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 15:59:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1s8LxSgdpw/QFNWhayU6GhU6VvikEqRstbNbkkV5cHs=; b=MAiY+aIZMPISzIqjtUcmA3nvcl
-	6ygk97jY1N0KGiM74TKekkGSuZmrBqDuXviHikba9k+cYS6S5iP4d6KgUmzsSDBnpdMdeu1lX8iRA
-	sygLEb572tnWmN/0fn5gdmoOFuK/i9sAo08l/3RLhob5Xhy1AqlqAmTYbLSaFnVGaGoOJJqPHQKgy
-	yU5no7qxZYtMk8v0858ln6BsSXfLoNl282r7m/CAze4G1S56GYI7L5Iy1/o4KD9ZB1gW5ZkDZYoT3
-	TFBOcAkjdBnyuFeYe1Kj/39/Jfo1JFeM9EJUaT5PM96x+QTJfebaZJUi29MmfLsQQTRpGlJul0hd8
-	x20Pmv/g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rNoL8K/YjCVBot/1jyp9WgKstw9ejeofy6Ms1NqXej0=; b=3c52HELHx1HHnGPtZ3ulW5Gor7
+	Elqdgp+TWZeD5Ij+aIji+/a+IGhXCkrRnz93LeuXhu3lNybJwxWaOc1Ly7ZIRxeDmXKYU5jRDPKwH
+	MWIGy4XMWwVdHSaI++gdL3bheYQo9KeTwffwcGh548cUw14YgUTZeM2LWWuPZ3Cjcmzvkx0BG2M4q
+	U6aPrDsH1oHrRh6Au2Pvqhz1OdpS3wB5sh5TGvKC7AiVMM+Nel5z4PVuGw+TsR+5zc9oYPqEN3/sF
+	RhAKMz0zazDYzi87mNICUYo9TGLH++A4xqzgmMo2f1p/TRmMjQvydKH/xicmejTAurB3TINrq0yAP
+	RoTuc1DQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCgsU-0000000G0Nt-2ASl;
-	Wed, 07 May 2025 15:40:10 +0000
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+	id 1uChAl-0000000G4G1-2XAa;
+	Wed, 07 May 2025 15:59:03 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCgJ4-0000000Ft9c-0Nq8
+	id 1uCgqx-0000000G06G-0UWn
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 15:03:37 +0000
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-22e1782cbb2so6265585ad.0
-        for <linux-nvme@lists.infradead.org>; Wed, 07 May 2025 08:03:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1746630213; x=1747235013; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1s8LxSgdpw/QFNWhayU6GhU6VvikEqRstbNbkkV5cHs=;
-        b=WaQXk4El8+SW/XrbZvbU00bC/5oVsnIlC6e9ZHbWkXeiOorZ8bEuVqYdepvKdNmI1h
-         yY3LFdHyO/Ht+2RKox8KDc7G26PM37i7zWNVzaL/mVSLRwfbMES0uDICFogNAcAMrFQd
-         VUCEy202qcpWHMRxNn9oExvu4nVqc4thrswMSYfFm8Mr7az/QY71HBI+iiMEykipe4kr
-         Un3w9FmomoJAjA0sBi+APHHgQ4xIpabRqL8IVOncFrILZKNzH3ocUsJY64NurJy2eAiO
-         1p8oFLtnMIT7k5PgfFg4PohaLSCIKZdIh7Uk2UtrTTwlB/f+VbHKqwNSpz98CMl+7Apx
-         lLtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746630213; x=1747235013;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1s8LxSgdpw/QFNWhayU6GhU6VvikEqRstbNbkkV5cHs=;
-        b=AsorN636zuiTZfc5B4wbYJkv9ZOmKciAgMKPcC06d+ahcWPAbD/bvDV37P+hkMqPO6
-         vkR8lFAeFsyaf5aTkV00Mu9GPLcDyEgrmtyELZuxZ8lsXGnucVrfs7wF1ue6+vxt+jEe
-         r768EoM1LCWRy/OG5WzBSxz0+zxn5HNtBrrs+n58mG9XRLG9esW4dlAO7/pOAjmtwZTH
-         1cSu0bgBsS92iOg9IEi+urrWJ8kAVcPF88xnx9oxbwWEa/Y3che2pJHkacU34RvEDbki
-         YJ80zKktXGtKGmOBqOBDbPY4kHetreR7X/XoAhK/Gs6z6p8265e9kOU/UzKs6O72HTe5
-         DfQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHa0eFaRMwAUyaOxectHUqCziOsSH8ZeMFPQ68+SQeKiKe4bw4wH87P46PmjbFYI72Tn+HzbSH7pRq@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz+jJuNHrCAd1FnxtDYJxKyVDOum3Yk6Y0nWUzyJXAo+y99bfoq
-	5JZsYW2kmJFU1OLmHCh9C8HFgGRM0FWAy5c6EIgL+5njmKwTl2kpepx/KJ89CqdBnSBIv1ZPrpX
-	df3bmCNftfnPuue/n4VfFl40Rr0L6bpM9lQ1LXw==
-X-Gm-Gg: ASbGncu6Ln0ur6rSmMIHTI1e8L8zUe66Tm1i/1LJiKg2rFaXZnsZj3e/y/97N72BcEE
-	paSfKs/6NdEszumv7dlHVzuI3e/O4IdnIW3+4Wd8ybSfSl7rWs5j4ufTaNo/4fQEB9U01PDTNFq
-	NexDNYxvJ2EYzXk7YDHD+T
-X-Google-Smtp-Source: AGHT+IGVRdVpmD42Zl1K9/CFzNk9/9fbzp0SeC722EZPTJKMkP3YbezVcTCIZOjRu3Yyi3o0XRR2Kv7U8ekDo75qkiA=
-X-Received: by 2002:a17:903:990:b0:223:28a8:610b with SMTP id
- d9443c01a7336-22e5ee1cb10mr16787145ad.14.1746630212740; Wed, 07 May 2025
- 08:03:32 -0700 (PDT)
+	Wed, 07 May 2025 15:38:36 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 547EdiAW017835
+	for <linux-nvme@lists.infradead.org>; Wed, 7 May 2025 08:38:33 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2021-q4; bh=rNoL8K/YjCVBot/1jy
+	p9WgKstw9ejeofy6Ms1NqXej0=; b=U5g9mRCYrFNKbf7Xm4pttZuKpIsD8wOE4o
+	s2b2C8SCCesDJJpKdPeLdLR8qXplrTlpZMbg8x5KL3+84XXcX3J684B6Pje/eIEL
+	YjwF3Gc1t23i+vp1PgYeEFYMF+tsUTl9NtYk4EhOfEWaEHEUXAUS8aWU2xKYg0+G
+	qcmT15WlSZmYrpL7YAgS+knNHKi/TmvKiAs0XOGogdgJYYbBL8+5IZGHiABmDquC
+	PQm1JSSz06Uj+ed443eLD4ZJj+Zeqm77wwUUCHoJGjwsx2CboR79p0GlrXHb7ZT6
+	8lQcnyM7k1OjkY4uXXAQzf6LiNNvbH3SwsEpoRHlnE9phyjrYgiQ==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 46g6cb1sjr-7
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 07 May 2025 08:38:33 -0700 (PDT)
+Received: from twshared0377.32.frc3.facebook.com (2620:10d:c0a8:1c::1b) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1748.10; Wed, 7 May 2025 15:38:10 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id 3E6C61B74097F; Wed,  7 May 2025 08:38:00 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <axboe@kernel.dk>, <linux-block@vger.kernel.org>,
+        <martin.petersen@oracle.com>
+CC: <hch@lst.de>, <linux-nvme@lists.infradead.org>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCH] block: always allocate integrity buffer
+Date: Wed, 7 May 2025 08:37:59 -0700
+Message-ID: <20250507153759.1199895-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-References: <20250426020636.34355-1-csander@purestorage.com>
- <20250426020636.34355-3-csander@purestorage.com> <20250507071610.GB1413@lst.de>
-In-Reply-To: <20250507071610.GB1413@lst.de>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Wed, 7 May 2025 08:03:20 -0700
-X-Gm-Features: ATxdqUG1uu45_rIP1595jmow33H5jf2cu-Lb4HqU3C1enyWziA9-fbza28d3E8s
-Message-ID: <CADUfDZo+WKATQ4+ZpYvvNWrqBqP7pkBhzfBxyMWQomeLR-qtJw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/3] nvme/pci: factor out nvme_init_hctx() helper
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
-	Andrew Morton <akpm@linux-foundation.org>, Kanchan Joshi <joshi.k@samsung.com>, 
-	linux-nvme@lists.infradead.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: pYEOlQ0T3M_4Y5x4FLE1hNTIyacZKlhA
+X-Proofpoint-GUID: pYEOlQ0T3M_4Y5x4FLE1hNTIyacZKlhA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDE0NyBTYWx0ZWRfXzAD2pzMJEIEG 0Jo9QacW8lIGQIZdUz7TeEaNZAFqM21bW89evPWm+KIVjjy4fL3b6iQYKSs5hsk+VOZIsWeXFUW frCsPdQeK8rb/EtU0m2IJgjBMgkOkSzjaY4XehV2RdUoC2G1EpVJv/LWFW998WlE59aN7a5cANS
+ cUp+LRkTWystDRCTPnOjvw90as7QukiRhH/66FpAV8tqyVICPosLdOd6FXNaLWR9IRX07Ht72Tv oZ2zPlI5eDUHrmAmOEJwP4QIKo60vR/RgY9jGO9ZLIqZTLVgXkwBFz+OVzx0i0quAqVSljmnGbs wlu7FBVPYhIZABpzLHJeWx7F8kisWAQ7SSdItwzV/XK+110Q4xjCfz4H4XTzRHEPZezRK6jYXex
+ BPH1DzCkLxLhhgqQ2U1nU7ICPBXUrtmJA/nYrn3lxB4rWNF5knRWPrZm9PPEph9BDUPIYXA9
+X-Authority-Analysis: v=2.4 cv=GoJC+l1C c=1 sm=1 tr=0 ts=681b7e79 cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=ZRoeV-iSnVhfcXUvIQsA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-07_05,2025-05-06_01,2025-02-21_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_080334_157942_14508011 
-X-CRM114-Status: GOOD (  10.05  )
+X-CRM114-CacheID: sfid-20250507_083835_275509_50C60D73 
+X-CRM114-Status: GOOD (  17.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,21 +89,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 7, 2025 at 12:16=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
->
-> > -     .init_hctx      =3D nvme_init_hctx,
-> > +     .init_hctx      =3D nvme_io_init_hctx,
->
-> Without an overall rename of the methods I'd rather avoid the _io
-> here and pick a _common name for the common helper.
+From: Keith Busch <kbusch@kernel.org>
 
-Sure, that's fine too.
+The integrity buffer is mandatory for nvme formats that have metadata
+whether or not you want it generated or verified. The block integrity
+attributes read_verify and write_generate had been stopping the metadata
+buffer from being allocated and attached to the bio entirely. We only
+want to suppress the protection checks on the device and host, but we
+still need the buffer.
 
-Best,
-Caleb
+Otherwise, reads and writes will just get IO errors and this nvme warning=
+:
 
->
-> I can fix that up when applying, no need to resend.
->
+ ------------[ cut here ]------------
+ WARNING: CPU: 1 PID: 371 at drivers/nvme/host/core.c:1036 nvme_setup_rw+=
+0x122/0x210
+ ...
+ RIP: 0010:nvme_setup_rw+0x122/0x210
+ ...
+ Call Trace:
+  <TASK>
+  nvme_setup_cmd+0x1b4/0x280
+  nvme_queue_rqs+0xc4/0x1f0 [nvme]
+  blk_mq_dispatch_queue_requests+0x24a/0x430
+  blk_mq_flush_plug_list+0x50/0x140
+  __blk_flush_plug+0xc1/0x100
+  __submit_bio+0x1c1/0x360
+  ? submit_bio_noacct_nocheck+0x2d6/0x3c0
+  submit_bio_noacct_nocheck+0x2d6/0x3c0
+  ? submit_bio_noacct+0x47/0x4c0
+  submit_bio_wait+0x48/0xa0
+  __blkdev_direct_IO_simple+0xee/0x210
+  ? current_time+0x1d/0x100
+  ? current_time+0x1d/0x100
+  ? __bio_clone+0xb0/0xb0
+  blkdev_read_iter+0xbb/0x140
+  vfs_read+0x239/0x310
+  ksys_read+0x58/0xc0
+  do_syscall_64+0x6c/0x180
+  entry_SYSCALL_64_after_hwframe+0x4b/0x53
+
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ block/bio-integrity-auto.c | 31 +++++++++++++++++++------------
+ block/t10-pi.c             |  5 +++++
+ 2 files changed, 24 insertions(+), 12 deletions(-)
+
+diff --git a/block/bio-integrity-auto.c b/block/bio-integrity-auto.c
+index e524c609be506..301406671f3b6 100644
+--- a/block/bio-integrity-auto.c
++++ b/block/bio-integrity-auto.c
+@@ -69,6 +69,16 @@ bool __bio_integrity_endio(struct bio *bio)
+ 	return true;
+ }
+=20
++static inline void bio_set_bip_flags(struct blk_integrity *bi, u16 *bip_=
+flags)
++{
++	if (bi->csum_type =3D=3D BLK_INTEGRITY_CSUM_IP)
++		*bip_flags |=3D BIP_IP_CHECKSUM;
++	if (bi->csum_type)
++		*bip_flags |=3D BIP_CHECK_GUARD;
++	if (bi->flags & BLK_INTEGRITY_REF_TAG)
++		*bip_flags |=3D BIP_CHECK_REFTAG;
++}
++
+ /**
+  * bio_integrity_prep - Prepare bio for integrity I/O
+  * @bio:	bio to prepare
+@@ -83,6 +93,7 @@ bool __bio_integrity_endio(struct bio *bio)
+ bool bio_integrity_prep(struct bio *bio)
+ {
+ 	struct blk_integrity *bi =3D blk_get_integrity(bio->bi_bdev->bd_disk);
++	unsigned short bip_flags =3D BIP_BLOCK_INTEGRITY;
+ 	struct bio_integrity_data *bid;
+ 	gfp_t gfp =3D GFP_NOIO;
+ 	unsigned int len;
+@@ -101,19 +112,22 @@ bool bio_integrity_prep(struct bio *bio)
+ 	switch (bio_op(bio)) {
+ 	case REQ_OP_READ:
+ 		if (bi->flags & BLK_INTEGRITY_NOVERIFY)
+-			return true;
++			break;
++		bio_set_bip_flags(bi, &bip_flags);
+ 		break;
+ 	case REQ_OP_WRITE:
+-		if (bi->flags & BLK_INTEGRITY_NOGENERATE)
+-			return true;
+-
+ 		/*
+ 		 * Zero the memory allocated to not leak uninitialized kernel
+ 		 * memory to disk for non-integrity metadata where nothing else
+ 		 * initializes the memory.
+ 		 */
++		if (bi->flags & BLK_INTEGRITY_NOGENERATE) {
++			gfp |=3D __GFP_ZERO;
++			break;
++		}
+ 		if (bi->csum_type =3D=3D BLK_INTEGRITY_CSUM_NONE)
+ 			gfp |=3D __GFP_ZERO;
++		bio_set_bip_flags(bi, &bip_flags);
+ 		break;
+ 	default:
+ 		return true;
+@@ -134,16 +148,9 @@ bool bio_integrity_prep(struct bio *bio)
+=20
+ 	bid->bio =3D bio;
+=20
+-	bid->bip.bip_flags |=3D BIP_BLOCK_INTEGRITY;
++	bid->bip.bip_flags =3D bip_flags;
+ 	bip_set_seed(&bid->bip, bio->bi_iter.bi_sector);
+=20
+-	if (bi->csum_type =3D=3D BLK_INTEGRITY_CSUM_IP)
+-		bid->bip.bip_flags |=3D BIP_IP_CHECKSUM;
+-	if (bi->csum_type)
+-		bid->bip.bip_flags |=3D BIP_CHECK_GUARD;
+-	if (bi->flags & BLK_INTEGRITY_REF_TAG)
+-		bid->bip.bip_flags |=3D BIP_CHECK_REFTAG;
+-
+ 	if (bio_integrity_add_page(bio, virt_to_page(buf), len,
+ 			offset_in_page(buf)) < len)
+ 		goto err_end_io;
+diff --git a/block/t10-pi.c b/block/t10-pi.c
+index 851db518ee5e8..41c863c927cf4 100644
+--- a/block/t10-pi.c
++++ b/block/t10-pi.c
+@@ -380,6 +380,9 @@ void blk_integrity_generate(struct bio *bio)
+ 	struct bvec_iter bviter;
+ 	struct bio_vec bv;
+=20
++	if (bi->flags & BLK_INTEGRITY_NOGENERATE)
++		return;
++
+ 	iter.disk_name =3D bio->bi_bdev->bd_disk->disk_name;
+ 	iter.interval =3D 1 << bi->interval_exp;
+ 	iter.seed =3D bio->bi_iter.bi_sector;
+@@ -412,6 +415,8 @@ void blk_integrity_verify_iter(struct bio *bio, struc=
+t bvec_iter *saved_iter)
+ 	struct bvec_iter bviter;
+ 	struct bio_vec bv;
+=20
++	if (bi->flags & BLK_INTEGRITY_NOVERIFY)
++		return;
+ 	/*
+ 	 * At the moment verify is called bi_iter has been advanced during spli=
+t
+ 	 * and completion, so use the copy created during submission here.
+--=20
+2.47.1
+
 
