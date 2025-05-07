@@ -4,102 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E217FC3ABC6
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 08:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BD13C3ABCA
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 08:34:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4iPgqhoayMe3zcDnDhjT6VS71oNH4/EEsD7p6lChhXY=; b=bjiD10hQ7cVoHkmAD8P5D9LXk+
-	r+SpK795jywwI+YGw0vVvDf5/ZUUWB0PZg82YhuQqRScfcuu2a6MKtFZOMgk1InBd0m+4cBL1V2qm
-	rB1fuq7ZpYu1t05pPwBfM+ZLsAAncL6VZZZcWGwD3u7fuDco/FjqGznMxsBev5jThwaX28/OyqWa5
-	yP3q6l9s3roVV52+31JaJGTegBDSXe9vpfPE5W237gZocIqG5KYh6K/BtqLTEN9hvA1IULsqUGpz4
-	uaP0HDM4KHd+zPUZmvWX7sXQtwYtkXqGUcb+/mI4Zt+k9vwXSgc+ODHeSjbTWoXkyvO6RrDn9dV13
-	bOn01gGA==;
+	bh=J6/Svaf8PrK2AUv9aG75LSG6DNXu0gsyTznPNmOHQ3o=; b=tVD7c0KKJMjYKGPK//FksbLSYe
+	IIiCYPzt++B1yY7+2ZoCE4RFsS4pMtQQToBVn+E8iCwbu17fbmScZv9Vn84oS8/s4E0WGJhr+Qz0r
+	BWHZXULLkBnV3BwQDaFUohFGS2wMW5yUCZubYzaX/7jh8yqML9RtsNAzvkuSiuX4d6B+ucRY7/DiW
+	YuWST1dei5bOoG968I7mX7jJdgUY5fAxlRW1+L2Qo7vMvhTc8p8Thnn0uju3xvQKz7mOGPJGpBRLE
+	f5+G8XgIXpXyxyGPBSMS/wgd9Nt8uW7vCK3Hr8IzBYjQjEmY6SeSJlnP+0LE2sIDF7QMo/gWEmL3q
+	OQi5o7Lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCaEE-0000000Eka3-0j6f;
-	Wed, 07 May 2025 08:34:10 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1uCaEF-0000000EkbS-2UTy;
+	Wed, 07 May 2025 08:34:11 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCZDV-0000000EX8t-1O3s
+	id 1uCZEH-0000000EXLn-3yOu
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 07:29:22 +0000
+	Wed, 07 May 2025 07:30:11 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9EDE11F38C;
-	Wed,  7 May 2025 07:29:18 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4640F2118B;
+	Wed,  7 May 2025 07:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746602958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1746603008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4iPgqhoayMe3zcDnDhjT6VS71oNH4/EEsD7p6lChhXY=;
-	b=Hz/DO9a5M5DBqg3UlGRyS02GCpsz1Pqmq++OeMCSMDrthtF+NOGTeMsfOkh4+5eg/d2f5P
-	LpAxWQhWXUgSWNkV6P6LH4B/TSPsg5faiNvicdmlTmMTf/jolQsG6ttSPRZOEg17qraM88
-	RDFqBQ8ItbUHEkZokhGi1vWq8/GY+yA=
+	bh=J6/Svaf8PrK2AUv9aG75LSG6DNXu0gsyTznPNmOHQ3o=;
+	b=Ib7WcbyXj9qGrK4X/y5RdbQKE2NDuVirnKrOtwzpHfa/HDnEyKlTuZGXmEGl4Z/LFoyOge
+	LAdQr6k2Q2W5n93poSS6EKpWNttUcZdC2prDjv/KsSMPzBPSFFJFX7eMKu7dAlmks3IoHb
+	UCbZe7akA0QgMl3bk0um9dUg2CV+4MQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746602958;
+	s=susede2_ed25519; t=1746603008;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4iPgqhoayMe3zcDnDhjT6VS71oNH4/EEsD7p6lChhXY=;
-	b=KHp9kEvQ8mL5kLGVv9Ym59SUzXguBJrgXwQk8l/Ft9fOyeSKPQTiORRbtAz6xL1VcssEP+
-	N25A8Hag3+QZdECg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Hz/DO9a5";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KHp9kEvQ
+	bh=J6/Svaf8PrK2AUv9aG75LSG6DNXu0gsyTznPNmOHQ3o=;
+	b=HfA1vgPblEz0p4V6t4D1zKsJQeKXaxP93feozHCPluo3BbzqLeUN+38oAn2Aj07eZ9WFk/
+	ZxcEGvxq4kSGqeDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ib7WcbyX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HfA1vgPb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746602958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1746603008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4iPgqhoayMe3zcDnDhjT6VS71oNH4/EEsD7p6lChhXY=;
-	b=Hz/DO9a5M5DBqg3UlGRyS02GCpsz1Pqmq++OeMCSMDrthtF+NOGTeMsfOkh4+5eg/d2f5P
-	LpAxWQhWXUgSWNkV6P6LH4B/TSPsg5faiNvicdmlTmMTf/jolQsG6ttSPRZOEg17qraM88
-	RDFqBQ8ItbUHEkZokhGi1vWq8/GY+yA=
+	bh=J6/Svaf8PrK2AUv9aG75LSG6DNXu0gsyTznPNmOHQ3o=;
+	b=Ib7WcbyXj9qGrK4X/y5RdbQKE2NDuVirnKrOtwzpHfa/HDnEyKlTuZGXmEGl4Z/LFoyOge
+	LAdQr6k2Q2W5n93poSS6EKpWNttUcZdC2prDjv/KsSMPzBPSFFJFX7eMKu7dAlmks3IoHb
+	UCbZe7akA0QgMl3bk0um9dUg2CV+4MQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746602958;
+	s=susede2_ed25519; t=1746603008;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4iPgqhoayMe3zcDnDhjT6VS71oNH4/EEsD7p6lChhXY=;
-	b=KHp9kEvQ8mL5kLGVv9Ym59SUzXguBJrgXwQk8l/Ft9fOyeSKPQTiORRbtAz6xL1VcssEP+
-	N25A8Hag3+QZdECg==
+	bh=J6/Svaf8PrK2AUv9aG75LSG6DNXu0gsyTznPNmOHQ3o=;
+	b=HfA1vgPblEz0p4V6t4D1zKsJQeKXaxP93feozHCPluo3BbzqLeUN+38oAn2Aj07eZ9WFk/
+	ZxcEGvxq4kSGqeDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 625A713882;
-	Wed,  7 May 2025 07:29:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10B4E13882;
+	Wed,  7 May 2025 07:30:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KMbqFc4LG2gWVgAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 07 May 2025 07:29:18 +0000
-Message-ID: <17b5d757-15b2-4ae3-97f3-7697c31127da@suse.de>
-Date: Wed, 7 May 2025 09:29:13 +0200
+	id FgSLAgAMG2ibVgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 07 May 2025 07:30:08 +0000
+Message-ID: <61b8f3fc-5677-4aaa-9165-500adb159bf1@suse.de>
+Date: Wed, 7 May 2025 09:30:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] nvme-auth: modify nvme_auth_transform_key() to
- return status
+Subject: Re: [PATCH 07/12] nvme-auth: drop nvme_dhchap_key structure and
+ unused functions
 To: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@kernel.org>
 Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  linux-nvme@lists.infradead.org
 References: <20250425094927.102656-1-hare@kernel.org>
- <20250425094927.102656-2-hare@kernel.org> <20250507072429.GA2347@lst.de>
+ <20250425094927.102656-8-hare@kernel.org> <20250507072616.GC2347@lst.de>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250507072429.GA2347@lst.de>
+In-Reply-To: <20250507072616.GC2347@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9EDE11F38C
-X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 4640F2118B
 X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -122,13 +121,15 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_002921_511323_674A579C 
-X-CRM114-Status: GOOD (  12.10  )
+X-CRM114-CacheID: sfid-20250507_003010_126469_17512B8F 
+X-CRM114-Status: UNSURE (   9.85  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,20 +144,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/7/25 09:24, Christoph Hellwig wrote:
-> On Fri, Apr 25, 2025 at 11:49:16AM +0200, Hannes Reinecke wrote:
->> Modify nvme_auth_transform_key() to return a status and provide
->> the transformed data as argument on the command line as raw data.
+On 5/7/25 09:26, Christoph Hellwig wrote:
+> On Fri, Apr 25, 2025 at 11:49:22AM +0200, Hannes Reinecke wrote:
+>> Drop the hand-crafted nvme_dhchap_key structure and the now unused
+>> functions.
 > 
-> Well, it's pretty obvious that you do this from the code changes.
+> This should go into the previous patch instead of just creating dead
+> code there.
 > 
-> But why do you change it?
-> 
-You are right, the description is incorrect.
-Main point here is to return a raw byte string containing the
-transformed key data (and not a key structure).
-Doing so makes the following modifications easier to read.
-One hopes.
+Will be doing so for the next round.
 
 Cheers,
 
