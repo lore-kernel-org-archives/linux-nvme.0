@@ -4,71 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5374C3ABBF
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 21:03:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DBE6C3ABC0
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 22:01:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PuuMuLVFYvj0X/T8c2k7Ig4rqNUs0SDawt5SWn5frdE=; b=2LWDHAU8sawhuFPW27NLkvTMP2
-	5T4K6oy4FjVacIHui1bw5D3a7DR5LvaG7w3siF79ZrZjk8bxN8IVKPUtUN88pQs1XDAaj5QmV+Xxp
-	WO9fDHBevRWJERmZqvznhzL0jcUBP6rrrMVks2a6nQLI4Z4SkVPgY79oz+s2L+aTzEqEBsD4VmaFe
-	1swjkk55P9CszAkK2Xwono9B3gr42d2GFbHsmUnVpiXyAKM8ir1Bn4+/K1cgqYXN75J/YpRJYnfwf
-	fg1cMfPOm8sO906hEogmB8PKDwA2Kmh4tQhnPuLp6WoAbvqBqe6YNIh3MPOxtjNPiLx7k2e7OrNH7
-	C0h1fw0Q==;
+	bh=Rh4j5BvAfXZF7bmpZu0jQ/ugGagunI5OepSAuxXPpsE=; b=c+fjDIyt6pXOC2Pee+LGQgQHXB
+	rcFTqfJRcmNNhaU3f3y07evp032f52YheVXM1gc6u+g1zaotV0xEa/74ae1dxWszN8yK2UNy5dEnP
+	XnVPup9ZJqvHQK7QUz3zrxric4GdtliwjGUJ7lWzqz6GvAVf/T4BxLfF5k5qapw/Xrd5K9A3YMmPl
+	5y6iaiaBoC87kT1PaQ3cpYvCxsDkJjafDY4+nR0jW+2lJrRQOBHSB0ixb3Ja+3RjYBvJmYvxlyt3Q
+	NqTEW8WNWncoh3eI5x+qBpg3zSBnL0AxSsc2xGiXPjK7AslH6Bt1qTZ4PGgOXjWp7b2RBry5d6uFZ
+	KQcgqpVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uClvZ-0000000Gkha-2o8s;
-	Wed, 07 May 2025 21:03:41 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1uCmpD-0000000GqJv-3oCo;
+	Wed, 07 May 2025 22:01:11 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uClv7-0000000Gkb6-0B7u
+	id 1uCmnd-0000000Gq5j-0S0a
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 21:03:13 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 59B11629D8;
-	Wed,  7 May 2025 21:03:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E59BAC4CEE2;
-	Wed,  7 May 2025 21:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746651792;
-	bh=cnPOQ8rH8mGEWg2SZAMmFPn+K66GqaSykHvHWUjRJFM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ou5UvFB7TRZFqaxnYiEakdi8Tv4V4TzoEj9Wbs7Q232VF867LOvRSZU+HZuD0Bq29
-	 6CsCTPAn0pECDaosSJX8x976KW3ktLd9AEIM0HbZDqa6j9FdJY0JVbrPH5Nv3bO1hF
-	 iIRu+OKZ1opelRfc+PFgGG2aRNfJhh4De1IHrOez/LdSHTTOSeQKEui3LTnMMeRTT9
-	 W+5W3K5rrPfVhLUgD3gPmbJZPXu0JaLwoj23F/peyg6pNFb6IhrHsA/7+Eet9shIt4
-	 Sng0fra5pNs4VfCOHaFQ+hSm5RXYO+syELa8jv0hYssg/oKu0kM6h7bFr8uzfaXdN3
-	 ajieBlH8ExtxQ==
-Date: Wed, 7 May 2025 14:03:10 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tytso@mit.edu,
-	john.g.garry@oracle.com, bmarzins@redhat.com, chaitanyak@nvidia.com,
-	shinichiro.kawasaki@wdc.com, brauner@kernel.org,
-	yi.zhang@huawei.com, chengzhihao1@huawei.com, yukuai3@huawei.com,
-	yangerkun@huawei.com
-Subject: Re: [RFC PATCH v4 07/11] fs: statx add write zeroes unmap attribute
-Message-ID: <20250507210310.GG25675@frogsfrogsfrogs>
-References: <20250421021509.2366003-1-yi.zhang@huaweicloud.com>
- <20250421021509.2366003-8-yi.zhang@huaweicloud.com>
- <20250505132208.GA22182@lst.de>
- <20250505142945.GJ1035866@frogsfrogsfrogs>
- <c7d8d0c3-7efa-4ee6-b518-f8b09ec87b73@huaweicloud.com>
- <20250506043907.GA27061@lst.de>
- <64c8b62a-83ba-45be-a83e-62b6ad8d6f22@huaweicloud.com>
- <20250506121102.GA21905@lst.de>
- <a39a6612-89ac-4255-b737-37c7d16b3185@huaweicloud.com>
+	Wed, 07 May 2025 21:59:34 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-22c33677183so3981975ad.2
+        for <linux-nvme@lists.infradead.org>; Wed, 07 May 2025 14:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1746655172; x=1747259972; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rh4j5BvAfXZF7bmpZu0jQ/ugGagunI5OepSAuxXPpsE=;
+        b=QoSAOEi2+MoWvdHbrEfzfh0ktWwwr5F5sbSfxcZxrYhK25Flg+Zgy9Vgl7EiPR+koQ
+         pAeLaB5Q9s1Ypx3Tz/+1lwe9vl4vmKc9751HduK7hO2pqeACwd3MDzI3TKbf/Y0haehD
+         7ahusCbtzG/d+i/Xi7FeySWWUVka9BkCGSIUkA5qw8/E/8QfrhsZNFEPciqYU+wgX1/H
+         2lRf3Bay3bqS6tZs1sLX/OmuKi5HZLcsD/KYfWeOrmqa3yJeMVG4ekqLV++pL/ZcdHX8
+         1dfxkrkiNn1LXbQqaD4McxuHDTuUCRGmhf5EXiY6cjWu+Mjc8e0sqTnCcf+SO7nYaW7C
+         JC9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746655172; x=1747259972;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rh4j5BvAfXZF7bmpZu0jQ/ugGagunI5OepSAuxXPpsE=;
+        b=eHpbwnqvVu47fZBu9wRcPROAGvP3DjfHAAi589S6+AKCy5ImiKiQr04xH55wjI+AA5
+         ujLxs6u4QRGWNZ0eu5GvR7Sl0nkUGYmxH192IVdVJhaMnyI0/+WO4+8/BfK0C8thfkHz
+         f4U4Uhi5thJpBf1c5osIMsknGZBl0tupFg9HO4XBXZtf0VxPhrTX/vOgddvNGIQj5ysk
+         RSq5pHXjI2Zf9/cmYLMXLzTnI4PNfhBZ2eFOE2YhggmHZ6Tdf69uQgoIXN6Sbnbkd4Xj
+         Db0mnPUYEmeMFxLiCQKZOBR7UceGKOqegPFuhzCCuo9+W620bJmUNRJtaAdbg3VwX5Dn
+         jpDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVoaeCRhxD4uNeCkr43cgNAQjBEMY7djgRXlLPwD0M9+zodZLCij9hxSjS6kKPj94PIda4AIr8CT7Wg@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx6vr8QBogPsMRmKDdjXoJH87Nuw1H7ehbMoQydQsYpxUYxYUKD
+	rBnylLU/Cgr8x4kjlyS8ro+rWZHJQRati9N8wvE/svw8bP223dFF69l1nBMTeZA=
+X-Gm-Gg: ASbGncsvdaI4wXhU4cG1TXdVCkzvdKt8DiNJosp2Jalz9nRzZtcZ/a0WCaGI9MZ1qnS
+	lpPdvg/Ua+u0UK8JlrH5wt9GGEWanjO5C4bqogi2ZaRjIxfBXkTG7PXiteBjN34WOfFj4T9Ty8n
+	BDDWMdqkcsLM1qYVQuh6cZ3ZB8W+qvlaDRyXPzXnoTs0EVqWKFYd3UABfu9dpmTbRYk4pbukclr
+	HOA0rg5F7uiUzKIPcgcJl3vZOH9p4F2+VoFKqyl+7l5qmH074KIH4PatkVFEVi2XX4bkuvyGuw9
+	cNhooZ0iadtDQhIgM9l6VT1MHoHtYq6CId7+oqpZOuf8sHjyy4Dxp8MnfnT8YxajLYKv8+KQWht
+	LhVQHPD2vz24XLL2qr3rNoXUA
+X-Google-Smtp-Source: AGHT+IE1xxxerfJkV5Vbq7cdaXtmbfAA/IeC6rJzLbxihaJKNjABSSmh0OYDfzxkDN41CkecVlaUHQ==
+X-Received: by 2002:a17:903:2286:b0:21f:988d:5756 with SMTP id d9443c01a7336-22e5ecdafcbmr68689475ad.42.1746655172014;
+        Wed, 07 May 2025 14:59:32 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-60-96.pa.nsw.optusnet.com.au. [49.181.60.96])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fd4fsm99541775ad.146.2025.05.07.14.59.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 14:59:31 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.98.2)
+	(envelope-from <david@fromorbit.com>)
+	id 1uCmnY-00000000gXW-3xM7;
+	Thu, 08 May 2025 07:59:29 +1000
+Date: Thu, 8 May 2025 07:59:28 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Anton Gavriliuk <antosha20xx@gmail.com>
+Cc: Laurence Oberman <loberman@redhat.com>, linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: Sequential read from NVMe/XFS twice slower on Fedora 42 than on
+ Rocky 9.5
+Message-ID: <aBvXwComvV-uAqmb@dread.disaster.area>
+References: <CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-QzmZBMmtr1oC=fOOgAQ@mail.gmail.com>
+ <aBaVsli2AKbIa4We@dread.disaster.area>
+ <CAAiJnjor+=Zn62n09f-aJw2amX2wxQOb-2TB3rea9wDCU7ONoA@mail.gmail.com>
+ <aBfhDQ6lAPmn81j0@dread.disaster.area>
+ <7c33f38a52ccff8b94f20c0714b60b61b061ad58.camel@redhat.com>
+ <a1f322ab801e7f7037951578d289c5d18c6adc4d.camel@redhat.com>
+ <aBlCDTm-grqM4WtY@dread.disaster.area>
+ <CAAiJnjo87CEeFrkHbXtQM-=+K9M8uEpythLthWTwM_-i4HMA_Q@mail.gmail.com>
+ <aBqDGY1i3RePyzaB@dread.disaster.area>
+ <CAAiJnjp6WuVaxXbjndF8dB3fuWCuWz7Nqzpz0uEu2BOqyZUQHg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a39a6612-89ac-4255-b737-37c7d16b3185@huaweicloud.com>
+In-Reply-To: <CAAiJnjp6WuVaxXbjndF8dB3fuWCuWz7Nqzpz0uEu2BOqyZUQHg@mail.gmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250507_145933_338592_5899695D 
+X-CRM114-Status: GOOD (  12.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,63 +111,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 07, 2025 at 03:33:23PM +0800, Zhang Yi wrote:
-> On 2025/5/6 20:11, Christoph Hellwig wrote:
-> > On Tue, May 06, 2025 at 07:16:56PM +0800, Zhang Yi wrote:
-> >> Sorry, but I don't understand your suggestion. The
-> >> STATX_ATTR_WRITE_ZEROES_UNMAP attribute only indicate whether the bdev
-> >> and the block device that under the specified file support unmap write
-> >> zeroes commoand. It does not reflect whether the bdev and the
-> >> filesystems support FALLOC_FL_WRITE_ZEROES. The implementation of
-> >> FALLOC_FL_WRITE_ZEROES doesn't fully rely on the unmap write zeroes
-> >> commoand now, users simply refer to this attribute flag to determine
-> >> whether to use FALLOC_FL_WRITE_ZEROES when preallocating a file.
-> >> So, STATX_ATTR_WRITE_ZEROES_UNMAP and FALLOC_FL_WRITE_ZEROES doesn't
-> >> have strong relations, why do you suggested to put this into the ext4
-> >> and bdev patches that adding FALLOC_FL_WRITE_ZEROES?
-> > 
-> > So what is the point of STATX_ATTR_WRITE_ZEROES_UNMAP?
+On Wed, May 07, 2025 at 03:26:08PM +0300, Anton Gavriliuk wrote:
+> > `iostat -dxm 5` output during the fio run on both kernels will give us some indication of the differences in IO patterns, queue depths, etc.
 > 
-> My idea is not to strictly limiting the use of FALLOC_FL_WRITE_ZEROES to
-> only bdev or files where bdev_unmap_write_zeroes() returns true. In
-> other words, STATX_ATTR_WRITE_ZEROES_UNMAP and FALLOC_FL_WRITE_ZEROES
-> are not consistent, they are two independent features. Even if some
-> devices STATX_ATTR_WRITE_ZEROES_UNMAP are not set, users should still be
-> allowed to call fallcoate(FALLOC_FL_WRITE_ZEROES). This is because some
-> devices and drivers currently cannot reliably ascertain whether they
-> support the unmap write zero command; however, certain devices, such as
-> specific cloud storage devices, do support it. Users of these devices
-> may also wish to use FALLOC_FL_WRITE_ZEROES to expedite the zeroing
-> process.
-> 
-> Therefore, I think that the current point of
-> STATX_ATTR_WRITE_ZEROES_UNMAP (possibly STATX_WRITE_ZEROES_UNMAP) should
-> be to just indicate whether a bdev or file supports the unmap write zero
-> command (i.e., whether bdev_unmap_write_zeroes() returns true). If we
-> use standard SCSI and NVMe storage devices, and the
-> STATX_ATTR_WRITE_ZEROES_UNMAP attribute is set, users can be assured
-> that FALLOC_FL_WRITE_ZEROES is fast and can choose to use
-> fallocate(FALLOC_FL_WRITE_ZEROES) immediately.
-> 
-> Would you prefer to make STATX_ATTR_WRITE_ZEROES_UNMAP and
-> FALLOC_FL_WRITE_ZEROES consistent, which means
-> fallcoate(FALLOC_FL_WRITE_ZEROES) will return -EOPNOTSUPP if the block
-> device doesn't set STATX_ATTR_WRITE_ZEROES_UNMAP ?
-> 
-> If so, I'd suggested we need to:
-> 1) Remove STATX_ATTR_WRITE_ZEROES_UNMAP since users can check the
->    existence by calling fallocate(FALLOC_FL_WRITE_ZEROES) directly, this
->    statx flag seems useless.
-> 2) Make the BLK_FEAT_WRITE_ZEROES_UNMAP sysfs interface to RW, allowing
->    users to adjust the block device's support state according to the
->    real situation.
+> iostat files attached.
 
-Sounds fine to me... ;)
+Yeah, that definitely looks like MD is the bottleneck. In both
+traces the NVMe drives are completing read IOs in about 110-120us.
+In fedora 42, the nvme drives are not at 100% utilisation so the md
+device is not feeding them fast enough.
 
---D
+That can also be seen in that the rocky 9.5 kernel with a nvme
+device queue depth of about 4 IOs, whilst it is only 1.5 for the
+fedora 42 kernel.
 
-> Thanks,
-> Yi.
-> 
-> 
+Given that nobody from the block/MD side of things has responded
+with any ideas yet, you might just have to bisect it to find out
+where things went wrong...
+
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
