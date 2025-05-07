@@ -4,103 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B354FC3ABBF
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 14:39:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EE4FC3ABC3
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 14:39:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CmeTg3rjXN4MkuoVZrPEg6WRNv22XhbV9ixjF1dT3f0=; b=f3YZjeLh6P3T8VB94cdIIW4L0j
-	9qwKgZbuFLJZP/JJ/EA1xDbnpJC6NNFDIeuIxUjIhZLf2QQ8aTAGnPx2CK/qGziK3ZdV7xXE2hnV2
-	Dzh3rY1YAWOXGqvnbONzh497GC8dDrTMg92NVi3LOj9ZNvMliunnwqGc4CEc6NX6vUuNBjL42v1jJ
-	+w3rA92uWB/czZ9CzMEKOwPUFhT0ivO04i70fgLRqcSDWIU0g4gVi8WVjEGDg/cmbuL0yiYEDFLkL
-	aqiDykRXXzK5Kg8JXFgz+2nyrW+X+bmes4jg/J4iZkaa/buC9ei0G5+INk7ZD77FFUy5nU089MiJK
-	gQ30sHJw==;
+	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=; b=AxLddDK8oVGCieUCatbQpxfP14
+	8llOuo3ioqFkcv7o6UbvznoxooVPCWuf9CT7AVKQLoSqEDjLJo/LSWiNWix5CzESloBurI4GxNZqT
+	pZhsGAo9JFnIP80vl7fNhGEMLoQeGPj/3fuyrukHH/5IMyTbDFs6BZDOgMrzjYBYoEmX5bT5OmRA+
+	n2hBCTJORMxvfryYdnCSNxbKQMNafLi35izSzEoLc5WEhumMahzBgU2QvSALkOJKkudLI2+8A/qAv
+	Z4HKuQ8aGVdAkjTCLgCRdt6zESgciJAgzhGPPx7gQ1xujgMZ896ayBmxFQC7w45apMG0GfLA08gPZ
+	n6df5Sig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCfvS-0000000Fowx-3JQa;
-	Wed, 07 May 2025 14:39:10 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1uCfvT-0000000FoxN-1xiX;
+	Wed, 07 May 2025 14:39:11 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCfJE-0000000Fg1T-3dIM
+	id 1uCfK3-0000000FgC2-1em4
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 13:59:42 +0000
+	Wed, 07 May 2025 14:00:32 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5FA811F395;
-	Wed,  7 May 2025 13:59:39 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AE1A92122B;
+	Wed,  7 May 2025 14:00:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746626379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1746626429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CmeTg3rjXN4MkuoVZrPEg6WRNv22XhbV9ixjF1dT3f0=;
-	b=LRV1yysshpXdAx6c9h5CeFT6lTzSqNbmC7gOoG+LwE+XxBZvzkH60SPw8hb3diWx9vkFvs
-	OpEakw7YHZNpD7kvDSC3FHeaQZi+RGPsrPkgU6dTmdBev6+JhBWxQ+0t+9xiaAA00rWZnB
-	Z0H+9UhCysTZdz8P6fYnPGyDRC+wj+k=
+	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=;
+	b=0nLRhv/v9C+FvQhgyVUXOb5CO5j0CtS5fJyq7jr+KpkVn7H29u7a5x0g1WGKYa81C61yjY
+	jaIXCv1P3e7mQ0eenbjZQ1jlmOwCCDGWJjocQvKpFZo/3N/tsCAttzcUQE7NAUFc2Siug0
+	IaImq7aUTM4ayCPKUa/9ZqSe8fiNlHw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746626379;
+	s=susede2_ed25519; t=1746626429;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CmeTg3rjXN4MkuoVZrPEg6WRNv22XhbV9ixjF1dT3f0=;
-	b=LjXUk3qhq8BhA3N4iw7wucf374BjUoVPRRPlg/a86HfZHV1Ku4MsH4RoKIcXhyRl56kvmG
-	5Ij2tK1/f25UH4AA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=;
+	b=BJyz950A1OUc6XpNTxr3Shdg0chPghJT9oTy/xvxuQIaWuy/EOZ97z5dGm8yJhCtBUqZsP
+	ItUIeeueEM535hCw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746626379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1746626429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CmeTg3rjXN4MkuoVZrPEg6WRNv22XhbV9ixjF1dT3f0=;
-	b=LRV1yysshpXdAx6c9h5CeFT6lTzSqNbmC7gOoG+LwE+XxBZvzkH60SPw8hb3diWx9vkFvs
-	OpEakw7YHZNpD7kvDSC3FHeaQZi+RGPsrPkgU6dTmdBev6+JhBWxQ+0t+9xiaAA00rWZnB
-	Z0H+9UhCysTZdz8P6fYnPGyDRC+wj+k=
+	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=;
+	b=0nLRhv/v9C+FvQhgyVUXOb5CO5j0CtS5fJyq7jr+KpkVn7H29u7a5x0g1WGKYa81C61yjY
+	jaIXCv1P3e7mQ0eenbjZQ1jlmOwCCDGWJjocQvKpFZo/3N/tsCAttzcUQE7NAUFc2Siug0
+	IaImq7aUTM4ayCPKUa/9ZqSe8fiNlHw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746626379;
+	s=susede2_ed25519; t=1746626429;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CmeTg3rjXN4MkuoVZrPEg6WRNv22XhbV9ixjF1dT3f0=;
-	b=LjXUk3qhq8BhA3N4iw7wucf374BjUoVPRRPlg/a86HfZHV1Ku4MsH4RoKIcXhyRl56kvmG
-	5Ij2tK1/f25UH4AA==
+	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=;
+	b=BJyz950A1OUc6XpNTxr3Shdg0chPghJT9oTy/xvxuQIaWuy/EOZ97z5dGm8yJhCtBUqZsP
+	ItUIeeueEM535hCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C0E8139D9;
-	Wed,  7 May 2025 13:59:39 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9316E139D9;
+	Wed,  7 May 2025 14:00:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H0gADktnG2h9TgAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 07 May 2025 13:59:39 +0000
-Message-ID: <8d418b1b-a2bb-46ec-9469-c67bb59be089@suse.de>
-Date: Wed, 7 May 2025 15:59:38 +0200
+	id cjaAI31nG2jRTgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 07 May 2025 14:00:29 +0000
+Message-ID: <1ce2a108-1b20-4ad9-ad29-ea4721c938e1@suse.de>
+Date: Wed, 7 May 2025 16:00:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 10/14] nvmet-fcloop: don't wait for lport cleanup
+Subject: Re: [PATCH v6 14/14] nvme-fc: do not reference lsrsp after failure
 To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  Chaitanya Kulkarni <kch@nvidia.com>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20250507-nvmet-fcloop-v6-0-ca02e16fb018@kernel.org>
- <20250507-nvmet-fcloop-v6-10-ca02e16fb018@kernel.org>
+ <20250507-nvmet-fcloop-v6-14-ca02e16fb018@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250507-nvmet-fcloop-v6-10-ca02e16fb018@kernel.org>
+In-Reply-To: <20250507-nvmet-fcloop-v6-14-ca02e16fb018@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_SHORT(-0.20)[-0.994];
 	MIME_GOOD(-0.10)[text/plain];
 	ARC_NA(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
@@ -117,8 +117,8 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_065941_063505_B3D3DE9C 
-X-CRM114-Status: GOOD (  10.43  )
+X-CRM114-CacheID: sfid-20250507_070031_580033_351BA45A 
+X-CRM114-Status: GOOD (  13.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,14 +134,18 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 5/7/25 14:23, Daniel Wagner wrote:
-> The lifetime of the fcloop_lsreq is not tight to the lifetime of the
-> host or target port, thus there is no need anymore to synchronize the
-> cleanup path anymore.
+> The lsrsp object is maintained by the LLDD. The lifetime of the lsrsp
+> object is implicit. Because there is no explicit cleanup/free call into
+> the LLDD, it is not safe to assume after xml_rsp_fails, that the lsrsp
+> is still valid. The LLDD could have freed the object already.
+> 
+> With the recent changes how fcloop tracks the resources, this is the
+> case. Thus don't access lsrsp after xml_rsp_fails.
 > 
 > Signed-off-by: Daniel Wagner <wagi@kernel.org>
 > ---
->   drivers/nvme/target/fcloop.c | 21 ++++-----------------
->   1 file changed, 4 insertions(+), 17 deletions(-)
+>   drivers/nvme/host/fc.c | 13 ++++++++++---
+>   1 file changed, 10 insertions(+), 3 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
