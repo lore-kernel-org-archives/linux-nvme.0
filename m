@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A45DC3ABBF
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2A95C3ABC3
 	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 09:54:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,56 +12,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V0+NY3EZCovDfzcx21sFykAovrzJyojJYTocWBSG6VA=; b=2Gouf459pJfUt6XQr2UMk2N2wN
-	9b0u1cxUy4nqk48UWyU1zvGN5dH5MCES7VmX37XK75ve3bhDhm5UnFnaoBkOo53J7bcVYBMTmG8Ft
-	5D7dg5/T4cS3DySygL6+8joSo9idYezrBp26uTSPUuBN4Eyo77DdBIFyD2s7JTp7QYaWQJEkNToCu
-	bhFtBHLOLTBhYki1LQYO3vsP1vxxBZ5F0SAFr6WUGcdg4xDxObaotL0EE4eVzl6Dq34b5ZAIZPsXN
-	ekf380Ot+46ACMzv39lcQTdlMqCO+XhvFIB3PJG1+ecyiBCv7xxFs1I9A8EuVmWULQDcIuQHcq6bB
-	6nFr5zvw==;
+	bh=V0+NY3EZCovDfzcx21sFykAovrzJyojJYTocWBSG6VA=; b=UqU3EUOFKAtPaqqk2Ko97h05dI
+	eFza1E38ozXeuqR0QPsv2Z2PRsFyltuqX9GVFcPNnrVjhC6QEOo6Xtfo64Sc0cmNHnpkwarH4BBrj
+	gFkpnZ4LJdO0C4nXQIGTI1iQL/h19jWBduLQqDXWvOiW15s3/0VIq7bpBdgtWnErV+PGPcnIAN7N4
+	HQo5V57SE8NjpzgSdPiYMmGhYwYk58DduX2+R0mURNszuSMxDBr7MmMjkBBcrz3qSenqipvR58zJL
+	+M9ebR6Vpq5B4biJxZuQnBQJyvt6pAhmkUfGzgEvuNASycMAyfz7odf2Lhwdz0HlPBr4m4iHYHNNn
+	2VhZ820w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCbUE-0000000F1gW-34h1;
-	Wed, 07 May 2025 09:54:46 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uCbUF-0000000F1gs-1TEE;
+	Wed, 07 May 2025 09:54:47 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCbEC-0000000EzVC-1jGM
+	id 1uCbES-0000000EzWk-2W7w
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 09:38:13 +0000
+	Wed, 07 May 2025 09:38:28 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 858F6A4D742;
-	Wed,  7 May 2025 09:38:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59235C4CEE7;
-	Wed,  7 May 2025 09:38:10 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id C98AA629D4;
+	Wed,  7 May 2025 09:38:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6311C4CEE7;
+	Wed,  7 May 2025 09:38:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746610691;
+	s=k20201202; t=1746610707;
 	bh=nCX5VuO5NTi8rhlHb8ANVJgMBobxnz8zGqKJdyB9mlk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QVKjrRZQFNrYTBQh31CiBMtPjd+HT6KilBlDUChVMSxUagx9JNTgZWjarpe5eLPUc
-	 1Qim1i/P9/Ln3cO054bsuyI+sponvWmiZUJL5MykzJssDJBel29d55AXshDgJJz0L9
-	 7QhOns3N+v0MM1hnYZWjeFDYa9yOA3pbEoPXC1gzR/QvsGITK1iEdDe1k5e7VLmJyy
-	 9UKfDYCSq5N6cMstWLk2uawhLvMSjSAhcigwSp7ZNSZPgN0+mUSRAxgJxBb4riYM/0
-	 qV6zsvJJC6Sk/3zJ5LqYlZOLN28byfqaYkeKGmmQfdMkqyoKTbFr8Aoev86EZW+Tuz
-	 OQPDNV25ra1pw==
-Message-ID: <c565dd22-f16e-4163-9c95-8233e1979bf7@kernel.org>
-Date: Wed, 7 May 2025 18:37:01 +0900
+	b=Z3flbJXZ/wSz4EbPZ6jZfjtWvk9A0sZ+Y+qoCGhDMfaFqlZdPINLtEFa0SZYoZ5R6
+	 BW/Z6tNd9uI7rnxdoufyKzYm0QNXtoJ6mTWRhcCOPaFQ0xbJojARghZYCE/tlEjBWO
+	 s6KwVFIEosfdCMd+Om8Y++z4Zq5pjaLHxdeC4dqfa5ZH+8NSABIVGeeomzZZn4dM1N
+	 nBzpRm4+IwIzJvTBUpCImxrn7F8WVA0N/klzhBctdd28NwG7gaY/pKD5WqvYtZLJz9
+	 kRXbsaQ0dcODsDa/Ay/DhdYCfpx7L2aLRA5/NUywDF7HdhBy5n2Rm60xzEPSsDbJ14
+	 38v91x0JCK5ag==
+Message-ID: <cecb2f0b-328e-401a-8643-f543428783d3@kernel.org>
+Date: Wed, 7 May 2025 18:37:17 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvme-auth: use SHASH_DESC_ON_STACK
+Subject: Re: [PATCH 2/2] nvmet-auth: use SHASH_DESC_ON_STACK
 To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  linux-nvme@lists.infradead.org
 References: <20250507082818.46157-1-hare@kernel.org>
- <20250507082818.46157-2-hare@kernel.org>
-From: Damien Le Moal <dlemoal@kernel.org>
+ <20250507082818.46157-3-hare@kernel.org>
 Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20250507082818.46157-2-hare@kernel.org>
+In-Reply-To: <20250507082818.46157-3-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_023812_515958_09CD2B7C 
-X-CRM114-Status: UNSURE (   5.83  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
