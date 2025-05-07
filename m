@@ -4,79 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EE03C3ABBF
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 10:53:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33DB2C3ABC0
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 12:23:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cytfc2tUiWTIFOmvtWx+7Th69ywC6dGDXMyMQ35eBb0=; b=DEQvC/Fbpv/yo1kjNlzwoboIJX
-	UM7N03oOsktJtn0H2Qmimz+3i05bBsMvkWlRWHSRZYbeeCoVQscPuQtK4febnfJw9VwdNyu7kUSLZ
-	kKeLyzLZAIG1uNX4I3B425+F7sCP9/8t8OgUHRYMJJW66fIZBgpTIeGyRyjD6wdaHMpq+g8drALuE
-	lAa680Li9VX9AFEc5lnA3QZE629uQUAhsPBW8ZlTISXn7oP/9jjdZPauQfdNloRhySUnIavVgDJsc
-	IWm+bLXtSqQ6RBjIGclbMPjqk7fZqhEGT7gzm49LBINO04XTetoolEL/4Ru5b2kBuQtoA5AwOx8RH
-	AFxkByag==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=qi/E7dADW2axBeKtE9GBeuHyuoF8yi5svA/zc/3sOIQ=; b=HNwI1Q46kYsTSC
+	cKIu6kjILsTg89y0grn2oFnfypSIRSy+qpPmQtdonx8+Cxfnp2wexfSkl8DOUAJL4wNWdnHI7ZC7I
+	a1IUsD/bMEkjWBkkYpLTtR5F5m+c/FRMDvUymft5VTdrP8qaBf5aKDcLq5DNZWqDRi6uW/rXPyL56
+	O2NQuzWFKmbdCUrioxjDAtF4NiWy1M7SLIcHn2UXTaq/4Bk+ZlefQDmTvhNDBGwPUk+ZHi8Yb+ymU
+	6aqkfPnbfTUwsd2SiAf1L3xfNCHLwietmPqojYon7fV/BntTDHLcr5eDv/GLbIWAzRTegXZJXzvqn
+	cwWMfV4o6l6felONA0zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCcOs-0000000F9kq-3gEj;
-	Wed, 07 May 2025 10:53:18 +0000
-Received: from mgamail.intel.com ([192.198.163.10])
+	id 1uCdnl-0000000FMm4-3qpL;
+	Wed, 07 May 2025 12:23:05 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCcLD-0000000F9Iv-2Jt6
+	id 1uCdnj-0000000FMky-2PUT
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 10:49:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746614971; x=1778150971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EaQLm/18zqp2g3Ts6r0JH+BLe1TiNJ5zMltPned8co8=;
-  b=KmJpJT8KGn3hBdN58GDdQ5EMS6j0MJO9TEyzUJMEKPsbI/9xt+JS97Up
-   lVOKjqd0s4gwuiJjWsEqDCd1xPTpb3kiSIUXJXhlefnStK+W3uP9K/NGn
-   o4Xko1zY7E2u8DYlMEJYeg7j64YbBei+qCCtJytgiYBxPYAlx6pxCWCt9
-   MwrHOu+mS2aBGFRQ3pf5xGzykA+Z9iyqDDbmgzAUy1G5T0VNw4CnoB8EB
-   A0jwNcFvebL/oa3GRC7HKQFaOlDvSPoy5REZJYKV72gdYvNUJmut39gs/
-   zEL3+Kk5Tu39K9XB0NKU9ezgDD9qJKoUrcGBbK1Q276wgNHKsrl6h59X9
-   w==;
-X-CSE-ConnectionGUID: tFjGcmjpTLCWSm7tPh02/w==
-X-CSE-MsgGUID: wZ+rZYvkQ0+FUJjewRJReA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="59689749"
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="59689749"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:49:24 -0700
-X-CSE-ConnectionGUID: oQ3XKjOGR0Snh74Td8oS/w==
-X-CSE-MsgGUID: QMNFj8zyTc2FS47nqQuxuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="141043207"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 May 2025 03:49:22 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uCcL0-0007dN-0d;
-	Wed, 07 May 2025 10:49:18 +0000
-Date: Wed, 7 May 2025 18:48:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hannes Reinecke <hare@suse.de>,
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
-Subject: Re: [PATCH v5 09/14] nvmet-fcloop: allocate/free fcloop_lsreq
- directly
-Message-ID: <202505071848.zYLh3Kvb-lkp@intel.com>
-References: <20250423-nvmet-fcloop-v5-9-3d7f968728a5@kernel.org>
+	Wed, 07 May 2025 12:23:04 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 82CB74A171;
+	Wed,  7 May 2025 12:23:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D1DC4CEE7;
+	Wed,  7 May 2025 12:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746620582;
+	bh=PTePx/tbSwUMSUcdhzkd1zsfWx4z1VfNP7TIanK5+SM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=DyMgeiwy9dQcX98K3g4aW/54zNKWxLQ3A7zEN+XEzypf3o7lW/hIwrCVbLEPOfnVD
+	 U0kdBIHafEAdujP8NfOeuZvhufFhu7qJfjVxuVUMmQXr57TIhRncUgJqKROYYZ6elp
+	 6/uZNsFz1UMgQ3TZnX9zI3HkazMJley3KhbN4MClp/nCrmx0RfAnnLvJ+uU5YGEezg
+	 X0L3NnbifJYFDHXB6iRjlNZiV8cWeyI7F8mUj8O6vKI1iHnu6WdoZZIcElcGZwKP64
+	 xlz3chaV7xipc1qtMqBle45KOEzWEXqVSZyiE7gfG8hDzjHnHYclzJn6ozEVpXfHHx
+	 USpmsuLplwJvg==
+From: Daniel Wagner <wagi@kernel.org>
+Subject: [PATCH v6 00/14] nvmet-fcloop: track resources via reference
+ counting
+Date: Wed, 07 May 2025 14:22:56 +0200
+Message-Id: <20250507-nvmet-fcloop-v6-0-ca02e16fb018@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250423-nvmet-fcloop-v5-9-3d7f968728a5@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKBQG2gC/2XRzW4CIRSG4VsxrEsDh1+78j5MFwMclGgHy0xJG
+ zP3XvxJ1JnlR/K8i8OZDFgSDuRjdSYFaxpS7tvQbyvi912/Q5pC2wQYKAZc0r5+4UijP+Z8op2
+ WayOsM6iRNHIqGNPvNbf9bHufhjGXv2u98svrPQT6NVQ5ZdQzF6wIUqDuNgcsPR7fc9mRS6nCQ
+ wvOZxqajl4y77TEgEstnrWdadE0UxE9i55B1AstH1pyNtOyaYPKS3DGgXcLrZ40iJlWTYtg4lp
+ bA7ZTL3q6nbTg90/7mPF+12n6BwYcNiG2AQAA
+X-Change-ID: 20250214-nvmet-fcloop-a649738b7e6e
+To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, 
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_034931_602258_938A5283 
-X-CRM114-Status: GOOD (  11.26  )
+X-CRM114-CacheID: sfid-20250507_052303_655130_C1AAD91E 
+X-CRM114-Status: GOOD (  10.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,36 +79,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Daniel,
+Rebased on nvme/nvme-6.16 and addressed Hannes feedback.
 
-kernel test robot noticed the following build warnings:
+The blktests nvme/030 is likely to fail if in the background udev is
+triggering a 'nvme discover'. In the meantime I collected some more
+patches but hold them back until this here is done.
 
-[auto build test WARNING on 3d7aa0c7b4e96cd460826d932e44710cdeb3378b]
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+---
+Changes in v6:
+- rebased on nvme/nvme-6.16
+- made the slab cache static, reported by kernel test robot <lkp@intel.com>
+- fixed inverted logic when testing if the port should be deleted
+- Link to v5: https://patch.msgid.link/20250423-nvmet-fcloop-v5-0-3d7f968728a5@kernel.org
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvmet-fcloop-track-ref-counts-for-nports/20250423-212643
-base:   3d7aa0c7b4e96cd460826d932e44710cdeb3378b
-patch link:    https://lore.kernel.org/r/20250423-nvmet-fcloop-v5-9-3d7f968728a5%40kernel.org
-patch subject: [PATCH v5 09/14] nvmet-fcloop: allocate/free fcloop_lsreq directly
-config: x86_64-randconfig-r131-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071848.zYLh3Kvb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505071848.zYLh3Kvb-lkp@intel.com/reproduce)
+Changes in v5:
+- rebased to nvme/nvme-6.15
+- Link to v4: https://patch.msgid.link/20250410-nvmet-fcloop-v4-0-7e5c42b7b2cb@kernel.org
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505071848.zYLh3Kvb-lkp@intel.com/
+Changes in v4:
+- reordered patches so that they pass the tests each on of its own
+- addressed feedback from Christop, Hannes and James.
+- hold lock while looking up nport and insert nport operation in fcloop_nport_alloc
+- dropped patches from 20250408-nvmet-fcloop-part-one-v1-0-382ec97ab7eb@kernel.org
+- Link to v3: https://lore.kernel.org/r/20250318-nvmet-fcloop-v3-0-05fec0fc02f6@kernel.org
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/fcloop.c:297:19: sparse: sparse: symbol 'lsreq_cache' was not declared. Should it be static?
+Changes in v3:
+- fixed memory leaks
+- allocates fcloop_lsreq in fcloop directly
+- prevent double free due to unregister race
+- collected tags
+- Link to v2: https://lore.kernel.org/r/20250311-nvmet-fcloop-v2-0-fc40cb64edea@kernel.org
 
-vim +/lsreq_cache +297 drivers/nvme/target/fcloop.c
+Changes in v2:
+- drop tport and rport ref counting, use implicit synchronisation
+- a bunch of additional fixes in existing ref countig
+- replaced kref with refcount
+- Link to v1: https://lore.kernel.org/r/20250226-nvmet-fcloop-v1-0-c0bd83d43e6a@kernel.org
 
-   295	
-   296	/* SLAB cache for fcloop_lsreq structures */
- > 297	struct kmem_cache *lsreq_cache;
-   298	
+---
+Daniel Wagner (14):
+      nvmet-fcloop: track ref counts for nports
+      nvmet-fcloop: remove nport from list on last user
+      nvmet-fcloop: refactor fcloop_nport_alloc and track lport
+      nvmet-fcloop: refactor fcloop_delete_local_port
+      nvmet-fcloop: update refs on tfcp_req
+      nvmet-fcloop: add missing fcloop_callback_host_done
+      nvmet-fcloop: access fcpreq only when holding reqlock
+      nvmet-fcloop: prevent double port deletion
+      nvmet-fcloop: allocate/free fcloop_lsreq directly
+      nvmet-fcloop: don't wait for lport cleanup
+      nvmet-fcloop: drop response if targetport is gone
+      nvmet-fc: free pending reqs on tgtport unregister
+      nvmet-fc: take tgtport refs for portentry
+      nvme-fc: do not reference lsrsp after failure
 
+ drivers/nvme/host/fc.c       |  13 +-
+ drivers/nvme/target/fc.c     |  85 +++++++--
+ drivers/nvme/target/fcloop.c | 437 +++++++++++++++++++++++++++----------------
+ 3 files changed, 362 insertions(+), 173 deletions(-)
+---
+base-commit: 0ea9b1f7aabb8af08649048d04fa3cee44dac4ab
+change-id: 20250214-nvmet-fcloop-a649738b7e6e
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Daniel Wagner <wagi@kernel.org>
+
 
