@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F448C3ABBF
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 12:23:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53F0FC3ABBF
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 12:23:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OmPH3KW8Ie+h6qmovvK3faMO3O9A5b/FpA3sobTf8/k=; b=n/vWhPIAb7KnfvXxys/fYnq0aR
-	cM7EqBrXZWzNDkrrvYPnNyrBM4jGfIMVdMDG49VmJRoPkI4lf+Z+ym9gI7nROmB7TSTNvEFatHqge
-	+Np0K5xwSOolLSEtWyTKjSLdy4mc/+GpS58m7OHYalutC6tXyMMcNqBIWLF/t0PsTGPAVg1UomtYp
-	GWRzjymSvsGX7WmuEw/7AqbFl+9UKOjKTe+9QNNN/Dyo1GL2+HoWhAj5fXjXuQWs3kwn5gI+vVqbW
-	ziLVNre7LGU/ZLEKGSiKiXWaON41g/BYtjFs/hXwj/Z3gRGwhZn2wf0Hxc0UklGXNrauk/Z8yxLyX
-	H/HruDOw==;
+	bh=83ca3ndHT62scGwS6kVzP4aXholuzf+oR+i7b98P0zg=; b=ve62whLJF1ghx9MQO2V1ug+Tw+
+	yWrL5or0pS5X2QjuPPcQbzxevCRML05iCTsNnqaQNxJZj2Ykxdsj2ssSikRS7DJSlllpeFYyNCqvu
+	nJMcGWSMjS5JXNvAt7YMY8GTr0414CSqaq4wwJo4+UFnE/d2NUPC2IU9z+Aj4zq8nLh/y4pVY24XQ
+	mS/54o3RXCjF4TYDHaYVRMxs8JAq/xzxzn50DFteOLBgQD2CdXMFkj1i/dO9t58Tq8FV7yfmUZx47
+	KJ74zyfck5Ra1EXTYlcfJmRKS6jIGQsxrG5lIzvE5VT/M1y+H1/g5jiaSH+2b1Ga5frAga3IYFBAl
+	1idIjtbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCdoD-0000000FN92-0MUA;
-	Wed, 07 May 2025 12:23:33 +0000
+	id 1uCdoG-0000000FNCn-3Afv;
+	Wed, 07 May 2025 12:23:36 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCdoB-0000000FN7Y-44cE
+	id 1uCdoF-0000000FNAj-00Gw
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 12:23:32 +0000
+	Wed, 07 May 2025 12:23:35 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 63138629D5;
-	Wed,  7 May 2025 12:23:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C386AC4CEEE;
-	Wed,  7 May 2025 12:23:30 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 6C1C1629E5;
+	Wed,  7 May 2025 12:23:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8583C4CEEE;
+	Wed,  7 May 2025 12:23:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746620611;
-	bh=wstjbJH1UyMo+LF5FaHWTbfkuXNTo5rZRqDKY0yRXBc=;
+	s=k20201202; t=1746620614;
+	bh=Vgi/9IyqkECjCLy4OrYLOjteLpppbj1oxp8MVjo1eQs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=fuqAz+XlOwDRClCaVi0ae1tzr2c+cpR6MsX8wyU+WblgbDTwOp7DwrMvS6v9IrF2W
-	 B5BDTJNTwXLOgBa/6d1LEjUbiPD9zGFn58+MtOChaaUnGJIXzXcKmXFwvEOXiJLFc8
-	 kAD0++8S//6JUSfXGBIxLoR3BAzNLowEbCt+LCAJkmZSZYexeKJdxyWPtqDeZfdqKb
-	 YAZPGHW/2RYoXkoFZJV4d6L9TCtDBVNWqNoD5e5AvxUpAV4cHK5jjWtWUDVRdCA6Xi
-	 MmwqsMaPvIWn8qr5A3kIuIKdc+rcc7rucgUR4iyJtvr9eRZnpVOnfTwunrCBTVLZNO
-	 fw8th/0B6o2yw==
+	b=Oh9dX8aAXSTWWt+hXSDRXwgZbV0Qdq/GSGS/kyLDRyZDLOovd6fVhq+XwJ9s1zoRC
+	 OK4bKc1otjchyDHSszsnBQIkco8NM92Rk4/F6SHyCIJV5m6EdvUqfB7B6Nw0UiF3lH
+	 Q8i6jtnRlAqzAligpQbmRtbuIAZFaDy7emUQGK1GQzJqK4EvQSf434MaruefAui2mw
+	 TRsulgiNHKi6XdbH2/fdi1jmbUVEJnr8AD0y9Fh92GPyAfCL5Ey6+8jDI/oZSeIT65
+	 da91gIW1XyL6JqqeDigUnMruJlJMkXwhw8JjVQUbZLiekajZW/+USsZdekqibn+ddT
+	 W015GCXFUlKHw==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Wed, 07 May 2025 14:23:06 +0200
-Subject: [PATCH v6 10/14] nvmet-fcloop: don't wait for lport cleanup
+Date: Wed, 07 May 2025 14:23:07 +0200
+Subject: [PATCH v6 11/14] nvmet-fcloop: drop response if targetport is gone
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250507-nvmet-fcloop-v6-10-ca02e16fb018@kernel.org>
+Message-Id: <20250507-nvmet-fcloop-v6-11-ca02e16fb018@kernel.org>
 References: <20250507-nvmet-fcloop-v6-0-ca02e16fb018@kernel.org>
 In-Reply-To: <20250507-nvmet-fcloop-v6-0-ca02e16fb018@kernel.org>
 To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
@@ -71,76 +71,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The lifetime of the fcloop_lsreq is not tight to the lifetime of the
-host or target port, thus there is no need anymore to synchronize the
-cleanup path anymore.
+When the target port is gone, the lsrsp pointer is invalid. Thus don't
+call the done function anymore instead just drop the response.
 
+This happens when the target sends a disconnect association. After this
+the target starts tearing down all resources and doesn't expect any
+response.
+
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/nvme/target/fcloop.c | 21 ++++-----------------
- 1 file changed, 4 insertions(+), 17 deletions(-)
+ drivers/nvme/target/fcloop.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index f999bd6513c19b19af64e0ea547db26b627aab69..fc10d380c17e77ed35706ddd7690e6f6a8d268c6 100644
+index fc10d380c17e77ed35706ddd7690e6f6a8d268c6..83edfd48c30db36a755b9dc7af6605236dc67231 100644
 --- a/drivers/nvme/target/fcloop.c
 +++ b/drivers/nvme/target/fcloop.c
-@@ -207,7 +207,6 @@ static LIST_HEAD(fcloop_nports);
- struct fcloop_lport {
- 	struct nvme_fc_local_port *localport;
- 	struct list_head lport_list;
--	struct completion unreg_done;
- 	refcount_t ref;
- };
+@@ -493,16 +493,25 @@ fcloop_t2h_xmt_ls_rsp(struct nvme_fc_local_port *localport,
+ 	struct nvmet_fc_target_port *targetport = rport->targetport;
+ 	struct fcloop_tport *tport;
  
-@@ -1083,9 +1082,6 @@ fcloop_localport_delete(struct nvme_fc_local_port *localport)
- 	struct fcloop_lport_priv *lport_priv = localport->private;
- 	struct fcloop_lport *lport = lport_priv->lport;
- 
--	/* release any threads waiting for the unreg to complete */
--	complete(&lport->unreg_done);
+-	memcpy(lsreq->rspaddr, lsrsp->rspbuf,
+-		((lsreq->rsplen < lsrsp->rsplen) ?
+-				lsreq->rsplen : lsrsp->rsplen));
+-	lsrsp->done(lsrsp);
 -
- 	fcloop_lport_put(lport);
- }
+ 	if (!targetport) {
++		/*
++		 * The target port is gone. The target doesn't expect any
++		 * response anymore and the ->done call is not valid
++		 * because the resources have been freed by
++		 * nvmet_fc_free_pending_reqs.
++		 *
++		 * We end up here from delete association exchange:
++		 * nvmet_fc_xmt_disconnect_assoc sends an async request.
++		 */
+ 		kmem_cache_free(lsreq_cache, tls_req);
+ 		return 0;
+ 	}
  
-@@ -1234,18 +1230,9 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
- }
- 
- static int
--__wait_localport_unreg(struct fcloop_lport *lport)
-+__localport_unreg(struct fcloop_lport *lport)
- {
--	int ret;
--
--	init_completion(&lport->unreg_done);
--
--	ret = nvme_fc_unregister_localport(lport->localport);
--
--	if (!ret)
--		wait_for_completion(&lport->unreg_done);
--
--	return ret;
-+	return nvme_fc_unregister_localport(lport->localport);
- }
- 
- static struct fcloop_nport *
-@@ -1328,7 +1315,7 @@ fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
- 	if (!lport)
- 		return -ENOENT;
- 
--	ret = __wait_localport_unreg(lport);
-+	ret = __localport_unreg(lport);
- 	fcloop_lport_put(lport);
- 
- 	return ret ? ret : count;
-@@ -1772,7 +1759,7 @@ static void __exit fcloop_exit(void)
- 
- 		spin_unlock_irqrestore(&fcloop_lock, flags);
- 
--		ret = __wait_localport_unreg(lport);
-+		ret = __localport_unreg(lport);
- 		if (ret)
- 			pr_warn("%s: Failed deleting local port\n", __func__);
- 
++	memcpy(lsreq->rspaddr, lsrsp->rspbuf,
++		((lsreq->rsplen < lsrsp->rsplen) ?
++				lsreq->rsplen : lsrsp->rsplen));
++	lsrsp->done(lsrsp);
++
+ 	tport = targetport->private;
+ 	spin_lock(&tport->lock);
+ 	list_add_tail(&tls_req->ls_list, &tport->ls_list);
 
 -- 
 2.49.0
