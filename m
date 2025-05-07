@@ -4,47 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 122E3C3ABB6
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 07:18:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48A4AC3ABC0
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 08:14:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4APg6yVz6kgCDi8Roxi56DKotyt2hsl1mO8Xu/bEAlI=; b=OrM8XLkmNxQ9ae1L3ZJlYzthIk
-	WyUTTcp3dvLTjSEnlxaVAm1GOeHcN1qfZ/tbQMn3pxYB7fi3CbqyCanGodVNYk0CzpVRw2BTy9fEn
-	RcDBf1ymS2ylMpAGmlZIQVz1J05bx6LKjFdTXKoMj5RKHtchD/MZjMPtQsSegxxKJHVl6g2sYmFFf
-	eJ98A4lMw241n6DKK42R/a/5TU5Yc1AUFnDS+85oVqi7+HCUWmaAk0/5lbkPY50z9xfnAFlcF3pgP
-	AGKXQznaOHzMM3gMMIgbwcKEFSrEB1RLP5c4iPBCfnYAOaI2TtOeR5fOLCBH6lOdQ4YaUWBXLh4Et
-	7EQZ9F2g==;
+	bh=Aie/5cJM7Kji27BjuCeP5/UnbSqKuXco2iiQZ4M0e80=; b=z0sElS2864/7axBmBD5M5CnDHG
+	KHP7M5XEVkhMvJ4fl92kbpNwdTh9ewnZe2mK1bpwrRrWoPfI3I5pw5C00pqSDtyc+q/QyzBBnfU55
+	WebkTInxG9vAJHnhQJOMUXVCLW/tV4vGRH95XupIy2xL/f7u5tW/1k7aOTKL5OHAGB0FcfY8dNSL1
+	mGYcdTwbxP9gU7lKCOw7LBdKHM+wk6oPAlWilHWgSxlqXOuRTMvbnWjh5HcokTgO5GaCDKq+C8r98
+	pl1psL8YyZQbK0oUCG9tPVGESuScHaJ5Hn9EaA9xkG+kYFKj6EX1+bQlN+q6W8dm9O5qtgKwbd9Zv
+	45YGWZsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCZ35-0000000EUWI-2RyH;
-	Wed, 07 May 2025 07:18:35 +0000
+	id 1uCZuy-0000000EgTf-2TwL;
+	Wed, 07 May 2025 08:14:16 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCYwJ-0000000ETDA-4A7w
+	id 1uCYzr-0000000ETt2-2zpM
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 07:11:37 +0000
+	Wed, 07 May 2025 07:15:16 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0626C68B05; Wed,  7 May 2025 09:11:30 +0200 (CEST)
-Date: Wed, 7 May 2025 09:11:29 +0200
+	id 95D4668BFE; Wed,  7 May 2025 09:15:09 +0200 (CEST)
+Date: Wed, 7 May 2025 09:15:09 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCHv3 0/2] nvme: restrict authentication to the admin queue
-Message-ID: <20250507071129.GB913@lst.de>
-References: <20250422091556.145494-1-hare@kernel.org>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: mm review needed, was: Re: [PATCH v6 1/3] dmapool: add NUMA
+ affinity support
+Message-ID: <20250507071509.GA1413@lst.de>
+References: <20250426020636.34355-1-csander@purestorage.com> <20250426020636.34355-2-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422091556.145494-1-hare@kernel.org>
+In-Reply-To: <20250426020636.34355-2-csander@purestorage.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_001136_171581_7CBA34E2 
-X-CRM114-Status: UNSURE (   8.99  )
+X-CRM114-CacheID: sfid-20250507_001515_890883_3F9027EC 
+X-CRM114-Status: UNSURE (   9.25  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -60,8 +64,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks,
-
-applied to nvme-6.16.
+Can I get a mm review for this and an ACK to pick it up through the
+nvme tree?  I'll also fix up the minor coding style issues.
 
 
