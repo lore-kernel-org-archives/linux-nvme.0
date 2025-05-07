@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2A95C3ABC3
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2ACFC3ABC6
 	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 09:54:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,52 +12,118 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V0+NY3EZCovDfzcx21sFykAovrzJyojJYTocWBSG6VA=; b=UqU3EUOFKAtPaqqk2Ko97h05dI
-	eFza1E38ozXeuqR0QPsv2Z2PRsFyltuqX9GVFcPNnrVjhC6QEOo6Xtfo64Sc0cmNHnpkwarH4BBrj
-	gFkpnZ4LJdO0C4nXQIGTI1iQL/h19jWBduLQqDXWvOiW15s3/0VIq7bpBdgtWnErV+PGPcnIAN7N4
-	HQo5V57SE8NjpzgSdPiYMmGhYwYk58DduX2+R0mURNszuSMxDBr7MmMjkBBcrz3qSenqipvR58zJL
-	+M9ebR6Vpq5B4biJxZuQnBQJyvt6pAhmkUfGzgEvuNASycMAyfz7odf2Lhwdz0HlPBr4m4iHYHNNn
-	2VhZ820w==;
+	bh=Ve0eAauMpTlI0sIjvMlpoNdCq9hG/CRz4Qjl9FkzLhw=; b=EdZls5+vUi8Nhg+tNaFkEUcrcG
+	FB889fmKQVmGuEXXJPCKlAdaztugf3bOXzau10yFumcISKWgMJFqn6EPA0PrvQLHHQMXPfzlX+Nl/
+	dR6ujK62aUG8nXRUyEfHv7jGSqE5m9KyJxvCg6LKf1cICZMdhsJXoEpnOF1gjwNbCVgQGtZY3rPaN
+	TAyDZPHRFlAzi3YbiBU26b2KUF0ce6Tvhfn3z5RU3sNJWXezOGbiRjVr88fN/9jppB0l2uD44ouBA
+	WQXp/BlS1hI2xEbzaLLNLRSOkyRb912EPH8g8KoVKN2B2sAKGy+CwZlN+NcjD0ttXVENhwFL6bXRo
+	gtdqLXvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCbUF-0000000F1gs-1TEE;
-	Wed, 07 May 2025 09:54:47 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uCbUE-0000000F1gH-0YiQ;
+	Wed, 07 May 2025 09:54:46 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCbES-0000000EzWk-2W7w
+	id 1uCbDG-0000000EzPE-0Eyh
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 09:38:28 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id C98AA629D4;
-	Wed,  7 May 2025 09:38:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6311C4CEE7;
-	Wed,  7 May 2025 09:38:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746610707;
-	bh=nCX5VuO5NTi8rhlHb8ANVJgMBobxnz8zGqKJdyB9mlk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Z3flbJXZ/wSz4EbPZ6jZfjtWvk9A0sZ+Y+qoCGhDMfaFqlZdPINLtEFa0SZYoZ5R6
-	 BW/Z6tNd9uI7rnxdoufyKzYm0QNXtoJ6mTWRhcCOPaFQ0xbJojARghZYCE/tlEjBWO
-	 s6KwVFIEosfdCMd+Om8Y++z4Zq5pjaLHxdeC4dqfa5ZH+8NSABIVGeeomzZZn4dM1N
-	 nBzpRm4+IwIzJvTBUpCImxrn7F8WVA0N/klzhBctdd28NwG7gaY/pKD5WqvYtZLJz9
-	 kRXbsaQ0dcODsDa/Ay/DhdYCfpx7L2aLRA5/NUywDF7HdhBy5n2Rm60xzEPSsDbJ14
-	 38v91x0JCK5ag==
-Message-ID: <cecb2f0b-328e-401a-8643-f543428783d3@kernel.org>
-Date: Wed, 7 May 2025 18:37:17 +0900
+	Wed, 07 May 2025 09:37:15 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 54FD42115A;
+	Wed,  7 May 2025 09:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1746610632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ve0eAauMpTlI0sIjvMlpoNdCq9hG/CRz4Qjl9FkzLhw=;
+	b=P8zipbW6yfXDEW/xO1ZNQSujeq3A1Vh5TbIdOo7ijFfusIYzKh8B2bxM7Xhi3kEVoT5AlZ
+	eftRMUNKVIn8wB0Y+f/grj2TijCaOTuIlvKW7RlIZt73zdWXysh2u0QEf2yAKVKbVO21/S
+	vgS3NyEaE499e8GmQhxRg5HkETT4d2A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1746610632;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ve0eAauMpTlI0sIjvMlpoNdCq9hG/CRz4Qjl9FkzLhw=;
+	b=vm9pZDVefw4jE+wBPFSUAOL0RpvenHeSAmcV9AtFDmudPIIcWO/vAdZ3dGKCh/MjTDz86j
+	n5xFG0jbXGLVOnAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1746610632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ve0eAauMpTlI0sIjvMlpoNdCq9hG/CRz4Qjl9FkzLhw=;
+	b=P8zipbW6yfXDEW/xO1ZNQSujeq3A1Vh5TbIdOo7ijFfusIYzKh8B2bxM7Xhi3kEVoT5AlZ
+	eftRMUNKVIn8wB0Y+f/grj2TijCaOTuIlvKW7RlIZt73zdWXysh2u0QEf2yAKVKbVO21/S
+	vgS3NyEaE499e8GmQhxRg5HkETT4d2A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1746610632;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ve0eAauMpTlI0sIjvMlpoNdCq9hG/CRz4Qjl9FkzLhw=;
+	b=vm9pZDVefw4jE+wBPFSUAOL0RpvenHeSAmcV9AtFDmudPIIcWO/vAdZ3dGKCh/MjTDz86j
+	n5xFG0jbXGLVOnAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3698413882;
+	Wed,  7 May 2025 09:37:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sAloDMgpG2hDfgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 07 May 2025 09:37:12 +0000
+Message-ID: <de2b26ca-ea7c-40a1-8ebd-47b1f43aab5a@suse.de>
+Date: Wed, 7 May 2025 11:37:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvmet-auth: use SHASH_DESC_ON_STACK
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+Subject: Re: kernel TLS configuration, was: Re: [ANNOUNCE] ktls-utils 1.0.0
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>,
+ kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
+ Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
  linux-nvme@lists.infradead.org
-References: <20250507082818.46157-1-hare@kernel.org>
- <20250507082818.46157-3-hare@kernel.org>
+References: <oracle/ktls-utils/push/refs/tags/ktls-utils-1.0.0/000000-c787cd@github.com>
+ <32e4bd99-a85f-4f53-94bd-b8c3ecf2c66f@oracle.com>
+ <aBoCELZ_x-C4talt@infradead.org>
+ <cc795966-8c09-48ed-80e4-c70ff4143202@suse.de>
+ <aBog09quIh39IL3W@infradead.org>
 Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20250507082818.46157-3-hare@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <aBog09quIh39IL3W@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250507_023714_242908_A1171853 
+X-CRM114-Status: UNSURE (   9.46  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,16 +138,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/7/25 5:28 PM, Hannes Reinecke wrote:
-> Use SHASH_DESC_ON_STACK to avoid explicit allocation.
+On 5/6/25 16:46, Christoph Hellwig wrote:
+> On Tue, May 06, 2025 at 03:03:10PM +0200, Hannes Reinecke wrote:
+>> Hmm. We do that already:
+>>
+>>          dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
+>>                  qid, pskid);
+>>          memset(&args, 0, sizeof(args));
+>>          args.ta_sock = queue->sock;
+>>          args.ta_done = nvme_tcp_tls_done;
+>>          args.ta_data = queue;
+>>          args.ta_my_peerids[0] = pskid;
+>>          args.ta_num_peerids = 1;
+>>          if (nctrl->opts->keyring)
+>>                  keyring = key_serial(nctrl->opts->keyring);
+>>          args.ta_keyring = keyring;
+>>          args.ta_timeout_ms = tls_handshake_timeout * 1000;
+>>          queue->tls_err = -EOPNOTSUPP;
+>>          init_completion(&queue->tls_complete);
+>>          ret = tls_client_hello_psk(&args, GFP_KERNEL);
+>>
+>> ... but we never evaluate the 'keyring' parameter from tlshd.
+>> Should be easy enough to fix.
 > 
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+> That is only used to link the keyrind in tls_handshake_private_keyring
+> and never passed over netlink.
+> 
+> 
+ktls-utils pull request #94.
 
-Looks good to me.
+Cheers,
 
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
+Hannes
 -- 
-Damien Le Moal
-Western Digital Research
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
