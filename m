@@ -4,82 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E637EC3ABBE
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 02:34:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B5B5C3ABBC
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 03:35:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Eo8mcJx96u8VH4jn7nXN0WzI3pTAqmoosY5GMUzgLRE=; b=W7f10UgUxKOsugt0Zn9Pc2z51I
-	tj8xdyj3WpC2lKSzH+B4wipeB5BPZsaqTyNouIEr5XsfhQwFJiXPuC2aB5XTiFDhxF8TndTbJ48pP
-	unnwDiNKyaP3vZDLxEY/6JG+PQo5XXHYqEu7ox/mCY73z7U85r1s38xjJr/94n8qvBvcST8bRaQCI
-	s0yZxXkCthR1Uff77U6k5G5Zs8Vz8jMPAT5Fe0q7Is0NUYJDrv06HjsBkmWUyNauyTcon4hLvz+2D
-	e0LxZVsZeIBJxd2s88/LWkivsUtPWKHBxlH63VLmCkGctuDrdzAGmENVDkKiclPZvPGUDnqciH353
-	2ks9ShIg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xKpMhveG3McjKP1gZe4ReNJ/lPxnR+ZjwbZBUMSLjDo=; b=MNMwPMwKiZHHX8deKbmKRC4j92
+	TWQLJoAfUlyvGsu+mYt8V7PeMMkcMR/Zu9yflmhTrw4416sXyFpDb+jJQnqTOgOYA+PYXV4ksTwm5
+	yqOqN64jLelNJFIrEJx1BrtCQsCIjdbj9dH/aV9jI4sx38o+kCwStnO1va5oH4VHCaQRsvYQokfty
+	njitNsI8cLt+FfwgtHIXW6SyINL49FEhJpCdkStzvJWAYl4ji5Q4RnrKtaABMg/G/P7DGvE+jetsY
+	+9bFs4MdK7LzUcwSlgOfi4SKNwZxj3D2XKgucpKn7Bk6gvLKlwRo/YHGuDD1WVtzQ4BKAwP8knitw
+	q4IyrDMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCUcR-0000000Dxm7-2JGr;
-	Wed, 07 May 2025 02:34:47 +0000
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d])
+	id 1uCVZU-0000000E55T-1hUG;
+	Wed, 07 May 2025 03:35:48 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCQEN-0000000DUHj-2u1d
+	id 1uCVZS-0000000E554-1bjO
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 May 2025 21:53:40 +0000
-Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-e6582542952so4914671276.3
-        for <linux-nvme@lists.infradead.org>; Tue, 06 May 2025 14:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746568418; x=1747173218; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Eo8mcJx96u8VH4jn7nXN0WzI3pTAqmoosY5GMUzgLRE=;
-        b=Cc3rZqusB4VHC44NRuvTDsZaxfxKVGHgoKN5LLwTTxFWzxtuZXbmAnz/2B6ipzPUcJ
-         5qdJY0kGJm66w1GJi8TnRyQ2nZjaURs7iUJOXuDc2aqifzg5FZDLc+FyDNFRsPV+wWL5
-         TS/HKeYTZBOUacslIu6YoEsGAdxgbYiZsn6i8frPbCuIehEublWHzNpsH2c1bvKuEtLa
-         g4f6aU9KQKUiQY6KZJSvDG9OejpPGpZiF8a0sT4Es2SiKuoyQ9bQUg0YmOQqT3rS2Dv9
-         YZp0V5VcvBJJjEYCgbCS3INwMsgVsLZZx9JH3yE4Tj/AUM12h9UNYkY8mLWsGwNrCDlO
-         lmhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746568418; x=1747173218;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Eo8mcJx96u8VH4jn7nXN0WzI3pTAqmoosY5GMUzgLRE=;
-        b=srChnEhxaafX25DowvrKNJ1J6nA/GGTd8+TAzfUpLxXjJNeZbA5Pfu73gxYufVvSNo
-         8rCUtM92v/8I8nx6qZ494wquZAAbeebajUJjV49t7dvtx4FRWdJ2JrREiB65UkrnOyz/
-         iEB8baXw/wGGujQT3zKIFaUy+RIPuV56UmgLw/bzxsOc6zyFXe5hR5BwXDFp8Yti0Dbr
-         bYJz5iDvKfX38n+pH76ljHV/ZIZ3VNbJS57yrW/899Q4jX7SsTOY2WN5UhH29Wpgumfp
-         h7c+fPk7Q2U4A6I8/9nfxxS2ukgU3ZcmFazNgXazV1hIpPhZBfTu/cWpb2DodTQEus/r
-         EVaA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdILG0hEp+Yd/Gz92bPnV3qT1ItJJqZD46m+MR2hzRd39iLMd+FKAkJ+YQoUxQnlrwIe8TX1fHumGi@lists.infradead.org
-X-Gm-Message-State: AOJu0YykC8HTi004hhJvmkm81YkQdGFfUf3DudLQGOW/ippG4+piu4cU
-	fMGyjmdhU4Vj3M7fV17MNd88CgS1Pv4Vg6aVepZfavZtFXInFDk3c77IMS9tu+/2TqYxvqk5+Lm
-	+lPYIwNTr/xOYnEF+6HR0X1qvCVE=
-X-Gm-Gg: ASbGncspv1S9u8NFE7qnqMmaA+5WAdq5H/lj1r39rCdhfv8eGo2ejEzOBGPVkdPl7h/
-	cKlINJbYOmZ3Pq0kDNIcDRXFpkB1tpN7zrXqIuWtfn2+llWzGynKHvUbuu7M5+sC8rhdVF95JMX
-	Y6Zye/CEhpuIYa2IsCDYdNB6o=
-X-Google-Smtp-Source: AGHT+IG/tlXGcO318oUAyGSMPMDDiCB3QetWBywTXrKn6j8T28103Wfq4J5CuXZ9sr2mhoW6CSUwpdd2oGek1YDPQw8=
-X-Received: by 2002:a05:6902:708:b0:e6d:f320:7833 with SMTP id
- 3f1490d57ef6-e788089aa3emr1357392276.5.1746568418645; Tue, 06 May 2025
- 14:53:38 -0700 (PDT)
+	Wed, 07 May 2025 03:35:47 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 86312A4D1DA;
+	Wed,  7 May 2025 03:35:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 057AFC4CEE4;
+	Wed,  7 May 2025 03:35:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746588945;
+	bh=uZoSquFI+a0xjog8hTbmiXK+g9d2dTlbWp8mPmCNMg8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WFeVxxYz++1KH1jMeZt2VBUw5kpf+6c/ySp5CfVMv4iCU3ZWQibte5PhfHWgtgjws
+	 Nvio6rv1O2Jji611UlfMd9ZMTwxKGmNqmok2Da3yhf8rErrla+xXpORsA15KS+tdNg
+	 vsr42ivVYWMkvomyp9/OQLBHTUFCYUqKIvU63sJu+QFdqF31noo9tnOJsU47LhAkM7
+	 E+jZnY+xNacPPTuT7yWT4jM2sYvF19TlVqCQdiUc+NWoIl0zpiuY/cixe5rTgNnt3x
+	 iplCeWSqXYggJNjkS7dIw8Zh8pjW7SH0CrEgkeeRprCJwbrf87UMgHrLpn4R4aFbun
+	 dY3TL0bO1dqXg==
+From: Kees Cook <kees@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
+	kernel test robot <lkp@intel.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] nvme-pci: Make nvme_pci_npages_prp() __always_inline
+Date: Tue,  6 May 2025 20:35:40 -0700
+Message-Id: <20250507033536.work.088-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250506153507.83094-1-hare@kernel.org> <20250506153507.83094-2-hare@kernel.org>
-In-Reply-To: <20250506153507.83094-2-hare@kernel.org>
-From: Justin Tee <justintee8345@gmail.com>
-Date: Tue, 6 May 2025 14:51:39 -0700
-X-Gm-Features: ATxdqUHIWYEodymDTUYEBeBePbnFHVWJkp_LB6AFcseNqv8kyogJy_7zL2MTuDA
-Message-ID: <CABPRKS9iWuOSHx=3gO50e1CoWbQga-F6_u8ZJtEWzuWVOfWXuQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] fc_els: use 'union fc_tlv_desc'
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org, James Smart <james.smart@broadcom.com>, 
-	Dick Kennedy <dick.kennedy@broadcom.com>, Justin Tee <justin.tee@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3008; i=kees@kernel.org; h=from:subject:message-id; bh=uZoSquFI+a0xjog8hTbmiXK+g9d2dTlbWp8mPmCNMg8=; b=owGbwMvMwCVmps19z/KJym7G02pJDBlSV3k+Hf24wEbxTuuVerVrbi/vK3wvT9t9rNXLSsvpx I//LEFTOkpZGMS4GGTFFFmC7NzjXDzetoe7z1WEmcPKBDKEgYtTACayQI6RoevuTseXEua71zzN XcWesHZppYjqn6DCDxdecVy8tWJ5/h5GhtcRZpnrFiWfZ+aJZtLZxKBsY1v2/uEmkQd5RuxOzMx ijAA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250506_145339_725639_821F9F7B 
-X-CRM114-Status: UNSURE (   6.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250506_203546_561216_B8695BEB 
+X-CRM114-Status: GOOD (  15.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,8 +78,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Justin Tee <justin.tee@broadcom.com>
+The only reason nvme_pci_npages_prp() could be used as a compile-time
+known result in BUILD_BUG_ON() is because the compiler was always choosing
+to inline the function. Under special circumstances (sanitizer coverage
+functions disabled for __init functions on ARCH=um), the compiler decided
+to stop inlining it:
 
-Regards,
-Justin
+   drivers/nvme/host/pci.c: In function 'nvme_init':
+   include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_678' declared with attribute error: BUILD_BUG_ON failed: nvme_pci_npages_prp() > NVME_MAX_NR_ALLOCATIONS
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/nvme/host/pci.c:3804:9: note: in expansion of macro 'BUILD_BUG_ON'
+    3804 |         BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_ALLOCATIONS);
+         |         ^~~~~~~~~~~~
+
+Force it to be __always_inline to make sure it is always available for
+use with BUILD_BUG_ON().
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505061846.12FMyRjj-lkp@intel.com/
+Fixes: c372cdd1efdf ("nvme-pci: iod npages fits in s8")
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: <linux-nvme@lists.infradead.org>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b178d52eac1b..9ab070a9f037 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -390,7 +390,7 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, __le32 *dbbuf_db,
+  * as it only leads to a small amount of wasted memory for the lifetime of
+  * the I/O.
+  */
+-static int nvme_pci_npages_prp(void)
++static __always_inline int nvme_pci_npages_prp(void)
+ {
+ 	unsigned max_bytes = (NVME_MAX_KB_SZ * 1024) + NVME_CTRL_PAGE_SIZE;
+ 	unsigned nprps = DIV_ROUND_UP(max_bytes, NVME_CTRL_PAGE_SIZE);
+-- 
+2.34.1
+
 
