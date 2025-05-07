@@ -4,121 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EE4FC3ABC3
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 14:39:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C02BFC3ABBF
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 15:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=; b=AxLddDK8oVGCieUCatbQpxfP14
-	8llOuo3ioqFkcv7o6UbvznoxooVPCWuf9CT7AVKQLoSqEDjLJo/LSWiNWix5CzESloBurI4GxNZqT
-	pZhsGAo9JFnIP80vl7fNhGEMLoQeGPj/3fuyrukHH/5IMyTbDFs6BZDOgMrzjYBYoEmX5bT5OmRA+
-	n2hBCTJORMxvfryYdnCSNxbKQMNafLi35izSzEoLc5WEhumMahzBgU2QvSALkOJKkudLI2+8A/qAv
-	Z4HKuQ8aGVdAkjTCLgCRdt6zESgciJAgzhGPPx7gQ1xujgMZ896ayBmxFQC7w45apMG0GfLA08gPZ
-	n6df5Sig==;
+	bh=1s8LxSgdpw/QFNWhayU6GhU6VvikEqRstbNbkkV5cHs=; b=MAiY+aIZMPISzIqjtUcmA3nvcl
+	6ygk97jY1N0KGiM74TKekkGSuZmrBqDuXviHikba9k+cYS6S5iP4d6KgUmzsSDBnpdMdeu1lX8iRA
+	sygLEb572tnWmN/0fn5gdmoOFuK/i9sAo08l/3RLhob5Xhy1AqlqAmTYbLSaFnVGaGoOJJqPHQKgy
+	yU5no7qxZYtMk8v0858ln6BsSXfLoNl282r7m/CAze4G1S56GYI7L5Iy1/o4KD9ZB1gW5ZkDZYoT3
+	TFBOcAkjdBnyuFeYe1Kj/39/Jfo1JFeM9EJUaT5PM96x+QTJfebaZJUi29MmfLsQQTRpGlJul0hd8
+	x20Pmv/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCfvT-0000000FoxN-1xiX;
-	Wed, 07 May 2025 14:39:11 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1uCgsU-0000000G0Nt-2ASl;
+	Wed, 07 May 2025 15:40:10 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCfK3-0000000FgC2-1em4
+	id 1uCgJ4-0000000Ft9c-0Nq8
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 14:00:32 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AE1A92122B;
-	Wed,  7 May 2025 14:00:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746626429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=;
-	b=0nLRhv/v9C+FvQhgyVUXOb5CO5j0CtS5fJyq7jr+KpkVn7H29u7a5x0g1WGKYa81C61yjY
-	jaIXCv1P3e7mQ0eenbjZQ1jlmOwCCDGWJjocQvKpFZo/3N/tsCAttzcUQE7NAUFc2Siug0
-	IaImq7aUTM4ayCPKUa/9ZqSe8fiNlHw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746626429;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=;
-	b=BJyz950A1OUc6XpNTxr3Shdg0chPghJT9oTy/xvxuQIaWuy/EOZ97z5dGm8yJhCtBUqZsP
-	ItUIeeueEM535hCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746626429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=;
-	b=0nLRhv/v9C+FvQhgyVUXOb5CO5j0CtS5fJyq7jr+KpkVn7H29u7a5x0g1WGKYa81C61yjY
-	jaIXCv1P3e7mQ0eenbjZQ1jlmOwCCDGWJjocQvKpFZo/3N/tsCAttzcUQE7NAUFc2Siug0
-	IaImq7aUTM4ayCPKUa/9ZqSe8fiNlHw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746626429;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v+jC7fhLj+zx5bCmc1OemyfyZibCKf4H3PvfP7t1Rlg=;
-	b=BJyz950A1OUc6XpNTxr3Shdg0chPghJT9oTy/xvxuQIaWuy/EOZ97z5dGm8yJhCtBUqZsP
-	ItUIeeueEM535hCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9316E139D9;
-	Wed,  7 May 2025 14:00:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cjaAI31nG2jRTgAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 07 May 2025 14:00:29 +0000
-Message-ID: <1ce2a108-1b20-4ad9-ad29-ea4721c938e1@suse.de>
-Date: Wed, 7 May 2025 16:00:29 +0200
+	Wed, 07 May 2025 15:03:37 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-22e1782cbb2so6265585ad.0
+        for <linux-nvme@lists.infradead.org>; Wed, 07 May 2025 08:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1746630213; x=1747235013; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1s8LxSgdpw/QFNWhayU6GhU6VvikEqRstbNbkkV5cHs=;
+        b=WaQXk4El8+SW/XrbZvbU00bC/5oVsnIlC6e9ZHbWkXeiOorZ8bEuVqYdepvKdNmI1h
+         yY3LFdHyO/Ht+2RKox8KDc7G26PM37i7zWNVzaL/mVSLRwfbMES0uDICFogNAcAMrFQd
+         VUCEy202qcpWHMRxNn9oExvu4nVqc4thrswMSYfFm8Mr7az/QY71HBI+iiMEykipe4kr
+         Un3w9FmomoJAjA0sBi+APHHgQ4xIpabRqL8IVOncFrILZKNzH3ocUsJY64NurJy2eAiO
+         1p8oFLtnMIT7k5PgfFg4PohaLSCIKZdIh7Uk2UtrTTwlB/f+VbHKqwNSpz98CMl+7Apx
+         lLtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746630213; x=1747235013;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1s8LxSgdpw/QFNWhayU6GhU6VvikEqRstbNbkkV5cHs=;
+        b=AsorN636zuiTZfc5B4wbYJkv9ZOmKciAgMKPcC06d+ahcWPAbD/bvDV37P+hkMqPO6
+         vkR8lFAeFsyaf5aTkV00Mu9GPLcDyEgrmtyELZuxZ8lsXGnucVrfs7wF1ue6+vxt+jEe
+         r768EoM1LCWRy/OG5WzBSxz0+zxn5HNtBrrs+n58mG9XRLG9esW4dlAO7/pOAjmtwZTH
+         1cSu0bgBsS92iOg9IEi+urrWJ8kAVcPF88xnx9oxbwWEa/Y3che2pJHkacU34RvEDbki
+         YJ80zKktXGtKGmOBqOBDbPY4kHetreR7X/XoAhK/Gs6z6p8265e9kOU/UzKs6O72HTe5
+         DfQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHa0eFaRMwAUyaOxectHUqCziOsSH8ZeMFPQ68+SQeKiKe4bw4wH87P46PmjbFYI72Tn+HzbSH7pRq@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz+jJuNHrCAd1FnxtDYJxKyVDOum3Yk6Y0nWUzyJXAo+y99bfoq
+	5JZsYW2kmJFU1OLmHCh9C8HFgGRM0FWAy5c6EIgL+5njmKwTl2kpepx/KJ89CqdBnSBIv1ZPrpX
+	df3bmCNftfnPuue/n4VfFl40Rr0L6bpM9lQ1LXw==
+X-Gm-Gg: ASbGncu6Ln0ur6rSmMIHTI1e8L8zUe66Tm1i/1LJiKg2rFaXZnsZj3e/y/97N72BcEE
+	paSfKs/6NdEszumv7dlHVzuI3e/O4IdnIW3+4Wd8ybSfSl7rWs5j4ufTaNo/4fQEB9U01PDTNFq
+	NexDNYxvJ2EYzXk7YDHD+T
+X-Google-Smtp-Source: AGHT+IGVRdVpmD42Zl1K9/CFzNk9/9fbzp0SeC722EZPTJKMkP3YbezVcTCIZOjRu3Yyi3o0XRR2Kv7U8ekDo75qkiA=
+X-Received: by 2002:a17:903:990:b0:223:28a8:610b with SMTP id
+ d9443c01a7336-22e5ee1cb10mr16787145ad.14.1746630212740; Wed, 07 May 2025
+ 08:03:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 14/14] nvme-fc: do not reference lsrsp after failure
-To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250507-nvmet-fcloop-v6-0-ca02e16fb018@kernel.org>
- <20250507-nvmet-fcloop-v6-14-ca02e16fb018@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250507-nvmet-fcloop-v6-14-ca02e16fb018@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_SHORT(-0.20)[-0.994];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
+References: <20250426020636.34355-1-csander@purestorage.com>
+ <20250426020636.34355-3-csander@purestorage.com> <20250507071610.GB1413@lst.de>
+In-Reply-To: <20250507071610.GB1413@lst.de>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Wed, 7 May 2025 08:03:20 -0700
+X-Gm-Features: ATxdqUG1uu45_rIP1595jmow33H5jf2cu-Lb4HqU3C1enyWziA9-fbza28d3E8s
+Message-ID: <CADUfDZo+WKATQ4+ZpYvvNWrqBqP7pkBhzfBxyMWQomeLR-qtJw@mail.gmail.com>
+Subject: Re: [PATCH v6 2/3] nvme/pci: factor out nvme_init_hctx() helper
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
+	Andrew Morton <akpm@linux-foundation.org>, Kanchan Joshi <joshi.k@samsung.com>, 
+	linux-nvme@lists.infradead.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_070031_580033_351BA45A 
-X-CRM114-Status: GOOD (  13.83  )
+X-CRM114-CacheID: sfid-20250507_080334_157942_14508011 
+X-CRM114-Status: GOOD (  10.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,28 +97,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/7/25 14:23, Daniel Wagner wrote:
-> The lsrsp object is maintained by the LLDD. The lifetime of the lsrsp
-> object is implicit. Because there is no explicit cleanup/free call into
-> the LLDD, it is not safe to assume after xml_rsp_fails, that the lsrsp
-> is still valid. The LLDD could have freed the object already.
-> 
-> With the recent changes how fcloop tracks the resources, this is the
-> case. Thus don't access lsrsp after xml_rsp_fails.
-> 
-> Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> ---
->   drivers/nvme/host/fc.c | 13 ++++++++++---
->   1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+On Wed, May 7, 2025 at 12:16=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> > -     .init_hctx      =3D nvme_init_hctx,
+> > +     .init_hctx      =3D nvme_io_init_hctx,
+>
+> Without an overall rename of the methods I'd rather avoid the _io
+> here and pick a _common name for the common helper.
 
-Cheers,
+Sure, that's fine too.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Best,
+Caleb
+
+>
+> I can fix that up when applying, no need to resend.
+>
 
