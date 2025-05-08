@@ -4,60 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 046A6C3ABC5
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 07:02:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0C91C3ABC0
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 07:02:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=3WS8LxwQoJ5XxOGfVj2y0TcongrrYGj3oyFHGMfKT/o=; b=j3T8O8EKdK9hZX/UcQpe9/saen
-	hPke2AfAzyXiMnlDiUFSUgPKlQUYbuEXwfNBkusa6aApWwGBUCf7Eb0/g1DBoF153zZ471vTA2KEI
-	Gc1JsJ6+7SzD+pUr1uhfQgwCroXB11bO4U0v9jDQqP6XcsIm+elyAkGpce+dcKxpQap8seWu9PaTU
-	yo06EQxX9GcK0jQh9c+3vI2/92jyZF8K9VNMujkOX6P9r554vzw7s7bY8XnneivIwkZWe/9Y2i4I5
-	+3JRuCQkAwR8wNZP0VsMJz4+8o0H6SqIRVSK/jGw9jZN+NVGkjYW4mJWqZdbmefmKF3m9HXi6qig/
-	FoEqsZTA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=seCrdQeW6HaIstfpOPTwIMDgdKQu8hDxODJLLriSgCk=; b=0R7YCoS/T6IrzLeQCZLlPGxCas
+	+8JHqeO9/yaxDLlSttiyLEdeuw2Jbf2OiKd+gaHTGUfiyjjxP69uYhiCPQL77YjncxZsYNmkZbzLo
+	KXizU7l4beOY39JNFHJZJky1QET5vNLxEDmCzhwKKXGa3TSZFKN8spIFdHb8gx7k9WX7k4R5IA7l5
+	RD+b0rPRVSyc1oHptbU3P3RWslLwTcEGa8A9X3T2uuQ9NKlfm2vzNJD3dwktAKvCeyyCCTQd1B8zN
+	m22KCR2VZo0WhCZWBuahS7SLaXltNKJmz/L61ViVZoW8Ol4z04Syqpn5GDr4DqFpezbeiNYR/AdqS
+	ZYQRhh5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCvH9-0000000HX4U-2RxW;
-	Thu, 08 May 2025 07:02:35 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1uCvHA-0000000HX4s-18t4;
+	Thu, 08 May 2025 07:02:36 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCvDd-0000000HWns-2eSh
+	id 1uCvDe-0000000HWo8-2n55
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 May 2025 06:58:58 +0000
+	Thu, 08 May 2025 06:58:59 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D95CF5C4D08;
-	Thu,  8 May 2025 06:56:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 299ABC4CEEB;
+	by nyc.source.kernel.org (Postfix) with ESMTP id 0088AA4D9F8;
+	Thu,  8 May 2025 06:58:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18F51C4CEED;
 	Thu,  8 May 2025 06:58:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746687536;
-	bh=REobe+ryqEk9uKJkXkW9b/4niQr7W/nhsYYmMKc4zcM=;
-	h=From:To:Subject:Date:From;
-	b=YoQyxs9SrRQiBKwrecYi3XNrXgyc77JBtKIUy3v9GTargUR7iUHR09jlP6M+cLLe0
-	 7nV+6tyHrh1mIPnd0mw7Bcrs0Ag5OTEnvadmTyLkJ4gNitwVTk43vmlBYqLItSRiRz
-	 ecUeCuYuQF205EpD8crqL4+iLanl+sr3plsFU4CKCU7Mkpi+I1u0fYejBy2dY6DjeL
-	 kFUbmC+u6MyoQQe/pSPcAc+hlgV9N/ZGriUOpBpRmkOvajcaORalM91EG9m46Wl7ss
-	 CPi/s6oDgK6wFBlYsONDs0C7Sjv2Oq83rrx3uaCZ+KWZ609pVKiMAwrmuzESPb79cU
-	 9YtKl3Yn87k3g==
+	s=k20201202; t=1746687537;
+	bh=m8NzpbAZxINxHHYTCjqszbPSRyL5iuXgOwP6tl5INqM=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=L71xfiYRPWxWvR7N39BuJWvmHE5ItVE+fK1XhqgoAlAlrsojDRxBztSEP6S+pUQuE
+	 UrLjXFXKHnV+0nPp4R5m7lX0T4jXpSwsMu3p42FZA1bpDZaY+GS1p7Bty6KON7XvBF
+	 a596ulRcVsuUD1pjynCf/Kyz/11tlt7v9iBvy/FdPQQhv1JFHv3fV8TpN9AQtICn2h
+	 Yev4/a34euJkB1t3GZgWim9u/sl+vs6fWujtqCLZsht7WX2fByzJM9r4OtLcKM2UPj
+	 r6ORq47Ga6I1eUv7aHxfNAtnjOqUEB5Sg+sXQj7ewNrc5icIc3pUwXrE1ERxFL21mW
+	 LQVLJxVd8Xjig==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 0/4] nvmet pci-epf fixes
-Date: Thu,  8 May 2025 15:57:41 +0900
-Message-ID: <20250508065745.389199-1-dlemoal@kernel.org>
+Subject: [PATCH 1/4] nvmet: pci-epf: Clear completion queue IRQ flag on delete
+Date: Thu,  8 May 2025 15:57:42 +0900
+Message-ID: <20250508065745.389199-2-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250508065745.389199-1-dlemoal@kernel.org>
+References: <20250508065745.389199-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_235857_710973_4CEB1951 
-X-CRM114-Status: UNSURE (   7.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250507_235858_769590_48066CEC 
+X-CRM114-Status: GOOD (  10.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,20 +73,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Four patches to fix and improve IRQ handling in the PCI endpoint target
-driver. The issues fixed by the first 2 patches where discovered with
-testing polling queues (set on the host side). The following 2 patches
-are small improvements/cleanup in the same IRQ handling area.
+The function nvmet_pci_epf_delete_cq() unconditionnally calls
+nvmet_pci_epf_remove_irq_vector() even for completion queues that do not
+have interrupts enabled. Furthermore, for completion queues that do
+have IRQ enabled, deleting and re-creating the completion queue leaves
+the flag NVMET_PCI_EPF_Q_IRQ_ENABLED set, even if the completion queue
+is being re-created with IRQ disabled.
 
-Damien Le Moal (4):
-  nvmet: pci-epf: Clear completion queue IRQ flag on delete
-  nvmet: pci-epf: Do not fall back to using INTX if not supported
-  nvmet: pci-epf: Cleanup nvmet_pci_epf_raise_irq()
-  nvmet: pci-epf: Improve debug message
+Fix these issues by calling nvmet_pci_epf_remove_irq_vector() only if
+NVMET_PCI_EPF_Q_IRQ_ENABLED is set and make sure to always clear that
+flag.
 
- drivers/nvme/target/pci-epf.c | 35 ++++++++++++++++++++++-------------
- 1 file changed, 22 insertions(+), 13 deletions(-)
+Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+---
+ drivers/nvme/target/pci-epf.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 7fab7f3d79b7..d5442991f2fb 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1344,7 +1344,8 @@ static u16 nvmet_pci_epf_delete_cq(struct nvmet_ctrl *tctrl, u16 cqid)
+ 
+ 	cancel_delayed_work_sync(&cq->work);
+ 	nvmet_pci_epf_drain_queue(cq);
+-	nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
++	if (test_and_clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags))
++		nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
+ 	nvmet_pci_epf_mem_unmap(ctrl->nvme_epf, &cq->pci_map);
+ 
+ 	return NVME_SC_SUCCESS;
 -- 
 2.49.0
 
