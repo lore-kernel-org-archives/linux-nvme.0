@@ -4,67 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F9D0C3ABBE
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 20:25:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D037C3ABC6
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 21:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VaFrATggg+JEZ24HhuSNiTcy9w3QJqPkhSt2//OQ7ms=; b=Xm9HOS9Lo55b1XbyDrCsRTOTuV
-	yOMskE2QBzdX2QPbg0rmIjHEYIDeSdve3a7L+RA9YAC8EVXMF4pBLVKOJ/umHzN6p6j1kzh6syPpb
-	urefCEoRAT17zgZGjwUa77telIse/HMqF08aiTHlJORZZdGTPHwQvp0fcAzuBZnKSprcIYZMzS6Jo
-	DeP1DX6xjE9aAo+YSWkIqvRFJEePnprLeRSyrkkljVGsuehB8rK6ZTw2Chr97j+TpOsHuxf0G7W0t
-	xdgIO1zKMJ4SgoYnmIVLpyy+RFys43nDJU4tTmSC+9dgs2ZqQxJgqzwH+olP7H+HG82BhFGgkqAjQ
-	c61NTC3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WPRAYHHVCIi2GA6lIpnznVyhM462y5MgbJdSFMelh8o=; b=kp9QfRaaGdBhZlImJhCfUMIxgb
+	xiIB3AhEn2mD7NxoaJQaNUDESED5aq494nY3r3KyxeRXUMh7x5IraBcae//f+t5cxp5wq1HULMFWQ
+	ymw9d1uhhSOoXnEMOTqqwjHO1xN3qOQw4MNbwQwLn7BDkErBtOVgh+Ye/o3/xsPt8gzalLcBx4CFB
+	t38TTgzS/fK0bZxaG0YkTMbyfRZ7bqR77IP4hYpHr4Ec/ugGI4CkzI6jksWf7XzFFCJEVha9HdMnX
+	iUPyh6/bTXejGvWT4yXPi2FPLtmVdi2ge5Ml+6SSd4kzIlAKZXnErwtUge3TDoOPZMqUrj1npy53g
+	H3+5pMEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uD7np-00000001krB-2d5s;
-	Thu, 08 May 2025 20:25:09 +0000
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11] helo=outgoing.mit.edu)
+	id 1uD8au-00000001pQN-02H1;
+	Thu, 08 May 2025 21:15:52 +0000
+Received: from mgamail.intel.com ([192.198.163.17])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uD7nm-00000001kqk-2B9Q
+	id 1uD8aq-00000001pPm-33lt
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 May 2025 20:25:08 +0000
-Received: from trampoline.thunk.org (pool-173-48-82-148.bstnma.fios.verizon.net [173.48.82.148])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 548KOOaX022511
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 8 May 2025 16:24:25 -0400
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 371DE2E00E1; Thu, 08 May 2025 16:24:24 -0400 (EDT)
-Date: Thu, 8 May 2025 16:24:24 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        john.g.garry@oracle.com, bmarzins@redhat.com, chaitanyak@nvidia.com,
-        shinichiro.kawasaki@wdc.com, brauner@kernel.org, yi.zhang@huawei.com,
-        chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com
-Subject: Re: [RFC PATCH v4 07/11] fs: statx add write zeroes unmap attribute
-Message-ID: <20250508202424.GA30222@mit.edu>
-References: <20250421021509.2366003-8-yi.zhang@huaweicloud.com>
- <20250505132208.GA22182@lst.de>
- <20250505142945.GJ1035866@frogsfrogsfrogs>
- <c7d8d0c3-7efa-4ee6-b518-f8b09ec87b73@huaweicloud.com>
- <20250506043907.GA27061@lst.de>
- <64c8b62a-83ba-45be-a83e-62b6ad8d6f22@huaweicloud.com>
- <20250506121102.GA21905@lst.de>
- <a39a6612-89ac-4255-b737-37c7d16b3185@huaweicloud.com>
- <20250508050147.GA26916@lst.de>
- <68172a9e-cf68-4962-8229-68e283e894e1@huaweicloud.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <68172a9e-cf68-4962-8229-68e283e894e1@huaweicloud.com>
+	Thu, 08 May 2025 21:15:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746738948; x=1778274948;
+  h=date:from:to:cc:subject:message-id;
+  bh=Uobto6WCBgZyjf2M8n8aZJqaqxpXZ7/538evF2FVK18=;
+  b=jdIIjmayWi/y50FLV6z2INpD7HpfIrxcP535JocPPfRjXRIeVpAsc0k8
+   4aSn3MIJHu5QNU+wlKjOnBW6VwY9lVsOfSiG78a0CrR6BVpKwBlN+3O0o
+   0kcpeLQJ34iNmjrQHIKcvSjOBMeVL6kFiaCutI+zNFSMSjj70hUFhDL3a
+   CXFJIm24uUxvHW3LWj78YW5gXIz1t4K/LVlwHCZ/6+gLz6BVbVYoUPBNx
+   XFi0AuEEh78i/nOr9vwOOMyHfcIN2yQ1GnZSpkQ5hJ4omEQeX/+zXga1D
+   HmUKxmdCITYfBIDLHS5/XdFaUxlE0XU39wzex2sU54JaBsUuyh1BYZ760
+   A==;
+X-CSE-ConnectionGUID: zQ6LxwSaTPmp9EJYHtjNqQ==
+X-CSE-MsgGUID: 9JVUlUbRTEeWlGA3V4cAGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48462381"
+X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
+   d="scan'208";a="48462381"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 14:15:47 -0700
+X-CSE-ConnectionGUID: ck/EL8LSS4C5k1gfPnNkbA==
+X-CSE-MsgGUID: hupr8awFS7GAxt6eJ7ckVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
+   d="scan'208";a="136800480"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 08 May 2025 14:15:46 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uD8am-000BNn-0w;
+	Thu, 08 May 2025 21:15:44 +0000
+Date: Fri, 09 May 2025 05:15:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.15] BUILD SUCCESS
+ 650415fca0a97472fdd79725e35152614d1aad76
+Message-ID: <202505090517.8MfvAvd2-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250508_132506_725175_457EDE3B 
-X-CRM114-Status: GOOD (  38.31  )
+X-CRM114-CacheID: sfid-20250508_141548_815835_1175F248 
+X-CRM114-Status: UNSURE (   5.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,134 +83,176 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 08, 2025 at 08:17:14PM +0800, Zhang Yi wrote:
-> On 2025/5/8 13:01, Christoph Hellwig wrote:
-> >>
-> >> My idea is not to strictly limiting the use of FALLOC_FL_WRITE_ZEROES to
-> >> only bdev or files where bdev_unmap_write_zeroes() returns true. In
-> >> other words, STATX_ATTR_WRITE_ZEROES_UNMAP and FALLOC_FL_WRITE_ZEROES
-> >> are not consistent, they are two independent features. Even if some
-> >> devices STATX_ATTR_WRITE_ZEROES_UNMAP are not set, users should still be
-> >> allowed to call fallcoate(FALLOC_FL_WRITE_ZEROES). This is because some
-> >> devices and drivers currently cannot reliably ascertain whether they
-> >> support the unmap write zero command; however, certain devices, such as
-> >> specific cloud storage devices, do support it. Users of these devices
-> >> may also wish to use FALLOC_FL_WRITE_ZEROES to expedite the zeroing
-> >> process.
-> > 
-> > What are those "cloud storage devices" where you set it reliably,
-> > i.e.g what drivers?
-> 
-> I don't have these 'cloud storage devices' now, but Ted had mentioned
-> those cloud-emulated block devices such as Google's Persistent Desk or
-> Amazon's Elastic Block Device in. I'm not sure if they can accurately
-> report the BLK_FEAT_WRITE_ZEROES_UNMAP feature, maybe Ted can give more
-> details.
-> 
-> https://lore.kernel.org/linux-fsdevel/20250106161732.GG1284777@mit.edu/
+tree/branch: git://git.infradead.org/nvme.git nvme-6.15
+branch HEAD: 650415fca0a97472fdd79725e35152614d1aad76  nvme: unblock ctrl state transition for firmware update
 
-There's nothing really exotic about what I was referring to in terms
-of "cloud storage devices".  Perhaps a better way of describing them
-is to consider devices such as dm-thin, or a Ceph Block Device, which
-is being exposed as a SCSI or NVME device.
+elapsed time: 842m
 
-The distinction I was trying to make is performance-related.  Suppose
-you call WRITE_ZEROS on a 14TB region.  After the WRITES_ZEROS
-complete, a read anywhere on that 14TB region will return zeros.
-That's easy.  But the question is when you call WRITE_ZEROS, will the
-storage device (a) go away for a day or more before it completes (which
-would be the case if it is a traditional spinning rust platter), or
-(b) will it be basically instaneous, because all dm-thin or a Ceph Block
-Device needs to do is to delete one or more entries in its mapping
-table.
+configs tested: 156
+configs skipped: 1
 
-The problem is two-fold.  First, there's no way for the kernel to know
-whether a storage device will behave as (a) or (b), because SCSI and
-other storage specifications say that performance is out of scope.
-They only talk about the functional results (afterwards, if yout try
-to read from the region, you will get zeros), and are utterly silent
-about how long it migt take.  The second problem is that if you are an
-application program, there is no way you will be willing to call
-fallocate(WRITE_ZEROS, 14TB) if you don't know whether the disk will
-go away for a day or whether it will be instaneous.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-But because there is no way for the kernel to know whether WRITE_ZEROS
-will be fast or not, how would you expect the kernel to expose
-STATX_ATTR_WRITE_ZEROES_UNMAP?  Cristoph's formulation "breaking the
-abstraction" perfectly encapsulate the SCSI specification's position
-on the matter, and I agree it's a valid position.  It's just not
-terribly useful for the application programmer.
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    gcc-14.2.0
+arc                          axs101_defconfig    clang-18
+arc                        nsimosci_defconfig    clang-18
+arc                 nsimosci_hs_smp_defconfig    clang-18
+arc                   randconfig-001-20250508    gcc-8.5.0
+arc                   randconfig-001-20250509    clang-21
+arc                   randconfig-002-20250508    gcc-12.4.0
+arc                   randconfig-002-20250509    clang-21
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                         at91_dt_defconfig    clang-21
+arm                           h3600_defconfig    gcc-14.2.0
+arm                         lpc18xx_defconfig    clang-21
+arm                       multi_v4t_defconfig    clang-16
+arm                   randconfig-001-20250508    clang-17
+arm                   randconfig-001-20250509    clang-21
+arm                   randconfig-002-20250508    clang-21
+arm                   randconfig-002-20250509    clang-21
+arm                   randconfig-003-20250508    clang-21
+arm                   randconfig-003-20250509    clang-21
+arm                   randconfig-004-20250508    gcc-7.5.0
+arm                   randconfig-004-20250509    clang-21
+arm                         s5pv210_defconfig    clang-18
+arm                         vf610m4_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250508    clang-21
+arm64                 randconfig-001-20250509    clang-21
+arm64                 randconfig-002-20250508    clang-21
+arm64                 randconfig-002-20250509    clang-21
+arm64                 randconfig-003-20250508    gcc-8.5.0
+arm64                 randconfig-003-20250509    clang-21
+arm64                 randconfig-004-20250508    gcc-8.5.0
+arm64                 randconfig-004-20250509    clang-21
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250508    gcc-14.2.0
+csky                  randconfig-002-20250508    gcc-12.4.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250508    clang-20
+hexagon               randconfig-002-20250508    clang-21
+i386                             alldefconfig    clang-18
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250509    clang-20
+i386        buildonly-randconfig-001-20250509    gcc-11
+i386        buildonly-randconfig-002-20250509    clang-20
+i386        buildonly-randconfig-002-20250509    gcc-12
+i386        buildonly-randconfig-003-20250509    clang-20
+i386        buildonly-randconfig-004-20250509    clang-20
+i386        buildonly-randconfig-005-20250509    clang-20
+i386        buildonly-randconfig-005-20250509    gcc-12
+i386        buildonly-randconfig-006-20250509    clang-20
+i386        buildonly-randconfig-006-20250509    gcc-11
+i386                                defconfig    clang-20
+i386                  randconfig-011-20250509    gcc-12
+i386                  randconfig-012-20250509    gcc-12
+i386                  randconfig-013-20250509    gcc-12
+i386                  randconfig-014-20250509    gcc-12
+i386                  randconfig-015-20250509    gcc-12
+i386                  randconfig-016-20250509    gcc-12
+i386                  randconfig-017-20250509    gcc-12
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250508    gcc-14.2.0
+loongarch             randconfig-002-20250508    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                        maltaup_defconfig    clang-21
+mips                          rb532_defconfig    clang-18
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250508    gcc-14.2.0
+nios2                 randconfig-002-20250508    gcc-10.5.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                generic-64bit_defconfig    clang-18
+parisc                randconfig-001-20250508    gcc-9.3.0
+parisc                randconfig-002-20250508    gcc-11.5.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-21
+powerpc                          allyesconfig    gcc-14.2.0
+powerpc               randconfig-001-20250508    gcc-6.5.0
+powerpc               randconfig-002-20250508    clang-21
+powerpc               randconfig-003-20250508    gcc-6.5.0
+powerpc64             randconfig-001-20250508    clang-21
+powerpc64             randconfig-002-20250508    gcc-6.5.0
+powerpc64             randconfig-003-20250508    gcc-8.5.0
+riscv                            allmodconfig    clang-21
+riscv                            allmodconfig    gcc-14.2.0
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-16
+riscv                            allyesconfig    gcc-14.2.0
+riscv                 randconfig-001-20250508    clang-16
+riscv                 randconfig-002-20250508    gcc-14.2.0
+s390                             allmodconfig    clang-18
+s390                             allmodconfig    gcc-14.2.0
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250508    gcc-6.5.0
+s390                  randconfig-002-20250508    gcc-9.3.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250508    gcc-14.2.0
+sh                    randconfig-002-20250508    gcc-10.5.0
+sh                          rsk7203_defconfig    gcc-14.2.0
+sh                   rts7751r2dplus_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250508    gcc-13.3.0
+sparc                 randconfig-002-20250508    gcc-6.5.0
+sparc64               randconfig-001-20250508    gcc-13.3.0
+sparc64               randconfig-002-20250508    gcc-5.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250508    clang-21
+um                    randconfig-002-20250508    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250509    gcc-11
+x86_64      buildonly-randconfig-002-20250509    gcc-11
+x86_64      buildonly-randconfig-003-20250509    clang-20
+x86_64      buildonly-randconfig-003-20250509    gcc-11
+x86_64      buildonly-randconfig-004-20250509    clang-20
+x86_64      buildonly-randconfig-004-20250509    gcc-11
+x86_64      buildonly-randconfig-005-20250509    gcc-11
+x86_64      buildonly-randconfig-005-20250509    gcc-12
+x86_64      buildonly-randconfig-006-20250509    gcc-11
+x86_64      buildonly-randconfig-006-20250509    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                                  kexec    clang-20
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-12
+x86_64                         rhel-9.4-kunit    gcc-12
+x86_64                           rhel-9.4-ltp    gcc-12
+x86_64                          rhel-9.4-rust    clang-18
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250508    gcc-7.5.0
+xtensa                randconfig-002-20250508    gcc-13.3.0
 
-Things which some programs/users might want to know or rely upon, but which is normally quite impossible are: 
-
-* Will the write zero / discard operation take a "reasonable" amount
-  of time?  (Yes, not necessarilly well defined, but we know it when
-  we see it, and hours or days is generally not reasonable.)
-
-* Is the operation reliable --- i.e., is the device allowed to
-  randomly decide that it won't actually zero the requested blocks (as
-  is the case of discard) whenever it feels like it.
-
-* Is the operation guaranteed to make the data irretreviable even in
-  face of an attacker with low-level access to the device.  (And this
-  is also not necessarily well defined; does the attacker have access
-  to a scanning electronic microscope, or can do a liquid nitrogen
-  destructive access of the flash device?)
-
-The UFS (Universal Flash Storage) spec comes the closest to providing
-commands that distinguish between these various cases, but for most
-storage specifications, like SCSI, it is absolutely requires peaking
-behind the abstraction barrier defined by the specification, and so
-ultimately, the kernel can't know.
-
-About the best you can do is to require manual configuration; perhaps a
-config file at the database or userspace cluster file system level
-because the system adminsitrator knows --- maybe because the hyperscale
-cloud provider has leaned on the storage vendor to tell them under
-NDA, storage specs be damned or they won't spend $$$ millions with
-that storage vendor ---  or because the database administrator discovers
-that using fallocate(WRITE_ZEROS) causes performance to tank, so they
-manually disable the use of WRITE_ZEROS.
-
-Could this be done in the kernel?  Sure.  We could have a file, say,
-/sys/block/sdXX/queue/write_zeros where the write_zeros file is
-writeable, and so the administrator can force-disable WRITES_ZERO by
-writing 0 into the file.  And could this be queried via a STATX
-attribute?  I suppose, although to be honest, I'm used to doing this
-by looking at the sysfs files.  For example, just recently I coded up
-the following:
-
-static int is_rotational (const char *device_name EXT2FS_ATTR((unused)))
-{
-	int		rotational = -1;
-#ifdef __linux__
-	char		path[1024];
-	struct stat	st;
-	FILE		*f;
-
-	if ((stat(device_name, &st) < 0) || !S_ISBLK(st.st_mode))
-		return -1;
-
-	snprintf(path, sizeof(path), "/sys/dev/block/%d:%d/queue/rotational",
-		major(st.st_rdev), minor(st.st_rdev));
-	f = fopen(path, "r");
-	if (!f) {
-		snprintf(path, sizeof(path),
-			"/sys/dev/block/%d:%d/../queue/rotational",
-			major(st.st_rdev), minor(st.st_rdev));
-		f = fopen(path, "r");
-	}
-	if (f) {
-		if (fscanf(f, "%d", &rotational) != 1)
-			rotational = -1;
-		fclose(f);
-	}
-#endif
-	return rotational;
-}
-
-Easy-peasy!   Who needs statx?   :-)
-
-
-						- Ted
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
