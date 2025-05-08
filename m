@@ -4,85 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EF1DC3ABC3
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 May 2025 23:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D514C3ABBE
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 05:02:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=gw7yyIhg84qGjeLuu65u14ip150zco9HXBFOLAL8Dn0=; b=ICxWmStQJwbYzzaMlW5F/aMVab
-	kWYUX8uZddQiJaobjl0tmbKMw7Q8WVUd+yazg4Btuwj8rG5aFPew4MB25A4DJyWv5wmsQ1l27YwTL
-	08E3+GpANl2Y9Ms81cVfCS9yM7lgs6QJVyIabvR5ytcPz8R8wzrCYyj3I4jFz+ahowjhmHUbxnGNQ
-	92qusP9rr670WTsFS+V7K5waF3GrE/YlzLVFWwXykKepRmqQHSelKXokuvrG/Om9Z8Y+iF7eP4sJU
-	n13xAKqKxt7ry5OVlVYAFytlAzE0+Lp4Dc1nVNhbZ/xy1NBNMsyIPdrr8oBPrdTM/Cqju8jUvUVGL
-	kKf5qYGg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WCTvKZSBHa8S9R7cBQlIwOeNgh/Xc528tBjLhoJ1TPQ=; b=mAJjAqz5STc3rBioN98s4ubKUZ
+	0fChe8M5zjS/7LLcupSsuvdkILbZCMPxwA18ABykY7JXaDMuzOob5CjxrL7r5IRH/3jj+cKRXXiQY
+	lhm+Gyqtvv2zXl5uhV5MonaiRWwfS0GjmGstKZHqcqsvZKDQ/VbS7Lvn9cAGjfsSUzD4UfX1yIavF
+	7j0aJAab7aXI9Zd6lwSFE8ld2LoKErmqOxl7JHwTS67rJg7KwGNsDOEGm9vaB2AxRWArDF6LWBfBT
+	4hkJxU2O5pAzpH8GL4iS6vPww2rOCGHSilkEwR7l60uScbeVekJifR9oIxGhVqBjnnktg06jDWXSN
+	18ytcfQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCoF1-0000000Gx9h-3Xf6;
-	Wed, 07 May 2025 23:31:55 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1uCtOS-0000000HJjQ-2Yxe;
+	Thu, 08 May 2025 05:02:00 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCoEz-0000000Gx8p-2cTS
+	id 1uCtOP-0000000HJgy-0m2b
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 May 2025 23:31:54 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 547NS6bb003133;
-	Wed, 7 May 2025 23:31:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=corp-2025-04-25; bh=gw7yyIhg84qGjeLu
-	u65u14ip150zco9HXBFOLAL8Dn0=; b=oWuu3+w0bh+FSZPT0TYyJBmYH/8oqBEo
-	GtNg0hYUzCw64W2bma5hZWPrg28yOV8TxKvQevF7cS9i3U+M2fLrpA/PtfEhFEyq
-	c1+2NSy0tv3TXwD3QLCS44GDeP1Pr9bH4UY0J2L4mIw/lonlG/sVEUb+b6ph94IT
-	oJuNqZnPEXVe/U3DLXJt0ohy3kXwR8VfFvvUGEck+32RLxlOcJuiJfSVyCvNYXrT
-	wyUcg+kthlkDr7PlAxQhecc9NMgMS9xuzi7+2i0oDkMoN1VxvC/A/ze5vfKm8MUR
-	7vRiCu7sK3/ne/AE9796R6yykTHGAPb2HYFk143l/jyc04VbUKrZ0A==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46gh6xr05d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 07 May 2025 23:31:42 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 547N2Fl2035564;
-	Wed, 7 May 2025 23:31:40 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 46d9kbsh9g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 07 May 2025 23:31:40 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 547NVdmK037479;
-	Wed, 7 May 2025 23:31:39 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 46d9kbsh91-1;
-	Wed, 07 May 2025 23:31:39 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-nvme@lists.infradead.org
-Cc: alan.adamson@oracle.com, kch@nvidia.com, kbusch@kernel.org, hch@lst.de,
-        sagi@grimberg.me
-Subject: [PATCH v2 0/2] NVMe Atomic Write fixes
-Date: Wed,  7 May 2025 16:41:33 -0700
-Message-ID: <20250507234137.1609876-1-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.43.5
+	Thu, 08 May 2025 05:01:58 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7F69868B05; Thu,  8 May 2025 07:01:47 +0200 (CEST)
+Date: Thu, 8 May 2025 07:01:47 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tytso@mit.edu, john.g.garry@oracle.com, bmarzins@redhat.com,
+	chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com,
+	brauner@kernel.org, yi.zhang@huawei.com, chengzhihao1@huawei.com,
+	yukuai3@huawei.com, yangerkun@huawei.com
+Subject: Re: [RFC PATCH v4 07/11] fs: statx add write zeroes unmap attribute
+Message-ID: <20250508050147.GA26916@lst.de>
+References: <20250421021509.2366003-1-yi.zhang@huaweicloud.com> <20250421021509.2366003-8-yi.zhang@huaweicloud.com> <20250505132208.GA22182@lst.de> <20250505142945.GJ1035866@frogsfrogsfrogs> <c7d8d0c3-7efa-4ee6-b518-f8b09ec87b73@huaweicloud.com> <20250506043907.GA27061@lst.de> <64c8b62a-83ba-45be-a83e-62b6ad8d6f22@huaweicloud.com> <20250506121102.GA21905@lst.de> <a39a6612-89ac-4255-b737-37c7d16b3185@huaweicloud.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-07_07,2025-05-07_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 adultscore=0 phishscore=0 mlxscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2504070000
- definitions=main-2505070219
-X-Proofpoint-GUID: raSApTkSKCG_IuZ10MPrLvF4Bw_SP3_S
-X-Authority-Analysis: v=2.4 cv=MdRsu4/f c=1 sm=1 tr=0 ts=681bed5e cx=c_pps a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=-t_EKD55RRY5nFo_hg8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: raSApTkSKCG_IuZ10MPrLvF4Bw_SP3_S
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDIyMCBTYWx0ZWRfX1qilRDITwYRS /WoPKrnWeCWxLShb0dkBWi3vtmT9EAYfwPiVjCWL2kXlhVVQNzVMFavDBBATwjZbgSlISXmj4OQ iGI9RM/nrl+APWnv6mNphno9W8eyaa+84iX8gHW9GQQ9FB93DKPuHuejrlH6F/2goSNaoWcFEns
- st7oJL0z+T6mzkMzJGtNNbm/EdjTOQGEJx4ZJDz71l+c8Hrxl/dahL4tQ6SHfIjMc218HshaIxA qmRfVGin4Q6ocliA/uq+CrzszdwWKjoKiSqTcMWrKPHSvP2Pxsa2Li7rHal5Sy2bl6ztOS3pJl+ s0P2nbwxC5euxQBgpp2tylfUXNQmeaj2PCD6pzjeGKq1hZXLxf1rEoGvcaMVJwjvH/N2kpKIYdK
- 9/jW4Vt6tiJrJQFRKkaCYDrw1XwJnjkvcTsKRRtNdietbd1S6z1tP96BAuryRATe3uM/ORcy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a39a6612-89ac-4255-b737-37c7d16b3185@huaweicloud.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_163153_671207_EDECFEC7 
-X-CRM114-Status: GOOD (  16.71  )
+X-CRM114-CacheID: sfid-20250507_220157_503780_6CA19E2C 
+X-CRM114-Status: GOOD (  30.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,136 +66,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-v2: 1/2 - Change wording of patch subject and description
+On Wed, May 07, 2025 at 03:33:23PM +0800, Zhang Yi wrote:
+> On 2025/5/6 20:11, Christoph Hellwig wrote:
+> > On Tue, May 06, 2025 at 07:16:56PM +0800, Zhang Yi wrote:
+> >> Sorry, but I don't understand your suggestion. The
+> >> STATX_ATTR_WRITE_ZEROES_UNMAP attribute only indicate whether the bdev
+> >> and the block device that under the specified file support unmap write
+> >> zeroes commoand. It does not reflect whether the bdev and the
+> >> filesystems support FALLOC_FL_WRITE_ZEROES. The implementation of
+> >> FALLOC_FL_WRITE_ZEROES doesn't fully rely on the unmap write zeroes
+> >> commoand now, users simply refer to this attribute flag to determine
+> >> whether to use FALLOC_FL_WRITE_ZEROES when preallocating a file.
+> >> So, STATX_ATTR_WRITE_ZEROES_UNMAP and FALLOC_FL_WRITE_ZEROES doesn't
+> >> have strong relations, why do you suggested to put this into the ext4
+> >> and bdev patches that adding FALLOC_FL_WRITE_ZEROES?
+> > 
+> > So what is the point of STATX_ATTR_WRITE_ZEROES_UNMAP?
+> 
+> My idea is not to strictly limiting the use of FALLOC_FL_WRITE_ZEROES to
+> only bdev or files where bdev_unmap_write_zeroes() returns true. In
+> other words, STATX_ATTR_WRITE_ZEROES_UNMAP and FALLOC_FL_WRITE_ZEROES
+> are not consistent, they are two independent features. Even if some
+> devices STATX_ATTR_WRITE_ZEROES_UNMAP are not set, users should still be
+> allowed to call fallcoate(FALLOC_FL_WRITE_ZEROES). This is because some
+> devices and drivers currently cannot reliably ascertain whether they
+> support the unmap write zero command; however, certain devices, such as
+> specific cloud storage devices, do support it. Users of these devices
+> may also wish to use FALLOC_FL_WRITE_ZEROES to expedite the zeroing
+> process.
 
-    2/2 - Rather than setting a controllers atomic write size to 512b if it doesn't
-          match the subsystem atomic write size, if a controllers atomic write size
-          is greater than he subsystem atomic write size, reject to probe.
+What are those "cloud storage devices" where you set it reliably,
+i.e.g what drivers?
 
+> Therefore, I think that the current point of
+> STATX_ATTR_WRITE_ZEROES_UNMAP (possibly STATX_WRITE_ZEROES_UNMAP) should
+> be to just indicate whether a bdev or file supports the unmap write zero
+> command (i.e., whether bdev_unmap_write_zeroes() returns true). If we
+> use standard SCSI and NVMe storage devices, and the
+> STATX_ATTR_WRITE_ZEROES_UNMAP attribute is set, users can be assured
+> that FALLOC_FL_WRITE_ZEROES is fast and can choose to use
+> fallocate(FALLOC_FL_WRITE_ZEROES) immediately.
 
-This patch set includes 2 fixes for NVMe Atomic Writes that are reproducable
-when CMIC.MCTRS (multi-controller support) is set:
+That's breaking the abstracton again.  An attribute must say something
+about the specific file, not about some underlying semi-related feature.
 
-    PATCH 1/2 - nvme: multipath: enable BLK_FEAT_ATOMIC_WRITES for multipathing
-    PATCH 2/2 - nvme: all namespaces in a subsystem must adhere to a common atomic write size
+> Would you prefer to make STATX_ATTR_WRITE_ZEROES_UNMAP and
+> FALLOC_FL_WRITE_ZEROES consistent, which means
+> fallcoate(FALLOC_FL_WRITE_ZEROES) will return -EOPNOTSUPP if the block
+> device doesn't set STATX_ATTR_WRITE_ZEROES_UNMAP ?
 
-QEMU v10.0 can be used to reproduce and validate the fixes.
+Not sure where the block device comes from here, both of these operate
+on a file.
 
+> If so, I'd suggested we need to:
+> 1) Remove STATX_ATTR_WRITE_ZEROES_UNMAP since users can check the
+>    existence by calling fallocate(FALLOC_FL_WRITE_ZEROES) directly, this
+>    statx flag seems useless.
 
-nvme: multipath: enable BLK_FEAT_ATOMIC_WRITES for multipathing
---------------------------------------------------------------------------
-- Include BLK_FEAT_ATOMIC_WRITES feature when allocating multipath disk (nvme_mpath_alloc_disk).
+Yes, that was my inital thought.
 
+> 2) Make the BLK_FEAT_WRITE_ZEROES_UNMAP sysfs interface to RW, allowing
+>    users to adjust the block device's support state according to the
+>    real situation.
 
-QEMU Config
-===========
--device nvme,id=nvme-ctrl-0,serial=nvme-1,atomic.dn=off,atomic.awun=31,atomic.awupf=15 \
-    -drive file=/dev/nullb2,if=none,id=nvm-1 \
-    -device nvme-ns,drive=nvm-1,bus=nvme-ctrl-0,nsid=1 \
--device nvme,id=nvme-ctrl-1,serial=nvme-2,atomic.dn=off,atomic.awun=31,atomic.awupf=7 \
-    -drive file=/dev/nullb3,if=none,id=nvm-2 \
-    -device nvme-ns,drive=nvm-2,bus=nvme-ctrl-1,nsid=2 \
--device nvme,id=nvme-ctrl-2,serial=nvme-3,atomic.dn=off,atomic.awun=127,atomic.awupf=63 \
-    -drive file=/dev/nullb4,if=none,id=nvm-3 \
-    -device nvme-ns,drive=nvm-3,bus=nvme-ctrl-2 \
-
-
-Before
-======
-[root@localhost ~]# nvme id-ctrl /dev/nvme1n1 | grep cmic
-cmic      : 0x2
-[root@localhost ~]# nvme id-ctrl /dev/nvme1n1 | grep awupf
-awupf     : 63
-[root@localhost ~]# nvme id-ns /dev/nvme1n1 | grep nawupf
-nawupf  : 0
-[root@localhost ~]# cat /sys/block/nvme1n1/queue/atomic_write_max_bytes
-0
-[root@localhost ~]# 
-
-AFTER
-=====
-[root@localhost ~]# nvme id-ctrl /dev/nvme1n1 | grep cmic
-cmic      : 0x2
-[root@localhost ~]# nvme id-ctrl /dev/nvme1n1 | grep awupf
-awupf     : 63
-[root@localhost ~]# nvme id-ns /dev/nvme1n1 | grep nawupf
-nawupf  : 0
-[root@localhost ~]#  cat /sys/block/nvme1n1/queue/atomic_write_max_bytes
-32768
-[root@localhost ~]# 
-
-
-
-
-
-
-nvme: all namespaces in a subsystem must adhere to a common atomic write size
-------------------------------------------------------------------------------
-- Replace awupf field in nvme_subsystem struct with atomic_bs.  The atomic_bs 
-value with awupf or nawupf. (nvme_update_disk_info)
-- When a namespace is added, the atomic write size (from awupf or nawupf) is
-checked with subsys->atomic_bs.  If they don't match, the atomic write size is
-set to 512 (1U << head->lba_shift) and a message in logged. (nvme_update_disk_info)
-
-
-QEMU Config
-===========
--device nvme-subsys,id=subsys0 \
-    -device nvme,serial=deadbeef,id=nvme0,subsys=subsys0,atomic.dn=off,atomic.awun=31,atomic.awupf=15 \
-        -drive id=ns1,file=/dev/nullb1,if=none \
-        -device nvme-ns,drive=ns1,bus=nvme0,nsid=1,zoned=false,shared=false \
-    -device nvme,serial=deadbeef,id=nvme1,subsys=subsys0,atomic.dn=off,atomic.awun=63,atomic.awupf=31 \
-        -drive id=ns2,file=/dev/nullb2,if=none \
-        -device nvme-ns,drive=ns2,bus=nvme1,nsid=2,zoned=false,shared=false \
-
-
-BEFORE
-======
-[root@localhost ~]# nvme id-ctrl /dev/nvme0n1 | grep cmic
-cmic      : 0x2
-[root@localhost ~]#  nvme id-ctrl /dev/nvme0n1 | grep awupf
-awupf     : 15
-[root@localhost ~]# nvme id-ns /dev/nvme0n1 | grep nawupf
-nawupf  : 0
-[root@localhost ~]# cat /sys/block/nvme0n1/queue/atomic_write_max_bytes
-8192
-[root@localhost ~]# nvme id-ctrl /dev/nvme0n2 | grep cmic
-cmic      : 0x2
-[root@localhost ~]# nvme id-ctrl /dev/nvme0n2 | grep awupf
-awupf     : 31
-[root@localhost ~]# nvme id-ns /dev/nvme0n2 | grep nawupf
-nawupf  : 0
-[root@localhost ~]# cat /sys/block/nvme0n2/queue/atomic_write_max_bytes
-8192
-[root@localhost ~]# 
-
-AFTER
-=====
-[root@localhost ~]# lsblk
-NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
-sda           8:0    0   40G  0 disk 
-├─sda1        8:1    0    1G  0 part /boot
-└─sda2        8:2    0   39G  0 part 
-  └─ol-root 252:0    0   39G  0 lvm  /
-sr0          11:0    1 1024M  0 rom  
-nvme1n2     259:1    0  250G  0 disk 
-[root@localhost ~]# sh testxx.sh nvme1n2
-+ nvme id-ctrl /dev/nvme1n2
-+ grep cmic
-cmic      : 0x2
-+ nvme id-ctrl /dev/nvme1n2
-+ grep awupf
-awupf     : 15
-+ nvme id-ns /dev/nvme1n2
-+ grep nawupf
-nawupf  : 0
-+ cat /sys/block/nvme1n2/queue/atomic_write_max_bytes
-8192
-
-Console output:
-[    2.849583] nvme1c0n1: Inconsistent Atomic Write Size: Subsystem=8192 bytes, Controller/Namespace=16384 bytes
-
--- 
-2.43.5
+No, it's a feature and not a flag.
 
 
