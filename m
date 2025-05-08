@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBA6EC3ABBE
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 13:07:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7B74C3ABC0
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 14:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+FIg8YtjlMTnEOveJEwOZ6S7RUswTWqbNWSaXoN6QHk=; b=FPBC9A1SLk7Ck9d98TmooH7jbw
-	aQsQlOBq54NLqgg1rTSj0THD84sxgJ9GuwEQ7vRJJsmqsftNVcFV1DBtEiKGp/c71yTOOq3+zVrrN
-	iIK3zLcMWd/a6yyLbDYcB6CFr7qD9zdt3OwiNuNTKVwPTXq1UM5mp5ofBdSnF01cQlZAfBErsnjqZ
-	QnsBueQEnC/9oTRh8gImxyVYE1+hd9Vs/SCBozsh6Jz6CSwIbAc2pNDZHwmxM38Gm9ArEpae/0XjX
-	qxWNIBwsj6ysWo0N0IASkJ4Y2JmE+BVEyLmFVmQfHr/r1XVFPnjmuc13Nl7WWV9Fx8FgRwiqcsrkw
-	oRd4JYtQ==;
+	bh=deeLb9nbMUdQiKeVKd0YcpDwVWcq18I9SoDqvfZqc7U=; b=Dx+kZNncVxAmG9+5ZmTxFjtaig
+	YuTMq2cOL1aaf9isPDiMn5klluqH2Yd/JgzlBjbBW+YyY/sjPz78Ph0JMeecikwA5LE+P0iuTd/bT
+	/JFuSFvijwBWKSSn73+O6bRwIgYDE1eawwu6Gr8pRMEKWFAbP8mXkAMaIp+TnoXqfyDByub80sPNG
+	M9iczqIBzn3FdIQzULPPr5fKsJR9vmK6fs/PyGd102Tim0bsGPZcgDc08EFAhJs97y00H0AMiRDdK
+	6FgBkdRR5FnlUly0Lo20HgIZJORpnWp0WhYp/ACobXn1AuC4qRw2UXWDO9Fc/jZFoC8UTulZGU3LJ
+	zO77pE/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uD0yR-00000000i46-1wsO;
-	Thu, 08 May 2025 13:07:39 +0000
+	id 1uD23A-00000000spz-3C8p;
+	Thu, 08 May 2025 14:16:36 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uD0yQ-00000000i3k-1JVc
+	id 1uD0yZ-00000000i60-0dev
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 May 2025 13:07:38 +0000
+	Thu, 08 May 2025 13:07:47 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id BCC23629EC;
-	Thu,  8 May 2025 13:07:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C38DC4CEE7;
-	Thu,  8 May 2025 13:07:35 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 94C48629EC;
+	Thu,  8 May 2025 13:07:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85C6C4CEE7;
+	Thu,  8 May 2025 13:07:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746709657;
-	bh=RaL9h7Ugwj4zZA4KoxOjAeX4eV6bqlOKTEteM+rVwz4=;
+	s=k20201202; t=1746709666;
+	bh=fPe9F/L7tb3q8R2DGAqsHhyeDt6WMax68uKXBKe7p1c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sg6bp5yS2bPw4XVF1yosg93a52q1FjEMnGtnpBSX7IioFh5n0IDGp4BgxywdELBZq
-	 yH23IKAlW57JJtxAdG5vXlJZthrET3tpQdaRMoosffxmT8AayRvRQpPmk2aAM3nf4B
-	 KL+qv3DjD3b3rsOQwhpFzKyede6KJwr6PYY0ncc9sfZQqIsiy7wIbXcsTGOfBGWxWd
-	 9rl1Ns2aEJuapdu+znUw0JF81g3HLLWn0nMxkUV6pRufnj3ImThuAaY7Gs7MJGw4qt
-	 Tm64yJ9IUTpsbJPEdz0UAUJD8KTLYn0Tv/duBrdDVj/Pprjr60uvyIzuXxJ8U7d8GU
-	 ONDDGEnduEwwA==
-Date: Thu, 8 May 2025 15:07:33 +0200
+	b=Bw7OJ17kHOpzpcGwAhY61BX9P72ipBp3x9WcdavtXOvlMUNJrVleWDlIL6ziO3MJ3
+	 gI5jLEEOFSsK32qubXGYUq2ZopoBmSoBO7HaPFOuNXEnK5I1Z48CZ4TvVXD5NwvWc8
+	 W/ZFqZWcc3TZXrDCQUoxyIr06SpH4SbrZNnrhgcT6jxoTruUU1UU2TbukckEmTwv9q
+	 rQDwGIU0pmxN79xtaRr+BqAoIFgiz7La9+//vDOp5mz6FLmFw7bDY9SR243yBbx+SC
+	 V3Kwli7VdWfu5dBLrO9pz11rW6EzfA7FwFQfrjBJiiCCSnmPykUgzTTthbm22vCLg0
+	 ISBzZISo2LnBQ==
+Date: Thu, 8 May 2025 15:07:42 +0200
 From: Niklas Cassel <cassel@kernel.org>
 To: Damien Le Moal <dlemoal@kernel.org>
 Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH 4/4] nvmet: pci-epf: Improve debug message
-Message-ID: <aByslRmpE_-iHr9x@ryzen>
+Subject: Re: [PATCH 3/4] nvmet: pci-epf: Cleanup nvmet_pci_epf_raise_irq()
+Message-ID: <aBysnmAu_ik89fse@ryzen>
 References: <20250508065745.389199-1-dlemoal@kernel.org>
- <20250508065745.389199-5-dlemoal@kernel.org>
+ <20250508065745.389199-4-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250508065745.389199-5-dlemoal@kernel.org>
+In-Reply-To: <20250508065745.389199-4-dlemoal@kernel.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,40 +70,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 08, 2025 at 03:57:45PM +0900, Damien Le Moal wrote:
-> Improve the debug message of nvmet_pci_epf_create_cq() to indicate if a
-> completion queue IRQ is disabled.
+On Thu, May 08, 2025 at 03:57:44PM +0900, Damien Le Moal wrote:
+> There is no point in taking the controller irq_lock and calling
+> nvmet_pci_epf_should_raise_irq() for a completion queue which does not
+> have IRQ enabled (NVMET_PCI_EPF_Q_IRQ_ENABLED flag is not set).
+> Move the test for the NVMET_PCI_EPF_Q_IRQ_ENABLED flag out of
+> nvmet_pci_epf_should_raise_irq() to the top of nvmet_pci_epf_raise_irq()
+> to return early when no IRQ should be raised.
+> 
+> Also, use dev_err_ratelimited() to avoid a message storm under load when
+> raising IRQs is failing.
 > 
 > Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 > ---
->  drivers/nvme/target/pci-epf.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+>  drivers/nvme/target/pci-epf.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-> index 34dd73d6457c..bd79e059e066 100644
+> index 859953041da8..34dd73d6457c 100644
 > --- a/drivers/nvme/target/pci-epf.c
 > +++ b/drivers/nvme/target/pci-epf.c
-> @@ -1321,8 +1321,14 @@ static u16 nvmet_pci_epf_create_cq(struct nvmet_ctrl *tctrl,
+> @@ -596,9 +596,6 @@ static bool nvmet_pci_epf_should_raise_irq(struct nvmet_pci_epf_ctrl *ctrl,
+>  	struct nvmet_pci_epf_irq_vector *iv = cq->iv;
+>  	bool ret;
 >  
->  	set_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags);
+> -	if (!test_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags))
+> -		return false;
+> -
+>  	/* IRQ coalescing for the admin queue is not allowed. */
+>  	if (!cq->qid)
+>  		return true;
+> @@ -625,7 +622,8 @@ static void nvmet_pci_epf_raise_irq(struct nvmet_pci_epf_ctrl *ctrl,
+>  	struct pci_epf *epf = nvme_epf->epf;
+>  	int ret = 0;
 >  
-> -	dev_dbg(ctrl->dev, "CQ[%u]: %u entries of %zu B, IRQ vector %u\n",
-> -		cqid, qsize, cq->qes, cq->vector);
-> +	if (test_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags))
-> +		dev_dbg(ctrl->dev,
-> +			"CQ[%u]: %u entries of %zu B, IRQ vector %u\n",
-> +			cqid, qsize, cq->qes, cq->vector);
-> +	else
-> +		dev_dbg(ctrl->dev,
-> +			"CQ[%u]: %u entries of %zu B, IRQ disabled\n",
-> +			cqid, qsize, cq->qes);
+> -	if (!test_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags))
+> +	if (!test_bit(NVMET_PCI_EPF_Q_LIVE, &cq->flags) ||
+> +	    !test_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags))
+>  		return;
 >  
->  	return NVME_SC_SUCCESS;
+>  	mutex_lock(&ctrl->irq_lock);
+> @@ -658,7 +656,9 @@ static void nvmet_pci_epf_raise_irq(struct nvmet_pci_epf_ctrl *ctrl,
+>  	}
 >  
+>  	if (ret)
+> -		dev_err(ctrl->dev, "Failed to raise IRQ (err=%d)\n", ret);
+> +		dev_err_ratelimited(ctrl->dev,
+> +				    "CQ[%u]: Failed to raise IRQ (err=%d)\n",
+> +				    cq->qid, ret);
+>  
+>  unlock:
+>  	mutex_unlock(&ctrl->irq_lock);
 > -- 
 > 2.49.0
 > 
 > 
+
+Nit: since we no longer perform the NVMET_PCI_EPF_Q_IRQ_ENABLED check in
+nvmet_pci_epf_should_raise_irq(), should we rename the function to something
+else? nvmet_pci_epf_irq_allowed() ? Any ideas ?
 
 Reviewed-by: Niklas Cassel <cassel@kernel.org>
 
