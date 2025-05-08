@@ -4,48 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3592BC3ABBE
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 06:54:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 046A6C3ABC5
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 07:02:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ew2u4pM/p5zxX4wzCJTaZpDw/b43VxbkyvfgA6SBnUM=; b=ogX51D1ieKj4cXQyzMwiEs7bcS
-	mNr+0dq+wdFRL4n8la05ZwpfRaFZ6TlHGCxL7q7XEU7F/0TUxvMhotHe2h7Gqn8qn5ysjfaiTFi3K
-	XQF7sbQTRwVndsU7azPtygRiIO+n5Gbjq9SOFNolw2k5/CaqZnsM8dFEkGyTgCSIRePT9ro4OTJUt
-	vu+7MSYBF9ndbu5svwQpi06UXJcs+wMubPEtUXPRu51ZMj1KvogjjFhmCAf3Q9yTAcz2CtZn5tgyY
-	yjyQW3iN8sMmpTZ1TTSsKJVF+3ojMKKlBmqSK1u6e51kAhq2yUyCXf4VLrQY9SGZP2gqdsjVNjZmi
-	M78BQyAA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3WS8LxwQoJ5XxOGfVj2y0TcongrrYGj3oyFHGMfKT/o=; b=j3T8O8EKdK9hZX/UcQpe9/saen
+	hPke2AfAzyXiMnlDiUFSUgPKlQUYbuEXwfNBkusa6aApWwGBUCf7Eb0/g1DBoF153zZ471vTA2KEI
+	Gc1JsJ6+7SzD+pUr1uhfQgwCroXB11bO4U0v9jDQqP6XcsIm+elyAkGpce+dcKxpQap8seWu9PaTU
+	yo06EQxX9GcK0jQh9c+3vI2/92jyZF8K9VNMujkOX6P9r554vzw7s7bY8XnneivIwkZWe/9Y2i4I5
+	+3JRuCQkAwR8wNZP0VsMJz4+8o0H6SqIRVSK/jGw9jZN+NVGkjYW4mJWqZdbmefmKF3m9HXi6qig/
+	FoEqsZTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCv9R-0000000HWFG-1MNb;
-	Thu, 08 May 2025 06:54:37 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1uCvH9-0000000HX4U-2RxW;
+	Thu, 08 May 2025 07:02:35 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCv3V-0000000HVYs-1r8Q
+	id 1uCvDd-0000000HWns-2eSh
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 May 2025 06:48:30 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9327468AA6; Thu,  8 May 2025 08:48:22 +0200 (CEST)
-Date: Thu, 8 May 2025 08:48:21 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: linux-nvme@lists.infradead.org, kch@nvidia.com, kbusch@kernel.org,
-	hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH v2 2/2] nvme: all namespaces in a subsystem must adhere
- to a common atomic write size
-Message-ID: <20250508064821.GA29712@lst.de>
-References: <20250507234137.1609876-1-alan.adamson@oracle.com> <20250507234137.1609876-3-alan.adamson@oracle.com>
+	Thu, 08 May 2025 06:58:58 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id D95CF5C4D08;
+	Thu,  8 May 2025 06:56:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 299ABC4CEEB;
+	Thu,  8 May 2025 06:58:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746687536;
+	bh=REobe+ryqEk9uKJkXkW9b/4niQr7W/nhsYYmMKc4zcM=;
+	h=From:To:Subject:Date:From;
+	b=YoQyxs9SrRQiBKwrecYi3XNrXgyc77JBtKIUy3v9GTargUR7iUHR09jlP6M+cLLe0
+	 7nV+6tyHrh1mIPnd0mw7Bcrs0Ag5OTEnvadmTyLkJ4gNitwVTk43vmlBYqLItSRiRz
+	 ecUeCuYuQF205EpD8crqL4+iLanl+sr3plsFU4CKCU7Mkpi+I1u0fYejBy2dY6DjeL
+	 kFUbmC+u6MyoQQe/pSPcAc+hlgV9N/ZGriUOpBpRmkOvajcaORalM91EG9m46Wl7ss
+	 CPi/s6oDgK6wFBlYsONDs0C7Sjv2Oq83rrx3uaCZ+KWZ609pVKiMAwrmuzESPb79cU
+	 9YtKl3Yn87k3g==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 0/4] nvmet pci-epf fixes
+Date: Thu,  8 May 2025 15:57:41 +0900
+Message-ID: <20250508065745.389199-1-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250507234137.1609876-3-alan.adamson@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250507_234829_623912_C04A245B 
-X-CRM114-Status: GOOD (  12.74  )
+X-CRM114-CacheID: sfid-20250507_235857_710973_4CEB1951 
+X-CRM114-Status: UNSURE (   7.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,26 +72,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 07, 2025 at 04:41:35PM -0700, Alan Adamson wrote:
-> +		/*
-> +		 * Set subsystem atomic bs.
-> +		 */
-> +		if (ns->ctrl->subsys->atomic_bs) {
-> +			if (atomic_bs > ns->ctrl->subsys->atomic_bs) {
-> +				pr_err_ratelimited("%s: Inconsistent Atomic Write Size: Subsystem=%d bytes, Controller/Namespace=%d bytes\n",
-> +					ns->disk ? ns->disk->disk_name : "?",
-> +					ns->ctrl->subsys->atomic_bs,
-> +					atomic_bs);
+Four patches to fix and improve IRQ handling in the PCI endpoint target
+driver. The issues fixed by the first 2 patches where discovered with
+testing polling queues (set on the host side). The following 2 patches
+are small improvements/cleanup in the same IRQ handling area.
 
-Maybe mentioned that the controlled is not added as well here?
+Damien Le Moal (4):
+  nvmet: pci-epf: Clear completion queue IRQ flag on delete
+  nvmet: pci-epf: Do not fall back to using INTX if not supported
+  nvmet: pci-epf: Cleanup nvmet_pci_epf_raise_irq()
+  nvmet: pci-epf: Improve debug message
 
-> +	if (lim.atomic_write_hw_max > ns->ctrl->subsys->atomic_bs) {
-> +		blk_mq_unfreeze_queue(ns->disk->queue, memflags);
-> +		ret = -ENXIO;
-> +		goto out;
-> +	}
+ drivers/nvme/target/pci-epf.c | 35 ++++++++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
 
-And add a comment here explaining the check?
+-- 
+2.49.0
 
-Otherwise this looks good.
 
