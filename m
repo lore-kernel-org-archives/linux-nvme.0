@@ -4,65 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27316C3ABBE
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 11:56:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24C9BC3ABBE
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 12:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0PZRW8Vsrd0CZaj4tR++ioZ3YZvz2qd/JHZOwrXz+Ko=; b=viWnhgZeB35EJr9aWFnmSqcGKJ
-	NoE45thJ+/Cn01blNweSPV+GJoOzb+oCCk29wb3ux9pOrBBttsbdhDF/a+4ddUM1qP9ZZCs4QEQgX
-	N2CbTVDruXCn9YdcEe2Zq9Dnn7b52xQqD2MT0sHuhHu/Tsm1d8kB8FiG/z/Ah5Fu14Fg9LVT8WyOd
-	CeW6UE9M3racYvw/5dbNpHmQh4ewUzU9ObVN+9p41kMkociI6iw63Uv1PYL7ldCSPjTClxTZWGMp+
-	9Q6JnEB/BefwJtDxxPMnJJRwkNqV8W1HPF5YfWzmX3tm/WsBhQBg9wa8wmUT5jv6E2j0a6APzJ0IZ
-	cZsE3Vxg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6SLg1KNKgK5VLUjWCVVNk8gAtIuPejd+dih/RcXevNk=; b=4d+tCnFNg+hCNKmWT33N2prJjm
+	TahOLMM/ccDWq8zvZxUynYJpouGKvww4ET+FhJfJXCw+boYckNCAMDayenvCX9Kd2j7RRB7sDYV/M
+	oE8oj6o8/+1a9VA3KzVeHDrwgjnWU1Qs+O2yGkfyFPFszfGIn2F0D9tHSFduMu0nxoj9TKMrzXBaJ
+	dx6XY33zfAmmfVYAqYBelfdzEx0uDJhKOSbPo00YNdR9yoLhXHeCg2XujBeNw7lAhUo2nSCVb3XZR
+	LfLPrwasNy16Ee9+3Q6XO3ksdFBDo/maNvlg5t7ZrSKkJ1YjYow5OuPPMUVs6+GSTUBkljTlfoA5r
+	DjqA3Xtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCzrA-00000000XQe-3Z8k;
-	Thu, 08 May 2025 11:56:04 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1uD0Eg-00000000aOi-1T2E;
+	Thu, 08 May 2025 12:20:22 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uCzr5-00000000XOv-0Dzf
+	id 1uD0By-00000000ZsE-0cDl
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 May 2025 11:56:00 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1BB2B5C629B;
-	Thu,  8 May 2025 11:53:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E87C4CEE7;
-	Thu,  8 May 2025 11:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746705358;
-	bh=lDit1oyaFcxfGkC94lOoCNGwdvxZE9qyh5oj5Gw33QM=;
-	h=From:Date:Subject:To:Cc:From;
-	b=GMHgFSd8a3aYlAABrm6tK+X/J1Mi9f/vuCWwTXF+EiuEHzyOuPFqZqvvG16stIJxl
-	 nDhFuNhaoy19U1xhoHTDpMq/jNsxSGydDbysM6672fQVPgMLi877b3m8mO27F1pYX3
-	 WUOGUfOE/fAEyecnnkqeaJuxF3BqDVo6SMc8ox+eigQTu2/ke/KdoHdA9EB44tntaj
-	 TXbfAFZPSK+VG7AL8K9B/rS3nerq3eHbp8Wfm2f6TqV1tcERZ6soYnGYEVbyuf8udN
-	 hgS0Yz9T/KkX7yKxpY9FQYB/hAg+H6KtVW1OTgErXQbKh5aCqPcJrJGe6QSXx+o6B4
-	 JuzOetiSLHfQA==
-From: Daniel Wagner <wagi@kernel.org>
-Date: Thu, 08 May 2025 13:55:55 +0200
-Subject: [PATCH] nvme-pci: lock per namespace in nvme_poll_irqdisable
+	Thu, 08 May 2025 12:17:36 +0000
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4ZtWNH0344zYQtvr
+	for <linux-nvme@lists.infradead.org>; Thu,  8 May 2025 20:17:19 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 5906E1A018D
+	for <linux-nvme@lists.infradead.org>; Thu,  8 May 2025 20:17:18 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP4 (Coremail) with SMTP id gCh0CgDnSl_KoBxoXus0Lw--.707S3;
+	Thu, 08 May 2025 20:17:16 +0800 (CST)
+Message-ID: <68172a9e-cf68-4962-8229-68e283e894e1@huaweicloud.com>
+Date: Thu, 8 May 2025 20:17:14 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250508-nvme-pci-polling-v1-1-29ae900e793d@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAMqbHGgC/x3MQQqAIBBA0avIrBswQZKuEi0mm2qgTBQiEO+et
- HyL/wtkTsIZRlUg8SNZ7tDQdwr8QWFnlLUZjDZWW+0wPBdj9ILxPk8JO5Jznga9DLQStCwm3uT
- 9l9Nc6wdj+zVMYgAAAA==
-X-Change-ID: 20250508-nvme-pci-polling-a88ca70b7ada
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Hannes Reinecke <hare@kernel.org>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Daniel Wagner <wagi@kernel.org>
-X-Mailer: b4 0.14.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v4 07/11] fs: statx add write zeroes unmap attribute
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, john.g.garry@oracle.com,
+ bmarzins@redhat.com, chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com,
+ brauner@kernel.org, yi.zhang@huawei.com, chengzhihao1@huawei.com,
+ yukuai3@huawei.com, yangerkun@huawei.com
+References: <20250421021509.2366003-1-yi.zhang@huaweicloud.com>
+ <20250421021509.2366003-8-yi.zhang@huaweicloud.com>
+ <20250505132208.GA22182@lst.de> <20250505142945.GJ1035866@frogsfrogsfrogs>
+ <c7d8d0c3-7efa-4ee6-b518-f8b09ec87b73@huaweicloud.com>
+ <20250506043907.GA27061@lst.de>
+ <64c8b62a-83ba-45be-a83e-62b6ad8d6f22@huaweicloud.com>
+ <20250506121102.GA21905@lst.de>
+ <a39a6612-89ac-4255-b737-37c7d16b3185@huaweicloud.com>
+ <20250508050147.GA26916@lst.de>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20250508050147.GA26916@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgDnSl_KoBxoXus0Lw--.707S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxXF43ZFW3Zry3Aw48Kw1xKrg_yoWrtrWDpF
+	W8WF1jkF4DKr13Cw1v9w4Igrn0vFs3AF15C39Ykr48Cw45XF13KFnaga40yF9rXryxZayD
+	tFZ0kFyUZa1Iy3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250508_045559_152526_A82C2A88 
-X-CRM114-Status: UNSURE (   9.51  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250508_051734_482080_1D921646 
+X-CRM114-Status: GOOD (  29.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,47 +99,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On 2025/5/8 13:01, Christoph Hellwig wrote:
+> On Wed, May 07, 2025 at 03:33:23PM +0800, Zhang Yi wrote:
+>> On 2025/5/6 20:11, Christoph Hellwig wrote:
+>>> On Tue, May 06, 2025 at 07:16:56PM +0800, Zhang Yi wrote:
+>>>> Sorry, but I don't understand your suggestion. The
+>>>> STATX_ATTR_WRITE_ZEROES_UNMAP attribute only indicate whether the bdev
+>>>> and the block device that under the specified file support unmap write
+>>>> zeroes commoand. It does not reflect whether the bdev and the
+>>>> filesystems support FALLOC_FL_WRITE_ZEROES. The implementation of
+>>>> FALLOC_FL_WRITE_ZEROES doesn't fully rely on the unmap write zeroes
+>>>> commoand now, users simply refer to this attribute flag to determine
+>>>> whether to use FALLOC_FL_WRITE_ZEROES when preallocating a file.
+>>>> So, STATX_ATTR_WRITE_ZEROES_UNMAP and FALLOC_FL_WRITE_ZEROES doesn't
+>>>> have strong relations, why do you suggested to put this into the ext4
+>>>> and bdev patches that adding FALLOC_FL_WRITE_ZEROES?
+>>>
+>>> So what is the point of STATX_ATTR_WRITE_ZEROES_UNMAP?
+>>
+>> My idea is not to strictly limiting the use of FALLOC_FL_WRITE_ZEROES to
+>> only bdev or files where bdev_unmap_write_zeroes() returns true. In
+>> other words, STATX_ATTR_WRITE_ZEROES_UNMAP and FALLOC_FL_WRITE_ZEROES
+>> are not consistent, they are two independent features. Even if some
+>> devices STATX_ATTR_WRITE_ZEROES_UNMAP are not set, users should still be
+>> allowed to call fallcoate(FALLOC_FL_WRITE_ZEROES). This is because some
+>> devices and drivers currently cannot reliably ascertain whether they
+>> support the unmap write zero command; however, certain devices, such as
+>> specific cloud storage devices, do support it. Users of these devices
+>> may also wish to use FALLOC_FL_WRITE_ZEROES to expedite the zeroing
+>> process.
+> 
+> What are those "cloud storage devices" where you set it reliably,
+> i.e.g what drivers?
 
-We need to lock this queue for that condition because the timeout work
-executes per-namespace.
+I don't have these 'cloud storage devices' now, but Ted had mentioned
+those cloud-emulated block devices such as Google's Persistent Desk or
+Amazon's Elastic Block Device in. I'm not sure if they can accurately
+report the BLK_FEAT_WRITE_ZEROES_UNMAP feature, maybe Ted can give more
+details.
 
-Reported-by: Hannes Reinecke <hare@kernel.org>
-Closes: https://lore.kernel.org/all/20240902130728.1999-1-hare@kernel.org/
-Fixes: a0fa9647a54e ("NVMe: add blk polling support")
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
----
-Keith, I hope this is okay. I picked up your patch and added your SoB. As
-mentioned in the thread, this fixed the problem reported by our customer.
-And yes, it is a muliti-namespace controller.
----
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+https://lore.kernel.org/linux-fsdevel/20250106161732.GG1284777@mit.edu/
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 2e30e9be7408cba9dbb8918f066717b3a1c24010..b07ee427c311d508a95ab730c0b875f21fe5cc43 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1201,9 +1201,11 @@ static void nvme_poll_irqdisable(struct nvme_queue *nvmeq)
- 
- 	WARN_ON_ONCE(test_bit(NVMEQ_POLLED, &nvmeq->flags));
- 
-+	spin_lock(&nvmeq->cq_poll_lock);
- 	disable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
- 	nvme_poll_cq(nvmeq, NULL);
- 	enable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
-+	spin_unlock(&nvmeq->cq_poll_lock);
- }
- 
- static int nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+> 
+>> Therefore, I think that the current point of
+>> STATX_ATTR_WRITE_ZEROES_UNMAP (possibly STATX_WRITE_ZEROES_UNMAP) should
+>> be to just indicate whether a bdev or file supports the unmap write zero
+>> command (i.e., whether bdev_unmap_write_zeroes() returns true). If we
+>> use standard SCSI and NVMe storage devices, and the
+>> STATX_ATTR_WRITE_ZEROES_UNMAP attribute is set, users can be assured
+>> that FALLOC_FL_WRITE_ZEROES is fast and can choose to use
+>> fallocate(FALLOC_FL_WRITE_ZEROES) immediately.
+> 
+> That's breaking the abstracton again.  An attribute must say something
+> about the specific file, not about some underlying semi-related feature.
 
----
-base-commit: 0ea9b1f7aabb8af08649048d04fa3cee44dac4ab
-change-id: 20250508-nvme-pci-polling-a88ca70b7ada
+OK.
 
-Best regards,
--- 
-Daniel Wagner <wagi@kernel.org>
+> 
+>> Would you prefer to make STATX_ATTR_WRITE_ZEROES_UNMAP and
+>> FALLOC_FL_WRITE_ZEROES consistent, which means
+>> fallcoate(FALLOC_FL_WRITE_ZEROES) will return -EOPNOTSUPP if the block
+>> device doesn't set STATX_ATTR_WRITE_ZEROES_UNMAP ?
+> 
+> Not sure where the block device comes from here, both of these operate
+> on a file.
+
+I am referring to the block device on which the filesystem is mounted.
+The support status of the file is directly dependent on this block
+device.
+
+> 
+>> If so, I'd suggested we need to:
+>> 1) Remove STATX_ATTR_WRITE_ZEROES_UNMAP since users can check the
+>>    existence by calling fallocate(FALLOC_FL_WRITE_ZEROES) directly, this
+>>    statx flag seems useless.
+> 
+> Yes, that was my inital thought.
+> 
+>> 2) Make the BLK_FEAT_WRITE_ZEROES_UNMAP sysfs interface to RW, allowing
+>>    users to adjust the block device's support state according to the
+>>    real situation.
+> 
+> No, it's a feature and not a flag.
+> 
+
+I am a bit confused about the feature and the flag, I checked the other
+features, and it appears that features such as BLK_FEAT_ROTATIONAL allow
+to be modified, is this flexibility due to historical reasons or for the
+convenience of testing?
+
+Think about this again, I suppose we should keep the
+BLK_FEAT_WRITE_ZEROES_UNMAP as read-only and add a new flag,
+BLK_FALG_WRITE_ZEROES_UNMAP_DISABLED, to disable the
+FALLOC_FL_WRITE_ZEROES. Since the Write Zeroes does not guarantee
+performance, and some devices may claim to support **UNMAP** Write Zeroes
+but exhibit extremely slow write-zeroes speeds. Users may want be able to
+disable it. Thoughts？
+
+Thanks,
+Yi.
 
 
