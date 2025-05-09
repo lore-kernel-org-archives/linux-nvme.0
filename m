@@ -4,88 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11CF8C3ABC3
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 May 2025 13:33:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B585C3ABBC
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 May 2025 14:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UEmB3oFMLERFysPH1W5PWq+rp2dk7L9sR2c4KBzwcMs=; b=H8yZI0OuY+wQzOTzxnIcjLWgR6
-	5/TUdd0gAOf+xhlG22gmFXnrl+ohjJbiOvLak6jWSCNySzRz/91UBcIZ5l0QHEpUtMtmHI4D/5gYj
-	l10/2J4oyr5zt+bT1t6g/O5mpIK6GPDIhvMl3/do61eu4xPtaXe1CPKpB+2sR4n5B/6+Wje1abMGW
-	Lsr0rGQCz4EAw4vJnkDs3CRg0UFCh1PUPYelzQprOiUja7TRSaIiDXEur9dh4cf/QGD6Z4fOuR/33
-	uCthFMo7qpiBlRWINQekBUo/ubl5CGhbAnqk8IdxeINEsettVvWNsF9g+L8GshYf7T2DBqcuI0qSX
-	ahhfev5w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eEMgsWM53YzPC41T9DvvciIp8SgODo93SaGZ7vkuiiM=; b=oInLOjAlQtWiLN2f4osBw1wIjE
+	oCnfYeR9UE0PG0I8n0vmcf4Ur7H7VNSswLpOeX1QwN7Nq5GUrJZS8DueBkSSlGj2AedB4d5exGppg
+	ekDQVv7p6zT2y2gbtBV25gAvNhShAncijyAalyWGH07o5N/kYg0bj4m9Mb1SbkihjyIL5L1/w3M+Z
+	iiC4CW4TT4m9ijED3EmrZE0GK41W9B9l/2YH0cOvVmtinB9+Lcob1NehAc6bDX4ejAYtDJf9iBKag
+	mh+05CVGw3+C2d/s3tvxSBRnkVm1LBuFnB6xg+gwleLeUkEqnfGRKgFB/Ly1hKY6UwrU5ymb+wd/C
+	GwqHDTow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDNrE-00000003mdj-1Wh8;
-	Fri, 09 May 2025 13:33:44 +0000
-Received: from dggsgout12.his.huawei.com ([45.249.212.56])
+	id 1uDOXz-00000003vIR-23IO;
+	Fri, 09 May 2025 14:17:55 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDMxS-00000003bjT-3Oq2
+	id 1uDNYN-00000003iS9-3Man
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 May 2025 12:36:09 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4Zv7lH03z1zKHLwq
-	for <linux-nvme@lists.infradead.org>; Fri,  9 May 2025 20:35:55 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id B7BB91A0C0E
-	for <linux-nvme@lists.infradead.org>; Fri,  9 May 2025 20:35:53 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgAHa1+l9h1osHmaLw--.17418S3;
-	Fri, 09 May 2025 20:35:51 +0800 (CST)
-Message-ID: <7118c684-db9d-4bf1-a8dc-48c4cf698eba@huaweicloud.com>
-Date: Fri, 9 May 2025 20:35:49 +0800
+	Fri, 09 May 2025 13:14:15 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 234D16111F;
+	Fri,  9 May 2025 13:14:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D304C4CEE4;
+	Fri,  9 May 2025 13:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746796454;
+	bh=TPeN1c48PNnMFD5RRhKBJ3NUQ3fibBjZKqCzO2e9LmM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MNI8rZhFiKqq07rHriCM9qppSpUhiMl8MeR+kmhHJh6bu9FKQlFRke9RhDCWNbQCS
+	 eYuRhx1StzBPN/21GsORy2xO9OyMTvyK5UjpczqrqqSH7Z8t7z9DvY6Bh63qlKuvkB
+	 gdfP/tdVtqCv9LQDd9NEo08nvC0BV9XyyL4Ic0DRR7+TewdTAbBuhK1opXe/LqYMxJ
+	 nZSRU+T242WuVaJMb35a0yj+nGTvkKkp9iiD9Qwm8B5leklO6eFufVoVitdTgIV33K
+	 0OmXlaYJ+NYwSFCR1hIluu3fOyWDAc6huoqZGWFdkDIegK57vNjgeQEVKgOHRFxuHn
+	 5p44ULAbMoLag==
+Date: Fri, 9 May 2025 15:14:11 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH 1/4] nvmet: pci-epf: Clear completion queue IRQ flag on
+ delete
+Message-ID: <aB3_ownuFAlmOH5J@ryzen>
+References: <20250508065745.389199-1-dlemoal@kernel.org>
+ <20250508065745.389199-2-dlemoal@kernel.org>
+ <aBysgrz9R08PCwkR@ryzen>
+ <457cdc67-443f-4fae-b029-7bbe5b66ff45@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v4 07/11] fs: statx add write zeroes unmap attribute
-To: Theodore Ts'o <tytso@mit.edu>
-Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- john.g.garry@oracle.com, bmarzins@redhat.com, chaitanyak@nvidia.com,
- shinichiro.kawasaki@wdc.com, brauner@kernel.org, yi.zhang@huawei.com,
- chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com
-References: <20250421021509.2366003-8-yi.zhang@huaweicloud.com>
- <20250505132208.GA22182@lst.de> <20250505142945.GJ1035866@frogsfrogsfrogs>
- <c7d8d0c3-7efa-4ee6-b518-f8b09ec87b73@huaweicloud.com>
- <20250506043907.GA27061@lst.de>
- <64c8b62a-83ba-45be-a83e-62b6ad8d6f22@huaweicloud.com>
- <20250506121102.GA21905@lst.de>
- <a39a6612-89ac-4255-b737-37c7d16b3185@huaweicloud.com>
- <20250508050147.GA26916@lst.de>
- <68172a9e-cf68-4962-8229-68e283e894e1@huaweicloud.com>
- <20250508202424.GA30222@mit.edu>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20250508202424.GA30222@mit.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: gCh0CgAHa1+l9h1osHmaLw--.17418S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxKr4rJryDuw4UKryUtr47Jwb_yoWxur13pF
-	WFgF4Fyr4DKFyrAwn2vw4xuF1YyrZ3JFy5Grs5Gw10kws8ZF1SgFn7K3yFvasrJr97Wa1j
-	qFWYqFyDGanYyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250509_053607_165838_32119FB0 
-X-CRM114-Status: GOOD (  50.26  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <457cdc67-443f-4fae-b029-7bbe5b66ff45@kernel.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,164 +73,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025/5/9 4:24, Theodore Ts'o wrote:
-> On Thu, May 08, 2025 at 08:17:14PM +0800, Zhang Yi wrote:
->> On 2025/5/8 13:01, Christoph Hellwig wrote:
->>>>
->>>> My idea is not to strictly limiting the use of FALLOC_FL_WRITE_ZEROES to
->>>> only bdev or files where bdev_unmap_write_zeroes() returns true. In
->>>> other words, STATX_ATTR_WRITE_ZEROES_UNMAP and FALLOC_FL_WRITE_ZEROES
->>>> are not consistent, they are two independent features. Even if some
->>>> devices STATX_ATTR_WRITE_ZEROES_UNMAP are not set, users should still be
->>>> allowed to call fallcoate(FALLOC_FL_WRITE_ZEROES). This is because some
->>>> devices and drivers currently cannot reliably ascertain whether they
->>>> support the unmap write zero command; however, certain devices, such as
->>>> specific cloud storage devices, do support it. Users of these devices
->>>> may also wish to use FALLOC_FL_WRITE_ZEROES to expedite the zeroing
->>>> process.
->>>
->>> What are those "cloud storage devices" where you set it reliably,
->>> i.e.g what drivers?
->>
->> I don't have these 'cloud storage devices' now, but Ted had mentioned
->> those cloud-emulated block devices such as Google's Persistent Desk or
->> Amazon's Elastic Block Device in. I'm not sure if they can accurately
->> report the BLK_FEAT_WRITE_ZEROES_UNMAP feature, maybe Ted can give more
->> details.
->>
->> https://lore.kernel.org/linux-fsdevel/20250106161732.GG1284777@mit.edu/
+On Fri, May 09, 2025 at 08:13:22AM +0900, Damien Le Moal wrote:
+> On 5/8/25 10:07 PM, Niklas Cassel wrote:
+> > On Thu, May 08, 2025 at 03:57:42PM +0900, Damien Le Moal wrote:
+> >> The function nvmet_pci_epf_delete_cq() unconditionnally calls
+> > 
+> > s/unconditionnally/unconditionally/
+> > 
+> > 
+> >> nvmet_pci_epf_remove_irq_vector() even for completion queues that do not
+> >> have interrupts enabled. Furthermore, for completion queues that do
+> >> have IRQ enabled, deleting and re-creating the completion queue leaves
+> >> the flag NVMET_PCI_EPF_Q_IRQ_ENABLED set, even if the completion queue
+> >> is being re-created with IRQ disabled.
+> >>
+> >> Fix these issues by calling nvmet_pci_epf_remove_irq_vector() only if
+> >> NVMET_PCI_EPF_Q_IRQ_ENABLED is set and make sure to always clear that
+> >> flag.
+> >>
+> >> Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+> >> Cc: stable@vger.kernel.org
+> >> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> >> ---
+> >>  drivers/nvme/target/pci-epf.c | 3 ++-
+> >>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+> >> index 7fab7f3d79b7..d5442991f2fb 100644
+> >> --- a/drivers/nvme/target/pci-epf.c
+> >> +++ b/drivers/nvme/target/pci-epf.c
+> >> @@ -1344,7 +1344,8 @@ static u16 nvmet_pci_epf_delete_cq(struct nvmet_ctrl *tctrl, u16 cqid)
+> >>  
+> >>  	cancel_delayed_work_sync(&cq->work);
+> >>  	nvmet_pci_epf_drain_queue(cq);
+> >> -	nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
+> >> +	if (test_and_clear_bit(NVMET_PCI_EPF_Q_IRQ_ENABLED, &cq->flags))
+> >> +		nvmet_pci_epf_remove_irq_vector(ctrl, cq->vector);
+> > 
+> > I agree that we should only call nvmet_pci_epf_remove_irq_vector() if
+> > NVMET_PCI_EPF_Q_IRQ_ENABLED is set.
+> > 
+> > However, it looks a bit weird to explicitly only clear only this flag bit.
+> > What about the other flag bits?
 > 
-> There's nothing really exotic about what I was referring to in terms
-> of "cloud storage devices".  Perhaps a better way of describing them
-> is to consider devices such as dm-thin, or a Ceph Block Device, which
-> is being exposed as a SCSI or NVME device.
+> NVMET_PCI_EPF_Q_LIVE is cleared in the same function in the same manner. The
+> only other flag is NVMET_PCI_EPF_Q_IRQ_ENABLED, which this patch clears.
+> 
+> > I would have expected a memset() of flags, or flags = 0; in either
+> > .create_cq/.create_sq, or in .delete_cq/.delete_sq.
 
-OK, then correctly reporting the BLK_FEAT_WRITE_ZEROES_UNMAP feature
-should no longer be a major problem. It seems that we do not need to
-pay much attention to enabling this feature manually.
+You patch looks fine, I was just thinking that it would be slightly more robust
+to do flags = 0; in e.g. .create_cq/.create_sq, or .delete_cq/.delete_sq.
 
-> 
-> The distinction I was trying to make is performance-related.  Suppose
-> you call WRITE_ZEROS on a 14TB region.  After the WRITES_ZEROS
-> complete, a read anywhere on that 14TB region will return zeros.
-> That's easy.  But the question is when you call WRITE_ZEROS, will the
-> storage device (a) go away for a day or more before it completes (which
-> would be the case if it is a traditional spinning rust platter), or
-> (b) will it be basically instaneous, because all dm-thin or a Ceph Block
-> Device needs to do is to delete one or more entries in its mapping
-> table.
+That way, we remove the possibility of ever introducing a similar bug to what
+this patch fixes. (I.e if we ever add a new flag, we will not need to remember
+to also add code that explicitly clears the bit for that new flag, since
+flags = 0; clears all flags in one go.)
 
-Yes.
 
-> 
-> The problem is two-fold.  First, there's no way for the kernel to know
-> whether a storage device will behave as (a) or (b), because SCSI and
-> other storage specifications say that performance is out of scope.
-> They only talk about the functional results (afterwards, if yout try
-> to read from the region, you will get zeros), and are utterly silent
-> about how long it migt take.  The second problem is that if you are an
-> application program, there is no way you will be willing to call
-> fallocate(WRITE_ZEROS, 14TB) if you don't know whether the disk will
-> go away for a day or whether it will be instaneous.
-> 
-> But because there is no way for the kernel to know whether WRITE_ZEROS
-> will be fast or not, how would you expect the kernel to expose
-> STATX_ATTR_WRITE_ZEROES_UNMAP?  Cristoph's formulation "breaking the
-> abstraction" perfectly encapsulate the SCSI specification's position
-> on the matter, and I agree it's a valid position.  It's just not
-> terribly useful for the application programmer.
-
-Yes.
-
-> 
-> Things which some programs/users might want to know or rely upon, but which is normally quite impossible are: 
-> 
-> * Will the write zero / discard operation take a "reasonable" amount
->   of time?  (Yes, not necessarilly well defined, but we know it when
->   we see it, and hours or days is generally not reasonable.)
-> 
-> * Is the operation reliable --- i.e., is the device allowed to
->   randomly decide that it won't actually zero the requested blocks (as
->   is the case of discard) whenever it feels like it.
-> 
-> * Is the operation guaranteed to make the data irretreviable even in
->   face of an attacker with low-level access to the device.  (And this
->   is also not necessarily well defined; does the attacker have access
->   to a scanning electronic microscope, or can do a liquid nitrogen
->   destructive access of the flash device?)
-
-Yes.
-
-> 
-> The UFS (Universal Flash Storage) spec comes the closest to providing
-> commands that distinguish between these various cases, but for most
-> storage specifications, like SCSI, it is absolutely requires peaking
-> behind the abstraction barrier defined by the specification, and so
-> ultimately, the kernel can't know.
-> 
-> About the best you can do is to require manual configuration; perhaps a
-> config file at the database or userspace cluster file system level
-> because the system adminsitrator knows --- maybe because the hyperscale
-> cloud provider has leaned on the storage vendor to tell them under
-> NDA, storage specs be damned or they won't spend $$$ millions with
-> that storage vendor ---  or because the database administrator discovers
-> that using fallocate(WRITE_ZEROS) causes performance to tank, so they
-> manually disable the use of WRITE_ZEROS.
-
-Yes, this is indeed what we should consider.
-
-> 
-> Could this be done in the kernel?  Sure.  We could have a file, say,
-> /sys/block/sdXX/queue/write_zeros where the write_zeros file is
-> writeable, and so the administrator can force-disable WRITES_ZERO by
-> writing 0 into the file.  And could this be queried via a STATX
-> attribute?  I suppose, although to be honest, I'm used to doing this
-> by looking at the sysfs files.  For example, just recently I coded up
-> the following:
-> 
-> static int is_rotational (const char *device_name EXT2FS_ATTR((unused)))
-> {
-> 	int		rotational = -1;
-> #ifdef __linux__
-> 	char		path[1024];
-> 	struct stat	st;
-> 	FILE		*f;
-> 
-> 	if ((stat(device_name, &st) < 0) || !S_ISBLK(st.st_mode))
-> 		return -1;
-> 
-> 	snprintf(path, sizeof(path), "/sys/dev/block/%d:%d/queue/rotational",
-> 		major(st.st_rdev), minor(st.st_rdev));
-> 	f = fopen(path, "r");
-> 	if (!f) {
-> 		snprintf(path, sizeof(path),
-> 			"/sys/dev/block/%d:%d/../queue/rotational",
-> 			major(st.st_rdev), minor(st.st_rdev));
-> 		f = fopen(path, "r");
-> 	}
-> 	if (f) {
-> 		if (fscanf(f, "%d", &rotational) != 1)
-> 			rotational = -1;
-> 		fclose(f);
-> 	}
-> #endif
-> 	return rotational;
-> }
-> 
-> Easy-peasy!   Who needs statx?   :-)
-> 
-
-Yes. as I replied earlier, I'm going to implement this with a new flag,
-BLK_FALG_WRITE_ZEROES_UNMAP_DISABLED, similar to the existing
-BLK_FLAG_WRITE_CACHE_DISABLED. Make
-/sys/block/<disk>/queue/write_zeroes_unmap to read-write. Regarding
-whether to rename it to 'write_zeroes', I need to reconsider, as the
-naming aligns perfectly with FALLOC_FL_WRITE_ZEROES, but the **UNMAP**
-semantics cannot be adequately expressed.
-
-Thank you for your detailed explanation and suggestions!
-
-Best regards.
-Yi.
-
+Kind regards,
+Niklas
 
