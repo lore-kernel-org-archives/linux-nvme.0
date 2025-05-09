@@ -4,61 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E21AC3ABCD
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 May 2025 23:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E6B7C3ABC5
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 May 2025 01:30:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
-	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dheRTuf6LdiQpT4PGGfVtaTK5VCNYpu1pJcyROlrfzI=; b=DkkKFx/uDikUQUwQMPF9ZZCzs8
-	HaYs7T5n3w4wkHEEdZpyIAGXaMyNqtKfNO+u4n3yISCyeKSWWyxh1ibD83lQbovclSn5HQWtd0Fgl
-	Ywiiu5BQ09FSQZSjOZzstymocL0iv8HK9P8B2T1tu4gKU4K+Q6/BSgOZbEt7ow5wQ+udFN0rnTh0P
-	AfsuByB4blqGyygKCzewYrEDqqG/we2t7FqnR6r1O96dEQE7nytCHtCNzweJ3jjhBnaPm6MtFVSqh
-	7Uzrk8Cizg7p76PGjZOL31pfyAxIboDG5G3LPWuLFsX/fO3V+cYYMioJIMCXsI6nJSrTlEvXaRS0Q
-	ucITK+QA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cMx2+KSa5+OqN7vVFvRFQnhnHcLAVcYaLjsZze86Tmg=; b=WGIGrs7SQ/ySX/bF+H5cDvZw0P
+	lIXtEWBNsj8gTiXLJ818WXHgwko7D9RhPABDypmFnZwgYscZ+3rMJ5L5RXG+f4dX/cmu6WdAnKkqG
+	3V3hDvjfxWhhqMNPmWHBN5g1auF2CF0OE6MAdTPcEzNEWPvUO5uuO4WQio5+kx+LjgucgC8GYYt+U
+	oJHhWYwZ15GoCvUc4SkwXpczalEWTnbkhgbZhugnKXih/Kdyt+byfvG97cir1fMM+yA6LXhaicM5A
+	TFpC4IKqho5tTC0DPiQCPs4dFYksMHeLS7t1tO7GBF6EKtHhMH/cocLnzqnCoMmFT9A2cIB7lkS8Z
+	pOnDSFVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDAdD-00000001yr0-3E87;
-	Thu, 08 May 2025 23:26:23 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1uDCZA-00000002AWI-3eIP;
+	Fri, 09 May 2025 01:30:20 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDAdB-00000001yo7-1L7t
+	id 1uDCZ7-00000002AVs-3foM
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 May 2025 23:26:22 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9FAC743983;
-	Thu,  8 May 2025 23:26:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE31FC4CEED;
-	Thu,  8 May 2025 23:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746746780;
-	bh=HzK03H1vckUh7OjzdeU0axHJalPO2JStVVUuKg6KaYA=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=rETaKZ5ccuGrnNGXQrZhdRq+JHBDSR1Baz7sk/4eHlYdlHiIL1A+z38ko/k7ZOuL/
-	 c4W0Jc6hX9aBtoq/RgAajD+e6muAgAMkWSgxXcJKO/7rEKdRn1xzEKJOvwetdzuYeZ
-	 011sg7n8qwkG3J1P1TXJ5x6HvgHIX17oQE8O54MtWseZfB10iIXuvhEKag9HQABSdj
-	 LkWTFRRjbrtkQEssjWc0/EoxRYFLPn0mEcG6G6FJTl2/ceKlFBrZbrT9U4Z06Su0yJ
-	 yADW4s0YcH/0TM2A7lZXc2AE1OOazbRp6Df2oK3FOZcIMyRloX4qAd8g13r7//f9qd
-	 F2NMvgz2wAUAg==
-From: Damien Le Moal <dlemoal@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH v2 5/5] nvmet: pci-epf: Remove NVMET_PCI_EPF_Q_IS_SQ
-Date: Fri,  9 May 2025 08:25:04 +0900
-Message-ID: <20250508232504.437470-6-dlemoal@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250508232504.437470-1-dlemoal@kernel.org>
-References: <20250508232504.437470-1-dlemoal@kernel.org>
+	Fri, 09 May 2025 01:30:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746754215;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cMx2+KSa5+OqN7vVFvRFQnhnHcLAVcYaLjsZze86Tmg=;
+	b=cfKPiIbbOuVxpVFqgOvR4fD9Z+1Zlpsy8sCEbD4HpxmwNwQtVlFy1FXv0UbSRyDWOXSikI
+	bP662fFg/cq+G8Jf9lbiBu/mmpjKOhwTUDL3TscdLGIFgIwNo/g7L1Ha6Rku633Udq+npt
+	C0EHUq3a2EXvM0YbRUZJeGM7rSWjFEU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-177-EaCFTf9fM4K98gUIpMorrw-1; Thu,
+ 08 May 2025 21:30:11 -0400
+X-MC-Unique: EaCFTf9fM4K98gUIpMorrw-1
+X-Mimecast-MFC-AGG-ID: EaCFTf9fM4K98gUIpMorrw_1746754209
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C9F4219560AF;
+	Fri,  9 May 2025 01:30:07 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.120])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 03478180049D;
+	Fri,  9 May 2025 01:29:53 +0000 (UTC)
+Date: Fri, 9 May 2025 09:29:48 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Daniel Wagner <wagi@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <llong@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com,
+	linux-scsi@vger.kernel.org, storagedev@microchip.com,
+	virtualization@lists.linux.dev,
+	GR-QLogic-Storage-Upstream@marvell.com
+Subject: Re: [PATCH v6 1/9] lib/group_cpus: let group_cpu_evenly return
+ number initialized masks
+Message-ID: <aB1ajDUwJy6PVGEY@fedora>
+References: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
+ <20250424-isolcpus-io-queues-v6-1-9a53a870ca1f@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424-isolcpus-io-queues-v6-1-9a53a870ca1f@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250508_162621_373236_41A5A103 
-X-CRM114-Status: GOOD (  10.95  )
+X-CRM114-CacheID: sfid-20250508_183018_004023_23FCBFB9 
+X-CRM114-Status: GOOD (  29.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,36 +99,202 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The flag NVMET_PCI_EPF_Q_IS_SQ is set but never used. Remove it.
+On Thu, Apr 24, 2025 at 08:19:40PM +0200, Daniel Wagner wrote:
+> group_cpu_evenly might allocated less groups then the requested:
+> 
+> group_cpu_evenly
+>   __group_cpus_evenly
+>     alloc_nodes_groups
+>       # allocated total groups may be less than numgrps when
+>       # active total CPU number is less then numgrps
+> 
+> In this case, the caller will do an out of bound access because the
+> caller assumes the masks returned has numgrps.
+> 
+> Return the number of groups created so the caller can limit the access
+> range accordingly.
+> 
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>  block/blk-mq-cpumap.c        |  6 +++---
+>  drivers/virtio/virtio_vdpa.c |  9 +++++----
+>  fs/fuse/virtio_fs.c          |  6 +++---
+>  include/linux/group_cpus.h   |  3 ++-
+>  kernel/irq/affinity.c        |  9 +++++----
+>  lib/group_cpus.c             | 12 +++++++++---
+>  6 files changed, 27 insertions(+), 18 deletions(-)
+> 
+> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
+> index 444798c5374f48088b661b519f2638bda8556cf2..269161252add756897fce1b65cae5b2e6aebd647 100644
+> --- a/block/blk-mq-cpumap.c
+> +++ b/block/blk-mq-cpumap.c
+> @@ -19,9 +19,9 @@
+>  void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
+>  {
+>  	const struct cpumask *masks;
+> -	unsigned int queue, cpu;
+> +	unsigned int queue, cpu, nr_masks;
+>  
+> -	masks = group_cpus_evenly(qmap->nr_queues);
+> +	masks = group_cpus_evenly(qmap->nr_queues, &nr_masks);
+>  	if (!masks) {
+>  		for_each_possible_cpu(cpu)
+>  			qmap->mq_map[cpu] = qmap->queue_offset;
+> @@ -29,7 +29,7 @@ void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
+>  	}
+>  
+>  	for (queue = 0; queue < qmap->nr_queues; queue++) {
+> -		for_each_cpu(cpu, &masks[queue])
+> +		for_each_cpu(cpu, &masks[queue % nr_masks])
+>  			qmap->mq_map[cpu] = qmap->queue_offset + queue;
+>  	}
+>  	kfree(masks);
+> diff --git a/drivers/virtio/virtio_vdpa.c b/drivers/virtio/virtio_vdpa.c
+> index 1f60c9d5cb1810a6f208c24bb2ac640d537391a0..a7b297dae4890c9d6002744b90fc133bbedb7b44 100644
+> --- a/drivers/virtio/virtio_vdpa.c
+> +++ b/drivers/virtio/virtio_vdpa.c
+> @@ -329,20 +329,21 @@ create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+>  
+>  	for (i = 0, usedvecs = 0; i < affd->nr_sets; i++) {
+>  		unsigned int this_vecs = affd->set_size[i];
+> +		unsigned int nr_masks;
+>  		int j;
+> -		struct cpumask *result = group_cpus_evenly(this_vecs);
+> +		struct cpumask *result = group_cpus_evenly(this_vecs, &nr_masks);
+>  
+>  		if (!result) {
+>  			kfree(masks);
+>  			return NULL;
+>  		}
+>  
+> -		for (j = 0; j < this_vecs; j++)
+> +		for (j = 0; j < nr_masks; j++)
+>  			cpumask_copy(&masks[curvec + j], &result[j]);
+>  		kfree(result);
+>  
+> -		curvec += this_vecs;
+> -		usedvecs += this_vecs;
+> +		curvec += nr_masks;
+> +		usedvecs += nr_masks;
+>  	}
+>  
+>  	/* Fill out vectors at the end that don't need affinity */
+> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+> index 2c7b24cb67adb2cb329ed545f56f04700aca8b81..7ed43b9ea4f3f8b108f1e0d7050c27267b9941c9 100644
+> --- a/fs/fuse/virtio_fs.c
+> +++ b/fs/fuse/virtio_fs.c
+> @@ -862,7 +862,7 @@ static void virtio_fs_requests_done_work(struct work_struct *work)
+>  static void virtio_fs_map_queues(struct virtio_device *vdev, struct virtio_fs *fs)
+>  {
+>  	const struct cpumask *mask, *masks;
+> -	unsigned int q, cpu;
+> +	unsigned int q, cpu, nr_masks;
+>  
+>  	/* First attempt to map using existing transport layer affinities
+>  	 * e.g. PCIe MSI-X
+> @@ -882,7 +882,7 @@ static void virtio_fs_map_queues(struct virtio_device *vdev, struct virtio_fs *f
+>  	return;
+>  fallback:
+>  	/* Attempt to map evenly in groups over the CPUs */
+> -	masks = group_cpus_evenly(fs->num_request_queues);
+> +	masks = group_cpus_evenly(fs->num_request_queues, &nr_masks);
+>  	/* If even this fails we default to all CPUs use first request queue */
+>  	if (!masks) {
+>  		for_each_possible_cpu(cpu)
+> @@ -891,7 +891,7 @@ static void virtio_fs_map_queues(struct virtio_device *vdev, struct virtio_fs *f
+>  	}
+>  
+>  	for (q = 0; q < fs->num_request_queues; q++) {
+> -		for_each_cpu(cpu, &masks[q])
+> +		for_each_cpu(cpu, &masks[q % nr_masks])
+>  			fs->mq_map[cpu] = q + VQ_REQUEST;
+>  	}
+>  	kfree(masks);
+> diff --git a/include/linux/group_cpus.h b/include/linux/group_cpus.h
+> index e42807ec61f6e8cf3787af7daa0d8686edfef0a3..bd5dada6e8606fa6cf8f7babf939e39fd7475c8d 100644
+> --- a/include/linux/group_cpus.h
+> +++ b/include/linux/group_cpus.h
+> @@ -9,6 +9,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/cpu.h>
+>  
+> -struct cpumask *group_cpus_evenly(unsigned int numgrps);
+> +struct cpumask *group_cpus_evenly(unsigned int numgrps,
+> +				  unsigned int *nummasks);
+>  
+>  #endif
+> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+> index 44a4eba80315cc098ecfa366ca1d88483641b12a..d2aefab5eb2b929877ced43f48b6268098484bd7 100644
+> --- a/kernel/irq/affinity.c
+> +++ b/kernel/irq/affinity.c
+> @@ -70,20 +70,21 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+>  	 */
+>  	for (i = 0, usedvecs = 0; i < affd->nr_sets; i++) {
+>  		unsigned int this_vecs = affd->set_size[i];
+> +		unsigned int nr_masks;
+>  		int j;
+> -		struct cpumask *result = group_cpus_evenly(this_vecs);
+> +		struct cpumask *result = group_cpus_evenly(this_vecs, &nr_masks);
+>  
+>  		if (!result) {
+>  			kfree(masks);
+>  			return NULL;
+>  		}
+>  
+> -		for (j = 0; j < this_vecs; j++)
+> +		for (j = 0; j < nr_masks; j++)
+>  			cpumask_copy(&masks[curvec + j].mask, &result[j]);
+>  		kfree(result);
+>  
+> -		curvec += this_vecs;
+> -		usedvecs += this_vecs;
+> +		curvec += nr_masks;
+> +		usedvecs += nr_masks;
+>  	}
+>  
+>  	/* Fill out vectors at the end that don't need affinity */
+> diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+> index ee272c4cefcc13907ce9f211f479615d2e3c9154..016c6578a07616959470b47121459a16a1bc99e5 100644
+> --- a/lib/group_cpus.c
+> +++ b/lib/group_cpus.c
+> @@ -332,9 +332,11 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
+>  /**
+>   * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
+>   * @numgrps: number of groups
+> + * @nummasks: number of initialized cpumasks
+>   *
+>   * Return: cpumask array if successful, NULL otherwise. And each element
+> - * includes CPUs assigned to this group
+> + * includes CPUs assigned to this group. nummasks contains the number
+> + * of initialized masks which can be less than numgrps.
+>   *
+>   * Try to put close CPUs from viewpoint of CPU and NUMA locality into
+>   * same group, and run two-stage grouping:
+> @@ -344,7 +346,8 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
+>   * We guarantee in the resulted grouping that all CPUs are covered, and
+>   * no same CPU is assigned to multiple groups
+>   */
+> -struct cpumask *group_cpus_evenly(unsigned int numgrps)
+> +struct cpumask *group_cpus_evenly(unsigned int numgrps,
+> +				  unsigned int *nummasks)
+>  {
+>  	unsigned int curgrp = 0, nr_present = 0, nr_others = 0;
+>  	cpumask_var_t *node_to_cpumask;
+> @@ -421,10 +424,12 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+>  		kfree(masks);
+>  		return NULL;
+>  	}
+> +	*nummasks = nr_present + nr_others;
 
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
----
- drivers/nvme/target/pci-epf.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+WARN_ON(nr_present + nr_others < numgrps) can be removed now.
 
-diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-index 94a908b2340e..7123c855b5a6 100644
---- a/drivers/nvme/target/pci-epf.c
-+++ b/drivers/nvme/target/pci-epf.c
-@@ -62,8 +62,7 @@ static DEFINE_MUTEX(nvmet_pci_epf_ports_mutex);
- #define NVMET_PCI_EPF_CQ_RETRY_INTERVAL	msecs_to_jiffies(1)
- 
- enum nvmet_pci_epf_queue_flags {
--	NVMET_PCI_EPF_Q_IS_SQ = 0,	/* The queue is a submission queue */
--	NVMET_PCI_EPF_Q_LIVE,		/* The queue is live */
-+	NVMET_PCI_EPF_Q_LIVE = 0,	/* The queue is live */
- 	NVMET_PCI_EPF_Q_IRQ_ENABLED,	/* IRQ is enabled for this queue */
- };
- 
-@@ -1542,7 +1541,6 @@ static void nvmet_pci_epf_init_queue(struct nvmet_pci_epf_ctrl *ctrl,
- 
- 	if (sq) {
- 		queue = &ctrl->sq[qid];
--		set_bit(NVMET_PCI_EPF_Q_IS_SQ, &queue->flags);
- 	} else {
- 		queue = &ctrl->cq[qid];
- 		INIT_DELAYED_WORK(&queue->work, nvmet_pci_epf_cq_work);
--- 
-2.49.0
+Other than that and with Thomas's comment addressed:
+
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
+
+
+Thanks,
+Ming
 
 
