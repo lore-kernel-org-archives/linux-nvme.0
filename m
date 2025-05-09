@@ -4,146 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9211C3ABC9
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 May 2025 17:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53CDFC3ABC9
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 May 2025 20:27:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:To:From:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=GK5qqRVbMcvB/brQMjStEH/NMLIHWsRNkzNOdSfPMYw=; b=LwcbY+FucEmGF4
-	0m10tSqwe4lvLIhRtNo4y4Jr7Xyv2akuUNeoUCX9BPVpqWyYwg9GPDghW7j/2QVp1Hk5u83r5hiMs
-	HVWEmFg2d4Z6xGrs7OUPvBlN/HqBv1TrtkAFB5Yq5IWihwFNSuJRVSnW2Y8bZUMIngRxfx43C1bXo
-	4p9ue8gDkk2JB7NMxNVGe8CIEJs4jeUchyWXapm/Mpn5H+r0wg3en9gbwkgKc5aRMayRw8mUWuwIg
-	jU+wLk7uQNhyMKCPCuu0AEBbyZk8JXbJOrmYgvDF6onOdf4HO6Zffr4o6Qr0ch7meIuL0OIzdGG2+
-	ErA+YTQMA++8SAPqQ2NA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PQoSEDjNYnhPsAdPWPHW8bovEQq/IoeQUWBcYniQhyY=; b=jKU2mwJEct8Nc/iQ+papYxcYoG
+	6DCbQEqZBXny7L0PYUx4lR53OZkqZM+yWsoOsUNmI+FuIvIbKsHeu3g2ITJ/tVMZKUM5FRbsrW4mZ
+	e28uwNagGl4SA33B7DycMRdKMcl0Mg0T2JSj4z3LRR3bzttHlOfmMMZnZ4+kMVl90f7z6wKz+Rn6L
+	Gxw6Q40wQM+EZ2OfeQvcr77hCJuArI6YeroY//g2b6cS1rxnKQKhbmEaUeDhAB0SLigWWJwIelfF6
+	1B7Y4wBlU2+zAf9Ookt0g39yUmYTIoqh2Qp0yOGkcYB7Lm30wT6UBuS3dl6VAVOZqOIQa0Jq09olM
+	y9tJbktA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDRtE-00000004UhH-0rsF;
-	Fri, 09 May 2025 17:52:04 +0000
-Received: from mail-mw2nam04on20729.outbound.protection.outlook.com ([2a01:111:f403:240a::729] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+	id 1uDUJd-00000004nQR-2IP2;
+	Fri, 09 May 2025 20:27:29 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDPvQ-000000049GI-2uAo
+	id 1uDRtR-00000004UmX-1xIw
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 May 2025 15:46:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KzzFRv9HRKoZbRWZsuyR0yqECzVE45EoR+VO0czY/JLgFZacpdcEIB9zi8Sd1xKsuk89cqkEPqY2lYPNJysWq+MJSk2a7jZ/YSYKOeg7VsAPa7hdTFnUKPmbhCa3CfiMv/+oVJ8l/YWw6BU+RJDoyFI/QqayIm65ni4qLV9KkDhpZEsawdwfTYLznnD5ZgJjeUZLmrZ/u4NoN+cJ0wFziT9RJVLsZx0agK/ZcN97moRFFVkoDdkPJUaUgBpT3eM9KfTf0PrbqJtDKUIdYDlWZoaare5Ows5o/M1QVYL9+5GFPWSrkI8ol9Y0yAKXaj26h0/dPkFzXWeRO610OLxLgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GK5qqRVbMcvB/brQMjStEH/NMLIHWsRNkzNOdSfPMYw=;
- b=E5v0HkbfQUYxmG6FMedh6SVvPGAd0Gzvq32omaC80WJsr4bdg1OfoiY1kT7xDLky4fi5mvfO76/CmyLpkdmQ0fgSipv8KK4t0KUXiPUhp4KD97nmsUbHdp6JMk6KayexNCax9CiEE0pHr0dcwbmp368lZRqN+gcEGTIcRaOJXEr7jwi4CkQiYYwjY4nXKgDHSHfEjiky8TDSUQLP/CJoC58u5YCYBz/dZpmfxqRCTRXSVmI/FB3KalLcUaHyGwhtRLM6aKU0ETWLNe+Qt9YMTB+EBN8Gba0ITQwjrXFpaBeZQXqMCnQqYaznTVbU7bBCtOplfAZfFTo6CaGo2WcIiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=psmnv.com; dmarc=pass action=none header.from=psmnv.com;
- dkim=pass header.d=psmnv.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=psmnv.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GK5qqRVbMcvB/brQMjStEH/NMLIHWsRNkzNOdSfPMYw=;
- b=qwwtOeur8/YUxk34lRbaT1/bZjQVl8JGxg+0oGbdBXDzZc20dX5jupNhzS6E02ArtHpTgbIncbE21c6Lv4N6l0Db1rMUECkBFw9VbXQOl8h0gtaH1pn5ETSubfu8QnEEF47ZVPPu1rC7YG79br29+tEy984cwdPSMs0UmqyRJfeSFd0raT6CJasaXpzhqImVaAiBXEdjQ76mloJsl34Kc1kg4wPjqwS4zXo8A6zPvNTa4kD8bfuGiPqjIKGSVZfCOzGjFf+OuAFut5Ybyc2BqG4iJi57REhxd3q+59eGmj7OVXXxYsYPnq0HfHXHoG2sLc6CpBxoK/PDTdoFWqMzRw==
-Received: from SJ0PR03MB6501.namprd03.prod.outlook.com (2603:10b6:a03:386::18)
- by SA1PR03MB6369.namprd03.prod.outlook.com (2603:10b6:806:1b4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Fri, 9 May
- 2025 15:46:04 +0000
-Received: from SJ0PR03MB6501.namprd03.prod.outlook.com
- ([fe80::520:c240:b60c:57b]) by SJ0PR03MB6501.namprd03.prod.outlook.com
- ([fe80::520:c240:b60c:57b%3]) with mapi id 15.20.8722.021; Fri, 9 May 2025
- 15:46:04 +0000
-From: Eric Robinson <eric.robinson@psmnv.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: 'nvme list' shows 100% usage on empty drives
-Thread-Topic: 'nvme list' shows 100% usage on empty drives
-Thread-Index: AdvA83kFx6m6RPjHS361DwMdkX+71A==
-Date: Fri, 9 May 2025 15:46:03 +0000
-Message-ID: <SJ0PR03MB65015EFAAC79F560121311CAFA8AA@SJ0PR03MB6501.namprd03.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=psmnv.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR03MB6501:EE_|SA1PR03MB6369:EE_
-x-ms-office365-filtering-correlation-id: 2ea0cc1c-ed87-4726-d950-08dd8f109b00
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?8Fb6PvogBNA/NzeuKApxlYTs0kmJXlpE2HYcFvocMzTm0yp71t0y0sEr69?=
- =?iso-8859-1?Q?i5UzoB5Td3Za5UamCZ8abl35Twxl64mgwF+nrWC8yL/Z/J6U6AoQpvvOPj?=
- =?iso-8859-1?Q?X7Ltte4uPnZPqB1IZ8pCo+ZXzca9qh/V09wvu2KFrMWm8ebvW7sNc4uwE7?=
- =?iso-8859-1?Q?PfR5vv+7CS9CLlM6c85UBQGuorfZEESO7Ief5QWeLVgkE9Dx8LWlm6PzTK?=
- =?iso-8859-1?Q?/M8YDMX/dvoryiU1xJeToz6yUQPc3YO84/oCo73Vrw0qnm8tQCmtyuJPe4?=
- =?iso-8859-1?Q?Bu4fHFPT21XpOoG8/P0Tt2KcIFkvPrz78tRepslkv6sBFIUhAovnH0U2E4?=
- =?iso-8859-1?Q?RQrfBuvLWQNoaoyWrYlAWodtxW0w6rLADO47xPSFcewJ4tx984uC+iZC3x?=
- =?iso-8859-1?Q?lN/lVpD3cdiUP0IspslnWmqBQxT2kQYP8bXQZ2IexUTH7GB6eLQydZHSQ/?=
- =?iso-8859-1?Q?fvP9t6LXMoKaoo8nTiWNjw3zdv2JltfptcaBWYINPw+N9ezyq/eFg08t1I?=
- =?iso-8859-1?Q?l00m1IQSOdrgOP41rB97XFsjxjAJFb5iAWq/+lBCahT+Lh2DFTdgHATLfG?=
- =?iso-8859-1?Q?uVJoE2A+AMSFO7e3o5Da7OuUakLLcQZaEuDfFsAUGGHm0ST4Vxro/5K4A/?=
- =?iso-8859-1?Q?6+3re/VkoctzZn9Tsr4RXds56N5ku/lHBWnMAhsDsc5KK54tS6DuNft0fF?=
- =?iso-8859-1?Q?SS4E7Cl88bPbAYHS91slaFRwGjREVBaKvMWNLy4hznxJZe9lm/N7eCso00?=
- =?iso-8859-1?Q?sUo1XQz6hwtkEeFwNGpqI+tkwIW5ToFJdbBDjcD9nZK93VEWdQq8mTEDAc?=
- =?iso-8859-1?Q?vkJZLgXooyjDmW28JF5SPBIZw/EUKY7IfScHIewCpbsvrlPCGmlHb7Eay2?=
- =?iso-8859-1?Q?veXUDDYAFlQaHD68LMy3OOyAbl99hNanuMMYNgVR0GFemB/LH06YmhPgnH?=
- =?iso-8859-1?Q?v/E/O6rJBYExS6tqU+RUFVhZ5g03mvuNtgbOa+vUKe05GM9lTwwHQLsKyx?=
- =?iso-8859-1?Q?XljXpjPaIfgShmPIkF/hli8jiX/ZFa2PEElYxM2Y3g2NJwgV/VJmp5coyJ?=
- =?iso-8859-1?Q?97hz5skclbzCkwllo1NGzHKveun8okce/fmHkKDMvUE806jQjODPnKWHa/?=
- =?iso-8859-1?Q?nrVnjzfje82NhM81kByochTRdRYm+luaIzgJ7uV+ce/QAkhJXVE8U7qCWs?=
- =?iso-8859-1?Q?U1TeFrgtZUBB/zXcW51+W3Rb6C/91RyaBZWZ6R4HCnGzkPugupEMqcBtUP?=
- =?iso-8859-1?Q?0kbQxCy2L6BCabGhJ9sdrDyFOwlRqeDXeYVzL5rxmFQ4mxSpwp24SkJgho?=
- =?iso-8859-1?Q?DEQ0YgTppAiFso8pB3ZPvprJj2zvRI6f/gTlSN4tNWPdGeoq3XiMjoELlJ?=
- =?iso-8859-1?Q?K2pCjjaF0g5LIzc6fzW18ij0A4/K3gTsvvPirjO1on98B6XOkOd5BjhfNU?=
- =?iso-8859-1?Q?Y5wvYhwA9jBWsB7COnhSP8cfSttpSpdJJFwb8Nt26K4+Q3rAW7GPEz+p5K?=
- =?iso-8859-1?Q?Q5G4OBcymSzMjKISgEQ8D2tN2t73ZevoQVhqz8jQsEbg=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6501.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?gKeYHRYmDjRCLbfg7BQa5IEnQdhDoIJWG/GRpUFyrlfm17tZqZXCnmROxx?=
- =?iso-8859-1?Q?3vx3B+TAFVNzo8kdkPE5EsMB7Nb0H17u5OUaaTi+XHtPxuLQ9lm0GhZS7u?=
- =?iso-8859-1?Q?atrSKpQZk7ooW9MMZeCkaf019o5Z9xMN5BAHtvJ2a70lcGjz6Kv3NoLLuT?=
- =?iso-8859-1?Q?XuHKIClfAPTUh353/SI4jqbiIqJxr6OUv9OzikICkftPjzlvcdUuOpghGQ?=
- =?iso-8859-1?Q?kAx2FVYxFW6tTzIEA5gd7stosL8BX6XLw0w4gZNnsRl9x23+c1Rz5yqb8a?=
- =?iso-8859-1?Q?j0JvPiJtf3fbnRFGw05HsynmosXKZYC2veoKKsQo7loxaUe4VtSnvyM1Zg?=
- =?iso-8859-1?Q?6TVg1GxW67S6vwbOHT+/Y9A8mSwgEa49uCUNnuDenvizw3qf1+77L+kMlS?=
- =?iso-8859-1?Q?+dBT8LUEEilBN7Zd03XNenUCsT9UVyjVYOfU51Cr5Kqdo7Nfju652jZmgI?=
- =?iso-8859-1?Q?BGaZ0/eLSMlPzrbc990RIBghVYFaegFB30Eav8HDLUe1Dy1qNmoSDDRpUJ?=
- =?iso-8859-1?Q?AVlrzdEheTqCbFMihOioeelY/PlhZcQd7Ml2Qd+VUbn3qa8sqaGaILV0rP?=
- =?iso-8859-1?Q?94FIYzUkga4YYldtGmgVqcliU8uaRAA/juCyQ01MaxX8UbEZiOEm08x8dE?=
- =?iso-8859-1?Q?1K+0KCb5f9NNKVK4/7FIasSaL/N/0iy22WSeULWHOTyMtRLmwwlBpnyxFs?=
- =?iso-8859-1?Q?MmY+W6Gdf53LDfT4985/NBUFculW8SHelDd4ZVuahy4qmQ5gLZdyXuo352?=
- =?iso-8859-1?Q?gtmC/EN+18T4WlllX0HhDeAF7CW78NLrcAFJDmzTa6Y9L73LLeSeC3BPMH?=
- =?iso-8859-1?Q?QGD3/1mvp6sUaxsIfrRepIUM4HmLwSpOf8kJcHD+towvH3MLZJwpsG6Zjh?=
- =?iso-8859-1?Q?CrvCUNzG7BaumRuRTPEX8Tid7ZqYmtMIjh1arleU28uE8TQNMKbOQC/5Ho?=
- =?iso-8859-1?Q?hkCQfeblkjyO1ogGPRo2yg3OSgGjKQsyDaC7k7xA60aeGR4HBYBSajFeqV?=
- =?iso-8859-1?Q?4MRtKZ57IZ/B+MupT1gr8Ryb8txrWVvFy/yIwIbi2sjeq8KJ7HLRBWrIQL?=
- =?iso-8859-1?Q?d/apDc+62NtnGZiWySASYSrX7zjx3isqk+YbW6Csu3S5WnauvoQyrBPXrY?=
- =?iso-8859-1?Q?H/SxFWCQRhZQRC2df0UzWgNV/9ssNnGUwUWXNh8cSIww2mqaISiAwwHXdy?=
- =?iso-8859-1?Q?ZAHZ9jqXuS+HfizLLEXikWMsrgU4RbbUTGVvK/gmj5OO6SKb5LkdFXg/sX?=
- =?iso-8859-1?Q?OWLw2HbhN58pRIaNbakY6hDKiXu33GTQenUOLZcu3/8jhcH7ofw4Lu8qvA?=
- =?iso-8859-1?Q?PRrVSVHHnP/thrtK97pFRTjs3F0m1Zzcv8MTDoEgk3ADoTZAgUi4PuCsch?=
- =?iso-8859-1?Q?8dlbUf2TExd/zIZlFxnsbfq50hzaUXR6wWWYBolxjPsW1pXSWzIdlC9efM?=
- =?iso-8859-1?Q?XDXdoZIIXZ8xs/tJhVXHvrRWD+dNBywq7CKnDo1o/8j+gZ3Y2xOMEkoRqO?=
- =?iso-8859-1?Q?/pC7mRAUePPphmNCUDWh0F7Qh6Ex/PQHrs3PSi+uUesDwD2pZ++XViglig?=
- =?iso-8859-1?Q?Jenf47tLtHBQVfNiNyftiuuMYLJIw+V4NduHWYuIVi0rRzViN9ckrPbQG1?=
- =?iso-8859-1?Q?4Rhx/YZpNFDZEVzGHtG4/EEXMwyK50OlkI?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	Fri, 09 May 2025 17:52:18 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 549EjRoX031677;
+	Fri, 9 May 2025 17:52:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=PQoSEDjNYnhPsAdPWPHW8bovEQq/IoeQUWBcYniQh
+	yY=; b=Q2gKyN8EivUpz8kPXwoD6DnosoiOp9YDtXclkzoGkSt+U439Ys5AItPkj
+	PAAHNQU2Wz0sLJI9Y/GIhZt1YAExwOTJIDM3trLiLrg3P6wggJKNMWj5b+Q4HAFn
+	0pPemv9ldrM/l3p0hCwwKklRTFNlv0Jg2mKalO+LMfoJWya7so5ujHwFgvAg8IwZ
+	UFOdhWAFUIPVsgsDYRZzCFN6gEGeY5NOl/DuLa1NUj+Kbn5Ioaw3d6uAvvu6kPBR
+	0NKoN5tLuQqh+S14v+YnRq2nbyok3DI3L4+A34A5A3i3fEKqvzkYjUp/LVartR70
+	zNH4VwVK4aJG1c2pHxaX8dl26dPEw==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46h4rwdcb7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 May 2025 17:52:07 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 549F2Xrd001353;
+	Fri, 9 May 2025 17:52:07 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 46dwftvwd7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 May 2025 17:52:07 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 549Hq5Wu31916452
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 9 May 2025 17:52:05 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 64B902013C;
+	Fri,  9 May 2025 17:52:05 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 389FD200C5;
+	Fri,  9 May 2025 17:52:01 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.67.130.163])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  9 May 2025 17:52:00 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, hare@suse.de, kbusch@kernel.org, sagi@grimberg.me,
+        jmeneghi@redhat.com, axboe@kernel.dk, martin.petersen@oracle.com,
+        gjoyce@ibm.com
+Subject: [RFC PATCHv4 0/3] improve NVMe multipath handling
+Date: Fri,  9 May 2025 23:21:47 +0530
+Message-ID: <20250509175158.2753396-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-X-OriginatorOrg: psmnv.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6501.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ea0cc1c-ed87-4726-d950-08dd8f109b00
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2025 15:46:03.9016
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 41c01403-a265-4172-8028-7972e133fa87
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Z9fNLLC3n+7MUgmBcTbsZRkXm/tsoehD/1y3UJ14URzq1wcqpzvuCFFZaaol7Jm/HapSEhFUdiisnYfl4HgSIA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR03MB6369
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=QIxoRhLL c=1 sm=1 tr=0 ts=681e40c7 cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8 a=9r6QK0OtAAAA:8 a=VnNF1IyMAAAA:8 a=dAkqvE83TVYWYi81bWwA:9
+ a=5NLhsHySBYhYDpG7:21 a=1CNFftbPRP8L7MoqJWF3:22 a=TxIH8fH_K59pr5-VUUuU:22
+X-Proofpoint-GUID: Xg6Lq2ZcsHPYGuGZGcYil0pVHChvsb7F
+X-Proofpoint-ORIG-GUID: Xg6Lq2ZcsHPYGuGZGcYil0pVHChvsb7F
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDE3NSBTYWx0ZWRfX9vB5LZU+RHlz 6nh5oHSoaM0QofpymAvtWzVM1hGyRXfliV865pxBU+oTCXC79pUi8xcuk8XJqa8HIscJVU86eD6 LRa3CYN+G9vq4ANczKkWl6dhOOqHRn3YCV4N3oK9MMdfGZPDSPrInUwoXyAXdN7iJQCZcRsOYbh
+ RLP/TP2zbE7XWujps54bBwOiUc6EFQf7El0J4Zkg/EiddNu5XJfeKbf+L2Hph1yCz08KWel8hWh HavvDevvex/Tw7NpivQ/zaL9qVQd4YCaCHlnQtLGI8dt4BZSU1KEO3ixGkFlPKLpE27v2DiR+o7 4MjB1qLTNQ0rLgG49khJtY0gROGTIgXRPYHv3oAEMBuD90vCuh51deody2e5+ySXCQ6kT5YGgsD
+ VBqcKvwb4yhGaMoBUxoilegGpdgdutwyE3vFZqi/CNg0Z4XHt5A8MdcZZZ/LQUrmdkEj08Rp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-09_06,2025-05-09_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
+ malwarescore=0 bulkscore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2505090175
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250509_084612_729631_E29E5A59 
-X-CRM114-Status: UNSURE (   8.06  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250509_105217_636051_617AD3D1 
+X-CRM114-Status: GOOD (  19.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,46 +108,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Why does 'nvme list' show drives as fully used when they are not? Note that=
- 4 of the drives show as fully used. These drives have been secure-erased.
+Hi,
 
-[root@ha54b ~]# nvme list
-Node                  Generic               SN                   Model     =
-                               Namespace  Usage                      Format=
-           FW Rev
---------------------- --------------------- -------------------- ----------=
------------------------------- ---------- -------------------------- ------=
----------- --------
-/dev/nvme0n1          /dev/ng0n1            PHLN112302DB6P4CGN   Dell Expre=
-ss Flash NVMe P4610 6.4TB SFF  0x1          6.40  TB /   6.40  TB    512   =
-B +  0 B   VDV1DP24
-/dev/nvme1n1          /dev/ng1n1            42W0A02NTCA8         Dell Ent N=
-VMe CM6 MU 6.4TB               0x1          4.10  kB /   6.40  TB    512   =
-B +  0 B   2.1.8
-/dev/nvme2n1          /dev/ng2n1            PHLN112201RM6P4CGN   Dell Expre=
-ss Flash NVMe P4610 6.4TB SFF  0x1          6.40  TB /   6.40  TB    512   =
-B +  0 B   VDV1DP24
-/dev/nvme3n1          /dev/ng3n1            PHLN112302BA6P4CGN   Dell Expre=
-ss Flash NVMe P4610 6.4TB SFF  0x1          6.40  TB /   6.40  TB    512   =
-B +  0 B   VDV1DP24
-/dev/nvme4n1          /dev/ng4n1            42W0A02STCA8         Dell Ent N=
-VMe CM6 MU 6.4TB               0x1          4.10  kB /   6.40  TB    512   =
-B +  0 B   2.1.8
-/dev/nvme5n1          /dev/ng5n1            PHLN112302C16P4CGN   Dell Expre=
-ss Flash NVMe P4610 6.4TB SFF  0x1          6.40  TB /   6.40  TB    512   =
-B +  0 B   VDV1DP24
+This patch series introduces improvements to NVMe multipath handling by
+refining the removal behavior of the multipath head node and simplifying
+configuration options. The idea/POC for this change was originally
+proposed by Christoph[1] and Keith[2]. I worked upon their original
+idea/POC and implemented this series.
 
--Eric
+The first patch in the series addresses an issue where the multipath
+head node of a PCIe NVMe disk is removed immediately when all disk paths
+are lost. This can cause problems in scenarios such as:
+- Hot removal and re-addition of a disk.
+- Transient PCIe link failures that trigger re-enumeration,
+  briefly removing and restoring the disk.
 
+In such cases, premature removal of the head node may result in a device
+node name change, requiring applications to reopen device handles if
+they were performing I/O during the failure. To mitigate this, we
+introduce a delayed removal mechanism. Instead of removing the head node
+immediately, the system waits for a configurable timeout, allowing the
+disk to recover. If the disk comes back online within this window, the
+head node remains unchanged, ensuring uninterrupted workloads.
 
+A new sysfs attribute, delayed_removal_secs, allows users to configure
+this timeout. By default, it is set to 0 seconds, preserving the
+existing behavior unless explicitly changed.
 
-Disclaimer : This email and any files transmitted with it are confidential =
-and intended solely for intended recipients. If you are not the named addre=
-ssee you should not disseminate, distribute, copy or alter this email. Any =
-views or opinions presented in this email are solely those of the author an=
-d might not represent those of Physician Select Management. Warning: Althou=
-gh Physician Select Management has taken reasonable precautions to ensure n=
-o viruses are present in this email, the company cannot accept responsibili=
-ty for any loss or damage arising from the use of this email or attachments=
-.
+The second patch in the series introduced multipath_always_on module
+param. When this option is set, it forces creating multipath head disk
+node even for single ported NVMe disks or private namespaces and thus
+allows delayed head node removal. This would help handle transient PCIe
+link failures transparently even in case of single ported NVMe disk or a
+private namespace.
+
+The third patch in the series doesn't make any functional changes but
+just renames few of the function name which improves code readability
+and it better aligns function names with their actual roles.
+
+These changes should help improve NVMe multipath reliability and simplify
+configuration. Feedback and testing are welcome!
+
+[1] https://lore.kernel.org/linux-nvme/Y9oGTKCFlOscbPc2@infradead.org/
+[2] https://lore.kernel.org/linux-nvme/Y+1aKcQgbskA2tra@kbusch-mbp.dhcp.thefacebook.com/
+
+Changes from v3:
+    - Removed special case for fabric handling and unified head node 
+      delayed removal behavior across PCIe and fabric controllers (hch)
+
+Link to v3: https://lore.kernel.org/all/20250504175051.2208162-1-nilay@linux.ibm.com/      
+
+Changes from v2:
+    - Rename multipath_head_always to multipath_always_on (Hannes Reinecke)
+    - Map delayed_removal_secs to queue_if_no_path internally; if delayed_
+      removal_secs is non-zero then queue_if_no_path is set otherwise its
+      unset (Hannes Reinecke)
+    - Few minor code readability improvements in the second patch while
+      handling multipath_param_set and multipath_always_on_set (hch)
+    - Avoid the race in shutdown namespace removal by deleting head->entry
+      during the first critical section of the nvme_ns_remove for the case
+      head delayed_removal is not configured (hch)
+    - Use ctrl->ops->flags & NVME_F_FABRICS to determine whether the 
+      ctrl uses fabric setup (Sagi)
+
+Link to v2: https://lore.kernel.org/all/20250425103319.1185884-1-nilay@linux.ibm.com/
+
+Changes from v1:
+    - Renamed delayed_shutdown_sec to delayed_removal_secs as "shutdown"
+      has a special meaning when used with NVMe device (Martin Petersen)
+    - Instead of adding mpath head disk node always by default, added new
+      module option nvme_core.multipath_head_always which when set creates
+      mpath head disk node (even for a private namespace or a namespace
+      backed by single ported nvme disk). This way we can preserve the
+      default old behavior.(hch)
+    - Renamed nvme_mpath_shutdown_disk function as shutdown as in the NVMe
+      context, the term "shutdown" has a specific technical meaning. (hch)
+    - Undo changes which removed multipath module param as this param is
+      still useful and used for many different things.
+
+Link to v1: https://lore.kernel.org/all/20250321063901.747605-1-nilay@linux.ibm.com/
+
+Nilay Shroff (3):
+  nvme-multipath: introduce delayed removal of the multipath head node
+  nvme: introduce multipath_always_on module param
+  nvme: rename nvme_mpath_shutdown_disk to nvme_mpath_remove_disk
+
+ drivers/nvme/host/core.c      |  12 +-
+ drivers/nvme/host/multipath.c | 206 ++++++++++++++++++++++++++++++----
+ drivers/nvme/host/nvme.h      |  24 +++-
+ drivers/nvme/host/sysfs.c     |   7 ++
+ 4 files changed, 220 insertions(+), 29 deletions(-)
+
+-- 
+2.49.0
+
 
