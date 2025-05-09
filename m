@@ -4,61 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29DB4C3ABBC
-	for <linux-nvme@archiver.kernel.org>; Sat, 10 May 2025 00:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7375C3ABC3
+	for <linux-nvme@archiver.kernel.org>; Sat, 10 May 2025 00:46:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iJa4+jEfJMXvq0+2QOrxdrucryIxvtjV958fZuz7fPI=; b=VzsjYlPuQtFklBXmk07pmjHu3v
-	q6jMIOvum/IRvxH1wJbgUwz3a34oGHkQ/FZfbv9a64qnrAWxmRdqDKYtlno/63dasHZ++SIuSDtC0
-	cvbOwatWjdCsH7/mKVsrkuRK0Gch9r4JEd5uZCuXMrOIw5KKaKoHT1/Hd2O4TiM4MGRUGnKKqLASU
-	pTrq98LhhsEI5HGpmRg/lNUwJy+Pu9ZBlYTCRK6y4rnQk0bmSednhkRrbyWLpgmHIXeCPCByyq8uI
-	huXn9BRqemnPa4z1zaaJ5QnyNfKwjJLKN+vAfInCDowkkn7knKGZ2vZ4G7qnREw7qJtnhl7Z/vOEp
-	No1rEbWQ==;
+	bh=p4B2PhSgyE9Wbq0XXzziMjz6lqwI7FUVKn7gWMtYXiM=; b=QjOVeqK/A/oGjguvlrfVXu1dry
+	GlX7Vn2l66uBiQ8r06aGvjqBHOEu5YVgdGAXyw03uJQigJDmG4c7oew0U1BvnX7oKNyS/OdKctuO3
+	Kz0dsesT2xgUikU7FErhrYAr4BT7cIMnxdxj4A2Bh5AxMEQ5D3dJwv+wA7y6D5PaS5dHPuZKBZ37C
+	AHmnaynPdnG9Zncst9IID0kjTymDQ4o0JTwxC7kWN8s2XmHo0fsEAA72vVqytHVtSU+YlqpTtJhfC
+	wl5qwX8FqhV4kC4JfS0hXZj1zh9o13t49yltKTZtBarypek9EBfj0ZeiKKAwuFevVdImNusmqVKal
+	r9fx2iaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDXng-00000005AsF-2XEE;
-	Sat, 10 May 2025 00:10:44 +0000
+	id 1uDYMZ-00000005DjS-2Led;
+	Sat, 10 May 2025 00:46:47 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDXne-00000005As7-26DR
+	id 1uDXJr-000000058r6-2Fex
 	for linux-nvme@lists.infradead.org;
-	Sat, 10 May 2025 00:10:42 +0000
+	Fri, 09 May 2025 23:39:55 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id A34A0629F5;
-	Sat, 10 May 2025 00:10:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8347DC4CEE4;
-	Sat, 10 May 2025 00:10:40 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id F2C40629F5;
+	Fri,  9 May 2025 23:39:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E4FC4CEED;
+	Fri,  9 May 2025 23:39:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746835841;
-	bh=r6hz6WKcM3OOcqxFzz0dF5FTPCaB/AIhD8cGGMyJHE4=;
+	s=k20201202; t=1746833994;
+	bh=p4B2PhSgyE9Wbq0XXzziMjz6lqwI7FUVKn7gWMtYXiM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YPNaL0yWxUBk/GikkeGlB6+c4j0WYSVc0jMIR0dvbvug/QPvEaI/+sMYlEtrDumUm
-	 rCIfvadqjiOigVmChkTjSv133hkiTB5mHmsibK6WZv+sZfTIxp0zG6Qa5x1ygiSNED
-	 vIRtzAp8/T7PscyDCIGJRtFM1ViZHUagV7siOxMoK2NLT3KaesEcebxEKl/pLKJNLF
-	 JiZXA6gtaPlfVjajZu7tV74X+2eW2TvCEujtMSvKIY50X7V7NxMW2n66Y7lAxbqTyk
-	 +s6OuztrZdzu4aGMo6HkKnemW7Klw0Fqt9Pcushf6m9d9LasAcuCiTAWeTetaS27Mo
-	 w3NBL0BAjHiVw==
-Date: Fri, 9 May 2025 18:10:38 -0600
+	b=IPxlPuoBkPCkxfOB+4h5DD0yDAls/IunU5xdQviJQffdGT98xb8L+3+KbWNy6qN+y
+	 tJTaBGg2j35xmGOXywqM1sLVEErVZjdYN/qPilFA9Lr8VDOqZkuaQf5WdQFo3kFB1s
+	 YEGTZpJUEww0zwF6gsxII0cWa05/7h718/kBQjkzP3HyB9TC7bdsot7M9hXoH1uQ+L
+	 vXuDdkuKVCKikH5jXrU9FmRPu00RETn52DIS9XxIeBlcCEnn7OdvC9Il5mpCdG/tAx
+	 pGUGKIru+oaFX2nbwAKe9+c83FNYpTAE49ncl14qdqoiDF9KGxkctL1eCB0QxpkMq0
+	 WjA5MWL3G5gzQ==
+Date: Fri, 9 May 2025 17:39:52 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Wilfred Mallawa <wilfred.opensource@gmail.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Alistair Francis <alistair.francis@wdc.com>,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] nvmet: nvmet_sq_init(): fix use of uninitialized variable
-Message-ID: <aB6ZfhTlhxrugPJS@kbusch-mbp>
-References: <20250509235904.915626-2-wilfred.opensource@gmail.com>
+To: Eric Robinson <eric.robinson@psmnv.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: 'nvme list' shows 100% usage on empty drives
+Message-ID: <aB6SR-zVZ25M52qp@kbusch-mbp>
+References: <SJ0PR03MB65015EFAAC79F560121311CAFA8AA@SJ0PR03MB6501.namprd03.prod.outlook.com>
+ <aB5I2UjeRiudiQnu@kbusch-mbp>
+ <SJ0PR03MB650108CF09FC9A51D35AE3D9FA8AA@SJ0PR03MB6501.namprd03.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250509235904.915626-2-wilfred.opensource@gmail.com>
+In-Reply-To: <SJ0PR03MB650108CF09FC9A51D35AE3D9FA8AA@SJ0PR03MB6501.namprd03.prod.outlook.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,18 +69,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, May 10, 2025 at 09:59:05AM +1000, Wilfred Mallawa wrote:
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> 
-> This fixes a bug where an uninitialized return value is used in
-> nvmet_sq_init().
-> 
-> Fixes: 206372d7c565 ("nvmet: support completion queue sharing")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202505091619.QFU1fxsd-lkp@intel.com/
-> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+On Fri, May 09, 2025 at 10:05:58PM +0000, Eric Robinson wrote:
+> Yours is the first coherent explanation we've heard. Thank you. The
+> only thing that concerns me is that we had this problem once before,
+> about two years ago, and I cannot find my notes about how I fixed it.
+> I remember that I ran a command (maybe wipefs, fdisk, sedutil, or
+> something similar) and it corrected the problem. After running the
+> command, I ran 'nvme list' multiple times, and each time the "Used"
+> amount kept going down, until it eventually stabilized at 4k. If the
+> issue is with the controller, any idea what would account for that
+> behavior?
 
-Thanks for tagging to report! Looks good.
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+I think you are mistaken. Your list output says it's a Dell P4610, a
+rebranded Intel Cliffdale. As far as I know, these always hard-wired
+NUSE to NCAP and NSZE. If you think otherwise, this is definitely
+something to take back to your vendor, Dell.
 
