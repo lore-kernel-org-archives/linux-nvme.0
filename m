@@ -4,144 +4,180 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 846EBC3ABC9
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 May 2025 09:46:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 026D4C3ABC3
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 May 2025 09:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=d6I+wgwevcviylAxjKVHvkG+sOlNw/0SU+XVeAqj+QA=; b=d/cKnRzbiOdkv2B8qZhsMoqLo+
-	0XwD0MPwLhOnkNUPaoFygkaV+ln/IZejGqBrntma7QywWfTKe4m3fHcdfMTXHwd/X/A4mYJBnblvn
-	7VVPpuRsNVNEYcO/sMb5jQm1o1wl+4EkTOpCoatg4hg1POHSFS6i41qz+3NL6oPJ6zPru7A27cPGz
-	/zzu8ZtsCxCh655pBGi+XHRYreIS5NLuBmTrmYmoEWAp2M4gV4wxiWMaT4UOGWYAoARgfPdmRafeL
-	ujgE/d1cX22m8B/6WAQTH7G3pa3tgesewTFgPeIAfPeEHP0m0RHUJC7w0Kddc0xMswlig6+rYTGvF
-	pKYGsKJw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=62eFtuUd8KvnqUxFSsMJG86gaQQ6f6Xi+24KBsUBQIM=; b=TvQWITd4yM9n5UY1X7OfXRFiX2
+	3yT/bkdbnFL8V9p08+wHFS9UkXH4oSAP/mPWDePys6Y29XaR76mZ+GRwvAhUNSCUGSJOr/S4+7MTx
+	v0xvG7aqDWW/taDpJ/3oymnwKGVoKydcv48AdkNfb7EmGrbTUw8mWEyXqbS0vUwyPZz90uT22hecV
+	RObgkyY/NTPKM6LD+s60/RHY1zxpN9cZ8ehYaqHSQjPDVwbJATxDMcXBtcN1KCXoxKsyBz6ZXlgJy
+	bkYMlYu9lguCIfvtJNZtNvG8ELr0qPZSFuMtrDZRyQbCnS84lHZuuKS89I5OazXBcWmJ5fCFJp14R
+	/nKJoiIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDKJa-000000039fV-45QL;
-	Fri, 09 May 2025 09:46:46 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1uDKTH-00000003B4o-3cpL;
+	Fri, 09 May 2025 09:56:47 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDJZA-0000000310f-2sLt
+	id 1uDJdw-0000000329M-3ZYZ
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 May 2025 08:58:49 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C7A5D21170;
-	Fri,  9 May 2025 08:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746781125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6I+wgwevcviylAxjKVHvkG+sOlNw/0SU+XVeAqj+QA=;
-	b=NkDvDF+bbSL/eLr0oU+WFev9aTifBaMAixJBylGrdxGMNYQdFq+Q4A3grpxPRuKZlfZZA8
-	LzPhJaotZ7cuXPHJveeJmRcQ/+W8Zf5OsCeOU5aUcBGIoBRf1VzIVSGXLptQJFhpR+ZQXv
-	LaQQpXXtyqTdbzyL3Xlgu+RCXmQK0SA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746781125;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6I+wgwevcviylAxjKVHvkG+sOlNw/0SU+XVeAqj+QA=;
-	b=8v8PY9WFsncfb904E8ojRewNO4Vw97md6o+VCZew5czFT0J+DcrjZTiXYa2b4ojIGhTpLC
-	ERypuFF2oi9/hKDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cRLBQVtO;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nQqXHTgx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1746781124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6I+wgwevcviylAxjKVHvkG+sOlNw/0SU+XVeAqj+QA=;
-	b=cRLBQVtOHCChnRp+KPwDxgOEFgEnTajHmVDxII7TfFsHxKqixozW/ntUNAEg3f5iBIMF7R
-	cp03SuGZ6EzjttWlJXjCsUJCdHXdtmuXZ/1PCpA8POQz5/6Cj5LCBoojYg/E1ob97iHMK8
-	x/X1eSyYfh08u1U9ZQHMfhluwrj5AOY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1746781124;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6I+wgwevcviylAxjKVHvkG+sOlNw/0SU+XVeAqj+QA=;
-	b=nQqXHTgxl2PW8OBB4ptDtlo3bC0dU4zrK4U84aOgMs6zi/gVxLV3SSOCFNO+qYWd8kDR/+
-	PJ7L5xDxi/Hr5pAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88E4C13931;
-	Fri,  9 May 2025 08:58:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FVtaIMTDHWgqZAAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 09 May 2025 08:58:44 +0000
-Message-ID: <f86eca3f-6414-407f-8dea-80a332caa09f@suse.de>
-Date: Fri, 9 May 2025 10:58:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
-From: Hannes Reinecke <hare@suse.de>
-To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Sagi Grimberg
- <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chris Leech <cleech@redhat.com>
-References: <20250403065522.90807-1-hare@kernel.org>
- <20250403065522.90807-4-hare@kernel.org>
- <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
- <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
- <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
- <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
- <eda7a691-037b-442d-bd36-a31f93e95cb1@suse.de>
- <976af4b7-578b-4e47-a2ff-7c74af0b9afa@grimberg.me>
- <30b16579-1a28-4d01-9afd-8ff3996db42d@grimberg.me>
- <BY5PR04MB68490F6DD7F1FDBE6999B54BBC842@BY5PR04MB6849.namprd04.prod.outlook.com>
- <6202ffd4-4a32-4f85-ab87-ac5a087c2f1a@grimberg.me>
- <BY5PR04MB6849D4BF87755B82A073BBDABC89A@BY5PR04MB6849.namprd04.prod.outlook.com>
- <4cff2b68-32e8-4593-8a91-345171ae147f@suse.de>
- <BY5PR04MB6849463BE09E64B198950B74BC88A@BY5PR04MB6849.namprd04.prod.outlook.com>
- <BY5PR04MB6849CFB39AB3E98605D30C4BBC8BA@BY5PR04MB6849.namprd04.prod.outlook.com>
- <698775ee-3502-4f45-98bb-81ca495226ec@suse.de>
+	Fri, 09 May 2025 09:03:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1746781424; x=1778317424;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=upz9ZcI1qbpHs646PYcrrKWd86PJDA6nZabs1XbnWWY=;
+  b=qjCNWJNHSPOcr0qOkcR5pyed6UxR7vJhe5tZMjPo7nuqAFP4z6mbla92
+   G19NZXrLpxRfy1GCd9BIreAttn42dKWnS1QmTEFkKNYYVv/RZ/5zm/Mtd
+   UYSXbTNCWqz6cRcW+AvGPbYuPGwXxoGhajkA1A+iM4WeUoanRmWFOK2NH
+   Q/NjAVkUrHZAkGUNbG1q0880cw1wEPApZiM23MricOwNWtnUq3yO4xa9A
+   TjnmkweUTCbag3XF7OuQ00Kxo35bRgWbALt9LCmCfRkuccQrTgZYhLRMY
+   6nnOS+AxdKBQRMorXxww/lkjZTXu3f7kuYE9jlr19CUA32duSOc0Qhpxk
+   Q==;
+X-CSE-ConnectionGUID: Dpd1LuywQg2d+qkDqUjv0A==
+X-CSE-MsgGUID: Y3lpU9MoRd6v261rajuQ4Q==
+X-IronPort-AV: E=Sophos;i="6.15,274,1739808000"; 
+   d="scan'208";a="84738798"
+Received: from mail-westusazlp17013075.outbound.protection.outlook.com (HELO SJ2PR03CU002.outbound.protection.outlook.com) ([40.93.1.75])
+  by ob1.hgst.iphmx.com with ESMTP; 09 May 2025 17:03:43 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qqed+/DLKXkA2vx3uX/iqhTFmZHqsbyli+u6M76eCSKu+U6t/hA7+usH0j1FmvKBRnqIeCK7QW7BRZtcDhAknQbb4fHV1l4Ckjz0+r8QM53WieGzI26mGOdLtm6z5MHN5VRCJ+IqdKAwFTs7Ga8mHTfxd/CAw8oFrO9HVdjhUW68hm0a53Vbd84WWtyg0Jq3cEVZY5ciIcEurD1pZWCDKQXndNfOhWSKcFHhyepSA7ILE7DETSyhXZIfhl1UxL3CouXINO0ltYSaBQ1b2RFu9EP7KYS0TupxDI90u+i4R3prEWOXELCut20Wrjstg97mMPsxatqyIjY7gEw9ErbsqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=62eFtuUd8KvnqUxFSsMJG86gaQQ6f6Xi+24KBsUBQIM=;
+ b=zFXZDRwnjoshqeUfsd3sqDUkSG1KG0zcZjGEHMrqSfNdsndzhZEJ44flgDnGUdR6iqIKZKQEJMA9pU2KB0aWcDQY4ekshR5uSlxGgpcwIRff2P6crQm5DjcEkY1Y1lkDY4WQ6BDJr+rii4lSCF9vNmdFNblB3EBvSjOZWzY6IhXZks5yWi+dVUjjB0C09i0gRQ079qxvxowUAaw4ZXImRqfCQ0dnobncrO9lHlNIsjM6UDbOfe+KtoVnCSvuZ5ODNETeuvbQ4GNbEeRhXsrEbAdiz4DLMpIK+jAV1cjFVvdXuj5c709Syw6tnA/dVNbNBvITHFrg07fxog3wptb+LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=62eFtuUd8KvnqUxFSsMJG86gaQQ6f6Xi+24KBsUBQIM=;
+ b=ddc+fHMXbjuz/DKnhcoFuBKalQgjP2OZCldHENOJqpJCc62S2rU9ZPn6SFgEqfsTjCTejf90cXb02m/MPjcU6xMFAlhNOHnRj6gpDRXnruNqppaSWIMWltKSJcekig9WJDh6Kf1ZAhXnxgKdzi7rOg8uCr++ghUYd2Uo9kuQ7RU=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ CH0PR04MB8164.namprd04.prod.outlook.com (2603:10b6:610:f0::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.23; Fri, 9 May 2025 09:03:42 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%5]) with mapi id 15.20.8722.021; Fri, 9 May 2025
+ 09:03:42 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Bernard Metzler <BMT@zurich.ibm.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, Daniel Wagner <wagi@kernel.org>
+Subject: Re: [bug report] blktests nvme/061 hang with rdma transport and siw
+ driver
+Thread-Topic: [bug report] blktests nvme/061 hang with rdma transport and siw
+ driver
+Thread-Index: AQHbrfdhJhGSraouF0ezotWmIGdrJbOkzJXwgADapACAIstSAIAAWiOAgAAg4GCAATkHgA==
+Date: Fri, 9 May 2025 09:03:41 +0000
+Message-ID: <7iuwwbne4hs3rtnglkfhsqamrey6vgx3r2mgzy2o5jt4pqe52r@jpwzb4pjtbsg>
+References: <r5676e754sv35aq7cdsqrlnvyhiq5zktteaurl7vmfih35efko@z6lay7uypy3c>
+ <BN8PR15MB251354A3F4F39E0360B9B41399B22@BN8PR15MB2513.namprd15.prod.outlook.com>
+ <lembalemdaoaqocvyd6n3rtdocv45734d22kmaleliwjoqpnpi@hrkfn3bl6hsv>
+ <d4xfwos54mccrwgw76t6q5nhwe2n3bxbt46cmyuhjcpcsub2hy@7d3zsewjkycv>
+ <20250508122539.GA6371@ziepe.ca>
+ <SA0SPRMB000501945CA2663576E32B85998BA@SA0SPRMB0005.namprd15.prod.outlook.com>
+In-Reply-To: <SA0SPRMB000501945CA2663576E32B85998BA@SA0SPRMB0005.namprd15.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-In-Reply-To: <698775ee-3502-4f45-98bb-81ca495226ec@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C7A5D21170
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CH0PR04MB8164:EE_
+x-ms-office365-filtering-correlation-id: 2afdeb2f-761b-4989-47fd-08dd8ed86545
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?6+wiNnW6VBAcpdu1vq5TpNP9bMxUdKqG3T++Yra/JDSUew/tvjRwOLP0QSwO?=
+ =?us-ascii?Q?yIRWyIWQRMQTeVgb1gZT/2i56Oal7oXSONUUYqhJCrVIn+5KHCpsKRi9hDE+?=
+ =?us-ascii?Q?Rm2NUaJ4bQsqdJ1m39/a5/eMCY+gCi5R+b9Z+Dfe/ldN0AHNty83tN5WO7Yf?=
+ =?us-ascii?Q?TrnT7tNg8CbOR/e0xxf+AubelpyDUuTF8r1pYFm7s0phcXHYQE9f6e0ZvKqI?=
+ =?us-ascii?Q?RuwjmaoCaA+PcD4toBJ8bwrQQsPuf8Vn7B6YqjrUbrraEHJb9xGUsETK9jMP?=
+ =?us-ascii?Q?GmrjHlV7c7lKL6IOPTCZISupRSb04bhfv46i8OcNTIpIv3a/jmfBhxA5hqcq?=
+ =?us-ascii?Q?2wj6+NdoQK605eld6WVknfkbObUKkOtFbHBBAQg3WO9hrs8w8MymgP9iF8ld?=
+ =?us-ascii?Q?3JXeGSlaxti2CXKbn5Y463pGiSaAIigprMOY9ODVmbL9P5W3oZ5hJx4RICVp?=
+ =?us-ascii?Q?Ze0y9yrKqCXgNwEWhvMuVsrPthDrMnzRUgv74b/6LwG0jX6FGfoYzQ2Au09y?=
+ =?us-ascii?Q?nR2QTzcaXWfzTbF0kOJll4ro+F8w/zwZwzAQ40fauFcuUev1HyoB7QwQrBqH?=
+ =?us-ascii?Q?gDb1aw6zAIFNiVGXBolmYH925gAbKpAQIRidAihqEJ0RpFq7tAq0CnztXKm/?=
+ =?us-ascii?Q?L5yITdiIYsMqTUkzHfl9/nkp/2+4h76iWE3JVo73/Sz/IqfTg5ry+aSe5YbF?=
+ =?us-ascii?Q?H6uIzoRImLZ5eMljj473g3gbHKxYDxGw5tt7PvbuA3COQcrZrHXJRfX0tgWq?=
+ =?us-ascii?Q?uN0ND7UeG44TMjs9QKNR1ag+5an3vMGfjtP2nA+OHf7a2SsTkWGK3I/6RXGi?=
+ =?us-ascii?Q?F53BpU36fZm6UYzC/qq1Q0gM4P4A0FheVrTn68hl3iCGuGjk8xY7HsQrRW+k?=
+ =?us-ascii?Q?I8V7xlKMFckufy2Ftv5FK0IAsd+OCfKrI39kobkYT1oBrunsW9N+lrfTB466?=
+ =?us-ascii?Q?qCq82nhusiCIOmirBOdW6DRIcWu7HhMnxHExvB+WlkzZ+cUstDXPUJu9PjsF?=
+ =?us-ascii?Q?QJi9LEwfpn8Zc9HxkHXQl9/vNyF3JJ8auS57DxhGiNIedHQFt6YfzdkGFhVn?=
+ =?us-ascii?Q?RvQ+2seCoMSmR1Y8SaJ7KrnLcILqjyoG+IqPP3HxiH9f2V/yHJ0GBN8zowm6?=
+ =?us-ascii?Q?MQ0gxh6SehnPLAYsfVLx4/jYrCxG6CSRg7jVm5vNjL14tQpNAgPsSXSXGZ+J?=
+ =?us-ascii?Q?3Rs86WgtNVVl8n1+SG5uRrf5naWCKFIXfNKqtYlJLqhRxqf2MFTGczyPgJC0?=
+ =?us-ascii?Q?RWHE+2nHslZqpolNpAaEKLIlHx4XYxGKKL3h7LlS4+GJNlVSCQyQZ5fhl2ku?=
+ =?us-ascii?Q?JryigHh7Pe/1G1pvff/PG+H1SPkjgp7ZHDrLsTZLhS3YmuWxvqzlAFsHyR9y?=
+ =?us-ascii?Q?yqZ1ihdoSNu4+/xPdrzQ80OkoMj9veCZcSJll4duZVgMN1zFnplwaM1yiHjL?=
+ =?us-ascii?Q?bLq8TM4t3cOrnRp8FJMwqWtvG2QA6CYjVreQbS9Yau39my2qP5X/ZqW/ng7F?=
+ =?us-ascii?Q?9yGq57+ZCxK52BU=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PcGO16199kDL4gpcCVsN0+SXU2CeWrBxARQ2yf4XAlGPjUQ0eGvcV0EnMjtr?=
+ =?us-ascii?Q?lVpw6OurKXrafQXN1+NBNYWT3ddAORVWJyQbW1XIwh9KCzHOQ6LZa2i0TuS/?=
+ =?us-ascii?Q?JgNezjW4bq8aoZuq+t78LmLUXS/kzjZymg6hwCW4F83/D1rD4yQ8yDSAj43T?=
+ =?us-ascii?Q?6HaGw/9FYKzfqp15bQEh+Zi1J/dYZXLf58EIeGU9aEnb+VTpTneomRaDZWF4?=
+ =?us-ascii?Q?Bpv7GfovbENiPMeQKhmjHTrrIGh5Jzx1FXVIbT1dgYrp5T3j2Q+OF0lh/z0s?=
+ =?us-ascii?Q?ZJ35mZC5cE5RoVs0lPuQiGo5JhADBVx+twdpg+JZLYrXecliNjejkq4oj/2J?=
+ =?us-ascii?Q?RD0xD+2MR2TGNqX2sR+q+jyxk1QEsjRiwUdreSxtMfDA4rmXXEezv4MQXwlf?=
+ =?us-ascii?Q?H7Ml5CVOKkPfcSncfOEoYD7LAZTgL6QCmysI6s3kFF/KFwhUi1aK0SeO9GAK?=
+ =?us-ascii?Q?OxQn+A3XPWJ1EZFTf5DgYYEjbEIl2j4vxPQFmM/VHyZ6qbnVDCcXzdcQlw5x?=
+ =?us-ascii?Q?eHuH+5tktYKplUZp3JLRUGo6u9+PFRAwjk36NRRy6sOUINIKY/ATmV4zFqoE?=
+ =?us-ascii?Q?N1UJMdHkxYVzGfLACr2eENwgSxz+XynS7afpQDO400FADObvMBMZulUWDcct?=
+ =?us-ascii?Q?4+pTZmB1493J6dP3XI8oOamdSNmaPxcepGfJDFyen+r4x7xlQoj8zHofoTMf?=
+ =?us-ascii?Q?bKGpJ/oxxUw8Yjyph9AH9Y7V7Z6hSiqQ6fw9pUT6OZYhpAAKrebObRPvaDE8?=
+ =?us-ascii?Q?8azae+K4mf0Vd5GN55UU3VEbVEbLitDusHS/jfv+Mp4qEvIvdFS+q3Zoi5/O?=
+ =?us-ascii?Q?L/vYVMebywVnXi3WmtHw4xmGixYVjpeN7Dz8Y+4laVL9QvN2VJvQKOvuhcyc?=
+ =?us-ascii?Q?1xi+gyLI3EvEDGK+4vyHbtsAzSSCaHq6dGHXe//rj+wv3jFL58k3YiADQ+J8?=
+ =?us-ascii?Q?Y6WkzCJ7qHRiA/9ortLZDKDbrb8aVVY3qq1i8qFoNlGrSe0H5uNRtaq8g4t6?=
+ =?us-ascii?Q?TXyfrDpeYdFqd4zMo+1KqnnFuY4z8z7gL+55Lj2dxZRXwu2JYoe23YxQRj5e?=
+ =?us-ascii?Q?e1W0odF35LmYQvmhJ9sYwlmax+qCZtarRBpA52U3+B8fI/aJNvOdQoV/240l?=
+ =?us-ascii?Q?SbUGorVtB/Azjj0S3r+MJ/AgDihzIOZnVyyOmooGYKNMtBYZkB5iftNVgSaf?=
+ =?us-ascii?Q?eB9I8cXVVKnVLTInPxR7fLiW83w89ULnSeGUh8xFa0ZPEjiSJB+69+ItX19Z?=
+ =?us-ascii?Q?DcF1LEPzAxrTsj+18kya1NWE/ifpKAFCJtszXIenCrDQpD4aEGyraVAoHYd/?=
+ =?us-ascii?Q?rpxZHxv8zwGM1yJQp2q5D8l8dRyhd9NbY6QgLSQQ3H1RTs42CiDq7sspaPYn?=
+ =?us-ascii?Q?2Fo/Rhl9xCZX8wBFzvayQwBOxUQTqSjmOP650WRdKxA7ECVvNvXzlcJpVyfv?=
+ =?us-ascii?Q?aAtnWXs2+8HpIffN5IOb5WYLDrSzQuFTJobI3as+ys7muPDdtKLFddphg2ud?=
+ =?us-ascii?Q?jH+MXRAGsIvfiABssWYx1MQci03KMaTSRd7PaUn1xEwIfgzmABsmmvEhRyED?=
+ =?us-ascii?Q?nl/CZWEBz/AtdObTrarRIzOZNcygHoNr2ZvspO8wGeLCwjFE6JeN7YmxeHse?=
+ =?us-ascii?Q?Vw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <A400CE69C6A3E844A23E5D9BC0534523@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: wfqOLOz6BCdF4N+5lPL8wO/S2xEBfF1ssI4ADcR8Qfqqvss7+BjNZQJHQEm03QYALl365CZBK6hmkjZjyH07fR/nfFuIWz2t+tQXgJq/cZ8dVQ2/E2L6AiL8disj/sXHYGBs7KGbqHTwKGoGnZg0XaLFw6RBkb9GgvWtClTa3pbqwBAgzq0iCVSQHq9LOInp5cmZ9uf3C827wwxZ3RApY6R5LViiPTsQj+4qts7A3t4H+SjkqQ4oC/17LUkVzPiHsRu7zuXacs95n5hZ9In/FlTcsfZ3YtrOSKZ/OWLspZIl6dDFckYNGBnlBZMwdKvBMTu3vQxh8Y6WgVwqApObB/tpSC8plBEBL3uO6TmHKcBO8jp/KAdRi9RaakwI+DfXuH0Tdgjgcq4V/VG0gkY3jL7uDSFJ0a1FUoeqlOgbHICz+NSEHZiwTpbq3KFlYnKtEJKZeixZODbUTAGFvHv9qdZdfyffeXDyvmQzrcjwQkhjyW1PPowemXOT+JcMECM1gylgOcLzf8joz6bIjl8t2PfJl3St3GV7nnyFk4kmooY0thNPaM0jT5m9PJ2mdxZTS6/6CGnGC5ZQvvlSCUlQa18PLKnwlJvz8z1aN/Vi9cOUcuiOkF69dyglBbUi5Vw3
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2afdeb2f-761b-4989-47fd-08dd8ed86545
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2025 09:03:41.9428
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Q+hce8+27SXrDKUyL9qnuJj2gEzctRjtM/9xr10E+IgQ1PSLPzugsw5ZcKC2dy86JeUOMPpRkZJ7qPxKbLcY6TL3LZxoyEBOvPc4Vz3HaAM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR04MB8164
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250509_015848_874612_C0FED50D 
-X-CRM114-Status: GOOD (  24.68  )
+X-CRM114-CacheID: sfid-20250509_020344_977750_42466AC1 
+X-CRM114-Status: GOOD (  20.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,137 +192,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/9/25 08:52, Hannes Reinecke wrote:
-> On 5/8/25 23:23, Kamaljit Singh wrote:
->> Hi Hannes, Sagi,
->>
->> On 5/7/25 15:26, Kamaljit Singh wrote:
->>>> Can you please retest with the patchset '[PATCHv5 0/2] nvme-tcp: fixup
->>>> I/O stall on congested sockets' _only_ ?
->>>> (on top of nvme-6.16 latest, of course).
->>>> I think I _should_ have included all the suggestions floating here,
->>>> but we need to have confirmation.
->>>
->>> I've built the kernel against the latest of nvme-6.16 branch along with
->>> these patches. Its with test now. Will let you know when we get some
->>> results back.
->>>
->>> 0. [PATCHv5 0/2] nvme-tcp: fixup I/O stall on congested sockets - Apr 
->>> 29, 01:18
->>>      Hannes Reinecke (2):
->>>        nvme-tcp: sanitize request list handling
->>>        nvme-tcp: fix I/O stalls on congested sockets
->>>
->>> 1. [PATCH 1/2] nvme-tcp: sanitize request list handling - Apr 29, 02:31
->>> 2. [PATCH 2/2] nvme-tcp: fix I/O stalls on congested sockets - Apr 
->>> 29, 01:18
->> IO timeouts are still occurring with Writes. The only Read that timed
->> out was most likely due to the path error. It takes ~4.5 hours to fail.
->>
->> However, this test does not fail if either ECN is off or if digests
->> are not enabled. These passing combinations were run for 16+ hours
->> without any issues. Both ECN and Header+Data Digests need to be turned
->> on for it to fail.
->>
->> Do you have a failing test as well? If so, is it quicker to cause the
->> failure? Would you mind sharing any details?
->>
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 2 (f002) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 1 (2001) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 4 (c004) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: starting error recovery
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 15 (000f) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 6 (5006) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 3 (2003) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] block nvme1n3: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 8 (0008) type 4 
->> opcode 0x2 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 14 (400e) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 13 (100d) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] block nvme1n4: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] block nvme1n4: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] block nvme1n4: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] block nvme1n2: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] block nvme1n4: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] block nvme1n2: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] block nvme1n2: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 5 (5005) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 7 (0007) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 11 (a00b) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 12 (f00c) type 4 
->> opcode 0x1 (I/O Cmd) QID 4 timeout
->>    [2025-05-07 19:57:13.295] block nvme1n1: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] block nvme1n1: no usable path - requeuing 
->> I/O
->>    [2025-05-07 19:57:13.295] nvme nvme1: Reconnecting in 10 seconds...
->>
->> In the current build I had these patches on top of the "nvme-6.16" 
->> branch:
->>    41b2c90a51bd nvme-tcp: sanitize request list handling
->>    9260acd6c230 nvme-tcp: fix I/O stalls on congested sockets
->>
-> Extremely wild guess: Can you try with this patch on top?
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 0e178115dc04..cdb8ea4eb467 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1277,10 +1277,7 @@ static int nvme_tcp_try_send_ddgst(struct 
-> nvme_tcp_request *req)
->                  .iov_len = NVME_TCP_DIGEST_LENGTH - req->offset
->          };
-> 
-> -       if (nvme_tcp_queue_more(queue))
-> -               msg.msg_flags |= MSG_MORE;
-> -       else
-> -               msg.msg_flags |= MSG_EOR;
-> +       msg.msg_flags |= MSG_EOR;
-> 
->          ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
->          if (unlikely(ret <= 0))
-> 
-> It _could_ be that we're waiting in sendmsg() due to MSG_MORE, causing
-> these I/O timeouts as processing doesn't continue.
-> 
-After a bit more thought, I really do think this is a different issue.
-The original issue I've encountered was an I/O stall where the io_work
-thread would never be restarted even though I/O was pending.
+On May 08, 2025 / 14:23, Bernard Metzler wrote:
+>=20
+>=20
+> > -----Original Message-----
+> > From: Jason Gunthorpe <jgg@ziepe.ca>
+> > Sent: Thursday, May 8, 2025 2:26 PM
+> > To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> > Cc: Bernard Metzler <BMT@zurich.ibm.com>; linux-nvme@lists.infradead.or=
+g;
+> > linux-rdma@vger.kernel.org; Daniel Wagner <wagi@kernel.org>
+> > Subject: [EXTERNAL] Re: [bug report] blktests nvme/061 hang with rdma
+> > transport and siw driver
+> >=20
+> > On Thu, May 08, 2025 at 07:03:03AM +0000, Shinichiro Kawasaki wrote:
+> > > One left question is why the failure was not observed with rxe driver=
+,
+> > but with
+> > > siw driver. My mere guess is that is because siw driver calls id-
+> > >add_ref() and
+> > > cm_id->rem_ref().
+> >=20
+> > Only siw uses the code in iwcm.c, rxe does not.
+> >=20
+> > Bernard? What do you think about this analysis? I've never really
+> > looked inside iwcm.c..
+> >=20
+>=20
+> lgtm!
 
-But we still have the problem that we will encounter I/O timeouts on
-oversubscribed links, where we shove too much work onto the same link.
-In that case we also will be seeing I/O timeouts (as the PDUs take too
-long to be sent), but this is not something my patchset does address.
-
-And seeing that your error depends on ECN (which _will_ cause a delay
-on packet transmission) I tend to think it's actually a problem with
-oversubscription, not with io_work not being restarted.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Thanks for the positive comments :)  Later on, I will post the fix as a
+formal patch to get it reviewed.=
 
