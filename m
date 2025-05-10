@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A2A6C3ABBC
-	for <linux-nvme@archiver.kernel.org>; Sat, 10 May 2025 02:24:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C237C3ABC3
+	for <linux-nvme@archiver.kernel.org>; Sat, 10 May 2025 05:32:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Pu94GlxDNWTUB8pZZ5JImQpykJ2ao8MwhrtYumImh6c=; b=1Ef+jNxuEzQYcTyVQsDrdmZRH2
-	t9M95ZbUbB/9qZyKp+XOddtVeiupCYjb+pNihuThwPHe/Jx0/Gt/BVTlm1hinSTAdC04k/DX6bP1L
-	GMpk6iOcGRYFAlDKkWyUopwTYtH+stD7Q0WwJqQaU2vMMOBpUNRu43ZxibVzPy+nhNyJJLalWx0fy
-	vvjLjgy3iWL/W+MuXmKV3AOGfMVVhODmjFEXZxcOI7Nxg0yN8aUIbNmy1bhTzSjsolxCS6CpwljTr
-	PHq/WuBJFG32AE3WKgQZGuaMoQhGf4USsK5RcyPxsEfy7klKVGHognKhsrts1g7RP7Ep6l/1xj5ms
-	thvh1O9g==;
+	bh=VkJJ+3LJXlA/RNA0feaiuKuG6A6NGyoAcA4VSHdg6mM=; b=psygM7nrDu32rGE5M4EiEIvtoP
+	S+TusmSKIQjbZX65qwwFh+/Nu+y7l5h8sE3jiQYzNua+gSnPStIcVXqMvYRHx2N+lzZAi6bBEI6xZ
+	nk0QYWfAj2CKVRiqGjH9DwO2iunzQxSGRXAUeblEhf6DEJCrTxQCTopawuPJytZqI82b0TgZspy0E
+	5Zh/ZKbEO56zkyg9dV8hovqDSwUetHET/gLiwsEURL4cuRSPbOHLA0G6WpGz+/D9JlIEP5mKF5366
+	ZVikMv9Vv4DE3sfXvCzwX+Bay1LeEwNTcfBAbQ0Y+6lomJUlo39CXIUDmrXvgT6vP1oJ2wayBN4bX
+	RX216wxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDZst-00000005J8q-1ssv;
-	Sat, 10 May 2025 02:24:15 +0000
-Received: from mgamail.intel.com ([198.175.65.18])
+	id 1uDcoR-00000005Rhr-2TDR;
+	Sat, 10 May 2025 05:31:51 +0000
+Received: from mgamail.intel.com ([192.198.163.10])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDZrF-00000005J4s-2C9E
+	id 1uDcoO-00000005RhM-2qU7
 	for linux-nvme@lists.infradead.org;
-	Sat, 10 May 2025 02:22:35 +0000
+	Sat, 10 May 2025 05:31:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746843753; x=1778379753;
+  t=1746855108; x=1778391108;
   h=date:from:to:cc:subject:message-id;
-  bh=N9JFsNANEv98ibTOlWBouvuP08X3sONSfNTKaxQTVwc=;
-  b=lwSl+xoowOEtXTFAQz1FhhOlcbTdFbYyoz2//HwbF2olFO0Kt+KeIY1c
-   4qa1LPMyrkuFl1B+ePw8p06QFoqsloqpgb7kmBvAvIiA3ZQ6P0abQskIu
-   o8dQ9i/NmiSqI1i4xEa8rrU9H/2nBeVWwgqkh9ECku4yb7+uKdU0zpftF
-   jQgJsH8gyB93aphJ3R8npoUuQctScTYY3+SXZ+jihh6H0nnHMvu++SJXa
-   iLGs7eJcunJht1qbKQ91T5uh6Y5dJa7yJtZvZ3IOijOputFzBeFC9gZPm
-   X6RiNq058oghZ9fJtKwGURb8Dy535oQgARj7K4J6+HDECzNuWkoN2d2u1
-   g==;
-X-CSE-ConnectionGUID: sYn2fF3JQImPYV8+INh3gg==
-X-CSE-MsgGUID: F+0iMnGlTZGRzzP0CU2Vrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48842400"
+  bh=/dnva5+F+ga7YAEb13GnMt/hzbOH7oSYbcb8ozKhhNk=;
+  b=J9QxMeOfJ5dVO6VqjVvhZHq9WXcPFPFrZilNlgWFc83smADivgOc3z9o
+   BvpkHr9js9YPv7Zkbw1Ibneuy57JuJuyZypZUTuZfnXNuxl/pQYNCiXV4
+   qOyzVLqDy3cfQ5sKySV7TDheNH4aXBGTQW0LbNpWDrRWKXHVsw5F7nE7S
+   bRmfNF75whIsIDXu4jVyCRJUdDGsfxXYSdHFDbB4NEvLj/8GnCqIHRY9d
+   fDxyCdt6dAQjXyqCwzIMnb8KClgDHf5IHNcGR3VDHdnXA0Y8YRTEB54ES
+   QSNNqw5MrYLtGfJBqc/b3ZPm83zfLwmyxUL2TwL/VXYmDdUVoaD1jPwQk
+   Q==;
+X-CSE-ConnectionGUID: JIjqusd8Qny3KUlUr6GlWA==
+X-CSE-MsgGUID: vSSK71c+T6OxRc07Duil3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="60036148"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="48842400"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 19:22:25 -0700
-X-CSE-ConnectionGUID: PxUTlskhTkqxKp+H4aWrAQ==
-X-CSE-MsgGUID: AW/CZ1KXTEmG51MwupoatQ==
+   d="scan'208";a="60036148"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 22:31:40 -0700
+X-CSE-ConnectionGUID: NUzGTq9vRxaq3+gJWA087A==
+X-CSE-MsgGUID: xiUK9znPSQmEjlA6zPF5bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="141709463"
+   d="scan'208";a="141779275"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 May 2025 19:22:23 -0700
+  by orviesa004.jf.intel.com with ESMTP; 09 May 2025 22:31:40 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDZr3-000Chn-1i;
-	Sat, 10 May 2025 02:22:21 +0000
-Date: Sat, 10 May 2025 10:22:13 +0800
+	id 1uDcoD-000Cod-0x;
+	Sat, 10 May 2025 05:31:37 +0000
+Date: Sat, 10 May 2025 13:31:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.15] BUILD SUCCESS
- 7f7d3d252caf6995e5a549f000db3c3384e67c8a
-Message-ID: <202505101004.7b09zkr6-lkp@intel.com>
+Subject: [linux-nvme:nvme-6.16] BUILD SUCCESS WITH WARNING
+ a0136c6ac4a9aba90a47b9c691bc299a113b5259
+Message-ID: <202505101316.wXg1kYFN-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250509_192233_656915_35117AAB 
-X-CRM114-Status: UNSURE (   5.79  )
+X-CRM114-CacheID: sfid-20250509_223148_760054_744FCE5C 
+X-CRM114-Status: UNSURE (   5.14  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,16 +83,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.15
-branch HEAD: 7f7d3d252caf6995e5a549f000db3c3384e67c8a  nvmet: pci-epf: remove NVMET_PCI_EPF_Q_IS_SQ
+tree/branch: git://git.infradead.org/nvme.git nvme-6.16
+branch HEAD: a0136c6ac4a9aba90a47b9c691bc299a113b5259  nvmet: simplify the nvmet_req_init() interface
 
-elapsed time: 1178m
+Warning (recently discovered and may have been fixed):
 
-configs tested: 249
+    https://lore.kernel.org/oe-kbuild-all/202505091619.QFU1fxsd-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild/202505100417.PlIkH5TX-lkp@intel.com
+
+    drivers/nvme/target/core.c:1018:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+
+Unverified Warning (likely false positive, kindly check if interested):
+
+    drivers/nvme/target/core.c:1018 nvmet_sq_init() error: uninitialized symbol 'ret'.
+
+Warning ids grouped by kconfigs:
+
+recent_errors
+|-- arm64-allmodconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- hexagon-allmodconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- hexagon-allyesconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- hexagon-randconfig-001-20250509
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- i386-randconfig-141-20250510
+|   `-- drivers-nvme-target-core.c-nvmet_sq_init()-error:uninitialized-symbol-ret-.
+|-- powerpc-allyesconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- riscv-allmodconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- riscv-allyesconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- s390-allmodconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- s390-randconfig-002-20250509
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- um-allmodconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- x86_64-allmodconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- x86_64-allyesconfig
+|   `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+|-- x86_64-randconfig-161-20250510
+|   `-- drivers-nvme-target-core.c-nvmet_sq_init()-error:uninitialized-symbol-ret-.
+`-- x86_64-rhel-9.4-rust
+    `-- drivers-nvme-target-core.c:warning:variable-ret-is-uninitialized-when-used-here
+
+elapsed time: 1367m
+
+configs tested: 250
 configs skipped: 6
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
 tested configs:
 alpha                             allnoconfig    gcc-14.2.0
@@ -105,23 +147,19 @@ arc                               allnoconfig    gcc-14.2.0
 arc                              allyesconfig    clang-19
 arc                              allyesconfig    gcc-14.2.0
 arc                                 defconfig    gcc-14.2.0
-arc                         haps_hs_defconfig    gcc-14.2.0
 arc                   randconfig-001-20250509    gcc-13.3.0
 arc                   randconfig-001-20250510    gcc-8.5.0
 arc                   randconfig-002-20250509    gcc-13.3.0
 arc                   randconfig-002-20250510    gcc-8.5.0
 arm                              allmodconfig    clang-19
-arm                              allmodconfig    gcc-14.2.0
 arm                               allnoconfig    clang-21
 arm                               allnoconfig    gcc-14.2.0
 arm                              allyesconfig    clang-19
 arm                              allyesconfig    gcc-14.2.0
-arm                         bcm2835_defconfig    gcc-14.2.0
+arm                         bcm2835_defconfig    clang-21
 arm                                 defconfig    gcc-14.2.0
-arm                         lpc32xx_defconfig    clang-17
-arm                   milbeaut_m10v_defconfig    clang-19
+arm                         mv78xx0_defconfig    clang-19
 arm                        mvebu_v5_defconfig    gcc-14.2.0
-arm                       omap2plus_defconfig    gcc-14.2.0
 arm                   randconfig-001-20250509    gcc-7.5.0
 arm                   randconfig-001-20250510    gcc-8.5.0
 arm                   randconfig-002-20250509    gcc-6.5.0
@@ -130,7 +168,6 @@ arm                   randconfig-003-20250509    gcc-10.5.0
 arm                   randconfig-003-20250510    gcc-8.5.0
 arm                   randconfig-004-20250509    clang-21
 arm                   randconfig-004-20250510    gcc-8.5.0
-arm                         socfpga_defconfig    gcc-14.2.0
 arm                          sp7021_defconfig    clang-21
 arm64                            allmodconfig    clang-19
 arm64                             allnoconfig    gcc-14.2.0
@@ -149,6 +186,7 @@ csky                  randconfig-001-20250509    gcc-14.2.0
 csky                  randconfig-001-20250510    clang-18
 csky                  randconfig-002-20250509    gcc-13.3.0
 csky                  randconfig-002-20250510    clang-18
+hexagon                          allmodconfig    clang-17
 hexagon                          allmodconfig    clang-19
 hexagon                           allnoconfig    clang-21
 hexagon                           allnoconfig    gcc-14.2.0
@@ -210,11 +248,13 @@ nios2                 randconfig-001-20250509    gcc-13.3.0
 nios2                 randconfig-001-20250510    clang-18
 nios2                 randconfig-002-20250509    gcc-13.3.0
 nios2                 randconfig-002-20250510    clang-18
+openrisc                          allnoconfig    clang-21
 openrisc                          allnoconfig    gcc-14.2.0
 openrisc                         allyesconfig    gcc-14.2.0
 openrisc                            defconfig    gcc-12
 openrisc                  or1klitex_defconfig    clang-21
 parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    clang-21
 parisc                            allnoconfig    gcc-14.2.0
 parisc                           allyesconfig    gcc-14.2.0
 parisc                              defconfig    gcc-12
@@ -224,31 +264,31 @@ parisc                randconfig-002-20250509    gcc-14.2.0
 parisc                randconfig-002-20250510    clang-18
 parisc64                            defconfig    gcc-14.2.0
 powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    clang-21
 powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-21
 powerpc                          allyesconfig    gcc-14.2.0
-powerpc                   bluestone_defconfig    clang-21
+powerpc                      chrp32_defconfig    clang-19
 powerpc                       holly_defconfig    clang-21
 powerpc                        icon_defconfig    gcc-14.2.0
 powerpc                 mpc832x_rdb_defconfig    gcc-14.2.0
+powerpc               mpc834x_itxgp_defconfig    clang-21
 powerpc                     ppa8548_defconfig    gcc-14.2.0
+powerpc                      ppc64e_defconfig    gcc-14.2.0
 powerpc               randconfig-001-20250509    clang-16
 powerpc               randconfig-001-20250510    clang-18
 powerpc               randconfig-002-20250509    gcc-5.5.0
 powerpc               randconfig-002-20250510    clang-18
 powerpc               randconfig-003-20250509    gcc-7.5.0
 powerpc               randconfig-003-20250510    clang-18
-powerpc                     redwood_defconfig    clang-21
 powerpc64             randconfig-001-20250509    gcc-7.5.0
 powerpc64             randconfig-001-20250510    clang-18
 powerpc64             randconfig-002-20250509    clang-21
 powerpc64             randconfig-002-20250510    clang-18
 powerpc64             randconfig-003-20250509    gcc-10.5.0
 powerpc64             randconfig-003-20250510    clang-18
-riscv                            allmodconfig    clang-21
 riscv                            allmodconfig    gcc-14.2.0
+riscv                             allnoconfig    clang-21
 riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-16
 riscv                            allyesconfig    gcc-14.2.0
 riscv                               defconfig    gcc-12
 riscv                 randconfig-001-20250509    clang-21
@@ -269,8 +309,11 @@ sh                               allmodconfig    gcc-14.2.0
 sh                                allnoconfig    gcc-14.2.0
 sh                               allyesconfig    gcc-14.2.0
 sh                         apsh4a3a_defconfig    clang-21
+sh                        apsh4ad0a_defconfig    gcc-14.2.0
 sh                                  defconfig    gcc-12
 sh                        dreamcast_defconfig    gcc-14.2.0
+sh                             espt_defconfig    gcc-14.2.0
+sh                            migor_defconfig    gcc-14.2.0
 sh                    randconfig-001-20250509    gcc-9.3.0
 sh                    randconfig-001-20250510    clang-21
 sh                    randconfig-002-20250509    gcc-5.5.0
