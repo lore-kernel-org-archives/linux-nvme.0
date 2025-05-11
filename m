@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 873E8C3ABD2
-	for <linux-nvme@archiver.kernel.org>; Sun, 11 May 2025 00:41:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A4F5C3ABCE
+	for <linux-nvme@archiver.kernel.org>; Sun, 11 May 2025 00:41:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qT/RkUEvSIPYYnZUIuXyjIeOYuW7efMjBkJLBx2yx4w=; b=eB7BjBfEZWY5IyAhbq37I3DXyI
-	biSxGEbyeUnmZufJW9CLvdIGRM7W632tLeMziURspE+ono+chVtNKewDLGkJhSbyUQa2jDJhqhuHV
-	yZn6RGaPsj97vxiiKuVAHzCHxFux0L8GT/i3KaPojDCT3tWNuGS69JYPaZuLnBC/TRrujbakM4I0y
-	bSILUba9vycv6Rtyzu98qtNwoxPtNDrv47JyPq8XKOeipDSD9V3KKJBf6MJknopgIKiji/R6IWZx8
-	1ELUbjukRsySjiPW4wInXirWX39o9ucAZmaTVATMWw7WrjBT8CeiJrS29zfOU4ok8ozfcOxTnGIL6
-	OY/b+PBA==;
+	bh=0sLGBUKZwErfm4L+N9y+31hmvXFlSrSQUC1Fp7p2NT8=; b=SZaypOMzSABoFNr548pkvzFS8c
+	bLvmg0dCU2jD5yCikvCwT4QRRY6ZPqfTJM1ZPcsbwKJZK4fEMKiHrAPkcTd4E6S3EsiowiWIe2P4W
+	yx4XM7U4tOSRI4Vj9KDJK9EUf6coAM2/71nNCEZinkaqg9x/eTP8B3ZJ9URGqM588a3GhfBuN65VB
+	UQYPd3M8jX1gPKWwsXNfNTT8wezwR9O5kASe5Y7ravZGOUzbwk4tNZYSurXUQwiPA+JILxa3gpqdj
+	Zztim2OSvkzdwKMfy9u/dYox9gi+U6+7Ox/l/VCS3MgjwTz2a2Z3FHqeT93xlBh92xnOFOPHSLE9N
+	YjfJAOBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDulC-00000006XfJ-44EZ;
-	Sun, 11 May 2025 00:41:42 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1uDulF-00000006Xi4-08fG;
+	Sun, 11 May 2025 00:41:45 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDul7-00000006XZj-1LHe
+	id 1uDulA-00000006Xby-1erm
 	for linux-nvme@lists.infradead.org;
-	Sun, 11 May 2025 00:41:39 +0000
+	Sun, 11 May 2025 00:41:41 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A38835C4BC0;
-	Sun, 11 May 2025 00:39:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9761C4CEEF;
-	Sun, 11 May 2025 00:41:34 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 7A9EDA4C6B1;
+	Sun, 11 May 2025 00:41:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B0BC4CEEF;
+	Sun, 11 May 2025 00:41:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746924095;
-	bh=/A9NtJJ0pcYSzi7Q5tbR5gfyPyk7AS4gT0Xn3zsrRXA=;
+	s=k20201202; t=1746924099;
+	bh=HPMz7ejNYuNrnD+iwsN2clYkCQXnZS4VOH8SAts9RC8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dQ45jumq+j1KKVo/UHlGTJd20e4DFKDf4HDb7zNpC1qGye2USU/ef8NjVPsV0T14A
-	 M4jug2r/Yq+VOS1fGQCxzyXAYoyoevhEV9K80h9QVcttRSXM+iMcoZJkQbp9lQCszx
-	 ITOq1tQ3BQYVL+VjDTaZbvKR9A2dg1fYJ5d3vWpy6ATm10LTVbR11DIvSHr7zk/FXp
-	 +7hSbi+HClEtL8cFGC8eYxB7glmb8eNbM/ZqywcVrB8xrRphB55w2ygtQI4t75sOh3
-	 GFOjOLIPmoXEpUY7A2BNrk9RdobQ6OX+wMc9mDAWhkfGgZVv65FSbPiSRRJoeuttck
-	 6zPsnrLDxUwaw==
+	b=HA77n87UoGXdI+7Mcn8u0/HUQHKkjysdd7/lrecl49Yv/n6klzurimndF7ps8e9cS
+	 BeHyfCJ+2PdBKNsWeit1pB6euxfG/0W3UT8BTNvUBEkn/riZKfr5fa3wdxkJCqp7As
+	 7O+iAtwLgIZCvm+8x3TYx87wjo9b52yK6XdPGtLfVVc/tyYIDvVcTAMcctgTMYNrIo
+	 ZewEZvNWRTa4JNAToYp7krAdRNAqC2HBpY7EPIq0ynY7rlV+ibROWF+4MeGENoKAw3
+	 VR4QymxDRS1TVP1gzWJZKnwYA+AtvHBXmrv9Tcggmg33q9L+3feaRCAJV3u4DI+sJ9
+	 tkbkKg2MJOWpA==
 From: Eric Biggers <ebiggers@kernel.org>
 To: netdev@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -52,17 +52,17 @@ Cc: linux-nvme@lists.infradead.org,
 	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Ard Biesheuvel <ardb@kernel.org>
-Subject: [PATCH net-next 06/10] net: fold __skb_checksum() into skb_checksum()
-Date: Sat, 10 May 2025 17:41:06 -0700
-Message-ID: <20250511004110.145171-7-ebiggers@kernel.org>
+Subject: [PATCH net-next 09/10] nvme-tcp: use crc32c() and skb_copy_and_crc32c_datagram_iter()
+Date: Sat, 10 May 2025 17:41:09 -0700
+Message-ID: <20250511004110.145171-10-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250511004110.145171-1-ebiggers@kernel.org>
 References: <20250511004110.145171-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250510_174137_483531_952AB0F9 
-X-CRM114-Status: GOOD (  12.97  )
+X-CRM114-CacheID: sfid-20250510_174140_578113_BEFCED7D 
+X-CRM114-Status: GOOD (  22.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,211 +79,370 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Eric Biggers <ebiggers@google.com>
 
-Now that the only remaining caller of __skb_checksum() is
-skb_checksum(), fold __skb_checksum() into skb_checksum().  This makes
-struct skb_checksum_ops unnecessary, so remove that too and simply do
-the "regular" net checksum.  It also makes the wrapper functions
-csum_partial_ext() and csum_block_add_ext() unnecessary, so remove those
-too and just use the underlying functions.
+Now that the crc32c() library function directly takes advantage of
+architecture-specific optimizations and there also now exists a function
+skb_copy_and_crc32c_datagram_iter(), it is unnecessary to go through the
+crypto_ahash API.  Just use those functions.  This is much simpler, and
+it also improves performance due to eliminating the crypto API overhead.
 
 Signed-off-by: Eric Biggers <ebiggers@google.com>
 ---
- include/linux/skbuff.h |  9 -------
- include/net/checksum.h | 12 ---------
- net/core/skbuff.c      | 59 +++++-------------------------------------
- 3 files changed, 7 insertions(+), 73 deletions(-)
+ drivers/nvme/host/Kconfig |   4 +-
+ drivers/nvme/host/tcp.c   | 118 ++++++++++++--------------------------
+ 2 files changed, 39 insertions(+), 83 deletions(-)
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 33b33bb18aa6..eac5c8dde4a5 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -4181,19 +4181,10 @@ static inline int memcpy_from_msg(void *data, struct msghdr *msg, int len)
- static inline int memcpy_to_msg(struct msghdr *msg, void *data, int len)
- {
- 	return copy_to_iter(data, len, &msg->msg_iter) == len ? 0 : -EFAULT;
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 4d64b6935bb9..7dca58f0a237 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -82,13 +82,13 @@ config NVME_FC
+ 
+ config NVME_TCP
+ 	tristate "NVM Express over Fabrics TCP host driver"
+ 	depends on INET
+ 	depends on BLOCK
++	select CRC32
++	select NET_CRC32C
+ 	select NVME_FABRICS
+-	select CRYPTO
+-	select CRYPTO_CRC32C
+ 	help
+ 	  This provides support for the NVMe over Fabrics protocol using
+ 	  the TCP transport.  This allows you to use remote block devices
+ 	  exported using the NVMe protocol set.
+ 
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index aba365f97cf6..d32e168036ec 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -6,19 +6,19 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/err.h>
++#include <linux/crc32.h>
+ #include <linux/nvme-tcp.h>
+ #include <linux/nvme-keyring.h>
+ #include <net/sock.h>
+ #include <net/tcp.h>
+ #include <net/tls.h>
+ #include <net/tls_prot.h>
+ #include <net/handshake.h>
+ #include <linux/blk-mq.h>
+-#include <crypto/hash.h>
+ #include <net/busy_poll.h>
+ #include <trace/events/sock.h>
+ 
+ #include "nvme.h"
+ #include "fabrics.h"
+@@ -166,12 +166,12 @@ struct nvme_tcp_queue {
+ 	bool			rd_enabled;
+ 
+ 	bool			hdr_digest;
+ 	bool			data_digest;
+ 	bool			tls_enabled;
+-	struct ahash_request	*rcv_hash;
+-	struct ahash_request	*snd_hash;
++	u32			rcv_crc;
++	u32			snd_crc;
+ 	__le32			exp_ddgst;
+ 	__le32			recv_ddgst;
+ 	struct completion       tls_complete;
+ 	int                     tls_err;
+ 	struct page_frag_cache	pf_cache;
+@@ -454,36 +454,40 @@ nvme_tcp_fetch_request(struct nvme_tcp_queue *queue)
+ 
+ 	list_del(&req->entry);
+ 	return req;
  }
  
--struct skb_checksum_ops {
--	__wsum (*update)(const void *mem, int len, __wsum wsum);
--	__wsum (*combine)(__wsum csum, __wsum csum2, int offset, int len);
--};
--
--extern const struct skb_checksum_ops *crc32c_csum_stub __read_mostly;
--
--__wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
--		      __wsum csum, const struct skb_checksum_ops *ops);
- __wsum skb_checksum(const struct sk_buff *skb, int offset, int len,
- 		    __wsum csum);
- u32 skb_crc32c(const struct sk_buff *skb, int offset, int len, u32 crc);
- 
- static inline void * __must_check
-diff --git a/include/net/checksum.h b/include/net/checksum.h
-index 243f972267b8..e57986b173f8 100644
---- a/include/net/checksum.h
-+++ b/include/net/checksum.h
-@@ -96,16 +96,10 @@ static __always_inline __wsum
- csum_block_add(__wsum csum, __wsum csum2, int offset)
+-static inline void nvme_tcp_ddgst_final(struct ahash_request *hash,
+-		__le32 *dgst)
++static inline void nvme_tcp_ddgst_init(u32 *crcp)
  {
- 	return csum_add(csum, csum_shift(csum2, offset));
+-	ahash_request_set_crypt(hash, NULL, (u8 *)dgst, 0);
+-	crypto_ahash_final(hash);
++	*crcp = ~0;
  }
  
--static __always_inline __wsum
--csum_block_add_ext(__wsum csum, __wsum csum2, int offset, int len)
--{
--	return csum_block_add(csum, csum2, offset);
--}
--
- static __always_inline __wsum
- csum_block_sub(__wsum csum, __wsum csum2, int offset)
+-static inline void nvme_tcp_ddgst_update(struct ahash_request *hash,
+-		struct page *page, off_t off, size_t len)
++static inline void nvme_tcp_ddgst_update(u32 *crcp,
++		struct page *page, size_t off, size_t len)
  {
- 	return csum_block_add(csum, ~csum2, offset);
+-	struct scatterlist sg;
++	page += off / PAGE_SIZE;
++	off %= PAGE_SIZE;
++	while (len) {
++		const void *vaddr = kmap_local_page(page);
++		size_t n = min(len, (size_t)PAGE_SIZE - off);
+ 
+-	sg_init_table(&sg, 1);
+-	sg_set_page(&sg, page, len, off);
+-	ahash_request_set_crypt(hash, &sg, NULL, len);
+-	crypto_ahash_update(hash);
++		*crcp = crc32c(*crcp, vaddr + off, n);
++		kunmap_local(vaddr);
++		page++;
++		off = 0;
++		len -= n;
++	}
  }
-@@ -113,16 +107,10 @@ csum_block_sub(__wsum csum, __wsum csum2, int offset)
- static __always_inline __wsum csum_unfold(__sum16 n)
+ 
+-static inline void nvme_tcp_hdgst(struct ahash_request *hash,
+-		void *pdu, size_t len)
++static inline void nvme_tcp_ddgst_final(u32 *crcp, __le32 *ddgst)
  {
- 	return (__force __wsum)n;
+-	struct scatterlist sg;
++	*ddgst = cpu_to_le32(~*crcp);
++}
+ 
+-	sg_init_one(&sg, pdu, len);
+-	ahash_request_set_crypt(hash, &sg, pdu + len, len);
+-	crypto_ahash_digest(hash);
++static inline void nvme_tcp_hdgst(void *pdu, size_t len)
++{
++	put_unaligned_le32(~crc32c(~0, pdu, len), pdu + len);
  }
  
--static __always_inline
--__wsum csum_partial_ext(const void *buff, int len, __wsum sum)
--{
--	return csum_partial(buff, len, sum);
--}
--
- #define CSUM_MANGLED_0 ((__force __sum16)0xffff)
- 
- static __always_inline void csum_replace_by_diff(__sum16 *sum, __wsum diff)
+ static int nvme_tcp_verify_hdgst(struct nvme_tcp_queue *queue,
+ 		void *pdu, size_t pdu_len)
  {
- 	*sum = csum_fold(csum_add(diff, ~csum_unfold(*sum)));
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index b9900cc16a24..bfa892ccc7f7 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -3438,24 +3438,22 @@ int skb_store_bits(struct sk_buff *skb, int offset, const void *from, int len)
- 	return -EFAULT;
- }
- EXPORT_SYMBOL(skb_store_bits);
- 
- /* Checksum skb data. */
--__wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
--		      __wsum csum, const struct skb_checksum_ops *ops)
-+__wsum skb_checksum(const struct sk_buff *skb, int offset, int len, __wsum csum)
- {
- 	int start = skb_headlen(skb);
- 	int i, copy = start - offset;
- 	struct sk_buff *frag_iter;
- 	int pos = 0;
- 
- 	/* Checksum header. */
- 	if (copy > 0) {
- 		if (copy > len)
- 			copy = len;
--		csum = INDIRECT_CALL_1(ops->update, csum_partial_ext,
--				       skb->data + offset, copy, csum);
-+		csum = csum_partial(skb->data + offset, copy, csum);
- 		if ((len -= copy) == 0)
- 			return csum;
- 		offset += copy;
- 		pos	= copy;
+@@ -497,11 +501,11 @@ static int nvme_tcp_verify_hdgst(struct nvme_tcp_queue *queue,
+ 			nvme_tcp_queue_id(queue));
+ 		return -EPROTO;
  	}
-@@ -3481,17 +3479,13 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
  
- 			skb_frag_foreach_page(frag,
- 					      skb_frag_off(frag) + offset - start,
- 					      copy, p, p_off, p_len, copied) {
- 				vaddr = kmap_atomic(p);
--				csum2 = INDIRECT_CALL_1(ops->update,
--							csum_partial_ext,
--							vaddr + p_off, p_len, 0);
-+				csum2 = csum_partial(vaddr + p_off, p_len, 0);
- 				kunmap_atomic(vaddr);
--				csum = INDIRECT_CALL_1(ops->combine,
--						       csum_block_add_ext, csum,
--						       csum2, pos, p_len);
-+				csum = csum_block_add(csum, csum2, pos);
- 				pos += p_len;
- 			}
+ 	recv_digest = *(__le32 *)(pdu + hdr->hlen);
+-	nvme_tcp_hdgst(queue->rcv_hash, pdu, pdu_len);
++	nvme_tcp_hdgst(pdu, pdu_len);
+ 	exp_digest = *(__le32 *)(pdu + hdr->hlen);
+ 	if (recv_digest != exp_digest) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"header digest error: recv %#x expected %#x\n",
+ 			le32_to_cpu(recv_digest), le32_to_cpu(exp_digest));
+@@ -524,11 +528,11 @@ static int nvme_tcp_check_ddgst(struct nvme_tcp_queue *queue, void *pdu)
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"queue %d: data digest flag is cleared\n",
+ 		nvme_tcp_queue_id(queue));
+ 		return -EPROTO;
+ 	}
+-	crypto_ahash_init(queue->rcv_hash);
++	nvme_tcp_ddgst_init(&queue->rcv_crc);
  
- 			if (!(len -= copy))
- 				return csum;
-@@ -3508,14 +3502,13 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
- 		end = start + frag_iter->len;
- 		if ((copy = end - offset) > 0) {
- 			__wsum csum2;
- 			if (copy > len)
- 				copy = len;
--			csum2 = __skb_checksum(frag_iter, offset - start,
--					       copy, 0, ops);
--			csum = INDIRECT_CALL_1(ops->combine, csum_block_add_ext,
--					       csum, csum2, pos, copy);
-+			csum2 = skb_checksum(frag_iter, offset - start, copy,
-+					     0);
-+			csum = csum_block_add(csum, csum2, pos);
- 			if ((len -= copy) == 0)
- 				return csum;
- 			offset += copy;
- 			pos    += copy;
+ 	return 0;
+ }
+ 
+ static void nvme_tcp_exit_request(struct blk_mq_tag_set *set,
+@@ -924,12 +928,12 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 		/* we can read only from what is left in this bio */
+ 		recv_len = min_t(size_t, recv_len,
+ 				iov_iter_count(&req->iter));
+ 
+ 		if (queue->data_digest)
+-			ret = skb_copy_and_hash_datagram_iter(skb, *offset,
+-				&req->iter, recv_len, queue->rcv_hash);
++			ret = skb_copy_and_crc32c_datagram_iter(skb, *offset,
++				&req->iter, recv_len, &queue->rcv_crc);
+ 		else
+ 			ret = skb_copy_datagram_iter(skb, *offset,
+ 					&req->iter, recv_len);
+ 		if (ret) {
+ 			dev_err(queue->ctrl->ctrl.device,
+@@ -943,11 +947,12 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 		queue->data_remaining -= recv_len;
+ 	}
+ 
+ 	if (!queue->data_remaining) {
+ 		if (queue->data_digest) {
+-			nvme_tcp_ddgst_final(queue->rcv_hash, &queue->exp_ddgst);
++			nvme_tcp_ddgst_final(&queue->rcv_crc,
++					     &queue->exp_ddgst);
+ 			queue->ddgst_remaining = NVME_TCP_DIGEST_LENGTH;
+ 		} else {
+ 			if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
+ 				nvme_tcp_end_request(rq,
+ 						le16_to_cpu(req->status));
+@@ -1145,11 +1150,11 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 		ret = sock_sendmsg(queue->sock, &msg);
+ 		if (ret <= 0)
+ 			return ret;
+ 
+ 		if (queue->data_digest)
+-			nvme_tcp_ddgst_update(queue->snd_hash, page,
++			nvme_tcp_ddgst_update(&queue->snd_crc, page,
+ 					offset, ret);
+ 
+ 		/*
+ 		 * update the request iterator except for the last payload send
+ 		 * in the request where we don't want to modify it as we may
+@@ -1159,11 +1164,11 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 			nvme_tcp_advance_req(req, ret);
+ 
+ 		/* fully successful last send in current PDU */
+ 		if (last && ret == len) {
+ 			if (queue->data_digest) {
+-				nvme_tcp_ddgst_final(queue->snd_hash,
++				nvme_tcp_ddgst_final(&queue->snd_crc,
+ 					&req->ddgst);
+ 				req->state = NVME_TCP_SEND_DDGST;
+ 				req->offset = 0;
+ 			} else {
+ 				if (h2cdata_left)
+@@ -1192,11 +1197,11 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+ 		msg.msg_flags |= MSG_MORE;
+ 	else
+ 		msg.msg_flags |= MSG_EOR;
+ 
+ 	if (queue->hdr_digest && !req->offset)
+-		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
++		nvme_tcp_hdgst(pdu, sizeof(*pdu));
+ 
+ 	bvec_set_virt(&bvec, (void *)pdu + req->offset, len);
+ 	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
+ 	ret = sock_sendmsg(queue->sock, &msg);
+ 	if (unlikely(ret <= 0))
+@@ -1205,11 +1210,11 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+ 	len -= ret;
+ 	if (!len) {
+ 		if (inline_data) {
+ 			req->state = NVME_TCP_SEND_DATA;
+ 			if (queue->data_digest)
+-				crypto_ahash_init(queue->snd_hash);
++				nvme_tcp_ddgst_init(&queue->snd_crc);
+ 		} else {
+ 			nvme_tcp_done_send_req(queue);
  		}
-@@ -3523,22 +3516,10 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
+ 		return 1;
  	}
- 	BUG_ON(len);
+@@ -1227,11 +1232,11 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue);
+ 	int len = sizeof(*pdu) - req->offset + hdgst;
+ 	int ret;
  
- 	return csum;
+ 	if (queue->hdr_digest && !req->offset)
+-		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
++		nvme_tcp_hdgst(pdu, sizeof(*pdu));
+ 
+ 	if (!req->h2cdata_left)
+ 		msg.msg_flags |= MSG_SPLICE_PAGES;
+ 
+ 	bvec_set_virt(&bvec, (void *)pdu + req->offset, len);
+@@ -1242,11 +1247,11 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
+ 
+ 	len -= ret;
+ 	if (!len) {
+ 		req->state = NVME_TCP_SEND_DATA;
+ 		if (queue->data_digest)
+-			crypto_ahash_init(queue->snd_hash);
++			nvme_tcp_ddgst_init(&queue->snd_crc);
+ 		return 1;
+ 	}
+ 	req->offset += ret;
+ 
+ 	return -EAGAIN;
+@@ -1382,45 +1387,10 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 	} while (!time_after(jiffies, deadline)); /* quota is exhausted */
+ 
+ 	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
  }
--EXPORT_SYMBOL(__skb_checksum);
--
--__wsum skb_checksum(const struct sk_buff *skb, int offset,
--		    int len, __wsum csum)
+ 
+-static void nvme_tcp_free_crypto(struct nvme_tcp_queue *queue)
 -{
--	const struct skb_checksum_ops ops = {
--		.update  = csum_partial_ext,
--		.combine = csum_block_add_ext,
--	};
+-	struct crypto_ahash *tfm = crypto_ahash_reqtfm(queue->rcv_hash);
 -
--	return __skb_checksum(skb, offset, len, csum, &ops);
+-	ahash_request_free(queue->rcv_hash);
+-	ahash_request_free(queue->snd_hash);
+-	crypto_free_ahash(tfm);
 -}
- EXPORT_SYMBOL(skb_checksum);
- 
- /* Both of above in one bottle. */
- 
- __wsum skb_copy_and_csum_bits(const struct sk_buff *skb, int offset,
-@@ -3758,36 +3739,10 @@ __sum16 __skb_checksum_complete(struct sk_buff *skb)
- 
- 	return sum;
- }
- EXPORT_SYMBOL(__skb_checksum_complete);
- 
--static __wsum warn_crc32c_csum_update(const void *buff, int len, __wsum sum)
+-
+-static int nvme_tcp_alloc_crypto(struct nvme_tcp_queue *queue)
 -{
--	net_warn_ratelimited(
--		"%s: attempt to compute crc32c without libcrc32c.ko\n",
--		__func__);
+-	struct crypto_ahash *tfm;
+-
+-	tfm = crypto_alloc_ahash("crc32c", 0, CRYPTO_ALG_ASYNC);
+-	if (IS_ERR(tfm))
+-		return PTR_ERR(tfm);
+-
+-	queue->snd_hash = ahash_request_alloc(tfm, GFP_KERNEL);
+-	if (!queue->snd_hash)
+-		goto free_tfm;
+-	ahash_request_set_callback(queue->snd_hash, 0, NULL, NULL);
+-
+-	queue->rcv_hash = ahash_request_alloc(tfm, GFP_KERNEL);
+-	if (!queue->rcv_hash)
+-		goto free_snd_hash;
+-	ahash_request_set_callback(queue->rcv_hash, 0, NULL, NULL);
+-
 -	return 0;
+-free_snd_hash:
+-	ahash_request_free(queue->snd_hash);
+-free_tfm:
+-	crypto_free_ahash(tfm);
+-	return -ENOMEM;
 -}
 -
--static __wsum warn_crc32c_csum_combine(__wsum csum, __wsum csum2,
--				       int offset, int len)
--{
--	net_warn_ratelimited(
--		"%s: attempt to compute crc32c without libcrc32c.ko\n",
--		__func__);
--	return 0;
--}
+ static void nvme_tcp_free_async_req(struct nvme_tcp_ctrl *ctrl)
+ {
+ 	struct nvme_tcp_request *async = &ctrl->async_req;
+ 
+ 	page_frag_free(async->pdu);
+@@ -1449,13 +1419,10 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	unsigned int noreclaim_flag;
+ 
+ 	if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+ 		return;
+ 
+-	if (queue->hdr_digest || queue->data_digest)
+-		nvme_tcp_free_crypto(queue);
 -
--static const struct skb_checksum_ops default_crc32c_ops = {
--	.update  = warn_crc32c_csum_update,
--	.combine = warn_crc32c_csum_combine,
--};
--
--const struct skb_checksum_ops *crc32c_csum_stub __read_mostly =
--	&default_crc32c_ops;
--EXPORT_SYMBOL(crc32c_csum_stub);
--
-  /**
-  *	skb_zerocopy_headlen - Calculate headroom needed for skb_zerocopy()
-  *	@from: source buffer
-  *
-  *	Calculates the amount of linear headroom needed in the 'to' skb passed
+ 	page_frag_cache_drain(&queue->pf_cache);
+ 
+ 	noreclaim_flag = memalloc_noreclaim_save();
+ 	/* ->sock will be released by fput() */
+ 	fput(queue->sock->file);
+@@ -1865,25 +1832,17 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 		}
+ 	}
+ 
+ 	queue->hdr_digest = nctrl->opts->hdr_digest;
+ 	queue->data_digest = nctrl->opts->data_digest;
+-	if (queue->hdr_digest || queue->data_digest) {
+-		ret = nvme_tcp_alloc_crypto(queue);
+-		if (ret) {
+-			dev_err(nctrl->device,
+-				"failed to allocate queue %d crypto\n", qid);
+-			goto err_sock;
+-		}
+-	}
+ 
+ 	rcv_pdu_size = sizeof(struct nvme_tcp_rsp_pdu) +
+ 			nvme_tcp_hdgst_len(queue);
+ 	queue->pdu = kmalloc(rcv_pdu_size, GFP_KERNEL);
+ 	if (!queue->pdu) {
+ 		ret = -ENOMEM;
+-		goto err_crypto;
++		goto err_sock;
+ 	}
+ 
+ 	dev_dbg(nctrl->device, "connecting queue %d\n",
+ 			nvme_tcp_queue_id(queue));
+ 
+@@ -1912,13 +1871,10 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 
+ err_init_connect:
+ 	kernel_sock_shutdown(queue->sock, SHUT_RDWR);
+ err_rcv_pdu:
+ 	kfree(queue->pdu);
+-err_crypto:
+-	if (queue->hdr_digest || queue->data_digest)
+-		nvme_tcp_free_crypto(queue);
+ err_sock:
+ 	/* ->sock will be released by fput() */
+ 	fput(queue->sock->file);
+ 	queue->sock = NULL;
+ err_destroy_mutex:
 -- 
 2.49.0
 
