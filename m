@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16846C3ABC9
-	for <linux-nvme@archiver.kernel.org>; Sun, 11 May 2025 00:41:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 873E8C3ABD2
+	for <linux-nvme@archiver.kernel.org>; Sun, 11 May 2025 00:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p/AMrzifePx9sIWFcg1Zwi76xpA7tfjr7r5OkhMy3aE=; b=N8V//oaQOPjzGkIACL2o9AKrxY
-	nMJmuIa9wKVm5PXMvzz3UcPl4gOhbOUSVZReu0zODXKuNstGMmHZADeRFH523+lfIfhL/2eIGKQN0
-	b4kNM2rE2pC3m/ZV2dLYBC/nsnhcC05OfLkVUWHOPUcfYpxT/XYJ6VmZSPzbi21d29dPQjCO+E56R
-	HdAZlKG0SpGLYkUDBqLUbTiTpM6VHiTwuIoMpZ/Fzkifddw8YiLYrBBKG0GQugz1TI6aKw12e0hjy
-	a66WkDgjhvjHJE+fxt0e/lZqjW22p/h7hIjfN/Bgcm2FcIr4PEPigb0kULOqVDemj6CMTs659mMzH
-	SDeyIULA==;
+	bh=qT/RkUEvSIPYYnZUIuXyjIeOYuW7efMjBkJLBx2yx4w=; b=eB7BjBfEZWY5IyAhbq37I3DXyI
+	biSxGEbyeUnmZufJW9CLvdIGRM7W632tLeMziURspE+ono+chVtNKewDLGkJhSbyUQa2jDJhqhuHV
+	yZn6RGaPsj97vxiiKuVAHzCHxFux0L8GT/i3KaPojDCT3tWNuGS69JYPaZuLnBC/TRrujbakM4I0y
+	bSILUba9vycv6Rtyzu98qtNwoxPtNDrv47JyPq8XKOeipDSD9V3KKJBf6MJknopgIKiji/R6IWZx8
+	1ELUbjukRsySjiPW4wInXirWX39o9ucAZmaTVATMWw7WrjBT8CeiJrS29zfOU4ok8ozfcOxTnGIL6
+	OY/b+PBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDulD-00000006Xfs-2P4t;
-	Sun, 11 May 2025 00:41:43 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1uDulC-00000006XfJ-44EZ;
+	Sun, 11 May 2025 00:41:42 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDul9-00000006Xb4-21OF
+	id 1uDul7-00000006XZj-1LHe
 	for linux-nvme@lists.infradead.org;
 	Sun, 11 May 2025 00:41:39 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3F4D361126;
-	Sun, 11 May 2025 00:41:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180BBC4CEEE;
-	Sun, 11 May 2025 00:41:37 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id A38835C4BC0;
+	Sun, 11 May 2025 00:39:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9761C4CEEF;
+	Sun, 11 May 2025 00:41:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746924097;
-	bh=LyWew4r7C8/s4G5rA7UFXiI52nXjAIqNl5KwWhIs7mU=;
+	s=k20201202; t=1746924095;
+	bh=/A9NtJJ0pcYSzi7Q5tbR5gfyPyk7AS4gT0Xn3zsrRXA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oV1P3UPxoSVSGXQHgQoCgxQxJfnGE9kH5epMt277/kKhANGjbgtMM1DFdm4rIsSS4
-	 TnqojLLfFjobtF4Q71jGxB0fWr/mtuVa8bD54vddcKJX3zFoYSvOFokidXlrJSQxBd
-	 N8KAuZAcGjDhA53zHmLcWxQ419JOB0h5aM46AgVj/JXtv85HaFzbPl952PqFtWtcCG
-	 qOP47npu4FmQUYlvlZnrcatvjepKQFdB3TsehGMLv2FgrV+8Dd6g1AYGbFPaV+uZpX
-	 CWOCT2fkIgnWxKg2w3yg/yEvNkNvuXOo2ZiY8ekqJVAOxhmnz63kyMtqLjRGHgnLAD
-	 EfxeNQc950JnQ==
+	b=dQ45jumq+j1KKVo/UHlGTJd20e4DFKDf4HDb7zNpC1qGye2USU/ef8NjVPsV0T14A
+	 M4jug2r/Yq+VOS1fGQCxzyXAYoyoevhEV9K80h9QVcttRSXM+iMcoZJkQbp9lQCszx
+	 ITOq1tQ3BQYVL+VjDTaZbvKR9A2dg1fYJ5d3vWpy6ATm10LTVbR11DIvSHr7zk/FXp
+	 +7hSbi+HClEtL8cFGC8eYxB7glmb8eNbM/ZqywcVrB8xrRphB55w2ygtQI4t75sOh3
+	 GFOjOLIPmoXEpUY7A2BNrk9RdobQ6OX+wMc9mDAWhkfGgZVv65FSbPiSRRJoeuttck
+	 6zPsnrLDxUwaw==
 From: Eric Biggers <ebiggers@kernel.org>
 To: netdev@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -52,14 +52,17 @@ Cc: linux-nvme@lists.infradead.org,
 	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Ard Biesheuvel <ardb@kernel.org>
-Subject: [PATCH net-next 08/10] net: add skb_copy_and_crc32c_datagram_iter()
-Date: Sat, 10 May 2025 17:41:08 -0700
-Message-ID: <20250511004110.145171-9-ebiggers@kernel.org>
+Subject: [PATCH net-next 06/10] net: fold __skb_checksum() into skb_checksum()
+Date: Sat, 10 May 2025 17:41:06 -0700
+Message-ID: <20250511004110.145171-7-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250511004110.145171-1-ebiggers@kernel.org>
 References: <20250511004110.145171-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250510_174137_483531_952AB0F9 
+X-CRM114-Status: GOOD (  12.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,99 +79,211 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Eric Biggers <ebiggers@google.com>
 
-Since skb_copy_and_hash_datagram_iter() is used only with CRC32C, the
-crypto_ahash abstraction provides no value.  Add
-skb_copy_and_crc32c_datagram_iter() which just calls crc32c() directly.
-
-This is faster and simpler.  It also doesn't have the weird dependency
-issue where skb_copy_and_hash_datagram_iter() depends on
-CONFIG_CRYPTO_HASH=y without that being expressed explicitly in the
-kconfig (presumably because it was too heavyweight for NET to select).
-The new function is conditional on the hidden boolean symbol NET_CRC32C,
-which selects CRC32.  So it gets compiled only when something that
-actually needs CRC32C packet checksums is enabled, it has no implicit
-dependency, and it doesn't depend on the heavyweight crypto layer.
+Now that the only remaining caller of __skb_checksum() is
+skb_checksum(), fold __skb_checksum() into skb_checksum().  This makes
+struct skb_checksum_ops unnecessary, so remove that too and simply do
+the "regular" net checksum.  It also makes the wrapper functions
+csum_partial_ext() and csum_block_add_ext() unnecessary, so remove those
+too and just use the underlying functions.
 
 Signed-off-by: Eric Biggers <ebiggers@google.com>
 ---
- include/linux/skbuff.h |  2 ++
- net/core/datagram.c    | 31 +++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+ include/linux/skbuff.h |  9 -------
+ include/net/checksum.h | 12 ---------
+ net/core/skbuff.c      | 59 +++++-------------------------------------
+ 3 files changed, 7 insertions(+), 73 deletions(-)
 
 diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index eac5c8dde4a5..0027f2977c02 100644
+index 33b33bb18aa6..eac5c8dde4a5 100644
 --- a/include/linux/skbuff.h
 +++ b/include/linux/skbuff.h
-@@ -4126,10 +4126,12 @@ static inline int skb_copy_datagram_msg(const struct sk_buff *from, int offset,
- int skb_copy_and_csum_datagram_msg(struct sk_buff *skb, int hlen,
- 				   struct msghdr *msg);
- int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
- 			   struct iov_iter *to, int len,
- 			   struct ahash_request *hash);
-+int skb_copy_and_crc32c_datagram_iter(const struct sk_buff *skb, int offset,
-+				      struct iov_iter *to, int len, u32 *crcp);
- int skb_copy_datagram_from_iter(struct sk_buff *skb, int offset,
- 				 struct iov_iter *from, int len);
- int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *frm);
- void skb_free_datagram(struct sock *sk, struct sk_buff *skb);
- int skb_kill_datagram(struct sock *sk, struct sk_buff *skb, unsigned int flags);
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index f0634f0cb834..47a6eef83162 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -50,10 +50,11 @@
- #include <linux/spinlock.h>
- #include <linux/slab.h>
- #include <linux/pagemap.h>
- #include <linux/iov_iter.h>
- #include <linux/indirect_call_wrapper.h>
-+#include <linux/crc32.h>
- 
- #include <net/protocol.h>
- #include <linux/skbuff.h>
- 
- #include <net/checksum.h>
-@@ -515,10 +516,40 @@ int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
- 	return __skb_datagram_iter(skb, offset, to, len, true,
- 			hash_and_copy_to_iter, hash);
- }
- EXPORT_SYMBOL(skb_copy_and_hash_datagram_iter);
- 
-+#ifdef CONFIG_NET_CRC32C
-+static size_t crc32c_and_copy_to_iter(const void *addr, size_t bytes,
-+				      void *_crcp, struct iov_iter *i)
-+{
-+	u32 *crcp = _crcp;
-+	size_t copied;
-+
-+	copied = copy_to_iter(addr, bytes, i);
-+	*crcp = crc32c(*crcp, addr, copied);
-+	return copied;
-+}
-+
-+/**
-+ *	skb_copy_and_crc32c_datagram_iter - Copy datagram to an iovec iterator
-+ *		and update a CRC32C value.
-+ *	@skb: buffer to copy
-+ *	@offset: offset in the buffer to start copying from
-+ *	@to: iovec iterator to copy to
-+ *	@len: amount of data to copy from buffer to iovec
-+ *	@crcp: pointer to CRC32C value to update
-+ */
-+int skb_copy_and_crc32c_datagram_iter(const struct sk_buff *skb, int offset,
-+				      struct iov_iter *to, int len, u32 *crcp)
-+{
-+	return __skb_datagram_iter(skb, offset, to, len, true,
-+				   crc32c_and_copy_to_iter, crcp);
-+}
-+EXPORT_SYMBOL(skb_copy_and_crc32c_datagram_iter);
-+#endif /* CONFIG_NET_CRC32C */
-+
- static size_t simple_copy_to_iter(const void *addr, size_t bytes,
- 		void *data __always_unused, struct iov_iter *i)
+@@ -4181,19 +4181,10 @@ static inline int memcpy_from_msg(void *data, struct msghdr *msg, int len)
+ static inline int memcpy_to_msg(struct msghdr *msg, void *data, int len)
  {
- 	return copy_to_iter(addr, bytes, i);
+ 	return copy_to_iter(data, len, &msg->msg_iter) == len ? 0 : -EFAULT;
  }
+ 
+-struct skb_checksum_ops {
+-	__wsum (*update)(const void *mem, int len, __wsum wsum);
+-	__wsum (*combine)(__wsum csum, __wsum csum2, int offset, int len);
+-};
+-
+-extern const struct skb_checksum_ops *crc32c_csum_stub __read_mostly;
+-
+-__wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
+-		      __wsum csum, const struct skb_checksum_ops *ops);
+ __wsum skb_checksum(const struct sk_buff *skb, int offset, int len,
+ 		    __wsum csum);
+ u32 skb_crc32c(const struct sk_buff *skb, int offset, int len, u32 crc);
+ 
+ static inline void * __must_check
+diff --git a/include/net/checksum.h b/include/net/checksum.h
+index 243f972267b8..e57986b173f8 100644
+--- a/include/net/checksum.h
++++ b/include/net/checksum.h
+@@ -96,16 +96,10 @@ static __always_inline __wsum
+ csum_block_add(__wsum csum, __wsum csum2, int offset)
+ {
+ 	return csum_add(csum, csum_shift(csum2, offset));
+ }
+ 
+-static __always_inline __wsum
+-csum_block_add_ext(__wsum csum, __wsum csum2, int offset, int len)
+-{
+-	return csum_block_add(csum, csum2, offset);
+-}
+-
+ static __always_inline __wsum
+ csum_block_sub(__wsum csum, __wsum csum2, int offset)
+ {
+ 	return csum_block_add(csum, ~csum2, offset);
+ }
+@@ -113,16 +107,10 @@ csum_block_sub(__wsum csum, __wsum csum2, int offset)
+ static __always_inline __wsum csum_unfold(__sum16 n)
+ {
+ 	return (__force __wsum)n;
+ }
+ 
+-static __always_inline
+-__wsum csum_partial_ext(const void *buff, int len, __wsum sum)
+-{
+-	return csum_partial(buff, len, sum);
+-}
+-
+ #define CSUM_MANGLED_0 ((__force __sum16)0xffff)
+ 
+ static __always_inline void csum_replace_by_diff(__sum16 *sum, __wsum diff)
+ {
+ 	*sum = csum_fold(csum_add(diff, ~csum_unfold(*sum)));
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index b9900cc16a24..bfa892ccc7f7 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -3438,24 +3438,22 @@ int skb_store_bits(struct sk_buff *skb, int offset, const void *from, int len)
+ 	return -EFAULT;
+ }
+ EXPORT_SYMBOL(skb_store_bits);
+ 
+ /* Checksum skb data. */
+-__wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
+-		      __wsum csum, const struct skb_checksum_ops *ops)
++__wsum skb_checksum(const struct sk_buff *skb, int offset, int len, __wsum csum)
+ {
+ 	int start = skb_headlen(skb);
+ 	int i, copy = start - offset;
+ 	struct sk_buff *frag_iter;
+ 	int pos = 0;
+ 
+ 	/* Checksum header. */
+ 	if (copy > 0) {
+ 		if (copy > len)
+ 			copy = len;
+-		csum = INDIRECT_CALL_1(ops->update, csum_partial_ext,
+-				       skb->data + offset, copy, csum);
++		csum = csum_partial(skb->data + offset, copy, csum);
+ 		if ((len -= copy) == 0)
+ 			return csum;
+ 		offset += copy;
+ 		pos	= copy;
+ 	}
+@@ -3481,17 +3479,13 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
+ 
+ 			skb_frag_foreach_page(frag,
+ 					      skb_frag_off(frag) + offset - start,
+ 					      copy, p, p_off, p_len, copied) {
+ 				vaddr = kmap_atomic(p);
+-				csum2 = INDIRECT_CALL_1(ops->update,
+-							csum_partial_ext,
+-							vaddr + p_off, p_len, 0);
++				csum2 = csum_partial(vaddr + p_off, p_len, 0);
+ 				kunmap_atomic(vaddr);
+-				csum = INDIRECT_CALL_1(ops->combine,
+-						       csum_block_add_ext, csum,
+-						       csum2, pos, p_len);
++				csum = csum_block_add(csum, csum2, pos);
+ 				pos += p_len;
+ 			}
+ 
+ 			if (!(len -= copy))
+ 				return csum;
+@@ -3508,14 +3502,13 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
+ 		end = start + frag_iter->len;
+ 		if ((copy = end - offset) > 0) {
+ 			__wsum csum2;
+ 			if (copy > len)
+ 				copy = len;
+-			csum2 = __skb_checksum(frag_iter, offset - start,
+-					       copy, 0, ops);
+-			csum = INDIRECT_CALL_1(ops->combine, csum_block_add_ext,
+-					       csum, csum2, pos, copy);
++			csum2 = skb_checksum(frag_iter, offset - start, copy,
++					     0);
++			csum = csum_block_add(csum, csum2, pos);
+ 			if ((len -= copy) == 0)
+ 				return csum;
+ 			offset += copy;
+ 			pos    += copy;
+ 		}
+@@ -3523,22 +3516,10 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
+ 	}
+ 	BUG_ON(len);
+ 
+ 	return csum;
+ }
+-EXPORT_SYMBOL(__skb_checksum);
+-
+-__wsum skb_checksum(const struct sk_buff *skb, int offset,
+-		    int len, __wsum csum)
+-{
+-	const struct skb_checksum_ops ops = {
+-		.update  = csum_partial_ext,
+-		.combine = csum_block_add_ext,
+-	};
+-
+-	return __skb_checksum(skb, offset, len, csum, &ops);
+-}
+ EXPORT_SYMBOL(skb_checksum);
+ 
+ /* Both of above in one bottle. */
+ 
+ __wsum skb_copy_and_csum_bits(const struct sk_buff *skb, int offset,
+@@ -3758,36 +3739,10 @@ __sum16 __skb_checksum_complete(struct sk_buff *skb)
+ 
+ 	return sum;
+ }
+ EXPORT_SYMBOL(__skb_checksum_complete);
+ 
+-static __wsum warn_crc32c_csum_update(const void *buff, int len, __wsum sum)
+-{
+-	net_warn_ratelimited(
+-		"%s: attempt to compute crc32c without libcrc32c.ko\n",
+-		__func__);
+-	return 0;
+-}
+-
+-static __wsum warn_crc32c_csum_combine(__wsum csum, __wsum csum2,
+-				       int offset, int len)
+-{
+-	net_warn_ratelimited(
+-		"%s: attempt to compute crc32c without libcrc32c.ko\n",
+-		__func__);
+-	return 0;
+-}
+-
+-static const struct skb_checksum_ops default_crc32c_ops = {
+-	.update  = warn_crc32c_csum_update,
+-	.combine = warn_crc32c_csum_combine,
+-};
+-
+-const struct skb_checksum_ops *crc32c_csum_stub __read_mostly =
+-	&default_crc32c_ops;
+-EXPORT_SYMBOL(crc32c_csum_stub);
+-
+  /**
+  *	skb_zerocopy_headlen - Calculate headroom needed for skb_zerocopy()
+  *	@from: source buffer
+  *
+  *	Calculates the amount of linear headroom needed in the 'to' skb passed
 -- 
 2.49.0
 
