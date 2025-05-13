@@ -4,62 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 750D0C3ABC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 15:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6733BC3ABD9
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 15:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fwCWoUbL5NOMxoKe+miA4KKfb152pmD8DvI8jeZt5Ek=; b=G3nb2AGWMW3N+yGKrKt4fSXN5I
-	/gdOoJXx0s78F5D8a9YnU6yNGgK1LgEMsm+al9v8CCZPoaxoT5RrKK639E42Il7XdcF59SwIX0s3X
-	zQi+3DBEn12J28XN6heNUbvUIsUHD28G3fFYp1J1wi0FNlmCJXn57Y1TNjE+a7twCGYYqWu54rGbt
-	/F8z2KMRpAZUXly4nXYieb+fsfv5LnkI+/21FbCUYH/hrWEp1pJ06dV5dTYV4v2METbbbE+DtU5zo
-	2Uu9Jo8dEMWbGh81LPmXz53N38HPJawrU63Cm0cMTDnPok6BwOsYSIVBdTv72f3EEV65T7tqQeHbM
-	fLAk9Plg==;
+	bh=6aaHbjEGJZYeBWUz6NxyGmQmblUjWo7YOivqDbVpadk=; b=MzwA6TU8pV+kx5ozjt/zH73wTO
+	dAw0SwGEdwroF8/r7AWgJT4X4EnswEvKMUYTdVkBaFlhsQrtf4ehbZ9XNDjWuSlpEguJ6R/qY1GhC
+	h5QTHMB1UJrdYRkdI1qabMZvYO0VK0Uq2UoqSgOxLsVuznW+gRJZoT8qxnCZS/EHLKVVYgN4ClDp6
+	Q2R4M3HYckYa4FBeN7m2LfSAbEdBE0zl4ey5Xrbwl0CtkcFHbipRbQQAo81Sxl97QopG3GBCRRgTZ
+	zD/ZUvuLdDEzLUI/5fjYihny9Rxvsbzl8wGIj/91h/8RP+nvYRrkYaJ9bv8h+cai8e882Xk6OEOin
+	5fuC4HNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uErR0-0000000ClBL-051i;
-	Tue, 13 May 2025 15:20:46 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1uEri2-0000000CoM9-44SK;
+	Tue, 13 May 2025 15:38:22 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uErDN-0000000CidD-2h6A
+	id 1uEreR-0000000Cno8-3fwp
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 May 2025 15:06:42 +0000
+	Tue, 13 May 2025 15:34:40 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3683543DC1;
-	Tue, 13 May 2025 15:06:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1584C4CEE4;
-	Tue, 13 May 2025 15:06:40 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 33DFBA4D8A7;
+	Tue, 13 May 2025 15:34:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7267CC4CEE9;
+	Tue, 13 May 2025 15:34:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747148801;
-	bh=IEWcvGGDC3zFzhe0SXtlzqVdF3zefMDx9XgmylY0chs=;
+	s=k20201202; t=1747150478;
+	bh=gEEIuEBeIR/917g9T3uDyl7+AAv6MYhearKZBjlLfWI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GRR+dm57R08V/1DhucUReGmapPRBaMe/lPNW2WeHW76PH22ZVWKZUbldpaI2+KGN+
-	 5Q70+1lSp8VHd1JgZ/uJfy5QX9/D+YMC7nceluyUzG/VaD8nfyeL0xVaSogucQAVk0
-	 oOa/YzVoi135GKNgnC7vcAaH2RxxB9f0Wu0EhvHS54TvCK51DpqUj8kOYNuPlpsLec
-	 qjIGHFmENmPNH+ENL63yRtpBTHpLu70+fsV+NpwXNpbu2KFEyuW9suPo0daeDLBUXt
-	 E5Ph0NKlXFH3sBmK/X6whmLl1kkFptQkY44weD//dCCOI7CvYUEUwWaJpxoaD2zYKM
-	 YvkJEvnEFnTpw==
-Date: Tue, 13 May 2025 09:06:38 -0600
+	b=jff0I0857Z7B5jn//gGLTiVT6HiMuWARv0mJl04kTEQQavaOeWN3TvY97fjUdNf6k
+	 p20ztLKzgjNvgud6urPG78qqNScsdL3/2PLH4OD8uz6RX/3A+wW4FHplvcCysEqizq
+	 yggEAlU2H3R0RUXolTR17jVa7E9rsEI/GNnd6weqfBWlL16ksaNlwm4ZUE56WYDn9C
+	 /GL/ckMtmpvGylYLa3Qej7gL3DZwHSy4QawptHBRWA0eDFQ3mnwTZcItE046McORgL
+	 R//xZ7EuDFqjDkzAVh65BdEpOkGt5H8Q3eSEEcl1QA+EMhXHlYkbRLEn2ZKLmmhVBv
+	 +vJ2rtXhnq5Aw==
+Date: Tue, 13 May 2025 09:34:36 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Caleb Sander Mateos <csander@purestorage.com>,
 	Leon Romanovsky <leon@kernel.org>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 5/7] nvme-pci: use a better encoding for small prp pool
- allocations
-Message-ID: <aCNf_rHaLdS-WTEO@kbusch-mbp>
+Subject: Re: misc cleanups for nvme-pci
+Message-ID: <aCNmjMm5aYQFE91s@kbusch-mbp>
 References: <20250513070025.830930-1-hch@lst.de>
- <20250513070025.830930-6-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250513070025.830930-6-hch@lst.de>
+In-Reply-To: <20250513070025.830930-1-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250513_080641_720409_1CF9610C 
-X-CRM114-Status: GOOD (  12.63  )
+X-CRM114-CacheID: sfid-20250513_083439_981068_3CC200DF 
+X-CRM114-Status: GOOD (  10.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,27 +72,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 13, 2025 at 09:00:21AM +0200, Christoph Hellwig wrote:
-> +static inline struct dma_pool *nvme_dma_pool(struct nvme_queue *nvmeq,
-> +		struct nvme_iod *iod)
-> +{
-> +	if (iod->flags & IOD_SMALL_DESCRIPTOR)
-> +		return nvmeq->descriptor_pools.small;
-> +	return nvmeq->descriptor_pools.large;
-> +}
+On Tue, May 13, 2025 at 09:00:16AM +0200, Christoph Hellwig wrote:
+> this has misc cleanups for the nvme-pci I/O code.  Most of this was done
+> as part of the new DMA API work.  Which then clashed with the per-node
+> dmapools, so I'll try to get it out now instead of having to do another
+> rebase.  As part of that this also includes minor tidyups for the new code
+> from the per-node dmapools.
 
-...
+Series looks good. Just a minor optimization suggestion from me for
+patch 5, and commit log issue Kanchan mentioned for patch 2.
 
->  		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
->  			__le64 *old_prp_list = prp_list;
-> -			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
-> +
-> +			prp_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod),
-> +					GFP_ATOMIC, &prp_dma);
-
-You could assume nvmeq->descriptor_pools.large here. We'd never use the
-small pool if we've enough elements to chain lists, and it would skip
-the extra condition branch on each loop.
-
-The same optimization is done in the free side already, too.
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
