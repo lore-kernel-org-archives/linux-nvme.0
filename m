@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37DC9C3ABC9
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6493C3ABC3
 	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 07:52:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,56 +12,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Zu1Bd4F/oo4L5xC/OUQ4NIMJhaczXT/wb7dV0dj7z8E=; b=CW0ZPO4BrrZV+matkUnCS5JygZ
-	97WzGEt3LwuVscK1IqvoX6r5HUixXbh4Fq8RFlQthj/PoMj7FvxIKNU9piM5VMApGtmWrMfc0IlUU
-	MnGIAFuE9p4LBWTt9IZyeAF19CfPo1F690V0oSSNretqai52/cEXKenRZ3H57S7B8MVcuZwD4gaxZ
-	J9Uui1rSoK1OcrvLEYXllXhVORPM0HeDF5fGnG9j1p7gSfLw9DOkHLcye2ByoH4KfgwgQoKr2zprS
-	lxZ3GNe07hIhXbxbtaTVOCZxO3Sx44Gif9G1dmKbF25CuCBY1cPb51fsJa69aSmF8XjVMi6RO5i91
-	GdPl6DDQ==;
+	bh=suGKAUnOcC4v2FWUBFR0gvEryjGvIC0tfUwotwgZ2Gk=; b=V5TcJcYKcPgLoL+CEAdQbsUWUz
+	ICTbVWSHBkVioBVBXZd8dJifNwEBdaDgNxNCf3d7GwatO2tXFQ57tWxWio0MOfLJBunCL7Fnhshkf
+	j5HtZH55lTQhi1ApdxCAyj7xF4QjTIBEyqvlF97Dl/qKTOhLhyLHyK48LZWYtG9mK2wtTqMEC7oKm
+	+2Mh1eJ8YVZM5D20TWOK5+Fexovt7nJg+YBpRL0gaWQE6hfABb2JEh2az+ELtLlYHYIaNfuNDYe5S
+	sqdj62smGy3UP3TOLY3FbXCtrsml3CDnDXC5GhC5KVtfIIIMtUc1LK8De1vjpXm8sqe/XIQripUrd
+	lRMR544g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEkQu-0000000Bh1u-1v76;
-	Tue, 13 May 2025 07:52:12 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1uEkQv-0000000Bh2G-0SKP;
+	Tue, 13 May 2025 07:52:13 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEkOO-0000000BgUh-3nJS
+	id 1uEkQK-0000000BgyD-0bI0
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 May 2025 07:49:38 +0000
+	Tue, 13 May 2025 07:51:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 21C05A4CAD5;
-	Tue, 13 May 2025 07:49:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52AB1C4CEE4;
-	Tue, 13 May 2025 07:49:31 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 45C45A4C95B;
+	Tue, 13 May 2025 07:51:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5223DC4CEE4;
+	Tue, 13 May 2025 07:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747122571;
-	bh=xu2XicHlHzyShUDfzKeZnNjK8PkUWcBuC9zaFAPI3vs=;
+	s=k20201202; t=1747122694;
+	bh=QP+CUZBj2KZxWn3b0IkBoSpOHPkhW/xwoYyB7TNM9B0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=at5S7jGKpHZhdMn0zbBsDT5YjSpxYu/ZkUM1CDNDuWbDh/ZHdWdSBhJ36hkdh031d
-	 +p6gWqUpyhyNZghEWrEXa9xND/Oa2FzFWUh2ucrDJkJHXdn/cRW8EmFwl16Ochc5V/
-	 VLY3mqm6FrtSH1YXADDj+4AvouDTrLyiKvvj+Kx1qvX727g21XLM3T69pYFuoNU9GU
-	 7R3TNgIkUEwfAwve9kKeUraRFhDMCwBPvfF1bKm7Ja6nDxUlJePx0NMG2EuwYSPIM4
-	 2c7CjsJlk7gxmvnzDv+YA+cgnZuJdlVms4alEPFzTERqIfv1j76yVMmAKZ0MGXWdpm
-	 NAXWjJck6h2FA==
-Date: Tue, 13 May 2025 10:49:26 +0300
+	b=VP3NM9MSsTtR2aZ+01NUlqp8yaDL3MnFDJkPV681wUnh/IWJlCo0KUk7xBhoO3SSw
+	 R2UpNAacxfUH6lOTkrT0mThpyxjYeciV18WlGgumLbXp82ERaeRjs0mJnxA8Purkl3
+	 sVjJZJLtcIpt/k0Ve9+/wgmagt3EDKSbOcK6EwZWq31FAzLK3p6pHbO3cE/v2UXruM
+	 wautG7gmLRx36i4HclWTpinf88tPkRnX0SYXdIoYEwirlQKS9ZaNDfzObRsYG6jD++
+	 LiorM8MC16mpZR/JHap/R2wWroVceLhZDt71tDnjxYpgQmPdBWcvpgvoXVUdssCg4E
+	 uYd3hdSNci/Zg==
+Date: Tue, 13 May 2025 10:51:30 +0300
 From: Leon Romanovsky <leon@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Caleb Sander Mateos <csander@purestorage.com>,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 5/7] nvme-pci: use a better encoding for small prp pool
- allocations
-Message-ID: <20250513074926.GL22843@unreal>
+Subject: Re: [PATCH 1/7] nvme-pci: don't try to use SGLs for metadata on the
+ admin queue
+Message-ID: <20250513075130.GM22843@unreal>
 References: <20250513070025.830930-1-hch@lst.de>
- <20250513070025.830930-6-hch@lst.de>
- <20250513073950.GJ22843@unreal>
- <20250513074041.GC2521@lst.de>
+ <20250513070025.830930-2-hch@lst.de>
+ <20250513072842.GH22843@unreal>
+ <20250513073908.GB2521@lst.de>
+ <20250513074515.GK22843@unreal>
+ <20250513074711.GA2818@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250513074041.GC2521@lst.de>
+In-Reply-To: <20250513074711.GA2818@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250513_004937_030081_A8F93397 
-X-CRM114-Status: GOOD (  12.26  )
+X-CRM114-CacheID: sfid-20250513_005136_246421_0811555F 
+X-CRM114-Status: GOOD (  19.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,23 +78,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 13, 2025 at 09:40:41AM +0200, Christoph Hellwig wrote:
-> On Tue, May 13, 2025 at 10:39:50AM +0300, Leon Romanovsky wrote:
-> > > +static inline struct dma_pool *nvme_dma_pool(struct nvme_queue *nvmeq,
-> > > +		struct nvme_iod *iod)
-> > > +{
+On Tue, May 13, 2025 at 09:47:11AM +0200, Christoph Hellwig wrote:
+> On Tue, May 13, 2025 at 10:45:15AM +0300, Leon Romanovsky wrote:
+> > On Tue, May 13, 2025 at 09:39:08AM +0200, Christoph Hellwig wrote:
+> > > On Tue, May 13, 2025 at 10:28:42AM +0300, Leon Romanovsky wrote:
+> > > > > -	if (nvme_pci_metadata_use_sgls(dev, req))
+> > > > > +	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> > > > > +
+> > > > > +	if ((iod->cmd.common.flags & NVME_CMD_SGL_METABUF) &&
+> > > > 
+> > > > Won't it be more future error proof to check for NVME_CMD_SGL_ALL?
+> > > 
+> > > No really, as this is used to decide to call into the routine that
+> > > sets NVME_CMD_SGL_METASEG.
 > > 
-> > You probably want __always_inline and not inline here.
+> > I see same NVME_CMD_SGL_ALL check in target code.
 > 
-> I avoid that if I can.  People trying to use non-optimizing compiler
-> flag deserve what they asked for :)
+> Yeah.  But the above check guards the call to nvme_pci_setup_meta_sgls,
+> which takes a command and updates the sgls field in flags from
+> NVME_CMD_SGL_METABUF to NVME_CMD_SGL_METASEG, and no other place sets
+> NVME_CMD_SGL_METASEG. So NVME_CMD_SGL_METASEG can't be set at this
+> point by definition.
 
-Right, but you are trying to sit on two seats here.
-
-For users who uses normal compiler, this two line function will be
-inlined anyway without need in extra "inline" keyword.
-For users with "non-optimizing compiler", this "inline" keyword will do
-nothing.
-
-Thanks 
+Thanks
 
