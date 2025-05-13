@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 508C1C3ABC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 07:00:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73155C3ABC3
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 07:00:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qV/xTDjnCIxiJ4Hi/4r+Upq26KGB12urGCJbBIVkNVo=; b=Y8PHvB15t5FeY1nz8Hbn4P0BRg
-	Od/g3r7+bGfIcSCkh6nvXEyxZTYCxs5PZ084b6pnB7JqQGk69mtb97xiWFlhJOmKk9mHwLLc+ZoEB
-	XQpTpjeZE0Tkj+OZ1tZTcjM/2JHThkGPyhkAk8Q1PPtTr8mbkngi4ObC6Ha0giEkRu2s2NMFHzMc7
-	eUhC27WoQQIWizx9IBZwDT4VTVvXgPXRL2ASZpAuYaiRn7FB2uZWZiL6REgyTdGxXUjhvteCQIXlX
-	8WGxBPnt0gzma2mB3uIiYwR72kxuyBU67W4dfN0atJC1ghxgVlEbfJ/dWuuXU+2nC9v+6V1E8Gb6S
-	5ZqEng9Q==;
+	bh=5io4WHUwTf0a/dsX7XjiVz2g1Z0oLmYNb5WcFBsCXH4=; b=CNqP+FHvGWeSvqb+JJ8Jz5jCve
+	RoKf/JbCJEcZAH94sKW4YooN/Q1yjxq5MURLe7DIgUbiPj0XkNS2Mv15anR1w2KMlb6qk1BGNy1Ex
+	6V1+dkykqiZitcXBXV+7fAS9GoPdxqscQV2vKyTGBGnmnCzhFuZFjv8DVGjM0uwokRuXna5KDuIZd
+	McAhZKwxanucvTpHCS8crJgxCYuG4q1NtDDSEe0gf9J4NDZmOd+XeXs750R7pVv/q44UqmllF8mg+
+	oZ9ZrcMF1UCuTRpf2Pjgu2tLUoEndAwxO4qq8kCKOzroTCuiaeGSE60qBnvWtWt7c0G1mTWvwQs+b
+	Ql/93Bog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEjd6-0000000BZ3x-3DYr;
-	Tue, 13 May 2025 07:00:44 +0000
+	id 1uEjd9-0000000BZ6L-0Dxl;
+	Tue, 13 May 2025 07:00:47 +0000
 Received: from 2a02-8389-2341-5b80-3c00-8f88-6e38-56f1.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:3c00:8f88:6e38:56f1] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEjd4-0000000BZ1U-4626;
-	Tue, 13 May 2025 07:00:43 +0000
+	id 1uEjd7-0000000BZ3Y-2FyF;
+	Tue, 13 May 2025 07:00:46 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
@@ -33,9 +33,9 @@ To: Keith Busch <kbusch@kernel.org>,
 Cc: Caleb Sander Mateos <csander@purestorage.com>,
 	Leon Romanovsky <leon@kernel.org>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 5/7] nvme-pci: use a better encoding for small prp pool allocations
-Date: Tue, 13 May 2025 09:00:21 +0200
-Message-ID: <20250513070025.830930-6-hch@lst.de>
+Subject: [PATCH 6/7] nvme-pci: add a symolic name for the small pool size
+Date: Tue, 13 May 2025 09:00:22 +0200
+Message-ID: <20250513070025.830930-7-hch@lst.de>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250513070025.830930-1-hch@lst.de>
 References: <20250513070025.830930-1-hch@lst.de>
@@ -55,196 +55,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a separate flag to encode that the transfer is using the small
-page sized pool, and use a normal 0..n count for the number of
-descriptors.
+From: Leon Romanovsky <leon@kernel.org>
 
-Contains improvements and suggestions from Kanchan Joshi
-<joshi.k@samsung.com> and Leon Romanovsky <leonro@nvidia.com>.
+Open coding magic numbers in multiple places is never a good idea.
 
+Signed-off-by: Leon Romanovsky <leon@kernel.org>
+[hch: split from a larger patch]
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/pci.c | 82 ++++++++++++++++++++---------------------
- 1 file changed, 39 insertions(+), 43 deletions(-)
+ drivers/nvme/host/pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 773a2e625657..16e2ce25da83 100644
+index 16e2ce25da83..5396fe30eb94 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -229,6 +229,9 @@ struct nvme_queue {
- enum nvme_iod_flags {
- 	/* this command has been aborted by the timeout handler */
- 	IOD_ABORTED		= 1U << 0,
-+
-+	/* uses the small descriptor pool */
-+	IOD_SMALL_DESCRIPTOR		= 1U << 1,
- };
+@@ -37,6 +37,8 @@
  
+ #define SGES_PER_PAGE	(NVME_CTRL_PAGE_SIZE / sizeof(struct nvme_sgl_desc))
+ 
++#define NVME_SMALL_POOL_SIZE	256
++
  /*
-@@ -238,7 +241,7 @@ struct nvme_iod {
- 	struct nvme_request req;
- 	struct nvme_command cmd;
- 	u8 flags;
--	s8 nr_descriptors;
-+	u8 nr_descriptors;
- 	unsigned int dma_len;	/* length of single DMA segment mapping */
- 	dma_addr_t first_dma;
- 	dma_addr_t meta_dma;
-@@ -589,13 +592,27 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
- 	return true;
- }
- 
--static void nvme_free_prps(struct nvme_queue *nvmeq, struct request *req)
-+static inline struct dma_pool *nvme_dma_pool(struct nvme_queue *nvmeq,
-+		struct nvme_iod *iod)
-+{
-+	if (iod->flags & IOD_SMALL_DESCRIPTOR)
-+		return nvmeq->descriptor_pools.small;
-+	return nvmeq->descriptor_pools.large;
-+}
-+
-+static void nvme_free_descriptors(struct nvme_queue *nvmeq, struct request *req)
+  * These can be higher, but we need to ensure that any command doesn't
+  * require an sg allocation that needs more than a page of data.
+@@ -407,7 +409,7 @@ static struct nvme_descriptor_pools *
+ nvme_setup_descriptor_pools(struct nvme_dev *dev, unsigned numa_node)
  {
- 	const int last_prp = NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	dma_addr_t dma_addr = iod->first_dma;
- 	int i;
+ 	struct nvme_descriptor_pools *pools = &dev->descriptor_pools[numa_node];
+-	size_t small_align = 256;
++	size_t small_align = NVME_SMALL_POOL_SIZE;
  
-+	if (iod->nr_descriptors == 1) {
-+		dma_pool_free(nvme_dma_pool(nvmeq, iod), iod->descriptors[0],
-+				dma_addr);
-+		return;
-+	}
-+
- 	for (i = 0; i < iod->nr_descriptors; i++) {
- 		__le64 *prp_list = iod->descriptors[i];
- 		dma_addr_t next_dma_addr = le64_to_cpu(prp_list[last_prp]);
-@@ -620,15 +637,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 	WARN_ON_ONCE(!iod->sgt.nents);
+ 	if (pools->small)
+ 		return pools; /* already initialized */
+@@ -422,7 +424,7 @@ nvme_setup_descriptor_pools(struct nvme_dev *dev, unsigned numa_node)
  
- 	dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
--
--	if (iod->nr_descriptors == 0)
--		dma_pool_free(nvmeq->descriptor_pools.small,
--				iod->descriptors[0], iod->first_dma);
--	else if (iod->nr_descriptors == 1)
--		dma_pool_free(nvmeq->descriptor_pools.large,
--				iod->descriptors[0], iod->first_dma);
--	else
--		nvme_free_prps(nvmeq, req);
-+	nvme_free_descriptors(nvmeq, req);
- 	mempool_free(iod->sgt.sgl, dev->iod_mempool);
- }
- 
-@@ -650,7 +659,6 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_queue *nvmeq,
- 		struct request *req, struct nvme_rw_command *cmnd)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	struct dma_pool *pool;
- 	int length = blk_rq_payload_bytes(req);
- 	struct scatterlist *sg = iod->sgt.sgl;
- 	int dma_len = sg_dma_len(sg);
-@@ -658,7 +666,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_queue *nvmeq,
- 	int offset = dma_addr & (NVME_CTRL_PAGE_SIZE - 1);
- 	__le64 *prp_list;
- 	dma_addr_t prp_dma;
--	int nprps, i;
-+	int i;
- 
- 	length -= (NVME_CTRL_PAGE_SIZE - offset);
- 	if (length <= 0) {
-@@ -680,27 +688,23 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_queue *nvmeq,
- 		goto done;
+ 	/* Optimisation for I/Os between 4k and 128k */
+ 	pools->small = dma_pool_create_node("nvme descriptor 256", dev->dev,
+-			256, small_align, 0, numa_node);
++			NVME_SMALL_POOL_SIZE, small_align, 0, numa_node);
+ 	if (!pools->small) {
+ 		dma_pool_destroy(pools->large);
+ 		pools->large = NULL;
+@@ -689,7 +691,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_queue *nvmeq,
  	}
  
--	nprps = DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
--	if (nprps <= (256 / 8)) {
--		pool = nvmeq->descriptor_pools.small;
--		iod->nr_descriptors = 0;
--	} else {
--		pool = nvmeq->descriptor_pools.large;
--		iod->nr_descriptors = 1;
--	}
-+	if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) <=
-+	    256 / sizeof(__le64))
-+		iod->flags |= IOD_SMALL_DESCRIPTOR;
+ 	if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) <=
+-	    256 / sizeof(__le64))
++	    NVME_SMALL_POOL_SIZE / sizeof(__le64))
+ 		iod->flags |= IOD_SMALL_DESCRIPTOR;
  
--	prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
--	if (!prp_list) {
--		iod->nr_descriptors = -1;
-+	prp_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
-+			&prp_dma);
-+	if (!prp_list)
- 		return BLK_STS_RESOURCE;
--	}
--	iod->descriptors[0] = prp_list;
-+	iod->descriptors[iod->nr_descriptors++] = prp_list;
- 	iod->first_dma = prp_dma;
- 	i = 0;
- 	for (;;) {
- 		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
- 			__le64 *old_prp_list = prp_list;
--			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
-+
-+			prp_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod),
-+					GFP_ATOMIC, &prp_dma);
- 			if (!prp_list)
- 				goto free_prps;
- 			iod->descriptors[iod->nr_descriptors++] = prp_list;
-@@ -727,7 +731,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_queue *nvmeq,
- 	cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma);
- 	return BLK_STS_OK;
- free_prps:
--	nvme_free_prps(nvmeq, req);
-+	nvme_free_descriptors(nvmeq, req);
- 	return BLK_STS_RESOURCE;
- bad_sgl:
- 	WARN(DO_ONCE(nvme_print_sgl, iod->sgt.sgl, iod->sgt.nents),
-@@ -756,7 +760,6 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_queue *nvmeq,
- 		struct request *req, struct nvme_rw_command *cmd)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	struct dma_pool *pool;
- 	struct nvme_sgl_desc *sg_list;
- 	struct scatterlist *sg = iod->sgt.sgl;
- 	unsigned int entries = iod->sgt.nents;
-@@ -771,21 +774,14 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_queue *nvmeq,
+ 	prp_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
+@@ -774,7 +776,7 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_queue *nvmeq,
  		return BLK_STS_OK;
  	}
  
--	if (entries <= (256 / sizeof(struct nvme_sgl_desc))) {
--		pool = nvmeq->descriptor_pools.small;
--		iod->nr_descriptors = 0;
--	} else {
--		pool = nvmeq->descriptor_pools.large;
--		iod->nr_descriptors = 1;
--	}
-+	if (entries <= 256 / sizeof(*sg_list))
-+		iod->flags |= IOD_SMALL_DESCRIPTOR;
+-	if (entries <= 256 / sizeof(*sg_list))
++	if (entries <= NVME_SMALL_POOL_SIZE / sizeof(*sg_list))
+ 		iod->flags |= IOD_SMALL_DESCRIPTOR;
  
--	sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
--	if (!sg_list) {
--		iod->nr_descriptors = -1;
-+	sg_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
-+			&sgl_dma);
-+	if (!sg_list)
- 		return BLK_STS_RESOURCE;
--	}
--
--	iod->descriptors[0] = sg_list;
-+	iod->descriptors[iod->nr_descriptors++] = sg_list;
- 	iod->first_dma = sgl_dma;
- 
- 	nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, entries);
-@@ -982,7 +978,7 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
- 	blk_status_t ret;
- 
- 	iod->flags = 0;
--	iod->nr_descriptors = -1;
-+	iod->nr_descriptors = 0;
- 	iod->sgt.nents = 0;
- 	iod->meta_sgt.nents = 0;
- 
+ 	sg_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
 -- 
 2.47.2
 
