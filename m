@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83054C3ABC9
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 07:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5E20C3ABC3
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 07:00:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0VZ9bf8W+7fMryreltpRVDyqSYIv7m1lfLiTjKeooi0=; b=ErP3Kva2rJrXi5YkmQGvcEJIBS
-	nKRoK/TPleBa/i/XKPEpFOiOblUBiyGkMq4eiDPESj2tmwtxcuvAnJVHjLW57FNJhnA3f25FNhCOa
-	VzaiuU18fzAQS1Isdy9NOznmWyTZMZFU5lAWlV5kCc6wbvxkbxjgX0Whl8i19Dfsu9kHnPFjCu0uN
-	HGVQYevKqbwZb/aK8kvXyKaMZ9yxshxc96T1N5BCpyz2iSDbahnZgwgQqHhEgy/bs99CdSZ56eAM6
-	j3waw/zm5oh+kVeO6VLoDQurZOnBkGoq7K2mtkNcKpOzEAz0YFHaH3ZWBVFOMkgSWs4f1cGCllc6U
-	dr0D5NoQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o+zofNJgGQOoApDMgAM/Tp1NXEIS5Ch/jc6C76yZ/XM=; b=x573W2fuWNJt502Rh/oM4TvYIJ
+	E1XQHBv0zl1LJ6eQeYl0tkQQoxauA1x2RrkXN1JPfegrDNBSQRYuMhaUXfhF9R0tt7VkYWsJM0loi
+	PkM+8TfrrDvB1qcx/m97+bZ/tRizhfZz5U9CR6WFFjBdle2z2mipBjo1p1W++5lGrAkDenDo+tnzS
+	YN1nRvzIWPB10p0YTXuRRii/8F+XBlkAhbWmChXluDvEtHgXA+S7MQlSNDju3tjBbG7RyXDqPnhUU
+	CYLqq0hKeEEjF4TyYSL7wg4+c0nEFI9i7Y1kvvzA5BXDws6MUUBFaBE/JPhtCmc2FMDBxuo4lztS8
+	CdYepcDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEjct-0000000BYxn-3EF9;
-	Tue, 13 May 2025 07:00:31 +0000
+	id 1uEjcw-0000000BYyU-1Sbd;
+	Tue, 13 May 2025 07:00:34 +0000
 Received: from 2a02-8389-2341-5b80-3c00-8f88-6e38-56f1.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:3c00:8f88:6e38:56f1] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEjcq-0000000BYxM-2Foi;
-	Tue, 13 May 2025 07:00:29 +0000
+	id 1uEjcu-0000000BYxh-0wfD;
+	Tue, 13 May 2025 07:00:32 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
@@ -33,10 +33,12 @@ To: Keith Busch <kbusch@kernel.org>,
 Cc: Caleb Sander Mateos <csander@purestorage.com>,
 	Leon Romanovsky <leon@kernel.org>,
 	linux-nvme@lists.infradead.org
-Subject: misc cleanups for nvme-pci
-Date: Tue, 13 May 2025 09:00:16 +0200
-Message-ID: <20250513070025.830930-1-hch@lst.de>
+Subject: [PATCH 1/7] nvme-pci: don't try to use SGLs for metadata on the admin queue
+Date: Tue, 13 May 2025 09:00:17 +0200
+Message-ID: <20250513070025.830930-2-hch@lst.de>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250513070025.830930-1-hch@lst.de>
+References: <20250513070025.830930-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -53,15 +55,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+No admin command defined in an NVMe specification supports metadata,
+but to protect against vendor specific commands using metadata ensure
+that we don't try to use SGLs for metadata on the admin queue, as NVMe
+does not support SGLs on the admin queue for the PCI transport.  Do
+this by checking if the data transfer has been setup using SGLs as
+that is required for using SGLs for metadata.
 
-this has misc cleanups for the nvme-pci I/O code.  Most of this was done
-as part of the new DMA API work.  Which then clashed with the per-node
-dmapools, so I'll try to get it out now instead of having to do another
-rebase.  As part of that this also includes minor tidyups for the new code
-from the per-node dmapools.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/pci.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Diffstat:
- pci.c |  196 ++++++++++++++++++++++++++++++++----------------------------------
- 1 file changed, 97 insertions(+), 99 deletions(-)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index e6b6b6ee0878..24f5292a349b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -971,7 +971,10 @@ static blk_status_t nvme_pci_setup_meta_mptr(struct nvme_dev *dev,
+ 
+ static blk_status_t nvme_map_metadata(struct nvme_dev *dev, struct request *req)
+ {
+-	if (nvme_pci_metadata_use_sgls(dev, req))
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++
++	if ((iod->cmd.common.flags & NVME_CMD_SGL_METABUF) &&
++	    nvme_pci_metadata_use_sgls(dev, req))
+ 		return nvme_pci_setup_meta_sgls(dev, req);
+ 	return nvme_pci_setup_meta_mptr(dev, req);
+ }
+-- 
+2.47.2
+
 
