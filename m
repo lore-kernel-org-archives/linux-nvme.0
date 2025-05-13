@@ -4,38 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5E20C3ABC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 07:00:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 559B1C3ABC9
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 07:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=o+zofNJgGQOoApDMgAM/Tp1NXEIS5Ch/jc6C76yZ/XM=; b=x573W2fuWNJt502Rh/oM4TvYIJ
-	E1XQHBv0zl1LJ6eQeYl0tkQQoxauA1x2RrkXN1JPfegrDNBSQRYuMhaUXfhF9R0tt7VkYWsJM0loi
-	PkM+8TfrrDvB1qcx/m97+bZ/tRizhfZz5U9CR6WFFjBdle2z2mipBjo1p1W++5lGrAkDenDo+tnzS
-	YN1nRvzIWPB10p0YTXuRRii/8F+XBlkAhbWmChXluDvEtHgXA+S7MQlSNDju3tjBbG7RyXDqPnhUU
-	CYLqq0hKeEEjF4TyYSL7wg4+c0nEFI9i7Y1kvvzA5BXDws6MUUBFaBE/JPhtCmc2FMDBxuo4lztS8
-	CdYepcDA==;
+	bh=XGUlh3EM9fqg1L8bTydgBuuJKu4NKbryUIRbd8/K9m0=; b=oS03f1tyarpzzLDFkfd6QCc4Zs
+	DCik/Gmgm9/na/amtf4DPSFvQj6Ug8vB4iy0GMIJaS7c5acfiQ32wqMcf9p6dW6T8MEVKyE8DzRce
+	n6yCll0bo7LumZh49NbUkLtYhQG8Q6uEEsDPD0KMfls73SWztXWu+tsPEgRd/bZzxQTEwxSGS7ion
+	XfzzHQD4XGgKCPgC2Tt/vuy5k4EHSA/DgqK6p41Kkxz8Lce4oH2t6VoEAHXCrXxai55EpfOx7e8sE
+	gJGqZhr3gOU5BIOHHZkPayGXbmmYIHZY9PygM2dikxEFGXwxtFamqoP18iLjrKaYQnIbbh4ncCU2c
+	NccRg3lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEjcw-0000000BYyU-1Sbd;
-	Tue, 13 May 2025 07:00:34 +0000
+	id 1uEjcx-0000000BYzT-40iW;
+	Tue, 13 May 2025 07:00:35 +0000
 Received: from 2a02-8389-2341-5b80-3c00-8f88-6e38-56f1.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:3c00:8f88:6e38:56f1] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEjcu-0000000BYxh-0wfD;
-	Tue, 13 May 2025 07:00:32 +0000
+	id 1uEjcw-0000000BYyI-3zH4;
+	Tue, 13 May 2025 07:00:35 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
 Cc: Caleb Sander Mateos <csander@purestorage.com>,
 	Leon Romanovsky <leon@kernel.org>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 1/7] nvme-pci: don't try to use SGLs for metadata on the admin queue
-Date: Tue, 13 May 2025 09:00:17 +0200
-Message-ID: <20250513070025.830930-2-hch@lst.de>
+	linux-nvme@lists.infradead.org,
+	Leon Romanovsky <leonro@nvidia.com>
+Subject: [PATCH 2/7] nvme-pci: store aborted state in flags variable
+Date: Tue, 13 May 2025 09:00:18 +0200
+Message-ID: <20250513070025.830930-3-hch@lst.de>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250513070025.830930-1-hch@lst.de>
 References: <20250513070025.830930-1-hch@lst.de>
@@ -55,34 +56,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-No admin command defined in an NVMe specification supports metadata,
-but to protect against vendor specific commands using metadata ensure
-that we don't try to use SGLs for metadata on the admin queue, as NVMe
-does not support SGLs on the admin queue for the PCI transport.  Do
-this by checking if the data transfer has been setup using SGLs as
-that is required for using SGLs for metadata.
+From: Leon Romanovsky <leon@kernel.org>
 
+Instead of keeping dedicated "bool aborted" variable, let's reuse
+newly introduced flags variable and save space.
+
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e6b6b6ee0878..24f5292a349b 100644
+index 24f5292a349b..51430f5e6a66 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -971,7 +971,10 @@ static blk_status_t nvme_pci_setup_meta_mptr(struct nvme_dev *dev,
+@@ -230,6 +230,12 @@ union nvme_descriptor {
+ 	__le64			*prp_list;
+ };
  
- static blk_status_t nvme_map_metadata(struct nvme_dev *dev, struct request *req)
- {
--	if (nvme_pci_metadata_use_sgls(dev, req))
-+	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++/* bits for iod->flags */
++enum nvme_iod_flags {
++	/* this command has been aborted by the timeout handler */
++	IOD_ABORTED		= 1U << 0,
++};
 +
-+	if ((iod->cmd.common.flags & NVME_CMD_SGL_METABUF) &&
-+	    nvme_pci_metadata_use_sgls(dev, req))
- 		return nvme_pci_setup_meta_sgls(dev, req);
- 	return nvme_pci_setup_meta_mptr(dev, req);
- }
+ /*
+  * The nvme_iod describes the data in an I/O.
+  *
+@@ -239,7 +245,7 @@ union nvme_descriptor {
+ struct nvme_iod {
+ 	struct nvme_request req;
+ 	struct nvme_command cmd;
+-	bool aborted;
++	u8 flags;
+ 	s8 nr_allocations;	/* PRP list pool allocations. 0 means small
+ 				   pool in use */
+ 	unsigned int dma_len;	/* length of single DMA segment mapping */
+@@ -984,7 +990,7 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 	blk_status_t ret;
+ 
+-	iod->aborted = false;
++	iod->flags = 0;
+ 	iod->nr_allocations = -1;
+ 	iod->sgt.nents = 0;
+ 	iod->meta_sgt.nents = 0;
+@@ -1551,7 +1557,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
+ 	 * returned to the driver, or if this is the admin queue.
+ 	 */
+ 	opcode = nvme_req(req)->cmd->common.opcode;
+-	if (!nvmeq->qid || iod->aborted) {
++	if (!nvmeq->qid || (iod->flags & IOD_ABORTED)) {
+ 		dev_warn(dev->ctrl.device,
+ 			 "I/O tag %d (%04x) opcode %#x (%s) QID %d timeout, reset controller\n",
+ 			 req->tag, nvme_cid(req), opcode,
+@@ -1564,7 +1570,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
+ 		atomic_inc(&dev->ctrl.abort_limit);
+ 		return BLK_EH_RESET_TIMER;
+ 	}
+-	iod->aborted = true;
++	iod->flags |= IOD_ABORTED;
+ 
+ 	cmd.abort.opcode = nvme_admin_abort_cmd;
+ 	cmd.abort.cid = nvme_cid(req);
 -- 
 2.47.2
 
