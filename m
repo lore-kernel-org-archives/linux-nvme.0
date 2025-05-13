@@ -4,48 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03C95C3ABC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 06:17:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83054C3ABC9
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 May 2025 07:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bPJ9yo6vD98eOQ2t14u//THUmpv1Ynw+w07XT+8PYQY=; b=ZnJKWmKZlA2zE/IZ3ShOfv1k08
-	bWwUNezv353sMCf0AmPz6t5BQUvMXlXNHipkLBndi4CGYm562hDXgdDIdveyCF9eGyWmCPwOsKm7z
-	hKbZcGPBe2kxz9u0Rip/IoUwZgTdUsqg2XbN8yBHoDLHQBqgRWsfuixBHRvQKNNX2sp9b6qsUMNrW
-	7vVyQk4IaNF/fOq2KAAhlDF0Qc/NhQGkZpIOscu+S2zlH/7OCDeRaeY4wqBQs9ZcYDQj1in+JT/bg
-	+voECB/eAMLjFge92k6ZQBQpXad0WEoBIDWbEh9AAOiwBu/RhNY+Kg89hLDLnZr0NlIJ1G4m5gDnN
-	Dhdm5aUQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0VZ9bf8W+7fMryreltpRVDyqSYIv7m1lfLiTjKeooi0=; b=ErP3Kva2rJrXi5YkmQGvcEJIBS
+	nKRoK/TPleBa/i/XKPEpFOiOblUBiyGkMq4eiDPESj2tmwtxcuvAnJVHjLW57FNJhnA3f25FNhCOa
+	VzaiuU18fzAQS1Isdy9NOznmWyTZMZFU5lAWlV5kCc6wbvxkbxjgX0Whl8i19Dfsu9kHnPFjCu0uN
+	HGVQYevKqbwZb/aK8kvXyKaMZ9yxshxc96T1N5BCpyz2iSDbahnZgwgQqHhEgy/bs99CdSZ56eAM6
+	j3waw/zm5oh+kVeO6VLoDQurZOnBkGoq7K2mtkNcKpOzEAz0YFHaH3ZWBVFOMkgSWs4f1cGCllc6U
+	dr0D5NoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEixI-0000000BUB5-1Fqm;
-	Tue, 13 May 2025 06:17:32 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEixB-0000000BUAU-269g
-	for linux-nvme@lists.infradead.org;
-	Tue, 13 May 2025 06:17:26 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C730368BEB; Tue, 13 May 2025 08:17:15 +0200 (CEST)
-Date: Tue, 13 May 2025 08:17:15 +0200
+	id 1uEjct-0000000BYxn-3EF9;
+	Tue, 13 May 2025 07:00:31 +0000
+Received: from 2a02-8389-2341-5b80-3c00-8f88-6e38-56f1.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:3c00:8f88:6e38:56f1] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uEjcq-0000000BYxM-2Foi;
+	Tue, 13 May 2025 07:00:29 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: linux-nvme@lists.infradead.org, kch@nvidia.com, kbusch@kernel.org,
-	hch@lst.de, sagi@grimberg.me
-Subject: Re: [PATCH v3 0/2] NVMe Atomic Write fixes
-Message-ID: <20250513061715.GA974@lst.de>
-References: <20250508223802.277311-1-alan.adamson@oracle.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Caleb Sander Mateos <csander@purestorage.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	linux-nvme@lists.infradead.org
+Subject: misc cleanups for nvme-pci
+Date: Tue, 13 May 2025 09:00:16 +0200
+Message-ID: <20250513070025.830930-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250508223802.277311-1-alan.adamson@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250512_231725_677365_0E150922 
-X-CRM114-Status: UNSURE (   8.45  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,10 +53,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks!
+Hi all,
 
-While I'd like to have more review I've added this to nvme-6.15
-for now to get some buildbot exposure.  More reviews would still be
-very welcome.
+this has misc cleanups for the nvme-pci I/O code.  Most of this was done
+as part of the new DMA API work.  Which then clashed with the per-node
+dmapools, so I'll try to get it out now instead of having to do another
+rebase.  As part of that this also includes minor tidyups for the new code
+from the per-node dmapools.
 
+Diffstat:
+ pci.c |  196 ++++++++++++++++++++++++++++++++----------------------------------
+ 1 file changed, 97 insertions(+), 99 deletions(-)
 
