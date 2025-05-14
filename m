@@ -4,86 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B8AFC3ABD9
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 May 2025 07:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47005C3ABD8
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 May 2025 13:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GjMFQzsW8Gry9Hq92/gFT0YkS+5JWAyK+/6Z+2QWQ+Y=; b=IKFZ3uHjU9Kmu1+VSQLnAbJvId
-	nRDiLo0JM7mFEl8k5QJ099+cgRuHWSOC2L/m7WuGDWCzBY2Het5DxjMmyVixwEcqK8wUzbVE4dx8P
-	s6/sfbx2klrn+0yBXyCYGoo3HrgkHK+xdoBTkJzyqDOs/zElvkX6YMiwIAuBcowgFcHjxB8Soa0gO
-	vt6dM1yb7rVk2EjSxlkvntAQEKMxyjVw/KOKSqFxeDR/Z3NPUihWEv/mxVEbDYSZ10vOtDZhdhQNv
-	/I5LODI68z67t8Rvw6MzeQGCLIsmIw1KOLi9cx40fU+KZDHIa7L9GPBdsIGVvB/8DGurIazYEosvg
-	oFxqdD5A==;
+	bh=DUJ0vFQ4EMhAcvAIviGQjFkRDFullF2TekvCIPmgdLg=; b=Q/bQg14uvqGNEwscFllZ1dmnLj
+	ByOg3CrgG5jJ8rLVGzQNUYge1bAX+B/5a3+itXpq5BHbLFNyZEsE8hKkTESiQDKV0+qGWYFzTlYGh
+	oMXNdTdtkv9iB7xh36kppquHLPXDqRv0qzVM9TsTZyKXJJFFjm6NVVz6kTb8vnOn1ozZEe6ijbw+j
+	VqYsUyswAgGoQ4XnUNxa76V9PRBggTXmVuepsBIhYQ55Ysr3SOptDxq6LzpvITVY9Q3OxnxrwaMDs
+	4BHyvoQK/ZeyDhwuIL4+Lqfx97FeykI3G8uT1DWitle8cTr9UoKGr02Okw+NCGI3gJQnj0521aSbR
+	4Px20yag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uF6Vb-0000000EJFf-0o28;
-	Wed, 14 May 2025 07:26:31 +0000
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131])
+	id 1uFCZC-0000000FJW5-0LeR;
+	Wed, 14 May 2025 13:54:38 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uF6IO-0000000EGMo-3A0D
+	id 1uFBlg-0000000F9eD-3dvE
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 May 2025 07:12:54 +0000
-Received: by mail-il1-x131.google.com with SMTP id e9e14a558f8ab-3da8e1259dfso22603995ab.3
-        for <linux-nvme@lists.infradead.org>; Wed, 14 May 2025 00:12:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747206771; x=1747811571; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GjMFQzsW8Gry9Hq92/gFT0YkS+5JWAyK+/6Z+2QWQ+Y=;
-        b=gU2845S98VtEocz3BzNwqXxFoGPLbWmUKRTM7CK3IIYbnb11+6bUF0tqhU7xgA2ja8
-         jOalFYUoSjKGdFG6Chp8VuIbods3pHKz/LTYIBNOJOhJ24TblWAz6SN5+adN1Zl0Wqc2
-         VLzfUxK3CGg0Cq02sTq8wd8xhQKeA8IwHmiI+4U6aWMBkgAX5eY4pDpaOURtIsFeoNEJ
-         nqKKUs6Uz4Q+dL6qY4TMGY3I82hw2jc8JaN+euW9Ztkzj3nkulQpkV9pWJPWPIe3XHmG
-         GUvwWjcw5l3/jZWGbpOERHDQFLY5LAwQMwsSc0uAII7y+traKjneNvxZPmmVOvIs1eDi
-         29xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747206771; x=1747811571;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GjMFQzsW8Gry9Hq92/gFT0YkS+5JWAyK+/6Z+2QWQ+Y=;
-        b=OI7+Kz1KX+RXEYIaCJ9trR7JWQxZFPb3IrRIQSRDU6vf1MiW54d7WRWCeY2nXrIJN9
-         5FgTe3vuleXitJhkv8K2U9FQMTaF1FreQsazqZkfTIo1vGYsLblXSUP+idvT7rpmrVMu
-         3MxypLzViIsxC1e/aQnh6YFRlcTtwNTlfnyoC8EFOKkotfwlGOCYErDPQNZIoc8P4MhU
-         11iZAG+E26+/5aLvNJu5LwLwPSPQEMo4lqbaTjwDesqG1kk8Sj51kHawcX2n6bElrIwE
-         mLYbQPf4CeU6Qh5ZR2Vqj4xOLBMZm7+adLXM+nacW3jQznqOiVgWlQIN0Q9LeGzT88Mf
-         5nMg==
-X-Gm-Message-State: AOJu0YxfnOiWaT0ApT5eE8cdW+AMRJYy/g5GsWAlS9smAha3ioIQMh4R
-	a8RFJ9A1AwCata6RmtE73TQ12qCZTiqmqzrPWxn/t8JtEn454kQC2SOrE1wMgaBCM+0zfzV5DXl
-	ut28p2NaXEyDwwlSDHVipFnin6EE+/RS2a3LiUoweVHPSQ0hOZQta
-X-Gm-Gg: ASbGnctab0wB38THQAJMYn5k0ZoiJQG4l1howIYHZOYfVp5HA3ZmXaEi0Buv/UvVxtS
-	CYx5QIBfNgfCgkdcUJ/gL/YKPCXQJc8FKQS+0JWIRWJh3AJLLymTJ5IAXQ4iC8acC9q8vO3W08d
-	cGw6c/uI3Na7agtI/HXeflav8W/lG1GXUb
-X-Google-Smtp-Source: AGHT+IFpTFiInpVx/XhpGCCn5yY4ZScNu3ZrSvJalOE7xq7jKxhSLbKDTdApVZNOfqKZdtuFzFUgtfEd2C/uPJWfPqw=
-X-Received: by 2002:a05:622a:4c13:b0:494:7976:348e with SMTP id
- d75a77b69052e-49495c64b96mr41372841cf.1.1747206759735; Wed, 14 May 2025
- 00:12:39 -0700 (PDT)
+	Wed, 14 May 2025 13:03:29 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54E6IP2g026384;
+	Wed, 14 May 2025 13:03:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=DUJ0vF
+	Q4EMhAcvAIviGQjFkRDFullF2TekvCIPmgdLg=; b=FfNI8eZ1R5ScogZm5ansXj
+	HoU6wqpCAdrNt7QJaOli0lUZposxcCA2aUfL42tsQnFpKpOWHRbEuiMLiEZWjDfj
+	PGxldoT9/1JU2xJgGlkH6UXttxk23c6XUbXmT/FREX8fAhJP4u2OPGCdMFu7O2PX
+	yAqlOr0ZvS+TRPT3RStHeP/nHXZeyzl9Rp1ugKjOTD8p766Ia69UbdUQsN2ecfJB
+	ZRK5wa5zvQ++i43tIkb2tgP5JhaZXvT3nbS3Vc3muzVjfINwNIpRo6AClyCHPwGb
+	lP6NyLoedvYo9DHtnn+xOg4UCP+etlUK4iU8SN2CozBVbw+qq7iAyeK0vwgVLPGg
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46mnst1u4j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 May 2025 13:03:14 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54E9r5nr026961;
+	Wed, 14 May 2025 13:03:13 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 46mbfpc8d9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 May 2025 13:03:13 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54ED3CPZ23986724
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 May 2025 13:03:13 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A7F3658061;
+	Wed, 14 May 2025 13:03:12 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5B6AF5803F;
+	Wed, 14 May 2025 13:03:09 +0000 (GMT)
+Received: from [9.67.82.218] (unknown [9.67.82.218])
+	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 14 May 2025 13:03:08 +0000 (GMT)
+Message-ID: <962021a9-6e9c-4553-8cba-5478720bc4bf@linux.ibm.com>
+Date: Wed, 14 May 2025 18:33:07 +0530
 MIME-Version: 1.0
-References: <20250430085741.5108-1-aaptel@nvidia.com> <20250430085741.5108-2-aaptel@nvidia.com>
-In-Reply-To: <20250430085741.5108-2-aaptel@nvidia.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 14 May 2025 00:12:28 -0700
-X-Gm-Features: AX0GCFsuKEnHR04FTvqSAVZ08Xj_h-2AZjziHyzDpVs1MANsenOZbg87rqhebn8
-Message-ID: <CANn89iLW86_BsB97jZw0joPwne_K79iiqwogCYFA7U9dZa3jhQ@mail.gmail.com>
-Subject: Re: [PATCH v28 01/20] net: Introduce direct data placement tcp offload
-To: Aurelien Aptel <aaptel@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org, sagi@grimberg.me, 
-	hch@lst.de, kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com, 
-	davem@davemloft.net, kuba@kernel.org, Boris Pismenny <borisp@nvidia.com>, 
-	aurelien.aptel@gmail.com, smalin@nvidia.com, malin1024@gmail.com, 
-	ogerlitz@nvidia.com, yorayz@nvidia.com, galshalom@nvidia.com, 
-	mgurtovoy@nvidia.com, tariqt@nvidia.com, gus@collabora.com, pabeni@redhat.com, 
-	dsahern@kernel.org, ast@kernel.org, jacob.e.keller@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCHv4 2/3] nvme: introduce multipath_always_on module
+ param
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, hare@suse.de, kbusch@kernel.org,
+        sagi@grimberg.me, jmeneghi@redhat.com, axboe@kernel.dk,
+        martin.petersen@oracle.com, gjoyce@ibm.com
+References: <20250509175158.2753396-1-nilay@linux.ibm.com>
+ <20250509175158.2753396-3-nilay@linux.ibm.com>
+ <20250514054228.GB24939@lst.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20250514054228.GB24939@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: AIKItfjJTz82HLE9JnkZ85hjgMIpIaKb
+X-Authority-Analysis: v=2.4 cv=V+590fni c=1 sm=1 tr=0 ts=68249492 cx=c_pps a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=I6Q5NhU1Q2n8aBOm5jkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: AIKItfjJTz82HLE9JnkZ85hjgMIpIaKb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDExMSBTYWx0ZWRfXyC0YtES4Bc91 J9/nt29pVwpmVFLB/oapYaqqoDZWzNbiJG6ki2tfCi3ndVruQvDxMU9bKy6yvvq4Ve8NiXTHEcr eHVoGE5xm+o5sOaDizcMfF5E+egfqcvYx5/8SVZIvNAYfinNJYwq5bLxX/HsoIPha8P3E2GODpx
+ aLDN8yrvFUt2qt5ahpzitnQghfm0QUoBcNjcI05ETdk0t/65ynOtbOHyA344Ye2q4kTklD/M0Ou 7U1BHIzYR2IuzIf0SEzaQ6LnkFlO09Vno5zoL6RMFmkYrHqirM7l23zwy3JnXhSLjzZ7DQFZYS9 cO+aUojirdti3eh43OOP4l/MB93fD2g01rf0yWHz30YD52HGzo37m0tKC82n+ys3xZi4uQ6GUiG
+ 3kNQewugVB+9YFmkLUU1V+xEJWqcEjXngnlBKr9St6iK9SCf7tXTEO+kF9JjKis13EtGLtLG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-14_04,2025-05-14_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ mlxlogscore=793 lowpriorityscore=0 bulkscore=0 suspectscore=0
+ impostorscore=0 malwarescore=0 phishscore=0 adultscore=0 clxscore=1015
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
+ definitions=main-2505140111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250514_001252_795418_1419E90A 
-X-CRM114-Status: GOOD (  29.02  )
+X-CRM114-CacheID: sfid-20250514_060328_909240_779FCB2E 
+X-CRM114-Status: GOOD (  13.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,98 +115,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 30, 2025 at 1:58=E2=80=AFAM Aurelien Aptel <aaptel@nvidia.com> =
-wrote:
->
-> From: Boris Pismenny <borisp@nvidia.com>
->
-> This commit introduces direct data placement (DDP) offload for TCP.
->
-> The motivation is saving compute resources/cycles that are spent
-> to copy data from SKBs to the block layer buffers and CRC
-> calculation/verification for received PDUs (Protocol Data Units).
->
-> The DDP capability is accompanied by new net_device operations that
-> configure hardware contexts.
->
-> There is a context per socket, and a context per DDP operation.
-> Additionally, a resynchronization routine is used to assist
-> hardware handle TCP OOO, and continue the offload. Furthermore,
-> we let the offloading driver advertise what is the max hw
-> sectors/segments.
->
-> The interface includes the following net-device ddp operations:
->
->  1. sk_add - add offload for the queue represented by socket+config pair
->  2. sk_del - remove the offload for the socket/queue
->  3. ddp_setup - request copy offload for buffers associated with an IO
->  4. ddp_teardown - release offload resources for that IO
->  5. limits - query NIC driver for quirks and limitations (e.g.
->              max number of scatter gather entries per IO)
->  6. set_caps - request ULP DDP capabilities enablement
->  7. get_caps - request current ULP DDP capabilities
->  8. get_stats - query NIC driver for ULP DDP stats
->
-> Using this interface, the NIC hardware will scatter TCP payload
-> directly to the BIO pages according to the command_id.
->
-> To maintain the correctness of the network stack, the driver is
-> expected to construct SKBs that point to the BIO pages.
->
-> The SKB passed to the network stack from the driver represents
-> data as it is on the wire, while it is pointing directly to data
-> in destination buffers.
->
-> As a result, data from page frags should not be copied out to
-> the linear part. To avoid needless copies, such as when using
-> skb_condense, we mark the skb->no_condense bit.
-> In addition, the skb->ulp_crc will be used by the upper layers to
-> determine if CRC re-calculation is required. The two separated skb
-> indications are needed to avoid false positives GRO flushing events.
->
-> Follow-up patches will use this interface for DDP in NVMe-TCP.
->
-> Capability bits stored in net_device allow drivers to report which
-> ULP DDP capabilities a device supports. Control over these
-> capabilities will be exposed to userspace in later patches.
->
->
->
-
->  /**
-> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> index beb084ee4f4d..38b800f2593d 100644
-> --- a/include/linux/skbuff.h
-> +++ b/include/linux/skbuff.h
-> @@ -851,6 +851,8 @@ enum skb_tstamp_type {
->   *     @slow_gro: state present at GRO time, slower prepare step require=
-d
->   *     @tstamp_type: When set, skb->tstamp has the
->   *             delivery_time clock base of skb->tstamp.
-> + *     @no_condense: When set, don't condense fragments (DDP offloaded)
-> + *     @ulp_crc: CRC offloaded
->   *     @napi_id: id of the NAPI struct this skb came from
->   *     @sender_cpu: (aka @napi_id) source CPU in XPS
->   *     @alloc_cpu: CPU which did the skb allocation.
-> @@ -1028,6 +1030,10 @@ struct sk_buff {
->         __u8                    csum_not_inet:1;
->  #endif
->         __u8                    unreadable:1;
-> +#ifdef CONFIG_ULP_DDP
-> +       __u8                    no_condense:1;
-> +       __u8                    ulp_crc:1;
-> +#endif
-
-Sorry for the late review.
-
-I do not think you need a precious bit for no_condense feature.
-
-After all, the driver knows it deals with DDP, and can make sure to
-place the headers right before skb_shinfo() so that skb_tailroom() is
-zero.
 
 
-If you really must prevent any pull from a page frag to skb->head
-(preventing skb->head realloc), skb->unreadable should work just fine
-?
+On 5/14/25 11:12 AM, Christoph Hellwig wrote:
+> I just applied this locally, but ran into somethig that I think is
+> not addressed here.  NVMe allows private namespaces to have non-unіque
+> nsids if certain features (like ANA) are not enabled.  I don't think
+> we handle this here, and in fact we can't really support that with
+> the multipath node.  But we'll at least need to reject that case
+> gracefully somehow and document it.
+
+Okay understood. I made the change to ensure that we don't create 
+multipath node for private namespaces with non-unique NSID even
+if multipath_always_on is configured and also documented it in 
+the code. The changes are on the way...
+
+Thanks,
+--Nilay
 
