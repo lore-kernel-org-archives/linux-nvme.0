@@ -4,140 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E510DC3ABDD
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 May 2025 18:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26C89C54755
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 May 2025 18:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DmGO+NabaKpfrrkQS+LCDqhwMzhbABcI3RxnkP+9bj4=; b=YuPqnR9goj+HD9YbzmkCiaYofV
-	ahiUlA8PBN7oPSDMQwjkrXCd3AW5pdGhVMJPYLEn1wzQdSjYAGqGZF6rjJrAQw7LDD/lPwMZp5BPj
-	IYKx8rTfrLW1bTbvRBNGHZ7UgtKo31iho+LhDWqrMpKCWhcmie21nQctMUMGnTGMrzt1FxjpFMD8b
-	T0Noz5bd+gO1VyGFpFE88wiASw+gE+zHt1vw80BxP+YQ7HIPNNNGqqaZMKuxRJ9iuCGYQ/i3+fbAZ
-	0w8XMcerX4IVc6DwYS3wjIAezmo64NVqjljtwW09qN1CdXiGnRCZVUjnBhRyr30dcdMHrfV7r7aAe
-	jk/p8zWg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3iLlRhtf8MJnFCYhA6HuBxkDbzg3A2S1bcAMkjhMgpA=; b=jNDux0NSejAiMOyvGBP9IbAkqo
+	lQ63+mFfeFC7aM/BNHL1ISvxQxtqdWn+XvYe+FOSTeCvUDG7LPlYnRRbI7JmToiiPUM7cvoFNXPe5
+	7A1UbPheci3ZYmgxhI3hqwFHL+AyZ6Io8XwZ3zDMCyZWncyYQ4K1Gob0xg1zeIeW9Fg1jKI9AAfqR
+	a1VaHMeFAhEPPN77u2Y3yAvzqmQMT4/ORbFctuKaiX3xqe/thHnKrzGQHZFhH6BwOEWwwLP99dxwO
+	Q/JJ9GjCRcREI2uH9GGwpjFZBR1A4A8J3RAtE1uF2qNO74zeX/RBNvM2ra+FTw1PwjxS6Ym12nJ+5
+	J305qEkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uFGvT-0000000G20a-44Sc;
-	Wed, 14 May 2025 18:33:55 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1uFGvS-0000000G1yV-2dfd;
+	Wed, 14 May 2025 18:33:54 +0000
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uFGEV-0000000Fwws-2saD
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 14 May 2025 17:49:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=DmGO+NabaKpfrrkQS+LCDqhwMzhbABcI3RxnkP+9bj4=; b=dWlnakb7OUWlysGsTueAy2ZYIC
-	VrriExBLiL2Jq+axyRvURpPeK2k7J5mE31KU/KA0eFU2lvpKiaX+nknVHyLfqmvBCfw7ZLg25Zt+r
-	56bxMmhaRo8/oYJrX2y+EKGJc4SxEJqUfL5T7eCjcDWl1O7bYsIxvOhgfldFRyEIE+gPQnVSd6AdG
-	wGMHJj5t0VmI7+ZymwP5G6kopAEbQqAlU6RL3nYadzTjgDR/zkCS5IeG40F4PVvZj8eT0bMOlULCh
-	Ptf2SCKnmWaMmRW6pY3YP4BMdJ+00pg9XftHMzqnk/+cuKsAFqt10B3YQa28eJXQqb/hBVSj86Yu5
-	GdUDT5MQ==;
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
-	by desiato.infradead.org with esmtps (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uFGES-0000000HHXm-1cGA
+	id 1uFGD4-0000000FwFW-0KIH
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 May 2025 17:49:30 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 130111F399;
-	Wed, 14 May 2025 17:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747244966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DmGO+NabaKpfrrkQS+LCDqhwMzhbABcI3RxnkP+9bj4=;
-	b=c3z0KGJTV2vnFpdTSyoUNzljvLnILUDEMaasdHw6Oy/kgmK5QP/4WAG2U5oGk/5IHTzO80
-	QchKXHJ42LcNvWBb95zDXyUHEY8mFVS7vrpd/7W2cphVwkywbvRDTqjCmDLElXUJl2VEAc
-	To3oJEh5ubYJIkUefzGn20v+kPsgd2E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747244966;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DmGO+NabaKpfrrkQS+LCDqhwMzhbABcI3RxnkP+9bj4=;
-	b=k5sUYedmbXgKVYrKaS+vGV9REJF5079skawrmBEuivZnSzCWop+lC8+K9qbKY4J5EVM6hz
-	OsUhOKvlfZSR4FCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747244965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DmGO+NabaKpfrrkQS+LCDqhwMzhbABcI3RxnkP+9bj4=;
-	b=slKEHsveynpUG2MSh7A2qlx3v72ZYhuw7/NON85cE9u9CLH0L3QIoV+Qy0HNHySNg+6SKm
-	L/EY/qawjhjhgFQIxsc3Q8KkB4VO1eYwU5v565MmjThEAK/pTrDyjMfnCIFZAei3XH3wac
-	EUXiwfN9YHqXZELr5ZcFf3jdeOEpeZ4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747244965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DmGO+NabaKpfrrkQS+LCDqhwMzhbABcI3RxnkP+9bj4=;
-	b=MN5gXTrkQKzK9YZEOjvXI5BWfonVrNqEbB2mOKVNSZWDE28CQr9myrvNbNCRc63QukAJIM
-	z6O/jWSZdT7tvwAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE9A413306;
-	Wed, 14 May 2025 17:49:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9B1SNqTXJGiNUwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 14 May 2025 17:49:24 +0000
-Date: Wed, 14 May 2025 19:49:20 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Waiman Long <llong@redhat.com>
-Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Costa Shulyupin <costa.shul@redhat.com>, 
-	Juri Lelli <juri.lelli@redhat.com>, Valentin Schneider <vschneid@redhat.com>, 
-	Ming Lei <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, 
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org, 
-	storagedev@microchip.com, virtualization@lists.linux.dev, 
-	GR-QLogic-Storage-Upstream@marvell.com
-Subject: Re: [PATCH v6 7/9] lib/group_cpus: honor housekeeping config when
- grouping CPUs
-Message-ID: <770522cc-79fd-415b-9f4e-f25f8c73194e@flourine.local>
-References: <20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org>
- <20250424-isolcpus-io-queues-v6-7-9a53a870ca1f@kernel.org>
- <cd1576ee-82a3-4899-b218-2e5c5334af6e@redhat.com>
+	Wed, 14 May 2025 17:48:09 +0000
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-22fa82144bfso115495ad.1
+        for <linux-nvme@lists.infradead.org>; Wed, 14 May 2025 10:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1747244881; x=1747849681; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3iLlRhtf8MJnFCYhA6HuBxkDbzg3A2S1bcAMkjhMgpA=;
+        b=RRm7fXGQhCR60xyJ7xJ24cpoU2cqZQ4aqX5IvoFZg4lzfMQM+ppkCc6k4GPt6qPrCG
+         K2fEOQ5rlvKBjn1975cnUBCyB1YkNSaM3cnUk8Cwo5xBM3Ge3BUygdMl3JjGjcW0J9Mj
+         bweazItW5HGHtfcNl+idtUZ3A49Afy55DU/6fORd5tWEdfornnvwATkNBJF/z64ruP7s
+         Iks2a2/Jar8h9VgbpIhsNGZoITJoQuHi1pekw3RTCbfK1rcsZCR4bqlQOsUsHtPzaIdp
+         uFZEjxRAWrouqd5aEIJ0BAWL0rwZcKkmm/v8rPJsqkioLq/99v19VSZKlEKmmp25Vyct
+         9IAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747244881; x=1747849681;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3iLlRhtf8MJnFCYhA6HuBxkDbzg3A2S1bcAMkjhMgpA=;
+        b=rrrM6dhOtJtTbded9XyGt2fGpIkRd4TKOb48ZgU/yBF6l2HX1Fsel2HwF42D6DBYzo
+         cOuYORb7RJ1CXEz+brE6Xub/HkOkVmdUq1RrYUHVmKA1pcy6co+MYvUhq3paJuYC5IbZ
+         +9/pyIxbL+FQSU0y0SE7UJGhCXZJVWeLo1fH+p3tYg48bhBFhDiNL/BS/G9GgKIpLm2h
+         BccMoNH1mOaf9yolQOyi/0g+lzWNZwhAnOQhwAKVCYH/jUd4ce1V5yufyOgcy2f1FDqF
+         /nBU0iTriBUzUf6iTYS4eAF+a/opYJbHntZLQPFH/4+MwwJDV/CzxvvgH1dHLsCgdcON
+         LXdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVDXomLk5gZj4B5f/2RON3YdIwhflSio9EZQDDNwRr8uS0KMx6FEt7Bv7/5bOtnsO3mCApuXIKgnYNE@lists.infradead.org
+X-Gm-Message-State: AOJu0YyNXcPUCMK13sFwxu99/JJ8cYQ+hjLsLVGVsVLF0RCXL7vrN0P/
+	6K8+jgHfOFqgP2RWbD7XcVRRqPy/xW1b6ozc2AAZCRNsySRv2kJ8NR9dY7S47I/syIz1gj2egzC
+	l38tjujVPIMAk6L0XhFAMN4QMvwCZxhMqSq9AuA==
+X-Gm-Gg: ASbGncu5bnuupCitur+/NUn2a4ijdtx8ippcjn1/phoOAm8bg+PozyFC9Wp5nh5q7pF
+	Tis7cUGwxpxcs/903SQZ1R/mYK0Ls2nxS3nue2nGYZAEgpPhiyneIivwIamzk6dG3tUiWk9ptDh
+	AQ5R6wdOSdAgSnORBSmH9tNB+QdN2/jVsS
+X-Google-Smtp-Source: AGHT+IEOHDaaxrK11FdiKxt3UibI92Geo/QgAd25u8J9hFSp09zCNYCwK26qCA6Nuw9DVAwKBf2ZRQfamv/pawbvLoI=
+X-Received: by 2002:a17:903:22d0:b0:21f:356:758f with SMTP id
+ d9443c01a7336-231980bf647mr27489995ad.3.1747244880613; Wed, 14 May 2025
+ 10:48:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd1576ee-82a3-4899-b218-2e5c5334af6e@redhat.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,imap1.dmz-prg2.suse.org:helo]
+References: <20250513070025.830930-1-hch@lst.de> <20250513070025.830930-6-hch@lst.de>
+In-Reply-To: <20250513070025.830930-6-hch@lst.de>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Wed, 14 May 2025 10:47:48 -0700
+X-Gm-Features: AX0GCFv3IDpZlBOXnVgp0ZCdkMBzNPQ5tVG_na6dnntQNhSwQc6His7_N4_L9x8
+Message-ID: <CADUfDZoh1RR058MZkjdwhEYiY56XWpejXtkMt7eES6rkA9boPw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] nvme-pci: use a better encoding for small prp pool allocations
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Leon Romanovsky <leon@kernel.org>, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250514_184928_788293_A40ACB5E 
-X-CRM114-Status: GOOD (  14.15  )
+X-CRM114-CacheID: sfid-20250514_104802_243737_3B2B7213 
+X-CRM114-Status: GOOD (  29.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,28 +94,231 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 06, 2025 at 02:18:32PM -0400, Waiman Long wrote:
-> > +static struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
-> > +					      const struct cpumask *cpu_mask,
-> > +					      unsigned int *nummasks)
+On Tue, May 13, 2025 at 12:00=E2=80=AFAM Christoph Hellwig <hch@lst.de> wro=
+te:
+>
+> Add a separate flag to encode that the transfer is using the small
+> page sized pool, and use a normal 0..n count for the number of
+> descriptors.
+>
+> Contains improvements and suggestions from Kanchan Joshi
+> <joshi.k@samsung.com> and Leon Romanovsky <leonro@nvidia.com>.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/nvme/host/pci.c | 82 ++++++++++++++++++++---------------------
+>  1 file changed, 39 insertions(+), 43 deletions(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 773a2e625657..16e2ce25da83 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -229,6 +229,9 @@ struct nvme_queue {
+>  enum nvme_iod_flags {
+>         /* this command has been aborted by the timeout handler */
+>         IOD_ABORTED             =3D 1U << 0,
+> +
+> +       /* uses the small descriptor pool */
+> +       IOD_SMALL_DESCRIPTOR            =3D 1U << 1,
+>  };
+>
+>  /*
+> @@ -238,7 +241,7 @@ struct nvme_iod {
+>         struct nvme_request req;
+>         struct nvme_command cmd;
+>         u8 flags;
+> -       s8 nr_descriptors;
+> +       u8 nr_descriptors;
+>         unsigned int dma_len;   /* length of single DMA segment mapping *=
+/
+>         dma_addr_t first_dma;
+>         dma_addr_t meta_dma;
+> @@ -589,13 +592,27 @@ static inline bool nvme_pci_use_sgls(struct nvme_de=
+v *dev, struct request *req,
+>         return true;
+>  }
+>
+> -static void nvme_free_prps(struct nvme_queue *nvmeq, struct request *req=
+)
+> +static inline struct dma_pool *nvme_dma_pool(struct nvme_queue *nvmeq,
+> +               struct nvme_iod *iod)
+> +{
+> +       if (iod->flags & IOD_SMALL_DESCRIPTOR)
+> +               return nvmeq->descriptor_pools.small;
+> +       return nvmeq->descriptor_pools.large;
+> +}
+> +
+> +static void nvme_free_descriptors(struct nvme_queue *nvmeq, struct reque=
+st *req)
 
-> > +struct cpumask *group_cpus_evenly(unsigned int numgrps,
-> > +				  unsigned int *nummasks)
-> > +{
-> > +	if (housekeeping_enabled(HK_TYPE_IO_QUEUE)) {
-> > +		return group_mask_cpus_evenly(numgrps,
-> > +				housekeeping_cpumask(HK_TYPE_IO_QUEUE),
-> > +				nummasks);
-> > +	}
-> > +
-> > +	return group_possible_cpus_evenly(numgrps, nummasks);
-> > +}
-> 
-> The group_cpus_evenly() isn't just used by block I/O. So you can't make it
-> check only HK_TYPE_IO_QUEUE here. I will suggest to make it a bit more
-> general and add helper function to specify the isolated cpumask the caller
-> want to skip.
+Feels like this name change from "prps" to "descriptors" belongs
+better in the prior commit "nvme-pci: rename the descriptor pools"?
 
-Okay, in this case I'd make group_mask_cpus_evenly a public interface
-and drop the houskeeping bits in group_cpus_evenly.
+Best,
+Caleb
+
+>  {
+>         const int last_prp =3D NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
+>         struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+>         dma_addr_t dma_addr =3D iod->first_dma;
+>         int i;
+>
+> +       if (iod->nr_descriptors =3D=3D 1) {
+> +               dma_pool_free(nvme_dma_pool(nvmeq, iod), iod->descriptors=
+[0],
+> +                               dma_addr);
+> +               return;
+> +       }
+> +
+>         for (i =3D 0; i < iod->nr_descriptors; i++) {
+>                 __le64 *prp_list =3D iod->descriptors[i];
+>                 dma_addr_t next_dma_addr =3D le64_to_cpu(prp_list[last_pr=
+p]);
+> @@ -620,15 +637,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, st=
+ruct nvme_queue *nvmeq,
+>         WARN_ON_ONCE(!iod->sgt.nents);
+>
+>         dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
+> -
+> -       if (iod->nr_descriptors =3D=3D 0)
+> -               dma_pool_free(nvmeq->descriptor_pools.small,
+> -                               iod->descriptors[0], iod->first_dma);
+> -       else if (iod->nr_descriptors =3D=3D 1)
+> -               dma_pool_free(nvmeq->descriptor_pools.large,
+> -                               iod->descriptors[0], iod->first_dma);
+> -       else
+> -               nvme_free_prps(nvmeq, req);
+> +       nvme_free_descriptors(nvmeq, req);
+>         mempool_free(iod->sgt.sgl, dev->iod_mempool);
+>  }
+>
+> @@ -650,7 +659,6 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_q=
+ueue *nvmeq,
+>                 struct request *req, struct nvme_rw_command *cmnd)
+>  {
+>         struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+> -       struct dma_pool *pool;
+>         int length =3D blk_rq_payload_bytes(req);
+>         struct scatterlist *sg =3D iod->sgt.sgl;
+>         int dma_len =3D sg_dma_len(sg);
+> @@ -658,7 +666,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_q=
+ueue *nvmeq,
+>         int offset =3D dma_addr & (NVME_CTRL_PAGE_SIZE - 1);
+>         __le64 *prp_list;
+>         dma_addr_t prp_dma;
+> -       int nprps, i;
+> +       int i;
+>
+>         length -=3D (NVME_CTRL_PAGE_SIZE - offset);
+>         if (length <=3D 0) {
+> @@ -680,27 +688,23 @@ static blk_status_t nvme_pci_setup_prps(struct nvme=
+_queue *nvmeq,
+>                 goto done;
+>         }
+>
+> -       nprps =3D DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
+> -       if (nprps <=3D (256 / 8)) {
+> -               pool =3D nvmeq->descriptor_pools.small;
+> -               iod->nr_descriptors =3D 0;
+> -       } else {
+> -               pool =3D nvmeq->descriptor_pools.large;
+> -               iod->nr_descriptors =3D 1;
+> -       }
+> +       if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) <=3D
+> +           256 / sizeof(__le64))
+> +               iod->flags |=3D IOD_SMALL_DESCRIPTOR;
+>
+> -       prp_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+> -       if (!prp_list) {
+> -               iod->nr_descriptors =3D -1;
+> +       prp_list =3D dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC=
+,
+> +                       &prp_dma);
+> +       if (!prp_list)
+>                 return BLK_STS_RESOURCE;
+> -       }
+> -       iod->descriptors[0] =3D prp_list;
+> +       iod->descriptors[iod->nr_descriptors++] =3D prp_list;
+
+This is slightly more expensive than the existing code because the
+compiler can't tell that iod->nr_descriptors is initially 0. How about
+keeping this as iod->descriptors[0] =3D prp_list and setting
+iod->nr_descriptors =3D 1 on the next line?
+
+>         iod->first_dma =3D prp_dma;
+>         i =3D 0;
+>         for (;;) {
+>                 if (i =3D=3D NVME_CTRL_PAGE_SIZE >> 3) {
+>                         __le64 *old_prp_list =3D prp_list;
+> -                       prp_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &pr=
+p_dma);
+> +
+> +                       prp_list =3D dma_pool_alloc(nvme_dma_pool(nvmeq, =
+iod),
+> +                                       GFP_ATOMIC, &prp_dma);
+>                         if (!prp_list)
+>                                 goto free_prps;
+>                         iod->descriptors[iod->nr_descriptors++] =3D prp_l=
+ist;
+> @@ -727,7 +731,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_q=
+ueue *nvmeq,
+>         cmnd->dptr.prp2 =3D cpu_to_le64(iod->first_dma);
+>         return BLK_STS_OK;
+>  free_prps:
+> -       nvme_free_prps(nvmeq, req);
+> +       nvme_free_descriptors(nvmeq, req);
+>         return BLK_STS_RESOURCE;
+>  bad_sgl:
+>         WARN(DO_ONCE(nvme_print_sgl, iod->sgt.sgl, iod->sgt.nents),
+> @@ -756,7 +760,6 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_q=
+ueue *nvmeq,
+>                 struct request *req, struct nvme_rw_command *cmd)
+>  {
+>         struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+> -       struct dma_pool *pool;
+>         struct nvme_sgl_desc *sg_list;
+>         struct scatterlist *sg =3D iod->sgt.sgl;
+>         unsigned int entries =3D iod->sgt.nents;
+> @@ -771,21 +774,14 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme=
+_queue *nvmeq,
+>                 return BLK_STS_OK;
+>         }
+>
+> -       if (entries <=3D (256 / sizeof(struct nvme_sgl_desc))) {
+> -               pool =3D nvmeq->descriptor_pools.small;
+> -               iod->nr_descriptors =3D 0;
+> -       } else {
+> -               pool =3D nvmeq->descriptor_pools.large;
+> -               iod->nr_descriptors =3D 1;
+> -       }
+> +       if (entries <=3D 256 / sizeof(*sg_list))
+> +               iod->flags |=3D IOD_SMALL_DESCRIPTOR;
+>
+> -       sg_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
+> -       if (!sg_list) {
+> -               iod->nr_descriptors =3D -1;
+> +       sg_list =3D dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
+> +                       &sgl_dma);
+> +       if (!sg_list)
+>                 return BLK_STS_RESOURCE;
+> -       }
+> -
+> -       iod->descriptors[0] =3D sg_list;
+> +       iod->descriptors[iod->nr_descriptors++] =3D sg_list;
+>         iod->first_dma =3D sgl_dma;
+>
+>         nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, entries);
+> @@ -982,7 +978,7 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev=
+, struct request *req)
+>         blk_status_t ret;
+>
+>         iod->flags =3D 0;
+> -       iod->nr_descriptors =3D -1;
+> +       iod->nr_descriptors =3D 0;
+>         iod->sgt.nents =3D 0;
+>         iod->meta_sgt.nents =3D 0;
+>
+> --
+> 2.47.2
+>
 
