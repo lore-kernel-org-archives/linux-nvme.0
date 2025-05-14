@@ -4,138 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93ED3C3ABCB
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 May 2025 06:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2966C3ABCB
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 May 2025 06:49:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YgIHSVCve782Kh2APOaAY5EGQKbI+6Zs7QVRLG/E4CE=; b=wZshW0hVaRAt81KfqF+CL9yJIA
-	HPaVoF26sBKvhy606ko9eCY4CR5hBryvCCfkmFsaQQZMzthOQJGchpPCrHFoyx0y33od+stovH8/o
-	X+WpLbpL/P71+nTbny+7xzCyzeCoG4rOP+Pqd0Pec+KNCVbkXmv/2DPiXZxNDBD7lCpcI/CWejey/
-	idK0rOYm0SRjieVI4tyovoDNnJPzL2oJKeufsQUbuQXeuGhqLkxQrY3G9cF27vxAxCkoPJfIqbInx
-	c+KZx6dgZIvOa0TkafxHnBEz8OpHu7IbbWMyCdGRFJVp55K0/qkQuUg1k+Unrhdc/6Wn+OLyILvPX
-	UVPGdPPw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+u90STVYdpWYiGcYE2j1pWyn7GGcNr4KzLA5J/mDBhY=; b=2suX6HfTCchQ7ZSU8/vs/g5g+X
+	akCHt/ES0Yj6vOCNoqwt9Je6ZHlTlJxItd+VDlk9K1XAlKM/kxWmN4me+2cNIl5KNbHQDzxRx2bST
+	Hi48gLarxOFRTIUdQRKs2RaQI2mn6j5869TSa+rzrWhvnbx8h76/mKePHH1QUwNeJHv8hpap/ogaf
+	JNpCwcE56L8mjCgxy/8pveS55FtcOKNB9UBxN3e6My2f9/yPC11cTZ+Kl24eojriX8lnoQ1/UW2tb
+	sMBd/bJ/djro62dOUzlSRUDE33H8NE8Z146x4WtoyZnZVDyF289TKLBkGF9KMjk+M6M9OAJG1tEO1
+	WXoNxUqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uF5kV-0000000EBjU-2QsW;
-	Wed, 14 May 2025 06:37:51 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1uF5oL-0000000ECOP-0QHh;
+	Wed, 14 May 2025 06:41:49 +0000
+Received: from mgamail.intel.com ([198.175.65.17])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uF5iN-0000000EBQ2-0olc
+	id 1uF5mQ-0000000ECB5-1xOk
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 May 2025 06:35:40 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1F67721234;
-	Wed, 14 May 2025 06:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747204535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YgIHSVCve782Kh2APOaAY5EGQKbI+6Zs7QVRLG/E4CE=;
-	b=RIME9X7Id/k4kW/x4eLK/T9T6Ym04j9jSxszLz2GUpNOHz9Hh1JJDcBiPdCvmttaNP4SZQ
-	fEP4AdUZm33E6qDYv1T4V2tKCXQ6BY7xyQHUpc8girRxlw/WRIsGb1xAAywrEtKsQB8Sno
-	6edgD9P3UPP1B2pg60l/Oz7W6MmlhBY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747204535;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YgIHSVCve782Kh2APOaAY5EGQKbI+6Zs7QVRLG/E4CE=;
-	b=BgspE0ruVdIg1HXIhJ+B3d4W+PKrOUMuqw9n/f0csI3D7XfINyx7sVdKGV4vMpIy8Kx/zT
-	BnM4PHIo5xsWWZDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747204535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YgIHSVCve782Kh2APOaAY5EGQKbI+6Zs7QVRLG/E4CE=;
-	b=RIME9X7Id/k4kW/x4eLK/T9T6Ym04j9jSxszLz2GUpNOHz9Hh1JJDcBiPdCvmttaNP4SZQ
-	fEP4AdUZm33E6qDYv1T4V2tKCXQ6BY7xyQHUpc8girRxlw/WRIsGb1xAAywrEtKsQB8Sno
-	6edgD9P3UPP1B2pg60l/Oz7W6MmlhBY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747204535;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YgIHSVCve782Kh2APOaAY5EGQKbI+6Zs7QVRLG/E4CE=;
-	b=BgspE0ruVdIg1HXIhJ+B3d4W+PKrOUMuqw9n/f0csI3D7XfINyx7sVdKGV4vMpIy8Kx/zT
-	BnM4PHIo5xsWWZDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4DB1137E8;
-	Wed, 14 May 2025 06:35:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eItrMrY5JGjccAAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 14 May 2025 06:35:34 +0000
-Message-ID: <be17f412-ce6e-4593-8364-b64f15380459@suse.de>
-Date: Wed, 14 May 2025 08:35:34 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
-To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Sagi Grimberg
- <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chris Leech <cleech@redhat.com>
-References: <20250403065522.90807-1-hare@kernel.org>
- <20250403065522.90807-4-hare@kernel.org>
- <1edc23f5-eb48-4006-a2f4-d303b05bd3e0@suse.de>
- <e7371b8a-e0b3-4387-a941-292e1f46b2aa@grimberg.me>
- <5446ef17-d922-4467-9a3c-5001713cc260@suse.de>
- <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
- <eda7a691-037b-442d-bd36-a31f93e95cb1@suse.de>
- <976af4b7-578b-4e47-a2ff-7c74af0b9afa@grimberg.me>
- <30b16579-1a28-4d01-9afd-8ff3996db42d@grimberg.me>
- <BY5PR04MB68490F6DD7F1FDBE6999B54BBC842@BY5PR04MB6849.namprd04.prod.outlook.com>
- <6202ffd4-4a32-4f85-ab87-ac5a087c2f1a@grimberg.me>
- <BY5PR04MB6849D4BF87755B82A073BBDABC89A@BY5PR04MB6849.namprd04.prod.outlook.com>
- <4cff2b68-32e8-4593-8a91-345171ae147f@suse.de>
- <BY5PR04MB6849463BE09E64B198950B74BC88A@BY5PR04MB6849.namprd04.prod.outlook.com>
- <BY5PR04MB6849CFB39AB3E98605D30C4BBC8BA@BY5PR04MB6849.namprd04.prod.outlook.com>
- <e45b6c71-7007-4ec2-b87e-d66f99e85460@grimberg.me>
- <MN2PR04MB6862B06C88E4FDFD2C4F7603BC97A@MN2PR04MB6862.namprd04.prod.outlook.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <MN2PR04MB6862B06C88E4FDFD2C4F7603BC97A@MN2PR04MB6862.namprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+	Wed, 14 May 2025 06:39:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747204791; x=1778740791;
+  h=date:from:to:cc:subject:message-id;
+  bh=/xr3bJZTzYewappZX3D1HKDywRLOd+F5itM0zhr2tDE=;
+  b=MXyhjG6zmMnHej6hMAyU1/mZWdjv+So3qdiUdGzziG8kSehtNfrciYMi
+   XHrilMInkjR4/a7WMkB7gLkihSCHTFDjZSd8NeOzW9azxxXbPMMBbe49Z
+   FVM2iMFFG1dNNrcEIPEYcqLxvx5DPWhl3nGjt3CGioVJ7efwhUNhujjVy
+   XXDQO8e9SKynKzgUxNBo9cX3MJQ8Er4mo1qevqS8EDEWeY7qZV3n7xg92
+   cWbSeRaAhi2SO+UQr+diQyuORhuJETy/4bldFK3L65TpGoSi437qFKbDM
+   BIp4xmNGjrLM3+cuMpkPKzE5SvdUufBivsHsReJ+zYjIN5tFc6uClZI7W
+   g==;
+X-CSE-ConnectionGUID: NiqqvpXvQZO7H5OG6VEIrA==
+X-CSE-MsgGUID: WGaKiybvQbyQOHZ8QrvY/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="49063118"
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
+   d="scan'208";a="49063118"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 23:39:50 -0700
+X-CSE-ConnectionGUID: ULerfIqQQlqGmcD8yGiB6w==
+X-CSE-MsgGUID: qoUSFpnCSRaE2HHBJqD3Rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
+   d="scan'208";a="143145307"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 13 May 2025 23:39:49 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uF5mM-000GlS-1Z;
+	Wed, 14 May 2025 06:39:46 +0000
+Date: Wed, 14 May 2025 14:39:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.15] BUILD SUCCESS
+ b1aa15c26540fadbec6923f1216b1f775c80751b
+Message-ID: <202505141421.UeQgXhpK-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250513_233539_528870_CC706A2C 
-X-CRM114-Status: GOOD (  18.76  )
+X-CRM114-CacheID: sfid-20250513_233950_559207_BA81305D 
+X-CRM114-Status: UNSURE (   6.23  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,78 +83,137 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/13/25 21:24, Kamaljit Singh wrote:
-> Hi Sagi, Hannes,
-> 
-> On 09/11/2025 02:11, Sagi Grimberg wrote:
->>> IO timeouts are still occurring with Writes. The only Read that timed
->>> out was most likely due to the path error. It takes ~4.5 hours to fail.
->>>
->>> However, this test does not fail if either ECN is off or if digests
->>> are not enabled. These passing combinations were run for 16+ hours
->>> without any issues. Both ECN and Header+Data Digests need to be turned
->>> on for it to fail.
->>>
->>> Do you have a failing test as well? If so, is it quicker to cause the
->>> failure? Would you mind sharing any details?
->>>
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 2 (f002) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 1 (2001) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 4 (c004) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: starting error recovery
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 15 (000f) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 6 (5006) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 3 (2003) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] block nvme1n3: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 8 (0008) type 4 opcode 0x2 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 14 (400e) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 13 (100d) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] block nvme1n4: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] block nvme1n4: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] block nvme1n4: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] block nvme1n2: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] block nvme1n4: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] block nvme1n2: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] block nvme1n2: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 5 (5005) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 7 (0007) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 11 (a00b) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] nvme nvme1: I/O tag 12 (f00c) type 4 opcode 0x1 (I/O Cmd) QID 4 timeout
->>>      [2025-05-07 19:57:13.295] block nvme1n1: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] block nvme1n1: no usable path - requeuing I/O
->>>      [2025-05-07 19:57:13.295] nvme nvme1: Reconnecting in 10 seconds...
->>>
->>> In the current build I had these patches on top of the "nvme-6.16" branch:
->>>      41b2c90a51bd nvme-tcp: sanitize request list handling
->>>      9260acd6c230 nvme-tcp: fix I/O stalls on congested sockets
->>
->> Kamaljit, with the prior version of the patchset (the proposal with the
->> wake_sender flag) did this not reproduce regardless of ECN?
->   
-> With the last patchset, when ECN=off, we did not see any IO timeouts
-> even with a weekend long test. This was true for both cases, i.e. with
-> Inband Auth and with SecureConcat.
-> 
-> With ECN=on & HD+DD=on IO timeout still persists for both Inband Auth &
-> SC. I’m currently debugging a possible target side issue with ECN. I’ll
-> let you know once I have some resolution.
-> 
-> I don't have any clear indications of the original kernel issue to be able to
-> differentiate against the current target-side issue. So, if you want to go
-> ahead and merge those two patchsets that may be fine for now.
-> 
-Thanks a lot for your confirmation.
-We continue to have issues with high load or oversubscribed fabrics.
-But this patchset is addressing the problem of I/O timeouts during
-_connect_, which I would argue is a different story.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.15
+branch HEAD: b1aa15c26540fadbec6923f1216b1f775c80751b  nvme: all namespaces in a subsystem must adhere to a common atomic write size
 
+elapsed time: 1304m
 
-Cheers,
+configs tested: 117
+configs skipped: 7
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    gcc-14.2.0
+arc                 nsimosci_hs_smp_defconfig    gcc-14.2.0
+arc                   randconfig-001-20250513    gcc-14.2.0
+arc                   randconfig-002-20250513    gcc-14.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                          pxa910_defconfig    gcc-14.2.0
+arm                   randconfig-001-20250513    gcc-7.5.0
+arm                   randconfig-002-20250513    gcc-8.5.0
+arm                   randconfig-003-20250513    gcc-8.5.0
+arm                   randconfig-004-20250513    clang-16
+arm                           tegra_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250513    clang-21
+arm64                 randconfig-002-20250513    clang-21
+arm64                 randconfig-003-20250513    gcc-6.5.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250513    gcc-14.2.0
+csky                  randconfig-002-20250513    gcc-12.4.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250513    clang-21
+hexagon               randconfig-002-20250513    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-005-20250513    gcc-12
+i386        buildonly-randconfig-006-20250513    gcc-12
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250513    gcc-14.2.0
+loongarch             randconfig-002-20250513    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                          eyeq6_defconfig    clang-21
+mips                           gcw0_defconfig    clang-21
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250513    gcc-10.5.0
+nios2                 randconfig-002-20250513    gcc-12.4.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                    or1ksim_defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250513    gcc-11.5.0
+parisc                randconfig-002-20250513    gcc-11.5.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-21
+powerpc                    gamecube_defconfig    clang-21
+powerpc                 mpc8315_rdb_defconfig    clang-21
+powerpc                     mpc83xx_defconfig    clang-21
+powerpc               randconfig-001-20250513    clang-21
+powerpc               randconfig-002-20250513    gcc-8.5.0
+powerpc               randconfig-003-20250513    clang-21
+powerpc                     tqm8560_defconfig    gcc-14.2.0
+powerpc                      tqm8xx_defconfig    clang-19
+powerpc64             randconfig-001-20250513    clang-21
+powerpc64             randconfig-003-20250513    clang-21
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20250513    gcc-14.2.0
+riscv                 randconfig-002-20250513    gcc-14.2.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250513    clang-21
+s390                  randconfig-002-20250513    gcc-9.3.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                          kfr2r09_defconfig    gcc-14.2.0
+sh                    randconfig-001-20250513    gcc-12.4.0
+sh                    randconfig-002-20250513    gcc-14.2.0
+sh                          rsk7264_defconfig    gcc-14.2.0
+sh                          sdk7786_defconfig    gcc-14.2.0
+sh                             sh03_defconfig    gcc-14.2.0
+sh                   sh7770_generic_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250513    gcc-11.5.0
+sparc                 randconfig-002-20250513    gcc-13.3.0
+sparc64               randconfig-001-20250513    gcc-11.5.0
+sparc64               randconfig-002-20250513    gcc-13.3.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250513    clang-19
+um                    randconfig-002-20250513    gcc-12
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250513    gcc-12
+x86_64      buildonly-randconfig-002-20250513    gcc-12
+x86_64      buildonly-randconfig-003-20250513    clang-20
+x86_64      buildonly-randconfig-004-20250513    gcc-12
+x86_64      buildonly-randconfig-005-20250513    clang-20
+x86_64      buildonly-randconfig-006-20250513    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-18
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250513    gcc-7.5.0
+xtensa                randconfig-002-20250513    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
