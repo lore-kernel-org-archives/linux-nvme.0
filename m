@@ -4,83 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D761FC3ABDA
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 May 2025 18:34:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97967C3ABDD
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 May 2025 18:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Yy274iXYl2usoU/p4TZ3ZM9p5xhmdQyfdSoFYA1q72k=; b=hM/Sxa1zYdw8bKwyl223Pjdwu/
-	wKB6EL7sVtCytr/fdqIZPjL0xXjsj6ebirzx2eD/9muVUE4JJgmG+cfErmuq+b5DVXgw8NYcnF+fe
-	VAMRjCBkO+6rV+mHxTeevAf5fJHLS/a0nyxSbPnYWxu2mvtquSVZMOzwl6ozMOk72j8cdv1D/oODE
-	200AxR+uJ3UjM/1BPvQ5XsBDQodf/fOB0hS1hX05/dLQ3W9OL6z//5r3etEa9Q927XFkHtwnnBi5z
-	n9fCB3gX0U2YjbwqScjcbeZkPxaJbB+QKgNkSdLa2aFUS39AAl9jL4v150rwk5XbOUdvJYbcfuSaz
-	ZHIXE7Pw==;
+	bh=Ne6xM65Lrx875URRJfmoGqN+KZ2IlPd/hwyant4+B5U=; b=atcxC3/S61HAtkKtu6FfUQyozD
+	f3D4oMYCelkbRHEcMKP++7l/5ng60aPRUhO0AX85yQ/gOZtMn5HOCYHmgY45QuGQjsi8zDqebqKQx
+	Fsc9Q6yM3Xj8Q/u/TIbcinPNLFPpJOlqRx6lZJaMZqIWcffqRbGMX5/wElXA8/7yHILJ8y9Gl+XNT
+	G84z5q+SE1/S9H2z1iHuaXwVQNsCF8OJ98vn69NOoS5lv3FE2fJMliDPVEw6ZflozKQ5SZiVbkmCI
+	Wof2eU/VYKryQe2juz0wboZGReHoS3r5Clsu281dKh5szGZlI9DKWeH2+iqYW+DI061/0SCbNz1PX
+	DZfPqNSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uFGvT-0000000G1zK-1Fep;
-	Wed, 14 May 2025 18:33:55 +0000
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+	id 1uFHDd-0000000G5bN-1Pny;
+	Wed, 14 May 2025 18:52:41 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uFGDK-0000000FwWm-0SM7
+	id 1uFGmL-0000000G1FA-1oaW
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 May 2025 17:48:22 +0000
-Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-b1f2a3bf3c8so784257a12.1
-        for <linux-nvme@lists.infradead.org>; Wed, 14 May 2025 10:48:17 -0700 (PDT)
+	Wed, 14 May 2025 18:24:30 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-23179999d4aso166395ad.1
+        for <linux-nvme@lists.infradead.org>; Wed, 14 May 2025 11:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1747244896; x=1747849696; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1747247068; x=1747851868; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Yy274iXYl2usoU/p4TZ3ZM9p5xhmdQyfdSoFYA1q72k=;
-        b=E3UQTfO5ejhyjskm2qiqh8nY2nBXveJnZSo6l0ssuZ6L7ngIAITZcafI5QUuOCFyN1
-         /vwzV1CLJwetR7rDkcLAOX448iXYfLUAe3YJlArFUwDU/m54Zw2IamOuF1Bid0l1UxlG
-         oecP8J1CcboQpJV+utzrWgfEjl3FRoak+PJvSTBBzgUfPhqyfK2TTv5T3hXl9lVY+jfJ
-         113Rd9GjRtwE0niZ2sFMu5O7112PB3Jcs9ugejIKKbgTLWIlsb6CIRZuC3vjLWVmWe+6
-         a/s96hm32FHgW45hYQAW36zqD2RX0Mgwelv4Bt3SZJc5outWcrnlPAtIKQOUa6FGnUdU
-         pZTA==
+        bh=Ne6xM65Lrx875URRJfmoGqN+KZ2IlPd/hwyant4+B5U=;
+        b=QIIe0pRKmtObalfcQnNogN+MD6K6vCVEAtR7YWbamrq2D1EKMhBK/Ggshh6zYD7783
+         quTcoNjvoI1D8L+itBDgh13GiTe3gUMu4UX6b+/UezbfvQX3Y7Rj7waf2uSgPyxbuOCa
+         C/AS/N8M/HPr2h9iLw9CglbZVJpWMEAgCu3RiTMa5HWiHRl90HMyQTZWWDLeYziRuxwJ
+         GFYw3qDXlKV3DVbSjLkHv0Q6JofsRwikx4c4ItuUBpPAab9yklziUD6mFacKzIJomsM3
+         oM9NXWhfEPaU2owaHvXahELtmrlORBbrAK+hmHffBSjt7aU44tte12a+9SmzJbESuK4x
+         a9hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747244896; x=1747849696;
+        d=1e100.net; s=20230601; t=1747247068; x=1747851868;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Yy274iXYl2usoU/p4TZ3ZM9p5xhmdQyfdSoFYA1q72k=;
-        b=Yeia8H/OPs4fVdaO+yrSEfGab8H1QQEIozxMHepHbNIYv3ArhIHR0B+7r4rObhQ5Is
-         7lPSINSz2hG9Oa+4nYo/Q+sY/vYTGdwshGidslsTswidNboe8SxAh90V/HduSfIDmwHo
-         ctKZKCq0LerlJq0pLUrC3vyJUNeOqQ/u2l+CKvP27On/9YnL5efT+sELyhTzmvMPZS4x
-         IL5T3H9KbHaSxWiN3UFDkTqC1HihHHVmZRawFP1q3DylcDiPOjcR5Gb6s2PF81onmiSt
-         73UDLY9+5rNk+FWpvd0TZCX+99gJwhf8xOZevq/MjYSATRFPsQkJuiIZ5gP8j95SYrO9
-         t7jA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTWVHtjs9E5VvfVEQYQIBwpB2FERud4wLruCKSCBFkRoQYPEGHC+dv5JUJilu0mu2NYb2LGTmROJvM@lists.infradead.org
-X-Gm-Message-State: AOJu0YzfgfMGYcDkfJ+J6/szk1RqihKB44eyWrindAtrGg0DuiRnaxV1
-	esbVoYBtqoLKM6wrdbR0hTU+tI+YEBozVuURJGz91ks8AmdBqDYLiBH/2OrhiwdqkBdKl0hN+9/
-	p5RlcCcBeOrLn2eZJ7WQQtPPXi51qI1+T4+qybA==
-X-Gm-Gg: ASbGncs/qsYahJfLmL/pZSLCkf9Gy8WTfzuqKHBjW2QAKJ+C95tuJXyV5yk77rg7P/0
-	X2FBhvDJXDx0BN5mYGbO7gK0/Ol7N/G1hKOvVWoE8rdw1WL8VxRWDoCyHOLyQRSSk0CTyb6rVBu
-	kk8Tjsh1HX2wl0xay9G5XptaCjPamvjvQEK4jG/Er+oug=
-X-Google-Smtp-Source: AGHT+IGYkiARNikLBRS+i6MGOR28Bib7wIIVDvK4aItjyiEfvFV9oQKb6U6yu3UXQKjRvb6MX32evwINLRlK4CwmTEA=
-X-Received: by 2002:a17:902:d550:b0:224:88c:9253 with SMTP id
- d9443c01a7336-231980e9eb8mr24608655ad.6.1747244896538; Wed, 14 May 2025
- 10:48:16 -0700 (PDT)
+        bh=Ne6xM65Lrx875URRJfmoGqN+KZ2IlPd/hwyant4+B5U=;
+        b=BcL4ORS8lnrEE6aSdx2WtizK/QGrVNGns/C6G8tqxoE1272xxOKu4gjZYkmC93owin
+         Rl0bsJzKNKAA7brsY1lZhPvDaKFKxjUPY5GZAvEpfi9CPZKDI7AqEWwBsmbS+ppyPufP
+         7wDl579ig16pm/ukSGnFSKjDfepmg147e4kHd+PQ0JzBQRaZiKOtowfhRpnVA+Mmdy9S
+         AF8aSzKJOy/BukJrpLBf6X5agtxzIDBD/gnOjssJgm4CqYhXeB5HOHOiR4iiLzY3uylP
+         H8vrV7YCj2pQTSUDfcx+H3tIil7KB2L7m0zfhSzk7huvVCOS8kiJ8FxHk1Nc69tXWVlW
+         HZyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2QeerDZZqbUgP/bNTg3MIRwaHgO4NyEFNg0LfWZJSY4dIpVI/Xx3RenXvMu432g4h/eAQk2v6WpDK@lists.infradead.org
+X-Gm-Message-State: AOJu0YwPytoTawBte5uoYeqXrEN8gzG5qSX0cUlXlgIx5ET3TvJRqs5d
+	HUPfSbIjoNMfEvyT94UJXsGmx5UV2DvF0UMcEIdxmXrGhbZjlNHY7r+KJJf2pnLxTk+Saaqclv6
+	RYMrME9AaCqtvh+EYIVvLybaMfnpGBA/trGTPgg==
+X-Gm-Gg: ASbGncvgFpsTs5JopWwuCxR1GLBjquyORG9Ubu8KrrRotSTuvIFvWh386mvn8klIJ92
+	+fMx+nYg25LQdaXe/w636tRss1rx5rzoxb2SIWN3kygRquWWGAnlDDgJAHCXnvA/cWAOY9lN8wM
+	QIgN5DaBVT5V6Ip2Y0C6zEPnTGq5WDKYDu2A==
+X-Google-Smtp-Source: AGHT+IG1Tkyrh3cTuvt0X3PmbuG842pF/rvWZABF/45Xl+tGiEjq1i83nASDeLO0PXzsnFzCWlhVHt2BYZeVuwW9h0I=
+X-Received: by 2002:a17:902:d547:b0:22e:62c3:8c5d with SMTP id
+ d9443c01a7336-231981497e1mr26481775ad.8.1747247068492; Wed, 14 May 2025
+ 11:24:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250513070025.830930-1-hch@lst.de> <20250513070025.830930-6-hch@lst.de>
- <aCNf_rHaLdS-WTEO@kbusch-mbp>
-In-Reply-To: <aCNf_rHaLdS-WTEO@kbusch-mbp>
+References: <20250513070025.830930-1-hch@lst.de> <20250513070025.830930-7-hch@lst.de>
+In-Reply-To: <20250513070025.830930-7-hch@lst.de>
 From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Wed, 14 May 2025 10:48:05 -0700
-X-Gm-Features: AX0GCFvAcmnmdp9w_J7P82h3nSisL2EzvRXDRyoqEyLlay58ncp0kYOlxsFwqME
-Message-ID: <CADUfDZpSnQ8JHDhw8-7zrBqfJmYgsM=skKTUTcavys=sWyhVTA@mail.gmail.com>
-Subject: Re: [PATCH 5/7] nvme-pci: use a better encoding for small prp pool allocations
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Leon Romanovsky <leon@kernel.org>, 
-	linux-nvme@lists.infradead.org
+Date: Wed, 14 May 2025 11:24:16 -0700
+X-Gm-Features: AX0GCFuhTspoGZdUKrkNvPVmy3gTbkP5sSQHAjzHd9qJh6a2IKrhhzG_3BltwqY
+Message-ID: <CADUfDZresXeChvuf7kJzoccz73-Ao7wS9jEzHSRE5-u_NDGDjw@mail.gmail.com>
+Subject: Re: [PATCH 6/7] nvme-pci: add a symolic name for the small pool size
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Leon Romanovsky <leon@kernel.org>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250514_104818_230297_1CAD1A33 
-X-CRM114-Status: GOOD (  17.25  )
+X-CRM114-CacheID: sfid-20250514_112429_607051_7CF4CEA3 
+X-CRM114-Status: GOOD (  23.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,44 +94,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 13, 2025 at 8:06=E2=80=AFAM Keith Busch <kbusch@kernel.org> wro=
+On Tue, May 13, 2025 at 12:00=E2=80=AFAM Christoph Hellwig <hch@lst.de> wro=
 te:
 >
-> On Tue, May 13, 2025 at 09:00:21AM +0200, Christoph Hellwig wrote:
-> > +static inline struct dma_pool *nvme_dma_pool(struct nvme_queue *nvmeq,
-> > +             struct nvme_iod *iod)
-> > +{
-> > +     if (iod->flags & IOD_SMALL_DESCRIPTOR)
-> > +             return nvmeq->descriptor_pools.small;
-> > +     return nvmeq->descriptor_pools.large;
-> > +}
+> From: Leon Romanovsky <leon@kernel.org>
 >
-> ...
+> Open coding magic numbers in multiple places is never a good idea.
 >
-> >               if (i =3D=3D NVME_CTRL_PAGE_SIZE >> 3) {
-> >                       __le64 *old_prp_list =3D prp_list;
-> > -                     prp_list =3D dma_pool_alloc(pool, GFP_ATOMIC, &pr=
-p_dma);
-> > +
-> > +                     prp_list =3D dma_pool_alloc(nvme_dma_pool(nvmeq, =
-iod),
-> > +                                     GFP_ATOMIC, &prp_dma);
+> Signed-off-by: Leon Romanovsky <leon@kernel.org>
+> [hch: split from a larger patch]
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/nvme/host/pci.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 >
-> You could assume nvmeq->descriptor_pools.large here. We'd never use the
-> small pool if we've enough elements to chain lists, and it would skip
-> the extra condition branch on each loop.
-
-Right, and the existing code already assumes this branch is taken only
-in the large case since iod->descriptors[0] is always set before the
-loop but nr_descriptors is only initialized to 1 in the large case.
-
-The existing approach of storing the struct dma_pool * in a local
-variable seems fine to me and would avoid another pointer dereference
-here.
-
-Best,
-Caleb
-
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 16e2ce25da83..5396fe30eb94 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -37,6 +37,8 @@
 >
-> The same optimization is done in the free side already, too.
+>  #define SGES_PER_PAGE  (NVME_CTRL_PAGE_SIZE / sizeof(struct nvme_sgl_des=
+c))
+>
+> +#define NVME_SMALL_POOL_SIZE   256
+> +
+>  /*
+>   * These can be higher, but we need to ensure that any command doesn't
+>   * require an sg allocation that needs more than a page of data.
+> @@ -407,7 +409,7 @@ static struct nvme_descriptor_pools *
+>  nvme_setup_descriptor_pools(struct nvme_dev *dev, unsigned numa_node)
+>  {
+>         struct nvme_descriptor_pools *pools =3D &dev->descriptor_pools[nu=
+ma_node];
+> -       size_t small_align =3D 256;
+> +       size_t small_align =3D NVME_SMALL_POOL_SIZE;
+>
+>         if (pools->small)
+>                 return pools; /* already initialized */
+> @@ -422,7 +424,7 @@ nvme_setup_descriptor_pools(struct nvme_dev *dev, uns=
+igned numa_node)
+>
+>         /* Optimisation for I/Os between 4k and 128k */
+
+This comment explains the choice of 256. Maybe it would make sense to
+move it to the definition of NVME_SMALL_POOL_SIZE?
+
+>         pools->small =3D dma_pool_create_node("nvme descriptor 256", dev-=
+>dev,
+
+The magic number is used in this string too. Maybe change "256" to "small"?
+
+Other than that,
+Reviewed-by: Caleb Sander Mateos <csander@purestorage.com>
+
+
+> -                       256, small_align, 0, numa_node);
+> +                       NVME_SMALL_POOL_SIZE, small_align, 0, numa_node);
+>         if (!pools->small) {
+>                 dma_pool_destroy(pools->large);
+>                 pools->large =3D NULL;
+> @@ -689,7 +691,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_q=
+ueue *nvmeq,
+>         }
+>
+>         if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) <=3D
+> -           256 / sizeof(__le64))
+> +           NVME_SMALL_POOL_SIZE / sizeof(__le64))
+>                 iod->flags |=3D IOD_SMALL_DESCRIPTOR;
+>
+>         prp_list =3D dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC=
+,
+> @@ -774,7 +776,7 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_q=
+ueue *nvmeq,
+>                 return BLK_STS_OK;
+>         }
+>
+> -       if (entries <=3D 256 / sizeof(*sg_list))
+> +       if (entries <=3D NVME_SMALL_POOL_SIZE / sizeof(*sg_list))
+>                 iod->flags |=3D IOD_SMALL_DESCRIPTOR;
+>
+>         sg_list =3D dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
+> --
+> 2.47.2
+>
 
