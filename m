@@ -4,50 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA3F5C3ABD8
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 May 2025 16:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DAD1C3ABD8
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 May 2025 22:31:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:From:
-	Subject:Cc:To:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YoqLD9JbMjx/kzkI02wwXOFbn2tSuQL7l+cMQlH/63Y=; b=q+GfYgb09WZmuPqFM84tjTJ3vQ
-	SXaKv50+mNoyj74D4ZMTy6/FIwWoU/Zpi35GIwJgstGamjvKi30u2TO5Z7i/UpUPJyELljdAbkpXS
-	n/M9dwiJTe4GdieqUf8fcLwzLxNNpk8yxO92h2d2g8TqK2X3ofpvDwlWA2gPSsKr6C7eT2pMx+0R9
-	+D6tCQ4Ge4gcmZ9V288Yt1zODZxRZwc/pFn/cVjpTEU7q2YRQP6ra7cOzzb+gNJziGr/aHcYEJ4gO
-	Ce4rnZ4N3c/4Kog9uBhbvIbXoayDV0X4eV+YMUZaqWQNNaUGE5Jp7798S7qVbBQ8TAIwuWQr7yNew
-	iH8PDonQ==;
+	bh=X11KdZycco3RW/kmTzYI2J/sL8E0OjWYVL9EAifO5hs=; b=TGcZFE2/vmqnkJWgrBgueOhIMa
+	Q7sPuwk9t/PfreJ7qTTgnJLDjdFKpZB3FF7frIAcB9vA6tK5kYD9lxwSnzuz35/fp3PRar7Efagbo
+	uh6tIwWzXbDZVBNeRNPZZgqbaEkorIYEZwCmhCylhP6o80zQiU1J7DpXIXE0Nt4AunVPZNbP7/BQp
+	NVKmOgMitc/yFdA2BDTlCQIvxckOB0216dTZsKBnGWec1hNalcTzJD1lCP9+BYzVWliEuc4TbDKWe
+	96C5EYO40ByCHNQGc+snwdC/7AJWvn3EEfMWkhwFIcQkj6pKU9OBd3eoq3n9BajdvZHl9vZwXq2uC
+	E8f0UhxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uFyIr-000000044KS-0Lhi;
-	Fri, 16 May 2025 16:52:57 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1uG3ao-00000004kkf-2rBo;
+	Fri, 16 May 2025 22:31:50 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uFyIX-000000044I3-3IKt
+	id 1uG3am-00000004kkG-07hn
 	for linux-nvme@lists.infradead.org;
-	Fri, 16 May 2025 16:52:39 +0000
-Received: from localhost (25.205.forpsi.net [80.211.205.25])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id bab8766e (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 16 May 2025 18:52:33 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 May 2025 18:52:31 +0200
-Message-Id: <D9XQOUZ07XJ6.S9M2PRLSX98K@bsdbackstore.eu>
-To: "Keith Busch" <kbusch@kernel.org>, "Maurizio Lombardi"
- <mlombard@redhat.com>
-Cc: <hch@lst.de>, <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
- <bgurney@redhat.com>
-Subject: Re: [RFC PATCH 0/1] enable quirks via module parameter
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-X-Mailer: aerc
-References: <20250516155025.44958-1-mlombard@redhat.com>
- <aCdgznvTZAJiPjM0@kbusch-mbp> <aCdmR_5pzny8nptW@kbusch-mbp>
-In-Reply-To: <aCdmR_5pzny8nptW@kbusch-mbp>
+	Fri, 16 May 2025 22:31:49 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 5A8364484C;
+	Fri, 16 May 2025 22:31:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D998C4CEE4;
+	Fri, 16 May 2025 22:31:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747434707;
+	bh=j1TzjQ6x1h5RRusIRAxCzoJzqDcMuofCLRpeIjOayrM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=q+EbV0zePfMiLNAhwB0s7/x9bwNJR2vcrhn/I2aT7tJGVpWA6MVSE//HZBr0jeZjj
+	 +A6ef6qY2CX0FVj4alj5UydwsenwRG5VTQ9TYeri39YfxkoOOvwKB3IHItpRTey4nG
+	 huoxrqqAN5fApQCaTdcBLIUMJvOiYdplK1yiPhORKSa2fmU+2DK1TOZ21taEtOIfPT
+	 HoElvP4nY0OPDIxcI4lI75L7eJI7mjUjmGbq8KZOYSaXt8inHEvE5c4JcYavj0u/J2
+	 8QmoV3MUhv3CU3P9RlUMcT6ZDtUyI8NSRueNwFLhy9y2n10iIWinhJ/jQnSKWHJdh1
+	 iV+6WyOUmGIZQ==
+Date: Fri, 16 May 2025 15:31:45 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, sagi@grimberg.me, hch@lst.de, kbusch@kernel.org,
+ axboe@fb.com, chaitanyak@nvidia.com, davem@davemloft.net, Boris Pismenny
+ <borisp@nvidia.com>, aurelien.aptel@gmail.com, smalin@nvidia.com,
+ malin1024@gmail.com, ogerlitz@nvidia.com, yorayz@nvidia.com,
+ galshalom@nvidia.com, mgurtovoy@nvidia.com, tariqt@nvidia.com,
+ gus@collabora.com, pabeni@redhat.com, dsahern@kernel.org, ast@kernel.org,
+ jacob.e.keller@intel.com
+Subject: Re: [PATCH v28 01/20] net: Introduce direct data placement tcp
+ offload
+Message-ID: <20250516153145.602fc02d@kernel.org>
+In-Reply-To: <2537c2gzk6x.fsf@nvidia.com>
+References: <20250430085741.5108-1-aaptel@nvidia.com>
+	<20250430085741.5108-2-aaptel@nvidia.com>
+	<CANn89iLW86_BsB97jZw0joPwne_K79iiqwogCYFA7U9dZa3jhQ@mail.gmail.com>
+	<2537c2gzk6x.fsf@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250516_095238_161468_A3B7643E 
-X-CRM114-Status: GOOD (  11.95  )
+X-CRM114-CacheID: sfid-20250516_153148_097048_CADA03C7 
+X-CRM114-Status: UNSURE (   8.38  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,24 +82,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri May 16, 2025 at 6:22 PM CEST, Keith Busch wrote:
->> Can't we already do this for pci using the "new_id" attribute of the
->> nvme-pci driver? It takes up to 7 parameters, the last one being the
->> "driver_data", which is what we use to setup the quirks, and you can set
->> that value to anything you want through that interface.
->
-> Oops, maybe not "anything you want", but you can set it to any value
-> that exists in the driver's table. That may be an unnecessary limitation
-> in the new_id_store() function, but let's see if that's sufficient
-> before considering changing that.
+On Fri, 16 May 2025 17:47:34 +0300 Aurelien Aptel wrote:
+> The offload works by calling the iter copy functions while skipping the
+> memcpy (see patch 3).  We think the unreadable bit is getting close to
+> what we want if it wasn't for the skb_datagram_iter() check. Maybe the
+> bit could be unset at a later stage but it's not clear where.
 
-Thanks for the suggestion, I really hadn't considered that.
-
-So the idea would be to unbind the device and re-bind
-it while specifying a different driver_data, correct?
-
-If that's the case, I do have a concern: how can I do that
-if the root filesystem is on the device that needs to be unbound?
-
-Maurizio
+Getting rid of the hack in iov_iter may be for the best, actually.
+It's pretty ugly.
 
