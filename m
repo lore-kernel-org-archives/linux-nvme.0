@@ -4,51 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2D22C3ABDD
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 May 2025 07:15:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC020C3ABDD
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 May 2025 07:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D+ihGTgUFJzllZ/tVjd1xPZ4KjlprXQB4zgnYGbWYKE=; b=qjUS66S2SR4Z8p/XnX0GDWwH49
-	ELE1yfzjLYI7SzYf93H8vUl0Ju6RD70OQR2WeHgN3uFOwdAVNnbV1jIjqHApdZ4aSwwuSJOxXB30A
-	lZNCBJrF7iTdzWqDdqxecVZl0z3WNRu5TYMqXrl8B5vQV5B07y6VEIxzppaXFV3pc05ms2adMnXBA
-	3kVVxFzFPb+ePQDuJ9muKGqQR4gOkfA381kOhVY8RP2QFdyiw1MpzoiJe2DqbepUf7CZ+uj+IVjfE
-	qEYX5me0hN59+CTJtRUbqSUT3NnZ/x5UYNz87gc8EdBgIaK27QXMikRAOVjOhZD71yzPUI7kGoUWp
-	yrsu7+Wg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=HDwlbyEf23lOeBTRuwn6GqrnbMwgHdaeJ6nyzI28fzY=; b=bJz8C1lhTS05xYLDvu4LXMDofb
+	/U/l1mpSr9VY3lTx7+DVpWbgItAi/oNeSPLoLz2AK53wOgcaIZ+Gh2PC+cEqsCSxcaMOg5EOAhV6E
+	dW4sYDnEm85CqPTO6BqyxbcVS3/ht7oY/I1t3RWcnDdySxpdLWvqRqtqnwn6CI6CTJ9dxgtLdYC/U
+	g4SCp0/YJ9N+44vyA+6cxWQt2Q3F1+uQZfTv7qbOEaNyWqnJRYrZq6llLlZzBGCNgJ7pKlt4mbJ/3
+	VUAajvVZ00QUhVvu9kGYiSw49JuxG7gNLJFrY+bGuRyvwK39Gw9C0pbSMqYG4d6xiIZgKUYp+Unmw
+	j9bhovbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uFpIM-00000002e0v-0Vuk;
-	Fri, 16 May 2025 07:15:50 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uFpIJ-00000002e0b-48wM
-	for linux-nvme@lists.infradead.org;
-	Fri, 16 May 2025 07:15:49 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id D273E68BFE; Fri, 16 May 2025 09:15:41 +0200 (CEST)
-Date: Fri, 16 May 2025 09:15:41 +0200
+	id 1uFpPU-00000002eYH-3g5S;
+	Fri, 16 May 2025 07:23:12 +0000
+Received: from 2a02-8389-2341-5b80-8ad1-b0a3-ff78-473d.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:8ad1:b0a3:ff78:473d] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uFpOF-00000002eSj-3jI1;
+	Fri, 16 May 2025 07:21:56 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Shminderjit Singh <shminderjit.singh@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"axboe@fb.com" <axboe@fb.com>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Junxiao Bi <junxiao.bi@oracle.com>
-Subject: Re: [PATCH 1/1] nvme-pci: Add quirk for Samsung PM173X with
- Subsystem Vendor id:0x108e
-Message-ID: <20250516071541.GA15458@lst.de>
-References: <20250516063059.3456399-1-shminderjit.singh@oracle.com> <20250516063059.3456399-2-shminderjit.singh@oracle.com> <20250516063632.GA14830@lst.de> <CO1PR10MB550564E355727779E441B7558393A@CO1PR10MB5505.namprd10.prod.outlook.com>
+To: kbusch@kernel.org
+Cc: sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-pci: derive and better document max segments limits
+Date: Fri, 16 May 2025 09:21:52 +0200
+Message-ID: <20250516072152.166131-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CO1PR10MB550564E355727779E441B7558393A@CO1PR10MB5505.namprd10.prod.outlook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250516_001548_168930_2B1D6780 
-X-CRM114-Status: GOOD (  13.08  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,14 +50,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 16, 2025 at 07:13:47AM +0000, Shminderjit Singh wrote:
-> Hi Christoph,
-> 
-> This device is widely used both within and outside the organization. Applying a firmware fix is not viable option. Since this is firmware specific bug, I am adding a flag for OEM specific devices only.
+Redefine the max segments and max integrity limits based on the limiting
+factors without changing the final values and add comments explaining
+them.
 
-The general rule is that for enterprise devices we expect you to fix
-firmware bugs in firmware.  And skipping all IDs suddently for an
-old device also seems like a really odd bug report that you did not
-even manage to explain.  
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/pci.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0efbc9329291..0b6e54f7ba05 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -35,8 +35,6 @@
+ #define SQ_SIZE(q)	((q)->q_depth << (q)->sqes)
+ #define CQ_SIZE(q)	((q)->q_depth * sizeof(struct nvme_completion))
+ 
+-#define SGES_PER_PAGE	(NVME_CTRL_PAGE_SIZE / sizeof(struct nvme_sgl_desc))
+-
+ #define NVME_SMALL_POOL_SIZE	256
+ 
+ /*
+@@ -44,10 +42,24 @@
+  * require an sg allocation that needs more than a page of data.
+  */
+ #define NVME_MAX_KB_SZ	8192
+-#define NVME_MAX_SEGS	128
+-#define NVME_MAX_META_SEGS 15
+ #define NVME_MAX_NR_DESCRIPTORS	5
+ 
++/*
++ * For data SGLs we support a single descriptors worth of SGL entries, but for
++ * now we also limit it to avoid an allocation larger than PAGE_SIZE for the
++ * scatterlist.
++ */
++#define NVME_MAX_SEGS \
++	min(NVME_CTRL_PAGE_SIZE / sizeof(struct nvme_sgl_desc), \
++	    (PAGE_SIZE / sizeof(struct scatterlist)))
++
++/*
++ * For metadata SGLs, only the small descriptor is supported, and the first
++ * entry is the segment descriptor, which for the data pointer sits in the SQE.
++ */
++#define NVME_MAX_META_SEGS \
++	((NVME_SMALL_POOL_SIZE / sizeof(struct nvme_sgl_desc)) - 1)
++
+ static int use_threaded_interrupts;
+ module_param(use_threaded_interrupts, int, 0444);
+ 
+@@ -3829,8 +3841,6 @@ static int __init nvme_init(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_create_sq) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_delete_queue) != 64);
+ 	BUILD_BUG_ON(IRQ_AFFINITY_MAX_SETS < 2);
+-	BUILD_BUG_ON(NVME_MAX_SEGS > SGES_PER_PAGE);
+-	BUILD_BUG_ON(sizeof(struct scatterlist) * NVME_MAX_SEGS > PAGE_SIZE);
+ 	BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_DESCRIPTORS);
+ 
+ 	return pci_register_driver(&nvme_driver);
+-- 
+2.47.2
 
 
