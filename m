@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82560C54756
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 May 2025 19:55:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62047C3ABDD
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 May 2025 19:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FE/cQeE6PRn8SBHEL9SF2CWDf8joI5FN3GSkzobRJno=; b=RZGeBXuDPzTlqa7pYGyFGwl8oI
-	nzXWaGEObcThdORjbYmCi6QyxdE5krmbdH4kT4fT6n4xKdgCEaFTKP5GDcjtmX3ulqU+KbmYllpZi
-	IL1tobmmT9SE6E5olS3oWrcu3kJaf4PwkpMzoNszmJQnAeYViddz5h3BYnA4E8bDNVDxsBGmJoGh0
-	m1DpeLBC3GXz67h3VleYqHkH7A8e35KyJTufXpi/1iY/iJ1OVRVWubvkecENaVQQ7Jq+UquvebLxN
-	QqdLWjsyg0p9ezQVZF4Z6QCMm7j2Y/N5lxGbijkLtTV0qGBXDzEqIKJeKBhnN/QC3KSk8Z7/8Cml6
-	tqJIllfg==;
+	bh=QqLH5mogqTsi2vyu75aSR0HpeRpxgMsyl3ijf3vYbAw=; b=O1auQq2ROKdZMWzryACBqSCpm+
+	YqxepQxgtDCUFhAZEvN1lFhRAb6RzwOPOfPan0MsNccSCSYzif0qgoWLq9yX6BSOPSMwwfbwsD55i
+	viwPUkRYuyd1bxf/AuEF4y6vT0Q0zRtQJEC3pe/WviFIbfJy2xuMZCe9DvG/+UYvwnD0k2M00KdEN
+	1QIQn68EgbJAE6Kb4wtVt9GEpMAqy/7tV7NPjtheLYUSv9JKyRAAucU4fkN3t3DxBVuSVd4OPznpM
+	Av+uYrFFQFIejzmDqBmXZJEzCkg5b4NZxmYyVT+5KP0zErNY8HNrtgXVFGV+0LA+JIWqSGkMTmZy1
+	Cds91IXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH6a5-0000000AHfu-45M6;
-	Mon, 19 May 2025 19:55:25 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1uH6a6-0000000AHgZ-2jzO;
+	Mon, 19 May 2025 19:55:26 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH4ed-0000000A1eO-3b1c
+	id 1uH4ee-0000000A1ef-0uHE
 	for linux-nvme@lists.infradead.org;
 	Mon, 19 May 2025 17:52:01 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 23496A4E5F0;
+	by nyc.source.kernel.org (Postfix) with ESMTP id 871C1A4E5DF;
 	Mon, 19 May 2025 17:51:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12ECC4CEEB;
-	Mon, 19 May 2025 17:51:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1503EC4CEED;
+	Mon, 19 May 2025 17:51:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747677118;
-	bh=9W6A/eAI/6T9jjyybm1nmFEiGSJ8YHRariNqFak7k5Y=;
+	s=k20201202; t=1747677119;
+	bh=Oo53xf+vPT0XtWshqsuhuWmUJl5Op5w9Tt26Wx4wMsw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fqDgCFHe8B1mn5iXFFjbvnu0VTeibtAMAGGfbkUHmpP7Q7Z1c3PP00hxMn5pp4WSg
-	 3IMqnhfcPeQsfYb/NqBJgwYBrnNc9lz3LSFHVUzQvQ1lHjgqJC9X/ByN9wYtC4sjnx
-	 SCuMMmkVH36210UXmI7/b9ZmiudEil9YC9ev0e+Rb7ZuZkNkd1F1YGYVROgxSnrlNw
-	 3/sO4HKDQtLo28wVhHc4quW//i/ZhOToGftyUMmtdZ+KnaX310Qv5Lrw9C2mUimJbj
-	 h89YDlxguBIjMBjbWRQmFNXj8nqd9cFWKCna2NSieZe1VW9b1ZiAAa8i3+1qQmQZsk
-	 lPivyl4aEPijQ==
+	b=S0fI/+ymiRyCNifQz3w6CL5IrooEnfvl2XmRIp3GzU7Uz8tECZaFU1C7/yjE2x3Rx
+	 mASFqRafI7kBpTNDdValHZy34XNWOpD0q3sotIZDeRlQDTNXCCeV4eqW8z0W6q0z+F
+	 SDZwVRBuBKNvMa+bbsxIGADFCF44JFhMEncbJGaHI0xKPFWTyKh1x89MqZNqMipAcp
+	 Qpe3UCxUO1Y1C2PnUYb1CjDycIIx8k1f80NKyxJEfIcwyv/7qEZYJsR4DndwJVxDd7
+	 bP+Kl7+W4R3CAIxaQB0LZpz7AMzodl6esgFeBDGYtcrhKTdggH3HQN2XJAHhyUJ9YA
+	 yCj6Pu/KIIdYQ==
 From: Eric Biggers <ebiggers@kernel.org>
 To: netdev@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -52,17 +52,17 @@ Cc: linux-nvme@lists.infradead.org,
 	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Ard Biesheuvel <ardb@kernel.org>
-Subject: [PATCH v2 06/10] net: fold __skb_checksum() into skb_checksum()
-Date: Mon, 19 May 2025 10:50:08 -0700
-Message-ID: <20250519175012.36581-7-ebiggers@kernel.org>
+Subject: [PATCH v2 07/10] lib/crc32: remove unused support for CRC32C combination
+Date: Mon, 19 May 2025 10:50:09 -0700
+Message-ID: <20250519175012.36581-8-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250519175012.36581-1-ebiggers@kernel.org>
 References: <20250519175012.36581-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250519_105200_034723_C118F406 
-X-CRM114-Status: GOOD (  14.15  )
+X-CRM114-CacheID: sfid-20250519_105200_392943_644B2E54 
+X-CRM114-Status: GOOD (  12.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,211 +79,102 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Eric Biggers <ebiggers@google.com>
 
-Now that the only remaining caller of __skb_checksum() is
-skb_checksum(), fold __skb_checksum() into skb_checksum().  This makes
-struct skb_checksum_ops unnecessary, so remove that too and simply do
-the "regular" net checksum.  It also makes the wrapper functions
-csum_partial_ext() and csum_block_add_ext() unnecessary, so remove those
-too and just use the underlying functions.
+crc32c_combine() and crc32c_shift() are no longer used (except by the
+KUnit test that tests them), and their current implementation is very
+slow.  Remove them.
 
 Signed-off-by: Eric Biggers <ebiggers@google.com>
 ---
- include/linux/skbuff.h |  9 -------
- include/net/checksum.h | 12 ---------
- net/core/skbuff.c      | 59 +++++-------------------------------------
- 3 files changed, 7 insertions(+), 73 deletions(-)
+ include/linux/crc32.h | 23 -----------------------
+ lib/crc32.c           |  6 ------
+ lib/tests/crc_kunit.c |  6 ------
+ 3 files changed, 35 deletions(-)
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 7ccc6356acaca..018c072305133 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -4190,19 +4190,10 @@ static inline int memcpy_from_msg(void *data, struct msghdr *msg, int len)
- static inline int memcpy_to_msg(struct msghdr *msg, void *data, int len)
+diff --git a/include/linux/crc32.h b/include/linux/crc32.h
+index 69c2e8bb37829..7f7d0be8a0acc 100644
+--- a/include/linux/crc32.h
++++ b/include/linux/crc32.h
+@@ -74,33 +74,10 @@ u32 crc32_le_shift(u32 crc, size_t len);
+ static inline u32 crc32_le_combine(u32 crc1, u32 crc2, size_t len2)
  {
- 	return copy_to_iter(data, len, &msg->msg_iter) == len ? 0 : -EFAULT;
+ 	return crc32_le_shift(crc1, len2) ^ crc2;
  }
  
--struct skb_checksum_ops {
--	__wsum (*update)(const void *mem, int len, __wsum wsum);
--	__wsum (*combine)(__wsum csum, __wsum csum2, int offset, int len);
--};
+-u32 crc32c_shift(u32 crc, size_t len);
 -
--extern const struct skb_checksum_ops *crc32c_csum_stub __read_mostly;
--
--__wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
--		      __wsum csum, const struct skb_checksum_ops *ops);
- __wsum skb_checksum(const struct sk_buff *skb, int offset, int len,
- 		    __wsum csum);
- u32 skb_crc32c(const struct sk_buff *skb, int offset, int len, u32 crc);
- 
- static inline void * __must_check
-diff --git a/include/net/checksum.h b/include/net/checksum.h
-index 243f972267b8d..e57986b173f8e 100644
---- a/include/net/checksum.h
-+++ b/include/net/checksum.h
-@@ -96,16 +96,10 @@ static __always_inline __wsum
- csum_block_add(__wsum csum, __wsum csum2, int offset)
- {
- 	return csum_add(csum, csum_shift(csum2, offset));
- }
- 
--static __always_inline __wsum
--csum_block_add_ext(__wsum csum, __wsum csum2, int offset, int len)
+-/**
+- * crc32c_combine - Combine two crc32c check values into one. For two sequences
+- *		    of bytes, seq1 and seq2 with lengths len1 and len2, crc32c()
+- *		    check values were calculated for each, crc1 and crc2.
+- *
+- * @crc1: crc32c of the first block
+- * @crc2: crc32c of the second block
+- * @len2: length of the second block
+- *
+- * Return: The crc32c() check value of seq1 and seq2 concatenated, requiring
+- *	   only crc1, crc2, and len2. Note: If seq_full denotes the concatenated
+- *	   memory area of seq1 with seq2, and crc_full the crc32c() value of
+- *	   seq_full, then crc_full == crc32c_combine(crc1, crc2, len2) when
+- *	   crc_full was seeded with the same initializer as crc1, and crc2 seed
+- *	   was 0. See also crc_combine_test().
+- */
+-static inline u32 crc32c_combine(u32 crc1, u32 crc2, size_t len2)
 -{
--	return csum_block_add(csum, csum2, offset);
+-	return crc32c_shift(crc1, len2) ^ crc2;
 -}
 -
- static __always_inline __wsum
- csum_block_sub(__wsum csum, __wsum csum2, int offset)
- {
- 	return csum_block_add(csum, ~csum2, offset);
- }
-@@ -113,16 +107,10 @@ csum_block_sub(__wsum csum, __wsum csum2, int offset)
- static __always_inline __wsum csum_unfold(__sum16 n)
- {
- 	return (__force __wsum)n;
- }
+ #define crc32(seed, data, length)  crc32_le(seed, (unsigned char const *)(data), length)
  
--static __always_inline
--__wsum csum_partial_ext(const void *buff, int len, __wsum sum)
--{
--	return csum_partial(buff, len, sum);
--}
--
- #define CSUM_MANGLED_0 ((__force __sum16)0xffff)
- 
- static __always_inline void csum_replace_by_diff(__sum16 *sum, __wsum diff)
- {
- 	*sum = csum_fold(csum_add(diff, ~csum_unfold(*sum)));
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 94b977db47f9d..85fc82f72d268 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -3443,24 +3443,22 @@ int skb_store_bits(struct sk_buff *skb, int offset, const void *from, int len)
- 	return -EFAULT;
- }
- EXPORT_SYMBOL(skb_store_bits);
- 
- /* Checksum skb data. */
--__wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
--		      __wsum csum, const struct skb_checksum_ops *ops)
-+__wsum skb_checksum(const struct sk_buff *skb, int offset, int len, __wsum csum)
- {
- 	int start = skb_headlen(skb);
- 	int i, copy = start - offset;
- 	struct sk_buff *frag_iter;
- 	int pos = 0;
- 
- 	/* Checksum header. */
- 	if (copy > 0) {
- 		if (copy > len)
- 			copy = len;
--		csum = INDIRECT_CALL_1(ops->update, csum_partial_ext,
--				       skb->data + offset, copy, csum);
-+		csum = csum_partial(skb->data + offset, copy, csum);
- 		if ((len -= copy) == 0)
- 			return csum;
- 		offset += copy;
- 		pos	= copy;
- 	}
-@@ -3486,17 +3484,13 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
- 
- 			skb_frag_foreach_page(frag,
- 					      skb_frag_off(frag) + offset - start,
- 					      copy, p, p_off, p_len, copied) {
- 				vaddr = kmap_atomic(p);
--				csum2 = INDIRECT_CALL_1(ops->update,
--							csum_partial_ext,
--							vaddr + p_off, p_len, 0);
-+				csum2 = csum_partial(vaddr + p_off, p_len, 0);
- 				kunmap_atomic(vaddr);
--				csum = INDIRECT_CALL_1(ops->combine,
--						       csum_block_add_ext, csum,
--						       csum2, pos, p_len);
-+				csum = csum_block_add(csum, csum2, pos);
- 				pos += p_len;
- 			}
- 
- 			if (!(len -= copy))
- 				return csum;
-@@ -3513,14 +3507,13 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
- 		end = start + frag_iter->len;
- 		if ((copy = end - offset) > 0) {
- 			__wsum csum2;
- 			if (copy > len)
- 				copy = len;
--			csum2 = __skb_checksum(frag_iter, offset - start,
--					       copy, 0, ops);
--			csum = INDIRECT_CALL_1(ops->combine, csum_block_add_ext,
--					       csum, csum2, pos, copy);
-+			csum2 = skb_checksum(frag_iter, offset - start, copy,
-+					     0);
-+			csum = csum_block_add(csum, csum2, pos);
- 			if ((len -= copy) == 0)
- 				return csum;
- 			offset += copy;
- 			pos    += copy;
- 		}
-@@ -3528,22 +3521,10 @@ __wsum __skb_checksum(const struct sk_buff *skb, int offset, int len,
- 	}
- 	BUG_ON(len);
- 
- 	return csum;
- }
--EXPORT_SYMBOL(__skb_checksum);
--
--__wsum skb_checksum(const struct sk_buff *skb, int offset,
--		    int len, __wsum csum)
--{
--	const struct skb_checksum_ops ops = {
--		.update  = csum_partial_ext,
--		.combine = csum_block_add_ext,
--	};
--
--	return __skb_checksum(skb, offset, len, csum, &ops);
--}
- EXPORT_SYMBOL(skb_checksum);
- 
- /* Both of above in one bottle. */
- 
- __wsum skb_copy_and_csum_bits(const struct sk_buff *skb, int offset,
-@@ -3763,36 +3744,10 @@ __sum16 __skb_checksum_complete(struct sk_buff *skb)
- 
- 	return sum;
- }
- EXPORT_SYMBOL(__skb_checksum_complete);
- 
--static __wsum warn_crc32c_csum_update(const void *buff, int len, __wsum sum)
--{
--	net_warn_ratelimited(
--		"%s: attempt to compute crc32c without libcrc32c.ko\n",
--		__func__);
--	return 0;
--}
--
--static __wsum warn_crc32c_csum_combine(__wsum csum, __wsum csum2,
--				       int offset, int len)
--{
--	net_warn_ratelimited(
--		"%s: attempt to compute crc32c without libcrc32c.ko\n",
--		__func__);
--	return 0;
--}
--
--static const struct skb_checksum_ops default_crc32c_ops = {
--	.update  = warn_crc32c_csum_update,
--	.combine = warn_crc32c_csum_combine,
--};
--
--const struct skb_checksum_ops *crc32c_csum_stub __read_mostly =
--	&default_crc32c_ops;
--EXPORT_SYMBOL(crc32c_csum_stub);
--
-  /**
-  *	skb_zerocopy_headlen - Calculate headroom needed for skb_zerocopy()
-  *	@from: source buffer
+ /*
+  * Helpers for hash table generation of ethernet nics:
   *
-  *	Calculates the amount of linear headroom needed in the 'to' skb passed
+diff --git a/lib/crc32.c b/lib/crc32.c
+index fddd424ff2245..ade48bbb00834 100644
+--- a/lib/crc32.c
++++ b/lib/crc32.c
+@@ -117,16 +117,10 @@ u32 crc32_le_shift(u32 crc, size_t len)
+ {
+ 	return crc32_generic_shift(crc, len, CRC32_POLY_LE);
+ }
+ EXPORT_SYMBOL(crc32_le_shift);
+ 
+-u32 crc32c_shift(u32 crc, size_t len)
+-{
+-	return crc32_generic_shift(crc, len, CRC32C_POLY_LE);
+-}
+-EXPORT_SYMBOL(crc32c_shift);
+-
+ u32 crc32_be_base(u32 crc, const u8 *p, size_t len)
+ {
+ 	while (len--)
+ 		crc = (crc << 8) ^ crc32table_be[(crc >> 24) ^ *p++];
+ 	return crc;
+diff --git a/lib/tests/crc_kunit.c b/lib/tests/crc_kunit.c
+index 585c48b65cefd..064c2d5815579 100644
+--- a/lib/tests/crc_kunit.c
++++ b/lib/tests/crc_kunit.c
+@@ -389,21 +389,15 @@ static void crc32_be_benchmark(struct kunit *test)
+ static u64 crc32c_wrapper(u64 crc, const u8 *p, size_t len)
+ {
+ 	return crc32c(crc, p, len);
+ }
+ 
+-static u64 crc32c_combine_wrapper(u64 crc1, u64 crc2, size_t len2)
+-{
+-	return crc32c_combine(crc1, crc2, len2);
+-}
+-
+ static const struct crc_variant crc_variant_crc32c = {
+ 	.bits = 32,
+ 	.le = true,
+ 	.poly = 0x82f63b78,
+ 	.func = crc32c_wrapper,
+-	.combine_func = crc32c_combine_wrapper,
+ };
+ 
+ static void crc32c_test(struct kunit *test)
+ {
+ 	crc_test(test, &crc_variant_crc32c);
 -- 
 2.49.0
 
