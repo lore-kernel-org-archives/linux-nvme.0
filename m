@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55023C2D0CD
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A889C54795
 	for <linux-nvme@archiver.kernel.org>; Mon, 19 May 2025 19:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZEb4bpHpA18iTlcJwGoqSTfUShPEtFVLTGTCGUo4Sf4=; b=KJvFfFvCumFLxv2Ts0WLorJvEv
-	qjTIgBZWlwQBUfuQcjTMgeIjbLXI/gpxwVXkkQnd9UNX5JRVw6JD1Mr6CsZFp41z9KAw+b3kI6NfB
-	X1MUXj0IxLJ1nmzIZAtZkLRACPWcw42fr/ZvsVwTRYN4tVJgF2GpRB7QZcDR4P9HigVj+uYr6SrUD
-	7U0w+PWSo2DnXCikCwypJ3WNHJbtsKTdcCY/0zmpn+jQyc5gls+lSZHnJP4QXBGGDQeuRqtDwchP5
-	MW6LkXt6MKyCgR+nyPDfGZGqubgl7HmeWjHivp8OmtKoWNcgwwcjdTSrpn7RTH2X+Hy/tMIXceyK8
-	d2NXE4WA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=zHd55Romwn0cPwiYwFndbu6faM9Xo1hZyDXyd3z4ETo=; b=tg7vhLQwWP0rHIa86PfuJONHFg
+	mdSwxoqqmgz3TMnN/jRsoNtne4SVPUZtFXxNPWaugQ9QpCUaRzizp7SKF25mckdYRYHs7mUxtuM6B
+	dZjfVwTtGosAIgrkf5cc78grkuyPbZo22sO3qI7mIQWXi5AcbcBfDH7lBbba2NurNGSbwsrQBRsFf
+	2vOw7JV27eXeEILU2dQpCzq4vMtpdLXTswY0PwqEoFlpPXXD4bTvbO9yx4ZzTKq6nYupV14lJYgKe
+	nzrS3yv4BN0vNQVHOSyjPOZlwj4oWjJCLvtnxN2WrT7tOovBAFcgUBfJgXujFTrCeBSx80pypaR8b
+	Vd4r94eA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH6a4-0000000AHds-0Wu5;
-	Mon, 19 May 2025 19:55:24 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uH6a2-0000000AHdL-1JPf;
+	Mon, 19 May 2025 19:55:22 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH4ec-0000000A1ce-001y
+	id 1uH4eb-0000000A1ca-1kQv
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 May 2025 17:51:59 +0000
+	Mon, 19 May 2025 17:51:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 34FF6A4E59E;
-	Mon, 19 May 2025 17:51:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91366C4CEF1;
+	by dfw.source.kernel.org (Postfix) with ESMTP id 9DF4B5C5482;
+	Mon, 19 May 2025 17:49:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27ABCC4CEE9;
 	Mon, 19 May 2025 17:51:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1747677116;
-	bh=X8dbjSHr2U6lQaQcWmgJZbE8GedZCYfvJMCrGbZTikY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mlY9EiFojWR3LwToOtmFKpKqswni2sODtLWJbQOJSCZyOK3D+ckVrbbhOgVWs2kBC
-	 jVpl3rCL7kbqWbN28BQ2XXqsRU7IqUu4cAsoE2sOZfX5RL6xi/vudcPhnJa6MNKo9r
-	 U1VvGoA6aSxgLm5UbwrFmZBSjHsroSYw01xEjP76EVYxZIRBLF6BzDT1HzmskXtGUq
-	 GMCVwoYXrWKjOFGvTjVQUKtIVaAwLDLeM98s1sd7Cm+3lrVAajh7hQSnZo2SWEcyQa
-	 igBEz3Dvjktpl3HwTfoRnmTv+fZ/uDuSFGVIzEkK3+KNNL2F6DrrKLX5qCsxBL9YDU
-	 Xk/2zo2X+V+vw==
+	bh=6UQF5G5Q/IqfsqFiqjSqhb91XPJLD0TluJRUmBXqaqQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dyAmKu5xNvuarM5vll1Jey/CJZjtEoDjLh6iLorHPO/yseAOXLY+oF8lH6ci/8KJO
+	 TMuLob6QZg33xzOkRASomXI8c6ahg7pErY5fzW/g4u1uwYVlquLsUIfIZ9n2S7QO7p
+	 FwFSqEHmmpX/HpRPYS9GFmC7jgotcyv4sdCNswZXQTLGyEC5BNvSOdhke+38z0btl+
+	 JP674PRmUux1BbbsX3YqIbd7z3xI77s5mpsrfLlyplI/DKOfbHAJ8p37Tc9+pvkAXJ
+	 oa61PBvhk6Gr78GARy0TGIkjbuqCqeKgXHt+AByH0eLHZsJdqW91nvwZTZLhZbTdnB
+	 UFyKvgTEeD8lA==
 From: Eric Biggers <ebiggers@kernel.org>
 To: netdev@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -52,17 +52,15 @@ Cc: linux-nvme@lists.infradead.org,
 	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Ard Biesheuvel <ardb@kernel.org>
-Subject: [PATCH v2 01/10] net: introduce CONFIG_NET_CRC32C
-Date: Mon, 19 May 2025 10:50:03 -0700
-Message-ID: <20250519175012.36581-2-ebiggers@kernel.org>
+Subject: [PATCH v2 00/10] net: faster and simpler CRC32C computation
+Date: Mon, 19 May 2025 10:50:02 -0700
+Message-ID: <20250519175012.36581-1-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250519175012.36581-1-ebiggers@kernel.org>
-References: <20250519175012.36581-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250519_105158_105708_8A17D8B5 
-X-CRM114-Status: GOOD (  11.23  )
+X-CRM114-CacheID: sfid-20250519_105157_510897_41233252 
+X-CRM114-Status: GOOD (  11.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,85 +75,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Eric Biggers <ebiggers@google.com>
+Update networking code that computes the CRC32C of packets to just call
+crc32c() without unnecessary abstraction layers.  The result is faster
+and simpler code.
 
-Add a hidden kconfig symbol NET_CRC32C that will group together the
-functions that calculate CRC32C checksums of packets, so that these
-don't have to be built into NET-enabled kernels that don't need them.
+Patches 1-7 add skb_crc32c() and remove the overly-abstracted and
+inefficient __skb_checksum().
 
-Make skb_crc32c_csum_help() (which is called only when IP_SCTP is
-enabled) conditional on this symbol, and make IP_SCTP select it.
+Patches 8-10 replace skb_copy_and_hash_datagram_iter() with
+skb_copy_and_crc32c_datagram_iter(), eliminating the unnecessary use of
+the crypto layer.  This unblocks the conversion of nvme-tcp to call
+crc32c() directly instead of using the crypto layer, which patch 9 does.
 
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- net/Kconfig      | 4 ++++
- net/core/dev.c   | 2 ++
- net/sctp/Kconfig | 1 +
- 3 files changed, 7 insertions(+)
+Please consider this series for net-next for 6.16.
 
-diff --git a/net/Kconfig b/net/Kconfig
-index 202cc595e5e6f..5b71a52987d33 100644
---- a/net/Kconfig
-+++ b/net/Kconfig
-@@ -73,10 +73,14 @@ config NET_DEVMEM
- 	depends on PAGE_POOL
- 
- config NET_SHAPER
- 	bool
- 
-+config NET_CRC32C
-+	bool
-+	select CRC32
-+
- menu "Networking options"
- 
- source "net/packet/Kconfig"
- source "net/unix/Kconfig"
- source "net/tls/Kconfig"
-diff --git a/net/core/dev.c b/net/core/dev.c
-index fccf2167b2352..d93bee5eb5d8c 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -3594,10 +3594,11 @@ int skb_checksum_help(struct sk_buff *skb)
- out:
- 	return ret;
- }
- EXPORT_SYMBOL(skb_checksum_help);
- 
-+#ifdef CONFIG_NET_CRC32C
- int skb_crc32c_csum_help(struct sk_buff *skb)
- {
- 	__le32 crc32c_csum;
- 	int ret = 0, offset, start;
- 
-@@ -3633,10 +3634,11 @@ int skb_crc32c_csum_help(struct sk_buff *skb)
- 	skb_reset_csum_not_inet(skb);
- out:
- 	return ret;
- }
- EXPORT_SYMBOL(skb_crc32c_csum_help);
-+#endif /* CONFIG_NET_CRC32C */
- 
- __be16 skb_network_protocol(struct sk_buff *skb, int *depth)
- {
- 	__be16 type = skb->protocol;
- 
-diff --git a/net/sctp/Kconfig b/net/sctp/Kconfig
-index d18a72df3654e..3669ba3518563 100644
---- a/net/sctp/Kconfig
-+++ b/net/sctp/Kconfig
-@@ -9,10 +9,11 @@ menuconfig IP_SCTP
- 	depends on IPV6 || IPV6=n
- 	select CRC32
- 	select CRYPTO
- 	select CRYPTO_HMAC
- 	select CRYPTO_SHA1
-+	select NET_CRC32C
- 	select NET_UDP_TUNNEL
- 	help
- 	  Stream Control Transmission Protocol
- 
- 	  From RFC 2960 <http://www.ietf.org/rfc/rfc2960.txt>.
+Changed in v2:
+  - Added some benchmarks to commit message of "net: add skb_crc32c()"
+  - Added "Return:" to kerneldoc for skb_copy_and_crc32c_datagram_iter()
+  - Added Reviewed-by's
+  - Addressed review comments on nvme-tcp patch
+
+Eric Biggers (10):
+  net: introduce CONFIG_NET_CRC32C
+  net: add skb_crc32c()
+  net: use skb_crc32c() in skb_crc32c_csum_help()
+  RDMA/siw: use skb_crc32c() instead of __skb_checksum()
+  sctp: use skb_crc32c() instead of __skb_checksum()
+  net: fold __skb_checksum() into skb_checksum()
+  lib/crc32: remove unused support for CRC32C combination
+  net: add skb_copy_and_crc32c_datagram_iter()
+  nvme-tcp: use crc32c() and skb_copy_and_crc32c_datagram_iter()
+  net: remove skb_copy_and_hash_datagram_iter()
+
+ drivers/infiniband/sw/siw/Kconfig |   1 +
+ drivers/infiniband/sw/siw/siw.h   |  22 +----
+ drivers/nvme/host/Kconfig         |   4 +-
+ drivers/nvme/host/tcp.c           | 124 +++++++++-------------------
+ include/linux/crc32.h             |  23 ------
+ include/linux/skbuff.h            |  16 +---
+ include/net/checksum.h            |  12 ---
+ include/net/sctp/checksum.h       |  29 +------
+ lib/crc32.c                       |   6 --
+ lib/tests/crc_kunit.c             |   6 --
+ net/Kconfig                       |   4 +
+ net/core/datagram.c               |  36 ++++----
+ net/core/dev.c                    |  10 +--
+ net/core/skbuff.c                 | 132 ++++++++++++++++++------------
+ net/netfilter/Kconfig             |   4 +-
+ net/netfilter/ipvs/Kconfig        |   2 +-
+ net/openvswitch/Kconfig           |   2 +-
+ net/sched/Kconfig                 |   2 +-
+ net/sctp/Kconfig                  |   2 +-
+ net/sctp/offload.c                |   1 -
+ 20 files changed, 161 insertions(+), 277 deletions(-)
+
 
 base-commit: a8ae8a0e848e3506c95e45e7cb6e640502495f1a
 -- 
