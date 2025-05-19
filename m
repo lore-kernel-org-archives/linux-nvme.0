@@ -4,66 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DB4AC2D0CD
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 May 2025 21:37:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FA5FC2D0CD
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 May 2025 22:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5xCJzVOHjTR8pKvP/8arXgm4wrVkjq1n8M6g6lZLXkI=; b=ZFjKQo6Z8vP+GALvne39jevuSG
-	B9hqewvflRKfdo+cpqQXIqi4LgI22yuQJw/uEMZh+TI32DzzyEZjQc7V/xk1CMk3p8Du68yU/wghe
-	LDE2E0ioPw6BZJvBrxg2vNi0ZgWDG9gjxgeOVQgIee+jiYRMrSHkynAvH+uPV/PeFLPGAXAkhAxkt
-	j+hitCFFm/V9X/k8GMJduzbF5Ml6y4bl9wgSzeLmbkRa3igK2/k27TyKh0pl7Y7DeoGj1ivRMWKD2
-	1lIjo3ngP3AiUM98QWtLJfP1n7OtJTzxQEMFelmKlIr+2+ZXCOPqGf9P407//cg7oBrd5okOzx/om
-	unlzcixw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=W931bp1PPLRgzrkrjIEqYJSl+uLP/cGORmasuEDeRcs=; b=zGvb4Q9usHcYIl2FKuvZdtTwmQ
+	IBU8CFjq1o5YKVXMeUsTpC9I/GB16/26GDnZr0L0uwWFKqM5+D43KpxBldkiaF/z5rMeDPJxfH+e6
+	Z+b9vznXNvT1QOETQFX76uomQkYClDciPbypLfGJPDfuOL+nifIJDXhXLE4r0Un4HpJgwl8PwNUpp
+	PV27TOW37Kn3ChVDdUYJkI0LNYrDfX2jTaZWeOt7IXAILFmWgywvMlJpdWyvCT54Gp8QF5ncTrLns
+	mKSPFSpJhZ01aU7z+A2+v0yetIG+p3vQUl9miKipZQmgzG+o/yqv5x6o+S9RyCxEx8Jd+G6isof5u
+	hxQqXB8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH8Ab-0000000AaTc-0qUb;
-	Mon, 19 May 2025 21:37:13 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uH9GX-0000000Amc3-2jtD;
+	Mon, 19 May 2025 22:47:25 +0000
+Received: from mgamail.intel.com ([198.175.65.18])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH7x9-0000000AWQN-2zhz
+	id 1uH9GU-0000000AmaV-1QLF
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 May 2025 21:23:19 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 29BF6629E9;
-	Mon, 19 May 2025 21:23:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6C9FC4CEE4;
-	Mon, 19 May 2025 21:23:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747689798;
-	bh=Bb9S9RrPEnkTAetITz9CuJIrUWdR9A9NoHlCGB9OVhs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=efu54CJhjZGwwMY3PTZLZR1mLFvbOMmGczTO7iUzsKBg9vxUj+TbmXOPB4whw9Xqr
-	 4u4Rpvw6jjGi3JQzN35MltQpu9vj/gQFm3Ztx87mlW03NARiHRDNtpdKGdWkFHApuP
-	 3iZDMn3qiMjZBhBmKo26cGWaYzHnnbLYa+6gWULYt8WSNJQ46zOXMie/59zTcSN8pM
-	 YwNB0vC/ThnMPa4U9nYi0NkH9stAOitS/hOHBE8b8xit8ECq/c8yVC4Jv/CWVvFPUk
-	 Oav7UOpPzPYWH2sXv0h1EZgtqH2YK4oGg8qD/jKM0TDSqOEjxRXvYmPj2vbhk9xdrt
-	 CD07SwyDnR5Rg==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Ilya Guterman <amfernusus@gmail.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 6/7] nvme-pci: add NVME_QUIRK_NO_DEEPEST_PS quirk for SOLIDIGM P44 Pro
-Date: Mon, 19 May 2025 17:23:07 -0400
-Message-Id: <20250519212308.1986645-6-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250519212308.1986645-1-sashal@kernel.org>
-References: <20250519212308.1986645-1-sashal@kernel.org>
+	Mon, 19 May 2025 22:47:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747694843; x=1779230843;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bE25ZW6R+38LiKtAjLTYEWSDzeFbUDGDztlxBqqw/VY=;
+  b=FTqTfD3bEM3eOPIP5YVe2RxHJUJHr+ROQixT2v8aYC6cwzVcg9M0t89X
+   NdxjiJqz51cDKoHG+XWSg6KClpu+WKp0nYWsBWkE96KtyJvrS8JiM3sq7
+   iH85DGfUafOIQjsIRzJQtAnK7TWo5mQgS15OpA+MMdV8q/s03pmzh4wlQ
+   TiOZzgHKJvPF7uU87YcnuHrrmHDOPVWvD3HIaJIQbynCZpeA1aJbko5yO
+   46laKywDKtnx3ai04+f7+rokFlBCnnWTysUy1r/cWwjlNe26qJvkYsK53
+   /+oB/W7k/Q2TfEG2kxJ3W7mi+qRGRVDq+/x+Q8gn6l0Dxs1hx3K6vJKNY
+   g==;
+X-CSE-ConnectionGUID: eZiW9CkmREC3tWvi3GoUIA==
+X-CSE-MsgGUID: XzedGoMNRvOuKqPFhtJduw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49764440"
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
+   d="scan'208";a="49764440"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 15:47:21 -0700
+X-CSE-ConnectionGUID: pAV0NJbsQES7NBX6G693Sw==
+X-CSE-MsgGUID: htEGmzKDTQS85YRkyrvNvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
+   d="scan'208";a="176621208"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 19 May 2025 15:47:19 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uH9GP-000Lxq-18;
+	Mon, 19 May 2025 22:47:17 +0000
+Date: Tue, 20 May 2025 06:47:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>
+Subject: [linux-nvme:nvme-6.16 40/42] drivers/nvme/host/multipath.c:13:6:
+ sparse: sparse: symbol 'multipath_always_on' was not declared. Should it be
+ static?
+Message-ID: <202505200655.rD3it4Yp-lkp@intel.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.183
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250519_154722_410881_90F6ADCF 
+X-CRM114-Status: UNSURE (   8.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,40 +87,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Ilya Guterman <amfernusus@gmail.com>
+tree:   git://git.infradead.org/nvme.git nvme-6.16
+head:   fc9c5b746e651c57ea8b8d702659db8f2e9847b2
+commit: 01e5e7a813c4deafdb4b18ce6623bd693c4d0a57 [40/42] nvme: introduce multipath_always_on module param
+config: powerpc64-randconfig-r123-20250520 (https://download.01.org/0day-ci/archive/20250520/202505200655.rD3it4Yp-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250520/202505200655.rD3it4Yp-lkp@intel.com/reproduce)
 
-[ Upstream commit e765bf89f42b5c82132a556b630affeb82b2a21f ]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505200655.rD3it4Yp-lkp@intel.com/
 
-This commit adds the NVME_QUIRK_NO_DEEPEST_PS quirk for device
-[126f:2262], which belongs to device SOLIDIGM P44 Pro SSDPFKKW020X7
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/multipath.c:13:6: sparse: sparse: symbol 'multipath_always_on' was not declared. Should it be static?
 
-The device frequently have trouble exiting the deepest power state (5),
-resulting in the entire disk being unresponsive.
+vim +/multipath_always_on +13 drivers/nvme/host/multipath.c
 
-Verified by setting nvme_core.default_ps_max_latency_us=10000 and
-observing the expected behavior.
+    11	
+    12	bool multipath = true;
+  > 13	bool multipath_always_on;	/* default is flase */
+    14	
 
-Signed-off-by: Ilya Guterman <amfernusus@gmail.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a3c5af95e8f3e..5f60a6ca247fe 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3448,6 +3448,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
- 	{ PCI_DEVICE(0x1e49, 0x0041),   /* ZHITAI TiPro7000 NVMe SSD */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
-+	{ PCI_DEVICE(0x025e, 0xf1ac),   /* SOLIDIGM  P44 pro SSDPFKKW020X7  */
-+		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
- 	{ PCI_DEVICE(0xc0a9, 0x540a),   /* Crucial P2 */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1d97, 0x2263), /* Lexar NM610 */
 -- 
-2.39.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
