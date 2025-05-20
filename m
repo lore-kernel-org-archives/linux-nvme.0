@@ -4,85 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C95BC3ABDD
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F8DFC54E71
 	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 15:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=lHXawegenCUiIGgYUGaRvRBgqP3mwjLK1SkCNTwowG8=; b=XzP/ti52cxJxE1QTe/O+3xmLSV
-	GDU7urbsH+oCx2zvsHKoxnr0ais3iJvHd3PROybxA/NpFsuy9xEujPYUg3DzlQqPPRPoJwH7qwQUr
-	zc14tJ4gtzSQHTHvENujom03xs5HMaW96MtbBo5TTGVGO/6VSGUd9NThwBlkgFHcpI+//xUFmQ9BX
-	7Q1p/BvAk1PcnrSPdGokbX10nc8kF4i3xZ0Vzt1F20FKo7ek+GH4j8H/xK9yowmPkuRkyNdQpE4c9
-	m7a2Y13863bYk3vAAWQa1ZRGNgW6veUGNRK1gEG5vMGAmNHLYXvtjYYE2KAD0T/xPS9a+0bxG9aoC
-	aBD2mfAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Mva0IcLiubaL9SAQ03ptwyV0HxSLjqpLKCYwAHGj1n0=; b=waGRCzpn7JuRe8E6aJ0XpM4qdt
+	hIKnbDH9gPrJwn0/qCPUj+lM8czuAisjXgfa90WvrmxrS0/sSWJJn6pFqNKNGtKKXBNh7dRIXdKIy
+	Vh/5OjxQgY5fpC46mqTeGMEwFg85UVHD3oXBIgqWoQCTwSEWbiT3TXonnclcgd4vA2hNAvhx+EhJ5
+	JTBYxgFgHIQF0T/3xrzbmyu3M57Z1G6kbp9qISHl/XEt1YA5YmQp+xiwDteKNvDZADspOt9ZbhyDY
+	/bipF6i+DIbdeRf2JRPoGC63lsNBheQN2DuB9bsq5xVfZ0+IVcC5w1uHEnMIhxtMOThpKYcQVvEsb
+	wURHzgdg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHOrj-0000000DKtB-1YH1;
-	Tue, 20 May 2025 15:26:51 +0000
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
+	id 1uHOrk-0000000DKtY-07dh;
+	Tue, 20 May 2025 15:26:52 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHOf3-0000000DISE-1TdM
+	id 1uHOjg-0000000DJ4h-1RFo
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 May 2025 15:13:46 +0000
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso1018027666b.0
-        for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 08:13:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747754023; x=1748358823; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lHXawegenCUiIGgYUGaRvRBgqP3mwjLK1SkCNTwowG8=;
-        b=H1NTkYj5eJ5rnP75xMP/oJSTpbaqGRmRcF8Dxr2I2BHIfV6w2tOH1nPEoCKX5IOGGX
-         a3VVjfli/U8BRdRVtNKONJbs/3g4UzzPCgmkBqU+lhSsQP1lF6TenkbQEQHxJedQOEzo
-         0ciU6cSxMm2R4KHwSi/N6wu/1t1qQBWXjYDwfxoGl7sFHLUgivHWMvVnVX1CWQg87zi3
-         6ApEkK+1ok3RJftbZwopyTiHENgTYDMIjsH0xjpf4wCirreHX9whgTJRpf/HDixJdIwG
-         sN+3keWBuJVTjU80yRebm1qL9k0n+GU+l2obdhjfGbzqhbqZqhgHH02AExtAvIVTlZkY
-         1/LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747754023; x=1748358823;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lHXawegenCUiIGgYUGaRvRBgqP3mwjLK1SkCNTwowG8=;
-        b=kXGjTdYDLtDktX8NVwJ8WhMZlhubb0tMoLGo5j9WvaVzFiw/xnOBsRIAaxhjTPHaOa
-         7BX77OhDOPn55xJQX3KwwsbEQQz/OX//vccAoYbguYV1Wk8ENBJey3waDtR2/virXYCU
-         lXSaggH7+HDoOWjwGcBrSoZZNTrqhNzR1FGO8rpt6Ripvb79C19/+LSJAxVI4pE9/c8C
-         m6hgwwnl0NQfIra7KbLXezdWuuAUaqpkP6V5QW0jINvcgtjUUYMJGabpSHKYawqIgldi
-         o52GLLRBZI5NSa29m7cWK18N80BBdHr3ku0mDdo3n8XSo6jJMsi+i3rwuxwzd7JPi8dQ
-         l2kw==
-X-Forwarded-Encrypted: i=1; AJvYcCWI8u3ZVpssIqQ/VhTZ6hreYCDYl/UopXoSzLoXgPT5J16VR7IUXXHESBZ2B+PSaFAccOFMi5LuouRJ@lists.infradead.org
-X-Gm-Message-State: AOJu0YzgHrSre3P0XiDTmXa6sa7quylI9wvM+mPAuKJWBoEwkDBpi7CQ
-	UuNea1p8yG2bwinLNQ3wz5hMM4SDibS+cOEU6hA1/W3ddkVKdrualiICNTX8cw==
-X-Gm-Gg: ASbGncsbxGwTyASEHOVJC5QXBMmtHhUIQ8QP5UspJ6RDxoyIqB1lnGqVFEvVMHbWN7h
-	zblgvUWO2VxUEPK2B+ziZ9RGfsePOy9P/jVVRhfRONO+8SbBtqy9/NkraDzxpMyMwnnCKbwY1zD
-	SKwZ1O3YXKfa0NPNdq+MtVoLAOrKfBeeuv/TPN/r3Q536ARH3AU53PVgPcxcztS9Ak+vRL2tyta
-	H5Jcb23/KJ2TFL5hEZSUYkjDzr3gC0CJyhoEdoLgi9K17fo14yCWgI4co7jo9JfmUBs4vK9/n5A
-	vipdTb3i/QKmhu2wvtsFE6gU52tshPzrOg==
-X-Google-Smtp-Source: AGHT+IFIrqD1fxx6JGa2pUbbhgc9N6bc1pK9TK7taW7ikcCqlRLzfamn/OTdILkXqh+Y+mzMfAI9/Q==
-X-Received: by 2002:a17:907:7f16:b0:ad5:5210:749c with SMTP id a640c23a62f3a-ad5521075fbmr1019506766b.22.1747754023030;
-        Tue, 20 May 2025 08:13:43 -0700 (PDT)
-Received: from 127.com ([2620:10d:c092:600::1:e7c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04aed7sm746314266b.9.2025.05.20.08.13.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 08:13:42 -0700 (PDT)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: asml.silence@gmail.com,
-	linux-nvme@lists.infradead.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 1/1] nvme: fix implicit bool to flags conversion
-Date: Tue, 20 May 2025 16:14:49 +0100
-Message-ID: <d8ed3f9ae153dfc3e8a2a63ed5abbc5e1f0589fb.1747753887.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	Tue, 20 May 2025 15:18:34 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 039325C56C3;
+	Tue, 20 May 2025 15:16:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A749C4CEEA;
+	Tue, 20 May 2025 15:18:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747754310;
+	bh=gOcAH/YL5VciW2jCfOJM+RDZl3zKyoeTRxoKCucXQKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WIkvmAtt5TOeMvCDGBbPJgB4JjBBPqqSvNUUZs5g4513rRX5RxJkhlFPLNQkiiSyC
+	 kEEBnlMGbFy/UU2efYx4TS3uT1GkmLUB264f5DqVEAa1qu5AO0ZRlBcHoeOMvtBA6A
+	 dlCY/nTm3or20KEx0j9YfHik5x+PVGGk4VLjiEfUS3XV41Kx+8Mm28DQSJyEUF+vYJ
+	 OZB17ZWCrXlQ1JSY2UVx+PS5QsvjVLI4un1blQBMuTIzblz8vEuUEAWl+bbvgzxDeR
+	 +cE1X4cBIWWYk68/zYN0cY9FKSUESNiQcbeSYO/YpWyDDzCytghiSikW029Z+g86CS
+	 Ha7+ngUMOWpVw==
+Date: Tue, 20 May 2025 08:18:17 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bernard Metzler <BMT@zurich.ibm.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-sctp@vger.kernel.org" <linux-sctp@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Sagi Grimberg <sagi@grimberg.me>, Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH net-next 04/10] RDMA/siw: use skb_crc32c() instead of
+ __skb_checksum()
+Message-ID: <20250520151817.GA1249@sol>
+References: <20250511004110.145171-1-ebiggers@kernel.org>
+ <20250511004110.145171-5-ebiggers@kernel.org>
+ <BN8PR15MB2513872CE462784A1A4E50B7999CA@BN8PR15MB2513.namprd15.prod.outlook.com>
+ <20250520131841.GH7435@unreal>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520131841.GH7435@unreal>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250520_081345_387666_9A6D1A84 
-X-CRM114-Status: GOOD (  13.95  )
+X-CRM114-CacheID: sfid-20250520_081832_430296_D9BD4AE9 
+X-CRM114-Status: GOOD (  12.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,31 +82,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_map_user_request() takes flags as the last argument, but
-nvme_uring_cmd_io() shoves a bool "vec" into it. It behaves as
-expected because bool is converted to 0/1 and NVME_IOCTL_VEC is
-defined as 1, but it's better to pass flags explicitly.
+On Tue, May 20, 2025 at 04:18:41PM +0300, Leon Romanovsky wrote:
+> On Mon, May 19, 2025 at 09:04:04AM +0000, Bernard Metzler wrote:
+> > 
+> 
+> <...>
+> 
+> > > 
+> > 
+> > Thanks Eric!
+> > Works fine. Correct checksum tested against siw and cxgb4 peers.
+> > 
+> > Reviewed-by: Bernard Metzler <bmt@zurich.ibm.com>
+> 
+> This patch should go through RDMA repository, Please resend it.
+> 
+> Thanks
 
-Fixes: 7b7fdb8e2dbc1 ("nvme: replace the "bool vec" arguments with flags in the ioctl path")
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
----
- drivers/nvme/host/ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It depends on patches 1-2, and patches 6-7 depend on this one.  So your proposal
+would require that we drag this out over 3 cycles (patches 1-3,5,8-10 in net in
+6.16, patch 4 in RDMA in 6.17, patches 6-7 in net in 6.18).  Can we please just
+take the whole series through net in 6.16?  There aren't any conflicts.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index ca86d3bf7ea4..f29107d95ff2 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -521,7 +521,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	if (d.data_len) {
- 		ret = nvme_map_user_request(req, d.addr, d.data_len,
- 			nvme_to_user_ptr(d.metadata), d.metadata_len,
--			map_iter, vec);
-+			map_iter, vec ? NVME_IOCTL_VEC : 0);
- 		if (ret)
- 			goto out_free_req;
- 	}
--- 
-2.49.0
-
+- Eric
 
