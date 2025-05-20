@@ -4,104 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FC85C3DA6D
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 16:17:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BE41C3ABDD
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 16:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=; b=drXdszgr7MYqey5dQ/qlL6r64a
-	KRikyM7s4SeX5acT8wmLpA9+qXdgZFRI/Njbjz5yT+NQQe/KUNC5oJckMV3YwlEtUGWDzosrOeV8Q
-	Ia9gYk0Y+eonSkA4WRUreyzIrtR7xLoXOErtB70bsRz7TXHzt4wvTaXxNKkaGnEsdWxixGrxZkKZ0
-	5vNlByM+EGaR41omzWp5fxAm6yet2N5serbXKqZq3WDJR3EwlUEV/ilo+kCOsG0Hm0iEKnmry8uwG
-	xpsf25jcc6TH09mCkgDvuPF3qbps1uUp5IRnxXIIWFrrAA6mVBHFJZ5+Y+V4q6vncLV9LuTODwRy3
-	utMYZoxQ==;
+	bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=; b=4++o3jO/+vmHKLKL8yjZX8eveD
+	yl9GPPQi5PX2bC6AqFfCQBSg51EGM4l/wwHJ/hgh+EdJhLq9PRlcm+1VgSxS39yVCR2OfeNx36aeF
+	M9BYIu6MTWkSACzyWJxLRRbNCCTNxXL5wOj9j/akXsDNfJeIEIg4np8wAHzE2at6DdNwpuWykVAKS
+	RCAw3CYFL6BoP6Wo6TrCgCk6kjPnSM5vgJH5/CXrRGvYCweyXaef7aE5+8214vrczQEFPP+Bjpbae
+	aztX/BPYYHct06UFZXN9a6S7+0dyV62ZBKao8PM4+f1CxBOWZvhdlH1/qkBg2Jqm05cDjv4AfC6IV
+	9GBrAL0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHPf9-0000000DUuZ-38Uc;
-	Tue, 20 May 2025 16:17:55 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1uHPg9-0000000DVUP-2nzP;
+	Tue, 20 May 2025 16:18:57 +0000
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHPGW-0000000DPaq-3ZWb
+	id 1uHPJN-0000000DQ42-2tIQ
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 May 2025 15:52:30 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250520155224epoutp04ff42b1924253412daa7f51ca54ae9e91~BRyKh8W6f1336213362epoutp04M
-	for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 15:52:24 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250520155224epoutp04ff42b1924253412daa7f51ca54ae9e91~BRyKh8W6f1336213362epoutp04M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1747756344;
-	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=NfbqlCSfumAyB5l340saKmOe7EBLoq1wAuQbdjFYpVOB4rMXS7ykGDPhU/vyjo6eg
-	 EiIamoyLMdXk6cMgZqT0ca+AUFpq4zfCi94XIb3shaKBDsqeiDZj62IsCCqJzxf0wM
-	 9jvqZ0EFm/zgSfArK07yISDricmCCr3YhBw/rDAg=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20250520155223epcas5p29ac9cbc3125a92d124282fa391229441~BRyJjqK6U2239322393epcas5p24;
-	Tue, 20 May 2025 15:52:23 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4b1zZt4gHSz6B9m4; Tue, 20 May
-	2025 15:52:22 +0000 (GMT)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250520155221epcas5p2dc13aec89ed6a7c1f95955e127f168ba~BRyH8Md5K0380103801epcas5p2t;
-	Tue, 20 May 2025 15:52:21 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250520155221epsmtrp1459d3f9dd611fdbcd99b8d61ff8e1959~BRyH7k1Pz0363303633epsmtrp1E;
-	Tue, 20 May 2025 15:52:21 +0000 (GMT)
-X-AuditID: b6c32a29-566fe7000000223e-94-682ca5358516
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	1B.E8.08766.535AC286; Wed, 21 May 2025 00:52:21 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250520155220epsmtip1ee7aed494b7f8215a14eaaad5d0efb53~BRyGp8BOU0968309683epsmtip1L;
-	Tue, 20 May 2025 15:52:20 +0000 (GMT)
-Message-ID: <47c2d651-5af7-4cee-892f-92ff72c2820a@samsung.com>
-Date: Tue, 20 May 2025 21:22:19 +0530
+	Tue, 20 May 2025 15:55:27 +0000
+Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-3dc6f653152so7015235ab.3
+        for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 08:55:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1747756525; x=1748361325; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=;
+        b=PE1wl9MUKFVnwXUs2FpnlwCJFlAeGCC9IjExXN4zKFaC32+AOH7Uvdz3OrHbpuToTs
+         Kj5WFMwAw0aQ9OUUMgDkZ/wxBK8Ct9wfxIZqB5y1SM78mpyCI47L46RlVXxZolwEtOPK
+         fB33S0vickLNSS1QW2ZyDrIV1HWAIaJy+v4JmYBDH6NJXYxrl25fXuO1w2hZz57iQpsm
+         cbEeub3TW6A4GlSbtpKh1vb8LQHN7Kqot8Fdy60j68sMhiCruWGh7KLdZkDlRW9gowWj
+         h7/rwJ9pAwgnKwsnBzfGRuE3ujKbWIfPrUq7V+qq2R3x+FxTxm8A3qU5nPmyIiqyejgj
+         PBOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747756525; x=1748361325;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/+f5haOvY7V5aJLRvqMe+OKgyMJap2D1kg9AHRnXBFo=;
+        b=h8SY5M7d8fw/wgWUqpBBbBtSIMmsAn4NA/ZC1lVfAByXyBDCfdSxiuncBgkXzGEKzI
+         ezku3QyNc6vw8a2VhAnVoQgtctCe4jZpQbGqP6J/PeAzAfQ3/AwxcOT6Cm0aJgWn0UYP
+         wHQtGX8Bohe0bnLLaCQtDcJfUY7EaiX6sExdb0rJ6ErX/LzmQd+hTkuiy+vM1Xtrxzh1
+         PWWmSzQQnHLG7WLt1CLmcjFFGmRDR6XvfhD7VxLX8Bq5KaGKyXIfwmxl3lregBqVBWuv
+         ETAmZydhC3E3lFLSpwRwQ+J93lUJYdJnAChtybYF3ib7Ix/g0pWGYBio+gd52TbR3vzb
+         UcKA==
+X-Gm-Message-State: AOJu0Yx3WgWBXLNmXBqocSwSvZU9Qw3udKxdc6V0dOhxdrWdIqCn9L8h
+	3EgtXijgAGyDlhfffVXxOL8y+nPkUV25dS8ZCtbqGb+SMLN420QUV6Kc/mWzv1oh61w=
+X-Gm-Gg: ASbGncvosXNjPnZcIqZdZh1PWG1ir2E8TFfYdnN6hTSFoSUOKoHM2wY4L/wFt6LkYn9
+	zDlVk2ZT6Q0UMHp4hTT7KZ+LeAaTkwVX+lCyV3CRobYgeuKo4dFieMh/DeO69SH+E8LeUTKnEwL
+	WRbHxzV8TzSq1H5gbxB9Gqd+H8f1FqD/HwwJnbprScAv0plP2sCptEPV2CHyK8DpnuG0K197LxP
+	VQlbOO6HOkiHOtiLv42JC4kHMMU5JCbCRMmXjut2DBadMf3/rVxDbg0vD37zfbipDekbS2HfTXb
+	oVdcGXJqg/N3V8cmq8UcsNpX19l4l5j50cBFMHM1jn/Rrg0=
+X-Google-Smtp-Source: AGHT+IGkJ3Lau2TkDMCrfPsr++kIUKDivjQYRcr5J56zUWDp/QIZJuqvOcozvP3lLgxhTe75AbLTNw==
+X-Received: by 2002:a05:6e02:2305:b0:3dc:79fc:acc5 with SMTP id e9e14a558f8ab-3dc79fcb012mr36214965ab.6.1747756524755;
+        Tue, 20 May 2025 08:55:24 -0700 (PDT)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc48c4ccsm2263044173.103.2025.05.20.08.55.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 May 2025 08:55:24 -0700 (PDT)
+Message-ID: <b65098b3-9530-436f-9789-e7f129bdf6b3@kernel.dk>
+Date: Tue, 20 May 2025 09:55:23 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] nvme: enable vectored registered bufs for
- passthrough cmds
-To: Pavel Begunkov <asml.silence@gmail.com>, Keith Busch
-	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>, Anuj Gupta
-	<anuj20.g@samsung.com>, dw@davidwei.uk
+Subject: Re: [PATCH 1/1] nvme: enable vectored registered bufs for passthrough
+ cmds
+To: Pavel Begunkov <asml.silence@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, dw@davidwei.uk
+References: <8c7e05a68a041c5129c4659f574bed6bdc7602f1.1747754487.git.asml.silence@gmail.com>
+From: Jens Axboe <axboe@kernel.dk>
 Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
 In-Reply-To: <8c7e05a68a041c5129c4659f574bed6bdc7602f1.1747754487.git.asml.silence@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgkeLIzCtJLcpLzFFi42LZdlhJTtd0qU6GwbH5ihZNE/4yW8xZtY3R
-	YvXdfjaLVzPWslmsXH2UyWLSoWuMFvOXPWW3WPf6PYsDh8e1GRNZPHbOusvucf7eRhaPy2dL
-	PTat6mTz2Lyk3mP3zQY2j74tqxgDOKK4bFJSczLLUov07RK4Mk7tWMpUYFRxbW4fUwOjbhcj
-	J4eEgInEhzWfWLsYuTiEBHYzShzs+s8OkRCXaL72A8oWllj57zk7RNFrRomfKz+ygSR4Bewk
-	Hp5eyQpiswioSvx4cpMZIi4ocXLmExYQW1RAXuL+rRlgg4QFQiWm35oHNkhEYAKjxJWH+8AG
-	MQuUSuz93c0MsWEDo8SudSdYIBLiEreezGfqYuTgYBPQlLgwuRTE5BSIldi4UgCiwkyia2sX
-	I4QtL7H97RzmCYxCs5CcMQvJoFlIWmYhaVnAyLKKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0L10v
-	OT93EyM4srQ0dzBuX/VB7xAjEwfjIUYJDmYlEd5VmzUyhHhTEiurUovy44tKc1KLDzFKc7Ao
-	ifOKv+hNERJITyxJzU5NLUgtgskycXBKNTAx1cZJTp9lLmGccWRXNGsiy81Vs47z2O/SD5z8
-	WdzcriS/7+CcySpBzt5dd137MrMjWhkCHH/Mcehmrlm0p/pdVg7/YpcItfxsvU2cOocDihgZ
-	pZ5syrq8b2oW2/U7LWJRhz7NX+BxbWXkt8r9siez9H+/bjD9+CchMvbIxvkx5z7WVIqk+qxV
-	ZNNt7Fm8YNryhX2r5su1/l/Hnm2c2Bhz8OCrcIaHxzac6dvZa9l+1XhnpVU84+xDl/YzSxhK
-	BH1maOqob5qbN3sjy+ZJq+6VSDT0Mtw7eGBd0041628HDiSVlpVsWmioWSccmmT1adqvhSet
-	T32a+/Jbi/P972fNrvq7Swc4T1HiPXDL/owSS3FGoqEWc1FxIgAuImmkGwMAAA==
-X-CMS-MailID: 20250520155221epcas5p2dc13aec89ed6a7c1f95955e127f168ba
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250520152111epcas5p27d108cbc62386e9e078c43bf6208f78a
-References: <CGME20250520152111epcas5p27d108cbc62386e9e078c43bf6208f78a@epcas5p2.samsung.com>
-	<8c7e05a68a041c5129c4659f574bed6bdc7602f1.1747754487.git.asml.silence@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250520_085229_196238_0DF8B792 
-X-CRM114-Status: UNSURE (   9.68  )
+X-CRM114-CacheID: sfid-20250520_085525_728989_0B44D8D0 
+X-CRM114-Status: UNSURE (   6.79  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -117,5 +101,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
+
+-- 
+Jens Axboe
 
