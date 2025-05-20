@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79D49C54ED0
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 308CFC3ABC9
 	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 04:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,49 +12,66 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nuyU/otZZ6F/kbQ0vjF7WHrbJic1jTjPt7X06a7y7Ws=; b=QpJfZW2OBrE5peow592lXcEd2a
-	cOrxc2HKiwEaZ+8UJ2W6+6DLuct+zajcOZ3R5iv2FN8Bg73HtAmLqEWSMcBZcqfkTzILw6Bf0NweZ
-	F2pJcxoQxKFjy70ijPwSULMF96QgQEYu8YUtJszRLZh2VfnFDRnEa4Uws4uol5dK+oTIiKeP5f6zL
-	J1eLVDbGxN+JW0Jv5AiTgpLGH1gphPSSwSW22/Oqw/VuOyfKlIGLzsWWm8A8gSNYJCb0EC7hcO4Ak
-	CDXExX26BKwzV4JFC5ZJx5U634x9dKZoWAjnAQle9Gvd9I2kmeS3up7616wsUosyVtKV8nStF2JM5
-	JHZcNm/w==;
+	bh=nmobiw/TTCTnsrNTKMNafHH/QxHYDvq13B6TuOfkzi8=; b=TbI3NOz+tkv44+grAjg+6uYTLh
+	agf1N6kxHZ1CyadvK3kpyo5mTA5dOtW92igUSJBqBD88F5waEJM/6oNsNv9vQCrRdOXqvugjhW+7N
+	NsGCdrli3k3DVgSb3iWvmWNdSb8cnzahw3Iyz/l4h2hg0+Lhqi0FcNYQBpJCTrHgs5R37z6BSZZ1W
+	CEikUOCZboeGGeitbLNuwW3Lu7y7DtzbokV8f91b1y9IpzStXgK27LoYIFw1MOZ/EtNMZBqfdNnAi
+	BZ0Q4k8rp5uwYBmDnHJ69B8NuQlLcyMnd+f49x+w/AzaO6jNSjBMqC3ZIEw3pPaD2OrTmKlEsYLLC
+	OxxGWL0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHbQt-0000000EmTd-3bkb;
+	id 1uHbQt-0000000EmSl-0hCk;
 	Wed, 21 May 2025 04:51:59 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHVUS-0000000EGzo-008f
+	id 1uHVUR-0000000EGzU-3ER9
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 May 2025 22:31:17 +0000
+	Tue, 20 May 2025 22:31:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id CA1D74AEE9;
+	by sea.source.kernel.org (Postfix) with ESMTP id C2C6E4AEE8;
 	Tue, 20 May 2025 22:31:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDE3C4CEEF;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A69C4CEF4;
 	Tue, 20 May 2025 22:31:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1747780274;
-	bh=7+5aLCST6s7T/oujRRoROLyuAQnVT9g0E0a0chHKZpY=;
+	bh=mzzoyzRluap42rrRkUTo8gz+8qcHou3FTqBfP5MNKeo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ldaHrxJ+HWhXTPlP+sI/ZOa+dyUowLN+FvRZgsV/pojXZLN+5l0tMTfDgW+FvxXEi
-	 l6kB4qqCzEH3QJojzSOdG0Soxb7diNMYVQQOQiXH/QZ4nG0KbFvhE62wcMzLmR5wxD
-	 vYzJC23akqQAfWN3ae9OeyTLnv3bVi7P8nb8oOO0LP8BA+/UnJMz2QJIxAl+Rf5ezs
-	 7/5N5COJCJr+5jsF5lwzw4tt9uCvfW/BgZqa5cozToSzp+Lk/4dFSB90zs1JQnJbXc
-	 IxOg9p8m+B+dfNQb13ftdez29WQRPrpGVFpYOcgPikp73u22S2Sai2erFI4eeN0eEi
-	 Vcrs0XReQcjHA==
+	b=mtb8Y17iUvR61N5cajxYkIaK6YoIqb9lyrvnSV/GDGRt39AD/s069d90Fbnk6OIRJ
+	 msLSMKqPD5jPVZuQ2VrBBz7KWyNA+ZKfK6Xl/Z4o8X/2cPxF30DkXFUIpG71y6QW30
+	 X7Hy0xCNjo8fS+RgM/wYEXJlnlf8H00gqSHNm3K1ehcENNNz43faAHlSNXgIsfrWq3
+	 seYER3viTvfNw0qPbZrSgyTmRa+VxZ1w2gbd7i7r8GlYVwEtB23rylqqCOvIWep2OK
+	 VCHOY0gyi2c69U67xlUyXVH9xaQXetH91L/1rUnvEKfcTQUJoL/SqlMrGr2VI4outM
+	 JMVX54x7GpAqw==
 From: Kees Cook <kees@kernel.org>
 To: Kuniyuki Iwashima <kuniyu@amazon.com>
 Cc: Kees Cook <kees@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jay Vosburgh <jv@jvosburgh.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Simon Horman <horms@kernel.org>,
 	Alexander Aring <alex.aring@gmail.com>,
 	Stefan Schmidt <stefan@datenfreihafen.org>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	linux-wpan@vger.kernel.org,
+	Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+	Paul Fertser <fercerpav@gmail.com>,
+	Hayes Wang <hayeswang@realtek.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Grant Grundler <grundler@chromium.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Cosmin Ratiu <cratiu@nvidia.com>,
+	Lei Yang <leiyang@redhat.com>,
 	netdev@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-wpan@vger.kernel.org,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
@@ -66,22 +83,7 @@ Cc: Kees Cook <kees@kernel.org>,
 	Mingzhe Zou <mingzhe.zou@easystack.cn>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Cosmin Ratiu <cratiu@nvidia.com>,
-	Lei Yang <leiyang@redhat.com>,
 	Ido Schimmel <idosch@nvidia.com>,
-	Samuel Mendoza-Jonas <sam@mendozajonas.com>,
-	Paul Fertser <fercerpav@gmail.com>,
-	Hayes Wang <hayeswang@realtek.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Grant Grundler <grundler@chromium.org>,
-	Jay Vosburgh <jv@jvosburgh.net>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Jiri Pirko <jiri@resnulli.us>,
 	Eric Biggers <ebiggers@google.com>,
 	Milan Broz <gmazyland@gmail.com>,
 	Philipp Hahn <phahn-oss@avm.de>,
@@ -94,22 +96,20 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-scsi@vger.kernel.org,
 	target-devel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 4/7] ieee802154: Use struct sockaddr_storage with dev_set_mac_address()
-Date: Tue, 20 May 2025 15:31:03 -0700
-Message-Id: <20250520223108.2672023-4-kees@kernel.org>
+Subject: [PATCH 6/7] net: core: Convert dev_set_mac_address() to struct sockaddr_storage
+Date: Tue, 20 May 2025 15:31:05 -0700
+Message-Id: <20250520223108.2672023-6-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250520222452.work.063-kees@kernel.org>
 References: <20250520222452.work.063-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1660; i=kees@kernel.org; h=from:subject; bh=7+5aLCST6s7T/oujRRoROLyuAQnVT9g0E0a0chHKZpY=; b=owGbwMvMwCVmps19z/KJym7G02pJDBm6TCuvblF8lhP5XPy9sMWyEMOOBf5mZU1r2a84b9zO5 XOSa+eDjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgIn0SzEydIpvmvaTp0OOf/HG wvDqKzx16Tpczr9fn9p0tPx64oXQBwz/U432vV52/+aEDRx7zU2ryn2Z8narzXt2blLAxWNdZx/ NYQEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11714; i=kees@kernel.org; h=from:subject; bh=mzzoyzRluap42rrRkUTo8gz+8qcHou3FTqBfP5MNKeo=; b=owGbwMvMwCVmps19z/KJym7G02pJDBm6TKsq/ojnfjh4ddJaR/OkX+9eGThrblYSCijeIvlgm sdBBYW3HaUsDGJcDLJiiixBdu5xLh5v28Pd5yrCzGFlAhnCwMUpABP5+piR4Ur2r023fd+8Pqjo UDdL50fkn4YMCQYm+WMV8c+UvZ4/3M/wm237ZPdH8w4eriwW9Wiq+ZekzbD+X0G73YkeseWLF/S KMgEA
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250520_153116_082502_21C8E36D 
-X-CRM114-Status: GOOD (  12.44  )
+X-CRM114-CacheID: sfid-20250520_153115_868212_02DCFB2B 
+X-CRM114-Status: GOOD (  21.95  )
 X-Mailman-Approved-At: Tue, 20 May 2025 21:51:54 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -125,52 +125,295 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Switch to struct sockaddr_storage for calling dev_set_mac_address(). Add
-a temporary cast to struct sockaddr, which will be removed in a
-subsequent patch.
+All users of dev_set_mac_address() are now using a struct sockaddr_storage.
+Convert the internal data type to struct sockaddr_storage, drop the casts,
+and update pointer types.
 
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Jay Vosburgh <jv@jvosburgh.net>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Wei Liu <wei.liu@kernel.org>
+Cc: Dexuan Cui <decui@microsoft.com>
+Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Simon Horman <horms@kernel.org>
 Cc: Alexander Aring <alex.aring@gmail.com>
 Cc: Stefan Schmidt <stefan@datenfreihafen.org>
 Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>
-Cc: <linux-wpan@vger.kernel.org>
+Cc: Samuel Mendoza-Jonas <sam@mendozajonas.com>
+Cc: Paul Fertser <fercerpav@gmail.com>
+Cc: Hayes Wang <hayeswang@realtek.com>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Grant Grundler <grundler@chromium.org>
+Cc: Stanislav Fomichev <sdf@fomichev.me>
+Cc: Cosmin Ratiu <cratiu@nvidia.com>
+Cc: Lei Yang <leiyang@redhat.com>
 Cc: <netdev@vger.kernel.org>
+Cc: <linux-hyperv@vger.kernel.org>
+Cc: <linux-usb@vger.kernel.org>
+Cc: <linux-wpan@vger.kernel.org>
 ---
- net/ieee802154/nl-phy.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/linux/netdevice.h       |  2 +-
+ drivers/net/bonding/bond_alb.c  |  8 +++-----
+ drivers/net/bonding/bond_main.c | 10 ++++------
+ drivers/net/hyperv/netvsc_drv.c |  6 +++---
+ drivers/net/macvlan.c           | 10 +++++-----
+ drivers/net/team/team_core.c    |  2 +-
+ drivers/net/usb/r8152.c         |  2 +-
+ net/core/dev.c                  |  1 +
+ net/core/dev_api.c              |  6 +++---
+ net/ieee802154/nl-phy.c         |  2 +-
+ net/ncsi/ncsi-manage.c          |  2 +-
+ 11 files changed, 24 insertions(+), 27 deletions(-)
 
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 47200a394a02..b4242b997373 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -4214,7 +4214,7 @@ int dev_pre_changeaddr_notify(struct net_device *dev, const char *addr,
+ 			      struct netlink_ext_ack *extack);
+ int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+ 			  struct netlink_ext_ack *extack);
+-int dev_set_mac_address(struct net_device *dev, struct sockaddr *sa,
++int dev_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+ 			struct netlink_ext_ack *extack);
+ int dev_set_mac_address_user(struct net_device *dev, struct sockaddr *sa,
+ 			     struct netlink_ext_ack *extack);
+diff --git a/drivers/net/bonding/bond_alb.c b/drivers/net/bonding/bond_alb.c
+index 7edf0fd58c34..2d37b07c8215 100644
+--- a/drivers/net/bonding/bond_alb.c
++++ b/drivers/net/bonding/bond_alb.c
+@@ -1035,7 +1035,7 @@ static int alb_set_slave_mac_addr(struct slave *slave, const u8 addr[],
+ 	 */
+ 	memcpy(ss.__data, addr, len);
+ 	ss.ss_family = dev->type;
+-	if (dev_set_mac_address(dev, (struct sockaddr *)&ss, NULL)) {
++	if (dev_set_mac_address(dev, &ss, NULL)) {
+ 		slave_err(slave->bond->dev, dev, "dev_set_mac_address on slave failed! ALB mode requires that the base driver support setting the hw address also when the network device's interface is open\n");
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -1273,8 +1273,7 @@ static int alb_set_mac_address(struct bonding *bond, void *addr)
+ 			break;
+ 		bond_hw_addr_copy(tmp_addr, rollback_slave->dev->dev_addr,
+ 				  rollback_slave->dev->addr_len);
+-		dev_set_mac_address(rollback_slave->dev,
+-				    (struct sockaddr *)&ss, NULL);
++		dev_set_mac_address(rollback_slave->dev, &ss, NULL);
+ 		dev_addr_set(rollback_slave->dev, tmp_addr);
+ 	}
+ 
+@@ -1763,8 +1762,7 @@ void bond_alb_handle_active_change(struct bonding *bond, struct slave *new_slave
+ 				  bond->dev->addr_len);
+ 		ss.ss_family = bond->dev->type;
+ 		/* we don't care if it can't change its mac, best effort */
+-		dev_set_mac_address(new_slave->dev, (struct sockaddr *)&ss,
+-				    NULL);
++		dev_set_mac_address(new_slave->dev, &ss, NULL);
+ 
+ 		dev_addr_set(new_slave->dev, tmp_addr);
+ 	}
+diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+index 98cf4486fcee..b92e8935d686 100644
+--- a/drivers/net/bonding/bond_main.c
++++ b/drivers/net/bonding/bond_main.c
+@@ -1112,8 +1112,7 @@ static void bond_do_fail_over_mac(struct bonding *bond,
+ 			ss.ss_family = bond->dev->type;
+ 		}
+ 
+-		rv = dev_set_mac_address(new_active->dev,
+-					 (struct sockaddr *)&ss, NULL);
++		rv = dev_set_mac_address(new_active->dev, &ss, NULL);
+ 		if (rv) {
+ 			slave_err(bond->dev, new_active->dev, "Error %d setting MAC of new active slave\n",
+ 				  -rv);
+@@ -1127,8 +1126,7 @@ static void bond_do_fail_over_mac(struct bonding *bond,
+ 				  new_active->dev->addr_len);
+ 		ss.ss_family = old_active->dev->type;
+ 
+-		rv = dev_set_mac_address(old_active->dev,
+-					 (struct sockaddr *)&ss, NULL);
++		rv = dev_set_mac_address(old_active->dev, &ss, NULL);
+ 		if (rv)
+ 			slave_err(bond->dev, old_active->dev, "Error %d setting MAC of old active slave\n",
+ 				  -rv);
+@@ -2455,7 +2453,7 @@ int bond_enslave(struct net_device *bond_dev, struct net_device *slave_dev,
+ 		bond_hw_addr_copy(ss.__data, new_slave->perm_hwaddr,
+ 				  new_slave->dev->addr_len);
+ 		ss.ss_family = slave_dev->type;
+-		dev_set_mac_address(slave_dev, (struct sockaddr *)&ss, NULL);
++		dev_set_mac_address(slave_dev, &ss, NULL);
+ 	}
+ 
+ err_restore_mtu:
+@@ -2649,7 +2647,7 @@ static int __bond_release_one(struct net_device *bond_dev,
+ 		bond_hw_addr_copy(ss.__data, slave->perm_hwaddr,
+ 				  slave->dev->addr_len);
+ 		ss.ss_family = slave_dev->type;
+-		dev_set_mac_address(slave_dev, (struct sockaddr *)&ss, NULL);
++		dev_set_mac_address(slave_dev, &ss, NULL);
+ 	}
+ 
+ 	if (unregister) {
+diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
+index d8b169ac0343..14a0d04e21ae 100644
+--- a/drivers/net/hyperv/netvsc_drv.c
++++ b/drivers/net/hyperv/netvsc_drv.c
+@@ -1371,7 +1371,7 @@ static int netvsc_set_mac_addr(struct net_device *ndev, void *p)
+ 	struct net_device_context *ndc = netdev_priv(ndev);
+ 	struct net_device *vf_netdev = rtnl_dereference(ndc->vf_netdev);
+ 	struct netvsc_device *nvdev = rtnl_dereference(ndc->nvdev);
+-	struct sockaddr *addr = p;
++	struct sockaddr_storage *addr = p;
+ 	int err;
+ 
+ 	err = eth_prepare_mac_addr_change(ndev, p);
+@@ -1387,12 +1387,12 @@ static int netvsc_set_mac_addr(struct net_device *ndev, void *p)
+ 			return err;
+ 	}
+ 
+-	err = rndis_filter_set_device_mac(nvdev, addr->sa_data);
++	err = rndis_filter_set_device_mac(nvdev, addr->__data);
+ 	if (!err) {
+ 		eth_commit_mac_addr_change(ndev, p);
+ 	} else if (vf_netdev) {
+ 		/* rollback change on VF */
+-		memcpy(addr->sa_data, ndev->dev_addr, ETH_ALEN);
++		memcpy(addr->__data, ndev->dev_addr, ETH_ALEN);
+ 		dev_set_mac_address(vf_netdev, addr, NULL);
+ 	}
+ 
+diff --git a/drivers/net/macvlan.c b/drivers/net/macvlan.c
+index 7045b1d58754..69e879780c36 100644
+--- a/drivers/net/macvlan.c
++++ b/drivers/net/macvlan.c
+@@ -754,13 +754,13 @@ static int macvlan_sync_address(struct net_device *dev,
+ static int macvlan_set_mac_address(struct net_device *dev, void *p)
+ {
+ 	struct macvlan_dev *vlan = netdev_priv(dev);
+-	struct sockaddr *addr = p;
++	struct sockaddr_storage *addr = p;
+ 
+-	if (!is_valid_ether_addr(addr->sa_data))
++	if (!is_valid_ether_addr(addr->__data))
+ 		return -EADDRNOTAVAIL;
+ 
+ 	/* If the addresses are the same, this is a no-op */
+-	if (ether_addr_equal(dev->dev_addr, addr->sa_data))
++	if (ether_addr_equal(dev->dev_addr, addr->__data))
+ 		return 0;
+ 
+ 	if (vlan->mode == MACVLAN_MODE_PASSTHRU) {
+@@ -768,10 +768,10 @@ static int macvlan_set_mac_address(struct net_device *dev, void *p)
+ 		return dev_set_mac_address(vlan->lowerdev, addr, NULL);
+ 	}
+ 
+-	if (macvlan_addr_busy(vlan->port, addr->sa_data))
++	if (macvlan_addr_busy(vlan->port, addr->__data))
+ 		return -EADDRINUSE;
+ 
+-	return macvlan_sync_address(dev, addr->sa_data);
++	return macvlan_sync_address(dev, addr->__data);
+ }
+ 
+ static void macvlan_change_rx_flags(struct net_device *dev, int change)
+diff --git a/drivers/net/team/team_core.c b/drivers/net/team/team_core.c
+index d8fc0c79745d..a64e661c21a1 100644
+--- a/drivers/net/team/team_core.c
++++ b/drivers/net/team/team_core.c
+@@ -55,7 +55,7 @@ static int __set_port_dev_addr(struct net_device *port_dev,
+ 
+ 	memcpy(addr.__data, dev_addr, port_dev->addr_len);
+ 	addr.ss_family = port_dev->type;
+-	return dev_set_mac_address(port_dev, (struct sockaddr *)&addr, NULL);
++	return dev_set_mac_address(port_dev, &addr, NULL);
+ }
+ 
+ static int team_port_set_orig_dev_addr(struct team_port *port)
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index b18dee1b1bb3..d6589b24c68d 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -8432,7 +8432,7 @@ static int rtl8152_post_reset(struct usb_interface *intf)
+ 
+ 	/* reset the MAC address in case of policy change */
+ 	if (determine_ethernet_addr(tp, &ss) >= 0)
+-		dev_set_mac_address(tp->netdev, (struct sockaddr *)&ss, NULL);
++		dev_set_mac_address(tp->netdev, &ss, NULL);
+ 
+ 	netdev = tp->netdev;
+ 	if (!netif_running(netdev))
+diff --git a/net/core/dev.c b/net/core/dev.c
+index f8c8aad7df2e..1f1900ec26b2 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -9683,6 +9683,7 @@ int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+ 
+ DECLARE_RWSEM(dev_addr_sem);
+ 
++/* "sa" is a true struct sockaddr with limited "sa_data" member. */
+ int dev_get_mac_address(struct sockaddr *sa, struct net *net, char *dev_name)
+ {
+ 	size_t size = sizeof(sa->sa_data_min);
+diff --git a/net/core/dev_api.c b/net/core/dev_api.c
+index b5f293e637d9..e80404e76ca9 100644
+--- a/net/core/dev_api.c
++++ b/net/core/dev_api.c
+@@ -319,20 +319,20 @@ EXPORT_SYMBOL(dev_set_allmulti);
+ /**
+  * dev_set_mac_address() - change Media Access Control Address
+  * @dev: device
+- * @sa: new address
++ * @ss: new address
+  * @extack: netlink extended ack
+  *
+  * Change the hardware (MAC) address of the device
+  *
+  * Return: 0 on success, -errno on failure.
+  */
+-int dev_set_mac_address(struct net_device *dev, struct sockaddr *sa,
++int dev_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+ 			struct netlink_ext_ack *extack)
+ {
+ 	int ret;
+ 
+ 	netdev_lock_ops(dev);
+-	ret = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
++	ret = netif_set_mac_address(dev, sa, extack);
+ 	netdev_unlock_ops(dev);
+ 
+ 	return ret;
 diff --git a/net/ieee802154/nl-phy.c b/net/ieee802154/nl-phy.c
-index 359249ab77bf..ee2b190e8e0d 100644
+index ee2b190e8e0d..4c07a475c567 100644
 --- a/net/ieee802154/nl-phy.c
 +++ b/net/ieee802154/nl-phy.c
-@@ -224,17 +224,17 @@ int ieee802154_add_iface(struct sk_buff *skb, struct genl_info *info)
- 	dev_hold(dev);
- 
- 	if (info->attrs[IEEE802154_ATTR_HW_ADDR]) {
--		struct sockaddr addr;
-+		struct sockaddr_storage addr;
- 
--		addr.sa_family = ARPHRD_IEEE802154;
--		nla_memcpy(&addr.sa_data, info->attrs[IEEE802154_ATTR_HW_ADDR],
-+		addr.ss_family = ARPHRD_IEEE802154;
-+		nla_memcpy(&addr.__data, info->attrs[IEEE802154_ATTR_HW_ADDR],
- 			   IEEE802154_ADDR_LEN);
- 
- 		/* strangely enough, some callbacks (inetdev_event) from
+@@ -234,7 +234,7 @@ int ieee802154_add_iface(struct sk_buff *skb, struct genl_info *info)
  		 * dev_set_mac_address require RTNL_LOCK
  		 */
  		rtnl_lock();
--		rc = dev_set_mac_address(dev, &addr, NULL);
-+		rc = dev_set_mac_address(dev, (struct sockaddr *)&addr, NULL);
+-		rc = dev_set_mac_address(dev, (struct sockaddr *)&addr, NULL);
++		rc = dev_set_mac_address(dev, &addr, NULL);
  		rtnl_unlock();
  		if (rc)
  			goto dev_unregister;
+diff --git a/net/ncsi/ncsi-manage.c b/net/ncsi/ncsi-manage.c
+index 0202db2aea3e..b36947063783 100644
+--- a/net/ncsi/ncsi-manage.c
++++ b/net/ncsi/ncsi-manage.c
+@@ -1058,7 +1058,7 @@ static void ncsi_configure_channel(struct ncsi_dev_priv *ndp)
+ 		break;
+ 	case ncsi_dev_state_config_apply_mac:
+ 		rtnl_lock();
+-		ret = dev_set_mac_address(dev, (struct sockaddr *)&ndp->pending_mac, NULL);
++		ret = dev_set_mac_address(dev, &ndp->pending_mac, NULL);
+ 		rtnl_unlock();
+ 		if (ret < 0)
+ 			netdev_warn(dev, "NCSI: 'Writing MAC address to device failed\n");
 -- 
 2.34.1
 
