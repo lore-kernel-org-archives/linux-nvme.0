@@ -4,86 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 459ABC3ABDD
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 15:29:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07B02C3ABDD
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 16:16:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1yWPYT76RqsHgoegjtWzCTxh32Pi/LRH5O23kd1dWVI=; b=IO56pr5PmhbD0xKUIbCjnqBeOR
-	dU7rzrBCNbYmAuhE3jLoZTG6QiwdszWXzMtNETYckReYzf5WFyEdPK10V9YBCFRY3jJI5XOGVdyD6
-	k9hNXUSDXdw2RTic7bAcCiTH4o54Eabsfv0JbMo3OyJTFcHSPIzLR6rOzGpXWHmX33UU2qHSa9Gru
-	2G99NGYjuKDyveucbvqyzVJ9Ftktx2bWO9T+G8jP9L1PYml52Fb37onWIW+/eHq9uZxsFmxKjpBs2
-	QjAp7ZQrlJMX3OXNnIo2Xy9W2QitRI1grGfEs7tT+k8wHOYB/4JKMjpFXhzdpoDIQPXbDoXjTPgZl
-	DpQcoShg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8patin74GqqGF7MlUY8lT7uwoy7aCVFNgMaRNp5gnbE=; b=YOCslxaxqojuo5MnuMSTlSCzwX
+	SlRwVBc8gxm7udY4lzAiEG+dboI0LEGX1D8w66c8Eh+d8505c9BDHPlX+W2dG7VvSMZxZsFI7cLrJ
+	CcYmHrEhvY3bMfLaQuKaHy1814gdFnC6hc9b6vyn7HB8MGKJu7xO+j0nLWnf1dflNZ3V73KD3dwIl
+	awrgSnyQmbLmFnFGqPjcflJZsSrW61Q/EQANKQ0XeF5523BShKzVPrYqeVgeYmwAHiaPc93tjcj8k
+	s2oKmMa+NIR/uMcUhppXqxC/mSG6/P5iqlLO4gVbT+Dw5jpUVJoZc6+eDiB1wrhRm97kj6kaoD0+7
+	5ko9roBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHOto-0000000DLfA-3Fqt;
-	Tue, 20 May 2025 15:29:00 +0000
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
+	id 1uHPe6-0000000DUIQ-3tgn;
+	Tue, 20 May 2025 16:16:50 +0000
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHOmW-0000000DJby-3nai
+	id 1uHP24-0000000DNJL-3AS8
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 May 2025 15:21:30 +0000
-Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-85df99da233so606776039f.3
-        for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 08:21:28 -0700 (PDT)
+	Tue, 20 May 2025 15:37:33 +0000
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-ad1f6aa2f84so1121309766b.0
+        for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 08:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1747754487; x=1748359287; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1yWPYT76RqsHgoegjtWzCTxh32Pi/LRH5O23kd1dWVI=;
-        b=2NPoG8Bc0ck+dlSPq3nKlYpgqueM1O49Bg6xDV141jc2+YwWsYiMcLlOcpSEaSZsJI
-         MpWP6Xfnwlj/vEb6cmDdxXuT0EM70Ky/60uUduvu8NlQEWX4H61jH8rzILOXeGKXoldU
-         XW7EnJE9LW1Sa3KjO+BrH2WnVL0c78ed4RmjKssFr3R6s70Dqzp2Ms/nmCTctsGpwNWM
-         S3Be3g2QTUY+YUPJiP6cl88ro+7LRAcjah2C3GVuolEJviqsnhihihvqBOO5qd7gfzJ3
-         wXuQEk/IgNnnCe4CYktGW432gw4WhDJ/cldsKIPoTYwLujzdBbfxKbELmLHEBHeUmAN8
-         u0xA==
+        d=gmail.com; s=20230601; t=1747755451; x=1748360251; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8patin74GqqGF7MlUY8lT7uwoy7aCVFNgMaRNp5gnbE=;
+        b=eH9NqlgWVhdP1pHQW0KNOKzCX8A05TZgPhZMBlMKhtZ6fymIZ1ZHEnrjGN7azaL6ym
+         rStcljAmNhSVRUVAyhW4CCzUGnOWVyfVB/XLX/Bkt4djvWUZAse8n9dJT5NU5uvLcr3P
+         IQaM3MoL/ZUf7pVCBYT7yksawcE+0779dRvWbNFobtyuwfYv1Ty5Wjz/hRVP8fB0Pzid
+         GHakfPUhTsy9dwXOdWWhoAoIPFnvlbGHyDpM33kiaHvdFTRbVnBBD4ESg07BktwkxFGp
+         NQbcs83+x3zgUijOVSVxo1Zbx6iqSXHflcXPKuIU6TyXNT2teYeiNxdfkp4t1R318/SP
+         uB6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747754487; x=1748359287;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1yWPYT76RqsHgoegjtWzCTxh32Pi/LRH5O23kd1dWVI=;
-        b=eKa2S+zlJXCrntuhKItqCPCDuh4XRqBfxAs/jRdz8jrAmcZfZc6G+WflOWsY+/oCie
-         rNmeAdrGr+CPQfhDRgi5kQ58uoOM1aJrpKB2JBdeewMleb2YqlPqtXjA8163oPojJUep
-         RGSTh82NP4NSd2JFZ+2uGAAEGBiB6FLW+jpcTinfyiGTG/hiWYHLa6hI83nXJTQEwZOf
-         QJYPuPYQxcQD80lotFa027InNmxm4vck238SaAxvVCGSIeGcVJu0kkwcrmTgmGfrtf8/
-         NxkrqGMqLiTLoMsYDxNOSdVNRNJxStbE7Tjk7UBFOTdNRptoLBNhMY2UR9hS8WLD3fzJ
-         a9Mg==
-X-Gm-Message-State: AOJu0Yz2est3/jOQIfOtx+NVC4O1gIvdVtgkwrv2DzS5ndVMY3Ly9lWf
-	xYlKBzs3knt+PqDp69o0VfHxP+Z51oFrYLZbfeB5574gDasmvCo0zowfSsoG7Oha+zM=
-X-Gm-Gg: ASbGnct/avKRl7VlXrmvv7jnQGS4tHEHL8cfG37EBZ3jL9o5NXOW+kUNDu7BlCCUpo3
-	CcgKwZ6UzBDWs56mS9MiyayTVDhBsloIMsodHtTJ+iXHoBEKCuEFyAqZ2XSHaagUWQIE4apj93h
-	QsfJOztTTO7xnykwwFi+0qpELcjAoKnD/jr7jcU6ZQd62jZ2m2sVRM7ANBGSt7st+X2hN7GzkHE
-	7sguh1B3l5tZlXyXO2Hio+KE5bIaO4MX/p1Rj4Dos9Bj2y5Twx7ePt6vZIVJbtcd6yFx8No5yq4
-	S6f6EEtrOZkuaRd02PwGzgTieHDDqo5f0vp98ZQKvzV9U1Y=
-X-Google-Smtp-Source: AGHT+IGTY1PdI1W3tLCAHQJh9fLxDoWN5UlnCZipo+EbvIMyJ2LVobmLNoQcAMuDAWFiNs5yyrZMHQ==
-X-Received: by 2002:a5d:8547:0:b0:86a:2523:6037 with SMTP id ca18e2360f4ac-86a252360e9mr1473854939f.0.1747754487496;
-        Tue, 20 May 2025 08:21:27 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fbcc48c8a2sm2277561173.87.2025.05.20.08.21.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 08:21:26 -0700 (PDT)
-Message-ID: <eac36a76-fc41-480c-b2f1-542a9bdf8d1d@kernel.dk>
-Date: Tue, 20 May 2025 09:21:26 -0600
+        d=1e100.net; s=20230601; t=1747755451; x=1748360251;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8patin74GqqGF7MlUY8lT7uwoy7aCVFNgMaRNp5gnbE=;
+        b=FNptHPbJUKxkH2OlaPkBRIDE/DaCS7qvQGF7Qj31BLFyVClRYPNOUMOS31ZtDd0RFi
+         ItR/n7x3mnULzpb0aribpadAJFI2gt03mWgfR6l/yrn2jvr1P6la6bTixryqEaZTJHau
+         mOJLSiiIUtUksxFj4fQGIzWShpAajjG3S7EMlwDAs+e/IRdWG7kKkz2s+H6ZbfTiMOBZ
+         HG3zuOQrNR/2O2O7sRkkNt0VCjLEAjZAVSl8+LgTL6ICsk9wf0Vl27Bc4/YY0cNSPYt8
+         vXtKtzzklXuzXk/NHzC+35fHcZSnABjHIKOqBDRp96q1GYL8hvD33NKcnOci3xNc8u/+
+         EAWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZdqEldrN6RRZohLA3hYc3g/Whd3SGfM8bRbbCX7OZ/Ar9Fwkqb07W76rFKXF4pAtSZWjl9jwSLCv/@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw2B6XqHWoD4/4dyAo6piBK6UQkgZyBgGds14GMj31iqm6wVEk1
+	lVP5YZZTCCnE8zJcZX323v24LspVZmPei8qfUTDFlqvC8vG37Snon0xtw+TFXwLcyBUg/pVMi7M
+	g0VenYBhLgd6QZIRlRBB0OaJpLC+81A==
+X-Gm-Gg: ASbGncu/Xy+j0tCLbxLTKeat/56Zln7Gqcs48788SKVJSHiUt/Cw8wpTFLTA6hM0mmG
+	msy6uC0e2H3w9e9D5Q5QTphhzwR6ntMrlcUr7k+n+NF9iV1Y+yCc3bJPjskrR524vw29hhS7urR
+	jz5yiLZN6r1burGwoDFZQMhFUmmKKIAMA=
+X-Google-Smtp-Source: AGHT+IGM7UY6oMS+JtFcXp4zGMziRnc63xQa6ymwkLmTwybLxzWj362ZJbYIFXIQxqNHOSD+6Sjy+KJdIR7TmafJ7o0=
+X-Received: by 2002:a17:907:3da1:b0:ad5:6cfc:e519 with SMTP id
+ a640c23a62f3a-ad56cfcea61mr870003066b.11.1747755450606; Tue, 20 May 2025
+ 08:37:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] nvme: fix implicit bool to flags conversion
-To: Pavel Begunkov <asml.silence@gmail.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org
-References: <d8ed3f9ae153dfc3e8a2a63ed5abbc5e1f0589fb.1747753887.git.asml.silence@gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <d8ed3f9ae153dfc3e8a2a63ed5abbc5e1f0589fb.1747753887.git.asml.silence@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <8c7e05a68a041c5129c4659f574bed6bdc7602f1.1747754487.git.asml.silence@gmail.com>
+In-Reply-To: <8c7e05a68a041c5129c4659f574bed6bdc7602f1.1747754487.git.asml.silence@gmail.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Tue, 20 May 2025 21:06:53 +0530
+X-Gm-Features: AX0GCFvG7jLMNmLOpCE9LYjuNh-QpG4w5o42HLCUUEguYqM8R_UQORhkuxgc5-o
+Message-ID: <CACzX3AtYyMh1TBzVzuPt=n4hJs5qCBUUPhSqHuwh-AFEAVum5A@mail.gmail.com>
+Subject: Re: [PATCH 1/1] nvme: enable vectored registered bufs for passthrough cmds
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>, 
+	Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>, dw@davidwei.uk
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250520_082128_949024_98CC676E 
-X-CRM114-Status: UNSURE (   9.90  )
+X-CRM114-CacheID: sfid-20250520_083732_793346_E0DED41E 
+X-CRM114-Status: UNSURE (   7.59  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -99,17 +94,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/20/25 9:14 AM, Pavel Begunkov wrote:
-> nvme_map_user_request() takes flags as the last argument, but
-> nvme_uring_cmd_io() shoves a bool "vec" into it. It behaves as
-> expected because bool is converted to 0/1 and NVME_IOCTL_VEC is
-> defined as 1, but it's better to pass flags explicitly.
-
-LGTM:
-
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-
--- 
-Jens Axboe
-
+Looks good to me.
+Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
 
