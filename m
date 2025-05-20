@@ -4,90 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93196C3ABDD
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 16:25:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95527C3DA6D
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 17:34:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jNI+eyCxVvzZ3yWBOQLs4twgf1ouYdI/dHpJKVcoJ5I=; b=oRSwelFH/yKfBPHbmcN13KjyU6
-	RHOT2NVCO1HCc//PPovVXHPIXgTvuONMNFrzxPvoSOiyqxGksFs664VzU/Uinl/ah1sVskNzii1rr
-	v1aE0JmR7Oki53WNgwEePBK33ZzezJkEnq4QQM2UStgG5YmWf9QXmrvoqkkN2ZIliKu1sSUZGyWJL
-	DsyAtWXsajFgk25tk7LKtFg76f1YZoFgeuCBINyM9eidYhjODiWE2WNeNwLMTL6ek8juCYIKWFFav
-	cap7aeiYf+ZUG0/e/crRK8GicdMrEPVYHtn4LXAob2jAZHrZy+3mTWOHg4r+nlKj1tsO2I1ivxTCn
-	IlgHeB+w==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Ips3PVy3KH33zrXl9J/syG0BmgRaKBHnMAYDDB2OUZo=; b=vRN7prEd0vX5Z0auk+dQQ3m0vv
+	4GmgBIquYcwp/dxWJtexBuFX3I0ZaeVbD8yqS7gqUbMyyqchq7rb6EW5B54xwbrneYq7tpsST/aNr
+	tSBx6XeAARpQ5mnPc9Dwo0VgfIoVSSbsZJZL2OOiDG0kwli4PbMonupmB0KXPr1XsANgdwv+ZmYbu
+	5R0Zs7oW7ByUoCOGiQTaGmN2xgWCO/oGYZ3E7/Oe2Mmt+4U6viK7WLyuF8rXtLA0Jgob4pvP/Dddv
+	PPaypcdpBUBE1Vubq84T89F8IK9koVGdfV54YjBqWIsDH4S9RS8Z0xbs75YTHS6pADg7NCX0Kxekr
+	oOJ57alQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHPmo-0000000DX5e-1Cjb;
-	Tue, 20 May 2025 16:25:50 +0000
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
+	id 1uHQrV-0000000Dgk0-13sQ;
+	Tue, 20 May 2025 17:34:45 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHPcJ-0000000DTpo-1Qs5
+	id 1uHQrS-0000000DgjR-35ld
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 May 2025 16:15:01 +0000
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-4947635914aso60704701cf.3
-        for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 09:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1747757698; x=1748362498; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jNI+eyCxVvzZ3yWBOQLs4twgf1ouYdI/dHpJKVcoJ5I=;
-        b=v9Me98jeymspLa3+MiJAdrq1gy9VRHvvn2UoXvF9Gh8Xij3Kk8V4+eFttktUpmMRgq
-         TIZx1aUashyvo09wHA6XNosBw94+zoEnQALlp+XKuDjc4hlpL7P1IibYM2eeSou7yCb3
-         tNuEutigqufyLwvFhaYxwjN7KFDZZtmCFVYmzwKXKVyd6a4wsYIZ10bKCBA9nzq6GxS2
-         UvDh5gVQ3KVPrwhGRI9+AF2lSchl0Uwg4DzwvKJD3Kcwhbnw+721GBmCa3SRLTUBQRKr
-         h2He09utuGA3WPv3E5GlZ/q9AgCqUoBIbFT8bx7niL8PBH5pBNOhk8jScdpuQ+9C1zQA
-         3MpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747757698; x=1748362498;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jNI+eyCxVvzZ3yWBOQLs4twgf1ouYdI/dHpJKVcoJ5I=;
-        b=NU7/jIzlVjQ9lqNiBktDFDHa2PwHciQQFOQtcGH8v1iirUbX0ZHEaoa51AdNQXZv6E
-         iTDXd7QfZg4sc1ilg2MiTdC16lOJUgMZpdIScMRVilXSUSh1KWOqqzqT/0ZjitRmyKcq
-         5rvQ0eqXwmGMq5d49KyJC5NCu1atfqyIzsCTJ8PrQPomdsIBely9vAw+BkPwictGTE7U
-         FOx0K4jmyeOV9JWBxShSEigVBKj4BUkp1nhcSdezfmxo4T3uEFP8XmQ0LFD5pU/4pq6O
-         dA87wKBhNVFAK3kgOr8A6q8VXbWp3Ddtrv6/J9uRXUvW1VwEzD+hXDFVgpbcGOFwcMQ2
-         W12w==
-X-Forwarded-Encrypted: i=1; AJvYcCX+ts5axj+RcWjhcDVeOFpXJt2f0US8pitwn3DSWS+x7awcvgzl0P8VuEpU/cX6YHTvpfE20cs5/iwn@lists.infradead.org
-X-Gm-Message-State: AOJu0YygrO+fPlCVi7WxPDmnj6ILd4ae0uF0WASjKRXbQ8W7MVdPZLV7
-	uGfHpN7RokdYZwv6rq363HbUfJ9kzPvmNdU+BFDVsDAtkWyaLOb+oOnWBKXv1lxDVwZEFVr++Co
-	UUipn
-X-Gm-Gg: ASbGncuG8pSH8lw5+ZLycwYRLU8mhxQvZo1I/aUc+fka/GL2+Mf0H+BP2KQUXNJFETf
-	e6k18+meM2ROhphED/QJ+UvistEkWcCNW3qpWeyBoyf/m5keIAN8ndyKA1oK1WOcPOPWRNv1Vdq
-	C5M6ZDKGCQ4g30BtjE5uUCDZGn8f7I4vynCHbloo1eo9LoS6JgNCubvRweh8ZfzqYcpotxQZXgc
-	9KRkRAad3cHjpb7LX+xGA5E7/rvw9IuB76TArf82gfa7p1QwDWd31gOECHRgsazl85nmmZD+e6x
-	bK5tZkvh1nVy6JhRqn8ksZRNOxlg7vcnIErH7oLZaa3VdQg=
-X-Google-Smtp-Source: AGHT+IFcy7gIAABkUAz4oVAxJQVMe5uB7za8pcx2PX4nx5y+S4aJfjyYDqiBJCea66mlfm6pVDqgwA==
-X-Received: by 2002:a05:6e02:184c:b0:3db:754c:63b with SMTP id e9e14a558f8ab-3db842de1b9mr202158035ab.12.1747757686851;
-        Tue, 20 May 2025 09:14:46 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dc7f126188sm2141495ab.65.2025.05.20.09.14.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 09:14:46 -0700 (PDT)
-Message-ID: <94f91748-8538-42b4-87c8-7067b5369045@kernel.dk>
-Date: Tue, 20 May 2025 10:14:45 -0600
+	Tue, 20 May 2025 17:34:43 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 6F2AB49D9C;
+	Tue, 20 May 2025 17:34:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44EA6C4CEE9;
+	Tue, 20 May 2025 17:34:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747762482;
+	bh=4Oa/oAs7QoUno9lRk6Vmd+pQV2yim2hp+jaTVoota5M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jfZwfM+EtFOzz6o1W4wA7JkhydcX5QsZE1LXPTdGom5UBgQnzBSdDzZTcCARDp8f5
+	 Vq26/sS3c4HPDrJW6+6kkbZDzFZhuOmlInC6lqq8/bYBQcWViH5yWm4poeTKpbDicy
+	 rUvfEea0TRcffAQe6CJoYFMPCAv0/lCPTcNjzKGciGGowwesF9XUYAYgglPMhbzx60
+	 J2HO8WoHVeHV0WKwMzXrEJBc02I6yOcuVyWuVQoOC0L7LDXP7MQTSSi4JTUDReJdXH
+	 QH9WVJlsX/2KBGUX20C5U/3opbDlh1VbVFfLsN07z9XjnJ5BcU3nti2XyrTONnvi39
+	 Lvpjl7IOfAQfA==
+From: Kees Cook <kees@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Simon Horman <horms@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Dmitry Bogdanov <d.bogdanov@yadro.com>,
+	Maurizio Lombardi <mlombard@redhat.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Eric Biggers <ebiggers@google.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH net-next v3] net: core: Convert inet_addr_is_any() to sockaddr_storage
+Date: Tue, 20 May 2025 10:34:38 -0700
+Message-Id: <20250520173437.make.907-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme updates for Linux 6.16
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
- linux-mm@kvack.org
-References: <aCyniHQRl2HMjsvu@infradead.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aCyniHQRl2HMjsvu@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3953; i=kees@kernel.org; h=from:subject:message-id; bh=4Oa/oAs7QoUno9lRk6Vmd+pQV2yim2hp+jaTVoota5M=; b=owGbwMvMwCVmps19z/KJym7G02pJDBk6e/UWxP4+wt+4oHy5kvm27bypzpd7FIJW7GG36yz5E vBVNOFTRykLgxgXg6yYIkuQnXuci8fb9nD3uYowc1iZQIYwcHEKwER4PzH8d/R79zXsVMzHwoNr 3S37XUPk1lmqbEzrdW2ICU1iWZ62g+GviKK1l+2mkz+NPMzufv0UoFPKn/pPtmjqu1vVTzf83nq QBQA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250520_091459_401915_5B2B0695 
-X-CRM114-Status: GOOD (  15.11  )
+X-CRM114-CacheID: sfid-20250520_103442_818407_8ED2A43F 
+X-CRM114-Status: GOOD (  14.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,40 +89,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/20/25 10:02 AM, Christoph Hellwig wrote:
-> NOTE: this includes changes to mm/dmapool.c.  We've not managed to
-> get any replies from mm folks for it despite repeated pings.
-> 
-> 
-> The following changes since commit 496a3bc5e46c6485a50730ffbcbc92fc53120425:
-> 
->   blk-mq: add a copyright notice to blk-mq-dma.c (2025-05-16 08:43:41 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.16-2025-05-20
-> 
-> for you to fetch changes up to 9e221d8cf90b8599a6a3d62a1ebb712468f42a35:
-> 
->   nvme: rename nvme_mpath_shutdown_disk to nvme_mpath_remove_disk (2025-05-20 05:34:52 +0200)
-> 
-> ----------------------------------------------------------------
-> nvme updates for Linux 6.16
-> 
->  - add per-node DMA pools and use them for PRP/SGL allocations
->    (Caleb Sander Mateos, Keith Busch)
->  - nvme-fcloop refcounting fixes (Daniel Wagner)
->  - support delayed removal of the multipath node and optionally support
->    the multipath node for private namespaces (Nilay Shroff)
->  - support shared CQs in the PCI endpoint target code (Wilfred Mallawa)
->  - support admin-queue only authentication (Hannes Reinecke)
->  - use the crc32c library instead of the crypto API (Eric Biggers)
->  - misc cleanups (Christoph Hellwig, Marcelo Moreira, Hannes Reinecke,
->    Leon Romanovsky, Gustavo A. R. Silva)
+All the callers of inet_addr_is_any() have a sockaddr_storage-backed
+sockaddr. Avoid casts and switch prototype to the actual object being
+used.
 
-Pulled, thanks.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Simon Horman <horms@kernel.org>
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+ include/linux/inet.h                | 2 +-
+ drivers/nvme/target/rdma.c          | 2 +-
+ drivers/nvme/target/tcp.c           | 2 +-
+ drivers/target/iscsi/iscsi_target.c | 2 +-
+ net/core/utils.c                    | 8 ++++----
+ 5 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/include/linux/inet.h b/include/linux/inet.h
+index bd8276e96e60..9158772f3559 100644
+--- a/include/linux/inet.h
++++ b/include/linux/inet.h
+@@ -55,6 +55,6 @@ extern int in6_pton(const char *src, int srclen, u8 *dst, int delim, const char
+ 
+ extern int inet_pton_with_scope(struct net *net, unsigned short af,
+ 		const char *src, const char *port, struct sockaddr_storage *addr);
+-extern bool inet_addr_is_any(struct sockaddr *addr);
++bool inet_addr_is_any(struct sockaddr_storage *addr);
+ 
+ #endif	/* _LINUX_INET_H */
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 2a4536ef6184..79a5aad2e9d0 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1999,7 +1999,7 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
+ 	struct nvmet_rdma_port *port = nport->priv;
+ 	struct rdma_cm_id *cm_id = port->cm_id;
+ 
+-	if (inet_addr_is_any((struct sockaddr *)&cm_id->route.addr.src_addr)) {
++	if (inet_addr_is_any(&cm_id->route.addr.src_addr)) {
+ 		struct nvmet_rdma_rsp *rsp =
+ 			container_of(req, struct nvmet_rdma_rsp, req);
+ 		struct rdma_cm_id *req_cm_id = rsp->queue->cm_id;
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 12a5cb8641ca..5cd1cf74f8ff 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -2194,7 +2194,7 @@ static void nvmet_tcp_disc_port_addr(struct nvmet_req *req,
+ {
+ 	struct nvmet_tcp_port *port = nport->priv;
+ 
+-	if (inet_addr_is_any((struct sockaddr *)&port->addr)) {
++	if (inet_addr_is_any(&port->addr)) {
+ 		struct nvmet_tcp_cmd *cmd =
+ 			container_of(req, struct nvmet_tcp_cmd, req);
+ 		struct nvmet_tcp_queue *queue = cmd->queue;
+diff --git a/drivers/target/iscsi/iscsi_target.c b/drivers/target/iscsi/iscsi_target.c
+index 620ba6e0ab07..a2dde08c8a62 100644
+--- a/drivers/target/iscsi/iscsi_target.c
++++ b/drivers/target/iscsi/iscsi_target.c
+@@ -3419,7 +3419,7 @@ iscsit_build_sendtargets_response(struct iscsit_cmd *cmd,
+ 					}
+ 				}
+ 
+-				if (inet_addr_is_any((struct sockaddr *)&np->np_sockaddr))
++				if (inet_addr_is_any(&np->np_sockaddr))
+ 					sockaddr = &conn->local_sockaddr;
+ 				else
+ 					sockaddr = &np->np_sockaddr;
+diff --git a/net/core/utils.c b/net/core/utils.c
+index 27f4cffaae05..e47feeaa5a49 100644
+--- a/net/core/utils.c
++++ b/net/core/utils.c
+@@ -399,9 +399,9 @@ int inet_pton_with_scope(struct net *net, __kernel_sa_family_t af,
+ }
+ EXPORT_SYMBOL(inet_pton_with_scope);
+ 
+-bool inet_addr_is_any(struct sockaddr *addr)
++bool inet_addr_is_any(struct sockaddr_storage *addr)
+ {
+-	if (addr->sa_family == AF_INET6) {
++	if (addr->ss_family == AF_INET6) {
+ 		struct sockaddr_in6 *in6 = (struct sockaddr_in6 *)addr;
+ 		const struct sockaddr_in6 in6_any =
+ 			{ .sin6_addr = IN6ADDR_ANY_INIT };
+@@ -409,13 +409,13 @@ bool inet_addr_is_any(struct sockaddr *addr)
+ 		if (!memcmp(in6->sin6_addr.s6_addr,
+ 			    in6_any.sin6_addr.s6_addr, 16))
+ 			return true;
+-	} else if (addr->sa_family == AF_INET) {
++	} else if (addr->ss_family == AF_INET) {
+ 		struct sockaddr_in *in = (struct sockaddr_in *)addr;
+ 
+ 		if (in->sin_addr.s_addr == htonl(INADDR_ANY))
+ 			return true;
+ 	} else {
+-		pr_warn("unexpected address family %u\n", addr->sa_family);
++		pr_warn("unexpected address family %u\n", addr->ss_family);
+ 	}
+ 
+ 	return false;
 -- 
-Jens Axboe
+2.34.1
 
 
