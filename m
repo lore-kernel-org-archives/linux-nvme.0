@@ -4,75 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63856C3DA6D
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C95BC3ABDD
 	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 15:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MmxjGGPwDYHJkRGyQ1esN6WfIsgZwdKYJuG78gz9R3c=; b=hg+j1jRL/erm3yCDLK40t0kwC8
-	3DVRy9wbhohZFI+leRM8pyr8LVQv8VlT+RGTd6fMuqvDQ3sE6fxopgtRy5embymeVMmyvU5d+NVNw
-	9AWUqjWHs2+ziPiRJlSgvBW+KPvWF94WUXbnoNMbbkxKSTLk5ZyTgE7pJA3DzIGALBmW7XAV5ZXkK
-	Wk2YOReKlSo8A/gfupLDGe//Mvpr9O6RADQyr5hdto8wmiizWUzTbUUneKTAwjJdDaCQt6l/yaUUs
-	HXaPLvcZD6hLjSx5zSE0d56hCJbWnrgFmnXtXnr/xV1Ghsec16aZEkraAqgRXekHQgs8zPDrNJhs7
-	92hB3x3g==;
+	bh=lHXawegenCUiIGgYUGaRvRBgqP3mwjLK1SkCNTwowG8=; b=XzP/ti52cxJxE1QTe/O+3xmLSV
+	GDU7urbsH+oCx2zvsHKoxnr0ais3iJvHd3PROybxA/NpFsuy9xEujPYUg3DzlQqPPRPoJwH7qwQUr
+	zc14tJ4gtzSQHTHvENujom03xs5HMaW96MtbBo5TTGVGO/6VSGUd9NThwBlkgFHcpI+//xUFmQ9BX
+	7Q1p/BvAk1PcnrSPdGokbX10nc8kF4i3xZ0Vzt1F20FKo7ek+GH4j8H/xK9yowmPkuRkyNdQpE4c9
+	m7a2Y13863bYk3vAAWQa1ZRGNgW6veUGNRK1gEG5vMGAmNHLYXvtjYYE2KAD0T/xPS9a+0bxG9aoC
+	aBD2mfAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHOri-0000000DKt1-3EIe;
-	Tue, 20 May 2025 15:26:50 +0000
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+	id 1uHOrj-0000000DKtB-1YH1;
+	Tue, 20 May 2025 15:26:51 +0000
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHOZ0-0000000DH7C-0pA6
+	id 1uHOf3-0000000DISE-1TdM
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 May 2025 15:07:31 +0000
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-6016d401501so6702270a12.2
-        for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 08:07:29 -0700 (PDT)
+	Tue, 20 May 2025 15:13:46 +0000
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso1018027666b.0
+        for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 08:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747753648; x=1748358448; darn=lists.infradead.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=MmxjGGPwDYHJkRGyQ1esN6WfIsgZwdKYJuG78gz9R3c=;
-        b=lNtUHxpi3huCyhp0HcO9f/nxSnSfUlgwiLynQ7X0Xu+hLligyfEWYOKr8/CUejmHKq
-         qkJv0x/wgD47jgEfzXqE0sWjpot+C0VlL+nK/XTXxGwCY7sG3ztG7DnDHK389msqx3uV
-         Tj6OkVRZxOkr5a3qfRGpjNzdAnwsc48zhnymxkRGjlbgA6BYxJAYZE2pSo+rS/62r9/r
-         OWEcJxd6nYEJqkbpX3B38rMGg95FWWp87z2sJtZ+unnDJKY6r/+seRt4kX4mXClvpKdX
-         2rZKGqCggXJqsHp0+9JtxflxbY4Mtxy3/Psrh5Fd1vBaDW9Nqt6zP91o8wNQq0Zo7Kl/
-         8kcg==
+        d=gmail.com; s=20230601; t=1747754023; x=1748358823; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lHXawegenCUiIGgYUGaRvRBgqP3mwjLK1SkCNTwowG8=;
+        b=H1NTkYj5eJ5rnP75xMP/oJSTpbaqGRmRcF8Dxr2I2BHIfV6w2tOH1nPEoCKX5IOGGX
+         a3VVjfli/U8BRdRVtNKONJbs/3g4UzzPCgmkBqU+lhSsQP1lF6TenkbQEQHxJedQOEzo
+         0ciU6cSxMm2R4KHwSi/N6wu/1t1qQBWXjYDwfxoGl7sFHLUgivHWMvVnVX1CWQg87zi3
+         6ApEkK+1ok3RJftbZwopyTiHENgTYDMIjsH0xjpf4wCirreHX9whgTJRpf/HDixJdIwG
+         sN+3keWBuJVTjU80yRebm1qL9k0n+GU+l2obdhjfGbzqhbqZqhgHH02AExtAvIVTlZkY
+         1/LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747753648; x=1748358448;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MmxjGGPwDYHJkRGyQ1esN6WfIsgZwdKYJuG78gz9R3c=;
-        b=R00g9Y3kId3ddc3cSfSXa/Od5Krh3jHD8XjpMOhls+jrzkSWF7L51kDJJiGhCDJrX7
-         V0odlsR3PMJkaUHUm+59abEIJ4N0TGZLuTU6OPlsvmecDhFVA4Djhyr7BjyqEZ0j6SJC
-         6bs23YQwgKsnQbtEYknSYrPIOkHNYqDCE3P06VYfOBMa6Yn9Ze4OKjSRKkz3VlNXMRZT
-         zzGSENA0uQTG8DwWl/5JXvwXzEzyW0jvkihVDYRc/DygYtxds0z4KTfySOgZOjcdFYTT
-         QcBvDtCkMXr/zQhpWG8huRZx3Q+PnKbqWPYbRJC3gQFwc7ykRJZIZBDAa6W9pl23ZisE
-         AIsw==
-X-Gm-Message-State: AOJu0YwPQeEaahabffsxgr28rB3TN6C+HpEu7R10CEFTNKblRYVnxRb4
-	PsTe60/SEr7r1w5WaiZ7pX1mZRjbzyP76s0jSJP6Einpi4CUebIi03cPdNO39pjWglqopEPF2DG
-	6/1MKU/Ccw1ru+Cn3Lty3Pra+RrExMtZnBVpD
-X-Gm-Gg: ASbGncsgq7vRe2u1/o0VwfStYgGFeA8KSnL/k/j167ILK9ch6uJQvUnGXAaEwkUClmf
-	tNhx12/T3dwbwSW7LTJhc8Nh1u9eyj5f8WPF5IPhqj89iveUNpLK+Y6zQCFj+gt19IAU9PTiNJ9
-	WDiMfHn7JF/+MzeY/5JEIW3LaatEq8zzmJlG8z6yXYUdSaMMhYwymVkuuEvPFFxTQV0Q==
-X-Google-Smtp-Source: AGHT+IHLvfP2HFigZ/tvdFp9HJ27M/5ElI5wgpg+qzJAWbcsRiG1UQcv2nWsKl32oVMMzxbfJ4RbFkiGvYDP5rsv+Nc=
-X-Received: by 2002:a05:6402:50c9:b0:601:a681:4d5c with SMTP id
- 4fb4d7f45d1cf-601a6814f05mr9977516a12.32.1747753647795; Tue, 20 May 2025
- 08:07:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747754023; x=1748358823;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lHXawegenCUiIGgYUGaRvRBgqP3mwjLK1SkCNTwowG8=;
+        b=kXGjTdYDLtDktX8NVwJ8WhMZlhubb0tMoLGo5j9WvaVzFiw/xnOBsRIAaxhjTPHaOa
+         7BX77OhDOPn55xJQX3KwwsbEQQz/OX//vccAoYbguYV1Wk8ENBJey3waDtR2/virXYCU
+         lXSaggH7+HDoOWjwGcBrSoZZNTrqhNzR1FGO8rpt6Ripvb79C19/+LSJAxVI4pE9/c8C
+         m6hgwwnl0NQfIra7KbLXezdWuuAUaqpkP6V5QW0jINvcgtjUUYMJGabpSHKYawqIgldi
+         o52GLLRBZI5NSa29m7cWK18N80BBdHr3ku0mDdo3n8XSo6jJMsi+i3rwuxwzd7JPi8dQ
+         l2kw==
+X-Forwarded-Encrypted: i=1; AJvYcCWI8u3ZVpssIqQ/VhTZ6hreYCDYl/UopXoSzLoXgPT5J16VR7IUXXHESBZ2B+PSaFAccOFMi5LuouRJ@lists.infradead.org
+X-Gm-Message-State: AOJu0YzgHrSre3P0XiDTmXa6sa7quylI9wvM+mPAuKJWBoEwkDBpi7CQ
+	UuNea1p8yG2bwinLNQ3wz5hMM4SDibS+cOEU6hA1/W3ddkVKdrualiICNTX8cw==
+X-Gm-Gg: ASbGncsbxGwTyASEHOVJC5QXBMmtHhUIQ8QP5UspJ6RDxoyIqB1lnGqVFEvVMHbWN7h
+	zblgvUWO2VxUEPK2B+ziZ9RGfsePOy9P/jVVRhfRONO+8SbBtqy9/NkraDzxpMyMwnnCKbwY1zD
+	SKwZ1O3YXKfa0NPNdq+MtVoLAOrKfBeeuv/TPN/r3Q536ARH3AU53PVgPcxcztS9Ak+vRL2tyta
+	H5Jcb23/KJ2TFL5hEZSUYkjDzr3gC0CJyhoEdoLgi9K17fo14yCWgI4co7jo9JfmUBs4vK9/n5A
+	vipdTb3i/QKmhu2wvtsFE6gU52tshPzrOg==
+X-Google-Smtp-Source: AGHT+IFIrqD1fxx6JGa2pUbbhgc9N6bc1pK9TK7taW7ikcCqlRLzfamn/OTdILkXqh+Y+mzMfAI9/Q==
+X-Received: by 2002:a17:907:7f16:b0:ad5:5210:749c with SMTP id a640c23a62f3a-ad5521075fbmr1019506766b.22.1747754023030;
+        Tue, 20 May 2025 08:13:43 -0700 (PDT)
+Received: from 127.com ([2620:10d:c092:600::1:e7c])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04aed7sm746314266b.9.2025.05.20.08.13.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 May 2025 08:13:42 -0700 (PDT)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: asml.silence@gmail.com,
+	linux-nvme@lists.infradead.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH 1/1] nvme: fix implicit bool to flags conversion
+Date: Tue, 20 May 2025 16:14:49 +0100
+Message-ID: <d8ed3f9ae153dfc3e8a2a63ed5abbc5e1f0589fb.1747753887.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-From: Dileep Sankhla <dileepsankhla.ds@gmail.com>
-Date: Tue, 20 May 2025 20:43:19 +0530
-X-Gm-Features: AX0GCFvVZqrslYxiYCYlBHJ1_Hok_Et-X9eEAzZN-2fAQRa7xJApj8qFgi1CK5E
-Message-ID: <CAHxc4buuyDM18H=FO5fuvRLXz2QQkjJmdr5kzLOWmgt3vRSrqg@mail.gmail.com>
-Subject: seeking beginner-friendly nvme bugs to work on
-To: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250520_080730_241535_986149A9 
-X-CRM114-Status: UNSURE (   7.63  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250520_081345_387666_9A6D1A84 
+X-CRM114-Status: GOOD (  13.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,19 +97,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello everyone,
+nvme_map_user_request() takes flags as the last argument, but
+nvme_uring_cmd_io() shoves a bool "vec" into it. It behaves as
+expected because bool is converted to 0/1 and NVME_IOCTL_VEC is
+defined as 1, but it's better to pass flags explicitly.
 
-Thank you all for improving, enhancing, and maintaining the nvme driver.
+Fixes: 7b7fdb8e2dbc1 ("nvme: replace the "bool vec" arguments with flags in the ioctl path")
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+---
+ drivers/nvme/host/ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I am new to Linux kernel development. Until now, I have only one
-contribution that fixes the checkpatch.pl warning. I have also
-attempted to create my own 64-bit Unix-like kernel from scratch for
-x86-64 PCs. I implemented my own NVMe over PCIe driver from scratch in C.
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index ca86d3bf7ea4..f29107d95ff2 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -521,7 +521,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	if (d.data_len) {
+ 		ret = nvme_map_user_request(req, d.addr, d.data_len,
+ 			nvme_to_user_ptr(d.metadata), d.metadata_len,
+-			map_iter, vec);
++			map_iter, vec ? NVME_IOCTL_VEC : 0);
+ 		if (ret)
+ 			goto out_free_req;
+ 	}
+-- 
+2.49.0
 
-I want to begin solving a few beginner-friendly bugs. I searched
-bugzilla but I don't know which ones are for beginners like me. Could
-you guys help me in seeking bugs to work on?
-
-Regards,
-Dileep
 
