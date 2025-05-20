@@ -4,40 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B17DDC54E65
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 16:21:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93196C3ABDD
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 16:25:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=B7gJftj33Q+f5gyhyPsRGbZTZbMOtVqd6ZE/JG57XvI=; b=yibXXYXT7lkvFpj/zVnNh0V1Rh
-	PS0O7ZMYL8OWOAqRRCZa84/ES3sT09xNtruVtkScgw4KvpaxJsPY+dA05MUBmKBtD+9caav5TKYmr
-	jNRvao0OMQ9wKk3ZYyK2wcvRdnSllUhbfCUmMAQHr14qCk3zXE7UB901yYdqMaAIc0WAyNLBVEryd
-	ZwAOD3Pq2iWDW2whWiVxLP1G4+DdtJak4E1gZSY+x+01I8k87r1rk0axyeUC2YUPGccXEk0ZL81kY
-	eWsrMEAB46r8Yye1FPoOO5/3+FKMrjMWN4L0Ov8DLN7GBUbdVl9moNbu/2rIUdn36UUR6jq4xUzkJ
-	xwG8VkUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jNI+eyCxVvzZ3yWBOQLs4twgf1ouYdI/dHpJKVcoJ5I=; b=oRSwelFH/yKfBPHbmcN13KjyU6
+	RHOT2NVCO1HCc//PPovVXHPIXgTvuONMNFrzxPvoSOiyqxGksFs664VzU/Uinl/ah1sVskNzii1rr
+	v1aE0JmR7Oki53WNgwEePBK33ZzezJkEnq4QQM2UStgG5YmWf9QXmrvoqkkN2ZIliKu1sSUZGyWJL
+	DsyAtWXsajFgk25tk7LKtFg76f1YZoFgeuCBINyM9eidYhjODiWE2WNeNwLMTL6ek8juCYIKWFFav
+	cap7aeiYf+ZUG0/e/crRK8GicdMrEPVYHtn4LXAob2jAZHrZy+3mTWOHg4r+nlKj1tsO2I1ivxTCn
+	IlgHeB+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHPiZ-0000000DWAI-0Y6f;
-	Tue, 20 May 2025 16:21:27 +0000
-Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHPQ4-0000000DRLj-07yR;
-	Tue, 20 May 2025 16:02:20 +0000
-Date: Tue, 20 May 2025 18:02:16 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: [GIT PULL] nvme updates for Linux 6.16
-Message-ID: <aCyniHQRl2HMjsvu@infradead.org>
+	id 1uHPmo-0000000DX5e-1Cjb;
+	Tue, 20 May 2025 16:25:50 +0000
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uHPcJ-0000000DTpo-1Qs5
+	for linux-nvme@lists.infradead.org;
+	Tue, 20 May 2025 16:15:01 +0000
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-4947635914aso60704701cf.3
+        for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 09:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1747757698; x=1748362498; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jNI+eyCxVvzZ3yWBOQLs4twgf1ouYdI/dHpJKVcoJ5I=;
+        b=v9Me98jeymspLa3+MiJAdrq1gy9VRHvvn2UoXvF9Gh8Xij3Kk8V4+eFttktUpmMRgq
+         TIZx1aUashyvo09wHA6XNosBw94+zoEnQALlp+XKuDjc4hlpL7P1IibYM2eeSou7yCb3
+         tNuEutigqufyLwvFhaYxwjN7KFDZZtmCFVYmzwKXKVyd6a4wsYIZ10bKCBA9nzq6GxS2
+         UvDh5gVQ3KVPrwhGRI9+AF2lSchl0Uwg4DzwvKJD3Kcwhbnw+721GBmCa3SRLTUBQRKr
+         h2He09utuGA3WPv3E5GlZ/q9AgCqUoBIbFT8bx7niL8PBH5pBNOhk8jScdpuQ+9C1zQA
+         3MpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747757698; x=1748362498;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jNI+eyCxVvzZ3yWBOQLs4twgf1ouYdI/dHpJKVcoJ5I=;
+        b=NU7/jIzlVjQ9lqNiBktDFDHa2PwHciQQFOQtcGH8v1iirUbX0ZHEaoa51AdNQXZv6E
+         iTDXd7QfZg4sc1ilg2MiTdC16lOJUgMZpdIScMRVilXSUSh1KWOqqzqT/0ZjitRmyKcq
+         5rvQ0eqXwmGMq5d49KyJC5NCu1atfqyIzsCTJ8PrQPomdsIBely9vAw+BkPwictGTE7U
+         FOx0K4jmyeOV9JWBxShSEigVBKj4BUkp1nhcSdezfmxo4T3uEFP8XmQ0LFD5pU/4pq6O
+         dA87wKBhNVFAK3kgOr8A6q8VXbWp3Ddtrv6/J9uRXUvW1VwEzD+hXDFVgpbcGOFwcMQ2
+         W12w==
+X-Forwarded-Encrypted: i=1; AJvYcCX+ts5axj+RcWjhcDVeOFpXJt2f0US8pitwn3DSWS+x7awcvgzl0P8VuEpU/cX6YHTvpfE20cs5/iwn@lists.infradead.org
+X-Gm-Message-State: AOJu0YygrO+fPlCVi7WxPDmnj6ILd4ae0uF0WASjKRXbQ8W7MVdPZLV7
+	uGfHpN7RokdYZwv6rq363HbUfJ9kzPvmNdU+BFDVsDAtkWyaLOb+oOnWBKXv1lxDVwZEFVr++Co
+	UUipn
+X-Gm-Gg: ASbGncuG8pSH8lw5+ZLycwYRLU8mhxQvZo1I/aUc+fka/GL2+Mf0H+BP2KQUXNJFETf
+	e6k18+meM2ROhphED/QJ+UvistEkWcCNW3qpWeyBoyf/m5keIAN8ndyKA1oK1WOcPOPWRNv1Vdq
+	C5M6ZDKGCQ4g30BtjE5uUCDZGn8f7I4vynCHbloo1eo9LoS6JgNCubvRweh8ZfzqYcpotxQZXgc
+	9KRkRAad3cHjpb7LX+xGA5E7/rvw9IuB76TArf82gfa7p1QwDWd31gOECHRgsazl85nmmZD+e6x
+	bK5tZkvh1nVy6JhRqn8ksZRNOxlg7vcnIErH7oLZaa3VdQg=
+X-Google-Smtp-Source: AGHT+IFcy7gIAABkUAz4oVAxJQVMe5uB7za8pcx2PX4nx5y+S4aJfjyYDqiBJCea66mlfm6pVDqgwA==
+X-Received: by 2002:a05:6e02:184c:b0:3db:754c:63b with SMTP id e9e14a558f8ab-3db842de1b9mr202158035ab.12.1747757686851;
+        Tue, 20 May 2025 09:14:46 -0700 (PDT)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3dc7f126188sm2141495ab.65.2025.05.20.09.14.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 May 2025 09:14:46 -0700 (PDT)
+Message-ID: <94f91748-8538-42b4-87c8-7067b5369045@kernel.dk>
+Date: Tue, 20 May 2025 10:14:45 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] nvme updates for Linux 6.16
+To: Christoph Hellwig <hch@infradead.org>
+Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+ linux-mm@kvack.org
+References: <aCyniHQRl2HMjsvu@infradead.org>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <aCyniHQRl2HMjsvu@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250520_091459_401915_5B2B0695 
+X-CRM114-Status: GOOD (  15.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -52,123 +102,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NOTE: this includes changes to mm/dmapool.c.  We've not managed to
-get any replies from mm folks for it despite repeated pings.
+On 5/20/25 10:02 AM, Christoph Hellwig wrote:
+> NOTE: this includes changes to mm/dmapool.c.  We've not managed to
+> get any replies from mm folks for it despite repeated pings.
+> 
+> 
+> The following changes since commit 496a3bc5e46c6485a50730ffbcbc92fc53120425:
+> 
+>   blk-mq: add a copyright notice to blk-mq-dma.c (2025-05-16 08:43:41 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.16-2025-05-20
+> 
+> for you to fetch changes up to 9e221d8cf90b8599a6a3d62a1ebb712468f42a35:
+> 
+>   nvme: rename nvme_mpath_shutdown_disk to nvme_mpath_remove_disk (2025-05-20 05:34:52 +0200)
+> 
+> ----------------------------------------------------------------
+> nvme updates for Linux 6.16
+> 
+>  - add per-node DMA pools and use them for PRP/SGL allocations
+>    (Caleb Sander Mateos, Keith Busch)
+>  - nvme-fcloop refcounting fixes (Daniel Wagner)
+>  - support delayed removal of the multipath node and optionally support
+>    the multipath node for private namespaces (Nilay Shroff)
+>  - support shared CQs in the PCI endpoint target code (Wilfred Mallawa)
+>  - support admin-queue only authentication (Hannes Reinecke)
+>  - use the crc32c library instead of the crypto API (Eric Biggers)
+>  - misc cleanups (Christoph Hellwig, Marcelo Moreira, Hannes Reinecke,
+>    Leon Romanovsky, Gustavo A. R. Silva)
 
+Pulled, thanks.
 
-The following changes since commit 496a3bc5e46c6485a50730ffbcbc92fc53120425:
+-- 
+Jens Axboe
 
-  blk-mq: add a copyright notice to blk-mq-dma.c (2025-05-16 08:43:41 -0600)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git tags/nvme-6.16-2025-05-20
-
-for you to fetch changes up to 9e221d8cf90b8599a6a3d62a1ebb712468f42a35:
-
-  nvme: rename nvme_mpath_shutdown_disk to nvme_mpath_remove_disk (2025-05-20 05:34:52 +0200)
-
-----------------------------------------------------------------
-nvme updates for Linux 6.16
-
- - add per-node DMA pools and use them for PRP/SGL allocations
-   (Caleb Sander Mateos, Keith Busch)
- - nvme-fcloop refcounting fixes (Daniel Wagner)
- - support delayed removal of the multipath node and optionally support
-   the multipath node for private namespaces (Nilay Shroff)
- - support shared CQs in the PCI endpoint target code (Wilfred Mallawa)
- - support admin-queue only authentication (Hannes Reinecke)
- - use the crc32c library instead of the crypto API (Eric Biggers)
- - misc cleanups (Christoph Hellwig, Marcelo Moreira, Hannes Reinecke,
-   Leon Romanovsky, Gustavo A. R. Silva)
-
-----------------------------------------------------------------
-Caleb Sander Mateos (2):
-      nvme-pci: factor out a nvme_init_hctx_common() helper
-      nvme-pci: make PRP list DMA pools per-NUMA-node
-
-Christoph Hellwig (6):
-      nvme-pci: don't try to use SGLs for metadata on the admin queue
-      nvme-pci: remove struct nvme_descriptor
-      nvme-pci: rename the descriptor pools
-      nvme-pci: use a better encoding for small prp pool allocations
-      nvme-pci: use struct_size for allocation struct nvme_dev
-      nvme-pci: derive and better document max segments limits
-
-Daniel Wagner (14):
-      nvmet-fcloop: track ref counts for nports
-      nvmet-fcloop: remove nport from list on last user
-      nvmet-fcloop: refactor fcloop_nport_alloc and track lport
-      nvmet-fcloop: refactor fcloop_delete_local_port
-      nvmet-fcloop: update refs on tfcp_req
-      nvmet-fcloop: access fcpreq only when holding reqlock
-      nvmet-fcloop: prevent double port deletion
-      nvmet-fcloop: allocate/free fcloop_lsreq directly
-      nvmet-fcloop: drop response if targetport is gone
-      nvmet-fc: free pending reqs on tgtport unregister
-      nvmet-fc: take tgtport refs for portentry
-      nvmet-fcloop: add missing fcloop_callback_host_done
-      nvmet-fcloop: don't wait for lport cleanup
-      nvme-fc: do not reference lsrsp after failure
-
-Eric Biggers (1):
-      nvmet-tcp: switch to using the crc32c library
-
-Gustavo A. R. Silva (1):
-      nvme-loop: avoid -Wflex-array-member-not-at-end warning
-
-Hannes Reinecke (6):
-      nvme-tcp: remove redundant check to ctrl->opts
-      nvme-tcp: open-code nvme_tcp_queue_request() for R2T
-      nvme-auth: do not re-authenticate queues with no prior authentication
-      nvmet-auth: authenticate on admin queue only
-      nvme-auth: use SHASH_DESC_ON_STACK
-      nvmet-auth: use SHASH_DESC_ON_STACK
-
-Keith Busch (1):
-      dmapool: add NUMA affinity support
-
-Leon Romanovsky (2):
-      nvme-pci: store aborted state in flags variable
-      nvme-pci: add a symolic name for the small pool size
-
-Marcelo Moreira (1):
-      nvmet: replace strncpy with strscpy
-
-Nilay Shroff (3):
-      nvme-multipath: introduce delayed removal of the multipath head node
-      nvme: introduce multipath_always_on module param
-      nvme: rename nvme_mpath_shutdown_disk to nvme_mpath_remove_disk
-
-Wilfred Mallawa (5):
-      nvmet: add a helper function for cqid checking
-      nvmet: cq: prepare for completion queue sharing
-      nvmet: fabrics: add CQ init and destroy
-      nvmet: support completion queue sharing
-      nvmet: simplify the nvmet_req_init() interface
-
- drivers/nvme/common/auth.c        |  15 +-
- drivers/nvme/host/auth.c          |  30 ++-
- drivers/nvme/host/core.c          |  12 +-
- drivers/nvme/host/fc.c            |  13 +-
- drivers/nvme/host/multipath.c     | 206 ++++++++++++++++--
- drivers/nvme/host/nvme.h          |  24 ++-
- drivers/nvme/host/pci.c           | 300 ++++++++++++++------------
- drivers/nvme/host/sysfs.c         |   7 +
- drivers/nvme/host/tcp.c           |  14 +-
- drivers/nvme/target/admin-cmd.c   |  31 +--
- drivers/nvme/target/auth.c        |  21 +-
- drivers/nvme/target/core.c        |  94 ++++++--
- drivers/nvme/target/discovery.c   |   2 +-
- drivers/nvme/target/fabrics-cmd.c |  12 +-
- drivers/nvme/target/fc.c          |  96 +++++++--
- drivers/nvme/target/fcloop.c      | 439 ++++++++++++++++++++++++--------------
- drivers/nvme/target/loop.c        |  29 ++-
- drivers/nvme/target/nvmet.h       |  24 ++-
- drivers/nvme/target/pci-epf.c     |  14 +-
- drivers/nvme/target/rdma.c        |   8 +-
- drivers/nvme/target/tcp.c         | 100 +++------
- include/linux/dmapool.h           |  21 +-
- mm/dmapool.c                      |  15 +-
- 23 files changed, 1001 insertions(+), 526 deletions(-)
 
