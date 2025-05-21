@@ -4,57 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38F1DC2D0CD
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 14:34:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26DEBC2D0CD
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 15:01:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jbbVODr4gaEDxrnnp05zXtvWeKtRvM4HD6NrxCXUTiA=; b=XNrBl4Ve+J1ubBIAao3Qd1Dull
-	P5+g+GnKlk4iqeuozdYnqTpH0Vs+wZf6nFDwt7dstP/f27HqCV6z6gt4R//fSFl2JK7GkoeKFTUut
-	YOXRICd93ZIee1O1uHgeFQatTOOWGo2LynnU2NFEw4z0JCa0wE/J9gIF2itG9GW26HewmVKD05OnS
-	y5Ytjwx1H4WtgJvY2GZ8Spr7VEaYyZUc1htxsVr6fX2EpWnXQp9MHTUB1R8JI+Dn74qCFejDCFUdH
-	EXF/M5kDS4d9D9y66ztjxgc881rGWmySN7RpnbAIOXngPmevUtUQJcy8mFqH34NYPoWBKp6kPhPD2
-	4Wkk2sRA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CykUaHHiZoLO4CQZzFMQm7+4pA7vOPJvJJ5fg2eQ6W8=; b=FIZ7xP3PeeTVHWDwaYZLMLeQkV
+	aP51Y4qw2b5PtdNhfkYfkF4lQgRQHY9OF/y8VLCMcQ74QSQ+bip9MncoTQwo+VgsNEE7Sdrmpem3t
+	aRn+jJEGff8xMbZcD15uiR43soZ/LBcanTyCTHrX5xPrzL2/ERZmMU5vFdh0yag+/RlCDPqJsd4ge
+	gSJSeiDDAGZLxhv5wNPziaFv+XoPmVQqcHPjbRuTa06TZycFUXpZJWpfrHoJ7LYI+mcEeWvdPmipN
+	fCs1wDCUkuEZB2A7iplAqWhI6q4yba5XUl48dqaCaQnKAJRaB7M1hfajmDMqvmAkMpjwYnnghPCRV
+	Besz+yLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHkW7-0000000G7kf-2fyX;
-	Wed, 21 May 2025 14:33:59 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1uHkwd-0000000GCck-3yND;
+	Wed, 21 May 2025 15:01:23 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHkNQ-0000000G6Ok-0XcM
+	id 1uHktx-0000000GC3p-2cBh
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 14:25:00 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 31666629FB;
-	Wed, 21 May 2025 14:24:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83917C4CEE4;
-	Wed, 21 May 2025 14:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747837498;
-	bh=0fnnAFtFKsQIcRH8LyEVceGL/BANSDgnQLwfY7gFX6E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZZdeILG5ruCYJ/iwyPewo1eeP72y6doeYq/WQUG6wmC8Vbyq2wihCgfBRYGOd/O2Z
-	 I4NzJtqDFs4eSkScb4DTTiaTu/C6IAqMAk6uNkT0BbCi2OCM2s0tsmia7Wmz1EaRbq
-	 knAeqZ/ZchBF+I9NONh0IFp/pzegrj8TbPK5v4W1xcpt0gEmt77VnXQnemuqN7ynz6
-	 AwRVHd9zX8Cj0F3tqhfy9Sz6hcKDk+WTBFCkD1+oIA6IbU4aDK5TiYc1oKuulmYqT8
-	 tyvSFtt0lmmMBdzyUBq3GDxVJG6z1iVuG99Kbiu51O4VFh6qX86TsUWLUyOQvJsP6w
-	 vGbK+obVDK3Ow==
-Date: Wed, 21 May 2025 08:24:56 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me, Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Subject: Re: [PATCH] nvme: fix command limits status code
-Message-ID: <aC3iOCSN8kcJ8MAp@kbusch-mbp>
-References: <20250520202037.2751433-1-kbusch@meta.com>
- <20250521061400.GA3539@lst.de>
+	Wed, 21 May 2025 14:58:39 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LEViSs003099;
+	Wed, 21 May 2025 14:58:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=CykUaH
+	HiZoLO4CQZzFMQm7+4pA7vOPJvJJ5fg2eQ6W8=; b=JcSjfQraKIVlMPy6ALeDnA
+	90mO9vJP2Abc89gSgxP3Dhwz74GiW2VZUDSv33L/EnAHSIuWUH5c1wq04XE5Dvu/
+	7yheRA6EJifFsmfMdYXuHr2GE/SoCXtbyoCiZ0BOPmeoB+PqbZwigSqQj8uft9ku
+	8flj6UnoVKcFHns65M4UxmYBnTfueqwQU4UcThGmqMsFm6I7hrndRg7m/gUkF8ZI
+	F2s5iWexxnsIuXoZSGQfjxoFjVdqKdhd/6rI218YyYYYtP7a0YAlk54cwthB6fGT
+	3x+R0VSBZuk/YsE1X/rASbuz4zgJYqMFuEcxFn1eotBfE3PcwPLHwJSQczfaLBnw
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46s9estf5r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 May 2025 14:58:26 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54LDPDKu032024;
+	Wed, 21 May 2025 14:58:25 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 46rwmq4prh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 May 2025 14:58:25 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54LEwOxv61276660
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 21 May 2025 14:58:24 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 944D558058;
+	Wed, 21 May 2025 14:58:24 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 89F1A58059;
+	Wed, 21 May 2025 14:58:21 +0000 (GMT)
+Received: from [9.67.3.11] (unknown [9.67.3.11])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 21 May 2025 14:58:21 +0000 (GMT)
+Message-ID: <81fc81da-c379-4449-8ef4-ba2ac62ada95@linux.ibm.com>
+Date: Wed, 21 May 2025 20:28:19 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250521061400.GA3539@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: avoid creating multipath sysfs group under
+ namespace path devices
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, hare@suse.de, kbusch@kernel.org,
+        sagi@grimberg.me, dwagner@suse.de, gjoyce@ibm.com
+References: <20250521124137.99939-1-nilay@linux.ibm.com>
+ <20250521124851.GA30983@lst.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20250521124851.GA30983@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDE0MiBTYWx0ZWRfX88l8XALiz10B J3kdDUxH1FvUUG//tQYC4Pg9uJEM9JlZZg1tC9U+ZyLnB4Za55O3swD2TUpRy+qvQrIsbTSc5Uc +/Q1Np4LK4K+AU3f+WzypMrsdBm7oatSCIGqFGV0uv0ahhiGWoUiOj3/QqAyalMYNdAxcTnNMCP
+ d9FQQMPJ4XNRXF9D9Sx6BL/CCmOr937KD1Q5xsQ6bfciaR9SqsMqQSp9H29fVcipdeAtIEZdawK /q3YvJlZsQLK52Ps+woSEVFH3IMIBHlS42tbI9frKRtEdXy/oChFnuB1/4qpFkVwIjB8X7UmzXZ lSgO17AF7YZXUuqisDxnBuZ+ihPDMjpRfo8lj1nmOD9oYuwyZUDKAMFpMvLm+vWQB8AUFYYbyTP
+ LCT3mCKLsU3zgxLPT8UHIyXc2mSnt2rWwdbFlme81NvPR4UCHrnI4mXdjqOb4cLNXMCUz06n
+X-Proofpoint-ORIG-GUID: P4zybsxQBv8wzf95uLUIFw2R3IbcMgGV
+X-Proofpoint-GUID: P4zybsxQBv8wzf95uLUIFw2R3IbcMgGV
+X-Authority-Analysis: v=2.4 cv=PsWTbxM3 c=1 sm=1 tr=0 ts=682dea12 cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=6gFztdfKP3dsfUBlnJgA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-21_04,2025-05-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=686
+ impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 mlxscore=0 priorityscore=1501 phishscore=0
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505210142
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250521_075838_019059_C954F3F2 
+X-CRM114-Status: GOOD (  18.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,18 +113,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 21, 2025 at 08:14:00AM +0200, Christoph Hellwig wrote:
-> On Tue, May 20, 2025 at 01:20:37PM -0700, Keith Busch wrote:
-> 
-> > Fix the name and remove the incorrect
-> > special handling for it.
-> 
-> Where the incorrect handling is the mappings in nvme_error_status
-> and nvme_status_to_pr_err?  Yes, limit exceed should not be a not
-> supported, so this looks fine.  But it would be good to actually
-> spell that out in the commit message.  I'll fix it up if you don't
-> object.
 
-Yes, those two error mappings on the host side, and the target side use
-of the misnamed status code too.
+
+On 5/21/25 6:18 PM, Christoph Hellwig wrote:
+> On Wed, May 21, 2025 at 06:11:23PM +0530, Nilay Shroff wrote:
+>> The multipath sysfs group should only be exposed through the namespace
+>> head gendisk node. This is sufficient, as the head device already
+>> provides symbolic links to the individual namespace paths it manages.
+>>
+>> This patch fixes the issue by preventing the creation of the multipath
+>> sysfs group under namespace path devices, ensuring it only appears under
+>> the head disk node.
+> 
+> Yeah.  Looks like we should still try to rush this into 6.15?  I'll
+> tentatively queued it up because the pull request needs to got to
+> Jens tomorrow for that.  Any expedited reviews would be appreciated.
+> 
+Yeah it'd be good if we can push this one into 6.15. 
+
+>> +static struct attribute dummy_attr = {
+>> +		.name = "dummy",
+>> +};
+> 
+> The double tab here looks wrong.  I'll fix it up.
+> 
+Thanks!
+
+--Nilay
+
 
