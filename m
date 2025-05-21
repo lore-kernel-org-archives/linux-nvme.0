@@ -4,101 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26DEBC2D0CD
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 15:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35788C2D0CD
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 16:05:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CykUaHHiZoLO4CQZzFMQm7+4pA7vOPJvJJ5fg2eQ6W8=; b=FIZ7xP3PeeTVHWDwaYZLMLeQkV
-	aP51Y4qw2b5PtdNhfkYfkF4lQgRQHY9OF/y8VLCMcQ74QSQ+bip9MncoTQwo+VgsNEE7Sdrmpem3t
-	aRn+jJEGff8xMbZcD15uiR43soZ/LBcanTyCTHrX5xPrzL2/ERZmMU5vFdh0yag+/RlCDPqJsd4ge
-	gSJSeiDDAGZLxhv5wNPziaFv+XoPmVQqcHPjbRuTa06TZycFUXpZJWpfrHoJ7LYI+mcEeWvdPmipN
-	fCs1wDCUkuEZB2A7iplAqWhI6q4yba5XUl48dqaCaQnKAJRaB7M1hfajmDMqvmAkMpjwYnnghPCRV
-	Besz+yLg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZETFKyC+9cr14SXhbOoiFeZyuYYqlmA6QutyBLkX8Z4=; b=OB+SYU+FDmxlDtMMyEh+OW6OMS
+	BZ2ErStjNrVOhxnOU7oLmU6nSuIIo9iAugsljwx4UPwlqIS3s6vcIEP7HwhYD9nN+Jlu/l3axRw94
+	eCDcpv3fRyU/cXygMIV7whZJZIsIjsxfqWW5R96EM9aKiZusfAr9bqIClVLcDgWc5B82I0Wr8dJyF
+	sa/knDITzqbnNWYmHvs50BNcaa53Np9U36jvXL4qgZB7eRGVXeLjNDyyT7dVy2WefWllKAtFelO+N
+	jfWUTQc/cweTRW44jpN+rV3eiKt7yvcCVmPprrCtj3/I2sk5rRO4IWlqjYu1zi3P/Mf3Sjzu+spu2
+	7mfdVbYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHkwd-0000000GCck-3yND;
-	Wed, 21 May 2025 15:01:23 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1uHlx0-0000000GPLl-2yQ7;
+	Wed, 21 May 2025 16:05:50 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHktx-0000000GC3p-2cBh
+	id 1uHlve-0000000GP3y-4BMT
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 14:58:39 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LEViSs003099;
-	Wed, 21 May 2025 14:58:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=CykUaH
-	HiZoLO4CQZzFMQm7+4pA7vOPJvJJ5fg2eQ6W8=; b=JcSjfQraKIVlMPy6ALeDnA
-	90mO9vJP2Abc89gSgxP3Dhwz74GiW2VZUDSv33L/EnAHSIuWUH5c1wq04XE5Dvu/
-	7yheRA6EJifFsmfMdYXuHr2GE/SoCXtbyoCiZ0BOPmeoB+PqbZwigSqQj8uft9ku
-	8flj6UnoVKcFHns65M4UxmYBnTfueqwQU4UcThGmqMsFm6I7hrndRg7m/gUkF8ZI
-	F2s5iWexxnsIuXoZSGQfjxoFjVdqKdhd/6rI218YyYYYtP7a0YAlk54cwthB6fGT
-	3x+R0VSBZuk/YsE1X/rASbuz4zgJYqMFuEcxFn1eotBfE3PcwPLHwJSQczfaLBnw
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46s9estf5r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 May 2025 14:58:26 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54LDPDKu032024;
-	Wed, 21 May 2025 14:58:25 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 46rwmq4prh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 May 2025 14:58:25 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54LEwOxv61276660
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 21 May 2025 14:58:24 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 944D558058;
-	Wed, 21 May 2025 14:58:24 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 89F1A58059;
-	Wed, 21 May 2025 14:58:21 +0000 (GMT)
-Received: from [9.67.3.11] (unknown [9.67.3.11])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 21 May 2025 14:58:21 +0000 (GMT)
-Message-ID: <81fc81da-c379-4449-8ef4-ba2ac62ada95@linux.ibm.com>
-Date: Wed, 21 May 2025 20:28:19 +0530
+	Wed, 21 May 2025 16:04:27 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 6C363629EF;
+	Wed, 21 May 2025 16:04:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08EBBC4CEE4;
+	Wed, 21 May 2025 16:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747843466;
+	bh=rywf19OsznyC+v7V4zAzSM3BjlccRhSLtmaCmitX/Dg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=a1wREfmJir1pOx2iCobdRb1DIDyAgPtTxED+OvaqDLjW5q3YhHJQckxBzMQKdiQwP
+	 Zkd5Knn9olzOSxC6xFLTPpwyhk8/6ERckuXflpOHJjUOCox7RXmP72dFF3rbIJfLkD
+	 IvJVidp8XUhAnqzESMBqUkBcRdYcvwDdcyuHNzvneVG0IS3HwsNnP1eUGvpfPu1ULQ
+	 MgW0h19jYnsDwJz/ISoUL4Di29k41KlDWAr0nyofe+Ic+GzvB/HL3B/7f0i7xAvtKJ
+	 6YsD6CP1hgjeW2vjq9ZWevHuo1ccJmJr7kaKgzUcGwNcK/xJvpDPfmEK/bfvDbvhvi
+	 eG3TeW84AJnSA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Coiby Xu <coxu@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Breno Leitao <leitao@debian.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] crash_dump, nvme: select CONFIGFS_FS as built-in
+Date: Wed, 21 May 2025 18:03:19 +0200
+Message-Id: <20250521160359.2132363-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: avoid creating multipath sysfs group under
- namespace path devices
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, hare@suse.de, kbusch@kernel.org,
-        sagi@grimberg.me, dwagner@suse.de, gjoyce@ibm.com
-References: <20250521124137.99939-1-nilay@linux.ibm.com>
- <20250521124851.GA30983@lst.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20250521124851.GA30983@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDE0MiBTYWx0ZWRfX88l8XALiz10B J3kdDUxH1FvUUG//tQYC4Pg9uJEM9JlZZg1tC9U+ZyLnB4Za55O3swD2TUpRy+qvQrIsbTSc5Uc +/Q1Np4LK4K+AU3f+WzypMrsdBm7oatSCIGqFGV0uv0ahhiGWoUiOj3/QqAyalMYNdAxcTnNMCP
- d9FQQMPJ4XNRXF9D9Sx6BL/CCmOr937KD1Q5xsQ6bfciaR9SqsMqQSp9H29fVcipdeAtIEZdawK /q3YvJlZsQLK52Ps+woSEVFH3IMIBHlS42tbI9frKRtEdXy/oChFnuB1/4qpFkVwIjB8X7UmzXZ lSgO17AF7YZXUuqisDxnBuZ+ihPDMjpRfo8lj1nmOD9oYuwyZUDKAMFpMvLm+vWQB8AUFYYbyTP
- LCT3mCKLsU3zgxLPT8UHIyXc2mSnt2rWwdbFlme81NvPR4UCHrnI4mXdjqOb4cLNXMCUz06n
-X-Proofpoint-ORIG-GUID: P4zybsxQBv8wzf95uLUIFw2R3IbcMgGV
-X-Proofpoint-GUID: P4zybsxQBv8wzf95uLUIFw2R3IbcMgGV
-X-Authority-Analysis: v=2.4 cv=PsWTbxM3 c=1 sm=1 tr=0 ts=682dea12 cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=6gFztdfKP3dsfUBlnJgA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-21_04,2025-05-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=686
- impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
- suspectscore=0 bulkscore=0 mlxscore=0 priorityscore=1501 phishscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505210142
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250521_075838_019059_C954F3F2 
-X-CRM114-Status: GOOD (  18.07  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,32 +74,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Arnd Bergmann <arnd@arndb.de>
 
+Configfs can be configured as a loadable module, which causes a link-time
+failure for dm-crypt crash dump support:
 
-On 5/21/25 6:18 PM, Christoph Hellwig wrote:
-> On Wed, May 21, 2025 at 06:11:23PM +0530, Nilay Shroff wrote:
->> The multipath sysfs group should only be exposed through the namespace
->> head gendisk node. This is sufficient, as the head device already
->> provides symbolic links to the individual namespace paths it manages.
->>
->> This patch fixes the issue by preventing the creation of the multipath
->> sysfs group under namespace path devices, ensuring it only appears under
->> the head disk node.
-> 
-> Yeah.  Looks like we should still try to rush this into 6.15?  I'll
-> tentatively queued it up because the pull request needs to got to
-> Jens tomorrow for that.  Any expedited reviews would be appreciated.
-> 
-Yeah it'd be good if we can push this one into 6.15. 
+crash_dump_dm_crypt.c:(.text+0x3a4): undefined reference to `config_item_init_type_name'
+aarch64-linux-ld: kernel/crash_dump_dm_crypt.o: in function `configfs_dmcrypt_keys_init':
+crash_dump_dm_crypt.c:(.init.text+0x90): undefined reference to `config_group_init'
+aarch64-linux-ld: crash_dump_dm_crypt.c:(.init.text+0xb4): undefined reference to `configfs_register_subsystem'
+aarch64-linux-ld: crash_dump_dm_crypt.c:(.init.text+0xd8): undefined reference to `configfs_unregister_subsystem'
 
->> +static struct attribute dummy_attr = {
->> +		.name = "dummy",
->> +};
-> 
-> The double tab here looks wrong.  I'll fix it up.
-> 
-Thanks!
+This could be avoided with a dependency on CONFIGFS_FS=y, but the dependency has
+an additional problem of causing Kconfig dependency loops since most other uses
+select the symbol.
 
---Nilay
+Using a simple 'select CONFIGFS_FS' here in turn fails with CONFIG_DM_CRYPT=m,
+because that still only causes configfs to be a loadable module.
+
+The only version I found that fixes this reliably uses an additional Kconfig
+symbol to ensure the 'select' actually turns on configfs as builtin, with
+two additional changes to avoid dependency loops with nvme and sysfs.
+
+There is no compile-time dependency between configfs and sysfs, so selecting
+configfs from a driver with sysfs disabled does not cause link failures, only
+the default /sys/kernel/config mount point will not be created.
+
+Fixes: 6b23858fd63b ("crash_dump: make dm crypt keys persist for the kdump kernel")
+Fixes: 1fb470408497 ("nvme-loop: add configfs dependency")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/nvme/target/Kconfig | 2 +-
+ fs/configfs/Kconfig         | 1 -
+ kernel/Kconfig.kexec        | 8 +++++++-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+index 4c253b433bf7..4904097dfd49 100644
+--- a/drivers/nvme/target/Kconfig
++++ b/drivers/nvme/target/Kconfig
+@@ -3,7 +3,7 @@
+ config NVME_TARGET
+ 	tristate "NVMe Target support"
+ 	depends on BLOCK
+-	depends on CONFIGFS_FS
++	select CONFIGFS_FS
+ 	select NVME_KEYRING if NVME_TARGET_TCP_TLS
+ 	select KEYS if NVME_TARGET_TCP_TLS
+ 	select SGL_ALLOC
+diff --git a/fs/configfs/Kconfig b/fs/configfs/Kconfig
+index 272b64456999..1fcd761fe7be 100644
+--- a/fs/configfs/Kconfig
++++ b/fs/configfs/Kconfig
+@@ -1,7 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config CONFIGFS_FS
+ 	tristate "Userspace-driven configuration filesystem"
+-	select SYSFS
+ 	help
+ 	  configfs is a RAM-based filesystem that provides the converse
+ 	  of sysfs's functionality. Where sysfs is a filesystem-based
+diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
+index 4e7cee4e4ffc..e64ce21f9a80 100644
+--- a/kernel/Kconfig.kexec
++++ b/kernel/Kconfig.kexec
+@@ -134,12 +134,18 @@ config CRASH_DM_CRYPT
+ 	depends on KEXEC_FILE
+ 	depends on CRASH_DUMP
+ 	depends on DM_CRYPT
+-	depends on CONFIGFS_FS
+ 	help
+ 	  With this option enabled, user space can intereact with
+ 	  /sys/kernel/config/crash_dm_crypt_keys to make the dm crypt keys
+ 	  persistent for the dump-capture kernel.
+ 
++config CRASH_DM_CRYPT_CONFIGS
++	def_tristate CRASH_DM_CRYPT
++	select CONFIGFS_FS
++	help
++	  CRASH_DM_CRYPT cannot directly select CONFIGFS_FS, because that
++	  is required to be built-in.
++
+ config CRASH_HOTPLUG
+ 	bool "Update the crash elfcorehdr on system configuration changes"
+ 	default y
+-- 
+2.39.5
 
 
