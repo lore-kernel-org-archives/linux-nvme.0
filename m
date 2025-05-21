@@ -4,77 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE6B7C54E90
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 22:31:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A83D0C54E65
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 22:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ADIhLn5VjOQ+8E1c0cuERM2aLwK/zTifB7KESawKdy8=; b=3ZAu231T0ubetEiGL9cBpKe/IA
-	IdnqFZxYufpjohq3veAV7zeQK5ERbn8bGk60gPHrUVQdEPk1tKKwqqpsoUihQkRASflT5kvyClD3i
-	HxCCYOse2VQPELVWXHLDWLSZjQ/+u0nRcjsCuZ49ejOQxeRwZNNAinwDRaaAziaxf7HonuD/V1L7H
-	h1/tIa9XRMa7//kDAIFNCbz0KNzNmdP7qSON0rPGnqBe/VJ4Ckaua+goLAt7cUaHhkDfe6evAJX9y
-	PNqWUFajxn2BwDU6UA8sX1naNKck5n1TkPIbTJeqEjsh3M4kgQ4Z+XIGu8+eiI4BlJ4WQ1yh5kAXE
-	8m/RRliA==;
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=4OMSpxN4Zzouf3D4WwvIxwz73dA7VLEPMQUs1MZ4RTA=; b=4blmjDe/mQrTIO+t0k4Cp0pfH8
+	GvxTCo1s09SAohBjoNKiubxUZWYxxhgs1uHALZHOi2ANGry0h5pz/lu/QieB1drWPJZltzb2JIlhZ
+	HOn9hWz8GU2VfZLuYwyWj6gEY96S116A6tL0dsOcIsz3EP8a4/kWvyH6VH11XjgrNYwphRuhQRxcA
+	sj/e07+Z5267fvJ3C6TILhZUix/3W+8HhjRF3kTke/P/3hCAHqzfgoMN+sF5fBYv3dzvjUxfd8HXO
+	SRuu5G/6j+hCZ2ydZXvlz2hQKODRQxIV8aPJGbMfoRYsoAqdk+BHuBpuo6rzLh8JNObNCaTZaYG6t
+	b9sxbsAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHry4-0000000GvfD-0lO7;
-	Wed, 21 May 2025 22:31:20 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1uHryD-0000000Gvlv-3lQG;
+	Wed, 21 May 2025 22:31:29 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHry0-0000000Gvcn-22P5
+	id 1uHryB-0000000GvkE-1FPi
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 22:31:18 +0000
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LMQXca002432
-	for <linux-nvme@lists.infradead.org>; Wed, 21 May 2025 15:31:16 -0700
+	Wed, 21 May 2025 22:31:28 +0000
+Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LMQWgG029158
+	for <linux-nvme@lists.infradead.org>; Wed, 21 May 2025 15:31:26 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=ADIhLn5VjOQ+8E1c0cuERM2aLwK/zTifB7KESawKdy8=; b=i9qHI8l6y+pr
-	L+zPY33Q6cmW3arDE8EVR/aZ2/3buDK33u3rV8zlKbrYuf19xe0tdWcqLZbRFI7c
-	agYN7PF4vXO+p9BlTsH4pLFKuQFqVBF3yvbhXVlCepqP0yH2A054jR6QoGqd5aLB
-	pMyICemL0pHI55/nyKBMEZoBZP5z8edPAMG10uf2RnAbq0tOBPhjYHfStLexcaOM
-	VmPqNFo9u+74sXsqPUV0WBTWM6kCZDWjLtLb35x0mT7HEIeUqg1JRpYsNzEr4boZ
-	7zmI7SGRoVAFUxzdr/2oLn0VBqE5JWs5+1bF7us8D0tTMpN6SS7p9yY82TFM2qiW
-	92nYUj35gg==
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2021-q4; bh=4OMSpxN4Zzouf3D4Ww
+	vIxwz73dA7VLEPMQUs1MZ4RTA=; b=NcfymIODh7DioT1YpX5sdW/6k+uobh3YbD
+	gMdgeTma9KuzLogbGEId+VnaJASttDmzDxI0YDNkznWotjNiZBOw/jLDxXt8UN+k
+	K4F3dh7+C91i8+fwxbmYC5sWbZ+QNa+gESIoeqvphqgsADLseMDQw4Atm/rikn6M
+	PEBaGjVn79gRl6iPmmCTRmQHIUoi/FvVWte5yfb3EqcJclS0wmH1EBc/Z6QYzZjm
+	7x1RjwyYv960FCFCqhzcbr4G7CASueP3nd0mefz4+CIRS/VIl2N5aV4pHhbTAVfo
+	H6pxrtHM6J+WaJmV514l7JEgE4r98ZbSI3ap6xuZQSpGqFVEl7qg==
 Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 46rwfgkp1x-6
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 46sd06wf38-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 21 May 2025 15:31:16 -0700 (PDT)
-Received: from twshared24170.03.ash8.facebook.com (2620:10d:c085:108::4) by
+	for <linux-nvme@lists.infradead.org>; Wed, 21 May 2025 15:31:26 -0700 (PDT)
+Received: from twshared37834.15.frc2.facebook.com (2620:10d:c085:108::150d) by
  mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1748.10; Wed, 21 May 2025 22:31:14 +0000
+ 15.2.1748.10; Wed, 21 May 2025 22:31:24 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id B02F21BE54AC7; Wed, 21 May 2025 15:31:10 -0700 (PDT)
+	id 9D2C11BE54AC2; Wed, 21 May 2025 15:31:10 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
 CC: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 3/5] nvme: add support for copy offload
-Date: Wed, 21 May 2025 15:31:05 -0700
-Message-ID: <20250521223107.709131-4-kbusch@meta.com>
+Subject: [PATCH 0/5] block: another block copy offload
+Date: Wed, 21 May 2025 15:31:02 -0700
+Message-ID: <20250521223107.709131-1-kbusch@meta.com>
 X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250521223107.709131-1-kbusch@meta.com>
-References: <20250521223107.709131-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: EDJGDdfy60-fs_tRSOZ3gj0F7uGAH5Ox
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDIyNCBTYWx0ZWRfX8YJvZZtWzfSL bFR25IUzwTZkVnIAD7CxmEVCeYrZDHvHSz5y9UF9xUl61KuqfRiRsLtbZ59CdCj5ExSqOEKunUe bKZRC8AOuw3LS2y5FWziJqHPCX2PhNwgka1CkrYiI1TiwC+/pbgf1QCKS49DAwFyydrCufxl4Xv
- X0CXPIsUWRQ5b1dUb0lt7HrD7LnYgAKYY3DXSIxW6Slbc5T+5kTLfoyu0wRXR2pKcykhGLNzZAj aes85R4yBnLrbtK9DeVNyNXeLrZA9pVh1IqoXHLX/3yfxExR2BQfCvWLAbtZ/H6V6yYVVz3gSth EHK7tQYptDXUcc0A4UwUOhPft4viUiA6fzk5F80eR2ETAwHjX5KpP6hhICGl8Gy5OB0W5Qnrman
- hZYLXOw+QgCciILqognFv3D+DdEANMHt9W87XFDzTAOXscKR6RQAYDg5ZJWItNmNrVjN3Z2c
-X-Authority-Analysis: v=2.4 cv=I9BlRMgg c=1 sm=1 tr=0 ts=682e5434 cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=p-wV8MGqm0ydJg34uK0A:9
-X-Proofpoint-ORIG-GUID: EDJGDdfy60-fs_tRSOZ3gj0F7uGAH5Ox
+X-Authority-Analysis: v=2.4 cv=MaBsu4/f c=1 sm=1 tr=0 ts=682e543e cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=GS0gexFe5ZxbJc13yJoA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDIyNCBTYWx0ZWRfX5lD9iIyQ0XsK 6flhqgng44X8ALV8wmUqpLdw+UfD8znYkwj3DeXASWUEHt4ICUIJXGdqkyWLNB+YyMobyBmsTxp //F4rtWFqCwNdDwOWzpAxJRJ7ct0uMoMA9FFZQcoMBQMSJJ1H8+mn43QbVWj00a4OldrS7/oYzu
+ OR8VDJjnameHiEp9e1NQtvEZp/Hp+EthilwMXi8jmYkXo948OXXAzkswN0etAB6fO2i/6UisldD SHqPblBppE0qpUV9rwiBUdiuirE84JZtY3jJuuYsVV+gTanvXJM3xJ9Te5XQiOAL/xGSHHZcrdT TbNIjrOAQ3U7rVkj++IbhOCzCk9fGnJfjQptih2xNk0sB+zTUahsMiKbvUcEEcMVfDhCTVdgc/c
+ R4okzCisRiXAbxUPSxqb/W5BDzRDLOjZupOpb+g5UWRVgvBDZUHBHi2Fe4zeRMrkvodv7vGO
+X-Proofpoint-ORIG-GUID: WAbnjpQoeYkpDbQBQrZFIYU713EOXPgY
+X-Proofpoint-GUID: WAbnjpQoeYkpDbQBQrZFIYU713EOXPgY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-21_07,2025-05-20_03,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250521_153116_529622_1DDC1FAA 
-X-CRM114-Status: GOOD (  17.21  )
+X-CRM114-CacheID: sfid-20250521_153127_455794_4BC53648 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,203 +88,54 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Register the nvme namespace copy capablities with the request_queue
-limits and implement support for the REQ_OP_COPY operation.
+I was never happy with previous block copy offload attempts, so I had to
+take a stab at it. And I was recently asked to take a look at this, so
+here goes.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 61 ++++++++++++++++++++++++++++++++++++++++
- include/linux/nvme.h     | 42 ++++++++++++++++++++++++++-
- 2 files changed, 102 insertions(+), 1 deletion(-)
+Some key implementation differences from previous approaches:
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f69a232a000ac..3134fe85b1abc 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -888,6 +888,52 @@ static blk_status_t nvme_setup_discard(struct nvme_n=
-s *ns, struct request *req,
- 	return BLK_STS_OK;
- }
-=20
-+static inline blk_status_t nvme_setup_copy(struct nvme_ns *ns,
-+		struct request *req, struct nvme_command *cmnd)
-+{
-+	struct nvme_copy_range *range;
-+	struct req_iterator iter;
-+	struct bio_vec bvec;
-+	u16 control =3D 0;
-+	int i =3D 0;
-+
-+	static const size_t alloc_size =3D sizeof(*range) * NVME_COPY_MAX_RANGE=
-S;
-+
-+	if (WARN_ON_ONCE(blk_rq_nr_phys_segments(req) >=3D NVME_COPY_MAX_RANGES=
-))
-+		return BLK_STS_IOERR;
-+
-+	range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
-+	if (!range)
-+		return BLK_STS_RESOURCE;
-+
-+	if (req->cmd_flags & REQ_FUA)
-+	        control |=3D NVME_RW_FUA;
-+	if (req->cmd_flags & REQ_FAILFAST_DEV)
-+	        control |=3D NVME_RW_LR;
-+
-+	rq_for_each_copy_bvec(bvec, req, iter) {
-+		u64 slba =3D nvme_sect_to_lba(ns->head, bvec.bv_sector);
-+		u64 nlb =3D nvme_sect_to_lba(ns->head, bvec.bv_sectors) - 1;
-+
-+		range[i].slba =3D cpu_to_le64(slba);
-+		range[i].nlb =3D cpu_to_le16(nlb);
-+	        i++;
-+	}
-+
-+	memset(cmnd, 0, sizeof(*cmnd));
-+	cmnd->copy.opcode =3D nvme_cmd_copy;
-+	cmnd->copy.nsid =3D cpu_to_le32(ns->head->ns_id);
-+	cmnd->copy.nr_range =3D i - 1;
-+	cmnd->copy.sdlba =3D cpu_to_le64(nvme_sect_to_lba(ns->head,
-+						blk_rq_pos(req)));
-+	cmnd->copy.control =3D cpu_to_le16(control);
-+
-+	bvec_set_virt(&req->special_vec, range, alloc_size);
-+	req->rq_flags |=3D RQF_SPECIAL_PAYLOAD;
-+
-+	return BLK_STS_OK;
-+}
-+
- static void nvme_set_app_tag(struct request *req, struct nvme_command *c=
-mnd)
- {
- 	cmnd->rw.lbat =3D cpu_to_le16(bio_integrity(req->bio)->app_tag);
-@@ -1106,6 +1152,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, str=
-uct request *req)
- 	case REQ_OP_DISCARD:
- 		ret =3D nvme_setup_discard(ns, req, cmd);
- 		break;
-+	case REQ_OP_COPY:
-+		ret =3D nvme_setup_copy(ns, req, cmd);
-+		break;
- 	case REQ_OP_READ:
- 		ret =3D nvme_setup_rw(ns, req, cmd, nvme_cmd_read);
- 		break;
-@@ -2119,6 +2168,15 @@ static bool nvme_update_disk_info(struct nvme_ns *=
-ns, struct nvme_id_ns *id,
- 		lim->max_write_zeroes_sectors =3D UINT_MAX;
- 	else
- 		lim->max_write_zeroes_sectors =3D ns->ctrl->max_zeroes_sectors;
-+
-+	if (ns->ctrl->oncs & NVME_CTRL_ONCS_NVMCPYS && id->mssrl && id->mcl) {
-+		u32 mcss =3D bs * le16_to_cpu(id->mssrl) >> SECTOR_SHIFT;
-+		u32 mcs =3D bs * le32_to_cpu(id->mcl) >> SECTOR_SHIFT;
-+
-+		lim->max_copy_segment_sectors =3D mcss;
-+		lim->max_copy_sectors =3D mcs;
-+		lim->max_copy_segments =3D id->msrc + 1;
-+	}
- 	return valid;
- }
-=20
-@@ -2526,6 +2584,9 @@ static int nvme_update_ns_info(struct nvme_ns *ns, =
-struct nvme_ns_info *info)
- 			nvme_init_integrity(ns->head, &lim, info);
- 		lim.max_write_streams =3D ns_lim->max_write_streams;
- 		lim.write_stream_granularity =3D ns_lim->write_stream_granularity;
-+		lim.max_copy_segment_sectors =3D ns_lim->max_copy_segment_sectors;
-+		lim.max_copy_sectors =3D ns_lim->max_copy_sectors;
-+		lim.max_copy_segments =3D ns_lim->max_copy_segments;
- 		ret =3D queue_limits_commit_update(ns->head->disk->queue, &lim);
-=20
- 		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 51308f65b72fd..14f46ad1330b6 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -404,6 +404,7 @@ enum {
- 	NVME_CTRL_ONCS_WRITE_ZEROES		=3D 1 << 3,
- 	NVME_CTRL_ONCS_RESERVATIONS		=3D 1 << 5,
- 	NVME_CTRL_ONCS_TIMESTAMP		=3D 1 << 6,
-+	NVME_CTRL_ONCS_NVMCPYS                  =3D 1 << 8,
- 	NVME_CTRL_VWC_PRESENT			=3D 1 << 0,
- 	NVME_CTRL_OACS_SEC_SUPP                 =3D 1 << 0,
- 	NVME_CTRL_OACS_NS_MNGT_SUPP		=3D 1 << 3,
-@@ -458,7 +459,10 @@ struct nvme_id_ns {
- 	__le16			npdg;
- 	__le16			npda;
- 	__le16			nows;
--	__u8			rsvd74[18];
-+	__le16			mssrl;
-+	__le32			mcl;
-+	__u8			msrc;
-+	__u8			rsvd81[11];
- 	__le32			anagrpid;
- 	__u8			rsvd96[3];
- 	__u8			nsattr;
-@@ -956,6 +960,7 @@ enum nvme_opcode {
- 	nvme_cmd_resv_acquire	=3D 0x11,
- 	nvme_cmd_io_mgmt_recv	=3D 0x12,
- 	nvme_cmd_resv_release	=3D 0x15,
-+	nvme_cmd_copy		=3D 0x19,
- 	nvme_cmd_zone_mgmt_send	=3D 0x79,
- 	nvme_cmd_zone_mgmt_recv	=3D 0x7a,
- 	nvme_cmd_zone_append	=3D 0x7d,
-@@ -978,6 +983,7 @@ enum nvme_opcode {
- 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
- 		nvme_opcode_name(nvme_cmd_io_mgmt_recv),	\
- 		nvme_opcode_name(nvme_cmd_resv_release),	\
-+		nvme_opcode_name(nvme_cmd_copy),		\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
- 		nvme_opcode_name(nvme_cmd_zone_append))
-@@ -1158,6 +1164,39 @@ struct nvme_dsm_range {
- 	__le64			slba;
- };
-=20
-+struct nvme_copy_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd2;
-+	__le64			metadata;
-+	union nvme_data_ptr	dptr;
-+	__le64			sdlba;
-+	__u8			nr_range;
-+	__u8			format;
-+	__le16			control;
-+	__le16			cev;
-+	__le16			dspec;
-+	__le32			lbtl;
-+	__le16			lbat;
-+	__le16			lbatm;
-+};
-+
-+#define NVME_COPY_MAX_RANGES   128
-+struct nvme_copy_range {
-+	__le32			spars;
-+	__u32			rsvd4;
-+	__le64			slba;
-+	__le16			nlb;
-+	__le16			cetype;
-+	__le16			cev;
-+	__le16			sopt;
-+	__le32			elbt;
-+	__le16			elbat;
-+	__le16			elbatm;
-+};
-+
- struct nvme_write_zeroes_cmd {
- 	__u8			opcode;
- 	__u8			flags;
-@@ -1985,6 +2024,7 @@ struct nvme_command {
- 		struct nvme_download_firmware dlfw;
- 		struct nvme_format_cmd format;
- 		struct nvme_dsm_cmd dsm;
-+		struct nvme_copy_cmd copy;
- 		struct nvme_write_zeroes_cmd write_zeroes;
- 		struct nvme_zone_mgmt_send_cmd zms;
- 		struct nvme_zone_mgmt_recv_cmd zmr;
+  1. Only one bio is needed to describe a copy request, so no plugging
+     or dispatch tricks required. Like read and write requests, these
+     can be artbitrarily large and will be split as needed based on the
+     request_queue's limits. The bio's are mergeable with other copy
+     commands on adjacent destination sectors.
+
+  2. You can describe as many source sectors as you want in a vector in
+     a single bio. This aligns with the nvme protocol's Copy implementati=
+on,
+     which can be used to efficiently defragment scattered blocks into a
+     contiguous destination with a single command.
+
+Oh, and the nvme-target support was included with this patchset too, so
+there's a purely in-kernel way to test out the code paths if you don't
+have otherwise capable hardware. I also used qemu since that nvme device
+supports copy offload too.
+
+Keith Busch (5):
+  block: new sector copy api
+  block: add support for copy offload
+  nvme: add support for copy offload
+  block: add support for vectored copies
+  nvmet: implement copy support for bdev backed target
+
+ block/bio.c                       |  25 +++++++
+ block/blk-core.c                  |   4 ++
+ block/blk-lib.c                   | 115 ++++++++++++++++++++++++++++++
+ block/blk-merge.c                 |  28 +++++++-
+ block/blk-sysfs.c                 |   9 +++
+ block/blk.h                       |  17 ++++-
+ block/ioctl.c                     |  89 +++++++++++++++++++++++
+ drivers/nvme/host/core.c          |  61 ++++++++++++++++
+ drivers/nvme/target/io-cmd-bdev.c |  52 ++++++++++++++
+ include/linux/bio.h               |  20 ++++++
+ include/linux/blk-mq.h            |   5 ++
+ include/linux/blk_types.h         |   2 +
+ include/linux/blkdev.h            |  18 +++++
+ include/linux/bvec.h              |  68 +++++++++++++++++-
+ include/linux/nvme.h              |  42 ++++++++++-
+ include/uapi/linux/fs.h           |  17 +++++
+ 16 files changed, 566 insertions(+), 6 deletions(-)
+
 --=20
 2.47.1
 
