@@ -4,89 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A4B8C54EDA
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 10:30:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF28BC54E90
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 10:30:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aJ9g9jSX1fohEBDn5gmLEUU9DPbZojP3+i2DcalaxVg=; b=jqfrnRrAu10wYhUhiz4RIbIEKI
-	SwfWqCvFwsOY8awYCbxjH+qqiL3bBXKzW9hLRB/RjOqvzHJ2vWRmh+KCvp5OZHnQFv5k4stGupkpa
-	2ljl5a87x1+leu3Iz6ZCYlHfzvp3EwyZiC0aN0/FO9UteHihfvwEc339Ts/PjgkjunTxjpggvnLB0
-	kYAEtHjf5lG1kSm/b/f34V+AOUGDsHqQ9f6QtqZO/ftsDypOPl0jnk3pmJBKh2CqsyAAKsyf2GuyV
-	3WE0XKpCwFHXWJSP+g+m+BjO94cfUtY6LxAnSErisDuYB73YSECCMS9pSyD2qWsofjnu5U4LdzqFq
-	gYWSvalA==;
+	bh=CLYsdgB3uf5e5BJCk5J+2wDtYUN+97pTdoUS/ZfGn7c=; b=eYfGj3tjOXORl3yHUeoUBhFkNZ
+	3vLcxgOFVNIr/7D/CDtm9NTBUY8t7e4nuH/IGTkNmeT/DEWgU1RmZlzbrbZLpgQroAzUrxCUFaH9i
+	b8jO2jMkSZbIdr7E+tDTcSZK+3zUbSUUN2EfDMagdu+98+gL6lhSwGVxdnc1EqBst9vMYj/Sqz2t5
+	bsL064AhGc0Vf6/P8v8y4+P8LhJcFZsf263BcqAprBIEQ4cYx6gVghiD1X4S08TOvelyqwJpFIK5n
+	o4cyBjuObONve4+AAQcNfK9aMAbhClQ6UGspDinLdiYMahXkT6NUsa2VVcI+NMnyl6B/tZWqA95Tt
+	G8gQCQNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHghy-0000000FT6o-2wtB;
-	Wed, 21 May 2025 10:29:58 +0000
+	id 1uHgi2-0000000FTDi-2dfv;
+	Wed, 21 May 2025 10:30:02 +0000
 Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHgQc-0000000FPiN-39gm
+	id 1uHgRe-0000000FPuf-2SBw
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 10:12:04 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Wed, 21 May 2025 10:13:07 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 200AF20919;
-	Wed, 21 May 2025 10:12:01 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2709F20922;
+	Wed, 21 May 2025 10:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747822321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1747822385; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aJ9g9jSX1fohEBDn5gmLEUU9DPbZojP3+i2DcalaxVg=;
-	b=Ki5JcNjf8lw7z/M3fEoSaM5Coi454jvrhsYdKiS52udHh5EEstopNT2KMhWMBrn7vHxBN0
-	OQczQQADwVSiBS7zmX0mEv5fh6AM/yYlBb6hRY/4HwozeXJFlVMwxjQaW1QoepT6cEn8pH
-	2WRr/bvYzP2U802olUrwvEe4wINY1yQ=
+	bh=CLYsdgB3uf5e5BJCk5J+2wDtYUN+97pTdoUS/ZfGn7c=;
+	b=Cmi+n+YBZA+ZZOwbg22YbtkbpAvJkjXoXQGRfTxHu6cMDhQ/X3gEGiRavHs4gQe7ZwxxmF
+	K9Y2u5jD3UXRzNIXLDOpfHXO+IsXVd08vs8ywrRrxBWfsPokerRmW4LcU67NLbDLiyyJcQ
+	tsNG/z5NZGZMyWssyz8GnZK5iTvKyYo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747822321;
+	s=susede2_ed25519; t=1747822385;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aJ9g9jSX1fohEBDn5gmLEUU9DPbZojP3+i2DcalaxVg=;
-	b=b05e8/3HUhE9vX2prCH4KKs3mAduKDuQqpJTL16+h7eaZYBepTCRFYSe+h15KhzInYc9RB
-	/ncFm7NpsFBVi8Bw==
+	bh=CLYsdgB3uf5e5BJCk5J+2wDtYUN+97pTdoUS/ZfGn7c=;
+	b=vrAuruo2cIf9bjUYr46d33GAeCYFFd+6NfNcwBLii7Ci+VFyxwAZaYa9vEnCzQu4Ka9Sog
+	vWxtJFA3aLdqu2Cg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ki5JcNjf;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="b05e8/3H"
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747822321; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1747822385; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aJ9g9jSX1fohEBDn5gmLEUU9DPbZojP3+i2DcalaxVg=;
-	b=Ki5JcNjf8lw7z/M3fEoSaM5Coi454jvrhsYdKiS52udHh5EEstopNT2KMhWMBrn7vHxBN0
-	OQczQQADwVSiBS7zmX0mEv5fh6AM/yYlBb6hRY/4HwozeXJFlVMwxjQaW1QoepT6cEn8pH
-	2WRr/bvYzP2U802olUrwvEe4wINY1yQ=
+	bh=CLYsdgB3uf5e5BJCk5J+2wDtYUN+97pTdoUS/ZfGn7c=;
+	b=Cmi+n+YBZA+ZZOwbg22YbtkbpAvJkjXoXQGRfTxHu6cMDhQ/X3gEGiRavHs4gQe7ZwxxmF
+	K9Y2u5jD3UXRzNIXLDOpfHXO+IsXVd08vs8ywrRrxBWfsPokerRmW4LcU67NLbDLiyyJcQ
+	tsNG/z5NZGZMyWssyz8GnZK5iTvKyYo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747822321;
+	s=susede2_ed25519; t=1747822385;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aJ9g9jSX1fohEBDn5gmLEUU9DPbZojP3+i2DcalaxVg=;
-	b=b05e8/3HUhE9vX2prCH4KKs3mAduKDuQqpJTL16+h7eaZYBepTCRFYSe+h15KhzInYc9RB
-	/ncFm7NpsFBVi8Bw==
+	bh=CLYsdgB3uf5e5BJCk5J+2wDtYUN+97pTdoUS/ZfGn7c=;
+	b=vrAuruo2cIf9bjUYr46d33GAeCYFFd+6NfNcwBLii7Ci+VFyxwAZaYa9vEnCzQu4Ka9Sog
+	vWxtJFA3aLdqu2Cg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E016F13AA0;
-	Wed, 21 May 2025 10:12:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E835C13AA0;
+	Wed, 21 May 2025 10:13:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NUZQNfCmLWjPSwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 21 May 2025 10:12:00 +0000
-Message-ID: <56c630a7-a88b-4c75-b572-939f8597214e@suse.de>
-Date: Wed, 21 May 2025 12:12:00 +0200
+	id fJLFNzCnLWguTAAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 21 May 2025 10:13:04 +0000
+Message-ID: <c5807d92-3820-4d82-8937-06cd2ecd3d1d@suse.de>
+Date: Wed, 21 May 2025 12:13:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] net: add skb_crc32c()
+Subject: Re: [PATCH v2 03/10] net: use skb_crc32c() in skb_crc32c_csum_help()
 To: Eric Biggers <ebiggers@kernel.org>, netdev@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org, linux-sctp@vger.kernel.org,
  linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -94,48 +93,38 @@ Cc: linux-nvme@lists.infradead.org, linux-sctp@vger.kernel.org,
  Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
  Sagi Grimberg <sagi@grimberg.me>, Ard Biesheuvel <ardb@kernel.org>
 References: <20250519175012.36581-1-ebiggers@kernel.org>
- <20250519175012.36581-3-ebiggers@kernel.org>
+ <20250519175012.36581-4-ebiggers@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250519175012.36581-3-ebiggers@kernel.org>
+In-Reply-To: <20250519175012.36581-4-ebiggers@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,vger.kernel.org,iogearbox.net,gmail.com,grimberg.me,kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
 	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 200AF20919
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lists.infradead.org,vger.kernel.org,iogearbox.net,gmail.com,grimberg.me,kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250521_031202_941391_3F2E2EEF 
-X-CRM114-Status: GOOD (  23.12  )
+X-CRM114-CacheID: sfid-20250521_031306_772520_769811E6 
+X-CRM114-Status: GOOD (  10.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,73 +142,14 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 5/19/25 19:50, Eric Biggers wrote:
 > From: Eric Biggers <ebiggers@google.com>
 > 
-> Add skb_crc32c(), which calculates the CRC32C of a sk_buff.  It will
-> replace __skb_checksum(), which unnecessarily supports arbitrary
-> checksums.  Compared to __skb_checksum(), skb_crc32c():
-> 
->     - Uses the correct type for CRC32C values (u32, not __wsum).
-> 
->     - Does not require the caller to provide a skb_checksum_ops struct.
-> 
->     - Is faster because it does not use indirect calls and does not use
->       the very slow crc32c_combine().
-> 
-> According to commit 2817a336d4d5 ("net: skb_checksum: allow custom
-> update/combine for walking skb") which added __skb_checksum(), the
-> original motivation for the abstraction layer was to avoid code
-> duplication for CRC32C and other checksums in the future.  However:
-> 
->     - No additional checksums showed up after CRC32C.  __skb_checksum()
->       is only used with the "regular" net checksum and CRC32C.
-> 
->     - Indirect calls are expensive.  Commit 2544af0344ba ("net: avoid
->       indirect calls in L4 checksum calculation") worked around this
->       using the INDIRECT_CALL_1 macro. But that only avoided the indirect
->       call for the net checksum, and at the cost of an extra branch.
-> 
->     - The checksums use different types (__wsum and u32), causing casts
->       to be needed.
-> 
->     - It made the checksums of fragments be combined (rather than
->       chained) for both checksums, despite this being highly
->       counterproductive for CRC32C due to how slow crc32c_combine() is.
->       This can clearly be seen in commit 4c2f24549644 ("sctp: linearize
->       early if it's not GSO") which tried to work around this performance
->       bug.  With a dedicated function for each checksum, we can instead
->       just use the proper strategy for each checksum.
-> 
-> As shown by the following tables, the new function skb_crc32c() is
-> faster than __skb_checksum(), with the improvement varying greatly from
-> 5% to 2500% depending on the case.  The largest improvements come from
-> fragmented packets, mainly due to eliminating the inefficient
-> crc32c_combine().  But linear packets are improved too, especially
-> shorter ones, mainly due to eliminating indirect calls.  These
-> benchmarks were done on AMD Zen 5.  On that CPU, Linux uses IBRS instead
-> of retpoline; an even greater improvement might be seen with retpoline:
-> 
->      Linear sk_buffs
-> 
->          Length in bytes    __skb_checksum cycles    skb_crc32c cycles
->          ===============    =====================    =================
->                       64                       43                   18
->                      256                       94                   77
->                     1420                      204                  161
->                    16384                     1735                 1642
-> 
->      Nonlinear sk_buffs (even split between head and one fragment)
-> 
->          Length in bytes    __skb_checksum cycles    skb_crc32c cycles
->          ===============    =====================    =================
->                       64                      579                   22
->                      256                      829                   77
->                     1420                     1506                  194
->                    16384                     4365                 1682
+> Instead of calling __skb_checksum() with a skb_checksum_ops struct that
+> does CRC32C, just call the new function skb_crc32c().  This is faster
+> and simpler.
 > 
 > Signed-off-by: Eric Biggers <ebiggers@google.com>
 > ---
->   include/linux/skbuff.h |  1 +
->   net/core/skbuff.c      | 73 ++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 74 insertions(+)
+>   net/core/dev.c | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
