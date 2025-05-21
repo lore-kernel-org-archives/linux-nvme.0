@@ -4,74 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2389EC54EDA
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 16:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78ADFC54F32
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 16:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l0vyZcnIVM4bigsYp1QT22GmXPXKNYV2m52Fpjg/7Ug=; b=jXobCCUaNriFVWuT4SCa5Y9Y0e
-	/PhIeL+qOMH1kzWnQKwPhkx4IG9IZ+m6JhQfD8MXGeHuyGeRX2C/pRmghL4rt/5RENDEvhsbsAEf4
-	Y0VgxC0WASvdDqzwsmC6hdemsw3Zefl+ikKPgJySHPUEYfH6Na7CDVu3rk6RttjugQV3xF1BTXQcK
-	q60HNuCGlzXdueFRu2Qler14nJHdeGOSeIMnsEE/D/s0xfJwh1aW+0QZUrBtDavgi7+xRY1ewZqhK
-	leen8aETS8R3P95GLNpWZBIkOey+j9MI7mO8bQ9+UXXJY6bFqYHpgQD3PDzb9QM4NQHH1TJ1SgADl
-	clRFD9+w==;
+	bh=s6ClsLI0mvylXswpG/TE0ZPSNH5CPMrq4MV7ZuFY3rY=; b=LnzZGTnrEUn7Mxmc1obQShsrj2
+	xjU/l7HhI8Y4H722QCOv4wqOf9S7LLj4q73JgctjJyQr1BqF/1WkkhjB67WOAdhAuuMFpMEmn8K2j
+	E3knf/hVznvrx/IOISdruUXpoKdq+WQXQ0Rno3RTa0VdlFLImTVbTAtTk0xCwtM2/rJI0PM8OehFe
+	j2bQ133KN1zWDCfGGcimSS10DKIi/P5iQPlJDogq539ThhVZgepuo/DpEz/BWuBWLP6WNw+PhTy0t
+	LFj7qYCG3d9bFgTrgTWzawkuSW5HHuxsAze1PnLSiDLLrGU/AigwBqeTOCq/iStzOaAJfURn8tErd
+	OnuV7cpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI8w0-00000001c0Z-1sF6;
-	Thu, 22 May 2025 16:38:20 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uI8w1-00000001c1o-3jLQ;
+	Thu, 22 May 2025 16:38:21 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHqKX-0000000Go0U-0xNL
+	id 1uHqKX-0000000Go0V-39mf
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 20:46:25 +0000
+	Wed, 21 May 2025 20:46:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8030B629EA;
-	Wed, 21 May 2025 20:46:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E3F4C4CEEA;
+	by dfw.source.kernel.org (Postfix) with ESMTP id 599A85C595C;
+	Wed, 21 May 2025 20:44:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C586C4CEEF;
 	Wed, 21 May 2025 20:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1747860383;
-	bh=7pe1LymnDZobdD7qun4IKIsviYRqGOfHnpizj/tlnt0=;
+	bh=Fru2a2wknGSBl0q6Nax0SDpUsXlR8ZDF7QEBrKNvk3E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZGVc1TK3io4U7jjCY/cosXBTPG8s+eQeHf0GkXqwU/I9n2sI0LOD03/14eEXve1MW
-	 fknUwTws0UBX6LdmLys8KsJOPe6igrD6h/NkXYFBu6A23zefiysvgVTcJr768A/gxI
-	 DlcW15GDKVRT85bQ5X/FQxKtXdvjQ9RJ4Li1xyEqhvT1/SI8Dy8qzL7I5CU5fETEId
-	 sgzzalTX0C+Pb78oQuGpyzw6Cc5r1cKTXuUnJlagqcQK6OVt8tXm/TqinnUilvlvXt
-	 3qb4/g8qaX1oUvJ3j/nUi8lEjdHgZeQQV1DVzVOH08eV2zGBOvMyM8eLCyuSw0k5zR
-	 YALnYtvlwDz7w==
+	b=pWP0Z/7LTAMy6Fw1S8jayrs8FuEq3it5toH7hYLcYierWQHRfbDsqL9dhnoxDaTGT
+	 mVXArWQSoVe85TMQWRj6VNHBs7o1AzbV2SCqwN/kOpL7K5CiKw4aBE3VKGO+Lj1nw+
+	 G0nbiooVBxuUThsuv7Ql2xmujFa7d8448/tdkBE65U+cXKRYRJK1iuFluqJuPu2Bjs
+	 bm4e2goohp5fQsqy7wQ7CWvv4pdofOaUD8mbUTgS3tCAkWlM+pMlDeEX2SMGG4L7My
+	 urLH/sObUN3ti7IVdSWjIr9E84pkugE+Bw8jN/ZWniEUCC+Th71/uOvfBuic0MKDqP
+	 xzF3nKtjucDxg==
 From: Kees Cook <kees@kernel.org>
 To: Kuniyuki Iwashima <kuniyu@amazon.com>
 Cc: Kees Cook <kees@kernel.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Cosmin Ratiu <cratiu@nvidia.com>,
+	Lei Yang <leiyang@redhat.com>,
+	Ido Schimmel <idosch@nvidia.com>,
+	netdev@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
 	Mike Christie <michael.christie@oracle.com>,
 	Max Gurtovoy <mgurtovoy@nvidia.com>,
 	Maurizio Lombardi <mlombard@redhat.com>,
 	Dmitry Bogdanov <d.bogdanov@yadro.com>,
 	Mingzhe Zou <mingzhe.zou@easystack.cn>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Simon Horman <horms@kernel.org>,
 	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Cosmin Ratiu <cratiu@nvidia.com>,
-	Lei Yang <leiyang@redhat.com>,
-	Ido Schimmel <idosch@nvidia.com>,
 	Samuel Mendoza-Jonas <sam@mendozajonas.com>,
 	Paul Fertser <fercerpav@gmail.com>,
 	Alexander Aring <alex.aring@gmail.com>,
@@ -100,20 +97,26 @@ Cc: Kees Cook <kees@kernel.org>,
 	Alexander Lobakin <aleksander.lobakin@intel.com>,
 	Xiao Liang <shaw.leon@gmail.com>,
 	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
 	linux-wpan@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH net-next v2 1/8] net: core: Convert inet_addr_is_any() to sockaddr_storage
-Date: Wed, 21 May 2025 13:46:09 -0700
-Message-Id: <20250521204619.2301870-1-kees@kernel.org>
+Subject: [PATCH net-next v2 2/8] net: core: Switch netif_set_mac_address() to struct sockaddr_storage
+Date: Wed, 21 May 2025 13:46:10 -0700
+Message-Id: <20250521204619.2301870-2-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250521204310.it.500-kees@kernel.org>
 References: <20250521204310.it.500-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4810; i=kees@kernel.org; h=from:subject; bh=7pe1LymnDZobdD7qun4IKIsviYRqGOfHnpizj/tlnt0=; b=owGbwMvMwCVmps19z/KJym7G02pJDBl61lNd5Na5Jr9wqfrJms612bn9O9/FuOMsDbxi144oT Xc+Kvu9o5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCLnlzD8j2bZUf579suLt75l JaVPmKu16WgT070pvy7MP3ynT3MRKx8jw53enUzBvgl1H/nSd4ue9v4mOlP34PRLv0/yvhYX6rz Uzw0A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4356; i=kees@kernel.org; h=from:subject; bh=Fru2a2wknGSBl0q6Nax0SDpUsXlR8ZDF7QEBrKNvk3E=; b=owGbwMvMwCVmps19z/KJym7G02pJDBl61tPs+/4v7AleJH1KqILpp5KVUPuWuIcz5Lftarm/o +7/q91VHaUsDGJcDLJiiixBdu5xLh5v28Pd5yrCzGFlAhnCwMUpABP59Zrhn93Sdg+zNqErm05k qr7i0E7dkuZ8YmZRmVjUnZzoqZ6xmxgZLpgE7/ma8rloRYndfcszeuKmb4o+zuXf5GsgcWyX55v bzAA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250521_134625_872907_CF9AE0A0 
+X-CRM114-Status: GOOD (  16.44  )
 X-Mailman-Approved-At: Thu, 22 May 2025 09:38:03 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -129,125 +132,115 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-All the callers of inet_addr_is_any() have a sockaddr_storage-backed
-sockaddr. Avoid casts and switch prototype to the actual object being
-used.
+In order to avoid passing around struct sockaddr that has a size the
+compiler cannot reason about (nor track at runtime), convert
+netif_set_mac_address() to take struct sockaddr_storage. This is just a
+cast conversion, so there is are no binary changes. Following patches
+will make actual allocation changes.
 
-Reviewed-by: Kuniyuki Iwashima <kuniyu@amazon.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com> # SCSI
+Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Eric Dumazet <edumazet@google.com>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Mike Christie <michael.christie@oracle.com>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: Maurizio Lombardi <mlombard@redhat.com>
-Cc: Dmitry Bogdanov <d.bogdanov@yadro.com>
-Cc: Mingzhe Zou <mingzhe.zou@easystack.cn>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
 Cc: Simon Horman <horms@kernel.org>
-Cc: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: linux-nvme@lists.infradead.org
-Cc: linux-scsi@vger.kernel.org
-Cc: target-devel@vger.kernel.org
-Cc: netdev@vger.kernel.org
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: Stanislav Fomichev <sdf@fomichev.me>
+Cc: Cosmin Ratiu <cratiu@nvidia.com>
+Cc: Lei Yang <leiyang@redhat.com>
+Cc: Kuniyuki Iwashima <kuniyu@amazon.com>
+Cc: Ido Schimmel <idosch@nvidia.com>
+Cc: <netdev@vger.kernel.org>
 ---
- include/linux/inet.h                | 2 +-
- drivers/nvme/target/rdma.c          | 2 +-
- drivers/nvme/target/tcp.c           | 2 +-
- drivers/target/iscsi/iscsi_target.c | 2 +-
- net/core/utils.c                    | 8 ++++----
- 5 files changed, 8 insertions(+), 8 deletions(-)
+ include/linux/netdevice.h |  2 +-
+ net/core/dev.c            | 10 +++++-----
+ net/core/dev_api.c        |  4 ++--
+ net/core/rtnetlink.c      |  2 +-
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/inet.h b/include/linux/inet.h
-index bd8276e96e60..9158772f3559 100644
---- a/include/linux/inet.h
-+++ b/include/linux/inet.h
-@@ -55,6 +55,6 @@ extern int in6_pton(const char *src, int srclen, u8 *dst, int delim, const char
- 
- extern int inet_pton_with_scope(struct net *net, unsigned short af,
- 		const char *src, const char *port, struct sockaddr_storage *addr);
--extern bool inet_addr_is_any(struct sockaddr *addr);
-+bool inet_addr_is_any(struct sockaddr_storage *addr);
- 
- #endif	/* _LINUX_INET_H */
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 2a4536ef6184..79a5aad2e9d0 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1999,7 +1999,7 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
- 	struct nvmet_rdma_port *port = nport->priv;
- 	struct rdma_cm_id *cm_id = port->cm_id;
- 
--	if (inet_addr_is_any((struct sockaddr *)&cm_id->route.addr.src_addr)) {
-+	if (inet_addr_is_any(&cm_id->route.addr.src_addr)) {
- 		struct nvmet_rdma_rsp *rsp =
- 			container_of(req, struct nvmet_rdma_rsp, req);
- 		struct rdma_cm_id *req_cm_id = rsp->queue->cm_id;
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 12a5cb8641ca..5cd1cf74f8ff 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -2194,7 +2194,7 @@ static void nvmet_tcp_disc_port_addr(struct nvmet_req *req,
- {
- 	struct nvmet_tcp_port *port = nport->priv;
- 
--	if (inet_addr_is_any((struct sockaddr *)&port->addr)) {
-+	if (inet_addr_is_any(&port->addr)) {
- 		struct nvmet_tcp_cmd *cmd =
- 			container_of(req, struct nvmet_tcp_cmd, req);
- 		struct nvmet_tcp_queue *queue = cmd->queue;
-diff --git a/drivers/target/iscsi/iscsi_target.c b/drivers/target/iscsi/iscsi_target.c
-index 620ba6e0ab07..a2dde08c8a62 100644
---- a/drivers/target/iscsi/iscsi_target.c
-+++ b/drivers/target/iscsi/iscsi_target.c
-@@ -3419,7 +3419,7 @@ iscsit_build_sendtargets_response(struct iscsit_cmd *cmd,
- 					}
- 				}
- 
--				if (inet_addr_is_any((struct sockaddr *)&np->np_sockaddr))
-+				if (inet_addr_is_any(&np->np_sockaddr))
- 					sockaddr = &conn->local_sockaddr;
- 				else
- 					sockaddr = &np->np_sockaddr;
-diff --git a/net/core/utils.c b/net/core/utils.c
-index 27f4cffaae05..e47feeaa5a49 100644
---- a/net/core/utils.c
-+++ b/net/core/utils.c
-@@ -399,9 +399,9 @@ int inet_pton_with_scope(struct net *net, __kernel_sa_family_t af,
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index ea9d335de130..47200a394a02 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -4212,7 +4212,7 @@ int netif_set_mtu(struct net_device *dev, int new_mtu);
+ int dev_set_mtu(struct net_device *, int);
+ int dev_pre_changeaddr_notify(struct net_device *dev, const char *addr,
+ 			      struct netlink_ext_ack *extack);
+-int netif_set_mac_address(struct net_device *dev, struct sockaddr *sa,
++int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+ 			  struct netlink_ext_ack *extack);
+ int dev_set_mac_address(struct net_device *dev, struct sockaddr *sa,
+ 			struct netlink_ext_ack *extack);
+diff --git a/net/core/dev.c b/net/core/dev.c
+index fccf2167b235..f8c8aad7df2e 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -9655,7 +9655,7 @@ int dev_pre_changeaddr_notify(struct net_device *dev, const char *addr,
  }
- EXPORT_SYMBOL(inet_pton_with_scope);
+ EXPORT_SYMBOL(dev_pre_changeaddr_notify);
  
--bool inet_addr_is_any(struct sockaddr *addr)
-+bool inet_addr_is_any(struct sockaddr_storage *addr)
+-int netif_set_mac_address(struct net_device *dev, struct sockaddr *sa,
++int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+ 			  struct netlink_ext_ack *extack)
  {
--	if (addr->sa_family == AF_INET6) {
-+	if (addr->ss_family == AF_INET6) {
- 		struct sockaddr_in6 *in6 = (struct sockaddr_in6 *)addr;
- 		const struct sockaddr_in6 in6_any =
- 			{ .sin6_addr = IN6ADDR_ANY_INIT };
-@@ -409,13 +409,13 @@ bool inet_addr_is_any(struct sockaddr *addr)
- 		if (!memcmp(in6->sin6_addr.s6_addr,
- 			    in6_any.sin6_addr.s6_addr, 16))
- 			return true;
--	} else if (addr->sa_family == AF_INET) {
-+	} else if (addr->ss_family == AF_INET) {
- 		struct sockaddr_in *in = (struct sockaddr_in *)addr;
+ 	const struct net_device_ops *ops = dev->netdev_ops;
+@@ -9663,15 +9663,15 @@ int netif_set_mac_address(struct net_device *dev, struct sockaddr *sa,
  
- 		if (in->sin_addr.s_addr == htonl(INADDR_ANY))
- 			return true;
- 	} else {
--		pr_warn("unexpected address family %u\n", addr->sa_family);
-+		pr_warn("unexpected address family %u\n", addr->ss_family);
+ 	if (!ops->ndo_set_mac_address)
+ 		return -EOPNOTSUPP;
+-	if (sa->sa_family != dev->type)
++	if (ss->ss_family != dev->type)
+ 		return -EINVAL;
+ 	if (!netif_device_present(dev))
+ 		return -ENODEV;
+-	err = dev_pre_changeaddr_notify(dev, sa->sa_data, extack);
++	err = dev_pre_changeaddr_notify(dev, ss->__data, extack);
+ 	if (err)
+ 		return err;
+-	if (memcmp(dev->dev_addr, sa->sa_data, dev->addr_len)) {
+-		err = ops->ndo_set_mac_address(dev, sa);
++	if (memcmp(dev->dev_addr, ss->__data, dev->addr_len)) {
++		err = ops->ndo_set_mac_address(dev, ss);
+ 		if (err)
+ 			return err;
  	}
+diff --git a/net/core/dev_api.c b/net/core/dev_api.c
+index f9a160ab596f..b5f293e637d9 100644
+--- a/net/core/dev_api.c
++++ b/net/core/dev_api.c
+@@ -91,7 +91,7 @@ int dev_set_mac_address_user(struct net_device *dev, struct sockaddr *sa,
  
- 	return false;
+ 	down_write(&dev_addr_sem);
+ 	netdev_lock_ops(dev);
+-	ret = netif_set_mac_address(dev, sa, extack);
++	ret = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
+ 	netdev_unlock_ops(dev);
+ 	up_write(&dev_addr_sem);
+ 
+@@ -332,7 +332,7 @@ int dev_set_mac_address(struct net_device *dev, struct sockaddr *sa,
+ 	int ret;
+ 
+ 	netdev_lock_ops(dev);
+-	ret = netif_set_mac_address(dev, sa, extack);
++	ret = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
+ 	netdev_unlock_ops(dev);
+ 
+ 	return ret;
+diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
+index 8a914b37ef6e..9743f1c2ae3c 100644
+--- a/net/core/rtnetlink.c
++++ b/net/core/rtnetlink.c
+@@ -3100,7 +3100,7 @@ static int do_setlink(const struct sk_buff *skb, struct net_device *dev,
+ 
+ 		memcpy(sa->sa_data, nla_data(tb[IFLA_ADDRESS]),
+ 		       dev->addr_len);
+-		err = netif_set_mac_address(dev, sa, extack);
++		err = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
+ 		kfree(sa);
+ 		if (err) {
+ 			up_write(&dev_addr_sem);
 -- 
 2.34.1
 
