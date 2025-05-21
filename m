@@ -4,60 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78ADFC54F32
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 16:38:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 215A4C54E65
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 16:38:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=s6ClsLI0mvylXswpG/TE0ZPSNH5CPMrq4MV7ZuFY3rY=; b=LnzZGTnrEUn7Mxmc1obQShsrj2
-	xjU/l7HhI8Y4H722QCOv4wqOf9S7LLj4q73JgctjJyQr1BqF/1WkkhjB67WOAdhAuuMFpMEmn8K2j
-	E3knf/hVznvrx/IOISdruUXpoKdq+WQXQ0Rno3RTa0VdlFLImTVbTAtTk0xCwtM2/rJI0PM8OehFe
-	j2bQ133KN1zWDCfGGcimSS10DKIi/P5iQPlJDogq539ThhVZgepuo/DpEz/BWuBWLP6WNw+PhTy0t
-	LFj7qYCG3d9bFgTrgTWzawkuSW5HHuxsAze1PnLSiDLLrGU/AigwBqeTOCq/iStzOaAJfURn8tErd
-	OnuV7cpg==;
+	bh=hIlZlIFASI51YJEYVeJxY2kFBYpfzd7gEazKFSguSpw=; b=mlKPnA94KIF7TuPG8ADvcTLSti
+	ZgKVLynJCRQ873Fne0Kj3AhJFFyVzrErDh/Ej9UH4/zZDvUDt4ovnukbLNZxLPfsJNObHUps7c9sL
+	byZK9Ps6QpqdHVWMc9nIemqa0vM2sEv5Zi6rgOEp+io0ksbxqWOfkjCOHdyzA+rv7s9MNQRfkd+4e
+	4mbok9hlUB3VVfewQ3g3RikyEhlwLWcdt8gMRQ2UJpHs7MYwRrIyhnP7Iv0jhMbeTEqTkGXSBaKyy
+	yphCFW2fD9D7kD4PlNP1o/QZ6jP6gj1mgFKkLGuPmdZZh8pU0ZBsVRZyp79GNRwjuwYynWy4qAVKs
+	FFfNv/BA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI8w1-00000001c1o-3jLQ;
-	Thu, 22 May 2025 16:38:21 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1uI8w2-00000001c2j-2MPP;
+	Thu, 22 May 2025 16:38:22 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHqKX-0000000Go0V-39mf
+	id 1uHqKZ-0000000Go1f-0zXI
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 20:46:26 +0000
+	Wed, 21 May 2025 20:46:27 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 599A85C595C;
-	Wed, 21 May 2025 20:44:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C586C4CEEF;
-	Wed, 21 May 2025 20:46:23 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 4FFA8629F1;
+	Wed, 21 May 2025 20:46:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D0AC4CEEF;
+	Wed, 21 May 2025 20:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747860383;
-	bh=Fru2a2wknGSBl0q6Nax0SDpUsXlR8ZDF7QEBrKNvk3E=;
+	s=k20201202; t=1747860386;
+	bh=uukxrEpJUYAyupSlleSqs7Dnu8Ku05Cf2zA1scbEPws=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pWP0Z/7LTAMy6Fw1S8jayrs8FuEq3it5toH7hYLcYierWQHRfbDsqL9dhnoxDaTGT
-	 mVXArWQSoVe85TMQWRj6VNHBs7o1AzbV2SCqwN/kOpL7K5CiKw4aBE3VKGO+Lj1nw+
-	 G0nbiooVBxuUThsuv7Ql2xmujFa7d8448/tdkBE65U+cXKRYRJK1iuFluqJuPu2Bjs
-	 bm4e2goohp5fQsqy7wQ7CWvv4pdofOaUD8mbUTgS3tCAkWlM+pMlDeEX2SMGG4L7My
-	 urLH/sObUN3ti7IVdSWjIr9E84pkugE+Bw8jN/ZWniEUCC+Th71/uOvfBuic0MKDqP
-	 xzF3nKtjucDxg==
+	b=fBTJp1Aipta+gv7edcYonzjM2tkxkmReYflq95ozqHQ9fIyJA+9hvQzZjaDrCQH5u
+	 sS5yaj7Zooxfty8T4FI0zqqis2BxQ7LM27ImicICpU/DpXNiG0WYYSrY5Ox397CNtz
+	 /Lm8W108V3ClijzV05IuwLsbhHpETeNClTl8DTx1TKrlJwOHVzuBMScBbOx4ClkcsI
+	 bRxzp6y0wO7zEpWcOO0jNf+d5ZWmJJijJRge3pZmMY/s8kIxsnLvin7EuM/LPBae73
+	 iVcjt+q3Iskqn5RgQAjomzRDkTU68eu0gQ3Ra65DX17glfUBipzsgjklF59lJ1yiZT
+	 YVbezXOD4QP+Q==
 From: Kees Cook <kees@kernel.org>
 To: Kuniyuki Iwashima <kuniyu@amazon.com>
 Cc: Kees Cook <kees@kernel.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
 	Stanislav Fomichev <sdf@fomichev.me>,
 	Cosmin Ratiu <cratiu@nvidia.com>,
-	Lei Yang <leiyang@redhat.com>,
-	Ido Schimmel <idosch@nvidia.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Maxim Georgiev <glipus@gmail.com>,
 	netdev@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -69,6 +71,9 @@ Cc: Kees Cook <kees@kernel.org>,
 	Mingzhe Zou <mingzhe.zou@easystack.cn>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Lei Yang <leiyang@redhat.com>,
+	Ido Schimmel <idosch@nvidia.com>,
 	Samuel Mendoza-Jonas <sam@mendozajonas.com>,
 	Paul Fertser <fercerpav@gmail.com>,
 	Alexander Aring <alex.aring@gmail.com>,
@@ -83,11 +88,6 @@ Cc: Kees Cook <kees@kernel.org>,
 	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
 	Jiri Pirko <jiri@resnulli.us>,
-	Jason Wang <jasowang@redhat.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Maxim Georgiev <glipus@gmail.com>,
 	Aleksander Jan Bajkowski <olek2@wp.pl>,
 	Philipp Hahn <phahn-oss@avm.de>,
 	Eric Biggers <ebiggers@google.com>,
@@ -104,19 +104,16 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-usb@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH net-next v2 2/8] net: core: Switch netif_set_mac_address() to struct sockaddr_storage
-Date: Wed, 21 May 2025 13:46:10 -0700
-Message-Id: <20250521204619.2301870-2-kees@kernel.org>
+Subject: [PATCH net-next v2 8/8] net: core: Convert dev_set_mac_address_user() to use struct sockaddr_storage
+Date: Wed, 21 May 2025 13:46:16 -0700
+Message-Id: <20250521204619.2301870-8-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250521204310.it.500-kees@kernel.org>
 References: <20250521204310.it.500-kees@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4356; i=kees@kernel.org; h=from:subject; bh=Fru2a2wknGSBl0q6Nax0SDpUsXlR8ZDF7QEBrKNvk3E=; b=owGbwMvMwCVmps19z/KJym7G02pJDBl61tPs+/4v7AleJH1KqILpp5KVUPuWuIcz5Lftarm/o +7/q91VHaUsDGJcDLJiiixBdu5xLh5v28Pd5yrCzGFlAhnCwMUpABP59Zrhn93Sdg+zNqErm05k qr7i0E7dkuZ8YmZRmVjUnZzoqZ6xmxgZLpgE7/ma8rloRYndfcszeuKmb4o+zuXf5GsgcWyX55v bzAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5481; i=kees@kernel.org; h=from:subject; bh=uukxrEpJUYAyupSlleSqs7Dnu8Ku05Cf2zA1scbEPws=; b=owGbwMvMwCVmps19z/KJym7G02pJDBl61jM2yvHveiO5bCO79hbl2xaaia+7dH6tKefuW3NeW oH30HebjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgIl4ujP8TzXgvz1rLdPhJvMc ifokhpB3NWdP3Wlj/MzwS6tqucLENwz/i9PmCR2I//nx7YRNT9ftYvna3xWiMoGnfp7/pl3btjw OZQIA
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250521_134625_872907_CF9AE0A0 
-X-CRM114-Status: GOOD (  16.44  )
 X-Mailman-Approved-At: Thu, 22 May 2025 09:38:03 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -132,115 +129,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In order to avoid passing around struct sockaddr that has a size the
-compiler cannot reason about (nor track at runtime), convert
-netif_set_mac_address() to take struct sockaddr_storage. This is just a
-cast conversion, so there is are no binary changes. Following patches
-will make actual allocation changes.
+Convert callers of dev_set_mac_address_user() to use struct
+sockaddr_storage. Add sanity checks on dev->addr_len usage.
 
-Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Eric Dumazet <edumazet@google.com>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: Paolo Abeni <pabeni@redhat.com>
 Cc: Simon Horman <horms@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>
 Cc: Stanislav Fomichev <sdf@fomichev.me>
 Cc: Cosmin Ratiu <cratiu@nvidia.com>
-Cc: Lei Yang <leiyang@redhat.com>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Maxim Georgiev <glipus@gmail.com>
 Cc: Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: Ido Schimmel <idosch@nvidia.com>
 Cc: <netdev@vger.kernel.org>
 ---
  include/linux/netdevice.h |  2 +-
- net/core/dev.c            | 10 +++++-----
- net/core/dev_api.c        |  4 ++--
- net/core/rtnetlink.c      |  2 +-
- 4 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/net/tap.c         | 14 +++++++++-----
+ drivers/net/tun.c         |  8 +++++++-
+ net/core/dev_api.c        |  5 +++--
+ net/core/dev_ioctl.c      |  6 ++++--
+ 5 files changed, 24 insertions(+), 11 deletions(-)
 
 diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index ea9d335de130..47200a394a02 100644
+index b4242b997373..adb14db25798 100644
 --- a/include/linux/netdevice.h
 +++ b/include/linux/netdevice.h
-@@ -4212,7 +4212,7 @@ int netif_set_mtu(struct net_device *dev, int new_mtu);
- int dev_set_mtu(struct net_device *, int);
- int dev_pre_changeaddr_notify(struct net_device *dev, const char *addr,
- 			      struct netlink_ext_ack *extack);
--int netif_set_mac_address(struct net_device *dev, struct sockaddr *sa,
-+int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+@@ -4216,7 +4216,7 @@ int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
  			  struct netlink_ext_ack *extack);
- int dev_set_mac_address(struct net_device *dev, struct sockaddr *sa,
+ int dev_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
  			struct netlink_ext_ack *extack);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index fccf2167b235..f8c8aad7df2e 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -9655,7 +9655,7 @@ int dev_pre_changeaddr_notify(struct net_device *dev, const char *addr,
- }
- EXPORT_SYMBOL(dev_pre_changeaddr_notify);
+-int dev_set_mac_address_user(struct net_device *dev, struct sockaddr *sa,
++int dev_set_mac_address_user(struct net_device *dev, struct sockaddr_storage *ss,
+ 			     struct netlink_ext_ack *extack);
+ int dev_get_mac_address(struct sockaddr *sa, struct net *net, char *dev_name);
+ int dev_get_port_parent_id(struct net_device *dev,
+diff --git a/drivers/net/tap.c b/drivers/net/tap.c
+index d4ece538f1b2..bdf0788d8e66 100644
+--- a/drivers/net/tap.c
++++ b/drivers/net/tap.c
+@@ -923,7 +923,7 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
+ 	unsigned int __user *up = argp;
+ 	unsigned short u;
+ 	int __user *sp = argp;
+-	struct sockaddr sa;
++	struct sockaddr_storage ss;
+ 	int s;
+ 	int ret;
  
--int netif_set_mac_address(struct net_device *dev, struct sockaddr *sa,
-+int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
- 			  struct netlink_ext_ack *extack)
- {
- 	const struct net_device_ops *ops = dev->netdev_ops;
-@@ -9663,15 +9663,15 @@ int netif_set_mac_address(struct net_device *dev, struct sockaddr *sa,
+@@ -1000,16 +1000,17 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
+ 			return -ENOLINK;
+ 		}
+ 		ret = 0;
+-		dev_get_mac_address(&sa, dev_net(tap->dev), tap->dev->name);
++		dev_get_mac_address((struct sockaddr *)&ss, dev_net(tap->dev),
++				    tap->dev->name);
+ 		if (copy_to_user(&ifr->ifr_name, tap->dev->name, IFNAMSIZ) ||
+-		    copy_to_user(&ifr->ifr_hwaddr, &sa, sizeof(sa)))
++		    copy_to_user(&ifr->ifr_hwaddr, &ss, sizeof(ifr->ifr_hwaddr)))
+ 			ret = -EFAULT;
+ 		tap_put_tap_dev(tap);
+ 		rtnl_unlock();
+ 		return ret;
  
- 	if (!ops->ndo_set_mac_address)
- 		return -EOPNOTSUPP;
--	if (sa->sa_family != dev->type)
-+	if (ss->ss_family != dev->type)
- 		return -EINVAL;
- 	if (!netif_device_present(dev))
- 		return -ENODEV;
--	err = dev_pre_changeaddr_notify(dev, sa->sa_data, extack);
-+	err = dev_pre_changeaddr_notify(dev, ss->__data, extack);
- 	if (err)
- 		return err;
--	if (memcmp(dev->dev_addr, sa->sa_data, dev->addr_len)) {
--		err = ops->ndo_set_mac_address(dev, sa);
-+	if (memcmp(dev->dev_addr, ss->__data, dev->addr_len)) {
-+		err = ops->ndo_set_mac_address(dev, ss);
- 		if (err)
- 			return err;
- 	}
+ 	case SIOCSIFHWADDR:
+-		if (copy_from_user(&sa, &ifr->ifr_hwaddr, sizeof(sa)))
++		if (copy_from_user(&ss, &ifr->ifr_hwaddr, sizeof(ifr->ifr_hwaddr)))
+ 			return -EFAULT;
+ 		rtnl_lock();
+ 		tap = tap_get_tap_dev(q);
+@@ -1017,7 +1018,10 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
+ 			rtnl_unlock();
+ 			return -ENOLINK;
+ 		}
+-		ret = dev_set_mac_address_user(tap->dev, &sa, NULL);
++		if (tap->dev->addr_len > sizeof(ifr->ifr_hwaddr))
++			ret = -EINVAL;
++		else
++			ret = dev_set_mac_address_user(tap->dev, &ss, NULL);
+ 		tap_put_tap_dev(tap);
+ 		rtnl_unlock();
+ 		return ret;
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index 7babd1e9a378..1207196cbbed 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -3193,7 +3193,13 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
+ 
+ 	case SIOCSIFHWADDR:
+ 		/* Set hw address */
+-		ret = dev_set_mac_address_user(tun->dev, &ifr.ifr_hwaddr, NULL);
++		if (tun->dev->addr_len > sizeof(ifr.ifr_hwaddr)) {
++			ret = -EINVAL;
++			break;
++		}
++		ret = dev_set_mac_address_user(tun->dev,
++					       (struct sockaddr_storage *)&ifr.ifr_hwaddr,
++					       NULL);
+ 		break;
+ 
+ 	case TUNGETSNDBUF:
 diff --git a/net/core/dev_api.c b/net/core/dev_api.c
-index f9a160ab596f..b5f293e637d9 100644
+index 6011a5ef649d..1bf0153195f2 100644
 --- a/net/core/dev_api.c
 +++ b/net/core/dev_api.c
-@@ -91,7 +91,7 @@ int dev_set_mac_address_user(struct net_device *dev, struct sockaddr *sa,
+@@ -84,14 +84,15 @@ void dev_set_group(struct net_device *dev, int new_group)
+ 	netdev_unlock_ops(dev);
+ }
+ 
+-int dev_set_mac_address_user(struct net_device *dev, struct sockaddr *sa,
++int dev_set_mac_address_user(struct net_device *dev,
++			     struct sockaddr_storage *ss,
+ 			     struct netlink_ext_ack *extack)
+ {
+ 	int ret;
  
  	down_write(&dev_addr_sem);
  	netdev_lock_ops(dev);
--	ret = netif_set_mac_address(dev, sa, extack);
-+	ret = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
+-	ret = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
++	ret = netif_set_mac_address(dev, ss, extack);
  	netdev_unlock_ops(dev);
  	up_write(&dev_addr_sem);
  
-@@ -332,7 +332,7 @@ int dev_set_mac_address(struct net_device *dev, struct sockaddr *sa,
- 	int ret;
+diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
+index fff13a8b48f1..616479e71466 100644
+--- a/net/core/dev_ioctl.c
++++ b/net/core/dev_ioctl.c
+@@ -572,9 +572,11 @@ static int dev_ifsioc(struct net *net, struct ifreq *ifr, void __user *data,
+ 		return dev_set_mtu(dev, ifr->ifr_mtu);
  
- 	netdev_lock_ops(dev);
--	ret = netif_set_mac_address(dev, sa, extack);
-+	ret = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
- 	netdev_unlock_ops(dev);
+ 	case SIOCSIFHWADDR:
+-		if (dev->addr_len > sizeof(struct sockaddr))
++		if (dev->addr_len > sizeof(ifr->ifr_hwaddr))
+ 			return -EINVAL;
+-		return dev_set_mac_address_user(dev, &ifr->ifr_hwaddr, NULL);
++		return dev_set_mac_address_user(dev,
++						(struct sockaddr_storage *)&ifr->ifr_hwaddr,
++						NULL);
  
- 	return ret;
-diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
-index 8a914b37ef6e..9743f1c2ae3c 100644
---- a/net/core/rtnetlink.c
-+++ b/net/core/rtnetlink.c
-@@ -3100,7 +3100,7 @@ static int do_setlink(const struct sk_buff *skb, struct net_device *dev,
- 
- 		memcpy(sa->sa_data, nla_data(tb[IFLA_ADDRESS]),
- 		       dev->addr_len);
--		err = netif_set_mac_address(dev, sa, extack);
-+		err = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
- 		kfree(sa);
- 		if (err) {
- 			up_write(&dev_addr_sem);
+ 	case SIOCSIFHWBROADCAST:
+ 		if (ifr->ifr_hwaddr.sa_family != dev->type)
 -- 
 2.34.1
 
