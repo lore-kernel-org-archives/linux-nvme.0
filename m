@@ -4,76 +4,198 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB67FC3DA6D
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 May 2025 20:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E964C3DA6D
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 01:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ffeRTPecDQ+lyfpDGynHxw6SpeG7MLUbja8xX+csL5w=; b=vu7e8Jbb2LI4JG9hYaQQS9IPb8
-	ngZ8yQ5sC7mbtzVY13Ncw7P9lQvgjGadOVX+JsQY/Thf0EZpJvsc+2tKgmC05+MPBd/6XpWQZvoxk
-	/G6WXdKmSZu7jWQdU6f8BRfPcNLEOnoWx93NDPhgvrpGvmK5xnOGzkGGFHkU/BdL90fHpzAYY1AfD
-	cR1hoZl6xF3E+PJUeOBn30WS4xx+jIX8k2OpXYaEEUJrhC4iNxqoxzI4mwysYV5DvMab5xWkFpvvw
-	yPz5J2ybOt6qwf4ziaPwF+db6ch6eDZEynUEqlLiC2o2MK55LTg8eJdQZR5jKE3Cyw8fBt0nXxbHX
-	vK/w48lQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HgDAhdlkfIab9nJH1jIIjDT3f3ocpjdDH9gBCWuowLU=; b=E5gb6RgVMhdH1pmdxdEmP6YQmp
+	f+iHv7vgRS8hxMkgzhgxUdfC+97f1VhODgSo4JgctGduIIdR01npGW+4eH4giAvAUuDx+6HZU1aRk
+	BYLVkX0TGSDHj2teTA3yK5Sll1U6vZo314KW4GICCyM+WFIA3V7k1cPG/oxErXlcqA1zJKWkkPpkn
+	7gjCr7Zgoh2jsu2ARPZJ+nELb02OYnLc44K0jGI0Im7LPBNk1fGZBG7sZV7gsA9KPWYmxv3dBozCO
+	AwSEge+vkjnnvpPtSNhsBQ9HOShWjuEcc4B7wNqVMnWGrkgoU66b0YyoolsmHA9OLNWq16IpYqCzn
+	RVoqAIaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHTSM-0000000E4Xl-1PxI;
-	Tue, 20 May 2025 20:20:58 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1uHYE3-0000000EUsk-225c;
+	Wed, 21 May 2025 01:26:31 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHTSJ-0000000E4X7-21NX
+	id 1uHYBs-0000000EUf0-3Xfr
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 May 2025 20:20:56 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54KIfXab011887
-	for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 13:20:53 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2021-q4; bh=ffeRTPecDQ+lyfpDGy
-	nHxw6SpeG7MLUbja8xX+csL5w=; b=LqYkfY9udxe8drpw2v3UdbQtOcupzglh6E
-	HrYgn5hmETqLXo/RTbyXwgyBWxLk60QL5JIlMOOxWws90yj4S0osjle4GxXxIdmg
-	AJ0Wvkzo9Dh67tOdPoHg0writ0qFZ063fQmV0/3qoTOF03Xt/gYw6VbstLW/XYP9
-	VsF0B9oV9DQ/gcymJCwG6GrZ5uAFcMJrE9gacduZwmgkNVhTr4QoADF8dwXkeNgx
-	CdTFdkiUBY87Q7R/hsjbVAtP6nUvUYgBDhrz282Qj5EJRIr+1k8PHojK6/wacY86
-	FzS2w7i7ddj8zGuQ9SQZfOzwsccHJBJJu6F/TjwJ3WtF0HwTokRA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 46rwfbj0t4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 20 May 2025 13:20:53 -0700 (PDT)
-Received: from twshared24170.03.ash8.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1748.10; Tue, 20 May 2025 20:20:51 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 553621BDB8ED3; Tue, 20 May 2025 13:20:38 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-        Chaitanya Kulkarni
-	<chaitanyak@nvidia.com>
-Subject: [PATCH] nvme: fix command limits status code
-Date: Tue, 20 May 2025 13:20:37 -0700
-Message-ID: <20250520202037.2751433-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.47.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
+	Wed, 21 May 2025 01:24:18 +0000
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L1IUnm000873;
+	Wed, 21 May 2025 01:23:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=HgDAhdlkfIab9nJH1j
+	IIjDT3f3ocpjdDH9gBCWuowLU=; b=QhpmiVXnv5y4dpobf6FuxLNJxBDLeYwan1
+	RhMGacbEHMbgkT9hKTLwKKJJeJIMb649AoxTynCg2KZCHlgwZ23cHt5ILmMJmTuQ
+	PeUvikUbXGpf7OQFNRPM4Lo+W+jDY4DtqkclGqheCNm2O5k1UbQQxGM1T+t4q6Ai
+	769lf+pAz4tAC/Fp6OYHmLZPFzxIkCFBH9+XwxQhgHvzJJOTVfQnxw75PDbCxAk0
+	4tvOKC8PSriz+xSTq6cQLkNQaa0SKTyLMlJwrOWWw26hprI/T1P9l9jz8RZZLjbq
+	0yw5UEdajfjt01TgQFSd67doPquyTfAvGAPtK+buy71Ib6V4Gjkg==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46s4ep029f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 21 May 2025 01:23:39 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 54L10F3W030414;
+	Wed, 21 May 2025 01:23:39 GMT
+Received: from cy4pr02cu008.outbound.protection.outlook.com (mail-westcentralusazon11011010.outbound.protection.outlook.com [40.93.199.10])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 46rwet89x6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 21 May 2025 01:23:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y1uicC8g9Gbr+xDL38lpZgWccYVwO+320/Z+7OEVlzb2oqy0dHkdyksL09aCUMWWddAfnPRhZuxfvkfpTG2wIM/IrX5Z9iu8Zv+4qAafRelWnTC7iwS7A+CX3hame20cnXn52hoCSuZYjQDuvFP6eAlAPuErDeVgjg5XeDz1aZNWvRqbniGPHfyMxXO4hLaLOuala49izzT7hY7yY38CZ7NQ/92xAzQuzVSWv6upaeJaVOqxb89UEsyx7Pq73q3JSD7Nd44VicB9dkjWn+5nZy/g0ZfMWNmScwC6p3bVLjpdsJczPX6w5O/VSvK+zExW46jK7fycSv9UUlsdQOKBRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HgDAhdlkfIab9nJH1jIIjDT3f3ocpjdDH9gBCWuowLU=;
+ b=jL6pZnpssictrmV1jnKsiZv68sP+i7sjJt57hhyOepGwaYWZ3wDTNqYeHl/rsCsYMOBm7VPCrGCnJpS20AsCUFFZOPnGoi44GMDMaghp8mMF6cMvgXEivHBwrlsw2e/UKg1SYv+5dy4rtB/PU5afN9Nd/SWfg49lw9WRnJzjCwLTSG/GxM4CKFHvCwGEr5VNVJTmHtVKCC13hyJ1EYVlxgxYiPfoa3Y8GLLujLMvoH3gg1BGVOqFccZY79kelU9/8pRcNE368A0md/qujTBAheVXZS9v4ZzHNUdlYMUEgnx/EUwdDf65PRvWEgWSY9/vfds/0LyZWe+cWRCWnwpkWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HgDAhdlkfIab9nJH1jIIjDT3f3ocpjdDH9gBCWuowLU=;
+ b=sPDivIEBmPlbYsMJcAJOjyWNpRSNbpd1B73k//dksMt03UMPHqB1GhinQByRYgtFFFHE3QGqORMTZXModKktYPorhcDvDlABF45dcQrQVPBkZNcYDLwOG+BTdmr3h5RCB25idSATtlpT6Z1wCNUMKWsuDceeY8g4/CVRTmXNW3g=
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
+ by SJ2PR10MB7582.namprd10.prod.outlook.com (2603:10b6:a03:538::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Wed, 21 May
+ 2025 01:23:35 +0000
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::5cca:2bcc:cedb:d9bf]) by CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::5cca:2bcc:cedb:d9bf%6]) with mapi id 15.20.8746.030; Wed, 21 May 2025
+ 01:23:35 +0000
+To: Kees Cook <kees@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        Simon Horman <horms@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        "Martin K. Petersen"
+ <martin.petersen@oracle.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+        Dmitry Bogdanov <d.bogdanov@yadro.com>,
+        Maurizio Lombardi
+ <mlombard@redhat.com>,
+        "Dr. David Alan Gilbert" <linux@treblig.org>,
+        Eric Biggers <ebiggers@google.com>, Al Viro <viro@zeniv.linux.org.uk>,
+        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH net-next v3] net: core: Convert inet_addr_is_any() to
+ sockaddr_storage
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <20250520173437.make.907-kees@kernel.org> (Kees Cook's message of
+	"Tue, 20 May 2025 10:34:38 -0700")
+Organization: Oracle Corporation
+Message-ID: <yq1ldqqn4f8.fsf@ca-mkp.ca.oracle.com>
+References: <20250520173437.make.907-kees@kernel.org>
+Date: Tue, 20 May 2025 21:23:33 -0400
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDE2NCBTYWx0ZWRfX1qncw3vUCTEE /fWu29l/A6eIi7rXiUjVKQsmxc8A181dS7ehT+pQOfLQM6Im0ZgEHBgX0GyYUzfPCDzWQyixWDU VRXClAnFXPqkVtr6eme5Zhy/fIWTKiD7Yod7FKSVJ21vtpbHKvywhDToeaa6zz4j0WwNPjfL5qH
- vukHecTEMChHuUvsT9jlzPrw5Tq/QJ43wYSKG2uh7/PET5ZNuGMWXFs7pk9s3SWMXdlPhHBRQym IK7pDwuWtdmmCR45zHnwNz5qbuYnijI6qMgu1JvAOqXpDLp4aiKGpgrt6GMkh7MeLXPMz1kFmkx Ydez4gbkJprcPS9vs9z2UbiKu+SHSsoTAKSOtEluAEMCZyWhlPniqCxyXchFTr+ufcBzlJFqUTU
- mVi+ZFzfiTJqa8qng5jWtUO8G8uOs55TBSNK0BU8RbZrI4UBCyRbCWqhCN8tJtfCiSVQeOsV
-X-Authority-Analysis: v=2.4 cv=RYSQC0tv c=1 sm=1 tr=0 ts=682ce425 cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=Ikd4Dj_1AAAA:8 a=4_lMw6p75YjuIjONPmcA:9
-X-Proofpoint-ORIG-GUID: Jj-ys84UJ-4RLpcBNZnIKZFXhDJtXOSJ
-X-Proofpoint-GUID: Jj-ys84UJ-4RLpcBNZnIKZFXhDJtXOSJ
+X-ClientProxiedBy: BL0PR0102CA0062.prod.exchangelabs.com
+ (2603:10b6:208:25::39) To CH0PR10MB5338.namprd10.prod.outlook.com
+ (2603:10b6:610:cb::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|SJ2PR10MB7582:EE_
+X-MS-Office365-Filtering-Correlation-Id: e088ed88-699a-4f73-17a9-08dd98061b2a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rlk/hgfDoU2Gvoletj6Xmwp1nHTkepQbeRzaLjLZY9Bt/WIVwxXjjU1ISmGk?=
+ =?us-ascii?Q?k5ERaJ5pfGel+K+SWQHtiShwg+ldA6uMR6Rjw3NDEoV1jOeo9cObT79e+vcg?=
+ =?us-ascii?Q?Oqv0ilhvaTZpC5Ri4hDx51OIZO7FOPzcOUy8ohEB2jRHpVYAw3nGFjcXlryf?=
+ =?us-ascii?Q?IOA+mZivC5rcS1KA1ptIvz11WKQ7CucFtK+egdfIJJidIaGuAUwjmGxDasaM?=
+ =?us-ascii?Q?lrIgvGRKhM8ViWl45jI04APM9zTItavBN7M0a6Dy7txSjlKppvWKgZw98S5R?=
+ =?us-ascii?Q?WIgy0eFNCldTUUOT5S9QA3dwxKGQLoDxi8Q4DgXN5w1hGe4T3nOBfr12Y/wr?=
+ =?us-ascii?Q?IBGdm0J/PcCGZEEAmPXwiSRftpMePn4ZWEmO5FJ5/7NOQXTitneBIzRJRcVR?=
+ =?us-ascii?Q?EHEqXiWHGLB7MeOinidr1PTDhng4pFw/APA2WPwNBqIFRScWOnGmPfQV5D+X?=
+ =?us-ascii?Q?SFxIb88CdlVSgi8Q3dzjIevQkKxH2HBBthVhKnaeg+Rr+mbFHJ+53uhl6DN7?=
+ =?us-ascii?Q?nuAQrCLRePUxMkPUUijapjRZJamVmOSKcMPUkRYk0U4L+tEJU4p8mN48VsVt?=
+ =?us-ascii?Q?DZACfaghLcKxc0z9NJGMNAqgIue+HMd7ZVFga2oOINbM8MJGodMCe5wC5Hxm?=
+ =?us-ascii?Q?pPAxqbkWQDgsTsaoaI6512FEvIBdqcPFRabGfe287sv5Bb26Wxv8vhiVHwFv?=
+ =?us-ascii?Q?prwKiyvxk34FggsqljwARHEg+5oAibOSHRvgz/C2XW4fF+rMZNAY9C8hkjCb?=
+ =?us-ascii?Q?76ZEhfZjWCdqO2/7OllEvcre9YBiGaS3wZOEN1m6Kb4OzHv/YCh9HzqXXILZ?=
+ =?us-ascii?Q?7/9StVzQKPs0RkXvtP97+Dfq7/kxJwa/tkZxcYvgbxhhlvqflV/Bwf4yKhgE?=
+ =?us-ascii?Q?x0/fb4GXmBTXqV9a1p2GM5S6Rzo5OuIMPisQ75kERWefmvSU3JaPCrD00IVt?=
+ =?us-ascii?Q?5an1Q6xCDmzvXnsb8YToG+NTULipyvoxYGVyacVTYHb73BB+jZMhaqrllORp?=
+ =?us-ascii?Q?sBtuAes5OlT6PiuDONsDJpVED44US1n7yZu6VoXkZtbwlF0GfsyQ57ZEXT2/?=
+ =?us-ascii?Q?EXVW7OHQsEYGQ6nsng7X+iZ0R6Qv/wjm+x5MjSqxO4YQfMciTfbJ+sVJumCl?=
+ =?us-ascii?Q?3Rdh6l4CDDRmCTUdrYCZXUhwu6qPT1eMlZJeivNKVcENp329Qsyy8ZW3AE4w?=
+ =?us-ascii?Q?XtJYJy+iaACzY1yeBQrKf3Z9CS/CAcmUzL1Vd2iecjHiEyjmJL+vNPM+JHjq?=
+ =?us-ascii?Q?dcMZV65ufJXdXoVkeQacC26Sp5XrK558ai72qk4aO7p1xur3pkQBbD7sycYk?=
+ =?us-ascii?Q?Yq001hBE7VbcIhjpsRZomM5qGOV+xjNdZjs/WaA7C1OtsJEbJSIMcU4+M8KM?=
+ =?us-ascii?Q?Z6qS/x7OCRQJt7v2TpMz8eO3Pi0OT9sn7Rw1EdrMLRvO+pyUMcXFOScxh6q1?=
+ =?us-ascii?Q?FYq5KqextvI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6MmY3JGjv3tbQRZEF+59qMbLhVSNW8+BDduvfJvYcKdgo95nixjaHgHcGfY9?=
+ =?us-ascii?Q?uAPn08+BW2qiXIhtXIhj5JfsM4UmCwazzlIrnA7iyF34CIcy2eZ9GP4uMyUU?=
+ =?us-ascii?Q?CKDWbEFDCRFBmfDC8fLhIjma9uXfBNATFOO4YX4KjWQIB4NfxsTgfwuV/2Gf?=
+ =?us-ascii?Q?PYOWsqO0WN2jE4J+Xows6fE0h2GhSVYCugEJtP/4aRzvidS3lpbGHrFMmEf+?=
+ =?us-ascii?Q?TVtdR6fe7qb1XedeC8+sjtw/g3j4KCgm0iJ4NR24OFF0l9POSdnV/OLOa4pK?=
+ =?us-ascii?Q?BewjVjeZhNFsNvNT+OaYoIa9TXNW8aQtHkpL5ocTNvccaII8VqMxtPGCm2NN?=
+ =?us-ascii?Q?lvzM5a0xBQanPy75rSkKYDTAoO4j7cYNhj0EkuftcKr3xZcI/gujuitZU7dY?=
+ =?us-ascii?Q?3k9uZrR93tbviHNrPj4yG9Mlc4RA9+HGPSlbGjAmFgyjtWA7lXrgEBlm/Dnb?=
+ =?us-ascii?Q?bkN/9WlxdxPoHxSjf2jHFKfsI/3zKdGe/jlVAZ73IsTVP0ONyU5INAxGRMzQ?=
+ =?us-ascii?Q?urtz6BeqN4U3ZjeyIUSh1/cle8O9Fn1py5ZYKWfS/rx2oJlYpUfRagCFdylE?=
+ =?us-ascii?Q?/qrmJocN/+OnyhUMYGP0ZTbShhFEWCQEhJh9BKtZZBWWhHgTnFOQhqdmRapU?=
+ =?us-ascii?Q?fTpIrcV1DwqtZMUaxGJEPjd+AiXulb/A98381aWdERPAhgqxCVPAZuSVL85m?=
+ =?us-ascii?Q?CoCy3huROripB/ev+ZZqKvKDnQICRxMDSgw2CdmzTnqHonitz7BbvAX77sg1?=
+ =?us-ascii?Q?ujKhAkTzY6s9L7YpQ27fnWhH84IMqInOtEQvw7jaCaKxorU4Y/oSHBVLETGl?=
+ =?us-ascii?Q?ifpDvaGDw37bULj699nZ2Oowic4Ea5eEdGHyDoDs846xxPhDFrdlGLfGzzbo?=
+ =?us-ascii?Q?A+HTcg8uE6iWpcO9lKXzQT+kKCKMJcSHwwr92idLYo6rBlbisqBCQBoOlXdj?=
+ =?us-ascii?Q?q0A0BtuR6/zClgDCrW+tWLlrkJCIvM5mgJB0G0VrhQwkbK6SPrcgIqoN+MFq?=
+ =?us-ascii?Q?NZXaBrpn/x/7dyxh2FRykemgIQaRrAIHXMVD4akamBkAYmXZRT3ob0vsA4CW?=
+ =?us-ascii?Q?tWx27EITioFxdqT8+Uj/nSFPhVUnlJGY4O7kEkxsFkOmVqOpCEiPkX4NoO+6?=
+ =?us-ascii?Q?E1bN0cvBMvS0Bqpch8uA7s4uNPqAO53cmKXeLSt3Pz9F/phKyJceNBTuZ+jA?=
+ =?us-ascii?Q?WTNrebD4qgJlS1MnlRQi2yRKhowofiyLVEaa2SfHzoh7o/mj+lMe1+xz8QHo?=
+ =?us-ascii?Q?lMXZF17ykGl2vDNpLyVc59LgN30fnKiIi+7jJuMj0jNeJ9QTKy6WoCsMuIW9?=
+ =?us-ascii?Q?eayiVZKs8gqv0iiCg2OtvALPX4ComErQuGH8AQXZHHRh5OZP0uv3xxc18M/d?=
+ =?us-ascii?Q?Qwh4E7VLIhL/97i3B7EcG+0ooJtpjkcF2oSUn95jGjDeO++X7B8tWCmBicwZ?=
+ =?us-ascii?Q?lG2duzFtSo17dYwBi/CyLW+yCdMxdnbxjNKsFyHYYrmaKY1lBozfhkJR8Kar?=
+ =?us-ascii?Q?VnGxmj7N+ymsZFBKAlPbG0vDZr9a+WQhHO2Gutxul0k5Q1KoIhqQUcNarH2G?=
+ =?us-ascii?Q?DFIzqwpbGi9KumPQoZr6tMjgVmzp4uIZYnp1mYnMVOQLuTKR0e5QXM/gdBZn?=
+ =?us-ascii?Q?1w=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 9ruTWoNpyDLm6YeOxsZ56e7Plez6OtzKA/cUZXR0CxZIyxQSBl2fa+n9IX1x2nbT5kNnbGf5bt5YG124scsxgJdGzPC7OJBiRwtEGP7k3knprhtKT6kJwrAW12kBtp0dCWwdam7JZGYg2oa+UhN60JI87h/6sR3zobheSnE+1GoOspf69U8/b7HXtr7PYGgrzWwvvVfuYVmlgkNTNS0EHlqIxuzgHX7n34w+F9ckxgc2iBT/ovM7hju8HAA69e0NMQ6EixSBrZXs9B0JvKB2HxpsYIwvvEgHtav4P1MBjwP5p7d0yNHNY4KwrVTsqa4kYfS7hrTkPDXhgh+QURONZQrmRtGoFTUa82/0dcbY/Q2AYmZ1OX5IVkBjt+51uaUTkLSt64oQeam4kLD03T4r9ovVvwcUGYc9Tg1mc6QRs1vQtYi8jjWVMnPeoaROaBag6RAcZKb+VtdVXucsfmeESwFjrZ3eGoAIdwpHyDpEr5Xtb/cxtB34WxGHPPLN6mVj8n86RKj32IPsxs0K8UGTw3Rgm/J+fSs4l+8QFLnk7qAEFkUAdxzK8wpQj2+Jsyq1JDFG4sU+T+TDY0qUJRP51DgXI2C8leFkyPgWABYb6zo=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e088ed88-699a-4f73-17a9-08dd98061b2a
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 01:23:35.1872
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7nrecIflEH2LwhUj5Nm8sJ6VYyYeG1GxZCx26MBV54J9CWAT+ahWN6ny5yJ495zdbIPFYhZ495ACecacJC7jyBXVBXr9bu3g8MGd+fRogxc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7582
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_09,2025-05-20_03,2025-03-28_01
+ definitions=2025-05-21_01,2025-05-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ phishscore=0 spamscore=0 bulkscore=0 suspectscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2505210012
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDAxMiBTYWx0ZWRfX2/At5/2Wkl8d N2cI/IhQDg3IzHpZ27E1Itd34mFyAOCoY3aKOxIh+amEiW8NF1dz8HtiFSYe30N09yFSRE58412 0XHq+e4wZeNhfC56wFw/PD2aKXcyzfSm1G+L5xg7Xi/fwu6EfKH+1TpGAkyAm+i8nlFNf1t9x22
+ 2l6C6DuEYZNRIqbax0VGEbYvxSfaXRlujW0K23h/HHxKtn977ORvaivNKCqmkVeM/36svJEPjLF 8323H79fEC+afoUVxGhgV0TXw5hzUER2qo1jPzRnaZIIXzEJQrG73+Vxh4lN85yd49RwGigCt3p UO884momzgXR1rXZQ3n6U1TE/cGbxQe9VdluJUUTMpWWQ9+PxphQQuYdGxfwAHQwYgIoEfLsyvN
+ K34zihIBE6rP8Sp1vd4ncEY+kv7g6XYu2JG+/JjLQsG5TGqYVoIKEsuvnhZax8x7bur+nQeD
+X-Authority-Analysis: v=2.4 cv=T4mMT+KQ c=1 sm=1 tr=0 ts=682d2b1b b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=VA8TjvsOcMiS39GMMiwA:9 a=MTAcVbZMd_8A:10 a=zZCYzV9kfG8A:10 cc=ntf awl=host:13189
+X-Proofpoint-ORIG-GUID: REbkBE_Ln7AdZ-ep8ti6LgjNGcn2K7VI
+X-Proofpoint-GUID: REbkBE_Ln7AdZ-ep8ti6LgjNGcn2K7VI
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250520_132055_728637_2004CE9B 
-X-CRM114-Status: GOOD (  13.45  )
+X-CRM114-CacheID: sfid-20250520_182417_076421_0AA93F4F 
+X-CRM114-Status: UNSURE (   9.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,122 +210,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
 
-The command specific status code, 0x183, was introduced in nvme 2.0
-specification defined to "Command Size Limits Exceeded" and only ever
-applied to DSM and Copy commands. Fix the name and remove the incorrect
-special handling for it.
+Kees,
 
-Fixes: 3b7c33b28a44d4 ("nvme.h: add Write Zeroes definitions")
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/constants.c     | 2 +-
- drivers/nvme/host/core.c          | 1 -
- drivers/nvme/host/pr.c            | 2 --
- drivers/nvme/target/core.c        | 9 +--------
- drivers/nvme/target/io-cmd-bdev.c | 9 +--------
- include/linux/nvme.h              | 2 +-
- 6 files changed, 4 insertions(+), 21 deletions(-)
+> All the callers of inet_addr_is_any() have a sockaddr_storage-backed
+> sockaddr. Avoid casts and switch prototype to the actual object being
+> used.
 
-diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.=
-c
-index 2b9e6cfaf2a80..1a0058be58210 100644
---- a/drivers/nvme/host/constants.c
-+++ b/drivers/nvme/host/constants.c
-@@ -145,7 +145,7 @@ static const char * const nvme_statuses[] =3D {
- 	[NVME_SC_BAD_ATTRIBUTES] =3D "Conflicting Attributes",
- 	[NVME_SC_INVALID_PI] =3D "Invalid Protection Information",
- 	[NVME_SC_READ_ONLY] =3D "Attempted Write to Read Only Range",
--	[NVME_SC_ONCS_NOT_SUPPORTED] =3D "ONCS Not Supported",
-+	[NVME_SC_CMD_SIZE_LIM_EXCEEDED	] =3D "Command Size Limits Exceeded",
- 	[NVME_SC_ZONE_BOUNDARY_ERROR] =3D "Zoned Boundary Error",
- 	[NVME_SC_ZONE_FULL] =3D "Zone Is Full",
- 	[NVME_SC_ZONE_READ_ONLY] =3D "Zone Is Read Only",
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cdb806b2c89c7..05445217dd6ed 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -290,7 +290,6 @@ static blk_status_t nvme_error_status(u16 status)
- 	case NVME_SC_NS_NOT_READY:
- 		return BLK_STS_TARGET;
- 	case NVME_SC_BAD_ATTRIBUTES:
--	case NVME_SC_ONCS_NOT_SUPPORTED:
- 	case NVME_SC_INVALID_OPCODE:
- 	case NVME_SC_INVALID_FIELD:
- 	case NVME_SC_INVALID_NS:
-diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
-index cf2d2c5039ddb..ca6a74607b139 100644
---- a/drivers/nvme/host/pr.c
-+++ b/drivers/nvme/host/pr.c
-@@ -82,8 +82,6 @@ static int nvme_status_to_pr_err(int status)
- 		return PR_STS_SUCCESS;
- 	case NVME_SC_RESERVATION_CONFLICT:
- 		return PR_STS_RESERVATION_CONFLICT;
--	case NVME_SC_ONCS_NOT_SUPPORTED:
--		return -EOPNOTSUPP;
- 	case NVME_SC_BAD_ATTRIBUTES:
- 	case NVME_SC_INVALID_OPCODE:
- 	case NVME_SC_INVALID_FIELD:
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index db7b17d1094e8..e824f149746a7 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -62,14 +62,7 @@ inline u16 errno_to_nvme_status(struct nvmet_req *req,=
- int errno)
- 		return  NVME_SC_LBA_RANGE | NVME_STATUS_DNR;
- 	case -EOPNOTSUPP:
- 		req->error_loc =3D offsetof(struct nvme_common_command, opcode);
--		switch (req->cmd->common.opcode) {
--		case nvme_cmd_dsm:
--		case nvme_cmd_write_zeroes:
--			return NVME_SC_ONCS_NOT_SUPPORTED | NVME_STATUS_DNR;
--		default:
--			return NVME_SC_INVALID_OPCODE | NVME_STATUS_DNR;
--		}
--		break;
-+		return NVME_SC_INVALID_OPCODE | NVME_STATUS_DNR;
- 	case -ENODATA:
- 		req->error_loc =3D offsetof(struct nvme_rw_command, nsid);
- 		return NVME_SC_ACCESS_DENIED;
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-c=
-md-bdev.c
-index 83be0657e6df4..1cfa13d029bfa 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -145,15 +145,8 @@ u16 blk_to_nvme_status(struct nvmet_req *req, blk_st=
-atus_t blk_sts)
- 		req->error_loc =3D offsetof(struct nvme_rw_command, slba);
- 		break;
- 	case BLK_STS_NOTSUPP:
-+		status =3D NVME_SC_INVALID_OPCODE | NVME_STATUS_DNR;
- 		req->error_loc =3D offsetof(struct nvme_common_command, opcode);
--		switch (req->cmd->common.opcode) {
--		case nvme_cmd_dsm:
--		case nvme_cmd_write_zeroes:
--			status =3D NVME_SC_ONCS_NOT_SUPPORTED | NVME_STATUS_DNR;
--			break;
--		default:
--			status =3D NVME_SC_INVALID_OPCODE | NVME_STATUS_DNR;
--		}
- 		break;
- 	case BLK_STS_MEDIUM:
- 		status =3D NVME_SC_ACCESS_DENIED;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 51308f65b72fd..b65a1b9f2116c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -2171,7 +2171,7 @@ enum {
- 	NVME_SC_BAD_ATTRIBUTES		=3D 0x180,
- 	NVME_SC_INVALID_PI		=3D 0x181,
- 	NVME_SC_READ_ONLY		=3D 0x182,
--	NVME_SC_ONCS_NOT_SUPPORTED	=3D 0x183,
-+	NVME_SC_CMD_SIZE_LIM_EXCEEDED	=3D 0x183,
-=20
- 	/*
- 	 * I/O Command Set Specific - Fabrics commands:
---=20
-2.47.1
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com> # SCSI
 
+-- 
+Martin K. Petersen
 
