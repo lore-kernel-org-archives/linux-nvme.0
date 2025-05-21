@@ -4,172 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0C6DC54E65
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 21:08:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C908BC54ED1
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 22:31:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:To:
-	From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=k7qkFDXAucTi4Y9JjWmEbLAclcjvIkmn+WFX/gQ+z2w=; b=1GRzCvT4Qnh8ZLG2ITbgjxEOWq
-	HDPZljAZ0vBp1Duz20vmTptQIBt9EgJ7Qsbls2mTmQSm7Qi+Q+Mog6dyimrsKSdsnKPRVzBo8obAE
-	rAkTuYklU14cZpWld7ajhL3NZOw5nJNXqf8XHsG3vHdak2O8Zxye8+4NlOkmP+8zFEqljwMLslNmm
-	Fu4WmvY+kB80/7cb3v6dEKEc5n/qwgoyjOAQXXFSa/XxQVCqkrPkdn2B1/3QtMkxWLRCkS9kTO96w
-	hx4HTL5vBbhyCBJZ1+xXB67nP88dbU7MDtBkSMTeK4G3atsG4tZ0NBI5kaoFN2tFhRPLrsmnSwnL0
-	9jIWKm3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mZ20q90cuzIDMnvbv2G/OC471GJ5nYMbY/KN84m1fJ0=; b=Pn/R6Ifs/O2VEKy8zj26Yl+jKS
+	yIRRaJnH/n0kgENVtNiIbSr8Dz8gBqgUyXLKdws68BaHxO0H0oiOXCSU2BgcHS95qNcO5eoCQ8TO0
+	7LvA+weSgZYOvBnHK1aFxeRWA8VaCVFFvh9/OLqWMVVOfP70UUDt9ZzkvSbmOm98cPuuwIXGfL6A9
+	ffr9J3tjc+HHSWFOhk+AettE+vZsfwbSQoLC7Djd8veK+RmE+A6VW6revLIS7EC/PBe0KxKhaDN0p
+	0BVDBVEziMbvsr80a6cdL4tCxrt/W6cHNEUkILaIDtnsO4//31ExuHBqKX9JeC1zulMXWccodX81i
+	7nYpwfTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHqg1-0000000GqUa-3GC0;
-	Wed, 21 May 2025 21:08:37 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1uHry4-0000000Gvff-3jls;
+	Wed, 21 May 2025 22:31:20 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHqfz-0000000GqU7-2AFO
+	id 1uHry1-0000000Gvdt-4A3E
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 21:08:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1747861715; x=1779397715;
-  h=from:to:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=VRGSvXFr24b1p0+bA4eijRSBeznJQFt1J6YZMY90Ht8=;
-  b=QHeiQxUXnrMqvIOK92yCDq5lYlrC9Yu3zB63F+VT0Eh6SnAesWsduUJN
-   WHufhH4xHVL8OGdg7GeL0BjNEfS8v4ppG38IjhpTOW34e7SnMNDh9mzDp
-   VhEfZJEgmDBx55P6tvhrfjL/72REBA8ZPOlnTmNAS7646I9vV4g18ui9P
-   mhrvnZfZnMBNYsFkD5Wl2VihAS5VJ4GpNZvLGJvHxN94bBZH79Xm0OGSR
-   eqO3aogga9hETWYZMUcYrTu3JfX0/bd5gCyIhNZ4zGXgY1EWyQPMeHRV8
-   w0E0sJ8mhKppwe7bbmLREVSvKp+O1HjqbsoP5+vowl+HfP1+TYkKdPEWA
-   g==;
-X-CSE-ConnectionGUID: HDmNOXTjSzOclgecJZGyyw==
-X-CSE-MsgGUID: cXWL3w5VTWy2h50vLgZlJA==
-X-IronPort-AV: E=Sophos;i="6.15,304,1739808000"; 
-   d="scan'208";a="82189950"
-Received: from mail-co1nam11lp2177.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.177])
-  by ob1.hgst.iphmx.com with ESMTP; 22 May 2025 05:08:31 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gUsmdlL76x7PXODxTqlka6W3RBNLnn8n0ENFM5n2HKCuX7MNB8UF8Zqo0swNe3PaoKMOrm8RLwzRpOz2AY7nJjNb4n3Z55sbVZMbKGpev+IholXapRqZr7w6Tjp3GBokNa3EdUUw1OWopC030hDroTObab9hCmOGg6ePdAlDGghpJ1XVlMTYpnYo3W3HlQaa4ETYG/bWhywiIlX8x2++g+2zi0oLg2xBMvH4DwLfwpzvhIQmdIXPgmzorTX5Ui2cJgnWLmj7QlWw/LRkc4fKnLEx6EQ+/4PypHPXXrPWBQvm6R8tIapXQhb9hEXjJIuHEFWz9cYOBOYfEa/vqsdQUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k7qkFDXAucTi4Y9JjWmEbLAclcjvIkmn+WFX/gQ+z2w=;
- b=uoOKuo8iLlMzOGgAWs1wh7/WohmULzOBI47EvpAEREnvJT1uU/xXUpZM2MGSQP9Jj3dcu6KruWSm3GgHb43UmtuI83XSL8Zir6vH3lgXrvttZyMX78B6T7iI2Pl3ga9YSuBnvzuioIwi1wnglUmk7hfMIRe57K8w9ytUQXWHwSWIxE+cBUqBd2cCeHKR85C+nbhmSzGSQzIluQ+GkbHciQvM4okwAzGmjroZISKR8HGRZ39ZnSVwra2q+uyaiNuquVT75yIoFyM198zGplKiVinRDG+mrmXBB6QXdYpqYTBevx8REGcHg83ESnpSf087CGpzOrYlopxhUu2b1ZrVAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k7qkFDXAucTi4Y9JjWmEbLAclcjvIkmn+WFX/gQ+z2w=;
- b=n5QyATp3ZTTsyKwUvv4rVkb+auixjwcuEhBm8q/R8se9icJa5p2R/iaHcE9Rpmwbh9pSKuV9Ubak8Ek6vd79fyRaPqDvyYRifeThWrztMgbrZVtDIkwI+fvGB5JJoP5l/iZiad/6fdtqWkoxo3b2yCSO+qFSqzmOhG0jZkkhXVI=
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com (2603:10b6:806:350::6)
- by SA1PR04MB9020.namprd04.prod.outlook.com (2603:10b6:806:37b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.20; Wed, 21 May
- 2025 21:08:30 +0000
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::4e14:94e7:a9b3:a4d4]) by SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::4e14:94e7:a9b3:a4d4%5]) with mapi id 15.20.8746.030; Wed, 21 May 2025
- 21:08:29 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>
-Subject: [ANNOUNCE] blktests repoistory move
-Thread-Topic: [ANNOUNCE] blktests repoistory move
-Thread-Index: AQHbypSA/Tc20EMek0i3PG4ZJvL8AA==
-Date: Wed, 21 May 2025 21:08:29 +0000
-Message-ID: <rl6mkqchfjfzylyrfie7d52gxetnvh6r2wpgwi3pflbl3v3duf@cjielnfb5rht>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR04MB8532:EE_|SA1PR04MB9020:EE_
-x-ms-office365-filtering-correlation-id: 4bfaae8d-d982-4a67-e579-08dd98aba2f1
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?I80GZkA3mwr1goThqhkr9WrIpPSKb59AbDv4eZDnA9dlAqjPEvvan0attWfk?=
- =?us-ascii?Q?llTnui/oAan7DoGNVdJv2Or3x6uq2dqZFyC4+qVCFQpd8YmVmf4KVbpVH+BF?=
- =?us-ascii?Q?f2d6DsiGkSTYO0O6e6Q1qvigGXPg4AawJObRYdynUnVtWWTqF38gIxEcLfvu?=
- =?us-ascii?Q?aj6ijC8VddN9QWdLJuZNIQCBaP5nIAdb0IFskO5BYxStrsuGeI8QdsBBj1OD?=
- =?us-ascii?Q?YLv36aQMzZXv/t+fFbHQM1/EWZgr2NXtDV/mYPnWVSjSWVf3y3NHa1o2OvVk?=
- =?us-ascii?Q?UbzoJuaFxevn9vbLV8BGdzqsuc1kAuhqCE19GhWUkef8Il1LOoItak012Zg/?=
- =?us-ascii?Q?eao2oX8iqPjB2sK+UYc8P46GtdKhF5SVFdOZMlMHNDkC+P4dmTgWCNfJpLIK?=
- =?us-ascii?Q?NR77hR1vsr3LxM01iN6clTxidrCt4pH7wGtBVyDEnIUneD2Kh6gNpe5n7iFp?=
- =?us-ascii?Q?O9cAc3Cf3vdZxmLIOsaqns5cOIRVYztByUPQGfO1ZKVJd/aHDtjEeLfm73bb?=
- =?us-ascii?Q?dYX/lq9a/YFhMSgoa/ZZO2KB1JFImA41DeaHkN5EDIpwxsHADxuj9ioLOUjQ?=
- =?us-ascii?Q?9WMbTO2ztVE0Rq0mpuJC8C3HgTYGJh4ZogyLFnr70pah0EJi4nBYV2oqDfSm?=
- =?us-ascii?Q?8cqePHBjhddVHEvV213m2+rBVAbRmCEPHb38hkqOBueYCVPZme+o02vypUh5?=
- =?us-ascii?Q?E51YdNTDutR3iF3b/1HQOJ0WOPNewBZsStA2HrHaMzSaifuD4lHNMArBslKe?=
- =?us-ascii?Q?0HYcV58UCZatzMT6XEWR8eEBWQWXE7nadAydUGsrAEGabz0qKhAG/cvfQ7up?=
- =?us-ascii?Q?5P2mDHsU7CQAs3Niq1TYFVksQOAG54gnGPRzQKZsnTS6Iu/MldZEpTYRCLSQ?=
- =?us-ascii?Q?NdE3j6mydXlErG5chK5cJ9omeHHSDmeGi/UeC/67Mm71BN5YJv2ElIYXUIr1?=
- =?us-ascii?Q?wcckDVcRcw8fQJdW6U4rBeHzX22+Z74IIOgKfpaDhW8OBM1CrwEfnmrPkvKD?=
- =?us-ascii?Q?l/K3ATZ1ZIsej6MAgGisMfyrXrKtt73/OQGwdnlB9xFjoNDfNBHg7cPJ0lSZ?=
- =?us-ascii?Q?lZXhCpnTL2ve3DlHQi2jyOZl2SlzjRMOKPKCmA6LlRtexaLXrRV5dDOHNf4R?=
- =?us-ascii?Q?iOWLnWF0vvWG8CWn2zrnSvAE313guRIyd7zwzeZz2LISWIsW0c4wSaa4wlpm?=
- =?us-ascii?Q?IDpkCaieBRZbf2f9XI9zvGYrpdrr3LYEvvR2jt7td3UJ5/rNjjylvJvy8gbk?=
- =?us-ascii?Q?sizIZH6dzBZcMpGyaDTFi981H0MmZaXNTNh9iej5k0YopqcH4aMR0wlm2KkV?=
- =?us-ascii?Q?TLU+GZkoWUpMnJpoRg8WFqALdrJDXJBEgRSCZA7JHg505HqGkUm5oJEDev17?=
- =?us-ascii?Q?qnaS9JUqRz3a6PzcGjnOzKR7n9+0ar5qe/RWPX8izXXd+CZUgif+o7O/Ui8g?=
- =?us-ascii?Q?BdZoF5d2ldLJMnObTmyr9/uiiPl8s/uG?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR04MB8532.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cfL7PH3xzUaMsDOc13+KyLpOflxijRrf4FXHVeFJaCh2gj2PbBvxtqGD864R?=
- =?us-ascii?Q?DoInZG/AdDnRgGy7d/CTczQ0bclrHl1CwRRMCGQu0F7MSljDQJuDlyNSlbr2?=
- =?us-ascii?Q?QTus6n9YxgZLGL02s0aZkaY8ok+zMi/QBc73ueIkUXez+NTq4MyakSqDRBg6?=
- =?us-ascii?Q?gasOMEsXAxF2AHjg7c2O4B3sGnbE6rKHCWhTciJVK7hBR1rvaR7KqrdWorDj?=
- =?us-ascii?Q?x7KdtQKmI8fi+F7h2Ez5bGvGKxho1pnAaK/rGBqt3dfvpbY0xBEUg72xTRqu?=
- =?us-ascii?Q?Df6V+37mx5bdgBR8PIGEXHwAkr4tOrbD2zMguI+KMDAmxOvpiPsA3jSMvfAh?=
- =?us-ascii?Q?NJasvsIl9ye9dQFjjRFdRnYOr06/D1yod2NAMPfnCGfCijN3/Gjk0R8WJHN2?=
- =?us-ascii?Q?y4eaisgfRbM05jWSUcfJMOXC5x8kdUmg3ybi9CL2tCu1kyo/gwP3EztAX4LC?=
- =?us-ascii?Q?gwDlsxcYR6n1p/Je640ItNb2CVX/UXawiX/qDgXUTLuepxV2ghMUMiEYAlOZ?=
- =?us-ascii?Q?qncexkiT2mlLddN8ML5kvyrT32H7v5mU77x+y2tfa0kQFbho1HpxguvEEsV7?=
- =?us-ascii?Q?IXSUq/A+shyKF1kw0ttoHc+V2vo9MqPxf8rkKJUP6+JFwFL7vxP9qilX8G1s?=
- =?us-ascii?Q?PVIqSPc2irZpfejPX7OFngmJ1XvreNNtOVsJJ3Xp6wNe57wul0z9GeCM0kmL?=
- =?us-ascii?Q?6LFW+RrmaUOuS9dPRzKPisO+SpTMY+tmAQyJdfBo/y3rTHsTMTuBGYzamkxl?=
- =?us-ascii?Q?u4DcRtIVgpShHJcxTY+RY8lwXfRNnTTmToo8oI8MDcKcBzScpi9dqf8c+RgO?=
- =?us-ascii?Q?bOHnh5lhrwGj9l47m/dh423mN8bYrf5TSKfzwfWc4CIGNGl2Oj1xNweCinqb?=
- =?us-ascii?Q?qREzRrnxDYrhhCFTkxt9sJle4oRdsBHhFJdT6eBtozyf60CqKlRKRYrcHOZB?=
- =?us-ascii?Q?O7GiQaE10+NwWDJt3/pBEnvzvq3WZYUNXidcXBL+CkU26CL25yOQbUYm5XFb?=
- =?us-ascii?Q?BupsgmZePWOswqRUkIST5Ra+fbCpSgFYrTecUXMOUf0sypmheuJpVjBhZklA?=
- =?us-ascii?Q?sEzNeImlQn4pBCv9XLDpq12L3/iFdD0PbFB125CymqKkWrskSfpXb3Mj0RaH?=
- =?us-ascii?Q?vGJC16K51fro9YHb9lfdtmrTdF+WYWQPd/5GLrBH5DiDECXQyL0llscURg+Y?=
- =?us-ascii?Q?+seW5Fe74Dn8HOlJlFUlDyykLxd5GRDneP2bZ4Rx+FbmN4fnWMGZNx5+XjY/?=
- =?us-ascii?Q?VbQZdIhN2vThYBq+D/kZOXek65RBPi24+6UpJ57+x6TIb56IOdvTGrbS3TaT?=
- =?us-ascii?Q?3GbgC4UBNzHOV/CZq5Y7b/EKLLeromJpVogxRD69PYwzC7xDqhwcYgXqzc+6?=
- =?us-ascii?Q?Qrt9uEjlo/JGaPTVytJPWSDRRuHM0LZBcTF1Dy6EMcgRDktsF1YV3/cOuXQv?=
- =?us-ascii?Q?827t/lM6+ERxKZpVKLc6aTDUV5I+tiWDsBpZm+J60NUPbnQ6/tVs0SGvXVAA?=
- =?us-ascii?Q?l8aUPUdK5rXEKvdGXUWpjvgeTtFPCsyCk5JihW2t9CZRzIGxyiX154QUYq4T?=
- =?us-ascii?Q?yDvhpv4DIDBX8jtOyHkuo5jyeNmkos+NVwTSw3ddEvi0GZE4Yq2BxGbOPGmq?=
- =?us-ascii?Q?tkfacOx42mwIXPWiqGFxLB4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <433BD22693C3AB4FAEE35EDB67ABF90C@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Wed, 21 May 2025 22:31:19 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LMQXcd002432
+	for <linux-nvme@lists.infradead.org>; Wed, 21 May 2025 15:31:17 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
+	 bh=mZ20q90cuzIDMnvbv2G/OC471GJ5nYMbY/KN84m1fJ0=; b=jQma/pFI+CHK
+	RlkX/qCoVaXaXreYvTS5/uZh8PFINU8y8Eiybdn1zp5qC5e4pmZQ6EzwuxifCVn2
+	vFXd8AihzpysBsC+K+BSysEB0F4TJ0Xnhp8GOcEQivUkn6QqLFNZHeMNY+UZh5bV
+	4X4DYK2QowvE/qe9reJJJGf9uk/xcmPQA/jesER7SlRuk+tRjIhtDKa9T5JpD577
+	3O68yz6jVIMN/BuFYMZQbl7YI+bPmL1mGiDZsgLDRkS4IT9px6nEOZt/hdZLCJLG
+	MNG9B3c0SwltG30PSB1SRrAgPvz+BUiweMv3oq97/RoL2mcn+7DbM3OB5MplISy/
+	PTfbzVc+dQ==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 46rwfgkp1x-9
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 21 May 2025 15:31:17 -0700 (PDT)
+Received: from twshared18153.09.ash9.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1748.10; Wed, 21 May 2025 22:31:14 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id C91D91BE54AC9; Wed, 21 May 2025 15:31:10 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 4/5] block: add support for vectored copies
+Date: Wed, 21 May 2025 15:31:06 -0700
+Message-ID: <20250521223107.709131-5-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250521223107.709131-1-kbusch@meta.com>
+References: <20250521223107.709131-1-kbusch@meta.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: /e+Ru0N8VZ/aQIYLruUwm8FfNLOrV0ivAgYA+tzU+5NsqcZOdrvk3Wre10pqbr9GKAhMeZYpf0KXKCi9GWJ/hOaKUCXV0FiU0JK+y31zqlLojMBKmMVAWR/Fs7ElFJC1gCuNlxkQYH0zk22EAk6mGYdJ3TXAyEbI5Hkv3REwJnKmR/QAkfF1N/wQuGrAsiADzXbDgimreJU/ppArkMznE890ZF+Qf+X9VpsZaInXQ+788zT2F9MoIEx8U0L0+MMuI0RBLlrsF+mzEpA1xvWOvhLkndHo5dB9/9hnnGtcKBrQcgwEkUGnibDko3GH3r5e7iayeZjRt3zyMLqzHbXbgVnR5Yp6NHtEvLHGkuTGirBz+9ZUK/UliUUkn1O7mm3piRaLnvep11GakfFNSI4Uw+rYoJpv4UAwaBxwSyi+4XxQgdFYmXWzDhddKMh68sTACU0YSvsmzT5XvLG9Z7BN8uk1sYWLul32DZBUPyOKN11alAHYOCQxxegWaJ0IJv281+GbmzKyggG9mS7WyS5wFOyH0iwB6mVbROV0pZaDJ1HMBzU0h5gmlIL1HInfOJMa+NxpdjSJby1mE3tUexwfcEfiIYz5anhCYntNRS/3hh3f0A4UhJj6lgCNt93ryz54
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR04MB8532.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4bfaae8d-d982-4a67-e579-08dd98aba2f1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2025 21:08:29.5744
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: B4dUejiOJUlTFBJ7UWLw/y1TjRaD7L7/wKDpFyY2mlXz2wTqcJsNbxSNOUo0uAleSfudySvAtOZndL+zXEphRAn7lSMvMovzxzt6QOYnXPk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR04MB9020
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: LAqh_FTo6gnyTmiQ7Jkn8SaFTC4PDCy_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDIyNCBTYWx0ZWRfXw1hH/9lXiOuq +pkxMfR4Zu+nis+wLdZTjRv6OlTjOAtwqk8lQRJS91GlPv8m1qYRLkmAgkVBaoO5qDDeEAmLx8T hHAiUkRxIcrIkr/EZZarjiI758hFR5M+Ql70LfuCePQOGB/YV72KhxEX0wQWu2ppz6XcXND0IWQ
+ lP9KBuXgTJagSqLXYef3Ce1MNG+c3VYUJmnE3yx/XxvLxKeIQTFqmtqsNw5VteTOVRf7RDCvnib EcKv/Plp9/5jqk0nPeVSY34oeFH3QXMjyilMt6u1DCuGpDi7OHLwLk/SOfaoF8bXgQfiJUPwXTn zTQvSQuBDd2sJev7e8WqCNTRkDot8SnFFNoO9en967objCQ8/57x3a8IxlY5rYgylr3nBu9d7W8
+ mayx8DwP1LhaFn2A0571JNlxCXba0SQl6hruMI08FzIHZcCc5y1O1Z8AkIWwOtKirh6wgz4P
+X-Authority-Analysis: v=2.4 cv=I9BlRMgg c=1 sm=1 tr=0 ts=682e5435 cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=QX-hf833l84o4JQLY-wA:9
+X-Proofpoint-ORIG-GUID: LAqh_FTo6gnyTmiQ7Jkn8SaFTC4PDCy_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-21_07,2025-05-20_03,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250521_140835_591754_42AF5B5F 
-X-CRM114-Status: UNSURE (   9.16  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250521_153118_038822_4190754F 
+X-CRM114-Status: GOOD (  23.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,26 +89,224 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello all,
+From: Keith Busch <kbusch@kernel.org>
 
-FYI, as a preparation to set up blktests CI, we are going to move the blkte=
-sts
-repository,
+Copy offload can be used to defrad or garbage collect data spread across
+the disk. Most storage protocols provide a way to specifiy multiple
+sources in a single copy commnd, so introduce kernel and user space
+interfaces to accomplish that.
 
- from: https://github.com/osandov/blktests
- to:   https://github.com/linux-blktests/blktests
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ block/blk-lib.c         | 50 ++++++++++++++++++++++++----------
+ block/ioctl.c           | 59 +++++++++++++++++++++++++++++++++++++++++
+ include/linux/blkdev.h  |  2 ++
+ include/uapi/linux/fs.h | 14 ++++++++++
+ 4 files changed, 111 insertions(+), 14 deletions(-)
 
-The move is planned early next week, around May/27.
+diff --git a/block/blk-lib.c b/block/blk-lib.c
+index a538acbaa2cd7..7513b876a5399 100644
+--- a/block/blk-lib.c
++++ b/block/blk-lib.c
+@@ -424,26 +424,46 @@ static int __blkdev_copy(struct block_device *bdev,=
+ sector_t dst_sector,
+ }
+=20
+ static int blkdev_copy_offload(struct block_device *bdev, sector_t dst_s=
+ector,
+-		sector_t src_sector, sector_t nr_sects, gfp_t gfp)
++		struct bio_vec *bv, int nr_vecs, gfp_t gfp)
+ {
++	unsigned size =3D 0;
+ 	struct bio *bio;
+-	int ret;
+-
+-	struct bio_vec bv =3D {
+-		.bv_sector =3D src_sector,
+-		.bv_sectors =3D nr_sects,
+-	};
++	int ret, i;
+=20
+-	bio =3D bio_alloc(bdev, 1, REQ_OP_COPY, gfp);
+-	bio_add_copy_src(bio, &bv);
++	bio =3D bio_alloc(bdev, nr_vecs, REQ_OP_COPY, gfp);
++	for (i =3D 0; i < nr_vecs; i++) {
++		size +=3D bv[i].bv_sectors << SECTOR_SHIFT;
++		bio_add_copy_src(bio, &bv[i]);
++	}
+ 	bio->bi_iter.bi_sector =3D dst_sector;
+-	bio->bi_iter.bi_size =3D nr_sects << SECTOR_SHIFT;
++	bio->bi_iter.bi_size =3D size;
+=20
+ 	ret =3D submit_bio_wait(bio);
+ 	bio_put(bio);
+ 	return ret;
++}
++
++/**
++ * blkdev_copy_range - copy range of sectors to a destination
++ * @dst_sector:	start sector of the destination to copy to
++ * @bv:		vector of source sectors
++ * @nr_vecs:	number of source sector vectors
++ * @gfp:	allocation flags to use
++ */
++int blkdev_copy_range(struct block_device *bdev, sector_t dst_sector,
++		struct bio_vec *bv, int nr_vecs, gfp_t gfp)
++{
++	int ret, i;
+=20
++	if (bdev_copy_sectors(bdev))
++		return blkdev_copy_offload(bdev, dst_sector, bv, nr_vecs, gfp);
++
++	for (i =3D 0, ret =3D 0; i < nr_vecs && !ret; i++)
++		ret =3D __blkdev_copy(bdev, dst_sector, bv[i].bv_sector,
++				bv[i].bv_sectors, gfp);
++	return ret;
+ }
++EXPORT_SYMBOL_GPL(blkdev_copy_range);
+=20
+ /**
+  * blkdev_copy - copy source sectors to a destination on the same block =
+device
+@@ -455,9 +475,11 @@ static int blkdev_copy_offload(struct block_device *=
+bdev, sector_t dst_sector,
+ int blkdev_copy(struct block_device *bdev, sector_t dst_sector,
+ 		sector_t src_sector, sector_t nr_sects, gfp_t gfp)
+ {
+-	if (bdev_copy_sectors(bdev))
+-		return blkdev_copy_offload(bdev, dst_sector, src_sector,
+-					nr_sects, gfp);
+-	return __blkdev_copy(bdev, dst_sector, src_sector, nr_sects, gfp);
++	struct bio_vec bv =3D {
++		.bv_sector =3D src_sector,
++		.bv_sectors =3D nr_sects,
++	};
++
++	return blkdev_copy_range(bdev, dst_sector, &bv, 1, gfp);
+ }
+ EXPORT_SYMBOL_GPL(blkdev_copy);
+diff --git a/block/ioctl.c b/block/ioctl.c
+index 6f03c65867348..4b5095be19e1a 100644
+--- a/block/ioctl.c
++++ b/block/ioctl.c
+@@ -241,6 +241,63 @@ static int blk_ioctl_copy(struct block_device *bdev,=
+ blk_mode_t mode,
+ 	return blkdev_copy(bdev, dst, src, nr, GFP_KERNEL);
+ }
+=20
++static int blk_ioctl_copy_vec(struct block_device *bdev, blk_mode_t mode=
+,
++		void __user *argp)
++{
++	sector_t align =3D bdev_logical_block_size(bdev) >> SECTOR_SHIFT;
++	struct bio_vec *bv, fast_bv[UIO_FASTIOV];
++	struct copy_range cr;
++	int i, nr, ret;
++	__u64 dst;
++
++	if (!(mode & BLK_OPEN_WRITE))
++		return -EBADF;
++	if (copy_from_user(&cr, argp, sizeof(cr)))
++		return -EFAULT;
++	if (!(IS_ALIGNED(cr.dst_sector, align)))
++		return -EINVAL;
++
++	nr =3D cr.nr_ranges;
++	if (nr <=3D UIO_FASTIOV) {
++		bv =3D fast_bv;
++	} else {
++		bv =3D kmalloc_array(nr, sizeof(*bv), GFP_KERNEL);
++		if (!bv)
++			return -ENOMEM;
++	}
++
++	dst =3D cr.dst_sector;
++	for (i =3D 0; i < nr; i++) {
++		struct copy_source csrc;
++		__u64 nr_sects, src;
++
++		if (copy_from_user(&csrc,
++				(void __user *)(cr.sources + i * sizeof(csrc)),
++				sizeof(csrc))) {
++			ret =3D -EFAULT;
++			goto out;
++		}
++
++		nr_sects =3D csrc.nr_sectors;
++		src =3D csrc.src_sector;
++		if (!(IS_ALIGNED(src | nr_sects, align)) ||
++		    (src < dst && src + nr_sects > dst) ||
++		    (dst < src && dst + nr_sects > src)) {
++			ret =3D -EINVAL;
++			goto out;
++		}
++
++		bv[i].bv_sectors =3D nr_sects;
++		bv[i].bv_sector =3D src;
++	}
++
++	ret =3D blkdev_copy_range(bdev, dst, bv, nr, GFP_KERNEL);
++out:
++	if (bv !=3D fast_bv)
++		kfree(bv);
++	return ret;
++}
++
+ static int blk_ioctl_zeroout(struct block_device *bdev, blk_mode_t mode,
+ 		unsigned long arg)
+ {
+@@ -605,6 +662,8 @@ static int blkdev_common_ioctl(struct block_device *b=
+dev, blk_mode_t mode,
+ 		return blk_ioctl_secure_erase(bdev, mode, argp);
+ 	case BLKCPY:
+ 		return blk_ioctl_copy(bdev, mode, argp);
++	case BLKCPY_VEC:
++		return blk_ioctl_copy_vec(bdev, mode, argp);
+ 	case BLKZEROOUT:
+ 		return blk_ioctl_zeroout(bdev, mode, arg);
+ 	case BLKGETDISKSEQ:
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index e39ba0e91d43e..a77f2298754b5 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1182,6 +1182,8 @@ int blkdev_issue_secure_erase(struct block_device *=
+bdev, sector_t sector,
+ 		sector_t nr_sects, gfp_t gfp);
+ int blkdev_copy(struct block_device *bdev, sector_t dst_sector,
+ 		sector_t src_sector, sector_t nr_sects, gfp_t gfp);
++int blkdev_copy_range(struct block_device *bdev, sector_t dst_sector,
++		struct bio_vec *bv, int nr_vecs, gfp_t gfp);
+=20
+ #define BLKDEV_ZERO_NOUNMAP	(1 << 0)  /* do not free blocks */
+ #define BLKDEV_ZERO_NOFALLBACK	(1 << 1)  /* don't write explicit zeroes =
+*/
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index 534f157ce22e9..aed965f74ea2c 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -218,6 +218,20 @@ struct fsxattr {
+ /* [0] =3D destination lba, [1] =3D source lba, [2] =3D number of sector=
+s */
+ #define BLKCPY _IOWR(0x12,142,__u64[3])
+=20
++struct copy_source {
++	__u64 src_sector;
++	__u64 nr_sectors;
++};
++
++struct copy_range {
++	__u64	dst_sector;
++	__u16	nr_ranges;
++	__u8	rsvd[6];
++	__u64	sources; /* user space pointer to struct copy_source[] */
++};
++#define BLKCPY_VEC _IOWR(0x12,143,struct copy_range)
++
++
+ #define BMAP_IOCTL 1		/* obsolete - kept for compatibility */
+ #define FIBMAP	   _IO(0x00,1)	/* bmap access */
+ #define FIGETBSZ   _IO(0x00,2)	/* get the block size used for bmap */
+--=20
+2.47.1
 
-The move will be served by the GitHub repository transfer feature [1], so n=
-o
-impact is expected for blktests users. Old repository addresses should be u=
-sable
-after the move since they are redirected to the new repository. Just to avo=
-id
-confusion, it is recommended to update the remote URLs in your local clones
-after the move.
-
-[1] https://docs.github.com/en/repositories/creating-and-managing-repositor=
-ies/transferring-a-repository=
 
