@@ -4,62 +4,172 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35788C2D0CD
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 16:05:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0C6DC54E65
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 May 2025 21:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:To:
+	From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ZETFKyC+9cr14SXhbOoiFeZyuYYqlmA6QutyBLkX8Z4=; b=OB+SYU+FDmxlDtMMyEh+OW6OMS
-	BZ2ErStjNrVOhxnOU7oLmU6nSuIIo9iAugsljwx4UPwlqIS3s6vcIEP7HwhYD9nN+Jlu/l3axRw94
-	eCDcpv3fRyU/cXygMIV7whZJZIsIjsxfqWW5R96EM9aKiZusfAr9bqIClVLcDgWc5B82I0Wr8dJyF
-	sa/knDITzqbnNWYmHvs50BNcaa53Np9U36jvXL4qgZB7eRGVXeLjNDyyT7dVy2WefWllKAtFelO+N
-	jfWUTQc/cweTRW44jpN+rV3eiKt7yvcCVmPprrCtj3/I2sk5rRO4IWlqjYu1zi3P/Mf3Sjzu+spu2
-	7mfdVbYA==;
+	bh=k7qkFDXAucTi4Y9JjWmEbLAclcjvIkmn+WFX/gQ+z2w=; b=1GRzCvT4Qnh8ZLG2ITbgjxEOWq
+	HDPZljAZ0vBp1Duz20vmTptQIBt9EgJ7Qsbls2mTmQSm7Qi+Q+Mog6dyimrsKSdsnKPRVzBo8obAE
+	rAkTuYklU14cZpWld7ajhL3NZOw5nJNXqf8XHsG3vHdak2O8Zxye8+4NlOkmP+8zFEqljwMLslNmm
+	Fu4WmvY+kB80/7cb3v6dEKEc5n/qwgoyjOAQXXFSa/XxQVCqkrPkdn2B1/3QtMkxWLRCkS9kTO96w
+	hx4HTL5vBbhyCBJZ1+xXB67nP88dbU7MDtBkSMTeK4G3atsG4tZ0NBI5kaoFN2tFhRPLrsmnSwnL0
+	9jIWKm3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHlx0-0000000GPLl-2yQ7;
-	Wed, 21 May 2025 16:05:50 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1uHqg1-0000000GqUa-3GC0;
+	Wed, 21 May 2025 21:08:37 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHlve-0000000GP3y-4BMT
+	id 1uHqfz-0000000GqU7-2AFO
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 16:04:27 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 6C363629EF;
-	Wed, 21 May 2025 16:04:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08EBBC4CEE4;
-	Wed, 21 May 2025 16:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747843466;
-	bh=rywf19OsznyC+v7V4zAzSM3BjlccRhSLtmaCmitX/Dg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=a1wREfmJir1pOx2iCobdRb1DIDyAgPtTxED+OvaqDLjW5q3YhHJQckxBzMQKdiQwP
-	 Zkd5Knn9olzOSxC6xFLTPpwyhk8/6ERckuXflpOHJjUOCox7RXmP72dFF3rbIJfLkD
-	 IvJVidp8XUhAnqzESMBqUkBcRdYcvwDdcyuHNzvneVG0IS3HwsNnP1eUGvpfPu1ULQ
-	 MgW0h19jYnsDwJz/ISoUL4Di29k41KlDWAr0nyofe+Ic+GzvB/HL3B/7f0i7xAvtKJ
-	 6YsD6CP1hgjeW2vjq9ZWevHuo1ccJmJr7kaKgzUcGwNcK/xJvpDPfmEK/bfvDbvhvi
-	 eG3TeW84AJnSA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Coiby Xu <coxu@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] crash_dump, nvme: select CONFIGFS_FS as built-in
-Date: Wed, 21 May 2025 18:03:19 +0200
-Message-Id: <20250521160359.2132363-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	Wed, 21 May 2025 21:08:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1747861715; x=1779397715;
+  h=from:to:subject:date:message-id:content-id:
+   content-transfer-encoding:mime-version;
+  bh=VRGSvXFr24b1p0+bA4eijRSBeznJQFt1J6YZMY90Ht8=;
+  b=QHeiQxUXnrMqvIOK92yCDq5lYlrC9Yu3zB63F+VT0Eh6SnAesWsduUJN
+   WHufhH4xHVL8OGdg7GeL0BjNEfS8v4ppG38IjhpTOW34e7SnMNDh9mzDp
+   VhEfZJEgmDBx55P6tvhrfjL/72REBA8ZPOlnTmNAS7646I9vV4g18ui9P
+   mhrvnZfZnMBNYsFkD5Wl2VihAS5VJ4GpNZvLGJvHxN94bBZH79Xm0OGSR
+   eqO3aogga9hETWYZMUcYrTu3JfX0/bd5gCyIhNZ4zGXgY1EWyQPMeHRV8
+   w0E0sJ8mhKppwe7bbmLREVSvKp+O1HjqbsoP5+vowl+HfP1+TYkKdPEWA
+   g==;
+X-CSE-ConnectionGUID: HDmNOXTjSzOclgecJZGyyw==
+X-CSE-MsgGUID: cXWL3w5VTWy2h50vLgZlJA==
+X-IronPort-AV: E=Sophos;i="6.15,304,1739808000"; 
+   d="scan'208";a="82189950"
+Received: from mail-co1nam11lp2177.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.177])
+  by ob1.hgst.iphmx.com with ESMTP; 22 May 2025 05:08:31 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gUsmdlL76x7PXODxTqlka6W3RBNLnn8n0ENFM5n2HKCuX7MNB8UF8Zqo0swNe3PaoKMOrm8RLwzRpOz2AY7nJjNb4n3Z55sbVZMbKGpev+IholXapRqZr7w6Tjp3GBokNa3EdUUw1OWopC030hDroTObab9hCmOGg6ePdAlDGghpJ1XVlMTYpnYo3W3HlQaa4ETYG/bWhywiIlX8x2++g+2zi0oLg2xBMvH4DwLfwpzvhIQmdIXPgmzorTX5Ui2cJgnWLmj7QlWw/LRkc4fKnLEx6EQ+/4PypHPXXrPWBQvm6R8tIapXQhb9hEXjJIuHEFWz9cYOBOYfEa/vqsdQUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k7qkFDXAucTi4Y9JjWmEbLAclcjvIkmn+WFX/gQ+z2w=;
+ b=uoOKuo8iLlMzOGgAWs1wh7/WohmULzOBI47EvpAEREnvJT1uU/xXUpZM2MGSQP9Jj3dcu6KruWSm3GgHb43UmtuI83XSL8Zir6vH3lgXrvttZyMX78B6T7iI2Pl3ga9YSuBnvzuioIwi1wnglUmk7hfMIRe57K8w9ytUQXWHwSWIxE+cBUqBd2cCeHKR85C+nbhmSzGSQzIluQ+GkbHciQvM4okwAzGmjroZISKR8HGRZ39ZnSVwra2q+uyaiNuquVT75yIoFyM198zGplKiVinRDG+mrmXBB6QXdYpqYTBevx8REGcHg83ESnpSf087CGpzOrYlopxhUu2b1ZrVAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k7qkFDXAucTi4Y9JjWmEbLAclcjvIkmn+WFX/gQ+z2w=;
+ b=n5QyATp3ZTTsyKwUvv4rVkb+auixjwcuEhBm8q/R8se9icJa5p2R/iaHcE9Rpmwbh9pSKuV9Ubak8Ek6vd79fyRaPqDvyYRifeThWrztMgbrZVtDIkwI+fvGB5JJoP5l/iZiad/6fdtqWkoxo3b2yCSO+qFSqzmOhG0jZkkhXVI=
+Received: from SN7PR04MB8532.namprd04.prod.outlook.com (2603:10b6:806:350::6)
+ by SA1PR04MB9020.namprd04.prod.outlook.com (2603:10b6:806:37b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.20; Wed, 21 May
+ 2025 21:08:30 +0000
+Received: from SN7PR04MB8532.namprd04.prod.outlook.com
+ ([fe80::4e14:94e7:a9b3:a4d4]) by SN7PR04MB8532.namprd04.prod.outlook.com
+ ([fe80::4e14:94e7:a9b3:a4d4%5]) with mapi id 15.20.8746.030; Wed, 21 May 2025
+ 21:08:29 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>
+Subject: [ANNOUNCE] blktests repoistory move
+Thread-Topic: [ANNOUNCE] blktests repoistory move
+Thread-Index: AQHbypSA/Tc20EMek0i3PG4ZJvL8AA==
+Date: Wed, 21 May 2025 21:08:29 +0000
+Message-ID: <rl6mkqchfjfzylyrfie7d52gxetnvh6r2wpgwi3pflbl3v3duf@cjielnfb5rht>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR04MB8532:EE_|SA1PR04MB9020:EE_
+x-ms-office365-filtering-correlation-id: 4bfaae8d-d982-4a67-e579-08dd98aba2f1
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?I80GZkA3mwr1goThqhkr9WrIpPSKb59AbDv4eZDnA9dlAqjPEvvan0attWfk?=
+ =?us-ascii?Q?llTnui/oAan7DoGNVdJv2Or3x6uq2dqZFyC4+qVCFQpd8YmVmf4KVbpVH+BF?=
+ =?us-ascii?Q?f2d6DsiGkSTYO0O6e6Q1qvigGXPg4AawJObRYdynUnVtWWTqF38gIxEcLfvu?=
+ =?us-ascii?Q?aj6ijC8VddN9QWdLJuZNIQCBaP5nIAdb0IFskO5BYxStrsuGeI8QdsBBj1OD?=
+ =?us-ascii?Q?YLv36aQMzZXv/t+fFbHQM1/EWZgr2NXtDV/mYPnWVSjSWVf3y3NHa1o2OvVk?=
+ =?us-ascii?Q?UbzoJuaFxevn9vbLV8BGdzqsuc1kAuhqCE19GhWUkef8Il1LOoItak012Zg/?=
+ =?us-ascii?Q?eao2oX8iqPjB2sK+UYc8P46GtdKhF5SVFdOZMlMHNDkC+P4dmTgWCNfJpLIK?=
+ =?us-ascii?Q?NR77hR1vsr3LxM01iN6clTxidrCt4pH7wGtBVyDEnIUneD2Kh6gNpe5n7iFp?=
+ =?us-ascii?Q?O9cAc3Cf3vdZxmLIOsaqns5cOIRVYztByUPQGfO1ZKVJd/aHDtjEeLfm73bb?=
+ =?us-ascii?Q?dYX/lq9a/YFhMSgoa/ZZO2KB1JFImA41DeaHkN5EDIpwxsHADxuj9ioLOUjQ?=
+ =?us-ascii?Q?9WMbTO2ztVE0Rq0mpuJC8C3HgTYGJh4ZogyLFnr70pah0EJi4nBYV2oqDfSm?=
+ =?us-ascii?Q?8cqePHBjhddVHEvV213m2+rBVAbRmCEPHb38hkqOBueYCVPZme+o02vypUh5?=
+ =?us-ascii?Q?E51YdNTDutR3iF3b/1HQOJ0WOPNewBZsStA2HrHaMzSaifuD4lHNMArBslKe?=
+ =?us-ascii?Q?0HYcV58UCZatzMT6XEWR8eEBWQWXE7nadAydUGsrAEGabz0qKhAG/cvfQ7up?=
+ =?us-ascii?Q?5P2mDHsU7CQAs3Niq1TYFVksQOAG54gnGPRzQKZsnTS6Iu/MldZEpTYRCLSQ?=
+ =?us-ascii?Q?NdE3j6mydXlErG5chK5cJ9omeHHSDmeGi/UeC/67Mm71BN5YJv2ElIYXUIr1?=
+ =?us-ascii?Q?wcckDVcRcw8fQJdW6U4rBeHzX22+Z74IIOgKfpaDhW8OBM1CrwEfnmrPkvKD?=
+ =?us-ascii?Q?l/K3ATZ1ZIsej6MAgGisMfyrXrKtt73/OQGwdnlB9xFjoNDfNBHg7cPJ0lSZ?=
+ =?us-ascii?Q?lZXhCpnTL2ve3DlHQi2jyOZl2SlzjRMOKPKCmA6LlRtexaLXrRV5dDOHNf4R?=
+ =?us-ascii?Q?iOWLnWF0vvWG8CWn2zrnSvAE313guRIyd7zwzeZz2LISWIsW0c4wSaa4wlpm?=
+ =?us-ascii?Q?IDpkCaieBRZbf2f9XI9zvGYrpdrr3LYEvvR2jt7td3UJ5/rNjjylvJvy8gbk?=
+ =?us-ascii?Q?sizIZH6dzBZcMpGyaDTFi981H0MmZaXNTNh9iej5k0YopqcH4aMR0wlm2KkV?=
+ =?us-ascii?Q?TLU+GZkoWUpMnJpoRg8WFqALdrJDXJBEgRSCZA7JHg505HqGkUm5oJEDev17?=
+ =?us-ascii?Q?qnaS9JUqRz3a6PzcGjnOzKR7n9+0ar5qe/RWPX8izXXd+CZUgif+o7O/Ui8g?=
+ =?us-ascii?Q?BdZoF5d2ldLJMnObTmyr9/uiiPl8s/uG?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR04MB8532.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cfL7PH3xzUaMsDOc13+KyLpOflxijRrf4FXHVeFJaCh2gj2PbBvxtqGD864R?=
+ =?us-ascii?Q?DoInZG/AdDnRgGy7d/CTczQ0bclrHl1CwRRMCGQu0F7MSljDQJuDlyNSlbr2?=
+ =?us-ascii?Q?QTus6n9YxgZLGL02s0aZkaY8ok+zMi/QBc73ueIkUXez+NTq4MyakSqDRBg6?=
+ =?us-ascii?Q?gasOMEsXAxF2AHjg7c2O4B3sGnbE6rKHCWhTciJVK7hBR1rvaR7KqrdWorDj?=
+ =?us-ascii?Q?x7KdtQKmI8fi+F7h2Ez5bGvGKxho1pnAaK/rGBqt3dfvpbY0xBEUg72xTRqu?=
+ =?us-ascii?Q?Df6V+37mx5bdgBR8PIGEXHwAkr4tOrbD2zMguI+KMDAmxOvpiPsA3jSMvfAh?=
+ =?us-ascii?Q?NJasvsIl9ye9dQFjjRFdRnYOr06/D1yod2NAMPfnCGfCijN3/Gjk0R8WJHN2?=
+ =?us-ascii?Q?y4eaisgfRbM05jWSUcfJMOXC5x8kdUmg3ybi9CL2tCu1kyo/gwP3EztAX4LC?=
+ =?us-ascii?Q?gwDlsxcYR6n1p/Je640ItNb2CVX/UXawiX/qDgXUTLuepxV2ghMUMiEYAlOZ?=
+ =?us-ascii?Q?qncexkiT2mlLddN8ML5kvyrT32H7v5mU77x+y2tfa0kQFbho1HpxguvEEsV7?=
+ =?us-ascii?Q?IXSUq/A+shyKF1kw0ttoHc+V2vo9MqPxf8rkKJUP6+JFwFL7vxP9qilX8G1s?=
+ =?us-ascii?Q?PVIqSPc2irZpfejPX7OFngmJ1XvreNNtOVsJJ3Xp6wNe57wul0z9GeCM0kmL?=
+ =?us-ascii?Q?6LFW+RrmaUOuS9dPRzKPisO+SpTMY+tmAQyJdfBo/y3rTHsTMTuBGYzamkxl?=
+ =?us-ascii?Q?u4DcRtIVgpShHJcxTY+RY8lwXfRNnTTmToo8oI8MDcKcBzScpi9dqf8c+RgO?=
+ =?us-ascii?Q?bOHnh5lhrwGj9l47m/dh423mN8bYrf5TSKfzwfWc4CIGNGl2Oj1xNweCinqb?=
+ =?us-ascii?Q?qREzRrnxDYrhhCFTkxt9sJle4oRdsBHhFJdT6eBtozyf60CqKlRKRYrcHOZB?=
+ =?us-ascii?Q?O7GiQaE10+NwWDJt3/pBEnvzvq3WZYUNXidcXBL+CkU26CL25yOQbUYm5XFb?=
+ =?us-ascii?Q?BupsgmZePWOswqRUkIST5Ra+fbCpSgFYrTecUXMOUf0sypmheuJpVjBhZklA?=
+ =?us-ascii?Q?sEzNeImlQn4pBCv9XLDpq12L3/iFdD0PbFB125CymqKkWrskSfpXb3Mj0RaH?=
+ =?us-ascii?Q?vGJC16K51fro9YHb9lfdtmrTdF+WYWQPd/5GLrBH5DiDECXQyL0llscURg+Y?=
+ =?us-ascii?Q?+seW5Fe74Dn8HOlJlFUlDyykLxd5GRDneP2bZ4Rx+FbmN4fnWMGZNx5+XjY/?=
+ =?us-ascii?Q?VbQZdIhN2vThYBq+D/kZOXek65RBPi24+6UpJ57+x6TIb56IOdvTGrbS3TaT?=
+ =?us-ascii?Q?3GbgC4UBNzHOV/CZq5Y7b/EKLLeromJpVogxRD69PYwzC7xDqhwcYgXqzc+6?=
+ =?us-ascii?Q?Qrt9uEjlo/JGaPTVytJPWSDRRuHM0LZBcTF1Dy6EMcgRDktsF1YV3/cOuXQv?=
+ =?us-ascii?Q?827t/lM6+ERxKZpVKLc6aTDUV5I+tiWDsBpZm+J60NUPbnQ6/tVs0SGvXVAA?=
+ =?us-ascii?Q?l8aUPUdK5rXEKvdGXUWpjvgeTtFPCsyCk5JihW2t9CZRzIGxyiX154QUYq4T?=
+ =?us-ascii?Q?yDvhpv4DIDBX8jtOyHkuo5jyeNmkos+NVwTSw3ddEvi0GZE4Yq2BxGbOPGmq?=
+ =?us-ascii?Q?tkfacOx42mwIXPWiqGFxLB4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <433BD22693C3AB4FAEE35EDB67ABF90C@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: /e+Ru0N8VZ/aQIYLruUwm8FfNLOrV0ivAgYA+tzU+5NsqcZOdrvk3Wre10pqbr9GKAhMeZYpf0KXKCi9GWJ/hOaKUCXV0FiU0JK+y31zqlLojMBKmMVAWR/Fs7ElFJC1gCuNlxkQYH0zk22EAk6mGYdJ3TXAyEbI5Hkv3REwJnKmR/QAkfF1N/wQuGrAsiADzXbDgimreJU/ppArkMznE890ZF+Qf+X9VpsZaInXQ+788zT2F9MoIEx8U0L0+MMuI0RBLlrsF+mzEpA1xvWOvhLkndHo5dB9/9hnnGtcKBrQcgwEkUGnibDko3GH3r5e7iayeZjRt3zyMLqzHbXbgVnR5Yp6NHtEvLHGkuTGirBz+9ZUK/UliUUkn1O7mm3piRaLnvep11GakfFNSI4Uw+rYoJpv4UAwaBxwSyi+4XxQgdFYmXWzDhddKMh68sTACU0YSvsmzT5XvLG9Z7BN8uk1sYWLul32DZBUPyOKN11alAHYOCQxxegWaJ0IJv281+GbmzKyggG9mS7WyS5wFOyH0iwB6mVbROV0pZaDJ1HMBzU0h5gmlIL1HInfOJMa+NxpdjSJby1mE3tUexwfcEfiIYz5anhCYntNRS/3hh3f0A4UhJj6lgCNt93ryz54
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR04MB8532.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bfaae8d-d982-4a67-e579-08dd98aba2f1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2025 21:08:29.5744
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: B4dUejiOJUlTFBJ7UWLw/y1TjRaD7L7/wKDpFyY2mlXz2wTqcJsNbxSNOUo0uAleSfudySvAtOZndL+zXEphRAn7lSMvMovzxzt6QOYnXPk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR04MB9020
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250521_140835_591754_42AF5B5F 
+X-CRM114-Status: UNSURE (   9.16  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,91 +184,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hello all,
 
-Configfs can be configured as a loadable module, which causes a link-time
-failure for dm-crypt crash dump support:
+FYI, as a preparation to set up blktests CI, we are going to move the blkte=
+sts
+repository,
 
-crash_dump_dm_crypt.c:(.text+0x3a4): undefined reference to `config_item_init_type_name'
-aarch64-linux-ld: kernel/crash_dump_dm_crypt.o: in function `configfs_dmcrypt_keys_init':
-crash_dump_dm_crypt.c:(.init.text+0x90): undefined reference to `config_group_init'
-aarch64-linux-ld: crash_dump_dm_crypt.c:(.init.text+0xb4): undefined reference to `configfs_register_subsystem'
-aarch64-linux-ld: crash_dump_dm_crypt.c:(.init.text+0xd8): undefined reference to `configfs_unregister_subsystem'
+ from: https://github.com/osandov/blktests
+ to:   https://github.com/linux-blktests/blktests
 
-This could be avoided with a dependency on CONFIGFS_FS=y, but the dependency has
-an additional problem of causing Kconfig dependency loops since most other uses
-select the symbol.
+The move is planned early next week, around May/27.
 
-Using a simple 'select CONFIGFS_FS' here in turn fails with CONFIG_DM_CRYPT=m,
-because that still only causes configfs to be a loadable module.
+The move will be served by the GitHub repository transfer feature [1], so n=
+o
+impact is expected for blktests users. Old repository addresses should be u=
+sable
+after the move since they are redirected to the new repository. Just to avo=
+id
+confusion, it is recommended to update the remote URLs in your local clones
+after the move.
 
-The only version I found that fixes this reliably uses an additional Kconfig
-symbol to ensure the 'select' actually turns on configfs as builtin, with
-two additional changes to avoid dependency loops with nvme and sysfs.
-
-There is no compile-time dependency between configfs and sysfs, so selecting
-configfs from a driver with sysfs disabled does not cause link failures, only
-the default /sys/kernel/config mount point will not be created.
-
-Fixes: 6b23858fd63b ("crash_dump: make dm crypt keys persist for the kdump kernel")
-Fixes: 1fb470408497 ("nvme-loop: add configfs dependency")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/nvme/target/Kconfig | 2 +-
- fs/configfs/Kconfig         | 1 -
- kernel/Kconfig.kexec        | 8 +++++++-
- 3 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index 4c253b433bf7..4904097dfd49 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -3,7 +3,7 @@
- config NVME_TARGET
- 	tristate "NVMe Target support"
- 	depends on BLOCK
--	depends on CONFIGFS_FS
-+	select CONFIGFS_FS
- 	select NVME_KEYRING if NVME_TARGET_TCP_TLS
- 	select KEYS if NVME_TARGET_TCP_TLS
- 	select SGL_ALLOC
-diff --git a/fs/configfs/Kconfig b/fs/configfs/Kconfig
-index 272b64456999..1fcd761fe7be 100644
---- a/fs/configfs/Kconfig
-+++ b/fs/configfs/Kconfig
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config CONFIGFS_FS
- 	tristate "Userspace-driven configuration filesystem"
--	select SYSFS
- 	help
- 	  configfs is a RAM-based filesystem that provides the converse
- 	  of sysfs's functionality. Where sysfs is a filesystem-based
-diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
-index 4e7cee4e4ffc..e64ce21f9a80 100644
---- a/kernel/Kconfig.kexec
-+++ b/kernel/Kconfig.kexec
-@@ -134,12 +134,18 @@ config CRASH_DM_CRYPT
- 	depends on KEXEC_FILE
- 	depends on CRASH_DUMP
- 	depends on DM_CRYPT
--	depends on CONFIGFS_FS
- 	help
- 	  With this option enabled, user space can intereact with
- 	  /sys/kernel/config/crash_dm_crypt_keys to make the dm crypt keys
- 	  persistent for the dump-capture kernel.
- 
-+config CRASH_DM_CRYPT_CONFIGS
-+	def_tristate CRASH_DM_CRYPT
-+	select CONFIGFS_FS
-+	help
-+	  CRASH_DM_CRYPT cannot directly select CONFIGFS_FS, because that
-+	  is required to be built-in.
-+
- config CRASH_HOTPLUG
- 	bool "Update the crash elfcorehdr on system configuration changes"
- 	default y
--- 
-2.39.5
-
+[1] https://docs.github.com/en/repositories/creating-and-managing-repositor=
+ies/transferring-a-repository=
 
