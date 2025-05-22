@@ -4,137 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 536F7C54ED0
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 16:38:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0EF2BC54E90
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 16:38:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OOmlzPBtUod15P9R+5e8Nw5tXEBviOvhwK88h6lKd3o=; b=1eBW9z3bg2ZyqOxyBb5hKo6cG7
-	V9ZVRB+T5aBPQi5iUUVSyE0Cz2wiro9E+3J98ZgxQh+quM6CkmphmqZaUNlseq1QqPHnBMag0ZgXs
-	DzBvIur9dRo36Qx7umGfsvo7aTU8QkwVNVNiXc9zsRQgaMZCCvm+99NiAON8nppLueJDuBigEpPpT
-	YLKZXQkVaPjocZhD6StHaeOcyu+VNZe3S7LiHU4pa+0P6M7IMX2IakE88+VsL3aqDSDVGROw0Vmz5
-	JDlqPGBWYypU9QQthQBNYYU8auHVnJKLt4wlYgfCM7xUgXD2EexxqWzEVjEZy+p8jwfUmg183iBsp
-	dkG2RC1g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iNUKBRLHVtekLv2LGF89j426cIIKTS20uTaOfnvJeIw=; b=wQDu6iSmX8eU5jUNBt9lQZYoNJ
+	W36HPU7pqhxVSmFaWcpUk7S+pT9qKWAmQFcoturpPXWn218Xz7B4AeSK04H2jGMvq1GPvCz+gKGwC
+	8tIKAXkA/PPukOr1/iyzu+fd6yb8EE2vLPshZYVPdj2Wo+Fzj+YT4icPDE2j2x1xvc1kggr8bgCGo
+	k6P5o2iMWgx4EhAmFjcqcfFVTx76uVzoxZ1/bvBFGSWrf0hfr5DDjBrZJxdKpgeeYYpw7IdA3hXYx
+	9olor0RpGmb37GuJ7i4Hpv/01yX+yRuV1Y16kin8mB8/HfqyRbe39s/lIEUwG7LgrSxR/cIKC8NB9
+	s9vLYLoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI8w6-00000001c78-1mBE;
-	Thu, 22 May 2025 16:38:26 +0000
-Received: from omta036.useast.a.cloudfilter.net ([44.202.169.35])
+	id 1uI8w8-00000001c9k-208L;
+	Thu, 22 May 2025 16:38:28 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uHsXv-0000000H0nE-0aNi
+	id 1uI8uQ-00000001bie-0k2A
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 May 2025 23:08:24 +0000
-Received: from eig-obgw-6007a.ext.cloudfilter.net ([10.0.30.247])
-	by cmsmtp with ESMTPS
-	id HkSJuohJMzZPaHsXiufgYw; Wed, 21 May 2025 23:08:10 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id HsXhuLSr1c6KWHsXiuHo09; Wed, 21 May 2025 23:08:10 +0000
-X-Authority-Analysis: v=2.4 cv=L/QbQfT8 c=1 sm=1 tr=0 ts=682e5cda
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=efVMuJ2jJG67FGuSm7J3ww==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=20KFwNOVAAAA:8 a=J1Y8HTJGAAAA:8 a=1XWaLZrsAAAA:8
- a=Ikd4Dj_1AAAA:8 a=8AirrxEcAAAA:8 a=Q-fNiiVtAAAA:8 a=P-IC7800AAAA:8
- a=vggBfdFIAAAA:8 a=kVnt-_iYu5xLd2SthAEA:9 a=QEXdDO2ut3YA:10
- a=y1Q9-5lHfBjTkpIzbSAN:22 a=ST-jHhOKWsTCqRlWije3:22 a=d3PnA9EDa4IxuAV0gXij:22
- a=xYX6OU9JNrHFPr8prv8u:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=OOmlzPBtUod15P9R+5e8Nw5tXEBviOvhwK88h6lKd3o=; b=bepJksC97ML9IvPhF7R0GsUE39
-	iDt8KE0iZROL8TgvVT9PzNwW9sKKBRJIhmxUFgGMA4kRLMqCqmH91zI6xfv4az4R0oAueD2N1pUNA
-	bervFDvFSZHb9jsR3chCY5xthPhQ0Cl/+MKfCN4IxcuwZC/eNjc6eJT48KNq7zmhswlELymKhpwJ9
-	IE+aST75QjzkaqovTJCwxM0OOGiP/qFBJJhUXJj2Q+x9IJWsqcd9FDDhPrBZF1ucKo6mywih6j/rj
-	bOl+lJogaVAvYC+9j/8hT2QnS2oen4Ab7a1MoDN1moAJWQOY79Q+3qkhREtWoNHjvcT3rbLY8DX1O
-	KwaRGQqw==;
-Received: from [177.238.17.151] (port=34848 helo=[192.168.0.27])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1uHsXZ-00000000Kdy-1IG9;
-	Wed, 21 May 2025 18:08:01 -0500
-Message-ID: <ebba72b4-9245-4be5-8f0d-87f7b326d468@embeddedor.com>
-Date: Wed, 21 May 2025 17:07:28 -0600
+	Thu, 22 May 2025 16:36:42 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id B6C096135E;
+	Thu, 22 May 2025 16:36:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B34C4CEE4;
+	Thu, 22 May 2025 16:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747931800;
+	bh=japlrBVs3GNvjaE3jTX3f3XSzvTYr+WtDLNY0X32b8M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vMrqPPOlY7AujTvkCW9xVssk05jAKPryx//59+xbISnZtc+Td46xC8emJy3oCRkqj
+	 iMZCeHuE8/vjo2aBGo0eSfE5QUtpKQHNKlT282kjEhbUvUQAKNysE2df/8k1yNu3cm
+	 QC7eBPloWAZDjLJAwEshSuAWhFjwb3NtWwO6L5a/Fa0InqHM7gjLnMKO6m0T0tM8X7
+	 xsfEMTBj/Uu1MNXLmJd9pAy1ttmGDwUWl+Hs1Bav8dnctrS6qwMxZSIrLljnYjLTv5
+	 +rjz6hq3VtoJG7DnTaKzJ4w6olp6yL5ZSlKlH3/P50LOulsTz4hB/MJFe09Vmlj+Sq
+	 gcM4BHJlL7nhA==
+Date: Thu, 22 May 2025 10:36:37 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 4/5] block: add support for vectored copies
+Message-ID: <aC9SlcN6gTIz0F2E@kbusch-mbp>
+References: <20250521223107.709131-1-kbusch@meta.com>
+ <20250521223107.709131-5-kbusch@meta.com>
+ <4fdbe560-d646-496c-be51-49ea49d47449@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 8/8] net: core: Convert
- dev_set_mac_address_user() to use struct sockaddr_storage
-To: Kees Cook <kees@kernel.org>, Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
- Cosmin Ratiu <cratiu@nvidia.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Kory Maincent <kory.maincent@bootlin.com>, Maxim Georgiev
- <glipus@gmail.com>, netdev@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>,
- Mike Christie <michael.christie@oracle.com>,
- Max Gurtovoy <mgurtovoy@nvidia.com>, Maurizio Lombardi
- <mlombard@redhat.com>, Dmitry Bogdanov <d.bogdanov@yadro.com>,
- Mingzhe Zou <mingzhe.zou@easystack.cn>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Dr. David Alan Gilbert" <linux@treblig.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Lei Yang
- <leiyang@redhat.com>, Ido Schimmel <idosch@nvidia.com>,
- Samuel Mendoza-Jonas <sam@mendozajonas.com>,
- Paul Fertser <fercerpav@gmail.com>, Alexander Aring <alex.aring@gmail.com>,
- Stefan Schmidt <stefan@datenfreihafen.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Hayes Wang
- <hayeswang@realtek.com>, Douglas Anderson <dianders@chromium.org>,
- Grant Grundler <grundler@chromium.org>, Jay Vosburgh <jv@jvosburgh.net>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Jiri Pirko <jiri@resnulli.us>,
- Aleksander Jan Bajkowski <olek2@wp.pl>, Philipp Hahn <phahn-oss@avm.de>,
- Eric Biggers <ebiggers@google.com>, Ard Biesheuvel <ardb@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Ahmed Zaki <ahmed.zaki@intel.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Xiao Liang <shaw.leon@gmail.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-wpan@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20250521204310.it.500-kees@kernel.org>
- <20250521204619.2301870-8-kees@kernel.org>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20250521204619.2301870-8-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.infradead.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 177.238.17.151
-X-Source-L: No
-X-Exim-ID: 1uHsXZ-00000000Kdy-1IG9
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.27]) [177.238.17.151]:34848
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 7
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfKWRxnWrMv32fWMs+OQbRvh72qoR+7ZY6ngrY0J6QVFnO7q9Y5eoo2BwLnet1Ub2VgF5R+t467jkUnHgKOPqm3UF1knCgPnkDU2k29PtdrYf6b/BNVlX
- HRufdbNNScHa4NBe59ZOBhRk9jgHe/ObyYUK+eULPOUVHZoi3cb3Y/PptI8Amm+WDVQFyabGx8ZaRuZrn1A1DD2C64Wbnzp53PhTlg2pYD2Zg837xcHVKVk4
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250521_160823_318796_0E45E093 
-X-CRM114-Status: GOOD (  16.05  )
-X-Mailman-Approved-At: Thu, 22 May 2025 09:38:03 -0700
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4fdbe560-d646-496c-be51-49ea49d47449@suse.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,161 +70,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, May 22, 2025 at 03:58:18PM +0200, Hannes Reinecke wrote:
+> On 5/22/25 00:31, Keith Busch wrote:
+> > ---
+> >   block/blk-lib.c         | 50 ++++++++++++++++++++++++----------
+> >   block/ioctl.c           | 59 +++++++++++++++++++++++++++++++++++++++++
+> >   include/linux/blkdev.h  |  2 ++
+> >   include/uapi/linux/fs.h | 14 ++++++++++
+> >   4 files changed, 111 insertions(+), 14 deletions(-)
+> > 
+> Any specific reason why this is a different patch, and not folded into
+> patch 2? It really feels odd to continuously updating interfaces which
+> have been added with the same patchset...
 
-
-On 21/05/25 14:46, Kees Cook wrote:
-> Convert callers of dev_set_mac_address_user() to use struct
-> sockaddr_storage. Add sanity checks on dev->addr_len usage.
+Sure, I can do that if that's preferred. I just started this as simple
+as possible, and added new capabilities from there. I thought having the
+patch set show the journey might make it easier to review. If the
+evolving interfaces are not helping, though, I don't mind squashing them.
+ 
+> >   	case BLKCPY:
+> >   		return blk_ioctl_copy(bdev, mode, argp);
+> > +	case BLKCPY_VEC:
+> > +		return blk_ioctl_copy_vec(bdev, mode, argp);
+> >   	case BLKZEROOUT:
+> >   		return blk_ioctl_zeroout(bdev, mode, arg);
+> >   	case BLKGETDISKSEQ:
 > 
-> Signed-off-by: Kees Cook <kees@kernel.org>
+> And that makes it even worse; introducing two ioctls which basically do
+> the same thing (or where one is actually a special case of the other)
+> is probably not what we should be doing.
 
-Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks!
--Gustavo
-
-> ---
-> Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Simon Horman <horms@kernel.org>
-> Cc: Stanislav Fomichev <sdf@fomichev.me>
-> Cc: Cosmin Ratiu <cratiu@nvidia.com>
-> Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
-> Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-> Cc: Kory Maincent <kory.maincent@bootlin.com>
-> Cc: Maxim Georgiev <glipus@gmail.com>
-> Cc: Kuniyuki Iwashima <kuniyu@amazon.com>
-> Cc: <netdev@vger.kernel.org>
-> ---
->   include/linux/netdevice.h |  2 +-
->   drivers/net/tap.c         | 14 +++++++++-----
->   drivers/net/tun.c         |  8 +++++++-
->   net/core/dev_api.c        |  5 +++--
->   net/core/dev_ioctl.c      |  6 ++++--
->   5 files changed, 24 insertions(+), 11 deletions(-)
-> 
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index b4242b997373..adb14db25798 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -4216,7 +4216,7 @@ int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
->   			  struct netlink_ext_ack *extack);
->   int dev_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
->   			struct netlink_ext_ack *extack);
-> -int dev_set_mac_address_user(struct net_device *dev, struct sockaddr *sa,
-> +int dev_set_mac_address_user(struct net_device *dev, struct sockaddr_storage *ss,
->   			     struct netlink_ext_ack *extack);
->   int dev_get_mac_address(struct sockaddr *sa, struct net *net, char *dev_name);
->   int dev_get_port_parent_id(struct net_device *dev,
-> diff --git a/drivers/net/tap.c b/drivers/net/tap.c
-> index d4ece538f1b2..bdf0788d8e66 100644
-> --- a/drivers/net/tap.c
-> +++ b/drivers/net/tap.c
-> @@ -923,7 +923,7 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
->   	unsigned int __user *up = argp;
->   	unsigned short u;
->   	int __user *sp = argp;
-> -	struct sockaddr sa;
-> +	struct sockaddr_storage ss;
->   	int s;
->   	int ret;
->   
-> @@ -1000,16 +1000,17 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
->   			return -ENOLINK;
->   		}
->   		ret = 0;
-> -		dev_get_mac_address(&sa, dev_net(tap->dev), tap->dev->name);
-> +		dev_get_mac_address((struct sockaddr *)&ss, dev_net(tap->dev),
-> +				    tap->dev->name);
->   		if (copy_to_user(&ifr->ifr_name, tap->dev->name, IFNAMSIZ) ||
-> -		    copy_to_user(&ifr->ifr_hwaddr, &sa, sizeof(sa)))
-> +		    copy_to_user(&ifr->ifr_hwaddr, &ss, sizeof(ifr->ifr_hwaddr)))
->   			ret = -EFAULT;
->   		tap_put_tap_dev(tap);
->   		rtnl_unlock();
->   		return ret;
->   
->   	case SIOCSIFHWADDR:
-> -		if (copy_from_user(&sa, &ifr->ifr_hwaddr, sizeof(sa)))
-> +		if (copy_from_user(&ss, &ifr->ifr_hwaddr, sizeof(ifr->ifr_hwaddr)))
->   			return -EFAULT;
->   		rtnl_lock();
->   		tap = tap_get_tap_dev(q);
-> @@ -1017,7 +1018,10 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
->   			rtnl_unlock();
->   			return -ENOLINK;
->   		}
-> -		ret = dev_set_mac_address_user(tap->dev, &sa, NULL);
-> +		if (tap->dev->addr_len > sizeof(ifr->ifr_hwaddr))
-> +			ret = -EINVAL;
-> +		else
-> +			ret = dev_set_mac_address_user(tap->dev, &ss, NULL);
->   		tap_put_tap_dev(tap);
->   		rtnl_unlock();
->   		return ret;
-> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-> index 7babd1e9a378..1207196cbbed 100644
-> --- a/drivers/net/tun.c
-> +++ b/drivers/net/tun.c
-> @@ -3193,7 +3193,13 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
->   
->   	case SIOCSIFHWADDR:
->   		/* Set hw address */
-> -		ret = dev_set_mac_address_user(tun->dev, &ifr.ifr_hwaddr, NULL);
-> +		if (tun->dev->addr_len > sizeof(ifr.ifr_hwaddr)) {
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +		ret = dev_set_mac_address_user(tun->dev,
-> +					       (struct sockaddr_storage *)&ifr.ifr_hwaddr,
-> +					       NULL);
->   		break;
->   
->   	case TUNGETSNDBUF:
-> diff --git a/net/core/dev_api.c b/net/core/dev_api.c
-> index 6011a5ef649d..1bf0153195f2 100644
-> --- a/net/core/dev_api.c
-> +++ b/net/core/dev_api.c
-> @@ -84,14 +84,15 @@ void dev_set_group(struct net_device *dev, int new_group)
->   	netdev_unlock_ops(dev);
->   }
->   
-> -int dev_set_mac_address_user(struct net_device *dev, struct sockaddr *sa,
-> +int dev_set_mac_address_user(struct net_device *dev,
-> +			     struct sockaddr_storage *ss,
->   			     struct netlink_ext_ack *extack)
->   {
->   	int ret;
->   
->   	down_write(&dev_addr_sem);
->   	netdev_lock_ops(dev);
-> -	ret = netif_set_mac_address(dev, (struct sockaddr_storage *)sa, extack);
-> +	ret = netif_set_mac_address(dev, ss, extack);
->   	netdev_unlock_ops(dev);
->   	up_write(&dev_addr_sem);
->   
-> diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
-> index fff13a8b48f1..616479e71466 100644
-> --- a/net/core/dev_ioctl.c
-> +++ b/net/core/dev_ioctl.c
-> @@ -572,9 +572,11 @@ static int dev_ifsioc(struct net *net, struct ifreq *ifr, void __user *data,
->   		return dev_set_mtu(dev, ifr->ifr_mtu);
->   
->   	case SIOCSIFHWADDR:
-> -		if (dev->addr_len > sizeof(struct sockaddr))
-> +		if (dev->addr_len > sizeof(ifr->ifr_hwaddr))
->   			return -EINVAL;
-> -		return dev_set_mac_address_user(dev, &ifr->ifr_hwaddr, NULL);
-> +		return dev_set_mac_address_user(dev,
-> +						(struct sockaddr_storage *)&ifr->ifr_hwaddr,
-> +						NULL);
->   
->   	case SIOCSIFHWBROADCAST:
->   		if (ifr->ifr_hwaddr.sa_family != dev->type)
-
+There are many interfaces that have a single vs vectored user input.
+It's like read vs readv. The use cases I'm working with are in-kernel
+though so I don't strongly need these user interfaces here, but it's
+been great for testing. I developed some that would work well in
+blktests, for example.
 
