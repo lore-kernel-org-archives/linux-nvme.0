@@ -4,70 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37085C54EDA
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 07:25:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEEB9C54E90
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 08:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BQa79S4IL3jBf35u5kGTSVN2HdZvuMDf1sFHT1ETS7o=; b=EvZAkiIN5826xXnPOLvdVYIj10
-	3xXC98pis+6k0K87s9FeSVSZENwBhwjt7Tt8LC2v/Wz6P0Xc1p1R8k5uyJsBlyqJp7MDPsg51MTG1
-	BpoEhU9byO/IeWihx6AWaPK0Y628LrGpnCEbkwfHNumEKWz0Ar20enC7QX+Zevcf2VjZH0PgjXQeb
-	6FssqhRvYfBiQt63kcS23f/ZoT1VlHL8ayruPG+u4QDwz4TZx6UFitvDgQWQfrPUWayEOh1LyT6YB
-	8yl0Ydiqp5DRv/EDP3iw0prWdBG4n3HK4YWGxeXIpozuxSmpXn49/umhyBfe+FNrhsozEtK4moZSt
-	YTf7GC3g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=I43E9Used7ZzOVDhq/ufhep8eOi1ZE1QL/P9g55nGak=; b=0oHawB4hPp7zGU
+	PoaNBVIgYPBa3msc9doO2tXBcgPVuO/dVM6UBO66LM1c7hXxim+neVAVScJDg+QnNPzugZNpH+fXR
+	Dry0AFCNLQ8UKVAZOiZab8YJEkw70av9O8msq/G7ln8P8Zm+ZTaVw70VHa8QCRtN/dSu0YajykdGD
+	u3sBOmCJtW2z4tPgko+35bNaUrfIyAEeQQ9bGIykZU8JNCj0yMlNC2WlxvIHPWI6o5vv5Yh5ObIj+
+	uXYnYq32fWAOZv8M8sQZs4c2s3Xyj1xSkER1sAyz8a1QDV1gAqyyPGr41ytYexkp5SR+Q21uRDhRg
+	UAts1L30Xl3PWGlGDLQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI0IW-000000007X1-1rPl;
-	Thu, 22 May 2025 07:25:00 +0000
-Received: from mgamail.intel.com ([198.175.65.19])
+	id 1uI1Tf-00000000Jfa-16H2;
+	Thu, 22 May 2025 08:40:35 +0000
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI0B5-000000006Q2-0jHO
+	id 1uI1A9-00000000GNr-209k
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 May 2025 07:17:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747898239; x=1779434239;
-  h=date:from:to:cc:subject:message-id;
-  bh=0xqwyR3nERxpHw8rABoaD5AHOQzP2d0SXm6v+Q65kxk=;
-  b=QeTAmjnikuXrvOmW+lXa2D6CzSfJnk3GFmtxsno9Nk+mhzOX7gN7cEy0
-   YSwdAviFPPfwrRMZ3zcB+jhOt+haV+dajfmpLd6aeDhgUmG8QnOcLtYOu
-   bJ5RI5WwiQm2vRaIU6YnMylfwpvBFQNy0wBQGGtuQweezV+9gUNAiBmD6
-   y1pbDGRYQPQ/OHhpdO1TLFqzTL24eO4jk6VVY8GzH6pj0uXqEFAMv7LTj
-   TYWaw0FdLIwR+Kh/zDmZOPZvVqa7LkFBgyBimjr3JntvejhyFv83r+71B
-   SY3dSWRZ/l2Kj8h8vI9tYfg4IIqVP1GpqcLL6HiqHt8VYeMxqrdVMmzSx
-   g==;
-X-CSE-ConnectionGUID: 7oMECLAwRhKdPGA2UGPWAA==
-X-CSE-MsgGUID: Jlpyap4JTeuWyQ4e3PcK9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49783408"
-X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="49783408"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 00:17:15 -0700
-X-CSE-ConnectionGUID: RykuUhaDRgWts2lo0zA8gA==
-X-CSE-MsgGUID: DjmPJMJMSn+KuI2YqRHF5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
-   d="scan'208";a="177613851"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 May 2025 00:17:14 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uI0Ax-000P1w-1c;
-	Thu, 22 May 2025 07:17:11 +0000
-Date: Thu, 22 May 2025 15:16:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.16] BUILD SUCCESS
- bf4d87cba2d7ee6d0639bfb4cf052c22145cb08e
-Message-ID: <202505221531.Z2w8ZTNB-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Thu, 22 May 2025 08:20:27 +0000
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-ad52dfe06ceso684559566b.3
+        for <linux-nvme@lists.infradead.org>; Thu, 22 May 2025 01:20:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sigma-star.at; s=google; t=1747902023; x=1748506823; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I43E9Used7ZzOVDhq/ufhep8eOi1ZE1QL/P9g55nGak=;
+        b=EtfydumDC5lcWE/kXQADBcejxr0aRzqLAh9ogDKk/vLRE9xhhsH2dKOM/KoDBgi7Va
+         P+PTwkVEvlW9o1AqO28V6pnJ4r/dZimZcpOE2jk8WiTAm/hyF5slAki1li2aekYwN3+S
+         RQY9JJT3bCDrZLw5iofZNoqQRHEwm3p4ADs2bJoqbm4YlXflVQAG7ihqxWDW0w/yR5D9
+         Wb3a76zVDt05iIxp/CLWqkeyzwfeoqp72zCajc7cCwxqS1P2Ft6O+Z/Cl5Hbu/Gak/DZ
+         1OkAZlCS1+B79RK59WQovlk7Lf76YbbRyQ18sHgp1e+BV8RL0nUs8J19+VHVigkoC4NY
+         Ueyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747902023; x=1748506823;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I43E9Used7ZzOVDhq/ufhep8eOi1ZE1QL/P9g55nGak=;
+        b=VFUijTpcGShuhXIFrUu6zNMP+3y91hTmeb8v6NFT90oZ6GYrAVV9L1dcnvSqu5DDaO
+         Ur71zma/x/FpDsU2unqiBpU0i/PyalO1D2Xely6Bb8D65PvApU9ACi8Msozmmxw6s4c1
+         NV2TpENVjx7m7Es2BjcN+5CjCaTBLzmw8NGHj2ebcIbAhYUXCMKWcYC5fQ3pqY2toBKd
+         KoYbrr8/gmnJNFjZiDOXxK1iqLK8aldZgTGbRZelsPdjrQn2fUgb4RhVCM3G9UgN0dDc
+         9ahdEm2a1cxjAzlpS0JDdXrzTMmuck12v20UZeVeks6f8c7OkkaEcD9taLT2DPwMaxWv
+         xQyg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJbovxR2uc1KCOAxPk+boIzu+kjdA2NdWmRll0X76wyhk6QEHo481r/dDDyqGM3L2G36y90k9b41Fc@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw9aPIghEXrv7lFcSB+pKBKtV0YOdkg+0cmzU2BCidIFTcFqToz
+	dTKjRviXcbEwQbHwlUdOF2COglh5vQ2I0WOX5L/nwlG5wpGfpeeXFA2OuQ69SejagFk=
+X-Gm-Gg: ASbGncumNukFIykI8h4uHLf/9ni9GrElRNQ/9yxX9m4ZJm3nPSO8xUPET7X4gM/oTBq
+	6swph9t3R4q67Aa8daSUYTDgAiFFsL6X1nU+15JIowfuZ/8noCGwg+Zvg8I/yYjwVM8xjrq6yJL
+	Lrp7Gu4i/Hf+JjeHsRQIFxZBcFNVPb0aKOkJGZczGpty1lIIHvl/9SjbXm2BC9aJzp0zmgKpy85
+	5MIw/t6x0yWgyWi8MX0uagi+kqwX0wwiiHtA20iGQGH+wKNLtvnSJnRKWYPPKXyfSWibKo/1/AF
+	I7F97bOuhCSi5tuaSAaVzu5Io4oR23CdsNhhaDom5vyomVDjS6hAqZs4ZB5KTQgp/WGYWAmHzgv
+	rIMlEMn3xlWpJ4bxtdUqYtNEw
+X-Google-Smtp-Source: AGHT+IHd/c+RlpU9wZSwKb6MHnIxte3dN22uhcNe9UW8PMtyUqFZZ0KzS+tArvGbttCUDJzPrSUFTg==
+X-Received: by 2002:a17:907:3f08:b0:ad5:68b7:b0df with SMTP id a640c23a62f3a-ad568b7b232mr1504511566b.46.1747902022820;
+        Thu, 22 May 2025 01:20:22 -0700 (PDT)
+Received: from somecomputer (ip-046-005-029-055.um12.pools.vodafone-ip.de. [46.5.29.55])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad53603a399sm998546366b.40.2025.05.22.01.20.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 01:20:22 -0700 (PDT)
+From: Richard Weinberger <richard@sigma-star.at>
+To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [ANNOUNCE] Alpine Linux Persistence and Storage Summit 2025
+Date: Thu, 22 May 2025 10:20:20 +0200
+Message-ID: <1826170.yIU609i1g2@pliers>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250522_001719_259339_7C544112 
-X-CRM114-Status: UNSURE (   5.76  )
+X-CRM114-CacheID: sfid-20250522_012025_804169_287EB1A3 
+X-CRM114-Status: UNSURE (   7.96  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,133 +96,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.16
-branch HEAD: bf4d87cba2d7ee6d0639bfb4cf052c22145cb08e  nvme: enable vectored registered bufs for passthrough cmds
+We proudly announce the 8th Alpine Linux Persistence and Storage Summit
+(ALPSS), which will be held September 29th to October 2nd at the
+Lizumerhuette (https://www.lizumer-huette.at/) in Austria.
 
-elapsed time: 1171m
+The goal of this conference is to discuss the hot topics in Linux storage
+and file systems, such as persistent memory, NVMe, zoned storage, and I/O
+scheduling in a cool and relaxed setting with spectacular views in the
+Austrian alps.
 
-configs tested: 113
-configs skipped: 2
+We plan to have a small selection of short and to the point talks with
+lots of room for discussion in small groups, as well as ample downtime
+to enjoy the surroundings
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Attendance is free except for the accommodation and food at the lodge
+but the number of seats is strictly limited.  Cost for accommodation and
+half board is between 55 and 84 EUR depending on the room category,
+with additional discounts for members of an alpine society.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-14.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    gcc-14.2.0
-arc                   randconfig-001-20250521    gcc-10.5.0
-arc                   randconfig-002-20250521    gcc-12.4.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-14.2.0
-arm                            dove_defconfig    gcc-14.2.0
-arm                       multi_v4t_defconfig    clang-16
-arm                   randconfig-001-20250521    clang-21
-arm                   randconfig-002-20250521    clang-21
-arm                   randconfig-003-20250521    clang-16
-arm                   randconfig-004-20250521    clang-21
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250521    gcc-6.5.0
-arm64                 randconfig-002-20250521    gcc-6.5.0
-arm64                 randconfig-003-20250521    gcc-8.5.0
-arm64                 randconfig-004-20250521    gcc-8.5.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250521    gcc-10.5.0
-csky                  randconfig-002-20250521    gcc-12.4.0
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250521    clang-20
-hexagon               randconfig-002-20250521    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250521    clang-20
-i386        buildonly-randconfig-002-20250521    clang-20
-i386        buildonly-randconfig-003-20250521    gcc-12
-i386        buildonly-randconfig-004-20250521    clang-20
-i386        buildonly-randconfig-005-20250521    gcc-12
-i386        buildonly-randconfig-006-20250521    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250521    gcc-15.1.0
-loongarch             randconfig-002-20250521    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                           gcw0_defconfig    clang-21
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250521    gcc-14.2.0
-nios2                 randconfig-002-20250521    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250521    gcc-13.3.0
-parisc                randconfig-002-20250521    gcc-11.5.0
-parisc64                         alldefconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-21
-powerpc                        cell_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20250521    clang-21
-powerpc               randconfig-002-20250521    gcc-8.5.0
-powerpc               randconfig-003-20250521    gcc-6.5.0
-powerpc64             randconfig-001-20250521    gcc-8.5.0
-powerpc64             randconfig-002-20250521    gcc-6.5.0
-powerpc64             randconfig-003-20250521    clang-21
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-16
-riscv                 randconfig-001-20250522    gcc-9.3.0
-riscv                 randconfig-002-20250522    clang-18
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250522    clang-19
-s390                  randconfig-002-20250522    clang-18
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                        edosk7760_defconfig    gcc-14.2.0
-sh                            hp6xx_defconfig    gcc-14.2.0
-sh                    randconfig-001-20250522    gcc-13.3.0
-sh                    randconfig-002-20250522    gcc-13.3.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250522    gcc-14.2.0
-sparc                 randconfig-002-20250522    gcc-6.5.0
-sparc64               randconfig-001-20250522    gcc-14.2.0
-sparc64               randconfig-002-20250522    gcc-12.4.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250522    gcc-12
-um                    randconfig-002-20250522    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250521    clang-20
-x86_64      buildonly-randconfig-002-20250521    clang-20
-x86_64      buildonly-randconfig-003-20250521    gcc-12
-x86_64      buildonly-randconfig-004-20250521    gcc-12
-x86_64      buildonly-randconfig-005-20250521    clang-20
-x86_64      buildonly-randconfig-006-20250521    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-18
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250522    gcc-14.2.0
-xtensa                randconfig-002-20250522    gcc-10.5.0
+If you are interested in attending please reserve a seat by mailing your
+favorite topic(s) to:
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+        alpss-pc@penguingang.at
+
+If you are interested in giving a short and crisp talk please also send
+an abstract to the same address.
+
+The Lizumerhuette is an Alpine Society lodge in a high alpine environment.
+A hike of approximately 2 hours is required to the lodge, and no other
+accommodations are available within walking distance.
+
+Please note: reservations for the lodge are not handled through the
+reservation system, but as part of the ALPSS registration.
+
+Check our website at https://www.alpss.at/ for more details.
+
+Thank you on behalf of the program committee:
+
+    Christoph Hellwig
+    Johannes Thumshirn
+    Richard Weinberger
+
+
 
