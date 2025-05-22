@@ -4,83 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AB7AC54E65
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 17:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6FF9C54E65
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 19:29:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Mwf+P23CSKd+lg3vtdZYz0g0GEFKW8pE4MrhtK1epSU=; b=s9Fj5zLCNBoRNewGVsFxcD80+L
-	qieyeJwU/Y9H3OzbH+4YOlpan0Evg0oy043EHMAISFh4q0Xj7fflnKrxiZkQyIChPurOFbDgGWJEB
-	SL6oSdTaSDsyKQkdAh6zvz5xsOKVMgR59VxJHG7I+kZGMqeO7WWuSEwYMu5Lp9upvB3iQDfxhLhoG
-	62VH9KM4t7KNSPAp+nhDnuYGVW3pU1eveCQduFak1FJ/MpGjFXRFwUUwTY79TaJNS984nEGNBLZv/
-	eYdZsYUHr5zs6vsdOR6+VuQUtHGZuUOg5ckNbA+IdJeD/R0RY/3ly90UZQuLCIy9IVGUluf5VNik2
-	DCTuek4Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Hlsj0CNm0FNhCgCvXMuT7qCEUtEyzcx7IgOufwzD5bo=; b=vMpl61M2r+VyDdnIDEEiOuI0ZI
+	cAq+hLnnvabzkUD1c5JdVlcgaag1dIR3ikD8SRApdmYE2xmJ8nQvWTl8MEmrvAf6jP4YsVE4BajOp
+	AGjspq9cPV/rLRKTP9IAVD7wwbSqw1dZmossb8UIwIvyLAGXtzdZ2Gs2iXceCl/G1ZKjDcgVAlt8S
+	KkTjc/6dxz2NF96OjBl12/a/48VR9HxFHdkESpeREep1kGV/vKJnE8wysM9lf+R5acRhDMU7ND895
+	bu413xOV+76fCj855lP4AHC+J9CgoCtetIwM+En70tS8Fbnvg04C25nNWx7PNVELZjLTVxHX6VfxD
+	XHHzxutQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI9MS-00000001hS3-0MOy;
-	Thu, 22 May 2025 17:05:40 +0000
-Received: from smtp-fw-52003.amazon.com ([52.119.213.152])
+	id 1uIBbJ-000000021ja-39yT;
+	Thu, 22 May 2025 19:29:09 +0000
+Received: from 003.mia.mailroute.net ([199.89.3.6])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI9MP-00000001hRb-1aZA
+	id 1uIBUs-0000000214C-1Fw0
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 May 2025 17:05:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1747933538; x=1779469538;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Mwf+P23CSKd+lg3vtdZYz0g0GEFKW8pE4MrhtK1epSU=;
-  b=Cx0WBx2r1EkmtVPBa5yBuxeB5DQNL1HUbuRjanu3WXYMfN7KLaekzyXA
-   MQ6lp1vXYBVXIeHA0fu8fjsYef6gCWUIg5YXnPP5gsMImX6bbO7G5NQxl
-   w5zOjnsiEBs38Zyc2IruJQf3aq7IYB/BM0Yb1BtzlZeHL3+ULRk5AdTHJ
-   aCQD2HztiGAKSIx7iPKGKQ2rpC0/39GulkClUNB5mSb9A3aQYCn7W4YWy
-   6teo1StVJ9YPhS1RmzGC4MgLAWoU24RFjq5Rcvh2CokBW5yPAZiUVWegb
-   iKhuC+j6HLEGWY0mSZ7bh28H/OgOvt5uB70sGLnHH2y7OEF8DfTMGqS4Y
-   A==;
-X-IronPort-AV: E=Sophos;i="6.15,306,1739836800"; 
-   d="scan'208";a="96335492"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 17:05:26 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [10.0.21.151:2008]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.19.213:2525] with esmtp (Farcaster)
- id 4433f7e4-b50c-4174-ab14-8accf7c1ba1b; Thu, 22 May 2025 17:05:25 +0000 (UTC)
-X-Farcaster-Flow-ID: 4433f7e4-b50c-4174-ab14-8accf7c1ba1b
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Thu, 22 May 2025 17:05:25 +0000
-Received: from 6c7e67bfbae3.amazon.com (10.187.170.42) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Thu, 22 May 2025 17:05:21 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <chuck.lever@oracle.com>
-CC: <axboe@kernel.dk>, <davem@davemloft.net>, <edumazet@google.com>,
-	<hch@lst.de>, <horms@kernel.org>, <jaka@linux.ibm.com>, <jlayton@kernel.org>,
-	<kbusch@kernel.org>, <kuba@kernel.org>, <kuni1840@gmail.com>,
-	<kuniyu@amazon.com>, <linux-nfs@vger.kernel.org>,
-	<linux-nvme@lists.infradead.org>, <linux-rdma@vger.kernel.org>,
-	<matttbe@kernel.org>, <mptcp@lists.linux.dev>, <netdev@vger.kernel.org>,
-	<pabeni@redhat.com>, <sfrench@samba.org>, <wenjia@linux.ibm.com>,
-	<willemb@google.com>
-Subject: Re: [PATCH v1 net-next 4/6] socket: Remove kernel socket conversion except for net/rds/.
-Date: Thu, 22 May 2025 10:04:48 -0700
-Message-ID: <20250522170512.41751-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <44b6a9b5-6bd7-48f3-927d-3188cfd726f1@oracle.com>
-References: <44b6a9b5-6bd7-48f3-927d-3188cfd726f1@oracle.com>
+	Thu, 22 May 2025 19:22:31 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 003.mia.mailroute.net (Postfix) with ESMTP id 4b3J8N64Fzzlvq4c;
+	Thu, 22 May 2025 19:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1747941747; x=1750533748; bh=Hlsj0CNm0FNhCgCvXMuT7qCE
+	UtEyzcx7IgOufwzD5bo=; b=I4KEani9lRtHMVQz8LZym4oJiZWsUYPwqCqDUkWx
+	oLNdjofBjmy7L4vFMTAj5iDAZwOnhT1uPb+qYEIZbMGr3uQSKIz+kxbmuohMKSy8
+	jtpIfg65ueHQt4dtND2c6C718ENRVh5kwOAJ/GIWFgaDKwGzD+kbaY4aUbDd13b4
+	mhc4X3XSq/VGLoMHB/HnVNgNANjn6WFmlI4j5A5GNrp6isNpRqaUrF89WmYdG8Vt
+	JB7XVVvnyLChSXwG+Cd3hu+4sUBXis+pi5tjz1sS8uBTK3p+SW5+vjGcm1xKY7jV
+	JvgnaaimBk7C8NGnSc8Qjd3Lkr7hb/k3bKTri3i5jHxOLw==
+X-Virus-Scanned: by MailRoute
+Received: from 003.mia.mailroute.net ([127.0.0.1])
+ by localhost (003.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id 0odirWVGG6U8; Thu, 22 May 2025 19:22:27 +0000 (UTC)
+Received: from [100.66.154.22] (unknown [104.135.204.82])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 003.mia.mailroute.net (Postfix) with ESMTPSA id 4b3J8K1tWqzlvnMh;
+	Thu, 22 May 2025 19:22:24 +0000 (UTC)
+Message-ID: <468be217-40d5-4674-891e-d11cc96b1c2a@acm.org>
+Date: Thu, 22 May 2025 12:22:22 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.187.170.42]
-X-ClientProxiedBy: EX19D045UWA002.ant.amazon.com (10.13.139.12) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] block: new sector copy api
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20250521223107.709131-1-kbusch@meta.com>
+ <20250521223107.709131-2-kbusch@meta.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20250521223107.709131-2-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250522_100537_608230_FB263EE2 
-X-CRM114-Status: GOOD (  27.09  )
+X-CRM114-CacheID: sfid-20250522_122230_420691_A56221D9 
+X-CRM114-Status: GOOD (  15.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,83 +84,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Chuck Lever <chuck.lever@oracle.com>
-Date: Thu, 22 May 2025 12:38:03 -0400
-> On 5/22/25 4:55 AM, Paolo Abeni wrote:
-> > On 5/17/25 5:50 AM, Kuniyuki Iwashima wrote:
-> >> Since commit 26abe14379f8 ("net: Modify sk_alloc to not reference
-> >> count the netns of kernel sockets."), TCP kernel socket has caused
-> >> many UAF.
-> >>
-> >> We have converted such sockets to hold netns refcnt, and we have
-> >> the same pattern in cifs, mptcp, nvme, rds, smc, and sunrpc.
-> >>
-> >>   __sock_create_kern(..., &sock);
-> >>   sk_net_refcnt_upgrade(sock->sk);
-> >>
-> >> Let's drop the conversion and use sock_create_kern() instead.
-> >>
-> >> The changes for cifs, mptcp, nvme, and smc are straightforward.
-> >>
-> >> For sunrpc, we call sock_create_net() for IPPROTO_TCP only and still
-> >> call __sock_create_kern() for others.
-> >>
-> >> For rds, we cannot drop sk_net_refcnt_upgrade() for accept()ed
-> >> sockets.
-> >>
-> >> Signed-off-by: Kuniyuki Iwashima <kuniyu@amazon.com>
-> > 
-> > This LGTM, but is touching a few other subsystems, it would be great to
-> > collect acks from the relevant maintainers: I'm adding a few CCs.
-> > 
-> > Direct link to the series:
-> > 
-> > https://lore.kernel.org/all/20250517035120.55560-1-kuniyu@amazon.com/#t
-> 
-> Thank you, Paolo, for forwarding this series.
-> 
-> For all hunks modifying net/sunrpc/svcsock.c and
-> net/handshake/handshake-test.c:
-> 
->   Acked-by: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Regarding patch 4/6:
-> 
-> This paragraph in the patch description needs to explain /why/ sunrpc
-> is an exception:
-> 
-> > For sunrpc, we call sock_create_net() for IPPROTO_TCP only and still
-> > call __sock_create_kern() for others.
+On 5/21/25 3:31 PM, Keith Busch wrote:
+> +/**
+> + * blkdev_copy - copy source sectors to a destination on the same block device
+> + * @dst_sector:	start sector of the destination to copy to
+> + * @src_sector:	start sector of the source to copy from
+> + * @nr_sects:	number of sectors to copy
+> + * @gfp:	allocation flags to use
+> + */
+> +int blkdev_copy(struct block_device *bdev, sector_t dst_sector,
+> +		sector_t src_sector, sector_t nr_sects, gfp_t gfp)
+> +{
+> +	unsigned int nr_vecs = __blkdev_sectors_to_bio_pages(nr_sects);
+> +	unsigned int len = (unsigned int)nr_sects << SECTOR_SHIFT;
+> +	unsigned int size = min(len, nr_vecs * PAGE_SIZE);
+> +	struct bio *bio;
+> +	int ret = 0;
+> +	void *buf;
+> +
+> +	if (nr_sects > UINT_MAX >> SECTOR_SHIFT)
+> +		return -EINVAL;
+> +
+> +	buf = kvmalloc(size, gfp);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	nr_vecs = bio_add_max_vecs(buf, size);
+> +	bio = bio_alloc(bdev, nr_vecs, 0, gfp);
+> +
+> +	if (is_vmalloc_addr(buf))
+> +		bio_add_vmalloc(bio, buf, size);
+> +	else
+> +		bio_add_virt_nofail(bio, buf, size);
+> +
+> +	while (len) {
+> +		size = min(len, size);
+> +
+> +		bio_reset(bio, bdev, REQ_OP_READ);
+> +		bio->bi_iter.bi_sector = src_sector;
+> +		bio->bi_iter.bi_size = size;
+> +
+> +		ret = submit_bio_wait(bio);
+> +		if (ret)
+> +			break;
+> +
+> +		bio_reset(bio, bdev, REQ_OP_WRITE);
+> +		bio->bi_iter.bi_sector = dst_sector;
+> +		bio->bi_iter.bi_size = size;
+> +
+> +		ret = submit_bio_wait(bio);
+> +		if (ret)
+> +			break;
+> +
+> +		src_sector += size >> SECTOR_SHIFT;
+> +		dst_sector += size >> SECTOR_SHIFT;
+> +		len -= size;
+> +	}
+> +
+> +	bio_put(bio);
+> +	kvfree(buf);
+> +	return ret;
+> +}
 
-Sorry I noticed this sentence was not updated from the previous series.
+Is avoiding code duplication still a goal in the Linux kernel project?
+If so, should the above code be consolidated with kcopyd into a single
+implementation?
 
-I'll change it as follows
+Thanks,
 
-    For sunrpc, we call sk_net_refcnt_upgrade() for IPPROTO_TCP only
-    so we use sock_create_kern() for TCP and keep __sock_create_kern()
-    for others.
-
-
-> 
-> The below hunk doesn't seem related to the marquee purpose of this
-> series. Should it be a separate patch with its own rationale?
-> 
-> @@ -1541,8 +1544,8 @@ static struct svc_xprt *svc_create_socket(struct
-> svc_serv *serv,
->  	newlen = error;
-> 
->  	if (protocol == IPPROTO_TCP) {
-> -		sk_net_refcnt_upgrade(sock->sk);
-
-The part above is related, and the below is not, using the old
-style warned by checkpatch, so I cleaned it up while at it but
-didn't think it's worth a patch.  I'm fine to drop it.
-
-
-> -		if ((error = kernel_listen(sock, 64)) < 0)
-> +		error = kernel_listen(sock, 64);
-> +		if (error < 0)
->  			goto bummer;
->  	}
-> 
+Bart.
 
