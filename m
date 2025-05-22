@@ -4,129 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54C48C54E90
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 13:49:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CE2EC54E90
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 13:54:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kG67W+efPQ/Q4IYEeKFGbx/HNEOvITIVECtGCn0Na9I=; b=QGYPTLF9Ds426fpZ2H0KO1YFBx
-	KfBXE9jLEEraA7oTjNbqBe87EBF/mSY0rTOppJG5lfPpUM1x9UqE9lGRisDSl9XQ+o9ny1T3EUoPO
-	xEo6gFb+/ateqm9ZTJ+6ypYVo1RK5COduNAdUUQKfQXZnnTh8o9Kpkey0iBgfnRg/UyEM/enVslhS
-	fh/QQoOrM2BSAxrePGWVfcloPDJLInPN/tDeevMDmF6DVbgPemznecy/WbblafMBR7+HnBDS2ATgv
-	Kcxp5kCcnmeRu9VlAdfsoKd+/Cjnjdo8UTBC+tB6+k5l1gxbEpb2YM7kgC9lsNVQkn5E2jaQvuvTI
-	/ZJofTHQ==;
+	bh=rtT6KLq9HxZlzAqUdQx6rMNDXcYQ56MDN/QxpYiv4xI=; b=aPrNWf9moxj451hzoh/AbaXLo0
+	traJFy6LqoYvK12wQraY+f8BwKURTr5oWhg5YZ9drZrb+M0jJx6pp/FhORzeGlJDnn4mILgMn+8Me
+	sK2dPGOFBG/tS6HIHh6v70mVWo9oRCSkHEVGgiKfrPCHDt0umT57va2GIftk35lIDjLHf2SQZISVn
+	pU/aa/SS4EAZCWX/hinedPZ88wbS2JxCxv3AE/lltza0bdh9IsfOppat7cXXnzZGgNP12blNRVzhq
+	m/fKYc/cXlfwC47CRIPwLT9qLmqO3nKaQs502JWjBQ8UDRWsMB5vD0khtpipGSW1iChpNUMxbJA+g
+	nK0c1H3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI6IT-00000001ANk-0aim;
-	Thu, 22 May 2025 13:49:21 +0000
+	id 1uI6Nn-00000001B84-0ddN;
+	Thu, 22 May 2025 13:54:51 +0000
 Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI6IP-00000001ALN-40Vk
+	id 1uI6Nk-00000001B7g-3L6t
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 May 2025 13:49:19 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Thu, 22 May 2025 13:54:50 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6B3352128E;
-	Thu, 22 May 2025 13:49:15 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 199AC216E4;
+	Thu, 22 May 2025 13:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747921756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1747922087; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kG67W+efPQ/Q4IYEeKFGbx/HNEOvITIVECtGCn0Na9I=;
-	b=ekjUXkK3lTDzK/4r5TZeVXwg4BjJTpWS67T2TM6Eff6InIIK1J8hsoXzA2UetbG3xnX6z0
-	4Q9Nj+muzLaDiyx4oEeOl9fTXPQ3qhuYSecs7FLW5u9czVJ47vVqDm5/jo8B6+Zw6SB0iB
-	0d5/1gIjRVtioWjDT0apw/PD2knrh1M=
+	bh=rtT6KLq9HxZlzAqUdQx6rMNDXcYQ56MDN/QxpYiv4xI=;
+	b=jAuN7PhxZEjd2qTBYfaMg82C3xFJ7V8qkZQE9Y6bATsLdgg2k1XvNgsGdWmKwJfHazu9LR
+	QmRtqziuusbFJhaeDuxzpYJQojBTXD1WlFL07Caj6KZsiD5rUzqDEOCiCnuFYk2M21yp2D
+	8FSq7uVq+04Nnn06b0luKi/74bEVXAc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747921756;
+	s=susede2_ed25519; t=1747922087;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kG67W+efPQ/Q4IYEeKFGbx/HNEOvITIVECtGCn0Na9I=;
-	b=rm7SuQVphqQQP1B7sHOuAwxA5HAZFYoVDipx7g6PO3GHtqH7JrBMXZ/fvRgV+e+2N1aZf/
-	HguGQ1rBj/upL5Ag==
+	bh=rtT6KLq9HxZlzAqUdQx6rMNDXcYQ56MDN/QxpYiv4xI=;
+	b=5xO5nyWP2a22NgLOJJIQnRSpo8Qj+i7Vs/jy089FB0q3UtXj3r18wbvGMpyTnOzeOUFtcw
+	UQtpc36K1FA3NnCw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=El2Eav0w;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wRz5VrOL
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747921755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1747922087; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kG67W+efPQ/Q4IYEeKFGbx/HNEOvITIVECtGCn0Na9I=;
-	b=El2Eav0w/7WyiorK3Xw3gKIuvG5kRkg9DPeqxKLQJ9VHxXYOxRqGO+N8VqSz+ZhC/gKczM
-	O9ubrha79Q35EHVCEyfeITYRoQQDbl0YOK4ZSthCIsEw6dXPoZIItYkcgwctnCVWVIDJtc
-	Ae0onT+QEjVxP5hCU3PvgGz7gj5IUNo=
+	bh=rtT6KLq9HxZlzAqUdQx6rMNDXcYQ56MDN/QxpYiv4xI=;
+	b=jAuN7PhxZEjd2qTBYfaMg82C3xFJ7V8qkZQE9Y6bATsLdgg2k1XvNgsGdWmKwJfHazu9LR
+	QmRtqziuusbFJhaeDuxzpYJQojBTXD1WlFL07Caj6KZsiD5rUzqDEOCiCnuFYk2M21yp2D
+	8FSq7uVq+04Nnn06b0luKi/74bEVXAc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747921755;
+	s=susede2_ed25519; t=1747922087;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kG67W+efPQ/Q4IYEeKFGbx/HNEOvITIVECtGCn0Na9I=;
-	b=wRz5VrOL6EwHP96OstCfZtimSvBLY/uVk1cCITsfeuoVgw003hqXgoU01U5EoguU9hJYij
-	jsHEYTZXi+TnWjDQ==
+	bh=rtT6KLq9HxZlzAqUdQx6rMNDXcYQ56MDN/QxpYiv4xI=;
+	b=5xO5nyWP2a22NgLOJJIQnRSpo8Qj+i7Vs/jy089FB0q3UtXj3r18wbvGMpyTnOzeOUFtcw
+	UQtpc36K1FA3NnCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C0E9137B8;
-	Thu, 22 May 2025 13:49:15 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED420137B8;
+	Thu, 22 May 2025 13:54:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AwVrEVsrL2jeCQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 22 May 2025 13:49:15 +0000
-Message-ID: <57400edb-4c47-4d80-8861-597f9fd5d276@suse.de>
-Date: Thu, 22 May 2025 15:49:15 +0200
+	id OTOhOKYsL2jQCwAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 22 May 2025 13:54:46 +0000
+Message-ID: <7aab2c6c-4cd8-4f23-b61b-153f6e9c2ce7@suse.de>
+Date: Thu, 22 May 2025 15:54:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] block: add support for copy offload
+Subject: Re: [PATCH 3/5] nvme: add support for copy offload
 To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org
 Cc: Keith Busch <kbusch@kernel.org>
 References: <20250521223107.709131-1-kbusch@meta.com>
- <20250521223107.709131-3-kbusch@meta.com>
+ <20250521223107.709131-4-kbusch@meta.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250521223107.709131-3-kbusch@meta.com>
+In-Reply-To: <20250521223107.709131-4-kbusch@meta.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-1.30 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
 	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email,suse.de:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 6B3352128E
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250522_064918_140237_1305EDD0 
-X-CRM114-Status: GOOD (  26.75  )
+X-CRM114-CacheID: sfid-20250522_065448_981606_793CDC08 
+X-CRM114-Status: GOOD (  17.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,109 +134,49 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 5/22/25 00:31, Keith Busch wrote:
 > From: Keith Busch <kbusch@kernel.org>
 > 
-> Various storage protocols can support offloading block data copies.
-> Enhance the block layer to know about the device's copying capabilities,
-> introduce the new REQ_OP_COPY operation, and provide the infrastructure
-> to iterate, split, and merge these kinds of requests.
-> 
-> A copy command must provide the device with a list of source LBAs and
-> their lengths, and a destination LBA. The 'struct bio' type doesn't
-> readily have a way to describe such a thing. But a copy request doesn't
-> use host memory for data, so the bio's bio_vec is unused space. This
-> patch adds a new purpose to the bio_vec where it can provide a vector of
-> sectors instead of memory pages.
+> Register the nvme namespace copy capablities with the request_queue
+> limits and implement support for the REQ_OP_COPY operation.
 > 
 > Signed-off-by: Keith Busch <kbusch@kernel.org>
 > ---
->   block/bio.c               | 25 ++++++++++++++
->   block/blk-core.c          |  4 +++
->   block/blk-lib.c           | 47 ++++++++++++++++++++++-----
->   block/blk-merge.c         | 28 +++++++++++++++-
->   block/blk-sysfs.c         |  9 ++++++
->   block/blk.h               | 17 +++++++++-
->   include/linux/bio.h       | 20 ++++++++++++
->   include/linux/blk-mq.h    |  5 +++
->   include/linux/blk_types.h |  2 ++
->   include/linux/blkdev.h    | 14 ++++++++
->   include/linux/bvec.h      | 68 +++++++++++++++++++++++++++++++++++++--
->   11 files changed, 226 insertions(+), 13 deletions(-)
+>   drivers/nvme/host/core.c | 61 ++++++++++++++++++++++++++++++++++++++++
+>   include/linux/nvme.h     | 42 ++++++++++++++++++++++++++-
+>   2 files changed, 102 insertions(+), 1 deletion(-)
 > 
-> diff --git a/block/bio.c b/block/bio.c
-> index 3c0a558c90f52..9c73a895c987b 100644
-> --- a/block/bio.c
-> +++ b/block/bio.c
-> @@ -1156,6 +1156,31 @@ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter)
->   	bio_set_flag(bio, BIO_CLONED);
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index f69a232a000ac..3134fe85b1abc 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -888,6 +888,52 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+>   	return BLK_STS_OK;
 >   }
 >   
-> +static int bvec_try_merge_copy_src(struct bio *bio, struct bio_vec *src)
+> +static inline blk_status_t nvme_setup_copy(struct nvme_ns *ns,
+> +		struct request *req, struct nvme_command *cmnd)
 > +{
-> +	struct bio_vec *bv;
+> +	struct nvme_copy_range *range;
+> +	struct req_iterator iter;
+> +	struct bio_vec bvec;
+> +	u16 control = 0;
+> +	int i = 0;
 > +
-> +	if (!bio->bi_vcnt)
-> +		return false;
+> +	static const size_t alloc_size = sizeof(*range) * NVME_COPY_MAX_RANGES;
 > +
-> +	bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
-> +	if (bv->bv_sector + src->bv_sectors != src->bv_sector)
-> +		return false;
+> +	if (WARN_ON_ONCE(blk_rq_nr_phys_segments(req) >= NVME_COPY_MAX_RANGES))
+> +		return BLK_STS_IOERR;
 > +
-> +	bv->bv_sectors += src->bv_sectors;
-> +	return true;
-> +}
+> +	range = kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+> +	if (!range)
+> +		return BLK_STS_RESOURCE;
 > +
-> +int bio_add_copy_src(struct bio *bio, struct bio_vec *src)
-> +{
-> +	if (bvec_try_merge_copy_src(bio, src))
-> +		return 0;
-> +	if (bio->bi_vcnt >= bio->bi_max_vecs)
-> +		return -EINVAL;
-> +	bio->bi_io_vec[bio->bi_vcnt++] = *src;
-> +	return 0;
-> +}
-> +
->   static unsigned int get_contig_folio_len(unsigned int *num_pages,
->   					 struct page **pages, unsigned int i,
->   					 struct folio *folio, size_t left,
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index b862c66018f25..cb3d9879e2d65 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -837,6 +837,10 @@ void submit_bio_noacct(struct bio *bio)
->   		if (!bdev_max_discard_sectors(bdev))
->   			goto not_supported;
->   		break;
-> +	case REQ_OP_COPY:
-> +		if (!bdev_copy_sectors(bdev))
-> +			goto not_supported;
-> +		break;
->   	case REQ_OP_SECURE_ERASE:
->   		if (!bdev_max_secure_erase_sectors(bdev))
->   			goto not_supported;
-> diff --git a/block/blk-lib.c b/block/blk-lib.c
-> index a819ded0ed3a9..a538acbaa2cd7 100644
-> --- a/block/blk-lib.c
-> +++ b/block/blk-lib.c
-> @@ -369,14 +369,7 @@ int blkdev_issue_secure_erase(struct block_device *bdev, sector_t sector,
->   }
->   EXPORT_SYMBOL(blkdev_issue_secure_erase);
->   
-> -/**
-> - * blkdev_copy - copy source sectors to a destination on the same block device
-> - * @dst_sector:	start sector of the destination to copy to
-> - * @src_sector:	start sector of the source to copy from
-> - * @nr_sects:	number of sectors to copy
-> - * @gfp:	allocation flags to use
-> - */
-> -int blkdev_copy(struct block_device *bdev, sector_t dst_sector,
-> +static int __blkdev_copy(struct block_device *bdev, sector_t dst_sector,
->   		sector_t src_sector, sector_t nr_sects, gfp_t gfp)
->   {
->   	unsigned int nr_vecs = __blkdev_sectors_to_bio_pages(nr_sects);
+> +	if (req->cmd_flags & REQ_FUA)
+> +	        control |= NVME_RW_FUA;
+> +	if (req->cmd_flags & REQ_FAILFAST_DEV)
+> +	        control |= NVME_RW_LR;
 
-That's a bit odd, renaming a just introduced function.
-But if you must...
+FAILFAST_DEV? Is that even set anywhere?
 
-Otherwise looks good.
+Otherwise looks ok.
 
 Cheers,
 
