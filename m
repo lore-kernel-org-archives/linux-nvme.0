@@ -4,152 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E750C54E65
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 15:38:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 704DDC54E65
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 May 2025 15:39:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p/2nIGnScGS/ag54ujSQnB2qMCARPZsy8oidULpx5oc=; b=OjulCZZ9v7EuaNW5UhaMFQXzRE
-	B4XLV4uxTsPGniR6MtMS4EAEMm1jrOVRheQsGzOmMPE86cdZc6QAVrLJvU7/b1FxD86C868P8TN/8
-	T73JBUN+N5qJem26Gh4EVkKgU3H6u2ewdMc0CBuHkfVXuRXw745q3i4kPBZkqaNkvwM6FL3MdgcJA
-	5gK1cl0d/emmHeG7irmv3n1RO/11H8mvMxAZxqfe2By/cLlAxsWkZBLNr+YgJva0eGrVVF54A5GcV
-	vHpDlTkgZR2qrGMWt3ydPRXLsFV5ZZe0CPKZLhOp9C5gWeRyUO27GbNrwAHLWHH+O+kl5ExS9U9lc
-	ZEIUkQ9A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Date:Cc:To:From:Subject:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EeuSDgqVKj63XH/BsGOarDmziKxpR2gx3k140iln9W4=; b=QJLJNy/+80MzeLh4+rF8HgfZY8
+	FLhWhR7RUK9qFitXBkYC5822tFXukQwn6fp2HRTnVIIlsZaKJ5ktbR5/q05dDP7YvoSEwWKiYzg71
+	83KBJgwMnMGG1pLn+aVma5mhfk0OWGRdWzDTWs/pulD4PkMtVPwfCl4Ek0kIDASv34hqNFfBEYfzF
+	ePtf/Xn2dNXVQQUC9vdKdI0wkKZKjyREoY9nnmH765lwvJVO1iosPqx9FZY9tc/HRsVTRy98TD7Ns
+	9lora5XqdI8dDs96xYMJQ/6XpDNe/ir41StOOxptT7kgvdrmsjuR2B6cbcszUCA7+yX15GlgF7Gjl
+	gfCE7wXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI80P-00000001SZf-1ftH;
-	Thu, 22 May 2025 15:38:49 +0000
-Received: from mail-dm6nam11on2061e.outbound.protection.outlook.com ([2a01:111:f403:2415::61e] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1uI80t-00000001SiF-3DAb;
+	Thu, 22 May 2025 15:39:19 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uI7Qr-00000001Mlw-21LJ
+	id 1uI7Wb-00000001NlZ-2CqC
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 May 2025 15:02:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SzSXqe+//5B3VF/Dv1buVjNtyryIW/njUCcn8rhFOXBAWukCoxLTAFHNb/xcxDvStHrP9B6jleyOEysfqPcohaW6xtRWYrQNmRYDaJ+CVMercTmcpHuJEk0Mps/ELzHTDKl3CTxkk7p/AVXd6K7aam4WMyKVROp4ytZ2YfGp3vhB7aAU6/hCnZ6ZEvfkVoK4SyF6pLl41qtFnRi8d64ZCUzss/QkwX9R6EJzNNKDROoKwRdXhX0gs3O3rEMcsgoP0nBvoP52QZ+4Wr22iFVaIC4Ex5WHslkaHQxuSYaEEkaq7zL/zTbrbb8P4eYEDiNMJj++8YwASG2E56aNDvEPtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p/2nIGnScGS/ag54ujSQnB2qMCARPZsy8oidULpx5oc=;
- b=NedI83E/JxLaJIzxPyJ5PfnknGXul6KAF/fMdieE0DDoYZDmaC4zxnsJnfJXtNpeitk3xU2NfuR3KrwUDUzVlf/zZR9TecmL2kf9jLkNuqwbce7jNjuThuJ71Pwc32G2CH6E3vebNRlOPHmvS67v1ZKQqBNsmxiRl+/DoG3fF0qQC8wB0iqTqvTnyplcRRCw14COpDHWCtOX/XuB2qC8kjFot5AydBKOGhEt3Xh1q+g/vSYLm7Vmj5TUt158dUDBRQatschBcDHb49uA9OCS5tBos5AmJ1VXmtAWQXHQCNeBgijRhNWrNqs8B6srkr+3Q7qX8roASTTAUBroCij1BQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p/2nIGnScGS/ag54ujSQnB2qMCARPZsy8oidULpx5oc=;
- b=Kbwz3t0l1eba8+Vz7Ec4F+8phaOzhLun1WaVDWDgaecCl0gpvLapy4szWgNjO4YmVdjUKDkW2IzDiMq/VNiM/Epoc+HYdye8uoJ786kWEsIit8zv/O/gToq53qBHHeLDPucc+2YxPLgTM1nYOZoAo2r81odJp8TE2X7Z1nBwpdR7EW+yx7EGH1JDsME2+qHAbhU1dcqZcZP0VhoKNTWszgjTUqGbPHuMw04jaEYoBlA7Jz8PWhSfx5Cu6GvBV/Qqdpg8lBNxl2VROO45jN/5p/T4oCbhj4Plg0c35uNIJ1gMp7SuC86/X6ON8yE9Y4G6q9oYEX4F+WRaLMRB3gR/fg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
- by DS7PR12MB9474.namprd12.prod.outlook.com (2603:10b6:8:252::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Thu, 22 May
- 2025 15:01:57 +0000
-Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
- ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
- ([fe80::7577:f32f:798c:87cc%4]) with mapi id 15.20.8746.030; Thu, 22 May 2025
- 15:01:57 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org, Boris
- Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com, smalin@nvidia.com,
- malin1024@gmail.com, ogerlitz@nvidia.com, yorayz@nvidia.com,
- galshalom@nvidia.com, mgurtovoy@nvidia.com, tariqt@nvidia.com,
- gus@collabora.com, pabeni@redhat.com, dsahern@kernel.org, ast@kernel.org,
- jacob.e.keller@intel.com
-Subject: Re: [PATCH v28 01/20] net: Introduce direct data placement tcp offload
-In-Reply-To: <CANn89iJa+fWdR4jUqeJyhgwHMa5ujZ96WR6jv6iVFUhOXC+jhA@mail.gmail.com>
-References: <20250430085741.5108-1-aaptel@nvidia.com>
- <20250430085741.5108-2-aaptel@nvidia.com>
- <CANn89iLW86_BsB97jZw0joPwne_K79iiqwogCYFA7U9dZa3jhQ@mail.gmail.com>
- <2537c2gzk6x.fsf@nvidia.com>
- <CANn89iJa+fWdR4jUqeJyhgwHMa5ujZ96WR6jv6iVFUhOXC+jhA@mail.gmail.com>
-Date: Thu, 22 May 2025 18:01:52 +0300
-Message-ID: <2531psgzo2n.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: TL2P290CA0017.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:3::7)
- To SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
+	Thu, 22 May 2025 15:08:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747926478;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EeuSDgqVKj63XH/BsGOarDmziKxpR2gx3k140iln9W4=;
+	b=GAtNb+kjXpoKlM3U8trmVEvhwOcYnk+wURRW8prw4RFRSIUzvootdlkijFO8sXrszEj1HG
+	Gow0LmG588SbWpYLECR2/tQ92OLZY2C1Htm8R7gDCgRT3tU01Y8y7hdyczDfvtGH6WEBVz
+	tJ5NKE61B3ZWmhTrtspz3f19HtfK9MQ=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-275-Ti68V-uGM9eT7KzSuOr3eg-1; Thu, 22 May 2025 11:07:57 -0400
+X-MC-Unique: Ti68V-uGM9eT7KzSuOr3eg-1
+X-Mimecast-MFC-AGG-ID: Ti68V-uGM9eT7KzSuOr3eg_1747926476
+Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-707d49f9c3bso108196317b3.0
+        for <linux-nvme@lists.infradead.org>; Thu, 22 May 2025 08:07:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747926476; x=1748531276;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EeuSDgqVKj63XH/BsGOarDmziKxpR2gx3k140iln9W4=;
+        b=tdQn6nr09TGRER5hlHHxWyorzRLf50ZmFYO9jZ/qjwNi0iQC+6CdSVtBIB1qzJ21KG
+         GJQkiZYchXdRnhYHfdL+6IVEPrfQZ5PO6FwJeTRBAbWzznLzW0CgsHd0+/tQbDQK60cL
+         Myn9r/i/bamYnm+MEjQ+tUuml1roshaJEoGVvRCKv920CDQkenTKKExiOes9CJtwu7Nl
+         EwIobij/NaeDnKBN0Ghh4DtoUNh13fu8jBAPaYyC/kbZkgSuR8xeY/nxCDsPCZQNcBxj
+         /dN9xb40T3ongxJQVPrwflS0NuC02tKVSseTobT2qZRGbqec0Onat3+ILiOd2sTUG0tO
+         Otlw==
+X-Gm-Message-State: AOJu0Yy9AeegClqdZgansUVV0sOaFVBt1NqSTbFtzyMaksdDsXX2tQte
+	ZEtVyNQNFutUxRkghNQbKhRhwRCsMa2LeXp63vT1PfJ4Ga2j7ZsJK0kQSWwdwJI5ASm/exmZruA
+	UQvMjf5VCohZYKLVRpMj374rh/S9E9WiaEijXre9KAOfHW8IJYaZhYnvBtKRNf2WnwZ+I
+X-Gm-Gg: ASbGncuJZ9wCyZLVv0+9hJ1jdWefyUUcXxjWdKe7dq0jkVwnNKF35M1s5K0nrEJWuS7
+	CS+Ox0srdjEnqW36FCLw4R9QSKPAcSDDkd9jm1pdbu83TM0zLL66BY+w3Z9fD2+s4JBrcIsvDR5
+	0dqndG8cPjcBmyrpJ1Ov5JwTnwaGt/nSsjA+JNuJael5w3MuCrtfEQ+HGQ+CbhfMj4jnlhpwdMB
+	J88RSRqeiHij3iF9w/PTpLyeV7A58PBIk47L5+2Y4ip3pNNfzRmmQAJ61lVL42C9UrrvPHxhAtR
+	QqCJUNDYBgaGVPpyW7KynG0vardn7zcHVhgbYF83AjT8v1fF3xyu0Ot/1hxuGg==
+X-Received: by 2002:a05:690c:4c13:b0:70c:a57c:94a3 with SMTP id 00721157ae682-70ca7a070b3mr360606427b3.19.1747926476146;
+        Thu, 22 May 2025 08:07:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFEwejxGi9nhRL8K2qREaXlEOIvA5oHyKuV51mEoHSEqpfOw/2WGHKr40KQ8uc0OMSjq9xOjA==
+X-Received: by 2002:a05:690c:4c13:b0:70c:a57c:94a3 with SMTP id 00721157ae682-70ca7a070b3mr360605927b3.19.1747926475650;
+        Thu, 22 May 2025 08:07:55 -0700 (PDT)
+Received: from ?IPv6:2600:6c64:4e7f:603b:fc4d:8b7c:e90c:601a? ([2600:6c64:4e7f:603b:fc4d:8b7c:e90c:601a])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-70ca82f8d40sm30812717b3.18.2025.05.22.08.07.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 08:07:54 -0700 (PDT)
+Message-ID: <f08554fccd3d5e2c2ec4849b0a8158d63414e356.camel@redhat.com>
+Subject: Re: Sequential read from NVMe/XFS twice slower on Fedora 42 than on
+ Rocky 9.5
+From: Laurence Oberman <loberman@redhat.com>
+To: Dave Chinner <david@fromorbit.com>, Anton Gavriliuk
+ <antosha20xx@gmail.com>
+Cc: linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org, 
+	linux-block@vger.kernel.org
+Date: Thu, 22 May 2025 11:07:53 -0400
+In-Reply-To: <f01719b1901f9d796837669086d7c1cd14c9922c.camel@redhat.com>
+References: <CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-QzmZBMmtr1oC=fOOgAQ@mail.gmail.com>
+	 <aBaVsli2AKbIa4We@dread.disaster.area>
+	 <CAAiJnjor+=Zn62n09f-aJw2amX2wxQOb-2TB3rea9wDCU7ONoA@mail.gmail.com>
+	 <aBfhDQ6lAPmn81j0@dread.disaster.area>
+	 <7c33f38a52ccff8b94f20c0714b60b61b061ad58.camel@redhat.com>
+	 <a1f322ab801e7f7037951578d289c5d18c6adc4d.camel@redhat.com>
+	 <f01719b1901f9d796837669086d7c1cd14c9922c.camel@redhat.com>
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|DS7PR12MB9474:EE_
-X-MS-Office365-Filtering-Correlation-Id: e10e0b8f-1b15-40e9-e65c-08dd99419863
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?z7X9xTH9gWhiMKjBb8Ddw2QQylE/kOEdITHRrmXQM3kunf/Odmm6DcT8lUs9?=
- =?us-ascii?Q?tSWhpbALeicoJ5+M58Te+rHjUUVHDiKe0dSMMvHwZfYcTeHIHTWO+9bVYNL2?=
- =?us-ascii?Q?nXZMjzvCdz8lbb6DQhPqgNUwVVoB6Vs+4PIWDw5PcIFUDY+HhS0CGx+L/kLr?=
- =?us-ascii?Q?uS2vbJkrekLjhe66SfYLephUDIra2ZJuaieEFmXC8bV9OUQj1qXr7Mte2m3W?=
- =?us-ascii?Q?GynBOSWh/GSSPuZqy00rLbFlQP+L5d8CSivniDVC/IuU7lvZrAF7YEo7lOjk?=
- =?us-ascii?Q?HBnd1kKYlKBLG4HLUbOftm5s/BrIZQt2ZG2A5IJG5tWn0qB3WTs7FptdpcXZ?=
- =?us-ascii?Q?Z4XNjMHdrXzwMQ9XJzhDn7Xo3u2wM7di9/tZRFk7EUc0r1wv6XccixupoVfm?=
- =?us-ascii?Q?FV3UEnPGSA1ICLxzXmIPxZU+WXkpOze6szKEZZhjzDxS+s1NVPxdR5iK/672?=
- =?us-ascii?Q?jWOChOXq9c5uqmoR0C6Cvycojsac3UoEhMUt38QxxPiXbrJCBF4WIus+zL1J?=
- =?us-ascii?Q?rAv3+/s/2iB+Bl5nrReEQM6b5tatOe3zXhxVurrRG1MQyNvn8q+wp+7BWCcf?=
- =?us-ascii?Q?/wAuE9URUVtV+FA9k2uOch41A1z/+9B2eOlHV+i8aRW6DCVMeLet9fQzwze8?=
- =?us-ascii?Q?zeGwSKm586i8WF/78sDY7jzzgEMlqO+gK69zOzWRwl3xoGnmjPs/soExQM5c?=
- =?us-ascii?Q?XDHyGdskO0LXhMnhO/CysQHec78VO0Gie/ttWjdPwCKm8TmW141WFbPEsIvY?=
- =?us-ascii?Q?l5SB+PBMj5DxW4LHtCPmn4tQ3z2/K5jCaSk4INBQq5nABr4zLrvTJb3ZoZUT?=
- =?us-ascii?Q?EAKrZnP6EzBvHXQDi9ZItO6dxjZX9wMFQMOqYnbguPSBWc/almNIJaa8dPZz?=
- =?us-ascii?Q?h4gm65CBiK3SKGsVeltzFGjLQ3QRtKKsbkooP+s+osilkf/hSzwYGEWFhqNH?=
- =?us-ascii?Q?qzb+o5MbhI6e4TmrjgTPeFyGAj+2BRMe00V95ZPsN0qPflYNfJoPnKlGgLVB?=
- =?us-ascii?Q?8S07zEya2qhz04lDSFkRROjcSOVLwjLkPXJS6JlYkQ/JEh8prc7VH1rWCNPh?=
- =?us-ascii?Q?sLgO+3gFoVe759OP/jN8+EKVsYbgz/IqrQHO7jf8n6smdWeDnmWYNhqthrG4?=
- =?us-ascii?Q?byq953oWfrVIRCOdkURZGVCUWnMPrfWVYcdcSP7SNGbbUTNpSClawqkLxuIk?=
- =?us-ascii?Q?qcihXI75W3LsX5jL19Fx2//+z1LBBAqtJUzz2eXmaDmtZ1+naOu3tIDl8JjK?=
- =?us-ascii?Q?vzNSS1yk3ffxIzeXdg1L1aE1MmjVUZC7d+Wb7py6I+eMiHPeLdR7thCMNh5J?=
- =?us-ascii?Q?q6IvtzIjawF9Lp1vU+WV33jUxP0D71GdqGyjV30zkGLRTzSbYXMRe9HP1P37?=
- =?us-ascii?Q?NR6Rq3Y55GCDu89gNeoNyuS/X+aIaRjMoP1V0Jmbaulg/ewr6tQcZLWn4fXH?=
- =?us-ascii?Q?Z2b/OmMRlzs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mLd+9zm3qxN6Wi0XyS0wwDjOkm0ZsIX5Td+dpXemIet3qStAZaJ/7dQp9Euf?=
- =?us-ascii?Q?nc7BkXgMAvMkqhxrVA7LtCgqOdWHaP1yWgnfQkvan33Efj/bEivpAa96/983?=
- =?us-ascii?Q?aF71bcB8YOrE/7H8r9wv07MXP2TdtF4aAUnWLbYTvr/iilZ7k43TWsX++Y9T?=
- =?us-ascii?Q?pUM1HgntyU12oXsyKo/E1UInpxyyvGy4NG/pkhm2SUanarU7ZFz9jhHaQMCW?=
- =?us-ascii?Q?9zjO19XYi7Ac2lJ2fQmbyk8PVkvHAPgfQ++FdJNG3KWNwizzDxVsMDF7i+fl?=
- =?us-ascii?Q?Om5t7OYvdsj6WLSVftXHuvh5pfI/frpInU9NGNWEClwXMyBuo1aWBDcpNJqx?=
- =?us-ascii?Q?VwCbpYKZ7RMHen7B68Bbe1pcdkW6rnuOe7MO5cpW3/e4dE9cuO/DEqKgUzaM?=
- =?us-ascii?Q?S/yInw2VIDRG00j2F3bl8FW2AdzyqWhTUnc7CduaIWLKcu0SDBf4jtcWqNqs?=
- =?us-ascii?Q?6FK+WDAGN5dYIZGl+BXnvE/DWfb/L7bMFGYb/CtqhXzvfqZQ4Og2zGPAPaKg?=
- =?us-ascii?Q?c8nMXSaqFSdIbSsFOeGR0daH5kvtSDribItXEs+TqyEJMRr0bh5jrEwbuiTD?=
- =?us-ascii?Q?RQ3PCPRK4ZvXaiOo8YaVD9I/cVqK5WLRVRg6QuZbWyohZUUCcUMT9Q7hnK4s?=
- =?us-ascii?Q?NYhKFf7LKZy2seqzJ04usJZLELFQuncIRkbDSEnFW1i5tOqZe/8Mell/5P8h?=
- =?us-ascii?Q?x+EoqxovvqiguNat6etzGaDrbXG0eLpFWXpe4ayv+JVqzJiKVTHsXGzYq/hf?=
- =?us-ascii?Q?DK0B4DqqvIKeRhdIzNp+HxFPfXRad5Dm1ty1K0EdTnQJ2Ir7Tp+kLE2GR1by?=
- =?us-ascii?Q?axnhSPki0agrj4IzDIfiS6oXpnOn2LA2mA6lum6a5DKBBxbPuFHcIe++eptT?=
- =?us-ascii?Q?W03dk8uieIzsWsDYxLgmk2HU/+o5/b0dVNsMg3WDQLgVIdr6rx8xK9gLOqIP?=
- =?us-ascii?Q?rr53NP7Quyze5lXxrbRBXusED0oq4akWSymCoDtmrGd4Fkgyxd/gQG45h08r?=
- =?us-ascii?Q?IHdZ6F/DBE1QIXhcl9xBS7MxMmQow5VdYh+joNb8XDkF83ZYaGbJnzx7uORC?=
- =?us-ascii?Q?kgPma40lMGj9cC3+Fj1vM/o0hNcStU+EWVdsUR90TYOaeg5W8CTPoTyNja7x?=
- =?us-ascii?Q?/wlnZf9A6fD0ziV3fq7YjQJvzXhLPZXjebJxNBOzEkhKg+G6owy7Z6KXjorG?=
- =?us-ascii?Q?6XxAVc4HRX7mu71NcenrP2738UyWwia+D6hxIj85ti4Rh0V7vYkw7SpK/k5D?=
- =?us-ascii?Q?k3YmFFTdZDWZAN4Ca8NZJhhd4qdn0xbNREj2v8W1nmzxo6JsRvkz54iWiLxk?=
- =?us-ascii?Q?W017rAOe4DNnrnUsG4AgUVZTsLQy57vB58Yc+Zhcd9ebsnKQ7e71UQBdOOYv?=
- =?us-ascii?Q?ig4Y+hHRN8EDcFnbO+IovW1MoJo39BmF/ygE4w0R3XQ7yfmVBn40CTI6cWxF?=
- =?us-ascii?Q?R7VhlQXZg/v2nCHXqCvI+F7jFs/SpdFpzxM0FkEoOpgN1/nXDc2rWViF9BnA?=
- =?us-ascii?Q?/eF2MnO/7pqfmkJZndsbHQ6vU87QP/ceCMKvn9DLsJ09PD/dnbLPYwEQXHpa?=
- =?us-ascii?Q?xJAwlF1lhy1hdxJPpaVCoSU7e277BqvGTuj21Cuy?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e10e0b8f-1b15-40e9-e65c-08dd99419863
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 15:01:56.6793
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BnfY3KTABE5ov/hwelC4DzbcJSHd7tp0ntv+4lYxCOdogJx5wIY9NsodHYWjXiBA78p7Y9vwGDw+MNXB/HRJrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9474
+X-Mimecast-Spam-Score: 1
+X-Mimecast-MFC-PROC-ID: 9B735XS4X_gTxFRXHeY6w_l2M5kmo5cEpFo1yHPl_RA_1747926476
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250522_080205_523976_0B1289C6 
-X-CRM114-Status: GOOD (  10.89  )
+X-CRM114-CacheID: sfid-20250522_080801_715959_2AA57F20 
+X-CRM114-Status: GOOD (  29.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -164,92 +115,320 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Mon, 2025-05-05 at 13:39 -0400, Laurence Oberman wrote:
+> On Mon, 2025-05-05 at 09:21 -0400, Laurence Oberman wrote:
+> > On Mon, 2025-05-05 at 08:29 -0400, Laurence Oberman wrote:
+> > > On Mon, 2025-05-05 at 07:50 +1000, Dave Chinner wrote:
+> > > > [cc linux-block]
+> > > >=20
+> > > > [original bug report:
+> > > > https://lore.kernel.org/linux-xfs/CAAiJnjoo0--yp47UKZhbu8sNSZN6DZ-Q=
+zmZBMmtr1oC=3DfOOgAQ@mail.gmail.com/
+> > > > =C2=A0]
+> > > >=20
+> > > > On Sun, May 04, 2025 at 10:22:58AM +0300, Anton Gavriliuk
+> > > > wrote:
+> > > > > > What's the comparitive performance of an identical read
+> > > > > > profile
+> > > > > > directly on the raw MD raid0 device?
+> > > > >=20
+> > > > > Rocky 9.5 (5.14.0-503.40.1.el9_5.x86_64)
+> > > > >=20
+> > > > > [root@localhost ~]# df -mh /mnt
+> > > > > Filesystem=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Size=C2=A0 Used Avail Us=
+e% Mounted on
+> > > > > /dev/md127=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35T=C2=A0 1.3T=C2=
+=A0=C2=A0 34T=C2=A0=C2=A0 4% /mnt
+> > > > >=20
+> > > > > [root@localhost ~]# fio --name=3Dtest --rw=3Dread --bs=3D256k
+> > > > > --filename=3D/dev/md127 --direct=3D1 --numjobs=3D1 --iodepth=3D64=
+ --
+> > > > > exitall
+> > > > > --group_reporting --ioengine=3Dlibaio --runtime=3D30 --time_based
+> > > > > test: (g=3D0): rw=3Dread, bs=3D(R) 256KiB-256KiB, (W) 256KiB-
+> > > > > 256KiB,
+> > > > > (T)
+> > > > > 256KiB-256KiB, ioengine=3Dlibaio, iodepth=3D64
+> > > > > fio-3.39-44-g19d9
+> > > > > Starting 1 process
+> > > > > Jobs: 1 (f=3D1): [R(1)][100.0%][r=3D81.4GiB/s][r=3D334k IOPS][eta
+> > > > > 00m:00s]
+> > > > > test: (groupid=3D0, jobs=3D1): err=3D 0: pid=3D43189: Sun May=C2=
+=A0 4
+> > > > > 08:22:12
+> > > > > 2025
+> > > > > =C2=A0 read: IOPS=3D363k, BW=3D88.5GiB/s (95.1GB/s)(2656GiB/30001=
+msec)
+> > > > > =C2=A0=C2=A0=C2=A0 slat (nsec): min=3D971, max=3D312380, avg=3D18=
+17.92,
+> > > > > stdev=3D1367.75
+> > > > > =C2=A0=C2=A0=C2=A0 clat (usec): min=3D78, max=3D1351, avg=3D174.4=
+6, stdev=3D28.86
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 lat (usec): min=3D80, max=3D1352, avg=3D=
+176.27, stdev=3D28.81
+> > > > >=20
+> > > > > Fedora 42 (6.14.5-300.fc42.x86_64)
+> > > > >=20
+> > > > > [root@localhost anton]# df -mh /mnt
+> > > > > Filesystem=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Size=C2=A0 Used Avail Us=
+e% Mounted on
+> > > > > /dev/md127=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35T=C2=A0 1.3T=C2=
+=A0=C2=A0 34T=C2=A0=C2=A0 4% /mnt
+> > > > >=20
+> > > > > [root@localhost ~]# fio --name=3Dtest --rw=3Dread --bs=3D256k
+> > > > > --filename=3D/dev/md127 --direct=3D1 --numjobs=3D1 --iodepth=3D64=
+ --
+> > > > > exitall
+> > > > > --group_reporting --ioengine=3Dlibaio --runtime=3D30 --time_based
+> > > > > test: (g=3D0): rw=3Dread, bs=3D(R) 256KiB-256KiB, (W) 256KiB-
+> > > > > 256KiB,
+> > > > > (T)
+> > > > > 256KiB-256KiB, ioengine=3Dlibaio, iodepth=3D64
+> > > > > fio-3.39-44-g19d9
+> > > > > Starting 1 process
+> > > > > Jobs: 1 (f=3D1): [R(1)][100.0%][r=3D41.0GiB/s][r=3D168k IOPS][eta
+> > > > > 00m:00s]
+> > > > > test: (groupid=3D0, jobs=3D1): err=3D 0: pid=3D5685: Sun May=C2=
+=A0 4
+> > > > > 10:14:00
+> > > > > 2025
+> > > > > =C2=A0 read: IOPS=3D168k, BW=3D41.0GiB/s (44.1GB/s)(1231GiB/30001=
+msec)
+> > > > > =C2=A0=C2=A0=C2=A0 slat (usec): min=3D3, max=3D273, avg=3D 5.63, =
+stdev=3D 1.48
+> > > > > =C2=A0=C2=A0=C2=A0 clat (usec): min=3D67, max=3D2800, avg=3D374.9=
+9, stdev=3D29.90
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 lat (usec): min=3D72, max=3D2914, avg=3D=
+380.62, stdev=3D30.22
+> > > >=20
+> > > > So the MD block device shows the same read performance as the
+> > > > filesystem on top of it. That means this is a regression at the
+> > > > MD
+> > > > device layer or in the block/driver layers below it. i.e. it is
+> > > > not
+> > > > an XFS of filesystem issue at all.
+> > > >=20
+> > > > -Dave.
+> > >=20
+> > > I have a lab setup, let me see if I can also reproduce and then
+> > > trace
+> > > this to see where it is spending the time
+> > >=20
+> >=20
+> >=20
+> > Not seeing 1/2 the bandwidth but also significantly slower on
+> > Fedora42
+> > kernel.
+> > I will trace it
+> >=20
+> > 9.5 kernel - 5.14.0-503.40.1.el9_5.x86_64
+> >=20
+> > Run status group 0 (all jobs):
+> > =C2=A0=C2=A0 READ: bw=3D14.7GiB/s (15.8GB/s), 14.7GiB/s-14.7GiB/s (15.8=
+GB/s-
+> > 15.8GB/s), io=3D441GiB (473GB), run=3D30003-30003msec
+> >=20
+> > Fedora42 kernel - 6.14.5-300.fc42.x86_64
+> >=20
+> > Run status group 0 (all jobs):
+> > =C2=A0=C2=A0 READ: bw=3D10.4GiB/s (11.2GB/s), 10.4GiB/s-10.4GiB/s (11.2=
+GB/s-
+> > 11.2GB/s), io=3D313GiB (336GB), run=3D30001-30001msec
+> >=20
+> >=20
+> >=20
+> >=20
+>=20
+> Fedora42 kernel issue
+>=20
+> While my difference is not as severe we do see a consistently lower
+> performance on the Fedora
+> kernel. (6.14.5-300.fc42.x86_64)
+>=20
+> When I remove the software raid and run against a single NVME we
+> converge to be much closer.
+> Also latest upstream does not show this regression either.
+>=20
+> Not sure yet what is in our Fedora kernel causing this.=20
+> We will work it via the Bugzilla
+>=20
+> Regards
+> Laurence
+>=20
+> TLDR
+>=20
+>=20
+> Fedora Kernel
+> -------------
+> root@penguin9 blktracefedora]# uname -a
+> Linux penguin9.2 6.14.5-300.fc42.x86_64 #1 SMP PREEMPT_DYNAMIC Fri
+> May
+> 2 14:16:46 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+>=20
+> 5 runs of the fio against /dev/md1
+>=20
+> [root@penguin9 ~]# for i in 1 2 3 4 5
+> > do
+> > ./run_fio.sh | grep -A1 "Run status group"
+> > done
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D11.3GiB/s (12.2GB/s), 11.3GiB/s-11.3GiB/s (12.2GB=
+/s-
+> 12.2GB/s), io=3D679GiB (729GB), run=3D60001-60001msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D11.2GiB/s (12.0GB/s), 11.2GiB/s-11.2GiB/s (12.0GB=
+/s-
+> 12.0GB/s), io=3D669GiB (718GB), run=3D60001-60001msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D11.4GiB/s (12.2GB/s), 11.4GiB/s-11.4GiB/s (12.2GB=
+/s-
+> 12.2GB/s), io=3D682GiB (733GB), run=3D60001-60001msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D11.1GiB/s (11.9GB/s), 11.1GiB/s-11.1GiB/s (11.9GB=
+/s-
+> 11.9GB/s), io=3D664GiB (713GB), run=3D60001-60001msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D11.3GiB/s (12.1GB/s), 11.3GiB/s-11.3GiB/s (12.1GB=
+/s-
+> 12.1GB/s), io=3D678GiB (728GB), run=3D60001-60001msec
+>=20
+> RHEL9.5
+> ------------
+> Linux penguin9.2 5.14.0-503.40.1.el9_5.x86_64 #1 SMP PREEMPT_DYNAMIC
+> Thu Apr 24 08:27:29 EDT 2025 x86_64 x86_64 x86_64 GNU/Linux
+>=20
+> [root@penguin9 ~]# for i in 1 2 3 4 5; do ./run_fio.sh | grep -A1
+> "Run
+> status group"; done
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.9GiB/s (16.0GB/s), 14.9GiB/s-14.9GiB/s (16.0GB=
+/s-
+> 16.0GB/s), io=3D894GiB (960GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.6GiB/s (15.6GB/s), 14.6GiB/s-14.6GiB/s (15.6GB=
+/s-
+> 15.6GB/s), io=3D873GiB (938GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.9GiB/s (16.0GB/s), 14.9GiB/s-14.9GiB/s (16.0GB=
+/s-
+> 16.0GB/s), io=3D892GiB (958GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.5GiB/s (15.6GB/s), 14.5GiB/s-14.5GiB/s (15.6GB=
+/s-
+> 15.6GB/s), io=3D872GiB (936GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.7GiB/s (15.8GB/s), 14.7GiB/s-14.7GiB/s (15.8GB=
+/s-
+> 15.8GB/s), io=3D884GiB (950GB), run=3D60003-60003msec
+>=20
+>=20
+> Remove software raid from the layers and test just on a single nvme
+> ---------------------------------------------------------------------
+> -
+>=20
+> fio --name=3Dtest --rw=3Dread --bs=3D256k --filename=3D/dev/nvme23n1 --
+> direct=3D1
+> --numjobs=3D1 --iodepth=3D64 --exitall --group_reporting --
+> ioengine=3Dlibaio
+> --runtime=3D60 --time_based
+>=20
+> Linux penguin9.2 5.14.0-503.40.1.el9_5.x86_64 #1 SMP PREEMPT_DYNAMIC
+> Thu Apr 24 08:27:29 EDT 2025 x86_64 x86_64 x86_64 GNU/Linux
+>=20
+> [root@penguin9 ~]# ./run_nvme_fio.sh
+>=20
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D3207MiB/s (3363MB/s), 3207MiB/s-3207MiB/s (3363MB=
+/s-
+> 3363MB/s), io=3D188GiB (202GB), run=3D60005-60005msec
+>=20
+>=20
+> Back to fedora kernel
+>=20
+> [root@penguin9 ~]# uname -a
+> Linux penguin9.2 6.14.5-300.fc42.x86_64 #1 SMP PREEMPT_DYNAMIC Fri
+> May
+> 2 14:16:46 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+>=20
+> Within the margin of error
+>=20
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D3061MiB/s (3210MB/s), 3061MiB/s-3061MiB/s (3210MB=
+/s-
+> 3210MB/s), io=3D179GiB (193GB), run=3D60006-60006msec
+>=20
+>=20
+> Try recent upstream kernel
+> ---------------------------
+> [root@penguin9 ~]# uname -a
+> Linux penguin9.2 6.13.0-rc7+ #2 SMP PREEMPT_DYNAMIC Mon May=C2=A0 5
+> 10:59:12
+> EDT 2025 x86_64 x86_64 x86_64 GNU/Linux
+>=20
+> [root@penguin9 ~]# for i in 1 2 3 4 5; do ./run_fio.sh | grep -A1
+> "Run
+> status group"; done
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.6GiB/s (15.7GB/s), 14.6GiB/s-14.6GiB/s (15.7GB=
+/s-
+> 15.7GB/s), io=3D876GiB (941GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.8GiB/s (15.9GB/s), 14.8GiB/s-14.8GiB/s (15.9GB=
+/s-
+> 15.9GB/s), io=3D891GiB (957GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.8GiB/s (15.9GB/s), 14.8GiB/s-14.8GiB/s (15.9GB=
+/s-
+> 15.9GB/s), io=3D890GiB (956GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.5GiB/s (15.6GB/s), 14.5GiB/s-14.5GiB/s (15.6GB=
+/s-
+> 15.6GB/s), io=3D871GiB (935GB), run=3D60003-60003msec
+>=20
+>=20
+> Update to latest upstream
+> -------------------------
+>=20
+> [root@penguin9 ~]# uname -a
+> Linux penguin9.2 6.15.0-rc5 #1 SMP PREEMPT_DYNAMIC Mon May=C2=A0 5
+> 12:18:22
+> EDT 2025 x86_64 x86_64 x86_64 GNU/Linux
+>=20
+> Single nvme device is once again fine
+>=20
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D3061MiB/s (3210MB/s), 3061MiB/s-3061MiB/s (3210MB=
+/s-
+> 3210MB/s), io=3D179GiB (193GB), run=3D60006-60006msec
+>=20
+>=20
+> [root@penguin9 ~]# for i in 1 2 3 4 5; do ./run_fio.sh | grep -A1
+> "Run
+> status group"; done
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D14.7GiB/s (15.7GB/s), 14.7GiB/s-14.7GiB/s (15.7GB=
+/s-
+> 15.7GB/s), io=3D880GiB (945GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D18.1GiB/s (19.4GB/s), 18.1GiB/s-18.1GiB/s (19.4GB=
+/s-
+> 19.4GB/s), io=3D1087GiB (1167GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D18.0GiB/s (19.4GB/s), 18.0GiB/s-18.0GiB/s (19.4GB=
+/s-
+> 19.4GB/s), io=3D1082GiB (1162GB), run=3D60003-60003msec
+> Run status group 0 (all jobs):
+> =C2=A0=C2=A0 READ: bw=3D18.2GiB/s (19.5GB/s), 18.2GiB/s-18.2GiB/s (19.5GB=
+/s-
+> 19.5GB/s), io=3D1090GiB (1170GB), run=3D60005-60005msec
+>=20
+>=20
 
-The mlx5 driver allocates linear and non-linear SKBs depending on
-certain condition, MTU size being one of them. The choice is a trade-off
-based on many parameters and performances.
+This fell of my radar, I aologize and I was on PTO last week.
+Here is the Fedora kernel to install as mentioned
+https://people.redhat.com/loberman/customer/.fedora/
 
-Your suggested change affects the non-linear code path.  If we increase
-the MTU size and use non-linear SKB, we don't even require your change
-at the moment as the tailroom is already too small to be condensed.
+tar hxvf fedora_kernel.tar.xz
+rpm -ivh --force --nodeps *.rpm
 
-The problematic part is the linear SKB code path. With a default MTU
-size of 1500, the driver allocates a linear SKB. We receive the CQE from
-the NIC and we allocate a linear SKB in mlx5e_build_linear_skb().
-
-static inline                                                 
-struct sk_buff *mlx5e_build_linear_skb(struct mlx5e_rq *rq, void *va,
-                                       u32 frag_size, u16 headroom,
-                                       u32 cqe_bcnt, u32 metasize)
-{
-	struct sk_buff *skb = napi_build_skb(va, frag_size);
-	...
-	skb_reserve(skb, headroom);
-	skb_put(skb, cqe_bcnt);
-        ...
-}
-
-The CQE might hold multiple NVME PDUs. It is not just a single NVME pdu
-with offloaded data. After the data, there can be the CRC, and other
-complete or incomplete NVME pdus.
-
-Later the mlx5 offload code, we have
-mlx5e_nvmeotcp_rebuild_rx_skb_linear() which will rearrange the SKB to
-use the previously registered buffers the NVME-TCP layer gave us.
-
-So mlx5e_nvmeotcp_rebuild_rx_skb_linear() takes a SKB like this:
-
-    skb
-    head   data                                            tail   end
-    |       |                                               |      |
-    v       v  <----------- cqe_bcnt -------------------->  v      v
-    +-------+----hdr-----+-offloaded-data-+-next-nvme-pdu---+------+
-                                          ^
-                                         rest
-       frag_list = n/a (linear)
-
-And turns it to this:   
-
-    skb
-    head   data         tail                                      end
-    |       |            |                                         |
-    v       v            v                                         v
-    +-------+----hdr-----+-offloaded-data-+-next-nvme-pdu----------+
-                                          ^
-                                         rest
-       frag_list[0] = nvme-tcp buffer
-       frag_list[1] = rest
-
-And then passes the skb up the network stack. In the big picture the
-complete length of the skb does not change.
-
-If this skb is then condensed, it is going to put back the frag_list at
-end the tail which we don't want.
-
-We could do what you suggested (adapted to linear), move skb->data
-forward by increasing the headroom resulting in a smaller tailroom, but
-we need at least cqe_bcnt bytes, but having that much also allows
-condensing, which we *don't* want.
-
-struct sk_buff *mlx5e_build_linear_skb(struct mlx5e_rq *rq, void *va,
-                                       u32 frag_size, u16 headroom,
-                                       u32 cqe_bcnt, u32 metasize)
-{
- 	struct sk_buff *skb = napi_build_skb(va, frag_size);
- 	...
-+	if (is_ddp) {
-+		headroom = skb_tailroom(skb) - cqe_bcnt;
-+	}
-
- 	skb_reserve(skb, headroom);
- 	skb_put(skb, cqe_bcnt);
-        ...
-}
-
-If we leave an even smaller tailroom, then we lose the data after the PDU.
-
-So we are stuck, this is why we need the condense bit.
-
-Thanks
 
