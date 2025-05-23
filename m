@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6706EC54ED1
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 May 2025 18:24:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A9E1C54F47
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 May 2025 18:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bgqAR/dH0WWFK5I4bUXyUgyTfmg8IPBY+7zwDPKZjRs=; b=n4pvqTBFxlWFhMWsOyiOCwJ+Yd
-	Tu8fQ+5S4OcSSN0HD5s2RO/jPvWE7TyaIfLHUmwV9j9p3UcbDJfIBVEfzUOC445D3Rcpx+sianF12
-	Tk3B+aiW6LVhEc+9sxWLLxTk2RRkpxwbPV9Y6ZgEmvLwtJ9zef//03bBY8+Vg/chB6UEr9z8FjxvH
-	/08dnT5hppdUXOMOxoFKXnWO2y+Do8ZRru8Jh9cNupFfchHV4miBSTcxlGXBXfilgNqm1Ghdyndom
-	LxpugWIdSATo0gPVON8mlb7/x0WjxywEr8MIfy6ng03W4JulGSGuItctl+TVhv00lIXnBJWjze+8x
-	hQteq/cQ==;
+	bh=Ae8iei/MxNZ1GAywSlI3IUvxi3FmxgZOmA0ImXXwfDo=; b=hc5dvbIg8IAYgot4eIZ5fA9tPg
+	bXdSpFhhbM+5p8G0fAjngo0W2302RJNyz7Z93+EbrgAXp0hE/g8QBB9GJObcns7u/4OdCpw17wFLm
+	jCQ84hlBcUbPp0UwxwcuvcTLFz/3j3ap1QVHYA6W3RvT3hNh7xSDqgN1QVrNijAUqlSxqgsCjcfdv
+	sFcsa2Ssf4GKKTDifm58KUJTonb9hfasyVY/wOcdxjPlypmw8sjlxr4uJEqeHFdQnSgsv2bFGoHCC
+	2Ih+1XNk2zaK90eoir3JklRGwT8jhk7/KOUJpKalDHfABYY1+jYoBUt/QXeFGMrNDB+kg4Ao/7Ulf
+	pyzr2M8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uIX3p-00000004fUH-1qn1;
-	Fri, 23 May 2025 18:24:01 +0000
-Received: from smtp-fw-80008.amazon.com ([99.78.197.219])
+	id 1uIX3r-00000004fW4-1ldg;
+	Fri, 23 May 2025 18:24:03 +0000
+Received: from smtp-fw-52003.amazon.com ([52.119.213.152])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uIX26-00000004f9b-04V6
+	id 1uIX3P-00000004fOl-0wnm
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 May 2025 18:22:15 +0000
+	Fri, 23 May 2025 18:23:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1748024534; x=1779560534;
+  t=1748024615; x=1779560615;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bgqAR/dH0WWFK5I4bUXyUgyTfmg8IPBY+7zwDPKZjRs=;
-  b=L8pvQjRg0ZcbGxMfTTVnx7P5TeiAEmVrs2Eo7WlCJnWNkXeN4Mpo1RrB
-   LcoTypa74zv/tsZ7Z53z7VhQq8yl/g2J1tAjJ1UIjuHFrpR2Ufo6gr+cj
-   CrR1cV696Qw5u1tQOl61sI1wZCSIYepubKbwWSAGflVVfhykney+861MT
-   XKl0KwcEu0/VEmCdq1PpGLgl1PhA/oqfgGfEKFOfmCUs+JpxXFohZioDK
-   IUqNMtCnstEDFxIsNrDIU3pegc/lflJQc4SrDyO2xEkdVwBch4Tk0DlT8
-   5KdsjqHd1N5MHIj5Bip53Ia5l3X1+QzroyY9w3cHqWiT8iQ37mayR0OoP
+  bh=Ae8iei/MxNZ1GAywSlI3IUvxi3FmxgZOmA0ImXXwfDo=;
+  b=Cnyrt2qKD4cjzF5CcI9m0FcrqCNdnTBakgyPqqs2aYfj8wzJUjksSu9V
+   MdmXZ+KUDO2kZ5KpuULlYZMO6yeQRsIA3H+aiYoBwObXRmRiSbghbdYcl
+   1/R652SdsOwtTRuvWVUx9rSfbZcaFt8Vr57/FfuHj8WvFxF1Di/D3BTGe
+   6biHOvvqCtl5rvUhg90Q6lpsv1g8qQbxZ3OHNamvuRmk0Z6dgSvQWaKdH
+   aVRx0+xNzp3n1cyZ9Gff0lVUAHjw5/jz+eqywwZehxfxqfxoZ/r65gwwP
+   +1HG9r5Xzihe3Uxg0IEPn+N4yOsjjQX4XHZVQVutcESZCN8w4NpPXsq+F
    Q==;
 X-IronPort-AV: E=Sophos;i="6.15,309,1739836800"; 
-   d="scan'208";a="200324123"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-80008.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 18:22:09 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [10.0.38.20:39746]
+   d="scan'208";a="96732876"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 18:23:28 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [10.0.38.20:47636]
  by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.11.22:2525] with esmtp (Farcaster)
- id f3dbf01f-91be-4008-8ac0-9190db86f427; Fri, 23 May 2025 18:22:09 +0000 (UTC)
-X-Farcaster-Flow-ID: f3dbf01f-91be-4008-8ac0-9190db86f427
+ id f65fbf90-224c-415e-a7b2-3925684c748d; Fri, 23 May 2025 18:23:27 +0000 (UTC)
+X-Farcaster-Flow-ID: f65fbf90-224c-415e-a7b2-3925684c748d
 Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 23 May 2025 18:22:08 +0000
+ Fri, 23 May 2025 18:23:27 +0000
 Received: from 6c7e67bfbae3.amazon.com (10.142.204.12) by
  EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 23 May 2025 18:22:03 +0000
+ Fri, 23 May 2025 18:23:23 +0000
 From: Kuniyuki Iwashima <kuniyu@amazon.com>
 To: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
 	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
@@ -68,10 +68,10 @@ CC: Simon Horman <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@amazon.com>,
 	<jaka@linux.ibm.com>, Steve French <sfrench@samba.org>,
 	<netdev@vger.kernel.org>, <mptcp@lists.linux.dev>,
 	<linux-nfs@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-	<linux-nvme@lists.infradead.org>
-Subject: [PATCH v2 net-next 1/7] socket: Un-export __sock_create().
-Date: Fri, 23 May 2025 11:21:07 -0700
-Message-ID: <20250523182128.59346-2-kuniyu@amazon.com>
+	<linux-nvme@lists.infradead.org>, <stable@vger.kernel.org>
+Subject: [PATCH v2 net-next 4/7] smb: client: Add missing net_passive_dec().
+Date: Fri, 23 May 2025 11:21:10 -0700
+Message-ID: <20250523182128.59346-5-kuniyu@amazon.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250523182128.59346-1-kuniyu@amazon.com>
 References: <20250523182128.59346-1-kuniyu@amazon.com>
@@ -79,11 +79,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.142.204.12]
-X-ClientProxiedBy: EX19D037UWB002.ant.amazon.com (10.13.138.121) To
+X-ClientProxiedBy: EX19D044UWB004.ant.amazon.com (10.13.139.134) To
  EX19D004ANA001.ant.amazon.com (10.37.240.138)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250523_112214_103276_6C590266 
-X-CRM114-Status: GOOD (  16.86  )
+X-CRM114-CacheID: sfid-20250523_112335_417536_F5D86E2D 
+X-CRM114-Status: GOOD (  10.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,274 +98,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since commit eeb1bd5c40ed ("net: Add a struct net parameter to
-sock_create_kern"), we no longer need to export __sock_create()
-and can replace all non-core users with sock_create_kern().
+While reverting commit e9f2517a3e18 ("smb: client: fix TCP timers deadlock
+after rmmod"), I should have added net_passive_dec(), which was added
+between the original commit and the revert by commit 5c70eb5c593d ("net:
+better track kernel sockets lifetime").
 
-Let's convert them and un-export __sock_create().
+Let's call net_passive_dec() in generic_ip_connect().
 
+Note that this commit is only needed for 6.14+.
+
+Fixes: 95d2b9f693ff ("Revert "smb: client: fix TCP timers deadlock after rmmod"")
+Cc: <stable@vger.kernel.org> # 6.14.x
 Signed-off-by: Kuniyuki Iwashima <kuniyu@amazon.com>
-Acked-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- fs/smb/client/connect.c        |  4 ++--
- include/linux/net.h            |  2 --
- net/9p/trans_fd.c              |  9 +++++----
- net/handshake/handshake-test.c | 32 ++++++++++++++------------------
- net/socket.c                   |  3 +--
- net/sunrpc/clnt.c              |  4 ++--
- net/sunrpc/svcsock.c           |  2 +-
- net/sunrpc/xprtsock.c          |  6 +++---
- net/wireless/nl80211.c         |  4 ++--
- 9 files changed, 30 insertions(+), 36 deletions(-)
+ fs/smb/client/connect.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/fs/smb/client/connect.c b/fs/smb/client/connect.c
-index 6bf04d9a5491..c251a23a6447 100644
+index 37a2ba38f10e..afac23a5a3ec 100644
 --- a/fs/smb/client/connect.c
 +++ b/fs/smb/client/connect.c
-@@ -3350,8 +3350,8 @@ generic_ip_connect(struct TCP_Server_Info *server)
- 		struct net *net = cifs_net_ns(server);
- 		struct sock *sk;
+@@ -3359,6 +3359,7 @@ generic_ip_connect(struct TCP_Server_Info *server)
  
--		rc = __sock_create(net, sfamily, SOCK_STREAM,
--				   IPPROTO_TCP, &server->ssocket, 1);
-+		rc = sock_create_kern(net, sfamily, SOCK_STREAM,
-+				      IPPROTO_TCP, &server->ssocket);
- 		if (rc < 0) {
- 			cifs_server_dbg(VFS, "Error %d creating socket\n", rc);
- 			return rc;
-diff --git a/include/linux/net.h b/include/linux/net.h
-index 0ff950eecc6b..26aaaa841f48 100644
---- a/include/linux/net.h
-+++ b/include/linux/net.h
-@@ -251,8 +251,6 @@ int sock_wake_async(struct socket_wq *sk_wq, int how, int band);
- int sock_register(const struct net_proto_family *fam);
- void sock_unregister(int family);
- bool sock_is_registered(int family);
--int __sock_create(struct net *net, int family, int type, int proto,
--		  struct socket **res, int kern);
- int sock_create(int family, int type, int proto, struct socket **res);
- int sock_create_kern(struct net *net, int family, int type, int proto, struct socket **res);
- int sock_create_lite(int family, int type, int proto, struct socket **res);
-diff --git a/net/9p/trans_fd.c b/net/9p/trans_fd.c
-index 339ec4e54778..842977f309b3 100644
---- a/net/9p/trans_fd.c
-+++ b/net/9p/trans_fd.c
-@@ -1006,8 +1006,9 @@ p9_fd_create_tcp(struct p9_client *client, const char *addr, char *args)
- 
- 	client->trans_opts.tcp.port = opts.port;
- 	client->trans_opts.tcp.privport = opts.privport;
--	err = __sock_create(current->nsproxy->net_ns, stor.ss_family,
--			    SOCK_STREAM, IPPROTO_TCP, &csocket, 1);
-+
-+	err = sock_create_kern(current->nsproxy->net_ns, stor.ss_family,
-+			       SOCK_STREAM, IPPROTO_TCP, &csocket);
- 	if (err) {
- 		pr_err("%s (%d): problem creating socket\n",
- 		       __func__, task_pid_nr(current));
-@@ -1057,8 +1058,8 @@ p9_fd_create_unix(struct p9_client *client, const char *addr, char *args)
- 
- 	sun_server.sun_family = PF_UNIX;
- 	strcpy(sun_server.sun_path, addr);
--	err = __sock_create(current->nsproxy->net_ns, PF_UNIX,
--			    SOCK_STREAM, 0, &csocket, 1);
-+	err = sock_create_kern(current->nsproxy->net_ns, PF_UNIX,
-+			       SOCK_STREAM, 0, &csocket);
- 	if (err < 0) {
- 		pr_err("%s (%d): problem creating socket\n",
- 		       __func__, task_pid_nr(current));
-diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
-index 55442b2f518a..4f300504f3e5 100644
---- a/net/handshake/handshake-test.c
-+++ b/net/handshake/handshake-test.c
-@@ -143,14 +143,18 @@ static void handshake_req_alloc_case(struct kunit *test)
- 	kfree(result);
- }
- 
-+static int handshake_sock_create(struct socket **sock)
-+{
-+	return sock_create_kern(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP, sock);
-+}
-+
- static void handshake_req_submit_test1(struct kunit *test)
- {
- 	struct socket *sock;
- 	int err, result;
- 
- 	/* Arrange */
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 
- 	/* Act */
-@@ -190,8 +194,7 @@ static void handshake_req_submit_test3(struct kunit *test)
- 	req = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, req);
- 
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 	sock->file = NULL;
- 
-@@ -216,8 +219,7 @@ static void handshake_req_submit_test4(struct kunit *test)
- 	req = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, req);
- 
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
-@@ -251,8 +253,7 @@ static void handshake_req_submit_test5(struct kunit *test)
- 	req = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, req);
- 
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
-@@ -289,8 +290,7 @@ static void handshake_req_submit_test6(struct kunit *test)
- 	req2 = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, req2);
- 
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
-@@ -321,8 +321,7 @@ static void handshake_req_cancel_test1(struct kunit *test)
- 	req = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, req);
- 
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 
- 	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
-@@ -357,8 +356,7 @@ static void handshake_req_cancel_test2(struct kunit *test)
- 	req = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, req);
- 
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 
- 	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
-@@ -399,8 +397,7 @@ static void handshake_req_cancel_test3(struct kunit *test)
- 	req = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, req);
- 
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 
- 	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
-@@ -457,8 +454,7 @@ static void handshake_req_destroy_test1(struct kunit *test)
- 	req = handshake_req_alloc(&handshake_req_alloc_proto_destroy, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, req);
- 
--	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
--			    &sock, 1);
-+	err = handshake_sock_create(&sock);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 
- 	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
-diff --git a/net/socket.c b/net/socket.c
-index 9a0e720f0859..241d9767ae69 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -1467,7 +1467,7 @@ EXPORT_SYMBOL(sock_wake_async);
-  *	This function internally uses GFP_KERNEL.
-  */
- 
--int __sock_create(struct net *net, int family, int type, int protocol,
-+static int __sock_create(struct net *net, int family, int type, int protocol,
- 			 struct socket **res, int kern)
- {
- 	int err;
-@@ -1581,7 +1581,6 @@ int __sock_create(struct net *net, int family, int type, int protocol,
- 	rcu_read_unlock();
- 	goto out_sock_release;
- }
--EXPORT_SYMBOL(__sock_create);
- 
- /**
-  *	sock_create - creates a socket
-diff --git a/net/sunrpc/clnt.c b/net/sunrpc/clnt.c
-index 6f75862d9782..f9f340171530 100644
---- a/net/sunrpc/clnt.c
-+++ b/net/sunrpc/clnt.c
-@@ -1455,8 +1455,8 @@ static int rpc_sockname(struct net *net, struct sockaddr *sap, size_t salen,
- 	struct socket *sock;
- 	int err;
- 
--	err = __sock_create(net, sap->sa_family,
--				SOCK_DGRAM, IPPROTO_UDP, &sock, 1);
-+	err = sock_create_kern(net, sap->sa_family,
-+			       SOCK_DGRAM, IPPROTO_UDP, &sock);
- 	if (err < 0) {
- 		dprintk("RPC:       can't create UDP socket (%d)\n", err);
- 		goto out;
-diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index 72e5a01df3d3..e2c69ab17ac5 100644
---- a/net/sunrpc/svcsock.c
-+++ b/net/sunrpc/svcsock.c
-@@ -1516,7 +1516,7 @@ static struct svc_xprt *svc_create_socket(struct svc_serv *serv,
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	error = __sock_create(net, family, type, protocol, &sock, 1);
-+	error = sock_create_kern(net, family, type, protocol, &sock);
- 	if (error < 0)
- 		return ERR_PTR(error);
- 
-diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index 83cc095846d3..5ffe88145193 100644
---- a/net/sunrpc/xprtsock.c
-+++ b/net/sunrpc/xprtsock.c
-@@ -1924,7 +1924,7 @@ static struct socket *xs_create_sock(struct rpc_xprt *xprt,
- 	struct socket *sock;
- 	int err;
- 
--	err = __sock_create(xprt->xprt_net, family, type, protocol, &sock, 1);
-+	err = sock_create_kern(xprt->xprt_net, family, type, protocol, &sock);
- 	if (err < 0) {
- 		dprintk("RPC:       can't create %d transport socket (%d).\n",
- 				protocol, -err);
-@@ -1999,8 +1999,8 @@ static int xs_local_setup_socket(struct sock_xprt *transport)
- 	struct socket *sock;
- 	int status;
- 
--	status = __sock_create(xprt->xprt_net, AF_LOCAL,
--					SOCK_STREAM, 0, &sock, 1);
-+	status = sock_create_kern(xprt->xprt_net, AF_LOCAL,
-+				  SOCK_STREAM, 0, &sock);
- 	if (status < 0) {
- 		dprintk("RPC:       can't create AF_LOCAL "
- 			"transport socket (%d).\n", -status);
-diff --git a/net/wireless/nl80211.c b/net/wireless/nl80211.c
-index fd5f79266471..98a7298e427d 100644
---- a/net/wireless/nl80211.c
-+++ b/net/wireless/nl80211.c
-@@ -13750,8 +13750,8 @@ static int nl80211_parse_wowlan_tcp(struct cfg80211_registered_device *rdev,
- 	port = nla_get_u16_default(tb[NL80211_WOWLAN_TCP_SRC_PORT], 0);
- #ifdef CONFIG_INET
- 	/* allocate a socket and port for it and use it */
--	err = __sock_create(wiphy_net(&rdev->wiphy), PF_INET, SOCK_STREAM,
--			    IPPROTO_TCP, &cfg->sock, 1);
-+	err = sock_create_kern(wiphy_net(&rdev->wiphy), PF_INET, SOCK_STREAM,
-+			       IPPROTO_TCP, &cfg->sock);
- 	if (err) {
- 		kfree(cfg);
- 		return err;
+ 		sk = server->ssocket->sk;
+ 		__netns_tracker_free(net, &sk->ns_tracker, false);
++		net_passive_dec(net);
+ 		sk->sk_net_refcnt = 1;
+ 		get_net_track(net, &sk->ns_tracker, GFP_KERNEL);
+ 		sock_inuse_add(net, 1);
 -- 
 2.49.0
 
