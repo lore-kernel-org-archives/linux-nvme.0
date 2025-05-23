@@ -4,83 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0B7CC54ED0
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 May 2025 15:01:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30FA6C54EDA
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 May 2025 17:23:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yJDfkgUwozZzeZBpK+xDymRSUD5EkwZtCEbmySTlTfw=; b=gaoB8J0gUu0ZGCF+ihJTlfuJuO
-	G/KnwdYIa1S/kl9o2hYkobAcbWdyKT51jfwTeYCqYKgQF5b2VW1296SJW/jzOHI6SGDuTTSBoInZh
-	trSKn6h9dclYACeJY0L0xirPaYFivnnliFb+yL3EOj7AuNyym/Flju74Rkio2tZvYbcjvHL/HuPIE
-	FY3i7wg3YErwpTs4xpKdLSX1WHmEf/7aq2LF94XLakOdz1V+uX8zPJ21tStOwU6taUvLlhpOA/UFk
-	Q/V2kH5ABaIhRmzBL/3Dvs7eK/tpSSKKEkFUv+05GR74KgGzcT1G0p67r77vwK5MCcVF4vYP6v87n
-	LqS6IwEw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iano7InUoFqQduDdkaL5y2QwS0GgnADPFGNkPdjC45s=; b=w8Qvc4jTdDyoHkb4rrZ0YlQRYJ
+	vLnrLz3e7ZqaCRZ0P3zkuJNyiuBEhXidfkE7CPnt/ar/J/lUe5h5yO5IyecNt6onim34DDffJu8+c
+	gGhN7g64sDZy4GATdkIpi9d8iFybttJmzYEQlCG/4jkeO1N+ShDdftFOHeyGQc09e/HRVYfdSFxXx
+	VaVxhCWAXG2U0fXBZUVhQAgzmvicXAw1q8E6FwpmqO36tIYAjWSZ+2SJblmB0Vc8a6s835jQg+yuT
+	v0p709I1lO1nU0m0JTvU/N0kfEt87u5jt+tt8wqAz7D5RzhKd4w6Eao8JptTBLJqKeue1Ufl/W8b6
+	xSq9nQbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uITtf-00000004BCc-3Wyw;
-	Fri, 23 May 2025 15:01:19 +0000
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+	id 1uIW7N-00000004WlE-2ZsC;
+	Fri, 23 May 2025 17:23:37 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uITIG-000000043qw-3RjC
+	id 1uIVml-00000004Tn1-3lkr
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 May 2025 14:22:42 +0000
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-231f39b1b7aso4721295ad.2
-        for <linux-nvme@lists.infradead.org>; Fri, 23 May 2025 07:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1748010159; x=1748614959; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yJDfkgUwozZzeZBpK+xDymRSUD5EkwZtCEbmySTlTfw=;
-        b=Jj0ksJOd4PoRyKUBtPLFrcHLt2Bm4+PqnPAc34U4+2AU+7DAmAUBpscKtqmOh1TlAR
-         gfAOuqqeS4jTD25/POj6tvtVrN2W81n3c47eXWT/IDrqtr+imf3pugUXMcdhVkB454X1
-         +UoFvAclTxg6DW62I9IJgEK/zj1rpqTH8vOC/CvCKOllEZCnVMrhg04zJKpLeVRBbof1
-         HIz2kPrP4YNPMmd2zeyxlg9O4gSX8ndhC4t5C6h+83UHfOUqxgqd+m2XAnJtPJjcg96F
-         KoBQb9JcmhlBuGQR3nG159eGZIomae/VfrJ8bs4z2lGNdu6fbEVJMsBPUPE0Vxe0/mI4
-         HBrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748010159; x=1748614959;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yJDfkgUwozZzeZBpK+xDymRSUD5EkwZtCEbmySTlTfw=;
-        b=uD7e8T6rt3ThVPD4ime5UA69Db/h/jAmJpens8nsk73ynv3xCAJ5LlKrXzdRMEjG51
-         wY0XWtgoiA8KEgAJ85f0DkOgtoroMSWRSZUde7B0UDc53wwm5tFKQsyaEfSuFdRQK3E/
-         HKmkjpu3ZU0h7Yrl0d44Bg87iNNqBctRE/z/rMIUEUPQwj3yGG0iFF7GGDR5VeoHh18F
-         d+X1opSK/ngaP3f4fE2KgRmyR7iefJFDcdYNcvCJC6KHY0A1sx9pu9kVy7ybQ6bciROs
-         9NdkviB6mmA5WG1Fz20iVd9i2o7aw1LMw9Rb+hWrxC4m1dnuG5Sl4plvW9J9+Xt+o+c8
-         wtZA==
-X-Forwarded-Encrypted: i=1; AJvYcCXSwdNeYw7LbyNUmNWCSwMLCfKbs+NWocqbfZ8Sad7ErTfVy4wDFC9CY/xKYKB0Xczt5q4dK+Phx0W1@lists.infradead.org
-X-Gm-Message-State: AOJu0YxfOTzYkQwr7D+2aBMVQ46LnGNmsFgrRarvnwnMfmuHRK+KH7fw
-	TnY2+Hqwqg8qNpHVe5TuA/vhG1TNJrh530ziYgnkxXLDGSFhl5fHHcV8vyGh/IYc7PdMUeaZKLG
-	KhBv2eLWFYMlzpHWxpNkQGY6L0wGo4pzGmUJYt4Xcmw==
-X-Gm-Gg: ASbGncvWDJZaRZSs+Gs7z78OYEr4P2Nh+RPhhONMXvmWpwtmWHg3VzWBvpQPUpmra1R
-	TT5xlgViizG+7IRv1nB/xR+xW6EXWQK2vMYSvlzEI2jGKb++QmTxCtatU9tjNbaXjO0Ce0g8IYD
-	LyZfQCZaUTlt5ah5Xgq9Os+VhYaixqKl8=
-X-Google-Smtp-Source: AGHT+IHVjcBX/czUHf7pHZJvI5G11eB5EPBJfllY0Y8QwUzFZTEC/O8svL5ryEi2wpmnQsiLzD3bzULjV8c0BQUJT2Q=
-X-Received: by 2002:a17:902:fc43:b0:22e:62da:2e58 with SMTP id
- d9443c01a7336-233f36e4923mr17730315ad.10.1748010159343; Fri, 23 May 2025
- 07:22:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250521223107.709131-1-kbusch@meta.com> <20250521223107.709131-4-kbusch@meta.com>
- <7aab2c6c-4cd8-4f23-b61b-153f6e9c2ce7@suse.de> <aDBvHWPjYQwJQx7N@infradead.org>
-In-Reply-To: <aDBvHWPjYQwJQx7N@infradead.org>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Fri, 23 May 2025 07:22:28 -0700
-X-Gm-Features: AX0GCFsqtdzTcd53wJfGkmsKkSxEdxSzR2SdxOJ7MSkj3OZ_tFnZBmaupGbQwss
-Message-ID: <CADUfDZr5n1whmFszEWaY3hjSHQAiLYjfvEAA-VHfEB6_b4m=hg@mail.gmail.com>
-Subject: Re: [PATCH 3/5] nvme: add support for copy offload
+	Fri, 23 May 2025 17:02:21 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 595C840C00;
+	Fri, 23 May 2025 17:02:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F6FC4CEE9;
+	Fri, 23 May 2025 17:02:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748019739;
+	bh=d06y+t7JFqi/D6PQ4ks72NPGGFC2M7hmUEw6fWfr6CQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fOJZcwPOAvEpIhy3iz/yw5CtssnznRPy+5kRbz5clt+hujQUJOwkt0oXyivXApajy
+	 ahHkYBX6Sw5qaw3IMmQgLyTDIL+hjTCDr6phBk4NTmgXPAp30S20o9PWt2TLvQUOnp
+	 gWTnt0pwr1QWOMDwMX+OvX4dZGgocjssQnyC4k11XJbRINJppL0R9WcDkJ+rePw8QW
+	 Zx/MjAJtnHPzc6jcNrOhDhugF76uucpWnfz6aOXE5qj+1fsVQ8gaQSF7T/4YtOFaw8
+	 Cp+2RkrfcNOPsb3VzdEwvf90krsPvstSEgmU9H+eZTvXHZ4cCT/XPVyR311l+hJoOE
+	 4wh5HoWAQFblg==
+Date: Fri, 23 May 2025 11:02:16 -0600
+From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@infradead.org>
-Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/5] block: new sector copy api
+Message-ID: <aDCqGLY4irp-6N5M@kbusch-mbp>
+References: <20250521223107.709131-1-kbusch@meta.com>
+ <20250521223107.709131-2-kbusch@meta.com>
+ <aDBt1qXj90JO1y2v@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aDBt1qXj90JO1y2v@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250523_072241_002426_55F7A670 
-X-CRM114-Status: GOOD (  12.69  )
+X-CRM114-CacheID: sfid-20250523_100219_955735_B2084696 
+X-CRM114-Status: GOOD (  19.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,28 +73,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 23, 2025 at 5:50=E2=80=AFAM Christoph Hellwig <hch@infradead.or=
-g> wrote:
->
-> On Thu, May 22, 2025 at 03:54:46PM +0200, Hannes Reinecke wrote:
-> > > +   if (req->cmd_flags & REQ_FUA)
-> > > +           control |=3D NVME_RW_FUA;
-> > > +   if (req->cmd_flags & REQ_FAILFAST_DEV)
-> > > +           control |=3D NVME_RW_LR;
-> >
-> > FAILFAST_DEV? Is that even set anywhere?
->
-> That is a good question, but this is consistent with what we do for
-> other I/O commands.
+On Fri, May 23, 2025 at 05:45:10AM -0700, Christoph Hellwig wrote:
+> On Wed, May 21, 2025 at 03:31:03PM -0700, Keith Busch wrote:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > Provide a basic block level api to copy a range of a block device's
+> > sectors to a new destination on the same device. This just reads the
+> > source data into host memory, then writes it back out to the device at
+> > the requested destination.
+> 
+> As someone who recently spent a lot of time on optimizing such loops:
+> having a general API that allocates a buffer for each copy is a bad
+> idea.  You'll want some kind of caller provided longer living allocation
+> if you do regularly do such copies.
+> 
+> Maybe having common code is good to avoid copies, but I suspect most
+> real users would want their own.
 
-Looks like it might be set by blk_mq_bio_to_request() and
-blk_update_mixed_merge() for read-ahead bios:
-#define REQ_FAILFAST_MASK \
-        (REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
-
-if (bio->bi_opf & REQ_RAHEAD)
-        rq->cmd_flags |=3D REQ_FAILFAST_MASK;
-
-Best,
-Caleb
+But the end goal is that no host memory buffer would be needed at all.
+A buffer is allocated only in the fallback path. If we have the caller
+provide their buffer for that fallback case, that kind of defeats the
+benefit of reduced memory utilization. So it sounds like you might be
+suggesting that I don't even bother providing the host instrumented copy
+fallback and provide an API that performs the copy only if it can be
+offloaded. Yes?
 
