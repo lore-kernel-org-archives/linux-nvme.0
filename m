@@ -4,61 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30FA6C54EDA
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 May 2025 17:23:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69697C54EDA
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 May 2025 18:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iano7InUoFqQduDdkaL5y2QwS0GgnADPFGNkPdjC45s=; b=w8Qvc4jTdDyoHkb4rrZ0YlQRYJ
-	vLnrLz3e7ZqaCRZ0P3zkuJNyiuBEhXidfkE7CPnt/ar/J/lUe5h5yO5IyecNt6onim34DDffJu8+c
-	gGhN7g64sDZy4GATdkIpi9d8iFybttJmzYEQlCG/4jkeO1N+ShDdftFOHeyGQc09e/HRVYfdSFxXx
-	VaVxhCWAXG2U0fXBZUVhQAgzmvicXAw1q8E6FwpmqO36tIYAjWSZ+2SJblmB0Vc8a6s835jQg+yuT
-	v0p709I1lO1nU0m0JTvU/N0kfEt87u5jt+tt8wqAz7D5RzhKd4w6Eao8JptTBLJqKeue1Ufl/W8b6
-	xSq9nQbA==;
+	bh=IVv00rElFcQlgyf5ZIGQk3aMx2dIRPcRXeEVzmqzmBU=; b=bO0FF4iDY2FtKrjWbuXgCSoSSy
+	QwVo6uECwHaXuyHJHtforBZ/5Rvzo87RSrd5SBzfXLJl7wBEmwxsqS3osiQk/G7loOtY3ab7lPCp+
+	wfxMvr1kclU4KZcX7DZL352o/O9tEHvuWrvPsTU3EbQS81GSv5AQlcNqTRsyjT4bbdswnxNHemIOc
+	6h++D1nG45fhe5ZYjx7o7K6PvFwCrCtNjHqO9IIKcHQth0MEk6C6wKZMj4llL7OiCJbWafDBB9BZ8
+	s95cy2LOibYMYsXZGwXgj+C2cwyZXrDLd0msSlK1oZc30kKehK+BgR6bLvcZqS5+4rQMAI9Qguc7m
+	H2UZ5EMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uIW7N-00000004WlE-2ZsC;
-	Fri, 23 May 2025 17:23:37 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1uIX3q-00000004fVL-34av;
+	Fri, 23 May 2025 18:24:02 +0000
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uIVml-00000004Tn1-3lkr
+	id 1uIX2y-00000004fKj-3qlo
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 May 2025 17:02:21 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 595C840C00;
-	Fri, 23 May 2025 17:02:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F6FC4CEE9;
-	Fri, 23 May 2025 17:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748019739;
-	bh=d06y+t7JFqi/D6PQ4ks72NPGGFC2M7hmUEw6fWfr6CQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fOJZcwPOAvEpIhy3iz/yw5CtssnznRPy+5kRbz5clt+hujQUJOwkt0oXyivXApajy
-	 ahHkYBX6Sw5qaw3IMmQgLyTDIL+hjTCDr6phBk4NTmgXPAp30S20o9PWt2TLvQUOnp
-	 gWTnt0pwr1QWOMDwMX+OvX4dZGgocjssQnyC4k11XJbRINJppL0R9WcDkJ+rePw8QW
-	 Zx/MjAJtnHPzc6jcNrOhDhugF76uucpWnfz6aOXE5qj+1fsVQ8gaQSF7T/4YtOFaw8
-	 Cp+2RkrfcNOPsb3VzdEwvf90krsPvstSEgmU9H+eZTvXHZ4cCT/XPVyR311l+hJoOE
-	 4wh5HoWAQFblg==
-Date: Fri, 23 May 2025 11:02:16 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/5] block: new sector copy api
-Message-ID: <aDCqGLY4irp-6N5M@kbusch-mbp>
-References: <20250521223107.709131-1-kbusch@meta.com>
- <20250521223107.709131-2-kbusch@meta.com>
- <aDBt1qXj90JO1y2v@infradead.org>
+	Fri, 23 May 2025 18:23:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1748024589; x=1779560589;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=IVv00rElFcQlgyf5ZIGQk3aMx2dIRPcRXeEVzmqzmBU=;
+  b=XAtF7zbJ1xLkwWkInozOTH7+R32+2mw8yrrZQ/KV/fHcJk7Ri3Jd6zi+
+   tXVJ0av9jonrW25PD+gfuRfgtxbWNgNOKmHbP8wKo6yHvjOmCu6b8r2FI
+   LaoNA1OV44ISq+kuqdLArSQWak0IQRzG/hne5zJeEfx4um7iD4/5UvqBx
+   X5Gu36S7F6nU7PCgSsJ7xxub55D4ZlESP8YB+eo58eP3+lhCtxTASYzow
+   9c6sQshFuLz3jP8zZoLtdu6ATe/0K+kOVMTJL8YoEM59G8Sb/qcDIxBCA
+   X5MgvW7DnsJPwYGiSZ0u1VKbczykNIFgAOqCo3SCly9jlXnzDydyqGv/8
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.15,309,1739836800"; 
+   d="scan'208";a="523766039"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 18:23:02 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [10.0.21.151:18801]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.19.213:2525] with esmtp (Farcaster)
+ id 363f85c8-889b-4702-93ed-d1b434c006f5; Fri, 23 May 2025 18:23:01 +0000 (UTC)
+X-Farcaster-Flow-ID: 363f85c8-889b-4702-93ed-d1b434c006f5
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Fri, 23 May 2025 18:23:01 +0000
+Received: from 6c7e67bfbae3.amazon.com (10.142.204.12) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Fri, 23 May 2025 18:22:56 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>
+CC: Simon Horman <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Kuniyuki Iwashima <kuni1840@gmail.com>, Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, Matthieu Baerts <matttbe@kernel.org>,
+	"Keith Busch" <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
+ Hellwig <hch@lst.de>, Wenjia Zhang <wenjia@linux.ibm.com>, Jan Karcher
+	<jaka@linux.ibm.com>, Steve French <sfrench@samba.org>,
+	<netdev@vger.kernel.org>, <mptcp@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-nvme@lists.infradead.org>
+Subject: [PATCH v2 net-next 3/7] socket: Restore sock_create_kern().
+Date: Fri, 23 May 2025 11:21:09 -0700
+Message-ID: <20250523182128.59346-4-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250523182128.59346-1-kuniyu@amazon.com>
+References: <20250523182128.59346-1-kuniyu@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aDBt1qXj90JO1y2v@infradead.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.142.204.12]
+X-ClientProxiedBy: EX19D038UWC002.ant.amazon.com (10.13.139.238) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250523_100219_955735_B2084696 
-X-CRM114-Status: GOOD (  19.16  )
+X-CRM114-CacheID: sfid-20250523_112308_997070_DBD8459F 
+X-CRM114-Status: GOOD (  16.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,28 +98,96 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 23, 2025 at 05:45:10AM -0700, Christoph Hellwig wrote:
-> On Wed, May 21, 2025 at 03:31:03PM -0700, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > 
-> > Provide a basic block level api to copy a range of a block device's
-> > sectors to a new destination on the same device. This just reads the
-> > source data into host memory, then writes it back out to the device at
-> > the requested destination.
-> 
-> As someone who recently spent a lot of time on optimizing such loops:
-> having a general API that allocates a buffer for each copy is a bad
-> idea.  You'll want some kind of caller provided longer living allocation
-> if you do regularly do such copies.
-> 
-> Maybe having common code is good to avoid copies, but I suspect most
-> real users would want their own.
+Let's restore sock_create_kern() that holds a netns reference.
 
-But the end goal is that no host memory buffer would be needed at all.
-A buffer is allocated only in the fallback path. If we have the caller
-provide their buffer for that fallback case, that kind of defeats the
-benefit of reduced memory utilization. So it sounds like you might be
-suggesting that I don't even bother providing the host instrumented copy
-fallback and provide an API that performs the copy only if it can be
-offloaded. Yes?
+Now, it's the same as the version before commit 26abe14379f8 ("net:
+Modify sk_alloc to not reference count the netns of kernel sockets.").
+
+Back then, after creating a socket in init_net, we used sk_change_net()
+to drop the netns ref and switch to another netns, but now we can
+simply use __sock_create_kern() instead.
+
+  $ git blame -L:sk_change_net include/net/sock.h 26abe14379f8~
+
+DEBUG_NET_WARN_ON_ONCE() is to catch a path calling sock_create_kern()
+from __net_init functions, since doing so would leak the netns as
+__net_exit functions cannot run until the socket is removed.
+
+Signed-off-by: Kuniyuki Iwashima <kuniyu@amazon.com>
+---
+v2: s/ret/err/ in sock_create_kern() for clarity
+---
+ include/linux/net.h |  2 ++
+ net/socket.c        | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+
+diff --git a/include/linux/net.h b/include/linux/net.h
+index 12180e00f882..b60e3afab344 100644
+--- a/include/linux/net.h
++++ b/include/linux/net.h
+@@ -254,6 +254,8 @@ bool sock_is_registered(int family);
+ int sock_create(int family, int type, int proto, struct socket **res);
+ int __sock_create_kern(struct net *net, int family, int type, int proto,
+ 		       struct socket **res);
++int sock_create_kern(struct net *net, int family, int type, int proto,
++		     struct socket **res);
+ int sock_create_lite(int family, int type, int proto, struct socket **res);
+ struct socket *sock_alloc(void);
+ void sock_release(struct socket *sock);
+diff --git a/net/socket.c b/net/socket.c
+index 7c4474c966c0..9ad352183fae 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -1632,6 +1632,48 @@ int __sock_create_kern(struct net *net, int family, int type, int protocol, stru
+ }
+ EXPORT_SYMBOL(__sock_create_kern);
+ 
++/**
++ * sock_create_kern - creates a socket for kernel space
++ *
++ * @net: net namespace
++ * @family: protocol family (AF_INET, ...)
++ * @type: communication type (SOCK_STREAM, ...)
++ * @protocol: protocol (0, ...)
++ * @res: new socket
++ *
++ * Creates a new socket and assigns it to @res.
++ *
++ * The socket is for kernel space and should not be exposed to
++ * userspace via a file descriptor nor BPF hooks except for LSM
++ * (see inet_create(), inet_release(), etc).
++ *
++ * The socket bypasses some LSMs that take care of @kern in
++ * security_socket_create() and security_socket_post_create().
++ *
++ * The socket holds a reference count of @net so that the caller
++ * does not need to care about @net's lifetime.
++ *
++ * This MUST NOT be called from the __net_init path and @net MUST
++ * be alive as of calling sock_create_kern().
++ *
++ * Context: Process context. This function internally uses GFP_KERNEL.
++ * Return: 0 or an error.
++ */
++int sock_create_kern(struct net *net, int family, int type, int protocol,
++		     struct socket **res)
++{
++	int err;
++
++	DEBUG_NET_WARN_ON_ONCE(!net_initialized(net));
++
++	err = __sock_create(net, family, type, protocol, res, 1);
++	if (!err)
++		sk_net_refcnt_upgrade((*res)->sk);
++
++	return err;
++}
++EXPORT_SYMBOL(sock_create_kern);
++
+ static struct socket *__sys_socket_create(int family, int type, int protocol)
+ {
+ 	struct socket *sock;
+-- 
+2.49.0
+
 
