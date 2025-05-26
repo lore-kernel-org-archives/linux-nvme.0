@@ -4,61 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FE10C54FC6
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 May 2025 05:36:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40397C54FB3
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 May 2025 07:11:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hlup1PjqSfKGkJisi3U7ttBYekDYvk87YTbtPKExEKw=; b=ggmFK8ISGkt0xipXbUmo2Gafvd
-	4b3TxKuruKr2hEfPJK6L3gTHiCvS+Mlq+6c16gHS+Xu62vm2u4k2T7MZ09YzTONRwjemhfEb9DAMr
-	Jd9Tav1ak9DFR2Qo3hzocNoLtG/B+ua10ZA7zJI+HeXzuHIO01Zpodq+r+8i4jlQNaIgeyt885s4u
-	sw+0VpXFXnmEt94Qw+t0etBCAv35Vr3rQiQ4x8rwYsfDZ9Ev4vIj0Q/X2EfRnn5CwbfmzUC7EBK2K
-	3JTTRSY3wLpdvMiYTIj+fGHNr1WI6twV3FEVJ71iRl2bp4O7uXd0sjNqYKdPYb2JS1Dv4K8I8nwRy
-	+OxeWS5A==;
+	bh=W4ltFSnYtcmQM2s5dP37H/ZtZvSDduZDl5oBWnTsNCM=; b=Umcr6Z8nXUGHKrfMJeBKhqTEen
+	frf8tqaPos6CybHtfunSg3cY+cWWk/xK8n18w2BnbplIfdrHcw+hChR7olto+Km2yYccTNMytKUDS
+	AW0k2tREQQVl7ESaRxppkj40ILGExZWk9rGn6nzpI8vpBUCbwOvjnIoP9exy9EiPx4zRi/55ybY8y
+	IIRWKUe5xXGA+XHSqt394d/YL+A1PmokFQ6Tp9hotmcJ+TQpqjdpjnpr3ykyWWdPudM3AeR5YdxAM
+	I4+IpAFJxM3+iDuWZBZvI0R+W9wpno8JczcR78Z4irfRIujYOVjcUYwtFCQIlG6hD0Ajs0TaVvLmH
+	fOeljDlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uJQVI-0000000880I-2VtJ;
-	Mon, 26 May 2025 05:36:04 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uJQVF-000000087yw-3Ydo
-	for linux-nvme@lists.infradead.org;
-	Mon, 26 May 2025 05:36:03 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8700268AFE; Mon, 26 May 2025 07:35:56 +0200 (CEST)
-Date: Mon, 26 May 2025 07:35:55 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuni1840@gmail.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Wenjia Zhang <wenjia@linux.ibm.com>,
-	Jan Karcher <jaka@linux.ibm.com>, Steve French <sfrench@samba.org>,
-	netdev@vger.kernel.org, mptcp@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 net-next 6/7] socket: Replace most sock_create()
- calls with sock_create_kern().
-Message-ID: <20250526053555.GG11639@lst.de>
-References: <20250523182128.59346-1-kuniyu@amazon.com> <20250523182128.59346-7-kuniyu@amazon.com>
+	id 1uJRzk-00000008FxM-33qO;
+	Mon, 26 May 2025 07:11:36 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uJRxZ-00000008Fog-1f2i;
+	Mon, 26 May 2025 07:09:21 +0000
+Date: Mon, 26 May 2025 00:09:21 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Avinash M N <Avinash.M.N@sandisk.com>,
+	Jeffrey Lien <Jeff.Lien@sandisk.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Rahul Jain <Rahul.Jain@sandisk.com>
+Subject: Re: NVMe CLI Invalid PRP Entry Status Failures
+Message-ID: <aDQToX9eVtNF39G6@infradead.org>
+References: <MW3PR16MB3897F0E659B34877C4D5197CF391A@MW3PR16MB3897.namprd16.prod.outlook.com>
+ <MW3PR16MB38975C2057D1EF440FBD60B0F390A@MW3PR16MB3897.namprd16.prod.outlook.com>
+ <aCX3offAfe1k0_KE@kbusch-mbp>
+ <LV3PR16MB606775F391112B2DADF64463B590A@LV3PR16MB6067.namprd16.prod.outlook.com>
+ <aCcwqhakl4JhrI2o@kbusch-mbp>
+ <LV3PR16MB6067E928D739DCB65F31FE46B593A@LV3PR16MB6067.namprd16.prod.outlook.com>
+ <aCdOtYYT8f3lL8zJ@kbusch-mbp>
+ <F3C3A106-E0AF-4598-9E80-6F10A457F202@sandisk.com>
+ <aDHXCFeQSlQjjnmU@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250523182128.59346-7-kuniyu@amazon.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250525_223602_025591_7CFFD27B 
-X-CRM114-Status: GOOD (  13.90  )
+In-Reply-To: <aDHXCFeQSlQjjnmU@kbusch-mbp>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,16 +61,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 23, 2025 at 11:21:12AM -0700, Kuniyuki Iwashima wrote:
-> Except for only one user, sctp_do_peeloff(), all sockets created
-> by drivers and fs are not tied to userspace processes nor exposed
-> via file descriptors.
+On Sat, May 24, 2025 at 08:26:17AM -0600, Keith Busch wrote:
+> > There is no issue if nvme-cli sends a transfer length of up to 128K.
+> > Anything more than 128K is failed as ENINVAL. I guess this is coming
+> > from the limitation of BIO_MAX_VECS as 256. Since this was working on
+> > older kernels, did anything change in this regard?
 > 
-> Let's use sock_create_kern() for such in-kernel use cases as CIFS
-> client and NFS.
+> Well, it's passing a virtually contiguous address, so if we assume your
+> page size is 4k, 256 vectors would allow up to 1MB without a problem.
+> 
+> But the NVMe pci driver has its own limit of 128 vectors, so 512k is the
+> largest you can safely go before you need to increase the size of pages
+> via hugetlbfs.
+> 
+> But you say you're doing something smaller than 512k, and your device's
+> MDTS is bigger than that, so what else is limiting here your transfer
+> size here? Do you have some udev rule that is reducing the size of your
+> max sectors value?
+> 
+> Check the value of /sys/block/nvmeXnY/queue/max_sectors_kb
+> 
+> See if it matches /sys/block/nvmeXnY/queue/max_hw_sectors_kb
 
-So if sock_create is now almost unused and the special case, should
-it also be renamed to make that explicit and make people not accidentally
-use it by default?
+bio_split_rw_at doesn't look at max_sectors unless that is passed
+in as the argument.
+
+It would be good to just throw in debug printks to see which splitting
+decision in bio_split_rw_at triggers, including checking the exact
+condition in bvec_split_segs.
 
 
