@@ -4,44 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36682C54FB3
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 May 2025 05:22:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0999FC54FB3
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 May 2025 05:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PQheV16VevNN/q0/UOqEHhyv6Hi0ZcDs9WhRLgTvdq0=; b=vTv65WwV0O67a3K/6JUreWpkMX
-	Fy5gNDGDLuv1u3FEb+hmDCqNTI9UhBhRHGK8BtAmT+LIxYWQunzxns5rNHrYH8rCsH5RQ9l0NkQvA
-	eXMQ4DyaQNn0Y+RtCh8cbikGQlwCfbRp+Wieoe6sGWvoUKF4BeflFa21izWD8HZMKGuBrVChZRyf5
-	jS849x7dalY+8f0C4RZn5HsQ2tOl9FrdkC3a/1SO2uAXEVt3xKiqxHjOBioa2+V6m+vpSUXnupBZS
-	vyvjVvdAM92eM9gxLJmSkWvoifvsLGtSwkwtZ8RZgsP3coOOM8XiEXX7s8UUGN0nBhM3qw1dNi4vO
-	HmBxCVVQ==;
+	bh=lty3opDyvOSKgO5TDv9/JBceonUwAzrcj6BTrEpiKYk=; b=mOrYpTPrYUjUjhA+/M1xKUiZZD
+	yff70v5Ejd/Z4BDxSRY7gULIAVk09cxjEuHchTVHFR2BbROXa/2ovzYtJwxrH/fl9Q66uCAI4umz2
+	5fFZw8QVFukvYPLj4MRiVGmHLdJMubJeGCUiooxFxApdIAh4/PdthJvLQ34au7v7XWm4T3wwHmf3S
+	23gfm+0hkc5NrNj7bgfy8LmYs8lbntqX4gGpY3fJMqbAMuDUt4CUqFv478uEn/r7bI3r8CmiNdmWE
+	Qf7F6asPEtzIVGmVlAPfHSAJkTSu9u+OMTJd4f3i87Ce7kCwdwjDR4sL8p0CrW1XGjWTFy1TCX3th
+	oNEp6XCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uJQIN-00000008676-3CzV;
-	Mon, 26 May 2025 05:22:43 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uJQIL-0000000866Z-3b6d;
-	Mon, 26 May 2025 05:22:41 +0000
-Date: Sun, 25 May 2025 22:22:41 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@meta.com>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 2/5] block: add support for copy offload
-Message-ID: <aDP6ocJef8JBfFBc@infradead.org>
-References: <20250521223107.709131-1-kbusch@meta.com>
- <20250521223107.709131-3-kbusch@meta.com>
- <aDBuQbsBRVjOc5wU@infradead.org>
- <aDB3lSQRLxjDHTSE@kbusch-mbp>
- <aDB6Hdp9ZQ1gX5gr@infradead.org>
- <aDB8xmc3Up0STRVO@kbusch-mbp>
+	id 1uJQOo-000000086ka-0rEx;
+	Mon, 26 May 2025 05:29:22 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uJQOl-000000086jG-1c90
+	for linux-nvme@lists.infradead.org;
+	Mon, 26 May 2025 05:29:21 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2DF8068AFE; Mon, 26 May 2025 07:29:07 +0200 (CEST)
+Date: Mon, 26 May 2025 07:29:07 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuni1840@gmail.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Wenjia Zhang <wenjia@linux.ibm.com>,
+	Jan Karcher <jaka@linux.ibm.com>, Steve French <sfrench@samba.org>,
+	netdev@vger.kernel.org, mptcp@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2 net-next 1/7] socket: Un-export __sock_create().
+Message-ID: <20250526052907.GB11639@lst.de>
+References: <20250523182128.59346-1-kuniyu@amazon.com> <20250523182128.59346-2-kuniyu@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aDB8xmc3Up0STRVO@kbusch-mbp>
+In-Reply-To: <20250523182128.59346-2-kuniyu@amazon.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250525_222919_913472_B7C348BF 
+X-CRM114-Status: GOOD (  15.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -56,21 +72,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 23, 2025 at 07:48:54AM -0600, Keith Busch wrote:
-> I like that idea.
->  
-> >  - bio_add_copy_src not updating bi_size is unexpected and annoying :)
+On Fri, May 23, 2025 at 11:21:07AM -0700, Kuniyuki Iwashima wrote:
+> Since commit eeb1bd5c40ed ("net: Add a struct net parameter to
+> sock_create_kern"), we no longer need to export __sock_create()
+> and can replace all non-core users with sock_create_kern().
 > 
-> Ha, I currently have the submitter responsible for bi_size. Your
-> suggestion will make this easier to use.
+> Let's convert them and un-export __sock_create().
 
-Another thing about bio_add_copy_src:  currently it gets passes a
-bio_vec, which doesn't really help it's own implementation much, and
-actually makes the callers more cumbersome.  I'd pass the sector and
-number of sectors (or maybe byte length to be closer to the other block
-x`interfaces?) as separate scalar arguments instead.  For both current
-callers of blkdev_copy_range and iterative interface where they build
-up the range without having to allocate the bvec array would simply
-the code.
+The changes looks good, but the commit log including subject line
+is rather confusing.  What you do is to replace all uses of
+__sock_create with sock_create_kern, which works because
+sock_create_kern just calls __sock_create with the last argument set
+to 1 as those callers do it.  This then allows marking __sock_create
+static because all outside users are gone.
+
+Please state that, i.e.
+
+Subect: use sock_create_kern insteadf of opencoding it
+
+Replace all callers of __sock_create that set the kernel argument to 1
+with sock_create_kern, which is the improve interface for that.
+Mark __sock_create static now that all users outside of socket.c
+are gone.
 
 
