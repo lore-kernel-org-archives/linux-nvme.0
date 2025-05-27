@@ -4,93 +4,173 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5781C54ED1
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 May 2025 21:50:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A6C9C54ED1
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 May 2025 23:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KochXFU1aAKVODJkOXIjhWSOsL3ThtoY9fPOacj19tY=; b=oIRVgNAwBSiqchCOVskUI2FHsv
-	sfKhYq/Eiwgoee2jd+5fvonojmeLRIrZogJSx1BdMahf6n5z+jKBpFxHLXauapRD5oa9c81WRimbo
-	92YwjzUWkGFttfGj3ctdKu+mzWVDaaWgUzrHnb0mlZABbMJcUbJqOzKvrYgixVg6IDRdVEx4ekdAE
-	ouM6rpZIUWlunOsfn425cTRJlFBWQeV72WjCuT9ASuc4ZsFv+da03XXio5GQu0u2F4JRn2ighqabC
-	px4NdNJru/Cp15TwVqtcE/NmC4j0cN5WDBacbjuXOTP5ma3z5rchIglqCaQvn2YpnyBudo4bjDGNe
-	s940L3PQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yNH1wjOtzkESEBOpTIct5puOyb5q9nApXkYQKSYxUz4=; b=SZWw8y8p5jLs5D2yoS6igODQMT
+	6uxU953SINBN2Br/ykvjTsz7kAKxeoVpQYzngJJP9ZhWCQ0wjNLgWwX0iVdGuw9m1XGeqKrnH/0UV
+	DA/DuqdqcLI+88kY98tNOD7ws6DUpSnDOJFI5M3CI1FvsH+Cd1KTlJZJjBZinSYW51MOvChIrLtjy
+	X8Dcyz/OfPeReOstziRWBIKCN1uk15vRkUgM87SN8zvc0mAR33A66yWhc21R7Wn/PdUOFxt647jIS
+	IyMNn1XRp2EzrZxqSjFMlIkgA+f4AVqAugOKkng3dDp6iGCXB0JWsCoUgwABJ2EaEwxXARGkYr/oG
+	MnkmjD0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uK2Bx-0000000BeHT-2mbd;
-	Tue, 27 May 2025 21:50:37 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
+	id 1uK49K-0000000BnaZ-2flL;
+	Tue, 27 May 2025 23:56:02 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uK2Aj-0000000BeAy-3tXi
+	id 1uK49H-0000000BnaA-0OwC
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 May 2025 21:49:23 +0000
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so35000535e9.0
-        for <linux-nvme@lists.infradead.org>; Tue, 27 May 2025 14:49:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748382560; x=1748987360;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KochXFU1aAKVODJkOXIjhWSOsL3ThtoY9fPOacj19tY=;
-        b=pvBNH+pXjSwRCT+qMH4BPfJPCI70SZxKmBasXF12kpB4gnkRBfxI/tsNQ1kg1EEbcE
-         0/Yy2/4NfKhlS4h6YRfjFKY+rSouFnCSZEzCeRyGwLbOAVKMYJ+yWFC7zdypncvrKQYU
-         9DdeUlw6pqnIAq6npvUUU6XRtNBmJehuwkbvebwn9L4Y8q9h7SmrzZIOi6hGrIl98fiW
-         taJlsm4TD77b/jDa0GrtTKyOBKF+nwKdcAFi0CZfH5ErE8HKXvHj8o+QoqF9oPUF3isf
-         AD6Wed6t2zG/QhDOGfujGsslgV1XlFPhs7+P23/WmelSNBpSdBgyNJXQF4sVGgfIFk6W
-         FtmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFCRq1SDBkSWS0jNxN4HgXqdNWyJpd9+MGcJ3C5QhkrQpSrkbZyN35BhOzqqi4JKKZwtfhqzhBJGa/@lists.infradead.org
-X-Gm-Message-State: AOJu0YymPZcUJF45EYNxnbf0ra/quePJUZjkEvvcg79Mu9Mx45pLOyBL
-	dZr4xlcxmQ7RkXOln1hXIJAHJj7sLdZxaOzYatunUpYnRCYNvhBPmJ/v
-X-Gm-Gg: ASbGncsmzLLhJ2xkOBzvkRQBPExGSWqphQZvp3HHb4pdOTAEHyF2gaOFrEwXNSTvsxK
-	j0pevZrSgRd3lrgcpIIJ1NUSmzdebd18G9mtGE+tdftlyFp/H/s1uhlkC+oXMlrWOU0+2UAtJgb
-	2sBseIrCK/vujm3AjAR7iuD+bQhoigdtMhInuiij4ej1De4rawr+kgLZGD92e8BNdiy8QIREyZE
-	fX6lk2indo7pFV70rw/txnxabx03cVFBH2YXlL0Xts/2GVWVqBu77IZppU0ETwDpmzjrlCVHE3t
-	o4PnMzcCbsfXdkLAFXWIlX2v/7MoAkj9Z3/k/iYsHUDyQWgQQOLp+7hPcD97yqPHYAP/mMoVHOb
-	rZ2JWHXIp
-X-Google-Smtp-Source: AGHT+IEmt3TsJKJ5A83qPRvmz27OMP1ad49sNBfT82vUQVXR6mKG+ZgQIMJeaTS59j1byKxLf7fDdA==
-X-Received: by 2002:a05:600c:8187:b0:442:f4a3:9388 with SMTP id 5b1f17b1804b1-44c939c1165mr106511025e9.19.1748382559487;
-        Tue, 27 May 2025 14:49:19 -0700 (PDT)
-Received: from [10.100.102.74] (89-138-68-29.bb.netvision.net.il. [89.138.68.29])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4e8bc37f7sm176160f8f.78.2025.05.27.14.49.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 May 2025 14:49:18 -0700 (PDT)
-Message-ID: <7f7e08be-4930-47e5-80df-91329c827915@grimberg.me>
-Date: Wed, 28 May 2025 00:49:17 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: fix I/O stalls on congested sockets
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Hannes Reinecke <hare@suse.de>, Kamaljit Singh <Kamaljit.Singh1@wdc.com>,
- Hannes Reinecke <hare@kernel.org>, hch <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Chris Leech <cleech@redhat.com>
-References: <20250403065522.90807-1-hare@kernel.org>
- <dac1d594-cf64-41ce-8a23-4b246db75b83@grimberg.me>
- <eda7a691-037b-442d-bd36-a31f93e95cb1@suse.de>
- <976af4b7-578b-4e47-a2ff-7c74af0b9afa@grimberg.me>
- <30b16579-1a28-4d01-9afd-8ff3996db42d@grimberg.me>
- <BY5PR04MB68490F6DD7F1FDBE6999B54BBC842@BY5PR04MB6849.namprd04.prod.outlook.com>
- <6202ffd4-4a32-4f85-ab87-ac5a087c2f1a@grimberg.me>
- <BY5PR04MB6849D4BF87755B82A073BBDABC89A@BY5PR04MB6849.namprd04.prod.outlook.com>
- <4cff2b68-32e8-4593-8a91-345171ae147f@suse.de>
- <BY5PR04MB6849463BE09E64B198950B74BC88A@BY5PR04MB6849.namprd04.prod.outlook.com>
- <BY5PR04MB6849CFB39AB3E98605D30C4BBC8BA@BY5PR04MB6849.namprd04.prod.outlook.com>
- <e45b6c71-7007-4ec2-b87e-d66f99e85460@grimberg.me>
- <MN2PR04MB6862B06C88E4FDFD2C4F7603BC97A@MN2PR04MB6862.namprd04.prod.outlook.com>
- <be17f412-ce6e-4593-8364-b64f15380459@suse.de>
- <e0ec3a62-43ab-4dab-afc8-c1f40def942e@grimberg.me>
- <ede69310-a640-489c-8922-24dd62cf6ea1@grimberg.me>
+	Tue, 27 May 2025 23:56:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1748390158; x=1779926158;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-id:content-transfer-encoding:mime-version;
+  bh=Ub+BkJ9T9Zf7zpDBUYMoqC7jabWDO2H0B1EeZL7vqKY=;
+  b=RQg65gZ1WEs2VwCUoSo6Uwh9hGDqI9ZeNMjGvBF0KGaNyRigJf1efKuc
+   3Yi8nQHNfPbRy+bJmGJ+pmEtjq7kRTzrj8tcJMd7GTOnpkEcKMjJVk75S
+   iA6U43upLPSiu/on8jc4GJBhmio/L6PM8GWV+QLDbvEOO2g+sGbuZOTVS
+   qLskE5vo0ePxc3Te6hZfWy/nktY376vLjeLy0KSpcutrVZ9fzZPNRbR6s
+   DmJYxzail7vQqOcS90HrOLmjnU9B0SHfcL9Edd1M7bKUsTo76siQnvQck
+   OXnsIdkGcDZx66rYEmFc3p+z9BzDuSguA/sZs77v3dnS5jsUi1rGEIF03
+   A==;
+X-CSE-ConnectionGUID: 7MXDBErbShCf0cw9gz+Mgw==
+X-CSE-MsgGUID: 3GyvsJEARIK+wNrXK+A7WQ==
+X-IronPort-AV: E=Sophos;i="6.15,319,1739808000"; 
+   d="scan'208";a="89216429"
+Received: from mail-northcentralusazon11013057.outbound.protection.outlook.com (HELO CH4PR04CU002.outbound.protection.outlook.com) ([40.107.201.57])
+  by ob1.hgst.iphmx.com with ESMTP; 28 May 2025 07:55:54 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s/0O9LTUN9eDyhztMb00kWK7DfFXsXrVhzVubv5tBENlAAcJcHAd/Tn+eCFIwbg0PFSA4mhFdoYcdy+MRdMCtTKv2opI2fjpRDGTQAP/s0qWQbAyKzKNNHtm17wGqSAKNGQ2clZcmGS/S0wTRcRQXdiEYYPMpnLXyKUwnGufJhYTrCQVBEgHiKH387hhvP7b7Tat2LpPlIUcCYnsh5XdVy01qlqJIx0/EP9ejXFeIcRQ5zcu0GyZez6PkcwOOq5XiBnX2VGBIzRd3Tc1VkCrS2REYj+nW5q/5T8fdZh0sF4KcNvRzKcMzCDAAIMTyAmu3msEV+3esP9+8rKTdGJdtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yNH1wjOtzkESEBOpTIct5puOyb5q9nApXkYQKSYxUz4=;
+ b=KTKEmqmtYyyRGXleLj1Lp9SZehJu6vaTS4C9su1Dw+nBASmUdhx9gGDKrKM7OE8/xZGhMix+B46/wVbbBokbTg3kiRWpTTVTHVGNoOTawN0q2SeewsuT0F/zVEdLBgFGlebKgdUozCiGUtufDJrmQAdx3dFaVRHBzUrePgobro8hIIRwhUf5geHf+eLet7TjeS04y4PVXR/2rQCfaeEcFhV8078VDudSJtEvD+2k+f4kMuRuq9ORab82SYO6zgzVkPnGq9uOmr9l2x2pM6xFms0VEcCwoiIKw6g9ARsj7VXKYLoIfZZlNnjv/JL66qK9tfaSfW+vKO12gHPyqRjg3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yNH1wjOtzkESEBOpTIct5puOyb5q9nApXkYQKSYxUz4=;
+ b=DuiiTstMbGxlsMrHxAFyyKm5Qo43TWeqizM1wdWOL4cKRd0PpSXL7joR8oFR0fEDP9MisM2MzaR2MyD8SmgWHQe50sN88BQ12z9t6wdkBEZggmucxMASXCjUxYcwViLePxAdhzzer3LJqg5DzrxxvdOnSCe18FetaiUGUakfqSI=
+Received: from SN7PR04MB8532.namprd04.prod.outlook.com (2603:10b6:806:350::6)
+ by CO1PR04MB8233.namprd04.prod.outlook.com (2603:10b6:303:160::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.26; Tue, 27 May
+ 2025 23:55:51 +0000
+Received: from SN7PR04MB8532.namprd04.prod.outlook.com
+ ([fe80::4e14:94e7:a9b3:a4d4]) by SN7PR04MB8532.namprd04.prod.outlook.com
+ ([fe80::4e14:94e7:a9b3:a4d4%5]) with mapi id 15.20.8769.025; Tue, 27 May 2025
+ 23:55:51 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>
+Subject: Re: [ANNOUNCE] blktests repoistory move
+Thread-Topic: [ANNOUNCE] blktests repoistory move
+Thread-Index: AQHbypSA/Tc20EMek0i3PG4ZJvL8ALPnMJeA
+Date: Tue, 27 May 2025 23:55:51 +0000
+Message-ID: <ulhlylk7ybzhudqvxar44fs7vvaq3paicfkvr63knxheu5lsuv@n7m6g45xzzub>
+References: <rl6mkqchfjfzylyrfie7d52gxetnvh6r2wpgwi3pflbl3v3duf@cjielnfb5rht>
+In-Reply-To: <rl6mkqchfjfzylyrfie7d52gxetnvh6r2wpgwi3pflbl3v3duf@cjielnfb5rht>
+Accept-Language: en-US
 Content-Language: en-US
-In-Reply-To: <ede69310-a640-489c-8922-24dd62cf6ea1@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR04MB8532:EE_|CO1PR04MB8233:EE_
+x-ms-office365-filtering-correlation-id: 6e36350d-67f2-4847-ee88-08dd9d7a0309
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?YEvGNrjIrKCaVzbReHBsBDoDAfL/+DEvtPPNPjEGL8bTjXgwfPVy3ZF6bUVF?=
+ =?us-ascii?Q?Eh3dTCWo78Mg8rs0+HRY06WE++unm/mV2IP9a+jy5aYxb5gQwslZSHbekhEn?=
+ =?us-ascii?Q?mHzKCoB/Nzp/IXpk1mmi03WvtuyE5u76rho3I1LIyBB6nRHZv2ClAzl110DS?=
+ =?us-ascii?Q?x10L6CFo1WBL1KQHcVAom97nejm+Zf5NRfxjq3BSY+fiyR9Qjr8vTF6BJFf7?=
+ =?us-ascii?Q?KH28rbFvNr9XdcHAf60ocQZ7iQv69w6jFnXw2Ae+k3m7PnI54H9d+eOaPfBX?=
+ =?us-ascii?Q?ipJ06BcA4jjWGvOzgFZN/1U1iPpc20ivBaaZ9a3GD4ollP3HHvIyo4u9RnV8?=
+ =?us-ascii?Q?YZMh27eQiy/7e8pso8kGCYAfAHYiinQ09AlXwf9oAmOxCsgAEu5UPLnoLnbu?=
+ =?us-ascii?Q?zJa3yYCQJ2DMrx4nk5S7AVbZAuKzqO8l3LkGcmM3EGuMgassaI/uyvDmCwJN?=
+ =?us-ascii?Q?Tw9zE4jE0eqj5SBYqVswO/mrK+ij7K48zuCTf6TvXXrBEsuEQPIte2s/55sm?=
+ =?us-ascii?Q?YfE8imxBQtChaiklsm6s+vub9GoaQvA/VxiVDevP1ZZMqmYvtEBhwsafQX9w?=
+ =?us-ascii?Q?O4PLGlzoOvhXcGtxMPxs9kabWW/MOr4G+NGH+lG82ZoZYu7CU3rn7m9qlXDZ?=
+ =?us-ascii?Q?s5tFHODjRAR1ew5txse8SUBT1YTXsfyf/u+HwBQNEVEfeUlInJzs23RyV0pF?=
+ =?us-ascii?Q?0onRY8SjJIS8OfE/NWuaNWmdw8VPEe4bqc8pU6K9ecZpRDEUV3xKt8S+e/Xk?=
+ =?us-ascii?Q?c2ISaSQ33XMeO7QxG/XMLdJKarfszXVJxusDWrIuUvMvyQNY8NCsu1zOOVGn?=
+ =?us-ascii?Q?gTN5Z0Aq/EMHQJgopWyf7zcw2a/OfYiatfnVUOAy8auxysPkwCrUE4ILdsfq?=
+ =?us-ascii?Q?Zz4Qr0DV0oTZy2walWglqRsQusmQkvsj5f93tlswPTijR0oaFwKgAbjCk70W?=
+ =?us-ascii?Q?j+DNNNRiyYERNAY90F6JtwRs5ZkeMW8DSL9WwpQkaMX51cSFYCICYIHhXLQY?=
+ =?us-ascii?Q?7pTgBVyTEX7gWODoi32VcJXb84f1YjSRcgpoIXcyFAKS8D932Owm48I3EHE2?=
+ =?us-ascii?Q?4oLFgS6GHje9iHjxJmn8dQd5LGWCGGv8lQ3xI/eCm9kkowKGuRKOBFjwxO1H?=
+ =?us-ascii?Q?4vpYs/XKShrVUqNdufhMT3kIpVSWcG+pyIvtG9z2YQx+JkHArebO0SWLV8ef?=
+ =?us-ascii?Q?8s26LFjtkaBY8oXQtDSzU7owbVDP9I1GIrLJi6WVPG+Z8KF7ha0nxiRUeczM?=
+ =?us-ascii?Q?xnvXYHkB1Onv/UArZAXZ0DjY62nKXSDZtAo66j5nfygq1q/iFhvi5ADKlAcj?=
+ =?us-ascii?Q?AT+F7xXDXYfthAZzSWB0/3TfNoAEA8bVMQXvh7XzwPqJFSd7YHy/wvEk0AI1?=
+ =?us-ascii?Q?uUrsay0hNDIlP2gp/m4E5T1ir96pQ/NlK3yCgkJXzEp+j0uuP3heeigxuXPG?=
+ =?us-ascii?Q?AgyqCjjlCyLzH8in8Kwca63HGbLD4fwu?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR04MB8532.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?z4JumYosPglUrpP7W5VQJJYVl057TMugnGyKfcPooFBB6ddrN+q0oukjbck8?=
+ =?us-ascii?Q?ROzzbzZAOaIsWDIhRON4EQ1+/djyuqtq/D/02FaD6n5S6effya6KQ90XevY7?=
+ =?us-ascii?Q?PaUnYdONntn6NMdJ4xN2GmUG1NmKN7j/GSvJMkb7ZsNA3WRlHghrL1W9k1uc?=
+ =?us-ascii?Q?pFo4msV3xMr7V9mLrJ5xzRvHnQrCVMhcRGlHQoScjmCUre6Sy/vRm4bujZ/x?=
+ =?us-ascii?Q?KKqpAU/s+6Dw9YGJe3Wgu/3+On0Ib8artUt+uuMgwSsl/Qn6UsEzuPV0FJzp?=
+ =?us-ascii?Q?wCnhT52vguxZY4fBffODoRIwdtrzbggw4H9hqDl1rBqc35ZFpKQ5rjsO3HIw?=
+ =?us-ascii?Q?Yo44H1rahwV/pc2Z/dsK0FM8mCR5C/x3nYr51p8RH31S2yxjkIg5S+k0HnT6?=
+ =?us-ascii?Q?5fTWIefOV8SLLwlcXvNnS8EoBnTtSmBbkAy6jHW+We7OeCnHP3Ksd7LEkxKM?=
+ =?us-ascii?Q?QlLjT22Xy0TF2gXvgrvLEc1Jrptvxrx2MwXLT7IG3sg+p3g9/YMFIYUUCTro?=
+ =?us-ascii?Q?k1YkO8v1ZRX8Lz4NLxyat9p7Gpr/iBte97tRH6ofwVqSMCyD34gSq2S7PH5A?=
+ =?us-ascii?Q?uVKWsdKXt7ld28M9d/PMXCqeshYaKeez6spo+FeoU5KI/1ZZai37ANyGarFJ?=
+ =?us-ascii?Q?0ah2dvIOXZwtBeobbIOvwKKtf7l1fpzvGsCWND7FgzKfPFqfbKMnte42wQTr?=
+ =?us-ascii?Q?BJ/PbGUB+YkZNpSISbQdqWtnJ04n+hSBSejHvqbXALMyQBnR3GZ4uAZN9ETW?=
+ =?us-ascii?Q?wKevdVp7W3f37rvtF7XNZYGqnGqvUYsqycsPdELmbounXTfXkahrIyh/Jew8?=
+ =?us-ascii?Q?QQBEi7m8cHYwM/zBs41wRT530SGzliYwcs+pw9R2J6mC0ZCmNC/vU51qZ06t?=
+ =?us-ascii?Q?xE4Jw5mImt1qSo9ljuo+lVbajAo2QgWkkrW23q0DWpgC8pj7FYvko95ID6Mm?=
+ =?us-ascii?Q?Yv/O6pfb3IGRgFUDJJ0g2Y4iMuV+FLZVHlP3WuSEGerHJQWtnZySwQ+X2soR?=
+ =?us-ascii?Q?hLFmYykJ9Lp5K6V/cxmUZp+B0M08jX7Y3BwNZDzze3NVxHOyTrwpeeMsNetm?=
+ =?us-ascii?Q?xVxJ4a5iSGQi6Yk9jzk5LE99mSu70sVG41y/1VdieOMF41l3OOsdpmX8gnqg?=
+ =?us-ascii?Q?IZMVtMyTtsjNUMyeCVGGGcxLYWUvP0lMJBVwSZEh4lSoQJXxRTZAk8Siinnz?=
+ =?us-ascii?Q?Xen13YZy56AMsMkwDviM2QbxhRQao5vaHJaVa6eQOS4OIK68XVbZnoFzMhoY?=
+ =?us-ascii?Q?Vp7sqDRZwP5ZlO+cwtYrCfjc2hm9ePM80rxXktwzgEuJYS8PT0kr7FzCYrre?=
+ =?us-ascii?Q?jVCFrPCawGGi9LfOnT0Z2ApjxNP7pg9UCj9A7p+IFqQ5gBijlvwnrPCHDv3b?=
+ =?us-ascii?Q?217hxU3fUT0g8r4NQqHVibwfGhR94/TE4FybtQmWAfUKpwm36P2EPMhJKRyZ?=
+ =?us-ascii?Q?8UOSTjsyDrVTvky1MImFH/8q9i5UDhlvegdTL8r/OYrb6aNKcPs//XRwdXFC?=
+ =?us-ascii?Q?ylK/9/+H5u4dZJsB/I8KYQPZsqExazq6NHx3MKjqsuJEg770J5Xn2c6tNFmh?=
+ =?us-ascii?Q?RhtYyOv8/rDSeEP4kGxqDLtWjApOG9NnihGeGXUaBWjNjCQ/sUYu2d6O1MuG?=
+ =?us-ascii?Q?edvedUnelP51RqouMiuFMbg=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <477B58D50B706642960861EEC0CA77AF@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Mk/K1IjSSxHL9+5pqWSv/YEHutMN1Aa5g4eSgZ87ZBWwFnpQrG+N+sIf6rzaQRjjk2qT14ueCNrWDJJXKo5gaBat+B3+QkIRxd+hLm3USSn0uOslArZNvvL7FROzkBY+cnZJcK+42ZXzT7yhO2iNxaOCsBiRFGVo8/NlbMIsec0I7dwv6gwmF9tde0BiE7aRakcvPuzepgFzNDVgwbfhtEdqyo1Z9l1rDjARGTl7d/hvg6B+BbvXwHvnBK77yZyWPaLu+pI+9F/1A4D+zcTg80+PNrIosxMEdH+zouocE+1ZN1DgwIFFnou03qN5vwEeMLJ8fXhOMss8ly092sTAbLLbmFQZnbM9LUmhcNg0NPS7z0Zvacu0SXX1Uxu7qXseTrBgLF3xbNpMVkCoBTgyzmdp4nfbPn1Yx0DzDjdH9ekUfVw/iWybZ65MgWYdCbKEgv95savw4ZQftBWPkFVjMYwWKSh7REw8HLlFRx4eaRsBvQJ39zzZmH+uI29EFerToP9sdJb3KFMwAkMt02kaONfUrMk7l/RM9+/pGwZeV2A93MXUR9JC78+/PDgYJR09sUlCqmeXKVG5cdgQiQ0WBA8uaFuxKF9MH2DE9XdwD73fgCx19Xtg7V46PNic4V5g
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR04MB8532.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e36350d-67f2-4847-ee88-08dd9d7a0309
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2025 23:55:51.8492
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: imzBChHws64o7ttwZnRKDd8YXnPuvOK/7zna4L1S2uPKTND+3ctG5fm2uJON64W9DntZ4xxMNPSvplPB3Rldf4BE6dWnOZoOzfoYOrcvBeY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR04MB8233
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250527_144921_967483_766EA41A 
-X-CRM114-Status: GOOD (  18.76  )
+X-CRM114-CacheID: sfid-20250527_165559_231816_B5DF9432 
+X-CRM114-Status: GOOD (  10.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,40 +185,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->>
->> We still need to hunt these down. I'm still puzzled why adding the 
->> WAKE_SENDER
->> flag was able to make this issue disappear? I'll have another look at 
->> this patch.
->>
->> For now, I think we can go with this patchset, and then incrementally 
->> fix the remains.
->
-> Kamaljit, can you check the following patch on top of the patchset 
-> from Hannes that
-> gets a reproduction?
->
-> -- 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 835e29014841..2f5f2fcfb078 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1075,7 +1075,7 @@ static void nvme_tcp_write_space(struct sock *sk)
->
->         read_lock_bh(&sk->sk_callback_lock);
->         queue = sk->sk_user_data;
-> -       if (likely(queue && sk_stream_is_writeable(sk))) {
-> +      if (likely(queue)) {
->                 clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
->                 queue_work_on(queue->io_cpu, nvme_tcp_wq, 
-> &queue->io_work);
->         }
-> -- 
->
-> This think this may be preventing the scheduling of io_work. But now 
-> that io_work is
-> also ceasing based on sk_stream_is_writeable, we should probably still 
-> schedule it.
+On May 21, 2025 / 21:08, Shinichiro Kawasaki wrote:
+> Hello all,
+>=20
+> FYI, as a preparation to set up blktests CI, we are going to move the blk=
+tests
+> repository,
+>=20
+>  from: https://github.com/osandov/blktests
+>  to:   https://github.com/linux-blktests/blktests
+>=20
+> The move is planned early next week, around May/27.
+>=20
+> The move will be served by the GitHub repository transfer feature [1], so=
+ no
+> impact is expected for blktests users. Old repository addresses should be=
+ usable
+> after the move since they are redirected to the new repository. Just to a=
+void
+> confusion, it is recommended to update the remote URLs in your local clon=
+es
+> after the move.
+>=20
+> [1] https://docs.github.com/en/repositories/creating-and-managing-reposit=
+ories/transferring-a-repository
 
-Kamaljit? Any info on this?
+FYI, the move has been completed around an hour ago.=
 
