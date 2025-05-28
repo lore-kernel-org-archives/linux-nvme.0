@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB9A8C5AD49
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 May 2025 21:56:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D8D8C3ABB2
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 May 2025 21:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CK4KaRvzuFntVXqzIsQLZyplQAMadehqEXVFAkCRS8A=; b=bxxDI+ZsIldz9rmiYnkc9a8WLZ
-	L4fGIiHQnCY94K2SXx95ErpJ1L0Z6cXuTUCe3sFbfh8e+VUqSC6uXy+YMqUVkMaePtI4WJoE7pv98
-	PcPdm3Ax6oa4jUNwLSbLEHVF3mDa/fHaHv0xDpdAGi/ReRCLWLF6rRLjxyQTBY5z5mkrn2FsiIfzE
-	1tgjYKG2Rg1DEKQmEWP9ttox3xVQigndNXXkrlagexebinklmXzelol5a1dnmatmEu4z1K3W9fT74
-	LxfhUy5E76/9eSjkz8TNRPrBzs94aYWgFbb0HhaXxNWrbl57vI+xPTmA5g9qTrgoMVJhoMULMBA8u
-	ex8WPpTA==;
+	bh=CK4KaRvzuFntVXqzIsQLZyplQAMadehqEXVFAkCRS8A=; b=jr/auuoWD/7ADY7kokhDqPqx8w
+	Rlu+6EoOVcvHrbLuEmrI0h2RUhPpd+xker2WP8GOuNITtYEIUTUZGSUKCXk6cNGFVT4UYvCtKpdtB
+	JAHTF6fzuy9FzatRmPwGHnT8AQ48s+aCbaIiiZhMjEHEReb7lxvEDU1TrWD52e2B1wyzVzdi45h/Z
+	UXkdb5IgTRMmbWmdJa8YtkMdWjhjoiZYAxauSRvPzIz+hen+f7MOB+v4ZeVSDY3dxp0L9sXu5cCCt
+	X5jFaITCEVOVpXGdhCVEzYXcvVO10kBtHHyiYhRwvBGQnNFBWDTWuIFue76WOMkfln4Zvz50vEh/i
+	YghftNMg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKOlQ-0000000EBYd-0ThW;
-	Wed, 28 May 2025 21:56:44 +0000
+	id 1uKOlU-0000000EBbz-3JeM;
+	Wed, 28 May 2025 21:56:48 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKOlN-0000000EBX0-2hyB
+	id 1uKOlS-0000000EBa6-38ba
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 May 2025 21:56:42 +0000
+	Wed, 28 May 2025 21:56:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 0044DA4FB06;
-	Wed, 28 May 2025 21:56:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0FABC4CEEE;
-	Wed, 28 May 2025 21:56:39 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 21C85A4FB0C;
+	Wed, 28 May 2025 21:56:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D89D5C4CEE3;
+	Wed, 28 May 2025 21:56:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748469400;
+	s=k20201202; t=1748469405;
 	bh=1uvH3QHJs42dbBtdP0zNAIfxSCLTtr+y/6w8nTxd0p4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ko0Es4ysLp7fzGygewXDQ96qciL8cx2mDJg0fRGck2MmW5EwiCoH3pvi0odmivlYl
-	 QKUqFL3b38cbv2OxFzem/2mW0y+/lTpALMWdq7gEMmboNno6KtfdV67HaSYQTcl+Ot
-	 np7WgV8L4xHT1EG/rpgIDjWsU9BO6anFsKMnqZopAlW28HehYYDwpEfsUngV6cJ+/y
-	 YvKhIeUSmxhZ0kgIWsPX5EDR8qbYZwHH4cJ68xB6sTDq2flXoWKtZkH9a/cWc7rHj3
-	 ML25M7zq3OspP5zM0yJXt02iFsUUasiwWSp8rlsbMT1t8mxLotWeWbX5FoIZCv/eTX
-	 jbMZNqfrQqueQ==
+	b=EAmtr974ShJtXDpbQFFb9t0ANBpsc91Y1bRa9lV65XKV9l+Br9dmIL/NdvatrwUOh
+	 DfE7/kKe4DpBwoTfL/ev8RC0GhenHO/thzXdboYBpYJ3JHR4scA5gwRSzeTQ2zB/pY
+	 IRGcIhO36sE6u7JJEbbDYB3pGvtE57iRoBLAD/VBM5B/V2AMx1xjgySRJRs9+AeEjG
+	 aWPbPd8/CWFxpymhN5Xt3fkHPUiz5QMZwO8LFumlyHS/h71qJwCPO1vxWDWrASSitR
+	 pHM25HJheBaYKuLiBUIytww1eKx9uwnt/QZ5MiFdHTR91nE+CXGTX5wfHD9NejaTsV
+	 WPdUaqDFoNVfQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -52,20 +52,20 @@ Cc: Daniel Wagner <wagi@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 2/3] nvmet-fcloop: access fcpreq only when holding reqlock
-Date: Wed, 28 May 2025 17:56:36 -0400
-Message-Id: <20250528215637.1983842-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 2/3] nvmet-fcloop: access fcpreq only when holding reqlock
+Date: Wed, 28 May 2025 17:56:41 -0400
+Message-Id: <20250528215642.1983928-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250528215637.1983842-1-sashal@kernel.org>
-References: <20250528215637.1983842-1-sashal@kernel.org>
+In-Reply-To: <20250528215642.1983928-1-sashal@kernel.org>
+References: <20250528215642.1983928-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.140
+X-stable-base: Linux 5.15.184
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250528_145641_814711_1E4D9251 
+X-CRM114-CacheID: sfid-20250528_145646_910094_CFCE0E29 
 X-CRM114-Status: GOOD (  19.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
