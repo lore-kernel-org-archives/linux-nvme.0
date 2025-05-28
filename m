@@ -4,69 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D8D8C3ABB2
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 May 2025 21:56:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62CB1C3ABB2
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 May 2025 22:42:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CK4KaRvzuFntVXqzIsQLZyplQAMadehqEXVFAkCRS8A=; b=jr/auuoWD/7ADY7kokhDqPqx8w
-	Rlu+6EoOVcvHrbLuEmrI0h2RUhPpd+xker2WP8GOuNITtYEIUTUZGSUKCXk6cNGFVT4UYvCtKpdtB
-	JAHTF6fzuy9FzatRmPwGHnT8AQ48s+aCbaIiiZhMjEHEReb7lxvEDU1TrWD52e2B1wyzVzdi45h/Z
-	UXkdb5IgTRMmbWmdJa8YtkMdWjhjoiZYAxauSRvPzIz+hen+f7MOB+v4ZeVSDY3dxp0L9sXu5cCCt
-	X5jFaITCEVOVpXGdhCVEzYXcvVO10kBtHHyiYhRwvBGQnNFBWDTWuIFue76WOMkfln4Zvz50vEh/i
-	YghftNMg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=auuuOfYYnZnuboodVBti/Pz7Zc0vU3vj5lTMIurVY/0=; b=3eblW7OjazghvBkp9ub9UqI6Z6
+	E++lQgasRAlI0OHjScQ8jyMadg2MfdZciYkqxIFMx6Gz6ppmGs+8DF8XZ+CXjpgI+nR1tYrHF/FhL
+	zmLmKcu333GiXuMoVRgkZYpZqSuOoTosQUcAj3+6ipgG5JLFkNM1+5o3xx8PEhnY7Flx70k38lGjE
+	j5UJLKd7qNk5N0kvFslFWYEm15AMTFvf/kycPwp17ORWcscCBqU2gzYreJDN+OKIf+KK4aqRCY79n
+	iP4FLNeJQzOJ3s/jj1ZneI4T72S4pmJNQ7qQ5IQqSNkFXWmhfhXSsOEbgmspUthNw/Hfcv1YLLzHt
+	i4NY54cA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKOlU-0000000EBbz-3JeM;
-	Wed, 28 May 2025 21:56:48 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uKPTK-0000000EHhA-0VLJ;
+	Wed, 28 May 2025 22:42:06 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKOlS-0000000EBa6-38ba
+	id 1uKPTH-0000000EHgQ-0NXd
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 May 2025 21:56:48 +0000
+	Wed, 28 May 2025 22:42:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 21C85A4FB0C;
-	Wed, 28 May 2025 21:56:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D89D5C4CEE3;
-	Wed, 28 May 2025 21:56:44 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 365015C5BC8;
+	Wed, 28 May 2025 22:39:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5349CC4CEE3;
+	Wed, 28 May 2025 22:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748469405;
-	bh=1uvH3QHJs42dbBtdP0zNAIfxSCLTtr+y/6w8nTxd0p4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EAmtr974ShJtXDpbQFFb9t0ANBpsc91Y1bRa9lV65XKV9l+Br9dmIL/NdvatrwUOh
-	 DfE7/kKe4DpBwoTfL/ev8RC0GhenHO/thzXdboYBpYJ3JHR4scA5gwRSzeTQ2zB/pY
-	 IRGcIhO36sE6u7JJEbbDYB3pGvtE57iRoBLAD/VBM5B/V2AMx1xjgySRJRs9+AeEjG
-	 aWPbPd8/CWFxpymhN5Xt3fkHPUiz5QMZwO8LFumlyHS/h71qJwCPO1vxWDWrASSitR
-	 pHM25HJheBaYKuLiBUIytww1eKx9uwnt/QZ5MiFdHTR91nE+CXGTX5wfHD9NejaTsV
-	 WPdUaqDFoNVfQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Daniel Wagner <wagi@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
-	james.smart@broadcom.com,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 2/3] nvmet-fcloop: access fcpreq only when holding reqlock
-Date: Wed, 28 May 2025 17:56:41 -0400
-Message-Id: <20250528215642.1983928-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250528215642.1983928-1-sashal@kernel.org>
-References: <20250528215642.1983928-1-sashal@kernel.org>
+	s=k20201202; t=1748472121;
+	bh=ODdciq5CPilvv2sX+jC3jzyer7v1cNd7rtqpkTLUeeg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uBUnQcdiV6rTXTtXWA68kYP7PQFcmiykecdmy8GayayaBsdmstzouiE1O+OhYtthq
+	 VqTsWOzUyj3/b4QwmMGkj+ipdgXVBwOkQ15kisgZdyUOBRFjjYnU+5KKxiUI0im0SF
+	 mZMeVEgVa797NMSc4gbUjoosHXmV9hWMCatpHKiinefU2XfsN1RYeJ6ijfqLtt6tTe
+	 5aZ7knEl62wwJFkGBKR9grmenMXdjf3QlVx6RelgNIb56SmHjC1wXozuPa5wmlwO2B
+	 DTDfEZd2s1JzH9shqKQYfgMjAo4xymv3jOe796ltcglhQVq76I9Q56HcDJAWTLB2DL
+	 ufErIPmsk9OHw==
+Date: Wed, 28 May 2025 16:41:58 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, Mark Harmstone <maharmstone@fb.com>
+Subject: Re: [PATCH 1/5] block: new sector copy api
+Message-ID: <aDeRNvT5x_qRj3kX@kbusch-mbp>
+References: <20250521223107.709131-1-kbusch@meta.com>
+ <20250521223107.709131-2-kbusch@meta.com>
+ <aDBt1qXj90JO1y2v@infradead.org>
+ <aDCqGLY4irp-6N5M@kbusch-mbp>
+ <aDP5o1qb02iwgw-V@infradead.org>
+ <aDX6NjOuGvxhbw7C@kbusch-mbp>
+ <aDa_O4HGWjy_35I7@infradead.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.184
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aDa_O4HGWjy_35I7@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250528_145646_910094_CFCE0E29 
-X-CRM114-Status: GOOD (  19.24  )
+X-CRM114-CacheID: sfid-20250528_154203_165730_E3024F15 
+X-CRM114-Status: GOOD (  16.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,146 +77,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Daniel Wagner <wagi@kernel.org>
+On Wed, May 28, 2025 at 12:46:03AM -0700, Christoph Hellwig wrote:
+> On Tue, May 27, 2025 at 11:45:26AM -0600, Keith Busch wrote:
+> > Just fyi, the initial user I was planning to target with the block
+> > layer's copy fallback isn't in kernel yet. Just an RFC at this moment on
+> > btrfs:
+> > 
+> >   https://lore.kernel.org/linux-btrfs/20250515163641.3449017-10-maharmstone@fb.com/
+> > 
+> > The blk-lib function could easily replace that patch's "do_copy()"
+> > without to much refactoring on the btrfs side.
+> 
+> Well, that code would be much better off using a long living buffer,
+> because the frequent allocations are worse.  
 
-[ Upstream commit 47a827cd7929d0550c3496d70b417fcb5649b27b ]
-
-The abort handling logic expects that the state and the fcpreq are only
-accessed when holding the reqlock lock.
-
-While at it, only handle the aborts in the abort handler.
-
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-**YES** This commit should be backported to stable kernel trees. Here's
-my extensive analysis: ## Commit Analysis This commit fixes a critical
-**race condition and data corruption issue** in the nvmet-fcloop
-driver's abort handling logic. The changes address serious
-synchronization problems that could lead to use-after-free conditions
-and inconsistent state management. ## Key Issues Fixed ### 1. **Unsafe
-fcpreq Access Outside Lock Protection** The main issue is that `fcpreq`
-was being accessed without proper lock protection in
-`fcloop_fcp_recv_work()`: ```c // BEFORE (unsafe): struct nvmefc_fcp_req
-*fcpreq = tfcp_req->fcpreq; // Access outside lock
-spin_lock_irqsave(&tfcp_req->reqlock, flags); // ... lock operations ...
-spin_unlock_irqrestore(&tfcp_req->reqlock, flags); // Later use of
-fcpreq - could be stale/freed // AFTER (safe):
-spin_lock_irqsave(&tfcp_req->reqlock, flags); fcpreq = tfcp_req->fcpreq;
-// Access inside lock protection // ... rest of operations ... ``` This
-change ensures `fcpreq` is only accessed while holding the `reqlock`,
-preventing race conditions where the pointer could be modified by
-concurrent abort operations. ### 2. **Improved Abort Handling Logic**
-The abort path in `fcloop_fcp_abort_recv_work()` was restructured to
-properly handle the `fcpreq` pointer: ```c // BEFORE: fcpreq =
-tfcp_req->fcpreq; // Read fcpreq switch (tfcp_req->inistate) { case
-INI_IO_ABORTED: break; // ... later operations outside lock set fcpreq
-to NULL // AFTER: switch (tfcp_req->inistate) { case INI_IO_ABORTED:
-fcpreq = tfcp_req->fcpreq; // Only read when in ABORTED state
-tfcp_req->fcpreq = NULL; // Clear immediately under lock break; ``` ###
-3. **Cleaner Control Flow** The commit also improves the logic in
-`fcloop_fcp_recv_work()` by having the abort handler take full
-responsibility for calling `fcloop_call_host_done()` when aborted,
-rather than duplicating this logic. ## Stable Tree Backport Criteria
-Assessment ✅ **Fixes Important Bug**: Yes - race conditions and
-potential use-after-free in critical I/O path ✅ **Small and Contained**:
-Yes - only 30 lines changed, focused on specific synchronization issue ✅
-**Minimal Regression Risk**: Yes - improves existing locking patterns
-without architectural changes ✅ **Clear Side Effects**: No major side
-effects - only improves synchronization ✅ **Confined to Subsystem**: Yes
-- only affects nvmet-fcloop test driver ✅ **Follows Stable Rules**: Yes
-- critical bugfix with minimal complexity ## Comparison with Historical
-Commits This commit aligns perfectly with **Similar Commit #4** which
-was marked **"Backport Status: YES"**: - Both fix
-locking/synchronization issues in fcloop - Both address race conditions
-in abort handling - Both are small, focused changes - Both improve
-existing patterns rather than introducing new architecture The pattern
-of fcloop locking fixes being suitable for backport is well-established,
-as seen in the historical reference where similar synchronization
-improvements were deemed appropriate for stable trees. ## Conclusion
-This is a textbook example of a stable tree backport candidate: it fixes
-a genuine race condition bug that could cause data corruption or
-crashes, uses a minimal and safe approach, and improves the robustness
-of the existing code without introducing new features or architectural
-changes.
-
- drivers/nvme/target/fcloop.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 787dfb3859a0d..74fffcab88155 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -613,12 +613,13 @@ fcloop_fcp_recv_work(struct work_struct *work)
- {
- 	struct fcloop_fcpreq *tfcp_req =
- 		container_of(work, struct fcloop_fcpreq, fcp_rcv_work);
--	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
-+	struct nvmefc_fcp_req *fcpreq;
- 	unsigned long flags;
- 	int ret = 0;
- 	bool aborted = false;
- 
- 	spin_lock_irqsave(&tfcp_req->reqlock, flags);
-+	fcpreq = tfcp_req->fcpreq;
- 	switch (tfcp_req->inistate) {
- 	case INI_IO_START:
- 		tfcp_req->inistate = INI_IO_ACTIVE;
-@@ -633,16 +634,19 @@ fcloop_fcp_recv_work(struct work_struct *work)
- 	}
- 	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
- 
--	if (unlikely(aborted))
--		ret = -ECANCELED;
--	else {
--		if (likely(!check_for_drop(tfcp_req)))
--			ret = nvmet_fc_rcv_fcp_req(tfcp_req->tport->targetport,
--				&tfcp_req->tgt_fcp_req,
--				fcpreq->cmdaddr, fcpreq->cmdlen);
--		else
--			pr_info("%s: dropped command ********\n", __func__);
-+	if (unlikely(aborted)) {
-+		/* the abort handler will call fcloop_call_host_done */
-+		return;
-+	}
-+
-+	if (unlikely(check_for_drop(tfcp_req))) {
-+		pr_info("%s: dropped command ********\n", __func__);
-+		return;
- 	}
-+
-+	ret = nvmet_fc_rcv_fcp_req(tfcp_req->tport->targetport,
-+				   &tfcp_req->tgt_fcp_req,
-+				   fcpreq->cmdaddr, fcpreq->cmdlen);
- 	if (ret)
- 		fcloop_call_host_done(fcpreq, tfcp_req, ret);
- 
-@@ -659,9 +663,10 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&tfcp_req->reqlock, flags);
--	fcpreq = tfcp_req->fcpreq;
- 	switch (tfcp_req->inistate) {
- 	case INI_IO_ABORTED:
-+		fcpreq = tfcp_req->fcpreq;
-+		tfcp_req->fcpreq = NULL;
- 		break;
- 	case INI_IO_COMPLETED:
- 		completed = true;
-@@ -683,10 +688,6 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
- 		nvmet_fc_rcv_fcp_abort(tfcp_req->tport->targetport,
- 					&tfcp_req->tgt_fcp_req);
- 
--	spin_lock_irqsave(&tfcp_req->reqlock, flags);
--	tfcp_req->fcpreq = NULL;
--	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
--
- 	fcloop_call_host_done(fcpreq, tfcp_req, -ECANCELED);
- 	/* call_host_done releases reference for abort downcall */
- }
--- 
-2.39.5
-
+No argument against that. I'm just adding context for where this blk lib
+patch was targeted. I'm happy to help on both sides to make it more
+usable, though refactoring other block copy implementations (splice,
+kcopyd, xfs gc) to a common api looks like a much longer term project.
 
