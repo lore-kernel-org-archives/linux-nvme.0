@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3FF3C5AD49
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 May 2025 21:56:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 109F1C3ABB2
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 May 2025 21:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gfkWPtzIRea3LcXdOsqzfwAx5sDTtawCuVWMuuUQtP4=; b=ZjoScAPbuOWuRj0L+DJqu7PTcs
-	0gBS0vFLGCvEu4CKu6/NTMpmd5v/lP2yfMruLK+EA0FFCaypUVmJW04SZ3Ly8uZs3VCPV3XLrpIq9
-	N6wi8JjgQqQDM7L9wye0QuxkWWZmH00OKB5iQygYnpiev1CklxvnPObHntO/0YrGD8nzwoO5SJUoR
-	5NVHOKVslWejkqtn3Z2P04+Ak2KIxHV3IvAMbhXcacXSXs5Tchn7WTfRhAVr9tfsuUrg2Rz4M1WhI
-	z3BI9Z8c5UwURcJcxp7KdGQa4b8EcFrmJ9iJylrKEXNApIAVY0l6zn1++p76EUK4sfGN0O/+rBriG
-	taUTFAZw==;
+	bh=6JfKcWaxuEWvwYflLfM+Ry9FhbdcoqE8DRN9/WnaoJs=; b=Tbutvj2O0XAGZgZUtjc0iB8+xM
+	iidKzuo6qk/u/LbNg7H9VlnBEjIehWh2DedPlDrLNb64ZouNpxSHAYRpfBJgC2tDb8ebQcuuGb0mL
+	k7WLfJwbPymoMjI8ap4CD3GnXVUnJPufrFsgU3abtveV9HfraITQZ0JR9SbbOhBTFAjpqstnF+bTP
+	2kD1Y3Z6ru/b/89B9JMiqxe0wL8IHshV0KR/OruAkfmuriEAYTBUryrPxq0xU1M31/EcR1QYrwcJn
+	XYlpcqb1eHzh5Y8DnUAlr1GEJE3DBTdM3lJnwOA9rSBe/q3a6gd186zhRf6osUIt92ZrPlgEy6jSt
+	IU+8bBtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKOlF-0000000EBRa-0dVu;
-	Wed, 28 May 2025 21:56:33 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uKOlK-0000000EBUy-1vUn;
+	Wed, 28 May 2025 21:56:38 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKOlC-0000000EBQ6-1D5F
+	id 1uKOlI-0000000EBT8-2vJQ
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 May 2025 21:56:31 +0000
+	Wed, 28 May 2025 21:56:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7FC1FA4FB0C;
-	Wed, 28 May 2025 21:56:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 504A0C4CEE7;
-	Wed, 28 May 2025 21:56:28 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id D7E48A4FB15;
+	Wed, 28 May 2025 21:56:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1542C4CEF0;
+	Wed, 28 May 2025 21:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748469389;
-	bh=ZklDKdzLi2VwfQoW36YtnJw6TSCP38Nit3OMBmBU7ZI=;
+	s=k20201202; t=1748469395;
+	bh=RZM8nLDveGHkxmvvrbG/O3Uu95IblNherwTNAnsHZo0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ub0Kwd0YzTTBUADwXOMkbdRiOr7IjNziKqzadwfHpOA0X/9rMURpaS8VmCW2H4QAm
-	 ai3CUgxVie8xUuVH69v38XYo/J9xIfXb7KTQO3xRiTaKvhLAeCSJPpkmXWVqPlvXp3
-	 xXNYDZlzrb2JcBIz8+tqfRcrhrsUyXkQEw1CUBUd7zuxjgFuo8soXSWpEV6l08GN46
-	 efInAK7udmh9Qk+DMa6P7+qzHczrmTqPjT5ZDQyryq4k5YvTTxmaMMkdu59fRCx18r
-	 bIjNDX0uACRjLlplr4hkF64pxwd+4RAuSE6rRLbSQjOdFLYaaDkJ+3agzEV8c/18rN
-	 /2o3xo6Aveikg==
+	b=JB5ruJseThNWqhFgqdRBp3ZUYnAAAcUdq5KZ4vWOH+ExmVVf2evsjYXV0MAAMFX9w
+	 31UKVb9MgMiUHBu2m1/rrOKgkd4cbxJGNxlHr7d6m620LkrV1OzdNLaabz1iOuOXxW
+	 6FtvCUBKkAKRDeJwyoa5V3wDZoBB4n/wzvHbiT/kUXmLZBaeaZe5SdGqcXeVaRDQLM
+	 4yQeuUdX4tCwKjYi6Wu4nDPoAZoZOSv62//l9E5dMoMgStl6kJUr/KQiWn4NIOcttk
+	 4k5kSuJP+/rPuhPQGRh59qAiQ+ZCGpYujOdILgRpu4tPL1DgesSPhPse5h2aJNRdOt
+	 tPPtGfeBqSCZg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -52,21 +52,21 @@ Cc: Daniel Wagner <wagi@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 5/7] nvmet-fcloop: access fcpreq only when holding reqlock
-Date: Wed, 28 May 2025 17:56:20 -0400
-Message-Id: <20250528215622.1983622-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 2/3] nvmet-fcloop: access fcpreq only when holding reqlock
+Date: Wed, 28 May 2025 17:56:31 -0400
+Message-Id: <20250528215632.1983756-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250528215622.1983622-1-sashal@kernel.org>
-References: <20250528215622.1983622-1-sashal@kernel.org>
+In-Reply-To: <20250528215632.1983756-1-sashal@kernel.org>
+References: <20250528215632.1983756-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.30
+X-stable-base: Linux 6.6.92
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250528_145630_448552_1B99C553 
-X-CRM114-Status: GOOD (  19.15  )
+X-CRM114-CacheID: sfid-20250528_145636_903240_0E804CC0 
+X-CRM114-Status: GOOD (  19.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,10 +150,10 @@ changes.
  1 file changed, 16 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index da195d61a9664..f1b5ffc00ce88 100644
+index 4b35bdcac185f..aeeb7455fc2e7 100644
 --- a/drivers/nvme/target/fcloop.c
 +++ b/drivers/nvme/target/fcloop.c
-@@ -623,12 +623,13 @@ fcloop_fcp_recv_work(struct work_struct *work)
+@@ -613,12 +613,13 @@ fcloop_fcp_recv_work(struct work_struct *work)
  {
  	struct fcloop_fcpreq *tfcp_req =
  		container_of(work, struct fcloop_fcpreq, fcp_rcv_work);
@@ -168,7 +168,7 @@ index da195d61a9664..f1b5ffc00ce88 100644
  	switch (tfcp_req->inistate) {
  	case INI_IO_START:
  		tfcp_req->inistate = INI_IO_ACTIVE;
-@@ -643,16 +644,19 @@ fcloop_fcp_recv_work(struct work_struct *work)
+@@ -633,16 +634,19 @@ fcloop_fcp_recv_work(struct work_struct *work)
  	}
  	spin_unlock_irqrestore(&tfcp_req->reqlock, flags);
  
@@ -197,7 +197,7 @@ index da195d61a9664..f1b5ffc00ce88 100644
  	if (ret)
  		fcloop_call_host_done(fcpreq, tfcp_req, ret);
  }
-@@ -667,9 +671,10 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+@@ -657,9 +661,10 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
  	unsigned long flags;
  
  	spin_lock_irqsave(&tfcp_req->reqlock, flags);
@@ -209,7 +209,7 @@ index da195d61a9664..f1b5ffc00ce88 100644
  		break;
  	case INI_IO_COMPLETED:
  		completed = true;
-@@ -691,10 +696,6 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+@@ -681,10 +686,6 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
  		nvmet_fc_rcv_fcp_abort(tfcp_req->tport->targetport,
  					&tfcp_req->tgt_fcp_req);
  
