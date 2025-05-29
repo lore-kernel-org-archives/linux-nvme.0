@@ -4,65 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43385C54FB3
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 May 2025 22:13:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E262C5AD49
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 May 2025 22:22:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iGPutEWDo5950O4FbUxjK979wbG+zFcdwBJS4P9aOyg=; b=lDXcVbrUwZpseTPiuCnkeGFZBU
-	i3jQ5UdwGmisyPgvqC9cAG2YehoeaV1xoUpkMTvKdkRG14tYPIV31oMuD/RHwAem+OP/KNWzEJwj3
-	0i0ICgE85uKTZSZVvBYlvfg0syWFWikyUPXead98K3DL0ECVFDmHP7zTxOLJoDYrjPE5jR7fRpzxH
-	3hDFNEiUZEr02guYqzQfF5toW9/gl85aGyh9KIO2Y8O45ZyRH3j2Hgs9XZCPgkK1bDGIX1byQJfdy
-	qNFpDzER9IdTHGQ9yp7MpNPVwW13Q064CJ7HdCJ1dk7DGPECMoBdoEVEZpv3m6dnO+7UCwAHZQowL
-	6jLDs/eA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Ob1tvkLWeq/o7Qc2+2cBTwIpVI7WckRAJH2sr6mRI+U=; b=J7MB1LNlQ1PSNboAoe9hy1evJA
+	bcXXT0YlcE7dW71SF54eaaCb3QmGE05lxRHqjib4rPaOdrHVHRIBWb4t3z/n+aV8wQXkz0POFan15
+	l4dK2s1BYs1WZCBYCqpWqV02yMmuEcMXWjHtgsQLGbeHdZhyEViJBR/HNU9RPFhCkRqA+eR/XkIkO
+	iPLGHpHsejvph1khuoM8GdEDKudStTZ6Ev2IVx6rjZh4kqbIMV9ceiE24SctODOG+46rwDtnF6hQI
+	erhy4PSihmkIKVOHLEoxZwnOfetYe+c7hDij6FSLR2KKT+3i+6gJdzVDiBtqLGMl434XOxiqWxisb
+	sl8ketwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKlVB-0000000GbqT-0Lyc;
-	Thu, 29 May 2025 22:13:29 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1uKlds-0000000GdCa-1CyA;
+	Thu, 29 May 2025 22:22:28 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKlV9-0000000Gbpf-09uy
+	id 1uKldp-0000000GdBT-27u1
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 May 2025 22:13:28 +0000
+	Thu, 29 May 2025 22:22:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0BE06444BB;
-	Thu, 29 May 2025 22:13:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63DB5C4CEE7;
-	Thu, 29 May 2025 22:13:25 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0E33F5C69F9;
+	Thu, 29 May 2025 22:20:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85753C4CEE7;
+	Thu, 29 May 2025 22:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748556805;
-	bh=q0eBMKlDwAs8NFjYwQFQjGfQ+gHCHGGcfAf/pDUAN48=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aGyIwl7+9CxWN2VRNXZPuCGH9ajEhdOoDdRtw/WiCsSLSvNknQ2XVHVkaflGEewue
-	 TLQ0UykblHPvBzBXcnrg/6fwWBbNPHBDs1JPwZdiC4iWxR98mhOzxXHyI7KNPesrit
-	 r+IGli3PbeL2gZAceSEWnk4n8Zuj+OGjFIC2YdeCL1TPpGmxXZFo4m+jt7Chhsq/GG
-	 Mbrf5y0CkH8KT40ooqdScHKBBHaS7KurCPJFwHnCyWFo5p+GuTBzVzXaJz8B3qR2GC
-	 YIjfljCcxGjmg+/QCNVaSFhZbZIlX9h+1YyLqU3J9rK9KBVfXHxkn+aL/lngc732Sb
-	 B3MdRZX9izuWA==
-Date: Thu, 29 May 2025 16:13:23 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: James Smart <james.smart@broadcom.com>, Jens Axboe <axboe@kernel.dk>,
+	s=k20201202; t=1748557344;
+	bh=qiABFbsJcWyIhPq0FNeTctPGJf0KQJvA0uRNtOQkP0A=;
+	h=Date:From:To:Cc:Subject:From;
+	b=aGliEGufqyb+DIOC8pTu31skuxGM1Z9/+SBkPULyPbr7nBDcxTbfxm5e2OUf5hw8Q
+	 QvfhKaZWDrf+WxR0bBbtdSw4ly+IGFJlVwH0yuuoVWkXfDfdZgWq0tglZ66zaN1TXX
+	 NLLHhx4s4PPmLeWSmxMN5eeH3mtObhhx5LGnKjSysl2JX+gnwni6m7HXwkvfBLqb+9
+	 nZ0FVDBfrx2BRLfPAIgpjIRalxKEdgKsh2zSfdfVpTO34nmT7w9gTdK9bn33O9NOfP
+	 lc9QNYhRqvj2kWX969thEjACIxvGrrqO0l/8li70WgBdyuUXaPYaO0kICEoHBeF7gy
+	 +2dY6S4VzDr0Q==
+Date: Thu, 29 May 2025 17:22:23 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: linux-pci@vger.kernel.org
+Cc: Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
 	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	Yuanyuan Zhong <yzhong@purestorage.com>,
-	Michael Liang <mliang@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>
-Subject: Re: [PATCH] block: Fix blk_sync_queue() to properly stop timeout
- timer
-Message-ID: <aDjcA_H7Ec9VICps@kbusch-mbp>
-References: <20250529214928.2112990-1-mkhalfella@purestorage.com>
+	linux-usb@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: [bugzilla-daemon@kernel.org: [Bug 220175] New: NVMe SSD doesn't work
+ via Thunderbolt enclosure on Framework 13 (Ryzen AI 300)]
+Message-ID: <20250529222223.GA119209@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250529214928.2112990-1-mkhalfella@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250529_151327_102733_9C98FDDB 
-X-CRM114-Status: GOOD (  16.07  )
+X-CRM114-CacheID: sfid-20250529_152225_586470_99CF478D 
+X-CRM114-Status: GOOD (  12.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,26 +76,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 29, 2025 at 03:49:28PM -0600, Mohamed Khalfella wrote:
-> nvme-fc initiator hit hung_task with stacktrace above while handling
-> request timeout call. The work thread is waiting for itself to finish
-> which is never going to happen. From the stacktrace the nvme controller
-> was in NVME_CTRL_CONNECTING state when nvme_fc_timeout() was called.
-> We do not expect to get IO timeout call in NVME_CTRL_CONNECTING state
-> because blk_sync_queue() must have been called on this queue before
-> switching from NVME_CTRL_RESETTING to NVME_CTRL_CONNECTING.
-> 
-> It turned out that blk_sync_queue() did not stop q->timeout_work from
-> running as expected. nvme_fc_timeout() returned BLK_EH_RESET_TIMER
-> causing q->timeout to be rearmed after it was canceled earlier.
-> q->timeout queued q->timeout_work after the controller switched to
-> NVME_CTRL_CONNECTING state causing deadlock above.
-> 
-> Add QUEUE_FLAG_NOTIMEOUT queue flag to tell q->timeout not to queue
-> q->timeout_work while queue is being synced. Update blk_sync_queue() to
-> cancel q->timeout_work first and then cancel q->timeout.
+[+cc pciehp, thunderbolt, nvme folks;
+ +bcc Andrey (reporter)]
 
-I feel like this is a nvme-fc problem that doesn't need the block layer
-to handle. Just don't sync the queues within the timeout workqueue
-context.
+Andrey, sorry that you tripped over this, and thank you very much for
+reporting it.  I'm forwarding this to the mailing lists because most
+subsystems don't really pay attention to the bugzilla.
+
+Obviously we don't want to have to use kernel args to make things
+work, and we also don't want to have to use /sys/bus/pci/rescan after
+a hot-add.
+
+IIUC, if you boot while the SSD in the enclosure is already attached
+to the USB 3.2 port, everything works fine?  Could you please attach a
+complete dmesg log from such a boot to the bugzilla, just as a
+baseline?
+
+----- Forwarded message from bugzilla-daemon@kernel.org -----
+
+https://bugzilla.kernel.org/show_bug.cgi?id=220175
+
+           Summary: NVMe SSD doesn't work via Thunderbolt enclosure on
+                    Framework 13 (Ryzen AI 300)
+
+Created attachment 308180
+  --> https://bugzilla.kernel.org/attachment.cgi?id=308180&action=edit
+lspci -vvv
+
+I have a Samsung 970 Evo Plus SSD installed in an ACASIS TBU401E USB4
+enclosure. When I connect it to the USB 3.2 port, everything is fine, the SSD
+is detected by the scsi driver and shows up in the system as /dev/sdb. But when
+I plug it into the USB4 port, the device doesn't show up.
+
+However, I can connect and use this disk by using kernel args
+`nvme_core.default_ps_max_latency_us=0 pcie_aspm=off pcie_port_pm=off` and
+doing `echo 1 | sudo tee /sys/bus/pci/rescan` after connecting the SSD.
+
+Solution described in https://bugzilla.kernel.org/show_bug.cgi?id=216000#c65
+doesn't help and breaks most of the PCIe devices in the system.
+
+More info:
+
+```
+$ uname -r
+6.14.6-300.fc42.x86_64
+$ ls /dev/nvme*    
+zsh: no matches found: /dev/nvme*
+$ cat /sys/bus/thunderbolt/devices/1-2/vendor_name         
+ACASIS
+$ cat /sys/bus/thunderbolt/devices/1-2/authorized         
+1
+$ inxi -MC           
+Machine:
+  Type: Laptop System: Framework product: Laptop 13 (AMD Ryzen AI 300 Series)
+    v: A9 serial: <superuser required>
+  Mobo: Framework model: FRANMGCP09 v: A9 serial: <superuser required>
+    UEFI: INSYDE v: 03.03 date: 03/10/2025
+CPU:
+  Info: 12-core model: AMD Ryzen AI 9 HX 370 w/ Radeon 890M bits: 64
+```
 
