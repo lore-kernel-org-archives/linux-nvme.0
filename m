@@ -4,77 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 407E8C5B549
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 May 2025 13:00:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B43DBC5B552
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 May 2025 13:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OP3937SfA9lD7qYYQPRwxydonPdWzIIz/Tu6DAbtpAw=; b=yhj/t1k+bjlIIeXXwFpmPeN12d
-	WuZ49JtUi3ajMVQibx0t/QB5dzE/ORdM2dr37r/UbI8r9A6Jz6fcERnMk0C6aqnl8dHAQTcor8kVM
-	rDsN3xJ/v/72WRZ6vuKf+02+J6xfqL65uhvBq1qS7EasV3hqN2fCxc1djwhH5TAcnFZbFuuERwwPY
-	ez+7wZygloJ0H+xuhU84fqsswi60YyQCN+6F2X04K2H+2xdTKcC4h3Y+q0Mir8weQCh4InqYyAP9K
-	+NMJpxu5eFl7G/a2Tq+8l7tRej7olhgZewHoRixKN+1rMRxQswkYXznmWGeZ5cZwz23lr4Yk2Osfp
-	V3lCpwGw==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=gAG8TEsJOvrpdGG5O3WipMgoG0
+	dfp/ZSaOUJsfw2BuXRamptblgCth/DQZRWozYDV/VIVz5n+gdRx2fYbnh7PWCf+yTDBbQOFcewFKT
+	BcjSyJNVfrUJJV/S0q2D+HP7fP3RIogAInDYXIr+Ut/R8e6MhbQM73eaPrCJYXjclLnRMXaxQWBtS
+	0fEyScZ6bofevu1pY3WOSmgVPjIsB9euyEiV1knU4qwv5bTWJbhSWnLQfL1SOVGg/Wf6qA7D0WvTD
+	rvM5/Pje1ouEWJDAHCXC9BsirtdlqGsZgK3gz1pXuw3iHhatZyGpMQJrIzZ3LTggVAiBbbYVaPMIj
+	zicKavcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKcrv-0000000FoAI-3b8d;
+	id 1uKcrv-0000000FoA2-0igJ;
 	Thu, 29 May 2025 13:00:23 +0000
-Received: from mail-wm1-f52.google.com ([209.85.128.52])
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKcWk-0000000FkRm-0HxU
+	id 1uKcT7-0000000Fk4m-0Hen
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 May 2025 12:38:32 +0000
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-441c99459e9so6120915e9.3
-        for <linux-nvme@lists.infradead.org>; Thu, 29 May 2025 05:38:29 -0700 (PDT)
+	Thu, 29 May 2025 12:34:46 +0000
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a3798794d3so742554f8f.1
+        for <linux-nvme@lists.infradead.org>; Thu, 29 May 2025 05:34:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748522308; x=1749127108;
+        d=1e100.net; s=20230601; t=1748522083; x=1749126883;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OP3937SfA9lD7qYYQPRwxydonPdWzIIz/Tu6DAbtpAw=;
-        b=h52qGmzP1+EwggnGyj9EITWSRgOA8BW9cdmAvIVeq3rnso7e/Chq+8AKL9YIznz1HR
-         1vmA2gNt2SRuoXBOTEw3U/aPM4u/FFXw1/CCMW5OLlC5pgG2dUj4Lz/CrvRwFgALGtg/
-         v2orBfI+wQM4/+mMJldX3/BMYY7tzlI/YSaagS3/sxPzdapeRBlnDi+8Y+FD3eqVdLYc
-         C3jWyKUEtaHUblZyi+hmNM5ayUyNsOAR3schGM3VqhiT3Cr/tX33KtWgkhEG5Jja+c0f
-         cJpy9VUNeARY6OcopIHge90R5ggpuajnZFCb4GoD3KaxxekuYCYIt3BHnY5JZUq6XLxP
-         2/DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUpIjnP8u+KiXmvDvsNV56qgQbCDb8Y3JkkP1AEqPt+trlefJkAJJ7nsxuLElO3GpuHYY1IPBPtB0q@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx9J8hPZPmX9r83pQhzLpcabOv2zYSrBbBUQbFfgAAD+htHJptP
-	K9bsTLSSuUOasSgpavz3hSDU7G8t8XMyG0rzmn4OKmik/nUkZfxVvckH
-X-Gm-Gg: ASbGncuP6QGTVL8lmkV/qpeqqrxAIcbUAPe8d+DE3qWAFEXfXCERQQDnMRrRaZQQH4Q
-	Mjsnd/lfvTXQqYLXLM+Or0Q0L1nMHMgHr6H08+D3j0qo2vD6AU/FtYFGWllaOWW47uj/qaKbFvL
-	BHupOcR5CvMBqkTaWh3ntIfQpF6Bri6stFzdKTmcEaykordeDx1bzz3nwDPR2y5batqucNyFsz+
-	QEKy+r8Hyr3t/DW7uodaDEju2L8odRrOr5DMRzs2cpaLj3n1hxJ6+rclUqgSaFVY0b+J8a0Ml8S
-	oo5EXDCubhdldPfpuKojEC2ebZNSmA6f/9kZ2jAkqyiHzP8YVP8+UTuvvpPQsDZAcxpCZpY4ckk
-	KGR2ZPS8t
-X-Google-Smtp-Source: AGHT+IE6LZbEZITA5vsn8eaDgo0imhEGriDvWhpliI607gOj2izLz19PCdoAT127zrFfTs1s+hK6Kg==
-X-Received: by 2002:a05:600c:a00e:b0:43c:fe90:1279 with SMTP id 5b1f17b1804b1-45077d424bbmr53581605e9.21.1748522307821;
-        Thu, 29 May 2025 05:38:27 -0700 (PDT)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=nqKH4pZ704inLv/eBEbrhi7T+CmlnsUiXVF1X9+ffjB2M6AHNxVC1YvRcVu+PyVsll
+         YKZ4Fz+sINiFM2/vovI8zPl9nYLWQFQqZ/KX+FOhGYz38OpZe7O5DWxeIWq0phKJ7Fae
+         Kud3yMpW6WQCOT7AEP585vaLCld0hB/RZRT9mciflqUtpAi7n9WwO5Ibc46GN/NYwsie
+         gLCiIY4VLEAtEbzA8DhblixmMHUBgYmuozwLChkXwXWMfMgVs2A1kJpScEX+4LsLWxbJ
+         f83rCJqxyOiUJIAFR5Pc4sTma6UvUqsesgGy3cXTb+34kY8Rh+lHWrBdkE4O4eYo6W9G
+         SCpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWupc7963BJynr4BGxLBX6tbo79ACRHNBokJ+NVy5b1Jy0tJu/yB8Z3AG+vnoc6cCJywF243yDh7r6b@lists.infradead.org
+X-Gm-Message-State: AOJu0YwG9fhOFA+NIY0/+Y+4NMYue+t8uxxZghu3Pjy8zRPvOYDWd9L8
+	PUS9pYj1wCTv3B5Egud1qIJKhtBn9jUhezDyGrUbDTtygpqLKqu+pJkI
+X-Gm-Gg: ASbGnctGTc4vQp53WY/Xh5M0G2W4ZmKRD8yTKfZBhxK6MisrJAqyxZyv6kkHKbvX6ym
+	SeddpFpzM3ROwjySfTqeyzMrs2a1+mez+CaAb/8s3V5fGRAOGJ4QgLu0ZJne0fCJbNUO9alY6Va
+	rQI9cGuW+gNKwWo9l8MzlWPRAhI9a54APu3Y33QmF4RliDEsjsBAR2XdsQZbRXelicSR+LX0CNU
+	iUArvSaT1N9UDnFlHx2WRXsF/ESCDoyMHfe+9h2SMSJDHF9VS8ZaDBC/pVHAeePWzRX9fqD2TuQ
+	dL4SDlS3y0rVi2TjCR3hsdD0SX0icrx+6Hetro6RzN2aV8N06KOelWsnFD6tfvxOGiknlpuNsPn
+	jLQaGCm2p
+X-Google-Smtp-Source: AGHT+IHX5u8o1kT0gw4De+eB8ThBfPuzjpvftHYvRLFPh6fYvAqEv8OffHb9H6e/RhvePRnx6zB4Iw==
+X-Received: by 2002:a5d:5846:0:b0:3a4:f655:8c4d with SMTP id ffacd0b85a97d-3a4f6558fe2mr819719f8f.27.1748522083306;
+        Thu, 29 May 2025 05:34:43 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-68-29.bb.netvision.net.il. [89.138.68.29])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfc782b0sm18776435e9.38.2025.05.29.05.38.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfc34ca1sm18740045e9.38.2025.05.29.05.34.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 May 2025 05:38:27 -0700 (PDT)
-Message-ID: <8aa2cf47-580d-49f5-8afd-7fba9451c9f5@grimberg.me>
-Date: Thu, 29 May 2025 15:38:26 +0300
+        Thu, 29 May 2025 05:34:42 -0700 (PDT)
+Message-ID: <edc5c415-4db4-49cd-9725-c218fe06e5ab@grimberg.me>
+Date: Thu, 29 May 2025 15:34:41 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: do not queue io_work on a full socket
+Subject: Re: [PATCH 2/3] nvme-tcp: fix I/O stalls on congested sockets
 To: Hannes Reinecke <hare@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Kamaljit Singh <kamaljit.singh1@wdc.com>, linux-nvme@lists.infradead.org
+ Kamaljit Singh <kamaljit.singh1@wdc.com>, linux-nvme@lists.infradead.org,
+ Chris Leech <cleech@redhat.com>
 References: <20250528064535.135653-1-hare@kernel.org>
- <20250528064535.135653-4-hare@kernel.org>
+ <20250528064535.135653-3-hare@kernel.org>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250528064535.135653-4-hare@kernel.org>
+In-Reply-To: <20250528064535.135653-3-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250529_053831_591401_5BD421D0 
-X-CRM114-Status: GOOD (  24.78  )
+X-CRM114-CacheID: sfid-20250529_053445_109048_3F16D610 
+X-CRM114-Status: UNSURE (   5.97  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,67 +91,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 28/05/2025 9:45, Hannes Reinecke wrote:
-> There really is no point in scheduling io_work from ->queue_rq()
-> if the socket is full; we'll be notified by the ->write_space()
-> callback once space on the socket becomes available.
-> Consequently we also need to remove the check for 'sk_stream_is_writeable()'
-> in the ->write_space() callback as we need to schedule io_work
-> to receive packets even if the sending side is blocked.
->
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> ---
->   drivers/nvme/host/tcp.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 0e178115dc04..e4dd1620dc28 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -411,6 +411,9 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
->   	empty = llist_add(&req->lentry, &queue->req_list) &&
->   		list_empty(&queue->send_list) && !queue->request;
->   
-> +	if (!sk_stream_is_writeable(queue->sock->sk))
-> +		empty = false;
-
-This is wrong. the fact that the socket it not writeable does not mean 
-that the queue
-is not empty (meaning we have rqeuests that we have yet to write to the 
-socket).
-
-> +
->   	/*
->   	 * if we're the first on the send_list and we can try to send
->   	 * directly, otherwise queue io_work. Also, only do that if we
-> @@ -422,7 +425,8 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
->   		mutex_unlock(&queue->send_mutex);
->   	}
->   
-> -	if (last && nvme_tcp_queue_has_pending(queue))
-> +	if (last && nvme_tcp_queue_has_pending(queue) &&
-> +	    sk_stream_is_writeable(queue->sock->sk))
-
-I think its fine, because either this or the callback will effectively 
-not queue the work
-as the work can only be queued once.
-
->   		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->   }
->   
-> @@ -1074,7 +1078,7 @@ static void nvme_tcp_write_space(struct sock *sk)
->   
->   	read_lock_bh(&sk->sk_callback_lock);
->   	queue = sk->sk_user_data;
-> -	if (likely(queue && sk_stream_is_writeable(sk))) {
-> +	if (likely(queue)) {
->   		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
->   		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->   	}
-
-I'd keep only this change. Unless you are convinced that the other 
-stream checks
-are correct?
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
