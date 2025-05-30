@@ -4,120 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCB5EC3ABB2
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 May 2025 06:42:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9BD0C54F30
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 May 2025 06:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L0wzzmM/TLimpMJSyGLnu34q+1JGriCMT42u5lEc8qc=; b=f07bQbrJgohKH5yvsnA9V+Wglf
-	I1r0jPInpVa/2HDGyt2gxE3eiYiIGL39pWKsP4YxVbZIu3Dwsb8XxztIav2b7Gar9o1GISgCwH5tw
-	q3DfHpEjjAy5hVjdFWoVsTkw4FK45gb4RdUahbuldM/IfNAHxYQodqRwoQsjIHL43foPy1O/7Nhuq
-	Ib+7ZX4gsao/9cX56BhUakL+xJErubh8DLb5GrXJoQcjZOzKDZG2wur0JnpDLVlc6hNtgvx6+iEH5
-	iC0KgB9mq2kyHNCdi6AzCXn61kwS53BXl6hSrY36CcJWOOw/X8UaIJkT5OFHfn15MKkMSSeHAEoR2
-	2HlpIOJw==;
+	bh=MXeEHdd/ecLGSL1wJsbS0R4oTX9iPXHDhaZvp+4M3y8=; b=dO9J5/34XxVeuY9WS9KW9Pzzjm
+	6tHgx3C0sa2H4Qx2AuQgVsvoTFKTpxldI706pIBIoQsUxggYD5YKDZewUo3NdU9gL1UaaElX3JgHF
+	MmLKWoqf9K1BBMcwQYcd/xm/k30UFEVJtLFcbqQHBL1MOG2kNH05DU+E/FMMf2nPaVvNA8dFOMyp0
+	2t1cRZuzhMY0iMP3z+lmcN8ud6EbTbvH3mM80/yxehD/Gu3fwxVuSCmDmbiIlL2HOOVnGZTTlArCG
+	o3+Fo4dL845f+TJ05xgmIiPxdw6KrKVu+hMKXgBaWsyfdEodB2b7ihaSuqNelqZPtwqwaWQ4qcJAz
+	er5dDR5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKtS9-0000000HNAm-3sps;
-	Fri, 30 May 2025 06:42:53 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1uKtXg-0000000HNyg-2q5l;
+	Fri, 30 May 2025 06:48:36 +0000
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKtS6-0000000HN8j-35DL
+	id 1uKtXe-0000000HNyG-3RhY
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 May 2025 06:42:51 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 60CBA1F79F;
-	Fri, 30 May 2025 06:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1748587367; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L0wzzmM/TLimpMJSyGLnu34q+1JGriCMT42u5lEc8qc=;
-	b=2DKFHGEWYvyTQ38ZzSZ9UTt5tYvkUO8FDkhJl4zFMmS9gg5eAwnc3QU5bS8AUkR9GkYoAa
-	QRnMQU8Wk0x9tod3jJIVZoSLR8978xtdAEOJjV/aH3Cra7wsNS6Lc2eRYGCbJ+4IIfaHry
-	rWQqeglIn10X0Z1PH2IVitsuNSAZiz8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1748587367;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L0wzzmM/TLimpMJSyGLnu34q+1JGriCMT42u5lEc8qc=;
-	b=qsE30skwylhn1lgZK5KT6I2J8prNwLwXZjOgkFi0hSBr/4fVtKL6qzBlc70eHf938tgCSE
-	LnG6rODfkpqPHdAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1748587367; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L0wzzmM/TLimpMJSyGLnu34q+1JGriCMT42u5lEc8qc=;
-	b=2DKFHGEWYvyTQ38ZzSZ9UTt5tYvkUO8FDkhJl4zFMmS9gg5eAwnc3QU5bS8AUkR9GkYoAa
-	QRnMQU8Wk0x9tod3jJIVZoSLR8978xtdAEOJjV/aH3Cra7wsNS6Lc2eRYGCbJ+4IIfaHry
-	rWQqeglIn10X0Z1PH2IVitsuNSAZiz8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1748587367;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L0wzzmM/TLimpMJSyGLnu34q+1JGriCMT42u5lEc8qc=;
-	b=qsE30skwylhn1lgZK5KT6I2J8prNwLwXZjOgkFi0hSBr/4fVtKL6qzBlc70eHf938tgCSE
-	LnG6rODfkpqPHdAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2718313889;
-	Fri, 30 May 2025 06:42:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 27CLB2dTOWiLQgAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 30 May 2025 06:42:47 +0000
-Message-ID: <918f6b70-cbdd-4ec4-ba0e-f696ceea1a4b@suse.de>
-Date: Fri, 30 May 2025 08:42:38 +0200
+	Fri, 30 May 2025 06:48:36 +0000
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-450cf0120cdso13261605e9.2
+        for <linux-nvme@lists.infradead.org>; Thu, 29 May 2025 23:48:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748587713; x=1749192513; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MXeEHdd/ecLGSL1wJsbS0R4oTX9iPXHDhaZvp+4M3y8=;
+        b=MlZvRh4ZHIdibwODbpdzyBwsndHvwsCgAZKv5nFn421PcjXKplzzl2R9vYtyNYzUJs
+         VwErAfMvVQRgecwe0uq2YTz8Siy3We+U5DDFXwWD4pc2WgMwXiGS4d38tvMSXrtJVyWT
+         eX39ZwV9JsG2PwIDTAqhlbMvgM+OPTx1k1nsslSTPmXNCSDlJpfp4hR7lj8ZhQ9iiJZw
+         QiCaF3SJazT8ElVkKd9eo2A7JS2TpyylMNzWpm3jyUXr/1kPd0n9wJWsvxw63iCqkm5m
+         lWLiSj8F5p+gVHbwBz403ki3IqfD0jYXxhnzcPnfmagwT9HdZlmCkjLNRbEeXzg/61gg
+         1w9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748587713; x=1749192513;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MXeEHdd/ecLGSL1wJsbS0R4oTX9iPXHDhaZvp+4M3y8=;
+        b=JbglshUjaNVhSMMbaWUXRjJCjL3cb28xigVigi0T/h3mQ8QS61sulXtvwmQqeCMQwd
+         aShRo307qyjAuIcamxA/fS1QQFPDivP/jqYJAjiJfC812oOxYq/Yv97Sw0wfZdVfS4Hi
+         o27vQZurOAsRDGcYDwbUsSMBcC+6NT51iG+WkXqWeSN9DZNzXADcTb8lU5nsylJXxC9p
+         6PIVNmRFWEAbpC3HS/cAtm85LCSiSdp7SvrVYiFuRLEzXhME67pEyGu63hVYW0ZcwBEq
+         +ztX7UUUqHXDiT8EodUZ05/Edb82kXd8PvLGvQXfFSUD9YjZXB3Zprd3YDsBZE6cKekU
+         cEpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOGmIma+1X5Tp2IRi+YfxWG7684wdcq8oDdU4p7ES+jhBivJir8DiGialVklPLIRBdgtKTjxZiRMTS@lists.infradead.org
+X-Gm-Message-State: AOJu0YxrD/qSjtJ8Y4wvkfbtHVWkiAAshdlP8nCxdlXyAMBveGu404BT
+	3A4dirZNMixFASRrF6pyoU22bdyhpMlDfZFppA+v3OK4f9IX317EmKT6
+X-Gm-Gg: ASbGncv90wGQY0uIP2QC7cres2+CB0UQaVRpjcCUZKmabMe4LCQ4bfe8xNpNKPERGKB
+	UP0pE5oYd+cw+TZ6UWu0556SHL+88y7V+w9Hur12S63+f4JVg+9PZ8tc8fixFITVL/xjGPIkBPW
+	/DwTpfhSeN4PcfJ8uKPUl6HmB2ljCCTfA6IlY7xcMBapFH8V6OQFHR8zAy3QcG/lxuFt2IGGnIT
+	fluVI6iYyL30qp61sTGsF1DOFafNFQIFUI/9oT3Gi8eC/uphhFJbbrt4XRTogaP357qVAVglsjz
+	hO0u02EPuIP8n4od/ObjbR8r6SYGxlgyCmGuC5wOWXEi5d3JtsWTVNDFk7SGXmkf+9304YDf6wa
+	RNEaHV/oeid7W/g==
+X-Google-Smtp-Source: AGHT+IEaRQdrIbq47i1uTvqrOh3GYrjs1EZb1ZDSE8bNiRbo3NGeAP5Bc1VED5/Muuf7IvDxzlUr8A==
+X-Received: by 2002:a05:600c:6219:b0:442:cab1:e092 with SMTP id 5b1f17b1804b1-450d64e0553mr19893275e9.11.1748587712835;
+        Thu, 29 May 2025 23:48:32 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d7f8edf9sm9120305e9.3.2025.05.29.23.48.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 May 2025 23:48:32 -0700 (PDT)
+Date: Fri, 30 May 2025 07:48:31 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Kuniyuki Iwashima <kuni1840@gmail.com>
+Cc: axboe@kernel.dk, chuck.lever@oracle.com, davem@davemloft.net,
+ edumazet@google.com, hch@lst.de, horms@kernel.org, jaka@linux.ibm.com,
+ jlayton@kernel.org, kbusch@kernel.org, kuba@kernel.org, kuniyu@amazon.com,
+ linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-rdma@vger.kernel.org, matttbe@kernel.org, mptcp@lists.linux.dev,
+ netdev@vger.kernel.org, pabeni@redhat.com, sfrench@samba.org,
+ wenjia@linux.ibm.com, willemb@google.com
+Subject: Re: [PATCH v2 net-next 2/7] socket: Rename sock_create_kern() to
+ __sock_create_kern().
+Message-ID: <20250530074831.76fd3931@pumpkin>
+In-Reply-To: <20250530030547.3218450-1-kuni1840@gmail.com>
+References: <20250529222911.37dc04f3@pumpkin>
+	<20250530030547.3218450-1-kuni1840@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-tcp: do not queue io_work on a full socket
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Kamaljit Singh <kamaljit.singh1@wdc.com>, linux-nvme@lists.infradead.org
-References: <20250528064535.135653-1-hare@kernel.org>
- <20250528064535.135653-4-hare@kernel.org>
- <8aa2cf47-580d-49f5-8afd-7fba9451c9f5@grimberg.me>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <8aa2cf47-580d-49f5-8afd-7fba9451c9f5@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_FIVE(0.00)[6]
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250529_234250_924405_60AFCDF4 
-X-CRM114-Status: GOOD (  26.22  )
+X-CRM114-CacheID: sfid-20250529_234834_869169_A64EA042 
+X-CRM114-Status: GOOD (  22.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,86 +106,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/29/25 14:38, Sagi Grimberg wrote:
-> 
-> 
-> On 28/05/2025 9:45, Hannes Reinecke wrote:
->> There really is no point in scheduling io_work from ->queue_rq()
->> if the socket is full; we'll be notified by the ->write_space()
->> callback once space on the socket becomes available.
->> Consequently we also need to remove the check for 
->> 'sk_stream_is_writeable()'
->> in the ->write_space() callback as we need to schedule io_work
->> to receive packets even if the sending side is blocked.
->>
->> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->> ---
->>   drivers/nvme/host/tcp.c | 8 ++++++--
->>   1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index 0e178115dc04..e4dd1620dc28 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -411,6 +411,9 @@ static inline void nvme_tcp_queue_request(struct 
->> nvme_tcp_request *req,
->>       empty = llist_add(&req->lentry, &queue->req_list) &&
->>           list_empty(&queue->send_list) && !queue->request;
->> +    if (!sk_stream_is_writeable(queue->sock->sk))
->> +        empty = false;
-> 
-> This is wrong. the fact that the socket it not writeable does not mean 
-> that the queue
-> is not empty (meaning we have rqeuests that we have yet to write to the 
-> socket).
-> 
-Admittedly I abuse 'empty' here; setting 'empty' to 'false' just avoids
-the workqueue to be run. If 'sk_stream_is_writeable()' is false starting
-the workqueue will just cause sendmsg() to return EAGAIN, and we'll be
-notified via the 'write_space' callback anyway.
+On Thu, 29 May 2025 20:05:32 -0700
+Kuniyuki Iwashima <kuni1840@gmail.com> wrote:
 
->> +
->>       /*
->>        * if we're the first on the send_list and we can try to send
->>        * directly, otherwise queue io_work. Also, only do that if we
->> @@ -422,7 +425,8 @@ static inline void nvme_tcp_queue_request(struct 
->> nvme_tcp_request *req,
->>           mutex_unlock(&queue->send_mutex);
->>       }
->> -    if (last && nvme_tcp_queue_has_pending(queue))
->> +    if (last && nvme_tcp_queue_has_pending(queue) &&
->> +        sk_stream_is_writeable(queue->sock->sk))
+> From: David Laight <david.laight.linux@gmail.com>
+> Date: Thu, 29 May 2025 22:29:11 +0100
+> > On Mon, 26 May 2025 07:30:13 +0200
+> > Christoph Hellwig <hch@lst.de> wrote:
+> >   
+> > > On Fri, May 23, 2025 at 11:21:08AM -0700, Kuniyuki Iwashima wrote:  
+> > > > Let's rename sock_create_kern() to __sock_create_kern() as a special
+> > > > API and add a fat documentation.
+> > > > 
+> > > > The next patch will add sock_create_kern() that holds netns refcnt.    
+> > > 
+> > > Maybe do this before patch 1 to reduce the churn of just touching a
+> > > lot of the same callers again?  
+> > 
+> > You also really want untouched source files to fail to compile.
+> > If nothing else it'll stop backports going badly awry.  
 > 
-> I think its fine, because either this or the callback will effectively 
-> not queue the work as the work can only be queued once.
-> 
->>           queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->>   }
->> @@ -1074,7 +1078,7 @@ static void nvme_tcp_write_space(struct sock *sk)
->>       read_lock_bh(&sk->sk_callback_lock);
->>       queue = sk->sk_user_data;
->> -    if (likely(queue && sk_stream_is_writeable(sk))) {
->> +    if (likely(queue)) {
->>           clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
->>           queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->>       }
-> 
-> I'd keep only this change. Unless you are convinced that the other 
-> stream checks are correct?
+> I didn't get what you wanted to say, but I remember the series
+> passed make all{yes,mod}config.
 
-The gist of this patch was to move the checks for 
-'sk_stream_is_writeable' into io_work to avoid it being queued
-when the socket is blocked, as in these cases io_work will be
-restarted via the callbacks.
-Prime reason here was to avoid recvmsg() or sendmsg() return with EAGAIN
-as this will increase latency during command processing.
+One effect of the series seems to be changing sock_create_kern()
+so that it 'holds' the network namespace.
 
-Cheers,
+Now if I backport one of the changed files to an old kernel version
+it will still compile but won't work properly.
+(Maybe you've removed the call where it acquired the 'hold'.)
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+So while the patch series bisects (assuming it all goes through
+one tree - and it really needs to go through several) you are
+relying on any backports picking up the changes.
+(And also the changes to sock_create_kern() not being picked up
+without all the other changes.)
+
+Now backports ought to pick up the required dependant patches,
+but it is much better to generate compile fails when patches
+are missing.
+Obscure run-time backport issues are annoying.
+
+	David
 
