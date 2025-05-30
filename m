@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60D23C5AE59
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 May 2025 02:42:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A88DC54FB3
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 May 2025 02:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EClwhMe2iqOJ1ZDRb/9izffcTJfL5lARyZSrEoMKU5k=; b=O4dJ+zvjdPTy2IXRJ6c6EE90om
-	AzDIX3ynwI9OAYnwNk3Y1q07YasAL6M74m5g/olLfRKGX9o4xScCfPM2FOyaHXFpkE45Rr0GeuKPf
-	4S+1N4lNymf/EF2b09YlEo68g/COnHar4ut9xqn81HJkqlwnoLbP7wYDRkGu8qhwC5xYbIXPB5D5x
-	IZuDuIO874R6Nbyl1U/cIeIpKx7M+IB2Caon/i6SKi+oW0ulanP5IL1MznR2MFNeWRBzAmyoAYNQx
-	zvidGBpMtw70J7hfCgL0ICdnPmX9PeuY8m+rzqFTBvblNogFbNIvU4nWK5cqjgbiF7F2x1TczQghc
-	SqQhQCfg==;
+	bh=KoOjhXLY+ZNHRcoN2faE2b66e3GkcsBbU+4gzMj9KqY=; b=iyAl8dPp6zNpTowbu6o0eVe0+F
+	wlvSZvf0EQKsIk0RPJ8q3Wtnx4g1dEnUJHZoO2xOBTyyyWVSlDPKar5/sO8U0yyv8A2kW4roiM45u
+	dxYCsZ4qkoxnd/NXfSv7zsMiAVtFdpGvHe8BbVwFaB1UXgHzM60rqBtFaO2PW194754g/F8ZNKEep
+	auXMsnsJfaAuD9tYzkaGRti2jt/D4E9Rc4o3zR0qoXmG09SE9oc+lW0cbWGJAXu/bYtt8xgynC3CG
+	5eMeKMiX5vizS0vjaXqHx6u9jY7DGkuYdlxi3wyElXbelT6qb+fmrmUiOyhzr7eghXXu3ran9Yq3Z
+	J/FFb5Gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKphk-0000000Gvwo-1Kcr;
-	Fri, 30 May 2025 02:42:44 +0000
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+	id 1uKpkS-0000000GwTo-2EdP;
+	Fri, 30 May 2025 02:45:32 +0000
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKphh-0000000GvwQ-3hUK
+	id 1uKpkQ-0000000GwTK-3OrI
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 May 2025 02:42:43 +0000
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso1090050b3a.2
-        for <linux-nvme@lists.infradead.org>; Thu, 29 May 2025 19:42:41 -0700 (PDT)
+	Fri, 30 May 2025 02:45:31 +0000
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-22c336fcdaaso14808005ad.3
+        for <linux-nvme@lists.infradead.org>; Thu, 29 May 2025 19:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748572960; x=1749177760; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1748573130; x=1749177930; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EClwhMe2iqOJ1ZDRb/9izffcTJfL5lARyZSrEoMKU5k=;
-        b=llPOBvAnL1LYVyd9Zmy7uSnFhWYdzqmEC37/m0ftwfdSf6CfcpRfQDIn5Ude4FCuW0
-         01pXRjhLM/lUV/Hts3HbcZ9P/TUTzc77pdgt3lIaTPs/DGE83z5YUrNvHQFGFWeVGAF6
-         yk1HEkssESfAycy8mN8aiPgwGv0aCIBfXswc3ZrovjG1cZ/f3VNesCF2CrEDQ/NmTLN0
-         9ZECxt/hPg9+DF1CgHnNz7v3nFORInX2cBgsitME4qtKL+3aiAXFmIgUWRHTQXT+uvcE
-         cZdLM4hd4QjOyx3IuKmKcUBOxQ25SCPZ5EOuwVln+HnNMBR4qkZcAlux8pg7fJG/4qlJ
-         ihJQ==
+        bh=KoOjhXLY+ZNHRcoN2faE2b66e3GkcsBbU+4gzMj9KqY=;
+        b=GECq80c5YGlFWfLd190tWL2tOdakKD/IYhXg2Tq3uUGY4VY8mOuUsbhrG3v+TYfw7u
+         KTjEuo/WhtHxKIhZbH1ZD4a7Ynh56IMEZccaIGZqEcOwpp5Q+fHeQ31t9pnS28IrOaLE
+         PpZt91R4rviJ+mB+ieglLRmHEw87ROPAlWPEWfJrhQWckqSSSrNVsTPpCT5pQE+fimkS
+         5zffCZso3PECqZ/UZfyj3m3FROOdWYrE9bkAu0hMG22pkvIdq61Aywx3uAAmPcuWIlcf
+         C23V5S6RICtjzetHQ5AsqToXIiZV2pmrxaO80s8px1qX4uQgQilEl5Igtul1rQBS4kLK
+         0w6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748572960; x=1749177760;
+        d=1e100.net; s=20230601; t=1748573130; x=1749177930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EClwhMe2iqOJ1ZDRb/9izffcTJfL5lARyZSrEoMKU5k=;
-        b=PD/P1pcBP5EE1abQaREGalq7Sr8RLvShhnkMVxUDeyaPGc4v0hNXSJYnSTiMMWB7vc
-         jHsAnQiA0b5wXE36XntSvqSvBHlRtFU1DBofT3zy4ckbocTcFaX/p50a89fznXkxyUWX
-         TdcANcPhIao6ui0X/2+GqUyzZtbdt03PeoV7kgBraRPMpzY8Dmq0IHCvWsHetZlXG/3y
-         6ihZ3dW1tkPbvL4sCctPd6cOlQCMUnpTEN4x6w25gyabteH8zyPeBPjyd4ZaHuQEvo04
-         8T3dTRuBJd0lUhoMl7IiAfYz5qmc73zSAIcBGKRQwFwXKfg2O0fSXly/aNFaL4omAJ6r
-         D50Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU8rf/ZKclHuRh4sWJY8dSArMMoVypf5EfqICCwwxs+XvuZrJVdD0kv2a/lNZ7nG7h7NWZqgXeYgmwd@lists.infradead.org
-X-Gm-Message-State: AOJu0YwfScuyTpIOYefpppfzdxyMe8lfP9RvIiybEV0xMwriSKZm++cJ
-	5QHV3KoyTGpPc8/CTe+ro8S8uQmO48svMBBlgh/77YaeNjiev7APa6s=
-X-Gm-Gg: ASbGncs2DFRvEojC1VPYMxxz3nZtEsv7/9lwIXexXVSJk5S2zvly4NqtpHr7PSBkdYJ
-	8tcfviFPQJsUn190qiOzyQejRa0tYuFcZVifxqpRAxJxZMaro3FBu9aTBZGZyiRG8XF0/zNRETO
-	Mh2jDK8k1Lq9m21XXOEjDhER2ENXpkLkiemO9CYRtoB92dvddVn/lMhAqTo7wD3KMOAbosgbgiH
-	ADQH84fSXKdYrV8s6+L3jJ8yudtGno4q3XUs9B5MIeisgRsRnmlGSFQydKyFGFQ9rU5FgCTkQyy
-	BIcrbJqP6lir44PqxntH1CGwl9xn8Knfd4nfHLo=
-X-Google-Smtp-Source: AGHT+IFkZ59DZl7jNU5F1Sz5H/4ysdqwbjBZOu4yMdNd5hJYzri98sUVF1rBQfHwd3ScQ9DgsM8UVQ==
-X-Received: by 2002:a05:6a00:4fcd:b0:736:5753:12f7 with SMTP id d2e1a72fcca58-747bd94deb2mr2658447b3a.3.1748572960442;
-        Thu, 29 May 2025 19:42:40 -0700 (PDT)
+        bh=KoOjhXLY+ZNHRcoN2faE2b66e3GkcsBbU+4gzMj9KqY=;
+        b=KdXPPtWSBrm40n48NJT+jDvb7bFb5jxzRaIKS9pkqfBqeXaDWQOf/ugc9peIikbOG7
+         rYsU1MKbyNCPDrBrTZxoFwOX2el8/Ykdt6vZR6e88YamToW/QSCZ79vfldaHV7D8mVum
+         Z8+uH/20AjDK1Q+VTz0xkRTJsfXVSipwN7HLhU0Vi/Sj8OGKPDs4cC2JPmAjlYhMT/th
+         KSRx2Has+0p+h7B9v8mWDsctBXlbbl4IMqu+y2fN2YKlqQxxTKdPRAQ0BQPNNwLJRLmU
+         osICLMkLL/CQHof+Ej+4LSBbrwzZZd3e++BBeekPO/9ela10tNS8EIIUO7gpNr9IuJ7+
+         B+ug==
+X-Forwarded-Encrypted: i=1; AJvYcCXrjUWMKXhkeiwCd9S5etjim/ht+urVKnQaWc2feljh1Yxi2adFY1M5HFPXORU7Sa66qk9e3nUgh2wF@lists.infradead.org
+X-Gm-Message-State: AOJu0YwtRlxTCuWyfpVbfl+HxpmK/uyR8530RYJf/QGRDfkYsa+/Wrls
+	OMWgHPc88Eh3/AWeKKdOTI/v3wLM7OXcjIqhWpVG+gc81LjndLFEL5g=
+X-Gm-Gg: ASbGncscIlFGw5eHC+ESkMBl3NkttUm73/5+i8p+G+6lmfGdKPZfhuX0XKk/KEdGTVq
+	a4QAHbI7Luqbyh4o+YDrP9TUPwW/o2qrk35aa1hqi3P0X++g347OejZmYXgEplXkelwdn3jY5ol
+	hbpJZYdJkOUEHJtRZYXGDEXaDPKJEsGpA4uRqeaS/34s/epEEwJf/iMPSn3QHl/8jOZdMuKf94O
+	iySJ2QEfIIjCsKgWycL1AvTvu3/tz8U7SknPRgo9dIwLkn60Gn/2HO1eBzRj0Cc8YI3666m1u9L
+	i1kqB36ozdXigZm71OmGGX3xX8og
+X-Google-Smtp-Source: AGHT+IGmhneqjdBylW4JYpgbPUNRknu2JzSpNlC2hWsZcakXdR7Ir8On6/7pieVXkB9LlKcYsiVkBw==
+X-Received: by 2002:a17:903:3ac8:b0:234:bfe3:c4a5 with SMTP id d9443c01a7336-235298ef7bfmr26925495ad.2.1748573129870;
+        Thu, 29 May 2025 19:45:29 -0700 (PDT)
 Received: from fedora.. ([2601:647:6700:3390::c8d1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747afeab0c4sm2019092b3a.48.2025.05.29.19.42.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506cf504asm18767775ad.178.2025.05.29.19.45.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 19:42:39 -0700 (PDT)
+        Thu, 29 May 2025 19:45:29 -0700 (PDT)
 From: Kuniyuki Iwashima <kuni1840@gmail.com>
 To: hch@lst.de
 Cc: axboe@kernel.dk,
@@ -91,17 +91,17 @@ Cc: axboe@kernel.dk,
 	sfrench@samba.org,
 	wenjia@linux.ibm.com,
 	willemb@google.com
-Subject: Re: [PATCH v2 net-next 1/7] socket: Un-export __sock_create().
-Date: Thu, 29 May 2025 19:42:36 -0700
-Message-ID: <20250530024238.3205130-1-kuni1840@gmail.com>
+Subject: Re: [PATCH v2 net-next 2/7] socket: Rename sock_create_kern() to __sock_create_kern().
+Date: Thu, 29 May 2025 19:45:26 -0700
+Message-ID: <20250530024527.3206724-1-kuni1840@gmail.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250526052907.GB11639@lst.de>
-References: <20250526052907.GB11639@lst.de>
+In-Reply-To: <20250526053013.GC11639@lst.de>
+References: <20250526053013.GC11639@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250529_194241_938178_1AA9A6A3 
-X-CRM114-Status: GOOD (  16.98  )
+X-CRM114-CacheID: sfid-20250529_194530_847653_886B74D8 
+X-CRM114-Status: GOOD (  12.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,32 +117,15 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
-Date: Mon, 26 May 2025 07:29:07 +0200
-> On Fri, May 23, 2025 at 11:21:07AM -0700, Kuniyuki Iwashima wrote:
-> > Since commit eeb1bd5c40ed ("net: Add a struct net parameter to
-> > sock_create_kern"), we no longer need to export __sock_create()
-> > and can replace all non-core users with sock_create_kern().
+Date: Mon, 26 May 2025 07:30:13 +0200
+> On Fri, May 23, 2025 at 11:21:08AM -0700, Kuniyuki Iwashima wrote:
+> > Let's rename sock_create_kern() to __sock_create_kern() as a special
+> > API and add a fat documentation.
 > > 
-> > Let's convert them and un-export __sock_create().
+> > The next patch will add sock_create_kern() that holds netns refcnt.
 > 
-> The changes looks good, but the commit log including subject line
-> is rather confusing.  What you do is to replace all uses of
-> __sock_create with sock_create_kern, which works because
-> sock_create_kern just calls __sock_create with the last argument set
-> to 1 as those callers do it.  This then allows marking __sock_create
-> static because all outside users are gone.
-> 
-> Please state that, i.e.
+> Maybe do this before patch 1 to reduce the churn of just touching a
+> lot of the same callers again?
 
-Will do so.
-
-Thanks!
-
-> 
-> Subect: use sock_create_kern insteadf of opencoding it
-> 
-> Replace all callers of __sock_create that set the kernel argument to 1
-> with sock_create_kern, which is the improve interface for that.
-> Mark __sock_create static now that all users outside of socket.c
-> are gone.
+Makes sense, will do.
 
