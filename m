@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A88DC54FB3
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 May 2025 02:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4EA7C5AE59
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 May 2025 02:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KoOjhXLY+ZNHRcoN2faE2b66e3GkcsBbU+4gzMj9KqY=; b=iyAl8dPp6zNpTowbu6o0eVe0+F
-	wlvSZvf0EQKsIk0RPJ8q3Wtnx4g1dEnUJHZoO2xOBTyyyWVSlDPKar5/sO8U0yyv8A2kW4roiM45u
-	dxYCsZ4qkoxnd/NXfSv7zsMiAVtFdpGvHe8BbVwFaB1UXgHzM60rqBtFaO2PW194754g/F8ZNKEep
-	auXMsnsJfaAuD9tYzkaGRti2jt/D4E9Rc4o3zR0qoXmG09SE9oc+lW0cbWGJAXu/bYtt8xgynC3CG
-	5eMeKMiX5vizS0vjaXqHx6u9jY7DGkuYdlxi3wyElXbelT6qb+fmrmUiOyhzr7eghXXu3ran9Yq3Z
-	J/FFb5Gg==;
+	bh=XWyxMFb5cX5nYvnzZ8Z+1Eedymi4rZCZ/8P/Gr9oFgw=; b=b9otRZYqswTL20fFD+w0+s31yM
+	nY2tZ7/ZK84w8WgpOGFKHLwFc9/N2Sr/JrUjRNb0cuxEqi7b8vglzaQ5CK102bWIKHujSH8mETF19
+	xWzJA5CQ+pOTr+z/aSPokgdA42WmPw5mq3XcjNfUhaWoT0OWGomDT325OPXwhVb5xeKZHb4lQ73Lk
+	HE8Q14w3iomBXpw3njzS/BcEd8YLode+PzkedfiHwHewZ4S4eoZE/nkPgAdUJkIwww7puZ26PcpKC
+	5fzXBA/K5dkV0JLYGPmCyXVlVHLsOxys3iGiMxAtEgiqNW61fQEpZms2eIWyyFmfD+gOG9Vzpa+EA
+	UiAYeD7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKpkS-0000000GwTo-2EdP;
-	Fri, 30 May 2025 02:45:32 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1uKpsl-0000000Gxy3-3Bdf;
+	Fri, 30 May 2025 02:54:07 +0000
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uKpkQ-0000000GwTK-3OrI
+	id 1uKpsi-0000000Gxwx-3ofn
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 May 2025 02:45:31 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-22c336fcdaaso14808005ad.3
-        for <linux-nvme@lists.infradead.org>; Thu, 29 May 2025 19:45:30 -0700 (PDT)
+	Fri, 30 May 2025 02:54:06 +0000
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-234c5b57557so15693845ad.3
+        for <linux-nvme@lists.infradead.org>; Thu, 29 May 2025 19:54:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748573130; x=1749177930; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1748573644; x=1749178444; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KoOjhXLY+ZNHRcoN2faE2b66e3GkcsBbU+4gzMj9KqY=;
-        b=GECq80c5YGlFWfLd190tWL2tOdakKD/IYhXg2Tq3uUGY4VY8mOuUsbhrG3v+TYfw7u
-         KTjEuo/WhtHxKIhZbH1ZD4a7Ynh56IMEZccaIGZqEcOwpp5Q+fHeQ31t9pnS28IrOaLE
-         PpZt91R4rviJ+mB+ieglLRmHEw87ROPAlWPEWfJrhQWckqSSSrNVsTPpCT5pQE+fimkS
-         5zffCZso3PECqZ/UZfyj3m3FROOdWYrE9bkAu0hMG22pkvIdq61Aywx3uAAmPcuWIlcf
-         C23V5S6RICtjzetHQ5AsqToXIiZV2pmrxaO80s8px1qX4uQgQilEl5Igtul1rQBS4kLK
-         0w6g==
+        bh=XWyxMFb5cX5nYvnzZ8Z+1Eedymi4rZCZ/8P/Gr9oFgw=;
+        b=LDD4y34aOvkOWVdT9mXPBCDey61rwQncumr+Wmkpv8Bm+QfMMroTvWJic7wQnFDoHE
+         YMC5Z49hqdBN78musrPKp0gOiYE+FGNR8EPWKvnR6Z5Higen8iQppzSOqrCcZPf//FIz
+         T8KXv9tX+nwLef5LwuvBadeQ5ymdjEiqwT/Dh+byE7QJAvLsyRTgB0+PPVIJr2Nz9o+/
+         64liD96qCGu+MRzriV2F2m0zpd3RhIYGvrLU7KQAQaAxgiJhHbKxGrTuH6SyTscxppbr
+         BxLPk94pND0uAHtzeKlyvp+YMA8osMdRyyRschkjGzTZi+2MAVZBnbndhlLcXG7FVAL4
+         RfNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748573130; x=1749177930;
+        d=1e100.net; s=20230601; t=1748573644; x=1749178444;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KoOjhXLY+ZNHRcoN2faE2b66e3GkcsBbU+4gzMj9KqY=;
-        b=KdXPPtWSBrm40n48NJT+jDvb7bFb5jxzRaIKS9pkqfBqeXaDWQOf/ugc9peIikbOG7
-         rYsU1MKbyNCPDrBrTZxoFwOX2el8/Ykdt6vZR6e88YamToW/QSCZ79vfldaHV7D8mVum
-         Z8+uH/20AjDK1Q+VTz0xkRTJsfXVSipwN7HLhU0Vi/Sj8OGKPDs4cC2JPmAjlYhMT/th
-         KSRx2Has+0p+h7B9v8mWDsctBXlbbl4IMqu+y2fN2YKlqQxxTKdPRAQ0BQPNNwLJRLmU
-         osICLMkLL/CQHof+Ej+4LSBbrwzZZd3e++BBeekPO/9ela10tNS8EIIUO7gpNr9IuJ7+
-         B+ug==
-X-Forwarded-Encrypted: i=1; AJvYcCXrjUWMKXhkeiwCd9S5etjim/ht+urVKnQaWc2feljh1Yxi2adFY1M5HFPXORU7Sa66qk9e3nUgh2wF@lists.infradead.org
-X-Gm-Message-State: AOJu0YwtRlxTCuWyfpVbfl+HxpmK/uyR8530RYJf/QGRDfkYsa+/Wrls
-	OMWgHPc88Eh3/AWeKKdOTI/v3wLM7OXcjIqhWpVG+gc81LjndLFEL5g=
-X-Gm-Gg: ASbGncscIlFGw5eHC+ESkMBl3NkttUm73/5+i8p+G+6lmfGdKPZfhuX0XKk/KEdGTVq
-	a4QAHbI7Luqbyh4o+YDrP9TUPwW/o2qrk35aa1hqi3P0X++g347OejZmYXgEplXkelwdn3jY5ol
-	hbpJZYdJkOUEHJtRZYXGDEXaDPKJEsGpA4uRqeaS/34s/epEEwJf/iMPSn3QHl/8jOZdMuKf94O
-	iySJ2QEfIIjCsKgWycL1AvTvu3/tz8U7SknPRgo9dIwLkn60Gn/2HO1eBzRj0Cc8YI3666m1u9L
-	i1kqB36ozdXigZm71OmGGX3xX8og
-X-Google-Smtp-Source: AGHT+IGmhneqjdBylW4JYpgbPUNRknu2JzSpNlC2hWsZcakXdR7Ir8On6/7pieVXkB9LlKcYsiVkBw==
-X-Received: by 2002:a17:903:3ac8:b0:234:bfe3:c4a5 with SMTP id d9443c01a7336-235298ef7bfmr26925495ad.2.1748573129870;
-        Thu, 29 May 2025 19:45:29 -0700 (PDT)
+        bh=XWyxMFb5cX5nYvnzZ8Z+1Eedymi4rZCZ/8P/Gr9oFgw=;
+        b=XMDBWNa3SD3CED6DtsVBOeTgK8/iC3LxsKn0CgikafbbIcnGKUHPfqBC1uSsEtefAp
+         4qfFfH13PEtt6+BhLDKDKHFLXd+x/nYezocRaFCXAS3H7Tdb0R3jKR4ZYydgylizgWAx
+         kx9kZSuYvvcPEsl9gBxapgBAwQjlBQYuolvdYPCkvnX6spYefGPHY54MXxyfB8GUGt7f
+         tLLoExLsolnQya1cHCQSnHcNZICClbmYW2VZsdS/XS365SvX5e8nJ9EtpHImupscIS/u
+         02GMDQ1x28Itq8B4GP/rSDtlGK74Pr7pbryAOigf2CjpEoeL10MPBULxuQvH5PKEGLyS
+         qSug==
+X-Forwarded-Encrypted: i=1; AJvYcCVFFIg5TRaNPEioDMyG/iWG3CIlA+S56Uboimb118M8BhqsbVg5jm+qGvMtvuFvyi1b/a6Js4Z5MMLb@lists.infradead.org
+X-Gm-Message-State: AOJu0YwmDs0KCwAbCIzjOEEk8c02RhRhpaYIohJu/CRdMcb0V8WIFCae
+	F213Y5MMD7i+fbgoitNYWBiz4vpYN5b1JMD6qRDPmhRbgMjoVkERFdY=
+X-Gm-Gg: ASbGnctC+qu6LN5MZ/5UV/sYffN8QTJhyfEXMHXW0xM3l5HZl2SaFTadqzzVXuk7l0A
+	jd+l5dT04dZkBNwhys/p91xRZQJk+Tuy9C21v6mJWP+EgnpSKlBofqBao7iZrsWH6aVGXzxXwWc
+	W6gFjYvy9bBw+NrPml0B5BNwjsfuLN+n3WihHFrK/IyeZJxbvLQsq2YCd2osOP/SCSP5BoRh/OQ
+	ZqSzbnZKCl9vi4XUTo160LI5V236urwz0gd+QCKVMiXilh0FlQ9nulGN2m0EaPlTCdx3mY7bLSv
+	fXnS86+WkvhZk9ksAQDRYjXH28vN
+X-Google-Smtp-Source: AGHT+IGgDezX7cz1uOZykPYiPInz+eIk19WtpZF+nVK4hwKpEI92osR/Nx6vpb7wz1AjRVv5hZda0w==
+X-Received: by 2002:a17:902:d544:b0:224:10a2:cae7 with SMTP id d9443c01a7336-235396cb241mr8527095ad.40.1748573643807;
+        Thu, 29 May 2025 19:54:03 -0700 (PDT)
 Received: from fedora.. ([2601:647:6700:3390::c8d1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506cf504asm18767775ad.178.2025.05.29.19.45.28
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506cf9380sm18830305ad.203.2025.05.29.19.54.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 19:45:29 -0700 (PDT)
+        Thu, 29 May 2025 19:54:03 -0700 (PDT)
 From: Kuniyuki Iwashima <kuni1840@gmail.com>
 To: hch@lst.de
 Cc: axboe@kernel.dk,
@@ -91,17 +91,17 @@ Cc: axboe@kernel.dk,
 	sfrench@samba.org,
 	wenjia@linux.ibm.com,
 	willemb@google.com
-Subject: Re: [PATCH v2 net-next 2/7] socket: Rename sock_create_kern() to __sock_create_kern().
-Date: Thu, 29 May 2025 19:45:26 -0700
-Message-ID: <20250530024527.3206724-1-kuni1840@gmail.com>
+Subject: Re: [PATCH v2 net-next 3/7] socket: Restore sock_create_kern().
+Date: Thu, 29 May 2025 19:53:41 -0700
+Message-ID: <20250530025401.3211542-1-kuni1840@gmail.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250526053013.GC11639@lst.de>
-References: <20250526053013.GC11639@lst.de>
+In-Reply-To: <20250526053227.GD11639@lst.de>
+References: <20250526053227.GD11639@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250529_194530_847653_886B74D8 
-X-CRM114-Status: GOOD (  12.50  )
+X-CRM114-CacheID: sfid-20250529_195404_951692_6D3CA21B 
+X-CRM114-Status: GOOD (  20.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,15 +117,38 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
-Date: Mon, 26 May 2025 07:30:13 +0200
-> On Fri, May 23, 2025 at 11:21:08AM -0700, Kuniyuki Iwashima wrote:
-> > Let's rename sock_create_kern() to __sock_create_kern() as a special
-> > API and add a fat documentation.
+Date: Mon, 26 May 2025 07:32:27 +0200
+> On Fri, May 23, 2025 at 11:21:09AM -0700, Kuniyuki Iwashima wrote:
+> > Let's restore sock_create_kern() that holds a netns reference.
 > > 
-> > The next patch will add sock_create_kern() that holds netns refcnt.
+> > Now, it's the same as the version before commit 26abe14379f8 ("net:
+> > Modify sk_alloc to not reference count the netns of kernel sockets.").
+> > 
+> > Back then, after creating a socket in init_net, we used sk_change_net()
+> > to drop the netns ref and switch to another netns, but now we can
+> > simply use __sock_create_kern() instead.
+> > 
+> >   $ git blame -L:sk_change_net include/net/sock.h 26abe14379f8~
+> > 
+> > DEBUG_NET_WARN_ON_ONCE() is to catch a path calling sock_create_kern()
+> > from __net_init functions, since doing so would leak the netns as
+> > __net_exit functions cannot run until the socket is removed.
 > 
-> Maybe do this before patch 1 to reduce the churn of just touching a
-> lot of the same callers again?
+> Is reusing the name as the old sock_create_kern a good idea?  It can
+> lead to bugs by people used to the old semantics.
 
-Makes sense, will do.
+In the old days, sock_create_kern() did take a ref to netns,
+but an implicit change that avoids taking the ref has caused
+a lot of problems for people who used to the old semantics.
+
+This series rather rolls back the change, so I think using
+the same name here is better than leaving the catchy
+sock_create_kern() error-prone.
+
+
+> It's also
+> not really an all that descriptive name for either variant.  I'm
+> not really a net stack or namespace expert, but maybe we can come
+> up with more descriptive version for both this new sock_create_kern
+> and the old sock_create_kern/__sock_create_kern?
 
