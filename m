@@ -4,131 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B030DC54FB3
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Jun 2025 06:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BABD0C5B549
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Jun 2025 06:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4KgE2toiAqeTAABqExcxdRGCOjRR5I9cGqQ0lta2DRw=; b=SHxqP8TFn1xvLiBlVF1dsXQuYu
-	IkInyjUx5LgpEmpSH/2jT28aDx9UVhrWx44veoIiWxU4n2CTlUJAJ8hceL3J98B0aoKqg0KPsx+EL
-	NFPk1A+fiNggfP9XPza+zgXnNj0gX6IGO/6E+gJBceY5m76X9t5KUvKaRWYe6ePdfZkZFuxG1N/jc
-	A+V7cQ2rlXCxJ5AZ3va8pRrAv5mgjCQZMIfP/8pFRfLd7++gHzu7tTK1TM+Ma8Me9/Ir7dDG3WIYr
-	23iFEPkumGbKcnG3f3UetNWEoP5Ni6pFijaDxf/I7S3FQg6Hg7TnpOS16S5mpYSSvaqOzvVZRHUkj
-	iNnREMPg==;
+	bh=x64QjRBCRpirY2fNZf36VUt7jRDj1P8V0N4SrNE88ZU=; b=T127NhZwwuueCmvOjKDJELgn0h
+	ADVReB0vIoIJqQ4ljUbMeQUSx5aRM963ZJSy6LfXr02yEvG18G1/YTMLXval9B9C5kl9gkUULjM99
+	kAYygYE0dQOeSZKvzBsAkyrXTrMiY7L43WI6pYiBOM3L8kSNdQ4DazumUS683gRAf4SZVeGxOKUD9
+	fAOi9kfo/GhDQRHRTP32NKixDgR9izdoAZvk5Al5mUTeFbKiytTi6TsOs4S3+9kA7PfyhaILyzdhd
+	FcsDi+E/JdchdBkyOPGSri89I5uZ1Ni1HFfGs9HSRm4seEwnuTqnzEqbgKrTy1AzUZRSHQWSzwKOv
+	Pxy/y4/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uLyqo-00000006qyD-3nfz;
+	id 1uLyqo-00000006qy2-1EJT;
 	Mon, 02 Jun 2025 06:40:50 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uLypN-00000006qqv-18VQ
+	id 1uLyoh-00000006qiE-1UYG
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Jun 2025 06:39:23 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Mon, 02 Jun 2025 06:38:40 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 998E721185;
-	Mon,  2 Jun 2025 06:39:18 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4D5522121B;
+	Mon,  2 Jun 2025 06:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1748846359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1748846316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4KgE2toiAqeTAABqExcxdRGCOjRR5I9cGqQ0lta2DRw=;
-	b=ZMqMHE1VV2AQ7hxYSk+8ioCFw58vleZEhasTgoutpSFrzWNajwxwuCx5SCYNSwFrH4keOH
-	FidK14zxoZmMEeZtuAgpWbmlrSmmU3S+muM43/7KMAyxjeg4hDztJ+LwjZSdz/y+8n8wlr
-	5/xvfwQdS2gkkr1TNDgkU4m7iKjqCSA=
+	bh=x64QjRBCRpirY2fNZf36VUt7jRDj1P8V0N4SrNE88ZU=;
+	b=CHxR8tEiC3M+bbLMGG3OaOwx4gb+Wt1vnHQwrzN9B39+OqVU5MOAt0JzFI1KGSVgRmZvKe
+	bEKVjKqS0AOV1LCWRNIgSwDxOPJbYXGfhgYqaZvnN9LRgigVm9eNmtTFGRu9ERqOCn7NnY
+	onOcCg/mPsuXY67EmtLRqTrHoKSKrgU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1748846359;
+	s=susede2_ed25519; t=1748846316;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4KgE2toiAqeTAABqExcxdRGCOjRR5I9cGqQ0lta2DRw=;
-	b=YV8VtNEDuYjtNRhF1ac/ukw9WBmrH+7KiojAA6LU1dCRqMGx2E5V6s54AZWnrd1XRFtoA5
-	gPH8zTK6StqQUFDg==
+	bh=x64QjRBCRpirY2fNZf36VUt7jRDj1P8V0N4SrNE88ZU=;
+	b=M0Vy/tb0RR46mHbn3yem+n/QmJPYHL3eESeVSeQfrtzTnaDM+/ZkKN+1+XiBwlzZk3pW5N
+	KcJGysCd9PVq9UDQ==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YPCKHgBm;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=a71sJ29G
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1748846358; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1748846316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4KgE2toiAqeTAABqExcxdRGCOjRR5I9cGqQ0lta2DRw=;
-	b=YPCKHgBmPUdAo83EjaArzGX3xYWqqiqKMzO18Xdj9dBFPEGsty78waIB+4E/NDsmrHV9My
-	ok2Fdj7VJ312imWii67uBEIF7mPdQqMODbPZDWVgmfd9az0AcFq8XO5rFpVC3qgdWiqXfE
-	Qx1E6piSzTeQeLoL0SFc+TigGESnbD4=
+	bh=x64QjRBCRpirY2fNZf36VUt7jRDj1P8V0N4SrNE88ZU=;
+	b=CHxR8tEiC3M+bbLMGG3OaOwx4gb+Wt1vnHQwrzN9B39+OqVU5MOAt0JzFI1KGSVgRmZvKe
+	bEKVjKqS0AOV1LCWRNIgSwDxOPJbYXGfhgYqaZvnN9LRgigVm9eNmtTFGRu9ERqOCn7NnY
+	onOcCg/mPsuXY67EmtLRqTrHoKSKrgU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1748846358;
+	s=susede2_ed25519; t=1748846316;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4KgE2toiAqeTAABqExcxdRGCOjRR5I9cGqQ0lta2DRw=;
-	b=a71sJ29GVj2Jq5RPbvKxh2zO12TVXuxFP8QC4C4tAJXg0jxMGhrOdh3BD7geuC08ewDbhw
-	cPMv2P5tVJm/bUBw==
+	bh=x64QjRBCRpirY2fNZf36VUt7jRDj1P8V0N4SrNE88ZU=;
+	b=M0Vy/tb0RR46mHbn3yem+n/QmJPYHL3eESeVSeQfrtzTnaDM+/ZkKN+1+XiBwlzZk3pW5N
+	KcJGysCd9PVq9UDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53CEC136C7;
-	Mon,  2 Jun 2025 06:39:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18BB2136C7;
+	Mon,  2 Jun 2025 06:38:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id D1jAEhZHPWjdSgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 02 Jun 2025 06:39:18 +0000
-Message-ID: <1f448bbb-dab2-45b0-b82c-f8d0ef81173e@suse.de>
-Date: Mon, 2 Jun 2025 08:39:14 +0200
+	id I+b7A+xGPWi9SgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 02 Jun 2025 06:38:36 +0000
+Message-ID: <6c201ca2-e288-4f82-a3d8-9a3158948cce@suse.de>
+Date: Mon, 2 Jun 2025 08:38:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvme-tcp: avoid race between nvme scan and reset
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-nvme@lists.infradead.org
-Cc: Hannes Reinecke <hare@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@infradead.org>
-References: <20250602043522.55787-1-shinichiro.kawasaki@wdc.com>
- <20250602043522.55787-2-shinichiro.kawasaki@wdc.com>
+Subject: Re: [bug report] nvme/063 failure (tcp transport)
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+References: <6mhxskdlbo6fk6hotsffvwriauurqky33dfb3s44mqtr5dsxmf@gywwmnyh3twm>
+ <72a394aa-9ed1-45ec-8aaf-5f5ccf1c18ab@grimberg.me>
+ <635f3315-a77b-4e8b-8454-20cb7c9ae2e8@suse.de>
+ <3ef6roj5exuktcobnailtjstndhnyyw264y7uwzhtuaaptst5n@gl6id4fhjhcu>
+ <f540dd31-75f6-4e1c-9bee-304530984610@suse.de>
+ <czrjrtn2q5srlg664xryrzhjifkuz57jip2qx4b7aagky57xpz@fertvxdzaknc>
+ <coaws33pv7tw6j7uzd7xzamkpymhczc36nz65dfowrhj4maqb4@55zbe6nqd6bs>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250602043522.55787-2-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <coaws33pv7tw6j7uzd7xzamkpymhczc36nz65dfowrhj4maqb4@55zbe6nqd6bs>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:9498, ipnet:::/1, country:IN];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 998E721185
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250601_233921_456180_11A6A382 
-X-CRM114-Status: GOOD (  19.27  )
+X-CRM114-CacheID: sfid-20250601_233839_544160_994BCBEE 
+X-CRM114-Status: GOOD (  19.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,72 +139,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/2/25 06:35, Shin'ichiro Kawasaki wrote:
-> When the nvme scan work and the nvme controller reset work race, the
-> WARN below happens:
+On 6/2/25 04:14, Shinichiro Kawasaki wrote:
+> On May 21, 2025 / 20:51, Shin'ichiro Kawasaki wrote:
+> [...]
+>> With this fix trial patch, the KASAN sauf is still observed. I guess it has
+>> another cause and requires more debug work.
 > 
->    WARNING: CPU: 1 PID: 69 at block/blk-mq.c:330 blk_mq_unquiesce_queue+0x8f/0xb0
+> I chased down the KASAN suaf, and now I think I understand the cause. When it
+> happens, nvme_tcp_create_ctrl() fails to create the nvme- tcp control in the
+> call chain below:
 > 
-> The WARN can be recreated by repeating the blktests test case nvme/063 a
-> few times [1]. Its cause is the new queue allocation for the tag set
-> by the scan work between blk_mq_quiesce_tagset() and
-> blk_mq_unquiesce_tagset() calls by the reset work.
+> nvme_tcp_create_ctrl()
+>   nvme_tcp_alloc_ctrl() new=true             ... Alloc nvme_tcp_ctrl and admin_tag_set
+>   nvme_tcp_setup_ctrl() new=true
+>    nvme_tcp_configure_admin_queue() new=true ... Succeed
+>     nvme_alloc_admin_tag_set()               ... Alloc the tag set for admin_tag_set
+>    nvme_stop_keep_alive()
+>    nvme_tcp_teardown_admin_queue() remove=false
+>    nvme_tcp_configure_admin_queue() new=false
+>     nvme_tcp_alloc_admin_queue()             ... Fail, but do not call nvme_remove_admin_tag_set()
+>   nvme_uninit_ctrl()
+>   nvme_put_ctrl()                            ... Free up the nvme_tcp_ctrl and admin_tag_set
 > 
-> Reset work                     Scan work
-> ------------------------------------------------------------------------
-> nvme_reset_ctrl_work()
->   nvme_tcp_teardown_ctrl()
->    nvme_tcp_teardown_io_queues()
->     nvme_quiesce_io_queues()
->      blk_mq_quiesce_tagset()
->       list_for_each_entry()                                 .. N queues
->        blk_mq_quiesce_queue()
->                                 nvme_scan_work()
->                                  nvme_scan_ns_*()
->                                   nvme_scan_ns()
->                                    nvme_alloc_ns()
->                                     blk_mq_alloc_disk()
->                                      __blk_mq_alloc_disk()
->                                       blk_mq_alloc_queue()
->                                        blk_mq_init_allocate_queue()
->                                         blk_mq_add_queue_tag_set()
->                                          list_add_tail()    .. N+1 queues
->   nvme_tcp_setup_ctrl()
->    nvme_start_ctrl()
->     nvme_unquiesce_io_queues()
->      blk_mq_unquiesce_tagset()
->       list_for_each_entry()                                 .. N+1 queues
->        blk_mq_unquiesce_queue()
->         WARN_ON_ONCE(q->quiesce_depth <= 0)
+> In this call chain, the first call of nvme_tcp_configure_admin_queue()
+> succeeds with new=true argument. The second call fails with new=false
+> argument. This second call does not call nvme_remove_admin_tag_set(),
+> due to the new=false argument. Then the admin tag set is not removed.
+> nvme_tcp_create_ctrl() assumes that nvme_tcp_setup_ctrl() would call
+> nvme_remove_admin_tag_set(), and frees up struct nvme_tcp_ctrl which has
+> admin_tag_set field. Later on, the timeout handler accesses the
+> admin_tag_set field and causes the BUG KASAN slab-use-after-free.
 > 
-> blk_mq_quiesce_queue() is not called for the new queue added by the scan
-> work, while blk_mq_unquiesce_queue() is called for it. Hence the WARN.
-> 
-> To suppress the WARN, avoid the race between the reset work and the scan
-> work by flushing the scan work at the beginning of the reset work.
-> 
-> Link: https://lore.kernel.org/linux-nvme/6mhxskdlbo6fk6hotsffvwriauurqky33dfb3s44mqtr5dsxmf@gywwmnyh3twm/ [1]
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> ---
->   drivers/nvme/host/tcp.c | 3 +++
->   1 file changed, 3 insertions(+)
+> I created a trial patch below. When the second
+> nvme_tcp_configure_admin_queue() call fails, it jumps to "destroy_admin"
+> go-to label to call nvme_tcp_teardown_admin_queue() which calls
+> nvme_remove_admin_tag_set(). With this fix, the KASAN suaf looks disappearing.
+> I will create a formal patch for review. I will post it as a series, which will
+> have two patches: one for this KASAN suaf, the other for the WARN.
 > 
 > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index f6379aa33d77..14b9d67329b3 100644
+> index d89c89570d11..74a388550995 100644
 > --- a/drivers/nvme/host/tcp.c
 > +++ b/drivers/nvme/host/tcp.c
-> @@ -2491,6 +2491,9 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
->   		container_of(work, struct nvme_ctrl, reset_work);
->   	int ret;
+> @@ -2392,7 +2392,7 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+>   		nvme_tcp_teardown_admin_queue(ctrl, false);
+>   		ret = nvme_tcp_configure_admin_queue(ctrl, false);
+>   		if (ret)
+> -			return ret;
+> +			goto destroy_admin;
+>   	}
 >   
-> +	/* prevent racing with ns scanning */
-> +	flush_work(&ctrl->scan_work);
-> +
->   	if (nvme_tcp_key_revoke_needed(ctrl))
->   		nvme_auth_revoke_tls_key(ctrl);
->   	nvme_stop_ctrl(ctrl);
+>   	if (ctrl->icdoff) {
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Thanks for debugging, that patch looks correct. Please send a patch.
 
 Cheers,
 
