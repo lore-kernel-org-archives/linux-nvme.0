@@ -4,89 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1B1FC61CE5
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jun 2025 15:28:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB353C5AD49
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jun 2025 21:32:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iFaVKSeVDuU8dQaldfMzU+gKmJroS7Q/UI0ReFlo5es=; b=oyRJYtl8zFx+Ijkpc+J9iWq8zY
-	om6+cARR5uVnZz/cPJhogIgYPo8NVNVgKtiXtLAjXRRCeYM2A37safjLkPEWhdtj0uGzjiuLGWgN8
-	d5ORylJUx9biGxAcUaXj8lYNgGo+0ZB/R4zYeMroCQvv8cOFQnLaMStyB6C0TuF83TYXUiRNhdNDt
-	3Lqa4ECH3xRCuIeSn2qEFLuB023yv8NVIwk4UNI8Pri5Tb/T9b4QxhJFXvbTDbw3137PXhBmynP1r
-	y1W+3F2sMKQcGJxPvPMmf/J19XoZPdnIpfs9UejLClrmPhuWVj39mlQi0hP1wfES+wItKgu+kADRo
-	Ydakwd2A==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TXpXvTT+xQLNA8z5uAwvt4SF8j8NDZCMNmC9o8T6C+4=; b=JWCfGcMYAPyPVVb2BS/x2GYA0q
+	w2usSnjE87te/XVPzERI8VlbBF/dStN6IdibuNZ2F7atD2uC6LIb33yFEELSmtUI6CRubli0R+cRH
+	k9ZthRhhO7wdupHdTENBQq9UHrGuDSolEawXtKY6B/IsUCXHq4Xkd7IXdtgL9JbR+6ezq3tqr74xY
+	FfTkqetAaTfHdxwH47i4mgYBmSdQVY9oqb6w6xI+1U1L/sZQLSmtRsn4O1cnVIayDD8Ad4ldaQEcn
+	MZj0dIoAIqSAF1wv8k9k6eHce9txZmOIoiKumKeeDy76izaxAN3IRb60djXaimZghQMaKIGrU1BPu
+	THayE+4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMTZ3-0000000BHWH-3Xd0;
-	Tue, 03 Jun 2025 15:28:33 +0000
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+	id 1uMZFe-0000000BsvA-0E5a;
+	Tue, 03 Jun 2025 21:32:54 +0000
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMSLQ-0000000B8nY-2Jyk
+	id 1uMZDL-0000000Bsgx-2jzY
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Jun 2025 14:10:25 +0000
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-23526264386so39885295ad.2
-        for <linux-nvme@lists.infradead.org>; Tue, 03 Jun 2025 07:10:24 -0700 (PDT)
+	Tue, 03 Jun 2025 21:30:32 +0000
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-3a50956e5d3so2269513f8f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Jun 2025 14:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748959824; x=1749564624; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iFaVKSeVDuU8dQaldfMzU+gKmJroS7Q/UI0ReFlo5es=;
-        b=RrFvbnvsyQ+KIG5JMRZAVMeoBFtLAlUOXCqMJTm044zdFd2hll5a5oKSM4kUw0OTMF
-         8pEUXTyWI8khp8VLAGlCA7xrbpM062XDT2STCgY9UOZzAJyn+Olz4b4VZa5+zP9zMivx
-         +vbIMPzAk9GX6tsTqsO4WcLJTiezMJsAmX617yV/X4xxP6idLYkYhqrAwAeiEUD8NDgV
-         laDG2KTSz+I4wEeAltE7u/GC+NxmQBOKvD/i1y6Wd4N19YuTmTe96YLlXJ+A9+CvdIKZ
-         tYCS9Sx8Qpk4CiRZQ7R58xW7Hgq224Yp4ghY/AoSbIKocffTV9nzV1jrXOL+WjMYZgda
-         i7Aw==
+        d=gmail.com; s=20230601; t=1748986229; x=1749591029; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TXpXvTT+xQLNA8z5uAwvt4SF8j8NDZCMNmC9o8T6C+4=;
+        b=a8LQKu16puWN4H+TnAkfN8qfswD7JnMHtOLrhsJHnOKt1jH0ayw8EmssZKKxMrEJxU
+         jWWA+zETYSmrr4kh55MNjY2E0UmQkpcIh7KKxdXV6h6sCI+ySXTFF2Pq1XsUwEBj/yq4
+         HveG8uT8vaeOrxNzOYTmKihV17ZJ+aZ6K7+mRr48PdgbcrqkPHeSEwiLPHRlBUtvGi07
+         1q3/BMTFV6IHOYmGErR1XqW0J9pqu/SccCl8fK2f7I3w44X/l9/X0iG8Byi6dOUPymUw
+         NBOZNZQDqC03Xma+r83JUiOpzEmCwzdtkBlkl5mU7wJ9LTlomewNjOjwYV0SL49IXBMr
+         kY5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748959824; x=1749564624;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iFaVKSeVDuU8dQaldfMzU+gKmJroS7Q/UI0ReFlo5es=;
-        b=k1j8TB0Xewb/jsM8ojkw0wZILYc6RgaXvaYWZq3knW9LbChxzvdPyTQLM6v9F11JOt
-         zLRoy9HoLLju3gBpc3dCSYqq6Nw+9Me17fyygekjb5vBS/xmP4sZiRgTLdzWL9lHXy1S
-         HJu2OFXixH4Tq6qvKRNMha7hRZwEqkm/55gPvMEloQOWn9W0F3sOO7kWs8T/2rV2dwEH
-         5InGPFkm8Vz1TJfPHDShSMvggjpBg4kwJ1Hlv3oPdlr3KsfEVHr1FnT8cUjb2Wem7Rd/
-         sLN5u5M2CEZLM154aFF9tIY6cono0dXmusytnzMxYSBtsublOr1VLYzUxIZjgTA+4LuT
-         usjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVSCTjoiMBDK8FJcxQggYng6PtEx5sg+Iqa46KOb/4IB90HO5FUO7Zcs8sBr5d/a4LifiVcgNLk9k5@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxod0SjsRd5sk3w7J4odEnd0ocWGnKyEJrg7SqwWhmD8Wcn4xQf
-	eO4rakvDX+p3txYMMpzFJ4WUmeL+dIoKH0ozrVwzd2NgKM8SuF7dduPBHajS+Q==
-X-Gm-Gg: ASbGncuDfhbCi/FZFjezi2D+HHdHWO7VOh7uBHWJb6YAq6ZBwhyzZI0QQps096o6BG5
-	LpQ0bVquWyg/sh0TedlyhdmJ3eWpJgrEUb1GCWlG6F7ZZOCBVNL4SaSvQfVpcrtvd9eNUx6DdMt
-	S5dUYnagXqyjuBz5SeVX3nY0ruWh7tF5L9jmdIjRb9lPcP0dxzOOyBwuPsg3iG7grwQh0Hm97TW
-	nhwKw+7E93myjiAj3kXedGrDkwbPn/qC78bmzJ+ISaBa++4wkG6quY2zP6IIzhimBxsUPOUd3hm
-	VCKw2kGvMxU2ggc0/QTF9LzT51Tzr4SpPDHtml0FqjUYJz8QsfRJJp5sExjp+tlRQDSskh133jM
-	WSSEX0LVbsTQkJNVgvX0o9w==
-X-Google-Smtp-Source: AGHT+IGRDdmF15TkrB2o3ftV7GQ6ZJwU4ae+MH7oGnIKy9CTtgWI7LJox9BzbCpAq1n+iDcMwHg6+A==
-X-Received: by 2002:a17:902:d488:b0:234:d359:7ec0 with SMTP id d9443c01a7336-2355f9d7959mr158217195ad.30.1748959823564;
-        Tue, 03 Jun 2025 07:10:23 -0700 (PDT)
-Received: from ?IPV6:240b:10:2720:5500:f673:8e3f:62c4:400f? ([240b:10:2720:5500:f673:8e3f:62c4:400f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506bd9705sm87603885ad.87.2025.06.03.07.10.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jun 2025 07:10:23 -0700 (PDT)
-Message-ID: <c1e8cb8d-855a-4c0a-9ea8-1e13c2571ca5@gmail.com>
-Date: Tue, 3 Jun 2025 23:10:21 +0900
+        d=1e100.net; s=20230601; t=1748986229; x=1749591029;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TXpXvTT+xQLNA8z5uAwvt4SF8j8NDZCMNmC9o8T6C+4=;
+        b=JuITWkcI19gUkFSDn3v8C+miDZP9eXdFSbZVLqzuQvhLj3EBWGWcSHDQOpCQl+394O
+         ADnlqsh9pyt0Oq/9SJJXCN3N9EoBtUiRBynsisgRmnq43kCi/rl0WUMwUfx2fME0SBok
+         Lq3yP+MhFTmW4AYkwPdyhWxS8bIAAgQQ33c+4rAb2cpOaRIamGL7PTLIH6IB7KDmQscI
+         Ip95xH5ZR74SvW+WHoz5vn41gCgHoEjF5nqlyG0YJExoKXxbddtP1oxw6JRI2jaZ9ZcD
+         1a2XipSq33Ud697GqdY+1oA+8n+fM2G2YirbaN+E5deoGxrdESGF+d2JzDQP2ShSajUa
+         vfzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJViDtKrtaXueMDKxlBG417oRrN2lKdz8steIeXtYKzdoUM5503tE8e14755B2X4OQ7/8bR3xAVsKu@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz04tQEadjRtdf3A2NR0nEm2Sny6UcMPbxrhEOjD3EoPm/Q85UR
+	HBNG1WIq0yANUV2EJPj1iAWMV15iI+yeGBLNloS1dqzS9g6s63SZ675B
+X-Gm-Gg: ASbGnctvhoJUmSWvpv1/DU5pgldZ68JrXoObwUoKP1WDJnZfWMThD+DdKRcdFVBLX8p
+	IgKosSN91gr+lOfbB+mTKclwQ+YmjbTTara5IOpwu+XSnts3IIBxeURz97sb2fI50uMABvrtdi0
+	RxwqgOvv2W1l4iP4lYuVy+WaxO4dPv6RLh58SaoMQ5DmMmZ8R1vQ5ctbr90Xz+FbQenCqyERyuG
+	G8+rqt2xQI7eYnXb1mkl0V+0roPdgXo4QnSHrRJWI/VxZ9VwvdF6z0VO1G7Lwxowy/YwhD/CTAP
+	XQDJiQi0Ihs5ySo4FVrItsna7H9GXBLD07uwRugU3etw8DAuofqYjA7LqQV3tnHa8v3zqmLp8QL
+	Zba5Kr0H5vHilWg==
+X-Google-Smtp-Source: AGHT+IH1NNz0bB48MnqJxgA4wHuK4JMchNfQmyjWht3RVt89c59AQFv32k+Eyv977zem0/zoGPmy8g==
+X-Received: by 2002:a05:6000:2303:b0:3a4:d898:3e2d with SMTP id ffacd0b85a97d-3a51d92f833mr253946f8f.24.1748986229347;
+        Tue, 03 Jun 2025 14:30:29 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe5b79asm19084051f8f.2.2025.06.03.14.30.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jun 2025 14:30:28 -0700 (PDT)
+Date: Tue, 3 Jun 2025 22:30:20 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Kuniyuki Iwashima <kuni1840@gmail.com>, axboe@kernel.dk,
+ chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
+ horms@kernel.org, jaka@linux.ibm.com, jlayton@kernel.org,
+ kbusch@kernel.org, kuba@kernel.org, kuniyu@amazon.com,
+ linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-rdma@vger.kernel.org, matttbe@kernel.org, mptcp@lists.linux.dev,
+ netdev@vger.kernel.org, pabeni@redhat.com, sfrench@samba.org,
+ wenjia@linux.ibm.com, willemb@google.com
+Subject: Re: [PATCH v2 net-next 3/7] socket: Restore sock_create_kern().
+Message-ID: <20250603223020.3344d362@pumpkin>
+In-Reply-To: <20250602050817.GA21900@lst.de>
+References: <20250526053227.GD11639@lst.de>
+	<20250530025401.3211542-1-kuni1840@gmail.com>
+	<20250602050817.GA21900@lst.de>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme-pci: add NVMe controller statistics
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20250529172954.5217-1-ikegami.t@gmail.com>
- <66e31639-d516-4d33-b51d-eafc77697ef6@nvidia.com>
-Content-Language: en-US
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-In-Reply-To: <66e31639-d516-4d33-b51d-eafc77697ef6@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250603_071024_598347_EC3F3B8D 
-X-CRM114-Status: UNSURE (   8.90  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250603_143031_707460_C32AD3CB 
+X-CRM114-Status: GOOD (  19.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,10 +107,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025/06/03 9:51, Chaitanya Kulkarni wrote:
-> can you please update the commit log with why you want to
-> count the events at the first place, what kind problem
-> it is solving and any impact on performance because of it ?
-Just done by the version 3 patch. Thank you.
+On Mon, 2 Jun 2025 07:08:17 +0200
+Christoph Hellwig <hch@lst.de> wrote:
 
+> On Thu, May 29, 2025 at 07:53:41PM -0700, Kuniyuki Iwashima wrote:
+> > In the old days, sock_create_kern() did take a ref to netns,
+> > but an implicit change that avoids taking the ref has caused
+> > a lot of problems for people who used to the old semantics.
+
+That must have been a long time ago.
+Was it even long after the namespace code was added?
+(I don't have a system with the git tree up at the moment)
+
+> > 
+> > This series rather rolls back the change, so I think using
+> > the same name here is better than leaving the catchy
+> > sock_create_kern() error-prone.  
+> 
+> Ok.
+
+Except that you are changing the semantics again.
+So you end up with the same problem the other way around.
+I can imagine code ending up with an extra reference to the ns.
+
+The obvious name a a function for general driver use would be
+kernel_socket() - matching the other functions that were added
+when set_fs(KERNEL_DS) was removed.
+
+I definitely aim to end up where the existing code fails to
+compile - just to ensure all the code is found.
+
+	David
 
