@@ -4,95 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB353C5AD49
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Jun 2025 21:32:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A2C3C5B559
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Jun 2025 03:59:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TXpXvTT+xQLNA8z5uAwvt4SF8j8NDZCMNmC9o8T6C+4=; b=JWCfGcMYAPyPVVb2BS/x2GYA0q
-	w2usSnjE87te/XVPzERI8VlbBF/dStN6IdibuNZ2F7atD2uC6LIb33yFEELSmtUI6CRubli0R+cRH
-	k9ZthRhhO7wdupHdTENBQq9UHrGuDSolEawXtKY6B/IsUCXHq4Xkd7IXdtgL9JbR+6ezq3tqr74xY
-	FfTkqetAaTfHdxwH47i4mgYBmSdQVY9oqb6w6xI+1U1L/sZQLSmtRsn4O1cnVIayDD8Ad4ldaQEcn
-	MZj0dIoAIqSAF1wv8k9k6eHce9txZmOIoiKumKeeDy76izaxAN3IRb60djXaimZghQMaKIGrU1BPu
-	THayE+4w==;
+	bh=yPErJDDHZi/Or9Xi8cZCBj9A90biFH8tK04xfSkWgnU=; b=hw3EVNAyB9PCkdHatWZCO4JtJf
+	ETypw7OJl5lwXki5oEqo0kroJ+rbdH5Gv25ufEbUtTQ7aFD9t9zIZsW6UNCA0XY89HqxOxELfODQI
+	Ve/RI7LQtAUj3zzhdLzKJrDaXVNXdKGqx5WiuJ8/If3Cvep5ffvNATiB8FLOGLuEqiJrYvKk4zFjw
+	RntgZ4fx0CXHUuxwC+JDKoGfy61l7C55O8kHwV89gb2wWhbPbjIYBNVqO48zXrzsUtE9nYMYPMcsb
+	cgDobjTxjncBvd2W6iD9XoIdc34HCW5v+VjIxD/t3XziBfthy6ivtUcujtsseZFdRSDcgWU/gLU16
+	FzuWnYEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMZFe-0000000BsvA-0E5a;
-	Tue, 03 Jun 2025 21:32:54 +0000
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+	id 1uMfHW-0000000CUXc-2b8A;
+	Wed, 04 Jun 2025 03:59:14 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMZDL-0000000Bsgx-2jzY
+	id 1uMdlJ-0000000CIAf-1TpT
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Jun 2025 21:30:32 +0000
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-3a50956e5d3so2269513f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 03 Jun 2025 14:30:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748986229; x=1749591029; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TXpXvTT+xQLNA8z5uAwvt4SF8j8NDZCMNmC9o8T6C+4=;
-        b=a8LQKu16puWN4H+TnAkfN8qfswD7JnMHtOLrhsJHnOKt1jH0ayw8EmssZKKxMrEJxU
-         jWWA+zETYSmrr4kh55MNjY2E0UmQkpcIh7KKxdXV6h6sCI+ySXTFF2Pq1XsUwEBj/yq4
-         HveG8uT8vaeOrxNzOYTmKihV17ZJ+aZ6K7+mRr48PdgbcrqkPHeSEwiLPHRlBUtvGi07
-         1q3/BMTFV6IHOYmGErR1XqW0J9pqu/SccCl8fK2f7I3w44X/l9/X0iG8Byi6dOUPymUw
-         NBOZNZQDqC03Xma+r83JUiOpzEmCwzdtkBlkl5mU7wJ9LTlomewNjOjwYV0SL49IXBMr
-         kY5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748986229; x=1749591029;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TXpXvTT+xQLNA8z5uAwvt4SF8j8NDZCMNmC9o8T6C+4=;
-        b=JuITWkcI19gUkFSDn3v8C+miDZP9eXdFSbZVLqzuQvhLj3EBWGWcSHDQOpCQl+394O
-         ADnlqsh9pyt0Oq/9SJJXCN3N9EoBtUiRBynsisgRmnq43kCi/rl0WUMwUfx2fME0SBok
-         Lq3yP+MhFTmW4AYkwPdyhWxS8bIAAgQQ33c+4rAb2cpOaRIamGL7PTLIH6IB7KDmQscI
-         Ip95xH5ZR74SvW+WHoz5vn41gCgHoEjF5nqlyG0YJExoKXxbddtP1oxw6JRI2jaZ9ZcD
-         1a2XipSq33Ud697GqdY+1oA+8n+fM2G2YirbaN+E5deoGxrdESGF+d2JzDQP2ShSajUa
-         vfzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJViDtKrtaXueMDKxlBG417oRrN2lKdz8steIeXtYKzdoUM5503tE8e14755B2X4OQ7/8bR3xAVsKu@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz04tQEadjRtdf3A2NR0nEm2Sny6UcMPbxrhEOjD3EoPm/Q85UR
-	HBNG1WIq0yANUV2EJPj1iAWMV15iI+yeGBLNloS1dqzS9g6s63SZ675B
-X-Gm-Gg: ASbGnctvhoJUmSWvpv1/DU5pgldZ68JrXoObwUoKP1WDJnZfWMThD+DdKRcdFVBLX8p
-	IgKosSN91gr+lOfbB+mTKclwQ+YmjbTTara5IOpwu+XSnts3IIBxeURz97sb2fI50uMABvrtdi0
-	RxwqgOvv2W1l4iP4lYuVy+WaxO4dPv6RLh58SaoMQ5DmMmZ8R1vQ5ctbr90Xz+FbQenCqyERyuG
-	G8+rqt2xQI7eYnXb1mkl0V+0roPdgXo4QnSHrRJWI/VxZ9VwvdF6z0VO1G7Lwxowy/YwhD/CTAP
-	XQDJiQi0Ihs5ySo4FVrItsna7H9GXBLD07uwRugU3etw8DAuofqYjA7LqQV3tnHa8v3zqmLp8QL
-	Zba5Kr0H5vHilWg==
-X-Google-Smtp-Source: AGHT+IH1NNz0bB48MnqJxgA4wHuK4JMchNfQmyjWht3RVt89c59AQFv32k+Eyv977zem0/zoGPmy8g==
-X-Received: by 2002:a05:6000:2303:b0:3a4:d898:3e2d with SMTP id ffacd0b85a97d-3a51d92f833mr253946f8f.24.1748986229347;
-        Tue, 03 Jun 2025 14:30:29 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe5b79asm19084051f8f.2.2025.06.03.14.30.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 14:30:28 -0700 (PDT)
-Date: Tue, 3 Jun 2025 22:30:20 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kuniyuki Iwashima <kuni1840@gmail.com>, axboe@kernel.dk,
- chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
- horms@kernel.org, jaka@linux.ibm.com, jlayton@kernel.org,
- kbusch@kernel.org, kuba@kernel.org, kuniyu@amazon.com,
- linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-rdma@vger.kernel.org, matttbe@kernel.org, mptcp@lists.linux.dev,
- netdev@vger.kernel.org, pabeni@redhat.com, sfrench@samba.org,
- wenjia@linux.ibm.com, willemb@google.com
-Subject: Re: [PATCH v2 net-next 3/7] socket: Restore sock_create_kern().
-Message-ID: <20250603223020.3344d362@pumpkin>
-In-Reply-To: <20250602050817.GA21900@lst.de>
-References: <20250526053227.GD11639@lst.de>
-	<20250530025401.3211542-1-kuni1840@gmail.com>
-	<20250602050817.GA21900@lst.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	Wed, 04 Jun 2025 02:21:55 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bBrtl3v0szKHN2J
+	for <linux-nvme@lists.infradead.org>; Wed,  4 Jun 2025 10:21:51 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id E61511A08F8
+	for <linux-nvme@lists.infradead.org>; Wed,  4 Jun 2025 10:21:49 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.112.188])
+	by APP4 (Coremail) with SMTP id gCh0CgCnCl+nrT9oedfBOQ--.14997S13;
+	Wed, 04 Jun 2025 10:21:49 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hch@lst.de,
+	tytso@mit.edu,
+	djwong@kernel.org,
+	john.g.garry@oracle.com,
+	bmarzins@redhat.com,
+	chaitanyak@nvidia.com,
+	shinichiro.kawasaki@wdc.com,
+	brauner@kernel.org,
+	martin.petersen@oracle.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	chengzhihao1@huawei.com,
+	yukuai3@huawei.com,
+	yangerkun@huawei.com
+Subject: [PATCH 09/10] block: add FALLOC_FL_WRITE_ZEROES support
+Date: Wed,  4 Jun 2025 10:08:49 +0800
+Message-ID: <20250604020850.1304633-10-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.46.1
+In-Reply-To: <20250604020850.1304633-1-yi.zhang@huaweicloud.com>
+References: <20250604020850.1304633-1-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgCnCl+nrT9oedfBOQ--.14997S13
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zry7Xw4DWw48CryrJFy3twb_yoW8Wr43pF
+	45JFyFgFWFg3s3GF1rCa1kWrn5Za1kJrWrC3yIkr1F9w47Jrn7Kr98WF98tFyDJFyUAw4k
+	X3ya9ryDuF17ArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+	z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+	IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+	kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+	AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
+	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
+	4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
+	daVFxhVjvjDU0xZFpf9x0pRiF4iUUUUU=
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250603_143031_707460_C32AD3CB 
-X-CRM114-Status: GOOD (  19.96  )
+X-CRM114-CacheID: sfid-20250603_192153_722881_B42DAA30 
+X-CRM114-Status: GOOD (  13.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,35 +103,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 2 Jun 2025 07:08:17 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+From: Zhang Yi <yi.zhang@huawei.com>
 
-> On Thu, May 29, 2025 at 07:53:41PM -0700, Kuniyuki Iwashima wrote:
-> > In the old days, sock_create_kern() did take a ref to netns,
-> > but an implicit change that avoids taking the ref has caused
-> > a lot of problems for people who used to the old semantics.
+Add support for FALLOC_FL_WRITE_ZEROES, if the block device enables the
+unmap write zeroes operation, it will issue a write zeroes command.
 
-That must have been a long time ago.
-Was it even long after the namespace code was added?
-(I don't have a system with the git tree up at the moment)
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+---
+ block/fops.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-> > 
-> > This series rather rolls back the change, so I think using
-> > the same name here is better than leaving the catchy
-> > sock_create_kern() error-prone.  
-> 
-> Ok.
+diff --git a/block/fops.c b/block/fops.c
+index e1c921549d28..050c16f5974a 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -841,7 +841,7 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 
+ #define	BLKDEV_FALLOC_FL_SUPPORTED					\
+ 		(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |		\
+-		 FALLOC_FL_ZERO_RANGE)
++		 FALLOC_FL_ZERO_RANGE | FALLOC_FL_WRITE_ZEROES)
+ 
+ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
+ 			     loff_t len)
+@@ -856,6 +856,13 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
+ 	/* Fail if we don't recognize the flags. */
+ 	if (mode & ~BLKDEV_FALLOC_FL_SUPPORTED)
+ 		return -EOPNOTSUPP;
++	/*
++	 * Don't allow writing zeroes if the device does not enable the
++	 * unmap write zeroes operation.
++	 */
++	if (!bdev_write_zeroes_unmap(bdev) &&
++	    (mode & FALLOC_FL_WRITE_ZEROES))
++		return -EOPNOTSUPP;
+ 
+ 	/* Don't go off the end of the device. */
+ 	isize = bdev_nr_bytes(bdev);
+@@ -886,6 +893,9 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
+ 	case FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE:
+ 		flags = BLKDEV_ZERO_NOFALLBACK;
+ 		break;
++	case FALLOC_FL_WRITE_ZEROES:
++		flags = 0;
++		break;
+ 	default:
+ 		error = -EOPNOTSUPP;
+ 		goto fail;
+-- 
+2.46.1
 
-Except that you are changing the semantics again.
-So you end up with the same problem the other way around.
-I can imagine code ending up with an extra reference to the ns.
-
-The obvious name a a function for general driver use would be
-kernel_socket() - matching the other functions that were added
-when set_fs(KERNEL_DS) was removed.
-
-I definitely aim to end up where the existing code fails to
-compile - just to ensure all the code is found.
-
-	David
 
