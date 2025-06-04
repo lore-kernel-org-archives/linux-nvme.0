@@ -4,113 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6472BC5B549
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Jun 2025 14:47:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0BDAC5B543
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Jun 2025 18:20:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3m4NxdZPLHksCLv6fxYocYRRPSyfs/tkHuw2AZw7lRU=; b=b4ntmAsRNJJChBG3pCeqqbfzcf
-	1NWKQ2SrlDwe9E7TXKrqREL8TGTOTem79DYTwEVxdpRFybLZ3gcWP1SXM0rhC39uGwYBD6+3q+jtz
-	/Rd+pTwD4u5PLu3S+ygQOX09beulh/xoZpMZRmNYzs2ZBpqrLO27KOU3+j6XX6HSn1oDOXeRp9UtZ
-	MVW4QCuUIs9lhknJ+BM9rI7/Y14lj/5+4RspEzg9mxUVcEvEPRMqCpQ+gxRzuG+pR/tHQcl2JMMN5
-	g5eD/jP1zF8NTqIQxGpfe8lH6+deV7PnInDkeE2OzzRzgPhheM9sQ0+3p+khehsW9jyqTmvSner23
-	yq0s+JxA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=i9Wbm1mpu+LrSj9fhlQVho/f6spGI1rLCVKmxwzSbfY=; b=EbB4HXIgiOqOYvW0/5lC5l7unE
+	JeJckMQOXBYjq0yrG9tzihzBejD0Wjn4aqFYd+hoig/8ra4JsGfYqxQOiW5e1GTdZra/B+D8yKB7B
+	z1qdm3PfE1rS1KKLrhSUIubvIqV3B05Q2Xyn44Tt4mpg1t+N7GZCCaPU+0dGOY/nX9QZInMU1vxMN
+	SeB6Yjq6aHhcB+qxPmfR/sNnDkadLmF1FjHKt5tvqng+KYTgEXu2VLdSCKfQt3FURoCpNt2s5i1mR
+	90Reg8VSkIMOyQIfwDg9SUa/+LXIcRCrZxf1UuMnGEHT/N665jZYUyRrAlwjxwNccb0b0RJgkSo4w
+	9+UXYnpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMpOv-0000000DcSD-3fdq;
-	Wed, 04 Jun 2025 14:47:33 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1uMsj0-0000000E09y-3g0T;
+	Wed, 04 Jun 2025 18:20:30 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uMpOt-0000000DcQq-0GQK
+	id 1uMsiz-0000000E09l-2nDO
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 04 Jun 2025 18:20:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=i9Wbm1mpu+LrSj9fhlQVho/f6spGI1rLCVKmxwzSbfY=; b=qok3itK713iMGWyF9il1NQmqtU
+	UUhrPJyhNsKvfqPL5zqHQoqT5tusrH62/jVTAsNr9T3BYUGCHwNJeSs1yyM4nuSqlOhxY7Qz6++Bq
+	aXp2nG0yo3DEPN788nyBrUHoBpuBO8Udm5hypjKhlJsIsIANn7QO7l++ElvuFbp0Rz0xNqdnLXEAz
+	CSYtOcJnK76eEYg03+j4o04vD3oMEEHwtGb08c5+23UECQV9YCqxjaBZneOzlz3uSXfjH52y14/NZ
+	WPlnAK0p4NmGPq9nnsjkEQrWXv90w4XRkPKPVLn/VzFLMDESAfFRwETUVDW8pFLJ/F8NveWCjUbTu
+	/nJUnuzg==;
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uMsiw-00000000yNs-1KUj
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Jun 2025 14:47:32 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C010022025;
-	Wed,  4 Jun 2025 14:47:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749048447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3m4NxdZPLHksCLv6fxYocYRRPSyfs/tkHuw2AZw7lRU=;
-	b=Yg8kZ2UB7rDbqZ3RXDHx30VDr0kXEjyxuHjX1F4jURgMnM+OR8eU34FrgeLdnyhVqDBbaL
-	SKQc3Gf3NOXutJTUS0ELqbf326+sQ3FixGAN6y1bQ+vtceLXVjX7nGZ77Yh/jFLDPkoahl
-	TGP0YIoJ+g9ArusPEPTXkPqE7rNktZ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749048447;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3m4NxdZPLHksCLv6fxYocYRRPSyfs/tkHuw2AZw7lRU=;
-	b=kXZ1xwBVo1dmLVAQzuLlwlHhv8di42Qy7t7jDQaM7e0Eg/0tpvq4INaYSb0BkJSrxyhXWf
-	l9YhGrIA6G2ZUVDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749048447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3m4NxdZPLHksCLv6fxYocYRRPSyfs/tkHuw2AZw7lRU=;
-	b=Yg8kZ2UB7rDbqZ3RXDHx30VDr0kXEjyxuHjX1F4jURgMnM+OR8eU34FrgeLdnyhVqDBbaL
-	SKQc3Gf3NOXutJTUS0ELqbf326+sQ3FixGAN6y1bQ+vtceLXVjX7nGZ77Yh/jFLDPkoahl
-	TGP0YIoJ+g9ArusPEPTXkPqE7rNktZ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749048447;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3m4NxdZPLHksCLv6fxYocYRRPSyfs/tkHuw2AZw7lRU=;
-	b=kXZ1xwBVo1dmLVAQzuLlwlHhv8di42Qy7t7jDQaM7e0Eg/0tpvq4INaYSb0BkJSrxyhXWf
-	l9YhGrIA6G2ZUVDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A2B9E1369A;
-	Wed,  4 Jun 2025 14:47:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JCdfJX9cQGgrfwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 04 Jun 2025 14:47:27 +0000
-Date: Wed, 4 Jun 2025 16:47:26 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, hare@suse.de, kbusch@kernel.org, 
-	gjoyce@ibm.com
-Subject: Re: [PATCHv3 0/4] libnvme: add support for discovering multipath of
- a shared ns
-Message-ID: <fc6c4b79-980f-48e4-bb5c-f72322a30052@flourine.local>
-References: <20250425185617.1242994-1-nilay@linux.ibm.com>
+	Wed, 04 Jun 2025 18:20:27 +0000
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-234b9dfb842so1870915ad.1
+        for <linux-nvme@lists.infradead.org>; Wed, 04 Jun 2025 11:20:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749061223; x=1749666023; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i9Wbm1mpu+LrSj9fhlQVho/f6spGI1rLCVKmxwzSbfY=;
+        b=MmYjKw2b8h6e+gEMaAxYzcO27Chqb7tg8rLvm6sKCqadGFY+jXzrj2FWGeHqA5+pVS
+         /teLbXMEIOI3v1duQXfywPYrv+uNB6oG0gElwJqmRZQ92ovJt6V3y8+aRdC4WBvc9sBl
+         ex/LcwCKVOGhiIua1RzHjXVg4AfIFKkI4zJ+G51sizxPLtNXY4BmS/6Edrp+cdK7dpCc
+         HNt8KtDvIIxOYM6lsJXNKqkGYq7XTnO43/FqVSAzClJLmF9zd625KKlU6FOhiFbjxVa7
+         vBRodDckbA6hfRoGkzwp/3sXBjiilmX6jXM10xwjKln8XLq5PPf4nFtx+IsXxw/cap10
+         T+Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749061223; x=1749666023;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i9Wbm1mpu+LrSj9fhlQVho/f6spGI1rLCVKmxwzSbfY=;
+        b=n4tifCCX3BReixhlYuPde3MJT6ObDxmMSTEb8VjsOrPQlI8LKVEN+PTaoH5UQI6UnI
+         p8nm2zMSz0a/F5QPaBLW3SACxClsshITE17PuSFE9THUfjyLJhvEJud8ozmWzvH98fjx
+         2B7iAJHNKCcPyTNyjH3LrdwwavWVGriDQ9JrxBOeNxknX1k/Dfx72hNSsmUUVj72H43e
+         nUl8JBr96pmBWMZahxRlkoowLJpVWlAJaLuY121U04kAaD2MLw2Zz6HIC06vJJkYjWDY
+         QcO8VxxaJ3upimXNY48NuSanJOnr6X2HGeiIEBdl6oWnwLJqJe99yGhUdo8MG35uKghn
+         lzmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUfvWSjUbm8LtOkHEGVve7H87mg4rH3GZwjz2v0WBWL2y6mZG/8wSMT55Jkj2yCdyMSyo1aR2JamAIc@lists.infradead.org
+X-Gm-Message-State: AOJu0YxklJ8xVrurcKBTu9YpcRfLAEpe/uMMXX9wv1hKPrBfGtJmYqwW
+	5aNjetB2xmv+M3LV0mq/DShWVczxuxYrvfGjj5XfOJtLcgXI4RfeBDM1ZN+1ezAaZw==
+X-Gm-Gg: ASbGncv2cxcZyTUrXLtS9qZ7ZTTLC8jit1LAzheGPtgO8M5dL+NWQrvGQwiE/LmLe19
+	Sg/QOM6glpA4LkIWnCzd7Gu6SZwm54hnj/SgE78llDcLuqHEJmPauLts2M//OklkUDi+ud2uDxM
+	8BazA8KqFg2BxNF8ylugSWfycI16bBxBCbUBxxH8nU+yYAf214vyUwGNjpzZnz8d0ifcBqEL5Yv
+	h8d0g+l9QDUcRD19oZzg5CV3JqgH2F0tCnrk2r7k1TCExEBPPkvh2LDXJyIOUZtDeJlOlR9+ulC
+	nTMo9YQo/x8lezZfSavNb7BKkHnIMGxhu6NUZAs=
+X-Google-Smtp-Source: AGHT+IGIouN/nMiCxvNDy5Ikm1iFDpXIIVrGTTraPYBI83jtD4OKXOtjOvlar8/eWBmagZfZh4sDMA==
+X-Received: by 2002:a17:902:e74c:b0:235:225d:3098 with SMTP id d9443c01a7336-235e11fef9amr54068335ad.46.1749061222816;
+        Wed, 04 Jun 2025 11:20:22 -0700 (PDT)
+Received: from fedora.. ([2601:647:6700:3390::c8d1])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2eceb9a5eesm7841454a12.53.2025.06.04.11.20.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jun 2025 11:20:22 -0700 (PDT)
+From: Kuniyuki Iwashima <kuni1840@gmail.com>
+To: hch@lst.de
+Cc: axboe@kernel.dk,
+	chuck.lever@oracle.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	horms@kernel.org,
+	jaka@linux.ibm.com,
+	jlayton@kernel.org,
+	kbusch@kernel.org,
+	kuba@kernel.org,
+	kuni1840@gmail.com,
+	kuniyu@amazon.com,
+	linux-nfs@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-rdma@vger.kernel.org,
+	matttbe@kernel.org,
+	mptcp@lists.linux.dev,
+	netdev@vger.kernel.org,
+	pabeni@redhat.com,
+	sfrench@samba.org,
+	wenjia@linux.ibm.com,
+	willemb@google.com
+Subject: Re: [PATCH v2 net-next 6/7] socket: Replace most sock_create() calls with sock_create_kern().
+Date: Wed,  4 Jun 2025 11:20:17 -0700
+Message-ID: <20250604182020.126258-1-kuni1840@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250603045021.GA8367@lst.de>
+References: <20250603045021.GA8367@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250425185617.1242994-1-nilay@linux.ibm.com>
-X-Spamd-Result: default: False [-4.06 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	NEURAL_SPAM_SHORT(0.04)[0.012];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_FIVE(0.00)[5]
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250604_074731_262606_B1C84B60 
-X-CRM114-Status: GOOD (  14.57  )
+X-CRM114-CacheID: sfid-20250604_192026_379463_A89F4A5B 
+X-CRM114-Status: GOOD (  18.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,32 +131,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nilay
-
-On Sat, Apr 26, 2025 at 12:26:05AM +0530, Nilay Shroff wrote:
-> Hi,
+From: Christoph Hellwig <hch@lst.de>
+Date: Tue, 3 Jun 2025 06:50:21 +0200
+> On Mon, Jun 02, 2025 at 02:52:47PM -0700, Kuniyuki Iwashima wrote:
+> > From: Christoph Hellwig <hch@lst.de>
+> > Date: Mon, 2 Jun 2025 07:09:49 +0200
+> > > On Thu, May 29, 2025 at 08:03:06PM -0700, Kuniyuki Iwashima wrote:
+> > > > I actually tried to to do so as sock_create_user() in the
+> > > > previous series but was advised to avoid rename as the benefit
+> > > > against LoC was low.
+> > > 
+> > > I can't really parse this.  What is the 'benefit against LoC'?
+> > 
+> > It was a kind of subjective opinion whether the amount of changes
+> > was worth or not.
 > 
-> Recently released Linux kernel v6.15-rc1 added support for easily discovering
-> multiple paths to a shared NVMe namespace. This multipath information is
-> exposed to userspace via a new sysfs group attribute named "multipath",
-> located under /sys/block/<ns-blkdev>/. More details on this functionality
-> can be found here [1].
-> 
-> This patch series leverages that new functionality to discover multiple paths
-> to a shared namespace and exposes that information in libnvme so that it can
-> later be used by nvme-cli.
-> 
-> There are four patches in this series:
-> The first patch adds support for discovering NVMe paths using the sysfs
-> "multipath" group attribute.
-> The second patch adds a new "queue_depth" attribute under the NVMe path
-> object.
-> The third patch adds a new "numa_nodes" attribute under the NVMe path object.
-> The fourth patch extends the sysfs tree dump test to validate multipath link
-> support
+> So the simple scripted renaming was not worth it.  Maybe I misunderstand,
+> but based on the reading we should basically have about a handful
+> callers of the non-__kern variant left.  Or is it a lot more?
 
-LGTM. I've applied the series.
-
-Thanks,
-Daniel
+Yes, after this series, only 2 sock_create() left, one in sctp and
+another in core.
 
