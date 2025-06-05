@@ -4,88 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D75FCC5AE59
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Jun 2025 14:06:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 495B0C5AE59
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Jun 2025 22:47:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pI8D5AUkm60Fo75qRERIbbgYVvFQrrXFj50MSrANZI4=; b=Vh8KzQXoy4PYJAs1+7rkVXJ+x7
-	wPHop2XSat+DaJ5srmiPidMv3muyMx4Xb/Sb9kp654FRymQoIGkUANur8wEG8lXRhKpEXGXWAAe6d
-	XuaK/XtQkTsHbudtAZB3VTuatPD+f7cEK8upqAQSajYqQYKSVP0TCDcoHH0mpIIjCiWDWo/2hNnlq
-	RzY978DneKLRTtvn+IIWS+spdhbH0IK2oZSsH177/6HOvQxl1FMkktOGwJ7fD3Z70n4juqbVVPHcR
-	ZoYXsJhRckTZ+c7f654p+pEcsE0uVmAm66G/ViqxhkpDMfkjMYc9+fxhletufwB3HK5xQjl/iPaH3
-	Vyr1LQhQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=B3iCkznfdJrPtmutRDHkkOVy3ToEGyOfwJM48wn17go=; b=rxQxi3GkJhNiz8mHvC0vvgT2Gp
+	sN7LHEmzI7PKJB9LQq2mfiWfQaf9L2SPpU5zdsHgPQ3IpBjdOXf74trqngsZ7NRWTc2DaA2ZaaKBL
+	Kwv4EOXlNSzLtf81zw8I2i5tmGs8QqWQa80hUte5lF0Ex/eUrTbsiu0BMphK39IkyMKa5QWWED2HE
+	HQSQ8o1ra9N2IySVdooCwU1d17FIcZwXepfVCD5uIB6YakQFAB0YvtoacnOkpA53CT9TFBn7qMko8
+	UUDUmjfnAJpT+q5khj/L7+0paP7CujdwiBFPs1vl9Pig5IWBCz+/xF1nfJRRiCgje0K8L0WPY/9Te
+	U/21EXrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uNBF4-0000000FjNn-31zO;
-	Thu, 05 Jun 2025 14:06:50 +0000
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
+	id 1uNJMx-0000000GkxV-45O4;
+	Thu, 05 Jun 2025 22:47:31 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uNArL-0000000FgDi-0tul
+	id 1uNJMv-0000000Gkx4-1f1T
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Jun 2025 13:42:20 +0000
-Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-86cef0b4d96so24503839f.0
-        for <linux-nvme@lists.infradead.org>; Thu, 05 Jun 2025 06:42:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1749130938; x=1749735738; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pI8D5AUkm60Fo75qRERIbbgYVvFQrrXFj50MSrANZI4=;
-        b=NPtqRpLKxN7oIQLX0hrdc1eUCY62QhyjyhVrRmov4jXMzmNvhnI488P+0nD0KTXZAB
-         ahtgqifnGGzSi+r9XDArXlUvVK2a7PW5ICGSBq+V2uTpEKWgzVc2get1n1EY8Qn7MtYM
-         WVQg0ce+rOIVAyKZCJ/JW3/j8mIB4+2+JsG0KdvueqZ71o4jFIfGHxwO/fpwD05JYGum
-         xHaXNNulRSOU431nIKz54byDcDBQ5n73R0/pg0ckl2Yd3HLDYn3scE9m9apiN4SPiwW6
-         RvvA0+Cf9JDmYdmFVsQb+B9x4SgxIQEDCZbtIlGV3zN5+Xrm9HsivkD+Dl4YaGoTDVIb
-         NsxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749130938; x=1749735738;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pI8D5AUkm60Fo75qRERIbbgYVvFQrrXFj50MSrANZI4=;
-        b=ZM1zXI9nYofTULh51D6o4u5StxAyJdwZ9oSIY9VJl8EoQY2+z+5qTNYOWP4V9tOPZj
-         JzlmAgG51bMe7rifWxhsrNtByflbp2sg+eib8QDPCcN4Q9SFBAvsE0P207Np8XauXP/o
-         jGdaebHs3KNUn/OCv33I2CkPh1ueg/hUPCFexQamEKsLgBtatTb1PjZdny3uJn1Pq6lK
-         jtHrVLDrXhqdNn6c/gfS0elg0C2r6ywJID1jcITbbZmVjPXAHj6AORr/X+7oOpgSlvxg
-         4zyotI1M+5dp0nTd4V+ARDobH49oFqnfHDizJRQa950jaqqoK0ruxpOir2FnieNSYTPv
-         RJ6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVwQTqn77D+Oxcq+v1T1FM0DFxt+6FYBG4o8lD0EBAaLmrDqLIvOGZas3TOjlssPFElszqhoN6k/vdX@lists.infradead.org
-X-Gm-Message-State: AOJu0YzeHUkQpDq/cQsnT5X5mtoc/HfzOz4DdS4N6DSaaB3um+ZNrFUC
-	a7hSbp3jBzV4JhdDQGRlAURKQDmjBga3mLhY5u2TlHEXUOX4dPNnWAtpQPe1bqqThY4=
-X-Gm-Gg: ASbGncsR8oa9V120OsEzGA4ekOuBzsAcZjiw8Qn5VN/r1IkQg++aUyN4JqDkXcIyTLJ
-	CVrSLb82BbDSCSolPQqQMXd4ge2gktMqMZ5pf69fB70UhY5nJQY8PcL7zJjiWe7tWhVzZkMkMga
-	QUbsKUh6gRRWeCIaFXw06yqIrWLH1/HfCQ5BhYMFBiqUXfEa02sRB+Sa42lelHYxv06u+rz2qnX
-	M7kia716D7csQv63aiIaVpHGpIRxMn0dKMDuIgyO3PGNTnaKcxyZgR+SMjGGANKAgZEUN3n5Nob
-	CNt+v9QECW21NLg3bNz57XRT+3Qb8cTzi/knPmpEJ/2tcG0=
-X-Google-Smtp-Source: AGHT+IGNhE4Q/55V5nWoOcc9q6/ny7tf0HY4NW3rcwPvzDDBGap67w67idXKdSn7t3obEfaI1RhzlA==
-X-Received: by 2002:a05:6602:7218:b0:873:f22:92fb with SMTP id ca18e2360f4ac-8731c502c2fmr826279339f.1.1749130937774;
-        Thu, 05 Jun 2025 06:42:17 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4fdd7efce43sm3296048173.117.2025.06.05.06.42.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jun 2025 06:42:17 -0700 (PDT)
-Message-ID: <cd702850-63b3-423b-b883-7b3737ef5e83@kernel.dk>
-Date: Thu, 5 Jun 2025 07:42:16 -0600
+	Thu, 05 Jun 2025 22:47:31 +0000
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 555KvrKm031161;
+	Thu, 5 Jun 2025 22:47:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=B3iCkznfdJrPtmutRDHkkOVy3ToEG
+	yOfwJM48wn17go=; b=UC2SeIrbs13g7qS6V6ZZIGnS3mAVeXf4KGnveI2ZLxCZm
+	cvZeSAlbov/fZJ83+MhnmnVkgPG4ELaYssfmx3g00w2p3T4H2Xc6Oy/R4tNenSTp
+	zgsnlPpIpXqBsE/WmE6dLRZD0JruBtkcTUa2nUdkH9Yi2nL/NPQfpn13eqb2kmuE
+	ziCvECJ13eFVZM1xdcJ/PSrUaS6F4zgVp63LTy3TuSZDNdAA/X1edYdCAP2SchB7
+	Ac7bXy3dEAdB7bvkcJbnixd5KFXefhYOFUcGqcwbELwGlFZ3gmXx3M+tNe/Qnw0L
+	GKEN2JhuFkY1w0EJNpN6YQH7OYY3GHWfwh1qBj0Yw==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 471g8bq1ee-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 05 Jun 2025 22:47:27 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 555LLCo8030830;
+	Thu, 5 Jun 2025 22:47:26 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 46yr7cnddw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 05 Jun 2025 22:47:26 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 555MlPld021940;
+	Thu, 5 Jun 2025 22:47:25 GMT
+Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 46yr7cnddm-1;
+	Thu, 05 Jun 2025 22:47:25 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-block@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org, alan.adamson@oracle.com,
+        linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com,
+        linux-raid@vger.kernel.org
+Subject: [PATCH blktests] md/002: add atomic write tests for md/stacked devices
+Date: Thu,  5 Jun 2025 15:57:25 -0700
+Message-ID: <20250605225725.3352708-1-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme updates for Linux 6.16
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-References: <aEFkj8jfrDVGuG4_@infradead.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aEFkj8jfrDVGuG4_@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-05_07,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 adultscore=0 spamscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2506050206
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA1MDIwNiBTYWx0ZWRfX6lgLsRc+ZDA+ qONOhevAhVjXQBDFD1tBgjuQx1f5nhIUDeyjnOwMVvtF3zmpQb0kw2PYxovFaGZGJ32Huz72V8D cHrj9gH+nILFN14c8RNCrCIKJ7rxi6jJEFMClFFkpmTLgmvIkIHwC43Vilf5VUwjFt3CyM4ZNwq
+ UOWYWA+tnArI4hJ0c/5Rg6PjK/tioLyjsJyLQzaubjSdp7uwz1DpF7K3yYpWUoQL5Aj+qkDCGpw 6w6iH0lRQwibj/fOYblEMSjjogCo6Su/Z1RIlUC3cCernzLXoQFBLFY7q1bUBylCD/CrWOCVFka GrAA0+g45/QyEbTIikeZ+QM2EjBlW4mfYdkdrTJSdv+2zMt7W42nBLbRKuyo3lufE7mHvmnX/of
+ 2wNGD6rOiiC5xdcy1ta0jqfXNc69c0tCwdUb1ILQpOuk/86XAL/puLzSyQJGwFN0MuyzfiM4
+X-Proofpoint-GUID: 2he_U9_GENU6zuttUcKcJL60mMjaj_3o
+X-Proofpoint-ORIG-GUID: 2he_U9_GENU6zuttUcKcJL60mMjaj_3o
+X-Authority-Analysis: v=2.4 cv=H+Dbw/Yi c=1 sm=1 tr=0 ts=68421e7f b=1 cx=c_pps a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=at6Jyrbyo9Rir9YWFhUA:9 cc=ntf awl=host:14714
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250605_064219_500283_A607DB6F 
-X-CRM114-Status: GOOD (  11.06  )
+X-CRM114-CacheID: sfid-20250605_154729_458519_79475A3E 
+X-CRM114-Status: GOOD (  17.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,31 +97,331 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/5/25 3:34 AM, Christoph Hellwig wrote:
-> The following changes since commit a2f4c1ae163b815dc81e3cab97c3149fdc6639e3:
-> 
->   selftests: ublk: kublk: improve behavior on init failure (2025-06-03 20:19:44 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.16-2025-06-05
-> 
-> for you to fetch changes up to 44e479d7202070c3bc7f084a4951ee8689769f71:
-> 
->   nvme: spelling fixes (2025-06-04 10:23:28 +0200)
-> 
-> ----------------------------------------------------------------
-> nvme updates for Linux 6.16
-> 
->  - TCP error handling fix (Shin'ichiro Kawasaki)
->  - TCP I/O stall handling fixes (Hannes Reinecke)
->  - fix command limits status code (Keith Busch)
->  - support vectored buffers also for passthrough (Pavel Begunkov)
->  - spelling fixes (Yi Zhang)
+Add a new test (md/002) to verify atomic write support for MD devices
+(RAID 0, 1, and 10) stacked on top of SCSI devices using scsi_debug with
+atomic write emulation enabled.
 
-Pulled, thanks.
+This test validates that atomic write sysfs attributes are correctly
+propagated through MD layers, and that pwritev2() with RWF_ATOMIC
+behaves as expected on these devices.
 
+Specifically, the test checks:
+    - That atomic write attributes in /sys/block/.../queue are consistent
+      between MD and underlying SCSI devices
+    - That atomic write limits are respected in user-space via xfs_io
+    - That statx reports accurate atomic_write_unit_{min,max} values
+    - That invalid writes (too small or too large) fail as expected
+    - That chunk size affects max atomic write limits (for RAID 0/10)
+
+Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
+---
+ tests/md/002     | 245 +++++++++++++++++++++++++++++++++++++++++++++++
+ tests/md/002.out |  43 +++++++++
+ 2 files changed, 288 insertions(+)
+ create mode 100755 tests/md/002
+ create mode 100644 tests/md/002.out
+
+diff --git a/tests/md/002 b/tests/md/002
+new file mode 100755
+index 000000000000..4b71ebf7d496
+--- /dev/null
++++ b/tests/md/002
+@@ -0,0 +1,245 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2025 Oracle and/or its affiliates
++#
++# Test SCSI Atomic Writes with MD devices
++
++. tests/scsi/rc
++. common/scsi_debug
++. common/xfs
++
++DESCRIPTION="test md atomic writes"
++QUICK=1
++
++requires() {
++	_have_kver 6 14 0
++	group_requires
++	_have_program mdadm
++	_have_driver scsi_debug
++	_have_xfs_io_atomic_write
++}
++
++test() {
++	local scsi_debug_atomic_wr_max_length
++	local scsi_debug_atomic_wr_gran
++	local scsi_sysfs_atomic_max_bytes
++	local scsi_sysfs_atomic_unit_max_bytes
++	local scsi_sysfs_atomic_unit_min_bytes
++	local md_atomic_max_bytes
++	local md_atomic_min_bytes
++	local md_sysfs_max_hw_sectors_kb
++	local md_max_hw_bytes
++	local md_chunk_size
++	local md_sysfs_logical_block_size
++	local md_sysfs_atomic_max_bytes
++	local md_sysfs_atomic_unit_max_bytes
++	local md_sysfs_atomic_unit_min_bytes
++	local bytes_to_write
++	local bytes_written
++	local test_desc
++	local scsi_0
++	local scsi_1
++	local scsi_2
++	local scsi_3
++	local scsi_dev_sysfs
++	local md_dev
++	local md_dev_sysfs
++	local scsi_debug_params=(
++		delay=0
++		atomic_wr=1
++		num_tgts=1
++		add_host=4
++		per_host_store=true
++	)
++
++	echo "Running ${TEST_NAME}"
++
++	if ! _configure_scsi_debug "${scsi_debug_params[@]}"; then
++                return 1
++                fi
++
++	scsi_0="${SCSI_DEBUG_DEVICES[0]}"
++	scsi_1="${SCSI_DEBUG_DEVICES[1]}"
++	scsi_2="${SCSI_DEBUG_DEVICES[2]}"
++	scsi_3="${SCSI_DEBUG_DEVICES[3]}"
++
++	scsi_dev_sysfs="/sys/block/${scsi_0}"
++	scsi_sysfs_atomic_max_bytes=$(< "${scsi_dev_sysfs}"/queue/atomic_write_max_bytes)
++	scsi_sysfs_atomic_unit_max_bytes=$(< "${scsi_dev_sysfs}"/queue/atomic_write_unit_max_bytes)
++	scsi_sysfs_atomic_unit_min_bytes=$(< "${scsi_dev_sysfs}"/queue/atomic_write_unit_min_bytes)
++	scsi_debug_atomic_wr_max_length=$(< /sys/module/scsi_debug/parameters/atomic_wr_max_length)
++	scsi_debug_atomic_wr_gran=$(< /sys/module/scsi_debug/parameters/atomic_wr_gran)
++
++	for raid_level in 0 1 10; do
++		if [ "$raid_level" = 10 ]
++		then
++			echo y | mdadm --create /dev/md/blktests_md --level=$raid_level \
++				--raid-devices=4 --force /dev/"${scsi_0}" /dev/"${scsi_1}" \
++				/dev/"${scsi_2}" /dev/"${scsi_3}" 2> /dev/null 1>&2
++		else
++			echo y | mdadm --create /dev/md/blktests_md --level=$raid_level \
++				--raid-devices=2 --force \
++				/dev/"${scsi_0}" /dev/"${scsi_1}" 2> /dev/null 1>&2
++		fi
++
++		md_dev=$(readlink /dev/md/blktests_md | sed 's|\.\./||')
++		md_dev_sysfs="/sys/devices/virtual/block/${md_dev}"
++
++		md_sysfs_logical_block_size=$(< "${md_dev_sysfs}"/queue/logical_block_size)
++		md_sysfs_max_hw_sectors_kb=$(< "${md_dev_sysfs}"/queue/max_hw_sectors_kb)
++		md_max_hw_bytes=$(( "$md_sysfs_max_hw_sectors_kb" * 1024 ))
++		md_sysfs_atomic_max_bytes=$(< "${md_dev_sysfs}"/queue/atomic_write_max_bytes)
++		md_sysfs_atomic_unit_max_bytes=$(< "${md_dev_sysfs}"/queue/atomic_write_unit_max_bytes)
++		md_sysfs_atomic_unit_min_bytes=$(< "${md_dev_sysfs}"/queue/atomic_write_unit_min_bytes)
++		md_atomic_max_bytes=$(( "$scsi_debug_atomic_wr_max_length" * "$md_sysfs_logical_block_size" ))
++		md_atomic_min_bytes=$(( "$scsi_debug_atomic_wr_gran" * "$md_sysfs_logical_block_size" ))
++
++		test_desc="TEST 1 RAID $raid_level - Verify md sysfs atomic attributes matches scsi"
++		if [ "$md_sysfs_atomic_unit_max_bytes" = "$scsi_sysfs_atomic_unit_max_bytes" ] &&
++			[ "$md_sysfs_atomic_unit_min_bytes" = "$scsi_sysfs_atomic_unit_min_bytes" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $md_sysfs_atomic_unit_max_bytes - $scsi_sysfs_atomic_unit_max_bytes -" \
++				"$md_sysfs_atomic_unit_min_bytes - $scsi_sysfs_atomic_unit_min_bytes "
++		fi
++
++		test_desc="TEST 2 RAID $raid_level - Verify sysfs atomic attributes"
++		if [ "$md_max_hw_bytes" -ge "$md_sysfs_atomic_max_bytes" ] &&
++			[ "$md_sysfs_atomic_max_bytes" -ge "$md_sysfs_atomic_unit_max_bytes" ] &&
++			[ "$md_sysfs_atomic_unit_max_bytes" -ge "$md_sysfs_atomic_unit_min_bytes" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $md_max_hw_bytes - $md_sysfs_max_hw_sectors_kb -" \
++				"$md_sysfs_atomic_max_bytes - $md_sysfs_atomic_unit_max_bytes -" \
++				"$md_sysfs_atomic_unit_min_bytes"
++		fi
++
++		test_desc="TEST 3 RAID $raid_level - Verify md sysfs_atomic_max_bytes is less than or equal "
++		test_desc+="scsi sysfs_atomic_max_bytes"
++		if [ "$md_sysfs_atomic_max_bytes" -le "$scsi_sysfs_atomic_max_bytes" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $md_sysfs_atomic_max_bytes - $scsi_sysfs_atomic_max_bytes"
++		fi
++
++		test_desc="TEST 4 RAID $raid_level - check sysfs atomic_write_unit_max_bytes <= scsi_debug atomic_wr_max_length"
++		if (("$md_sysfs_atomic_unit_max_bytes" <= "$md_atomic_max_bytes"))
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $md_sysfs_atomic_unit_max_bytes - $md_atomic_max_bytes"
++		fi
++
++		test_desc="TEST 5 RAID $raid_level - check sysfs atomic_write_unit_min_bytes = scsi_debug atomic_wr_gran"
++		if [ "$md_sysfs_atomic_unit_min_bytes" = "$md_atomic_min_bytes" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $md_sysfs_atomic_unit_min_bytes - $md_atomic_min_bytes"
++		fi
++
++		test_desc="TEST 6 RAID $raid_level - check statx stx_atomic_write_unit_min"
++		statx_atomic_min=$(run_xfs_io_xstat /dev/"$md_dev" "stat.atomic_write_unit_min")
++		if [ "$statx_atomic_min" = "$md_atomic_min_bytes" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $statx_atomic_min - $md_atomic_min_bytes"
++		fi
++
++		test_desc="TEST 7 RAID $raid_level - check statx stx_atomic_write_unit_max"
++		statx_atomic_max=$(run_xfs_io_xstat /dev/"$md_dev" "stat.atomic_write_unit_max")
++		if [ "$statx_atomic_max" = "$md_sysfs_atomic_unit_max_bytes" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $statx_atomic_max - $md_sysfs_atomic_unit_max_bytes"
++		fi
++
++		test_desc="TEST 8 RAID $raid_level - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with "
++		test_desc+="RWF_ATOMIC flag - pwritev2 should be succesful"
++		bytes_written=$(run_xfs_io_pwritev2_atomic /dev/"$md_dev" "$md_sysfs_atomic_unit_max_bytes")
++		if [ "$bytes_written" = "$md_sysfs_atomic_unit_max_bytes" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $bytes_written - $md_sysfs_atomic_unit_max_bytes"
++		fi
++
++		test_desc="TEST 9 RAID $raid_level - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 512 "
++		test_desc+="bytes with RWF_ATOMIC flag - pwritev2 should not be succesful"
++		bytes_to_write=$(( "${md_sysfs_atomic_unit_max_bytes}" + 512 ))
++		bytes_written=$(run_xfs_io_pwritev2_atomic /dev/"$md_dev" "$bytes_to_write")
++		if [ "$bytes_written" = "" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $bytes_written - $bytes_to_write"
++		fi
++
++		test_desc="TEST 10 RAID $raid_level - perform a pwritev2 with size of sysfs_atomic_unit_min_bytes "
++		test_desc+="with RWF_ATOMIC flag - pwritev2 should be succesful"
++		bytes_written=$(run_xfs_io_pwritev2_atomic /dev/"$md_dev" "$md_sysfs_atomic_unit_min_bytes")
++		if [ "$bytes_written" = "$md_sysfs_atomic_unit_min_bytes" ]
++		then
++			echo "$test_desc - pass"
++		else
++			echo "$test_desc - fail $bytes_written - $md_atomic_min_bytes"
++		fi
++
++		bytes_to_write=$(( "${md_sysfs_atomic_unit_min_bytes}" - "${md_sysfs_logical_block_size}" ))
++		test_desc="TEST 11 RAID $raid_level - perform a pwritev2 with a size of sysfs_atomic_unit_min_bytes - 512 "
++		test_desc+="bytes with RWF_ATOMIC flag - pwritev2 should fail"
++		if [ "$bytes_to_write" = 0 ]
++		then
++			echo "$test_desc - pass"
++		else
++			bytes_written=$(run_xfs_io_pwritev2_atomic /dev/"$md_dev" "$bytes_to_write")
++			if [ "$bytes_written" = "" ]
++			then
++				echo "$test_desc - pass"
++			else
++				echo "$test_desc - fail $bytes_written - $bytes_to_write"
++			fi
++		fi
++
++		mdadm --stop /dev/md/blktests_md  2> /dev/null 1>&2
++
++		if [ "$raid_level" = 0 ] || [ "$raid_level" = 10 ]
++		then
++			md_chunk_size=$(( "$scsi_sysfs_atomic_unit_max_bytes" / 2048))
++
++			if [ "$raid_level" = 0 ]
++			then
++				echo y | mdadm --create /dev/md/blktests_md --level=$raid_level \
++					--raid-devices=2 --chunk="${md_chunk_size}"K --force \
++					/dev/"${scsi_0}" /dev/"${scsi_1}" 2> /dev/null 1>&2
++			else
++				echo y | mdadm --create /dev/md/blktests_md --level=$raid_level \
++					--raid-devices=4 --chunk="${md_chunk_size}"K --force \
++					/dev/"${scsi_0}" /dev/"${scsi_1}" \
++					/dev/"${scsi_2}" /dev/"${scsi_3}" 2> /dev/null 1>&2
++			fi
++
++			md_dev=$(readlink /dev/md/blktests_md | sed 's|\.\./||')
++			md_dev_sysfs="/sys/devices/virtual/block/${md_dev}"
++			md_sysfs_atomic_unit_max_bytes=$(< "${md_dev_sysfs}"/queue/atomic_write_unit_max_bytes)
++			test_desc="TEST 12 RAID $raid_level - Verify sysfs_atomic_unit_max_bytes <= chunk size "
++			if [ "$md_chunk_size" -le "$md_sysfs_atomic_unit_max_bytes" ]
++			then
++				echo "$test_desc - pass"
++			else
++				echo "$test_desc - fail $md_chunk_size - $md_sysfs_atomic_unit_max_bytes"
++			fi
++
++			mdadm --quiet --stop /dev/md/blktests_md
++                fi
++	done
++
++	_exit_scsi_debug
++
++	echo "Test complete"
++}
+diff --git a/tests/md/002.out b/tests/md/002.out
+new file mode 100644
+index 000000000000..61fb2650b60a
+--- /dev/null
++++ b/tests/md/002.out
+@@ -0,0 +1,43 @@
++Running md/002
++TEST 1 RAID 0 - Verify md sysfs atomic attributes matches scsi - pass
++TEST 2 RAID 0 - Verify sysfs atomic attributes - pass
++TEST 3 RAID 0 - Verify md sysfs_atomic_max_bytes is less than or equal scsi sysfs_atomic_max_bytes - pass
++TEST 4 RAID 0 - check sysfs atomic_write_unit_max_bytes <= scsi_debug atomic_wr_max_length - pass
++TEST 5 RAID 0 - check sysfs atomic_write_unit_min_bytes = scsi_debug atomic_wr_gran - pass
++TEST 6 RAID 0 - check statx stx_atomic_write_unit_min - pass
++TEST 7 RAID 0 - check statx stx_atomic_write_unit_max - pass
++TEST 8 RAID 0 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with RWF_ATOMIC flag - pwritev2 should be succesful - pass
++pwrite: Invalid argument
++TEST 9 RAID 0 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 512 bytes with RWF_ATOMIC flag - pwritev2 should not be succesful - pass
++TEST 10 RAID 0 - perform a pwritev2 with size of sysfs_atomic_unit_min_bytes with RWF_ATOMIC flag - pwritev2 should be succesful - pass
++pwrite: Invalid argument
++TEST 11 RAID 0 - perform a pwritev2 with a size of sysfs_atomic_unit_min_bytes - 512 bytes with RWF_ATOMIC flag - pwritev2 should fail - pass
++TEST 12 RAID 0 - Verify sysfs_atomic_unit_max_bytes <= chunk size  - pass
++TEST 1 RAID 1 - Verify md sysfs atomic attributes matches scsi - pass
++TEST 2 RAID 1 - Verify sysfs atomic attributes - pass
++TEST 3 RAID 1 - Verify md sysfs_atomic_max_bytes is less than or equal scsi sysfs_atomic_max_bytes - pass
++TEST 4 RAID 1 - check sysfs atomic_write_unit_max_bytes <= scsi_debug atomic_wr_max_length - pass
++TEST 5 RAID 1 - check sysfs atomic_write_unit_min_bytes = scsi_debug atomic_wr_gran - pass
++TEST 6 RAID 1 - check statx stx_atomic_write_unit_min - pass
++TEST 7 RAID 1 - check statx stx_atomic_write_unit_max - pass
++TEST 8 RAID 1 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with RWF_ATOMIC flag - pwritev2 should be succesful - pass
++pwrite: Invalid argument
++TEST 9 RAID 1 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 512 bytes with RWF_ATOMIC flag - pwritev2 should not be succesful - pass
++TEST 10 RAID 1 - perform a pwritev2 with size of sysfs_atomic_unit_min_bytes with RWF_ATOMIC flag - pwritev2 should be succesful - pass
++pwrite: Invalid argument
++TEST 11 RAID 1 - perform a pwritev2 with a size of sysfs_atomic_unit_min_bytes - 512 bytes with RWF_ATOMIC flag - pwritev2 should fail - pass
++TEST 1 RAID 10 - Verify md sysfs atomic attributes matches scsi - pass
++TEST 2 RAID 10 - Verify sysfs atomic attributes - pass
++TEST 3 RAID 10 - Verify md sysfs_atomic_max_bytes is less than or equal scsi sysfs_atomic_max_bytes - pass
++TEST 4 RAID 10 - check sysfs atomic_write_unit_max_bytes <= scsi_debug atomic_wr_max_length - pass
++TEST 5 RAID 10 - check sysfs atomic_write_unit_min_bytes = scsi_debug atomic_wr_gran - pass
++TEST 6 RAID 10 - check statx stx_atomic_write_unit_min - pass
++TEST 7 RAID 10 - check statx stx_atomic_write_unit_max - pass
++TEST 8 RAID 10 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes with RWF_ATOMIC flag - pwritev2 should be succesful - pass
++pwrite: Invalid argument
++TEST 9 RAID 10 - perform a pwritev2 with size of sysfs_atomic_unit_max_bytes + 512 bytes with RWF_ATOMIC flag - pwritev2 should not be succesful - pass
++TEST 10 RAID 10 - perform a pwritev2 with size of sysfs_atomic_unit_min_bytes with RWF_ATOMIC flag - pwritev2 should be succesful - pass
++pwrite: Invalid argument
++TEST 11 RAID 10 - perform a pwritev2 with a size of sysfs_atomic_unit_min_bytes - 512 bytes with RWF_ATOMIC flag - pwritev2 should fail - pass
++TEST 12 RAID 10 - Verify sysfs_atomic_unit_max_bytes <= chunk size  - pass
++Test complete
 -- 
-Jens Axboe
+2.43.5
 
 
