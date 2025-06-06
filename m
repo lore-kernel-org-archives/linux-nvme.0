@@ -4,85 +4,176 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BAB0C5B543
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Jun 2025 03:37:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2FBEC5B549
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Jun 2025 07:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MZ6CSTem0sCjOhlxkkRJl4t0cacF+EyNk4yrXqUCF10=; b=pJuz2QWZo8YkWobxdbo/yh20Si
-	gkDaW1zGe1BObO4pb2SawSTN+ItiNony+FBSF+HPjC6ks2pcQDMrlF/nTjiJE7qEr1+lL7OL8h9qn
-	rkkvpHKMFPm82ayLHnWIqWUUY5b/t+ptT6afMt6cKtX5x8mBczjoXDo7eGYMdaqZxJ3WVIWm9nHB6
-	sTUQCPPOdhNyGNySG3z/+Xitp4vv/s6YMLrfG1LzO0kNl0M1EjxQqE5bVSo5keP/rEPEI8rbJYftb
-	iB5Iuo7njzNBfPIYcvDM1StfHvEF63Bnx8bP7FflwmUAXgVhaxkCkPEdzy+sGQHwo6l7tqV6HKOq9
-	R9rpZgxw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rVqUtI9cDEJZLKGzccoSGwW+gukN8EcMJrS8W6JrfSY=; b=RnT4m6IAneUeVdQFLrBVbGm1GY
+	JOXTTIbzhowalta4yKPJCrLJ2726b73icNP4bm439xi1JvmDthLHP8yhoSUwvRo3bP/Zo+AeEk5uB
+	jtJ6Ef1W/iwsh9RKWRUVWpyv1v0T/+tGmKlwqo7DptxTndAIYtRCDPBLJkqplh4LKDBXgiDAh5EvZ
+	b9WmTS6g0AyBG41cqcYxdNi7P/vaFXtpS8JKitEOrwyxtDOI/iaD2scGot9z0d2eNxyA56VgKX5Ws
+	qq1M39zt7CEJKLGsBf+qa4nNL0SYOI+0HberuZ+kxG3LYl+7xeu3PXGH7R58bZvPW4TGG16zCNZhh
+	gZJAh6cg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uNNtz-0000000H2hJ-36wk;
-	Fri, 06 Jun 2025 03:37:55 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1uNRv3-0000000HM3v-0ZXS;
+	Fri, 06 Jun 2025 07:55:17 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uNNtx-0000000H2h0-1mis
+	id 1uNRum-0000000HM0r-21sW
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Jun 2025 03:37:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749181072;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=MZ6CSTem0sCjOhlxkkRJl4t0cacF+EyNk4yrXqUCF10=;
-	b=SZijWfSsCi+vk9fHuJQ509U5b1xtz2xr9+6+MCIAWuJxKS6fZoelKUxBAwE5pnEWAPeRqi
-	JPGSiDWXkzUXLHF4zf8NYDK2y8udf/ijm2I3q8J/MA+kHBfo3Npcc7xhVOjHEq3p9sEP6o
-	4qk5wy0u53i9HTDW3euH3zgxQ7jLcoc=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-636-3mj3CcS8PQGhEWwCeceazA-1; Thu, 05 Jun 2025 23:37:50 -0400
-X-MC-Unique: 3mj3CcS8PQGhEWwCeceazA-1
-X-Mimecast-MFC-AGG-ID: 3mj3CcS8PQGhEWwCeceazA_1749181069
-Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-32a72e28932so12613811fa.1
-        for <linux-nvme@lists.infradead.org>; Thu, 05 Jun 2025 20:37:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749181068; x=1749785868;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MZ6CSTem0sCjOhlxkkRJl4t0cacF+EyNk4yrXqUCF10=;
-        b=QFrAHq/HtOvaQiamm9uQyQNkDnT0wnAAdTE7PBrODqQ3TXKiR21WzGKWegAtutwoj1
-         p+tFmjaqDblSk/ZBE/SzL07cMoVJhW6liQFNjzZRSViqX7kzAOJa/LIbOhgJsw+5VjAu
-         lltDVFYRx/L1RtYmvfCVjtCeWh7pug3T7UVgtl1uCKFvEWnXD0tKAoMs2SaxaghVHrHV
-         0hZO5/OdfQPe9iJ8g3qdUajMVUaf/8m+57WB2MAdl6Mg+XFBArIQhp8T6NrO8xWx4s4t
-         Io40igDrBez5/ObjKrEKPTlgJY28uLzpYnnCTgJqGHbZJXe14Mh0Q+45fGLtQrfmtlsj
-         Blhw==
-X-Gm-Message-State: AOJu0Yz46bToWJMbT7FQ+Z/TSwyVvjFSjWNAYqMQ9q9vuDpjCnjJi3Ky
-	kCccg6nd1HH/uDnLNx4DiA6MR1NmaBkzlV0wvfXjb6qKKXqxWDwl5epxucj+kCzj0GMYT+z6NkX
-	5uaVF9U72i03+o6zdcpGwoyRi20DLTZWQwxmEvrIdco4L5ykaVZYMYOmhh6In6AIZKiWPH20/Pz
-	gnJmeJksFasBhaBoXt0Uk6973v7c/rN2Ua8w/ZlYiG0Sb1UsE3gu0kW2Yj
-X-Gm-Gg: ASbGncs4nxQohzYdm6qAzzlTLCyd3tmX4z4eLvq9yrnL3vKxQnFA66DCpLk8xXEtqiB
-	Iw6gc6OZDithiFE0WHivgM+AVB3roVzaxmRmqoPX/eG0zQpRW7TOiuw7BftpjvagypfnaLg==
-X-Received: by 2002:a05:6512:3f2a:b0:553:243c:c1d3 with SMTP id 2adb3069b0e04-5535d92b33bmr1726515e87.18.1749181067495;
-        Thu, 05 Jun 2025 20:37:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG9YhpW4K1aVI+bFseGfGqbWwGUYteIhsDlhD1rqrjfIFs8lkamhjn6ygV6VctDKcbYQQD8jdypHhKBkCWmOiM=
-X-Received: by 2002:a05:6512:3f2a:b0:553:243c:c1d3 with SMTP id
- 2adb3069b0e04-5535d92b33bmr1726509e87.18.1749181066919; Thu, 05 Jun 2025
- 20:37:46 -0700 (PDT)
+	Fri, 06 Jun 2025 07:55:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1749196500; x=1780732500;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=YICUXt3IYNOgc0stavb8O7gIZjxLncqm7cfJVsXw+2w=;
+  b=fx77/coL61xwnLKj1oWPFCin+Py1dmMQCdq8uupL2oui9dUczseAkdBR
+   BeQVNxSV1QiJhnYh6JX53a9wrihbluMGSIfo4IvxjK12xTR3+rZpnDidn
+   pxVByvygGJBqQtetbhOcW+8Rt1c2yLbpADTNeHFY/Z+L2mChmg4JiQdA8
+   0CSCwN/44ZtsSx94LwgA7Qpmg18XJvCjw/YcU86ALULdnGxTW9De7sDm0
+   I+UxKHIl6Oh2zNZDpkjhIezb014nzKpn4e72rIArRXAYNi6eLwJ32r+cs
+   o+gqis3o2P27vBrb/XulxfjguZC3eYVVWH4zRwtXFBixK62U0/UBVbiKs
+   A==;
+X-CSE-ConnectionGUID: xkecNOAyQLChkhylilYFmQ==
+X-CSE-MsgGUID: t2xaiMUBSlGm4SxGddwXdA==
+X-IronPort-AV: E=Sophos;i="6.16,214,1744041600"; 
+   d="scan'208";a="83553122"
+Received: from mail-sn1nam02on2049.outbound.protection.outlook.com (HELO NAM02-SN1-obe.outbound.protection.outlook.com) ([40.107.96.49])
+  by ob1.hgst.iphmx.com with ESMTP; 06 Jun 2025 15:54:57 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=u7zpDv00NQt/BJnUyTJV6ZBeLHi0a87V5z1VE77y5DwT+x/mNPo9L9Xg5W05Sy+qAWzhu0MbwOaDwn7HU7pN4tc8WugtNwztoEzeNnmpBrBHTJrMhp/MsDWvjpxpaeiNa1RJDc2N5seUfhHy8D1o5Hz3idkd6VJU99aEF39AyxDXigbOJ5PDR63Jlmb1hFbA7U9aqVRPOpjcDust8iT4HEZKrRTtlxH9VE4p3jrnA3YXX0debvAckPdfP9LD7yQV2Qg0dqJkk5IHvfF53CDUpGq7QGdmw66yjbsM3izjZiYdVcYTDMONvWiK1g6e9Eo5tUIETEdWjlDBMVNTCc9Pag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rVqUtI9cDEJZLKGzccoSGwW+gukN8EcMJrS8W6JrfSY=;
+ b=Vb/nbT38Mo+Se41HLB+5sAKS1yjFNPB0urkr2jcWElF+TEglK60oo3TjcPYrpO2Z+a38b8RQiKzqS2uUpuRUjexaDRJcHgfDNjoY4A5j8QKZ2CMNVaHjd93aAR1JoKF70i2qGckqpIJGc5AlmkmMXSNoGMaLEu4PgQIWuzlAy71Q3HZTAVyosxN1KvQ4hXju4icuUUM/UD+rwp4JyxpJ22wW45/kVN352/Qp3Gku/R6LeRF3SgBgaTvx5Pcuu+7xHiJgQQas/FTT5ILlUVp+QR5xYH8THkcaQ7zBzkRn3m+lepsEbzuDQS36GFo3ciIX86HanmFfjxkny8qiOkXStw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rVqUtI9cDEJZLKGzccoSGwW+gukN8EcMJrS8W6JrfSY=;
+ b=PGG2xKV9VY42IfB6vfoO5ioziGIK+iSw1P8hi4t6Tjc3ThkeU3iRqv4v9CdFOxnJff9ZSYKOX9qG7cRXADuXrFaNoMNvvSFAUeMMX12mWFo0Pvb1mL+WxtAHHJBsOWWxlDquStfgq2xpWvhNE5XY7tSgvIDXA2LLb3Krk2urL1E=
+Received: from SN7PR04MB8532.namprd04.prod.outlook.com (2603:10b6:806:350::6)
+ by LV8PR04MB9732.namprd04.prod.outlook.com (2603:10b6:408:297::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Fri, 6 Jun
+ 2025 07:54:55 +0000
+Received: from SN7PR04MB8532.namprd04.prod.outlook.com
+ ([fe80::4e14:94e7:a9b3:a4d4]) by SN7PR04MB8532.namprd04.prod.outlook.com
+ ([fe80::4e14:94e7:a9b3:a4d4%5]) with mapi id 15.20.8792.034; Fri, 6 Jun 2025
+ 07:54:54 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Daniel Wagner <dwagner@suse.de>, "yizhan@redhat.com" <yizhan@redhat.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>
+Subject: Re: blktests failures with v6.15 kernel
+Thread-Topic: blktests failures with v6.15 kernel
+Thread-Index: AQHb0HYvN//Uc3+takahHhtvsJIVubP0k2AAgAE8RwA=
+Date: Fri, 6 Jun 2025 07:54:54 +0000
+Message-ID: <rcirbjhpzv6ojqc5o33cl3r6l7x72adaqp7k2uf6llgvcg5pfh@qy5ii2yfi2b2>
+References: <2xsfqvnntjx5iiir7wghhebmnugmpfluv6ef22mghojgk6gilr@mvjscqxroqqk>
+ <7cdceac2-ef72-4917-83a2-703f8f93bd64@flourine.local>
+In-Reply-To: <7cdceac2-ef72-4917-83a2-703f8f93bd64@flourine.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR04MB8532:EE_|LV8PR04MB9732:EE_
+x-ms-office365-filtering-correlation-id: 19beb01c-da88-4ee5-5a45-08dda4cf6ce3
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?RztYKUeUlgCCOjVhlkDrwERGf9R0+dWPgpj6imC6dqthBzo7ExKnRJKTAz9B?=
+ =?us-ascii?Q?jhinUsAbZ+pdz5hVfli9qfUfx6zOkKWcrynn/ZvqZ+oj640ItS7RVAbOo/mD?=
+ =?us-ascii?Q?tMQ5kEVV++DYHB0SXXq7Sfof1aZjEm7V9k6Gh8bKN8AOOmuX2vhw1wXNjIcp?=
+ =?us-ascii?Q?SiU+0kxk5Ly9j7F4s7tMVQ7DMZB5Ha/7qxz8TgfezjSLpTiJRVBGVCD/80Zz?=
+ =?us-ascii?Q?+gN/5LWEsYMgjeRchR+2fWmlSM6voO01AZg2NnvjEIVYtveFwWxznomkUv7E?=
+ =?us-ascii?Q?xcsL4QhtBmZOPbQ6aO5jjKT+VVjRuLM16Eu0Gfwe0t7UFkzMWJPFx5qYbTAN?=
+ =?us-ascii?Q?MNJlA6PZ+6Z+JsmPKDSknDmAx210BV1vbSUNN+7vYNC38tQX5WGXQgv0gbKT?=
+ =?us-ascii?Q?MvcsmCK9IWOtYZto+OaeplYlcYZt2Pd9R9V+9dP2Z7+N5TEPpKspELIB4P3p?=
+ =?us-ascii?Q?nbqwhUAl2WBCAk8rH3zJzvxk+lMnrpEkDPBxEfnay+JRFYkM+idu/WWmcgWz?=
+ =?us-ascii?Q?wOKSWitY/wAJv6bg8iIRU1tjaSA8JhYh2szXTXJEDUnoEpRqqYNElSPFQd8z?=
+ =?us-ascii?Q?PdzQ3rUc4QnSF9LuIlW13l2bIzuYbHLc5RuLhho5SG4VFzuw3/xj0uYLCGe6?=
+ =?us-ascii?Q?VLOPWw1yvQtcFQUNRNivv4eEWGoA3EZ5Aj5z8K6wZb+HVqY3kFsFOMvSg3lz?=
+ =?us-ascii?Q?utm9ixDPJQVdrKg3VOHg4D2HWEAl72OreS/WwLYlEllKe6fcOSU01iIctGjC?=
+ =?us-ascii?Q?b/mm/9OMgtP1Jr/RsBStD87Np2zSvpc83WCIEp7PWWglkpXnhGB8vlJdiPUn?=
+ =?us-ascii?Q?b5KPn1V3kXsPjKD0Xyp0QP99P96JUSw5Nb6rBp9ZjGujAAH8hVaGVqQ55lgP?=
+ =?us-ascii?Q?7yEEWoQKZvWTTmGukVfE9zXullucGkJrxLo0evqH7l9HypIAr4RuOb8+KfFM?=
+ =?us-ascii?Q?4ImUNT/NKAOuKEoiVULqUuEVn4OPDAITyNoGW7+2EMnRvN/QhklIRX7eAQ0+?=
+ =?us-ascii?Q?wEWPFq8e8ia3qXdQakevY9WnO0r5d6FJTRdKgvxA4lmlquO8PLHVWaXywzMc?=
+ =?us-ascii?Q?3lbPp4grInpH/5cIZP6zc5s82vVBhp1ebskxDcqmHDh0eg1Yu4BGpVmbIBfj?=
+ =?us-ascii?Q?l1vHvlpBQi9oOKI9RHriqpOJlU8+a697W/SnFe1jAtoRd8em/kGeazSZlFMv?=
+ =?us-ascii?Q?3wt3iDOOreE65x+9sJSAgdr/mTiQIZMzupD0oY6sKRFXmHov//iiHw0xeWnw?=
+ =?us-ascii?Q?g3srf9FwHF34SgwCNtTPXTOx6DKeu2GdkxRqMpFln2efiwPO0E3NUHJUoIa1?=
+ =?us-ascii?Q?L6eFdk8uVYx2xU1ZNr3fKi4TcvRZV0faJUfbvGLhyGfRlobeffirHMeuGIlX?=
+ =?us-ascii?Q?pIMYR0FQaAxn3UFKkUBRXa8i1sASYhItSBYHgnc7tCjEV4t+e6zZpMPJ6pO+?=
+ =?us-ascii?Q?18ajiX6aT9BxEmKGhPXik90OerLZw5qk?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR04MB8532.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ZQjTuCa2dUSzI3aIL5rftxgyNV0TN4+44kkuJQv38ovGlrGqZNbRtDrrVTZu?=
+ =?us-ascii?Q?8LFIlWDEqDBAIVAPhd/uoUl4d8lmBcGZZgU3DYrL3HMFAVjkHTxOob9Bj03l?=
+ =?us-ascii?Q?jQC3T3VWamfW6Kekfz1MjDvl8Yl2ofAP2ZYHAi5hHiPriHLm/MJEkWKkdMss?=
+ =?us-ascii?Q?7OyaG3pN43LZnEgjk6CDbR/NWz/fIK9nRDb0TwtWTJEAiMsIECg1OUARjWBL?=
+ =?us-ascii?Q?yGkWutMLt/nUaVrlvvKKmd6d/qo6D6JHXWP2is//z6da8nVPuNptDuyV6sAW?=
+ =?us-ascii?Q?2v5U3uWxT6zE5bBEjP7OikRSVn3W3mvZ5T+0ZGIwb9W7q7aVkyCbv5yKyTF3?=
+ =?us-ascii?Q?vqoxbCs5IdaAKp4MIJ4srSq2Y7nZ1Yffql+h7DpnnfoobvN1rr2ls1Xc8Jq0?=
+ =?us-ascii?Q?yCWVosEy3y9ri31Nj6Fdb68GP+q5UDDQGx9FBzTONkBrhTBSH/SVaJKlKHQb?=
+ =?us-ascii?Q?sq1KkQN/hcmQXbgECPNMMa6EKoFSraAZ3rodJavvQcJCHu6XQHJXDCBuKLho?=
+ =?us-ascii?Q?le2pAh14onp8FWSK/GGitt2RHQQv2rD+AcI6++1ocSwBJ5PPhI5+myBCDnWY?=
+ =?us-ascii?Q?UG47tjW3NTkF3/Di5ORjvzsPYOaEEtNR/hAmqEhnAHy0GEoSEwqtGLK11aUo?=
+ =?us-ascii?Q?DLLL+EXQKDhfF87XuG7mpvTCZK1XbWEVVM25xThQ4UhJwjupmJDigv0Xvb6i?=
+ =?us-ascii?Q?Ki7OiH45jOp97/uPF0dJwbep2c1vnSsnESMTH4mEWZAXoAKM5GxFoUA9QMKm?=
+ =?us-ascii?Q?qC4E+ahGYx7yM7ClgJ7QdXvW+iE1ELfiiWZs/1ih0ZYXbagFCO9TPCSogxBb?=
+ =?us-ascii?Q?YsFsWXBKWmYXYHJFWZCzA8GPkIYJ1jRkhe5/nRFguPDDYj1zTK6RNLRHmVg9?=
+ =?us-ascii?Q?ZyngMS5/gf+JL07Cg/g5nepT+aILk9ih6ljOkAAZFIuq82WU+s51zVo0x4A3?=
+ =?us-ascii?Q?H37rpQGFltfYm228iViGT6b6X+XNMppsvhAi6jgT2tGHDlaHyyb4MPjQnlHd?=
+ =?us-ascii?Q?J6Czyyb406D7MSyTZUfpq8uC+GngZ+ZF/2PiJZYHcEQOUM/q81EbUsoAZrsr?=
+ =?us-ascii?Q?h2FoxXfffkaCQm5mf/NiOZyNbY5HeM4dNExTWwEB6fbGQHhDGVwva1XRjy1G?=
+ =?us-ascii?Q?Yz3grqqT9YehVh7rDjlBe9+nlxjlDD+bRH1S5TkOV3FQiCs+mAritGM9pxiQ?=
+ =?us-ascii?Q?okWfGByCWZ38CZVOF453yt6MPjjVshSBu2JJfPgSvOadpvhCimbwXZ5Sz/Q2?=
+ =?us-ascii?Q?Ijr2hAI6ZjIj2r9uv8+KtZWc7/qlcaX+/MveJkR0AwvpWKIjgmspvvNnZHri?=
+ =?us-ascii?Q?P+CoHYL1fUiUcsnYzzLvBDOjvJ/adZTxQMN1rqLMTHO1rCssqo3+pQfJow5Y?=
+ =?us-ascii?Q?bCug+pGXGRNApbuA9fGET66FYbQqciY5wAzNpcXFWIqY4JxEZkVMaNy01emb?=
+ =?us-ascii?Q?ARYZz6QUf/txHQe7FMHOOM+biqxq5mEIuBcDVqLAKsbGiyu/eBnYb6yEuLcC?=
+ =?us-ascii?Q?TLRKrD++Df2uSnwv2eK8p5Udru7bBSZbs53uvTvBRsQpouHxe04C0YCfgRU2?=
+ =?us-ascii?Q?e4/cRE/hnILzSRm7e1aBP5DEhe86hzMDOfzQAxKdEUm/qUtGXSvcfbJWXD+8?=
+ =?us-ascii?Q?6LlEmtPJM5Ugk1bqhhzCgIc=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2456DEDF0FD730419AC04A6E1BDD037E@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Fri, 6 Jun 2025 11:37:34 +0800
-X-Gm-Features: AX0GCFvcz9u6n-0kerfEbXTq_4LyFqlSM-KQBhKax9isyE7oeZeMBEXy68QWoMI
-Message-ID: <CAHj4cs8mJ+R_GmQm9R8ebResKAWUE8kF5+_WVg0v8zndmqd6BQ@mail.gmail.com>
-Subject: [bug report] WARNING: possible circular locking dependency detected
- at: touch_wq_lockdep_map+0x7a/0x180 and bdev_release+0x133/0x610
-To: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
-	linux-block <linux-block@vger.kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5Y5PMXjjb4Kz3yNlBkPIVy2GdmuX8iUHRNqqCD9W3eY_1749181069
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: OXE28FGxZagZFTplQYjaObi03N0U27DsSGplfHyPmBqvqB6WSEXNsYWFy8sz8LJnpeiRLgLM1gpb10pXPS5c7UrQ9kRtzv3sCEh2Po7bG2G6uJQNTp0YCTphP76DZgjUEVunWlO72N/++T6QfHJO3fFLYkoJMWUymEP04ncuTm1cKCY+IhIbopoHFipyvK2PnXkJV3GBuqAgq1NgZzjiysSxxdCbCJUe6ai8Rf85mGsDPnXRH3kvMZisdESzGy1PZI7ge/xQ5Z1mw6Wn3/yWknapETJkLSn6iYhDYIDbRveJ6+MsWfo5koRaBsTRC+lD1YkMfoT2BCcpAg8r7LFjKHkhVRTrtu7gBQ6+1hsWrJVsa04eB8zpxA+wo9aSDrhcJuC2RK5rfQUUSqGzlarqAoFmTNmOniLDtrvkmHri1ki3U+V/RlQ9eFtV3sJXSm9qBuG2oAW05sxokmXhxZGIXlo3bKonJz8GUnO0Npcfp9wtJOiM31c3iR/EFtgXgVbSLMgMA2VduZLZQFnh1Jtpuf/Hj/jkT+QodbpF2TUzU5rwW3zrtXIk59BpNBbax6EUDTRC5xAQUrrYs8adwdyNGhQFd2ACZGJmoprPW1tOlXNEgYyyLemZRa5KlWgwKEea
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR04MB8532.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19beb01c-da88-4ee5-5a45-08dda4cf6ce3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2025 07:54:54.7873
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LKmrElIH70GOetbguKRLhXwJIFzGfcghYCR0E4mE80WwV554/DCZlM+qcEYwkoUozJmJjcCWGZdHkCpyVyvVSeL+SIARRMhxc5yXO+osSu8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR04MB9732
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250605_203753_540171_79A0E053 
-X-CRM114-Status: UNSURE (   6.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250606_005500_559402_6B21377B 
+X-CRM114-Status: GOOD (  14.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,189 +188,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi
+To+: Yi,
 
-The following WARNING was triggered by blktests nvme/fc nvme/014,
-please help check it and let me know if you need any info/test,
-thanks.
+On Jun 05, 2025 / 15:02, Daniel Wagner wrote:
+> Hi,
 
-commit: linux-block: 38f4878b9463 (HEAD, origin/for-next) Merge branch
-'block-6.16' into for-next
+Hi Daniel, thank you for the fix actions!
 
-[ 6203.657359] run blktests nvme/014 at 2025-06-05 20:49:29
-[ 6204.661032] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-[ 6205.826954] nvme nvme0: NVME-FC{0}: create association : host wwpn
-0x20001100aa000001  rport wwpn 0x20001100ab000001: NQN
-"blktests-subsystem-1"
-[ 6205.838787] (NULL device *): {0:0} Association created
-[ 6205.845842] nvmet: Created nvm controller 1 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-[ 6205.912304] nvme nvme0: NVME-FC{0}: controller connect complete
-[ 6205.912437] nvme nvme0: NVME-FC{0}: new ctrl: NQN
-"blktests-subsystem-1", hostnqn:
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-[ 6374.182936] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
-[ 6374.709525] (NULL device *): {0:0} Association deleted
-[ 6375.647745] (NULL device *): {0:0} Association freed
-[ 6375.648091] (NULL device *): Disconnect LS failed: No Association
+>=20
+> On Thu, May 29, 2025 at 08:46:35AM +0000, Shinichiro Kawasaki wrote:
+> > #1: nvme/023
+> >=20
+> >     When libnvme has version 1.13 or later and built with liburing, nvm=
+e-cli
+> >     command "nvme smart-log" command fails for namespace block devices.=
+ This
+> >     makes the test case nvme/032 fail [2]. Fix in libnvme is expected.
+> >=20
+> >     [2]
+> >     https://lore.kernel.org/linux-nvme/32c3e9ef-ab3c-40b5-989a-7aa323f5=
+d611@flourine.local/T/#m6519ce3e641e7011231d955d9002d1078510e3ee
+>=20
+> Should be fixed now. If you want, I can do another release soon, so the
+> fix get packaged up by the distros.
 
-[ 6375.963270] ======================================================
-[ 6375.964019] WARNING: possible circular locking dependency detected
-[ 6375.964892] 6.15.0+ #2 Tainted: G        W
-[ 6375.965212] ------------------------------------------------------
-[ 6375.965937] systemd-udevd/1345 is trying to acquire lock:
-[ 6375.966238] ffff888886bd9d58 ((wq_completion)kblockd){+.+.}-{0:0},
-at: touch_wq_lockdep_map+0x7a/0x180
-[ 6375.966758]
-               but task is already holding lock:
-[ 6375.967466] ffff8888f1db1398 (&disk->open_mutex){+.+.}-{4:4}, at:
-bdev_release+0x133/0x610
-[ 6375.967909]
-               which lock already depends on the new lock.
+As of today, CKI project keeps on reporting the failure:
 
-[ 6375.968342]
-               the existing dependency chain (in reverse order) is:
-[ 6375.969095]
-               -> #2 (&disk->open_mutex){+.+.}-{4:4}:
-[ 6375.969819]        __lock_acquire+0x57c/0xbd0
-[ 6375.970481]        lock_acquire.part.0+0xbd/0x260
-[ 6375.971112]        __mutex_lock+0x1ac/0x13e0
-[ 6375.971763]        nvme_partition_scan_work+0x8a/0x120 [nvme_core]
-[ 6375.972546]        process_one_work+0xd8b/0x1320
-[ 6375.973180]        worker_thread+0x5f3/0xfe0
-[ 6375.973798]        kthread+0x3b4/0x770
-[ 6375.974001]        ret_from_fork+0x393/0x480
-[ 6375.974618]        ret_from_fork_asm+0x1a/0x30
-[ 6375.975232]
-               -> #1
-((work_completion)(&head->partition_scan_work)){+.+.}-{0:0}:
-[ 6375.976058]        __lock_acquire+0x57c/0xbd0
-[ 6375.976886]        lock_acquire.part.0+0xbd/0x260
-[ 6375.977569]        process_one_work+0xd58/0x1320
-[ 6375.978223]        worker_thread+0x5f3/0xfe0
-[ 6375.979045]        kthread+0x3b4/0x770
-[ 6375.979266]        ret_from_fork+0x393/0x480
-[ 6375.980058]        ret_from_fork_asm+0x1a/0x30
-[ 6375.980979]
-               -> #0 ((wq_completion)kblockd){+.+.}-{0:0}:
-[ 6375.981347]        check_prev_add+0xf1/0xcd0
-[ 6375.982015]        validate_chain+0x487/0x570
-[ 6375.982684]        __lock_acquire+0x57c/0xbd0
-[ 6375.983486]        lock_acquire.part.0+0xbd/0x260
-[ 6375.984127]        touch_wq_lockdep_map+0x93/0x180
-[ 6375.984768]        start_flush_work+0x4b8/0x9a0
-[ 6375.985434]        __flush_work+0xc4/0x1b0
-[ 6375.985663]        nvme_mpath_put_disk+0x4f/0xa0 [nvme_core]
-[ 6375.986552]        nvme_free_ns_head+0x23/0x160 [nvme_core]
-[ 6375.986903]        bdev_release+0x3be/0x610
-[ 6375.987152]        blkdev_release+0x11/0x20
-[ 6375.987368]        __fput+0x372/0xaa0
-[ 6375.987585]        task_work_run+0x11b/0x200
-[ 6375.988226]        do_exit+0x5ee/0xee0
-[ 6375.988458]        do_group_exit+0xbc/0x250
-[ 6375.988673]        get_signal+0x11e8/0x15a0
-[ 6375.988892]        arch_do_signal_or_restart+0x88/0x2e0
-[ 6375.989201]        exit_to_user_mode_loop+0x96/0x150
-[ 6375.989478]        do_syscall_64+0x1f7/0x8d0
-[ 6375.990104]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[ 6375.990397]
-               other info that might help us debug this:
+  https://datawarehouse.cki-project.org/kcidb/tests/redhat:1851238698-aarch=
+64-kernel_upt_7
 
-[ 6376.013165] Chain exists of:
-                 (wq_completion)kblockd -->
-(work_completion)(&head->partition_scan_work) --> &disk->open_mutex
-
-[ 6376.101737]  Possible unsafe locking scenario:
-
-[ 6376.142114]        CPU0                    CPU1
-[ 6376.174820]        ----                    ----
-[ 6376.207831]   lock(&disk->open_mutex);
-[ 6376.236250]
-lock((work_completion)(&head->partition_scan_work));
-[ 6376.291674]                                lock(&disk->open_mutex);
-[ 6376.334181]   lock((wq_completion)kblockd);
-[ 6376.364966]
-                *** DEADLOCK ***
-
-[ 6376.405228] 2 locks held by systemd-udevd/1345:
-[ 6376.438233]  #0: ffff8888f1db1398 (&disk->open_mutex){+.+.}-{4:4},
-at: bdev_release+0x133/0x610
-[ 6376.491497]  #1: ffffffffacb33f80 (rcu_read_lock){....}-{1:3}, at:
-start_flush_work+0x34/0x9a0
-[ 6376.492457]
-               stack backtrace:
-[ 6376.493107] CPU: 18 UID: 0 PID: 1345 Comm: systemd-udevd Tainted: G
-       W           6.15.0+ #2 PREEMPT(lazy)
-[ 6376.493116] Tainted: [W]=WARN
-[ 6376.493118] Hardware name: HP ProLiant DL380 Gen9/ProLiant DL380
-Gen9, BIOS P89 10/05/2016
-[ 6376.493122] Call Trace:
-[ 6376.493125]  <TASK>
-[ 6376.493130]  dump_stack_lvl+0x6f/0xb0
-[ 6376.493140]  print_circular_bug.cold+0x38/0x45
-[ 6376.493148]  check_noncircular+0x148/0x160
-[ 6376.493158]  check_prev_add+0xf1/0xcd0
-[ 6376.493163]  ? alloc_chain_hlocks+0x13e/0x1d0
-[ 6376.493168]  ? add_chain_cache+0x12c/0x310
-[ 6376.493173]  validate_chain+0x487/0x570
-[ 6376.493181]  __lock_acquire+0x57c/0xbd0
-[ 6376.493188]  lock_acquire.part.0+0xbd/0x260
-[ 6376.493193]  ? touch_wq_lockdep_map+0x7a/0x180
-[ 6376.493199]  ? rcu_is_watching+0x15/0xb0
-[ 6376.493208]  ? lock_acquire+0x10b/0x150
-[ 6376.493214]  ? touch_wq_lockdep_map+0x7a/0x180
-[ 6376.493218]  touch_wq_lockdep_map+0x93/0x180
-[ 6376.493221]  ? touch_wq_lockdep_map+0x7a/0x180
-[ 6376.493225]  ? start_flush_work+0x3e9/0x9a0
-[ 6376.493231]  start_flush_work+0x4b8/0x9a0
-[ 6376.493238]  __flush_work+0xc4/0x1b0
-[ 6376.493244]  ? __pfx___flush_work+0x10/0x10
-[ 6376.493250]  ? __pfx_wq_barrier_func+0x10/0x10
-[ 6376.493264]  ? __pfx___might_resched+0x10/0x10
-[ 6376.493272]  ? queue_work_on+0x90/0xf0
-[ 6376.493277]  ? lockdep_hardirqs_on+0x78/0x100
-[ 6376.493285]  nvme_mpath_put_disk+0x4f/0xa0 [nvme_core]
-[ 6376.493321]  nvme_free_ns_head+0x23/0x160 [nvme_core]
-[ 6376.493352]  bdev_release+0x3be/0x610
-[ 6376.493359]  blkdev_release+0x11/0x20
-[ 6376.493363]  __fput+0x372/0xaa0
-[ 6376.493372]  task_work_run+0x11b/0x200
-[ 6376.493378]  ? __pfx_task_work_run+0x10/0x10
-[ 6376.493384]  ? do_exit+0x5e9/0xee0
-[ 6376.493390]  do_exit+0x5ee/0xee0
-[ 6376.493395]  ? __pfx_do_exit+0x10/0x10
-[ 6376.493399]  ? __pfx_proc_coredump_connector+0x10/0x10
-[ 6376.493409]  do_group_exit+0xbc/0x250
-[ 6376.493415]  get_signal+0x11e8/0x15a0
-[ 6376.493425]  ? __pfx_blkdev_common_ioctl+0x10/0x10
-[ 6376.493431]  ? __pfx_get_signal+0x10/0x10
-[ 6376.493436]  ? ioctl_has_perm.constprop.0.isra.0+0x31c/0x500
-[ 6376.493445]  ? entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[ 6376.493450]  ? __pfx_ioctl_has_perm.constprop.0.isra.0+0x10/0x10
-[ 6376.493456]  arch_do_signal_or_restart+0x88/0x2e0
-[ 6376.493462]  ? __pfx_arch_do_signal_or_restart+0x10/0x10
-[ 6376.493473]  exit_to_user_mode_loop+0x96/0x150
-[ 6376.493479]  do_syscall_64+0x1f7/0x8d0
-[ 6376.493484]  ? find_held_lock+0x32/0x90
-[ 6376.493492]  ? local_clock_noinstr+0xd/0xe0
-[ 6376.493497]  ? __lock_release.isra.0+0x1a4/0x2c0
-[ 6376.493503]  ? exc_page_fault+0x78/0xf0
-[ 6376.493509]  ? rcu_is_watching+0x15/0xb0
-[ 6376.493518]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[ 6376.493523] RIP: 0033:0x7f361af285ff
-[ 6376.493528] Code: Unable to access opcode bytes at 0x7f361af285d5.
-[ 6376.493531] RSP: 002b:00007fff694dbfe0 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[ 6376.493536] RAX: 0000000000000000 RBX: 000000000000000e RCX: 00007f361af285ff
-[ 6376.493540] RDX: 0000000000000000 RSI: 000000000000125f RDI: 000000000000000e
-[ 6376.493543] RBP: 000000000000000e R08: 0000000000000069 R09: 00000000fffffffe
-[ 6376.493546] R10: 0000000000000000 R11: 0000000000000246 R12: 00007fff694dc0b0
-[ 6376.493549] R13: 00007fff694dc080 R14: 000055738fa16950 R15: 0000000000000000
-[ 6376.493558]  </TASK>
-
--- 
-Best Regards,
-  Yi Zhang
-
+Yi, do you think the new libnvme release will help to silence the failure
+reports? I'm guessing the release will help RedHat to pick up and apply to =
+CKI
+blktests runs.
 
