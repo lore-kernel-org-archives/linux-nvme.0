@@ -4,75 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB998C5B552
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Jun 2025 16:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45C9AC61CE8
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Jun 2025 17:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=XufrGqSlTLq9Yi3fGauNO4bAfVI0GxGA1PpQHaHaKno=; b=EWaBrJ1HKAa51EV/NOyItRvS0n
-	UmClvHWQIUMKdSy7HEquJK5j9SxjuaONJsM4xU6v/HWHdhtTw3wuAXfbqoNbENQC9gZ4WdShjPN5S
-	QufuNb/2Ilv+Q7Uq5zqVmv1/P45Ztx/S3FYc4nUv1H/s6MIP3MA/+TYc5av3QwAA/xItF/guo5DRR
-	RWfAIDzKLfkaYQQMgQxKCLVtF6oNb2JK5agqjgJXexmAHDmoi60CV5OeAyPm9vlrttU2ZvPXtDkIp
-	bVLsdxnNBSC3djJS7xc5sVwg94ZXqk6NecfS+IUICMjOcrhZJJAOLIRQ5QSFrRjFbpcLn+cesklqJ
-	baSp0QZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=thFh6Ia0PsT+Kq2zHBJM813Mt7IhgQv9Q3wFoz6qDrM=; b=RtrNhrsuYOHd/4XN8HvIDHIqPE
+	Xt5jbGAg3aRCfJ/x93IkDqLbwRcbBDwBVw2x45EsJUc9SNARP//d6/jMfjooDdFFEd/5nkW0l/Ypl
+	3Gn+GjRreuhjBIRYi3zQc4tKv814ZYcqP4oBF4MK08CPVCly7c2Ik8X/pRYlFy8gO09oXjL6Djtfa
+	s0CPHn9EpSFH7kjb5KJFAGo2q8iE6sdQjDZAoKvQO21u0CJPnnOc/0L4Uh4lpB5BZ5qzPzvm9yNoq
+	LMrZYVqT/Ik/gSqF3rUQyJ5+vUVAR4NLheXc06vT1dYE7Hp9H5x/ZAUG05Xh4SpQdLTaBouS6rZ0S
+	go3Wu/1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uOfE3-00000004dyr-41TX;
-	Mon, 09 Jun 2025 16:19:55 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1uOg9l-00000004nCe-31Ek;
+	Mon, 09 Jun 2025 17:19:33 +0000
+Received: from mail-ed1-f46.google.com ([209.85.208.46])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uOecy-00000004YBi-2Pqr
+	id 1uOfAb-00000004dRy-3eYU
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Jun 2025 15:41:38 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 559Cv7dj004966
-	for <linux-nvme@lists.infradead.org>; Mon, 9 Jun 2025 08:41:34 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2021-q4; bh=XufrGqSlTLq9Yi3fGa
-	uNO4bAfVI0GxGA1PpQHaHaKno=; b=NRCKHW6NJH+P+ZzLBHqYjr2yn4ckJOwEFM
-	Tzd1g4J5ewMwix7ms4+HuTaF5akvQQHNKxH+gpGUl3tgXKMzQTSpI+i9WqnashmC
-	OYQ/osuwSoJA0qgyyuseT6R+Ku6xXQ/1CJIxmlQYF5I+ZyHlfz43TqZza0M6x+kp
-	K4I6Fdn1QXP6gDNnmU11EQ4ynuvusgllFsFDlsiTCV/bUh5P+ZfhfycAryVX3SDE
-	GcU0j1dpMK24vjl+h5/EGUSwCAGCKzgzMyUdZ9DY22QeDDrGybDiMuEyLHjoyHag
-	EgVLvW0YWIlFlMiCVUAonUmCH2cYOfPp5tHUWmdmmYSBMXLJhDHg==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 475hncvgd0-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 09 Jun 2025 08:41:33 -0700 (PDT)
-Received: from twshared35278.32.frc3.facebook.com (2620:10d:c0a8:1c::1b) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1748.24; Mon, 9 Jun 2025 15:41:32 +0000
-Received: by devbig209.atn5.facebook.com (Postfix, from userid 544533)
-	id 87C387BC49E; Mon,  9 Jun 2025 08:41:22 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-        <shinichiro.kawasaki@wdc.com>
-CC: <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2] block tests: nvme metadata passthrough
-Date: Mon, 9 Jun 2025 08:41:22 -0700
-Message-ID: <20250609154122.2119007-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.47.1
+	Mon, 09 Jun 2025 16:16:23 +0000
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-606ddbda275so8321816a12.1
+        for <linux-nvme@lists.infradead.org>; Mon, 09 Jun 2025 09:16:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749485780; x=1750090580;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=thFh6Ia0PsT+Kq2zHBJM813Mt7IhgQv9Q3wFoz6qDrM=;
+        b=mqFzdAHK1QDXhcEn/wPCstpJkynTa9crBOg/TlYy7k8M4Z1D79a2/SGuSHscDFOACx
+         5ZZdT8/Zycp61IwXTR+XM5rUOPzAZYTFHMwOY+2na44cZpZ3gGyB1hfNyfEBIpIVPuv2
+         1zHvoBe6G+dYc/nUbSdfxuynDCIoanNmS+1M4tYG98kVoTGDXgIP7sfBSlsgVzRB50eN
+         jTszWYzEl0wbfurYH6hPEVFFRbRRdveOvfy6izIRljCjzH3FiivyUS9upNPpMr9sc8cB
+         /gyaE7eyiNJGm9y49AMcYc8oAOBcU+NBRzpzb0bP6gFEnsxBXt0tkl5qi+xGYvVMn/y4
+         rC1w==
+X-Forwarded-Encrypted: i=1; AJvYcCVjT4lG2bkgV2Uj1dH+aadqgziSwy9+rZBE/qvPqFeQgUh7XWY8pKy2B2raymYz0JNSjRe4eNjN9h2Q@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy8x1p7yOQCTDaL67JqsCOLjbjvsjJCvu6AtBrDOPthWKePQ71P
+	P+TYCWmlAFR+v9sgdg/RIjkDQsGqRfjg0AD8gEGhLUb36cu3ACUXZ0G5U0mP6g==
+X-Gm-Gg: ASbGncvd6MaDGbPZK2vKN5ySh5m2Q/JuYYn/wcJIYgHZ5SbbOrOPoGayomZGKjaLBbA
+	iTCCQuQPDG/93EQxD+sl+CJd8c6dCADbQK3Dm1WvvPKXWVL8cFH96UT5kxnLuenLKl2BGjqNyag
+	QDNMNELMfV5g82go0QrmtgW0NigLXydTCcCR88jDEl9QYYGMJf4bWz2URFBL8ZBRoD6OyB+UcyB
+	77y9tI+1kCeo7MrIlgiZUv9xeqx7VAG6ErJ6xlZbLE80Vu2KlH/pLz99KVgo92BukaAmuTvcRBQ
+	c+/vfNnBJ0fZQEdpEx+JXyAeEvCn8L1L4JvWh2TmHKCThjB0bTfBtw==
+X-Google-Smtp-Source: AGHT+IEJrrVL+bvR3Y34262/z3ACr9105EMVi0sh16Wa1iO72vEb3q/YevFzJosrrP4BCJo9/6DIOA==
+X-Received: by 2002:a17:906:ef03:b0:ade:3a7a:26cb with SMTP id a640c23a62f3a-ade3a7a539emr998204266b.58.1749485779989;
+        Mon, 09 Jun 2025 09:16:19 -0700 (PDT)
+Received: from gmail.com ([2a03:2880:30ff:74::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade399c1887sm444538466b.93.2025.06.09.09.16.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jun 2025 09:16:19 -0700 (PDT)
+Date: Mon, 9 Jun 2025 09:16:17 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Yi Zhang <yi.zhang@redhat.com>,
+	linux-block <linux-block@vger.kernel.org>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	Yu Kuai <yukuai1@huaweicloud.com>
+Subject: Re: [bug report] WARNING: CPU: 3 PID: 522 at block/genhd.c:144
+ bdev_count_inflight_rw+0x26e/0x410
+Message-ID: <aEcI0ck4tqkHkXkb@gmail.com>
+References: <CAHj4cs-uWZcgHLLkE8JeDpkd-ddkWiZCQC_HWObS5D3TAKE9ng@mail.gmail.com>
+ <aEal7hIpLpQSMn8+@gmail.com>
+ <28f59f4a-7ac6-4c27-ab68-b6621260c760@kernel.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDExNiBTYWx0ZWRfXzgM4Segctsu0 TzJ+MtoEs7LtsiRKzt1DpEdiXN9c8Gm0ThUxJYkMxPlSohC38JCSwgN83NsXwi10dg9/BE9lViR fIZPscqPavyNTpNslu3Xtqd6OQNWliS3Q00opF08bc3ErACevuo4VMgvOeN+P73+jWi3Gl9pIEg
- LJUeWBXev6GZOclk/06AKNAF/JOncy9gWG8s4maA/hFbmZmvGZi3bqJF+WkiFnfCs50t3SJw9GJ 8xJVyEpfF6yUXhtssqCZ/ImV9hfqSJN1xdKzg5lLQG++V3en2fg6WFeK0mYfpYBzy84o85ZyEDm POWJCsys7DQoYm4VCZCCm1mow4Ei6WjMb7TxcK3RZH3vRQ/7iJX+8cV0dnu8K+8fr7JbP0J4zfN
- 9Y71tx/k9STBUUXNRqD64VnOfjo5fI/NvGwZZHygBYiGYoskhXK2r6e3UPMfegPpHIJzszhr
-X-Proofpoint-ORIG-GUID: Cr3qobbOtm0IIpQjFQ0ZKRmH1tLxbUL0
-X-Authority-Analysis: v=2.4 cv=SoKQ6OO0 c=1 sm=1 tr=0 ts=684700ad cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=gv7vcHTE1w2SKThykOQA:9
-X-Proofpoint-GUID: Cr3qobbOtm0IIpQjFQ0ZKRmH1tLxbUL0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-09_06,2025-06-09_01,2025-03-28_01
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <28f59f4a-7ac6-4c27-ab68-b6621260c760@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250609_084136_835507_715D625C 
-X-CRM114-Status: GOOD (  25.21  )
+X-CRM114-CacheID: sfid-20250609_091621_909864_845FC232 
+X-CRM114-Status: GOOD (  21.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,326 +91,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+Hello Jens,
 
-Get more coverage on nvme metadata passthrough. Specifically in this
-test, read-only metadata is targeted as this had been a gap in previous
-test coveraged.
+On Mon, Jun 09, 2025 at 08:22:35AM -0600, Jens Axboe wrote:
+> On 6/9/25 3:14 AM, Breno Leitao wrote:
+> > On Fri, Jun 06, 2025 at 11:31:06AM +0800, Yi Zhang wrote:
+> >> Hello
+> >>
+> >> The following WARNING was triggered by blktests nvme/fc nvme/012,
+> >> please help check and let me know if you need any info/test, thanks.
+> >>
+> >> commit: linux-block: 38f4878b9463 (HEAD, origin/for-next) Merge branch
+> >> 'block-6.16' into for-next
+> > 
+> > I am seeing a similar issue on Linus' recent tree as e271ed52b344
+> > ("Merge tag 'pm-6.16-rc1-3' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm").
+> > CCing Jens.
+> > 
+> > This is my stack, in case it is useful.
+> 
+> What does your storage setup look like? Likely not a new issue, only
+> change is that we now report/warn if these counters ever hit < 0. Adding
+> Yu to the CC as he recently worked in this area, and added the patch
+> that triggers the warning now.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
+Basically a host with a bunch of nvme:
 
-This one should fail on 6.15 and pass on 6.16.
+	# lsblk
+	NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+	nvme1n1     259:0    0 238.5G  0 disk
+	├─nvme1n1p1 259:2    0   243M  0 part /boot/efi
+	├─nvme1n1p2 259:3    0   488M  0 part /boot
+	├─nvme1n1p3 259:4    0   1.9G  0 part [SWAP]
+	└─nvme1n1p4 259:5    0 235.8G  0 part /
+	nvme0n1     259:1    0   1.6T  0 disk
+	├─nvme0n1p1 259:6    0 838.4G  0 part
+	└─nvme0n1p2 259:7    0 838.4G  0 part
 
-v1->v2:
+	# dmesg | grep nvme
+	[  435.301782] nvme nvme0: pci function 0000:b4:00.0
+	[  435.412268] nvme nvme1: pci function 0000:64:00.0
+	[  435.459601] nvme nvme0: D3 entry latency set to 8 seconds
+	[  435.848628] nvme nvme1: 32/0/0 default/read/poll queues
+	[  435.944582] nvme nvme0: 52/0/0 default/read/poll queues
+	[  436.135123]  nvme1n1: p1 p2 p3 p4
+	[  436.316921]  nvme0n1: p1 p2
+	[  500.912739] BTRFS: device label / devid 1 transid 2052 /dev/nvme1n1p4 (259:5) scanned by mount (837)
+	[  501.583187] BTRFS info (device nvme1n1p4): first mount of filesystem 0568aa14-1bee-4c76-b409-662d748eefad
+	[  501.602891] BTRFS info (device nvme1n1p4): using crc32c (crc32c-x86) checksum algorithm
+	[  501.618986] BTRFS info (device nvme1n1p4): using free-space-tree
+	[  562.737848] systemd[1]: Expecting device dev-nvme0n1p3.device - /dev/nvme0n1p3...
+	[  567.865384] BTRFS info (device nvme1n1p4 state M): force zstd compression, level 3
+	[  603.745650] EXT4-fs (nvme1n1p2): mounted filesystem 57120c82-6f1a-4e1f-a8c3-6aa17bffb1f2 r/w with ordered data mode. Quota mode: none.
+	[  604.103672] FAT-fs (nvme1n1p1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+	[  658.986835]        nvme_alloc_ns+0x204/0x2ee0
+	[  658.986842]        nvme_scan_ns+0x53f/0x8b0
+	[  660.888749] nvme nvme0: using unchecked data buffer
+	[  859.589752] Adding 2000892k swap on /dev/nvme1n1p3.  Priority:5 extents:1 across:2000892k SS
+	[ 1698.294280] block nvme1n1: No UUID available providing old NGUID
+	[ 1698.356183] block nvme1n1: the capability attribute has been deprecated.
+	[ 1807.416851] Adding 2000892k swap on /dev/nvme1n1p3.  Priority:5 extents:1 across:2000892k SS
 
-  Correctly used the "test_device()" function name instead of "test()".
+This was happening while a HTTP server was being executed.
 
-  Use the NSID value we got from the device instead of assuming 1.
+Does it answer your question?
 
-  Fixed the logic for which command is expected to fail when given
-  read-only memory.
-
- src/Makefile                |   1 +
- src/nvme-passthrough-meta.c | 230 ++++++++++++++++++++++++++++++++++++
- tests/nvme/064              |  24 ++++
- tests/nvme/064.out          |   2 +
- 4 files changed, 257 insertions(+)
- create mode 100644 src/nvme-passthrough-meta.c
- create mode 100755 tests/nvme/064
- create mode 100644 tests/nvme/064.out
-
-diff --git a/src/Makefile b/src/Makefile
-index a94e5f2..f91ac62 100644
---- a/src/Makefile
-+++ b/src/Makefile
-@@ -13,6 +13,7 @@ C_TARGETS :=3D \
- 	loop_change_fd \
- 	loop_get_status_null \
- 	mount_clear_sock \
-+	nvme-passthrough-meta \
- 	nbdsetsize \
- 	openclose \
- 	sg/dxfer-from-dev \
-diff --git a/src/nvme-passthrough-meta.c b/src/nvme-passthrough-meta.c
-new file mode 100644
-index 0000000..d19ee25
---- /dev/null
-+++ b/src/nvme-passthrough-meta.c
-@@ -0,0 +1,230 @@
-+// SPDX-License-Identifier: GPL-3.0+
-+// Copyright (C) 2025 Keith Busch
-+
-+/*
-+ * Simple test exercising the user metadata interfaces used by nvme pass=
-through
-+ * commands.
-+ */
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+#include <inttypes.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <linux/types.h>
-+
-+#ifndef _LINUX_NVME_IOCTL_H
-+#define _LINUX_NVME_IOCTL_H
-+struct nvme_passthru_cmd {
-+	__u8    opcode;
-+	__u8    flags;
-+	__u16   rsvd1;
-+	__u32   nsid;
-+	__u32   cdw2;
-+	__u32   cdw3;
-+	__u64   metadata;
-+	__u64   addr;
-+	__u32   metadata_len;
-+	__u32   data_len;
-+	__u32   cdw10;
-+	__u32   cdw11;
-+	__u32   cdw12;
-+	__u32   cdw13;
-+	__u32   cdw14;
-+	__u32   cdw15;
-+	__u32   timeout_ms;
-+	__u32   result;
-+};
-+
-+#define NVME_IOCTL_ID		_IO('N', 0x40)
-+#define NVME_IOCTL_ADMIN_CMD    _IOWR('N', 0x41, struct nvme_passthru_cm=
-d)
-+#define NVME_IOCTL_IO_CMD       _IOWR('N', 0x43, struct nvme_passthru_cm=
-d)
-+#endif /* _UAPI_LINUX_NVME_IOCTL_H */
-+
-+struct nvme_lbaf {
-+	__le16	ms;
-+	__u8	ds;
-+	__u8	rp;
-+};
-+
-+struct nvme_id_ns {
-+	__le64	nsze;
-+	__le64	ncap;
-+	__le64	nuse;
-+	__u8	nsfeat;
-+	__u8	nlbaf;
-+	__u8	flbas;
-+	__u8	mc;
-+	__u8	dpc;
-+	__u8	dps;
-+	__u8	nmic;
-+	__u8	rescap;
-+	__u8	fpi;
-+	__u8	dlfeat;
-+	__le16	nawun;
-+	__le16	nawupf;
-+	__le16	nacwu;
-+	__le16	nabsn;
-+	__le16	nabo;
-+	__le16	nabspf;
-+	__le16	noiob;
-+	__u8	nvmcap[16];
-+	__le16	npwg;
-+	__le16	npwa;
-+	__le16	npdg;
-+	__le16	npda;
-+	__le16	nows;
-+	__u8	rsvd74[18];
-+	__le32	anagrpid;
-+	__u8	rsvd96[3];
-+	__u8	nsattr;
-+	__le16	nvmsetid;
-+	__le16	endgid;
-+	__u8	nguid[16];
-+	__u8	eui64[8];
-+	struct nvme_lbaf lbaf[64];
-+	__u8	vs[3712];
-+};
-+
-+#define BUFFER_SIZE (32768)
-+
-+int main(int argc, char **argv)
-+{
-+	int ret, fd, nsid, blocks, meta_buffer_size;
-+	void *buffer, *mptr =3D NULL, *meta =3D NULL;
-+	struct nvme_passthru_cmd cmd;
-+	struct nvme_lbaf lbaf;
-+	struct nvme_id_ns ns;
-+
-+	__u64 block_size;
-+	__u16 meta_size;
-+
-+	if (argc < 2) {
-+		fprintf(stderr, "usage: %s /dev/nvmeXnY", argv[0]);
-+		return EINVAL;
-+	}
-+
-+	fd =3D open(argv[1], O_RDONLY);
-+	if (fd < 0)
-+		return fd;
-+
-+	nsid =3D ioctl(fd, NVME_IOCTL_ID);
-+	if (nsid < 0) {
-+		perror("namespace id");
-+		return errno;
-+	}
-+
-+	cmd =3D (struct nvme_passthru_cmd) {
-+		.opcode		=3D 0x6,
-+		.nsid		=3D nsid,
-+		.addr		=3D (__u64)(uintptr_t)&ns,
-+		.data_len       =3D sizeof(ns),
-+	};
-+
-+	ret =3D ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("id-ns");
-+		return errno;
-+	}
-+
-+	lbaf =3D ns.lbaf[ns.flbas & 0xf];
-+	block_size =3D 1 << lbaf.ds;
-+	meta_size =3D lbaf.ms;
-+
-+	/* format not appropriate for this test */
-+	if (meta_size =3D=3D 0)
-+		return 0;
-+
-+	blocks =3D BUFFER_SIZE / block_size;
-+	meta_buffer_size =3D blocks * meta_size;
-+
-+	buffer =3D malloc(BUFFER_SIZE);
-+	mptr =3D mmap(NULL, 8192, PROT_READ | PROT_WRITE,
-+		MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-+	if (mptr =3D=3D MAP_FAILED) {
-+		perror("mmap");
-+		return errno;
-+	}
-+
-+	/* this should directly use the user space buffer */
-+	meta =3D mptr;
-+	cmd =3D (struct nvme_passthru_cmd) {
-+		.opcode		=3D 1,
-+		.nsid		=3D nsid,
-+		.addr		=3D (uintptr_t)buffer,
-+		.metadata       =3D (uintptr_t)meta,
-+		.data_len       =3D BUFFER_SIZE,
-+		.metadata_len   =3D meta_buffer_size,
-+		.cdw12		=3D blocks - 1,
-+	};
-+
-+	ret =3D ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-write");
-+		return ret;
-+	}
-+
-+	cmd.opcode =3D 2;
-+	ret =3D ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-read");
-+		return ret;
-+	}
-+
-+	/*
-+	 * this offset should either force a kernel copy if we don't have
-+	 * contiguous pages, or test the device's metadata sgls
-+	 */
-+	meta =3D mptr + 4096 - 16;
-+	cmd.opcode =3D 1;
-+	cmd.metadata =3D (uintptr_t)meta;
-+
-+	ret =3D ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-write (offset)");
-+		return errno;
-+	}
-+
-+	cmd.opcode =3D 2;
-+	ret =3D ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-read (offset)");
-+		return errno;
-+	}
-+
-+	/*
-+	 * This buffer is read-only, so should not be successful with commands
-+	 * where it is the destination (reads)
-+	 */
-+	mptr =3D mmap(NULL, 8192, PROT_READ, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-+	if (mptr =3D=3D MAP_FAILED) {
-+		perror("mmap");
-+		return errno;
-+	}
-+
-+	meta =3D mptr;
-+
-+	cmd.opcode =3D 1;
-+	cmd.metadata =3D (uintptr_t)meta;
-+	ret =3D ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-write (prot_read)");
-+		return ret;
-+	}
-+
-+	cmd.opcode =3D 2;
-+	ret =3D ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret =3D=3D 0) {
-+		perror("nvme-read (expect Failure)");
-+		return EFAULT;
-+	}
-+
-+	return 0;
-+}
-diff --git a/tests/nvme/064 b/tests/nvme/064
-new file mode 100755
-index 0000000..fd72d4a
---- /dev/null
-+++ b/tests/nvme/064
-@@ -0,0 +1,24 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2025 Keith Busch <kbusch@kernel.org>
-+#
-+# Test out metadata through the passthrough interfaces
-+
-+. tests/nvme/rc
-+
-+requires() {
-+	_nvme_requires
-+}
-+
-+DESCRIPTION=3D"exercise the nvme metadata usage with passthrough command=
-s"
-+QUICK=3D1
-+
-+test_device() {
-+	echo "Running ${TEST_NAME}"
-+
-+	if src/nvme-passthrough-meta "${TEST_DEV}"; then
-+		echo "src/nvme-passthrough-meta failed"
-+	fi
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/064.out b/tests/nvme/064.out
-new file mode 100644
-index 0000000..5b34d4e
---- /dev/null
-+++ b/tests/nvme/064.out
-@@ -0,0 +1,2 @@
-+Running nvme/064
-+Test complete
---=20
-2.47.1
-
+Thanks for the reply,
+--breno
 
