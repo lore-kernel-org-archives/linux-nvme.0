@@ -4,85 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 637E1C5B552
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Jun 2025 17:22:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B0D0C677C4
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Jun 2025 19:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Yxk3OoqOIYK6tbonnABg1r4S+gFYgUI69hhcj/FUe8E=; b=1cw8/zJ4I/RtKkNuetJlR4D3l0
-	vHc/nYeoHmQpI5linbzb6wDyrNn/R9SfQ8ulZO/VOMrythlT+YXoAToinpQAj0arQaKM535LIlijQ
-	zml6zj00FFoPBjAMnT8dDpi8a0KKRSnHuu1p98qtitK9T5KYOtah/YJbVJ19VfGsGyJZ5xODNas92
-	q1zxXf0E7iAqy724g7GGgLq8K8n9LyoPtEmYEpFseYNFXlPwrLu3z9BScwQjnzkNiQNhoVe+OZnbt
-	4DN2dPRIfvnDsV8Jbii7p89z0pY2qJRZYB5ek7/Nauuo6/GykJlbrHKVzxZoY5mbyyEZwseTQziIq
-	F9TjBAKQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IM26X5C1uM13qWNLt63Dfrka82WaMnsZGAnoBWJpxNw=; b=UZ9szFZ2tgoPrK4EghBQV4i+VZ
+	vZ8mJ/5hMRb3osbvqBCKpMsp62mc6T3+7BhBmKHnMkR3Q2hPqnMxoiUpud6rQ9+FMKq0A5x3CyB78
+	8KS9PW+o5pTVV1DB0e9kh1ODMA4YnxVgUrzwuNOJ86eb6QY+EO6h+iP24xZfoiAv4MOCfNj7wUmqd
+	xtmUkop7BNPL7x5DB4yYwm+TxXGtUJFGd2i3emLE/0tHCYor4AYquGaYkFkpeSJ1nWea8ARc7hp++
+	iTgiv9kMw10xSb0/u87JIUDmlIEcuE9Oe1cxxNYI/k9h1p69QlCAJC96kaR1D5t4igdM+qqZ0cFKN
+	h6LNs3LQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uP2gG-00000007bsS-3oBU;
-	Tue, 10 Jun 2025 17:22:36 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1uP4VM-00000007uHb-25nW;
+	Tue, 10 Jun 2025 19:19:28 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uOzyp-0000000788Q-0PV1
+	id 1uP12b-00000007L51-0pL3
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Jun 2025 14:29:36 +0000
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4fb9c2436so2910602f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Jun 2025 07:29:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749565773; x=1750170573;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yxk3OoqOIYK6tbonnABg1r4S+gFYgUI69hhcj/FUe8E=;
-        b=OP1tvlqTGPLLvo1p7evHiIgA7OCsCaiDGRg4zPVPnBImzv8xEEvTNYTTbqlZArJFP0
-         CvkpaksPZZQKsDPGBQOu1kckBjd4FxSKXg6ahVcWfz8i8m/rZfZuhnThXUVtsSi/mJjd
-         phDh6PnpKTTCSTkyNofGmDNwgSouvSke+4R09EJZjhZg4BZvWImUYg0Mk5tXs4iFpdGN
-         xfpqA8iLLQlrf06VsoryBs3dslEAjmazqyxUHMdAas+6Ulm7R9G9a5eHAd9F9Kv8O/6X
-         7v6GfkHGqr6Ln1CzsO9F6dorvgDAGzors8mgrsGL+lRy8DKfdBw2B5XHM/nrsuZTdY3l
-         i8kA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/Csm9iJ8AhHyKqf+AqWvVK5c4JsxzdecCsWmLnINb3tU+PtGRmB8YogA9tK8ZxhkIp36Of6mrMyis@lists.infradead.org
-X-Gm-Message-State: AOJu0YxoS+FHiN6HrmZa/cP+dx7+ogCJwxU239H3eNBr+9XZ0YYLgoHN
-	ceZJBy5ZRvhXX0e57ZRl1QFnTmvURaHa1bQh7v+ehQsmBjU5vniNaAMnSsxv6g==
-X-Gm-Gg: ASbGncteCYM/gBNxXITjCWvPO0aS5iOToZZPpuvepKNEnFMUqIWkwHVdlotOVQ4Qgxw
-	d/3GanbSUyHrg3xekaaU5lgKSoVgYOl+n5L+Ao0xTR9WbeelSy8z2NR5kQkIe/9YR4j7iLIv/PZ
-	6IKCGFBP0H77SRCt2Z6kjI5by+aXoq0PO3BBWnGs+1C9ilZhnSjMaRsvHIBQ/JIav81mpH9ITEF
-	E2q/YhZZGX3kl6mQljyMZaaexdPlCjmo6xEPVdqKU1EGDcjR0XRL4tGsibT/TtI+nNhIDyFan3F
-	cOOruWjmJNWKDtyjt6E8IEaO96M9sK8h0+2EEJqQArohYD3yO8nsiOxp6PNem+Fbgy1UE8RZtwf
-	g7NTVkGpnFGqTPSoqL1fa5PmF5bnq
-X-Google-Smtp-Source: AGHT+IEpKB9vaN2fJmNQTRiYjABSeQOdtNguzkqTLzY2m8/8lsGlbBkvtEN0zyv61y+32plFxr3+Wg==
-X-Received: by 2002:a05:6000:2c11:b0:3a4:dc42:a0c3 with SMTP id ffacd0b85a97d-3a531ca6a4emr14593398f8f.56.1749565772827;
-        Tue, 10 Jun 2025 07:29:32 -0700 (PDT)
-Received: from [10.50.4.239] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5323b59d0sm12581611f8f.38.2025.06.10.07.29.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 07:29:32 -0700 (PDT)
-Message-ID: <d2ca6b0e-6a76-455d-be90-9e7527e33062@grimberg.me>
-Date: Tue, 10 Jun 2025 17:29:30 +0300
+	Tue, 10 Jun 2025 15:37:33 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 9C564629F6;
+	Tue, 10 Jun 2025 15:37:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FD2C4CEED;
+	Tue, 10 Jun 2025 15:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749569852;
+	bh=TAlAnZ3QKtHhtNUZqaBtjheUqmF+Moexcf4ler6YxJk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KcV7pfLQVxJRnYH1e38OyW3r2QLZb0E7vokAVrfhjWBKUCe6drDnNbfNN+BGI1wjU
+	 rFzDDzbvmN3d+9ECNbAD9rFl9BKL1eDLOFTbWKB1C2TWr9qAiDXoKXy0RdRPrlq+cl
+	 KeultfRrXqLhMrQcYLhTjoKOvZFt2e7b4CDIuWvrFoCsazJUp/Uh+++JEltSHU3tNU
+	 vK4yeSH2tvoI/0av4cjLnQicklMqZHEcjKcglRhZUvriN990qjbmexQ9XGkI8STxSV
+	 +Ja/Kziv9GkRMVGp0UPD0EEI0yg76lM3vFa+7OK6BnT3KrhguOIi7MzVkp3drqJlb3
+	 R+znKIHrCxf8g==
+Date: Tue, 10 Jun 2025 09:37:30 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Logan Gunthorpe <logang@deltatee.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/9] block: don't merge different kinds of P2P transfers
+ in a single bio
+Message-ID: <aEhROl2D89kFX8C7@kbusch-mbp>
+References: <20250610050713.2046316-1-hch@lst.de>
+ <20250610050713.2046316-2-hch@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4 1/2] nvme-tcp: Prevent infinite loop if socket closes
- during CONNECTING state
-To: Maurizio Lombardi <mlombard@bsdbackstore.eu>,
- Maurizio Lombardi <mlombard@redhat.com>, kbusch@meta.com
-Cc: hare@kernel.org, linux-nvme@lists.infradead.org, zhang.guanghui@cestc.cn,
- loberman@redhat.com
-References: <20250404082801.1614252-1-mlombard@redhat.com>
- <20250404082801.1614252-2-mlombard@redhat.com>
- <c4695327-0a0d-4b8c-a852-ee2ce4beb924@grimberg.me>
- <D966L87J0CQ2.2WV0U5JZEMZ9Q@bsdbackstore.eu>
- <fc197a49-32f9-44ff-be3c-4efa1d42d0b0@grimberg.me>
- <D98XO9X62V98.1OGPR20IUZ9EO@bsdbackstore.eu>
- <0c60225a-6a48-484e-9526-27e699da4f1a@grimberg.me>
- <DAIV77646KWY.3QL4ZL1IH2630@bsdbackstore.eu>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <DAIV77646KWY.3QL4ZL1IH2630@bsdbackstore.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250610_072935_144972_730325C4 
-X-CRM114-Status: GOOD (  12.21  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610050713.2046316-2-hch@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,31 +75,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Jun 10, 2025 at 07:06:39AM +0200, Christoph Hellwig wrote:
+> To get out of the DMA mapping helpers having to check every segment for
+> it's P2P status, ensure that bios either contain P2P transfers or non-P2P
+> transfers, and that a P2P bio only contains ranges from a single device.
 
-
-On 10/06/2025 15:50, Maurizio Lombardi wrote:
-> On Fri Apr 18, 2025 at 1:14 PM CEST, Sagi Grimberg wrote:
->>
->> On 4/17/25 16:04, Maurizio Lombardi wrote:
->>> On Mon Apr 14, 2025 at 11:35 PM CEST, Sagi Grimberg wrote:
->>>> I see the issue, but we need to make sure that if the connection closes
->>>> before
->>>> the controller finished establishing, then it cleans up correctly.
->>>> Because at some
->>>> point in the past - it wasn't the case. Things have changed in that path
->>>> so it might
->>>> be ok now... Just need to check. I'd trigger the race while the admin
->>>> queue is establishing, as well
->>>> as in the middle of the sequence of IO queues are establishing.
->>> I believe my earlier testing for this patch already covered this scenario,
->>> but I can rerun the tests to confirm and report back.
->> So you indeed made sure that the failure starts sporadically in the
->> controller establishment sequence
->> and there is no use-after-free issue?
-> Sorry for the long wait; I am now back at it.
-> I repeated the tests using a debug kernel, and nothing has been detected.
-
-OK, then lets get it merged.
-
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+I may be out of the loop here. Is this an optimization to make something
+easier for the DMA layer? I don't think there's any fundamental reason
+why devices like nvme couldn't handle a command that uses memory mixed
+among multiple devices and/or host memory, at least.
+ 
+> This means we do the page zone access in the bio add path where it should
+> be still page hot, and will only have do the fairly expensive P2P topology
+> lookup once per bio down in the DMA mapping path, and only for already
+> marked bios.
 
