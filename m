@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46435C71143
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5817DC71141
 	for <linux-nvme@archiver.kernel.org>; Wed, 11 Jun 2025 17:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
@@ -12,42 +12,42 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc:To:Subject:
 	From:MIME-Version:Date:Message-ID:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ss8rDp79ZiQ6cBAw9DaHR0I3DPaIchxjuB7P/h2zS00=; b=GSLCwsViarW0dfxvKOtjwTm3p1
-	oy7gzZkj5gDAdwT0knJHdDEuv7VUQCMLcxABoNbizYf18pcGg+snZa55drAgSKAhTQWoBzj4ymqqL
-	2goC9Ifxi3RxdV1RC/RgEaj4tg7IVfR7TF3g/uaZSt5XIkMH+1FdV7UJ3iIp4W2Kd4bYuT8BILeRL
-	xL/gfV/CBGHvea335e35Vk/qm0wZsuqp2JGofPnBtRKXv9lJXznIOD9DUiy6OAKwuEo7l2y49Js5w
-	Vb1p0b3iesNjksdimYGEuH0XgeNCyOTY/Fq1KyId7P9ybaY485DmqQZcTmVD0xx6j+xCao5FCq4ux
-	WUQ0kBug==;
+	bh=V7nLOFcaUGzGl+HXCjvMk/LjBRJoyJhmF/cohFsjmsc=; b=3768qKdjmE1Icoch3r7H3IMM3h
+	V6tnAWWRyWeDMpSGEHqEuzxb3judzxqrJFLtkbnx1I8gworqC/XkzxpGImgoVQq7Dr7IKPdTMCch4
+	3R/9DWOXwneVkFGeGQF8HNz2PtsdzuPC92CeDoPGCR2OacD5EV3DmYdbEJzWbV4crw9Z0r6v4oX83
+	mAPKrSabsIMNxmu8aT3k45ZZP5gZv+mxRnOz4ASL/mgMtq1vywhHz1V0jlHALpb7L0wzCwmsq8IPL
+	yMGrhWL6CBwLsRj2mIZgxEYiegcB2rnk72AKsh3No1GYZZwKOqMh+pSRYRAtipVT3EtapOs0idnQY
+	a4nNHscQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPPjx-0000000AmI6-1TIC;
-	Wed, 11 Jun 2025 17:59:57 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1uPPjv-0000000AmEd-1JlC;
+	Wed, 11 Jun 2025 17:59:55 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPLjx-00000009zZ7-0gLA
+	id 1uPLjT-00000009zVP-0KfI
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Jun 2025 13:43:42 +0000
+	Wed, 11 Jun 2025 13:43:12 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id CBC7E5C5ABA;
-	Wed, 11 Jun 2025 13:41:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A942C4CEEE;
-	Wed, 11 Jun 2025 13:43:37 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id C248F4466E;
+	Wed, 11 Jun 2025 13:43:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BB67C4CEEE;
+	Wed, 11 Jun 2025 13:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749649420;
-	bh=zR+8aAQMpGlSGz0t5RpWSSfmxivnCbCkRAhWEzYsTYc=;
-	h=Date:From:Subject:Reply-To:To:Cc:References:In-Reply-To:From;
-	b=U93JaJV2B/yzKXABGFMjzQbCDd4o3jHnexKaFSp9C/R9qfA86z7QbRSfw7aXtM3Y+
-	 OyyrhFyvUOBdWcnW4ipHfzagAH4XOWPG/oSAj0xsOJyahSFXs/tOu4wgPtkGEMzWtl
-	 UNJrEw7OVRMLU72st04yK/IccIzvmQ90+NEIQekzse3pG4lkGS6Ya47AjwV3I+ADIZ
-	 stPRi69eVDik6/U9q/Sz+ZMy209jzG+ncnplz8kLN3PFbnDFPmQx2S8SgX6eJmXpKC
-	 grijeIbua3IHEXxV4VHDzRZe0GqyK+Pb3VF2vV5SmrUCeqQc9mYxLQja5muj113H5s
-	 0eVXqZy0Ha9/A==
-Message-ID: <c5d5abc0-9aec-42ba-b21a-a4ac2b34d03c@kernel.org>
-Date: Wed, 11 Jun 2025 15:43:36 +0200
+	s=k20201202; t=1749649390;
+	bh=P6zwvzUUz0B6hR+x2yVh9ikQbfrWHN7UKz34ytW9BGs=;
+	h=Date:From:Subject:To:Cc:References:Reply-To:In-Reply-To:From;
+	b=Moxy7nJEE8sgn9ViYdpJER/1vycmZ+sZTA6VU9Q/QwU3AHksf0tHaL+6p0eRecFgI
+	 nDh4tyEqXqsqg/cjtw5iAsCxyYNLyOdrMvSH/oHCCNs1yphjxp8Fali/B/39500tkQ
+	 3U4zLDXkPSbo/wVyyWs1YO9GrCppJkFROCwpbh4Gr2axsVpe/f+D1WGzAEosXeNZ2s
+	 NY2Egsa8na8+MlCJeqcOQVHNHjMhYt7AoP6RiGtmZ5/a3oVUsk8XQzIWCLZFB0rYO+
+	 Hb5csuLxcHpdJdRTTxTjls+69gb9RF8SMYo4+3PCGArmk/90aegTLJFu4WMONQisCy
+	 YQxS5SvL7OCvg==
+Message-ID: <dab07466-a1fe-4fba-b3a8-60da853a48be@kernel.org>
+Date: Wed, 11 Jun 2025 15:43:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH 4/9] nvme-pci: refactor nvme_pci_use_sgls
+Subject: Re: [PATCH 2/9] block: add scatterlist-less DMA mapping helpers
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  Chaitanya Kulkarni <kch@nvidia.com>, Kanchan Joshi <joshi.k@samsung.com>,
@@ -55,15 +55,15 @@ Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  Logan Gunthorpe <logang@deltatee.com>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org
 References: <20250610050713.2046316-1-hch@lst.de>
- <20250610050713.2046316-5-hch@lst.de>
+ <20250610050713.2046316-3-hch@lst.de>
 Content-Language: en-US
 Organization: kernel.org
-In-Reply-To: <20250610050713.2046316-5-hch@lst.de>
+In-Reply-To: <20250610050713.2046316-3-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250611_064341_248029_6F44BC97 
-X-CRM114-Status: GOOD (  14.36  )
+X-CRM114-CacheID: sfid-20250611_064311_163658_56F9487A 
+X-CRM114-Status: GOOD (  37.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,36 +80,131 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 10/06/2025 07.06, Christoph Hellwig wrote:
-> Move the average segment size into a separate helper, and return a
-> tristate to distinguish the case where can use SGL vs where we have to
-> use SGLs.  This will allow the simplify the code and make more efficient
-> decisions in follow on changes.
+> Add a new blk_rq_dma_map / blk_rq_dma_unmap pair that does away with
+> the wasteful scatterlist structure.  Instead it uses the mapping iterator
+> to either add segments to the IOVA for IOMMU operations, or just maps
+> them one by one for the direct mapping.  For the IOMMU case instead of
+> a scatterlist with an entry for each segment, only a single [dma_addr,len]
+> pair needs to be stored for processing a request, and for the direct
+> mapping the per-segment allocation shrinks from
+> [page,offset,len,dma_addr,dma_len] to just [dma_addr,len].
+> 
+> One big difference to the scatterlist API, which could be considered
+> downside, is that the IOVA collapsing only works when the driver sets
+> a virt_boundary that matches the IOMMU granule.  For NVMe this is done
+> already so it works perfectly.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/nvme/host/pci.c | 41 +++++++++++++++++++++++++++--------------
->  1 file changed, 27 insertions(+), 14 deletions(-)
+>  block/blk-mq-dma.c         | 162 +++++++++++++++++++++++++++++++++++++
+>  include/linux/blk-mq-dma.h |  63 +++++++++++++++
+>  2 files changed, 225 insertions(+)
+>  create mode 100644 include/linux/blk-mq-dma.h
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 449a9950b46c..0b85c11d3c96 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
+> diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+> index 82bae475dfa4..37f8fba077e6 100644
+> --- a/block/blk-mq-dma.c
+> +++ b/block/blk-mq-dma.c
+
+> +static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
+> +		struct dma_iova_state *state, struct blk_dma_iter *iter,
+> +		struct phys_vec *vec)
+> +{
+> +	enum dma_data_direction dir = rq_dma_dir(req);
+> +	unsigned int mapped = 0;
+> +	int error = 0;
+
+error does not need to be initialized.
+
+> +/**
+> + * blk_rq_dma_map_iter_start - map the first DMA segment for a request
+> + * @req:	request to map
+> + * @dma_dev:	device to map to
+> + * @state:	DMA IOVA state
+> + * @iter:	block layer DMA iterator
+> + *
+> + * Start DMA mapping @req to @dma_dev.  @state and @iter are provided by the
+> + * caller and don't need to be initialized.  @state needs to be stored for use
+> + * at unmap time, @iter is only needed at map time.
+> + *
+> + * Returns %false if there is no segment to map, including due to an error, or
+> + * %true ft it did map a segment.
+> + *
+> + * If a segment was mapped, the DMA address for it is returned in @iter.addr and
+> + * the length in @iter.len.  If no segment was mapped the status code is
+> + * returned in @iter.status.
+> + *
+> + * The caller can call blk_rq_dma_map_coalesce() to check if further segments
+> + * need to be mapped after this, or go straight to blk_rq_dma_map_iter_next()
+> + * to try to map the following segments.
+> + */
+> +bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
+> +		struct dma_iova_state *state, struct blk_dma_iter *iter)
+> +{
+> +	unsigned int total_len = blk_rq_payload_bytes(req);
+> +	struct phys_vec vec;
+> +
+> +	iter->iter.bio = req->bio;
+> +	iter->iter.iter = req->bio->bi_iter;
+> +	memset(&iter->p2pdma, 0, sizeof(iter->p2pdma));
+> +	iter->status = BLK_STS_OK;
+> +
+> +	/*
+> +	 * Grab the first segment ASAP because we'll need it to check for P2P
+> +	 * transfers.
+> +	 */
+> +	if (!blk_map_iter_next(req, &iter->iter, &vec))
+> +		return false;
+> +
+> +	if (IS_ENABLED(CONFIG_PCI_P2PDMA) && (req->cmd_flags & REQ_P2PDMA)) {
+> +		switch (pci_p2pdma_state(&iter->p2pdma, dma_dev,
+> +					 phys_to_page(vec.paddr))) {
+> +		case PCI_P2PDMA_MAP_BUS_ADDR:
+> +			return blk_dma_map_bus(req, dma_dev, iter, &vec);
+> +		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> +			/*
+> +			 * P2P transfers through the host bridge are treated the
+> +			 * same as non-P2P transfers below and during unmap.
+> +			 */
+> +			req->cmd_flags &= ~REQ_P2PDMA;
+> +			break;
+> +		default:
+> +			iter->status = BLK_STS_INVAL;
+> +			return false;
+> +		}
+> +	}
+> +
+> +	if (blk_can_dma_map_iova(req, dma_dev) &&
+> +	    dma_iova_try_alloc(dma_dev, state, vec.paddr, total_len))
+> +		return blk_rq_dma_map_iova(req, dma_dev, state, iter, &vec);
+> +	return blk_dma_map_direct(req, dma_dev, iter, &vec);
+> +}
+> +EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_start);
+> +
 
 ...
 
-> @@ -886,7 +897,9 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->  		goto out_free_sg;
->  	}
->  
-> -	if (nvme_pci_use_sgls(dev, req, iod->sgt.nents))
-> +	if (use_sgl == SGL_FORCED ||
-> +	    (use_sgl == SGL_SUPPORTED &&
+> diff --git a/include/linux/blk-mq-dma.h b/include/linux/blk-mq-dma.h
+> new file mode 100644
+> index 000000000000..c26a01aeae00
+> --- /dev/null
+> +++ b/include/linux/blk-mq-dma.h
+> @@ -0,0 +1,63 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef BLK_MQ_DMA_H
+> +#define BLK_MQ_DMA_H
+> +
+> +#include <linux/blk-mq.h>
+> +#include <linux/pci-p2pdma.h>
+> +
+> +struct blk_dma_iter {
+> +	/* Output address range for this iteration */
+> +	dma_addr_t			addr;
+> +	u32				len;
+> +
+> +	/* Status code. Only valid when blk_rq_dma_map_iter_* returned false */
+> +	blk_status_t			status;
 
-FORCED implies SUPPORTED, what about simplifying to:
-
-if (use_sgl >= SGL_SUPPORTED)
-
-or just do:
-
-if (use_sgl)
+This comment does not match with blk_rq_dma_map_iter_start(). It returns false
+and status is BLK_STS_INVAL.
 
