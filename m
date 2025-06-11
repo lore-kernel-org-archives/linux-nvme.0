@@ -4,68 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B8E3C71149
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Jun 2025 21:16:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32B8AC71136
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Jun 2025 21:49:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=itjpmWn8rFXLHXEJr0maI7um2F1Lpkt93D4yK0a4E3k=; b=BxtJvrzgvrhYB02nmtv00S7V/X
-	SQ5MaObnn2gxDr5+9Q7wAQiTCsrVrfWHEyZYQlr3z2tX2RLPXydw37+jd1ScZpZNc6XO6gVkkmP3C
-	/XeODzJ8vycQQqnOBRC2GKCM3luhGlriC18IPftOzVeZlDUBjaNLy34vT1tr0jPnefYliGfOvhMuz
-	u9Cg5AGVhvZcyaPuAE/eqXEUqnDhAwfsyQqgoT4vO5+h/A/OWyQgp1QlT++LWNiVfS4+Ke50uT9SV
-	Z8Mfn4gimpi9BSq5k9RtvGu0FJM/INOqfmYper0WfpoeRUv1brSHrA5uScOblWt8g/HH4abr7jIwu
-	+MYvO7Wg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=VSC4VLuuqrdFvSXDA+rlUN6veLmxqQV+QLrJEvwX08Q=; b=e6ccT9JPxXuAHe
+	fh5cgpfzkNKga9/XOR5yXyxHmnGxL9FJtBvCEeRgyENVTctWGvUvg3LgEkkyAdJnTbFuIJ3clPwAp
+	hfzdRe2TcUbSnQTn5hsnkmgAQXtVXAVr8C19uDoonpwqZ1/VLIxwY+oDpyuiQZja4xT/afWQWbrcL
+	7DF9o0qwx0qWYwqhpNUcuX8KoEt7+qjCNPHbiRnbhhPawKDDZGCfq7PaxSXpgX3gbOjN7bocaDxC8
+	KKrpL+yGNixbZJue6NjRAUDAl4LdiovUR9OtbrOs6l2a2VNgfPITbKT91ji6EmVGqzA5WyGymJShS
+	o/1e40pm9hHGG46jTjjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPSoH-0000000BGVM-2WqD;
-	Wed, 11 Jun 2025 21:16:37 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1uPTJk-0000000BOVG-0E1c;
+	Wed, 11 Jun 2025 21:49:08 +0000
+Received: from ale.deltatee.com ([204.191.154.188])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPOHA-0000000AbpI-2agI
+	id 1uPRKx-0000000AyVv-13Gw
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Jun 2025 16:26:09 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 842115C56EC;
-	Wed, 11 Jun 2025 16:23:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F112C4CEE3;
-	Wed, 11 Jun 2025 16:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749659166;
-	bh=fKCue/QRAGLJEvsZ48ApXivr3PElq2mFF2q18ziSqeA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C1tcDAkUdPJ8BLQiFMQqrOoJlInDmXRG40dxIRDrTuna8Wm1UOs9VNUZpdTo62mm7
-	 4P3xKc01nGq35CE11qepOwBQ8aKO/lTo2C/7NqmB2Ww+y0u/m7Eefp39KlxyqNAff9
-	 H/pE8vi6X5NliSRGC/GbaYZiB/CGFHnyIIW2L7VlAJVbwsnezI+hm3u/2eLeg2ekTq
-	 niJrrHie2h1T3B2kl17ZTHlYSXZG0IC6ko99lFj8FiLBbeNf9d3butB94yhsLi6C7x
-	 Qx9ihtcZbnXBFyCO+WRqUZytAZdw6AVAdWVEchGJz9rb4JkM9MfpWpj5AtifJ3XE//
-	 YVuR0+ywOsypw==
-Date: Wed, 11 Jun 2025 10:26:03 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Logan Gunthorpe <logang@deltatee.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
+	Wed, 11 Jun 2025 19:42:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=VSC4VLuuqrdFvSXDA+rlUN6veLmxqQV+QLrJEvwX08Q=; b=KPVQKLdDPsClMuuVGMBe8LXrmh
+	G53AnrgF1N0xpZMb7vXcrT8nZVluJTX4rQ/LRLftfz5UKOqEdL0GBeeuDsTy7tgCFVRzFNyCRXKEO
+	nJvfOePPPlZU55A4uKaElhDrKoGWcpUAE4Fci4V8SiT7YJRF/6BrsEbiQ9q52347jWGSmvw76nv2h
+	MWc7nuD8tRw3MGjeXYz6bhcEqV2sufkKd3YyLExMkLwVSQu3QMWc1zxSouXITaPWKcCAIe8NvsNOG
+	BV/QDRryc6YZ1FDJ4iYDhF/XFyyEc5ymlChDCt/ezgz/wm0P4Q9QN+4fOnQ78+RgxgHcYDAR/9tG7
+	vhbWMdIA==;
+Received: from d172-219-145-75.abhsia.telus.net ([172.219.145.75] helo=[192.168.11.155])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96)
+	(envelope-from <logang@deltatee.com>)
+	id 1uPRKo-007k41-1S;
+	Wed, 11 Jun 2025 13:42:05 -0600
+Message-ID: <88fe6154-6086-409d-a180-665d62d72d47@deltatee.com>
+Date: Wed, 11 Jun 2025 13:41:54 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Kanchan Joshi <joshi.k@samsung.com>, Leon Romanovsky <leon@kernel.org>,
+ Nitesh Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <20250610050713.2046316-1-hch@lst.de>
+ <20250610050713.2046316-2-hch@lst.de> <aEhROl2D89kFX8C7@kbusch-mbp>
+ <20250611034316.GA2869@lst.de> <aEmuG1dUDGuci7VW@kbusch-mbp>
+ <5cddbda3-02bd-4dc1-9f7f-197279da6279@deltatee.com>
+ <aEmxn0K6m34HsZeN@kbusch-mbp>
+Content-Language: en-US
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <aEmxn0K6m34HsZeN@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.219.145.75
+X-SA-Exim-Rcpt-To: kbusch@kernel.org, hch@lst.de, axboe@kernel.dk, sagi@grimberg.me, kch@nvidia.com, joshi.k@samsung.com, leon@kernel.org, nj.shetty@samsung.com, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+X-SA-Exim-Mail-From: logang@deltatee.com
 Subject: Re: [PATCH 1/9] block: don't merge different kinds of P2P transfers
  in a single bio
-Message-ID: <aEmuG1dUDGuci7VW@kbusch-mbp>
-References: <20250610050713.2046316-1-hch@lst.de>
- <20250610050713.2046316-2-hch@lst.de>
- <aEhROl2D89kFX8C7@kbusch-mbp>
- <20250611034316.GA2869@lst.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250611034316.GA2869@lst.de>
+X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250611_092608_694417_50F36FDC 
-X-CRM114-Status: GOOD (  19.59  )
+X-CRM114-CacheID: sfid-20250611_124215_291242_6AD1C716 
+X-CRM114-Status: GOOD (  13.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,35 +86,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 11, 2025 at 05:43:16AM +0200, Christoph Hellwig wrote:
-> On Tue, Jun 10, 2025 at 09:37:30AM -0600, Keith Busch wrote:
-> > I may be out of the loop here. Is this an optimization to make something
-> > easier for the DMA layer?
-> 
-> Yes.  P2P that is based on a bus address (i.e. using a switch) uses
-> a completely different way to DMA MAP than the normal IOMMU or
-> direct mapping.  So the optimization of collapsing all host physical
-> addresses into an iova can't work once it is present.
-> 
-> > I don't think there's any fundamental reason
-> > why devices like nvme couldn't handle a command that uses memory mixed
-> > among multiple devices and/or host memory, at least.
-> 
-> Sure, devices don't even see if an IOVA is P2P or not, this is all
-> host side.
 
-Sorry for my ignorant questions here, but I'm not sure how this setup
-(P2P transactions with switches and IOMMU enabled) actually works and
-would like to understand better.
 
-If I recall correctly, the PCIe ACS features will default redirect
-everything up to the root-complex when you have the IOMMU on. A device
-can set its memory request TLP's Address Type field to have the switch
-direct the transaction directly to a peer device instead, but how does
-the nvme device know how to set the it memory request's AT field?
-There's nothing that says a command's addresses are untranslated IOVAs
-vs translated peer addresses, right?  Lacking some mechanism to specify
-what kind of address the nvme controller is dealing with, wouldn't you
-be forced to map peer addresses with the IOMMU, having P2P transactions
-make a round trip through it only using mapped IOVAs?
+On 2025-06-11 10:41, Keith Busch wrote:
+> On Wed, Jun 11, 2025 at 10:39:17AM -0600, Logan Gunthorpe wrote:
+>> On 2025-06-11 10:26, Keith Busch wrote:
+>> That is all correct. In order to use P2P on a switch, with the IOMMU
+>> enabled, it is currently required to disable ACS for the devices in
+>> question. This is done with the command line parameter disable_acs_redir
+>> or config_acs.
+> 
+> Is there some other mechansim that ensures a host memory mapped IOVA
+> doesn't collide with a PCI bus address then?
+
+Yes, in the absence of a switch with ACS protection this can be a problem.
+
+I haven't looked at this in a long time, but the iommu drivers reserve
+regions where the PCI addresses are valid so no iova will be allocated
+with a similar bus address. After a quick search, I believe today, this
+is handled by iova_reserve_pci_windows().
+
+Logan
 
