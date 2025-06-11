@@ -4,66 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1537C71136
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Jun 2025 18:00:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4675BC71136
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Jun 2025 19:54:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=eo36Awb51Q0RV63PDdElEhRn7Tjl7dlRvWvgcpemBWc=; b=bukZRszz9AY7Z1
-	uCGFO2Y8MF89CldvSU2v3omTxBb4XAkOJp4aAlfGGnIxqZ650CeyZNp8k8MWTJOhkPxGTQoLd/naM
-	Sog/Zqr3ZXd3tRuvPB3xLxvueztyAsqt5cpPpGZ8GRW4PUeYreug40HB4aA8f60dooDE5HOPVuLPr
-	18vDkk2L5ZdQMSuT5dkcWx/npH7gqD7eW/ErPiupRfVQB5wEJGnoW8OR6LoqFdAhPcxXMwNdVrJZz
-	atOFImHnWU6VrYQNJ4P/8sorvzto/JGaqj0boGqxsDCYRWKmwyVrKkLN04IeTwkQK6E9jR9sKAVvi
-	H++mU/wSihB+E0QeJ1Eg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TY2DnmJAjRapSRYV/ncNE2zouegsL58+IauvSxHqi2s=; b=OU4+qOf2xcmURae+x+6AsEFIBf
+	wF2Jo9h+9USS12gTwY+G/NoQPZEYEAuJ1YbOJkYR8Z8dnDB58MIP6ZrtmZUw3aDwWddMey5emCFCM
+	9UlnkAWYF7KDDzBqjjQ3nBymr0O8jCNkzdFfXXfWUZn3AR2CfVoN31Ry2pETNHa3Nl7Pj6mNvtBq0
+	JiFPpjWoZCDPtxPxiqHODE1QdyPDryZLx5+/gtRN0YebRiu2t1Fv7PzYU7AFOCLrhUDU5E/fAH7cv
+	GwJvZMDVmiu/lsGplSYZx/EYOAH3l2JBuyv2fAltczfVZTa86RxMSjBXYodBFEfowY+Bm7pKxF+ea
+	O2Q6NkkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPPkk-0000000Anfv-44BK;
-	Wed, 11 Jun 2025 18:00:46 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1uPRWU-0000000B1K4-3R66;
+	Wed, 11 Jun 2025 19:54:10 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPMCk-0000000A4Bb-1Jyb
+	id 1uPN1Z-0000000AKJ9-289t
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Jun 2025 14:13:27 +0000
+	Wed, 11 Jun 2025 15:05:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id B6D4B43E8B;
-	Wed, 11 Jun 2025 14:13:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ECDFC4CEE3;
-	Wed, 11 Jun 2025 14:13:23 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 763A45C24D9;
+	Wed, 11 Jun 2025 15:03:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF97EC4CEE3;
+	Wed, 11 Jun 2025 15:05:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749651205;
-	bh=g9ZqoAzVAgYCqLKjo26Nv7HuA3LavIx+D1Zfdwx4AmQ=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fh4PB6DN00JmQKz/lac6hrUrtZvhOUXWR0/9zvjFFBk5Vay8mUnwEKugj2zz5MPUz
-	 0j/TfGkirXtWz3g0N+uzhYETUi4rws5JtQGh8qcpfQ6r/3sxabxi7PMQIzIS9ONH7L
-	 HoXdnW/5+6G68HsWb1DDx1Yyihyhm8cc2pUjqfdNuDSqkCKwawVkqSH2hSS+6FohjJ
-	 jeiIRLxt+M4Yl3eIdj4boSsdOW6eJeYqelMVsv4IHkuQm7ZUBFooqf5gdbyTJD9RXY
-	 QlR0Wn1ymn3XzOuWNefG9a9yBBLQ8miEQKN74OpNc2TKmbh5gGXgIRAAbrwTaAdz+B
-	 8hASRyk58J6hQ==
-Message-ID: <4bdeb522-42d4-460c-8812-7e0d8602cf8f@kernel.org>
-Date: Wed, 11 Jun 2025 16:13:22 +0200
+	s=k20201202; t=1749654355;
+	bh=nXn//9wEDz612qpwUp8e5GEyUKA50kkwM4h/bE6ZsuQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q09gTN7JEA9p4RLFDHZ4C0xd3qOt0xR+cuu6CEvOs3oeO1rgndK/SFluuYHxpBwiL
+	 pcrJUktzodkyPGdCmioD3Pn+DGNwZw7t8x7x2D0qcxhP98WSlrEXXDrl7ncRliIhTv
+	 i4B1LttaTfBZZFx7yGC/ufWAgQofppsA7SN8MiAQIPngifAuoyFFbczwovXdJeehdI
+	 4OJt2ThjrKPM/ptQuox2H9n/ZSCCZ39v0wavG5UYR+eo8fL5G9z0B1cJtSFNF0XXL9
+	 lNIgvxMVexROrysgq8wf/C4BYLcPSK2fCrvofoN4KX+z/6+s8eFIPH4pHF4mqI6jr0
+	 gYUgZDM+G7c/Q==
+Date: Wed, 11 Jun 2025 08:05:55 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, hch@lst.de,
+	tytso@mit.edu, john.g.garry@oracle.com, bmarzins@redhat.com,
+	chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com,
+	brauner@kernel.org, martin.petersen@oracle.com, yi.zhang@huawei.com,
+	chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH 07/10] fs: introduce FALLOC_FL_WRITE_ZEROES to fallocate
+Message-ID: <20250611150555.GB6134@frogsfrogsfrogs>
+References: <20250604020850.1304633-1-yi.zhang@huaweicloud.com>
+ <20250604020850.1304633-8-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] nvme-pci: convert the data mapping blk_rq_dma_map
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Leon Romanovsky <leon@kernel.org>, Nitesh Shetty <nj.shetty@samsung.com>,
- Logan Gunthorpe <logang@deltatee.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <20250610050713.2046316-1-hch@lst.de>
- <20250610050713.2046316-8-hch@lst.de>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <20250610050713.2046316-8-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250604020850.1304633-8-yi.zhang@huaweicloud.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250611_071326_394931_11D0FEFB 
-X-CRM114-Status: GOOD (  26.30  )
+X-CRM114-CacheID: sfid-20250611_080557_627277_9598C2E8 
+X-CRM114-Status: GOOD (  39.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,82 +76,135 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/06/2025 07.06, Christoph Hellwig wrote:
-> Use the blk_rq_dma_map API to DMA map requests instead of scatterlists.
-> This removes the need to allocate a scatterlist covering every segment,
-> and thus the overall transfer length limit based on the scatterlist
-> allocation.
+[cc linux-api about a fallocate uapi change]
+
+On Wed, Jun 04, 2025 at 10:08:47AM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> Instead the DMA mapping is done by iterating the bio_vec chain in the
-> request directly.  The unmap is handled differently depending on how
-> we mapped:
+> With the development of flash-based storage devices, we can quickly
+> write zeros to SSDs using the WRITE_ZERO command if the devices do not
+> actually write physical zeroes to the media. Therefore, we can use this
+> command to quickly preallocate a real all-zero file with written
+> extents. This approach should be beneficial for subsequent pure
+> overwriting within this file, as it can save on block allocation and,
+> consequently, significant metadata changes, which should greatly improve
+> overwrite performance on certain filesystems.
 > 
->  - when using an IOMMU only a single IOVA is used, and it is stored in
->    iova_state
->  - for direct mappings that don't use swiotlb and are cache coherent no
->    unmap is needed at all
->  - for direct mappings that are not cache coherent or use swiotlb, the
->    physical addresses are rebuild from the PRPs or SGL segments
+> Therefore, introduce a new operation FALLOC_FL_WRITE_ZEROES to
+> fallocate. This flag is used to convert a specified range of a file to
+> zeros by issuing a zeroing operation. Blocks should be allocated for the
+> regions that span holes in the file, and the entire range is converted
+> to written extents. If the underlying device supports the actual offload
+> write zeroes command, the process of zeroing out operation can be
+> accelerated. If it does not, we currently don't prevent the file system
+> from writing actual zeros to the device. This provides users with a new
+> method to quickly generate a zeroed file, users no longer need to write
+> zero data to create a file with written extents.
 > 
-> The latter unfortunately adds a fair amount of code to the driver, but
-> it is code not used in the fast path.
+> Users can determine whether a disk supports the unmap write zeroes
+> operation through querying this sysfs interface:
 > 
-> The conversion only covers the data mapping path, and still uses a
-> scatterlist for the multi-segment metadata case.  I plan to convert that
-> as soon as we have good test coverage for the multi-segment metadata
-> path.
+>     /sys/block/<disk>/queue/write_zeroes_unmap
 > 
-> Thanks to Chaitanya Kulkarni for an initial attempt at a new DMA API
-> conversion for nvme-pci, Kanchan Joshi for bringing back the single
-> segment optimization, Leon Romanovsky for shepherding this through a
-> gazillion rebases and Nitesh Shetty for various improvements.
+> Finally, this flag cannot be specified in conjunction with the
+> FALLOC_FL_KEEP_SIZE since allocating written extents beyond file EOF is
+> not permitted. In addition, filesystems that always require out-of-place
+> writes should not support this flag since they still need to allocated
+> new blocks during subsequent overwrites.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/nvme/host/pci.c | 388 +++++++++++++++++++++++++---------------
->  1 file changed, 242 insertions(+), 146 deletions(-)
+>  fs/open.c                   |  1 +
+>  include/linux/falloc.h      |  3 ++-
+>  include/uapi/linux/falloc.h | 18 ++++++++++++++++++
+>  3 files changed, 21 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 04461efb6d27..2d3573293d0c 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-...
-> @@ -2908,26 +3018,14 @@ static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdown)
->  static int nvme_pci_alloc_iod_mempool(struct nvme_dev *dev)
-
-Since this pool is now used exclusively for metadata, it makes sense to update
-the function name accordingly:
-
-static int nvme_pci_alloc_iod_meta_mempool(struct nvme_dev *dev)
-
->  {
->  	size_t meta_size = sizeof(struct scatterlist) * (NVME_MAX_META_SEGS + 1);
-> -	size_t alloc_size = sizeof(struct scatterlist) * NVME_MAX_SEGS;
-> -
-> -	dev->iod_mempool = mempool_create_node(1,
-> -			mempool_kmalloc, mempool_kfree,
-> -			(void *)alloc_size, GFP_KERNEL,
-> -			dev_to_node(dev->dev));
-> -	if (!dev->iod_mempool)
-> -		return -ENOMEM;
+> diff --git a/fs/open.c b/fs/open.c
+> index 7828234a7caa..b777e11e5522 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -281,6 +281,7 @@ int vfs_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
+>  		break;
+>  	case FALLOC_FL_COLLAPSE_RANGE:
+>  	case FALLOC_FL_INSERT_RANGE:
+> +	case FALLOC_FL_WRITE_ZEROES:
+>  		if (mode & FALLOC_FL_KEEP_SIZE)
+>  			return -EOPNOTSUPP;
+>  		break;
+> diff --git a/include/linux/falloc.h b/include/linux/falloc.h
+> index 3f49f3df6af5..7c38c6b76b60 100644
+> --- a/include/linux/falloc.h
+> +++ b/include/linux/falloc.h
+> @@ -36,7 +36,8 @@ struct space_resv {
+>  				 FALLOC_FL_COLLAPSE_RANGE |	\
+>  				 FALLOC_FL_ZERO_RANGE |		\
+>  				 FALLOC_FL_INSERT_RANGE |	\
+> -				 FALLOC_FL_UNSHARE_RANGE)
+> +				 FALLOC_FL_UNSHARE_RANGE |	\
+> +				 FALLOC_FL_WRITE_ZEROES)
 >  
->  	dev->iod_meta_mempool = mempool_create_node(1,
->  			mempool_kmalloc, mempool_kfree,
->  			(void *)meta_size, GFP_KERNEL,
->  			dev_to_node(dev->dev));
->  	if (!dev->iod_meta_mempool)
-> -		goto free;
-> -
-> +		return -ENOMEM;
->  	return 0;
-> -free:
-> -	mempool_destroy(dev->iod_mempool);
-> -	return -ENOMEM;
->  }
+>  /* on ia32 l_start is on a 32-bit boundary */
+>  #if defined(CONFIG_X86_64)
+> diff --git a/include/uapi/linux/falloc.h b/include/uapi/linux/falloc.h
+> index 5810371ed72b..265aae7ff8c1 100644
+> --- a/include/uapi/linux/falloc.h
+> +++ b/include/uapi/linux/falloc.h
+> @@ -78,4 +78,22 @@
+>   */
+>  #define FALLOC_FL_UNSHARE_RANGE		0x40
 >  
->  static void nvme_free_tagset(struct nvme_dev *dev)
+> +/*
+> + * FALLOC_FL_WRITE_ZEROES is used to convert a specified range of a file to
+> + * zeros by issuing a zeroing operation. Blocks should be allocated for the
+> + * regions that span holes in the file, and the entire range is converted to
+> + * written extents.
+
+I think you could simplify this a bit by talking only about the end
+state after a successful call:
+
+"FALLOC_FL_WRITE_ZEROES zeroes a specified file range in such a way that
+subsequent writes to that range do not require further changes to file
+mapping metadata."
+
+Note that we don't say how the filesystem gets to this goal.  Presumably
+the first implementations will send a zeroing operation to the block
+device during allocation and the fs will create written mappings, but
+there are other ways to get there -- a filesystem could maintain a pool
+of pre-zeroed space and hand those out; or it could zero space on
+freeing and mounting such that all new mappings can be created as
+written even without the block device zeroing operation.
+
+Or you could be running on some carefully engineered system where you
+know the storage will always be zeroed at allocation time due to some
+other aspect of the system design, e.g. a single-use throwaway cloud vm
+where you allocate to the end of the disk and reboot the node.
+
+> + *                  This flag is beneficial for subsequent pure overwriting
+> + * within this range, as it can save on block allocation and, consequently,
+> + * significant metadata changes. Therefore, filesystems that always require
+> + * out-of-place writes should not support this flag.
+> + *
+> + * Different filesystems may implement different limitations on the
+> + * granularity of the zeroing operation. Most will preferably be accelerated
+> + * by submitting write zeroes command if the backing storage supports, which
+> + * may not physically write zeros to the media.
+> + *
+> + * This flag cannot be specified in conjunction with the FALLOC_FL_KEEP_SIZE.
+> + */
+> +#define FALLOC_FL_WRITE_ZEROES		0x80
+
+The rest of the writeup seems fine to me.
+
+--D
+
+> +
+>  #endif /* _UAPI_FALLOC_H_ */
+> -- 
+> 2.46.1
+> 
+> 
 
