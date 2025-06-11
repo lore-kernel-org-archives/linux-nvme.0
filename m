@@ -4,76 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4C0AC61CE7
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Jun 2025 06:19:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5866DC677C4
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Jun 2025 07:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RSHT1oY/4SE0sxZXPri5fFvRULSQf3AGrCiatjoGsIE=; b=HqZHu5llaJOi5DWUsqr3oH7jW6
-	eYMD1glPArzrXHWClWAF8wZiHFVSyUX6qAVLGJTLMkJdcr28eE6d4nfb4t8KoT8D8EJbEAsypmDDI
-	6ulkG04u5z1xsPFsFJxG06lTuKF92i7vBs82H76Ws+4LR75Bn7xwdy/aARQFEZUZuS9Fvm2vZobhc
-	Vvj/5dHn/kj1VjPvbDUspx+/B0bqOKVXjccThBmJxI+05zogoJcTQtVHiMn1prj2sZUVTc46XwtpC
-	tWHVGdub7weW6aOSsfE6vQrv1eVKkE9oRFnQ1wjsur93CdaGXgB+1nwI9ZRH1Q/a+zQ3WzdadoOdE
-	xyMr4gAQ==;
+	bh=JZkxptl31Pk3zxNXRt3sn7VZJPSPwzE2mwKjZFvREa8=; b=KJo5owimBCRlEc1WxFouSUKcSl
+	PVqir0z4Rgu4Ow2Ne+zAwsdp4x8OOX3PmxjMv5YTIIN9xoRDP1ybco4/5FdTPZWu4XNrsjSa0WneH
+	fuF9QN5MECPUECnEKkS17yEG/A6SE/ng8ym7GE9zyt8cLNZvBMAKPz5KPlDt8pTEHfyCcv1hxLi7s
+	kKwJsy9KJjy3TWXq9Y2alKnsq7xYtc7Er14KF5LDHuVr4npjEbuyzeXxkaSXW9sLpWrEjuz3NxEUn
+	QtOFSzuPDYyOmKkk/8q0PXhCT6JvsQtqeVKFxBIywXldMlvK+bJ85RoCSZpggG/wdHZsR9e6KcGmG
+	iz9KbtFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPEng-00000008yLx-2is6;
-	Wed, 11 Jun 2025 06:19:04 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1uPFvw-000000096tU-2Ov8;
+	Wed, 11 Jun 2025 07:31:40 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPEne-00000008yKn-0HpY
+	id 1uPFvt-000000096qm-0Nu9
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Jun 2025 06:19:03 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bHFq20ZLMzYQvDv
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Jun 2025 14:18:54 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 17ABA1A06DD
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Jun 2025 14:18:53 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgB32l7MH0loV4+pPA--.61745S3;
-	Wed, 11 Jun 2025 14:18:53 +0800 (CST)
-Subject: Re: [bug report] WARNING: CPU: 3 PID: 522 at block/genhd.c:144
- bdev_count_inflight_rw+0x26e/0x410
-To: Yi Zhang <yi.zhang@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: linux-block <linux-block@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- "yukuai (C)" <yukuai3@huawei.com>
-References: <CAHj4cs-uWZcgHLLkE8JeDpkd-ddkWiZCQC_HWObS5D3TAKE9ng@mail.gmail.com>
- <dc30d40d-5724-9b54-e3a8-eb66980ddd9e@huaweicloud.com>
- <CAHj4cs9qZ2wGDJbrRhxbExfwjD1cwAZKO+rpt9-yxCfBCJtr=A@mail.gmail.com>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <108eaabf-e9df-ace6-3bc9-62925b0915ac@huaweicloud.com>
-Date: Wed, 11 Jun 2025 14:18:52 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	Wed, 11 Jun 2025 07:31:39 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bHHQj0sVqzKHNCS
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Jun 2025 15:31:25 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id 771DC1A0194
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Jun 2025 15:31:23 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP3 (Coremail) with SMTP id _Ch0CgA3icPJMElo89e+Ow--.19807S3;
+	Wed, 11 Jun 2025 15:31:23 +0800 (CST)
+Message-ID: <343f7f06-9bf6-442f-8e77-0a774203ec3f@huaweicloud.com>
+Date: Wed, 11 Jun 2025 15:31:21 +0800
 MIME-Version: 1.0
-In-Reply-To: <CAHj4cs9qZ2wGDJbrRhxbExfwjD1cwAZKO+rpt9-yxCfBCJtr=A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgB32l7MH0loV4+pPA--.61745S3
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYk7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87
-	Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
-	6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0
-	xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI0_JF
-	0_Jw1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
-	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2I
-	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK
-	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
-	0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYDGYDUUUU
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/10] block: introduce BLK_FEAT_WRITE_ZEROES_UNMAP to
+ queue limits features
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, tytso@mit.edu,
+ djwong@kernel.org, john.g.garry@oracle.com, bmarzins@redhat.com,
+ chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com, brauner@kernel.org,
+ martin.petersen@oracle.com, yi.zhang@huawei.com, chengzhihao1@huawei.com,
+ yukuai3@huawei.com, yangerkun@huawei.com
+References: <20250604020850.1304633-1-yi.zhang@huaweicloud.com>
+ <20250604020850.1304633-2-yi.zhang@huaweicloud.com>
+ <20250611060900.GA4613@lst.de>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20250611060900.GA4613@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: _Ch0CgA3icPJMElo89e+Ow--.19807S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw1kXw1DJFWxCryUZF4xWFg_yoWfWFc_Za
+	1SyryDCw4DArySyanrAwn8trWkKr4DXFWxur47Kay5Ca45Ja4xCrs5urySva4FqayFqF4I
+	krZxXF9F9FZ2gjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
+	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIa
+	0PDUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250610_231902_258947_F971CF09 
-X-CRM114-Status: UNSURE (   6.05  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250611_003137_279959_FB19463D 
+X-CRM114-Status: GOOD (  10.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,15 +94,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On 2025/6/11 14:09, Christoph Hellwig wrote:
+> On Wed, Jun 04, 2025 at 10:08:41AM +0800, Zhang Yi wrote:
+>> +static ssize_t queue_write_zeroes_unmap_show(struct gendisk *disk, char *page)
+> 
+> ..
+> 
+>> +static int queue_write_zeroes_unmap_store(struct gendisk *disk,
+>> +		const char *page, size_t count, struct queue_limits *lim)
+> 
+> We're probably getting close to wanting macros for the sysfs
+> flags, similar to the one for the features (QUEUE_SYSFS_FEATURE).
+> 
+> No need to do this now, just thinking along.
 
-在 2025/06/11 8:05, Yi Zhang 写道:
-> Unfortunately, the issue still can be reproduced with the change.
+Yes.
 
-Thanks for the test, looks like the problem is not related to
-unbalanced nvme_mpath_{start, end}_request, I'll try if I can reporduce
-it in my VM.
+> 
+>> +/* supports unmap write zeroes command */
+>> +#define BLK_FEAT_WRITE_ZEROES_UNMAP	((__force blk_features_t)(1u << 17))
+> 
+> 
+> Should this be exposed through sysfs as a read-only value?
 
-Kuai
+Uh, are you suggesting adding another sysfs interface to expose
+this feature?
+
+> 
+> Otherwise looks good:
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+Thanks,
+Yi.
 
 
