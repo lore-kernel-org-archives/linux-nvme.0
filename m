@@ -4,81 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D384C71136
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jun 2025 13:19:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A8A4C61CE8
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jun 2025 19:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6tX/I1QwIvj+FKackzKyyMZ9E9/MP03y2LHIo9DqayI=; b=gfyTdZBd2av/v3wdb3TGV80/HY
-	d7T/+bB5qFJkRmp2auxCTe39onEWWnwHLXEKbfTw40KCEKwOHcsHQ2X3TBhQnWCqmlIBIdp0GtX+g
-	4UA1SSK2skjRGkkYUN6rc+Lp9mZVkAjvCbNRGO4KQnxGhvibiLQYy8nde9rmApkzZJSi06px/oLTJ
-	BX+mDgJKDeYSJBMmsqmC2yW2Z/YXs1W0Vws2/vp5lNAY4dO5kpuf2Swxce9NCdb6f05AkX5L5KJ1T
-	BmcMT2XaLcvWbUcHckwGkYa24M3rpHOhp0EqknrQ8gyj1J98fKZskzbBKkKeskEa4m4Z/9L/vXd3P
-	uW9iUoYw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UM7JrM5zxDNNfveu7N1+46WxeUzQQu6akD8APoC8O9A=; b=kM263bJjXIM28+kkrqA36OEfPI
+	ttTzF0DqVOgd0Kkx/zf7gVcX8yx5phxHOtzk7jRO5yRrpsyj8T2vRIy+W1rrbMPQJhmwfYdIDIiL1
+	lYTCZFu2oojsbHkMUp8YW+TEjOKm1n6NbqzSqZvMhfQPVusXP6V1QtdN3iD7UifE2alQU/HLbnhqI
+	WT2vaHto+oTXqX2IleufHGVxYtHcMR7sSOonqT1c+k5aD/CWInsvAWUdiTgh4AfJA90QvoM5IhB+a
+	1b67TicWivLEuN/BeA4ndA6Oz6YT0BUHGz3J6+ihZUVlGfP/iUiRp2krzFCk+0/FXL7V+wm9PhNdY
+	YHs2GAXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPhq9-0000000DNaW-0Ybx;
-	Thu, 12 Jun 2025 13:19:33 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1uPnqM-0000000EIb9-2WgE;
+	Thu, 12 Jun 2025 19:44:10 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPgFf-0000000D9qs-0g9k
+	id 1uPjT3-0000000Dj1E-0J5D
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Jun 2025 11:37:49 +0000
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bJ0rQ5j4KzYQvgT
-	for <linux-nvme@lists.infradead.org>; Thu, 12 Jun 2025 19:37:42 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id C35A21A0AD2
-	for <linux-nvme@lists.infradead.org>; Thu, 12 Jun 2025 19:37:41 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgAXe18DvEpoJoUoPQ--.21926S3;
-	Thu, 12 Jun 2025 19:37:41 +0800 (CST)
-Message-ID: <b14aaa15-9d41-45cf-9bd8-fe92d256070d@huaweicloud.com>
-Date: Thu, 12 Jun 2025 19:37:39 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] fs: introduce FALLOC_FL_WRITE_ZEROES to fallocate
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, hch@lst.de,
- tytso@mit.edu, john.g.garry@oracle.com, bmarzins@redhat.com,
- chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com, brauner@kernel.org,
- martin.petersen@oracle.com, yi.zhang@huawei.com, chengzhihao1@huawei.com,
- yukuai3@huawei.com, yangerkun@huawei.com, linux-api@vger.kernel.org
+	Thu, 12 Jun 2025 15:03:50 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 13B52A51DAC;
+	Thu, 12 Jun 2025 15:03:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C65BDC4CEEB;
+	Thu, 12 Jun 2025 15:03:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749740627;
+	bh=ONyFbl7eR0QXU3CRaThaUkea18g1Bd2HJqzSu8H2F5E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m74s/H9bViol79YmIelbep7cXyzEw47hdktzg1MN6vCsg0S24VQ/KqSDwpigubKeE
+	 i41PpwJYbao8dKkGyE2Qqe80rDBt1KLstr08lFXyM7NrBpY5+1GLMitIsyHPH9pCI1
+	 RYqA94+q4srgJ820hmzPT2j5D4utw51hYyphDzfmQ9/qugstzZiKxhOn3D8GrAvQ8j
+	 X4Jo/C2BGR8LyZw47KY7cK2I3lFCTccQP4dr8up2k8RWnzpbNifNYM9Yn3+F7UHZR0
+	 qapgcqmD42kiSJv9F9eFn76HvvhT8koJ4G37SFjrSwz0usnG0i9ighP1aKYvjTYnul
+	 8U9pYzGL/Kbhg==
+Date: Thu, 12 Jun 2025 08:03:47 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tytso@mit.edu,
+	john.g.garry@oracle.com, bmarzins@redhat.com, chaitanyak@nvidia.com,
+	shinichiro.kawasaki@wdc.com, brauner@kernel.org,
+	martin.petersen@oracle.com, yi.zhang@huawei.com,
+	chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com
+Subject: Re: [PATCH 01/10] block: introduce BLK_FEAT_WRITE_ZEROES_UNMAP to
+ queue limits features
+Message-ID: <20250612150347.GK6138@frogsfrogsfrogs>
 References: <20250604020850.1304633-1-yi.zhang@huaweicloud.com>
- <20250604020850.1304633-8-yi.zhang@huaweicloud.com>
- <20250611150555.GB6134@frogsfrogsfrogs>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20250611150555.GB6134@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: gCh0CgAXe18DvEpoJoUoPQ--.21926S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxGrykKF4xGr1UuryUJryUAwb_yoWrWF45pF
-	W3Ca4UKr4kGFyfC3s3Z3Z7Cry5Zws3Kr43ZrW2gr1jvr15Wr1fKFsFgryYva4xJrs7Aa1Y
-	qr40vFy3ua4DZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIa
-	0PDUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+ <20250604020850.1304633-2-yi.zhang@huaweicloud.com>
+ <20250611060900.GA4613@lst.de>
+ <343f7f06-9bf6-442f-8e77-0a774203ec3f@huaweicloud.com>
+ <20250612044744.GA12828@lst.de>
+ <41c21e20-5439-4157-ad73-6f133df42d28@huaweicloud.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <41c21e20-5439-4157-ad73-6f133df42d28@huaweicloud.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250612_043747_520989_19EB9BF1 
-X-CRM114-Status: GOOD (  29.73  )
+X-CRM114-CacheID: sfid-20250612_080349_172229_5092DE57 
+X-CRM114-Status: GOOD (  18.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,91 +84,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025/6/11 23:05, Darrick J. Wong wrote:
-> [cc linux-api about a fallocate uapi change]
+On Thu, Jun 12, 2025 at 07:20:45PM +0800, Zhang Yi wrote:
+> On 2025/6/12 12:47, Christoph Hellwig wrote:
+> > On Wed, Jun 11, 2025 at 03:31:21PM +0800, Zhang Yi wrote:
+> >>>> +/* supports unmap write zeroes command */
+> >>>> +#define BLK_FEAT_WRITE_ZEROES_UNMAP	((__force blk_features_t)(1u << 17))
+> >>>
+> >>>
+> >>> Should this be exposed through sysfs as a read-only value?
+> >>
+> >> Uh, are you suggesting adding another sysfs interface to expose
+> >> this feature?
+> > 
+> > That was the idea.  Or do we have another way to report this capability?
+> > 
 > 
-> On Wed, Jun 04, 2025 at 10:08:47AM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> With the development of flash-based storage devices, we can quickly
->> write zeros to SSDs using the WRITE_ZERO command if the devices do not
->> actually write physical zeroes to the media. Therefore, we can use this
->> command to quickly preallocate a real all-zero file with written
->> extents. This approach should be beneficial for subsequent pure
->> overwriting within this file, as it can save on block allocation and,
->> consequently, significant metadata changes, which should greatly improve
->> overwrite performance on certain filesystems.
->>
->> Therefore, introduce a new operation FALLOC_FL_WRITE_ZEROES to
->> fallocate. This flag is used to convert a specified range of a file to
->> zeros by issuing a zeroing operation. Blocks should be allocated for the
->> regions that span holes in the file, and the entire range is converted
->> to written extents. If the underlying device supports the actual offload
->> write zeroes command, the process of zeroing out operation can be
->> accelerated. If it does not, we currently don't prevent the file system
->> from writing actual zeros to the device. This provides users with a new
->> method to quickly generate a zeroed file, users no longer need to write
->> zero data to create a file with written extents.
->>
->> Users can determine whether a disk supports the unmap write zeroes
->> operation through querying this sysfs interface:
->>
->>     /sys/block/<disk>/queue/write_zeroes_unmap
->>
->> Finally, this flag cannot be specified in conjunction with the
->> FALLOC_FL_KEEP_SIZE since allocating written extents beyond file EOF is
->> not permitted. In addition, filesystems that always require out-of-place
->> writes should not support this flag since they still need to allocated
->> new blocks during subsequent overwrites.
->>
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> Reviewed-by: Christoph Hellwig <hch@lst.de>
->> ---
->>  fs/open.c                   |  1 +
->>  include/linux/falloc.h      |  3 ++-
->>  include/uapi/linux/falloc.h | 18 ++++++++++++++++++
->>  3 files changed, 21 insertions(+), 1 deletion(-)
->>
-[...]
->> diff --git a/include/uapi/linux/falloc.h b/include/uapi/linux/falloc.h
->> index 5810371ed72b..265aae7ff8c1 100644
->> --- a/include/uapi/linux/falloc.h
->> +++ b/include/uapi/linux/falloc.h
->> @@ -78,4 +78,22 @@
->>   */
->>  #define FALLOC_FL_UNSHARE_RANGE		0x40
->>  
->> +/*
->> + * FALLOC_FL_WRITE_ZEROES is used to convert a specified range of a file to
->> + * zeros by issuing a zeroing operation. Blocks should be allocated for the
->> + * regions that span holes in the file, and the entire range is converted to
->> + * written extents.
+> Exposing this feature looks useful, but I think adding a new interface
+> might be somewhat redundant, and it's also difficult to name the new
+> interface. What about extend this interface to include 3 types? When
+> read, it exposes the following:
 > 
-> I think you could simplify this a bit by talking only about the end
-> state after a successful call:
+>  - none     : the device doesn't support BLK_FEAT_WRITE_ZEROES_UNMAP.
+>  - enabled  : the device supports BLK_FEAT_WRITE_ZEROES_UNMAP, but the
+>               BLK_FLAG_WRITE_ZEROES_UNMAP_DISABLED is not set.
+>  - disabled : the device supports BLK_FEAT_WRITE_ZEROES_UNMAP, and the
+>               BLK_FLAG_WRITE_ZEROES_UNMAP_DISABLED is set.
 > 
-> "FALLOC_FL_WRITE_ZEROES zeroes a specified file range in such a way that
-> subsequent writes to that range do not require further changes to file
-> mapping metadata."
-> 
-> Note that we don't say how the filesystem gets to this goal.  Presumably
-> the first implementations will send a zeroing operation to the block
-> device during allocation and the fs will create written mappings, but
-> there are other ways to get there -- a filesystem could maintain a pool
-> of pre-zeroed space and hand those out; or it could zero space on
-> freeing and mounting such that all new mappings can be created as
-> written even without the block device zeroing operation.
-> 
-> Or you could be running on some carefully engineered system where you
-> know the storage will always be zeroed at allocation time due to some
-> other aspect of the system design, e.g. a single-use throwaway cloud vm
-> where you allocate to the end of the disk and reboot the node.
+> Users can write '0' and '1' to disable and enable this operation if it
+> is not 'none', thoughts?
 
-Indeed, it makes sense to me. It appears to be more generic and obscures
-the methods by which different file systems may achieve this goal. Thank
-you for the suggestion.
+Perhaps it should reuse the enumeration pattern elsewhere in sysfs?
+For example,
 
-Best regards,
-Yi.
+# cat /sys/block/sda/queue/scheduler
+none [mq-deadline]
+# echo none > /sys/block/sda/queue/scheduler
+# cat /sys/block/sda/queue/scheduler
+[none] mq-deadline
 
+(Annoying that this seems to be opencoded wherever it appears...)
+
+--D
+
+> Best regards,
+> Yi.
+> 
+> 
 
