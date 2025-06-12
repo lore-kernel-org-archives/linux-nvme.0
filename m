@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B3D7C61CE8
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jun 2025 05:01:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05447C61CE8
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jun 2025 05:01:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QBxY6i1hqSd4pylENAx4FEqO/KN4GMI/7pdC+FYgw7o=; b=bCwiOtftfXDGFKmtCCwynfh4Q7
-	bM2q/onMBnxYRyWstnRbHV8gfvcm4QuYxlzhy/R/cGRf6kNXU8tYBi+4mbzqlh55qLrvff5flstQj
-	4B975pkcciNSVmXPV5rMVXIEOU6fsoJCoQL4+fyqBAeKO7G/jG10xaVBsLr3RT64iR58/vFP8mB6B
-	E7OOa0AowZJe4/E3g17ytC6dlFXRZAOa2T6mLp4JnHpC+KPzFubbzUQRiAmshmckJsgwoGKHcIBg7
-	i+lAtnL82I3peyUKqpyDOdhlFrbkT0z1VSxcUx8dPKitfLe5/rK4IFzTC1rni6NGvkIqQOBjo+zPw
-	azGSlOIg==;
+	bh=7mDvelvx7qb+/8aoIvHvN6kPvdW6CrivQvSYn0Ffzq8=; b=IXBa+/9bj8Cr7COw43oEyjW4Q2
+	otVX3GUIL6kGDPQKOUmfM04/t9P+j5nX9qfvD3LWB7k/4Y8sLX3iDF7mBZMIUHNolzPrFgrOOKVtK
+	xECQHh6K+5Xzu0YiYPUiPEdhd6S30ILkLabUPoXVRfwkLgvy0Zrd3JkmRBgVefYYj1DZhRR1uQhOd
+	TR4LU+iTBGyR1KfTKfds+rmb6w+IF/m2a2nxDnew8kEbSpWFyhzEF5y6POCCcUiBfTtdwNtnKmEPD
+	oqmySTx4I28Q1WTPI1p4X5/XvNst4pbVSiLKjBn2zvgScZAfUnmNHXVHs1y/kLQ5gPVtIlAu89oa6
+	TSd+chOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPa3p-0000000CBje-0P3b;
-	Thu, 12 Jun 2025 05:01:09 +0000
+	id 1uPa4U-0000000CBtQ-1gLv;
+	Thu, 12 Jun 2025 05:01:50 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPa3j-0000000CBia-407p
+	id 1uPa4Q-0000000CBsr-3jJ0
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Jun 2025 05:01:08 +0000
+	Thu, 12 Jun 2025 05:01:48 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A18FC68D09; Thu, 12 Jun 2025 07:01:00 +0200 (CEST)
-Date: Thu, 12 Jun 2025 07:01:00 +0200
+	id BDD2868D09; Thu, 12 Jun 2025 07:01:42 +0200 (CEST)
+Date: Thu, 12 Jun 2025 07:01:42 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Daniel Gomez <da.gomez@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Leon Romanovsky <leon@kernel.org>,
@@ -42,16 +42,16 @@ Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	linux-nvme@lists.infradead.org
 Subject: Re: [PATCH 5/9] nvme-pci: merge the simple PRP and SGL setup into
  a common helper
-Message-ID: <20250612050100.GF12863@lst.de>
-References: <20250610050713.2046316-1-hch@lst.de> <20250610050713.2046316-6-hch@lst.de> <6f0a019c-f9c7-4ccf-837c-c6d15492ba45@kernel.org>
+Message-ID: <20250612050142.GG12863@lst.de>
+References: <20250610050713.2046316-1-hch@lst.de> <20250610050713.2046316-6-hch@lst.de> <aEnvJ6V3F0Z_pO1U@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6f0a019c-f9c7-4ccf-837c-c6d15492ba45@kernel.org>
+In-Reply-To: <aEnvJ6V3F0Z_pO1U@kbusch-mbp>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250611_220104_131410_9610F694 
-X-CRM114-Status: GOOD (  14.32  )
+X-CRM114-CacheID: sfid-20250611_220147_064871_D18692C4 
+X-CRM114-Status: GOOD (  14.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,17 +66,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 11, 2025 at 03:44:45PM +0200, Daniel Gomez wrote:
-> > -static blk_status_t nvme_setup_sgl_simple(struct nvme_dev *dev,
-> > -		struct request *req, struct nvme_rw_command *cmnd,
-> > -		struct bio_vec *bv)
-> > -{
-> > -	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> > +	if (use_sgl == SGL_FORCED || !prp_possible) {
+On Wed, Jun 11, 2025 at 03:03:35PM -0600, Keith Busch wrote:
+> On Tue, Jun 10, 2025 at 07:06:43AM +0200, Christoph Hellwig wrote:
+> > -	iod->dma_len = bv->bv_len;
+> > +		iod->cmd.common.dptr.prp1 = cpu_to_le64(dma_addr);
+> > +		iod->cmd.common.dptr.prp2 = 0;
+> > +		if (bv.bv_len > first_prp_len)
+> > +			iod->cmd.common.dptr.prp2 =
+> > +				cpu_to_le64(dma_addr + first_prp_len);
 > 
-> I couldn't find any place other than this where the new FORCED tristate actually
-> matters. So instead of passing the use_sgl tristate around, why not just check
-> here whether SGL is forced?
+> Nit, set prp2 to 0 in an 'else' case instead of unconditionally before
+> overwriting it?
 
-See the check in nvme_map_data.
+unconditionally setting it actually generates slightly better code,
+assuming the compiler won't just optimize the other form to it anyway.
+But if you think it is more readable I can change it around.
 
