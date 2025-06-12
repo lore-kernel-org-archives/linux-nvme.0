@@ -4,71 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DD64C61CE8
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jun 2025 06:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A3D1C7113E
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Jun 2025 06:25:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=RNajihFAOokvYtoWuSloVhgOXn3Bw3rmzfEbnyGjuxo=; b=GbIaB/DLINh4sVXMD5NDl2uxUi
-	inDFbjIVPFGxMuLr/a9NLbuSGLVxVXmPCixh+XFGI4imYtXq6qHjr5EokvXOK3jvTEQghmE9KfjwV
-	gcSz7ZyHY9U4rFj+gwY+PrgmbTilLxqzSUbW8471T0iq/Xgxqt/pceizq9B2GPFHrEiBXAMaOZt4E
-	G44AAZFjhWkgFsZ8CBckXIGwDGFY/L1Kacl8tTfyGSJPmMp1fS+oW6vGb/C5zoTo81bQoGhIjvnIx
-	6gEU1OqvmPSd9PWWhEPoyikniWF4JV7boE3Z1S26NnNtxE+2jOpwtzvm9g4ssObH5kwjgfxmmuOAs
-	7i42hYnw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UtPymdd8LPXoV15uEH9uSYo/uGh6AqBmwQzP/RMvyGU=; b=k8f4Covkel6+Vf3JyNNSVZWUIr
+	su0SzYbcdRcaeC6uYISgnorHsVjJFVLM8oGSkI9F5jf751SQyoJVPcnFqRMscdkzdN5hgQfayQtak
+	S4ZbojAoKaU1OV/6PkJq1PupIchBfkQnTtzyvsszhBrNAwBf0ZI3VqlUDm6BjW42CFUO8hpYx5WoV
+	KMPIG1zyI2ZRqjoLFkYCwqA9YTIgKuWyK/lsqN3BAs//bvalRQEfctR8RIIza9XyofZJI1jMk3WgX
+	Jn/H5kHk+fDp5gWvJ+tz+DymaE7QdX8glmCtrn+UZSlemMlKehOAD8IIfAGRXVydn1WaGrpcwFRn6
+	m66S/QNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPb25-0000000CHCr-39AQ;
-	Thu, 12 Jun 2025 06:03:25 +0000
-Received: from mgamail.intel.com ([198.175.65.19])
+	id 1uPbMr-0000000CJQR-3zCq;
+	Thu, 12 Jun 2025 06:24:53 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPb23-0000000CHCX-048i
+	id 1uPbMj-0000000CJNS-2NvJ
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Jun 2025 06:03:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749708203; x=1781244203;
-  h=date:from:to:cc:subject:message-id;
-  bh=NfLkH8/xpxHru943uQ1qjrbxfajmME5zWxbfD/HgY+8=;
-  b=HU27T4DoJhxdLSZ3OE2v6jLQuDh7iuXh9Putvu9LhnAeJOn5RudlQ3hC
-   cinbu0kNtd0Y2bCgFWPzGRjtTSA5Ov8nI0nNzxvxjzd4ip2EDNQSiF3s7
-   nRrMdaB/O1bD0wp4XOIa9cUbEZKSY9j7tySP/SAptau6jXiPMpa2Q3yUe
-   uLPuNbeclLJtmw7EUvQY9Xndjf9nWXEnJ5y4EXratIK6PUv7XWjzKtNY8
-   O/hIXnf3ZTS531Zc/xSASErgdS/qAbrR/3kY0buQDr0pA8Nb+NrX/J0Q8
-   ysaz0CVVZ02c7AzzeRg70QcsQYkqRkZGph/89TXvpt96WQB5Op1RWkRQs
-   A==;
-X-CSE-ConnectionGUID: daJhbQfKS0OJJxCKqFg77g==
-X-CSE-MsgGUID: hgDBZ3DdT66kq1vgdsTD4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51747504"
-X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
-   d="scan'208";a="51747504"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 23:03:19 -0700
-X-CSE-ConnectionGUID: qHHS73yIQCOp/hgcE0cLNw==
-X-CSE-MsgGUID: sVMiFIUaQ16r257vhK83HA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
-   d="scan'208";a="147908383"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Jun 2025 23:03:18 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uPb1w-000BAo-0R;
-	Thu, 12 Jun 2025 06:03:16 +0000
-Date: Thu, 12 Jun 2025 14:02:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.16] BUILD SUCCESS
- 34b38acc88c27ae7cded3b1d838a757f42e99d83
-Message-ID: <202506121407.sFl0ZY6z-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Thu, 12 Jun 2025 06:24:52 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250612062436epoutp04e65bac5d51bf370894d33db378d5fd20~IN3_k_8w-1827018270epoutp04D
+	for <linux-nvme@lists.infradead.org>; Thu, 12 Jun 2025 06:24:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250612062436epoutp04e65bac5d51bf370894d33db378d5fd20~IN3_k_8w-1827018270epoutp04D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1749709476;
+	bh=UtPymdd8LPXoV15uEH9uSYo/uGh6AqBmwQzP/RMvyGU=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=ZjFpl50fvd9FHdWLEQl0C99J0G3ebipD+knz4D/naJG1SD3qF+48rISN9o/qClCDt
+	 Fh/Wj92/qq4XRVFP7H9oxHvU9ySM4/D/wqInr3yDJY09HsA5aVA/oeK3+iBEta1B68
+	 j821rwWpkKc1Uew6P7nc2Jv2bsn5z3qFJC3RP80o=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20250612062434epcas5p340bce2c2519adc20e0d234883a45f900~IN388h_cH1502115021epcas5p3a;
+	Thu, 12 Jun 2025 06:24:34 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4bHsv44bdlz3hhT9; Thu, 12 Jun
+	2025 06:24:32 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250612062431epcas5p1eb2ce99af9b6aa2367d26b3db8804b73~IN36PhV6c3170231702epcas5p10;
+	Thu, 12 Jun 2025 06:24:31 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250612062430epsmtip23f092a27f487341f12eb593eb6b30b36~IN349aphG2969629696epsmtip2C;
+	Thu, 12 Jun 2025 06:24:30 +0000 (GMT)
+Message-ID: <c75ac878-376e-497b-b4fe-ddd54733c090@samsung.com>
+Date: Thu, 12 Jun 2025 11:54:21 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] block: don't merge different kinds of P2P transfers
+ in a single bio
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+	Nitesh Shetty <nj.shetty@samsung.com>, Logan Gunthorpe
+	<logang@deltatee.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20250610050713.2046316-2-hch@lst.de>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250612062431epcas5p1eb2ce99af9b6aa2367d26b3db8804b73
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250610050728epcas5p343c293cd81ffb03b6f12dabfcf2fd8d4
+References: <20250610050713.2046316-1-hch@lst.de>
+	<CGME20250610050728epcas5p343c293cd81ffb03b6f12dabfcf2fd8d4@epcas5p3.samsung.com>
+	<20250610050713.2046316-2-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250611_230323_123951_B13626B2 
-X-CRM114-Status: UNSURE (   5.82  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250611_232448_484929_12BE4D06 
+X-CRM114-Status: GOOD (  11.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,145 +96,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.16
-branch HEAD: 34b38acc88c27ae7cded3b1d838a757f42e99d83  nvme: reset delayed remove_work after reconnect
+On 6/10/2025 10:36 AM, Christoph Hellwig wrote:
+> --- a/block/bio.c
+> +++ b/block/bio.c
+> @@ -930,8 +930,6 @@ static bool bvec_try_merge_page(struct bio_vec *bv, struct page *page,
+>   		return false;
+>   	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
+>   		return false;
+> -	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
+> -		return false;
 
-elapsed time: 1463m
+I did not understand the value of moving this out to its two callers 
+(bio_add_page and bio_integrity_add_page).
 
-configs tested: 125
-configs skipped: 4
+Since this check existed, I am a bit confused. The thing that patch 
+title says - is not a new addition and used to happen earlier too?
+Or is this about setting REQ_NOMERGE in bio?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                        nsim_700_defconfig    gcc-15.1.0
-arc                   randconfig-001-20250611    gcc-12.4.0
-arc                   randconfig-002-20250611    gcc-15.1.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                         assabet_defconfig    clang-18
-arm                         bcm2835_defconfig    clang-21
-arm                         lpc18xx_defconfig    clang-21
-arm                        multi_v7_defconfig    gcc-15.1.0
-arm                        mvebu_v5_defconfig    gcc-15.1.0
-arm                            qcom_defconfig    clang-21
-arm                   randconfig-001-20250611    gcc-11.5.0
-arm                   randconfig-002-20250611    clang-21
-arm                   randconfig-003-20250611    gcc-13.3.0
-arm                   randconfig-004-20250611    gcc-13.3.0
-arm                        realview_defconfig    clang-16
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250611    gcc-6.5.0
-arm64                 randconfig-002-20250611    gcc-9.5.0
-arm64                 randconfig-003-20250611    gcc-13.3.0
-arm64                 randconfig-004-20250611    gcc-5.5.0
-csky                             alldefconfig    gcc-15.1.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250611    gcc-15.1.0
-csky                  randconfig-002-20250611    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250611    clang-21
-hexagon               randconfig-002-20250611    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250611    gcc-12
-i386        buildonly-randconfig-002-20250611    gcc-12
-i386        buildonly-randconfig-003-20250611    clang-20
-i386        buildonly-randconfig-004-20250611    gcc-12
-i386        buildonly-randconfig-005-20250611    gcc-11
-i386        buildonly-randconfig-006-20250611    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-15.1.0
-loongarch                         allnoconfig    gcc-15.1.0
-loongarch             randconfig-001-20250611    gcc-15.1.0
-loongarch             randconfig-002-20250611    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250611    gcc-7.5.0
-nios2                 randconfig-002-20250611    gcc-9.3.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250611    gcc-11.5.0
-parisc                randconfig-002-20250611    gcc-7.5.0
-powerpc                     akebono_defconfig    clang-21
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                        fsp2_defconfig    gcc-15.1.0
-powerpc                 mpc8313_rdb_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20250611    gcc-6.5.0
-powerpc               randconfig-002-20250611    gcc-13.3.0
-powerpc               randconfig-003-20250611    clang-21
-powerpc64             randconfig-001-20250611    clang-21
-powerpc64             randconfig-002-20250611    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                               defconfig    clang-21
-riscv                    nommu_virt_defconfig    clang-21
-riscv                 randconfig-001-20250611    clang-21
-riscv                 randconfig-002-20250611    clang-19
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-21
-s390                  randconfig-001-20250611    gcc-15.1.0
-s390                  randconfig-002-20250611    gcc-11.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250611    gcc-5.5.0
-sh                    randconfig-002-20250611    gcc-15.1.0
-sh                   sh7770_generic_defconfig    gcc-15.1.0
-sh                            titan_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20250611    gcc-11.5.0
-sparc                 randconfig-002-20250611    gcc-6.5.0
-sparc64                             defconfig    gcc-15.1.0
-sparc64               randconfig-001-20250611    gcc-7.5.0
-sparc64               randconfig-002-20250611    gcc-13.3.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250611    clang-21
-um                    randconfig-002-20250611    clang-19
-um                           x86_64_defconfig    clang-21
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250611    gcc-12
-x86_64      buildonly-randconfig-002-20250611    clang-20
-x86_64      buildonly-randconfig-003-20250611    clang-20
-x86_64      buildonly-randconfig-004-20250611    gcc-12
-x86_64      buildonly-randconfig-005-20250611    gcc-12
-x86_64      buildonly-randconfig-006-20250611    clang-20
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-18
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250611    gcc-13.3.0
-xtensa                randconfig-002-20250611    gcc-10.5.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Flagging P2P bio with the new flag REQ_P2PDMA seems preparatory work to 
+optimize stuff in subsequent patches.
 
