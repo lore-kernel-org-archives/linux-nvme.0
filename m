@@ -4,75 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49FE5C71136
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Jun 2025 16:17:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76137C71136
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Jun 2025 19:22:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ykrdepu0zmzYdqkzbEQhJbdD76KeN+yonGi940NHfMg=; b=4ZZPUq7d3TuraodUGuUiqmQN4X
-	o5AlqefnHxTpLap2iu+cNMbxVokLYzJScSBV8JXBJwl3Oc57KdW96wx+Vbo85vuuXyt3Eib4eMBLc
-	Okw+z8fYW3bdUQ5qF2/JWdvN8vx8L0DjC31LW7fr+DJIJLE0ZvsZA+jFijoKzTp28c9TpzJPuGi2l
-	+Fp5s8Hgh1dydUUm0uhnxaOXvjwkEmlBgIG50bigx0rYNtPlpFcPIWN5aLBdevXXIjMe516IJPlYk
-	gVVE1qIFxD/tSKlTRyU5LoQXd842PZ5mOr48C8Wz3gbnF61HsZIp/KhAdOlhqPsQ1CezZ2XactcyH
-	ztHdydlA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=E6Mm2OZZbDcANLdcVoLPbdCB0G9e+9yLUnHB36mTR2g=; b=cOCitI98fBRLI0X34MhGWRyqSa
+	qWG4JcBD7Ji5F+JNHoVtQ4YeExQJS/OOFgmpdQY1H2wt9utHSGK0nQPKWRR13WFn04Xoz9w5fnzWX
+	CfSqTfdXtxa6HQZ1CKFLcXJB/OnGJYjw0+sFkxOIWWcIpag3zKsJqy+mmYyi9wpIRn8a70jmiE22X
+	6JPFrHsNr8JCgePEY04GT69yGREu1jhHdhp0BzfiZLBr7+XH3v2lgQpQF9TuwPSrIqWlpcEqkQvgy
+	gb4D4HrZ9lD5NGfpfRVvD6Na01/Awo1vP5EpQK3CJ51liE0nYpmUEQTFj4SGbGO+sbgp9KeBwFRZL
+	lXvOtzBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uQ75V-0000000H1kc-28kU;
-	Fri, 13 Jun 2025 16:17:05 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1uQ9yY-0000000HRee-3ITN;
+	Fri, 13 Jun 2025 19:22:06 +0000
+Received: from fanzine2.igalia.com ([213.97.179.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uQ5nf-0000000GmeA-1u6J
+	id 1uQ9yV-0000000HRZo-1dnw
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Jun 2025 14:54:36 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 36FA45C067F;
-	Fri, 13 Jun 2025 14:52:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A72CC4CEE3;
-	Fri, 13 Jun 2025 14:54:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749826474;
-	bh=+637aPsLSU1UEPvOQGQyJUY4IglUTgPupGHZwaGPQ9w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p0Pct+Gi1hoDM0LZBCspzjOIqDTyyl/V2GwGBXdSGFwBLlkILUhpHpVlgfCrMUpLJ
-	 ft/YOmBjSQkitEQeADRDy2IJMuk2s5qeBmYAfOLlPe0KfidAf0uWqoe3GG3Quh0jbo
-	 vp59Zhbn5w3KL5AqV7PvQSSpyi9eG2fk5e6Zy6Qs1qFJrouqOACDQ4QVEPy68nKiWv
-	 m3H7my7AX4igycSxvPU6isS/XSrmG3VhiMT6KxJXgvyR2tEjCKY7d1g5iorVm6fZVk
-	 0LaMA8e65dqZijj1V1l+R6N9sVXHtRmMSZOPejxKl/4h0RJMRbDrFlJsHL7+g8myjt
-	 N3zheeKbLKx8w==
-Date: Fri, 13 Jun 2025 07:54:33 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Zhang Yi <yi.zhang@huaweicloud.com>, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tytso@mit.edu,
-	john.g.garry@oracle.com, bmarzins@redhat.com, chaitanyak@nvidia.com,
-	shinichiro.kawasaki@wdc.com, brauner@kernel.org,
-	martin.petersen@oracle.com, yi.zhang@huawei.com,
-	chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com
-Subject: Re: [PATCH 01/10] block: introduce BLK_FEAT_WRITE_ZEROES_UNMAP to
- queue limits features
-Message-ID: <20250613145433.GF6134@frogsfrogsfrogs>
-References: <20250604020850.1304633-1-yi.zhang@huaweicloud.com>
- <20250604020850.1304633-2-yi.zhang@huaweicloud.com>
- <20250611060900.GA4613@lst.de>
- <343f7f06-9bf6-442f-8e77-0a774203ec3f@huaweicloud.com>
- <20250612044744.GA12828@lst.de>
- <41c21e20-5439-4157-ad73-6f133df42d28@huaweicloud.com>
- <20250612150347.GK6138@frogsfrogsfrogs>
- <3569a77f-1f38-4764-b1e3-d0075775c7bb@huaweicloud.com>
- <20250613055630.GA9119@lst.de>
+	Fri, 13 Jun 2025 19:22:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=E6Mm2OZZbDcANLdcVoLPbdCB0G9e+9yLUnHB36mTR2g=; b=WQEdxli9+XHoUl7bByr454segW
+	j7YtPixs8XKBqvoC1Bd66PzaaLsN+uoJ6qfcNeQw/Cpk0rC7OEPN6ymL9ci0aIwRY8fVw2eTKr6Wb
+	HjTL6l+MMuGCFJ8nd2soUHlkzXInMsIOTFtZobJnyxE3oxWrB572xxCYCLNvjFM0pe6c9rM9anJru
+	WeCrGG22ej4xNYIE3t97bMFbY3iBANwOrUxBjht95/EIxAdpWIl6zqmsqYlE0SQRecEn/EpIf7Hrm
+	mzsuKTekqOk8V+7JVAjUt27fnPzWSB0RQSMZzrVZ5avbmVCF4boMn8WVMPjMCTIchGlriJeFH3VyI
+	RtFD9UAw==;
+Received: from [191.204.192.64] (helo=localhost.localdomain)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1uQ9yC-003AtJ-0R; Fri, 13 Jun 2025 21:21:44 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH RESEND] nvme-pci: refresh visible attrs after being checked
+Date: Fri, 13 Jun 2025 16:21:01 -0300
+Message-ID: <20250613192102.1873918-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250613055630.GA9119@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250613_075435_537616_2C1F7ED7 
-X-CRM114-Status: GOOD (  15.71  )
+X-CRM114-CacheID: sfid-20250613_122203_758634_3AF8573E 
+X-CRM114-Status: GOOD (  15.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,24 +78,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 13, 2025 at 07:56:30AM +0200, Christoph Hellwig wrote:
-> On Fri, Jun 13, 2025 at 11:15:41AM +0800, Zhang Yi wrote:
-> > Yeah, this solution looks good to me. However, we currently have only
-> > two selections (none and unmap). What if we keep it as is and simply
-> > hide this interface if BLK_FEAT_WRITE_ZEROES_UNMAP is not set, making
-> > it visible only when the device supports this feature? Something like
-> > below:
-> 
-> I really hate having all kinds of different interfaces for configurations.
+From: Eugen Hristev <eugen.hristev@collabora.com>
 
-I really hate the open-coded string parsing nonsense that is sysfs. ;)
+The sysfs attributes are registered early, but the driver does not
+know whether they are needed or not at that moment.
+For the cmb attributes, commit
+e917a849c3fc ("nvme-pci: refresh visible attrs for cmb attributes")
+solved this problem by calling `nvme_update_attrs` after mapping the cmb.
+However the issue persists for the hmb attributes.
+To solve the problem, moved the call to `nvme_update_attrs` after
+`nvme_setup_host_mem` is called, the one that sets up the hmb, in probe
+and in reset_work functions.
 
-> Maybe we should redo this similar to the other hardware/software interfaces
-> and have a hw_ limit that is exposed by the driver and re-only in
-> sysfs, and then the user configurable one without _hw.  Setting it to
-> zero disables the feature.
+Fixes: e917a849c3fc ("nvme-pci: refresh visible attrs for cmb attributes")
+Fixes: 86adbf0cdb9e ("nvme: simplify transport specific device attribute handling")
+Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+This commit was reviewed a long time ago but was never merged. This is
+just a resend rebased on top of v6.16-rc1.
 
-Yeah, that fits the /sys/block/foo/queue model better.
+v1: https://lore.kernel.org/lkml/01020191b7b7adc0-bca16d06-b051-4ce2-bfee-c8038a62462f-000000@eu-west-1.amazonses.com/
+---
+ drivers/nvme/host/pci.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
---D
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8ff12e415cb5..320aaa41ec39 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2101,8 +2101,6 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 	if ((dev->cmbsz & (NVME_CMBSZ_WDS | NVME_CMBSZ_RDS)) ==
+ 			(NVME_CMBSZ_WDS | NVME_CMBSZ_RDS))
+ 		pci_p2pmem_publish(pdev, true);
+-
+-	nvme_update_attrs(dev);
+ }
+ 
+ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+@@ -3010,6 +3008,8 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (result < 0)
+ 		goto out;
+ 
++	nvme_update_attrs(dev);
++
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result)
+ 		goto out;
+@@ -3343,6 +3343,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result < 0)
+ 		goto out_disable;
+ 
++	nvme_update_attrs(dev);
++
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result)
+ 		goto out_disable;
+-- 
+2.49.0
+
 
