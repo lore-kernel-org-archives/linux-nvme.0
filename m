@@ -4,92 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA507C61CE8
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Jun 2025 03:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 886F8C71148
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Jun 2025 03:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XYei06hzEiyL3lNCPH3NyvqZz+PcjkzCJQ7Fhz6eAI0=; b=0jB/FOEiDyUU61KuafLfgALqZr
-	CflgezUWGxxpia320txBFBO66x9He0zllnO8zrVLP6Eu15Cw2ZXQH+sxcoE7ezpDeH+HuxGibFeMx
-	ujUt3bL4TgKNFdSeTq/Oo5SUXBDoC6bI7g2aOXs2W7uZ2BcXf1Qy/ESIsg865NGkaBsyqeMpIQwnB
-	U5N8/7ngL2rUvRYVkBU5qRz0iLCg++HrXCL41GdrjGfy9n/R2rubT9Zlscbn03n5d2G2Dm2mBaYT9
-	fzpCnc2sWjZNPDOGj+oCXWvS764jj2L8EFSKMgRGkFOg7wssqoC7piKozpcjeFu9vIHrO50EcD5af
-	6+MsB0Eg==;
+	bh=TjvnCIBG8VhlPNhmnKGEaacLjIu4onw4RPmIOrTl4K0=; b=B1cQoRxk1ncqY/RtEq44dvXew1
+	WbWuynRdZMqdoJAaS3jca62rZzQvrGyKgwYGTfn2E80RNf45ByXPTT19dVwLPF31qExl6Lmv5QVs4
+	zx+2GFcVMN38cqYxPuiQqch9i4Y9G1g7TpYz+mztbyh9JTR2MYAKqwIafCaYjt0DiAuJ1C/RrW+Ah
+	PAK6BTiobEKnKz88Cs3n/tKB4wTQKeVmboddwqazzyyXDyI9Wvqk8mKT1N0Hi5KszsjcPRqk+w8e7
+	c5Rcvc1CTxbrUHbrIql/ZOqnn2ZYG8fvlI1feFxRVYhheczNbU8W6f/28OJMSQAsMQqy65Sy9OGKb
+	TI6PirOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPuio-0000000FCHK-2hIV;
-	Fri, 13 Jun 2025 03:04:50 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1uPutX-0000000FDS5-0XPP;
+	Fri, 13 Jun 2025 03:15:55 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uPuil-0000000FCGm-22zi
+	id 1uPutT-0000000FDRE-0U8t
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Jun 2025 03:04:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749783885;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XYei06hzEiyL3lNCPH3NyvqZz+PcjkzCJQ7Fhz6eAI0=;
-	b=UxrmpcwXrNfyc7d8UvonF+VQDuVgAP4a5uiMchEuUEt74QXq4iP1GKd2zeawvhRMY7gP29
-	eJHxZdUNOKmgvCegdXe5BCWpXDS3QYaKBaLI+WgLMCFVe+VNFbpq6k8OJwZMELgt+aUk2x
-	tAWKXRAzxXV/LLDQaiOebBp/ORmuy4k=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-459-5HmkXnZXMjCGkhdbfj-Zlw-1; Thu, 12 Jun 2025 23:04:43 -0400
-X-MC-Unique: 5HmkXnZXMjCGkhdbfj-Zlw-1
-X-Mimecast-MFC-AGG-ID: 5HmkXnZXMjCGkhdbfj-Zlw_1749783882
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-32b40be4525so638211fa.2
-        for <linux-nvme@lists.infradead.org>; Thu, 12 Jun 2025 20:04:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749783882; x=1750388682;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XYei06hzEiyL3lNCPH3NyvqZz+PcjkzCJQ7Fhz6eAI0=;
-        b=TBhIaQQg9rxLLouZJ+D+57nibpXYaHQ5LBYNzYcqmmRnHIYBqKZMYCVcmr9ueZ+CZ7
-         VILU6ithhtKTBTYoHqHI++2PqpCWKEfK/dV8fygeM5/dXc1qNPArt4VZUgIqt3PSYDxN
-         30pwNxNaexH6WCDlHbFiu8oF8o/osR2kbnXV0ZqqNw1x389bxHdlNuKc+U8t8yP9msIX
-         6u6o27lC/nRjpRCB+4LEhJ5QLONZdU/FQCTkzUQGK903rOlk8NN2owMFEG+y5dTxdl9T
-         +6Yv1tcwjTrLHG85UX+AzdmBQRUlwccT6A6+YYXMAzKKGbqMiyiRnZORdeKf/bpo3i4W
-         QzPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAFcw42rLYHj1AGTYQMl0kzCfMA/xkvRu0YpyeLq6wS17RdZ1DU1pIzy9Jo0kxmQEskzcDmOWerQkO@lists.infradead.org
-X-Gm-Message-State: AOJu0YxgWXHoOfnra6jRPMocGOKOUhyVpxTe9+Rof+u9HamRHmewZek2
-	cs+TRJVueW6sicLh3HkZe21j9o43uPdcN4IZA5+z+JzBxk2pPktokSEn/farWZv7eD89zFKosHv
-	C9CGNfdFKW3s26yt4elw/8kVy3kdu2LAOo5ly4iTKSPsgCrL4aB3U0HqTHbyjXabw8JSHMJ61eN
-	U5t0AwFbuUdWOP5eqjdFf/CfGJ0nfNpPBEB6AduEQ9mE8=
-X-Gm-Gg: ASbGncv8pdL3wBctdcOuKuy6KFEx+o7JiOTbi7+2/iAvoX1CEkNjDw328BAgWhJswWO
-	qQ8ipEhnap1awigpzPHZKMP/jiSuEYMTJhrmgBDDlRDwE591vWZ2oJdl6IeW+GpuiaRT+kug9DE
-	g0SMwm
-X-Received: by 2002:a2e:a7c1:0:b0:32a:63eb:f0b9 with SMTP id 38308e7fff4ca-32b3ebba2f8mr3082861fa.38.1749783882097;
-        Thu, 12 Jun 2025 20:04:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEgoGXEuViYJyFgoT0uyYfJ3Ky5oeVCVGsbN1HIsErnVhkXjdUfJCtDZWQcprIDaVRLNXeaSoHRIvF3krXIYsE=
-X-Received: by 2002:a2e:a7c1:0:b0:32a:63eb:f0b9 with SMTP id
- 38308e7fff4ca-32b3ebba2f8mr3082661fa.38.1749783880828; Thu, 12 Jun 2025
- 20:04:40 -0700 (PDT)
+	Fri, 13 Jun 2025 03:15:53 +0000
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bJPfn1skczKHMrc
+	for <linux-nvme@lists.infradead.org>; Fri, 13 Jun 2025 11:15:45 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 999AB1A0359
+	for <linux-nvme@lists.infradead.org>; Fri, 13 Jun 2025 11:15:43 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP4 (Coremail) with SMTP id gCh0CgD3W2Ddl0to15NsPQ--.28263S3;
+	Fri, 13 Jun 2025 11:15:43 +0800 (CST)
+Message-ID: <3569a77f-1f38-4764-b1e3-d0075775c7bb@huaweicloud.com>
+Date: Fri, 13 Jun 2025 11:15:41 +0800
 MIME-Version: 1.0
-References: <20250611055432.2401372-1-hch@lst.de> <20250611055432.2401372-3-hch@lst.de>
-In-Reply-To: <20250611055432.2401372-3-hch@lst.de>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Fri, 13 Jun 2025 11:04:28 +0800
-X-Gm-Features: AX0GCFskjXXMbvXPxMJBdxGtTWiYbUGFaNBbsou6LPVsoxAW_c1di1NnswsBWcY
-Message-ID: <CAHj4cs_okcZ+zqoT6t1Hp==_Ukrn9atOeDaaoBM_jkzCnm1aaw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] nvme: fix atomic write boundary validation
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	Alan Adamson <alan.adamson@oracle.com>, John Garry <john.g.garry@oracle.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: g0qd6UsRf7OUv8GJ76hIF2B4j3eEIlpSKvrEmKRhn_U_1749783882
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/10] block: introduce BLK_FEAT_WRITE_ZEROES_UNMAP to
+ queue limits features
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, john.g.garry@oracle.com,
+ bmarzins@redhat.com, chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com,
+ brauner@kernel.org, martin.petersen@oracle.com, yi.zhang@huawei.com,
+ chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com
+References: <20250604020850.1304633-1-yi.zhang@huaweicloud.com>
+ <20250604020850.1304633-2-yi.zhang@huaweicloud.com>
+ <20250611060900.GA4613@lst.de>
+ <343f7f06-9bf6-442f-8e77-0a774203ec3f@huaweicloud.com>
+ <20250612044744.GA12828@lst.de>
+ <41c21e20-5439-4157-ad73-6f133df42d28@huaweicloud.com>
+ <20250612150347.GK6138@frogsfrogsfrogs>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20250612150347.GK6138@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: gCh0CgD3W2Ddl0to15NsPQ--.28263S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ww45Gr4fJw4UWr13Zw4DXFb_yoW5Jr43pF
+	W8GF1vyFWDKF15Gw1q93W0qr1Fvrs2ywsxXws5CrWUAwn0qr17WF1kKFWjkF97Z3Wxu3y5
+	Xa15G343ua15C3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUIa
+	0PDUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250612_200447_983413_1051A733 
-X-CRM114-Status: GOOD (  24.67  )
+X-CRM114-CacheID: sfid-20250612_201551_474058_A3046C0A 
+X-CRM114-Status: GOOD (  18.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,140 +98,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 11, 2025 at 1:56=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
-e:
->
-> Don't mix the namespace and controller values, and validate the
-> per-controller limit when probing the controller.  This avoid spurious
-> failures for controllers with namespaces that have different namespaces
-> with different logical block sizes, or report the per-namespace values
-> only for some namespaces.
->
-> It also fixes a missing queue_limits_cancel_update in an error path by
-> removing that error path.
->
-> Fixes: 8695f060a029 ("nvme: all namespaces in a subsystem must adhere to =
-a common atomic write size")
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
+On 2025/6/12 23:03, Darrick J. Wong wrote:
+> On Thu, Jun 12, 2025 at 07:20:45PM +0800, Zhang Yi wrote:
+>> On 2025/6/12 12:47, Christoph Hellwig wrote:
+>>> On Wed, Jun 11, 2025 at 03:31:21PM +0800, Zhang Yi wrote:
+>>>>>> +/* supports unmap write zeroes command */
+>>>>>> +#define BLK_FEAT_WRITE_ZEROES_UNMAP	((__force blk_features_t)(1u << 17))
+>>>>>
+>>>>>
+>>>>> Should this be exposed through sysfs as a read-only value?
+>>>>
+>>>> Uh, are you suggesting adding another sysfs interface to expose
+>>>> this feature?
+>>>
+>>> That was the idea.  Or do we have another way to report this capability?
+>>>
+>>
+>> Exposing this feature looks useful, but I think adding a new interface
+>> might be somewhat redundant, and it's also difficult to name the new
+>> interface. What about extend this interface to include 3 types? When
+>> read, it exposes the following:
+>>
+>>  - none     : the device doesn't support BLK_FEAT_WRITE_ZEROES_UNMAP.
+>>  - enabled  : the device supports BLK_FEAT_WRITE_ZEROES_UNMAP, but the
+>>               BLK_FLAG_WRITE_ZEROES_UNMAP_DISABLED is not set.
+>>  - disabled : the device supports BLK_FEAT_WRITE_ZEROES_UNMAP, and the
+>>               BLK_FLAG_WRITE_ZEROES_UNMAP_DISABLED is set.
+>>
+>> Users can write '0' and '1' to disable and enable this operation if it
+>> is not 'none', thoughts?
+> 
+> Perhaps it should reuse the enumeration pattern elsewhere in sysfs?
+> For example,
+> 
+> # cat /sys/block/sda/queue/scheduler
+> none [mq-deadline]
+> # echo none > /sys/block/sda/queue/scheduler
+> # cat /sys/block/sda/queue/scheduler
+> [none] mq-deadline
+> 
+> (Annoying that this seems to be opencoded wherever it appears...)
+> 
 
-Thanks for the fix:
-Tested-by: Yi Zhang <yi.zhang@redhat.com>
+Yeah, this solution looks good to me. However, we currently have only
+two selections (none and unmap). What if we keep it as is and simply
+hide this interface if BLK_FEAT_WRITE_ZEROES_UNMAP is not set, making
+it visible only when the device supports this feature? Something like
+below:
 
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index e918b2c93aed..204ee4d5f63f 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -747,6 +747,9 @@ static umode_t queue_attr_visible(struct kobject *kobj, struct attribute *attr,
+             attr == &queue_max_active_zones_entry.attr) &&
+            !blk_queue_is_zoned(q))
+                return 0;
++       if (attr == &queue_write_zeroes_unmap_entry.attr &&
++           !(q->limits.features & BLK_FEAT_WRITE_ZEROES_UNMAP))
++               return 0;
 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/nvme/host/core.c | 34 ++++++++++++----------------------
->  drivers/nvme/host/nvme.h |  3 +--
->  2 files changed, 13 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 520fb5f1e214..3da5ac71a9b0 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2041,17 +2041,7 @@ static u32 nvme_configure_atomic_write(struct nvme=
-_ns *ns,
->                  * no clear language in the specification prohibiting dif=
-ferent
->                  * values for different controllers in the subsystem.
->                  */
-> -               atomic_bs =3D (1 + ns->ctrl->awupf) * bs;
-> -       }
-> -
-> -       if (!ns->ctrl->subsys->atomic_bs) {
-> -               ns->ctrl->subsys->atomic_bs =3D atomic_bs;
-> -       } else if (ns->ctrl->subsys->atomic_bs !=3D atomic_bs) {
-> -               dev_err_ratelimited(ns->ctrl->device,
-> -                       "%s: Inconsistent Atomic Write Size, Namespace wi=
-ll not be added: Subsystem=3D%d bytes, Controller/Namespace=3D%d bytes\n",
-> -                       ns->disk ? ns->disk->disk_name : "?",
-> -                       ns->ctrl->subsys->atomic_bs,
-> -                       atomic_bs);
-> +               atomic_bs =3D (1 + ns->ctrl->subsys->awupf) * bs;
->         }
->
->         lim->atomic_write_hw_max =3D atomic_bs;
-> @@ -2386,16 +2376,6 @@ static int nvme_update_ns_info_block(struct nvme_n=
-s *ns,
->         if (!nvme_update_disk_info(ns, id, &lim))
->                 capacity =3D 0;
->
-> -       /*
-> -        * Validate the max atomic write size fits within the subsystem's
-> -        * atomic write capabilities.
-> -        */
-> -       if (lim.atomic_write_hw_max > ns->ctrl->subsys->atomic_bs) {
-> -               blk_mq_unfreeze_queue(ns->disk->queue, memflags);
-> -               ret =3D -ENXIO;
-> -               goto out;
-> -       }
-> -
->         nvme_config_discard(ns, &lim);
->         if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
->             ns->head->ids.csi =3D=3D NVME_CSI_ZNS)
-> @@ -3555,7 +3535,18 @@ static int nvme_init_identify(struct nvme_ctrl *ct=
-rl)
->                 ret =3D nvme_init_effects(ctrl, id);
->                 if (ret)
->                         goto out_free;
-> +
-> +               ctrl->subsys->awupf =3D le16_to_cpu(id->awupf);
->         }
-> +
-> +       if (le16_to_cpu(id->awupf) !=3D ctrl->subsys->awupf) {
-> +               dev_err_ratelimited(ctrl->device,
-> +                       "inconsistent AWUPF, controller not added (%u/%u)=
-.\n",
-> +                       le16_to_cpu(id->awupf), ctrl->subsys->awupf);
-> +               ret =3D -EINVAL;
-> +               goto out_free;
-> +       }
-> +
->         memcpy(ctrl->subsys->firmware_rev, id->fr,
->                sizeof(ctrl->subsys->firmware_rev));
->
-> @@ -3651,7 +3642,6 @@ static int nvme_init_identify(struct nvme_ctrl *ctr=
-l)
->                 dev_pm_qos_expose_latency_tolerance(ctrl->device);
->         else if (!ctrl->apst_enabled && prev_apst_enabled)
->                 dev_pm_qos_hide_latency_tolerance(ctrl->device);
-> -       ctrl->awupf =3D le16_to_cpu(id->awupf);
->  out_free:
->         kfree(id);
->         return ret;
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index a468cdc5b5cb..7df2ea21851f 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -410,7 +410,6 @@ struct nvme_ctrl {
->
->         enum nvme_ctrl_type cntrltype;
->         enum nvme_dctype dctype;
-> -       u16 awupf; /* 0's based value. */
->  };
->
->  static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctr=
-l)
-> @@ -443,11 +442,11 @@ struct nvme_subsystem {
->         u8                      cmic;
->         enum nvme_subsys_type   subtype;
->         u16                     vendor_id;
-> +       u16                     awupf; /* 0's based value. */
->         struct ida              ns_ida;
->  #ifdef CONFIG_NVME_MULTIPATH
->         enum nvme_iopolicy      iopolicy;
->  #endif
-> -       u32                     atomic_bs;
->  };
->
->  /*
-> --
-> 2.47.2
->
->
+        return attr->mode;
+ }
 
-
---
-Best Regards,
-  Yi Zhang
+Thanks,
+Yi.
 
 
