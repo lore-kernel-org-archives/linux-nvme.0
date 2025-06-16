@@ -4,72 +4,170 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B62F9C71157
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jun 2025 03:01:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81927C71136
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jun 2025 04:28:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=z3vGiSwVXq2RtPBftSki0xalslWWUNt5X3wX3Xrc2pA=; b=TsmBf6xqpCxNdIigWRdORX0MWd
-	PvVHO4WYFQujwkgNDLNw0wdmEJWBK6pWv/4KsKWcsjlP8mAPIInvwFf+z+ZJazp1V2PFpbLR3DwNk
-	+ZutmQB9OiA3rQeA42kbBvDVhmdsdj8zHCFt9Z7ZdXY3EmFh2AgtNo8HZpAksYJIBPFfMsBvGnxqw
-	TdCsRIrIQB99ZqeETpOPPYjIny7BA2AGxsXOErAweQ8Hefi7XwHBqlfJgy5qrBgEpEqxi8s403QQr
-	0ObQtouodQS37o6l73P+MF99+JZjSeGqx9a4S+JIUE2a3JJgvUDx8DPIjn75W+fgp8ZasesEFOJU+
-	EYsjCYIg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PIVuzvSj/hDbxpyvsxtyhUk2/RXaylz8Js8VPDzqw2k=; b=p8kd3bhtRiyaLFxWvenCuC1GDH
+	KuyZlVlVKwJHD/qnkvnq48oUuVfSmStTed2ABLtXkjRZRFLZ3yJ/SDRsjMBlolqih4pMpPLzNR+ve
+	3tS2HfkdCr9hpCBrbSR8rCrGBWLaPMC/i2ttEmjqGafb9FtwXX9uy5In3fZE0nUHmasqpXYpI9Bip
+	EVIJ2edsvMmz/aESJuujCZdBjgU12+qfwT8mzLng/KOvh+K4xNFfeb7A5f3L26tzhTptUl1c+S8K8
+	835O02J3LLwLQSkWURgoTg41NXi6tF0leJcDJ5EINjKOqiFdG3xQXn9fC26fucCMlMaqP1JaTML1S
+	dthvoQtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uR05R-00000003DCo-1GaV;
-	Mon, 16 Jun 2025 03:00:41 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1uR1Ry-00000003LHx-2PcH;
+	Mon, 16 Jun 2025 04:28:02 +0000
+Received: from mail-bn8nam11on2062e.outbound.protection.outlook.com ([2a01:111:f403:2414::62e] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uQzFs-0000000387N-01Bt
+	id 1uR1QP-00000003LCB-2KMw
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Jun 2025 02:07:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1750039644; x=1781575644;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=10u9nmpGeL4OB9jIfXl8AY5R12D0EBSud1cs2nqc2QU=;
-  b=CJoYuLXP3k7DCDsLMh2ReMHW7Fgzqa7tdJVfI4jKl12/vs9GHpP9uZfF
-   5vorAmT1Vqdmtta4GMveYw5qfPa6zDWtcqNZunwwg0U7Ui/6RDUxrSTI+
-   nTbMIj4f8CbPFvqOgxe9wD2FXURt2WJwgEiqcXBa5jXfJZk/uZtfhuIfb
-   F27JqwjpiaLYN1WYbtKJYOUeXgYWaEUgvG24fwBp5SEeo0D9zvYvxmjWm
-   EP2VegxevFnwoxkRe4DcBkDAP3RKHNFzGlJkKLIW1dZHNVT++Ehjjmpsj
-   ae0Y4Pot4g/QhCsAwy4h5KGM5uKstZ9kRfvip6y+/mfwwisjSaOy4aJuF
-   g==;
-X-CSE-ConnectionGUID: sF+gaoLZTdm2jis/5XVE/Q==
-X-CSE-MsgGUID: aNHkVi2VTDeSG0BWG8X/qQ==
-X-IronPort-AV: E=Sophos;i="6.16,240,1744041600"; 
-   d="scan'208";a="84623416"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 16 Jun 2025 10:07:21 +0800
-IronPort-SDR: 684f6de8_gxYjWNJeA1FqRw4ZLZRZwjZqYsFtqkNonUdfmC2HurhS1q9
- h7pHPKHUt9q9goT2ytdtLO9dH+uiz1SPMMyqwGg==
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 15 Jun 2025 18:05:44 -0700
-WDCIronportException: Internal
-Received: from wdap-do3irrikgj.ad.shared (HELO shinmob.flets-east.jp) ([10.224.163.172])
-  by uls-op-cesaip01.wdc.com with ESMTP; 15 Jun 2025 19:07:20 -0700
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org
-Cc: Keith Busch <kbusch@meta.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests 2/2] nvme: add nvme metadata passthrough test
-Date: Mon, 16 Jun 2025 11:07:16 +0900
-Message-ID: <20250616020716.2789576-3-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250616020716.2789576-1-shinichiro.kawasaki@wdc.com>
+	Mon, 16 Jun 2025 04:26:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JmymYBD+qHOEfiAbKoDwwnBn7aMT50WdFkJXZ3Fwo+iBrnP9UE1EnPSqnhnmd5AH3mNZ159YiM9pCsHtysAh2vCbqTwZaieNm7ze3rtMTb6KiHlF/JY9jlJod1Cm9q+IKq7Qs8RY1yoTKV6MkeOS9nWS+bKouneXjKP4nBkQNOjvQBLV+lB9cX8aUe3Mt0bvgZ0TDddDbP4FWWp2QNiQWan2Z9K/W5aExP8cPPn9PUw8X2zfblwiVMqw7zZ5VBptvGHL/6w2vdKe3WkFLE9Zdr2uczIzfyFy5Cd4Qjll5W64oNdZjkL0wkuLDRcHcn6hOoYl16zCxFsXWATKxvlFtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PIVuzvSj/hDbxpyvsxtyhUk2/RXaylz8Js8VPDzqw2k=;
+ b=wusMp2gjdDfV6xPuhXxhFImVDVc+3aXr4bvC7vx/HbjwgJKY6Jbzo3w5Q5cRPUKkScF1T11bdGh+0umD+9UFh/hoqcXw3xcj/f3Y5aJ7gfEN/nCrm9wjYKDRHVTXWSzoBxostlbIbyAynZDQEAXRyv/db43Cpb6qrYAriq9nJz0OR6VXVIxgSpT4N5d40T53PCGS9A5YqTZqcpmg8l9SImgB6cpPbavojny/ugxsF1Z9P+dZSCEax2MuYACmT6CWZ9bmv9bRQG0ECY+uTuin1g5+lyFsVTM8W16uRB3MgNWiRM5O8AGZxm3Bl8lSmYrogfFQpLFPJZ9m45+ESXW0wQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PIVuzvSj/hDbxpyvsxtyhUk2/RXaylz8Js8VPDzqw2k=;
+ b=ojic2HZse+VG6CtF09Set2MhTlpoHLAXs9IWOcP5Garn1SJ0IsqpH6pwpzrdMRKsTesDgInvrv7pCabB+Xt1Pb6fcV/VfghfXk0krlBJKsev6VtkJcwyaKrDjuIpTAd16BfVk94HSsXPoGRJJvGFDgKZFadUWI42WzpdnElSI99r8DhyejHHGliXYxBusOqlEEUH00VQEMUuJ46sO6WXLZRkbh5pRvhtxaOLL8WreTgBpOSBGJkdI5vwgfF/5psFahg3rXwLglNLwI5R82B0C3uvIwHJ4f0LX9K+wkAzMsSI+/MRzrOWzSg82O2gWqrzQR7FFFkcGsPO8s0tsnO3ZQ==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by DS7PR12MB6144.namprd12.prod.outlook.com (2603:10b6:8:98::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8835.29; Mon, 16 Jun 2025 04:26:20 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%3]) with mapi id 15.20.8835.027; Mon, 16 Jun 2025
+ 04:26:20 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+CC: Keith Busch <kbusch@meta.com>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH blktests 2/2] nvme: add nvme metadata passthrough test
+Thread-Topic: [PATCH blktests 2/2] nvme: add nvme metadata passthrough test
+Thread-Index: AQHb3mNxTQ/s/feGf0OAjI448dzgurQFMNcA
+Date: Mon, 16 Jun 2025 04:26:20 +0000
+Message-ID: <574c41ef-10b7-4ad7-bfd6-d15389b71ff2@nvidia.com>
 References: <20250616020716.2789576-1-shinichiro.kawasaki@wdc.com>
+ <20250616020716.2789576-3-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20250616020716.2789576-3-shinichiro.kawasaki@wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|DS7PR12MB6144:EE_
+x-ms-office365-filtering-correlation-id: edc52c5e-b2a7-4afe-adea-08ddac8df1e7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|10070799003|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?ek5KMHgxRWdpeWlRWWpLN3lManp3K2xyTkxOSnBtRjIreWtJTjdhYjBIZlRJ?=
+ =?utf-8?B?QnhpNkVlSWZhZnVwZEg5alkwSkZoWTR1TGhpTUFSQ0R1V3drZHlGZXMyRDBO?=
+ =?utf-8?B?MVE3UU93ZE9DcTBJTW5jRjFqeDhjbXRzOElUZGZoeGdpN3R1R2VZWWRpOWJy?=
+ =?utf-8?B?VWNaU0xWd1RwY2EzVjcyby9YUVY1Z29vWHF5ckZiM1UvTTl0RkY0WFlaMUhO?=
+ =?utf-8?B?MXY1VzR1ZjdkVkh1S01pQ0RoN1N6S2lPbmFrWUpOZFcxTnh4QWVON3F5L1BU?=
+ =?utf-8?B?b0FUY1lYaGZNNXJ1SXgwbmoxRXJEbWIza0VMR3JBY3V5ZVo3a3U1UkRHMTlT?=
+ =?utf-8?B?R0RjTWRsN09GcDRRczIzRVJ5OGhGTG5DaklFcnBwRC82T2pPRDkxYUJMSkJa?=
+ =?utf-8?B?QUZaSFgvS2JuSUN0M1ZYMnFiVktFM0Nva0d5TUd5SERjek50Ty9aUjg1ZnB4?=
+ =?utf-8?B?YmJucjhPSldUbk5tVkw0bXh4OGNQbnJldDFXR0pXRjlPd2k0YndJUnFmZzRk?=
+ =?utf-8?B?bGhseWFNK3VjK3FmZFhxSDdXbXRucE4yMENVUDNnWWtjTWgwQkJaQi84WnRi?=
+ =?utf-8?B?cU5DOU5sNDhya2Q4T0FaNEovU0NMUVJyVU1NUlBuZVBxQkU1RHlpWVFrQndM?=
+ =?utf-8?B?R1BOVEUzNWxlcTVsWUZtK1JLWGNQR1JRNm42V1ZvKzhmN2VPa3N1Z015Z2hN?=
+ =?utf-8?B?MzdzOXhJMkdvT1R3ZUFSa1R4Z3lvWE1vVGNxYk8yRE5GM21lV3NTTldHVkhQ?=
+ =?utf-8?B?YTlOM2V2ODhuZG13aFc1aDNRdEdNcG9LaUZtTCt5ZjFvbnJXSVgyZVAzUHU4?=
+ =?utf-8?B?bzg0bjdscWhqTWovVFJuQVFoZEZEbzJFYlZXcVRGVGRKVG5kUDg5MEF6MGVh?=
+ =?utf-8?B?UkkzbG9rTzFWMEJTbmJIQlRKcnkxQnFDK0FMM3l2U3NYK2NkdUR6RnF6M25M?=
+ =?utf-8?B?TTVSQzB0SHNEakk3c3BTVDNYTXZPZzg1K3pjOVFKV0IrWjU2RWZWL0lVU2dm?=
+ =?utf-8?B?LzZDSlh1T2VtbTNLTTVuN0ZOVnFzYUYzY20vL2NtM1lIZ3hNK1I4K0pRNEQ4?=
+ =?utf-8?B?L1RaT1M1MmRBSm1aTUZ4TDRDMTJld29PeDNGYmhkYTNEem9EdkdTSEpMVWVF?=
+ =?utf-8?B?Vlh2VDNhVVFGWisrN0x1cWQ2T2hWMkErc0RFd0UweFF3MStwOU4xcys5c0xr?=
+ =?utf-8?B?S3BBR1NKZ1RYSy9ZVGp4aCtJd2xETmpkNk5KblNpK2k1NUxiU05UbXE4NkQ2?=
+ =?utf-8?B?Z253UlFwS0RWNlpCY3lDWUpvYmh0WklaYXZsUWlMVjIyOXhhMmJwY1VWK3Q2?=
+ =?utf-8?B?NTNmb2wzMEhPWTZ1YlJ5elE4UUZUaVZxN2g4Y01tNFR4bkdVT1NJWHR2ZzQ5?=
+ =?utf-8?B?dHNZWDUzTVNWQ1FibnpjUWlsRzNOell3NmpqeHZmL0tIWXZFZzRLd1RBdGxG?=
+ =?utf-8?B?MUMwV2QwMWlhUGNlSEpnRSt3eGpzUkFoRWNnNDFqTDUxUFBUaHlBbHZJY2JD?=
+ =?utf-8?B?VEU2cklBZXdyQUdQdGdlKzBMNmdZRXg3a2ppeHB6VEJzVlByL1cyRWtQcGlz?=
+ =?utf-8?B?cDVKeUlZcmVicHY5bEpuVzZRZjV3N25OZVJ4a09FdTlOVXdlcm4reHlZTHV5?=
+ =?utf-8?B?cFAweElRZHY4eWJ2QmVLemJWbk84MWJ2MklJMUl1MGdnT0hHQTdIVFFyZlMx?=
+ =?utf-8?B?MHRIeWo3UkVPUTlmdDJiemwxckZBMnBRV0FpNG4xTURzdzJPNjFOWHRtYjBj?=
+ =?utf-8?B?TktzVGx1aGkwakZtTzNnS2c3TE9lNklaQWZBRW9Ddko0TG1UM2FoTDJwcnlZ?=
+ =?utf-8?B?YWlTdGl4TmIvTGdnNjQ2N0w3THorVkhldkVLQ2J1ai92TVNuL1dOeXZZU0Qx?=
+ =?utf-8?B?VEFpVi8zWWNHREJURVVqcnZaMXU1L083enVtY2hlcDZHaCtyWTVLWG9FMHVP?=
+ =?utf-8?B?Z0VnSVpjblB1cnBNbkFocGI2aTNkS0doMENmb3plcTM4a2VscE13TWNXRWJw?=
+ =?utf-8?Q?k8XmuSLqfOIxmO4T5hSUW5Y0ByprpI=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(10070799003)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WTdtQ1ZTdWNwZkdCMFdUOXI4Z1djZzVhL21IVGJUc1RNN1FHSGg4dmJyaVg2?=
+ =?utf-8?B?VjA3c3dQaUlIR1VKNVlsMmUwSWpaNzV3d0NOVG56cXk0TEFZWXI4TWs0Y25m?=
+ =?utf-8?B?MHhzc0hhMzFUMWJwaGJoVUVIMGkxelBoNHZlUXVEbXZycmZNOUV0S0E0SnRY?=
+ =?utf-8?B?bTFRbC9jR2wwTnF0cUpnMnl5Z3QvaHZ3dEFKS013clU0Zk1Ia2hhTVBLNkM1?=
+ =?utf-8?B?UEN6YkZwNDF6U2Zydlp0NldjRWlTV0FuV3dyUU1zRzE2UW5PWC9DcEdUUEhp?=
+ =?utf-8?B?alpOb2lVVEVLRHp5RFlnSnNpWWthbzhrKy9Rc2Z2S0pjYisxS1E1dFI5SDVS?=
+ =?utf-8?B?cDUyb3BIVjAvQXdzT0txbkVQeGw1SUFmUWhLSEQ2dUhkc1N5Y2FYaFViUnl2?=
+ =?utf-8?B?YmJLcHJZRnF5L2FKdy94RW83RUFiZmZteGQ1WHdqZ0pJa01BY01uUU9ZQVRo?=
+ =?utf-8?B?YjgvZEViS3FyMXlQMkplM0dsb04za1g2TndBRUhiWWZIUy9lTm10UUFOTWdQ?=
+ =?utf-8?B?aUpobjg4UHlVV3BzRVhRWnZkc0F2Wm1PL2Q3VTR3bmlNdFk0OHdrT1VJTDNC?=
+ =?utf-8?B?ZVJ2czdnTDNHQjBZcXJrRTJ6Zjc0ZjFZa3dFWUdQU0ZmR1ovWUd0T2FSTlRH?=
+ =?utf-8?B?QmRVb3k1QWJ6VW9EenIyU1VKRm55Rys2dGd1WkRoSDFONVRWVXA1VlR6c2NL?=
+ =?utf-8?B?djk0SzN1Ykg1MzAzejlZYUw1OGk1SFE3TzNLN3J5KzIwbVZrU1pkZHhrcmtq?=
+ =?utf-8?B?TDZENnNaOUUzU1BYN1kwV2hINXVLR1ovYUNwOU9EQVhDdlVxM1Ftd0w5dEdO?=
+ =?utf-8?B?cnpJNkgwZklmcWtjZjBZOUxwMmg1REYwUVZ0d0RsRll3YWUwSDdqVGU4SkJJ?=
+ =?utf-8?B?NmZCN25wRlBFaU5nb0VmNHFRblpCVDFyRjhXRE4xeTR6TGVOWUJhNURnbXpS?=
+ =?utf-8?B?K055YkgrakprYWFtc1hOV2J2QVBDTkh0K1dNeDVOYllDR1daSDB1Yk42YU9S?=
+ =?utf-8?B?VzNxZWZ2blRIWFViOTF3TUxGbmFIMWdDQThFSjNEQ1VkdzBpRE1sdlFZNVJ5?=
+ =?utf-8?B?R3VJUmVQcUJ2R0Z1T1ZRUkdWSG41OXFHejZyaVl4MFE0OXU0UnpKU0FuTGF6?=
+ =?utf-8?B?dVZvaXROeER6NjBKTytSaVZaUVRQUFhXeGRBY1ZQSENnLzZjYWZkSFV5QnBk?=
+ =?utf-8?B?UXA5THdTeDRJVzdDTWhyNE9KeG1BVEhjakR5NHRrZXh3ZDFsN0JpVDJhMDJn?=
+ =?utf-8?B?ckhhNXNISFR1WndXek1jQlJ1SWc2MW9BcmRuWGpCVnlYZDFEL1g3czkvT1Vt?=
+ =?utf-8?B?MG94ZlRYelJvVHUxemN3akx5YkptVloxanAreTlnVmFyR0VlRHl1VkFVZWFk?=
+ =?utf-8?B?Zng5V2pUam4wK3phaDEzNWpYUUJWbzdsbkZOeGxwTkI0Q2Y4K1F0N3phMWRn?=
+ =?utf-8?B?Y2k5cVNkRmNualIxcUN0alJQQWpsTlRwSHZkeFROM3VIa0NSS1ljRVZKeElV?=
+ =?utf-8?B?NlhwWlJEaGNDWHpXMDJNNVJ3bytpQjExSDdjV1VrTEFKUzBpMm94R3N0aGNH?=
+ =?utf-8?B?MDNGdFh6dU9mZUZtMysybE1zZWZycElwS09LZ0J2cE9iMmxMMjE4ZnBwNTF1?=
+ =?utf-8?B?b3RRUlI4dlo4MUE3dVNCdDRRL2gxTmRISjMrR2R2OE1jVXluRlVuTVIrb1Jq?=
+ =?utf-8?B?SEVGM3hUU2JTTGxMMEJQMkQrK1IvZEMwdVdZRTl0MzZJdmZpYkg1RVBHNCtj?=
+ =?utf-8?B?T0FDb0J3TmsxSjFQR3NvaTlCaWhiRDY3UUx5SDN0WC92bXVVZ1pydURkVDl0?=
+ =?utf-8?B?RTV5RXRaMmpZUHdQc1ZiNzQrSzMvcDczWHp3ak54bW9WSGZtZXMydUEwNCt3?=
+ =?utf-8?B?RlUzQ3FTSmpxZVhUTVFURmRSNXhNcEovQ29DdVRhdlhudnFod1A5ZFZiQ2ts?=
+ =?utf-8?B?L0lBYlVHQlVBcUNuazFhNHFGT2hkQks5YnlXQmlwbUdyTmRCaFRWRlhkRU56?=
+ =?utf-8?B?d255cU1vYW9tdGo1akxtSzdROUk1UktONVBkUEZycStOczUvd3N3cnd4bytO?=
+ =?utf-8?B?aXMvODExYXlnYzdmbUlsQ3JKd2hqa0FRZFVacGt0Vzg0cjlReVJMd3Z0RDhn?=
+ =?utf-8?B?T005N2R2T2tEUDFERDhReUMrYWcvbmRHaWpscTMyV3JxR25zSll1VE93MFoz?=
+ =?utf-8?Q?y+/bLDrO5dMFZyGtFsTol3j9e08YQ+x4TFyuVP/qjClg?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <528E47882CBAA04382963AFAAF0BBE6A@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: edc52c5e-b2a7-4afe-adea-08ddac8df1e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2025 04:26:20.5105
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bEN60QE/IgqElVkPmC+cZRKnNnG7eW0P5UK3rG4qqZamueoy7j7XHbr+WCn7iOVVTINGC/N3/pa0Rm0jbCWWIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6144
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250615_190724_052823_E4C64457 
-X-CRM114-Status: GOOD (  24.83  )
+X-CRM114-CacheID: sfid-20250615_212625_608524_B09A404D 
+X-CRM114-Status: UNSURE (   7.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,335 +182,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
-
-Get more coverage on nvme metadata passthrough. Specifically in this
-test, read-only metadata is targeted as this had been a gap in previous
-test coveraged.
-
-Link: https://lore.kernel.org/linux-block/20250603184752.1185676-1-csander@purestorage.com/
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-[Shin'ichiro: added test device requirement checks and .gitignore line]
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
----
- src/.gitignore              |   1 +
- src/Makefile                |   1 +
- src/nvme-passthrough-meta.c | 232 ++++++++++++++++++++++++++++++++++++
- tests/nvme/064              |  34 ++++++
- tests/nvme/064.out          |   2 +
- 5 files changed, 270 insertions(+)
- create mode 100644 src/nvme-passthrough-meta.c
- create mode 100755 tests/nvme/064
- create mode 100644 tests/nvme/064.out
-
-diff --git a/src/.gitignore b/src/.gitignore
-index df7aff5..399a046 100644
---- a/src/.gitignore
-+++ b/src/.gitignore
-@@ -9,3 +9,4 @@
- /sg/syzkaller1
- /zbdioctl
- /miniublk
-+/nvme-passthrough-meta
-diff --git a/src/Makefile b/src/Makefile
-index a94e5f2..f91ac62 100644
---- a/src/Makefile
-+++ b/src/Makefile
-@@ -13,6 +13,7 @@ C_TARGETS := \
- 	loop_change_fd \
- 	loop_get_status_null \
- 	mount_clear_sock \
-+	nvme-passthrough-meta \
- 	nbdsetsize \
- 	openclose \
- 	sg/dxfer-from-dev \
-diff --git a/src/nvme-passthrough-meta.c b/src/nvme-passthrough-meta.c
-new file mode 100644
-index 0000000..29980a2
---- /dev/null
-+++ b/src/nvme-passthrough-meta.c
-@@ -0,0 +1,232 @@
-+// SPDX-License-Identifier: GPL-3.0+
-+// Copyright (C) 2025 Keith Busch
-+
-+/*
-+ * Simple test exercising the user metadata interfaces used by nvme passthrough
-+ * commands.
-+ */
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+#include <inttypes.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <linux/types.h>
-+
-+#ifndef _LINUX_NVME_IOCTL_H
-+#define _LINUX_NVME_IOCTL_H
-+struct nvme_passthru_cmd {
-+	__u8    opcode;
-+	__u8    flags;
-+	__u16   rsvd1;
-+	__u32   nsid;
-+	__u32   cdw2;
-+	__u32   cdw3;
-+	__u64   metadata;
-+	__u64   addr;
-+	__u32   metadata_len;
-+	__u32   data_len;
-+	__u32   cdw10;
-+	__u32   cdw11;
-+	__u32   cdw12;
-+	__u32   cdw13;
-+	__u32   cdw14;
-+	__u32   cdw15;
-+	__u32   timeout_ms;
-+	__u32   result;
-+};
-+
-+#define NVME_IOCTL_ID		_IO('N', 0x40)
-+#define NVME_IOCTL_ADMIN_CMD    _IOWR('N', 0x41, struct nvme_passthru_cmd)
-+#define NVME_IOCTL_IO_CMD       _IOWR('N', 0x43, struct nvme_passthru_cmd)
-+#endif /* _UAPI_LINUX_NVME_IOCTL_H */
-+
-+struct nvme_lbaf {
-+	__le16	ms;
-+	__u8	ds;
-+	__u8	rp;
-+};
-+
-+struct nvme_id_ns {
-+	__le64	nsze;
-+	__le64	ncap;
-+	__le64	nuse;
-+	__u8	nsfeat;
-+	__u8	nlbaf;
-+	__u8	flbas;
-+	__u8	mc;
-+	__u8	dpc;
-+	__u8	dps;
-+	__u8	nmic;
-+	__u8	rescap;
-+	__u8	fpi;
-+	__u8	dlfeat;
-+	__le16	nawun;
-+	__le16	nawupf;
-+	__le16	nacwu;
-+	__le16	nabsn;
-+	__le16	nabo;
-+	__le16	nabspf;
-+	__le16	noiob;
-+	__u8	nvmcap[16];
-+	__le16	npwg;
-+	__le16	npwa;
-+	__le16	npdg;
-+	__le16	npda;
-+	__le16	nows;
-+	__u8	rsvd74[18];
-+	__le32	anagrpid;
-+	__u8	rsvd96[3];
-+	__u8	nsattr;
-+	__le16	nvmsetid;
-+	__le16	endgid;
-+	__u8	nguid[16];
-+	__u8	eui64[8];
-+	struct nvme_lbaf lbaf[64];
-+	__u8	vs[3712];
-+};
-+
-+#define BUFFER_SIZE (32768)
-+
-+int main(int argc, char **argv)
-+{
-+	int ret, fd, nsid, blocks, meta_buffer_size;
-+	void *buffer, *mptr = NULL, *meta = NULL;
-+	struct nvme_passthru_cmd cmd;
-+	struct nvme_lbaf lbaf;
-+	struct nvme_id_ns ns;
-+
-+	__u64 block_size;
-+	__u16 meta_size;
-+
-+	if (argc < 2) {
-+		fprintf(stderr, "usage: %s /dev/nvmeXnY", argv[0]);
-+		return EINVAL;
-+	}
-+
-+	fd = open(argv[1], O_RDONLY);
-+	if (fd < 0)
-+		return fd;
-+
-+	nsid = ioctl(fd, NVME_IOCTL_ID);
-+	if (nsid < 0) {
-+		perror("namespace id");
-+		return errno;
-+	}
-+
-+	cmd = (struct nvme_passthru_cmd) {
-+		.opcode		= 0x6,
-+		.nsid		= nsid,
-+		.addr		= (__u64)(uintptr_t)&ns,
-+		.data_len       = sizeof(ns),
-+	};
-+
-+	ret = ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("id-ns");
-+		return errno;
-+	}
-+
-+	lbaf = ns.lbaf[ns.flbas & 0xf];
-+	block_size = 1 << lbaf.ds;
-+	meta_size = lbaf.ms;
-+
-+	/* format not appropriate for this test */
-+	if (meta_size == 0) {
-+		fprintf(stderr, "Device format does not have metadata\n");
-+		return -EINVAL;
-+	}
-+
-+	blocks = BUFFER_SIZE / block_size;
-+	meta_buffer_size = blocks * meta_size;
-+
-+	buffer = malloc(BUFFER_SIZE);
-+	mptr = mmap(NULL, 8192, PROT_READ | PROT_WRITE,
-+		MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-+	if (mptr == MAP_FAILED) {
-+		perror("mmap");
-+		return errno;
-+	}
-+
-+	/* this should directly use the user space buffer */
-+	meta = mptr;
-+	cmd = (struct nvme_passthru_cmd) {
-+		.opcode		= 1,
-+		.nsid		= nsid,
-+		.addr		= (uintptr_t)buffer,
-+		.metadata       = (uintptr_t)meta,
-+		.data_len       = BUFFER_SIZE,
-+		.metadata_len   = meta_buffer_size,
-+		.cdw12		= blocks - 1,
-+	};
-+
-+	ret = ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-write");
-+		return ret;
-+	}
-+
-+	cmd.opcode = 2;
-+	ret = ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-read");
-+		return ret;
-+	}
-+
-+	/*
-+	 * this offset should either force a kernel copy if we don't have
-+	 * contiguous pages, or test the device's metadata sgls
-+	 */
-+	meta = mptr + 4096 - 16;
-+	cmd.opcode = 1;
-+	cmd.metadata = (uintptr_t)meta;
-+
-+	ret = ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-write (offset)");
-+		return errno;
-+	}
-+
-+	cmd.opcode = 2;
-+	ret = ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-read (offset)");
-+		return errno;
-+	}
-+
-+	/*
-+	 * This buffer is read-only, so should not be successful with commands
-+	 * where it is the destination (reads)
-+	 */
-+	mptr = mmap(NULL, 8192, PROT_READ, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-+	if (mptr == MAP_FAILED) {
-+		perror("mmap");
-+		return errno;
-+	}
-+
-+	meta = mptr;
-+
-+	cmd.opcode = 1;
-+	cmd.metadata = (uintptr_t)meta;
-+	ret = ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret < 0) {
-+		perror("nvme-write (prot_read)");
-+		return ret;
-+	}
-+
-+	cmd.opcode = 2;
-+	ret = ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
-+	if (ret == 0) {
-+		perror("nvme-read (expect Failure)");
-+		return EFAULT;
-+	}
-+
-+	return 0;
-+}
-diff --git a/tests/nvme/064 b/tests/nvme/064
-new file mode 100755
-index 0000000..a10b6ee
---- /dev/null
-+++ b/tests/nvme/064
-@@ -0,0 +1,34 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2025 Keith Busch <kbusch@kernel.org>
-+#
-+# Test out metadata through the passthrough interfaces. This test confirms the
-+# fix by the kernel commit 43a67dd812c5 ("block: flip iter directions in
-+# blk_rq_integrity_map_user()"). This test requires TEST_DEV as a namespace
-+# formatted with metadata, and extended LBA disabled. Such namespace can be
-+# prepared with QEMU NVME emulation specifying -device option with "ms=8",
-+# "ms=16" or "ms=64".
-+
-+. tests/nvme/rc
-+
-+requires() {
-+	_nvme_requires
-+}
-+
-+device_requires() {
-+	_test_dev_has_metadata
-+	_test_dev_disables_extended_lba
-+}
-+
-+DESCRIPTION="exercise the nvme metadata usage with passthrough commands"
-+QUICK=1
-+
-+test_device() {
-+	echo "Running ${TEST_NAME}"
-+
-+	if ! src/nvme-passthrough-meta "${TEST_DEV}"; then
-+		echo "src/nvme-passthrough-meta failed"
-+	fi
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/064.out b/tests/nvme/064.out
-new file mode 100644
-index 0000000..5b34d4e
---- /dev/null
-+++ b/tests/nvme/064.out
-@@ -0,0 +1,2 @@
-+Running nvme/064
-+Test complete
--- 
-2.49.0
-
+T24gNi8xNS8yNSAxOTowNywgU2hpbidpY2hpcm8gS2F3YXNha2kgd3JvdGU6DQo+IEZyb206IEtl
+aXRoIEJ1c2NoPGtidXNjaEBrZXJuZWwub3JnPg0KPg0KPiBHZXQgbW9yZSBjb3ZlcmFnZSBvbiBu
+dm1lIG1ldGFkYXRhIHBhc3N0aHJvdWdoLiBTcGVjaWZpY2FsbHkgaW4gdGhpcw0KPiB0ZXN0LCBy
+ZWFkLW9ubHkgbWV0YWRhdGEgaXMgdGFyZ2V0ZWQgYXMgdGhpcyBoYWQgYmVlbiBhIGdhcCBpbiBw
+cmV2aW91cw0KPiB0ZXN0IGNvdmVyYWdlZC4NCj4NCj4gTGluazpodHRwczovL2xvcmUua2VybmVs
+Lm9yZy9saW51eC1ibG9jay8yMDI1MDYwMzE4NDc1Mi4xMTg1Njc2LTEtY3NhbmRlckBwdXJlc3Rv
+cmFnZS5jb20vDQo+IFNpZ25lZC1vZmYtYnk6IEtlaXRoIEJ1c2NoPGtidXNjaEBrZXJuZWwub3Jn
+Pg0KPiBbU2hpbidpY2hpcm86IGFkZGVkIHRlc3QgZGV2aWNlIHJlcXVpcmVtZW50IGNoZWNrcyBh
+bmQgLmdpdGlnbm9yZSBsaW5lXQ0KPiBTaWduZWQtb2ZmLWJ5OiBTaGluJ2ljaGlybyBLYXdhc2Fr
+aTxzaGluaWNoaXJvLmthd2FzYWtpQHdkYy5jb20+DQoNClRoYW5rcyBhIGxvdCBLZWl0aCBmb3Ig
+c3VibWl0dGluZyB0aGUgdGVzdCwgbG9va3MgZ29vZC4NCg0KUmV2aWV3ZWQtYnk6IENoYWl0YW55
+YSBLdWxrYXJuaSA8a2NoQG52aWRpYS5jb20+DQoNCi1jaw0KDQoNCg==
 
