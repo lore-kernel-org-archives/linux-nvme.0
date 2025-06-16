@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89EC6C71136
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jun 2025 05:32:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA868C71136
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jun 2025 05:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zU8vDHalSpTAvWDFoa9ukkjqgkpYXaPr/252yqrrki0=; b=09WM0s4QI8DNtEGglSGZbkwukl
-	5h91S6DV/Xo1Yz/bZpcZ7YXZjMIyNgpZgbHxyNF+Uc+fl+6L+A05CoRBIKNdPmDlCHSEfcWmygvax
-	btUlmOHOye/9PddoNgavy4pA72n/656aH4c0FKJakcEJ4b2cGPazesiBvRGsTL+phISf5glpkj+eo
-	FtPi48vFMFrw90qq9Z0O6e24PeJFs56rch3AQ4UhEWVFlf+gzfDZq4Je1g14x3EZj6y4LuXsyjqAG
-	29LCxo3dXG6OwwXNm9mgk7gAcu2Y+q8NSlz7enRzmTp+JqRj40+8wQ6GpchT43zZ0JxaAvrJszCSK
-	gD6fVe/g==;
+	bh=bmC8JA00p8+7bkJ2T63nqXzyf4E+SWNM8tyCiZ914sM=; b=ZoLUOXGp90kR21f9WOuPVaUS+B
+	W7PQoHX6/5A21GSnyxTD2Ij7A7cOaOeDCO2HkvH0hq1lFs3kL2mPgpJhXBpqDMbA2s+LyywxDBqqe
+	ZDrlNY5Kav1JQb/J0x7TSPvGPXTxIncGpT3s1rs6i8x2TepHUa6zUGQLtuyyVSqsysajcVrL8es+p
+	4dnRnWHeSP1/q5nhR79ltPI7mmON1AEjcIGOU8TcxJvBflIvRYVLtVeKxE6PP06GSt8c/BYGqS6bb
+	xdi6dDKZSrLjiZKMlRkwfJtVHHCvZ1/1QjLqELzEs7Kx/MHfVqV25KVQnh1Gtp7BwQfqijnVqhX3f
+	a/UZSFdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uR2S0-00000003R3Z-07Wq;
-	Mon, 16 Jun 2025 05:32:08 +0000
+	id 1uR2WI-00000003RJs-0gW7;
+	Mon, 16 Jun 2025 05:36:34 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uR2Rx-00000003R2r-0W5L
+	id 1uR2WF-00000003RJX-2OtN
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Jun 2025 05:32:06 +0000
+	Mon, 16 Jun 2025 05:36:32 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id F364668BFE; Mon, 16 Jun 2025 07:31:58 +0200 (CEST)
-Date: Mon, 16 Jun 2025 07:31:58 +0200
+	id 9FD3168BFE; Mon, 16 Jun 2025 07:36:27 +0200 (CEST)
+Date: Mon, 16 Jun 2025 07:36:27 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
+To: alan.adamson@oracle.com
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
 	Yi Zhang <yi.zhang@redhat.com>,
-	Alan Adamson <alan.adamson@oracle.com>
-Subject: Re: [PATCH 2/2] nvme: fix atomic write boundary validation
-Message-ID: <20250616053158.GE1148@lst.de>
-References: <20250611055432.2401372-1-hch@lst.de> <20250611055432.2401372-3-hch@lst.de> <f88d67d4-8484-45ba-9705-95ced325c65a@oracle.com>
+	John Garry <john.g.garry@oracle.com>
+Subject: Re: fix atomic limits check
+Message-ID: <20250616053627.GF1148@lst.de>
+References: <20250611055432.2401372-1-hch@lst.de> <99248994-4d8d-4d84-9279-b657d6969aa0@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <f88d67d4-8484-45ba-9705-95ced325c65a@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <99248994-4d8d-4d84-9279-b657d6969aa0@oracle.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250615_223205_299989_C8EBFAA4 
-X-CRM114-Status: GOOD (  11.56  )
+X-CRM114-CacheID: sfid-20250615_223631_770932_784469A4 
+X-CRM114-Status: GOOD (  15.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,10 +62,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 13, 2025 at 09:03:07AM +0100, John Garry wrote:
-> I suppose that many comments in 1/2 aren't relevant any more from this 
-> change.
+On Fri, Jun 13, 2025 at 02:22:00PM -0700, alan.adamson@oracle.com wrote:
+> Some testing with my qemu-nvme atomic write setup.  My qemu includes ns 
+> atomic parameters that isn't upstream yet.
 
-What do you mean with comments in 1/2?
+> A single subsystem with 4 controllers, 1 of the controllers has 2 
+> namespaces.
+
+.. and none of the namespaces are shared if I parse the command line
+right?
+
+> Does this look right?
+
+I think it does, at least if I understand the setup correctly.
+
+> Before, we had a single atomic_write_max_bytes value per subsystem.  
+> That's not the case now.
+
+Yes, with AWUPF the value should be different for namespaces with
+different LBA sizes, and with NAWUPF it could be different per namespaces.
+
+Maybe we want an extra sanity check to catch a subsystem reporting
+differnet NAWUPF for the same namespace attached to multiple controllers,
+even if that's against the spec.
+
+And I wonder how we can come up with a testcase to validate all these
+checks..
 
 
