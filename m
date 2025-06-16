@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A40FAC71136
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jun 2025 12:28:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00D58C71155
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Jun 2025 12:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C/tgUIke+2qNXzzDPOk6ryx3DVYioUGGicH5v3Ang+s=; b=Mk0qe6xYhgfgjan2kU8WKMMjX2
-	ZxBhnriNAD5hLZG3doPIYQM4FGMmQNBUOBP0NWHaEdjyb5XpkqJ8X3SK+WukyINDWy/py3J+5trD6
-	AtzRWaSN35tm6PLjWy+nQETqRXUOzjDupLNSC0gcPushNgSfd6ZEsA5UnIjugrJrTveYvGsYU2eyN
-	iPlYL/UBa2t9+yHZ/iD5eej/YWZfOaikYdVudwR/tjXoN2tpWNQ4MljmwenBqw2tQfyHX59ucD0qL
-	APPTAl0pd3uh2dOkvbXFLf+cEfj393R+SRrfZ1FcIhTpsGgcTuLIDj8WDsL2lSch+PQXZ3ICdy2Ex
-	5igMqS9A==;
+	bh=bU6wVgI8Kg6ek1kzpY5ZfSlJ3lLiNRff2p1nMc/WFec=; b=y7edTXJe/bZW957Ym2nA8lDzap
+	1HdDSXbtF9dq5AKuPFzz9cAeNYSfM7oOJIxMNHP6HYKQVhiqfdvu5WEv27+JvpDtRttdwX1b9SGUq
+	1sv8ccpaT6XlZhLukcS4l1oMLjZNBXa0Tkd1GH0Fvpwqv5ur5imGGHNUfrVwylDKKfkgnINEiqJoK
+	YSG/r77KBXHJmtEXN8q5noJgHSLjaAbMj6REMKwf19KVFZ1ZANtJX4C+gXqVBBAnAOh3M9eCCD2jM
+	/Nmy4AjE6QxFXCPHC/FWwAR8RhfJCNluTqdrygZA1VAAH9iLMp8FB3pXMc/5XlhFnCvk5FOMro6JU
+	I4ooUL/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uR8wP-00000004Mn3-1kNx;
-	Mon, 16 Jun 2025 12:27:57 +0000
+	id 1uR92z-00000004Nm4-42AW;
+	Mon, 16 Jun 2025 12:34:45 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uR846-00000004Cxw-00C2
+	id 1uR86D-00000004DMd-0Cre
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Jun 2025 11:31:51 +0000
+	Mon, 16 Jun 2025 11:34:02 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2FC0367373; Mon, 16 Jun 2025 13:31:41 +0200 (CEST)
-Date: Mon, 16 Jun 2025 13:31:41 +0200
+	id D42D167373; Mon, 16 Jun 2025 13:33:55 +0200 (CEST)
+Date: Mon, 16 Jun 2025 13:33:55 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Daniel Gomez <da.gomez@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
@@ -40,17 +40,17 @@ Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Nitesh Shetty <nj.shetty@samsung.com>,
 	Logan Gunthorpe <logang@deltatee.com>, linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 2/9] block: add scatterlist-less DMA mapping helpers
-Message-ID: <20250616113141.GA21749@lst.de>
-References: <20250610050713.2046316-1-hch@lst.de> <20250610050713.2046316-3-hch@lst.de> <dab07466-a1fe-4fba-b3a8-60da853a48be@kernel.org> <20250616050247.GA860@lst.de> <2105172c-5540-40d0-9573-15001b745648@kernel.org>
+Subject: Re: [PATCH 7/9] nvme-pci: convert the data mapping blk_rq_dma_map
+Message-ID: <20250616113355.GA21945@lst.de>
+References: <20250610050713.2046316-1-hch@lst.de> <20250610050713.2046316-8-hch@lst.de> <5c4f1a7f-b56f-4a97-a32e-fa2ded52922a@kernel.org> <20250612050256.GH12863@lst.de> <4af8a37c-68ca-4098-8572-27e4b8b35649@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2105172c-5540-40d0-9573-15001b745648@kernel.org>
+In-Reply-To: <4af8a37c-68ca-4098-8572-27e4b8b35649@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250616_043150_181237_310F05B2 
-X-CRM114-Status: GOOD (  15.17  )
+X-CRM114-CacheID: sfid-20250616_043401_235845_FAFA8EBD 
+X-CRM114-Status: GOOD (  21.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,21 +65,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 16, 2025 at 08:43:22AM +0200, Daniel Gomez wrote:
-> >> This comment does not match with blk_rq_dma_map_iter_start(). It returns false
-> >> and status is BLK_STS_INVAL.
+On Mon, Jun 16, 2025 at 09:41:15AM +0200, Daniel Gomez wrote:
+> >> Adding support to
+> >> multiple SGL segments should allow us to increase this limit 256 -> 2048.
+> >>
+> >> Is this correct?
 > > 
-> > I went over you comment a few times and still don't understand it.
+> > Yes.  Note that plenty of hardware doesn't really like chained SGLs too
+> > much and you might get performance degradation.
+> >
 > 
-> The way I read the comment is that status is only valid when
-> blk_rq_dma_map_iter_* returns false.
+> I see the driver assumes better performance on SGLs over PRPs when I/Os are
+> greater than 32k (this is the default sgl threshold).
 
-Yes.
+Yes.  Although that might be worth revisiting - the threshold was we
+benchmarked on the first hardware we got hold off that supports SGLs.
 
-> But blk_rq_dma_map_iter_start() can return false and an invalid status (in the
-> default switch case).
+> But what if chaining SGL
+> is needed, i.e. my host segments are between 4k and 16k, would PRPs perform
+> better than chaining SGLs?
 
-The status field is valid.  Your patch below leaves it uninitialized
-instead, which leaves me even more confused than the previous comment.
+Right now we don't support chaining of SGL descriptors, so that's a moot
+point.
 
+> Also, if host segments are between 4k and 16k, PRPs would be able to support it
+> but this limit prevents that use case. I guess the question is if you see any
+> blocker to enable this path?
+
+Well, if you think it's worth it give it a spin on a wide variety of
+hardware.
 
