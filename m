@@ -4,56 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01297C71157
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jun 2025 14:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2132AC71136
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jun 2025 14:04:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=FycgTHINtYVyAsv+Skht1iS2gtng65ftxA5IxcZoiFY=; b=W3buxOQzcrS2Dk
-	o+zplZywaqOFN9PI4/q2xDhQUFqsvzZL/J/Vj3jQUBOUzC+vilrr0VA4XMaxvJjXCC9sTX4VVMW8m
-	bJe8VQHTTP+PyOc93K6yKcrNrdwj0nF3jCgdWDKCRyPdgMwZHCj7Gv5aqL6ZSDUyOKo/dqnBP2sKc
-	7UaofQb1UWGY4E7kKMSues0iVDgCWAHl+T0cuCdcfOVxTnI96+kY60Rx6y42/tIphgRAYfTof6fI1
-	IBH/Qw4FweuwB47ulJV2reHEaLcAgOhULgYHemNHNFZ5voO6c0G8FL/Rb+GiXZ8VJFjecOaUu3n4V
-	Ikj7n2pyVlHP1MEcNTNw==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qLFG4eil/snyFm43RQ2qyajKZU3z81855E+MzBzyYIc=; b=R0Jvg+9WSM5vfuVHGIlGV1vvGO
+	jXHD4tV2g/7WjJ/gaBoaprhVv+/Vz1iODtVIYRAG2QltugW+WArLvW4im+tLfa5Gkxy9jjYJWB5/k
+	1lWWEx9dKjR6+XIpQu1rVabs1ST7BML6A9xK2hs0V2UPthZwn4CY3l068REvbvtTv6XHXXA39MPyo
+	0uGqiR5ldtujnxrMTx1xTj6AhGajldcXdqZ368UIhyBmlJlPCK4I4Q9IWHKZ4KNtJSODLIzYXHrHL
+	pKzQzw5AzsTC90Zzm/5gXRUHYGi6n6eui7MRoSDmH+aPdXX82pywj2uYpYcchchlItxc3+q4KmGIH
+	Ah77F6iQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uRWvY-00000007TGK-1NHU;
+	id 1uRWvY-00000007TGd-3txN;
 	Tue, 17 Jun 2025 14:04:40 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uRWb5-00000007OeS-1vBA
+	id 1uRWb7-00000007OfR-0hgl
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Jun 2025 13:43:32 +0000
+	Tue, 17 Jun 2025 13:43:34 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 29C065C675D;
-	Tue, 17 Jun 2025 13:41:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A4E8C4CEE3;
-	Tue, 17 Jun 2025 13:43:28 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0CEB65C675E;
+	Tue, 17 Jun 2025 13:41:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFE0DC4CEF1;
+	Tue, 17 Jun 2025 13:43:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750167809;
-	bh=Tq5rUOpjXriBkipN8jcjoOeGSv4ICYoTA0fxuVN9H94=;
-	h=From:Subject:Date:To:Cc:From;
-	b=H2VMXZuyU6kbuxsnxDZ0TmEkSbKr3URfhjt3ZDdyNXdL6ivkgmgNDPNrOX9KpE8un
-	 67xPRwP+Ax/wzJc2Ag4PN0uQU0cP705b5qy8C4qngTFaBEQa1rH+Kzsv8IM6Vn+LEz
-	 8CSQ9N0XBnKfvE5wmCJA7G0B8JA8f1RlR0EFVTmL5PUsJkpbPJXpnRcihFHL4WjTOf
-	 sh6EN8lf7ZZku7gd9SslC/G2sikDNq5IMhqoNJJBKGmx43LT1noz6/VO4ojstrL4Vc
-	 y/uoWybaf86e/LHNiEjgDrNXwLqD6NK2POmZIlEW+001ads1kk7oiwhiuB9jH9oZFZ
-	 SdYtNHiRhxS/Q==
+	s=k20201202; t=1750167812;
+	bh=y28xAfylXh2rdRLTqKxx7aDOa1vFkQYxy1i35oempSA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=pssgh3Al5vy6j/4p9KScq/o/Ti3hh1aeNJWZm4FJ/snp05kXRmmrz4S1i6c16IstP
+	 UrDa16/QS9nRYwLeHhWrEmCAbjxDbVTvxQ23QE3362vjm4LNPhpP1waumRGYKWwvkV
+	 LaLPAQsjWy2lWBTvofNeUOlqbjQDAs7jBEmEs6golgP+ahVxEHQV8ZbdDF5+oEKBC1
+	 zs79+xsqtgL69aenOLInKqyQL7UGhAPfZlp/iopBsGbMI5hx+yHB2jVqXsSpRCwq7m
+	 RPNKULk4BKNw/6DANWA8GaRAlDVHfnaUqg68nQcNRUWdRfFtA8QdRRYUteKxAkn33U
+	 IIzgBXfnYnlog==
 From: Daniel Wagner <wagi@kernel.org>
-Subject: [PATCH 0/5] blk: introduce block layer helpers to calculate num of
- queues
-Date: Tue, 17 Jun 2025 15:43:22 +0200
-Message-Id: <20250617-isolcpus-queue-counters-v1-0-13923686b54b@kernel.org>
+Date: Tue, 17 Jun 2025 15:43:23 +0200
+Subject: [PATCH 1/5] lib/group_cpus: Let group_cpu_evenly() return the
+ number of initialized masks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPpwUWgC/x3MQQrCMBBG4auUWTuQxGpor1Jc1PirA5KkmUaE0
- rs3uPwW722kKAKlsduo4CsqKTbYU0fhPccXWB7N5Iy7mKv1LJo+IVflpaKCQ6pxRVHu3X02gPf
- nwVCrc8FTfv/zdNv3A/LaqlZpAAAA
-X-Change-ID: 20250617-isolcpus-queue-counters-42ba0ee77390
+Message-Id: <20250617-isolcpus-queue-counters-v1-1-13923686b54b@kernel.org>
+References: <20250617-isolcpus-queue-counters-v1-0-13923686b54b@kernel.org>
+In-Reply-To: <20250617-isolcpus-queue-counters-v1-0-13923686b54b@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
  "Michael S. Tsirkin" <mst@redhat.com>, 
@@ -69,8 +67,8 @@ Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
  GR-QLogic-Storage-Upstream@marvell.com, Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250617_064331_583368_3CE6E22D 
-X-CRM114-Status: GOOD (  13.39  )
+X-CRM114-CacheID: sfid-20250617_064333_293013_B6EA52B3 
+X-CRM114-Status: GOOD (  23.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,53 +83,231 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I am still working on the change request for the "blk: honor isolcpus
-configuration" series [1]. Teaching group_cpus_evenly to use the
-housekeeping mask depending on the context is not a trivial change.
+group_cpu_evenly() might have allocated less groups then requested:
 
-The first part of the series has already been reviewed and doesn't
-contain any controversial changes, so let's get them processed
-independely.
+group_cpu_evenly()
+  __group_cpus_evenly()
+    alloc_nodes_groups()
+      # allocated total groups may be less than numgrps when
+      # active total CPU number is less then numgrps
 
-[1] https://patch.msgid.link/20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org
+In this case, the caller will do an out of bound access because the
+caller assumes the masks returned has numgrps.
 
+Return the number of groups created so the caller can limit the access
+range accordingly.
+
+Acked-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
-Changes in from https://patch.msgid.link/20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org
-- limit number of allocated masks to the max allocated number of masks
-- commit message improvements
-- typo fixes
-- formatting fixed
-- collected tags
+ block/blk-mq-cpumap.c        |  6 +++---
+ drivers/virtio/virtio_vdpa.c |  9 +++++----
+ fs/fuse/virtio_fs.c          |  6 +++---
+ include/linux/group_cpus.h   |  2 +-
+ kernel/irq/affinity.c        | 11 +++++------
+ lib/group_cpus.c             | 16 ++++++++--------
+ 6 files changed, 25 insertions(+), 25 deletions(-)
 
----
-Daniel Wagner (5):
-      lib/group_cpus: Let group_cpu_evenly() return the number of initialized masks
-      blk-mq: add number of queue calc helper
-      nvme-pci: use block layer helpers to calculate num of queues
-      scsi: use block layer helpers to calculate num of queues
-      virtio: blk/scsi: use block layer helpers to calculate num of queues
+diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
+index 444798c5374f48088b661b519f2638bda8556cf2..269161252add756897fce1b65cae5b2e6aebd647 100644
+--- a/block/blk-mq-cpumap.c
++++ b/block/blk-mq-cpumap.c
+@@ -19,9 +19,9 @@
+ void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
+ {
+ 	const struct cpumask *masks;
+-	unsigned int queue, cpu;
++	unsigned int queue, cpu, nr_masks;
+ 
+-	masks = group_cpus_evenly(qmap->nr_queues);
++	masks = group_cpus_evenly(qmap->nr_queues, &nr_masks);
+ 	if (!masks) {
+ 		for_each_possible_cpu(cpu)
+ 			qmap->mq_map[cpu] = qmap->queue_offset;
+@@ -29,7 +29,7 @@ void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
+ 	}
+ 
+ 	for (queue = 0; queue < qmap->nr_queues; queue++) {
+-		for_each_cpu(cpu, &masks[queue])
++		for_each_cpu(cpu, &masks[queue % nr_masks])
+ 			qmap->mq_map[cpu] = qmap->queue_offset + queue;
+ 	}
+ 	kfree(masks);
+diff --git a/drivers/virtio/virtio_vdpa.c b/drivers/virtio/virtio_vdpa.c
+index 1f60c9d5cb1810a6f208c24bb2ac640d537391a0..a7b297dae4890c9d6002744b90fc133bbedb7b44 100644
+--- a/drivers/virtio/virtio_vdpa.c
++++ b/drivers/virtio/virtio_vdpa.c
+@@ -329,20 +329,21 @@ create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+ 
+ 	for (i = 0, usedvecs = 0; i < affd->nr_sets; i++) {
+ 		unsigned int this_vecs = affd->set_size[i];
++		unsigned int nr_masks;
+ 		int j;
+-		struct cpumask *result = group_cpus_evenly(this_vecs);
++		struct cpumask *result = group_cpus_evenly(this_vecs, &nr_masks);
+ 
+ 		if (!result) {
+ 			kfree(masks);
+ 			return NULL;
+ 		}
+ 
+-		for (j = 0; j < this_vecs; j++)
++		for (j = 0; j < nr_masks; j++)
+ 			cpumask_copy(&masks[curvec + j], &result[j]);
+ 		kfree(result);
+ 
+-		curvec += this_vecs;
+-		usedvecs += this_vecs;
++		curvec += nr_masks;
++		usedvecs += nr_masks;
+ 	}
+ 
+ 	/* Fill out vectors at the end that don't need affinity */
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index 53c2626e90e723ad88f1aee69d7507b4f197ab13..3fbfb1a2942b753643015a45fa0c5d89ff72aa2f 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -862,7 +862,7 @@ static void virtio_fs_requests_done_work(struct work_struct *work)
+ static void virtio_fs_map_queues(struct virtio_device *vdev, struct virtio_fs *fs)
+ {
+ 	const struct cpumask *mask, *masks;
+-	unsigned int q, cpu;
++	unsigned int q, cpu, nr_masks;
+ 
+ 	/* First attempt to map using existing transport layer affinities
+ 	 * e.g. PCIe MSI-X
+@@ -882,7 +882,7 @@ static void virtio_fs_map_queues(struct virtio_device *vdev, struct virtio_fs *f
+ 	return;
+ fallback:
+ 	/* Attempt to map evenly in groups over the CPUs */
+-	masks = group_cpus_evenly(fs->num_request_queues);
++	masks = group_cpus_evenly(fs->num_request_queues, &nr_masks);
+ 	/* If even this fails we default to all CPUs use first request queue */
+ 	if (!masks) {
+ 		for_each_possible_cpu(cpu)
+@@ -891,7 +891,7 @@ static void virtio_fs_map_queues(struct virtio_device *vdev, struct virtio_fs *f
+ 	}
+ 
+ 	for (q = 0; q < fs->num_request_queues; q++) {
+-		for_each_cpu(cpu, &masks[q])
++		for_each_cpu(cpu, &masks[q % nr_masks])
+ 			fs->mq_map[cpu] = q + VQ_REQUEST;
+ 	}
+ 	kfree(masks);
+diff --git a/include/linux/group_cpus.h b/include/linux/group_cpus.h
+index e42807ec61f6e8cf3787af7daa0d8686edfef0a3..9d4e5ab6c314b31c09fda82c3f6ac18f77e9de36 100644
+--- a/include/linux/group_cpus.h
++++ b/include/linux/group_cpus.h
+@@ -9,6 +9,6 @@
+ #include <linux/kernel.h>
+ #include <linux/cpu.h>
+ 
+-struct cpumask *group_cpus_evenly(unsigned int numgrps);
++struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks);
+ 
+ #endif
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index 44a4eba80315cc098ecfa366ca1d88483641b12a..4013e6ad2b2f1cb91de12bb428b3281105f7d23b 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -69,21 +69,20 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+ 	 * have multiple sets, build each sets affinity mask separately.
+ 	 */
+ 	for (i = 0, usedvecs = 0; i < affd->nr_sets; i++) {
+-		unsigned int this_vecs = affd->set_size[i];
+-		int j;
+-		struct cpumask *result = group_cpus_evenly(this_vecs);
++		unsigned int nr_masks, this_vecs = affd->set_size[i];
++		struct cpumask *result = group_cpus_evenly(this_vecs, &nr_masks);
+ 
+ 		if (!result) {
+ 			kfree(masks);
+ 			return NULL;
+ 		}
+ 
+-		for (j = 0; j < this_vecs; j++)
++		for (int j = 0; j < nr_masks; j++)
+ 			cpumask_copy(&masks[curvec + j].mask, &result[j]);
+ 		kfree(result);
+ 
+-		curvec += this_vecs;
+-		usedvecs += this_vecs;
++		curvec += nr_masks;
++		usedvecs += nr_masks;
+ 	}
+ 
+ 	/* Fill out vectors at the end that don't need affinity */
+diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+index ee272c4cefcc13907ce9f211f479615d2e3c9154..a075959ccb212ece84334e4859c884f4217d30b6 100644
+--- a/lib/group_cpus.c
++++ b/lib/group_cpus.c
+@@ -332,9 +332,11 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
+ /**
+  * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
+  * @numgrps: number of groups
++ * @nummasks: number of initialized cpumasks
+  *
+  * Return: cpumask array if successful, NULL otherwise. And each element
+- * includes CPUs assigned to this group
++ * includes CPUs assigned to this group. nummasks contains the number
++ * of initialized masks which can be less than numgrps.
+  *
+  * Try to put close CPUs from viewpoint of CPU and NUMA locality into
+  * same group, and run two-stage grouping:
+@@ -344,7 +346,7 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
+  * We guarantee in the resulted grouping that all CPUs are covered, and
+  * no same CPU is assigned to multiple groups
+  */
+-struct cpumask *group_cpus_evenly(unsigned int numgrps)
++struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+ {
+ 	unsigned int curgrp = 0, nr_present = 0, nr_others = 0;
+ 	cpumask_var_t *node_to_cpumask;
+@@ -386,7 +388,7 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+ 				  npresmsk, nmsk, masks);
+ 	if (ret < 0)
+-		goto fail_build_affinity;
++		goto fail_node_to_cpumask;
+ 	nr_present = ret;
+ 
+ 	/*
+@@ -405,10 +407,6 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 	if (ret >= 0)
+ 		nr_others = ret;
+ 
+- fail_build_affinity:
+-	if (ret >= 0)
+-		WARN_ON(nr_present + nr_others < numgrps);
+-
+  fail_node_to_cpumask:
+ 	free_node_to_cpumask(node_to_cpumask);
+ 
+@@ -421,10 +419,11 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 		kfree(masks);
+ 		return NULL;
+ 	}
++	*nummasks = min(nr_present + nr_others, numgrps);
+ 	return masks;
+ }
+ #else /* CONFIG_SMP */
+-struct cpumask *group_cpus_evenly(unsigned int numgrps)
++struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+ {
+ 	struct cpumask *masks = kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
+ 
+@@ -433,6 +432,7 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 
+ 	/* assign all CPUs(cpu 0) to the 1st group only */
+ 	cpumask_copy(&masks[0], cpu_possible_mask);
++	*nummasks = 1;
+ 	return masks;
+ }
+ #endif /* CONFIG_SMP */
 
- block/blk-mq-cpumap.c                     | 46 +++++++++++++++++++++++++++++--
- drivers/block/virtio_blk.c                |  5 ++--
- drivers/nvme/host/pci.c                   |  5 ++--
- drivers/scsi/megaraid/megaraid_sas_base.c | 15 ++++++----
- drivers/scsi/qla2xxx/qla_isr.c            | 10 +++----
- drivers/scsi/smartpqi/smartpqi_init.c     |  5 ++--
- drivers/scsi/virtio_scsi.c                |  1 +
- drivers/virtio/virtio_vdpa.c              |  9 +++---
- fs/fuse/virtio_fs.c                       |  6 ++--
- include/linux/blk-mq.h                    |  2 ++
- include/linux/group_cpus.h                |  2 +-
- kernel/irq/affinity.c                     | 11 ++++----
- lib/group_cpus.c                          | 16 +++++------
- 13 files changed, 89 insertions(+), 44 deletions(-)
----
-base-commit: e04c78d86a9699d136910cfc0bdcf01087e3267e
-change-id: 20250617-isolcpus-queue-counters-42ba0ee77390
-
-Best regards,
 -- 
-Daniel Wagner <wagi@kernel.org>
+2.49.0
 
 
