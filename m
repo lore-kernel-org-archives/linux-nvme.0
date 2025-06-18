@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AD8AC7115B
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2FFEAC71157
 	for <linux-nvme@archiver.kernel.org>; Wed, 18 Jun 2025 05:52:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=AOP00Fc2F9qiSQmOiA4tBYgC5vacOd3AhpFCbS+QFf0=; b=MZ9jv/XTpbzucJXsJH0SJFIw6H
-	wZIhSgkA6QLj3+b1kGOt4bQw3DuiPf2uyvIbd1j9hxftHmQzPJ0Y8atHU8lDZoGgkr5bZFYgDOyWa
-	M02d0NW51soBajT4f/qdzx3OkfwZKsDNp51CWZeiA+yK/vnmTB/74IRWCUncRAUcF/0oSs8VYT/ZG
-	LkOW4NOzm08bUq3plgHgf7TVYkJ1jOGGiqP0uEXdDeJL+P1Ns7RT05q6f6/zyeZvNnDWtSzxb5RuW
-	WVckh871rN9Zrvbo9b5oHqQUqamlkehoMxOH74jUej59bZQ20MYs8C8ERk8JcOppxEiKviptXTLVe
-	fEzE1EZA==;
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AphzsfxjNeKVKXBI0eht8VGHFki7UqreyMpiNst00kk=; b=IiDIIOt82wICmksHQ3opW3/dr7
+	5RgXsF6L9wgjj2uHgYEezYmtoUokEy1NiXVua3YVsAtcKPLbjALVdxj7sTKeRQQd4J/KOIXoHDeVO
+	vPysyhGzylyi08sbwjomaTfFueDP1Iy6sF51bN0cQYkPP1R9WjadU1/LhCCcP/CvKk/6Y8vZa9Cmn
+	pmkF35v9E702dtiY1N/K2dng206SZugeKycEzhaC7SJqjF1GC4LeQ8gp3OVzuriMdQZJZzFE8R2jY
+	aFY1obd03h1OV+SYRqMuQw8OhRXY671yWfc+hDMCiQa3+v6wwcuIUiPi5kaP5wqo2yrRADjX9NWH2
+	yPbc6qWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uRljB-000000097YK-1rh1;
-	Wed, 18 Jun 2025 05:52:53 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1uRljD-000000097aE-0O0y;
+	Wed, 18 Jun 2025 05:52:55 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uRlj7-000000097WL-1T3Q
+	id 1uRlj9-000000097WR-2ZhZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Jun 2025 05:52:51 +0000
+	Wed, 18 Jun 2025 05:52:54 +0000
 Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250618055245epoutp040a89e69fe562fa3ebd1216808e11ce52~KDT4AZbqY3161031610epoutp04l
-	for <linux-nvme@lists.infradead.org>; Wed, 18 Jun 2025 05:52:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250618055245epoutp040a89e69fe562fa3ebd1216808e11ce52~KDT4AZbqY3161031610epoutp04l
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250618055248epoutp0288f622e1af5a647bda6cdb35fe95aff8~KDT7aXmV_0240302403epoutp02R
+	for <linux-nvme@lists.infradead.org>; Wed, 18 Jun 2025 05:52:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250618055248epoutp0288f622e1af5a647bda6cdb35fe95aff8~KDT7aXmV_0240302403epoutp02R
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1750225965;
-	bh=AOP00Fc2F9qiSQmOiA4tBYgC5vacOd3AhpFCbS+QFf0=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=aAOLhqhy+8kWXebUX2kjKAUEbQ5eiAsM+bcM1mphbBNATPBN9roEinhTpWc8e+xz/
-	 UTpiZ2eJxd14dkqv9fEUYEUxGwZa0ME2IHt5jYXPn2ddBCPNuLRiOsmMAtBWUDoKCd
-	 EWfxugLF03L5Q6+c93IlKDImOpPBfGmkfqSjQudE=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20250618055244epcas5p21028bfe100b6e774490d4a7d06c69f84~KDT3GFXw92873428734epcas5p2W;
-	Wed, 18 Jun 2025 05:52:44 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4bMXvZ34bfz3hhTJ; Wed, 18 Jun
-	2025 05:52:42 +0000 (GMT)
+	s=mail20170921; t=1750225968;
+	bh=AphzsfxjNeKVKXBI0eht8VGHFki7UqreyMpiNst00kk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZaqFDF8k4BA63Dg0MkmxtBvBwYqll1+Prexk8q6/EqErzcNWRyBn2oZEEqYr6bWwr
+	 QeSGgvjmIsVJlPSs1nL9Ap0q/b+6WatUs0oj8S4qrVdoFtunXMj3lHovteTugL1U55
+	 LZulMs6NWnvhMUf+dc7eNpjGG8Szmp5GKZleq9ZY=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20250618055248epcas5p12a63e6201e1e953d7f1f4946513407b5~KDT6xSGRA1875218752epcas5p1Z;
+	Wed, 18 Jun 2025 05:52:48 +0000 (GMT)
+Received: from epcas5p4.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4bMXvf21VJz6B9mS; Wed, 18 Jun
+	2025 05:52:46 +0000 (GMT)
 Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
 	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20250618055210epcas5p397b5ca1dc472e3008af707391a5fa628~KDTXvhuhH2388423884epcas5p3N;
-	Wed, 18 Jun 2025 05:52:10 +0000 (GMT)
+	20250618055215epcas5p3232e90ae38bbd6667aacc6d32abb4189~KDTciXbNO2388423884epcas5p3k;
+	Wed, 18 Jun 2025 05:52:15 +0000 (GMT)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250618055208epsmtip25a760335121f4cf32d5bf2c18a82aad7~KDTVpu8533161231612epsmtip2S;
-	Wed, 18 Jun 2025 05:52:08 +0000 (GMT)
+	20250618055213epsmtip2aea9608f13518dc675ff961d58899d03~KDTaWbUnp3085030850epsmtip2N;
+	Wed, 18 Jun 2025 05:52:13 +0000 (GMT)
 From: Anuj Gupta <anuj20.g@samsung.com>
 To: vincent.fu@samsung.com, jack@suse.cz, anuj1072538@gmail.com,
 	axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org,
@@ -61,26 +61,28 @@ To: vincent.fu@samsung.com, jack@suse.cz, anuj1072538@gmail.com,
 Cc: linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	joshi.k@samsung.com, linux-nvme@lists.infradead.org,
 	linux-scsi@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
-	<anuj20.g@samsung.com>
-Subject: [PATCH for-next v4 0/4] add ioctl to query metadata and protection
- info capabilities
-Date: Wed, 18 Jun 2025 11:21:49 +0530
-Message-Id: <20250618055153.48823-1-anuj20.g@samsung.com>
+	<anuj20.g@samsung.com>, Christoph Hellwig <hch@lst.de>
+Subject: [PATCH for-next v4 2/4] block: introduce pi_tuple_size field in
+ blk_integrity
+Date: Wed, 18 Jun 2025 11:21:51 +0530
+Message-Id: <20250618055153.48823-3-anuj20.g@samsung.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250618055153.48823-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250618055210epcas5p397b5ca1dc472e3008af707391a5fa628
+X-CMS-MailID: 20250618055215epcas5p3232e90ae38bbd6667aacc6d32abb4189
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250618055210epcas5p397b5ca1dc472e3008af707391a5fa628
-References: <CGME20250618055210epcas5p397b5ca1dc472e3008af707391a5fa628@epcas5p3.samsung.com>
+X-CMS-RootMailID: 20250618055215epcas5p3232e90ae38bbd6667aacc6d32abb4189
+References: <20250618055153.48823-1-anuj20.g@samsung.com>
+	<CGME20250618055215epcas5p3232e90ae38bbd6667aacc6d32abb4189@epcas5p3.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250617_225250_037705_374DE5EB 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20250617_225251_966106_B697A7A7 
+X-CRM114-Status: GOOD (  16.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,65 +97,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Introduce a new pi_tuple_size field in struct blk_integrity to
+explicitly represent the size (in bytes) of the protection information
+(PI) tuple. This is a prep patch.
+Add validation in blk_validate_integrity_limits() to ensure that
+pi size matches the expected size for known checksum types and never
+exceeds the pi_tuple_size.
 
-This patch series adds a new ioctl to query metadata and integrity
-capability.
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ block/blk-settings.c     | 38 ++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/core.c |  2 ++
+ drivers/scsi/sd_dif.c    |  1 +
+ include/linux/blkdev.h   |  1 +
+ 4 files changed, 42 insertions(+)
 
-Patch 1 renames tuple_size field to metadata_size
-Patch_2 adds a pi_tuple_size field in blk_integrity struct which is later
-used to export this value to the user as well.
-Patch 3 allows computing right pi_offset value.
-Patch 4 introduces a new ioctl to query integrity capability.
-
-v3->v4
-rename tuple_size to metadata_size to inflect right meaning (Martin)
-rectify the condition in blk_validate_integrity_limits when csum type is
-none (Christoph)
-change uapi field comment to more friendly formats (Christoph)
-add comments regarding ioctl behaviour when bi is NULL (Christoph)
-remove the reserved fields and use different scheme for extensibility
-(Christian)
-Other misc code improvements (Christoph)
-set pi_tuple_size and pi_offset in NVMe only if csum type is not NONE
-
-v2->v3
-better naming for uapi struct fields (Martin)
-validate integrity fields in blk-settings.c (Christoph)
-
-v1 -> v2
-introduce metadata_size, storage_tag_size and ref_tag_size field in the
-uapi struct (Martin)
-uapi struct fields comment improvements (Martin)
-add csum_type definitions to the uapi file (Martin)
-add fpc_* prefix to uapi struct fields (Andreas)
-bump the size of rsvd and hence the uapi struct to 32 bytes (Andreas)
-use correct value for ioctl (Andreas)
-use clearer names for CRC (Eric)
-
-
-Anuj Gupta (4):
-  block: rename tuple_size field in blk_integrity to metadata_size
-  block: introduce pi_tuple_size field in blk_integrity
-  set pi_offset only when checksum type is not BLK_INTEGRITY_CSUM_NONE
-  fs: add ioctl to query metadata and protection info capabilities
-
- block/bio-integrity-auto.c        |  4 +--
- block/blk-integrity.c             | 54 ++++++++++++++++++++++++++++++-
- block/blk-settings.c              | 44 +++++++++++++++++++++++--
- block/ioctl.c                     |  4 +++
- block/t10-pi.c                    | 16 ++++-----
- drivers/md/dm-crypt.c             |  4 +--
- drivers/md/dm-integrity.c         | 12 +++----
- drivers/nvdimm/btt.c              |  2 +-
- drivers/nvme/host/core.c          |  7 ++--
- drivers/nvme/target/io-cmd-bdev.c |  2 +-
- drivers/scsi/sd_dif.c             |  3 +-
- include/linux/blk-integrity.h     | 11 +++++--
- include/linux/blkdev.h            |  3 +-
- include/uapi/linux/fs.h           | 45 ++++++++++++++++++++++++++
- 14 files changed, 181 insertions(+), 30 deletions(-)
-
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 787500ff00c3..32f3cdc9835a 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -14,6 +14,8 @@
+ #include <linux/jiffies.h>
+ #include <linux/gfp.h>
+ #include <linux/dma-mapping.h>
++#include <linux/t10-pi.h>
++#include <linux/crc64.h>
+ 
+ #include "blk.h"
+ #include "blk-rq-qos.h"
+@@ -135,6 +137,42 @@ static int blk_validate_integrity_limits(struct queue_limits *lim)
+ 		return -EINVAL;
+ 	}
+ 
++	if (bi->pi_tuple_size > bi->metadata_size) {
++		pr_warn("pi_tuple_size (%u) exceeds metadata_size (%u)\n",
++			 bi->pi_tuple_size,
++			 bi->metadata_size);
++		return -EINVAL;
++	}
++
++	switch (bi->csum_type) {
++	case BLK_INTEGRITY_CSUM_NONE:
++		if (bi->pi_tuple_size) {
++			pr_warn("pi_tuple_size must be 0 when checksum type \
++				 is none\n");
++			return -EINVAL;
++		}
++		break;
++	case BLK_INTEGRITY_CSUM_CRC:
++	case BLK_INTEGRITY_CSUM_IP:
++		if (bi->pi_tuple_size != sizeof(struct t10_pi_tuple)) {
++			pr_warn("pi_tuple_size mismatch for T10 PI: expected \
++				 %zu, got %u\n",
++				 sizeof(struct t10_pi_tuple),
++				 bi->pi_tuple_size);
++			return -EINVAL;
++		}
++		break;
++	case BLK_INTEGRITY_CSUM_CRC64:
++		if (bi->pi_tuple_size != sizeof(struct crc64_pi_tuple)) {
++			pr_warn("pi_tuple_size mismatch for CRC64 PI: \
++				 expected %zu, got %u\n",
++				 sizeof(struct crc64_pi_tuple),
++				 bi->pi_tuple_size);
++			return -EINVAL;
++		}
++		break;
++	}
++
+ 	if (!bi->interval_exp)
+ 		bi->interval_exp = ilog2(lim->logical_block_size);
+ 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b027dda38e69..fe72accab516 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1867,6 +1867,8 @@ static bool nvme_init_integrity(struct nvme_ns_head *head,
+ 	}
+ 
+ 	bi->metadata_size = head->ms;
++	if (bi->csum_type)
++		bi->pi_tuple_size = head->pi_size;
+ 	bi->pi_offset = info->pi_offset;
+ 	return true;
+ }
+diff --git a/drivers/scsi/sd_dif.c b/drivers/scsi/sd_dif.c
+index 18bfca1f1c78..ff4217fef93b 100644
+--- a/drivers/scsi/sd_dif.c
++++ b/drivers/scsi/sd_dif.c
+@@ -53,6 +53,7 @@ void sd_dif_config_host(struct scsi_disk *sdkp, struct queue_limits *lim)
+ 		bi->flags |= BLK_INTEGRITY_REF_TAG;
+ 
+ 	bi->metadata_size = sizeof(struct t10_pi_tuple);
++	bi->pi_tuple_size = bi->metadata_size;
+ 
+ 	if (dif && type) {
+ 		bi->flags |= BLK_INTEGRITY_DEVICE_CAPABLE;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index ccda87d06a38..0d4011dcfed3 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -120,6 +120,7 @@ struct blk_integrity {
+ 	unsigned char				pi_offset;
+ 	unsigned char				interval_exp;
+ 	unsigned char				tag_size;
++	unsigned char				pi_tuple_size;
+ };
+ 
+ typedef unsigned int __bitwise blk_mode_t;
 -- 
 2.25.1
 
