@@ -4,68 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7B8AC71157
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Jun 2025 23:25:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B11C4C7115B
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Jun 2025 05:32:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hMpAPP/jY/tk1Rc6nsEwsCXYoQtskUf4KgjHTyxBL1w=; b=zwcQB6hqydVHhU9m21HlcUkQlL
-	SBkBhcUv4UD9UbXXgdTQxCZrtdG4BYlYbCHOq7XCgM4Rjd35aYaIyf9K7PNTVYtuuy7M+vWa8G7pV
-	eM+kVsEq/6V73P4NyDs/OhgxsTqodUXjSMUbGbXYMPt7tIfL+cfajFM5pJ5xAuNoswtLZPrvbHkBf
-	aPwiMlem7pGVNjzATrJD8/06jVbAVaTazBvhkARRGZ7FXu7IAuBBzgVhUA2t0qrLBKR7RJq9s3WLI
-	4aw5k2QAELdf7V/0uO+wmg+W5z3nwjkpQx4Ihkw2sS5ZaVnHvoooAb9TLeznZaaTBtuxhVW0hWCFe
-	aTXkUfng==;
+	bh=nW2ZyY5TvKKPIx4Y8fh4DF/g4+g8boHzAHN66loiaog=; b=aFFYNVOzuytddXCdMPvP/2B/2l
+	XTuOyDG8NyGSV9cTCgLFGse83uzXZvROnGWf+ML0crZ+NmAJKz6Qv+mLwx5luyDBd2jqoce+URLun
+	+YR4KNMBuTLb2aG0owdOopioN3cxMEOUMqaOKMUJlBLRnDf2WvovemK9Jy/qZeG6vvvTy5+rz8UXQ
+	HbFLyiDB/ZQEdPnMktXRt3TzkdfRY0lyNbRCBEVSpL9xAzPBMEaSxVKWZZiDpnbrGlUa+YKBE+S2e
+	tcGjLGjLQ/opu1U5jN90yquMr0aUqBlhb9XFsOsY1Xk8n9yy6AR3T3hd0L41kk9QOFBkCvXf4dQ+m
+	QjH0nSig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uRfg3-00000008c8G-1B02;
-	Tue, 17 Jun 2025 23:25:15 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uRlPU-000000095rh-1cn0;
+	Wed, 18 Jun 2025 05:32:32 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uRfg2-00000008c8A-1xMl
+	id 1uRlPN-000000095rJ-3lse
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Jun 2025 23:25:14 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7B2E861166;
-	Tue, 17 Jun 2025 23:25:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 641ABC4CEE3;
-	Tue, 17 Jun 2025 23:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750202713;
-	bh=qqFswnpIxhYZQgewi5QxadeBTH00J2KIIOkErfxrV+A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i86wVHcgdAqNEzrlwzGF2mkErWaNlK1OhryWPWbZ71omd+6A7vevw/Dn2hz850Rdk
-	 vHyQlXwtxpRVzENHvJeqxUJvJyAbPs6imrPnx9GdAgolw4mGOSrLtVJqUIJYfsK2ru
-	 WjsSUWs6QkgHvRJVuoNCuSkhYQ1EjDi4WtYwahj+mB2QNXbUGGtBpzaR3suOWDVANL
-	 xSqK/ZbvtRsJHIl6rsGFgs6K0NjoQzizqEU2tI+nfIpUP2tiBXDmnZ6O9TaA0I2JNn
-	 MNEz4P3N32uiTq+vNfhDoN9jFIariP8Rcr95ObyCND02D1ahf+mmUEEJOwAaigcFVh
-	 W0K9pD2KkhC0w==
-Date: Tue, 17 Jun 2025 17:25:09 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Logan Gunthorpe <logang@deltatee.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 7/9] nvme-pci: convert the data mapping blk_rq_dma_map
-Message-ID: <aFH5VXKwoWE3Eq5V@kbusch-mbp>
-References: <20250610050713.2046316-1-hch@lst.de>
- <20250610050713.2046316-8-hch@lst.de>
- <5c4f1a7f-b56f-4a97-a32e-fa2ded52922a@kernel.org>
- <20250612050256.GH12863@lst.de>
- <4af8a37c-68ca-4098-8572-27e4b8b35649@kernel.org>
- <20250616113355.GA21945@lst.de>
- <500dedd7-4e66-49d2-8c63-91d6a07f2e43@kernel.org>
+	Wed, 18 Jun 2025 05:32:27 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 091A468D0E; Wed, 18 Jun 2025 07:32:13 +0200 (CEST)
+Date: Wed, 18 Jun 2025 07:32:13 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: alan.adamson@oracle.com
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	Yi Zhang <yi.zhang@redhat.com>,
+	John Garry <john.g.garry@oracle.com>
+Subject: Re: fix atomic limits check
+Message-ID: <20250618053213.GA28614@lst.de>
+References: <20250611055432.2401372-1-hch@lst.de> <99248994-4d8d-4d84-9279-b657d6969aa0@oracle.com> <20250616053627.GF1148@lst.de> <790a0419-4087-4181-b290-15db01ac1d34@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <500dedd7-4e66-49d2-8c63-91d6a07f2e43@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <790a0419-4087-4181-b290-15db01ac1d34@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250617_223226_084679_BA9E071C 
+X-CRM114-Status: GOOD (  13.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,27 +62,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 17, 2025 at 07:33:46PM +0200, Daniel Gomez wrote:
-> On 16/06/2025 13.33, Christoph Hellwig wrote:
-> > On Mon, Jun 16, 2025 at 09:41:15AM +0200, Daniel Gomez wrote:
-> >> Also, if host segments are between 4k and 16k, PRPs would be able to support it
-> >> but this limit prevents that use case. I guess the question is if you see any
-> >> blocker to enable this path?
-> > 
-> > Well, if you think it's worth it give it a spin on a wide variety of
-> > hardware.
-> 
-> I'm not sure if I understand this. Can you clarify why hardware evaluation would
-> be required? What exactly?
+On Tue, Jun 17, 2025 at 10:40:35AM -0700, alan.adamson@oracle.com wrote:
+> I changed the config a bit:
+>
+> CTRL 0 - AWUN=31 AWUPF=15
+> CTRL 1 - AWUN=31 AWUPF=31
+> CTRL 2 - AWUN=15 AWUPF=7
+> CTRL 3 - AWUN=15 AWUPF=15
+>     NS - NAWUN=31 NAWUPF=15
+>     NS - NAWUN=127 NAWUPF=63
 
-This is about chaining SGL's so I think the request is benchmarking if
-that's faster than splitting commands. Splitting hand been quicker for
-much hardware because they could process SQE's in parallel easier than
-walking a single command's SG List.
+I'm a bit confused what this config means.  The NS lines here are
+multiple namespaces?
 
-On a slightly related topic, NVMe SGL's don't need the
-"virt_boundary_mask". So for devices are optimized for SGL, then that
-queue limit could go away, and I've recently heard use cases for the
-passthrough interface where that would be useful on avoiding kernel copy
-bounce buffers (sorry for the digression).
+> [root@localhost ~]# sh testxx.sh nvme0n3
+
+But this is all about the controller 0 above, which now has multiple
+namespaces?
+
+> + cat /sys/block/nvme0n3/queue/atomic_write_max_bytes
+> 8192
+> [root@localhost ~]# dmesg | grep -i awupf
+> [root@localhost ~]#
+>
+> AWUPF of 7 isn't consistent with an atomic_write_max_bytes of 8192.
+
+It is consistent with an (N)AWUPF=15, and it is namespace number 3.  Are
+you testing controller 3 above or is the namespace shared between
+controller 0 and controller 3?
 
