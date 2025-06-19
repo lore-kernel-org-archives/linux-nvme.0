@@ -4,107 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B609DC77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Jun 2025 17:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9938C7115B
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Jun 2025 17:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=91KmJu9YGqO+ird+rcsZqUETGL6DnvJj07diEDKfeyM=; b=umfBQiCwgQzaw4OjWelljrRhHI
-	h/PKp8kBcEqLXBCtYgUB9fpk3ZJgPgvJxltaH/iqJQM0gnQ8JIdCN8/+h+6HfLDTfNPvFHXb1N6FL
-	Moo7OKDMpKvwcVMtc/2oON0lSsz00h5uxuiRpQ8GZJ+knBgzFeSzhoCJivuk3p7FYQfrx74x2GmeT
-	7TZ31FX/xQQwBOD6nuVw8xwLTvXNYnyAdPVbH4ZU0wzSXPNlgu9aZwzXBlB0rSZl9LQeDPuRMMJ91
-	7KQ7Fvq0F7O0m/TCZ34Sao4V+0XOpICFrdR55JVW0Qn8li4oiiirh8yoqGjdNpgX2BUSngoTH8HsG
-	4Bu4QtZQ==;
+	bh=3KZ7R/jEe01fim5axGNQP8sjao35ZryFqeCkw60STwo=; b=N56hcMD7/IdCC0DurSBQKA0IjT
+	i7DhP+ZL6l8dH+8OVluAA66p9ox41l4PcxuyMfwjQHz1oTC+UEwunMTVult/Ww+QQP0jWa6kkh880
+	MwDzXe4H9PrTwgk+G2V7Vukv+NavBq33fnVk5wGHL1SW4h+fL3gkdmRgExT7c9OyiY0aDeTSdRo/w
+	GgmAmaVu0CU0EliCmK1tYOdqG7i1wkM06kQ433NvILrMrGkBPiDrwQyz584hI6dqSY4oum/Yo3Q0l
+	Drb12Ak4DJf3a5+ZqmHBNkq0OQF3ICMgibxV0yHXA2t1PfM48A4q1XVfqOSyVlAETb7feIcx1rYrr
+	8s5B2phA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSIeX-0000000DegO-3q7R;
-	Thu, 19 Jun 2025 17:02:17 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1uSIuJ-0000000DmP7-0mXR;
+	Thu, 19 Jun 2025 17:18:35 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSDV2-0000000Ct7u-3X8J
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 19 Jun 2025 11:32:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=91KmJu9YGqO+ird+rcsZqUETGL6DnvJj07diEDKfeyM=; b=LilXdrAvlTRrAUF2Wc5oLWSQ5C
-	2tQsg4WgwMEBVc4c070WB3GGzk6yzZyOmtXW7ZoAwHKBvukJp9TJfS5fNhofBM7dIwixqGTcV1Cjn
-	1RnGyYRK/YkrZIVUBw4GJhcNahKfZVQZ3nayrF8FFKYRQM2ELx+UpA+sMfsuEJ/KWoIMx29u1j3tw
-	k9X3vgj32kb6S47ZVVUA3vG7xIGnhc2k0PPCBO+xIwzpC8sfoiaZspQMjOoVJwFr5TIQseRx9Bnp9
-	ILQimclOXaT6nH7AcOL2Fh1VEk2abwZ5uBOzGAC9rPKfDUBVgEQIgkmiNDbNIfrgE1KkHqmWY2mVW
-	TptWyMHw==;
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSDUz-00000004QoT-1ZYT
+	id 1uSIA5-0000000Dck0-3Gpx
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Jun 2025 11:32:08 +0000
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bNJNP59mqzYQv7x
-	for <linux-nvme@lists.infradead.org>; Thu, 19 Jun 2025 19:31:49 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id A57311A10F9
-	for <linux-nvme@lists.infradead.org>; Thu, 19 Jun 2025 19:31:48 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.112.188])
-	by APP4 (Coremail) with SMTP id gCh0CgCH618Y9VNoihn_Pw--.51230S7;
-	Thu, 19 Jun 2025 19:31:48 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org
-Cc: linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	hch@lst.de,
-	tytso@mit.edu,
-	djwong@kernel.org,
-	john.g.garry@oracle.com,
-	bmarzins@redhat.com,
-	chaitanyak@nvidia.com,
-	shinichiro.kawasaki@wdc.com,
-	brauner@kernel.org,
-	martin.petersen@oracle.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	chengzhihao1@huawei.com,
-	yukuai3@huawei.com,
-	yangerkun@huawei.com
-Subject: [PATCH v2 3/9] nvmet: set WZDS and DRB if device enables unmap write zeroes operation
-Date: Thu, 19 Jun 2025 19:18:00 +0800
-Message-ID: <20250619111806.3546162-4-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20250619111806.3546162-1-yi.zhang@huaweicloud.com>
-References: <20250619111806.3546162-1-yi.zhang@huaweicloud.com>
+	Thu, 19 Jun 2025 16:30:51 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55JB4bsg028368;
+	Thu, 19 Jun 2025 16:30:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=3KZ7R/
+	jEe01fim5axGNQP8sjao35ZryFqeCkw60STwo=; b=ivlgf7DxNgTyLtbSxzVZYx
+	OvPn5QcWBE1TgELz+AG8ty/ZJvKhm0nwlXa+/6AUQw1mwvzpWJfFDFEWsj4l4yn8
+	YmykCjbA1fNAu+xQ3Cvtb4dgIRoWaDZlcQLI3m1uUoLOb0R7Pnn8ftHTALmsdwuh
+	jjq+oID7/oM8oHLaNJO43b28kDv1MqBfAHoHaATXElQJGIUnZvTZT5V+n1ePCJmr
+	79xGqn0QjAf36eNa2xnATJPJ7veXqjhSJA9L3YsLOIEhsTkR87vDiZxPLPULVwcO
+	UA2XXk7S+H7mqlkOz/c7RYzotg3xIEO2mXDBJfhMrwquPmThrpk3lD1nZpUBgqSw
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4790r2dygf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Jun 2025 16:30:36 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 55JFkR9L011236;
+	Thu, 19 Jun 2025 16:30:35 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 479kdtq6j9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Jun 2025 16:30:35 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 55JGUY4r16515604
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 19 Jun 2025 16:30:35 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D84CE5804E;
+	Thu, 19 Jun 2025 16:30:34 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A402E5803F;
+	Thu, 19 Jun 2025 16:30:31 +0000 (GMT)
+Received: from [9.61.85.73] (unknown [9.61.85.73])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 19 Jun 2025 16:30:31 +0000 (GMT)
+Message-ID: <c743baec-6239-4b58-ae93-17d02bb71ea3@linux.ibm.com>
+Date: Thu, 19 Jun 2025 22:00:29 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bug report][bisected] sysfs: cannot create duplicate filename
+ '/devices/virtual/nvme-subsystem'
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+        Christoph Hellwig <hch@lst.de>, Daniel Wagner <dwagner@suse.de>,
+        Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+        "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
+References: <CAHj4cs8fOBS-eSjsd5LUBzy7faKXJtgLkCN+mDy_-ezCLLLq+Q@mail.gmail.com>
+ <CAHj4cs_D6++rCEnxL2TNa-pMKx0Yz_La02dRLKK4b75uAWaG5A@mail.gmail.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <CAHj4cs_D6++rCEnxL2TNa-pMKx0Yz_La02dRLKK4b75uAWaG5A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCH618Y9VNoihn_Pw--.51230S7
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFykKw1xWrW5uFW7AFy3CFg_yoWDurg_ZF
-	1Uur4DWa18Zr4rKFWa9F15ZryUKw48ZF12qFsFqayfWr9rWFs5ur10vF9IyF1UAF48Jrs8
-	urnrXFnavrW8GjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbkkFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
-	0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-	wVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
-	8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
-	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
-	vE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
-	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
-	v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
-	6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-	AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-	2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x0JUUl1kUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 8ovhqhvk5oWf3XG8DimU07fFur-HSmhX
+X-Proofpoint-ORIG-GUID: 8ovhqhvk5oWf3XG8DimU07fFur-HSmhX
+X-Authority-Analysis: v=2.4 cv=AqTu3P9P c=1 sm=1 tr=0 ts=68543b2c cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=20KFwNOVAAAA:8 a=2J7IuT7wAAAA:8 a=ANQ5vHu7ZNv9P_8WpLYA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=RtgRkGnnZwJf8nmJIBi8:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE5MDEzNCBTYWx0ZWRfX6l+Hay/wubGK j2fJvedXJFRhxxkaZ3VyQSNl4m/v9cvLy0tK2mSuidLtbgs2lDQ1v6AriQVG1Xk9sLXJBaD/WMz r8f90MQXo/87iTOdnH7lLOvRpC2O/NF05I47C/uud/PSwN4VNeyIm/Ayvt6X56b2npZtbbUOLD0
+ uYIJz3hZ5MrDgurce8kEzMS53hc21xZBuO4Dt5q0Ow4jv+MN0zHio6zmDZi4sp5HzuUHjWhi+Q0 Z5U1p8fORONE4QkS2xek3khipPkKWl91iPt59ERukwth1UVTSvTHraGYZZiw3WnMyQuVShW1dtX MNTB0uzsR9RAtJH/r/1C0H4ri37UxdUrCmG06Z6w3NEJ+xVu6rdkKBtEeiPXk1m0QGDKiyEbaVL
+ kf188TtUDwcHoGfhIGSybK7Ymg9JOpozxhPNJul3I4JLPYzsvoCX/wxwxrMN9gwHV7IBQbTz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-19_06,2025-06-18_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ lowpriorityscore=0 suspectscore=0 adultscore=0 impostorscore=0
+ priorityscore=1501 phishscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506190134
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250619_123205_926874_C9BBBF05 
-X-CRM114-Status: UNSURE (   9.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250619_093050_122236_1879EAD1 
+X-CRM114-Status: GOOD (  15.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,33 +116,338 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Zhang Yi <yi.zhang@huawei.com>
 
-Set the WZDS and DRB bits to the namespace dlfeat if the underlying
-block device enables the unmap write zeroes operation, make the nvme
-target device supports the unmap write zeroes command.
 
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- drivers/nvme/target/io-cmd-bdev.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On 6/13/25 9:16 AM, Yi Zhang wrote:
+> Hi
+> 
+> I did bisecting, seems the issue was introduced by this commit:
+> 
+> 62188639ec16 nvme-multipath: introduce delayed removal of the
+> multipath head node
+> 
+> On Tue, Jun 10, 2025 at 9:22 PM Yi Zhang <yi.zhang@redhat.com> wrote:
+>>
+>> Hi
+>>
+>> I reproduced this issue on the latest linux-block/for-next with
+>> blktests nvme/fc nvme/061, please help check it and let me know if you
+>> need any info/test, thanks.
+>>
+>> commit: 38f4878b9463 (HEAD, origin/for-next) Merge branch 'block-6.16'
+>> into for-next
+>>
+>> [ 4810.793156] run blktests nvme/061 at 2025-06-10 08:52:48
+>> [ 4811.164767] loop0: detected capacity change from 0 to 2097152
+>> [ 4811.254997] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>> [ 4811.746222] nvme nvme0: NVME-FC{0}: create association : host wwpn
+>> 0x20001100aa000001  rport wwpn 0x20001100ab000001: NQN
+>> "blktests-subsystem-1"
+>> [ 4811.750328] (NULL device *): {0:0} Association created
+>> [ 4811.751363] nvmet: Created nvm controller 1 for subsystem
+>> blktests-subsystem-1 for NQN
+>> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+>> [ 4811.754969] sysfs: cannot create duplicate filename
+>> '/devices/virtual/nvme-subsystem'
+>> [ 4811.755435] CPU: 18 UID: 0 PID: 14937 Comm: kworker/u290:0 Tainted:
+>> G        W           6.15.0+ #1 PREEMPT(voluntary)
+>> [ 4811.755451] Tainted: [W]=WARN
+>> [ 4811.755455] Hardware name: HP ProLiant DL380 Gen9/ProLiant DL380
+>> Gen9, BIOS P89 10/05/2016
+>> [ 4811.755462] Workqueue: nvme-wq nvme_fc_connect_ctrl_work [nvme_fc]
+>> [ 4811.755495] Call Trace:
+>> [ 4811.755500]  <TASK>
+>> [ 4811.755507]  dump_stack_lvl+0xac/0xc0
+>> [ 4811.755531]  sysfs_warn_dup+0x72/0x90
+>> [ 4811.755549]  sysfs_create_dir_ns+0x1f2/0x260
+>> [ 4811.755561]  ? __pfx_sysfs_create_dir_ns+0x10/0x10
+>> [ 4811.755570]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4811.755591]  ? kobject_add_internal+0x218/0x890
+>> [ 4811.755605]  ? do_raw_spin_unlock+0x55/0x1f0
+>> [ 4811.755617]  kobject_add_internal+0x272/0x890
+>> [ 4811.755630]  kobject_add+0x11f/0x1f0
+>> [ 4811.755641]  ? __pfx_kobject_add+0x10/0x10
+>> [ 4811.755652]  ? __kmalloc_cache_noprof+0x3b6/0x4e0
+>> [ 4811.755667]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4811.755686]  get_device_parent+0x325/0x430
+>> [ 4811.755700]  ? __pfx_klist_children_put+0x10/0x10
+>> [ 4811.755717]  device_add+0x203/0x10f0
+>> [ 4811.755727]  ? lockdep_init_map_type+0x51/0x270
+>> [ 4811.755738]  ? __pfx_device_add+0x10/0x10
+>> [ 4811.755748]  ? __init_waitqueue_head+0xcb/0x150
+>> [ 4811.755768]  nvme_init_subsystem+0xa5d/0x1470 [nvme_core]
+>> [ 4811.755857]  ? __pfx_nvme_identify_ctrl+0x10/0x10 [nvme_core]
+>> [ 4811.755912]  ? __pfx_nvme_init_subsystem+0x10/0x10 [nvme_core]
+>> [ 4811.755965]  ? blk_mq_run_hw_queue+0x35e/0x530
+>> [ 4811.755986]  ? rcu_is_watching+0x11/0xb0
+>> [ 4811.756002]  nvme_init_identify+0x21c/0x2290 [nvme_core]
+>> [ 4811.756057]  ? rcu_is_watching+0x11/0xb0
+>> [ 4811.756064]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4811.756075]  ? blk_mq_hw_queue_need_run+0x271/0x3a0
+>> [ 4811.756084]  ? rcu_is_watching+0x11/0xb0
+>> [ 4811.756092]  ? trace_irq_enable.constprop.0+0x14a/0x1b0
+>> [ 4811.756107]  ? rcu_is_watching+0x11/0xb0
+>> [ 4811.756113]  ? blk_mq_run_hw_queue+0x2e3/0x530
+>> [ 4811.756121]  ? percpu_ref_put_many.constprop.0+0x7b/0x1b0
+>> [ 4811.756130]  ? rcu_is_watching+0x11/0xb0
+>> [ 4811.756138]  ? __pfx_nvme_init_identify+0x10/0x10 [nvme_core]
+>> [ 4811.756192]  ? percpu_ref_put_many.constprop.0+0x80/0x1b0
+>> [ 4811.756201]  ? __nvme_submit_sync_cmd+0x1e6/0x330 [nvme_core]
+>> [ 4811.756255]  ? nvmf_reg_read32+0xd1/0x1e0 [nvme_fabrics]
+>> [ 4811.756276]  ? __pfx_nvmf_reg_read32+0x10/0x10 [nvme_fabrics]
+>> [ 4811.756291]  ? percpu_ref_put_many.constprop.0+0x80/0x1b0
+>> [ 4811.756305]  ? nvme_wait_ready+0x13f/0x2d0 [nvme_core]
+>> [ 4811.756359]  nvme_init_ctrl_finish+0x1c8/0x810 [nvme_core]
+>> [ 4811.756414]  ? __pfx_nvme_init_ctrl_finish+0x10/0x10 [nvme_core]
+>> [ 4811.756472]  ? nvme_enable_ctrl+0x3e6/0x620 [nvme_core]
+>> [ 4811.756523]  ? __pfx_nvme_enable_ctrl+0x10/0x10 [nvme_core]
+>> [ 4811.756575]  ? nvme_fc_connect_admin_queue.constprop.0+0xa1a/0xd20 [nvme_fc]
+>> [ 4811.756596]  nvme_fc_create_association+0x880/0x1b60 [nvme_fc]
+>> [ 4811.756618]  ? __pfx_debug_object_deactivate+0x10/0x10
+>> [ 4811.756630]  ? __pfx_nvme_fc_create_association+0x10/0x10 [nvme_fc]
+>> [ 4811.756649]  ? rcu_is_watching+0x11/0xb0
+>> [ 4811.756660]  nvme_fc_connect_ctrl_work+0x1d/0xb0 [nvme_fc]
+>> [ 4811.756676]  ? rcu_is_watching+0x11/0xb0
+>> [ 4811.756684]  process_one_work+0x8cd/0x1950
+>> [ 4811.756704]  ? __pfx_process_one_work+0x10/0x10
+>> [ 4811.756720]  ? assign_work+0x16c/0x240
+>> [ 4811.756732]  worker_thread+0x58d/0xcf0
+>> [ 4811.756748]  ? __pfx_worker_thread+0x10/0x10
+>> [ 4811.756759]  kthread+0x3d8/0x7a0
+>> [ 4811.756770]  ? __pfx_kthread+0x10/0x10
+>> [ 4811.756781]  ? rcu_is_watching+0x11/0xb0
+>> [ 4811.756789]  ? __pfx_kthread+0x10/0x10
+>> [ 4811.756799]  ret_from_fork+0x406/0x510
+>> [ 4811.756810]  ? __pfx_kthread+0x10/0x10
+>> [ 4811.756819]  ret_from_fork_asm+0x1a/0x30
+>> [ 4811.756843]  </TASK>
+>> [ 4811.786652] kobject: kobject_add_internal failed for nvme-subsystem
+>> with -EEXIST, don't try to register things with the same name in the
+>> same directory.
+>> [ 4811.787439] nvme nvme0: failed to register subsystem device.
+>> [ 4811.788282] nvme nvme0: NVME-FC{0}: create_assoc failed, assoc_id
+>> 428489c9c100000 ret -17
+>> [ 4811.788849] nvme nvme0: NVME-FC{0}: reset: Reconnect attempt failed (-17)
+>> [ 4811.789259] nvme nvme0: NVME-FC{0}: Reconnect attempt in 1 seconds
+>> [ 4811.790106] nvme nvme0: NVME-FC{0}: new ctrl: NQN
+>> "blktests-subsystem-1", hostnqn:
+>> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+>> [ 4811.819765] (NULL device *): {0:0} Association deleted
+>> [ 4811.835407] (NULL device *): {0:0} Association freed
+>> [ 4811.835791] (NULL device *): Disconnect LS failed: No Association
+>> [ 4812.216419] nvme nvme1: NVME-FC{1}: create association : host wwpn
+>> 0x20001100aa000001  rport wwpn 0x20001100ab000001: NQN
+>> "nqn.2014-08.org.nvmexpress.discovery"
+>> [ 4812.220686] (NULL device *): {0:0} Association created
+>> [ 4812.221710] nvmet: Created discovery controller 1 for subsystem
+>> nqn.2014-08.org.nvmexpress.discovery for NQN
+>> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+>> [ 4812.225298] sysfs: cannot create duplicate filename
+>> '/devices/virtual/nvme-subsystem'
+>> [ 4812.225791] CPU: 3 UID: 0 PID: 10479 Comm: kworker/u289:13 Tainted:
+>> G        W           6.15.0+ #1 PREEMPT(voluntary)
+>> [ 4812.225808] Tainted: [W]=WARN
+>> [ 4812.225811] Hardware name: HP ProLiant DL380 Gen9/ProLiant DL380
+>> Gen9, BIOS P89 10/05/2016
+>> [ 4812.225817] Workqueue: nvme-wq nvme_fc_connect_ctrl_work [nvme_fc]
+>> [ 4812.225848] Call Trace:
+>> [ 4812.225852]  <TASK>
+>> [ 4812.225859]  dump_stack_lvl+0xac/0xc0
+>> [ 4812.225880]  sysfs_warn_dup+0x72/0x90
+>> [ 4812.225896]  sysfs_create_dir_ns+0x1f2/0x260
+>> [ 4812.225908]  ? __pfx_sysfs_create_dir_ns+0x10/0x10
+>> [ 4812.225918]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4812.225936]  ? kobject_add_internal+0x218/0x890
+>> [ 4812.225949]  ? do_raw_spin_unlock+0x55/0x1f0
+>> [ 4812.225962]  kobject_add_internal+0x272/0x890
+>> [ 4812.225975]  kobject_add+0x11f/0x1f0
+>> [ 4812.225986]  ? __pfx_kobject_add+0x10/0x10
+>> [ 4812.225997]  ? __kmalloc_cache_noprof+0x3b6/0x4e0
+>> [ 4812.226010]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4812.226029]  get_device_parent+0x325/0x430
+>> [ 4812.226042]  ? __pfx_klist_children_put+0x10/0x10
+>> [ 4812.226058]  device_add+0x203/0x10f0
+>> [ 4812.226067]  ? lockdep_init_map_type+0x51/0x270
+>> [ 4812.226079]  ? __pfx_device_add+0x10/0x10
+>> [ 4812.226089]  ? __init_waitqueue_head+0xcb/0x150
+>> [ 4812.226107]  nvme_init_subsystem+0xa5d/0x1470 [nvme_core]
+>> [ 4812.226191]  ? __pfx_nvme_identify_ctrl+0x10/0x10 [nvme_core]
+>> [ 4812.226245]  ? __pfx_nvme_init_subsystem+0x10/0x10 [nvme_core]
+>> [ 4812.226298]  ? blk_mq_run_hw_queue+0x35e/0x530
+>> [ 4812.226310]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.226325]  nvme_init_identify+0x21c/0x2290 [nvme_core]
+>> [ 4812.226380]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.226386]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4812.226398]  ? blk_mq_hw_queue_need_run+0x271/0x3a0
+>> [ 4812.226407]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.226414]  ? trace_irq_enable.constprop.0+0x14a/0x1b0
+>> [ 4812.226430]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.226436]  ? blk_mq_run_hw_queue+0x2e3/0x530
+>> [ 4812.226444]  ? percpu_ref_put_many.constprop.0+0x7b/0x1b0
+>> [ 4812.226452]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.226461]  ? __pfx_nvme_init_identify+0x10/0x10 [nvme_core]
+>> [ 4812.226514]  ? percpu_ref_put_many.constprop.0+0x80/0x1b0
+>> [ 4812.226523]  ? __nvme_submit_sync_cmd+0x1e6/0x330 [nvme_core]
+>> [ 4812.226576]  ? nvmf_reg_read32+0xd1/0x1e0 [nvme_fabrics]
+>> [ 4812.226595]  ? __pfx_nvmf_reg_read32+0x10/0x10 [nvme_fabrics]
+>> [ 4812.226610]  ? percpu_ref_put_many.constprop.0+0x80/0x1b0
+>> [ 4812.226623]  ? nvme_wait_ready+0x13f/0x2d0 [nvme_core]
+>> [ 4812.226677]  nvme_init_ctrl_finish+0x1c8/0x810 [nvme_core]
+>> [ 4812.226732]  ? __pfx_nvme_init_ctrl_finish+0x10/0x10 [nvme_core]
+>> [ 4812.226791]  ? nvme_enable_ctrl+0x3e6/0x620 [nvme_core]
+>> [ 4812.226842]  ? __pfx_nvme_enable_ctrl+0x10/0x10 [nvme_core]
+>> [ 4812.226893]  ? nvme_fc_connect_admin_queue.constprop.0+0xa1a/0xd20 [nvme_fc]
+>> [ 4812.226914]  nvme_fc_create_association+0x880/0x1b60 [nvme_fc]
+>> [ 4812.226936]  ? __pfx_debug_object_deactivate+0x10/0x10
+>> [ 4812.226949]  ? __pfx_nvme_fc_create_association+0x10/0x10 [nvme_fc]
+>> [ 4812.226968]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.226979]  nvme_fc_connect_ctrl_work+0x1d/0xb0 [nvme_fc]
+>> [ 4812.226995]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.227002]  process_one_work+0x8cd/0x1950
+>> [ 4812.227022]  ? __pfx_process_one_work+0x10/0x10
+>> [ 4812.227038]  ? assign_work+0x16c/0x240
+>> [ 4812.227050]  worker_thread+0x58d/0xcf0
+>> [ 4812.227066]  ? __pfx_worker_thread+0x10/0x10
+>> [ 4812.227077]  kthread+0x3d8/0x7a0
+>> [ 4812.227088]  ? __pfx_kthread+0x10/0x10
+>> [ 4812.227098]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.227107]  ? __pfx_kthread+0x10/0x10
+>> [ 4812.227117]  ret_from_fork+0x406/0x510
+>> [ 4812.227131]  ? __pfx_kthread+0x10/0x10
+>> [ 4812.227140]  ret_from_fork_asm+0x1a/0x30
+>> [ 4812.227163]  </TASK>
+>> [ 4812.256970] kobject: kobject_add_internal failed for nvme-subsystem
+>> with -EEXIST, don't try to register things with the same name in the
+>> same directory.
+>> [ 4812.257789] nvme nvme1: failed to register subsystem device.
+>> [ 4812.258585] nvme nvme1: NVME-FC{1}: create_assoc failed, assoc_id
+>> 5a306fd184770000 ret -17
+>> [ 4812.259155] nvme nvme1: NVME-FC{1}: reset: Reconnect attempt failed (-17)
+>> [ 4812.259560] nvme nvme1: NVME-FC{1}: Reconnect attempt in 2 seconds
+>> [ 4812.260436] nvme nvme1: NVME-FC{1}: new ctrl: NQN
+>> "nqn.2014-08.org.nvmexpress.discovery", hostnqn:
+>> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+>> [ 4812.281759] (NULL device *): {0:0} Association deleted
+>> [ 4812.301381] (NULL device *): {0:0} Association freed
+>> [ 4812.301771] (NULL device *): Disconnect LS failed: No Association
+>> [ 4812.823776] nvme nvme0: NVME-FC{0}: create association : host wwpn
+>> 0x20001100aa000001  rport wwpn 0x20001100ab000001: NQN
+>> "blktests-subsystem-1"
+>> [ 4812.827820] (NULL device *): {0:0} Association created
+>> [ 4812.828831] nvmet: Created nvm controller 1 for subsystem
+>> blktests-subsystem-1 for NQN
+>> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+>> [ 4812.832443] sysfs: cannot create duplicate filename
+>> '/devices/virtual/nvme-subsystem'
+>> [ 4812.832925] CPU: 18 UID: 0 PID: 14937 Comm: kworker/u290:0 Tainted:
+>> G        W           6.15.0+ #1 PREEMPT(voluntary)
+>> [ 4812.832941] Tainted: [W]=WARN
+>> [ 4812.832945] Hardware name: HP ProLiant DL380 Gen9/ProLiant DL380
+>> Gen9, BIOS P89 10/05/2016
+>> [ 4812.832951] Workqueue: nvme-wq nvme_fc_connect_ctrl_work [nvme_fc]
+>> [ 4812.832980] Call Trace:
+>> [ 4812.832985]  <TASK>
+>> [ 4812.832992]  dump_stack_lvl+0xac/0xc0
+>> [ 4812.833011]  sysfs_warn_dup+0x72/0x90
+>> [ 4812.833026]  sysfs_create_dir_ns+0x1f2/0x260
+>> [ 4812.833039]  ? __pfx_sysfs_create_dir_ns+0x10/0x10
+>> [ 4812.833048]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4812.833064]  ? kobject_add_internal+0x218/0x890
+>> [ 4812.833077]  ? do_raw_spin_unlock+0x55/0x1f0
+>> [ 4812.833089]  kobject_add_internal+0x272/0x890
+>> [ 4812.833103]  kobject_add+0x11f/0x1f0
+>> [ 4812.833113]  ? __pfx_kobject_add+0x10/0x10
+>> [ 4812.833124]  ? __kmalloc_cache_noprof+0x3b6/0x4e0
+>> [ 4812.833137]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4812.833156]  get_device_parent+0x325/0x430
+>> [ 4812.833168]  ? __pfx_klist_children_put+0x10/0x10
+>> [ 4812.833183]  device_add+0x203/0x10f0
+>> [ 4812.833193]  ? lockdep_init_map_type+0x51/0x270
+>> [ 4812.833205]  ? __pfx_device_add+0x10/0x10
+>> [ 4812.833215]  ? __init_waitqueue_head+0xcb/0x150
+>> [ 4812.833232]  nvme_init_subsystem+0xa5d/0x1470 [nvme_core]
+>> [ 4812.833308]  ? __pfx_nvme_identify_ctrl+0x10/0x10 [nvme_core]
+>> [ 4812.833363]  ? __pfx_nvme_init_subsystem+0x10/0x10 [nvme_core]
+>> [ 4812.833416]  ? blk_mq_run_hw_queue+0x35e/0x530
+>> [ 4812.833427]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.833440]  nvme_init_identify+0x21c/0x2290 [nvme_core]
+>> [ 4812.833495]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.833502]  ? __pfx_do_raw_spin_trylock+0x10/0x10
+>> [ 4812.833514]  ? blk_mq_hw_queue_need_run+0x271/0x3a0
+>> [ 4812.833523]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.833530]  ? trace_irq_enable.constprop.0+0x14a/0x1b0
+>> [ 4812.833545]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.833551]  ? blk_mq_run_hw_queue+0x2e3/0x530
+>> [ 4812.833559]  ? percpu_ref_put_many.constprop.0+0x7b/0x1b0
+>> [ 4812.833567]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.833575]  ? __pfx_nvme_init_identify+0x10/0x10 [nvme_core]
+>> [ 4812.833629]  ? percpu_ref_put_many.constprop.0+0x80/0x1b0
+>> [ 4812.833638]  ? __nvme_submit_sync_cmd+0x1e6/0x330 [nvme_core]
+>> [ 4812.833692]  ? nvmf_reg_read32+0xd1/0x1e0 [nvme_fabrics]
+>> [ 4812.833711]  ? __pfx_nvmf_reg_read32+0x10/0x10 [nvme_fabrics]
+>> [ 4812.833725]  ? percpu_ref_put_many.constprop.0+0x80/0x1b0
+>> [ 4812.833739]  ? nvme_wait_ready+0x13f/0x2d0 [nvme_core]
+>> [ 4812.833793]  nvme_init_ctrl_finish+0x1c8/0x810 [nvme_core]
+>> [ 4812.833848]  ? __pfx_nvme_init_ctrl_finish+0x10/0x10 [nvme_core]
+>> [ 4812.833906]  ? nvme_enable_ctrl+0x3e6/0x620 [nvme_core]
+>> [ 4812.833958]  ? __pfx_nvme_enable_ctrl+0x10/0x10 [nvme_core]
+>> [ 4812.834009]  ? nvme_fc_connect_admin_queue.constprop.0+0xa1a/0xd20 [nvme_fc]
+>> [ 4812.834030]  nvme_fc_create_association+0x880/0x1b60 [nvme_fc]
+>> [ 4812.834052]  ? __pfx_debug_object_deactivate+0x10/0x10
+>> [ 4812.834064]  ? __pfx_nvme_fc_create_association+0x10/0x10 [nvme_fc]
+>> [ 4812.834083]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.834094]  nvme_fc_connect_ctrl_work+0x1d/0xb0 [nvme_fc]
+>> [ 4812.834110]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.834117]  process_one_work+0x8cd/0x1950
+>> [ 4812.834137]  ? __pfx_process_one_work+0x10/0x10
+>> [ 4812.834154]  ? assign_work+0x16c/0x240
+>> [ 4812.834165]  worker_thread+0x58d/0xcf0
+>> [ 4812.834182]  ? __pfx_worker_thread+0x10/0x10
+>> [ 4812.834193]  kthread+0x3d8/0x7a0
+>> [ 4812.834204]  ? __pfx_kthread+0x10/0x10
+>> [ 4812.834215]  ? rcu_is_watching+0x11/0xb0
+>> [ 4812.834223]  ? __pfx_kthread+0x10/0x10
+>> [ 4812.834233]  ret_from_fork+0x406/0x510
+>> [ 4812.834245]  ? __pfx_kthread+0x10/0x10
+>> [ 4812.834255]  ret_from_fork_asm+0x1a/0x30
+>> [ 4812.834277]  </TASK>
+>> [ 4812.862781] kobject: kobject_add_internal failed for nvme-subsystem
+>> with -EEXIST, don't try to register things with the same name in the
+>> same directory.
+>> [ 4812.863540] nvme nvme0: failed to register subsystem device.
+>> [ 4812.864338] nvme nvme0: NVME-FC{0}: create_assoc failed, assoc_id
+>> d8c1d294d6f70000 ret -17
+>> [ 4812.864873] nvme nvme0: NVME-FC{0}: reset: Reconnect attempt failed (-17)
+>> [ 4812.865226] nvme nvme0: NVME-FC{0}: Reconnect attempt in 1 seconds
+>> [ 4812.879761] (NULL device *): {0:0} Association deleted
+>> [ 4812.896413] (NULL device *): {0:0} Association freed
+>> [ 4812.896821] (NULL device *): Disconnect LS failed: No Association
+>> [ 4813.911770] nvme nvme0: NVME-FC{0}: create association : host wwpn
+>> 0x20001100aa000001  rport wwpn 0x20001100ab000001: NQN
+>> "blktests-subsystem-1"
+>> [ 4813.916771] (NULL device *): {0:0} Association created
+>>
+>> --
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index eba42df2f821..31d6c4a63fa5 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -46,6 +46,10 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
- 	id->npda = id->npdg;
- 	/* NOWS = Namespace Optimal Write Size */
- 	id->nows = to0based(bdev_io_opt(bdev) / bdev_logical_block_size(bdev));
-+
-+	/* Set WZDS and DRB if device supports unmapped write zeroes */
-+	if (bdev_write_zeroes_unmap_sectors(bdev))
-+		id->dlfeat = (1 << 3) | 0x1;
- }
- 
- void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
--- 
-2.46.1
+Thank you for the report!
+
+As you suggested, I could now recreate this issue on my setup.
+The issue arises from an imbalance in the NVMe subsystem reference
+counter while running the blktests nvme/058. As a result, the NVMe
+subsystem’s kobject is not properly released, leaving a stale entry
+in sysfs. When the NVMe module is subsequently reloaded, and the 
+driver attempts to recreate the subsystem’s kobject in sysfs, the
+presence of this stale entry causes a name collision, leading to the
+observed failure.
+
+The fix will be on its way soon...
+
+Thanks,
+--Nilay
+
+
+
+
+
 
 
