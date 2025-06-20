@@ -4,80 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9E25C71155
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Jun 2025 06:47:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0F98C71155
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Jun 2025 08:11:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FmiZuyM554rmFHmwzQVXSjdi17ZswE1bjK9pja7zobw=; b=pR9WkpDleOZ0ART7QuEvYo3eOA
-	4KKw7YL+6KVkBuvB+T7kr8+mxp4rPuKfIksXY9Tj1eBjelz29HUspC3TLpbhCGWPgT9hcb1Tl8ums
-	9EZMcBZv3ySsngrKo6Bd8inQnvBEjZKHxKCWa+bkFFLQiGmKx7xcs5Bi0I3uE5EocXQL3ExFeZQUm
-	UYouhDGajrgz6kz35h10FGgWcTwpYs+24lJebJpwsaFsKlSDlt18lYZSmVEk2JEZ381Qki3b5webh
-	P4Ak3lDaesAnAm2tAO9qWozLBWPONvWR7sFIAvB5jKyAFUL6cIXndq4C7DvpeRxMh37JOyUcs85OE
-	ac76+t6A==;
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=tDhu4oOdGKC2axosTO5Fm/ui6IIrmJVosxiS3JF/KYM=; b=V5wAZuP3ieTEDRCVVeYlxaPRMj
+	TbUEL1baDvcMoh4S49hzrCHupWNBrsOGPUx85g3b45JyCBgxbsg5fX4UU6A1qrHXshj2AB3y4iGon
+	a2vtYh41hJ1PvzJQwDzbx36wCdXaBUNbKo15y587jCYBor1dP6EPHQHAuJOvU3S0U6vfiNH/4ZDzb
+	cNxbKvmwf5sZrVYe46FIE4lTN+u8RUrCGXQmNRTRcjiRMKl7dWLU4CeFfGWhIgmzw9VCe6BsiEDb0
+	c2XfjHjb83uW9UDs2gVX0sWRgD6YoXc6RfXnkqaLgqqW0Wukc04bSO84UBaXjwk7FV2iEY5ZYTGfd
+	sbSP2Dfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSVX9-0000000Et86-4AcI;
-	Fri, 20 Jun 2025 06:47:31 +0000
-Received: from dggsgout12.his.huawei.com ([45.249.212.56])
+	id 1uSWqj-0000000F0tz-08Ib;
+	Fri, 20 Jun 2025 08:11:49 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSVX1-0000000Et6c-33WH
+	id 1uSWiY-0000000Ezu8-1d89
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Jun 2025 06:47:26 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bNp1Z0bCKzKHMh1
-	for <linux-nvme@lists.infradead.org>; Fri, 20 Jun 2025 14:47:14 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 6C6AD1A08C0
-	for <linux-nvme@lists.infradead.org>; Fri, 20 Jun 2025 14:47:12 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgCnC2DuA1Vo8IpTQA--.6271S3;
-	Fri, 20 Jun 2025 14:47:12 +0800 (CST)
-Subject: Re: [bug report] WARNING: CPU: 3 PID: 522 at block/genhd.c:144
- bdev_count_inflight_rw+0x26e/0x410
-To: Calvin Owens <calvin@wbinvd.org>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: Breno Leitao <leitao@debian.org>, Yi Zhang <yi.zhang@redhat.com>,
- linux-block <linux-block@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- axboe@kernel.dk, Christoph Hellwig <hch@infradead.org>,
- "yukuai (C)" <yukuai3@huawei.com>
-References: <CAHj4cs-uWZcgHLLkE8JeDpkd-ddkWiZCQC_HWObS5D3TAKE9ng@mail.gmail.com>
- <aEal7hIpLpQSMn8+@gmail.com>
- <738f680c-d0e8-b6c0-cfaa-5f420a592c4f@huaweicloud.com>
- <aFTfQpsUiD1Hw3zU@mozart.vkv.me>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <f320c94e-3a94-d645-8f7b-80f958c50fbe@huaweicloud.com>
-Date: Fri, 20 Jun 2025 14:47:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	Fri, 20 Jun 2025 08:03:24 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55JKF10M022848;
+	Fri, 20 Jun 2025 08:03:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=tDhu4oOdGKC2axosTO5Fm/ui6IIr
+	mJVosxiS3JF/KYM=; b=iVNv/F4wcpyDPv9AFuBV1rwV/gC/c5wg77kziPZ2AhRW
+	Kcbry/TSU1hq3qi1vdOM0yzgtzMv4RnyOQym6GZD7A6UuGPoJFUIqKM77rMwH3d2
+	4tqzDtwZxzG5NDvmwaZ54tCSwH6AD0o6V7DKFecZZ+H4716WiMIN3Dh66juWTJ8i
+	RHqQV5CKnk1Y43lCoN7EYwQWjbPRle/ioAx1y6dehaSv9hqalpD6d2m7RqLhpBXG
+	aRz+jb4AjY+uIIuuthAtOors76bUoF8BOgo2Cf33RaDttwCyaKMFmpK6J6n9LITr
+	lQbPMiYE0iRn66ZtJsP8uN7FdwWnECDbYrMvDK/z6w==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4794qpryn8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Jun 2025 08:03:07 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 55K4IwxV011233;
+	Fri, 20 Jun 2025 08:03:06 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 479kdttanx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Jun 2025 08:03:06 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 55K835NN51577252
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 20 Jun 2025 08:03:05 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1D4D720043;
+	Fri, 20 Jun 2025 08:03:05 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A862F20040;
+	Fri, 20 Jun 2025 08:03:00 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.61.191.218])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 20 Jun 2025 08:03:00 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, hare@suse.de,
+        dwagner@suse.de, axboe@kernel.dk, shinichiro.kawasaki@wdc.com,
+        gjoyce@ibm.com
+Subject: [PATCH 1/1] nvme: correctly account for namespace head reference counter
+Date: Fri, 20 Jun 2025 13:32:43 +0530
+Message-ID: <20250620080257.27993-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-In-Reply-To: <aFTfQpsUiD1Hw3zU@mozart.vkv.me>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgCnC2DuA1Vo8IpTQA--.6271S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxAw45tF1kXw43Xr47WF4rKrg_yoWrJFy8pr
-	WUua9IkrZrWrn5Xr4kJan3Zr18ta1YkryxZrZ8CF1avFsrKrs2qFy0va1FqrySvFZ7CrW8
-	W3WYkFZrZw4q937anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
-	Y487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-	b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-	vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUbGQ6JUUUUU==
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: YZgDBRElDfIC98nXiJthncgAjN1mAjUJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIwMDA1NyBTYWx0ZWRfX2eB9yQ7Wtwgr J6jufX5KBsNnnwIohurImk2wSXwOlW5UaZi2cbEiVh5emZtnh1kQyYgDY/jU547RiRprQ8L2Nsa dKrzy0pBodq8dZtK29uDpRf+UizLpNngkMlwxZRqAPESb2eBxWfIrmlbF+ZKHrisgHU0CczQaIq
+ FB36na/ICU/qdcxuoA4DBpWKR7Ryd15asc0ktU53ts3RCbZKYqTwKrs9USPrX/eOSkuTg64RzCh BlEF4RLJBwkvo0NNlvos5NlcIS9ybtWE8NZAQnCBumENqsr/8fv1eURd7kYteC9enFgCcw0Nn6i TtxITtC9MNcupOAE79gIjN7aBNuWF7UxoIvlZOOMDRbYpWjBb3keWejXzF/0V8n7L8U/EXN2eT9
+ aooRw5HORS+U3AQuOp0H9W0GL1CYNSuyTxKSAHr7ifV7v0LXbezGslfpnEW2IfUhNatpAqP8
+X-Authority-Analysis: v=2.4 cv=NYfm13D4 c=1 sm=1 tr=0 ts=685515bb cx=c_pps a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=20KFwNOVAAAA:8 a=VnNF1IyMAAAA:8
+ a=-z5qL46lnT9URsB4TOsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: YZgDBRElDfIC98nXiJthncgAjN1mAjUJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-20_03,2025-06-18_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 clxscore=1015 spamscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506200057
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250619_234724_077922_BF52D602 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20250620_010322_725645_AF70385C 
+X-CRM114-Status: GOOD (  22.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,132 +109,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+The blktests nvme/058 menifests an issue where the NVMe subsystem
+kobject entry remains stale in sysfs, causing a failure during
+subsequent NVMe module reloads[1]. Specifically, when attempting to
+register a new NVMe subsystem, the driver encounters a kobejct name
+collision because a stale kobject still exists. Though, please note
+that nvme/058 doesn't report any failure and test case passes and
+it's only during subsequent NVMe module reloads, the stale nvme sub-
+system kobject entry in sysfs causes the observed symptom[1].
 
-在 2025/06/20 12:10, Calvin Owens 写道:
-> I dumped all the similar WARNs I've seen here (blk-warn-%d.txt):
-> 
->      https://github.com/jcalvinowens/lkml-debug-616/tree/master
+This issue stems from an imbalance in the get/put usage of the namespace
+head (nshead) reference counter. The nshead holds a reference to the
+associated NVMe subsystem. If the nshead reference is not properly
+released, it prevents the cleanup of the subsystem's kobject, leaving
+nvme subsystem stale entry behind in sysfs.
 
-These reports also contain both request-based and bio-based disk, I
-think perhaps following concurrent scenario is possible:
+During the failre case, the last namespace path referencing a nshead
+is removed, but the nshead reference was not released. This occurs
+because the release logic currently only puts the nshead reference
+when its state is LIVE. However, in configurations where ANA (Asymmetric
+Namespace Access) is enabled, a namespace may be associated with an ANA
+state that is neither optimized nor non-optimized. In this case, the
+nshead may never transition to LIVE, and the corresponding nshead
+reference is then never dropped. In fact nvme/058 associates some of
+nvme namespaces to an inaccessible ANA state and with that nshead is
+created but it's state is not transitioned to LIVE. So the current
+logic would then causes nshead reference to be leaked for non-LIVE
+states.
 
-While bdev_count_inflight is interating all cpu, some IOs are issued
-from traversed cpu and then completed from the cpu that is not traversed
-yet.
+Another scenario, during namespace allocation, the driver first
+allocates a nshead and then issues an Identify Namespace command. If
+this command fails — which can happen in tests like nvme/058 that
+rapidly enables and disables namespaces — we must release the reference
+to the newly allocated nshead. However this reference release is
+currently missing in the failure, causing a nshead reference leak.
 
-cpu0
-		cpu1
-		bdev_count_inflight
-		 //for_each_possible_cpu
-		 // cpu0 is 0
-		 infliht += 0
-// issue a io
-blk_account_io_start
-// cpu0 inflight ++
+To fix this, we now unconditionally release the nshead reference when
+the last nvme path referencing to the nshead is removed, regardless of
+the head’s state. Also during idnetify namespace failure case we now
+properly release the nshead refernce. So this ensures proper cleanup
+of the nshead, and consequently, the NVMe subsystem and its associated
+kobject.
 
-				cpu2
-				// the io is done
-				blk_account_io_done
-				// cpu2 inflight --
-		 // cpu 1 is 0
-		 inflight += 0
-		 // cpu2 is -1
-		 inflight += -1
-		 ...
+This change prevents stale kobject entries from lingering in sysfs and
+eliminates the module reload failures observed just after running
+nvme/058.
 
-In this case, the total inflight will be -1.
+[1] https://lore.kernel.org/all/CAHj4cs8fOBS-eSjsd5LUBzy7faKXJtgLkCN+mDy_-ezCLLLq+Q@mail.gmail.com/
 
-Yi and Calvin,
+Reported-by: yi.zhang@redhat.com
+Closes: https://lore.kernel.org/all/CAHj4cs8fOBS-eSjsd5LUBzy7faKXJtgLkCN+mDy_-ezCLLLq+Q@mail.gmail.com/
+Fixes: 62188639ec16 ("nvme-multipath: introduce delayed removal of the multipath head node")
+Tested-by: yi.zhang@redhat.com
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/core.c      | 7 ++++++-
+ drivers/nvme/host/multipath.c | 2 +-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-Can you please help testing the following patch, it add a WARN_ON_ONCE()
-using atomic operations, if the new warning is not reporduced while
-the old warning is reporduced, I think it can be confirmed the above
-analyze is correct, and I will send a revert for the WARN_ON_ONCE()
-change in bdev_count_inflight().
-
-Thanks,
-Kuai
-
-diff --git a/block/blk-core.c b/block/blk-core.c
-index b862c66018f2..2b033caa74e8 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -1035,6 +1035,8 @@ unsigned long bdev_start_io_acct(struct 
-block_device *bdev, enum req_op op,
-         part_stat_local_inc(bdev, in_flight[op_is_write(op)]);
-         part_stat_unlock();
-
-+       atomic_inc(&bdev->inflight[op_is_write(op)]);
-+
-         return start_time;
-  }
-  EXPORT_SYMBOL(bdev_start_io_acct);
-@@ -1065,6 +1067,8 @@ void bdev_end_io_acct(struct block_device *bdev, 
-enum req_op op,
-         part_stat_add(bdev, nsecs[sgrp], jiffies_to_nsecs(duration));
-         part_stat_local_dec(bdev, in_flight[op_is_write(op)]);
-         part_stat_unlock();
-+
-+       WARN_ON_ONCE(atomic_dec_return(&bdev->inflight[op_is_write(op)]) 
-< 0);
-  }
-  EXPORT_SYMBOL(bdev_end_io_acct);
-
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 70d704615be5..ff15276d277f 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -658,6 +658,8 @@ static void blk_account_io_merge_request(struct 
-request *req)
-                 part_stat_local_dec(req->part,
-                                     in_flight[op_is_write(req_op(req))]);
-                 part_stat_unlock();
-+
-+ 
-WARN_ON_ONCE(atomic_dec_return(&req->part->inflight[op_is_write(req_op(req))]) 
-< 0);
-         }
-  }
-
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 4806b867e37d..94e728ff8bb6 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1056,6 +1056,8 @@ static inline void blk_account_io_done(struct 
-request *req, u64 now)
-                 part_stat_local_dec(req->part,
-                                     in_flight[op_is_write(req_op(req))]);
-                 part_stat_unlock();
-+
-+ 
-WARN_ON_ONCE(atomic_dec_return(&req->part->inflight[op_is_write(req_op(req))]) 
-< 0);
-         }
-  }
-
-@@ -1116,6 +1118,8 @@ static inline void blk_account_io_start(struct 
-request *req)
-         update_io_ticks(req->part, jiffies, false);
-         part_stat_local_inc(req->part, 
-in_flight[op_is_write(req_op(req))]);
-         part_stat_unlock();
-+
-+       atomic_inc(&req->part->inflight[op_is_write(req_op(req))]);
-  }
-
-  static inline void __blk_mq_end_request_acct(struct request *rq, u64 now)
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 3d1577f07c1c..a81110c07426 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -43,6 +43,7 @@ struct block_device {
-         sector_t                bd_nr_sectors;
-         struct gendisk *        bd_disk;
-         struct request_queue *  bd_queue;
-+       atomic_t                inflight[2];
-         struct disk_stats __percpu *bd_stats;
-         unsigned long           bd_stamp;
-         atomic_t                __bd_flags;     // partition number + flags
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 92697f98c601..b3e280149a25 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4089,6 +4089,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	struct nvme_ns *ns;
+ 	struct gendisk *disk;
+ 	int node = ctrl->numa_node;
++	bool last_path = false;
+ 
+ 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
+ 	if (!ns)
+@@ -4181,9 +4182,13 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+  out_unlink_ns:
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+-	if (list_empty(&ns->head->list))
++	if (list_empty(&ns->head->list)) {
+ 		list_del_init(&ns->head->entry);
++		last_path = true;
++	}
+ 	mutex_unlock(&ctrl->subsys->lock);
++	if (last_path)
++		nvme_put_ns_head(ns->head);
+ 	nvme_put_ns_head(ns->head);
+  out_cleanup_disk:
+ 	put_disk(disk);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index e040e467f9fa..5f52b50907a0 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -690,8 +690,8 @@ static void nvme_remove_head(struct nvme_ns_head *head)
+ 		nvme_cdev_del(&head->cdev, &head->cdev_device);
+ 		synchronize_srcu(&head->srcu);
+ 		del_gendisk(head->disk);
+-		nvme_put_ns_head(head);
+ 	}
++	nvme_put_ns_head(head);
+ }
+ 
+ static void nvme_remove_head_work(struct work_struct *work)
+-- 
+2.49.0
 
 
