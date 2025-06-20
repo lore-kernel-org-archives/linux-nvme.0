@@ -4,54 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87F02C7115C
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Jun 2025 17:57:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23F23C7115C
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Jun 2025 17:57:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Y3t3RH+mqSxESBqyl764lJaiT5KQpsa5femZih4ewic=; b=YUL8OEY5BiV+CZEUeRwThEeDdb
-	4VEGOqNsEDZSWMA5tC5IoaJi0sBne/Ti44V7oHGyHI+7nfCDZFgGmeCL7DWeBNOfNiPAZIc8lg3vh
-	zu02cs4ADdOEfxzaFb7mmG8g7aJy3rcyt5UXajSExpgOfUfwwbzaCBGqoEJb41C0Tp+AgBymtvf/L
-	cqkaCf2qJ7qIRX0c2zo3yHDr0zqqsPE2e5ZbkdhRsKqp2ZlfBLvlc8zv7EYnZ6Ei2WvzSoEIV6SN6
-	cK01MW0XpnBBdza7T8eATTUccxJDC3EEYaxjLX0ljp5O0Q20jB4KPO7uI7P/wEgM1B5SsAseFeymK
-	0CVJxLnQ==;
+	bh=gb7VU4Yqii31Q0K4n8MvfF1xfaMxgwUGNB+6uWggDT4=; b=pwCveU4cItzEKhyc22eWtcp2Mk
+	piNB1ZhpbC9vy3xsyT0nd73yQqVbxQ8VCTZQuy/oMlPfLomjxKLs0ATDvMx3Z72J0z40q1T4Lzeef
+	2vuQiOejb+VHRRI3vN5vq/iLPds8NN6qgemfqfuCZTnxOhCtXXeH8FW5TyUmDdISBNI58q8949QDV
+	DZ+BF7AwYF4sAeEM/XEELxwzj+1vD2OBLdTtvdoJA+s5cTiUknzJdRyv8QxuvBEad0/XYv0Gk+qcL
+	8I4VMmvpaKg5UjzApGQPuFo0TWON6KK0yTG8zYkyo+0nXsek7a1vXSyvbX+1Jm1U/r8vaNhjjahHA
+	IVlIhmuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSfzE-0000000GJ5d-48tF;
-	Fri, 20 Jun 2025 17:57:12 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1uSfzV-0000000GJ8Q-2RQT;
+	Fri, 20 Jun 2025 17:57:29 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uSfzC-0000000GJ5D-1SRi
+	id 1uSfzS-0000000GJ7k-2nBU
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Jun 2025 17:57:11 +0000
+	Fri, 20 Jun 2025 17:57:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750442229;
+	s=mimecast20190719; t=1750442245;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=Y3t3RH+mqSxESBqyl764lJaiT5KQpsa5femZih4ewic=;
-	b=OknGLuzzzTAmhLxt7DcLMggcd3JzsMNNWVQ5Jwizsy42zC3zChrCTgEHO4lnuHev+EuNsQ
-	8uMj8lnLJxf89i1fzCxsuf/w1t0gyKrfLGC0zwR25xKYXDjkrEamp0OBJDnJYkhKQAMnqE
-	YieQ+wdIvuyV7ypg89cbEn1fgALl6XM=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=gb7VU4Yqii31Q0K4n8MvfF1xfaMxgwUGNB+6uWggDT4=;
+	b=b3DLgmUtTPvH0eq1P3mTjNEpdQEbTyGN/iu7tB/EdVr6qQlDoOnox+auGDzlHNChf6BGTf
+	Fp2RxXlC1rATD3F3juUKj1/AKhOehSt5/0HsJzqV7Pp3EUPu+VJsbqZEkwiuhEYUnRPklI
+	jxBkPy9RzSUKqWyjuLwYii036yaUtTw=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-121-aFdj6ByXNYaFLgenFhqpaQ-1; Fri,
- 20 Jun 2025 13:55:28 -0400
-X-MC-Unique: aFdj6ByXNYaFLgenFhqpaQ-1
-X-Mimecast-MFC-AGG-ID: aFdj6ByXNYaFLgenFhqpaQ_1750442126
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-ePyE2LCQOq6dUpt-oKVxVA-1; Fri,
+ 20 Jun 2025 13:57:20 -0400
+X-MC-Unique: ePyE2LCQOq6dUpt-oKVxVA-1
+X-Mimecast-MFC-AGG-ID: ePyE2LCQOq6dUpt-oKVxVA_1750442238
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9A624195608B;
-	Fri, 20 Jun 2025 17:55:25 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 10C57180136B;
+	Fri, 20 Jun 2025 17:57:18 +0000 (UTC)
 Received: from bgurney-thinkpadp1gen5.remote.csb (unknown [10.22.80.187])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 20CFF18003FC;
-	Fri, 20 Jun 2025 17:55:21 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0CF3F18003FC;
+	Fri, 20 Jun 2025 17:57:14 +0000 (UTC)
 From: Bryan Gurney <bgurney@redhat.com>
 To: linux-nvme@lists.infradead.org,
 	kbusch@kernel.org,
@@ -65,15 +65,15 @@ Cc: james.smart@broadcom.com,
 	hare@suse.de,
 	bgurney@redhat.com,
 	jmeneghi@redhat.com
-Subject: [PATCH v6 0/6] nvme-fc: FPIN link integrity handling
-Date: Fri, 20 Jun 2025 13:55:05 -0400
-Message-ID: <20250620175505.34573-1-bgurney@redhat.com>
+Subject: [PATCH v6 3/6] nvme-fc: nvme_fc_fpin_rcv() callback
+Date: Fri, 20 Jun 2025 13:57:10 -0400
+Message-ID: <20250620175710.34711-1-bgurney@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250620_105710_499138_D4AF4302 
-X-CRM114-Status: GOOD (  15.19  )
+X-CRM114-CacheID: sfid-20250620_105726_781734_CF1A27FC 
+X-CRM114-Status: GOOD (  15.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,103 +88,139 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-FPIN LI (link integrity) messages are received when the attached
-fabric detects hardware errors. In response to these messages I/O
-should be directed away from the affected ports, and only used
-if the 'optimized' paths are unavailable.
-Upon port reset the paths should be put back in service as the
-affected hardware might have been replaced.
-This patch adds a new controller flag 'NVME_CTRL_MARGINAL'
-which will be checked during multipath path selection, causing the
-path to be skipped when checking for 'optimized' paths. If no
-optimized paths are available the 'marginal' paths are considered
-for path selection alongside the 'non-optimized' paths.
-It also introduces a new nvme-fc callback 'nvme_fc_fpin_rcv()' to
-evaluate the FPIN LI TLV payload and set the 'marginal' state on
-all affected rports.
+From: Hannes Reinecke <hare@kernel.org>
 
-The testing for this patch set was performed by Bryan Gurney, using the
-process outlined by John Meneghini's presentation at LSFMM 2024, where
-the fibre channel switch sends an FPIN notification on a specific switch
-port, and the following is checked on the initiator:
+Add a callback nvme_fc_fpin_rcv() to evaluate the FPIN LI TLV
+information and set the 'marginal' path status for all affected
+rports.
 
-1. The controllers corresponding to the paths on the port that has
-received the notification are showing a set NVME_CTRL_MARGINAL flag.
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Tested-by: Bryan Gurney <bgurney@redhat.com>
+---
+ drivers/nvme/host/fc.c         | 95 ++++++++++++++++++++++++++++++++++
+ include/linux/nvme-fc-driver.h |  3 ++
+ 2 files changed, 98 insertions(+)
 
-   \
-    +- nvme4 fc traddr=c,host_traddr=e live optimized
-    +- nvme5 fc traddr=8,host_traddr=e live non-optimized
-    +- nvme8 fc traddr=e,host_traddr=f marginal optimized
-    +- nvme9 fc traddr=a,host_traddr=f marginal non-optimized
-
-2. The I/O statistics of the test namespace show no I/O activity on the
-controllers with NVME_CTRL_MARGINAL set.
-
-   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
-   nvme4c4n1         0.00         0.00         0.00         0.00
-   nvme4c5n1     25001.00         0.00        97.66         0.00
-   nvme4c9n1     25000.00         0.00        97.66         0.00
-   nvme4n1       50011.00         0.00       195.36         0.00
-   
-   
-   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
-   nvme4c4n1         0.00         0.00         0.00         0.00
-   nvme4c5n1     48360.00         0.00       188.91         0.00
-   nvme4c9n1      1642.00         0.00         6.41         0.00
-   nvme4n1       49981.00         0.00       195.24         0.00
-   
-   
-   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
-   nvme4c4n1         0.00         0.00         0.00         0.00
-   nvme4c5n1     50001.00         0.00       195.32         0.00
-   nvme4c9n1         0.00         0.00         0.00         0.00
-   nvme4n1       50016.00         0.00       195.38         0.00
-
-Link: https://people.redhat.com/jmeneghi/LSFMM_2024/LSFMM_2024_NVMe_Cancel_and_FPIN.pdf
-
-Changes to the original submission:
-- Changed flag name to 'marginal'
-- Do not block marginal path; influence path selection instead
-  to de-prioritize marginal paths
-
-Changes to v2:
-- Split off driver-specific modifications
-- Introduce 'union fc_tlv_desc' to avoid casts
-
-Changes to v3:
-- Include reviews from Justin Tee
-- Split marginal path handling patch
-
-Changes to v4:
-- Change 'u8' to '__u8' on fc_tlv_desc to fix a failure to build
-- Print 'marginal' instead of 'live' in the state of controllers
-  when they are marginal
-
-Changes to v5:
-- Minor spelling corrections to patch descriptions
-
-Hannes Reinecke (5):
-  fc_els: use 'union fc_tlv_desc'
-  nvme-fc: marginal path handling
-  nvme-fc: nvme_fc_fpin_rcv() callback
-  lpfc: enable FPIN notification for NVMe
-  qla2xxx: enable FPIN notification for NVMe
-
-Bryan Gurney (1):
-  nvme: sysfs: emit the marginal path state in show_state()
-
- drivers/nvme/host/core.c         |   1 +
- drivers/nvme/host/fc.c           |  99 +++++++++++++++++++
- drivers/nvme/host/multipath.c    |  17 ++--
- drivers/nvme/host/nvme.h         |   6 ++
- drivers/nvme/host/sysfs.c        |   4 +-
- drivers/scsi/lpfc/lpfc_els.c     |  84 ++++++++--------
- drivers/scsi/qla2xxx/qla_isr.c   |   3 +
- drivers/scsi/scsi_transport_fc.c |  27 +++--
- include/linux/nvme-fc-driver.h   |   3 +
- include/uapi/scsi/fc/fc_els.h    | 165 +++++++++++++++++--------------
- 10 files changed, 269 insertions(+), 140 deletions(-)
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 7e81c815bb83..71a77917a14f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3724,6 +3724,101 @@ static struct nvmf_transport_ops nvme_fc_transport = {
+ 	.create_ctrl	= nvme_fc_create_ctrl,
+ };
+ 
++static struct nvme_fc_rport *nvme_fc_rport_from_wwpn(struct nvme_fc_lport *lport,
++		u64 rport_wwpn)
++{
++	struct nvme_fc_rport *rport;
++
++	list_for_each_entry(rport, &lport->endp_list, endp_list) {
++		if (!nvme_fc_rport_get(rport))
++			continue;
++		if (rport->remoteport.port_name == rport_wwpn &&
++		    rport->remoteport.port_role & FC_PORT_ROLE_NVME_TARGET)
++			return rport;
++		nvme_fc_rport_put(rport);
++	}
++	return NULL;
++}
++
++static void
++nvme_fc_fpin_li_lport_update(struct nvme_fc_lport *lport, struct fc_fn_li_desc *li)
++{
++	unsigned int i, pname_count = be32_to_cpu(li->pname_count);
++	u64 attached_wwpn = be64_to_cpu(li->attached_wwpn);
++	struct nvme_fc_rport *attached_rport;
++
++	for (i = 0; i < pname_count; i++) {
++		struct nvme_fc_rport *rport;
++		u64 wwpn = be64_to_cpu(li->pname_list[i]);
++
++		rport = nvme_fc_rport_from_wwpn(lport, wwpn);
++		if (!rport)
++			continue;
++		if (wwpn != attached_wwpn) {
++			struct nvme_fc_ctrl *ctrl;
++
++			spin_lock_irq(&rport->lock);
++			list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
++				set_bit(NVME_CTRL_MARGINAL, &ctrl->ctrl.flags);
++			spin_unlock_irq(&rport->lock);
++		}
++		nvme_fc_rport_put(rport);
++	}
++
++	attached_rport = nvme_fc_rport_from_wwpn(lport, attached_wwpn);
++	if (attached_rport) {
++		struct nvme_fc_ctrl *ctrl;
++
++		spin_lock_irq(&attached_rport->lock);
++		list_for_each_entry(ctrl, &attached_rport->ctrl_list, ctrl_list)
++			set_bit(NVME_CTRL_MARGINAL, &ctrl->ctrl.flags);
++		spin_unlock_irq(&attached_rport->lock);
++		nvme_fc_rport_put(attached_rport);
++	}
++}
++
++/**
++ * fc_host_fpin_rcv() - Process a received FPIN.
++ * @localport:		local port the FPIN was received on
++ * @fpin_len:		length of FPIN payload, in bytes
++ * @fpin_buf:		pointer to FPIN payload
++ * Notes:
++ *	This routine assumes no locks are held on entry.
++ */
++void
++nvme_fc_fpin_rcv(struct nvme_fc_local_port *localport,
++		 u32 fpin_len, char *fpin_buf)
++{
++	struct nvme_fc_lport *lport;
++	struct fc_els_fpin *fpin = (struct fc_els_fpin *)fpin_buf;
++	union fc_tlv_desc *tlv;
++	u32 bytes_remain;
++	u32 dtag;
++
++	if (!localport)
++		return;
++	lport = localport_to_lport(localport);
++	tlv = &fpin->fpin_desc[0];
++	bytes_remain = fpin_len - offsetof(struct fc_els_fpin, fpin_desc);
++	bytes_remain = min_t(u32, bytes_remain, be32_to_cpu(fpin->desc_len));
++
++	while (bytes_remain >= FC_TLV_DESC_HDR_SZ &&
++	       bytes_remain >= FC_TLV_DESC_SZ_FROM_LENGTH(tlv)) {
++		dtag = be32_to_cpu(tlv->hdr.desc_tag);
++		switch (dtag) {
++		case ELS_DTAG_LNK_INTEGRITY:
++			nvme_fc_fpin_li_lport_update(lport, &tlv->li);
++			break;
++		default:
++			break;
++		}
++
++		bytes_remain -= FC_TLV_DESC_SZ_FROM_LENGTH(tlv);
++		tlv = fc_tlv_next_desc(tlv);
++	}
++}
++EXPORT_SYMBOL(nvme_fc_fpin_rcv);
++
+ /* Arbitrary successive failures max. With lots of subsystems could be high */
+ #define DISCOVERY_MAX_FAIL	20
+ 
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 9f6acadfe0c8..bcd3b1e5a256 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -536,6 +536,9 @@ void nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport);
+ int nvme_fc_set_remoteport_devloss(struct nvme_fc_remote_port *remoteport,
+ 			u32 dev_loss_tmo);
+ 
++void nvme_fc_fpin_rcv(struct nvme_fc_local_port *localport,
++		      u32 fpin_len, char *fpin_buf);
++
+ /*
+  * Routine called to pass a NVME-FC LS request, received by the lldd,
+  * to the nvme-fc transport.
 -- 
 2.49.0
 
