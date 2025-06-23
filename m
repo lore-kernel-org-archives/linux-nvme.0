@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F8A8C77B7C
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jun 2025 19:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DBE9C83013
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jun 2025 19:42:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DgxHhxGSOqk7/F4ZYb7xhjpNoEwH1U0mLixQqgnCkPM=; b=xNKO3ey7jFFzHiPv8mC+zcZsG0
-	Mwj+Lq4a9TbWkJVsF4LK2avsiF2MBU3kq2UDuz5m4VCJutS/0KyHqq+3i27aT6IOxhlmG9ibkOZ66
-	lWauvjvno1DIsj4MSbZ6gAFIbHALFmww/K19yWlUksmvEpRo6M9Rv77xvqS2rnB+7VhjzNVTvA/qA
-	9MSla0xItn+XeWYR/ZYvmTvzL0JyVoUuRwKEpSLYAsLSzqpvZreG9DjW9v3lgC7APAG0S8KP+VfS3
-	oGRCwp8KSJ2krnpLM+8C4mFTucojrXEPEXx4zU8tUog+q3pOobSjS5D4VqwEEkrtsJwH10YajUkcv
-	pgoLcv3A==;
+	bh=zs/Q+vX9v7GYc1Ov3PYzPMbKCnALctBhUqj3QmQUtDs=; b=OYjlJ30H5JBxbXdi6S4g3RpcZN
+	V+ifH1o0gq6t3qQSASHJrVQajIRm69iUAzaLoMlUKF6d7PJAPPtvRCaYku7MZodV2vSwUHLUrWpnY
+	VY9p53buiexBrSpZhgfJRXrVSy5++isH/NulDM/vOlsZznWjQn5lJQIxbenAHIY9xeDkKMILHNe4x
+	AMmewEsoqEkPZjb+S8wECTtF3ccl1XfBg80gxUjB07h7h1QQ48etqM6O8KDRiv9e326zYxKvkUSiY
+	7bInDXy4FNw81S7tLEur9uBOyfY9CCOfGD3DLK4pVh5i/v0c5i4Dj1wFcQoujBVRiFLii/jbJ551N
+	F4sCXUUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uTn3Q-00000003pBL-1el7;
-	Mon, 23 Jun 2025 19:42:08 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uTn3R-00000003pCf-1PL9;
+	Mon, 23 Jun 2025 19:42:09 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uTjKg-00000003Hb9-06cp
+	id 1uTjL6-00000003HlH-1qc1
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Jun 2025 15:43:43 +0000
+	Mon, 23 Jun 2025 15:44:08 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5CE91A51EF8;
-	Mon, 23 Jun 2025 15:43:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A6ADC4CEEA;
-	Mon, 23 Jun 2025 15:43:40 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id DC89861360;
+	Mon, 23 Jun 2025 15:44:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08CA0C4CEEA;
+	Mon, 23 Jun 2025 15:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750693421;
-	bh=DgxHhxGSOqk7/F4ZYb7xhjpNoEwH1U0mLixQqgnCkPM=;
+	s=k20201202; t=1750693447;
+	bh=OSSbYV4s1eA20gHgWKrDQn++rtQfoP6FQbDvciPIb2M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kzdrUO8ObmqmFHgl/QwuHHYxp0KwSPu/8D4bnAiH5r7BjuVDyceoxRQ6jviRJvPp+
-	 yimXdrXJcNKbpwVrlMz5MozoCzfyb6P74DtNHzsJKSU4Uw4bVS1LjFXdk078lpUApI
-	 d1yUIUDTqJe2dhZS2/NF1p5sVG9vnXo3nDu+vgEw9pzeUQ+ZDfH5JoWPmapdT3jAjm
-	 A9DZsStfZtuv06tOPnv6wi+YRGL1tppXWYpoEAIF6Aqxac+nA4oDUogDVAsL7FZXxc
-	 iGiZfUIRcyfTsooT1BHKG34Z0UjBbb7+F+6ylBCrukru98iQ5Nl5Q5ioI+yn5lYsbh
-	 q0bPVT0XD4gdA==
-Date: Mon, 23 Jun 2025 09:43:38 -0600
+	b=po+EwlzkjKODiK24Pe5UW52fGQ13j43yKEuP9BMperlgXeqCEvhS8y+YNv0MC22a3
+	 8AaOCytka3W+DtMqjVJD6ovYd79eZtha/kkSMBfuPMEUOlYPAsD5mkhwBGHKqKHjZo
+	 bXN2wGSEmEvvJXHxg04IbVyknPE2v0SWZ/E6O3UgZXB710xlnbjcKG5798FPi6hcjB
+	 RmvBTppWY9DEnOOU+eGgR6oItZLiJ46HbWeTF5+EuQyWEnujcrg0NtfCbVZBO4o8y1
+	 5I7zkOVk1xHrTqvQKNuRVoQuOtHWccqvARLxvX6b+Buw8Wg6cd9NEcWw638Kovr8UX
+	 KOdTchTKnhluA==
+Date: Mon, 23 Jun 2025 09:44:05 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
@@ -51,20 +51,15 @@ Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
 	Leon Romanovsky <leon@kernel.org>,
 	Nitesh Shetty <nj.shetty@samsung.com>,
 	Logan Gunthorpe <logang@deltatee.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 4/8] nvme-pci: merge the simple PRP and SGL setup into a
- common helper
-Message-ID: <aFl2Ktb7gioMLEl_@kbusch-mbp>
+	linux-nvme@lists.infradead.org, Leon Romanovsky <leonro@nvidia.com>
+Subject: Re: [PATCH 6/8] nvme-pci: convert the data mapping to blk_rq_dma_map
+Message-ID: <aFl2RWQWaldHce4x@kbusch-mbp>
 References: <20250623141259.76767-1-hch@lst.de>
- <20250623141259.76767-5-hch@lst.de>
+ <20250623141259.76767-7-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250623141259.76767-5-hch@lst.de>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250623_084342_135727_3E0F882F 
-X-CRM114-Status: UNSURE (   9.06  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <20250623141259.76767-7-hch@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,10 +74,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 23, 2025 at 04:12:26PM +0200, Christoph Hellwig wrote:
-> nvme_setup_prp_simple and nvme_setup_sgl_simple share a lot of logic.
-> Merge them into a single helper that makes use of the previously added
-> use_sgl tristate.
+On Mon, Jun 23, 2025 at 04:12:28PM +0200, Christoph Hellwig wrote:
+> Use the blk_rq_dma_map API to DMA map requests instead of scatterlists.
+> This removes the need to allocate a scatterlist covering every segment,
+> and thus the overall transfer length limit based on the scatterlist
+> allocation.
+> 
+> Instead the DMA mapping is done by iterating the bio_vec chain in the
+> request directly.  The unmap is handled differently depending on how
+> we mapped:
+> 
+>  - when using an IOMMU only a single IOVA is used, and it is stored in
+>    iova_state
+>  - for direct mappings that don't use swiotlb and are cache coherent,
+>    unmap is not needed at all
+>  - for direct mappings that are not cache coherent or use swiotlb, the
+>    physical addresses are rebuild from the PRPs or SGL segments
+> 
+> The latter unfortunately adds a fair amount of code to the driver, but
+> it is code not used in the fast path.
+> 
+> The conversion only covers the data mapping path, and still uses a
+> scatterlist for the multi-segment metadata case.  I plan to convert that
+> as soon as we have good test coverage for the multi-segment metadata
+> path.
 
 Looks good.
 
