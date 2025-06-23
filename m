@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C9DCC7115B
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jun 2025 17:23:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94E7AC7EE2A
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jun 2025 17:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rchnnphz/QAftABNWfln9n3JGZZ3Tbl4kyghCow2jhU=; b=m6+q7j4apK0JdAVBKNkSomXHS6
-	YGDo31MT2aVrpELOMvLFevRrT3u6bkb4SX6crIFCj6DvkIq30orxKH8JCCwKECWr8rOF5MqgXRsOS
-	yiKehWVLqLf14NTpHQMk5QuYNNoJLFvHxFyZav4P/D3/iibQZIEsMkGsDBaESI448Ay5xDyw1k1/t
-	u+Wza6SRTnczVy22CvpOsVwXJgSJCqPs5prJFW9fn2h7wMdFfmaWZ0QoVA2OakHBCboIY2Ai6SN9x
-	DCvTyy7wd4NJhJFtXwYV/MtFqbIwupwAYVim7yNXqBCOdpgbkwcPji80V0HLWyvqoBzD0rY2P3Jh/
-	SGg0Yeog==;
+	bh=4dvZH8x/z+zoatdMqg/HCCwdY+57eWLFYcfLppgAEgw=; b=0z2GkXEyAtC+KMLLb6Crb0o8Jk
+	giX8wS/CQ1JcOUKTJi3/U+ahcvip4gJ98qfWrUoSCSNfM4DuVAF8VlXG9TcmjKy087isnc3C2lKYw
+	JqkmYzKtdZqRzjw4T4IMjvHL4vpgtrIllXvte8a4AN8MVIRN92HyGDdqiYzDyKb9msNYaOcDRWzno
+	PUH94bf4pjkWna1BPvlVrl60F7MqZgFLNMJGr+w6+x3PNCK3SB+/jh9DWgIYp6soaHxxTQvZlb9Gw
+	7r1GgCIDD68UYnY+hexAqA6Iue3P8PrEntF+xoZKM3c3e00zw+Jg6kiWIhM0aeyZp/c6Gr8Jq6F/1
+	0UZ8Bdew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uTkt7-00000003Xja-2Hq7;
-	Mon, 23 Jun 2025 17:23:21 +0000
+	id 1uTkt9-00000003XlE-0ZjK;
+	Mon, 23 Jun 2025 17:23:23 +0000
 Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uThv0-00000002znN-2eBU;
-	Mon, 23 Jun 2025 14:13:07 +0000
+	id 1uThv5-00000002zpO-2C92;
+	Mon, 23 Jun 2025 14:13:12 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -36,11 +36,10 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Nitesh Shetty <nj.shetty@samsung.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Leon Romanovsky <leonro@nvidia.com>
-Subject: [PATCH 1/8] block: don't merge different kinds of P2P transfers in a single bio
-Date: Mon, 23 Jun 2025 16:12:23 +0200
-Message-ID: <20250623141259.76767-2-hch@lst.de>
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 3/8] nvme-pci: refactor nvme_pci_use_sgls
+Date: Mon, 23 Jun 2025 16:12:25 +0200
+Message-ID: <20250623141259.76767-4-hch@lst.de>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250623141259.76767-1-hch@lst.de>
 References: <20250623141259.76767-1-hch@lst.de>
@@ -60,103 +59,93 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-To get out of the DMA mapping helpers having to check every segment for
-it's P2P status, ensure that bios either contain P2P transfers or non-P2P
-transfers, and that a P2P bio only contains ranges from a single device.
-
-This means we do the page zone access in the bio add path where it should
-be still page hot, and will only have do the fairly expensive P2P topology
-lookup once per bio down in the DMA mapping path, and only for already
-marked bios.
+Move the average segment size into a separate helper, and return a
+tristate to distinguish the case where can use SGL vs where we have to
+use SGLs.  This will allow the simplify the code and make more efficient
+decisions in follow on changes.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- block/bio-integrity.c     |  3 +++
- block/bio.c               | 20 +++++++++++++-------
- include/linux/blk_types.h |  2 ++
- 3 files changed, 18 insertions(+), 7 deletions(-)
+ drivers/nvme/host/pci.c | 41 +++++++++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 10912988c8f5..6b077ca937f6 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -128,6 +128,9 @@ int bio_integrity_add_page(struct bio *bio, struct page *page,
- 	if (bip->bip_vcnt > 0) {
- 		struct bio_vec *bv = &bip->bip_vec[bip->bip_vcnt - 1];
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8ff12e415cb5..bc84438f0523 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -578,6 +578,12 @@ static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
  
-+		if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
-+			return 0;
++enum nvme_use_sgl {
++	SGL_UNSUPPORTED,
++	SGL_SUPPORTED,
++	SGL_FORCED,
++};
 +
- 		if (bvec_try_merge_hw_page(q, bv, page, len, offset)) {
- 			bip->bip_iter.bi_size += len;
- 			return len;
-diff --git a/block/bio.c b/block/bio.c
-index 3c0a558c90f5..92c512e876c8 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -930,8 +930,6 @@ static bool bvec_try_merge_page(struct bio_vec *bv, struct page *page,
- 		return false;
- 	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
- 		return false;
--	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
+ static inline bool nvme_pci_metadata_use_sgls(struct nvme_dev *dev,
+ 					      struct request *req)
+ {
+@@ -587,23 +593,27 @@ static inline bool nvme_pci_metadata_use_sgls(struct nvme_dev *dev,
+ 		nvme_req(req)->flags & NVME_REQ_USERCMD;
+ }
+ 
+-static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
+-				     int nseg)
++static inline enum nvme_use_sgl nvme_pci_use_sgls(struct nvme_dev *dev,
++		struct request *req)
+ {
+ 	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+-	unsigned int avg_seg_size;
+ 
+-	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req), nseg);
++	if (nvmeq->qid && nvme_ctrl_sgl_supported(&dev->ctrl)) {
++		if (nvme_req(req)->flags & NVME_REQ_USERCMD)
++			return SGL_FORCED;
++		if (req->nr_integrity_segments > 1)
++			return SGL_FORCED;
++		return SGL_SUPPORTED;
++	}
+ 
+-	if (!nvme_ctrl_sgl_supported(&dev->ctrl))
 -		return false;
- 
- 	if ((vec_end_addr & PAGE_MASK) != ((page_addr + off) & PAGE_MASK)) {
- 		if (IS_ENABLED(CONFIG_KMSAN))
-@@ -982,6 +980,9 @@ void __bio_add_page(struct bio *bio, struct page *page,
- 	WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED));
- 	WARN_ON_ONCE(bio_full(bio, len));
- 
-+	if (is_pci_p2pdma_page(page))
-+		bio->bi_opf |= REQ_P2PDMA | REQ_NOMERGE;
+-	if (!nvmeq->qid)
+-		return false;
+-	if (nvme_pci_metadata_use_sgls(dev, req))
+-		return true;
+-	if (!sgl_threshold || avg_seg_size < sgl_threshold)
+-		return nvme_req(req)->flags & NVME_REQ_USERCMD;
+-	return true;
++	return SGL_UNSUPPORTED;
++}
 +
- 	bvec_set_page(&bio->bi_io_vec[bio->bi_vcnt], page, len, off);
- 	bio->bi_iter.bi_size += len;
- 	bio->bi_vcnt++;
-@@ -1022,11 +1023,16 @@ int bio_add_page(struct bio *bio, struct page *page,
- 	if (bio->bi_iter.bi_size > UINT_MAX - len)
- 		return 0;
++static unsigned int nvme_pci_avg_seg_size(struct request *req)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++
++	return DIV_ROUND_UP(blk_rq_payload_bytes(req), iod->sgt.nents);
+ }
  
--	if (bio->bi_vcnt > 0 &&
--	    bvec_try_merge_page(&bio->bi_io_vec[bio->bi_vcnt - 1],
--				page, len, offset)) {
--		bio->bi_iter.bi_size += len;
--		return len;
-+	if (bio->bi_vcnt > 0) {
-+		struct bio_vec *bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
-+
-+		if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
-+			return 0;
-+
-+		if (bvec_try_merge_page(bv, page, len, offset)) {
-+			bio->bi_iter.bi_size += len;
-+			return len;
-+		}
+ static inline struct dma_pool *nvme_dma_pool(struct nvme_queue *nvmeq,
+@@ -851,6 +861,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ {
+ 	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	enum nvme_use_sgl use_sgl = nvme_pci_use_sgls(dev, req);
+ 	blk_status_t ret = BLK_STS_RESOURCE;
+ 	int rc;
+ 
+@@ -888,7 +899,9 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		goto out_free_sg;
  	}
  
- 	if (bio->bi_vcnt >= bio->bi_max_vecs)
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 3d1577f07c1c..2a02972dc17c 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -386,6 +386,7 @@ enum req_flag_bits {
- 	__REQ_DRV,		/* for driver use */
- 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
- 	__REQ_ATOMIC,		/* for atomic write operations */
-+	__REQ_P2PDMA,		/* contains P2P DMA pages */
- 	/*
- 	 * Command specific flags, keep last:
- 	 */
-@@ -418,6 +419,7 @@ enum req_flag_bits {
- #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
- #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
- #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
-+#define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
- 
- #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
- 
+-	if (nvme_pci_use_sgls(dev, req, iod->sgt.nents))
++	if (use_sgl == SGL_FORCED ||
++	    (use_sgl == SGL_SUPPORTED &&
++	     (!sgl_threshold || nvme_pci_avg_seg_size(req) >= sgl_threshold)))
+ 		ret = nvme_pci_setup_sgls(nvmeq, req, &cmnd->rw);
+ 	else
+ 		ret = nvme_pci_setup_prps(nvmeq, req, &cmnd->rw);
 -- 
 2.47.2
 
