@@ -4,75 +4,212 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E697FC77B7C
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jun 2025 19:42:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19088C7EE31
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jun 2025 21:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+eEoq+6d0WgcESEGvvbxbxwBHlN5XLV7+QpwbDZ1Oqc=; b=sqJTsJT6buIOHIdCQl2tSNARut
-	u7on1RVXhvFSkYIi1c1vpHNsStptPE9osVNu1o26ykJuddWHocqJ5MJmurwWJ9+rlJ4tmraumzRaw
-	F9mpXJSOl9XLtGv0FYnIU6qOTYgkJ02cQnYD88V9SVrOmx4chqlwGRc5oSwzNEt+rE3kcHVnk/OMQ
-	sWceaXTBK3BPPLAP1eB6suP2Zzt0/mSeFkI2hjDjluxWRWkqPnn1MQRiH8S8S8uTzklPMDQECYNjR
-	UFjDbL/WashKqI83gcbGAdE5+OUhyQFvJKXDPR6cpCCsfYhNuJ0gHwRHqvPMrV/T9YMW1veX10vdj
-	Lnm2s2wQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z8ZorgwZEr9ltFSf4Y66QEr/PSwiHco0Ml38zYhuvpI=; b=pqWeixo4DZom9RdZxiQnsUpQnn
+	f1+GpPKBUAX+j3A9vD97tLAi+UTgl424+/qx4Vw0+e34fT+qHXlKi3B1wtsKOPqxI3GslIrye1jN/
+	nsIe4zvnc0JBXVangnk4txN5pY6dnmEySbIXLn9ew1aBQ1d1hfboYZGt0c0WEiZWhpG8zgX2BKh/e
+	xrx6JE8ujS/lH1ufDbtbPpTdl7gRh+NzWmkZoNodmR+6HoHAFuijBc5fFOc+tMpdwB82FbwCfB7CR
+	evycdp8rllLVHJZUhhCC/8uairRryiLYk6YC1Mxx0c4iE3F6TN5eAsan6udLic6xR1hnwNdK3jD1y
+	axGQuxLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uTn3g-00000003pdP-3ck0;
-	Mon, 23 Jun 2025 19:42:24 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1uToxP-0000000421B-0iXM;
+	Mon, 23 Jun 2025 21:44:03 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uTjaI-00000003Ki9-2GCW
+	id 1uTkuu-00000003YQQ-2AS6
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Jun 2025 15:59:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750694389;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+eEoq+6d0WgcESEGvvbxbxwBHlN5XLV7+QpwbDZ1Oqc=;
-	b=LAZqskWozX6X4+xt0D5nsR5+9XKsidYD+KjMlYyMRZAN5eV1/TlnCYyxXSOnZSEVuQ0dKS
-	dAZif3mgb6NDjdgLALGDZWcB6owQNhiiZAK1ifPxnYKApcl2C+PXJKx/VhALFvb6qiTe/0
-	MW/rw2qpP/aOFpBX6t8awtSbt/bYUVA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-468-3XoeSZyqOciyOcj1M-2MCw-1; Mon,
- 23 Jun 2025 11:59:48 -0400
-X-MC-Unique: 3XoeSZyqOciyOcj1M-2MCw-1
-X-Mimecast-MFC-AGG-ID: 3XoeSZyqOciyOcj1M-2MCw_1750694386
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CCF391800290;
-	Mon, 23 Jun 2025 15:59:45 +0000 (UTC)
-Received: from [10.22.90.20] (unknown [10.22.90.20])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6F20A19560AB;
-	Mon, 23 Jun 2025 15:59:42 +0000 (UTC)
-Message-ID: <46047671-c047-4922-8aa9-8e4892dde8fb@redhat.com>
-Date: Mon, 23 Jun 2025 11:59:41 -0400
-MIME-Version: 1.0
+	Mon, 23 Jun 2025 17:25:14 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55NGXxSr001658;
+	Mon, 23 Jun 2025 17:24:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=Z8ZorgwZEr9ltFSf4Y66QEr/PSwiHco0Ml38zYhuvpI=; b=
+	iOlPZLblwsDmN+H4ncO8fJXqkq48KNNsmj+fPvr6uLa/PEvFNbBIOZDsmqoYwTfa
+	cV9NVaChXX7PbGRgETb3biLgRsGEj7OfVj8ETbX4gg099q0N63JnbZaM8Q1qq95/
+	Y2aULLdDHdFG0svxIlUpZsb+YIfCZLb6YzblLjYiZp7LCs7Wn2TFHTMS2PlmQDg+
+	jW4BcFrangc+cHH5ZFzBwdzkCs3PZlkqpJeVXNNGIGO25zIOdIcgN3+tFD34UYtm
+	LtVmoR9S5Lx6PhaA+NPXsRdw6UHAuxFDSNAJQoOx2axVp/ZmpkNYEsN1y/hzCCBy
+	oR5n9zd5msweQHvlssNESQ==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47ds7uu8jx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Jun 2025 17:24:58 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55NGeoqD030685;
+	Mon, 23 Jun 2025 17:24:57 GMT
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11012039.outbound.protection.outlook.com [40.93.200.39])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 47ehpp4ek4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Jun 2025 17:24:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GeN7vDDvY3MqjLu0rm7fh90t3e040ctsxwD1vUFWcGO84l6kWSj/LXegFdc6HXl23K1YnQp0iGP07N8g+DUep22287eBMYwHCJ5WH4ICa+95W/vvKcBNIKdG1JYfCYcIhqZGUTE42eX2+vFG8ioe4R7fbLd1VmlBBvZfSgKJpWjPFD1S5Bh2FgGt7hb+pnC5gBDlOOo/VGhEFy3Dbf1CwqqOZHppx5dnw8ORP4RjO2CCg93+b1QPiuHcJvK6x+dKch05fMSMN1mWunXyYy0wBeYNJjkzuUdHV7yXSHvxySMBKcpJZzDNFRTHsAcAaWwrC2Cxf3uXFel+zrZeYHJyyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z8ZorgwZEr9ltFSf4Y66QEr/PSwiHco0Ml38zYhuvpI=;
+ b=EwAbEmDwtHpWn5Rh2sd421lIEyKA9A9m4DfDFbpQun+A7/0s4YE35W4F41Ma2Fw52w7JFOn07On1v7US7c95a8IK5ZkbqAvDQxACehSgM2ZNQtUu2ejKSibdw1XXYPc/2KiYByGtBdCOBKXHDoyzaxLJqSKUpQVdGsy6zKP9uXTkcjJ3CtM04fIXhqmhCCDI2c+ycEeO78BG6C6CXYa49eBDgb66iPDOK+/hmPr69C97ZcaX5SPDsgRtpE9KJsf1mcxMKq2WD2u/PveTVRIWK5CvXo+lkjg9NuIq0Ne9KjF3yAs7cwg/mWpz6lmm/iEYoGz2v/S2tNO8VVDIBxL5QQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z8ZorgwZEr9ltFSf4Y66QEr/PSwiHco0Ml38zYhuvpI=;
+ b=B1lxisdrMKVlOKRnHneJc/o7HjT6w8Fe6meNP6DQnUfpSP2e/d2a2DsSp/iStK6fC+O1RXcPtrLjPIjStnAh43FxC1GLb9kiXoaLjsUGEdZyXxbJULfyA075smd9BM757A/WqISPYqky59YZm3lr7SEDQ63lWbhlRaIpGnkYfyk=
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com (2603:10b6:a03:3d3::5)
+ by PH0PR10MB4456.namprd10.prod.outlook.com (2603:10b6:510:43::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.26; Mon, 23 Jun
+ 2025 17:24:55 +0000
+Received: from SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::10a5:f5f4:a06d:ecdf]) by SJ0PR10MB5550.namprd10.prod.outlook.com
+ ([fe80::10a5:f5f4:a06d:ecdf%5]) with mapi id 15.20.8857.025; Mon, 23 Jun 2025
+ 17:24:55 +0000
+Message-ID: <1802de7c-1f2b-4c84-9f99-a38625c3715f@oracle.com>
+Date: Mon, 23 Jun 2025 10:24:50 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/6] fc_els: use 'union fc_tlv_desc'
-To: Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@kernel.dk
-Cc: james.smart@broadcom.com, dick.kennedy@broadcom.com, njavali@marvell.com,
- linux-scsi@vger.kernel.org, hare@suse.de
-References: <20250620175557.34635-1-bgurney@redhat.com>
+Subject: Re: fix atomic limits check
+To: Christoph Hellwig <hch@lst.de>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, Sagi Grimberg
+ <sagi@grimberg.me>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        Yi Zhang <yi.zhang@redhat.com>, John Garry <john.g.garry@oracle.com>
+References: <20250611055432.2401372-1-hch@lst.de>
+ <99248994-4d8d-4d84-9279-b657d6969aa0@oracle.com>
+ <20250616053627.GF1148@lst.de>
+ <790a0419-4087-4181-b290-15db01ac1d34@oracle.com>
+ <20250618053213.GA28614@lst.de>
+ <9d0692b3-4d49-443f-b6f6-b13ec9a44f3b@oracle.com>
+ <20250618171750.GA29321@lst.de>
+ <89d34af5-6ad5-4579-8203-ac28d9432cf3@oracle.com>
+ <20250623133309.GA27241@lst.de>
 Content-Language: en-US
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <20250620175557.34635-1-bgurney@redhat.com>
+From: alan.adamson@oracle.com
+In-Reply-To: <20250623133309.GA27241@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0012.namprd13.prod.outlook.com
+ (2603:10b6:208:256::17) To SJ0PR10MB5550.namprd10.prod.outlook.com
+ (2603:10b6:a03:3d3::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5550:EE_|PH0PR10MB4456:EE_
+X-MS-Office365-Filtering-Correlation-Id: 851b962e-5301-41ff-a641-08ddb27ade9e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K2h2d00wa3dsd1FRbEZUNzY1K29pTHc4bjl6SFdlSkZlSjBzd0QxMnZ3ZVYx?=
+ =?utf-8?B?NHRYclNhaUlFeFVyb1ZYbHlBWnNRMkR1aVE0dE9HY3crV0dpK1NKY3BkZXlk?=
+ =?utf-8?B?MFdFN0NDOHB0amVJQW9UZTUybGNxem0zME9Tc3FKL0xNSWZ4ZWFrVllpSzRU?=
+ =?utf-8?B?SmZUbHpPTDlCYnpQVEJhS2tXRnJpYm1YVDVoWGFOei8yVEtndkdTRXd2ZFBT?=
+ =?utf-8?B?TEZUZC8wR1ZWNHBXeGo5NzZoSDhqKzBVMm05SHcxVUhKOTFGYVZsQWpiaXlX?=
+ =?utf-8?B?SkpGaUNoQlQ2WU1NT3VjbERXSHc4K0Q4SmgzQW5udjk0N3FlQU1ZVkNjb1Qz?=
+ =?utf-8?B?U3pPWlcxS1I4akhFbDFza2xOaVZvT1NCbUI0UVVRc3ovK2FnT3pEMGVwWEdt?=
+ =?utf-8?B?WWtqV08wd3JuSmhlTFBYam9yTlYydUtWeFovSHBJVEhOQ2Z3YTNUQjcyaERW?=
+ =?utf-8?B?bG9JQ0pFaTE5N1V0bEt1YldjTVhBTWpJZk93SzRWRTI3Y3JKUVVwcVh5M3lM?=
+ =?utf-8?B?WFpRc0hJeGR3YkYxOHBVUzVBTitneG0ySE9BaWRNamhsanNpT3kwUkRHdmpO?=
+ =?utf-8?B?WHNoSzhMTXoraituZjZHMnFGYS9ueW94N0VNVG1JN3o0ZEtLRmNaNEdyYW1P?=
+ =?utf-8?B?ZG9ONDY5Ym44dlBJcHdDZFdKQVAyb1ZySi9yeDFpbjMzbjIvY3ArK08xMi9y?=
+ =?utf-8?B?eFJJUkJybVRyOXVjSUZkSUYxdkVTSGZUZlR3bE40UWkzU1Zkay8wWFJlM0hO?=
+ =?utf-8?B?WkNLU0plbE1CUzJPbjdMZmVMM3IxSXQ0STNETE1WMmlHam84aThsUEFXOXZF?=
+ =?utf-8?B?QjVtTFhRSmpsMmVkU0hIcTBHM1pBd0ptMXlhUlhxWXZlM1NyWHh4Q2hQdk5w?=
+ =?utf-8?B?VHRqTGE5YjNOMzRqbWFzOExwMU9rWE9meHB6aWZQMDgyYlhkZnVGUkxmcUV2?=
+ =?utf-8?B?bnc4Z243ZStydVR2VzVHNS81RVdzQlcvUXRqcG1BZXNhaTZaMFN6a0FEQnlk?=
+ =?utf-8?B?ZTFtaTRwS0N6S1VsbzZaSUxTMUVqQ056VDh1SzVDZGM3UEFidy92Y2krZm9a?=
+ =?utf-8?B?L3JLTCtlbHRKQStNb21xSEtJZ0VDZDh1UEtHcitnQWFvTGtrRUNqUTZPMmZS?=
+ =?utf-8?B?MUdPZUFncXQ1TDJCQ09zWVljMXU4SDJObEg3QmFNVTJvZ0h3d3ZWS0ZjTFJR?=
+ =?utf-8?B?cFhIWE85OTYyY2VXd0lDV0Q2RDF4ZzFmWUs4Z1AwZUZNUDBQR0NXSkVQZ0Q3?=
+ =?utf-8?B?VHBnbHgzYmZMZEpEaXd2R3pUWWhuM09sVnREUkU3U2k3NnVPdjhRN1VOUlhP?=
+ =?utf-8?B?dlJHQUtxb0NKNktXUEUvSUZmakttenJOc2I5SzNxNldZNjhObE0rc1ZQczdN?=
+ =?utf-8?B?K2hLMnVzRDNwNzJkVmhQQUNWM1N5dDJDLzNiTXd3M3I1YmtxMnd0OHNCejAw?=
+ =?utf-8?B?OTdSRWJNTHpOSmszUXZibit6VmYzUDJwYjltSXJaRXlWb0MzbFYxeWcvOGVT?=
+ =?utf-8?B?Qm5neEtOMTd2YlV1ZWQ3QUpoMXdnTHlMSDVGZXZjcklUTlp5RHBXZldSaExQ?=
+ =?utf-8?B?cVZwdjRkd1ozOEdkZ2w0cUhDeHd2ZThNa0N0OE44Q2dzV2JPMHVvN3luU2V5?=
+ =?utf-8?B?WldGMzhlVE1oc2JSRnpXMmMyV2xlOEg1VHN0OXl5b0ZWeThxdHdBNDc2MHlT?=
+ =?utf-8?B?bmZyWEZUU2hOQkg0NEg5MlcveEl5VDVFVU10Z3MrWGNyRDFUay95emptSU9E?=
+ =?utf-8?B?enF2VGJUSi9sZlVQSFNQL20xRUowUkkrMzdrZzdRYXlGdmY3YzRPcUJOTm8v?=
+ =?utf-8?B?NHJWMXZvS1dvUGJKRVdweTZ2R3V6djFISDgybTlxdHRFMVRzek4rYmQ1OFR5?=
+ =?utf-8?B?cVFiUE1WUVFlS0NVVjlpcEVjYzJxZWUzaENGMlBBallZMXBrNXJoc2ZuRENs?=
+ =?utf-8?Q?g6QAN3tJMiE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5550.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eDd5dGJWNWkwUTNaalVBb2pPazZCdGlnOW95NWF0QXg4aE1qcEtJR0s3YkVl?=
+ =?utf-8?B?MFZjaWRZb0c2aDhJWFB0R0VsaUpTY0RTUDBhemdXYU5xNGhKakZtTFBKeDI3?=
+ =?utf-8?B?Wlh0R1UzdU15OWFycE1wUlJzM2VIb203SVg3NmpSb0k2c0xPcUJaRndVc1Q2?=
+ =?utf-8?B?ZFJIbjk5MDZaMFNZQi9zYnRaSHdyNlZUbGdHdmd4VHpMVVdxV1NMODFmaFBS?=
+ =?utf-8?B?ODZ5MlhsN0dDUi90VnlQK1dRbHA5VHpLRzY3N2diZG5zUTlkYzNob2JWZEV2?=
+ =?utf-8?B?WHhmckhXRWtELy85a0FOdTFtbnpIMGFUeXlWRkl4a0RGdXJ2T0szckV3RXg0?=
+ =?utf-8?B?QWExcTVCSUZ2UHJUZFpFNS9DcW1CU3M2NW5xb3JJOE5CYXR5ZFg5NUR6dEQ4?=
+ =?utf-8?B?WkNVUE9vZTV3SFoxTmp0T0x2WURsbXpQU1pIbDFJN3FWVlB1NVo3akp0dTl1?=
+ =?utf-8?B?Uzk5Mnh4eVdmd0wvWWZNQ1ByUS9nWWFuMXZnbE1JTjFaeDF4WWRKTlpPYnc2?=
+ =?utf-8?B?S2U4aHVCczVOZ2RrV1p5WXlMRStBUFRwR1FKSkZvYmJTK0c1a0tXcjE3Umk5?=
+ =?utf-8?B?Q3NQR0E4YWhYcHcyK1FlTlU1Qk5uaVAwSndVKzJOWElVbk5rUk9uL2R1WHk4?=
+ =?utf-8?B?QWc1Sm4yLzlZWG1GTStNSGZkbEhxOEZ4Y3BxZndOMkN0T1ljTmFmdXRSVUQw?=
+ =?utf-8?B?UGtpZjE3WHdudXJDTXV4OGtjUE9mdFYzczFsd3BZOThGTDA1Qml3V2tGTEpX?=
+ =?utf-8?B?WXNzNHgyMW9DMDFYRTZabGhESGgycXJhTnVibGxtNklKcnhKSzVIUkhBdklk?=
+ =?utf-8?B?UUdFMDFGYlNxV0hCQktKeDFOOFh0ZnNBSCszenJEQ2tpRUNHdGtRR0JzNDg2?=
+ =?utf-8?B?NzZ6ZUF1T3BxSlR3SjJQSVI1bzVhS2N5QVRidUJJSHgxbXJ3blFSQlFoL2JL?=
+ =?utf-8?B?ZEpVL1BhUHhDTEl5WFBTYmp6VEpzVnQyY3N4aDVQQy9mckF0N0xoR0FsSmhi?=
+ =?utf-8?B?RXdaRjE1MzhISzVDTHo3bDdTS0xCNlZjSmhCWVF4QWIxak1lK0Vkci81Tnhn?=
+ =?utf-8?B?aEREaEo2dnhqU1ZjNkFmcUJJa2pwVCtuVkNWNWNIY1lQMFcxSEFLRWhsM0pr?=
+ =?utf-8?B?WWdrTHd5OXMvUHRQcXhQVWVlQ0NyNmxyUzV5UndrOVVVT093NGJoN2c0ZGFy?=
+ =?utf-8?B?KzZWS21tYWJpSTNLdEYxYlpUdFF6aUtpQ1o5bU93akdMcTlpWFlocWdvOW9P?=
+ =?utf-8?B?OFpHbUw2aFM1ZlhhUVZaZGY1OW5xZ3ZPWkJrTXVEc3ZCMnIrdkZvL0xPKzZy?=
+ =?utf-8?B?VXVzakYxc214TkZyQmorZE81aEZ2anZQWDdqSFQrQ21mLzVaYWNBQ3AzV0E4?=
+ =?utf-8?B?ZXZESm96RkMwbVNkcEh2WWVmVm1iZWhtTE5NN3JWU1VSU0tNZHMwdTU2aHBm?=
+ =?utf-8?B?YklHNlp5SGJzL0YybWZka1JBTlJGMHhhcUhDNVI3UldLVmhRTUhGREFodExl?=
+ =?utf-8?B?aVl2ZVNiVkpUQm44MEYxSUUwM2djRE9LVGRJTmlSbHRCSW03NTB5V2lQaDFP?=
+ =?utf-8?B?aGtWRGxDTnQrZzdMZjJnYWpMMlhnQXo3Z0NJZGpKMEZCTEdYWkFRU3Y5V3Zj?=
+ =?utf-8?B?d1NqYndNRHp4bHdvSzVvQXNuRFZzV2ZzUEZHNUx1b1RiaGNvYUN5T0Rjb05S?=
+ =?utf-8?B?L0JCQjYxR0lFTzJ1bk5ocHRvSXBnSmZZL0NhQ2ljOG5iWnNlN0JvKzZwbGFI?=
+ =?utf-8?B?ZEljZmVIOVFOSlVmbk5MbDFTZHVMMXpJOUdLSVJDME5JVldzanp3bE5wL2l0?=
+ =?utf-8?B?eDB4NlZIN2hsM1pkelI1alVSZ0ZIVVl4eERaMU5BeTY1TWtvek02L2dscGdx?=
+ =?utf-8?B?TWZQOW5hUGl0U2ZscDVkc2ZGdTZxMFd4YjJ4U01aSkJ0RExQZDVaMjg2SDQ2?=
+ =?utf-8?B?OTd4Ujhwdlg0ZVpzYVN3a2lmOU55eEFOc3lCNzlTRHhxVzF1N3BFYkloK3Y5?=
+ =?utf-8?B?M0NpbmtselBQU0dpZjJDSms4dFd1NUd6OXkxa1cybkJLVUx0UVNRRTNqZFcr?=
+ =?utf-8?B?WlNWMmQxMmxtKzFMcjF0ai9MZjJMdjFHN21nZWxkMk83NlFHcVdsZFlEUHB0?=
+ =?utf-8?B?MlN0OElKV2VTMHZSVFpad092THQ2WGZaZlJyMHZtTWw3ZVFDKzBHdjZVbUd6?=
+ =?utf-8?B?UVE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: V5cy8ARjPKuwPM8l8H6NffGcHKgFhYpfCEeYu+S+MkMdXWwrp67WjXuMMt8eAo9A4l3mGWvKZ8UF3Dh2ssEMkcImA6HF4NAuQz+OhTCM+q42aU1Y5ET3aT9G7eHV893o1/UQeo+U+NmvAZvuD+mIROZBtpXiXiGX+EbB0UrXEhlefU3dLFiSJE9ewWW8e7qaYsXvNzrWv3WwES6JqBsAOZP6m/2pBs8b7WvhHrNinvRgjJw37sQSEh3dP+iKNrGGCLj4dDAi0jTJweCEqMhlTDTZ2cQnPE3BK3Mtw83WciFCHAyOuPvdmOuUbe3z8xvc7d074PQqY3BnXLJG4MRIV3DPwg8wLJ1PwgBfgL5iYjwr2FDs8qNv2PmWdTBKbcyUyZTP6G3dWKMRPlv06Uu6VRZMwEdFfeO4VW7z864x25VOllOqKM4H9keDQsZc9ncUGE5uLKmLgI1mQYValMuPOZRfU4yNOWb514wJ5ncQc5bE0afp5TgDDZNJmwRQ8pNP2tHKtTpImayvOrnlAPkFuA6G1EBkjfSPsTaWl/zfKQslmWbS0ipdSkVLuQLOJr1HXeH4FYXAhXvq3A+E+HlSVoQ6HE0qwC5dBGt6A3ItQbs=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 851b962e-5301-41ff-a641-08ddb27ade9e
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5550.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2025 17:24:54.9385
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RlBJD2f7bxcfibS/iIRUS4gKRNpjnimVp042bJCwVbWHaPP6xY80L+QBavlr9Xwi9oogGH/lqIA8Z3NrPjfQqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4456
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-23_05,2025-06-23_07,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2506230107
+X-Proofpoint-GUID: IsykPDICOu4CwSS3B_E23trB-UKq9UGO
+X-Authority-Analysis: v=2.4 cv=CeII5Krl c=1 sm=1 tr=0 ts=68598dea cx=c_pps a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=GoEa3M9JfhUA:10 a=yPCof4ZbAAAA:8 a=asU8mKIqoIByY_6IgAQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: IsykPDICOu4CwSS3B_E23trB-UKq9UGO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIzMDEwNyBTYWx0ZWRfXycZfkrWIChfG OVk+77HxIim5Pk+FJUkSTWCPk95vcI/Mr8X+k/+8bxfNROpMWK9YMP2lb+eITMbumai84ZFjmxd PldLoZKbh1gbnvVTtEuQlgXuQUxOqE7bMtImII1EClgKG4+WSpoZLQl74veb69VU3EJtX2B3fW/
+ uYndNQCi01L+qmq8n5OVjHyjOv//N8akt2249o9j/AYXAjZBruhVzEJ8tKXUJwSxlc7XLOViU2s F+kYjoRySu3hnMOqvAeFjDge7nEe71hSjdc18K4+86HZFN61f3tlqsNcYzv59QAoKlcWY+uhZct CSCxIP6If141O2c1HfQ5Cwl2dJu5/91ETqWKRDXjsvtrB2un7Bq3PhaPcTQ9F0Y+em5GzklC+qi
+ SzmqljaJc13zYbsDHn0U4P/7oO2klQK7cUv/qfS2DMGEEl6cO3/B+VUwoahssJcOLoGGeNAR
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250623_085950_734551_4BFDA6AB 
-X-CRM114-Status: GOOD (  24.53  )
+X-CRM114-CacheID: sfid-20250623_102512_571916_7D2B303D 
+X-CRM114-Status: GOOD (  20.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,632 +224,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: John Meneghini <jmeneghi@redhat.com>
 
-On 6/20/25 1:55 PM, Bryan Gurney wrote:
-> From: Hannes Reinecke <hare@kernel.org>
-> 
-> Introduce 'union fc_tlv_desc' to have a common structure for all FC
-> ELS TLV structures and avoid type casts.
-> 
-> [bgurney: The cast inside the union fc_tlv_next_desc() has "u8",
-> which causes a failure to build.  Use "__u8" instead.]
-> 
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> Reviewed-by: Justin Tee <justin.tee@broadcom.com>
-> Tested-by: Bryan Gurney <bgurney@redhat.com>
-> ---
->   drivers/scsi/lpfc/lpfc_els.c     |  75 +++++++-------
->   drivers/scsi/scsi_transport_fc.c |  27 +++--
->   include/uapi/scsi/fc/fc_els.h    | 165 +++++++++++++++++--------------
->   3 files changed, 135 insertions(+), 132 deletions(-)
-> 
-> diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-> index 375a879c31f1..959603ab939a 100644
-> --- a/drivers/scsi/lpfc/lpfc_els.c
-> +++ b/drivers/scsi/lpfc/lpfc_els.c
-> @@ -3937,7 +3937,7 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
->   {
->   	IOCB_t *irsp_iocb;
->   	struct fc_els_edc_resp *edc_rsp;
-> -	struct fc_tlv_desc *tlv;
-> +	union fc_tlv_desc *tlv;
->   	struct fc_diag_cg_sig_desc *pcgd;
->   	struct fc_diag_lnkflt_desc *plnkflt;
->   	struct lpfc_dmabuf *pcmd, *prsp;
-> @@ -4028,7 +4028,7 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
->   			goto out;
->   		}
->   
-> -		dtag = be32_to_cpu(tlv->desc_tag);
-> +		dtag = be32_to_cpu(tlv->hdr.desc_tag);
->   		switch (dtag) {
->   		case ELS_DTAG_LNK_FAULT_CAP:
->   			if (bytes_remain < FC_TLV_DESC_SZ_FROM_LENGTH(tlv) ||
-> @@ -4043,7 +4043,7 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
->   					sizeof(struct fc_diag_lnkflt_desc));
->   				goto out;
->   			}
-> -			plnkflt = (struct fc_diag_lnkflt_desc *)tlv;
-> +			plnkflt = &tlv->lnkflt;
->   			lpfc_printf_log(phba, KERN_INFO,
->   				LOG_ELS | LOG_LDS_EVENT,
->   				"4617 Link Fault Desc Data: 0x%08x 0x%08x "
-> @@ -4070,7 +4070,7 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
->   				goto out;
->   			}
->   
-> -			pcgd = (struct fc_diag_cg_sig_desc *)tlv;
-> +			pcgd = &tlv->cg_sig;
->   			lpfc_printf_log(
->   				phba, KERN_INFO, LOG_ELS | LOG_CGN_MGMT,
->   				"4616 CGN Desc Data: 0x%08x 0x%08x "
-> @@ -4125,10 +4125,8 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
->   }
->   
->   static void
-> -lpfc_format_edc_lft_desc(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
-> +lpfc_format_edc_lft_desc(struct lpfc_hba *phba, struct fc_diag_lnkflt_desc *lft)
->   {
-> -	struct fc_diag_lnkflt_desc *lft = (struct fc_diag_lnkflt_desc *)tlv;
-> -
->   	lft->desc_tag = cpu_to_be32(ELS_DTAG_LNK_FAULT_CAP);
->   	lft->desc_len = cpu_to_be32(
->   		FC_TLV_DESC_LENGTH_FROM_SZ(struct fc_diag_lnkflt_desc));
-> @@ -4141,10 +4139,8 @@ lpfc_format_edc_lft_desc(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
->   }
->   
->   static void
-> -lpfc_format_edc_cgn_desc(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
-> +lpfc_format_edc_cgn_desc(struct lpfc_hba *phba, struct fc_diag_cg_sig_desc *cgd)
->   {
-> -	struct fc_diag_cg_sig_desc *cgd = (struct fc_diag_cg_sig_desc *)tlv;
-> -
->   	/* We are assuming cgd was zero'ed before calling this routine */
->   
->   	/* Configure the congestion detection capability */
-> @@ -4233,7 +4229,7 @@ lpfc_issue_els_edc(struct lpfc_vport *vport, uint8_t retry)
->   	struct lpfc_hba  *phba = vport->phba;
->   	struct lpfc_iocbq *elsiocb;
->   	struct fc_els_edc *edc_req;
-> -	struct fc_tlv_desc *tlv;
-> +	union fc_tlv_desc *tlv;
->   	u16 cmdsize;
->   	struct lpfc_nodelist *ndlp;
->   	u8 *pcmd = NULL;
-> @@ -4272,13 +4268,13 @@ lpfc_issue_els_edc(struct lpfc_vport *vport, uint8_t retry)
->   	tlv = edc_req->desc;
->   
->   	if (cgn_desc_size) {
-> -		lpfc_format_edc_cgn_desc(phba, tlv);
-> +		lpfc_format_edc_cgn_desc(phba, &tlv->cg_sig);
->   		phba->cgn_sig_freq = lpfc_fabric_cgn_frequency;
->   		tlv = fc_tlv_next_desc(tlv);
->   	}
->   
->   	if (lft_desc_size)
-> -		lpfc_format_edc_lft_desc(phba, tlv);
-> +		lpfc_format_edc_lft_desc(phba, &tlv->lnkflt);
->   
->   	lpfc_printf_vlog(vport, KERN_INFO, LOG_ELS | LOG_CGN_MGMT,
->   			 "4623 Xmit EDC to remote "
-> @@ -5823,7 +5819,7 @@ lpfc_issue_els_edc_rsp(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
->   {
->   	struct lpfc_hba  *phba = vport->phba;
->   	struct fc_els_edc_resp *edc_rsp;
-> -	struct fc_tlv_desc *tlv;
-> +	union fc_tlv_desc *tlv;
->   	struct lpfc_iocbq *elsiocb;
->   	IOCB_t *icmd, *cmd;
->   	union lpfc_wqe128 *wqe;
-> @@ -5867,10 +5863,10 @@ lpfc_issue_els_edc_rsp(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
->   		FC_TLV_DESC_LENGTH_FROM_SZ(struct fc_els_lsri_desc));
->   	edc_rsp->lsri.rqst_w0.cmd = ELS_EDC;
->   	tlv = edc_rsp->desc;
-> -	lpfc_format_edc_cgn_desc(phba, tlv);
-> +	lpfc_format_edc_cgn_desc(phba, &tlv->cg_sig);
->   	tlv = fc_tlv_next_desc(tlv);
->   	if (lft_desc_size)
-> -		lpfc_format_edc_lft_desc(phba, tlv);
-> +		lpfc_format_edc_lft_desc(phba, &tlv->lnkflt);
->   
->   	lpfc_debugfs_disc_trc(vport, LPFC_DISC_TRC_ELS_RSP,
->   			      "Issue EDC ACC:      did:x%x flg:x%lx refcnt %d",
-> @@ -9255,7 +9251,7 @@ lpfc_els_rcv_edc(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
->   {
->   	struct lpfc_hba  *phba = vport->phba;
->   	struct fc_els_edc *edc_req;
-> -	struct fc_tlv_desc *tlv;
-> +	union fc_tlv_desc *tlv;
->   	uint8_t *payload;
->   	uint32_t *ptr, dtag;
->   	const char *dtag_nm;
-> @@ -9298,7 +9294,7 @@ lpfc_els_rcv_edc(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
->   			goto out;
->   		}
->   
-> -		dtag = be32_to_cpu(tlv->desc_tag);
-> +		dtag = be32_to_cpu(tlv->hdr.desc_tag);
->   		switch (dtag) {
->   		case ELS_DTAG_LNK_FAULT_CAP:
->   			if (bytes_remain < FC_TLV_DESC_SZ_FROM_LENGTH(tlv) ||
-> @@ -9313,7 +9309,7 @@ lpfc_els_rcv_edc(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
->   					sizeof(struct fc_diag_lnkflt_desc));
->   				goto out;
->   			}
-> -			plnkflt = (struct fc_diag_lnkflt_desc *)tlv;
-> +			plnkflt = &tlv->lnkflt;
->   			lpfc_printf_log(phba, KERN_INFO,
->   				LOG_ELS | LOG_LDS_EVENT,
->   				"4626 Link Fault Desc Data: x%08x len x%x "
-> @@ -9350,7 +9346,7 @@ lpfc_els_rcv_edc(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
->   			phba->cgn_sig_freq = lpfc_fabric_cgn_frequency;
->   
->   			lpfc_least_capable_settings(
-> -				phba, (struct fc_diag_cg_sig_desc *)tlv);
-> +				phba, &tlv->cg_sig);
->   			break;
->   		default:
->   			dtag_nm = lpfc_get_tlv_dtag_nm(dtag);
-> @@ -9941,14 +9937,13 @@ lpfc_display_fpin_wwpn(struct lpfc_hba *phba, __be64 *wwnlist, u32 cnt)
->   /**
->    * lpfc_els_rcv_fpin_li - Process an FPIN Link Integrity Event.
->    * @phba: Pointer to phba object.
-> - * @tlv:  Pointer to the Link Integrity Notification Descriptor.
-> + * @li:  Pointer to the Link Integrity Notification Descriptor.
->    *
->    * This function processes a Link Integrity FPIN event by logging a message.
->    **/
->   static void
-> -lpfc_els_rcv_fpin_li(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
-> +lpfc_els_rcv_fpin_li(struct lpfc_hba *phba, struct fc_fn_li_desc *li)
->   {
-> -	struct fc_fn_li_desc *li = (struct fc_fn_li_desc *)tlv;
->   	const char *li_evt_str;
->   	u32 li_evt, cnt;
->   
-> @@ -9972,14 +9967,13 @@ lpfc_els_rcv_fpin_li(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
->   /**
->    * lpfc_els_rcv_fpin_del - Process an FPIN Delivery Event.
->    * @phba: Pointer to hba object.
-> - * @tlv:  Pointer to the Delivery Notification Descriptor TLV
-> + * @del:  Pointer to the Delivery Notification Descriptor TLV
->    *
->    * This function processes a Delivery FPIN event by logging a message.
->    **/
->   static void
-> -lpfc_els_rcv_fpin_del(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
-> +lpfc_els_rcv_fpin_del(struct lpfc_hba *phba, struct fc_fn_deli_desc *del)
->   {
-> -	struct fc_fn_deli_desc *del = (struct fc_fn_deli_desc *)tlv;
->   	const char *del_rsn_str;
->   	u32 del_rsn;
->   	__be32 *frame;
-> @@ -10010,14 +10004,14 @@ lpfc_els_rcv_fpin_del(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
->   /**
->    * lpfc_els_rcv_fpin_peer_cgn - Process a FPIN Peer Congestion Event.
->    * @phba: Pointer to hba object.
-> - * @tlv:  Pointer to the Peer Congestion Notification Descriptor TLV
-> + * @pc:  Pointer to the Peer Congestion Notification Descriptor TLV
->    *
->    * This function processes a Peer Congestion FPIN event by logging a message.
->    **/
->   static void
-> -lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
-> +lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba *phba,
-> +			   struct fc_fn_peer_congn_desc *pc)
->   {
-> -	struct fc_fn_peer_congn_desc *pc = (struct fc_fn_peer_congn_desc *)tlv;
->   	const char *pc_evt_str;
->   	u32 pc_evt, cnt;
->   
-> @@ -10045,7 +10039,7 @@ lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
->   /**
->    * lpfc_els_rcv_fpin_cgn - Process an FPIN Congestion notification
->    * @phba: Pointer to hba object.
-> - * @tlv:  Pointer to the Congestion Notification Descriptor TLV
-> + * @cgn:  Pointer to the Congestion Notification Descriptor TLV
->    *
->    * This function processes an FPIN Congestion Notifiction.  The notification
->    * could be an Alarm or Warning.  This routine feeds that data into driver's
-> @@ -10054,10 +10048,9 @@ lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
->    * to the upper layer or 0 to indicate don't deliver it.
->    **/
->   static int
-> -lpfc_els_rcv_fpin_cgn(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
-> +lpfc_els_rcv_fpin_cgn(struct lpfc_hba *phba, struct fc_fn_congn_desc *cgn)
->   {
->   	struct lpfc_cgn_info *cp;
-> -	struct fc_fn_congn_desc *cgn = (struct fc_fn_congn_desc *)tlv;
->   	const char *cgn_evt_str;
->   	u32 cgn_evt;
->   	const char *cgn_sev_str;
-> @@ -10160,7 +10153,7 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
->   {
->   	struct lpfc_hba *phba = vport->phba;
->   	struct fc_els_fpin *fpin = (struct fc_els_fpin *)p;
-> -	struct fc_tlv_desc *tlv, *first_tlv, *current_tlv;
-> +	union fc_tlv_desc *tlv, *first_tlv, *current_tlv;
->   	const char *dtag_nm;
->   	int desc_cnt = 0, bytes_remain, cnt;
->   	u32 dtag, deliver = 0;
-> @@ -10185,7 +10178,7 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
->   		return;
->   	}
->   
-> -	tlv = (struct fc_tlv_desc *)&fpin->fpin_desc[0];
-> +	tlv = &fpin->fpin_desc[0];
->   	first_tlv = tlv;
->   	bytes_remain = fpin_length - offsetof(struct fc_els_fpin, fpin_desc);
->   	bytes_remain = min_t(u32, bytes_remain, be32_to_cpu(fpin->desc_len));
-> @@ -10193,22 +10186,22 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
->   	/* process each descriptor separately */
->   	while (bytes_remain >= FC_TLV_DESC_HDR_SZ &&
->   	       bytes_remain >= FC_TLV_DESC_SZ_FROM_LENGTH(tlv)) {
-> -		dtag = be32_to_cpu(tlv->desc_tag);
-> +		dtag = be32_to_cpu(tlv->hdr.desc_tag);
->   		switch (dtag) {
->   		case ELS_DTAG_LNK_INTEGRITY:
-> -			lpfc_els_rcv_fpin_li(phba, tlv);
-> +			lpfc_els_rcv_fpin_li(phba, &tlv->li);
->   			deliver = 1;
->   			break;
->   		case ELS_DTAG_DELIVERY:
-> -			lpfc_els_rcv_fpin_del(phba, tlv);
-> +			lpfc_els_rcv_fpin_del(phba, &tlv->deli);
->   			deliver = 1;
->   			break;
->   		case ELS_DTAG_PEER_CONGEST:
-> -			lpfc_els_rcv_fpin_peer_cgn(phba, tlv);
-> +			lpfc_els_rcv_fpin_peer_cgn(phba, &tlv->peer_congn);
->   			deliver = 1;
->   			break;
->   		case ELS_DTAG_CONGESTION:
-> -			deliver = lpfc_els_rcv_fpin_cgn(phba, tlv);
-> +			deliver = lpfc_els_rcv_fpin_cgn(phba, &tlv->congn);
->   			break;
->   		default:
->   			dtag_nm = lpfc_get_tlv_dtag_nm(dtag);
-> @@ -10221,12 +10214,12 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
->   			return;
->   		}
->   		lpfc_cgn_update_stat(phba, dtag);
-> -		cnt = be32_to_cpu(tlv->desc_len);
-> +		cnt = be32_to_cpu(tlv->hdr.desc_len);
->   
->   		/* Sanity check descriptor length. The desc_len value does not
->   		 * include space for the desc_tag and the desc_len fields.
+On 6/23/25 6:33 AM, Christoph Hellwig wrote:
+> On Wed, Jun 18, 2025 at 11:30:20AM -0700, alan.adamson@oracle.com wrote:
+>>> Can you double check this really is your CTLR2?  At least for me
+>>> the async probing reorders nvme devices quite a lot with qemu.
+>>>
+>> CTRL 0 (nvme0) - AWUN=31 AWUPF=15       nvme1n2
+>> CTRL 1 (nvme1) - AWUN=31 AWUPF=31       nvme1n1
+>> CTRL 2 (nvme2) - AWUN=15 AWUPF=7         nvme1n3
+>> CTRL 3 (nvme3) - AWUN=15 AWUPF=15
+> Do you mean AWUN or AWUPF?  Because AWUN is totally irrelevant and
+> not even parsed by Linux.
+
+The above configuration is the HW/QEMU configuration. Both AWUN and 
+AWUPF are setup.
+
+>
+>> I rebooted and it probed differently.  Now CTRL2 is nvme1n3.  We know
+>> CTRL2 is the same as nvme1n3 because awun and awupf from nvme id-ctrl
+>> matches the qemu config (atomic.awun=15,atomic.awupf=7) for CTRL2 (nvme2).
+>>
+>> # nvme id-ctrl /dev/nvme1n3 | grep awun
+>> awun      : 15
+>> # nvme id-ctrl /dev/nvme1n3 | grep awupf
+>> awupf     : 7
+>> # cat /sys/block/nvme1n3/queue/atomic_write_max_bytes
+>> 8192
+> The code in nvme_configure_atomic_write calculates the values pretty
+> much directly from (N)AWUPF, so I don't see how it would get things
+> wrong.  Can you run your patched qemu setup with this debug printk
+> patch?
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 3da5ac71a9b0..245397b217f4 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2033,6 +2033,8 @@ static u32 nvme_configure_atomic_write(struct nvme_ns *ns,
+>   		atomic_bs = (1 + le16_to_cpu(id->nawupf)) * bs;
+>   		if (id->nabspf)
+>   			boundary = (le16_to_cpu(id->nabspf) + 1) * bs;
+> +		dev_info(ns->ctrl->device, "NAWUPF: %u, atomic_bs: %u\n",
+> +			le16_to_cpu(id->nabspf), atomic_bs);
+>   	} else {
+>   		/*
+>   		 * Use the controller wide atomic write unit.  This sucks
+> @@ -2042,6 +2044,8 @@ static u32 nvme_configure_atomic_write(struct nvme_ns *ns,
+>   		 * values for different controllers in the subsystem.
 >   		 */
-> -		len -= (cnt + sizeof(struct fc_tlv_desc));
-> +		len -= (cnt + sizeof(struct fc_tlv_desc_hdr));
->   		if (len < 0) {
->   			dtag_nm = lpfc_get_tlv_dtag_nm(dtag);
->   			lpfc_printf_log(phba, KERN_WARNING, LOG_CGN_MGMT,
-> diff --git a/drivers/scsi/scsi_transport_fc.c b/drivers/scsi/scsi_transport_fc.c
-> index 082f76e76721..a62636c6f708 100644
-> --- a/drivers/scsi/scsi_transport_fc.c
-> +++ b/drivers/scsi/scsi_transport_fc.c
-> @@ -750,13 +750,12 @@ fc_cn_stats_update(u16 event_type, struct fc_fpin_stats *stats)
->    *
->    */
->   static void
-> -fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
-> +fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_fn_li_desc *li_desc)
->   {
->   	u8 i;
->   	struct fc_rport *rport = NULL;
->   	struct fc_rport *attach_rport = NULL;
->   	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
-> -	struct fc_fn_li_desc *li_desc = (struct fc_fn_li_desc *)tlv;
->   	u16 event_type = be16_to_cpu(li_desc->event_type);
->   	u64 wwpn;
+>   		atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
+> +		dev_info(ns->ctrl->device, "AWUPF: %u, atomic_bs: %u\n",
+> +			ns->ctrl->subsys->awupf, atomic_bs);
+>   	}
 >   
-> @@ -799,12 +798,11 @@ fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
->    */
->   static void
->   fc_fpin_delivery_stats_update(struct Scsi_Host *shost,
-> -			      struct fc_tlv_desc *tlv)
-> +			      struct fc_fn_deli_desc *dn_desc)
->   {
->   	struct fc_rport *rport = NULL;
->   	struct fc_rport *attach_rport = NULL;
->   	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
-> -	struct fc_fn_deli_desc *dn_desc = (struct fc_fn_deli_desc *)tlv;
->   	u32 reason_code = be32_to_cpu(dn_desc->deli_reason_code);
->   
->   	rport = fc_find_rport_by_wwpn(shost,
-> @@ -830,13 +828,11 @@ fc_fpin_delivery_stats_update(struct Scsi_Host *shost,
->    */
->   static void
->   fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
-> -				struct fc_tlv_desc *tlv)
-> +				struct fc_fn_peer_congn_desc *pc_desc)
->   {
->   	u8 i;
->   	struct fc_rport *rport = NULL;
->   	struct fc_rport *attach_rport = NULL;
-> -	struct fc_fn_peer_congn_desc *pc_desc =
-> -	    (struct fc_fn_peer_congn_desc *)tlv;
->   	u16 event_type = be16_to_cpu(pc_desc->event_type);
->   	u64 wwpn;
->   
-> @@ -876,10 +872,9 @@ fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
->    */
->   static void
->   fc_fpin_congn_stats_update(struct Scsi_Host *shost,
-> -			   struct fc_tlv_desc *tlv)
-> +			   struct fc_fn_congn_desc *congn)
->   {
->   	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
-> -	struct fc_fn_congn_desc *congn = (struct fc_fn_congn_desc *)tlv;
->   
->   	fc_cn_stats_update(be16_to_cpu(congn->event_type),
->   			   &fc_host->fpin_stats);
-> @@ -899,32 +894,32 @@ fc_host_fpin_rcv(struct Scsi_Host *shost, u32 fpin_len, char *fpin_buf,
->   		u8 event_acknowledge)
->   {
->   	struct fc_els_fpin *fpin = (struct fc_els_fpin *)fpin_buf;
-> -	struct fc_tlv_desc *tlv;
-> +	union fc_tlv_desc *tlv;
->   	u32 bytes_remain;
->   	u32 dtag;
->   	enum fc_host_event_code event_code =
->   		event_acknowledge ? FCH_EVT_LINK_FPIN_ACK : FCH_EVT_LINK_FPIN;
->   
->   	/* Update Statistics */
-> -	tlv = (struct fc_tlv_desc *)&fpin->fpin_desc[0];
-> +	tlv = &fpin->fpin_desc[0];
->   	bytes_remain = fpin_len - offsetof(struct fc_els_fpin, fpin_desc);
->   	bytes_remain = min_t(u32, bytes_remain, be32_to_cpu(fpin->desc_len));
->   
->   	while (bytes_remain >= FC_TLV_DESC_HDR_SZ &&
->   	       bytes_remain >= FC_TLV_DESC_SZ_FROM_LENGTH(tlv)) {
-> -		dtag = be32_to_cpu(tlv->desc_tag);
-> +		dtag = be32_to_cpu(tlv->hdr.desc_tag);
->   		switch (dtag) {
->   		case ELS_DTAG_LNK_INTEGRITY:
-> -			fc_fpin_li_stats_update(shost, tlv);
-> +			fc_fpin_li_stats_update(shost, &tlv->li);
->   			break;
->   		case ELS_DTAG_DELIVERY:
-> -			fc_fpin_delivery_stats_update(shost, tlv);
-> +			fc_fpin_delivery_stats_update(shost, &tlv->deli);
->   			break;
->   		case ELS_DTAG_PEER_CONGEST:
-> -			fc_fpin_peer_congn_stats_update(shost, tlv);
-> +			fc_fpin_peer_congn_stats_update(shost, &tlv->peer_congn);
->   			break;
->   		case ELS_DTAG_CONGESTION:
-> -			fc_fpin_congn_stats_update(shost, tlv);
-> +			fc_fpin_congn_stats_update(shost, &tlv->congn);
->   		}
->   
->   		bytes_remain -= FC_TLV_DESC_SZ_FROM_LENGTH(tlv);
-> diff --git a/include/uapi/scsi/fc/fc_els.h b/include/uapi/scsi/fc/fc_els.h
-> index 16782c360de3..3598dc553f4d 100644
-> --- a/include/uapi/scsi/fc/fc_els.h
-> +++ b/include/uapi/scsi/fc/fc_els.h
-> @@ -253,12 +253,12 @@ enum fc_ls_tlv_dtag {
->   
->   
->   /*
-> - * Generic Link Service TLV Descriptor format
-> + * Generic Link Service TLV Descriptor header
->    *
->    * This structure, as it defines no payload, will also be referred to
->    * as the "tlv header" - which contains the tag and len fields.
->    */
-> -struct fc_tlv_desc {
-> +struct fc_tlv_desc_hdr {
->   	__be32		desc_tag;	/* Notification Descriptor Tag */
->   	__be32		desc_len;	/* Length of Descriptor (in bytes).
->   					 * Size of descriptor excluding
-> @@ -267,36 +267,6 @@ struct fc_tlv_desc {
->   	__u8		desc_value[];  /* Descriptor Value */
->   };
->   
-> -/* Descriptor tag and len fields are considered the mandatory header
-> - * for a descriptor
-> - */
-> -#define FC_TLV_DESC_HDR_SZ	sizeof(struct fc_tlv_desc)
-> -
-> -/*
-> - * Macro, used when initializing payloads, to return the descriptor length.
-> - * Length is size of descriptor minus the tag and len fields.
-> - */
-> -#define FC_TLV_DESC_LENGTH_FROM_SZ(desc)	\
-> -		(sizeof(desc) - FC_TLV_DESC_HDR_SZ)
-> -
-> -/* Macro, used on received payloads, to return the descriptor length */
-> -#define FC_TLV_DESC_SZ_FROM_LENGTH(tlv)		\
-> -		(__be32_to_cpu((tlv)->desc_len) + FC_TLV_DESC_HDR_SZ)
-> -
-> -/*
-> - * This helper is used to walk descriptors in a descriptor list.
-> - * Given the address of the current descriptor, which minimally contains a
-> - * tag and len field, calculate the address of the next descriptor based
-> - * on the len field.
-> - */
-> -static inline void *fc_tlv_next_desc(void *desc)
-> -{
-> -	struct fc_tlv_desc *tlv = desc;
-> -
-> -	return (desc + FC_TLV_DESC_SZ_FROM_LENGTH(tlv));
-> -}
-> -
-> -
->   /*
->    * Link Service Request Information Descriptor
->    */
-> @@ -1094,19 +1064,6 @@ struct fc_fn_congn_desc {
->   	__u8		resv[3];	/* reserved - must be zero */
->   };
->   
-> -/*
-> - * ELS_FPIN - Fabric Performance Impact Notification
-> - */
-> -struct fc_els_fpin {
-> -	__u8		fpin_cmd;	/* command (0x16) */
-> -	__u8		fpin_zero[3];	/* specified as zero - part of cmd */
-> -	__be32		desc_len;	/* Length of Descriptor List (in bytes).
-> -					 * Size of ELS excluding fpin_cmd,
-> -					 * fpin_zero and desc_len fields.
-> -					 */
-> -	struct fc_tlv_desc	fpin_desc[];	/* Descriptor list */
-> -};
-> -
->   /* Diagnostic Function Descriptor - FPIN Registration */
->   struct fc_df_desc_fpin_reg {
->   	__be32		desc_tag;	/* FPIN Registration (0x00030001) */
-> @@ -1125,33 +1082,6 @@ struct fc_df_desc_fpin_reg {
->   					 */
->   };
->   
-> -/*
-> - * ELS_RDF - Register Diagnostic Functions
-> - */
-> -struct fc_els_rdf {
-> -	__u8		fpin_cmd;	/* command (0x19) */
-> -	__u8		fpin_zero[3];	/* specified as zero - part of cmd */
-> -	__be32		desc_len;	/* Length of Descriptor List (in bytes).
-> -					 * Size of ELS excluding fpin_cmd,
-> -					 * fpin_zero and desc_len fields.
-> -					 */
-> -	struct fc_tlv_desc	desc[];	/* Descriptor list */
-> -};
-> -
-> -/*
-> - * ELS RDF LS_ACC Response.
-> - */
-> -struct fc_els_rdf_resp {
-> -	struct fc_els_ls_acc	acc_hdr;
-> -	__be32			desc_list_len;	/* Length of response (in
-> -						 * bytes). Excludes acc_hdr
-> -						 * and desc_list_len fields.
-> -						 */
-> -	struct fc_els_lsri_desc	lsri;
-> -	struct fc_tlv_desc	desc[];	/* Supported Descriptor list */
-> -};
-> -
-> -
->   /*
->    * Diagnostic Capability Descriptors for EDC ELS
->    */
-> @@ -1221,6 +1151,65 @@ struct fc_diag_cg_sig_desc {
->   	struct fc_diag_cg_sig_freq	rcv_signal_frequency;
->   };
->   
-> +/*
-> + * Generic Link Service TLV Descriptor format
-> + *
-> + * This structure, as it defines no payload, will also be referred to
-> + * as the "tlv header" - which contains the tag and len fields.
-> + */
-> +union fc_tlv_desc {
-> +	struct fc_tlv_desc_hdr hdr;
-> +	struct fc_els_lsri_desc lsri;
-> +	struct fc_fn_li_desc li;
-> +	struct fc_fn_deli_desc deli;
-> +	struct fc_fn_peer_congn_desc peer_congn;
-> +	struct fc_fn_congn_desc congn;
-> +	struct fc_df_desc_fpin_reg fpin_reg;
-> +	struct fc_diag_lnkflt_desc lnkflt;
-> +	struct fc_diag_cg_sig_desc cg_sig;
-> +};
-> +
-> +/* Descriptor tag and len fields are considered the mandatory header
-> + * for a descriptor
-> + */
-> +#define FC_TLV_DESC_HDR_SZ	sizeof(struct fc_tlv_desc_hdr)
-> +
-> +/*
-> + * Macro, used when initializing payloads, to return the descriptor length.
-> + * Length is size of descriptor minus the tag and len fields.
-> + */
-> +#define FC_TLV_DESC_LENGTH_FROM_SZ(desc)	\
-> +		(sizeof(desc) - FC_TLV_DESC_HDR_SZ)
-> +
-> +/* Macro, used on received payloads, to return the descriptor length */
-> +#define FC_TLV_DESC_SZ_FROM_LENGTH(tlv)		\
-> +		(__be32_to_cpu((tlv)->hdr.desc_len) + FC_TLV_DESC_HDR_SZ)
-> +
-> +/*
-> + * This helper is used to walk descriptors in a descriptor list.
-> + * Given the address of the current descriptor, which minimally contains a
-> + * tag and len field, calculate the address of the next descriptor based
-> + * on the len field.
-> + */
-> +static inline union fc_tlv_desc *fc_tlv_next_desc(union fc_tlv_desc *desc)
-> +{
-> +	return (union fc_tlv_desc *)((__u8 *)desc + FC_TLV_DESC_SZ_FROM_LENGTH(desc));
-> +}
-> +
-> +
-> +/*
-> + * ELS_FPIN - Fabric Performance Impact Notification
-> + */
-> +struct fc_els_fpin {
-> +	__u8		fpin_cmd;	/* command (0x16) */
-> +	__u8		fpin_zero[3];	/* specified as zero - part of cmd */
-> +	__be32		desc_len;	/* Length of Descriptor List (in bytes).
-> +					 * Size of ELS excluding fpin_cmd,
-> +					 * fpin_zero and desc_len fields.
-> +					 */
-> +	union fc_tlv_desc	fpin_desc[];	/* Descriptor list */
-> +};
-> +
->   /*
->    * ELS_EDC - Exchange Diagnostic Capabilities
->    */
-> @@ -1231,10 +1220,37 @@ struct fc_els_edc {
->   					 * Size of ELS excluding edc_cmd,
->   					 * edc_zero and desc_len fields.
->   					 */
-> -	struct fc_tlv_desc	desc[];
-> +	union fc_tlv_desc	desc[];
->   					/* Diagnostic Descriptor list */
->   };
->   
-> +/*
-> + * ELS_RDF - Register Diagnostic Functions
-> + */
-> +struct fc_els_rdf {
-> +	__u8		fpin_cmd;	/* command (0x19) */
-> +	__u8		fpin_zero[3];	/* specified as zero - part of cmd */
-> +	__be32		desc_len;	/* Length of Descriptor List (in bytes).
-> +					 * Size of ELS excluding fpin_cmd,
-> +					 * fpin_zero and desc_len fields.
-> +					 */
-> +	union fc_tlv_desc	desc[];	/* Descriptor list */
-> +};
-> +
-> +/*
-> + * ELS RDF LS_ACC Response.
-> + */
-> +struct fc_els_rdf_resp {
-> +	struct fc_els_ls_acc	acc_hdr;
-> +	__be32			desc_list_len;	/* Length of response (in
-> +						 * bytes). Excludes acc_hdr
-> +						 * and desc_list_len fields.
-> +						 */
-> +	struct fc_els_lsri_desc	lsri;
-> +	union fc_tlv_desc	desc[];	/* Supported Descriptor list */
-> +};
-> +
-> +
->   /*
->    * ELS EDC LS_ACC Response.
->    */
-> @@ -1245,9 +1261,8 @@ struct fc_els_edc_resp {
->   						 * and desc_list_len fields.
->   						 */
->   	struct fc_els_lsri_desc	lsri;
-> -	struct fc_tlv_desc	desc[];
-> +	union fc_tlv_desc	desc[];
->   				    /* Supported Diagnostic Descriptor list */
->   };
->   
-> -
->   #endif /* _FC_ELS_H_ */
+>   	lim->atomic_write_hw_max = atomic_bs;
+
+Here you go:
+
+CTRL 0 (nvme0) - AWUN=31 AWUPF=15       nvme0n1
+CTRL 1 (nvme1) - AWUN=31 AWUPF=31       nvme0n3
+CTRL 2 (nvme2) - AWUN=15 AWUPF=7        nvme0n2
+CTRL 3 (nvme3) - AWUN=15 AWUPF=15
+     NS - NAWUN=31 NAWUPF=15                 nvme0n4
+     NS - NAWUN=127 NAWUPF=63               nvme0n5
+
+
+[root@localhost ~]# nvme id-ctrl /dev/nvme0n1 | grep awupf
+awupf     : 15
+[root@localhost ~]# cat /sys/block/nvme0n1/queue/atomic_write_max_bytes
+8192
+[root@localhost ~]# nvme id-ctrl /dev/nvme0n2 | grep awupf
+awupf     : 7
+[root@localhost ~]# cat /sys/block/nvme0n2/queue/atomic_write_max_bytes
+8192
+[root@localhost ~]# nvme id-ctrl /dev/nvme0n3 | grep awupf
+awupf     : 31
+[root@localhost ~]# cat /sys/block/nvme0n3/queue/atomic_write_max_bytes
+8192
+[root@localhost ~]# nvme id-ns /dev/nvme0n4 | grep nawupf
+nawupf  : 15
+[root@localhost ~]# cat /sys/block/nvme0n4/queue/atomic_write_max_bytes
+8192
+[root@localhost ~]# nvme id-ns /dev/nvme0n5 | grep nawupf
+nawupf  : 63
+[root@localhost ~]# cat /sys/block/nvme0n5/queue/atomic_write_max_bytes
+32768
+[root@localhost ~]#
+
+[root@localhost ~]# dmesg | grep nvme | grep atomic_bs
+[    2.831882] nvme nvme0: AWUPF: 15, atomic_bs: 8192
+[    2.840480] nvme nvme2: AWUPF: 15, atomic_bs: 8192
+[    2.842418] nvme nvme1: AWUPF: 15, atomic_bs: 8192
+[    2.861119] nvme nvme3: NAWUPF: 0, atomic_bs: 8192
+[    2.862427] nvme nvme3: NAWUPF: 0, atomic_bs: 32768
+[root@localhost ~]#
+
 
 
