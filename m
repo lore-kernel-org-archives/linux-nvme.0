@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54D9CC77B7C
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jun 2025 17:23:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27741C77B7C
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Jun 2025 18:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N2nt0fZmKvBPIMVkhLyEzSUL7vlDMsn/CKXNUXOyjlk=; b=W1LHEnhVp2qseV/mfuGKjGQtO8
-	gchM2VMZzJfU1SAUPKGfNBdIjV5k2sD0o6itjs/oppnX4EK2K2X3XUy7sDkt+jSJUoBrSmGZEPmfA
-	9aieMy4ZY85Tfu5E7sAD8vb9Uxa9RsMgrcLZRHrioV3499G5oZVLedvypGFJOh4H7mPoauZ1l66eF
-	8ffdkF2yUX7sBWVTrnVVKHIoViK+XYnaZy3WUKFn1smQ1BxnXH7HISMZFaK3v07uQnjI9Wy3qxh8q
-	Q6iKvRFzVbAb+2UDXY8KTZdI3+foGnoqOLFMgJdVYIjFkUmQUjZzOOJmuviZAL/GLD+HRx8F1jkop
-	qdV8aXzg==;
+	bh=nCK2heZ2hSWzYFxFxIIZWJKPXrvEXshT9rSTUJdQzLI=; b=CGVuYQe6dU9vTgVUksSNxm9j9D
+	G89dLR/hY98LfP6q1v1r63Pjqjmt6RpmkjuOOlWJzwwC1Iez4SnDapGfwvYcNPtizbppALZw/bDsJ
+	RjNLa93/97/XZJNlPeOEb2QWgccvhw0sPE11B9j546hRJGj0FzQcXCJp66Q6VSHHk0S/kqc6tPwFs
+	hnKx/kWdR0YQ2yrmHIEDPegMZPPBl+k0OmNjtQuIprduuD+WRnn1YoswzB17onxVshTzhScP+1mQN
+	xlutjHgI8qyTPIMTko2c/PduZYBCg2kLax/OdTaK5O5Bpb4LZSxdeBHj294S8R8pDk1BmhI03Gg0q
+	7EK/lLig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uTktG-00000003XsR-3saz;
-	Mon, 23 Jun 2025 17:23:30 +0000
+	id 1uTm3g-00000003i7C-2eLK;
+	Mon, 23 Jun 2025 18:38:20 +0000
 Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uThvM-00000002zst-47xy;
-	Mon, 23 Jun 2025 14:13:29 +0000
+	id 1uThvI-00000002zrz-3jXZ;
+	Mon, 23 Jun 2025 14:13:25 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -39,9 +39,9 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Daniel Gomez <da.gomez@samsung.com>,
 	Leon Romanovsky <leonro@nvidia.com>
-Subject: [PATCH 8/8] nvme-pci: rework the build time assert for NVME_MAX_NR_DESCRIPTORS
-Date: Mon, 23 Jun 2025 16:12:30 +0200
-Message-ID: <20250623141259.76767-9-hch@lst.de>
+Subject: [PATCH 7/8] nvme-pci: replace NVME_MAX_KB_SZ with NVME_MAX_BYTE
+Date: Mon, 23 Jun 2025 16:12:29 +0200
+Message-ID: <20250623141259.76767-8-hch@lst.de>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250623141259.76767-1-hch@lst.de>
 References: <20250623141259.76767-1-hch@lst.de>
@@ -61,70 +61,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The current use of an always_inline helper is a bit convoluted.
-Instead use macros that represent the arithmetics used for building
-up the PRP chain.
+Having a define in kiB units is a bit weird.  Also update the
+comment now that there is not scatterlist limit.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
 Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/nvme/host/pci.c | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ drivers/nvme/host/pci.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4bcd1fdf9a71..d9d115b14a88 100644
+index 040ed906c580..4bcd1fdf9a71 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -57,6 +57,21 @@
- #define NVME_MAX_META_SEGS \
- 	((NVME_SMALL_POOL_SIZE / sizeof(struct nvme_sgl_desc)) - 1)
+@@ -38,10 +38,9 @@
+ #define NVME_SMALL_POOL_SIZE	256
  
-+/*
-+ * The last entry is used to link to the next descriptor.
-+ */
-+#define PRPS_PER_PAGE \
-+	(((NVME_CTRL_PAGE_SIZE / sizeof(__le64))) - 1)
-+
-+/*
-+ * I/O could be non-aligned both at the beginning and end.
-+ */
-+#define MAX_PRP_RANGE \
-+	(NVME_MAX_BYTES + 2 * (NVME_CTRL_PAGE_SIZE - 1))
-+
-+static_assert(MAX_PRP_RANGE / NVME_CTRL_PAGE_SIZE <=
-+	(1 /* prp1 */ + NVME_MAX_NR_DESCRIPTORS * PRPS_PER_PAGE));
-+
- static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0444);
+ /*
+- * These can be higher, but we need to ensure that any command doesn't
+- * require an sg allocation that needs more than a page of data.
++ * Arbitrary upper bound.
+  */
+-#define NVME_MAX_KB_SZ	8192
++#define NVME_MAX_BYTES		SZ_8M
+ #define NVME_MAX_NR_DESCRIPTORS	5
  
-@@ -405,18 +420,6 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, __le32 *dbbuf_db,
- 	return true;
- }
- 
--/*
-- * Will slightly overestimate the number of pages needed.  This is OK
-- * as it only leads to a small amount of wasted memory for the lifetime of
-- * the I/O.
-- */
--static __always_inline int nvme_pci_npages_prp(void)
--{
--	unsigned max_bytes = NVME_MAX_BYTES + NVME_CTRL_PAGE_SIZE;
--	unsigned nprps = DIV_ROUND_UP(max_bytes, NVME_CTRL_PAGE_SIZE);
--	return DIV_ROUND_UP(8 * nprps, NVME_CTRL_PAGE_SIZE - 8);
--}
--
- static struct nvme_descriptor_pools *
- nvme_setup_descriptor_pools(struct nvme_dev *dev, unsigned numa_node)
+ /*
+@@ -413,7 +412,7 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, __le32 *dbbuf_db,
+  */
+ static __always_inline int nvme_pci_npages_prp(void)
  {
-@@ -3938,7 +3941,6 @@ static int __init nvme_init(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_create_sq) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_delete_queue) != 64);
- 	BUILD_BUG_ON(IRQ_AFFINITY_MAX_SETS < 2);
--	BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_DESCRIPTORS);
- 
- 	return pci_register_driver(&nvme_driver);
+-	unsigned max_bytes = (NVME_MAX_KB_SZ * 1024) + NVME_CTRL_PAGE_SIZE;
++	unsigned max_bytes = NVME_MAX_BYTES + NVME_CTRL_PAGE_SIZE;
+ 	unsigned nprps = DIV_ROUND_UP(max_bytes, NVME_CTRL_PAGE_SIZE);
+ 	return DIV_ROUND_UP(8 * nprps, NVME_CTRL_PAGE_SIZE - 8);
  }
+@@ -3367,7 +3366,8 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	 * over a single page.
+ 	 */
+ 	dev->ctrl.max_hw_sectors = min_t(u32,
+-		NVME_MAX_KB_SZ << 1, dma_opt_mapping_size(&pdev->dev) >> 9);
++			NVME_MAX_BYTES >> SECTOR_SHIFT,
++			dma_opt_mapping_size(&pdev->dev) >> 9);
+ 	dev->ctrl.max_segments = NVME_MAX_SEGS;
+ 	dev->ctrl.max_integrity_segments = 1;
+ 	return dev;
 -- 
 2.47.2
 
