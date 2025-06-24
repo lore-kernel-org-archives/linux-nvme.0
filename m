@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B0E2C7EE33
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Jun 2025 22:14:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C692C77B7F
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Jun 2025 22:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+k/PzmZFNCcHfs5nMoe3Ogufiyy+ih/BV0Jnn4FDitc=; b=Nnnvlbo1vcYSGa2LosGGaImGFZ
-	OR25WLMgLxC7Ti2mPUcwPJpXOl+Fh1kKIC3VK+am0zHqgvEjt1DyAiKREeCVAStOo1dnSXaIMbrVQ
-	z5kljAUHlKZL+nR75Y4yBZQnmLTq8UvM6vnCSAdcSMogat+fkdDmNm26WN+IijoyQmVQANm9B00GE
-	j/TYhNVDTPYAjZhu+Zb+teqz2O4WeH0JJf+KkXupCK2bT1XCpL1bRhIWQd2tcvw9bh7sAy6fX0UDB
-	EUHqtqISwxYECbgQ+jn2XW2IVTJNUCTJa8+rdQVn2SgQTnqeMscp15WuOpd3dPvACuMZgaaYhFSIC
-	5E6cHhLA==;
+	bh=Oaks/0jSVI/AymMABPEdKfpIHanqGaQ44YoIiGNmMKU=; b=1RPXXQQBlJjwDK1hm5wiFPo034
+	7hoDwtYv1itU5CP/DssOfyHmUgBREB8HA6jobJKpbjS7ZM+/m5QHgFlIJ7XhK77TXvLae/ohmfIIJ
+	Lff/42qTTJnSLfGRlS+EF0VvFRFVqrV4sw4QVAhQT/t92YB64g/OnoQ20c9b8ps3Q8NlJRIJK+W1A
+	20Tgw1X4mNDfMgKkMVmGn2UBN9/CQDEHpizxtxpumpvXFviVry1f+mQkbzRJfhJunJ/ghnW98E/Ip
+	aCVLfHnZjD2k7KJAHDbjfohg1zrrWRzK6APC0pIqx8T91jP63wHALlNtC0jAtcDnaKVN3HIbdtoFB
+	Eo25HmFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUBuA-00000006xJ3-2IIR;
-	Tue, 24 Jun 2025 22:14:14 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1uUBuD-00000006xLs-43vI;
+	Tue, 24 Jun 2025 22:14:17 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUA9a-00000006kdK-0SwS
+	id 1uUABY-00000006krt-3LUr
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Jun 2025 20:22:03 +0000
+	Tue, 24 Jun 2025 20:24:05 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750796521;
+	s=mimecast20190719; t=1750796643;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+k/PzmZFNCcHfs5nMoe3Ogufiyy+ih/BV0Jnn4FDitc=;
-	b=iiywa1q+jsgbRrhe2xKakKLdVl/dq/WS37ZfYdWeiiE0JATZ0pIR7HHdjpe48XpJChl45S
-	2zjS6fWG2pRwmInMnyx7cBQhovxni0jxGRH59fXeuGvnqfbXbdD5wd/PiHwNDFmphrvtZF
-	EXTaBUEMvptRd7/HvaUBHLIJiAiZ7Vw=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=Oaks/0jSVI/AymMABPEdKfpIHanqGaQ44YoIiGNmMKU=;
+	b=HiEfLhUE2N4YusSOVOJcuDXfErFRlbd2f0cTp1hFJYRqhYOBbjc0XkacU82arI/EB860fq
+	5UgV6/8c05Fr+CcPdD6hsgXbb9l+cJNZk9IUi0au/Zq5KPxQjbd75EM2YagTv/dq4jIKXp
+	4O+7WWu4ajiSv0ZbV3f85joxYom88eY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-449-UkHu5dZeMmKI_p4Nh28lzg-1; Tue,
- 24 Jun 2025 16:21:57 -0400
-X-MC-Unique: UkHu5dZeMmKI_p4Nh28lzg-1
-X-Mimecast-MFC-AGG-ID: UkHu5dZeMmKI_p4Nh28lzg_1750796515
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-624-aLQqzPXbMI-Zz69Sjz0ThQ-1; Tue,
+ 24 Jun 2025 16:23:58 -0400
+X-MC-Unique: aLQqzPXbMI-Zz69Sjz0ThQ-1
+X-Mimecast-MFC-AGG-ID: aLQqzPXbMI-Zz69Sjz0ThQ_1750796636
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3519B195608B;
-	Tue, 24 Jun 2025 20:21:55 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 89A06180028B;
+	Tue, 24 Jun 2025 20:23:56 +0000 (UTC)
 Received: from bgurney-thinkpadp1gen5.remote.csb (unknown [10.45.226.95])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6028719560A3;
-	Tue, 24 Jun 2025 20:21:48 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 62186180035E;
+	Tue, 24 Jun 2025 20:23:51 +0000 (UTC)
 From: Bryan Gurney <bgurney@redhat.com>
 To: linux-nvme@lists.infradead.org,
 	kbusch@kernel.org,
@@ -66,17 +66,18 @@ Cc: james.smart@broadcom.com,
 	hare@suse.de,
 	bgurney@redhat.com,
 	jmeneghi@redhat.com
-Subject: [PATCH v7 2/6] nvme-fc: marginal path handling
-Date: Tue, 24 Jun 2025 16:20:16 -0400
-Message-ID: <20250624202020.42612-3-bgurney@redhat.com>
+Subject: [PATCH v7 5/6] qla2xxx: enable FPIN notification for NVMe
+Date: Tue, 24 Jun 2025 16:20:19 -0400
+Message-ID: <20250624202020.42612-6-bgurney@redhat.com>
 In-Reply-To: <20250624202020.42612-1-bgurney@redhat.com>
 References: <20250624202020.42612-1-bgurney@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250624_132202_234251_F334D0EF 
-X-CRM114-Status: GOOD (  17.64  )
+X-CRM114-CacheID: sfid-20250624_132404_908109_1E8E23B2 
+X-CRM114-Status: UNSURE (   8.32  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,119 +94,27 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@kernel.org>
 
-FPIN LI (link integrity) messages are received when the attached
-fabric detects hardware errors. In response to these messages I/O
-should be directed away from the affected ports, and only used
-if the 'optimized' paths are unavailable.
-To handle this a new controller flag 'NVME_CTRL_MARGINAL' is added
-which will cause the multipath scheduler to skip these paths when
-checking for 'optimized' paths. They are, however, still eligible
-for non-optimized path selected. The flag is cleared upon reset as then the
-faulty hardware might be replaced.
+Call 'nvme_fc_fpin_rcv()' to enable FPIN notifications for NVMe.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Tested-by: Bryan Gurney <bgurney@redhat.com>
 ---
- drivers/nvme/host/core.c      |  1 +
- drivers/nvme/host/fc.c        |  4 ++++
- drivers/nvme/host/multipath.c | 17 +++++++++++------
- drivers/nvme/host/nvme.h      |  6 ++++++
- 4 files changed, 22 insertions(+), 6 deletions(-)
+ drivers/scsi/qla2xxx/qla_isr.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3da5ac71a9b0..ac03ef7baab9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5040,6 +5040,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	WRITE_ONCE(ctrl->state, NVME_CTRL_NEW);
- 	ctrl->passthru_err_log_enabled = false;
- 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+	clear_bit(NVME_CTRL_MARGINAL, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
- 	mutex_init(&ctrl->namespaces_lock);
+diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
+index fe98c76e9be3..cfe7afc905b4 100644
+--- a/drivers/scsi/qla2xxx/qla_isr.c
++++ b/drivers/scsi/qla2xxx/qla_isr.c
+@@ -46,6 +46,9 @@ qla27xx_process_purex_fpin(struct scsi_qla_host *vha, struct purex_item *item)
+ 		       pkt, pkt_size);
  
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 014b387f1e8b..7e81c815bb83 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -786,6 +786,10 @@ nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
- 		"Reconnect", ctrl->cnum);
- 
- 	set_bit(ASSOC_FAILED, &ctrl->flags);
-+
-+	/* clear 'marginal' flag as controller will be reset */
-+	clear_bit(NVME_CTRL_MARGINAL, &ctrl->flags);
-+
- 	nvme_reset_ctrl(&ctrl->ctrl);
+ 	fc_host_fpin_rcv(vha->host, pkt_size, (char *)pkt, 0);
++#if (IS_ENABLED(CONFIG_NVME_FC))
++	nvme_fc_fpin_rcv(vha->nvme_local_port, pkt_size, (char *)pkt);
++#endif
  }
  
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 1062467595f3..003954985675 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -324,11 +324,14 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
- 
- 		switch (ns->ana_state) {
- 		case NVME_ANA_OPTIMIZED:
--			if (distance < found_distance) {
--				found_distance = distance;
--				found = ns;
-+			if (!nvme_ctrl_is_marginal(ns->ctrl)) {
-+				if (distance < found_distance) {
-+					found_distance = distance;
-+					found = ns;
-+				}
-+				break;
- 			}
--			break;
-+			fallthrough;
- 		case NVME_ANA_NONOPTIMIZED:
- 			if (distance < fallback_distance) {
- 				fallback_distance = distance;
-@@ -381,7 +384,8 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head)
- 
- 		if (ns->ana_state == NVME_ANA_OPTIMIZED) {
- 			found = ns;
--			goto out;
-+			if (!nvme_ctrl_is_marginal(ns->ctrl))
-+				goto out;
- 		}
- 		if (ns->ana_state == NVME_ANA_NONOPTIMIZED)
- 			found = ns;
-@@ -445,7 +449,8 @@ static struct nvme_ns *nvme_queue_depth_path(struct nvme_ns_head *head)
- static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
- {
- 	return nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE &&
--		ns->ana_state == NVME_ANA_OPTIMIZED;
-+		ns->ana_state == NVME_ANA_OPTIMIZED &&
-+		!nvme_ctrl_is_marginal(ns->ctrl);
- }
- 
- static struct nvme_ns *nvme_numa_path(struct nvme_ns_head *head)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 7df2ea21851f..71a5c5f87db6 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -275,6 +275,7 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
- 	NVME_CTRL_DIRTY_CAPABILITY	= 5,
- 	NVME_CTRL_FROZEN		= 6,
-+	NVME_CTRL_MARGINAL		= 7,
- };
- 
- struct nvme_ctrl {
-@@ -417,6 +418,11 @@ static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
- 	return READ_ONCE(ctrl->state);
- }
- 
-+static inline bool nvme_ctrl_is_marginal(struct nvme_ctrl *ctrl)
-+{
-+	return test_bit(NVME_CTRL_MARGINAL, &ctrl->flags);
-+}
-+
- enum nvme_iopolicy {
- 	NVME_IOPOLICY_NUMA,
- 	NVME_IOPOLICY_RR,
+ const char *const port_state_str[] = {
 -- 
 2.49.0
 
