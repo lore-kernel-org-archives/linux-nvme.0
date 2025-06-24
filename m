@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC83DC7EE33
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Jun 2025 22:14:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A248C7EE39
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Jun 2025 22:14:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gb7VU4Yqii31Q0K4n8MvfF1xfaMxgwUGNB+6uWggDT4=; b=paISfj+spGkQlO5vWXFiTLS8dD
-	/z742HP7wpAjuro9FwSWZgQJnsYbv73YE5NpCDDlKjyGjzd/AshQfxrNrN6KYyxFnnvCGLB9mILlp
-	yzpeNpUMg4doLiyCA4xdHN/F21OABKQoAyjMXZIBsPtwLaBoC3RagWqBzg2allRQyc7LcaQFlQ4B1
-	P2N1Zos8GjYwiV9oHybaL5aGPrbn8B2CNSaLcWq1dM1ZS76DrtE7cFLYiMPTvcKQgd0e7TOnRS3CJ
-	3YlJkkAx6YKLUb11sUU+oqTSCb1mwZSTpPnzirHfxh6TIUeggS5HHiOmo59q6VsMZy4jq0bgQ69EH
-	0oYoNueg==;
+	bh=0rgMX+APPliiDuaSffD7zbrOiHnA95ZsnSfsBtumysw=; b=nm2mCk5CzPcJOMHdYgCMCGgspy
+	qdNugS/w2yFTHFBjWicwaOrR1XuhVWbjHonDLwOw9HhtRXHJ77dAyELUevpfMzppFR/uh9Tgmybqg
+	w7yI0f4/65yaam2BfItvnn9xAW5f+c0udBxnDwUAITxeZEyNkvUITN1BpYNKoE3FQWVSXesnxVnaK
+	+QOD2Y13yL4uFQZxG/Dl1U8WNDnmRW+G2WPxMR3dJAgUqt3PqJj1NwyvCS71rTvCVOxT9Qxc3Z+F1
+	J/K6FjO0VYIIrXsmUnV4yE/wEXc57TV2kN71A55dQ/lM3nuQrAm26NsXNRIyyeDbybYiOQFwSG8QJ
+	5uqKBDZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUBuB-00000006xJL-0nrw;
-	Tue, 24 Jun 2025 22:14:15 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1uUBu9-00000006xIs-3sJH;
+	Tue, 24 Jun 2025 22:14:13 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUAAE-00000006kjH-3SCD
+	id 1uUA8v-00000006kYy-1T6g
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Jun 2025 20:22:43 +0000
+	Tue, 24 Jun 2025 20:21:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750796561;
+	s=mimecast20190719; t=1750796480;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gb7VU4Yqii31Q0K4n8MvfF1xfaMxgwUGNB+6uWggDT4=;
-	b=FD8LEpDUS3U7nhFzec4G/0Su1/LM+EQ2l85l1pb4hcgivQNPp9ghXkqIph+Lq1F2bxX4kC
-	SQxeQvmEgM6X3hWUsaLEXzeY5YtTD76+Ly3z7AaoQ3ML3mI1UndhVBVbwqVfn+o54CeEWu
-	gDsrCwd2y9xxfVkHcI4Rn/iw5uE4trM=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=0rgMX+APPliiDuaSffD7zbrOiHnA95ZsnSfsBtumysw=;
+	b=d+KhQkZ9m+2wcKL9oqkKpEA/NUMR4fo23U4vZDV9GvzlPfEluCPrU7iiUL5g3KD5cWWU5i
+	8IxIRUyiyQIMJeRP4EDNSxdk9AHVTy3n3S0y8zSbErZG80hjT/mx7lhqqfo/qMJh/XJo2S
+	JKhI8FyaQVyLiWg2rLE0xXrI8bYf4fo=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-201-XeOfWA0OMt20zhwg_NWmlQ-1; Tue,
- 24 Jun 2025 16:22:38 -0400
-X-MC-Unique: XeOfWA0OMt20zhwg_NWmlQ-1
-X-Mimecast-MFC-AGG-ID: XeOfWA0OMt20zhwg_NWmlQ_1750796556
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-588-oRLNbcyiMiuY2p6Uu8EWtA-1; Tue,
+ 24 Jun 2025 16:21:16 -0400
+X-MC-Unique: oRLNbcyiMiuY2p6Uu8EWtA-1
+X-Mimecast-MFC-AGG-ID: oRLNbcyiMiuY2p6Uu8EWtA_1750796475
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2DE5419560AA;
-	Tue, 24 Jun 2025 20:22:36 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4C81918089B8;
+	Tue, 24 Jun 2025 20:21:14 +0000 (UTC)
 Received: from bgurney-thinkpadp1gen5.remote.csb (unknown [10.45.226.95])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5B4F719560AF;
-	Tue, 24 Jun 2025 20:22:29 +0000 (UTC)
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B6FB719560A3;
+	Tue, 24 Jun 2025 20:21:06 +0000 (UTC)
 From: Bryan Gurney <bgurney@redhat.com>
 To: linux-nvme@lists.infradead.org,
 	kbusch@kernel.org,
@@ -66,17 +66,17 @@ Cc: james.smart@broadcom.com,
 	hare@suse.de,
 	bgurney@redhat.com,
 	jmeneghi@redhat.com
-Subject: [PATCH v7 3/6] nvme-fc: nvme_fc_fpin_rcv() callback
-Date: Tue, 24 Jun 2025 16:20:17 -0400
-Message-ID: <20250624202020.42612-4-bgurney@redhat.com>
+Subject: [PATCH v7 1/6] fc_els: use 'union fc_tlv_desc'
+Date: Tue, 24 Jun 2025 16:20:15 -0400
+Message-ID: <20250624202020.42612-2-bgurney@redhat.com>
 In-Reply-To: <20250624202020.42612-1-bgurney@redhat.com>
 References: <20250624202020.42612-1-bgurney@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250624_132242_937980_58A5307F 
-X-CRM114-Status: GOOD (  16.48  )
+X-CRM114-CacheID: sfid-20250624_132121_538538_A159B72A 
+X-CRM114-Status: GOOD (  15.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,137 +93,628 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@kernel.org>
 
-Add a callback nvme_fc_fpin_rcv() to evaluate the FPIN LI TLV
-information and set the 'marginal' path status for all affected
-rports.
+Introduce 'union fc_tlv_desc' to have a common structure for all FC
+ELS TLV structures and avoid type casts.
+
+[bgurney: The cast inside the union fc_tlv_next_desc() has "u8",
+which causes a failure to build.  Use "__u8" instead.]
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Justin Tee <justin.tee@broadcom.com>
 Tested-by: Bryan Gurney <bgurney@redhat.com>
 ---
- drivers/nvme/host/fc.c         | 95 ++++++++++++++++++++++++++++++++++
- include/linux/nvme-fc-driver.h |  3 ++
- 2 files changed, 98 insertions(+)
+ drivers/scsi/lpfc/lpfc_els.c     |  75 +++++++-------
+ drivers/scsi/scsi_transport_fc.c |  27 +++--
+ include/uapi/scsi/fc/fc_els.h    | 165 +++++++++++++++++--------------
+ 3 files changed, 135 insertions(+), 132 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 7e81c815bb83..71a77917a14f 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3724,6 +3724,101 @@ static struct nvmf_transport_ops nvme_fc_transport = {
- 	.create_ctrl	= nvme_fc_create_ctrl,
+diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
+index 375a879c31f1..959603ab939a 100644
+--- a/drivers/scsi/lpfc/lpfc_els.c
++++ b/drivers/scsi/lpfc/lpfc_els.c
+@@ -3937,7 +3937,7 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ {
+ 	IOCB_t *irsp_iocb;
+ 	struct fc_els_edc_resp *edc_rsp;
+-	struct fc_tlv_desc *tlv;
++	union fc_tlv_desc *tlv;
+ 	struct fc_diag_cg_sig_desc *pcgd;
+ 	struct fc_diag_lnkflt_desc *plnkflt;
+ 	struct lpfc_dmabuf *pcmd, *prsp;
+@@ -4028,7 +4028,7 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 			goto out;
+ 		}
+ 
+-		dtag = be32_to_cpu(tlv->desc_tag);
++		dtag = be32_to_cpu(tlv->hdr.desc_tag);
+ 		switch (dtag) {
+ 		case ELS_DTAG_LNK_FAULT_CAP:
+ 			if (bytes_remain < FC_TLV_DESC_SZ_FROM_LENGTH(tlv) ||
+@@ -4043,7 +4043,7 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 					sizeof(struct fc_diag_lnkflt_desc));
+ 				goto out;
+ 			}
+-			plnkflt = (struct fc_diag_lnkflt_desc *)tlv;
++			plnkflt = &tlv->lnkflt;
+ 			lpfc_printf_log(phba, KERN_INFO,
+ 				LOG_ELS | LOG_LDS_EVENT,
+ 				"4617 Link Fault Desc Data: 0x%08x 0x%08x "
+@@ -4070,7 +4070,7 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 				goto out;
+ 			}
+ 
+-			pcgd = (struct fc_diag_cg_sig_desc *)tlv;
++			pcgd = &tlv->cg_sig;
+ 			lpfc_printf_log(
+ 				phba, KERN_INFO, LOG_ELS | LOG_CGN_MGMT,
+ 				"4616 CGN Desc Data: 0x%08x 0x%08x "
+@@ -4125,10 +4125,8 @@ lpfc_cmpl_els_edc(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ }
+ 
+ static void
+-lpfc_format_edc_lft_desc(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
++lpfc_format_edc_lft_desc(struct lpfc_hba *phba, struct fc_diag_lnkflt_desc *lft)
+ {
+-	struct fc_diag_lnkflt_desc *lft = (struct fc_diag_lnkflt_desc *)tlv;
+-
+ 	lft->desc_tag = cpu_to_be32(ELS_DTAG_LNK_FAULT_CAP);
+ 	lft->desc_len = cpu_to_be32(
+ 		FC_TLV_DESC_LENGTH_FROM_SZ(struct fc_diag_lnkflt_desc));
+@@ -4141,10 +4139,8 @@ lpfc_format_edc_lft_desc(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
+ }
+ 
+ static void
+-lpfc_format_edc_cgn_desc(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
++lpfc_format_edc_cgn_desc(struct lpfc_hba *phba, struct fc_diag_cg_sig_desc *cgd)
+ {
+-	struct fc_diag_cg_sig_desc *cgd = (struct fc_diag_cg_sig_desc *)tlv;
+-
+ 	/* We are assuming cgd was zero'ed before calling this routine */
+ 
+ 	/* Configure the congestion detection capability */
+@@ -4233,7 +4229,7 @@ lpfc_issue_els_edc(struct lpfc_vport *vport, uint8_t retry)
+ 	struct lpfc_hba  *phba = vport->phba;
+ 	struct lpfc_iocbq *elsiocb;
+ 	struct fc_els_edc *edc_req;
+-	struct fc_tlv_desc *tlv;
++	union fc_tlv_desc *tlv;
+ 	u16 cmdsize;
+ 	struct lpfc_nodelist *ndlp;
+ 	u8 *pcmd = NULL;
+@@ -4272,13 +4268,13 @@ lpfc_issue_els_edc(struct lpfc_vport *vport, uint8_t retry)
+ 	tlv = edc_req->desc;
+ 
+ 	if (cgn_desc_size) {
+-		lpfc_format_edc_cgn_desc(phba, tlv);
++		lpfc_format_edc_cgn_desc(phba, &tlv->cg_sig);
+ 		phba->cgn_sig_freq = lpfc_fabric_cgn_frequency;
+ 		tlv = fc_tlv_next_desc(tlv);
+ 	}
+ 
+ 	if (lft_desc_size)
+-		lpfc_format_edc_lft_desc(phba, tlv);
++		lpfc_format_edc_lft_desc(phba, &tlv->lnkflt);
+ 
+ 	lpfc_printf_vlog(vport, KERN_INFO, LOG_ELS | LOG_CGN_MGMT,
+ 			 "4623 Xmit EDC to remote "
+@@ -5823,7 +5819,7 @@ lpfc_issue_els_edc_rsp(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
+ {
+ 	struct lpfc_hba  *phba = vport->phba;
+ 	struct fc_els_edc_resp *edc_rsp;
+-	struct fc_tlv_desc *tlv;
++	union fc_tlv_desc *tlv;
+ 	struct lpfc_iocbq *elsiocb;
+ 	IOCB_t *icmd, *cmd;
+ 	union lpfc_wqe128 *wqe;
+@@ -5867,10 +5863,10 @@ lpfc_issue_els_edc_rsp(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
+ 		FC_TLV_DESC_LENGTH_FROM_SZ(struct fc_els_lsri_desc));
+ 	edc_rsp->lsri.rqst_w0.cmd = ELS_EDC;
+ 	tlv = edc_rsp->desc;
+-	lpfc_format_edc_cgn_desc(phba, tlv);
++	lpfc_format_edc_cgn_desc(phba, &tlv->cg_sig);
+ 	tlv = fc_tlv_next_desc(tlv);
+ 	if (lft_desc_size)
+-		lpfc_format_edc_lft_desc(phba, tlv);
++		lpfc_format_edc_lft_desc(phba, &tlv->lnkflt);
+ 
+ 	lpfc_debugfs_disc_trc(vport, LPFC_DISC_TRC_ELS_RSP,
+ 			      "Issue EDC ACC:      did:x%x flg:x%lx refcnt %d",
+@@ -9255,7 +9251,7 @@ lpfc_els_rcv_edc(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
+ {
+ 	struct lpfc_hba  *phba = vport->phba;
+ 	struct fc_els_edc *edc_req;
+-	struct fc_tlv_desc *tlv;
++	union fc_tlv_desc *tlv;
+ 	uint8_t *payload;
+ 	uint32_t *ptr, dtag;
+ 	const char *dtag_nm;
+@@ -9298,7 +9294,7 @@ lpfc_els_rcv_edc(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
+ 			goto out;
+ 		}
+ 
+-		dtag = be32_to_cpu(tlv->desc_tag);
++		dtag = be32_to_cpu(tlv->hdr.desc_tag);
+ 		switch (dtag) {
+ 		case ELS_DTAG_LNK_FAULT_CAP:
+ 			if (bytes_remain < FC_TLV_DESC_SZ_FROM_LENGTH(tlv) ||
+@@ -9313,7 +9309,7 @@ lpfc_els_rcv_edc(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
+ 					sizeof(struct fc_diag_lnkflt_desc));
+ 				goto out;
+ 			}
+-			plnkflt = (struct fc_diag_lnkflt_desc *)tlv;
++			plnkflt = &tlv->lnkflt;
+ 			lpfc_printf_log(phba, KERN_INFO,
+ 				LOG_ELS | LOG_LDS_EVENT,
+ 				"4626 Link Fault Desc Data: x%08x len x%x "
+@@ -9350,7 +9346,7 @@ lpfc_els_rcv_edc(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
+ 			phba->cgn_sig_freq = lpfc_fabric_cgn_frequency;
+ 
+ 			lpfc_least_capable_settings(
+-				phba, (struct fc_diag_cg_sig_desc *)tlv);
++				phba, &tlv->cg_sig);
+ 			break;
+ 		default:
+ 			dtag_nm = lpfc_get_tlv_dtag_nm(dtag);
+@@ -9941,14 +9937,13 @@ lpfc_display_fpin_wwpn(struct lpfc_hba *phba, __be64 *wwnlist, u32 cnt)
+ /**
+  * lpfc_els_rcv_fpin_li - Process an FPIN Link Integrity Event.
+  * @phba: Pointer to phba object.
+- * @tlv:  Pointer to the Link Integrity Notification Descriptor.
++ * @li:  Pointer to the Link Integrity Notification Descriptor.
+  *
+  * This function processes a Link Integrity FPIN event by logging a message.
+  **/
+ static void
+-lpfc_els_rcv_fpin_li(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
++lpfc_els_rcv_fpin_li(struct lpfc_hba *phba, struct fc_fn_li_desc *li)
+ {
+-	struct fc_fn_li_desc *li = (struct fc_fn_li_desc *)tlv;
+ 	const char *li_evt_str;
+ 	u32 li_evt, cnt;
+ 
+@@ -9972,14 +9967,13 @@ lpfc_els_rcv_fpin_li(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
+ /**
+  * lpfc_els_rcv_fpin_del - Process an FPIN Delivery Event.
+  * @phba: Pointer to hba object.
+- * @tlv:  Pointer to the Delivery Notification Descriptor TLV
++ * @del:  Pointer to the Delivery Notification Descriptor TLV
+  *
+  * This function processes a Delivery FPIN event by logging a message.
+  **/
+ static void
+-lpfc_els_rcv_fpin_del(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
++lpfc_els_rcv_fpin_del(struct lpfc_hba *phba, struct fc_fn_deli_desc *del)
+ {
+-	struct fc_fn_deli_desc *del = (struct fc_fn_deli_desc *)tlv;
+ 	const char *del_rsn_str;
+ 	u32 del_rsn;
+ 	__be32 *frame;
+@@ -10010,14 +10004,14 @@ lpfc_els_rcv_fpin_del(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
+ /**
+  * lpfc_els_rcv_fpin_peer_cgn - Process a FPIN Peer Congestion Event.
+  * @phba: Pointer to hba object.
+- * @tlv:  Pointer to the Peer Congestion Notification Descriptor TLV
++ * @pc:  Pointer to the Peer Congestion Notification Descriptor TLV
+  *
+  * This function processes a Peer Congestion FPIN event by logging a message.
+  **/
+ static void
+-lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
++lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba *phba,
++			   struct fc_fn_peer_congn_desc *pc)
+ {
+-	struct fc_fn_peer_congn_desc *pc = (struct fc_fn_peer_congn_desc *)tlv;
+ 	const char *pc_evt_str;
+ 	u32 pc_evt, cnt;
+ 
+@@ -10045,7 +10039,7 @@ lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
+ /**
+  * lpfc_els_rcv_fpin_cgn - Process an FPIN Congestion notification
+  * @phba: Pointer to hba object.
+- * @tlv:  Pointer to the Congestion Notification Descriptor TLV
++ * @cgn:  Pointer to the Congestion Notification Descriptor TLV
+  *
+  * This function processes an FPIN Congestion Notifiction.  The notification
+  * could be an Alarm or Warning.  This routine feeds that data into driver's
+@@ -10054,10 +10048,9 @@ lpfc_els_rcv_fpin_peer_cgn(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
+  * to the upper layer or 0 to indicate don't deliver it.
+  **/
+ static int
+-lpfc_els_rcv_fpin_cgn(struct lpfc_hba *phba, struct fc_tlv_desc *tlv)
++lpfc_els_rcv_fpin_cgn(struct lpfc_hba *phba, struct fc_fn_congn_desc *cgn)
+ {
+ 	struct lpfc_cgn_info *cp;
+-	struct fc_fn_congn_desc *cgn = (struct fc_fn_congn_desc *)tlv;
+ 	const char *cgn_evt_str;
+ 	u32 cgn_evt;
+ 	const char *cgn_sev_str;
+@@ -10160,7 +10153,7 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
+ {
+ 	struct lpfc_hba *phba = vport->phba;
+ 	struct fc_els_fpin *fpin = (struct fc_els_fpin *)p;
+-	struct fc_tlv_desc *tlv, *first_tlv, *current_tlv;
++	union fc_tlv_desc *tlv, *first_tlv, *current_tlv;
+ 	const char *dtag_nm;
+ 	int desc_cnt = 0, bytes_remain, cnt;
+ 	u32 dtag, deliver = 0;
+@@ -10185,7 +10178,7 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
+ 		return;
+ 	}
+ 
+-	tlv = (struct fc_tlv_desc *)&fpin->fpin_desc[0];
++	tlv = &fpin->fpin_desc[0];
+ 	first_tlv = tlv;
+ 	bytes_remain = fpin_length - offsetof(struct fc_els_fpin, fpin_desc);
+ 	bytes_remain = min_t(u32, bytes_remain, be32_to_cpu(fpin->desc_len));
+@@ -10193,22 +10186,22 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
+ 	/* process each descriptor separately */
+ 	while (bytes_remain >= FC_TLV_DESC_HDR_SZ &&
+ 	       bytes_remain >= FC_TLV_DESC_SZ_FROM_LENGTH(tlv)) {
+-		dtag = be32_to_cpu(tlv->desc_tag);
++		dtag = be32_to_cpu(tlv->hdr.desc_tag);
+ 		switch (dtag) {
+ 		case ELS_DTAG_LNK_INTEGRITY:
+-			lpfc_els_rcv_fpin_li(phba, tlv);
++			lpfc_els_rcv_fpin_li(phba, &tlv->li);
+ 			deliver = 1;
+ 			break;
+ 		case ELS_DTAG_DELIVERY:
+-			lpfc_els_rcv_fpin_del(phba, tlv);
++			lpfc_els_rcv_fpin_del(phba, &tlv->deli);
+ 			deliver = 1;
+ 			break;
+ 		case ELS_DTAG_PEER_CONGEST:
+-			lpfc_els_rcv_fpin_peer_cgn(phba, tlv);
++			lpfc_els_rcv_fpin_peer_cgn(phba, &tlv->peer_congn);
+ 			deliver = 1;
+ 			break;
+ 		case ELS_DTAG_CONGESTION:
+-			deliver = lpfc_els_rcv_fpin_cgn(phba, tlv);
++			deliver = lpfc_els_rcv_fpin_cgn(phba, &tlv->congn);
+ 			break;
+ 		default:
+ 			dtag_nm = lpfc_get_tlv_dtag_nm(dtag);
+@@ -10221,12 +10214,12 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
+ 			return;
+ 		}
+ 		lpfc_cgn_update_stat(phba, dtag);
+-		cnt = be32_to_cpu(tlv->desc_len);
++		cnt = be32_to_cpu(tlv->hdr.desc_len);
+ 
+ 		/* Sanity check descriptor length. The desc_len value does not
+ 		 * include space for the desc_tag and the desc_len fields.
+ 		 */
+-		len -= (cnt + sizeof(struct fc_tlv_desc));
++		len -= (cnt + sizeof(struct fc_tlv_desc_hdr));
+ 		if (len < 0) {
+ 			dtag_nm = lpfc_get_tlv_dtag_nm(dtag);
+ 			lpfc_printf_log(phba, KERN_WARNING, LOG_CGN_MGMT,
+diff --git a/drivers/scsi/scsi_transport_fc.c b/drivers/scsi/scsi_transport_fc.c
+index 082f76e76721..a62636c6f708 100644
+--- a/drivers/scsi/scsi_transport_fc.c
++++ b/drivers/scsi/scsi_transport_fc.c
+@@ -750,13 +750,12 @@ fc_cn_stats_update(u16 event_type, struct fc_fpin_stats *stats)
+  *
+  */
+ static void
+-fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
++fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_fn_li_desc *li_desc)
+ {
+ 	u8 i;
+ 	struct fc_rport *rport = NULL;
+ 	struct fc_rport *attach_rport = NULL;
+ 	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
+-	struct fc_fn_li_desc *li_desc = (struct fc_fn_li_desc *)tlv;
+ 	u16 event_type = be16_to_cpu(li_desc->event_type);
+ 	u64 wwpn;
+ 
+@@ -799,12 +798,11 @@ fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
+  */
+ static void
+ fc_fpin_delivery_stats_update(struct Scsi_Host *shost,
+-			      struct fc_tlv_desc *tlv)
++			      struct fc_fn_deli_desc *dn_desc)
+ {
+ 	struct fc_rport *rport = NULL;
+ 	struct fc_rport *attach_rport = NULL;
+ 	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
+-	struct fc_fn_deli_desc *dn_desc = (struct fc_fn_deli_desc *)tlv;
+ 	u32 reason_code = be32_to_cpu(dn_desc->deli_reason_code);
+ 
+ 	rport = fc_find_rport_by_wwpn(shost,
+@@ -830,13 +828,11 @@ fc_fpin_delivery_stats_update(struct Scsi_Host *shost,
+  */
+ static void
+ fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
+-				struct fc_tlv_desc *tlv)
++				struct fc_fn_peer_congn_desc *pc_desc)
+ {
+ 	u8 i;
+ 	struct fc_rport *rport = NULL;
+ 	struct fc_rport *attach_rport = NULL;
+-	struct fc_fn_peer_congn_desc *pc_desc =
+-	    (struct fc_fn_peer_congn_desc *)tlv;
+ 	u16 event_type = be16_to_cpu(pc_desc->event_type);
+ 	u64 wwpn;
+ 
+@@ -876,10 +872,9 @@ fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
+  */
+ static void
+ fc_fpin_congn_stats_update(struct Scsi_Host *shost,
+-			   struct fc_tlv_desc *tlv)
++			   struct fc_fn_congn_desc *congn)
+ {
+ 	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
+-	struct fc_fn_congn_desc *congn = (struct fc_fn_congn_desc *)tlv;
+ 
+ 	fc_cn_stats_update(be16_to_cpu(congn->event_type),
+ 			   &fc_host->fpin_stats);
+@@ -899,32 +894,32 @@ fc_host_fpin_rcv(struct Scsi_Host *shost, u32 fpin_len, char *fpin_buf,
+ 		u8 event_acknowledge)
+ {
+ 	struct fc_els_fpin *fpin = (struct fc_els_fpin *)fpin_buf;
+-	struct fc_tlv_desc *tlv;
++	union fc_tlv_desc *tlv;
+ 	u32 bytes_remain;
+ 	u32 dtag;
+ 	enum fc_host_event_code event_code =
+ 		event_acknowledge ? FCH_EVT_LINK_FPIN_ACK : FCH_EVT_LINK_FPIN;
+ 
+ 	/* Update Statistics */
+-	tlv = (struct fc_tlv_desc *)&fpin->fpin_desc[0];
++	tlv = &fpin->fpin_desc[0];
+ 	bytes_remain = fpin_len - offsetof(struct fc_els_fpin, fpin_desc);
+ 	bytes_remain = min_t(u32, bytes_remain, be32_to_cpu(fpin->desc_len));
+ 
+ 	while (bytes_remain >= FC_TLV_DESC_HDR_SZ &&
+ 	       bytes_remain >= FC_TLV_DESC_SZ_FROM_LENGTH(tlv)) {
+-		dtag = be32_to_cpu(tlv->desc_tag);
++		dtag = be32_to_cpu(tlv->hdr.desc_tag);
+ 		switch (dtag) {
+ 		case ELS_DTAG_LNK_INTEGRITY:
+-			fc_fpin_li_stats_update(shost, tlv);
++			fc_fpin_li_stats_update(shost, &tlv->li);
+ 			break;
+ 		case ELS_DTAG_DELIVERY:
+-			fc_fpin_delivery_stats_update(shost, tlv);
++			fc_fpin_delivery_stats_update(shost, &tlv->deli);
+ 			break;
+ 		case ELS_DTAG_PEER_CONGEST:
+-			fc_fpin_peer_congn_stats_update(shost, tlv);
++			fc_fpin_peer_congn_stats_update(shost, &tlv->peer_congn);
+ 			break;
+ 		case ELS_DTAG_CONGESTION:
+-			fc_fpin_congn_stats_update(shost, tlv);
++			fc_fpin_congn_stats_update(shost, &tlv->congn);
+ 		}
+ 
+ 		bytes_remain -= FC_TLV_DESC_SZ_FROM_LENGTH(tlv);
+diff --git a/include/uapi/scsi/fc/fc_els.h b/include/uapi/scsi/fc/fc_els.h
+index 16782c360de3..3598dc553f4d 100644
+--- a/include/uapi/scsi/fc/fc_els.h
++++ b/include/uapi/scsi/fc/fc_els.h
+@@ -253,12 +253,12 @@ enum fc_ls_tlv_dtag {
+ 
+ 
+ /*
+- * Generic Link Service TLV Descriptor format
++ * Generic Link Service TLV Descriptor header
+  *
+  * This structure, as it defines no payload, will also be referred to
+  * as the "tlv header" - which contains the tag and len fields.
+  */
+-struct fc_tlv_desc {
++struct fc_tlv_desc_hdr {
+ 	__be32		desc_tag;	/* Notification Descriptor Tag */
+ 	__be32		desc_len;	/* Length of Descriptor (in bytes).
+ 					 * Size of descriptor excluding
+@@ -267,36 +267,6 @@ struct fc_tlv_desc {
+ 	__u8		desc_value[];  /* Descriptor Value */
  };
  
-+static struct nvme_fc_rport *nvme_fc_rport_from_wwpn(struct nvme_fc_lport *lport,
-+		u64 rport_wwpn)
-+{
-+	struct nvme_fc_rport *rport;
-+
-+	list_for_each_entry(rport, &lport->endp_list, endp_list) {
-+		if (!nvme_fc_rport_get(rport))
-+			continue;
-+		if (rport->remoteport.port_name == rport_wwpn &&
-+		    rport->remoteport.port_role & FC_PORT_ROLE_NVME_TARGET)
-+			return rport;
-+		nvme_fc_rport_put(rport);
-+	}
-+	return NULL;
-+}
-+
-+static void
-+nvme_fc_fpin_li_lport_update(struct nvme_fc_lport *lport, struct fc_fn_li_desc *li)
-+{
-+	unsigned int i, pname_count = be32_to_cpu(li->pname_count);
-+	u64 attached_wwpn = be64_to_cpu(li->attached_wwpn);
-+	struct nvme_fc_rport *attached_rport;
-+
-+	for (i = 0; i < pname_count; i++) {
-+		struct nvme_fc_rport *rport;
-+		u64 wwpn = be64_to_cpu(li->pname_list[i]);
-+
-+		rport = nvme_fc_rport_from_wwpn(lport, wwpn);
-+		if (!rport)
-+			continue;
-+		if (wwpn != attached_wwpn) {
-+			struct nvme_fc_ctrl *ctrl;
-+
-+			spin_lock_irq(&rport->lock);
-+			list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
-+				set_bit(NVME_CTRL_MARGINAL, &ctrl->ctrl.flags);
-+			spin_unlock_irq(&rport->lock);
-+		}
-+		nvme_fc_rport_put(rport);
-+	}
-+
-+	attached_rport = nvme_fc_rport_from_wwpn(lport, attached_wwpn);
-+	if (attached_rport) {
-+		struct nvme_fc_ctrl *ctrl;
-+
-+		spin_lock_irq(&attached_rport->lock);
-+		list_for_each_entry(ctrl, &attached_rport->ctrl_list, ctrl_list)
-+			set_bit(NVME_CTRL_MARGINAL, &ctrl->ctrl.flags);
-+		spin_unlock_irq(&attached_rport->lock);
-+		nvme_fc_rport_put(attached_rport);
-+	}
-+}
-+
-+/**
-+ * fc_host_fpin_rcv() - Process a received FPIN.
-+ * @localport:		local port the FPIN was received on
-+ * @fpin_len:		length of FPIN payload, in bytes
-+ * @fpin_buf:		pointer to FPIN payload
-+ * Notes:
-+ *	This routine assumes no locks are held on entry.
+-/* Descriptor tag and len fields are considered the mandatory header
+- * for a descriptor
+- */
+-#define FC_TLV_DESC_HDR_SZ	sizeof(struct fc_tlv_desc)
+-
+-/*
+- * Macro, used when initializing payloads, to return the descriptor length.
+- * Length is size of descriptor minus the tag and len fields.
+- */
+-#define FC_TLV_DESC_LENGTH_FROM_SZ(desc)	\
+-		(sizeof(desc) - FC_TLV_DESC_HDR_SZ)
+-
+-/* Macro, used on received payloads, to return the descriptor length */
+-#define FC_TLV_DESC_SZ_FROM_LENGTH(tlv)		\
+-		(__be32_to_cpu((tlv)->desc_len) + FC_TLV_DESC_HDR_SZ)
+-
+-/*
+- * This helper is used to walk descriptors in a descriptor list.
+- * Given the address of the current descriptor, which minimally contains a
+- * tag and len field, calculate the address of the next descriptor based
+- * on the len field.
+- */
+-static inline void *fc_tlv_next_desc(void *desc)
+-{
+-	struct fc_tlv_desc *tlv = desc;
+-
+-	return (desc + FC_TLV_DESC_SZ_FROM_LENGTH(tlv));
+-}
+-
+-
+ /*
+  * Link Service Request Information Descriptor
+  */
+@@ -1094,19 +1064,6 @@ struct fc_fn_congn_desc {
+ 	__u8		resv[3];	/* reserved - must be zero */
+ };
+ 
+-/*
+- * ELS_FPIN - Fabric Performance Impact Notification
+- */
+-struct fc_els_fpin {
+-	__u8		fpin_cmd;	/* command (0x16) */
+-	__u8		fpin_zero[3];	/* specified as zero - part of cmd */
+-	__be32		desc_len;	/* Length of Descriptor List (in bytes).
+-					 * Size of ELS excluding fpin_cmd,
+-					 * fpin_zero and desc_len fields.
+-					 */
+-	struct fc_tlv_desc	fpin_desc[];	/* Descriptor list */
+-};
+-
+ /* Diagnostic Function Descriptor - FPIN Registration */
+ struct fc_df_desc_fpin_reg {
+ 	__be32		desc_tag;	/* FPIN Registration (0x00030001) */
+@@ -1125,33 +1082,6 @@ struct fc_df_desc_fpin_reg {
+ 					 */
+ };
+ 
+-/*
+- * ELS_RDF - Register Diagnostic Functions
+- */
+-struct fc_els_rdf {
+-	__u8		fpin_cmd;	/* command (0x19) */
+-	__u8		fpin_zero[3];	/* specified as zero - part of cmd */
+-	__be32		desc_len;	/* Length of Descriptor List (in bytes).
+-					 * Size of ELS excluding fpin_cmd,
+-					 * fpin_zero and desc_len fields.
+-					 */
+-	struct fc_tlv_desc	desc[];	/* Descriptor list */
+-};
+-
+-/*
+- * ELS RDF LS_ACC Response.
+- */
+-struct fc_els_rdf_resp {
+-	struct fc_els_ls_acc	acc_hdr;
+-	__be32			desc_list_len;	/* Length of response (in
+-						 * bytes). Excludes acc_hdr
+-						 * and desc_list_len fields.
+-						 */
+-	struct fc_els_lsri_desc	lsri;
+-	struct fc_tlv_desc	desc[];	/* Supported Descriptor list */
+-};
+-
+-
+ /*
+  * Diagnostic Capability Descriptors for EDC ELS
+  */
+@@ -1221,6 +1151,65 @@ struct fc_diag_cg_sig_desc {
+ 	struct fc_diag_cg_sig_freq	rcv_signal_frequency;
+ };
+ 
++/*
++ * Generic Link Service TLV Descriptor format
++ *
++ * This structure, as it defines no payload, will also be referred to
++ * as the "tlv header" - which contains the tag and len fields.
 + */
-+void
-+nvme_fc_fpin_rcv(struct nvme_fc_local_port *localport,
-+		 u32 fpin_len, char *fpin_buf)
++union fc_tlv_desc {
++	struct fc_tlv_desc_hdr hdr;
++	struct fc_els_lsri_desc lsri;
++	struct fc_fn_li_desc li;
++	struct fc_fn_deli_desc deli;
++	struct fc_fn_peer_congn_desc peer_congn;
++	struct fc_fn_congn_desc congn;
++	struct fc_df_desc_fpin_reg fpin_reg;
++	struct fc_diag_lnkflt_desc lnkflt;
++	struct fc_diag_cg_sig_desc cg_sig;
++};
++
++/* Descriptor tag and len fields are considered the mandatory header
++ * for a descriptor
++ */
++#define FC_TLV_DESC_HDR_SZ	sizeof(struct fc_tlv_desc_hdr)
++
++/*
++ * Macro, used when initializing payloads, to return the descriptor length.
++ * Length is size of descriptor minus the tag and len fields.
++ */
++#define FC_TLV_DESC_LENGTH_FROM_SZ(desc)	\
++		(sizeof(desc) - FC_TLV_DESC_HDR_SZ)
++
++/* Macro, used on received payloads, to return the descriptor length */
++#define FC_TLV_DESC_SZ_FROM_LENGTH(tlv)		\
++		(__be32_to_cpu((tlv)->hdr.desc_len) + FC_TLV_DESC_HDR_SZ)
++
++/*
++ * This helper is used to walk descriptors in a descriptor list.
++ * Given the address of the current descriptor, which minimally contains a
++ * tag and len field, calculate the address of the next descriptor based
++ * on the len field.
++ */
++static inline union fc_tlv_desc *fc_tlv_next_desc(union fc_tlv_desc *desc)
 +{
-+	struct nvme_fc_lport *lport;
-+	struct fc_els_fpin *fpin = (struct fc_els_fpin *)fpin_buf;
-+	union fc_tlv_desc *tlv;
-+	u32 bytes_remain;
-+	u32 dtag;
-+
-+	if (!localport)
-+		return;
-+	lport = localport_to_lport(localport);
-+	tlv = &fpin->fpin_desc[0];
-+	bytes_remain = fpin_len - offsetof(struct fc_els_fpin, fpin_desc);
-+	bytes_remain = min_t(u32, bytes_remain, be32_to_cpu(fpin->desc_len));
-+
-+	while (bytes_remain >= FC_TLV_DESC_HDR_SZ &&
-+	       bytes_remain >= FC_TLV_DESC_SZ_FROM_LENGTH(tlv)) {
-+		dtag = be32_to_cpu(tlv->hdr.desc_tag);
-+		switch (dtag) {
-+		case ELS_DTAG_LNK_INTEGRITY:
-+			nvme_fc_fpin_li_lport_update(lport, &tlv->li);
-+			break;
-+		default:
-+			break;
-+		}
-+
-+		bytes_remain -= FC_TLV_DESC_SZ_FROM_LENGTH(tlv);
-+		tlv = fc_tlv_next_desc(tlv);
-+	}
++	return (union fc_tlv_desc *)((__u8 *)desc + FC_TLV_DESC_SZ_FROM_LENGTH(desc));
 +}
-+EXPORT_SYMBOL(nvme_fc_fpin_rcv);
 +
- /* Arbitrary successive failures max. With lots of subsystems could be high */
- #define DISCOVERY_MAX_FAIL	20
- 
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 9f6acadfe0c8..bcd3b1e5a256 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -536,6 +536,9 @@ void nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport);
- int nvme_fc_set_remoteport_devloss(struct nvme_fc_remote_port *remoteport,
- 			u32 dev_loss_tmo);
- 
-+void nvme_fc_fpin_rcv(struct nvme_fc_local_port *localport,
-+		      u32 fpin_len, char *fpin_buf);
++
++/*
++ * ELS_FPIN - Fabric Performance Impact Notification
++ */
++struct fc_els_fpin {
++	__u8		fpin_cmd;	/* command (0x16) */
++	__u8		fpin_zero[3];	/* specified as zero - part of cmd */
++	__be32		desc_len;	/* Length of Descriptor List (in bytes).
++					 * Size of ELS excluding fpin_cmd,
++					 * fpin_zero and desc_len fields.
++					 */
++	union fc_tlv_desc	fpin_desc[];	/* Descriptor list */
++};
 +
  /*
-  * Routine called to pass a NVME-FC LS request, received by the lldd,
-  * to the nvme-fc transport.
+  * ELS_EDC - Exchange Diagnostic Capabilities
+  */
+@@ -1231,10 +1220,37 @@ struct fc_els_edc {
+ 					 * Size of ELS excluding edc_cmd,
+ 					 * edc_zero and desc_len fields.
+ 					 */
+-	struct fc_tlv_desc	desc[];
++	union fc_tlv_desc	desc[];
+ 					/* Diagnostic Descriptor list */
+ };
+ 
++/*
++ * ELS_RDF - Register Diagnostic Functions
++ */
++struct fc_els_rdf {
++	__u8		fpin_cmd;	/* command (0x19) */
++	__u8		fpin_zero[3];	/* specified as zero - part of cmd */
++	__be32		desc_len;	/* Length of Descriptor List (in bytes).
++					 * Size of ELS excluding fpin_cmd,
++					 * fpin_zero and desc_len fields.
++					 */
++	union fc_tlv_desc	desc[];	/* Descriptor list */
++};
++
++/*
++ * ELS RDF LS_ACC Response.
++ */
++struct fc_els_rdf_resp {
++	struct fc_els_ls_acc	acc_hdr;
++	__be32			desc_list_len;	/* Length of response (in
++						 * bytes). Excludes acc_hdr
++						 * and desc_list_len fields.
++						 */
++	struct fc_els_lsri_desc	lsri;
++	union fc_tlv_desc	desc[];	/* Supported Descriptor list */
++};
++
++
+ /*
+  * ELS EDC LS_ACC Response.
+  */
+@@ -1245,9 +1261,8 @@ struct fc_els_edc_resp {
+ 						 * and desc_list_len fields.
+ 						 */
+ 	struct fc_els_lsri_desc	lsri;
+-	struct fc_tlv_desc	desc[];
++	union fc_tlv_desc	desc[];
+ 				    /* Supported Diagnostic Descriptor list */
+ };
+ 
+-
+ #endif /* _FC_ELS_H_ */
 -- 
 2.49.0
 
