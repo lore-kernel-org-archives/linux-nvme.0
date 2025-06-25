@@ -4,70 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF934C7EE2A
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59580C7EE31
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GXXWIY89cmgTXxqNg0t5+/RhLh4DC+XXvvBEAOxiv6g=; b=KYvcvadkqIOwFkgrZoEVFrcI/f
-	MyEqsmHDXyD+l58+JQv6eucnFqXUS9f2giZIdL2puWjESVr/8nt38ZLLUVTjDNYQVChZoGkb7Cdxf
-	MzRAY1hlOWSPGqart4yJB1dGy9VmUuYzCaU5NRQOZ5lB/EHOrn9jeNLWph705HJczhRjnjPzXJHqY
-	l2QPKpNK2DjhxOIiiNxL+RToNDILuPvf365tqw7jOaG+e5gAimz7C20LWu3J901bIoELwEEOsQi0A
-	Vb08CcDWXdlxsE4Bd/KdkEa4bpPpFNq3NVsjulPAXuiejLC9aZhDx/1l2Xcs0IsIfhEZW5HS3nA32
-	I0vWJEpg==;
+	bh=xUlg5GSwWCDpOjRXei/a9Z8ul60ODMnMWC1XwV5mG+A=; b=JZd5kxc9dr8ZoZ6wwqvPC0FihD
+	RrIf4w3ZzqN8180bw8fE7GPA1Zk4sHuzzU83WeEowfOkyCQzSttDjc/RMIqAd86Sk4GJav9oBX1qw
+	c5+SH2gHLioivVHrFKeAw8puEVbJQ6tDJKHaHlYWjis1pxUrbCNe7Sc5HkRstIvbH/9z5NO/mC59a
+	2bmxjPHkqnbB7RD318WefCjkuEFOsMeKH4ktJ+ot4djJFr3qDWDjp5iayvZNQErkdQzM4KScGbwjG
+	5oI6h7EIxpqfAZ2f4CChEKkhURiIGTwFJjwe6NwlB2oB3xTkvEqvoHuT0XciIpWOQKonZXSC3Klzh
+	XVQxSbdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUT0l-00000009HzG-3R7g;
-	Wed, 25 Jun 2025 16:30:11 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUOYw-00000008Wje-0Or2
-	for linux-nvme@lists.infradead.org;
-	Wed, 25 Jun 2025 11:45:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1750851910; x=1782387910;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OXwdL5wUZAqT//wh8UKlLgeP78FHgRETbz3LAYMACW4=;
-  b=IQciUORpinxF0A2b9RO8BvgmIEOPF59x3zIsXAMP9I9gIP53Lpg9uje2
-   gQo+FmU4QuBUU1UMoTcRU489vvpVZV2zkYQceG4CCNsXmoAQTbpryIH06
-   Lr1qo6ZUXOYn3wA0XUE9Q7EnFL5ljhz4xaLB12S0KBvoizm0nLGwOJ85O
-   /EvxPCd+5vg9VRNAbeZQdtzngOhf4HKBnOCv6B9JIbjaUDl9agF23IaWK
-   4foptv8pKfxjsDNMCuQqkLd4ddrbF60UGHpMdeRLhHIkKw/M9g0Io/4dj
-   ywMqpQ4wnUSwDXZRq21n0QJf6uY/RwPDrUer5H+573I4HRa+A7+cteK1S
-   w==;
-X-CSE-ConnectionGUID: BBI9AOmLTv6Fbf07X8pOtQ==
-X-CSE-MsgGUID: geks31hLRJyHt+S4avTQ/Q==
-X-IronPort-AV: E=Sophos;i="6.16,264,1744041600"; 
-   d="scan'208";a="85954401"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 25 Jun 2025 19:45:08 +0800
-IronPort-SDR: 685bd2c4_Nwx50vTrf4ejRJynDhe/C5n8wwhyAZi5RgNeAxxtqGzeJiI
- 1KtB9Aqa4BDOmLW/duv9tkOs4bH22Ea4oi2BeZw==
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 25 Jun 2025 03:43:16 -0700
-WDCIronportException: Internal
-Received: from 5cg2075g47.ad.shared (HELO shinmob.wdc.com) ([10.224.173.209])
-  by uls-op-cesaip02.wdc.com with ESMTP; 25 Jun 2025 04:45:07 -0700
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests 2/2] nvme/049: add fio md_per_io_size option
-Date: Wed, 25 Jun 2025 20:45:05 +0900
-Message-ID: <20250625114505.532610-3-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250625114505.532610-1-shinichiro.kawasaki@wdc.com>
-References: <20250625114505.532610-1-shinichiro.kawasaki@wdc.com>
+	id 1uUT0V-00000009Hiz-24Tx;
+	Wed, 25 Jun 2025 16:29:55 +0000
+Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uUOPh-00000008UyF-0rJO;
+	Wed, 25 Jun 2025 11:35:37 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Leon Romanovsky <leonro@nvidia.com>
+Subject: [PATCH 1/8] block: don't merge different kinds of P2P transfers in a single bio
+Date: Wed, 25 Jun 2025 13:34:58 +0200
+Message-ID: <20250625113531.522027-2-hch@lst.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250625113531.522027-1-hch@lst.de>
+References: <20250625113531.522027-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250625_044510_165130_1B07A3C8 
-X-CRM114-Status: GOOD (  10.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,56 +60,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When TEST_DEV namespace has a format with metadata, fio workloads with
-io_uring_cmd engine errors out with the message "md_per_io_size should
-be at least 64 bytes". To avoid the failure, add the option
---md_per_io_size to the fio workloads.
+To get out of the DMA mapping helpers having to check every segment for
+it's P2P status, ensure that bios either contain P2P transfers or non-P2P
+transfers, and that a P2P bio only contains ranges from a single device.
 
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>
+This means we do the page zone access in the bio add path where it should
+be still page hot, and will only have do the fairly expensive P2P topology
+lookup once per bio down in the DMA mapping path, and only for already
+marked bios.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- tests/nvme/049 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ block/bio-integrity.c     |  3 +++
+ block/bio.c               | 20 +++++++++++++-------
+ include/linux/blk_types.h |  2 ++
+ 3 files changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/tests/nvme/049 b/tests/nvme/049
-index 7304d66..70a6d11 100755
---- a/tests/nvme/049
-+++ b/tests/nvme/049
-@@ -15,6 +15,15 @@ requires() {
- 	_have_fio_ver 3 33
- }
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index 10912988c8f5..6b077ca937f6 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -128,6 +128,9 @@ int bio_integrity_add_page(struct bio *bio, struct page *page,
+ 	if (bip->bip_vcnt > 0) {
+ 		struct bio_vec *bv = &bip->bip_vec[bip->bip_vcnt - 1];
  
-+metadata_bytes_per_4k_io() {
-+	local phys_bs md_bytes
++		if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
++			return 0;
 +
-+	phys_bs=$(<"${TEST_DEV_SYSFS}"/queue/physical_block_size)
-+	md_bytes=$(<"${TEST_DEV_SYSFS}"/metadata_bytes)
+ 		if (bvec_try_merge_hw_page(q, bv, page, len, offset)) {
+ 			bip->bip_iter.bi_size += len;
+ 			return len;
+diff --git a/block/bio.c b/block/bio.c
+index 3c0a558c90f5..92c512e876c8 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -930,8 +930,6 @@ static bool bvec_try_merge_page(struct bio_vec *bv, struct page *page,
+ 		return false;
+ 	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
+ 		return false;
+-	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
+-		return false;
+ 
+ 	if ((vec_end_addr & PAGE_MASK) != ((page_addr + off) & PAGE_MASK)) {
+ 		if (IS_ENABLED(CONFIG_KMSAN))
+@@ -982,6 +980,9 @@ void __bio_add_page(struct bio *bio, struct page *page,
+ 	WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED));
+ 	WARN_ON_ONCE(bio_full(bio, len));
+ 
++	if (is_pci_p2pdma_page(page))
++		bio->bi_opf |= REQ_P2PDMA | REQ_NOMERGE;
 +
-+	echo $((4096 * md_bytes / phys_bs))
-+}
+ 	bvec_set_page(&bio->bi_io_vec[bio->bi_vcnt], page, len, off);
+ 	bio->bi_iter.bi_size += len;
+ 	bio->bi_vcnt++;
+@@ -1022,11 +1023,16 @@ int bio_add_page(struct bio *bio, struct page *page,
+ 	if (bio->bi_iter.bi_size > UINT_MAX - len)
+ 		return 0;
+ 
+-	if (bio->bi_vcnt > 0 &&
+-	    bvec_try_merge_page(&bio->bi_io_vec[bio->bi_vcnt - 1],
+-				page, len, offset)) {
+-		bio->bi_iter.bi_size += len;
+-		return len;
++	if (bio->bi_vcnt > 0) {
++		struct bio_vec *bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
 +
- test_device() {
- 	echo "Running ${TEST_NAME}"
- 
-@@ -23,6 +32,7 @@ test_device() {
- 	local target_size=4096
- 	local common_args=()
- 	local fio_output
-+	local md_io_bytes
- 
- 	test_dev_bs=$(_min_io "$ngdev")
- 	common_args=(
-@@ -39,6 +49,9 @@ test_device() {
- 		--runtime=2
- 	)
- 
-+	md_io_bytes=$(metadata_bytes_per_4k_io)
-+	((md_io_bytes)) && common_args+=(--md_per_io_size="${md_io_bytes}")
++		if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
++			return 0;
 +
- 	((test_dev_bs > target_size)) && target_size=$test_dev_bs
++		if (bvec_try_merge_page(bv, page, len, offset)) {
++			bio->bi_iter.bi_size += len;
++			return len;
++		}
+ 	}
  
- 	# check security permission
+ 	if (bio->bi_vcnt >= bio->bi_max_vecs)
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 3d1577f07c1c..2a02972dc17c 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -386,6 +386,7 @@ enum req_flag_bits {
+ 	__REQ_DRV,		/* for driver use */
+ 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
+ 	__REQ_ATOMIC,		/* for atomic write operations */
++	__REQ_P2PDMA,		/* contains P2P DMA pages */
+ 	/*
+ 	 * Command specific flags, keep last:
+ 	 */
+@@ -418,6 +419,7 @@ enum req_flag_bits {
+ #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
+ #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
+ #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
++#define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
+ 
+ #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
+ 
 -- 
-2.49.0
+2.47.2
 
 
