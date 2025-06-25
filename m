@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64928C7EE30
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58C57C7115C
 	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:29:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D2ki4IvdKHj9Sus0o30qpogdG7XEExoecyhz9hcVIXU=; b=pgTcZHm8QpuPaZnptHT9yqbBjz
-	sazdR4NDW7ji1gByZXTzK6F/jBOcdaDkZfCgmXpBdjatUeF5IW50sHtsw+8kKwADJC50mTW9ctvtL
-	usmS/EpIjiOzYxuZMpjD/z0nwHNI0AUV6hffzB+n+jsB66ks9VyPNn2wET4boN8YNX/MAbJS9zhjQ
-	3WWtiQIMd54G0azB93l8+K9DxJQ/ai1tW0c2cB52SUhnI3C2DD7LCJcU0FGaDoDi66zOnWBCclOJp
-	aR0c4VpzVTwKyzKxDKCkWNrTQhE0WLJcepLv0UzXoYjW9GZBDYR/fodBemN5w1timLnrXVTz1Pcfk
-	NE5WxSkA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=c29CYBpAPPEOfpJB62td/zLaZYqQJd0Dmy9+pT82Gfs=; b=Wg67PaMpLTDMH21WKeUIPtQfvk
+	rR8W9JzivzV6mvvfbFM0cEWIi6JjSX6WsYaP6SYS8qLpMa9Ced9O5Jxq98KS7G7OQ1KYmwV4D3UPs
+	NMC63APph2nU6bxYQgIUBmAZDKmyC3xvkTOSrGnTnYRNotVGF+CZnpmPT2XdWQNiAfFwmgT7ZXRKm
+	h3F/UodkmsSw5OLMXGfIt24dH/dAfrk5hT34UMtWvlsIZ4zrOUCgvkCQbrNyLu65krQ7Jg8OhscNf
+	It7+l3dswESJA/feYbqzz7WvsLr3vWCVBmnPIkbazYY54dnD/Z2xp3J2/+sMRO55/hyPcotkhTGaK
+	/7Cep1Rw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUT0W-00000009Hjj-3bxP;
-	Wed, 25 Jun 2025 16:29:56 +0000
+	id 1uUT0U-00000009Hhr-3kF0;
+	Wed, 25 Jun 2025 16:29:54 +0000
 Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUOPm-00000008UzL-07Yo;
-	Wed, 25 Jun 2025 11:35:42 +0000
+	id 1uUOPe-00000008Uxc-3IKi;
+	Wed, 25 Jun 2025 11:35:35 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -37,12 +37,10 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 3/8] nvme-pci: refactor nvme_pci_use_sgls
-Date: Wed, 25 Jun 2025 13:35:00 +0200
-Message-ID: <20250625113531.522027-4-hch@lst.de>
+Subject: new DMA API conversion for nvme-pci v3
+Date: Wed, 25 Jun 2025 13:34:57 +0200
+Message-ID: <20250625113531.522027-1-hch@lst.de>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250625113531.522027-1-hch@lst.de>
-References: <20250625113531.522027-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -59,94 +57,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the average segment size into a separate helper, and return a
-tristate to distinguish the case where can use SGL vs where we have to
-use SGLs.  This will allow the simplify the code and make more efficient
-decisions in follow on changes.
+Hi all,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c | 41 +++++++++++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 14 deletions(-)
+this series converts the nvme-pci driver to the new IOVA-based DMA API
+for the data path.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8ff12e415cb5..16ff87fe3dd9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -578,6 +578,12 @@ static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
- 	spin_unlock(&nvmeq->sq_lock);
- }
- 
-+enum nvme_use_sgl {
-+	SGL_UNSUPPORTED,
-+	SGL_SUPPORTED,
-+	SGL_FORCED,
-+};
-+
- static inline bool nvme_pci_metadata_use_sgls(struct nvme_dev *dev,
- 					      struct request *req)
- {
-@@ -587,23 +593,27 @@ static inline bool nvme_pci_metadata_use_sgls(struct nvme_dev *dev,
- 		nvme_req(req)->flags & NVME_REQ_USERCMD;
- }
- 
--static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
--				     int nseg)
-+static inline enum nvme_use_sgl nvme_pci_use_sgls(struct nvme_dev *dev,
-+		struct request *req)
- {
- 	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
--	unsigned int avg_seg_size;
- 
--	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req), nseg);
-+	if (nvmeq->qid && nvme_ctrl_sgl_supported(&dev->ctrl)) {
-+		if (nvme_req(req)->flags & NVME_REQ_USERCMD)
-+			return SGL_FORCED;
-+		if (req->nr_integrity_segments > 1)
-+			return SGL_FORCED;
-+		return SGL_SUPPORTED;
-+	}
- 
--	if (!nvme_ctrl_sgl_supported(&dev->ctrl))
--		return false;
--	if (!nvmeq->qid)
--		return false;
--	if (nvme_pci_metadata_use_sgls(dev, req))
--		return true;
--	if (!sgl_threshold || avg_seg_size < sgl_threshold)
--		return nvme_req(req)->flags & NVME_REQ_USERCMD;
--	return true;
-+	return SGL_UNSUPPORTED;
-+}
-+
-+static unsigned int nvme_pci_avg_seg_size(struct request *req)
-+{
-+	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-+
-+	return DIV_ROUND_UP(blk_rq_payload_bytes(req), iod->sgt.nents);
- }
- 
- static inline struct dma_pool *nvme_dma_pool(struct nvme_queue *nvmeq,
-@@ -851,6 +861,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- {
- 	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-+	enum nvme_use_sgl use_sgl = nvme_pci_use_sgls(dev, req);
- 	blk_status_t ret = BLK_STS_RESOURCE;
- 	int rc;
- 
-@@ -888,7 +899,9 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		goto out_free_sg;
- 	}
- 
--	if (nvme_pci_use_sgls(dev, req, iod->sgt.nents))
-+	if (use_sgl == SGL_FORCED ||
-+	    (use_sgl == SGL_SUPPORTED &&
-+	     (sgl_threshold && nvme_pci_avg_seg_size(req) >= sgl_threshold)))
- 		ret = nvme_pci_setup_sgls(nvmeq, req, &cmnd->rw);
- 	else
- 		ret = nvme_pci_setup_prps(nvmeq, req, &cmnd->rw);
--- 
-2.47.2
+Chances since v2:
+ - fix handling of sgl_threshold=0
 
+Chances since v1:
+ - minor cleanups to the block dma mapping helpers
+ - fix the metadata SGL supported check for bisectability
+ - fix SGL threshold check
+ - fix/simplify metadata SGL force checks
+
+Diffstat:
+ block/bio-integrity.c      |    3 
+ block/bio.c                |   20 -
+ block/blk-mq-dma.c         |  161 +++++++++++
+ drivers/nvme/host/pci.c    |  615 +++++++++++++++++++++++++--------------------
+ include/linux/blk-mq-dma.h |   63 ++++
+ include/linux/blk_types.h  |    2 
+ 6 files changed, 597 insertions(+), 267 deletions(-)
 
