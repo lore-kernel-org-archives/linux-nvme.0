@@ -4,185 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69873C77B7C
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 04:38:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93A24C77B7C
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 06:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cyQtMYvtlSg1HhuPezkQ0FZAEptL3OCXF4jBn00U6vw=; b=a9ilTi6dW9+STQYfu6Ln74Z+ft
-	susqYcr2KXyxwwMRGzpBfwD0/Eh27xhzvLjjpMu6nb26mk4uTiGl0jm1myxz1dvxjXSgZsq/af6KF
-	41s5oHb/da/k3Ev2sOS8jwGmcwmJQwZs5GfryqXmr4ssfoplmoFQhgglVq+fp5TUuyECGRGvg+OVN
-	lMPQe/gQ5OnmAJo81a3RLnN9x2Lwz9zkRMK0UfGwcoebG/b7wyqhA7/kzAz3QoDaF5YHH5QftSiJX
-	IfCIP3UNeliSViL36XePXgkNx7byiZ5pn7pM410aE6t+DyqaUPrpnGvYRIyfd7HyBMtCdntbtL3Af
-	pK4puAwQ==;
+	bh=X6Ef0O3gYrMk/P6td9PtDKZFCO3stW/ImJ+YuSe7GPc=; b=jzvTi9jXBdOxLPLH1uchpDJ703
+	5SnI0nUelJO8BKMnigKxZ+pDO5RjYLtuAUv1qhkdVRCHqPqcBHwOpDKHEcni+saF7mDlu9cDW+2Uq
+	WXMofqiP1AYRTnomBwtRKL7lOEG7unYx4Z6L0nhA6FuQ7ujqJxiEwNmtSFIHgB1XjeIDogVQE9dmh
+	Ej66y/9utKGKOoOELP5EV3RSF/StAAuLTPtJTm4qD30uu33rcvnr7u1KzlppkdF6HHMOR9oe6izcI
+	BzbtEl4OVWwQmP3nniVlvBQj0wzHc05mCJdzGbpGe8XCZgN105fbzF23n2OL9pstCdsNBGBMa0mlD
+	TKgPLQKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUHtm-00000007WMS-3XVW;
-	Wed, 25 Jun 2025 04:38:14 +0000
-Received: from mail-bn7nam10on2060e.outbound.protection.outlook.com ([2a01:111:f403:2009::60e] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1uUJNn-00000007dQu-3I2a;
+	Wed, 25 Jun 2025 06:13:19 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUHtk-00000007WKv-0c0B
+	id 1uUJJw-00000007d7u-359L
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Jun 2025 04:38:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GmoNv/WCNgPf+1Zy9DZtc39rn7mOLT7z9iJ8nlbh+Z1rrqWLqT9iPvTHeYopjtgYPGo9Tz4NjYfpz68pZcs3ga18NaTr303OjS8efw4SaIRjMSQvZl8DuwxdGa4XDckTRJqkztYRKSAvd2MXNx/0VKIvnn4rWz91dJ+soJSpBy+DuBzcxYTh90VLsIN3/riTsk6883ZMnV80F03T4W4VlJbEEns/gX8Nh7YF2Hf8daIXp/DwTC6VlyrIDH/QLue572MfhD1OOCuw3gOaIO9+tQuQGBOB6LIZdrror1q5SBmI8RTOBxAS1FCxXjCmA8F4BdUCaw3FBt1HgnbwfGMPXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cyQtMYvtlSg1HhuPezkQ0FZAEptL3OCXF4jBn00U6vw=;
- b=DzQ4R3h0M8No7ZGqt+GXhcaQ642thyGFboZ7uhNP4oIx2C+15rHXfE0Gm17d5x1tPTv9t0dn0VOMvXwFBeFY/SC45u3Moz6w1OPZq7KLHbTAUevHkDRZpggNRP8oLJklKFysiOutXpuLOXHlAbD6SE7cHO8+DHeE30qHQYv9f+3tvBNEyhAiU+ASVD8QnEZbh3SZRYw0ScOQY+1e7q009z/cIINs7MN9JfThbjh+EXDWVVqnAZSqk+oya/gxHnoJeetl+GjKTWizCRNikxzhRm+p//hp5HJ7hwowVg/Rey1/aZOmit317b8sveDcoPWPtmJLE0P1v90L+/V6C+FeSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cyQtMYvtlSg1HhuPezkQ0FZAEptL3OCXF4jBn00U6vw=;
- b=Q/Y9hLaE+jaH8xyruIue3ICVKki1tvHigKHSiLAk8FbsEF+iBY7s/JbEH1r+LoGpS9SjESntrbuj3gydCXwwim4pENTPGTVs8hpylEi080OwIQ1RQTpMAhkK9cSHxMaSaUHzRSbMzlCzZN6kzP4uGBLeuzEsXXDefjqezjaknQxNytss3NatPdvTIAmCOP91xmTSaX4LJ4E5Fa2Dg2wYuL88T9NHNa25gb6Hii/l372zy/8JtPs7+11aCQx/d4FIEQViwWnXSflwiKO0CNuWiIhHlyiFXB2dZXQjBGaQpR/g/vnpQnRjSvaFi7VPKZqkP+VyagWZ3vN8MVRFb3ENwQ==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by DM4PR12MB7743.namprd12.prod.outlook.com (2603:10b6:8:101::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Wed, 25 Jun
- 2025 04:38:09 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b%3]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
- 04:38:09 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
- Hellwig <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	"Michael S. Tsirkin" <mst@redhat.com>, "Martin K. Petersen"
-	<martin.petersen@oracle.com>, Thomas Gleixner <tglx@linutronix.de>, Costa
- Shulyupin <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>,
-	Ming Lei <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>,
-	Hannes Reinecke <hare@suse.de>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "megaraidlinux.pdl@broadcom.com"
-	<megaraidlinux.pdl@broadcom.com>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "storagedev@microchip.com"
-	<storagedev@microchip.com>, "virtualization@lists.linux.dev"
-	<virtualization@lists.linux.dev>, "GR-QLogic-Storage-Upstream@marvell.com"
-	<GR-QLogic-Storage-Upstream@marvell.com>
-Subject: Re: [PATCH 5/5] virtio: blk/scsi: use block layer helpers to
- calculate num of queues
-Thread-Topic: [PATCH 5/5] virtio: blk/scsi: use block layer helpers to
- calculate num of queues
-Thread-Index: AQHb344TLGmcOvsZjEuM9jhwS0anHLQTVsqA
-Date: Wed, 25 Jun 2025 04:38:09 +0000
-Message-ID: <b8c7f531-484a-497b-b965-df3c27347349@nvidia.com>
-References: <20250617-isolcpus-queue-counters-v1-0-13923686b54b@kernel.org>
- <20250617-isolcpus-queue-counters-v1-5-13923686b54b@kernel.org>
-In-Reply-To: <20250617-isolcpus-queue-counters-v1-5-13923686b54b@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|DM4PR12MB7743:EE_
-x-ms-office365-filtering-correlation-id: 572c9707-a17e-4b98-4582-08ddb3a21646
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|10070799003|7416014|376014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?L0l5alNFQnY5cmZsNWZoVC91UzU2UmRlTTRGU1hYYTcyZGpwQTBzMmJiYlEv?=
- =?utf-8?B?dS9SNEhrQWdIOWI4TGxxUzYwdWlTNVZZRHZlc1FqOEs3U041TG4xUlQvZnZa?=
- =?utf-8?B?YWROYWc4MmJ6MElMNWVHdVduN25IcXpmR1dybTE4dzRLMXBMVkt1bHJaS0xr?=
- =?utf-8?B?ZkFCSm0zc2NKbmQ1UkExZEhmY21zU0k2L3NCY3FaRS9CMm1YbnhRNkd1SmR6?=
- =?utf-8?B?WEdBUUZpNTZxZlRkcTJRQnBMZzg2V0tnYjZOUndxUW9OZlRwSDI0SU9UVlZN?=
- =?utf-8?B?aHFWRzVXSjNjRG1OMytPUGN0RVJtdzRGNWQ0amcyMTEyV0ZRbk1GYmxIWm1F?=
- =?utf-8?B?c2FWUS9LV2hpWnhDNVQwY2Nkbmt2YVNUZVJoLzBKZStCYnpiZDJvSVNBZThi?=
- =?utf-8?B?ZUJXOUpGKzRHTTVyaEEwSnF6WUwvTUZwbWU4YTJrT2ZGdUJuczhsQlZTNFA5?=
- =?utf-8?B?U21HTExPQzBrOXJIbERZMXAySi9IZ0ZENS9ua3NaeVM0NkRwUk5DRm9RdWRZ?=
- =?utf-8?B?bm5QbWJrRDdxb2lYbWcyTjNrb1JXV2QrR3REZTRMeFBGOFYvV3c3czZjTHcv?=
- =?utf-8?B?TkUwM0pWR1BicEZOUTU1aG1INzhRbnR3VlJJVncrSXFzVy9NRFVMcEJPNzY1?=
- =?utf-8?B?R0dSZ29kM1NaRUFSdUNGanZDR1B5d3JjN2FSeVlRMTBLMURZRjdzc1p2dHNT?=
- =?utf-8?B?dEZXTzNyWmZrTCtBdUd1U2NzUDRiQStZS2Y2MG53b2g3dFFqTi9VekYzWjZm?=
- =?utf-8?B?UGRnOVdzbjV2QUhuR2g1MmJVcjZFNUJRaVlwMWFJbEF0M1FFeHBBU3VOTUp6?=
- =?utf-8?B?WXZhR2lDU1lORnRVMmdCNEIxZm5US2I5Nmd0bHZxTlphRFlETHZNbGVXdEU5?=
- =?utf-8?B?RDB2a1czTjNjYzN0SldYT1lWUE8rQ2w2dTEzYzNCZXBUOWNlVG56aE1JdDRq?=
- =?utf-8?B?TVVvaHltVkdTQ3czUDhoVEdXY1ZaSW10c1FOSHloUHYxMmNtVjc4R1B6WXRn?=
- =?utf-8?B?TTFCcGE2cXlOK1M3V3hIUE5EQlpURUtNTnhpcHZ6V0doMFRNMGdBRFlrLytw?=
- =?utf-8?B?K2FwVEdLVGdOMVhmVnFzVm90dmsxOHBNTHRMYWVlTGd0YXkrSEI2WUlRRzlY?=
- =?utf-8?B?ZWJld0h6TGg3Tm1ZdUVrTTFXVmprb1BOTXM2VjVIN2lQL3hsTGFpS3pmUG1t?=
- =?utf-8?B?U1dWbmd6ek54NVFVUWsrU0JvNUxtalptRlZjQW9yTG5tdWdFc2VnOVpiNEZ0?=
- =?utf-8?B?ZnJud3EvZmpQRFFKVWZiWjZQMFgyS0g5cnRPVkswUkFBSktKUXMvSlRScDJJ?=
- =?utf-8?B?Tnd6S29CeHlzY05MN1VRd09KSkxsWndVNy9KYVJPQmE4cDlCK05hUERxWTBp?=
- =?utf-8?B?RmFWaXk3UmJ6bU9WcXhlL2RCZm5jSFlxb3NSUWlnOThCTWRkM2pkSGFPUDVs?=
- =?utf-8?B?QTZ5OHJzR2M2R3ozRm9Ra1VEODlRMzdxWDFXK1IzbVNMSUtmR1pwM2hnVGRW?=
- =?utf-8?B?Q0tSbUlCdDFkb2RySzBaUnNZVmoydVNla1I4ZUVvQ2M3YkhjaytaU0RHNHp0?=
- =?utf-8?B?M1JXZldmbkMyUmI0anBCSVRZL0h6Y0pBYU11blBpYVFXd1Qyc2ZTNFJFWWNl?=
- =?utf-8?B?alVGV1orK05JclBIOXR6SUhsODF2LzdLWERvRjVsN1BXcWM0VytmMkxXWGZR?=
- =?utf-8?B?K1Q5UUdKNTExMFpEQmZNUExybjFmOVpZeDhrbUo5dEovV3hCUTYxeEwwSVRE?=
- =?utf-8?B?RWFNUE5HOEdmSmlIZ21CQlZWNWlLeDVyTFFWVjZlenlRL21yejVXcVBEd29y?=
- =?utf-8?B?NlpNazA5bWhDMGxzbXlrYzFXdTNyazhXb0xIS055WldjYmNDeTYzckZtTmZo?=
- =?utf-8?B?aUNQRTI0QnBXTFRyMCt5MkZmZzRSNkNGdXJoc1gxNWg2ZyttMmJXcGhEaEZK?=
- =?utf-8?B?dTR0RmxTMmpPSk02YTlJV2xQWndLdisxa2RyWUt3YXJIM295cTdNV3hUaXFl?=
- =?utf-8?B?UmgyWUt4MlFBPT0=?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZVphV3BiV2t0aDY4WHdyTE5OODhDTDdXbGQ0NHYrV3c0bE9LOEVpbTloK0xR?=
- =?utf-8?B?cGtpSjhmRmJ2Q0hEaGFWNmx0dHRmaERoQnZMeGwzVGZXcWZSelVpQ3lNK0N5?=
- =?utf-8?B?c3NJc0hWdUpNRkVCY3RQcm1WQjR0OVZSMCt4WlJDVU5kL0E3MWlWK2o3ZVlZ?=
- =?utf-8?B?N0tOcktoWnQ1bCtteE8vaUoyR3BvMUpzWGx6YW4vbVIxdEpHVFVoMzlCUjQ3?=
- =?utf-8?B?OUF5dVdLLzdKU3N5SmlMU1h3OE4wazMvS3liK2NZU1l3UE1Kek03dElkOTNR?=
- =?utf-8?B?cEFYTjNFaVM2VWlUMDZLZXNpUmNUY1RTOVR4ZmFYYTBJb0R6NlpQbjFXS2g3?=
- =?utf-8?B?ZjVTUUFTcGR3MWlubXN0U1NBQnhsRGY4NEFJT3FTV1FWMGEwUWNmTk1wYUdh?=
- =?utf-8?B?dWNCVDFPeWUvN2paRmY2dlM1WUVNWE02T0VucTcxSE9aR1I0WTh1aTRuNDVy?=
- =?utf-8?B?eVhLeWd5WFdIU2U4Mk9uTk1MQjdiTDA2c3VQRXZiRGhPcUMzVDVTRFJMZW56?=
- =?utf-8?B?bUdkRXV1bGhmZkhCU3pkR0VmWUxBWTIwdVNFU3V3WEVSRloxUHEwMW51TnU4?=
- =?utf-8?B?aUFSL2RuY2w3NHFZQjFlckgySExzN2ZlaXdQRlh2bGgrK3lYaUkyakpnNzAy?=
- =?utf-8?B?OTFMN1pBdXBZYzN3UWxhUkh6SUg0M0lQbm9mbHY0K3lkblpGSmtRQnh0L3Ba?=
- =?utf-8?B?VW9aYjcxN3Y2VWpsZ1NwbG45UlNFMkJ0S084Zm1ob3ZoYmVWVzgraTA5Q0J0?=
- =?utf-8?B?UldoVkJPbXExQlhwNzRuMG1jZmFxbU9HeFRFN3BpSVhPbXRxUkVjM2g5Vkhp?=
- =?utf-8?B?VDFqTDdIMS91Z2JGamRUeFdwQ1ZGbmVDdUxiZjBScnpES3AxaVYvUkVHdHNy?=
- =?utf-8?B?R0MwUWJoSENHb203UEFtYU1BQjRrN3VreWNVcW1SRGg5QUFnRHREbmZsM00x?=
- =?utf-8?B?QmUvK2ZMejRUQlg4Mk9uVzFFSm1yRU1adWhMYWhGOTdXcG9hL1dJZVZLNHE1?=
- =?utf-8?B?YktJWUxWQ0M0NCtteklWV0oyQ21uaVZKYmpndXFSYW8rdmRVUGJBckhOTENs?=
- =?utf-8?B?TDVmVy9OWTg2aWdKbDdYSEVMZWRmNEY5ZnlHaWxPMVdwKzJYZUpYWHdEUFhZ?=
- =?utf-8?B?ejFONWNnQk42OUU2STh6RWdrVStMcTg4ZjUwL0ljZFdBWm1iV3h3dmh1RDRv?=
- =?utf-8?B?V3kzUmNoTVUvMGdjU2h5d3pydS9pMUMwN2tEb0tSTGQ3T3BpK0ZVa044TjNi?=
- =?utf-8?B?SHZ3c0Rjb3hjTVNXZk9UWFliR3l2SUVIYW5ML04vWEhOR2RFdkUxajQ5MWdO?=
- =?utf-8?B?Lzh5Yy8vWUwvWFllUlYzSWM0S2lhajJ1OGMwVVVRM01YMDUwdWpzbTZJaUxj?=
- =?utf-8?B?L0xTV2xUeXdxVFRVS3FRYTQwVVVZNnNhclVzWVg2bUZCWmlvYXBkL1RQWnFJ?=
- =?utf-8?B?eDZTU3UvbUdrcFFGM3ZQbTB2RGZ0UUtlVWV0TkZNMzd4VjVmYlRWRTk0Uktx?=
- =?utf-8?B?QWd6K0ZWM2xMK2RPRWR3WkczUTBUVkwveU5qemR6UjR0Q1VRbmY1WnBTTUli?=
- =?utf-8?B?U2Z3S3pIeGpBWGF4dEI5NHdFTzA0YXdQRzRUUkowdjJLRmFiTGVlZ2lyUWJk?=
- =?utf-8?B?a1U2dlJLamNHWitkZWRHMkVJZWRHeHFNdnBSV2FTSk9NNkV0VlorTUppWHJT?=
- =?utf-8?B?Z2xQNVJVR3QxUVJZSVoxNUZwaTdDOWNQOXQzZzNjVld5MjJrTXRNKy92OWp5?=
- =?utf-8?B?N2RvU3l2WldZQUhDK0NPSm4yRW5QK3dCVytuZ3RYQVFLZVh6OU5HaklZbi9u?=
- =?utf-8?B?WUdGQW81YllqSThzK2dtZk9VYWIvT3dNaUgyWE1zQnBhSU12R1dTSVpxYjY5?=
- =?utf-8?B?R1NxOS8zblBLaHhNU3UvUDNnSHA0Uzh0RFJpTEwwa1M1eUZzTEdQSmxiZ0hh?=
- =?utf-8?B?Y25ucUVuQytlRUdUNWF5U2VjaFZRSlIxSWQzbVRiV1Z2d1lLZzY3b0tqaC9Q?=
- =?utf-8?B?ajJXMUplTlhWc1pGVXdhQmlTcnVTZXZ0ekFqb2R0VWpXSWxGZHJLYmxBUTBU?=
- =?utf-8?B?VFVYOFpQMnVmSTdGUlhHTGtDdkp6ZEQ2YnJzRWFkQ3V1NGtNb0puZkN6QytT?=
- =?utf-8?B?dG8rZklXVmNCZS8rUVhXSWpNRGx2VlltOVg4NXlRbmo4UkgzajZWSVd1QnpW?=
- =?utf-8?Q?6HOyWA6YHDAyqNAYIlEOA47ZiCJVMfHr98hQaKxxv2Cm?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <86CBE4059142244C91784879737EC1A4@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 25 Jun 2025 06:09:21 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 06E76227A88; Wed, 25 Jun 2025 08:09:16 +0200 (CEST)
+Date: Wed, 25 Jun 2025 08:09:15 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme: uring_cmd specific request_queue for SGLs
+Message-ID: <20250625060915.GB9391@lst.de>
+References: <20250624211444.2835077-1-kbusch@meta.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 572c9707-a17e-4b98-4582-08ddb3a21646
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2025 04:38:09.5926
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Z2W5tOwZKJPtEog2iUaKwbnNwAW8E91N6XWpVki/06bGZLb2EW2fAY8hE+OZdE25A5wbKHJ7ljZnlSLh022XCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7743
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250624211444.2835077-1-kbusch@meta.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250624_213812_185569_56339143 
-X-CRM114-Status: GOOD (  12.92  )
+X-CRM114-CacheID: sfid-20250624_230920_912990_C9359438 
+X-CRM114-Status: GOOD (  20.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -197,17 +59,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNi8xNy8yNSAwNjo0MywgRGFuaWVsIFdhZ25lciB3cm90ZToNCj4gVGhlIGNhbGN1bGF0aW9u
-IG9mIHRoZSB1cHBlciBsaW1pdCBmb3IgcXVldWVzIGRvZXMgbm90IGRlcGVuZCBzb2xlbHkgb24N
-Cj4gdGhlIG51bWJlciBvZiBwb3NzaWJsZSBDUFVzOyBmb3IgZXhhbXBsZSwgdGhlIGlzb2xjcHVz
-IGtlcm5lbA0KPiBjb21tYW5kLWxpbmUgb3B0aW9uIG11c3QgYWxzbyBiZSBjb25zaWRlcmVkLg0K
-Pg0KPiBUbyBhY2NvdW50IGZvciB0aGlzLCB0aGUgYmxvY2sgbGF5ZXIgcHJvdmlkZXMgYSBoZWxw
-ZXIgZnVuY3Rpb24gdG8NCj4gcmV0cmlldmUgdGhlIG1heGltdW0gbnVtYmVyIG9mIHF1ZXVlcy4g
-VXNlIGl0IHRvIHNldCBhbiBhcHByb3ByaWF0ZQ0KPiB1cHBlciBxdWV1ZSBudW1iZXIgbGltaXQu
-DQo+DQo+IFJldmlld2VkLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4NCj4gQWNr
-ZWQtYnk6IE1pY2hhZWwgUy4gVHNpcmtpbiA8bXN0QHJlZGhhdC5jb20+DQo+IFJldmlld2VkLWJ5
-OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZT4NCj4gUmV2aWV3ZWQtYnk6IE1pbmcgTGVp
-IDxtaW5nLmxlaUByZWRoYXQuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgV2FnbmVyIDx3
-YWdpQGtlcm5lbC5vcmc+DQo+IC0tLQ0KPiAgIA0KDQpMb29rcyBnb29kLg0KDQpSZXZpZXdlZC1i
-eTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQo=
+On Tue, Jun 24, 2025 at 02:14:44PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> User space passthrough IO commands are committed to using the SGL
+> transfer types if the device supports it. The virt_boundary_mask is a
+> PRP specific constraint, and this limit causes kernel bounce buffers to
+> be used when a user vector could have been handled directly. Avoiding
+> unnecessary copies is important for uring_cmd usage as this is a high
+> performance interface.
+
+Not really more high performance than the normal I/O path.
+
+> For devices that support SGL, create a new request_queue that drops the
+> virt_boundary_mask so that vectored user requests can be used with
+> zero-copy performance. Normal read/write will still use the old boundary
+> mask, as we can't be sure if forcing all IO to use SGL over PRP won't
+> cause unexpected regressions for some devices.
+
+Note that this directly conflict with the new DMA API.  There we do
+rely on the virt boundary to gurantee that the IOMMU path can always
+coalesce the entire request into a single IOVA mapping.  We could still
+do it for the direct mapping path, where it makes a difference, but
+we really should do that everywhere, i.e. revist the default
+sgl_threshold and see if we could reduce it to 2 * PAGE_SIZE or so
+so that we'd only use PRPs for the simple path where we can trivially
+do the virt_boundary check right in NVMe.
 
