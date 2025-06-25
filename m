@@ -4,95 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41F00C77B7F
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 01:44:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AB91C77B7C
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 04:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QIsP3rIT20WkjzGLGzVyHnhUMjCoAAIVWQlR2AtO0K4=; b=QDO+m8tuApy5HBg+QXTcntLP/L
-	LDOB0hgiUuo3+Ga6SWGIYQkfeHAfNYFcP/Hp0MA2n8d2VfxTDr/VGutI9VspkDe+QbmHv8d072ksK
-	fqf/lQLxr/7DIo7o4FXC+DWSB6qOXCtBCoei2d8Zo6uUKk8PyT4iFek9ahlKAid1bUTS5NiY19OKh
-	SyYtKPHKoXOGIIdXK0GMjIqC3w8toMO7bd2G9u4ysJ/IV+b4ZxJv+4Qr4KvwjrkH3tG5RKCfs7z8W
-	St1a9FP6SZsNke59BppZPRAyr3rDGsfMZXKhsiUkkjpUplUhe/HFmKmX1VDb3WU96xOg4sCdvZFjL
-	a2xAmdeQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SvGZhiUYui8KbGx47ihhr8pF1NSZfJJcOgsix8Qx1ac=; b=RVhvdte3Wr5TGg13DJMPCE3nm1
+	fsBUi7p0aL5T6bkwF7DSVtEffmDG/dyiaHgfUzACrjPqN0MP/OJnps4vNCdD5itjDbQlgsrqVH5LB
+	DWITbotCbyp8EkJfT22v3+Mp8HkmVdQpfYTHG7xvJsURTJiUvsoeIITp9pvuU3ud1UGjXI5wSqQdF
+	WwbC9IbB74sCoHG2g61Al7PJc5HtcdYJfaMCuxq+l7dwra5H8MMeEeoJAQLZWgkfyVJa2xjmXQ9GB
+	qqoIMRojYauTxoe8YsYQ+0uj1qKfed85zz2fRWgW+5P1hyCihoNq5kxlzSceE6nLmCvkiQPSCuBgu
+	55adrxiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUFBG-00000007Grh-2uoW;
-	Wed, 25 Jun 2025 01:44:06 +0000
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+	id 1uUHZj-00000007T0q-3mIm;
+	Wed, 25 Jun 2025 04:17:31 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUFBD-00000007Gr0-35AT
+	id 1uUHZi-00000007T0A-1gdI
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Jun 2025 01:44:05 +0000
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-2350b1b9129so45213625ad.0
-        for <linux-nvme@lists.infradead.org>; Tue, 24 Jun 2025 18:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wbinvd.org; s=wbinvd; t=1750815842; x=1751420642; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QIsP3rIT20WkjzGLGzVyHnhUMjCoAAIVWQlR2AtO0K4=;
-        b=heYyex/7/sC5B1c30o1clFQwttSdFkFzB7dNDAj+vJ4yVvh3cwqUhBXJWHERMKq67m
-         Y5ouxC994k184dvrmDVlwoeI2Itt+xJTqzTOC1xGGTLUFkw5cBpqjhYXE8/L5s2Gj7Ez
-         kFf9OK5jZZicz08slw1s3Pmt93wtrqdq/1yHYqohWuQ3ZfiRQAeLs2F+xP9if3p3XdY0
-         zR+VsbidA5nxdXi8LjFtz+GJ2d/gCmxracFBIYCG8z+TMSirE7+uq6nF5lAhRvkucACY
-         Sig91priwl3zfjxDlOHG+9cTLFMaXdk2aq89mkbmgGUh+bNfZ6z1hvx+Z0r7nnQFIa6J
-         jVdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750815842; x=1751420642;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QIsP3rIT20WkjzGLGzVyHnhUMjCoAAIVWQlR2AtO0K4=;
-        b=QuvI5YWkti6pdx1GPZYihkvvy4BtI8m8Zn64EOXUsK0dCWqB2mtNl/fKHtDf7DsCCf
-         mODBF3En9PTtwLNwt122DwsxcmuNHG4dBln8/a0e94dRCSAAwi2qSAZLOp5DGLVlrU3w
-         rjalLEkdqV5ixiRveQbHzD5GfuVDUt9ppJdOmIFwN2VPw5W2nVZgSF6lrdlhbX8stLtm
-         l8h+37KJYH59YCbO94xKrSv2+sKG0N/Htd4FYEcBxQPBbM4uCm/DK13MJEMyJQxCXZpp
-         jJP4n5lzbLHIfrNacg7fqw9CmCPVUNzSvvLCLBX7T6fq9EfI45NbYhYpbQcMsbFPC0D2
-         h9qA==
-X-Forwarded-Encrypted: i=1; AJvYcCXkm4bIaQuvSrAvbEyZ6p4SmjdRR4PJ+wf2BAfUcrdmJLdJrN5qa/8gJDcpHfO1goM8lvmZquhrm3Y7@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy1UFYuPH2/8jpIjJ+MycWFTWGCrgmsB/Mao8qKuC5CFiSR42DL
-	+5QI1OKy3rUcXUJbdLptz3SeafTMpmkvsc4k1ypH1hoyDu4xiUINgbt2rwZbT9NiTbE=
-X-Gm-Gg: ASbGncuvt3vVpDlQoFFnzB50kwKC7sRRSPSW7ge5BxI1UuFRdpn5ujF2HtMUapSFhku
-	4lPayy8wXeJlWmG32GJClYK+QCJ5I8SS6mbckFUPS8FIhXwX0bOPb9HMoGUt1FQxTIPlNUNnKap
-	kzK2+J7IQIxgcQlwZ46IhVO7xgNPPrNUiiWA7xoSxzZbKuXrg6Dm3hAXwfXbuc3kbP4BboEBFSS
-	0pTNPZMnd8ddOdfvbI8RMILWWbXtT0hl/RMZeIkATKKSfphfiZpkif+X97Xch3LYE9TrqJRDm8K
-	5GyZ33d6PQ3KPG3HBDdvwDMQXFDqvvVItGctmxt5tys7COErOVkSvSn1TkG8hBrJCzixAWoPDN7
-	AI7xViERZx18f+ilRbwduNGLaw4q+EwiH9oxZRImYKQ==
-X-Google-Smtp-Source: AGHT+IHoDqUOYTCnE2gceYTiiXbnq2K/SlA10HDt9RUO5WPvnN8jozjol3hPLkjrrrxWz9hN/gbLRA==
-X-Received: by 2002:a17:903:f90:b0:234:e3b7:5d0f with SMTP id d9443c01a7336-23823d5682bmr23697475ad.0.1750815842318;
-        Tue, 24 Jun 2025 18:44:02 -0700 (PDT)
-Received: from mozart.vkv.me (192-184-162-253.fiber.dynamic.sonic.net. [192.184.162.253])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8393893sm119389915ad.25.2025.06.24.18.44.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 18:44:01 -0700 (PDT)
-Date: Tue, 24 Jun 2025 18:43:59 -0700
-From: Calvin Owens <calvin@wbinvd.org>
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: Breno Leitao <leitao@debian.org>, Yi Zhang <yi.zhang@redhat.com>,
-	linux-block <linux-block@vger.kernel.org>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	axboe@kernel.dk, Christoph Hellwig <hch@infradead.org>,
-	"yukuai (C)" <yukuai3@huawei.com>
-Subject: Re: [bug report] WARNING: CPU: 3 PID: 522 at block/genhd.c:144
- bdev_count_inflight_rw+0x26e/0x410
-Message-ID: <aFtUXy-lct0WxY2w@mozart.vkv.me>
-References: <CAHj4cs-uWZcgHLLkE8JeDpkd-ddkWiZCQC_HWObS5D3TAKE9ng@mail.gmail.com>
- <aEal7hIpLpQSMn8+@gmail.com>
- <738f680c-d0e8-b6c0-cfaa-5f420a592c4f@huaweicloud.com>
- <aFTfQpsUiD1Hw3zU@mozart.vkv.me>
- <f320c94e-3a94-d645-8f7b-80f958c50fbe@huaweicloud.com>
+	Wed, 25 Jun 2025 04:17:31 +0000
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55OMiveR005149;
+	Wed, 25 Jun 2025 04:17:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=SvGZh
+	iUYui8KbGx47ihhr8pF1NSZfJJcOgsix8Qx1ac=; b=hRIjSz28X8/wKkPsTbiT3
+	VmpkS0XbElHxJCs3uCw4e5vDEapShUg5PRsxGqV/B6k0rRFneN7B+SiETIOCkFkY
+	x3eeAEVLjW07zG7bypnRz2j7Wz5xGXHLRnCu9YXSg7ZarYanyS/68yPDQ6bH4X70
+	vMS/yF9DGNX7DAERQVSA67JOc2x4px//8D4xIQspp/JyTtvG7M5qKoEe/NkBMbK3
+	LXzXmi3n6bMH4n4CHWRRtaYhKZy2EpHaOLtL7UW6UbbHXCfDO8IdRsqeMlWGUiGD
+	naCkpIX5RaTJsZQ+mOPQUSrI8+TpNURk7Dly70rFHgj0/gnXS/PvEAnE3lJWAkf7
+	Q==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47egt7dd07-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Jun 2025 04:17:21 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55P1fYqV024212;
+	Wed, 25 Jun 2025 04:17:21 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ehkrhfgv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Jun 2025 04:17:21 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55P4HGqe029022;
+	Wed, 25 Jun 2025 04:17:20 GMT
+Received: from ca-dev110.us.oracle.com (ca-dev110.us.oracle.com [10.129.136.45])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47ehkrhfem-4;
+	Wed, 25 Jun 2025 04:17:20 +0000
+From: Alok Tiwari <alok.a.tiwari@oracle.com>
+To: linux-nvme@lists.infradead.org, rdunlap@infradead.org, kbusch@kernel.org,
+        axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+        nilay@linux.ibm.com, corbet@lwn.net
+Cc: alok.a.tiwari@oracle.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 3/5] nvmet: Remove redundant assignment of error code in nvmet_ns_enable()
+Date: Tue, 24 Jun 2025 21:16:32 -0700
+Message-ID: <20250625041643.174110-4-alok.a.tiwari@oracle.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
+References: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f320c94e-3a94-d645-8f7b-80f958c50fbe@huaweicloud.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-25_01,2025-06-23_07,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 adultscore=0 malwarescore=0 mlxscore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2506250029
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDAzMCBTYWx0ZWRfX75lhb/iGGSBV 19j0x2GsWJyN4FSuaQORWyUI8Vt2ryiyeKXEw9TNot7NrKTAXvEDJP60p+7kf6/qGY7ozI/vLU8 hLGybdKgx8Kdmi3+YVMuT/O01uA15XFxaqIsMi8MzILKZTsdawlEQ0dMmur9PbIauRv/qinaJ8e
+ 0Btr72QgdJIqmhU+mgnMLhzZQ2Ea+ZIwo67YL2jYnxZgSOz9e4a2b/23y1+VcqEbO2WkiABNAN7 /epkErt26oUAyLJ8KNRYCRulQmQ2IAzfynHL2yXqyYZVXGE3nlyuxXDyzdHTzv54ratAp/qEQ+i QN5Jjr8Bzsu7/dzvt654xCGqq0SxR43/XJXqDDU+9TnT9oNCzSLuBRyzcDbJMitDDS12ANMRfQV
+ oK2/LAXOwtWWkL9p8617A1Nf/n+w/P6TrpbJx7kYD7/xZ3bxm74WgCYP7GGwOK4jPQx0kTt+
+X-Proofpoint-GUID: L7LC2VHGr2DSRg6mxJ2BMUYGzwtydKYa
+X-Authority-Analysis: v=2.4 cv=QNpoRhLL c=1 sm=1 tr=0 ts=685b7852 b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=JfrnYn6hAAAA:8 a=hQNXMjqaqMWDSZxnGksA:9 a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf
+ awl=host:13207
+X-Proofpoint-ORIG-GUID: L7LC2VHGr2DSRg6mxJ2BMUYGzwtydKYa
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250624_184403_776869_634337A5 
-X-CRM114-Status: GOOD (  22.69  )
+X-CRM114-CacheID: sfid-20250624_211730_548333_D39A90EE 
+X-CRM114-Status: GOOD (  13.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,142 +102,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Friday 06/20 at 14:47 +0800, Yu Kuai wrote:
-> Hi,
-> 
-> 在 2025/06/20 12:10, Calvin Owens 写道:
-> > I dumped all the similar WARNs I've seen here (blk-warn-%d.txt):
-> > 
-> >      https://github.com/jcalvinowens/lkml-debug-616/tree/master
-> 
-> These reports also contain both request-based and bio-based disk, I
-> think perhaps following concurrent scenario is possible:
-> 
-> While bdev_count_inflight is interating all cpu, some IOs are issued
-> from traversed cpu and then completed from the cpu that is not traversed
-> yet.
-> 
-> cpu0
-> 		cpu1
-> 		bdev_count_inflight
-> 		 //for_each_possible_cpu
-> 		 // cpu0 is 0
-> 		 infliht += 0
-> // issue a io
-> blk_account_io_start
-> // cpu0 inflight ++
-> 
-> 				cpu2
-> 				// the io is done
-> 				blk_account_io_done
-> 				// cpu2 inflight --
-> 		 // cpu 1 is 0
-> 		 inflight += 0
-> 		 // cpu2 is -1
-> 		 inflight += -1
-> 		 ...
-> 
-> In this case, the total inflight will be -1.
-> 
-> Yi and Calvin,
-> 
-> Can you please help testing the following patch, it add a WARN_ON_ONCE()
-> using atomic operations, if the new warning is not reporduced while
-> the old warning is reporduced, I think it can be confirmed the above
-> analyze is correct, and I will send a revert for the WARN_ON_ONCE()
-> change in bdev_count_inflight().
+removing the unnecessary ret = -EMFILE; assignment since it is
+immediately overwritten by the result of nvmet_bdev_ns_enable()
+The initial value(-EMFILE) is redundant because it has no effect
+on the code logic or outcome.
 
-Hi Kuai,
+Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+---
+v2
+no changes only added Reviewed-by
+---
+ drivers/nvme/target/core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-I can confirm it's what you expected, I've reproduced the original
-warning with your patch while not seeing any of the new ones.
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 175c5b6d4dd58..884286f90688a 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -581,8 +581,6 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 	if (ns->enabled)
+ 		goto out_unlock;
+ 
+-	ret = -EMFILE;
+-
+ 	ret = nvmet_bdev_ns_enable(ns);
+ 	if (ret == -ENOTBLK)
+ 		ret = nvmet_file_ns_enable(ns);
+-- 
+2.46.0
 
-If you like, for the revert:
-
-Tested-By: Calvin Owens <calvin@wbinvd.org>
-
-Thanks,
-Calvin
-
-> Thanks,
-> Kuai
-> 
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index b862c66018f2..2b033caa74e8 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -1035,6 +1035,8 @@ unsigned long bdev_start_io_acct(struct block_device
-> *bdev, enum req_op op,
->         part_stat_local_inc(bdev, in_flight[op_is_write(op)]);
->         part_stat_unlock();
-> 
-> +       atomic_inc(&bdev->inflight[op_is_write(op)]);
-> +
->         return start_time;
->  }
->  EXPORT_SYMBOL(bdev_start_io_acct);
-> @@ -1065,6 +1067,8 @@ void bdev_end_io_acct(struct block_device *bdev, enum
-> req_op op,
->         part_stat_add(bdev, nsecs[sgrp], jiffies_to_nsecs(duration));
->         part_stat_local_dec(bdev, in_flight[op_is_write(op)]);
->         part_stat_unlock();
-> +
-> +       WARN_ON_ONCE(atomic_dec_return(&bdev->inflight[op_is_write(op)]) <
-> 0);
->  }
->  EXPORT_SYMBOL(bdev_end_io_acct);
-> 
-> diff --git a/block/blk-merge.c b/block/blk-merge.c
-> index 70d704615be5..ff15276d277f 100644
-> --- a/block/blk-merge.c
-> +++ b/block/blk-merge.c
-> @@ -658,6 +658,8 @@ static void blk_account_io_merge_request(struct request
-> *req)
->                 part_stat_local_dec(req->part,
->                                     in_flight[op_is_write(req_op(req))]);
->                 part_stat_unlock();
-> +
-> + WARN_ON_ONCE(atomic_dec_return(&req->part->inflight[op_is_write(req_op(req))])
-> < 0);
->         }
->  }
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 4806b867e37d..94e728ff8bb6 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -1056,6 +1056,8 @@ static inline void blk_account_io_done(struct request
-> *req, u64 now)
->                 part_stat_local_dec(req->part,
->                                     in_flight[op_is_write(req_op(req))]);
->                 part_stat_unlock();
-> +
-> + WARN_ON_ONCE(atomic_dec_return(&req->part->inflight[op_is_write(req_op(req))])
-> < 0);
->         }
->  }
-> 
-> @@ -1116,6 +1118,8 @@ static inline void blk_account_io_start(struct request
-> *req)
->         update_io_ticks(req->part, jiffies, false);
->         part_stat_local_inc(req->part, in_flight[op_is_write(req_op(req))]);
->         part_stat_unlock();
-> +
-> +       atomic_inc(&req->part->inflight[op_is_write(req_op(req))]);
->  }
-> 
->  static inline void __blk_mq_end_request_acct(struct request *rq, u64 now)
-> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-> index 3d1577f07c1c..a81110c07426 100644
-> --- a/include/linux/blk_types.h
-> +++ b/include/linux/blk_types.h
-> @@ -43,6 +43,7 @@ struct block_device {
->         sector_t                bd_nr_sectors;
->         struct gendisk *        bd_disk;
->         struct request_queue *  bd_queue;
-> +       atomic_t                inflight[2];
->         struct disk_stats __percpu *bd_stats;
->         unsigned long           bd_stamp;
->         atomic_t                __bd_flags;     // partition number + flags
-> 
 
