@@ -4,92 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20AFFC7EE39
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:30:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FE6EC7115C
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:31:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=qPYba+iSHjLpzCbKcEcctCJst/76kJf0E4zmJ6khlis=; b=cPP4G+ztDO4oOwPROIUYr/I6ji
-	uU65No6kNrSeF9HrpDkDLZvfzXFumaavrBgL79Cd1r0uB9tOpxOfKD2XxnCDJTkB+qPy30B1BnK+Q
-	VmX+S28MwAyTMX5cQCYIkgGY9IP5rLF6iekJt3+l5QV0Md2tbHCHceR1+DPM6HyZPB8eY3YZdR6E2
-	qO2uCwVpU/HXVGZcbUs4UEt/uHerRgw+9UPLKynpJKiPwH8mWKwQlcbCp/l0ctJ4ckqGivf0/UTpp
-	ad9CbZW/EOwF8NyFwcKSO25Kr26iJqG7xnu1wlwc8B1mcX3Usmm8kXv720PK1yJBu+lP2RQ3r547T
-	MIUdCI8w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=cW/bqCI2U6Nr+BfbLBPc4iYIL1Ye+cPjzyXgxm/wFwE=; b=apcR6pk2tVi2+gkK954pUiMhlM
+	ZEc1FJGoh4AxbcHyxfPHqt4cA3Wbp5PqylMdiiMLvKMBDrmNk4y59dtkTLLsOkpoMMsxhDU/7H6ta
+	JTFBwR5gzdfbKma9y5bnknqks0DVtBLUerZ9wqtm0QP10wkf3Tl7yrvoOGRy7q/4CezqVFkNV1/8E
+	/Ksp54KJ9FtVgvolcKf1WQ6AkOY+W0sqlBSC8vyP/3LMWwj7kKHd9R5uUR6U4dOIiMALcHPVBnU4g
+	9nu+z+DZcmDZXCyOtLX9t6WlZuAxCjHjsrfk5R2aylWbk3NH0YrYafK7MJhiuXr4h6Jea0OyA8X9r
+	u/Z0Jtaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUT0n-00000009I0W-0hRr;
-	Wed, 25 Jun 2025 16:30:13 +0000
-Received: from mta-03.yadro.com ([89.207.88.253])
+	id 1uUT20-00000009J7g-2oLM;
+	Wed, 25 Jun 2025 16:31:28 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUOZl-00000008Wsk-44RR
+	id 1uUP1G-00000008aiz-1Qdu
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Jun 2025 11:46:04 +0000
-Received: from mta-03.yadro.com (localhost [127.0.0.1])
-	by mta-03.yadro.com (Postfix) with ESMTP id D538BE000A;
-	Wed, 25 Jun 2025 14:45:50 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-03.yadro.com D538BE000A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
-	t=1750851950; bh=qPYba+iSHjLpzCbKcEcctCJst/76kJf0E4zmJ6khlis=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=quS6p1z9nzv2AI795fRB+i2jcuVO/J6gkA+U2SR9Cr0PWgDrSs263CWnZ0EV00hLS
-	 4e7DbkZ3/lghLuit6VhQlH/c9OYVso4Go7D2xchnk0kuaIk5von4WX2JqwLb9QaTpG
-	 C6lzRtPGE2zydzBbjNp8VnfcCOyw1mXzjnEGqzKpGI5W/+1WY7oHwHMl6mf9jVOZ+h
-	 HKimiK8XWcyh2HpLX6myW8f4+FYyZJmMTGz9fzRYeDhpbUa/AkixCyvj4VhBio/f0i
-	 c234wrsovJwQMaVDfNjALD/5qCI2c6SjpMN0frJ7+iZh4lHFd1W7BTC2lk9RitNzLb
-	 Dcugq4l8DtcuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
-	t=1750851950; bh=qPYba+iSHjLpzCbKcEcctCJst/76kJf0E4zmJ6khlis=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=bp4AjYu9Cts8L+B6z093nYPksiTjJlUjxOFu0MYG5ymyv37WkdCryvznK6VfqXIm1
-	 PZo5j47ThNNUCmez2NCOxqdNMu4m3koTUveHqystqDxNeacb/jfa5KYom1/PCPh+lY
-	 W/72P2J/lAAj97YP/5w+6UCFThhrogxfX+td/fRXMIKUpiQD0NlVtcCTJz4Rvkugsj
-	 m9OScW59evQVoGaV9FxA20oLv587O9WpgMw+yC6iDJKDZSmk7ufgdWFGFj4gOij61I
-	 th6aPzVFtRKsZBuxXEuCoD2oiL0j9yUw/0hDC2tga71ddoRV+0l5uoxngewgQjFTaL
-	 QcfdA1ukor8Wg==
-Received: from T-EXCH-10.corp.yadro.com (T-EXCH-10.corp.yadro.com [172.17.11.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-03.yadro.com (Postfix) with ESMTPS;
-	Wed, 25 Jun 2025 14:45:49 +0300 (MSK)
-Received: from T-EXCH-12.corp.yadro.com (172.17.11.143) by
- T-EXCH-10.corp.yadro.com (172.17.11.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Wed, 25 Jun 2025 14:45:48 +0300
-Received: from NB-591.corp.yadro.com (172.17.34.54) by
- T-EXCH-12.corp.yadro.com (172.17.11.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.12; Wed, 25 Jun 2025 14:45:48 +0300
-From: Dmitry Bogdanov <d.bogdanov@yadro.com>
-To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, <linux-nvme@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux@yadro.com>, Dmitry Bogdanov <d.bogdanov@yadro.com>,
-	<stable@vger.kernel.org>
-Subject: [PATCH] nvmet: fix memory leak of bio integrity
-Date: Wed, 25 Jun 2025 14:45:33 +0300
-Message-ID: <20250625114533.24041-1-d.bogdanov@yadro.com>
-X-Mailer: git-send-email 2.25.1
+	Wed, 25 Jun 2025 12:14:28 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PAwcbn000722;
+	Wed, 25 Jun 2025 12:14:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=cW/bqCI2U6Nr+BfbLBPc4iYIL1Ye
+	+cPjzyXgxm/wFwE=; b=UpFzlDHdR29WiUS1ZEUPeFj1pyeKYzQv/HAbQnM0zyu5
+	or6XzCXeXsPyyOKBQHPAeUxwKcQQDnSxdlrcK9xDBPZYR+TPB/baBtC8SC9w/V9w
+	eB+iENujO33A4IRZO/qcyxdkTNCmMu95PG2cJsiJEP2TBK80nBzaOTM5JJLfpsnm
+	+3DGlxXoniAJYTuDN/QPCuV/7besoihSBY9jcgbTfW9G5eOBU4vbWV7+9/u+/akY
+	1OeA3w8KVqgrdBXIYpc4xmrnxPCgY9oFUFB4jK8M89BHiGBWPeZtwzRPd+qb9G/0
+	ZQR+kle/GGYp/eEV9S3d5Nh6/p6LWTbGWzrjvznJyg==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47dk63xxef-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Jun 2025 12:14:15 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 55P9fYZg006497;
+	Wed, 25 Jun 2025 12:14:14 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 47e82p98vv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Jun 2025 12:14:14 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 55PCECoQ44892634
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Jun 2025 12:14:12 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 93BAD2004B;
+	Wed, 25 Jun 2025 12:14:12 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5E9C920040;
+	Wed, 25 Jun 2025 12:14:07 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.61.76.241])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 25 Jun 2025 12:14:06 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: yi.zhang@redhat.com, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+        hare@suse.de, dwagner@suse.de, axboe@kernel.dk,
+        shinichiro.kawasaki@wdc.com, gjoyce@ibm.com
+Subject: [PATCHv2] nvme: correctly account for namespace head reference counter
+Date: Wed, 25 Jun 2025 17:43:29 +0530
+Message-ID: <20250625121404.733810-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.17.34.54]
-X-ClientProxiedBy: RTM-EXCH-03.corp.yadro.com (10.34.9.203) To
- T-EXCH-12.corp.yadro.com (172.17.11.143)
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/06/25 10:41:00 #27589862
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-KATA-Status: Not Scanned
-X-KSMG-LinksScanning: NotDetected, bases: 2025/06/25 11:16:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 5
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDA4NSBTYWx0ZWRfX0ET8c3uNwLyv XZ9OrCF7g0XmK8hS0eBP/a/ZZrtVp/+lFi30YLX8eUA4qsbzEfJUyUxHpx+sEwmn4hdWivfJE// /hh5i+9wu0lAFc5zHUimvpbt9ewtuDMfV26vX2VigDcUxbj3Ulrz/NdjYAiLnVULElF10FrwgYH
+ 4YL5jYHcVbr3rPnKwgbvISfmJe1LJOXFkavqzWmDb0dJVG9UMT2YXjx4gto+wVlF86GRzq1QXj9 1NMoeJjN9FsXm7oM4gbDO8gCI/TR2CHeAgXUkPX1z0L32YXeU1KwGIPZTjCBt2w0R9PfZDTW8H2 uD3RK09RLfT5RWvvS9zrI6tj/dlr1ZVbYAWCe1hgBapQyPsAQ0L8wpbndxvoheNWwodqY5gcOhx
+ v3ps4Rc52AjqGt5x+6mmsWOBuOHLeL2DT6R/ufHTdIh5IJB2ZP4jnywXkHlsUC5X2d63b2lW
+X-Proofpoint-ORIG-GUID: 0RzuvMLWpxnRhrmRhUIdIcFBYOfkpCPG
+X-Proofpoint-GUID: 0RzuvMLWpxnRhrmRhUIdIcFBYOfkpCPG
+X-Authority-Analysis: v=2.4 cv=BfvY0qt2 c=1 sm=1 tr=0 ts=685be817 cx=c_pps a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=20KFwNOVAAAA:8
+ a=9bsi7WVkUijA0EX-ZIEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-25_03,2025-06-23_07,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 suspectscore=0 adultscore=0 spamscore=0
+ impostorscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 bulkscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506250085
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250625_044602_677311_E9BDDFDB 
-X-CRM114-Status: GOOD (  13.10  )
+X-CRM114-CacheID: sfid-20250625_051426_849540_21C55082 
+X-CRM114-Status: GOOD (  26.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,40 +109,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If nvmet receives commands with metadata there is a continuous memory leak
-of kmalloc-128 slab or more precisely bio->bi_integrity.
+The blktests nvme/058 menifests an issue where the NVMe subsystem
+kobject entry remains stale in sysfs, causing a failure during
+subsequent NVMe module reloads[1]. Specifically, when attempting to
+register a new NVMe subsystem, the driver encounters a kobejct name
+collision because a stale kobject still exists. Though, please note
+that nvme/058 doesn't report any failure and test case passes and
+it's only during subsequent NVMe module reloads, the stale nvme sub-
+system kobject entry in sysfs causes the observed symptom[1].
 
-Since that [1] patch series the integrity is not get free at bio_end_io
-for submitter owned integrity. It has to free explicitly.
+This issue stems from an imbalance in the get/put usage of the namespace
+head (nshead) reference counter. The nshead holds a reference to the
+associated NVMe subsystem. If the nshead reference is not properly
+released, it prevents the cleanup of the subsystem's kobject, leaving
+nvme subsystem stale entry behind in sysfs.
 
-After commit bf4c89fc8797  ("block: don't call bio_uninit from bio_endio")
-each user of bio_init has to use bio_uninit as well. Otherwise the bio
-integrity is not getting free. Nvmet uses bio_init for inline bios.
+During the failre case, the last namespace path referencing a nshead
+is removed, but the nshead reference was not released. This occurs
+because the release logic currently only puts the nshead reference
+when its state is LIVE. However, in configurations where ANA (Asymmetric
+Namespace Access) is enabled, a namespace may be associated with an ANA
+state that is neither optimized nor non-optimized. In this case, the
+nshead may never transition to LIVE, and the corresponding nshead
+reference is then never dropped. In fact nvme/058 associates some of
+nvme namespaces to an inaccessible ANA state and with that nshead is
+created but it's state is not transitioned to LIVE. So the current
+logic would then causes nshead reference to be leaked for non-LIVE
+states.
 
-Uninit the inline bio to complete deallocation of integrity in bio.
+Another scenario, during namespace allocation, the driver first
+allocates a nshead and then issues an Identify Namespace command. If
+this command fails — which can happen in tests like nvme/058 that
+rapidly enables and disables namespaces — we must release the reference
+to the newly allocated nshead. However this reference release is
+currently missing in the failure, causing a nshead reference leak.
 
-[1] https://lore.kernel.org/all/20240702151047.1746127-1-hch@lst.de/
+To fix this, we now unconditionally release the nshead reference when
+the last nvme path referencing to the nshead is removed, regardless of
+the head’s state. Also during idnetify namespace failure case we now
+properly release the nshead refernce. So this ensures proper cleanup
+of the nshead, and consequently, the NVMe subsystem and its associated
+kobject.
 
-Cc: stable@vger.kernel.org # 6.11
-Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
+This change prevents stale kobject entries from lingering in sysfs and
+eliminates the module reload failures observed just after running
+nvme/058.
+
+[1] https://lore.kernel.org/all/CAHj4cs8fOBS-eSjsd5LUBzy7faKXJtgLkCN+mDy_-ezCLLLq+Q@mail.gmail.com/
+
+Reported-by: yi.zhang@redhat.com
+Closes: https://lore.kernel.org/all/CAHj4cs8fOBS-eSjsd5LUBzy7faKXJtgLkCN+mDy_-ezCLLLq+Q@mail.gmail.com/
+Fixes: 62188639ec16 ("nvme-multipath: introduce delayed removal of the multipath head node")
+Tested-by: yi.zhang@redhat.com
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/target/nvmet.h | 2 ++
- 1 file changed, 2 insertions(+)
+changes from v1:
+    - Avoid double free of nshead when multipath is not configured.
+Link to V1: https://lore.kernel.org/all/c2e2aa93-9213-4322-a95d-27447f8b08de@linux.ibm.com/t/#u    
+---
+ drivers/nvme/host/core.c      | 16 +++++++++++++++-
+ drivers/nvme/host/multipath.c |  5 ++++-
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index df69a9dee71c..51df72f5e89b 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -867,6 +867,8 @@ static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
- {
- 	if (bio != &req->b.inline_bio)
- 		bio_put(bio);
-+	else
-+		bio_uninit(bio);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 92697f98c601..1b09c19e483a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4089,6 +4089,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	struct nvme_ns *ns;
+ 	struct gendisk *disk;
+ 	int node = ctrl->numa_node;
++	bool last_path = false;
+ 
+ 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
+ 	if (!ns)
+@@ -4181,9 +4182,22 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+  out_unlink_ns:
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+-	if (list_empty(&ns->head->list))
++	if (list_empty(&ns->head->list)) {
+ 		list_del_init(&ns->head->entry);
++		/*
++		 * If multipath is not configured, we still create a namespace
++		 * head (nshead), but head->disk is not initialized in that case.
++		 * As a result, only a single reference to nshead is held (via
++		 * kref_init()) when it is created. Therefore, ensure that we
++		 * do not release the reference to nshead twice if head->disk
++		 * is not present.
++		 */
++		if (ns->head->disk)
++			last_path = true;
++	}
+ 	mutex_unlock(&ctrl->subsys->lock);
++	if (last_path)
++		nvme_put_ns_head(ns->head);
+ 	nvme_put_ns_head(ns->head);
+  out_cleanup_disk:
+ 	put_disk(disk);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index e040e467f9fa..c7644631bb1a 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -690,8 +690,8 @@ static void nvme_remove_head(struct nvme_ns_head *head)
+ 		nvme_cdev_del(&head->cdev, &head->cdev_device);
+ 		synchronize_srcu(&head->srcu);
+ 		del_gendisk(head->disk);
+-		nvme_put_ns_head(head);
+ 	}
++	nvme_put_ns_head(head);
  }
  
- #ifdef CONFIG_NVME_TARGET_TCP_TLS
+ static void nvme_remove_head_work(struct work_struct *work)
+@@ -1291,6 +1291,9 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ {
+ 	bool remove = false;
+ 
++	if (!head->disk)
++		return;
++
+ 	mutex_lock(&head->subsys->lock);
+ 	/*
+ 	 * We are called when all paths have been removed, and at that point
 -- 
-2.25.1
+2.49.0
 
 
