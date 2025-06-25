@@ -4,101 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20B55C7EE31
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 20:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C5EEC7EE31
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 21:54:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kjfYUz5Sj9VCDUhJbZKoCap8L6aycyxFsKLXfxsEkRo=; b=su4IkwgWSTGdBZRP0TpxIxikLz
-	vsY9k3G+tYnZ7hkm5iGwJjsXeFagXoOcsJHkjnDS6z8huXZmetM9CZsCNzbjeWQcVHLvljxppxtyv
-	12q+iWH/84+LptSqBDiQrkoL6sa4wdfLZYkivsJiutsKim7KWaDHFezBEHy56Wv3pjYT9yVV0ojDE
-	AMXvfO6FKiVfObGgXgYywRS/pcJA7FUT1lplrlLXW1Uaj3ZdP6jrWI8xD/U+SrApa80Ey8++5UgQi
-	JLSFU/sXnWZSgEBLVGPyP+5sjZsTxzccnVgNdwo1+yHofL7T/ecXaEZvAy2q/idIJmW6Wa0hALvR9
-	YvV7Y5dQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Nrl/mM1f4nUDM+SPsl9lsAxt3jHm+mBbaf0FUbbncJ8=; b=efubjuYAWY2frK5WU63il/dBfQ
+	iFposNCCWSdK9N2/l1cO0VCRCTd92UXf9htgJYtDJ3MVUwcgiE36oB4FyxicZAIAI62sSVjUT9y7k
+	yt25yLxtnQjW3OsDycg28hcuIgrOTNEdqcZLWNJpnNzTVqD9tVuD7nQbl7tXAIwRJg+84vb6FuEEf
+	VL4N/Cs4+y2n84Hf5qzidHBGX+4giZhOg4oNE+2O1R+//YnIIauFYpK7uWqMiX5LPKdFmCcnbQzs6
+	V24+g20xg3XUCDMukpI6LGEbfLZwzXl5qOFwWua69a4p9zlVnJjfz9uujI36EZbfiYGiYMg0v/G2f
+	8hVLEJrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUWru-00000009tHw-24z4;
-	Wed, 25 Jun 2025 20:37:18 +0000
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
+	id 1uUY4c-0000000A0qV-1OEb;
+	Wed, 25 Jun 2025 21:54:30 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUWaQ-00000009p97-1mT9
+	id 1uUWzY-00000009uPJ-0gTb
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 25 Jun 2025 20:45:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Type:Content-Transfer-Encoding
+	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=Nrl/mM1f4nUDM+SPsl9lsAxt3jHm+mBbaf0FUbbncJ8=; b=Ea4PHSqOm9rV/R4F2Xf2cjt0c7
+	HxPaZIb6XZJKlPMmJR1xmZq03JxY7N4dGbyKhS697i77g9k+DSOYfm0JuRhoSIm+ql9attuT2KHog
+	rf7pcYGxEPKomnlF/P9pOBo2JfAm7GjeZBSt4d4Iv9v09mSS/gDPbdzo6Zw96sVxyep6iYUJ02WFI
+	wXAhoTWcS2z07wAEvTVLUEPchSAOGIkSQcodhNpIQks7HLprPC+jeZWAws7SrSmrpwGRK0LWwN0WY
+	Z6+liruRVw3Xbr1Jh53T9LtR+L9rfuB1QuB0DuYenx9cZy9hQnIBj0+CvgNoBh3kicZ3+T0AfS2de
+	KlLaGHsA==;
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uUWzR-00000005ylk-1aiw
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Jun 2025 20:19:22 +0000
-Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-40b1c099511so212512b6e.0
-        for <linux-nvme@lists.infradead.org>; Wed, 25 Jun 2025 13:19:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750882754; x=1751487554; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kjfYUz5Sj9VCDUhJbZKoCap8L6aycyxFsKLXfxsEkRo=;
-        b=kTaE6/xYt8z4o/93N3WYXPG/pFipbJdia6K7FTt6Moh3SzuVs29KHmDhfWFDSJj0ij
-         lsrtOHOdXWYwS078mJxgc0P07XrxH2yjjPzZZPJ22pzvCMMKRU1t/rvG7lvYlwvB1iJ8
-         fUaY2o1Qgx+h+c3xB6IwTBA8Wou6Yd/TDHYMTm1bhqCe0yT5CTnOgxKvOfCrnIpuuTW0
-         j+5Ck/2+aw3wVxH+COMmJ1ixcWRT0SDA6ZGYP5ufZvFIh0cHrb2KUJG/iCmbEH0sT+NJ
-         rqGc8XRPJOB4j59ldP7ytIRpEC8PPH3tUjNrdBKV4kJqNlV+Lq/NWQfkRmQ1tdAfy8hT
-         8q8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750882754; x=1751487554;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kjfYUz5Sj9VCDUhJbZKoCap8L6aycyxFsKLXfxsEkRo=;
-        b=AOVKI94y6x2AmujHnX9HuK5PMPOvUjISAYxidf1WP9XUMLXI1iUkcxoCsD9QFa7FaL
-         2gNt+B30B+9EyclZedcoli85CN1gnTIVjFPPUApsvJDGyiDCB6KvPP0AjeNbWJRy9b1G
-         ktlm4iC4U6G5v/uhlDRAbEePcnj3hhQAWkuIzVu6l5grJ/4pQgFRBvyeaLHuXl82cq86
-         RBHM3JKOFR4YDY5n4mVbJ5YG0QFgTO6Yv/Q5TkHYkm7MG0MhGx/f9YothoIGKiuN7mor
-         32PntzgiEkSzpMMmThkKazG33UwmYmQjpaCQD7s8zRcFTXYh917S/Knfiae1pHOAsP1/
-         dRpA==
-X-Forwarded-Encrypted: i=1; AJvYcCX9kpJ2KQbV9zh/G4M0wr/xQTQJUyIo9zuQTd24V1b6S4/dviLGSehLX+Sv4lO5ReFIC7Eb2sk1a6LJ@lists.infradead.org
-X-Gm-Message-State: AOJu0YwzOaZ9/rZeoBBlXH7+Kj7uIs6AO317dfVU4Na8KebEHmFrdxod
-	m9O1Umf+TlEzk0V5aEsD2H2EM+X6RDBIAqQO5BRIvbi+/1IJ6etkKVMp
-X-Gm-Gg: ASbGncu7uiTHBTnb8hNtpooXrvrGTmsEeX1UOy7TxQ4uWYhv2FW+BHhX6b4skvVnvpC
-	5gq2VWvbtOwucgyvQB5y03Xh12nVJV4xeitIH4uHSx1hRZd9Ixr81Z6+f0M5/ltA01u3rzyy/qu
-	CxEqQQj9vtYjgjeJE2ro/DTfOpSz2o8CxCu2qjRt16itfwwDiRzv94G4mDcz1SXYRaUhbc+u2a8
-	ZR3KHFf29dHyJJo/drpeQFmKKYx1K4tTvbzpWZMm316aSdR1aW5vO0CqRVHV0jlorlhWW+lcvik
-	OAEy+cAt+YFxQZcTENFs4DxUqFI/htbAimOp2azfU2dlPRsLoCZxoifgNO2QQT5TJLYHOIuiqQh
-	K50I898U=
-X-Google-Smtp-Source: AGHT+IEPPX6GdITt8r22TB09bMzNMI1EoDKyu9xgoJ9OiZYs/o7KlircW0SgMKIhPLWaoccM3UA6HA==
-X-Received: by 2002:a05:6808:3021:b0:3f3:d6f9:69a5 with SMTP id 5614622812f47-40b1c8ca908mr942132b6e.8.1750882753614;
-        Wed, 25 Jun 2025 13:19:13 -0700 (PDT)
-Received: from localhost.localdomain ([143.166.81.254])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40ac6d22c23sm2319188b6e.42.2025.06.25.13.19.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 13:19:13 -0700 (PDT)
-From: Stuart Hayes <stuart.w.hayes@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>,
-	David Jeffery <djeffery@redhat.com>,
-	Jeremy Allison <jallison@ciq.com>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jan Kiszka <jan.kiszka@seimens.com>,
-	Bert Karwatzki <spasswolf@web.de>
-Cc: Stuart Hayes <stuart.w.hayes@gmail.com>
-Subject: [PATCH v10 4/5] driver core: shut down devices asynchronously
-Date: Wed, 25 Jun 2025 15:18:52 -0500
-Message-Id: <20250625201853.84062-5-stuart.w.hayes@gmail.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
-References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
+	Wed, 25 Jun 2025 20:45:10 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PJMF5t011152
+	for <linux-nvme@lists.infradead.org>; Wed, 25 Jun 2025 13:44:59 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
+	 bh=Nrl/mM1f4nUDM+SPsl9lsAxt3jHm+mBbaf0FUbbncJ8=; b=MvKML5cfnWYN
+	FCnL9Ra6bZ+zk79B/N6jfhWaGzqs6PhjwpRWnBb9F+VANysu6Kwcw22JlVN/FUgg
+	Xv+bRgKN1/jSyD7tqsPYIwiA8BqztrWvQHfOdDospaDTkNz5AB8hEubIxaGp6/13
+	nuKjOILb3eKu1GlqwHS5WbEhx/hwur2Qx4whTOsF+ig4AvmSqlKxIYh0RGVl3fC2
+	bbGt2hlPSdj8KrgdmfSoLEnXXm8kx6GEQ5/+RGPBIZeaVIn65r5gUMfre/O/rphT
+	0CDJwvQs22fP+eKKLaQvR/r6+cM9z5GHpRLoCEq1yNrBVeQwINr8J3TJu71DJ4Rx
+	jMc0hCtCEg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 47gext4dms-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 25 Jun 2025 13:44:59 -0700 (PDT)
+Received: from twshared4564.15.prn3.facebook.com (2620:10d:c0a8:1c::1b) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1748.24; Wed, 25 Jun 2025 20:44:57 +0000
+Received: by devbig1708.prn1.facebook.com (Postfix, from userid 544533)
+	id CB8438C48C9; Wed, 25 Jun 2025 13:44:46 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <hch@lst.de>, <linux-nvme@lists.infradead.org>,
+        <linux-block@vger.kernel.org>
+CC: <axboe@kernel.dk>, <leon@kernel.org>, <joshi.k@samsung.com>,
+        <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 2/2] nvme: convert metadata mapping to dma iter
+Date: Wed, 25 Jun 2025 13:44:45 -0700
+Message-ID: <20250625204445.1802483-2-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250625204445.1802483-1-kbusch@meta.com>
+References: <20250625204445.1802483-1-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE1OSBTYWx0ZWRfX9Lo2MfHnILYH X2NGXSM61bSqE7q56EnrRqa2Erq/J5XmosQmTpegHBr/fd+yXbu4zC6EXgJI2y7qz+8WejMick2 n4Umn2qZdiHw74qtZkdSzENCIwEcBYOZfh6hfZx/Aee/i7rsRiXw73jip5LJhuodplSEXHACQww
+ smq0nbuwXxbcOVKxz/3gVaSHClvBSkCHGXzuydqVCk6SmcgmrZoQcAPsJ7Jc7v60sUD9JVRrIAU z7zxm+8StOq8gxWoSYqxj5v8GZN/bSVCE7VeFQWZz+ffEbtMHeBYjcBLyHtGHNDw8D5zWccG2og IqMzH7VOIAt+TAbMdkIqHO+9gS8EoKPBosnYA3sp6kKmCqyoSpw8qKWU/SXHXaw1zbHfsu3KuHw
+ mmDVQiFnpv8kN9tgooiZkC/t+MMMsOfkhr4n1XT0G5YznQQCoKRa/jnUSJuOh8dvqhUWR2xl
+X-Proofpoint-ORIG-GUID: nCFBSmmf_aHoPEumCZ00WrzM5op7P36i
+X-Authority-Analysis: v=2.4 cv=YuIPR5YX c=1 sm=1 tr=0 ts=685c5fcb cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=jSp59qru_JMrQpIs8J4A:9
+X-Proofpoint-GUID: nCFBSmmf_aHoPEumCZ00WrzM5op7P36i
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-25_07,2025-06-25_01,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250625_131914_494770_0A5D8CF1 
-X-CRM114-Status: GOOD (  33.62  )
+X-CRM114-CacheID: sfid-20250625_214505_868928_57DBF67C 
+X-CRM114-Status: GOOD (  14.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,293 +106,166 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add code to allow asynchronous shutdown of devices.
+From: Keith Busch <kbusch@kernel.org>
 
-Devices allowed to do asynchronous shutdown can start to shut down in their
-own thread as soon as all of the devices dependent on them have finished
-shutting down. All other devices will wait until the previous device in
-the devices_kset list have finished shutting down.
+Aligns data and metadata to the similar dma mapping scheme and removes
+one more user of the scatter-gather dma mapping.
 
-Only devices with drivers that have async_shutdown_enable set will be shut
-down asynchronously.
-
-Devices shutting down asynchronously will be shut down in their own thread,
-but synchronous devices in the devices_kset list between asynch devices
-will be put in a list, and that list will be shut down in a single thread.
-This avoids burdening the system with hundreds of threads on shutdown.
-
-This can dramatically reduce system shutdown/reboot time on systems that
-have multiple devices that take many seconds to shut down (like certain
-NVMe drives). On one system tested, the shutdown time went from 11
-minutes without this patch to 55 seconds when this patch.
-
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/base/base.h           |   8 ++
- drivers/base/core.c           | 157 +++++++++++++++++++++++++++++++++-
- include/linux/device/driver.h |   2 +
- 3 files changed, 165 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 69 +++++++++++++----------------------------
+ 1 file changed, 21 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index 123031a757d9..214207ca5392 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -10,6 +10,7 @@
-  * shared outside of the drivers/base/ directory.
-  *
-  */
-+#include <linux/async.h>
- #include <linux/notifier.h>
- 
- /**
-@@ -85,6 +86,11 @@ struct driver_private {
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 38be1505dbd96..f82ef19fa0a3a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -270,13 +270,13 @@ struct nvme_iod {
+ 	struct nvme_command cmd;
+ 	u8 flags;
+ 	u8 nr_descriptors;
++	u8 nr_meta_descriptors;
+=20
+ 	unsigned int total_len;
+ 	struct dma_iova_state dma_state;
+ 	void *descriptors[NVME_MAX_NR_DESCRIPTORS];
+=20
+ 	dma_addr_t meta_dma;
+-	struct sg_table meta_sgt;
+ 	struct nvme_sgl_desc *meta_descriptor;
  };
- #define to_driver(obj) container_of(obj, struct driver_private, kobj)
- 
-+union shutdown_private {
-+	struct device *next;
-+	async_cookie_t after;
-+};
-+
- /**
-  * struct device_private - structure to hold the private to the driver core portions of the device structure.
-  *
-@@ -98,6 +104,7 @@ struct driver_private {
-  *	the device; typically because it depends on another driver getting
-  *	probed first.
-  * @async_driver - pointer to device driver awaiting probe via async_probe
-+ * @shutdown - used during device shutdown to ensure correct shutdown ordering.
-  * @device - pointer back to the struct device that this structure is
-  * associated with.
-  * @dead - This device is currently either in the process of or has been
-@@ -115,6 +122,7 @@ struct device_private {
- 	struct list_head deferred_probe;
- 	const struct device_driver *async_driver;
- 	char *deferred_probe_reason;
-+	union shutdown_private shutdown;
- 	struct device *device;
- 	u8 dead:1;
- };
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 39502621e88e..f0484ceefc52 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/async.h>
- #include <linux/blkdev.h>
- #include <linux/cleanup.h>
- #include <linux/cpufreq.h>
-@@ -4786,6 +4787,8 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
+=20
+@@ -1010,70 +1010,39 @@ static blk_status_t nvme_map_data(struct request =
+*req)
+ 	return nvme_pci_setup_data_prp(req, &iter);
  }
- EXPORT_SYMBOL_GPL(device_change_owner);
- 
-+static ASYNC_DOMAIN(sd_domain);
-+
- static void shutdown_one_device(struct device *dev)
+=20
+-static void nvme_pci_sgl_set_data_sg(struct nvme_sgl_desc *sge,
+-		struct scatterlist *sg)
+-{
+-	sge->addr =3D cpu_to_le64(sg_dma_address(sg));
+-	sge->length =3D cpu_to_le32(sg_dma_len(sg));
+-	sge->type =3D NVME_SGL_FMT_DATA_DESC << 4;
+-}
+-
+ static blk_status_t nvme_pci_setup_meta_sgls(struct request *req)
  {
- 	/* hold lock to avoid race with probe/release */
-@@ -4821,12 +4824,116 @@ static void shutdown_one_device(struct device *dev)
- 	put_device(dev);
- }
- 
-+static bool device_wants_async_shutdown(struct device *dev)
-+{
-+	if (dev->driver && dev->driver->async_shutdown_enable)
-+		return true;
-+
-+	return false;
-+}
-+
-+/**
-+ * set_wait_cookies
-+ * @dev: device to find parents and suppliers for
-+ * @cookie: shutdown cookie for dev
-+ *
-+ * Look for parent and suppliers of dev that want async shutdown, and
-+ * set shutdown.after to cookie on those devices to ensure they
-+ * don't shut down before dev.
-+ *
-+ * Passing a cookie of zero will return whether any such devices are found
-+ * without setting shutdown.after.
-+ *
-+ * Return true if any async supplier/parent devices are found.
-+ */
-+static bool device_set_async_cookie(struct device *dev, async_cookie_t cookie)
-+{
-+	int idx;
-+	struct device_link *link;
-+	bool ret = false;
-+	struct device *parent = dev->parent;
-+
-+	if (parent && device_wants_async_shutdown(parent)) {
-+		ret = true;
-+		if (cookie)
-+			parent->p->shutdown.after = cookie;
-+		else
-+			goto done;
-+	}
-+
-+	idx = device_links_read_lock();
-+	list_for_each_entry_rcu(link, &dev->links.suppliers, c_node,
-+				device_links_read_lock_held()) {
-+		if (!device_link_flag_is_sync_state_only(link->flags)
-+		    && device_wants_async_shutdown(link->supplier)) {
-+			ret = true;
-+			if (cookie)
-+				link->supplier->p->shutdown.after = cookie;
-+			else
-+				break;
-+		}
-+	}
-+	device_links_read_unlock(idx);
-+done:
-+	return ret;
-+}
-+
-+#define is_async_shutdown_dependency(dev) device_set_async_cookie(dev, 0)
-+
-+/**
-+ * shutdown_devices_async
-+ * @data: list of devices to be shutdown
-+ * @cookie: not used
-+ *
-+ * Shuts down devices after waiting for previous devices to shut down (for
-+ * synchronous shutdown) or waiting for device's last child or consumer to
-+ * be shutdown (for async shutdown).
-+ *
-+ * shutdown.after is set to the shutdown cookie of the last child or consumer
-+ * of this device (if any).
-+ */
-+static void shutdown_devices_async(void *data, async_cookie_t cookie)
-+{
-+	struct device *next, *dev = data;
-+	async_cookie_t wait = cookie;
-+	bool async = device_wants_async_shutdown(dev);
-+
-+	if (async) {
-+		wait = dev->p->shutdown.after + 1;
-+		/*
-+		 * To prevent system hang, revert to sync shutdown in the event
-+		 * that shutdown.after would make this shutdown wait for a
-+		 * shutdown that hasn't been scheduled yet.
-+		 *
-+		 * This can happen if a parent or supplier is not ordered in the
-+		 * devices_kset list before a child or consumer, which is not
-+		 * expected.
-+		 */
-+		if (wait > cookie) {
-+			wait = cookie;
-+			dev_warn(dev, "Unsafe shutdown ordering, forcing sync order\n");
-+		}
-+	}
-+
-+	async_synchronize_cookie_domain(wait, &sd_domain);
-+
-+	/*
-+	 * Shut down the async device or list of sync devices
-+	 */
+ 	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
+-	struct nvme_dev *dev =3D nvmeq->dev;
+ 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
++	struct nvme_dev *dev =3D nvmeq->dev;
+ 	struct nvme_sgl_desc *sg_list;
+-	struct scatterlist *sgl, *sg;
+-	unsigned int entries;
++	struct blk_dma_iter iter;
+ 	dma_addr_t sgl_dma;
+-	int rc, i;
+-
+-	iod->meta_sgt.sgl =3D mempool_alloc(dev->iod_meta_mempool, GFP_ATOMIC);
+-	if (!iod->meta_sgt.sgl)
+-		return BLK_STS_RESOURCE;
+-
+-	sg_init_table(iod->meta_sgt.sgl, req->nr_integrity_segments);
+-	iod->meta_sgt.orig_nents =3D blk_rq_map_integrity_sg(req,
+-							   iod->meta_sgt.sgl);
+-	if (!iod->meta_sgt.orig_nents)
+-		goto out_free_sg;
++	int i =3D 0;
+=20
+-	rc =3D dma_map_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req),
+-			     DMA_ATTR_NO_WARN);
+-	if (rc)
+-		goto out_free_sg;
++	if (!blk_rq_integrity_dma_map_iter_start(req, dev->dev, &iter))
++		return iter.status;
+=20
+ 	sg_list =3D dma_pool_alloc(nvmeq->descriptor_pools.small, GFP_ATOMIC,
+ 			&sgl_dma);
+ 	if (!sg_list)
+-		goto out_unmap_sg;
++		return BLK_STS_RESOURCE;
+=20
+-	entries =3D iod->meta_sgt.nents;
+ 	iod->meta_descriptor =3D sg_list;
+ 	iod->meta_dma =3D sgl_dma;
+=20
+ 	iod->cmd.common.flags =3D NVME_CMD_SGL_METASEG;
+ 	iod->cmd.common.metadata =3D cpu_to_le64(sgl_dma);
+=20
+-	sgl =3D iod->meta_sgt.sgl;
+-	if (entries =3D=3D 1) {
+-		nvme_pci_sgl_set_data_sg(sg_list, sgl);
+-		return BLK_STS_OK;
+-	}
+-
+ 	sgl_dma +=3D sizeof(*sg_list);
+-	nvme_pci_sgl_set_seg(sg_list, sgl_dma, entries);
+-	for_each_sg(sgl, sg, entries, i)
+-		nvme_pci_sgl_set_data_sg(&sg_list[i + 1], sg);
+=20
+-	return BLK_STS_OK;
 +	do {
-+		next = dev->p->shutdown.next;
-+		shutdown_one_device(dev);
-+		dev = next;
-+	} while (!async && dev);
-+}
-+
- /**
-  * device_shutdown - call ->shutdown() on each device to shutdown.
-  */
- void device_shutdown(void)
- {
--	struct device *dev, *parent;
-+	struct device *dev, *parent, *synclist = NULL, *syncend = NULL;
-+	async_cookie_t cookie = 0;
- 
- 	wait_for_device_probe();
- 	device_block_probing();
-@@ -4857,11 +4964,57 @@ void device_shutdown(void)
- 		list_del_init(&dev->kobj.entry);
- 		spin_unlock(&devices_kset->list_lock);
- 
--		shutdown_one_device(dev);
-+		get_device(dev);
-+		get_device(parent);
-+
-+		if (device_wants_async_shutdown(dev)) {
-+			/*
-+			 * async devices run alone in their own async task,
-+			 * push out any waiting sync devices to maintain
-+			 * ordering.
-+			 */
-+			if (synclist) {
-+				async_schedule_domain(shutdown_devices_async,
-+						      synclist, &sd_domain);
-+				synclist = syncend = NULL;
-+			}
-+
-+			cookie = async_schedule_domain(shutdown_devices_async,
-+					       dev, &sd_domain);
-+			device_set_async_cookie(dev, cookie);
-+		} else {
-+			if (!synclist) {
-+				synclist = syncend = dev;
-+			} else {
-+				syncend->p->shutdown.next = dev;
-+				syncend = dev;
-+			}
-+			if (is_async_shutdown_dependency(dev)) {
-+				/*
-+				 * dev is a dependency for an async device,
-+				 * kick off a new thread so it can complete
-+				 * and allow the async device to run its
-+				 * shutdown.
-+				 */
-+				cookie = async_schedule_domain(
-+							shutdown_devices_async,
-+							synclist, &sd_domain);
-+				device_set_async_cookie(dev, cookie);
-+				synclist = syncend = NULL;
-+			}
-+		}
-+
-+		put_device(parent);
-+		put_device(dev);
- 
- 		spin_lock(&devices_kset->list_lock);
- 	}
- 	spin_unlock(&devices_kset->list_lock);
-+
-+	if (synclist)
-+		async_schedule_domain(shutdown_devices_async, synclist,
-+				      &sd_domain);
-+	async_synchronize_full_domain(&sd_domain);
++		nvme_pci_sgl_set_data(&sg_list[++i], &iter);
++	} while (blk_rq_integrity_dma_map_iter_next(req, dev->dev, &iter));
+=20
+-out_unmap_sg:
+-	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
+-out_free_sg:
+-	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
+-	return BLK_STS_RESOURCE;
++	nvme_pci_sgl_set_seg(sg_list, sgl_dma, i);
++	iod->nr_meta_descriptors =3D i;
++	return BLK_STS_OK;
  }
- 
- /*
-diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-index cd8e0f0a634b..c63bc0050c84 100644
---- a/include/linux/device/driver.h
-+++ b/include/linux/device/driver.h
-@@ -56,6 +56,7 @@ enum probe_type {
-  * @mod_name:	Used for built-in modules.
-  * @suppress_bind_attrs: Disables bind/unbind via sysfs.
-  * @probe_type:	Type of the probe (synchronous or asynchronous) to use.
-+ * @async_shutdown_enable: Enables devices to be shutdown asynchronously.
-  * @of_match_table: The open firmware table.
-  * @acpi_match_table: The ACPI match table.
-  * @probe:	Called to query the existence of a specific device,
-@@ -102,6 +103,7 @@ struct device_driver {
- 
- 	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
- 	enum probe_type probe_type;
-+	bool async_shutdown_enable;
- 
- 	const struct of_device_id	*of_match_table;
- 	const struct acpi_device_id	*acpi_match_table;
--- 
-2.39.3
+=20
+ static blk_status_t nvme_pci_setup_meta_mptr(struct request *req)
+@@ -1086,6 +1055,7 @@ static blk_status_t nvme_pci_setup_meta_mptr(struct=
+ request *req)
+ 	if (dma_mapping_error(nvmeq->dev->dev, iod->meta_dma))
+ 		return BLK_STS_IOERR;
+ 	iod->cmd.common.metadata =3D cpu_to_le64(iod->meta_dma);
++	iod->nr_meta_descriptors =3D 0;
+ 	return BLK_STS_OK;
+ }
+=20
+@@ -1107,7 +1077,6 @@ static blk_status_t nvme_prep_rq(struct request *re=
+q)
+ 	iod->flags =3D 0;
+ 	iod->nr_descriptors =3D 0;
+ 	iod->total_len =3D 0;
+-	iod->meta_sgt.nents =3D 0;
+=20
+ 	ret =3D nvme_setup_cmd(req->q->queuedata, req);
+ 	if (ret)
+@@ -1222,19 +1191,23 @@ static __always_inline void nvme_unmap_metadata(s=
+truct request *req)
+ {
+ 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+ 	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
++	struct nvme_sgl_desc *sg_list =3D iod->meta_descriptor;
++	enum dma_data_direction dir =3D rq_dma_dir(req);
+ 	struct nvme_dev *dev =3D nvmeq->dev;
++	int i;
+=20
+-	if (!iod->meta_sgt.nents) {
++	if (!iod->nr_meta_descriptors) {
+ 		dma_unmap_page(dev->dev, iod->meta_dma,
+ 			       rq_integrity_vec(req).bv_len,
+ 			       rq_dma_dir(req));
+ 		return;
+ 	}
+=20
++	for (i =3D 1; i <=3D iod->nr_meta_descriptors; i++)
++		dma_unmap_page(dev->dev, le64_to_cpu(sg_list[i].addr),
++				le32_to_cpu(sg_list[i].length), dir);
+ 	dma_pool_free(nvmeq->descriptor_pools.small, iod->meta_descriptor,
+ 			iod->meta_dma);
+-	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
+-	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
+ }
+=20
+ static __always_inline void nvme_pci_unmap_rq(struct request *req)
+--=20
+2.47.1
 
 
