@@ -4,48 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59580C7EE31
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:30:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20AFFC7EE39
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:30:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xUlg5GSwWCDpOjRXei/a9Z8ul60ODMnMWC1XwV5mG+A=; b=JZd5kxc9dr8ZoZ6wwqvPC0FihD
-	RrIf4w3ZzqN8180bw8fE7GPA1Zk4sHuzzU83WeEowfOkyCQzSttDjc/RMIqAd86Sk4GJav9oBX1qw
-	c5+SH2gHLioivVHrFKeAw8puEVbJQ6tDJKHaHlYWjis1pxUrbCNe7Sc5HkRstIvbH/9z5NO/mC59a
-	2bmxjPHkqnbB7RD318WefCjkuEFOsMeKH4ktJ+ot4djJFr3qDWDjp5iayvZNQErkdQzM4KScGbwjG
-	5oI6h7EIxpqfAZ2f4CChEKkhURiIGTwFJjwe6NwlB2oB3xTkvEqvoHuT0XciIpWOQKonZXSC3Klzh
-	XVQxSbdQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=qPYba+iSHjLpzCbKcEcctCJst/76kJf0E4zmJ6khlis=; b=cPP4G+ztDO4oOwPROIUYr/I6ji
+	uU65No6kNrSeF9HrpDkDLZvfzXFumaavrBgL79Cd1r0uB9tOpxOfKD2XxnCDJTkB+qPy30B1BnK+Q
+	VmX+S28MwAyTMX5cQCYIkgGY9IP5rLF6iekJt3+l5QV0Md2tbHCHceR1+DPM6HyZPB8eY3YZdR6E2
+	qO2uCwVpU/HXVGZcbUs4UEt/uHerRgw+9UPLKynpJKiPwH8mWKwQlcbCp/l0ctJ4ckqGivf0/UTpp
+	ad9CbZW/EOwF8NyFwcKSO25Kr26iJqG7xnu1wlwc8B1mcX3Usmm8kXv720PK1yJBu+lP2RQ3r547T
+	MIUdCI8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUT0V-00000009Hiz-24Tx;
-	Wed, 25 Jun 2025 16:29:55 +0000
-Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUOPh-00000008UyF-0rJO;
-	Wed, 25 Jun 2025 11:35:37 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Leon Romanovsky <leonro@nvidia.com>
-Subject: [PATCH 1/8] block: don't merge different kinds of P2P transfers in a single bio
-Date: Wed, 25 Jun 2025 13:34:58 +0200
-Message-ID: <20250625113531.522027-2-hch@lst.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250625113531.522027-1-hch@lst.de>
-References: <20250625113531.522027-1-hch@lst.de>
+	id 1uUT0n-00000009I0W-0hRr;
+	Wed, 25 Jun 2025 16:30:13 +0000
+Received: from mta-03.yadro.com ([89.207.88.253])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uUOZl-00000008Wsk-44RR
+	for linux-nvme@lists.infradead.org;
+	Wed, 25 Jun 2025 11:46:04 +0000
+Received: from mta-03.yadro.com (localhost [127.0.0.1])
+	by mta-03.yadro.com (Postfix) with ESMTP id D538BE000A;
+	Wed, 25 Jun 2025 14:45:50 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-03.yadro.com D538BE000A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
+	t=1750851950; bh=qPYba+iSHjLpzCbKcEcctCJst/76kJf0E4zmJ6khlis=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=quS6p1z9nzv2AI795fRB+i2jcuVO/J6gkA+U2SR9Cr0PWgDrSs263CWnZ0EV00hLS
+	 4e7DbkZ3/lghLuit6VhQlH/c9OYVso4Go7D2xchnk0kuaIk5von4WX2JqwLb9QaTpG
+	 C6lzRtPGE2zydzBbjNp8VnfcCOyw1mXzjnEGqzKpGI5W/+1WY7oHwHMl6mf9jVOZ+h
+	 HKimiK8XWcyh2HpLX6myW8f4+FYyZJmMTGz9fzRYeDhpbUa/AkixCyvj4VhBio/f0i
+	 c234wrsovJwQMaVDfNjALD/5qCI2c6SjpMN0frJ7+iZh4lHFd1W7BTC2lk9RitNzLb
+	 Dcugq4l8DtcuA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
+	t=1750851950; bh=qPYba+iSHjLpzCbKcEcctCJst/76kJf0E4zmJ6khlis=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=bp4AjYu9Cts8L+B6z093nYPksiTjJlUjxOFu0MYG5ymyv37WkdCryvznK6VfqXIm1
+	 PZo5j47ThNNUCmez2NCOxqdNMu4m3koTUveHqystqDxNeacb/jfa5KYom1/PCPh+lY
+	 W/72P2J/lAAj97YP/5w+6UCFThhrogxfX+td/fRXMIKUpiQD0NlVtcCTJz4Rvkugsj
+	 m9OScW59evQVoGaV9FxA20oLv587O9WpgMw+yC6iDJKDZSmk7ufgdWFGFj4gOij61I
+	 th6aPzVFtRKsZBuxXEuCoD2oiL0j9yUw/0hDC2tga71ddoRV+0l5uoxngewgQjFTaL
+	 QcfdA1ukor8Wg==
+Received: from T-EXCH-10.corp.yadro.com (T-EXCH-10.corp.yadro.com [172.17.11.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-03.yadro.com (Postfix) with ESMTPS;
+	Wed, 25 Jun 2025 14:45:49 +0300 (MSK)
+Received: from T-EXCH-12.corp.yadro.com (172.17.11.143) by
+ T-EXCH-10.corp.yadro.com (172.17.11.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.9; Wed, 25 Jun 2025 14:45:48 +0300
+Received: from NB-591.corp.yadro.com (172.17.34.54) by
+ T-EXCH-12.corp.yadro.com (172.17.11.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.12; Wed, 25 Jun 2025 14:45:48 +0300
+From: Dmitry Bogdanov <d.bogdanov@yadro.com>
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, <linux-nvme@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <linux@yadro.com>, Dmitry Bogdanov <d.bogdanov@yadro.com>,
+	<stable@vger.kernel.org>
+Subject: [PATCH] nvmet: fix memory leak of bio integrity
+Date: Wed, 25 Jun 2025 14:45:33 +0300
+Message-ID: <20250625114533.24041-1-d.bogdanov@yadro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.17.34.54]
+X-ClientProxiedBy: RTM-EXCH-03.corp.yadro.com (10.34.9.203) To
+ T-EXCH-12.corp.yadro.com (172.17.11.143)
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/06/25 10:41:00 #27589862
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-KATA-Status: Not Scanned
+X-KSMG-LinksScanning: NotDetected, bases: 2025/06/25 11:16:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 5
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250625_044602_677311_E9BDDFDB 
+X-CRM114-Status: GOOD (  13.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,105 +104,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-To get out of the DMA mapping helpers having to check every segment for
-it's P2P status, ensure that bios either contain P2P transfers or non-P2P
-transfers, and that a P2P bio only contains ranges from a single device.
+If nvmet receives commands with metadata there is a continuous memory leak
+of kmalloc-128 slab or more precisely bio->bi_integrity.
 
-This means we do the page zone access in the bio add path where it should
-be still page hot, and will only have do the fairly expensive P2P topology
-lookup once per bio down in the DMA mapping path, and only for already
-marked bios.
+Since that [1] patch series the integrity is not get free at bio_end_io
+for submitter owned integrity. It has to free explicitly.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
+After commit bf4c89fc8797  ("block: don't call bio_uninit from bio_endio")
+each user of bio_init has to use bio_uninit as well. Otherwise the bio
+integrity is not getting free. Nvmet uses bio_init for inline bios.
+
+Uninit the inline bio to complete deallocation of integrity in bio.
+
+[1] https://lore.kernel.org/all/20240702151047.1746127-1-hch@lst.de/
+
+Cc: stable@vger.kernel.org # 6.11
+Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
 ---
- block/bio-integrity.c     |  3 +++
- block/bio.c               | 20 +++++++++++++-------
- include/linux/blk_types.h |  2 ++
- 3 files changed, 18 insertions(+), 7 deletions(-)
+ drivers/nvme/target/nvmet.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 10912988c8f5..6b077ca937f6 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -128,6 +128,9 @@ int bio_integrity_add_page(struct bio *bio, struct page *page,
- 	if (bip->bip_vcnt > 0) {
- 		struct bio_vec *bv = &bip->bip_vec[bip->bip_vcnt - 1];
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index df69a9dee71c..51df72f5e89b 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -867,6 +867,8 @@ static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
+ {
+ 	if (bio != &req->b.inline_bio)
+ 		bio_put(bio);
++	else
++		bio_uninit(bio);
+ }
  
-+		if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
-+			return 0;
-+
- 		if (bvec_try_merge_hw_page(q, bv, page, len, offset)) {
- 			bip->bip_iter.bi_size += len;
- 			return len;
-diff --git a/block/bio.c b/block/bio.c
-index 3c0a558c90f5..92c512e876c8 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -930,8 +930,6 @@ static bool bvec_try_merge_page(struct bio_vec *bv, struct page *page,
- 		return false;
- 	if (xen_domain() && !xen_biovec_phys_mergeable(bv, page))
- 		return false;
--	if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
--		return false;
- 
- 	if ((vec_end_addr & PAGE_MASK) != ((page_addr + off) & PAGE_MASK)) {
- 		if (IS_ENABLED(CONFIG_KMSAN))
-@@ -982,6 +980,9 @@ void __bio_add_page(struct bio *bio, struct page *page,
- 	WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED));
- 	WARN_ON_ONCE(bio_full(bio, len));
- 
-+	if (is_pci_p2pdma_page(page))
-+		bio->bi_opf |= REQ_P2PDMA | REQ_NOMERGE;
-+
- 	bvec_set_page(&bio->bi_io_vec[bio->bi_vcnt], page, len, off);
- 	bio->bi_iter.bi_size += len;
- 	bio->bi_vcnt++;
-@@ -1022,11 +1023,16 @@ int bio_add_page(struct bio *bio, struct page *page,
- 	if (bio->bi_iter.bi_size > UINT_MAX - len)
- 		return 0;
- 
--	if (bio->bi_vcnt > 0 &&
--	    bvec_try_merge_page(&bio->bi_io_vec[bio->bi_vcnt - 1],
--				page, len, offset)) {
--		bio->bi_iter.bi_size += len;
--		return len;
-+	if (bio->bi_vcnt > 0) {
-+		struct bio_vec *bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
-+
-+		if (!zone_device_pages_have_same_pgmap(bv->bv_page, page))
-+			return 0;
-+
-+		if (bvec_try_merge_page(bv, page, len, offset)) {
-+			bio->bi_iter.bi_size += len;
-+			return len;
-+		}
- 	}
- 
- 	if (bio->bi_vcnt >= bio->bi_max_vecs)
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 3d1577f07c1c..2a02972dc17c 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -386,6 +386,7 @@ enum req_flag_bits {
- 	__REQ_DRV,		/* for driver use */
- 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
- 	__REQ_ATOMIC,		/* for atomic write operations */
-+	__REQ_P2PDMA,		/* contains P2P DMA pages */
- 	/*
- 	 * Command specific flags, keep last:
- 	 */
-@@ -418,6 +419,7 @@ enum req_flag_bits {
- #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
- #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
- #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
-+#define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
- 
- #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
- 
+ #ifdef CONFIG_NVME_TARGET_TCP_TLS
 -- 
-2.47.2
+2.25.1
 
 
