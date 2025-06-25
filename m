@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2AAEC8300F
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B597C83000
 	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 04:17:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,60 +12,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yvq1hWHBDno53FsR1afZbBZCFVS049qax8wAHdWQ3SI=; b=rbXcwgNvRtK0xz0I3KFzgsHHoY
-	j3YQIR6BnuPFfgQC03DdklVP66TNThKzBtYuKcIuQFq44zkkAwB0Aqx9tHY2D0giTvkklbUmArNE3
-	yguzxwGN3vDfgs6OAKM0FoRI3OC2DsmJ1OIJJUfBcubUF3PLF69HYwPe2kMUEmdXU1NoTcECucjQp
-	FjV6VtZqDcLqVYm+B8Gv1qHCNE5nykXWPEJo6CCYwucx0ovSVkhuaduD6Gm+tm0xewK7wggvsMsiE
-	56+y50cabSqkFpGVrz5gLVYa4qq6pb+mPJ5FiFGLtenU4hAyctEDleFGwigvdBsb8351pjFlurxa3
-	6zqxLAkQ==;
+	bh=F6lc3DSqQYj9CtY6Jlxvu1LhuvGfPj9itOscaOVFwY0=; b=AVCoDhRvhWHWgZ05iHwHEgKpJg
+	+TVsp1QftR5bjP/VesK8g4UV+qBykZr/HL3ReOy8TPKYEci1XMQ7KDgHsnbkJ9qLMy4rwZ/hHSSHo
+	e3iBMtA6WDHriDeXSseSRoV0U1tjeRTasImTdCVYieN2iD96lUOo3JWKoTI404khvhKtb8kIJbIwI
+	5TShnPvVMUbBFx6WU3nTzF9E6tSqwFBKhjm6tVHNIPo1aGA8u8FstaY8NNqPgwLOMVJFFeolAgdtz
+	ubBo9/sUPYRAXg4dE/QTUDa4BLuBLq6roz+c28/nxSvsRwxoIgLe7mMMelsR3J/GatmS4YEaeBxUh
+	brC312VA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUHZo-00000007T47-0UjG;
-	Wed, 25 Jun 2025 04:17:36 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1uUHZn-00000007T3c-2B5r;
+	Wed, 25 Jun 2025 04:17:35 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUHZk-00000007T15-1ZzO
+	id 1uUHZk-00000007T1C-0LDp
 	for linux-nvme@lists.infradead.org;
 	Wed, 25 Jun 2025 04:17:33 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55OMia1C012705;
-	Wed, 25 Jun 2025 04:17:23 GMT
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55OMif1S019163;
+	Wed, 25 Jun 2025 04:17:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=yvq1h
-	WHBDno53FsR1afZbBZCFVS049qax8wAHdWQ3SI=; b=rN20owLtBbR4o9PVjydiz
-	htl/pAJAjbzA4/uQudQwz5ghCeVp+Y3QSFdhvPwHW/95cWGHOBQu84ycsVBVC6zx
-	y+Te7TiH8HxTV/a4qyPYKBXpMAX63ddaTiSuFXYrZKC5BYWJ4XEBNt8gwQuf+zdW
-	A8iTGHHF8OhMPRcR5WpSxkYfloEpGNaUTIIAghr/Rv+ZaiarjwxJ4TJU71VJ22Ha
-	a65W6/tAFgeOK+DqZjrfNV6ugsUbCmiAKoZdS+AtQUwJrCjmiNuREY6NzzxD/Bsu
-	T/GqOrV2RiaynMujhCU3z0Razx+OwyyAlVPTRvX/wEWAdhK7IA2/eHFQf2CuVlJF
-	A==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=F6lc3
+	DSqQYj9CtY6Jlxvu1LhuvGfPj9itOscaOVFwY0=; b=qFEzvlrotHs9pAPB4NBwd
+	h3CGDoQ3vc/5nI/G9UuoURGeHfhzEa+2bV/Q0LYp266HAw371YxJhcu54lwacVj4
+	20gIrGrArqqSohqxoFI133QGw7IuepQhEp/D11Haxe3B8VSqj19e1lPIW+0Kz8q/
+	llRuGTOYzT7Tj3DUJr6h8MOiqSTqJd/telG+e+bYZCP47ZJZVr0ojNZ8SxzuqjPX
+	qP2gMKR+6il3na04T+36Ofv8HNVkPC1QPoT+2//omnxdgYwE5NEVRcI44dtN02V7
+	2hJT2XSRbEWSoOeBxmii75G/sDt8dmdEs+/uiMF+djmhY7xJl02B8x9rOUIsyx1L
+	g==
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47egumnfr2-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47ds7uxjfb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Jun 2025 04:17:23 +0000 (GMT)
+	Wed, 25 Jun 2025 04:17:21 +0000 (GMT)
 Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55P1Z36q024414;
-	Wed, 25 Jun 2025 04:17:22 GMT
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55P3Sue9024338;
+	Wed, 25 Jun 2025 04:17:19 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ehkrhfhe-1
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ehkrhfga-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Jun 2025 04:17:22 +0000
+	Wed, 25 Jun 2025 04:17:19 +0000
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55P4HGqg029022;
-	Wed, 25 Jun 2025 04:17:22 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55P4HGqc029022;
+	Wed, 25 Jun 2025 04:17:19 GMT
 Received: from ca-dev110.us.oracle.com (ca-dev110.us.oracle.com [10.129.136.45])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47ehkrhfem-5;
-	Wed, 25 Jun 2025 04:17:22 +0000
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47ehkrhfem-3;
+	Wed, 25 Jun 2025 04:17:19 +0000
 From: Alok Tiwari <alok.a.tiwari@oracle.com>
 To: linux-nvme@lists.infradead.org, rdunlap@infradead.org, kbusch@kernel.org,
         axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
         nilay@linux.ibm.com, corbet@lwn.net
 Cc: alok.a.tiwari@oracle.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/5] nvme: Fix typo in status code constant for self-test in progress
-Date: Tue, 24 Jun 2025 21:16:33 -0700
-Message-ID: <20250625041643.174110-5-alok.a.tiwari@oracle.com>
+Subject: [PATCH v2 2/5] nvme: Fix incorrect variable in io cqes error message
+Date: Tue, 24 Jun 2025 21:16:31 -0700
+Message-ID: <20250625041643.174110-3-alok.a.tiwari@oracle.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
 References: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
@@ -78,16 +78,16 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 b
  suspectscore=0 adultscore=0 malwarescore=0 mlxscore=0 phishscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2505160000 definitions=main-2506250029
-X-Proofpoint-ORIG-GUID: l7oEuo7l1ztBQNgdxSvX8eNsLp-fXSbo
-X-Proofpoint-GUID: l7oEuo7l1ztBQNgdxSvX8eNsLp-fXSbo
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDAyOSBTYWx0ZWRfXxoDXhU0hKznN e6brteV+ZitTWd0TJMuwh72DhfBOWrqlqEGohwSSFy+FJoiiNFpkA3GFiONzWerjzzlsmXfjG5W z93AHH5EXnGAckkvvAjXAWHJWuS01BFnzo6P3nKYh1XKthXslfgrxJiFHm4xXKCZcH60ZaiFbkk
- KEjsysunmLRMBxI60y/qhNYREhrE57T8x/fjQZtmFjhvh5m6AapQSQkKCHasndzgND2bmIZt/TM eZXF8CtQoN/F0D4SocfPdT3I92befCW6OVlKwRrI5C55c++IVdgqKyQaRUVnLphI+i9V5zFAfXc O2bENS+26YL76GV2ItV3nhXIIfxVe4pTOemxY824sW8A6EEtRbYdispxuXL0WBwl1dTr0QopeIp
- UdmMyArQ/pcL5CddXlwM4FB9ghVTcsU7kSgK2TVeuE22nb01EJ08BFjMtInB52XYOBkaU3BE
-X-Authority-Analysis: v=2.4 cv=S5rZwJsP c=1 sm=1 tr=0 ts=685b7853 b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=JfrnYn6hAAAA:8 a=JPcgd-ljN0tfNaZuDOwA:9 a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf
+X-Proofpoint-GUID: cGEJcelzIzUfI69AJ7iKTjCVqb57Dtow
+X-Authority-Analysis: v=2.4 cv=CeII5Krl c=1 sm=1 tr=0 ts=685b7851 b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=JfrnYn6hAAAA:8 a=SRTLixNVdz0Y03tMcBAA:9 a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf
  awl=host:13207
+X-Proofpoint-ORIG-GUID: cGEJcelzIzUfI69AJ7iKTjCVqb57Dtow
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDAzMCBTYWx0ZWRfX8LPr2HxVY4Fi dG9dNes1JoAMnhHsPuCP+IXi3lfSl1qyq2u8hnTDXgMXt+lg92aY5yET5020RQTt1bnS1upC3hw WwXs+mltvo8RMguQ4ryI1W9AqIFXJj/E0Wc+ASoEOepRZivkASJgRBe1AKJckLLN5QlEsrCpi3q
+ S5Dw+A02OYK1cHQtN1p3ACmq7xCGJ7ok6nOFEXTkVKFKmvWNDxpF8dLU4zmY+l8JtaA5ei8K7cM jdU1It2AVVVoVvwMry8WGE3Y85JwGqlxUU7EAhc6OTxWrPwpH9OKznHAt+ROKqBqXf+wObxLMuK VNmoZ1CD4hV8su874ksnFms2jnznl1WGo8/KtFAd79k+NiDbfZQ9G6l9n7MCrYBOqiOI/TGV0ed
+ q/KwL6KqJANLhJvWQtOJPyCHt87E8Kb5dD/v0sDG2CJ7ONdAgxF5/wpQZTvaFlBcZObsZji5
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250624_211732_528284_A2283BC7 
-X-CRM114-Status: GOOD (  14.14  )
+X-CRM114-CacheID: sfid-20250624_211732_122573_67407C03 
+X-CRM114-Status: GOOD (  13.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,9 +102,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Corrected a typo error in the NVMe status code constant from
-NVME_SC_SELT_TEST_IN_PROGRESS to NVME_SC_SELF_TEST_IN_PROGRESS to
-accurately reflect its meaning.
+Corrected the error log to print ctrl->io_cqes instead of
+incorrectly using ctrl->io_sqes for the io cqes size check.
 
 Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
@@ -112,45 +111,22 @@ Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 v2
 no changes only added Reviewed-by
 ---
- drivers/nvme/host/constants.c | 4 ++--
- include/linux/nvme.h          | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/target/pci-epf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
-index 1a0058be58210..dc90df9e13a21 100644
---- a/drivers/nvme/host/constants.c
-+++ b/drivers/nvme/host/constants.c
-@@ -133,7 +133,7 @@ static const char * const nvme_statuses[] = {
- 	[NVME_SC_NS_NOT_ATTACHED] = "Namespace Not Attached",
- 	[NVME_SC_THIN_PROV_NOT_SUPP] = "Thin Provisioning Not Supported",
- 	[NVME_SC_CTRL_LIST_INVALID] = "Controller List Invalid",
--	[NVME_SC_SELT_TEST_IN_PROGRESS] = "Device Self-test In Progress",
-+	[NVME_SC_SELF_TEST_IN_PROGRESS] = "Device Self-test In Progress",
- 	[NVME_SC_BP_WRITE_PROHIBITED] = "Boot Partition Write Prohibited",
- 	[NVME_SC_CTRL_ID_INVALID] = "Invalid Controller Identifier",
- 	[NVME_SC_SEC_CTRL_STATE_INVALID] = "Invalid Secondary Controller State",
-@@ -145,7 +145,7 @@ static const char * const nvme_statuses[] = {
- 	[NVME_SC_BAD_ATTRIBUTES] = "Conflicting Attributes",
- 	[NVME_SC_INVALID_PI] = "Invalid Protection Information",
- 	[NVME_SC_READ_ONLY] = "Attempted Write to Read Only Range",
--	[NVME_SC_CMD_SIZE_LIM_EXCEEDED	] = "Command Size Limits Exceeded",
-+	[NVME_SC_CMD_SIZE_LIM_EXCEEDED] = "Command Size Limits Exceeded",
- 	[NVME_SC_ZONE_BOUNDARY_ERROR] = "Zoned Boundary Error",
- 	[NVME_SC_ZONE_FULL] = "Zone Is Full",
- 	[NVME_SC_ZONE_READ_ONLY] = "Zone Is Read Only",
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index b65a1b9f2116c..655d194f8e722 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -2155,7 +2155,7 @@ enum {
- 	NVME_SC_NS_NOT_ATTACHED		= 0x11a,
- 	NVME_SC_THIN_PROV_NOT_SUPP	= 0x11b,
- 	NVME_SC_CTRL_LIST_INVALID	= 0x11c,
--	NVME_SC_SELT_TEST_IN_PROGRESS	= 0x11d,
-+	NVME_SC_SELF_TEST_IN_PROGRESS	= 0x11d,
- 	NVME_SC_BP_WRITE_PROHIBITED	= 0x11e,
- 	NVME_SC_CTRL_ID_INVALID		= 0x11f,
- 	NVME_SC_SEC_CTRL_STATE_INVALID	= 0x120,
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index a4295a5b8d280..44288d8f5aa11 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1860,7 +1860,7 @@ static int nvmet_pci_epf_enable_ctrl(struct nvmet_pci_epf_ctrl *ctrl)
+ 	ctrl->io_cqes = 1UL << nvmet_cc_iocqes(ctrl->cc);
+ 	if (ctrl->io_cqes < sizeof(struct nvme_completion)) {
+ 		dev_err(ctrl->dev, "Unsupported I/O CQES %zu (need %zu)\n",
+-			ctrl->io_sqes, sizeof(struct nvme_completion));
++			ctrl->io_cqes, sizeof(struct nvme_completion));
+ 		goto err;
+ 	}
+ 
 -- 
 2.46.0
 
