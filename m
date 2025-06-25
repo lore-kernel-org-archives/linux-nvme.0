@@ -4,74 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DABE5C77B7F
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Jun 2025 22:15:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41F00C77B7F
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 01:44:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5VHYQ/YT2OyT8rAZkHJy8oKYG++8kK66ySq7P9a+LgA=; b=IdZqKPqcZ2QIry+zySDfOOii0i
-	mFDWi6dacQvSwAwi6GjcxEzrHFzVKfV3y1IPdHzyI+QpGbK2ODWSuHybZpvdVU6n3rXAxYpU8rlN+
-	vc3xyxfX3MoouEsW2QnTlZrjgcfq+LFQkJ7vh56tkVamSIp3oPRJsxjuZTGo9i4QKj6WoFEchb6fM
-	9rdPx9rmvigYCjYHWy3InNaPbS+ktVmJL6tBzhc+fPk4HwJ4hAn4XdRhRT4n6wODLUNhH4fLRhUP4
-	ZdVLJesqamb/K0lwh5y5UjHhb7xhivWI0kayF/v+RpJpMuOsjU2V8pw+AudT8Hx2UANBdkakcBjlo
-	zRdLiMKQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QIsP3rIT20WkjzGLGzVyHnhUMjCoAAIVWQlR2AtO0K4=; b=QDO+m8tuApy5HBg+QXTcntLP/L
+	LDOB0hgiUuo3+Ga6SWGIYQkfeHAfNYFcP/Hp0MA2n8d2VfxTDr/VGutI9VspkDe+QbmHv8d072ksK
+	fqf/lQLxr/7DIo7o4FXC+DWSB6qOXCtBCoei2d8Zo6uUKk8PyT4iFek9ahlKAid1bUTS5NiY19OKh
+	SyYtKPHKoXOGIIdXK0GMjIqC3w8toMO7bd2G9u4ysJ/IV+b4ZxJv+4Qr4KvwjrkH3tG5RKCfs7z8W
+	St1a9FP6SZsNke59BppZPRAyr3rDGsfMZXKhsiUkkjpUplUhe/HFmKmX1VDb3WU96xOg4sCdvZFjL
+	a2xAmdeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUBuz-00000006xtU-1BnU;
-	Tue, 24 Jun 2025 22:15:05 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1uUFBG-00000007Grh-2uoW;
+	Wed, 25 Jun 2025 01:44:06 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUAyk-00000006r2x-0kAL
+	id 1uUFBD-00000007Gr0-35AT
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Jun 2025 21:14:55 +0000
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55OKqH7v002223
-	for <linux-nvme@lists.infradead.org>; Tue, 24 Jun 2025 14:14:52 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2021-q4; bh=5VHYQ/YT2OyT8rAZkH
-	Jy8oKYG++8kK66ySq7P9a+LgA=; b=Q3RPdQmroW2NOGhH21iuNQIFVtNOC4BtQ6
-	wnjh4Ktm4+ke6loqpk3lTatArpPPiahgxXFxukGcgghT7JVi2cYR5eB+hBUSfx1C
-	bzMk3u13sYlmvQwympoc/8hFxc2LSdN4Ya1AgIIAwNx+l8Ck7nw260MZnFA+IeU/
-	hEctccWg7iWuJ+32kZHr+QGCjDBPhWW/tuj0HjcL/7HQMfGdiV7LJNtMUMP68Qr4
-	2Kk7gVaoPlR2RjCWazp22UmhaApc+roVK7hNWHlW5MyU3KlRsosmh98HB2RIISA+
-	oYF00t58R6iWaeAZX/oWEk+E5hxqtDWWiCy4kXmbjqUaKVMG8KNA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 47dtf0y299-7
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 24 Jun 2025 14:14:52 -0700 (PDT)
-Received: from twshared28243.32.prn2.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1748.24; Tue, 24 Jun 2025 21:14:51 +0000
-Received: by devbig1708.prn1.facebook.com (Postfix, from userid 544533)
-	id 9AC3783A559; Tue, 24 Jun 2025 14:14:44 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme: uring_cmd specific request_queue for SGLs
-Date: Tue, 24 Jun 2025 14:14:44 -0700
-Message-ID: <20250624211444.2835077-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.47.1
+	Wed, 25 Jun 2025 01:44:05 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-2350b1b9129so45213625ad.0
+        for <linux-nvme@lists.infradead.org>; Tue, 24 Jun 2025 18:44:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wbinvd.org; s=wbinvd; t=1750815842; x=1751420642; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QIsP3rIT20WkjzGLGzVyHnhUMjCoAAIVWQlR2AtO0K4=;
+        b=heYyex/7/sC5B1c30o1clFQwttSdFkFzB7dNDAj+vJ4yVvh3cwqUhBXJWHERMKq67m
+         Y5ouxC994k184dvrmDVlwoeI2Itt+xJTqzTOC1xGGTLUFkw5cBpqjhYXE8/L5s2Gj7Ez
+         kFf9OK5jZZicz08slw1s3Pmt93wtrqdq/1yHYqohWuQ3ZfiRQAeLs2F+xP9if3p3XdY0
+         zR+VsbidA5nxdXi8LjFtz+GJ2d/gCmxracFBIYCG8z+TMSirE7+uq6nF5lAhRvkucACY
+         Sig91priwl3zfjxDlOHG+9cTLFMaXdk2aq89mkbmgGUh+bNfZ6z1hvx+Z0r7nnQFIa6J
+         jVdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750815842; x=1751420642;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QIsP3rIT20WkjzGLGzVyHnhUMjCoAAIVWQlR2AtO0K4=;
+        b=QuvI5YWkti6pdx1GPZYihkvvy4BtI8m8Zn64EOXUsK0dCWqB2mtNl/fKHtDf7DsCCf
+         mODBF3En9PTtwLNwt122DwsxcmuNHG4dBln8/a0e94dRCSAAwi2qSAZLOp5DGLVlrU3w
+         rjalLEkdqV5ixiRveQbHzD5GfuVDUt9ppJdOmIFwN2VPw5W2nVZgSF6lrdlhbX8stLtm
+         l8h+37KJYH59YCbO94xKrSv2+sKG0N/Htd4FYEcBxQPBbM4uCm/DK13MJEMyJQxCXZpp
+         jJP4n5lzbLHIfrNacg7fqw9CmCPVUNzSvvLCLBX7T6fq9EfI45NbYhYpbQcMsbFPC0D2
+         h9qA==
+X-Forwarded-Encrypted: i=1; AJvYcCXkm4bIaQuvSrAvbEyZ6p4SmjdRR4PJ+wf2BAfUcrdmJLdJrN5qa/8gJDcpHfO1goM8lvmZquhrm3Y7@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy1UFYuPH2/8jpIjJ+MycWFTWGCrgmsB/Mao8qKuC5CFiSR42DL
+	+5QI1OKy3rUcXUJbdLptz3SeafTMpmkvsc4k1ypH1hoyDu4xiUINgbt2rwZbT9NiTbE=
+X-Gm-Gg: ASbGncuvt3vVpDlQoFFnzB50kwKC7sRRSPSW7ge5BxI1UuFRdpn5ujF2HtMUapSFhku
+	4lPayy8wXeJlWmG32GJClYK+QCJ5I8SS6mbckFUPS8FIhXwX0bOPb9HMoGUt1FQxTIPlNUNnKap
+	kzK2+J7IQIxgcQlwZ46IhVO7xgNPPrNUiiWA7xoSxzZbKuXrg6Dm3hAXwfXbuc3kbP4BboEBFSS
+	0pTNPZMnd8ddOdfvbI8RMILWWbXtT0hl/RMZeIkATKKSfphfiZpkif+X97Xch3LYE9TrqJRDm8K
+	5GyZ33d6PQ3KPG3HBDdvwDMQXFDqvvVItGctmxt5tys7COErOVkSvSn1TkG8hBrJCzixAWoPDN7
+	AI7xViERZx18f+ilRbwduNGLaw4q+EwiH9oxZRImYKQ==
+X-Google-Smtp-Source: AGHT+IHoDqUOYTCnE2gceYTiiXbnq2K/SlA10HDt9RUO5WPvnN8jozjol3hPLkjrrrxWz9hN/gbLRA==
+X-Received: by 2002:a17:903:f90:b0:234:e3b7:5d0f with SMTP id d9443c01a7336-23823d5682bmr23697475ad.0.1750815842318;
+        Tue, 24 Jun 2025 18:44:02 -0700 (PDT)
+Received: from mozart.vkv.me (192-184-162-253.fiber.dynamic.sonic.net. [192.184.162.253])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8393893sm119389915ad.25.2025.06.24.18.44.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 18:44:01 -0700 (PDT)
+Date: Tue, 24 Jun 2025 18:43:59 -0700
+From: Calvin Owens <calvin@wbinvd.org>
+To: Yu Kuai <yukuai1@huaweicloud.com>
+Cc: Breno Leitao <leitao@debian.org>, Yi Zhang <yi.zhang@redhat.com>,
+	linux-block <linux-block@vger.kernel.org>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	axboe@kernel.dk, Christoph Hellwig <hch@infradead.org>,
+	"yukuai (C)" <yukuai3@huawei.com>
+Subject: Re: [bug report] WARNING: CPU: 3 PID: 522 at block/genhd.c:144
+ bdev_count_inflight_rw+0x26e/0x410
+Message-ID: <aFtUXy-lct0WxY2w@mozart.vkv.me>
+References: <CAHj4cs-uWZcgHLLkE8JeDpkd-ddkWiZCQC_HWObS5D3TAKE9ng@mail.gmail.com>
+ <aEal7hIpLpQSMn8+@gmail.com>
+ <738f680c-d0e8-b6c0-cfaa-5f420a592c4f@huaweicloud.com>
+ <aFTfQpsUiD1Hw3zU@mozart.vkv.me>
+ <f320c94e-3a94-d645-8f7b-80f958c50fbe@huaweicloud.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=RvnFLDmK c=1 sm=1 tr=0 ts=685b154c cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=lb01z-v_8Vmu6P8pEK4A:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI0MDE2OSBTYWx0ZWRfXyW2/iH+ojBgd 42HmxMyjZ2aJqYH4Ky6/nU8QZXTUl8dJv302N19S129FDwjgGR74vArDXj8rC3IwDcMI4Ys6Tf5 1K2VymcJ9ouPSiqu9FhfPj7fo59XHLPE7FbHVPdTpGjsLghMpp2Dqk93mUgcDxBIDy1t87NtTgc
- YOQMfrJYpkAPv2gBcXlnXDBt0w8T8t/18gGa2KSsnSjU8H596c23UKMmMFDow8Dk13bij4qY8cR pxKKkMCripuy2PHkcAzC0SqUeQ2RqFc3TARCTdlWhQyWXaS5eWHtENvXHVcm5SAeVGWzeTGoX0Q MVb9Eg0WNs+hQzjZ5BxOgllOotYEc3rBTxo/2AUsGpBNYr0HcooEfXuUNblFHWza9Uk7AXC2sA3
- p12yJzBakVxVuUclwANXQgFKM+WGXdAzPYFjo95jqATIsU0u314SISHWglLqp67Jvx/6FkLC
-X-Proofpoint-GUID: NmuGRk6iSSXwcSX-xVmIELE9iHKIkaAo
-X-Proofpoint-ORIG-GUID: NmuGRk6iSSXwcSX-xVmIELE9iHKIkaAo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-24_06,2025-06-23_07,2025-03-28_01
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f320c94e-3a94-d645-8f7b-80f958c50fbe@huaweicloud.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250624_141454_222985_7085167B 
-X-CRM114-Status: GOOD (  18.37  )
+X-CRM114-CacheID: sfid-20250624_184403_776869_634337A5 
+X-CRM114-Status: GOOD (  22.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,119 +107,142 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Friday 06/20 at 14:47 +0800, Yu Kuai wrote:
+> Hi,
+> 
+> 在 2025/06/20 12:10, Calvin Owens 写道:
+> > I dumped all the similar WARNs I've seen here (blk-warn-%d.txt):
+> > 
+> >      https://github.com/jcalvinowens/lkml-debug-616/tree/master
+> 
+> These reports also contain both request-based and bio-based disk, I
+> think perhaps following concurrent scenario is possible:
+> 
+> While bdev_count_inflight is interating all cpu, some IOs are issued
+> from traversed cpu and then completed from the cpu that is not traversed
+> yet.
+> 
+> cpu0
+> 		cpu1
+> 		bdev_count_inflight
+> 		 //for_each_possible_cpu
+> 		 // cpu0 is 0
+> 		 infliht += 0
+> // issue a io
+> blk_account_io_start
+> // cpu0 inflight ++
+> 
+> 				cpu2
+> 				// the io is done
+> 				blk_account_io_done
+> 				// cpu2 inflight --
+> 		 // cpu 1 is 0
+> 		 inflight += 0
+> 		 // cpu2 is -1
+> 		 inflight += -1
+> 		 ...
+> 
+> In this case, the total inflight will be -1.
+> 
+> Yi and Calvin,
+> 
+> Can you please help testing the following patch, it add a WARN_ON_ONCE()
+> using atomic operations, if the new warning is not reporduced while
+> the old warning is reporduced, I think it can be confirmed the above
+> analyze is correct, and I will send a revert for the WARN_ON_ONCE()
+> change in bdev_count_inflight().
 
-User space passthrough IO commands are committed to using the SGL
-transfer types if the device supports it. The virt_boundary_mask is a
-PRP specific constraint, and this limit causes kernel bounce buffers to
-be used when a user vector could have been handled directly. Avoiding
-unnecessary copies is important for uring_cmd usage as this is a high
-performance interface.
+Hi Kuai,
 
-For devices that support SGL, create a new request_queue that drops the
-virt_boundary_mask so that vectored user requests can be used with
-zero-copy performance. Normal read/write will still use the old boundary
-mask, as we can't be sure if forcing all IO to use SGL over PRP won't
-cause unexpected regressions for some devices.
+I can confirm it's what you expected, I've reproduced the original
+warning with your patch while not seeing any of the new ones.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c  | 28 +++++++++++++++++++++++++++-
- drivers/nvme/host/ioctl.c |  2 +-
- drivers/nvme/host/nvme.h  |  1 +
- 3 files changed, 29 insertions(+), 2 deletions(-)
+If you like, for the revert:
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3da5ac71a9b07..e4e03cb9e5c0e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -721,7 +721,7 @@ void nvme_init_request(struct request *req, struct nv=
-me_command *cmd)
- 	bool logging_enabled;
-=20
- 	if (req->q->queuedata) {
--		struct nvme_ns *ns =3D req->q->disk->private_data;
-+		struct nvme_ns *ns =3D req->q->queuedata;
-=20
- 		logging_enabled =3D ns->head->passthru_err_log_enabled;
- 		req->timeout =3D NVME_IO_TIMEOUT;
-@@ -4081,6 +4081,27 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_n=
-s *ns)
- 	list_add(&ns->list, &ns->ctrl->namespaces);
- }
-=20
-+static void nvme_init_uring_queue(struct nvme_ns *ns)
-+{
-+	struct nvme_ctrl *ctrl =3D ns->ctrl;
-+	struct queue_limits lim =3D {};
-+	struct request_queue *q;
-+
-+	if (!nvme_ctrl_sgl_supported(ctrl)) {
-+		ns->uring_queue =3D ns->queue;
-+		return;
-+	}
-+
-+	nvme_set_ctrl_limits(ctrl, &lim);
-+	lim.virt_boundary_mask =3D 0;
-+
-+	q =3D blk_mq_alloc_queue(ctrl->tagset, &lim, ns);
-+	if (IS_ERR(q))
-+		ns->uring_queue =3D ns->queue;
-+	else
-+		ns->uring_queue =3D q;
-+}
-+
- static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *i=
-nfo)
- {
- 	struct queue_limits lim =3D { };
-@@ -4157,6 +4178,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, s=
-truct nvme_ns_info *info)
-=20
- 	if (!nvme_ns_head_multipath(ns->head))
- 		nvme_add_ns_cdev(ns);
-+	nvme_init_uring_queue(ns);
-=20
- 	nvme_mpath_add_disk(ns, info->anagrpid);
- 	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
-@@ -4224,6 +4246,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
-=20
- 	if (!nvme_ns_head_multipath(ns->head))
- 		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
-+	if (ns->uring_queue !=3D ns->queue) {
-+		blk_mq_destroy_queue(ns->uring_queue);
-+		blk_put_queue(ns->uring_queue);
-+	}
-=20
- 	nvme_mpath_remove_sysfs_link(ns);
-=20
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 6b3ac8ae3f34b..f925a10391001 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -445,7 +445,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, =
-struct nvme_ns *ns,
- {
- 	struct nvme_uring_cmd_pdu *pdu =3D nvme_uring_cmd_pdu(ioucmd);
- 	const struct nvme_uring_cmd *cmd =3D io_uring_sqe_cmd(ioucmd->sqe);
--	struct request_queue *q =3D ns ? ns->queue : ctrl->admin_q;
-+	struct request_queue *q =3D ns ? ns->uring_queue : ctrl->admin_q;
- 	struct nvme_uring_data d;
- 	struct nvme_command c;
- 	struct iov_iter iter;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 7df2ea21851f5..d371940bd342d 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -548,6 +548,7 @@ struct nvme_ns {
-=20
- 	struct cdev		cdev;
- 	struct device		cdev_device;
-+	struct request_queue	*uring_queue;
-=20
- 	struct nvme_fault_inject fault_inject;
- };
---=20
-2.47.1
+Tested-By: Calvin Owens <calvin@wbinvd.org>
 
+Thanks,
+Calvin
+
+> Thanks,
+> Kuai
+> 
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index b862c66018f2..2b033caa74e8 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -1035,6 +1035,8 @@ unsigned long bdev_start_io_acct(struct block_device
+> *bdev, enum req_op op,
+>         part_stat_local_inc(bdev, in_flight[op_is_write(op)]);
+>         part_stat_unlock();
+> 
+> +       atomic_inc(&bdev->inflight[op_is_write(op)]);
+> +
+>         return start_time;
+>  }
+>  EXPORT_SYMBOL(bdev_start_io_acct);
+> @@ -1065,6 +1067,8 @@ void bdev_end_io_acct(struct block_device *bdev, enum
+> req_op op,
+>         part_stat_add(bdev, nsecs[sgrp], jiffies_to_nsecs(duration));
+>         part_stat_local_dec(bdev, in_flight[op_is_write(op)]);
+>         part_stat_unlock();
+> +
+> +       WARN_ON_ONCE(atomic_dec_return(&bdev->inflight[op_is_write(op)]) <
+> 0);
+>  }
+>  EXPORT_SYMBOL(bdev_end_io_acct);
+> 
+> diff --git a/block/blk-merge.c b/block/blk-merge.c
+> index 70d704615be5..ff15276d277f 100644
+> --- a/block/blk-merge.c
+> +++ b/block/blk-merge.c
+> @@ -658,6 +658,8 @@ static void blk_account_io_merge_request(struct request
+> *req)
+>                 part_stat_local_dec(req->part,
+>                                     in_flight[op_is_write(req_op(req))]);
+>                 part_stat_unlock();
+> +
+> + WARN_ON_ONCE(atomic_dec_return(&req->part->inflight[op_is_write(req_op(req))])
+> < 0);
+>         }
+>  }
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 4806b867e37d..94e728ff8bb6 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -1056,6 +1056,8 @@ static inline void blk_account_io_done(struct request
+> *req, u64 now)
+>                 part_stat_local_dec(req->part,
+>                                     in_flight[op_is_write(req_op(req))]);
+>                 part_stat_unlock();
+> +
+> + WARN_ON_ONCE(atomic_dec_return(&req->part->inflight[op_is_write(req_op(req))])
+> < 0);
+>         }
+>  }
+> 
+> @@ -1116,6 +1118,8 @@ static inline void blk_account_io_start(struct request
+> *req)
+>         update_io_ticks(req->part, jiffies, false);
+>         part_stat_local_inc(req->part, in_flight[op_is_write(req_op(req))]);
+>         part_stat_unlock();
+> +
+> +       atomic_inc(&req->part->inflight[op_is_write(req_op(req))]);
+>  }
+> 
+>  static inline void __blk_mq_end_request_acct(struct request *rq, u64 now)
+> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> index 3d1577f07c1c..a81110c07426 100644
+> --- a/include/linux/blk_types.h
+> +++ b/include/linux/blk_types.h
+> @@ -43,6 +43,7 @@ struct block_device {
+>         sector_t                bd_nr_sectors;
+>         struct gendisk *        bd_disk;
+>         struct request_queue *  bd_queue;
+> +       atomic_t                inflight[2];
+>         struct disk_stats __percpu *bd_stats;
+>         unsigned long           bd_stamp;
+>         atomic_t                __bd_flags;     // partition number + flags
+> 
 
