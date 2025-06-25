@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58C57C7115C
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8587C7EE2A
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 16:30:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=c29CYBpAPPEOfpJB62td/zLaZYqQJd0Dmy9+pT82Gfs=; b=Wg67PaMpLTDMH21WKeUIPtQfvk
-	rR8W9JzivzV6mvvfbFM0cEWIi6JjSX6WsYaP6SYS8qLpMa9Ced9O5Jxq98KS7G7OQ1KYmwV4D3UPs
-	NMC63APph2nU6bxYQgIUBmAZDKmyC3xvkTOSrGnTnYRNotVGF+CZnpmPT2XdWQNiAfFwmgT7ZXRKm
-	h3F/UodkmsSw5OLMXGfIt24dH/dAfrk5hT34UMtWvlsIZ4zrOUCgvkCQbrNyLu65krQ7Jg8OhscNf
-	It7+l3dswESJA/feYbqzz7WvsLr3vWCVBmnPIkbazYY54dnD/Z2xp3J2/+sMRO55/hyPcotkhTGaK
-	/7Cep1Rw==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EwbtlexYnjVdNcBrHiPAerjJetMmm6MNvfCxWFFKSZg=; b=p4o4JqpscZiw46H6fd4TqktmdT
+	pOqqtFTc05zCZZ8/M7Lfvh2TlKT4ABfoelB1gqjPmRaXIzpHGZpeOnGfeWxGm6f0bv+Sxeqk9zq3O
+	63WbKRUp/vATjZTxnEBH/CG1dV7U7GnsFp0A8/Y7r7/Z8y4v7jvNMA65Lu6R1+o80+slTyiSIYRgD
+	4UHWlIfpsQXC161Kot3GEjW+sPpc8FzQU3xrfhoNnmoiDVayw8k2YLYJs3VBzY6NfE2mxn0m3c567
+	V5bv2f7wVdlYZYdipDW9IgiRU8xTYR42bmyBVC58D9T8Dj68weZZRKiOYLWciw5yiCIrzaNpiLoug
+	oqcexfug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUT0U-00000009Hhr-3kF0;
-	Wed, 25 Jun 2025 16:29:54 +0000
+	id 1uUT0X-00000009Hk9-2HWm;
+	Wed, 25 Jun 2025 16:29:57 +0000
 Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUOPe-00000008Uxc-3IKi;
-	Wed, 25 Jun 2025 11:35:35 +0000
+	id 1uUOPo-00000008Uzr-1xWO;
+	Wed, 25 Jun 2025 11:35:44 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -37,10 +37,12 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: new DMA API conversion for nvme-pci v3
-Date: Wed, 25 Jun 2025 13:34:57 +0200
-Message-ID: <20250625113531.522027-1-hch@lst.de>
+Subject: [PATCH 4/8] nvme-pci: merge the simple PRP and SGL setup into a common helper
+Date: Wed, 25 Jun 2025 13:35:01 +0200
+Message-ID: <20250625113531.522027-5-hch@lst.de>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250625113531.522027-1-hch@lst.de>
+References: <20250625113531.522027-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -57,26 +59,117 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+nvme_setup_prp_simple and nvme_setup_sgl_simple share a lot of logic.
+Merge them into a single helper that makes use of the previously added
+use_sgl tristate.
 
-this series converts the nvme-pci driver to the new IOVA-based DMA API
-for the data path.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/pci.c | 76 +++++++++++++++++------------------------
+ 1 file changed, 32 insertions(+), 44 deletions(-)
 
-Chances since v2:
- - fix handling of sgl_threshold=0
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 16ff87fe3dd9..1203219543df 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -817,42 +817,41 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_queue *nvmeq,
+ 	return BLK_STS_OK;
+ }
+ 
+-static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
+-		struct request *req, struct nvme_rw_command *cmnd,
+-		struct bio_vec *bv)
++static blk_status_t nvme_pci_setup_data_simple(struct request *req,
++		enum nvme_use_sgl use_sgl)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	unsigned int offset = bv->bv_offset & (NVME_CTRL_PAGE_SIZE - 1);
+-	unsigned int first_prp_len = NVME_CTRL_PAGE_SIZE - offset;
+-
+-	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
+-	if (dma_mapping_error(dev->dev, iod->first_dma))
++	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
++	struct bio_vec bv = req_bvec(req);
++	unsigned int prp1_offset = bv.bv_offset & (NVME_CTRL_PAGE_SIZE - 1);
++	bool prp_possible = prp1_offset + bv.bv_len <= NVME_CTRL_PAGE_SIZE * 2;
++	dma_addr_t dma_addr;
++
++	if (!use_sgl && !prp_possible)
++		return BLK_STS_AGAIN;
++	if (is_pci_p2pdma_page(bv.bv_page))
++		return BLK_STS_AGAIN;
++
++	dma_addr = dma_map_bvec(nvmeq->dev->dev, &bv, rq_dma_dir(req), 0);
++	if (dma_mapping_error(nvmeq->dev->dev, dma_addr))
+ 		return BLK_STS_RESOURCE;
+-	iod->dma_len = bv->bv_len;
+-
+-	cmnd->dptr.prp1 = cpu_to_le64(iod->first_dma);
+-	if (bv->bv_len > first_prp_len)
+-		cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma + first_prp_len);
+-	else
+-		cmnd->dptr.prp2 = 0;
+-	return BLK_STS_OK;
+-}
++	iod->dma_len = bv.bv_len;
+ 
+-static blk_status_t nvme_setup_sgl_simple(struct nvme_dev *dev,
+-		struct request *req, struct nvme_rw_command *cmnd,
+-		struct bio_vec *bv)
+-{
+-	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	if (use_sgl == SGL_FORCED || !prp_possible) {
++		iod->cmd.common.flags = NVME_CMD_SGL_METABUF;
++		iod->cmd.common.dptr.sgl.addr = cpu_to_le64(dma_addr);
++		iod->cmd.common.dptr.sgl.length = cpu_to_le32(bv.bv_len);
++		iod->cmd.common.dptr.sgl.type = NVME_SGL_FMT_DATA_DESC << 4;
++	} else {
++		unsigned int first_prp_len = NVME_CTRL_PAGE_SIZE - prp1_offset;
+ 
+-	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
+-	if (dma_mapping_error(dev->dev, iod->first_dma))
+-		return BLK_STS_RESOURCE;
+-	iod->dma_len = bv->bv_len;
++		iod->cmd.common.dptr.prp1 = cpu_to_le64(dma_addr);
++		iod->cmd.common.dptr.prp2 = 0;
++		if (bv.bv_len > first_prp_len)
++			iod->cmd.common.dptr.prp2 =
++				cpu_to_le64(dma_addr + first_prp_len);
++	}
+ 
+-	cmnd->flags = NVME_CMD_SGL_METABUF;
+-	cmnd->dptr.sgl.addr = cpu_to_le64(iod->first_dma);
+-	cmnd->dptr.sgl.length = cpu_to_le32(iod->dma_len);
+-	cmnd->dptr.sgl.type = NVME_SGL_FMT_DATA_DESC << 4;
+ 	return BLK_STS_OK;
+ }
+ 
+@@ -866,20 +865,9 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	int rc;
+ 
+ 	if (blk_rq_nr_phys_segments(req) == 1) {
+-		struct bio_vec bv = req_bvec(req);
+-
+-		if (!is_pci_p2pdma_page(bv.bv_page)) {
+-			if (!nvme_pci_metadata_use_sgls(dev, req) &&
+-			    (bv.bv_offset & (NVME_CTRL_PAGE_SIZE - 1)) +
+-			     bv.bv_len <= NVME_CTRL_PAGE_SIZE * 2)
+-				return nvme_setup_prp_simple(dev, req,
+-							     &cmnd->rw, &bv);
+-
+-			if (nvmeq->qid && sgl_threshold &&
+-			    nvme_ctrl_sgl_supported(&dev->ctrl))
+-				return nvme_setup_sgl_simple(dev, req,
+-							     &cmnd->rw, &bv);
+-		}
++		ret = nvme_pci_setup_data_simple(req, use_sgl);
++		if (ret != BLK_STS_AGAIN)
++			return ret;
+ 	}
+ 
+ 	iod->dma_len = 0;
+-- 
+2.47.2
 
-Chances since v1:
- - minor cleanups to the block dma mapping helpers
- - fix the metadata SGL supported check for bisectability
- - fix SGL threshold check
- - fix/simplify metadata SGL force checks
-
-Diffstat:
- block/bio-integrity.c      |    3 
- block/bio.c                |   20 -
- block/blk-mq-dma.c         |  161 +++++++++++
- drivers/nvme/host/pci.c    |  615 +++++++++++++++++++++++++--------------------
- include/linux/blk-mq-dma.h |   63 ++++
- include/linux/blk_types.h  |    2 
- 6 files changed, 597 insertions(+), 267 deletions(-)
 
