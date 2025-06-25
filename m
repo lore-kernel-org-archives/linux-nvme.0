@@ -4,62 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03075C77B7C
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 21:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3ACAC77B7C
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 22:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=m5dQzTuvbbtJR8qBze1MieINz4Shsgq0Ke6bwVMXZXc=; b=xDJx8ab1+qyH8lHjjpGn0Zm7mF
-	DZXJ+e/q0gTtiOAwvlcHOQlTm6FNP0TWsNK2teZ0UGeVkciaD+7gR0XS7q0GWTqThGlm9NesJ7336
-	Le1HdQeefMmpkNsFkzTfoU2rFeJcb1zNRjmawT0/sdAXIHMsjiUmafM+AQf1ZrNPrznwSS9gYC2yn
-	8wo6D5lB2QWRl3dewch2SFy+1Nmj9SGrOqq0xVyPviamZE43DlUGJItB7ww1QAINg9c9EYqLXooup
-	+BuTjE9I5VHKRDlMlxZ72fvkgLlo4uuY/y+6UbXGe0/3w9m03Xo+hUcEkuyq1YPc8KVK5l/Cd0lhQ
-	S1YVhsrQ==;
+	bh=JNApo6K1zSCKjJ+CnWvH6J2aKWzueNbdFDxn/05NFLM=; b=WFs4kiQBlFee+DktKippW69DDa
+	DwxL3naSDjqlp3OPzTYk+wHT0bMqOeZ8SgfQCxKPVGlKBGAq02DQ5muSikj4kz9cSXMMcokenGvp/
+	jB88iCbpq6gQYUkU8YqafMKSGonu50bdGqbhbXpHf7O2YbFJtIn1aY1UlknDOByzAnddVBujvcd1x
+	iB3LMmvS0PiZYzZMN+UxirViKpWr7FdF78Vt4mAPq/QjDNCS9EEBXBx4M7dgsIxcscbOhBstDOHbH
+	AY/5D374qOCDSNGrH6QoJVaBPf/AZqt7IoKOplE6JUMqbnql8vsJoQCccH4GS3E0jwa1SRQRY63JS
+	+6YnI8iA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUY7V-0000000A1G3-2hEp;
-	Wed, 25 Jun 2025 21:57:29 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1uUYvz-0000000A6gO-38KS;
+	Wed, 25 Jun 2025 22:49:39 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUXVe-00000009xBd-2Hzh
+	id 1uUYIB-0000000A2KU-3srd
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Jun 2025 21:18:27 +0000
+	Wed, 25 Jun 2025 22:08:31 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 93B10A52E78;
-	Wed, 25 Jun 2025 21:18:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA48FC4CEEA;
-	Wed, 25 Jun 2025 21:18:20 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 5BFF7615F0;
+	Wed, 25 Jun 2025 22:08:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAB48C4CEEA;
+	Wed, 25 Jun 2025 22:08:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750886301;
-	bh=m5dQzTuvbbtJR8qBze1MieINz4Shsgq0Ke6bwVMXZXc=;
+	s=k20201202; t=1750889311;
+	bh=hrN26zPExB9xhNrlf56hKCAr83ckIJt7dJETQYQ3D5M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AvlapTToZQxcbDnOyv9k9jp1u5tVw0L2Q3WnZ6SwsIe0JdvJ4UQetIj1AQVl4Pc7B
-	 ZawU90p4NVsBN3VzCwlanCBJI+k29ukaw2GnjrWcRJMCsKzHshDg3pZwgSgprnuDr3
-	 TAcfB3NT1ggDzQwv9Xr3FDQxK2I6ed8bcPBba2yed753IB2S0eFR4Hinf15Q7eKC8W
-	 sLvOHwa+vvo+mx6dVYh3gKwYCal94jHMbmKON1iIkSX1NTiEnwf5PyJbNnNUw6hEnY
-	 jTBBlViOfaOW+QVV2KQy3jFa7qRy6QRt+nHN2iZtncuUb9wnaUGkHp5I7L2VZIdjO7
-	 jAuywK4s40VmA==
-Date: Wed, 25 Jun 2025 15:18:19 -0600
+	b=BRQgKZH7Feq91S01GrFh/czkQvzbf8hjPEsaqbd3XTwudWJpHFkZ9DbFV7D3IqLiM
+	 oG52TaUxvwJ5UujyoqKlY3HebK0X+Fzv6RQdryAXmuDBYRt0L4iiERFuTB8XWCw18W
+	 m2pPJwX4v4xnK7g+aVLi73iFLlK8fHjPEGwT0msSP68Nvj3usWJl1zyGXnMjCHsMdJ
+	 i+2GCERoGINTv52ubs2xwqH1B2yr+07DS/H++l3YzLqvU4QXZuTxVA1e9Fsm869rRZ
+	 heOKuBuE/NnzGJ4XLCslvWKMY4V7tj6EeqnkhyGgKKgxT9KLwO8sSEly+p2Ehsx3wX
+	 obL3ZDs3kZ3ug==
+Date: Wed, 25 Jun 2025 16:08:28 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Keith Busch <kbusch@meta.com>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	axboe@kernel.dk, leon@kernel.org, joshi.k@samsung.com,
-	sagi@grimberg.me
-Subject: Re: [PATCH 2/2] nvme: convert metadata mapping to dma iter
-Message-ID: <aFxnm0MX0G7Knzcg@kbusch-mbp>
-References: <20250625204445.1802483-1-kbusch@meta.com>
- <20250625204445.1802483-2-kbusch@meta.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: uring_cmd specific request_queue for SGLs
+Message-ID: <aFxzXOZUFtt6hyPA@kbusch-mbp>
+References: <20250624211444.2835077-1-kbusch@meta.com>
+ <20250625060915.GB9391@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250625204445.1802483-2-kbusch@meta.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250625_141822_649042_D22C1204 
-X-CRM114-Status: UNSURE (   8.40  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <20250625060915.GB9391@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,10 +68,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 25, 2025 at 01:44:45PM -0700, Keith Busch wrote:
-> Aligns data and metadata to the similar dma mapping scheme and removes
-> one more user of the scatter-gather dma mapping.
+On Wed, Jun 25, 2025 at 08:09:15AM +0200, Christoph Hellwig wrote:
+> > User space passthrough IO commands are committed to using the SGL
+> > transfer types if the device supports it. The virt_boundary_mask is a
+> > PRP specific constraint, and this limit causes kernel bounce buffers to
+> > be used when a user vector could have been handled directly. Avoiding
+> > unnecessary copies is important for uring_cmd usage as this is a high
+> > performance interface.
+> 
+> Not really more high performance than the normal I/O path.
 
-One thing missing from this patch, it should have removed all the iod
-mempool's since we're not using them anymore after this.
+Right, that's why I said "a" performance path, not "the" performance
+path.
+
+If you send a readv/writev with a similar iovec to a O_DIRECT block
+device, then it will just get split on the gapped virt boundaries but it
+still uses it directly without bouncing. We can't split passthrough
+requests though, so it'd be preferable to use the iovec in a single
+command if the hardware supports it rather than bounce it.
+ 
+> > For devices that support SGL, create a new request_queue that drops the
+> > virt_boundary_mask so that vectored user requests can be used with
+> > zero-copy performance. Normal read/write will still use the old boundary
+> > mask, as we can't be sure if forcing all IO to use SGL over PRP won't
+> > cause unexpected regressions for some devices.
+> 
+> Note that this directly conflict with the new DMA API.  There we do
+> rely on the virt boundary to gurantee that the IOMMU path can always
+> coalesce the entire request into a single IOVA mapping.  We could still
+> do it for the direct mapping path, where it makes a difference, but
+> we really should do that everywhere, i.e. revist the default
+> sgl_threshold and see if we could reduce it to 2 * PAGE_SIZE or so
+> so that we'd only use PRPs for the simple path where we can trivially
+> do the virt_boundary check right in NVMe.
+
+Sure, that sounds okay if you mean 2 * NVME_CTRL_PAGE_SIZE.
+
+It looks straight forward to add merging while we iterate for the direct
+mapping result if it returns mergable iova's, but I think we'd have to
+commit to using SGL over PRP for everything but the simple case, and
+drop the PRP imposed virt boundary. The downside might be we'd lose that
+iova pre-allocation optimization (dma_iova_try_alloc) you have going on,
+but I'm not sure how important that is. Could the direct mapping get too
+fragmented to consistently produce contiguous iova's in this path?
 
