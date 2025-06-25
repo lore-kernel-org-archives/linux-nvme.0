@@ -4,90 +4,176 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3508C83000
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 04:17:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 099A4C7EE3A
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Jun 2025 04:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=emLgMd9NdJMjhl8z4aBxY3ZGdmBDfpCboppn1p+odHQ=; b=wW05cIspgp8CRcVDxI2jjVAWSk
-	SAiM+LBu7dZFNAiQPVRgA9427mzmSUx8Zi/oaUb0MVe/7c7aG0RIjwa4x2YoWUgbcEgrmRZnPAIds
-	cJYsvzBCM8Zlb4mVuzORKD6JrwePZ41xWsZ6f9hejfQ2aoXj+8cnE2yxJYk1n8gl8Ixkvc8t3Am0n
-	q4lRGYlI+Bpoih6xVO1jCKjmQ3fbfO9t6xwPd6szh4DLJ9Qb6k4IcjC+VMIqPiwmozCF1DwfQuXls
-	ud73QC63oq6m3kfh+7jP2vnjGYxIe+9dFzzOq47z06uHFdbKgNe54TkzRG8VxCTX22GdiedgOwpRV
-	1KKmaQzw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QaWGgO3ZqkMgC8oFsZvj4JBgC1rIpET3UICWmjZx7A4=; b=hRr6nDjeNwbR2/wZFAcPeD/K+e
+	ElxJtn4MxLrLRwlKmP2mzGI5Y+5aiypajWG48WJoqmtcyG6lWQY16UmByfz3ARbqExvS2bsVzHSCq
+	jcaS71c8/pvd4jBNL85bA3kuk6JmGsX8PDLH9qj7IuOX/1Mu3PXhZ2VItetuvxXJ/NWuZ+3y6CIxa
+	rUAn6jGwI1zqsRBHsLLAcgrr6fJZCVWOFvS/1tjJgH3rX7b/PtvtA6jPNwr6wnIqdM5dBH+JS3pQD
+	YQcJAtXVx9VnQsPGujhIpxGD2Xd4pE6rPWnRpk5XlQRZqQOxyWq6t1DeCJR6KnRPMzLcRHIp5YouR
+	PvnyN68g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUHZl-00000007T1w-2LuL;
-	Wed, 25 Jun 2025 04:17:33 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1uUHgr-00000007UAc-3Bc5;
+	Wed, 25 Jun 2025 04:24:53 +0000
+Received: from mail-sn1nam02on20611.outbound.protection.outlook.com ([2a01:111:f403:2406::611] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUHZi-00000007T0U-3KXt
+	id 1uUHgp-00000007U9q-1AiI
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Jun 2025 04:17:31 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55OMigaA030672;
-	Wed, 25 Jun 2025 04:17:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=emLgM
-	d9NdJMjhl8z4aBxY3ZGdmBDfpCboppn1p+odHQ=; b=sLu2xyNyx6zdFy4KAjzlh
-	ETOd+BH31D72lw59vDkqgAQKoKPb+TQ0UOCNFgyaGyxwReqqboPSYXqn0NxgVpzE
-	NuKqODgplFj+oTZVLh6Hp2R5UqUUqFR6uettkqqx2IdSrtJ2QxaW3KuoYxgRqH7t
-	VOkZqOWiNoNAAQxTmNZm9CeidLOvUBzVlR4byW5T7p2Y6IUVpG8OeFicjvcMB2q5
-	utmEBmNMHdfISCiEZAaEb9XfdBR5Q7PI8iYQ6CmJyEniylkFved2gWB3fkFbH22v
-	nfuo/Fh4YNSjFWR5cj6Bj9ZE2T0MHh7GRr2OfaHM19qbG9OIziZpeJmWM/oO3npC
-	g==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47ds8mxej4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Jun 2025 04:17:19 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55P1WKS6024347;
-	Wed, 25 Jun 2025 04:17:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47ehkrhffr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Jun 2025 04:17:18 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55P4HGqa029022;
-	Wed, 25 Jun 2025 04:17:17 GMT
-Received: from ca-dev110.us.oracle.com (ca-dev110.us.oracle.com [10.129.136.45])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47ehkrhfem-2;
-	Wed, 25 Jun 2025 04:17:17 +0000
-From: Alok Tiwari <alok.a.tiwari@oracle.com>
-To: linux-nvme@lists.infradead.org, rdunlap@infradead.org, kbusch@kernel.org,
-        axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
-        nilay@linux.ibm.com, corbet@lwn.net
-Cc: alok.a.tiwari@oracle.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/5] nvme: Fix multiple spelling and grammar issues in host drivers
-Date: Tue, 24 Jun 2025 21:16:30 -0700
-Message-ID: <20250625041643.174110-2-alok.a.tiwari@oracle.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
+	Wed, 25 Jun 2025 04:24:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qNxYzWtVdTD36Y5dYda7At+l9TVCzraw+1iZ2+WSVGjH2HCNOAN27wixdVjhoE62oPaxqpGc41CqUMAfzBdNwvnbn6sZBehDJcohw9ICM3gGLLkoyNsp79f77rguidBQ3SNvKNqmAm+roucpDiKP6YR7lrmfhlD35Eq3QA3tlaezZyHYzwC7Qacez18BEtxYZQMde4Xpvq58tiFec8gQFV8HrVL6xs/YfAbfm+V0J+AIvgwjutbjofv3es4FtlvfbxQozsU4z8WG+g5Xy9FR0MhjeD/FLpPXgE4wBhcxIP4yVEEABBHF1y6wrL8MpCyXlDKBe8N0goo5nLCrKhTrRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QaWGgO3ZqkMgC8oFsZvj4JBgC1rIpET3UICWmjZx7A4=;
+ b=iBUoHxQVgA2b01ul8vwHUJAWs8r+u5OYl92RtqX2iqpIPeCFXfG2ib9Dz74XdtFiiLoS4e0A78CX0JQSbqtDfNisbsCwk6u78pWnO6+sCpZ/A1cWnggk6fSgsklwvrKlEjtVa+EyCoLl5hS+YFDapKrdndIjGwMIQ0F8li+r9lsI3EM0YDIcfV9EdrLTucmJVLWyNpw9TZEcRcz2kGcg6W9smHVQa50XNj+LbFxCi7rQsOq3uJwny2OuKdZQJfV/mMq6Pqg8XOPRt1N7gGxNp+JjaN04ncQy4jRRZlxHFekcHneqEQ0s7vwt6yR8xslruX9Z24kffCMhk6Ah1tUW0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QaWGgO3ZqkMgC8oFsZvj4JBgC1rIpET3UICWmjZx7A4=;
+ b=IKQRhx7Nm0vEDDQBxMIHh2TUhAzVmSs64dl4MEzYY6p2WJYKBYr3JrrJ3I5Fc7uwmkiKG9BQvLxsrEdOBivwFcjosAdkMhYECjbyhSRj5Q8zJ5ZR6XSOhZyvIGEDPyBFnjv7MgvHKdZ7DzEqU74Ablq+njmoLFYAM+l7bsh8DzW5EAD9KrHRl1GQpXOUiML27gHhHHrZXZLAtiPGnMU50bvjKHhYtFX+GO0YIG++WA3n4rGXhslXlIG8KXQlqfJwBVuOku+VbmVeE+pKmaaXbwhk+dDuI3AzWCAFoxtdBtF+PSEkz0UCYJlFj/Q+PnAp/7CJ1suNKMLuAtc0LMuY1g==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by DS7PR12MB6143.namprd12.prod.outlook.com (2603:10b6:8:99::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Wed, 25 Jun
+ 2025 04:24:45 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%3]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
+ 04:24:44 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Alok Tiwari <alok.a.tiwari@oracle.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "rdunlap@infradead.org"
+	<rdunlap@infradead.org>, "kbusch@kernel.org" <kbusch@kernel.org>,
+	"axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+	"sagi@grimberg.me" <sagi@grimberg.me>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>, "nilay@linux.ibm.com" <nilay@linux.ibm.com>,
+	"corbet@lwn.net" <corbet@lwn.net>
+CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 0/5] nvme: typo and minor cleanup fixes across host and
+ target driver
+Thread-Topic: [PATCH v2 0/5] nvme: typo and minor cleanup fixes across host
+ and target driver
+Thread-Index: AQHb5YgXK4eVS++RSkeFhgDXHZPDTLQTRxcA
+Date: Wed, 25 Jun 2025 04:24:44 +0000
+Message-ID: <6c5c9f66-2434-4b53-b436-63ff197b0b4c@nvidia.com>
 References: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
+In-Reply-To: <20250625041643.174110-1-alok.a.tiwari@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|DS7PR12MB6143:EE_
+x-ms-office365-filtering-correlation-id: fdad7ed6-c79c-467b-a41f-08ddb3a0369d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|10070799003|921020|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?cDk0TWlkZDlyL1o2NVdMRUJpdFEyQmVpS1dUL3UvTTN6L2o2VzJrOUhETG5P?=
+ =?utf-8?B?K08xV3ZxejJvOWFQYTFMcDBpV2prTzFvV1d1U2YybmVKM0NNdzNFc0Z0czFt?=
+ =?utf-8?B?QUlNWkp3QXZzamhYcnhxb3RWSkRIbC9SSGlZVDA4bHl6ZVpyOVRUWnBiamh1?=
+ =?utf-8?B?aHgvdFBodmVrWmE0NU9IVGlobjE5ZWt3MWFLeTYvT2NJdVRxcnVXQ0V1Wmxp?=
+ =?utf-8?B?V1hXUVpRMms4cHlMZmFtVTJNcmhRc1hjOFNxNS9QVFNEODJ2dmFFdis2aEZD?=
+ =?utf-8?B?TWFxMjkrWTMvbzFIUjE4R1FWZEhSOS9iTWNrZENFaFR1cnUrOTZ1cXh6MFhl?=
+ =?utf-8?B?UUJTVUdJd3YxK0lTWk85M29SV2dHU25ISDFTWDk1V2llNkxMblRKNWl6TnVY?=
+ =?utf-8?B?dFJ4dlNvQ1ZVZi9JdVFyQlRHeEJkdllHT1E3ejRmeHZ0eHlFRzVBRTN0NDJK?=
+ =?utf-8?B?OGtkblRzK2xXZnZvb2J6ZXJPeUVJangwQmVlUlVWcW5aVmtqRTFnZzRFTkJN?=
+ =?utf-8?B?ZHFsUXdGcDJiTVVzZHJyUDVQWUVYV0w4MVp5eHovODJ4aTJnT2lTSFJ5N0JY?=
+ =?utf-8?B?eE83ZXczZENHVzRsTGRFWjMrREttdklySGRHd3VCd094b0QzNUxvTEcyT3Jq?=
+ =?utf-8?B?U1BNZGhGTVNWTHJrejNBWlZmYWlNZHBkV29MQ0xJUm4rSXMxbUNuM2xMVXRp?=
+ =?utf-8?B?WTNMbFJwZzNTOTE4cUZoVXYxdzdDbmhhb1FVRE9RbHN5aVJ3eVB5b0I3UEtm?=
+ =?utf-8?B?cUxzM2UyaWdWQ2RiWVJ2N0VnQ2FpcTdaUlpTelBBMGw0UkE3aXZYUHozWE0y?=
+ =?utf-8?B?azdYUGJGa2ltOG9XbU0xaFVObGkwV2YvTUtFNTg1eGVCak9ScFU2clNrQW1H?=
+ =?utf-8?B?QXBydmpNb25qWXFzZ3hrcXRJVmlxeFR6b0h5WWU3M3ZDa0dHSmRGNGUvaFpx?=
+ =?utf-8?B?aGZYaGhvNWw1ckhSUC8rNXJwNWdOR3psZ3NWS0NRNlZIZ0xsZm9SWVRyUnpq?=
+ =?utf-8?B?VmZGQmZiTzhxVXltQi9rYjhkQlBUN0ViWTJWRVpmWDNuRXFabjJoanNDWHVE?=
+ =?utf-8?B?cHdPUjR5d3FpenVPSHZIR1RhOHNyV2NkMnNRZHZYRFk2aUxCYXU4OGkxdHRx?=
+ =?utf-8?B?S0JKVERnRjgrRE9UVE14VW5nODFyWlRRR0IxYzQrcUZ2NTBudU8vMXZ0ZFJ3?=
+ =?utf-8?B?MmluNGQwNTNxRU9URzRoUG9KYlpvc25GTGJYTUNZKysxSEhMbE9EUjkzYklY?=
+ =?utf-8?B?TGVyU3RTYlFXdVFjN0xxdWIxZElWckVSOHJiWEwrSzJQWXlyVUE2UHlOQjIx?=
+ =?utf-8?B?WkswdStPZ3JmUENmdEFWT25jSGEwWnkwcDE3NHN0QnVwOWRhS1B4MXpWZTgr?=
+ =?utf-8?B?c1J5UFdLbmlNckJxd2VoQmswZmRGaWswbUl2eW9NUFNPbXAyQTlobWJhOWRY?=
+ =?utf-8?B?N2hQSUxkcmtJeXltTGc4Y0FwZlRpdzRlNk9VR0tCNno0ZUN3c0VVUWYwR1kx?=
+ =?utf-8?B?bUJwQW95T2dMYmVlNkU0a2FFVEV1ZTY1R3VkZjZVZnNKQkM4SWtsWG5zM0pN?=
+ =?utf-8?B?Ni9DZ2tpSGg1dFNnV0kxS0xTSURSb3oxaXVENWxDWGt0dFdGMG5xMTBsTVpq?=
+ =?utf-8?B?L25kRkZMRk5vbmExdlNRL2puZXE4WWhQeXJubFQxVzE4dG5hZHhlNitSbEpk?=
+ =?utf-8?B?dDU1aVMzbWhoZ3BOeGpwMENEMzlSZnRTb3J2alJocUVFNzBidnJwY2NzUDlJ?=
+ =?utf-8?B?VSt0emFNeUs0YkhxRXFzaTV3LzVhYzJZS0pTLy9Lc0hONXk1TWVMcC92RWgx?=
+ =?utf-8?B?Y2xtVG9NblhMazgzalBsdlFDUFc2K3FveUZEaGpONE91UVczWmxsc2VyRE5H?=
+ =?utf-8?B?WnR2bHFiMGlYSHhpZkFhK0NtYkdZZXpXd09iSytmZXhzaUV4MHpMRDNjN0Z1?=
+ =?utf-8?B?L2duZ21aN1gxWG94TUdaUVZFeVpmcjJQSERwZlhGVlQ5Z1VLL3BHWkZNVlEz?=
+ =?utf-8?Q?VNRa8KodYLY/aWCgaxKbty83kovRGw=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(10070799003)(921020)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?S21qS1hjbGNJSSt1VHFDczVya0lUWXhLYlk4U2h2M1dKdFdTZHBDMTJOODZa?=
+ =?utf-8?B?TFFDU2tLRFFGZ0pUQzA1Y3JFbmJ1ZUE5Y0Z6SFF0SkQwcXhPYW9ROXA0b1dx?=
+ =?utf-8?B?V3MvK2drZWtlL2pWbW9LaXJWWU9tRWRZMjJlWDdNQm43UWxPNEt2NVhjYklT?=
+ =?utf-8?B?TEtyNHVtZStjbmpXczNrZFlnanFZUmk1VjJqZmozY1dydkhtQXN2YjNZTjEx?=
+ =?utf-8?B?cUpGWlNSeURyV3U1aTRGVlV6aGlLcENmN1Arb001a3JLTGIzKzhJbWJRL243?=
+ =?utf-8?B?cDBCVVk1WGlJOVNlc2Zvdkk1cjNqU0FPUVczZFNNTnhaVTlYbTZkSHpENWx0?=
+ =?utf-8?B?UUhJakdhZzJGaHNhTU5wK2lFNVhCaU9OOTB3ZHZTUlFyMlJyTUVVVGkwa1lP?=
+ =?utf-8?B?Qzk5Zm0valpyalF4c0l0amJLb0xzdmN2aGQzL1pPLzlVYVQ4cG1rWlNLQkhr?=
+ =?utf-8?B?cUl0ekdHc2IvV242eUZUMFk1MFlLVFBROVMxUUNBUmNDaWNtZm9PeVYyTDhX?=
+ =?utf-8?B?VzhBcWdDRE05MXM4V213T2N6NnBoc1pKMDhFWTdNN0I1a1R5TFUvV2RydDhP?=
+ =?utf-8?B?dUVNTFNFMmtYRlZNekJ6Y2NJSzgwM2MrRE9qSkV2NzFuWEhYcGRCL2NzejhX?=
+ =?utf-8?B?Yjd1eWs4MUVIemNTUnBMS1hyZ3NLRml4elBwRGM4cUNseUR5N1VLczZRUCtw?=
+ =?utf-8?B?d1lxT2lIaUNGQzQrbkZIS2gyRG9LVXZkS1pKa3g3a2U1clZrZGUya1NQN1hk?=
+ =?utf-8?B?S0Y4cTdGSlNhN2FRTFZSeVJSbVRlcDBiRTh6ck1rWEpPMng4c1h3T1BxWEhm?=
+ =?utf-8?B?RWoyT01xOWd4STZvMHhVUDFuRnh6emJkMXJNOXdHaDZaMXFmcDh1U1lpbllo?=
+ =?utf-8?B?bCtka0dCZkNKUjRRbGxNODFKS1R6RVNnaXVRaGhoNGlSTEIxRFN3bm92czJB?=
+ =?utf-8?B?Tmg1M1VmL0hlbXZvR2tuYi9TYWV3T2tPOUVSZitYbGsrcDNyTXR3cjlQc3Bk?=
+ =?utf-8?B?eGVKbXF1cWt6YlBQUzlpTmJscno5b2NsSHAzanYrTVVNSWthZWZUQWhOUDRr?=
+ =?utf-8?B?eGRCYkQ2SGs5cDBXUXplc0JTWlhiY09Ucy9RM2t3TVR6emI3YS9WTFVyUXNP?=
+ =?utf-8?B?YWVCbnFCKyt2WFB4TUR5aWllTy9KYm1NSnVVREdHL2Z0VFNibXNFTWpHVEJT?=
+ =?utf-8?B?K0c1Wk5CdXdSZFFXc2I4cmRYdTEwNzNvNEh2L2w0OXpyVkJyeXRuWSt6SUd1?=
+ =?utf-8?B?MHF2WWlvZUNHSVFPSGJoKzlJazhIRVV2OWxYQ0wxRUdPU0IzcnhNb0tMSTdE?=
+ =?utf-8?B?ZGxFczZlaGZtRGc2WE5iUFBuVnQ4WTFMUG5nSnl5ZTdKQzMzLzZuK095aWxP?=
+ =?utf-8?B?bGs1UHB2YlJ4TDJmUnN4VVN2YXhNN0EwVFppQUt0a0djd2JWK3ViQUFYWlI1?=
+ =?utf-8?B?dDE5YUs3SlNXY0xQMjkyc2hQMWdmMmJPTWtNek9UUDN5ZjRCc3RlbkRyd0pk?=
+ =?utf-8?B?NUkvZnllbmJwS2tKaTB0aStQNFEwL21wc0xVa0hYbFdrWjRGUEdCR3RYTzg1?=
+ =?utf-8?B?SXZQVzJYQm5keDhBc3hOZzBYcGc2MWJQK3R3TUcyczNYYnhIY3BZdEtQVUNR?=
+ =?utf-8?B?dGFQWkhSTmhMSUpWQ1dUOTJrQnhqNStacVdKbkgxdHRrZmgydnlFUFg2NGhC?=
+ =?utf-8?B?SU1ramhTM0tKNysrbVVLWkhPZDV5a0drT3hVLzFMRE12RFVjd0E5U3k2K2hl?=
+ =?utf-8?B?NnRVM013MnNicWgrY1E3U3FST1RaR1U3eG9DTVZjOTN4SXczMUEzNXNHZHpO?=
+ =?utf-8?B?RFhSbDcwZEJWdU5Md3AvL1dDaUplK2hvenEwVzdBdlk2Z0pvQnpMRmtWVDhw?=
+ =?utf-8?B?aUdGdmtpbHVyK3NBTk5IQkZjMzNwTzBnYzMzcTB1UkJUT2Z3YXdiMmJFOVUz?=
+ =?utf-8?B?ODFmelpqUUhWUDlSWWU4Tjd0WnFnRG9ZajV1TDZoNDJVaHlydlBqZ0RkK3N5?=
+ =?utf-8?B?a3RoSzhka1pXWDY5NE44V1hqbFQ4RFV2Vk9GL0VTN2FydmNIVFM1UEE0enR1?=
+ =?utf-8?B?S2I1TTRHZm9Bb3FWWW5ZQU5ubXV4R3RtZ21oc3RmT0hZMk9XY0J1R0NheXds?=
+ =?utf-8?B?aXU1UHg1bUFiaE8zTjFEenpPeWNJL0R3dkZTclhQZlRCTDlpdCs4MnpxdUhI?=
+ =?utf-8?Q?QU/ratqhSOaxmKYRV+FcpCMVsVlrC/jp8+nIjXH2ufwC?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0B188079766749469A10DDDBF8D8314D@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-25_01,2025-06-23_07,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 adultscore=0 malwarescore=0 mlxscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2505160000 definitions=main-2506250029
-X-Authority-Analysis: v=2.4 cv=IcWHWXqa c=1 sm=1 tr=0 ts=685b7850 b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=JfrnYn6hAAAA:8 a=XhBexOnarudRnIWOcXAA:9 a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf
- awl=host:13207
-X-Proofpoint-ORIG-GUID: Wz8z3D6RuFZ3FBn-U2dDtbpmDQ0mPanP
-X-Proofpoint-GUID: Wz8z3D6RuFZ3FBn-U2dDtbpmDQ0mPanP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDAzMCBTYWx0ZWRfX5//C/y83WULC Ws63kyfQJOyPORryhoW6td+0nH0Acqmoegn3XX27gvX9bL0AzRgmneYrpi4BxcqCYbc1yEQPbYD IQyRWGDmGbpqsi2z7GGMLiwtuzoSBfkQyXvEbaaeIyxq5VF8XdOF29q7DhgmLP/9vBjCXM7fp9Z
- +sJ2wtvP91Gg5vI6C1eDVNEM1TSLgxinx7lNqTXxo3gJnEfpstaxdUJW5JM8A1TbM6CfTQO2mvZ H9yap2Q4/ah6S05NzAuo4WVkUW8NDywAXR4UzyxA2ZkXB66hUbN28ncq7sbDQy4mWD5DQnf6Har qTmZU8ehyzTIXuAS8RR1ebBOLPrzOHUreQz/PEJTWq2sqGMR717FQnlquvwMu1rrQ4qMfW7XAE3
- EgbEQLrh6rHomDhuYGbFpMLELu/lhFSNpI8ljonmCToA96OMklQJXj8C9tYXozmi+/lPQ01+
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fdad7ed6-c79c-467b-a41f-08ddb3a0369d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2025 04:24:44.8632
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: I1Svc06NM5OuZP6qYWM8RzkeQXPR9zsWWuLAvvt7TNJcDFrMo91fQrYql0DBrwWPK3fErVXigxcI2RBIAcCBow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6143
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250624_211730_829387_33CB0532 
-X-CRM114-Status: GOOD (  29.41  )
+X-CRM114-CacheID: sfid-20250624_212451_310699_8E70D0AC 
+X-CRM114-Status: GOOD (  12.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,181 +188,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This commit fixes several typos and grammatical issues across
-various nvme host driver files:
-- Corrected "glace" to "glance" in a comment in apple.c
-- Fixed "Idependent" to "Independent" in core.c
-- Changed "unsucceesful" to "unsuccessful", "they blk-mq" to "the
-blk-mq", Fixed "terminaed" to "terminated" and other grammar in fc.c
-- Updated "O's" to "0's" to clarify meaning in nvme.h
-- function name comment *_transter_len() -> *_transfer_len() in zns.c
-
-Fixed sysfs_emit() output format in pci.c (replaced x%08x with 0x%08x)
-
-These changes improve the code readability and documentation
-consistency across the NVMe driver.
-
-Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
----
-v2
-no changes only added Reviewed-by
----
- drivers/nvme/host/apple.c      |  4 ++--
- drivers/nvme/host/core.c       |  2 +-
- drivers/nvme/host/fc.c         | 10 +++++-----
- drivers/nvme/host/nvme.h       |  2 +-
- drivers/nvme/host/pci.c        |  2 +-
- drivers/nvme/host/rdma.c       |  2 +-
- drivers/nvme/target/passthru.c |  4 ++--
- drivers/nvme/target/zns.c      |  2 +-
- 8 files changed, 14 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index b1fddfa33ab97..1286c31320e63 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -301,8 +301,8 @@ static void apple_nvme_submit_cmd(struct apple_nvme_queue *q,
- 	memcpy(&q->sqes[tag], cmd, sizeof(*cmd));
- 
- 	/*
--	 * This lock here doesn't make much sense at a first glace but
--	 * removing it will result in occasional missed completetion
-+	 * This lock here doesn't make much sense at a first glance but
-+	 * removing it will result in occasional missed completion
- 	 * interrupts even though the commands still appear on the CQ.
- 	 * It's unclear why this happens but our best guess is that
- 	 * there is a bug in the firmware triggered when a new command
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 92697f98c601d..ffefa781a3de3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4289,7 +4289,7 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	}
- 
- 	/*
--	 * If available try to use the Command Set Idependent Identify Namespace
-+	 * If available try to use the Command Set Independent Identify Namespace
- 	 * data structure to find all the generic information that is needed to
- 	 * set up a namespace.  If not fall back to the legacy version.
- 	 */
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 014b387f1e8b1..08a5ea3e93836 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -899,7 +899,7 @@ EXPORT_SYMBOL_GPL(nvme_fc_set_remoteport_devloss);
-  * may crash.
-  *
-  * As such:
-- * Wrapper all the dma routines and check the dev pointer.
-+ * Wrap all the dma routines and check the dev pointer.
-  *
-  * If simple mappings (return just a dma address, we'll noop them,
-  * returning a dma address of 0.
-@@ -1955,8 +1955,8 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 	}
- 
- 	/*
--	 * For the linux implementation, if we have an unsucceesful
--	 * status, they blk-mq layer can typically be called with the
-+	 * For the linux implementation, if we have an unsuccessful
-+	 * status, the blk-mq layer can typically be called with the
- 	 * non-zero status and the content of the cqe isn't important.
- 	 */
- 	if (status)
-@@ -2429,7 +2429,7 @@ static bool nvme_fc_terminate_exchange(struct request *req, void *data)
- 
- /*
-  * This routine runs through all outstanding commands on the association
-- * and aborts them.  This routine is typically be called by the
-+ * and aborts them.  This routine is typically called by the
-  * delete_association routine. It is also called due to an error during
-  * reconnect. In that scenario, it is most likely a command that initializes
-  * the controller, including fabric Connect commands on io queues, that
-@@ -2622,7 +2622,7 @@ nvme_fc_unmap_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
-  * as part of the exchange.  The CQE is the last thing for the io,
-  * which is transferred (explicitly or implicitly) with the RSP IU
-  * sent on the exchange. After the CQE is received, the FC exchange is
-- * terminaed and the Exchange may be used on a different io.
-+ * terminated and the Exchange may be used on a different io.
-  *
-  * The transport to LLDD api has the transport making a request for a
-  * new fcp io request to the LLDD. The LLDD then allocates a FC exchange
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a468cdc5b5cb7..97818eb1a4143 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -69,7 +69,7 @@ enum nvme_quirks {
- 	NVME_QUIRK_IDENTIFY_CNS			= (1 << 1),
- 
- 	/*
--	 * The controller deterministically returns O's on reads to
-+	 * The controller deterministically returns 0's on reads to
- 	 * logical blocks that deallocate was called on.
- 	 */
- 	NVME_QUIRK_DEALLOCATE_ZEROES		= (1 << 2),
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8ff12e415cb5d..982abf0514c9d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2333,7 +2333,7 @@ static ssize_t cmb_show(struct device *dev, struct device_attribute *attr,
- {
- 	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
- 
--	return sysfs_emit(buf, "cmbloc : x%08x\ncmbsz  : x%08x\n",
-+	return sysfs_emit(buf, "cmbloc : 0x%08x\ncmbsz  : 0x%08x\n",
- 		       ndev->cmbloc, ndev->cmbsz);
- }
- static DEVICE_ATTR_RO(cmb);
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 9bd3646568d03..190a4cfa8a5ee 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -877,7 +877,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 
- 	/*
- 	 * Only start IO queues for which we have allocated the tagset
--	 * and limitted it to the available queues. On reconnects, the
-+	 * and limited it to the available queues. On reconnects, the
- 	 * queue number might have changed.
- 	 */
- 	nr_queues = min(ctrl->tag_set.nr_hw_queues + 1, ctrl->ctrl.queue_count);
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index b7515c53829b8..3b4b0df8f8799 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -106,7 +106,7 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
- 				      pctrl->max_hw_sectors);
- 
- 	/*
--	 * nvmet_passthru_map_sg is limitted to using a single bio so limit
-+	 * nvmet_passthru_map_sg is limited to using a single bio so limit
- 	 * the mdts based on BIO_MAX_VECS as well
- 	 */
- 	max_hw_sectors = min_not_zero(BIO_MAX_VECS << PAGE_SECTORS_SHIFT,
-@@ -147,7 +147,7 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
- 	 * When passthru controller is setup using nvme-loop transport it will
- 	 * export the passthru ctrl subsysnqn (PCIe NVMe ctrl) and will fail in
- 	 * the nvme/host/core.c in the nvme_init_subsystem()->nvme_active_ctrl()
--	 * code path with duplicate ctr subsynqn. In order to prevent that we
-+	 * code path with duplicate ctrl subsysnqn. In order to prevent that we
- 	 * mask the passthru-ctrl subsysnqn with the target ctrl subsysnqn.
- 	 */
- 	memcpy(id->subnqn, ctrl->subsysnqn, sizeof(id->subnqn));
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 29a60fabfcc8a..15a579cf528c1 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -541,7 +541,7 @@ void nvmet_bdev_execute_zone_append(struct nvmet_req *req)
- 	struct bio *bio;
- 	int sg_cnt;
- 
--	/* Request is completed on len mismatch in nvmet_check_transter_len() */
-+	/* Request is completed on len mismatch in nvmet_check_transfer_len() */
- 	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
- 		return;
- 
--- 
-2.46.0
-
+T24gNi8yNC8yNSAyMToxNiwgQWxvayBUaXdhcmkgd3JvdGU6DQo+IENvcnJlY3RlZCB0eXBvcyBh
+bmQgZ3JhbW1hdGljYWwgZXJyb3JzIGluIGNvbW1lbnRzIGFuZCBkb2N1bWVudGF0aW9uDQo+ICgi
+dGVybWluYWVkIiAtPiAidGVybWluYXRlZCIsICJsaW1pdHRlZCIgLT4gImxpbWl0ZWQiLA0KPiAi
+Z2xhY2UiIC0+ICJnbGFuY2UiIGV0Yy4pDQo+DQo+IE5vcm1hbGl6aW5nIGhleCBmb3JtYXQgb3V0
+cHV0ICh4JTA4eCAtPiAweCUwOHgpLg0KPg0KPiBJbXByb3ZpbmcgZ3JhbW1hciBpbiBleHBsYW5h
+dG9yeSBjb21tZW50cyBmb3IgYmV0dGVyIGNsYXJpdHkuDQo+DQo+IElkZW50aWZpZXIgQ29ycmVj
+dGlvbjogUmVuYW1lZCBOVk1FX1NDX1NFTFRfVEVTVF9JTl9QUk9HUkVTUyB0bw0KPiBOVk1FX1ND
+X1NFTEZfVEVTVF9JTl9QUk9HUkVTUyB0byBmaXggYSB0eXBvZ3JhcGhpY2FsIGVycm9yIGFuZCBh
+bGlnbiB0aGUNCj4gc3RhdHVzIGNvZGUgY29uc3RhbnQgd2l0aCBpdHMgbWVhbmluZy4NCj4NCj4g
+UmVtb3ZlZCBSZWR1bmRhbnQgQXNzaWdubWVudDogRWxpbWluYXRlZCBhbiB1bm5lY2Vzc2FyeSBp
+bml0aWFsaXphdGlvbg0KPiBvZiBhbiBlcnJvciBjb2RlIHZhcmlhYmxlIGluIG52bWV0X25zX2Vu
+YWJsZSgpIHRvIGNsZWFuIHVwIHVucmVhY2hhYmxlDQo+IG9yIG92ZXJyaWRkZW4gbG9naWMuDQo+
+DQo+IEVycm9yIE1lc3NhZ2UgRml4OiBDb3JyZWN0ZWQgaW5jb3JyZWN0IHZhcmlhYmxlIHVzYWdl
+IGluIGFuIGVycm9yDQo+IG1lc3NhZ2UgaW4gcGNpLWVwZi5jLg0KPg0KPiBObyBmdW5jdGlvbmFs
+IG9yIGJlaGF2aW9yYWwgY2hhbmdlcyBhcmUgaW50cm9kdWNlZC4NCj4NCj4gdjEgLT4gdjINCj4g
+RXh0ZW5kZWQgdGhlIHVuZGVybGluZSBieSBvbmUgbW9yZSBjaGFyYWN0ZXIgaW4NCj4gbnZtZS1w
+Y2ktZW5kcG9pbnQtdGFyZ2V0LnJzdCBhcyBzdWdnZXN0ZWQgYnkgUmFuZHkNCj4gYW5kIGFkZGVk
+IFJldmlld2VkLWJ5OiBSYW5keSBEdW5sYXAgZm9yIHNlcmllcy4NCg0KZm9yIHRoZSBzZXJpZXMg
+bG9va3MgZ29vZC4NCg0KUmV2aWV3ZWQtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52aWRp
+YS5jb20+DQoNCi1jaw0KDQoNCg==
 
