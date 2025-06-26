@@ -4,88 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB945C7EE31
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jun 2025 13:35:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EA33C7EE30
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jun 2025 13:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uC0OiGu+HpG53VjMVvJGK6xBtdg+U1oBtGISu/VLg+M=; b=eOdkBW83vfkfVsrwAvlPoM1+Bg
-	pstYXJKpIwaiDn2/gTdfmRPW8L3bnSP8+vBoV9brH1WBMOyHWTAKRILKs0lGMO2ubYyvdhmI3s8tQ
-	kLIelsi9Phxmk+3X1V4OXbrqO4DHUgQlGvuX+IMkdvtJmO3iCWCRlRWREBHrWR8LyCdtFnAucVpYV
-	I3iPVHHGnqNT9r2vGZ2OUbnEdSfwJUfntdjdj3rG/PwytkrTjEmULuQ3FCp0P8vJu8VCCr1+pqt9h
-	/pCKrORgdlT8zYQE1IvOSIWuGf/DcKgHaIw63m8ADSPA02qSjBBavWvGGFwvIXBgk4Zgs07gxLxQ6
-	YJ6tLMwQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=b0ZhEKF4/9gdpK7KxU6YhqpuOosLCwKGVMV36ARTXpA=; b=KydmimaK5VX7mJH4i8aqS6oZb0
+	kq2JeT5j1RUxn4z2mWgC/1IkM2g5O+Mbzw5fuo77suSiGBiIhRHBzH+mEYhCeYoKZNGZ9DAhX/E0D
+	zISwHYXFuCJ4pP390eMz5YfsTDBLZc/1i9DjJoKsWF+2ELiHnjunbHBgjKGfU5TZRMWKWaUoYOhK2
+	BBGYBt/WcCfhnMs3XRI47HSFpYuGUagpY1LFEFEwUmqBzG3LuIw4Oev9jiq6Cf7t6hBfvf1dqxsuf
+	VfDzCdgsmBL7xfx9a9Y46n6gyelsY25GxClE62seoT7lsmVjHp/8/KtseE+/jurPLBJRDUJBRoDwa
+	RxihXFnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUmlZ-0000000Bgl6-0EqA;
-	Thu, 26 Jun 2025 13:35:49 +0000
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+	id 1uUn73-0000000BpWp-13JX;
+	Thu, 26 Jun 2025 13:58:01 +0000
+Received: from mgamail.intel.com ([192.198.163.17])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUmjg-0000000BgU3-33tN
+	id 1uUn5R-0000000BoSP-0ebg
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Jun 2025 13:33:54 +0000
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-236377f00easo12252125ad.1
-        for <linux-nvme@lists.infradead.org>; Thu, 26 Jun 2025 06:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1750944832; x=1751549632; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uC0OiGu+HpG53VjMVvJGK6xBtdg+U1oBtGISu/VLg+M=;
-        b=N0Lw4WGtQADSFaQucKFwS3P/hh6kwXeW8N4HBN7NzQvLGziqtRur0QZhvLs5Iv+btu
-         0B8WU9841iyLjHPHyGDEo0u7GnQpLTZwWzjQiMqOnT5+Qo2xN5XSMZ13/kdBYk/+UAq3
-         ZITAwNOW5xLUt1AI7BjsY4Y/r1v+VTgnbnNzT/r1kkNdIe0bkXDF5TVqpFHRNmWGxag1
-         mYmmaU2skxp/qLqqIZQLtR3RbtHV5/hCMM++9QSWDV/bW26RZqhiKKblXoDHP9moiVpB
-         hizuNnc7fpoyHpe/k4k2JI3bUBO8zaWwAtbrH8AZAEMKwgxVzxmdNk7YcflN2M3cZhuh
-         bG2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750944832; x=1751549632;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uC0OiGu+HpG53VjMVvJGK6xBtdg+U1oBtGISu/VLg+M=;
-        b=FTUthO31ZEWOWfbp0vyvK1C/uowIKggJZn58Ec0xv3/HzopQO/FMQ6VIzKa3TRJ4US
-         5Yy9SPhr/jHF1bMlLbcOWfxMm15nGBNr9/kawPuNPhG92kxbvzJz9LP9deJu4gMwee0x
-         9mJKdvIIE96By8LOYiva5qnNri0sCjzpGRYe+K5o79e+LozDTlNfehARd/4HalMmI/bB
-         rUHwNj0Vun1lFGC7+Pvkhb/hgKMhc8qhv4ep8cyUDcM8i1Ynn3YsNAbLw+OjnZw4v5Mc
-         sHXsfybOAuWsTMLwipBtczTqNLNOSs0wcTe52Saq82AIf96KXmuIPrXryIaMFIbZzWPW
-         +iUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUp6ad4JhlomoPTnwCj9NOR5OEs7NA0L1dE0Xxd0tP1zOVQQkUb3ECwDu1XC4zUR1HUj5uwb/96FaAn@lists.infradead.org
-X-Gm-Message-State: AOJu0YzaiGriBgEL7hykWz/UIMVTIFjg1RyTgFTU7sgWfbZzo05EsRk+
-	aKokpGcl0riu5T2MF7I+SYki/EzyDVMrgept+QDmmSfPC8SCEdrrXFKofKp/aBiqDP0=
-X-Gm-Gg: ASbGncsQN+6KqA2lS3/JXJ0WgMLA5RT2s2gCe/zvr21XgvS8qVVe1k5yeltw03aPR6n
-	dt0dbyMc9uR3HXb22xs2F5eMPEngljHTt+9oVcVMG8mFDfsIZpku/sJBWbZQxS9IjOQzymsb4Ix
-	DWTt2oVesWm+CcF2JMTY+G6ggsW4nAtPsMc6KXvLDeGOB9nudJi6wdcWMclXDZWuZlk1q98jDjF
-	Wl9WtpiBiW2GC8DNT8b+pcILEkkEWlaMFUnmZkhJlkftPW0MCQDft/5deKASBB5zXJsgXL1B3Ur
-	5H5tBGaHxegd8ntSOvgo5iaKJsDCqBKQ4gwpixkRtPjrOn1kk5PLhpZeLw==
-X-Google-Smtp-Source: AGHT+IFT9J6+igjlnsWk9/MBbtfEL/lvJB6RyoRwy5Ug8IZaAgpB13e+C+AhPihBSlpF/uw8wW13Ww==
-X-Received: by 2002:a17:902:ccc3:b0:234:8ec1:4aec with SMTP id d9443c01a7336-23823f920a2mr81921445ad.6.1750944831975;
-        Thu, 26 Jun 2025 06:33:51 -0700 (PDT)
-Received: from [172.20.0.228] ([12.48.65.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d873845esm167705555ad.243.2025.06.26.06.33.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 06:33:51 -0700 (PDT)
-Message-ID: <3a148e8b-86a1-415d-b05f-237d40596d0d@kernel.dk>
-Date: Thu, 26 Jun 2025 07:33:50 -0600
+	Thu, 26 Jun 2025 13:56:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750946181; x=1782482181;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jaqXXG5R4koVOdTArTjFoKG688MrkA8k9DmX3GDeMlU=;
+  b=mxxV0PZRrsaNSN0P7yjiPna4aotf6LblGGq/3hVa3WWJZaCiRL6Xr7T+
+   64FCsB3P6Ax8bgN5RzEfScPL6AeUb3cF/k+ebLpyHeqKj4GBWAAwSHQcE
+   hZ3UCldFV005ewhmKrD6ap/TLY1UrXnb94gTkm9QwBsQeI/6cHQ0tV3Ph
+   ZwzurpbMB2Jo4UMsjmYheuV+c2RywKPTnZ4AVFvIUQf5e1m8Ljtmkdrvr
+   /CoJRr4wF8Ze8p2c+NNA6gyMUmiz8n8L9UctvNTOcNeExlYHOkXM9VqpS
+   Rp62/EBMOdVD1zRW/3G7mfZcItr2UeGtsBGaRB0Rk66iTccQLRtTg+3V9
+   g==;
+X-CSE-ConnectionGUID: uhnc0CJWRZuPyRrkBC47wA==
+X-CSE-MsgGUID: IYKVYPLvRQ6VAhsDx+ck7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53183636"
+X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
+   d="scan'208";a="53183636"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 06:56:19 -0700
+X-CSE-ConnectionGUID: NGH7T0xSTASuJYnDRCPHKw==
+X-CSE-MsgGUID: iW5K/uxGRXqFk+6Dxx6XNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
+   d="scan'208";a="158024990"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 26 Jun 2025 06:56:17 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uUn5K-000U72-2R;
+	Thu, 26 Jun 2025 13:56:14 +0000
+Date: Thu, 26 Jun 2025 21:55:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, hch@lst.de,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, axboe@kernel.dk,
+	leon@kernel.org, joshi.k@samsung.com, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 2/2] nvme: convert metadata mapping to dma iter
+Message-ID: <202506262128.hNOOLoxM-lkp@intel.com>
+References: <20250625204445.1802483-2-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL, resend] nvme updates for Linux 6.16
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-References: <aF1H_345SuVYxoCW@infradead.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aF1H_345SuVYxoCW@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250625204445.1802483-2-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250626_063352_906982_EA343B1B 
-X-CRM114-Status: GOOD (  12.71  )
+X-CRM114-CacheID: sfid-20250626_065621_203929_A4F40DD8 
+X-CRM114-Status: GOOD (  12.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,32 +89,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/26/25 7:15 AM, Christoph Hellwig wrote:
-> [note that the commit dates are very recent.  That is because somehow the
-> tree the ran through the build bot had me as the author for the commit
-> from Keith, so I did a metadata only rebase just now to fix that]
-> 
-> The following changes since commit 4c8a951787ffc4b61a547db9866196104971b5fd:
-> 
->   ublk: setup ublk_io correctly in case of ublk_get_data() failure (2025-06-24 20:45:31 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.16-2025-06-26
-> 
-> for you to fetch changes up to f46d273449ba65afd53f3dd8fe0182c9df877e08:
-> 
->   nvme: fix atomic write size validation (2025-06-26 13:04:37 +0200)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.16
-> 
->  - reset delayed remove_work after reconnect (Keith Busch)
->  - fix atomic write size validation (Christoph Hellwig)
+Hi Keith,
 
-Pulled, thanks.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on next-20250626]
+[cannot apply to linux-nvme/for-next hch-configfs/for-next linus/master v6.16-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/nvme-convert-metadata-mapping-to-dma-iter/20250626-044623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20250625204445.1802483-2-kbusch%40meta.com
+patch subject: [PATCH 2/2] nvme: convert metadata mapping to dma iter
+config: i386-buildonly-randconfig-002-20250626 (https://download.01.org/0day-ci/archive/20250626/202506262128.hNOOLoxM-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506262128.hNOOLoxM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506262128.hNOOLoxM-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/nvme/host/pci.c:1023:7: error: call to undeclared function 'blk_rq_integrity_dma_map_iter_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1023 |         if (!blk_rq_integrity_dma_map_iter_start(req, dev->dev, &iter))
+         |              ^
+   drivers/nvme/host/pci.c:1023:7: note: did you mean 'blk_rq_dma_map_iter_start'?
+   include/linux/blk-mq-dma.h:21:6: note: 'blk_rq_dma_map_iter_start' declared here
+      21 | bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
+         |      ^
+>> drivers/nvme/host/pci.c:1041:11: error: call to undeclared function 'blk_rq_integrity_dma_map_iter_next'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1041 |         } while (blk_rq_integrity_dma_map_iter_next(req, dev->dev, &iter));
+         |                  ^
+   drivers/nvme/host/pci.c:3336:41: warning: shift count >= width of type [-Wshift-count-overflow]
+    3336 |                 dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+         |                                                       ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:54: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   1 warning and 2 errors generated.
+
+
+vim +/blk_rq_integrity_dma_map_iter_start +1023 drivers/nvme/host/pci.c
+
+  1012	
+  1013	static blk_status_t nvme_pci_setup_meta_sgls(struct request *req)
+  1014	{
+  1015		struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+  1016		struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+  1017		struct nvme_dev *dev = nvmeq->dev;
+  1018		struct nvme_sgl_desc *sg_list;
+  1019		struct blk_dma_iter iter;
+  1020		dma_addr_t sgl_dma;
+  1021		int i = 0;
+  1022	
+> 1023		if (!blk_rq_integrity_dma_map_iter_start(req, dev->dev, &iter))
+  1024			return iter.status;
+  1025	
+  1026		sg_list = dma_pool_alloc(nvmeq->descriptor_pools.small, GFP_ATOMIC,
+  1027				&sgl_dma);
+  1028		if (!sg_list)
+  1029			return BLK_STS_RESOURCE;
+  1030	
+  1031		iod->meta_descriptor = sg_list;
+  1032		iod->meta_dma = sgl_dma;
+  1033	
+  1034		iod->cmd.common.flags = NVME_CMD_SGL_METASEG;
+  1035		iod->cmd.common.metadata = cpu_to_le64(sgl_dma);
+  1036	
+  1037		sgl_dma += sizeof(*sg_list);
+  1038	
+  1039		do {
+  1040			nvme_pci_sgl_set_data(&sg_list[++i], &iter);
+> 1041		} while (blk_rq_integrity_dma_map_iter_next(req, dev->dev, &iter));
+  1042	
+  1043		nvme_pci_sgl_set_seg(sg_list, sgl_dma, i);
+  1044		iod->nr_meta_descriptors = i;
+  1045		return BLK_STS_OK;
+  1046	}
+  1047	
 
 -- 
-Jens Axboe
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
