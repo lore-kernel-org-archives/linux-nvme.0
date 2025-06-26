@@ -4,120 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 049E8C77B7F
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jun 2025 07:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C13CBC7115B
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jun 2025 07:51:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v2ZchiFoDZK7GFVueO+L/sMwPhDa0k+fsvYDQVuGCSY=; b=uf1Y/sjYMoISTRdSvjFtdt5GBE
-	S23HY03foBKUM/fUndB0ViejBdbvXFgGh116ohVm1UdhKRNQmUKG8HNDd3SevsBvX8AXRQ1fWG9vb
-	CmUaNtHSFRGL8KTx0/diK4frtVuXRN81TUu5X2A9UvK3dx+9O1VuhuMzGy1pUhDEGT339INJjGSX1
-	/M5eVOsO6E+kwXgi76918foM/LGUS7RYvzVVjWwQPrCZH/LdULuqh5Aqsbp1eu/eSbiP3VwcUwqvf
-	O6EkFd7lRaRP8NHDjIe6Yx1RkCm5xfVAta4hFXgQ2Pywjy7sEZZ4b9mM+z7mOl23SdoO2QJhyXU6b
-	A6hGBubw==;
+	bh=SDpa3f3Btpy0B92/MHeYla0hq6lKayw+xdsnn6vbPTE=; b=4peUKdqpJKbNeEQ7pLJXsQqLjo
+	wDrVwrsHeKKpV12mJBlsE9r9XRxiF0PUYPopB363x4KLyIuHPSiy08n2IsKdqHs96dEwflAYZFs74
+	jKomjBxz5iiQ/vYbmUtaToyW9HqpS0VXzOEcx4pHLGI6QEqBCCoE9NbneWViWdRrpbSyMXKYUcWMe
+	3d7b/mfvuuQwKkPqaSFBONK4ipA2q+0e2gDAfgTnn7LscvPAqjIhAS8LEKGxT+EKPzdYFxOTnhZ5z
+	zYQxeAhkyCHafB7vBVSeHu1X1l5pgCsusTZGdyojZG4/+Mbo5BdpvFJmODtg7GZuNsi9BPuv5orIW
+	uvln3hfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUhFj-0000000ApfB-1Ast;
-	Thu, 26 Jun 2025 07:42:35 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1uUhOm-0000000ArEE-2UWv;
+	Thu, 26 Jun 2025 07:51:56 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUh85-0000000AodK-0DLK
+	id 1uUhFJ-0000000Apcz-2VI8
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Jun 2025 07:34:42 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E230A1F38D;
-	Thu, 26 Jun 2025 07:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750923278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2ZchiFoDZK7GFVueO+L/sMwPhDa0k+fsvYDQVuGCSY=;
-	b=WMCthMGdli0ZfnoGasDh35EvFhqbD4c5tw9q9reicpc1XdUPU3fLHYgJDSNt8Jp6XWfUaO
-	NqfliOVVdWPX2VyaUBBI4SFA54+7CpJVwv5BMZ/zQdtuz52KHRxahTz/iUhIb9Ydna/HB1
-	KuUh0oGZVdMdh+DXxhgZg/ZXl8kFLOI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750923278;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2ZchiFoDZK7GFVueO+L/sMwPhDa0k+fsvYDQVuGCSY=;
-	b=9ahwNPV9vBdav/35MUNDfvokx9mo/RglQtu+fHHr16hYtPsaq9pHHJzIks08iMyqE/CMBW
-	Wt4zsKk9WwzUeABA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750923277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2ZchiFoDZK7GFVueO+L/sMwPhDa0k+fsvYDQVuGCSY=;
-	b=Dg9ptmTz2oEiZXjzuJbq1SFAgBaFyUxdzhtPNCPzwIJ6yF/eRxKRrOQvHIAFQSspUv1LMF
-	Qun5oMd6+9o4F5Z1hBP8ItqjA7jYC1yIMwxEnmPqUh0W5y1KXSqkOyd5mCurbt+qv67uCM
-	NfF0AyTcCDHY13CWJpMS9k60utxdHZY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750923277;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v2ZchiFoDZK7GFVueO+L/sMwPhDa0k+fsvYDQVuGCSY=;
-	b=4Yc+Cw8D/UYSFeUEjgKRHxQaBLKi1wNsy/pfBrLeMdYI/v85MbOlJ7vQwpshBKhk7wKqlq
-	6Ankh/EsXfiP5sAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 862DD13188;
-	Thu, 26 Jun 2025 07:34:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6iilHg34XGjgKwAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 26 Jun 2025 07:34:37 +0000
-Message-ID: <51d3ce7a-0a2f-4e96-93d2-88c814a92c45@suse.de>
-Date: Thu, 26 Jun 2025 09:34:37 +0200
+	Thu, 26 Jun 2025 07:42:12 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4bSVy9021bzYQvHD
+	for <linux-nvme@lists.infradead.org>; Thu, 26 Jun 2025 15:42:09 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id E05511A0F90
+	for <linux-nvme@lists.infradead.org>; Thu, 26 Jun 2025 15:42:07 +0800 (CST)
+Received: from [10.174.179.143] (unknown [10.174.179.143])
+	by APP4 (Coremail) with SMTP id gCh0CgDHKl_P+VxofPHIQg--.28917S3;
+	Thu, 26 Jun 2025 15:42:07 +0800 (CST)
+Subject: Re: [bug report] WARNING: CPU: 3 PID: 522 at block/genhd.c:144
+ bdev_count_inflight_rw+0x26e/0x410
+To: Yi Zhang <yi.zhang@redhat.com>, Yu Kuai <yukuai1@huaweicloud.com>
+Cc: Calvin Owens <calvin@wbinvd.org>, Breno Leitao <leitao@debian.org>,
+ linux-block <linux-block@vger.kernel.org>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ axboe@kernel.dk, Christoph Hellwig <hch@infradead.org>,
+ "yukuai (C)" <yukuai3@huawei.com>
+References: <CAHj4cs-uWZcgHLLkE8JeDpkd-ddkWiZCQC_HWObS5D3TAKE9ng@mail.gmail.com>
+ <aEal7hIpLpQSMn8+@gmail.com>
+ <738f680c-d0e8-b6c0-cfaa-5f420a592c4f@huaweicloud.com>
+ <aFTfQpsUiD1Hw3zU@mozart.vkv.me>
+ <f320c94e-3a94-d645-8f7b-80f958c50fbe@huaweicloud.com>
+ <CAHj4cs_+dauobyYyP805t33WMJVzOWj=7+51p4_j9rA63D9sog@mail.gmail.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <a499af9e-6ba2-a81d-20b3-bb4dc5d6adca@huaweicloud.com>
+Date: Thu, 26 Jun 2025 15:42:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3] nvme: correctly account for namespace head reference
- counter
-To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
-Cc: yi.zhang@redhat.com, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
- dwagner@suse.de, axboe@kernel.dk, shinichiro.kawasaki@wdc.com, gjoyce@ibm.com
-References: <20250626051935.801205-1-nilay@linux.ibm.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250626051935.801205-1-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <CAHj4cs_+dauobyYyP805t33WMJVzOWj=7+51p4_j9rA63D9sog@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-CM-TRANSID: gCh0CgDHKl_P+VxofPHIQg--.28917S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xJFyfWrW8XF1fAFWxXrb_yoW8trWDpF
+	13Jr4Ykr40qr17tr4UJr1UtF1UGasrua4xJw42qryUJ3WUW3WUA34UJr40qr98twn09rW7
+	Jw1DJw1xtrn5XaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+	IcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+	WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+	67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+	IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
+	0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+	VjvjDU0xZFpf9x0JUZYFZUUUUU=
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250626_003441_235749_B38EF7EE 
-X-CRM114-Status: GOOD (  23.23  )
+X-CRM114-CacheID: sfid-20250626_004209_930773_0939C998 
+X-CRM114-Status: UNSURE (   7.95  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,79 +95,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/26/25 07:19, Nilay Shroff wrote:
-> The blktests nvme/058 manifests an issue where the NVMe subsystem
-> kobject entry remains stale in sysfs, causing a failure during
-> subsequent NVMe module reloads[1]. Specifically, when attempting to
-> register a new NVMe subsystem, the driver encounters a kobejct name
-> collision because a stale kobject still exists. Though, please note
-> that nvme/058 doesn't report any failure and test case passes and
-> it's only during subsequent NVMe module reloads, the stale nvme sub-
-> system kobject entry in sysfs causes the observed symptom[1].
-> 
-> This issue stems from an imbalance in the get/put usage of the namespace
-> head (nshead) reference counter. The nshead holds a reference to the
-> associated NVMe subsystem. If the nshead reference is not properly
-> released, it prevents the cleanup of the subsystem's kobject, leaving
-> nvme subsystem stale entry behind in sysfs.
-> 
-> During the failure case, the last namespace path referencing a nshead
-> is removed, but the nshead reference was not released. This occurs
-> because the release logic currently only puts the nshead reference
-> when its state is LIVE. However, in configurations where ANA (Asymmetric
-> Namespace Access) is enabled, a namespace may be associated with an ANA
-> state that is neither optimized nor non-optimized. In this case, the
-> nshead may never transition to LIVE, and the corresponding nshead
-> reference is then never dropped. In fact nvme/058 associates some of
-> nvme namespaces to an inaccessible ANA state and with that nshead is
-> created but it's state is not transitioned to LIVE. So the current
-> logic would then causes nshead reference to be leaked for non-LIVE
-> states.
-> 
-> Another scenario, during namespace allocation, the driver first
-> allocates a nshead and then issues an Identify Namespace command. If
-> this command fails — which can happen in tests like nvme/058 that
-> rapidly enables and disables namespaces — we must release the reference
-> to the newly allocated nshead. However this reference release is
-> currently missing in the failure, causing a nshead reference leak.
-> 
-> To fix this, we now unconditionally release the nshead reference when
-> the last nvme path referencing to the nshead is removed, regardless of
-> the head’s state. Also during identify namespace failure case we now
-> properly release the nshead reference. So this ensures proper cleanup
-> of the nshead, and consequently, the NVMe subsystem and its associated
-> kobject.
-> 
-> This change prevents stale kobject entries from lingering in sysfs and
-> eliminates the module reload failures observed just after running
-> nvme/058.
-> 
-> [1] https://lore.kernel.org/all/CAHj4cs8fOBS-eSjsd5LUBzy7faKXJtgLkCN+mDy_-ezCLLLq+Q@mail.gmail.com/
-> 
-> Reported-by: yi.zhang@redhat.com
-> Closes: https://lore.kernel.org/all/CAHj4cs8fOBS-eSjsd5LUBzy7faKXJtgLkCN+mDy_-ezCLLLq+Q@mail.gmail.com/
-> Fixes: 62188639ec16 ("nvme-multipath: introduce delayed removal of the multipath head node")
-> Tested-by: yi.zhang@redhat.com
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
-> ---
-> Changes from v2:
->      - Fix typos in the commit message (hch)
-> changes from v1:
->      - Avoid double free of nshead when multipath is not configured.
-> Link to V1: https://lore.kernel.org/all/c2e2aa93-9213-4322-a95d-27447f8b08de@linux.ibm.com/t/#u
-> ---
->   drivers/nvme/host/core.c      | 16 +++++++++++++++-
->   drivers/nvme/host/multipath.c |  5 ++++-
->   2 files changed, 19 insertions(+), 2 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Hi,
 
-Cheers,
+在 2025/06/26 12:41, Yi Zhang 写道:
+> Seems both the original and new warning are triggered, here is the full log:
+> 
+[...]
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> [ 1022.263295] CPU: 12 UID: 0 PID: 466 Comm: kworker/12:1H Tainted: G
+>        W           6.16.0-rc3.yu+ #2 PREEMPT(voluntary)
+> [ 1022.291560] nvme nvme0: NVME-FC{0}: controller connect complete
+> [ 1022.356344] Tainted: [W]=WARN
+> [ 1022.356348] Hardware name: Dell Inc. PowerEdge R640/08HT8T, BIOS
+> 2.22.2 09/12/2024
+> [ 1022.356352] Workqueue: kblockd blk_mq_run_work_fn
+> [ 1022.744652] RIP: 0010:bdev_end_io_acct+0x494/0x5c0
+> [ 1022.749466] Code: 22 fd ff ff 48 c7 44 24 08 10 00 00 00 41 be 30
+> 00 00 00 48 c7 04 24 50 00 00 00 e9 c3 fb ff ff 0f 1f 44 00 00 e9 f5
+> fd ff ff <0f> 0b 48 83 c4 28 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc
+> cc 48
+> [ 1022.768235] RSP: 0018:ffffc9000f9f78e8 EFLAGS: 00010297
+> [ 1022.773484] RAX: 00000000ffffffff RBX: ffff88a922776e64 RCX: ffffffffb003853f
+> [ 1022.780632] RDX: ffffed15244eedcd RSI: 0000000000000004 RDI: ffff88a922776e64
+> [ 1022.787784] RBP: ffffe8d448a4e440 R08: 0000000000000001 R09: ffffed15244eedcc
+> [ 1022.794934] R10: ffff88a922776e67 R11: 0000000000000000 R12: ffff88a922776e68
+> [ 1022.802101] R13: 0000000000000001 R14: 0000000000000028 R15: 0000000000007e42
+> [ 1022.809251] FS:  0000000000000000(0000) GS:ffff889c3c5a7000(0000)
+> knlGS:0000000000000000
+> [ 1022.817352] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [ 1022.823114] CR2: 0000562e119bd048 CR3: 0000003661478001 CR4: 00000000007726f0
+> [ 1022.830265] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [ 1022.837418] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> [ 1022.844561] PKRU: 55555554
+> [ 1022.847293] Call Trace:
+> [ 1022.849762]  <TASK>
+> [ 1022.851898]  nvme_end_req+0x4d/0x70 [nvme_core]
+> [ 1022.856494]  nvme_failover_req+0x3bd/0x530 [nvme_core]
+> [ 1022.861692]  nvme_fail_nonready_command+0x12c/0x170 [nvme_core]
+> [ 1022.867666]  nvme_fc_queue_rq+0x463/0x720 [nvme_fc]
+
+Thanks for the test, so nvme-mpath do have real problems. However, it's
+still not clear to me and I'll send the revert first, because lots of
+false warning are reported.
+
+Kuai
+
 
