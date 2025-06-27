@@ -4,172 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FCBDC7EE30
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Jun 2025 17:24:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7044CC7EE32
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Jun 2025 00:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DmFcoB2AzkQDKePatCQX2p5ffZxyQ/RK4h8s7CkewgY=; b=BcuLXswgqOjEYZRUqn7aWyCg7l
-	xnEsoWMI48UQXYN3mR5yZQoUUpOzwqOAceYWFs00RybQvCNQJK2DonSKuSn6NHUAEtf7j7Q6Zj0RN
-	iV4CIC8P6LrPzSmXswDD9B3MLEDokUnw+FIWNuIYLYsGizlpmGY+iLYXrseb6XvrpFGO3Jeb1R0wh
-	fbLL8QOvKnZu3bPZjrMNcAcX47Iph14mcLYeutBHu7GAAdVJI78qlEjIhm3lFWW9w15DtuOZ0FpOH
-	WdH8VpduPkaKRY3uY93uI5Qdn6AvQaQlZb7dxBU7z4AsACHlhwe/3OQ7lKJnDIp/DJ5yd3t07OQsP
-	hewGQOAg==;
+	bh=mM7sGDuaUNmv6tnGLKuSSjw44nHEP/uGSgdlFXfk7xk=; b=ACBXGanPHetmkZ42sbGO8NcFFu
+	ORcV2xOM+QdDWwsvLZ303xFP65mID3v25mV02L1mZyOObQH0yTWNVn2RR0/NGxvZU9atOzEJirW8h
+	qJWYnyS9Vp3BnNoP5eACbKX362xV6EV+XB+uP8dNqo+Q76Ar1sD+y76XUyfv7tp5Q2FDjHA6N4cY1
+	ZxAJHb2JNQojxLqxUHpzhP9rjW/2HL2eEzhEaC4SeR7WLKpQz6PCRycXMxvlsYUJmVgIWUvIQDQgR
+	UR0SFCugTND0gXhaOaLclv3GRMQ3l7jryXaEB/UvUKIG4jDG/yZat2uqqkkOOjBqTSGS2MQ8n89xs
+	HgCkG5iA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUqKS-0000000CMfD-0yvb;
-	Thu, 26 Jun 2025 17:24:04 +0000
-Received: from mail-sn1nam02on20611.outbound.protection.outlook.com ([2a01:111:f403:2406::611] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+	id 1uUxEj-0000000DER1-2J7Y;
+	Fri, 27 Jun 2025 00:46:37 +0000
+Received: from mail-pf1-x464.google.com ([2607:f8b0:4864:20::464])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUobb-0000000C8c2-0JwY
+	id 1uUwad-0000000D9gb-2dfd
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Jun 2025 15:33:40 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X3fzBNMv6YmjAFvi6PG2DB9VGSWXOE/t2c8H72Os3xLOgjVtCgWHyjsmAY09iiwSAeCwQAvlpVPBm/K0ZRGeePFjaKt4r9CU+GDihaFau4QksbHVhzr868q0Uf57/ciVg7zACa+ABW929+0Igac+um3RKafvI7FTXwm3AJSbF67OseX1z9zREgzj7ZRFUA5v0JSJVRG6j4bl+Rdu41QOncx6/8BsjdJIWxZRwIwPFtrqzKY0x0HkjVMrtRvA8X/uPw76k3E+DpD9XKmXCfvssh7AioW8L+Ui04p8iEB9KXXfTjj0oYeFloIEGtH674T5UbTGm+qZg2luTj69CyRdpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DmFcoB2AzkQDKePatCQX2p5ffZxyQ/RK4h8s7CkewgY=;
- b=tsiEezYfJModI9lO+Cp5xemvgKeB6/TlP1w/hYsg0HHr0DMOdpdm6KbfTp2rOn6AZQJejLOu9MJmSXGPO5geTde5t4IiiV2N99pTMAsusdFHO5vItTL0fYAuzFbOy38qkTVHb2m1zZgu8jdt2xVSFTzBCpAecaa4XC+7VDHt54eXy9TdWIKDBX3tpqgcWeNPqo2V5W/G3wqFhof6iJ+dPsNVIsnP9SZaj3VqRaNnVzj05fWusUpeSGwrlouTplgtz16GCki9idNfPzn6DLUalfsS/uEDO/SWDpSc51nxuToBQgkjkQ+hHtnOrHzCzMwDcJCJRcsZ26uBCgGsJpccJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DmFcoB2AzkQDKePatCQX2p5ffZxyQ/RK4h8s7CkewgY=;
- b=epK1yYycMZAlVOLcmVPgJYXDKwnnbptxt60NLdAP2jFdiLAAwY50dLoUMmndqujH37tjcgVx6kFxwcqyPpuBK16q8ussQcS8p9TiL3GLIdNMURSAfnT89JNBiEXueBnZWxOFXu8i5XMm5V69Penm+uC4GleU/9Z4NDTl2tB3ny3z4ERIXjsrgXurQqE+jDzMErI9Un73ozPUAx6qz639xfNTR7HQyblakfhySNsHmJI0lmWv5tnkoolIJ7d+lJo6fEfzOAudSonLoMht9UzfbBOHG0gH1l7y7IZtP+tCfW9fVjeRFM87cNEaiOezUtYsCCYNocBx8XG6QqqtMgHBIg==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by DS7PR12MB8420.namprd12.prod.outlook.com (2603:10b6:8:e9::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Thu, 26 Jun
- 2025 15:33:24 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b%3]) with mapi id 15.20.8880.021; Thu, 26 Jun 2025
- 15:33:24 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-CC: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>, Kanchan Joshi
-	<joshi.k@samsung.com>, Leon Romanovsky <leon@kernel.org>, Nitesh Shetty
-	<nj.shetty@samsung.com>, Logan Gunthorpe <logang@deltatee.com>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: new DMA API conversion for nvme-pci v3
-Thread-Topic: new DMA API conversion for nvme-pci v3
-Thread-Index: AQHb5cVIubpj0SCqHUO+y4Ky5LS4GbQVk8QA
-Date: Thu, 26 Jun 2025 15:33:24 +0000
-Message-ID: <bcdcb5eb-17ed-412f-bf5c-303079798fe2@nvidia.com>
-References: <20250625113531.522027-1-hch@lst.de>
-In-Reply-To: <20250625113531.522027-1-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|DS7PR12MB8420:EE_
-x-ms-office365-filtering-correlation-id: 98db31ff-6c7b-43e9-553a-08ddb4c6ca38
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|10070799003|366016|1800799024|7416014|376014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?elVzV2gvdFJzbU1uOVVxZ2RmMk1RMHhmTUphcTFvcGx3YXBTYlZPN0tvQW9T?=
- =?utf-8?B?a1BTVXdKQUYrNWVadlJHdW55OGpKZFAvT1pUU3JsN2tHV2tMVTVLN21XUkVk?=
- =?utf-8?B?Ykt1STQ5WEw3aTNkdWlGQ2VLSVdGUFg1YzJjY0F5dnFNOWFvd3llTnYwd0No?=
- =?utf-8?B?ZTFqWEszVm03UktBelhPTzRCWWIxU3BjajlLTXJXcFdBNStHd2hpS2NXRC80?=
- =?utf-8?B?V1V6Q011STZqOGJKZVBTOCtyYVFzWWRKMVVVRk5IVklueE9JdFpTS1lzOVRt?=
- =?utf-8?B?TDRDV3JFSm15Z2xJc2pSYmM5NHVESnAvZGhZM3lPNVdIVjhJeFkzOEFTakVK?=
- =?utf-8?B?c1ZCQ1lYY25CaGI0YlQvOFJCRE5nZDRseGQrQjZEQnRxeFZVMnhOMDdlSU9C?=
- =?utf-8?B?VjhWbjZMdE9COWk4R2hIcTM3YjduVWdqL3hyUjA5RGV1NGhxOXBPTzd5cTE1?=
- =?utf-8?B?MXJ4Q00vKzkrNXkvUWw0V2YwcmlUcTExTE15ajJmZ0tiQ1Z0dkJucy9QWDJF?=
- =?utf-8?B?TjEvc3RLM0hvek9sOENrMWd6MWtXQTlEa2h0WmFYNmhPNTh5YmIrbHBnQjYr?=
- =?utf-8?B?d1UyVlQ3UkNreEZneFhTOTVFenduQTgrcE02K0IrVHJWNnlmelNxNnVJRCsx?=
- =?utf-8?B?c0FZcGFHMllIYXNCOHAzVmd6dEptK1prNnZ0Y2picjZaQWdnQTlTWnhsRENy?=
- =?utf-8?B?bGNOTkpoM3U0QkZiTzBvWlFSNVdpWFlrbHBWM29tMGdZSEl6eERxcjZzeWN3?=
- =?utf-8?B?YytyeEZ1RThjWDhicHlIM2tGNG5ST3RNT3FYZk9GTkUzejlud29VbEVxeXNo?=
- =?utf-8?B?V2IzOTV5clFXOGVTMno0dG1OZ3RhRGt5ck5wczg0ejFsRTJKVWN2S0w1ODE1?=
- =?utf-8?B?cnVIV1Y4V1JMVFFJY0NTMlhKZXl3cFF3MnhVWWt5RU5iY0JBd0FQUHNYQTZh?=
- =?utf-8?B?V3JZWUVOQVVzRkJLeUkrQUZkR0tLYWFPbGRta1RXSS9LSWVOMnl0OEFYTVJu?=
- =?utf-8?B?em1nbDR6R0ZLU2pGL0R4QVpUdEtBbWQvRnAvdk9hWlpTSllrVElON2RMOWJo?=
- =?utf-8?B?M1plRUFOMzBqM0R3a00yamlLQXBJRE42a28vVGxtMDRjWVpCc094YUhkNWpw?=
- =?utf-8?B?SlRGSkxHMG9tdHlUbkFaQlFqTmFBemF5RFB1ZHdRWHl4eDBnMVBvbEp6UWRq?=
- =?utf-8?B?eUVCbVpxS0FNOUFqVkR4eEtaS1NpT0NPUEpoZ0F2R2ZVaEpHemJsYjQwRTZG?=
- =?utf-8?B?L212Q1RYNUk4bWx4L0ZUODRBYVhBTkgzN2EvbXZ5dEpIdTQ5ZTY1RFpaQVlv?=
- =?utf-8?B?SzU3Q3kwa3JpZWNORTlMVnJVUllQODBrYUlDTnZmOTZsaEN0L1pyUkpmM0pV?=
- =?utf-8?B?YUF3VFVnZENxbEk2L2FmQnVHL29mK0ZYN2V1Y21JenYrVTQ4SlJ6dVRKVjds?=
- =?utf-8?B?RE4vLzg5OWtCUGw1QWV6Q2M2SXd6NG1xZlJUS0drWDRZOVRvTG55TXUvSTly?=
- =?utf-8?B?NVo4RDByWWZ4QlNEZWJ0cXVmVUpBVFhMZzIrTW42bGQ4RkhxZVJSMnE3NlZI?=
- =?utf-8?B?b0NwUGRVUEhlbzY1dEt5TFJGeWoyVTRmZ3A4QXJ3SXZ0bHBSaTVvcysxbmQw?=
- =?utf-8?B?YTZxRWhWc0NUMVVIUExzNGVMTUd2cEhaT2ZWYlF5ak9HY1JaL3hlL0YyZEVs?=
- =?utf-8?B?MUFWS2xaenI0bC9rd1pNcVZ3bTMxUE9zSTVNMkVQMWdQMWUxWFdhWm5Bdkpa?=
- =?utf-8?B?dUxKRFZSMlpnbW9pZVZPOEI0eWJ4ZVBKZ0RFK2w5dk92Z2t4YS9kTGcxVU5D?=
- =?utf-8?B?eDZveHhBOWVOQk43V2g4OEVkem8wOWwwaGRuVzMycWFuK0FmZHVScXpyblpX?=
- =?utf-8?B?YUkycEV5WXFOcmdaTVMwTm15K0F0L296MW01RGJQOUdkTXVnZzRJTFVOdEJM?=
- =?utf-8?B?STExelFkaGE2MTdVWC8yenBzVUZQMDJGSC9kVUFQRmN4L2NMQXFUSHJLdXdp?=
- =?utf-8?B?S2x5QzNRUFV3PT0=?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SmlSR2NaaStLQTl6bXV2ZnRmY0sxTkVQSlV4Sm5KM3UxZ2ptcUxSNURIRXR6?=
- =?utf-8?B?ck55VHlacldSbUhCTzZUSU02V2wzV2Vub2xUdUxrbmhkQUxQc1ByMG1iZllH?=
- =?utf-8?B?UGxMZ0I0a3R6Q3l6SHArU09aVjZPdmxIbWtXd1JwWEEvNkxpaElUWXBWdkN0?=
- =?utf-8?B?b2pOMzQvK2NVaEd3QjMwMkJ0b21mRmxiRmV1blh4WWVkWDE1c3NMVGNxV3Bq?=
- =?utf-8?B?bFV0T1VkaVRzdUsyUFU5U29BM2owbzdSY0g3dDlGZlZPcFY5OGZtNkZzd2Vv?=
- =?utf-8?B?cmRtb1IrN25aYXA3SDJ4R3JGRDZYanIvRi9ZTXQxL0ZHNE54Tzh2bEhtQ1Vu?=
- =?utf-8?B?Q2Rrb1RQVkpMazF3UWpWNkxEa09jNlJLOG8rL0tYSG5PZithS1lnVjBiNHRV?=
- =?utf-8?B?TUJlZEM0Q1JoOWxJZ2pHZmxoNGFhRkl0K0pjeG5iY0JzZkd0NFlNcFovRFVo?=
- =?utf-8?B?RWo5ZlZEeE1qTysreDQ0T2xnajkvWTJHK1h1eWJtN0p5YnliMlVwelh6elhi?=
- =?utf-8?B?aTlWM3ZMVlcxcFBaNHpwWjRxYis3bmF5eEhXTG5QajRLODMyZlNWc0tDbVU0?=
- =?utf-8?B?VGl2QkV5UVhNSStBeXJQOHJNeHFNZVUvUmlKOVJ4OS84Ymk5eWNiMzBEdzN3?=
- =?utf-8?B?YUhKa1U1RnZBUFgrS3VwR2s2ekV6RERwa1FHcTBKVVZWNUkwVjhsclV2MDV1?=
- =?utf-8?B?aXk2VHZvV1NyS2xhVjBWaDZwZ0VuQjZkeWpjTk9CZXRGcW9VejY1UGhHN2xi?=
- =?utf-8?B?Y25zMnMxWXdJRHpJMXJSQ0dsWjBCOFZ5c3hmTHhwQTNQV2ZYdTVhUzFMUHov?=
- =?utf-8?B?V21FL3hleXVvRWhNQTdkRVRhcDZHYml5ZytQdStjZ1kvWXpEMUFabnNIYlJj?=
- =?utf-8?B?d1p1RFBrMy84ZzQ4ZmJmOG1lYWNKcGx6dWZqT1ZIcUlUUHJ6OGNocERrRGNG?=
- =?utf-8?B?TU1YdWo2cUFhZWxNdjIrR2NRbXNpaUIvOHdMcXFGdi9ldVFHYlBkSWFCK3lu?=
- =?utf-8?B?NnRIeVFwdVpTWUQ0Wi92aGh2aytNRDA4Q1ZEZnd6ZVI4dnc2UUFqeWpBdnEz?=
- =?utf-8?B?Q3dOTVdGSWFLNDdURzVjOThMSzgwZUFVRHVTY2JWN1FWc0g3V0E3akI3VXRU?=
- =?utf-8?B?N3VTKzJrUGtBcCtZbnlVNFBpUWpCeWN4anA2c2Q3UEZqTUxWdzJlMDM3bHdG?=
- =?utf-8?B?KzJ4Ry8wQlQwcGtSa3dYajRmZmVaWFVoeWdRYnZFdkxIZ3JNRGpDVHVrelRj?=
- =?utf-8?B?Zy8xWXpaMVJmQ3Vqb2FTVkpGcjJIMWRTSjdvc2FZa0VCM0ZnTCswQVp5S2tH?=
- =?utf-8?B?cG1ySkNTaEFMRUw4RXpFcERYejBQcjRhQk84aEZSbVRUMktUbTV6bzR4Rmlk?=
- =?utf-8?B?L0lSaythNE1TdzcwRm9oYzUxMEhNdzFYZllaaWtDOEcwR1Nla0tEZThxQUNO?=
- =?utf-8?B?cGJkdUpqemhnL2wxSjVXNXN5TUlmZThiSWloQnUvMVF0WEphc09XNXV6dk5U?=
- =?utf-8?B?dnlXRXZ5NTBIaVFjZ051WmRXcDNYM01vdHB6K1V5QzRBWklFR2pPQnY0TFNl?=
- =?utf-8?B?clJ2alBQWVhzZFNVZGlMa01USHNneWFabUVLME1oZDVNcWFLK3NiOWhMdXJD?=
- =?utf-8?B?aURFR3FGSDNrVjlZaStEaWhlOUZWeGhXb0QvR1F3Y1N2aVhCSkFrQjhNZzV5?=
- =?utf-8?B?c1Z6UkpROUM2VnB2RkxtV0tlY0gxTUlmV0NIQXdSbURjMGJDUG1kVjFMdmxn?=
- =?utf-8?B?U3ZKRUY0cGF1aW1QYWR1OXBET1RESVVKZFVLdENHT0JQR2hTczk2OE14SVc2?=
- =?utf-8?B?SzNpcHVMMzQvY1U5S1Q4dGkvUVFFY2JjUTJZSyt5aUUwKzExbWV4V0N3ZGlq?=
- =?utf-8?B?UlN3NWY2VkxrTnlSOVBRR29XMGNneEVIeG5Ua3kvZUtJWW84WGxjWU9WY1R5?=
- =?utf-8?B?cUZ2bE1zV3JxeTMxYkRIRTZHaTZBQkhtZTlkNXlNWHpLU24zTG9HK1Z5a25k?=
- =?utf-8?B?aFJMTDVxeDNheGhiby9YaWtYSW02MHp2N0NmV0xBa1pqN3dDSmk3WWJzMXVp?=
- =?utf-8?B?L2RQZFBTMnVZb0oxbjJ5SE5DSzBSY0llcUVLaHo1NlB1NUJ3V0k3dlY3c1NY?=
- =?utf-8?B?eDEyeFFEempPSDVqODZDNGJidEZpMXJVRjVPaHRqTUJNTThjYXJZTmo0QXZq?=
- =?utf-8?Q?EjmwAtxkUoR5dGBX8QKBNGbNWLhV6DIGioVuYYmP6XVV?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6E1267043AA02D4FA6C489CC65B762A7@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Fri, 27 Jun 2025 00:05:13 +0000
+Received: by mail-pf1-x464.google.com with SMTP id d2e1a72fcca58-74801bc6dc5so1540747b3a.1
+        for <linux-nvme@lists.infradead.org>; Thu, 26 Jun 2025 17:05:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1750982710; x=1751587510; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mM7sGDuaUNmv6tnGLKuSSjw44nHEP/uGSgdlFXfk7xk=;
+        b=c1YAT/vNQ5+rJDi9mRdBzUZeeEnH8x4PYCq91RhOf4C/otJUiFIiQClBLC8a+xwHXj
+         kgo2r6RvebLwq34L2x43QAiLUGq3s77QbWvB/2nETb0crGggJ4Wp12nlFQ4O3KA07IuV
+         mCd0xo2dR4gTo9ptEtobdxiAU6KOuLSP8FLt858ojEpUiBIo9T+xH2Ik5ge0PdpuYnBO
+         13hZzOQexUyRgvioUmUvUDhtM1Nq/ua6P2c77uLSB8Zr/xZJzhb7PrYpAOYxVuRmQeSW
+         yCMEoO/PmicygUzL3V8XrfupJL0TL3se/qGo9LwFv/Pn2MsyLeOeWq72Vm5j+eIDX5Tc
+         n/tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750982710; x=1751587510;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mM7sGDuaUNmv6tnGLKuSSjw44nHEP/uGSgdlFXfk7xk=;
+        b=KQpEdlvrP/oUR5u4CUGitogcp8rnwb5pJQXeJ94Sl+S/CBuAWXU5sfDeCGtMdZ0+F7
+         sR1L6D9kIwt7vAuGfWaystUqnXWfRGl4ILe+1cz8GgHliX3OIzV/nq4K4/PZ6K9Xij22
+         wuTacSt5fcDQGe/+MbO76t/kJhU95VZioOuHSQrl/4xCs+GscihKqKv8mOX+HVDffNE7
+         u9rOjMpKqgq9h1nHnmqLc/f9tl3YLjRo1w6nuuR4/TdXJqWlhAF/z4hqEEHFzFYJ1Cte
+         QDzOStjHn+qcI7o8iMbbNglwAgiFnBNCC1wQ1PkSvwxjpImDGtVvnGkyZfsjv2QLOQVb
+         FchA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8+tow7ynoGd2+hDBBUd3JWHIIeNBfirlN4lW42hRplNJmjlSE7cZOjD5kIh/1zssH6zbP3BL0Ge4P@lists.infradead.org
+X-Gm-Message-State: AOJu0YyXrvTHmNffHhcWECEHzxeTQsScFnRrDUKi7nrfMGoXvIOu796R
+	chZc9+v/0iLlOc69vEaYLL9luhpx0BtXe//CVM7kzcXxdGRosR2UmC6nnpXqZSsopsKmHhRb1Rs
+	pMRXPFHhteV23ltSfpVqecBiV4Ph+Y02pEdQHCQ8+dv0D7KW46rN/
+X-Gm-Gg: ASbGncvqfFbpOZoUpppP5bKzaSnJPI9850Xy0FpzSv9jGTA92eC62zDKz7hzrscuEBD
+	1JHcrmYouN1q3Fjpr+bzIAj+9wFhiHsgk4nM0saXkf4pkQ6vcl2sunoIDYS5ZzodKTF5JlZNSE7
+	htL/L1x4b/b2FhV9qrrfY6l4KrBxhd4mlO+i2Ocva/MgxEUX3AlDxXy6Yjk8Fv5GDYZq4hizwh5
+	0x8aCXF73sXk2Tnwoo5916+LFLWwWY8n9tx7ZcHQxRM31OTKkl+eOT9xNxU+YwAMD8FD8BzTXiY
+	ehHel/i2IGTPuOqIU+qiTEEPNeGYcPTackXv2ygwLA==
+X-Google-Smtp-Source: AGHT+IHj6XU3bYpiDVFxkemutKiyBWj0MTJkiVJwqhOHiDSdfqRNl3Zly1KVAPf3JX8o4RPeim1TDJIXUPv8
+X-Received: by 2002:a05:6a20:12d0:b0:1f3:31fe:c1da with SMTP id adf61e73a8af0-220a0cf7360mr1389252637.11.1750982710253;
+        Thu, 26 Jun 2025 17:05:10 -0700 (PDT)
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id d2e1a72fcca58-74af540cc8csm49210b3a.1.2025.06.26.17.05.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 17:05:10 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 3E03034027F;
+	Thu, 26 Jun 2025 18:05:09 -0600 (MDT)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id 4DB31E4190F; Thu, 26 Jun 2025 18:05:09 -0600 (MDT)
+Date: Thu, 26 Jun 2025 18:05:09 -0600
+From: Uday Shankar <ushankar@purestorage.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
+	Alan Adamson <alan.adamson@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: Re: [PATCH 2/2] nvme: fix atomic write size validation
+Message-ID: <aF3gNWvBaPpATiI+@dev-ushankar.dev.purestorage.com>
+References: <20250625064003.436582-1-hch@lst.de>
+ <20250625064003.436582-3-hch@lst.de>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98db31ff-6c7b-43e9-553a-08ddb4c6ca38
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2025 15:33:24.5225
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pYwiHXHSJNdvno7ARL4f+ObBABDjf4dkf/JhjrkOQvm1I9pD+a5tn7NyoTpkNeFHX4MLjW/JnvpNawvcXjH3qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8420
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250625064003.436582-3-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250626_083339_114287_139799E6 
-X-CRM114-Status: GOOD (  14.86  )
+X-CRM114-CacheID: sfid-20250626_170511_837241_0B63255C 
+X-CRM114-Status: GOOD (  32.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,21 +107,167 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNi8yNS8yNSAwNDozNCwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IEhpIGFsbCwNCj4N
-Cj4gdGhpcyBzZXJpZXMgY29udmVydHMgdGhlIG52bWUtcGNpIGRyaXZlciB0byB0aGUgbmV3IElP
-VkEtYmFzZWQgRE1BIEFQSQ0KPiBmb3IgdGhlIGRhdGEgcGF0aC4NCj4NCj4gQ2hhbmNlcyBzaW5j
-ZSB2MjoNCj4gICAtIGZpeCBoYW5kbGluZyBvZiBzZ2xfdGhyZXNob2xkPTANCj4NCj4gQ2hhbmNl
-cyBzaW5jZSB2MToNCj4gICAtIG1pbm9yIGNsZWFudXBzIHRvIHRoZSBibG9jayBkbWEgbWFwcGlu
-ZyBoZWxwZXJzDQo+ICAgLSBmaXggdGhlIG1ldGFkYXRhIFNHTCBzdXBwb3J0ZWQgY2hlY2sgZm9y
-IGJpc2VjdGFiaWxpdHkNCj4gICAtIGZpeCBTR0wgdGhyZXNob2xkIGNoZWNrDQo+ICAgLSBmaXgv
-c2ltcGxpZnkgbWV0YWRhdGEgU0dMIGZvcmNlIGNoZWNrcw0KDQpJIHdhcyBhYmxlIHRvIGZpbmlz
-aCB0aGUgdGVzdGluZyBvZiB0aGlzIHNlcmllcy4NCkkgZG9uJ3Qgc2VlIGFueSBvYnZpb3VzIGlz
-c3VlcyBzbyBmYXIsIGxvb2tzIGdvb2QuDQoNCkkndmUgYWxzbyBjb2xsZWN0ZWQgdGhlIG11bHRp
-cGxlIHNldHMgb2YgdGhlIHBlcmZvcm1hbmNlIG51bWJlcnMNCmZvciBkaWZmZXJlbnQgYmxvY2sg
-c2l6ZXMgdXNpbmcgaW9fdXJpbmcgYW5kIGxpYmFpbyBpb2VuZ2luZXMgd2l0aCBmaW8NCmFuZCBk
-b24ndCBzZWUgYW55IHNpZ25pZmljYW50IHBlcmZvcm1hbmNlIGRpZmZlcmVuY2Ugb24gdGhlIHNl
-dHVwIEkndmUuDQoNCklmIHlvdSB3YW50IEkgY2FuIHNoYXJlIHRoZSB3aG9sZSBsb2cgYnV0IGRv
-bid0IHdhbnQgdG8gc3BhbSB0aGUgbGlzdC4NCg0KVGVzdGVkLWJ5OiBDaGFpdGFueWEgS3Vsa2Fy
-bmkgPGtjaEBudmlkaWEuY29tPg0KUmV2aWV3ZWQtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8a2No
-QG52aWRpYS5jb20+DQoNCi1jaw0KDQoNCg==
+On Wed, Jun 25, 2025 at 08:39:56AM +0200, Christoph Hellwig wrote:
+> Don't mix the namespace and controller values, and validate the
+> per-controller limit when probing the controller.  This avoid spurious
+> failures for controllers with namespaces that have different namespaces
+
+nit: having namespaces with different logical block sizes
+
+> with different logical block sizes, or report the per-namespace values
+> only for some namespaces.
+> 
+> It also fixes a missing queue_limits_cancel_update in an error path by
+> removing that error path.
+> 
+> Fixes: 8695f060a029 ("nvme: all namespaces in a subsystem must adhere to a common atomic write size")
+> Reported-by: Yi Zhang <yi.zhang@redhat.com>
+
+I couldn't find the report on linux-nvme; if it is public, can you
+include a "Closes:" link here?
+
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Reviewed-by: John Garry <john.g.garry@oracle.com>
+> Tested-by: Yi Zhang <yi.zhang@redhat.com>
+
+I also saw a problem in a system running on 6.16-rc3 with several NVMe
+subsystems, each containing one controller with AWUPF=0, each containing
+two namespaces with NSABP=0. One namespace has a 512-byte LBA size while
+the other has a 4096-byte LBA size, and some namespaces failed to add:
+
+# dmesg | grep Inconsistent
+[    5.537494] nvme nvme4: nvme4n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=512 bytes, Controller/Namespace=4096 bytes
+[    5.539038] nvme nvme6: nvme6n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=4096 bytes, Controller/Namespace=512 bytes
+[    5.560079] nvme nvme7: nvme7n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=4096 bytes, Controller/Namespace=512 bytes
+[    5.595093] nvme nvme3: nvme3n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=4096 bytes, Controller/Namespace=512 bytes
+[    5.597627] nvme nvme8: nvme8n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=512 bytes, Controller/Namespace=4096 bytes
+[    5.600007] nvme nvme0: nvme0n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=512 bytes, Controller/Namespace=4096 bytes
+[    5.605748] nvme nvme5: nvme5n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=512 bytes, Controller/Namespace=4096 bytes
+[    5.608961] nvme nvme11: nvme11n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=4096 bytes, Controller/Namespace=512 bytes
+[    5.618011] nvme nvme12: nvme12n1: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=4096 bytes, Controller/Namespace=512 bytes
+[    5.618251] nvme nvme10: nvme10n2: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=4096 bytes, Controller/Namespace=512 bytes
+
+Note that despite the messages saying otherwise, only those log lines
+containing "Subsystem=512 bytes, Controller/Namespace=4096 bytes"
+actually failed to add a namespace - the others had both namespaces
+added just fine. I guess it isn't deterministic as to which namespace
+was added first.
+
+Anyways, the problem was fixed by this patch set.
+
+Tested-by: Uday Shankar <ushankar@purestorage.com>
+
+> ---
+>  drivers/nvme/host/core.c | 33 +++++++++++----------------------
+>  drivers/nvme/host/nvme.h |  3 +--
+>  2 files changed, 12 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 520fb5f1e214..e533d791955d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2041,17 +2041,7 @@ static u32 nvme_configure_atomic_write(struct nvme_ns *ns,
+>  		 * no clear language in the specification prohibiting different
+>  		 * values for different controllers in the subsystem.
+>  		 */
+> -		atomic_bs = (1 + ns->ctrl->awupf) * bs;
+> -	}
+> -
+> -	if (!ns->ctrl->subsys->atomic_bs) {
+> -		ns->ctrl->subsys->atomic_bs = atomic_bs;
+> -	} else if (ns->ctrl->subsys->atomic_bs != atomic_bs) {
+> -		dev_err_ratelimited(ns->ctrl->device,
+> -			"%s: Inconsistent Atomic Write Size, Namespace will not be added: Subsystem=%d bytes, Controller/Namespace=%d bytes\n",
+> -			ns->disk ? ns->disk->disk_name : "?",
+> -			ns->ctrl->subsys->atomic_bs,
+> -			atomic_bs);
+> +		atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
+>  	}
+>  
+>  	lim->atomic_write_hw_max = atomic_bs;
+> @@ -2386,16 +2376,6 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+>  	if (!nvme_update_disk_info(ns, id, &lim))
+>  		capacity = 0;
+>  
+> -	/*
+> -	 * Validate the max atomic write size fits within the subsystem's
+> -	 * atomic write capabilities.
+> -	 */
+> -	if (lim.atomic_write_hw_max > ns->ctrl->subsys->atomic_bs) {
+> -		blk_mq_unfreeze_queue(ns->disk->queue, memflags);
+> -		ret = -ENXIO;
+> -		goto out;
+> -	}
+> -
+>  	nvme_config_discard(ns, &lim);
+>  	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+>  	    ns->head->ids.csi == NVME_CSI_ZNS)
+> @@ -3219,6 +3199,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>  	memcpy(subsys->model, id->mn, sizeof(subsys->model));
+>  	subsys->vendor_id = le16_to_cpu(id->vid);
+>  	subsys->cmic = id->cmic;
+> +	subsys->awupf = le16_to_cpu(id->awupf);
+>  
+>  	/* Versions prior to 1.4 don't necessarily report a valid type */
+>  	if (id->cntrltype == NVME_CTRL_DISC ||
+> @@ -3556,6 +3537,15 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  		if (ret)
+>  			goto out_free;
+>  	}
+> +
+> +	if (le16_to_cpu(id->awupf) != ctrl->subsys->awupf) {
+> +		dev_err_ratelimited(ctrl->device,
+> +			"inconsistent AWUPF, controller not added (%u/%u).\n",
+> +			le16_to_cpu(id->awupf), ctrl->subsys->awupf);
+> +		ret = -EINVAL;
+> +		goto out_free;
+> +	}
+> +
+
+Could you explain (and perhaps add a comment here) why all controllers
+in a subsystem must report the same awupf? Is it because namespaces may
+inherit awupf from the controller, and may be reachable through multiple
+controllers for multipath?
+
+>  	memcpy(ctrl->subsys->firmware_rev, id->fr,
+>  	       sizeof(ctrl->subsys->firmware_rev));
+>  
+> @@ -3651,7 +3641,6 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  		dev_pm_qos_expose_latency_tolerance(ctrl->device);
+>  	else if (!ctrl->apst_enabled && prev_apst_enabled)
+>  		dev_pm_qos_hide_latency_tolerance(ctrl->device);
+> -	ctrl->awupf = le16_to_cpu(id->awupf);
+>  out_free:
+>  	kfree(id);
+>  	return ret;
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index a468cdc5b5cb..7df2ea21851f 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -410,7 +410,6 @@ struct nvme_ctrl {
+>  
+>  	enum nvme_ctrl_type cntrltype;
+>  	enum nvme_dctype dctype;
+> -	u16 awupf; /* 0's based value. */
+>  };
+>  
+>  static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
+> @@ -443,11 +442,11 @@ struct nvme_subsystem {
+>  	u8			cmic;
+>  	enum nvme_subsys_type	subtype;
+>  	u16			vendor_id;
+> +	u16			awupf; /* 0's based value. */
+>  	struct ida		ns_ida;
+>  #ifdef CONFIG_NVME_MULTIPATH
+>  	enum nvme_iopolicy	iopolicy;
+>  #endif
+> -	u32			atomic_bs;
+>  };
+>  
+>  /*
+> -- 
+> 2.47.2
+> 
+> 
 
