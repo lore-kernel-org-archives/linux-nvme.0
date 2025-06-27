@@ -4,93 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB279C77B7F
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Jun 2025 15:19:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68210C7EE2A
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Jun 2025 15:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7ClQUO/3whpnhDQ2xXD+ZbYMmVy5dR5s+G/B6dkc9Qc=; b=BRz49TX8Gy/+nBcz6D6rTbm/v1
-	7a4fozcB5dBbXLVPiO83gTYdlGm/pmkjcXn+8u6+MFHB2a6LMfSMMTg/EE+znGfc6sjpODm6a/5xN
-	xAeB+kKqveQ+YQ9o45ttYKSKj64f6zyS7HPzkg7RXSYf6y5M3xXfcp26nazMRm77aWvJCkXx6kQBz
-	DgHr8Ol76L0JCGinc3x1TrmV/85n0T0Ptqh4NTgTU/EeyYErxVH1uP3hwil9yYRyfIXfu+GMdWFob
-	VhK4OXG2baSZLyv71CMecZ3YA0VigUYVe1ydAE/xWMYgFEHX7IfhaQ4bpF9dtJULy0kZg0VZ5NCQM
-	LFMltc5Q==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=buVTdRxQKVlm30639PRVwQxRD/mm++iXvgZHcq077TM=; b=XRqXYO7gSXo8u3ZZ3aWbEFkGuD
+	NrNL1PEES6CExudABkvlSQhYrNPx10iRUaOskeW1dN5ysKUUgLcglhW4B3yDjK/kZ2qiiV+5yY/Yq
+	/qkDdq8g/0RhA1f53sv+MPBm/D1wi6rvg2gtjvlhg0PiS0M51chr7NUi1M/rGLjhhyrF/J13qwVkG
+	ijI3FKPtg2lnAFvvcfxvo6UiPBrxY0H8FvRLx8MGku+7FXZa45lRxugN2ZGd9PJXRgTynYhEvElUq
+	cJbQAxEqeck79v8JQp85E+Jhks3So5ETdCFEDHGDARQ8evKIeXCqA1tRHKLLCxwLAgFGk3JztGy+Z
+	QZHks4xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uVArN-0000000F3ab-41ev;
-	Fri, 27 Jun 2025 15:19:25 +0000
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+	id 1uVAv6-0000000F4Cq-39lc;
+	Fri, 27 Jun 2025 15:23:16 +0000
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uVAVI-0000000EyaR-0pyP
+	id 1uVAhc-0000000F0vE-0OIr
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Jun 2025 14:56:37 +0000
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-7490acf57b9so1839317b3a.2
-        for <linux-nvme@lists.infradead.org>; Fri, 27 Jun 2025 07:56:35 -0700 (PDT)
+	Fri, 27 Jun 2025 15:09:21 +0000
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-60c63a9bbabso3926162a12.0
+        for <linux-nvme@lists.infradead.org>; Fri, 27 Jun 2025 08:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1751036195; x=1751640995; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7ClQUO/3whpnhDQ2xXD+ZbYMmVy5dR5s+G/B6dkc9Qc=;
-        b=woiLr9ZZkayZ3Lnh7e1iETZsyznaXpk+rUriFVcc55VD6532gmZO3ep8lmFT+A9ue3
-         FV1pvzehv+YWDHP78p3DI2OYslxz+5p67AzoazgPE3Wgui2vRQN1eiNNZFilrJ9gFfRd
-         Ya51EY6HGvSrKXMvDHgOqcqhK/nIQ5gxma66ZPiXXOh4P0595E1klLlpYvAX5hNLqOUN
-         48mNwe78Z9fZbQQcB6jDjQuDYiACA0sYpvoBMhegx1u/mCpgtqb0fFakSAnR03SRDaQu
-         3I77cyfVPwQqpHVgESI9eRzE63Lar0Ym8Yt4vG7QRQLcNuc4k5Y1gbG3EYud7kjdjPDM
-         zcag==
+        d=gmail.com; s=20230601; t=1751036958; x=1751641758; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=buVTdRxQKVlm30639PRVwQxRD/mm++iXvgZHcq077TM=;
+        b=T+KOuUhEsUIJg+xOxQnrv2KN1Bjs4wtQ4CHmTyuB6U0l6uLrP2ov1gKWs6gigJZcVk
+         j1dkX2iLa02/AaR2/HUbhfV3vEfKK5t6yPG400o9bVDksBn4qYf5mBi657xhlavUt81o
+         Uibkili74TmwWSgEk2tgkc5GL2+0v/2UqhGFHvuCHYDBXlKKKxyEWyoRCJmMxNLpFMOe
+         LKO0agTvm55EcNQWli0liMOE6y+mfGHpi/TP/ljbG1bxa8iQqhlwOxjR659m0FypPDuD
+         oGJQt7VvAeV6JIJVUK1I4RSmjCkVvcYg8NCOk4Pf7MggzttWwNIP4nn1X+ew2tNISP5g
+         oI8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751036195; x=1751640995;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7ClQUO/3whpnhDQ2xXD+ZbYMmVy5dR5s+G/B6dkc9Qc=;
-        b=I9/B76d59TUfZtvykEqXvybUGZDLbh19RudMAG/BiHtzQMKeo6OmRR7OITckvLj6c+
-         umU0kKck4HWDS4DKc380VUewdhE63ar0B5pv5Tm3eKkf+LwylH2iL7lURyi4QwjA6Oab
-         6mh1WDMPww7yv/0T5xH2nLEyOuwOayP4sP2g1IITzDwpyZWdaSGk1WsWtjMZm5sbwFW4
-         RB4ywuRVQ8lJ9hlnwPNKQP4qNlGjolMEB25ZKzjlxewzWTSUxPQOjT8ovySQK7lc90+f
-         wP3Y/HzD76SxpblfmNbVsHTeLQLaqtYEc90SfI/TEvOJu77q4T+SIkdWB4ZVDfLoDG3Z
-         Midw==
-X-Forwarded-Encrypted: i=1; AJvYcCX/pGdgvkKb2ziL0sKfe/zotC2xlcqrla2DWF6SehQOWU31x471yznYoWaXtvOTCA0TcA4sPqFWK6FN@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy9C0kCV9mXGYu5MfDqZr+FGhCBVXtkaXPBeNmND/YudAyijWtZ
-	toYlItDO/vMrQHqf5ei09j6lTnY0zsUtpVmSSsO6nyTS2a0pFZSXY35hjvcrYt2WVZs4gzcKKS7
-	2ljmm
-X-Gm-Gg: ASbGncsTL/XkW4T217jIEHoLo6EeukHx6MoumqiIjLj7nXKBnnW274oXpfPTENDr8N/
-	zxux53hJuClTD/rcUCSPMnODRp5eeEbnYiBItSHiPoVWpKv7XjSl5S6PYly1b7SBSGH6eMimO//
-	JcuCclMDZmFUaYDYqhOrozMkfMVHxmc2NiGaBM4QTqJuofUi6A0usNYffxGHnngQWfcyd4IkH5k
-	p2z158aOhxoG43pBMIWJMVmULDAKoG5fZFRxGG5m3anZoAUiV8UK2WptN+bvxKnoh5SkLMh3HtU
-	FSojm8Ys8moxJTzeIOGFF44rb+1irWG7cYS3bIpibdyyYhL1/r/jzorT6A==
-X-Google-Smtp-Source: AGHT+IENYqjOMvnWJfrPfV9o3wXHwLOcA7uYdHN41zZNj32DgqZLSIlL3LVi2mMEJdiUibUomTRfbg==
-X-Received: by 2002:a17:902:ce8d:b0:235:e1d6:f98b with SMTP id d9443c01a7336-23ac40f5e37mr65803145ad.22.1751036194749;
-        Fri, 27 Jun 2025 07:56:34 -0700 (PDT)
-Received: from [172.20.0.228] ([12.48.65.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39b9f2sm19417835ad.99.2025.06.27.07.56.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jun 2025 07:56:34 -0700 (PDT)
-Message-ID: <42d8df98-65c7-4a4f-b931-ea32fe357fbf@kernel.dk>
-Date: Fri, 27 Jun 2025 08:56:32 -0600
+        d=1e100.net; s=20230601; t=1751036958; x=1751641758;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=buVTdRxQKVlm30639PRVwQxRD/mm++iXvgZHcq077TM=;
+        b=d3JXShSuVbPMPi1P7ReUZi0D3FTfkBWccepfs1ycHvGedo230hOfH7x58vxdGb2xnJ
+         jg3htKjHhmSN+rbS4ljbgFiRh35rjOLsJaJ6KC2jYXcaPFYyFvT2SNLCui//GfI3uLqc
+         yQniK36+hkh22z5cGmXgiFaQphKYEK4qHGm0tSCn50s/FSHFisrLST9uThHDSNJS1t/4
+         T8Kna7uqkeWfm1/r2QwgIQmPO9UyYDulZSkRjjLLiOeeetqJCk5/3InqAe2+xpoZFblR
+         SXLMsxq0DykR1K0sqYWiFJfZla/8eF6JMgqebEMcsbAwod0Lt7yEaPpMu9jKsH34JH8m
+         hlHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgCBbKZGaJ5VhzgqCGsAtg9hLWhojLaA0B1wK1Owca1szR6mt/Ji9YhLrBnMgSJSRqAORnGdW0CJ5L@lists.infradead.org
+X-Gm-Message-State: AOJu0YwWDxLN5LFfByx5tN6MROCWt81hcVPjvzwniG+jyvCQTMX+1/9t
+	mW3Kn3IygLpXsMv+YvYXcdCeZD8S/aUF4Kw7FCrvEXRNR6LZ5HkULqyM
+X-Gm-Gg: ASbGncvQ+8tTTfsE5eWTw+D8/k6Y7GqVoLQ3/40cGm7WgYO2Eo4+5SWy3oxzJQLQi23
+	9Z2I/jCH08AJ98oYGZ+0NGDlxaX1yPkEQmstm0v7yD721CfYoYqz1HthnoRw8GmRC1F2pufTHzk
+	VNuRGZso+es6Jqn+yNO/pfPj3oMxNSXK/LMpv6roBGuLbAumPnZv0T0nWWPgN7f2/7CV/2H+p+3
+	wasR1q+WaUKyFC59FvnkVL26c84vco/wZZI1Bdz6SsbbHlLvyPTGl86mAEK4l4YKy87hr+SwTZD
+	nuujqdR2U65B4O3td/X7iKS5tqDeTJvq747+ZFlenArAX1dQ+gc1HbVT9JPExPK6+2BNME18qSs
+	1
+X-Google-Smtp-Source: AGHT+IGGVGhe3vS2MX4Bny8mW3sSHejhy+WJ+hlE6Qb2Yw/TDLjhQuciR1Hl9hydhejbDjoGD4VBxg==
+X-Received: by 2002:a17:906:794e:b0:acb:37ae:619c with SMTP id a640c23a62f3a-ae350363ad6mr366449166b.15.1751036957556;
+        Fri, 27 Jun 2025 08:09:17 -0700 (PDT)
+Received: from 127.0.0.1localhost ([148.252.147.145])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae353c014fbsm135802866b.86.2025.06.27.08.09.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 08:09:16 -0700 (PDT)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: io-uring@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: linux-fsdevel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>,
+	David Wei <dw@davidwei.uk>,
+	Vishal Verma <vishal1.verma@intel.com>,
+	asml.silence@gmail.com
+Subject: [RFC 00/12] io_uring dmabuf read/write support
+Date: Fri, 27 Jun 2025 16:10:27 +0100
+Message-ID: <cover.1751035820.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: new DMA API conversion for nvme-pci v3
-To: Daniel Gomez <da.gomez@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Leon Romanovsky <leon@kernel.org>, Nitesh Shetty <nj.shetty@samsung.com>,
- Logan Gunthorpe <logang@deltatee.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <20250625113531.522027-1-hch@lst.de>
- <175086952686.169509.6467735913091492336.b4-ty@kernel.dk>
- <cddf9f29-c2e1-4b9c-b3b7-c64e3a513bf4@kernel.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <cddf9f29-c2e1-4b9c-b3b7-c64e3a513bf4@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250627_075636_246584_FD89BE0A 
-X-CRM114-Status: GOOD (  12.82  )
+X-CRM114-CacheID: sfid-20250627_080920_130643_F9AF305F 
+X-CRM114-Status: GOOD (  15.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,51 +100,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/27/25 1:37 AM, Daniel Gomez wrote:
-> On 25/06/2025 18.38, Jens Axboe wrote:
->>
->> On Wed, 25 Jun 2025 13:34:57 +0200, Christoph Hellwig wrote:
->>> this series converts the nvme-pci driver to the new IOVA-based DMA API
->>> for the data path.
->>>
->>> Chances since v2:
->>>  - fix handling of sgl_threshold=0
->>>
->>> Chances since v1:
->>>  - minor cleanups to the block dma mapping helpers
->>>  - fix the metadata SGL supported check for bisectability
->>>  - fix SGL threshold check
->>>  - fix/simplify metadata SGL force checks
->>>
->>> [...]
->>
->> Applied, thanks!
->>
->> [1/8] block: don't merge different kinds of P2P transfers in a single bio
->>       commit: 226d6099402d8de166af60b2794fc198360d98fb
->> [2/8] block: add scatterlist-less DMA mapping helpers
->>       commit: d6c12c69ef4fa33e32ceda4a53991ace01401cd9
->> [3/8] nvme-pci: refactor nvme_pci_use_sgls
->>       commit: 07c81cbf438b769e0d673be3b5c021a424a4dc6f
->> [4/8] nvme-pci: merge the simple PRP and SGL setup into a common helper
->>       commit: 06cae0e3f61c4c1ef18726b817bbb88c29f81e57
->> [5/8] nvme-pci: remove superfluous arguments
->>       commit: 07de960ac7577662c68f1d21bd4907b8dfc790c4
->> [6/8] nvme-pci: convert the data mapping to blk_rq_dma_map
->>       commit: 235118de382d6545d3822ead0571a05e017ed8f1
->> [7/8] nvme-pci: replace NVME_MAX_KB_SZ with NVME_MAX_BYTE
->>       commit: d1df6bd4c551110e0d1b06ee85c7bca057439d28
->> [8/8] nvme-pci: rework the build time assert for NVME_MAX_NR_DESCRIPTORS
->>       commit: 0c34198a16a88878aba455bebe157037c9ab52c5
->>
->> Best regards,
-> 
-> Do you still accept new tags/trailers?
+Disclaimer: haven't been tested well enough yet and needs more beating
 
-Even if they don't always end up in the git tree, please do provide
-them. This thread is linked from there anyway, so it still provides
-value.
+For past couple of months David Wei, Vishal Verma and other folks
+have been mentioning that it'd be great to have dmabuf support for
+read/write and other operations in io_uring. The topic is not new,
+it has been discussed many times in different contexts including
+networking. The last relevant attempt was premapped dma tags by
+Keith [1], and this patch set took a lot from it.
+
+This series implements it for read/write io_uring requests. The uAPI
+looks similar to normal registered buffers, the user will need to
+register a dmabuf in io_uring first and then use it as any other
+registered buffer. On registration the user also specifies a file
+to map the dmabuf for.
+
+// register
+io_uring_update_buffers(ring, { dma_buf_fd, target_file_fd });
+// use
+reg_buf_idx = 0;
+io_uring_prep_read_fixed(sqe, target_file_fd, buffer_offset,
+                         buffer_size, file_offset, reg_buf_idx);
+
+It's an RFC to discuss the overall direction. The series misses
+parts like bio splitting and nvme sgl support, and otherwise
+there are some rough edges and probably problems, which will
+need more testing and attention.
+
+[1] https://lore.kernel.org/io-uring/20220805162444.3985535-1-kbusch@fb.com/
+
+simple liburing based example:
+git: https://github.com/isilence/liburing.git dmabuf-rw
+link: https://github.com/isilence/liburing/tree/dmabuf-rw
+
+kernel branch:
+git: https://github.com/isilence/linux.git dmabuf-rw-v1
+
+Pavel Begunkov (12):
+  file: add callback returning dev for dma operations
+  iov_iter: introduce iter type for pre-registered dma
+  block: move around bio flagging helpers
+  block: introduce dmavec bio type
+  block: implement ->get_dma_device callback
+  nvme-pci: add support for user passed dma vectors
+  io_uring/rsrc: extended reg buffer registration
+  io_uring: add basic dmabuf helpers
+  io_uring/rsrc: add imu flags
+  io_uring/rsrc: add dmabuf-backed buffer registeration
+  io_uring/rsrc: implement dmabuf regbuf import
+  io_uring/rw: enable dma registered buffers
+
+ block/bdev.c                  |  11 ++
+ block/bio.c                   |  21 ++++
+ block/blk-merge.c             |  32 +++++
+ block/blk.h                   |   2 +-
+ block/fops.c                  |   3 +
+ drivers/nvme/host/pci.c       | 158 +++++++++++++++++++++++
+ include/linux/bio.h           |  59 ++++++---
+ include/linux/blk-mq.h        |   2 +
+ include/linux/blk_types.h     |   6 +-
+ include/linux/blkdev.h        |   2 +
+ include/linux/fs.h            |   2 +
+ include/linux/uio.h           |  14 +++
+ include/uapi/linux/io_uring.h |  13 +-
+ io_uring/Makefile             |   1 +
+ io_uring/dmabuf.c             |  60 +++++++++
+ io_uring/dmabuf.h             |  34 +++++
+ io_uring/rsrc.c               | 230 ++++++++++++++++++++++++++++++----
+ io_uring/rsrc.h               |  23 +++-
+ io_uring/rw.c                 |   7 +-
+ lib/iov_iter.c                |  70 ++++++++++-
+ 20 files changed, 701 insertions(+), 49 deletions(-)
+ create mode 100644 io_uring/dmabuf.c
+ create mode 100644 io_uring/dmabuf.h
 
 -- 
-Jens Axboe
+2.49.0
+
 
