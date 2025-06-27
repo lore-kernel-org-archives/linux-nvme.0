@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D338AC83026
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Jun 2025 15:23:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73842C77B7F
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Jun 2025 15:23:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ELm99uPzefns5ujW7UPEs6wpoLN78rLcaBSD261dIAg=; b=JI9wOBVoUbtZYczkBO+e5Jkjlo
-	JQpnt/xFAh6jP2f+Tam+dWRcC/rKxGx8JGRH0GfR1et4xgWOZtiB781Uq1Bj6U/ZS4IBXQb7lXMum
-	mWJIO6ZDkHZyG/IPsfMhU5Z4+ZzROJqJSoNyS9r2OiRVCkK0ZAviu83GxIx1DQWGzZVk8Q0yFpp//
-	n2BsIQtb9Wsri0BzzsJjD5kD6L+8elbgnNqG3lblt1aJ+vnudCSkoYN7t9zMGkOlR02xf5MkBmyWr
-	8wO2g+WfmMH/y/wl6KU8tpJwMevGa9GeZiiKzvQzT0/NzPLLU17UFgP1hAB1saGhSisu90qsAvCSf
-	+Om7IMow==;
+	bh=RpWD4+kMQgcu38VQMZMvjMOGf7VzHXvFZWMDq5klZzA=; b=RARAdDHjUodpj9SnuQhDdAEXd1
+	VROXv6mCDmK3i6yfbCqHz5WN3iB3TNWP4VOnuq1Qzpv/izeb0xxDev5y7l29EOAft25p2NqBMam8x
+	A0WQXRd8pSgbuEzeGOvhLioHdhGekOGCmB0OeoLxTWEcU6c0LvKWztC2rT8tS5Hv1BZKuSxc4J0sf
+	q4F2npYR3s8tZxlF9odB/TQHzg2VcLVH7PZ5M42Bq6beb/QvX0y+RGDQv6nS3eWX0BJ2xf4gk30VR
+	BzXfz7fk/x+0kgI3uvmt8fk+zPkCuFZS2MbEFGJ4iz6Esp6nSGIas0vLzrpZ9kVKvb8lrT1CHlo6F
+	C+VwmgOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uVAv8-0000000F4Dp-0WqW;
-	Fri, 27 Jun 2025 15:23:18 +0000
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+	id 1uVAv9-0000000F4Fu-3USC;
+	Fri, 27 Jun 2025 15:23:19 +0000
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uVAhe-0000000F0w7-3m9o
+	id 1uVAhi-0000000F0xi-1QDD
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Jun 2025 15:09:24 +0000
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-ae0df6f5758so284568866b.0
-        for <linux-nvme@lists.infradead.org>; Fri, 27 Jun 2025 08:09:22 -0700 (PDT)
+	Fri, 27 Jun 2025 15:09:27 +0000
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-60c9d8a169bso356040a12.1
+        for <linux-nvme@lists.infradead.org>; Fri, 27 Jun 2025 08:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751036961; x=1751641761; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1751036965; x=1751641765; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ELm99uPzefns5ujW7UPEs6wpoLN78rLcaBSD261dIAg=;
-        b=cQ2rwqB4EnHRjP/kmHQgXrcahU9F+sy+Bo8w0FoHhfZhKE+fRna8MH3J1uON6BxwFf
-         mMtQhXfXWOoky8yUqbiAHod0/Z3MVx8ncoE21dsrwawUq5cR8W7krgNUWFluqS+/Ft4/
-         x5e7GR1H8Un2pYNA9mkpVHazlwYNWrEOLMYF/sadVTGiLzbLaYzxlGe4z4I57aiVY/Ga
-         hfPKt6pYsWwNO56WVZ9oJZsMBS5q4u8zyKZhmEBA9wqM1XerNWT3ovKmBjJimE/F+OA+
-         3ejofNYbgQN9xmtEoRMy4x2wFl9LmQ4w25BLBLR7lQMh7ZZUEsLrFExUUvupSkcPtCFV
-         g4hQ==
+        bh=RpWD4+kMQgcu38VQMZMvjMOGf7VzHXvFZWMDq5klZzA=;
+        b=A74fnAwPF3wQkQwovOi3wPgk+eYROwAwdoE0fIDFU6iXPSdf4JXY/XucMDtiDExSvL
+         Oo7oa2ERckB6pGi5nhwS1GDqpkR7dUQ5M9OSUbIM2FZcNwhl9JtLIqoM2hyXshPRBS7K
+         7jo3R+FrNQCa2BNdLt49s5RzbvZ647xpBaxUPwJokZiD9X/l4qg27A+dXWjBeyprO8cV
+         AWUPg3OQfSxFywVKRS6nep+XYTefLnIinrCWPvOLFJ/d+6LBQK0MmGXWxpHVm/0679AR
+         FBiFTONRAD1P/U82C0JbyN/QTB/tqCj3dAMzsRviNRPjYylUy70btpKa/5yG3vIbmxuo
+         S1Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751036961; x=1751641761;
+        d=1e100.net; s=20230601; t=1751036965; x=1751641765;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ELm99uPzefns5ujW7UPEs6wpoLN78rLcaBSD261dIAg=;
-        b=aQ7ttQEWRKkcWhb31hO3I9iHLphUi70FJIwb8FQUaghz3SEYpuyK2D3QVi+99OqRNU
-         jk5VHXCp2yRVc1hlOZhIYKvKmQtZxZS0PzzzR8WpNDQat/8WOcvvkPp9lCwE+7Aa5gSl
-         VuTtYymf1ltpX40wRwGZ7x+qk2HO6l5rhx+W8gmkW/PpjNKxieVFQpiMTcJuZetc8J5A
-         aXl6aRd0aTimInZdqBK6SoBWcpoMLlMtQRzrXddpCz3RpigkBkd6UGbJOs+Bm4qoPvrh
-         7Bu8bkV8TL5wW8F/iB9TVpWaQCoXk39hlpGskiA7BdJPOmPMN5HzT3zFYQpqMp43qUKW
-         2svw==
-X-Forwarded-Encrypted: i=1; AJvYcCXLC3qOo18TuGLRuDDsnetdyPBjcyNUOXu60p/DR04AXEQgFVfFTAl6N8/EIa77laEVchHz0YoxN8ee@lists.infradead.org
-X-Gm-Message-State: AOJu0YxuhmkhCP5Z3/uMljdI4GHdriz71jX8fsJXEzx7JELUsod7LjYt
-	VMq+RKCda4uHeVcAvXjo5bO34Po8h0dRXJ8t75tUAHqbbIrpqmHxryEC
-X-Gm-Gg: ASbGnculhKiAEAqfR5NWr4lM7bwjXl+DSJZ0ucio/2joi65fOflV4A8suaJXpj/75xm
-	kNN2kiedLBz6+T+MS/nfOfhHmbEFSfi60Xu4tHUwP8QgFE1cM97tVOIR0FQJfYSqaDbGyrt0v/k
-	uw2zbdKSpnasi0gNqIgG4umP7r7jI5efycLphK6C835KKHQ5yebymvSs1+YXUk3xxRyS8BuBoha
-	YwQ4SjxOGdkzRRHQPyBDf6QcDptINsyzfyBeQmMP3RuYxaq59+Aewd7dCgjqmzCRroQR0+Iiu5z
-	hR+pQtcCcStGoM/SwHrm0NaWPHx5dOtn2bNXD96T31yQ0/UaE/jW1RF77l6XgSGweJQQq4fu89X
-	AjErS0+5sjiM=
-X-Google-Smtp-Source: AGHT+IGtD0aKzaeEpz5uiE2KrXY9RJd/4VVbesLyvcMptugbexjQLqKCOv+z9jBUY0enkQpZug83hQ==
-X-Received: by 2002:a17:907:724f:b0:ade:8d5a:cf37 with SMTP id a640c23a62f3a-ae35011fc71mr334022966b.44.1751036960987;
-        Fri, 27 Jun 2025 08:09:20 -0700 (PDT)
+        bh=RpWD4+kMQgcu38VQMZMvjMOGf7VzHXvFZWMDq5klZzA=;
+        b=NAxW6h7vgeyMq2izont25uEtoCSpRP5kibdiFzsZuIGVZjOtKE5Z64bsGo37ANgw3Y
+         h9xl5NLw0YgbDf2GLJZIEY8no7Q2jzpBlgoRBjBrRumSfwa10DYHIRpJgupFibgf38zc
+         ryvR95EeTA2okyG3ocXradtzKuZrpK29qrm8ps9cQMBiBi/hFoVx35G2XletbYs3PY59
+         sJc8+JVEyDwFCXY9TvXwD2/72iZLNdukvWWuu+f6xDmJ5bBjNTLfMo4yRRlW2d8lokLV
+         Pl9T74ygZAEWOWoIqEIf7K66mf3tsV/U1uiUcCeNWSii86gTYxabKWcOrQO+cgML7mDf
+         /aPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUE5+TzZBDH88DMULG5L6/EimpUOeToJTkv6n3efb9sS5xQQJok8MXOKXnnIuGvcbgvUAzmkzUR0kRV@lists.infradead.org
+X-Gm-Message-State: AOJu0YwjMzdbvVrO1Qj0Jz3cP3g54DSSrnV3VTI2YoF/pHnO24yFSTfd
+	U12fnBTgrYH1p6+VUXw2Wg8OWOOMtVNtf20zPaVR/RSPx6xBeDod6D4X
+X-Gm-Gg: ASbGnctIuLqPARHH6KqzKs4i7KBiXtZUcZdryrfqzGD94D11ZWgfaCjiH7gLEA+pPWT
+	YBBaISxoJNrjUmO9cZmuvjBqhAV1wLhNk7+6cbYZhoRfvrBjm7TVz6VAny2kWruycw1TtIFFhGL
+	eg8bMU2W+c5Fjeuk1hj20tWqL4nhcFkU6E0TjsU2W4dvF6FCUg+g1fm9viXAdeffM/2PcygbJYf
+	BxEsvGkOJHMYgXjFhObaCissag1jXLZwIj1jHSuCzODcamUPZZlMcssld7pY+4DmmsxmU5HigJv
+	yndB8HMoSeqSraRNG0NsA83kn597btLQ0XOTHHUahbk8vh7MYS8r9xTMEOKTFWcxvMV0MwmXKel
+	c
+X-Google-Smtp-Source: AGHT+IEv5k45Pnz4J20shFCzhfjwj9GpAntAKXrKttoCW2d3WclD2HmKoC699BkmgmHcg4HQHoePEw==
+X-Received: by 2002:a17:907:1b16:b0:ad8:914b:7d0b with SMTP id a640c23a62f3a-ae34fcf46ebmr326692766b.11.1751036964297;
+        Fri, 27 Jun 2025 08:09:24 -0700 (PDT)
 Received: from 127.0.0.1localhost ([148.252.147.145])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae353c014fbsm135802866b.86.2025.06.27.08.09.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae353c014fbsm135802866b.86.2025.06.27.08.09.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 08:09:20 -0700 (PDT)
+        Fri, 27 Jun 2025 08:09:23 -0700 (PDT)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: io-uring@vger.kernel.org,
 	linux-block@vger.kernel.org,
@@ -78,17 +78,17 @@ Cc: linux-fsdevel@vger.kernel.org,
 	David Wei <dw@davidwei.uk>,
 	Vishal Verma <vishal1.verma@intel.com>,
 	asml.silence@gmail.com
-Subject: [RFC 02/12] iov_iter: introduce iter type for pre-registered dma
-Date: Fri, 27 Jun 2025 16:10:29 +0100
-Message-ID: <66ec20266c87e323f365fcc82b60f00aef6e2334.1751035820.git.asml.silence@gmail.com>
+Subject: [RFC 04/12] block: introduce dmavec bio type
+Date: Fri, 27 Jun 2025 16:10:31 +0100
+Message-ID: <6b83e74f1840aab6a91d8e050acbfc408dd62c31.1751035820.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1751035820.git.asml.silence@gmail.com>
 References: <cover.1751035820.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250627_080922_941098_85593CA3 
-X-CRM114-Status: GOOD (  20.12  )
+X-CRM114-CacheID: sfid-20250627_080926_399480_235038DC 
+X-CRM114-Status: GOOD (  25.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,200 +103,251 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce a new iterator type representing vectors with pre-registered
-DMA addresses. It carries an array of struct dmavec, which is just a
-{dma addr, dma len} pair. It'll be used to pass dmabuf buffers from
-io_uring and other interfaces operating with iterators.
+Premapped buffers don't require a generic bio_vec since these have
+already been dma mapped. Repurpose the bi_io_vec with the dma vector
+as they are mutually exclusive, and provide the setup and to support
+dma vectors.
 
-The vector is mapped for the device returned by the ->get_dma_device()
-callback of the file, and the caller should only pass the iterator to
-that file's methods. That should also prevent ITER_DMAVEC iterators
-reaching unaware files.
+In order to use this, a driver must implement the .get_dma_device()
+blk-mq op. If the driver provides this callback, then it must be
+aware that any given bio may be using a dma_tag instead of a
+bio_vec.
 
-Note, the drivers are responsible for cpu-device memory synchronisation
-and should use dma_sync_single_for_{device,cpu} when appropriate.
+Note, splitting is not implemented just yet.
 
 Suggested-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/linux/uio.h | 14 +++++++++
- lib/iov_iter.c      | 70 ++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 83 insertions(+), 1 deletion(-)
+ block/bio.c               | 21 +++++++++++++++++++++
+ block/blk-merge.c         | 32 ++++++++++++++++++++++++++++++++
+ block/blk.h               |  2 +-
+ block/fops.c              |  2 ++
+ include/linux/bio.h       | 29 ++++++++++++++++++++++++++---
+ include/linux/blk_types.h |  6 +++++-
+ 6 files changed, 87 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 2e86c653186c..d68148508ef7 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -29,11 +29,17 @@ enum iter_type {
- 	ITER_FOLIOQ,
- 	ITER_XARRAY,
- 	ITER_DISCARD,
-+	ITER_DMAVEC,
+diff --git a/block/bio.c b/block/bio.c
+index 3c0a558c90f5..440f89b9e7de 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -838,6 +838,9 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
+ 		bio_clone_blkg_association(bio, bio_src);
+ 	}
+ 
++	if (bio_flagged(bio_src, BIO_DMAVEC))
++		bio_set_flag(bio, BIO_DMAVEC);
++
+ 	if (bio_crypt_clone(bio, bio_src, gfp) < 0)
+ 		return -ENOMEM;
+ 	if (bio_integrity(bio_src) &&
+@@ -1156,6 +1159,18 @@ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter)
+ 	bio_set_flag(bio, BIO_CLONED);
+ }
+ 
++void bio_iov_dmavec_set(struct bio *bio, struct iov_iter *iter)
++{
++	WARN_ON_ONCE(bio->bi_max_vecs);
++
++	bio->bi_vcnt = iter->nr_segs;
++	bio->bi_dmavec = (struct dmavec *)iter->dmavec;
++	bio->bi_iter.bi_bvec_done = iter->iov_offset;
++	bio->bi_iter.bi_size = iov_iter_count(iter);
++	bio->bi_opf |= REQ_NOMERGE;
++	bio_set_flag(bio, BIO_DMAVEC);
++}
++
+ static unsigned int get_contig_folio_len(unsigned int *num_pages,
+ 					 struct page **pages, unsigned int i,
+ 					 struct folio *folio, size_t left,
+@@ -1322,6 +1337,10 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
+ 		bio_iov_bvec_set(bio, iter);
+ 		iov_iter_advance(iter, bio->bi_iter.bi_size);
+ 		return 0;
++	} else if (iov_iter_is_dma(iter)) {
++		bio_iov_dmavec_set(bio, iter);
++		iov_iter_advance(iter, bio->bi_iter.bi_size);
++		return 0;
+ 	}
+ 
+ 	if (iov_iter_extract_will_pin(iter))
+@@ -1673,6 +1692,8 @@ struct bio *bio_split(struct bio *bio, int sectors,
+ 	/* Zone append commands cannot be split */
+ 	if (WARN_ON_ONCE(bio_op(bio) == REQ_OP_ZONE_APPEND))
+ 		return ERR_PTR(-EINVAL);
++	if (WARN_ON_ONCE(bio_flagged(bio, BIO_DMAVEC)))
++		return ERR_PTR(-EINVAL);
+ 
+ 	/* atomic writes cannot be split */
+ 	if (bio->bi_opf & REQ_ATOMIC)
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index 3af1d284add5..f932ed61dcb5 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -278,6 +278,35 @@ static unsigned int bio_split_alignment(struct bio *bio,
+ 	return lim->logical_block_size;
+ }
+ 
++static int bio_split_rw_at_dmavec(struct bio *bio, const struct queue_limits *lim,
++				  unsigned *segs, unsigned max_bytes)
++{
++	struct dmavec *dmav;
++	int offset, length;
++
++	/* Aggressively refuse any splitting, should be improved */
++
++	if (!lim->virt_boundary_mask)
++		return -EINVAL;
++	if (bio->bi_vcnt > lim->max_segments)
++		return -EINVAL;
++	if (bio->bi_iter.bi_size > max_bytes)
++		return -EINVAL;
++
++	dmav = &bio->bi_dmavec[bio->bi_iter.bi_idx];
++	offset = bio->bi_iter.bi_bvec_done;
++	length = bio->bi_iter.bi_size;
++	while (length > 0) {
++		if (dmav->len - offset > lim->max_segment_size)
++			return -EINVAL;
++		length -= dmav->len;
++		dmav++;
++	}
++	*segs = bio->bi_vcnt;
++	return 0;
++}
++
++
+ /**
+  * bio_split_rw_at - check if and where to split a read/write bio
+  * @bio:  [in] bio to be split
+@@ -297,6 +326,9 @@ int bio_split_rw_at(struct bio *bio, const struct queue_limits *lim,
+ 	struct bvec_iter iter;
+ 	unsigned nsegs = 0, bytes = 0;
+ 
++	if (bio_flagged(bio, BIO_DMAVEC))
++		return bio_split_rw_at_dmavec(bio, lim, segs, max_bytes);
++
+ 	bio_for_each_bvec(bv, bio, iter) {
+ 		/*
+ 		 * If the queue doesn't support SG gaps and adding this
+diff --git a/block/blk.h b/block/blk.h
+index 37ec459fe656..85429f542bd2 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -386,7 +386,7 @@ static inline struct bio *__bio_split_to_limits(struct bio *bio,
+ 	switch (bio_op(bio)) {
+ 	case REQ_OP_READ:
+ 	case REQ_OP_WRITE:
+-		if (bio_may_need_split(bio, lim))
++		if (bio_may_need_split(bio, lim) || bio_flagged(bio, BIO_DMAVEC))
+ 			return bio_split_rw(bio, lim, nr_segs);
+ 		*nr_segs = 1;
+ 		return bio;
+diff --git a/block/fops.c b/block/fops.c
+index 1309861d4c2c..388acfe82b6c 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -347,6 +347,8 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
+ 		 * bio_iov_iter_get_pages() and set the bvec directly.
+ 		 */
+ 		bio_iov_bvec_set(bio, iter);
++	} else if (iov_iter_is_dma(iter)) {
++		bio_iov_dmavec_set(bio, iter);
+ 	} else {
+ 		ret = bio_iov_iter_get_pages(bio, iter);
+ 		if (unlikely(ret))
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 8349569414ed..49f6b20d77f6 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -108,16 +108,36 @@ static inline bool bio_next_segment(const struct bio *bio,
+ #define bio_for_each_segment_all(bvl, bio, iter) \
+ 	for (bvl = bvec_init_iter_all(&iter); bio_next_segment((bio), &iter); )
+ 
++static inline void bio_advance_iter_dma(const struct bio *bio,
++				    struct bvec_iter *iter, unsigned int bytes)
++{
++	unsigned int idx = iter->bi_idx;
++
++	iter->bi_size -= bytes;
++	bytes += iter->bi_bvec_done;
++
++	while (bytes && bytes >= bio->bi_dmavec[idx].len) {
++		bytes -= bio->bi_dmavec[idx].len;
++		idx++;
++	}
++
++	iter->bi_idx = idx;
++	iter->bi_bvec_done = bytes;
++}
++
+ static inline void bio_advance_iter(const struct bio *bio,
+ 				    struct bvec_iter *iter, unsigned int bytes)
+ {
+ 	iter->bi_sector += bytes >> 9;
+ 
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size -= bytes;
+-	else
++	} else if (bio_flagged(bio, BIO_DMAVEC)) {
++		bio_advance_iter_dma(bio, iter, bytes);
++	} else {
+ 		bvec_iter_advance(bio->bi_io_vec, iter, bytes);
+ 		/* TODO: It is reasonable to complete bio with error here. */
++	}
+ }
+ 
+ /* @bytes should be less or equal to bvec[i->bi_idx].bv_len */
+@@ -129,6 +149,8 @@ static inline void bio_advance_iter_single(const struct bio *bio,
+ 
+ 	if (bio_no_advance_iter(bio))
+ 		iter->bi_size -= bytes;
++	else if (bio_flagged(bio, BIO_DMAVEC))
++		bio_advance_iter_dma(bio, iter, bytes);
+ 	else
+ 		bvec_iter_advance_single(bio->bi_io_vec, iter, bytes);
+ }
+@@ -396,7 +418,7 @@ static inline void bio_wouldblock_error(struct bio *bio)
+  */
+ static inline int bio_iov_vecs_to_alloc(struct iov_iter *iter, int max_segs)
+ {
+-	if (iov_iter_is_bvec(iter))
++	if (iov_iter_is_bvec(iter) || iov_iter_is_dma(iter))
+ 		return 0;
+ 	return iov_iter_npages(iter, max_segs);
+ }
+@@ -443,6 +465,7 @@ int bdev_rw_virt(struct block_device *bdev, sector_t sector, void *data,
+ 
+ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter);
+ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
++void bio_iov_dmavec_set(struct bio *bio, struct iov_iter *iter);
+ void __bio_release_pages(struct bio *bio, bool mark_dirty);
+ extern void bio_set_pages_dirty(struct bio *bio);
+ extern void bio_check_pages_dirty(struct bio *bio);
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 3d1577f07c1c..dc2a5945604a 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -266,7 +266,10 @@ struct bio {
+ 
+ 	atomic_t		__bi_cnt;	/* pin count */
+ 
+-	struct bio_vec		*bi_io_vec;	/* the actual vec list */
++	union {
++		struct bio_vec		*bi_io_vec;	/* the actual vec list */
++		struct dmavec		*bi_dmavec;
++	};
+ 
+ 	struct bio_set		*bi_pool;
+ 
+@@ -308,6 +311,7 @@ enum {
+ 	BIO_REMAPPED,
+ 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
+ 	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
++	BIO_DMAVEC, /* Using premmaped dma buffers */
+ 	BIO_FLAG_LAST
  };
  
- #define ITER_SOURCE	1	// == WRITE
- #define ITER_DEST	0	// == READ
- 
-+struct dmavec {
-+	dma_addr_t		addr;
-+	int			len;
-+};
-+
- struct iov_iter_state {
- 	size_t iov_offset;
- 	size_t count;
-@@ -71,6 +77,7 @@ struct iov_iter {
- 				const struct folio_queue *folioq;
- 				struct xarray *xarray;
- 				void __user *ubuf;
-+				const struct dmavec *dmavec;
- 			};
- 			size_t count;
- 		};
-@@ -155,6 +162,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
- 	return iov_iter_type(i) == ITER_XARRAY;
- }
- 
-+static inline bool iov_iter_is_dma(const struct iov_iter *i)
-+{
-+	return iov_iter_type(i) == ITER_DMAVEC;
-+}
-+
- static inline unsigned char iov_iter_rw(const struct iov_iter *i)
- {
- 	return i->data_source ? WRITE : READ;
-@@ -302,6 +314,8 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
- 			  unsigned int first_slot, unsigned int offset, size_t count);
- void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
- 		     loff_t start, size_t count);
-+void iov_iter_dma(struct iov_iter *i, unsigned int direction,
-+		  struct dmavec *dmavec, unsigned nr_segs, size_t count);
- ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
- 			size_t maxsize, unsigned maxpages, size_t *start);
- ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index f9193f952f49..b7740f9aa279 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -559,6 +559,26 @@ static void iov_iter_folioq_advance(struct iov_iter *i, size_t size)
- 	i->folioq = folioq;
- }
- 
-+static void iov_iter_dma_advance(struct iov_iter *i, size_t size)
-+{
-+	const struct dmavec *dmav, *end;
-+
-+	if (!i->count)
-+		return;
-+	i->count -= size;
-+
-+	size += i->iov_offset;
-+
-+	for (dmav = i->dmavec, end = dmav + i->nr_segs; dmav < end; dmav++) {
-+		if (likely(size < dmav->len))
-+			break;
-+		size -= dmav->len;
-+	}
-+	i->iov_offset = size;
-+	i->nr_segs -= dmav - i->dmavec;
-+	i->dmavec = dmav;
-+}
-+
- void iov_iter_advance(struct iov_iter *i, size_t size)
- {
- 	if (unlikely(i->count < size))
-@@ -575,6 +595,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
- 		iov_iter_folioq_advance(i, size);
- 	} else if (iov_iter_is_discard(i)) {
- 		i->count -= size;
-+	} else if (iov_iter_is_dma(i)) {
-+		iov_iter_dma_advance(i, size);
- 	}
- }
- EXPORT_SYMBOL(iov_iter_advance);
-@@ -763,6 +785,20 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
- }
- EXPORT_SYMBOL(iov_iter_xarray);
- 
-+void iov_iter_dma(struct iov_iter *i, unsigned int direction,
-+		  struct dmavec *dmavec, unsigned nr_segs, size_t count)
-+{
-+	WARN_ON(direction & ~(READ | WRITE));
-+	*i = (struct iov_iter){
-+		.iter_type = ITER_DMAVEC,
-+		.data_source = direction,
-+		.dmavec = dmavec,
-+		.nr_segs = nr_segs,
-+		.iov_offset = 0,
-+		.count = count
-+	};
-+}
-+
- /**
-  * iov_iter_discard - Initialise an I/O iterator that discards data
-  * @i: The iterator to initialise.
-@@ -834,6 +870,32 @@ static bool iov_iter_aligned_bvec(const struct iov_iter *i, unsigned addr_mask,
- 	return true;
- }
- 
-+static bool iov_iter_aligned_dma(const struct iov_iter *i, unsigned addr_mask,
-+				  unsigned len_mask)
-+{
-+	const struct dmavec *dmav = i->dmavec;
-+	unsigned skip = i->iov_offset;
-+	size_t size = i->count;
-+
-+	do {
-+		size_t len = dmav->len - skip;
-+
-+		if (len > size)
-+			len = size;
-+		if (len & len_mask)
-+			return false;
-+		if ((unsigned long)(dmav->addr + skip) & addr_mask)
-+			return false;
-+
-+		dmav++;
-+		size -= len;
-+		skip = 0;
-+	} while (size);
-+
-+	return true;
-+}
-+
-+
- /**
-  * iov_iter_is_aligned() - Check if the addresses and lengths of each segments
-  * 	are aligned to the parameters.
-@@ -875,6 +937,9 @@ bool iov_iter_is_aligned(const struct iov_iter *i, unsigned addr_mask,
- 			return false;
- 	}
- 
-+	if (iov_iter_is_dma(i))
-+		return iov_iter_aligned_dma(i, addr_mask, len_mask);
-+
- 	return true;
- }
- EXPORT_SYMBOL_GPL(iov_iter_is_aligned);
-@@ -1552,7 +1617,8 @@ EXPORT_SYMBOL_GPL(import_ubuf);
- void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
- {
- 	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
--			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
-+			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i) &&
-+			 !iov_iter_is_dma(i))
- 		return;
- 	i->iov_offset = state->iov_offset;
- 	i->count = state->count;
-@@ -1570,6 +1636,8 @@ void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
- 	BUILD_BUG_ON(sizeof(struct iovec) != sizeof(struct kvec));
- 	if (iov_iter_is_bvec(i))
- 		i->bvec -= state->nr_segs - i->nr_segs;
-+	else if (iov_iter_is_dma(i))
-+		i->dmavec -= state->nr_segs - i->nr_segs;
- 	else
- 		i->__iov -= state->nr_segs - i->nr_segs;
- 	i->nr_segs = state->nr_segs;
 -- 
 2.49.0
 
