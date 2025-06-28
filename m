@@ -4,83 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED320C54ED1
-	for <linux-nvme@archiver.kernel.org>; Sat, 28 Jun 2025 10:24:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C119C54ED1
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Jun 2025 18:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LClUed192tILHo+/vwfpU9tbOrExqi15ULo3AzIBDm4=; b=vk4KOlq5RE8/zaHyOJTR3tS+d4
-	sJekDNUxwnNRNC5iHQ8sDqTv1RomdoTJxNn7K0fx2AziLwpap01loVyN1fOxVFottPEizxn0VkAUT
-	+ZOPnDYNEFR3jqlH6v95rPJCg775S6gvuVvyIXf31aNLLd6PAGwDU3lzZjkIH5hCSKAggcn1R4CQv
-	NE7KAXEwYsg6H51GQXORQiHUI9xGHeEFBHG0Jg6Smuilsn6LTmbRn74sx8nw4ZXX7OD9/KisJjxwD
-	meG5+vYayGRPBqlc4blHIYpQ/ikBBEn5qdZX1qZLs0AoHK419UNP8w402vAqMfOPJ4g1xTlFW0VXN
-	ygEwl8HQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=L+3Ml7MGMvKIhp7iPbG5EBDt2Nn9VyKSNRG0no/ATvI=; b=Sjw2wO+CdjkHiN2t/Oebvl/or/
+	VCOE0hjLVycpyMD+eb7CqJH2Abio1IcAT2fn9iV9owUosIQT0nMfNq13fLwXRT5axnMyhRrQ489zG
+	h0eN1o6ZAL2lDinbCYP+jjiehah7RZhsD5SH6LXsufaY8cWMlZFd9WKdgN/7Q+/B5Ftnd94JFxgVI
+	qsR80bm2egVvgbfLqYurkMvyVGTwlaZPZNzX0h5Y0RPsWtZRW61hHMmmu9VAwflGZIn3JLGFtw1Yz
+	FXPTx+tBumxPx/j6cuRsxsPxISu/YC1QaArrKs63pwDKrp/a0v8GEAcwYgudokXanzuLI3mdgrvgb
+	ov6iIfmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uVSjE-0000000GgWV-0Zxy;
-	Sat, 28 Jun 2025 10:24:12 +0000
-Received: from mail-wr1-f50.google.com ([209.85.221.50])
+	id 1uVa3X-0000000HBli-3yeh;
+	Sat, 28 Jun 2025 18:13:39 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uVSjB-0000000GgVi-0Xs6
+	id 1uVa2o-0000000HBik-1IsD
 	for linux-nvme@lists.infradead.org;
-	Sat, 28 Jun 2025 10:24:10 +0000
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a4fb9c2436so1652339f8f.1
-        for <linux-nvme@lists.infradead.org>; Sat, 28 Jun 2025 03:24:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751106247; x=1751711047;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LClUed192tILHo+/vwfpU9tbOrExqi15ULo3AzIBDm4=;
-        b=jGCc4HBug/wcclprqDJXoZWd2iMLxUSGs5jQq3mZXjPLYrG/15AAqiyXR6pi59nPTw
-         6aDgcr/6KDAwxvKjWgveJS4LK3zqCAg+pNSR9VFXpZQMXpisnrOqqcW4pJojYgkvnR71
-         Qv0WkITIeJEGTa3I213L63HS+zWeRdRSGlcaYTlK3vMusSMdpuuW7eKnnT2YTI/RMGL3
-         cAnTjHf2eauRROdxLEcwzg4wrtwgul7f0omxEwR1JoXgH2KPIq7TGocinbQRBXmTaxmt
-         77WSrQNM4u2nBo1FH2e33zTxj2hxQS+Elzoh2vXEla8JFHggXHSSEskgHocdYSU2gJNg
-         KFoQ==
-X-Gm-Message-State: AOJu0YzPo0Z1880cGvyv9WC7hsLW8IKqsWH7lD48xASyxnOIrFXMe30i
-	CDm704fA11xzYhRTKg37YXpNgvm0g5o+4wSiFVe2xSgqeAxzz11HPvQmw0eSow==
-X-Gm-Gg: ASbGncs7ou1dF7RSZgT3ScbCfj0HdOBRcqdeX1KAmn6fOspDS0CxlhNdX7hzLd5c++j
-	CviZrYuRtJ+VmdJVfvJcX/1b9VXauILloop6BqEbzQWQXIlvwqTmdljrw4LddAMaF2gtApKKHr4
-	y6VzmFjDuTDCd+0wO0bs6g1ipKDIjEZjvmhiOE/8At9v6T9h8WhOs33gqzBZPIgmDVUxnFbPLZL
-	ZxszwfiHLCPRMkdaWOv1YuAf/Cr+iMTJ3BNPVK2RyD9GyjHgSOZDqQy+DY6KVGq4/KG7vlwGrjZ
-	kWspyt6kHmS+g+dCn2Xl74FnqNdPf2WKrfDcEny8V/ITTwovzgind8SU6FpYtHoC7Kerth2M7iq
-	dv4hyMfbtD8RMyakIUpCfPLkt/0EC3dYA
-X-Google-Smtp-Source: AGHT+IF5bL19Bz2cqkIHP5r+d05dZkzyqX/hGKmsQU7T9lSjmrQTh5HCl5FyPu4JrS/fhx3Ws33kjA==
-X-Received: by 2002:adf:ca92:0:b0:3a4:f722:f98d with SMTP id ffacd0b85a97d-3a9008557admr4519014f8f.51.1751106247302;
-        Sat, 28 Jun 2025 03:24:07 -0700 (PDT)
-Received: from [10.100.102.74] (89-138-75-164.bb.netvision.net.il. [89.138.75.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7e71dfsm4901565f8f.7.2025.06.28.03.24.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Jun 2025 03:24:07 -0700 (PDT)
-Message-ID: <c66548d0-1211-4176-b698-05a36320cf94@grimberg.me>
-Date: Sat, 28 Jun 2025 13:24:05 +0300
+	Sat, 28 Jun 2025 18:12:55 +0000
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55SHJURv017534;
+	Sat, 28 Jun 2025 18:12:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=L+3Ml7MGMvKIhp7iPbG5EBDt2Nn9V
+	yKSNRG0no/ATvI=; b=nMlefoxdOJjxvoSgVov+mpb9MO3drxho/Buj6OKQ/+9u0
+	+UlTyndICv2ckFuWi3Y2EFRTjKtbzMXdP8UeRGa5aRmueulni2kIdkJxGpTX2Lc2
+	3RFbSV22y2lZQhSoh/rYZgdAXtaKXwQs/1vXTqaxwp27toQRmBsGNKrq+NOixNq1
+	YJoTXOe24drIyLg8SOvwEtou1muuX+KcgMVK2ONsEzKRecprvNEKNW8e7iPQ72gL
+	Nm+Kn6tleCA2HaiD2ETlYNrwMliiiUapI+/JKmNG34K/+xUXzKyc6MhtT498p6fT
+	0u0rI69gWhTyppxDhMZJzsHSLpqbEP7vmQxUfJN3w==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47j6tf8f4k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 28 Jun 2025 18:12:38 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55SI9KAp028997;
+	Sat, 28 Jun 2025 18:12:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 47j6u6ysqn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 28 Jun 2025 18:12:37 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55SI6MIm010792;
+	Sat, 28 Jun 2025 18:12:36 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 47j6u6ysqh-1;
+	Sat, 28 Jun 2025 18:12:36 +0000
+From: Alok Tiwari <alok.a.tiwari@oracle.com>
+To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+        martin.petersen@oracle.com, linux-nvme@lists.infradead.org
+Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org,
+        darren.kenny@oracle.com
+Subject: [PATCH RESEND] nvme: Fix incorrect cdw15 value in passthru error logging
+Date: Sat, 28 Jun 2025 11:12:32 -0700
+Message-ID: <20250628181234.3978844-1-alok.a.tiwari@oracle.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvme-tcp: avoid race between nvme scan and reset
-To: Ming Lei <ming.lei@redhat.com>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-block <linux-block@vger.kernel.org>, Hannes Reinecke
- <hare@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, "hch@infradead.org" <hch@infradead.org>
-References: <20250602043522.55787-1-shinichiro.kawasaki@wdc.com>
- <20250602043522.55787-2-shinichiro.kawasaki@wdc.com>
- <910b31ba-1982-4365-961e-435f5e7611b2@grimberg.me>
- <86e241dd-9065-4cf0-9c35-8b7502ab2d8a@grimberg.me>
- <6pt5u3fg3qts4jekun5ory5lr2jtfbibd76phqviheulpjqjtq@m3arkh44nrs2>
- <aEuviL5O2kD70Sij@fedora>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <aEuviL5O2kD70Sij@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-27_05,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 suspectscore=0 mlxscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2506280152
+X-Authority-Analysis: v=2.4 cv=CMMqXQrD c=1 sm=1 tr=0 ts=68603096 cx=c_pps a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=AeMM1KqErxL4ncdj0kYA:9
+X-Proofpoint-GUID: W_q7wwMP59uDsSMHsfdD9MRpvRaGL7Mr
+X-Proofpoint-ORIG-GUID: W_q7wwMP59uDsSMHsfdD9MRpvRaGL7Mr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI4MDE1MiBTYWx0ZWRfX2kjbMkP1/PcF 4irX/vCShlxU+dNmdA6szhO06UC8fbN2O1LIVD6aAdkvFPqGdct1xkzuyg6uhQzaNQDgiPQ7Ln3 DUTkvLn10ps4boUscF91/DS+WRXv7wOmQhT9+EN1B9qgZMkvf1PDIcu5vexpXT3MiU+3y1aTuq8
+ 9gdlVlG0cQqgoCFdP0gXtMurthw081ETcQxpzURshgLGOIF2YFYXG4oTJnakoT65tc6cnSWkPCA 6ZZazigxQbMzjfBvcwBIWtI72pslCKk60R+GDxvqqh2x7pi74z0dkI+ede/1m/je9/84Sm4NlrW NuM7ZWTMkQQs/8DCAcdXte/K0txd5VQcBrg3Yodfylx+PqufulsxL4TIhDOMyhA0B8i2sM7ENbm
+ VKO74Adc5iPHEQcFt4i1Ne/tZV2BgZdyc/2at3g67XwjSjtDfTyiLGEsaqMfnrdIvO//9GkJ
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250628_032409_177312_1BFE25BF 
-X-CRM114-Status: GOOD (  23.74  )
+X-CRM114-CacheID: sfid-20250628_111254_781525_6C10B327 
+X-CRM114-Status: GOOD (  11.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,83 +97,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Fix an error in nvme_log_err_passthru() where cdw14 was incorrectly
+printed twice instead of cdw15. This fix ensures accurate logging of
+the full passthrough command payload.
 
+Fixes: 9f079dda1433 ("nvme: allow passthru cmd error logging")
+Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+---
+Corrected Christoph Hellwig's email ID
+added Reviewed-by  Martin K. Petersen
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 13/06/2025 7:56, Ming Lei wrote:
-> On Wed, Jun 04, 2025 at 11:17:05AM +0000, Shinichiro Kawasaki wrote:
->> Cc+: Ming,
->>
->> Hi Sagi, thanks for the background explanation and the suggestion.
->>
->> On Jun 04, 2025 / 10:10, Sagi Grimberg wrote:
->> ...
->>>> This is a problem. We are flushing a work that is IO bound, which can
->>>> take a long time to complete.
->>>> Up until now, we have deliberately avoided introducing dependency
->>>> between reset forward progress
->>>> and scan work IO to completely finish.
->>>>
->>>> I would like to keep it this way.
->>>>
->>>> BTW, this is not TCP specific.
->> I see. The blktests test case nvme/063 is dedicated to tcp transport, so that's
->> why it was reported for the TCP transport.
->>
->>> blk_mq_unquiesce_queue is still very much safe to call as many times as we
->>> want.
->>> The only thing that comes in the way is this pesky WARN. How about we make
->>> it go away and have
->>> a debug print instead?
->>>
->>> My preference would be to allow nvme to unquiesce queues that were not
->>> previously quiesced (just
->>> like it historically was) instead of having to block a controller reset
->>> until the scan_work is completed (which
->>> is admin I/O dependent, and may get stuck until admin timeout, which can be
->>> changed by the user for 60
->>> minutes or something arbitrarily long btw).
->>>
->>> How about something like this patch instead:
->>> --
->>> diff --git a/block/blk-mq.c b/block/blk-mq.c
->>> index c2697db59109..74f3ad16e812 100644
->>> --- a/block/blk-mq.c
->>> +++ b/block/blk-mq.c
->>> @@ -327,8 +327,10 @@ void blk_mq_unquiesce_queue(struct request_queue *q)
->>>          bool run_queue = false;
->>>
->>>          spin_lock_irqsave(&q->queue_lock, flags);
->>> -       if (WARN_ON_ONCE(q->quiesce_depth <= 0)) {
->>> -               ;
->>> +       if (q->quiesce_depth <= 0) {
->>> +               printk(KERN_DEBUG
->>> +                       "dev %s: unquiescing a non-quiesced queue,
->>> expected?\n",
->>> +                       q->disk ? q->disk->disk_name : "?", );
->>>          } else if (!--q->quiesce_depth) {
->>>                  blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
->>>                  run_queue = true;
->>> --
->> The WARN was introduced with the commit e70feb8b3e68 ("blk-mq: support
->> concurrent queue quiesce/unquiesce") that Ming authored. Ming, may I
->> ask your comment on the suggestion by Sagi?
-> I think it is bad to use one standard block layer API in this unbalanced way,
-> that is why WARN_ON_ONCE() is added. We shouldn't encourage driver to use
-> APIs in this way.
->
-> Question is why nvme have to unquiesce one non-quiesced queue?
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e533d791955d..2ae36bce615e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -386,7 +386,7 @@ static void nvme_log_err_passthru(struct request *req)
+ 		nr->cmd->common.cdw12,
+ 		nr->cmd->common.cdw13,
+ 		nr->cmd->common.cdw14,
+-		nr->cmd->common.cdw14);
++		nr->cmd->common.cdw15);
+ }
+ 
+ enum nvme_disposition {
+-- 
+2.47.1
 
-It started before quiesce/unquiesce became an API that had to be balanced.
-
-In this case, we are using the tagset quiesce/unquiesce interface. Which 
-iterates
-over the request queues from the tagset. The problem is that due to 
-namespace
-scanning, we may add new namespaces (and their request queues) after we
-quiesced the tagset. Then when we call tagset unquiesce, we have a new 
-request
-queue that wasn't quiesced (added after the quiesce).
-
-I don't mind having a BLK_FEAT_ALLOW_UNBALANCED_QUIESCE for the nvme request
-queues if you don't want to blindly remove the WARN_ON.
 
