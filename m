@@ -4,120 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9D35C7EE39
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jun 2025 09:31:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22054C8302D
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jun 2025 09:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xL/vGJLArtaINrpiPHGlZvQpRL8URw123tDElmRJjPQ=; b=1rEO9d3Ys7uuOThgldASWSDViI
-	dF6fbCcpl2ZjQb9e+YNKLjFdhAnalKoVzsks2QZODD3mHPbsKyPRCQblUmaZIMgDx5fzDhJVa/PgK
-	gagYyVzAMNc7ZuD8bmIhW8wApM8YlFL8UxXUViwTIilqBJ//WyG6NZN8WNJJRzDYcPavgN1RXFjJC
-	cH7zuv/wv+e/0S5sF2FWrtPuas9r7AIcJaVXPW1TFdLnprYK5vmi8Vp1iUvPvdMu7sc7HSTozNqyv
-	va8ROK0fUKGy+dVXU0HGEmtT8mym/j1p+HtCuzqgx8ugIuGxWFgvIvBPNGka1VRN/A8pl4EEu+eBf
-	38QfWo9A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:MIME-Version:From:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=V2TKnbxpYR6MKUjUraiBG2qlnyPoxaZjQVwhEL7YdiU=; b=Y52px2o2YYQFs6igphQfXvF+gu
+	6cJSs6mOuuHCv9mxtuvfn1T2F1I8labeJewS+dO+wZMrfMCXl+EeXXmQ9utZ+8GhOtO6nnSIw2vnU
+	/JXkiNizk0ems0Ksgy5Zfe23g3KlkwYMV93Fsc+1epBg5Q2fzsa8JJhPw/DgFwRbaXi9wUB1Iekrm
+	SuqUApEf3Gz1FVAoFGLmX7MqQrMyaRSMnlqf2hJ1LaWJuSteifpF2AeyF9Pids7SSShqAacN/PF4H
+	IKsMZbkZAuo8ssTwUL+iZF84T4lOYx9eh9iDLlDBkYmjgAdwzfpy2WX1SsbQOzpURuKmniqxmuiiD
+	ztMPG3oA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWArQ-00000001ksI-00R7;
-	Mon, 30 Jun 2025 09:31:36 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1uWB87-00000001nEw-2OPh;
+	Mon, 30 Jun 2025 09:48:51 +0000
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWAqa-00000001kr0-05nk
+	id 1uWB4a-00000001mZP-2ec5
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Jun 2025 09:30:45 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 00CFD21166;
-	Mon, 30 Jun 2025 09:30:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751275841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xL/vGJLArtaINrpiPHGlZvQpRL8URw123tDElmRJjPQ=;
-	b=x/0hGoAieie8nucN654zWUlq4aE0thKtdy8lIIOIC8lu9jjQVIsJWDDTz84kVGc/S7q+WI
-	STtCP38ZLN30ZrJwhPGF7CfB0wZygKDAUxeHKm10C4WpoSJBUckYERHqOYgY4nVpstowlt
-	PPDXzoyAuVU5K40V2CzZXY3v/QLfA88=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751275841;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xL/vGJLArtaINrpiPHGlZvQpRL8URw123tDElmRJjPQ=;
-	b=fm1qz8sI57nhVKWRJd+ce/bTE3SreI/kf2IG4Ps7homqyC7x15pPYNHLsokK7gbCaPEegv
-	xVbQvAjb1ocjPkDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751275841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xL/vGJLArtaINrpiPHGlZvQpRL8URw123tDElmRJjPQ=;
-	b=x/0hGoAieie8nucN654zWUlq4aE0thKtdy8lIIOIC8lu9jjQVIsJWDDTz84kVGc/S7q+WI
-	STtCP38ZLN30ZrJwhPGF7CfB0wZygKDAUxeHKm10C4WpoSJBUckYERHqOYgY4nVpstowlt
-	PPDXzoyAuVU5K40V2CzZXY3v/QLfA88=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751275841;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xL/vGJLArtaINrpiPHGlZvQpRL8URw123tDElmRJjPQ=;
-	b=fm1qz8sI57nhVKWRJd+ce/bTE3SreI/kf2IG4Ps7homqyC7x15pPYNHLsokK7gbCaPEegv
-	xVbQvAjb1ocjPkDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C992F13983;
-	Mon, 30 Jun 2025 09:30:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eUPRMEBZYmgYEQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 30 Jun 2025 09:30:40 +0000
-Message-ID: <8f2def4e-cd13-41c0-810f-c944e7f12474@suse.de>
-Date: Mon, 30 Jun 2025 11:30:40 +0200
+	Mon, 30 Jun 2025 09:45:14 +0000
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-311a6236effso1103442a91.2
+        for <linux-nvme@lists.infradead.org>; Mon, 30 Jun 2025 02:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1751276711; x=1751881511; darn=lists.infradead.org;
+        h=to:subject:message-id:date:thread-index:mime-version:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=V2TKnbxpYR6MKUjUraiBG2qlnyPoxaZjQVwhEL7YdiU=;
+        b=Z7B7wywvPy74IwSaJhN06ez2vGnqeV5wEFUGTng54jVJ8ipHGdllzsg8jJEjRtrQoA
+         Ij8ZUnZ3ZF+6jNhhMMoHt/k1wDxvlJxwgl5ghI2syUPjnCSeTQDe4KfjNs3e3+sqx+b4
+         vqR30rixKUQWWsyp2IMsGwWBhcX1ybCiuMX3g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751276711; x=1751881511;
+        h=to:subject:message-id:date:thread-index:mime-version:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V2TKnbxpYR6MKUjUraiBG2qlnyPoxaZjQVwhEL7YdiU=;
+        b=KoaM3F3Vjk/raDfu+uB3YjwfQ/d2kOD6hNO7zUPIgkjPhtJrx7bXO0qwiGbcCiTddT
+         CzMgh+QVsY+0qYKMjUGc8v9B99Zt1N08Fy9pJfz/Mc4RbRaQ73sg6HuWSCtgY3zG7Dt5
+         ug9q3FpaqoffmSMy7auvZKSisF1vcb09ZZ5KgxvN9lGtJFsPs0l3y0JTJQIhITn4UnRg
+         +x08kwdY8I3YTnUmJj7Jg71OBiWGNxNg2GxRd2ropZ2t5XaRRwJvomBELWDF7K1s+6xZ
+         39jJzHWZ0HQObt+A0PuXd3MT/gyygcCpGkP8FoX8HirCZw+kQ0rVqYJ7TWBSw9CP4mRH
+         pKbw==
+X-Gm-Message-State: AOJu0YwyFaCnaNVj5li8aXBBydzAuI8M+u7n8RgvHdPd4Jtna6qjXjV8
+	2mwsGQMts5G2S+2iGUiB50b6dkkTxwZjXcHhLrAu/lw9iLMnKFsOa5ah9SWZ6o+NxKAWRe8BPfm
+	F3uDzfXbKdB6AGshw1OiaC2pUtaN/HuZoq8ihwuHY9KCSHrH4CY2VfTKbEmL24JmCTtp8OcqWds
+	QnS2zTbzw1OWQe+/Veg189irHKHcWTXdhZgkn9NmMFv2I=
+X-Gm-Gg: ASbGncsTH15uYrCcFnmmxu6xoy1NGKUtygaVzaD5NDQ3od1oCBUMslNzkvXzp2txcYk
+	HaZliZhsy7RXmOQBDrcnULYELA+a//ZKbMOdq4XfRbLrZMF1MoZqbMYlxvS+rJlWcYZwpRkYe22
+	K0bxf3bCKMcDX9Ks6E1/tg6ynqnx9i+h/drmjyQY4m2oKz2kYBIxtps8U=
+X-Google-Smtp-Source: AGHT+IFsafDyhbSfSHvMgVZkLP65oJBezPjrFOibEI1TCiKiMau7+hOGNzkLgHAcJgGfp7Fzwre6iEHBg5vjpJtjxZk=
+X-Received: by 2002:a17:90b:390f:b0:315:fefe:bebf with SMTP id
+ 98e67ed59e1d1-318c923eaedmr18801266a91.13.1751276710841; Mon, 30 Jun 2025
+ 02:45:10 -0700 (PDT)
+From: Muneendra Kumar M <muneendra.kumar@broadcom.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-multipath: fix suspicious RCU usage warning
-To: Geliang Tang <geliang@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>
-Cc: Geliang Tang <tanggeliang@kylinos.cn>, linux-nvme@lists.infradead.org
-References: <bf6d5783deb070c5d238a6fb6b0d2b5c9367841c.1751269314.git.tanggeliang@kylinos.cn>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <bf6d5783deb070c5d238a6fb6b0d2b5c9367841c.1751269314.git.tanggeliang@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: Advpo6LRUhcPH82kSbqIFn+RVe93qw==
+Date: Mon, 30 Jun 2025 15:15:06 +0530
+X-Gm-Features: Ac12FXzaOuYyqShpXgANo6Q47pK7-dHQ-I00IHL5dDduVX2IH5CRiwRit0jeL3w
+Message-ID: <a12bc73c1bcd34ccc2dde2ccf5d3b3d1@mail.gmail.com>
+Subject: subscribe
+To: linux-nvme@lists.infradead.org
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="00000000000046df040638c6e243"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250630_023044_209454_1F6FCFEA 
-X-CRM114-Status: GOOD (  19.04  )
+X-CRM114-CacheID: sfid-20250630_024512_672661_B346D5ED 
+X-CRM114-Status: UNSURE (   7.12  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,112 +88,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/30/25 09:48, Geliang Tang wrote:
-> From: Geliang Tang <tanggeliang@kylinos.cn>
-> 
-> When I run the NVME over TCP test in virtme-ng, I get the following
-> "suspicious RCU usage" warning in nvme_mpath_add_sysfs_link():
-> 
-> '''
-> [    5.024557][   T44] nvmet: Created nvm controller 1 for subsystem nqn.2025-06.org.nvmexpress.mptcp for NQN nqn.2014-08.org.nvmexpress:uuid:f7f6b5e0-ff97-4894-98ac-c85309e0bc77.
-> [    5.027401][  T183] nvme nvme0: creating 2 I/O queues.
-> [    5.029017][  T183] nvme nvme0: mapped 2/0/0 default/read/poll queues.
-> [    5.032587][  T183] nvme nvme0: new ctrl: NQN "nqn.2025-06.org.nvmexpress.mptcp", addr 127.0.0.1:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:f7f6b5e0-ff97-4894-98ac-c85309e0bc77
-> [    5.042214][   T25]
-> [    5.042440][   T25] =============================
-> [    5.042579][   T25] WARNING: suspicious RCU usage
-> [    5.042705][   T25] 6.16.0-rc3+ #23 Not tainted
-> [    5.042812][   T25] -----------------------------
-> [    5.042934][   T25] drivers/nvme/host/multipath.c:1203 RCU-list traversed in non-reader section!!
-> [    5.043111][   T25]
-> [    5.043111][   T25] other info that might help us debug this:
-> [    5.043111][   T25]
-> [    5.043341][   T25]
-> [    5.043341][   T25] rcu_scheduler_active = 2, debug_locks = 1
-> [    5.043502][   T25] 3 locks held by kworker/u9:0/25:
-> [    5.043615][   T25]  #0: ffff888008730948 ((wq_completion)async){+.+.}-{0:0}, at: process_one_work+0x7ed/0x1350
-> [    5.043830][   T25]  #1: ffffc900001afd40 ((work_completion)(&entry->work)){+.+.}-{0:0}, at: process_one_work+0xcf3/0x1350
-> [    5.044084][   T25]  #2: ffff888013ee0020 (&head->srcu){.+.+}-{0:0}, at: nvme_mpath_add_sysfs_link.part.0+0xb4/0x3a0
-> [    5.044300][   T25]
-> [    5.044300][   T25] stack backtrace:
-> [    5.044439][   T25] CPU: 0 UID: 0 PID: 25 Comm: kworker/u9:0 Not tainted 6.16.0-rc3+ #23 PREEMPT(full)
-> [    5.044441][   T25] Hardware name: Bochs Bochs, BIOS Bochs 01/01/2011
-> [    5.044442][   T25] Workqueue: async async_run_entry_fn
-> [    5.044445][   T25] Call Trace:
-> [    5.044446][   T25]  <TASK>
-> [    5.044449][   T25]  dump_stack_lvl+0x6f/0xb0
-> [    5.044453][   T25]  lockdep_rcu_suspicious.cold+0x4f/0xb1
-> [    5.044457][   T25]  nvme_mpath_add_sysfs_link.part.0+0x2fb/0x3a0
-> [    5.044459][   T25]  ? queue_work_on+0x90/0xf0
-> [    5.044461][   T25]  ? lockdep_hardirqs_on+0x78/0x110
-> [    5.044466][   T25]  nvme_mpath_set_live+0x1e9/0x4f0
-> [    5.044470][   T25]  nvme_mpath_add_disk+0x240/0x2f0
-> [    5.044472][   T25]  ? __pfx_nvme_mpath_add_disk+0x10/0x10
-> [    5.044475][   T25]  ? add_disk_fwnode+0x361/0x580
-> [    5.044480][   T25]  nvme_alloc_ns+0x81c/0x17c0
-> [    5.044483][   T25]  ? kasan_quarantine_put+0x104/0x240
-> [    5.044487][   T25]  ? __pfx_nvme_alloc_ns+0x10/0x10
-> [    5.044495][   T25]  ? __pfx_nvme_find_get_ns+0x10/0x10
-> [    5.044496][   T25]  ? rcu_read_lock_any_held+0x45/0xa0
-> [    5.044498][   T25]  ? validate_chain+0x232/0x4f0
-> [    5.044503][   T25]  nvme_scan_ns+0x4c8/0x810
-> [    5.044506][   T25]  ? __pfx_nvme_scan_ns+0x10/0x10
-> [    5.044508][   T25]  ? find_held_lock+0x2b/0x80
-> [    5.044512][   T25]  ? ktime_get+0x16d/0x220
-> [    5.044517][   T25]  ? kvm_clock_get_cycles+0x18/0x30
-> [    5.044520][   T25]  ? __pfx_nvme_scan_ns_async+0x10/0x10
-> [    5.044522][   T25]  async_run_entry_fn+0x97/0x560
-> [    5.044523][   T25]  ? rcu_is_watching+0x12/0xc0
-> [    5.044526][   T25]  process_one_work+0xd3c/0x1350
-> [    5.044532][   T25]  ? __pfx_process_one_work+0x10/0x10
-> [    5.044536][   T25]  ? assign_work+0x16c/0x240
-> [    5.044539][   T25]  worker_thread+0x4da/0xd50
-> [    5.044545][   T25]  ? __pfx_worker_thread+0x10/0x10
-> [    5.044546][   T25]  kthread+0x356/0x5c0
-> [    5.044548][   T25]  ? __pfx_kthread+0x10/0x10
-> [    5.044549][   T25]  ? ret_from_fork+0x1b/0x2e0
-> [    5.044552][   T25]  ? __lock_release.isra.0+0x5d/0x180
-> [    5.044553][   T25]  ? ret_from_fork+0x1b/0x2e0
-> [    5.044555][   T25]  ? rcu_is_watching+0x12/0xc0
-> [    5.044557][   T25]  ? __pfx_kthread+0x10/0x10
-> [    5.044559][   T25]  ret_from_fork+0x218/0x2e0
-> [    5.044561][   T25]  ? __pfx_kthread+0x10/0x10
-> [    5.044562][   T25]  ret_from_fork_asm+0x1a/0x30
-> [    5.044570][   T25]  </TASK>
-> '''
-> 
-> This patch uses sleepable RCU version of helper list_for_each_entry_srcu()
-> instead of list_for_each_entry_rcu() to fix it.
-> 
-> Fixes: 4dbd2b2ebe4c ("nvme-multipath: Add visibility for round-robin io-policy")
-> Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
-> ---
->   drivers/nvme/host/multipath.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index e040e467f9fa..5e11b0fdf250 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -1200,7 +1200,8 @@ void nvme_mpath_add_sysfs_link(struct nvme_ns_head *head)
->   	 */
->   	srcu_idx = srcu_read_lock(&head->srcu);
->   
-> -	list_for_each_entry_rcu(ns, &head->list, siblings) {
-> +	list_for_each_entry_srcu(ns, &head->list, siblings,
-> +				 srcu_read_lock_held(&head->srcu)) {
->   		/*
->   		 * Ensure that ns path disk node is already added otherwise we
->   		 * may get invalid kobj name for target
+--00000000000046df040638c6e243
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+subscribe
 
-Cheers,
-
-Hannes
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+This electronic communication and the information and any files transmitted 
+with it, or attached to it, are confidential and are intended solely for 
+the use of the individual or entity to whom it is addressed and may contain 
+information that is confidential, legally privileged, protected by privacy 
+laws, or otherwise restricted from disclosure to anyone else. If you are 
+not the intended recipient or the person responsible for delivering the 
+e-mail to the intended recipient, you are hereby notified that any use, 
+copying, distributing, dissemination, forwarding, printing, or copying of 
+this e-mail is strictly prohibited. If you received this e-mail in error, 
+please return the e-mail to the sender, delete it from your computer, and 
+destroy any printed copy of it.
+
+--00000000000046df040638c6e243
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+ys9fYL+GlV3PS9wS3h0MI90cAfs5ZQjER5eWqMBARhfrW70fFVMSdZzBpXljqRjD+GOJm711FgvN
+RsH9iq2Ndn7XY7jpnxND6cwSKympBXWuvQ54YyFDLr0m9eC6BNU5bQIDAQABo4IB3TCCAdkwDgYD
+VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
+ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
+CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
+MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
+d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
+hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
+bDAnBgNVHREEIDAegRxtdW5lZW5kcmEua3VtYXJAYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsG
+AQUFBwMEMB8GA1UdIwQYMBaAFJYz0eZYF1s0dYqBVmTVvkjeoY/PMB0GA1UdDgQWBBTJvvnIS4Qf
+Z+gEeC51xAB2l3lqOzANBgkqhkiG9w0BAQsFAAOCAQEAE6G8pLIpwrdO0Dmi603StqsNLN3t3i5m
+SU/J+ZHnSeVNQFmfJjYSlZHSeAYrw+nsLEw08xiT4N2dPLbnowDKw0cVDRV5hL6+Uis2nqNkp9Kk
+dXMVNlGeqGqBo98QRdRdzLgc/3FBQp3XIGUo2VDOMYW/RPbI1muHQOBKaVx4q8jqitNbqThvZkt/
+t8KBiojEq4d7/scDRRtEsaL6Hl7cAYNMrS5EpijZrYjNYercaQNHcHP38l/XM9n36jllylt12koc
+Dfj3D142STRRnexoNURmkc9EAKyZPRv/JRGz6YP0i2y1JqgpjF8CggD2osV3pA9e8ecXWQ7/ZJly
+zHlFgjGCAmAwggJcAgEBMGswWzELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYt
+c2ExMTAvBgNVBAMTKEdsb2JhbFNpZ24gR0NDIFIzIFBlcnNvbmFsU2lnbiAyIENBIDIwMjACDEnR
+Sel9Ku9INR0BhDANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg9BL+c3DepzCbpJDc
+yrrPwM92PvAnV6+t1g9q1Pe0SE8wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0B
+CQUxDxcNMjUwNjMwMDk0NTExWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgB
+ZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEw
+DQYJKoZIhvcNAQEBBQAEggEAZqP9yx+lgkrF+3GxAYy+duZ4Zl1vH3bWi05zM7GDPEH0+784UaFc
+rDqAPnyqd0Y9XH8d50UVzA+QY0iQhmSvL/mWbj1FLk6oRJDRNH9LrODCE5H99PfTFKEjiqHu/qI0
+8WwLbfZWofRmE4bVWsVP7ZCB7RsZdihbx6CYDnU0+mq/JYSVd4jL8A6qgHhUiuRj0LLj7MprFSbn
+C2XAFp2zJt3sRjOJdt9ED6lNVOEYZ5ffJt/Tu6aenSoVSSDJSPIUQg+NWNmJQKS2J9oQTW9wL4nh
+aDLpWjIgbeFgEbCBQM9bxRHHLLKrrAUMQSssCvlwNro/6XtxYF6QcMsJd9pdYg==
+--00000000000046df040638c6e243--
 
