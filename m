@@ -4,47 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62A79C8302D
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jun 2025 13:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52464C83036
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jun 2025 13:48:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=1zb2wukpdLrkTnDXzUMRZ/M+iO
-	Mjjh2rO3uQedp2SALPghnPLZjtqW/UAkXN4/zwVgc4nHQJ6E79IDaty3sUHmjpV7E7z2UKvUczXFY
-	FiRU1GvV+q+wsecvlHEwOtpwbFMbDvrzTL1UojA2Q5oc+S5o/+Kmm+ibfsK+Ay8N0amWWcH0T+XGe
-	jEJfUpDgvShChyugASqHVbhU6JSil8sddBYrSNJGaI5MV7F67+lb5evfScdp0iuXAeb/dPe4ClmwM
-	z4F1L2TkrRg5hvN4xFp3AjGUIBU/Yo0CN/6gUiFwwI07csJFVQmT/dnrlqmM/TuYA//I5A2uW0wKc
-	4m852YLA==;
+	bh=TharGn6RiWbXxTyhQmBANq2iG9yGVxlUROLfglE4IjM=; b=Y+iHTPgqZu0It7cjyRshWt9pLR
+	kdJCvQqoS4jUn9kXpkGqbaB06tn3975DLThzS+6ZQ8MW5kcimh9t6bqBHMK1V9wyDENFMcBrLo/S3
+	OPJuBcrEH+AaUBeT152XeBLWQUzhCNxhniSu+u1DtmMIORvJYdUFX5fPLi4hW5dzrI1sEHlx9zUBJ
+	CBT4JPpaeMVeHLvg3SCsiMT8fQmfIrJe3ax8lOSG9MG9Lk26qt7OnXV2RR3WUxJjm/2xOLNbI6SOU
+	3k0Ee6LogE3HNkxPw5Q4goPT068lzqTOJFUaMoQi55yUBKpCoy5cTF9FqLzsqQ/M4f8TLrNigSNKp
+	LCuIUqsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWErT-00000002QZv-2xLU;
-	Mon, 30 Jun 2025 13:47:55 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWEaU-00000002Nik-1YOv;
-	Mon, 30 Jun 2025 13:30:22 +0000
-Date: Mon, 30 Jun 2025 06:30:22 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: vincent.fu@samsung.com, jack@suse.cz, anuj1072538@gmail.com,
-	axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	hch@infradead.org, martin.petersen@oracle.com, ebiggers@kernel.org,
-	adilger@dilger.ca, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, joshi.k@samsung.com,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	gost.dev@samsung.com
-Subject: Re: [PATCH for-next v5 4/4] fs: add ioctl to query metadata and
- protection info capabilities
-Message-ID: <aGKRbqS7eD43DEqu@infradead.org>
-References: <20250630090548.3317-1-anuj20.g@samsung.com>
- <CGME20250630090616epcas5p2a9ca118ca83586172d69213e22b635a1@epcas5p2.samsung.com>
- <20250630090548.3317-5-anuj20.g@samsung.com>
+	id 1uWErV-00000002Qb0-07yL;
+	Mon, 30 Jun 2025 13:47:57 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uWEdv-00000002OBX-1T4G
+	for linux-nvme@lists.infradead.org;
+	Mon, 30 Jun 2025 13:33:57 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B2DF5227A88; Mon, 30 Jun 2025 15:33:43 +0200 (CEST)
+Date: Mon, 30 Jun 2025 15:33:43 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Ben Copeland <ben.copeland@linaro.org>
+Cc: linux-kernel@vger.kernel.org, lkft-triage@lists.linaro.org,
+	regressions@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Dan Carpenter <dan.carpenter@linaro.org>, kbusch@kernel.org,
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	iommu@lists.linux.dev
+Subject: Re: next-20250627: IOMMU DMA warning during NVMe I/O completion
+ after 06cae0e3f61c
+Message-ID: <20250630133343.GA26040@lst.de>
+References: <CAL0q8a6pOBZbWYdwKzC1U-PuH4rgf2miv0jcF=fWVZt_dUZHmw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250630090548.3317-5-anuj20.g@samsung.com>
+In-Reply-To: <CAL0q8a6pOBZbWYdwKzC1U-PuH4rgf2miv0jcF=fWVZt_dUZHmw@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250630_063355_522000_373279A9 
+X-CRM114-Status: UNSURE (   8.91  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,7 +64,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+Hi Ben,
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+> [   32.857521] iommu_dma_unmap_page+0xc4/0xe8 (P)
+
+Can you resolve this to a source location for me. i.e.
+
+gdb vmlinux
+
+l *(iommu_dma_unmap_page+0xc4)
+
+Also what IOMMU driver is this device using?  It looks like it
+might not support a 4k IOMMU page size.
+
 
