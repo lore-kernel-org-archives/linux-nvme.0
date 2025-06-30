@@ -4,77 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6277C8302F
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jun 2025 21:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0DB3C8302F
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Jun 2025 22:12:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=YksxM+AbQ7ICfaWvFK0R+Tcz00cCXzjTXV4WFd+obyI=; b=DtHctmqfE0D3TacQu9ajgyQ6Kd
-	4K7cUouLkvmldDT3t2m1Glc/EGtLLjNJMfSZxin98GBr7FmWUErR9MbUq19PJGFz2b2cuscTVD9FE
-	0gGnXv4+9ATc/0BkBDs85LQW+YcC4QjYdETuIuz2xKVBnFdH5bInG/U2Tin6RZLhB7NdZrQdAsfIz
-	LVIhOpWQJqCyTtQYPP6qthhhtMZOxeHdD4y0sZQtpxHtLrYanhqvb3Xpk2vEZSE8Ee8J57+L1WT79
-	bWAfMgwW9pOYN1iKm+/7M9X8ACwcWc+DZM7oXMO1ugQt/0DvHBrTQTdySDPWSU/Yqml4pX3UrZdBN
-	GJ+Fge+w==;
+	Content-Type:MIME-Version:References:In-Reply-To:Date:To:From:Subject:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=F1sYDNShdB+06sCJ84BRO2bPUNIHjiAunARjjFgiGns=; b=YDzz5hEzNy9LwnTlQF1ogg7DW+
+	02sdejb6Zou8aEpMbwHXuwrHbtx2AjDp/tHRHae8Vzi9oXslcADQT8cg+lldVxbyj0OTS25chxY0g
+	FzjJCEnVBiiSVHK6hIkfBkRezacOGvNnIwvP7fUoltiURGHb8iPuADgRKmSenj1M1zU8bFJpYFrUD
+	hLvt0O5eHBfb5Y2Suw0IBypdqaQ8cCPyIWNWY5jx7B9z7DfWlVFlp9ftZQlGINIYeTdDtqGUupH4g
+	LNqiNWuMZpvVBFxpBTML8QOgwgiHQRWFEQPifDyNNbwF/1Cc+O0o2KqM1fmqldM+XF9ZEX8zI7XNg
+	0U74PkIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWMAG-00000003Uyc-24vq;
-	Mon, 30 Jun 2025 21:35:48 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1uWMjn-00000003ZFe-2GYU;
+	Mon, 30 Jun 2025 22:12:31 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWJxW-00000003Gim-1o6a
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 30 Jun 2025 19:14:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=YksxM+AbQ7ICfaWvFK0R+Tcz00cCXzjTXV4WFd+obyI=; b=ixVQpUvcg+MH4w0WpRIzp0833U
-	r6zXhmQGNkPWjfebYQ7JbJyNO/ASNUhoVerpHPrXwgy8J6aWN6/ywykRylwvz2sWNN+5+e+MBthGF
-	GH0YEqA2MQw2Y/j119IhKo5uGHcEaUqdSGNnwSTPh2sTBErs9Bu1soN41kM+GK8qw3ACEC8sX60PM
-	MjEThuMdDcz2SFcwaDt3U80K3vxkQniyh3wrb9FNJwgiXe7Am6/KCiElFb1t3uxJiOneR7Nrhcy4U
-	Bxg3b9EHvtlM4BO1AENF5fXcXG2+3hPGI46EHjDj6oaVfXD+uUwO+aYCyZL+Vly5YD5IEIpvF7no2
-	owBPuRGw==;
-Received: from mailout.nod.at ([116.203.167.152] helo=lithops.sigma-star.at)
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWJx1-00000006sL7-3x5v
+	id 1uWMbD-00000003YWT-1TUG
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Jun 2025 19:14:11 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id C4A8728FA02;
-	Mon, 30 Jun 2025 21:13:48 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id YZ7k-ld464wG; Mon, 30 Jun 2025 21:13:48 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 56F8C2A7F55;
-	Mon, 30 Jun 2025 21:13:48 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 9plolHkoNwC4; Mon, 30 Jun 2025 21:13:48 +0200 (CEST)
-Received: from nailgun.corp.sigma-star.at (85-127-104-84.dsl.dynamic.surfer.at [85.127.104.84])
-	by lithops.sigma-star.at (Postfix) with ESMTPSA id EBC382A7F43;
-	Mon, 30 Jun 2025 21:13:47 +0200 (CEST)
-From: Richard Weinberger <richard@nod.at>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	kch@nvidia.com,
-	sagi@grimberg.me,
-	hch@lst.de,
-	dlemoal@kernel.org,
-	upstream+nvme@sigma-star.at,
-	Richard Weinberger <richard@nod.at>
-Subject: [PATCH v2] nvmet: Make blksize_shift configurable
-Date: Mon, 30 Jun 2025 21:13:41 +0200
-Message-ID: <20250630191341.1263000-1-richard@nod.at>
-X-Mailer: git-send-email 2.49.0
+	Mon, 30 Jun 2025 22:03:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751321016;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F1sYDNShdB+06sCJ84BRO2bPUNIHjiAunARjjFgiGns=;
+	b=AbPQwDaaYi5lZl8DlriBNesZAt6cyvyT4x8wv+Jh4Hp67kAZIRIIpSsQU7OTsa8vwK0uZ5
+	k326jS2QtVznC6ptM1dgUnJbD7h74+U+/H2mnsfQ/bzVX0cbl0hNb1lRV3/SYHrEYZV06S
+	NrQMjG7RHYlosXybU1aJ+fxgLkjAul4=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-V1CJww9XMkqeSuElV-mfGg-1; Mon, 30 Jun 2025 18:02:06 -0400
+X-MC-Unique: V1CJww9XMkqeSuElV-mfGg-1
+X-Mimecast-MFC-AGG-ID: V1CJww9XMkqeSuElV-mfGg_1751320925
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4a43c1e1e6bso106645381cf.3
+        for <linux-nvme@lists.infradead.org>; Mon, 30 Jun 2025 15:02:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751320925; x=1751925725;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=F1sYDNShdB+06sCJ84BRO2bPUNIHjiAunARjjFgiGns=;
+        b=w67KOIJRGm8lN9r41m/vJGDofCrKIarQevzhvBeLU/EC++9gYt8cfe7mqhZITQWScw
+         bfDWwVjn/Sdy5oY2aMq94jYNp2I/Iu3eNC3ltVMGagxqoRDA/BJXHzqh2SmiWXsbwEEr
+         T0ZjzRWcrxAPzrNCnOPr/KQd1Y2FnoqNLli4aXPUKLDphLaDCy8T1BHWzUMwbwwps0/x
+         ZqnIIqnehqT1i4hhmSkpWqTqqEhNalPHV+EjdOIqfxx3eVW/bxaeWf3K7Lrswv6hafYY
+         /oH2Uz7Z3mMQSYo/sXftMgzWsfX/MEIrR5BqlVVU+76ZQzaOsN0yZLOuqUE6fm/fjnOT
+         nZMw==
+X-Forwarded-Encrypted: i=1; AJvYcCVku+YFE+/50U4J7nk3RNKc96RHd8EiaOJkVsESXVl5YK+8L2FAnThSXmYnLy5wI6s9iK9c9MTG96tt@lists.infradead.org
+X-Gm-Message-State: AOJu0YyjGo+YJt3xTK+jEC/XGA8lCcGt/HC0NITlw1l4rcwBJ/YBxbei
+	gG6BPkQxWe2hzF1B6ie+hkF8c1WrLyMa8S3hp0ZuQu3J+wurCSAws8rgxTalakwUvo9dtQp5VcQ
+	jAj5P/w+Fs4y/ufno4rc2cDS8miGKB3BF0SGLK45EEOPeAjiPrNuWcxb/28v/SSp1fV4y
+X-Gm-Gg: ASbGncsNjzuRn0/Wo/0dP6McbD//F0MNAxjciV177il4BZUCizYkq6xItgaIj50U+WP
+	5/O/wIAfqJJ1mUPKxLM9tl9xLZJO+0ytGISaZwcbsG3g1wkK2yADysMCn/Vh0XU+FvNcPWXdimP
+	5brd+EZMDtKdUtjVRV6JXV20xJZgjnDjZtdAGgiSUlIoqhAIsAksHNvEG9IAaWlQOLESJz/KGwE
+	LetepGvZMXM3hpMj+Iz7Wp8BoPgaBCCNAfzqlzBIphuJlilc/TsOAFI4jlCz7KlZjaSaX80PrWi
+	EsO12Knln1/iDBYWCSvuxuv8aH9xvYmI8pjdhw8UluzpCfaGDflOcTLCvE5prTR+UJLT2uDNaex
+	uJTb5nHS6Byc4wamb
+X-Received: by 2002:a05:622a:1aa3:b0:494:9455:5731 with SMTP id d75a77b69052e-4a7fcd0a50dmr219040281cf.7.1751320925273;
+        Mon, 30 Jun 2025 15:02:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFl8Lp0HJdj/5CubO6LymZShiX5YgxAMs0JiwsT/sFHj3mnBG/ZbF1kylGa3wRxDA6ZElp2cQ==
+X-Received: by 2002:a05:622a:1aa3:b0:494:9455:5731 with SMTP id d75a77b69052e-4a7fcd0a50dmr219039711cf.7.1751320924728;
+        Mon, 30 Jun 2025 15:02:04 -0700 (PDT)
+Received: from syn-2600-6c64-4e7f-603b-9b92-b2ac-3267-27e9.biz6.spectrum.com ([2600:6c64:4e7f:603b:9b92:b2ac:3267:27e9])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d443150adesm672823985a.26.2025.06.30.15.02.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 15:02:03 -0700 (PDT)
+Message-ID: <91c3f5cb07df7b6de072e8af90709a803cf52042.camel@redhat.com>
+Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
+From: Laurence Oberman <loberman@redhat.com>
+To: Michael Kelley <mhklinux@outlook.com>, Stuart Hayes
+ <stuart.w.hayes@gmail.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  "Rafael J . Wysocki" <rafael@kernel.org>,
+ Martin Belanger <Martin.Belanger@dell.com>, Oliver O'Halloran
+ <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>, Keith Busch
+ <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>, David Jeffery
+ <djeffery@redhat.com>, Jeremy Allison <jallison@ciq.com>,  Jens Axboe
+ <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+ <sagi@grimberg.me>,  "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, Nathan Chancellor <nathan@kernel.org>,
+ Jan Kiszka <jan.kiszka@seimens.com>, Bert Karwatzki <spasswolf@web.de>
+Date: Mon, 30 Jun 2025 18:02:02 -0400
+In-Reply-To: <SN6PR02MB41572B532608AD12685ED678D446A@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
+	 <SN6PR02MB41572B532608AD12685ED678D446A@SN6PR02MB4157.namprd02.prod.outlook.com>
+User-Agent: Evolution 3.40.4 (3.40.4-11.el9)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: TVQNqqVJWXhYs9qubfMzgKoQZFZAZ2RVUr0q0Ec5tsk_1751320925
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250630_201409_249786_9453C9C5 
-X-CRM114-Status: GOOD (  17.14  )
+X-CRM114-CacheID: sfid-20250630_150339_458291_54648321 
+X-CRM114-Status: GOOD (  43.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,174 +119,155 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently, the block size is automatically configured, and for
-file-backed namespaces it is likely to be 4K.
-While this is a reasonable default for modern storage, it can
-cause confusion if someone wants to export a pre-created disk image
-that uses a 512-byte block size.
-As a result, partition parsing will fail.
+On Mon, 2025-06-30 at 20:33 +0000, Michael Kelley wrote:
+> From: Stuart Hayes <stuart.w.hayes@gmail.com> Sent: Wednesday, June
+> 25, 2025 1:19 PM
+> > 
+> > This adds the ability for the kernel to shutdown devices
+> > asynchronously.
+> > 
+> > Only devices with drivers that enable it are shut down
+> > asynchronously.
+> > 
+> > This can dramatically reduce system shutdown/reboot time on systems
+> > that
+> > have multiple devices that take many seconds to shut down (like
+> > certain
+> > NVMe drives). On one system tested, the shutdown time went from 11
+> > minutes
+> > without this patch to 55 seconds with the patch.
+> 
+> I've tested this version and all looks good. I did the same tests
+> that I did
+> with v9 [1], running in a VM in the Azure cloud. The 2 NVMe devices
+> are
+> shutdown in parallel, gaining about 110 milliseconds, and there were
+> no
+> slowdowns as seen in v9. The net gain was ~100 ms.
+> 
+> I also tested a local Hyper-V VM that does not have any NVMe devices.
+> The shutdown timings with and without this patch set are pretty much
+> the same, which was not the case with v9.
+> 
+> I did not repeat the more detailed debugging from v9 as reported
+> here [2], since there is no unexpected slowness with v10.
+> 
+> For the series,
+> 
+> Tested-by: Michael Kelley <mhklinux@outlook.com>
+> 
+> [1]
+> https://lore.kernel.org/lkml/BN7PR02MB41480DE777B9C224F3C2DF43D4792@BN7PR02MB4148.namprd02.prod.outlook.com/
+> [2]
+> https://lore.kernel.org/lkml/SN6PR02MB41571E2DD410D09CE7494B38D4402@SN6PR02MB4157.namprd02.prod.outlook.com/
+> 
+> > 
+> > Changes from V9:
+> > 
+> > Address resource and timing issues when spawning a unique async
+> > thread
+> > for every device during shutdown:
+> >   * Make the asynchronous threads able to shut down multiple
+> > devices,
+> >     instead of spawning a unique thread for every device.
+> >   * Modify core kernel async code with a custom wake function so it
+> >     doesn't wake up threads waiting to synchronize every time the
+> > cookie
+> >     changes
+> > 
+> > Changes from V8:
+> > 
+> > Deal with shutdown hangs resulting when a parent/supplier device is
+> >   later in the devices_kset list than its children/consumers:
+> >   * Ignore sync_state_only devlinks for shutdown dependencies
+> >   * Ignore shutdown_after for devices that don't want async
+> > shutdown
+> >   * Add a sanity check to revert to sync shutdown for any device
+> > that
+> >     would otherwise wait for a child/consumer shutdown that hasn't
+> >     already been scheduled
+> > 
+> > Changes from V7:
+> > 
+> > Do not expose driver async_shutdown_enable in sysfs.
+> > Wrapped a long line.
+> > 
+> > Changes from V6:
+> > 
+> > Removed a sysfs attribute that allowed the async device shutdown to
+> > be
+> > "on" (with driver opt-out), "safe" (driver opt-in), or "off"...
+> > what was
+> > previously "safe" is now the only behavior, so drivers now only
+> > need to
+> > have the option to enable or disable async shutdown.
+> > 
+> > Changes from V5:
+> > 
+> > Separated into multiple patches to make review easier.
+> > Reworked some code to make it more readable
+> > Made devices wait for consumers to shut down, not just children
+> >   (suggested by David Jeffery)
+> > 
+> > Changes from V4:
+> > 
+> > Change code to use cookies for synchronization rather than async
+> > domains
+> > Allow async shutdown to be disabled via sysfs, and allow driver
+> > opt-in or
+> >   opt-out of async shutdown (when not disabled), with ability to
+> > control
+> >   driver opt-in/opt-out via sysfs
+> > 
+> > Changes from V3:
+> > 
+> > Bug fix (used "parent" not "dev->parent" in device_shutdown)
+> > 
+> > Changes from V2:
+> > 
+> > Removed recursive functions to schedule children to be shutdown
+> > before
+> >   parents, since existing device_shutdown loop will already do this
+> > 
+> > Changes from V1:
+> > 
+> > Rewritten using kernel async code (suggested by Lukas Wunner)
+> > 
+> > David Jeffery (1):
+> >   kernel/async: streamline cookie synchronization
+> > 
+> > Stuart Hayes (4):
+> >   driver core: don't always lock parent in shutdown
+> >   driver core: separate function to shutdown one device
+> >   driver core: shut down devices asynchronously
+> >   nvme-pci: Make driver prefer asynchronous shutdown
+> > 
+> >  drivers/base/base.h           |   8 ++
+> >  drivers/base/core.c           | 210 +++++++++++++++++++++++++++++-
+> > ----
+> >  drivers/nvme/host/pci.c       |   1 +
+> >  include/linux/device/driver.h |   2 +
+> >  kernel/async.c                |  42 ++++++-
+> >  5 files changed, 236 insertions(+), 27 deletions(-)
+> > 
+> > --
+> > 2.39.3
+> > 
+> 
+> 
 
-So, just like we already do for the loop block device, let the user
-configure the block size if they know better.
+For the series:
 
-Signed-off-by: Richard Weinberger <richard@nod.at>
----
-Changes since v1 (RFC)[0]:
+Against 
+Kernel 6.16.0-rc4-dirty on an x86_64
 
-- Make sure blksize_shift is in general within reason
-- In the bdev case and when using direct IO, blksize_shift has to be
-  smaller than the logical block it the device
-- In the file case and when using direct IO try to use STATX_DIOALIGN,
-  just like the loop device does
+Difference of about 15 seconds to shutdown compared to almost 60
+Same set of test I always run and stable and repeatable
 
-[0] https://lore.kernel.org/linux-nvme/20250418090834.2755289-1-richard@n=
-od.at/
+Looks good again, although V9 also looked good until Mike Kelley found
+his issues.
+ 
+Tested-by: Laurence Oberman <loberman@redhat.com>
 
-Thanks,
-//richard
----
- drivers/nvme/target/configfs.c    | 37 +++++++++++++++++++++++++++++++
- drivers/nvme/target/io-cmd-bdev.c | 13 ++++++++++-
- drivers/nvme/target/io-cmd-file.c | 28 ++++++++++++++++++-----
- 3 files changed, 71 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configf=
-s.c
-index e44ef69dffc24..26175c37374ab 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -797,6 +797,42 @@ static ssize_t nvmet_ns_resv_enable_store(struct con=
-fig_item *item,
- }
- CONFIGFS_ATTR(nvmet_ns_, resv_enable);
-=20
-+static ssize_t nvmet_ns_blksize_shift_show(struct config_item *item, cha=
-r *page)
-+{
-+	return sysfs_emit(page, "%u\n", to_nvmet_ns(item)->blksize_shift);
-+}
-+
-+static ssize_t nvmet_ns_blksize_shift_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_ns *ns =3D to_nvmet_ns(item);
-+	u32 shift;
-+	int ret;
-+
-+	ret =3D kstrtou32(page, 0, &shift);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Make sure block size is within reason, something between 512 and
-+	 * BLK_MAX_BLOCK_SIZE.
-+	 */
-+	if (shift < 9 || shift > 16)
-+		return -EINVAL;
-+
-+	mutex_lock(&ns->subsys->lock);
-+	if (ns->enabled) {
-+		pr_err("the ns:%d is already enabled.\n", ns->nsid);
-+		mutex_unlock(&ns->subsys->lock);
-+		return -EINVAL;
-+	}
-+	ns->blksize_shift =3D shift;
-+	mutex_unlock(&ns->subsys->lock);
-+
-+	return count;
-+}
-+CONFIGFS_ATTR(nvmet_ns_, blksize_shift);
-+
- static struct configfs_attribute *nvmet_ns_attrs[] =3D {
- 	&nvmet_ns_attr_device_path,
- 	&nvmet_ns_attr_device_nguid,
-@@ -806,6 +842,7 @@ static struct configfs_attribute *nvmet_ns_attrs[] =3D=
- {
- 	&nvmet_ns_attr_buffered_io,
- 	&nvmet_ns_attr_revalidate_size,
- 	&nvmet_ns_attr_resv_enable,
-+	&nvmet_ns_attr_blksize_shift,
- #ifdef CONFIG_PCI_P2PDMA
- 	&nvmet_ns_attr_p2pmem,
- #endif
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-c=
-md-bdev.c
-index eba42df2f8215..be39837d4d792 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -77,6 +77,7 @@ static void nvmet_bdev_ns_enable_integrity(struct nvmet=
-_ns *ns)
-=20
- int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- {
-+	int bdev_blksize_shift;
- 	int ret;
-=20
- 	/*
-@@ -100,7 +101,17 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- 	}
- 	ns->bdev =3D file_bdev(ns->bdev_file);
- 	ns->size =3D bdev_nr_bytes(ns->bdev);
--	ns->blksize_shift =3D blksize_bits(bdev_logical_block_size(ns->bdev));
-+	bdev_blksize_shift =3D blksize_bits(bdev_logical_block_size(ns->bdev));
-+
-+	if (ns->blksize_shift) {
-+		if (ns->blksize_shift < bdev_blksize_shift) {
-+			pr_err("Configured blksize_shift needs to be at least %d for device %=
-s\n",
-+				bdev_blksize_shift, ns->device_path);
-+			return -EINVAL;
-+		}
-+	} else {
-+		ns->blksize_shift =3D bdev_blksize_shift;
-+	}
-=20
- 	ns->pi_type =3D 0;
- 	ns->metadata_size =3D 0;
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-c=
-md-file.c
-index 2d068439b129c..a4066b5a1dc97 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -49,12 +49,28 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
-=20
- 	nvmet_file_ns_revalidate(ns);
-=20
--	/*
--	 * i_blkbits can be greater than the universally accepted upper bound,
--	 * so make sure we export a sane namespace lba_shift.
--	 */
--	ns->blksize_shift =3D min_t(u8,
--			file_inode(ns->file)->i_blkbits, 12);
-+	if (ns->blksize_shift) {
-+		if (!ns->buffered_io) {
-+			struct block_device *sb_bdev =3D ns->file->f_mapping->host->i_sb->s_b=
-dev;
-+			struct kstat st;
-+
-+			if (!vfs_getattr(&ns->file->f_path, &st, STATX_DIOALIGN, 0) &&
-+			    (st.result_mask & STATX_DIOALIGN) &&
-+			    (1 << ns->blksize_shift) < st.dio_offset_align)
-+				return -EINVAL;
-+
-+			if (sb_bdev && (1 << ns->blksize_shift < bdev_logical_block_size(sb_b=
-dev)))
-+				return -EINVAL;
-+		}
-+	} else {
-+		/*
-+		 * i_blkbits can be greater than the universally accepted
-+		 * upper bound, so make sure we export a sane namespace
-+		 * lba_shift.
-+		 */
-+		ns->blksize_shift =3D min_t(u8,
-+				file_inode(ns->file)->i_blkbits, 12);
-+	}
-=20
- 	ns->bvec_pool =3D mempool_create(NVMET_MIN_MPOOL_OBJ, mempool_alloc_sla=
-b,
- 			mempool_free_slab, nvmet_bvec_cache);
---=20
-2.49.0
 
 
