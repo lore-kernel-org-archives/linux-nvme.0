@@ -4,59 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF69FC83030
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 00:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4FF3C8302F
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 00:54:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9S/rI2DP6ziUNoOKWS9p7/JEJc/Y9YU6z4mbK8KnjNs=; b=bldLDBF7JXO514Pz0vAZhcdRuk
-	kC2dq6WXkKmpm5MX5SffQ2oo4/ppdw0M+v7Y23cd0u5aDLaTCa5QG66oxOF820WDqk6uwK2l3IskZ
-	PoI6Ua/BxbcYXB1ENf/kn/MjBDcOOJm6A3inzyh/o8LI0Xl0hOV4TPTHksbQtIJOAyFTIb0jUED9y
-	TnssIatOxUoonW6tvsIlGy2624EcSZLJzF3yGVWl7+S19WCu8Ag8nx53GTJuNgypqbgBwgO72q26w
-	HBDQMAuh3xhWs8PQmEPnCa4Q2UvjEqTYbppaJ4FdUWOvyY7JOi84sAVrE/ro5EQUg7mKncQaMa0/V
-	yQph224Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JJI2AcliJAm4zKYjQQt7lU1bNOIAqP31nP5uByM5M+Y=; b=vCMHW+23bxZG1XcnYZG2ajYz+s
+	sefxRFdAVPtN5LGZm285otacu5pzwOQH+WwxQhWi3Tf/3eZHytAxNRamK1MQgHo9Ii+zPJwC3rTqN
+	S2ZmOzykQaaMVNqhqiF9XOSxaYZEYNCQ0y4GEqa48l8wBEfgcJZZB3LpLxOR29vwAoxC9g293nNms
+	Z9QMPB6GDPGNkBkiP09PzcZNQMW3e6K5NVTY8m5c2whnRHoihEQXrw5yB9aQYmo5sL8LFscosIk7J
+	KwofMVEUblsheymIi9sRGLDmDP3wsJ6w0RsSwYX3Ywt7Ar3foYqjzMCAIK333aG7+/40bDSSE2y8y
+	3MWr+VGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWOyr-00000003k4Q-3ZAc;
-	Tue, 01 Jul 2025 00:36:13 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uWPGV-00000003lTZ-17Gz;
+	Tue, 01 Jul 2025 00:54:27 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWOyp-00000003k4K-49nx
+	id 1uWPGS-00000003lSR-0vTf
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Jul 2025 00:36:12 +0000
+	Tue, 01 Jul 2025 00:54:25 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 27C4D6112D;
-	Tue,  1 Jul 2025 00:36:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11ADAC4CEE3;
-	Tue,  1 Jul 2025 00:36:09 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id EE15A46068;
+	Tue,  1 Jul 2025 00:54:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7683EC4CEF1;
+	Tue,  1 Jul 2025 00:54:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751330170;
-	bh=bp85Nb1SqHOkZt8dKzTMcsAOLOjBh44N/vR/2utVHaw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Nc/5SMAS1+bbub/Krsn3J35YjtGboTAnFJ1fIl3LGz/1WqPpVZo/EpxH2gfh7yNUQ
-	 KgNfkerkmSCK7Dq8zDv4x7qDyv4HsdKDxzG10lanRdBKsnTGB6xRtiYw+Hvno8U9BH
-	 cYNcgxPuOKKyoy5PYJT9aGfZ89P0Xraj/GNXWFsT+sLT2/wCjugb6T3wGGu9hRsErf
-	 K0VwnNmcZn7XVAkp4veu9RRibGzEkZoOM2dzTkJZM0GWhKZVt9EoXVuyB9zCyT4D9Q
-	 t4qkeoL+DYLN6+y5kwyN8lobp/O4rv2djgAr8Qu7jDt6NhkfsCRJQUsn3NJdwEwHbQ
-	 s3zUmTj7ddXXA==
-Message-ID: <132c1bdf-e100-4e3a-883f-27f9e9b78020@kernel.org>
-Date: Tue, 1 Jul 2025 09:34:00 +0900
+	s=k20201202; t=1751331263;
+	bh=ToOw6uJVC9iS7TA1n50KV+hOesklTI3h/nf9C9Afkk8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gyK4qdqe7n2SY35w+0A2VIvZMp5I/DS91mgGqJg0VUJl9P+KTZz8W8cM6NauRPs0d
+	 8Z4KahMYQfwakLpjFJGiBdtTnTTcsK2k3VLG0dsTY4g0X06c5R4UUaWbWKDxl5vlv5
+	 QKlX/ooQaHil84zfPAo5lowvdjELNQnek6Lqsuipnltx14giYoclu/w16F9r88UuhR
+	 MGKCx3M1BrRxxqIA2JZegKWGf7raug3DEawkejgjW6hmJ8unAsq08LDGwXHh6SeJJ8
+	 lWGlDH3/Qi9Ehh4+R6CBJMvIPnbhgBAfR88RZCIviqrJI9L51AMHzweUJD/rTjBAsN
+	 7P36XETuKdU8g==
+Date: Mon, 30 Jun 2025 18:54:19 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Ben Copeland <ben.copeland@linaro.org>, linux-kernel@vger.kernel.org,
+	lkft-triage@lists.linaro.org, regressions@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	Dan Carpenter <dan.carpenter@linaro.org>, axboe@kernel.dk,
+	sagi@grimberg.me, iommu@lists.linux.dev
+Subject: Re: next-20250627: IOMMU DMA warning during NVMe I/O completion
+ after 06cae0e3f61c
+Message-ID: <aGMxu6Yn514Xy55w@kbusch-mbp>
+References: <CAL0q8a6pOBZbWYdwKzC1U-PuH4rgf2miv0jcF=fWVZt_dUZHmw@mail.gmail.com>
+ <20250630133343.GA26040@lst.de>
+ <aGLyswGYD6Zai_sI@kbusch-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvmet: Make blksize_shift configurable
-To: Richard Weinberger <richard@nod.at>, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, kch@nvidia.com, sagi@grimberg.me,
- hch@lst.de, upstream+nvme@sigma-star.at
-References: <20250630191341.1263000-1-richard@nod.at>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20250630191341.1263000-1-richard@nod.at>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aGLyswGYD6Zai_sI@kbusch-mbp>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250630_175424_285389_9D8C2FA3 
+X-CRM114-Status: GOOD (  12.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,231 +77,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/1/25 4:13 AM, Richard Weinberger wrote:
-> Currently, the block size is automatically configured, and for
-> file-backed namespaces it is likely to be 4K.
-> While this is a reasonable default for modern storage, it can
-> cause confusion if someone wants to export a pre-created disk image
-> that uses a 512-byte block size.
-> As a result, partition parsing will fail.
+On Mon, Jun 30, 2025 at 02:25:23PM -0600, Keith Busch wrote:
+> On Mon, Jun 30, 2025 at 03:33:43PM +0200, Christoph Hellwig wrote:
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -701,7 +701,7 @@ static void nvme_free_prps(struct request *req)
+>         prp_list = iod->descriptors[desc];
+>         do {
+>                 dma_unmap_page(dma_dev, dma_addr, dma_len, dir);
+> -               if (i == NVME_CTRL_PAGE_SIZE >> 3) {
+> +               if (i == NVME_CTRL_PAGE_SIZE >> 3 && length > NVME_CTRL_PAGE_SIZE) {
+>                         prp_list = iod->descriptors[++desc];
+>                         i = 0;
+>                 }
+> --
 > 
-> So, just like we already do for the loop block device, let the user
-> configure the block size if they know better.
+> But even that, the PRP setup doesn't match the teardown. We're calling
+> dma_map_page() on each PRP even if consecutive PRP's [...]
 
-Hmm... That fine with me but this explanation does not match what the patch
-does: you allow configuring the block size bit shift, not the size. That is not
-super user friendly :)
-
-Even if internally you use the block size bit shift, I think it would be better
-if the user facing interface is the block size as that is much easier to
-manipulate without having to remember the exponent for powers of 2 values :)
-
-> 
-> Signed-off-by: Richard Weinberger <richard@nod.at>
-> ---
-> Changes since v1 (RFC)[0]:
-> 
-> - Make sure blksize_shift is in general within reason
-> - In the bdev case and when using direct IO, blksize_shift has to be
->   smaller than the logical block it the device
-> - In the file case and when using direct IO try to use STATX_DIOALIGN,
->   just like the loop device does
-> 
-> [0] https://lore.kernel.org/linux-nvme/20250418090834.2755289-1-richard@nod.at/
-> 
-> Thanks,
-> //richard
-> ---
->  drivers/nvme/target/configfs.c    | 37 +++++++++++++++++++++++++++++++
->  drivers/nvme/target/io-cmd-bdev.c | 13 ++++++++++-
->  drivers/nvme/target/io-cmd-file.c | 28 ++++++++++++++++++-----
->  3 files changed, 71 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index e44ef69dffc24..26175c37374ab 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -797,6 +797,42 @@ static ssize_t nvmet_ns_resv_enable_store(struct config_item *item,
->  }
->  CONFIGFS_ATTR(nvmet_ns_, resv_enable);
->  
-> +static ssize_t nvmet_ns_blksize_shift_show(struct config_item *item, char *page)
-
-As mentioned above, I think this should be nvmet_ns_blksize_show().
-
-> +{
-> +	return sysfs_emit(page, "%u\n", to_nvmet_ns(item)->blksize_shift);
-
-And you can do:
-
-	return sysfs_emit(page, "%u\n",
-			  1U << to_nvmet_ns(item)->blksize_shift);
-
-> +}
-> +
-> +static ssize_t nvmet_ns_blksize_shift_store(struct config_item *item,
-> +		const char *page, size_t count)
-
-Similar here: nvmet_ns_blksize_store()
-
-> +{
-> +	struct nvmet_ns *ns = to_nvmet_ns(item);
-> +	u32 shift;
-> +	int ret;
-> +
-> +	ret = kstrtou32(page, 0, &shift);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * Make sure block size is within reason, something between 512 and
-> +	 * BLK_MAX_BLOCK_SIZE.
-> +	 */
-> +	if (shift < 9 || shift > 16)
-> +		return -EINVAL;
-
-And this would be simpler:
-
-	if (blksz < SECTOR_SIZE || blksz > BLK_MAX_BLOCK_SIZE ||
-	    !is_power_of_2(blksz))
-		return -EINVAL;
-
-> +
-> +	mutex_lock(&ns->subsys->lock);
-> +	if (ns->enabled) {
-> +		pr_err("the ns:%d is already enabled.\n", ns->nsid);
-> +		mutex_unlock(&ns->subsys->lock);
-> +		return -EINVAL;
-> +	}
-> +	ns->blksize_shift = shift;
-
-and here:
-
-	ns->blksize_shift = ilog2(blksz);
-
-> +	mutex_unlock(&ns->subsys->lock);
-> +
-> +	return count;
-> +}
-> +CONFIGFS_ATTR(nvmet_ns_, blksize_shift);
-> +
->  static struct configfs_attribute *nvmet_ns_attrs[] = {
->  	&nvmet_ns_attr_device_path,
->  	&nvmet_ns_attr_device_nguid,
-> @@ -806,6 +842,7 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
->  	&nvmet_ns_attr_buffered_io,
->  	&nvmet_ns_attr_revalidate_size,
->  	&nvmet_ns_attr_resv_enable,
-> +	&nvmet_ns_attr_blksize_shift,
->  #ifdef CONFIG_PCI_P2PDMA
->  	&nvmet_ns_attr_p2pmem,
->  #endif
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index eba42df2f8215..be39837d4d792 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -77,6 +77,7 @@ static void nvmet_bdev_ns_enable_integrity(struct nvmet_ns *ns)
->  
->  int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
->  {
-> +	int bdev_blksize_shift;
->  	int ret;
->  
->  	/*
-> @@ -100,7 +101,17 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
->  	}
->  	ns->bdev = file_bdev(ns->bdev_file);
->  	ns->size = bdev_nr_bytes(ns->bdev);
-> -	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
-> +	bdev_blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
-> +
-> +	if (ns->blksize_shift) {
-> +		if (ns->blksize_shift < bdev_blksize_shift) {
-> +			pr_err("Configured blksize_shift needs to be at least %d for device %s\n",
-> +				bdev_blksize_shift, ns->device_path);
-> +			return -EINVAL;
-> +		}
-> +	} else {
-> +		ns->blksize_shift = bdev_blksize_shift;
-> +	}
-
-Nit: to avoid the indented if, may be write this like this: ?
-
-	if (!ns->blksize_shift)
-		ns->blksize_shift = bdev_blksize_shift;
-
-	if (ns->blksize_shift < bdev_blksize_shift) {
-		pr_err("Configured blksize needs to be at least %u for device %s\n",
-			bdev_logical_block_size(ns->bdev),
-			ns->device_path);
-		return -EINVAL;
-	}
-
-Also, if the backend is an HDD, do we want to allow the user to configure a
-block size that is less than the *physical* block size ? Performance will
-suffer on regular HDDs and writes may fail with SMR HDDs.
-
->  
->  	ns->pi_type = 0;
->  	ns->metadata_size = 0;
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index 2d068439b129c..a4066b5a1dc97 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -49,12 +49,28 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
->  
->  	nvmet_file_ns_revalidate(ns);
->  
-> -	/*
-> -	 * i_blkbits can be greater than the universally accepted upper bound,
-> -	 * so make sure we export a sane namespace lba_shift.
-> -	 */
-> -	ns->blksize_shift = min_t(u8,
-> -			file_inode(ns->file)->i_blkbits, 12);
-> +	if (ns->blksize_shift) {
-> +		if (!ns->buffered_io) {
-> +			struct block_device *sb_bdev = ns->file->f_mapping->host->i_sb->s_bdev;
-> +			struct kstat st;
-> +
-> +			if (!vfs_getattr(&ns->file->f_path, &st, STATX_DIOALIGN, 0) &&
-> +			    (st.result_mask & STATX_DIOALIGN) &&
-> +			    (1 << ns->blksize_shift) < st.dio_offset_align)
-> +				return -EINVAL;
-> +
-> +			if (sb_bdev && (1 << ns->blksize_shift < bdev_logical_block_size(sb_bdev)))
-> +				return -EINVAL;
-
-I am confused... This is going to check both... But if you got STATX_DIOALIGN
-and it is OK, you do not need (and probably should not) do the second if, no ?
-
-Also, the second condition of the second if is essentially the same check as
-for the block dev case. So maybe reuse that by creating a small helper function ?
-
-> +		}
-> +	} else {
-> +		/*
-> +		 * i_blkbits can be greater than the universally accepted
-> +		 * upper bound, so make sure we export a sane namespace
-> +		 * lba_shift.
-> +		 */
-> +		ns->blksize_shift = min_t(u8,
-> +				file_inode(ns->file)->i_blkbits, 12);
-> +	}
-
-It feels like this entire hunk should be a helper function as that would allow
-making it a lot more readable with early returns. This code here whould be
-something like:
-
-	ret = nvmet_file_set_ns_blksize_shift(ns);
-	if (ret)
-		return ret;
-
->  
->  	ns->bvec_pool = mempool_create(NVMET_MIN_MPOOL_OBJ, mempool_alloc_slab,
->  			mempool_free_slab, nvmet_bvec_cache);
-
-
--- 
-Damien Le Moal
-Western Digital Research
+Err, I meant to say "dma_unmap_page()".
 
