@@ -4,66 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04DF4C7EE30
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 08:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FC84C83038
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 13:39:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KVtDSo6PGaazsq37Q/DpkFtSLpK2ZXHx9D/glDLsYfY=; b=LSY+/wVlnK3Xx8Fif7/O9q0GVD
-	Lq8thFF7WPG6oRyK6Gz8QAviiu284no0d/Nioh8hIwOY0RqUPIC6BbATCJ58oo1iph9m4NLpGqB6v
-	/pqxCiYLBbCivU93kSizuv2hoGjW+rVB+83TBd+8yx2CStEauWLfP7tWssiwqHCfnSfVOSKtHS7AI
-	WwKjDeiRkhE9ggw4EhDuGCAai6JK+aCt7ilnlWjb7MqUWJtaDXQYescMWAV+X7e8iaibycyEn9Gba
-	Gbc5L36mGSx0TUcDLVgPu4RC25hi9+iKSm3PW+Hgryeuxn53tH2o0MrZPyRepI7MO0lMuC12sOUth
-	V5XymQEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HJ8y0PzGFf5PD7LMarUocV/8a84K0y4CIjPrM9ordDM=; b=DPSLXbjB1W09Pj3n7ZNMcGvOAv
+	gfgij2o3qTaVt9kxY/yQ9w6Yjd2Tgev1gdUOWCyB7Q5koynxldngEDGeAv1Akb9iuyJy4OK3Ah1Re
+	2WyuBW7tMKgnJG7UcWlOJ9/0LVYIOzNJ+dmNRI9ELchPWuv8ViuHgCeszx4f0YrFCjJMyjRAGd/T3
+	UxALewhxDzGyxknA0SbCQlFIi8rEWH/XiKG4kVxnX8yinjtryAjz7mkM3qzMI3EQdZI++MKe0DlBc
+	899Mr2i5Pv3UM7dkE5g+JhszlMGi0C/3a1XJ1Dxqc/FJE4zvIQzIik9CzUDGkza9sIKfMle8tFFCy
+	djJ1AA+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWWjn-00000004UhO-0xDX;
-	Tue, 01 Jul 2025 08:53:11 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1uWbDB-00000005Y1u-1f5Q;
+	Tue, 01 Jul 2025 13:39:49 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWWhE-00000004T6p-0nWF
+	id 1uWZg7-00000004y5T-1LJo
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Jul 2025 08:50:33 +0000
+	Tue, 01 Jul 2025 12:01:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A45FF5C661A;
-	Tue,  1 Jul 2025 08:50:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE9F4C4CEEE;
-	Tue,  1 Jul 2025 08:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1751359831;
-	bh=7VWffLYp/5JzoHGHAqiHQaV/1rpYb+lDQUQ4g0pcvcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PKCDd3wEXm29SJcVurH9+m/uW5A4keQOlXJTla4aTXdGUjj1H8aHgANkWJlf/CD3Z
-	 8XK3JEcPYZ912uJQ0a0SID7bDuQBxxTNJGNPEFbapRbk0F/sSbTkpV03pRlhXrSR2q
-	 HRQvkVC2Mkf2QqU8bjSKMOuR99cA2IUnCmku9KXI=
-Date: Tue, 1 Jul 2025 10:50:28 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Stuart Hayes <stuart.w.hayes@gmail.com>
-Cc: linux-kernel@vger.kernel.org, "Rafael J . Wysocki" <rafael@kernel.org>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, David Jeffery <djeffery@redhat.com>,
-	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	by sea.source.kernel.org (Postfix) with ESMTP id C771C44489;
+	Tue,  1 Jul 2025 12:01:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4647C4CEEB;
+	Tue,  1 Jul 2025 12:01:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751371294;
+	bh=Ve2jWkUY7Kco8qr8eXLeveQqpfYfuVWQzfdfLKDRfSM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rEeP5CN4D96Xof3lUeWOZq5kQVZ7As6qgXQJ+ZVOWulMkKg1SsV7pEcbmA40Q+3Cf
+	 0kM710txoJdS2GTbF+7CWVJOzBREkzgDya6XBMBUQ5Sd2wcowJtnGQJcB42WwFgYc2
+	 9OnkmabB6qG7uKK/PG3jU0ecNGZh6KSAQMa6/hWoiJnYrVXLZAOiX05cJSJBAzEJSQ
+	 gRG9W3sdo/A7Z1TRijbJ49SJk6U9SGZz1sNAIakruHpAbHjzCKJrgFNsr1aWKa0z9H
+	 xoODuRK3rSU+3W7fF5pnIuwZwyHu4qVVmDClkSXfnC6fRlP/Iup5YOBkz2dVpS4F1c
+	 cyvilMj4huWcQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	joshi.k@samsung.com,
 	linux-nvme@lists.infradead.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jan Kiszka <jan.kiszka@seimens.com>,
-	Bert Karwatzki <spasswolf@web.de>
-Subject: Re: [PATCH v10 2/5] driver core: don't always lock parent in shutdown
-Message-ID: <2025070157-undaunted-curler-bda3@gregkh>
-References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
- <20250625201853.84062-3-stuart.w.hayes@gmail.com>
+	linux-scsi@vger.kernel.org,
+	gost.dev@samsung.com,
+	vincent.fu@samsung.com,
+	jack@suse.cz,
+	anuj1072538@gmail.com,
+	axboe@kernel.dk,
+	viro@zeniv.linux.org.uk,
+	hch@infradead.org,
+	martin.petersen@oracle.com,
+	ebiggers@kernel.org,
+	adilger@dilger.ca
+Subject: Re: [PATCH for-next v5 0/4] add ioctl to query metadata and protection info capabilities
+Date: Tue,  1 Jul 2025 14:01:17 +0200
+Message-ID: <20250701-abreden-rohkost-a0c293481b42@brauner>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250630090548.3317-1-anuj20.g@samsung.com>
+References: <20250630090548.3317-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250625201853.84062-3-stuart.w.hayes@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1633; i=brauner@kernel.org; h=from:subject:message-id; bh=Ve2jWkUY7Kco8qr8eXLeveQqpfYfuVWQzfdfLKDRfSM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQknxN75MRyd/PiQ5JXj/wQbuLSu2fukbHgvmHLC/8Fx w+t3D2/rKOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAid48xMqyzkzDW3sER9D89 SPm21bwpawozbEPuMy969V6FLSlrITsjw2ot+bUZNcv9avvZ703+8bGnrjlII9OyWpBl6wIR/uT fHAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250701_015032_271273_CFBA2624 
-X-CRM114-Status: GOOD (  19.52  )
+X-CRM114-CacheID: sfid-20250701_050136_405249_77775CDF 
+X-CRM114-Status: GOOD (  13.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,47 +88,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 25, 2025 at 03:18:50PM -0500, Stuart Hayes wrote:
-> Don't lock a parent device unless it is needed in device_shutdown. This
-> is in preparation for making device shutdown asynchronous, when it will
-> be needed to allow children of a common parent to shut down
-> simultaneously.
+On Mon, 30 Jun 2025 14:35:44 +0530, Anuj Gupta wrote:
+> This patch series adds a new ioctl to query metadata and integrity
+> capability.
 > 
-> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-> Signed-off-by: David Jeffery <djeffery@redhat.com>
-> ---
->  drivers/base/core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Patch 1 renames tuple_size field to metadata_size
+> Patch 2 adds a pi_tuple_size field in blk_integrity struct which is later
+> used to export this value to the user as well.
+> Patch 3 allows computing right pi_offset value.
+> Patch 4 introduces a new ioctl to query integrity capability.
 > 
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index cbc0099d8ef2..58c772785606 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -4823,7 +4823,7 @@ void device_shutdown(void)
->  		spin_unlock(&devices_kset->list_lock);
->  
->  		/* hold lock to avoid race with probe/release */
-> -		if (parent)
-> +		if (parent && dev->bus && dev->bus->need_parent_lock)
->  			device_lock(parent);
+> [...]
 
-What about parents for a device that is not on a bus?  Don't they need
-to be properly locked?
+Applied to the vfs-6.17.integrity branch of the vfs/vfs.git tree.
+Patches in the vfs-6.17.integrity branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
->  		device_lock(dev);
->  
-> @@ -4847,7 +4847,7 @@ void device_shutdown(void)
->  		}
->  
->  		device_unlock(dev);
-> -		if (parent)
-> +		if (parent && dev->bus && dev->bus->need_parent_lock)
->  			device_unlock(parent);
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Same here.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-thanks,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.17.integrity
 
-greg k-h
+[1/4] block: rename tuple_size field in blk_integrity to metadata_size
+      https://git.kernel.org/vfs/vfs/c/c6603b1d6556
+[2/4] block: introduce pi_tuple_size field in blk_integrity
+      https://git.kernel.org/vfs/vfs/c/76e45252a4ce
+[3/4] nvme: set pi_offset only when checksum type is not BLK_INTEGRITY_CSUM_NONE
+      https://git.kernel.org/vfs/vfs/c/f3ee50659148
+[4/4] fs: add ioctl to query metadata and protection info capabilities
+      https://git.kernel.org/vfs/vfs/c/9eb22f7fedfc
 
