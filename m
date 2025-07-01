@@ -4,67 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DE28C8303A
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 13:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1A3AC83038
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 13:54:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IgllKH/91RyYKyW0JnQPM/fN/DG9F+pKG26P2C/IMx4=; b=eWVJehLSZh1F5v0wm0wiJr9pc+
-	j4f1spNzBpR9dYzUXGBy23wo5UipF0xBHQ62oJrmVwdNlWLsyUuSyVIeUwSdz92Nokdh9RJYOyVv2
-	Sd5VV29PR+CCswN3VCRSRjnhb3f3NQQ4MI79oZjvmEUAGdsWj38QIW2HYtwv9JA6hUIe2V7T3Rjv/
-	E0mGQ7rgi2xaBz3lCR6sBRezjg0WBBslRmgfMlU+VQc38oHHTCLuEgLpeWXqX1iMtBDLJVxZyaZ1E
-	VTYCKChFaEcV7pJ5LoaBP4utqB9mTWClGv/MY9qjeHaHYJoTON5cX+RyXQEbq4932nz2jqmaXGjJ2
-	RUqjQdMQ==;
+	bh=0eQhis5TmydlJSImUeKdjyx5vR621JqqePqYksAkIsY=; b=KMX9+msJtzc1F05HYKpAseibJE
+	j4xSlDBsWTYP0uIOuNRH0plb7CGwF+AcEzI1l9Aqs+CsXhlPsMCfTBn3DADWzeEEkvx9hYvkbJ/79
+	nIU7dEdwR9BM54da7gcavN2Dmyq2DasyTTlmQWP8SDLC5EMrKw4ctCEePEqWqK8JUhn+tflch2OS8
+	cjEV2638DgIv+SZGEXnM27rClWVNkmY2ky6T3KczZA1cDpO/D0jPmNfQIaPmYlLFBNlgblPifF3f3
+	UohAyNLKRFDCL2NFp5Z1SSdMGiF1jJkJ8WNcWLL7yzHvuT3w+/TaMKz3J9tbqcUoUj7pIzUDZe6lj
+	mX7tNTZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWbK4-00000005ZA3-2UGF;
-	Tue, 01 Jul 2025 13:46:56 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1uWbRB-00000005b4b-1h8u;
+	Tue, 01 Jul 2025 13:54:17 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWZtm-000000058Pk-2noQ
+	id 1uWaB6-00000005Kxk-2CwJ
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Jul 2025 12:15:43 +0000
+	Tue, 01 Jul 2025 12:33:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 28AC85C4A48;
-	Tue,  1 Jul 2025 12:15:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53737C4CEEB;
-	Tue,  1 Jul 2025 12:15:41 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 61D52A52F38;
+	Tue,  1 Jul 2025 12:33:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D2CC4CEEB;
+	Tue,  1 Jul 2025 12:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751372141;
-	bh=CobWMxU5S9N/yDcPTuVZJbC41V7T9McLGxapXd2WcLY=;
+	s=k20201202; t=1751373215;
+	bh=an6El7LQThWyxle2ua9iz3GhLonkcJ8T/Jl+bJxDVag=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YR3GUmfTaaF7a2uUciAPifvQA3OasQFv86C859GK9L02RUJvAZr67efT2b27zUpL9
-	 Gowo5m7Fpa0GqseX/kJpMI/2sAaKAMUFpn/Pjn9FOLJszZQ4lnt2BtCTtvsQ60xCCn
-	 8Qyz2XIb7gN4A5uKEQieXqStWUKqZl6j4+XUYuUeHpX7kM5Bcl8Rz+OO19uhQgmf92
-	 qyj4hmhP5ZAgR1K19JSF0O2BQFNUIZU3wBSxszVUGoYeC/XWO1+SALDAt2+fSzL5DL
-	 oUvYb+Hrm4eNvDwLUODqIm3o5q10x3xCA7blJEql+13jkc2SMO5CL9bXKhZeAzhAkV
-	 Da8wQVDgIRhcA==
-Date: Tue, 1 Jul 2025 08:15:39 -0400
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: uring_cmd specific request_queue for SGLs
-Message-ID: <aGPRa43FJW_B1asI@kbusch-mbp>
-References: <20250624211444.2835077-1-kbusch@meta.com>
- <20250625060915.GB9391@lst.de>
- <aFxzXOZUFtt6hyPA@kbusch-mbp>
- <20250626051413.GC23248@lst.de>
- <aF1nUYSXvLE33osR@kbusch-mbp>
- <20250627072524.GA1329@lst.de>
- <aF66IGSMATG9-sLy@kbusch-mbp>
- <20250630060016.GA28775@lst.de>
- <aGKZf5gX7_JPe4-g@kbusch-mbp>
- <20250701061609.GA17912@lst.de>
+	b=U1u43gwPRMoQ/rTZvdkqeBcUBEYwT1QZ4BkzVjCYor+tAmTzI775BRdA6jANrTy9v
+	 065owKpzED1m1iv0KgNaH4NxJqbj5BBr+Nv8plmoYJpSuUqZh4LDUoDxnZdffNAkSA
+	 sBc5PMqxGMrpj3T8mfwxHvEShk3lS31H9N2+Z8vmcITFSeQ8V+YY/rdwcq0RLbkVbH
+	 HrnTKad+h4rV2x8buOteKFhBMgSpF4l2L/mKADQucRLTJKUVtKlJitj4fEiTvybHQs
+	 zptQY7XHRTVNsxPoOSyVMxVEFx+AVDho6C/ZvrNRttH5TvK7IMx8pZIV9R8ez+gh6F
+	 rIQXh18tODtjQ==
+Date: Tue, 1 Jul 2025 13:33:28 +0100
+From: Simon Horman <horms@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+	sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+	chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org,
+	Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
+	smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+	yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com,
+	tariqt@nvidia.com, gus@collabora.com, edumazet@google.com,
+	pabeni@redhat.com, dsahern@kernel.org, ast@kernel.org,
+	jacob.e.keller@intel.com
+Subject: Re: [PATCH v29 01/20] net: Introduce direct data placement tcp
+ offload
+Message-ID: <20250701123328.GO41770@horms.kernel.org>
+References: <20250630140737.28662-1-aaptel@nvidia.com>
+ <20250630140737.28662-2-aaptel@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250701061609.GA17912@lst.de>
+In-Reply-To: <20250630140737.28662-2-aaptel@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250701_051542_759910_0FC37700 
-X-CRM114-Status: GOOD (  14.70  )
+X-CRM114-CacheID: sfid-20250701_053336_631597_C5217525 
+X-CRM114-Status: GOOD (  10.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,26 +80,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 01, 2025 at 08:16:09AM +0200, Christoph Hellwig wrote:
-> On Mon, Jun 30, 2025 at 08:04:47AM -0600, Keith Busch wrote:
-> > 
-> >   a. Force the application to split each iovec into a separate command
-> > 
-> >   b. Relax the kernel's limits to match the hardware's capabilities
-> > 
-> > This patch is trying to do "b".
-> 
-> a, or a variant of that (not using passthrough) would in general be
-> my preference.  Why is that not suitable here?
+On Mon, Jun 30, 2025 at 02:07:18PM +0000, Aurelien Aptel wrote:
 
-Why use passthrough? Because until very recently (as in the current rc),
-passthrough had been the only way for user space to access write streams
-and metadata.
+...
 
-We've had uring_cmd passthrough for several years now, so there's some
-decently mature applications making use of it. But can they split
-commands such that they dispatch one per iovec instead of as a single
-command? I've asked that, still waiting to hear back. I sent this patch,
-though, because they bought SGL capable hardware specifically so they
-could do this. 
+> diff --git a/include/net/sock.h b/include/net/sock.h
+> index 0f2443d4ec58..c1b3d6e1e5e5 100644
+> --- a/include/net/sock.h
+> +++ b/include/net/sock.h
+> @@ -507,7 +507,8 @@ struct sock {
+>  	u8			sk_gso_disabled : 1,
+>  				sk_kern_sock : 1,
+>  				sk_no_check_tx : 1,
+> -				sk_no_check_rx : 1;
+> +				sk_no_check_rx : 1,
+> +				sk_no_condense : 1;
+
+nit: sk_no_condense should be added to the kernel doc for struct sock
+
+     Flagged by ./scripts/kernel-doc -none
+
+>  	u8			sk_shutdown;
+>  	u16			sk_type;
+>  	u16			sk_protocol;
 
