@@ -4,63 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4367DC7EE30
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 21:07:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C1B3C83038
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 21:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=oiDQGr9MkOCts7ZkE3xY4x9skLNvAEcRqxFvVngRJEo=; b=zWBlzdaItIWNQI86Ek+TDBfjnE
-	v4cNIodmjswY6b4Dw/FVAD3+xze7YNnH7phOb7s8v1l321qNp6gbsYQ16Cnp8z9S8JD42Pu7ocjrw
-	je4GHp3wX/OV3c9klEGSgagjFGh/rlbNWQmO17nD9MPfJ+EArJfeUMEJZXGhh0D8M0Dgc/t3ho9Yw
-	9IKGnsP1szLnzfhMrSyws7/6a5mZNAGyJE4VOGju16hX4oJMTdt2w52dG7uJfyAIwvDH7FIapL5o+
-	K/sqTTOz+osv2zw5oMnZ0UyHnAcwB6L1wkzNlMm68rPGCHuyA18xTGZjVoZCGoONRhVTfGoGIacAR
-	lOT6YjXg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qC/obDrdf/4ujBeGIRvl7AwkridsPoKTq+FOJ57sPAM=; b=q3C31JrQib+1nKLTBO1ax119IE
+	RC2HxerZ5l/1N4KNfaFHNTXj2IfbaA16F8EVHyb/1M6dopJGIvMvfRMbGiKmKnNxJ9+16m0hCnoP8
+	zx68gnLYwOa+Dgld8tNsydY/lyBWEqvRugR98+UJaOEwNS3V58A2R8fjtEGNW45Wm7nyrTx7v67Fi
+	F907KBS2fq4TZ1N6PQ1L3UfdVotPTaB7HO9f9NxDO20RlHhvmvqj29AWaddT3zojxT++uLOc7jTKF
+	BWaHGUmljWE/FSLAZCl71kIQFM4gI3qL9HfKKUpCHMMxMQ+wKrs99jnK1JNrnALul4DLSBZiHH1U+
+	LhRTBNaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWiCZ-00000006eIm-2phy;
-	Tue, 01 Jul 2025 21:07:39 +0000
-Received: from mail.tuxedocomputers.com ([157.90.84.7])
+	id 1uWiCb-00000006eLp-1YUU;
+	Tue, 01 Jul 2025 21:07:41 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWi1z-00000006ckD-10tG
+	id 1uWi6B-00000006dNq-19sG
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Jul 2025 20:56:44 +0000
-Received: from wse-pc.fritz.box (pd9e59880.dip0.t-ipconnect.de [217.229.152.128])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 4C31D2FC022C;
-	Tue,  1 Jul 2025 22:56:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1751403398;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oiDQGr9MkOCts7ZkE3xY4x9skLNvAEcRqxFvVngRJEo=;
-	b=YRnCJaCrDEE3QOlZP/VEVkYCmhAdqZXmT9XgOPcrduoyeid8qoE9ktRHx/VjNIL6z/Tjlv
-	xSUheyXdHre0/ulWgKsoBk4q+5seNn/tznKNTb4Zkdq40nCzFm018QbgnimK4LXdn3LM/F
-	jLmc2gPCjvi5raV+SAxEu8ypZBpWHtI=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Georg Gottleuber <ggo@tuxedocomputers.com>,
-	Werner Sembach <wse@tuxedocomputers.com>,
+	Tue, 01 Jul 2025 21:01:04 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 76685A53413;
+	Tue,  1 Jul 2025 21:01:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37B9C4CEF5;
+	Tue,  1 Jul 2025 21:01:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751403662;
+	bh=KxNo7MC9iL3A0G0AkoA1BW65gW/zw4LvgAtZBo2U6AM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gv3z6fjbqba15oqwRlg4HTHo/E6gMJCSHGUj2KvcDZ+/SHoTsjxAHsANNmtHzNz0j
+	 z6zwAvM5Wkzt1tV/k9PNX3BYm/GdVqh3OkA8EPH7QBRwfn+o4QaOPf2s96HMJtwqu9
+	 gqFoITlilEaPpY7g4b+InUW2ikQFTUmrtJ0+9FzXEidhH8GIlOxjcmyL/iX8/jkDNv
+	 GoAoZzLspR0OvKwV6/7yY4T++V+NGSscI8LgbSB+qYkB4jv/VjXHdzyk8vhfz/yTKM
+	 SjVvUFngMePnvAYa71Xd1L4DIKVoefDbw0+1rAcCKS6OC4xpGrfu8shp2E8nq9N7If
+	 8cCCvGYUDGqAg==
+Date: Tue, 1 Jul 2025 17:00:58 -0400
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Ben Copeland <ben.copeland@linaro.org>, linux-kernel@vger.kernel.org,
+	lkft-triage@lists.linaro.org, regressions@lists.linux.dev,
 	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-pci: Add TUXEDO IBS Gen8 to Samsung sleep quirk
-Date: Tue,  1 Jul 2025 22:55:49 +0200
-Message-ID: <20250701205630.64031-1-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
+	Dan Carpenter <dan.carpenter@linaro.org>, axboe@kernel.dk,
+	sagi@grimberg.me, iommu@lists.linux.dev,
+	Leon Romanovsky <leonro@nvidia.com>
+Subject: Re: next-20250627: IOMMU DMA warning during NVMe I/O completion
+ after 06cae0e3f61c
+Message-ID: <aGRMilWhgF4z0WOf@kbusch-mbp>
+References: <CAL0q8a6pOBZbWYdwKzC1U-PuH4rgf2miv0jcF=fWVZt_dUZHmw@mail.gmail.com>
+ <20250630133343.GA26040@lst.de>
+ <aGLyswGYD6Zai_sI@kbusch-mbp>
+ <20250701132936.GA18807@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250701132936.GA18807@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250701_135643_709434_35A98659 
-X-CRM114-Status: UNSURE (   9.03  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250701_140103_449504_4575F8C4 
+X-CRM114-Status: GOOD (  20.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,39 +79,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Georg Gottleuber <ggo@tuxedocomputers.com>
+On Tue, Jul 01, 2025 at 03:29:36PM +0200, Christoph Hellwig wrote:
+> Yes, that's broken, and I remember fixing it before.  A little digging
+> shows that my fixes disappeared between the oct 30 version of Leon's
+> dma-split branch and the latest one somewhere.  Below is what should
+> restore it, but at least when forcing my Intel IOMMU down this path it
+> still has issues with VPTEs already set.  So maybe Bob should not try
+> it quite yet.  I'll try to get to it, but my availability today and
+> tomorrow is a bit limited.
 
-On the TUXEDO InfinityBook S Gen8, a Samsung 990 Evo NVMe leads to
-a high power consumption in s2idle sleep (3.5 watts).
+Let's say we're using ARM64 SMMU configured with 64k granularity like I
+showed earlier.
 
-This patch applies 'Force No Simple Suspend' quirk to achieve a sleep with
-a lower power consumption, typically around 1 watts.
+Now let's send a read command with 128k transfer, and let's assume the
+payload is two 64k aligned physical segments, so we have 2 bvecs.
 
-Signed-off-by: Georg Gottleuber <ggo@tuxedocomputers.com>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Cc: stable@vger.kernel.org
----
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+Since nvme's virtual boundary is smaller than the iommu's granule, we
+won't attempt to coalesce. We instead iommu map each bvec segment
+individually.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8ff12e415cb5d..d677080e67d33 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3198,10 +3198,12 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 		 * Exclude Samsung 990 Evo from NVME_QUIRK_SIMPLE_SUSPEND
- 		 * because of high power consumption (> 2 Watt) in s2idle
- 		 * sleep. Only some boards with Intel CPU are affected.
-+		 * (Note for testing: Samsung 990 Evo Plus has same PCI ID)
- 		 */
- 		if (dmi_match(DMI_BOARD_NAME, "DN50Z-140HC-YD") ||
- 		    dmi_match(DMI_BOARD_NAME, "GMxPXxx") ||
- 		    dmi_match(DMI_BOARD_NAME, "GXxMRXx") ||
-+		    dmi_match(DMI_BOARD_NAME, "NS5X_NS7XAU") ||
- 		    dmi_match(DMI_BOARD_NAME, "PH4PG31") ||
- 		    dmi_match(DMI_BOARD_NAME, "PH4PRX1_PH6PRX1") ||
- 		    dmi_match(DMI_BOARD_NAME, "PH6PG01_PH6PG71"))
--- 
-2.43.0
+And let's say each segment just so happens to get consecutive IOVA's.
+The mapping side had done each segment individually, but your proposal
+here will assume the contiguous dma_addr ranges were done as a single
+larger mapping. Is that okay?
 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 38be1505dbd9..02bb5cf5db1a 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -678,40 +678,55 @@ static void nvme_free_prps(struct request *req)
+>  	enum dma_data_direction dir = rq_dma_dir(req);
+>  	int length = iod->total_len;
+>  	dma_addr_t dma_addr;
+> -	int i, desc;
+> +	int prp_len, i, desc;
+>  	__le64 *prp_list;
+> +	dma_addr_t dma_start;
+>  	u32 dma_len;
+>  
+>  	dma_addr = le64_to_cpu(iod->cmd.common.dptr.prp1);
+> -	dma_len = min_t(u32, length,
+> -		NVME_CTRL_PAGE_SIZE - (dma_addr & (NVME_CTRL_PAGE_SIZE - 1)));
+> -	length -= dma_len;
+> +	prp_len = NVME_CTRL_PAGE_SIZE - (dma_addr & (NVME_CTRL_PAGE_SIZE - 1));
+> +	prp_len = min(length, prp_len);
+> +	length -= prp_len;
+>  	if (!length) {
+> -		dma_unmap_page(dma_dev, dma_addr, dma_len, dir);
+> +		dma_unmap_page(dma_dev, dma_addr, prp_len, dir);
+>  		return;
+>  	}
+>  
+> +	dma_start = dma_addr;
+> +	dma_len = prp_len;
+> +	dma_addr = le64_to_cpu(iod->cmd.common.dptr.prp2);
+> +
+>  	if (length <= NVME_CTRL_PAGE_SIZE) {
+> -		dma_unmap_page(dma_dev, dma_addr, dma_len, dir);
+> -		dma_addr = le64_to_cpu(iod->cmd.common.dptr.prp2);
+> -		dma_unmap_page(dma_dev, dma_addr, length, dir);
+> -		return;
+> +		if (dma_addr != dma_start + dma_len) {
+> +			dma_unmap_page(dma_dev, dma_start, dma_len, dir);
+> +			dma_start = dma_addr;
+> +			dma_len = 0;
+> +		}
+> +		dma_len += length;
+> +		goto done;
+>  	}
+>  
+>  	i = 0;
+>  	desc = 0;
+>  	prp_list = iod->descriptors[desc];
+>  	do {
+> -		dma_unmap_page(dma_dev, dma_addr, dma_len, dir);
+>  		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
+>  			prp_list = iod->descriptors[++desc];
+>  			i = 0;
+>  		}
+>  
+>  		dma_addr = le64_to_cpu(prp_list[i++]);
+> -		dma_len = min(length, NVME_CTRL_PAGE_SIZE);
+> -		length -= dma_len;
+> +		if (dma_addr != dma_start + dma_len) {
+> +			dma_unmap_page(dma_dev, dma_start, dma_len, dir);
+> +			dma_start = dma_addr;
+> +			dma_len = 0;
+> +		}
+> +		prp_len = min(length, NVME_CTRL_PAGE_SIZE);
+> +		dma_len += prp_len;
+> +		length -= prp_len;
+>  	} while (length);
+> +done:
+> +	dma_unmap_page(dma_dev, dma_start, dma_len, dir);
+>  }
+>  
+>  static void nvme_free_sgls(struct request *req)
 
