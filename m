@@ -4,150 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EFC0C83038
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 14:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2ACAC83038
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 15:03:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kbopjbMX05HsGEB8b9CMGwcN2421EIHxwznTQ/qwPqs=; b=O6uM9UevSFERdMamubr9zyaSXO
-	+Cgzu6aW1zYXtyoQfOf4l7srRPEBzVnCzznfi4pMh703BLLDQ093uDwTWORo6eOmgd2wsxQ0utHBe
-	df0Pnyvmo7Ht+vTVZ4lShIckpynzULtpdJD13tXog3xkPd4UL+qeY3yRCqyfELCM6wiNMLscFuj2R
-	F3n5S7Zuort8lopleUXMrxtdbbqHkh73tKRwdeY5WR04uIJABKwImw3Y5vZPlC2gKCOF1MZCeFOyt
-	m7i/lMRoXjjf6K/FatBRUhxRSeKXntSiZM8Db4BsXhy2R2k9QDteaar/ZNOo7SUgB60/o2jEe4/Hq
-	qJ1dq2Kw==;
+	bh=GgHqexxiwa77u3Z5YOk3UNEKMTHwKP2/90bhpYz0EQg=; b=m8ozqO3ic3NSmLIgk4NDGiLnpi
+	IoFfDfP8iEH2mPrKYTHl5a8msqjGbMUBIoGkKEp3hu+u9DNXIJunAQYgHXfc2MkWmdyrfloa9qFEG
+	ndx29roTRWF2OcnoZFTboFlCBsiR4Y6OG2/D59w6/SofK4hZYeMUj2nZhnNb2lVkgBNncVB5U9vpD
+	BJyDC/PqAVMkMwoG5dyZQrAd8pyNz1BU8uOXGi4TpGYRinmIUjqDSI0k075a5VIHGOGPJoGqRs/EP
+	0d41A9JUiWU3uwpm+qZ/+6aNrM4x9brinX3yghtVpDPyueoHOefq7JDFBsKvg7RY/tkGiQgPMr0JE
+	7KCmVxcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWcMt-00000005mcO-1rWZ;
-	Tue, 01 Jul 2025 14:53:55 +0000
-Received: from mail-dm6nam11on20600.outbound.protection.outlook.com ([2a01:111:f403:2415::600] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1uWcW6-00000005p93-2wJ1;
+	Tue, 01 Jul 2025 15:03:26 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWaxs-00000005V1g-162G
+	id 1uWb3T-00000005W7z-41dX
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Jul 2025 13:24:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mYaPvfTXlsrywvd1UKd0OGtnAyfHEYZLVd9Mka9SSTLnZ8cwvZHgEO0HW02uHuDlHN4vKezw3ydfwypZKYqIRKBIxGFfQfcCw3P3Y3mUoclEok5dngPRGuvwCePTleL7qwOMEW9EUCG7DZATV8l4BTWLhn9tV1jkM6hBKd1UgkhIzHJmAS8LPGrdid5n0zvuAyGO19V64w/j4yEz7yeJuPoP/TyIMqT8f/Al/aMOjE+T4GgRbUSzbJSiSpZkhGaQUNsQWO0pyk37qCLezbOZD1l+NnaJUFtXzGG8F4u0/a+Skwt/fLi8SIpaBK74XfQUvgtB7q+UMY71OCKvqywoog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kbopjbMX05HsGEB8b9CMGwcN2421EIHxwznTQ/qwPqs=;
- b=m4J9JL+X/wAEgn3wrLCS+Wu4sB8jg1Mhy7rgxysWqApw6zgHD9aGr6ZhCXJkWOaxBhVERZlsr4FyQanyvIe1WxkCfksq62J3QjN1uH2kqe6fxhFLl3QDh5agaJMteB8krljTWZiowPz2MnZAZTIY8n3KFk0gsFAfDwR0SD8bsx2/EoghO0BAgenFHRDMp+w9C0NHymuRp5LYD30OCBxVktCDgJQL8v2A8MI3Pk38Rm1ew95VAS0pc42U77MiPa31aGe/M5LhBXnCJHR4DRb9hpIbae5MWv/KC5tr/agLXi+k9OivPacQMKRySt1O+mdvWgzqqSJLR1eTis9FnWu16A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kbopjbMX05HsGEB8b9CMGwcN2421EIHxwznTQ/qwPqs=;
- b=R+0cHPoFzi0m0cR4ityQ9Bt4sXZUqIte9+hOmVzsfXBctuKdyOhSeGy9+ryzf1u+Jt3c0Wi+aj3lZIKZZGBX7kn1KBhs+sabsL2JD8FOoIy6676adFM+QaFbsLNGRYl51CkW4vFO1GcqFic8ufK/hYvNrgviZ3kgZWQAQMP3R+e0V0BkgCnHpRKhZr3rz4Obo9awXN6ix7wZoFoeRDY+DOI2S3lsve1xpa78KGa5So8TZJkPpkAFB4nCr0fh/j5gC8+yx08Ci+DJUCZHOuOrc27ZL2KJGLXUxXm8JAfOv54L9FofqDDYtZEyKsyxMIIulgv6UGUIPo9Kaooi00xj3Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
- by SA3PR12MB7974.namprd12.prod.outlook.com (2603:10b6:806:307::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Tue, 1 Jul
- 2025 13:23:51 +0000
-Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
- ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
- ([fe80::7577:f32f:798c:87cc%4]) with mapi id 15.20.8901.018; Tue, 1 Jul 2025
- 13:23:51 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Simon Horman <horms@kernel.org>
-Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org, Boris
- Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com, smalin@nvidia.com,
- malin1024@gmail.com, ogerlitz@nvidia.com, yorayz@nvidia.com,
- galshalom@nvidia.com, mgurtovoy@nvidia.com, tariqt@nvidia.com,
- gus@collabora.com, edumazet@google.com, pabeni@redhat.com,
- dsahern@kernel.org, ast@kernel.org, jacob.e.keller@intel.com
-Subject: Re: [PATCH v29 01/20] net: Introduce direct data placement tcp offload
-In-Reply-To: <20250701123328.GO41770@horms.kernel.org>
-References: <20250630140737.28662-1-aaptel@nvidia.com>
- <20250630140737.28662-2-aaptel@nvidia.com>
- <20250701123328.GO41770@horms.kernel.org>
-Date: Tue, 01 Jul 2025 16:23:46 +0300
-Message-ID: <2538ql83uzh.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
-Content-Type: text/plain
-X-ClientProxiedBy: TL2P290CA0007.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:2::9)
- To SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
+	Tue, 01 Jul 2025 13:29:49 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 17A3B68AA6; Tue,  1 Jul 2025 15:29:37 +0200 (CEST)
+Date: Tue, 1 Jul 2025 15:29:36 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Ben Copeland <ben.copeland@linaro.org>,
+	linux-kernel@vger.kernel.org, lkft-triage@lists.linaro.org,
+	regressions@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Dan Carpenter <dan.carpenter@linaro.org>, axboe@kernel.dk,
+	sagi@grimberg.me, iommu@lists.linux.dev,
+	Leon Romanovsky <leonro@nvidia.com>
+Subject: Re: next-20250627: IOMMU DMA warning during NVMe I/O completion
+ after 06cae0e3f61c
+Message-ID: <20250701132936.GA18807@lst.de>
+References: <CAL0q8a6pOBZbWYdwKzC1U-PuH4rgf2miv0jcF=fWVZt_dUZHmw@mail.gmail.com> <20250630133343.GA26040@lst.de> <aGLyswGYD6Zai_sI@kbusch-mbp>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|SA3PR12MB7974:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e39aba4-70d1-4b8d-05bb-08ddb8a284c4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mNSpZq806W8gIASSbdPANaheHslHSl/4tch7a2RbxC1AcUd7ZwPpETCvRrB/?=
- =?us-ascii?Q?V+2BAtVSPYXAFd+UMWXjMKfp/iQLBn+N2yVkN6FBf/2KAlVIidYMDLTRgLNV?=
- =?us-ascii?Q?Qrxaoc61+o6x6vjq0OZc8fVeTjM9Tlp1xq7lCza8nxww+E/Hr6Gc618yvxPt?=
- =?us-ascii?Q?0oDicz+HYn7EM0DkMxlC/80+noi0fw0muZjTAYIwnY94Dj9sU1yHhlVQMyee?=
- =?us-ascii?Q?Bmv8RoV5UZqbU7D+1ugOJHZJvR9IFUPtLMezJXu6HH5mLpJ+xoC0cjhJg+YZ?=
- =?us-ascii?Q?GAnbhwwfq5jGNoDDnEfFdXl/qTxvQkcsNH7TZeEMu+Rha3TZtHCYU3pKAm7e?=
- =?us-ascii?Q?LhnOdqIdDo0fUuME6B7vTiAQGiReSWjpMKu3croRy9vpnqWWW5vPBj78Xt11?=
- =?us-ascii?Q?QoHaMT22/fzVEqKUGk5HaQqcLzdQuq/MM2oXiFGyLq0UE9yzJXoF0w4YGY4y?=
- =?us-ascii?Q?dJkYz9k7Bhm2Ud1yDe9pQkwX/UBdi287Ij2JReJUynwGyQyt59c8ADgPm1Pf?=
- =?us-ascii?Q?qz9YbN0gV21gYMXWGy/cV4wYpW4KSrQ7gMUZN5ac7uOK3nqrXGluUcAcO1Iq?=
- =?us-ascii?Q?FwJioBPGLzEP5Cv4gvPr7FWY0cnn6dv5l2/XUIO+NBkRyiNM6VDscrAtP9PD?=
- =?us-ascii?Q?nDnp6S8Iutm07M+xVcsaiALrDJRh5mGk+8iPii486+zDCCWOx1HmRN1k9qXN?=
- =?us-ascii?Q?dr7AjueMFQI50zLaxkOLqZVHKtW6o0bK2PUgUXnObYvqQ7oC9ThkD7frMuom?=
- =?us-ascii?Q?8YDQQ0vKdE6Ob4ys1LkDt4GIsEN4mtuwAOaWZ8gFMRqypezxpT7wI0FL/os0?=
- =?us-ascii?Q?2eTp+3pKdlbRo2MPHFTqUx5jV87ft1RDQ8Ydtwgc9EYOyH6mukiPfl87aluP?=
- =?us-ascii?Q?7gAR7gx0tckBlMg58wtanrqHtSIc8qqrMECIvsrzfPZgDxRhGIGCdPGLYhT8?=
- =?us-ascii?Q?/BgIqF6OO/B/7yzD9dgmNP0y/nLNxKR01/0U6acVazJKOMYrQ+gZCxySGpKy?=
- =?us-ascii?Q?8K65s49xaB2UYPGAp3k35gXSzdr2bC2KdiJ0ngdicdCVMT13iPQtPnqBQeO1?=
- =?us-ascii?Q?IJfLel8YpyqDKA+tMm1IIxLbmblVaD46xKHVbs8P6FxhrPm2GlnNrkVkLkfW?=
- =?us-ascii?Q?iF/GK/e/MYiqomCVaECkKbz8s2ka9qalhdx7fCdUzMAKRfEqN0B9U3ELn08k?=
- =?us-ascii?Q?NXmtTx9a1/nfBz8YUDtXLqdZL7LyVpyFP/MImwWxuK7jKRaqqezzdzQ3GSrQ?=
- =?us-ascii?Q?5qMP9hU8ENueFCBZxrlHpR/y2Ng48Z5I4pSD47F19v7nCT8g5V27YRcUPf6q?=
- =?us-ascii?Q?EIWFcke2OfS1I3DTxTUnYRxbXGbD6hC74R8q5/6SXeifVfGl8/Y+/M0UvImu?=
- =?us-ascii?Q?XFPc4KTDTi2U9STOl03uc7K61yRiM2ZHigFZriK4zb44CVkWoA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CighoNukRSckEZarM0TkP8GxFQks/+N3Z6/7de2wCRtXUtpdMl6ashhOqUij?=
- =?us-ascii?Q?YqG3B51ChcR6Wqoj01nxX57ldo9za4Ew+TmFFohw8uKVO0TfYk/18KiHhmOR?=
- =?us-ascii?Q?RwIy90yP9N7en66zsUWSB30S1OddKEoGggeK40h992Cmo2+MIQRSZu39yIYY?=
- =?us-ascii?Q?a1+UigZSdPkPtKZwoOd0m2L4ME84QZRKv2B0AWnpVIFzGnu/0+5+ojuwTFhs?=
- =?us-ascii?Q?slMnxHI+hJVL1tuPX2pfsnXVrkZJUrpud6ofhWl2P5/HbRPvWqVnulWCei50?=
- =?us-ascii?Q?/ZpNk8W8XofUbwoA5b+1+BtBLs9Ebadt7f1+XaxKYWt6QgAxlFj33X0oJNMp?=
- =?us-ascii?Q?SE46I0BZkDy0KmV3u5RDuezdyAcyi9XDvqCX3BMyg4/2QG5jcAz2PnUFE90h?=
- =?us-ascii?Q?pZ1N5HAlsKFCZ/8CPMDzH6k8bliMaKQd9ZXJSXPiomV+JsR75z71DlCw6Pe3?=
- =?us-ascii?Q?xO6Kk8MdBns1XUD2izOufRoa/KjAuNZjwWFnRhxf0xeEpkkwyVYgD0HYY0xL?=
- =?us-ascii?Q?4V3fgU9dh1bcOtfHrcPRRyYctHbtOJaT1h2z3k9E5k1e+XK3ujwWCp+C1kJV?=
- =?us-ascii?Q?G+mds2IdEW+2PKXmddT6U6UrDrFg8gRvBKCOPmaJuPdvCJadnbp2RElujFTs?=
- =?us-ascii?Q?95t/9huZ7uTqM2GUB4x6jFqUzfOLTaU4l+SOwb4KLAnUE6v+OyMQdTjFa0aw?=
- =?us-ascii?Q?8RCE/1UOgasDcM6bpBkbWgeqlSL2jFGOde+7uC1t/SjC00ztZm1Ct/Bt+CjC?=
- =?us-ascii?Q?DomJKYVy5X9yA2Woe4zVEAEPkIVALIJi99FosOVqZL1lSQ01qhb8FyaGb4u1?=
- =?us-ascii?Q?YyTT27MyWyzqxLNCqfB7KzP8xeRMFXvxYU4vexWzH8eMqFDsFas2WTzXzM2L?=
- =?us-ascii?Q?ZkmCEcHP7YBxoCswggI92sJdRG1fKQNKANcMOgFCtKRqBCBPUOeIgOaaDQ+M?=
- =?us-ascii?Q?Y/9lRRLzcBR44l5F8RUtiZpoHk4NQPbcw8nM3hN7VpCMdB6sOnEf1jJS3RyA?=
- =?us-ascii?Q?5WYEZnae6PA0a0efyqR5qprgQ0gBYtUJyDSgD+0lP0mWeCtCAPXc/uCG1o1J?=
- =?us-ascii?Q?/dmISkHcYzJiwchicUmK/KVLySLv/kXrfoUqBk9MQkJ+zF8v2T68gk6PB1gO?=
- =?us-ascii?Q?hGqMqolFv1sX2KFBoIovj84AxQ/emkGU/u0eUsz6T472rdzqkE/Dh4ye2tU9?=
- =?us-ascii?Q?PHW7LqeIqHO/W0QC5YJ+l5f5JqgtPz+eKhpqMrTB8UmROvSRRXtZz9mNbWa4?=
- =?us-ascii?Q?3ck0vwYGTY62SMHPXuq2lqkr0hbcF+LHa6U++Q+dMWzYRFFYXeXSMl+/km4v?=
- =?us-ascii?Q?epO08sjcEusnQfBJxGPFrq9O1Q3Fjy9Nqzs5girJHUu3SvexraMiHgVdZFJ1?=
- =?us-ascii?Q?Buomy6WGj1Ec3rsvhaUMvnKemB2oh42pHCWH24fNLqIPkivQijcUvnu/d5vd?=
- =?us-ascii?Q?CpYPsNTNMttuQVeTLLjAw6Gpo0flLLXqpX/OxkJWoOkYXBudzZ3B8mhz9BXC?=
- =?us-ascii?Q?McardNQOeE6r4Y/SxOBxLvuIOE7Zna5kxYfQaoHCIhQXb4sTeyYimRRyIpsu?=
- =?us-ascii?Q?bdPB3JX22Dlc04IZxBj//LePOwetuWF/ZS1+Ydl4?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e39aba4-70d1-4b8d-05bb-08ddb8a284c4
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 13:23:51.0400
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A+euCJOZB1Vv9gqNbsWBZoQDAdXOYtN3Awef8KUxysjdRYSGLrKUhZ+iUPEutEohiv6KdA3IGCBFXZUq/AR1kA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7974
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aGLyswGYD6Zai_sI@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250701_062400_299136_42F286B3 
-X-CRM114-Status: UNSURE (   5.24  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250701_062948_290342_33523012 
+X-CRM114-Status: GOOD (  21.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -162,22 +64,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Jun 30, 2025 at 02:25:23PM -0600, Keith Busch wrote:
+> I think the PRP handling is broken. At the very least, handling the last
+> element is wrong if it appears at the end of the list, so I think we
+> need something like this:
 
-Simon Horman <horms@kernel.org> writes:
->> -                             sk_no_check_rx : 1;
->> +                             sk_no_check_rx : 1,
->> +                             sk_no_condense : 1;
->
-> nit: sk_no_condense should be added to the kernel doc for struct sock
->
->      Flagged by ./scripts/kernel-doc -none
->
+Yeah.
 
-Ok, we will add the following docstring:
+> But even that, the PRP setup doesn't match the teardown. We're calling
+> dma_map_page() on each PRP even if consecutive PRP's came from the same
+> dma mapping segment. So even if it had been coalesced, but if the device
+> doesn't support SGLs, then it would use the prp unmap path.
 
-@sk_no_condense: when set, skip condensing skbs from this sock (see
-                 skb_condense())
+Yes, that's broken, and I remember fixing it before.  A little digging
+shows that my fixes disappeared between the oct 30 version of Leon's
+dma-split branch and the latest one somewhere.  Below is what should
+restore it, but at least when forcing my Intel IOMMU down this path it
+still has issues with VPTEs already set.  So maybe Bob should not try
+it quite yet.  I'll try to get to it, but my availability today and
+tomorrow is a bit limited.
 
-Thanks
 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 38be1505dbd9..02bb5cf5db1a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -678,40 +678,55 @@ static void nvme_free_prps(struct request *req)
+ 	enum dma_data_direction dir = rq_dma_dir(req);
+ 	int length = iod->total_len;
+ 	dma_addr_t dma_addr;
+-	int i, desc;
++	int prp_len, i, desc;
+ 	__le64 *prp_list;
++	dma_addr_t dma_start;
+ 	u32 dma_len;
+ 
+ 	dma_addr = le64_to_cpu(iod->cmd.common.dptr.prp1);
+-	dma_len = min_t(u32, length,
+-		NVME_CTRL_PAGE_SIZE - (dma_addr & (NVME_CTRL_PAGE_SIZE - 1)));
+-	length -= dma_len;
++	prp_len = NVME_CTRL_PAGE_SIZE - (dma_addr & (NVME_CTRL_PAGE_SIZE - 1));
++	prp_len = min(length, prp_len);
++	length -= prp_len;
+ 	if (!length) {
+-		dma_unmap_page(dma_dev, dma_addr, dma_len, dir);
++		dma_unmap_page(dma_dev, dma_addr, prp_len, dir);
+ 		return;
+ 	}
+ 
++	dma_start = dma_addr;
++	dma_len = prp_len;
++	dma_addr = le64_to_cpu(iod->cmd.common.dptr.prp2);
++
+ 	if (length <= NVME_CTRL_PAGE_SIZE) {
+-		dma_unmap_page(dma_dev, dma_addr, dma_len, dir);
+-		dma_addr = le64_to_cpu(iod->cmd.common.dptr.prp2);
+-		dma_unmap_page(dma_dev, dma_addr, length, dir);
+-		return;
++		if (dma_addr != dma_start + dma_len) {
++			dma_unmap_page(dma_dev, dma_start, dma_len, dir);
++			dma_start = dma_addr;
++			dma_len = 0;
++		}
++		dma_len += length;
++		goto done;
+ 	}
+ 
+ 	i = 0;
+ 	desc = 0;
+ 	prp_list = iod->descriptors[desc];
+ 	do {
+-		dma_unmap_page(dma_dev, dma_addr, dma_len, dir);
+ 		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
+ 			prp_list = iod->descriptors[++desc];
+ 			i = 0;
+ 		}
+ 
+ 		dma_addr = le64_to_cpu(prp_list[i++]);
+-		dma_len = min(length, NVME_CTRL_PAGE_SIZE);
+-		length -= dma_len;
++		if (dma_addr != dma_start + dma_len) {
++			dma_unmap_page(dma_dev, dma_start, dma_len, dir);
++			dma_start = dma_addr;
++			dma_len = 0;
++		}
++		prp_len = min(length, NVME_CTRL_PAGE_SIZE);
++		dma_len += prp_len;
++		length -= prp_len;
+ 	} while (length);
++done:
++	dma_unmap_page(dma_dev, dma_start, dma_len, dir);
+ }
+ 
+ static void nvme_free_sgls(struct request *req)
 
