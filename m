@@ -4,97 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28AE7C7EE30
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 19:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C532C7EE30
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Jul 2025 19:55:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=crWwaD/7GgCUUFcWT/Llkm7dN9wwCuiLb/qh9BwJGxc=; b=IKMFu0+uhvj0GUOtpAYWt0pONM
-	xi0yv3nryXoPdKg5l9mmBLSKF/Tve8N9u89VbJCzbvx06wHWX7if5GOS9B07h/jIwR/P+4ksbyVPA
-	ul0ZmsqmR80pS3sae9K5fl3y+haDwOUEVF2/8Xt9+QaonFCVOkaLNjIgLa6QI7oc+N6kdxNW/qC97
-	ztQ2S4r85oTokpVvXtbCVql45hYl6W3itNRkvuGJJxVKsDOQh1ZunkuqocIuRDl8BodDb9aqdRnfL
-	jDd0mBbmA5x9KImYLCUagaJOr1YSGX+DjToGcvHCPP529DJaEQc5JZlX9mDAsxojTTlMwLUtmUMDU
-	boIUO7Ng==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jJc2jeo6B9EbYb4il7K4jTWN7p7rYxXf6q+RIwz9OY0=; b=bKtvBFn11erBr1Uct63aexZ7Yk
+	sYbqQFoxPfMNk7UcjtN2ZP67t1UO9lzYqP7Fa1bxAWDCM7RypXxox4aPa4jexdVcORNpxmVhEXLhq
+	mWtjZ8EF4kddGETqKeKNzvBHCkGqFRVmmnZLGNIZlWP5O8xixgd7XeIyyEM1s9CZOMcCGwyyrUpXW
+	zK2t1LqqUmJqMeMOIv3fJetFAYzNs1VLr8ecKexeCnLYz91aNx3qBmh0YyvplMQ20OjQh5L1NWZEt
+	5A0R5WDvzZyc4eZq2eE9qqaaTTdmI3nwUBwEHlskQ3IULiC7kfJ4MPxOgyXcaCkrlSQzhgpfOzrQe
+	Ld/iYFPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWgDR-00000006PCn-22sh;
-	Tue, 01 Jul 2025 19:00:25 +0000
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31])
+	id 1uWh4l-00000006VtU-4AKV;
+	Tue, 01 Jul 2025 19:55:31 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWdru-000000062uu-2jkb
+	id 1uWgtb-00000006Use-0QuS
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Jul 2025 16:30:04 +0000
-Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-8731c4ba046so319684139f.3
-        for <linux-nvme@lists.infradead.org>; Tue, 01 Jul 2025 09:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1751387401; x=1751992201; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=crWwaD/7GgCUUFcWT/Llkm7dN9wwCuiLb/qh9BwJGxc=;
-        b=hA9Dw4LCscRqPOzAg682ovvvqzV2z0j/I5vxL5l7E5i+FKXx4Bda7Xkz4WopSKCk64
-         GNECx8HNYgMGaeNdPOBpR4awL538NlMMmkojvC3HYC1HHfX5i7MmsBBbKIMDup1nS7Fz
-         Xjmqk8+G12+dsu/CaBQLp6h41PKCm+cXFePUGaLbwBhAckZvo/bkvfCcIgohw8EPiO3X
-         7jxLKWwzjwQJ2qVzzrhSIPdkTYnjCT4NVBUxgM9ys0jj4j4xyMdJNfFVeEtIwUJ0Y/8D
-         Rjj+jkzKnUbaQyrID4G6InloPcTjJ+vkyigxsCZxPXJhNWlT/yNQUW0Fz6061b5NKPIO
-         j03A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751387401; x=1751992201;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=crWwaD/7GgCUUFcWT/Llkm7dN9wwCuiLb/qh9BwJGxc=;
-        b=lRsLSflD4+OhIw0N0GQwIZ/TvW4BHz8higsIIJjTPDB8UAEzjVbvCHxvCByScWa7Q2
-         bffqLOD03eKSAaGnWkjBIYVbhu7RzUCJeKbOVvNjeCm1oA6iAXRx8zcUgq4mzJHhENWv
-         rmbqba6LlT8KAoooZDmlBgiTpuAY0gXTgJuYj4BvRHUTL9peSRvbKwTM8sv+RPHYHc7f
-         sIN0OUzAzTXRNJTpb+MBadPFJWm4Ue4GX990uZXFUnIMQuqtFypVr6/OMZYz/ReIMMN3
-         jJWuCK5oRcvzjOLLlLEVeh1n4KMLrfBEg+HKE1E2n3+iVxoLYzctcRZwaouAiuNmiBaG
-         BHBw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDflceDXcMKxhgw7YavmMixCFsg2d/p4JsyNxveRZQn0Nx1kJWm6617lrjy4T+hEWkYR8GHUvTtNei@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy1XLohbriqbYlV3yPaXNEh7qipaKUS68b1l61DFXSLtQmPpsBn
-	vZRamiIzJi1YVADCeuHOpfFLxKPyGCP6g1p6YzAlFPgHIWzGUdh2B8Ea3L0IHF3eUDQ=
-X-Gm-Gg: ASbGnct5HSLjTCzQYwT2AJQ6bdReMQ2l1txirb9IDZ/Y7Q3cWx/ZnqEBAuJTAeN/CSs
-	KtYQbgdk+BMYjJjP55Q6U9MPIrQcqlFIrjmGb1drcNUvidW43ovn7CI17o+ia+4UI87a3k9MvSm
-	XzkFPWaWE3AomXQiupYBCBXVw1EFh6ufCEGC81/jQqrK2/Kq4mgFlvuWzvOC/ldESC062i0oZOH
-	hHOFeEophkWj9onQFRswzMpaD4xdDy05L0jm0O2xHXJUPTpeIqvFlAFCp9QXCp4oe2FU1OpKT8V
-	gpAcc+e1bHVjDXMlz/gKGpHSSwTWN6pS7075wYbQ3XAV4wAOWOygbH7OC5Up0mA=
-X-Google-Smtp-Source: AGHT+IGmszV/ckQKjI/KgjT/UrAo+IhSsGcXQNmla80uKgIibrMYCCf4LgGCWJe7gTvyQW/Kg7z8dQ==
-X-Received: by 2002:a05:6602:2b8c:b0:864:4aa2:d796 with SMTP id ca18e2360f4ac-876882fbadcmr2169640839f.8.1751387401311;
-        Tue, 01 Jul 2025 09:30:01 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-87687b0d3fbsm236096439f.39.2025.07.01.09.29.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 09:30:00 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>, Daniel Wagner <wagi@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
- "Michael S. Tsirkin" <mst@redhat.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Thomas Gleixner <tglx@linutronix.de>, 
- Costa Shulyupin <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
- Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, 
- Ming Lei <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, 
- Hannes Reinecke <hare@suse.de>, linux-kernel@vger.kernel.org, 
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
- megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org, 
- storagedev@microchip.com, virtualization@lists.linux.dev, 
- GR-QLogic-Storage-Upstream@marvell.com
-In-Reply-To: <20250617-isolcpus-queue-counters-v1-0-13923686b54b@kernel.org>
-References: <20250617-isolcpus-queue-counters-v1-0-13923686b54b@kernel.org>
-Subject: Re: [PATCH 0/5] blk: introduce block layer helpers to calculate
- num of queues
-Message-Id: <175138739958.350817.18365520328662376034.b4-ty@kernel.dk>
-Date: Tue, 01 Jul 2025 10:29:59 -0600
+	Tue, 01 Jul 2025 19:44:00 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id E2EFBA532C5;
+	Tue,  1 Jul 2025 19:43:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55CF6C4CEEB;
+	Tue,  1 Jul 2025 19:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751399037;
+	bh=YHWVpqomr7XSftU5O/rbq46bOk35329T72HjY7oYZWE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rQDXDVy3ZKakm5WAJdfVIKx08TcO85H8tT3HOcSYLKPL/qca/hS3RR704o7q5AXVi
+	 yIejjXkd9c6G/Po6Ka+wrYFvmR9JrnqjRiX/oSD2gu8669fK24/94LnPDLnuCqcgY6
+	 9jGc9dmCmuXNLHJygKpop1tr8B5JB5Z9PChrYFN2RsxRoxXAW6RZmTWZ+otI07EI9B
+	 nmBW5rth4IJH7a7/zS5fOmoP6FvwYCbgr3cul9J9vf7iiqEVy12qbkggnZjTygInPJ
+	 dbstu3lXbKNH3EcKeFsomP9Zp1KtGkw+lhixVgoVSssHCLoKrEiu34tqb732+rU77x
+	 oGIvZLs6wgmdA==
+Date: Tue, 1 Jul 2025 15:43:54 -0400
+From: Keith Busch <kbusch@kernel.org>
+To: Ben Copeland <ben.copeland@linaro.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
+	lkft-triage@lists.linaro.org, regressions@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	Dan Carpenter <dan.carpenter@linaro.org>, axboe@kernel.dk,
+	sagi@grimberg.me, iommu@lists.linux.dev
+Subject: Re: next-20250627: IOMMU DMA warning during NVMe I/O completion
+ after 06cae0e3f61c
+Message-ID: <aGQ6eiL22KIMjSGo@kbusch-mbp>
+References: <CAL0q8a6pOBZbWYdwKzC1U-PuH4rgf2miv0jcF=fWVZt_dUZHmw@mail.gmail.com>
+ <20250630133343.GA26040@lst.de>
+ <CAL0q8a7sE4a00ehKrkyepA_xA3Z2HiGv0LazvYe=2NciTkkPFQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-d7477
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL0q8a7sE4a00ehKrkyepA_xA3Z2HiGv0LazvYe=2NciTkkPFQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250701_093002_800269_2C1B0817 
-X-CRM114-Status: GOOD (  13.61  )
+X-CRM114-CacheID: sfid-20250701_124359_208531_988CE9C0 
+X-CRM114-Status: UNSURE (   9.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,35 +78,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Tue, 17 Jun 2025 15:43:22 +0200, Daniel Wagner wrote:
-> I am still working on the change request for the "blk: honor isolcpus
-> configuration" series [1]. Teaching group_cpus_evenly to use the
-> housekeeping mask depending on the context is not a trivial change.
+On Mon, Jun 30, 2025 at 08:51:01PM +0100, Ben Copeland wrote:
 > 
-> The first part of the series has already been reviewed and doesn't
-> contain any controversial changes, so let's get them processed
-> independely.
-> 
-> [...]
+> [    1.083447] arm-smmu-v3 arm-smmu-v3.16.auto: option mask 0x0
+> [    1.083460] arm-smmu-v3 arm-smmu-v3.16.auto: IDR0.HTTU features(0x600000) overridden by FW configuration (0x0)
+> [    1.083463] arm-smmu-v3 arm-smmu-v3.16.auto: ias 48-bit, oas 48-bit (features 0x0094dfef)
 
-Applied, thanks!
+Neat, I have machine with the same. The iommu granularity appears to be
+able to take on various values, so let's see what the iommu group's
+pgsize_bitmap is on mine with some bpf and drgn magic:
 
-[1/5] lib/group_cpus: Let group_cpu_evenly() return the number of initialized masks
-      commit: b6139a6abf673029008f80d42abd3848d80a9108
-[2/5] blk-mq: add number of queue calc helper
-      commit: 3f27c1de5df265f9d8edf0cc5d75dc92e328484a
-[3/5] nvme-pci: use block layer helpers to calculate num of queues
-      commit: 4082c98c1fefd276b34ba411ac59c50b336dfbb1
-[4/5] scsi: use block layer helpers to calculate num of queues
-      commit: 94970cfb5f10ea381df8c402d36c5023765599da
-[5/5] virtio: blk/scsi: use block layer helpers to calculate num of queues
-      commit: 0a50ed0574ffe853f15c3430794b5439b2e6150a
+  # bpftrace -e 'kfunc:iommu_group_show_type { printf("iommu_group: 0x%lx\n", args->group); }' &
+  # cat /sys/kernel/iommu_groups/0/type
+  iommu_group: 0xffff0000b54d0600
 
-Best regards,
--- 
-Jens Axboe
+  # drgn
+  >>> hex(Object(prog, "struct iommu_group *", 0xffff0000b54d0600).default_domain.pgsize_bitmap)
+  '0x20010000'
 
-
-
+So 64k is the minimum iommu granularity in its current configuration.
+Definitely too big to guarantee coalescing nvme segments, so if yours is
+similarly configured, that explains why it takes the path you're taking.
 
