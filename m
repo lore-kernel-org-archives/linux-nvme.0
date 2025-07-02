@@ -4,129 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F26BDC7EE30
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jul 2025 06:10:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F4082C7EE30
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jul 2025 07:11:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cvXNgKIH4c0Oy8VN73pE/BszpayY8H0xsqbH138onlU=; b=EdbgNrAm2Zpfvbt6mBUk7bi28k
-	bSeOSPED5RLUGqBcNGzWtsfinmwcsP+O9Gu9Ov1PP7u+3ANPshUE0T4/giohjYzsJiOymSmBFKNP/
-	djOKNybm5s2BXGveZ1NyUIdOFcsnBjYzsGWyp4s8FFmgYy9fEzlRAehwuIDN4gDyDuYGw27Sd0P4V
-	BnzIYCzQC4m58/1x5lhuX8303pa2E7LmmPDcJpH1nfM1fZQ8x5KN3eiKJjkt+tfqYlMpwlUmpsz1e
-	tQvZyySUhUrySfcIfog0jr2cGtD8xiaM1FXTzAhyTzpi1Uhh+sEAXNaMgxj85PMriPUQLWItMaNg9
-	XdD6EjGg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YVuDvaUFO3dLzuvWzZosWuR8I5B+F5nBKJiCi7TEHMM=; b=Gq6z34T5RXrlw7LJtwkz8h8GG3
+	CkEJuAJgtDi4v9mPVEmWp2e9I4jh5b4fSqdScDfX7ZTIZdQ5VGzg410QUgdUrz98Zk9cxTwMe16yW
+	0xO2zhm1oabf/n59/2vRk1nqsWlfcAx2ZJYx8rTaGre2hDIAM5YxBip7oxKMIix/Xc7wPylOhPGbz
+	yuhE9JW1WIzL/zqjdHTVshDuUERUNYQkxs0bmhak3+wdi2OvEzlA+XFOINXLqRTYhnAs1ix4IAmtA
+	HVMm3zSFE/ID15ML81U4rUQWhW1gUao7RmcBBm7lwkxfxq8hZg+byjNzYsj85puTCg+cljHSkQhaT
+	dPtP7EUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWqfs-00000007MxW-1aYa;
-	Wed, 02 Jul 2025 06:10:28 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1uWrcc-00000007TDa-3KIi;
+	Wed, 02 Jul 2025 07:11:10 +0000
+Received: from mgamail.intel.com ([198.175.65.18])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWqfo-00000007Mwt-3BCQ
+	id 1uWrcW-00000007TCb-2NAu
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Jul 2025 06:10:27 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 913FD21170;
-	Wed,  2 Jul 2025 06:10:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751436621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cvXNgKIH4c0Oy8VN73pE/BszpayY8H0xsqbH138onlU=;
-	b=N50sR1SZ37HvI6DvqEEfqOLbku8CWvqCc5oryUKPu4JxSYif93FV1UCFXLGcH9xk+3da0X
-	KwfL7tYYkYXP1PXmi4d5oGqV0ipBIjzcNKaKbH9kd24vO6Sux0HmYDCXplkjN0jl99npBY
-	TbxsWR5f6JmpXfSw9nLCWNDKUFd9jY8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751436621;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cvXNgKIH4c0Oy8VN73pE/BszpayY8H0xsqbH138onlU=;
-	b=LKbe5G41lTjPFoDK7EHdJJlooDYR0pubIZdOVNnK/RH5/bdH26rPD5JkuPOetYyFXPSQP4
-	TxuLGcS3WtHOfpBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=N50sR1SZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LKbe5G41
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751436621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cvXNgKIH4c0Oy8VN73pE/BszpayY8H0xsqbH138onlU=;
-	b=N50sR1SZ37HvI6DvqEEfqOLbku8CWvqCc5oryUKPu4JxSYif93FV1UCFXLGcH9xk+3da0X
-	KwfL7tYYkYXP1PXmi4d5oGqV0ipBIjzcNKaKbH9kd24vO6Sux0HmYDCXplkjN0jl99npBY
-	TbxsWR5f6JmpXfSw9nLCWNDKUFd9jY8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751436621;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cvXNgKIH4c0Oy8VN73pE/BszpayY8H0xsqbH138onlU=;
-	b=LKbe5G41lTjPFoDK7EHdJJlooDYR0pubIZdOVNnK/RH5/bdH26rPD5JkuPOetYyFXPSQP4
-	TxuLGcS3WtHOfpBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1A13113A24;
-	Wed,  2 Jul 2025 06:10:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vZu2BE3NZGjtJQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 02 Jul 2025 06:10:21 +0000
-Message-ID: <19484829-0a7b-42ce-99fe-e74ccda67dce@suse.de>
-Date: Wed, 2 Jul 2025 08:10:20 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/6] nvme-fc: FPIN link integrity handling
-To: Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@kernel.dk
-Cc: james.smart@broadcom.com, dick.kennedy@broadcom.com, njavali@marvell.com,
- linux-scsi@vger.kernel.org, jmeneghi@redhat.com
-References: <20250624202020.42612-1-bgurney@redhat.com>
- <CAHhmqcTO_Q59aDr3DywC-tPF=9pe3gxbyn6J4ycdf+eYEOayHQ@mail.gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CAHhmqcTO_Q59aDr3DywC-tPF=9pe3gxbyn6J4ycdf+eYEOayHQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 913FD21170
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
+	Wed, 02 Jul 2025 07:11:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751440265; x=1782976265;
+  h=date:from:to:cc:subject:message-id;
+  bh=VdqlV2EG+Wi8xT1FzWjGJLv9TM0cXC9tevmMnZveHUw=;
+  b=hxSV71pKWUYtO1J/WkstwFNVzcbs2+4lg0yXQlFVLwG4G71/zgdGOKQs
+   D2GdtU2t9O229jucM8MSisz9tmK2auIjYgjfzPTnRsNEFl65ascKDsgNY
+   kl6k1uLdSv5rsgBbloVDk51/DorITqgWlkQo2vd2EYm8QsEBMsf7J8Jqv
+   GkcH/95mFs/Gr8LAgEbU70R2bUJw8YLObAJdacCfWMYQzWeOKGVnNU0iv
+   BCPnHvF8i6pSsRI+00GgfqU3KBQOCwvGuQLV50uCVbKl3j32x50mWyl7Y
+   icfIYGVIZZc/jG01zogT5kNHqzvjzSx0g1M6xeG1qBhg6K8RLuWJ3eYyw
+   w==;
+X-CSE-ConnectionGUID: HrkVCp9xRdCsYftGE49nbg==
+X-CSE-MsgGUID: D5nJVXK2QceOpAUbYrorgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53841565"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
+   d="scan'208";a="53841565"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 00:11:03 -0700
+X-CSE-ConnectionGUID: aJSe7px9TBWess7XTehD/g==
+X-CSE-MsgGUID: uElFcahLQjeJW0G40IZquA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
+   d="scan'208";a="158028702"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 02 Jul 2025 00:11:01 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWrcR-0000Ip-1A;
+	Wed, 02 Jul 2025 07:10:59 +0000
+Date: Wed, 02 Jul 2025 15:10:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.16] BUILD SUCCESS
+ d6811074203b13f715ce2480ac64c5b1c773f2a5
+Message-ID: <202507021508.R9W97h8m-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250701_231024_952720_00D482B0 
-X-CRM114-Status: GOOD (  34.32  )
+X-CRM114-CacheID: sfid-20250702_001104_642737_C8358A77 
+X-CRM114-Status: UNSURE (   6.15  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,168 +83,148 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/1/25 22:32, Bryan Gurney wrote:
-> On Tue, Jun 24, 2025 at 4:20 PM Bryan Gurney <bgurney@redhat.com> wrote:
->>
->> FPIN LI (link integrity) messages are received when the attached
->> fabric detects hardware errors. In response to these messages I/O
->> should be directed away from the affected ports, and only used
->> if the 'optimized' paths are unavailable.
->> Upon port reset the paths should be put back in service as the
->> affected hardware might have been replaced.
->> This patch adds a new controller flag 'NVME_CTRL_MARGINAL'
->> which will be checked during multipath path selection, causing the
->> path to be skipped when checking for 'optimized' paths. If no
->> optimized paths are available the 'marginal' paths are considered
->> for path selection alongside the 'non-optimized' paths.
->> It also introduces a new nvme-fc callback 'nvme_fc_fpin_rcv()' to
->> evaluate the FPIN LI TLV payload and set the 'marginal' state on
->> all affected rports.
->>
->> The testing for this patch set was performed by Bryan Gurney, using the
->> process outlined by John Meneghini's presentation at LSFMM 2024, where
->> the fibre channel switch sends an FPIN notification on a specific switch
->> port, and the following is checked on the initiator:
->>
->> 1. The controllers corresponding to the paths on the port that has
->> received the notification are showing a set NVME_CTRL_MARGINAL flag.
->>
->>     \
->>      +- nvme4 fc traddr=c,host_traddr=e live optimized
->>      +- nvme5 fc traddr=8,host_traddr=e live non-optimized
->>      +- nvme8 fc traddr=e,host_traddr=f marginal optimized
->>      +- nvme9 fc traddr=a,host_traddr=f marginal non-optimized
->>
->> 2. The I/O statistics of the test namespace show no I/O activity on the
->> controllers with NVME_CTRL_MARGINAL set.
->>
->>     Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
->>     nvme4c4n1         0.00         0.00         0.00         0.00
->>     nvme4c5n1     25001.00         0.00        97.66         0.00
->>     nvme4c9n1     25000.00         0.00        97.66         0.00
->>     nvme4n1       50011.00         0.00       195.36         0.00
->>
->>
->>     Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
->>     nvme4c4n1         0.00         0.00         0.00         0.00
->>     nvme4c5n1     48360.00         0.00       188.91         0.00
->>     nvme4c9n1      1642.00         0.00         6.41         0.00
->>     nvme4n1       49981.00         0.00       195.24         0.00
->>
->>
->>     Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
->>     nvme4c4n1         0.00         0.00         0.00         0.00
->>     nvme4c5n1     50001.00         0.00       195.32         0.00
->>     nvme4c9n1         0.00         0.00         0.00         0.00
->>     nvme4n1       50016.00         0.00       195.38         0.00
->>
->> Link: https://people.redhat.com/jmeneghi/LSFMM_2024/LSFMM_2024_NVMe_Cancel_and_FPIN.pdf
->>
->> More rigorous testing was also performed to ensure proper path migration
->> on each of the eight different FPIN link integrity events, particularly
->> during a scenario where there are only non-optimized paths available, in
->> a state where all paths are marginal.  On a configuration with a
->> round-robin iopolicy, when all paths on the host show as marginal, I/O
->> continues on the optimized path that was most recently non-marginal.
->>  From this point, of both of the optimized paths are down, I/O properly
->> continues on the remaining paths.
->>
->> Changes to the original submission:
->> - Changed flag name to 'marginal'
->> - Do not block marginal path; influence path selection instead
->>    to de-prioritize marginal paths
->>
->> Changes to v2:
->> - Split off driver-specific modifications
->> - Introduce 'union fc_tlv_desc' to avoid casts
->>
->> Changes to v3:
->> - Include reviews from Justin Tee
->> - Split marginal path handling patch
->>
->> Changes to v4:
->> - Change 'u8' to '__u8' on fc_tlv_desc to fix a failure to build
->> - Print 'marginal' instead of 'live' in the state of controllers
->>    when they are marginal
->>
->> Changes to v5:
->> - Minor spelling corrections to patch descriptions
->>
->> Changes to v6:
->> - No code changes; added note about additional testing
->>
->> Hannes Reinecke (5):
->>    fc_els: use 'union fc_tlv_desc'
->>    nvme-fc: marginal path handling
->>    nvme-fc: nvme_fc_fpin_rcv() callback
->>    lpfc: enable FPIN notification for NVMe
->>    qla2xxx: enable FPIN notification for NVMe
->>
->> Bryan Gurney (1):
->>    nvme: sysfs: emit the marginal path state in show_state()
->>
->>   drivers/nvme/host/core.c         |   1 +
->>   drivers/nvme/host/fc.c           |  99 +++++++++++++++++++
->>   drivers/nvme/host/multipath.c    |  17 ++--
->>   drivers/nvme/host/nvme.h         |   6 ++
->>   drivers/nvme/host/sysfs.c        |   4 +-
->>   drivers/scsi/lpfc/lpfc_els.c     |  84 ++++++++--------
->>   drivers/scsi/qla2xxx/qla_isr.c   |   3 +
->>   drivers/scsi/scsi_transport_fc.c |  27 +++--
->>   include/linux/nvme-fc-driver.h   |   3 +
->>   include/uapi/scsi/fc/fc_els.h    | 165 +++++++++++++++++--------------
->>   10 files changed, 269 insertions(+), 140 deletions(-)
->>
->> --
->> 2.49.0
->>
-> 
-> 
-> We're going to be working on follow-up patches to address some things
-> that I found in additional testing:
-> 
-> During path fail testing on the numa iopolicy, I found that I/O moves
-> off of the marginal path after a first link integrity event is
-> received, but if the non-marginal path the I/O is on is disconnected,
-> the I/O is transferred onto a marginal path (in testing, sometimes
-> I've seen it go to a "marginal optimized" path, and sometimes
-> "marginal non-optimized").
-> 
-That is by design.
-'marginal' paths are only evaluated for the 'optimized' path selection,
-where it's obvious that 'marginal' paths should not be selected as
-'optimized'.
-For 'non-optimized' the situation is less clear; is the 'non-optimized'
-path preferrable to 'marginal'? Or the other way round?
-So once the 'optimized' path selection returns no paths, _any_ of the
-remaining paths are eligible.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.16
+branch HEAD: d6811074203b13f715ce2480ac64c5b1c773f2a5  nvme-multipath: fix suspicious RCU usage warning
 
-> The queue-depth iopolicy doesn't change its path selection based on
-> the marginal flag, but looking at nvme_queue_depth_path(), I can see
-> that there's currently no logic to handle marginal paths.  We're
-> developing a patch to address that issue in queue-depth, but we need
-> to do more testing.
-> 
-Again, by design.
-The whole point of the marginal path patchset is that I/O should
-be steered away from the marginal path, but the path itself should
-not completely shut off (otherwise we just could have declared the
-path as 'faulty' and be done with).
-Any I/O on 'marginal' paths should have higher latencies, and higher
-latencies should result in higher queue depths on these paths. So
-the queue-depth based IO scheduler should to the right thing
-automatically.
-Always assuming that marginal paths should have higher latencies.
-If they haven't then they will be happily selection for I/O.
-But then again, if the marginal path does _not_ have higher
-latencies why shouldn't we select it for I/O?
+elapsed time: 1453m
 
-Cheers,
+configs tested: 128
+configs skipped: 4
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            alldefconfig    gcc-15.1.0
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250701    gcc-13.3.0
+arc                   randconfig-002-20250701    gcc-15.1.0
+arc                        vdk_hs38_defconfig    gcc-15.1.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-15.1.0
+arm                        multi_v7_defconfig    gcc-15.1.0
+arm                   randconfig-001-20250701    clang-17
+arm                   randconfig-002-20250701    gcc-8.5.0
+arm                   randconfig-003-20250701    clang-21
+arm                   randconfig-004-20250701    clang-21
+arm                         vf610m4_defconfig    gcc-15.1.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250701    clang-21
+arm64                 randconfig-002-20250701    gcc-15.1.0
+arm64                 randconfig-003-20250701    clang-18
+arm64                 randconfig-004-20250701    gcc-5.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250701    gcc-11.5.0
+csky                  randconfig-002-20250701    gcc-10.5.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250701    clang-21
+hexagon               randconfig-002-20250701    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250701    gcc-12
+i386        buildonly-randconfig-002-20250701    gcc-12
+i386        buildonly-randconfig-003-20250701    gcc-12
+i386        buildonly-randconfig-004-20250701    gcc-12
+i386        buildonly-randconfig-005-20250701    gcc-12
+i386        buildonly-randconfig-006-20250701    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-15.1.0
+loongarch                         allnoconfig    gcc-15.1.0
+loongarch             randconfig-001-20250701    gcc-13.3.0
+loongarch             randconfig-002-20250701    gcc-15.1.0
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                        m5307c3_defconfig    gcc-15.1.0
+m68k                           virt_defconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                         rt305x_defconfig    clang-21
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250701    gcc-14.2.0
+nios2                 randconfig-002-20250701    gcc-13.3.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250701    gcc-14.3.0
+parisc                randconfig-002-20250701    gcc-10.5.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-21
+powerpc                       ebony_defconfig    clang-21
+powerpc               randconfig-001-20250701    gcc-13.3.0
+powerpc               randconfig-002-20250701    clang-21
+powerpc               randconfig-003-20250701    clang-21
+powerpc                     tqm8540_defconfig    gcc-15.1.0
+powerpc64             randconfig-001-20250701    clang-21
+powerpc64             randconfig-002-20250701    clang-21
+powerpc64             randconfig-003-20250701    gcc-10.5.0
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-21
+riscv                    nommu_virt_defconfig    clang-21
+riscv                 randconfig-001-20250701    gcc-14.3.0
+riscv                 randconfig-002-20250701    gcc-10.5.0
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-21
+s390                  randconfig-001-20250701    gcc-9.3.0
+s390                  randconfig-002-20250701    clang-17
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20250701    gcc-5.5.0
+sh                    randconfig-002-20250701    gcc-13.3.0
+sh                           se7722_defconfig    gcc-15.1.0
+sh                            titan_defconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                 randconfig-001-20250701    gcc-10.3.0
+sparc                 randconfig-002-20250701    gcc-15.1.0
+sparc64                             defconfig    gcc-15.1.0
+sparc64               randconfig-001-20250701    gcc-8.5.0
+sparc64               randconfig-002-20250701    gcc-12.4.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-21
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250701    gcc-12
+um                    randconfig-002-20250701    gcc-12
+um                           x86_64_defconfig    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250701    gcc-12
+x86_64      buildonly-randconfig-002-20250701    gcc-12
+x86_64      buildonly-randconfig-003-20250701    gcc-12
+x86_64      buildonly-randconfig-004-20250701    gcc-12
+x86_64      buildonly-randconfig-005-20250701    clang-20
+x86_64      buildonly-randconfig-006-20250701    clang-20
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-18
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                  cadence_csp_defconfig    gcc-15.1.0
+xtensa                  nommu_kc705_defconfig    gcc-15.1.0
+xtensa                randconfig-001-20250701    gcc-15.1.0
+xtensa                randconfig-002-20250701    gcc-13.3.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
