@@ -4,52 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1023BC83F03
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jul 2025 17:08:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3695CC83F09
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jul 2025 17:08:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xrpaJWk6JlY9XEBTbNTo+YZ5wMNhTXZlq8+fxNnMjCQ=; b=B7p1Dy/hr2AUx+0H58t2s0LNnH
-	S3V3PDAHdCzcOvP/VVHAzG6TcJw9CuMQbnusKpByQLN76TnvHEsCoz6jNFpzcJwjPiWQGVR7hfdih
-	unm0P1psJBt2tBjRaoEP/926LPo0tDysG3fOGeHLGPNQ8ly3AJJ/qLKZ74JqhTREev1j2fMWiqEx4
-	gTiYrMQHvvcAXZkBZF331iU/5Xw/RIOWfbzV+MdJjauJlTMxlZPPL524Z8yTkN3MJKZKu7L4poP5Q
-	e/i6Pmuo8Yg9Jo1PRrDXhMR1NWg0o0lbfI+JhLZa0ofxuNG4l0g2HZxqRtk4yId+HsAJpcArUvHHu
-	xezUPU7w==;
+	bh=olR8u5l/CDb5EN+M/nLWdkUpKjMH2og+Pu1YrEI6LlM=; b=OHKhXFqga1qyv+OvhQM6ri53sO
+	Gnl/5dAPiLuuTf9Aia1n2ZV2QwiGEApZelXNFeKmFAhtbIgaAdqCa770Cj2N/EmgZSalVfQcLXnll
+	y9V4PPiLYpKuk8bhlyRe4Zg2IcZ3x0rS6VLM6usDKD5hGMEP1wYSboZ+7ldnLabmo5X+OuQPLvvfH
+	OSph8s1yduHerVmMXYtx/ul371vZv1fsM+K0r+KtdgdiKEeuUKLmPB8jiR++QXiS/T5feiCG0R5Lx
+	8OmWQK7s/BVc1fBoe7nKkfo4v/yJYw3zcCOE+zZQvCHVXl3ZDjpzSVPHsThFsIUuaKWwm8eNI7+KS
+	FvZ7q70A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX0x5-000000094Uq-25U0;
-	Wed, 02 Jul 2025 17:08:55 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uX0x6-000000094WP-1uJG;
+	Wed, 02 Jul 2025 17:08:56 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX0Pf-00000008xdF-0wYX
+	id 1uX0Pg-00000008xdb-0BzY
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Jul 2025 16:34:23 +0000
+	Wed, 02 Jul 2025 16:34:25 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3FF6E61120;
-	Wed,  2 Jul 2025 16:34:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66086C4CEEF;
-	Wed,  2 Jul 2025 16:34:20 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id BFA914626C;
+	Wed,  2 Jul 2025 16:34:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E3AC4CEE7;
+	Wed,  2 Jul 2025 16:34:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751474061;
-	bh=Myx+PZoZUcbDbjehTnwx+RA9vtGiiCFPLDBRtnu3gqg=;
+	s=k20201202; t=1751474063;
+	bh=pWxK3dXtb7yt/SLdpUa2c56b5nWqf/VUS4szDCMoRQM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=V934Qn+90uC6vxOj2/uy0FXbhoVq2ub3PHObXMD0xrE/uiGT4LMsYYkzscg40r2BD
-	 EOYnOft07Xmw7cCRbn63zkqqrSaxC/KSPv/W+B72P1jnRgOIRCS1pbYHWw44iQkrE3
-	 fLcwLdiQxqNxRSsWHb/bqf6ZOeHexDmxG73j/CGBzgcH8DFxMR41ill6rntyx5qM+/
-	 r2EfnwJYklWSlxriMJor4Dq1kaQn2Ox69ATZ0KQC2ZzZFmJxSaINLdGQl0gpDrNsY+
-	 I5wU219HubMS5b9mn4GtacaaC0HOSEOpf9a9NYYiwvg9/Wng+p0IdFG6LV+CLmu+C9
-	 SmwDx5om9SeEA==
+	b=FyvSjLukQx1wRtaMLSqyLSxFSVirXVNQayunh+NAHb3GRlNHYHp/KIJT2skiVzBl4
+	 9PnLDERQWm9RRe+hotegeoenru+U+K3vXHjPRdQJm4tKthb1KnJYu8BBY+DCB5+yIH
+	 s9pvAY8wrRQJRMocif/F1IJb54djJ+bvliEvMI/7J7tC2bJSeK1g3+L8n1A4NK12r7
+	 aWIoidN4yRwkIaYzuqL/lvTwTDHzRwHZM2yCdN4LOxJYlnuKvuqgQr5Tw6naOBkwD4
+	 X7NJ43KX8aXGYxLihRHLAqyUwvWaSL6EkTkrTOWjG5MGPfHgrITJYCcQSGfOqmntyt
+	 C6zduiiY97TkA==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Wed, 02 Jul 2025 18:33:56 +0200
-Subject: [PATCH v7 06/10] virtio: blk/scsi: use block layer helpers to
- constrain queue affinity
+Date: Wed, 02 Jul 2025 18:33:57 +0200
+Subject: [PATCH v7 07/10] isolation: Introduce io_queue isolcpus type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250702-isolcpus-io-queues-v7-6-557aa7eacce4@kernel.org>
+Message-Id: <20250702-isolcpus-io-queues-v7-7-557aa7eacce4@kernel.org>
 References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
 In-Reply-To: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -69,6 +68,9 @@ Cc: Aaron Tomlin <atomlin@atomlin.com>,
  virtualization@lists.linux.dev, GR-QLogic-Storage-Upstream@marvell.com, 
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250702_093424_128368_E7234EBE 
+X-CRM114-Status: GOOD (  13.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,48 +85,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ensure that IRQ affinity setup also respects the queue-to-CPU mapping
-constraints provided by the block layer. This allows the virtio drivers
-to avoid assigning interrupts to CPUs that the block layer has excluded
-(e.g., isolated CPUs).
+Multiqueue drivers spread I/O queues across all CPUs for optimal
+performance. However, these drivers are not aware of CPU isolation
+requirements and will distribute queues without considering the isolcpus
+configuration.
 
+Introduce a new isolcpus mask that allows users to define which CPUs
+should have I/O queues assigned. This is similar to managed_irq, but
+intended for drivers that do not use the managed IRQ infrastructure
+
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/block/virtio_blk.c | 4 +++-
- drivers/scsi/virtio_scsi.c | 5 ++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ include/linux/sched/isolation.h | 1 +
+ kernel/sched/isolation.c        | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index e649fa67bac16b4f0c6e8e8f0e6bec111897c355..41b06540c7fb22fd1d2708338c514947c4bdeefe 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -963,7 +963,9 @@ static int init_vq(struct virtio_blk *vblk)
- 	unsigned short num_vqs;
- 	unsigned short num_poll_vqs;
- 	struct virtio_device *vdev = vblk->vdev;
--	struct irq_affinity desc = { 0, };
-+	struct irq_affinity desc = {
-+		.mask = blk_mq_possible_queue_affinity(),
-+	};
+diff --git a/include/linux/sched/isolation.h b/include/linux/sched/isolation.h
+index d8501f4709b583b8a1c91574446382f093bccdb1..6b6ae9c5b2f61a93c649a98ea27482b932627fca 100644
+--- a/include/linux/sched/isolation.h
++++ b/include/linux/sched/isolation.h
+@@ -9,6 +9,7 @@
+ enum hk_type {
+ 	HK_TYPE_DOMAIN,
+ 	HK_TYPE_MANAGED_IRQ,
++	HK_TYPE_IO_QUEUE,
+ 	HK_TYPE_KERNEL_NOISE,
+ 	HK_TYPE_MAX,
  
- 	err = virtio_cread_feature(vdev, VIRTIO_BLK_F_MQ,
- 				   struct virtio_blk_config, num_queues,
-diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
-index 96a69edddbe5555574fc8fed1ba7c82a99df4472..67dfb265bf9e54adc68978ac8d93187e6629c330 100644
---- a/drivers/scsi/virtio_scsi.c
-+++ b/drivers/scsi/virtio_scsi.c
-@@ -842,7 +842,10 @@ static int virtscsi_init(struct virtio_device *vdev,
- 	u32 num_vqs, num_poll_vqs, num_req_vqs;
- 	struct virtqueue_info *vqs_info;
- 	struct virtqueue **vqs;
--	struct irq_affinity desc = { .pre_vectors = 2 };
-+	struct irq_affinity desc = {
-+		.pre_vectors = 2,
-+		.mask = blk_mq_possible_queue_affinity(),
-+	};
+diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
+index 93b038d48900a304a29ecc0c8aa8b7d419ea1397..c8cb0cf2b15a11524be73826f38bb2a0709c449c 100644
+--- a/kernel/sched/isolation.c
++++ b/kernel/sched/isolation.c
+@@ -11,6 +11,7 @@
+ enum hk_flags {
+ 	HK_FLAG_DOMAIN		= BIT(HK_TYPE_DOMAIN),
+ 	HK_FLAG_MANAGED_IRQ	= BIT(HK_TYPE_MANAGED_IRQ),
++	HK_FLAG_IO_QUEUE	= BIT(HK_TYPE_IO_QUEUE),
+ 	HK_FLAG_KERNEL_NOISE	= BIT(HK_TYPE_KERNEL_NOISE),
+ };
  
- 	num_req_vqs = vscsi->num_queues;
- 	num_vqs = num_req_vqs + VIRTIO_SCSI_VQ_BASE;
+@@ -224,6 +225,12 @@ static int __init housekeeping_isolcpus_setup(char *str)
+ 			continue;
+ 		}
+ 
++		if (!strncmp(str, "io_queue,", 9)) {
++			str += 9;
++			flags |= HK_FLAG_IO_QUEUE;
++			continue;
++		}
++
+ 		/*
+ 		 * Skip unknown sub-parameter and validate that it is not
+ 		 * containing an invalid character.
 
 -- 
 2.50.0
