@@ -4,51 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B55DDC77B7C
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jul 2025 17:09:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8357DC77B7C
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jul 2025 17:09:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AvjdaPsFcHTHYYnBPWL4Uf7P/i6KmRiZ8BKAMEP8QPY=; b=AMiPJ+0HaIqKim+cbpM6EBASab
-	E3VGsDS2KpJ9dyWpRuqYNv/zq8EII5PFlnHZ4Ilz1DBWcg+K6Wsg8SLyLiXCKLyBxwyuxbWdXrdIM
-	PSUeAsKkXqpmqMwEOWcc1x0Xmr6b/ogN1v6dh4u0MhlIzaAmvNqNSfN5vvjTXeOVuKNa43ATfTiP0
-	mXNu0dZs8j/ahzClJirCw78MIQgO9BNPYQruqLWLfVJpSrrKFvIDKNiHGoojBRu3PR35nI2jS7e9v
-	o8tXCI/TiAZLppc+gAOBCZKbwVZYPKHPO1oWSVN2B9ZjJvQGcXwiNy6bjUOD1+dj8GTF/UUEbaAhB
-	3I31mEaw==;
+	bh=t8pdu1fLBuZGYM2Cf3KphR8Ka+YXjcWz7FZ9tRhukgw=; b=ER+zsd5erzCoxB+ab85kUkUAyW
+	oyyvW6EHBytq4uSDNL3vZuvoOiaVto4lEH4HPtYbH1b44a3bM29EZhrlwiHYKwaLcHIpBwYwkD/eM
+	VSe1sqNepJVchA0zT0bwqJKGmr7Rag13BtQZHw8GYg1buWm0QmN6r5EYfnzm1yG6gqxfzZQQ2xp7E
+	rF2yz0nRtUnYefunrLAqCBW9x+4RrpRP3K2MMDIeR/m3CvJhIueRk206VJ+Q0CTW8f3/egfIQ1DA0
+	bQzO3TtNvsaImBQvxhKDRkKy3qJ/gMq6xjalZY8N+sKvwinBWuvRi2ITKnyoi70GwuL1LVBEMFd4D
+	03DbGcdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX0x9-000000094ai-0cm9;
-	Wed, 02 Jul 2025 17:08:59 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uX0x3-000000094Ro-2zCX;
+	Wed, 02 Jul 2025 17:08:53 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX0Pp-00000008xgA-0Ucs
+	id 1uX0Pb-00000008xbx-19oD
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Jul 2025 16:34:34 +0000
+	Wed, 02 Jul 2025 16:34:20 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 77A7DA52F7D;
-	Wed,  2 Jul 2025 16:34:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 914E1C4CEE7;
-	Wed,  2 Jul 2025 16:34:31 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 7AD5B5C41EE;
+	Wed,  2 Jul 2025 16:34:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99ABCC4CEEF;
+	Wed,  2 Jul 2025 16:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751474072;
-	bh=vxQYCEdaJjhalXM2LWdmwU2NhYSit9L084ZrGvIAi1s=;
+	s=k20201202; t=1751474058;
+	bh=keykx3vAmjJbk//U6jYPt/FwMnsvXcGfTDzqkjrAAS0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=YlsqVWRqiOBec/ZJdDuUpTDrfzbfsA+bKi15TlITzblzeP22TZmGTvlkF19SPArgo
-	 H7D3EBxICYst9MAFD+hOcP7eRP96DiFZcLNoMb36JG0ZrR4jKNwuVsBMijfbId73xQ
-	 cgOvlGuiLyWnaiuZ4gxNpoN4TAdi1AlxKtPj6HMOHpgdQGUb1c+5CvFLLr5KRK7dhm
-	 Z7rj95qpCR6A9qix29WifwcQkjNrPp6Il1stkf/rSwvPTonaYg5RLy7H1wdMPp5+Gd
-	 YToOqMCLr5TOE0aB6RSl0rvQVZTFXd81MtLk8qfWSZojEpoEwqt6O+vyftQm9AuIk+
-	 95aQqtRPe2o/Q==
+	b=kpL8/TWqVAvG+YaSf0RYT4vdNTMunclsM+/ZK40KSdFtb0UaohF6bDZwUN8eJz36q
+	 mPyK5jLF8R/TcBI7ofEDoF+mKR1Gu9fZghY1VDfc4EJ0rBtH5AB3InEU87TvMErTpD
+	 SsIgo3w1ze9Y3Xpi9KR80R3KFVe1L/vkiWH20BSP1ndpzsVShxPuzpfswrtKKktAXx
+	 8CwLoUSzyuXOhsi3pqS4DPS40L4PvTgAaTL+EA/kwZTuXvPu7NIs6ZaBfx4Le0LRFM
+	 Hoct70WBmmi4iguDj8N8v8aEwX1/kDIT3fDix5TJf3FKh34hF8TmIN+rjsSnUPiNwJ
+	 p4I2JO5EJREJQ==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Wed, 02 Jul 2025 18:34:00 +0200
-Subject: [PATCH v7 10/10] docs: add io_queue flag to isolcpus
+Date: Wed, 02 Jul 2025 18:33:55 +0200
+Subject: [PATCH v7 05/10] scsi: Use block layer helpers to constrain queue
+ affinity
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250702-isolcpus-io-queues-v7-10-557aa7eacce4@kernel.org>
+Message-Id: <20250702-isolcpus-io-queues-v7-5-557aa7eacce4@kernel.org>
 References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
 In-Reply-To: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -69,8 +70,8 @@ Cc: Aaron Tomlin <atomlin@atomlin.com>,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250702_093433_222852_5175651F 
-X-CRM114-Status: GOOD (  13.01  )
+X-CRM114-CacheID: sfid-20250702_093419_408955_1937FACE 
+X-CRM114-Status: GOOD (  16.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,52 +86,156 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The io_queue flag informs multiqueue device drivers where to place
-hardware queues. Document this new flag in the isolcpus
-command-line argument description.
+Ensure that IRQ affinity setup also respects the queue-to-CPU mapping
+constraints provided by the block layer. This allows the SCSI drivers
+to avoid assigning interrupts to CPUs that the block layer has excluded
+(e.g., isolated CPUs).
 
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ drivers/scsi/fnic/fnic_isr.c              | 7 +++++--
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 1 +
+ drivers/scsi/megaraid/megaraid_sas_base.c | 5 ++++-
+ drivers/scsi/mpi3mr/mpi3mr_fw.c           | 6 +++++-
+ drivers/scsi/mpt3sas/mpt3sas_base.c       | 5 ++++-
+ drivers/scsi/pm8001/pm8001_init.c         | 1 +
+ drivers/scsi/qla2xxx/qla_isr.c            | 1 +
+ drivers/scsi/smartpqi/smartpqi_init.c     | 7 +++++--
+ 8 files changed, 26 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f1f2c0874da9ddfc95058c464fdf5dabaf0de713..7594ac5448575cc895ebf7af0fe051d42dc5e0e9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2590,7 +2590,6 @@
- 			  "number of CPUs in system - 1".
+diff --git a/drivers/scsi/fnic/fnic_isr.c b/drivers/scsi/fnic/fnic_isr.c
+index 7ed50b11afa6a992c9a69dc746d271376ea8fe08..c6d8582c767edd8121a07966ed527260a28e5cb5 100644
+--- a/drivers/scsi/fnic/fnic_isr.c
++++ b/drivers/scsi/fnic/fnic_isr.c
+@@ -245,6 +245,9 @@ int fnic_set_intr_mode_msix(struct fnic *fnic)
+ 	unsigned int m = ARRAY_SIZE(fnic->wq);
+ 	unsigned int o = ARRAY_SIZE(fnic->hw_copy_wq);
+ 	unsigned int min_irqs = n + m + 1 + 1; /*rq, raw wq, wq, err*/
++	struct irq_affinity desc = {
++		.mask = blk_mq_online_queue_affinity(),
++	};
  
- 			managed_irq
--
- 			  Isolate from being targeted by managed interrupts
- 			  which have an interrupt mask containing isolated
- 			  CPUs. The affinity of managed interrupts is
-@@ -2613,6 +2612,24 @@
- 			  housekeeping CPUs has no influence on those
- 			  queues.
+ 	/*
+ 	 * We need n RQs, m WQs, o Copy WQs, n+m+o CQs, and n+m+o+1 INTRs
+@@ -263,8 +266,8 @@ int fnic_set_intr_mode_msix(struct fnic *fnic)
+ 		int vec_count = 0;
+ 		int vecs = fnic->rq_count + fnic->raw_wq_count + fnic->wq_copy_count + 1;
  
-+			io_queue
-+			  Isolate from I/O queue work caused by multiqueue
-+			  device drivers. Restrict the placement of
-+			  queues to housekeeping CPUs only, ensuring that
-+			  all I/O work is processed by a housekeeping CPU.
-+
-+			  Housekeeping CPUs that serve isolated CPUs
-+			  cannot be offlined.
-+
-+			  The io_queue configuration takes precedence over
-+			  managed_irq; thus, when io_queue is used,
-+			  managed_irq has no effect.
-+
-+			  Note: When an isolated CPU issues an I/O request,
-+			  it is forwarded to a housekeeping CPU. This will
-+			  trigger a software interrupt on the completion
-+			  path.
-+
- 			The format of <cpu-list> is described above.
+-		vec_count = pci_alloc_irq_vectors(fnic->pdev, min_irqs, vecs,
+-					PCI_IRQ_MSIX | PCI_IRQ_AFFINITY);
++		vec_count = pci_alloc_irq_vectors_affinity(fnic->pdev, min_irqs, vecs,
++					PCI_IRQ_MSIX | PCI_IRQ_AFFINITY, &desc);
+ 		FNIC_ISR_DBG(KERN_INFO, fnic->host, fnic->fnic_num,
+ 					"allocated %d MSI-X vectors\n",
+ 					vec_count);
+diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+index bc5d5356dd00710277e4b8877798f64c9674d5de..2906dd9a6c895827e07b1ba0540f0f27ac704f47 100644
+--- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
++++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+@@ -2607,6 +2607,7 @@ static int interrupt_preinit_v3_hw(struct hisi_hba *hisi_hba)
+ 	struct pci_dev *pdev = hisi_hba->pci_dev;
+ 	struct irq_affinity desc = {
+ 		.pre_vectors = BASE_VECTORS_V3_HW,
++		.mask = blk_mq_online_queue_affinity(),
+ 	};
  
- 	iucv=		[HW,NET]
+ 	min_msi = MIN_AFFINE_VECTORS_V3_HW;
+diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
+index 615e06fd4ee8e5d1c14ef912460962eacb450c04..c8df2dc47689a5dad02e1364de1d71e24f6159d0 100644
+--- a/drivers/scsi/megaraid/megaraid_sas_base.c
++++ b/drivers/scsi/megaraid/megaraid_sas_base.c
+@@ -5927,7 +5927,10 @@ static int
+ __megasas_alloc_irq_vectors(struct megasas_instance *instance)
+ {
+ 	int i, irq_flags;
+-	struct irq_affinity desc = { .pre_vectors = instance->low_latency_index_start };
++	struct irq_affinity desc = {
++		.pre_vectors = instance->low_latency_index_start,
++		.mask = blk_mq_online_queue_affinity(),
++	};
+ 	struct irq_affinity *descp = &desc;
+ 
+ 	irq_flags = PCI_IRQ_MSIX;
+diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3mr_fw.c
+index 1d7901a8f0e40658b78415704e8c81e28ef6d3df..c790d50cda36dc2c33571e29fdd7f661b85a48b1 100644
+--- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
++++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
+@@ -820,7 +820,11 @@ static int mpi3mr_setup_isr(struct mpi3mr_ioc *mrioc, u8 setup_one)
+ 	int max_vectors, min_vec;
+ 	int retval;
+ 	int i;
+-	struct irq_affinity desc = { .pre_vectors =  1, .post_vectors = 1 };
++	struct irq_affinity desc = {
++		.pre_vectors =  1,
++		.post_vectors = 1,
++		.mask = blk_mq_online_queue_affinity(),
++	};
+ 
+ 	if (mrioc->is_intr_info_set)
+ 		return 0;
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
+index bd3efa5b46c780d43fae58c12f0bce5057dcda85..a55dd75221a6079a29f6ebee402b3654b94411c1 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_base.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
+@@ -3364,7 +3364,10 @@ static int
+ _base_alloc_irq_vectors(struct MPT3SAS_ADAPTER *ioc)
+ {
+ 	int i, irq_flags = PCI_IRQ_MSIX;
+-	struct irq_affinity desc = { .pre_vectors = ioc->high_iops_queues };
++	struct irq_affinity desc = {
++		.pre_vectors = ioc->high_iops_queues,
++		.mask = blk_mq_online_queue_affinity(),
++	};
+ 	struct irq_affinity *descp = &desc;
+ 	/*
+ 	 * Don't allocate msix vectors for poll_queues.
+diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
+index 599410bcdfea59aba40e3dd6749434b7b5966d48..1d4807eeed75acdfe091a3c0560a926ebb59e1e8 100644
+--- a/drivers/scsi/pm8001/pm8001_init.c
++++ b/drivers/scsi/pm8001/pm8001_init.c
+@@ -977,6 +977,7 @@ static u32 pm8001_setup_msix(struct pm8001_hba_info *pm8001_ha)
+ 		 */
+ 		struct irq_affinity desc = {
+ 			.pre_vectors = 1,
++			.mask = blk_mq_online_queue_affinity(),
+ 		};
+ 		rc = pci_alloc_irq_vectors_affinity(
+ 				pm8001_ha->pdev, 2, PM8001_MAX_MSIX_VEC,
+diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
+index c4c6b5c6658c0734f7ff68bcc31b33dde87296dd..7c5adadfd731f0e395ea0050f105196ab9a503e9 100644
+--- a/drivers/scsi/qla2xxx/qla_isr.c
++++ b/drivers/scsi/qla2xxx/qla_isr.c
+@@ -4522,6 +4522,7 @@ qla24xx_enable_msix(struct qla_hw_data *ha, struct rsp_que *rsp)
+ 	int min_vecs = QLA_BASE_VECTORS;
+ 	struct irq_affinity desc = {
+ 		.pre_vectors = QLA_BASE_VECTORS,
++		.mask = blk_mq_online_queue_affinity(),
+ 	};
+ 
+ 	if (QLA_TGT_MODE_ENABLED() && (ql2xenablemsix != 0) &&
+diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
+index 125944941601e683e9aa9d4fc6a346230bef904b..24338919120e341a54d610b6fedc29a9cc29055b 100644
+--- a/drivers/scsi/smartpqi/smartpqi_init.c
++++ b/drivers/scsi/smartpqi/smartpqi_init.c
+@@ -4109,13 +4109,16 @@ static int pqi_enable_msix_interrupts(struct pqi_ctrl_info *ctrl_info)
+ {
+ 	int num_vectors_enabled;
+ 	unsigned int flags = PCI_IRQ_MSIX;
++	struct irq_affinity desc = {
++		.mask = blk_mq_online_queue_affinity(),
++	};
+ 
+ 	if (!pqi_disable_managed_interrupts)
+ 		flags |= PCI_IRQ_AFFINITY;
+ 
+-	num_vectors_enabled = pci_alloc_irq_vectors(ctrl_info->pci_dev,
++	num_vectors_enabled = pci_alloc_irq_vectors_affinity(ctrl_info->pci_dev,
+ 			PQI_MIN_MSIX_VECTORS, ctrl_info->num_queue_groups,
+-			flags);
++			flags, &desc);
+ 	if (num_vectors_enabled < 0) {
+ 		dev_err(&ctrl_info->pci_dev->dev,
+ 			"MSI-X init failed with error %d\n",
 
 -- 
 2.50.0
