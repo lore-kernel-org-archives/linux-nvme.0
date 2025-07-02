@@ -4,74 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8357DC77B7C
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jul 2025 17:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98258C83038
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Jul 2025 17:48:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t8pdu1fLBuZGYM2Cf3KphR8Ka+YXjcWz7FZ9tRhukgw=; b=ER+zsd5erzCoxB+ab85kUkUAyW
-	oyyvW6EHBytq4uSDNL3vZuvoOiaVto4lEH4HPtYbH1b44a3bM29EZhrlwiHYKwaLcHIpBwYwkD/eM
-	VSe1sqNepJVchA0zT0bwqJKGmr7Rag13BtQZHw8GYg1buWm0QmN6r5EYfnzm1yG6gqxfzZQQ2xp7E
-	rF2yz0nRtUnYefunrLAqCBW9x+4RrpRP3K2MMDIeR/m3CvJhIueRk206VJ+Q0CTW8f3/egfIQ1DA0
-	bQzO3TtNvsaImBQvxhKDRkKy3qJ/gMq6xjalZY8N+sKvwinBWuvRi2ITKnyoi70GwuL1LVBEMFd4D
-	03DbGcdQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=poxl9p280fhamf0Br3kWf2r7/MNKrthNQn0MkE1FzKw=; b=bjw0kj7OPQemOzt8lhAZYOYqbA
+	pZa8RWNHZgWz/Cw4raF+Utv2FE6GwEkgO0rCmwQ6p8icQWnoKVh+JzOVJ329bMTLuLqnSRRgBQ72/
+	W7hU57piZCGbqfgEKcV64mBQP0hUBrY2E8jEhl3N6rKJ7XNvVW3UyELwYNHaSQdxj5gbHg0MyJhdB
+	SaKkrEHynAx96EgLzcOEMv0WH5ltX9JJw/C3Xp3KIWkIJJp9XxSSWdlddrqJWXH6kUSP6Vp58uNiX
+	vXmTCSHnZPXqlEixqpQ0mgfzimwNlo7Vt/QUapejlDHUWQ7aje5/+yrHZK9eCI5kiUM8+H5Wh1d9T
+	P/4pwxLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX0x3-000000094Ro-2zCX;
-	Wed, 02 Jul 2025 17:08:53 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1uX1ZB-00000009ADS-1N3n;
+	Wed, 02 Jul 2025 17:48:17 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX0Pb-00000008xbx-19oD
+	id 1uWy8B-00000008a4S-3NQm
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Jul 2025 16:34:20 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7AD5B5C41EE;
-	Wed,  2 Jul 2025 16:34:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99ABCC4CEEF;
-	Wed,  2 Jul 2025 16:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751474058;
-	bh=keykx3vAmjJbk//U6jYPt/FwMnsvXcGfTDzqkjrAAS0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=kpL8/TWqVAvG+YaSf0RYT4vdNTMunclsM+/ZK40KSdFtb0UaohF6bDZwUN8eJz36q
-	 mPyK5jLF8R/TcBI7ofEDoF+mKR1Gu9fZghY1VDfc4EJ0rBtH5AB3InEU87TvMErTpD
-	 SsIgo3w1ze9Y3Xpi9KR80R3KFVe1L/vkiWH20BSP1ndpzsVShxPuzpfswrtKKktAXx
-	 8CwLoUSzyuXOhsi3pqS4DPS40L4PvTgAaTL+EA/kwZTuXvPu7NIs6ZaBfx4Le0LRFM
-	 Hoct70WBmmi4iguDj8N8v8aEwX1/kDIT3fDix5TJf3FKh34hF8TmIN+rjsSnUPiNwJ
-	 p4I2JO5EJREJQ==
-From: Daniel Wagner <wagi@kernel.org>
-Date: Wed, 02 Jul 2025 18:33:55 +0200
-Subject: [PATCH v7 05/10] scsi: Use block layer helpers to constrain queue
- affinity
+	Wed, 02 Jul 2025 14:08:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751465289;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=poxl9p280fhamf0Br3kWf2r7/MNKrthNQn0MkE1FzKw=;
+	b=TBaIw+temMp36T8U+BtMhNi7x2G7CPPiOnsMrAHUxmje0Yxq5N4jHihDcMPr1mjEvQSfot
+	hceQ1zGkQg88TIVEdkQAUJm87r0jTY7tb2sYG2mFPvmJ3/Q9nP4zR4z+EsfS9/8AFKdbp5
+	lNkkv+hYBdKK/68aSzHBMT7QTMX600c=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-97-0UaBY3fUMBOJHztSbzwMYg-1; Wed,
+ 02 Jul 2025 10:06:37 -0400
+X-MC-Unique: 0UaBY3fUMBOJHztSbzwMYg-1
+X-Mimecast-MFC-AGG-ID: 0UaBY3fUMBOJHztSbzwMYg_1751465196
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 69AD118DA387;
+	Wed,  2 Jul 2025 14:06:35 +0000 (UTC)
+Received: from rocky.redhat.com (unknown [10.47.238.33])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4D032195608F;
+	Wed,  2 Jul 2025 14:06:31 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de,
+	kbusch@kernel.org,
+	sagi@grimberg.me,
+	hare@suse.de,
+	mlombard@bsdbackstore.eu
+Subject: [PATCH V2] nvme-tcp: log TLS handshake failures at error level
+Date: Wed,  2 Jul 2025 16:06:29 +0200
+Message-ID: <20250702140629.70378-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250702-isolcpus-io-queues-v7-5-557aa7eacce4@kernel.org>
-References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
-In-Reply-To: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Aaron Tomlin <atomlin@atomlin.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Thomas Gleixner <tglx@linutronix.de>, 
- Costa Shulyupin <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
- Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, 
- Ming Lei <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, 
- Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com, 
- linux-scsi@vger.kernel.org, storagedev@microchip.com, 
- virtualization@lists.linux.dev, GR-QLogic-Storage-Upstream@marvell.com, 
- Daniel Wagner <wagi@kernel.org>
-X-Mailer: b4 0.14.2
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: HaZVDPnL9V3Qel7lhwKsEkBcqqw6Kx07eVmOzvEDMWw_1751465196
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250702_093419_408955_1937FACE 
-X-CRM114-Status: GOOD (  16.47  )
+X-CRM114-CacheID: sfid-20250702_070811_910578_AD919F3C 
+X-CRM114-Status: GOOD (  11.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,158 +86,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ensure that IRQ affinity setup also respects the queue-to-CPU mapping
-constraints provided by the block layer. This allows the SCSI drivers
-to avoid assigning interrupts to CPUs that the block layer has excluded
-(e.g., isolated CPUs).
+Update the nvme_tcp_start_tls() function to use dev_err()
+instead of dev_dbg() when a TLS error is detected.
+This ensures that handshake failures are visible by default,
+aiding in debugging.
 
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 ---
- drivers/scsi/fnic/fnic_isr.c              | 7 +++++--
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 1 +
- drivers/scsi/megaraid/megaraid_sas_base.c | 5 ++++-
- drivers/scsi/mpi3mr/mpi3mr_fw.c           | 6 +++++-
- drivers/scsi/mpt3sas/mpt3sas_base.c       | 5 ++++-
- drivers/scsi/pm8001/pm8001_init.c         | 1 +
- drivers/scsi/qla2xxx/qla_isr.c            | 1 +
- drivers/scsi/smartpqi/smartpqi_init.c     | 7 +++++--
- 8 files changed, 26 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/scsi/fnic/fnic_isr.c b/drivers/scsi/fnic/fnic_isr.c
-index 7ed50b11afa6a992c9a69dc746d271376ea8fe08..c6d8582c767edd8121a07966ed527260a28e5cb5 100644
---- a/drivers/scsi/fnic/fnic_isr.c
-+++ b/drivers/scsi/fnic/fnic_isr.c
-@@ -245,6 +245,9 @@ int fnic_set_intr_mode_msix(struct fnic *fnic)
- 	unsigned int m = ARRAY_SIZE(fnic->wq);
- 	unsigned int o = ARRAY_SIZE(fnic->hw_copy_wq);
- 	unsigned int min_irqs = n + m + 1 + 1; /*rq, raw wq, wq, err*/
-+	struct irq_affinity desc = {
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 
- 	/*
- 	 * We need n RQs, m WQs, o Copy WQs, n+m+o CQs, and n+m+o+1 INTRs
-@@ -263,8 +266,8 @@ int fnic_set_intr_mode_msix(struct fnic *fnic)
- 		int vec_count = 0;
- 		int vecs = fnic->rq_count + fnic->raw_wq_count + fnic->wq_copy_count + 1;
- 
--		vec_count = pci_alloc_irq_vectors(fnic->pdev, min_irqs, vecs,
--					PCI_IRQ_MSIX | PCI_IRQ_AFFINITY);
-+		vec_count = pci_alloc_irq_vectors_affinity(fnic->pdev, min_irqs, vecs,
-+					PCI_IRQ_MSIX | PCI_IRQ_AFFINITY, &desc);
- 		FNIC_ISR_DBG(KERN_INFO, fnic->host, fnic->fnic_num,
- 					"allocated %d MSI-X vectors\n",
- 					vec_count);
-diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-index bc5d5356dd00710277e4b8877798f64c9674d5de..2906dd9a6c895827e07b1ba0540f0f27ac704f47 100644
---- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-+++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-@@ -2607,6 +2607,7 @@ static int interrupt_preinit_v3_hw(struct hisi_hba *hisi_hba)
- 	struct pci_dev *pdev = hisi_hba->pci_dev;
- 	struct irq_affinity desc = {
- 		.pre_vectors = BASE_VECTORS_V3_HW,
-+		.mask = blk_mq_online_queue_affinity(),
- 	};
- 
- 	min_msi = MIN_AFFINE_VECTORS_V3_HW;
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index 615e06fd4ee8e5d1c14ef912460962eacb450c04..c8df2dc47689a5dad02e1364de1d71e24f6159d0 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -5927,7 +5927,10 @@ static int
- __megasas_alloc_irq_vectors(struct megasas_instance *instance)
- {
- 	int i, irq_flags;
--	struct irq_affinity desc = { .pre_vectors = instance->low_latency_index_start };
-+	struct irq_affinity desc = {
-+		.pre_vectors = instance->low_latency_index_start,
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 	struct irq_affinity *descp = &desc;
- 
- 	irq_flags = PCI_IRQ_MSIX;
-diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-index 1d7901a8f0e40658b78415704e8c81e28ef6d3df..c790d50cda36dc2c33571e29fdd7f661b85a48b1 100644
---- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
-+++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-@@ -820,7 +820,11 @@ static int mpi3mr_setup_isr(struct mpi3mr_ioc *mrioc, u8 setup_one)
- 	int max_vectors, min_vec;
- 	int retval;
- 	int i;
--	struct irq_affinity desc = { .pre_vectors =  1, .post_vectors = 1 };
-+	struct irq_affinity desc = {
-+		.pre_vectors =  1,
-+		.post_vectors = 1,
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 
- 	if (mrioc->is_intr_info_set)
- 		return 0;
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
-index bd3efa5b46c780d43fae58c12f0bce5057dcda85..a55dd75221a6079a29f6ebee402b3654b94411c1 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
-@@ -3364,7 +3364,10 @@ static int
- _base_alloc_irq_vectors(struct MPT3SAS_ADAPTER *ioc)
- {
- 	int i, irq_flags = PCI_IRQ_MSIX;
--	struct irq_affinity desc = { .pre_vectors = ioc->high_iops_queues };
-+	struct irq_affinity desc = {
-+		.pre_vectors = ioc->high_iops_queues,
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 	struct irq_affinity *descp = &desc;
- 	/*
- 	 * Don't allocate msix vectors for poll_queues.
-diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
-index 599410bcdfea59aba40e3dd6749434b7b5966d48..1d4807eeed75acdfe091a3c0560a926ebb59e1e8 100644
---- a/drivers/scsi/pm8001/pm8001_init.c
-+++ b/drivers/scsi/pm8001/pm8001_init.c
-@@ -977,6 +977,7 @@ static u32 pm8001_setup_msix(struct pm8001_hba_info *pm8001_ha)
- 		 */
- 		struct irq_affinity desc = {
- 			.pre_vectors = 1,
-+			.mask = blk_mq_online_queue_affinity(),
- 		};
- 		rc = pci_alloc_irq_vectors_affinity(
- 				pm8001_ha->pdev, 2, PM8001_MAX_MSIX_VEC,
-diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
-index c4c6b5c6658c0734f7ff68bcc31b33dde87296dd..7c5adadfd731f0e395ea0050f105196ab9a503e9 100644
---- a/drivers/scsi/qla2xxx/qla_isr.c
-+++ b/drivers/scsi/qla2xxx/qla_isr.c
-@@ -4522,6 +4522,7 @@ qla24xx_enable_msix(struct qla_hw_data *ha, struct rsp_que *rsp)
- 	int min_vecs = QLA_BASE_VECTORS;
- 	struct irq_affinity desc = {
- 		.pre_vectors = QLA_BASE_VECTORS,
-+		.mask = blk_mq_online_queue_affinity(),
- 	};
- 
- 	if (QLA_TGT_MODE_ENABLED() && (ql2xenablemsix != 0) &&
-diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
-index 125944941601e683e9aa9d4fc6a346230bef904b..24338919120e341a54d610b6fedc29a9cc29055b 100644
---- a/drivers/scsi/smartpqi/smartpqi_init.c
-+++ b/drivers/scsi/smartpqi/smartpqi_init.c
-@@ -4109,13 +4109,16 @@ static int pqi_enable_msix_interrupts(struct pqi_ctrl_info *ctrl_info)
- {
- 	int num_vectors_enabled;
- 	unsigned int flags = PCI_IRQ_MSIX;
-+	struct irq_affinity desc = {
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 
- 	if (!pqi_disable_managed_interrupts)
- 		flags |= PCI_IRQ_AFFINITY;
- 
--	num_vectors_enabled = pci_alloc_irq_vectors(ctrl_info->pci_dev,
-+	num_vectors_enabled = pci_alloc_irq_vectors_affinity(ctrl_info->pci_dev,
- 			PQI_MIN_MSIX_VECTORS, ctrl_info->num_queue_groups,
--			flags);
-+			flags, &desc);
- 	if (num_vectors_enabled < 0) {
- 		dev_err(&ctrl_info->pci_dev->dev,
- 			"MSI-X init failed with error %d\n",
+ v2: Hans suggests to print a dev_dbg() message
+     if handshake is succesfull
 
+ drivers/nvme/host/tcp.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index d924008c3949..9233f088fac8 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1745,9 +1745,14 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+ 			qid, ret);
+ 		tls_handshake_cancel(queue->sock->sk);
+ 	} else {
+-		dev_dbg(nctrl->device,
+-			"queue %d: TLS handshake complete, error %d\n",
+-			qid, queue->tls_err);
++		if (queue->tls_err) {
++			dev_err(nctrl->device,
++				"queue %d: TLS handshake complete, error %d\n",
++				qid, queue->tls_err);
++		} else {
++			dev_dbg(nctrl->device,
++				"queue %d: TLS handshake complete\n", qid);
++		}
+ 		ret = queue->tls_err;
+ 	}
+ 	return ret;
 -- 
-2.50.0
+2.47.1
 
 
