@@ -4,90 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1040BC77B7C
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 06:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B203BC83030
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 06:59:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=feKfxtThbjBgMaSjHhS09nw5zr3XwlSISa7X5gVk0+0=; b=16IcHr7Lactpb/iMuzR34mFlNb
-	UZ4TcbZvi8ixClqyVB0p1od7xgPA5ep8/Li75YMS6BjDNGyQNE3BHa5pJDuJeWk9B/OAfdodPVKh+
-	s5NzXnvxS1iNwTy48VlpCvuIuvYIFkYmJ5LdKiMuXjD/ru/ZA+NJxFRph1D6CiAnOIokFvQDZiyqY
-	diXMRSu96+ZZYC3M1qWq6aeWoOCwlysWzUYTMbfCFe70ehjflyd2SxXKFvMy6c/8pASXynBGgG/3p
-	stI7w8YecvQQf/C+tdqAxOapLlO0qnPaIxwnQAlCIV/viaTn/szps8T2ZB2/RiW5BJwbFQ+uOAzmR
-	4CqOHnUQ==;
+	bh=5Fsiib8zdgWaCro2EGpljFQE5UhciRXKPNK4B5GKkU8=; b=xqb782gZLoilfQyITI66qpM/N1
+	kozMvXMC4LKn961flwmTAm06dScuZbXOwwUh1tbvGXKKMZryDwA4C4k3TYbnzTUt4L6dnztQ/YLe7
+	MdCKw4fRHgyjobz1iStn3pENBWY2pdysz+erbxfpN35MbnW1QFzo1A6SWOVA/T6NvSXA5jlx89WDa
+	v8g0xWxxSTKk0wEepxCO+ekHj2Egx0ENZoj8CTZUc3YJtzfd8BbDPRWKnbTyu+MErGU5/xEJ+Ke3K
+	P1mMRx2TuqustCmHZmNFw96OnHmk8kmh1b6RYAqz7V/ta9t0NvMralUtLjnn321M+aNOwTcyC4Gyv
+	xM4RtlRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXDuN-0000000AS2e-1xXU;
-	Thu, 03 Jul 2025 06:58:59 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1uXDum-0000000ASAU-0IDV;
+	Thu, 03 Jul 2025 06:59:24 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXDuK-0000000AS1h-3t7h
+	id 1uXDuj-0000000AS9g-27IG
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Jul 2025 06:58:58 +0000
+	Thu, 03 Jul 2025 06:59:22 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F4131F38D;
-	Thu,  3 Jul 2025 06:58:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 00E7A21185;
+	Thu,  3 Jul 2025 06:59:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751525935; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1751525960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=feKfxtThbjBgMaSjHhS09nw5zr3XwlSISa7X5gVk0+0=;
-	b=EAYHu3n9YzKxuyVeU1KdYrVv4/IUwCAiNfG14WQsYl897617M5VXptV5S6ni8i5oBxqn7d
-	VzEG6q2C5IYNunQoBFmYmb+PYtS7/HGiYWZ21p3VBxWxjDtDO5NsH2Ik4TVw3VhiAYvw5A
-	h/XKUcEWslsg4xFJTd35jDoEGTMDUQI=
+	bh=5Fsiib8zdgWaCro2EGpljFQE5UhciRXKPNK4B5GKkU8=;
+	b=lD4m3Ia2bzln4Oczmb9c4Vf4N0xymKDAI+Tf03At9ibhppL78aaGByRkbDb99HWx2ELTis
+	0hOdo0dfrReXXYne+Y+6DJ3VXEgac7e/AaS5B0VlWxsfphPjaqohfRb7u6BoahqGxNwWOr
+	exgDCSz6ymKA2fzfkvfZyVgEKxLNmi8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751525935;
+	s=susede2_ed25519; t=1751525960;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=feKfxtThbjBgMaSjHhS09nw5zr3XwlSISa7X5gVk0+0=;
-	b=bW2LB+Tw7wBg50rxBT+vff05vehnW0/CYhOQ9U6UKnMkMQj7utbqGfnvZ3X7UwbvN/LoHC
-	Hagf9GaSqU/gcFDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EAYHu3n9;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bW2LB+Tw
+	bh=5Fsiib8zdgWaCro2EGpljFQE5UhciRXKPNK4B5GKkU8=;
+	b=DFJYZxpG5gFrtWxpzRxIxg7Ez/VzxX0vzPYdi56Bs2Q74M8b3cP9CUkycv7CwlSgLo7woc
+	4lsPG1AAgcE+q4AA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lD4m3Ia2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DFJYZxpG
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751525935; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1751525960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=feKfxtThbjBgMaSjHhS09nw5zr3XwlSISa7X5gVk0+0=;
-	b=EAYHu3n9YzKxuyVeU1KdYrVv4/IUwCAiNfG14WQsYl897617M5VXptV5S6ni8i5oBxqn7d
-	VzEG6q2C5IYNunQoBFmYmb+PYtS7/HGiYWZ21p3VBxWxjDtDO5NsH2Ik4TVw3VhiAYvw5A
-	h/XKUcEWslsg4xFJTd35jDoEGTMDUQI=
+	bh=5Fsiib8zdgWaCro2EGpljFQE5UhciRXKPNK4B5GKkU8=;
+	b=lD4m3Ia2bzln4Oczmb9c4Vf4N0xymKDAI+Tf03At9ibhppL78aaGByRkbDb99HWx2ELTis
+	0hOdo0dfrReXXYne+Y+6DJ3VXEgac7e/AaS5B0VlWxsfphPjaqohfRb7u6BoahqGxNwWOr
+	exgDCSz6ymKA2fzfkvfZyVgEKxLNmi8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751525935;
+	s=susede2_ed25519; t=1751525960;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=feKfxtThbjBgMaSjHhS09nw5zr3XwlSISa7X5gVk0+0=;
-	b=bW2LB+Tw7wBg50rxBT+vff05vehnW0/CYhOQ9U6UKnMkMQj7utbqGfnvZ3X7UwbvN/LoHC
-	Hagf9GaSqU/gcFDg==
+	bh=5Fsiib8zdgWaCro2EGpljFQE5UhciRXKPNK4B5GKkU8=;
+	b=DFJYZxpG5gFrtWxpzRxIxg7Ez/VzxX0vzPYdi56Bs2Q74M8b3cP9CUkycv7CwlSgLo7woc
+	4lsPG1AAgcE+q4AA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B83413721;
-	Thu,  3 Jul 2025 06:58:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3175E13721;
+	Thu,  3 Jul 2025 06:59:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 10nXCC4qZmhyUQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 03 Jul 2025 06:58:54 +0000
-Message-ID: <66bfaac0-03aa-4957-80a7-0f004bb2dc58@suse.de>
-Date: Thu, 3 Jul 2025 08:58:45 +0200
+	id VIEVCUcqZmiXUQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 03 Jul 2025 06:59:19 +0000
+Message-ID: <c98a6d1e-d3df-4865-9ef7-89ba485cf827@suse.de>
+Date: Thu, 3 Jul 2025 08:59:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/10] blk-mq: prevent offlining hk CPUs with
- associated online isolated CPUs
+Subject: Re: [PATCH v7 10/10] docs: add io_queue flag to isolcpus
 To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, "Michael S. Tsirkin" <mst@redhat.com>
@@ -104,10 +103,10 @@ Cc: Aaron Tomlin <atomlin@atomlin.com>,
  linux-scsi@vger.kernel.org, storagedev@microchip.com,
  virtualization@lists.linux.dev, GR-QLogic-Storage-Upstream@marvell.com
 References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
- <20250702-isolcpus-io-queues-v7-9-557aa7eacce4@kernel.org>
+ <20250702-isolcpus-io-queues-v7-10-557aa7eacce4@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250702-isolcpus-io-queues-v7-9-557aa7eacce4@kernel.org>
+In-Reply-To: <20250702-isolcpus-io-queues-v7-10-557aa7eacce4@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.51 / 50.00];
@@ -130,16 +129,16 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	FROM_HAS_DN(0.00)[];
 	R_RATELIMIT(0.00)[to_ip_from(RLdd7zpc331qgmz6gw8s9zsqsb)];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 2F4131F38D
+X-Rspamd-Queue-Id: 00E7A21185
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250702_235857_112962_A0131D00 
-X-CRM114-Status: GOOD (  11.48  )
+X-CRM114-CacheID: sfid-20250702_235921_828236_A25480EB 
+X-CRM114-Status: GOOD (  10.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,21 +153,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/2/25 18:33, Daniel Wagner wrote:
-> When isolcpus=io_queue is enabled, and the last housekeeping CPU for a
-> given hctx goes offline, there would be no CPU left to handle I/O. To
-> prevent I/O stalls, prevent offlining housekeeping CPUs that are still
-> serving isolated CPUs.
-> 
-> When isolcpus=io_queue is enabled and the last housekeeping CPU
-> for a given hctx goes offline, no CPU would be left to handle I/O.
-> To prevent I/O stalls, disallow offlining housekeeping CPUs that are
-> still serving isolated CPUs.
+On 7/2/25 18:34, Daniel Wagner wrote:
+> The io_queue flag informs multiqueue device drivers where to place
+> hardware queues. Document this new flag in the isolcpus
+> command-line argument description.
 > 
 > Signed-off-by: Daniel Wagner <wagi@kernel.org>
 > ---
->   block/blk-mq.c | 42 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 42 insertions(+)
+>   Documentation/admin-guide/kernel-parameters.txt | 19 ++++++++++++++++++-
+>   1 file changed, 18 insertions(+), 1 deletion(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
