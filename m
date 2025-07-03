@@ -4,121 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1650C83030
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 09:45:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AF03C83030
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 10:06:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=O8Chefdsodmo2eUHoE7JEna+rpgsFaMhEa2CT44nUX4=; b=ALHrFgnpedKxMLVCK84Q/aAEMP
-	1jr1OZKSTcws25M58/5OsLLbm/GzcUpPbeGi5rUZTEBec6GZ6pIAZ5C9UJsDP75csqwTM7d/pgyMi
-	M1q0vBi5SJxcSwx3eguyO4fANW833oUNFH/BrAtv1WkicM8EJ1qQFK5Dx/FPrrMqoNPU85zRCB+1I
-	/YN6cxC2qYMHf8ozHIJ+I4qzi2DWJ29mMsee1QKogo5MPcGhD1AK88yg+JwxpVH1LDqHGeJfw8t/4
-	cBpVBSxGdJLSA9MTZqLK8uHlWBdip3zj9TvIho/v6ZCQ3OfxqIaimayP3sM93F2aMcQblWZUnXjZQ
-	3SRkFMgQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=O2nuxUpn8jv3inoeprClL8agFagvekP2Pndo4rPNDD8=; b=K8RE9VcPhDw9id20QDvx/Joywx
+	pqhdzeqov3hT7CKsi8JyZ2K9BFK4VJtFdh1GT060A+sPEn5nF5zpzr3SJ8LYH29m+PlEBUOamYIk0
+	YewEs54GQoG4qKEHZK9dJjGQVGk24qExc0Kcc4r6h9WG6kGmSrmeEQuDKA4M0YQTO3dsoLhoqywrr
+	KZKBB3sp/T2lnj/+WA1YGBWFZAomnkyfK+KeOWHU9NEfmPXdpU0PF6uscF6k4cAXFgRS8dQxwPImd
+	Euf7UMPIJFe4U+EieBD0bffg+YHb3IGI6Qpd+VQKqF8b3oX5Duna6et5xP4Ir7P+At1oyNoy0XgPF
+	HiZoSM7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXGVW-0000000AsCe-0ZOK;
-	Thu, 03 Jul 2025 09:45:30 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1uXGpi-0000000AvuK-3aEN;
+	Thu, 03 Jul 2025 10:06:22 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXGTJ-0000000Ari5-13Pd
+	id 1uXFpd-0000000Alfl-0kHI
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 03 Jul 2025 09:02:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=O2nuxUpn8jv3inoeprClL8agFagvekP2Pndo4rPNDD8=; b=THKyAJR9j/F7GwaDho9dxVRQnZ
+	ni0CtItpEWSjzrGgTSJ3eC/6r/kz/NU/SH4U+5X+UceIRJZE3FeRZgx5Nm+7RuZllbokDiziOzs23
+	MlDwuzzqZlVZ90eqbVoM0gDO/m4Fns9WjRL3JTD0j3dj5w96aGqLKmRk8kPtVHYqgiokgeDJiri2A
+	9xxcHBoCK3HYohMgQZCmbVbIxOSCAacP4oKf4IMgPIajNEdVkHdJsuRv2zaaC8JgpmqNR57D3lDXG
+	GXvzm0jtA45IsfUnFNvAvRA+KrggnqwOQZq2sgeVz0PnPWX14GbEyTpM8RN+nTs8Hb5ZsugylnFKk
+	mAnzTpyw==;
+Received: from verein.lst.de ([213.95.11.211])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uXFpa-00000007eJb-0II9
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Jul 2025 09:43:14 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 903841F387;
-	Thu,  3 Jul 2025 09:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751535791; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O8Chefdsodmo2eUHoE7JEna+rpgsFaMhEa2CT44nUX4=;
-	b=CdMrr3lw25ToEqTdIW+pBYOfJf1t82vKT07i5Merruc5y8nCaud6aOYu3s7VjRHG033Ogg
-	1GKRfVnN1PQSncMgpJkmXIlJCsVjqgLgVMWeUkE6sgDqwvH3zhvLKK8KlfEgPyQyya/9jw
-	x41Xvt7M7moMtUWJGOTzUHghk6C2u6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751535791;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O8Chefdsodmo2eUHoE7JEna+rpgsFaMhEa2CT44nUX4=;
-	b=o3B4EkYyYPn2LN2ZiZ4aDm0COmqTAre4aZBfMMrmWX3TjdHqzN+Hko3XlllB2YSCBDvpgt
-	u5maaKbi2gmAebCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751535791; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O8Chefdsodmo2eUHoE7JEna+rpgsFaMhEa2CT44nUX4=;
-	b=CdMrr3lw25ToEqTdIW+pBYOfJf1t82vKT07i5Merruc5y8nCaud6aOYu3s7VjRHG033Ogg
-	1GKRfVnN1PQSncMgpJkmXIlJCsVjqgLgVMWeUkE6sgDqwvH3zhvLKK8KlfEgPyQyya/9jw
-	x41Xvt7M7moMtUWJGOTzUHghk6C2u6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751535791;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O8Chefdsodmo2eUHoE7JEna+rpgsFaMhEa2CT44nUX4=;
-	b=o3B4EkYyYPn2LN2ZiZ4aDm0COmqTAre4aZBfMMrmWX3TjdHqzN+Hko3XlllB2YSCBDvpgt
-	u5maaKbi2gmAebCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F3D513721;
-	Thu,  3 Jul 2025 09:43:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EDVRHq9QZmguBgAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 03 Jul 2025 09:43:11 +0000
-Message-ID: <0752f56d-e425-4fb3-af4a-bb1af2ddf2c4@suse.de>
-Date: Thu, 3 Jul 2025 11:43:11 +0200
+	Thu, 03 Jul 2025 09:02:11 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id CD66168B05; Thu,  3 Jul 2025 11:01:58 +0200 (CEST)
+Date: Thu, 3 Jul 2025 11:01:58 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Daniel Wagner <wagi@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <llong@redhat.com>, Ming Lei <ming.lei@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com,
+	linux-scsi@vger.kernel.org, storagedev@microchip.com,
+	virtualization@lists.linux.dev,
+	GR-QLogic-Storage-Upstream@marvell.com
+Subject: Re: [PATCH v7 08/10] blk-mq: use hk cpus only when
+ isolcpus=io_queue is enabled
+Message-ID: <20250703090158.GA4757@lst.de>
+References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org> <20250702-isolcpus-io-queues-v7-8-557aa7eacce4@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 0/9] nvme-auth: switch to use the kernel keyring
-To: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org
-References: <20250528140517.3284-1-hare@kernel.org>
- <20250703093924.GA8177@lst.de>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250703093924.GA8177@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250702-isolcpus-io-queues-v7-8-557aa7eacce4@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250703_024313_433448_C990CA4A 
-X-CRM114-Status: UNSURE (   7.38  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250703_100210_293531_FA6A508E 
+X-CRM114-Status: GOOD (  14.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,17 +91,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/3/25 11:39, Christoph Hellwig wrote:
-> Can I get some reviews for this series?
-> 
-Was about to ask the same question ...
+On Wed, Jul 02, 2025 at 06:33:58PM +0200, Daniel Wagner wrote:
+>  const struct cpumask *blk_mq_possible_queue_affinity(void)
+>  {
+> +	if (housekeeping_enabled(HK_TYPE_IO_QUEUE))
+> +		return housekeeping_cpumask(HK_TYPE_IO_QUEUE);
+> +
+>  	return cpu_possible_mask;
+>  }
 
-Cheers,
+I'm no expert on the housekeeping stuff, but why isn't the
+housekeeping_enabled check done in housekeeping_cpumask directly so
+that the drivers could use housekeeping_cpumask without a blk-mq
+wrapper?
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
