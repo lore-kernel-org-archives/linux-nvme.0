@@ -4,94 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C91CC83F03
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 17:21:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C19F4C77B7C
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 17:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2TE9d5/X4hmotvaaAaxofLyXGOMK0orezqoakTSP7+w=; b=ZSSrUBpiteLZKFI7fjxoIEqwU/
-	ONgxhRG9HZnXUk2jaP8ikSK1LP+rJ8qxtnp0vIISDdRiObrep4/DyxDzk/jQvdLJoCJBXGcPsPLMO
-	7PSyMrwZw/AQOcO2vNRD1xelA9PDvwa5sn68vuA61okEhu+OHZzqoqujwtiFKKfUcbMjtiRJ1i1/+
-	MWnYf9aT+B5FET9RP5l84Ty29airftmmV6fhJgDvUY6NPPTFgg6Nrks9/XiEiggBubg3lOSvxQMes
-	FLkW7yZ9VT6qYJLDPAODHidOG2KR5JayNi7xdktU0V4fvS0fg/kIIUG3DY1Ug5u07Lnw9YTaK0lLe
-	7WjjRRaA==;
+	bh=e5BDarfhHYHngRHXZmN6iB64Yd0LnyG8qAMb49pEbhI=; b=nHKQYaaeOhvyAfKa96LEQUQbY6
+	LK2Zv2npF6KnN1cMrLZA/50KuSdS+lSlu0wCRyIkn1Y82yLOe0BLY+C6/m6vDAJvnr62aO+UhL3wW
+	fIbnqQvffrgDWvj2vksy9l8lk+wKcrZd/7OXsuQQ3PJDckvwg1yC2MAiApjPjcHo7P1DxlRphedVK
+	ebkNiQqRCkGq5DZL52LrTFM2i0zL92rPpZ5mjSy1t+ZQrnyHdIMnNXvVdS9PG07Ar0rpEyOOUVUYA
+	Wstl8t6iMkb6Iw74lsbbXnDRPCsNtipC5Lx9MiR0NkO9crsMVIlgFXCihJBecExXWBzEWmZnu6+sV
+	nf/jzeOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXNcn-0000000C7Lp-0iM3;
+	id 1uXNcn-0000000C7M1-3nzL;
 	Thu, 03 Jul 2025 17:21:29 +0000
-Received: from mgamail.intel.com ([198.175.65.17])
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXLDo-0000000Bifn-3JBL
+	id 1uXLE3-0000000Biib-07ub
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Jul 2025 14:47:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751554052; x=1783090052;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rK9CghBMfaxHWwZL0Y+AWxw/v++vtFMy/hmsv9qL7LI=;
-  b=NskcBr73mrEaMLBjyLvOVyeWBSHKb/1eNBtBrAx0UqGSLgst/PxK6oVS
-   tCSupKJ6mWUAmsUuZuaZeoGrxz/tdjOXya1K5PfWkUgyXFIUnOWN+san5
-   PWwoFEg9qv5rmFWbWbxKaVY0Ipd42uVA9fZEFuirOnJ/A0JqlmjdDKXRX
-   jN8LG6/Im/v32u5t+oaPKZ2t3q+MOveG3pbdoBglOurCXl/tUZl56ogfp
-   EFDXKFGkHwwfY3CjsCwGUZjrhLpZV8dp+6QPDNwtEO5tmcnPXHwks5WYz
-   GSdG7cRBbJMxSA3lv5t50E7Y9DaoZvuK5HVgVFtv4nHrPhTManBOhEwzx
-   Q==;
-X-CSE-ConnectionGUID: YFSITkylROOEFZXRTxsyUg==
-X-CSE-MsgGUID: i6pn8MAIRbqr1gTSJtHzzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53851722"
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="53851722"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 07:47:30 -0700
-X-CSE-ConnectionGUID: do+iUI8IT32SBrmjq0xoyg==
-X-CSE-MsgGUID: kIJe5JEsQwmuIcgjNo0AQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="153800515"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 03 Jul 2025 07:47:17 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uXLDT-0001vf-31;
-	Thu, 03 Jul 2025 14:47:11 +0000
-Date: Thu, 3 Jul 2025 22:47:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Waiman Long <llong@redhat.com>, Ming Lei <ming.lei@redhat.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com,
-	linux-scsi@vger.kernel.org, storagedev@microchip.com,
-	virtualization@lists.linux.dev,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Daniel Wagner <wagi@kernel.org>
-Subject: Re: [PATCH v7 08/10] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-Message-ID: <202507032238.AoTmQnGP-lkp@intel.com>
-References: <20250702-isolcpus-io-queues-v7-8-557aa7eacce4@kernel.org>
+	Thu, 03 Jul 2025 14:47:48 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 54E605C58B1;
+	Thu,  3 Jul 2025 14:47:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06CC8C4CEE3;
+	Thu,  3 Jul 2025 14:47:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751554065;
+	bh=+41I3uZo55oA1LXa7CCXtgoAnRr9kzXPuFUuywHZE1E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sgfzM3xCqpFu8U2ri+U/qERj1bC9iGpSCQ9hL0jc2z2zzYV6Y9c2waSSOxEO2nau7
+	 4bnvKLPSvY397sUXiFci4VOTzCAsn6/0cfYrJXRSkhBJ8+jpGxNca27BoNKipJv0zo
+	 /QHAprZnoTF8a4PhdRyt8oS/OyiBn2rPrw0oXoa/vykH6JW9kskRTlBTdy7fv4Jc1t
+	 tGrBaELr4R91GCO5fAK2I9+U57dyrjC94e1a/BoDGSmKBe0I6GUkuxyOBzZ6Uj64MV
+	 8X6DP6Y19azp+xJEeE5Xn+80HA9WlL/hQ3Z3s4DT5DLOkoq8DrjcmJfgY2bNZuItgs
+	 yCvl+h9n/2fQg==
+Date: Thu, 3 Jul 2025 16:47:41 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 0/5] block: another block copy offload
+Message-ID: <aGaYDa6K1jiYUtjY@ryzen>
+References: <20250521223107.709131-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250702-isolcpus-io-queues-v7-8-557aa7eacce4@kernel.org>
+In-Reply-To: <20250521223107.709131-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250703_074732_881021_1E7CC0A0 
-X-CRM114-Status: GOOD (  13.75  )
+X-CRM114-CacheID: sfid-20250703_074747_153416_F4C46332 
+X-CRM114-Status: GOOD (  23.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,104 +71,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Daniel,
+Hello Keith,
 
-kernel test robot noticed the following build errors:
+On Wed, May 21, 2025 at 03:31:02PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> I was never happy with previous block copy offload attempts, so I had to
+> take a stab at it. And I was recently asked to take a look at this, so
+> here goes.
+> 
+> Some key implementation differences from previous approaches:
+> 
+>   1. Only one bio is needed to describe a copy request, so no plugging
+>      or dispatch tricks required. Like read and write requests, these
+>      can be artbitrarily large and will be split as needed based on the
+>      request_queue's limits. The bio's are mergeable with other copy
+>      commands on adjacent destination sectors.
+> 
+>   2. You can describe as many source sectors as you want in a vector in
+>      a single bio. This aligns with the nvme protocol's Copy implementation,
+>      which can be used to efficiently defragment scattered blocks into a
+>      contiguous destination with a single command.
+> 
+> Oh, and the nvme-target support was included with this patchset too, so
+> there's a purely in-kernel way to test out the code paths if you don't
+> have otherwise capable hardware. I also used qemu since that nvme device
+> supports copy offload too.
 
-[auto build test ERROR on 32f85e8468ce081d8e73ca3f0d588f1004013037]
+In order to test this series, I wrote a simple user space program to test
+that does:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/lib-group_cpus-Add-group_masks_cpus_evenly/20250703-003811
-base:   32f85e8468ce081d8e73ca3f0d588f1004013037
-patch link:    https://lore.kernel.org/r/20250702-isolcpus-io-queues-v7-8-557aa7eacce4%40kernel.org
-patch subject: [PATCH v7 08/10] blk-mq: use hk cpus only when isolcpus=io_queue is enabled
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20250703/202507032238.AoTmQnGP-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f1a4bb62452d88a0edd9340b3ca7c9b11ad9193f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507032238.AoTmQnGP-lkp@intel.com/reproduce)
+1) open() on the raw block device, without O_DIRECT.
+2) pwrite() to a few sectors with some non-zero data.
+3) pread() to those sectors, to make sure that the data was written, it was.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507032238.AoTmQnGP-lkp@intel.com/
+Since I haven't done any fsync(), both the read and the write will from/to
+the page cache.
 
-All errors (new ones prefixed by >>):
+4) ioctl(.., BLKCPY_VEC, ..)
 
->> block/blk-mq-cpumap.c:155:16: error: array initializer must be an initializer list
-     155 |         cpumask_var_t active_hctx __free(free_cpumask_var) = NULL;
-         |                       ^
-   block/blk-mq-cpumap.c:219:16: error: array initializer must be an initializer list
-     219 |         cpumask_var_t active_hctx __free(free_cpumask_var) = NULL;
-         |                       ^
-   block/blk-mq-cpumap.c:220:16: error: array initializer must be an initializer list
-     220 |         cpumask_var_t mask __free(free_cpumask_var) = NULL;
-         |                       ^
-   3 errors generated.
+5) pread() on destination sector.
 
 
-vim +155 block/blk-mq-cpumap.c
+In step 5, I will read zero data.
+I understand that BLKCPY_VEC is a copy offload command.
 
-   144	
-   145	/*
-   146	 * blk_mq_map_hk_queues - Create housekeeping CPU to
-   147	 *                        hardware queue mapping
-   148	 * @qmap:	CPU to hardware queue map
-   149	 *
-   150	 * Create a housekeeping CPU to hardware queue mapping in @qmap. @qmap
-   151	 * contains a valid configuration honoring the isolcpus configuration.
-   152	 */
-   153	static void blk_mq_map_hk_queues(struct blk_mq_queue_map *qmap)
-   154	{
- > 155		cpumask_var_t active_hctx __free(free_cpumask_var) = NULL;
-   156		struct cpumask *hk_masks __free(kfree) = NULL;
-   157		const struct cpumask *mask;
-   158		unsigned int queue, cpu, nr_masks;
-   159	
-   160		if (housekeeping_enabled(HK_TYPE_IO_QUEUE))
-   161			mask = housekeeping_cpumask(HK_TYPE_IO_QUEUE);
-   162		else
-   163			goto fallback;
-   164	
-   165		if (!zalloc_cpumask_var(&active_hctx, GFP_KERNEL))
-   166			goto fallback;
-   167	
-   168		/* Map housekeeping CPUs to a hctx */
-   169		hk_masks = group_mask_cpus_evenly(qmap->nr_queues, mask, &nr_masks);
-   170		if (!hk_masks)
-   171			goto fallback;
-   172	
-   173		for (queue = 0; queue < qmap->nr_queues; queue++) {
-   174			unsigned int idx = (qmap->queue_offset + queue) % nr_masks;
-   175	
-   176			for_each_cpu(cpu, &hk_masks[idx]) {
-   177				qmap->mq_map[cpu] = idx;
-   178	
-   179				if (cpu_online(cpu))
-   180					cpumask_set_cpu(qmap->mq_map[cpu], active_hctx);
-   181			}
-   182		}
-   183	
-   184		/* Map isolcpus to hardware context */
-   185		queue = cpumask_first(active_hctx);
-   186		for_each_cpu_andnot(cpu, cpu_possible_mask, mask) {
-   187			qmap->mq_map[cpu] = (qmap->queue_offset + queue) % nr_masks;
-   188			queue = cpumask_next_wrap(queue, active_hctx);
-   189		}
-   190	
-   191		if (!blk_mq_hk_validate(qmap, active_hctx))
-   192			goto fallback;
-   193	
-   194		return;
-   195	
-   196	fallback:
-   197		/*
-   198		 * Map all CPUs to the first hctx to ensure at least one online
-   199		 * housekeeping CPU is serving it.
-   200		 */
-   201		for_each_possible_cpu(cpu)
-   202			qmap->mq_map[cpu] = 0;
-   203	}
-   204	
+However, if I simply add an fsync() after the pwrite()s, then I will read
+non-zero data in step 5, as expecting.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+My question: is it expected that ioctl(.., BLKCPY_VEC, ..) will bypass/ignore
+the page cache?
+
+Because, as far as I understand, the most common thing for BLK* operations
+is to do take the page cache into account, e.g. while BLKRESETZONE sends
+down a command to the device, it also invalidates the corresponding pages
+from the page cache.
+
+With that logic, should ioctl(.., BLKCPY_VEC, ..) make sure that the src
+pages are flushed down to the devices, before sending down the actual
+copy command to the device?
+
+I think that it is fine that the command ignores the data in the page cache,
+since I guess in most cases, you will have a file system that is responsible
+for the sectors being in sync, but perhaps we should document BLKCPY_VEC and
+BLKCPY to more clearly highlight that they will bypass the page cache?
+
+Which also makes me think, for storage devices that do not have a copy
+command, blkdev_copy_range() will fall back to __blkdev_copy().
+So in that case, I assume that the copy ioctl actually will take the page
+cache into account?
+
+
+Kind regards,
+Niklas
 
