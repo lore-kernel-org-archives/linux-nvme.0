@@ -4,85 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F903C83F05
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 20:57:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18B6BC83F03
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 20:57:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KVPzloh1oUX1Y6h3ndP8c2+rIYKbbClu7XHnxXtmGIQ=; b=CafHgJ6U3CSo4xxIWsfY0u7dRH
-	DvRqDwc3+j0H5MZvurTZ5Q+p9XCT/fb1lIm/+6cDfnVhbdKLjs30NZ4yOLKP6jyplJIm8kUAcnZI5
-	Dmtw8+VdABJCZgD8e4Y9JF4mAPA4I536yUb8KA8Koyb25fdtxYvdDD4uVHif08J+ryFjxO56tF/RT
-	aabw0Mzzuu7rm9Rpv1hkd9C/zBYoCKaYJpEDEQ4axyU09v6wMg5tMPbHe9iUVN6MvKSX2NE8HYjCG
-	YkvmK3vwMuJbGntk+iOvLDDvC4ZpzHv0KzyKtToiY9WIUunRAQh081txPxThU1Xjik7fXcM+F6V09
-	cqQUEjXg==;
+	bh=0K14Nftf7MCxiLuTCgqd/9TubX2MuFP2HFIC0ZIZGVQ=; b=u+wDRfiT91J+0Vb0pwBPBUmtcW
+	Tz23AuFM3Bz74/9XTiwFMphlZQT1iEvrM4mSfpVsSLmHLbKzi7YE6TP9hNot8tJIYh3byxfw4dmaR
+	JlnD7WadovfoItyg2tpfYQ6s2L24PWiG7+vKWVUv5oheaK3Ycbwzj0QelYc66ICARYUETW2HW/VMn
+	I5LvLTU7JlPCw11Q9D7oCk5Ek4PfYGkl6FF/iLrNNdUlHOCnvm7rRpS5bKFMqu7ncztjbGV9yYi45
+	E5DoT/Lg27QFWQ9n449eXZa3ZnkSujavAQVm29xOatP8XtMUCe29YmKqsd98Eft7vBozWwiPLNido
+	Hhk9q4/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXQzb-0000000CTJL-2QT4;
-	Thu, 03 Jul 2025 20:57:15 +0000
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29])
+	id 1uXQzu-0000000CTk5-0Rx6;
+	Thu, 03 Jul 2025 20:57:34 +0000
+Received: from hr2.samba.org ([2a01:4f8:192:486::2:0])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXLdD-0000000BmQZ-0eva
+	id 1uXM41-0000000Brj3-1fuI
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Jul 2025 15:13:48 +0000
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-2ef891cd058so38029fac.1
-        for <linux-nvme@lists.infradead.org>; Thu, 03 Jul 2025 08:13:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751555626; x=1752160426; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KVPzloh1oUX1Y6h3ndP8c2+rIYKbbClu7XHnxXtmGIQ=;
-        b=vB1Hre+VGoCS2o37VLUs9zu31PLs2hd2SNqOp0ZoAJMQPn8a89SkkL89+4XzvHk8lA
-         1TtAtFtq35xVIA/yoG0KoaPiRU1Hr+r9VNuRZWDn0WzfLjliWOg5EJnqZp3zGb13GsX2
-         woqOV/kwQ9pG+8V9wdKKZYYzea6HtyCfqngIleabCSt4qP/ZhzOKdLr2jfuddkHW8osM
-         0eGPSglAbf71PMB3jGHObHI51zdGhCm5URXnM0H2Wp6WgAgutBY26NnYE070loHMhpgs
-         ye1NDKEWt+pJkyhh1HW4BF9GlprdRyEapkpiZMiVmY7j14AvxJwkzpidHraBv5Q7V8Ry
-         8YZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751555626; x=1752160426;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KVPzloh1oUX1Y6h3ndP8c2+rIYKbbClu7XHnxXtmGIQ=;
-        b=LuX9MheV5vS4i01JsjL9X6+BjhjGHBl3Q43PAksPmUFY4IpGo9DqBCZzobkxqQOpSX
-         eaf4cSdYtBOAfyzipLMwGTF+y1KHgdlAVOXJpk1SnGi+C9mQCqXfTV8Fp/TM9Dyy0Io0
-         Zn1CVXQLyfFMMxn+I5y5Q6Dz4K2NeqVm9AASvOU2yMzRrMNcnuvPBtob/kXpnojdPqsH
-         xJkRVL0g+xdpRrm3zLW70ZGXuA4WWkkOHTQF8E4BL7VxiisvJ6W4BwYlwPWhbYG7QgEi
-         E11Hm6YUXEctllgX0sP4JQuQdy0/UkC6CmiM0i5JA77hFxjIXTyI1FZjBCF9CH7+NdQ/
-         Hu2g==
-X-Forwarded-Encrypted: i=1; AJvYcCU4F4+Dc5edcM+jzLT8tfTuI4HR0YUg43UbcEbJS+ViHMhe+j5D/pOmlg7x2SE89U4YxX5ClYIZrDq6@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzsqxuj8li9efuZ//Ij0J6CEOyB9HzuzTeIrEU7YsURRMt1S/lV
-	m1pa+ZRz7+3F0Q+sM6BrtWlqSkSzj7jNKARC4d8a4/VWrYaDS79sMxKp0A2VXVwjWl2Gb+Li01E
-	11+GvWJZV+tsWCcnLfbGiN6JNp+l4XoZeieas888a
-X-Gm-Gg: ASbGncuJh1atoftuUxnOllbiosfLgimfZzqOKL27l7dW4l34NCn66YpZXxxPwM3kePX
-	Sg0j6wil+LKz4rFJ6N0Xh65rdrIiwbSFapc27uP0vQUd6pvkKSa7LIJC65Wpz8rpHVSF10H5J64
-	FfxYspfOPyIMtGdGpsB5fJ9+cxpRkGMDKyK5QPbvohtfrfmG1atnM=
-X-Google-Smtp-Source: AGHT+IFNofYLmKV5Ky0RG07x0qI3JXTBrrZQnExq8xPcLRUNb9KWtuoW/38SR0jSXaannNWxKg0dLKoxlfAIQh14pQs=
-X-Received: by 2002:a05:6870:288b:b0:2d4:e101:13ec with SMTP id
- 586e51a60fabf-2f5a8d3f1b6mr6005725fac.33.1751555625656; Thu, 03 Jul 2025
- 08:13:45 -0700 (PDT)
+	Thu, 03 Jul 2025 15:41:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=Message-ID:Cc:To:From:Date;
+	bh=0K14Nftf7MCxiLuTCgqd/9TubX2MuFP2HFIC0ZIZGVQ=; b=NZ0/NoFBt3VqRhzaZ/IhvzX0eX
+	SQiTYR9TpEkaVnFuTiE8Z1P/gbc/4/A3oLYy6pFn8rq4YNVI7ldx6wdaixmbGnQT31SDDlNENY+Jt
+	TW9y/S24YnEy+1JomhMbPY7YpZLSjs0XQxrXN6RAu3xP9EFKPuXBLwOMqTrD1ifv1W629Ki/FuJ+I
+	6b//5jlYKiq4uI3gV0b62t7Nx55uhoOI5I4mm6a8jZ4nFd3n/I/ChhvNOaAOzaZOWYTq4cxLgnLsX
+	T4os+ny8DZ8I7cvt1w/xXN7WI6zv0+axF4D82sh11PznVm5Jew66fvk/3Vr/5rNkT8NRY4AZPPSXP
+	nOtj7uo6iN4w71LOCfA/weAmYh9ekJek/3/Zz1/o2n8H7kQ1d5Bmm3/q8bZrxcGO7EWBo5JM6bTAC
+	Fjddj18gBGHGoWw7/i/5yvmdmSWmF19VsWRKnDRWtCWyyDuvbBFJoqrxLQYbvIksQO1SUvoLB0ggY
+	AcN7p04GfYaD3UblQ39n4zwt;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1uXM3n-00DoHg-0I;
+	Thu, 03 Jul 2025 15:41:16 +0000
+Date: Thu, 3 Jul 2025 08:41:08 -0700
+From: Jeremy Allison <jra@samba.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Martin Belanger <Martin.Belanger@dell.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, David Jeffery <djeffery@redhat.com>,
+	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Jan Kiszka <jan.kiszka@seimens.com>,
+	Bert Karwatzki <spasswolf@web.de>, sultan@kerneltoast.com,
+	jra@samba.org
+Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
+Message-ID: <aGaklKejxefXTQB4@jeremy-HP-Z840-Workstation>
+References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
+ <20250703114656.GE17686@lst.de>
 MIME-Version: 1.0
-References: <CAL0q8a6pOBZbWYdwKzC1U-PuH4rgf2miv0jcF=fWVZt_dUZHmw@mail.gmail.com>
- <20250630133343.GA26040@lst.de> <aGLyswGYD6Zai_sI@kbusch-mbp>
- <20250701132936.GA18807@lst.de> <aGRMilWhgF4z0WOf@kbusch-mbp>
- <20250703093042.GA7387@lst.de> <aGaTw7SzermpfiD7@kbusch-mbp>
-In-Reply-To: <aGaTw7SzermpfiD7@kbusch-mbp>
-From: Ben Copeland <ben.copeland@linaro.org>
-Date: Thu, 3 Jul 2025 16:13:33 +0100
-X-Gm-Features: Ac12FXwWdPQaun6KP1n2WG90MWR4J8ZJY7tGLBNOTSkceZgMU661bsKnTuwWQZc
-Message-ID: <CAL0q8a62bcjkJdKjTUbEOXMRfaCr1eB4YWeNugdRO1GjLLQe0g@mail.gmail.com>
-Subject: Re: next-20250627: IOMMU DMA warning during NVMe I/O completion after 06cae0e3f61c
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org, lkft-triage@lists.linaro.org, 
-	regressions@lists.linux.dev, linux-nvme@lists.infradead.org, 
-	Dan Carpenter <dan.carpenter@linaro.org>, axboe@kernel.dk, sagi@grimberg.me, 
-	iommu@lists.linux.dev, Leon Romanovsky <leonro@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250703114656.GE17686@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250703_081347_197687_17019DD2 
-X-CRM114-Status: GOOD (  19.47  )
+X-CRM114-CacheID: sfid-20250703_084129_452769_E07D6D9D 
+X-CRM114-Status: GOOD (  11.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,38 +80,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: Jeremy Allison <jra@samba.org>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 3 Jul 2025 at 15:29, Keith Busch <kbusch@kernel.org> wrote:
+On Thu, Jul 03, 2025 at 01:46:56PM +0200, Christoph Hellwig wrote:
+>On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
+>> Address resource and timing issues when spawning a unique async thread
+>> for every device during shutdown:
+>>   * Make the asynchronous threads able to shut down multiple devices,
+>>     instead of spawning a unique thread for every device.
+>>   * Modify core kernel async code with a custom wake function so it
+>>     doesn't wake up threads waiting to synchronize every time the cookie
+>>     changes
 >
-> On Thu, Jul 03, 2025 at 11:30:42AM +0200, Christoph Hellwig wrote:
-> > I think the idea to reconstruct the dma addresses from PRPs should
-> > be considered a failure by now.  It works fine for SGLs, but for
-> > PRPs we're better off just stashing them away.  Bob, can you try
->
-> s/Bob/Ben
->
-> > something like the patch below?  To be fully safe it needs a mempool,
-> > and it could use some cleanups, but it does pass testing on my setup
-> > here, so I'd love to see if if fixes your issue.
+>Given all these thread spawning issues, why can't we just go back
+>to the approach that kicks off shutdown asynchronously and then waits
+>for it without spawning all these threads?
 
-I have tested it on my system and can no longer see the regression.
+It isn't just an nvme issue. Red Hat found the same issue
+with SCSI devices.
 
-Happy to retest when the patch goes through.
+My colleague Sultan Alsawaf posted a simpler fix for the
+earlier patch here:
 
-Tested-by: Ben Copeland <ben.copeland@linaro.org>
+https://lists.infradead.org/pipermail/linux-nvme/2025-January/053666.html
 
-Thank you!
-
-
-Ben
-
->
-> Thanks for confirming.
->
-> While this is starting to look a bit messy, I believe it's still an
-> overall win: you've cut down the vector walking in the setup path from 3
-> to 1, which reduces a non-trivial amount of overhead for even moderately
-> sized IO.
+Maybe this could be explored.
 
