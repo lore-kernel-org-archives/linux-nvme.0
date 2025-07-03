@@ -4,69 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BF76C8303C
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 00:02:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBD55C83030
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 03:36:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RwsGD4p276Gv5LW5rcDh7wHX2IDD80LU4H8lxJ+kEyM=; b=JYQQAmF+2CbP6B2olf+PZ6Qu8f
-	PgiOX2bAvxegnGoShZwe00k3aSpi6WvleWJwIGVYT58hM7KwaNAwt2Sj+wleQNKJ1DJgsYeFUnFLk
-	lF2hYQF5sJzk7NeYYDyyRgSzfFGPKg3XB7M9+8QJ9vO2VeBas01hvSZcgnJjYHojT2At8Cb/QR4VB
-	Exf/ILKt4nAaJQTsDWHS42CPF1ayY8PD4qYEURlOaIVJI5DiYt+mKIfn7dG59c/LGjLzuG0cnUMFf
-	W8HzJSQi+YrOtZ8QTMNYsiHhDuTcVQnJfMHTAbbofy8SGpEh2t8QDuryXLYikCjlcRNbJN7SgZKnC
-	Jlxv2Omw==;
+	bh=x5r9iO0nNh6pCfepfU0uuvKfw6Tnajk8dKn6fF5deyw=; b=ji5AELo3z8mvDjuBsCsB+/pU2N
+	u5ju4WqVg5uaEyn49z3rAe55joDiBZptHGT62+8xal6d1rYYgILsQ99zJufiwpeGz4+GzZ83FUhIe
+	pnyz+1M1zgH7M/C8OgCFD353LoPvk0wtXQWI32Qc1C4IXasBIIpGnQqR2Q/M01FsbAYerPBKCWqkL
+	wOgwfNqEcbxcYrU46b5AF8w68LiSJ0bblh+PgBOC8Ce5eAQy0p6GhKcVdIRCTYGBtoWPRwu6wb/TV
+	JnQCLn2Vg1e5aaqanPOGzukVqCUIY6pQZmdoaJO8ZNElfSNbL+foY1M006AO0LdwzLpsf52PnVBi5
+	EN/g4R3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX7Or-00000009qFn-1kK8;
-	Thu, 03 Jul 2025 00:02:01 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uXAk0-0000000A7uE-0hEc;
+	Thu, 03 Jul 2025 03:36:04 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX7Op-00000009qFP-0XYG
+	id 1uXAjx-0000000A7qc-0DNa
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Jul 2025 00:02:00 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 3D4D1A530BA;
-	Thu,  3 Jul 2025 00:01:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F28D2C4CEE7;
-	Thu,  3 Jul 2025 00:01:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751500917;
-	bh=2gFhDpWkVfMr3D/JXrWFs9vuiy+VIOgn7cNm5cwE534=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aQUTAErYmf2mdhGNxat/1G/cWZ8O9Rro4KLtNqA91Ps40Yn7x3yUzYZNyvXApAyTe
-	 6mMfqNkSKXpi7uBd5QF72q3yfL02Qo5JHjXlTM1LR5usLxrOXbhYldW3zZKv9PnCAP
-	 OTBmICoCai5Ve6Y7a6UKZOYGJQtvG+ml9WuYyhrn1bKKFIVvsONDLOmGSJVqfZF3tu
-	 zuS3iPzuk0pt1kEjZyywYJgQWgysIVG4VnjLltMq4ChaTfOJHLZv+rCYHj2v4qUKAK
-	 VmGOYTG8NbuafhA8jrpOmOBDiJoYkRoSM67f+lWXszZ4bBbcFVHFEcTkaNWFP1B5/3
-	 tfSVhW+26e+Bw==
-Message-ID: <63310a08-e01f-464d-9f46-54bb817f2121@kernel.org>
-Date: Thu, 3 Jul 2025 08:59:47 +0900
+	Thu, 03 Jul 2025 03:36:03 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bXj8g2B33zKHMYC
+	for <linux-nvme@lists.infradead.org>; Thu,  3 Jul 2025 11:35:47 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id B22201A0849
+	for <linux-nvme@lists.infradead.org>; Thu,  3 Jul 2025 11:35:45 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP3 (Coremail) with SMTP id _Ch0CgBHpySN+mVo3w_yAQ--.57305S3;
+	Thu, 03 Jul 2025 11:35:43 +0800 (CST)
+Message-ID: <99010bfd-c968-49c7-b62b-c72b38722c1b@huaweicloud.com>
+Date: Thu, 3 Jul 2025 11:35:41 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] nvme: prevent ioq creation for discovery
- controllers
-To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk"
- <axboe@kernel.dk>, hch <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "cassel@kernel.org" <cassel@kernel.org>
-References: <20250702005830.889217-1-kamaljit.singh1@wdc.com>
- <20250702005830.889217-4-kamaljit.singh1@wdc.com>
- <c168acff-66ff-4692-b21e-093c0aa592a1@kernel.org>
- <MN2PR04MB68626BDAC087B4CC8CC1A1A9BC40A@MN2PR04MB6862.namprd04.prod.outlook.com>
-From: Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v2 0/9] fallocate: introduce FALLOC_FL_WRITE_ZEROES flag
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, hch@lst.de,
+ tytso@mit.edu, djwong@kernel.org, john.g.garry@oracle.com,
+ bmarzins@redhat.com, chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com,
+ martin.petersen@oracle.com, yi.zhang@huawei.com, chengzhihao1@huawei.com,
+ yukuai3@huawei.com, yangerkun@huawei.com, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org
+References: <20250619111806.3546162-1-yi.zhang@huaweicloud.com>
+ <20250623-woanders-allabendlich-f87ae2d9c704@brauner>
 Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <MN2PR04MB68626BDAC087B4CC8CC1A1A9BC40A@MN2PR04MB6862.namprd04.prod.outlook.com>
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20250623-woanders-allabendlich-f87ae2d9c704@brauner>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: _Ch0CgBHpySN+mVo3w_yAQ--.57305S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxZF45tr1Duw4ftrWrZw1kZrb_yoWrtw15pa
+	yUJFZ8KF4DJr17J397uF109F15Zws3Ar15Ka1rKw1kZrWYqrnagFWIga4UXasrCr93Ww1x
+	ZFsFya4q9ay7AFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250702_170159_237387_6B9F9B42 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20250702_203601_413149_4A990D55 
+X-CRM114-Status: GOOD (  27.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,38 +92,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/3/25 3:09 AM, Kamaljit Singh wrote:
-> Hi Damien,
->  
-> On 7/1/25 19:18, Damien Le Moal wrote:
->>>   /*
->>> - * An admin controller has one admin queue, but no I/O queues.
->>> + * An admin or discovery controller has one admin queue, but no I/O queues.
->>>    * Override queue_count so it only creates an admin queue.
->>>    */
->>>   void nvme_override_prohibited_io_queues(struct nvme_ctrl *ctrl)
->>>   {
->>> -     if (nvme_admin_ctrl(ctrl))
->>> +     if (nvme_admin_ctrl(ctrl) || nvme_discovery_ctrl(ctrl))
->>>                ctrl->queue_count = 1;
->>>   }
->>>   EXPORT_SYMBOL_GPL(nvme_override_prohibited_io_queues);
+On 2025/6/23 18:46, Christian Brauner wrote:
+> On Thu, 19 Jun 2025 19:17:57 +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
 >>
->> Repeating comment on patch 1. Can't we do this in nvme_init_subsystem() or may
->> be better, in nvme_set_queue_count() or nvme_init_ctrl_finish() ?
-> nvme_set_queue_count() won’t even be called in this case, as its only used to
-> configure IO queues, which are not being configured for an admin controller.
->  
-> If we move nvme_override_prohibited_io_queues() up the stack into either of your
-> suggested core.c functions, it will affect apple & fc drivers, which I don’t have any
-> means of testing. Any suggestions?
+>> Changes since v1:
+>>  - Rebase codes on 6.16-rc2.
+>>  - Use max_{hw|user}_wzeroes_unmap_sectors queue limits instead of
+>>    BLK_FEAT_WRITE_ZEROES_UNMAP feature to represent the status of the
+>>    unmap write zeroes operation as Christoph and Darrick suggested. This
+>>    redoes the first 5 patches, so remove all the reviewed-by tags,
+>>    please review them again.
+>>  - Simplify the description of FALLOC_FL_WRITE_ZEROES in patch 06 as
+>>    Darrick suggested.
+>>  - Revise the check order of FALLOC_FL_WRITE_ZEROES in patch 08 as
+>>    Christoph suggested.
+>> Changes since RFC v4:
+>>  - Rebase codes on 6.16-rc1.
+>>  - Add a new queue_limit flag, and change the write_zeroes_unmap sysfs
+>>    interface to RW mode. User can disable the unmap write zeroes
+>>    operation by writing '0' to it when the operation is slow.
+>>  - Modify the documentation of write_zeroes_unmap sysfs interface as
+>>    Martin suggested.
+>>  - Remove the statx interface.
+>>  - Make the bdev and ext4 don't allow to submit FALLOC_FL_WRITE_ZEROES
+>>    if the block device does not enable the unmap write zeroes operation,
+>>    it should return -EOPNOTSUPP.
+>> Changes sicne RFC v3:
+>>  - Rebase codes on 6.15-rc2.
+>>  - Add a note in patch 1 to indicate that the unmap write zeros command
+>>    is not always guaranteed as Christoph suggested.
+>>  - Rename bdev_unmap_write_zeroes() helper and move it to patch 1 as
+>>    Christoph suggested.
+>>  - Introduce a new statx attribute flag STATX_ATTR_WRITE_ZEROES_UNMAP as
+>>    Christoph and Christian suggested.
+>>  - Exchange the order of the two patches that modified
+>>    blkdev_fallocate() as Christoph suggested.
+>> Changes since RFC v2:
+>>  - Rebase codes on next-20250314.
+>>  - Add support for nvme multipath.
+>>  - Add support for NVMeT with block device backing.
+>>  - Clear FALLOC_FL_WRITE_ZEROES if dm clear
+>>    limits->max_write_zeroes_sectors.
+>>  - Complement the counterpart userspace tools(util-linux and xfs_io)
+>>    and tests(blktests and xfstests), please see below for details.
+>> Changes since RFC v1:
+>>  - Switch to add a new write zeroes operation, FALLOC_FL_WRITE_ZEROES,
+>>    in fallocate, instead of just adding a supported flag to
+>>    FALLOC_FL_ZERO_RANGE.
+>>  - Introduce a new flag BLK_FEAT_WRITE_ZEROES_UNMAP to the block
+>>    device's queue limit features, and implement it on SCSI sd driver,
+>>    NVMe SSD driver and dm driver.
+>>  - Implement FALLOC_FL_WRITE_ZEROES on both the ext4 filesystem and
+>>    block device (bdev).
+>>
+>> [...]
+> 
+> If needed, the branch can be declared stable and thus be used as base
+> for other work.
+> 
+> ---
+> 
+> Applied to the vfs-6.17.fallocate branch of the vfs/vfs.git tree.
+> Patches in the vfs-6.17.fallocate branch should appear in linux-next soon.
+> 
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+> 
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+> 
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs-6.17.fallocate
 
-Why would the controller vendor or its fabric matter ?
-If the controller type is admin or discovery, you want queue_count set to 1. So
-I do not think there is any problem.
+Hi Christian,
 
+I noticed that this patch series doesn't appear to be merged into this
+branch. Just wondering if it might have been missed?
 
--- 
-Damien Le Moal
-Western Digital Research
+Best regards,
+Yi.
+
+> 
+> [1/9] block: introduce max_{hw|user}_wzeroes_unmap_sectors to queue limits
+>       https://git.kernel.org/vfs/vfs/c/2695a9b086fd
+> [2/9] nvme: set max_hw_wzeroes_unmap_sectors if device supports DEAC bit
+>       https://git.kernel.org/vfs/vfs/c/bf07c1180194
+> [3/9] nvmet: set WZDS and DRB if device enables unmap write zeroes operation
+>       https://git.kernel.org/vfs/vfs/c/a6c7ab5adcba
+> [4/9] scsi: sd: set max_hw_wzeroes_unmap_sectors if device supports SD_ZERO_*_UNMAP
+>       https://git.kernel.org/vfs/vfs/c/92372ed1cc88
+> [5/9] dm: clear unmap write zeroes limits when disabling write zeroes
+>       https://git.kernel.org/vfs/vfs/c/e383d550e716
+> [6/9] fs: introduce FALLOC_FL_WRITE_ZEROES to fallocate
+>       https://git.kernel.org/vfs/vfs/c/1ed1b5df86ec
+> [7/9] block: factor out common part in blkdev_fallocate()
+>       https://git.kernel.org/vfs/vfs/c/96433508c8c0
+> [8/9] block: add FALLOC_FL_WRITE_ZEROES support
+>       https://git.kernel.org/vfs/vfs/c/2b4e5f9b3eb9
+> [9/9] ext4: add FALLOC_FL_WRITE_ZEROES support
+>       https://git.kernel.org/vfs/vfs/c/51954e469396
+
 
