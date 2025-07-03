@@ -4,97 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E25BEC83F07
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 20:58:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8AE5C83030
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Jul 2025 21:16:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TEShNNGw8YA9FF8iT3UXsWuzd6q34qlsvmUa14RxNng=; b=nO6VE27TdhbrA4moojjUuzHhzJ
-	B2Kpm/tlx7XmvD6T9ps6pbWEX1lvL/bgzGVWM1UWtZHOsWWo+QQTv8mWMJVe6HGcBMr0LG6C2nCdO
-	aq/nJH7mh/Mq6yrs+QNc+29BR/GPLLb/V/C6B9tfAvcPnjgsItvB70GbJDht9Gj1yhkyrGevpr77A
-	fANJu+9ecYTdAto1r2T1sx4Vkb4/xzWglQ6kZMTb0N5PNsZD9YODKSsqJj/f674Q40TShYcBW/38T
-	uBNvjfE+Og8bd0ds1R0xprTEcty6kWv5rcl6UXNogF7tHXW0OstUZNxDcAA4k9R4xiHxmZZMYSWuV
-	HMXVG2Ng==;
+	bh=PXrn0Lr79Xx4WaPYsj/Z1OBljINiFe8PiX2x+MR8c2s=; b=p+jLnuUzp5WJIjFWxlffCFgRSD
+	xkz4pe3uXGZwy9Y5n/ZvdCZryMS1vms0Elj9T952BcPyxoiXhYuIYFTz83RE/RpQ0IRJIPKC7igBv
+	SL3lGLh6vnCMAG7mfR4D+3Qz8OgMRao0GeYEW1GXCrSdxWEtHJQAIxoljGxbe7ijU9kq/FLp6xpuG
+	9l4qiVojuOShmK1VGGIGhXAy9t+9GLrmj3QRmgMIID1tGRvc899rO58BW5nCuFEN+CRPveA7bPzHK
+	LpbgfMlmKJ8k5q1b5P5+3mWwwlog+SvWDRZ2uouw6H7/rEx2ffgbGwLRaFW5Ze95xpuejS9xNPM/m
+	IxnyFapQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXR0a-0000000CUwY-3L5q;
-	Thu, 03 Jul 2025 20:58:16 +0000
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
+	id 1uXRIO-0000000CbIM-0e0X;
+	Thu, 03 Jul 2025 21:16:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXMLA-0000000Buez-1fYB
+	id 1uXO2a-0000000CBNp-3ThJ
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Jul 2025 15:59:13 +0000
-Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-735b2699d5dso57711a34.0
-        for <linux-nvme@lists.infradead.org>; Thu, 03 Jul 2025 08:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751558351; x=1752163151; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TEShNNGw8YA9FF8iT3UXsWuzd6q34qlsvmUa14RxNng=;
-        b=cArSN8/Em9tvsebNqFvhLC9La368RmGimZIyUW8ZpjzbkN3q5rUtdddhr7zfSv+Ou9
-         jbKijWLWTnLlv8vk67W2WtuCeA+ZRGysS4AaAEEEMadd2KId9cF84cvyNzGggc/aF4OG
-         9MehZdd+cxBEUbZMjeUoT3Su7iCqHhLU3XijW+io5ZvY+mB+UigNgfS4//bJ+ltUIKHq
-         cikyBehf1tFmrbvky4CXcAsI7ZYw2Uda7GHyJtC+BOM+B92JvRH6uzAx0cF91O5mxbcL
-         qHVFQc7DUlEljIB5/7tWEtsW9rIm2AtLaZyWHcF/WH7lUx6+JfnqnPFzyKgHz9Bnqkzs
-         dxnA==
+	Thu, 03 Jul 2025 17:48:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751564886;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PXrn0Lr79Xx4WaPYsj/Z1OBljINiFe8PiX2x+MR8c2s=;
+	b=ZuuwZ2Y0D1eDZAcJ6LZqrsHhLNu0Z0dorhMaGDvqBPHFw6xEVLz7x+SZuIkD39XAiEAb8a
+	OvqMOHCMdKVZyUBXQhWd1vIYRmP2u7wCwPsRoMmsWucbUjXx3hnX2J0KWAVmveRg7XEhGS
+	XiwximJhUhqXsFtsZBU4WiSfY5K7Lfw=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-283-zG9Atc2iMamdZ-04cZ9s-A-1; Thu, 03 Jul 2025 13:48:05 -0400
+X-MC-Unique: zG9Atc2iMamdZ-04cZ9s-A-1
+X-Mimecast-MFC-AGG-ID: zG9Atc2iMamdZ-04cZ9s-A_1751564883
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-32b378371b1so654671fa.2
+        for <linux-nvme@lists.infradead.org>; Thu, 03 Jul 2025 10:48:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751558351; x=1752163151;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TEShNNGw8YA9FF8iT3UXsWuzd6q34qlsvmUa14RxNng=;
-        b=WPz/h+Ct7izVPQITHm4t8d4/FfYCs5ffdsy8B496jIpzeYqipVn4M+bKYorfrzrCQb
-         2G0XEft1XNrOp9lBxQMNihjr0/0HhDTVvDOgdqS2Rn+9N5rsLwgXHUa7QkmcK6sWloDE
-         xdxYYKnYopkaKUQuUj2hRZRW7Zjo8Jf55tkc445Tl2huYqMD1lRQzPy/OyjvYlhaiaoR
-         0Ue+aBDkXMvZyNmevDu1h8zD4k7ku0UH7bkIqGteNiFwfzIOY+82jZ2nu34511gwmGhr
-         UpkccWgbvKZboDXiOYFCcL77kLtNDpamaiblSuSO53M3rUMJZHtCFP7XVy8o0AMr12Nm
-         O/Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCXvie5072npvgUsrg0h/m0Tq1wEzbtS5fx9ySIbM+Uu0zozeO3N63qcIe7eiAYzhZhaCOTnV+70Rk4p@lists.infradead.org
-X-Gm-Message-State: AOJu0YyCyHJCQlOUXVMgjATBtSLZUnEuhBOHMDY2GtITJC1bv5+M324/
-	0VQlSlSn3Rl2tEnXIteSOr3Wsbe/e69CYKsI1uB2gcTBluZQbuJxzaNt
-X-Gm-Gg: ASbGnctcMRro9+mbePoeXsidlCLZzqTx5Iic6dzaxbCuUEERmAg8aVtOQGiHFP6frMF
-	6UahmooUYTsm40EjUMgkh2q2ukvPUPWqWGbK9aotCK9u4tUkVDdH4rPK/VtLsoUpWvxF6xFctwA
-	4RSgMsZeRqlGJOCNr56VJcEX0sCa1QnankK1LtSQdRto9DDOpgr/UZCsUiJCWR7/EExLTBC+rVm
-	06mTWoQkCYh6S2Q6hBHGRnTK3IIhd4CQ7HllNMJIkNmn1BFRLoWV30eudfp7Px2JG796TX1DMex
-	O5NN+zbZ9ZhxpNZzVB7qMszsVUu9gCVdLnjvV5f2fBopnS2nZp41R4DQjdbu++VNNPFa42ydd/2
-	rVD9pcH2fBYZbagUYpmnmk3XdLA+dIgfTcGcH52O9WRiiYfw=
-X-Google-Smtp-Source: AGHT+IH3XSWyuRx4s4rWAzGyVmRCzIl6dx+V/4MhE8t8BbqVL+X1lePf0vai1om3aMrYs1aq7sCYNw==
-X-Received: by 2002:a05:6830:370c:b0:73a:e90d:5c95 with SMTP id 46e09a7af769-73b4cd6cd74mr5712699a34.26.1751558351027;
-        Thu, 03 Jul 2025 08:59:11 -0700 (PDT)
-Received: from [192.168.1.7] (syn-067-048-091-116.res.spectrum.com. [67.48.91.116])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73c9f7351cbsm10537a34.7.2025.07.03.08.59.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Jul 2025 08:59:10 -0700 (PDT)
-Message-ID: <893b1fd8-9f34-4118-9c53-05a1295850fd@gmail.com>
-Date: Thu, 3 Jul 2025 10:59:10 -0500
+        d=1e100.net; s=20230601; t=1751564883; x=1752169683;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PXrn0Lr79Xx4WaPYsj/Z1OBljINiFe8PiX2x+MR8c2s=;
+        b=IYT0t0VUpGfUXYfigGPH3av2pWxzZTd6Swo29O5+Vasj2q6KlHyi39ry/J6BlQHcvO
+         qSNik5pxLP3OFHDn39JU2YT3mdYYsq/eAkzzPRtqVlOPIzMENpcbVmoXhab8wI4hWxoB
+         YtarS/+obdzmLjI+4Joyv5sg113lK1g8vRaA0GZ7EDGbwiy5VWkXVIEUyjq3tgyD/46S
+         5uVn+Lb0V1VIQ/ALc+a59zYSik1JAWclTVMvlGqDhRY6JT44Jd6nixrl2UuLJJGA9isj
+         1PDk4DpDH6IYMHx7DF1Z4im3+dv850r/urDE9yPQWVBbNceXE+jOz74bVEOj7VsGESr7
+         6MEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWEHEZ4lh+PQ4vzPaT3Gtfj6exowmzLDA8743TVXSsahzCfxzlWfax12XcFMEIgeShVw5unaasz/JvA@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzn/EYpdy7IYEjmbFmENyWuTN5qfiju7SNgmtCmzaVCX9Uc24K2
+	hfB1uH3YxsvExkz2onjXSkDJbTDUmSw1uFXqsEPa+SiS2Jt1gHyzBAGng3FHuOVi7VtY7R5qpap
+	+9Sykk78acIwFC3nZQIuZRA1/JW5bUKG0t+MYZ268E1KcWoYBdJYXLyN8waepPOoAVb5T93V97t
+	e6JXmz4c72CgVj+HzwIAY+nECzmPSE/Ch3s8cy3RdtxQM=
+X-Gm-Gg: ASbGncvcS6w+PjZyHKulZgu78iaN2JoiMOaIUnHzyutTGcHTCmEkjoU/cbWdc6cPdhU
+	3b3X/KFSe+Bir0y4293sXa27zbE66kqlISE73btLLWv2M9CDSyBJQhdzgKmrXELzWQ1DNlhaMun
+	pFDZx2
+X-Received: by 2002:a2e:7214:0:b0:32b:585e:30bd with SMTP id 38308e7fff4ca-32e0006aba2mr24225021fa.21.1751564883173;
+        Thu, 03 Jul 2025 10:48:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFuvVSz8tzXtJu5+PFQ/r3o6wJcqxkoU3DjA9mvAGAU2k/HNhldxr1s2Gm5hXdkuGVL9X/RNdgi1jJHXUcHjgw=
+X-Received: by 2002:a2e:7214:0:b0:32b:585e:30bd with SMTP id
+ 38308e7fff4ca-32e0006aba2mr24224941fa.21.1751564882741; Thu, 03 Jul 2025
+ 10:48:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Martin Belanger <Martin.Belanger@dell.com>,
- Oliver O'Halloran <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>,
- Keith Busch <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>,
- David Jeffery <djeffery@redhat.com>, Jeremy Allison <jallison@ciq.com>,
- Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, Nathan Chancellor <nathan@kernel.org>,
- Jan Kiszka <jan.kiszka@seimens.com>, Bert Karwatzki <spasswolf@web.de>
-References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
- <20250703114656.GE17686@lst.de>
-Content-Language: en-US
-From: stuart hayes <stuart.w.hayes@gmail.com>
-In-Reply-To: <20250703114656.GE17686@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAHj4cs_Ckhz4sL5k5ug_Dc5XfjSo9QDRSrHMfBj2XYGm_gb2+g@mail.gmail.com>
+ <6e74e9a8-2dbb-4ad4-a48b-9af40d6af711@oracle.com> <20250703080359.GA365@lst.de>
+In-Reply-To: <20250703080359.GA365@lst.de>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Fri, 4 Jul 2025 01:47:50 +0800
+X-Gm-Features: Ac12FXwYGPoZMFiijA-eK4zGwljz6KFT2iLdmeRncVvmIltAxq0IUgIFYHpG788
+Message-ID: <CAHj4cs_pJDR-VH7-RzGwt9KmNCdTnQ38bejeB72280e9ke8ebg@mail.gmail.com>
+Subject: Re: [bug report] nvme4: inconsistent AWUPF, controller not added (0/7).
+To: Christoph Hellwig <hch@lst.de>, alan.adamson@oracle.com
+Cc: linux-block <linux-block@vger.kernel.org>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, John Garry <john.g.garry@oracle.com>, 
+	Ming Lei <ming.lei@redhat.com>, Maurizio Lombardi <mlombard@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: vWWyHHTmz4qeMrReINwhd7MJF8AaNS98dmtSZJxyLVA_1751564883
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250703_085912_445537_3B27E714 
-X-CRM114-Status: GOOD (  21.46  )
+X-CRM114-CacheID: sfid-20250703_104808_940283_9E1DD73E 
+X-CRM114-Status: GOOD (  12.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,41 +106,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/3/2025 6:46 AM, Christoph Hellwig wrote:
-> On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
->> Address resource and timing issues when spawning a unique async thread
->> for every device during shutdown:
->>    * Make the asynchronous threads able to shut down multiple devices,
->>      instead of spawning a unique thread for every device.
->>    * Modify core kernel async code with a custom wake function so it
->>      doesn't wake up threads waiting to synchronize every time the cookie
->>      changes
-> 
-> Given all these thread spawning issues, why can't we just go back
-> to the approach that kicks off shutdown asynchronously and then waits
-> for it without spawning all these threads?
-> 
+On Thu, Jul 3, 2025 at 4:04=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrote=
+:
+>
+> On Wed, Jul 02, 2025 at 09:33:32AM -0700, alan.adamson@oracle.com wrote:
+> > Looks like the device isn't reporting AWUPF after the format/reset.
+>
+> The other option would be that the format changed the value.
+>
+> The mess NVMe creasted with the totally un-thought out atomics is
+> beyond belive :(
+>
+> I wonder if we should just back out the whole thing and wait for the
+> working group to come up with something that can actually safely work.
+>
 
-If you mean for drivers to have an extra call like shutdown_start() 
-that's called for all devices before waiting for any of them to finish, 
-it seems like that would just push the work of spawning a shutdown 
-thread onto the individual drivers (unless they just had a single 
-command they issue to the device that takes all the time), and 
-synchronization might be more of an issue since shutdown_start() could 
-be called on a device before that device's children or dependents have 
-finished shutting down.
+Yeah, the format operation will change the awupf value.
+Here is the reset operation pass[1] and fail[2] log
+[1]
++ nvme format -l0 -f /dev/nvme3n1
+Success formatting namespace:1
++ nvme id-ctrl /dev/nvme3
++ grep awupf
+awupf     : 7
++ grep nawupf
++ nvme id-ns /dev/nvme3n1
+nawupf  : 7
++ nvme format -l1 -f /dev/nvme3n1
+Success formatting namespace:1
++ nvme id-ctrl /dev/nvme3
++ grep awupf
+awupf     : 0
++ nvme id-ns /dev/nvme3n1
++ grep nawupf
+nawupf  : 0
++ nvme reset /dev/nvme3
++ nvme id-ctrl /dev/nvme3
++ grep awupf
+awupf     : 0
 
-With the async shutdown code from this patch set in place, any driver 
-can be fully enabled to shut down devices asynchronously with no work 
-other than setting a flag to allow it, and no device will start shutting 
-down until its children and dependents have finished.
+[2]
++ nvme format -l0 -f /dev/nvme5n1
+Success formatting namespace:1
++ nvme id-ctrl /dev/nvme5
++ grep awupf
+awupf     : 7
++ nvme id-ns /dev/nvme5n1
++ grep nawupf
+nawupf  : 7
++ nvme format -l1 -f /dev/nvme5n1
+Success formatting namespace:1
++ nvme id-ctrl /dev/nvme5
++ grep awupf
+awupf     : 0
++ nvme id-ns /dev/nvme5n1
++ grep nawupf
+nawupf  : 0
++ nvme reset /dev/nvme5
+Reset: Network dropped connection on reset
+# dmesg | tail -5
+[  597.973393] nvme nvme5: rescanning namespaces.
+[  598.292285] nvme nvme5: rescanning namespaces.
+[  598.584937] nvme nvme5: resetting controller
+[  598.626440] nvme nvme5: inconsistent AWUPF, controller not added (0/7).
+[  598.633064] nvme nvme5: Disabling device after reset failure: -22
 
-I think the main issue in the previous version of this patch was just 
-that it was taking too long on smaller systems to spawn a thread for 
-every single device shutdown, when most or all of those devices were 
-shutting down synchronously anyway. This version of the patch solves 
-that issue... it should only spawn on the order of roughly 2N threads on 
-systems with N async shutdown devices, and it improves the kernel async 
-code to make synchronizing to a cookie faster, too.
+
+--=20
+Best Regards,
+  Yi Zhang
 
 
