@@ -4,110 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F7AFC83F03
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 14:13:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6A9CC83F03
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 14:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=46sPtIpQNa6qMl4WxST8GLbvaP56ktZh9MaOle9KvmU=; b=xW6D4lMlYL2nux6N7lJzvPhFn6
-	6w05v5QURAASVjhefoo0yxy7sX137xwJXt13bIZTPkKDvNYcQtQtqtCEvp8TRfjpwOA1ebTuFqoLs
-	0pBDuNIKKC4Gf7GURZSOwpiafB8azZn/r5AZKaPa80c1GjU+6mwspw8C+3UL9OV1kcfMR5UjCOPaj
-	IZmVNvQi5YJXXxqg948HO7kga1VuFmUnOKFLSkIb9vZyr6Yid14XbJGADUIGamfFTJtmdYYemluGF
-	nzP9nh3mvAfJj5Z6R0q2hVj4pMj5iQQS1XzBmBrc1/2/n3dsIYQcZ9egn7j7a7lYiwiff4r7JXGaw
-	5BA22TbQ==;
+	bh=VOrNKDtv4mY2pT9EDlIkWqiS73OnVUntUZCbjMuDRfM=; b=WvJjvF+aokUS+rxspfzTJ4XiPz
+	3I8hAd134O8HcBuwLOsNwW1D8dZrYhxbrTZpGY+lHuzJ+xLEB7XGEHuoukcMQrSyfNUD5StZQ3/up
+	zKO1M/VTUpD3anUOqCbBd1H6WsUQ3VosZAnOsujV9xfwI/LB6f+ACA7zWBXX7IcZqdK5dtgJgFObO
+	Ygf+yJgnp+3pK8eLnSq+1/ZvgTwBKAIFWkPrcW51/UdXe6LtavgO2ZtvtmDHX7lxpxGlq2JFxc/va
+	M3h+nqVT6wJ6Co7UdiWsgT1q1cFBMT5VrJZV5VgGxeq1kItYMxLE0qXnEn0Cyaiqi1mrOGv2WGVXR
+	alylf8ZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXhAp-0000000EdPl-1Knh;
-	Fri, 04 Jul 2025 14:13:55 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1uXhK8-0000000Eeyk-1Nyf;
+	Fri, 04 Jul 2025 14:23:32 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXgon-0000000EZzL-23FK
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 04 Jul 2025 13:51:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=46sPtIpQNa6qMl4WxST8GLbvaP56ktZh9MaOle9KvmU=; b=L0Ut92Aq/CaIOBnvGIKdL3OnA2
-	oqN4/s3CXK8Y5rMkOE/eycSr/DDeCGC6EtAOuiGYmBbvm4X95MJBD+iGkliFIJHFQ4nY3jpBmv83a
-	dA19Sh1GJs2NE5sh+7N5F3JVxNYxDJoP03yqPyMvnMJeOBSb3xDk2j9MzYWzDz2MF5nYwKydyXng7
-	0CUnps0Qu1oEVwxZgD23lovmg/J/fJYQkPON37kFLdP85hjU30LQWn657c4YB6EOKJRUNX39O9xRp
-	OKlHrI8Q5JOOSoIEdfKUv1qy3AIn0aWfLRswRcpspUCxXg/M0HS3fm42AbujS/RMTqF/g7HQUK7xh
-	Z5WB5Z9Q==;
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXgoi-00000007zwI-1d95
+	id 1uXh6P-0000000EcYl-0Znb
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Jul 2025 13:51:08 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 564A9HgW026097;
-	Fri, 4 Jul 2025 13:50:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=46sPtIpQNa6qMl4Wx
-	ST8GLbvaP56ktZh9MaOle9KvmU=; b=Eplol0GA3VdlVc+u1+dY4iS7cu/WA0y7k
-	j5zVEWnjL7Quc3fjj9nvPFWCNQuEyI8W7phmrwO3lt+zqSkZn/r9VAFhJ7d86abv
-	bCF6LpukIzHO9qMSVrWg9v/hAdevSzGm5iBRX/TcNBnDhhtkB624vBfl4s7Dd/tu
-	H7uEDen4h/zQgP85+AIwbNLG1zXQ8gyFSmUckw75ptaxgeZdqyv48zCpfJIjB/7c
-	jPbzg7LBCez8T7C0dReH7rtwEa5PCZTHR3nszYzvNhqQ0ICZ6r9RfPf3zjlxWZrO
-	0RE3KUR47xM1Ysx0rf7mQjgyMyCtEklcroxR/bcR21F3nIqfH17nQ==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47j82g9e8e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 04 Jul 2025 13:50:33 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 564CdF5R021361;
-	Fri, 4 Jul 2025 13:50:32 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 47jwe3stsh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 04 Jul 2025 13:50:32 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 564DoUW329753642
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 4 Jul 2025 13:50:30 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 73E4720043;
-	Fri,  4 Jul 2025 13:50:30 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4D7D920040;
-	Fri,  4 Jul 2025 13:50:27 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.61.81.118])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  4 Jul 2025 13:50:26 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, gjoyce@ibm.com
-Subject: [PATCH 2/2] nvme: extend show-topology command to add support for multipath
-Date: Fri,  4 Jul 2025 19:19:54 +0530
-Message-ID: <20250704135001.292763-3-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250704135001.292763-1-nilay@linux.ibm.com>
-References: <20250704135001.292763-1-nilay@linux.ibm.com>
+	Fri, 04 Jul 2025 14:09:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751638160;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VOrNKDtv4mY2pT9EDlIkWqiS73OnVUntUZCbjMuDRfM=;
+	b=JU1snoZ9+q22io2H4fTGYcNTkW2V9WCHpGRnFdzAwQPnoctHuhty9Iff0/d4b/F+UFjEZJ
+	5BO9ubQ1xsCQgeOYmD4afmoBtoUW2EpNoX3OfmHlczIegMqV8L/MqgybztaPz59DMoVOtJ
+	WSN22yin1yV5MhJveG26JXRqVt5qOL4=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-215-R8XTFgAsNHWcCOT8ay4REA-1; Fri, 04 Jul 2025 10:09:19 -0400
+X-MC-Unique: R8XTFgAsNHWcCOT8ay4REA-1
+X-Mimecast-MFC-AGG-ID: R8XTFgAsNHWcCOT8ay4REA_1751638157
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-32b71af3b28so4607751fa.3
+        for <linux-nvme@lists.infradead.org>; Fri, 04 Jul 2025 07:09:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751638157; x=1752242957;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VOrNKDtv4mY2pT9EDlIkWqiS73OnVUntUZCbjMuDRfM=;
+        b=QgKPudAQVAK3tQDvQLrqwAHwJiPZ4xl1nA7us6L6Bws823Ui4gxAIC95iYZt4n2rUV
+         C+6mRByxoAvLGnNSWlxRRoE58b345jA0RbtxPfjLn0GktKxeKBxdcocpSgXGCW8p3jSw
+         mq2Yz5SngaGSpDjF2pHmr53PaZTTUhhHzpbOaikI2RbzZsPQ20uGfeDq4yHZSakKMhfP
+         EufvMQw3VDq0Wo085ZFcKzS5qdxQY8jDOpb1dUL0jCH/R+69GqhHUdTzaXH7L7maHXFB
+         FQTjhmQSImUGTeMSzsRwqeMFBJxOsZ0yFvaVBNwp7yIVNBoiLBECNz4MWuYwGri8v25N
+         TA1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWqwnvJE7CBhbw2FV2UEc9DAfE63EfSpgoB+VWfDbZ2B+v+I3NqD2h65xhErJccJDZo0kwrNzUTLFDa@lists.infradead.org
+X-Gm-Message-State: AOJu0YyW1Aod48NiCWGjG+oLDZOJdejAIymSJLzSNloTb2X6tGj+wL+q
+	HRg0xuUhx6K5hMZX0mHo7XGCsG+w4GocI2SpNi/ONHUeJwZGkoXK/A5D2plFHKKKcGdLvZG/NYT
+	3SNM5r+DqvoqxScpw6q1vUXDH79zBL4aaTHAzFRkZBoDsmpsnPHx5l1mWznVz/l5h1LRfilDhCs
+	V3VDB06enC8MqrM/g4gcuo+vcbBWmoK9jCSbnop6DY3paSTmONZ4cyWg==
+X-Gm-Gg: ASbGncu7oMF544o+IQIuPyMhBSZk8HMiSyGaYddvEZhVXL1YDv8N695pVX1/3jQnpzC
+	06ySKQ7lBNm64q6edNA+hPuEjJlA0Ae1xTGIZIahdVmBocGKtA9/dFvDvzWE1rY1DDVYLEWOYwV
+	FhCg==
+X-Received: by 2002:a2e:a582:0:b0:32b:488a:f519 with SMTP id 38308e7fff4ca-32f00c889efmr7833511fa.6.1751638155206;
+        Fri, 04 Jul 2025 07:09:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFB59XkjZpu9peglaAwPR2m1GGWoAEsmWmWQsl6Xf4+KVDJYuU5UV6fbyjB8kcFQIhNwsxoqChY3uFHFh3qQYw=
+X-Received: by 2002:a2e:a582:0:b0:32b:488a:f519 with SMTP id
+ 38308e7fff4ca-32f00c889efmr7832341fa.6.1751638153263; Fri, 04 Jul 2025
+ 07:09:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: zN-usB4R7Xdy6CB2c8CQAbBvDLcFTwmD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA0MDEwNSBTYWx0ZWRfXzdZqQbEnwZWw tBdXVD1+Q71DqMS7wlLUf+ISODbyo80/IanaAnltqJ2oKvVAlHi10r6jbSiseCyYLryiFhHvrC0 nseAUFWS4JR73AS7qw3WbgkDGuAItvYfolYrAE6v5+rp9pwAH0NUr9NzZW8gAEhCOlwLYSjCuN2
- bck2JDGRyuZx4cJoFBJINQO0me1ouO/Jkj6yk/hjhTSBiJtB7++8K3yllqg6SPVjBVrKbc+6MIe Ykkxub+pwwJBXA5UmapZqDa9NDaUM13u3JZiR4OP8HFaBJ3IonBwz7amonPR6brG8XTXIO2ZVPk Q8EdrvWjmzLqpWtev+VOBcKpnVjWzZlDLr59npk5gH7QnjCcQQTqq9pEeFvn/OsFSL4CHDe9ped
- FDNlEyC7A69Rv2vHbGnWus4VKP06FRKqirHTFdSVatWifyLp7q9QwPcd32FuX93hN2kRgVWH
-X-Authority-Analysis: v=2.4 cv=LpeSymdc c=1 sm=1 tr=0 ts=6867dc29 cx=c_pps a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17 a=Wb1JkmetP80A:10 a=2J7IuT7wAAAA:8 a=VnNF1IyMAAAA:8 a=gRtPFpPTdgpovcS1-QwA:9 a=RtgRkGnnZwJf8nmJIBi8:22
-X-Proofpoint-GUID: zN-usB4R7Xdy6CB2c8CQAbBvDLcFTwmD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-04_05,2025-07-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- impostorscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507040105
+References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
+ <20250703114656.GE17686@lst.de> <CA+-xHTH2rxWwAao0EuNbhubqA2mrXOTZ7r1p-hcTieieomx75g@mail.gmail.com>
+ <2025070408-starlight-pandemic-0266@gregkh>
+In-Reply-To: <2025070408-starlight-pandemic-0266@gregkh>
+From: David Jeffery <djeffery@redhat.com>
+Date: Fri, 4 Jul 2025 10:09:01 -0400
+X-Gm-Features: Ac12FXxMPP32h9UySF1ham11qALBr4OrI6VVO4XXxXfqe7L1atg--F_Y1lT2gNE
+Message-ID: <CA+-xHTFKh0VUJ0r4K5L5b0dmrs9d1+cNkqf4HvKa4E-r_+u2CA@mail.gmail.com>
+Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Christoph Hellwig <hch@lst.de>, Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Martin Belanger <Martin.Belanger@dell.com>, 
+	"Oliver O'Halloran" <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>, 
+	Lukas Wunner <lukas@wunner.de>, Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+	Nathan Chancellor <nathan@kernel.org>, Jan Kiszka <jan.kiszka@seimens.com>, 
+	Bert Karwatzki <spasswolf@web.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: VzX7JpDD-tjUPP9fELhp5CkIu5Tu9aEXHYQmzPWk22Q_1751638157
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250704_145104_889213_93CEC823 
-X-CRM114-Status: GOOD (  25.91  )
+X-CRM114-CacheID: sfid-20250704_070921_248556_FD524457 
+X-CRM114-Status: GOOD (  22.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,302 +111,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This commit enhances the show-topology command by adding support for
-NVMe multipath. With this change, users can now list all paths to a
-namespace from its corresponding head node device. Each NVMe path
-entry then also includes additional details such as ANA state, NUMA
-node, and queue depth, improving visibility into multipath configs.
-This information can be particularly helpful for debugging and
-analyzing NVMe multipath setups.
+On Fri, Jul 4, 2025 at 9:45=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Jul 04, 2025 at 09:38:15AM -0400, David Jeffery wrote:
+> > On Thu, Jul 3, 2025 at 7:47=E2=80=AFAM Christoph Hellwig <hch@lst.de> w=
+rote:
+> > >
+> > > On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
+> > > > Address resource and timing issues when spawning a unique async thr=
+ead
+> > > > for every device during shutdown:
+> > > >   * Make the asynchronous threads able to shut down multiple device=
+s,
+> > > >     instead of spawning a unique thread for every device.
+> > > >   * Modify core kernel async code with a custom wake function so it
+> > > >     doesn't wake up threads waiting to synchronize every time the c=
+ookie
+> > > >     changes
+> > >
+> > > Given all these thread spawning issues, why can't we just go back
+> > > to the approach that kicks off shutdown asynchronously and then waits
+> > > for it without spawning all these threads?
+> > >
+> >
+> > The async subsystem fix is something that should be fixed regardless
+> > of async shutdown. Async shutdown's use just exposed its thundering
+> > herd behavior which is easily fixed.
+>
+> Great, then please submit that on its own and get the maintainer of that
+> subsystem to agree and accept it as I have no way to judge that code at
+> all.
 
-To support this functionality, the "--ranking" option of the nvme
-show-topology command has been extended with a new sub-option:
-"multipath".
+Unfortunately, it does not have a maintainer listed and sees limited
+activity. Would CC-ing some of the recent developers of kernel/async.c
+to ask them to review be recommended in this situation?
 
-Since this enhancement is specific to NVMe multipath, the iopolicy
-configured under each subsystem is now always displayed. Previously,
-iopolicy was shown only with nvme show-topology verbose output, but
-it is now included by default to improve usability and provide better
-context when reviewing multipath configurations via show-topology.
-
-With this update, users can view the multipath topology of a multi
-controller/port NVMe disk using:
-
-$ nvme show-topology -r multipath
-
-nvme-subsys2 - NQN=nvmet_subsystem
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:12b49f6e-0276-4746-b10c-56815b7e6dc2
-               iopolicy=numa
-
-          _ _ _<head-node>
-         /              _ _ _ <ana-state>
-        /              /      _ _ _ <numa-node-list>
-       /              /      /  _ _ _<queue-depth>
-      |              /      /  /
- +- nvme2n1 (ns 1)  /      /  /
- \                 |      |  |
-  +- nvme2c2n1 optimized 1,2 0 nvme2 tcp traddr=127.0.0.2,trsvcid=4460,src_addr=127.0.0.1 live
-  +- nvme2c3n1 optimized 3,4 0 nvme3 tcp traddr=127.0.0.3,trsvcid=4460,src_addr=127.0.0.1 live
-
-Please note that the headers shown above (e.g., <numa-node-list>,
-<ana-state>, <hed-node>, and <queue-depth>) are included for clarity
-only and are not part of the actual output.
-
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- nvme-print-binary.c |  1 +
- nvme-print-json.c   | 25 ++++++++++++++++------
- nvme-print-stdout.c | 52 +++++++++++++++++++++++++++++++++++++++++----
- nvme-print.c        |  4 +++-
- nvme-print.h        |  1 +
- nvme.c              |  4 +++-
- nvme.h              |  1 +
- 7 files changed, 76 insertions(+), 12 deletions(-)
-
-diff --git a/nvme-print-binary.c b/nvme-print-binary.c
-index ec86e386..3ecdda01 100644
---- a/nvme-print-binary.c
-+++ b/nvme-print-binary.c
-@@ -428,6 +428,7 @@ static struct print_ops binary_print_ops = {
- 	.print_nvme_subsystem_list	= NULL,
- 	.topology_ctrl			= NULL,
- 	.topology_namespace		= NULL,
-+	.topology_multipath		= NULL,
- 
- 	/* status and error messages */
- 	.connect_msg			= NULL,
-diff --git a/nvme-print-json.c b/nvme-print-json.c
-index bbb948f5..8967aefa 100644
---- a/nvme-print-json.c
-+++ b/nvme-print-json.c
-@@ -4538,19 +4538,30 @@ static unsigned int json_subsystem_topology_multipath(nvme_subsystem_t s,
- 
- 		ns_attrs = json_create_object();
- 		obj_add_int(ns_attrs, "NSID", nvme_ns_get_nsid(n));
-+		obj_add_str(ns_attrs, "Name", nvme_ns_get_name(n));
- 
- 		paths = json_create_array();
- 		nvme_namespace_for_each_path(n, p) {
- 			struct json_object *path_attrs;
--
--			nvme_ctrl_t c = nvme_path_get_ctrl(p);
-+			struct json_object *ctrls, *ctrl_attrs;
-+			nvme_ctrl_t c;
- 
- 			path_attrs = json_create_object();
--			obj_add_str(path_attrs, "Name", nvme_ctrl_get_name(c));
--			obj_add_str(path_attrs, "Transport", nvme_ctrl_get_transport(c));
--			obj_add_str(path_attrs, "Address", nvme_ctrl_get_address(c));
--			obj_add_str(path_attrs, "State", nvme_ctrl_get_state(c));
-+			obj_add_str(path_attrs, "Path", nvme_path_get_name(p));
- 			obj_add_str(path_attrs, "ANAState", nvme_path_get_ana_state(p));
-+			obj_add_str(path_attrs, "NUMANodes", nvme_path_get_numa_nodes(p));
-+			obj_add_int(path_attrs, "Qdepth", nvme_path_get_queue_depth(p));
-+
-+			c = nvme_path_get_ctrl(p);
-+			ctrls = json_create_array();
-+			ctrl_attrs = json_create_object();
-+			obj_add_str(ctrl_attrs, "Name", nvme_ctrl_get_name(c));
-+			obj_add_str(ctrl_attrs, "Transport", nvme_ctrl_get_transport(c));
-+			obj_add_str(ctrl_attrs, "Address", nvme_ctrl_get_address(c));
-+			obj_add_str(ctrl_attrs, "State", nvme_ctrl_get_state(c));
-+			array_add_obj(ctrls, ctrl_attrs);
-+			obj_add_array(path_attrs, "Controller", ctrls);
-+
- 			array_add_obj(paths, path_attrs);
- 		}
- 		obj_add_array(ns_attrs, "Paths", paths);
-@@ -4575,6 +4586,7 @@ static void json_print_nvme_subsystem_topology(nvme_subsystem_t s,
- 
- 			ns_attrs = json_create_object();
- 			obj_add_int(ns_attrs, "NSID", nvme_ns_get_nsid(n));
-+			obj_add_str(ns_attrs, "Name", nvme_ns_get_name(n));
- 
- 			ctrl = json_create_array();
- 			ctrl_attrs = json_create_object();
-@@ -5334,6 +5346,7 @@ static struct print_ops json_print_ops = {
- 	.print_nvme_subsystem_list	= json_print_nvme_subsystem_list,
- 	.topology_ctrl			= json_simple_topology,
- 	.topology_namespace		= json_simple_topology,
-+	.topology_multipath		= json_simple_topology,
- 
- 	/* status and error messages */
- 	.connect_msg			= json_connect_msg,
-diff --git a/nvme-print-stdout.c b/nvme-print-stdout.c
-index 2c97abd7..f163eb29 100644
---- a/nvme-print-stdout.c
-+++ b/nvme-print-stdout.c
-@@ -1110,6 +1110,8 @@ static void stdout_subsys_config(nvme_subsystem_t s)
- 	       nvme_subsystem_get_nqn(s));
- 	printf("%*s   hostnqn=%s\n", len, " ",
- 	       nvme_host_get_hostnqn(nvme_subsystem_get_host(s)));
-+	printf("%*s   iopolicy=%s\n", len, " ",
-+		nvme_subsystem_get_iopolicy(s));
- 
- 	if (stdout_print_ops.flags & VERBOSE) {
- 		printf("%*s   model=%s\n", len, " ",
-@@ -1118,8 +1120,6 @@ static void stdout_subsys_config(nvme_subsystem_t s)
- 			nvme_subsystem_get_serial(s));
- 		printf("%*s   firmware=%s\n", len, " ",
- 			nvme_subsystem_get_fw_rev(s));
--		printf("%*s   iopolicy=%s\n", len, " ",
--			nvme_subsystem_get_iopolicy(s));
- 		printf("%*s   type=%s\n", len, " ",
- 			nvme_subsystem_get_type(s));
- 	}
-@@ -5611,7 +5611,7 @@ static void stdout_subsystem_topology_multipath(nvme_subsystem_t s,
- 				       nvme_path_get_ana_state(p));
- 			}
- 		}
--	} else {
-+	} else if (ranking == NVME_CLI_TOPO_CTRL) {
- 		/* NVME_CLI_TOPO_CTRL */
- 		nvme_subsystem_for_each_ctrl(s, c) {
- 			printf(" +- %s %s %s\n",
-@@ -5632,6 +5632,27 @@ static void stdout_subsystem_topology_multipath(nvme_subsystem_t s,
- 				}
- 			}
- 		}
-+	} else {
-+		/* NVME_CLI_TOPO_MULTIPATH */
-+		nvme_subsystem_for_each_ns(s, n) {
-+			printf(" +- %s (ns %d)\n",
-+					nvme_ns_get_name(n),
-+					nvme_ns_get_nsid(n));
-+			printf(" \\\n");
-+			nvme_namespace_for_each_path(n, p) {
-+				c = nvme_path_get_ctrl(p);
-+
-+				printf("  +- %s %s %s %d %s %s %s %s\n",
-+						nvme_path_get_name(p),
-+						nvme_path_get_ana_state(p),
-+						nvme_path_get_numa_nodes(p),
-+						nvme_path_get_queue_depth(p),
-+						nvme_ctrl_get_name(c),
-+						nvme_ctrl_get_transport(c),
-+						nvme_ctrl_get_address(c),
-+						nvme_ctrl_get_state(c));
-+			}
-+		}
- 	}
- }
- 
-@@ -5653,7 +5674,7 @@ static void stdout_subsystem_topology(nvme_subsystem_t s,
- 				       nvme_ctrl_get_state(c));
- 			}
- 		}
--	} else {
-+	} else if (ranking == NVME_CLI_TOPO_CTRL) {
- 		/* NVME_CLI_TOPO_CTRL */
- 		nvme_subsystem_for_each_ctrl(s, c) {
- 			printf(" +- %s %s %s\n",
-@@ -5667,6 +5688,23 @@ static void stdout_subsystem_topology(nvme_subsystem_t s,
- 				       nvme_ctrl_get_state(c));
- 			}
- 		}
-+	} else {
-+		/* NVME_CLI_TOPO_MULTIPATH */
-+		nvme_subsystem_for_each_ctrl(s, c) {
-+			nvme_ctrl_for_each_ns(c, n) {
-+				c = nvme_ns_get_ctrl(n);
-+
-+				printf(" +- %s (ns %d)\n",
-+						nvme_ns_get_name(n),
-+						nvme_ns_get_nsid(n));
-+				printf(" \\\n");
-+				printf("  +- %s %s %s %s\n",
-+						nvme_ctrl_get_name(c),
-+						nvme_ctrl_get_transport(c),
-+						nvme_ctrl_get_address(c),
-+						nvme_ctrl_get_state(c));
-+			}
-+		}
- 	}
- }
- 
-@@ -5713,6 +5751,11 @@ static void stdout_topology_ctrl(nvme_root_t r)
- 	stdout_simple_topology(r, NVME_CLI_TOPO_CTRL);
- }
- 
-+static void stdout_topology_multipath(nvme_root_t r)
-+{
-+	stdout_simple_topology(r, NVME_CLI_TOPO_MULTIPATH);
-+}
-+
- static void stdout_message(bool error, const char *msg, va_list ap)
- {
- 	vfprintf(error ? stderr : stdout, msg, ap);
-@@ -6140,6 +6183,7 @@ static struct print_ops stdout_print_ops = {
- 	.print_nvme_subsystem_list	= stdout_subsystem_list,
- 	.topology_ctrl			= stdout_topology_ctrl,
- 	.topology_namespace		= stdout_topology_namespace,
-+	.topology_multipath		= stdout_topology_multipath,
- 
- 	/* status and error messages */
- 	.connect_msg			= stdout_connect_msg,
-diff --git a/nvme-print.c b/nvme-print.c
-index 742999fd..f243dee9 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -1551,8 +1551,10 @@ void nvme_show_topology(nvme_root_t r,
- {
- 	if (ranking == NVME_CLI_TOPO_NAMESPACE)
- 		nvme_print(topology_namespace, flags, r);
--	else
-+	else if (ranking == NVME_CLI_TOPO_CTRL)
- 		nvme_print(topology_ctrl, flags, r);
-+	else
-+		nvme_print(topology_multipath, flags, r);
- }
- 
- void nvme_show_message(bool error, const char *msg, ...)
-diff --git a/nvme-print.h b/nvme-print.h
-index 7329f0ae..4035c80a 100644
---- a/nvme-print.h
-+++ b/nvme-print.h
-@@ -105,6 +105,7 @@ struct print_ops {
- 	void (*print_nvme_subsystem_list)(nvme_root_t r, bool show_ana);
- 	void (*topology_ctrl)(nvme_root_t r);
- 	void (*topology_namespace)(nvme_root_t r);
-+	void (*topology_multipath)(nvme_root_t r);
- 
- 	/* status and error messages */
- 	void (*connect_msg)(nvme_ctrl_t c);
-diff --git a/nvme.c b/nvme.c
-index 772ab000..53a29d22 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -10056,7 +10056,7 @@ static int tls_key(int argc, char **argv, struct command *command, struct plugin
- static int show_topology_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
- {
- 	const char *desc = "Show the topology\n";
--	const char *ranking = "Ranking order: namespace|ctrl";
-+	const char *ranking = "Ranking order: namespace|ctrl|multipath";
- 	nvme_print_flags_t flags;
- 	_cleanup_nvme_root_ nvme_root_t r = NULL;
- 	char *devname = NULL;
-@@ -10092,6 +10092,8 @@ static int show_topology_cmd(int argc, char **argv, struct command *command, str
- 		rank = NVME_CLI_TOPO_NAMESPACE;
- 	} else if (!strcmp(cfg.ranking, "ctrl")) {
- 		rank = NVME_CLI_TOPO_CTRL;
-+	} else if (!strcmp(cfg.ranking, "multipath")) {
-+		rank = NVME_CLI_TOPO_MULTIPATH;
- 	} else {
- 		nvme_show_error("Invalid ranking argument: %s", cfg.ranking);
- 		return -EINVAL;
-diff --git a/nvme.h b/nvme.h
-index 1a15fc18..c61aea6c 100644
---- a/nvme.h
-+++ b/nvme.h
-@@ -46,6 +46,7 @@ typedef uint32_t nvme_print_flags_t;
- enum nvme_cli_topo_ranking {
- 	NVME_CLI_TOPO_NAMESPACE,
- 	NVME_CLI_TOPO_CTRL,
-+	NVME_CLI_TOPO_MULTIPATH,
- };
- 
- #define SYS_NVME "/sys/class/nvme"
--- 
-2.50.0
+David Jeffery
 
 
