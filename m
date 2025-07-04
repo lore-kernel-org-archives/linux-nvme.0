@@ -4,154 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E793EC83F03
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 12:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D21FEC83F03
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 13:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q+FqtZMjtP4HpZ/jeTQTPK73EGvFDqPilJ5M/AUaOsg=; b=vMB7WEvgn5tB9BUuyPlNu6Si8U
-	cGojkCFW8ACZEvIhCJFbmin/RcSzAi2rx8fLg+L3ZX59dJ7iukE0IMGGCbq0qpwKUWW6ZnVc8I4ac
-	Vyi35SJ/s+hRuejZLK1DIP3IPyBnmp7UIe/t++HlBwYjX5ENYa1DNMdljN1mmi7J7MdtH4MZMj6OE
-	s1pjNAw8elCOQvTQYANPc4O0TYFGOl38yCCxbTLl5wBr5fncVGU5a+Oj20mrKzD5hZlHgexLeK92q
-	pWTx6BVZ7Jp9VkKKI6AmgaMuAva33wXLMNilGTvJuOlxNJ3EzqcfY0nRXKCuOuiDIo8R8BOvoVsxr
-	Q/KrIHyQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=f0LwhhSKAS9rq9688GXK8zhFORyfbElYWA+ly5rGBPU=; b=jMwk8Ya5qadFvZoTThveck0y/6
+	nvKwOpjUTOJ73kE922yxXpxb7F/0stf26PQpm+baNkF2U4J09Oz4hQ24M2xK5JtgRq8yvMOBqyO/1
+	UtgSbdKCSTCdq50UNqJvVkZMfTHe6OXlZz/dukUe4sY+/1FdSHZ12MDPxCRYHhaBAssoeFwA1V3UJ
+	HgqAXGwu67c1vhjKAgxNQcLC5j8Q5DrvfLdyQND56OtY0oFoWGqRpqniW0ZTB2p3rUxKxcRQvn717
+	A+eOS1vKvuQshh4jG0pQdukx7zUJdex63oeaTcXOzDG4yCxYcMJLCo5RBsqa+eGVIh97lw15C6zyS
+	ZaVL7u/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXfYe-0000000EOOb-2FXs;
-	Fri, 04 Jul 2025 12:30:24 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1uXgua-0000000EatW-43Sb;
+	Fri, 04 Jul 2025 13:57:08 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXfYd-0000000EOOH-3cRK
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 04 Jul 2025 12:30:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=q+FqtZMjtP4HpZ/jeTQTPK73EGvFDqPilJ5M/AUaOsg=; b=ltQQ+PIebwzrI5UGgi6kSRu3SR
-	UGyoalngJVCiBUVQ0tMDLzJh5GUijVYo3HZrIKg6Ip+X6dZWh/WZ0fOU25oyBWrwRJD2/FzgjdRGo
-	sZQvIrZrRfO5RH/FW4FqTTwIAg01n63qnojbrFd7lNW2OJC203dmMyl7B2QGJyv0iU5Ep+JuS1Tia
-	daStUTPbeKjhvxRSkVdoU4n+7BcaQcwIXYA9N2m2mItdjH4/YEsWLgMmwn4ry5XNfEPawPE5vg4PQ
-	JzmJhNW9sdtvTx7qs58uv+AX7uhzNHznOPE07BZ7Z3fJtVjJnK979YDGxt2mRyU7m6gIspoj4irfi
-	GwRSPurw==;
-Received: from smtp-out1.suse.de ([195.135.223.130])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXfYa-00000007yMm-4Ar0
+	id 1uXgcb-0000000EXYN-1CuE
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Jul 2025 12:30:22 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 68609211B1;
-	Fri,  4 Jul 2025 12:30:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751632218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	Fri, 04 Jul 2025 13:38:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751636311;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=q+FqtZMjtP4HpZ/jeTQTPK73EGvFDqPilJ5M/AUaOsg=;
-	b=1PNeuq6XRG9MLSKh16/8j87kZJMB7EIl2HpEWVs2u8pn4ERdxbvgelzT1f5k+NPAxh1NA3
-	DUhuhO33rqPurfYDV6Xd6LvxR7Ete9BU17kVZxsSQq6GNQ+XFFClvqd4nRp/A5nzVx5KTs
-	zK1JxYRs9oPAk10lH1ZjkkCMs6fkV6c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751632218;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q+FqtZMjtP4HpZ/jeTQTPK73EGvFDqPilJ5M/AUaOsg=;
-	b=Qw5LBiTryjPMOx7bvmSs0x5fIFEAlrw4PFmoc6rh/CevNJnTZQovkQFMhOVgGAycZXvDAG
-	yQYm71qi29pWD2Dg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iUH4+5Vu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZffzaIRI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751632217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q+FqtZMjtP4HpZ/jeTQTPK73EGvFDqPilJ5M/AUaOsg=;
-	b=iUH4+5VultHZW/BBXGA+BmaiSW4ERO0GGGCIXtyomlhI4kUC2UuvbntREmfxxaGRS6qiYD
-	hi1IhXlsoGLh8tcEins5JEoHmBxUFBPxJeUY3VkbOuhDyn9Cwj64A1IV9uB8rq1TnEVLHk
-	en7cLJ94w0kqDZkxYepKPUB6rC5hcZc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751632217;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q+FqtZMjtP4HpZ/jeTQTPK73EGvFDqPilJ5M/AUaOsg=;
-	b=ZffzaIRI91Wrez4gmihemHyE278M17FvJei2kFPfkywnXuEZHbdJw/QsufVHUpEN//WEQT
-	xO9k6fQKdvq5TrCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41F8913A71;
-	Fri,  4 Jul 2025 12:30:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ViIbEFnJZ2j/VAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 04 Jul 2025 12:30:17 +0000
-Date: Fri, 4 Jul 2025 14:30:16 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Aaron Tomlin <atomlin@atomlin.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Costa Shulyupin <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, Ming Lei <ming.lei@redhat.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org, 
-	storagedev@microchip.com, virtualization@lists.linux.dev, 
-	GR-QLogic-Storage-Upstream@marvell.com
-Subject: Re: [PATCH v7 05/10] scsi: Use block layer helpers to constrain
- queue affinity
-Message-ID: <fdbc2ddc-830b-4727-88ae-5347fea8fca8@flourine.local>
-References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
- <20250702-isolcpus-io-queues-v7-5-557aa7eacce4@kernel.org>
- <d95de280-8cd7-4697-933a-37dc53f4c552@suse.de>
- <2e7576e4-442f-4000-817d-6253374f5818@flourine.local>
- <c06d0ef2-6bd2-4f5d-895f-0255415b2a24@suse.de>
+	bh=f0LwhhSKAS9rq9688GXK8zhFORyfbElYWA+ly5rGBPU=;
+	b=Rge8RnIaIBNnQ6IG8nN0p+tbxUX5z1emj7fYIzG33ymiber2ijWcJLUch4UEM/6Xb3nfhb
+	d/eB4es+iqE0S1wNS5qD3rttlgUaVzCzn5Rxbmf/Q4qiHo+Lxa1jLSTE/LErfVT6QAYgHx
+	haq0kzowfIT7tiGh4USGTgIvuJywzTs=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-150---zOuifBOLivvrTNVtOYWw-1; Fri, 04 Jul 2025 09:38:29 -0400
+X-MC-Unique: --zOuifBOLivvrTNVtOYWw-1
+X-Mimecast-MFC-AGG-ID: --zOuifBOLivvrTNVtOYWw_1751636308
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-32b3ba8088fso5094061fa.1
+        for <linux-nvme@lists.infradead.org>; Fri, 04 Jul 2025 06:38:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751636308; x=1752241108;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f0LwhhSKAS9rq9688GXK8zhFORyfbElYWA+ly5rGBPU=;
+        b=jXPJ7k7DWHp5sY/LRT+j7fTtVxgx1oV3YATb0kwWRr0tcKOd6p4XjEDD0mEwq+9iNV
+         JffzxjwxZXyFDtLSMsa5y3R8kPhFCLoUoMMrl/TsmRoD9L6wLObeVpjVI55CCaK1r1yt
+         51gjSGF25hzbo0Q12HZAzvL9IFERT05JJwhQmXDhf9g1etLRhcYs5rmWLulL8Qkb5MSX
+         b8KZDXmnUusujp4Y10KpL2+KAU013eUI2AKDPh3a11x32JXUJZUYli7Su3Q3a0E+Qbd9
+         tbQE4RUNhMmOPxYDMWUIRPbpehpRFEP6DldAjq4hHB9BBJB+TmPu6acKIEdH1V3ilmCU
+         fIHA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNp3ghy9+Pwi4nqDUTbRWjpZijSPE6j1CGc6+FVaCTJj4WQHUQcEqzBR7Edw6id4PqZcbT6BLbnv/u@lists.infradead.org
+X-Gm-Message-State: AOJu0YyBmjFr+3vmkLdVV6E+7BynvvlqEqrOwXAYRgu72NJWzGZiiSX9
+	HrHQBKEU+LDV3zcC2qqqF052NX9VEHCfx3sgnHYKR0C1R+a0sOxqEpoZv1KW/XVCvF7Z1kRpTMz
+	azh/MpByBfk5mTSQXVJAKOJVsHtFpJf8fav0r886Cwtgdy1MbyhhSTlpyccwgdPhs+ukoyAkZqo
+	QdLkkLa9+tLpHcNkFIHmsQvgNZK/LLwp0UqK5/s6IxKX4=
+X-Gm-Gg: ASbGncv1Xft8nyqO2kuIQyd4ENKkFa5aaFzHX8/qihmJF4lvhIEdmL8w0t5B5nZVpdg
+	JnqMUK9yb7JO0V7q84NpWzC0asVsjkT9Cn63T99gbHzlIvp3Od+7XhBVZycTuH/2jWSN21I7xAo
+	MJWA==
+X-Received: by 2002:a2e:a01c:0:b0:32b:56b3:d35e with SMTP id 38308e7fff4ca-32e5f602f69mr4968841fa.20.1751636307989;
+        Fri, 04 Jul 2025 06:38:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFTOeLA4a8sWQdDmY2XwyBSkX+j6bk0YsxJsmNYE69UtQ1grt4HLkEvANqOSyCUqmP6VBgFXQtwwI2iq9F+sGg=
+X-Received: by 2002:a2e:a01c:0:b0:32b:56b3:d35e with SMTP id
+ 38308e7fff4ca-32e5f602f69mr4968731fa.20.1751636307512; Fri, 04 Jul 2025
+ 06:38:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c06d0ef2-6bd2-4f5d-895f-0255415b2a24@suse.de>
-X-Rspamd-Queue-Id: 68609211B1
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MIME_TRACE(0.00)[0:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	R_RATELIMIT(0.00)[to_ip_from(RL71uuc3g3e76oxfn4mu5aogan)];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,suse.de:dkim]
+References: <20250625201853.84062-1-stuart.w.hayes@gmail.com> <20250703114656.GE17686@lst.de>
+In-Reply-To: <20250703114656.GE17686@lst.de>
+From: David Jeffery <djeffery@redhat.com>
+Date: Fri, 4 Jul 2025 09:38:15 -0400
+X-Gm-Features: Ac12FXxwOEfJeSt_DtU3lzqNkoWZYOv_HS6yyS3Ns8ZeN5Ywx-N5Uhun672eW6M
+Message-ID: <CA+-xHTH2rxWwAao0EuNbhubqA2mrXOTZ7r1p-hcTieieomx75g@mail.gmail.com>
+Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
+To: Christoph Hellwig <hch@lst.de>
+Cc: Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Martin Belanger <Martin.Belanger@dell.com>, "Oliver O'Halloran" <oohall@gmail.com>, 
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>, 
+	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-nvme@lists.infradead.org, Nathan Chancellor <nathan@kernel.org>, 
+	Jan Kiszka <jan.kiszka@seimens.com>, Bert Karwatzki <spasswolf@web.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: cpWV5aVOPfZ2I5pftyPhjCE1VyqTpiYH2zkX25UkHjs_1751636308
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250704_133021_201779_AF22E2DD 
-X-CRM114-Status: GOOD (  20.43  )
+X-CRM114-CacheID: sfid-20250704_063833_394166_2379F347 
+X-CRM114-Status: GOOD (  16.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -166,52 +109,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 04, 2025 at 12:28:49PM +0200, Hannes Reinecke wrote:
-> It really shouldn't be an issue when the cpus are distributed 'correctly'
-> :-)
+On Thu, Jul 3, 2025 at 7:47=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
+:
+>
+> On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
+> > Address resource and timing issues when spawning a unique async thread
+> > for every device during shutdown:
+> >   * Make the asynchronous threads able to shut down multiple devices,
+> >     instead of spawning a unique thread for every device.
+> >   * Modify core kernel async code with a custom wake function so it
+> >     doesn't wake up threads waiting to synchronize every time the cooki=
+e
+> >     changes
+>
+> Given all these thread spawning issues, why can't we just go back
+> to the approach that kicks off shutdown asynchronously and then waits
+> for it without spawning all these threads?
+>
 
-If I get the drift, we start to discuss how the mapping could be
-normally, so not for isolcpus. The isolcpus case is just how many hwq
-are available (and affinity):
+The async subsystem fix is something that should be fixed regardless
+of async shutdown. Async shutdown's use just exposed its thundering
+herd behavior which is easily fixed.
 
- num queues to map = min(num housekeeping CPUs, #hwq)
+Reducing the threads is just good optimization. Doing every callback
+in its own thread adds extra overhead which isn't needed to maintain
+ordering and async shutdown gains, and combining sync devices into a
+thread where reasonable didn't add that much complexity to the code.
 
-and then it's common code, no special housekeeping mapping code.
+The older non-thread approaches were unpopular with how they still
+added plenty of complexity to the shutdown logic while pushing either
+ugly splits or their own thread creation down into the individual
+shutdown routines of drivers.
 
-> We have several possibilities:
-> -> #hwq > num_possible_cpus: easy, 1:1 mapping, no problem
+David Jeffery
 
-I agree, no problem here.
-
-> -> num_online_cpu < #hwq < num_possible_cpus: Not as easy, but if we
->    ensure that each online cpu is mapped to a different hwq we don't
->    have a performance impact.
-
-This should also be fairly straightforward too. First assign each online
-CPU a hwq and distribute the rest of the hwq amount the rest of the
-possible offline CPUs.
-
-> -> #hwq < num_online_cpu: If we ensure that a) the number of online cpus
->    per hwq is (roughly) identical we won't have a performance impact.
->    As a bonus we should strive to have the number of offline cpus
->    distributed equally on each hwq.
-
-__group_cpus_evenly is handling this pretty well.
-
-> Of course, that doesn't take into accound NUMA locality; with NUMA locality
-> you would need to ensure to have at least one CPU per NUMA node
-> mapped to each hwq. Which actually would impose a lower limit on the
-> number (and granularity!) of hwqs (namely the number of NUMA nodes), but
-> that's fair, I guess.
-
-Again __group_cpus_evenly is taking NUMA into account as I understand it.
-
-> But this really can be delegated to later patches; initially we really
-> should identify which drivers might have issues with CPU hotplug,
-> and at the very least issue a warning for these drivers.
-
-There are different ways I suppose. My approach is not to change the
-drivers too much because I don't have access to all the hardware for
-testing. Instead extend the core code so that the different cases are
-covered.
 
