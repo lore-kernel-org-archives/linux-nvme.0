@@ -4,98 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D053C83F03
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 14:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EED37C83F03
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 14:11:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tkPHJk2uXWlHI4Mxw4g1nxzFgbqq3tguuk0UsLEAPlg=; b=EBY2bqwPYjS+2V5E9OKDKJJUfq
-	wmsB2S32qIxLska9kjnyRmP+YzzF2HlOKwxRcwL7enKOcoGkIuXIzmBtXaC6ZyPNReoebDjMzntNT
-	5F11nGQFkApxjy7if3KhymSpL00jOC7fH8I9JfiQe+clRdTMbmaoA1CmtBOS1MtD7nXVDd6K0FMbx
-	PdXxCWUH/gJezPiqMJv8ouu8P1ntlPZXLrHSge+Y0KtfX1nQG5M5HNOvTfZRHSp8kkiKKCrrojPb2
-	0O6XVhAdnUB5laOZ1gOAAaazuHc1MbqFaJdEf4pK+KIx15pMbWd18O2jmKL9Ta6mIE6Zhitt0/EUp
-	HUj1YtYw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=n/yGSlW5VXXn8E4dEMWJN14ZbPI1O9fys3I7qEylQ6c=; b=H0xP4RILwnhI2bPKCpMBJDnnfv
+	PSdD2NGlrMl75b/YHdhUNRtoy5IhCqLFiugLsgRlzGANAPek92GyZ2HDJyrNkDT0Z++5NZz//TiDi
+	gcS4s8PcPRZ9m7xZ9DIqxlcloZQa0Tjd09jDXmI31iY0Eyet0XLLZSJQhW8g6z2B1YacwYkb2SENv
+	Lbj/ozF5Vu3UyUIJh5XZC/smy/fzjHrzBxCQs3Dur1HWYznxSkl65Gotn0dfJIfB9gnmBWwHkkZI0
+	Nl0Vbi62w3g1JgezlgYN92CHKW2Igbcda6saEhOrtgy1MzGiqGADr6hZRwKnpmCgzvstTbMpUXHeC
+	jzRFgP4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXh6B-0000000EcTe-48Ke;
-	Fri, 04 Jul 2025 14:09:07 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1uXh8V-0000000EczD-1Unw;
+	Fri, 04 Jul 2025 14:11:31 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXgjo-0000000EZ0W-0YUN
+	id 1uXgo9-0000000EZnZ-0bYe
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Jul 2025 13:46:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751636759;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tkPHJk2uXWlHI4Mxw4g1nxzFgbqq3tguuk0UsLEAPlg=;
-	b=Ojeeem8l5M6jvsl05EQhwaMpV3lux+et2um9h0IjQLYIjf8s2zyygEf7MgN6JmpNH89vc+
-	nJC8CtnYprhJ1bFGNC1vf6SDPPmf1pibRh98s8kWNe8A6ElP84rygnou0I+u/coavtgCxX
-	LT/ghsppDvzzDIpa4DbAs94PBa+hr4c=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-126-z_wk5qcnMz-wlEr9aDYT2Q-1; Fri, 04 Jul 2025 09:45:57 -0400
-X-MC-Unique: z_wk5qcnMz-wlEr9aDYT2Q-1
-X-Mimecast-MFC-AGG-ID: z_wk5qcnMz-wlEr9aDYT2Q_1751636756
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-32b3ce96f8dso6756861fa.0
-        for <linux-nvme@lists.infradead.org>; Fri, 04 Jul 2025 06:45:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751636756; x=1752241556;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tkPHJk2uXWlHI4Mxw4g1nxzFgbqq3tguuk0UsLEAPlg=;
-        b=jXY57rKGhgSPDU4jTINa1/jrorYoufAVo0Qmj4boT56o9sr3+0X0Q0qF62/dWs2A2o
-         O9avYI0xzyOMFmzi8nAmhM6wt0v1cD2HGKKk9r8JFqR1v7zh2gYxji6Su8TJrHzU4xbV
-         yMV7CtqrJIHbhH+Fi3roGRNV0YQNIe+jzUF6gdBQfr320jjrGZCfLjeTdNHygP9+FV0X
-         gzAwSWvgBgjKh4TN/XrouPOK7UxTDC0qWB2MQnjbEXXV6OCuqhMUhreORZCvGVwyY4mR
-         I0dc0hEUvyksGWnb42xUw7F3351CrcZVuDIoBIPBoWhqNQ7M/pbGpoZhNdftTJ7BGpol
-         VTRw==
-X-Forwarded-Encrypted: i=1; AJvYcCXKBP4sjc0XXVMnRs//IE4sziWzy6jNpIb1lW8Wt5njSv31tGyr0Y/H7KvnYw5Lm/rDmI2H1HvmBVR1@lists.infradead.org
-X-Gm-Message-State: AOJu0YxivxzleyrhVP3iL5kS3Tf3uqHxyEMKOAKv4pVE7BX68ZL6WY3c
-	v+CMETMhOOluGyPY3u71vEbyPBHMZhX/ZzIYxqrHmPuZdtcQGzz7yaiz/zc4h3LyxdHkRu7hvw5
-	Z7zhxPwksfo/Os84U3jH/no3BbqJ2AyfLqdRpWVATIc//peuqmOXDyZmzH2jt1Mk2wbWDe9pV48
-	1A4OL0T62SREFW3h71RIL15V50aWITZrxHtlimae4gjvE=
-X-Gm-Gg: ASbGnct54xpbv8gx0hIbOlhwp83DqcCq+pBjqQgdcpCt0PCL1Ubt2R8bA1hHB7oZdSi
-	Dmi0rZcuXAN5z8H5bbx9v6P9crOfxp7Dvkkn63UodbORpBf48IrCKajD8Sj96C+rG9ZGYxmS2dj
-	a7ng==
-X-Received: by 2002:a05:651c:1117:10b0:32a:88ca:ec18 with SMTP id 38308e7fff4ca-32f00c8743dmr4988871fa.10.1751636756099;
-        Fri, 04 Jul 2025 06:45:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGDaCSGy868gDxBsVUCZbBLG4zEY4+MQEyN6LRLn504s7dPbdj+PyCWVX8AYjCM6scFou+rAYHlTN5pxmQKpjg=
-X-Received: by 2002:a05:651c:1117:10b0:32a:88ca:ec18 with SMTP id
- 38308e7fff4ca-32f00c8743dmr4988801fa.10.1751636755647; Fri, 04 Jul 2025
- 06:45:55 -0700 (PDT)
+	Fri, 04 Jul 2025 13:50:30 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 564ApXrl030201;
+	Fri, 4 Jul 2025 13:50:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=n/yGSlW5VXXn8E4dEMWJN14ZbPI1O9fys3I7qEylQ
+	6c=; b=KaZ+h/oHDdwf4YkwRE1UeQlg6X3tuI+FFfMDyZIRG0YG5PDUcG2Fq7FyX
+	W/RNqRSDp8iI4C+MmsgRUIXix31y6xaWYeujdnYqmxjEqQ77i4SeafiF0UX8NXkE
+	qTnrFcDhlcNlpJx4/g2dn+D2tI52qzYtfsmz6J4BhvXmMu2QrtfdqDoDxKP6MKys
+	uv2Vj9MvSlQYIfpTrE845LjMb2v9e4uM+2AxXIVl+CMAJCL4kbg4jvphcSiloNjZ
+	/FuKFMHDNxb0B1ZsOT9LH8O3DBBDMzlILYLhpMH4J24sHDeH2a7GBVMWs4aXBq6P
+	cZ7t/KnJkSPGmOy4PULymvNqDAJOw==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 47j6u29hdv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 04 Jul 2025 13:50:25 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 564BfhLA006928;
+	Fri, 4 Jul 2025 13:50:24 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 47jvxmsyek-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 04 Jul 2025 13:50:24 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 564DoMWT45941150
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 4 Jul 2025 13:50:22 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9532020040;
+	Fri,  4 Jul 2025 13:50:22 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B482720043;
+	Fri,  4 Jul 2025 13:50:19 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.61.81.118])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  4 Jul 2025 13:50:19 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, gjoyce@ibm.com
+Subject: [PATCH 0/2] nvme-cli: enhance the visibility of multipath using show-topology command
+Date: Fri,  4 Jul 2025 19:19:52 +0530
+Message-ID: <20250704135001.292763-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
- <20250703114656.GE17686@lst.de> <aGaklKejxefXTQB4@jeremy-HP-Z840-Workstation>
-In-Reply-To: <aGaklKejxefXTQB4@jeremy-HP-Z840-Workstation>
-From: David Jeffery <djeffery@redhat.com>
-Date: Fri, 4 Jul 2025 09:45:44 -0400
-X-Gm-Features: Ac12FXzMam9AFzueysq60aOEJnJ-2lq5eOA3iIbIXJ_nllFIOoxd8lP-71CVRjU
-Message-ID: <CA+-xHTFC6KTs6D8EdvmVe=buqw9oN5P7GJ-WWvam6M3SzeZF4g@mail.gmail.com>
-Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
-To: Jeremy Allison <jra@samba.org>
-Cc: Christoph Hellwig <hch@lst.de>, Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Martin Belanger <Martin.Belanger@dell.com>, "Oliver O'Halloran" <oohall@gmail.com>, 
-	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>, 
-	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org, Nathan Chancellor <nathan@kernel.org>, 
-	Jan Kiszka <jan.kiszka@seimens.com>, Bert Karwatzki <spasswolf@web.de>, sultan@kerneltoast.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: iT-z1Ko2AkejzP-pt8dOTNo6JhoEF-EQ5AfPqhdpl4Y_1751636756
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -yhUOixn3qA4fZbq0u8_oe_VbJ1UFpV4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA0MDEwMSBTYWx0ZWRfX5bDDMb+cHRvZ s93XINzmWLcm2yrTDr5TMqnAfUbfzX+mekygBslrsSpAwXkhezQ96ULRrreww3i2cYQMQXwyV2t 2yt6ouSoEz2duMIgjDND5hwAjJAwCmncvvx2AKkHT9ZoDoWyV/cf3GKkfSB5iGctZfWbnqdFxTQ
+ xj8vX3cO64/QGt6n/YbBssKpP8U0PUouv0XDFIm7i0m3Tvsuou3BvNQ+U3CvCEPAWefmNeRPuAE QCodraSO4+jJBBgbWRi+220p7jtjV5VTLnYURNxU0rtxxBop2akVK43+UoKdGmaC368bTOUBPig 4yGKqMj/syoK0Zpq7rj7mXAcDy1yqJLWVFjd3T9JtwNnH7MhUQ4tT5esqXeokTu7M4xZAJKWf8z
+ bmzqZ+hyHXerIjQiQXt9zlgbhRRIKCutN5riTR3h48mswRWSZ2KMr8i/0W251nxEAxmKqpUG
+X-Proofpoint-GUID: -yhUOixn3qA4fZbq0u8_oe_VbJ1UFpV4
+X-Authority-Analysis: v=2.4 cv=GrRC+l1C c=1 sm=1 tr=0 ts=6867dc21 cx=c_pps a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=ChOlAOosrpkLgm1Qm-4A:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-04_05,2025-07-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 adultscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0
+ phishscore=0 spamscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507040101
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250704_064600_238087_A112EC5D 
-X-CRM114-Status: GOOD (  19.19  )
+X-CRM114-CacheID: sfid-20250704_065029_643813_410E65C9 
+X-CRM114-Status: GOOD (  15.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,43 +105,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 3, 2025 at 12:13=E2=80=AFPM Jeremy Allison <jra@samba.org> wrot=
-e:
->
-> On Thu, Jul 03, 2025 at 01:46:56PM +0200, Christoph Hellwig wrote:
-> >On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
-> >> Address resource and timing issues when spawning a unique async thread
-> >> for every device during shutdown:
-> >>   * Make the asynchronous threads able to shut down multiple devices,
-> >>     instead of spawning a unique thread for every device.
-> >>   * Modify core kernel async code with a custom wake function so it
-> >>     doesn't wake up threads waiting to synchronize every time the cook=
-ie
-> >>     changes
-> >
-> >Given all these thread spawning issues, why can't we just go back
-> >to the approach that kicks off shutdown asynchronously and then waits
-> >for it without spawning all these threads?
->
-> It isn't just an nvme issue. Red Hat found the same issue
-> with SCSI devices.
->
-> My colleague Sultan Alsawaf posted a simpler fix for the
-> earlier patch here:
->
-> https://lists.infradead.org/pipermail/linux-nvme/2025-January/053666.html
->
-> Maybe this could be explored.
->
+Hi,
 
-Unfortunately, this approach looks flawed. If I am reading it right,
-it assumes async shutdown devices do not have dependencies on sync
-shutdown devices. This is not a valid assumption and so violates
-dependency ordering.
+There has been recent work to improve the visibility of NVMe multipath 
+configurations. The native NVMe multipath kernel driver supports three
+I/O path selection policies: numa, round-robin, and queue-depth. However,
+until now, users have had no insight into which path is selected by the
+multipath logic for forwarding I/O.
 
-Maintaining all the dependencies is the core problem and source of the
-complexity of the async shutdown patches.
+To address this, an RFC was proposed [1] and has since been merged into
+the Linux kernel as of v6.15. Following that, libnvme was extended to
+discover multiple paths to a shared NVMe namespace [2]. This patchset
+builds on those efforts to improve userspace observability of multipath
+configurations via nvme-cli.
 
-David Jeffery
+This patchset contains two patches:
+The first patch in the series fixes a <device> filter option using which
+we could be able to filter the output of nvme show-topology command.
+
+The second patch in the series enhances the nvme show-topology command to
+display multipath configuration, including all discovered paths to a 
+namespace, along with details such as ANA state, NUMA nodes, and queue
+depth. The show-topology "--ranking" option is extended with a new sub-
+option: multipath.
+
+As usual, any feedback is most welcome!
+
+Thanks!
+
+[1] https://lore.kernel.org/all/20250112124154.60690-1-nilay@linux.ibm.com/#t
+[2] https://lore.kernel.org/all/20250425185617.1242994-1-nilay@linux.ibm.com/
+
+Nilay Shroff (2):
+  nvme: support <device> option in show-topology command
+  nvme: extend show-topology command to add support for multipath
+
+ nvme-print-binary.c |  1 +
+ nvme-print-json.c   | 25 ++++++++++++++-----
+ nvme-print-stdout.c | 61 ++++++++++++++++++++++++++++++++++++++++++---
+ nvme-print.c        |  4 ++-
+ nvme-print.h        |  1 +
+ nvme.c              | 21 ++++++++++++++--
+ nvme.h              |  1 +
+ 7 files changed, 101 insertions(+), 13 deletions(-)
+
+-- 
+2.50.0
 
 
