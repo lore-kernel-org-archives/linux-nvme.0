@@ -4,92 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51E84C83F03
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 11:19:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFAC7C83F0B
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 11:21:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wE7oak/uBM6EUSDVgy+XtmbCECV3TQygZEt/UPH51hU=; b=aAa5y5wzCbDF5kiTO+Q6jIB07P
-	UnRorT5VgNmQ/lQWCUufSbzVE/Q3ptsVmFg6AmdS+aL66M8PaezsowZ4+BAJw/zAeRIEvBuzj9lno
-	eLSPtKR6qnJ5laA2dtRw/DC9+nlldcT2mgVZzyq/xVgxqy1G5wx1iRXhHJQQK9ygvVYph5cU+9V/C
-	F8p8hYjZmp+TYmB2cBquNX3h3vAHpzHmm41ltasQKBi7dBh8CCTKnTZ0nYnWa4L/QJ73WRjOWFUG+
-	6oUk0CTt5Ij38blvPOfSoCDk6XB+DeG9TdM4KXjxChGCnXfQB7o3+4xPddymDDM+HH2Z9g8xaAxTJ
-	fHeuLSUQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WqQvHf6Q2n/POHTFOr6br66Fle3gLETdysZgl6RXctg=; b=Fxoi6AF37K64TxCxaZUOtWCkUw
+	vo57J0rbTyoK6lIhIAAf089xE4WLmghh+ill7oMWAZ8/yZ58N+lBxwv7HAh/1LgJ/Jenevp7eAUQ4
+	TnLE6zQjxbNqVMxuKiqiTZaRZht5AJ6qmcBQQERNaMCSDLzK6ef23fXPbRN0u7kIeABHzyJPD5AP+
+	sygN8jrSKqHV0C4WD4V6fNE7QoQJPEzTNSMO3bA8GX32+15zJZQHGlOoPCjHlNsE+MEK7bo1hQIVO
+	CZHpgUPIsRo/4bWv1zDMeuW5HhZd0g8qrbdnpKnrC4fwOCWKT1Hq+SWh46JDWiGZ/Hy3iT1iyO20v
+	8GGzTSzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXeRW-0000000EBHv-1uyg;
-	Fri, 04 Jul 2025 11:18:58 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1uXeUB-0000000EC2P-1eLA;
+	Fri, 04 Jul 2025 11:21:43 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXdf3-0000000E3ML-35zJ
+	id 1uXbxh-0000000Dlef-1EkW
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Jul 2025 10:28:55 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D27C821197;
-	Fri,  4 Jul 2025 10:28:50 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F4CE13A71;
-	Fri,  4 Jul 2025 10:28:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SWmdEuKsZ2gINwAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 04 Jul 2025 10:28:50 +0000
-Message-ID: <c06d0ef2-6bd2-4f5d-895f-0255415b2a24@suse.de>
-Date: Fri, 4 Jul 2025 12:28:49 +0200
+	Fri, 04 Jul 2025 08:40:01 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id A42FD61466;
+	Fri,  4 Jul 2025 08:40:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11EA7C4CEF0;
+	Fri,  4 Jul 2025 08:39:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751618400;
+	bh=FHas3OLzhcWmJla/w9SVAWfRsC/N5brO1Le2ihalCNg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VLpy79R3WoowQ0dde0FpFT1YyHsXsurqva+SkoBcww5fjPVnQMcwqe87L2wtjyLYi
+	 kRKqWJIQ81p4a1f0xNgpRmdmn+OPlPkQk/4+3lz4NrJRi0wbmnDt4pjvgXFACOvZxO
+	 qU9E5LKN5/hna1bw+wpVR2YB99mwlJCTB2beguJ1mHivp02SKA4At/U4wBW5k3iT/Q
+	 u3HMCjJxxvd2r71zcnuKhwU/Z06IvtD7wFREJ9CXS/1miJCbu6oYZeK5DrvOvTrTgE
+	 IHzvXhhXfrV+PFyTdnHzAjREeo0FCEO0Q5nKDCaILrTwFadudwtNVY/apMjWmKyCd5
+	 QDeadiD91wJeA==
+Date: Fri, 4 Jul 2025 10:39:53 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, hch@lst.de, 
+	tytso@mit.edu, djwong@kernel.org, john.g.garry@oracle.com, bmarzins@redhat.com, 
+	chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com, martin.petersen@oracle.com, 
+	yi.zhang@huawei.com, chengzhihao1@huawei.com, yukuai3@huawei.com, 
+	yangerkun@huawei.com, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] fallocate: introduce FALLOC_FL_WRITE_ZEROES flag
+Message-ID: <20250704-gemein-addieren-62ad4d210c70@brauner>
+References: <20250619111806.3546162-1-yi.zhang@huaweicloud.com>
+ <20250623-woanders-allabendlich-f87ae2d9c704@brauner>
+ <99010bfd-c968-49c7-b62b-c72b38722c1b@huaweicloud.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 05/10] scsi: Use block layer helpers to constrain queue
- affinity
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aaron Tomlin <atomlin@atomlin.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Thomas Gleixner <tglx@linutronix.de>, Costa Shulyupin
- <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
- Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>,
- Ming Lei <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>,
- Mel Gorman <mgorman@suse.de>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com,
- linux-scsi@vger.kernel.org, storagedev@microchip.com,
- virtualization@lists.linux.dev, GR-QLogic-Storage-Upstream@marvell.com
-References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
- <20250702-isolcpus-io-queues-v7-5-557aa7eacce4@kernel.org>
- <d95de280-8cd7-4697-933a-37dc53f4c552@suse.de>
- <2e7576e4-442f-4000-817d-6253374f5818@flourine.local>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <2e7576e4-442f-4000-817d-6253374f5818@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: D27C821197
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250704_032854_070024_2F628978 
-X-CRM114-Status: GOOD (  26.37  )
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <99010bfd-c968-49c7-b62b-c72b38722c1b@huaweicloud.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,77 +75,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/4/25 11:37, Daniel Wagner wrote:
-> On Thu, Jul 03, 2025 at 08:43:01AM +0200, Hannes Reinecke wrote:
->> All of these drivers are not aware of CPU hotplug, and as such
->> will not be notified when the number of CPUs changes.
+On Thu, Jul 03, 2025 at 11:35:41AM +0800, Zhang Yi wrote:
+> On 2025/6/23 18:46, Christian Brauner wrote:
+> > On Thu, 19 Jun 2025 19:17:57 +0800, Zhang Yi wrote:
+> >> From: Zhang Yi <yi.zhang@huawei.com>
+> >>
+> >> Changes since v1:
+> >>  - Rebase codes on 6.16-rc2.
+> >>  - Use max_{hw|user}_wzeroes_unmap_sectors queue limits instead of
+> >>    BLK_FEAT_WRITE_ZEROES_UNMAP feature to represent the status of the
+> >>    unmap write zeroes operation as Christoph and Darrick suggested. This
+> >>    redoes the first 5 patches, so remove all the reviewed-by tags,
+> >>    please review them again.
+> >>  - Simplify the description of FALLOC_FL_WRITE_ZEROES in patch 06 as
+> >>    Darrick suggested.
+> >>  - Revise the check order of FALLOC_FL_WRITE_ZEROES in patch 08 as
+> >>    Christoph suggested.
+> >> Changes since RFC v4:
+> >>  - Rebase codes on 6.16-rc1.
+> >>  - Add a new queue_limit flag, and change the write_zeroes_unmap sysfs
+> >>    interface to RW mode. User can disable the unmap write zeroes
+> >>    operation by writing '0' to it when the operation is slow.
+> >>  - Modify the documentation of write_zeroes_unmap sysfs interface as
+> >>    Martin suggested.
+> >>  - Remove the statx interface.
+> >>  - Make the bdev and ext4 don't allow to submit FALLOC_FL_WRITE_ZEROES
+> >>    if the block device does not enable the unmap write zeroes operation,
+> >>    it should return -EOPNOTSUPP.
+> >> Changes sicne RFC v3:
+> >>  - Rebase codes on 6.15-rc2.
+> >>  - Add a note in patch 1 to indicate that the unmap write zeros command
+> >>    is not always guaranteed as Christoph suggested.
+> >>  - Rename bdev_unmap_write_zeroes() helper and move it to patch 1 as
+> >>    Christoph suggested.
+> >>  - Introduce a new statx attribute flag STATX_ATTR_WRITE_ZEROES_UNMAP as
+> >>    Christoph and Christian suggested.
+> >>  - Exchange the order of the two patches that modified
+> >>    blkdev_fallocate() as Christoph suggested.
+> >> Changes since RFC v2:
+> >>  - Rebase codes on next-20250314.
+> >>  - Add support for nvme multipath.
+> >>  - Add support for NVMeT with block device backing.
+> >>  - Clear FALLOC_FL_WRITE_ZEROES if dm clear
+> >>    limits->max_write_zeroes_sectors.
+> >>  - Complement the counterpart userspace tools(util-linux and xfs_io)
+> >>    and tests(blktests and xfstests), please see below for details.
+> >> Changes since RFC v1:
+> >>  - Switch to add a new write zeroes operation, FALLOC_FL_WRITE_ZEROES,
+> >>    in fallocate, instead of just adding a supported flag to
+> >>    FALLOC_FL_ZERO_RANGE.
+> >>  - Introduce a new flag BLK_FEAT_WRITE_ZEROES_UNMAP to the block
+> >>    device's queue limit features, and implement it on SCSI sd driver,
+> >>    NVMe SSD driver and dm driver.
+> >>  - Implement FALLOC_FL_WRITE_ZEROES on both the ext4 filesystem and
+> >>    block device (bdev).
+> >>
+> >> [...]
+> > 
+> > If needed, the branch can be declared stable and thus be used as base
+> > for other work.
+> > 
+> > ---
+> > 
+> > Applied to the vfs-6.17.fallocate branch of the vfs/vfs.git tree.
+> > Patches in the vfs-6.17.fallocate branch should appear in linux-next soon.
+> > 
+> > Please report any outstanding bugs that were missed during review in a
+> > new review to the original patch series allowing us to drop it.
+> > 
+> > It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> > patch has now been applied. If possible patch trailers will be updated.
+> > 
+> > Note that commit hashes shown below are subject to change due to rebase,
+> > trailer updates or similar. If in doubt, please check the listed branch.
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> > branch: vfs-6.17.fallocate
 > 
-> Ah, this explains this part.
+> Hi Christian,
 > 
->> But you use 'blk_mq_online_queue_affinity()' for all of these
->> drivers.
-> 
-> All these drivers are also using blk_mq_num_online_queue. When I only
-> used cpu_possible_mask the resulting mapping was not usable.
-> 
-Yeah, I'd imagine so. Quite some drivers have 'interesting' ideas how
-the firmware interface should look like.
+> I noticed that this patch series doesn't appear to be merged into this
+> branch. Just wondering if it might have been missed?
 
-But it also means that there is a very high likelyhood that these
-drivers become inoperable under CPU hotplug.
-Is there a way of disabling CPU hotplug when these drivers are in use?
-
->> Wouldn't 'blk_mq_possible_queue_affinit()' a better choice here
->> to insulate against CPU hotplug effects?
-> 
-> With this mask the queues will be distributed to all possible CPUs and
-> some of the hardware queues could be assigned to offline CPUs. I think
-> this would work but the question is, is this okay to leave some of the
-> perfomance on the road?
-> 
-It really shouldn't be an issue when the cpus are distributed 
-'correctly' :-)
-We have several possibilities:
--> #hwq > num_possible_cpus: easy, 1:1 mapping, no problem
--> num_online_cpu < #hwq < num_possible_cpus: Not as easy, but if we
-    ensure that each online cpu is mapped to a different hwq we don't
-    have a performance impact.
--> #hwq < num_online_cpu: If we ensure that a) the number of online cpus
-    per hwq is (roughly) identical we won't have a performance impact.
-    As a bonus we should strive to have the number of offline cpus
-    distributed equally on each hwq.
-
-Of course, that doesn't take into accound NUMA locality; with NUMA 
-locality you would need to ensure to have at least one CPU per NUMA node
-mapped to each hwq. Which actually would impose a lower limit on the
-number (and granularity!) of hwqs (namely the number of NUMA nodes), but 
-that's fair, I guess.
-
-But this really can be delegated to later patches; initially we really
-should identify which drivers might have issues with CPU hotplug,
-and at the very least issue a warning for these drivers.
-
-> I am not against this, just saying it would change the existing
-> behavior.
-> 
-
-Oh, sure. No-one (except lpfc on Power) is testing CPU hotplug actively.
-
->> Also some drivers which are using irq affinity (eg aacraid, lpfc) are
->> missing from these conversions. Why?
-> 
-> I was not aware of aacraid. I started to work on lpfc and well let's put
-> it this way, it's complicated. lpfc needs a lot of work to make it
-> isolcpus aware.
-
-Yeah, I know. Sorry ...
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Dammit, my script missed to push the branch. Fixed now. Thanks for
+checking!
 
