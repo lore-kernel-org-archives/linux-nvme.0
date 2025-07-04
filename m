@@ -4,99 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6A9CC83F03
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 14:23:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83524C83F03
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 14:30:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VOrNKDtv4mY2pT9EDlIkWqiS73OnVUntUZCbjMuDRfM=; b=WvJjvF+aokUS+rxspfzTJ4XiPz
-	3I8hAd134O8HcBuwLOsNwW1D8dZrYhxbrTZpGY+lHuzJ+xLEB7XGEHuoukcMQrSyfNUD5StZQ3/up
-	zKO1M/VTUpD3anUOqCbBd1H6WsUQ3VosZAnOsujV9xfwI/LB6f+ACA7zWBXX7IcZqdK5dtgJgFObO
-	Ygf+yJgnp+3pK8eLnSq+1/ZvgTwBKAIFWkPrcW51/UdXe6LtavgO2ZtvtmDHX7lxpxGlq2JFxc/va
-	M3h+nqVT6wJ6Co7UdiWsgT1q1cFBMT5VrJZV5VgGxeq1kItYMxLE0qXnEn0Cyaiqi1mrOGv2WGVXR
-	alylf8ZQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FlQPn2sHWp1k8A+kShoH+cl9CqxTXVfmDisf36mJ3PM=; b=ABAM9TL0Up1QQbhcwFhzul2V4q
+	qIhUSCtGF7zJGR+qGYgsHfRLw99RuhkundjNSZMZ0RoUBMu0BnGFgzi33n0sUGvpYpXZzTF+EA/U+
+	krpGdSOfjrKC/SN2OVqu6HMEUUYe9jQxpCMjow5/xZZzuNwA6EYK9rhlLglx0BCX1IwUREymG00KI
+	AG1W2fQZEVI9DK/1Ni843ShL87GJ0gcSGWWYq16fm8Sn9hKunuzYzYjPkGF5z53PNW6wGegQHAq1x
+	hzo2Nqo/KcZcl0nKcwdMRCIcfBmQutbbX+RSdmyof8/5MWpbVFpQ0QyPkjTzJJYpU9hnmt1ypFGk9
+	btqBJr8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXhK8-0000000Eeyk-1Nyf;
-	Fri, 04 Jul 2025 14:23:32 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1uXhRC-0000000EfuJ-18mV;
+	Fri, 04 Jul 2025 14:30:50 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXh6P-0000000EcYl-0Znb
+	id 1uXhAm-0000000EdOR-3NL0
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Jul 2025 14:09:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751638160;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VOrNKDtv4mY2pT9EDlIkWqiS73OnVUntUZCbjMuDRfM=;
-	b=JU1snoZ9+q22io2H4fTGYcNTkW2V9WCHpGRnFdzAwQPnoctHuhty9Iff0/d4b/F+UFjEZJ
-	5BO9ubQ1xsCQgeOYmD4afmoBtoUW2EpNoX3OfmHlczIegMqV8L/MqgybztaPz59DMoVOtJ
-	WSN22yin1yV5MhJveG26JXRqVt5qOL4=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-215-R8XTFgAsNHWcCOT8ay4REA-1; Fri, 04 Jul 2025 10:09:19 -0400
-X-MC-Unique: R8XTFgAsNHWcCOT8ay4REA-1
-X-Mimecast-MFC-AGG-ID: R8XTFgAsNHWcCOT8ay4REA_1751638157
-Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-32b71af3b28so4607751fa.3
-        for <linux-nvme@lists.infradead.org>; Fri, 04 Jul 2025 07:09:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751638157; x=1752242957;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VOrNKDtv4mY2pT9EDlIkWqiS73OnVUntUZCbjMuDRfM=;
-        b=QgKPudAQVAK3tQDvQLrqwAHwJiPZ4xl1nA7us6L6Bws823Ui4gxAIC95iYZt4n2rUV
-         C+6mRByxoAvLGnNSWlxRRoE58b345jA0RbtxPfjLn0GktKxeKBxdcocpSgXGCW8p3jSw
-         mq2Yz5SngaGSpDjF2pHmr53PaZTTUhhHzpbOaikI2RbzZsPQ20uGfeDq4yHZSakKMhfP
-         EufvMQw3VDq0Wo085ZFcKzS5qdxQY8jDOpb1dUL0jCH/R+69GqhHUdTzaXH7L7maHXFB
-         FQTjhmQSImUGTeMSzsRwqeMFBJxOsZ0yFvaVBNwp7yIVNBoiLBECNz4MWuYwGri8v25N
-         TA1g==
-X-Forwarded-Encrypted: i=1; AJvYcCWqwnvJE7CBhbw2FV2UEc9DAfE63EfSpgoB+VWfDbZ2B+v+I3NqD2h65xhErJccJDZo0kwrNzUTLFDa@lists.infradead.org
-X-Gm-Message-State: AOJu0YyW1Aod48NiCWGjG+oLDZOJdejAIymSJLzSNloTb2X6tGj+wL+q
-	HRg0xuUhx6K5hMZX0mHo7XGCsG+w4GocI2SpNi/ONHUeJwZGkoXK/A5D2plFHKKKcGdLvZG/NYT
-	3SNM5r+DqvoqxScpw6q1vUXDH79zBL4aaTHAzFRkZBoDsmpsnPHx5l1mWznVz/l5h1LRfilDhCs
-	V3VDB06enC8MqrM/g4gcuo+vcbBWmoK9jCSbnop6DY3paSTmONZ4cyWg==
-X-Gm-Gg: ASbGncu7oMF544o+IQIuPyMhBSZk8HMiSyGaYddvEZhVXL1YDv8N695pVX1/3jQnpzC
-	06ySKQ7lBNm64q6edNA+hPuEjJlA0Ae1xTGIZIahdVmBocGKtA9/dFvDvzWE1rY1DDVYLEWOYwV
-	FhCg==
-X-Received: by 2002:a2e:a582:0:b0:32b:488a:f519 with SMTP id 38308e7fff4ca-32f00c889efmr7833511fa.6.1751638155206;
-        Fri, 04 Jul 2025 07:09:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFB59XkjZpu9peglaAwPR2m1GGWoAEsmWmWQsl6Xf4+KVDJYuU5UV6fbyjB8kcFQIhNwsxoqChY3uFHFh3qQYw=
-X-Received: by 2002:a2e:a582:0:b0:32b:488a:f519 with SMTP id
- 38308e7fff4ca-32f00c889efmr7832341fa.6.1751638153263; Fri, 04 Jul 2025
- 07:09:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
- <20250703114656.GE17686@lst.de> <CA+-xHTH2rxWwAao0EuNbhubqA2mrXOTZ7r1p-hcTieieomx75g@mail.gmail.com>
- <2025070408-starlight-pandemic-0266@gregkh>
-In-Reply-To: <2025070408-starlight-pandemic-0266@gregkh>
-From: David Jeffery <djeffery@redhat.com>
-Date: Fri, 4 Jul 2025 10:09:01 -0400
-X-Gm-Features: Ac12FXxMPP32h9UySF1ham11qALBr4OrI6VVO4XXxXfqe7L1atg--F_Y1lT2gNE
-Message-ID: <CA+-xHTFKh0VUJ0r4K5L5b0dmrs9d1+cNkqf4HvKa4E-r_+u2CA@mail.gmail.com>
-Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Christoph Hellwig <hch@lst.de>, Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Martin Belanger <Martin.Belanger@dell.com>, 
-	"Oliver O'Halloran" <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>, 
-	Lukas Wunner <lukas@wunner.de>, Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	Nathan Chancellor <nathan@kernel.org>, Jan Kiszka <jan.kiszka@seimens.com>, 
+	Fri, 04 Jul 2025 14:13:53 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id E0F2BA53C68;
+	Fri,  4 Jul 2025 14:13:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3511C4CEE3;
+	Fri,  4 Jul 2025 14:13:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1751638431;
+	bh=XCXY0hdMPiwoxIy7NjLRfUW+PFoT6QLeCJ7ONYRjoLw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GWJ56djs5EVcj5vZ0V8Lid01iehqE4UQEL5JLbMyTCobCze7PGMhuP0Zc24FK1XF1
+	 S86BpFCcsYgd1e8ikKo7WyZ1vb9HIN6PK/rDR0zj5NJECBgjZHmfWYht2FlyLk4LW3
+	 KrpM4hGGL/P799y92Xd4Zuq8YUMDj/ag5FdWlZ9k=
+Date: Fri, 4 Jul 2025 16:13:48 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: David Jeffery <djeffery@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Stuart Hayes <stuart.w.hayes@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Martin Belanger <Martin.Belanger@dell.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, Jeremy Allison <jallison@ciq.com>,
+	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Jan Kiszka <jan.kiszka@seimens.com>,
 	Bert Karwatzki <spasswolf@web.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: VzX7JpDD-tjUPP9fELhp5CkIu5Tu9aEXHYQmzPWk22Q_1751638157
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
+Message-ID: <2025070438-apache-sprawl-0cbc@gregkh>
+References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
+ <20250703114656.GE17686@lst.de>
+ <CA+-xHTH2rxWwAao0EuNbhubqA2mrXOTZ7r1p-hcTieieomx75g@mail.gmail.com>
+ <2025070408-starlight-pandemic-0266@gregkh>
+ <CA+-xHTFKh0VUJ0r4K5L5b0dmrs9d1+cNkqf4HvKa4E-r_+u2CA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+-xHTFKh0VUJ0r4K5L5b0dmrs9d1+cNkqf4HvKa4E-r_+u2CA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250704_070921_248556_FD524457 
-X-CRM114-Status: GOOD (  22.39  )
+X-CRM114-CacheID: sfid-20250704_071352_905574_4D772528 
+X-CRM114-Status: GOOD (  23.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,42 +83,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 4, 2025 at 9:45=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Jul 04, 2025 at 09:38:15AM -0400, David Jeffery wrote:
-> > On Thu, Jul 3, 2025 at 7:47=E2=80=AFAM Christoph Hellwig <hch@lst.de> w=
-rote:
-> > >
-> > > On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
-> > > > Address resource and timing issues when spawning a unique async thr=
-ead
-> > > > for every device during shutdown:
-> > > >   * Make the asynchronous threads able to shut down multiple device=
-s,
-> > > >     instead of spawning a unique thread for every device.
-> > > >   * Modify core kernel async code with a custom wake function so it
-> > > >     doesn't wake up threads waiting to synchronize every time the c=
-ookie
-> > > >     changes
-> > >
-> > > Given all these thread spawning issues, why can't we just go back
-> > > to the approach that kicks off shutdown asynchronously and then waits
-> > > for it without spawning all these threads?
-> > >
+On Fri, Jul 04, 2025 at 10:09:01AM -0400, David Jeffery wrote:
+> On Fri, Jul 4, 2025 at 9:45 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
 > >
-> > The async subsystem fix is something that should be fixed regardless
-> > of async shutdown. Async shutdown's use just exposed its thundering
-> > herd behavior which is easily fixed.
->
-> Great, then please submit that on its own and get the maintainer of that
-> subsystem to agree and accept it as I have no way to judge that code at
-> all.
+> > On Fri, Jul 04, 2025 at 09:38:15AM -0400, David Jeffery wrote:
+> > > On Thu, Jul 3, 2025 at 7:47 AM Christoph Hellwig <hch@lst.de> wrote:
+> > > >
+> > > > On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
+> > > > > Address resource and timing issues when spawning a unique async thread
+> > > > > for every device during shutdown:
+> > > > >   * Make the asynchronous threads able to shut down multiple devices,
+> > > > >     instead of spawning a unique thread for every device.
+> > > > >   * Modify core kernel async code with a custom wake function so it
+> > > > >     doesn't wake up threads waiting to synchronize every time the cookie
+> > > > >     changes
+> > > >
+> > > > Given all these thread spawning issues, why can't we just go back
+> > > > to the approach that kicks off shutdown asynchronously and then waits
+> > > > for it without spawning all these threads?
+> > > >
+> > >
+> > > The async subsystem fix is something that should be fixed regardless
+> > > of async shutdown. Async shutdown's use just exposed its thundering
+> > > herd behavior which is easily fixed.
+> >
+> > Great, then please submit that on its own and get the maintainer of that
+> > subsystem to agree and accept it as I have no way to judge that code at
+> > all.
+> 
+> Unfortunately, it does not have a maintainer listed and sees limited
+> activity. Would CC-ing some of the recent developers of kernel/async.c
+> to ask them to review be recommended in this situation?
 
-Unfortunately, it does not have a maintainer listed and sees limited
-activity. Would CC-ing some of the recent developers of kernel/async.c
-to ask them to review be recommended in this situation?
-
-David Jeffery
+Like any other piece of the kernel, yes :)
 
 
