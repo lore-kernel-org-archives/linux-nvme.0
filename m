@@ -4,100 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05A31C8303C
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jul 2025 15:37:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44AEFC8303C
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jul 2025 15:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0v2CaHY1VAi0HOiCc4Zf7ehSdSOjQyZPIEDJJM+6zG0=; b=0N1hL+zcJ02tK4pUtghYzqyyNu
-	aeZL2a695RD/iAgMxwvgIc+lmnX+yTd3hUMMaMG5Y6oH0WHkdqpyaiT9lVDugY+VPoKATB4DC1UrY
-	GrUJSpW9J9BOnPN/zbX8FnaaiafqKpg1O9Tp0aV+wy4APH1D+UXHDhlBZ52GKsqKfwiMLAQbCs0CG
-	0BPc+79tw6F/+QmZXb31w+SFrxInmjimQ6R+MoqUh0uY0zRP+1Xn5WPCJD07WunkVw9pAgHj9Uduk
-	fdK/zZ3orwxxVYpa9SUeq65lecpL8jYIhh/qUioTpPkOCf0mifEdn6qp1r9tKCmuT8msaLqFVkjTY
-	/qjH2kpw==;
+	bh=ezjQuXHd5Rf3mpNjV8Fq8zwJgH75aSXDhZDfm3b1TCM=; b=uy1srH9564T3TdovFdp06YG45S
+	PWJlbmKrlrhNf0Jbyuad+5PJzoR5ue45R0BnsdjebDPrnX5eCDYot6aLflD+Vig3aJC7k1Ma/cpi+
+	nEbWOGIinBWG1QYRbQ+MW5GIp3AjkXWBnadyjWEewoxzxpRgafRLoqYFnMDBIZZ0ruWxkbx1roctS
+	MnaWck0o0G+NmNu0mbiYGhWDh0DseQK4hJ9OUlciEr7u8tQa3JYsUW2bEZrqHuA89ywBFUJOjeqz4
+	pDYfaeQc3vR1Wf9z5TqAOgEgNEyvV94rDg4csRdoG8wHyb2xBc4pvpmLyjfn+Ziy4ANyi0cA9+YFH
+	1LKXqrwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uYnug-00000002tAC-0FgE;
-	Mon, 07 Jul 2025 15:37:50 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1uYo3s-00000002uwA-1nQ0;
+	Mon, 07 Jul 2025 15:47:20 +0000
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uYnrh-00000002sa2-1xCA
+	id 1uYnwk-00000002tZ5-03wH
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Jul 2025 15:34:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751902483;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0v2CaHY1VAi0HOiCc4Zf7ehSdSOjQyZPIEDJJM+6zG0=;
-	b=WHJtULy+mHl+Ok0O7IHvNx1Upo5Kr0u57k/HY95rZ7gmi0GfVTTfFDTyKwDHrexdSPtAvs
-	goHHtyCHu7uK+i4UFYWjTczWGMycY7FZTj0jA1vjrSn6Utd54N77jGpg0x+h+tLA19iOC/
-	2TdLG7FdVlG6qQX3zouX65cX/OvI4+s=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-38-AGvAY3DMNaevRb-PSxnqpA-1; Mon, 07 Jul 2025 11:34:39 -0400
-X-MC-Unique: AGvAY3DMNaevRb-PSxnqpA-1
-X-Mimecast-MFC-AGG-ID: AGvAY3DMNaevRb-PSxnqpA_1751902478
-Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-32b4ef4055fso13021671fa.0
-        for <linux-nvme@lists.infradead.org>; Mon, 07 Jul 2025 08:34:39 -0700 (PDT)
+	Mon, 07 Jul 2025 15:39:59 +0000
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-60c01f70092so5206802a12.3
+        for <linux-nvme@lists.infradead.org>; Mon, 07 Jul 2025 08:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751902796; x=1752507596; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ezjQuXHd5Rf3mpNjV8Fq8zwJgH75aSXDhZDfm3b1TCM=;
+        b=dOIp8uP5X6hKkTlx1DqzScde39/93htq/uaqccJvd1Nuu/oPGsBKOexF5nEiMGPJlO
+         JxkHlQALEH4lfSMAmS6NLV2V6gXQAp6ChV3lCKa/1/pCA5HaohIgTMMPMDuweZ+mrX4G
+         XVAIUysLLCR/qYS0DgZ2geeNdGWn2wjTB7XdKPkXH+/5EvycuF+p7i39nmhLTm24TrKk
+         kXgnbjgWnVzGqa7Fz6B3u8S7p1t/AS4ZHkRiubBxg7gmfMpOaeLOdzKGTN7yf5irsJqN
+         KJQTfgcLaQQS6EnZ5Tk/CEBJT0WELHHsd/SoSIqQHxJyNTDU5kuSNJDyNKC27y8e3QHd
+         +RxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751902478; x=1752507278;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0v2CaHY1VAi0HOiCc4Zf7ehSdSOjQyZPIEDJJM+6zG0=;
-        b=obzo8pJHt6RlPWsoWKyjnvd+EPYF2i6sfnpxHVUv1MN6Is7CD3j/Da8K2kAdffJs8s
-         HauXjbxPWTVS/91p7EsoGdZekORIZ9fABj9qyiu5UtokxzZtPjd1plmP7dYI+DRoqcFO
-         YBBaaXqp3ta0MFYI0LcK32I1OJ7rOcdjeC3RaogVF6PfXAk251HgwdAjdEvjfROd2oT8
-         qSZhDPRpP5R3m/EZ5PusIja8pLzbMn/AElNFirFxbg1IGQC20TAhBUg7C6B0O5mXX/9h
-         oRQQYzBgI/SDtINYZGhfdSqDHFg8jq9RyzWUIulgUrHZKPb9Z2JyBULNftQq07G+Qb9u
-         L5BA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3WzYIhtpcHfvYLwRa5fe1kAtSfOkq7cUKyyScZB21wRshUlkjfejXUkvQRONCcmfVy4iRtAu6btif@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy62g2ZoSBNWtOpQfJBLUdJytRjmNlWoeA+LDxzQ1tGYIuIay4W
-	6rlV8B2jqgHz1hHdD8M/76lCXKUzT9N28C6/TJO8BBN/nWi9mWstOBkm+r34zGvWqn37J2rKBra
-	HUAcuedmtiIdqmUBoihdm3zOXuCtZO2G0VoW3Qf49zLbdaxqCeBh4dYhbMBt6FuSd1IGpty9v6B
-	npssFUblSQPGGEuKTfYgdBCEiQAqxRGq0+83kovu+QJV0=
-X-Gm-Gg: ASbGncsyThSTHeWHYV/Hgv8LTknnuKXVy6n9TStVNMGs0Xs9MiWNU3FVQQRN1Ri66kE
-	bhBNlICJSSlyPTDcYj2oPe0PRUB4DM7cRgib7DkBosX+XZ+AAO1ItrAP9ywPanzpuB6tjhgN/w5
-	r+XA==
-X-Received: by 2002:a05:651c:511:b0:32a:7270:5c29 with SMTP id 38308e7fff4ca-32f00c8798cmr38754591fa.2.1751902478107;
-        Mon, 07 Jul 2025 08:34:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGKIHiywACdGBCTH/X8Ige8Yin2oQ8Gj/tg8va7lfqvYjW2jr4+erCyQPrXLSYqAtP0qHUjYrx+aoXHh15am7o=
-X-Received: by 2002:a05:651c:511:b0:32a:7270:5c29 with SMTP id
- 38308e7fff4ca-32f00c8798cmr38754371fa.2.1751902477586; Mon, 07 Jul 2025
- 08:34:37 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751902796; x=1752507596;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ezjQuXHd5Rf3mpNjV8Fq8zwJgH75aSXDhZDfm3b1TCM=;
+        b=d1w8OolP2RQ//pKwecopmEhkh2eHzX7ZgmIlgyZ7dsqpKCf9qLHix2bZ5C6oC35DeD
+         BVb+jHcGvbtc7q2lnH53VMmfZvH5dYjAFA/AIv30P5g/DPjAW2ElVNKd4uhXI6ktUb3j
+         PQmH+7uHtdeA8YQUlQSU5DNGDVufxBqx6ns3LappCaiH+2/1Fhpmp9TanxM3kungfIxO
+         jJK0vZlDkUpOwRV4GmrpJv50LsEKifms2+UYZIy8ta4fnaKxqB74zycFYcSVYwrWImH2
+         HEdU6GfpQ5+5Eh1BFckQ7FML8CZxYN593OgxKswU5N90izAqOp9MRGgKnZelRI5D4H4b
+         XbUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXOJc4JZHhbrJ3ixu4D0yWRkdIqL/JdZ0SJXbiiVnryL2z7EhwhpvpFiSpIwX/kt4rj2veRnBx9r8e@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz2inkbk34LqEC71Catv+9CjKgcvXZOaXItknBKHSG+NCDQL28N
+	j3J+GQIG8fjxKRMJKhEiO50RSfNx9BczvHpSJ1R0pXdWpv13xh7fq7+F
+X-Gm-Gg: ASbGnctXhZMKbJ/+vq2u+0aaWy/cbJJq0Em5nTOajtz8719WLsDY4AvJt1VlIGzeZgh
+	hQ7bt3vwS54kzh+H/xtslix4WbCDkrD7XQcBdzDJMetvwnLiJFYker/8fa7wd3mmuUtnsQ1qYMH
+	FGPymssg17is7gmRBnFcN/T0pAE54wuwTA3jxHdFbZ126Sm70x40mehG7Rszwzuh9pY/7WUNJUl
+	ekeyv9lUH7SPWE4+b+peNUcvV0bMMZGdHXZz5XOh26HegWdzo51iN9sumJWIqxYeA+wB+aoM+Ii
+	i6zQsVvJhU8JgDscD7y9RThmxXw+XDutlso00Tmm1cwSIdUIA9rClROAxfmLs93EW5BclJRSU/8
+	VRnbjaU0=
+X-Google-Smtp-Source: AGHT+IECUz+0dR+mX/jDHZopafgoqx5arH4cJ6TohfaPi6RZy5DB6VxRs0wsEPpg/JVzP6t3CV7CTA==
+X-Received: by 2002:a17:907:c29:b0:ad5:78ca:2126 with SMTP id a640c23a62f3a-ae4109062f9mr811114166b.59.1751902795974;
+        Mon, 07 Jul 2025 08:39:55 -0700 (PDT)
+Received: from [192.168.8.100] ([148.252.146.232])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fcb0c78efsm5939890a12.44.2025.07.07.08.39.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Jul 2025 08:39:55 -0700 (PDT)
+Message-ID: <e210595b-d01f-4405-9b5d-a486ddca49ed@gmail.com>
+Date: Mon, 7 Jul 2025 16:41:23 +0100
 MIME-Version: 1.0
-References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
- <20250703114656.GE17686@lst.de> <aGaklKejxefXTQB4@jeremy-HP-Z840-Workstation>
- <CA+-xHTFC6KTs6D8EdvmVe=buqw9oN5P7GJ-WWvam6M3SzeZF4g@mail.gmail.com> <aGgAuje4tpIOveFc@sultan-box>
-In-Reply-To: <aGgAuje4tpIOveFc@sultan-box>
-From: David Jeffery <djeffery@redhat.com>
-Date: Mon, 7 Jul 2025 11:34:25 -0400
-X-Gm-Features: Ac12FXy7hQPGBK3xlwuh3LCyK0QkERATPwkzNINwGBKvhalA6yUfuGbVbXEvMNc
-Message-ID: <CA+-xHTFNRwbxH=zNMM4kasB=kUAne0b6cxPM+sq5FyM32k8peg@mail.gmail.com>
-Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
-To: Sultan Alsawaf <sultan@kerneltoast.com>
-Cc: Jeremy Allison <jra@samba.org>, Christoph Hellwig <hch@lst.de>, Stuart Hayes <stuart.w.hayes@gmail.com>, 
-	linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Martin Belanger <Martin.Belanger@dell.com>, 
-	"Oliver O'Halloran" <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>, 
-	Lukas Wunner <lukas@wunner.de>, Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	Nathan Chancellor <nathan@kernel.org>, Jan Kiszka <jan.kiszka@seimens.com>, 
-	Bert Karwatzki <spasswolf@web.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: V9oAtMjhyxg0Xkrm4RZ7_xkXLiEVIu_0bv_6U6tw57Q_1751902478
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 00/12] io_uring dmabuf read/write support
+To: Christoph Hellwig <hch@infradead.org>
+Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, David Wei <dw@davidwei.uk>,
+ Vishal Verma <vishal1.verma@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <cover.1751035820.git.asml.silence@gmail.com>
+ <aGaSb5rpLD9uc1IK@infradead.org>
+ <f2216c30-6540-4b1a-b798-d9a3f83547b2@gmail.com>
+ <aGveLlLDcsyCBKuU@infradead.org>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <aGveLlLDcsyCBKuU@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250707_083445_578099_A3B729A4 
-X-CRM114-Status: GOOD (  34.10  )
+X-CRM114-CacheID: sfid-20250707_083958_057611_3F45D51F 
+X-CRM114-Status: GOOD (  18.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,83 +109,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 4, 2025 at 12:26=E2=80=AFPM Sultan Alsawaf <sultan@kerneltoast.=
-com> wrote:
->
-> On Fri, Jul 04, 2025 at 09:45:44AM -0400, David Jeffery wrote:
-> > On Thu, Jul 3, 2025 at 12:13=E2=80=AFPM Jeremy Allison <jra@samba.org> =
-wrote:
-> > >
-> > > On Thu, Jul 03, 2025 at 01:46:56PM +0200, Christoph Hellwig wrote:
-> > > >On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
-> > > >> Address resource and timing issues when spawning a unique async th=
-read
-> > > >> for every device during shutdown:
-> > > >>   * Make the asynchronous threads able to shut down multiple devic=
-es,
-> > > >>     instead of spawning a unique thread for every device.
-> > > >>   * Modify core kernel async code with a custom wake function so i=
-t
-> > > >>     doesn't wake up threads waiting to synchronize every time the =
-cookie
-> > > >>     changes
-> > > >
-> > > >Given all these thread spawning issues, why can't we just go back
-> > > >to the approach that kicks off shutdown asynchronously and then wait=
-s
-> > > >for it without spawning all these threads?
-> > >
-> > > It isn't just an nvme issue. Red Hat found the same issue
-> > > with SCSI devices.
-> > >
-> > > My colleague Sultan Alsawaf posted a simpler fix for the
-> > > earlier patch here:
-> > >
-> > > https://lists.infradead.org/pipermail/linux-nvme/2025-January/053666.=
-html
-> > >
-> > > Maybe this could be explored.
-> > >
-> >
-> > Unfortunately, this approach looks flawed. If I am reading it right,
-> > it assumes async shutdown devices do not have dependencies on sync
-> > shutdown devices.
->
-> It does not make any such assumption. Dependency on a sync device is hand=
-led
-> through a combination of queue_device_async_shutdown() setting an async d=
-evice's
-> shutdown_after and the synchronous shutdown loop dispatching an "async" s=
-hutdown
-> for a sync device when it encounters a sync device that has a downstream =
-async
-> dependency.
->
+On 7/7/25 15:48, Christoph Hellwig wrote:
+> On Mon, Jul 07, 2025 at 12:15:54PM +0100, Pavel Begunkov wrote:
+>>> to attach to / detach from a dma_buf, and then have an iter that
+>>> specifies a dmabuf and offsets into.  That way the code behind the
+>>> file operations can forward the attachment to all the needed
+>>> devices (including more/less while it remains attached to the file)
+>>> and can pick the right dma address for each device.
+>>
+>> By "iter that specifies a dmabuf" do you mean an opaque file-specific
+>> structure allocated inside the new fop?
+> 
+> I mean a reference the actual dma_buf (probably indirect through the file
+> * for it, but listen to the dma_buf experts for that and not me).
 
-Yes, but not what I think fails. This handles a sync parent having an
-async child. It does not handle the reverse, a sync child having an
-async parent.
+My expectation is that io_uring would pass struct dma_buf to the
+file during registration, so that it can do a bunch of work upfront,
+but iterators will carry sth already pre-attached and pre dma mapped,
+probably in a file specific format hiding details for multi-device
+support, and possibly bundled with the dma-buf pointer if necessary.
+(All modulo move notify which I need to look into first).
 
-For example, take a system with 1 pci nvme device. The nvme device
-which is flagged for async shutdown can have sync shutdown children as
-well as a sync shutdown parent. The patch linked pulls the async
-device off the shutdown list into a separate async list, then starts
-this lone async device with queue_device_async_shutdown from being on
-the async list. The device then is passed to the async subsystem
-running shutdown_one_device_async where it will immediately do
-shutdown due to a zero value shutdown_after. The patch sets
-shutdown_after for its parent, but there is nothing connecting and
-ordering the async device to its sync children which will be shutdown
-later from the original device_shutdown task.
+>> Akin to what Keith proposed back
+>> then. That sounds good and has more potential for various optimisations.
+>> My concern would be growing struct iov_iter by an extra pointer:
+> 
+>> struct iov_iter {
+>> 	union {
+>> 		struct iovec *iov;
+>> 		struct dma_seg *dmav;
+>> 		...
+>> 	};
+>> 	void *dma_token;	
+>> };
+>>
+>> But maybe that's fine. It's 40B -> 48B,
+> 
+> Alternatively we could the union point to a struct that has the dma buf
+> pointer and a variable length array of dma_segs. Not sure if that would
+> create a mess in the callers, though.
 
-> > Maintaining all the dependencies is the core problem and source of the
-> > complexity of the async shutdown patches.
->
-> I am acutely aware. Please take a closer look at my patch.
->
+Iteration helpers adjust the pointer, so either it needs to store
+the pointer directly in iter or keep the current index. It could rely
+solely on offsets, but that'll be a mess with nested loops (where the
+inner one would walk some kind of sg table).
 
-I have, and it still looks incomplete to me.
+>> and it'll get back to
+>> 40 when / if xarray_start / ITER_XARRAY is removed.
+> 
+> Would it?  At least for 64-bit architectures nr_segs is the same size.
 
-David Jeffery
+Ah yes
+
+-- 
+Pavel Begunkov
 
 
