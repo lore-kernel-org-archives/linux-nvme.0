@@ -4,51 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18BC8C83030
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jul 2025 05:39:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D5F6C83030
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jul 2025 05:43:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CYIHXyKkYCi/d8k0OaCZeCnCFZ7UpUIFVSIhHq6JV3M=; b=w7sy39qQ8eN7oPvOVgnNdWJGZE
-	S3shQ9viLs1A38GGZG3zV0JelN2/QKNS+eVVZ8QvKBAZCyfR6b8baMlWIeHNnxKLQ5ohNMXGLJmjp
-	idLu1b35dBS+7/+HRKiKIgohMDKiKBC2QX3qty3vaNdFkidr2I77RdRHDf5YaLUseVRlhpj/iBINu
-	DXzrW4Ej1/LPIf4wMztDErz2urvdwK36wCEaHdivAdcX8HaIfOnYg4bPvrXfXYxw68XzryVsl8Fjv
-	KS8vRu6lhtMcKtH0lsmXr/zmm5BfxHqGtv5fSmglUEZ1HCCJUn6g4vOo/l0eLbEHAYA9mBlXLg4Ef
-	d/so2teg==;
+	bh=m0kW8oUgo2at5mquwnfNXSKiB+ZB/4tMovHOoKiqJN0=; b=BB6M7VH7SF9/VHarkF+9ET1aMt
+	j1NHk3J4NlmevaoH5CSKFuOshCIIZBq3fVlMr3OW8SGS8iPo0gQCxJNdj0uflqKtn0cOzHCYLGCYD
+	3bkln3WUWQSSEjNA4VwhBwC7xHastE/rhFtfT80qFgW3N1XhXUgJ911nGHddOMYW0wYEGq2aV+Dff
+	wOhtwf2Pfj9Pobrb7qafSYqyfVlXiEc6zGufZeZjdHVYYf9fpAm0ZIJgCOF5bDtIacEI0tazVdGfn
+	m0HB4PtJF8jSjTbTgMANRgG2yAeIdGL981lDJK0oGGpblwDb+ua4zWV73CdiALG02CvgQlhiVTzl8
+	UK5iCHgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uYeZG-00000001SI1-1IEn;
-	Mon, 07 Jul 2025 05:39:06 +0000
+	id 1uYedW-00000001T2h-2Cwf;
+	Mon, 07 Jul 2025 05:43:30 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uYeYG-00000001SFH-3Zfc
+	id 1uYecb-00000001Srm-2qgB
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Jul 2025 05:38:06 +0000
+	Mon, 07 Jul 2025 05:42:34 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6E406227A87; Mon,  7 Jul 2025 07:37:50 +0200 (CEST)
-Date: Mon, 7 Jul 2025 07:37:49 +0200
+	id 07766227A87; Mon,  7 Jul 2025 07:42:28 +0200 (CEST)
+Date: Mon, 7 Jul 2025 07:42:27 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Yi Zhang <yi.zhang@redhat.com>, Christoph Hellwig <hch@lst.de>,
-	alan.adamson@oracle.com, linux-block <linux-block@vger.kernel.org>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	John Garry <john.g.garry@oracle.com>,
-	Maurizio Lombardi <mlombard@redhat.com>
-Subject: Re: [bug report] nvme4: inconsistent AWUPF, controller not added
- (0/7).
-Message-ID: <20250707053749.GA28625@lst.de>
-References: <CAHj4cs_Ckhz4sL5k5ug_Dc5XfjSo9QDRSrHMfBj2XYGm_gb2+g@mail.gmail.com> <6e74e9a8-2dbb-4ad4-a48b-9af40d6af711@oracle.com> <20250703080359.GA365@lst.de> <CAHj4cs_pJDR-VH7-RzGwt9KmNCdTnQ38bejeB72280e9ke8ebg@mail.gmail.com> <aGc5wlj0Vgk6Mf6d@fedora>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Daniel Wagner <wagi@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <llong@redhat.com>, Ming Lei <ming.lei@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com,
+	linux-scsi@vger.kernel.org, storagedev@microchip.com,
+	virtualization@lists.linux.dev,
+	GR-QLogic-Storage-Upstream@marvell.com
+Subject: Re: [PATCH v7 08/10] blk-mq: use hk cpus only when
+ isolcpus=io_queue is enabled
+Message-ID: <20250707054227.GB28625@lst.de>
+References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org> <20250702-isolcpus-io-queues-v7-8-557aa7eacce4@kernel.org> <20250703090158.GA4757@lst.de> <75aafd33-0aff-4cf7-872f-f110ed896213@flourine.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aGc5wlj0Vgk6Mf6d@fedora>
+In-Reply-To: <75aafd33-0aff-4cf7-872f-f110ed896213@flourine.local>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250706_223805_032826_D3AFED1C 
-X-CRM114-Status: GOOD (  11.14  )
+X-CRM114-CacheID: sfid-20250706_224233_859160_5DE76259 
+X-CRM114-Status: GOOD (  21.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,15 +77,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 04, 2025 at 10:17:38AM +0800, Ming Lei wrote:
-> Per NVMe spec, AWUPF unit is 'logical blocks', and logical block size is changed
-> by 'nvme format', so AWUPF value retuned from `Identify command` can be changed
-> because the controller implements fixed-length atomic write size(512*8, 4096 * 1)?
+On Fri, Jul 04, 2025 at 11:00:56AM +0200, Daniel Wagner wrote:
+> > I'm no expert on the housekeeping stuff, but why isn't the
+> > housekeeping_enabled check done in housekeeping_cpumask directly so
+> > that the drivers could use housekeeping_cpumask without a blk-mq
+> > wrapper?
 > 
+> Yes, housekeeping_cpumask will return cpu_possible_mask when housekeping
+> is disabled. Though some drivers want cpu_online_mask instead. If all
+> drivers would agree on one version of the mask it should allow to drop
+> to these helpers (maybe we the houskeeping API needs to be extended then
+> though)
 
-Yes.  And that's an issue because NVMe doesn't have a controller-level
-concept of a logical bloc ksize, the logical block size is per-namespace.
+Drivers don't get cpu hotplug notifications, so cpu_possible_mask is
+the only valid answer right now.  That could change if we ever implement
+notifications to the drivers.
 
-Or in other words, AWUPF is a mess.
+> This is also what Hannes brought up. If the number of supported hardware
+> queues for a device is less than cpu_possible_mask, it really makes
+> sense to distribute the hardware queues only between the online cpus. I
+> think the only two drivers which are interested in the cpu_possible_mask
+> are nvme-pci and virtio.
 
+That's the only two drivers that get it right :(
 
