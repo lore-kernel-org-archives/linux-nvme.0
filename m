@@ -4,101 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFE9CC83F03
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Jul 2025 16:58:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18BC8C83030
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Jul 2025 05:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uZ5dOYbYOkoWtAAYMytNtT+2qf4Eec58FQAQdPSVMHU=; b=rzVaXIFK0Hm9s7hxftTn6C0qzU
-	fhxOAx/a8ElmSJ1dp+CPMZQvdzTtx6X29oPPacZfUV50RQ2XLrSxKcQGcLRE5JwlL6mXYIFD2TLO9
-	0fY5J9FQBkXLXk4yOK7HqDPSnHxTJC4oohIl/c841yzvuEeKchFQZrQmytStgfuLTMmqYtME7eHse
-	Iqe9TbSm8G87MdEgh+ayl0kUiwuPb0QuLMfOKheNUz1F3MXcJ/7fxurLM6iv7wvzsAZdOOynLZ7Sk
-	3BD9jMVzutnPuYNv4Sz0phPEaXNe1unpweVxx7dbr1/No427VkkZ6PsLs5AzmEIfh34/OAKw1GKEH
-	4DSCFBMA==;
+	bh=CYIHXyKkYCi/d8k0OaCZeCnCFZ7UpUIFVSIhHq6JV3M=; b=w7sy39qQ8eN7oPvOVgnNdWJGZE
+	S3shQ9viLs1A38GGZG3zV0JelN2/QKNS+eVVZ8QvKBAZCyfR6b8baMlWIeHNnxKLQ5ohNMXGLJmjp
+	idLu1b35dBS+7/+HRKiKIgohMDKiKBC2QX3qty3vaNdFkidr2I77RdRHDf5YaLUseVRlhpj/iBINu
+	DXzrW4Ej1/LPIf4wMztDErz2urvdwK36wCEaHdivAdcX8HaIfOnYg4bPvrXfXYxw68XzryVsl8Fjv
+	KS8vRu6lhtMcKtH0lsmXr/zmm5BfxHqGtv5fSmglUEZ1HCCJUn6g4vOo/l0eLbEHAYA9mBlXLg4Ef
+	d/so2teg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXjjm-0000000F2RW-0sjb;
-	Fri, 04 Jul 2025 16:58:10 +0000
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
+	id 1uYeZG-00000001SI1-1IEn;
+	Mon, 07 Jul 2025 05:39:06 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uXjFG-0000000ExCE-3fXp
+	id 1uYeYG-00000001SFH-3Zfc
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Jul 2025 16:26:40 +0000
-Received: by mail-pf1-x444.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso1115901b3a.0
-        for <linux-nvme@lists.infradead.org>; Fri, 04 Jul 2025 09:26:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kerneltoast.com; s=google; t=1751646398; x=1752251198; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uZ5dOYbYOkoWtAAYMytNtT+2qf4Eec58FQAQdPSVMHU=;
-        b=Oyi8MRZinX157JxXVZQORiUWo2BJidnXlFPsHnA0I43ectYRfZvgmSYNQwa4BsQ1Ya
-         +py8YcbwDj7X9PGFF8RsVdYhAIbw8BjqSBds+mIx5qPOwHg3C8R2/e1x5BYquvYUgqKv
-         YJFAr4W2/kckHmNGpk+JwlPAFMiuOCUi4HyVfRS8tPDo6ZREj6A3LqRvnJVsGY5kgThX
-         dc49gtqeUN/Gcld9fc7E/Y9z4nnZ9tCnttMD/S1KI0qj+2KC5nv3FfF8SuX0kWKbggKs
-         kk/K3znjzNC6gxIQ5A/qtuWJmXUGk8LyOzDSCyAm7IVlycjiL5OYVmWStNwUq7ZaJKzV
-         3/LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751646398; x=1752251198;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uZ5dOYbYOkoWtAAYMytNtT+2qf4Eec58FQAQdPSVMHU=;
-        b=g808nq/bEkoFWpScaRxIjtIuDhJfc3akwTuocSIJKXSpr05O1sOX36VjgPOkoXohYr
-         4wrjqG2BVpJ94mUGzbyzXHGLjbkeqMaAaD9bPaG0zYvezZA5juBy0CbgFp4RgOXUja/6
-         RXoMzC1ZGfX6gRnyAERPgFfpaSEJVmuMDrdRhtSzlhhZRA2F5mToeTw8MB2sO8rQeRwH
-         4i8PFWO/hj7FzH2Ahbj6V9Icg4uhYmwERMOxcoUWuPlx/+9vnxcKfeUtKNvYMlsS1mPy
-         UKvAFUhg13GtrO8NRyYVlFrUBzCqwtvb/suu8lBy3WzhquUBmph066Z28LNIyOiNd6bZ
-         EAXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpEj031DrsSpv7m0T44vcYpP59ISn1ISHLv9ezfw4smqo0QhGmSH1XqcPss0Yj7oirTm3654cz1BTr@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywa8NjBAczXPy/kPkFt4NKiCse3kay4vt+/4LRYcNi6FOiOB2Jk
-	oFG7347sjP0oLGVjkkgBcyI8eX0DWM8RV/P+w4QPgZAelou+ALpKYG6nYnNgBzsBE0vL
-X-Gm-Gg: ASbGncunJKHbZaTvRl14xyHVLbuEi0wHvOPQGJLdEkG+svbtXkFdCsqkktEdA0WNUJq
-	e4POqSxMloPhZ1VKOBxkiI3XCn6ZZNVn+rb5u7RWlRuRDrv1mFnG1CFAggt0PtjeNDwQPcta3Rw
-	Nrc1SpYfsYsTQa8AQvwn1kbzgtMqxJ0nGHfCNj6swHvcm3EUdpLguTkQftQnXDfFySUzTAylXI8
-	Bg1XEXkjHlxLr1abvQPNLHASAmDDPJrKR8qF9sj1S93Smwgq/1W8UhEOaKbN/YuL864EnKd7I/v
-	jLxsg8PK2+BllqKmQfQ5i12ENnDDV8kQ0WH0WWITAXCunqrOJXCwIaf2A8S7vIQt
-X-Google-Smtp-Source: AGHT+IFmNX43fv12lDJwBxyke4slBPfKR27QIULjj2bFsUe07GNEU0S4nbmUu0opAKYqkv0SzWjoEQ==
-X-Received: by 2002:a05:6a00:3e21:b0:749:8c3:873e with SMTP id d2e1a72fcca58-74ce8ad900emr3904971b3a.24.1751646397632;
-        Fri, 04 Jul 2025 09:26:37 -0700 (PDT)
-Received: from sultan-box ([142.147.89.203])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42ce64esm2213704b3a.153.2025.07.04.09.26.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 09:26:37 -0700 (PDT)
-Date: Fri, 4 Jul 2025 09:26:34 -0700
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: David Jeffery <djeffery@redhat.com>
-Cc: Jeremy Allison <jra@samba.org>, Christoph Hellwig <hch@lst.de>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, Jeremy Allison <jallison@ciq.com>,
-	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jan Kiszka <jan.kiszka@seimens.com>,
-	Bert Karwatzki <spasswolf@web.de>
-Subject: Re: [PATCH v10 0/5] shut down devices asynchronously
-Message-ID: <aGgAuje4tpIOveFc@sultan-box>
-References: <20250625201853.84062-1-stuart.w.hayes@gmail.com>
- <20250703114656.GE17686@lst.de>
- <aGaklKejxefXTQB4@jeremy-HP-Z840-Workstation>
- <CA+-xHTFC6KTs6D8EdvmVe=buqw9oN5P7GJ-WWvam6M3SzeZF4g@mail.gmail.com>
+	Mon, 07 Jul 2025 05:38:06 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 6E406227A87; Mon,  7 Jul 2025 07:37:50 +0200 (CEST)
+Date: Mon, 7 Jul 2025 07:37:49 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Yi Zhang <yi.zhang@redhat.com>, Christoph Hellwig <hch@lst.de>,
+	alan.adamson@oracle.com, linux-block <linux-block@vger.kernel.org>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	John Garry <john.g.garry@oracle.com>,
+	Maurizio Lombardi <mlombard@redhat.com>
+Subject: Re: [bug report] nvme4: inconsistent AWUPF, controller not added
+ (0/7).
+Message-ID: <20250707053749.GA28625@lst.de>
+References: <CAHj4cs_Ckhz4sL5k5ug_Dc5XfjSo9QDRSrHMfBj2XYGm_gb2+g@mail.gmail.com> <6e74e9a8-2dbb-4ad4-a48b-9af40d6af711@oracle.com> <20250703080359.GA365@lst.de> <CAHj4cs_pJDR-VH7-RzGwt9KmNCdTnQ38bejeB72280e9ke8ebg@mail.gmail.com> <aGc5wlj0Vgk6Mf6d@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+-xHTFC6KTs6D8EdvmVe=buqw9oN5P7GJ-WWvam6M3SzeZF4g@mail.gmail.com>
+In-Reply-To: <aGc5wlj0Vgk6Mf6d@fedora>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250704_092638_961255_16AB5847 
-X-CRM114-Status: GOOD (  26.83  )
+X-CRM114-CacheID: sfid-20250706_223805_032826_D3AFED1C 
+X-CRM114-Status: GOOD (  11.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,48 +63,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 04, 2025 at 09:45:44AM -0400, David Jeffery wrote:
-> On Thu, Jul 3, 2025 at 12:13 PM Jeremy Allison <jra@samba.org> wrote:
-> >
-> > On Thu, Jul 03, 2025 at 01:46:56PM +0200, Christoph Hellwig wrote:
-> > >On Wed, Jun 25, 2025 at 03:18:48PM -0500, Stuart Hayes wrote:
-> > >> Address resource and timing issues when spawning a unique async thread
-> > >> for every device during shutdown:
-> > >>   * Make the asynchronous threads able to shut down multiple devices,
-> > >>     instead of spawning a unique thread for every device.
-> > >>   * Modify core kernel async code with a custom wake function so it
-> > >>     doesn't wake up threads waiting to synchronize every time the cookie
-> > >>     changes
-> > >
-> > >Given all these thread spawning issues, why can't we just go back
-> > >to the approach that kicks off shutdown asynchronously and then waits
-> > >for it without spawning all these threads?
-> >
-> > It isn't just an nvme issue. Red Hat found the same issue
-> > with SCSI devices.
-> >
-> > My colleague Sultan Alsawaf posted a simpler fix for the
-> > earlier patch here:
-> >
-> > https://lists.infradead.org/pipermail/linux-nvme/2025-January/053666.html
-> >
-> > Maybe this could be explored.
-> >
+On Fri, Jul 04, 2025 at 10:17:38AM +0800, Ming Lei wrote:
+> Per NVMe spec, AWUPF unit is 'logical blocks', and logical block size is changed
+> by 'nvme format', so AWUPF value retuned from `Identify command` can be changed
+> because the controller implements fixed-length atomic write size(512*8, 4096 * 1)?
 > 
-> Unfortunately, this approach looks flawed. If I am reading it right,
-> it assumes async shutdown devices do not have dependencies on sync
-> shutdown devices.
 
-It does not make any such assumption. Dependency on a sync device is handled
-through a combination of queue_device_async_shutdown() setting an async device's
-shutdown_after and the synchronous shutdown loop dispatching an "async" shutdown
-for a sync device when it encounters a sync device that has a downstream async
-dependency.
+Yes.  And that's an issue because NVMe doesn't have a controller-level
+concept of a logical bloc ksize, the logical block size is per-namespace.
 
-> Maintaining all the dependencies is the core problem and source of the
-> complexity of the async shutdown patches.
+Or in other words, AWUPF is a mess.
 
-I am acutely aware. Please take a closer look at my patch.
-
-Sultan
 
