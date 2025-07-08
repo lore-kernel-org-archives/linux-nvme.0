@@ -4,87 +4,152 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2738BC8303C
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jul 2025 12:59:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F21DC8303C
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jul 2025 14:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Tz+3g8Gk738iBxfQpYL75vI8bUAIduK+IwHHVtiU6pk=; b=xmyUQ5AbbdcIQAhAfgNl3TvLoj
-	KbYheQwrSPdQR+Ekl/hgqbXgPHr7/NWPfW35LdRzHRxteO30wjHLp78KjL84OmLOQ51NSMLaNW4bf
-	S0zDa5rpCKhAiFm6sOk8eGvzyYnJ/+SCxttgkRUMq8Ka7hD7Z0WKMf+kEUVqiFXtVIfhPj8COK6Ci
-	USqevsLf8L02n7gJNAbSnV8QKDi9FvFCqWG0I7bMwoAPlB2LMc/mZgGitw/XMpDcH5hzgj6RN5VRb
-	uLr2oKpGmocydVHl1ZHju4HvVDkh2fyLvVy9LvXgluJ9PO9/r1cVk4e+QxMErF9GWLxXItua7ffch
-	WeT32Gdg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=N3wiQ9n/7sP3+Z+gmto6qlU77D4AtKOS+J25FdXYNow=; b=LOdfw05hnSSRj+k1ygNG7PQ6rt
+	ujcyiSyCQrLb4PsANgyZSoCFCt3G3gdJXrHSaPvnlKbeHyTdJ6D3zpS9Hceq+W1kG17p64nehA41f
+	1DsFIkn0Hn+LVMtgTxUQoxkZFlCv0xRbiaZvN5QXI0Cf1NEQavFUPcggU8T3rvGCbh82cbdnM1ud4
+	RTw6bXTpPUpo9F6PUG/T7/rQ4JSUSDB+iRwk8rpBHV4i/wltNkv0JVoqFKchYRhW+DOAAJAsXtvO+
+	TcTcXatZQkxeIGPHuoDxRQ9hjkWvyLMpXEuY4Y4ljnmkp+GUW7GPmWrijrYiVUJIIeiw3TJKHEG82
+	Q0TviwtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZ7vH-00000005Lyn-1M6y;
-	Tue, 08 Jul 2025 12:59:47 +0000
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33])
+	id 1uZ97E-00000005YjG-1zwj;
+	Tue, 08 Jul 2025 14:16:12 +0000
+Received: from mail-mw2nam04on2060c.outbound.protection.outlook.com ([2a01:111:f403:240a::60c] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZ7r1-00000005LLi-0pKG
+	id 1uZ97A-00000005YiP-3VHM
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Jul 2025 12:55:24 +0000
-Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-86d029e2bdeso184297139f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 08 Jul 2025 05:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1751979322; x=1752584122; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tz+3g8Gk738iBxfQpYL75vI8bUAIduK+IwHHVtiU6pk=;
-        b=xLxMhowbWgx3EgSjjaAOtI/eK0z0Nfl1HVL0/l4CWsgxzPvIls3dkxVaRJvpP3Ll6P
-         FBVVHhg2nbUpF+EGjR2FyUBO5G23GZHb8b4JxfRARI66XrRWgexbQhPlDrSrMqYKTMtb
-         mzKPyPYpGkl0kCRxXb1Om/sFuapO737ulS4xu/neCFY5nz6KjUftI6GNqNfgtAyjD0qy
-         viC37mpCk+ol68uRoetY2HY3HfmTDh2NYT46xDIr1eKfduBN8WujeGWlV3tLIgMiy95g
-         o6qw9uX/dPQZ1M/SDUU1mLVtMG3/S+rv5rCuuSPLZeMxRgmn7rbqGG6zQvMxAeT9Xvj8
-         JBRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751979322; x=1752584122;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tz+3g8Gk738iBxfQpYL75vI8bUAIduK+IwHHVtiU6pk=;
-        b=SdrTW//jfGhGDH+IMUMjidtkagg+XsJpEcWtVXLeHp/0NnUHBGXtpLuPf3o1EL2q7C
-         H92WBXl7Hyw/uFeiVzt03qs0ivsOtBGKjM3i1Cd5Dh6M51KuEcUTRlFNYWazcK1FXnIG
-         ScqcFRIMR92FZdO8kAV2hQanxy6ve37CauZhH3gedGpbOGbo8B/czq590Ijsb2YzTWj5
-         RuOJiirc1FAfvATEcTfoc9g7yRMhCE646//2jvjQ1Ug5qceYzjQOoqbTdgacSK90hOwZ
-         augRBEoGlRKgQD97uNBgndoVHvLbcqrsSufdxCfJiDvla2vmrrCA/uHtbdSYl6Snx/K0
-         +amQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHgTjYBpdoTYnlF90+0TQpCfnf/ie/sR7f4vP+NKZ9DznGiC3vpLzn2hK9sdtyr9xptLtGNBvYbN46@lists.infradead.org
-X-Gm-Message-State: AOJu0YwyLNZFNl0Re2QwntaLlva3q10EDqEpU45WOoKobKdAYTuN+Jrv
-	8pFJ2nb9mboMlcM3wrpGctpUQ99kvc0hUigqDWIaPsr0oEgoJI0WeupAZoDFSRiAz+Y=
-X-Gm-Gg: ASbGnctdE+sZJnfwwS8yp/U0iDQgH/wJwjdkEuYVSKy+h9QqDv0FwmWPkcb6gO9hCli
-	JiAY7VaTua7QJdUnt3vkmqMYx+U0Yy8cQfyBy5lv9Dqd6hJaVrhfrB83z/sA0gAHRK7+7iYYDqK
-	eBSG7uzMhkRVrqrCOMOK4kiu8OirpFK2Po5uldG94V297Xcr/FNIxug+6BM6rjSdTqmbD/78wO/
-	0cK0aPx6EP/YPlO7a/tSQKSfnl9QwVyDygbZBruDEHT50jmp7Uo1N6hR7GWmAUgt5Ci6KxKuklg
-	zGiie04vwIq5mkoHkDZh+TILGSbpvPR5Vo6VjTM6/e7RLeb96Nqpgg==
-X-Google-Smtp-Source: AGHT+IHHn2y2EQ9dCWVmGRtV4imCt3ZhSYyqOZi1I3uvvpjvD3LZWZEaCWognCUlw5l1BMS8tkglJg==
-X-Received: by 2002:a05:6e02:1a47:b0:3dd:bb60:4600 with SMTP id e9e14a558f8ab-3e154fcddfemr24652925ab.5.1751979321972;
-        Tue, 08 Jul 2025 05:55:21 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3e0fe221071sm32286865ab.44.2025.07.08.05.55.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 05:55:21 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: kbusch@kernel.org, sagi@grimberg.me, Christoph Hellwig <hch@lst.de>
-Cc: ben.copeland@linaro.org, leon@kernel.org, 
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-In-Reply-To: <20250707125223.3022531-1-hch@lst.de>
-References: <20250707125223.3022531-1-hch@lst.de>
-Subject: Re: [PATCH] nvme-pci: fix dma unmapping when using PRPs and not
- using the IOVA mapping
-Message-Id: <175197932094.1079793.8874503109418666370.b4-ty@kernel.dk>
-Date: Tue, 08 Jul 2025 06:55:20 -0600
+	Tue, 08 Jul 2025 14:16:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=auwMCn9ZuVMk2rGcflOPthEEDMzVhpz2WBNxlOKePvlz3wi/0W1v4DHyBTtyU9CPstzkQjI7/SSdty97ZpFlNHeykkgqYw+QA7GpYc5xM1P5TBBBgcf0x51+i6i8dLRpHXPBrbol6w19x1OC1EaOgkrnJM6jkzN8Noe1IPODxcSKuuMbj73LbB001vuQuG3ns6yLqYcMn0nZsjAfPuO21EqJClPjAssCi3y18acA9nwlEbVt+5Rhvwlj9q1pBihrWdhaBNVp7OJ5QggnZhSUJLqEw47lM+x/Lb8K1c10uH/0pMhPBH7iZxvkTY6o2EG0TX6rgrQEQvBoy0p/+EJsUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N3wiQ9n/7sP3+Z+gmto6qlU77D4AtKOS+J25FdXYNow=;
+ b=F7kWJkk4H/1QFCQ3D9dU7+dT2CXXgGv1eubrxrcjtuNIJ/UoKovglvpq5yCEc16cCny6z/FjB8Rrh5TWUEiVgE6m/Ot/VilGjb/ySuqDOMGhgdMpKrYZx8322fZu2lPLzoiHMh385ueqk1u1p7LQpbelJzLEXv+UkVS36j3hkCYIYGINwHJQAbhv6ibvvuVDfXS4M9VHoeJdzati1I75EvcW4oYfdSebr1u/dZCXCP+2z+cESQgX9tW9U3o/r+lYgJzOwuJBor2Pczn15Nk2pF0cJj+BFHrWQUQonFGYBSwwGXIan69BlAT1hHIknkL/W6e5hEcVvlPf0BcwQGz2cA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N3wiQ9n/7sP3+Z+gmto6qlU77D4AtKOS+J25FdXYNow=;
+ b=YI10W+G4rC5n14WvjKTegTGlpu54cGxU88Rixh5WolU3nXT4fd0YrQL1zI0OkEvOzeCuURp6qHlqS51kLQySUurpw6/1zu06R4dYrejR1OlQ/X1bZc17dOHhOeZF6wLRqFb7bilmKpTLmSaEsBZNzvKqYReRXJ7KTil8ErKTivmaUxy3OQCSM70YhKHtaEk6xOYlIRvPVowRVlRrTQRJzuzvop3OU188nakuAOGDAHm9ZY3DzoKnAHcixXGrWjG8rxW7lwkc5+/KsbcJidodNKe4BT02fXb9Hmlq8rhuwLUvKM03A6TxtsugJ7FFK54Q0b3gzytmWPLa/2AMbN3jhQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB8943.namprd12.prod.outlook.com (2603:10b6:a03:547::17)
+ by SA1PR12MB8643.namprd12.prod.outlook.com (2603:10b6:806:387::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.23; Tue, 8 Jul
+ 2025 14:16:01 +0000
+Received: from SJ2PR12MB8943.namprd12.prod.outlook.com
+ ([fe80::7577:f32f:798c:87cc]) by SJ2PR12MB8943.namprd12.prod.outlook.com
+ ([fe80::7577:f32f:798c:87cc%4]) with mapi id 15.20.8901.023; Tue, 8 Jul 2025
+ 14:15:59 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, sagi@grimberg.me, hch@lst.de, kbusch@kernel.org,
+ axboe@fb.com, chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com,
+ tariqt@nvidia.com, gus@collabora.com, edumazet@google.com,
+ pabeni@redhat.com, dsahern@kernel.org, ast@kernel.org,
+ jacob.e.keller@intel.com
+Subject: Re: [PATCH v29 01/20] net: Introduce direct data placement tcp offload
+In-Reply-To: <e5b994ce-247c-4bfa-96a5-eb842ef99e20@suse.de>
+References: <20250630140737.28662-1-aaptel@nvidia.com>
+ <20250630140737.28662-2-aaptel@nvidia.com>
+ <e5b994ce-247c-4bfa-96a5-eb842ef99e20@suse.de>
+Date: Tue, 08 Jul 2025 17:15:55 +0300
+Message-ID: <25334b64vl0.fsf@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: TLZP290CA0001.ISRP290.PROD.OUTLOOK.COM
+ (2603:1096:950:9::14) To SJ2PR12MB8943.namprd12.prod.outlook.com
+ (2603:10b6:a03:547::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-d7477
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB8943:EE_|SA1PR12MB8643:EE_
+X-MS-Office365-Filtering-Correlation-Id: 06dc3021-92ed-46a3-61a6-08ddbe29f672
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Se2N6WIK7U0J5Zzu6M4JpmrTEnaZmwMhq6/Js9bJOqFFHeaWKvU/w3nOxgUJ?=
+ =?us-ascii?Q?H4RGwBFgADwCphaZ9IZvYa7L8CpkscG206WSgp3eeVY18peHqD8If3H54z4T?=
+ =?us-ascii?Q?4p0pBmSElL7BlUpqdiitGbtYxHgXloZqtZyuqVWlLhJI5jImzCy+KxP97RmZ?=
+ =?us-ascii?Q?1e6/URgkwxfUHMuItqEbtjrLjw81LmHG/Jis6ery4n/7Ow1CmMYyBMVrQi53?=
+ =?us-ascii?Q?KGuu2lBpl3jp18p39QyE1HeI/OtzjeMqVhpFos0M4fWKmOX0z040OfIiwFTP?=
+ =?us-ascii?Q?UpXNDIFwj+bTlOEXkqANXEK6YeicqgLze+uQzzmcCLI6XwdZ5mE4zhC8kmW+?=
+ =?us-ascii?Q?09lKSpYMT9EYzbkTC9Z5QOwrOdzIi6eSuRyQq/K05LrLyu3f/7EyzO1ag9X/?=
+ =?us-ascii?Q?BhocNOvh4ccq3zD4jy6XdiUm1sFL6tRcRMsTQSAjuCnXGZNbL2ASRVNGv4eK?=
+ =?us-ascii?Q?Z4wR324gyv8e1Rx3P7NfRYUOQ49jmym96nKmJSoAn0gt0R/OWyN7Y2urMeys?=
+ =?us-ascii?Q?gB3tXUqtJPpreYIj4+Oos/gj5n/IBUPsrsTl0m5qOqkhnwRPNrDLlIb+5uKp?=
+ =?us-ascii?Q?KzUogM41V7bYevUWBklAOMMWboHO6gnZp+SJzK0qzN2m+6C6p9k+hYwhWrkO?=
+ =?us-ascii?Q?BZx36fdFFGOOu/7n4/eWJHZWBXjZ+XsQ7M9thXXd6ecngnXph6ENA+YLt1Ny?=
+ =?us-ascii?Q?jl85tNy60VRt5b7tPB+38LSwGAOjNBi504ZKLdnAW8y3Y3zFx6kiVFPsXsBm?=
+ =?us-ascii?Q?mRNU7Yrwidx7zW8j5uICeZbxR4oDzP5vSg1ExfwAH8ZDINsm0dD73kqE3Eg6?=
+ =?us-ascii?Q?rPCPH2NYMR1bIbe3/WQs0zyoqa00JiqW2Z0IrC1xSqxHZPRCJpfCcQJkM1la?=
+ =?us-ascii?Q?kgj5/6riR8IS8sUYy4n4miYo9qIklqdsXLgDUb4WhHe9LjF5aNZ2s2jiRGrs?=
+ =?us-ascii?Q?pk+U4w6T+GDV2bohTwWbSUDlVPiIiWKH1jxPGuOFhXBYU7Q1EM91GseMPcIM?=
+ =?us-ascii?Q?dTg6Ddl+bk+KMpg2oNMX62bhUTZWH4MCkDG+h4rseQ412bDcBAMiPRxqlH0U?=
+ =?us-ascii?Q?sWseRFU/6viYXhu6aFYCPpE54I+eH4vCwV+nKnVOjxSTN5ZyCyJraXKPx04h?=
+ =?us-ascii?Q?w1CvHq4aYZtZ0ivUjdjitzAX3czG43C2xwcDgYYxBD5Eeeeu7mOLIKK0Cvzh?=
+ =?us-ascii?Q?lbpL884EiKvedX2ZlgOCs+A4XmafLnOCvkQ+rCetAa5FjoqON5hZOqsUnz10?=
+ =?us-ascii?Q?laix+yuxZtOrKw9QQF47r2pbHzRAmup2MTBAs5Bn65S/SqKvFkEtbDEwiNen?=
+ =?us-ascii?Q?h5Gnn9uedZFMbMz3W4S42wJVQrFdLje8+zOJePlHxtxyIASGJuOknOnYXnUL?=
+ =?us-ascii?Q?Zube6qKZWDCmjbjLCSL2mjTjeojwZbCD+geS9pFasDMIjRgkWUgBbEQQcNTb?=
+ =?us-ascii?Q?SoFaODqd0hV0irgV0BbYwDcWsyvsoJMsm+odJ8mp6EN5uBH1Xx2jzg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8943.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?U2VLj/E/YmpkGJbgu7n4yqQO0lOwArCJDjb1zrIET91nEJsyEZFKw9fP5frf?=
+ =?us-ascii?Q?zEj9HzIW8rpMdWsrw7chMMx8PIagsF53RY6COKl+oy3QjnnwXO8ltkInIF7J?=
+ =?us-ascii?Q?m1n60ByRDp1el46z0w7mD7wfK7SM/R0pFuTQEs7sYTfg+kwFNBB3WKMn4qNk?=
+ =?us-ascii?Q?IylIFDcoLqMuEMr0/FJHyAtBB40pBsKwm9zWlbzX2M2fYZW6+1qif5cUFvzf?=
+ =?us-ascii?Q?1XnS5CbcnkXz47ib/wMgqoVV12HrsDb1DvAA7puTd0ji5ARNwf2C3ZezT14M?=
+ =?us-ascii?Q?/D630QmRZm+phFeXe4JfXrWVHgwT4NWSipaPCklmlNy8KPf33D/JyDYuIP37?=
+ =?us-ascii?Q?r3NiP31zFGe8flqFmCRfcnck7sczhRbyd3X2sRog+3T7mevFOHbTImpIbHFj?=
+ =?us-ascii?Q?VK8BH8BKCgYv/XFQhHWDbWJBQfZg2yKoliBeFXpq/5Kr+FM6VTR/DwXllc2j?=
+ =?us-ascii?Q?uv9O4TeTnUFB7O6GOl1iNVU6S+q5QaWwXPhKQTsdK8c7mZTG9Uc+Hs0ELXf/?=
+ =?us-ascii?Q?SNaa1PctfV45bfDfMMRlesIuZ0ZPkikBL60HV8pE9ud/pcbeIZ4WQziuEoFS?=
+ =?us-ascii?Q?uPxktzOjscVhdCt3gb0d5Q1IzbG5DvppLCUv0XJn8KZCaq7BL8NDxDJR199M?=
+ =?us-ascii?Q?nlD90nQ5ZL5C9DqqbJn6hx3BAahhIdQBjJDPP0iCIWdPVx+gOFR2aJEq176v?=
+ =?us-ascii?Q?kuDD5rE/9gakWZVZmfkI9Ua0ZX4KkJrqzrDmJQIibrZRzjCj7RyeoFfpIyHw?=
+ =?us-ascii?Q?T7VQUZepi2IOCIGubOFgdkxqoY8MareRL36wvvcRQwMtXm6F8AhLJVlaerwt?=
+ =?us-ascii?Q?5WLoji/OCy6bBH4ARl8rrxfA+P5xSAN1+kBOO5sMxfuVPm4DzufvpV/tO7NP?=
+ =?us-ascii?Q?kgFy4UXXGlM5MJu1bU1DX0SvbdmuXQczgn8LCZhWQBvj5RXebD4vDa1sBMfa?=
+ =?us-ascii?Q?vCGJMerd513PCkpExsy8/MqsWr7v5plcW59GF35cT34+h4roZzDIebqNhT5g?=
+ =?us-ascii?Q?rR8StT84gO3W0K7S58Y07y6KQEjSRKF7wRZ2yvAOoOueBbkYvm2gUPtSlHoo?=
+ =?us-ascii?Q?uf+jan4cFQMkEM/DAysAAsppe7pc7BT6OGwjesTaDQ5hiziV8xJV0XqVP1mP?=
+ =?us-ascii?Q?Ju0Oz9OG4g4FXX6GvYitgm3ASAEhoiJ6SzOYvdEbpdXhMZY9jprhP1HQAobD?=
+ =?us-ascii?Q?AQ5jpU+t47KtAIeTrTvZ904cSJSD7DbOJb3p+3ilNUR6f5DjRejHrNlTvv6B?=
+ =?us-ascii?Q?OKtA43I2EZdMfYTWhG6jMoywYCv9Fzf4wXpnZhOtQzoV/EAvCm9mN9/GxbiP?=
+ =?us-ascii?Q?A8Odi8xRoMy3LWxk6uN6aRPgIvGDbe7kNNdp3Z2lAfBQcfXlBTgt7wpHQU2f?=
+ =?us-ascii?Q?GV5HbPDImH/cqFfgdXmSSMhq87HrRXZmvTu4LBTzC+GAodG5hassZHcoCe69?=
+ =?us-ascii?Q?vk6pjKZ5ynobV3VfqsrnmzrwBPn2DOSMqRaJAT9z86sUxp2bKvg3chGpU08R?=
+ =?us-ascii?Q?VfUfgEdl2PfjukgmKthPV1pIYvTDL/HuC/cBkXbu9uiEJCh2iPL267McKMMO?=
+ =?us-ascii?Q?Pyd2cSFI7LXkkvbddg/PzF6XcbJZWxQJ/fCj+VT+?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06dc3021-92ed-46a3-61a6-08ddbe29f672
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8943.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 14:15:59.5981
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l9Gp6niDUUuI2R93q678jf7S5BCK28EoQ6luhVGQsAmz5pOqdW6oeq6uJQCWgDyh0OpbQBXFsVZnMM03vfqUTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8643
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250708_055523_477641_0914AEAC 
-X-CRM114-Status: GOOD (  13.58  )
+X-CRM114-CacheID: sfid-20250708_071608_874204_EE43A4EC 
+X-CRM114-Status: UNSURE (   8.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,26 +164,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hannes Reinecke <hare@suse.de> writes:
+> Hmm. One wonders: where is the different between this DDP implementation
+> and the existing DDP implementation added with 4d288d5767f8 ("[SCSI]
+> net: add FCoE offload support through net_device") ?
 
-On Mon, 07 Jul 2025 14:52:23 +0200, Christoph Hellwig wrote:
-> The current version of the blk_rq_dma_map support in nvme-pci tries to
-> reconstruct the DMA mappings from the on the wire descriptors if they
-> are needed for unmapping.  While this is not the case for the direct
-> mapping fast path and the IOVA path, it is needed for the non-IOVA slow
-> path, e.g. when using the interconnect is not dma coherent, when using
-> swiotlb bounce buffering, or a IOMMU mapping that can't coalesce.
-> 
-> [...]
+On first sight there are some similarities with the FCoE DDP offload but
+things work differently.
 
-Applied, thanks!
+Device querying:
+- FCoE DDP has an operation for retrieving hardcoded attributes from the
+  device (ndo_fcoe_get_hbainfo)
+- ULP DDP has an operation for retrieving protocol generic and
+  per-protocol info (limits())
 
-[1/1] nvme-pci: fix dma unmapping when using PRPs and not using the IOVA mapping
-      commit: b8b7570a7ec872f2a27b775c4f8710ca8a357adf
+Enablement:
+- FCoE DDP has operations to enable/disable the feature on the device,
+  and dedicated netdev feature bits
+- ULP DPP uses netlink capability bits instead, as request by Jakub
 
-Best regards,
--- 
-Jens Axboe
+Payload DDP:
+- FCoE DDP works on a per-FCoE-frame basis, on top of ethernet. There
+  are ddp_setup()/ddp_done() ops.
+- ULP DPP works on a per-IO basis, on top of TCP. One IO can be split in
+  multiple TCP packets. There are setup()/teardown() ops.
 
+But because ULP DDP is per-IO and based on TCP, it requires knowledge
+about the ULP header lenghts encoded in the HW/driver. It has to handle
+OOO and dropped packets, via the resync() flow which FCoE lacks.
 
+ULP DDP provides operation to enable/disable the offload per-socket,
+which FCoE has no concept of.
 
+Another difference is ULP DDP teardown operation is async. The ULP layer
+does not have to wait for the HW to free up the resources: the ULP
+provides callback to the driver, which the driver calls when it is done
+tearing down so that the ULP can free its resources.
+
+ULP DDP API also includes per-protocol stats retrieval. Overall, ULP DDP
+was designed to be extended to support multiple protocols.
+
+Thanks
 
