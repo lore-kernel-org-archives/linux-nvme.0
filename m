@@ -4,49 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B9FCC8303C
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jul 2025 10:06:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F137EC83F0F
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Jul 2025 10:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aIbqbwBgG/lyES8ZapCr+jWLXI49EU1keL2UKBLl4ZQ=; b=eWtORr8RyE80as2ybMFTPBV31g
-	AEU3H75gMX1nPkGDE0Ksrc1VAGVbVMSOB6SszTd9i/UZ+23Ts7+fPtiVtdrsA97mH+ChGCySFsurf
-	myuggJlwDjZZmn2ITDJsa18YCPBJFDb96wcVJ5uRwvYjGMsh4/AtZc4mRc/qHzLFM0OJBIGLMARvV
-	mtceaNKNufNEkvAxoQsAXIYdQfvx3IElfpNh5fyWZ1GALBn4KEpOd2VEO3m9RX32w/CAqOFxyHhUR
-	YNQs23l83q+T6XvZ/opBKaxVSdGky5fkPRzan+zLHDSGqyGWPGXKwNQzVuhyHYYqE9QPkwJXnRvz0
-	4GdSeRow==;
+	bh=ZgEn8AnLgdDvzESVy78J2eP8KOP6/Ai/nlT2IPLQ268=; b=yMOjGVF+SM7pQ02XiSqYrKCfGJ
+	pum7gLGAHqfqRaFYtl7eLRLu5CZ9R7QkQVGgBTT4CLxV8Keei45VHQyYC+B90Lunneex71+isDdXz
+	5uu4U9e51zTrTyU2aZJb+73nBa6HIC09YNTjzAZe0bXVWI/bEqh5ASdbJvWdg8G5XuqdK3YAWcv3S
+	UkAPk6shczrtjiZxf2fvH/ZE/EVdYdyEfkyJSjs1rNcWEHqqtvq/t7+XDsfFFSi3cwVy9GMddwOTI
+	gPuA3Ld+FLTsK2kVmC592+U2fsQeiQdRQHv7iIlEhvvmtL9S/AMXyc9oFwwvpez0RXQWGrGuZRqEw
+	AVBrnZWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZ5DO-000000050n2-01OV;
-	Tue, 08 Jul 2025 10:06:18 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZ4t1-00000004vIx-0KrK;
-	Tue, 08 Jul 2025 09:45:15 +0000
-Date: Tue, 8 Jul 2025 02:45:15 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, io-uring@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
-	David Wei <dw@davidwei.uk>, Vishal Verma <vishal1.verma@intel.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [RFC 00/12] io_uring dmabuf read/write support
-Message-ID: <aGzoqyM06rgXIJst@infradead.org>
-References: <cover.1751035820.git.asml.silence@gmail.com>
- <aGaSb5rpLD9uc1IK@infradead.org>
- <f2216c30-6540-4b1a-b798-d9a3f83547b2@gmail.com>
- <aGveLlLDcsyCBKuU@infradead.org>
- <e210595b-d01f-4405-9b5d-a486ddca49ed@gmail.com>
+	id 1uZ5Fh-000000051N7-2yxK;
+	Tue, 08 Jul 2025 10:08:41 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uZ4vk-00000004viO-206I
+	for linux-nvme@lists.infradead.org;
+	Tue, 08 Jul 2025 09:48:06 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 46FE868C4E; Tue,  8 Jul 2025 11:47:49 +0200 (CEST)
+Date: Tue, 8 Jul 2025 11:47:48 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+	Alan Adamson <alan.adamson@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: What should we do about the nvme atomics mess?
+Message-ID: <20250708094748.GB27634@lst.de>
+References: <20250707141834.GA30198@lst.de> <aGvYnMciN_IZC65Z@kbusch-mbp> <b2ff30b5-5f12-4276-876d-81a8b2f180c1@suse.de> <aGvuRS8VmC0JXAR3@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e210595b-d01f-4405-9b5d-a486ddca49ed@gmail.com>
+In-Reply-To: <aGvuRS8VmC0JXAR3@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250708_024804_657965_B337BF84 
+X-CRM114-Status: GOOD (  17.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,52 +63,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 07, 2025 at 04:41:23PM +0100, Pavel Begunkov wrote:
-> > I mean a reference the actual dma_buf (probably indirect through the file
-> > * for it, but listen to the dma_buf experts for that and not me).
+On Mon, Jul 07, 2025 at 09:56:53AM -0600, Keith Busch wrote:
+> I think the NVMe TWG might want to consider an ECN to deprecate or at
+> least recommend against AUWPF, too.
+
+Yeah.  A wording that every controller SHOULD implement NAWUPF if it
+implements AWUPF might be good, eventually upgraded to a SHALL.
+
+> Just to throw AWUPF a lifeline for legecy devices, we could potentially
+> make sense of the value if Identify Controller says:
 > 
-> My expectation is that io_uring would pass struct dma_buf to the
+>   1. CMIC == 0; and
+>   2. OACS.NMS == 0; and
 
-io_uring isn't the only user.  We've already had one other use case
-coming up for pre-load of media files in mobile very recently.  It's
-also a really good interface for P2P transfers of any kind.
+What is NMS meant to say?  namespace management support?
 
-> file during registration, so that it can do a bunch of work upfront,
-> but iterators will carry sth already pre-attached and pre dma mapped,
-> probably in a file specific format hiding details for multi-device
-> support, and possibly bundled with the dma-buf pointer if necessary.
-> (All modulo move notify which I need to look into first).
-
-I'd expect that the exported passed around the dma_buf, and something
-that has access to it then imports it to the file.  This could be
-directly forwarded to the device for the initial scrope in your series
-where you only support it for block device files.
-
-Now we have two variants:
-
- 1) the file instance returns a cookie for the registration that the
-    caller has to pass into every read/write
- 2) the file instance tracks said cookie itself and matches it on
-    every read/write
-
-1) sounds faster, 2) has more sanity checking and could prevent things
-from going wrong.
-
-(all this is based on my limited dma_buf understanding, corrections
-always welcome).
-
-> > > But maybe that's fine. It's 40B -> 48B,
-> > 
-> > Alternatively we could the union point to a struct that has the dma buf
-> > pointer and a variable length array of dma_segs. Not sure if that would
-> > create a mess in the callers, though.
+>   3.
+>     a. FNA.FNS == 1; or
+>     b. NN == 1
 > 
-> Iteration helpers adjust the pointer, so either it needs to store
-> the pointer directly in iter or keep the current index. It could rely
-> solely on offsets, but that'll be a mess with nested loops (where the
-> inner one would walk some kind of sg table).
+> And if those conditions are true, then the controller and namespace
+> scopes resolve to a single namespace format, so the values should be one
+> in the same. The only way it could change, then, is a format command,
+> which means there couldn't be an in-use filesystem depending on it not
+> changing.
 
-Yeah.  Maybe just keep is as a separate pointer growing the structure
-and see if anyone screams.
-
+We could.  But are there many controllers where that would be the
+case and where people want to use atomics?
 
