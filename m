@@ -4,135 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADBA3C83F03
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jul 2025 06:23:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3DCCC83F03
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jul 2025 09:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Xlly5fbBXZxxG8m/688aZ7/ocD9yVJ6E2BW4qemmrvw=; b=sW286vqqWqrgjpgsbNoHg1i0Xm
-	Wp/5a85lp3j4PVVT+tLQdG3NInKPRp1Q8ZNcUnwf5G2yb6dQafbS/bNoFzDXlP7p40zDd4Zv15qON
-	c/y64j1pQf3Z7YZjs11jmka/+AUWB27qgkPLyquDBVdsb3so+A2fke8yc85Me5OcQwdUiEiNlMwU8
-	1z/aw8AYX1C5Hj3i8bR54/Sg1xoTutfMwTpiaqBQbRQj6qzN9cY1ZZIHlvxm86rssELpcdw5eMblb
-	AqklBOT2nbz/u8sJoegStyb/qT6PI0d7V67kl99N/+T+nIyPROOpFVM99Nv0vPN9aeqAXo1F1yaxs
-	gASfI3vw==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=GFLqhBmGowcpiiQwNum256VPL08ZNDpLKbHxe0rNTSA=; b=ZqoJt6owj4Bblu9sY9Xv6u7gsV
+	zgMzY8+kFp7AVmfKUUneEDQ9n8ky90x7A6jep63Cob2Wut3UTJigaO16rAvhmUu8pxYdmZN1J7u0i
+	WIl5If/mqZLXsrS5CrlO1xkK8ALf93KiNE6LJ7oJS3nBABrjNYoAp927nmisjt6R2ONv4hITgDUi4
+	03mlLXcnVeb2ZBrQrEi6JkjeEI0x1rkq8WV8ycG+0SIMjHHlmU/Jb58vt6O6jf/iKh07+KORvsYfv
+	CI+7+MqCRGSLft2bluch1OeWAq5qDCHTwoWk4erVLHfTVkST3LIv/cYPHlqxg9xn7PF1NrqPXooBQ
+	EGu6dwiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZODB-00000007fU5-3SpK;
-	Wed, 09 Jul 2025 06:23:21 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1uZQqr-000000085KN-2YFq;
+	Wed, 09 Jul 2025 09:12:29 +0000
+Received: from mail.bizovo.pl ([217.61.16.222])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZOB0-00000007fJb-1pg5
+	id 1uZPIQ-00000007p60-1moG
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Jul 2025 06:21:11 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 272DE2116B;
-	Wed,  9 Jul 2025 06:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752042063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xlly5fbBXZxxG8m/688aZ7/ocD9yVJ6E2BW4qemmrvw=;
-	b=W2sc/6rXp8Hies2cwvDKI07uY/TUCElx8DdXDnw/WBgk4jsuSEv9pDknCW1Lcy5YTnV+Xg
-	tRCcSIE02RPOW7Wb5cTVl9hBjzvdXJdoQAZOIs/x+C0XqVeAkBBpeUzWBa+2sRY1owKT0j
-	F7tZzKu+ltFQNvBsglfmSR7cdmlvtp0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752042063;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xlly5fbBXZxxG8m/688aZ7/ocD9yVJ6E2BW4qemmrvw=;
-	b=SV2MPq+GKMs8ROGJOQWmHQN6aQQKhz6DcKDLjZjM86wS061TNTF8Yp3Kr5Q5T2/Ko9FEpw
-	5/2B6ay9SWrX4lAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="W2sc/6rX";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SV2MPq+G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752042063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xlly5fbBXZxxG8m/688aZ7/ocD9yVJ6E2BW4qemmrvw=;
-	b=W2sc/6rXp8Hies2cwvDKI07uY/TUCElx8DdXDnw/WBgk4jsuSEv9pDknCW1Lcy5YTnV+Xg
-	tRCcSIE02RPOW7Wb5cTVl9hBjzvdXJdoQAZOIs/x+C0XqVeAkBBpeUzWBa+2sRY1owKT0j
-	F7tZzKu+ltFQNvBsglfmSR7cdmlvtp0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752042063;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xlly5fbBXZxxG8m/688aZ7/ocD9yVJ6E2BW4qemmrvw=;
-	b=SV2MPq+GKMs8ROGJOQWmHQN6aQQKhz6DcKDLjZjM86wS061TNTF8Yp3Kr5Q5T2/Ko9FEpw
-	5/2B6ay9SWrX4lAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD39713757;
-	Wed,  9 Jul 2025 06:21:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /D+ILE4Kbmg4TwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 09 Jul 2025 06:21:02 +0000
-Message-ID: <0db83ea3-83aa-45ef-bafd-6b37da541d22@suse.de>
-Date: Wed, 9 Jul 2025 08:21:02 +0200
+	Wed, 09 Jul 2025 07:32:51 +0000
+Received: by mail.bizovo.pl (Postfix, from userid 1002)
+	id CCC828371D; Wed,  9 Jul 2025 09:31:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bizovo.pl; s=mail;
+	t=1752046295; bh=GFLqhBmGowcpiiQwNum256VPL08ZNDpLKbHxe0rNTSA=;
+	h=Date:From:To:Subject:From;
+	b=lTWuMaGKFzUomiF3UavenrkA6sun1RvyLB9XGZsc4zwjUckK1z47eI3n+gzDtoGNP
+	 YtbLY+uqv7A6BMq1Sf3rgPbDTQyjxQOSx/2fpstwgfvxf8/1/tmtqxlGfjRtnBe55/
+	 5bjiVj8Vz34bmdUHJY0QLrsNPezxelF2XroioBJXI9ODp6gvGo73AVQA/6aYTjrFp+
+	 slKliO2HIvCYkx6qOJ1lufinLu/d37M4xdSISbvp0koaRb4zgghOGS2H6kqii+lWOq
+	 huomv/HbY6XfM+XptNRe9gF5y0jT9QDiZOmUPP+bmKpGqZIcLobfuK0ZWoIQg+a1oH
+	 fRGTjjQlQpEgw==
+Received: by mail.bizovo.pl for <linux-nvme@lists.infradead.org>; Wed,  9 Jul 2025 07:31:04 GMT
+Message-ID: <20250709084500-0.1.8v.19c9n.0.6b3ad69on0@bizovo.pl>
+Date: Wed,  9 Jul 2025 07:31:04 GMT
+From: "Wiktoria Bielaszka" <wiktoria.bielaszka@bizovo.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: =?UTF-8?Q?Zamro=C5=BCenie_ceny_energii?=
+X-Mailer: mail.bizovo.pl
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/6] nvme-fc: FPIN link integrity handling
-To: John Meneghini <jmeneghi@redhat.com>, Bryan Gurney <bgurney@redhat.com>,
- linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
- sagi@grimberg.me, axboe@kernel.dk
-Cc: james.smart@broadcom.com, dick.kennedy@broadcom.com,
- linux-scsi@vger.kernel.org, njavali@marvell.com, muneendra737@gmail.com
-References: <20250624202020.42612-1-bgurney@redhat.com>
- <CAHhmqcTO_Q59aDr3DywC-tPF=9pe3gxbyn6J4ycdf+eYEOayHQ@mail.gmail.com>
- <19484829-0a7b-42ce-99fe-e74ccda67dce@suse.de>
- <b0817e2a-1c4e-4d7d-9a84-633913d9e0e4@redhat.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <b0817e2a-1c4e-4d7d-9a84-633913d9e0e4@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[broadcom.com,vger.kernel.org,marvell.com,gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 272DE2116B
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250708_232106_703520_FCC96ED4 
-X-CRM114-Status: GOOD (  32.09  )
+X-CRM114-CacheID: sfid-20250709_003250_587493_D19DDF83 
+X-CRM114-Status: UNSURE (   1.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,100 +66,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/8/25 21:56, John Meneghini wrote:
-> On 7/2/25 2:10 AM, Hannes Reinecke wrote:
->>> During path fail testing on the numa iopolicy, I found that I/O moves
->>> off of the marginal path after a first link integrity event is
->>> received, but if the non-marginal path the I/O is on is disconnected,
->>> the I/O is transferred onto a marginal path (in testing, sometimes
->>> I've seen it go to a "marginal optimized" path, and sometimes
->>> "marginal non-optimized").
->>>
->> That is by design.
->> 'marginal' paths are only evaluated for the 'optimized' path selection,
->> where it's obvious that 'marginal' paths should not be selected as
->> 'optimized'.
-> 
-> I think we might want to change this.  With the NUMA scheduler you can 
-> end up with using the non-optimized marginal path.  This happens when
- > we test with 4 paths (2 optimized and 2 non-optimized) and set all 4
- > paths to marginal.  In this case> the NUMA scheduler should simply 
-choose the optimized marginal path on
-> the closest numa node.  However, that's not what happens. It consistently
- > chooses the non-optimized first non-optimized path.>
-Ah. So it seems that the NUMA scheduler needs to be fixed.
-I'll have a look there.
+Dzie=C5=84 dobry,=20
 
->> For 'non-optimized' the situation is less clear; is the 'non-optimized'
->> path preferrable to 'marginal'? Or the other way round?
->> So once the 'optimized' path selection returns no paths, _any_ of the
->> remaining paths are eligible.
-> 
-> This is a good question for Broadcom.  I think, with all IO schedulers, 
-> as long
-> as there is a non-marginal path available, that path should be used.  So
-> a non-marginal non-optimized path should take precedence over a marginal 
-> optimized path.
-> 
-> In the case were all paths are marginal, I think the scheduler should 
-> simply use the first optimized path on the closest numa node.
+czy planuj=C4=85 Pa=C5=84stwo optymalizacj=C4=99 koszt=C3=B3w energii ele=
+ktrycznej w swojej firmie?
 
-For the NUMA case, yes. But as I said above, it seems that the NUMA
-scheduler needs to fixes.
+Chcieliby=C5=9Bmy przedstawi=C4=87 nasz=C4=85 ofert=C4=99 XPOT, kt=C3=B3r=
+a mo=C5=BCe przynie=C5=9B=C4=87 znacz=C4=85ce oszcz=C4=99dno=C5=9Bci. Ju=C5=
+=BC od teraz, mog=C4=85 Pa=C5=84stwo uzyska=C4=87 cen=C4=99 ni=C5=BCsz=C4=
+=85 o 40,9% w stosunku do obecnej ceny ustawowej.=20
 
->>> The queue-depth iopolicy doesn't change its path selection based on
->>> the marginal flag, but looking at nvme_queue_depth_path(), I can see
->>> that there's currently no logic to handle marginal paths.  We're
->>> developing a patch to address that issue in queue-depth, but we need
->>> to do more testing.
->>>
->> Again, by design.
->> The whole point of the marginal path patchset is that I/O should
->> be steered away from the marginal path, but the path itself should
->> not completely shut off (otherwise we just could have declared the
->> path as 'faulty' and be done with).
->> Any I/O on 'marginal' paths should have higher latencies, and higher
->> latencies should result in higher queue depths on these paths. So
->> the queue-depth based IO scheduler should to the right thing
->> automatically.
-> 
-> I don't understand this.  The Round-robin scheduler removes marginal 
-> paths, why shouldn't the queue-depth and numa scheduler do the same?
-> 
-The NUMA scheduler should, that's correct.
+Nasza propozycja obejmuje lata 2025 i 2026, a start wsp=C3=B3=C5=82pracy =
+jest mo=C5=BCliwy od zaraz. Gwarantujemy elastyczne warunki umowy (3-6-9-=
+12 miesi=C4=99cy), zapewniaj=C4=85c minimum formalno=C5=9Bci.
 
->> Always assuming that marginal paths should have higher latencies.
->> If they haven't then they will be happily selection for I/O.
->> But then again, if the marginal path does _not_ have highert
->> latencies why shouldn't we select it for I/O?
-> 
-> This may be true with FPIN Congestion Signal, but we are testing Link 
-> Integrity.  With FPIN LI I think we want to simply stop using the path.
-> LI has nothing to do with latency.  So unless ALL paths are marginal, 
-> the IO scheduler should not be using any marginal path.
-> 
-For FPIN LI the paths should be marked as 'faulty', true.
+Jeste=C5=9Bmy pionierem w sprzeda=C5=BCy energii w cenach RDN wed=C5=82ug=
+ TGE dla ka=C5=BCdej grupy taryfowej. Przez ca=C5=82y okres trwania umowy=
+ zapewniamy Pa=C5=84stwu dedykowanego opiekuna, a ca=C5=82y proces Zmiany=
+ Sprzedawcy i wszelkie formalno=C5=9Bci realizujemy za Klient=C3=B3w. =20
 
-> Do we need another state here?  There is an ask to support FPIN CS, so 
-> maybe using the term "marginal" to describe LI is wrong.
-> 
-> Maybe we need something like "marginal_li" and "marginal_cs" to describe 
-> the difference.
-> 
-Really not so sure. I really wonder how a FPIN LI event reflect back on
-the actual I/O. Will the I/O be aborted with an error? Or does the I/O
-continue at a slower pace?
-I would think the latter, and that's the design assumption for this
-patchset. If it's the former and I/O is aborted with an error we are in
-a similar situation like we have with a faulty cable, and we need
-to come up with a different solution.
+Ch=C4=99tnie porozmawiam o tym, jak mo=C5=BCemy wsp=C3=B3lnie zrealizowa=C4=
+=87 Pa=C5=84stwa cele energetyczne. Prosz=C4=99 o wiadomo=C5=9B=C4=87 w p=
+rzypadku zainteresowania.=20
 
-Cheers,
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Z pozdrowieniami
+Wiktoria Bielaszka
 
