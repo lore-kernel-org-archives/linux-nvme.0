@@ -4,64 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C76CC83F18
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jul 2025 22:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A7F4C83F10
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Jul 2025 22:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yi/9ek0bfuJ0ISD7IWW6asauruMF1n3pph+0xqar/GU=; b=CZa9Sp4K/LNVUB29ea84dn3sHt
-	rUrgZMEj2DJ0x9WgDYS7y6aYRNapFA05li6CsMHaUO9ffPH1mga7NEfdZxTrSUe+I3FY+76IL4wxa
-	S0R3mNEY+q4p25SXAl1515D6isWcVa7z9Jddr1sHguA+1UnunZ+p4oL5f/9KPZv3JgdKWg36WasVl
-	OKgDITOn9JJ9rOjB7qfW5SN8WwY9MJSILMWLtlXvalkhDrDHPq9dxTRAkrAzQo72sDdzkW0V3qKlV
-	TwHg8iiZNRKous+QuQkYTK+KA/Ik6gganndjkEGG1B6Ex2Xy6xhi7moBQN4CKxJTeXsNtiW5B3uZn
-	cI86t1/w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CqRUNcW2raWoTEkvMv3h528vffUR2LXNtOh0RfYFUYk=; b=PmhkWeCX4m7cj9jTr5itP3Xuo/
+	QvRPhJ/JjwPhbrGmRy4hCCAnbPxuVgY9O3h3smp6rOWY8OVj6IHS86NkQCscecpbv+VLkJyvrZIX4
+	wqGjl9bE/zSaJRa+hrnzpygfWkmCK9Td7XS8gNtUUbG5oUQnYXktp1m9uN+O3AoTLD99pUnhCwPHd
+	Cv+WcgMbmKKYh7KfGnVMKdBAMtDWa9yvUVWKCcFWdM5aKo2Zq66ZhIPg68qgJOVzngKAMqudPykmU
+	uRhTOMb2aNlwAIOiGPUNHyKuLqee/qJUSLAJEWo3NMyudFEH3s8/IKPbaf9cuOw4hvQ1Lfpt2BZoK
+	dv8x+jFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZdjE-0000000AA8x-2ald;
-	Wed, 09 Jul 2025 22:57:28 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uZdjY-0000000AAsR-0J3v;
+	Wed, 09 Jul 2025 22:57:48 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZcLH-00000009v9d-3yEq
+	id 1uZcrZ-0000000A0NT-41Ho
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Jul 2025 21:28:41 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id AEF08A549A7;
-	Wed,  9 Jul 2025 21:28:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2F87C4CEEF;
-	Wed,  9 Jul 2025 21:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752096516;
-	bh=wNZ6tpULyKOfLHD6cEnCg3swBF1wqgutcSf6Roj3i5M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B7V/AtxhfKuY+hmTibOnZVi3aYorjjKV1Wb53XJ9sWnQH9v4b1wwBZSd/HodTxjAm
-	 K402hAqsr5SjDZ/9SMAgsKKVxCeTB0eJc27oXUuhAcNSYSaMqfBVapIZQzS44EFS7T
-	 vZugE/kwtZSYEgS75xrtdkPVq0BV2tjf2uxTCUvi1NdDUrT6hqAuGU+wya/aq0TPrW
-	 TyryBsVKA1OnTHxR7STLZyUWwgNkmLXEkNUpECzFwSOCGcWXSDoW+09x+sjCLPTNVO
-	 6cWWCSBQfT0B+y7HXD7RUi5SmWPBCNvhg7tWOnHhehIclnul5QNWoZKcGuFRY34b/5
-	 FbNq8hrkkpCgg==
-Date: Wed, 9 Jul 2025 15:28:34 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Christoph Hellwig <hch@lst.de>, Alan Adamson <alan.adamson@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org
-Subject: Re: What should we do about the nvme atomics mess?
-Message-ID: <aG7fArgdSWIjXcp9@kbusch-mbp>
-References: <20250707141834.GA30198@lst.de>
- <ee663f87-0dbd-4685-a462-27da217dd259@linux.ibm.com>
+	Wed, 09 Jul 2025 22:02:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752098519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CqRUNcW2raWoTEkvMv3h528vffUR2LXNtOh0RfYFUYk=;
+	b=EubNkZB2TzqD5tZQuT/QY3US85GjFU5sYKEMzW8KRayiqoBMJkokrJ4C2vEqSZVoKHTdvw
+	Vnlvw+5slYtIzW49mNOeHS4nQIifSOarp0W9ZpRPEIYWoNQrj6iT5Dxe3fzGlav2empuWm
+	/p0xvl6jn/0CFo/o+vse/BeGu88jxCU=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-354-TJuaxBQNPpGD4mr4WnitRA-1; Wed,
+ 09 Jul 2025 18:01:57 -0400
+X-MC-Unique: TJuaxBQNPpGD4mr4WnitRA-1
+X-Mimecast-MFC-AGG-ID: TJuaxBQNPpGD4mr4WnitRA_1752098515
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B3C119560AD;
+	Wed,  9 Jul 2025 22:01:55 +0000 (UTC)
+Received: from [10.17.16.239] (unknown [10.17.16.239])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 343441956089;
+	Wed,  9 Jul 2025 22:01:53 +0000 (UTC)
+Message-ID: <a1ea5d9d-d3d9-47a6-a950-4a8480c3a305@redhat.com>
+Date: Wed, 9 Jul 2025 18:01:52 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ee663f87-0dbd-4685-a462-27da217dd259@linux.ibm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 6/8] qla2xxx: enable FPIN notification for NVMe
+To: Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@kernel.dk
+Cc: james.smart@broadcom.com, dick.kennedy@broadcom.com, njavali@marvell.com,
+ linux-scsi@vger.kernel.org, hare@suse.de
+References: <20250709211919.49100-1-bgurney@redhat.com>
+ <20250709211919.49100-7-bgurney@redhat.com>
+Content-Language: en-US
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <20250709211919.49100-7-bgurney@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250709_142840_052287_DEEBDD3F 
-X-CRM114-Status: GOOD (  16.94  )
+X-CRM114-CacheID: sfid-20250709_150202_422596_7BAD3245 
+X-CRM114-Status: GOOD (  16.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,35 +88,164 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 09, 2025 at 01:21:17PM +0530, Nilay Shroff wrote:
-> I believe there are multi-controller NVMe disks in the field (including the 
-> one I have) that do not exhibit such inconsistencies, i.e., they report a
-> consistent AWUPF value across controllers and do not change it based on 
-> namespace format. The NVMe specification states this (quoting it from 
-> NVM-Command-Set-Specification-1.0e):
-> 
-> "The values (referencing AWUPF / AWUN) reported in the Identify Controller
-> data structure are valid across all namespaces with any supported namespace
-> format, forming a baseline value that is guaranteed not to change."
+U29tZSBiYWQgbmV3cyBhYm91dCB0aGlzIHBhdGNoLg0KDQpBbGwgdGVzdHMgd2l0aCB0aGUg
+TFBGQyBkcml2ZXIgcGFzcywgYnV0IHdoZW4gd2UgdGVzdGVkIHRoaXMgc2VyaWVzIG9uIGEg
+c3lzdGVtIHdpdGggYSBRTEEgYWRhcHRlciB3ZSBzZWUgdGhlIGZvbGxvd2luZyBwcm9ibGVt
+Lg0KDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRj
+LnJlZGhhdC5jb20ga2VybmVsOg0KLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0t
+LS0tDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRj
+LnJlZGhhdC5jb20ga2VybmVsOiBtZW1jcHk6IGRldGVjdGVkIGZpZWxkLXNwYW5uaW5nIHdy
+aXRlIChzaXplIDYwKSBvZiBzaW5nbGUgZmllbGQgIigodWludDhfdCAqKWZwaW5fcGt0ICsg
+YnVmZmVyX2NvcHlfb2Zmc2V0KSIgYXQgZHJpdmVycy9zY3NpL3FsYTJ4eHgvcWxhX2lzci5j
+OjEyMjEgKHNpemUgNDQpDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0
+LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBXQVJOSU5HOiBDUFU6IDczIFBJRDog
+MCBhdCBkcml2ZXJzL3Njc2kvcWxhMnh4eC9xbGFfaXNyLmM6MTIyMSBxbGEyN3h4X2NvcHlf
+ZnBpbl9wa3QuaXNyYS4wKzB4MjkyLzB4M2EwIFtxbGEyeHh4XQ0KSnVsIDA5IDE2OjM2OjU5
+IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDog
+TW9kdWxlcyBsaW5rZWQgaW46IG5mdF9maWJfaW5ldCBuZnRfZmliX2lwdjQgbmZ0X2ZpYl9p
+cHY2IG5mdF9maWIgbmZ0X3JlamVjdF9pbmV0IG5mX3JlamVjdF9pcHY0IG5mX3JlamVjdF9p
+cHY2IG5mdF9yZWplY3QgbmZ0X2N0IG5mdF9jaGFpbl9uYXQgbmZfbmF0IG5mX2Nvbm50cmFj
+ayBuZl9kZWZyYWdfaXB2NiBuZl9kZWZyYWdfaXB2NCByZmtpbGwgaXBfc2V0IG5mX3RhYmxl
+cyBpcmRtYSBpNDBlIGliX3V2ZXJicyBpYl9jb3JlIGludGVsX3JhcGxfbXNyIGludGVsX3Jh
+cGxfY29tbW9uIGludGVsX3VuY29yZV9mcmVxdWVuY3kgaW50ZWxfdW5jb3JlX2ZyZXF1ZW5j
+eV9jb21tb24gaW50ZWxfaWZzIGkxMG5tX2VkYWMgc2t4X2VkYWNfY29tbW9uIG5maXQgbGli
+bnZkaW1tIHg4Nl9wa2dfdGVtcF90aGVybWFsIGludGVsX3Bvd2VyY2xhbXAgY29yZXRlbXAg
+a3ZtX2ludGVsIHZmYXQgZmF0IGt2bSBkYXhfaG1lbSBjeGxfYWNwaSBjeGxfcG9ydCBpcnFi
+eXBhc3MgaVRDT193ZHQgY3hsX2NvcmUgcmFwbCBtZWlfbWUgaVRDT192ZW5kb3Jfc3VwcG9y
+dCBpcG1pX3NzaWYgZGVsbF9zbWJpb3MgYWNwaV9wb3dlcl9tZXRlciBpbnRlbF9jc3RhdGUg
+cG10X3RlbGVtZXRyeSBwbGF0Zm9ybV9wcm9maWxlIGlzc3RfaWZfbWJveF9wY2kgaXNzdF9p
+Zl9tbWlvIHNkX21vZCBpY2UgcG10X2NsYXNzIGludGVsX3Nkc2kgZGNkYmFzIGludGVsX3Vu
+Y29yZSBtZ2FnMjAwIGVpbmogZGVsbF93bWlfZGVzY3JpcHRvciB3bWlfYm1vZiB0ZzMgcGNz
+cGtyIHNnIG1laSBpMmNfaTgwMSBpc3N0X2lmX2NvbW1vbiBnbnNzIGludGVsX3ZzZWMgaTJj
+X2FsZ29fYml0IGxpYmllIGkyY19zbWJ1cyBpcG1pX3NpIGkyY19pc210IGFjcGlfaXBtaSBp
+cG1pX2RldmludGYgaXBtaV9tc2doYW5kbGVyIGRtX211bHRpcGF0aCBmdXNlIGRtX21vZCBs
+b29wIG5mbmV0bGluayB4ZnMgcWxhMnh4eCBpYWFfY3J5cHRvIHFhdF80eHh4IGludGVsX3Fh
+dCBudm1lX2ZjIGFoY2kgbnZtZSBsaWJhaGNpIG52bWVfZmFicmljcyBpZHhkDQpKdWwgMDkg
+MTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20g
+a2VybmVsOiBudm1lX2NvcmUgbGliYXRhIGdoYXNoX2NsbXVsbmlfaW50ZWwgc2NzaV90cmFu
+c3BvcnRfZmMgbnZtZV9rZXlyaW5nIGlkeGRfYnVzIGNyYzggbnZtZV9hdXRoIHdtaSBwaW5j
+dHJsX2VtbWl0c2J1cmcNCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3Qu
+ZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IENQVTogNzMgVUlEOiAwIFBJRDogMCBD
+b21tOiBzd2FwcGVyLzczIEtkdW1wOiBsb2FkZWQgVGFpbnRlZDogRyBTIDYuMTYuMC1yYzUu
+bnZtZWZwaW5saS12OCsgIzEgUFJFRU1QVCh2b2x1bnRhcnkpDQpKdWwgMDkgMTY6MzY6NTkg
+cmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBU
+YWludGVkOiBbU109Q1BVX09VVF9PRl9TUEVDDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9y
+YWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBIYXJkd2FyZSBu
+YW1lOiBEZWxsIEluYy4gUG93ZXJFZGdlIFI2NjAvMEhHVEs5LCBCSU9TIDIuNS40IDAxLzE2
+LzIwMjUNCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5nLnJkdTIu
+ZGMucmVkaGF0LmNvbSBrZXJuZWw6IFJJUDogMDAxMDpxbGEyN3h4X2NvcHlfZnBpbl9wa3Qu
+aXNyYS4wKzB4MjkyLzB4M2EwIFtxbGEyeHh4XQ0KSnVsIDA5IDE2OjM2OjU5IHJoZWwtc3Rv
+cmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogQ29kZTogZTkg
+NDggYzcgYzIgMzggYzAgYjIgYzAgNDggODkgNDQgMjQgMzggNDggYzcgYzcgOTggYzAgYjIg
+YzAgNGMgODkgNDQgMjQgMjggNDggODkgNzQgMjQgMjAgYzYgMDUgZGIgNmUgMWYgMDAgMDEg
+ZTggN2UgMDYgYzQgYzMgPDBmPiAwYiA0OCA4YiA0NCAyNCAzOCA0YyA4YiA0NCAyNCAyOCA0
+OCA4YiA3NCAyNCAyMCBlOSBkMSBmZSBmZiBmZg0KSnVsIDA5IDE2OjM2OjU5IHJoZWwtc3Rv
+cmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogUlNQOiAwMDE4
+OmZmNWUyNTM5ODdhMDRlNDAgRUZMQUdTOiAwMDAxMDA4Mg0KSnVsIDA5IDE2OjM2OjU5IHJo
+ZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogUkFY
+OiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogZmYzYzk5YjdkYzM4MGNjMCBSQ1g6IDAwMDAwMDAw
+MDAwMDAwMjcNCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5nLnJk
+dTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IFJEWDogZmYzYzk5Yzc3ZjcxYzE0OCBSU0k6IDAw
+MDAwMDAwMDAwMDAwMDEgUkRJOiBmZjNjOTljNzdmNzFjMTQwDQpKdWwgMDkgMTY6MzY6NTkg
+cmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBS
+QlA6IDAwMDAwMDAwMDAwMDAwMmMgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogZmY1ZTI1
+Mzk4N2EwNGNiOA0KSnVsIDA5IDE2OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcu
+cmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogUjEwOiBmZmZmZmZmZjg2MTI0NDA4IFIxMTog
+MDAwMDAwMDAwMDAwMDAwMyBSMTI6IDAwMDAwMDAwMDAwMDAwM2MNCkp1bCAwOSAxNjozNjo1
+OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6
+IFIxMzogMDAwMDAwMDAwMDAwMDAzYyBSMTQ6IGZmM2M5OWI3ZWIxNTY2MDAgUjE1OiAwMDAw
+MDAwMDAwMDAwMDE0DQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVu
+Zy5yZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBGUzogIDAwMDAwMDAwMDAwMDAwMDAoMDAw
+MCkgR1M6ZmYzYzk5YzdmODljNTAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwDQpK
+dWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhh
+dC5jb20ga2VybmVsOiBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAw
+MDgwMDUwMDMzDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5y
+ZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBDUjI6IDAwMDA3ZjE5ZDlmY2UwMDQgQ1IzOiAw
+MDAwMDAxYWIwYTI0MDAzIENSNDogMDAwMDAwMDAwMGY3M2VmMA0KSnVsIDA5IDE2OjM2OjU5
+IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDog
+UEtSVTogNTU1NTU1NTQNCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3Qu
+ZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IENhbGwgVHJhY2U6DQpKdWwgMDkgMTY6
+MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20ga2Vy
+bmVsOiAgPElSUT4NCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5n
+LnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IHFsYTI0eHhfcHJvY2Vzc19yZXNwb25zZV9x
+dWV1ZSsweGFjNy8weGJkMCBbcWxhMnh4eF0NCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3Jh
+Z2UtMTA3LmZhc3QuZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6ID8gcnVubmluZ19j
+bG9jaysweDEwLzB4MzANCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3Qu
+ZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6ID8gd2F0Y2hkb2dfdGltZXJfZm4rMHgx
+MjcvMHgxYzANCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5nLnJk
+dTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IHFsYTI0eHhfbXNpeF9yc3BfcSsweDQzLzB4YjAg
+W3FsYTJ4eHhdDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5y
+ZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBfX2hhbmRsZV9pcnFfZXZlbnRfcGVyY3B1KzB4
+NDcvMHgxYTANCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5nLnJk
+dTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IGhhbmRsZV9pcnFfZXZlbnQrMHgzOC8weDkwDQpK
+dWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhh
+dC5jb20ga2VybmVsOiBoYW5kbGVfZWRnZV9pcnErMHg5MC8weDFlMA0KSnVsIDA5IDE2OjM2
+OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5l
+bDogX19jb21tb25faW50ZXJydXB0KzB4M2IvMHg5MA0KSnVsIDA5IDE2OjM2OjU5IHJoZWwt
+c3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogY29tbW9u
+X2ludGVycnVwdCsweDgwLzB4YTANCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3
+LmZhc3QuZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6ICA8L0lSUT4NCkp1bCAwOSAx
+NjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBr
+ZXJuZWw6ICA8VEFTSz4NCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3Qu
+ZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IGFzbV9jb21tb25faW50ZXJydXB0KzB4
+MjYvMHg0MA0KSnVsIDA5IDE2OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1
+Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogUklQOiAwMDEwOmNwdWlkbGVfZW50ZXJfc3RhdGUr
+MHhjMC8weDQxMA0KSnVsIDA5IDE2OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcu
+cmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogQ29kZTogNjkgMDIgMDAgMDAgZTggZTEgMzYg
+MzQgZmYgZTggZGMgZjEgZmYgZmYgNDkgODkgYzUgMGYgMWYgNDQgMDAgMDAgMzEgZmYgZTgg
+YmQgZjcgMzIgZmYgNDUgODQgZmYgMGYgODUgM2IgMDIgMDAgMDAgZmIgNDUgODUgZjYgPDBm
+PiA4OCA4NCAwMSAwMCAwMCA0OSA2MyBkNiA0OCA4ZCAwNCA1MiA0OCA4ZCAwNCA4MiA0OSA4
+ZCAwYyBjNCA0OA0KSnVsIDA5IDE2OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcu
+cmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogUlNQOiAwMDE4OmZmNWUyNTM5ODY5ZTdlNjgg
+RUZMQUdTOiAwMDAwMDIwNg0KSnVsIDA5IDE2OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFz
+dC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtlcm5lbDogUkFYOiBmZjNjOTljN2Y4OWM1MDAw
+IFJCWDogMDAwMDAwMDAwMDAwMDAwMyBSQ1g6IDAwMDAwMDAwMDAwMDAwMDANCkp1bCAwOSAx
+NjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBr
+ZXJuZWw6IFJEWDogMDAwMDAwZWU1YzFlNzg0YSBSU0k6IGZmZmZmZmU5Yjg1OWZkOTAgUkRJ
+OiAwMDAwMDAwMDAwMDAwMDAwDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5m
+YXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBSQlA6IGZmOTAyNTM5N2Y5MDAw
+YjAgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMTk1NWNkOTc1MA0KSnVsIDA5
+IDE2OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29t
+IGtlcm5lbDogUjEwOiAwMDAwMDAwMDAwM2M1ODA0IFIxMTogZmYzYzk5Yzc3ZjcyZjllYyBS
+MTI6IGZmZmZmZmZmODYyZDgwNDANCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0b3JhZ2UtMTA3
+LmZhc3QuZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IFIxMzogMDAwMDAwZWU1YzFl
+Nzg0YSBSMTQ6IDAwMDAwMDAwMDAwMDAwMDMgUjE1OiAwMDAwMDAwMDAwMDAwMDAwDQpKdWwg
+MDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5j
+b20ga2VybmVsOiA/IGNwdWlkbGVfZW50ZXJfc3RhdGUrMHhiMy8weDQxMA0KSnVsIDA5IDE2
+OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRoYXQuY29tIGtl
+cm5lbDogY3B1aWRsZV9lbnRlcisweDJkLzB4NDANCkp1bCAwOSAxNjozNjo1OSByaGVsLXN0
+b3JhZ2UtMTA3LmZhc3QuZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IGNwdWlkbGVf
+aWRsZV9jYWxsKzB4MTExLzB4MWEwDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEw
+Ny5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiBkb19pZGxlKzB4NzMvMHhk
+MA0KSnVsIDA5IDE2OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5y
+ZWRoYXQuY29tIGtlcm5lbDogY3B1X3N0YXJ0dXBfZW50cnkrMHgyOS8weDMwDQpKdWwgMDkg
+MTY6MzY6NTkgcmhlbC1zdG9yYWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20g
+a2VybmVsOiBzdGFydF9zZWNvbmRhcnkrMHgxMTQvMHgxNDANCkp1bCAwOSAxNjozNjo1OSBy
+aGVsLXN0b3JhZ2UtMTA3LmZhc3QuZW5nLnJkdTIuZGMucmVkaGF0LmNvbSBrZXJuZWw6IGNv
+bW1vbl9zdGFydHVwXzY0KzB4MTNlLzB4MTQxDQpKdWwgMDkgMTY6MzY6NTkgcmhlbC1zdG9y
+YWdlLTEwNy5mYXN0LmVuZy5yZHUyLmRjLnJlZGhhdC5jb20ga2VybmVsOiAgPC9UQVNLPg0K
+SnVsIDA5IDE2OjM2OjU5IHJoZWwtc3RvcmFnZS0xMDcuZmFzdC5lbmcucmR1Mi5kYy5yZWRo
+YXQuY29tIGtlcm5lbDogLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tDQoN
+Cg0KSm9obiBBLiBNZW5lZ2hpbmkNClNlbmlvciBQcmluY2lwYWwgUGxhdGZvcm0gU3RvcmFn
+ZSBFbmdpbmVlcg0KUkhFTCBTU1QgLSBQbGF0Zm9ybSBTdG9yYWdlIEdyb3VwDQpqbWVuZWdo
+aUByZWRoYXQuY29tDQoNCk9uIDcvOS8yNSA1OjE5IFBNLCBCcnlhbiBHdXJuZXkgd3JvdGU6
+DQo+IEZyb206IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBrZXJuZWwub3JnPg0KPiANCj4gQ2Fs
+bCAnbnZtZV9mY19mcGluX3JjdigpJyB0byBlbmFibGUgRlBJTiBub3RpZmljYXRpb25zIGZv
+ciBOVk1lLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQGtl
+cm5lbC5vcmc+DQo+IFJldmlld2VkLWJ5OiBKb2huIE1lbmVnaGluaSA8am1lbmVnaGlAcmVk
+aGF0LmNvbT4NCj4gVGVzdGVkLWJ5OiBNdW5lZW5kcmEgS3VtYXIgPG11bmVlbmRyYS5rdW1h
+ckBicm9hZGNvbS5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvc2NzaS9xbGEyeHh4L3FsYV9p
+c3IuYyB8IDMgKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KPiAN
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9xbGEyeHh4L3FsYV9pc3IuYyBiL2RyaXZl
+cnMvc2NzaS9xbGEyeHh4L3FsYV9pc3IuYw0KPiBpbmRleCBjNGM2YjVjNjY1OGMuLmY1ZTQw
+ZTIyYWQ3ZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9zY3NpL3FsYTJ4eHgvcWxhX2lzci5j
+DQo+ICsrKyBiL2RyaXZlcnMvc2NzaS9xbGEyeHh4L3FsYV9pc3IuYw0KPiBAQCAtNDYsNiAr
+NDYsOSBAQCBxbGEyN3h4X3Byb2Nlc3NfcHVyZXhfZnBpbihzdHJ1Y3Qgc2NzaV9xbGFfaG9z
+dCAqdmhhLCBzdHJ1Y3QgcHVyZXhfaXRlbSAqaXRlbSkNCj4gICAJCSAgICAgICBwa3QsIHBr
+dF9zaXplKTsNCj4gICANCj4gICAJZmNfaG9zdF9mcGluX3Jjdih2aGEtPmhvc3QsIHBrdF9z
+aXplLCAoY2hhciAqKXBrdCwgMCk7DQo+ICsjaWYgKElTX0VOQUJMRUQoQ09ORklHX05WTUVf
+RkMpKQ0KPiArCW52bWVfZmNfZnBpbl9yY3YodmhhLT5udm1lX2xvY2FsX3BvcnQsIHBrdF9z
+aXplLCAoY2hhciAqKXBrdCk7DQo+ICsjZW5kaWYNCj4gICB9DQo+ICAgDQo+ICAgY29uc3Qg
+Y2hhciAqY29uc3QgcG9ydF9zdGF0ZV9zdHJbXSA9IHsNCg0K
 
-I don't think that's a backward compatible requirement. Controllers
-often rescale these after a format command, and it was the only way for
-1.0 and 1.1 controllers to report atomic sizes.
-
-Lets say the controller can do 128k byte atomic writes, If all
-namespaces used 512b LBA format, then AWUPF would be 255. If you change
-one namespace format to 4k, AWUPF scales down to 31, yielding a
-sub-optimal result for all the other namespaces.
-
-> While the spec doesn´t explicitly require that AWUPF be consistent across
-> controllers within the same subsystem, it seems to be implied. That said,
-> I agree this should have been stated explicitly in the specification.
-
-Considering multi-controller subsystems, some controllers might have
-namespaces with only 512b formats attached, and other controllers might
-have some 4k mixed in, so then they can't all consistently report the
-desired AWUPF value. They'd have to just scale AWUPF based on the
-largest sector size supported. Which I guess is what the current wording
-is guiding toward, but that just suggests host drivers disregard the
-value and use NAWUPF instead. So still option III.
 
