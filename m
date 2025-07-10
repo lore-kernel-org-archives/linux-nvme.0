@@ -4,51 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B2BCC83F1F
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Jul 2025 08:17:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65439C83F1F
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Jul 2025 09:04:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=O9WeySlRbc3wZx6zdedqICU2SpXRUg0XLBcSSAMBVLQ=; b=fDT+/mEmLUuJprqqpSQvgRRn69
-	h2lUdpBcRAqDH/FQVXpruIz6qlUWHAem4W/X+4slt03FElWhwez9Vh9eywlughtccIisuTPP+apTY
-	Xy4SVklkaJVGD9i+5KSq61Yf2I7KnaN8lPC2KMON8GFdKhsqhxrWpMcbxlTYAUomQwTQhR2GOEYY1
-	N/Eepjl1UfqchdNawnNtZxxt9IMy/ZPquMZk3MlUsXzjIA8OOnvS3JEavolzqwo8GVQYkOpABMJeK
-	xT+fW3uR3yvi/qcsTzARprDVqLYgKfAuS8NTqTLTbPn47FjCh2iMENo3nQBlXuuLa3IKAj3t35sqt
-	80WzjuPQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=HDVkD9F9d0LNuXby99FgApyHr5MULFRdKL2PW8Qg/Vo=; b=ma95nv2gBGhBQX1a9SWzfsGMK5
+	cel3RRWkuVAoBp8Bu0CwuHU27eFBu/6N18Twc4EjOIYM/g6oNDr+n/lsMK+RVyw8Gfb7dWuKH+SBr
+	3Z4RCCJyMHNDsv7bVjcro5d7ZJm2iKAqHjBkCKDzHi/XXAFA3egnlhKtqZtka/SNCd03s2y+D05eP
+	R6dzw4XSrMu/6dmJjmqfXOUeQbTeMZhkj6sgcrIJbpRQcBI/2Tn86myJmaZ5yxvI5LKHqx5OwJCyf
+	/FdCA4lTqZMeMaLIX8y9TICfhhmFwdUFCHwEQuiYJvxZ/9faZKahHacWFH94HY2rMgukP7tVMoT8B
+	l5XZbx9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZmSl-0000000B8va-22gW;
-	Thu, 10 Jul 2025 08:17:03 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1uZnCy-0000000BHQa-2i5y;
+	Thu, 10 Jul 2025 09:04:48 +0000
+Received: from mail.capitalcraft.pl ([57.129.67.144])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uZlXb-0000000Ayv5-1u5q
+	id 1uZlur-0000000B31E-1noZ
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Jul 2025 07:18:01 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E941768CFE; Thu, 10 Jul 2025 09:17:41 +0200 (CEST)
-Date: Thu, 10 Jul 2025 09:17:41 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Alan Adamson <alan.adamson@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org
-Subject: Re: What should we do about the nvme atomics mess?
-Message-ID: <20250710071741.GA5273@lst.de>
-References: <20250707141834.GA30198@lst.de> <ee663f87-0dbd-4685-a462-27da217dd259@linux.ibm.com> <aG7fArgdSWIjXcp9@kbusch-mbp> <27a01d31-0432-4340-9f45-1595f66f0500@linux.ibm.com>
+	Thu, 10 Jul 2025 07:42:02 +0000
+Received: by mail.capitalcraft.pl (Postfix, from userid 1002)
+	id E04BC23A0E; Thu, 10 Jul 2025 07:41:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=capitalcraft.pl;
+	s=mail; t=1752133319;
+	bh=HDVkD9F9d0LNuXby99FgApyHr5MULFRdKL2PW8Qg/Vo=;
+	h=Date:From:To:Subject:From;
+	b=OZtmIqVzlBEtMEhgvC2FSpzpmWmjqw8+iziNZ5L+9pcouV1n/lLDcvUIYy0luZ+8b
+	 zLTr/M0k9FveuKj8sUZI71PON9dGRm9QnAY78Jf1H4ixy+Mv7QcDOTKvvUs/4Mj2AO
+	 74F28sklmqZkRr4qcTCqONAJzh+tPsOlVkT4r9B+gKehzr7Vh2pwoATKQiAlFO8QBL
+	 ngnV72mRm/DSrO6avIcJGalfcICe0KIjwm973uuAYwHqsRi60yS48FosI/lMr65S0J
+	 VRfe1jshtMGKKxkmU3YnfJ7LC/zxnSSu5gTca3VL4pdho83E/Yb2S9Q4IuKdMpjbdE
+	 spyryLW3PAkJw==
+Received: by mail.capitalcraft.pl for <linux-nvme@lists.infradead.org>; Thu, 10 Jul 2025 07:40:33 GMT
+Message-ID: <20250710064500-0.1.3c.g4a2.0.0d7pellf95@capitalcraft.pl>
+Date: Thu, 10 Jul 2025 07:40:33 GMT
+From: "Karolina Dylkiewicz" <karolina.dylkiewicz@capitalcraft.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Ochrona pracodawcy - prawo pracy
+X-Mailer: mail.capitalcraft.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27a01d31-0432-4340-9f45-1595f66f0500@linux.ibm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250710_001759_638307_D0F20554 
-X-CRM114-Status: GOOD (  12.04  )
+X-CRM114-CacheID: sfid-20250710_004201_612594_6B632BE8 
+X-CRM114-Status: UNSURE (   2.19  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,13 +67,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 10, 2025 at 10:37:19AM +0530, Nilay Shroff wrote:
-> So in this case, it's actually the opposite of what one might assume:
-> Users of namespaces with 4KB LBA format would see the best possible atomic write
-> performance, while those using 512-byte LBA format may observe sub-optimal 
-> performance, since the maximum atomic write size scales down with smaller LBAs.
+Drodzy Przedsi=C4=99biorcy,
 
-The problem is that we need to deal with the worst case and not the
-best case.  And NVMe royally messed up there.
+w praktyce prawa pracy granica mi=C4=99dzy formalno=C5=9Bciami a ryzykiem=
+ potrafi by=C4=87 cienka =E2=80=93 a jeden nieprzemy=C5=9Blany zapis mo=C5=
+=BCe mie=C4=87 kosztowne konsekwencje.
 
+=C5=9Awiadcz=C4=99 sta=C5=82=C4=85 obs=C5=82ug=C4=99 prawn=C4=85 w zakres=
+ie prawa pracy =E2=80=93 tak, by=C5=9B mia=C5=82 pewno=C5=9B=C4=87, =C5=BC=
+e Twoje dzia=C5=82ania jako pracodawcy s=C4=85 bezpieczne i dobrze udokum=
+entowane.=20
+
+Dzia=C5=82am sprawnie, rzeczowo i bez nadmiaru formalno=C5=9Bci =E2=80=93=
+ wi=C4=99kszo=C5=9B=C4=87 spraw rozwi=C4=85zujemy zanim urosn=C4=85 do ra=
+ngi problemu.
+
+Czy mog=C4=99 przedstawi=C4=87 pe=C5=82en zakres naszego wsparcia?
+
+
+Pozdrawiam
+Karolina Dylkiewicz
 
