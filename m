@@ -4,62 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7322DC83F17
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Jul 2025 01:21:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0D46C83F1A
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Jul 2025 09:29:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BvCY+Z8BLwEZMtGNSXwASf9WcyyBOM1Esnjq5QLJ2NE=; b=wiR4lMxLAYESpkTKLKTPFBI41l
-	pquMv54V+ZjSefFTcTxNbM7NquVnQjQhp98GFdQJRUu0kodlYq4zPGB7zoqj2Xh/0hbqxd4hTz8gR
-	UY8yLo7DUV43pDEp8yo+sJc5mEju+QhRg2fG4HdJwgEKNLAYC69dPHRQXcOoHjGVCH+MQLGeHJziF
-	NA1NgvricowfiTyDXQC3x0WaD8v6ZOihDA6a/eomsuU8zW4aCL3OEDgfi/coY8hcbzLxJ9/JLQcN/
-	2k9qcxIMSqhIIXOPHfnr5JTemwRz5PPpBhuZcKrHpkAOebgwmvWPTR+++4BxEZztGZr9g+xyjK1+I
-	ybSFgJbg==;
+	bh=XTDoxFRYYkZW9YeRJHv0JdsLspPgUtnEMU6lXdK37tY=; b=wsjYHQZtEomhuPgSQFUcC0TVrG
+	Uvr5V38ryqE9djoReroW+icGYPRJxbjXBoFubXQOyZ2qK1AuCjy1l44wvuiZcBnrMhaIlahYew1XR
+	HSTgWoKD8JH1vkMZgz5XB7Wgt9uXg1iVoxdvVE1spmsnruZmWb7SMI3ifaKHTbdshw7y08/i3A0KS
+	qSyKrAIG1Ls2rzUWgWrjPde+r1IZXzC1v+7JsJhAo+LrJk4Ljbb2gxXGSgyjAbPmcXAiriIRzO38O
+	oTKNy+bTPFse8k6YuFaC5/zCj/nD/M8zwIEdhk+/OEnlmtX60ITptiWxbDYtJkdFVb24KvS1lfby3
+	jhBft3kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ua2Rq-0000000DSf6-1dmt;
-	Fri, 11 Jul 2025 01:21:10 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1uaA3u-0000000EIxU-3GIt;
+	Fri, 11 Jul 2025 09:28:58 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ua1lC-0000000DMwa-1mzG
+	id 1ua9Bt-0000000E9i3-15Kw
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Jul 2025 00:37:07 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id C213444C57;
-	Fri, 11 Jul 2025 00:37:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37622C4CEE3;
-	Fri, 11 Jul 2025 00:37:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752194225;
-	bh=7u5+cf2nJZoDvmfkGRcyh5Fe4HAs8tplHaitTwUCHWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sqm12vd9TY/Nk7pcL72xtGHsxJB2aGz4GX4/Iy7SCuXKfdNSIeMpjgT3p2SJAHMD7
-	 jRJT1IWcHOYotojPgRMOhsQbiwVP33H7vUwcKMslz51Z3cLD8ylN4aA2pwq6cqzpZr
-	 M4HeN/UPTISa4xw//cuSX1IENDvGQ8OY6c1RdOgZ+AWM0Y1r3+i78mXfQBr9yaQMTU
-	 fw3PH0ByiCTkJZL6xvafI0/Zyl3fKDdoAbTSPctw4If+pFHGxiVbGee9KWaKlXo0e1
-	 6VJ13eKdGROA34cUpAhBBt4Xb9B9arIUfdrGYEUHeN7vBg8FpZ16qSu90MW+jINSoE
-	 2nK05e6x/oz2g==
-Date: Thu, 10 Jul 2025 18:37:03 -0600
-From: Keith Busch <kbusch@kernel.org>
+	Fri, 11 Jul 2025 08:33:10 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 6642168AFE; Fri, 11 Jul 2025 10:32:52 +0200 (CEST)
+Date: Fri, 11 Jul 2025 10:32:51 +0200
+From: Christoph Hellwig <hch@lst.de>
 To: Klara Modin <klarasmodin@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, sagi@grimberg.me,
-	ben.copeland@linaro.org, leon@kernel.org,
+Cc: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org, axboe@kernel.dk,
+	sagi@grimberg.me, ben.copeland@linaro.org, leon@kernel.org,
 	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
 Subject: Re: [PATCH] nvme-pci: fix dma unmapping when using PRPs and not
  using the IOVA mapping
-Message-ID: <aHBcr3Nw5UWrYy1B@kbusch-mbp>
-References: <20250707125223.3022531-1-hch@lst.de>
- <m72dvfp7wmycwghaaa65zs5adkzylsdtnk4smp7rdfgrsdw443@ry2laobzym7d>
+Message-ID: <20250711083251.GA6931@lst.de>
+References: <20250707125223.3022531-1-hch@lst.de> <m72dvfp7wmycwghaaa65zs5adkzylsdtnk4smp7rdfgrsdw443@ry2laobzym7d>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <m72dvfp7wmycwghaaa65zs5adkzylsdtnk4smp7rdfgrsdw443@ry2laobzym7d>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250710_173706_482760_54AD7F64 
-X-CRM114-Status: GOOD (  11.16  )
+X-CRM114-CacheID: sfid-20250711_013309_434739_3BC4AEEB 
+X-CRM114-Status: GOOD (  11.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,14 +61,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 11, 2025 at 02:25:12AM +0200, Klara Modin wrote:
-> This patch seems to introduce a memory leak, causing the slab to grow
-> continuously. The easiest way I found to trigger it is along the lines
-> of
-> 
-> # dd if=/dev/nvme0n1 of=/dev/null bs=8M
+Hi Klara,
 
-Doh! Thank you for the report, I appreciate notification for regressions
-on the -next branches. I'll look into it tomorrow if hch doesn't beat me
-to it.
+can you try the attached patch?
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6af184f2b73b..ac3b90d31380 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -745,7 +745,7 @@ static bool nvme_pci_prp_iter_next(struct request *req, struct device *dma_dev,
+ 		return true;
+ 	if (!blk_rq_dma_map_iter_next(req, dma_dev, &iod->dma_state, iter))
+ 		return false;
+-	if (dma_need_unmap(dma_dev)) {
++	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev)) {
+ 		iod->dma_vecs[iod->nr_dma_vecs].addr = iter->addr;
+ 		iod->dma_vecs[iod->nr_dma_vecs].len = iter->len;
+ 		iod->nr_dma_vecs++;
+@@ -763,7 +763,7 @@ static blk_status_t nvme_pci_setup_data_prp(struct request *req,
+ 	unsigned int prp_len, i;
+ 	__le64 *prp_list;
+ 
+-	if (dma_need_unmap(nvmeq->dev->dev)) {
++	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(nvmeq->dev->dev)) {
+ 		iod->dma_vecs = mempool_alloc(nvmeq->dev->dmavec_mempool,
+ 				GFP_ATOMIC);
+ 		if (!iod->dma_vecs)
 
