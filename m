@@ -4,62 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 766A6C83F17
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 19:30:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E804C83F22
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 19:42:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=My7zKWNVhiHUXiSOckpsQoPEQZVJXST7ozwScrUxbWo=; b=242f0toQxwLSYbF9+8v9xpqHDg
-	5vkL0GVBVPJD/0O296tf1ebNfHfnbe7g50ShyiBmak6xkivyzYolpq80qYT9HvkR3QNQCe7sQyaXA
-	QaVFhG2EjVxs4ZBNzq7ZOcMsFntfvl917AncQmPhVLeTXZBHbTc5QnabGiZYmfDwzHrijXxXAgP14
-	rweeGJfX6jj1Dzz+HesBLb7zqRMYzWj7be7hto5yytVPOMRLUgpry2ctT+OlRE0fDivRoFTXNEU2O
-	9KwMTfkW5J/61TAhxwuYU1ZD81raGDx9mqV6J+Wf9dWcy5AGb2X/XwUd7xOuKgoVp5VaqzVnt+OGq
-	aaY+aRjQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zkY7jaGGEMaqb4h0ytVqk5X4FiTk2+djHhAkhMNzR/E=; b=W2hoWy4ki7H6JV4Vx1pMdNDrqR
+	7APe724blrO6eJ/l648EnxzRHiLsILlLmn4eJQor65GrwXYgKjwv7IWT2NXAzpIDxemMTbFf4UAhQ
+	EHc5COoO5vXnb8kzX9ufeoIIxKI84QFmTMNi3T18vlTEFV5OjSfOtqxq+vo//G8htSsJgsqHGb5UL
+	36H8TdVp9dzxsdV5PQHCOhnqSR4MCa9T5pERjH5awBTjnqSFINFHOWhDzkSAh/PHoPShanWYhOLfr
+	lLFY+9SP1rq0qlGngSJFZuRiTk3L8+eOlgOTa3tr4WjwOzgwXDiVWMr1DAoAGO2F1iMr8g2PZiOMo
+	5l9xQLOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ublLn-000000065Qi-2vjr;
-	Tue, 15 Jul 2025 19:30:03 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1ublY4-000000066kj-1Bcz;
+	Tue, 15 Jul 2025 19:42:44 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ublLT-000000065L8-2RAO
+	id 1ublY1-000000066k7-0WHM
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Jul 2025 19:29:43 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 90D2C61465;
-	Tue, 15 Jul 2025 19:29:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E025AC4CEE3;
-	Tue, 15 Jul 2025 19:29:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752607782;
-	bh=pyiKjDBLmUWSMxig3No0s8MlQGDpYRf9ZfLZXB+Tl0U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BGzIZu4etbnBq2AjBVMgjYTnz2QXEU2DzVfqFFIdVjWB4sA0WHD8eihAR3IXmwpw4
-	 /RLP5DflhHrYHW58xZl+LgrVwjUkPDszJdvZDlhwNTJO3QUcplweEG3vppPEujWeT6
-	 +KPteouis5eszJHB0Y9Jh9XUPWojABFslejvHFRUzVzP62WY5hzfO3Zgamw+Qk17VA
-	 6GVhSIaobbFN3TEUKI33D93yHYFXG2mF/VwKzDxxHnqfwrccGnJ50fs4nIy+1Y0sIF
-	 OfancFK0ppb6giHdE24TGSSVwHT5/Dyk1YhsNv3J6zBw7F5eE+zu00CTmY4kljNYjd
-	 NTNF7okRn8riw==
-Date: Tue, 15 Jul 2025 13:29:40 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
-	hch@lst.de, sagi@grimberg.me, axboe@kernel.dk,
-	mlombard@bsdbackstore.eu
-Subject: Re: [PATCH 1/2] nvme: check duplicate unique identifiers in order
-Message-ID: <aHasJPv2Jb4bQ3ik@kbusch-mbp>
-References: <20250509151627.20434-1-bgurney@redhat.com>
- <aB4gO7mAYDO3Bm3A@kbusch-mbp>
- <cec53fce-2f1d-4162-8685-ab7c56649953@redhat.com>
- <aCId7XmLnrLWZPdk@kbusch-mbp>
- <aFrBVeEcapNtOvPx@kbusch-mbp>
- <1352e125-180b-4ec9-ac3e-1cd8570910a3@redhat.com>
+	Tue, 15 Jul 2025 19:42:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752608559;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zkY7jaGGEMaqb4h0ytVqk5X4FiTk2+djHhAkhMNzR/E=;
+	b=iJ/n5ts0ZsNvlwDsiNhrxj2lWMam+dy377XT0UnicSbvmw9jGuAwboCn4FFgPUZRDgX/W0
+	6ol0KsF8LzHDa/ctl+5oc2aSsYMfEDHGAUc5aNOiZI4e/ntdQBtwkUGPmhCe0J4OQBaR5k
+	DVW9IrsVSWUmni1sDhPDP9oYi5tUxzU=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-43-KbK-_ZNlN86KYo4VSBO_pg-1; Tue,
+ 15 Jul 2025 15:42:38 -0400
+X-MC-Unique: KbK-_ZNlN86KYo4VSBO_pg-1
+X-Mimecast-MFC-AGG-ID: KbK-_ZNlN86KYo4VSBO_pg_1752608556
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8F30218002AA;
+	Tue, 15 Jul 2025 19:42:36 +0000 (UTC)
+Received: from [10.22.88.94] (unknown [10.22.88.94])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C1C7018002B1;
+	Tue, 15 Jul 2025 19:42:33 +0000 (UTC)
+Message-ID: <35738598-0733-408c-8597-20c3599a8973@redhat.com>
+Date: Tue, 15 Jul 2025 15:42:32 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1352e125-180b-4ec9-ac3e-1cd8570910a3@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 7/8] nvme: sysfs: emit the marginal path state in
+ show_state()
+To: Keith Busch <kbusch@kernel.org>, Bryan Gurney <bgurney@redhat.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+ axboe@kernel.dk, james.smart@broadcom.com, dick.kennedy@broadcom.com,
+ njavali@marvell.com, linux-scsi@vger.kernel.org, hare@suse.de
+References: <20250709211919.49100-1-bgurney@redhat.com>
+ <20250709211919.49100-8-bgurney@redhat.com> <aG7pSA6TOAANYrru@kbusch-mbp>
+Content-Language: en-US
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <aG7pSA6TOAANYrru@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250715_124241_239781_1EBAD62C 
+X-CRM114-Status: GOOD (  15.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,197 +89,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 15, 2025 at 03:01:59PM -0400, John Meneghini wrote:
-> On 6/24/25 11:16 AM, Keith Busch wrote:
-> > On Mon, May 12, 2025 at 10:12:29AM -0600, Keith Busch wrote:
-> > > On Mon, May 12, 2025 at 11:18:58AM -0400, John Meneghini wrote:
-> > > > On 5/9/25 11:33 AM, Keith Busch wrote:
-> > > > 
-> > > > > If those are not unique, they need to be blanked out to make sure we don't
-> > > > > expose these on the namespace's sysfs attributes.
-> > > > 
-> > > > OK, we can add another patch that blanks out the lower precedent/invalid IDs.
-> > > > 
-> > > > Will that work?
-> > > 
-> > > I think you'd have to blank out the non-unique ones, otherwise the
-> > > driver would export them.
-> > > 
-> > > And while I think that might work, this proposal didn't go over so well
-> > > last time it came up:
-> > > 
-> > > https://lore.kernel.org/linux-nvme/20250414111916.GB13225@lst.de/
-> > 
-> > I've recently encountered some devices with this behavior, from machines
-> > hosted by various cloud providers. I had to pull in something
-> > out-of-tree like the patch here just to get things going. I think we
-> > should have the kernel discard lower priority fields.
+On 7/9/25 6:12 PM, Keith Busch wrote:
+> On Wed, Jul 09, 2025 at 05:19:18PM -0400, Bryan Gurney wrote:
+>> If a controller has received a link integrity or congestion event, and
+>> has the NVME_CTRL_MARGINAL flag set, emit "marginal" in the state
+>> instead of "live", to identify the marginal paths.
 > 
-> OK good I will ask Bryan to resubmit this as a version 2 patch.
-> We can add another patch that blanks out the lower precedent/invalid IDs in sysfs so that only the unique IDs are reported.
+> IMO, this attribute looks more aligned to report in the ana_state
+> instead of overriding the controller's state.
+> 
 
-Note, it's not me who needs convincing.
+We can't really do this because the ANA state is a documented protocol state.
 
-FWIW, this is what I'm running with. There's just some extra care here
-to ensure we refresh sysfs attributes as needed, as well as prevent
-repeatedly spamming the kernel messages with the same error.
+The linux controller state is purely a linux software defined state.  Unless I am wrong, there is nothing in the NVMe specification which defines the nvme_ctrl_state.
 
----
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 12e7ae1f99e20..13482b2fbf46a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1467,7 +1467,8 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
- 				 warn_str, cur->nidl);
- 			return -1;
- 		}
--		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
-+		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID ||
-+		    ctrl->subsys->quirks & NVME_SUBSYS_BAD_EUI64)
- 			return NVME_NIDT_EUI64_LEN;
- 		memcpy(ids->eui64, data + sizeof(*cur), NVME_NIDT_EUI64_LEN);
- 		return NVME_NIDT_EUI64_LEN;
-@@ -1477,7 +1478,8 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
- 				 warn_str, cur->nidl);
- 			return -1;
- 		}
--		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
-+		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID ||
-+		    ctrl->subsys->quirks & NVME_SUBSYS_BAD_NGUID)
- 			return NVME_NIDT_NGUID_LEN;
- 		memcpy(ids->nguid, data + sizeof(*cur), NVME_NIDT_NGUID_LEN);
- 		return NVME_NIDT_NGUID_LEN;
-@@ -1611,10 +1613,12 @@ static int nvme_ns_info_from_identify(struct nvme_ctrl *ctrl,
- 			 "Ignoring bogus Namespace Identifiers\n");
- 	} else {
- 		if (ctrl->vs >= NVME_VS(1, 1, 0) &&
--		    !memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
-+		    !memchr_inv(ids->eui64, 0, sizeof(ids->eui64)) &&
-+		    !(ctrl->subsys->quirks & NVME_SUBSYS_BAD_EUI64))
- 			memcpy(ids->eui64, id->eui64, sizeof(ids->eui64));
- 		if (ctrl->vs >= NVME_VS(1, 2, 0) &&
--		    !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
-+		    !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)) &&
-+		    !(ctrl->subsys->quirks & NVME_SUBSYS_BAD_NGUID))
- 			memcpy(ids->nguid, id->nguid, sizeof(ids->nguid));
- 	}
- 
-@@ -3554,7 +3558,7 @@ static struct nvme_ns_head *nvme_find_ns_head(struct nvme_ctrl *ctrl,
- }
- 
- static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
--		struct nvme_ns_ids *ids)
-+		struct nvme_ns_ids *ids, bool global)
- {
- 	bool has_uuid = !uuid_is_null(&ids->uuid);
- 	bool has_nguid = memchr_inv(ids->nguid, 0, sizeof(ids->nguid));
-@@ -3564,14 +3568,39 @@ static int nvme_subsys_check_duplicate_ids(struct nvme_subsystem *subsys,
- 	lockdep_assert_held(&subsys->lock);
- 
- 	list_for_each_entry(h, &subsys->nsheads, entry) {
-+		bool changed = false;
-+
- 		if (has_uuid && uuid_equal(&ids->uuid, &h->ids.uuid))
- 			return -EINVAL;
- 		if (has_nguid &&
--		    memcmp(&ids->nguid, &h->ids.nguid, sizeof(ids->nguid)) == 0)
--			return -EINVAL;
-+		    memcmp(&ids->nguid, &h->ids.nguid, sizeof(ids->nguid)) == 0) {
-+			if (!has_uuid || global)
-+				return -EINVAL;
-+
-+			dev_warn(&subsys->dev, "duplicate nguid:%16phN\n",
-+				ids->nguid);
-+			memset(ids->nguid, 0, sizeof(ids->nguid));
-+			memset(h->ids.nguid, 0, sizeof(h->ids.nguid));
-+			subsys->quirks |= NVME_SUBSYS_BAD_NGUID;
-+			has_nguid = false;
-+			changed = true;
-+		}
- 		if (has_eui64 &&
--		    memcmp(&ids->eui64, &h->ids.eui64, sizeof(ids->eui64)) == 0)
--			return -EINVAL;
-+		    memcmp(&ids->eui64, &h->ids.eui64, sizeof(ids->eui64)) == 0) {
-+			if ((!has_uuid && !has_nguid) || global)
-+				return -EINVAL;
-+
-+			dev_warn(&subsys->dev, "duplicate eui64:%8phN\n",
-+				ids->eui64);
-+			memset(ids->eui64, 0, sizeof(ids->eui64));
-+			memset(h->ids.eui64, 0, sizeof(h->ids.eui64));
-+			subsys->quirks |= NVME_SUBSYS_BAD_EUI64;
-+			has_eui64 = false;
-+			changed = true;
-+		}
-+
-+		if (changed)
-+			nvme_update_ns_attrs(h);
- 	}
- 
- 	return 0;
-@@ -3719,7 +3748,7 @@ static int nvme_global_check_duplicate_ids(struct nvme_subsystem *this,
- 		if (s == this)
- 			continue;
- 		mutex_lock(&s->lock);
--		ret = nvme_subsys_check_duplicate_ids(s, ids);
-+		ret = nvme_subsys_check_duplicate_ids(s, ids, true);
- 		mutex_unlock(&s->lock);
- 		if (ret)
- 			break;
-@@ -3776,7 +3805,7 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
- 	mutex_lock(&ctrl->subsys->lock);
- 	head = nvme_find_ns_head(ctrl, info->nsid);
- 	if (!head) {
--		ret = nvme_subsys_check_duplicate_ids(ctrl->subsys, &info->ids);
-+		ret = nvme_subsys_check_duplicate_ids(ctrl->subsys, &info->ids, false);
- 		if (ret) {
- 			dev_err(ctrl->device,
- 				"duplicate IDs in subsystem for nsid %d\n",
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index c4bb8dfe1a458..b81fe820280c2 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -447,6 +447,10 @@ struct nvme_subsystem {
- #ifdef CONFIG_NVME_MULTIPATH
- 	enum nvme_iopolicy	iopolicy;
- #endif
-+
-+#define NVME_SUBSYS_BAD_NGUID	(1 << 0)
-+#define NVME_SUBSYS_BAD_EUI64	(1 << 1)
-+	unsigned long		quirks;
- };
- 
- /*
-@@ -1181,6 +1185,7 @@ struct nvme_ctrl *nvme_ctrl_from_file(struct file *file);
- struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid);
- bool nvme_get_ns(struct nvme_ns *ns);
- void nvme_put_ns(struct nvme_ns *ns);
-+void nvme_update_ns_attrs(struct nvme_ns_head *head);
- 
- static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
- {
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index b68a9e5f1ea39..ef232e0da5f72 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -299,6 +299,18 @@ static const struct attribute_group nvme_ns_attr_group = {
- 	.is_visible	= nvme_ns_attrs_are_visible,
- };
- 
-+void nvme_update_ns_attrs(struct nvme_ns_head *head)
-+{
-+	struct gendisk *disk;
-+
-+	if (nvme_ns_head_multipath(head))
-+		disk = head->disk;
-+	else
-+		disk = list_first_entry(&head->list, struct nvme_ns,
-+					siblings)->disk;
-+	sysfs_update_group(&disk_to_dev(disk)->kobj, &nvme_ns_attr_group);
-+}
-+
- const struct attribute_group *nvme_ns_attr_groups[] = {
- 	&nvme_ns_attr_group,
- 	NULL,
---
+This is purely a linux definition and we should be able to change is any way we want.
+
+We debated adding a new NVME_CTRL_MARGINAL state to this data structure,
+
+enum nvme_ctrl_state {
+         NVME_CTRL_NEW,
+         NVME_CTRL_LIVE,
+         NVME_CTRL_RESETTING,
+         NVME_CTRL_CONNECTING,
+         NVME_CTRL_DELETING,
+         NVME_CTRL_DELETING_NOIO,
+         NVME_CTRL_DEAD,
+};
+
+If you don't like the flag we can do that. However, that doesn't seem worth the effort since Hannes has this working now with a flag.
+
+/John
+
 
