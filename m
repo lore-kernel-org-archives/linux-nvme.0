@@ -4,79 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 517BBC83F1A
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 01:34:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3455C83F17
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 01:58:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fOaQ4j5kump6pAgvHsWjblHYKVDAfWcf/ygvwFbehqc=; b=ie1+rd1GGv8f3APXkpT1tq8fqX
-	cW6tqVTHBgOPorvaI88th+1RvLBnNTuD93n/GZvrI0FnQ2WHkkrZC7Za2sieN3cftBlgaMAaG5U7p
-	c8eiYONzuobmsNHgJ7QO4IzFYg2ere1bTiAC7zTPzR9O4lmPhnP1YeMAFVFUklqP5tfrbkl5BOs6x
-	/bD92tGqTrAg7G1ur7vifC7lpn8SRdh6bsGwwrJCtwdkf7P55QhCyw3rg7Isc1os7ty+21B9UF2Sn
-	pADWtMGQxGx3CqgHhwv2+yBZR0GhPEHhA0cOQya73GvIlYrfKKmxftJBFFuhNOIz3GI9TSP93XECQ
-	8ka4UUpg==;
+	bh=nOJuAUhtIocqRozml6l7p13P/wtZOJeAMArVf3PyWrc=; b=pZb53DN/HT7mXhajPrqyynccnh
+	BPGNqvs5bwWk6IgbErA6iuBmBUdgdhvlfoprc/eIWMr4nmqpKW+W3QqenHqkzGg0f8J/BHFV7Lm+F
+	zqk4UVD/3NAu11AtDAhNZH0tnKw33dLq7Dm6trITCy4RUR4V+0olCPBMRxJtxIgD/4xtlkMXzwfft
+	TMagARygyyM0U+FLxOeKmGkRfkfBL+tjyyYZGJMPpO2Dwa3+c5m9z/XuZ9CquTewiPjDXPkLLdbFP
+	g3QL9nMkU3xXKOw2cLkUp/9ks5gywAXVDqqHhWv7gsLQC6FRYIG9O2hx3ZYOcc5hHWvQ+J21ZF+YF
+	M7eT1Heg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubUYm-00000003jWA-0yZg;
-	Tue, 15 Jul 2025 01:34:20 +0000
-Received: from dggsgout12.his.huawei.com ([45.249.212.56])
+	id 1ubUvs-00000003l0X-3kbN;
+	Tue, 15 Jul 2025 01:58:12 +0000
+Received: from infra.glanzmann.de ([2a01:4f8:b0:3ffe::5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubUYi-00000003jVW-1btS
+	id 1ubUvp-00000003l02-0krU
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Jul 2025 01:34:18 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bh1tq2GqpzKHMhy
-	for <linux-nvme@lists.infradead.org>; Tue, 15 Jul 2025 09:34:11 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id DD2D51A18C5
-	for <linux-nvme@lists.infradead.org>; Tue, 15 Jul 2025 09:34:09 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.104.67])
-	by APP4 (Coremail) with SMTP id gCh0CgDnYhMNsHVo35syAQ--.25659S4;
-	Tue, 15 Jul 2025 09:34:07 +0800 (CST)
-From: Yu Kuai <yukuai1@huaweicloud.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	lengchao@huawei.com
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	yukuai3@huawei.com,
-	yukuai1@huaweicloud.com,
-	yi.zhang@huawei.com,
-	yangerkun@huawei.com,
-	johnny.chenyi@huawei.com
-Subject: [PATCH] nvme: fix misaccounting of nvme-mpath inflight IO
-Date: Tue, 15 Jul 2025 09:28:12 +0800
-Message-Id: <20250715012812.1135331-1-yukuai1@huaweicloud.com>
-X-Mailer: git-send-email 2.39.2
+	Tue, 15 Jul 2025 01:58:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=glanzmann.de;
+	s=infra26101010; t=1752544681;
+	bh=nOJuAUhtIocqRozml6l7p13P/wtZOJeAMArVf3PyWrc=;
+	h=Date:From:To:Subject:From;
+	b=qT9V9y2/fsEHVxZY0uHxFGEYJ0zogUjC8PBaF2SaM3RGDv0H+Uo/PaJn+IspLmB5D
+	 CrF+xuVaeNXnMEu+JTUaxmtna/kPQSC9Ay9mYRlA70JtbTSQSaKyLWTdOUMxOpq0u7
+	 UelF3HtOe34WirowzUXr+QbV8I7CXIf0LWR0bHqmq5ca2890jPdBxZ3+bZP+eWbDFT
+	 mAdIC45GKhcgncC5JJPyLeVw+7MfTjjTWQ0TujE/ycpCCVOdHtrGJiQEGTXRiutT7n
+	 cbakMqIWrEQ6/g52lZCIZkuAssOhPaNQRG2NbvI1vhUjLZ53FGQzKzsdj+YaHEslSb
+	 FOvDiNi0drRt2yt/YCJQ41RdN6sthHDlPjstRZZ0oJnwk4Towk8S//RgE6/P7tWtgX
+	 N+ghkJZWInZWTAYCFvRPlwXqH/R69NAlaH86H1aVRR9uHNHZfinJQHCA6tYtt1tgk/
+	 9H5yx1OZYFaEXOSJ42RdDnCyvwzFWSUXRv1lxrocm9lG5oTpDY6Oowb4EHAaMfog4i
+	 5yALlvZ6pz5tyu0tdgDDbQRvZpbAZ9/k0DoOCqcfnJ4zZoDIKkL3baIkCKsCPQU2XF
+	 6Dy9wNnPNDzcoeM2Yfza7j1cdjNEyoXmMZD3tXAlZjPhhd52ETnIiXFARFeBAVfHxm
+	 0NB2OjX7JfYjRLkSfVs0LF24=
+Received: by infra.glanzmann.de (Postfix, from userid 1000)
+	id C8EE97A800B9; Tue, 15 Jul 2025 03:58:01 +0200 (CEST)
+Date: Tue, 15 Jul 2025 03:58:01 +0200
+From: Thomas Glanzmann <thomas@glanzmann.de>
+To: linux-nvme@lists.infradead.org
+Subject: Number of data and admin queues in use
+Message-ID: <aHW1qUJksE5Okflb@glanzmann.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgDnYhMNsHVo35syAQ--.25659S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw4UXry8ur1DZr1rZw4kXrb_yoW8WF17pF
-	4kZrW3C3sI9F1kA34xJFW7ua4Yqw4qqa47Cwnak34aqF1DJrW5ur4qgF17Wr47ur4kWay5
-	WFs5ur9ruFy7JrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjfUonmRUUUUU
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250714_183416_602277_0855B459 
-X-CRM114-Status: UNSURE (   8.33  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250714_185809_940911_10192C0A 
+X-CRM114-Status: GOOD (  12.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,46 +69,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Yu Kuai <yukuai3@huawei.com>
+Hello,
+I have Linux system hooked up over two dedicated links to a NetApp using
+NVMe/TCP. I would like to find out how many data and admin queues there are and
+their queue depth? How can I find out the same?
 
-Pprocedures for nvme-mpath IO accounting:
+So far, I found out:
 
-1) Initialize nvme_request and clear flags;
-2) Set NVME_MPATH_IO_STATS and increase inflight counter when IO
-   started;
-3) Check NVME_MPATH_IO_STATS and decrease inflight counter when IO is
-   done;
+(live) [~] nvme netapp ontapdevices /dev/nvme0n1
+/dev/nvme0n1, Vserver svm1, Subsystem svm1_subsystem_553, Namespace Path rx3082_1, NSID 1, UUID 7f6be93b-60cb-11f0-866f-d039ead647e8, 1.10TB
+(live) [~] nvme list-subsys /dev/nvme0n1
+nvme-subsys0 - NQN=nqn.1992-08.com.netapp:sn.e0a0273a60b711f09deed039ead647e8:subsystem.svm1_subsystem_553
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:20f011e6-9ab8-584f-abb0-a260d2d685c4
+\
+ +- nvme0 tcp traddr=192.168.0.2,trsvcid=4420,src_addr=192.168.0.100 live optimized
+ +- nvme1 tcp traddr=192.168.1.2,trsvcid=4420,src_addr=192.168.1.100 live optimized
+(live) [~] nvme list
+Node                  Generic               SN                   Model                                    Namespace  Usage                      Format           FW Rev
+--------------------- --------------------- -------------------- ---------------------------------------- ---------- -------------------------- ---------------- --------
+/dev/nvme0n1          /dev/ng0n1            824nlJYbYm5ZAAAAAAAB NetApp ONTAP Controller                  0x1          8.62  GB /   1.10  TB      4 KiB +  0 B   9.16.1
+(live) [~] sudo nvme get-feature /dev/nvme0n1 --feature-id=7 -H
+get-feature:0x07 (Number of Queues), Current value:0x00010001
+        Number of IO Completion Queues Allocated (NCQA): 2
+        Number of IO Submission Queues Allocated (NSQA): 2
 
-However, for the case nvme_fail_nonready_command(), both step 1) and 2)
-are skipped, and if old nvme_request set NVME_MPATH_IO_STATS and then
-request is reused, step 3) will still be executed, causing inflight
-IO counter to be negative. Fix the problem by clearing nvme_request in
-nvme_fail_nonready_command()
+I also have some local NVMe where I would like to find out the same:
 
-Fixes: ea5e5f42cd2c ("nvme-fabrics: avoid double completions in nvmf_fail_nonready_command")
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Closes: https://lore.kernel.org/all/CAHj4cs_+dauobyYyP805t33WMJVzOWj=7+51p4_j9rA63D9sog@mail.gmail.com/
-Signed-off-by: Yu Kuai <yukuai3@huawei.com>
----
- drivers/nvme/host/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+(infra) [~] sudo nvme get-feature /dev/nvme0n1 --feature-id=7 -H
+get-feature:0x07 (Number of Queues), Current value:0x007f007f
+        Number of IO Completion Queues Allocated (NCQA): 128
+        Number of IO Submission Queues Allocated (NSQA): 128
+(infra) [~] nvme list
+Node                  Generic               SN                   Model                                    Namespace Usage                      Format           FW Rev
+--------------------- --------------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+/dev/nvme1n1          /dev/ng1n1            50026B7685E14353     KINGSTON SKC3000D2048G                   1           2.05  TB /   2.05  TB    512   B +  0 B   EIFK31.6
+/dev/nvme0n1          /dev/ng0n1            50026B7685E1439E     KINGSTON SKC3000D2048G                   1           2.05  TB /   2.05  TB    512   B +  0 B   EIFK31.6
+(infra) [~] nvme list-subsys /dev/nvme0n1
+nvme-subsys0 - NQN=nqn.2020-04.com.kingston:nvme:nvm-subsystem-sn-50026B7685E1439E
+\
+ +- nvme0 pcie 0000:01:00.0 live
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 92697f98c601..e2233e434e5a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -764,6 +764,10 @@ blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
- 	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
- 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
- 		return BLK_STS_RESOURCE;
-+
-+	if (!(rq->rq_flags & RQF_DONTPREP))
-+		nvme_clear_nvme_request(rq);
-+
- 	return nvme_host_path_error(rq);
- }
- EXPORT_SYMBOL_GPL(nvme_fail_nonready_command);
--- 
-2.39.2
+I one heard that the Linux kernel allocates one queue per processor (core or
+hyperthread). I can see that using /proc/interrupts but only on physical
+devices, but not on NVME/TCP systems.
 
+Cheers,
+        Thomas
 
