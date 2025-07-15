@@ -4,59 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0407BC83F36
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 15:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D46FC83F22
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 16:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4r2JaeQGWIH6DnAapOQ/t1cDd5i/7zsM+XiVjzpRVhM=; b=Od4e8cWD+kdCKz2p+/IZ/yIxza
-	1l0xaO+KFYb/AqiC6d4IF6pzkuBWavnDyc9fdPVgn6vQD5W7OCk8CYFFGkHuKXJMLn53lwOVcsMp8
-	a7Hz0REdYgaEQDCY/Sr5YlbOO1d56kj2LOQG3NAqloz4ld6OjYUj8Kj4LIkqLCuns930eWI7dD6Ay
-	RtHNEAivuNBPe7Ig9C5z3FMdfkwmLA/FyabT32fzO5VdLY3yA+X1qHL6aDRvaoqi5bUz4fl4zainb
-	8RJz8ZnWXTePpsIIeuAsMk8lca3xu//ajVbHDuX4GrNKwnH4Pk6a4FfsxPaVPpTKn5SaWjO8FrfNd
-	9GMZ+qUg==;
+	bh=qtreW2LyKC2Dhd3SemW57yZOP8ajlnN3h8EIcdfTXcU=; b=fG2txEeZ0bdLYyQSQ1h2IzppGn
+	2+dm4XQHOuQxiSmSv0t2oAsV43EYxHaGobQv+A1XsCPgwj3ECCk08XD18p4MIG5cYW/sit2mChKtw
+	CT3Ah2W9aBTBE3CNUuRjfy9hsSsjHMrDSKdqifK3amJFNqxcw05reNIXaq4kukyaKy+8dtS+Dffl4
+	Yk8POULhip9g30cwaDlyFAmOpLOC41yjXo3/+nmZQvGaYevwUbX5VBGNkgNv/1f3qVDkTpwDK71HN
+	NlAhnIHxqyRkZ7ZGlPrdTpkP3j/euM54yExQR4ixCGvuYwd+eirTpbd7xvNNCEjjqAhTKeP2yCeN+
+	T63t9pKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubhCu-00000005WQ9-2MFa;
-	Tue, 15 Jul 2025 15:04:36 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1ubiNg-00000005j28-31c2;
+	Tue, 15 Jul 2025 16:19:48 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubfjP-00000005DNx-3ZMo
+	id 1ubgoB-00000005PNJ-02ol
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Jul 2025 13:30:04 +0000
+	Tue, 15 Jul 2025 14:39:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id CAE55A56F57;
-	Tue, 15 Jul 2025 13:30:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB6DC4CEE3;
-	Tue, 15 Jul 2025 13:30:02 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A864843BA5;
+	Tue, 15 Jul 2025 14:39:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EADBC4CEE3;
+	Tue, 15 Jul 2025 14:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752586202;
-	bh=o7WWAS+C4c0kp5aZTPJ9hm5Yc9ScIUQnTbsZg8H/h9Q=;
+	s=k20201202; t=1752590342;
+	bh=3O74ivTc0i0opeuSiZOTE1Lzi5hHTRWxf6PDv7DUa54=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b0N51nNt6seMVjEsBZ4+xjN+eGaCtEIVidQrfUX2jB0Wk1O89FFoNMaJWMWdXONoB
-	 mPIP7LaHf41MspgXpMq5P283pV7VOCY88f0IAMnAl/SlS2mfE7JNjtlBruXQDe881B
-	 +FDCzn+wWEDNV75KullTr+KxmldLDOJ1Y5EEyJLlqa4scMziYqtWoFjIEWfbPEYajU
-	 IKi4WVZ4jdDW3czWGuccxIqXJznXIaKCXcVwycgtrfjAH5+qirNHIhBsHu4wmpavSa
-	 yDCOSmnPpZVmtDncyTRiNTrH7KuiHnJMGVoU8eGQHHZw74LIr0cNLUcb65fITkEGT4
-	 xHasdWvhJb83A==
-Date: Tue, 15 Jul 2025 07:30:00 -0600
+	b=l7/wf4DzMTyvi47Pp7zjEOq8DT3EQoVbaSa4C5vo7Iww8NSseYX3TV9ILjJpwDO30
+	 H9CxlWY2Uyv00Tg7AJ9kZzpd4PkrFqceVs0fL8R/2WejZAHtwd/veCEoKOtrAc4JXM
+	 rcAZo6gwe8TXcDiFD9wSvIuA7pvs7VONAIpgefDFrTwtgpCr2Yp2INYBc64hcYbjJS
+	 uEAyizv2QNlMTOlhTim9q/JM3kwboOB6gdII67T+lgQh4Jo6mGUoF77hL9mh6lM+DY
+	 S2nWeXvD5YoiTXWsWOimCDpmZ4XlRb97jNl+bXEmEeI2IH3YsGEvYZz/xP8IMxfali
+	 pR2bBIPQzH/kg==
+Date: Tue, 15 Jul 2025 08:39:00 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-pci: try function level reset on init failure
-Message-ID: <aHZX2OloBVXiE_8k@kbusch-mbp>
-References: <20250714171328.681885-1-kbusch@meta.com>
- <20250715074558.GA20362@lst.de>
+To: Thomas Glanzmann <thomas@glanzmann.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: Number of data and admin queues in use
+Message-ID: <aHZoBO9cPcRGIDwH@kbusch-mbp>
+References: <aHW1qUJksE5Okflb@glanzmann.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715074558.GA20362@lst.de>
+In-Reply-To: <aHW1qUJksE5Okflb@glanzmann.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250715_063003_953322_DD68376E 
-X-CRM114-Status: GOOD (  21.80  )
+X-CRM114-CacheID: sfid-20250715_073903_070493_6B4B387C 
+X-CRM114-Status: GOOD (  10.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,49 +70,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 15, 2025 at 09:45:58AM +0200, Christoph Hellwig wrote:
-> On Mon, Jul 14, 2025 at 10:13:28AM -0700, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > 
-> > I've encountered various nvme devices that for whatever reason are stuck
-> > in a reset state. Historically these have required a power cycle to make
-> > them usable again. Vendors don't report any problem with the device when
-> > we ship these for analysis.
-> 
-> Who is the "we" here?
+On Tue, Jul 15, 2025 at 03:58:01AM +0200, Thomas Glanzmann wrote:
+> I one heard that the Linux kernel allocates one queue per processor (core or
+> hyperthread). I can see that using /proc/interrupts but only on physical
+> devices, but not on NVME/TCP systems.
 
-Meta.
- 
-> > In many cases, a PCIe FLR is sufficient to restart operation without a
-> > power cycle. Try it if controller reset fails the first time.
-> 
-> Why is that only done in the probe path and not the runtime reset path?
+For PCI, the driver automatically handles the queue and interrupt setup,
+and cpu assignment.
 
-nvme_pci_configure_admin_queue() is called for both probe and
-reset_work.
+For TCP (and all fabrics transports), you have to specificy how many
+connections you want to make ("nr_io_queues=X") when you're setting up
+your initial fabrics connection.
 
-Is it because I wrote "fails the first time"? I mean the first reset for
-each initialization attempt, whether it happens during probe or a later
-reset. The code path will try an FLR on every single nvme reset if
-CSTS.RDY doesn't clear as expected.
+If you want to see what you've ended up with, you can consult the
+namespaces' sysfs entries:
 
-> > +	if (result < 0) {
-> > +		struct pci_dev *pdev = to_pci_dev(dev->dev);
-> > +
-> > +		result = pcie_flr(pdev);
-> > +		if (result < 0)
-> > +			return result;
-> > +		pci_restore_state(pdev);
-> > +
-> > +		result = nvme_disable_ctrl(&dev->ctrl, false);
-> > +		if (result < 0)
-> > +			return result;
-> > +	}
-> 
-> Either way this warrants a big comment explaining what we are doing
-> here.
+How many IO queues are there:
 
-Sure, no problem. I think also a dev_warn() if the 2nd disable_ctrl call
-was successful to indicate an FLR was needed to get an expected
-response.
+  # ls -1 /sys/block/nvme0n1/mq/ | wc -l
+  64
+
+How large is each IO queue:
+
+  # cat /sys/block/nvme0n1/queue/nr_requests
+  1023
 
