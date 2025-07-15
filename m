@@ -4,64 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57F4AC83F17
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 19:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95213C83F17
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 19:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uTAuTs2+4PPtYUyVzzoc2XWzO9TfzwsKYKBt+0gPTD8=; b=jWQ41mIdrvdhofZxNx4W7osuMl
-	+yUWQNYH+7wpCckPfImrdnkUGiJ2bZW4zI9dxBpr6o0ONif0Lma1hT5ijyveYPJz05TX5eDV/yM+7
-	2laajPn4YfN78A8ppDndHEnqUiHWtRUcKBWiSluNiO78kX/EoTpZ6VihgzZamcj2zFpxWJUH/9CKI
-	aMson6uoRajaH5VyEGZmZiaEK5HLgTvnnY+xyKQQIn3fiiQlJFEom5gGgUtomY3RGzImuK6wQ/SaL
-	kETR60gSvJOOnEJx8hOUNHwYZfhWWCVTlbqXkYze2ka8xOFyj/jpLGQQVjTI9YJXqFs4p2xil6wFj
-	us/vdk3Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wUfVUYnY27dspaPxD27npNwHK4NxjCB5+3ShdTHGBw8=; b=xZqnRcCsmjobfp+QRbasMDAA4c
+	ulqic0aVJis7jB2XzeO0LEKzFmozZYOkGSbBOO1yrBS/F+SuynxQfd1F3bo0kmpJNfm9zR8RR4KP9
+	kKWX42mQBXVl14anfpYu/9L8U0s2cEZMax/FAqQ+StIIF2UxQV4Fg4w+W7zTqX6xaiMrzlBDlYMnj
+	bw5f91h/8biIXWJBQ625f4ONXDww68sX60Z2Nc6k2usqCyawLJWwxTiH+oVvRZoO8cFCKJfrAMIyE
+	ALTOHTEuAALasDktmEwvc3sMY0uZ4RqMRj9VWSf1qBJ5n/1JfOKxaMckPFrnX9ax7HAxBZFhNYGB1
+	QBqb+KhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ublBz-000000062Ib-40Dp;
-	Tue, 15 Jul 2025 19:19:55 +0000
-Received: from infra.glanzmann.de ([2a01:4f8:b0:3ffe::5])
+	id 1ublD0-000000063gT-0J3V;
+	Tue, 15 Jul 2025 19:20:58 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubk1s-00000005s3w-2gzV
+	id 1ubkus-00000005wXU-1uW8
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Jul 2025 18:05:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=glanzmann.de;
-	s=infra26101010; t=1752602721;
-	bh=uTAuTs2+4PPtYUyVzzoc2XWzO9TfzwsKYKBt+0gPTD8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MG1OOLrO+dh0MfeHUxIhF1b0U4jRxCHTQwi2Fc7Z+QAsdP8jN/ja/k3BWgSXFsIDj
-	 1WY8JeWc1z4Pcs4JkW3y9H8Lttzgfp6xTinI7lRaVHYL2SwZyqhfiyZOj1/FGAyMHv
-	 0B0D1v3ptadxUbrvnTXcvqpTyVBuS6W8HfOq7KsTS8OkcyiPwj1Czuav6WNzlSZsHu
-	 1Z2JHxuZA1pHax/mEU7/Li/KTeHFrt5R7DCWmYcd/MMOltesU5tCzBrTg1S12wQo6O
-	 WNdTbwbPXtQZUgOPLdqpF3LXIb1wx+hUyjb4bG35GISh9l7R4yKEiVxnn0bYzIVJfK
-	 VO83eZFB4rZeoaidtdIiEn0/CEqxGizEpgy9jkWO8aOxz3LNPet+nF+PtYyNi7KvZm
-	 DjTzlVi0BVcjBkK8zrwZ4HQ2fsdjoedu6dlHRc6gUVcF9fLVcIS9BYJRShEjrWQmT/
-	 1eqszDIpXeAv+oS2SXoIxR9Q8ko77mXpvXqEj4GS837fxSjQh10vDQK+Fyw0j6HqaB
-	 v9yu7m+Z9oQgSXD5GGQ2dbJUJEAON2YQxOvWLYAgby1qMGjwGzSr+dRjmaObo9d4ZK
-	 y7D6psj1msrSImTq/SQaLProQow3to9QTIljzQVK/D8T4+RmP36jgUXYJ2J53oXGP0
-	 T1aNYjbToE5q60FCV7KSqLKM=
-Received: by infra.glanzmann.de (Postfix, from userid 1000)
-	id E98907A800B9; Tue, 15 Jul 2025 20:05:21 +0200 (CEST)
-Date: Tue, 15 Jul 2025 20:05:21 +0200
-From: Thomas Glanzmann <thomas@glanzmann.de>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Keith Busch <kbusch@kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: Number of data and admin queues in use
-Message-ID: <aHaYYYBZ4jk88yqR@glanzmann.de>
-References: <aHW1qUJksE5Okflb@glanzmann.de>
- <aHZoBO9cPcRGIDwH@kbusch-mbp>
- <8584a963-a482-47cf-9ca2-a9d34e54b200@nvidia.com>
+	Tue, 15 Jul 2025 19:02:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752606130;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUfVUYnY27dspaPxD27npNwHK4NxjCB5+3ShdTHGBw8=;
+	b=iqT3fKsPa5oudfKbZyQVNNXNDj1ib3TDlwBIQksfCAQkqO5PbQnX3D+Q5jYP7TNDedQwl1
+	p1eL2J9zb2S5xQcbPFQQVdIlbB0frlPLdcuk4uXD34r/McWC1Dzqzs+OFN6XeGarlLXXsi
+	SNxjdmyyTO7XX5xyzVR0mr5eBhs9c70=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-643-MlMJZmceNZCd-BxtrZxITQ-1; Tue,
+ 15 Jul 2025 15:02:05 -0400
+X-MC-Unique: MlMJZmceNZCd-BxtrZxITQ-1
+X-Mimecast-MFC-AGG-ID: MlMJZmceNZCd-BxtrZxITQ_1752606124
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 75F291800BC3;
+	Tue, 15 Jul 2025 19:02:03 +0000 (UTC)
+Received: from [10.22.88.94] (unknown [10.22.88.94])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8804B180045B;
+	Tue, 15 Jul 2025 19:02:00 +0000 (UTC)
+Message-ID: <1352e125-180b-4ec9-ac3e-1cd8570910a3@redhat.com>
+Date: Tue, 15 Jul 2025 15:01:59 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8584a963-a482-47cf-9ca2-a9d34e54b200@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvme: check duplicate unique identifiers in order
+To: Keith Busch <kbusch@kernel.org>
+Cc: Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
+ hch@lst.de, sagi@grimberg.me, axboe@kernel.dk, mlombard@bsdbackstore.eu
+References: <20250509151627.20434-1-bgurney@redhat.com>
+ <aB4gO7mAYDO3Bm3A@kbusch-mbp>
+ <cec53fce-2f1d-4162-8685-ab7c56649953@redhat.com>
+ <aCId7XmLnrLWZPdk@kbusch-mbp> <aFrBVeEcapNtOvPx@kbusch-mbp>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <aFrBVeEcapNtOvPx@kbusch-mbp>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 03uaNAZtJJ694qnuYDJkBaQPTtvJS0ETH7yjPr2Z5I4_1752606124
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250715_110525_400654_E4E41B80 
-X-CRM114-Status: GOOD (  17.63  )
+X-CRM114-CacheID: sfid-20250715_120214_569669_AD448BF3 
+X-CRM114-Status: GOOD (  13.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,78 +92,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Chaitanya,
+On 6/24/25 11:16 AM, Keith Busch wrote:
+> On Mon, May 12, 2025 at 10:12:29AM -0600, Keith Busch wrote:
+>> On Mon, May 12, 2025 at 11:18:58AM -0400, John Meneghini wrote:
+>>> On 5/9/25 11:33 AM, Keith Busch wrote:
+>>>
+>>>> If those are not unique, they need to be blanked out to make sure we don't
+>>>> expose these on the namespace's sysfs attributes.
+>>>
+>>> OK, we can add another patch that blanks out the lower precedent/invalid IDs.
+>>>
+>>> Will that work?
+>>
+>> I think you'd have to blank out the non-unique ones, otherwise the
+>> driver would export them.
+>>
+>> And while I think that might work, this proposal didn't go over so well
+>> last time it came up:
+>>
+>> https://lore.kernel.org/linux-nvme/20250414111916.GB13225@lst.de/
+> 
+> I've recently encountered some devices with this behavior, from machines
+> hosted by various cloud providers. I had to pull in something
+> out-of-tree like the patch here just to get things going. I think we
+> should have the kernel discard lower priority fields.
 
-> From what I can see you are getting number of queues for both tcp and
-> pcie NVMe controller, what is your question?
+OK good I will ask Bryan to resubmit this as a version 2 patch.
+  
+We can add another patch that blanks out the lower precedent/invalid IDs in sysfs so that only the unique IDs are reported.
 
-My question was how to see the number and size of NVMe IO queues but
-Keith already answered that. I just thanked him and added some stats
-from the NetApp.
+/John.
 
-> Another way to dig into controller side fields or queue depth you can
-> read the CAP space see this from spec
-
-> Figure 36: Offset 0h: CAP – Controller Capabilities :-
-
-> "Maximum Queue Entries Supported (MQES): This field indicates the
-> maximum individual queue size that the controller supports. For NVMe
-> over PCIe implementations, this value applies to the I/O Submission
-> Queues and I/O Completion Queues that the host creates. For NVMe over
-> Fabrics implementations, this value applies to only the I/O Submission
-> Queues that the host creates. This is a 0’s based value. The minimum
-> value is 1h, indicating two entries."
-
-> -ck
-
-> [1]
-
-> For fabrics transport (TCP) number are queues are calculated using
-> nvmf_nr_io_queue() to make sure we don't create more read/defult
-> queues than CPUs available same check is also applicable for write
-> and poll queues.
-> nvme_set_queue_count adjusts the queue count based on controller
-> capabilities which cal also clamp the queue count.
-
-> nvmf_set_io_queues() set queue count for each queue type read,
-> default, poll. then nvmf_map_queues() maps them into blk-mq
-> structure so that default/read/poll and each gets attached to
-> blk_mq context.
-
-> On My machine I've 48 CPUs so when I create tcp target I get :-
-
-> [ 1196.058440] nvme nvme1: creating 48 I/O queues.
-> [ 1196.062370] nvme nvme1: mapped 48/0/0 default/read/poll queues.
-
-> you should be able to see this into debug messages that is coming
-> from queue allocation helpers respectively that also has controller
-> device name "nvme1" :-
-
-> nvme_tcp_alloc_io_queues()
-> nvmf_map_queues()
-
-Tomorrow I'll setup a NVMe/TCP target on Linux and do some benchmarking. I'll
-also hookup the NetApp to 64 Gbit/s FC and do some benchmarking with FC and
-FC/NVMe.
-Thank you for the additional insight, I never paid attention to this but, I did
-now:
-
-[ 3730.402432] nvme nvme0: queue_size 128 > ctrl sqsize 32, clamping down
-[ 3795.115084] subsysnqn nqn.1992-08.com.netapp:sn.e0a0273a60b711f09deed039ead647e8:subsystem.svm1_subsystem_553 iopolicy changed from numa to queue-depth
-[ 3795.154560] nvme nvme0: creating 2 I/O queues.
-[ 3795.156535] nvme nvme0: mapped 2/0/0 default/read/poll queues.
-[ 3801.004641] nvme nvme1: creating 2 I/O queues.
-[ 3801.006541] nvme nvme1: mapped 2/0/0 default/read/poll queues.
-
-Than I bumped the queues and queue size on the NetApp and got:
-
-[98114.846603] nvme nvme0: queue_size 128 > ctrl sqsize 32, clamping down
-[98727.596158] subsysnqn nqn.1992-08.com.netapp:sn.e0a0273a60b711f09deed039ead647e8:subsystem.svm1_subsystem_553 iopolicy changed from numa to queue-depth
-[98727.635617] nvme nvme0: creating 4 I/O queues.
-[98727.638218] nvme nvme0: mapped 4/0/0 default/read/poll queues.
-[98741.459565] nvme nvme1: creating 4 I/O queues.
-[98741.462227] nvme nvme1: mapped 4/0/0 default/read/poll queues.
-
-Cheers,
-	Thomas
 
