@@ -4,75 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18A3BC83F1A
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 01:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 517BBC83F1A
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Jul 2025 01:34:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3ZeNoqKm6O5YcqPenh+uKzKSr2jzZsNE9kmK9ijbp0g=; b=E5wU2OwdeFG6vfhVkUkizhfvzE
-	hWPmESnEafy+W8pRI0KzRLO45e5kkv0okBMGQ+EKHX4a7bt/eKmVsabWJLDg82qZRu6kgvxmDEaVz
-	BLe0avYkkmOdtVs4GXHVf4NQTHv4+Qibb6OYG0wSEj3Jur4+lPlEVasJHPg62xb6YLg/JxOtF/3I2
-	kypw2g33XmsE6cmQWSjq3NIlMtQC3LzTf6IZKk9DbUcmKrAk/AvCHvWww6yWRh59TDs6OQEMdWQrB
-	Yua9bpkLXCtXW9Km4xTY1Dass8HtNcHCdESVz3vIlDeIlffpa33PDaTlg8FfaKNvDjWoaqWto52Na
-	Yc/SrYIA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=fOaQ4j5kump6pAgvHsWjblHYKVDAfWcf/ygvwFbehqc=; b=ie1+rd1GGv8f3APXkpT1tq8fqX
+	cW6tqVTHBgOPorvaI88th+1RvLBnNTuD93n/GZvrI0FnQ2WHkkrZC7Za2sieN3cftBlgaMAaG5U7p
+	c8eiYONzuobmsNHgJ7QO4IzFYg2ere1bTiAC7zTPzR9O4lmPhnP1YeMAFVFUklqP5tfrbkl5BOs6x
+	/bD92tGqTrAg7G1ur7vifC7lpn8SRdh6bsGwwrJCtwdkf7P55QhCyw3rg7Isc1os7ty+21B9UF2Sn
+	pADWtMGQxGx3CqgHhwv2+yBZR0GhPEHhA0cOQya73GvIlYrfKKmxftJBFFuhNOIz3GI9TSP93XECQ
+	8ka4UUpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubU9X-00000003hAt-1QVM;
-	Tue, 15 Jul 2025 01:08:15 +0000
+	id 1ubUYm-00000003jWA-0yZg;
+	Tue, 15 Jul 2025 01:34:20 +0000
 Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubU9T-00000003hA6-3AE0
+	id 1ubUYi-00000003jVW-1btS
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Jul 2025 01:08:13 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bh1Jh25mHzKHMvl
-	for <linux-nvme@lists.infradead.org>; Tue, 15 Jul 2025 09:08:04 +0800 (CST)
+	Tue, 15 Jul 2025 01:34:18 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bh1tq2GqpzKHMhy
+	for <linux-nvme@lists.infradead.org>; Tue, 15 Jul 2025 09:34:11 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id D421A1A0EBF
-	for <linux-nvme@lists.infradead.org>; Tue, 15 Jul 2025 09:08:02 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgC3MxTwqXVoeJIwAQ--.26050S3;
-	Tue, 15 Jul 2025 09:08:02 +0800 (CST)
-Subject: Re: [PATCH] nvme: clear nvme request for nonready request
-To: Christoph Hellwig <hch@lst.de>, Yu Kuai <yukuai1@huaweicloud.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
- yi.zhang@redhat.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20250628064634.3823093-1-yukuai1@huaweicloud.com>
- <20250714134231.GA11132@lst.de>
+	by mail.maildlp.com (Postfix) with ESMTP id DD2D51A18C5
+	for <linux-nvme@lists.infradead.org>; Tue, 15 Jul 2025 09:34:09 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.104.67])
+	by APP4 (Coremail) with SMTP id gCh0CgDnYhMNsHVo35syAQ--.25659S4;
+	Tue, 15 Jul 2025 09:34:07 +0800 (CST)
 From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <079bbdfb-f240-c902-2513-4dd454d2ab5c@huaweicloud.com>
-Date: Tue, 15 Jul 2025 09:08:00 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	lengchao@huawei.com
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	yukuai3@huawei.com,
+	yukuai1@huaweicloud.com,
+	yi.zhang@huawei.com,
+	yangerkun@huawei.com,
+	johnny.chenyi@huawei.com
+Subject: [PATCH] nvme: fix misaccounting of nvme-mpath inflight IO
+Date: Tue, 15 Jul 2025 09:28:12 +0800
+Message-Id: <20250715012812.1135331-1-yukuai1@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-In-Reply-To: <20250714134231.GA11132@lst.de>
-Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgC3MxTwqXVoeJIwAQ--.26050S3
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYK7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87
-	Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE
-	6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72
-	CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4II
-	rI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr4
-	1l4c8EcI0Ec7CjxVAaw2AFwI0_Jw0_GFyl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAq
-	x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r
-	43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF
-	7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
-	WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
-	oOJ5UUUUU
+X-CM-TRANSID: gCh0CgDnYhMNsHVo35syAQ--.25659S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw4UXry8ur1DZr1rZw4kXrb_yoW8WF17pF
+	4kZrW3C3sI9F1kA34xJFW7ua4Yqw4qqa47Cwnak34aqF1DJrW5ur4qgF17Wr47ur4kWay5
+	WFs5ur9ruFy7JrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjfUonmRUUUUU
 X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250714_180811_970794_FB944C71 
-X-CRM114-Status: UNSURE (   6.09  )
+X-CRM114-CacheID: sfid-20250714_183416_602277_0855B459 
+X-CRM114-Status: UNSURE (   8.33  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,16 +91,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+From: Yu Kuai <yukuai3@huawei.com>
 
-ÔÚ 2025/07/14 21:42, Christoph Hellwig Ð´µÀ:
-> Are you going to resend this with the feedback from Sagi taken into
-> account?
-> 
+Pprocedures for nvme-mpath IO accounting:
 
-Sure, sorry that I totally forgot about this patch.
+1) Initialize nvme_request and clear flags;
+2) Set NVME_MPATH_IO_STATS and increase inflight counter when IO
+   started;
+3) Check NVME_MPATH_IO_STATS and decrease inflight counter when IO is
+   done;
 
-Thanks,
-Kuai
+However, for the case nvme_fail_nonready_command(), both step 1) and 2)
+are skipped, and if old nvme_request set NVME_MPATH_IO_STATS and then
+request is reused, step 3) will still be executed, causing inflight
+IO counter to be negative. Fix the problem by clearing nvme_request in
+nvme_fail_nonready_command()
+
+Fixes: ea5e5f42cd2c ("nvme-fabrics: avoid double completions in nvmf_fail_nonready_command")
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Closes: https://lore.kernel.org/all/CAHj4cs_+dauobyYyP805t33WMJVzOWj=7+51p4_j9rA63D9sog@mail.gmail.com/
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+---
+ drivers/nvme/host/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 92697f98c601..e2233e434e5a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -764,6 +764,10 @@ blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
+ 	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
+ 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+ 		return BLK_STS_RESOURCE;
++
++	if (!(rq->rq_flags & RQF_DONTPREP))
++		nvme_clear_nvme_request(rq);
++
+ 	return nvme_host_path_error(rq);
+ }
+ EXPORT_SYMBOL_GPL(nvme_fail_nonready_command);
+-- 
+2.39.2
 
 
