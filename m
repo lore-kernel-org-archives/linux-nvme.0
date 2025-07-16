@@ -4,71 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78D16C83F22
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Jul 2025 09:09:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41153C83F27
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Jul 2025 11:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=JtEdw4kkfamdRp8U1VDWDxt88YP2xM4hJLPKRB1fUIg=; b=tOzTh2G6h80ZuZtz1fG/nIDNXM
-	K29BRBZbG79+cnQ/XYDQGoVBuJW7d5NXmRA3Q5PkiNelYVfZh4DfZBHdzZAyPtIJe5ioWLoWufjSM
-	W7wAePkhd9IF93LSbR8tmOs+s0zFUqbSD1b4FAD4/tkRBvF0BN5UG5vRYRUmwTwH9CFvaYh9s5ead
-	BYuYPItH/c+V3mHhwItIdcHotWjtzcHAE69aUvZQGMTQYiya+k6pJoZmPQ3u2G/lu83XNIvqqNY4F
-	mFSB7WX3en9ssEZeuQhzFLclMucNHS57wMKJ9Qa01FMLUdPM3gCdGaHc17MDel5VCZIyjAbvBFxBm
-	7sWDY1oQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=P2SOYl/XQMHOmwrX5JSsna52LJMbkh+N5xjV/ETx76A=; b=CGKrPv4ikKkBTRetmASVetUqH4
+	O98MvxVgP5Wa+DX6iUWsu3gu2eW872ZZV1zjdsI+KjsZgI7o98PFqhutwaDDHEzAcjkN1RpsaLG4Z
+	KsmAXcKqY9H8ttCgmADMkQvPpgmlQCd36EA/GpqD26ZfUyUTWSx9bKh6mnAPGeY45+ZC6iP4MeLr0
+	vFVdZsV/lbLYneB8YSTJ+j76d523Ik9w6bmN5uOHd5j2Uqp8ckc7wzg09uv7WvqlnB3h+qAQ0rIN2
+	pYvUoLbMWGlB0k9W2MAx9NdeqoGhHF6+USnRK4GRTETY6kD0Axr9P31KtIzed7kHxK2f/K6XzVfMX
+	KvjGwRsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uby8K-00000007F70-2wf9;
-	Wed, 16 Jul 2025 09:09:00 +0000
-Received: from mgamail.intel.com ([198.175.65.16])
+	id 1uc0SC-00000007ZrG-14Qa;
+	Wed, 16 Jul 2025 11:37:40 +0000
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uby8H-00000007F6Y-2JYu
+	id 1uc06V-00000007X1Q-0d6r
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Jul 2025 09:08:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752656938; x=1784192938;
-  h=date:from:to:cc:subject:message-id;
-  bh=aPt3fJryH5UR5Dl95bBcGdJxPCLMZw/HEOhkEvzYrQc=;
-  b=jBTUob7HT6M1qTUGMkswlWCACHkIelgNE5W3huh2mASkXK6CCHjvU26I
-   0e3RBRbCYRmtY7ZzLGAUG+LpOkJfw7Vklw/lZ4ll/z9+51BlMJOeJMsPH
-   nz0WVi2G6OCqsNEJa4ZzpNrC9mmswcQCjNAV90UVBRt+wTk+TIGnqOj7I
-   +89EU3SD/oRNnDACuhr8fcJz6bCobJzXii0Yp0CAiTuq6Br4tV/IOm8wK
-   6z3v84b/Id5jHJTq/9yYDd57ByBU3/Miv1R16EfRlPhFhioZgHbE0LzhZ
-   6QKp8sfiZ45lNtirIsDRKy0AZovLMgIjyDi0N9BDKfZ9vjt3BEo17fxWm
-   g==;
-X-CSE-ConnectionGUID: Sl6fU3AATm6o04ZfFxrLQA==
-X-CSE-MsgGUID: +wbjAImlS4yNJlciV84Sew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="55040082"
-X-IronPort-AV: E=Sophos;i="6.16,315,1744095600"; 
-   d="scan'208";a="55040082"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 02:08:56 -0700
-X-CSE-ConnectionGUID: HC434x/FSpeXrb6Enxlldg==
-X-CSE-MsgGUID: /loNMR48SAC5gyT83bCmIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,315,1744095600"; 
-   d="scan'208";a="156846225"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Jul 2025 02:08:54 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uby8B-000C9X-31;
-	Wed, 16 Jul 2025 09:08:51 +0000
-Date: Wed, 16 Jul 2025 17:07:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.16] BUILD SUCCESS
- 0523c6cc87e558c50ff4489c87c54c55068b1169
-Message-ID: <202507161744.Nao4AD41-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Wed, 16 Jul 2025 11:15:16 +0000
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-ae0dffaa8b2so1277266466b.0
+        for <linux-nvme@lists.infradead.org>; Wed, 16 Jul 2025 04:15:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752664513; x=1753269313; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P2SOYl/XQMHOmwrX5JSsna52LJMbkh+N5xjV/ETx76A=;
+        b=EyH99v06JlgwjuRYtyrDXxqzPXkKcOy8LBjYC/Or9cGvuhKyhK5dCojay7QqvQwFVo
+         bAUa0E0EynZyFLAhq4xRjh3ts8gna3aNpqnHoQyo+bkJj1uRhRJUywZ5+bEgQmHIJPM0
+         ZzR5kfuV2Yd7IxOtVXI1kaENp0G72xfC3MTm4dXIiRKbCL/Te7L/GVDIH/VQbZAxBVzM
+         VjbPfyFu15adt3ZzJIKtszRdymG/7h1gFmWN/SB67R/Al9jYTFr16FvSsquV6+tpmp3R
+         3KVahpTF8Nvwjr2FnQFNh6DA0S7wvuk+bStzDM5t9LzBdWIi5pgP6PZYq/5GhtCIEFCk
+         Mg/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752664513; x=1753269313;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P2SOYl/XQMHOmwrX5JSsna52LJMbkh+N5xjV/ETx76A=;
+        b=HqJTCbhkl2+wTL8kkjBqL5wWOpQawW2+DOoj+JByDrXAVh2kneUC5P9ZcU1/p34IzC
+         APp2DeRNmnSTHrMLiB5MT2CTKB8fZreDbPBgUE7cpkKZ5fHKYIEi6yWnwEtw6VPHqSzm
+         ZPJBCDtcKaLTFP0h3QWvyg+KK61HpvB+ePqVNzE/9jMFf7vXREYof6aewT1QArgCccuO
+         wEhJvGm0fxlGTj14guVW3F1JzpNOlkZfq8pfm0NQqHOeF/XdcRZCZyxnaLP3DBl2pVNP
+         GeiRCrJQQqrUMO4xt7o9kwx0wE25AVFivvic1BE2FDWBNBIBoMqHOXXpV6nEzOwlj7Cr
+         Q83Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUQa2btdueyPpfocd5xLuqGyAfCdZnkY0GsWTEkaJqI2tiP5UuYfQw9zW1AoTnX4xPByPebwzRt1EOI@lists.infradead.org
+X-Gm-Message-State: AOJu0YwKyvcSmyHs8gdJNVe11uMypTZtpNDsfEVtzfHlKbNNFY9gWbFF
+	NqJ7CrG2eyZwjFq9iWdtJLWXMcrO4RWAE1I8E3AKR2HunXUM2X2HTU/N
+X-Gm-Gg: ASbGncvMVYBWN4kPYJuLpgAqoLG6epkaxiMugQs70OxPdK/zeOwjxhT5LHr0n8RIKuP
+	LRprnHYmgHPaoTBEY0ZRZTBzUmRMgscFvO2Qs0+Mdbgn4cmvFUd92AMtRKNHoXSNq/YDtRzMQS0
+	xO+qyU5Wwh0qTm8HHfzX1zOj6UI6m0bYi8YlEqHj/6rRToqmwyvM2OUPgOX16X/bATNVQQJB+vK
+	PqOVcp43MkVgo3zP+61F9v1UwzqxBLBudZabaHBjykRNZi28cdfLQO48IsZGdyeU5eUZ0nlSnt/
+	sVaeXyFnF5nXdeQEVCodHGmRZDI0aftaAROApB8HVZEpUgvtOR0MWafKOl8rSASMCNrORT5YYe7
+	O3BtXqW/Q2mS4bAEnXh3M36mYJz0sr9sPnBEFINUKcv+oT96NktJhWZ+IyK8=
+X-Google-Smtp-Source: AGHT+IHuaG9Q4KyyDlobEdm53aQS309RTLX1FnzlLthLLXD+3Rs1MJYH27z7J7Sc4zrPCnLs0uM4Hw==
+X-Received: by 2002:a17:907:d847:b0:ae0:a1c2:262e with SMTP id a640c23a62f3a-ae9c9b3e228mr272402366b.50.1752664513185;
+        Wed, 16 Jul 2025 04:15:13 -0700 (PDT)
+Received: from A13PC04R.einet.ad.eivd.ch ([185.144.39.75])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e82dee16sm1175217766b.152.2025.07.16.04.15.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 04:15:12 -0700 (PDT)
+From: Rick Wertenbroek <rick.wertenbroek@gmail.com>
+To: 
+Cc: rick.wertenbroek@heig-vd.ch,
+	dlemoal@kernel.org,
+	alberto.dassatti@heig-vd.ch,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	stable@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/1] nvmet: pci-epf: Do not complete commands twice if nvmet_req_init() fails
+Date: Wed, 16 Jul 2025 13:15:03 +0200
+Message-Id: <20250716111503.26054-2-rick.wertenbroek@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250716111503.26054-1-rick.wertenbroek@gmail.com>
+References: <20250716111503.26054-1-rick.wertenbroek@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250716_020857_659121_FCDE790D 
-X-CRM114-Status: UNSURE (   5.69  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250716_041515_189085_1B1E4766 
+X-CRM114-Status: GOOD (  17.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,148 +109,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.16
-branch HEAD: 0523c6cc87e558c50ff4489c87c54c55068b1169  nvmet-tcp: fix callback lock for TLS handshake
+Have nvmet_req_init() and req->execute() complete failed commands.
 
-elapsed time: 1453m
+Description of the problem:
+nvmet_req_init() calls __nvmet_req_complete() internally upon failure,
+e.g., unsupported opcode, which calls the "queue_response" callback,
+this results in nvmet_pci_epf_queue_response() being called, which will
+call nvmet_pci_epf_complete_iod() if data_len is 0 or if dma_dir is
+different from DMA_TO_DEVICE. This results in a double completion as
+nvmet_pci_epf_exec_iod_work() also calls nvmet_pci_epf_complete_iod()
+when nvmet_req_init() fails.
 
-configs tested: 128
-configs skipped: 3
+Steps to reproduce:
+On the host send a command with an unsupported opcode with nvme-cli,
+For example the admin command "security receive"
+$ sudo nvme security-recv /dev/nvme0n1 -n1 -x4096
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This triggers a double completion as nvmet_req_init() fails and
+nvmet_pci_epf_queue_response() is called, here iod->dma_dir is still
+in the default state of "DMA_NONE" as set by default in
+nvmet_pci_epf_alloc_iod(), so nvmet_pci_epf_complete_iod() is called.
+Because nvmet_req_init() failed nvmet_pci_epf_complete_iod() is also
+called in nvmet_pci_epf_exec_iod_work() leading to a double completion.
+This not only sends two completions to the host but also corrupts the
+state of the PCI NVMe target leading to kernel oops.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                          axs103_defconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                            hsdk_defconfig    gcc-15.1.0
-arc                   randconfig-001-20250715    gcc-8.5.0
-arc                   randconfig-002-20250715    gcc-11.5.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-15.1.0
-arm                   randconfig-001-20250715    clang-21
-arm                   randconfig-002-20250715    gcc-10.5.0
-arm                   randconfig-003-20250715    clang-21
-arm                   randconfig-004-20250715    gcc-12.4.0
-arm                        spear6xx_defconfig    clang-21
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250715    clang-16
-arm64                 randconfig-002-20250715    gcc-12.3.0
-arm64                 randconfig-003-20250715    gcc-6.5.0
-arm64                 randconfig-004-20250715    clang-21
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20250715    gcc-9.3.0
-csky                  randconfig-002-20250715    gcc-12.4.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250715    clang-18
-hexagon               randconfig-002-20250715    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250715    gcc-12
-i386        buildonly-randconfig-002-20250715    gcc-12
-i386        buildonly-randconfig-003-20250715    gcc-12
-i386        buildonly-randconfig-004-20250715    clang-20
-i386        buildonly-randconfig-005-20250715    clang-20
-i386        buildonly-randconfig-006-20250715    clang-20
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-21
-loongarch             randconfig-001-20250715    clang-21
-loongarch             randconfig-002-20250715    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                           sun3_defconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                            alldefconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-nios2                 randconfig-001-20250715    gcc-11.5.0
-nios2                 randconfig-002-20250715    gcc-7.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250715    gcc-10.5.0
-parisc                randconfig-002-20250715    gcc-9.3.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-21
-powerpc               randconfig-001-20250715    clang-21
-powerpc               randconfig-002-20250715    clang-21
-powerpc               randconfig-003-20250715    gcc-5.5.0
-powerpc64             randconfig-001-20250715    clang-21
-powerpc64             randconfig-002-20250715    gcc-6.5.0
-powerpc64             randconfig-003-20250715    clang-17
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-21
-riscv                 randconfig-001-20250715    clang-21
-riscv                 randconfig-002-20250715    clang-21
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    clang-21
-s390                  randconfig-001-20250715    gcc-6.5.0
-s390                  randconfig-002-20250715    gcc-12.4.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20250715    gcc-11.5.0
-sh                    randconfig-002-20250715    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250715    gcc-7.5.0
-sparc                 randconfig-002-20250715    gcc-8.5.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20250715    clang-20
-sparc64               randconfig-002-20250715    gcc-5.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-21
-um                               allyesconfig    gcc-12
-um                                  defconfig    clang-21
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20250715    gcc-12
-um                    randconfig-002-20250715    gcc-12
-um                           x86_64_defconfig    clang-21
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250715    clang-20
-x86_64      buildonly-randconfig-002-20250715    gcc-12
-x86_64      buildonly-randconfig-003-20250715    gcc-12
-x86_64      buildonly-randconfig-004-20250715    gcc-11
-x86_64      buildonly-randconfig-005-20250715    gcc-12
-x86_64      buildonly-randconfig-006-20250715    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                          iss_defconfig    gcc-15.1.0
-xtensa                randconfig-001-20250715    gcc-7.5.0
-xtensa                randconfig-002-20250715    gcc-14.3.0
+This patch lets nvmet_req_init() and req->execute() complete all failed
+commands, and removes the double completion case in
+nvmet_pci_epf_exec_iod_work() therefore fixing the edge cases where
+double completions occurred.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Signed-off-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+Cc: stable@vger.kernel.org
+---
+ drivers/nvme/target/pci-epf.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index a4295a5b8d28..9cd470938463 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1242,8 +1242,11 @@ static void nvmet_pci_epf_queue_response(struct nvmet_req *req)
+ 
+ 	iod->status = le16_to_cpu(req->cqe->status) >> 1;
+ 
+-	/* If we have no data to transfer, directly complete the command. */
+-	if (!iod->data_len || iod->dma_dir != DMA_TO_DEVICE) {
++	/*
++	 * If the command failed or we have no data to transfer, complete
++	 * the command immediately.
++	 */
++	if (iod->status || !iod->data_len || iod->dma_dir != DMA_TO_DEVICE) {
+ 		nvmet_pci_epf_complete_iod(iod);
+ 		return;
+ 	}
+@@ -1604,8 +1607,13 @@ static void nvmet_pci_epf_exec_iod_work(struct work_struct *work)
+ 		goto complete;
+ 	}
+ 
++	/*
++	 * If nvmet_req_init() fails (e.g., unsupported opcode) it will call
++	 * __nvmet_req_complete() internally which will call
++	 * nvmet_pci_epf_queue_response() and will complete the command directly.
++	 */
+ 	if (!nvmet_req_init(req, &iod->sq->nvme_sq, &nvmet_pci_epf_fabrics_ops))
+-		goto complete;
++		return;
+ 
+ 	iod->data_len = nvmet_req_transfer_len(req);
+ 	if (iod->data_len) {
+@@ -1643,10 +1651,11 @@ static void nvmet_pci_epf_exec_iod_work(struct work_struct *work)
+ 
+ 	wait_for_completion(&iod->done);
+ 
+-	if (iod->status == NVME_SC_SUCCESS) {
+-		WARN_ON_ONCE(!iod->data_len || iod->dma_dir != DMA_TO_DEVICE);
+-		nvmet_pci_epf_transfer_iod_data(iod);
+-	}
++	if (iod->status != NVME_SC_SUCCESS)
++		return;
++
++	WARN_ON_ONCE(!iod->data_len || iod->dma_dir != DMA_TO_DEVICE);
++	nvmet_pci_epf_transfer_iod_data(iod);
+ 
+ complete:
+ 	nvmet_pci_epf_complete_iod(iod);
+-- 
+2.25.1
+
 
