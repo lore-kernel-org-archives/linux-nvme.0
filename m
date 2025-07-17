@@ -4,78 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBA5DC83F1A
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jul 2025 12:57:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F72AC83F1B
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jul 2025 13:02:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/jXZprNAiZwbFkjDKErohzqcX9b0ATB2AmBo9GP25RA=; b=A8w7QN0/nqIWAezHrxQZhbV9EW
-	85SPo2WT3u/IKtlvB6mQTqJaytbsMbVux9GyT7MUdQ2aPxfM3a6PReKp2Xy6E7ZAw20h+cRS8EhBK
-	257LnMKAKrV7P+Pg27IDQkuRCMVaZrBw0LksRtPg3a4zKW9IFpHoyePB48GZY4+Bx10optIdXCvM7
-	Tl105wFI8IeItMRLhltGCaH2AZrJQN3IalM1BlyrJSv4DyyY++3J9ZqJGuPFuaGUm5WSyB/COtqNN
-	IQC3j2mM5s+dX1/icwA0FB/FuqEs66I2cKK1L3pLAHQNflJIGwv6QkLIBelqDSiPIXgEMzuc6CLfK
-	RwOXV9lQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LiMX4zXZm5inHHY6IvtGUw3iKra4Hn1K3aeA1DUKkgU=; b=kIl9DezQ/VsIdItQObbgbaSLoo
+	VtWFTb9CS3TLaCZYpoBPWfPZ5DjKrnpsY3du2mIpDrGinYUwykv7rK15YnZwNtzKhx+Cvw285TMgU
+	hTpK9sr+bJvdfJwL0Jt2aYuNHI04DElhAfyj2NUkwtjejS5hZgtTmeQur0gp88gQx6Th614rhaklp
+	Fd+VBXkd+X3llBSpSdVOU9iA8UhPcKFjV6CYXz98Gbb05TaIxsZi89nSxGSxg2moGx4Mm8mk+7Sxe
+	9b72/Y9XZBRd2yLxeWln3+NkCsrnjObAidsUEI3y3Sv7/mSeM1hjZXkab+hSXq6UMb95VdzDgeTVX
+	GP0e1q3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucOAq-0000000ABHz-3Ujk;
-	Thu, 17 Jul 2025 12:57:20 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucMnN-00000009yvy-0wXZ
-	for linux-nvme@lists.infradead.org;
-	Thu, 17 Jul 2025 11:29:04 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250717112854epoutp03b0be32adf7b4b21c5413719958e602f3~TBmqfflvS0881508815epoutp03v
-	for <linux-nvme@lists.infradead.org>; Thu, 17 Jul 2025 11:28:54 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250717112854epoutp03b0be32adf7b4b21c5413719958e602f3~TBmqfflvS0881508815epoutp03v
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1752751735;
-	bh=/jXZprNAiZwbFkjDKErohzqcX9b0ATB2AmBo9GP25RA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Xj5mWGF35LzrKfkYbKA/xDgW4K4QszbbbIman5AufKUQwnCq/WBrCqXCagAT/4ei+
-	 Q8HBLOApvZSMPS+8qw0JgcU520/5VITjbVBXHLHn5NPEumtxft8DF3XnmBBtlZWTvr
-	 7n6RBMQGUx6MX6dN3wKZXPYyEa3qjEahwqQQOiSA=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20250717112854epcas5p293ca95960526612ccac45756a2d86611~TBmqLt-Nh2576625766epcas5p2R;
-	Thu, 17 Jul 2025 11:28:54 +0000 (GMT)
-Received: from epcas5p3.samsung.com (unknown [182.195.38.92]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4bjW0554Xnz6B9mG; Thu, 17 Jul
-	2025 11:28:53 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250717083851epcas5p4e16203f1673841f8dbf2da2a671cde66~S-SL69nPF2382023820epcas5p48;
-	Thu, 17 Jul 2025 08:38:51 +0000 (GMT)
-Received: from green245.gost (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250717083850epsmtip1cf2830059d74adcec255c78de7346487~S-SLN9v4d2002620026epsmtip1Z;
-	Thu, 17 Jul 2025 08:38:50 +0000 (GMT)
-Date: Thu, 17 Jul 2025 14:08:34 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, Keith Busch
-	<kbusch@kernel.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Subject: Re: nvme-pci: try function level reset on init failure
-Message-ID: <20250717083834.2pp4lugbl4u46ngd@green245.gost>
+	id 1ucOFb-0000000ACC5-3e7i;
+	Thu, 17 Jul 2025 13:02:15 +0000
+Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ucMv5-00000009zfq-3x5k;
+	Thu, 17 Jul 2025 11:37:00 +0000
+Date: Thu, 17 Jul 2025 13:36:56 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 6.16
+Message-ID: <aHjgWKyuasbJrqg6@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20250715191627.3690017-1-kbusch@meta.com>
-X-CMS-MailID: 20250717083851epcas5p4e16203f1673841f8dbf2da2a671cde66
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----CDBSwZz52MZUMeM1Rx6lI.cEW_5b_YZAAzr3v09AM7rvldzc=_1ce28_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250717083851epcas5p4e16203f1673841f8dbf2da2a671cde66
-References: <20250715191627.3690017-1-kbusch@meta.com>
-	<CGME20250717083851epcas5p4e16203f1673841f8dbf2da2a671cde66@epcas5p4.samsung.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250717_042902_720986_8F1E6A1F 
-X-CRM114-Status: GOOD (  12.94  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,47 +51,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------CDBSwZz52MZUMeM1Rx6lI.cEW_5b_YZAAzr3v09AM7rvldzc=_1ce28_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+The following changes since commit 3051247e4faa32a3d90c762a243c2c62dde310db:
 
-On 15/07/25 12:16PM, Keith Busch wrote:
->From: Keith Busch <kbusch@kernel.org>
->
->NVMe devices from multiple vendors appear to get stuck in a reset state
->that we can't get out of with an NVMe level Controller Reset. The kernel
->would report these with messages that look like:
->
->  Device not ready; aborting reset, CSTS=0x1
->
->These have historically required a power cycle to make them usable
->again, but in many cases, a PCIe FLR is sufficient to restart operation
->without a power cycle. Try it if the initial controller reset fails
->during any nvme reset attempt.
->
->Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>
->Signed-off-by: Keith Busch <kbusch@kernel.org>
->---
->v1->v2:
->
->  Added code comment explaining whe escalation
->
->  Add an informational kernel message that this event occured
->
->  Use the "pcie_reset_flr()" API instead of "pcie_flr()" since that one
->  checks for quirks and capabilities before writing FLR config bits.
->  Note, NVMe PCI Trasnsport Spec mandates FLR capability, so the latter
->  should not apply to any compliant device, but you never know...
->
-> drivers/nvme/host/pci.c | 24 ++++++++++++++++++++++--
-> 1 file changed, 22 insertions(+), 2 deletions(-)
->
+  block: fix kobject leak in blk_unregister_queue (2025-07-11 20:39:23 -0600)
 
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+are available in the Git repository at:
 
-------CDBSwZz52MZUMeM1Rx6lI.cEW_5b_YZAAzr3v09AM7rvldzc=_1ce28_
-Content-Type: text/plain; charset="utf-8"
+  git://git.infradead.org/nvme.git tags/nvme-6.16-2025-07-17
 
+for you to fetch changes up to 0523c6cc87e558c50ff4489c87c54c55068b1169:
 
-------CDBSwZz52MZUMeM1Rx6lI.cEW_5b_YZAAzr3v09AM7rvldzc=_1ce28_--
+  nvmet-tcp: fix callback lock for TLS handshake (2025-07-15 09:49:13 +0200)
+
+----------------------------------------------------------------
+nvme-fix for Linux 6.16
+
+ - revert the cross-controller atomic write size validation that caused
+   regressions (Christoph Hellwig)
+ - fix endianness of command word prints in nvme_log_err_passthru()
+   (John Garry)
+ - fix callback lock for TLS handshake (Maurizio Lombardi)
+ - fix misaccounting of nvme-mpath inflight I/O (Yu Kuai)
+ - fix inconsistent RCU list manipulation in nvme_ns_add_to_ctrl_list()
+   (Zheng Qixing)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme: revert the cross-controller atomic write size validation
+
+John Garry (1):
+      nvme: fix endianness of command word prints in nvme_log_err_passthru()
+
+Maurizio Lombardi (1):
+      nvmet-tcp: fix callback lock for TLS handshake
+
+Yu Kuai (1):
+      nvme: fix misaccounting of nvme-mpath inflight I/O
+
+Zheng Qixing (1):
+      nvme: fix inconsistent RCU list manipulation in nvme_ns_add_to_ctrl_list()
+
+ drivers/nvme/host/core.c  | 27 +++++++++++----------------
+ drivers/nvme/target/tcp.c |  4 ++--
+ 2 files changed, 13 insertions(+), 18 deletions(-)
 
