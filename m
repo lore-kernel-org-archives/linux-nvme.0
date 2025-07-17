@@ -4,74 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75CD8C83F1B
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Jul 2025 22:42:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBA5DC83F1A
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Jul 2025 12:57:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W/5V5UaJq3dUpAXahwLqyVbFHMK4RRiObrv1kmUFlFA=; b=NIJmWE/6it73MNOh+n5/Gffxjy
-	JzbdMJKo3XqSrCKne3QLjfmyNWjhaGMm1tfto2rX4cCMD4H+2azFGblrvkpGKGZ4DeUU+ah+kkxdF
-	by9BMzECGUoo2cj24+aDxVazvyOUUruoNzNn84/yDuIG0pKqGEDX0h3+Q3e7d22/YFvvXQ+TJtN86
-	IARIg39BXlvdsBdjyxTr7b94CZiMhLoYX1FZjDcnghu/P+rjAlmroBsGcn2wwsFux/gOiTLkjiUGs
-	4mi0m/YqzbyUi/LZ2yvLzhHvtXdKj7akifBaMESJVl9ACcNQropvh7HX4lmCn4yBUTsUekC132ddH
-	2s2Nn/4g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/jXZprNAiZwbFkjDKErohzqcX9b0ATB2AmBo9GP25RA=; b=A8w7QN0/nqIWAezHrxQZhbV9EW
+	85SPo2WT3u/IKtlvB6mQTqJaytbsMbVux9GyT7MUdQ2aPxfM3a6PReKp2Xy6E7ZAw20h+cRS8EhBK
+	257LnMKAKrV7P+Pg27IDQkuRCMVaZrBw0LksRtPg3a4zKW9IFpHoyePB48GZY4+Bx10optIdXCvM7
+	Tl105wFI8IeItMRLhltGCaH2AZrJQN3IalM1BlyrJSv4DyyY++3J9ZqJGuPFuaGUm5WSyB/COtqNN
+	IQC3j2mM5s+dX1/icwA0FB/FuqEs66I2cKK1L3pLAHQNflJIGwv6QkLIBelqDSiPIXgEMzuc6CLfK
+	RwOXV9lQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucApP-00000008oO6-0Urw;
-	Wed, 16 Jul 2025 22:42:19 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1ucOAq-0000000ABHz-3Ujk;
+	Thu, 17 Jul 2025 12:57:20 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucApM-00000008oNl-3EsK
+	id 1ucMnN-00000009yvy-0wXZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Jul 2025 22:42:17 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 170DB5C0721;
-	Wed, 16 Jul 2025 22:42:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDF8C4CEE7;
-	Wed, 16 Jul 2025 22:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752705735;
-	bh=BDU0QwTkYYYml9+wrEWCNYH/PF64qV4ohna/oUUOVPw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Wtd610Ub7xDxqlPgIABnXwl8AZ/X7mBkpugWp9h0NbAETlokzYYM07xSKyg0ss/F5
-	 uB+KAfi/wTOFiJqS9ZAHkL0uyKZzZV+DJ1ihkv0BF8AANuyNexf71HmJ+jImZ53hKs
-	 TqYi9ebap+ZnZMi4yf3vmAoNhtEeBl0e3FwjsYtk8+9YC1XqACY8CTIosupZihv42g
-	 n9UIQ83DIT1h+JGz+I/MjhPlEVF6OTXeO09pNBI4ERBlVle6Kw/XLqnTpjQ88FOnKG
-	 mBtC5CNWk2htlR1nBCD5rZPU0MKYydpkpTcMyTyD/xHR+fmimq6fmc+m29SMlFsKqa
-	 aQ+7Qy4y1/Xng==
-Message-ID: <fee4f767-301b-4650-8607-28fce17924ad@kernel.org>
-Date: Thu, 17 Jul 2025 07:42:12 +0900
+	Thu, 17 Jul 2025 11:29:04 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250717112854epoutp03b0be32adf7b4b21c5413719958e602f3~TBmqfflvS0881508815epoutp03v
+	for <linux-nvme@lists.infradead.org>; Thu, 17 Jul 2025 11:28:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250717112854epoutp03b0be32adf7b4b21c5413719958e602f3~TBmqfflvS0881508815epoutp03v
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1752751735;
+	bh=/jXZprNAiZwbFkjDKErohzqcX9b0ATB2AmBo9GP25RA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Xj5mWGF35LzrKfkYbKA/xDgW4K4QszbbbIman5AufKUQwnCq/WBrCqXCagAT/4ei+
+	 Q8HBLOApvZSMPS+8qw0JgcU520/5VITjbVBXHLHn5NPEumtxft8DF3XnmBBtlZWTvr
+	 7n6RBMQGUx6MX6dN3wKZXPYyEa3qjEahwqQQOiSA=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20250717112854epcas5p293ca95960526612ccac45756a2d86611~TBmqLt-Nh2576625766epcas5p2R;
+	Thu, 17 Jul 2025 11:28:54 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.92]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4bjW0554Xnz6B9mG; Thu, 17 Jul
+	2025 11:28:53 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20250717083851epcas5p4e16203f1673841f8dbf2da2a671cde66~S-SL69nPF2382023820epcas5p48;
+	Thu, 17 Jul 2025 08:38:51 +0000 (GMT)
+Received: from green245.gost (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250717083850epsmtip1cf2830059d74adcec255c78de7346487~S-SLN9v4d2002620026epsmtip1Z;
+	Thu, 17 Jul 2025 08:38:50 +0000 (GMT)
+Date: Thu, 17 Jul 2025 14:08:34 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, Keith Busch
+	<kbusch@kernel.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Subject: Re: nvme-pci: try function level reset on init failure
+Message-ID: <20250717083834.2pp4lugbl4u46ngd@green245.gost>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] nvmet: pci-epf: Do not complete commands twice if
- nvmet_req_init() fails
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Rick Wertenbroek <rick.wertenbroek@gmail.com>
-Cc: "rick.wertenbroek@heig-vd.ch" <rick.wertenbroek@heig-vd.ch>,
- "alberto.dassatti@heig-vd.ch" <alberto.dassatti@heig-vd.ch>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-References: <20250716111503.26054-1-rick.wertenbroek@gmail.com>
- <20250716111503.26054-2-rick.wertenbroek@gmail.com>
- <ba009e79-e82a-478d-bf2b-52b964141c11@nvidia.com>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <ba009e79-e82a-478d-bf2b-52b964141c11@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20250715191627.3690017-1-kbusch@meta.com>
+X-CMS-MailID: 20250717083851epcas5p4e16203f1673841f8dbf2da2a671cde66
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----CDBSwZz52MZUMeM1Rx6lI.cEW_5b_YZAAzr3v09AM7rvldzc=_1ce28_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250717083851epcas5p4e16203f1673841f8dbf2da2a671cde66
+References: <20250715191627.3690017-1-kbusch@meta.com>
+	<CGME20250717083851epcas5p4e16203f1673841f8dbf2da2a671cde66@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250716_154216_855962_9531E0A7 
-X-CRM114-Status: UNSURE (   8.70  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250717_042902_720986_8F1E6A1F 
+X-CRM114-Status: GOOD (  12.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,20 +90,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/17/25 06:56, Chaitanya Kulkarni wrote:
-> Good catch, looks good, I wish we have tests for this part of target
-> to it will get tested on regular basis, not the requirement, just
-> a thought.
+------CDBSwZz52MZUMeM1Rx6lI.cEW_5b_YZAAzr3v09AM7rvldzc=_1ce28_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-qemu does not have a PCI endpoint capable controller device and you cannot link
-2 VMs to communicate over PCIe (one VM as host the other as endpoint). So unless
-you get a PCIe-endpoint capable board, you cannot run this driver easily.
+On 15/07/25 12:16PM, Keith Busch wrote:
+>From: Keith Busch <kbusch@kernel.org>
+>
+>NVMe devices from multiple vendors appear to get stuck in a reset state
+>that we can't get out of with an NVMe level Controller Reset. The kernel
+>would report these with messages that look like:
+>
+>  Device not ready; aborting reset, CSTS=0x1
+>
+>These have historically required a power cycle to make them usable
+>again, but in many cases, a PCIe FLR is sufficient to restart operation
+>without a power cycle. Try it if the initial controller reset fails
+>during any nvme reset attempt.
+>
+>Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+>Signed-off-by: Keith Busch <kbusch@kernel.org>
+>---
+>v1->v2:
+>
+>  Added code comment explaining whe escalation
+>
+>  Add an informational kernel message that this event occured
+>
+>  Use the "pcie_reset_flr()" API instead of "pcie_flr()" since that one
+>  checks for quirks and capabilities before writing FLR config bits.
+>  Note, NVMe PCI Trasnsport Spec mandates FLR capability, so the latter
+>  should not apply to any compliant device, but you never know...
+>
+> drivers/nvme/host/pci.c | 24 ++++++++++++++++++++++--
+> 1 file changed, 22 insertions(+), 2 deletions(-)
+>
 
-We can add a blktest case for sending an unsupported command though. That is
-easy to do. But FYI, right now, running blktest/nvme group against a pci-epf
-device, we get a hang... Shin'ichiro is looking into that.
+Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
 
--- 
-Damien Le Moal
-Western Digital Research
+------CDBSwZz52MZUMeM1Rx6lI.cEW_5b_YZAAzr3v09AM7rvldzc=_1ce28_
+Content-Type: text/plain; charset="utf-8"
+
+
+------CDBSwZz52MZUMeM1Rx6lI.cEW_5b_YZAAzr3v09AM7rvldzc=_1ce28_--
 
