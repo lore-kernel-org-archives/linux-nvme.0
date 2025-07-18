@@ -4,45 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECB02C87FC4
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jul 2025 08:29:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B5C1C83F1A
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jul 2025 12:22:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=F80fQwmVJzJ5nnCJvLtkZFkobBxuMaYvPIIlh2i7KTM=; b=aEgb07qpLfqryMOk/XWXmynfkZ
-	/2f4EhBvUS8kXu99m7bt72bV3nYoxWxaBwVeE2FEbhuHctJ359HL0nh0ep4KApZf87NjebF0svjVc
-	78yEFKDucW9VH9XH4NlfLtla/vOavZSwdELJlI26kZfNuJtBgo7UVz3c4A028dYcgNwCQ4EWRKIA0
-	xMOqJoLh3E5aQFIBUFikDYkMykv0h6eghZ22p2RGCI2AvZvCC8XcRfA7woKpOsKn49W39cSZL/v0l
-	/qxKgGFUOBMLJGDjPBd3LqKhWONc3ldX3ZKEBJXaLjBe9jMKmgi0Nqkq3e5q4xvZkwndDlu9qdxow
-	G9WNlHzA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PV1oLssFLZkR7dFRmhoc+5BO5LGjEUlC8URX9DaoIeo=; b=3wgH2CHT8aSOCLiODvco52UCnU
+	vtvJvaxV8gyR4pGWZWC+lkJiLsyhlPG3KbQiq5ImDA9qNcFk6ni6DdXxq+MH6NbaO5OL/E2F9Di2C
+	oOGI1PvpEOf9OmbdzSeMs08jtsXfbDAT1oBbrcedx6ktTGTs38yH3QGqWVQFRlxbmrrJG1f0k7JnD
+	r2VIu/Jo4ss1VAxb12MdmUWCGCpmUkOxgUxp9Svme4UgU6oSlXrf2diXsKfAuw8BqqFZbT2XWfCRe
+	Y47YJQXQmZzcD5GzPICSS7vWXPtEw8MziRvsf2r+l2c0P+tdZ0dSqxsJDVWaMs/R0LiiDUb5owq2F
+	rq2/f/4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucgT4-0000000C2CR-1kcR;
-	Fri, 18 Jul 2025 08:29:22 +0000
-Received: from mail.subventuro.com ([51.83.133.170])
+	id 1uck6R-0000000CZKD-1dr6;
+	Fri, 18 Jul 2025 12:22:15 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucgHt-0000000C0GS-0NfC
+	id 1ucjLd-0000000CTkA-1fvF
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Jul 2025 08:17:50 +0000
-Received: by mail.subventuro.com (Postfix, from userid 1002)
-	id B9995A7732; Fri, 18 Jul 2025 10:17:06 +0200 (CEST)
-Received: by mail.subventuro.com for <linux-nvme@lists.infradead.org>; Fri, 18 Jul 2025 08:16:18 GMT
-Message-ID: <20250718084500-0.1.le.2xccn.0.p43oo41a1g@CyberCircuitryCo.com>
-Date: Fri, 18 Jul 2025 08:16:18 GMT
-From: "Wiktoria Bielaszka" <wiktoria.bielaszka@subventuro.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: =?UTF-8?Q?Zamro=C5=BCenie_ceny_energii?=
-X-Mailer: mail.CyberCircuitryCo.com
+	Fri, 18 Jul 2025 11:33:54 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 057A14369E;
+	Fri, 18 Jul 2025 11:33:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E2AC4CEEB;
+	Fri, 18 Jul 2025 11:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752838431;
+	bh=ss4gbTsOaXhi72j0lyuVqUWKJ1y9ouYj/VwkNqG/yFc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pr5yb86BsBIJl0B7TbnBxNd+/lG2uDdwzKLGVWcSqLbrb+3t/G2itvDOIM5H0u0v/
+	 fmbSJ/mowIj33aEKKlAf7xIhgBtmgOnDV1Iu6q577QxF7bQEy1VqwlMZKx5kstH/um
+	 OqWdTNwkm1hMDsLVfVYJuv5SrVY26Y+Hvv9xzEg94BKQXPyWCifEfQMYDPtcfBwteD
+	 6gWI476NY/87puMX2k3DTCF2IBK0LNk4XlMFMbyydsPPjrcYTPdJ4ElbMh5TXlKar7
+	 jeTjpukFzkTs2HtnrRKwAoqUt/f196DVdVDCo5wmN6H40zM/APglsdBmHf6ER3dP+H
+	 nMaLagxZ9oq8Q==
+Date: Fri, 18 Jul 2025 13:33:34 +0200
+From: Joel Granados <joel.granados@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Sagi Grimberg <sagi@grimberg.me>, Klaus Jensen <k.jensen@samsung.com>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 0/8] nvme: Add Controller Data Queue to the nvme
+ driver
+Message-ID: <fjnpyvjn2kqlmlzagvuy43numc7u44ylls3nqxay4sh5qjayv5@xq2ty7wipbg5>
+References: <20250714-jag-cdq-v1-0-01e027d256d5@kernel.org>
+ <20250714130230.GA7752@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bytbhyrsj7nnxlk3"
+Content-Disposition: inline
+In-Reply-To: <20250714130230.GA7752@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250718_011749_285490_93D7D327 
-X-CRM114-Status: UNSURE (   1.63  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250718_043353_477523_94BACEE7 
+X-CRM114-Status: GOOD (  22.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -57,33 +75,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dzie=C5=84 dobry,=20
 
-czy planuj=C4=85 Pa=C5=84stwo optymalizacj=C4=99 koszt=C3=B3w energii ele=
-ktrycznej w swojej firmie?
+--bytbhyrsj7nnxlk3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Chcieliby=C5=9Bmy przedstawi=C4=87 nasz=C4=85 ofert=C4=99 XPOT, kt=C3=B3r=
-a mo=C5=BCe przynie=C5=9B=C4=87 znacz=C4=85ce oszcz=C4=99dno=C5=9Bci. Ju=C5=
-=BC od teraz, mog=C4=85 Pa=C5=84stwo uzyska=C4=87 cen=C4=99 ni=C5=BCsz=C4=
-=85 o 40,9% w stosunku do obecnej ceny ustawowej.=20
+On Mon, Jul 14, 2025 at 03:02:31PM +0200, Christoph Hellwig wrote:
+> On Mon, Jul 14, 2025 at 11:15:31AM +0200, Joel Granados wrote:
+> > Motivation
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > The main motivation is to enable Controller Data Queues as described in
+> > the 2.2 revision of the NVME base specification. This series places the
+> > kernel as an intermediary between the NVME controller producing CDQ
+> > entries and the user space process consuming them. It is general enough
+> > to encompass different use cases that require controller initiated
+> > communication delivered outside the regular I/O traffic streams (like
+> > LBA tracking for example).
 
-Nasza propozycja obejmuje lata 2025 i 2026, a start wsp=C3=B3=C5=82pracy =
-jest mo=C5=BCliwy od zaraz.=20
+Thx for the feedback. Much appreciated.
 
-Gwarantujemy elastyczne warunki umowy (3-6-9-12 miesi=C4=99cy), zapewniaj=
-=C4=85c minimum formalno=C5=9Bci.
+>=20
+> That's rather blurbish.  The only use case for CDQs in NVMe 2.2 is
+> tracking of dirty LBAs for live migration, and the live migration
+Yes, that is my understanding of nvme 2.2 as well.
 
-Jeste=C5=9Bmy pionierem w sprzeda=C5=BCy energii w cenach RDN wed=C5=82ug=
- TGE dla ka=C5=BCdej grupy taryfowej. Przez ca=C5=82y okres trwania umowy=
- zapewniamy Pa=C5=84stwu dedykowanego opiekuna, a ca=C5=82y proces Zmiany=
- Sprzedawcy i wszelkie formalno=C5=9Bci realizujemy za Klient=C3=B3w. =20
+> feature in 2.2 is completely broken because the hyperscalers wanted
+> to win a point.  So for CDQs to be useful in Linux we'll need the
+> proper live migration still under heavy development.  With that I'd
+Do you mean in the specification body or patch series in the mailing
+lists?
 
-Ch=C4=99tnie porozmawiam o tym, jak mo=C5=BCemy wsp=C3=B3lnie zrealizowa=C4=
-=87 Pa=C5=84stwa cele energetyczne.=20
+> very much expect the kernel to manage the CDQs just like any other
+> queue, and not a random user ioctl.
+This is a great segue to a question: If CDQ is like any other queue,
+what is the best way of handling the lack of CDQ submission queues?
+Something like snooping all submissions for these CDQs and triggering a
+CDQ consume on every submission?
 
-Prosz=C4=99 o wiadomo=C5=9B=C4=87 w przypadku zainteresowania.=20
+I went with the ioctl as the faster way to get it to work; I might
+explore what having it as just another queue would look like.
 
+> So what would be the use case for a user controlled CDQ?
+Do you mean a hypothetical list besides LM in NVME 2.2?
 
-Pozdrawiam
-Wiktoria Bielaszka
+Best
+
+--=20
+
+Joel Granados
+
+--bytbhyrsj7nnxlk3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmh6MP8ACgkQupfNUreW
+QU8hMgwAgBytHdz5pT7HLF0dvl1/Vh/v44hch5bV2NWwqeQWLoEHhrQuP0UEViGv
+S1BMHYMIske+GAtL+AKRdNL/2LpuzQP4YSftL+fGtNxlPfOq4ehoNMeSVWxHuJa+
+XnyJomh527pzEK9RkwMKa1R/9OXjZo4aHluV0jUAeGwtD012iXG2cVa2ADac3u0b
+G7r+MkrJ8iA92QGjae+YThqq8qau7AfKIYLfzDRCtdBtkJA7wKSXY+2fe8HqZmmk
+ODmdSY8QhyXs7dltzHbSCzuGuU8PTNIs8Ko9V7u/Jqwj0MZ/2YWkcFpLQ0ZWQ503
+/CQoS44IQw9WXPnGwmtTBeBUUHAar0QXCUQAquWIjDcHFeH9F+J6/9rAmwzJ9FeH
+UkQ72DNt+ebsMmsGOdlNVYQOhnXeH6ZPPkX74bSxVrpb1fJx0OWJFgNSfWb8X47E
+AOSONgnQWaHd+Pz7QOl18tqyscX/RnOK1ylei0mqbpenj4bCwi+x7LK/R0TrCM9p
+DP4izM1j
+=agQF
+-----END PGP SIGNATURE-----
+
+--bytbhyrsj7nnxlk3--
 
