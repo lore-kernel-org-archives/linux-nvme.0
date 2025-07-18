@@ -4,76 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C246EC83F1A
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jul 2025 01:22:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65BBEC83F34
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jul 2025 04:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TGf7Zn4xpgFxKudpOaX4aa4pdVF8MYve5Wl8x1jkQWM=; b=EqvRNfGHHvgYij/IpqW7+7UipB
-	4nnaFXg12ZKNzh9P+qset6YFzk3jqJKjrTSBqfqp4gick7UfEuuDlcnTpd8tHWFRIpn6u4St1uEt8
-	OOuL11u4vJwYKguKrXsURP1PmHdT7yf56nT8Lx3hirKiOkrNcTETQvhXsRmGvK3SvMYQzIZkETS57
-	1uaQ7q9e7dxBELV/+PJ104XdzNeSgvJjKVT+hCzoPawd/cPuy0KbYDgJA8+KbD+RT3k06lmCK7NZ4
-	QboEVqiDiBkdIB8X5jxnBGhEmZ+dVZi8deb9wkgCW8EGFpqWUFpDGn7zXvyhmVbBmaLfJQr0FfOYj
-	YsE5aXbw==;
+	bh=P1gjdVNNCIFv37CgLkrFEIOwAsFQBXAgI1fRv3qANxI=; b=P4hAJNCtD8awDva71C6/oSHhtz
+	3Sv+K/wo5eFzI4emeupSyJNkVMXnXFubAKkyrliYN4uC9+gZiK6PXExvkY2TC/JHGXfHO6ii8y6x7
+	MqTpOmTJvKOUyNiIpcBT+LWbV3toPOSeZT4zY1kl0wzoC795DmPnGNoSftDpYPVCUFgS3xdF8HjXf
+	filEM92vBXOuyHffyoTL1l0OBEMElas4YjzfTT1AnM3HVI5djNfjvxXJNyuigVpKYKiNspaQOeS6j
+	9SKK4F2ovDLWXOuOZWlFRmHo+IfpLRXp1Ul5BcN0NipP/7ByeKnXrj0snK9UB1RFX6eabkCvzqSzN
+	afn3ozrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucZnc-0000000BS5W-3Be8;
-	Fri, 18 Jul 2025 01:22:08 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1uccUs-0000000BeJx-2ZrA;
+	Fri, 18 Jul 2025 04:14:58 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ucYk0-0000000BOnJ-42lM
+	id 1uccUp-0000000BeJW-44BN
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Jul 2025 00:14:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1752797660; x=1784333660;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1rtA0Hmyf2kHNVoELQi6f5hdbv4vXGv2LArfBKEp5Qo=;
-  b=XAui04iiMA5kyQbCh6Z8zzEzjdxFDz5wN30lDHVpNuiHRX/QUSIYb/+9
-   F6GHoJBix3QAKMHAtramwv7Fs2PQtcHl7mFinITm0PNMF5ifiYYR9YbO7
-   ANwo3SK9uuzkF/OP0kirREppuAih4T+mDqLSy3+sQpyi/35lSH2c+GIi2
-   pBKW/thISJqWkAn6GagubfHqy8JzxtVjs5TKIVPKc31+lWF8oygkuawRK
-   uZ9C4LKrgWU2XNWkOJW5+jFvI2VzAmslnQ7Y36Eg+BeLtSiB+FLqWavrl
-   632gkO7AzoDzvqkFh4d0B5H/mhq47DGvCG1+BC19o+A6btWnI0y8vTv79
-   Q==;
-X-CSE-ConnectionGUID: xtRp5ZMzT4KFnVLkcuVqbw==
-X-CSE-MsgGUID: DrB+Joh/RmexpBTlsxacJQ==
-X-IronPort-AV: E=Sophos;i="6.16,320,1744041600"; 
-   d="scan'208";a="91918827"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 18 Jul 2025 08:14:17 +0800
-IronPort-SDR: 68798334_f93HuQc9OKQ164r6LoqcR7+vrbD1oTlwS3qGaJ3bAqigZpD
- CFgfjB7Ub8WnfigeCUJIoXqygRG8NCrCznvhenA==
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Jul 2025 16:11:49 -0700
-WDCIronportException: Internal
-Received: from ros-3.wdc.com ([10.23.145.79])
-  by uls-op-cesaip02.wdc.com with ESMTP; 17 Jul 2025 17:14:15 -0700
-From: Kamaljit Singh <kamaljit.singh1@wdc.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: cassel@kernel.org,
-	dlemoal@kernel.org,
-	kamaljit.singh1@wdc.com
-Subject: [PATCH v3 1/2] nvme: add capability to connect to an administrative controller
-Date: Thu, 17 Jul 2025 17:14:14 -0700
-Message-ID: <20250718001415.3774178-2-kamaljit.singh1@wdc.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250718001415.3774178-1-kamaljit.singh1@wdc.com>
-References: <20250718001415.3774178-1-kamaljit.singh1@wdc.com>
+	Fri, 18 Jul 2025 04:14:57 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 101005C494F;
+	Fri, 18 Jul 2025 04:14:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D71DC4CEED;
+	Fri, 18 Jul 2025 04:14:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752812094;
+	bh=WTcM2M9kmNXsP+5g19CjgmgDeuKz6sK0Y/K74c6qLhI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Xn7K4bhISJNgiqwZjTilQT8pVaxN0woNqzBHvIbvZ4fnjCL6iKAowSlM9EPCL+lrs
+	 iKFm64+4vc2JnylFeUirOKNVPITseyxTtD0pVNvI5XUyCY8GGf0XN73YH5ZYjeU0ii
+	 uuAeKHVw2iICipRtuyVVsJnQHhtqdTZoOh9Cct39agl9GNW05XCgc3UKtx9qMJhH/M
+	 OaMuC1RxzF8WDCvwzaEdBLNmapi9HRiqSi10sn/ydnvQwM6louO0SfET9OXnyNrwK5
+	 vybqXwDzfvOJFwQlkmMu7pLoiDdYfd/fFz9vaGwYgu+pFf52VOmomOkK7Cbnkr52TK
+	 urma+ArOBaycg==
+Message-ID: <b99e0ae6-f273-4c2d-bdc3-dd8b301f2f0b@kernel.org>
+Date: Fri, 18 Jul 2025 13:14:51 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] nvme: add capability to connect to an
+ administrative controller
+To: Kamaljit Singh <kamaljit.singh1@wdc.com>, kbusch@kernel.org,
+ axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: cassel@kernel.org
+References: <20250718001415.3774178-1-kamaljit.singh1@wdc.com>
+ <20250718001415.3774178-2-kamaljit.singh1@wdc.com>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20250718001415.3774178-2-kamaljit.singh1@wdc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250717_171421_061729_1FAF216F 
-X-CRM114-Status: GOOD (  13.22  )
+X-CRM114-CacheID: sfid-20250717_211456_096955_30A71354 
+X-CRM114-Status: GOOD (  19.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,61 +77,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Suggested-by: Niklas Cassel <cassel@kernel.org>
+On 2025/07/18 9:14, Kamaljit Singh wrote:
+> Suggested-by: Niklas Cassel <cassel@kernel.org>
+> 
+> Add capability to connect to an administrative controller by
+> preventing ioq creation for admin-controllers.
+> 
+> * Add helper nvme_admin_ctrl() to check for an administrative controller
+> * Add helper nvme_override_prohibited_io_queues() to override queue_count
+> * Call nvme_override_prohibited_io_queues() from nvme_init_ctrl_finish()
+>   so it applies to nvme/tcp and nvme/rdma
+> 
+> Signed-off-by: Kamaljit Singh <kamaljit.singh1@wdc.com>
+> ---
+>  drivers/nvme/host/core.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e533d791955d..105127638c31 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3149,6 +3149,21 @@ static inline bool nvme_discovery_ctrl(struct nvme_ctrl *ctrl)
+>  	return ctrl->opts && ctrl->opts->discovery_nqn;
+>  }
+>  
+> +static inline bool nvme_admin_ctrl(struct nvme_ctrl *ctrl)
+> +{
+> +	return ctrl->cntrltype == NVME_CTRL_ADMIN;
+> +}
+> +
+> +/*
+> + * An admin controller has one admin queue, but no I/O queues.
+> + * Override queue_count so it only creates an admin queue.
+> + */
+> +static inline void nvme_override_prohibited_io_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	if (nvme_admin_ctrl(ctrl))
+> +		ctrl->queue_count = 1;
+> +}
+> +
+>  static bool nvme_validate_cntlid(struct nvme_subsystem *subsys,
+>  		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>  {
+> @@ -3670,6 +3685,12 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, bool was_suspended)
+>  	if (ret)
+>  		return ret;
+>  
+> +	if (nvme_admin_ctrl(ctrl))
+> +		dev_dbg(ctrl->device,
+> +			"Subsystem %s is an administrative controller",
+> +			ctrl->subsys->subnqn);
+> +	nvme_override_prohibited_io_queues(ctrl);
 
-Add capability to connect to an administrative controller by
-preventing ioq creation for admin-controllers.
+I do not think that this inline function is useful. Simply open-code it inside
+the if above:
 
-* Add helper nvme_admin_ctrl() to check for an administrative controller
-* Add helper nvme_override_prohibited_io_queues() to override queue_count
-* Call nvme_override_prohibited_io_queues() from nvme_init_ctrl_finish()
-  so it applies to nvme/tcp and nvme/rdma
+	if (nvme_admin_ctrl(ctrl)) {
+		/*
+		 * An admin controller has one admin queue, but no I/O queues.
+		 * Override queue_count so it only creates an admin queue.
+		 */
+		dev_dbg(ctrl->device,
+			"Subsystem %s is an administrative controller",
+			ctrl->subsys->subnqn);
+		ctrl->queue_count = 1;
+	}
 
-Signed-off-by: Kamaljit Singh <kamaljit.singh1@wdc.com>
----
- drivers/nvme/host/core.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+With this, feel free to add:
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e533d791955d..105127638c31 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3149,6 +3149,21 @@ static inline bool nvme_discovery_ctrl(struct nvme_ctrl *ctrl)
- 	return ctrl->opts && ctrl->opts->discovery_nqn;
- }
- 
-+static inline bool nvme_admin_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	return ctrl->cntrltype == NVME_CTRL_ADMIN;
-+}
-+
-+/*
-+ * An admin controller has one admin queue, but no I/O queues.
-+ * Override queue_count so it only creates an admin queue.
-+ */
-+static inline void nvme_override_prohibited_io_queues(struct nvme_ctrl *ctrl)
-+{
-+	if (nvme_admin_ctrl(ctrl))
-+		ctrl->queue_count = 1;
-+}
-+
- static bool nvme_validate_cntlid(struct nvme_subsystem *subsys,
- 		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- {
-@@ -3670,6 +3685,12 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, bool was_suspended)
- 	if (ret)
- 		return ret;
- 
-+	if (nvme_admin_ctrl(ctrl))
-+		dev_dbg(ctrl->device,
-+			"Subsystem %s is an administrative controller",
-+			ctrl->subsys->subnqn);
-+	nvme_override_prohibited_io_queues(ctrl);
-+
- 	ret = nvme_configure_apst(ctrl);
- 	if (ret < 0)
- 		return ret;
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
 -- 
-2.43.0
-
+Damien Le Moal
+Western Digital Research
 
