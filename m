@@ -4,65 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65BBEC83F34
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jul 2025 04:15:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE17EC83F1A
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jul 2025 04:17:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P1gjdVNNCIFv37CgLkrFEIOwAsFQBXAgI1fRv3qANxI=; b=P4hAJNCtD8awDva71C6/oSHhtz
-	3Sv+K/wo5eFzI4emeupSyJNkVMXnXFubAKkyrliYN4uC9+gZiK6PXExvkY2TC/JHGXfHO6ii8y6x7
-	MqTpOmTJvKOUyNiIpcBT+LWbV3toPOSeZT4zY1kl0wzoC795DmPnGNoSftDpYPVCUFgS3xdF8HjXf
-	filEM92vBXOuyHffyoTL1l0OBEMElas4YjzfTT1AnM3HVI5djNfjvxXJNyuigVpKYKiNspaQOeS6j
-	9SKK4F2ovDLWXOuOZWlFRmHo+IfpLRXp1Ul5BcN0NipP/7ByeKnXrj0snK9UB1RFX6eabkCvzqSzN
-	afn3ozrw==;
+	bh=w9vrmDwC7GSP/HjwfL8hCun60jTbZ7dfzJqbKNj2D+M=; b=DmjrN80E7MdAkz5IdDr24L4Jfk
+	TLGvUV+tTK7KqN0gqYHU4sLrv6HaPMcD27Qsqg1ma9qyKBgUbSdHmWDotoPCyniRb6/3bUOiyCrag
+	lgyEzA9plJ00OkdA5fl9yVDH+sj92Uva4Qy3zrCF1XU7EZyHclaODkhqb2dCayTSXr7V7K5iOuvUk
+	ezq9EDGy0r1jvZgiM0J52eCo4ieruUW1WgdfKp244vl8OvSY+yr078YNToV5Sl6qTZdhZapGGXvoS
+	HdGnKJVmuqtWfw/SQjeAjeQQYKbSM6G7p/crb0Yw0RdJTx98ZZRHlBuy6YzkCQebBKNPfgEgPRTpP
+	QBQYt35g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uccUs-0000000BeJx-2ZrA;
-	Fri, 18 Jul 2025 04:14:58 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1uccXf-0000000BeXI-1bAk;
+	Fri, 18 Jul 2025 04:17:51 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uccUp-0000000BeJW-44BN
+	id 1uccXc-0000000BeW5-3EEI
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Jul 2025 04:14:57 +0000
+	Fri, 18 Jul 2025 04:17:49 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 101005C494F;
-	Fri, 18 Jul 2025 04:14:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D71DC4CEED;
-	Fri, 18 Jul 2025 04:14:53 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2D2025C5600;
+	Fri, 18 Jul 2025 04:17:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AD53C4CEED;
+	Fri, 18 Jul 2025 04:17:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752812094;
-	bh=WTcM2M9kmNXsP+5g19CjgmgDeuKz6sK0Y/K74c6qLhI=;
+	s=k20201202; t=1752812267;
+	bh=LOklqSzGHoQD0d7uT40vyIYyMJHO3OMdOsB29FK9GbI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Xn7K4bhISJNgiqwZjTilQT8pVaxN0woNqzBHvIbvZ4fnjCL6iKAowSlM9EPCL+lrs
-	 iKFm64+4vc2JnylFeUirOKNVPITseyxTtD0pVNvI5XUyCY8GGf0XN73YH5ZYjeU0ii
-	 uuAeKHVw2iICipRtuyVVsJnQHhtqdTZoOh9Cct39agl9GNW05XCgc3UKtx9qMJhH/M
-	 OaMuC1RxzF8WDCvwzaEdBLNmapi9HRiqSi10sn/ydnvQwM6louO0SfET9OXnyNrwK5
-	 vybqXwDzfvOJFwQlkmMu7pLoiDdYfd/fFz9vaGwYgu+pFf52VOmomOkK7Cbnkr52TK
-	 urma+ArOBaycg==
-Message-ID: <b99e0ae6-f273-4c2d-bdc3-dd8b301f2f0b@kernel.org>
-Date: Fri, 18 Jul 2025 13:14:51 +0900
+	b=lnJdt8bBIYjq0rWnPqDQzRXiXVd40nRloAeNETT83Tm7l4WS3RaFOtPhVv7ra4xOa
+	 B/tNKa69+dvAGsT5ves1g2w2qU7QGP3b4vA4SbNBr4JMLkhSQzYjXTsdNwCsn1Qjl7
+	 W+YHTyTVTaBelUMyiFkKYWYPE2mQ3RNyTkVPo/hKNjUBvoPmmKjORYB+1qnP2Ol6nJ
+	 Mg7S9pBeGzqEPyg0fHQpz2JS/beMSeJarN75mQo/oqPTGY6TLhHHWeYdwlipWX1JN7
+	 2wq6cwubagcA2FRr4Xas++IFqtQw+XDkhjt1+/wpD76D1b2LHgcZIdYm2RBkOiK0xU
+	 Fz1Uh/UA4U8cg==
+Message-ID: <f80ffee3-60aa-46d6-bd1c-7240ad171ee4@kernel.org>
+Date: Fri, 18 Jul 2025 13:17:44 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] nvme: add capability to connect to an
- administrative controller
+Subject: Re: [PATCH v3 2/2] nvme: prevent admin controller from smart log
+ fetch (LID 2)
 To: Kamaljit Singh <kamaljit.singh1@wdc.com>, kbusch@kernel.org,
  axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 Cc: cassel@kernel.org
 References: <20250718001415.3774178-1-kamaljit.singh1@wdc.com>
- <20250718001415.3774178-2-kamaljit.singh1@wdc.com>
+ <20250718001415.3774178-3-kamaljit.singh1@wdc.com>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20250718001415.3774178-2-kamaljit.singh1@wdc.com>
+In-Reply-To: <20250718001415.3774178-3-kamaljit.singh1@wdc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250717_211456_096955_30A71354 
-X-CRM114-Status: GOOD (  19.62  )
+X-CRM114-CacheID: sfid-20250717_211748_850612_9336A618 
+X-CRM114-Status: UNSURE (   7.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,74 +79,18 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2025/07/18 9:14, Kamaljit Singh wrote:
-> Suggested-by: Niklas Cassel <cassel@kernel.org>
+> Similar to a discovery ctrl, prevent an admin-ctrl from getting a smart
+> log. LID 2 is optional for admin controllers to support.
 > 
-> Add capability to connect to an administrative controller by
-> preventing ioq creation for admin-controllers.
+> In the future when support for LID=0 (supported log pages) is added,
+> GLP accesses can be made smarter by basing such calls on response
+> from LID=0 reads.
 > 
-> * Add helper nvme_admin_ctrl() to check for an administrative controller
-> * Add helper nvme_override_prohibited_io_queues() to override queue_count
-> * Call nvme_override_prohibited_io_queues() from nvme_init_ctrl_finish()
->   so it applies to nvme/tcp and nvme/rdma
-> 
+> Reference: NVMe Base rev 2.2, sec 3.1.3.5, fig 31.
 > Signed-off-by: Kamaljit Singh <kamaljit.singh1@wdc.com>
-> ---
->  drivers/nvme/host/core.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index e533d791955d..105127638c31 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3149,6 +3149,21 @@ static inline bool nvme_discovery_ctrl(struct nvme_ctrl *ctrl)
->  	return ctrl->opts && ctrl->opts->discovery_nqn;
->  }
->  
-> +static inline bool nvme_admin_ctrl(struct nvme_ctrl *ctrl)
-> +{
-> +	return ctrl->cntrltype == NVME_CTRL_ADMIN;
-> +}
-> +
-> +/*
-> + * An admin controller has one admin queue, but no I/O queues.
-> + * Override queue_count so it only creates an admin queue.
-> + */
-> +static inline void nvme_override_prohibited_io_queues(struct nvme_ctrl *ctrl)
-> +{
-> +	if (nvme_admin_ctrl(ctrl))
-> +		ctrl->queue_count = 1;
-> +}
-> +
->  static bool nvme_validate_cntlid(struct nvme_subsystem *subsys,
->  		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->  {
-> @@ -3670,6 +3685,12 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, bool was_suspended)
->  	if (ret)
->  		return ret;
->  
-> +	if (nvme_admin_ctrl(ctrl))
-> +		dev_dbg(ctrl->device,
-> +			"Subsystem %s is an administrative controller",
-> +			ctrl->subsys->subnqn);
-> +	nvme_override_prohibited_io_queues(ctrl);
-
-I do not think that this inline function is useful. Simply open-code it inside
-the if above:
-
-	if (nvme_admin_ctrl(ctrl)) {
-		/*
-		 * An admin controller has one admin queue, but no I/O queues.
-		 * Override queue_count so it only creates an admin queue.
-		 */
-		dev_dbg(ctrl->device,
-			"Subsystem %s is an administrative controller",
-			ctrl->subsys->subnqn);
-		ctrl->queue_count = 1;
-	}
-
-With this, feel free to add:
 
 Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
 
 -- 
 Damien Le Moal
