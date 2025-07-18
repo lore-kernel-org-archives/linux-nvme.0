@@ -4,66 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE17EC83F1A
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jul 2025 04:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E56FEC87FC6
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Jul 2025 08:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w9vrmDwC7GSP/HjwfL8hCun60jTbZ7dfzJqbKNj2D+M=; b=DmjrN80E7MdAkz5IdDr24L4Jfk
-	TLGvUV+tTK7KqN0gqYHU4sLrv6HaPMcD27Qsqg1ma9qyKBgUbSdHmWDotoPCyniRb6/3bUOiyCrag
-	lgyEzA9plJ00OkdA5fl9yVDH+sj92Uva4Qy3zrCF1XU7EZyHclaODkhqb2dCayTSXr7V7K5iOuvUk
-	ezq9EDGy0r1jvZgiM0J52eCo4ieruUW1WgdfKp244vl8OvSY+yr078YNToV5Sl6qTZdhZapGGXvoS
-	HdGnKJVmuqtWfw/SQjeAjeQQYKbSM6G7p/crb0Yw0RdJTx98ZZRHlBuy6YzkCQebBKNPfgEgPRTpP
-	QBQYt35g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BaMNlicxw19Tn8iKcW5cgrTkMXZiKb8cGF4skENQg4Q=; b=wsnGkkkU79u9tPdISfE+YgBD2I
+	04XiNVsYiEuP0ToKSAvdvI6vAoEftHDo4hBAorONJ8BgTAtMhYfYixkc1iKaey9+Qf0vl/ZaoUNU9
+	4Hm6ibG/7T76lufFUlK3J/1PjdtxsSlQuIT5m4unYZ8HCvnDYmubAMc+uztlaHTocDtvPKt7qsZoE
+	votroPPWGZiCcA6ALgojrggq70AnSOB1A34Yyyxcf+7aRP9em4+28lEhXemNh+3mBoz6Hh5nZya4S
+	gX4bxcSgACOgZ/+5bTM9aExySJIl/gCSuHjDQJnw2M9zTW5Dnxz6Mnha4rParTuN6v/VUioyRiLeq
+	AV/3VjEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uccXf-0000000BeXI-1bAk;
-	Fri, 18 Jul 2025 04:17:51 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1ucgT0-0000000C28T-2Rh5;
+	Fri, 18 Jul 2025 08:29:18 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uccXc-0000000BeW5-3EEI
+	id 1ucgFY-0000000BzvO-07Om
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Jul 2025 04:17:49 +0000
+	Fri, 18 Jul 2025 08:15:24 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 2D2025C5600;
-	Fri, 18 Jul 2025 04:17:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AD53C4CEED;
-	Fri, 18 Jul 2025 04:17:46 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 77188601DE;
+	Fri, 18 Jul 2025 08:15:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E1B1C4CEEB;
+	Fri, 18 Jul 2025 08:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752812267;
-	bh=LOklqSzGHoQD0d7uT40vyIYyMJHO3OMdOsB29FK9GbI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lnJdt8bBIYjq0rWnPqDQzRXiXVd40nRloAeNETT83Tm7l4WS3RaFOtPhVv7ra4xOa
-	 B/tNKa69+dvAGsT5ves1g2w2qU7QGP3b4vA4SbNBr4JMLkhSQzYjXTsdNwCsn1Qjl7
-	 W+YHTyTVTaBelUMyiFkKYWYPE2mQ3RNyTkVPo/hKNjUBvoPmmKjORYB+1qnP2Ol6nJ
-	 Mg7S9pBeGzqEPyg0fHQpz2JS/beMSeJarN75mQo/oqPTGY6TLhHHWeYdwlipWX1JN7
-	 2wq6cwubagcA2FRr4Xas++IFqtQw+XDkhjt1+/wpD76D1b2LHgcZIdYm2RBkOiK0xU
-	 Fz1Uh/UA4U8cg==
-Message-ID: <f80ffee3-60aa-46d6-bd1c-7240ad171ee4@kernel.org>
-Date: Fri, 18 Jul 2025 13:17:44 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] nvme: prevent admin controller from smart log
- fetch (LID 2)
-To: Kamaljit Singh <kamaljit.singh1@wdc.com>, kbusch@kernel.org,
- axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: cassel@kernel.org
+	s=k20201202; t=1752826523;
+	bh=BaMNlicxw19Tn8iKcW5cgrTkMXZiKb8cGF4skENQg4Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H65CFXGi7SLFZxOZhXW8Sj/0xMdMxuRKbR2Oql3/dOvKbJVCsiFi5kRwLIVDkeb/p
+	 L7r27AX9+WtmRXFTmvW0zhZq9wLKg+y1LtmeJxQsRtaeq2zuFJC+n7KqLhwo4UWejl
+	 B25ezgwUOIyaly1v96CYt9tEtRQZ5MpizzhJvUfKN32H2aMbriUqkUs3GQzKsv9pT5
+	 ZEgyWgbZM2Ws5uJOgYD3ns6wXp6pux7RmlDRdJ9D5N8KJJABEln4CdhLPoSVNWv4bP
+	 O96CIqcmzfVjmGKknO1orjggxdE4klCBFRjNIXqcJ6UMllLo1cQRFqZNJrsHL/k97g
+	 IfhHWs7SSIfeA==
+Date: Fri, 18 Jul 2025 10:15:18 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Kamaljit Singh <kamaljit.singh1@wdc.com>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dlemoal@kernel.org
+Subject: Re: [PATCH v3 1/2] nvme: add capability to connect to an
+ administrative controller
+Message-ID: <aHoClrMYgaZwzfeL@ryzen>
 References: <20250718001415.3774178-1-kamaljit.singh1@wdc.com>
- <20250718001415.3774178-3-kamaljit.singh1@wdc.com>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20250718001415.3774178-3-kamaljit.singh1@wdc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250717_211748_850612_9336A618 
-X-CRM114-Status: UNSURE (   7.62  )
-X-CRM114-Notice: Please train this message.
+ <20250718001415.3774178-2-kamaljit.singh1@wdc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250718001415.3774178-2-kamaljit.singh1@wdc.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,21 +71,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025/07/18 9:14, Kamaljit Singh wrote:
-> Similar to a discovery ctrl, prevent an admin-ctrl from getting a smart
-> log. LID 2 is optional for admin controllers to support.
-> 
-> In the future when support for LID=0 (supported log pages) is added,
-> GLP accesses can be made smarter by basing such calls on response
-> from LID=0 reads.
-> 
-> Reference: NVMe Base rev 2.2, sec 3.1.3.5, fig 31.
-> Signed-off-by: Kamaljit Singh <kamaljit.singh1@wdc.com>
+Hello Kamaljit,
 
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+I think that the patch looks good.
+
+That said, the Suggested-by trailer should go together with all other
+trailers at the end of the commit log, see e.g.:
+https://git.kernel.org/pub/scm/linux/kernel/git/libata/linux.git/commit/?id=a4daf088a77323154514eb1f8626bbdf9329cfd4
 
 
--- 
-Damien Le Moal
-Western Digital Research
+Kind regards,
+Niklas
 
