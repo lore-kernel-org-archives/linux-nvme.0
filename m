@@ -4,48 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9DAAC83F34
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jul 2025 05:54:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E32B3C83F1A
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Jul 2025 05:57:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RvUE8Ko3tN82VLX6x7WZCQSBikLigJk02T8BzcMljwQ=; b=2E4feazsAh+ukmigZTCHVEh2Mt
-	BNBca6X1Q9Vr221y0K5wZUsC5bnYodCS0OICVdm3teywZRdebxTsiWMbqAKwtEntHWXTW23Tbxtkw
-	XgSUU4/kz96I+Eni76ZQ7hI5b3eDWlTttIOmEdA1UfiWtnKtatND6oxWpT0g0370devhwGJAY6AoL
-	pzoBcP6AFVbxNwEXIEY65ZzibB/aXULLJJ/c15psanpobpZd5WdFggleC56LXhXeY+ODbSkvCbqoA
-	VF6nEtj7A2gzI3tkuvhVs7ehh8jH9RA/KDN0hkg/MdiM+bAvURe7H17loxBjTCLZltxOP3Dii9XbW
-	h7FEDO9g==;
+	bh=Kry8fcora5aaZe57efVkCvytS5S90yVJ9IiGZOOnjk4=; b=rkmq9Ge8debzEvlWdvzMz3fBDg
+	JoTnD01d2D7821+gKqdO5zLOCWfjCcfdEJ2IUuLU/oGW3WIG04kyclMJbaxpYfszT16qGmKZJibM9
+	zKgU4xUv7UBffF/5LIGkU1xjW/jb4cmBE65DBg6bEQH27ibY+iDdqUYd+H4UWFb8+YfdX/c7GzHVq
+	byWpSrwbJADoG22tNVsogSCfwii9RR4LeByEL/6hybMK7srmvMWT6TbkHZ6my8EotQd5jDrNWUTNd
+	R7xBpReJTWPbam0EW109j3PjKrK+pXsseRAAdRRDF2orCPkYyCeaehE5oVAPRiffP788HPmhHLgB6
+	r2W4CagQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ue5xh-00000001N8H-1b0J;
-	Tue, 22 Jul 2025 05:54:49 +0000
+	id 1ue60H-00000001NRv-3S2g;
+	Tue, 22 Jul 2025 05:57:29 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ue5sp-00000001MJX-0nzV
+	id 1ue5wf-00000001N2h-1WCX
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Jul 2025 05:49:49 +0000
+	Tue, 22 Jul 2025 05:53:46 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6EDDA68AA6; Tue, 22 Jul 2025 07:49:41 +0200 (CEST)
-Date: Tue, 22 Jul 2025 07:49:40 +0200
+	id 9AC0768AA6; Tue, 22 Jul 2025 07:53:39 +0200 (CEST)
+Date: Tue, 22 Jul 2025 07:53:39 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
 	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
 	axboe@kernel.dk, leonro@nvidia.com
-Subject: Re: [PATCHv2 7/7] nvme: convert metadata mapping to dma iter
-Message-ID: <20250722054940.GA13634@lst.de>
-References: <20250720184040.2402790-1-kbusch@meta.com> <20250720184040.2402790-8-kbusch@meta.com> <20250721075053.GH32034@lst.de> <aH49fa1qH4HN5P7w@kbusch-mbp>
+Subject: Re: [PATCHv2 1/7] blk-mq-dma: move the bio and bvec_iter to
+ blk_dma_iter
+Message-ID: <20250722055339.GB13634@lst.de>
+References: <20250720184040.2402790-1-kbusch@meta.com> <20250720184040.2402790-2-kbusch@meta.com> <20250721074223.GF32034@lst.de> <aH74XluC0BnerBaQ@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aH49fa1qH4HN5P7w@kbusch-mbp>
+In-Reply-To: <aH74XluC0BnerBaQ@kbusch-mbp>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250721_224947_445962_833C714A 
-X-CRM114-Status: GOOD (  16.85  )
+X-CRM114-CacheID: sfid-20250721_225345_681209_40CAD0B2 
+X-CRM114-Status: GOOD (  22.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,20 +61,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 21, 2025 at 07:15:41AM -0600, Keith Busch wrote:
-> > This should probably just set up the linear metadata pointer instead
-> > of a single-segment SGL.
+On Mon, Jul 21, 2025 at 08:33:02PM -0600, Keith Busch wrote:
+> On Mon, Jul 21, 2025 at 09:42:23AM +0200, Christoph Hellwig wrote:
+> > On Sun, Jul 20, 2025 at 11:40:34AM -0700, Keith Busch wrote:
+> > > From: Keith Busch <kbusch@kernel.org>
+> > > 
+> > > The req_iterator just happens to have a similar fields to what the dma
+> > > iterator needs, but we're not necessarily iterating a bio_vec here. Have
+> > > the dma iterator define its private fields directly. It also helps to
+> > > remove eyesores like "iter->iter.iter".
+> > 
+> > Going back to this after looking at the later patches.  The level
+> > for which this iter exists is only called blk_map_* as there is
+> > nothing dma specific about, just mapping to physical addresses.
+> > 
+> > So maybe call it blk_map_iter instead?
 > 
-> Okay, but we should still use SGL with user passthrough commands for
-> memory safety. Even if we have an iommu protecting access, there's still
-> a possibility of corrupting adjacent iova's if using MPTR.
+> But the structure yields "dma_addr_t" type values to the consumer.
+> Whether those are physical addresses or remapped io virtual addresses,
+> they're still used for direct memory access, so I think the name as-is
+> is a pretty good fit.
 
-True.
+There's two layers:
 
-> In this patch, the nr_meta_descriptors value matches the sg_list length.
-> The only real reason I need this 'nr_' value is to distinguish the
-> single data descriptor condition from the segment descriptor use, but I
-> can just add an iod flag for that too and save some space.
+The lower layer implemented by blk_map_iter_next just yields a phys_vec.
 
-Yes, that would be great.
+The upper layer built on top does the dma mapping in case of the new
+blk_rq_dma_map_iter_start / blk_rq_dma_map_iter_next API.  But in case of
+the old __blk_rq_map_sg API it doesn't even directly do the DMA mapping
+yet.  And some drivers at least historically used the blk_map_sg without
+then doing a DMA mapping, either for MMIO or platform specific things
+using physical address.  My hope was to eventually migrate them to use
+blk_map_iter_next.
 
