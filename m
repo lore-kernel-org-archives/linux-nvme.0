@@ -4,183 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF7C3C83F1A
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jul 2025 18:27:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 496EBC83F17
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Jul 2025 20:28:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZJyk9wdsWxAKwQtpypmq9SmEtVINCSZJBD3NT2V7NSc=; b=LSVVs1a6RO2QexRZamhO1z/mCf
-	E2QDsTvUpWo9HWuwrc3KmOGG5nG2qeGo2w07sK5p1IOAjs2GOMVDyHEfNkotroA9jbEQPuMuWRTBv
-	KNkO4ACp8P5tzoXZCH6ZG9R0ifSJdOFDD7K2qfptt5S9MWene6VGaKrjIMKK1qVqbKHMRFP7I5DAe
-	BmTDVQtYJBshNGmbePbwo3rqkPyAzi0fYDUcWoEBo/sM81PLA5Py9pbWHXtfVvB0XF9KtlMDVnVXM
-	lwtFeU2my553fauv5MyaEFGKpVe07bD+AXR+EMW42WgXLmofymQpowLTBlKqAqDyl4RyLPqSRIgCh
-	0c/0EpbA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BSn8Bd39ksWSgUbfWXSqX94WHuL7Oip1GIx5eltpRYk=; b=qOl/xrVN9v/8W2OsopCI7nWrnD
+	+MRLFsfVA2+sbaNYDDLiyhv39gKEahv0XnCfqCB5jA3/gcfFXwWikL4dnBp6FAxAj+w6OOreHFmyg
+	Y7NGNE2SVVYmV6BOwyZeZK6C7k/9x03Hzd+eP6E990I9FuaBTdnmQwbGHpF/R2vc9MVIPvZGoz0hs
+	3BGbEvrsmJIu2Tnqp8V9WiBCu0/J2vMQoDvNYinfaFelkwK6h+j7zfl2+iDG+8vNBkq2oSdtFGYZD
+	JEUV8Dv2IFiO0Rq1cRz96Dq1cO1FY4fYd5/wGsVnFX1tFR3ciUseCS0hUBRtQsMhHCx2L4QIdHR8I
+	ukPm6eaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ueeBV-00000005kYN-0F2W;
-	Wed, 23 Jul 2025 18:27:21 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1ueg4P-00000005tcO-1OxK;
+	Wed, 23 Jul 2025 20:28:09 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ueeBS-00000005kXj-0OI0
+	id 1ueg4N-00000005tcB-2Km9
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Jul 2025 18:27:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1753295237; x=1784831237;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZJyk9wdsWxAKwQtpypmq9SmEtVINCSZJBD3NT2V7NSc=;
-  b=kwuqtfWJ/VbS9tEmde5DNbCrWK3GqoO4sDaMDy1YSBvf5EHgv+qtbUEd
-   kl80/kk3rWK5uBtH4Rhc6NB/qEXEhSwls+U6NcgYRV/AosyLeasjZjH18
-   oxQF+FPJNLvP9CK0bcCU7b9yMxMaYMH7tFbty9sgKnblTUq0uuQIERkjo
-   GVeDH/Vqj5jlgk+ogqD1Ty/413Wb3xSv/kpclZ9jZEpAVeK4Dg4KTnnnp
-   z5itdO9MBKVZ98blkRauMzA7HlzsyXpNVXpPhVaSHxgSPAjbSDRi86syM
-   +F8RgO2LJN9lE8gu1O1XrBV8YDh1TrDV7xGhlT7hp6Ll6ucpNuRZqOyY0
-   A==;
-X-CSE-ConnectionGUID: 7ycfZCuoSUCwxIDpkZVBiQ==
-X-CSE-MsgGUID: 9tbbCeBoTv2ghVltCv8yOg==
-X-IronPort-AV: E=Sophos;i="6.16,335,1744041600"; 
-   d="scan'208";a="101488662"
-Received: from mail-dm6nam12on2042.outbound.protection.outlook.com (HELO NAM12-DM6-obe.outbound.protection.outlook.com) ([40.107.243.42])
-  by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2025 02:27:14 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a/sTeAamvD7sV78+kLxOJq7UF8/eP2t9yi4ceijjeqqFrQ3xne3PwMH8BSlg0Jv9G9p6cxZvJCdhTDtP8wUtX72ZwYlOHwAlmVntwRVtKpzgnyFzfx8+FgEbfEsp7wDK26CM0ER2iYUDR9zY1ttycGQBey38OjY0BF2+Bl6+fajjaBKlIr0h5SvZ3kw0sPz3TIa4epq4JBLXvuKi6mQ2mmZ7qMLN9xMGgjZJNs6ZA3Gc63xPTu3S1iVSz7UYIUd5Iu20jMl0XG+sHMn+BWVcsQwBTdM9jzhy8+BhZBi5z6Vv/Dw4cSkHp6NFJluxmcqj/pIEA9a5/7ZQYfKYEptF1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZJyk9wdsWxAKwQtpypmq9SmEtVINCSZJBD3NT2V7NSc=;
- b=CKGAJMjQpzclY8iHw9FuHc6evsM9tQcoNsNZospG/gr0r7c0jx44t+Bk8HkB2zk09xTj5ud9js1PYNwG0otgNUo2DqXehaoVJy/8E86ru0Af/v38vOi/VK8lq9EaUPsFjK07+Bn2nV7DJbH4y/64Is1Obn2SKEf3uBmuquZPZrOIt8FCjuVoSwwWTRGJ3+lIBCGq0V6W+mikoWLluIKU/9gX/xzdvAxpLP80yejn3P3lHSR0Tr3dv29J7VynsZxPWdj4t20Tx8tEukWHBIy49V8mJvZIXk9vH8q3DrdNUQUASbeL6EXZTRt1m+6TXmfEbQqn1KF03+WQoPCzaT/0Rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZJyk9wdsWxAKwQtpypmq9SmEtVINCSZJBD3NT2V7NSc=;
- b=tnMu1oHcO7xqYx0QT/1I9Jq2QT7Z+FwQ7+LMsJ7vwtwzizvfxPbYYrzikn6g1lu6aSaef4e9yz5Vk+6EqPZhqUw4Gs8DYUWkD5zgtnUcli6fpnCvirhEplO+MsdeW3PyvLLOVLRy5alZdfXadLT0osuTIukWcv22GGwWAunl0G8=
-Received: from BY5PR04MB6849.namprd04.prod.outlook.com (2603:10b6:a03:228::17)
- by DM6PR04MB6509.namprd04.prod.outlook.com (2603:10b6:5:1bb::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Wed, 23 Jul
- 2025 18:27:12 +0000
-Received: from BY5PR04MB6849.namprd04.prod.outlook.com
- ([fe80::a414:8a6d:1caa:13d5]) by BY5PR04MB6849.namprd04.prod.outlook.com
- ([fe80::a414:8a6d:1caa:13d5%4]) with mapi id 15.20.8943.029; Wed, 23 Jul 2025
- 18:27:11 +0000
-From: Kamaljit Singh <Kamaljit.Singh1@wdc.com>
-To: hch <hch@lst.de>
-CC: hch <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"cassel@kernel.org" <cassel@kernel.org>, "dlemoal@kernel.org"
-	<dlemoal@kernel.org>
-Subject: Re: [PATCH v4 2/2] nvme: prevent admin controller from smart log
- fetch (LID 2)
-Thread-Topic: [PATCH v4 2/2] nvme: prevent admin controller from smart log
- fetch (LID 2)
-Thread-Index: AQHb+mYXMAEuLxyp1ESYRJA9jnnQSrQ9r1+AgAChYwqAAOufAIAAzOY2
-Date: Wed, 23 Jul 2025 18:27:11 +0000
-Message-ID: <BY5PR04MB684919E8FED440576C3A52F4BC5FA@BY5PR04MB6849.namprd04.prod.outlook.com>
-References: <20250721173700.4153098-1-kamaljit.singh1@wdc.com>
- <20250721173700.4153098-3-kamaljit.singh1@wdc.com>
- <20250722063015.GC15013@lst.de>
- <BY5PR04MB6849574654806676E024F16DBC5CA@BY5PR04MB6849.namprd04.prod.outlook.com>
- <20250723061112.GB18943@lst.de>
-In-Reply-To: <20250723061112.GB18943@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR04MB6849:EE_|DM6PR04MB6509:EE_
-x-ms-office365-filtering-correlation-id: 3544dd9b-d6f5-4be9-6f77-08ddca168a1f
-x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|19092799006|38070700018;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?xpLVkdnrnwBE9ulTDJssmdOrXkQ3hfxRbETWOobY88cLSqT2uS+MzNO/Gh?=
- =?iso-8859-1?Q?Yl7RsuNVKIKji2WpzqMNegWoTuSDJX6o03+t3OFcTQ4mv4gRptbhd8KNPG?=
- =?iso-8859-1?Q?y7yDGsDeGSacRRxvLllwOYLHKUCWSOxHA8IwQ+QV7JsLZrxYOBCY59d7UL?=
- =?iso-8859-1?Q?4lJqBFwon80TyeFUGG7+npb4wFB7G5AjpLvhNO9VlhjUTy27VxCMGl/xJg?=
- =?iso-8859-1?Q?zpGJZ6QFX8fFkNQ8ArnF242P+7nWm7yqO43bl1cAxRPH4gWhka4MNtvE6I?=
- =?iso-8859-1?Q?jgZZqG41ZGGnFpBmPQ43QVpQ2JUWtMOUvSh102Eki/dzi3TuXp2OfKPT24?=
- =?iso-8859-1?Q?gDD+V8lRUJvYtr9iyAtsfwuwRgokQNsiJInWCGOzM65FSU8gYfhSCaYbl7?=
- =?iso-8859-1?Q?mSpTGoha5SuvNyFq1CJqoJ/hLlJpJ/nR9lSUH45+Kl5cZWF6i25jqmX0p5?=
- =?iso-8859-1?Q?Y7xhZO73lRoW3jJJFnptCd9rF8umSwsvb/rrhXXHESmDhh2Q3v1qGpd0oh?=
- =?iso-8859-1?Q?6elyg+ZxPxDWqUxr0hW9ixHfgNMnbbK59Co1tKkOBVK6F0BdzRYLiiIed4?=
- =?iso-8859-1?Q?WceAGl1cxAJh9L7FOODZdVyhmMSOJEFVLKfKXbpb+GOQ0I/lSe+QsdyUV+?=
- =?iso-8859-1?Q?ZTPRtrWWarE6tzuP2o005/9lMbEdD12upbMKuukmtT89kpU4PxXVy1Zj5O?=
- =?iso-8859-1?Q?zdYa7M28E2+TFyNJNoDIW3MR+Q8K4eEh7022bxzk7JcbITli5KbD4WMdqj?=
- =?iso-8859-1?Q?/n8rCSrQtMCiMlGuBQ7ph+xyh93s4o4tYGiYClPrMGfNS9v+xLW4+AOcC2?=
- =?iso-8859-1?Q?TIXZZXTaGDvz6Q2eiUp/6r7odYdvXSArmzL/w6rpIYI2/wTSYdW/pdWzyr?=
- =?iso-8859-1?Q?boIwqYBLJF5Quto+emNcWhWfciHYMOdDTSDsRexnTvUkhk2yhhoKsNZCTP?=
- =?iso-8859-1?Q?Ujei8OkK3Xxsq1VuSFGmX6+K4pWekio0eRoo/XiLtviAFtzZ0+zi4OyHiN?=
- =?iso-8859-1?Q?/EG5fjQyfKt8lZk5N/5Cc3b+iLPm0aKjCfSOYWm4Wwb0w4LF8aAIh/80RO?=
- =?iso-8859-1?Q?Reu38ULhXKxQQYWEXK4zy2tH8F/ToJ2EXIsLupM8GfTQ6vDb4FFO0mG11d?=
- =?iso-8859-1?Q?F8sN3LcnwNHWfLuRKklBNxfEl6w86i+Q0qRFfq6Ph7v6cUVcZUnXAtsr4C?=
- =?iso-8859-1?Q?zZQJvovbzjl1NSHoJnmmKINMvB4/NFaRZzq06gKEuzEB9tEYYA5Q/qbDze?=
- =?iso-8859-1?Q?O5H78Z6Oa4PCbOUJZY0vhDdtJn6qEM8kXiONWitsdVENJ+xsDtZPI9VZJZ?=
- =?iso-8859-1?Q?zl/UOVM6owsa690z5753EVQgOqwfZtWLtqSfd1LR5QSYNQwUwQyJKjypoy?=
- =?iso-8859-1?Q?8RxXdeC+TZfcKwO0Bi93LBBN6iyOqwt0T7QYkuOt6F8FgaXAELnEUMdL+S?=
- =?iso-8859-1?Q?0GYoFamy4DAjgLs3/3b2c6/WGY189sSsFYiWX50kV5XEgFPN0u9CFOeK7c?=
- =?iso-8859-1?Q?kKzlwPW2YOxrdAXAUKPq6udogTnN+ZZ0Cx786eBpr9lg=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR04MB6849.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(19092799006)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?n2DawOIStHi39eqS3GAEBHeDL1c/1T8CNd74u1YmWPRLgEHeYCaX7A2iAy?=
- =?iso-8859-1?Q?uLNLOFXOVQuQpIc5gygBKtPXm/8scoECCHzXxKSPUUXv9sKWxFbqkvNy/6?=
- =?iso-8859-1?Q?MAQzkCeOLYJagRMDi483rkPhW9edNbJta3Tn03ghpVKvfxXn1w5Txs8VKU?=
- =?iso-8859-1?Q?J1oZS6js64yECnU18WgI2jxJ+1LRsBM/5dYoD107F2VMMCh8bhYx/3mVXa?=
- =?iso-8859-1?Q?rsfR3wEiK4wLk2MaIuEbah42ClUAaZ7/P2kBV/PqMFo5tkAIDOMaeGv9EH?=
- =?iso-8859-1?Q?o3zHzrcoHcxeGJ0gbBcxMoukPjsorBvOFexLV90BqBe+79zJ9q8xytE5Qj?=
- =?iso-8859-1?Q?84LRku5RU9wJUfztAztILTPBjq/tz7n+8uUFKvqMUdkILCsGjOptlaqJeH?=
- =?iso-8859-1?Q?Z6SFvlFh1QW7eOF2rprOuhLlTp+RQd3xnBOd/wf2gnphX+sNn1VpzKsmKz?=
- =?iso-8859-1?Q?ii8zkwhk+agJSSmdw2IXGrvsp5U8/UPAcLUy8j4+NTm18+KKyVslSFjGKH?=
- =?iso-8859-1?Q?dRZ9kflzrB8GjbCHMoSWw/T6XsziQX7V2IwxITPNNnQkxIJR101hSx+70M?=
- =?iso-8859-1?Q?i6CYyKtVAD8+pvxpZpTeOARd2neeF2yDaCqW9J4NkndjUCM28naZC/mcW6?=
- =?iso-8859-1?Q?oPBGifTfhgpZI+lh9XACNOjSr9BWYAXi8Or/JnXxouHpBrMjmFb1kaVgY2?=
- =?iso-8859-1?Q?UVvnQx5Ebq5+JGye5urvu5OLMtxl/ynf88WZpLSKHE5Mzh/DuvOZHtCR64?=
- =?iso-8859-1?Q?n/9pT7JEQHoSeXYZNPszDC5zrd+4yN4hx/ZDOffbRA0xAB+eRn6V0Jndbs?=
- =?iso-8859-1?Q?TAJJ300+cOwGcxiQNEnOpFcEMGkvBBMLgTbCnGtTJJZmpFw5vQzaMo8Jp5?=
- =?iso-8859-1?Q?uhJXfLr2QW10J4IscYqi/IZxOtn52QJKLP6i19WqoGO5okmbs6zchfa2KT?=
- =?iso-8859-1?Q?v920jx1X/hgFVTx67Q67cx1DjpjpA54o7B0HN0Z8vQqoWspWU5Qn/b2+vw?=
- =?iso-8859-1?Q?J3Ynt0Fu9IOLKn5MnrJ3CZNiQqlPPbqIWofdBSO8AXuVVluxRr5uVWKQ66?=
- =?iso-8859-1?Q?SKLNdr968l9pWgMIIN5MQKsW8ycMeWDp4YlWdc2o9AioMF8Ycd3QJGkaDL?=
- =?iso-8859-1?Q?qUfu5SLLBF5L4aB4erwF3COhx7E5obBBb62H6hhl2Xia7SFOcKP4mvZT6J?=
- =?iso-8859-1?Q?uF2jyc8I/pTEvpxEGYySIeHLe3TrVjL6WMaPmk1o+D5zt25LYHO8iPN73U?=
- =?iso-8859-1?Q?2M5LSbPe2YALw4tNPBlQvSbulAGKq2QEN+l6ocUrL11ldjCW8jU4g0xtiO?=
- =?iso-8859-1?Q?CjOZxrMj1AVXX9xyIexDub7JP0nPQwZq2Aa8OJlEq7T3g5fh8okC7PLe7W?=
- =?iso-8859-1?Q?3uPvpcXfW+UkWYtJg70pQ8/pXYYU8BPAeXGuJN4W+qFKkuYr1272fmgeqW?=
- =?iso-8859-1?Q?AbbBkfXF0lTTZOyKhH0mJN3GpcMYdSrEbraXI9C+y81rWHKrRcAut0Y+Cw?=
- =?iso-8859-1?Q?VRdOpTiyIXj6cdXfsmPw5it0ayqokTY87r0SDTouEsVWSWNJHT9Ssouhbf?=
- =?iso-8859-1?Q?RxC4uB2O+nQREb3InMRxDa45EExsPYCUf5ZPr3Gn06KN9Yd37YrXo4mEBu?=
- =?iso-8859-1?Q?P9bBI3QM6qoRV/rq9HW1pQxoo1jv4FpckP?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	Wed, 23 Jul 2025 20:28:07 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 03F1C6113A;
+	Wed, 23 Jul 2025 20:28:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7EB2C4CEFA;
+	Wed, 23 Jul 2025 20:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753302486;
+	bh=4G0qJWXzTgIhzJCFR5AflLsD2rnqsd9gHV06wB10rD8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WX4MBjuNZODHCR3kOaNx/hisUTqk1u8BcE8ZY2eJ3W5fSye/uEgJtjEfAxBz51AKy
+	 uKsdwD0E7SXKGIIV8vz6eiF+C6Mxt9/pSKxDu/xhWLuOy6uSofwz9QPkQi0omOxTJi
+	 dmhQhR798LARp0i/mxS9DV0Ov/yg1AlFrRQ5WBp/9iZCiehTzR9ncK4hzKUi6DX4pS
+	 JHXhLvmxw4b8nOGGnmkxLqHq+Wwn+AbfRPd0b0YQY+dipNGruC5xeE2f5YjBrnZ++t
+	 Q+95S7nPdWZRzAVpVKdO095uwPM/13d3VxGP/lyu0WDsxY9PMkt2FwImAEHwT9jc+8
+	 hHoWDIGWy+qOw==
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH] nvme: Fix typos
+Date: Wed, 23 Jul 2025 15:27:51 -0500
+Message-ID: <20250723202801.2909506-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: IIZbw+atNJZSXNZtKDG43ZyBgnCA27LFVZ8whNz+Ph1PU9/fQAO4geMxN1/Sgvz+3aiEySywvRzYwbbM9Cy4iu9UkzN6OMhawL7KSpnSz7lin5TLj5471Hye7+sRC2xbwkcoQTofDTAlZJEVoTNG5x8xQv+5PiXE9Cowb4OTSxXuWIB64RVrWN+ITJG3b1g5KiC8v6zM9+pghtCLC7MsC6a1fH+DwLnMyHW1P3zyJpYEPHBYplBhF9FFr8CTaX4EbwYtxXwziTdmxe6k754PfcV1FfmTd4rAcldYAHAHQP33+NDN8l08Kw2a/zhFHFvp2ptoZMzA1Ngsrk8VaCIMGpVKxPANBrlzb4nmXyKIcFWQi4ZTulft25Mj5024KQWm4IIYoab64IknioiYsD8NAmvNA8lVMRNzILpOraVKkLpwtYDlcktpBBfqOThzVoM7FnG68hymD6BdnmKMpK26VvtEyF6oQaxoHjzUTCcab+eyjl89C0++Xr3fyDnQnZqQ4LFwcFvXGFQhE8ilYekxgsK681A1wRWHynPjJjSAaEPDMhlEyaAQqHKWaGYJZjaNIOVMZs0sp1AImnWRFIlOGJR2vALnnYu+GD6wQ6bf4F4AK2QKmfUcmAkb1S3AZkkA
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6849.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3544dd9b-d6f5-4be9-6f77-08ddca168a1f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2025 18:27:11.1343
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: T/QTk44rtVop6V/MnTreGMWdsBQsGxEMrRlMq+nKM6/W6HWdn4DT1bxLOhjMWqIXe9TCQ3YNgSWySCcLPi2NXw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6509
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250723_112718_231987_E98ABA61 
-X-CRM114-Status: GOOD (  10.44  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -195,22 +70,178 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: hch <hch@lst.de>=0A=
-Date: Tuesday, July 22, 2025 at 23:11=0A=
->> By "let's leave this in", I thought you were referring to my patch. But =
-now that I re-read=0A=
->> it, seems like by "failing a get_log page is fine" you probably meant to=
- let the driver=0A=
->> issue a get_log for LID=3D2 and fail.=0A=
->=0A=
->Yes.=0A=
-=0A=
->> Process wise, can you ignore this 2/2 patch and we call this patch-set d=
-one?=0A=
->=0A=
->That's what I've done.=A0 Patch 1 is queued up in the nvme-6.17 branch.=0A=
-=0A=
-Yes, I already pulled it. Thank you Christoph!=0A=
-=A0=0A=
--Kamaljit=
+From: Bjorn Helgaas <bhelgaas@google.com>
+
+Fix typos in comments.
+
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+---
+ drivers/nvme/host/apple.c  |  2 +-
+ drivers/nvme/host/fc.c     | 10 +++++-----
+ drivers/nvme/host/pci.c    |  2 +-
+ drivers/nvme/host/rdma.c   |  2 +-
+ drivers/nvme/host/tcp.c    |  2 +-
+ drivers/nvme/target/fc.c   |  6 +++---
+ drivers/nvme/target/rdma.c |  6 +++---
+ 7 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index b1fddfa33ab9..c60f8a5e07a5 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -302,7 +302,7 @@ static void apple_nvme_submit_cmd(struct apple_nvme_queue *q,
+ 
+ 	/*
+ 	 * This lock here doesn't make much sense at a first glace but
+-	 * removing it will result in occasional missed completetion
++	 * removing it will result in occasional missed completion
+ 	 * interrupts even though the commands still appear on the CQ.
+ 	 * It's unclear why this happens but our best guess is that
+ 	 * there is a bug in the firmware triggered when a new command
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 014b387f1e8b..2034dd70389a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1363,7 +1363,7 @@ nvme_fc_disconnect_assoc_done(struct nvmefc_ls_req *lsreq, int status)
+  * down, and the related FC-NVME Association ID and Connection IDs
+  * become invalid.
+  *
+- * The behavior of the fc-nvme initiator is such that it's
++ * The behavior of the fc-nvme initiator is such that its
+  * understanding of the association and connections will implicitly
+  * be torn down. The action is implicit as it may be due to a loss of
+  * connectivity with the fc-nvme target, so you may never get a
+@@ -1955,8 +1955,8 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 	}
+ 
+ 	/*
+-	 * For the linux implementation, if we have an unsucceesful
+-	 * status, they blk-mq layer can typically be called with the
++	 * For the linux implementation, if we have an unsuccessful
++	 * status, the blk-mq layer can typically be called with the
+ 	 * non-zero status and the content of the cqe isn't important.
+ 	 */
+ 	if (status)
+@@ -2622,7 +2622,7 @@ nvme_fc_unmap_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
+  * as part of the exchange.  The CQE is the last thing for the io,
+  * which is transferred (explicitly or implicitly) with the RSP IU
+  * sent on the exchange. After the CQE is received, the FC exchange is
+- * terminaed and the Exchange may be used on a different io.
++ * terminated and the Exchange may be used on a different io.
+  *
+  * The transport to LLDD api has the transport making a request for a
+  * new fcp io request to the LLDD. The LLDD then allocates a FC exchange
+@@ -2777,7 +2777,7 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	 * as WRITE ZEROES will return a non-zero rq payload_bytes yet
+ 	 * there is no actual payload to be transferred.
+ 	 * To get it right, key data transmission on there being 1 or
+-	 * more physical segments in the sg list. If there is no
++	 * more physical segments in the sg list. If there are no
+ 	 * physical segments, there is no payload.
+ 	 */
+ 	if (blk_rq_nr_phys_segments(rq)) {
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8ff12e415cb5..f902bae348f5 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2548,7 +2548,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 
+ 	/*
+ 	 * Free IRQ resources as soon as NVMEQ_ENABLED bit transitions
+-	 * from set to unset. If there is a window to it is truely freed,
++	 * from set to unset. If there is a window to it is truly freed,
+ 	 * pci_free_irq_vectors() jumping into this window will crash.
+ 	 * And take lock to avoid racing with pci_free_irq_vectors() in
+ 	 * nvme_dev_disable() path.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 9bd3646568d0..190a4cfa8a5e 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -877,7 +877,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 
+ 	/*
+ 	 * Only start IO queues for which we have allocated the tagset
+-	 * and limitted it to the available queues. On reconnects, the
++	 * and limited it to the available queues. On reconnects, the
+ 	 * queue number might have changed.
+ 	 */
+ 	nr_queues = min(ctrl->tag_set.nr_hw_queues + 1, ctrl->ctrl.queue_count);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index d924008c3949..71e3a50d1ff7 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2174,7 +2174,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 
+ 	/*
+ 	 * Only start IO queues for which we have allocated the tagset
+-	 * and limitted it to the available queues. On reconnects, the
++	 * and limited it to the available queues. On reconnects, the
+ 	 * queue number might have changed.
+ 	 */
+ 	nr_queues = min(ctrl->tagset->nr_hw_queues + 1, ctrl->queue_count);
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 25598a46bf0d..a9b18c051f5b 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -459,7 +459,7 @@ nvmet_fc_disconnect_assoc_done(struct nvmefc_ls_req *lsreq, int status)
+  * down, and the related FC-NVME Association ID and Connection IDs
+  * become invalid.
+  *
+- * The behavior of the fc-nvme target is such that it's
++ * The behavior of the fc-nvme target is such that its
+  * understanding of the association and connections will implicitly
+  * be torn down. The action is implicit as it may be due to a loss of
+  * connectivity with the fc-nvme host, so the target may never get a
+@@ -2313,7 +2313,7 @@ nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
+ 	ret = tgtport->ops->fcp_op(&tgtport->fc_target_port, fod->fcpreq);
+ 	if (ret) {
+ 		/*
+-		 * should be ok to set w/o lock as its in the thread of
++		 * should be ok to set w/o lock as it's in the thread of
+ 		 * execution (not an async timer routine) and doesn't
+ 		 * contend with any clearing action
+ 		 */
+@@ -2629,7 +2629,7 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+  * and the api of the FC LLDD which may issue a hw command to send the
+  * response, but the LLDD may not get the hw completion for that command
+  * and upcall the nvmet_fc layer before a new command may be
+- * asynchronously received - its possible for a command to be received
++ * asynchronously received - it's possible for a command to be received
+  * before the LLDD and nvmet_fc have recycled the job structure. It gives
+  * the appearance of more commands received than fits in the sq.
+  * To alleviate this scenario, a temporary queue is maintained in the
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 67f61c67c167..0485e25ab797 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1731,7 +1731,7 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
+  * We registered an ib_client to handle device removal for queues,
+  * so we only need to handle the listening port cm_ids. In this case
+  * we nullify the priv to prevent double cm_id destruction and destroying
+- * the cm_id implicitely by returning a non-zero rc to the callout.
++ * the cm_id implicitly by returning a non-zero rc to the callout.
+  */
+ static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
+ 		struct nvmet_rdma_queue *queue)
+@@ -1742,7 +1742,7 @@ static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
+ 		/*
+ 		 * This is a queue cm_id. we have registered
+ 		 * an ib_client to handle queues removal
+-		 * so don't interfear and just return.
++		 * so don't interfere and just return.
+ 		 */
+ 		return 0;
+ 	}
+@@ -1760,7 +1760,7 @@ static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
+ 
+ 	/*
+ 	 * We need to return 1 so that the core will destroy
+-	 * it's own ID.  What a great API design..
++	 * its own ID.  What a great API design..
+ 	 */
+ 	return 1;
+ }
+-- 
+2.43.0
+
 
