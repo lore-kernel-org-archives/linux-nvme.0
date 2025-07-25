@@ -4,131 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 743EEC83F26
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Jul 2025 08:02:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B763C83F26
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Jul 2025 08:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7N1O2jp1f3K2ibzVyYlEHwdaLwyvhcHtqgSSAkCBJwo=; b=uCRDXrLAL0QtdDVHwkBOuuVPJL
-	lzJYUNVvHA1y8Rvm1kvr8KSy9M28ZDcdU4rI1+zrN6i8RMNeeIjkOdIMftn6lakLH27qr16Q2xyD+
-	pOxgrIr8pfA1y0wfAiToVApq+qiEhq6qW14vtEzj2/bGYmUjdye2ZOyyJAt8dUz73pETjk8FU5GKR
-	UQbspEkrbLgsd0Kb/bkfsKYtNVtk3GAx6zGJwpswqU6VYMNoeZHXYNYSg1ERGCw4Scb1aGaXzlAat
-	33lKqYhnegLkbrS7qDo3EFLXFVSH4oClv7q4ptYyY6ZjOTLK2IHm21c4/CQz+zP7r6eYFK5cWzCtp
-	ZK79EVnQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UpFk5wqajn4fQk3g02KNJ6sy5dgaJIJ/A7jGvLz/f0Q=; b=x6BgkFBDdgy/8jwLFrlKGMzxXF
+	9xeRBQVn7vF7GvqD7AW6bXeCNtmQSY2x5waoeLyx31aoC2YUl9VUn3CWCK2ivBVOmSbzfVmK8d5E6
+	nOCfgzwWmxv+QPbxDeZV7Losk6dPaYd3u/z4/3/K/GQ1OibqKp32Gko87Kfa7TWS53YROf4zNobDB
+	RR9ejyjznpTn2jeauh1FCn5cjxh44Z/c/59WyTBGaWriejybHr7bIOZvpRW+CGBIDqC/ppX+biAW8
+	qEF4cS6GU17fwLbHWUBq0UAgh35rqVhw5e1wDZ9r196EMoMRSlqxQFoVEPA7XN/ZIxLm77RQ7UFGM
+	RjwLo9KQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufDNO-00000009JaS-3oll;
-	Fri, 25 Jul 2025 08:01:58 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1ufDd4-00000009L0V-23mr;
+	Fri, 25 Jul 2025 08:18:10 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufDNM-00000009JYy-01uf
+	id 1ufDaz-00000009Krp-3p9I
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Jul 2025 08:01:57 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9E0F421972;
-	Fri, 25 Jul 2025 08:01:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753430512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7N1O2jp1f3K2ibzVyYlEHwdaLwyvhcHtqgSSAkCBJwo=;
-	b=TkhXSbfF0y5vAkAd1eZziK5NfVIA9l6RE0JnDYIsCpgQuLXllJtWDYVKeawZclIpPI94gY
-	YVw4FqotSqAWMB6Z9CHzHKmXtmLGX5UJWAlCo9MAb0I4JTsK8w3znG+E3I6Q1jmEovP/nb
-	7d6QqKtKaJW3LxzfFshgrg6uRBRCyAQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753430512;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7N1O2jp1f3K2ibzVyYlEHwdaLwyvhcHtqgSSAkCBJwo=;
-	b=wYqLJN0j5TAX/mjrMfHHjFbDEYUlYzAnzPcrjfAHAm+gFUOAqIns/EEOjQwxEvdAiT2yMW
-	V2TDagzaW9NZFjDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PXRBivgk;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ndU5dd3Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753430511; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7N1O2jp1f3K2ibzVyYlEHwdaLwyvhcHtqgSSAkCBJwo=;
-	b=PXRBivgkgveLjf/eKXTvvQd7yv/yVKagUC8Xkb2rW6PoW450Oc44zaFiOn4lBIXt9o6067
-	KvOqSr6mbs+kQrJehjLfQiwlbaERMMAn65LrVqFa/gQtdw2bFScdSlwYFeG2WL892/OuNx
-	YfiIKnnvoslPVWbo3CthNWc6lhK31V4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753430511;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7N1O2jp1f3K2ibzVyYlEHwdaLwyvhcHtqgSSAkCBJwo=;
-	b=ndU5dd3ZWpB3azEtYCH2AfaYY1sB9k3fRFb7VoZsZ/+z1G+8rd2HD8iC7SEsAnRUcbuKDA
-	0lqQPsyU/Hg1jZDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 85F931373A;
-	Fri, 25 Jul 2025 08:01:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fGBBIO85g2h6VQAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 25 Jul 2025 08:01:51 +0000
-Message-ID: <0707547b-fbb3-44d1-8922-25fe3ea5dbd8@suse.de>
-Date: Fri, 25 Jul 2025 10:01:51 +0200
+	Fri, 25 Jul 2025 08:16:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1753431359;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=UpFk5wqajn4fQk3g02KNJ6sy5dgaJIJ/A7jGvLz/f0Q=;
+	b=h3tkrsFZH+RRsHTIzd3D4qQ6Y/KHy0vwKMq4Uif+7synZsUtpF1t6Ag344HSK4OIMcpons
+	Fh3/TirritalyV1KxWJtkwHCWjbRt/4DhvX1X96Z7ydsKXUedq4z+HX8ZCl3IG4cYTpH0V
+	9/QaprMgxotiwPIN3+lPOO+i3EUT7tc=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-515-DK3GVWICMoyhusx5UzZ4bQ-1; Fri, 25 Jul 2025 04:15:58 -0400
+X-MC-Unique: DK3GVWICMoyhusx5UzZ4bQ-1
+X-Mimecast-MFC-AGG-ID: DK3GVWICMoyhusx5UzZ4bQ_1753431357
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-32b3f6114cfso7955011fa.1
+        for <linux-nvme@lists.infradead.org>; Fri, 25 Jul 2025 01:15:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753431355; x=1754036155;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UpFk5wqajn4fQk3g02KNJ6sy5dgaJIJ/A7jGvLz/f0Q=;
+        b=RXt2fgIZ6Wanrmx/9V5c4/HpcITw2I8ZlbP8feqOKan1wxIUTWNWidjkugFAf1PqyK
+         BJvtrKqMNfVBb7m9BKPgDTPq+14jfpyhnI2Rr6Mmv2DYkQ532f9U6AV6Xoj0oFxzpzS8
+         ngEW0ni6YoWA0C41wi4SkNdePnglRg2THStWtrjrjGGHjqNYJf8FaYGM86yo6YS6nh3l
+         B3o1H6a1KrD17S8gRPA7SIrlSIndTo87Iz1rp+96vv8OiZWPy9XizkdUL4u+rTXcyHU5
+         zUgYsZVQBC2c80SdhibZH4NmH8Bqdy1532/I9wotLORlUxFeaw3pzIplTZjB0i2/zQEY
+         uw1g==
+X-Forwarded-Encrypted: i=1; AJvYcCVM+7Hoo0M+IC8Ovm7a6XWxHY9pZTLDvvpPgpjlqbXJQlcqd25DVH+nDii2hRH04EXhEaHZDm2GIkMs@lists.infradead.org
+X-Gm-Message-State: AOJu0YyN/gYKPFTZxmSNEUPN06e9eAhp3v7A/V/OP0qVse1RwYMBUfdC
+	wAw5C2FHzgBqzFao4EwPZO87Z/grzZd9T8sbbnSV2j5FhFmpT2yzuHnFRDzzbpjHkz+XVwqmzW8
+	Q0O7zgiCtWtGFCSjZj6W1h8wDZyy4K0DVaVRKOTLvHKkq1NRkmWUJgQhKpTIoNmrwqf0FXKGibW
+	IiIAcgEMg/ZA48PdTXcxApe9m73JwffS1wbxUPYaQPNaFLeNKQ9UjnbQ==
+X-Gm-Gg: ASbGncu4U+BKfkTHDO2O4oIPjjoYR+N8ds44RnMmlG0cAEGXDjFhrJMqfdk1PR8t/AC
+	E5gxH0l2yiAGfPO0umy9tZ6qXwel5hdByH63r46Ny+kSVXglEnfd8to+OmqxR4ZDisVEh5b+yxc
+	MhzSgqYWLEea6oZEb2sX3P3w==
+X-Received: by 2002:a05:651c:12cb:b0:32c:bc69:e926 with SMTP id 38308e7fff4ca-331ee6027c7mr2220321fa.7.1753431355053;
+        Fri, 25 Jul 2025 01:15:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHrwljb83PHnkCk14gzFvwh4reUysUr3dkCrgugr+u8xTvmcwk9+mUSYQ8jV5n7NOspZVuK1OPoiPIsyjhLMvI=
+X-Received: by 2002:a05:651c:12cb:b0:32c:bc69:e926 with SMTP id
+ 38308e7fff4ca-331ee6027c7mr2220241fa.7.1753431354460; Fri, 25 Jul 2025
+ 01:15:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next] nvme-auth: remove unneeded semicolon
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, inux-kernel@vger.kernel.org,
- Abaci Robot <abaci@linux.alibaba.com>
-References: <20250725075722.1974953-1-jiapeng.chong@linux.alibaba.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250725075722.1974953-1-jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,openanolis.cn:url,suse.de:mid,suse.de:dkim,suse.de:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 9E0F421972
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Fri, 25 Jul 2025 16:15:41 +0800
+X-Gm-Features: Ac12FXxf9IU7n-l6S8CQ_-HjwzVox6ARXZBtrTj6p_z9U4MIpHFKCzaXAcSPc1Y
+Message-ID: <CAHj4cs9Umx=Qz-=Hmwp1foi4=bi4xV7RhKUndpcW=EMAzsQEUw@mail.gmail.com>
+Subject: [bug report] blktests nvme/062 triggered possible circular locking at
+ at: __kmalloc_cache_noprof+0x5e/0x4d0 and do_tcp_setsockopt+0x3d5/0x1ef0
+To: linux-block <linux-block@vger.kernel.org>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Hannes Reinecke <hare@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 9oR8v1b7fjlk2GenG7ih0lXyZ7eiUm06jvosb0aabF8_1753431357
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250725_010156_189760_DD6581C8 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20250725_011602_097996_7D97FB94 
+X-CRM114-Status: UNSURE (   8.48  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,50 +100,278 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/25/25 09:57, Jiapeng Chong wrote:
-> No functional modification involved.
-> 
-> ./drivers/nvme/host/auth.c:745:2-3: Unneeded semicolon.
-> ./drivers/nvme/host/auth.c:755:2-3: Unneeded semicolon.
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=22937
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->   drivers/nvme/host/auth.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-> index f6ddbe553289..201fc8809a62 100644
-> --- a/drivers/nvme/host/auth.c
-> +++ b/drivers/nvme/host/auth.c
-> @@ -742,7 +742,7 @@ static int nvme_auth_secure_concat(struct nvme_ctrl *ctrl,
->   			 "%s: qid %d failed to generate digest, error %d\n",
->   			 __func__, chap->qid, ret);
->   		goto out_free_psk;
-> -	};
-> +	}
->   	dev_dbg(ctrl->device, "%s: generated digest %s\n",
->   		 __func__, digest);
->   	ret = nvme_auth_derive_tls_psk(chap->hash_id, psk, psk_len,
-> @@ -752,7 +752,7 @@ static int nvme_auth_secure_concat(struct nvme_ctrl *ctrl,
->   			 "%s: qid %d failed to derive TLS psk, error %d\n",
->   			 __func__, chap->qid, ret);
->   		goto out_free_digest;
-> -	};
-> +	}
->   
->   	tls_key = nvme_tls_psk_refresh(ctrl->opts->keyring,
->   				       ctrl->opts->host->nqn,
+Hi
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+The following issue was triggered by blktests nvme/tcp nvme/062,
+please help check it and let me know if you need any info/testing for
+it, thanks.
 
-Cheers,
+nvme_trtype=tcp ./check nvme/062
+nvme/062 (tr=tcp) (Create TLS-encrypted connections)         [failed]
+    runtime  12.555s  ...  12.458s
+    something found in dmesg:
+    [ 1929.587774] run blktests nvme/062 at 2025-07-25 03:55:33
+    [ 1930.595625] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+    [ 1930.731983] nvmet: Allow non-TLS connections while TLS1.3 is enabled
+    [ 1930.788815] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+    [ 1931.204968] nvmet: Created nvm controller 1 for subsystem
+blktests-subsystem-1 for NQN
+nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+    [ 1931.251769] nvme nvme0: creating 48 I/O queues.
+    [ 1931.395504] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+    [ 1931.602875] nvme nvme0: new ctrl: NQN "blktests-subsystem-1",
+addr 127.0.0.1:4420, hostnqn:
+nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+    [ 1932.393251] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
 
-Hannes
+    ...
+    (See '/root/blktests/results/nodev_tr_tcp/nvme/062.dmesg' for the
+entire message)
+[ 1929.587774] run blktests nvme/062 at 2025-07-25 03:55:33
+[ 1930.595625] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[ 1930.731983] nvmet: Allow non-TLS connections while TLS1.3 is enabled
+[ 1930.788815] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+[ 1931.204968] nvmet: Created nvm controller 1 for subsystem
+blktests-subsystem-1 for NQN
+nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+[ 1931.251769] nvme nvme0: creating 48 I/O queues.
+[ 1931.395504] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+[ 1931.602875] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+127.0.0.1:4420, hostnqn:
+nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+[ 1932.393251] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+
+[ 1933.232619] ======================================================
+[ 1933.238806] WARNING: possible circular locking dependency detected
+[ 1933.244990] 6.16.0-rc7+ #1 Not tainted
+[ 1933.248743] ------------------------------------------------------
+[ 1933.254923] tlshd/2605 is trying to acquire lock:
+[ 1933.259629] ffffffff9ae53a00 (fs_reclaim){+.+.}-{0:0}, at:
+__kmalloc_cache_noprof+0x5e/0x4d0
+[ 1933.268078]
+               but task is already holding lock:
+[ 1933.273921] ffff88820fb48278 (sk_lock-AF_INET-NVME){+.+.}-{0:0},
+at: do_tcp_setsockopt+0x3d5/0x1ef0
+[ 1933.282983]
+               which lock already depends on the new lock.
+
+[ 1933.291156]
+               the existing dependency chain (in reverse order) is:
+[ 1933.298632]
+               -> #4 (sk_lock-AF_INET-NVME){+.+.}-{0:0}:
+[ 1933.305166]        __lock_acquire+0x56a/0xbe0
+[ 1933.309526]        lock_acquire.part.0+0xc8/0x270
+[ 1933.314231]        lock_sock_nested+0x36/0xf0
+[ 1933.318590]        tcp_sendmsg+0x20/0x50
+[ 1933.322517]        sock_sendmsg+0x2f3/0x410
+[ 1933.326701]        nvme_tcp_try_send_cmd_pdu+0x57f/0xbc0 [nvme_tcp]
+[ 1933.332976]        nvme_tcp_try_send+0x1b3/0x9c0 [nvme_tcp]
+[ 1933.338556]        nvme_tcp_queue_rq+0x43d/0x6c0 [nvme_tcp]
+[ 1933.344138]        blk_mq_dispatch_rq_list+0x382/0x1480
+[ 1933.349365]        __blk_mq_sched_dispatch_requests+0x1a8/0x4a0
+[ 1933.355292]        blk_mq_sched_dispatch_requests+0xac/0x150
+[ 1933.360950]        blk_mq_run_work_fn+0x12b/0x2c0
+[ 1933.365655]        process_one_work+0x87a/0x14d0
+[ 1933.370274]        worker_thread+0x5f2/0xfd0
+[ 1933.374546]        kthread+0x3b0/0x770
+[ 1933.378299]        ret_from_fork+0x3ef/0x510
+[ 1933.382572]        ret_from_fork_asm+0x1a/0x30
+[ 1933.387018]
+               -> #3 (set->srcu){.+.+}-{0:0}:
+[ 1933.392599]        __lock_acquire+0x56a/0xbe0
+[ 1933.396957]        lock_sync.part.0+0x72/0xe0
+[ 1933.401316]        __synchronize_srcu+0x98/0x2b0
+[ 1933.405936]        elevator_switch+0x2a4/0x630
+[ 1933.410389]        elevator_change+0x209/0x380
+[ 1933.414834]        elevator_set_none+0x85/0xc0
+[ 1933.419280]        blk_unregister_queue+0x142/0x2c0
+[ 1933.424160]        __del_gendisk+0x263/0xa20
+[ 1933.428432]        del_gendisk+0x106/0x190
+[ 1933.432532]        nvme_ns_remove+0x32a/0x900 [nvme_core]
+[ 1933.437955]        nvme_remove_namespaces+0x267/0x3b0 [nvme_core]
+[ 1933.444074]        nvme_do_delete_ctrl+0xf5/0x160 [nvme_core]
+[ 1933.449846]        nvme_delete_ctrl_sync.cold+0x8/0xd [nvme_core]
+[ 1933.455964]        nvme_sysfs_delete+0x9a/0xc0 [nvme_core]
+[ 1933.461474]        kernfs_fop_write_iter+0x39b/0x5a0
+[ 1933.466439]        vfs_write+0x524/0xe70
+[ 1933.470367]        ksys_write+0xff/0x200
+[ 1933.474293]        do_syscall_64+0x98/0x3c0
+[ 1933.478485]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[ 1933.484058]
+               -> #2 (&q->elevator_lock){+.+.}-{4:4}:
+[ 1933.490333]        __lock_acquire+0x56a/0xbe0
+[ 1933.494693]        lock_acquire.part.0+0xc8/0x270
+[ 1933.499397]        __mutex_lock+0x1b2/0x1b70
+[ 1933.503669]        elevator_change+0xb6/0x380
+[ 1933.508030]        elv_iosched_store+0x24a/0x2c0
+[ 1933.512646]        queue_attr_store+0x238/0x340
+[ 1933.517179]        kernfs_fop_write_iter+0x39b/0x5a0
+[ 1933.522145]        vfs_write+0x524/0xe70
+[ 1933.526071]        ksys_write+0xff/0x200
+[ 1933.529996]        do_syscall_64+0x98/0x3c0
+[ 1933.534183]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[ 1933.539755]
+               -> #1 (&q->q_usage_counter(io)){++++}-{0:0}:
+[ 1933.546547]        __lock_acquire+0x56a/0xbe0
+[ 1933.550906]        lock_acquire.part.0+0xc8/0x270
+[ 1933.555613]        blk_alloc_queue+0x5cd/0x720
+[ 1933.560058]        blk_mq_alloc_queue+0x14d/0x260
+[ 1933.564765]        scsi_alloc_sdev+0x862/0xc90
+[ 1933.569219]        scsi_probe_and_add_lun+0x4be/0xc10
+[ 1933.574270]        __scsi_scan_target+0x18b/0x3b0
+[ 1933.578976]        scsi_scan_channel+0xee/0x180
+[ 1933.583508]        scsi_scan_host_selected+0x1fd/0x2c0
+[ 1933.588649]        do_scan_async+0x42/0x450
+[ 1933.592841]        async_run_entry_fn+0x94/0x540
+[ 1933.597461]        process_one_work+0x87a/0x14d0
+[ 1933.602080]        worker_thread+0x5f2/0xfd0
+[ 1933.606352]        kthread+0x3b0/0x770
+[ 1933.610103]        ret_from_fork+0x3ef/0x510
+[ 1933.614375]        ret_from_fork_asm+0x1a/0x30
+[ 1933.618822]
+               -> #0 (fs_reclaim){+.+.}-{0:0}:
+[ 1933.624489]        check_prev_add+0xe1/0xcf0
+[ 1933.628763]        validate_chain+0x4cf/0x740
+[ 1933.633121]        __lock_acquire+0x56a/0xbe0
+[ 1933.637481]        lock_acquire.part.0+0xc8/0x270
+[ 1933.642187]        fs_reclaim_acquire+0xd9/0x130
+[ 1933.646814]        __kmalloc_cache_noprof+0x5e/0x4d0
+[ 1933.651779]        __request_module+0x246/0x5d0
+[ 1933.656310]        __tcp_ulp_find_autoload+0x1ce/0x310
+[ 1933.661450]        tcp_set_ulp+0x38/0x2a0
+[ 1933.665464]        do_tcp_setsockopt+0x3e5/0x1ef0
+[ 1933.670169]        do_sock_setsockopt+0x157/0x380
+[ 1933.674873]        __sys_setsockopt+0xe5/0x160
+[ 1933.679321]        __x64_sys_setsockopt+0xbd/0x190
+[ 1933.684112]        do_syscall_64+0x98/0x3c0
+[ 1933.688297]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[ 1933.693870]
+               other info that might help us debug this:
+
+[ 1933.701868] Chain exists of:
+                 fs_reclaim --> set->srcu --> sk_lock-AF_INET-NVME
+
+[ 1933.712127]  Possible unsafe locking scenario:
+
+[ 1933.718048]        CPU0                    CPU1
+[ 1933.722579]        ----                    ----
+[ 1933.727112]   lock(sk_lock-AF_INET-NVME);
+[ 1933.731123]                                lock(set->srcu);
+[ 1933.736696]                                lock(sk_lock-AF_INET-NVME);
+[ 1933.743223]   lock(fs_reclaim);
+[ 1933.746367]
+                *** DEADLOCK ***
+
+[ 1933.752287] 1 lock held by tlshd/2605:
+[ 1933.756038]  #0: ffff88820fb48278
+(sk_lock-AF_INET-NVME){+.+.}-{0:0}, at: do_tcp_setsockopt+0x3d5/0x1ef0
+[ 1933.765519]
+               stack backtrace:
+[ 1933.769881] CPU: 32 UID: 0 PID: 2605 Comm: tlshd Not tainted
+6.16.0-rc7+ #1 PREEMPT(lazy)
+[ 1933.769887] Hardware name: Dell Inc. PowerEdge R640/08HT8T, BIOS
+2.22.2 09/12/2024
+[ 1933.769889] Call Trace:
+[ 1933.769892]  <TASK>
+[ 1933.769895]  dump_stack_lvl+0x84/0xd0
+[ 1933.769903]  print_circular_bug.cold+0x38/0x46
+[ 1933.769910]  check_noncircular+0x14a/0x170
+[ 1933.769919]  check_prev_add+0xe1/0xcf0
+[ 1933.769926]  validate_chain+0x4cf/0x740
+[ 1933.769934]  __lock_acquire+0x56a/0xbe0
+[ 1933.769940]  lock_acquire.part.0+0xc8/0x270
+[ 1933.769944]  ? __kmalloc_cache_noprof+0x5e/0x4d0
+[ 1933.769950]  ? rcu_is_watching+0x15/0xe0
+[ 1933.769955]  ? __kmalloc_cache_noprof+0x5e/0x4d0
+[ 1933.769958]  ? lock_acquire+0xf7/0x140
+[ 1933.769963]  fs_reclaim_acquire+0xd9/0x130
+[ 1933.769967]  ? __kmalloc_cache_noprof+0x5e/0x4d0
+[ 1933.769971]  __kmalloc_cache_noprof+0x5e/0x4d0
+[ 1933.769975]  ? mark_held_locks+0x40/0x70
+[ 1933.769978]  ? __request_module+0x246/0x5d0
+[ 1933.769983]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
+[ 1933.769986]  ? trace_hardirqs_on+0x18/0x150
+[ 1933.769994]  ? __request_module+0x246/0x5d0
+[ 1933.769998]  __request_module+0x246/0x5d0
+[ 1933.770003]  ? __pfx___request_module+0x10/0x10
+[ 1933.770015]  ? __lock_release.isra.0+0x1cb/0x340
+[ 1933.770020]  ? __tcp_ulp_find_autoload+0x1ad/0x310
+[ 1933.770025]  __tcp_ulp_find_autoload+0x1ce/0x310
+[ 1933.770030]  tcp_set_ulp+0x38/0x2a0
+[ 1933.770034]  ? __local_bh_enable_ip+0xaf/0x170
+[ 1933.770039]  do_tcp_setsockopt+0x3e5/0x1ef0
+[ 1933.770044]  ? __pfx_do_tcp_setsockopt+0x10/0x10
+[ 1933.770048]  ? page_table_check_set+0x272/0x520
+[ 1933.770055]  ? __page_table_check_ptes_set+0x202/0x3b0
+[ 1933.770060]  ? __pfx_selinux_netlbl_socket_setsockopt+0x10/0x10
+[ 1933.770068]  ? find_held_lock+0x2b/0x80
+[ 1933.770076]  do_sock_setsockopt+0x157/0x380
+[ 1933.770081]  ? __pfx_do_sock_setsockopt+0x10/0x10
+[ 1933.770084]  ? filemap_map_pages+0x5e7/0xe50
+[ 1933.770096]  __sys_setsockopt+0xe5/0x160
+[ 1933.770103]  __x64_sys_setsockopt+0xbd/0x190
+[ 1933.770107]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
+[ 1933.770110]  ? lockdep_hardirqs_on+0x8c/0x130
+[ 1933.770115]  ? do_syscall_64+0x5c/0x3c0
+[ 1933.770119]  do_syscall_64+0x98/0x3c0
+[ 1933.770122]  ? rcu_is_watching+0x15/0xe0
+[ 1933.770128]  ? rcu_read_unlock+0x17/0x60
+[ 1933.770134]  ? rcu_read_unlock+0x1c/0x60
+[ 1933.770137]  ? do_read_fault+0x2f0/0x8d0
+[ 1933.770143]  ? __lock_release.isra.0+0x1cb/0x340
+[ 1933.770148]  ? do_fault+0x441/0x810
+[ 1933.770154]  ? handle_pte_fault+0x43e/0x740
+[ 1933.770157]  ? __lock_acquire+0x56a/0xbe0
+[ 1933.770161]  ? __pfx_handle_pte_fault+0x10/0x10
+[ 1933.770166]  ? __pfx_pmd_val+0x10/0x10
+[ 1933.770173]  ? __handle_mm_fault+0xa85/0xfc0
+[ 1933.770178]  ? __lock_acquire+0x56a/0xbe0
+[ 1933.770185]  ? find_held_lock+0x2b/0x80
+[ 1933.770189]  ? __lock_release.isra.0+0x1cb/0x340
+[ 1933.770193]  ? count_memcg_events+0x2d2/0x4d0
+[ 1933.770200]  ? __lock_release.isra.0+0x1cb/0x340
+[ 1933.770206]  ? do_user_addr_fault+0x4b1/0xa60
+[ 1933.770216]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[ 1933.770220] RIP: 0033:0x7efdbf3ad2ae
+[ 1933.770224] Code: 55 48 63 c9 48 63 ff 45 89 c9 48 89 e5 48 83 ec
+08 6a 2c e8 34 83 f7 ff c9 c3 66 90 f3 0f 1e fa 49 89 ca b8 36 00 00
+00 0f 05 <48> 3d 00 f0 ff ff 77 0a c3 66 0f 1f 84 00 00 00 00 00 48 8b
+15 19
+[ 1933.770228] RSP: 002b:00007ffc484274c8 EFLAGS: 00000202 ORIG_RAX:
+0000000000000036
+[ 1933.770232] RAX: ffffffffffffffda RBX: 000055bbbe68bd30 RCX: 00007efdbf3ad2ae
+[ 1933.770235] RDX: 000000000000001f RSI: 0000000000000006 RDI: 0000000000000005
+[ 1933.770237] RBP: 00007ffc48427520 R08: 0000000000000004 R09: 0000000000000070
+[ 1933.770239] R10: 000055bb84d6fd94 R11: 0000000000000202 R12: 000055bbbe699c50
+[ 1933.770242] R13: 00007ffc484274e4 R14: 00007ffc48427570 R15: 00007ffc48427570
+[ 1933.770251]  </TASK>
+[ 1934.154700] nvmet: Created nvm controller 1 for subsystem
+blktests-subsystem-1 for NQN
+nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349,
+TLS.
+[ 1934.188204] nvme nvme0: creating 48 I/O queues.
+[ 1935.858783] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+[ 1936.037048] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+127.0.0.1:4420, hostnqn:
+nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+[ 1936.466806] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+[ 1937.085812] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[ 1937.177592] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+[ 1937.425838] nvme_tcp: queue 0: failed to receive icresp, error -104
+[ 1939.615899] nvmet: Created nvm controller 1 for subsystem
+blktests-subsystem-1 for NQN
+nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349,
+TLS.
+[ 1939.650045] nvme nvme0: creating 48 I/O queues.
+[ 1940.929671] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+[ 1941.099232] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+127.0.0.1:4420, hostnqn:
+nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+[ 1941.531299] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Best Regards,
+  Yi Zhang
+
 
