@@ -4,78 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D71DCC87FCE
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Jul 2025 18:09:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08870C87FCE
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Jul 2025 20:50:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3uXVocTqqOIxcX2TstdWb1IY3XpZaMgOBVLCmLShBq8=; b=x/3WbDv3XBBbWe4kpetqLVLYMI
-	1+oRJnqQtNYhmd0M0pNP+SODQM8h7wtOh/XwvubRenq64HKO4a7gQC382su67K7mWPoViwu4dZ3TK
-	NehhaY1tWs71dEZLdZ52ZfRgSWdUk5pcxPOupUckfzn88qMmnbwu8R6DMQx682h20hNUrTOjSoWun
-	YzF8qFbi3YXphyCDTBJnC1FppP17tX7dlvmcL4UhviG6NoM8Ks/Zh65lkVFdwKCwjvHCstpKHWNFE
-	/yRVO1tfPBOtX9rteAojZLYtBpCtjf9Z/aH+/cEj4SkYsO7/7zDBOk2CCIhE5OtEAHMJ9j57XlVKz
-	oFoSqwPA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+7CxWng/6yV3C/vih/JoVMAM53+8hoZqlb7N702ZCEM=; b=2KK7sZ23jyPujrwTtheRxIvL4s
+	JsONDHF8f7AbpRS1JXo6ee2771ISJ65MarWmhz6CWcmdlQb397q994RTfa+7Wzip5xL/v7SZVbZqd
+	SUXah4LdCp7u5O5Zic4Rlz85DG5SgQvl44xdpVJVrLkGAHubHTrQW7i9CMhFJZMFMEsDVIq93fQtn
+	ARAFbZxysUTyWzMxCs241qdJSws/mlluRbn4QJr04IrzsSZPuFLGOw89WzcENNFlt2Y49ipCK924x
+	61v/Gykra6VS6gbnGi4EEshtcTZ5C1ZMsC9F6MOwqREIPoi40nUFjaAiPibvo68B0iKrSV5nsi+Sm
+	FszAr6Kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufMqz-0000000AOug-15YZ;
-	Fri, 25 Jul 2025 18:09:09 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1ufPNJ-0000000AgVo-0erR;
+	Fri, 25 Jul 2025 20:50:41 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufMqx-0000000AOuI-0TCY
+	id 1ufPNG-0000000AgVS-1mPZ
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Jul 2025 18:09:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753466944;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3uXVocTqqOIxcX2TstdWb1IY3XpZaMgOBVLCmLShBq8=;
-	b=P3iVMukp6V4RtVvq9otWGkbl7l/F5Bj67+aANjafEfYpBRk8mRj9UoOFFJzQy7VXJ+p+38
-	iYPVi1KRC1kmecvnqIbHY9F2MIULbuAPs4q1q+XanvnxN9YfEV961n0WoUbmkoz76rU9U7
-	p0XwJ8IUc3nen46bD8qliRiSGQvTupo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-272-LOwggCeNPEerEcTZP5u_mw-1; Fri,
- 25 Jul 2025 14:09:01 -0400
-X-MC-Unique: LOwggCeNPEerEcTZP5u_mw-1
-X-Mimecast-MFC-AGG-ID: LOwggCeNPEerEcTZP5u_mw_1753466940
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0F48919560B6;
-	Fri, 25 Jul 2025 18:09:00 +0000 (UTC)
-Received: from cleech-thinkpadt14sgen2i.rmtusor.csb (unknown [10.2.16.27])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 734C119560AA;
-	Fri, 25 Jul 2025 18:08:58 +0000 (UTC)
-Date: Fri, 25 Jul 2025 11:08:55 -0700
-From: Chris Leech <cleech@redhat.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>,
-	Prashanth Nayak <prashanth.nayak@netapp.com>,
-	John Meneghini <jmeneghi@redhat.com>
-Subject: Re: [PATCH 1/1] libnvme: TLS PSK derivation fixes
-Message-ID: <aIPINwQZNxk_7FZs@cleech-thinkpadt14sgen2i.rmtusor.csb>
-References: <20250721021718.1159879-1-cleech@redhat.com>
- <20250721021718.1159879-2-cleech@redhat.com>
- <d8f4ed91-3fcb-45b9-b4d6-900382eb4ae7@suse.de>
- <aH5dbhXOS8h9gxzX@cleech-thinkpadt14sgen2i.rmtusor.csb>
- <3c3c3194-7275-4a77-9397-4c159458f2c5@suse.de>
+	Fri, 25 Jul 2025 20:50:39 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-236377f00a1so23761585ad.3
+        for <linux-nvme@lists.infradead.org>; Fri, 25 Jul 2025 13:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1753476637; x=1754081437; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+7CxWng/6yV3C/vih/JoVMAM53+8hoZqlb7N702ZCEM=;
+        b=c1FNXyY9KhT9YTGJRgiON8U8zQhzamNuIqWHpsYKIAs425D05IMB75433uVQOX5BEG
+         9PyXas05lNTd+adFcmSBPweN8gBujpOFtzQ9RlpSPneFgGlrga+wjNSvhTuUPJo7AqU9
+         kwZkHEGjFllQMhw7/CNST8mPr8+ozJu1sRC4Ow/GleYUets70u09fyp2FR9LqCvNkUdB
+         P0sx25Y3pQfEEzha8wFzJzRwcRAw6PcNqZZJuC340T6dIVQ2UKvUNjIupgB1LV2Jp/40
+         9+PzqJMZPHxQ1PfXnbpCbEXnUfxCSRZUv+SAlYq2+kTKg8CBX6UoQQt/C5MPWvFlAwUL
+         ZAZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753476637; x=1754081437;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+7CxWng/6yV3C/vih/JoVMAM53+8hoZqlb7N702ZCEM=;
+        b=ep3CMD8gsJVEFI1PZPLkgNsYLF7OXWRSln02JrBNZIYADopN12163BXqyRfTGl3EEN
+         QhYS3LyGzcgwweCIVUBiuALVYvmHQTUECODFZG091zG8dyrMNpNztxTWbiom8Gljat0+
+         ZaiQNW0YsLMOowFTrw0PhIyLJuYWrFReHyLuF0tnDRxkpNzpAvvi1nKoIu5E4xUxo/3h
+         FO3N3yRATtEMSuxZN0yswa0stCZSb3whCruf10/df7k52yckD167B2QN3lN5sdIaARp+
+         U4iOwJpoGiEus+WV+qBMu9V1+CFtNMJHbQl9QUUJVs04XQuv0qNNoDi3ezPz8ob8UiVE
+         U6Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCWWLneZyXwxlvqriBXT6kxurbXr+8ayFiH6gctDq02HH79JTfEi6OAVyRw9mYSFgL1PCrugtKD4g0Ub@lists.infradead.org
+X-Gm-Message-State: AOJu0YzkVhR+YlIVAmdVlNFrJhgCKjGUBGmQ3tFU0KoltUK2xKKAeMFA
+	BJXqXD0w7Dbo5UquoLGZRNM/G/rVhhjX/mDJD6RxubtmLDJKZMxs8a5XgYw7C/SfZ2E=
+X-Gm-Gg: ASbGnctHTQyzeXVso33FfiFhaM533Y1KVkj3bbl7V50ejWj0u9S9tdHSkrTzEqSMZNM
+	UnRw2Z10RsSfrxfnhSOJzKHxiVpezpKXMk5N23d/SCYNTWM5g0NeQlxPcqzHUzLJFPCC5iU6Q9B
+	XystMTzkVtyB4OgYbtkVvgD2nbytlQn8UCgUI3U+h2DUYvOAN3gbkZuCb0P6ljb20o4ftcyXeeQ
+	+9tkk7/JzSnT3sDrIf2mwuUwEVM1VzlTJUId8fVPHZZccO24kFhvG2dZ/4rQGpBVnjZRwO9bIip
+	wa65QWvZvzbJatN0asvRvTaTVpoDSeSeRxosR74/t5JQvVm6F/0j/EUVTxYMbK+1hh01M1YCwbf
+	gUSHidv4QduyaqRLq8AvmpvVxa0nOyKJ7915seFjcyK0jtg==
+X-Google-Smtp-Source: AGHT+IEDQ87H8ajZgmrcoy7AQkaFkGRZDiUZ3CUFGkJjETMa1Gw2W0pltyotcDJxADSW+OypslSKeg==
+X-Received: by 2002:a17:903:2345:b0:235:e1d6:4e22 with SMTP id d9443c01a7336-23fb3040f6cmr42762535ad.18.1753476637079;
+        Fri, 25 Jul 2025 13:50:37 -0700 (PDT)
+Received: from apollo.purestorage.com ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-23fbe5656adsm3725935ad.188.2025.07.25.13.50.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jul 2025 13:50:36 -0700 (PDT)
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>
+Cc: Mohamed Khalfella <mkhalfella@purestorage.com>,
+	Hannes Reinecke <hare@kernel.org>,
+	Daniel Wagner <dwagner@suse.de>,
+	Randy Jennings <randyj@purestorage.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvmet: Initialize discovery subsys after debugfs is initialized
+Date: Fri, 25 Jul 2025 13:50:05 -0700
+Message-ID: <20250725205005.1983426-1-mkhalfella@purestorage.com>
+X-Mailer: git-send-email 2.49.1
 MIME-Version: 1.0
-In-Reply-To: <3c3c3194-7275-4a77-9397-4c159458f2c5@suse.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hVLBaZneu4N4SFO8znLv3tj9zXmREv9MPnKOsirqkoo_1753466940
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250725_110907_222445_A6F28D44 
-X-CRM114-Status: GOOD (  22.67  )
+X-CRM114-CacheID: sfid-20250725_135038_600659_4E215D9C 
+X-CRM114-Status: GOOD (  12.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,48 +102,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 25, 2025 at 11:36:20AM +0200, Hannes Reinecke wrote:
-> On 7/21/25 17:31, Chris Leech wrote:
-> > On Mon, Jul 21, 2025 at 08:36:01AM +0200, Hannes Reinecke wrote:
-> > > On 7/21/25 04:17, Chris Leech wrote:
-> > > > There are issues with the Retained and TLS PSK derivations due to the
-> > > > implementation not adhering to the RFC 8446 definition of the
-> > > > HKDF-Expand-Label function.
-> > > > ...
-> > > Hmm. I _thought_ we had it all fixed...
-> > 
-> > I went into this expecting/hoping to find the problem on the spdk side,
-> > and I'd be happy to wrong here (especially if backed up by another
-> > interoperable implementor).
-> > 
-> > The lack of a full example in the nvme/tcp transport spec to verify
-> > implemenatations against is kind of a bummer.
-> > 
-> Okay, seems that you have been right after all.
-> I've re-read RFC 8466 and indeed you seem to be right about
-> the encoding of variable length vectors (cf RFC 8446 section 3.4).
-> 
-> So I guess we need to take this patch after all.
+During nvme target initialization discovery subsystem is initialized
+before "nvmet" debugfs directory is created. This results in discovery
+subsystem debugfs directory to be created in debugfs root directory.
 
-So we're back to agreeing on the correctness of the changes?
-Honestly, I appreciate the scrutiny.
+nvmet_init() ->
+  nvmet_init_discovery() ->
+    nvmet_subsys_alloc() ->
+      nvmet_debugfs_subsys_setup()
+
+In other words, the codepath above is exeucted before nvmet_debugfs is
+created. We get /sys/kernel/debug/nqn.2014-08.org.nvmexpress.discovery
+instead of /sys/kernel/debug/nvmet/nqn.2014-08.org.nvmexpress.discovery.
+Move nvmet_init_discovery() call after nvmet_init_debugfs() to fix it.
+
+Fixes: 649fd41420a8 ("nvmet: add debugfs support")
+Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+---
+ drivers/nvme/target/core.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 175c5b6d4dd5..b6247e4afc9c 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1962,24 +1962,24 @@ static int __init nvmet_init(void)
+ 	if (!nvmet_wq)
+ 		goto out_free_buffered_work_queue;
  
-> _However_: PSKs generated with after applying this patch will be
-> different than those prior to this patch.
-> Consequently there will be interop issues with existing implementations
-> (which will use the original encoding).
-> 
-> I guess we would need to wait for the target implementations to be fixed
-> or introduce a flag switching to the old / compat implementation to avoid
-> interop issues.
-
-Yes, it is a breaking change for compatibility with other out-of-spec
-implementations.  I'm hesitant to carry a flag for that, but it wouldn't
-be too much trouble to implement.
-
-Just don't touch your keyfile?  The tls-key import/export commands are
-operating on the final derived TLS PSKs right?
-
-- Chris
+-	error = nvmet_init_discovery();
++	error = nvmet_init_debugfs();
+ 	if (error)
+ 		goto out_free_nvmet_work_queue;
+ 
+-	error = nvmet_init_debugfs();
++	error = nvmet_init_discovery();
+ 	if (error)
+-		goto out_exit_discovery;
++		goto out_exit_debugfs;
+ 
+ 	error = nvmet_init_configfs();
+ 	if (error)
+-		goto out_exit_debugfs;
++		goto out_exit_discovery;
+ 
+ 	return 0;
+ 
+-out_exit_debugfs:
+-	nvmet_exit_debugfs();
+ out_exit_discovery:
+ 	nvmet_exit_discovery();
++out_exit_debugfs:
++	nvmet_exit_debugfs();
+ out_free_nvmet_work_queue:
+ 	destroy_workqueue(nvmet_wq);
+ out_free_buffered_work_queue:
+-- 
+2.49.1
 
 
