@@ -4,74 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B31FDC87FD2
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Jul 2025 18:36:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0D52C83F26
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Jul 2025 02:00:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+OtN7kun+/v8bL+X/qBJAQbJt6E5IsBweEEjq/w2Oe8=; b=mc9fZiQnNmmdCj45NXCfnGnBC7
-	IEbonLS9Q9dLXMeJqlNpFmeZWQyAKkZrITGQi7Kn7GUPY55yEq85ev/fG0w4ul5JVOWe/bWjLSeCT
-	/PLLs4dF6s8+yV1YsNepQ/YQLC1UZlkB4Wrrsvd575DOZinGUpWRfCq0KHsimsa6yTU9IS5oIlh1b
-	6xxYAga3GR+fj7VNrLUWJm0+bbjQTGZekro9o+r2zEBks5hOwzymKRvqNnsO89PEzR2WJgIlQMBlQ
-	6lHP1xo0Y6F4lhG5Bys5y0Nu0atw3gyseP0vC/jFRZ/vYgIbmIQliLBVBtyzUMeO6XSieOYk1hWPK
-	xgZALILA==;
+	bh=zVvfWV5xBTWUvWPUT+1g04ilqXeQlsqxXaj7jUtWr24=; b=R7uJBVA8QANDVrmuUwijgp4C8Z
+	eOy37B3Y35fh7+jEW72WDqZwUWrwGOPJUmiZC7qhN7JfAqlK+L0aZVde1XvtJQSTgsG++ssTeNWxs
+	T53ZqBLjlDXDCmHA8kzaqGDqz9rxIoR9YWjsxZ43Zm9sremzwVaEZcnisn8GDrvzsykPjpC6B6Um6
+	qe9QaxkBYQGCDt/70Sq5DZXQ9mq5Xl94eDG+LFN+KnfccsIOBYTZOlhCvNs/K6UOY5u2a91hvdFsi
+	pHa2nr/+8sN0K8efQrHw/CsnJxwG1ycfKxMJ/+qQKV0k4BvkV2oeyOzRj2wRZojm+CCNSURpzLgJZ
+	zIjF64ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uf0oF-00000008E3O-2g55;
-	Thu, 24 Jul 2025 18:36:51 +0000
-Received: from 003.mia.mailroute.net ([199.89.3.6])
+	id 1uf7jQ-00000008reK-43vz;
+	Fri, 25 Jul 2025 02:00:20 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ueyTs-00000007xan-2HEr
+	id 1uf7h1-00000008rD3-2ckO
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Jul 2025 16:07:41 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 003.mia.mailroute.net (Postfix) with ESMTP id 4bnwrV2qCBzlfdh7;
-	Thu, 24 Jul 2025 16:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1753373256; x=1755965257; bh=+OtN7kun+/v8bL+X/qBJAQbJ
-	t6E5IsBweEEjq/w2Oe8=; b=Rm6elYeiBKN1FpRIaH0OA5AOMQIOPaobQ2z+D00T
-	WmInGS3THNeEIeASaggWC81hVJgIs2Zo4+HTU4OjIjKo6B2ifbVSqAdkHdjAgOLs
-	vKOxtwsjxaGMdPTjgWCgwMLKQyESEvmBaMJhqM4JqNCCDZ9qk+72Ny22LHhFlTWx
-	VQY1ZQ5bFQ1+UJn2UyYsLaf+goHCwQ1WRtiBqJPSSfKdJ2/aWhVE3bwofdGIJd2W
-	VeBsUaO3ytms8gcnP9juQWI1BDtuPJgA0FP7gHSYyuPCeuthG6upQPTjYx83NeJy
-	IFBpgcDKyZWCRPAUYRdOuF7WGJgR2J+tNU/oOcD3s55fvQ==
-X-Virus-Scanned: by MailRoute
-Received: from 003.mia.mailroute.net ([127.0.0.1])
- by localhost (003.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id BQDbTJaqtjWL; Thu, 24 Jul 2025 16:07:36 +0000 (UTC)
-Received: from [100.66.154.22] (unknown [104.135.204.82])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 003.mia.mailroute.net (Postfix) with ESMTPSA id 4bnwrM51CwzlgqVY;
-	Thu, 24 Jul 2025 16:07:30 +0000 (UTC)
-Message-ID: <58c289ef-770b-4524-b38d-ebdb51ccc8f4@acm.org>
-Date: Thu, 24 Jul 2025 09:07:29 -0700
+	Fri, 25 Jul 2025 01:57:52 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id E800B417E3;
+	Fri, 25 Jul 2025 01:57:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DD80C4CEED;
+	Fri, 25 Jul 2025 01:57:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753408670;
+	bh=OXEGSolN6hWAZmpwucLokUEPFVf6sVZ8bKkWun3/kJA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BWeou7zqPx6Z7PvCD94cqSc4ollYNooFEmkRIJ6t8rUqcaJzEQdvkNwAT5VsQbe7z
+	 1hIkg3pZoLUlgH8gJZPc6ziLZEl8+kPYT2IOAtPuU3EUaqGHlaOjuvf2vfaXzbKQ1x
+	 yBUbBYD0H6xqbjJYb0HJL4fDfhrYaxCe8ZBFurexpxh9wUtTz8WzAlmGTaaDMomWlW
+	 LnDoSm22OQGJqapg7R0NCVAofpYIF28SaA8ES1rzcRylg7eERIIr+zEZxvOv6kEPS0
+	 PVYDEYpUeQazs45YMmeHEzhhadAOpg1XOqiROQSgd8QBqnj7Si4UH7t5xB5RCX1UBu
+	 efNHJoYy+EQ7g==
+Message-ID: <1f447780-09a2-4f97-a17d-5489ebd4da5f@kernel.org>
+Date: Fri, 25 Jul 2025 10:57:47 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drivers/nvme/host/pci: Fix the asynchronous detection
  issue of nvme devices
-To: likunyu10 <likunyu10@163.com>, kbusch@kernel.org, axboe@kernel.dk,
- hch@lst.de, sagi@grimberg.me
+To: Bart Van Assche <bvanassche@acm.org>, likunyu10 <likunyu10@163.com>,
+ kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  likunyu15 <likunyu15@jd.com>
 References: <20250720185154.138391-1-likunyu10@163.com>
+ <58c289ef-770b-4524-b38d-ebdb51ccc8f4@acm.org>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20250720185154.138391-1-likunyu10@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <58c289ef-770b-4524-b38d-ebdb51ccc8f4@acm.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250724_090740_666976_308F0D82 
-X-CRM114-Status: UNSURE (   8.14  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250724_185751_690247_8FB4C8FF 
+X-CRM114-Status: GOOD (  10.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,16 +77,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/20/25 11:51 AM, likunyu10 wrote:
-> PROBE_PREFER_ASYNCHRONOUS asynchronous detection has a significant impact
-> on important devices. For example, if a server has two or more nvme disk
-> devices, it can cause disk loading disorder, which can also have a
-> certain impact on actual production environments.
+On 7/25/25 01:07, Bart Van Assche wrote:
+> On 7/20/25 11:51 AM, likunyu10 wrote:
+>> PROBE_PREFER_ASYNCHRONOUS asynchronous detection has a significant impact
+>> on important devices. For example, if a server has two or more nvme disk
+>> devices, it can cause disk loading disorder, which can also have a
+>> certain impact on actual production environments.
+> 
+> That's intentional. Please fix your user space code that uses hard-coded
+> NVMe block device names or introduce a mechanism in user space for block
+> devices that is similar to the predictable network interface names
+> mechanism. See also https://systemd.io/PREDICTABLE_INTERFACE_NAMES/.
 
-That's intentional. Please fix your user space code that uses hard-coded
-NVMe block device names or introduce a mechanism in user space for block
-devices that is similar to the predictable network interface names
-mechanism. See also https://systemd.io/PREDICTABLE_INTERFACE_NAMES/.
+Userspace can use /dev/disk/by-id or any of the other /dev/disk/by-* for
+reliable device names. Using directly /dev/sd* or /dev/nvme* is bad userspace
+practice.
 
-Bart.
+Even without asynchronous device scan, adding or removing a device to a system
+can change device file names. The symlinks in /dev/disk/by-id are stable and
+will exist as long as a device is present.
+
+
+-- 
+Damien Le Moal
+Western Digital Research
 
