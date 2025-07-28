@@ -4,173 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A734BC87FCF
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jul 2025 07:20:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C6A9C87FCF
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Jul 2025 07:30:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:To:
-	From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=snYfx2YPpL//eqMecfgssxJ3uTpwMk4VrblDHWVD0ME=; b=Tvkkt42lCf12K7bPWQABJj0FHB
-	dFydxiP4j5vgywPBs/JCPccqkdCxXTk+6OzFiLc1mIErBn1soeuhO2PsWgjAjlep+mA0ioYMDar2v
-	sXOdY3SY8H1uvY8VRiVIBvGpaZv9iiUtBqLqzT+YTXi42cUn6KQHZ3WWomAnNV61BHt5sGvDRdydZ
-	Xhp8dkoorA7a2mRbCEvip+e2TgLWEFK//x9z+6jHe4h1e+0pI2aF7WAmYXQYpIntOKVVtcq95vVDv
-	87vK09E+OqjzL/5+mrKpetFfdzx4k8LWgXh66+dmOgP33G6gBHjiD7vzN0rUR98pthZFhuAftw+zM
-	sqKJtAZg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UwbcK8h4ia/21i+CxKfkw0jTy/iZ/SKLDBy/roNwJsE=; b=wrEJ+5ELCyXUqgVV3cvUCoNnqp
+	cvXhFMEceYs0PLbMJTW/J1NCTEeY810AcYyjzPGDztEA63zyIGcb1gzMBwjgskoL/IUk2A0L3RA/I
+	iKwoE+EWrwIgxrxKj/9tMtBBW5KQs8OFbmwOP/P8pCDFkIiEV8Fgr3GoxqOEaPilQtBSB1xAph/Px
+	LLj5OA10FZnoyxDuLuCU1x3UfFZwOzt0Ybb1kGe2QKVqgkHknNMifNdCKyqtDWjBZl/cvB5RlUkH3
+	t9SlaNruD27zB+CRUo9TBHmTsBrmIqclBvoYZ8rNXoYARfiXgAmFBg5lQ3rnlFdnR0KktfFhJHo+p
+	C9jCNOAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugI9t-0000000Dqtl-02xx;
-	Mon, 28 Jul 2025 07:20:29 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1ugIJt-0000000Dru5-3Odb;
+	Mon, 28 Jul 2025 07:30:49 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugHQj-0000000Dlr5-103h
+	id 1ugI1z-0000000Dpgb-1KHV
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Jul 2025 06:33:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1753684428; x=1785220428;
-  h=from:to:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=NkjE21x7ecQ8P5sxVIZcAOWdovTwOQq/fmH/BsfJ4oU=;
-  b=in1rxC08aXfGWz5qAoFUok818GGtkHvm+WJEczNUhIOlqm7ZXLe0MKzH
-   daN95cEIfmpfdlOzrW2SRvJ3iOk8mbe3uVNp63RLKuaCd0GKZEn8VjgCW
-   1LqihMd3stJ8mMJOekKsPTkpkNtvstAV1tCAumSs7FX3ptrX+LJ5SjvOr
-   6Ot53ntif8toliypo73A6/uzn8LHQG6760WCt/ZVfQK0XmeDH0PqObINp
-   AjT8WA0kRUUzr3AVBrCB8xLeC4Xkbf3j+I5tDSEsOIpVGUQpQ2019kId+
-   1JKFGK/I49E2i1fPHBlw67RdwJE/6uB5Q5kfvzib31eZF+r5EpQ8od7cP
-   A==;
-X-CSE-ConnectionGUID: xw7GE4RBSEq21CBqzGZrSA==
-X-CSE-MsgGUID: dHPV0DIZSQqXj+7JtNVWnQ==
-X-IronPort-AV: E=Sophos;i="6.16,339,1744041600"; 
-   d="scan'208";a="105011632"
-Received: from mail-mw2nam10on2052.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) ([40.107.94.52])
-  by ob1.hgst.iphmx.com with ESMTP; 28 Jul 2025 14:33:46 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VZXuuEQxM2iGl+Bul5ZH7uaELR8qDlIvzFgSftSdldhZ5BW6L36DaEqmmjvloQyGvBKbylVQ1ussasRJRQhHEiSbCia/xjxKHXzF1NrNBRKYCq5thXx4Kie7swip3cNiMX2I3bGvBVJN/WGyKlrqZ4um2UWUezVSgpb1EzFHs7hLMi2uzaEfZrYuuKCO7nMMGwYwhW8dJ983jB7KhVXpp1/AKDPkZYemCpusvmk0G5Bm45PIm1eZ2Lj9m1hKuveJmtxOaN03VpaqHjgFnhS9s65f5IbEpk5nMURSWJH9K42EAJX2WVOKzmQ9s6QYcDB4aRfPn6KRTKy4umX7SmID7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=snYfx2YPpL//eqMecfgssxJ3uTpwMk4VrblDHWVD0ME=;
- b=fXZ9VMuHnjMLT/FjtJ3K6q2qhY8gUzgd4nDq273EN/mN86WU+DQrUPJE/rNf3HBrYYc6tvvxgT7PF9W/k6px1V+D4G/l/kUuDJyEQZcp0Mt0g+mqEIbbSabUJyA38pE2fvCe7WdRXaDpSRnh1akQOdpU+2daoLneuSrtzwFR7Rm92iwbV2TDw3Dh8DoehpRarfqYGHIXWcifdknIMsoVh9F8UgZtPtNVmeUexTVfHeVlDjvGT8Y8uL0aifab0/4OhjulqeOXwQycuyCk7klLwPdjKu4C5xZzJh/bZdmY0Yfd/TvQRfu96RGJPDpYZeFMApT2iAMjffRzVgtKQslk/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=snYfx2YPpL//eqMecfgssxJ3uTpwMk4VrblDHWVD0ME=;
- b=RfH9AMWg3g/Cr55QOMCQ0SxtXMWP76zH+rYPGaN8oMOu1Mqcpb9XzTDixBe4wgqrSEhK+8OB9+Wuk4izEW0v52MQh+XFWyjE1L5f+s/7YvtLlxS0h1Pa95v16B6JLV7A3o2m/lP2Le4apkNwHLy4O+oxUgZITeYq3rrCnkOjH2U=
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com (2603:10b6:806:350::6)
- by DM6PR04MB6716.namprd04.prod.outlook.com (2603:10b6:5:22a::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Mon, 28 Jul
- 2025 06:33:45 +0000
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::4e14:94e7:a9b3:a4d4]) by SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::4e14:94e7:a9b3:a4d4%6]) with mapi id 15.20.8964.023; Mon, 28 Jul 2025
- 06:33:45 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>
-Subject: blktests failures with v6.16 kernel
-Thread-Topic: blktests failures with v6.16 kernel
-Thread-Index: AQHb/4mRgOMLSibtgEqjkONubGGqbw==
-Date: Mon, 28 Jul 2025 06:33:45 +0000
-Message-ID: <g4svtamuk3jhhhzb52reoj3nj2agi4ws7fwyc45vca5uykjkb4@glfr4emapv7n>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR04MB8532:EE_|DM6PR04MB6716:EE_
-x-ms-office365-filtering-correlation-id: a3dc5f6d-13cc-4586-aa6c-08ddcda0b3c1
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|19092799006|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?FWmM0kFoXnYEn+p/XRic3E1fcRZQhKfQN9XH0FZFEV8h3RxGVyvLMjMDwR3a?=
- =?us-ascii?Q?/2LIiJ7hqKAb6k3VZD9lhEER/233OOjcg37Pn1wFRK9D7uW6/qujH1/fRLLf?=
- =?us-ascii?Q?2RM/PBfRG7uBRfQpP91MicyFairgKYNdfJW39Rx7AvoAmHyNkqFiFylVEoFt?=
- =?us-ascii?Q?c0zZmdzF+sTF0om2ZjEJ55W87dCYLgWo7wAzW7YvbJjxOZ3I1s8wShnfIchP?=
- =?us-ascii?Q?lDVlLiIuy6wTxvY4C5fVRzddhE4D3G2U06ECJfKL1qytWRI79wgCCwEYDtZg?=
- =?us-ascii?Q?/zYM1FdgYXPQDHU7P0/pT7TaZJbqC09KG1HVRnFQFmI80rOaHrU1cys/2cFF?=
- =?us-ascii?Q?rpFlvaoxE5UIifEzqZNfe7tONDhFlde/3zE3szH9gYq/R262kLZyLr8dxjsj?=
- =?us-ascii?Q?zaeE9vxezmwSwSH+A+0tg0jY+s4coJ31KY9uYi4JbawN06JLyJgMBnivkXoc?=
- =?us-ascii?Q?d/Rqmfqh0ByvW8EOdrTN7HTPLaRy7Bgf4VYs1mjcp1yV3bO5qFz9ueK7X6lc?=
- =?us-ascii?Q?8sk2keAGKyoj8Ted8nOQWfX4IZATx6f1sJDb4kNo7Vj0DOBMlqMqsme4ukur?=
- =?us-ascii?Q?wwpjhFu+rNUz70mttwgJAX7nAyWKvkpBtIubL1HgrGuzroeJFP20x8ljHsCB?=
- =?us-ascii?Q?Nvmq53l+9y05I2l+AO67+9tIf5FXjPgrcz8tT1IxU3I8eGnVDD+uT3r8+8eV?=
- =?us-ascii?Q?MI8+/VhCbw6cJ1ecKov8RAofwMpzj70kJ/+P+KolwWKpVtOQ3Bd8LT+tbO9Q?=
- =?us-ascii?Q?DiLxJ8g8AjDP1ccFypJefrPFQa6bDUjmEyJsXny6j9suvgksXm09P0icd5Ze?=
- =?us-ascii?Q?CrGevDGH9tPswTAb1l7suYxnz1WcciFInbZQ2hFqJdxfv6egSGQi9l/8lsVs?=
- =?us-ascii?Q?eMSug94kcnp2SnZeYao3/NGgseUchCxlFKxM4hZk7W7B8nCOexRyh/qTHJBn?=
- =?us-ascii?Q?Pvvs6l6JZHNweRaXKtlHQmnz7FGNW2oxpQZzsUuLSwDytsntDZVUBsFvI0Nr?=
- =?us-ascii?Q?3N6ypAJXEw8wfSqEeWWXlIh1hxduuQAaj8I9Je80w3fjm3t9GcoFo7JuBYCh?=
- =?us-ascii?Q?l1eDtEyWbBYHIjB2gXFWTbWjf1GB83Fw5zAma5qC1UWGX0hfiiohxB5Vkpdb?=
- =?us-ascii?Q?xpGpXCdbYLwrL+wzCenjOoqEbyme+U/p/ui9Z7bqQPzy3YpGHCh1MzzP/nWJ?=
- =?us-ascii?Q?lWC7JhW4sH87vvsIzGsEUhHJCPxfLLzmCJY+QQKe7auuNQBEm01ekH74IhZ0?=
- =?us-ascii?Q?wbmC2mc3V1tBvWy+qNMCq44ogXkz0EvEea2bZYpvklETlEvX23M/cgZdEOzh?=
- =?us-ascii?Q?ksWH9IkvHDRUP+4bRDPwlOPVlXgQbomBfDPMpDjTOWIPF1g/HKhep15x/bS8?=
- =?us-ascii?Q?7JjrsK0rT7pm4HIxBZjyqgC06Ud8GGc1mRHwIrTIz5zlKtNXIMVRO7MKZDZr?=
- =?us-ascii?Q?RrH/f3UTq4kiUsN7/SjkQyBDDRaNnChbwZo8h57zCKke8JVNa49HlvDFCy8Z?=
- =?us-ascii?Q?19E045N/RveJZwc=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR04MB8532.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(19092799006)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GBdN0srhi4rNj0vgQy4P2UicEI1BltyamMJAn5Pj/I08BpPUjGcq+bA7pEUF?=
- =?us-ascii?Q?V92NZPkxDl48ykWv7t8URkk9F4ZJS8NXi1t2Xvhyn6jvNc9S7CXiuoixtZsk?=
- =?us-ascii?Q?rPBOshSmY8Eji6UcKkV7gWjj/gf+EdCXOB8CkE/HVGYROViv9tQCCgmByFoB?=
- =?us-ascii?Q?cYVpUFWANv6OjUWHksDqhvy+xLJIBMzJ06uhQ4kxglNrC+ZZ79GtKEW434ER?=
- =?us-ascii?Q?EJBhwlEsHevNCYc/4aD+8mPd5Qb+YDm5TH6SxjyvkIiHGJi1AMK/56PA2Ltn?=
- =?us-ascii?Q?LKe1f9wydniVrFSm+zISJBx1AqrSVBnsePRq7rGCPcaXisjgKhls4ZcKiT3n?=
- =?us-ascii?Q?274BP0mlEjpUMNJCyi5LkdrjlMyz+ilLJwQKpgTIfcbrviIKg/DbtBcXDw3w?=
- =?us-ascii?Q?rxmiVmMRf8hqf4b+XTUsPfZyxxY5J5ic6q4Jz0SfGwjcaxbyDIiKV+nfA2+J?=
- =?us-ascii?Q?TeaCsuj+dZs2fiLw4XzVFnFWkKtzJlaSg2Bl2vACeG+s9DZ1QFreyA9N9vx9?=
- =?us-ascii?Q?X0EXGZvYbFaOafD4JlWsyEThnURCMbIsHJHMDJyeBpJIA56eXT5sbjfTCVAU?=
- =?us-ascii?Q?FCVFhzba3QXADTTx9TIxaAkZRHUy6rSDtaCOjDu92HWy0Ufupz93q0VaiML2?=
- =?us-ascii?Q?3EFPig+RBQpgFVEdm8i6qpYI8kVXWME5HzKVpbm9Ll1kZshe1wkwuyS6+zkN?=
- =?us-ascii?Q?Gaohd9J47E2v40n5gmS1scx81KndEyFQuXaCII77cVm4VlpDlmrw4scFB8L9?=
- =?us-ascii?Q?MgWUg9mXMzaLZs794eQ3P6p3sx5DhqlkrrA7xyJgF12g0vNsxrZ5mEgmyNOe?=
- =?us-ascii?Q?8awkpqxQueoRlNKor76Y2vC6RH7oRuHce2GFh6OGJiXd+mES7rY/tIs6RKHs?=
- =?us-ascii?Q?zUopQuLcGfQCbF+bT3ACCuGbEe5OkOjmUxVxG41t1lnSEFnRQTDv9wAnDmLk?=
- =?us-ascii?Q?zx4CF0tYGxPASSX9NmFLGWLv78WU+P05qdpEN6ieLGsSsQFzGjcM7P8fK/uQ?=
- =?us-ascii?Q?TGPnyGYlhaE+zRmJ4ICgGYvJurDqQ0K4VqNJdaCnADdR/B6eFDnpljD+BMTf?=
- =?us-ascii?Q?8hF3uWhWEVG8VW/RrnyTDQQCYN15c7EX0uTjIoznzM5Gi81oW8AINuXBJ14B?=
- =?us-ascii?Q?zRQoT5w/sUJr1IPjF712Swl9coFpXAvIEzFz07mblettFL827UEfpY3MTGum?=
- =?us-ascii?Q?cuFl++SqlKEEnTGilTS0oh32eaxJcEfce5SY/5iLw/7BBSBdKxPjDBVrh7IT?=
- =?us-ascii?Q?OMkP9ql2cOjfpi3uzsrr0mh+AHVnvuoUqwtnOuMjPu8S4ICsB+7d7teT9zbw?=
- =?us-ascii?Q?sjdGlAfN5f7vQdeRtWxSeDxZXvYZO2PXlcEEMm1wBokmwmwygs8OUUVBB+DZ?=
- =?us-ascii?Q?mFaZbLXSYM2nHEEqYxwceqpiSAlMrQEPojZesTMuup1Tb/ub17OQUc9MGARU?=
- =?us-ascii?Q?If6RFBelcBHM3/xVmaPtm2wtZgr9JPz+85sa2IHglMSKif8QpZQ0y3jpxd9f?=
- =?us-ascii?Q?LW9dnTYmNPw+HuYU5UGhAixZ4elfHLJMxMMMFavdoqDjm0/F3Y4+fAs4pZ0A?=
- =?us-ascii?Q?qb+KY18ply34gLgQl+DhsbF/7bhfiz8rQGZy07oRlV4/6QiTJnyBQEcJMnXJ?=
- =?us-ascii?Q?Ig=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <D798461564AEAB4AB0DA1E422658B707@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Mon, 28 Jul 2025 07:12:20 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DD501216D6;
+	Mon, 28 Jul 2025 07:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753686736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UwbcK8h4ia/21i+CxKfkw0jTy/iZ/SKLDBy/roNwJsE=;
+	b=dXSt42MxsxHOg2rekfRRPWQdWVHmStDv5UjiAFro9g/j7l3d2800vDcdGvb7GevB1l1d52
+	oF93+QWZA0V0W5CKq5S9J2BzMmkCzg73FvdhbXDkKgBzJY2lAIR81J6cPGoIj8xBiNcHrD
+	99cdkW3MZOG7o0Bh3d1gGrRrkifGMco=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753686736;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UwbcK8h4ia/21i+CxKfkw0jTy/iZ/SKLDBy/roNwJsE=;
+	b=91y1aSQIeE56N7dFYMCnis09XNUkY6Stiu4/vYBujiigL6FbM0QxCPP6vgW/o3MkiJlFV8
+	j2+6T0pweoluqqCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GqXsRCrL;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1H6KMxWK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753686735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UwbcK8h4ia/21i+CxKfkw0jTy/iZ/SKLDBy/roNwJsE=;
+	b=GqXsRCrLUlNz9afwEWSCv+JN04UHFDPvwxG8FXo3M1+pmCEiYxFL0UjaQ13gihxtQrYbO0
+	3G6Yd03cDf0fDC7JZv7WciiNqCjvS7ZWBkppKDgAFllnGf6iy72k8+QQphUmql+cZlGow7
+	C2bWjg4dG9tBdO2z5Wv/DPeDL2s6254=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753686735;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UwbcK8h4ia/21i+CxKfkw0jTy/iZ/SKLDBy/roNwJsE=;
+	b=1H6KMxWK/byu4ktyxKRBmswH8vqMSFJ+L75dh+kh1i0G3JmEPPRgZvrnrSXyu6ukmoICp0
+	5fQ5naZNbiDpWHBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA8BD138A5;
+	Mon, 28 Jul 2025 07:12:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3kxuJ88ih2g+AgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 28 Jul 2025 07:12:15 +0000
+Message-ID: <df8bfa36-c1a9-4398-8246-5bc31991b8c9@suse.de>
+Date: Mon, 28 Jul 2025 09:12:15 +0200
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: nCjQ8mvPHG4C7uUIld+2dL5A3mWkR9T+2flfU1mt2Y/P9ddbwmsaCTRkN9075uhj0Dx/QQT5qQXQLAcGcyio8logp1yzaBmVkLJw965N2bJNmNKpZ4egGNynqJgLq4ZIlbD5cdfjeYvkiVLsGvNkQXYtb2u/7JcpL3piqaf6RXM2UZ8E+U1Gk9g/ctWwPwshxgRmGXAHqwwr7SP0w14scr9pUa8VGMHIMfyp9co01mkesPokocgiRGGqEiKbXhU8qQgP5c97dSPWGdtH9DJRgTAZ84s66mpz6l5KyR8X1EYf+Bkn5WowOdkKsztxYiQpjHF7okKjtvUpj45tkjYpMxBm8hk/tlBYPymsQdwO/GxmOPNBE8NYsklUj4u7suUp4LJvzPKSIXIRUfBHMrnq4sImU65zuNx6RTYuyc6oMtguNqWavhwWaut6abOlm1UmlfnsI44/9WhZTNNPJxL4ZmYsB+HAa9/yJVf/nqMUa0YOwFJWbUbqn8fLxJSfENwJjGNWK5SJh1d6mBxlGXs+BSOzLW4KhoEJ+NeCxZtU3t1WGfh1RVAZGneIc/eIfODXd1SbR6OhMsAezge9yBgL5/6XCvCtE0S8OtahT6RuKZTCFFphLvIi/gP0Yf2eO+0P
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR04MB8532.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3dc5f6d-13cc-4586-aa6c-08ddcda0b3c1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2025 06:33:45.0636
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I2teHBDVkD73PV1kwVQlmVI/dgleBSqx011tHrUbHZRvGb5zjY+qNDZo7jFRtiwhV4PobYPQ10D9ayptuhb23+WsILESRvOJXSdZnHhCaNg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6716
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] libnvme: TLS PSK derivation fixes
+To: Chris Leech <cleech@redhat.com>
+Cc: linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>,
+ Prashanth Nayak <prashanth.nayak@netapp.com>,
+ John Meneghini <jmeneghi@redhat.com>
+References: <20250721021718.1159879-1-cleech@redhat.com>
+ <20250721021718.1159879-2-cleech@redhat.com>
+ <d8f4ed91-3fcb-45b9-b4d6-900382eb4ae7@suse.de>
+ <aH5dbhXOS8h9gxzX@cleech-thinkpadt14sgen2i.rmtusor.csb>
+ <3c3c3194-7275-4a77-9397-4c159458f2c5@suse.de>
+ <aIPINwQZNxk_7FZs@cleech-thinkpadt14sgen2i.rmtusor.csb>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <aIPINwQZNxk_7FZs@cleech-thinkpadt14sgen2i.rmtusor.csb>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: DD501216D6
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250727_233349_356705_086C9F9E 
-X-CRM114-Status: UNSURE (   9.71  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250728_001219_520597_9687C8AE 
+X-CRM114-Status: GOOD (  23.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,59 +148,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On 7/25/25 20:08, Chris Leech wrote:
+> On Fri, Jul 25, 2025 at 11:36:20AM +0200, Hannes Reinecke wrote:
+>> On 7/21/25 17:31, Chris Leech wrote:
+>>> On Mon, Jul 21, 2025 at 08:36:01AM +0200, Hannes Reinecke wrote:
+>>>> On 7/21/25 04:17, Chris Leech wrote:
+>>>>> There are issues with the Retained and TLS PSK derivations due to the
+>>>>> implementation not adhering to the RFC 8446 definition of the
+>>>>> HKDF-Expand-Label function.
+>>>>> ...
+>>>> Hmm. I _thought_ we had it all fixed...
+>>>
+>>> I went into this expecting/hoping to find the problem on the spdk side,
+>>> and I'd be happy to wrong here (especially if backed up by another
+>>> interoperable implementor).
+>>>
+>>> The lack of a full example in the nvme/tcp transport spec to verify
+>>> implemenatations against is kind of a bummer.
+>>>
+>> Okay, seems that you have been right after all.
+>> I've re-read RFC 8466 and indeed you seem to be right about
+>> the encoding of variable length vectors (cf RFC 8446 section 3.4).
+>>
+>> So I guess we need to take this patch after all.
+> 
+> So we're back to agreeing on the correctness of the changes?
+> Honestly, I appreciate the scrutiny.
+>   
+Yeah, sorry. I indeed misread (or rather ignored) section 3 from the
+RFC when coding the key derivation.
+You are correct, and we need to prefix each string with the length.
 
-I ran the latest blktests (git hash: d24f7445c575) with the v6.16-rc1 kerne=
-l. I
-observed 4 failures listed below. Comparing with the previous report with t=
-he
-v6.16-rc1 kernel, there is no change in the list. All of the 4 failures are
-still observed with the v6.16 kernel.
+But: this is an incompatible change. Once we integrate this patch
+the keyring will end up with a _different_ derived PSK than it would
+without that patch. So the _same_ PSK (in interchange format) will
+result in different PSKs in the keyring, causing the handshake to
+fail if the other side is not aware of that.
 
-[1] https://lore.kernel.org/linux-block/4fdm37so3o4xricdgfosgmohn63aa7wj3ua=
-4e5vpihoamwg3ui@fq42f5q5t5ic/
+>> _However_: PSKs generated with after applying this patch will be
+>> different than those prior to this patch.
+>> Consequently there will be interop issues with existing implementations
+>> (which will use the original encoding).
+>>
+>> I guess we would need to wait for the target implementations to be fixed
+>> or introduce a flag switching to the old / compat implementation to avoid
+>> interop issues.
+> 
+> Yes, it is a breaking change for compatibility with other out-of-spec
+> implementations.  I'm hesitant to carry a flag for that, but it wouldn't
+> be too much trouble to implement.
+> 
+> Just don't touch your keyfile?  The tls-key import/export commands are
+> operating on the final derived TLS PSKs right?
+> 
+That might be the way out, and in fact what we should be doing.
+However, the fact still remains: after this patch has been applied
+one _cannot_ generate new PSKs until the other side has been updated,
+too.
+For linux it's easy, we can just require 'version xyz' from libnvme
+and the issue is solved. But for other implementations?
+There are IHVs out there who already shipped their products with TLS
+enablement, and they need to be fixed, too.
+And their timeline is vastly longer than ours.
 
-List of failures
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-#1: block/005
-#2: nvme/041 (fc transport)
-#3: nvme/061 failure (fc transport)
-#4: nvme/063 failure (tcp transport)
+So to avoid us having to synchronize against all of the others I think
+it might be easier to add a 'compat' flag of sorts to generate PSKs
+with the 'original' derivation algorithm, and then increase the
+libnvme version number once it's in.
+Then we can point the IHVs to that number so that they reference
+that version once their firmware is updated.
 
+Cheers,
 
-Failure description
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-#1: block/005
-
-    When the test case is run for a NVME device as TEST_DEV, the kernel rep=
-orts
-    a lockdep WARN related to the three locks q->q_usage_counter, fs_reclai=
-m and
-    cpu_hotplug_lock. Refer to the report for the v6.16-rc1 kernel [1].
-
-#2: nvme/041 (fc transport)
-
-    The test case nvme/041 fails for fc transport. Refer to the report for =
-the
-    v6.12 kernel [2].
-
-    [2] https://lore.kernel.org/linux-nvme/6crydkodszx5vq4ieox3jjpwkxtu7mhb=
-ohypy24awlo5w7f4k6@to3dcng24rd4/
-
-#3: nvme/061 failure (fc transport)
-
-    The test case nvme/061 sometimes fails for fc transport due to a WARN a=
-nd
-    refcount message "refcount_t: underflow; use-after-free." Refer to the
-    report for the v6.15 kernel [3].
-
-    [3] https://lore.kernel.org/linux-block/2xsfqvnntjx5iiir7wghhebmnugmpfl=
-uv6ef22mghojgk6gilr@mvjscqxroqqk/
-
-#4: nvme/063 failure (tcp transport)
-
-    The test case nvme/063 fails for tcp transport due to the lockdep WARN
-    related to the three locks q->q_usage_counter, q->elevator_lock and
-    set->srcu. Refer to the report for the v6.16-rc1 kernel [1].
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
