@@ -4,62 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B046C87FC9
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Jul 2025 07:07:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D90FC83F26
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Jul 2025 07:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zZqytHcpPjzB8yEmtYaaWrEN6rhRBDlVCJwI/UjO08I=; b=lLImiHinbnYidZp1eeBbNbVQIf
-	gdMa4sE4jOw3VORrZo3FuTltop7nfjBveTP2Wx9Ynxtg9h8LxjiwduEtyzTNm+T48GWfr/KYCDxqV
-	HEgl6GjqYcXIHWCbqF+xUQSBfTiA8kgjcAduCOyz3pkcitRJnm6DGbIu4RzHsDGGnLO/ywvoqHgPu
-	R+HKTZMZbwL5JTsD3UPMTWC224CEyNmArG/kB2kbjr/aTzTttLTSMxmfxv03x46vSbdNGII8YCTDH
-	1+7k5YD7t6NVSB7nlWGmo4GWswujNqKBQUi6xsaL8M3Q50nG92zJnhJMIg7d14DNBB+c2Ee89Vb/O
-	/h6peOlg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WHulDFA07TDgEd/bEEsG+1Pgq2T2a/D5jv5hJtTPbgA=; b=T8aERtBsOCmQG5uCyIjCHFRXYP
+	6hmmAqkLF4y4IrH30J/EHaobxZc9HBgBQskDsm8O7HqASmS+eayWNjtSHL8RkpU/ZDI+X6DoOMuoC
+	vDNn9GGuLVxlnM6rcqW/Y5BPC9LYjaLlYnQaLHGOt0syyPA1mWrkFz7m/A0aSCHlzRu2irXprqPLm
+	HarEIu0aoYXhw0XCHqAHWZstsEbnVjfsiphg6ivkJXb5ITsPThsrOtHh+3bmK4lPoQeW2hGfXAx39
+	f8Y727Ztf+AEnEfDHEae2O1F/w++g3JU177ATfRwKHLstUGFj+0XzWm6bjCS9r9dj7LOFXoGqRmgT
+	P1RDADHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugeQe-0000000G5S4-07IG;
-	Tue, 29 Jul 2025 07:07:16 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1ugeQd-0000000G5Qc-0enh;
+	Tue, 29 Jul 2025 07:07:15 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugeQW-0000000G5Pj-2e38
+	id 1ugeQV-0000000G5PJ-36WC
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Jul 2025 07:07:10 +0000
+	Tue, 29 Jul 2025 07:07:08 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 08D505C5D7B;
-	Tue, 29 Jul 2025 07:07:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9FBC4CEF5;
-	Tue, 29 Jul 2025 07:07:06 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id D1A0041B62;
+	Tue, 29 Jul 2025 07:07:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D708C4CEEF;
+	Tue, 29 Jul 2025 07:07:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753772827;
-	bh=OMYUEp6XJ5X5ZbAAZGFbSVgl8d6h3Qp2zvqVxVPgmAI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=beZWS8t0LNIXcIFaw6m3OwthDgPLD19JNM7i7zDYc0goe9uOeyTMd4mqW36xVEdzl
-	 fIKhSC4ZSSkjI7g7bobG1mPREhdAw5ARAGo1dAu2f982ZptyBlRT+xbSw7u4DSfupG
-	 dpVAPBhwFQIu3H/wCYkbYD6aISKb+Sf/ACnztcq9L+kA24katZ8fc1GgT1hBDIoKwa
-	 /QlrNOm1iptc3laP1C3yi32ldmIbemAuEgXZiCYOJkrFAsuGGdeeyLPE4cocc1SaO4
-	 IaOrNKc6SWmWvI4lZsE8lvxwg8Q4UcvKKo8Esy0xxX3EwK8rYuFJy+Gt5VlfqZ70OW
-	 weKwer73X91xQ==
+	s=k20201202; t=1753772825;
+	bh=ge0qsPzkE3f4JVd2tk8h1Onzkq42+NJ5pgE1U9bqAWk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VU+7Lad0pXDaY0KHuRh0tgdtEwVJKEIWvH/V1xCuzblSKbkeaLWBlqQ4H+Sz59HRF
+	 MGjsOHk7pHotIl/JErqctplrym5i0PEi5JbNJsGkTyt1bc/omP/OU3K7kiKYJN01Li
+	 VOUAWSEugPjA4fGeJsMFuL5LntzqTLL8twB/kAh3KpZgmWVf6c3w37nv3R8XUc1PPY
+	 hBSSTWi722YS3dJSfYvLUOmt1uEYuCL/s/1rwq5ALfjDR6r93XqtNgPwThclKxApS4
+	 oJVPSjDldN0O0Coj7L3rQ1t8JTxTH8x64g2l/RELz7D5U1RUEnVgtad2VxZXMURZZv
+	 dQpb4DxN843yQ==
 From: hare@kernel.org
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 1/6] nvme-multipath: do not assign ->current_path in __nvme_find_path()
-Date: Tue, 29 Jul 2025 09:06:48 +0200
-Message-ID: <20250729070653.125258-2-hare@kernel.org>
+Subject: [RFC PATCH 0/6] nvme multipath eBPF path selector
+Date: Tue, 29 Jul 2025 09:06:47 +0200
+Message-ID: <20250729070653.125258-1-hare@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250729070653.125258-1-hare@kernel.org>
-References: <20250729070653.125258-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250729_000708_811907_27E31529 
-X-CRM114-Status: GOOD (  12.99  )
+X-CRM114-CacheID: sfid-20250729_000707_895748_1FB4C515 
+X-CRM114-Status: GOOD (  17.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,90 +71,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+From: Hannes Reinecke <hare@kernel.org>
 
-__nvme_find_path() is the fallback if no paths are selected, but
-setting ->current_path[] is only relevant for 'numa' and 'round-robin'
-iopolicies. So move it out of __nvme_find_path() to avoid a pointless
-assignment for other path checkers.
+Hi all,
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- drivers/nvme/host/multipath.c | 40 +++++++++++++++++++++++------------
- 1 file changed, 27 insertions(+), 13 deletions(-)
+there are discussion on having to deploy more complex I/O scheduling
+algorithms for NVMe, but then there's the question whether we really
+want to carry these in the kernel.
+Which sounded like an ideal testbed for eBPF struct_ops to me.
+Taking a cue from Ming Lei's patchset for eBPF on ublk (thanks, Ming!)
+I've started messing around with eBPF.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 3da980dc60d9..116b2e71d339 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -342,8 +342,6 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
- 
- 	if (!found)
- 		found = fallback;
--	if (found)
--		rcu_assign_pointer(head->current_path[node], found);
- 	return found;
- }
- 
-@@ -364,8 +362,13 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head)
- 	struct nvme_ns *old = srcu_dereference(head->current_path[node],
- 					       &head->srcu);
- 
--	if (unlikely(!old))
--		return __nvme_find_path(head, node);
-+	if (unlikely(!old)) {
-+		ns = __nvme_find_path(head, node);
-+		if (ns)
-+			rcu_assign_pointer(head->current_path[node], found);
-+		return ns;
-+	}
-+
- 
- 	if (list_is_singular(&head->list)) {
- 		if (nvme_path_is_disabled(old))
-@@ -455,9 +458,11 @@ static struct nvme_ns *nvme_numa_path(struct nvme_ns_head *head)
- 
- 	ns = srcu_dereference(head->current_path[node], &head->srcu);
- 	if (unlikely(!ns))
--		return __nvme_find_path(head, node);
--	if (unlikely(!nvme_path_is_optimized(ns)))
--		return __nvme_find_path(head, node);
-+		ns = __nvme_find_path(head, node);
-+	else if (unlikely(!nvme_path_is_optimized(ns)))
-+		ns = __nvme_find_path(head, node);
-+	if (ns)
-+		rcu_assign_pointer(head->current_path[node], found);
- 	return ns;
- }
- 
-@@ -798,12 +803,21 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 
- 	mutex_lock(&head->lock);
- 	if (nvme_path_is_optimized(ns)) {
--		int node, srcu_idx;
--
--		srcu_idx = srcu_read_lock(&head->srcu);
--		for_each_online_node(node)
--			__nvme_find_path(head, node);
--		srcu_read_unlock(&head->srcu, srcu_idx);
-+		int srcu_idx, iopolicy;
-+
-+		iopolicy = READ_ONCE(head->subsys->iopolicy);
-+		if (iopolicy == NVME_IOPOLICY_NUMA ||
-+		    iopolicy == NVME_IOPOLICY_RR) {
-+			int node;
-+
-+			srcu_idx = srcu_read_lock(&head->srcu);
-+			for_each_online_node(node) {
-+				struct nvme_ns *ns = __nvme_find_path(head, node);
-+				if (ns)
-+					rcu_assign_pointer(head->current_path[node], ns);
-+			}
-+			srcu_read_unlock(&head->srcu, srcu_idx);
-+		}
- 	}
- 	mutex_unlock(&head->lock);
- 
+So here's a patchset to implement nvme multipath eBPF path selectors.
+Idea's quite simple: the eBPF 'struct_ops' program is providing a
+'select_path' function, which selects a nvme_ns struct to use for
+the I/O starting at a given sector.
+Unfortunately ePBF doesn't allow to pass pointers, _and_ the definitions
+for 'struct nvme_ns_head' and 'struct nvme_ns' are internal to the
+nvme subsystem. So I kept those structures as opaque pointers for
+ePBF, and introduced a 'nvme_bpf_iter' structure as a path iterator.
+There are two functions 'nvme_bpf_first_path' and 'nvme_bpf_next_path'
+which can be used for an open-coded loop over all paths.
+I've also added sample code as an example how the loop can be coded.
+
+It's all pretty rudimentary (as I'm sure people will need accessors
+to get to any namespace or controller details), but that's why I sent
+it out as an RFC. And I am by no means an eBPF expert, so I'd be
+glad for any corrections or suggestions for a better eBPF integration.
+
+The entire patchset can be found at:
+git.kernel.org:/pub/scm/linux/kernel/git/hare/scsi-devel.git
+branch nvme-bpf
+
+As usual, reviews and comments are welcome.
+
+Hannes Reinecke (6):
+  nvme-multipath: do not assign ->current_path in __nvme_find_path()
+  nvme: export nvme_find_get_subsystem()/nvme_put_subsystem()
+  nvme: add per-namespace iopolicy sysfs attribute
+  nvme: add 'sector' parameter to nvme_find_path()
+  nvme-bpf: eBPF struct_ops path selectors
+  tools/testing/selftests: add sample nvme bpf path selector
+
+ drivers/nvme/host/Kconfig                     |   9 +
+ drivers/nvme/host/Makefile                    |   1 +
+ drivers/nvme/host/bpf.h                       |  33 ++
+ drivers/nvme/host/bpf_ops.c                   | 347 ++++++++++++++++++
+ drivers/nvme/host/core.c                      |  17 +-
+ drivers/nvme/host/ioctl.c                     |   7 +-
+ drivers/nvme/host/multipath.c                 |  69 +++-
+ drivers/nvme/host/nvme.h                      |  11 +-
+ drivers/nvme/host/pr.c                        |   2 +-
+ drivers/nvme/host/sysfs.c                     |   9 +-
+ include/linux/nvme-bpf.h                      |  54 +++
+ .../selftests/bpf/progs/bpf_nvme_simple.c     |  52 +++
+ 12 files changed, 585 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/nvme/host/bpf.h
+ create mode 100644 drivers/nvme/host/bpf_ops.c
+ create mode 100644 include/linux/nvme-bpf.h
+ create mode 100644 tools/testing/selftests/bpf/progs/bpf_nvme_simple.c
+
 -- 
 2.43.0
 
