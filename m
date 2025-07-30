@@ -4,60 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BC41C87FCA
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jul 2025 02:03:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49D44C87FCA
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jul 2025 02:03:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HuCp2yaDlH9a0/HN+kFWzl8GYnQsgCVyAgnWT1J18Xg=; b=jQDzHYFwnlhLE89mxvvcEe5+y0
-	n2f9l2z3Ck8G2DI9ikRDycCpvm37GikxiXnKcEI4GZuXyMnrSc01jGuxZPEboVmvanoEcdnQV89Yt
-	kRcQPu4s9EIfw3ctcaYiU86W14wj3U/TssDiACSOh6dhbCp3pQ1PQbpck4nJCh76mku7gHtaiQpfK
-	weIGW42pP0TNa8829V6BoHkg3sxZHfskeFolsAZFJ9o8Gd9sy8caxhxhG+HnnVFIFIEajIBYyaTT7
-	7WPFJ3L8WYa3hvK2JR4l6fOj9zCsYlLHeSRkoFkmEBUDiSfDFMN2MYUkP9kCwANRahPScQgm04URH
-	Xlv8bQXQ==;
+	bh=NIHgRjWM//3Z7Iq76Xe8PI5GrPe5UPxfu1XaM7OOAdI=; b=uRKN0a8WwVckBG2t1oTowLvJ1D
+	QXvJXemOFlunjL3cUeSYIX2InrPlakHiZextF+0h9LkOH556/+cteTMRFeBa0GbxQGbhBRNoGRL03
+	S7DihGpPlduBN8CW5ZWnLrzqxOQA7sBeTj1wQOdEPTUfJDMOxr4TKtX+jtbgLlDEwUNhk/d+ATZlS
+	yfltGiIJPDU6S/Gxg/Lttcqm0umoTux1XArRHLHQ0FjZ1rz2Grp5x0RvVYHw0zACbzF1W6/txJMA4
+	UemP+xXIm7rNlHn6XRUjpOYCgyFmCNFzI+KBSKWMiF5LmAqUFhs50k/vgUFSz7Av8Fkq3zgVUIizR
+	zYa23wzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugwAQ-00000000Vwq-0wxC;
-	Wed, 30 Jul 2025 02:03:42 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1ugwAc-00000000VyT-3OpO;
+	Wed, 30 Jul 2025 02:03:54 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugwAN-00000000VwK-2Z9Z
+	id 1ugwAa-00000000VyI-36Zm
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Jul 2025 02:03:40 +0000
+	Wed, 30 Jul 2025 02:03:52 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 286FEA55058;
-	Wed, 30 Jul 2025 02:03:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12E63C4CEEF;
-	Wed, 30 Jul 2025 02:03:33 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id C7ABC60008;
+	Wed, 30 Jul 2025 02:03:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBC60C4CEEF;
+	Wed, 30 Jul 2025 02:03:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753841015;
-	bh=rXganNSbsAxjX4C0tlQM7GA7BaRg78maG3+4QDEOGn8=;
+	s=k20201202; t=1753841031;
+	bh=tbw/FfmubPr+bXdHZ2g1e1ISzt9nntPjNtY+Tk3qMt0=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Ty+UwtK1X14dl5gUZG1J2Hj6VjT+dU3K3qiRf238WGNXaOTbC8O1osqym0rOkWM/R
-	 Urr0JVIxpUFRwtn8jQdzGXmzfQnSxaq0XHO1MIHuv7kl4o5TcF/67zVkEJI7l+dpha
-	 Dgg14u2TGafzg6kQN9b666d9Yr4s4mlaGu9qFeobZCk4IkCTx9UI18FBT8kY1VqFZk
-	 78jH/hLb+jb740mNKIjOlAnyzULilA/cU+25t6cCL3wWRdxZUL8y8NtOh5FAHcaLWz
-	 l9PEOulShHh+E48OfnS5v/gk+y59tFrl8x/i4g8Ssgp/QycOk2GaBUm1Mlk1WLE+8M
-	 j8YIrvR1Q4Ssg==
-Message-ID: <3187d1749216df5d48e362489ed3aef337634820.camel@kernel.org>
-Subject: Re: [RFC PATCH 0/6] nvme multipath eBPF path selector
+	b=T6T5cc20j5oQePKHNXEoWN+eYgSQ/aG/quI1XHXr4vKdD5z8LCmomzLbUfZMSKW5e
+	 JC02f8jytARWA+bukpYuZZBpPeNBt3VeXxsiwtr5ABmDxyjACO/kPeqBRTUuk8AA4M
+	 TNWGSnC3bBA2o+jWWskZG11WgJMopcqk91nbeh3JamkHv94E+aKWMaUBd1zMuNknFl
+	 CxVDKaZz1AlYLtmnalG2r/Domjs9Owj4QfbHu3Ys2FWl1CD4JbPebfVACjx/6A9ILW
+	 Z8ggl7T/LihIY3WE3IgKr1rCjTGIXavbnG+B4TiH4DZXW9qXM+oguN+EpWI0+pmm3b
+	 hnfgbHnkF2JoA==
+Message-ID: <2700214e9aa7c7a886c0742826d10f052042ba62.camel@kernel.org>
+Subject: Re: [PATCH 6/6] tools/testing/selftests: add sample nvme bpf path
+ selector
 From: Geliang Tang <geliang@kernel.org>
 To: hare@kernel.org, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
 	linux-nvme@lists.infradead.org
-Date: Wed, 30 Jul 2025 10:03:31 +0800
-In-Reply-To: <20250729070653.125258-1-hare@kernel.org>
+Date: Wed, 30 Jul 2025 10:03:42 +0800
+In-Reply-To: <20250729070653.125258-7-hare@kernel.org>
 References: <20250729070653.125258-1-hare@kernel.org>
+	 <20250729070653.125258-7-hare@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250729_190339_784564_8283C287 
-X-CRM114-Status: GOOD (  28.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,84 +73,104 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Hi Hannes,
 
+I tried to compile this BPF program, but got a compilation error. To
+fix it, NVME_BPF and its dependencies need to be enabled in
+tools/testing/selftests/bpf/config:
+
++++ b/tools/testing/selftests/bpf/config
+@@ -121,3 +121,8 @@ CONFIG_XDP_SOCKETS=y
+ CONFIG_XFRM_INTERFACE=y
+ CONFIG_TCP_CONG_DCTCP=y
+ CONFIG_TCP_CONG_BBR=y
++CONFIG_NVME_CORE=y
++CONFIG_NVME_FABRICS=y
++CONFIG_NVME_TCP=y
++CONFIG_NVME_MULTIPATH=y
++CONFIG_NVME_BPF=y
+
 On Tue, 2025-07-29 at 09:06 +0200, hare@kernel.org wrote:
 > From: Hannes Reinecke <hare@kernel.org>
 > 
-> Hi all,
+> As a simple nvme bpf path selector to demonstrate the namespace
+> path iteration.
 > 
-> there are discussion on having to deploy more complex I/O scheduling
-> algorithms for NVMe, but then there's the question whether we really
-> want to carry these in the kernel.
-> Which sounded like an ideal testbed for eBPF struct_ops to me.
-> Taking a cue from Ming Lei's patchset for eBPF on ublk (thanks,
-> Ming!)
-> I've started messing around with eBPF.
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+> ---
+>  .../selftests/bpf/progs/bpf_nvme_simple.c     | 52
+> +++++++++++++++++++
 
-I happen to have experience in this area and would like to participate
-in the development of nvme-bpf. I have previously developed the MPTCP
-BPF packet scheduler [1], which is already in the export branch of the
-MPTCP repository [2].
+We also need to create an nvme test program in
+tools/testing/selftests/bpf/prog_tests/ to load and verify this
+bpf_nvme_simple BPF program, just like I did in
+tools/testing/selftests/bpf/prog_tests/mptcp.c. I can try to implement
+it if you think it's necessary.
 
-[1]
-https://github.com/multipath-tcp/mptcp_net-next/issues/75
+Thanks,
+-Geliang
 
-[2]
-https://github.com/multipath-tcp/mptcp_net-next/commit/e83320eb669f48effae8a2d203d834ca2454308a
-https://github.com/multipath-tcp/mptcp_net-next/commit/397b7213a2e45bc0c188d5fefa0889899657716f
-https://github.com/multipath-tcp/mptcp_net-next/commit/0c59c5d43f6babd016bdbbf00365257ea57796e9
-
-> 
-> So here's a patchset to implement nvme multipath eBPF path selectors.
-> Idea's quite simple: the eBPF 'struct_ops' program is providing a
-> 'select_path' function, which selects a nvme_ns struct to use for
-> the I/O starting at a given sector.
-> Unfortunately ePBF doesn't allow to pass pointers, _and_ the
-> definitions
-> for 'struct nvme_ns_head' and 'struct nvme_ns' are internal to the
-> nvme subsystem. So I kept those structures as opaque pointers for
-> ePBF, and introduced a 'nvme_bpf_iter' structure as a path iterator.
-> There are two functions 'nvme_bpf_first_path' and
-> 'nvme_bpf_next_path'
-> which can be used for an open-coded loop over all paths.
-> I've also added sample code as an example how the loop can be coded.
-> 
-> It's all pretty rudimentary (as I'm sure people will need accessors
-> to get to any namespace or controller details), but that's why I sent
-> it out as an RFC. And I am by no means an eBPF expert, so I'd be
-> glad for any corrections or suggestions for a better eBPF
-> integration.
-> 
-> The entire patchset can be found at:
-> git.kernel.org:/pub/scm/linux/kernel/git/hare/scsi-devel.git
-> branch nvme-bpf
-> 
-> As usual, reviews and comments are welcome.
-> 
-> Hannes Reinecke (6):
->   nvme-multipath: do not assign ->current_path in __nvme_find_path()
->   nvme: export nvme_find_get_subsystem()/nvme_put_subsystem()
->   nvme: add per-namespace iopolicy sysfs attribute
->   nvme: add 'sector' parameter to nvme_find_path()
->   nvme-bpf: eBPF struct_ops path selectors
->   tools/testing/selftests: add sample nvme bpf path selector
-> 
->  drivers/nvme/host/Kconfig                     |   9 +
->  drivers/nvme/host/Makefile                    |   1 +
->  drivers/nvme/host/bpf.h                       |  33 ++
->  drivers/nvme/host/bpf_ops.c                   | 347
-> ++++++++++++++++++
->  drivers/nvme/host/core.c                      |  17 +-
->  drivers/nvme/host/ioctl.c                     |   7 +-
->  drivers/nvme/host/multipath.c                 |  69 +++-
->  drivers/nvme/host/nvme.h                      |  11 +-
->  drivers/nvme/host/pr.c                        |   2 +-
->  drivers/nvme/host/sysfs.c                     |   9 +-
->  include/linux/nvme-bpf.h                      |  54 +++
->  .../selftests/bpf/progs/bpf_nvme_simple.c     |  52 +++
->  12 files changed, 585 insertions(+), 26 deletions(-)
->  create mode 100644 drivers/nvme/host/bpf.h
->  create mode 100644 drivers/nvme/host/bpf_ops.c
->  create mode 100644 include/linux/nvme-bpf.h
+>  1 file changed, 52 insertions(+)
 >  create mode 100644
 > tools/testing/selftests/bpf/progs/bpf_nvme_simple.c
+> 
+> diff --git a/tools/testing/selftests/bpf/progs/bpf_nvme_simple.c
+> b/tools/testing/selftests/bpf/progs/bpf_nvme_simple.c
+> new file mode 100644
+> index 000000000000..c9cafb6bd253
+> --- /dev/null
+> +++ b/tools/testing/selftests/bpf/progs/bpf_nvme_simple.c
+> @@ -0,0 +1,52 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/*
+> + * simple nvme ebpf path selector
+> + *
+> + * Simulates a RAID layout with chunk size 2M
+> + */
+> +
+> +#include <vmlinux.h>
+> +#include <errno.h>
+> +#include <bpf/bpf_helpers.h>
+> +#include <bpf/bpf_tracing.h>
+> +
+> +char _license[] SEC("license") = "GPL";
+> +
+> +static sector_t simple_offset = 0;
+> +static sector_t simple_blocksize = 1048576;
+> +
+> +SEC("struct_ops")
+> +int BPF_PROG(simple_select, struct nvme_bpf_iter *iter, sector_t
+> sector)
+> +{
+> +	sector_t offset = simple_offset;
+> +	sector_t block_size = simple_blocksize;
+> +	u32 num_blks, num_paths, num_iter, i;
+> +	int cntlid;
+> +
+> +	if (sector > offset)
+> +		sector -= offset;
+> +	cntlid = nvme_bpf_first_path(iter);
+> +	if (cntlid < 0)
+> +		return cntlid;
+> +	if (!block_size || sector < block_size)
+> +		return cntlid;
+> +
+> +	num_blks = (sector / block_size);
+> +	num_paths = nvme_bpf_count_paths(iter);
+> +	num_iter = num_blks % num_paths;
+> +	bpf_for (i, 1, num_iter) {
+> +		cntlid = nvme_bpf_next_path(iter);
+> +		if (cntlid < 0)
+> +			break;
+> +	}
+> +	return cntlid;
+> +}
+> +
+> +SEC(".struct_ops")
+> +struct nvme_bpf_ops bpf_nvme_simple = {
+> +	.uuid = { 0x86, 0xee, 0x41, 0xd5, 0x25, 0x6b, 0x45, 0xd0,
+> 0xa4, 0x81, 0x5e, 0x35, 0xf6, 0x02, 0xf5, 0x11 },
+> +	.subsysnqn = "blktests-subsystem-1",
+> +	.nsid = 1,
+> +	.select_path = (void *)simple_select,
+> +};
 
