@@ -4,60 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8B02C87FCB
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jul 2025 14:21:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 728E8C87FCB
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jul 2025 15:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EUdqfmdZHtM83qnoVWI7yM5/PTc5KV7PRGFJ/JFMKvk=; b=TaxssiHQuuEpQeKZHw/7cyPVMg
-	/unPSuF5T3iKDWFDVM1zxeXv3N4kzFvI4o/RVijf2mFNf+hKi8vLW805OBtmHJhMnEPir9ebB1K2+
-	CNZnDIu+zpT0PQcXYzizqbNbV0KrkFRUJqV1RsP0fe22w/voIpd3sp6Zw+xpNMYEYjS0FbW+jan6e
-	UP8lNGaj/e9Q9KWXBFUOiiX5SN12BsF/OhPzYWpnhH/eYXSpgsoP3oZm/3y7+pcgm+ODFtVHXmFFf
-	VrARH47UYrPhsquowyZP4C3nCVRV6nzL/5dGnylbp3PZ4JL34qKLvBQeHO4EYgCBnDHe/4Vk5grBh
-	lhgiiOMg==;
+	bh=YHwRGw9VArptgZCZtwDUeHT5B+hDEZrQOcCOKNLgqf8=; b=nQdYB8PS7Rm+WZgjKSyuVaUPLD
+	8jNfd7a6dBoXs/JrMAyp8mA25vrImaLlcMCSVgQjjLxYYrn7JXQUTIKu8TaDsfXbhVG+WAZgMm0qO
+	la+3lhIM0iDXoMPO3/ktRgG13K2wK4mijXUEr7c1A5r7iaiBM0NzmfGNGQPYBHFEqrD8GUMQ+bHgU
+	fiTnmQZO9iLVMrRE9FX2nAsQQmg77cifQy1Jz1YCIhUF0vCjWWom8Lr2l/xJlsxi3ag/9187nDngl
+	PiQ94wptem2CEEcCLOHw2xXaf5RFHn2jD4xRIoplmIdvGNbHftbWL1VaeoFQkFg+j8uWImnHfknNn
+	yS0mMzsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uh7gC-00000001ivs-1wx7;
-	Wed, 30 Jul 2025 14:21:16 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1uh8ZV-00000001pbi-1xlh;
+	Wed, 30 Jul 2025 15:18:25 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uh7dX-00000001iX0-0OPA
+	id 1uh8ZT-00000001paf-2prH
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Jul 2025 14:18:31 +0000
+	Wed, 30 Jul 2025 15:18:24 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 304DE6113A;
-	Wed, 30 Jul 2025 14:18:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61C90C4CEE3;
-	Wed, 30 Jul 2025 14:18:29 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 1288045444;
+	Wed, 30 Jul 2025 15:18:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60639C4CEE3;
+	Wed, 30 Jul 2025 15:18:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753885109;
-	bh=5QG/cxwfN36EtLhLypaOb64DY9SBJPkXgy9O7I/pmU4=;
+	s=k20201202; t=1753888702;
+	bh=l2wqk+JqKB6dJ/mOYQb4Q66E1oBu3VoufoALfGPdEXg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SUyG+PxCK7rXERFWp8Qs+h68JBAUb9gurZ52iqE26peUYzk4MKbt4owEdJqVsTFWv
-	 OwIVtJ/HE0E9xzjUa5b9qRn7oGlQSbVebo9PFEUvetcMKc0iNE1iwdFBYZfhP3g/5d
-	 W363sMgoRUevsds5lWlJXKghTgsqyQ75Kk0tLFT0unhOv4XN6mJnPpdxcnYT84DAwe
-	 3MpeZdW/cRHdYN3m2Qlgu1xoLKwj0pfdufYx7fs5uZ13qogiH+3WGWvL2AyEaFayQb
-	 yctoPwEfeGgJRXm0arZyw5zme7+E0FCoJIufJgpKtELogQcgEviVtM+UA1y+uqlvzT
-	 XuXyyhJlsjyaQ==
-Date: Wed, 30 Jul 2025 08:18:27 -0600
+	b=uf2dVkaQ0z378V9516yzKPY5lW1aYWiiWWDLBtj20oz9MCF5yj6vEc7bLVuKaV4Nr
+	 mBUzMkWUOVZSWkK8JN5UyAXWVvFJPDW3kOOGV02Z88u1dl6mFv66BhMqOOM0+V2cbl
+	 A25bhCfgCM9AbCn74upfhHSmApnmwTDRG9lt6vjW8K35+23IOLm4k13xREnGbDJU6O
+	 piPlBy2laCbY9u2VJGcorzf1/Zvrk4nXkh1Yb522NeWuseYYWUjAXRyANXrLtpuzbF
+	 7Xy3AanJxmVygaJDwCs2zf6kmNdQ0xWHj+qxIWPG2p0Lh5u7FaVz0H9uo8OmjEBV4W
+	 CvhRhAQ7/N7gQ==
+Date: Wed, 30 Jul 2025 09:18:20 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: Kanchan Joshi <joshi.k@samsung.com>
 Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org, hch@lst.de, axboe@kernel.dk,
 	leonro@nvidia.com
-Subject: Re: [PATCHv3 2/7] blk-mq-dma: provide the bio_vec list being iterated
-Message-ID: <aIopsymJJaQ0AAZC@kbusch-mbp>
+Subject: Re: [PATCHv3 1/7] blk-mq: introduce blk_map_iter
+Message-ID: <aIo3vLnxQFWCD_pv@kbusch-mbp>
 References: <20250729143442.2586575-1-kbusch@meta.com>
- <CGME20250729143610epcas5p12a897510ef6da6563d32c7a41ed21659@epcas5p1.samsung.com>
- <20250729143442.2586575-3-kbusch@meta.com>
- <8a4e7512-a997-4ff1-b465-2597bc6fa778@samsung.com>
+ <CGME20250729143610epcas5p114f07bbd8e9c27280e6ebd67b1afd47f@epcas5p1.samsung.com>
+ <20250729143442.2586575-2-kbusch@meta.com>
+ <09c06697-dd77-47bb-85c5-fd64e75c7968@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8a4e7512-a997-4ff1-b465-2597bc6fa778@samsung.com>
+In-Reply-To: <09c06697-dd77-47bb-85c5-fd64e75c7968@samsung.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250730_081823_741142_B75A2852 
+X-CRM114-Status: GOOD (  14.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,21 +75,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 30, 2025 at 05:45:27PM +0530, Kanchan Joshi wrote:
+On Wed, Jul 30, 2025 at 01:48:42PM +0530, Kanchan Joshi wrote:
 > On 7/29/2025 8:04 PM, Keith Busch wrote:
-> > @@ -151,6 +146,11 @@ bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
-> >   	memset(&iter->p2pdma, 0, sizeof(iter->p2pdma));
-> >   	iter->status = BLK_STS_OK;
+> > @@ -39,12 +33,11 @@ static bool blk_map_iter_next(struct request *req, struct req_iterator *iter,
+> >   	 * one could be merged into it.  This typically happens when moving to
+> >   	 * the next bio, but some callers also don't pack bvecs tight.
+> >   	 */
+> > -	while (!iter->iter.bi_size || !iter->iter.bi_bvec_done) {
+> > +	while (!iter->iter.bi_size ||
+> > +	       (!iter->iter.bi_bvec_done && iter->bio->bi_next)) {
+> >   		struct bio_vec next;
 > >   
-> > +	if (req->rq_flags & RQF_SPECIAL_PAYLOAD)
-> > +		iter->iter.bvec = &req->special_vec;
+> >   		if (!iter->iter.bi_size) {
+> > -			if (!iter->bio->bi_next)
+> > -				break;
+> >   			iter->bio = iter->bio->bi_next;
+> >   			iter->iter = iter->bio->bi_iter;
 > 
-> I am not certain yet, but thinking whether this is enough to handle 
-> RQF_SPECIAL_PAYLOAD correctly.
-> Maybe "req->special_vec.bv_len" also need to be included here to 
-> initialize the iter.
+> This can crash here if we come inside the loop because 
+> iter->iter.bi_size is 0
+> and if this is the last bio i.e., iter->bio->bi_next is NULL?
 
-Yeah, I think you're right. I had only tested 'discard' for the special
-payload, and it appeared to be okay, but I suspect for the wrong
-reasons. I'll fix it up.
+Nah, I changed the while loop condition to ensure bio->bi_next isn't
+NULL if the current bi_size is 0. But I don't recall why I moved the
+condition check to there in the first place either.
 
