@@ -4,64 +4,219 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C472C83F26
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jul 2025 20:44:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94A50C83F26
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Jul 2025 21:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UtzAHF6TKJTCrgPAs5tSylgZVv7xVKoEGctRkGqFD7c=; b=xY3QSfmjKT21nQe9Y+Q1kBPfSd
-	4TsncIlznjs7CWH6PauAgbW/GmrWg6djdu6Z5WkycNFBEYRAnnZ9wlDkHg1Yg1R9rdtSyK2v1kgcT
-	RZUsBjCobSg8ZNCmiARxX/KbtZV+F1xpc0gF4ZbPFgWw11BWmKptz+vwzJcCTEuG0n7tu+bdhq2Dc
-	m4XC0+XmRf67OC7bkdtLmN+8tdKhbBVsiBmw4w2Isf1CThXfR0mFAupi41LBNyO1UuqgdUtRqVkNj
-	p/Q0BvUhZB8K7Bo0imQ+/6duaLN7rkKHlgVfaSF2MLoaXgZSlglmbqaXMDKKTs3FYt+hG1cwUy7ev
-	zNn9IxKg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0zYdqqfxhE45lr+noUdjI9K642jFv6WumbQMEoDo+CQ=; b=QPJIbfbe76unNwcNuJkJqhc7ph
+	p4QmkRU0oUcvPn7kWwFoonH5Z4GdfWEjDpyvbryzHRzfoEB3MXMC2VE8BPNKdgIoznH+YJhXWf+rW
+	gjcOvqe6W45Dj8LGq730zzCM5qmozP747JUSKYTCE0fTJRrZJJOU8h9D2YWm8pEN2wwRTP9xf5syi
+	cn5jJZFy1gdOhfmKhH79nsN2jclMwpxLgjptJm+xVlkoQNqf3zbXoYSMxOE0NeUDahj1md2BEoNvY
+	oLyBtIBa8sV0/ecx+FMMqpTLWNUmnY6PwkqLn9J04dQZu5BymOO/ZrcgIbAJwXCZi/M1KfzZmWaJS
+	TX7v5CkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhDel-00000002Pp0-1hRs;
-	Wed, 30 Jul 2025 20:44:11 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uhDx6-00000002RoX-2SHT;
+	Wed, 30 Jul 2025 21:03:08 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhDej-00000002Pof-10B0
+	id 1uhDsq-00000002RIX-3MEm
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Jul 2025 20:44:10 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7E0BCA55494;
-	Wed, 30 Jul 2025 20:44:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D83A6C4CEE3;
-	Wed, 30 Jul 2025 20:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753908248;
-	bh=9DGGOM6EwJkIBDAlhMmSBcz1QoJ4tVGZFEhbp72aT4o=;
-	h=From:To:Cc:Subject:Date:From;
-	b=W+D9R1GR4Tykso/U8BLc/iPWkdl6T6lr2XR6f+oc2MvT6VbaSrJFe3HF8e8FClgRq
-	 rCq+krrpCxpi80UYdb00d4GVLnEQIwZ8G/K1E/cgeAiYqUfulMbYPusVPJ5WqxDq6p
-	 zakJF6v/vd1zS9YOYLMp84c81jT31vMhseYC9uz/X5yvWaLRj3XQFrqxBZSSY7hQSQ
-	 gIfJsaBgokcIes/D48u5oacmIkvQB5V5uK2qaDvmqpolyiPSdDJCNLZv0mfD9GUNU3
-	 T9/meV+X/AmOKr4RXVXpZMIz60cOYhclRNyVxvYAvTmnZyJTax34aAFfyIQRjFwGf7
-	 yjLsjSa/ezLkg==
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Casey Chen <cachen@purestorage.com>,
-	Yuanyuan Zhong <yzhong@purestorage.com>
-Subject: [PATCH v2] nvme: Fix typos
-Date: Wed, 30 Jul 2025 15:32:45 -0500
-Message-ID: <20250730204353.3383702-1-helgaas@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	Wed, 30 Jul 2025 20:58:46 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56UJC3cc009469;
+	Wed, 30 Jul 2025 20:58:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=0zYdqqfxhE45lr+noUdjI9K642jFv6WumbQMEoDo+CQ=; b=
+	eLefAVYPYoO1luQHM/Qk0v3Eo9NS2eaU3jYS1fKl/2KH8LrKwRsPN4WM/FrB2XWP
+	WyBTCiskenGk4r2+vKXHMFqIEFL8DiWhVGNUUstfg1HSU2I6Tq/NcNFkOescydSh
+	6nDhYHfbJ0LWj4BNMB3pzbza71LqxXt3sphqOVvbPAsxaXQ2iHsrmErgL/fSLT29
+	FunF/W4JQUTolhIyrV5g0VaaOS+xHLxv2Jj7UuvYTO5GjaNTEptbS5X6NYTXm5b1
+	fqPHaHHRN3qIQnrsW7XPCcDOjXH/Qh+pB2kWKq9lzWUgfu8J68drzqhmQF+1/8kM
+	GiESIU6Qa2hJL4vjCyIq/Q==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 484q732up1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Jul 2025 20:58:24 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56UJLes3016708;
+	Wed, 30 Jul 2025 20:58:23 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11on2054.outbound.protection.outlook.com [40.107.236.54])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 484nfj0kgk-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Jul 2025 20:58:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sBRAVNtFRpkR2hL6hprGy/REmh1svxrDNL4hCN35pnzN7hSQR3+x+lg5XDOCtBIOuAr7o24Vl0U5GMnneX1ulwIdcnQ1kcQTR28PN03msYDVktVlYPMzMUTqtTEiTzUPHFDk5U9uLHNgaDTvUYRupz256nfhXJDSrXx5CMCblb2PpPYZZIRYWgkEg+7UQZJ47/wJf1DCSMuc9nI+fRRr2dHsASuskeXesMUUEdaA054cxnmJLuqARUwWhVVBDsXiEX/+58gLGCu7K0Ik+InkLKLDR7wyRttzdzb0gz1TLYcnn0YIHa7KOwtpQLKUXmOS08vqD0rYoZRG/Khx68LhNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0zYdqqfxhE45lr+noUdjI9K642jFv6WumbQMEoDo+CQ=;
+ b=kBVCz+ntf0q+UhyG3cJxm26noTHTeYy2hRUM3j7vCu3QacogEFXmxuLGaH6l9NVQn6BBX61GmcRtdQe66HU7ExM9AbXZV4TcInn2SXeKV6G9pxskjFCb+gnBWjl7PcDpbNLtkqOj8tr33WK+vTipntquSMzarHgu3WqTI/hk/k9f69LkuKql+T2/aOO31DlUz9E2CFy2dB9JKLI1OXAk2n17687+m1gpzQjXGuZ0W51X3MRTTmJX3AyS+E4urrMO9IK+hHUWjIF/PALPXM0yMx2LO4zm0H4xshxKNJ+7gZUWI2vEL3pE+q/cF63DuNnngRDmP2Ls/5kNB/hlb4c41Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0zYdqqfxhE45lr+noUdjI9K642jFv6WumbQMEoDo+CQ=;
+ b=v3ng+aXVI73FZdhJ2Z8xdbihBe6JE/HmzdL98KOl0itvk77m6bXJSlAvxHmE7uu6q78fkYrBJuQDaQm0FxdekCKNr2XhqrWoUmQYNCcPvsqQImc92WB0+OzYgFB6niUtUq0SGmQ0l2dUdz5Q0xgl6PcINgbx12AxaVVn6EBL1nE=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by SJ2PR10MB7733.namprd10.prod.outlook.com (2603:10b6:a03:57b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Wed, 30 Jul
+ 2025 20:58:19 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90%5]) with mapi id 15.20.8989.011; Wed, 30 Jul 2025
+ 20:58:19 +0000
+Message-ID: <8753ffaf-0146-45c6-9189-bd8ea3e74e71@oracle.com>
+Date: Wed, 30 Jul 2025 16:58:15 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] sunrpc: fix handling of server side tls alerts
+To: Olga Kornievskaia <okorniev@redhat.com>, jlayton@kernel.org,
+        trondmy@hammerspace.com, anna.schumaker@oracle.com, hch@lst.de,
+        sagi@grimberg.me, kch@nvidia.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+        netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+        neil@brown.name, Dai.Ngo@oracle.com, tom@talpey.com, hare@suse.de,
+        horms@kernel.org, kbusch@kernel.org
+References: <20250730200835.80605-1-okorniev@redhat.com>
+ <20250730200835.80605-2-okorniev@redhat.com>
+Content-Language: en-US
+From: Chuck Lever <chuck.lever@oracle.com>
+In-Reply-To: <20250730200835.80605-2-okorniev@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR04CA0112.namprd04.prod.outlook.com
+ (2603:10b6:610:75::27) To BN0PR10MB5128.namprd10.prod.outlook.com
+ (2603:10b6:408:117::24)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|SJ2PR10MB7733:EE_
+X-MS-Office365-Filtering-Correlation-Id: a2c3e023-477b-4348-d431-08ddcfabcff0
+X-LD-Processed: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024|921020|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M2JaNWtadFJaTXB6aVdxcEhBZ3d4b3l2Y0g4R2dnWWhHRkpscElIZ1o1RDRJ?=
+ =?utf-8?B?UHUwSURPK3cyNlkrYTk0OFZmamczMUtnRjhwa2lHTFhkSDRBS2VYZktTbmtC?=
+ =?utf-8?B?UnZXanJSRGdMUnB4eG5mdEhXQlk3blpIa2k1OUZuZTkrRmIvUGtWa25JQ29T?=
+ =?utf-8?B?MXNoTTBZYmEzYUtIUkRXQXpPOXozbHN0dWVjQ0VDOUxYMW1iSmZ6dTNGdmhv?=
+ =?utf-8?B?TWNFTkd5VmpVZk9QeURhaVF2NUo4MXdmT2lMQ0NiUUpicWxBeHp5M3pqTkRE?=
+ =?utf-8?B?bEZrM0toaXduL2ZYYUFFL2lnNklZOGhFUWF4MFZ1TGtSd0k1UjZ2QjFxNXhW?=
+ =?utf-8?B?WFVBditPUnN3WDl4aHRuOVFVYS9BcnJiNm0wcjdqeWFrU0p0OVhvcUhZSzBh?=
+ =?utf-8?B?ckpSYnFiejhLMVpkTmJGOTJZaFJNVStlNHdXSmd4Y01ST0h1TzJvY2RSd3B4?=
+ =?utf-8?B?OExlaEZvVnJ6TlE3Q1NJSmtheUs1RlFFWVNIOEk2SDBhVlZEUFZ0aTM0RnZL?=
+ =?utf-8?B?RXpnR0JyR2lWZ1craTZxcEQrdUloWXI4OUVOdlpQMU4zdUcrVjBxR0ZZNmFj?=
+ =?utf-8?B?WHZGM1V6clYwU3Exa2dXY3pFNHJ3UnJXbUY4WUU3MGdNTTEvU3k4d1NHV1Ir?=
+ =?utf-8?B?c01DbDFtSXd1UXh4NmVIUTU1amRMZ2Zvc1VlNHFWRWhCYm1tUGdEMlYwNVJM?=
+ =?utf-8?B?RzRqcVB6NjRFNzIvTHFIM3BlQmthbjgzQ1pHdHhaZ0xHaS9qaW5FSlpVSE5x?=
+ =?utf-8?B?alZJbW43M2lzMUlUTlpoMVRHbG1vSWxQTzQrNmhSQzRMV2YrU2NCYUZvYmZx?=
+ =?utf-8?B?MVJLcFhmQSt2dUdsck4vc3RkTVRWTWczaTR4ZjN0YUZQbnIybXM0S3FkSDNC?=
+ =?utf-8?B?UVo1bkE5RkwzQUR5K3NLbmpzQWlmZE5WKzFJYVBReHBPaXVGdkxBWG1tZFdw?=
+ =?utf-8?B?dlAwYTB4bUdlUHJvMnorWVovZ2t3dFRGakNMVlZOT05mLzh5T2VKU2JtUERs?=
+ =?utf-8?B?Q0ZWYjEwRWdDMXdOMXBVSGk5M0xqZHdrS1dHVkNpWGNKR0ZJNEg0ZGNHWVIy?=
+ =?utf-8?B?NzN4bWhLMXlmbGZFOXZ3ZDFWYnBJZzZLK3Z2eTIrSTB4RVBYNzhNbzFoVW1J?=
+ =?utf-8?B?YmxjM0hnM3VXME52ejhXR0VRQVZESUdVL2ZTNThnOVA3MW9UdE1qNDBlbmdu?=
+ =?utf-8?B?ODI0NVpuWTkzeDFTRlpMb1dQWG1rc0FkbnU4QVFQc0xuZWF6cVl1TXMreldu?=
+ =?utf-8?B?R2JyY0JHd1dKb1JFUm5WVVFzTFRQQ3dCNG5wQ1VyUXVRYWxCcWQ5a3o4RGxI?=
+ =?utf-8?B?SzVPa2JsaHQwSHZoQ3ZWM1IvVWd1RUd6UlFseVlGejA2aXY3NS96UjJnREZU?=
+ =?utf-8?B?c0lsOGhrVDVlcjlHb0dpQTN2SnNUcERQRlh5OHQyKzI0RjRCTkV3RW1DU0t0?=
+ =?utf-8?B?Z3VQOGFIaDhSeXppazRPNWh1VHVrQXpUZFk2cUNnRnRXMHltSWpPYWlGdkV5?=
+ =?utf-8?B?Mm9OQ0ZDL3U4UkZ4VFJ2alVxUnJlTzEzQWZOMUdKOElwaW80WFdlMG9neTFh?=
+ =?utf-8?B?Mnk2R2tDM3lJb0VnUHg5dkl5R0hGbXJaL1c5WFdIQWk0L2lmTjhPMDU1OUdy?=
+ =?utf-8?B?RkNhYW5HK2ROZnczMTFxNGdkNDkrTXZXWVdPYlhYWXFDclVWY1pwQkZnc25I?=
+ =?utf-8?B?d3hHNCt6SGVuSHB3Z0xoblo3Wmx5blJxRmY4UzVFeDVkWld3ZkJhUTVYdkZu?=
+ =?utf-8?B?NFh4MzRQbWdyTFF5a2FaUEtwejhYYUNQbUozL1FBWmhvenNnRGt2Qkl2T0J3?=
+ =?utf-8?B?RlFLNXJFUCszU01kMXcvSTNCbWZhZExlMnpFSGUxRjdlcjM1WkJHUXYxczFX?=
+ =?utf-8?B?bk9yVzdGN0l3UzBsVU1QM0xyQmFhcElLdERPZGFnQ2hMaUlTcVVEdFRVV050?=
+ =?utf-8?B?SHRmRVB1MmpQOGR1amdKY29oQlZBb1A0RVF4bk5VNFN0b1NHL0tObGppcW1L?=
+ =?utf-8?B?dkJyMmlBZHRRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(921020)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UjBmZTkxSkxTeDE1K3QwQ2o2U1l4ZzM1T3RIOExHTFk5bWl6M2tsTmp4WGtE?=
+ =?utf-8?B?MjEwQmhhNDVRMmVlTUxXeksyNDh5NzU0cjVTRDA0WE5Sc2x6Y0hYZ2lRMk9I?=
+ =?utf-8?B?WUc5T3ZKWWp3bXU0eHdURUdROHlHZlVnVlZocXZqR3NvUG1oSERNWTRjUWxX?=
+ =?utf-8?B?RzZQakZ0U09MZ1VvZ0dXdDhpbXptc3RSbGlOSkpYMFRHbXJOS1dWSm5BVFZj?=
+ =?utf-8?B?dkl6WlE1K1pzWEVLTEZtd084QWtvNk16cVV0OURhVGFuaTJnckJ3TTVXUVFv?=
+ =?utf-8?B?YXZaMHV5WTJoTWt6Y0lTK3FaRStHelY1R1hveVZQZW9HY0FRazZSTWJuU2My?=
+ =?utf-8?B?UDgvZkxKU2hGcjA1dW1mZ0NtS2twcWpmNXlFUVVBSGRHalc2UE55V1FRdDh3?=
+ =?utf-8?B?bDNzcGxlTEtPcmx5MlBLTDNYQXkzQ3M3Y0JlUEpRQUR0R21BWjRTMzR5SVI1?=
+ =?utf-8?B?LzVQOGljaytCSjRBdmhmdWNpUEZzeTNFSTI5UWNSalVESi9TSWJGTk51WXdC?=
+ =?utf-8?B?UE1EakNkbGVWZm54OGc3emNYbC9kdjhwakZHU2V2cnRuY3pVYW4ydDZSenJX?=
+ =?utf-8?B?eDl4TGJjZ0Zab1FMb2RFSm9rbVpuQlptZktwYXRCQzBhcUFyQ3EwbC9Jc1pQ?=
+ =?utf-8?B?d0NnOTJVdEI0V2hYTEJ5d3RacWhVdWZtV2Eyazh6MnFlU0FRczFGMC9QcFJ5?=
+ =?utf-8?B?Z2c3dVNycGJmMzh0NjRRQmx3MVVQWEtJNkhDYkdPcWo4eFViWFZ5MW9Pbjh5?=
+ =?utf-8?B?NnMwZ245SVo1MUlUdmFwVDBBMFV0QXdHTDV0ZnVRMngrWUVIQXlaa3JWVm82?=
+ =?utf-8?B?cEtMdlpEdnBnVkVMY0ZONHRtTnZ5L1VaQk9QSDcrZ1I2Y3dnR2VmM0NYRXgz?=
+ =?utf-8?B?UGxkMVduYklqZG5HcDFsQjgvQ2tFMkZhSEFkMEh0MjRFaEtPOFMvZW9VS1Fm?=
+ =?utf-8?B?QjR3WlZXTk44NVJGU3VKZG0rV2R2Z2E1M29FSUMvNTU5UVJsYTVMVE9YRXZP?=
+ =?utf-8?B?a0dsaEhKdm81dTFOTzVsZGY1WmljdEc0WGVVdi9oaHEvL3ZoQm10dkh1b1R4?=
+ =?utf-8?B?L0lrQWxIdUc3NEJLbThrRDh1bXdib3VETWVmYnJKdlhJMnVHN25CdmZSc3Jl?=
+ =?utf-8?B?SkZudzNzaE5iVkNMS1VlaGl5ZUJ1aDNoaU9tbTR3dnhoNXl4V3p3VExPdS9l?=
+ =?utf-8?B?bFVGZ0dNR2lmT2Q0SndSTVdHdlVvU00xZjZmRE56ekxDb2pXM1NydXFObVlQ?=
+ =?utf-8?B?dzE1RGIwRjd2bjJGc1dFWnBLeng1UWRuMU5UaGtCajhRU0pTOUloS0ZhUEZO?=
+ =?utf-8?B?RTRsUnVrT3hTVllnWk94M0ZTT1ZmekxYVVplL0R2L0hGVE10QllUY2tPajZ3?=
+ =?utf-8?B?ZnFSYWs5OVluSGkrNUlwaEFyYmtqMERNYWNaZS9VMUJvOFpScmNFeTM4QU9x?=
+ =?utf-8?B?L3VnTjA4TVY4dVp1VWUxQjRkcEhGbU51L0h3UWF3YmdKVGV0cU1qNUJSZ0cv?=
+ =?utf-8?B?SzEvOG1uVzZEZnBlS0o5ejZTWFQyRXpibnRBako1MjN4WTZESGZOQU81akkx?=
+ =?utf-8?B?akFjRTJ3N1c3blAwbWpWM3gwcFpBSnVnaVlvTnI2bmovamc4b08vcjJvODBn?=
+ =?utf-8?B?MmdSMmc3c0dlWklialkrRVpadHFqWVhBQ3lVcmU3TXRHK3JwYWxWQ09WRzBQ?=
+ =?utf-8?B?T3RPYnEySVlpNVJrOHZTeU5DNi9GUVdIdnhqRDB6NkY4eGhzOVBuRmJaaFNy?=
+ =?utf-8?B?eU5BZDBuUVRmQTdRdFYvbHpGMjRTejRhOWZ4bklmTUR4dE01SEUrQWpicW1Q?=
+ =?utf-8?B?UUZtY2IxcXM0aXEzdXpwdUFPRWRwcTNpWkoyNFk4NEw1elNaTVFWOExUdUZR?=
+ =?utf-8?B?Q0xSRm41NHJuaG05RkwwTHZLZGh3UGU0QXMxb1ZzbGJUTmZQWmJORUVXdGw0?=
+ =?utf-8?B?dTYxb0RLN080SHQ2MkNMUmsySDFXdWxQaWxqSERTSFdzT2dpM2QxZlV2SEMz?=
+ =?utf-8?B?VGRzckpNbHNSYXlMTURxdUxIamdzWHgzeTRDYkVwanBoZjNEZjFLTEhLam1K?=
+ =?utf-8?B?cWdONVQwTE5WZmZya0VFUkkxMzJSRnBTdk5hV0tuNW55ZnZsM0x3ajRRRkpW?=
+ =?utf-8?Q?aDUVq4DHNuQtK+Ecexxu1UVpS?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: ZLNJKio9F1mO88edw9T6vMC5/b4BEm3GhDuU4mL9gC5ao2efaGpyOcWKCBKZXwJsX4dUuhXFe5pe2EgrD8Zi4sLZ+QakIxV94SRqlrAliMJVDrL2eb0pfGETUc7/kxIqv6POqwiI5VQsJn6bU7Xigp3cEJhJ8Gojl8ybulnq5axS2LAMNnra0z6taSExxQhhPkxqbxq8gmqG6oPVPBIcP+0FLPPSIy2cekST9CIgiZSzv1+FStMrMVdgK4JU7/f5X6eAiTmYD1YuShHFP0zszE913Qqf/bKnuXFK+m6oWwgPqSE8stOHOM0j7iNvdK6zcWdWu3+d5XOQWutkSEZYxVks5PSFG+aBYuM5R1lZBxpVb24FIIpzaxQjj8QYZEZ5WBjnUXUgkL7+K1nzpvs+L5P9nWcDvCyg35rSiwTbx5G9TU5DLfaKT7gJQjMQ5DoWByFOMwU090B7tmfS6YqRbINEt+QVBj7xv7TvMGD7/EOh8UGhjQzDz72y7O8k+xnYHTXbBrsetG0uEK0yn4j1l4p1HOoTMnIikWR0QWtYONpY1Zbkrln1HhBlsNiG/my7OsqhoTWQGut0ZYzbQUcUEtd3GfnVxmOTKN29fT7gKh0=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2c3e023-477b-4348-d431-08ddcfabcff0
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2025 20:58:19.3715
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AsjoUiXbRIZPTHf/ZlgRJHfqTdoklUTpsjlwCGN5sRxhz4BRif7soOtztSRGYC/iBMIIwzohLrTjZjHykvDaOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7733
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-30_06,2025-07-30_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2507300154
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMwMDE1NCBTYWx0ZWRfX3TsN6cVxySyM
+ uDQcRNY1sVtGtGoARL3F9p7E7lhMMlfQNaSx51Yz9cnlFjul8h7KkIxtA8VDfq5x8D6DB48bVvG
+ ba+ddSaSs2G1UgJBCPhcA8n3uUXqkx/Ky/qQKMnoMTvbG66w/CplMn8MiVlLWf1aQzxnKo+v4/h
+ wAL6BTMh4IRC3xUJBKOMdZpBXThEPsxwYfFBND9NrcQ2w79jF0Cp9qyVmV2+a+tbT7AFINSLNjo
+ FrwCvPMeUo1toFAYUuDiKh7ztqK3YBvrv1/+kFc96vV1b8edxVO0isef+04MnNENyPvCvP2YUjn
+ MKNPckMmg2I47k2VpNnCgkVJyxKqMktBL9DgS3wZSf6jOyRUymX1Ghj9G0WGTnNhVwKMAvWwXqj
+ ZBq3XeGo5W1FpVDwuNcs8iMP5ejymnPgss7MeZRgKUSfpzoTZAdUoen5dphhfRCvtOzVf8UR
+X-Authority-Analysis: v=2.4 cv=ZO3XmW7b c=1 sm=1 tr=0 ts=688a8770 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10 a=20KFwNOVAAAA:8 a=SEtKQCMJAAAA:8
+ a=SUf_EqxKJVXSl-XH6VAA:9 a=QEXdDO2ut3YA:10 a=kyTSok1ft720jgMXX5-3:22 cc=ntf
+ awl=host:12070
+X-Proofpoint-GUID: Zb7APkcHMOvNCpiQD74V07VvmLTbjHsA
+X-Proofpoint-ORIG-GUID: Zb7APkcHMOvNCpiQD74V07VvmLTbjHsA
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250730_134409_411362_6CD6A0D6 
-X-CRM114-Status: GOOD (  21.88  )
+X-CRM114-CacheID: sfid-20250730_135844_977977_0E9ECCC5 
+X-CRM114-Status: GOOD (  20.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,134 +231,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+On 7/30/25 4:08 PM, Olga Kornievskaia wrote:
+> Scott Mayhew discovered a security exploit in NFS over TLS in
+> tls_alert_recv() due to its assumption it can read data from
+> the msg iterator's kvec..
+> 
+> kTLS implementation splits TLS non-data record payload between
+> the control message buffer (which includes the type such as TLS
+> aler or TLS cipher change) and the rest of the payload (say TLS
+> alert's level/description) which goes into the msg payload buffer.
+> 
+> This patch proposes to rework how control messages are setup and
+> used by sock_recvmsg().
+> 
+> If no control message structure is setup, kTLS layer will read and
+> process TLS data record types. As soon as it encounters a TLS control
+> message, it would return an error. At that point, NFS can setup a
+> kvec backed msg buffer and read in the control message such as a
+> TLS alert. Scott found that msg iterator can advance the kvec
+> pointer as a part of the copy process thus we need to revert the
+> iterator before calling into the tls_alert_recv.
+> 
+> Reported-by: Scott Mayhew <smayhew@redhat.com>
+> Fixes: 5e052dda121e ("SUNRPC: Recognize control messages in server-side TCP socket code")
+> Suggested-by: Trond Myklebust <trondmy@hammerspace.com>
+> Suggested-by: Scott Mayhew <smayhew@redhat.com>
+> Signed-off-by: Olga Kornievskaia <okorniev@redhat.com>
+> ---
+>  net/sunrpc/svcsock.c | 43 +++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 35 insertions(+), 8 deletions(-)
+> 
+> diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+> index 46c156b121db..e2c5e0e626f9 100644
+> --- a/net/sunrpc/svcsock.c
+> +++ b/net/sunrpc/svcsock.c
+> @@ -257,20 +257,47 @@ svc_tcp_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
+>  }
+>  
+>  static int
+> -svc_tcp_sock_recv_cmsg(struct svc_sock *svsk, struct msghdr *msg)
+> +svc_tcp_sock_recv_cmsg(struct socket *sock, unsigned int *msg_flags)
+>  {
+>  	union {
+>  		struct cmsghdr	cmsg;
+>  		u8		buf[CMSG_SPACE(sizeof(u8))];
+>  	} u;
+> -	struct socket *sock = svsk->sk_sock;
+> +	u8 alert[2];
+> +	struct kvec alert_kvec = {
+> +		.iov_base = alert,
+> +		.iov_len = sizeof(alert),
+> +	};
+> +	struct msghdr msg = {
+> +		.msg_flags = *msg_flags,
+> +		.msg_control = &u,
+> +		.msg_controllen = sizeof(u),
+> +	};
+> +	int ret;
+> +
+> +	iov_iter_kvec(&msg.msg_iter, ITER_DEST, &alert_kvec, 1,
+> +		      alert_kvec.iov_len);
+> +	ret = sock_recvmsg(sock, &msg, MSG_DONTWAIT);
+> +	if (ret > 0 &&
+> +	    tls_get_record_type(sock->sk, &u.cmsg) == TLS_RECORD_TYPE_ALERT) {
+> +		iov_iter_revert(&msg.msg_iter, ret);
+> +		ret = svc_tcp_sock_process_cmsg(sock, &msg, &u.cmsg, -EAGAIN);
+> +	}
+> +	return ret;
+> +}
+> +
+> +static int
+> +svc_tcp_sock_recvmsg(struct svc_sock *svsk, struct msghdr *msg)
+> +{
+>  	int ret;
+> +	struct socket *sock = svsk->sk_sock;
+>  
+> -	msg->msg_control = &u;
+> -	msg->msg_controllen = sizeof(u);
+>  	ret = sock_recvmsg(sock, msg, MSG_DONTWAIT);
+> -	if (unlikely(msg->msg_controllen != sizeof(u)))
+> -		ret = svc_tcp_sock_process_cmsg(sock, msg, &u.cmsg, ret);
+> +	if (msg->msg_flags & MSG_CTRUNC) {
+> +		msg->msg_flags &= ~(MSG_CTRUNC | MSG_EOR);
+> +		if (ret == 0 || ret == -EIO)
+> +			ret = svc_tcp_sock_recv_cmsg(sock, &msg->msg_flags);
+> +	}
+>  	return ret;
+>  }
+>  
+> @@ -321,7 +348,7 @@ static ssize_t svc_tcp_read_msg(struct svc_rqst *rqstp, size_t buflen,
+>  		iov_iter_advance(&msg.msg_iter, seek);
+>  		buflen -= seek;
+>  	}
+> -	len = svc_tcp_sock_recv_cmsg(svsk, &msg);
+> +	len = svc_tcp_sock_recvmsg(svsk, &msg);
+>  	if (len > 0)
+>  		svc_flush_bvec(bvec, len, seek);
+>  
+> @@ -1018,7 +1045,7 @@ static ssize_t svc_tcp_read_marker(struct svc_sock *svsk,
+>  		iov.iov_base = ((char *)&svsk->sk_marker) + svsk->sk_tcplen;
+>  		iov.iov_len  = want;
+>  		iov_iter_kvec(&msg.msg_iter, ITER_DEST, &iov, 1, want);
+> -		len = svc_tcp_sock_recv_cmsg(svsk, &msg);
+> +		len = svc_tcp_sock_recvmsg(svsk, &msg);
+>  		if (len < 0)
+>  			return len;
+>  		svsk->sk_tcplen += len;
 
-Fix typos in comments.
+Fwiw, I've already pulled 1/4 into nfsd-testing. But 4/4 might not apply
+until the others are in the tree. We might want these to go through a
+single tree.
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
----
-v1: https://lore.kernel.org/r/20250723202801.2909506-1-helgaas@kernel.org
+Or, can we delay 4/4 until 6.18 ?
 
-This v2 based on nvme/nvme-6.17 (e97c0040215f ("nvme-auth: remove unneeded
-semicolon"))
 
-Changes from v1:
-  - Drop drivers/nvme/host/apple.c fix; already fixed by 164c187d25b6
-    ("nvme: fix multiple spelling and grammar issues in host drivers")
-  - Drop hunks from drivers/nvme/host/fc.c; also fixed by 164c187d25b6
-  - Drop drivers/nvme/host/pci.c nvme_setup_io_queues() fix; the comment
-    added by e4b9852a0f4a ("nvme-pci: fix multiple races in
-    nvme_setup_io_queues") needs more grammatical work than I can do to be
-    intelligible; authors cc'd
-  - Drop drivers/nvme/host/rdma.c fix; also fixed by 164c187d25b6
-  - Add Chaitanya's Reviewed-by since I only dropped hunks, nothing new
-    added
-
- drivers/nvme/host/fc.c     | 4 ++--
- drivers/nvme/host/tcp.c    | 2 +-
- drivers/nvme/target/fc.c   | 6 +++---
- drivers/nvme/target/rdma.c | 6 +++---
- 4 files changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 08a5ea3e9383..3e12d4683ac7 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1363,7 +1363,7 @@ nvme_fc_disconnect_assoc_done(struct nvmefc_ls_req *lsreq, int status)
-  * down, and the related FC-NVME Association ID and Connection IDs
-  * become invalid.
-  *
-- * The behavior of the fc-nvme initiator is such that it's
-+ * The behavior of the fc-nvme initiator is such that its
-  * understanding of the association and connections will implicitly
-  * be torn down. The action is implicit as it may be due to a loss of
-  * connectivity with the fc-nvme target, so you may never get a
-@@ -2777,7 +2777,7 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	 * as WRITE ZEROES will return a non-zero rq payload_bytes yet
- 	 * there is no actual payload to be transferred.
- 	 * To get it right, key data transmission on there being 1 or
--	 * more physical segments in the sg list. If there is no
-+	 * more physical segments in the sg list. If there are no
- 	 * physical segments, there is no payload.
- 	 */
- 	if (blk_rq_nr_phys_segments(rq)) {
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 9233f088fac8..c0fe8cfb7229 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2179,7 +2179,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
- 
- 	/*
- 	 * Only start IO queues for which we have allocated the tagset
--	 * and limitted it to the available queues. On reconnects, the
-+	 * and limited it to the available queues. On reconnects, the
- 	 * queue number might have changed.
- 	 */
- 	nr_queues = min(ctrl->tagset->nr_hw_queues + 1, ctrl->queue_count);
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 25598a46bf0d..a9b18c051f5b 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -459,7 +459,7 @@ nvmet_fc_disconnect_assoc_done(struct nvmefc_ls_req *lsreq, int status)
-  * down, and the related FC-NVME Association ID and Connection IDs
-  * become invalid.
-  *
-- * The behavior of the fc-nvme target is such that it's
-+ * The behavior of the fc-nvme target is such that its
-  * understanding of the association and connections will implicitly
-  * be torn down. The action is implicit as it may be due to a loss of
-  * connectivity with the fc-nvme host, so the target may never get a
-@@ -2313,7 +2313,7 @@ nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
- 	ret = tgtport->ops->fcp_op(&tgtport->fc_target_port, fod->fcpreq);
- 	if (ret) {
- 		/*
--		 * should be ok to set w/o lock as its in the thread of
-+		 * should be ok to set w/o lock as it's in the thread of
- 		 * execution (not an async timer routine) and doesn't
- 		 * contend with any clearing action
- 		 */
-@@ -2629,7 +2629,7 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
-  * and the api of the FC LLDD which may issue a hw command to send the
-  * response, but the LLDD may not get the hw completion for that command
-  * and upcall the nvmet_fc layer before a new command may be
-- * asynchronously received - its possible for a command to be received
-+ * asynchronously received - it's possible for a command to be received
-  * before the LLDD and nvmet_fc have recycled the job structure. It gives
-  * the appearance of more commands received than fits in the sq.
-  * To alleviate this scenario, a temporary queue is maintained in the
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 67f61c67c167..0485e25ab797 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1731,7 +1731,7 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
-  * We registered an ib_client to handle device removal for queues,
-  * so we only need to handle the listening port cm_ids. In this case
-  * we nullify the priv to prevent double cm_id destruction and destroying
-- * the cm_id implicitely by returning a non-zero rc to the callout.
-+ * the cm_id implicitly by returning a non-zero rc to the callout.
-  */
- static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
- 		struct nvmet_rdma_queue *queue)
-@@ -1742,7 +1742,7 @@ static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
- 		/*
- 		 * This is a queue cm_id. we have registered
- 		 * an ib_client to handle queues removal
--		 * so don't interfear and just return.
-+		 * so don't interfere and just return.
- 		 */
- 		return 0;
- 	}
-@@ -1760,7 +1760,7 @@ static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
- 
- 	/*
- 	 * We need to return 1 so that the core will destroy
--	 * it's own ID.  What a great API design..
-+	 * its own ID.  What a great API design..
- 	 */
- 	return 1;
- }
 -- 
-2.43.0
-
+Chuck Lever
 
