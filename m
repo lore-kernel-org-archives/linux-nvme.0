@@ -4,89 +4,142 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6164EC87FCA
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Jul 2025 16:55:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C099FC87FCA
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Jul 2025 17:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FSDxbK07W8AVyHd9cJSd+DPYfd611H9p/rcU8K0ZniQ=; b=u61ZxeAySW2WeAl1xmWLwCHHX9
-	hBrl2nRb7EeZpwrMym7CxkllOqEGjZFsmej2bldSrDxn92u3bt+IWKw/C7OMf/m0vHalqrPSR7mYx
-	s504b4FjIkMS83L9QH7UZiV8VR3ubflhkll7XsXjZGTHKqHUWs3fFDfgdDhF+lObWWryc88whH+RI
-	WSiOa7bvuI2BEhnH6RgLQFalZlT02IYzTpsmHXD3q+jh6QzZuLLdQoye5iHMwNGlVdh8X1732OkSC
-	xfM0D2ISE6biEncQcSo4ZRCTGqkLiQFFUrJfxIhHpNIzV7WEEB8c1dl7VrBRAXuQk+hh6T17YKEbk
-	vme7gv3g==;
+	bh=ls5gCUTjVBeUXhIwXzFVvEfqHedChX+/IDCkmstbyv8=; b=pK54UHd2CExHRcRV+UFTqg4Kv2
+	0RmYUU7/MLv8Zr2hQTuNqsuoFGDTpr2LbnWuMIT4mtpYOBHLgpuWE/7OyMa5pfpEd9GG/gcezU6FB
+	KGEVCJJLddPYsnuW2TJQcGRB3U3s6NO7C4xrpSQ3Z2qxY31tVcdUxR22vovA2WsnVa2w10UeKvVHR
+	E8ScS2DhUCZRqf7mDchSGbmjZ+DTkdX0/EjwneorbGVaeOWib9KiMJvxJ97/+s9ttN0WSt/FgHZjk
+	+jpXoq4SSHj2mrnD8qa2HuVi26j3JAgkhu9Ekd4WHIcM4qDQZJxfInOO7/W4As5xSyCIX6gO4wN/n
+	naApYHHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhWZJ-000000047TD-1qgL;
-	Thu, 31 Jul 2025 16:55:49 +0000
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235])
+	id 1uhWq2-000000049Ls-3Ij1;
+	Thu, 31 Jul 2025 17:13:06 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhWZH-000000047Rc-0FC9
+	id 1uhVml-000000042pf-2CW1
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 31 Jul 2025 16:05:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=ls5gCUTjVBeUXhIwXzFVvEfqHedChX+/IDCkmstbyv8=; b=nPrXdg2pci6Nc3hjROzkv3FvxV
+	B+rdKCniSANreMeeKE54I2Dl21fvb8LrACTnXBZ4MKFQhidxmlZtpL5zu9Z5WOWLi9xgyXIz1JP0T
+	GS5LOGLywiwe4zF1HGQjEbO5S1SpAs/HO7/EgHHLCUweYE9RRfuMXxr6QJPMtqyLUjkn836IDOn/I
+	RHRRWPiw7JiGCgjf6Uysrokir13xjFJ2hV0K7n8a534JnigR2AK5pYQJU1ieLOhb3tYhg6RsIKTUz
+	vvyHkfxHbSUsrx6aYk/0fYfie+ntmmfsqaNMSUxfKiXg2r25pu+D/r0672jmmEbxw3ucCE76Cwc7j
+	jwfc0Ocg==;
+Received: from smtp-out1.suse.de ([195.135.223.130])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uhVmi-0000000D5ts-2mIS
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Jul 2025 16:55:48 +0000
-Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-40a55314d06so206499b6e.1
-        for <linux-nvme@lists.infradead.org>; Thu, 31 Jul 2025 09:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1753980946; x=1754585746; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FSDxbK07W8AVyHd9cJSd+DPYfd611H9p/rcU8K0ZniQ=;
-        b=lS3dBXNAIBtyjVbr5bWqYzGMf1ZN9D5+fRjVlIv6bQ4OhZhlJX1mzqO+ZWZNT73GMn
-         F3NcFhp6N+zXyvTY4SAQUyUSVQ1cxB3GWcM2QaM3rIvsOiFYBU66BJTw+KWZ4ntUVgBR
-         fr4wdx6HiPkTYhUAkuyehRnWr9EzYJ78OGx4NzDMvj/UMqOKH0kCO0j9yWFP7tcNvAjr
-         LLJZknQYujcGv+L/mGbk/gajQT9T8ddS6iLfUJAfQZpXjp/x7IbMUxrimaWMpNtvHrBk
-         oaOdxSUP+M0ckpFrG0XAqUwe8WEQKrjJ7YNA8TBzHsX1hKJ40ZcfneF0jq9fRvhF7hi8
-         SFpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753980946; x=1754585746;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FSDxbK07W8AVyHd9cJSd+DPYfd611H9p/rcU8K0ZniQ=;
-        b=mHCskMJ2+SanGFXIKkPmVTbAAQNQqEvbM36HDuupu69nIqDJ62Jn5NdxYWgyDdDu14
-         M3MJK46Z99xLElwF4WgOIMvLguPFLSnzwQthpV/YYR+GdgByQDPPC71/FlhziD0dgvrv
-         WNKaARn6ItF88ktvSSmqNd+/IjEalJUGeD6+HZvgaQVsQGWBk2Ja/IG1JFZH02mOyTIF
-         VqqLZ19ifpeYbtY14yMCWqfhRJAw8Su5dpul/tp+gmR+nCA7R8IZlZca4oYHc1hTfVnA
-         IO2nALYNHlI8nKJq2KJtSFTWbcKnQAuoD4FHR+dm5oXOs6l2ODmbHjiL+KdXIHzUQM9D
-         WU8g==
-X-Forwarded-Encrypted: i=1; AJvYcCX3WOuNzEcdxt+OcCZVyehF30SDVn7QAnLdW4dFo2Q1l2xnBlkCP22Vv0Qx/q0xXrRm7F5hXGrQVpRh@lists.infradead.org
-X-Gm-Message-State: AOJu0YzC+LXvMA3VYpJMW5jWq+5qgmFWNqfNCNwQfeIbRjW6fLlVzrg/
-	7nvgW9kNbxJmVwc+m1cKaS7zg1XzLR4+3VzSKDm2aW5Rd03DxmSS3TM5yqRk7n981Fw=
-X-Gm-Gg: ASbGnct4iIP21Dc5zI1V3S2ilVNP4RSYKbZZL8O7q5MBrS3DklcscnuUwS2rF2nbipp
-	zsx5T8fCbjIMy0PeR4cMsRMzsCXMqpUG6E63dp3siYJMQASPiQfHZh9BCqY8NcigQ+kQu4W4Pb/
-	f0LWJhQnzOtsB2U00D5uk8deaiVnFfSDiXuDhbWaCLN/f4Vdj8TtLhH+YhbnD/0O+rIZj7PHnT1
-	4yWL6iYfLKCKlQyEoXMNFr689Yb3wnn2ZZ+nvd2Pf558Yddj6aMFqgyo3LSbvEd4LccxNRRVXPy
-	e6WhFPt2hyUSJmhQM9Cf+dxZZiyyFydDeLOvYoHztHhJN8tap0sifQyXBLMvh+HSJWS1eNrxbIk
-	58H3gtgRRza+JPbPrlw==
-X-Google-Smtp-Source: AGHT+IGcqLPvX2byoEbvS8JWIBfH9x2heV5qHLZk2PAWhIXT8vEiajkPM4wjhrW3C/Kl2vqmdXYTOQ==
-X-Received: by 2002:a05:6808:1a11:b0:40c:fc48:33b5 with SMTP id 5614622812f47-43199c847d7mr4264174b6e.12.1753980946077;
-        Thu, 31 Jul 2025 09:55:46 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50a55db1402sm615015173.93.2025.07.31.09.55.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Jul 2025 09:55:45 -0700 (PDT)
-Message-ID: <fdd15ad1-a1e6-4e22-9cef-0dfce1f8b24d@kernel.dk>
-Date: Thu, 31 Jul 2025 10:55:44 -0600
+	Thu, 31 Jul 2025 16:05:38 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3903F21CFF;
+	Thu, 31 Jul 2025 16:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753977934; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ls5gCUTjVBeUXhIwXzFVvEfqHedChX+/IDCkmstbyv8=;
+	b=a8lx5J5vx5bM2QH4EzJWlVNkWmu3SamghkittVIRlhEM+qP8UMKXf8aGJ56/iq+X/dD9Ky
+	z/U/52BmcsgGWYyeMjDhRDtNwEgrSpcteb/7U860YFiI7g1wr9mV7j4UfZB/iLHjrsnK16
+	Y349WrTJPiO07+hZwVg6KMaAEmn+sc4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753977934;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ls5gCUTjVBeUXhIwXzFVvEfqHedChX+/IDCkmstbyv8=;
+	b=8Ucsu68etg4g0tUfbqRT4gXMvNg/h5ug70PtR3WnzAidrq8dWtcEedqA8tjrTK6ZIxGL4x
+	i0FCORpKEqQ4F0Ag==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753977934; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ls5gCUTjVBeUXhIwXzFVvEfqHedChX+/IDCkmstbyv8=;
+	b=a8lx5J5vx5bM2QH4EzJWlVNkWmu3SamghkittVIRlhEM+qP8UMKXf8aGJ56/iq+X/dD9Ky
+	z/U/52BmcsgGWYyeMjDhRDtNwEgrSpcteb/7U860YFiI7g1wr9mV7j4UfZB/iLHjrsnK16
+	Y349WrTJPiO07+hZwVg6KMaAEmn+sc4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753977934;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ls5gCUTjVBeUXhIwXzFVvEfqHedChX+/IDCkmstbyv8=;
+	b=8Ucsu68etg4g0tUfbqRT4gXMvNg/h5ug70PtR3WnzAidrq8dWtcEedqA8tjrTK6ZIxGL4x
+	i0FCORpKEqQ4F0Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B3FF13A43;
+	Thu, 31 Jul 2025 16:05:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4rwTJE2Ui2i9HwAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 31 Jul 2025 16:05:33 +0000
+Message-ID: <9057206c-7173-4f1c-8ff7-ea5e2a29a66d@suse.de>
+Date: Thu, 31 Jul 2025 18:05:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme updates for Linux 6.17
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org
-References: <aIt40gBo9MuyC9Y2@infradead.org>
+Subject: Re: [PATCH 3/4] nvmet-tcp: fix handling of tls alerts
+To: Olga Kornievskaia <okorniev@redhat.com>
+Cc: chuck.lever@oracle.com, jlayton@kernel.org, trondmy@hammerspace.com,
+ anna.schumaker@oracle.com, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, linux-nfs@vger.kernel.org,
+ linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ kernel-tls-handshake@lists.linux.dev, neil@brown.name, Dai.Ngo@oracle.com,
+ tom@talpey.com, horms@kernel.org, kbusch@kernel.org
+References: <20250730200835.80605-1-okorniev@redhat.com>
+ <20250730200835.80605-4-okorniev@redhat.com>
+ <cdeb5e12-5c61-4a95-8e31-c56a3a90d6a3@suse.de>
+ <CACSpFtCu+it5n2z=OXRARznR02aU4d3r2z7Sok6WzGt24C6-NQ@mail.gmail.com>
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aIt40gBo9MuyC9Y2@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CACSpFtCu+it5n2z=OXRARznR02aU4d3r2z7Sok6WzGt24C6-NQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250731_095547_345418_1DA6484E 
-X-CRM114-Status: GOOD (  14.40  )
+X-CRM114-CacheID: sfid-20250731_170536_851002_D01275A2 
+X-CRM114-Status: GOOD (  23.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,35 +154,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/31/25 8:08 AM, Christoph Hellwig wrote:
-> The following changes since commit 5421681bc3ef13476bd9443379cd69381e8760fa:
+On 7/31/25 17:29, Olga Kornievskaia wrote:
+> On Thu, Jul 31, 2025 at 2:10 AM Hannes Reinecke <hare@suse.de> wrote:
+>>
+>> On 7/30/25 22:08, Olga Kornievskaia wrote:
+>>> Revert kvec msg iterator before trying to process a TLS alert
+>>> when possible.
+>>>
+>>> In nvmet_tcp_try_recv_data(), it's assumed that no msg control
+>>> message buffer is set prior to sock_recvmsg(). Hannes suggested
+>>> that upon detecting that TLS control message is received log a
+>>> message and error out. Left comments in the code for the future
+>>> improvements.
+>>>
+>>> Fixes: a1c5dd8355b1 ("nvmet-tcp: control messages for recvmsg()")
+>>> Suggested-by: Hannes Reinecke <hare@suse.de>
+>>> Reviewed-by: Hannes Reinecky <hare@susu.de>
+>>> Signed-off-by: Olga Kornievskaia <okorniev@redhat.com>
+>>> ---
+>>>    drivers/nvme/target/tcp.c | 30 +++++++++++++++++++-----------
+>>>    1 file changed, 19 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+>>> index 688033b88d38..055e420d3f2e 100644
+>>> --- a/drivers/nvme/target/tcp.c
+>>> +++ b/drivers/nvme/target/tcp.c
+>>> @@ -1161,6 +1161,7 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
+>>>        if (unlikely(len < 0))
+>>>                return len;
+>>>        if (queue->tls_pskid) {
+>>> +             iov_iter_revert(&msg.msg_iter, len);
+>>>                ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+>>>                if (ret < 0)
+>>>                        return ret;
+>>> @@ -1217,19 +1218,28 @@ static void nvmet_tcp_prep_recv_ddgst(struct nvmet_tcp_cmd *cmd)
+>>>    static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
+>>>    {
+>>>        struct nvmet_tcp_cmd  *cmd = queue->cmd;
+>>> -     int len, ret;
+>>> +     int len;
+>>>
+>>>        while (msg_data_left(&cmd->recv_msg)) {
+>>> +             /* to detect that we received a TlS alert, we assumed that
+>>> +              * cmg->recv_msg's control buffer is not setup. kTLS will
+>>> +              * return an error when no control buffer is set and
+>>> +              * non-tls-data payload is received.
+>>> +              */
+>>>                len = sock_recvmsg(cmd->queue->sock, &cmd->recv_msg,
+>>>                        cmd->recv_msg.msg_flags);
+>>> +             if (cmd->recv_msg.msg_flags & MSG_CTRUNC) {
+>>> +                     if (len == 0 || len == -EIO) {
+>>> +                             pr_err("queue %d: unhandled control message\n",
+>>> +                                    queue->idx);
+>>> +                             /* note that unconsumed TLS control message such
+>>> +                              * as TLS alert is still on the socket.
+>>> +                              */
+>>
+>> Hmm. Will it get cleared when we close the socket?
 > 
->   blk-ioc: don't hold queue_lock for ioc_lookup_icq() (2025-07-29 06:26:34 -0600)
+> If the socket is closed then any data on that socket would be freed.
 > 
-> are available in the Git repository at:
+>> Or shouldn't we rather introduce proper cmsg handling?
 > 
->   git://git.infradead.org/nvme.git tags/nvme-6.17-2025-07-31
+> That would be what I have originally proposed (I know that was on the
+> private list). But yes, we can setup a dedicated kvec to receive the
+> TLS control message once its been detected and then call
+> nvme_tcp_tls_record_ok().
 > 
-> for you to fetch changes up to 367c240b0a99c7ada700a44345dd3144a02b6164:
+> Let me know if proper cmsg handling is what's desired for this patch.
 > 
->   nvme: fix various comment typos (2025-07-31 06:35:58 -0700)
+>> (If we do, we'll need it to do on the host side, too)
 > 
-> ----------------------------------------------------------------
-> nvme updates for Linux 6.17
-> 
->  - add support for getting the FDP featuee in fabrics passthru path
->    (Nitesh Shetty)
->  - add capability to connect to an administrative controller
->    (Kamaljit Singh)
->  - fix a leak on sgl setup error (Keith Busch)
->  - initialize discovery subsys after debugfs is initialized
->    (Mohamed Khalfella)
->  - fix various comment typos (Bjorn Helgaas)
->  - remove unneeded semicolons (Jiapeng Chong)
+No, let's delegate that to a next step. My main concern is that
+data on the socket is freed upon closing (ie on reconnect).
+If that's the case we should leave it for now.
+There is talk to handle TLS new session ticket messages, which probably
+will require some evaluation of TLS messages and will most certainly
+require the updated TLS Alert handling.
 
-Pulled, thanks.
+Cheers,
 
+Hannes
 -- 
-Jens Axboe
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
