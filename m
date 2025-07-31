@@ -4,125 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAC26C83F17
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Jul 2025 06:10:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 812D6C83F17
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Jul 2025 06:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=m5peT/4DC5+FF+PRDRM8Nv2vvrMLTiYqMPlHl4IV5MQ=; b=RwsRI8t1JcvVLzgo+1QCcU3eS6
-	llLwnH6wNkptuj9UcQjfa4NUX25eumDiYesl73c670DW15dg1hskVyOchsO1HK4MNhWglVJrWY02G
-	ca9PWmNB7ymNR72x2Aqcy5rPgaA75CURp6CybteHPepDQiO5IxtrxPgMJOMbCkH9FaT7eKMhxxj1o
-	isQbXJd3C+m+pPHVQ8qHXRThnNdQ6fyTUaJIMsrZC+2eeQ1WQx6SgO7nW9MR9qQzA3OQB1sXp4ZoL
-	1HoGyKA08bfsycTzYGjDA3fB3ug91HmUd52Kgid6z5dhGTm8sQwRj2cbLXxg526vsb2x8F1EIG5YK
-	NSQshHAA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=nwIk1RX3Z9pDqIrNsP9WuKWMnAlghmqZ1x9GdYSbOFM=; b=NhT0KqNh7bLA0mD5ETJyUv9rVG
+	AlN27f7JTpO0kBRgMCo1y/iI9Ub7Eekbo8LucPfc9yToQOTO0eYsIKdxGL/QYH6XQPFnI2CNkLgMm
+	nJMv92NbcySxnBJ4My3tiUwG039oCMYdgijHrynC1bAs4gqHOwx3t8NZkbFcpRUtRSK1meD3Ve9dj
+	t/2z5APYNqAg99arb5GYKGpMXmWzjChyDCNngh8R9219aRtlLa1j7Mnz656elCE4xADE1I03VTVhw
+	VFWdMxjmZXVooivuZ4R8mriJ17CG7LsPB7Tezg0fEWbWdmY3hzCQOfpJSU1z+yg1XwZxgOFSFk3Pd
+	mm7v+GcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhMUf-00000002y7J-1C4o;
-	Thu, 31 Jul 2025 06:10:21 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1uhMaL-00000002ymU-42rn;
+	Thu, 31 Jul 2025 06:16:13 +0000
+Received: from mgamail.intel.com ([198.175.65.10])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhMUd-00000002y6t-0l58
+	id 1uhMaI-00000002ymB-2i4t
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Jul 2025 06:10:20 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DB99C1F814;
-	Thu, 31 Jul 2025 06:10:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753942216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m5peT/4DC5+FF+PRDRM8Nv2vvrMLTiYqMPlHl4IV5MQ=;
-	b=Gp3um7CtjeP/h5EH4NLe08AkG0m9fH7Hfkn9c2T/2KaW/B8469SbtU/M2fXGxsg6xbdYyB
-	xNl0paq+gaf6GPUsZ33Wv0mJoU4oMdPYgIjyKKosn0U/L+XAevwi6eOxBwPu6Mb7rHZ+Me
-	oIOSFRTo+qxZ4Ao8WrD289o90MZYdNk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753942216;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m5peT/4DC5+FF+PRDRM8Nv2vvrMLTiYqMPlHl4IV5MQ=;
-	b=yU2k1JZ2h00mrWST2iuYtMPnhYtqA0nM8iR8LLxOR151tm+3plMzLxXU3ASoz1kfZIgv2D
-	XJWMcXN+qL7St3BA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753942215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m5peT/4DC5+FF+PRDRM8Nv2vvrMLTiYqMPlHl4IV5MQ=;
-	b=ganIxKE39h1A9vjag2QEdleK9lxcMk1koDFT1S2QaUr2hn9Sjjp7iVhbzWLM0M2zzOHRNH
-	Bg4Mm0XkEfT4hoaTxKnFSfwSusYjVL1FG0wTmhKZVdq5wR4abIwfJBmugKb8GoTwLh/R9h
-	fgVX9B742Mxl0ITo16l6mk0gQ89siD0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753942215;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m5peT/4DC5+FF+PRDRM8Nv2vvrMLTiYqMPlHl4IV5MQ=;
-	b=ev530m5zITR+U4Of4GaFtzLkpzqwQ1mDJLiBybZEj3nosrqHZu7zh7X4YCL7pFKHGKa/j+
-	KQPvnXQKrw5ZfvAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 505F113A43;
-	Thu, 31 Jul 2025 06:10:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id W8viEccIi2hkWAAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 31 Jul 2025 06:10:15 +0000
-Message-ID: <cdeb5e12-5c61-4a95-8e31-c56a3a90d6a3@suse.de>
-Date: Thu, 31 Jul 2025 08:10:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] nvmet-tcp: fix handling of tls alerts
-To: Olga Kornievskaia <okorniev@redhat.com>, chuck.lever@oracle.com,
- jlayton@kernel.org, trondmy@hammerspace.com, anna.schumaker@oracle.com,
- hch@lst.de, sagi@grimberg.me, kch@nvidia.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
- neil@brown.name, Dai.Ngo@oracle.com, tom@talpey.com, horms@kernel.org,
- kbusch@kernel.org
-References: <20250730200835.80605-1-okorniev@redhat.com>
- <20250730200835.80605-4-okorniev@redhat.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250730200835.80605-4-okorniev@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	Thu, 31 Jul 2025 06:16:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753942570; x=1785478570;
+  h=date:from:to:cc:subject:message-id;
+  bh=DfYzo6tA0xdORGsuL58THZ+XuN/N9ePyWWI2zpuUJJo=;
+  b=CEQourEi+HTd5Z2tOU6RdGUJsZUOPOhfydC5Wv2ED+c/NXPjBrUDKIdD
+   iezelwqonR8suGs8i/N3ZcAY+Jwl6TbZ+5QYc/GSPpb2IhoLD9E9xUDbP
+   stM5aAnMQPoMLS6hyQWKU5gOmR9JRpMbRyV0OuYBs8XEC9HJAsTWnkiPM
+   VKctoTuoPUmt8UmzKHycHT4Rj3O5K1sAMKD2C2vVPNCAVTgfZDwr6hXKr
+   XJxy6liijKqSz0WTZsiRqo0/DIPznYmCoHnAr/z3cNcsGhMJ3rhrUdeIZ
+   S5sxP4Kx0hOAHzJ1caSruhjx9kKriwOUbkOKpH+BYLUqdFEXCpV5p0AYa
+   w==;
+X-CSE-ConnectionGUID: 8H+qXXy9TaamS5QHfWMMCw==
+X-CSE-MsgGUID: W1JGDmIqTymrfg+lkiT17g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="73712155"
+X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
+   d="scan'208";a="73712155"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 23:16:07 -0700
+X-CSE-ConnectionGUID: amF+YkdWR5el1sMaKUM78w==
+X-CSE-MsgGUID: QKiuEzOkQX2vmW6kNCUa/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
+   d="scan'208";a="167400672"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 30 Jul 2025 23:16:06 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uhMaC-0003TM-0z;
+	Thu, 31 Jul 2025 06:16:04 +0000
+Date: Thu, 31 Jul 2025 14:15:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.17] BUILD SUCCESS
+ e97c0040215f97fccaec74c3d5493bfeacfb2b86
+Message-ID: <202507311425.Z56QgzOA-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250730_231019_376645_787910E5 
-X-CRM114-Status: GOOD (  24.59  )
+X-CRM114-CacheID: sfid-20250730_231610_723722_9CB5DDD7 
+X-CRM114-Status: UNSURE (   6.01  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,115 +83,139 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/30/25 22:08, Olga Kornievskaia wrote:
-> Revert kvec msg iterator before trying to process a TLS alert
-> when possible.
-> 
-> In nvmet_tcp_try_recv_data(), it's assumed that no msg control
-> message buffer is set prior to sock_recvmsg(). Hannes suggested
-> that upon detecting that TLS control message is received log a
-> message and error out. Left comments in the code for the future
-> improvements.
-> 
-> Fixes: a1c5dd8355b1 ("nvmet-tcp: control messages for recvmsg()")
-> Suggested-by: Hannes Reinecke <hare@suse.de>
-> Reviewed-by: Hannes Reinecky <hare@susu.de>
-> Signed-off-by: Olga Kornievskaia <okorniev@redhat.com>
-> ---
->   drivers/nvme/target/tcp.c | 30 +++++++++++++++++++-----------
->   1 file changed, 19 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index 688033b88d38..055e420d3f2e 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -1161,6 +1161,7 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
->   	if (unlikely(len < 0))
->   		return len;
->   	if (queue->tls_pskid) {
-> +		iov_iter_revert(&msg.msg_iter, len);
->   		ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
->   		if (ret < 0)
->   			return ret;
-> @@ -1217,19 +1218,28 @@ static void nvmet_tcp_prep_recv_ddgst(struct nvmet_tcp_cmd *cmd)
->   static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
->   {
->   	struct nvmet_tcp_cmd  *cmd = queue->cmd;
-> -	int len, ret;
-> +	int len;
->   
->   	while (msg_data_left(&cmd->recv_msg)) {
-> +		/* to detect that we received a TlS alert, we assumed that
-> +		 * cmg->recv_msg's control buffer is not setup. kTLS will
-> +		 * return an error when no control buffer is set and
-> +		 * non-tls-data payload is received.
-> +		 */
->   		len = sock_recvmsg(cmd->queue->sock, &cmd->recv_msg,
->   			cmd->recv_msg.msg_flags);
-> +		if (cmd->recv_msg.msg_flags & MSG_CTRUNC) {
-> +			if (len == 0 || len == -EIO) {
-> +				pr_err("queue %d: unhandled control message\n",
-> +				       queue->idx);
-> +				/* note that unconsumed TLS control message such
-> +				 * as TLS alert is still on the socket.
-> +				 */
+tree/branch: git://git.infradead.org/nvme.git nvme-6.17
+branch HEAD: e97c0040215f97fccaec74c3d5493bfeacfb2b86  nvme-auth: remove unneeded semicolon
 
-Hmm. Will it get cleared when we close the socket?
-Or shouldn't we rather introduce proper cmsg handling?
-(If we do, we'll need it to do on the host side, too)
+elapsed time: 831m
 
-> +				return -EAGAIN;
-> +			}
-> +		}
->   		if (len <= 0)
->   			return len;
-> -		if (queue->tls_pskid) {
-> -			ret = nvmet_tcp_tls_record_ok(cmd->queue,
-> -					&cmd->recv_msg, cmd->recv_cbuf);
-> -			if (ret < 0)
-> -				return ret;
-> -		}
->   
->   		cmd->pdu_recv += len;
->   		cmd->rbytes_done += len;
-> @@ -1267,6 +1277,7 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
->   	if (unlikely(len < 0))
->   		return len;
->   	if (queue->tls_pskid) {
-> +		iov_iter_revert(&msg.msg_iter, len);
->   		ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
->   		if (ret < 0)
->   			return ret;
-> @@ -1453,10 +1464,6 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
->   	if (!c->r2t_pdu)
->   		goto out_free_data;
->   
-> -	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
-> -		c->recv_msg.msg_control = c->recv_cbuf;
-> -		c->recv_msg.msg_controllen = sizeof(c->recv_cbuf);
-> -	}
+configs tested: 119
+configs skipped: 4
 
-As you delete this you can also remove the definition of 'recv_msg'
-from nvmet_tcp_cmd structure.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->   	c->recv_msg.msg_flags = MSG_DONTWAIT | MSG_NOSIGNAL;
->   
->   	list_add_tail(&c->entry, &queue->free_list);
-> @@ -1736,6 +1743,7 @@ static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue)
->   		return len;
->   	}
->   
-> +	iov_iter_revert(&msg.msg_iter, len);
->   	ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
->   	if (ret < 0)
->   		return ret;
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250731    gcc-13.4.0
+arc                   randconfig-002-20250731    gcc-8.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                   randconfig-001-20250731    gcc-14.3.0
+arm                   randconfig-002-20250731    gcc-8.5.0
+arm                   randconfig-003-20250731    gcc-8.5.0
+arm                   randconfig-004-20250731    clang-22
+arm                         s3c6400_defconfig    gcc-15.1.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250731    gcc-8.5.0
+arm64                 randconfig-002-20250731    gcc-13.4.0
+arm64                 randconfig-003-20250731    gcc-10.5.0
+arm64                 randconfig-004-20250731    gcc-10.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250731    gcc-12.5.0
+csky                  randconfig-002-20250731    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250731    clang-16
+hexagon               randconfig-002-20250731    clang-17
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250731    gcc-12
+i386        buildonly-randconfig-002-20250731    gcc-12
+i386        buildonly-randconfig-003-20250731    clang-20
+i386        buildonly-randconfig-004-20250731    gcc-12
+i386        buildonly-randconfig-005-20250731    gcc-12
+i386        buildonly-randconfig-006-20250731    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250731    gcc-13.4.0
+loongarch             randconfig-002-20250731    clang-22
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                           ip27_defconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250731    gcc-11.5.0
+nios2                 randconfig-002-20250731    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250731    gcc-8.5.0
+parisc                randconfig-002-20250731    gcc-8.5.0
+parisc64                         alldefconfig    gcc-15.1.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc                        cell_defconfig    gcc-15.1.0
+powerpc                    gamecube_defconfig    clang-22
+powerpc               randconfig-001-20250731    gcc-13.4.0
+powerpc               randconfig-002-20250731    gcc-13.4.0
+powerpc               randconfig-003-20250731    gcc-15.1.0
+powerpc                     stx_gp3_defconfig    gcc-15.1.0
+powerpc64             randconfig-001-20250731    clang-22
+powerpc64             randconfig-002-20250731    gcc-12.5.0
+powerpc64             randconfig-003-20250731    clang-22
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20250731    gcc-13.4.0
+riscv                 randconfig-002-20250731    gcc-8.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                  randconfig-001-20250731    clang-22
+s390                  randconfig-002-20250731    gcc-10.5.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                          polaris_defconfig    gcc-15.1.0
+sh                    randconfig-001-20250731    gcc-10.5.0
+sh                    randconfig-002-20250731    gcc-9.5.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250731    gcc-8.5.0
+sparc                 randconfig-002-20250731    gcc-11.5.0
+sparc64               randconfig-001-20250731    gcc-8.5.0
+sparc64               randconfig-002-20250731    clang-22
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250731    clang-22
+um                    randconfig-002-20250731    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250731    gcc-12
+x86_64      buildonly-randconfig-002-20250731    clang-20
+x86_64      buildonly-randconfig-003-20250731    gcc-12
+x86_64      buildonly-randconfig-004-20250731    gcc-12
+x86_64      buildonly-randconfig-005-20250731    gcc-12
+x86_64      buildonly-randconfig-006-20250731    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250731    gcc-14.3.0
+xtensa                randconfig-002-20250731    gcc-8.5.0
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
