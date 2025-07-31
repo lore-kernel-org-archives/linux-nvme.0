@@ -4,79 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DFC8C87FD9
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Jul 2025 15:21:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0A0DC87FCC
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Jul 2025 15:30:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Jm44b8T/0NNg/2olfz7iQ8K24NiGj2yLF9LeoHs0Rls=; b=jqlALLTwpMp99pCqhYXLLvRRax
-	70igEHZ8Zi1730LkLlncbyCV289vfgo1Dr6grgEfxLERcpVyEJ8uWTp+9N8LusbzlNNM1tW8QrBXV
-	hHybl8uv2ot163g3AZpX75EJdridIGFQyP4T/T/EhkGClv6/WVAB/y5LF8I759+dUnJshaqwt0byT
-	nUBLte9GiLeNZtQv7Tr732Eg4+MEVsRHfhuJSjNn1U6w/LBCqHIz7rJ1quiJzfjz7ObODCbrqPwOs
-	hB8FaItpyhOEhOD3DhUhlRL6hYPLFn3J/O330g2N862YLoDpCkbcF1OMzgT8LCVS79LQaAM/FBpIG
-	y0XfOYzA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=efGuZE+wy/IQW6vpAnhNn2yJPMeIDc4VvmD3tdcVmA0=; b=yZWFhtCXrqU2UvqkkVF4nDQG2D
+	/ZuubP/8hAeY8c8O9YPKclz2NYfKj8vbwqgzXLOTrNZNbhzhmU3Ni545EelfHDk65y2DCZl/+Fr9J
+	oSp8ipSqsIuqRlQMTHQnFuMzNaNlBPsyKXWK3OpkN0AYB4NkHf0suR3a79ay5K5ZKZTMyhgkSINT1
+	CpH9alGijq16/ePpm9ZoxmruUjM0ruWb4S7xfs8QwVgEPLLy1ztvr8oCh6IP+2zL8hhvoagPu02u0
+	3B7t2vTSVMxwx5qqFGPjwr+vAPYoq1cCroaNkv8C/170gUSMgk39khYpWA3mfJJw24PUBUX7pvGKT
+	X8rEmaJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhV60-00000003wjk-0yDb;
-	Thu, 31 Jul 2025 15:21:28 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1uhVEY-00000003yZX-2LgS;
+	Thu, 31 Jul 2025 15:30:18 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhUqW-00000003vDc-1d4X
+	id 1uhVEW-00000003yZC-07ge
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Jul 2025 15:05:29 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56VE7VPu012595
-	for <linux-nvme@lists.infradead.org>; Thu, 31 Jul 2025 08:05:27 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=Jm44b8T/0NNg/2olfz7iQ8K24NiGj2yLF9LeoHs0Rls=; b=uBI3XuqyJMPp
-	YsUn0tKVVfOggakaugVoXp22qvUsl9qk1VUkUNTqcJ2FGpUIlxUd1IJdbK7kmjW7
-	dSoOGbY/WtiMACzMc9DHs23e9Zx2akYYX79VnECI/HCnKt26wRGAtq1ZHHp0D69H
-	DxIfBlfkbtt8jt/QPL7veSCAxoRs7j6JHZTNtFW7ZOjQGkcX9drnVIyBUjjQDSc0
-	cFI8diV+xaBfMdmeJ5cmrxbU+yDrnL5jHfv239so2wv7Yt6CQp2MpTT0rVOdrGQx
-	aSWXNkWjnnEJ+LMvoQpDCDOqSVAkUULYh7z6UGOFpUnJRhxiJrWBpBwqJHMPOjoL
-	ww5zX97jdw==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4883mj2k9b-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 31 Jul 2025 08:05:27 -0700 (PDT)
-Received: from twshared60001.02.ash8.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.17; Thu, 31 Jul 2025 15:05:26 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 2E994231DB5; Thu, 31 Jul 2025 08:05:14 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <axboe@kernel.dk>, <joshi.k@samsung.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCHv4 8/8] nvme-pci: convert metadata mapping to dma iter
-Date: Thu, 31 Jul 2025 08:05:13 -0700
-Message-ID: <20250731150513.220395-9-kbusch@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250731150513.220395-1-kbusch@meta.com>
-References: <20250731150513.220395-1-kbusch@meta.com>
+	Thu, 31 Jul 2025 15:30:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1753975815;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=efGuZE+wy/IQW6vpAnhNn2yJPMeIDc4VvmD3tdcVmA0=;
+	b=YnzqK7Jg772LZ9BKj9Njue3WI5Fy/55sTUGKddS9XUb0c6TMRXd0g+TrbRSLIY4r7Qr7Tb
+	uBJUlFQ5UIhx2YAHPu4N9Bk7rKjSp3DM8fRBaiTcPw8mYVTNmbTuwTrtB0qVNffYFWkIx+
+	BEt5CJyzR67G04kFDFWZfUdujVQihLg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632-vn-OdI7iPB6usiFeitQlLg-1; Thu, 31 Jul 2025 11:30:13 -0400
+X-MC-Unique: vn-OdI7iPB6usiFeitQlLg-1
+X-Mimecast-MFC-AGG-ID: vn-OdI7iPB6usiFeitQlLg_1753975812
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ae9bf1c5947so263493966b.0
+        for <linux-nvme@lists.infradead.org>; Thu, 31 Jul 2025 08:30:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753975811; x=1754580611;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=efGuZE+wy/IQW6vpAnhNn2yJPMeIDc4VvmD3tdcVmA0=;
+        b=BYErTxmeKGpBLALZEOMgPJkYSj4lPSYApJ8WQPLW5dOsC+LggF6AOI5KFIPAxTI9c+
+         JAr9krVXs76oEJCbyiNLp/ur7thCDSQQvfmDJd2gIw5N4+ctPK96mMC+hLhgUGvYNMdL
+         +7RxiCMXFCC/lQoNuZVytWqLYGoSCWLZ21B1OPL7zR+gXCauuhVDgkO9rk0sXmpvv1JU
+         wwdAYgciX3R6VQOojNGfwL8t8Ey33MadG9xFTXMlQx2Acm8vyzoMuHPQj7Ktw9m0dxe9
+         aqesAd7CKjf1CkrHIouyEUySygJn+09oeaxP7q8Sq/q43+USAinhdp2+TnRyZyf1ToIv
+         7KUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6yEE04XUBwCn7QSNhAIIf+P1NWZBRc2jXCVXhjn7mJomTsh4n78UjSuQ+rD7iNG77j8/poua6u3aW@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxqf702dHcwFiro+WsvwDEbzsXYA3ItbjeDYNRTVCpYRNLjO4qv
+	c0Pp9yY4jIa3/2uQ3vkxhLph4nO29iThYk0H3+9FU65q+TUzpkrHHhcMiKOTdfkJLMeNm9ITU5t
+	PMlSazkaBtZQ22AhSSsCQ68bdshIBmJH01ZUlSEn1xMucnyIv/dYMd2HgC1t7SIS7Orx/0Q33ip
+	2ca/vs62SpDWomOhiW+G3sA3mX3te1z9ufFSpL0VqXoOE=
+X-Gm-Gg: ASbGncvZLTgdp5RPl5oQH5sUKKKB3vgc8NHYBEtylouQln3PbTMpZ9AogqZ5EYoCT+B
+	c+bQvWidlju0TqM6s/aXG8MlxRl4+5HWKVn0t0QK6hjx6PDIhkQnL6irZUtlkxPtY+biRBpYU7F
+	ICTL/2IExsYavynuK68sHhcayWR9Hrmc+iPnp9RXHuQ3TWi2MEK6eIzw==
+X-Received: by 2002:a17:906:fe02:b0:ae6:c334:af3a with SMTP id a640c23a62f3a-af91bbff55emr339554366b.6.1753975810998;
+        Thu, 31 Jul 2025 08:30:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF5c9yIisVqfaFsfCitspiLklBi+v8OwNwd+81HnIxrh0XVGF7Bd2GCjIVQsJ7OLqh9uU8xi9NdthF8zdbYdEE=
+X-Received: by 2002:a17:906:fe02:b0:ae6:c334:af3a with SMTP id
+ a640c23a62f3a-af91bbff55emr339550366b.6.1753975810480; Thu, 31 Jul 2025
+ 08:30:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250730200835.80605-1-okorniev@redhat.com> <20250730200835.80605-4-okorniev@redhat.com>
+ <cdeb5e12-5c61-4a95-8e31-c56a3a90d6a3@suse.de>
+In-Reply-To: <cdeb5e12-5c61-4a95-8e31-c56a3a90d6a3@suse.de>
+From: Olga Kornievskaia <okorniev@redhat.com>
+Date: Thu, 31 Jul 2025 11:29:58 -0400
+X-Gm-Features: Ac12FXyu4ke7AXpdJWvJjWBL1u_s87jJMDfrMGmbaMXP6xuZW7P6B3nrHVs7sWU
+Message-ID: <CACSpFtCu+it5n2z=OXRARznR02aU4d3r2z7Sok6WzGt24C6-NQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] nvmet-tcp: fix handling of tls alerts
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, jlayton@kernel.org, trondmy@hammerspace.com, 
+	anna.schumaker@oracle.com, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, neil@brown.name, 
+	Dai.Ngo@oracle.com, tom@talpey.com, horms@kernel.org, kbusch@kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: hXTae-KPPH-bFfubtUSfxA3cDx_SdbRHtrAL59v8Vbg_1753975812
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=K/giHzWI c=1 sm=1 tr=0 ts=688b8637 cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=wnoHOGPUN8WvbBk364wA:9
-X-Proofpoint-ORIG-GUID: q0eHrd9GZ2HMr9A4Zpn6BUruBcUx3eJT
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMxMDEwMiBTYWx0ZWRfXxObXXTEeMGTZ 2Jq+8aBC9leTy1ogUlUzJXWEXtyatN8txxPzsoJSU2JxnhoePaob0/eZvfMOjy+c3Bn094pCskT 8mRh0sDiBrOdYVhfUpwkHW2Eq8KGD6aZmW7U/wmZUOitV724x3qoa09Qi1jiESaBVR2kdZMFSY7
- /9Q6A0OwnqpcQ/W+Q3srg8ZuqxTGOAosio+kiSNJcKkbZ8oj5LodcD6F/HLBqztceXCyOU+lfmq Nvr3MNjBG5ZXqvQJ1DyVf+TWptDquSFbt5B0PgyagXqZdw9R9zcVep5Dh0IQsHVGHBgYHYiW+0n 1aUnKUJekW2H+gRMW8NMCVYAOnNRgkNGCG7kcVX0lS/4YENImmtWzI5g6v/8bpk5Zdqkqx/NoXI
- g5/TxeIQdoIG4IBAdFCO7uDbBpzg9+OxkxMVOnQSttg/qKjBXGchZ3TY7Q840LrXt4/U95D7
-X-Proofpoint-GUID: q0eHrd9GZ2HMr9A4Zpn6BUruBcUx3eJT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-31_02,2025-07-31_02,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250731_080528_551547_F6A8444C 
-X-CRM114-Status: GOOD (  18.05  )
+X-CRM114-CacheID: sfid-20250731_083016_152077_9E4EABD7 
+X-CRM114-Status: GOOD (  33.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,301 +109,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Jul 31, 2025 at 2:10=E2=80=AFAM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 7/30/25 22:08, Olga Kornievskaia wrote:
+> > Revert kvec msg iterator before trying to process a TLS alert
+> > when possible.
+> >
+> > In nvmet_tcp_try_recv_data(), it's assumed that no msg control
+> > message buffer is set prior to sock_recvmsg(). Hannes suggested
+> > that upon detecting that TLS control message is received log a
+> > message and error out. Left comments in the code for the future
+> > improvements.
+> >
+> > Fixes: a1c5dd8355b1 ("nvmet-tcp: control messages for recvmsg()")
+> > Suggested-by: Hannes Reinecke <hare@suse.de>
+> > Reviewed-by: Hannes Reinecky <hare@susu.de>
+> > Signed-off-by: Olga Kornievskaia <okorniev@redhat.com>
+> > ---
+> >   drivers/nvme/target/tcp.c | 30 +++++++++++++++++++-----------
+> >   1 file changed, 19 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> > index 688033b88d38..055e420d3f2e 100644
+> > --- a/drivers/nvme/target/tcp.c
+> > +++ b/drivers/nvme/target/tcp.c
+> > @@ -1161,6 +1161,7 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tc=
+p_queue *queue)
+> >       if (unlikely(len < 0))
+> >               return len;
+> >       if (queue->tls_pskid) {
+> > +             iov_iter_revert(&msg.msg_iter, len);
+> >               ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+> >               if (ret < 0)
+> >                       return ret;
+> > @@ -1217,19 +1218,28 @@ static void nvmet_tcp_prep_recv_ddgst(struct nv=
+met_tcp_cmd *cmd)
+> >   static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
+> >   {
+> >       struct nvmet_tcp_cmd  *cmd =3D queue->cmd;
+> > -     int len, ret;
+> > +     int len;
+> >
+> >       while (msg_data_left(&cmd->recv_msg)) {
+> > +             /* to detect that we received a TlS alert, we assumed tha=
+t
+> > +              * cmg->recv_msg's control buffer is not setup. kTLS will
+> > +              * return an error when no control buffer is set and
+> > +              * non-tls-data payload is received.
+> > +              */
+> >               len =3D sock_recvmsg(cmd->queue->sock, &cmd->recv_msg,
+> >                       cmd->recv_msg.msg_flags);
+> > +             if (cmd->recv_msg.msg_flags & MSG_CTRUNC) {
+> > +                     if (len =3D=3D 0 || len =3D=3D -EIO) {
+> > +                             pr_err("queue %d: unhandled control messa=
+ge\n",
+> > +                                    queue->idx);
+> > +                             /* note that unconsumed TLS control messa=
+ge such
+> > +                              * as TLS alert is still on the socket.
+> > +                              */
+>
+> Hmm. Will it get cleared when we close the socket?
 
-Aligns data and metadata to the similar dma mapping scheme and removes
-one more user of the scatter-gather dma mapping.
+If the socket is closed then any data on that socket would be freed.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 152 +++++++++++++++++++++-------------------
- 1 file changed, 78 insertions(+), 74 deletions(-)
+> Or shouldn't we rather introduce proper cmsg handling?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index decb3ad1508a7..42322c3985d98 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -172,9 +172,7 @@ struct nvme_dev {
- 	u32 last_ps;
- 	bool hmb;
- 	struct sg_table *hmb_sgt;
--
- 	mempool_t *dmavec_mempool;
--	mempool_t *iod_meta_mempool;
-=20
- 	/* shadow doorbell buffer support: */
- 	__le32 *dbbuf_dbs;
-@@ -264,6 +262,12 @@ enum nvme_iod_flags {
-=20
- 	/* DMA mapped with PCI_P2PDMA_MAP_BUS_ADDR */
- 	IOD_P2P_BUS_ADDR	=3D 1U << 3,
-+
-+	/* Metadata DMA mapped with PCI_P2PDMA_MAP_BUS_ADDR */
-+	IOD_META_P2P_BUS_ADDR	=3D 1U << 4,
-+
-+	/* Metadata using non-coalesced MPTR */
-+	IOD_META_MPTR		=3D 1U << 5,
- };
-=20
- struct nvme_dma_vec {
-@@ -281,13 +285,14 @@ struct nvme_iod {
- 	u8 nr_descriptors;
-=20
- 	unsigned int total_len;
-+	unsigned int meta_total_len;
- 	struct dma_iova_state dma_state;
-+	struct dma_iova_state meta_dma_state;
- 	void *descriptors[NVME_MAX_NR_DESCRIPTORS];
- 	struct nvme_dma_vec *dma_vecs;
- 	unsigned int nr_dma_vecs;
-=20
- 	dma_addr_t meta_dma;
--	struct sg_table meta_sgt;
- 	struct nvme_sgl_desc *meta_descriptor;
- };
-=20
-@@ -644,6 +649,11 @@ static inline struct dma_pool *nvme_dma_pool(struct =
-nvme_queue *nvmeq,
- 	return nvmeq->descriptor_pools.large;
- }
-=20
-+static inline bool nvme_pci_cmd_use_meta_sgl(struct nvme_command *cmd)
-+{
-+	return (cmd->common.flags & NVME_CMD_SGL_ALL) =3D=3D NVME_CMD_SGL_METAS=
-EG;
-+}
-+
- static inline bool nvme_pci_cmd_use_sgl(struct nvme_command *cmd)
- {
- 	return cmd->common.flags &
-@@ -1023,70 +1033,96 @@ static blk_status_t nvme_map_data(struct request =
-*req)
- 	return nvme_pci_setup_data_prp(req, &iter);
- }
-=20
--static void nvme_pci_sgl_set_data_sg(struct nvme_sgl_desc *sge,
--		struct scatterlist *sg)
-+static void nvme_free_meta_sgls(struct nvme_iod *iod, struct device *dma=
-_dev,
-+				enum dma_data_direction dir)
- {
--	sge->addr =3D cpu_to_le64(sg_dma_address(sg));
--	sge->length =3D cpu_to_le32(sg_dma_len(sg));
--	sge->type =3D NVME_SGL_FMT_DATA_DESC << 4;
-+	struct nvme_sgl_desc *sge =3D iod->meta_descriptor;
-+
-+	__nvme_free_sgls(dma_dev, sge, &sge[1], dir);
-+}
-+
-+static void nvme_unmap_metadata(struct request *req)
-+{
-+	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
-+	enum dma_data_direction dir =3D rq_dma_dir(req);
-+	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
-+	struct device *dma_dev =3D nvmeq->dev->dev;
-+
-+	if (iod->flags & IOD_META_MPTR) {
-+		dma_unmap_page(dma_dev, iod->meta_dma,
-+			       rq_integrity_vec(req).bv_len,
-+			       rq_dma_dir(req));
-+		return;
-+	}
-+
-+	if (!blk_rq_dma_unmap(req, dma_dev, &iod->meta_dma_state,
-+				iod->meta_total_len,
-+				iod->flags & IOD_META_P2P_BUS_ADDR)) {
-+		if (nvme_pci_cmd_use_meta_sgl(&iod->cmd))
-+			nvme_free_meta_sgls(iod, dma_dev, dir);
-+		else
-+			dma_unmap_page(dma_dev, iod->meta_dma,
-+				       iod->meta_total_len, dir);
-+	}
-+
-+	if (iod->meta_descriptor)
-+		dma_pool_free(nvmeq->descriptor_pools.small,
-+			      iod->meta_descriptor, iod->meta_dma);
- }
-=20
- static blk_status_t nvme_pci_setup_meta_sgls(struct request *req)
- {
- 	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
--	struct nvme_dev *dev =3D nvmeq->dev;
-+	unsigned int entries =3D req->nr_integrity_segments;
- 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
-+	struct nvme_dev *dev =3D nvmeq->dev;
- 	struct nvme_sgl_desc *sg_list;
--	struct scatterlist *sgl, *sg;
--	unsigned int entries;
-+	struct blk_dma_iter iter;
- 	dma_addr_t sgl_dma;
--	int rc, i;
--
--	iod->meta_sgt.sgl =3D mempool_alloc(dev->iod_meta_mempool, GFP_ATOMIC);
--	if (!iod->meta_sgt.sgl)
--		return BLK_STS_RESOURCE;
-+	int i =3D 0;
-=20
--	sg_init_table(iod->meta_sgt.sgl, req->nr_integrity_segments);
--	iod->meta_sgt.orig_nents =3D blk_rq_map_integrity_sg(req,
--							   iod->meta_sgt.sgl);
--	if (!iod->meta_sgt.orig_nents)
--		goto out_free_sg;
-+	if (!blk_rq_integrity_dma_map_iter_start(req, dev->dev,
-+						&iod->meta_dma_state, &iter))
-+		return iter.status;
-=20
--	rc =3D dma_map_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req),
--			     DMA_ATTR_NO_WARN);
--	if (rc)
--		goto out_free_sg;
-+	if (iter.p2pdma.map =3D=3D PCI_P2PDMA_MAP_BUS_ADDR)
-+		iod->flags |=3D IOD_META_P2P_BUS_ADDR;
-+	else if (blk_rq_dma_map_coalesce(&iod->meta_dma_state))
-+		entries =3D 1;
-+
-+	if (entries =3D=3D 1 && !(nvme_req(req)->flags & NVME_REQ_USERCMD)) {
-+		iod->cmd.common.metadata =3D cpu_to_le64(iter.addr);
-+		iod->meta_total_len =3D iter.len;
-+		iod->meta_dma =3D iter.addr;
-+		iod->meta_descriptor =3D NULL;
-+		return BLK_STS_OK;
-+	}
-=20
- 	sg_list =3D dma_pool_alloc(nvmeq->descriptor_pools.small, GFP_ATOMIC,
- 			&sgl_dma);
- 	if (!sg_list)
--		goto out_unmap_sg;
-+		return BLK_STS_RESOURCE;
-=20
--	entries =3D iod->meta_sgt.nents;
- 	iod->meta_descriptor =3D sg_list;
- 	iod->meta_dma =3D sgl_dma;
--
- 	iod->cmd.common.flags =3D NVME_CMD_SGL_METASEG;
- 	iod->cmd.common.metadata =3D cpu_to_le64(sgl_dma);
--
--	sgl =3D iod->meta_sgt.sgl;
- 	if (entries =3D=3D 1) {
--		nvme_pci_sgl_set_data_sg(sg_list, sgl);
-+		iod->meta_total_len =3D iter.len;
-+		nvme_pci_sgl_set_data(sg_list, &iter);
- 		return BLK_STS_OK;
- 	}
-=20
- 	sgl_dma +=3D sizeof(*sg_list);
--	nvme_pci_sgl_set_seg(sg_list, sgl_dma, entries);
--	for_each_sg(sgl, sg, entries, i)
--		nvme_pci_sgl_set_data_sg(&sg_list[i + 1], sg);
--
--	return BLK_STS_OK;
-+	do {
-+		nvme_pci_sgl_set_data(&sg_list[++i], &iter);
-+		iod->meta_total_len +=3D iter.len;
-+	} while (blk_rq_integrity_dma_map_iter_next(req, dev->dev, &iter));
-=20
--out_unmap_sg:
--	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
--out_free_sg:
--	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
--	return BLK_STS_RESOURCE;
-+	nvme_pci_sgl_set_seg(sg_list, sgl_dma, i);
-+	if (unlikely(iter.status))
-+		nvme_unmap_metadata(req);
-+	return iter.status;
- }
-=20
- static blk_status_t nvme_pci_setup_meta_mptr(struct request *req)
-@@ -1099,6 +1135,7 @@ static blk_status_t nvme_pci_setup_meta_mptr(struct=
- request *req)
- 	if (dma_mapping_error(nvmeq->dev->dev, iod->meta_dma))
- 		return BLK_STS_IOERR;
- 	iod->cmd.common.metadata =3D cpu_to_le64(iod->meta_dma);
-+	iod->flags |=3D IOD_META_MPTR;
- 	return BLK_STS_OK;
- }
-=20
-@@ -1120,7 +1157,6 @@ static blk_status_t nvme_prep_rq(struct request *re=
-q)
- 	iod->flags =3D 0;
- 	iod->nr_descriptors =3D 0;
- 	iod->total_len =3D 0;
--	iod->meta_sgt.nents =3D 0;
-=20
- 	ret =3D nvme_setup_cmd(req->q->queuedata, req);
- 	if (ret)
-@@ -1231,25 +1267,6 @@ static void nvme_queue_rqs(struct rq_list *rqlist)
- 	*rqlist =3D requeue_list;
- }
-=20
--static __always_inline void nvme_unmap_metadata(struct request *req)
--{
--	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
--	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
--	struct nvme_dev *dev =3D nvmeq->dev;
--
--	if (!iod->meta_sgt.nents) {
--		dma_unmap_page(dev->dev, iod->meta_dma,
--			       rq_integrity_vec(req).bv_len,
--			       rq_dma_dir(req));
--		return;
--	}
--
--	dma_pool_free(nvmeq->descriptor_pools.small, iod->meta_descriptor,
--			iod->meta_dma);
--	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
--	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
--}
--
- static __always_inline void nvme_pci_unmap_rq(struct request *req)
- {
- 	if (blk_integrity_rq(req))
-@@ -3055,7 +3072,6 @@ static int nvme_disable_prepare_reset(struct nvme_d=
-ev *dev, bool shutdown)
-=20
- static int nvme_pci_alloc_iod_mempool(struct nvme_dev *dev)
- {
--	size_t meta_size =3D sizeof(struct scatterlist) * (NVME_MAX_META_SEGS +=
- 1);
- 	size_t alloc_size =3D sizeof(struct nvme_dma_vec) * NVME_MAX_SEGS;
-=20
- 	dev->dmavec_mempool =3D mempool_create_node(1,
-@@ -3064,17 +3080,7 @@ static int nvme_pci_alloc_iod_mempool(struct nvme_=
-dev *dev)
- 			dev_to_node(dev->dev));
- 	if (!dev->dmavec_mempool)
- 		return -ENOMEM;
--
--	dev->iod_meta_mempool =3D mempool_create_node(1,
--			mempool_kmalloc, mempool_kfree,
--			(void *)meta_size, GFP_KERNEL,
--			dev_to_node(dev->dev));
--	if (!dev->iod_meta_mempool)
--		goto free;
- 	return 0;
--free:
--	mempool_destroy(dev->dmavec_mempool);
--	return -ENOMEM;
- }
-=20
- static void nvme_free_tagset(struct nvme_dev *dev)
-@@ -3524,7 +3530,6 @@ static int nvme_probe(struct pci_dev *pdev, const s=
-truct pci_device_id *id)
- 	nvme_free_queues(dev, 0);
- out_release_iod_mempool:
- 	mempool_destroy(dev->dmavec_mempool);
--	mempool_destroy(dev->iod_meta_mempool);
- out_dev_unmap:
- 	nvme_dev_unmap(dev);
- out_uninit_ctrl:
-@@ -3588,7 +3593,6 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_dbbuf_dma_free(dev);
- 	nvme_free_queues(dev, 0);
- 	mempool_destroy(dev->dmavec_mempool);
--	mempool_destroy(dev->iod_meta_mempool);
- 	nvme_release_descriptor_pools(dev);
- 	nvme_dev_unmap(dev);
- 	nvme_uninit_ctrl(&dev->ctrl);
---=20
-2.47.3
+That would be what I have originally proposed (I know that was on the
+private list). But yes, we can setup a dedicated kvec to receive the
+TLS control message once its been detected and then call
+nvme_tcp_tls_record_ok().
+
+Let me know if proper cmsg handling is what's desired for this patch.
+
+> (If we do, we'll need it to do on the host side, too)
+
+I can see that the host doesn't have any TLS alert handling now. If
+the only place where (TLS) traffic is read from is in host/tcp.c
+nvme_tcp_init_connection(), then that's seems like an easy case
+because it uses a kvec to back the kernel_recvmsg() msg structure. If
+the ctype is tls alert, you can call tls_alert_recv() and pass in the
+"iov".  -- assuming patch#4 already went in by that time)
+
+>
+> > +                             return -EAGAIN;
+> > +                     }
+> > +             }
+> >               if (len <=3D 0)
+> >                       return len;
+> > -             if (queue->tls_pskid) {
+> > -                     ret =3D nvmet_tcp_tls_record_ok(cmd->queue,
+> > -                                     &cmd->recv_msg, cmd->recv_cbuf);
+> > -                     if (ret < 0)
+> > -                             return ret;
+> > -             }
+> >
+> >               cmd->pdu_recv +=3D len;
+> >               cmd->rbytes_done +=3D len;
+> > @@ -1267,6 +1277,7 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_=
+tcp_queue *queue)
+> >       if (unlikely(len < 0))
+> >               return len;
+> >       if (queue->tls_pskid) {
+> > +             iov_iter_revert(&msg.msg_iter, len);
+> >               ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+> >               if (ret < 0)
+> >                       return ret;
+> > @@ -1453,10 +1464,6 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_=
+queue *queue,
+> >       if (!c->r2t_pdu)
+> >               goto out_free_data;
+> >
+> > -     if (queue->state =3D=3D NVMET_TCP_Q_TLS_HANDSHAKE) {
+> > -             c->recv_msg.msg_control =3D c->recv_cbuf;
+> > -             c->recv_msg.msg_controllen =3D sizeof(c->recv_cbuf);
+> > -     }
+>
+> As you delete this you can also remove the definition of 'recv_msg'
+> from nvmet_tcp_cmd structure.
+
+You mean 'recv_cbuf', right? recv_msg would still be needed by the code.
+
+I can send v2 with that change. Whether or not cmsg handling is needed
+in v2 I'd need a confirmation on. Given I'm working on compile only
+mode, I'd rather keep changes to minimal.
+
+> >       c->recv_msg.msg_flags =3D MSG_DONTWAIT | MSG_NOSIGNAL;
+> >
+> >       list_add_tail(&c->entry, &queue->free_list);
+> > @@ -1736,6 +1743,7 @@ static int nvmet_tcp_try_peek_pdu(struct nvmet_tc=
+p_queue *queue)
+> >               return len;
+> >       }
+> >
+> > +     iov_iter_revert(&msg.msg_iter, len);
+> >       ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+> >       if (ret < 0)
+> >               return ret;
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+>
 
 
