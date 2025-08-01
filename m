@@ -4,88 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72BEAC87FCC
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Jul 2025 18:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8CCFC87FD2
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Aug 2025 02:58:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j3IMlRLwAFtF12zLNMWvpT+3MnfpTZ0F/2N2UD+Uq8g=; b=GjLY4sY3EeF/u7fyN5isLiWZw+
-	wkGe1KC2QOu01BTfPpYHrPFJLpoSnfYipulOOPE7wd/fgUUYz7csrKoQ8CqDmwaUVlf/UzNz7NYlz
-	Q8ZxzNQ1JIFG8yzHhrBiVJrAwJs5cRy54eoFan+lHqAvsDwO2gz9KjPizeKaPMovoGQ9F8wUrCERv
-	TPC8X6PRQy2OLue5YUHpRWaIsknn7MGgYRLHkGUUYRjXBwcz6XwYqZ3Vgv1HhE3Q8lr53Nkhfv07y
-	a/AkQkRgZlNx+IBTdbtpuV/g88wRySxBI0ymyTRNFqKBJXySxANDV8lJmS+IKbmpHJKMJFH+/uToh
-	eY9YIfLg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=XYhYen14Lmjr3QWJnVGJRUPCj47/0ntc2wZ3+PM+dQs=; b=hVNQ5qO/I86zBIJ9hieW0Y90ck
+	xwyUFjdIRJ505/09hdh7RO1HTtTBHVXs63JWgJKlZfNwOJrGWA6B8T30zuJsv01u02u172myfxWOc
+	YX26BrraejFnY8MV8e/cNKfqb7Nz5ugif8NvpAxShEuYuF6CHXjHxSgusWozzT4mQPHF9g9cgoAQH
+	Sv+tyPqibj0LGv9skTv2DjBReH62bDHfJ+9F1LKobK1/UF9CHaQMTpNphmJhMmudMH41qurdA0d74
+	vhFTYFYCdolUfT291ONIwJvLK0rq7oOTeI0UHj7Kv7UUjrkLAjPNEH0mDwRPGLTFYuUvDEmi4Obj/
+	U5dgU03Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhXau-00000004DXZ-3EfU;
-	Thu, 31 Jul 2025 18:01:32 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1uhfyD-00000004rEt-3w5R;
+	Fri, 01 Aug 2025 02:58:09 +0000
+Received: from mgamail.intel.com ([192.198.163.17])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uhXas-00000004DVj-31EP
+	id 1uhevD-00000004nn0-3qMd
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Jul 2025 18:01:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753984889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j3IMlRLwAFtF12zLNMWvpT+3MnfpTZ0F/2N2UD+Uq8g=;
-	b=jRAOX18WoGw89e4uUMQWLOtguA7jXdcSAKU7o0e/CXlQ9H0e/o+GRMxYxMNGYzN3bAqIdl
-	XUxaQON4DRlBCNgY9aMM5rj2OtSqTgSAYTC5NNC/E8Bdl21EGxk+wH3HrZoZqcuKiaKOBk
-	E18McGT+XqogsrHROzklwUuBQgXfXYs=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-657-zFPmQR8OP6uYCq6jTQV7MA-1; Thu,
- 31 Jul 2025 14:01:26 -0400
-X-MC-Unique: zFPmQR8OP6uYCq6jTQV7MA-1
-X-Mimecast-MFC-AGG-ID: zFPmQR8OP6uYCq6jTQV7MA_1753984883
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 547FD1954B18;
-	Thu, 31 Jul 2025 18:01:23 +0000 (UTC)
-Received: from okorniev-mac.redhat.com (unknown [10.22.82.42])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 648143000199;
-	Thu, 31 Jul 2025 18:01:19 +0000 (UTC)
-From: Olga Kornievskaia <okorniev@redhat.com>
-To: chuck.lever@oracle.com,
-	jlayton@kernel.org,
-	trondmy@hammerspace.com,
-	anna.schumaker@oracle.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-nfs@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	neil@brown.name,
-	Dai.Ngo@oracle.com,
-	tom@talpey.com,
-	hare@suse.de,
-	horms@kernel.org,
-	kbusch@kernel.org
-Subject: [PATCH v2 4/4] net/handshake: change tls_alert_recv to receive a kvec
-Date: Thu, 31 Jul 2025 14:00:58 -0400
-Message-Id: <20250731180058.4669-5-okorniev@redhat.com>
-In-Reply-To: <20250731180058.4669-1-okorniev@redhat.com>
-References: <20250731180058.4669-1-okorniev@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+	Fri, 01 Aug 2025 01:51:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754013059; x=1785549059;
+  h=date:from:to:cc:subject:message-id;
+  bh=4tKQ17WDZ3SaBAZorjlmG66HtvUli0Ql3VDccsVlQGA=;
+  b=jtmKsUwK19Xg3E7ljbAMw0EW5gaV840VD+E9Frh8c0rcXfuXNNZKmbWd
+   oiEHTo1LguvPbB4WeNso9LZ1bjWEQXsuHIS3Z16ctfGIA2IsHZ1p9nPLT
+   72sNe1ExIqKEDIE6EYS385P/wr+21wseRMfAVZuPPMi3TZ+ubVOO2usZY
+   DbcWeWGuxZ0HZXm0pb5qZabQLka+LwYcdGcXkNKaTy7kt3cRYd8lLSwoz
+   KzI4n0X5MXuzdEYNgmKfVlgFgl5aqrYhzsF8LTP9K6bPk61SrilY68+Bf
+   z8tXHoVn4cWvYtGALjrJuSeB3zgSHB2Z7z36owm+ZNfhGsUtzWN1vbSgd
+   A==;
+X-CSE-ConnectionGUID: NLSd0nR5ThemBzfK9MsrDg==
+X-CSE-MsgGUID: EfH6UZ42Qka2d4wQtig48w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56290445"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="56290445"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 18:50:58 -0700
+X-CSE-ConnectionGUID: C7JNT+IzQZWjYv/7OPpTqA==
+X-CSE-MsgGUID: VIpYolwiTKmCQhsnX2KD5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="200585622"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 31 Jul 2025 18:50:58 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uhev9-0004Hk-22;
+	Fri, 01 Aug 2025 01:50:55 +0000
+Date: Fri, 01 Aug 2025 09:49:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.17] BUILD SUCCESS
+ 367c240b0a99c7ada700a44345dd3144a02b6164
+Message-ID: <202508010947.WpS1TYUp-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250731_110130_842723_73D7E2E3 
-X-CRM114-Status: GOOD (  17.43  )
+X-CRM114-CacheID: sfid-20250731_185059_969513_8223772B 
+X-CRM114-Status: UNSURE (   5.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,209 +83,132 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Instead of trying to read the data from the msg iterator,
-callers to tls_alert_recv() need to pass in a kvec directly.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.17
+branch HEAD: 367c240b0a99c7ada700a44345dd3144a02b6164  nvme: fix various comment typos
 
-Signed-off-by: Olga Kornievskaia <okorniev@redhat.com>
----
- drivers/nvme/target/tcp.c | 13 +++++--------
- include/net/handshake.h   |  2 +-
- net/handshake/alert.c     |  6 +++---
- net/sunrpc/svcsock.c      | 17 ++++++++---------
- net/sunrpc/xprtsock.c     | 19 +++++++++----------
- 5 files changed, 26 insertions(+), 31 deletions(-)
+elapsed time: 728m
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 98cee10de713..7ea8644de622 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1106,7 +1106,7 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
- }
- 
- static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
--		struct msghdr *msg, char *cbuf)
-+		struct kvec *iov, char *cbuf)
- {
- 	struct cmsghdr *cmsg = (struct cmsghdr *)cbuf;
- 	u8 ctype, level, description;
-@@ -1119,7 +1119,7 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
- 	case TLS_RECORD_TYPE_DATA:
- 		break;
- 	case TLS_RECORD_TYPE_ALERT:
--		tls_alert_recv(queue->sock->sk, msg, &level, &description);
-+		tls_alert_recv(queue->sock->sk, iov, &level, &description);
- 		if (level == TLS_ALERT_LEVEL_FATAL) {
- 			pr_err("queue %d: TLS Alert desc %u\n",
- 			       queue->idx, description);
-@@ -1160,8 +1160,7 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
- 	if (unlikely(len < 0))
- 		return len;
- 	if (queue->tls_pskid) {
--		iov_iter_revert(&msg.msg_iter, len);
--		ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
-+		ret = nvmet_tcp_tls_record_ok(queue, &iov, cbuf);
- 		if (ret < 0)
- 			return ret;
- 	}
-@@ -1276,8 +1275,7 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
- 	if (unlikely(len < 0))
- 		return len;
- 	if (queue->tls_pskid) {
--		iov_iter_revert(&msg.msg_iter, len);
--		ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
-+		ret = nvmet_tcp_tls_record_ok(queue, &iov, cbuf);
- 		if (ret < 0)
- 			return ret;
- 	}
-@@ -1742,8 +1740,7 @@ static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue)
- 		return len;
- 	}
- 
--	iov_iter_revert(&msg.msg_iter, len);
--	ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
-+	ret = nvmet_tcp_tls_record_ok(queue, &iov, cbuf);
- 	if (ret < 0)
- 		return ret;
- 
-diff --git a/include/net/handshake.h b/include/net/handshake.h
-index 8ebd4f9ed26e..33ffc8e88923 100644
---- a/include/net/handshake.h
-+++ b/include/net/handshake.h
-@@ -43,7 +43,7 @@ bool tls_handshake_cancel(struct sock *sk);
- void tls_handshake_close(struct socket *sock);
- 
- u8 tls_get_record_type(const struct sock *sk, const struct cmsghdr *msg);
--void tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
-+void tls_alert_recv(const struct sock *sk, const struct kvec *iov,
- 		    u8 *level, u8 *description);
- 
- #endif /* _NET_HANDSHAKE_H */
-diff --git a/net/handshake/alert.c b/net/handshake/alert.c
-index 329d91984683..4662a406b64a 100644
---- a/net/handshake/alert.c
-+++ b/net/handshake/alert.c
-@@ -94,13 +94,13 @@ EXPORT_SYMBOL(tls_get_record_type);
-  * @description: OUT - TLS AlertDescription value
-  *
-  */
--void tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
-+void tls_alert_recv(const struct sock *sk, const struct kvec *iov,
- 		    u8 *level, u8 *description)
- {
--	const struct kvec *iov;
- 	u8 *data;
- 
--	iov = msg->msg_iter.kvec;
-+	if (!iov)
-+		return;
- 	data = iov->iov_base;
- 	*level = data[0];
- 	*description = data[1];
-diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index e2c5e0e626f9..8701abd7fff2 100644
---- a/net/sunrpc/svcsock.c
-+++ b/net/sunrpc/svcsock.c
-@@ -228,7 +228,7 @@ static int svc_one_sock_name(struct svc_sock *svsk, char *buf, int remaining)
- }
- 
- static int
--svc_tcp_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
-+svc_tcp_sock_process_cmsg(struct socket *sock, struct kvec *iov,
- 			  struct cmsghdr *cmsg, int ret)
- {
- 	u8 content_type = tls_get_record_type(sock->sk, cmsg);
-@@ -238,14 +238,10 @@ svc_tcp_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
- 	case 0:
- 		break;
- 	case TLS_RECORD_TYPE_DATA:
--		/* TLS sets EOR at the end of each application data
--		 * record, even though there might be more frames
--		 * waiting to be decrypted.
--		 */
--		msg->msg_flags &= ~MSG_EOR;
-+		pr_warn("received TLS DATA; expected TLS control message\n");
- 		break;
- 	case TLS_RECORD_TYPE_ALERT:
--		tls_alert_recv(sock->sk, msg, &level, &description);
-+		tls_alert_recv(sock->sk, iov, &level, &description);
- 		ret = (level == TLS_ALERT_LEVEL_FATAL) ?
- 			-ENOTCONN : -EAGAIN;
- 		break;
-@@ -280,8 +276,7 @@ svc_tcp_sock_recv_cmsg(struct socket *sock, unsigned int *msg_flags)
- 	ret = sock_recvmsg(sock, &msg, MSG_DONTWAIT);
- 	if (ret > 0 &&
- 	    tls_get_record_type(sock->sk, &u.cmsg) == TLS_RECORD_TYPE_ALERT) {
--		iov_iter_revert(&msg.msg_iter, ret);
--		ret = svc_tcp_sock_process_cmsg(sock, &msg, &u.cmsg, -EAGAIN);
-+		ret = svc_tcp_sock_process_cmsg(sock, &alert_kvec, &u.cmsg, -EAGAIN);
- 	}
- 	return ret;
- }
-@@ -294,6 +289,10 @@ svc_tcp_sock_recvmsg(struct svc_sock *svsk, struct msghdr *msg)
- 
- 	ret = sock_recvmsg(sock, msg, MSG_DONTWAIT);
- 	if (msg->msg_flags & MSG_CTRUNC) {
-+		/* TLS sets EOR at the end of each application data
-+		 * record, even though there might be more frames
-+		 * waiting to be decrypted.
-+		 */
- 		msg->msg_flags &= ~(MSG_CTRUNC | MSG_EOR);
- 		if (ret == 0 || ret == -EIO)
- 			ret = svc_tcp_sock_recv_cmsg(sock, &msg->msg_flags);
-diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index c5f7bbf5775f..005021773da1 100644
---- a/net/sunrpc/xprtsock.c
-+++ b/net/sunrpc/xprtsock.c
-@@ -357,7 +357,7 @@ xs_alloc_sparse_pages(struct xdr_buf *buf, size_t want, gfp_t gfp)
- }
- 
- static int
--xs_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
-+xs_sock_process_cmsg(struct socket *sock, struct kvec *iov,
- 		     unsigned int *msg_flags, struct cmsghdr *cmsg, int ret)
- {
- 	u8 content_type = tls_get_record_type(sock->sk, cmsg);
-@@ -367,14 +367,10 @@ xs_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
- 	case 0:
- 		break;
- 	case TLS_RECORD_TYPE_DATA:
--		/* TLS sets EOR at the end of each application data
--		 * record, even though there might be more frames
--		 * waiting to be decrypted.
--		 */
--		*msg_flags &= ~MSG_EOR;
-+		pr_warn("received TLS DATA; expected TLS control message\n");
- 		break;
- 	case TLS_RECORD_TYPE_ALERT:
--		tls_alert_recv(sock->sk, msg, &level, &description);
-+		tls_alert_recv(sock->sk, iov, &level, &description);
- 		ret = (level == TLS_ALERT_LEVEL_FATAL) ?
- 			-EACCES : -EAGAIN;
- 		break;
-@@ -409,9 +405,8 @@ xs_sock_recv_cmsg(struct socket *sock, unsigned int *msg_flags, int flags)
- 	ret = sock_recvmsg(sock, &msg, flags);
- 	if (ret > 0 &&
- 	    tls_get_record_type(sock->sk, &u.cmsg) == TLS_RECORD_TYPE_ALERT) {
--		iov_iter_revert(&msg.msg_iter, ret);
--		ret = xs_sock_process_cmsg(sock, &msg, msg_flags, &u.cmsg,
--					   -EAGAIN);
-+		ret = xs_sock_process_cmsg(sock, &alert_kvec, msg_flags,
-+					   &u.cmsg, -EAGAIN);
- 	}
- 	return ret;
- }
-@@ -425,6 +420,10 @@ xs_sock_recvmsg(struct socket *sock, struct msghdr *msg, int flags, size_t seek)
- 	ret = sock_recvmsg(sock, msg, flags);
- 	/* Handle TLS inband control message lazily */
- 	if (msg->msg_flags & MSG_CTRUNC) {
-+		/* TLS sets EOR at the end of each application data
-+		 * ecord, even though there might be more frames
-+		 * waiting to be decrypted.
-+		 */
- 		msg->msg_flags &= ~(MSG_CTRUNC | MSG_EOR);
- 		if (ret == 0 || ret == -EIO)
- 			ret = xs_sock_recv_cmsg(sock, &msg->msg_flags, flags);
--- 
-2.47.1
+configs tested: 112
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250731    gcc-13.4.0
+arc                   randconfig-002-20250731    gcc-8.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                   randconfig-001-20250731    gcc-14.3.0
+arm                   randconfig-002-20250731    gcc-8.5.0
+arm                   randconfig-003-20250731    gcc-8.5.0
+arm                   randconfig-004-20250731    clang-22
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250731    gcc-8.5.0
+arm64                 randconfig-002-20250731    gcc-13.4.0
+arm64                 randconfig-003-20250731    gcc-10.5.0
+arm64                 randconfig-004-20250731    gcc-10.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250731    gcc-12.5.0
+csky                  randconfig-002-20250731    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250731    clang-16
+hexagon               randconfig-002-20250731    clang-17
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250731    gcc-12
+i386        buildonly-randconfig-002-20250731    gcc-12
+i386        buildonly-randconfig-003-20250731    clang-20
+i386        buildonly-randconfig-004-20250731    gcc-12
+i386        buildonly-randconfig-005-20250731    gcc-12
+i386        buildonly-randconfig-006-20250731    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250731    gcc-13.4.0
+loongarch             randconfig-002-20250731    clang-22
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250731    gcc-11.5.0
+nios2                 randconfig-002-20250731    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250731    gcc-8.5.0
+parisc                randconfig-002-20250731    gcc-8.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc               randconfig-001-20250731    gcc-13.4.0
+powerpc               randconfig-002-20250731    gcc-13.4.0
+powerpc               randconfig-003-20250731    gcc-15.1.0
+powerpc64             randconfig-001-20250731    clang-22
+powerpc64             randconfig-002-20250731    gcc-12.5.0
+powerpc64             randconfig-003-20250731    clang-22
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20250731    gcc-13.4.0
+riscv                 randconfig-002-20250731    gcc-8.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                  randconfig-001-20250731    clang-22
+s390                  randconfig-002-20250731    gcc-10.5.0
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                    randconfig-001-20250731    gcc-10.5.0
+sh                    randconfig-002-20250731    gcc-9.5.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250731    gcc-8.5.0
+sparc                 randconfig-002-20250731    gcc-11.5.0
+sparc64               randconfig-001-20250731    gcc-8.5.0
+sparc64               randconfig-002-20250731    clang-22
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250731    clang-22
+um                    randconfig-002-20250731    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250731    gcc-12
+x86_64      buildonly-randconfig-002-20250731    clang-20
+x86_64      buildonly-randconfig-003-20250731    gcc-12
+x86_64      buildonly-randconfig-004-20250731    gcc-12
+x86_64      buildonly-randconfig-005-20250731    gcc-12
+x86_64      buildonly-randconfig-006-20250731    gcc-12
+x86_64                              defconfig    gcc-11
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250731    gcc-14.3.0
+xtensa                randconfig-002-20250731    gcc-8.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
