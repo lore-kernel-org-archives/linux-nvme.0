@@ -4,57 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76117C87FCB
-	for <linux-nvme@archiver.kernel.org>; Sun,  3 Aug 2025 21:23:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A6D4C87FCA
+	for <linux-nvme@archiver.kernel.org>; Sun,  3 Aug 2025 21:23:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Kajro7SQiLa5BBu1QT75T2L++PxnjqUfW72yvYCvUs0=; b=0VQoFrGqmMpW3TrCb0g+MklMVX
-	xIKwqDbs6+sJSJWZYC+7FIRyk+wJvlcKiOBYAzQLv628/3bounGmjHyBoXoxwxcybUkr24jXw6Gz4
-	/+XaA8+HOOeDjlEcMabihJiL7/N6oEhrutoSdbg+VJScWtaZmiCzf7EIF5YxOyyMGaZ2Y5h70iE1b
-	wj3iMqH+LLuNPffH/0wMk/MJdQC88QDhEMRMn86T+u2r+jUk02kv/sHA7w+c+Gxk9vPeI7SWJTQzq
-	w1V9isZXjVnq93nLCsFl8/tCKmTQrNWUGduhH9nPbbA3Ki1qE7myXVkNuvCoh14Bs+OzY/1cZIl/c
-	HZ5TF8Uw==;
+	bh=xBHP4PRm+HWtA7byEiIkUfGiMu/b7EVlr7Qw1Gmd8/c=; b=mEjJrMGijiY+cwmS7XEGBQfAPH
+	Xq2uVuXrfaYkeWE0jqlpenaeQKw8CngfPMjpoR4Xlpo7J4K1OvOVC+3K4RPxnaYsvN4MNW+U2QYNu
+	EcqaMhDIjCc0vSQiXrGgR4w/6c6YV33ypHu39m+hxrMLV6HKPH5FJZrwzM8vfikgt+5IbqRMeJMiv
+	I5TFyh9HKH4DC1k7hxqybVYTt1SNmTNJU0cm6G9vERAURnAKlpU7X2nJf2oOsU5rsY84TRBstrp1Y
+	XwMxIIJPqrkWmVoP6/vqFg+7kcrunAtCTmX5kQ9FOS2MpOSYrZdB3GPHydigQrEOYc+6LNwevDQ+r
+	vM4SWfXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uigAq-00000009Ahc-30qs;
-	Sun, 03 Aug 2025 21:23:20 +0000
+	id 1uigAr-00000009AiP-1fj8;
+	Sun, 03 Aug 2025 21:23:21 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uig6j-000000099US-0HVo
+	id 1uig6r-000000099Wi-2Q1s
 	for linux-nvme@lists.infradead.org;
-	Sun, 03 Aug 2025 21:19:06 +0000
+	Sun, 03 Aug 2025 21:19:14 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 6D124A54D22;
-	Sun,  3 Aug 2025 21:19:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6594FC4CEF8;
-	Sun,  3 Aug 2025 21:19:02 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id CF958A54D5B;
+	Sun,  3 Aug 2025 21:19:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB6CC4CEF8;
+	Sun,  3 Aug 2025 21:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754255944;
-	bh=YD5bJJPMFlk6eY28GHSUHhs2Z82VE8Kd4QBHLV+/TxE=;
+	s=k20201202; t=1754255952;
+	bh=d1yVetX8aerPMO3B5Hzujmr72qW21koOX/V+ry9klWE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VmxMrjIxlqzu3gZEcsIjmVOTwYW+by4SOT8N3Qkc1pkPT/x905eTAwA2JGwmKQI66
-	 1vW5tvpbc/jDCtk6NU/9sHyD/yl91/toS7hjed73V8779NHnFYy9dJO9fZEpfyA+Ir
-	 bEsUf68L2u/BQ3Jk+Z41a8Q8ZDoX9ib9a9fgWV6LYsSlQLLdJeR4DMMvr0aiweYhqK
-	 WLJslL0+ky8m+Ck1ShmCkuPWLs5rqRRvLgTx9eixfkuErr4/eb2HtjPreKyV0nD7wa
-	 nPDQvITvCLGoDrkeN+WoIUTS3KRKaBYw3nkd0mbw8AfFso+FswPZZKu4b10qmm+899
-	 4JCVpm3YjvabA==
+	b=nwiFP8hrCUFK/M1GAzDgNcaF2KaW4qOfvWeMkK6AP/uwvQby0X7xyv+3yy/RKCIAz
+	 dmimp7G/FE8BgAbugaPEIO7MWCqJdnYEx2kiHhd5/NhgIJ3Et41ImgoS8yTciiZ44k
+	 hA8GU7WdchJ2KbSuGzn34Pp+61GZSPF6xDT8+ccRMoggmRcCb5I438zdz41hfCg6nP
+	 ZuJUKlQXXkOLO/DUBD4ZSdUcTwlXcyRprzt6CDIMU5YZ0cyKP2YYoh5HgWqQNhXj2m
+	 0/R+QL09c3ZqkntumBtf713QhkFKHeal8pA0jljCxSAv+A1dPjRmg8qxXTypSselHg
+	 dpCrhAXrv2fpA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
+Cc: Maurizio Lombardi <mlombard@redhat.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Hannes Reinecke <hare@suse.de>,
 	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
+	kbusch@kernel.org,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.15 11/34] nvme-pci: try function level reset on init failure
-Date: Sun,  3 Aug 2025 17:18:13 -0400
-Message-Id: <20250803211836.3546094-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.15 14/34] nvme-tcp: log TLS handshake failures at error level
+Date: Sun,  3 Aug 2025 17:18:16 -0400
+Message-Id: <20250803211836.3546094-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250803211836.3546094-1-sashal@kernel.org>
 References: <20250803211836.3546094-1-sashal@kernel.org>
@@ -64,8 +65,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.15.9
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250803_141905_235893_41E6C243 
-X-CRM114-Status: GOOD (  18.92  )
+X-CRM114-CacheID: sfid-20250803_141913_742023_7CAB611B 
+X-CRM114-Status: GOOD (  15.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,24 +81,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+From: Maurizio Lombardi <mlombard@redhat.com>
 
-[ Upstream commit 5b2c214a95942f7997d1916a4c44017becbc3cac ]
+[ Upstream commit 5a58ac9bfc412a58c3cf26c6a7e54d4308e9d109 ]
 
-NVMe devices from multiple vendors appear to get stuck in a reset state
-that we can't get out of with an NVMe level Controller Reset. The kernel
-would report these with messages that look like:
+Update the nvme_tcp_start_tls() function to use dev_err() instead of
+dev_dbg() when a TLS error is detected. This ensures that handshake
+failures are visible by default, aiding in debugging.
 
-  Device not ready; aborting reset, CSTS=0x1
-
-These have historically required a power cycle to make them usable
-again, but in many cases, a PCIe FLR is sufficient to restart operation
-without a power cycle. Try it if the initial controller reset fails
-during any nvme reset attempt.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Reviewed-by: Laurence Oberman <loberman@redhat.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -106,109 +100,73 @@ LLM Generated explanations, may be completely bogus:
 
 **Backport Status: YES**
 
-This commit should be backported to stable kernel trees based on the
-following analysis:
+This commit should be backported to stable kernel trees for the
+following reasons:
 
-## 1. Fixes a Real User-Impacting Bug
+1. **Fixes a Real Debugging Issue**: The commit addresses a genuine
+   problem where TLS handshake failures were being logged at debug level
+   (`dev_dbg()`), making them invisible in production environments
+   unless debug logging is explicitly enabled. This change promotes
+   error visibility by using `dev_err()` for actual error conditions.
 
-The commit addresses a significant hardware issue where NVMe devices
-from multiple vendors get stuck in a reset state showing "Device not
-ready; aborting reset, CSTS=0x1". This is a real-world problem that:
-- Affects multiple vendors' devices (not vendor-specific)
-- Historically required a full power cycle to recover
-- Renders the storage device completely unusable
+2. **Small and Contained Change**: The patch is minimal - it only
+   changes logging behavior by:
+   - Adding a conditional check `if (queue->tls_err)`
+   - Moving the error case from `dev_dbg()` to `dev_err()`
+   - Keeping successful handshakes at debug level
 
-## 2. Minimal and Contained Fix
+   The diff shows only about 10 lines changed with no functional
+modifications.
 
-The code change is very focused and minimal:
-- Only adds ~20 lines of code in a single location
-- The fix is contained within the `nvme_pci_configure_admin_queue()`
-  function
-- Only executes when the initial controller reset fails (error path)
-- No architectural changes or new features
+3. **No Architectural Changes**: This is purely a logging improvement
+   that doesn't alter any control flow, data structures, or protocol
+   behavior. It simply makes existing errors more visible.
 
-## 3. Clear Recovery Mechanism
+4. **Important for Production Debugging**: TLS handshake failures in
+   NVMe-TCP can be caused by various issues (certificate problems, key
+   mismatches, network issues) that are critical to diagnose in
+   production. Having these errors hidden at debug level severely
+   hampers troubleshooting.
 
-The fix implements a well-understood recovery mechanism:
-```c
-if (result < 0) {
-    struct pci_dev *pdev = to_pci_dev(dev->dev);
-    result = pcie_reset_flr(pdev, false);
-    if (result < 0)
-        return result;
+5. **Mature Feature Area**: NVMe-TCP TLS support was introduced in
+   kernel 6.5 (around August 2023 based on commit be8e82caa685), making
+   it a relatively mature feature that's likely deployed in production
+   systems requiring proper error visibility.
 
-    pci_restore_state(pdev);
-    result = nvme_disable_ctrl(&dev->ctrl, false);
-```
+6. **No Risk of Regression**: The change only affects logging output and
+   cannot introduce functional regressions. The worst case is slightly
+   more verbose kernel logs when TLS errors occur, which is the intended
+   behavior.
 
-It uses PCIe Function Level Reset (FLR) as a "bigger hammer" when the
-NVMe-level controller reset fails, which is a standard PCIe recovery
-mechanism.
+7. **Follows Stable Rules**: This meets the stable kernel criteria as
+   it's a small fix that improves debuggability of an existing feature
+   without introducing new functionality or risks.
 
-## 4. Low Risk of Regression
+ drivers/nvme/host/tcp.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-- Only triggers in error conditions (when `nvme_disable_ctrl` fails)
-- Falls back gracefully if FLR also fails
-- Uses existing, well-tested PCIe APIs (`pcie_reset_flr`,
-  `pci_restore_state`)
-- Adds informative logging when recovery succeeds
-
-## 5. Follows Stable Tree Rules
-
-- Fixes a bug that prevents device initialization
-- No new features or functionality
-- Small, self-contained change
-- Clear benefit (avoiding power cycles) with minimal risk
-
-## 6. Similar Issues Fixed in Stable
-
-The git history shows multiple commits addressing "stuck reset" issues
-in the NVMe driver (e.g., `3f674e7b670b`, `ebef7368571d`), indicating
-this is an ongoing class of problems that stable kernels need to handle.
-
-The commit message explicitly states this affects devices from "multiple
-vendors" and provides a solution that avoids requiring power cycles,
-making it a clear candidate for stable backporting to improve system
-reliability.
-
- drivers/nvme/host/pci.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 776c867fb64d..5396282015a2 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1888,8 +1888,28 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	 * might be pointing at!
- 	 */
- 	result = nvme_disable_ctrl(&dev->ctrl, false);
--	if (result < 0)
--		return result;
-+	if (result < 0) {
-+		struct pci_dev *pdev = to_pci_dev(dev->dev);
-+
-+		/*
-+		 * The NVMe Controller Reset method did not get an expected
-+		 * CSTS.RDY transition, so something with the device appears to
-+		 * be stuck. Use the lower level and bigger hammer PCIe
-+		 * Function Level Reset to attempt restoring the device to its
-+		 * initial state, and try again.
-+		 */
-+		result = pcie_reset_flr(pdev, false);
-+		if (result < 0)
-+			return result;
-+
-+		pci_restore_state(pdev);
-+		result = nvme_disable_ctrl(&dev->ctrl, false);
-+		if (result < 0)
-+			return result;
-+
-+		dev_info(dev->ctrl.device,
-+			"controller reset completed after pcie flr\n");
-+	}
- 
- 	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
- 	if (result)
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index b882ee6ef40f..d0ee9e2a3294 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1776,9 +1776,14 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+ 			qid, ret);
+ 		tls_handshake_cancel(queue->sock->sk);
+ 	} else {
+-		dev_dbg(nctrl->device,
+-			"queue %d: TLS handshake complete, error %d\n",
+-			qid, queue->tls_err);
++		if (queue->tls_err) {
++			dev_err(nctrl->device,
++				"queue %d: TLS handshake complete, error %d\n",
++				qid, queue->tls_err);
++		} else {
++			dev_dbg(nctrl->device,
++				"queue %d: TLS handshake complete\n", qid);
++		}
+ 		ret = queue->tls_err;
+ 	}
+ 	return ret;
 -- 
 2.39.5
 
