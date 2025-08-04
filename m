@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF600C87FCF
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 14:59:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFC6FC87FDA
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 14:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=njJVaIqIe6sqKLpFp72s28bWMOkerJgS7/NyUH+svec=; b=YirJKFs3/0ilop55mhEUHcJp//
-	Hr2a1mK9ey9d5p1/VQd5L0p2Hz+sva7iih2D9SPAu8UUTMVX93ZEg4VWsWZNUq/vHniDN6GGaTH/y
-	u8kHAu6JusEUz2UyVgnGUz20jobJl78DFi9TRAvJ12z+Jrst72KGEK2aqwh5kcdndts7aD+TZA9Ec
-	zfzOw+4gN1M42ixnIQDMVErCFcuqLHYojEXbSst0qhz65UByW2dD+LKj7mzCNJQIBZWcWBCWifIBP
-	aP0U+y59HA8PPLkUCk9pOoaIKzBwQldJLD1k6161zxZOniQHptJ0uddHiw4tQWjDXgLzgKUCpyT2y
-	Vc8m+IBQ==;
+	bh=+vAkscLUbC2ztTvQppga8PLzPNKX2Zo6YASdCGH79rc=; b=q9VBgr4gvvEdszwV9GyZ80AVyK
+	bO0lMDCVfFeEdgRsT+45OIZHPvOkBe45Y7ASm5glfrBZKEk2J/CyGE46vN2Vu0d55oKybU0/m0t6d
+	jbDTPqpheGMLYuGcEsLSdsL+5noa0kZYDbNRZflD0g9cs6ZIatfgIlg6N9JFwbikhqa7yH/+hNHFZ
+	i50hDMGGxL5EJwifwGVFhReTMaFXr/3ADyyaQdb+0Srx3QQhWW50CH6S1AfHVQYKM9N+3JXziGgAX
+	mYCFINUT/df1iTFW628cGaSIn2ZT63iA3M0Snou6BscBeHt5rcBaTQ86Ve4iBrI458LcJXxmMwyey
+	cYt1KKzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uk260-00000000uBE-0Yy4;
-	Thu, 07 Aug 2025 14:59:56 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uk261-00000000uDX-1IRk;
+	Thu, 07 Aug 2025 14:59:57 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uiuY3-0000000APAH-2m7o
+	id 1uiuY8-0000000APDc-0H9j
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Aug 2025 12:44:16 +0000
+	Mon, 04 Aug 2025 12:44:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 0920DA55826;
-	Mon,  4 Aug 2025 12:44:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58081C4CEF0;
-	Mon,  4 Aug 2025 12:44:13 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1404A5C5F2E;
+	Mon,  4 Aug 2025 12:44:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4569C4CEE7;
+	Mon,  4 Aug 2025 12:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754311454;
-	bh=qnVGWPERMw1BTa2/gk85Rr9nCLsamOSAPU4HKvyJS1c=;
+	s=k20201202; t=1754311458;
+	bh=dqwhbGWVl/oipogVPAPlJyJScmypxjmriuJlNMDqMFM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OtgAnXB9G/hO4kHiG6lUbx1lGdhplK8QSnQvERbDkZeJ2rBPi5BohP2fOcU1EY1H0
-	 LWK7JmM6eYjvDV85Iv2oqAeUvxpoecgv6pnhGevxoOAJjwoIKIBVlnyhDtWl6iMFdx
-	 RkkwEUkNj1PK4RIEa7lvhblH+3HASR9LDXUdd9ooPuLmkTQNLafsqp7vExm+lHX79L
-	 xgsW9Dlqtb1H+ROfUItFyQuMNgUa0HHgvJ+5cBoMm5E0OKANto/+eCMPooaSWD2S6k
-	 W4Hqu5Itep2BtJPMCEt1CECg7NNUHsl45+R6007i0eogZT7o+A+uJhsGr5xPHo73g0
-	 Vn+VRBXex4Xsg==
+	b=twziXknBPqQkaMb4B7FpNHJ9HEUx7/M836/B/HOkWAaI0xU18AOGgranE1UPO3Z2A
+	 qByqLoklhRYu6bnu+x5ETVJIc+P+0Ju1mUTlWesgsxm9Uw2nnAUHgWFFcvipLZWsPr
+	 /X/Xgc0MrjwXWJE2eE8R2nPmVwtK2NoWOETrJzuVA7cF2pqqQw7TPbh3FX3McEN3on
+	 SLv84u5z+pYu1j0JRSH5twhBbzvn9nXehFR206rnivCVd5lTNcN4IpS/pX3K4gEYJR
+	 R30yvtOo8vlSCBPCeQNV8Tbj18sYkV187LjgCJFMSIphAwqv5UYBAvrh/Sqr87dLeL
+	 XA2ufQWKM0AXg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
@@ -80,17 +80,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	virtualization@lists.linux.dev,
 	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v1 10/16] xen: swiotlb: Open code map_resource callback
-Date: Mon,  4 Aug 2025 15:42:44 +0300
-Message-ID: <e69e9510d9024d664133dc788f5186aac414318e.1754292567.git.leon@kernel.org>
+Subject: [PATCH v1 13/16] mm/hmm: properly take MMIO path
+Date: Mon,  4 Aug 2025 15:42:47 +0300
+Message-ID: <79cf36301cc05d6dd1c88e9c3812ac5c3f57e32b.1754292567.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754292567.git.leon@kernel.org>
 References: <cover.1754292567.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250804_054415_846320_9932A44D 
-X-CRM114-Status: GOOD (  13.87  )
+X-CRM114-CacheID: sfid-20250804_054420_184125_CAAE1AD3 
+X-CRM114-Status: GOOD (  11.93  )
 X-Mailman-Approved-At: Thu, 07 Aug 2025 07:59:41 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,51 +108,66 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-General dma_direct_map_resource() is going to be removed
-in next patch, so simply open-code it in xen driver.
+In case peer-to-peer transaction traverses through host bridge,
+the IOMMU needs to have IOMMU_MMIO flag, together with skip of
+CPU sync.
+
+The latter was handled by provided DMA_ATTR_SKIP_CPU_SYNC flag,
+but IOMMU flag was missed, due to assumption that such memory
+can be treated as regular one.
+
+Reuse newly introduced DMA attribute to properly take MMIO path.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/xen/swiotlb-xen.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ mm/hmm.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
-index da1a7d3d377cf..dd7747a2de879 100644
---- a/drivers/xen/swiotlb-xen.c
-+++ b/drivers/xen/swiotlb-xen.c
-@@ -392,6 +392,25 @@ xen_swiotlb_sync_sg_for_device(struct device *dev, struct scatterlist *sgl,
- 	}
- }
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 015ab243f0813..6556c0e074ba8 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -746,7 +746,7 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
+ 	case PCI_P2PDMA_MAP_NONE:
+ 		break;
+ 	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+-		attrs |= DMA_ATTR_SKIP_CPU_SYNC;
++		attrs |= DMA_ATTR_MMIO;
+ 		pfns[idx] |= HMM_PFN_P2PDMA;
+ 		break;
+ 	case PCI_P2PDMA_MAP_BUS_ADDR:
+@@ -776,7 +776,7 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
+ 			goto error;
  
-+static dma_addr_t xen_swiotlb_direct_map_resource(struct device *dev,
-+						  phys_addr_t paddr,
-+						  size_t size,
-+						  enum dma_data_direction dir,
-+						  unsigned long attrs)
-+{
-+	dma_addr_t dma_addr = paddr;
+ 		dma_addr = dma_map_phys(dev, paddr, map->dma_entry_size,
+-					DMA_BIDIRECTIONAL, 0);
++					DMA_BIDIRECTIONAL, attrs);
+ 		if (dma_mapping_error(dev, dma_addr))
+ 			goto error;
+ 
+@@ -811,16 +811,17 @@ bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
+ 	if ((pfns[idx] & valid_dma) != valid_dma)
+ 		return false;
+ 
++	if (pfns[idx] & HMM_PFN_P2PDMA)
++		attrs |= DMA_ATTR_MMIO;
 +
-+	if (unlikely(!dma_capable(dev, dma_addr, size, false))) {
-+		dev_err_once(dev,
-+			     "DMA addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
-+			     &dma_addr, size, *dev->dma_mask, dev->bus_dma_limit);
-+		WARN_ON_ONCE(1);
-+		return DMA_MAPPING_ERROR;
-+	}
-+
-+	return dma_addr;
-+}
-+
- /*
-  * Return whether the given device DMA address mask can be supported
-  * properly.  For example, if your device can only drive the low 24-bits
-@@ -426,5 +445,5 @@ const struct dma_map_ops xen_swiotlb_dma_ops = {
- 	.alloc_pages_op = dma_common_alloc_pages,
- 	.free_pages = dma_common_free_pages,
- 	.max_mapping_size = swiotlb_max_mapping_size,
--	.map_resource = dma_direct_map_resource,
-+	.map_resource = xen_swiotlb_direct_map_resource,
- };
+ 	if (pfns[idx] & HMM_PFN_P2PDMA_BUS)
+ 		; /* no need to unmap bus address P2P mappings */
+-	else if (dma_use_iova(state)) {
+-		if (pfns[idx] & HMM_PFN_P2PDMA)
+-			attrs |= DMA_ATTR_SKIP_CPU_SYNC;
++	else if (dma_use_iova(state))
+ 		dma_iova_unlink(dev, state, idx * map->dma_entry_size,
+ 				map->dma_entry_size, DMA_BIDIRECTIONAL, attrs);
+-	} else if (dma_need_unmap(dev))
++	else if (dma_need_unmap(dev))
+ 		dma_unmap_phys(dev, dma_addrs[idx], map->dma_entry_size,
+-			       DMA_BIDIRECTIONAL, 0);
++			       DMA_BIDIRECTIONAL, attrs);
+ 
+ 	pfns[idx] &=
+ 		~(HMM_PFN_DMA_MAPPED | HMM_PFN_P2PDMA | HMM_PFN_P2PDMA_BUS);
 -- 
 2.50.1
 
