@@ -4,68 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3E4AC87FDB
-	for <linux-nvme@archiver.kernel.org>; Sun,  3 Aug 2025 21:26:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F329C87FCB
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Aug 2025 11:44:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K3HPXg31OAb8wpXYiHKVX7mVmM2K/BSE3djYFxXNoIQ=; b=i84eXAkG6+SB/0+EH+CF5QDzVp
-	GYFhk30GTSeyWtdKvBHJV3Vs8g3xzDikvpbmjgkyjAvSQOeINIA/tf1aGsLcz9Ah17nvHi8Kjgufc
-	4mHCJ5iqduR1BP1jLIc9Ptv1oULBCFFGfqCH3mKZNZjBnKXSYaP9xlk2eP0DFFnI4tWMEAl2OMfI0
-	iWKKY5g1gtDdrFfm2RPAYxW0jPrxREznMn8V6H8l+7eQ9sKI4rHzwgCzm9ZMjA3lq0m455MDM5uKU
-	R28ih+SCC7p1Cco6ZpE5SQo6Ig+U/C998i2PDTzDQgap1GyA0RhCqrLHiY80VIisCC/RuZbw2p8yg
-	9jxy2eEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=4qRmdIdgNuUm9Bq8rirCdszyfoGb2uHGtSY0BXXi/h0=; b=sY6nS86XwyavPSJ1fj1SGpVcNf
+	/UL8pkXsJ1OsINu03P6oHa08XPooLlzqlyD6VDkEnEYnZH8fvIQMBdt6rDlQHnEmDkOORqQrPeh1z
+	UWnpJTeE3ODNXA6sCv8cAzNfJ42uHb6JAliFTcR+He7k2as6lFb5oSSwB9WyqpiNLJ2K8z0MTmO41
+	wfJtSPEaVwmNdSuvCWjYvHVXdaRXktj+UW9mqmrjuZd8ChIFp+YqFzTDu/1O/MFIjRlGs28lMVuoB
+	5HLuTVqAtaDaMvEHRY0bFI2dvCx0s0LQg6DQ+22/vmZcT9O+pVWMLubU/eCmqt6L37JrVekfhMcK4
+	26hRZxsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uigDR-00000009Bll-0UEf;
-	Sun, 03 Aug 2025 21:26:01 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1uitc2-0000000AJ63-1IW5;
+	Mon, 04 Aug 2025 11:44:18 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uig8T-000000099vy-2CHr
+	id 1uitbt-0000000AJ55-1ZLk
 	for linux-nvme@lists.infradead.org;
-	Sun, 03 Aug 2025 21:20:54 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 9BEAAA54EF2;
-	Sun,  3 Aug 2025 21:20:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DB47C4CEF0;
-	Sun,  3 Aug 2025 21:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754256052;
-	bh=Ld9X9JoCPEIrPSbX5LxBGB1hFnXkaU8w0enkDj1V8cU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NaWixhrAtENTfK7CcnHm4VzVgc7Nea4cZXHuKmll0EQxMbIPnzErXDy87u0aMFfTi
-	 1xHlTj6B/E1Simwjhxvqsp8slT43UoKvbWqY+2RmtBKYxAK4KHea5iPtGAf3Emd9Zh
-	 7/X6CFIo7q8t/ZgkHlMIINwSbSQof+l9Ke/PXWJSwWg+6O67HjrSsj7u8AKV4hOeL7
-	 vwZeFm/WPYv5+wgbTsxiu4rbubKMSg3UN/22U8/W/CiSHO0Bf61iuw1z7C8Zr4SaRP
-	 eb95dPrlv9Bxo50YTNJ6FIZwP62o2OmOAEKkX/Zza+S9Dm+jE+hm3ziuyeafWDyCB0
-	 eOgxiDtrAxcLw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sasha Levin <sashal@kernel.org>,
+	Mon, 04 Aug 2025 11:44:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1754307846;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4qRmdIdgNuUm9Bq8rirCdszyfoGb2uHGtSY0BXXi/h0=;
+	b=bcXrDL/zZRQKcWhV7PwzerSSv+U5YQk++2GvECsudBAaVttRmG339fGDZg0oANT/Hrg6p/
+	3OX6B6XggCRNyVXJOpj9XoOfEryjBRehgvNXQdBEIWmm63UpP2gVVhsN/5/842IU9L4laA
+	q/tpo4TRzwseuTSdyApw5fy9YFJ+vM4=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-333-bLBVzV6MPvOMGp5EfEQHYg-1; Mon,
+ 04 Aug 2025 07:44:03 -0400
+X-MC-Unique: bLBVzV6MPvOMGp5EfEQHYg-1
+X-Mimecast-MFC-AGG-ID: bLBVzV6MPvOMGp5EfEQHYg_1754307842
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 46ACF1956046;
+	Mon,  4 Aug 2025 11:44:01 +0000 (UTC)
+Received: from rocky.redhat.com (unknown [10.47.238.15])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C075630002C5;
+	Mon,  4 Aug 2025 11:43:57 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: hch@lst.de,
 	sagi@grimberg.me,
+	hare@suse.de,
+	mlombard@bsdbackstore.eu,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 08/23] nvme-pci: try function level reset on init failure
-Date: Sun,  3 Aug 2025 17:20:15 -0400
-Message-Id: <20250803212031.3547641-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250803212031.3547641-1-sashal@kernel.org>
-References: <20250803212031.3547641-1-sashal@kernel.org>
+Subject: [PATCH RFC 0/1] Ensure ordered namespace registration during async scan
+Date: Mon,  4 Aug 2025 13:43:54 +0200
+Message-ID: <20250804114355.30212-1-mlombard@redhat.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.101
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: K1kiUeo0Twg_rmr3-DumwDEXQfPLdMcvKqPEjn9GM84_1754307842
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250803_142053_704042_6C0C30A8 
-X-CRM114-Status: GOOD (  18.92  )
+X-CRM114-CacheID: sfid-20250804_044409_659262_9E714DF9 
+X-CRM114-Status: GOOD (  11.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,136 +86,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+Hello,
 
-[ Upstream commit 5b2c214a95942f7997d1916a4c44017becbc3cac ]
+The fully asynchronous namespace scanning, introduced in
+commit 4e893ca81170 ("nvme-core: scan namespaces asynchronously"),
+significantly improved discovery times.
+However, it also introduced non-deterministic ordering for namespace registration.
 
-NVMe devices from multiple vendors appear to get stuck in a reset state
-that we can't get out of with an NVMe level Controller Reset. The kernel
-would report these with messages that look like:
+While I am perfectly aware that kernel device names
+like /dev/nvmeXnY are not guaranteed to be stable across reboots,
+the unpredictable ordering has caused user confusion and
+has been perceived as a regression. This has led to bug reports from customers,
+and as a result, the asynchronous scanning feature was reverted in RHEL.
 
-  Device not ready; aborting reset, CSTS=0x1
+I was thinking about a solution to enforce sequential registration while
+preserving the performance benefits of the asynchronous scan approach.
 
-These have historically required a power cycle to make them usable
-again, but in many cases, a PCIe FLR is sufficient to restart operation
-without a power cycle. Try it if the initial controller reset fails
-during any nvme reset attempt.
+This one uses a dependency chain built from a linked list of
+asynchronous tasks.
+Each task waits for the completion of the previous one before it proceeds to
+allocate its namespace, thus guaranteeing that namespaces
+are registered sequentially, following the NSID list order, exactly as it
+worked before commit 4e893ca81170.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+This method is inspired by a very similar mechanism used in the SCSI
+subsystem for asynchronous scanning (see drivers/scsi/scsi_scan.c).
 
-LLM Generated explanations, may be completely bogus:
+Original code:
 
-**Backport Status: YES**
+$ nvme list
+Node                  Generic               Namespace
+--------------------- --------------------- ----------
+/dev/nvme0n1          /dev/ng0n1            0x2
+/dev/nvme0n2          /dev/ng0n2            0x1
+/dev/nvme0n3          /dev/ng0n3            0x5
+/dev/nvme0n4          /dev/ng0n4            0x3
+/dev/nvme0n5          /dev/ng0n5            0x4
+[...]
+/dev/nvme0n10         /dev/ng0n10           0xa
+/dev/nvme0n11         /dev/ng0n11           0x8
+/dev/nvme0n12         /dev/ng0n12           0x12
+/dev/nvme0n13         /dev/ng0n13           0x17
+/dev/nvme0n14         /dev/ng0n14           0xc
+/dev/nvme0n15         /dev/ng0n15           0x11
+/dev/nvme0n16         /dev/ng0n16           0x14
+/dev/nvme0n17         /dev/ng0n17           0x13
+/dev/nvme0n18         /dev/ng0n18           0xe
+/dev/nvme0n19         /dev/ng0n19           0xf
 
-This commit should be backported to stable kernel trees based on the
-following analysis:
 
-## 1. Fixes a Real User-Impacting Bug
+With this patch:
 
-The commit addresses a significant hardware issue where NVMe devices
-from multiple vendors get stuck in a reset state showing "Device not
-ready; aborting reset, CSTS=0x1". This is a real-world problem that:
-- Affects multiple vendors' devices (not vendor-specific)
-- Historically required a full power cycle to recover
-- Renders the storage device completely unusable
+$ nvme list
+Node                  Generic               Namespace
+--------------------- --------------------- ----------
+/dev/nvme0n1          /dev/ng0n1            0x1
+/dev/nvme0n2          /dev/ng0n2            0x2
+/dev/nvme0n3          /dev/ng0n3            0x3
+/dev/nvme0n4          /dev/ng0n4            0x4
+/dev/nvme0n5          /dev/ng0n5            0x5
+/dev/nvme0n6          /dev/ng0n6            0x6
+[...]
+/dev/nvme0n10         /dev/ng0n10           0xa
+/dev/nvme0n11         /dev/ng0n11           0xb
+/dev/nvme0n12         /dev/ng0n12           0xc
+/dev/nvme0n13         /dev/ng0n13           0xd
+/dev/nvme0n14         /dev/ng0n14           0xe
+/dev/nvme0n15         /dev/ng0n15           0xf
+/dev/nvme0n16         /dev/ng0n16           0x10
+/dev/nvme0n17         /dev/ng0n17           0x11
+/dev/nvme0n18         /dev/ng0n18           0x12
+/dev/nvme0n19         /dev/ng0n19           0x13
 
-## 2. Minimal and Contained Fix
+Maurizio Lombardi (1):
+  nvme-core: register namespaces in order during async scan
 
-The code change is very focused and minimal:
-- Only adds ~20 lines of code in a single location
-- The fix is contained within the `nvme_pci_configure_admin_queue()`
-  function
-- Only executes when the initial controller reset fails (error path)
-- No architectural changes or new features
+ drivers/nvme/host/core.c | 145 ++++++++++++++++++++++++++++-----------
+ drivers/nvme/host/nvme.h |   2 +
+ 2 files changed, 108 insertions(+), 39 deletions(-)
 
-## 3. Clear Recovery Mechanism
-
-The fix implements a well-understood recovery mechanism:
-```c
-if (result < 0) {
-    struct pci_dev *pdev = to_pci_dev(dev->dev);
-    result = pcie_reset_flr(pdev, false);
-    if (result < 0)
-        return result;
-
-    pci_restore_state(pdev);
-    result = nvme_disable_ctrl(&dev->ctrl, false);
-```
-
-It uses PCIe Function Level Reset (FLR) as a "bigger hammer" when the
-NVMe-level controller reset fails, which is a standard PCIe recovery
-mechanism.
-
-## 4. Low Risk of Regression
-
-- Only triggers in error conditions (when `nvme_disable_ctrl` fails)
-- Falls back gracefully if FLR also fails
-- Uses existing, well-tested PCIe APIs (`pcie_reset_flr`,
-  `pci_restore_state`)
-- Adds informative logging when recovery succeeds
-
-## 5. Follows Stable Tree Rules
-
-- Fixes a bug that prevents device initialization
-- No new features or functionality
-- Small, self-contained change
-- Clear benefit (avoiding power cycles) with minimal risk
-
-## 6. Similar Issues Fixed in Stable
-
-The git history shows multiple commits addressing "stuck reset" issues
-in the NVMe driver (e.g., `3f674e7b670b`, `ebef7368571d`), indicating
-this is an ongoing class of problems that stable kernels need to handle.
-
-The commit message explicitly states this affects devices from "multiple
-vendors" and provides a solution that avoids requiring power cycles,
-making it a clear candidate for stable backporting to improve system
-reliability.
-
- drivers/nvme/host/pci.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 97ab91a479d1..136dba6221d8 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1755,8 +1755,28 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	 * might be pointing at!
- 	 */
- 	result = nvme_disable_ctrl(&dev->ctrl, false);
--	if (result < 0)
--		return result;
-+	if (result < 0) {
-+		struct pci_dev *pdev = to_pci_dev(dev->dev);
-+
-+		/*
-+		 * The NVMe Controller Reset method did not get an expected
-+		 * CSTS.RDY transition, so something with the device appears to
-+		 * be stuck. Use the lower level and bigger hammer PCIe
-+		 * Function Level Reset to attempt restoring the device to its
-+		 * initial state, and try again.
-+		 */
-+		result = pcie_reset_flr(pdev, false);
-+		if (result < 0)
-+			return result;
-+
-+		pci_restore_state(pdev);
-+		result = nvme_disable_ctrl(&dev->ctrl, false);
-+		if (result < 0)
-+			return result;
-+
-+		dev_info(dev->ctrl.device,
-+			"controller reset completed after pcie flr\n");
-+	}
- 
- 	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
- 	if (result)
 -- 
-2.39.5
+2.47.3
 
 
