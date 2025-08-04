@@ -4,171 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EC5CC87FDA
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 14:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17D91CA0EC0
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 14:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pKJXQxXxfUIo4tLv3CJl6XJN+6GoOozWS8CT0poTaRA=; b=HUXUObpIV+wkgp/QqI0XsfZN7O
-	eJdeXSNFpzobXup/Y2GVNYNwCx/Tdi6CmjfvLNC0b5StYl5vFdIirfdJjQNauxQt4VoGXHbxCrTF4
-	AwS+lvEMIaJqDlG3hItfZxPtSimwI3v1FC5QxEMvMjKPK1mWgwsSyfDr27MUzmS+uu9RzoyzEGxHc
-	ZnMSVP8+/mOoJy9zXo28kqmQdC3EyCz3I09gmcyxtO/SMOgIbeTT6pFgFO01RSWdjXXJPCJEU2JL6
-	4V1IRBhm6y5OUQ0ENfEBWVHpW+FiUuM9kUmIYIMNFnbGaLDJ2I/sl/bOFsla6wLW75PvPuysk1oi3
-	XD4n73tg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u2ZFZgNbfoXn5jH3X4iUOrDOvE7XGwUp7euhaxLVE2Q=; b=M64u/Lru9PGhPR2mzPHFM5HSVR
+	xQF1D7rskTUfIVp8BRzic5SbpD0VVWpM4zWd2+EM+7AWwAodQnsBVuuntITDds2CiD4ZkehsEnw9A
+	8fn6kTNb5siWuuM8/rxQ/P5QuELMKtPA9wjxVTh/6au3sn+JFKpzev76IEWBIHqYlcuh837gt1tXA
+	gQFWdS7tBB8WPbtnOMcjOI16txh0Xu5zMdyCqEezC6h+MBKZRmfmsv53FvxkbVdN8tbO15CgJPcHa
+	1LAMcnxKYpeY9U/Zw7wvZTK50ktbvz69CzZRmHd8P7b19WDFPYc1kn7EI8d38YQeDzVuFiP/5FY4z
+	v/Xn/MbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uk25s-00000000tzI-31DY;
-	Thu, 07 Aug 2025 14:59:48 +0000
-Received: from mail-co1nam11on20618.outbound.protection.outlook.com ([2a01:111:f403:2416::618] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+	id 1uk25t-00000000u0H-1qMp;
+	Thu, 07 Aug 2025 14:59:49 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujiqW-0000000G48d-3SY7
+	id 1uiuXZ-0000000AOty-1Yzy
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Aug 2025 18:26:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T3oX4xKZrDwVMMnEgEiD8rNlrQo70s1Wnjel/mq8ahJBGHInkP2D2zAj401xXMBM9gTx3zrm4+MFSPALjx4xydi6NDqsElJJZ4hsfq4HJAGExDixeglhtFSmdPv6ppokj2Yj7/4NHvG+0QYs0pBx8jYs+otNzi0RaLmHXSh6ckgMN03hZSldHILwWL2ScGsbejCU20CB2pRelYWerEJfnx+aX3He0qBThOVi/OhmIrgRWfQt1Wh7OqXPCLVuajCd8kBOqYx9pH9/dGtnPeWU2p7+QS4VV30o0td4n4tmNpQn24RzQadcg18HdchJtkjrg+XLUscWfyHwfkckhc0tWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pKJXQxXxfUIo4tLv3CJl6XJN+6GoOozWS8CT0poTaRA=;
- b=kiakdUudtbZi8emOq//VMD+aVo2GbqN7rv7GNnYKhQuloGMtgJNifUOyImW+84NupjZ1s1ZExbhmttSOZIz3prHNixdOYoTVNi/qN8rHYMdyRPFRg5LIpFnlZ/RXVcjW37F0xpg7qC3hhAZ4aFjOteU/dY31t19Pq/qVkgHlqimNC6aOvAaTldshJFrU/olOebipxFGAg0TWD8UYJw4Rh+Z82k922ZEyQJj4bSMTIZmn81Poek2xicFKuoqcRZ8efXfbxm+SGXyw3DXqrvWsusgqOcpEfySmpK2uUwvxmJhamDYAwBMyrntHiWB8CPdwvMLB+3n03jeGtcQ74R4nvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pKJXQxXxfUIo4tLv3CJl6XJN+6GoOozWS8CT0poTaRA=;
- b=l3tRof7+xxY2WZnQbqMnrPTyFo6bB2KhEebXASoWrJBaexBnyWn3Jid447R3/Sf4912m+R3EkjJq+hclLwVQ7buSDqOCwer2ijaLyWuTgpT1XtrrY+vcKJFv5xCdkEnVL2HLnznXPAL5zAt9eajBamj8Xv4jwkmLtjYCHqA+ddZJqa/lE/LBGs82Ob3kSVbYPTRNuafpsYA1cJBASQbNQwtWsN9z7PtVxCfRAyfBZfc/O7+OrRoUvdrXSzSSQRC++csKm9CCNmYRvegGyF7kMIyiWxLw8R4FLrFy2B6vbqPx4jRkTvYF71TGpGrGe3ZsFhA44GVs8WkPVOBjhkvcLA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by SJ0PR12MB6782.namprd12.prod.outlook.com (2603:10b6:a03:44d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.21; Wed, 6 Aug
- 2025 18:26:32 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.013; Wed, 6 Aug 2025
- 18:26:32 +0000
-Date: Wed, 6 Aug 2025 15:26:30 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
+	Mon, 04 Aug 2025 12:43:45 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id AE031601FD;
+	Mon,  4 Aug 2025 12:43:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9423FC4CEE7;
+	Mon,  4 Aug 2025 12:43:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754311424;
+	bh=974P2mquMC7dLPtwo4RbF3aKdnRgjXusEE0OKr9VEPo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sRzNIswyOXbP49BscDBQ+94sPL3uQydFVa6yD3MLC4jh0WkntDIM+qnsOlQuXDIVr
+	 wxnQwyeKJFQGPd7H59/m+DRXV9WGkkfngBQYFQnV2Vx5zdbDTmlp3SKPzzugttJ5wK
+	 Y94WaLaho7OI9fqCDv7wnjA4LbMPxMu1m7XNoFz9vxQttjkrfNEZgFRlKOgE5FUG9O
+	 9S+EDseCadKtr6Zd8jY55mBnPek99fWQfl0LLIwkcioEL+wWEh9akcqBS/aNmw3uOI
+	 i2gfa9Kf8zAEiD7yipdlK7kOpCvN+05lo1g4pMkP27RWr31YBzoQ7Nv4fuU8IiE/Yw
+	 SuLv6jnr2CKZg==
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
 	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	Christoph Hellwig <hch@lst.de>,
+	Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com,
+	Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-trace-kernel@vger.kernel.org,
 	Madhavan Srinivasan <maddy@linux.ibm.com>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Michael Ellerman <mpe@ellerman.id.au>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
 	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	rust-for-linux@vger.kernel.org,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Stefano Stabellini <sstabellini@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	virtualization@lists.linux.dev,
+	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v1 03/16] dma-debug: refactor to use physical addresses
- for page mapping
-Message-ID: <20250806182630.GC184255@nvidia.com>
+Subject: [PATCH v1 07/16] dma-mapping: convert dma_direct_*map_page to be phys_addr_t based
+Date: Mon,  4 Aug 2025 15:42:41 +0300
+Message-ID: <882499bb37bf4af3dece27d9f791a8982ca4c6a7.1754292567.git.leon@kernel.org>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1754292567.git.leon@kernel.org>
 References: <cover.1754292567.git.leon@kernel.org>
- <9ba84c387ce67389cd80f374408eebb58326c448.1754292567.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ba84c387ce67389cd80f374408eebb58326c448.1754292567.git.leon@kernel.org>
-X-ClientProxiedBy: YT4PR01CA0394.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:108::23) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SJ0PR12MB6782:EE_
-X-MS-Office365-Filtering-Correlation-Id: 632cafff-faa6-4b97-1b4a-08ddd516c47c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?owwpIJ/gX3NA4KCET+gimZq+FN0PuqQRzxipxevMPQb7n0i1WlzUqdFghi1S?=
- =?us-ascii?Q?19j+fumHYhWIjYAt58XbP5kKw0Ag6bpTz7rqSWX14k0J+w1uxD5SQzffX0oA?=
- =?us-ascii?Q?88/klCZU/brpMZz4Vo3dKsm+3sV6mHWTq+J1Fj2mmktQqG5y4NIJlQF1PMxj?=
- =?us-ascii?Q?Q4zAjL53yS0gcNHI/5KV7YERbSqdUPJUN/NaBsj+xfNDtKio8GXergY8uEEi?=
- =?us-ascii?Q?LEblKeO4/6Bwwml9K5BYoHIYHgdTGMgp10h0zhbZROA03uktm/FXzLapriuO?=
- =?us-ascii?Q?h8/KRarclJLPK0LnzRQQdchLSIeRhTGdMClq1ot8GQ30HUoFALDK/gYL2fzD?=
- =?us-ascii?Q?A0GeqOL5tEr+h21tfGfbu1Im0B7hjYPFTtd9AbRbeGdP43+JGj6dSxRdzNgD?=
- =?us-ascii?Q?Rs5abEENCmVlIWe+2wIU4DSMbJ9cocIyDrIui+iaETu2mR2uAKyu5xQxVHaZ?=
- =?us-ascii?Q?b34HTnzaGR5E6t0czMbcLiiUn3SxBp1RBFMvdYhYf96mY5m6juW54xR+jw3d?=
- =?us-ascii?Q?J1vTY0No7me8p4MCd3boUH+H55j1DJr1ynbKGjq0y5YGroUKcxdx/3vd3XPl?=
- =?us-ascii?Q?oSO+GWhSn+pBsg3tWgxlrEPC/GL7RAmuBQqxMBBrSNIixJUMb078qi6oZT8/?=
- =?us-ascii?Q?jv6iUD/p9tINXqWW3VePWXw+ilS7kVXlltY9ErXIUNUD3bMTxDW7ytPsmzZN?=
- =?us-ascii?Q?qR3DmMXglGcVshD2/QHfNrkWxaYWH1r2Hth+ZscjJjixAGNnqvVbr9OTeV1n?=
- =?us-ascii?Q?tjxQBFAr6QU3Z2wFMd17o7JNmc9H8Vu9Jt3JuKW+wyyBaTegwtsNs8jU6uIP?=
- =?us-ascii?Q?GpQRfIz0vj6rSmsBXPq091G3jMrNIVKu3tAqGi0otfXtNiR7uyQqQAm2J0M2?=
- =?us-ascii?Q?tX507FnQ2r1nHy6GhZT0+hy3WwS+8WDJXI2V/Xd3pyAs3wasL7pS7fUFPEJ+?=
- =?us-ascii?Q?A1cBy3LKeusKiCZVG1GHgP0k2MVqsrnRhdJ3yzjW4lbLFEZ3Iml6FKZi9AiL?=
- =?us-ascii?Q?ShausgFGQY6fuIJbjRxbcdb7V9Jiu5QdEfZVzvka/u0kXzIsche5PpSMHtMZ?=
- =?us-ascii?Q?ovKUcupTVZiqr5NX+oe1k546tROh8/2lY9PKafLR2YlLzCNLbPeLCWbmu63r?=
- =?us-ascii?Q?ebFwAfhAZfCoj0FHsvpowjD9e4aAPVMt42Mjui0CqRb8E+nI3bH1Ra063tef?=
- =?us-ascii?Q?fYqHKEc5+swy6EanZNW8yQfkS/+U8Jsn77sSaAWvQb83NqQnvbGWk3V202X4?=
- =?us-ascii?Q?Z/RVwduZChHGBt4zAOLato0o0xULnyiNcwej62TIruVz6j+7iZvAttLuWO88?=
- =?us-ascii?Q?ZvDokQKXbpNKsSBfd1tuMiEQEuQLkFH0JGV7YTRYVKG8bv2iH1Kubv+ype39?=
- =?us-ascii?Q?djF3iDL4dv4Yc8vRxDpa9OjtODHldc/4rM0OzlAbAMrP0kXfW9ypYmSStf15?=
- =?us-ascii?Q?9nk4T6yL2AI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?t39ZrHsSyipF2FxxWvOCrpOiCdTa9RlbbmJcEiSd7/usPKmN1w32/HQ1aYbo?=
- =?us-ascii?Q?j/5Y5e0l+3NLEdR7e93EiSxB0oqskwO2H7It/NFd3PGm2rCH+ioMm7swn09o?=
- =?us-ascii?Q?lLJYuIAo+jk/LNlbBhif7rAbXEKXl3rXU3a1TF7ITt6zAA3u/5D7+6w8whkT?=
- =?us-ascii?Q?CVZbVRXFIFZ7iAkoBRqBNNMVTNGcvq//axasMan5txxNMZctNZKYRTonj5Zn?=
- =?us-ascii?Q?Kxor43X2FR83/bVhHWzhDVYgC5h4894y7CuYyfzKJ1wh7s//ZDgL2e4j4PhM?=
- =?us-ascii?Q?cMGJdRCaUXgsocsf9JS1+aL8Zo7DfzJ6J0pqt9Bgt0lb4xEcbAIB4tAkPLpq?=
- =?us-ascii?Q?zF2mvzStnV4S7ILBLVDNaMmfLFlYkOsTKUmHOmbjnl9lgS+8y72yI25f+zm7?=
- =?us-ascii?Q?VB6avAtH6rXq2f6IlN8CFOd2ShdIVMae+GcZ9IGH0/XrtRR+4TbFoPo7zri3?=
- =?us-ascii?Q?Lc9pzRkDJ833W62CQv6mOhQiko4WpHS2ExgKfqMI2gHQdfNKm0n/JKG6irkH?=
- =?us-ascii?Q?cDwamegxjR+CmPKIr9BNCNyW+6ostD0jXjRQ5haDMaAXG0y1hSHLuI09Okmy?=
- =?us-ascii?Q?srUa0Bel5tIt9YHwdqIMpqtx4gC2y+GgnFT6DbwvXxlmhcvNNu10QceqbXpb?=
- =?us-ascii?Q?md2BsLbubZbJYOvTHvqqpfjzYCQV1+O2cC7Zrg3URLW43Db/oWeiQpg0hbB2?=
- =?us-ascii?Q?zrw1a0qQ4aNYuX24Nb1U0TgBtOvz0txjIxMjpgKc4k4X60ZN2Ekeuy2Dl+/T?=
- =?us-ascii?Q?XTbc0+goCnOo9b/HxrK03gG5mt+WI4ErGszYXmNhQ1w+baEihkbqc1VZZPsX?=
- =?us-ascii?Q?yMZIVy350zZir+594B8HugXTTsLyvokgnUaVYhU+jrQRLEIbjVQCnsHLFKkP?=
- =?us-ascii?Q?F2hBYjGg50K3TpUniBP/5U3j6Au5BRtp6FsqHNvUVqOvUvQQXg/8h1cU2N8D?=
- =?us-ascii?Q?jCqAIyWJOirRho6xjjYF5ivS1MnJuEBYW/LshV423PWK1/kqIgiW3Vr64amF?=
- =?us-ascii?Q?+ntWBU8+VodOuYF/C8+uc3mSRjg+yYv9qnvDYyjspvEhb7PqErKztqzAn5xP?=
- =?us-ascii?Q?f0ay60/QIlHT6KKdynA/akQFVMESmJisswXCL0IVhWKwTKzocWh3Va5yq+ew?=
- =?us-ascii?Q?7AqeJVg3xG7+L/hCVPqXLh2M/Z+jpqFrqW+NkrzJZTr6lXXrOuCihasacQ3H?=
- =?us-ascii?Q?Yisd38CjiZTcD5D9yKaSEgaPNHIk9Z12+MPqa6pLiIJMMJuVQ2mR8iK/D2IV?=
- =?us-ascii?Q?F8ao5THBiVMbReo83xNy7mqfO4OoofdDQ7258uW/2/scAV8mHZu75y8uAY6Y?=
- =?us-ascii?Q?W/dzqqF9TZ3svBcvHCLDUann8lFvwTu8tb9r+8xE54jp9BppaKQkO4gawrUe?=
- =?us-ascii?Q?Mf1QCEmFJNxs8vTx2+il3bYtwyrAaCFkICKFjjCIYj22ca1P7/gBXhIb35gs?=
- =?us-ascii?Q?EH6jU23VieGh3yAXEHv8OJ2rXwfzatF23k+gR+qTlzXeUwHb0eXFNe/2Rpjr?=
- =?us-ascii?Q?m4zoOR8wSjHBOIwyIfs4ATrvfFrZgGQYOTAONPHxiKLdbDQ3pDQHf2E/hr1m?=
- =?us-ascii?Q?6Zn0o1VaFz0u1AIxWW8=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 632cafff-faa6-4b97-1b4a-08ddd516c47c
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2025 18:26:32.4888
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GQMRHuo2jl8akCW9nlaZJvuQAC3fHS2K5cV5C0IU02DKbHti6Tp+SLWOuo4/pZrj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6782
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250806_112640_862872_CB5A5E26 
-X-CRM114-Status: UNSURE (   8.88  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 07 Aug 2025 07:59:41 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -184,19 +103,210 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 04, 2025 at 03:42:37PM +0300, Leon Romanovsky wrote:
-> +void debug_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
-> +		int direction, dma_addr_t dma_addr, unsigned long attrs)
->  {
->  	struct dma_debug_entry *entry;
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Should this patch should also absorb debug_dma_map_resource() into
-here as well and we can have the caller of dma_dma_map_resource() call
-debug_dma_map_page with ATTR_MMIO?
+Convert the DMA direct mapping functions to accept physical addresses
+directly instead of page+offset parameters. The functions were already
+operating on physical addresses internally, so this change eliminates
+the redundant page-to-physical conversion at the API boundary.
 
-If not, this looks OK
+The functions dma_direct_map_page() and dma_direct_unmap_page() are
+renamed to dma_direct_map_phys() and dma_direct_unmap_phys() respectively,
+with their calling convention changed from (struct page *page,
+unsigned long offset) to (phys_addr_t phys).
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Architecture-specific functions arch_dma_map_page_direct() and
+arch_dma_unmap_page_direct() are similarly renamed to
+arch_dma_map_phys_direct() and arch_dma_unmap_phys_direct().
 
-Jason
+The is_pci_p2pdma_page() checks are replaced with DMA_ATTR_MMIO checks
+to allow integration with dma_direct_map_resource and dma_direct_map_phys()
+is extended to support MMIO path either.
+
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ arch/powerpc/kernel/dma-iommu.c |  4 +--
+ include/linux/dma-map-ops.h     |  8 +++---
+ kernel/dma/direct.c             |  6 ++--
+ kernel/dma/direct.h             | 50 ++++++++++++++++++++-------------
+ kernel/dma/mapping.c            |  8 +++---
+ 5 files changed, 44 insertions(+), 32 deletions(-)
+
+diff --git a/arch/powerpc/kernel/dma-iommu.c b/arch/powerpc/kernel/dma-iommu.c
+index 4d64a5db50f38..0359ab72cd3ba 100644
+--- a/arch/powerpc/kernel/dma-iommu.c
++++ b/arch/powerpc/kernel/dma-iommu.c
+@@ -14,7 +14,7 @@
+ #define can_map_direct(dev, addr) \
+ 	((dev)->bus_dma_limit >= phys_to_dma((dev), (addr)))
+ 
+-bool arch_dma_map_page_direct(struct device *dev, phys_addr_t addr)
++bool arch_dma_map_phys_direct(struct device *dev, phys_addr_t addr)
+ {
+ 	if (likely(!dev->bus_dma_limit))
+ 		return false;
+@@ -24,7 +24,7 @@ bool arch_dma_map_page_direct(struct device *dev, phys_addr_t addr)
+ 
+ #define is_direct_handle(dev, h) ((h) >= (dev)->archdata.dma_offset)
+ 
+-bool arch_dma_unmap_page_direct(struct device *dev, dma_addr_t dma_handle)
++bool arch_dma_unmap_phys_direct(struct device *dev, dma_addr_t dma_handle)
+ {
+ 	if (likely(!dev->bus_dma_limit))
+ 		return false;
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index f48e5fb88bd5d..71f5b30254159 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -392,15 +392,15 @@ void *arch_dma_set_uncached(void *addr, size_t size);
+ void arch_dma_clear_uncached(void *addr, size_t size);
+ 
+ #ifdef CONFIG_ARCH_HAS_DMA_MAP_DIRECT
+-bool arch_dma_map_page_direct(struct device *dev, phys_addr_t addr);
+-bool arch_dma_unmap_page_direct(struct device *dev, dma_addr_t dma_handle);
++bool arch_dma_map_phys_direct(struct device *dev, phys_addr_t addr);
++bool arch_dma_unmap_phys_direct(struct device *dev, dma_addr_t dma_handle);
+ bool arch_dma_map_sg_direct(struct device *dev, struct scatterlist *sg,
+ 		int nents);
+ bool arch_dma_unmap_sg_direct(struct device *dev, struct scatterlist *sg,
+ 		int nents);
+ #else
+-#define arch_dma_map_page_direct(d, a)		(false)
+-#define arch_dma_unmap_page_direct(d, a)	(false)
++#define arch_dma_map_phys_direct(d, a)		(false)
++#define arch_dma_unmap_phys_direct(d, a)	(false)
+ #define arch_dma_map_sg_direct(d, s, n)		(false)
+ #define arch_dma_unmap_sg_direct(d, s, n)	(false)
+ #endif
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 24c359d9c8799..fa75e30700730 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -453,7 +453,7 @@ void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
+ 		if (sg_dma_is_bus_address(sg))
+ 			sg_dma_unmark_bus_address(sg);
+ 		else
+-			dma_direct_unmap_page(dev, sg->dma_address,
++			dma_direct_unmap_phys(dev, sg->dma_address,
+ 					      sg_dma_len(sg), dir, attrs);
+ 	}
+ }
+@@ -476,8 +476,8 @@ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+ 			 */
+ 			break;
+ 		case PCI_P2PDMA_MAP_NONE:
+-			sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
+-					sg->offset, sg->length, dir, attrs);
++			sg->dma_address = dma_direct_map_phys(dev, sg_phys(sg),
++					sg->length, dir, attrs);
+ 			if (sg->dma_address == DMA_MAPPING_ERROR) {
+ 				ret = -EIO;
+ 				goto out_unmap;
+diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+index d2c0b7e632fc0..2b442efc9b5a7 100644
+--- a/kernel/dma/direct.h
++++ b/kernel/dma/direct.h
+@@ -80,42 +80,54 @@ static inline void dma_direct_sync_single_for_cpu(struct device *dev,
+ 		arch_dma_mark_clean(paddr, size);
+ }
+ 
+-static inline dma_addr_t dma_direct_map_page(struct device *dev,
+-		struct page *page, unsigned long offset, size_t size,
+-		enum dma_data_direction dir, unsigned long attrs)
++static inline dma_addr_t dma_direct_map_phys(struct device *dev,
++		phys_addr_t phys, size_t size, enum dma_data_direction dir,
++		unsigned long attrs)
+ {
+-	phys_addr_t phys = page_to_phys(page) + offset;
+-	dma_addr_t dma_addr = phys_to_dma(dev, phys);
++	bool is_mmio = attrs & DMA_ATTR_MMIO;
++	dma_addr_t dma_addr;
++	bool capable;
++
++	dma_addr = (is_mmio) ? phys : phys_to_dma(dev, phys);
++	capable = dma_capable(dev, dma_addr, size, is_mmio);
++	if (is_mmio) {
++	       if (unlikely(!capable))
++		       goto err_overflow;
++	       return dma_addr;
++	}
+ 
+-	if (is_swiotlb_force_bounce(dev)) {
+-		if (is_pci_p2pdma_page(page))
+-			return DMA_MAPPING_ERROR;
++	if (is_swiotlb_force_bounce(dev))
+ 		return swiotlb_map(dev, phys, size, dir, attrs);
+-	}
+ 
+-	if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
+-	    dma_kmalloc_needs_bounce(dev, size, dir)) {
+-		if (is_pci_p2pdma_page(page))
+-			return DMA_MAPPING_ERROR;
++	if (unlikely(!capable) || dma_kmalloc_needs_bounce(dev, size, dir)) {
+ 		if (is_swiotlb_active(dev))
+ 			return swiotlb_map(dev, phys, size, dir, attrs);
+ 
+-		dev_WARN_ONCE(dev, 1,
+-			     "DMA addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
+-			     &dma_addr, size, *dev->dma_mask, dev->bus_dma_limit);
+-		return DMA_MAPPING_ERROR;
++		goto err_overflow;
+ 	}
+ 
+ 	if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+ 		arch_sync_dma_for_device(phys, size, dir);
+ 	return dma_addr;
++
++err_overflow:
++	dev_WARN_ONCE(
++		dev, 1,
++		"DMA addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
++		&dma_addr, size, *dev->dma_mask, dev->bus_dma_limit);
++	return DMA_MAPPING_ERROR;
+ }
+ 
+-static inline void dma_direct_unmap_page(struct device *dev, dma_addr_t addr,
++static inline void dma_direct_unmap_phys(struct device *dev, dma_addr_t addr,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
+-	phys_addr_t phys = dma_to_phys(dev, addr);
++	phys_addr_t phys;
++
++	if (attrs & DMA_ATTR_MMIO)
++		/* nothing to do: uncached and no swiotlb */
++		return;
+ 
++	phys = dma_to_phys(dev, addr);
+ 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+ 		dma_direct_sync_single_for_cpu(dev, addr, size, dir);
+ 
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index 58482536db9bb..80481a873340a 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -166,8 +166,8 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+ 		return DMA_MAPPING_ERROR;
+ 
+ 	if (dma_map_direct(dev, ops) ||
+-	    arch_dma_map_page_direct(dev, phys + size))
+-		addr = dma_direct_map_page(dev, page, offset, size, dir, attrs);
++	    arch_dma_map_phys_direct(dev, phys + size))
++		addr = dma_direct_map_phys(dev, phys, size, dir, attrs);
+ 	else if (use_dma_iommu(dev))
+ 		addr = iommu_dma_map_phys(dev, phys, size, dir, attrs);
+ 	else
+@@ -187,8 +187,8 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+ 
+ 	BUG_ON(!valid_dma_direction(dir));
+ 	if (dma_map_direct(dev, ops) ||
+-	    arch_dma_unmap_page_direct(dev, addr + size))
+-		dma_direct_unmap_page(dev, addr, size, dir, attrs);
++	    arch_dma_unmap_phys_direct(dev, addr + size))
++		dma_direct_unmap_phys(dev, addr, size, dir, attrs);
+ 	else if (use_dma_iommu(dev))
+ 		iommu_dma_unmap_phys(dev, addr, size, dir, attrs);
+ 	else
+-- 
+2.50.1
+
 
