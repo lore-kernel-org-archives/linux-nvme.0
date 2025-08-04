@@ -4,77 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32FABC87FCF
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Aug 2025 11:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D7E0C87FCF
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Aug 2025 15:52:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zIzjh21TIvtwh4LihNzZE23J9ejYW1RekzDfRhbbJR0=; b=YvNLdDf0eIOTX/aRW7J8F3Lmx1
-	xLAjB+c+qh44EZKjwEgD4DXN9HA62lLQUf6BuTyCEg/j0faOJieZrpiOfXoV1LBrUCuHXyoqHel8S
-	q3iSeYFjHmDbVPdxhMT6VxByZgaUZOZ5vM+mQ/6ipwhrhjErZFJ61ab8/xqn6edSPLTBwPvOwxhOu
-	c1Y0T8Q5xru8sG/ry2+LY5KpTVleDuFDBitp1B2p+/k0jaPEkcfWLNQr/Tl2OMRn0uPyVLtoMQTAN
-	KOrP+DfKj8XdupZayJF5HBmcIdEEKpvJ+Bht6xj+pFl9jneIIIxTMDgT4kPHnaSS2mlcgDuB2fr6O
-	yp9ANz+w==;
+	bh=Fp3cUkx4BfhRvbD0ThNopsC3ryv+hEARBo44UvU4dcA=; b=WcocAXz8nQybf6ierQKxVXairW
+	81h4XSVwU+3IEme+dmidAw7bd+dJ5ej7PtXMKC7ua0gPDmpjO9VO21md11jAccycvHtBA50hhMir2
+	gmJkMwxnukquVbIqaOKh8Sv0lBy7KCTDH71/6d9rI/2au3CI/9HisvV3fECo7J3JMcoZg6WLq2NXf
+	L6AAFVh+TrY+zP+Fs6FdlICZYr4Agk1TkV6ALwP5w1EIvGJP0HptoNnTnwX9a4dCSU06NdLE3Z1+9
+	r9KFG78CEB00dtlLQVHaNa7KP4ZH5uaST2xZQX0+uN60PjXSXo9SpnO6xls6ar5k3ec5v/5Eh+vQB
+	ZbVr6/UQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uitc2-0000000AJ6O-3kVE;
-	Mon, 04 Aug 2025 11:44:18 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1uixUH-0000000AsxC-0pvU;
+	Mon, 04 Aug 2025 15:52:33 +0000
+Received: from frasgout.his.huawei.com ([185.176.79.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uitbv-0000000AJ5N-0usB
+	id 1uiwzT-0000000Am3n-2VLp
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Aug 2025 11:44:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754307850;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zIzjh21TIvtwh4LihNzZE23J9ejYW1RekzDfRhbbJR0=;
-	b=CPkqFJ2N2FZ7ecF2FSMPyU39494U1NgEVxpdME58Dfvb84LETQgt72Ufsq0Kg4gWv8uRv1
-	1LJLNo0Khqtdd4LKsMSFO+ByyFttEHiQgm3lwtm4zHSYE/6R9f9KDRIIxo3aGizo4eaJFJ
-	Xj3KjSXPVblhlzwDf7gI8vGBIAvAFhE=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-113-2a1JftEFPXaOTqxdaHFIEA-1; Mon,
- 04 Aug 2025 07:44:07 -0400
-X-MC-Unique: 2a1JftEFPXaOTqxdaHFIEA-1
-X-Mimecast-MFC-AGG-ID: 2a1JftEFPXaOTqxdaHFIEA_1754307846
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 701141800446;
-	Mon,  4 Aug 2025 11:44:05 +0000 (UTC)
-Received: from rocky.redhat.com (unknown [10.47.238.15])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EC2F230002C6;
-	Mon,  4 Aug 2025 11:44:01 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: hch@lst.de,
-	sagi@grimberg.me,
-	hare@suse.de,
-	mlombard@bsdbackstore.eu,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH RFC 1/1] nvme-core: register namespaces in order during async scan
-Date: Mon,  4 Aug 2025 13:43:55 +0200
-Message-ID: <20250804114355.30212-2-mlombard@redhat.com>
-In-Reply-To: <20250804114355.30212-1-mlombard@redhat.com>
-References: <20250804114355.30212-1-mlombard@redhat.com>
+	Mon, 04 Aug 2025 15:20:45 +0000
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bwgDZ2Q8Lz67MfC;
+	Mon,  4 Aug 2025 23:18:22 +0800 (CST)
+Received: from frapeml500006.china.huawei.com (unknown [7.182.85.219])
+	by mail.maildlp.com (Postfix) with ESMTPS id C58031402F4;
+	Mon,  4 Aug 2025 23:20:34 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (7.182.85.71) by
+ frapeml500006.china.huawei.com (7.182.85.219) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 4 Aug 2025 17:20:34 +0200
+Received: from frapeml500008.china.huawei.com ([7.182.85.71]) by
+ frapeml500008.china.huawei.com ([7.182.85.71]) with mapi id 15.01.2507.039;
+ Mon, 4 Aug 2025 17:20:34 +0200
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: Chaitanya Kulkarni <kch@nvidia.com>, "kbusch@kernel.org"
+	<kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>, "hch@lst.de"
+	<hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+	"cohuck@redhat.com" <cohuck@redhat.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+	"yishaih@nvidia.com" <yishaih@nvidia.com>, "kevin.tian@intel.com"
+	<kevin.tian@intel.com>, "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+	"mgurtovoy@nvidia.com" <mgurtovoy@nvidia.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Konrad.wilk@oracle.com"
+	<Konrad.wilk@oracle.com>, "martin.petersen@oracle.com"
+	<martin.petersen@oracle.com>, "jmeneghi@redhat.com" <jmeneghi@redhat.com>,
+	"arnd@arndb.de" <arnd@arndb.de>, "schnelle@linux.ibm.com"
+	<schnelle@linux.ibm.com>, "bhelgaas@google.com" <bhelgaas@google.com>,
+	"joao.m.martins@oracle.com" <joao.m.martins@oracle.com>, Lei Rao
+	<lei.rao@intel.com>
+Subject: RE: [RFC PATCH 1/4] vfio-nvme: add vfio-nvme lm driver infrastructure
+Thread-Topic: [RFC PATCH 1/4] vfio-nvme: add vfio-nvme lm driver
+ infrastructure
+Thread-Index: AQHcBCEeW2m/ZRTCHEOFPJNpa8d47LRSmWZQ
+Date: Mon, 4 Aug 2025 15:20:34 +0000
+Message-ID: <6169cedfd63b4158a8b115c5f505f59c@huawei.com>
+References: <20250803024705.10256-1-kch@nvidia.com>
+ <20250803024705.10256-2-kch@nvidia.com>
+In-Reply-To: <20250803024705.10256-2-kch@nvidia.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.203.177.241]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 0QLfR_Q05_yRMGZUDmt2iLkVN5dTmphothm5-VEG7dE_1754307846
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250804_044411_341734_7689EDA5 
-X-CRM114-Status: GOOD (  25.53  )
+X-CRM114-CacheID: sfid-20250804_082043_927285_55711A6A 
+X-CRM114-Status: GOOD (  32.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,316 +91,390 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The fully asynchronous namespace scanning, while fast,
-can result in namespaces being allocated and registered
-out of order. This leads to unpredictable device naming
-which can be confusing for users.
 
-Introduce a dependency chain to the asynchronous
-scanning process to ensure namespaces are allocated sequentially.
-It replaces the simple atomic counter with a linked list of
-`async_scan_task` structures. Each task, representing a
-namespace to be scanned, waits for the completion of the
-previous task in the list before it proceeds to allocate its own namespace.
 
-This approach preserves the performance benefits of asynchronous
-identification while guaranteeing that the final device
-registration occurs in the correct order.
+> -----Original Message-----
+> From: Chaitanya Kulkarni <kch@nvidia.com>
+> Sent: Sunday, August 3, 2025 3:47 AM
+> To: kbusch@kernel.org; axboe@fb.com; hch@lst.de; sagi@grimberg.me;
+> alex.williamson@redhat.com; cohuck@redhat.com; jgg@ziepe.ca;
+> yishaih@nvidia.com; Shameerali Kolothum Thodi
+> <shameerali.kolothum.thodi@huawei.com>; kevin.tian@intel.com;
+> mjrosato@linux.ibm.com; mgurtovoy@nvidia.com
+> Cc: linux-nvme@lists.infradead.org; kvm@vger.kernel.org;
+> Konrad.wilk@oracle.com; martin.petersen@oracle.com;
+> jmeneghi@redhat.com; arnd@arndb.de; schnelle@linux.ibm.com;
+> bhelgaas@google.com; joao.m.martins@oracle.com; Chaitanya Kulkarni
+> <kch@nvidia.com>; Lei Rao <lei.rao@intel.com>
+> Subject: [RFC PATCH 1/4] vfio-nvme: add vfio-nvme lm driver infrastructur=
+e
+>=20
+> Add foundational infrastructure for vfio-nvme, enabling support for live
+> migration of NVMe devices via the VFIO framework. The following
+> components are included:
+>=20
+> - Core driver skeleton for vfio-nvme support under drivers/vfio/pci/nvme/
+> - Definitions of basic data structures used in live migration
+>   (e.g., nvmevf_pci_core_device and nvmevf_migration_file)
+> - Implementation of helper routines for managing migration file state
+> - Integration of PCI driver callbacks and error handling logic
+> - Registration with vfio-pci-core through nvmevf_pci_ops
+> - Initial support for VFIO migration states and device open/close flows
+>=20
+> Subsequent patches will build upon this base to implement actual live
+> migration commands and complete the vfio device state handling logic.
+>=20
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
+> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+>  drivers/vfio/pci/Kconfig       |   2 +
+>  drivers/vfio/pci/Makefile      |   2 +
+>  drivers/vfio/pci/nvme/Kconfig  |  10 ++
+>  drivers/vfio/pci/nvme/Makefile |   3 +
+>  drivers/vfio/pci/nvme/nvme.c   | 196
+> +++++++++++++++++++++++++++++++++
+>  drivers/vfio/pci/nvme/nvme.h   |  36 ++++++
+>  6 files changed, 249 insertions(+)
+>  create mode 100644 drivers/vfio/pci/nvme/Kconfig
+>  create mode 100644 drivers/vfio/pci/nvme/Makefile
+>  create mode 100644 drivers/vfio/pci/nvme/nvme.c
+>  create mode 100644 drivers/vfio/pci/nvme/nvme.h
+>=20
+> diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> index 2b0172f54665..8f94429e7adc 100644
+> --- a/drivers/vfio/pci/Kconfig
+> +++ b/drivers/vfio/pci/Kconfig
+> @@ -67,4 +67,6 @@ source "drivers/vfio/pci/nvgrace-gpu/Kconfig"
+>=20
+>  source "drivers/vfio/pci/qat/Kconfig"
+>=20
+> +source "drivers/vfio/pci/nvme/Kconfig"
+> +
+>  endmenu
+> diff --git a/drivers/vfio/pci/Makefile b/drivers/vfio/pci/Makefile
+> index cf00c0a7e55c..be8c4b5ee0ba 100644
+> --- a/drivers/vfio/pci/Makefile
+> +++ b/drivers/vfio/pci/Makefile
+> @@ -10,6 +10,8 @@ obj-$(CONFIG_VFIO_PCI) +=3D vfio-pci.o
+>=20
+>  obj-$(CONFIG_MLX5_VFIO_PCI)           +=3D mlx5/
+>=20
+> +obj-$(CONFIG_NVME_VFIO_PCI) +=3D nvme/
+> +
+>  obj-$(CONFIG_HISI_ACC_VFIO_PCI) +=3D hisilicon/
+>=20
+>  obj-$(CONFIG_PDS_VFIO_PCI) +=3D pds/
+> diff --git a/drivers/vfio/pci/nvme/Kconfig b/drivers/vfio/pci/nvme/Kconfi=
+g
+> new file mode 100644
+> index 000000000000..12e0eaba0de1
+> --- /dev/null
+> +++ b/drivers/vfio/pci/nvme/Kconfig
+> @@ -0,0 +1,10 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config NVME_VFIO_PCI
+> +	tristate "VFIO support for NVMe PCI devices"
+> +	depends on NVME_CORE
+> +	depends on VFIO_PCI_CORE
+> +	help
+> +	  This provides migration support for NVMe devices using the
+> +	  VFIO framework.
+> +
+> +	  If you don't know what to do here, say N.
+> diff --git a/drivers/vfio/pci/nvme/Makefile b/drivers/vfio/pci/nvme/Makef=
+ile
+> new file mode 100644
+> index 000000000000..2f4a0ad3d9cf
+> --- /dev/null
+> +++ b/drivers/vfio/pci/nvme/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +obj-$(CONFIG_NVME_VFIO_PCI) +=3D nvme-vfio-pci.o
+> +nvme-vfio-pci-y :=3D nvme.o
+> diff --git a/drivers/vfio/pci/nvme/nvme.c b/drivers/vfio/pci/nvme/nvme.c
+> new file mode 100644
+> index 000000000000..08bee3274207
+> --- /dev/null
+> +++ b/drivers/vfio/pci/nvme/nvme.c
+> @@ -0,0 +1,196 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022, INTEL CORPORATION. All rights reserved
+> + * Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/eventfd.h>
+> +#include <linux/file.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/pci.h>
+> +#include <linux/types.h>
+> +#include <linux/vfio.h>
+> +#include <linux/anon_inodes.h>
+> +#include <linux/kernel.h>
+> +#include <linux/vfio_pci_core.h>
+> +
+> +#include "nvme.h"
+> +
+> +static void nvmevf_disable_fd(struct nvmevf_migration_file *migf)
+> +{
+> +	mutex_lock(&migf->lock);
+> +
+> +	/* release the device states buffer */
+> +	kvfree(migf->vf_data);
+> +	migf->vf_data =3D NULL;
+> +	migf->disabled =3D true;
+> +	migf->total_length =3D 0;
+> +	migf->filp->f_pos =3D 0;
+> +	mutex_unlock(&migf->lock);
 
-Performance testing shows that this change has no noticeable impact
-on scan times compared to the fully asynchronous method.
+May be we can use guard(mutex) here and elsewhere for this driver now?
 
-High latency NVMe/TCP, ~100ms ping, 100 namespaces
+> +}
+> +
+> +static void nvmevf_disable_fds(struct nvmevf_pci_core_device
+> *nvmevf_dev)
+> +{
+> +	if (nvmevf_dev->resuming_migf) {
+> +		nvmevf_disable_fd(nvmevf_dev->resuming_migf);
+> +		fput(nvmevf_dev->resuming_migf->filp);
+> +		nvmevf_dev->resuming_migf =3D NULL;
+> +	}
+> +
+> +	if (nvmevf_dev->saving_migf) {
+> +		nvmevf_disable_fd(nvmevf_dev->saving_migf);
+> +		fput(nvmevf_dev->saving_migf->filp);
+> +		nvmevf_dev->saving_migf =3D NULL;
+> +	}
+> +}
+> +
+> +static void nvmevf_state_mutex_unlock(struct nvmevf_pci_core_device
+> *nvmevf_dev)
+> +{
+> +	lockdep_assert_held(&nvmevf_dev->state_mutex);
+> +again:
+> +	spin_lock(&nvmevf_dev->reset_lock);
+> +	if (nvmevf_dev->deferred_reset) {
+> +		nvmevf_dev->deferred_reset =3D false;
+> +		spin_unlock(&nvmevf_dev->reset_lock);
+> +		nvmevf_dev->mig_state =3D VFIO_DEVICE_STATE_RUNNING;
+> +		nvmevf_disable_fds(nvmevf_dev);
+> +		goto again;
+> +	}
+> +	mutex_unlock(&nvmevf_dev->state_mutex);
+> +	spin_unlock(&nvmevf_dev->reset_lock);
+> +}
+> +
+> +static struct nvmevf_pci_core_device *nvmevf_drvdata(struct pci_dev
+> *pdev)
+> +{
+> +	struct vfio_pci_core_device *core_device =3D dev_get_drvdata(&pdev-
+> >dev);
+> +
+> +	return container_of(core_device, struct nvmevf_pci_core_device,
+> +			    core_device);
+> +}
+> +
+> +static int nvmevf_pci_open_device(struct vfio_device *core_vdev)
+> +{
+> +	struct nvmevf_pci_core_device *nvmevf_dev;
+> +	struct vfio_pci_core_device *vdev;
+> +	int ret;
+> +
+> +	nvmevf_dev =3D container_of(core_vdev, struct
+> nvmevf_pci_core_device,
+> +			core_device.vdev);
+> +	vdev =3D &nvmevf_dev->core_device;
+> +
+> +	ret =3D vfio_pci_core_enable(vdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (nvmevf_dev->migrate_cap)
+> +		nvmevf_dev->mig_state =3D VFIO_DEVICE_STATE_RUNNING;
+> +	vfio_pci_core_finish_enable(vdev);
+> +	return 0;
+> +}
+> +
+> +static void nvmevf_pci_close_device(struct vfio_device *core_vdev)
+> +{
+> +	struct nvmevf_pci_core_device *nvmevf_dev;
+> +
+> +	nvmevf_dev =3D container_of(core_vdev, struct
+> nvmevf_pci_core_device,
+> +			core_device.vdev);
+> +
+> +	if (nvmevf_dev->migrate_cap) {
+> +		mutex_lock(&nvmevf_dev->state_mutex);
+> +		nvmevf_disable_fds(nvmevf_dev);
+> +		nvmevf_state_mutex_unlock(nvmevf_dev);
+> +	}
+> +
+> +	vfio_pci_core_close_device(core_vdev);
+> +}
+> +
+> +static const struct vfio_device_ops nvmevf_pci_ops =3D {
+> +	.name =3D "nvme-vfio-pci",
+> +	.release =3D vfio_pci_core_release_dev,
+> +	.open_device =3D nvmevf_pci_open_device,
+> +	.close_device =3D nvmevf_pci_close_device,
+> +	.ioctl =3D vfio_pci_core_ioctl,
+> +	.device_feature =3D vfio_pci_core_ioctl_feature,
+> +	.read =3D vfio_pci_core_read,
+> +	.write =3D vfio_pci_core_write,
+> +	.mmap =3D vfio_pci_core_mmap,
+> +	.request =3D vfio_pci_core_request,
+> +	.match =3D vfio_pci_core_match,
 
-Synchronous namespace scan (RHEL-10.1): 31175ms
-Fully async namespace scan (6.16-rc7):   2563ms
-Async namespace scan with dependency chain (6.16-rc7): 2599ms
+Any reason why this driver don't need the iommufd related callbacks?
+bind_iommufd/unbind_iommufd etc?
 
-Low latency NVMe/TCP, ~0.2ms ping, 100 namespaces
 
-Synchronous namespace scan (RHEL-10.1): 335ms
-Fully async namespace scan (6.16-rc7):  156ms
-Async namespace scan with dependency chain (6.16-rc7): 116ms
+> +};
+> +
+> +static int nvmevf_pci_probe(struct pci_dev *pdev,
+> +			    const struct pci_device_id *id)
+> +{
+> +	struct nvmevf_pci_core_device *nvmevf_dev;
+> +	int ret;
+> +
+> +	nvmevf_dev =3D vfio_alloc_device(nvmevf_pci_core_device,
+> core_device.vdev,
+> +				       &pdev->dev, &nvmevf_pci_ops);
+> +	if (IS_ERR(nvmevf_dev))
+> +		return PTR_ERR(nvmevf_dev);
+> +
+> +	dev_set_drvdata(&pdev->dev, &nvmevf_dev->core_device);
+> +	ret =3D vfio_pci_core_register_device(&nvmevf_dev->core_device);
+> +	if (ret)
+> +		goto out_put_dev;
+> +
+> +	return 0;
+> +
+> +out_put_dev:
+> +	vfio_put_device(&nvmevf_dev->core_device.vdev);
+> +	return ret;
+> +}
+> +
+> +static void nvmevf_pci_remove(struct pci_dev *pdev)
+> +{
+> +	struct nvmevf_pci_core_device *nvmevf_dev =3D
+> nvmevf_drvdata(pdev);
+> +
+> +	vfio_pci_core_unregister_device(&nvmevf_dev->core_device);
+> +	vfio_put_device(&nvmevf_dev->core_device.vdev);
+> +}
+> +
+> +static void nvmevf_pci_aer_reset_done(struct pci_dev *pdev)
+> +{
+> +	struct nvmevf_pci_core_device *nvmevf_dev =3D
+> nvmevf_drvdata(pdev);
+> +
+> +	if (!nvmevf_dev->migrate_cap)
+> +		return;
+> +
+> +	/*
+> +	 * As the higher VFIO layers are holding locks across reset and using
+> +	 * those same locks with the mm_lock we need to prevent ABBA
+> deadlock
+> +	 * with the state_mutex and mm_lock.
+> +	 * In case the state_mutex was taken already we defer the cleanup
+> work
+> +	 * to the unlock flow of the other running context.
+> +	 */
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/core.c | 145 ++++++++++++++++++++++++++++-----------
- drivers/nvme/host/nvme.h |   2 +
- 2 files changed, 108 insertions(+), 39 deletions(-)
+I am not sure this is relevant for this driver. This deferred logic was add=
+ed to avoid
+a circular locking issue w.r.t copy_to/from_user() functions holding mm_loc=
+k=20
+under state mutex.=20
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9d988f4cb87a..2a58a2b3c173 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4080,17 +4080,83 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_ns *ns)
- 	list_add_rcu(&ns->list, &ns->ctrl->namespaces);
- }
- 
--static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
-+/**
-+ * struct async_scan_task - keeps track of controller & NSID to scan
-+ * @ctrl:		Controller on which namespaces are being scanned
-+ * @nsid:		The NSID to scan
-+ * @prev_finished:	Set when the previous namespace scan has been completed
-+ * @head:		Linked list of the scan asynchronous tasks
-+ */
-+struct async_scan_task {
-+	struct nvme_ctrl *ctrl;
-+	u32 nsid;
-+	struct completion prev_finished;
-+	struct list_head head;
-+};
-+
-+static struct async_scan_task *async_scan_task_init(struct nvme_ctrl *ctrl,
-+							u32 nsid)
-+{
-+	struct async_scan_task *task = kzalloc(sizeof(*task), GFP_KERNEL);
-+	if (!task)
-+		return NULL;
-+
-+	task->ctrl = ctrl;
-+	task->nsid = nsid;
-+	init_completion(&task->prev_finished);
-+	INIT_LIST_HEAD(&task->head);
-+
-+	spin_lock(&ctrl->scan_list_lock);
-+	if (list_empty(&ctrl->scan_list))
-+		complete_all(&task->prev_finished);
-+	list_add_tail(&task->head, &ctrl->scan_list);
-+	spin_unlock(&ctrl->scan_list_lock);
-+
-+	return task;
-+}
-+
-+static void async_scan_prev_task_wait(struct async_scan_task *task)
-+{
-+	if (!task)
-+		return;
-+
-+	wait_for_completion(&task->prev_finished);
-+}
-+
-+static void async_scan_task_complete(struct async_scan_task *task)
-+{
-+	struct nvme_ctrl *ctrl;
-+
-+	if (!task)
-+		return;
-+
-+	async_scan_prev_task_wait(task);
-+
-+	ctrl = task->ctrl;
-+	spin_lock(&ctrl->scan_list_lock);
-+	list_del(&task->head);
-+	if (!list_empty(&ctrl->scan_list)) {
-+		struct async_scan_task *next = list_entry(ctrl->scan_list.next,
-+			struct async_scan_task, head);
-+		complete_all(&next->prev_finished);
-+	}
-+	spin_unlock(&ctrl->scan_list_lock);
-+	kfree(task);
-+}
-+
-+static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info,
-+				struct async_scan_task *task)
- {
- 	struct queue_limits lim = { };
- 	struct nvme_ns *ns;
- 	struct gendisk *disk;
- 	int node = ctrl->numa_node;
- 	bool last_path = false;
-+	int r;
- 
- 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
- 	if (!ns)
--		return;
-+		goto out_complete_async;
- 
- 	if (ctrl->opts && ctrl->opts->data_digest)
- 		lim.features |= BLK_FEAT_STABLE_WRITES;
-@@ -4109,7 +4175,16 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 	ns->ctrl = ctrl;
- 	kref_init(&ns->kref);
- 
--	if (nvme_init_ns_head(ns, info))
-+	/*
-+	 * Wait for the previous async task to finish before
-+	 * allocating the namespace.
-+	 */
-+	async_scan_prev_task_wait(task);
-+	r = nvme_init_ns_head(ns, info);
-+	async_scan_task_complete(task);
-+	task = NULL;
-+
-+	if (r)
- 		goto out_cleanup_disk;
- 
- 	/*
-@@ -4200,6 +4275,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 	put_disk(disk);
-  out_free_ns:
- 	kfree(ns);
-+ out_complete_async:
-+	async_scan_task_complete(task);
- }
- 
- static void nvme_ns_remove(struct nvme_ns *ns)
-@@ -4284,19 +4361,20 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
- 		nvme_ns_remove(ns);
- }
- 
--static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
-+static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid,
-+				struct async_scan_task *task)
- {
- 	struct nvme_ns_info info = { .nsid = nsid };
- 	struct nvme_ns *ns;
- 	int ret = 1;
- 
- 	if (nvme_identify_ns_descs(ctrl, &info))
--		return;
-+		goto exit;
- 
- 	if (info.ids.csi != NVME_CSI_NVM && !nvme_multi_css(ctrl)) {
- 		dev_warn(ctrl->device,
- 			"command set not reported for nsid: %d\n", nsid);
--		return;
-+		goto exit;
- 	}
- 
- 	/*
-@@ -4319,44 +4397,27 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	 * becomes ready and restart the scan.
- 	 */
- 	if (ret || !info.is_ready)
--		return;
-+		goto exit;
- 
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
-+		async_scan_task_complete(task);
- 		nvme_validate_ns(ns, &info);
- 		nvme_put_ns(ns);
- 	} else {
--		nvme_alloc_ns(ctrl, &info);
-+		nvme_alloc_ns(ctrl, &info, task);
- 	}
--}
-+	return;
- 
--/**
-- * struct async_scan_info - keeps track of controller & NSIDs to scan
-- * @ctrl:	Controller on which namespaces are being scanned
-- * @next_nsid:	Index of next NSID to scan in ns_list
-- * @ns_list:	Pointer to list of NSIDs to scan
-- *
-- * Note: There is a single async_scan_info structure shared by all instances
-- * of nvme_scan_ns_async() scanning a given controller, so the atomic
-- * operations on next_nsid are critical to ensure each instance scans a unique
-- * NSID.
-- */
--struct async_scan_info {
--	struct nvme_ctrl *ctrl;
--	atomic_t next_nsid;
--	__le32 *ns_list;
--};
-+exit:
-+	async_scan_task_complete(task);
-+}
- 
- static void nvme_scan_ns_async(void *data, async_cookie_t cookie)
- {
--	struct async_scan_info *scan_info = data;
--	int idx;
--	u32 nsid;
-+	struct async_scan_task *task = data;
- 
--	idx = (u32)atomic_fetch_inc(&scan_info->next_nsid);
--	nsid = le32_to_cpu(scan_info->ns_list[idx]);
--
--	nvme_scan_ns(scan_info->ctrl, nsid);
-+	nvme_scan_ns(task->ctrl, task->nsid, task);
- }
- 
- static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
-@@ -4386,14 +4447,12 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
- 	u32 prev = 0;
- 	int ret = 0, i;
- 	ASYNC_DOMAIN(domain);
--	struct async_scan_info scan_info;
-+	struct async_scan_task *task;
- 
- 	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
- 	if (!ns_list)
- 		return -ENOMEM;
- 
--	scan_info.ctrl = ctrl;
--	scan_info.ns_list = ns_list;
- 	for (;;) {
- 		struct nvme_command cmd = {
- 			.identify.opcode	= nvme_admin_identify,
-@@ -4409,20 +4468,26 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
- 			goto free;
- 		}
- 
--		atomic_set(&scan_info.next_nsid, 0);
- 		for (i = 0; i < nr_entries; i++) {
- 			u32 nsid = le32_to_cpu(ns_list[i]);
- 
- 			if (!nsid)	/* end of the list? */
- 				goto out;
--			async_schedule_domain(nvme_scan_ns_async, &scan_info,
-+
-+			task = async_scan_task_init(ctrl, nsid);
-+			if (!task) {
-+				ret = -ENOMEM;
-+				goto out;
-+			}
-+
-+			async_schedule_domain(nvme_scan_ns_async, task,
- 						&domain);
- 			while (++prev < nsid)
- 				nvme_ns_remove_by_nsid(ctrl, prev);
- 		}
--		async_synchronize_full_domain(&domain);
- 	}
-  out:
-+	async_synchronize_full_domain(&domain);
- 	nvme_remove_invalid_namespaces(ctrl, prev);
-  free:
- 	async_synchronize_full_domain(&domain);
-@@ -4441,7 +4506,7 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl)
- 	kfree(id);
- 
- 	for (i = 1; i <= nn; i++)
--		nvme_scan_ns(ctrl, i);
-+		nvme_scan_ns(ctrl, i, NULL);
- 
- 	nvme_remove_invalid_namespaces(ctrl, nn);
- }
-@@ -5062,6 +5127,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 
- 	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
-+	INIT_LIST_HEAD(&ctrl->scan_list);
-+	spin_lock_init(&ctrl->scan_list_lock);
- 	xa_init(&ctrl->cels);
- 	ctrl->dev = dev;
- 	ctrl->ops = ops;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index cfd2b5b90b91..841126dc526f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -294,6 +294,8 @@ struct nvme_ctrl {
- 	struct blk_mq_tag_set *tagset;
- 	struct blk_mq_tag_set *admin_tagset;
- 	struct list_head namespaces;
-+	struct list_head scan_list;
-+	spinlock_t scan_list_lock;
- 	struct mutex namespaces_lock;
- 	struct srcu_struct srcu;
- 	struct device ctrl_device;
--- 
-2.47.3
+See this,
+https://lore.kernel.org/all/20240229091152.56664-1-shameerali.kolothum.thod=
+i@huawei.com/
+
+Looking at patch #4 it doesn't look like this has that issue. May be I miss=
+ed it.
+Please double check.
+=20
+Thanks,
+Shameer
+
+> +	spin_lock(&nvmevf_dev->reset_lock);
+> +	nvmevf_dev->deferred_reset =3D true;
+> +	if (!mutex_trylock(&nvmevf_dev->state_mutex)) {
+> +		spin_unlock(&nvmevf_dev->reset_lock);
+> +		return;
+> +	}
+> +	spin_unlock(&nvmevf_dev->reset_lock);
+> +	nvmevf_state_mutex_unlock(nvmevf_dev);
+> +}
+> +
+> +static const struct pci_error_handlers nvmevf_err_handlers =3D {
+> +	.reset_done =3D nvmevf_pci_aer_reset_done,
+> +	.error_detected =3D vfio_pci_core_aer_err_detected,
+> +};
+> +
+> +static struct pci_driver nvmevf_pci_driver =3D {
+> +	.name =3D KBUILD_MODNAME,
+> +	.probe =3D nvmevf_pci_probe,
+> +	.remove =3D nvmevf_pci_remove,
+> +	.err_handler =3D &nvmevf_err_handlers,
+> +	.driver_managed_dma =3D true,
+> +};
+> +
+> +module_pci_driver(nvmevf_pci_driver);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Chaitanya Kulkarni <kch@nvidia.com>");
+> +MODULE_DESCRIPTION("NVMe VFIO PCI - VFIO PCI driver with live
+> migration support for NVMe");
+> diff --git a/drivers/vfio/pci/nvme/nvme.h b/drivers/vfio/pci/nvme/nvme.h
+> new file mode 100644
+> index 000000000000..ee602254679e
+> --- /dev/null
+> +++ b/drivers/vfio/pci/nvme/nvme.h
+> @@ -0,0 +1,36 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022, INTEL CORPORATION. All rights reserved
+> + * Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved
+> + */
+> +
+> +#ifndef NVME_VFIO_PCI_H
+> +#define NVME_VFIO_PCI_H
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/vfio_pci_core.h>
+> +#include <linux/nvme.h>
+> +
+> +struct nvmevf_migration_file {
+> +	struct file *filp;
+> +	struct mutex lock;
+> +	bool disabled;
+> +	u8 *vf_data;
+> +	size_t total_length;
+> +};
+> +
+> +struct nvmevf_pci_core_device {
+> +	struct vfio_pci_core_device core_device;
+> +	int vf_id;
+> +	u8 migrate_cap:1;
+> +	u8 deferred_reset:1;
+> +	/* protect migration state */
+> +	struct mutex state_mutex;
+> +	enum vfio_device_mig_state mig_state;
+> +	/* protect the reset_done flow */
+> +	spinlock_t reset_lock;
+> +	struct nvmevf_migration_file *resuming_migf;
+> +	struct nvmevf_migration_file *saving_migf;
+> +};
+> +
+> +#endif /* NVME_VFIO_PCI_H */
+> --
+> 2.40.0
 
 
