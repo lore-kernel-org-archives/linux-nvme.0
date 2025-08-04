@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 599F9C87FDA
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 14:59:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 064D4C87FCA
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 14:59:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f/3vSq9381IaXbqW9OZrKrqA9rxmKdWI6yV8YceURS0=; b=JuhKIC/Urx0fSi0ewVGeUCwWyG
-	yL0ZNUDCkXZxdgMjjcF+WBVLr5eKSCpsqQoyE0XnlSEyg3tfQMR7AQHqeQchShKGl2a9EgmNlxfbh
-	YhB0HVAgYsTUVgXSO0Q3nzM6ae7hKClEf3DGM0gIXr9fRkXGaHgwy9HsxEgnoBPn2sKxsTAYL+AGp
-	Zr9iSJNEQH1DG4jDYRNwOswdy/2nI5wElTpQicYR5rSLgNSjaGhAsOMBtySzGWSCjn805CpkWFJS5
-	4lsoIygjPs8j3jueXM8I2D93e2FWZtcCOsNhxfXRx+dvVvppYFa8rbVmO36KMF2KJUIgWtzDpOvyT
-	2guEKS6w==;
+	bh=rGuRtbHmiVjjoyecHucW808Sk+vwQ2t58s6Fmx6aNN0=; b=azbh1U18SGFsCNddym3vGz09I1
+	SAZAaoZBDu8nurmKdrZglrQpT6FK6lNmXavQ9nySne1xMbEXLbj81mp1m/QZghNR1TBu4P78NuD6M
+	EdmDSTiJmVn7H5/0NXLx9GnGicuDa7JnsylibduN3MxE1L0SkulVVUCrLwn6okGAZWoaK25Q7jP54
+	G40Ug08T0v/kOv0szU+TF89RVVP2we0F1udl9q4Yn2N5/P9g8psYdc37hb+zaV/6cHpKksEnNXDr8
+	8mEFZfcs+DFmwSybfe2Q+sviugGTe7siHBGgh9OTf9ul0dnD/la3T97dR1B2KFiI7KxYoLyXNcpZi
+	8pNN6avQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uk25o-00000000ttb-2cER;
-	Thu, 07 Aug 2025 14:59:44 +0000
+	id 1uk25x-00000000u6I-1Sy4;
+	Thu, 07 Aug 2025 14:59:53 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uiuXJ-0000000AOnM-1iAc
+	id 1uiuXo-0000000AP0d-0P7U
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Aug 2025 12:43:30 +0000
+	Mon, 04 Aug 2025 12:44:01 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 28A9644938;
-	Mon,  4 Aug 2025 12:43:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96668C4CEF8;
-	Mon,  4 Aug 2025 12:43:27 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id BB55A43C23;
+	Mon,  4 Aug 2025 12:43:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82117C4CEF8;
+	Mon,  4 Aug 2025 12:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754311409;
-	bh=B6ggJVOQfTYMCOE/nJsgZM614saTj7Qtn55LwfqKBMA=;
+	s=k20201202; t=1754311439;
+	bh=KD5XpS99kfAtzNwNr0G2cKeknKa6uIV3HkFwkgt52Og=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mACwCJwnciJCEbZnCrkOPhfxhxsK8nNGbFRTcuF/UprHjNhigkEBz4Qjo6q3nOYnE
-	 NNEuUiRwpxiJJ+5+lJPFbBh1pz1NHdaolrAAyyFd/BDEth7WPdBMjVzrlmdIaxA3Qb
-	 2RsWBm5LtpycB6Eoe6pJbVmXbTVoQjyF0BJrKzZPE5F7UARnqwUUZNfC3023xQAdCk
-	 GMv+SVJ7lY8MSINtMTSQNgemwlQgadSRLsUt+7E2s6eroO/rhcn1uAVTTMaXvcyAt7
-	 AFjFAFTQV2Ju8uDUJFNXpQWgxbDaQrFpkFb9ltCXITe4mMxj1t62jvARy38KRhJWAk
-	 x4Lll22SY+E5Q==
+	b=REzkJIVPP9gFnq006IpzWA33deEBq3gq/L07hYxS4b9Co9lY/j51ovFGlZKxGO1e5
+	 4+8sYBN0i9v9K0mgKzmZ/QHCuA9Q46V87wtCzHKFC0ANzBr9PuysZxQhOrNozb4Qyk
+	 VihVy8omfI8O2IRdV4Tyl6d0KjHEM3acEvXoNbj8+O8OXRRPHQMKadb9piVN0E1Wap
+	 K/UpRFgSWAcvtvvkCiTXu1nv84wDzdAsa9r8/C/wTH34YjDjAVJPlKm4jsTlVi+zRC
+	 U+eUEQKpw0KzkD87pD1mxwxAbEEaEpX1KJV4/DAHcK3vw7alfBmL84qIH19KHyRx/5
+	 kND7FSCrGya4g==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
@@ -80,17 +80,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	virtualization@lists.linux.dev,
 	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v1 01/16] dma-mapping: introduce new DMA attribute to indicate MMIO memory
-Date: Mon,  4 Aug 2025 15:42:35 +0300
-Message-ID: <f749c597980592ecc7aeb5ecca974c8dfb76f834.1754292567.git.leon@kernel.org>
+Subject: [PATCH v1 08/16] kmsan: convert kmsan_handle_dma to use physical addresses
+Date: Mon,  4 Aug 2025 15:42:42 +0300
+Message-ID: <5b40377b621e49ff4107fa10646c828ccc94e53e.1754292567.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1754292567.git.leon@kernel.org>
 References: <cover.1754292567.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250804_054329_484496_B0810DAC 
-X-CRM114-Status: GOOD (  17.59  )
+X-CRM114-CacheID: sfid-20250804_054400_197269_712D0D72 
+X-CRM114-Status: GOOD (  23.38  )
 X-Mailman-Approved-At: Thu, 07 Aug 2025 07:59:41 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,91 +108,182 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-This patch introduces the DMA_ATTR_MMIO attribute to mark DMA buffers
-that reside in memory-mapped I/O (MMIO) regions, such as device BARs
-exposed through the host bridge, which are accessible for peer-to-peer
-(P2P) DMA.
+Convert the KMSAN DMA handling function from page-based to physical
+address-based interface.
 
-This attribute is especially useful for exporting device memory to other
-devices for DMA without CPU involvement, and avoids unnecessary or
-potentially detrimental CPU cache maintenance calls.
+The refactoring renames kmsan_handle_dma() parameters from accepting
+(struct page *page, size_t offset, size_t size) to (phys_addr_t phys,
+size_t size). A PFN_VALID check is added to prevent KMSAN operations
+on non-page memory, preventing from non struct page backed address,
+
+As part of this change, support for highmem addresses is implemented
+using kmap_local_page() to handle both lowmem and highmem regions
+properly. All callers throughout the codebase are updated to use the
+new phys_addr_t based interface.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- Documentation/core-api/dma-attributes.rst |  7 +++++++
- include/linux/dma-mapping.h               | 14 ++++++++++++++
- include/trace/events/dma.h                |  3 ++-
- rust/kernel/dma.rs                        |  3 +++
- 4 files changed, 26 insertions(+), 1 deletion(-)
+ drivers/virtio/virtio_ring.c |  4 ++--
+ include/linux/kmsan.h        | 12 +++++++-----
+ kernel/dma/mapping.c         |  2 +-
+ mm/kmsan/hooks.c             | 36 +++++++++++++++++++++++++++++-------
+ tools/virtio/linux/kmsan.h   |  2 +-
+ 5 files changed, 40 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
-index 1887d92e8e926..91acd2684e506 100644
---- a/Documentation/core-api/dma-attributes.rst
-+++ b/Documentation/core-api/dma-attributes.rst
-@@ -130,3 +130,10 @@ accesses to DMA buffers in both privileged "supervisor" and unprivileged
- subsystem that the buffer is fully accessible at the elevated privilege
- level (and ideally inaccessible or at least read-only at the
- lesser-privileged levels).
-+
-+DMA_ATTR_MMIO
-+-------------
-+
-+This attribute is especially useful for exporting device memory to other
-+devices for DMA without CPU involvement, and avoids unnecessary or
-+potentially detrimental CPU cache maintenance calls.
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 55c03e5fe8cb3..afc89835c7457 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -58,6 +58,20 @@
+diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
+index f5062061c4084..c147145a65930 100644
+--- a/drivers/virtio/virtio_ring.c
++++ b/drivers/virtio/virtio_ring.c
+@@ -378,7 +378,7 @@ static int vring_map_one_sg(const struct vring_virtqueue *vq, struct scatterlist
+ 		 * is initialized by the hardware. Explicitly check/unpoison it
+ 		 * depending on the direction.
+ 		 */
+-		kmsan_handle_dma(sg_page(sg), sg->offset, sg->length, direction);
++		kmsan_handle_dma(sg_phys(sg), sg->length, direction);
+ 		*addr = (dma_addr_t)sg_phys(sg);
+ 		return 0;
+ 	}
+@@ -3157,7 +3157,7 @@ dma_addr_t virtqueue_dma_map_single_attrs(struct virtqueue *_vq, void *ptr,
+ 	struct vring_virtqueue *vq = to_vvq(_vq);
+ 
+ 	if (!vq->use_dma_api) {
+-		kmsan_handle_dma(virt_to_page(ptr), offset_in_page(ptr), size, dir);
++		kmsan_handle_dma(virt_to_phys(ptr), size, dir);
+ 		return (dma_addr_t)virt_to_phys(ptr);
+ 	}
+ 
+diff --git a/include/linux/kmsan.h b/include/linux/kmsan.h
+index 2b1432cc16d59..6f27b9824ef77 100644
+--- a/include/linux/kmsan.h
++++ b/include/linux/kmsan.h
+@@ -182,8 +182,7 @@ void kmsan_iounmap_page_range(unsigned long start, unsigned long end);
+ 
+ /**
+  * kmsan_handle_dma() - Handle a DMA data transfer.
+- * @page:   first page of the buffer.
+- * @offset: offset of the buffer within the first page.
++ * @phys:   physical address of the buffer.
+  * @size:   buffer size.
+  * @dir:    one of possible dma_data_direction values.
+  *
+@@ -191,8 +190,11 @@ void kmsan_iounmap_page_range(unsigned long start, unsigned long end);
+  * * checks the buffer, if it is copied to device;
+  * * initializes the buffer, if it is copied from device;
+  * * does both, if this is a DMA_BIDIRECTIONAL transfer.
++ *
++ * The function handles page lookup internally and supports both lowmem
++ * and highmem addresses.
   */
- #define DMA_ATTR_PRIVILEGED		(1UL << 9)
+-void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
++void kmsan_handle_dma(phys_addr_t phys, size_t size,
+ 		      enum dma_data_direction dir);
  
-+/*
-+ * DMA_ATTR_MMIO - Indicates memory-mapped I/O (MMIO) region for DMA mapping
-+ *
-+ * This attribute is used for MMIO memory regions that are exposed through
-+ * the host bridge and are accessible for peer-to-peer (P2P) DMA. Memory
-+ * marked with this attribute is not system RAM and may represent device
-+ * BAR windows or peer-exposed memory.
-+ *
-+ * Typical usage is for mapping hardware memory BARs or exporting device
-+ * memory to other devices for DMA without involving main system RAM.
-+ * The attribute guarantees no CPU cache maintenance calls will be made.
-+ */
-+#define DMA_ATTR_MMIO		(1UL << 10)
-+
- /*
-  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
-  * be given to a device to use as a DMA source or target.  It is specific to a
-diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
-index d8ddc27b6a7c8..ee90d6f1dcf35 100644
---- a/include/trace/events/dma.h
-+++ b/include/trace/events/dma.h
-@@ -31,7 +31,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
- 		{ DMA_ATTR_FORCE_CONTIGUOUS, "FORCE_CONTIGUOUS" }, \
- 		{ DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
- 		{ DMA_ATTR_NO_WARN, "NO_WARN" }, \
--		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" })
-+		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
-+		{ DMA_ATTR_MMIO, "MMIO" })
- 
- DECLARE_EVENT_CLASS(dma_map,
- 	TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t dma_addr,
-diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index 2bc8ab51ec280..61d9eed7a786e 100644
---- a/rust/kernel/dma.rs
-+++ b/rust/kernel/dma.rs
-@@ -242,6 +242,9 @@ pub mod attrs {
-     /// Indicates that the buffer is fully accessible at an elevated privilege level (and
-     /// ideally inaccessible or at least read-only at lesser-privileged levels).
-     pub const DMA_ATTR_PRIVILEGED: Attrs = Attrs(bindings::DMA_ATTR_PRIVILEGED);
-+
-+    /// Indicates that the buffer is MMIO memory.
-+    pub const DMA_ATTR_MMIO: Attrs = Attrs(bindings::DMA_ATTR_MMIO);
+ /**
+@@ -372,8 +374,8 @@ static inline void kmsan_iounmap_page_range(unsigned long start,
+ {
  }
  
- /// An abstraction of the `dma_alloc_coherent` API.
+-static inline void kmsan_handle_dma(struct page *page, size_t offset,
+-				    size_t size, enum dma_data_direction dir)
++static inline void kmsan_handle_dma(phys_addr_t phys, size_t size,
++				    enum dma_data_direction dir)
+ {
+ }
+ 
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index 80481a873340a..709405d46b2b4 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -172,7 +172,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+ 		addr = iommu_dma_map_phys(dev, phys, size, dir, attrs);
+ 	else
+ 		addr = ops->map_page(dev, page, offset, size, dir, attrs);
+-	kmsan_handle_dma(page, offset, size, dir);
++	kmsan_handle_dma(phys, size, dir);
+ 	trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
+ 	debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
+ 
+diff --git a/mm/kmsan/hooks.c b/mm/kmsan/hooks.c
+index 97de3d6194f07..eab7912a3bf05 100644
+--- a/mm/kmsan/hooks.c
++++ b/mm/kmsan/hooks.c
+@@ -336,25 +336,48 @@ static void kmsan_handle_dma_page(const void *addr, size_t size,
+ }
+ 
+ /* Helper function to handle DMA data transfers. */
+-void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
++void kmsan_handle_dma(phys_addr_t phys, size_t size,
+ 		      enum dma_data_direction dir)
+ {
+ 	u64 page_offset, to_go, addr;
++	struct page *page;
++	void *kaddr;
+ 
+-	if (PageHighMem(page))
++	if (!pfn_valid(PHYS_PFN(phys)))
+ 		return;
+-	addr = (u64)page_address(page) + offset;
++
++	page = phys_to_page(phys);
++	page_offset = offset_in_page(phys);
++
+ 	/*
+ 	 * The kernel may occasionally give us adjacent DMA pages not belonging
+ 	 * to the same allocation. Process them separately to avoid triggering
+ 	 * internal KMSAN checks.
+ 	 */
+ 	while (size > 0) {
+-		page_offset = offset_in_page(addr);
+ 		to_go = min(PAGE_SIZE - page_offset, (u64)size);
++
++		if (PageHighMem(page))
++			/* Handle highmem pages using kmap */
++			kaddr = kmap_local_page(page);
++		else
++			/* Lowmem pages can be accessed directly */
++			kaddr = page_address(page);
++
++		addr = (u64)kaddr + page_offset;
+ 		kmsan_handle_dma_page((void *)addr, to_go, dir);
+-		addr += to_go;
++
++		if (PageHighMem(page))
++			kunmap_local(page);
++
++		phys += to_go;
+ 		size -= to_go;
++
++		/* Move to next page if needed */
++		if (size > 0) {
++			page = phys_to_page(phys);
++			page_offset = offset_in_page(phys);
++		}
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(kmsan_handle_dma);
+@@ -366,8 +389,7 @@ void kmsan_handle_dma_sg(struct scatterlist *sg, int nents,
+ 	int i;
+ 
+ 	for_each_sg(sg, item, nents, i)
+-		kmsan_handle_dma(sg_page(item), item->offset, item->length,
+-				 dir);
++		kmsan_handle_dma(sg_phys(item), item->length, dir);
+ }
+ 
+ /* Functions from kmsan-checks.h follow. */
+diff --git a/tools/virtio/linux/kmsan.h b/tools/virtio/linux/kmsan.h
+index 272b5aa285d5a..6cd2e3efd03dc 100644
+--- a/tools/virtio/linux/kmsan.h
++++ b/tools/virtio/linux/kmsan.h
+@@ -4,7 +4,7 @@
+ 
+ #include <linux/gfp.h>
+ 
+-inline void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
++inline void kmsan_handle_dma(phys_addr_t phys, size_t size,
+ 			     enum dma_data_direction dir)
+ {
+ }
 -- 
 2.50.1
 
