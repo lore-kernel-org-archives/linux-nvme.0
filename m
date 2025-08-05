@@ -4,125 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FD6EC87FCB
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Aug 2025 11:03:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3390DC87FCB
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Aug 2025 19:59:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2S6Yfw8MWYSCw6PdDhatVOkzHx1Z3BuEhZk13Etx5uQ=; b=ksQ+9KA1kpA+V6WysYx5VS5GlJ
-	BgRiyX0MGxIBCV2Uw+rt4a6kWNw8+wY6j9aY72MEyEbP9FN7QSVMv+RhNH+6LxYfGvKjCGAwp86/f
-	sRC4C0KtcvMGDQWvigKaj3kJcr7/K18hmE3g07rsPhM8RwRjU2OQPw3WR8cihJUMTc+VVupryPGtM
-	HwgDDhjPRDpbwrmwKghjqK9cMK9sAiB/520qj61g/BaSh7MyIrSNS/o7cXNFElee/02lKNcvej6HF
-	bOchXDXU8FFQ4aVDd5iwbe59zrKm5/Z32J2BX5jUvJ/dPwz6XFwGVRfSAVOP98Gi+2+kR2G9q1lS7
-	59u8w8Ow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YsTdp/ELGFJx26BYUKvLE4dF3FI9RFqtfczhWgl4Q5c=; b=SYWROt72ue0+XL33tdT5ivJMTh
+	8B0ztsXYW7XuA+xc+8SPWE0MTL7J5PU4otGLIRHxs+p9HSDQlWKl+0auMGi0N0HffttmlUXIaSUkg
+	7WvQLqE5jMMcgnZ8WbFCtB2QJBSwEmjg4AcMIYxU+pFEOLxbzqR6jDCafboZo2w0WZZRJWtYbhA+a
+	2exrJMiHvEO21LnF4GPO8pf2Q3+GjNahZOdt+zzEwo8TmuO6LSP6Z1DBQshJi/kgBYmlHAua0aZsD
+	773NqSwAu+n7vavdJrGc8C+OPQLASj55pR0vPwNeovEaZ0136zz4trA82QlLxJwZU7Qh4Q/xAVK4Q
+	p4SvsSYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujFSQ-0000000CYgi-342X;
-	Tue, 05 Aug 2025 11:03:50 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1ujNoM-0000000DiWt-3cOg;
+	Tue, 05 Aug 2025 19:59:02 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujFEc-0000000CX4K-0ABf
+	id 1ujNoG-0000000DiW2-2xM4
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Aug 2025 10:49:35 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D4CFC2174B;
-	Tue,  5 Aug 2025 10:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754390971; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2S6Yfw8MWYSCw6PdDhatVOkzHx1Z3BuEhZk13Etx5uQ=;
-	b=qfnsShoHAMQ6tcOEIv07quDbnGgWwuIHHmcocwXHvl8NaGZEIMX9bjkty90G9MkImBso3N
-	yZZwEMmEseQmzc1oAC6nPNH7DqkJt62YJSGXTou4/y4QRreRxsGqGr0Nnm6N0jdnEZvzM7
-	7ykoHKJIxb3SrDiENEglCbBcn7FggeA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754390971;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2S6Yfw8MWYSCw6PdDhatVOkzHx1Z3BuEhZk13Etx5uQ=;
-	b=NQlUfPSJNTpLIO5Ir58xC3mR98TBYcO68/G53Nsk4UQbWLyGhvLCRlZpHLs3b4hi3nd/zu
-	Z34rfdslScnYDZCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WnpSvl+U;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9xBHzjBT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754390970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2S6Yfw8MWYSCw6PdDhatVOkzHx1Z3BuEhZk13Etx5uQ=;
-	b=WnpSvl+UJbvK0Oc1q/pp5UFH9HWdHVTqG+Nb3mEkYlSqypoC3gZPcpjXon9Tp2Ip0gYaUB
-	Sxs0DuFrSC/DYYLu5g3XxbPElCjKe5WKMbUATUu3ZpCGuDR+/oTlhdw7NHnbgyjlhBFpzQ
-	TaoxWbcYAUdd8sykBgFDIfx5LzVz1nY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754390970;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2S6Yfw8MWYSCw6PdDhatVOkzHx1Z3BuEhZk13Etx5uQ=;
-	b=9xBHzjBTnuqguE1qNw2pGiPKBLhWqFqEeiMDkTe3E6yWV5S8L9Y9/ymgwL+40+ZLlxYHfn
-	l5oTD76vX40HGbAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C715B13A50;
-	Tue,  5 Aug 2025 10:49:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DaLpL7rhkWhPZgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 05 Aug 2025 10:49:30 +0000
-Message-ID: <e34213df-4e76-4b91-97b3-5014e7c00990@suse.de>
-Date: Tue, 5 Aug 2025 12:49:30 +0200
+	Tue, 05 Aug 2025 19:58:57 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 575Jn8fb006815
+	for <linux-nvme@lists.infradead.org>; Tue, 5 Aug 2025 12:58:56 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=YsTdp/ELGFJx26BYUKvLE4dF3FI9RFqtfczhWgl4Q5c=; b=dV1666bHLNXg
+	scXSo7qLa791Jx+j/6YSwhcyEvWh6mwrXn57yaRriD8DWNnPGzxzLbLBwDBUcIiD
+	TuiqnQgYe8yM4eC9qCdt4Pnhs9g4EGlyJL0idvN6ccAlnAcwe84S387ToOVralBv
+	MMegjFxQ5J7ExmecaUgmQV3a+2+opHd53BtHuTCzfd3SnJro3Mee9QvOiWfU+3eD
+	++D6RfHmbSzQ9HpXEZ5qbjKF7K+9rTN65/CPPQF+LzVZzPq41Acr1483GssPNRBB
+	geICjoA5HsoVB7jZiV+omSN75yhA0nAntcL3NXYE8vIKdmzPj+5j2g4s120iOj6n
+	x1XzOicmqg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48bpwds73a-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 05 Aug 2025 12:58:55 -0700 (PDT)
+Received: from twshared0973.10.ash9.facebook.com (2620:10d:c0a8:fe::f072) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.17; Tue, 5 Aug 2025 19:58:53 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 279D1531300; Tue,  5 Aug 2025 12:56:09 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 2/2] nvme: remove virtual boundary for sgl capable devices
+Date: Tue, 5 Aug 2025 12:56:08 -0700
+Message-ID: <20250805195608.2379107-2-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250805195608.2379107-1-kbusch@meta.com>
+References: <20250805195608.2379107-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-From: Hannes Reinecke <hare@suse.de>
-Subject: MD raid scrubbing and NVMe
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: D4CFC2174B
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDE0MSBTYWx0ZWRfX9gD0XCJcqqKu 46mijq05SvstIH2sd7M5+fVQPXPsBJE/21CG1J5CEHIdjqNcM7vpQdAhwqrw/MU2TMid4N9AqYA fEBIPqVMvqknCMnlXseRh2enxKhycN5oiCI7+Ahga7qBBKBa6KWSv2qLrvLXrMEh/XsAdCpJzSN
+ oTpXLkz+jigzv0kDqEgRhOyZbz0WyQxFQb9sZ2VplbfpSXFSaxp8fwRal866gRgAvkO6x8Wk4B1 iuPyHTUu5Knw+Ucr0KfL06W8UUALtYWtJxI2uPfqVQFc/3MHQ0OL3d6KALktebseZotzre7vldM eenSNVY8XpkwV6VSvnJj/5zYezgRVSCMTgyIcGYHe5vdF6PWen8LLyX4ETpxqn6/4ti+knJJ4wo
+ krZDB0p/reGcoSRjKqnG5V7x3WbMRaQptq7P8gcveBiZwiekgBN1Y8GU08Hsm7NuG9Qnky5H
+X-Proofpoint-GUID: 67ntCNRtfIc0mHPOxwii-DTswQLV5tuj
+X-Proofpoint-ORIG-GUID: 67ntCNRtfIc0mHPOxwii-DTswQLV5tuj
+X-Authority-Analysis: v=2.4 cv=edI9f6EH c=1 sm=1 tr=0 ts=6892627f cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=fOxSldyNN8qU9nhN34UA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-05_04,2025-08-04_01,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250805_034934_230094_5573061C 
-X-CRM114-Status: UNSURE (   6.01  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250805_125856_761111_98D2C466 
+X-CRM114-Status: GOOD (  16.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,31 +89,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+From: Keith Busch <kbusch@kernel.org>
 
-now there's a question from one of our partners, who was complaining
-that running 'mdcheck' on an NVMe RAID array was particularly slow.
-While this could be resolved with fine-tuning MD parameters, it kept
-me wondering:
-How useful is RAID scrubbing on NVMe?
- From my perspective scrubbing is useful if one wants to avoid excessive
-recovery latency on bad sectors (eg TLER).
-But the FTL on NVMe already does a quite heavy remapping / rewriting /
-garbage collecting for every write, and so it should be detecting
-(and correcting) faulty sectors far earlier.
-So how effective is RAID scrubbing for NVMe? Can't we delegate the
-task of detecting faulty sectors to the FTL and _not_ scrub at all?
+The nvme virtual boundary is only for the PRP format. Devices that can
+use the SGL format don't need it for IO queues. Drop reporting it for
+such PCIe devices; fabrics target will continue to use the limit.
 
-(Especially as modern file systems like btrfs do an internal scrubbing
-_anyway_...)
+Applications can still continue to align to it, and the driver can still
+decide to use the PRP format if the IO allows it.
 
-Cheers,
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 14 +++++++++-----
+ drivers/nvme/host/pci.c  |  2 ++
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 812c1565114fd..c012c209c7670 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2065,13 +2065,17 @@ static u32 nvme_max_drv_segments(struct nvme_ctrl=
+ *ctrl)
+ }
+=20
+ static void nvme_set_ctrl_limits(struct nvme_ctrl *ctrl,
+-		struct queue_limits *lim)
++		struct queue_limits *lim, bool admin)
+ {
+ 	lim->max_hw_sectors =3D ctrl->max_hw_sectors;
+ 	lim->max_segments =3D min_t(u32, USHRT_MAX,
+ 		min_not_zero(nvme_max_drv_segments(ctrl), ctrl->max_segments));
+ 	lim->max_integrity_segments =3D ctrl->max_integrity_segments;
+-	lim->virt_boundary_mask =3D NVME_CTRL_PAGE_SIZE - 1;
++	if (!nvme_ctrl_sgl_supported(ctrl) || admin ||
++	    ctrl->ops->flags & NVME_F_FABRICS)
++		lim->virt_boundary_mask =3D NVME_CTRL_PAGE_SIZE - 1;
++	else
++		lim->virt_boundary_mask =3D 0;
+ 	lim->max_segment_size =3D UINT_MAX;
+ 	lim->dma_alignment =3D 3;
+ }
+@@ -2173,7 +2177,7 @@ static int nvme_update_ns_info_generic(struct nvme_=
+ns *ns,
+ 	int ret;
+=20
+ 	lim =3D queue_limits_start_update(ns->disk->queue);
+-	nvme_set_ctrl_limits(ns->ctrl, &lim);
++	nvme_set_ctrl_limits(ns->ctrl, &lim, false);
+=20
+ 	memflags =3D blk_mq_freeze_queue(ns->disk->queue);
+ 	ret =3D queue_limits_commit_update(ns->disk->queue, &lim);
+@@ -2377,7 +2381,7 @@ static int nvme_update_ns_info_block(struct nvme_ns=
+ *ns,
+ 	ns->head->lba_shift =3D id->lbaf[lbaf].ds;
+ 	ns->head->nuse =3D le64_to_cpu(id->nuse);
+ 	capacity =3D nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
+-	nvme_set_ctrl_limits(ns->ctrl, &lim);
++	nvme_set_ctrl_limits(ns->ctrl, &lim, false);
+ 	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm, info);
+ 	nvme_set_chunk_sectors(ns, id, &lim);
+ 	if (!nvme_update_disk_info(ns, id, &lim))
+@@ -3580,7 +3584,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctr=
+l)
+ 		min_not_zero(ctrl->max_hw_sectors, max_hw_sectors);
+=20
+ 	lim =3D queue_limits_start_update(ctrl->admin_q);
+-	nvme_set_ctrl_limits(ctrl, &lim);
++	nvme_set_ctrl_limits(ctrl, &lim, true);
+ 	ret =3D queue_limits_commit_update(ctrl->admin_q, &lim);
+ 	if (ret)
+ 		goto out_free;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4a23729f399ac..ec9eb158b43d7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -623,6 +623,8 @@ static inline enum nvme_use_sgl nvme_pci_use_sgls(str=
+uct nvme_dev *dev,
+ 			return SGL_FORCED;
+ 		if (req->nr_integrity_segments > 1)
+ 			return SGL_FORCED;
++		if (blk_rq_page_gaps(req) & (NVME_CTRL_PAGE_SIZE - 1))
++			return SGL_FORCED;
+ 		return SGL_SUPPORTED;
+ 	}
+=20
+--=20
+2.47.3
 
 
