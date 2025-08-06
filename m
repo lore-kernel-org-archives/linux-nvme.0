@@ -4,77 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFDDAC87FDA
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Aug 2025 14:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58983CA0EC2
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Aug 2025 14:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OR8V1g2kekJLUt4/olLqEFa65962gjh4uVi0h4g0s9I=; b=B/iel+UWAWTWw2vEdgoivPhJ/W
-	eS5yoYFulPBJYhFdQhZlpzAb31OsPflxxnUQSVgV87i21Y0/IxSUxAQwx4ep9YOOtoNFPykY/NfBA
-	4wG8oa8hRxeHLetOBIYyGkiQODrPRiEGerGtcXmSNHyeyOi96SIvO/+iXERY5nNM4QBEw+oKbRN0w
-	pvj6KvvXFp2fBwwtFnhgDlINffN/UiPE7IIigcpcyIFsz07ZSmkpyOCTX1ZOXkRXwsgxGkyQXHWjR
-	5I8+FeUueK03N/pUPLzfMw3cJaUaqMSXA4O4oUNl86aqj3+RgHhRD++ppTVJ3LhmakeS9is9h1z5x
-	Cq0KFTTQ==;
+	bh=TAOOnAX8nq/lkhsBlfMjp74jq+Pj/en0JPpFC1TNhkk=; b=zzrB2OlD9CvD3+HUWWbpwEtarI
+	gon+wOObiaOreEO6QPwASos8EPeoHO8UJzzaV6z1GJYVbIiPzXarRh9YOiWg7HVWeBo9/c99rYHZr
+	gewG5dtSdUReznLYKlVLgojupvnvzIPrc8oPuszybLrIn9mt5+F+vadAK/y3Y9Fuhj78vzCAFAdsJ
+	pRJ7cs5JTSYU7Byl0WF9n2KLCyAQrHCbCjc/jUsk0P5r3Og6paxyL7BIvt3lhMd34CFR/DA9n0m3j
+	2etqgSjBl6TnvnaJMr6vSaLscVCq2Fl++hMVVleg5ETPbuCJn/ybtZp8whBQEiPStn+HV+Bp+p6x1
+	/upPB6oA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujfYg-0000000FV71-2oLp;
-	Wed, 06 Aug 2025 14:56:02 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1ujfYi-0000000FV93-3yeT;
+	Wed, 06 Aug 2025 14:56:04 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujfUf-0000000FUTd-1Tzh
+	id 1ujfY0-0000000FV20-1Gy0
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Aug 2025 14:51:54 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5764kiPs031067
-	for <linux-nvme@lists.infradead.org>; Wed, 6 Aug 2025 07:51:52 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=OR8V1g2kekJLUt4/olLqEFa65962gjh4uVi0h4g0s9I=; b=Qu1reuk6yYvq
-	smkiNPXKnsO2bPuYSz+/gdYKZEzZr/Hdv9nhzcW6VcyjdKEYZcXBICU9L9dJzSHP
-	O9IiQF0DOHNS/ku6Mm6A5a1Ad0mNpgPsy2d9o5rMia/1+OvVvzTa1pXa3REnr1lL
-	+lHtEjAqKRqh20CpsNMkxXWwWwdA6RIBg/GuxJdTURuKyY7z8RJSKTBL6B90K8j/
-	MIvdN98XfZfoScaKGYtqhHChRIi7BpddddNfIqP3NEY2K4D4ng0cbEVf64OY3Mip
-	oRO+luABc9rwBAHAsyECUmKrY/BRF6zbAIZvOKpV42shvE25Fwokbxe1BaJvc/yO
-	9m4j6PyyZg==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48c0aqk7gg-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 06 Aug 2025 07:51:52 -0700 (PDT)
-Received: from twshared25333.08.ash9.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.17; Wed, 6 Aug 2025 14:51:50 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id EC33059F463; Wed,  6 Aug 2025 07:51:37 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2 2/2] nvme: remove virtual boundary for sgl capable devices
-Date: Wed, 6 Aug 2025 07:51:36 -0700
-Message-ID: <20250806145136.3573196-3-kbusch@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250806145136.3573196-1-kbusch@meta.com>
-References: <20250806145136.3573196-1-kbusch@meta.com>
+	Wed, 06 Aug 2025 14:55:21 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5F97D68B05; Wed,  6 Aug 2025 16:55:14 +0200 (CEST)
+Date: Wed, 6 Aug 2025 16:55:14 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
+	axboe@kernel.dk, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 2/2] nvme: remove virtual boundary for sgl capable
+ devices
+Message-ID: <20250806145514.GB20102@lst.de>
+References: <20250805195608.2379107-1-kbusch@meta.com> <20250805195608.2379107-2-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: KifB6HEkJMKxQOAFQbrvFcCldQDeWkB_
-X-Authority-Analysis: v=2.4 cv=duHbC0g4 c=1 sm=1 tr=0 ts=68936c08 cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=fOxSldyNN8qU9nhN34UA:9
-X-Proofpoint-GUID: KifB6HEkJMKxQOAFQbrvFcCldQDeWkB_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDA5MiBTYWx0ZWRfX/RgiXJoc6WZI TKiIh7qcw6oJdF5TfudDGlSTcP2nr+4XpeKDGgnjyZ4uXI1pQ11dGL0Y4nnVnfj3A/CIU0qnQmf 40m1bS7rKHQOKYr4Wfu1vgtqxWkfIc949eM9XcLrS9bvjPFInI4ilpdjg76Esm0BwjBYlEH+bBB
- i7Ot2us8X5yKvd3gsRPT+VtQnpySDqqhOEWaJiRbZD/a2qO+4je816V3n10n1d5gR3o0GkQM8e0 OHmuHYUlTq/8GNO23ifysXDYW2C2Lc6NAs6lSRUMYcqQIOgZnGV92gF50Mxm2gAqYUQpfWjJX7g 8irfLFkc0L5f7nWUPI3POY9MaXIHuos5Udi3d72HoAY+wmwMnSoHtFL1XvDVvW793PtQDK9nMU0
- f+0dI2Ntfk/M72vs3X8pC3UNRfclcVRv97Pg0XQapOnUrZBD3CvAxx2493nqIqPy6qqrf0pw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-06_04,2025-08-06_01,2025-03-28_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250805195608.2379107-2-kbusch@meta.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250806_075153_509423_7F88EDB0 
-X-CRM114-Status: GOOD (  16.04  )
+X-CRM114-CacheID: sfid-20250806_075520_483727_6055E89D 
+X-CRM114-Status: GOOD (  11.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,97 +60,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Tue, Aug 05, 2025 at 12:56:08PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> The nvme virtual boundary is only for the PRP format. Devices that can
+> use the SGL format don't need it for IO queues. Drop reporting it for
+> such PCIe devices; fabrics target will continue to use the limit.
 
-The nvme virtual boundary is only for the PRP format. Devices that can
-use the SGL format don't need it for IO queues. Drop reporting it for
-such PCIe devices; fabrics target will continue to use the limit.
-
-Applications can still continue to align to it for optimization
-purposes, and the driver will still decide whether to use the PRP format
-if the IO allows it.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 15 ++++++++++-----
- drivers/nvme/host/pci.c  |  6 +++---
- 2 files changed, 13 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 812c1565114fd..39c74e3a18a04 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2065,13 +2065,18 @@ static u32 nvme_max_drv_segments(struct nvme_ctrl=
- *ctrl)
- }
-=20
- static void nvme_set_ctrl_limits(struct nvme_ctrl *ctrl,
--		struct queue_limits *lim)
-+		struct queue_limits *lim, bool admin)
- {
- 	lim->max_hw_sectors =3D ctrl->max_hw_sectors;
- 	lim->max_segments =3D min_t(u32, USHRT_MAX,
- 		min_not_zero(nvme_max_drv_segments(ctrl), ctrl->max_segments));
- 	lim->max_integrity_segments =3D ctrl->max_integrity_segments;
--	lim->virt_boundary_mask =3D NVME_CTRL_PAGE_SIZE - 1;
-+	lim->max_segment_size =3D UINT_MAX;
-+	if (!nvme_ctrl_sgl_supported(ctrl) || admin ||
-+	    ctrl->ops->flags & NVME_F_FABRICS)
-+		lim->virt_boundary_mask =3D NVME_CTRL_PAGE_SIZE - 1;
-+	else
-+		lim->virt_boundary_mask =3D 0;
- 	lim->max_segment_size =3D UINT_MAX;
- 	lim->dma_alignment =3D 3;
- }
-@@ -2173,7 +2178,7 @@ static int nvme_update_ns_info_generic(struct nvme_=
-ns *ns,
- 	int ret;
-=20
- 	lim =3D queue_limits_start_update(ns->disk->queue);
--	nvme_set_ctrl_limits(ns->ctrl, &lim);
-+	nvme_set_ctrl_limits(ns->ctrl, &lim, false);
-=20
- 	memflags =3D blk_mq_freeze_queue(ns->disk->queue);
- 	ret =3D queue_limits_commit_update(ns->disk->queue, &lim);
-@@ -2377,7 +2382,7 @@ static int nvme_update_ns_info_block(struct nvme_ns=
- *ns,
- 	ns->head->lba_shift =3D id->lbaf[lbaf].ds;
- 	ns->head->nuse =3D le64_to_cpu(id->nuse);
- 	capacity =3D nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
--	nvme_set_ctrl_limits(ns->ctrl, &lim);
-+	nvme_set_ctrl_limits(ns->ctrl, &lim, false);
- 	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm, info);
- 	nvme_set_chunk_sectors(ns, id, &lim);
- 	if (!nvme_update_disk_info(ns, id, &lim))
-@@ -3580,7 +3585,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctr=
-l)
- 		min_not_zero(ctrl->max_hw_sectors, max_hw_sectors);
-=20
- 	lim =3D queue_limits_start_update(ctrl->admin_q);
--	nvme_set_ctrl_limits(ctrl, &lim);
-+	nvme_set_ctrl_limits(ctrl, &lim, true);
- 	ret =3D queue_limits_commit_update(ctrl->admin_q, &lim);
- 	if (ret)
- 		goto out_free;
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4a23729f399ac..3da9e4a584682 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -619,9 +619,9 @@ static inline enum nvme_use_sgl nvme_pci_use_sgls(str=
-uct nvme_dev *dev,
- 	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
-=20
- 	if (nvmeq->qid && nvme_ctrl_sgl_supported(&dev->ctrl)) {
--		if (nvme_req(req)->flags & NVME_REQ_USERCMD)
--			return SGL_FORCED;
--		if (req->nr_integrity_segments > 1)
-+		if (blk_rq_page_gaps(req) & (NVME_CTRL_PAGE_SIZE - 1) ||
-+		    nvme_req(req)->flags & NVME_REQ_USERCMD ||
-+		    req->nr_integrity_segments > 1)
- 			return SGL_FORCED;
- 		return SGL_SUPPORTED;
- 	}
---=20
-2.47.3
+That's not quite true any more as of 6.17.  We now also rely it for
+efficiently mapping multiple segments into a single IOMMU mapping.
+So by not enforcing it for IOMMU mode.  In many cases we're better
+off splitting I/O rather forcing a non-optimized IOMMU mapping.
 
 
