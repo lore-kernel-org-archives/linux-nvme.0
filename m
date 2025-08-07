@@ -4,97 +4,170 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40226C87FCF
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 15:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 242C6CA0EC0
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 15:00:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wn7+MLg+mx7R+loSOdJwKVEpmHzJFAcSmm3zYQYHZK0=; b=bh0uSLYZw7MiWdAmYqr4SXLdTu
-	YrxmD27sfjrXP5b5cBu8L92Uk5P9HoM3TRb7FtE2VmaDxBYiVurzttAU7LNdpnR9alEwvEed7csf9
-	Jpc+KRhYCx3w9TfYfSZ2BHpAEVIOs5dfT0FXD+0bCp+aQNTTzfP2bGAntNv4m13/6VzG5/aXfVytZ
-	TngFW7A39nE84J4ZUSLTfQB4FlGFJLlHwam097fv2uJ8XzlQE2cFay/iyv6KzIlf2WrXt8FAOlhbG
-	LZ83+htFSa7K9UzyRJDj67CCIiUMJ35YS0HaVR4b1MItUagMlcTzKhK9l5gOcheAcNbJ/MirQSjKN
-	qUzw+8sw==;
+	bh=03milDNUHNfZEReC3MBhS982jj7JRdpYUpzYTMR7X0w=; b=4X1pCnXggod4esaUn3NZHbLeHm
+	Uuzwp+Gm7+SHVBExSf6dBU4cXUjdGGd68IwsanlBrXYNAb98h5bgb2eqjK5XVZPlybjaMsz+Xn5J8
+	Ma/mAMpLnzoU/CNQQG9ftGEliZckPGopNLmi47Tt0ZG5OmDm25s/MUx2if2KoPjIxnuHyEherkbnq
+	pBdyDwgPijJuyyW/gzwYdzi0aTtPodH3muZXKWZWAgovv9eFPWLUAaSOtSJC7Rq5jogaSe8RDcxOI
+	RpxLNXJHJPqFhxngDfO43Lka1umk4ooW213MXIrGThwcZn8i3oYkJYvrg7a5VG8cdofcaI+dRjK4M
+	O9BFA7AA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uk26C-00000000uZS-2MgL;
-	Thu, 07 Aug 2025 15:00:08 +0000
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+	id 1uk26D-00000000ubZ-218I;
+	Thu, 07 Aug 2025 15:00:09 +0000
+Received: from mail-bn8nam12on2062a.outbound.protection.outlook.com ([2a01:111:f403:2418::62a] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujoH4-0000000GtVG-3ZE9
+	id 1ujzOz-00000000TOC-0fZ6
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Aug 2025 00:14:27 +0000
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-7426c44e014so437198b3a.3
-        for <linux-nvme@lists.infradead.org>; Wed, 06 Aug 2025 17:14:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754525666; x=1755130466; darn=lists.infradead.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Wn7+MLg+mx7R+loSOdJwKVEpmHzJFAcSmm3zYQYHZK0=;
-        b=nXSj3i2RC4ATarzgUm8pKuaSAhQlxeJsJMm508Y6J5IwoGFtj8BCGCWfNPLTw2/C8r
-         JbBSKmYN9RsHk61mlndFKaapP2vpk2X5VbwhA2xL1NXZkBT70mjy8QRQb7zfrajUYC+t
-         Rohs7C+sSizSQAUsEMf35939y7qR3l7ZDPoidhyjFzl2YLsUFwqv+2TC5w4nuzI9nGm+
-         l9ETxT84uYKlR0vxVmUUCsA/aBCk9rje/j/qXKaCSB6J3dRX2LOLOuwBP15PHpvXDbBY
-         nu4p1riYeL7NQ9Poc4TResk6LN8q8hS2hrZG/FIVK7916gpk5n3H2DC+ib5ogYv22YBW
-         jN3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754525666; x=1755130466;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wn7+MLg+mx7R+loSOdJwKVEpmHzJFAcSmm3zYQYHZK0=;
-        b=eOpv9V5vKt9keSuvaKhRiKuAxtiCP6SVwGLKvgKkKZLNpnIwKxceOhHWR3nYF6chk7
-         9vwtENhKqUUG3s7QbA9b1s9rdn/ZTukrrUgZ7yuhxOB9gWZ693xYkEcSefRbXOnNjggk
-         0MtkgyMWwXi9FDPjPhdPDUFi5GbnfsKM+Nr5t2U/cqXvnBkW0KNya7H66WbiMbfcT8sm
-         nS4iFFjkonj2bTDg0MBRiVgFwyPyg7HuXMSmZLKl01UAgXPfEfOLXYqM4XCcJhEUPP+b
-         t+zi0Ms5aKMMKMnZx9YnqjSwzVYXglPGxa9EsQDcsoevOj3LvpqD6BLFHaZbQ5QkoYMa
-         5n8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVmVil1C5JCvKtWNUBMBOP9rpA2+90JAl+h4jnt/u9OexNzdp2PsmB4qW97rKwnOWBBDn2Pvmk4RcPr@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzn1TXlikYZrqCgyUPRpGWGFzE0EloKQnM54kh2YjKHNGQU4OPg
-	5kFDwqgE2fdOHakP4H4QHMDGPyPEqF1r6vvflir6uNECqofWp5Ymxi5g
-X-Gm-Gg: ASbGncuYmgM3jMdSXF7/GYzEQZLeLwqjbLX++WyXHBPKVqJUR7WevuuiKMroLKrPbsK
-	OdAa1wiHtwA678aD2WbLerTOc9wS0x7l2OR2pT7uAHHDjBz1sBtbnVZbvTJ1num2ZuP6RCkTceK
-	lsk8dzfmYcB/AXS6KWtC/SDZsWS7TnmP1y0L6CcAiVkaWd0iejJJzn4Gpj3wdZrE51OqhEKo6Bh
-	lwq9wWyqoOdXoZ5Zp35gcKwGnI5LU+X8keyFlDrSCNMxWdj71fl1o3f3v8Eru8HFBfPamj0t+3p
-	PRToj1xAmQ4mUHGw8zpU0PAjanViJJwof78nGptYU2K/XIuWBtfsISLkS9fIm1/Js6xS3Gznmxy
-	HEnOIPnem4lGF0loj/U8YR6Oa4Hdzxctcm3a7yvpRVoOJhHQ=
-X-Google-Smtp-Source: AGHT+IFv3fICeSVNB66r1CGZa9K57JTbAU/G+cw8lORmFzP1zvxfL+ysyO4WBfOOvQ2rCC3Vekbzqg==
-X-Received: by 2002:a05:6a00:2d26:b0:76b:c882:e0a with SMTP id d2e1a72fcca58-76c387f6269mr1193271b3a.5.1754525665892;
-        Wed, 06 Aug 2025 17:14:25 -0700 (PDT)
-Received: from [192.168.0.69] ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce8f911sm16602234b3a.47.2025.08.06.17.14.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 17:14:25 -0700 (PDT)
-Message-ID: <7af292c6bb2c42cead77202a9034fcb6111b898c.camel@gmail.com>
-Subject: Re: [RFC 0/4] net/tls: add support for the record size limit
- extension
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: Chuck Lever <chuck.lever@oracle.com>, alistair.francis@wdc.com, 
-	dlemoal@kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, 	pabeni@redhat.com, horms@kernel.org,
- donald.hunter@gmail.com, corbet@lwn.net, 	kbusch@kernel.org,
- axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	borisp@nvidia.com, john.fastabend@gmail.com, jlayton@kernel.org,
- neil@brown.name, 	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
- trondmy@kernel.org, 	anna@kernel.org, kernel-tls-handshake@lists.linux.dev,
- netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Date: Thu, 07 Aug 2025 10:14:14 +1000
-In-Reply-To: <96ca4de7-d647-47ac-b42f-d76284394526@oracle.com>
-References: <20250729024150.222513-2-wilfred.opensource@gmail.com>
-	 <96ca4de7-d647-47ac-b42f-d76284394526@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	Thu, 07 Aug 2025 12:07:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Fmbjdm0YYvQX3NHptTNcgJSEIDsX5MasBpOwKCZ1LfEU+ySBuC3nu24SslkObfDngkjZqMo6dLkASJTqVVQW+vBWYvPkeRUosrx21jkNNZ4FxK9GlXCOnaLbV+aduUb/S696Pw5LrS+AVusUw/CIAlDp+ygzgllK1n983Cyh5pMgqJ//TRLSzyg+xG6k2GwsYeJneI9u5I9vQ7RSg6tkz11qjd4cFbgVDMgxTM9vC4Vi3gdBP6zu7TEhEtISqVcqSGMIu/2kzmXVAVbFwcpjzuMbXXCUa8HbFdb2vqe+GvtpsHoSfrzJQm74sBzXuC52ya0ZDszJlrrNwA4P0cHpfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=03milDNUHNfZEReC3MBhS982jj7JRdpYUpzYTMR7X0w=;
+ b=adMiGpMMBcE4ybFOcngMUwoeO4U1sYS6egTAHwmeLxgkqN79ZLAD2dGoWpkG2/W96qpRsWHZsgpJ7iWaHaxTx1Rpt81GYR++16AoEuWFjqWFx3RrczLzO6kTXXnlJl7vMRyg0yzanOSfs4r2V3uCmEYs0Ij3xz4agx2j3odCj2Wcy3NlXMVeUlIs8jtSgC4S8RoZwWRDycl99Jk6sE7kz4DPAQoJgUvph7qB9vaNL7HGqGz/dk7x9n8xcCK2RcuSOLS2PQRpO3zAA4VQejOKb9v4kShnBO4S1Jqi0rEaqKMu97OPmS4acprn6vQLSzQO603vFV/ThwlmARzzOyqs0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=03milDNUHNfZEReC3MBhS982jj7JRdpYUpzYTMR7X0w=;
+ b=emzVsmSrMdk5PONvW+U/XgioET3O2UKbW20frGRjl4IvJkhtM21ZHuZ2S3BUukHYx9kXF9r4mDKaymNcDCDNLZKbh0BG2t0DN/uffli51tjTrFSHlnExzQtWcTE4y3KYdl2hl5YpuwEaK6f7il4q9MJh29uH4mGdYTsu4NuctxKboLrs1yr5WOo9hE9DK9EuS6KzWC36xAB9ny5Ck7s30iT8Ad1AVexLiB1sp4zYRNnPR8eJNUzLjC4kABnohuy/Spt/RWFvVn4MY92mMpM0aSmxPFC8pw+K7VsgCQiz8wZ/dfG5aW3A8lMtqVYmikTW54RxM2rbIq49zhSSX4AJBQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by BN7PPFD3499E3E3.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6e3) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.28; Thu, 7 Aug
+ 2025 12:07:17 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.017; Thu, 7 Aug 2025
+ 12:07:16 +0000
+Date: Thu, 7 Aug 2025 09:07:15 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v1 06/16] iommu/dma: extend iommu_dma_*map_phys API to
+ handle MMIO memory
+Message-ID: <20250807120715.GF184255@nvidia.com>
+References: <cover.1754292567.git.leon@kernel.org>
+ <09c04e0428f422c1b13d2b054af16e719de318a3.1754292567.git.leon@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <09c04e0428f422c1b13d2b054af16e719de318a3.1754292567.git.leon@kernel.org>
+X-ClientProxiedBy: YT3PR01CA0060.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:82::18) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BN7PPFD3499E3E3:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9b6be84-2a34-40ae-527f-08ddd5aaf3b8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pBh/2s3cwq6fILG20A5H9xSuWRz7opHKY6yWWOEfF8/OX/NC0xcMFsjf2hTC?=
+ =?us-ascii?Q?LWrLGR1cH2WZ/2utXoQcD6+cesHNDfMQtmMienGdzWMjm+gha4LMb/BFIYMv?=
+ =?us-ascii?Q?8CYSObGkQxnBv/Vx681Ib0nmXdebOCg40k+F0KRpNtbmdoCR+p+DVRFWPOYg?=
+ =?us-ascii?Q?yLEcQtzrqghg0n4Rvxt5CRMYvmUrFhKc1uJDmKnSw03dP7ljTjC6C3rlWNpR?=
+ =?us-ascii?Q?QKbiapBjd+WSOGHQnYE6djvNbu+kR4pHZWt8akQbuCysL8WC7jz4DhZWrw9I?=
+ =?us-ascii?Q?mZGCt4lflCXxe6Gp3UV2syIl8/aGJTzeR+GltwF1p4t0ZICqkeMgY4meIYDo?=
+ =?us-ascii?Q?xy/a43toECNxVTGuzREmsPrINijJfseloUmZ0d72XGngTXU7NwYFfREPxM8t?=
+ =?us-ascii?Q?GiHRH9HFHg5W5glk4uEKnhQ3gWmpBBHSkSwVGF6S1JmgsARU3s6799Rt8ccK?=
+ =?us-ascii?Q?uV0tKc/aV7jLqgbORnSWpHp1UCGpA0I8j66vilp8iLGNnc2W0qUuGA75RYD+?=
+ =?us-ascii?Q?nyOfXErs0VKtmHdaZumP83j7sIDzbSwOu5RwqZLAs74YOneFu0/69/N6hB6V?=
+ =?us-ascii?Q?S/onsuI8vjN0h4XQKsBC7IOeXSTLl2ZkU2GpMjqYXavVivQnZU+IRZTAf9Cx?=
+ =?us-ascii?Q?RcWwTnw3luuuf43Uz5UVSnI8ykvekDhEV+3hBCTh+Dy3XgNVcBfgXRWbl0Co?=
+ =?us-ascii?Q?x3+lJ8rYWiaKlPT1T4Xm8U7uw6byzf93NgtfIF4ZO+ci9JKvqFjIK/gIiQIu?=
+ =?us-ascii?Q?Yq+q71ZrJEGqS++mWfEPYG9Gus5PzMVN8XRMZYxglM/9IlKGC364qMr+ZNVl?=
+ =?us-ascii?Q?Y8A1PSjAsuRoJ5hOjxKdxPfZR1Kb9AebERqAADl8ns/W+dLprW75DpgMVyKl?=
+ =?us-ascii?Q?nlBDnJZct8nnEeLbsrg7OpWVatIYGU/h0vc7A9H/AXc/3MPxkD9CiUd0KG0q?=
+ =?us-ascii?Q?kfV2Hb2w+QK+w4o58Xnw4S3GcPgx7idMn+8gS/5PtBHKTPSFyLcMl7ZL7etf?=
+ =?us-ascii?Q?Z0xOD7dlB+YUAjKeXuuQOexO3+fKjyweNRw2rLqpnc3Qt63riL2PqY/C2jgH?=
+ =?us-ascii?Q?uHc0TxsSFRBklM0fmTM6K44n1ElQqDHRCB9wNGqBd6AcmuWtM+SkF+VJ/5ys?=
+ =?us-ascii?Q?xe9qLbD968i3CbuubbQH2+X8NQi9Trd9U3DQKrhh6CKPk9jLt4P5LMXN/JpX?=
+ =?us-ascii?Q?W5gAYRLv0gq2fZ1RLZX5LknmcxEdD4pBBDuz+53dusXfGIYGYRt8NizWrzFt?=
+ =?us-ascii?Q?Kz3Km81YwBEEDA7Wm2noV1T4/byot2igcPnGyjaoY6JOsnmot5mRnoCOagXk?=
+ =?us-ascii?Q?YNHU/tOS44r94V8+iFwwEUbadzp7Y954hgJrC9iLzaFKrHWEbIzTyoNGDAbP?=
+ =?us-ascii?Q?+WRg5/52Sb2zFgXiBKFsOIqJpPU2Estp7POw8OVLqnyQCJJR4S5SKrmTCQDf?=
+ =?us-ascii?Q?sKrb35QARtc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YWL3nMVtTPvIQWWfT+NUjYkqDLD9cQkfZORT3ejXzsCYW8FuJtNBAW0kUsCG?=
+ =?us-ascii?Q?PaoqFp/oRnLsqfFbbllAqt1q59DnY3gcKD74KPHtkx+0BRuo8hzhe9b7co83?=
+ =?us-ascii?Q?xSwMTeYj0smV0MF6qobtDBmB0bYWQ5C8Vb29I/PPDp1KpknCIEDGKogcA0K9?=
+ =?us-ascii?Q?TUvaHOwZPIbWoB1R1ulF4ffWCuq1HnNZ7ABIiOltJAnVAnHOjUg/0B4LM920?=
+ =?us-ascii?Q?Xfz3YYntlEg5bj6zrcv58U9t3CDP6/vpzJsz5e7YK4PAmcd0sKb/4MzLgnTT?=
+ =?us-ascii?Q?U7N+FJZfeZ4rfEv2+9W23/nAVWQkKzhhlq/mNIFnNdTY9xZGobO0rsQba7Dw?=
+ =?us-ascii?Q?kclREk63x995M+8dmpoRXskvRu6nMYpwcXyA0JO+zIKI2PkrAuIH7EOBovVp?=
+ =?us-ascii?Q?iuWOu3D7GKalaVyVWIzKhNBjtOy5oVwQSnYjM+tAHxmqDNptGQKP+KwWkXw/?=
+ =?us-ascii?Q?yLOWcRcAbTY8bHorIif8DIaY945+B+NGBezzUk0lrQQM4uAHfbPfbFghhurh?=
+ =?us-ascii?Q?zWqusBVnX8M3cfljGV1lulyYTQ5P4Rc2G0W8hoFBZkOKthdQ30uYUSJF2DQX?=
+ =?us-ascii?Q?vyVvM02Ve1INp3saX39l42GF7RQ6EPkr6BjRQ/fTEP7USLSrNFNCgXZC2rMc?=
+ =?us-ascii?Q?QH5BCK0yTWvsn1VZYVsXRRZluqyfWmk/y1yRj7evE2TUoF0o4+fgLS56v2S+?=
+ =?us-ascii?Q?4YfTq6Y8ltCnouUQdqROt+2OQwYiFwAjJnNgujtrta52QlUugpE1KdaAce70?=
+ =?us-ascii?Q?N2gz7EHb83C0mKza1DaCheopM938xsveOrWnp3wt6ylz4Dfk54ddhrwMbxgN?=
+ =?us-ascii?Q?dwEVR8Nr+ZTiRAtizoIuwFNydrBAl0C02g0rbxTLWGjDH4+PyYvRrG5YrC9n?=
+ =?us-ascii?Q?TnGZOSYeK34mS3P42CHl1Vr7Vx1EcTbgbfvGjexr2yjyTt8HnKUtrKs0dTzs?=
+ =?us-ascii?Q?xjKUXXLqWNcr4N3DakeIZpZKbICSqwEc57oYf8sHYq9IaozV0jpivIdqUaR2?=
+ =?us-ascii?Q?J+c1nXZaAzT12271Ol6xD2mWseZDRfxUHzliThwNljWwT61AfRnPdh69L0gx?=
+ =?us-ascii?Q?zidzNzumLor4V1TBz+z+yiozv6IH8DM+90aTSq8dhJprwlS3Hmy0f8LzT40s?=
+ =?us-ascii?Q?48srtSKtYiLas6OMRCPKR+1cS+DzQGcDfAIm50ThUB+bc5BynjNhh9bwYV6n?=
+ =?us-ascii?Q?WVyYPEeyuJh9lNYFZvm89LmgemIiAOqmdbY6noRXUi4VMUHNaIKZtGIJI7cA?=
+ =?us-ascii?Q?L+1Rd6+PatXgbpDef4yO+N4VGLxe0M+++SCsg53cjVkiWdGns101Pg+PZBxd?=
+ =?us-ascii?Q?PpMP2liM+8G8Q+GorMujpXYSam7XCBdFNkREGnbZKTULtBSTlKMuA2JD4KhE?=
+ =?us-ascii?Q?WsQh4NhxH5KoaWh/XgYTEAMcTT0pq2vidf2rIr9/KZL6aLAOXO8wuQRAMT0r?=
+ =?us-ascii?Q?zQJ5Dg4HliQ2v9/TMc5XDNQA8ztGvVZdpydNDJRa9pO9QV+VXlrxGR2PwHzN?=
+ =?us-ascii?Q?SB4KwMkIj7NaEmDyO7yAgUgB7EohTKp5uSDy9Vbln/d/Myo9fqoMxOGCiSEb?=
+ =?us-ascii?Q?gJAg8/IjOtjrrAA1Stc=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9b6be84-2a34-40ae-527f-08ddd5aaf3b8
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 12:07:16.8291
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OEqLsam7ft2+HePdRB3GV9fZ3kWW/9+5neZee6v4Y+c0QZMNhmIivmjas2oxsFdA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPFD3499E3E3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250806_171426_894072_000F4C24 
-X-CRM114-Status: GOOD (  21.53  )
+X-CRM114-CacheID: sfid-20250807_050723_142375_D262D56C 
+X-CRM114-Status: GOOD (  13.98  )
 X-Mailman-Approved-At: Thu, 07 Aug 2025 07:59:41 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -110,57 +183,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Chuck,
+On Mon, Aug 04, 2025 at 03:42:40PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Combine iommu_dma_*map_phys with iommu_dma_*map_resource interfaces in
+> order to allow single phys_addr_t flow.
 
-On Tue, 2025-07-29 at 09:37 -0400, Chuck Lever wrote:
-> Hi Wilfred -
->=20
-> On 7/28/25 10:41 PM, Wilfred Mallawa wrote:
-> > From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> >=20
-> > During a tls handshake, an endpoint may specify a maximum record
-> > size limit. As
-> > specified by [1]. which allows peers to negotiate a maximum
-> > plaintext record
-> > size during the TLS handshake. If a TLS endpoint receives a record
-> > larger
-> > than its advertised limit, it must send a fatal "record_overflow"
-> > alert [1].
-> > Currently, this limit is not visble to the kernel, particularly in
-> > the case
-> > where userspace handles the handshake (tlshd/gnutls).
->=20
-> This paragraph essentially says "The spec says we can, so I'm
-> implementing it". Generally we don't implement spec features just
-> because they are there.
->=20
-> What we reviewers need instead is a problem statement. What is not
-> working for you, and why is this the best way to solve it?
-Thanks for the feedback.
+Some later patch deletes iommu_dma_map_resource() ? Mention that plan here?
 
-Essentially, this is to support upcoming WD NVMe-TCP controller that
-implements TLS support. These devices require record size negotiation
-as they support a maximum record size less than the current kernel
-default. I will add this to my V2 series in more detail.
->=20
->=20
-> > This series in conjunction with the respective userspace changes
-> > for tlshd [2]
-> > and gnutls [3], adds support for the kernel the receive the
-> > negotiated record
-> > size limit through the existing netlink communication layer, and
-> > use this
-> > value to limit outgoing records to the size specified.
->=20
-> As Hannes asked elsewhere, why is it up to the TLS consumer to be
-> aware of this limit? Given the description here, it sounds to me
-> like something that should be handled for all consumers by the TLS
-> layer.
-Yeah great point, I didn't think it through too well. I will address
-this in V2 and have the record size limit implemented in the TLS layer
-without involving ULPs.
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -1193,12 +1193,17 @@ static inline size_t iova_unaligned(struct iova_domain *iovad, phys_addr_t phys,
+>  dma_addr_t iommu_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
+>  		enum dma_data_direction dir, unsigned long attrs)
+>  {
+> -	bool coherent = dev_is_dma_coherent(dev);
+> -	int prot = dma_info_to_prot(dir, coherent, attrs);
+>  	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+>  	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+>  	struct iova_domain *iovad = &cookie->iovad;
+>  	dma_addr_t iova, dma_mask = dma_get_mask(dev);
+> +	bool coherent;
+> +	int prot;
+> +
+> +	if (attrs & DMA_ATTR_MMIO)
+> +		return __iommu_dma_map(dev, phys, size,
+> +				dma_info_to_prot(dir, false, attrs) | IOMMU_MMIO,
+> +				dma_get_mask(dev));
 
-Regards,
-Wilfred
+I realize that iommu_dma_map_resource() doesn't today, but shouldn't
+this be checking for swiotlb:
 
+	if (dev_use_swiotlb(dev, size, dir) &&
+	    iova_unaligned(iovad, phys, size)) {
+
+Except we have to fail for ATTR_MMIO?
+
+Now that we have ATTR_MMIO, should dma_info_to_prot() just handle it
+directly instead of open coding the | IOMMU_MMIO and messing with the
+coherent attribute?
+
+Jason
 
