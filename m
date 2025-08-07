@@ -4,125 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED8B7C87FCA
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 08:25:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90C33C87FDA
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 12:42:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QGEAN017bliOyl2SdA5tKF8ug9wKFUQ4OjKLerQ0lic=; b=yxD2vvwbgGhZYO3QNt0X95gr8G
-	53GM1OYIea/dTUcHpLjvHDL0KoJUGeSV2cRJRILYrhjS5zyXeUHLC9Jx8ow3lR1xl+mJkPvFcQNzh
-	BFKxvE9AbM9aTOW1brKPsIV9uLyLGUu/sD+QuFbROnYRy1qI5rAvIyAM1nlewCby0XEe/kYEIpc+l
-	GfAUXywujJyGagUzuBFMcaCjQp+N8QUdvQbDotM8CmGWtjFBv/gixN1BkbxpKzp8/3/kgMJ0nc5lP
-	g5YYbEil0itQkcuGFHoQzua91Oq8Xua1U4/zrZ5R/CPRH4zcXwkYrX28Uhl8DmcC9bniHmUTK/rj4
-	MrGbFyoA==;
+	bh=41g/9cH0APsfIUsqOHFdZAgoS+pLjh1fhvOleDoY0lk=; b=2kThylMcWj5KnQwDJZkL02XV+K
+	qaPl34WWvZvKTQEweExDqDeq7gY3P2QEPR2nBgIUg8+9uuI1T3/b+faOk29K8oywI3m8n3pQfcVnu
+	LePnqRKHwe5EMhZgdI5QY26sM1m1xgPKm28po7dv8LZqhjE6DFT5j4fja4lXieZlCAAihRU+pgxiV
+	KJFSFBfVz+GhhL/wmjGnpF5WYv3Kbmj7BA1cQtoUvjYw7+vMNgkYe4Jv1yCu8n2T2DEMV0tgT5c8Y
+	Qc8QpjD0qgDsoEP2QUeiHhlNzX6LYPFPuUDeofta80NsqdgTvhkMc8eToFWbCOsm7I0SalzlgriNF
+	TTnn68Gw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujvvq-0000000HaRm-1hYc;
-	Thu, 07 Aug 2025 08:25:02 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1ujzx6-00000000a01-0qsp;
+	Thu, 07 Aug 2025 12:42:36 +0000
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujvu3-0000000HaKF-2LNe
+	id 1ujzjM-00000000XYD-1pwd
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Aug 2025 08:23:12 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B46EB1F7F4;
-	Thu,  7 Aug 2025 08:23:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754554989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QGEAN017bliOyl2SdA5tKF8ug9wKFUQ4OjKLerQ0lic=;
-	b=SNy/cDepnjs8OmfRS4x9JUz+KxkAyY81771ANu+iQC/tK8fx/jaJkpneLBgUvqyxxyl/wL
-	gWMlUGAqvYFv8RuyoUUFnpq3vZfA3BNTna8PZ0yXZjDf9UICBSLXWN859cKuvQilrlWsEW
-	6dKaUe/LAKoJyui2+p544rqciT/WuHA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754554989;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QGEAN017bliOyl2SdA5tKF8ug9wKFUQ4OjKLerQ0lic=;
-	b=ChiITLvCoN9YdHUeqa6ZiodBVXelh6pGawj/WmENOPW4R/UMevizIcnwVLOx1QYy9p76uy
-	PQf6d/fi/WeYjDBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754554989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QGEAN017bliOyl2SdA5tKF8ug9wKFUQ4OjKLerQ0lic=;
-	b=SNy/cDepnjs8OmfRS4x9JUz+KxkAyY81771ANu+iQC/tK8fx/jaJkpneLBgUvqyxxyl/wL
-	gWMlUGAqvYFv8RuyoUUFnpq3vZfA3BNTna8PZ0yXZjDf9UICBSLXWN859cKuvQilrlWsEW
-	6dKaUe/LAKoJyui2+p544rqciT/WuHA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754554989;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QGEAN017bliOyl2SdA5tKF8ug9wKFUQ4OjKLerQ0lic=;
-	b=ChiITLvCoN9YdHUeqa6ZiodBVXelh6pGawj/WmENOPW4R/UMevizIcnwVLOx1QYy9p76uy
-	PQf6d/fi/WeYjDBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B586136DC;
-	Thu,  7 Aug 2025 08:23:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GXPBEG1ilGgBKAAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 07 Aug 2025 08:23:09 +0000
-Message-ID: <3b2765ff-4a7d-4bf7-b390-b392b695c675@suse.de>
-Date: Thu, 7 Aug 2025 10:23:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: exit debugfs after discovery subsystem exits
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Yi Zhang <yi.zhang@redhat.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Keith Busch <kbusch@kernel.org>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Hannes Reinecke <hare@kernel.org>, Daniel Wagner <dwagner@suse.de>,
- Maurizio Lombardi <mlombard@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org,
+	Thu, 07 Aug 2025 12:28:26 +0000
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-76bd202ef81so1279455b3a.3
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Aug 2025 05:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1754569703; x=1755174503; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=41g/9cH0APsfIUsqOHFdZAgoS+pLjh1fhvOleDoY0lk=;
+        b=g+wXbbuZsCXy4WWuIvcn2HxC26alU/DHsaVfLRSgxzDWXx8cMn+aiYYObU1LujxbsF
+         23K7rxbJUrAfrDVyxHyzbwYFz8RH7miAtjTLcCtlsIw2plnsBgaYu8ZMliIGpM8IBb1C
+         yqVHifU+mio8EmDH5k5j+KjilEnWoMjoYCS1YPWl7WRAkrqEy73xJNla2rAs6+5qLN27
+         EHKoXplP1d6/rCFfc4fUiRCpuzX8NqsOk4VhLTDxNTXFDZYohOPFFXha+3emWdMJE+fg
+         QLKUs6toZ68qoVnO1avwaHuHIwQyCNhmOkb53dD8znL+doPc63KZBdrfGBacqF3qPbfK
+         QSqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754569703; x=1755174503;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=41g/9cH0APsfIUsqOHFdZAgoS+pLjh1fhvOleDoY0lk=;
+        b=pdu0C++Zb6BPCoRXWNSmhtV3NEGDAJ/ayLfMToN8Bh/wsjhLefRsocveawnw5/4CN+
+         Qr5wOFLATeGg6yjQf6l+v7ofu5KWMDsjtx3N/VjdtTdgQQz/0C4OaQ2kVpD3o9UlzYXI
+         GFyNmNKu0kVVl3Vh7g/d51LReEP/Ss44FP+dK456/m+aMsualV3yHFzfhtCmgFdgqxD3
+         pOiXEeB8jw5dpGI0XWKjFwIqpEzgHJ+3wTSg+7jbZtt1zCAXJBDvsyeaC0BknTgLL37L
+         8HLATZmktnuY63ojPOeStPHt+r4sfiyL+6+p0soUlTYmAp3utewedz+ELghHAg6xQMMa
+         Dnyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhQTgEc4BZEgpGA5Nzcqhmt6570FQbTulnweQNDIJ2jO6oHpKijDgh5J8JgC2p+GdIMEBsdSbMhWAe@lists.infradead.org
+X-Gm-Message-State: AOJu0YwKr61urfpQza66/s54TCNhn3OTB32oeMQmJOPinquyJpB1kGmG
+	Zx+sFAxKmodSyIBY4jFbz2251gTN3MSaeHampVgyrHHlpNjIrYen798lVnW/5vUZXbY=
+X-Gm-Gg: ASbGnctSt3/pzKUTPfbF7A4nzExJ0f7imb2lQhE7Ddr7aZi0KfUrbZ0s8Xce7WKnli4
+	PqQN1OqxhtdbuGr2fJ6i+4RTBgCGny/gG/FlDqE2qlUrMu67PceBNxYlBRfO4C8IMiDj/w/a3O3
+	GdewJRE+r9DWrvvIQjujnivKwXpr2zawAOKmDFujT3tXXgbBhZoM6q16X89WmEX9oztDxPtEB7b
+	nnn4bBccz/GYCLCxMCO3nJrbj+2sjWwg8tKic88xtSChSJ32ruRALEqdefciHAGhzBuNCKloItn
+	MDx0VUyjWQPKF15Mdx3+DuL7K1xPnLc1n/GxNt3hiobCnt7j1rfEgnqoFVQTePp6RvsN3Mwhpwz
+	83RyXZ3eqEsD46pI=
+X-Google-Smtp-Source: AGHT+IFZflKqpkXCxCNuCXe0IkTo0oWflze6NE8a1yQ9TivWCEJGMOIfgjBBvn4BOsd6MO76MkWDPw==
+X-Received: by 2002:a05:6a20:a11e:b0:239:1fad:a3c4 with SMTP id adf61e73a8af0-24031252cdbmr10058825637.16.1754569703349;
+        Thu, 07 Aug 2025 05:28:23 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76c34d23f01sm2710016b3a.23.2025.08.07.05.28.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Aug 2025 05:28:22 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Yi Zhang <yi.zhang@redhat.com>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+ Keith Busch <kbusch@kernel.org>, 
+ Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
+ Hannes Reinecke <hare@kernel.org>, Daniel Wagner <dwagner@suse.de>, 
+ Maurizio Lombardi <mlombard@redhat.com>, 
+ Randy Jennings <randyj@purestorage.com>, linux-nvme@lists.infradead.org, 
  linux-block <linux-block@vger.kernel.org>, linux-kernel@vger.kernel.org
-References: <20250807053507.2794335-1-mkhalfella@purestorage.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
 In-Reply-To: <20250807053507.2794335-1-mkhalfella@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,purestorage.com:email]
+References: <20250807053507.2794335-1-mkhalfella@purestorage.com>
+Subject: Re: [PATCH] nvmet: exit debugfs after discovery subsystem exits
+Message-Id: <175456970208.305227.5090103339122864119.b4-ty@kernel.dk>
+Date: Thu, 07 Aug 2025 06:28:22 -0600
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3-dev-2ce6c
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250807_012311_745204_1E197CAB 
-X-CRM114-Status: GOOD (  15.43  )
+X-CRM114-CacheID: sfid-20250807_052824_722219_F1235D73 
+X-CRM114-Status: UNSURE (   8.09  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,47 +106,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/7/25 07:35, Mohamed Khalfella wrote:
+
+On Wed, 06 Aug 2025 22:35:07 -0700, Mohamed Khalfella wrote:
 > Commit 528589947c180 ("nvmet: initialize discovery subsys after debugfs
 > is initialized") changed nvmet_init() to initialize nvme discovery after
 > "nvmet" debugfs directory is initialized. The change broke nvmet_exit()
 > because discovery subsystem now depends on debugfs. Debugfs should be
 > destroyed after discovery subsystem. Fix nvmet_exit() to do that.
 > 
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Closes: https://lore.kernel.org/all/CAHj4cs96AfFQpyDKF_MdfJsnOEo=2V7dQgqjFv+k3t7H-=yGhA@mail.gmail.com/
-> Fixes: 528589947c180 ("nvmet: initialize discovery subsys after debugfs is initialized")
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> ---
->   drivers/nvme/target/core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 83f3d2f8ef2d0..0dd7bd99afa32 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -1992,8 +1992,8 @@ static int __init nvmet_init(void)
->   static void __exit nvmet_exit(void)
->   {
->   	nvmet_exit_configfs();
-> -	nvmet_exit_debugfs();
->   	nvmet_exit_discovery();
-> +	nvmet_exit_debugfs();
->   	ida_destroy(&cntlid_ida);
->   	destroy_workqueue(nvmet_wq);
->   	destroy_workqueue(buffered_io_wq);
+> [...]
 
-Hehe. I knew this would've been the case once I've seen the latest
-blktest failure. Thanks for fixing it.
+Applied, thanks!
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+[1/1] nvmet: exit debugfs after discovery subsystem exits
+      commit: 80f21806b8e34ae1e24c0fc6a0f0dfd9b055e130
 
-Cheers,
-
-Hannes
+Best regards,
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Jens Axboe
+
+
+
 
