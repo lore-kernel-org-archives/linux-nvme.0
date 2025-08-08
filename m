@@ -4,171 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A5D5CA0EC0
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Aug 2025 16:15:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B267C87FD2
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Aug 2025 12:55:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=54Px3zvYf4CuEyxVRynpi6iF48N3mew5kEum4tnD5v0=; b=2W+tBlMf7ZSFog2h5T4sx8HPri
-	H+kK8ILRhwIi7y3tEGFybmDuyUt33kj09FDh9Uuc5MMkR5TjqqXnZejREFTOo3T50u5CC8DVDjj3c
-	xyDwjD8mlNErgHiqhaRG0bJSauCGaONvA7umFkgoxqpbClzNE7A2HvY2QlulzDqcu3DyG6yh5goAq
-	bQAhHK23owTm9rHCm3P0Y58Ln3Ae4IsHZtyqlHcSATu0Pj0qJNcig5M51r0h2gW9o6HH7F/HLHRde
-	7o3GsOcZX6YSrsFnuZtkv/XeCbJhyuYigGNWSI25OU5VjXWKxp7HH3lFjfJWhH53xH2wnx/JZfSVL
-	NNN2sQQQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=A7nQq3bAqMIxxN/XxLCukV6f4+OY2/BogMqasaFwx3w=; b=Xn48Gf36BlBKvX9sejizIEVvCM
+	4qJFQw6HxVV05e5V4by5+2btW1RLRkVUbFE3F68n2FS18GwcR77QO+fIkaOWGAZWZSqpiXWN29lsa
+	BVkPONoEidTQHVJ0nKqRxh3qONAVJOgj2k7qSIdMIzffxbsRzKTx/tZLOwQBOtqGpCY/7Ca4eWyy3
+	9c5N/awSQ7Wi24Prqz6S4+UG/0veHL5AuYGCB+tuhFHBnan1Q+zPRr5YZx+liXPeIegh8rHM87AAH
+	rLr2NR1qxcH6skcA7L93agvAtHYPY0/kwXX6aPfrO6KWfdaWuJ3DfbiSLVarRzUYdezWECYrx3EzA
+	2LnNWTcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uk3Gh-000000016F6-2m08;
-	Thu, 07 Aug 2025 16:15:03 +0000
-Received: from mail-bn1nam02on2062b.outbound.protection.outlook.com ([2a01:111:f403:2407::62b] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+	id 1ukMcp-00000002qpC-48jN;
+	Fri, 08 Aug 2025 12:55:11 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uk0pd-00000000ikq-3BjJ
+	id 1ukMc6-00000002qki-3ob2
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Aug 2025 13:38:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=odOtssjFOkCHYaLHQ+/p9kfwL3oWQqyiWiKZLpw7XJiF0foKdV34qpOhsa1iNCspSxVdxU4gA0WIItvoFQ9sRtdvvhlbhXyTBk5Ca0RXJ3RlP78IzX7daEYxP+3DERHoiEVZUq6MhT6APGT5uklKHYQGIFquSh71x2Puus3T4i8nJPnglcxkCDj+8H6wruHDXuIIsoc9Tm1p4FS/4NhFdVpTORh7rLv1w8bBVZVxzJvWspW37QJRE8JbsVFRKO7JzmyP7iBHI65AgMr19mjmpCkS4hgxSVfHwg581jbnkd35C/EEQ7HPbqjeAMv/llJMdnXVlbhEQw0Qywxz9wytHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=54Px3zvYf4CuEyxVRynpi6iF48N3mew5kEum4tnD5v0=;
- b=WHGqL+evN1vHpZ7qbQ6RVVDVkvnpn9fYJEwlKcNw2tuS3UHw/cekUJCZobaYpQw5oT7ZwdVyQKnVpTVWm91I3/g6uByftqmmGJajARVQMwsOO9dqOj08ynUXbkUqDt6SJ5/gtWuR9mLD8+eLzSM5/PNlgbOjQw+WTLl9Q+Wilktn4nmyWf4bk60zuNCZL/pFTfeMO+nffuX/AI27zQBaZMKSFQQb2GELkui8GmIZSdjYczrggAtJANFiIiV2RKlxQg+TV+OCwfC3kU1vxB88biOmpAblynNudTd1fLMHTUoWJN7e0avj0G1kzWej0DCDpJG7TOjvkxlpUnW+JZo5Vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=54Px3zvYf4CuEyxVRynpi6iF48N3mew5kEum4tnD5v0=;
- b=Bf0mhOSD+JdgReLtcb1INqB0/uyZWs8MTJetWOhSwa3/PLkVmbmv/hM6Jl3dg3NDMwPrsdDM/AlzyEUrUBURHkACZ6cjHLXiooKnG2YMGnzXwkRRzEcBCBNXbcVCGh58e12vxDNvxaaYSD3/bhb5e9s0aMvTNDZ9mGcWTWp5Z0O13GK0Lzmffv4MQJjFCGVLtyoFeRFT2sBeSM6zy6Jvlf/218RHAdsr+LCFfAT+PZAJJKhqdojdp/MgjqxqGvZgP7XN2ZxopR4zMA620B+mgkDwCkQXS11WIz7ZuvEqkQWL/b9jGOLORKloIcURxJ7DSXvoNKuXdOWI1COqBddbww==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by DS0PR12MB8768.namprd12.prod.outlook.com (2603:10b6:8:14f::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.13; Thu, 7 Aug
- 2025 13:38:49 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.017; Thu, 7 Aug 2025
- 13:38:49 +0000
-Date: Thu, 7 Aug 2025 10:38:48 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v1 11/16] dma-mapping: export new dma_*map_phys()
- interface
-Message-ID: <20250807133848.GL184255@nvidia.com>
-References: <cover.1754292567.git.leon@kernel.org>
- <b96c639433d3b614288be4b305ecba3a9fb2c00f.1754292567.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b96c639433d3b614288be4b305ecba3a9fb2c00f.1754292567.git.leon@kernel.org>
-X-ClientProxiedBy: YT4PR01CA0497.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10c::15) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	Fri, 08 Aug 2025 12:54:29 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250808125419epoutp046af96c509e2d6fadac1f1f47f16708fe~Zy9hCLdft1916819168epoutp04z
+	for <linux-nvme@lists.infradead.org>; Fri,  8 Aug 2025 12:54:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250808125419epoutp046af96c509e2d6fadac1f1f47f16708fe~Zy9hCLdft1916819168epoutp04z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1754657659;
+	bh=A7nQq3bAqMIxxN/XxLCukV6f4+OY2/BogMqasaFwx3w=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=EdoVoxf1UdlSyQZfNNdMyr8RpWUgowXccwaN/DY1gXThRxgoLelJELbOAOLcLOvWl
+	 isfh3m4q/HKBK/iUM8D6zeueM8ciGeUiQJlxpYA49ENOe6yb55otWdRP006pmY+277
+	 bQ+FVgrbRY3vZX0ACp7GRmm6Tnz0pbEUr3seGgEU=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20250808125419epcas5p3b484d595b795a0708e59d5b68d5b559e~Zy9gxCNKX2117521175epcas5p3V;
+	Fri,  8 Aug 2025 12:54:19 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.89]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4bz3rV3pJmz2SSKX; Fri,  8 Aug
+	2025 12:54:18 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20250808125418epcas5p4d66269e567cceb4658c965f2991493ec~Zy9fq9tyY2971229712epcas5p4D;
+	Fri,  8 Aug 2025 12:54:18 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250808125417epsmtip22e814d8c3e62e358ea6a890005f1532c~Zy9e1hL150076300763epsmtip2u;
+	Fri,  8 Aug 2025 12:54:17 +0000 (GMT)
+Message-ID: <5e218cb4-af0a-49a8-ad1c-21cfb7ac467c@samsung.com>
+Date: Fri, 8 Aug 2025 18:24:16 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|DS0PR12MB8768:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c6203ba-7b89-4eee-7a5d-08ddd5b7bd5f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?AMKVoTshkoWihCrrnOUvbEbK3Gi7aXCYIDForZBGpYKryA4uJRbN0UDpbFTN?=
- =?us-ascii?Q?H/nr1xjNK0yCSTAH2/3voqKzqcPQ8JjFMyfvCCv2aMnvNbHTA33B63muGzmW?=
- =?us-ascii?Q?5DuQYeQkxu9Uw2xN2G18A8DecvYxjTEqqa7EJ52Dz0bjjAPXvhQ6AbLFGWBo?=
- =?us-ascii?Q?59GavV3fO9HNdDxXcrP+paneiJa1nxYzUrzHDIscVuUyHiCjrFZNgOHhDikR?=
- =?us-ascii?Q?7wcVcGvgI+hCp9HjXxKQW7tGN8V0FZgKJ/bqXmnsX/x5N/3zlk0pVa9FtJCH?=
- =?us-ascii?Q?CLPxOt79JdMBCRMDwcNL4hI95vmDbD6/mce+8brYWOpRzcZnRWyO0Z5vCBGI?=
- =?us-ascii?Q?JDKz/8pIG7Vb3fuJmFMrtI+6ePyGKdAZgWpMJplKOpaDdL8hONs1XFxGY7VF?=
- =?us-ascii?Q?svLNjoB5HWfHueL7yuniD8+OFfjxkYeo06UE1BdxGED3DIddzKnkvCsYbmy2?=
- =?us-ascii?Q?VVwT75RYTyr6y5rIgz8ZLeboijTMVYkuysX3l8Ek+VqpZpozDcvGgOwi5WrW?=
- =?us-ascii?Q?TLv867KYTn5yifskzFshdlklW2WRDN6LKSXpACxyJQaInAZ5DaBuhGWJmIoI?=
- =?us-ascii?Q?DaBEtwnyLGOS/S1BvFNEUiuqy0i++7tiaJLQxVzGHrqb1qEGEukHyzAMHjZi?=
- =?us-ascii?Q?TDdil9vH++NAqfwB+u16QWc/W04KAsYHH0kgRD1OlGGP4AQ/OWmGu2I69nP3?=
- =?us-ascii?Q?IeWJNgKGb2zPeCIR5L77759PtmgLjN9ZhwxCfwgEgrCcd6CywpMAD2pVM8hu?=
- =?us-ascii?Q?3mZVa0GoXXJgLkCn2cznn+Rk7DSN3JZxQZRyFAC7E5crCHy/caMXV0IW6cKu?=
- =?us-ascii?Q?u34KX7iKGK8KAze/O4LNUcsx+v3h1RnDfd/N/Rou0rM+Z5viJS4XumBIE1Jz?=
- =?us-ascii?Q?SzYPcu8cpkdfVKdtTBdSm0oGs3ugExQh0AgyzrygW3AI/wEbU+hmjREG4iGS?=
- =?us-ascii?Q?qtmNR6urQDwKamP16/n/ls1+o0YkvBPAuhiwtpUP9HOlaORcZB3FN29xVU1v?=
- =?us-ascii?Q?TqXUAq7QjNtdswDx9oAvbvt/vTce4GRKf/wneoIZAVvOjUckgyP6SfE/Y193?=
- =?us-ascii?Q?jwhYRGUwASumZDJM62eTSJoZUQEb7/X0M+i1nPjqPkJP33D4vu3NtK94/gKB?=
- =?us-ascii?Q?wGakF67m/iwQtk5r07m1A/AtX6+j5UjwVztZ34j7mNl+c1EeLAnYfnmrB7aw?=
- =?us-ascii?Q?sJwNviOQtRPsQfeJqQ/GG5CFr4zbQt7E0hoxpBm9rXEMb8O7/x3Nu0rM+YS6?=
- =?us-ascii?Q?rxP5rXjWZsJa9uzk+4HAdEq4C3vazwpTl7fBeNJsDiScIPUUvpC5+7OteGZ3?=
- =?us-ascii?Q?pM8bimM2DTTDvatW94F9tddt+JSq7lKAKgOsbF3YH0ARnXa7VuNBAwsbNsbU?=
- =?us-ascii?Q?Kt8K+jvchAm+kmGcMUFNcXaGLGeT2VGjqdTOqFq/nWWV8fszgKi6LZ8x6BWB?=
- =?us-ascii?Q?oJRmbUVR0z0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MBPINjYfPGiE5jDtZnc+kL6Tem1DGVvWnnr4IAqOJ3QqDGwGQYyBqSEdaTWv?=
- =?us-ascii?Q?rCrkX2y/Sk4d6j61UbByvUXt3nKTkD+MeO8cPgtXL/XPX2sGtHrb8gNrSr/u?=
- =?us-ascii?Q?OEKNTVQZ7CHsvHCdnd9X5FXuoX0i/hrhFXJMhY5OxAO2m5eI/uVKfnRhtNME?=
- =?us-ascii?Q?WfPPxcc0BXNl1H77XG1bbVfLl4VNWDgxX70H0hEofaU4W5E3P1swLrZW9mdQ?=
- =?us-ascii?Q?Feukc/5DifHe2SePpUv2EKDGC4VLP8K0ep5Ci+eTGyK2EaR19DpqUB7DqHVw?=
- =?us-ascii?Q?ocoo7Xx2dFbyGGwWrbx8IanAzYUqZ6w3V2/BwdDcAbpOYtPMk++ubsPaWkJS?=
- =?us-ascii?Q?86KBb6LCEKOCBbnz91YiL8E+jtdRHZk0nVLho1rNXZKq6wB0lX7GySKFPJYi?=
- =?us-ascii?Q?4omNcGV34wSS0K+GJyD46PR/zDcAmDow1riE3YHKDXpojGGSfyFt7iU3pvfH?=
- =?us-ascii?Q?wc8uUrVB+XPvmrMfTcW6f6GhHRWWtb4Dv4kTaBpvPOa+uihaAGvn0nj+7oA0?=
- =?us-ascii?Q?lH1msGlh5aLcnLykZ0KM2VqWGkDwK1aa8TxDl0T7g19lHp/PkCYYEyI4Oydg?=
- =?us-ascii?Q?x36u5MNNY4csSkfMtShIOKMjAXTOfgsV3noFPXKv7GWBj4G63jQRQy7KIztY?=
- =?us-ascii?Q?iPkXT0BhYBwhfcaZNLxAMZv/8/Vpu40Cz3B5loET0MoCiijmOSqhjQdf7GwW?=
- =?us-ascii?Q?D35UMZoK5FjnyeDHRoCkY78/CsRcdqBbRu0V6nzyYh7xTVf8SEmvcU4/IM9+?=
- =?us-ascii?Q?3LW+QVoPsOUarqzKeGJeU5AoFMb/rluC1yy28WSJumduJKF/GZW2yw51wFAB?=
- =?us-ascii?Q?AX9Y4SJw5BaOn58fwEy4isBeUtWN43pvqqdfGWTuVGltm4QnzrrRrmFYQxzo?=
- =?us-ascii?Q?YCfQhh0zaLBvD0u0iYz56hPKffO19tDiR+lPXZxIpIVEszLomukhAvwhOJUW?=
- =?us-ascii?Q?Mw+9j/MEH0hp09oZ3t8tmTi9yYBa4OvVYhtPBCu7s0rvRmL1yCnVTkTlJvQ5?=
- =?us-ascii?Q?l3+N6jLtVsMz+54ZIPO8T0dp0FSwyKmeiM2I57nUM+9+kei6xaLYl/nsyMcS?=
- =?us-ascii?Q?lFDpa4criGr7VWHlF9ecZdlmf8lRoqzbwaY2QJALFxY+Yy8lXP2jKXIhGrlI?=
- =?us-ascii?Q?nsR1LN7f5+rqLOuMwqDQX4KgxOZc2rBg31tXp98jmNTtVA0VPrwb7rTxuXnP?=
- =?us-ascii?Q?K7xw5frFaQTc7Tm/sId0dEa4GdyvSh4TxEDupjoJUpbOPfqqUDwiCgIA8VCG?=
- =?us-ascii?Q?qGb3DHiGYlIQyyN5h8MRnLL5ilAlfSWqxXHhjp5U3+BnT323tDZHc4o4W3Hr?=
- =?us-ascii?Q?xKkMQNzUFeKjJZjncuQgF/AamcRWrEHt26fXixwlZVz+XJNC3GEHrBc+Ri4r?=
- =?us-ascii?Q?0+lMkCA/HXc2Shv8z27rCCJ46nrnGEQEFheADapJYipY4Mc0WWth2NBJ4r/t?=
- =?us-ascii?Q?SM90I4M3q/2GCRG7KRKfbnaRI5P/PHGCBgNBYW/YrXQ62mQggCHMTmkRy/6E?=
- =?us-ascii?Q?aahjgO1NFxrLDGTYgcHOkgZKuqC/j4pfzuZPIHHd7UDLyQf/J9B+7fmCNSfu?=
- =?us-ascii?Q?sxifWglQ0mC+PDduUgw=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c6203ba-7b89-4eee-7a5d-08ddd5b7bd5f
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 13:38:49.1750
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ONwX7mHa1EuCmMcNdBKJGTu1Z2nQrZWEhwSNbSygKKjIuQb9Rcj66qSQFOkzaU9W
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8768
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv4 4/8] blk-mq: remove REQ_P2PDMA flag
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: hch@lst.de, axboe@kernel.dk, Keith Busch <kbusch@kernel.org>
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20250731150513.220395-5-kbusch@meta.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250808125418epcas5p4d66269e567cceb4658c965f2991493ec
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250731150528epcas5p1f3970f09cf6e32cf277ba6f38acaf385
+References: <20250731150513.220395-1-kbusch@meta.com>
+	<CGME20250731150528epcas5p1f3970f09cf6e32cf277ba6f38acaf385@epcas5p1.samsung.com>
+	<20250731150513.220395-5-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250807_063857_803099_099C3BF0 
-X-CRM114-Status: GOOD (  19.45  )
-X-Mailman-Approved-At: Thu, 07 Aug 2025 07:59:41 -0700
+X-CRM114-CacheID: sfid-20250808_055427_453348_0B868D25 
+X-CRM114-Status: UNSURE (   5.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -183,74 +93,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 04, 2025 at 03:42:45PM +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Introduce new DMA mapping functions dma_map_phys() and dma_unmap_phys()
-> that operate directly on physical addresses instead of page+offset
-> parameters. This provides a more efficient interface for drivers that
-> already have physical addresses available.
-> 
-> The new functions are implemented as the primary mapping layer, with
-> the existing dma_map_page_attrs() and dma_unmap_page_attrs() functions
-> converted to simple wrappers around the phys-based implementations.
+On 7/31/2025 8:35 PM, Keith Busch wrote:
+> -#define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
 
-Briefly explain how the existing functions are remapped into wrappers
-calling the phys functions.
-
-> +dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
-> +		size_t offset, size_t size, enum dma_data_direction dir,
-> +		unsigned long attrs)
-> +{
-> +	phys_addr_t phys = page_to_phys(page) + offset;
-> +
-> +	if (unlikely(attrs & DMA_ATTR_MMIO))
-> +		return DMA_MAPPING_ERROR;
-> +
-> +	if (IS_ENABLED(CONFIG_DMA_API_DEBUG))
-> +		WARN_ON_ONCE(!pfn_valid(PHYS_PFN(phys)));
-
-This is not useful, if we have a struct page and did page_to_phys then
-pfn_valid is always true.
-
-Instead this should check for any ZONE_DEVICE page and reject that.
-And handle the error:
-
-  if (WARN_ON_ONCE()) return DMA_MAPPING_ERROR;
-
-I'd add another debug check inside dma_map_phys that if !ATTR_MMIO
-then pfn_valid, and not zone_device
-
-> @@ -337,41 +364,18 @@ EXPORT_SYMBOL(dma_unmap_sg_attrs);
->  dma_addr_t dma_map_resource(struct device *dev, phys_addr_t phys_addr,
->  		size_t size, enum dma_data_direction dir, unsigned long attrs)
->  {
-
-> -	const struct dma_map_ops *ops = get_dma_ops(dev);
-> -	dma_addr_t addr = DMA_MAPPING_ERROR;
-> -
-> -	BUG_ON(!valid_dma_direction(dir));
-> -
-> -	if (WARN_ON_ONCE(!dev->dma_mask))
-> +	if (IS_ENABLED(CONFIG_DMA_API_DEBUG) &&
-> +	    WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
->  		return DMA_MAPPING_ERROR;
->  
-> -	if (dma_map_direct(dev, ops))
-> -		addr = dma_direct_map_resource(dev, phys_addr, size, dir, attrs);
-> -	else if (use_dma_iommu(dev))
-> -		addr = iommu_dma_map_resource(dev, phys_addr, size, dir, attrs);
-> -	else if (ops->map_resource)
-> -		addr = ops->map_resource(dev, phys_addr, size, dir, attrs);
-> -
-> -	trace_dma_map_resource(dev, phys_addr, addr, size, dir, attrs);
-> -	debug_dma_map_resource(dev, phys_addr, size, dir, addr, attrs);
-> -	return addr;
-> +	return dma_map_phys(dev, phys_addr, size, dir, attrs | DMA_ATTR_MMIO);
->  }
->  EXPORT_SYMBOL(dma_map_resource);
-
-I think this makes alot of sense at least.
-
-Jason
+since this is gone, __REQ_P2PDMA can also be removed.
 
