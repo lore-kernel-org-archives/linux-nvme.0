@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70292C87FD3
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Aug 2025 16:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17BF9C87FD2
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Aug 2025 16:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Kb4ack9vXfOSkVGDHJdpxKswW0fz+d5LtDVd0jctGeE=; b=bZu3b2fuOdjrCXQS25eHmGQky1
-	5Qa60txJQ8dA5Y4TekwF/l23rm3KOCn+aPB8d3XBi9Poc/6+EBmh6jdCK3kDIEtvOLOHfHyHiqZze
-	gaNY4UTSiFhqOjM4XOCxz6vjDMEpA8KvCc5rjjxVjTCBSCxjB6ME41xvdobxDZxWvLD+tT90YNeuC
-	Q4O3rpNOynS8kfZg9nzazRh4p4X+Wd1UsjPE3tj1A+SqXm0SRaMKyvEY/58ZZ54YE5pBNbrVBAfi+
-	d4g1ZMAxPgJ1b3vKB0cT0WEgRbP7DwmtnNzBhEtdp5vXE75lidEbJCp+L7DWJst13WvmInKh5sxA/
-	tRJ5asoQ==;
+	bh=bZCBFvA7Jw7nxzi4zLKVihdBiwPApq11fQV4EpjuzbY=; b=HCwlKwBn/Q9rD3FwHSY6eaN2W4
+	mTZHKuOS+Q9B7fVbKJnL3tZ7q9JiCuJ2V+CwUyoJ2EKfd2BXIMbdqP+tYfA4eiW6VsItRtDYnTGAm
+	PIPLGS4TulBUi8qw6fTogbqhw3KWG1Wv4THwEP/jgPazPhXws0tEvTYXP8AND5mBxYT84kfAfsRnm
+	CFR0HUAtff7ZMXOOwrSrA2cUyN7svVfqOX3qf3I5xrPb+6/aPlygVgcKvp6zOj+YTqu33H8WwfWC3
+	pqbVCGXRcnymr1MljW6fErEeC90M904iEOI+oQqGKELHE8jNpTGCFntkC0fnNmt378XJfzY67wFDV
+	Z0NaFmNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ukPWc-00000003G7O-1oFo;
-	Fri, 08 Aug 2025 16:00:58 +0000
+	id 1ukPWe-00000003G91-1fsI;
+	Fri, 08 Aug 2025 16:01:00 +0000
 Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ukPUJ-00000003Fcv-3eGa
+	id 1ukPUP-00000003Fer-0MTH
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Aug 2025 15:58:37 +0000
+	Fri, 08 Aug 2025 15:58:42 +0000
 Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 578FKBbA021638
-	for <linux-nvme@lists.infradead.org>; Fri, 8 Aug 2025 08:58:35 -0700
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 578FKBbI021638
+	for <linux-nvme@lists.infradead.org>; Fri, 8 Aug 2025 08:58:40 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=Kb4ack9vXfOSkVGDHJdpxKswW0fz+d5LtDVd0jctGeE=; b=csFkBI1+fT9S
-	jT8enHvgiuYhvaFkvQpOj1qbFEAWWd6Fqr7jxTGHp9qp3sbuUkUbKZXYFDqSmSsd
-	i7BhPLh9pVZssE/ufcA6oOi4ROTLQMds00piI10+VMXByFclowA6FwqzdUhsU0Mw
-	QOs6Zh/m5/pHDb8GW0O7Oac8NzzFTG1vaoUFL4n+bOWamdy9hKCi2Z6wLGch7Kuh
-	ofLoL1UWy8vb1E053t4f4DrskD0bZo4gdMu6IxKQpmHDGXPXyvqqtou3hntgKYh/
-	ADnD5SXyiOaOQX1YNlQBcMPp57KS/A7Nw6W1XMiNbtycjS/l6n8RmxKicKGR5nVH
-	U2CBgWdsRQ==
+	 bh=bZCBFvA7Jw7nxzi4zLKVihdBiwPApq11fQV4EpjuzbY=; b=pM+Yt++TP3po
+	+EGfl8FoLqtNd5XnFt0UfI2j/jluHUpbrCKEw3zLvD3oeDjPlZr4T4s53+6Nl+/P
+	FQ7GflvAI3prvkyq5K24ab+j762kuQw6kGNeYUrRqEjEHFUoPKTQiScEMVFcJPJ7
+	zEpc3wkKMEwynzRsd56wut/d/we+z/lHHaUcg82QrzfdL1b/GBIJBk0QZDHEpQlI
+	H+mygNDH4mVnFxJwBcmp/BteZ/dnMzjVKyLdtSURuTh4kaVZ5SG5cqQMm+hbxC+w
+	zVwPoPOKgf1Q6CGWJbkJlPpACzWU8DaB61osxTooOQuCR9A4A4eKDrU+qZByR42/
+	3Aa9kGmraQ==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48dbwck3f3-5
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48dbwck3f3-13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 08 Aug 2025 08:58:35 -0700 (PDT)
-Received: from twshared10560.01.ash9.facebook.com (2620:10d:c0a8:fe::f072) by
+	for <linux-nvme@lists.infradead.org>; Fri, 08 Aug 2025 08:58:40 -0700 (PDT)
+Received: from twshared52133.15.frc2.facebook.com (2620:10d:c0a8:fe::f072) by
  mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.17; Fri, 8 Aug 2025 15:58:31 +0000
+ 15.2.2562.17; Fri, 8 Aug 2025 15:58:33 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id DB4976C76C5; Fri,  8 Aug 2025 08:58:27 -0700 (PDT)
+	id 260166C76BE; Fri,  8 Aug 2025 08:58:27 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
 CC: <hch@lst.de>, <axboe@kernel.dk>, <joshi.k@samsung.com>,
         Keith Busch
 	<kbusch@kernel.org>
-Subject: [PATCHv5 5/8] blk-mq-dma: move common dma start code to a helper
-Date: Fri, 8 Aug 2025 08:58:23 -0700
-Message-ID: <20250808155826.1864803-6-kbusch@meta.com>
+Subject: [PATCHv5 1/8] blk-mq-dma: introduce blk_map_iter
+Date: Fri, 8 Aug 2025 08:58:19 -0700
+Message-ID: <20250808155826.1864803-2-kbusch@meta.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250808155826.1864803-1-kbusch@meta.com>
 References: <20250808155826.1864803-1-kbusch@meta.com>
@@ -65,18 +65,18 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA4MDEyOSBTYWx0ZWRfX/Z7TceQgYRSV CxP18DIHbOuexthYeblihG5a5xJhgjwTLcEEpBD7E3hlwcuO0t3d6Hs8kLoaJEBDn7N/kV6UmDG V45Zb0qf9+ByeUrntFM//yl9qRC9+MIAMe1y2kI0TNgHBSe9xJjuSB0SAmKRX+Km6p2MroXGBC+
- 0twc5nEcVVuS1Hq/5va7H4kHNcSlUY5WDrVo21mjJ+F3b/KejjfAd/8zxO0bLnIENTMFDp4n58r zY8xiBzDn9eGJf2RmGxs+gqDiXLMIZF8xb+4zMVFmwtgqTA8hk/aaog/au+/x013cNDjquLvnZ2 usZ+93CW/X4Q7IufL1nLMFwTbcBddXgs4M0YABlKpFNB4ne9cjDcH5EBJcTXyL9miGSD+PR/xO2
- 5kQN+7BBaLidLI7rPOPI1KF1BDo8qymZkmpUt1DpPCjUEMQne7zO3QAm1RBjYX2g1K0tjCzI
-X-Proofpoint-GUID: mXHHBg97_Bgv5nf-My5iNjJ5PvLcUwxh
-X-Authority-Analysis: v=2.4 cv=DthW+H/+ c=1 sm=1 tr=0 ts=68961eab cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=Udg8XZZ2YZ10bUHcV_QA:9
-X-Proofpoint-ORIG-GUID: mXHHBg97_Bgv5nf-My5iNjJ5PvLcUwxh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA4MDEyOSBTYWx0ZWRfX3SnWr+thsUDt BYLwCbAOgXa2zta1y8NGc5+K9bZeOxijI1cmLa4QyALASQCF2PYV4hm1p30KWGWKy7N4073V+PA jsz+1Dd/+eMOJEPFbG+FzFOpzTlAPtBeLb6Gu9g9sqPMY9E+mYJBvqEiwlK318SCaVm4z0O/aCs
+ 80SX0djW23rPTTuyw0HPUZXRuuC23/3fwEsgL/L02sysslwzc871bKwgoYCCGdCQU16boCQ3M8Z F7+Na3Rx6Hnn2WyljMz2gyHHtkNb5gQpK3rYRdHnKPMXxdMJmg++O30y/CyzTNS6j93HtgwFtI0 QgNidffrQNOcVKNQ6iGv/hqBGCy5Ydl7RRmwyfH5889uvk+Ygt/HRoKv8w0AaG11ny0yK7nOF4d
+ o/WI5gbLiRKWKsdnJsftttY8DPGjmvLcLmQl/uTjEeuklfB+sAuC2gyJpbYG0xPvFT9X89AI
+X-Proofpoint-GUID: O7MI3QKtQx1WQErjxXLY1NZh5edet_9i
+X-Authority-Analysis: v=2.4 cv=DthW+H/+ c=1 sm=1 tr=0 ts=68961eb0 cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=_vUovkCjKnAsJJE3Rt0A:9
+X-Proofpoint-ORIG-GUID: O7MI3QKtQx1WQErjxXLY1NZh5edet_9i
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-08_05,2025-08-06_01,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250808_085835_917907_DE012B24 
-X-CRM114-Status: GOOD (  17.66  )
+X-CRM114-CacheID: sfid-20250808_085841_136514_DAE7294A 
+X-CRM114-Status: GOOD (  17.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,112 +93,252 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-In preparing for dma mapping integrity metadata, move the common dma
-setup to a helper.
+Create a type that fully captures the lower level physical address
+iteration.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- block/blk-mq-dma.c | 60 +++++++++++++++++++++++++---------------------
- 1 file changed, 33 insertions(+), 27 deletions(-)
+ block/blk-mq-dma.c         | 81 +++++++++++++++++---------------------
+ include/linux/blk-mq-dma.h |  9 ++++-
+ 2 files changed, 44 insertions(+), 46 deletions(-)
 
 diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
-index 988c27667df67..bc694fecb39dc 100644
+index ad283017caef2..ff4c9a7e19d83 100644
 --- a/block/blk-mq-dma.c
 +++ b/block/blk-mq-dma.c
-@@ -135,36 +135,12 @@ static struct blk_map_iter blk_rq_map_iter(struct r=
-equest *rq)
- 	};
- }
+@@ -5,13 +5,7 @@
+ #include <linux/blk-mq-dma.h>
+ #include "blk.h"
 =20
--/**
-- * blk_rq_dma_map_iter_start - map the first DMA segment for a request
-- * @req:	request to map
-- * @dma_dev:	device to map to
-- * @state:	DMA IOVA state
-- * @iter:	block layer DMA iterator
-- *
-- * Start DMA mapping @req to @dma_dev.  @state and @iter are provided by=
- the
-- * caller and don't need to be initialized.  @state needs to be stored f=
-or use
-- * at unmap time, @iter is only needed at map time.
-- *
-- * Returns %false if there is no segment to map, including due to an err=
-or, or
-- * %true ft it did map a segment.
-- *
-- * If a segment was mapped, the DMA address for it is returned in @iter.=
-addr and
-- * the length in @iter.len.  If no segment was mapped the status code is
-- * returned in @iter.status.
-- *
-- * The caller can call blk_rq_dma_map_coalesce() to check if further seg=
-ments
-- * need to be mapped after this, or go straight to blk_rq_dma_map_iter_n=
-ext()
-- * to try to map the following segments.
-- */
--bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_d=
-ev,
--		struct dma_iova_state *state, struct blk_dma_iter *iter)
-+static bool blk_dma_map_iter_start(struct request *req, struct device *d=
-ma_dev,
-+		struct dma_iova_state *state, struct blk_dma_iter *iter,
-+		unsigned int total_len)
- {
--	unsigned int total_len =3D blk_rq_payload_bytes(req);
+-struct phys_vec {
+-	phys_addr_t	paddr;
+-	u32		len;
+-};
 -
- 	memset(&iter->p2pdma, 0, sizeof(iter->p2pdma));
- 	iter->status =3D BLK_STS_OK;
--	iter->iter =3D blk_rq_map_iter(req);
+-static bool blk_map_iter_next(struct request *req, struct req_iterator *=
+iter,
+-			      struct phys_vec *vec)
++static bool blk_map_iter_next(struct request *req, struct blk_map_iter *=
+iter)
+ {
+ 	unsigned int max_size;
+ 	struct bio_vec bv;
+@@ -19,8 +13,8 @@ static bool blk_map_iter_next(struct request *req, stru=
+ct req_iterator *iter,
+ 	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
+ 		if (!iter->bio)
+ 			return false;
+-		vec->paddr =3D bvec_phys(&req->special_vec);
+-		vec->len =3D req->special_vec.bv_len;
++		iter->paddr =3D bvec_phys(&req->special_vec);
++		iter->len =3D req->special_vec.bv_len;
+ 		iter->bio =3D NULL;
+ 		return true;
+ 	}
+@@ -29,8 +23,8 @@ static bool blk_map_iter_next(struct request *req, stru=
+ct req_iterator *iter,
+ 		return false;
 =20
- 	/*
- 	 * Grab the first segment ASAP because we'll need it to check for P2P
-@@ -194,6 +170,36 @@ bool blk_rq_dma_map_iter_start(struct request *req, =
-struct device *dma_dev,
- 		return blk_rq_dma_map_iova(req, dma_dev, state, iter);
- 	return blk_dma_map_direct(req, dma_dev, iter);
+ 	bv =3D mp_bvec_iter_bvec(iter->bio->bi_io_vec, iter->iter);
+-	vec->paddr =3D bvec_phys(&bv);
+-	max_size =3D get_max_segment_size(&req->q->limits, vec->paddr, UINT_MAX=
+);
++	iter->paddr =3D bvec_phys(&bv);
++	max_size =3D get_max_segment_size(&req->q->limits, iter->paddr, UINT_MA=
+X);
+ 	bv.bv_len =3D min(bv.bv_len, max_size);
+ 	bio_advance_iter_single(iter->bio, &iter->iter, bv.bv_len);
+=20
+@@ -58,7 +52,7 @@ static bool blk_map_iter_next(struct request *req, stru=
+ct req_iterator *iter,
+ 		bio_advance_iter_single(iter->bio, &iter->iter, next.bv_len);
+ 	}
+=20
+-	vec->len =3D bv.bv_len;
++	iter->len =3D bv.bv_len;
+ 	return true;
  }
-+
-+/**
-+ * blk_rq_dma_map_iter_start - map the first DMA segment for a request
-+ * @req:	request to map
-+ * @dma_dev:	device to map to
-+ * @state:	DMA IOVA state
-+ * @iter:	block layer DMA iterator
-+ *
-+ * Start DMA mapping @req to @dma_dev.  @state and @iter are provided by=
- the
-+ * caller and don't need to be initialized.  @state needs to be stored f=
-or use
-+ * at unmap time, @iter is only needed at map time.
-+ *
-+ * Returns %false if there is no segment to map, including due to an err=
-or, or
-+ * %true ft it did map a segment.
-+ *
-+ * If a segment was mapped, the DMA address for it is returned in @iter.=
-addr and
-+ * the length in @iter.len.  If no segment was mapped the status code is
-+ * returned in @iter.status.
-+ *
-+ * The caller can call blk_rq_dma_map_coalesce() to check if further seg=
-ments
-+ * need to be mapped after this, or go straight to blk_rq_dma_map_iter_n=
-ext()
-+ * to try to map the following segments.
-+ */
-+bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_d=
+=20
+@@ -77,29 +71,29 @@ static inline bool blk_can_dma_map_iova(struct reques=
+t *req,
+ 		dma_get_merge_boundary(dma_dev));
+ }
+=20
+-static bool blk_dma_map_bus(struct blk_dma_iter *iter, struct phys_vec *=
+vec)
++static bool blk_dma_map_bus(struct blk_dma_iter *iter)
+ {
+-	iter->addr =3D pci_p2pdma_bus_addr_map(&iter->p2pdma, vec->paddr);
+-	iter->len =3D vec->len;
++	iter->addr =3D pci_p2pdma_bus_addr_map(&iter->p2pdma, iter->iter.paddr)=
+;
++	iter->len =3D iter->iter.len;
+ 	return true;
+ }
+=20
+ static bool blk_dma_map_direct(struct request *req, struct device *dma_d=
 ev,
+-		struct blk_dma_iter *iter, struct phys_vec *vec)
++		struct blk_dma_iter *iter)
+ {
+-	iter->addr =3D dma_map_page(dma_dev, phys_to_page(vec->paddr),
+-			offset_in_page(vec->paddr), vec->len, rq_dma_dir(req));
++	iter->addr =3D dma_map_page(dma_dev, phys_to_page(iter->iter.paddr),
++			offset_in_page(iter->iter.paddr), iter->iter.len,
++			rq_dma_dir(req));
+ 	if (dma_mapping_error(dma_dev, iter->addr)) {
+ 		iter->status =3D BLK_STS_RESOURCE;
+ 		return false;
+ 	}
+-	iter->len =3D vec->len;
++	iter->len =3D iter->iter.len;
+ 	return true;
+ }
+=20
+ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_=
+dev,
+-		struct dma_iova_state *state, struct blk_dma_iter *iter,
+-		struct phys_vec *vec)
 +		struct dma_iova_state *state, struct blk_dma_iter *iter)
-+{
-+	iter->iter =3D blk_rq_map_iter(req);
-+	return blk_dma_map_iter_start(req, dma_dev, state, iter,
-+				      blk_rq_payload_bytes(req));
-+}
+ {
+ 	enum dma_data_direction dir =3D rq_dma_dir(req);
+ 	unsigned int mapped =3D 0;
+@@ -109,12 +103,12 @@ static bool blk_rq_dma_map_iova(struct request *req=
+, struct device *dma_dev,
+ 	iter->len =3D dma_iova_size(state);
+=20
+ 	do {
+-		error =3D dma_iova_link(dma_dev, state, vec->paddr, mapped,
+-				vec->len, dir, 0);
++		error =3D dma_iova_link(dma_dev, state, iter->iter.paddr, mapped,
++				iter->iter.len, dir, 0);
+ 		if (error)
+ 			break;
+-		mapped +=3D vec->len;
+-	} while (blk_map_iter_next(req, &iter->iter, vec));
++		mapped +=3D iter->iter.len;
++	} while (blk_map_iter_next(req, &iter->iter));
+=20
+ 	error =3D dma_iova_sync(dma_dev, state, 0, mapped);
+ 	if (error) {
+@@ -151,7 +145,6 @@ bool blk_rq_dma_map_iter_start(struct request *req, s=
+truct device *dma_dev,
+ 		struct dma_iova_state *state, struct blk_dma_iter *iter)
+ {
+ 	unsigned int total_len =3D blk_rq_payload_bytes(req);
+-	struct phys_vec vec;
+=20
+ 	iter->iter.bio =3D req->bio;
+ 	iter->iter.iter =3D req->bio->bi_iter;
+@@ -162,14 +155,14 @@ bool blk_rq_dma_map_iter_start(struct request *req,=
+ struct device *dma_dev,
+ 	 * Grab the first segment ASAP because we'll need it to check for P2P
+ 	 * transfers.
+ 	 */
+-	if (!blk_map_iter_next(req, &iter->iter, &vec))
++	if (!blk_map_iter_next(req, &iter->iter))
+ 		return false;
+=20
+ 	if (IS_ENABLED(CONFIG_PCI_P2PDMA) && (req->cmd_flags & REQ_P2PDMA)) {
+ 		switch (pci_p2pdma_state(&iter->p2pdma, dma_dev,
+-					 phys_to_page(vec.paddr))) {
++					 phys_to_page(iter->iter.paddr))) {
+ 		case PCI_P2PDMA_MAP_BUS_ADDR:
+-			return blk_dma_map_bus(iter, &vec);
++			return blk_dma_map_bus(iter);
+ 		case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+ 			/*
+ 			 * P2P transfers through the host bridge are treated the
+@@ -184,9 +177,9 @@ bool blk_rq_dma_map_iter_start(struct request *req, s=
+truct device *dma_dev,
+ 	}
+=20
+ 	if (blk_can_dma_map_iova(req, dma_dev) &&
+-	    dma_iova_try_alloc(dma_dev, state, vec.paddr, total_len))
+-		return blk_rq_dma_map_iova(req, dma_dev, state, iter, &vec);
+-	return blk_dma_map_direct(req, dma_dev, iter, &vec);
++	    dma_iova_try_alloc(dma_dev, state, iter->iter.paddr, total_len))
++		return blk_rq_dma_map_iova(req, dma_dev, state, iter);
++	return blk_dma_map_direct(req, dma_dev, iter);
+ }
  EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_start);
 =20
- /**
+@@ -211,14 +204,12 @@ EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_start);
+ bool blk_rq_dma_map_iter_next(struct request *req, struct device *dma_de=
+v,
+ 		struct dma_iova_state *state, struct blk_dma_iter *iter)
+ {
+-	struct phys_vec vec;
+-
+-	if (!blk_map_iter_next(req, &iter->iter, &vec))
++	if (!blk_map_iter_next(req, &iter->iter))
+ 		return false;
+=20
+ 	if (iter->p2pdma.map =3D=3D PCI_P2PDMA_MAP_BUS_ADDR)
+-		return blk_dma_map_bus(iter, &vec);
+-	return blk_dma_map_direct(req, dma_dev, iter, &vec);
++		return blk_dma_map_bus(iter);
++	return blk_dma_map_direct(req, dma_dev, iter);
+ }
+ EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_next);
+=20
+@@ -246,20 +237,20 @@ blk_next_sg(struct scatterlist **sg, struct scatter=
+list *sglist)
+ int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
+ 		    struct scatterlist **last_sg)
+ {
+-	struct req_iterator iter =3D {
+-		.bio	=3D rq->bio,
++	struct bio *bio =3D rq->bio;
++	struct blk_map_iter iter =3D {
++		.bio	=3D bio,
+ 	};
+-	struct phys_vec vec;
+ 	int nsegs =3D 0;
+=20
+ 	/* the internal flush request may not have bio attached */
+-	if (iter.bio)
+-		iter.iter =3D iter.bio->bi_iter;
++	if (bio)
++		iter.iter =3D bio->bi_iter;
+=20
+-	while (blk_map_iter_next(rq, &iter, &vec)) {
++	while (blk_map_iter_next(rq, &iter)) {
+ 		*last_sg =3D blk_next_sg(last_sg, sglist);
+-		sg_set_page(*last_sg, phys_to_page(vec.paddr), vec.len,
+-				offset_in_page(vec.paddr));
++		sg_set_page(*last_sg, phys_to_page(iter.paddr), iter.len,
++				offset_in_page(iter.paddr));
+ 		nsegs++;
+ 	}
+=20
+diff --git a/include/linux/blk-mq-dma.h b/include/linux/blk-mq-dma.h
+index c26a01aeae006..1e5988afdb978 100644
+--- a/include/linux/blk-mq-dma.h
++++ b/include/linux/blk-mq-dma.h
+@@ -5,6 +5,13 @@
+ #include <linux/blk-mq.h>
+ #include <linux/pci-p2pdma.h>
+=20
++struct blk_map_iter {
++	phys_addr_t			paddr;
++	u32				len;
++	struct bvec_iter		iter;
++	struct bio			*bio;
++};
++
+ struct blk_dma_iter {
+ 	/* Output address range for this iteration */
+ 	dma_addr_t			addr;
+@@ -14,7 +21,7 @@ struct blk_dma_iter {
+ 	blk_status_t			status;
+=20
+ 	/* Internal to blk_rq_dma_map_iter_* */
+-	struct req_iterator		iter;
++	struct blk_map_iter		iter;
+ 	struct pci_p2pdma_map_state	p2pdma;
+ };
+=20
 --=20
 2.47.3
 
