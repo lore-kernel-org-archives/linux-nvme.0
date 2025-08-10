@@ -4,90 +4,175 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10887CA0EC0
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Aug 2025 17:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99CD5C87FDA
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Aug 2025 22:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eZMpLLPpWLfEcYOqjTqa6+eB/bqRZJ+BbYqsgnnPbkY=; b=kpuE5EbqjkB3YOhHaUwSh14d4p
-	SmcRe3Pbevr8AOALi2lHcn0DlUDbseyJ0PoDDQ2FGuFe3qJjt5+tlOMN4z9fJhUO0RMdrzv4ytaVS
-	X1prfjdffJ78yUvDQuSRaxW9T+kxWs3PFT359zpG61L3lZSy4bneaBfGTMdwjM9QpB3Q8v5TCN7RH
-	Mgd/1ZPD00bTFJyFOlj9dWbQI13y0O0kteZKo79IthRdHRnq/j0jqo2xCSPhj5m5GeJDwKBYUseRo
-	DL4bI/hfMr6mNw/A8LzhpTskOiczMzl/Vm+jd1NZ8/xI7u5MbK9WLcqOLUpWet+NXY2PqhzJ15XhB
-	vH/O+t0w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Twvo1MGwqVkIFIxri1sLWRAUlkj0wwBSKggdGXA8Hqc=; b=F+Svu7qglgbEZ5wdA/zw1xOZ4u
+	m2NCVm18dnmfCDM4PJ2IR2VBYE/XrbxaUocEe70bEHXsZu1CBIXQPvkox8B8NKVPU7tBUKP7vYN5X
+	LYL9gIUHgXArh/5zqreJhokNty+s7ypFcxg9nf66dZlzpCayJjVmRVipEBybZxGv+kBIijryikK/v
+	qvSnpLGyj69dGpzDBLhb5znD3oEj3aTWoBaeY1xFaKV0tYzQAal7tacdJKLtH5xJM1lyTOdPepWE8
+	EYjWE8/eEgmGhcHQliTgXzP7b4GtbPh0Q8E/6rwupIUrIuz51tQc98M8c2PZp0r14edAyku5/a+fS
+	hr04L/ZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ul9Ph-00000005oBn-23Pa;
-	Sun, 10 Aug 2025 17:00:53 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1ulEhP-000000067cu-1WJa;
+	Sun, 10 Aug 2025 22:39:31 +0000
+Received: from mail-bn8nam12on2062b.outbound.protection.outlook.com ([2a01:111:f403:2418::62b] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ukSBT-00000003UYx-0pwX
+	id 1ul9RG-00000005oli-3zNm
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Aug 2025 18:51:21 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250808185114euoutp0162c911292defe8bfee54f2309b1e8171~Z31I7WGpl0720707207euoutp01Y;
-	Fri,  8 Aug 2025 18:51:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250808185114euoutp0162c911292defe8bfee54f2309b1e8171~Z31I7WGpl0720707207euoutp01Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1754679074;
-	bh=eZMpLLPpWLfEcYOqjTqa6+eB/bqRZJ+BbYqsgnnPbkY=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=WGyqUFMDFBBsAtsI8xiD1Ayr7WYuZYdyBJMCoPCRGfrVxwAdMcl3GCV7Qwkcc4nI/
-	 gnDfUeRP8iiJIUgEStFM4TfVVnoq/LDogKUpBA2D+NmwrtJRryBOG1ru2ITf74oehS
-	 IO287BU42jFk8ZARXzvIDO/cRSfPjtUJVNlWylGo=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250808185112eucas1p285bfbeb3352a16df0b5c8f262fadbf2f~Z31Hzuzfc1555715557eucas1p2H;
-	Fri,  8 Aug 2025 18:51:12 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250808185109eusmtip1cf791168d581e5b5b824a27d8cdd9069~Z31ElK-rK1126511265eusmtip1F;
-	Fri,  8 Aug 2025 18:51:09 +0000 (GMT)
-Message-ID: <a154e058-c0e6-4208-9f52-57cec22eaf7d@samsung.com>
-Date: Fri, 8 Aug 2025 20:51:08 +0200
-MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v1 00/16] dma-mapping: migrate to physical address-based
- API
-To: Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leon@kernel.org>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>, Danilo
-	Krummrich <dakr@kernel.org>, iommu@lists.linux.dev, Jason Wang
-	<jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joerg Roedel
-	<joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, Juergen Gross
-	<jgross@suse.com>, kasan-dev@googlegroups.com, Keith Busch
-	<kbusch@kernel.org>, linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	Sun, 10 Aug 2025 17:02:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DMRLHMDJvs4Dw51AHB0C/toHvAnkUMx83nUrbZgwAmrohiQwvqiWrVeNpY4s6GPJEJdqWljBHaE7NqrWh/ZiHoITJP1fZjOXRaqJL/qBSVpMBk1Ac48svWQn/z9II72HeGeGTHn19uu9JD0iQLRXZArYc2aJ6GVmBLLDX2057tDIGCxubfcqHCF1AltFf5a3vefDk/dMnMhXAr3ho9EJIWAQ01IR2iBbKDs+03VLE+Mrp/6ZMbG7cKBhEJbQaal7oaK7YlKTv4hIp7pwJa652rG2FiMhCTFOEzNKIPMERNCRIudLFS4ENN+maWygCgJJEY6Tli29Rs6AI1roFOaTZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Twvo1MGwqVkIFIxri1sLWRAUlkj0wwBSKggdGXA8Hqc=;
+ b=FmwCDkrxqMDJZd9SiWxxD2PaihTYKmDPTPsBjrspsEubvJ/X7HGk01fJ1pNu6PMmxK8A2uOudtiDP07B2EQiras7H+qkbq9K1eSnIXi8q/hKz6YyhFwriY2G2K6mT5C8ArjZYDmASDZJFuujhWe5Sk8FuTFy/+DxafILE3Ydwz5aYRC4hr5k0N2vImv34UtId3GmFbWs0Lsy2ZxjKWTVR0v/D2kfIc4jHMCjKVGkoorT+XSuVBszau6gM21h4BDnEvJkfo4OPUapTEuUPV+zn5PnLzADrH+5vdDULeABEfmyPGzjiTPhwwe578rfvHd9RrgI1zNYVM7Pz59CKEn7/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Twvo1MGwqVkIFIxri1sLWRAUlkj0wwBSKggdGXA8Hqc=;
+ b=esaqSj8bYMgfNy9YNWn/bD1qrC05cydZsn7MILq3cKWDWf7UW21ZV/MdjiA3yUg7Z8S//X9XIeRzUUR1ZOxIOS7IyMGAwk3cvEvdGnAwmtdC0CSxfrU8QUGAr11dI+zdzB3KkdTpDXx3AzJhzrtdlmRc80FmykbCEDcCRq+fqiWrqecoX53zj5ybUIjxvT6VYSyIFTeocZtPZtZ5Gn2HhQtZRBDHDkcDnYyzHpDM2cWxamI66j94yQNtFWD3/mU8zRLIl7OkhwlN4f6VW0MFNUpLpUvFEPQLdPLBhwqLuwugFqcT5t9qe5St2YMzJ5mu503tXtV/ojasWagE/PoolA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by PH7PR12MB5596.namprd12.prod.outlook.com (2603:10b6:510:136::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.20; Sun, 10 Aug
+ 2025 17:02:04 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.018; Sun, 10 Aug 2025
+ 17:02:03 +0000
+Date: Sun, 10 Aug 2025 14:02:02 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Demi Marie Obenour <demiobenour@gmail.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
 	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org, Madhavan Srinivasan
-	<maddy@linux.ibm.com>, Masami Hiramatsu <mhiramat@kernel.org>, Michael
-	Ellerman <mpe@ellerman.id.au>, "Michael S. Tsirkin" <mst@redhat.com>, Miguel
-	Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	rust-for-linux@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>, Stefano
-	Stabellini <sstabellini@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250807141929.GN184255@nvidia.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250808185112eucas1p285bfbeb3352a16df0b5c8f262fadbf2f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250807141938eucas1p2319a0526b25db120b3c9aeb49f69cce1
-X-EPHeader: CA
-X-CMS-RootMailID: 20250807141938eucas1p2319a0526b25db120b3c9aeb49f69cce1
+Subject: Re: [PATCH v1 00/16] dma-mapping: migrate to physical address-based
+ API
+Message-ID: <20250810170202.GQ184255@nvidia.com>
 References: <cover.1754292567.git.leon@kernel.org>
-	<CGME20250807141938eucas1p2319a0526b25db120b3c9aeb49f69cce1@eucas1p2.samsung.com>
-	<20250807141929.GN184255@nvidia.com>
+ <CGME20250807141938eucas1p2319a0526b25db120b3c9aeb49f69cce1@eucas1p2.samsung.com>
+ <20250807141929.GN184255@nvidia.com>
+ <a154e058-c0e6-4208-9f52-57cec22eaf7d@samsung.com>
+ <20250809133454.GP184255@nvidia.com>
+ <6cbaa3a3-694e-4951-abb3-b88e6c9d6638@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6cbaa3a3-694e-4951-abb3-b88e6c9d6638@gmail.com>
+X-ClientProxiedBy: YT4PR01CA0163.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:ac::16) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB5596:EE_
+X-MS-Office365-Filtering-Correlation-Id: fec849dc-1ee6-4528-8aba-08ddd82fa0dd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tQ7R8t1K+FbIOGnc0aJmvxih0vp1cw9yA1yhHKE6+q0uUN5Qdl+Rlhg9ZSCb?=
+ =?us-ascii?Q?Qo2keWV9B6ntQxdesYFS4a/Sfse6j7UKnxNTGuCMChZSZDnbTNLbvJrRsZdE?=
+ =?us-ascii?Q?hepTFH1q7vgcNIvrmS5hlHUSAnNHxmSX42I/UI8xSHtaZo+PEr+Z/alXGQIK?=
+ =?us-ascii?Q?QuGj9uZxAdbSs0wtYKEL8Yc7ZCNUuj/bAmql5VrKwAfR5Z6kD1C4jVBZC162?=
+ =?us-ascii?Q?PFqQMQE3Alc9ZXx7EAm2SmE7sIErmtjpPYkAPmPHa8aA1hcP2uePrahBqS6y?=
+ =?us-ascii?Q?V6Cnrfc7Whlac65SqD5Nwe5cACms/vP8r5cHO0PKaDpcgaiHxlIULjkHh/ez?=
+ =?us-ascii?Q?GFrD/fJmov5ZoJFRPOk7lNOTe0wL1ObyiVHIgFPyjkZO3Kvf1tac5C6BxrhB?=
+ =?us-ascii?Q?j7w8meCgGYUxzYRvxLMb9it2QXTjZA+TRZ5kIIDNUTdiUfaqMFedwJOn62TM?=
+ =?us-ascii?Q?kmj4HXwtUTJtxqQGL4z267xtb4o4WN3+gIHxSbBVidGjzig8xJzS/sklhLGC?=
+ =?us-ascii?Q?D44SK7WyFpZv/SHDscq94Sw8zJ7QpuejWHEJSvdmiqB4Tc3/pHD/coPi75iH?=
+ =?us-ascii?Q?0UvyLysJ6zsIEQZAiEjLkg82dbGJIeerPLaLxgl44Ip90d5j5ktjouMjqVE7?=
+ =?us-ascii?Q?uvwO2/KfzlOJLif3Xp+iwsmJVFM+NNBuqT3XXMcBH3Lv13ZR3qpMebnJdNFC?=
+ =?us-ascii?Q?maBW8Hzj7QKbl92n9tAwxsvc50X0at/AHo6cdE/8Skv+R/4+mpJh6nSCCauk?=
+ =?us-ascii?Q?8TA0wPUNrpCnNFzzarYuV+ZKwdnA9y57zSWbvN9pf1jB3DXGVmR6OhBcIMdI?=
+ =?us-ascii?Q?GHNodaeA/Ct7PSfiNUkeycvt8c/ODVcvWSnbf7HQltjWV1dInOD7c5M3trC0?=
+ =?us-ascii?Q?V5K3ntgj/vQ0NzKRU01lALB5Sxj2NVPOxf1wp4aZcdqFnaGw7/l5RROVrDud?=
+ =?us-ascii?Q?oQhgIEpV1kL7VF2ZPLveObCaPoABBtQl5JWYw51OdW3nNmCmZmNZ7YFRYulk?=
+ =?us-ascii?Q?7QZF4LpzOJ5Fx0TDefciNhrtzaFt1CpCdPzpLZhxIkSuBerYa20Z7wZdo9/3?=
+ =?us-ascii?Q?3caSGtHtn7AAFhohOV9toc7r81df1eoLgXfS6V67zTj25uTZxYWjRDDTX7Cr?=
+ =?us-ascii?Q?FDwjuv4VjrJJysz/rjY94XyqwVcEZO4XffIjYCUsRwiNEESpVtc6he1qzVLJ?=
+ =?us-ascii?Q?cuslVADC1KFhHrDzIVb+VFGcv2wm8YZ3BTDRIfebpeiN98rCZv9IUTld7CIX?=
+ =?us-ascii?Q?jTFyYVxYjZQtyQzaSEXG2Uc6452KRKVyQeLkdVRADeWN1n8aAOvNVp4HAu9Q?=
+ =?us-ascii?Q?x+PQcSgUSknsyDgjJZ//mdhB8tlc6LnCatIi3+hfxcR6v8NGlp9d/laqnv2d?=
+ =?us-ascii?Q?1k3SMuRg5Dd6s7yyYdlfoyfU3iNc/Amrj+GVkacOr/7w/EmtHSCq7azvCzwY?=
+ =?us-ascii?Q?zo926LRBsL0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s4vtM7QfcEK3pnSfpgdvdzEG1xxhmc0TDHTkbowPQHBiG7Js+F0EgSX3gR6e?=
+ =?us-ascii?Q?LXKcn+Fk2D6v6uf0owIyEpBDKzCXNNkKlfOplXJD7I78uN251+l/4KRZbDV4?=
+ =?us-ascii?Q?VC3ekjb0ET/hs/ETa04VhoVGGTuOBs9EB0viANhV7QCclMJ2RP70oTo/ySnD?=
+ =?us-ascii?Q?UyzL16K+lCHpLy6KnA7WOk7myWGn2w872BSqBT6lbQWwAdUuFhCW/mIZxXkD?=
+ =?us-ascii?Q?aHAi7LPZ2GHY30eZbSWG2YyTgBXolbuQBDyWlrGxra0dpOBsRY5aIwXPph3u?=
+ =?us-ascii?Q?M3hcDrp7XBjkPyeaueEs2BUFfvmfZnQEg847Wlqbe2QWDM3RPoC1PGHnzKpt?=
+ =?us-ascii?Q?/E3B7B6fE4vShteFtFySv/mR5e78pydy6dlyc0rvOClY/K9Atr0QXJxws9Uh?=
+ =?us-ascii?Q?RBNxaEzBKZOGcfDPUqlZiPVB+a4WkR9tVQASiO072FkxLemZdiFGxoTZ5/XL?=
+ =?us-ascii?Q?3ep6s5SDm69wRPq/KpfGd4SyPxzwTSTJ65667r5peGCUmSdSrJegZOogwFCA?=
+ =?us-ascii?Q?bL3ey7+p5VpMa3+oGQd8wruIQlR8PX5Tmpd46QfVzhxfv5YTrXhunKbFzhZO?=
+ =?us-ascii?Q?+ORlxaSx8DuOkCSQ6JOlK+rpd5Zr/aT6bq2XO0A+xk+dr6h6mHTPIsUb0Ba7?=
+ =?us-ascii?Q?hASmrGZBJ+Yz9y9sekurvDHP+3+WT4gF6OYe80bzPjvXJxwrOcXAW0eVhlBl?=
+ =?us-ascii?Q?MIk7XstZuj8qPWjqzcYzkde4AbmRw6pnLCIX6lTKViKmk29dxQlN3DS0Nic4?=
+ =?us-ascii?Q?yBH9mRFgEtzGe+VbJQS4sCFtjNpg5Jo7Xok56YYIYIF3gg2tWCYlDBLIwtPS?=
+ =?us-ascii?Q?BjddUK9zHiYo5OwYs6ukon6HM/ubFasl3RJc9wpQ631Ar6fmei/9GxDhcaMS?=
+ =?us-ascii?Q?nZtXb+MQxbVt+DweGbOu8cClr2OjauWTWlEHhbfj7mAMGbv8R+EdbFfPlU1h?=
+ =?us-ascii?Q?SysghU6TUunBigsYnjs1XQ3/FwkJm32lyxevA2jmvSkLGZF9wvTGkQF13Maa?=
+ =?us-ascii?Q?HouAIwU8PPnf5xKke5aogbMEfyEOowGRxDKN9iR8nE/Rs4nIWlBMZwNuvPtu?=
+ =?us-ascii?Q?2ZPbElPvkuHRmtyBswzUf0JZ3FeR2CKnn4lpl3mLD4EoSCeuevnmWr/LYQHK?=
+ =?us-ascii?Q?nyg1SQTFKr7oxPt8sv/hm6l4x9UpgtrXocfyg4tpklBDinzsMkBd3ViazkLO?=
+ =?us-ascii?Q?XuZmQy9EfznyFUStLHpG7lr6V32jIzjQHbkQDvy6qBEcvdrOHfHjW6/AXic6?=
+ =?us-ascii?Q?cm6U3Vw2RHqiVeBduCcYFcdJ6H2i85FM2/k0SQpnIxDnY6Zcrsgas9pPWmJ3?=
+ =?us-ascii?Q?4FmsWwSQbIbgx4Z+G+hR4eeF9FESAofr1cX0+Dm7xknDbs8e0u3eB+gcsZoO?=
+ =?us-ascii?Q?0f6Pv/QeJvaf2BMhwTKL/TdhKKJ/Z09hIa9AM8dSY1WQJAMxmjNxK4mC/JAs?=
+ =?us-ascii?Q?vu26/xOtRQPcN3L7DWyUgCf50rVmAOjmZZJ8ZARKMHj3KkM5NlKwjqO6DV77?=
+ =?us-ascii?Q?9vdc1etf8ZozpPf3kvFM/NMKI/SpLZ6W16sJFD+ysAcbQNC/6sUsgSFmvEW9?=
+ =?us-ascii?Q?sPp/rkUVFUz3DGY6d4Q=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fec849dc-1ee6-4528-8aba-08ddd82fa0dd
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2025 17:02:03.3537
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ATcPNo+pa28eZCR8JftR0i9jgCDxmwcDt/C1JwNANqcLcmzpVdD0nFciBdhhfL3Z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5596
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250808_115119_822485_A0AFE9B6 
-X-CRM114-Status: GOOD (  34.16  )
-X-Mailman-Approved-At: Sun, 10 Aug 2025 10:00:51 -0700
+X-CRM114-CacheID: sfid-20250810_100230_996734_FC903B88 
+X-CRM114-Status: GOOD (  11.64  )
+X-Mailman-Approved-At: Sun, 10 Aug 2025 15:39:30 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,110 +187,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 07.08.2025 16:19, Jason Gunthorpe wrote:
-> On Mon, Aug 04, 2025 at 03:42:34PM +0300, Leon Romanovsky wrote:
->> Changelog:
->> v1:
->>   * Added new DMA_ATTR_MMIO attribute to indicate
->>     PCI_P2PDMA_MAP_THRU_HOST_BRIDGE path.
->>   * Rewrote dma_map_* functions to use thus new attribute
->> v0: https://lore.kernel.org/all/cover.1750854543.git.leon@kernel.org/
->> ------------------------------------------------------------------------
->>
->> This series refactors the DMA mapping to use physical addresses
->> as the primary interface instead of page+offset parameters. This
->> change aligns the DMA API with the underlying hardware reality where
->> DMA operations work with physical addresses, not page structures.
-> Lets elaborate this as Robin asked:
->
-> This series refactors the DMA mapping API to provide a phys_addr_t
-> based, and struct-page free, external API that can handle all the
-> mapping cases we want in modern systems:
->
->   - struct page based cachable DRAM
->   - struct page MEMORY_DEVICE_PCI_P2PDMA PCI peer to peer non-cachable MMIO
->   - struct page-less PCI peer to peer non-cachable MMIO
->   - struct page-less "resource" MMIO
->
-> Overall this gets much closer to Matthew's long term wish for
-> struct-pageless IO to cachable DRAM. The remaining primary work would
-> be in the mm side to allow kmap_local_pfn()/phys_to_virt() to work on
-> phys_addr_t without a struct page.
->
-> The general design is to remove struct page usage entirely from the
-> DMA API inner layers. For flows that need to have a KVA for the
-> physical address they can use kmap_local_pfn() or phys_to_virt(). This
-> isolates the struct page requirements to MM code only. Long term all
-> removals of struct page usage are supporting Matthew's memdesc
-> project which seeks to substantially transform how struct page works.
->
-> Instead make the DMA API internals work on phys_addr_t. Internally
-> there are still dedicated 'page' and 'resource' flows, except they are
-> now distinguished by a new DMA_ATTR_MMIO instead of by callchain. Both
-> flows use the same phys_addr_t.
->
-> When DMA_ATTR_MMIO is specified things work similar to the existing
-> 'resource' flow. kmap_local_pfn(), phys_to_virt(), phys_to_page(),
-> pfn_valid(), etc are never called on the phys_addr_t. This requires
-> rejecting any configuration that would need swiotlb. CPU cache
-> flushing is not required, and avoided, as ATTR_MMIO also indicates the
-> address have no cachable mappings. This effectively removes any
-> DMA API side requirement to have struct page when DMA_ATTR_MMIO is
-> used.
->
-> In the !DMA_ATTR_MMIO mode things work similarly to the 'page' flow,
-> except on the common path of no cache flush, no swiotlb it never
-> touches a struct page. When cache flushing or swiotlb copying
-> kmap_local_pfn()/phys_to_virt() are used to get a KVA for CPU
-> usage. This was already the case on the unmap side, now the map side
-> is symmetric.
->
-> Callers are adjusted to set DMA_ATTR_MMIO. Existing 'resource' users
-> must set it. The existing struct page based MEMORY_DEVICE_PCI_P2PDMA
-> path must also set it. This corrects some existing bugs where iommu
-> mappings for P2P MMIO were improperly marked IOMMU_CACHE.
->
-> Since ATTR_MMIO is made to work with all the existing DMA map entry
-> points, particularly dma_iova_link(), this finally allows a way to use
-> the new DMA API to map PCI P2P MMIO without creating struct page. The
-> VFIO DMABUF series demonstrates how this works. This is intended to
-> replace the incorrect driver use of dma_map_resource() on PCI BAR
-> addresses.
->
-> This series does the core code and modern flows. A followup series
-> will give the same treatement to the legacy dma_ops implementation.
+On Sat, Aug 09, 2025 at 12:53:09PM -0400, Demi Marie Obenour wrote:
+> > With a long term goal that struct page only exists for legacy code,
+> > and is maybe entirely compiled out of modern server kernels.
+> 
+> Why just server kernels?  I suspect client systems actually run
+> newer kernels than servers do.
 
-Thanks for the elaborate description, that's something that was missing 
-in the previous attempt. I read again all the previous discussion and 
-this explanation and there are still two things that imho needs more 
-clarification.
+I would guess this is because of the people who are interested in this
+work. Frankly there isn't much benifit for small memory client
+systems. Modern servers have > 1TB of memory and struct page really
+hurts here.
 
+The flip side of this is the work is enormous and I think there is a
+general idea that the smaller set of server related drivers and
+subsystems will get ready well before the wider universe of stuff a
+client or android might use.
 
-First - basing the API on the phys_addr_t.
+It is not that more can't happen it just ultimately depends on
+interest and time.
 
-Page based API had the advantage that it was really hard to abuse it and 
-call for something that is not 'a normal RAM'. I initially though that 
-phys_addr_t based API will somehow simplify arch specific 
-implementation, as some of them indeed rely on phys_addr_t internally, 
-but I missed other things pointed by Robin. Do we have here any 
-alternative?
+Many modern servers use quite new kernels if you ignore the enterprise
+distros :\
 
-
-Second - making dma_map_phys() a single API to handle all cases.
-
-Do we really need such single function to handle all cases? To handle 
-P2P case, the caller already must pass DMA_ATTR_MMIO, so it must somehow 
-keep such information internally. Cannot it just call existing 
-dma_map_resource(), so there will be clear distinction between these 2 
-cases (DMA to RAM and P2P DMA)? Do we need additional check for 
-DMA_ATTR_MMIO for every typical DMA user? I know that branching is 
-cheap, but this will probably increase code size for most of the typical 
-users for no reason.
-
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Jason
 
