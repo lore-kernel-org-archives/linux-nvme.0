@@ -4,78 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B37CC87FD2
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Aug 2025 13:58:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15C29C87FDB
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Aug 2025 14:01:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ab/nfPMw843eKZIzh1MEFIjYGxeCe4JAvrb6z0G3ci8=; b=O0tlUEq8LbTmsYljd7JngyWd6Y
-	hBpQxH6Z9Af5ipq9Ju3tGnu8qUWPGfwhojXrgPiJ2UWpolRNsbZcb73RL0UjEZUUgojBtChmCRdPv
-	SscCw+upVJLlUHVURuWC6WdjJGaWhzO08kV7SNCFob0wYe4/DczUAN3tUefDKtWczIoMnDuXHulpD
-	h3vsj+9jRGkuZT5bT7bdPNUyKxJjX1bycBeVMrSTZzTTOPIBoAKfHTfZezrHCBs5HsupQpNj3O3nY
-	A3vc0Mh6jcAbqmbP9lTXlWBcWJYwi4kzHqBooX/fQ9HnZz7EBqd6Fqpaxc28byStrXfWsuvRzlri5
-	erNpxKiw==;
+	bh=G+4DQ9gFfqWg9bYh04jDrMGb2bGde9Og3BcDQZ7GXzI=; b=dWXXXvxQ0zxtRzAqA4VIv6QrPn
+	qWt8L0giadG7f6VjZHrp7oyRlAa0m/f1H/9J0OaX6zpP3ssAhFagFSW6+QsFlN/1u2wDn3U5f65yS
+	H+IkIcMGLoDGP0ay0nniVCAKDPi5YlYYiFAdX4YbuTBs2+pzugjXlaaFzfYynWzCmDil9LBhGtuFq
+	vzQkt01mbG9hufly8Q89uSLQkEjhjj2A8RcjyVfM7FSGdOn/CNeCjis1dWOfkd5a2vmrie12/jeNW
+	Vcjnv3YiFbcNfDRBCS1oYDwITGRyhRzhIMm2e0QTvs5o68kcd9L8YYNAy0u58Zlwso6WezZpli+va
+	cUOtRQQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulT2W-00000007uie-3Hj0;
-	Mon, 11 Aug 2025 13:58:16 +0000
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+	id 1ulT57-00000007vTh-3jrI;
+	Mon, 11 Aug 2025 14:00:57 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulSvu-00000007svq-2OT8;
-	Mon, 11 Aug 2025 13:51:27 +0000
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-76bde897110so3440931b3a.3;
-        Mon, 11 Aug 2025 06:51:26 -0700 (PDT)
+	id 1ulSw0-00000007sx9-0K1x;
+	Mon, 11 Aug 2025 13:51:33 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-76bd9d723bfso3747983b3a.1;
+        Mon, 11 Aug 2025 06:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754920286; x=1755525086; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1754920291; x=1755525091; darn=lists.infradead.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ab/nfPMw843eKZIzh1MEFIjYGxeCe4JAvrb6z0G3ci8=;
-        b=fCskhXGKvhWjgql4W51LX++Lcm7DjPIuIInJRTYcUkZt0Bjemc5KBtIjQFX25lmU8N
-         mTcnVo4+wzow1sX61Nda8VXs/n2XoJpjW/5C3UTUJ5m+djpIxTtFnAYbbaVRmc0xL133
-         Ebs6/XM4M7EUPWDjYZkw48Jf7O6n6wD53N/bt8X6cpJFUDeNHy5RBBGVm1CDpm4VcSy/
-         9NTnMCzAXHfZz4CRbqf6SqaCSseDIY9WUIzg9T4ezWInjiLIwzHRqhqqBuZvoTiAAA52
-         Vt9KiydILYTIIink5ywkiR+An06vyQytYjTJYjiOyIw22i9zaV3KSIyR8+I1Iu0YG13e
-         zO/Q==
+        bh=G+4DQ9gFfqWg9bYh04jDrMGb2bGde9Og3BcDQZ7GXzI=;
+        b=l0eiHfKu1hx+mcJMpEtNcJrdR6dijEgsW4Y+MAIIgcy55cjZhJUw0lPTwM1povqzRv
+         R1Uo3/dwwJt1PDzua4xpD7h2JIkkk16sMQu1zJh44CE9nfgvh/Epwfqa9wAe9/dVkmYO
+         VEMuZqRUK0zR/eatyzywfyRajLFEBryiBK+xmIUzZ3F8HQjPe0RbUeRIxjfUFUTe15Ez
+         56Uhv6/W0Q4yAv3Oe0YgYLtCTfUy5U8VQfcHyHtb1OfkFOHy810lLfDv11S/QveuRaE/
+         zFNCqPMm/V9LVRS/VFgrNsZ+XYZ9Bk4iH1iZepyHnhLRjoz+D7bN8KnySuRtw6OTnyll
+         F8XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754920286; x=1755525086;
+        d=1e100.net; s=20230601; t=1754920291; x=1755525091;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ab/nfPMw843eKZIzh1MEFIjYGxeCe4JAvrb6z0G3ci8=;
-        b=Z1Mmv92KPS21ohvS+P0iGqtY7+bIqF/3HHc5pP+S/VOBdVs5vvCjHFigaPat1mD6LK
-         bw/Ndgx+I9a1Oq2boq8tfdOMZdeemJf5CVUx5fW7RErm6XMNWDnD7ly5AskRq0vJqiak
-         50vS3Fk+OeMXJ9D1vO2xvjtvvX2/C0vcsfymiEh/Ai0PpE95Bc+Yow+qEE1Mutypbqr/
-         amuuek97kXBA8ULedRh+AEB9Sie6rli/Uipir/nE4lzLFB/kGEt6yK5iSS9oqD75eZ0b
-         /XB5i28gFZZdhMHVsS3itMWS8i7T25dkM9YO+gAX97jtdxe5JJX5IipSDzRMZ/jsfZu6
-         Qdgg==
-X-Forwarded-Encrypted: i=1; AJvYcCXOhAh0zeEeyW2CM+DvrxouT07PJEX3uocUiRhl0lmnqbXLVhffthtISwxHL2w0tG1OUe8ESh00Gg93Pg==@lists.infradead.org, AJvYcCXlXvLD69qqmr3oq4D4om9Fvw2EwsnUyu07l4KkEb0NrevWokJwpfGfqBu3FmJauMmR61jD1CoiyDGFlAzPRr1Z@lists.infradead.org
-X-Gm-Message-State: AOJu0YwHPpn3VXe3g7XHdCLiVr9UP15Xa8lAF/kpvyi5v9pu9p+iBOTo
-	cChITIPqmWWStJHwHF4baLieG6ioU/DI+bJzPcmTFHv4kmR6rvC9FFr+
-X-Gm-Gg: ASbGncuYoX/TJuCTogjiUj+Sjw8pKpSyh9vKRCDR6IW9QLgv1AevOLkPLh3LQIBVmzZ
-	wXBALaOpUpmTBSeomVUXrf1NOW6Pfq9Ke4J4/HlL/ohqUWVwK32gGXwmPissPBUmnVvcMxGieFt
-	Q2e6RCPLGrtAoHJWaziKTIvPu35G/r5OphxJULEJQZxXv9C9IsaShHObqaqVpbH2Ecb/aD0IEr0
-	+9XxDwQjksLqmRFXtqthxZOZvb85R3bY3XFRNjoTZZzfWJe6PD7/8OY1S+03yi6Mx2QWsYtVKY7
-	/mS7Of4yRwpMsGliEIUCUGrsCdlCJj5Ri/VpZ4ud2JaeBwRdVCF53iUScQY0DXryKPJjEVVlPvz
-	2Mvd0IN7GxYJqwacld2CWpscCxDbj5BJQFIpB3PXftlT4MJM=
-X-Google-Smtp-Source: AGHT+IFww40/ClkPYxA7P/SDXLTgj031HhNn9dtfaoB7f1h4Mue1IW6LCE6otocYEXgs/2Rx3IFTPA==
-X-Received: by 2002:a05:6a20:939d:b0:240:2473:57c5 with SMTP id adf61e73a8af0-24055160423mr20825244637.26.1754920285410;
-        Mon, 11 Aug 2025 06:51:25 -0700 (PDT)
+        bh=G+4DQ9gFfqWg9bYh04jDrMGb2bGde9Og3BcDQZ7GXzI=;
+        b=k0cjAgRYVkpZclR2oK5x0DP6Omn5jqvRNnnv9K3iMBa8Ma7M3gw1Ckb4CDozZsRkyU
+         egoutTI4ZngeEZpkMi1PaJ8DehmcS40S9IdOjzxUuZb5RhspFfau+6E9BTYrXly0lwkV
+         iJ6PtFSnSzSZM7SDhMlctnFlmLma3df2V2UeaL5hhhXbcxjEUCaTR4zjGI46IwEsLmSv
+         WW6h55O/3K+3z9vkbxN0EO/KKVw/W555FwZxVHoobNXjJEc43O3gsfAHG3Ve1tjAkTcA
+         mJLCYAF0PtgZ9UwUoTRT94ihTwlbaIuiw83b7h4Kb54QERXFjfb8HkBZbjvg9+RLpmCZ
+         QvKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGIHNjkJQvL2AXtB8UgKXV3ranOWO3CGVRNSSH8iMtbWIZWdiLNJtrT0/1GOypYpGW/ziaaguwB8t/vw==@lists.infradead.org, AJvYcCUwabeZyQ4y/zkysvaTsjZ4t4muKiv47vL8vkGNnWjNpu2zRcqUZ23ZVQ1kD6iq1Exz9LaNwZPKmFmrxRkS11Kg@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyy+++Qxdf2zcsoEob0/Sgf18aWZE5H6nNffxgVVS2UOLADsZns
+	c+pSeEt67Gya1LfLstTgbvul4pEMzat8DN/27LVshEgxChHZ8IO2JWAo
+X-Gm-Gg: ASbGnctyuRgaa/GXN+YETDHOiUR29K+ixhE823qvgipN1YZRljIey5k4/El0v1mwUNS
+	xvdrpo4dOTt2oLlPs4c1GWjwSIO1B/HwvKlpYOZ15aGSleGnJOCLhoyAxhwR++L/rc4ryhUJ9AD
+	+E5KjlNxPGPaGnuw5O+x9EomJEyXRdX2wyuQPY2drmeyyI/lWhSbMJUm9cFBpGsljip4qymTtoH
+	6zx2+HeLvd41CrOe+AZRzhuTAbUJ/7lgSFqOFSHuaJi5EN4zLDKCF5TQcKEmuLlWBR1W8SLpydl
+	9w50I88lWkNvafXCOgHTzuROk+PzdOnxNRXBRcZVSkLqOGhPvg4oeZjCjqelaEC3Ht/BOpkMj3B
+	EZLpTn2b3ei+lu5R9JRHDnR06t7U71ZOhhWZ9nfuYTESo2q/9i5GsmoEvzA==
+X-Google-Smtp-Source: AGHT+IHza1fW4UR+ZAa981Mk//ah0psUmGmnKePPNhzQLBjiW4IikcyFLH89QSp4rbQ69Ase7x7TcA==
+X-Received: by 2002:a05:6a20:7f8a:b0:240:43e9:6cb7 with SMTP id adf61e73a8af0-240551fb001mr18843076637.45.1754920291256;
+        Mon, 11 Aug 2025 06:51:31 -0700 (PDT)
 Received: from [127.0.1.1] (061092221177.ctinets.com. [61.92.221.177])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-b422b7b2700sm23504993a12.15.2025.08.11.06.51.19
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-b422b7b2700sm23504993a12.15.2025.08.11.06.51.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 06:51:24 -0700 (PDT)
+        Mon, 11 Aug 2025 06:51:30 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-Date: Mon, 11 Aug 2025 21:50:53 +0800
-Subject: [PATCH 1/9] dt-bindings: mailbox: apple,mailbox: Add ASC mailboxes
- on Apple A11 and T2
+Date: Mon, 11 Aug 2025 21:50:54 +0800
+Subject: [PATCH 2/9] soc: apple: mailbox: Add Apple A11 and T2 mailbox
+ support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-t8015-nvme-v1-1-ef9c200e74a7@gmail.com>
+Message-Id: <20250811-t8015-nvme-v1-2-ef9c200e74a7@gmail.com>
 References: <20250811-t8015-nvme-v1-0-ef9c200e74a7@gmail.com>
 In-Reply-To: <20250811-t8015-nvme-v1-0-ef9c200e74a7@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -92,25 +92,25 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  iommu@lists.linux.dev, linux-nvme@lists.infradead.org, 
  Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1317; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=vsY2LxZcawhqMw/s5IJH3Qa/QDQv7w3VsaD857GZcqg=;
- b=kA0DAAoBAcoIt6bFCCQByyZiAGiZ9VCg1SNuFuRtQYHU7Ko65u2SjlDXr67OxKAIlhnOA/x9P
- YkCMwQAAQoAHRYhBEtSeHhcl6z3nDxogwHKCLemxQgkBQJomfVQAAoJEAHKCLemxQgkVBMP/3AD
- XG5579GsnDv3PE0P38gtqmvfnHLEICpLLgy06SxvD9gt89Wf72i8W6pLjr2QrSMjg1oHxD0i8UR
- jjfw2UXKN/IgSe4jLH3loLBm1aLil8sAF7P30v6N7OEuleofgtcDs4sH+Xb1vTuKOVUllFKYXcF
- l+zW7wJYGcXoLu78dlryBBAx53zZ1IDjFh6UoExBhCN8Meikn85tIlyDM1XKYU2fu/AeUhCGBjw
- +iNQC7imeTw9GsWyQ8E5sftOFV9XkcDJnOA14AS3in7IJD8DxXCWDtXwPDwUXBVBGytTaEGece0
- Ogzhyp+d7EE+GEPBNGbuhr35SAozALWljqHhmf61mILsdozH2ANgks5tVF2aD1qEjGFtQFkjWry
- ZDWoAHASPCJ5T+sAV+jp56pR/1tOU/xnQpJ4+ELmnn8MMAxS5bDd7eKUMXkQHLze8tvnwFiF3vn
- XqQ/B+RaqT7KM/Lf2mGO5JanAykB50OuQX6ccnpeAv7VU15GHKbbAXXcssCnV8HQp43WwjDvkKu
- etjdjXDbL38FRe8qM8xYloXU14WYw0svs1nYorwUEssHYemtpIJ7eC1JxyrlXOeRWP1a2CPZBYc
- 7/RUGQYSK9M01WXO1lr1Fbl15K3rfRH8FvCPdvTwknAJ+9N2YauKyzdeW6ASol54Dnb7R1zDkG/
- /DWz0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1891; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=rwyfTWY33eH9/JkH2R41w9Wvs6PBkQcZY8fhDT+IUjE=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBomfVQudOR+VSigIgYYBjen/pSrND3fNHu5gx3t
+ v0Alm1eGAyJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaJn1UAAKCRABygi3psUI
+ JKYXEACymLu/6TH8J0+/T0V91LKlcavy6HnXo0LFirBif/9o5t1dfJ5yjxGlBO6Z1Z/Vgcmckmy
+ icO9lENZrFE3D78uNj+Qwk6QbNnKKWPg/dlUKoRj5bKFmJWvnvQ4aLkXVzArxKPqgmNasnh86XB
+ 9iP+k3huSCfnNor5IAFCeHwSbBnpH4V3pW8CEL7glJDGRJwyK1xOjJFk09RBev/ej/MWNRfQCbw
+ oTGGGzhVBoZ36hfc/lTrx8lOytQC01PyEnmN82HS1ASgVCz42/VuTgjm+NNX/ghzm6PuPv6IA61
+ spstvz84jxbigjK2czdXEIQdACdyIXk9g0BcRh7nEe1A1bQkRE1EJ0vH8ND9I40mf6qZjBMmebg
+ NUMEZh+6qXpFejhVyGXAFbyH7CQQyje5S7qkKXBwu9Yl9YGRVQ3by1B66o5AQMoOGZ1c9cV6AD5
+ z89XG5JXa7l/oO9te7Cs75Wlm2kC1qq1jT9lrWFh3XRcLFzsGJTl97nr6auM3KAoxmJ3zCCFMmm
+ FHDWC8QUDeJxCAKsQedw13eiUcGkMaBhJHb5ByQe4HwF8ErM6kMjXDLMVRQ3YWYT0VBg0G9ZBpa
+ bw4YB1AEURxDCOFjyUFoutlTMrBgTbXqE6njnA0T4JOW5AXp2QInJNBrUTC9uEn9ws9+bWi8aDe
+ 8FayRVsJAt+R/Zg==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250811_065126_614914_F702ECA0 
-X-CRM114-Status: GOOD (  12.64  )
+X-CRM114-CacheID: sfid-20250811_065132_125070_97AB897A 
+X-CRM114-Status: GOOD (  13.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,33 +125,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add bindings for ASC mailboxes as found on Apple A11 and T2 SoCs. These
-mailboxes are used for coprocessors including Secure Enclave Processor
-(SEP), the NVMe coprocessor and the system management controller.
+Add ASC mailbox support for Apple A11 and T2 SoCs, which is used for
+coprocessors in the system.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/soc/apple/mailbox.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml b/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
-index 474c1a0f99f34777e1bed7fc0a34f89320a93b7c..bdf58f03b84833ecd93a34b91f6262d1706a002d 100644
---- a/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
-+++ b/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
-@@ -33,6 +33,13 @@ properties:
-               - apple,t6000-asc-mailbox
-           - const: apple,asc-mailbox-v4
+diff --git a/drivers/soc/apple/mailbox.c b/drivers/soc/apple/mailbox.c
+index 49a0955e82d6cf5eef83e5f63ba8d31194c65324..8f29108dc69ac964236121d439e86c923a441265 100644
+--- a/drivers/soc/apple/mailbox.c
++++ b/drivers/soc/apple/mailbox.c
+@@ -47,6 +47,9 @@
+ #define APPLE_ASC_MBOX_I2A_RECV0 0x830
+ #define APPLE_ASC_MBOX_I2A_RECV1 0x838
  
-+      - description:
-+          An older ASC mailbox interface found on T2 and A11 that is also
-+          used for the NVMe coprocessor and the system management
-+          controller.
-+        items:
-+          - const: apple,t8015-asc-mailbox
++#define APPLE_T8015_MBOX_A2I_CONTROL	0x108
++#define APPLE_T8015_MBOX_I2A_CONTROL	0x10c
 +
-       - description:
-           M3 mailboxes are an older variant with a slightly different MMIO
-           interface still found on the M1. It is used for the Thunderbolt
+ #define APPLE_M3_MBOX_CONTROL_FULL BIT(16)
+ #define APPLE_M3_MBOX_CONTROL_EMPTY BIT(17)
+ 
+@@ -382,6 +385,21 @@ static int apple_mbox_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static const struct apple_mbox_hw apple_mbox_t8015_hw = {
++	.control_full = APPLE_ASC_MBOX_CONTROL_FULL,
++	.control_empty = APPLE_ASC_MBOX_CONTROL_EMPTY,
++
++	.a2i_control = APPLE_T8015_MBOX_A2I_CONTROL,
++	.a2i_send0 = APPLE_ASC_MBOX_A2I_SEND0,
++	.a2i_send1 = APPLE_ASC_MBOX_A2I_SEND1,
++
++	.i2a_control = APPLE_T8015_MBOX_I2A_CONTROL,
++	.i2a_recv0 = APPLE_ASC_MBOX_I2A_RECV0,
++	.i2a_recv1 = APPLE_ASC_MBOX_I2A_RECV1,
++
++	.has_irq_controls = false,
++};
++
+ static const struct apple_mbox_hw apple_mbox_asc_hw = {
+ 	.control_full = APPLE_ASC_MBOX_CONTROL_FULL,
+ 	.control_empty = APPLE_ASC_MBOX_CONTROL_EMPTY,
+@@ -418,6 +436,7 @@ static const struct apple_mbox_hw apple_mbox_m3_hw = {
+ 
+ static const struct of_device_id apple_mbox_of_match[] = {
+ 	{ .compatible = "apple,asc-mailbox-v4", .data = &apple_mbox_asc_hw },
++	{ .compatible = "apple,t8015-asc-mailbox", .data = &apple_mbox_t8015_hw },
+ 	{ .compatible = "apple,m3-mailbox-v2", .data = &apple_mbox_m3_hw },
+ 	{}
+ };
 
 -- 
 2.50.1
