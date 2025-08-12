@@ -4,48 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9858FCA0EC4
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 19:24:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FC08CA0EDB
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 20:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=ECjLPszwbmpJBNDV0TwBcZrPCH
-	1HUTMvcLhMOj+F/xBgegEdykB+pxkuj1hOhBAiDZ4i3oTOl3XoPodzJ3VXpXrzuJohev8dGXHagMJ
-	0Fuqtv1196HdJLWo5BEfmQz7DI7gW2ub/cXui15TRKtMyfoj6X/cuG/A8imdT0BAG2UE8nAnrR0nO
-	lHzIm6/lNnVtGegFGjzW2rk2ijgeZ2KNNuB9fVZvE8grLZvuCeMQSmREFDS/AvTLZASv/GFnw2QEQ
-	I6r/5ENqIllEZC4UZ99EXg+8zaKfieFXrIGNq25hqPuIi0gP2x17s+xsl1a2pLERSsXkmoemjQE8B
-	BkqvrjSA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=fORTb6yDxQvAhZISkvp/PulU0f
+	RXc6NTv+HHH6W3FJa37PyGRyxoimu66JVwLtSvjtobWV27pT2+WqNdtcCiAygk+zbCHs3zt+w+su5
+	rQP/daxTdtd+9mWRD8N5UpoN1WBxYEwVnF5KgYxELahEZnD/KuHvf9/Lh6wMCdxI4TvjbxfKRTGI1
+	NETGdRxaJVzTIgs+S+fkGH+N9nzFTuCFPUdfSQSwE88AlkixqEPZNe7Krvrr3wzMFEtEkuWJjmpAN
+	88x3WTSbXigkZU1DbZsui438A5GWjgIVeddLIQTzN52nSBUtEOr9i9aKiAYU0eOHlvqrQM8X/4Sir
+	SR3kZtcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulubd-0000000BoSG-2mxh;
-	Tue, 12 Aug 2025 19:24:21 +0000
+	id 1ulvgM-0000000Bwn2-2af5;
+	Tue, 12 Aug 2025 20:33:18 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulrnt-0000000BP33-2943
+	id 1ulro1-0000000BP5q-0BIl
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Aug 2025 16:24:51 +0000
+	Tue, 12 Aug 2025 16:24:58 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 44C1A68BEB; Tue, 12 Aug 2025 18:24:32 +0200 (CEST)
-Date: Tue, 12 Aug 2025 18:24:31 +0200
+	id D2BEF68BFE; Tue, 12 Aug 2025 18:24:52 +0200 (CEST)
+Date: Tue, 12 Aug 2025 18:24:52 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@meta.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
 	axboe@kernel.dk, joshi.k@samsung.com,
 	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv6 1/8] blk-mq-dma: create blk_map_iter type
-Message-ID: <20250812162431.GA18150@lst.de>
-References: <20250812135210.4172178-1-kbusch@meta.com> <20250812135210.4172178-2-kbusch@meta.com>
+Subject: Re: [PATCHv6 2/8] blk-mq-dma: provide the bio_vec array being
+ iterated
+Message-ID: <20250812162452.GB18150@lst.de>
+References: <20250812135210.4172178-1-kbusch@meta.com> <20250812135210.4172178-3-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250812135210.4172178-2-kbusch@meta.com>
+In-Reply-To: <20250812135210.4172178-3-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250812_092449_684542_1B44A44C 
-X-CRM114-Status: UNSURE (   8.60  )
+X-CRM114-CacheID: sfid-20250812_092457_216414_4C17F7AC 
+X-CRM114-Status: UNSURE (   8.63  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
