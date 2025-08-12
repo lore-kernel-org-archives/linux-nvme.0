@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 921C3CA0EDC
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 17:34:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 587D6CA0EC4
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 17:34:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tn8Ucr7zEiT68IISk1J04nIX8owtsTK+AIFADmbQl7Y=; b=A1bUAbhgra4JKTZwVUq21McmpW
-	Sl24tOA1cBE72NJot0al2TMMBF+chLJ+HekvOp3bXXXUQdArS8n9mkaXOutcN/5DcXsit57ojZaFM
-	Abo3MaIGX+AY6e3ftBdrFqQ6M5pca8cw828i94c5cTA3HKDLpMCgzWX7vXx4BHhxqWJR7lgLjHdgv
-	q2gCgMfPlg43nvJ9/79wLqovHn9V+tZA4GBoKkXCi9I+hYqKQOKlWsVLIQJp7PHUBDQKUSw09Xcvi
-	ajtW0CP3KxW/3VdCHtwCxT3xUoEr8hMHpMTRhqWBIJSgQ7NZnK4t8yimUZizggXinyDEowXN68RJx
-	QTJqUSCA==;
+	bh=IOQmlZK1rNrnPUYuJ9SiRnr7Fw55KipOBhTUFmsc2Fw=; b=P4eyJl0ssZ4kwxK3a9FfVbcAzw
+	xwe1363zb+Byri7EVkN6uS0g3ZCHqUbViwe0pCidbAJzeAgIwJA/fArFrNEh263+pYFkbFJS24bAt
+	mbRukKVZeyOd9FxqOMDhorHG9gtL7zVYYCP/nesydBEkflzE4m5bP9wxVkn+wvRD/E0XWwHuXsmSo
+	+kUpttoioeDcpnVFT6CLCfbZhFgZz4JmiOlhglQs2D3GLAKgcz0dYHLcAfcyMg06zt+lBpCGh8+9G
+	ZmasKuANYHf04BvFjF4txI8zDwm7Nrv3RzhamZRrBO9T1WcB1h4oZaP5xKnPwORAQ7TgWmhGTsE+D
+	7REoRrMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulsss-0000000BbRJ-3Kx1;
-	Tue, 12 Aug 2025 17:34:02 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1ulsst-0000000BbRl-1yC0;
+	Tue, 12 Aug 2025 17:34:03 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulpRb-0000000Ayvy-1Vpz
+	id 1ulpRc-0000000AywD-2fSb
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Aug 2025 13:53:40 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CDpi5e006825
-	for <linux-nvme@lists.infradead.org>; Tue, 12 Aug 2025 06:53:38 -0700
+	Tue, 12 Aug 2025 13:53:41 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CDnqqb012173
+	for <linux-nvme@lists.infradead.org>; Tue, 12 Aug 2025 06:53:40 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=tn8Ucr7zEiT68IISk1J04nIX8owtsTK+AIFADmbQl7Y=; b=K1lBYG9SX/hC
-	5BIwcmHicKZTn/DgxwqCEYgy3mqeA0Cxpc0Jc2U/ECuEmTDbufYwbZoZmK2IM+RD
-	D4uTGUwaTlKuVckPLVQYkqfnVlycqCQG6msktizW/5wX1DEyCl1jfBhvC0opuaFh
-	vbGLTbYzsI19zKBj1yRpMeIFLByikuP2LX+Jp1R0haQg5YMG7N1JzNTz8bxycRs+
-	74ctHBPyX1lAqj0wYagwoIGD0XUhwQN9kU9zyqBxgdK4PFJiPx3PD9wCbpZKf6WG
-	urg6zJDoJKLef1SN3jivJEaOVJRH6xXY7kSry4Su26ivM2C9e/g3QvlaK1CWXp8C
-	gJ01UEgHVQ==
+	 bh=IOQmlZK1rNrnPUYuJ9SiRnr7Fw55KipOBhTUFmsc2Fw=; b=LnL4rTb7Gn6/
+	mrtAA5G3SuAXpjshyN8m/MIph86QSNMuqYgztUoASfo6h1uM4YtRjGMqu8kuVWeZ
+	ytBa5jEmJxS0Z6boX8EKfmB45PzPn5d7kfzJ8gttn7y16yROhq5X+/RibY7AS8xb
+	4/XqdrgGKxn6hoXAaqmCuRO5xMMQZqKl0K5OSrn4ex2F6rrsfAd+dzQMGkWdBp/Q
+	3BG5kLU9BlE2WwH09C5qxJK2heaA0pfkAyseEJ6BXwf0wp0xOx/jMKSJWwdkwmXk
+	HVop65KI1v2kC9cG27v5885qeS9EFgDbpLM1UE+FgFMvOjxLTsJwQWlpG2vc0zlp
+	HsumfE07tw==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48g120b0cg-1
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48g5s6rrwh-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 12 Aug 2025 06:53:37 -0700 (PDT)
-Received: from twshared52133.15.frc2.facebook.com (2620:10d:c0a8:1b::8e35) by
+	for <linux-nvme@lists.infradead.org>; Tue, 12 Aug 2025 06:53:39 -0700 (PDT)
+Received: from twshared52133.15.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
  mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.2.2562.17; Tue, 12 Aug 2025 13:52:18 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id D5D728D407F; Tue, 12 Aug 2025 06:52:11 -0700 (PDT)
+	id E880E8D4082; Tue, 12 Aug 2025 06:52:11 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
 CC: <hch@lst.de>, <axboe@kernel.dk>, <joshi.k@samsung.com>,
         Keith Busch
 	<kbusch@kernel.org>
-Subject: [PATCHv6 6/8] blk-mq-dma: add support for mapping integrity metadata
-Date: Tue, 12 Aug 2025 06:52:08 -0700
-Message-ID: <20250812135210.4172178-7-kbusch@meta.com>
+Subject: [PATCHv6 8/8] nvme-pci: convert metadata mapping to dma iter
+Date: Tue, 12 Aug 2025 06:52:10 -0700
+Message-ID: <20250812135210.4172178-9-kbusch@meta.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250812135210.4172178-1-kbusch@meta.com>
 References: <20250812135210.4172178-1-kbusch@meta.com>
@@ -65,18 +65,18 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=KJdaDEFo c=1 sm=1 tr=0 ts=689b4761 cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=kBB9r6RryUnlB4RlzuIA:9
-X-Proofpoint-ORIG-GUID: VYbzKk4Ha4jxqm8ER5iJA6Sergc83No1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDEzNCBTYWx0ZWRfX9wRCV0Y0yr+8 KaXrD6x0oS5onJ8G8cm0N+AYNUdPxIvv3GvkUAVG8phd/1wNKw39/Mjys3kZsrxbJjUSmdDVfWK PySE/7VSRPLmw2TJ3uqyecBPGjSdppEoazndwDUMg/5pEVbD0+6uLynnHbAKP/Vxhklu/Ukjo3n
- eO7ctJg6IS3QEicU9ly8mVS7uBaeIvzKjAEI6gqrz2ngHdG8Mfz81ADdK58+RHPd67onHrFQRe6 pRDa9RLJUCvsVvAL6X7HvwRz+aUI8sjpSYlTOMHnDgRGAFHLioHouXPNteqmMGAO0OpgcoK/A5+ VVQTeL7k1LqEnEjzJy2Lc9tt6sHwALBxYA0c1gMMEYmfWG9av6xIEpYY+W40hQXHsa63DKOT8v4
- Jh5F2ggKINlAswPtq9/DPsQJPDgdznNs428SDWRfRnabegW47ixu/PwflBM2dHBUGgBlfOfH
-X-Proofpoint-GUID: VYbzKk4Ha4jxqm8ER5iJA6Sergc83No1
+X-Proofpoint-GUID: vXaOXWactJDy_0px4j6Po8utcqZpp3-C
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDEzNCBTYWx0ZWRfX4DOljUxA/YI9 wzhY8talmeIyrg3PeJh6ubL/NdbJlRMFUwxZsI2SJqr8sH7ZYH6Hu9Ivxk5eET7il1+1UPpw5CT hjyDmcizy7oOHuZP5xUVlLG8Dxos0DP12wcwjkakKejzrjXiFTWiT9+Cs1qN/au0UBCfpu5AWlK
+ wTnBry6jQsPE2ncXt9koBpBwNSgdguFWSGWc/ZN8YJcO4ijqe7QBcFIO/XW9OqVB6QO5G/pf4qo PM5j/rl9pdIKqIbkYA0wMsZ4hQhhamPVq/B1BsZqc8cjS98Usxm5vXXmEnCbiCAy3utGL/42yeM uTMQ1vrjwpnepPitywBAx8kbaR/VSN0nxTpi9slu05qcLqYA0m1jcOedzsXEMeq2qQblOfbhpAQ
+ x4RQV2qvLwcn5ZmocJ5qgd3voN/21U4YuMcVdtg8MzcFBS+/kH5+X0l8RxDICXHsKtZtuijX
+X-Proofpoint-ORIG-GUID: vXaOXWactJDy_0px4j6Po8utcqZpp3-C
+X-Authority-Analysis: v=2.4 cv=H4vbw/Yi c=1 sm=1 tr=0 ts=689b4763 cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=b4pXc90ez-momG_VimUA:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-12_07,2025-08-11_01,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250812_065339_526461_C8F08FA1 
-X-CRM114-Status: GOOD (  29.68  )
+X-CRM114-CacheID: sfid-20250812_065340_686724_99980C7A 
+X-CRM114-Status: GOOD (  21.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,344 +93,315 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Provide integrity metadata helpers equivalent to the data payload
-helpers for iterating a request for dma setup.
+Aligns data and metadata to the similar dma mapping scheme and removes
+one more user of the scatter-gather dma mapping.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- block/blk-integrity.c         |  43 +++++-------
- block/blk-mq-dma.c            | 120 +++++++++++++++++++++++++++-------
- block/blk-mq.h                |  26 ++++++++
- include/linux/blk-integrity.h |  17 +++++
- include/linux/blk-mq-dma.h    |   1 +
- 5 files changed, 157 insertions(+), 50 deletions(-)
+ drivers/nvme/host/pci.c | 170 ++++++++++++++++++++++------------------
+ 1 file changed, 94 insertions(+), 76 deletions(-)
 
-diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index 056b8948369d5..1f4ef02078d5b 100644
---- a/block/blk-integrity.c
-+++ b/block/blk-integrity.c
-@@ -16,6 +16,7 @@
- #include <linux/t10-pi.h>
-=20
- #include "blk.h"
-+#include "blk-mq.h"
-=20
- /**
-  * blk_rq_count_integrity_sg - Count number of integrity scatterlist ele=
-ments
-@@ -134,37 +135,25 @@ int blk_get_meta_cap(struct block_device *bdev, uns=
-igned int cmd,
-  */
- int blk_rq_map_integrity_sg(struct request *rq, struct scatterlist *sgli=
-st)
- {
--	struct bio_vec iv, ivprv =3D { NULL };
- 	struct request_queue *q =3D rq->q;
- 	struct scatterlist *sg =3D NULL;
- 	struct bio *bio =3D rq->bio;
- 	unsigned int segments =3D 0;
--	struct bvec_iter iter;
--	int prev =3D 0;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2b89e74d1fa73..3c9a53ba959c7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -172,9 +172,7 @@ struct nvme_dev {
+ 	u32 last_ps;
+ 	bool hmb;
+ 	struct sg_table *hmb_sgt;
 -
--	bio_for_each_integrity_vec(iv, bio, iter) {
--		if (prev) {
--			if (!biovec_phys_mergeable(q, &ivprv, &iv))
--				goto new_segment;
--			if (sg->length + iv.bv_len > queue_max_segment_size(q))
--				goto new_segment;
--
--			sg->length +=3D iv.bv_len;
--		} else {
--new_segment:
--			if (!sg)
--				sg =3D sglist;
--			else {
--				sg_unmark_end(sg);
--				sg =3D sg_next(sg);
--			}
--
--			sg_set_page(sg, iv.bv_page, iv.bv_len, iv.bv_offset);
--			segments++;
--		}
--
--		prev =3D 1;
--		ivprv =3D iv;
-+	struct blk_map_iter iter;
-+	struct phys_vec vec;
-+
-+	iter =3D (struct blk_map_iter) {
-+		.bio =3D bio,
-+		.iter =3D bio_integrity(bio)->bip_iter,
-+		.bvecs =3D bio_integrity(bio)->bip_vec,
-+		.is_integrity =3D true,
-+	};
-+
-+	while (blk_map_iter_next(rq, &iter, &vec)) {
-+		sg =3D blk_next_sg(&sg, sglist);
-+		sg_set_page(sg, phys_to_page(vec.paddr), vec.len,
-+				offset_in_page(vec.paddr));
-+		segments++;
- 	}
+ 	mempool_t *dmavec_mempool;
+-	mempool_t *iod_meta_mempool;
 =20
- 	if (sg)
-diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
-index 31dd8f58f0811..c26e797876d56 100644
---- a/block/blk-mq-dma.c
-+++ b/block/blk-mq-dma.c
-@@ -2,16 +2,31 @@
- /*
-  * Copyright (C) 2025 Christoph Hellwig
-  */
-+#include <linux/blk-integrity.h>
- #include <linux/blk-mq-dma.h>
- #include "blk.h"
-+#include "blk-mq.h"
+ 	/* shadow doorbell buffer support: */
+ 	__le32 *dbbuf_dbs;
+@@ -264,6 +262,12 @@ enum nvme_iod_flags {
 =20
--struct phys_vec {
--	phys_addr_t	paddr;
--	u32		len;
--};
-+static bool __blk_map_iter_next(struct blk_map_iter *iter)
-+{
-+	if (iter->iter.bi_size)
-+		return true;
-+	if (!iter->bio || !iter->bio->bi_next)
-+		return false;
+ 	/* DMA mapped with PCI_P2PDMA_MAP_BUS_ADDR */
+ 	IOD_P2P_BUS_ADDR	=3D 1U << 3,
 +
-+	iter->bio =3D iter->bio->bi_next;
-+	if (iter->is_integrity) {
-+		iter->iter =3D bio_integrity(iter->bio)->bip_iter;
-+		iter->bvecs =3D bio_integrity(iter->bio)->bip_vec;
-+	} else {
-+		iter->iter =3D iter->bio->bi_iter;
-+		iter->bvecs =3D iter->bio->bi_io_vec;
-+	}
-+	return true;
-+}
-=20
--static bool blk_map_iter_next(struct request *req, struct blk_map_iter *=
-iter,
--			      struct phys_vec *vec)
-+bool blk_map_iter_next(struct request *req, struct blk_map_iter *iter,
-+			struct phys_vec *vec)
- {
- 	unsigned int max_size;
- 	struct bio_vec bv;
-@@ -242,23 +257,6 @@ bool blk_rq_dma_map_iter_next(struct request *req, s=
-truct device *dma_dev,
- }
- EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_next);
-=20
--static inline struct scatterlist *
--blk_next_sg(struct scatterlist **sg, struct scatterlist *sglist)
--{
--	if (!*sg)
--		return sglist;
--
--	/*
--	 * If the driver previously mapped a shorter list, we could see a
--	 * termination bit prematurely unless it fully inits the sg table
--	 * on each mapping. We KNOW that there must be more entries here
--	 * or the driver would be buggy, so force clear the termination bit
--	 * to avoid doing a full sg_init_table() in drivers for each command.
--	 */
--	sg_unmark_end(*sg);
--	return sg_next(*sg);
--}
--
- /*
-  * Map a request to scatterlist, return number of sg entries setup. Call=
-er
-  * must make sure sg can hold rq->nr_phys_segments entries.
-@@ -290,3 +288,79 @@ int __blk_rq_map_sg(struct request *rq, struct scatt=
-erlist *sglist,
- 	return nsegs;
- }
- EXPORT_SYMBOL(__blk_rq_map_sg);
++	/* Metadata DMA mapped with PCI_P2PDMA_MAP_BUS_ADDR */
++	IOD_META_P2P_BUS_ADDR	=3D 1U << 4,
 +
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+/**
-+ * blk_rq_integrity_dma_map_iter_start - map the first integrity DMA seg=
-ment
-+ * 					 for a request
-+ * @req:	request to map
-+ * @dma_dev:	device to map to
-+ * @state:	DMA IOVA state
-+ * @iter:	block layer DMA iterator
-+ *
-+ * Start DMA mapping @req integrity data to @dma_dev.  @state and @iter =
-are
-+ * provided by the caller and don't need to be initialized.  @state need=
-s to be
-+ * stored for use at unmap time, @iter is only needed at map time.
-+ *
-+ * Returns %false if there is no segment to map, including due to an err=
-or, or
-+ * %true if it did map a segment.
-+ *
-+ * If a segment was mapped, the DMA address for it is returned in @iter.=
-addr
-+ * and the length in @iter.len.  If no segment was mapped the status cod=
-e is
-+ * returned in @iter.status.
-+ *
-+ * The caller can call blk_rq_dma_map_coalesce() to check if further seg=
-ments
-+ * need to be mapped after this, or go straight to blk_rq_dma_map_iter_n=
-ext()
-+ * to try to map the following segments.
-+ */
-+bool blk_rq_integrity_dma_map_iter_start(struct request *req,
-+		struct device *dma_dev,  struct dma_iova_state *state,
-+		struct blk_dma_iter *iter)
-+{
-+	unsigned len =3D bio_integrity_bytes(&req->q->limits.integrity,
-+					   blk_rq_sectors(req));
-+	struct bio *bio =3D req->bio;
-+
-+	iter->iter =3D (struct blk_map_iter) {
-+		.bio =3D bio,
-+		.iter =3D bio_integrity(bio)->bip_iter,
-+		.bvecs =3D bio_integrity(bio)->bip_vec,
-+		.is_integrity =3D true,
-+	};
-+	return blk_dma_map_iter_start(req, dma_dev, state, iter, len);
-+}
-+EXPORT_SYMBOL_GPL(blk_rq_integrity_dma_map_iter_start);
-+
-+/**
-+ * blk_rq_integrity_dma_map_iter_start - map the next integrity DMA segm=
-ent for
-+ * 					 a request
-+ * @req:	request to map
-+ * @dma_dev:	device to map to
-+ * @state:	DMA IOVA state
-+ * @iter:	block layer DMA iterator
-+ *
-+ * Iterate to the next integrity mapping after a previous call to
-+ * blk_rq_integrity_dma_map_iter_start().  See there for a detailed desc=
-ription
-+ * of the arguments.
-+ *
-+ * Returns %false if there is no segment to map, including due to an err=
-or, or
-+ * %true if it did map a segment.
-+ *
-+ * If a segment was mapped, the DMA address for it is returned in @iter.=
-addr and
-+ * the length in @iter.len.  If no segment was mapped the status code is
-+ * returned in @iter.status.
-+ */
-+bool blk_rq_integrity_dma_map_iter_next(struct request *req,
-+               struct device *dma_dev, struct blk_dma_iter *iter)
-+{
-+	struct phys_vec vec;
-+
-+	if (!blk_map_iter_next(req, &iter->iter, &vec))
-+		return false;
-+
-+	if (iter->p2pdma.map =3D=3D PCI_P2PDMA_MAP_BUS_ADDR)
-+		return blk_dma_map_bus(iter, &vec);
-+	return blk_dma_map_direct(req, dma_dev, iter, &vec);
-+}
-+EXPORT_SYMBOL_GPL(blk_rq_integrity_dma_map_iter_next);
-+#endif
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index affb2e14b56e3..ab378518fc0fb 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -449,4 +449,30 @@ static inline bool blk_mq_can_poll(struct request_qu=
-eue *q)
- 		q->tag_set->map[HCTX_TYPE_POLL].nr_queues;
- }
-=20
-+struct phys_vec {
-+	phys_addr_t	paddr;
-+	u32		len;
-+};
-+
-+struct blk_map_iter;
-+bool blk_map_iter_next(struct request *req, struct blk_map_iter *iter,
-+			struct phys_vec *vec);
-+
-+static inline struct scatterlist *
-+blk_next_sg(struct scatterlist **sg, struct scatterlist *sglist)
-+{
-+	if (!*sg)
-+		return sglist;
-+
-+	/*
-+	 * If the driver previously mapped a shorter list, we could see a
-+	 * termination bit prematurely unless it fully inits the sg table
-+	 * on each mapping. We KNOW that there must be more entries here
-+	 * or the driver would be buggy, so force clear the termination bit
-+	 * to avoid doing a full sg_init_table() in drivers for each command.
-+	 */
-+	sg_unmark_end(*sg);
-+	return sg_next(*sg);
-+}
-+
- #endif
-diff --git a/include/linux/blk-integrity.h b/include/linux/blk-integrity.=
-h
-index e67a2b6e8f111..78fe2459e6612 100644
---- a/include/linux/blk-integrity.h
-+++ b/include/linux/blk-integrity.h
-@@ -4,6 +4,7 @@
-=20
- #include <linux/blk-mq.h>
- #include <linux/bio-integrity.h>
-+#include <linux/blk-mq-dma.h>
-=20
- struct request;
-=20
-@@ -31,6 +32,11 @@ int blk_rq_integrity_map_user(struct request *rq, void=
- __user *ubuf,
- 			      ssize_t bytes);
- int blk_get_meta_cap(struct block_device *bdev, unsigned int cmd,
- 		     struct logical_block_metadata_cap __user *argp);
-+bool blk_rq_integrity_dma_map_iter_start(struct request *req,
-+		struct device *dma_dev,  struct dma_iova_state *state,
-+		struct blk_dma_iter *iter);
-+bool blk_rq_integrity_dma_map_iter_next(struct request *req,
-+		struct device *dma_dev, struct blk_dma_iter *iter);
-=20
- static inline bool
- blk_integrity_queue_supports_integrity(struct request_queue *q)
-@@ -115,6 +121,17 @@ static inline int blk_rq_integrity_map_user(struct r=
-equest *rq,
- {
- 	return -EINVAL;
- }
-+static inline bool blk_rq_integrity_dma_map_iter_start(struct request *r=
-eq,
-+		struct device *dma_dev,  struct dma_iova_state *state,
-+		struct blk_dma_iter *iter)
-+{
-+	return false;
-+}
-+static inline bool blk_rq_integrity_dma_map_iter_next(struct request *re=
-q,
-+		struct device *dma_dev, struct blk_dma_iter *iter)
-+{
-+	return false;
-+}
- static inline struct blk_integrity *bdev_get_integrity(struct block_devi=
-ce *b)
- {
- 	return NULL;
-diff --git a/include/linux/blk-mq-dma.h b/include/linux/blk-mq-dma.h
-index 881880095e0da..0f45ea110ca12 100644
---- a/include/linux/blk-mq-dma.h
-+++ b/include/linux/blk-mq-dma.h
-@@ -9,6 +9,7 @@ struct blk_map_iter {
- 	struct bvec_iter		iter;
- 	struct bio			*bio;
- 	struct bio_vec			*bvecs;
-+	bool				is_integrity;
++	/* Metadata using non-coalesced MPTR */
++	IOD_SINGLE_META_SEGMENT	=3D 1U << 5,
  };
 =20
- struct blk_dma_iter {
+ struct nvme_dma_vec {
+@@ -287,7 +291,8 @@ struct nvme_iod {
+ 	unsigned int nr_dma_vecs;
+=20
+ 	dma_addr_t meta_dma;
+-	struct sg_table meta_sgt;
++	unsigned int meta_total_len;
++	struct dma_iova_state meta_dma_state;
+ 	struct nvme_sgl_desc *meta_descriptor;
+ };
+=20
+@@ -644,6 +649,11 @@ static inline struct dma_pool *nvme_dma_pool(struct =
+nvme_queue *nvmeq,
+ 	return nvmeq->descriptor_pools.large;
+ }
+=20
++static inline bool nvme_pci_cmd_use_meta_sgl(struct nvme_command *cmd)
++{
++	return (cmd->common.flags & NVME_CMD_SGL_ALL) =3D=3D NVME_CMD_SGL_METAS=
+EG;
++}
++
+ static inline bool nvme_pci_cmd_use_sgl(struct nvme_command *cmd)
+ {
+ 	return cmd->common.flags &
+@@ -713,6 +723,43 @@ static void __nvme_free_sgls(struct request *req, st=
+ruct nvme_sgl_desc *sge,
+ 			le32_to_cpu(sg_list[i].length), dir);
+ }
+=20
++static void nvme_free_meta_sgls(struct request *req)
++{
++	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
++	struct nvme_sgl_desc *sge =3D iod->meta_descriptor;
++
++	__nvme_free_sgls(req, sge, &sge[1]);
++}
++
++static void nvme_unmap_metadata(struct request *req)
++{
++	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
++	enum dma_data_direction dir =3D rq_dma_dir(req);
++	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
++	struct device *dma_dev =3D nvmeq->dev->dev;
++
++	if (iod->flags & IOD_SINGLE_META_SEGMENT) {
++		dma_unmap_page(dma_dev, iod->meta_dma,
++			       rq_integrity_vec(req).bv_len,
++			       rq_dma_dir(req));
++		return;
++	}
++
++	if (!blk_rq_dma_unmap(req, dma_dev, &iod->meta_dma_state,
++				iod->meta_total_len,
++				iod->flags & IOD_META_P2P_BUS_ADDR)) {
++		if (nvme_pci_cmd_use_meta_sgl(&iod->cmd))
++			nvme_free_meta_sgls(req);
++		else
++			dma_unmap_page(dma_dev, iod->meta_dma,
++				       iod->meta_total_len, dir);
++	}
++
++	if (iod->meta_descriptor)
++		dma_pool_free(nvmeq->descriptor_pools.small,
++			      iod->meta_descriptor, iod->meta_dma);
++}
++
+ static void nvme_free_sgls(struct request *req)
+ {
+ 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+@@ -1022,70 +1069,72 @@ static blk_status_t nvme_map_data(struct request =
+*req)
+ 	return nvme_pci_setup_data_prp(req, &iter);
+ }
+=20
+-static void nvme_pci_sgl_set_data_sg(struct nvme_sgl_desc *sge,
+-		struct scatterlist *sg)
+-{
+-	sge->addr =3D cpu_to_le64(sg_dma_address(sg));
+-	sge->length =3D cpu_to_le32(sg_dma_len(sg));
+-	sge->type =3D NVME_SGL_FMT_DATA_DESC << 4;
+-}
+-
+ static blk_status_t nvme_pci_setup_meta_sgls(struct request *req)
+ {
+ 	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
+-	struct nvme_dev *dev =3D nvmeq->dev;
++	unsigned int entries =3D req->nr_integrity_segments;
+ 	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
++	struct nvme_dev *dev =3D nvmeq->dev;
+ 	struct nvme_sgl_desc *sg_list;
+-	struct scatterlist *sgl, *sg;
+-	unsigned int entries;
++	struct blk_dma_iter iter;
+ 	dma_addr_t sgl_dma;
+-	int rc, i;
++	int i =3D 0;
+=20
+-	iod->meta_sgt.sgl =3D mempool_alloc(dev->iod_meta_mempool, GFP_ATOMIC);
+-	if (!iod->meta_sgt.sgl)
+-		return BLK_STS_RESOURCE;
++	if (!blk_rq_integrity_dma_map_iter_start(req, dev->dev,
++						&iod->meta_dma_state, &iter))
++		return iter.status;
+=20
+-	sg_init_table(iod->meta_sgt.sgl, req->nr_integrity_segments);
+-	iod->meta_sgt.orig_nents =3D blk_rq_map_integrity_sg(req,
+-							   iod->meta_sgt.sgl);
+-	if (!iod->meta_sgt.orig_nents)
+-		goto out_free_sg;
++	if (iter.p2pdma.map =3D=3D PCI_P2PDMA_MAP_BUS_ADDR)
++		iod->flags |=3D IOD_META_P2P_BUS_ADDR;
++	else if (blk_rq_dma_map_coalesce(&iod->meta_dma_state))
++		entries =3D 1;
+=20
+-	rc =3D dma_map_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req),
+-			     DMA_ATTR_NO_WARN);
+-	if (rc)
+-		goto out_free_sg;
++	/*
++	 * The NVMe MPTR descriptor has an implicit length that the host and
++	 * device must agree on to avoid data/memory corruption. We trust the
++	 * kernel allocated correctly based on the format's parameters, so use
++	 * the more efficient MPTR to avoid extra dma pool allocations for the
++	 * SGL indirection.
++	 *
++	 * But for user commands, we don't necessarily know what they do, so
++	 * the driver can't validate the metadata buffer size. The SGL
++	 * descriptor provides an explicit length, so we're relying on that
++	 * mechanism to catch any misunderstandings between the application and
++	 * device.
++	 */
++	if (entries =3D=3D 1 && !(nvme_req(req)->flags & NVME_REQ_USERCMD)) {
++		iod->cmd.common.metadata =3D cpu_to_le64(iter.addr);
++		iod->meta_total_len =3D iter.len;
++		iod->meta_dma =3D iter.addr;
++		iod->meta_descriptor =3D NULL;
++		return BLK_STS_OK;
++	}
+=20
+ 	sg_list =3D dma_pool_alloc(nvmeq->descriptor_pools.small, GFP_ATOMIC,
+ 			&sgl_dma);
+ 	if (!sg_list)
+-		goto out_unmap_sg;
++		return BLK_STS_RESOURCE;
+=20
+-	entries =3D iod->meta_sgt.nents;
+ 	iod->meta_descriptor =3D sg_list;
+ 	iod->meta_dma =3D sgl_dma;
+-
+ 	iod->cmd.common.flags =3D NVME_CMD_SGL_METASEG;
+ 	iod->cmd.common.metadata =3D cpu_to_le64(sgl_dma);
+-
+-	sgl =3D iod->meta_sgt.sgl;
+ 	if (entries =3D=3D 1) {
+-		nvme_pci_sgl_set_data_sg(sg_list, sgl);
++		iod->meta_total_len =3D iter.len;
++		nvme_pci_sgl_set_data(sg_list, &iter);
+ 		return BLK_STS_OK;
+ 	}
+=20
+ 	sgl_dma +=3D sizeof(*sg_list);
+-	nvme_pci_sgl_set_seg(sg_list, sgl_dma, entries);
+-	for_each_sg(sgl, sg, entries, i)
+-		nvme_pci_sgl_set_data_sg(&sg_list[i + 1], sg);
+-
+-	return BLK_STS_OK;
++	do {
++		nvme_pci_sgl_set_data(&sg_list[++i], &iter);
++		iod->meta_total_len +=3D iter.len;
++	} while (blk_rq_integrity_dma_map_iter_next(req, dev->dev, &iter));
+=20
+-out_unmap_sg:
+-	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
+-out_free_sg:
+-	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
+-	return BLK_STS_RESOURCE;
++	nvme_pci_sgl_set_seg(sg_list, sgl_dma, i);
++	if (unlikely(iter.status))
++		nvme_unmap_metadata(req);
++	return iter.status;
+ }
+=20
+ static blk_status_t nvme_pci_setup_meta_mptr(struct request *req)
+@@ -1098,6 +1147,7 @@ static blk_status_t nvme_pci_setup_meta_mptr(struct=
+ request *req)
+ 	if (dma_mapping_error(nvmeq->dev->dev, iod->meta_dma))
+ 		return BLK_STS_IOERR;
+ 	iod->cmd.common.metadata =3D cpu_to_le64(iod->meta_dma);
++	iod->flags |=3D IOD_SINGLE_META_SEGMENT;
+ 	return BLK_STS_OK;
+ }
+=20
+@@ -1119,7 +1169,7 @@ static blk_status_t nvme_prep_rq(struct request *re=
+q)
+ 	iod->flags =3D 0;
+ 	iod->nr_descriptors =3D 0;
+ 	iod->total_len =3D 0;
+-	iod->meta_sgt.nents =3D 0;
++	iod->meta_total_len =3D 0;
+=20
+ 	ret =3D nvme_setup_cmd(req->q->queuedata, req);
+ 	if (ret)
+@@ -1230,25 +1280,6 @@ static void nvme_queue_rqs(struct rq_list *rqlist)
+ 	*rqlist =3D requeue_list;
+ }
+=20
+-static __always_inline void nvme_unmap_metadata(struct request *req)
+-{
+-	struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+-	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
+-	struct nvme_dev *dev =3D nvmeq->dev;
+-
+-	if (!iod->meta_sgt.nents) {
+-		dma_unmap_page(dev->dev, iod->meta_dma,
+-			       rq_integrity_vec(req).bv_len,
+-			       rq_dma_dir(req));
+-		return;
+-	}
+-
+-	dma_pool_free(nvmeq->descriptor_pools.small, iod->meta_descriptor,
+-			iod->meta_dma);
+-	dma_unmap_sgtable(dev->dev, &iod->meta_sgt, rq_dma_dir(req), 0);
+-	mempool_free(iod->meta_sgt.sgl, dev->iod_meta_mempool);
+-}
+-
+ static __always_inline void nvme_pci_unmap_rq(struct request *req)
+ {
+ 	if (blk_integrity_rq(req))
+@@ -3054,7 +3085,6 @@ static int nvme_disable_prepare_reset(struct nvme_d=
+ev *dev, bool shutdown)
+=20
+ static int nvme_pci_alloc_iod_mempool(struct nvme_dev *dev)
+ {
+-	size_t meta_size =3D sizeof(struct scatterlist) * (NVME_MAX_META_SEGS +=
+ 1);
+ 	size_t alloc_size =3D sizeof(struct nvme_dma_vec) * NVME_MAX_SEGS;
+=20
+ 	dev->dmavec_mempool =3D mempool_create_node(1,
+@@ -3063,17 +3093,7 @@ static int nvme_pci_alloc_iod_mempool(struct nvme_=
+dev *dev)
+ 			dev_to_node(dev->dev));
+ 	if (!dev->dmavec_mempool)
+ 		return -ENOMEM;
+-
+-	dev->iod_meta_mempool =3D mempool_create_node(1,
+-			mempool_kmalloc, mempool_kfree,
+-			(void *)meta_size, GFP_KERNEL,
+-			dev_to_node(dev->dev));
+-	if (!dev->iod_meta_mempool)
+-		goto free;
+ 	return 0;
+-free:
+-	mempool_destroy(dev->dmavec_mempool);
+-	return -ENOMEM;
+ }
+=20
+ static void nvme_free_tagset(struct nvme_dev *dev)
+@@ -3523,7 +3543,6 @@ static int nvme_probe(struct pci_dev *pdev, const s=
+truct pci_device_id *id)
+ 	nvme_free_queues(dev, 0);
+ out_release_iod_mempool:
+ 	mempool_destroy(dev->dmavec_mempool);
+-	mempool_destroy(dev->iod_meta_mempool);
+ out_dev_unmap:
+ 	nvme_dev_unmap(dev);
+ out_uninit_ctrl:
+@@ -3587,7 +3606,6 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	nvme_dbbuf_dma_free(dev);
+ 	nvme_free_queues(dev, 0);
+ 	mempool_destroy(dev->dmavec_mempool);
+-	mempool_destroy(dev->iod_meta_mempool);
+ 	nvme_release_descriptor_pools(dev);
+ 	nvme_dev_unmap(dev);
+ 	nvme_uninit_ctrl(&dev->ctrl);
 --=20
 2.47.3
 
