@@ -4,80 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73691CA0EDA
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 04:33:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3A22CA0EC4
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 17:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y8NQgi8yUSMvxMZpfj0sKKbsRBduLmCSSgHsWqK8gUU=; b=h4UkPueyK/vWwvMPkptZcaVIEn
-	vRikBRh5vk+cnfjoE4UzDerwbad8Rda+liuT/mAdXBagjiTgeSDuo0G8AoH/OUtspM/xt+5wUgxTb
-	35eIJfdewBteBYpA5Gky3DB4TJMnf1rrd8kBNAhDv6+4/kqiuHAzBWbYGaPeh9VeMRy3I6bt26tx8
-	ZTakgXRU1HJaG6WpQoIaFBNM44t28KRRm1+lHp72Pb0e6F3VTqEZRh0f8W4hGnAzw313WYPeUOMS/
-	Rr8/ZRSM2mvXGNGu4vLWBUY7NymgVL/uxyjTvBsEay7Sf4eCpEZFo4tN79848mGAmJfXGHsxTqIbO
-	A7FsQJSg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=CFYBI4gRrJO5ERy8tHInAfqFjHDCwCATNnMQm/kpzvU=; b=Y6lUA0ouJbVVOvG2tVLXF6cqDs
+	FOP4xIOoYkVlY9p46ZsqOEQnCw5iYYxU3UII3gpniaUNvtBzgN7cWwaZK/SJ/uo5DJl/W4lS3Girb
+	JCz9pFjJmERz/waI1ZNaMXuPSyHgn96KJ8WLzXBjC7QwZ3M8d72UocqTh0rwyUy+eatfdFzQmgA7j
+	J+DFyOj9BqLjG7waUz54R65EMo90LON8p4yTlSujSPqDGzK7JYfYjtRQlD4H43AYl+lw2BXL2adBf
+	gFUztDjx7DfR+dAQbs1YDpV7PNqkGrdys2gZJfJnSMHYXjyP549jZP1NZLDn/H5zIYFkx0+Y50c6/
+	cAXyBBqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulghN-00000009nBN-0Sz4;
-	Tue, 12 Aug 2025 04:33:21 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1ulsqO-0000000BZpN-2OJk;
+	Tue, 12 Aug 2025 17:31:28 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulghK-00000009nB1-0fGb
+	id 1uloYD-0000000AqkO-2YFz
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Aug 2025 04:33:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754973195;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y8NQgi8yUSMvxMZpfj0sKKbsRBduLmCSSgHsWqK8gUU=;
-	b=HNEK7pl+W3d6Ci7kICkMErBvto/t/+Z2URCE0zWyceKHlklr9Qi9pwdKv7qFpFzFNklXZv
-	xKwtBbTiNJUIAeWmGKT/WuydWSPRsSxIcqUJPZOTt1nlxrJ3Mf+GBsnaf7uD4Ux3x381sl
-	5RBlL6tLfP63kgR9xYobOWFmcR8nS48=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-27-lZbFn6l6NF6cC2JOvBG4xQ-1; Tue,
- 12 Aug 2025 00:33:12 -0400
-X-MC-Unique: lZbFn6l6NF6cC2JOvBG4xQ-1
-X-Mimecast-MFC-AGG-ID: lZbFn6l6NF6cC2JOvBG4xQ_1754973191
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BF169180035B;
-	Tue, 12 Aug 2025 04:33:10 +0000 (UTC)
-Received: from my-developer-toolbox-latest (unknown [10.2.17.22])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1156A19560AB;
-	Tue, 12 Aug 2025 04:33:08 +0000 (UTC)
-Date: Mon, 11 Aug 2025 21:33:06 -0700
-From: Chris Leech <cleech@redhat.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>,
-	Prashanth Nayak <prashanth.nayak@netapp.com>,
-	John Meneghini <jmeneghi@redhat.com>
-Subject: Re: [PATCH 1/1] libnvme: TLS PSK derivation fixes
-Message-ID: <aJrEAia9jVk17y-j@my-developer-toolbox-latest>
-References: <20250721021718.1159879-1-cleech@redhat.com>
- <20250721021718.1159879-2-cleech@redhat.com>
- <d8f4ed91-3fcb-45b9-b4d6-900382eb4ae7@suse.de>
- <aH5dbhXOS8h9gxzX@cleech-thinkpadt14sgen2i.rmtusor.csb>
- <3c3c3194-7275-4a77-9397-4c159458f2c5@suse.de>
- <aIPINwQZNxk_7FZs@cleech-thinkpadt14sgen2i.rmtusor.csb>
- <df8bfa36-c1a9-4398-8246-5bc31991b8c9@suse.de>
+	Tue, 12 Aug 2025 12:56:27 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CAVujw015275;
+	Tue, 12 Aug 2025 12:56:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=CFYBI4gRrJO5ERy8tHInAfqFjHDC
+	wCATNnMQm/kpzvU=; b=GhmYBvIjjxkVgklnnGzhe9Xl6ghkxV1QD4DX58cZ3YKa
+	G11J4LCK2tz8tx8z/tTfl/eOjq8+y6A4ASWk2qlqeqDyFc+Y8M6vyiQtnHEH0s9E
+	QqQSBjcZ+Kd4I5UpBOIUbnc8VNPosYPEZcvbIKad313UnsX6qh0zXslWn8qtqBFb
+	gVS7FS4k/stbuXT06yz54i7MKvdop/Anr8Evk3hU4gB62JDIpeBK00LvOkROSOjZ
+	DXcP9B7ieRWBxTU+cCLcYUBlm10mBt7T+ThHiSslfuEnGyMxj5V1KWG8qwO6JviA
+	oCf6VuI80Li8mCUzurNoinLXBHb8kG2YmCj3PxcQ5w==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48dwud6h30-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Aug 2025 12:56:22 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57C9vaQi020795;
+	Tue, 12 Aug 2025 12:56:20 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48ehnptebv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Aug 2025 12:56:20 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 57CCuI8x54133106
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 12 Aug 2025 12:56:19 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DB9A02004B;
+	Tue, 12 Aug 2025 12:56:18 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 207E520040;
+	Tue, 12 Aug 2025 12:56:16 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.61.161.148])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 12 Aug 2025 12:56:15 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, gjoyce@ibm.com
+Subject: [PATCHv2 0/4] nvme-cli: enhance the visibility of multipath using show-topology command
+Date: Tue, 12 Aug 2025 18:26:01 +0530
+Message-ID: <20250812125614.164445-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-In-Reply-To: <df8bfa36-c1a9-4398-8246-5bc31991b8c9@suse.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 8Hz5gCI7gne1kxVjYf7AJy4dBNmz1JQw-DmrfscUWJU_1754973191
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDEyMyBTYWx0ZWRfX17hZvD0nBHLc
+ us5jdoIplr0M6NpO6OaT+IOlLFvecYY1R+h0lH7pIqDXRAx77yjIp9ZuVCPZylDp9rMLZhfMQqV
+ ppk80NeHE1kHcNUt1HunpH89UHFIVKeXOl1mXZkZdgDZkCZf1nRP+qEt6zDoci6qJmEXQpLaBpv
+ i3Ggoi3Pf20txuMcHRus1mtCaUPBqHUAnr3255rZ2kbJEAbIy84rBHqMGQKJ0hVihnehqprmNQr
+ pvOdtyudi/v9ltlzfyfRbevOzY+6gwVOIpyBlElD41TeLdpl3Gtp7680jNuJzumt4n6+0hh+qWU
+ mdGfVp1F+Gi1wMK+F1soNJxbF1dwAj/PFtKmQmeuwEVzd4BD568Zp0MvjSkfBrhxjCezf8HsZ5w
+ XeREVWVhvRPzxRj2/FPvoZaNYkPdtKR7VaLFxj7oGYQ8ytRu9OpJQAUv70mtVbJN+N2rpH5v
+X-Authority-Analysis: v=2.4 cv=d/31yQjE c=1 sm=1 tr=0 ts=689b39f6 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=FEwVTYbigu0WRK3eX-YA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 0QqIXsHwgws_FZWA0vz51ME-RsyTLBoJ
+X-Proofpoint-ORIG-GUID: 0QqIXsHwgws_FZWA0vz51ME-RsyTLBoJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_06,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0 suspectscore=0 impostorscore=0 priorityscore=1501
+ mlxlogscore=999 phishscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2507300000
+ definitions=main-2508120123
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250811_213318_285906_C71E3906 
-X-CRM114-Status: GOOD (  36.05  )
+X-CRM114-CacheID: sfid-20250812_055625_649945_28D08A77 
+X-CRM114-Status: GOOD (  19.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,91 +113,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 28, 2025 at 09:12:15AM +0200, Hannes Reinecke wrote:
-> ...
-> But: this is an incompatible change. Once we integrate this patch
-> the keyring will end up with a _different_ derived PSK than it would
-> without that patch. So the _same_ PSK (in interchange format) will
-> result in different PSKs in the keyring, causing the handshake to
-> fail if the other side is not aware of that.
-> 
-> > > _However_: PSKs generated with after applying this patch will be
-> > > different than those prior to this patch.
-> > > Consequently there will be interop issues with existing implementations
-> > > (which will use the original encoding).
-> > > 
-> > > I guess we would need to wait for the target implementations to be fixed
-> > > or introduce a flag switching to the old / compat implementation to avoid
-> > > interop issues.
-> > 
-> > Yes, it is a breaking change for compatibility with other out-of-spec
-> > implementations.  I'm hesitant to carry a flag for that, but it wouldn't
-> > be too much trouble to implement.
-> > 
-> > Just don't touch your keyfile?  The tls-key import/export commands are
-> > operating on the final derived TLS PSKs right?
-> > 
-> That might be the way out, and in fact what we should be doing.
-> However, the fact still remains: after this patch has been applied
-> one _cannot_ generate new PSKs until the other side has been updated,
-> too.
-> For linux it's easy, we can just require 'version xyz' from libnvme
-> and the issue is solved. But for other implementations?
-> There are IHVs out there who already shipped their products with TLS
-> enablement, and they need to be fixed, too.
-> And their timeline is vastly longer than ours.
-> 
-> So to avoid us having to synchronize against all of the others I think
-> it might be easier to add a 'compat' flag of sorts to generate PSKs
-> with the 'original' derivation algorithm, and then increase the
-> libnvme version number once it's in.
-> Then we can point the IHVs to that number so that they reference
-> that version once their firmware is updated.
+Hi,
 
-I've spent a bit of time on this, and while I don't have patches ready
-to share just yet I do think it's worth commenting on the scope of the
-change to keep the existing functionality behind a cli switch.
+There has been recent work to improve the visibility of NVMe multipath
+configurations. The native NVMe multipath kernel driver supports three
+I/O path selection policies: numa, round-robin, and queue-depth. However,
+until now, users have had no insight into which path is selected by the
+multipath logic for forwarding I/O.
 
- libnvme:
- - keeping both sets of key derivation functions (this is not bad)
- - need to expose that functionality, so new exported APIs
-   (I was thinking something like a flag field over a legacy-only function)
-      - #define NVME_TLS_PSK_LEGACY (1u << 0)
-      - char *nvme_generate_tls_key_identity_2(..., unsigned int flags)
-      - long nvme_insert_tls_key_versioned_2(..., unsigned int flags)
+To address this, an RFC was proposed [1] and has since been merged into
+the Linux kernel as of v6.15. Following that, libnvme was extended to
+discover multiple paths to a shared NVMe namespace [2]. This patchset
+builds on those efforts to improve userspace observability of multipath
+configurations via nvme-cli.
 
- - support paths that load keys through nvme_fabrics_cfg [1]
-   (for nvme-cli fabrics commands that take --tls_key)
-      - add some sort of flag there, like nvme_fabrics_cfg.tls_legacy
-      - add to merge_config, nvmf_update_config, build_options,
-        supported_options, etc.
+This patchset contains four patches:
+The first patch in the series fixes a <device> filter option using which
+we could be able to filter the output of nvme show-topology command.
 
- - the JSON schema/code would need to support this for persistent
-   configurations
+The second patch in the series enhances the nvme show-topology command to
+display multipath configuration, including all discovered paths to a
+namespace, along with details such as ANA state, NUMA nodes, and queue
+depth. The show-topology "--ranking" option is extended with a new sub-
+option: multipath.
 
- nvme-cli:
- - add a command line flag to keyring command functions
- - convert to use of new libnvme APIs to pass flag
-       - gen_tls_key, check_tls_key
-        (I don't think nvme_tls_key does key conversions)
+The third patch in the series adds common table APIs for printing nvme cli
+command output in tabular format.  With these APIs, developers no longer
+need to pre-calculate column or row widths. The output is consistently
+aligned and easy to read.
 
- - add command line flag to generic parsing into nvme_fabrics_cfg
-       - handles connect, connect-all, discover, discover-all
+The fourth patch adds support for printing show-topology in tabular form
+leveraging the introduced table APIs to produce well-aligned, easy-to-read
+output.
 
- - man pages, shell completions, etc.
+As usual, any feedback/sugegstion is most welcome!
 
-It may be possible to keep this to just in libnvme and switch on an
-environment variable, but that sounds like just as big of a support
-nightmare as remembering to pass an option to every command.
+Thanks!
 
-If we don't have a resolution by then, maybe this is something we can
-resolve at ALPSS.
+Changes from v1:
+  - Added the third patch in the series that implements the common table
+    APIs for printing nvme cli command output in tabular format
+    (Daniel Wagner)
+  - Added the fourth patch in the series which adds the support for 
+    printing show-topology in tabular form (Daniel Wagner)
+Link to v1: https://lore.kernel.org/all/20250704135001.292763-1-nilay@linux.ibm.com/    
 
-[1] Side note; with nvme_fabrics_cfg _not_ being allocated through
-libnvme, I don't see how the various additions there can be ABI safe. It
-looks to me like this struct alone broke ABI in libnvme 1.4, 1.8, 1.9,
-and 1.11.
+Nilay Shroff (4):
+  nvme: support <device> option in show-topology command
+  nvme: extend show-topology command to add support for multipath
+  nvme: add common APIs for printing tabular format output
+  nvme: add support for printing show-topology in tabular form
 
-- Chris
+ nvme-print-binary.c |   1 +
+ nvme-print-json.c   |  25 +++-
+ nvme-print-stdout.c | 233 ++++++++++++++++++++++++++++++++++++-
+ nvme-print.c        |   9 +-
+ nvme-print.h        |   3 +
+ nvme.c              |  29 ++++-
+ nvme.h              |   2 +
+ util/meson.build    |   3 +-
+ util/table.c        | 278 ++++++++++++++++++++++++++++++++++++++++++++
+ util/table.h        | 117 +++++++++++++++++++
+ 10 files changed, 685 insertions(+), 15 deletions(-)
+ create mode 100644 util/table.c
+ create mode 100644 util/table.h
+
+-- 
+2.50.1
 
 
