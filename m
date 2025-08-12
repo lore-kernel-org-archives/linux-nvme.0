@@ -4,79 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58326CA0EDF
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 17:34:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB350CA0EE5
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 19:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Kcoo5840AGoxNXqmlM7GRSvPqwN2LEc1uL+j011rAsk=; b=4DQbxCEUk+Jp0G4tuZOVJs3zEo
-	a3sKA7Op/TJwNGk8D2IKZKiFcbIDmYY2cD0R9TTbUglgKYVyU+pE5FDZdDaleS1ubR7zWsglHzIia
-	Vvi9LVUPnMedF1X1kP0k0vINPR6CWOm4wpJoRzuCkku8FbZ7+mnu97zdZCtMekZs3NqJeZuEy0U3l
-	EsefzVHsXblvbFBZXDov/ZD0xTj3ixZvLutroH2ylxhnRP0wojEHqrEnIdHOhO95hkJTXCjzK8t6G
-	XkME0Q0+xe1m6rg8o38GHhuzdx6dTYYS5qStR2fqNxKOauUk+admXR5cZBzdm1mLmHfyGkBEXAgXa
-	RYgLcE3w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=IJfpRJ8IpGH3rzwYKmvsJSemPZapijh2lAS9v7tcKGA=; b=3KTH9FJ+QITwbQxWFpjOpyaZ7/
+	wnpoa8yH1M3Nu2Z/2XimMYG/GzxAN6YDjYX0ApJz21SoZnFX6CuI6GF6FpLKv+kwDeSw8ciMsHrW0
+	ffJCgnQvW+TwEC1nEXtFjSkPJWoX85GUxhCin/J7Tr81hXjrAcu0XEP3G6iaJfZfcm5PNdc6gmeYS
+	FJsR4So23y6FmH6SBoLux0JSuft7xayZ0tBCI1FXBU5m8rtbz+++tbGpQfPhdV8Iyvg7t7i+FUB96
+	CkP6Vc+TjQL9gcfh+yjrKTU3MFohkiixsN6+1A7PgpBYt9Tv6dNUZTft/CZClKBWTZsCC1F1lekzZ
+	Q00E9tvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulst3-0000000Bbe5-2xJ4;
-	Tue, 12 Aug 2025 17:34:13 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1uluao-0000000Bn5Q-3pCO;
+	Tue, 12 Aug 2025 19:23:30 +0000
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulpSI-0000000Az2T-35eC
+	id 1ulrEx-0000000BCBi-3U7c
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Aug 2025 13:54:23 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CDpjkl006845
-	for <linux-nvme@lists.infradead.org>; Tue, 12 Aug 2025 06:54:22 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=Kcoo5840AGoxNXqmlM7GRSvPqwN2LEc1uL+j011rAsk=; b=YxDRUNBs+8Kt
-	9n2DSxN8s1S7D3CaC1nN3fFvvS0HQZS6iJ/SQtCnhKKPC5m+7KVXXnEJhNeIrTbc
-	JqSLOasBNizCWWMkC2flpTprzRLuapJXxZYFzS6IqcK8pEKQSTMxOTwqsTDdlp3+
-	7DlEpKUlrNzIjbeLMV9u7tyKN1schfrrhNiDr3yx21R1dSEY8nbXbDHLtob6VonN
-	0+MwQweR3JwNLljDc7yxN4IUUHVko4K6Iggpz7kWQ1d6ZyJokQ82xkhTC1nIbxpB
-	0FXStiZwfzEjj33hqqPOTUVO2YW/oJdMbiHT1Y7KpeM5sGkmzHCBQlmgDUrL6EDC
-	xY/SvxT2tQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48g120b14n-7
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 12 Aug 2025 06:54:21 -0700 (PDT)
-Received: from twshared71707.17.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.17; Tue, 12 Aug 2025 13:52:23 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 9D2388D407A; Tue, 12 Aug 2025 06:52:11 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <axboe@kernel.dk>, <joshi.k@samsung.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCHv6 3/8] blk-mq-dma: require unmap caller provide p2p map type
-Date: Tue, 12 Aug 2025 06:52:05 -0700
-Message-ID: <20250812135210.4172178-4-kbusch@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250812135210.4172178-1-kbusch@meta.com>
-References: <20250812135210.4172178-1-kbusch@meta.com>
+	Tue, 12 Aug 2025 15:48:44 +0000
+Received: by mail-yb1-xb2b.google.com with SMTP id 3f1490d57ef6-e8e0aa2e3f9so5803324276.1
+        for <linux-nvme@lists.infradead.org>; Tue, 12 Aug 2025 08:48:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755013722; x=1755618522; darn=lists.infradead.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=IJfpRJ8IpGH3rzwYKmvsJSemPZapijh2lAS9v7tcKGA=;
+        b=UamAqXJSzaTIiUlPRto3O2WW1cDujTK5Et3hFKWgyLMm5ugvLCEuRbhuMoF8K+IHGz
+         1XP1DJy4OwsH6xSJkhyEsxm/oxQ8WT/zvGQGb+M4GYZVbsN+w+VJk5fup51bOtCA7VNx
+         14tibK2OmVMR+TFVWNXfOwkFrEaWB7qjkqdy9yMrQ5OGcHFYmkPvnlBVSzzseJozOF3O
+         awdkrDaxITyFV9ujz1cuInZ/EaJ2Ai9AU8JQ2r5+17cWz8NagT79MG9WJL/JtarTRB4S
+         hooP+aFA/oDdbRiSOCGoNyl0oBSnyekJtSvL4Ubh4ysiYVpk3qyLC/aBdIGxqgVxcDlG
+         QTGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755013722; x=1755618522;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IJfpRJ8IpGH3rzwYKmvsJSemPZapijh2lAS9v7tcKGA=;
+        b=d4769fsYMEIND8rppLJUQhl/UioW8FEb62HahAjLcx/wyELAli05X54DZ5fqzgvjhl
+         i2PeBy6TcPvMh+N12hsZd6RCITxdTkvf/DcriBN/bfRc9yUE+/XtFIspGkVxKydYIMt9
+         AGB4ejkVHq6/TIOhTXj+nyqbr46nSMhmSuQ/s7cQdU2YRQPyRe/JGYs/WKcnEURmpDJK
+         eowF97xlZ29oFKYp5Oy7llHvy3S3lhAz1nW2NVa26DYwEJobtakIPFA0v7HzqPRo7dot
+         QcsB8ghcLwWGgQcBgTaYvcX1xiND5H7n3phu3z5Bjpar8N9RhepBOOD+ti3f8ElDYKv5
+         /5gQ==
+X-Gm-Message-State: AOJu0YwMr7FvwE8gQWxuj/fi/kf2uCJRC7NlxY1tLANLvqVB5Ni7CptQ
+	2nZGGDD6wtIUzVSJmVs+aM7y8r3k3qKQTU4YRaFWUjGp3xFl6Q43GtrGNUU9F7cOcmypB830e/e
+	q2DzBLAatMrGRY5Ltp00m+LErc9VvBGqwXLgn
+X-Gm-Gg: ASbGncu9XuUtCF4vi1s0y5CVjSP4PUwbkAWMEnp95Ylw7CXt/QnKJAheWNWDYCmdNba
+	DvuYIdr6ENMOIwhiVYVG8VTZ+ax2mpkSJuX3Q3+fSWbncMXNU3LYTGUWWetk7pNCd+C6En3Y67d
+	sqBipP8R00OwZz6wPYeeksOLW4M1bdEgTBJWYPsljboy1GKjMpf9q/prS8sldF+WOSmwwaGm0mr
+	vnYYQYU
+X-Google-Smtp-Source: AGHT+IHKJAV0IZkg/4bhnozJnk9UCwQSpgYuB3EEsWL9KudWq47fM2e2sINa5GnsHNDXEwGFY48+Aw2bklKSIYOTy/o=
+X-Received: by 2002:a05:6902:c08:b0:e90:4350:8c84 with SMTP id
+ 3f1490d57ef6-e917a1d9e44mr5242124276.12.1755013721606; Tue, 12 Aug 2025
+ 08:48:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=KJdaDEFo c=1 sm=1 tr=0 ts=689b478d cx=c_pps a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=lg-0pX42I_tHtCv8E8UA:9
-X-Proofpoint-ORIG-GUID: 7_QWVZ5c0StUo9l-QLMiHUBWS4yXxQUN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDEzNCBTYWx0ZWRfXwuwd+hDRhpUl 8wvuWqilxSJufwFpodqBbcPfsYbNoUrUGyf/ExwEnR3GKGIuDE1FRbyJubZSi8MpJzckX0I36v8 5TvCLnLCj0/yucOCjKLhszJ4EYb6hojN5paid51Zyz/NXyREexAGzcAphCVVJMTkOsz3zxzJU7W
- mqGOmVzDQp3B90aeHa/cxsiV01vE6vIQ4+zyx1Fxj9VoapjJicdau3oVn6eWzb1p3FDOXZXGOc0 ZFz+sGn0TS2DS70/YNlCptSFExgM80EYJfHjjDc5k43TxWNYgpSJIvXrdOPhE61pCAe1ze2EBVO 9j5RkoLqM1diitEQ+0QbpWFQk2KaQhhtkHPAEDXEiRWRLhHYYEnXAUg4jBsGKvQynMyX1MOMJwe
- eux605H5XnHyIRCYL1r5upuIDVgq1K17BJTwFV2LFtUO+isVG+9ZXRhiyqkxSAjskHbePaHN
-X-Proofpoint-GUID: 7_QWVZ5c0StUo9l-QLMiHUBWS4yXxQUN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_07,2025-08-11_01,2025-03-28_01
+From: Anton Gavriliuk <antosha20xx@gmail.com>
+Date: Tue, 12 Aug 2025 18:48:29 +0300
+X-Gm-Features: Ac12FXx5FfqDfEZktOtg2O49UIkKj5QM8MR-v_bEYgR9JykoruoXx6J6o4a3ti0
+Message-ID: <CAAiJnjqKqMHjrPLOvY5sCXiQR0n6pMvm2mS5pQEqy2XY1cD_6Q@mail.gmail.com>
+Subject: Unable to reconnect namespace via NVMe/TCP
+To: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250812_065422_895758_1F7E8052 
-X-CRM114-Status: GOOD (  15.45  )
+X-CRM114-CacheID: sfid-20250812_084843_868143_EEF6DF40 
+X-CRM114-Status: UNSURE (   6.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,79 +88,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+Hi
 
-In preparing for integrity dma mappings, we can't rely on the request
-flag because data and metadata may have different mapping types.
+There are NVMe/TCP target and initiator servers, both running on
+RHEL10 (6.12.0-55.25.1.el10_0.x86_64)
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c    | 9 ++++++++-
- include/linux/blk-mq-dma.h | 5 +++--
- 2 files changed, 11 insertions(+), 3 deletions(-)
+NVMe/TCP target exports single NVMe SSD
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 2c6d9506b1725..111b6bc6c93eb 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -261,6 +261,9 @@ enum nvme_iod_flags {
-=20
- 	/* single segment dma mapping */
- 	IOD_SINGLE_SEGMENT	=3D 1U << 2,
-+
-+	/* DMA mapped with PCI_P2PDMA_MAP_BUS_ADDR */
-+	IOD_P2P_BUS_ADDR	=3D 1U << 3,
- };
-=20
- struct nvme_dma_vec {
-@@ -725,7 +728,8 @@ static void nvme_unmap_data(struct request *req)
- 		return;
- 	}
-=20
--	if (!blk_rq_dma_unmap(req, dma_dev, &iod->dma_state, iod->total_len)) {
-+	if (!blk_rq_dma_unmap(req, dma_dev, &iod->dma_state, iod->total_len,
-+				iod->flags & IOD_P2P_BUS_ADDR)) {
- 		if (nvme_pci_cmd_use_sgl(&iod->cmd))
- 			nvme_free_sgls(req);
- 		else
-@@ -1000,6 +1004,9 @@ static blk_status_t nvme_map_data(struct request *r=
-eq)
- 	if (!blk_rq_dma_map_iter_start(req, dev->dev, &iod->dma_state, &iter))
- 		return iter.status;
-=20
-+	if (iter.p2pdma.map =3D=3D PCI_P2PDMA_MAP_BUS_ADDR)
-+		iod->flags |=3D IOD_P2P_BUS_ADDR;
-+
- 	if (use_sgl =3D=3D SGL_FORCED ||
- 	    (use_sgl =3D=3D SGL_SUPPORTED &&
- 	     (sgl_threshold && nvme_pci_avg_seg_size(req) >=3D sgl_threshold)))
-diff --git a/include/linux/blk-mq-dma.h b/include/linux/blk-mq-dma.h
-index e5cb5e46fc928..881880095e0da 100644
---- a/include/linux/blk-mq-dma.h
-+++ b/include/linux/blk-mq-dma.h
-@@ -47,14 +47,15 @@ static inline bool blk_rq_dma_map_coalesce(struct dma=
-_iova_state *state)
-  * @dma_dev:	device to unmap from
-  * @state:	DMA IOVA state
-  * @mapped_len: number of bytes to unmap
-+ * @is_p2p:	true if mapped with PCI_P2PDMA_MAP_BUS_ADDR
-  *
-  * Returns %false if the callers need to manually unmap every DMA segmen=
-t
-  * mapped using @iter or %true if no work is left to be done.
-  */
- static inline bool blk_rq_dma_unmap(struct request *req, struct device *=
-dma_dev,
--		struct dma_iova_state *state, size_t mapped_len)
-+		struct dma_iova_state *state, size_t mapped_len, bool is_p2p)
- {
--	if (req->cmd_flags & REQ_P2PDMA)
-+	if (is_p2p)
- 		return true;
-=20
- 	if (dma_use_iova(state)) {
---=20
-2.47.3
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "01000000-0000-0000-8ce3-8ee3064aa4f2",
+            "path": "/dev/nvme0n1"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
 
+If NVMe/TCP target is not available, initiator tries to reconnect
+every 10 seconds
+
+[ 2586.071048] nvme nvme9: failed to connect socket: -111
+[ 2586.071403] nvme nvme9: Failed reconnect attempt 16/-1
+[ 2586.071565] nvme nvme9: Reconnecting in 10 seconds...
+[ 2596.310921] nvme nvme9: failed to connect socket: -111
+[ 2596.311186] nvme nvme9: Failed reconnect attempt 17/-1
+[ 2596.311349] nvme nvme9: Reconnecting in 10 seconds...
+[ 2606.550772] nvme nvme9: failed to connect socket: -111
+[ 2606.551252] nvme nvme9: Failed reconnect attempt 18/-1
+[ 2606.551592] nvme nvme9: Reconnecting in 10 seconds...
+
+when NVMe/TCP target become available, initiator failed reconnect the namespace
+
+[ 2606.551592] nvme nvme9: Reconnecting in 10 seconds...
+[ 2616.793080] nvme nvme9: creating 16 I/O queues.
+[ 2616.829881] nvme nvme9: mapped 16/0/0 default/read/poll queues.
+[ 2616.833685] nvme nvme9: Successfully reconnected (attempt 19/-1)
+[ 2616.834446] nvme nvme9: identifiers changed for nsid 1
+[ 2616.835618] block nvme9n1: no usable path - requeuing I/O
+[ 2616.856602] block nvme9n1: no available path - failing I/O
+[ 2616.856811] block nvme9n1: no available path - failing I/O
+
+and there is no nvme9n1 namespace in the "nvme list" output.
+
+Anton
 
