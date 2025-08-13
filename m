@@ -4,102 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93133C87FCF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Aug 2025 04:01:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04188C87FCF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Aug 2025 06:07:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6YGs7neiL7iTizP6MdZ7ZelY5j/XMDSmhwxJUQnZask=; b=0SmYt9WbxBYEXSTmPvYLuiMTU9
-	tnQKBtXi1Chxt05KfsvnYBA0LESoEsbsww5nDSTMs9O/j9FejqZgBOP9VEuwAXBBxyTvs0AqQ1UMt
-	yAH37zrzxWdvL08Ua+dQ8/DhVhZVRKY90wCRpqhc+gaOcl4onPwbI5Ne5cPqNSaKkScJGi94i5R91
-	PVMp2cUAgoWOxqzyVzbzR4wRSpNFB4bbIkhwImW2z2y19QW16bfDXfEFtdECg0FG3bMAL7A6Sx5Ig
-	9CZwSRgBOF7OwU0FKyVVxqxeDlsiMqs1Mkg1BzkCABEVNaiTrKEDJ9KVIF+S6jdZIg379AwQQI/ss
-	alktc/eA==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+dZqnfFPrv4et8EQ0GCE6tDiPGdQs9wvkwh9nuLc5+k=; b=MF+y2JAEGh3FbPJvbimoBi0Tjt
+	/r3+eogzWZ1P9Nme7eHVTeXZ2o6QRctj/lfpWFV8FhvqZ7ObuOCqKcKDb8UVki2zhFW4JK00e4Rud
+	pPtm58JkrOWO84W9TKGOlKGzTRikVP+ABbDb8NidqlZx4YwNfWs9cN55mrz7oYVVwj32GfsBtbeCm
+	S+vIr/dWY7/mgG7IfDXSPcQrJGGCjjXGyLF/S3dKIGgWngK6ftN8rkdoWgzMNRQdWYydMxJFgyh0f
+	P5IeToIlDvEUP9ljQl6BqxazAyortzrDtzJ5BBkHJop9GY0Ucvbwocc0z0zU1j7fWLyQ2RVkWAAHR
+	cL2iSwdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1um2fi-0000000CYSv-3LJN;
-	Wed, 13 Aug 2025 04:01:06 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1um4dd-0000000Ck2F-2s74;
+	Wed, 13 Aug 2025 06:07:05 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1um1Zr-0000000CSDa-3tep
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 13 Aug 2025 02:51:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=6YGs7neiL7iTizP6MdZ7ZelY5j/XMDSmhwxJUQnZask=; b=Qt//LGBg0f3b+mJsP92S20OwCy
-	J04kE0/ybSLY5aR2+CqtuxLMWhax4wKxBOxjrNCSF4T7Gn05josIB5/SfOGQyaEyGwZYmDDgjSqND
-	G9kk5muYlspvVpsKGL1KOIdBosaOklFHHbgoKTiuF37Y0ggThqmnQtqw7TmVLXuAf8WFNw7YZY+jg
-	2zmNwa3BoX7ZW0pekj52I5DtjfVL3Xz36EdmkdCdEw1MJTEUZBU6J1l151CXFE8BCQ9rUpGp4U2Q8
-	n3MCJAKmwi4urKtcWV/Rv48uEjkRYNR0IjHjm6e1NjAfhwAINNpRymq50Vntd7w0PR7VTFX5mfWZU
-	cONMxPUQ==;
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1um1Zm-0000000FwkJ-34Cx
+	id 1um4YZ-0000000Cj1u-2Idn
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Aug 2025 02:50:58 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c1tCg1bhszYQv5N
-	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 10:50:39 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id D11C91A0A22
-	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 10:50:37 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.104.67])
-	by APP4 (Coremail) with SMTP id gCh0CgDHjxB2_ZtofKcBDg--.14943S4;
-	Wed, 13 Aug 2025 10:50:37 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	hch@lst.de,
-	tytso@mit.edu,
-	djwong@kernel.org,
-	bmarzins@redhat.com,
-	chaitanyak@nvidia.com,
-	shinichiro.kawasaki@wdc.com,
-	brauner@kernel.org,
-	martin.petersen@oracle.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	chengzhihao1@huawei.com,
-	yukuai3@huawei.com,
-	yangerkun@huawei.com
-Subject: [PATCH xfsprogs v2] xfs_io: add FALLOC_FL_WRITE_ZEROES support
-Date: Wed, 13 Aug 2025 10:42:50 +0800
-Message-Id: <20250813024250.2504126-1-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.39.2
+	Wed, 13 Aug 2025 06:01:52 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CNur5S028484
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 06:01:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=+dZqnf
+	FPrv4et8EQ0GCE6tDiPGdQs9wvkwh9nuLc5+k=; b=VcW+f4g8lMO26be7hAfg7Y
+	/jv6ltlrTuEIs+9869IM52pvmIvcAH4IPpIF5ZGGdsRaamSiMo+lEGI8EC2FAx0s
+	nszDZNL/YAA3PB31BMd7IhDYhi4atfUT2Pl25ElrMpRDvJL8THmsbo9uXAdJgYl6
+	LQn3vvTips/TxAc/BtNFpkY/pBME97vPQF5LL+sV2BVM5N2O7Giiah3SbdKX0I/c
+	rS0nT8/NZbuznUvJDBI82DvqjCCn0AmHlKfihsqEkSajSkGBOoZ1vdLRHafbRCi3
+	4ui1ExIiipBEXyV1NyxGujta8UPFrYNrqhqlnphaSF//tAM95mMPGsJ0+uja/52Q
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48duruashu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 06:01:50 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 57D5qUnW013994
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 06:01:49 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48duruashs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Aug 2025 06:01:49 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57D4LdQ7017600;
+	Wed, 13 Aug 2025 06:01:49 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 48ekc3njy5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Aug 2025 06:01:49 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 57D61msD28770900
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 13 Aug 2025 06:01:48 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4CCB958043;
+	Wed, 13 Aug 2025 06:01:48 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4C8A258053;
+	Wed, 13 Aug 2025 06:01:47 +0000 (GMT)
+Received: from [9.61.63.67] (unknown [9.61.63.67])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 13 Aug 2025 06:01:46 +0000 (GMT)
+Message-ID: <cfdeca6c-bb83-4379-aff4-8a9f9b70f45d@linux.ibm.com>
+Date: Wed, 13 Aug 2025 11:31:45 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Unable to reconnect namespace via NVMe/TCP
+To: Anton Gavriliuk <antosha20xx@gmail.com>, linux-nvme@lists.infradead.org
+References: <CAAiJnjqKqMHjrPLOvY5sCXiQR0n6pMvm2mS5pQEqy2XY1cD_6Q@mail.gmail.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <CAAiJnjqKqMHjrPLOvY5sCXiQR0n6pMvm2mS5pQEqy2XY1cD_6Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgDHjxB2_ZtofKcBDg--.14943S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxur17Jw1kCF1rXw15JF15twb_yoW5Xr1Up3
-	9rXF1UKa45Xry7WayfGws7WFn8Wws2kr1fJr4xWr1UZ3W5AFyxKFn8G3Z5X3s7WFWxCa1U
-	JFnIqFy5G3WSy3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjTR_OzsDUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: WTEURRSbq_7UfMH7fPNUtaiGuG_qvAe1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDIyNCBTYWx0ZWRfX7KuVxGtlkT8n
+ fXKr/RrbLvolqAE1MbJtnRNeopQXhOzsDOO2PxoZNjUwXi2k5JWpHnnwQQIR4Vdaa6GQ135poBI
+ 010dZNRAhiBw5TVHQkR5yofFB7SZ966v13JZGoEyMsbA/58YgUK/z0Jxee+GqsCBt/M1D7bBlGJ
+ vfl8apjVl35JzJui2JTRorM598gG+y7JiIWjCEP+ns5wkMdN5Medi3n/pvm5PtuWmAQS/IPPCe2
+ Q2RT+Nf5DNlUyj9rnm0VGPypNipXx8A9MN0YFQ2zkkrrDLwX7rp7izaX1DVCMno+22aBGp0h9vD
+ PjbQN6smexNCxI1h2/Qc8YAQhBtK+/HYvP+vEY4KGTP6YXc7S7E3nqCgZ0t8ob3FWZrV1cxNNOL
+ URStCI0/
+X-Authority-Analysis: v=2.4 cv=QtNe3Uyd c=1 sm=1 tr=0 ts=689c2a4e cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=wCSkzWKFi4b8S2Gbj9gA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: TokyUPKbDYbEIYj7LL82PyH83-RG8xSF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 phishscore=0 clxscore=1015 malwarescore=0
+ spamscore=0 suspectscore=0 impostorscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508120224
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250813_035055_713906_B2557EED 
-X-CRM114-Status: GOOD (  11.48  )
+X-CRM114-CacheID: sfid-20250812_230151_718546_9B352DA2 
+X-CRM114-Status: GOOD (  18.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,107 +122,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Zhang Yi <yi.zhang@huawei.com>
 
-The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
-fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES support to the
-fallocate utility by introducing a new 'fwzero' command in the xfs_io
-tool.
 
-Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
-v1->v2:
- - Minor description modification to align with the kernel.
+On 8/12/25 9:18 PM, Anton Gavriliuk wrote:
+> Hi
+> 
+> There are NVMe/TCP target and initiator servers, both running on
+> RHEL10 (6.12.0-55.25.1.el10_0.x86_64)
+> 
+> NVMe/TCP target exports single NVMe SSD
+> 
+>       "namespaces": [
+>         {
+>           "device": {
+>             "nguid": "01000000-0000-0000-8ce3-8ee3064aa4f2",
+>             "path": "/dev/nvme0n1"
+>           },
+>           "enable": 1,
+>           "nsid": 1
+>         }
+>       ],
+> 
+> If NVMe/TCP target is not available, initiator tries to reconnect
+> every 10 seconds
+> 
+> [ 2586.071048] nvme nvme9: failed to connect socket: -111
+> [ 2586.071403] nvme nvme9: Failed reconnect attempt 16/-1
+> [ 2586.071565] nvme nvme9: Reconnecting in 10 seconds...
+> [ 2596.310921] nvme nvme9: failed to connect socket: -111
+> [ 2596.311186] nvme nvme9: Failed reconnect attempt 17/-1
+> [ 2596.311349] nvme nvme9: Reconnecting in 10 seconds...
+> [ 2606.550772] nvme nvme9: failed to connect socket: -111
+> [ 2606.551252] nvme nvme9: Failed reconnect attempt 18/-1
+> [ 2606.551592] nvme nvme9: Reconnecting in 10 seconds...
+> 
+> when NVMe/TCP target become available, initiator failed reconnect the namespace
+> 
+> [ 2606.551592] nvme nvme9: Reconnecting in 10 seconds...
+> [ 2616.793080] nvme nvme9: creating 16 I/O queues.
+> [ 2616.829881] nvme nvme9: mapped 16/0/0 default/read/poll queues.
+> [ 2616.833685] nvme nvme9: Successfully reconnected (attempt 19/-1)
+> [ 2616.834446] nvme nvme9: identifiers changed for nsid 1
 
- io/prealloc.c     | 36 ++++++++++++++++++++++++++++++++++++
- man/man8/xfs_io.8 |  6 ++++++
- 2 files changed, 42 insertions(+)
+It seems after the initiator re-connected to the target, the namespace
+identifiers (UUID/NGUID/EUI64 or CSI(command set identifiers)) have
+changed for nsid 1. So host kernel removed this (nvme9n1) namespace.
 
-diff --git a/io/prealloc.c b/io/prealloc.c
-index 8e968c9f..9a64bf53 100644
---- a/io/prealloc.c
-+++ b/io/prealloc.c
-@@ -30,6 +30,10 @@
- #define FALLOC_FL_UNSHARE_RANGE 0x40
- #endif
- 
-+#ifndef FALLOC_FL_WRITE_ZEROES
-+#define FALLOC_FL_WRITE_ZEROES 0x80
-+#endif
-+
- static cmdinfo_t allocsp_cmd;
- static cmdinfo_t freesp_cmd;
- static cmdinfo_t resvsp_cmd;
-@@ -41,6 +45,7 @@ static cmdinfo_t fcollapse_cmd;
- static cmdinfo_t finsert_cmd;
- static cmdinfo_t fzero_cmd;
- static cmdinfo_t funshare_cmd;
-+static cmdinfo_t fwzero_cmd;
- 
- static int
- offset_length(
-@@ -377,6 +382,27 @@ funshare_f(
- 	return 0;
- }
- 
-+static int
-+fwzero_f(
-+	int		argc,
-+	char		**argv)
-+{
-+	xfs_flock64_t	segment;
-+	int		mode = FALLOC_FL_WRITE_ZEROES;
-+
-+	if (!offset_length(argv[1], argv[2], &segment)) {
-+		exitcode = 1;
-+		return 0;
-+	}
-+
-+	if (fallocate(file->fd, mode, segment.l_start, segment.l_len)) {
-+		perror("fallocate");
-+		exitcode = 1;
-+		return 0;
-+	}
-+	return 0;
-+}
-+
- void
- prealloc_init(void)
- {
-@@ -489,4 +515,14 @@ prealloc_init(void)
- 	funshare_cmd.oneline =
- 	_("unshares shared blocks within the range");
- 	add_command(&funshare_cmd);
-+
-+	fwzero_cmd.name = "fwzero";
-+	fwzero_cmd.cfunc = fwzero_f;
-+	fwzero_cmd.argmin = 2;
-+	fwzero_cmd.argmax = 2;
-+	fwzero_cmd.flags = CMD_NOMAP_OK | CMD_FOREIGN_OK;
-+	fwzero_cmd.args = _("off len");
-+	fwzero_cmd.oneline =
-+	_("zeroes space and eliminates holes by allocating and submitting write zeroes");
-+	add_command(&fwzero_cmd);
- }
-diff --git a/man/man8/xfs_io.8 b/man/man8/xfs_io.8
-index b0dcfdb7..0a673322 100644
---- a/man/man8/xfs_io.8
-+++ b/man/man8/xfs_io.8
-@@ -550,6 +550,12 @@ With the
- .B -k
- option, use the FALLOC_FL_KEEP_SIZE flag as well.
- .TP
-+.BI fwzero " offset length"
-+Call fallocate with FALLOC_FL_WRITE_ZEROES flag as described in the
-+.BR fallocate (2)
-+manual page to allocate and zero blocks within the range by submitting write
-+zeroes.
-+.TP
- .BI zero " offset length"
- Call xfsctl with
- .B XFS_IOC_ZERO_RANGE
--- 
-2.39.2
+> [ 2616.835618] block nvme9n1: no usable path - requeuing I/O
+> [ 2616.856602] block nvme9n1: no available path - failing I/O
+> [ 2616.856811] block nvme9n1: no available path - failing I/O
+> 
+> and there is no nvme9n1 namespace in the "nvme list" output.
+> 
+So you may check on the target about what could have possibly changed
+during reconnect time window for nsid 1. 
+
+As a side note, it’s generally best to reproduce and report issues with
+an upstream kernel when posting to the kernel mailing list. This helps
+ensure the report gets prompt attention and makes it easier for others
+to debug and assist.
+
+Thanks,
+--Nilay
 
 
