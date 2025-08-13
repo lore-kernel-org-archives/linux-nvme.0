@@ -4,75 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1177CA0EC4
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Aug 2025 22:11:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F9EBCA0EDC
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Aug 2025 02:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t05WtJPN/xLNb3BIpZ/WbQHHm1HWVFCs96hRIv2dnDw=; b=UCcIjmTsDY40zYsfBsFgs4s4/S
-	HPrriN+ZEiVrgz3cyZ1gt/EZQa+xpi3P0rGgr6Fh5e2uooOC0XT575dumHmKUP1n0+rJ5VgYlFTHF
-	5c1ALun7NcT+zmOq5/sM1vX/Lotd8XyFcrkE0PDUFTJm/Qu8XILlP8ua1w6AZntgnZEFxBY1gTF9Y
-	5btOE28VNl0TswgVKayr/uAlWeynIARqKmMaP+pgRVLjh8S9cWnvMYbvhQzRyZRkhtC8o66SbGpBa
-	HMm+qaZ1R7o/NGbTR1zwMvXpeh7Y+W+sO8dNBNAO+CV/3bp6V0hRpUXs+xIKFaMwuu7q10OacJnoI
-	fhaosszA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=A6A/+fr2114cd5ULV9iNOUSoYD+RbRQNkFubB3PEgzU=; b=2Re3cIDTwjgGl5QUxykLwIIqbj
+	U8qYm8/TFSczJwCTqYNl+4Nt3u+fCOrzkYXHVZUoXh+HZkgpctkv3mLdQqw+XsYii7Lki7TYVe2fW
+	qXX+83XWazL18sQ02VjD6WKG254+6N5OuEkxbrpkNbWYrqtmRABgpU90JrDJk2aNFJfqy5oQIOPh3
+	iQrP3xt6ks3Ck/n+cQTvoykwbrcyvP6kvT92cEmLyg7MENKLw8t+83MnIplehHupqzdHICEhgYHA7
+	OIlTgom2thMtiKsTzjDxQ86N0qXKIUYfWkM45s5zRrT3S71nt1K8HGS7LBOttjnR/5kjH+tBDaABy
+	QV06yQpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulxDV-0000000C8U2-17ck;
-	Tue, 12 Aug 2025 22:11:37 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1um1XI-0000000CRYI-3OEj;
+	Wed, 13 Aug 2025 02:48:20 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ulxDS-0000000C8Ti-1g6g
+	id 1um1XE-0000000CRPF-1N9N
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Aug 2025 22:11:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755036693;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t05WtJPN/xLNb3BIpZ/WbQHHm1HWVFCs96hRIv2dnDw=;
-	b=dM/uJPDPzC7Wms29gxXAeFVoW8C6dbyo/rGhOm2TQO5suBVxyLoZf+ZSSGl/ZcAxtuF8vj
-	2JwPwrIPwU1TKSv4xniKUXDwQsnca4/fZ0IW1t65hIOIZwprZLjK3/PQFCvR2b6d8HRaxk
-	4YFg/QSqY8GSmSprLSF+iFQvoNDiHK8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-80-4JrA41XQMEmygEkMDKPL9w-1; Tue,
- 12 Aug 2025 18:11:31 -0400
-X-MC-Unique: 4JrA41XQMEmygEkMDKPL9w-1
-X-Mimecast-MFC-AGG-ID: 4JrA41XQMEmygEkMDKPL9w_1755036690
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9DC1B1800352;
-	Tue, 12 Aug 2025 22:11:30 +0000 (UTC)
-Received: from my-developer-toolbox-latest.redhat.com (unknown [10.2.17.22])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5986B195608F;
-	Tue, 12 Aug 2025 22:11:29 +0000 (UTC)
-From: Chris Leech <cleech@redhat.com>
-To: linux-nvme@lists.infradead.org
-Cc: Hannes Reinecke <hare@suse.de>,
-	Daniel Wagner <dwagner@suse.de>,
-	John Meneghini <jmeneghi@redhat.com>
-Subject: [RFC PATCH 1/2] crypto: hkdf: add hkdf_expand_label()
-Date: Tue, 12 Aug 2025 15:11:13 -0700
-Message-ID: <20250812221113.313763-1-cleech@redhat.com>
-In-Reply-To: <20250721021718.1159879-1-cleech@redhat.com>
-References: <20250721021718.1159879-1-cleech@redhat.com>
+	Wed, 13 Aug 2025 02:48:19 +0000
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c1t8l3zFPzYQv05
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 10:48:07 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id 2C7421A07BB
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 10:48:06 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.104.67])
+	by APP3 (Coremail) with SMTP id _Ch0CgAHgdva_JtofdW_DQ--.32695S4;
+	Wed, 13 Aug 2025 10:48:02 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	hch@lst.de,
+	tytso@mit.edu,
+	djwong@kernel.org,
+	bmarzins@redhat.com,
+	chaitanyak@nvidia.com,
+	shinichiro.kawasaki@wdc.com,
+	brauner@kernel.org,
+	martin.petersen@oracle.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	chengzhihao1@huawei.com,
+	yukuai3@huawei.com,
+	yangerkun@huawei.com
+Subject: [PATCH util-linux v2] fallocate: add FALLOC_FL_WRITE_ZEROES support
+Date: Wed, 13 Aug 2025 10:40:15 +0800
+Message-Id: <20250813024015.2502234-1-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JCLZqEjcJUFrtmWThEd2uwmbi3qXnqa9ngQyxR3xWMY_1755036690
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-CM-TRANSID: _Ch0CgAHgdva_JtofdW_DQ--.32695S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxtFW7XFy3Cw43JFy5XFWkZwb_yoWxXryDpF
+	W5tF18K3yFgw4xGw1xAw4kWw15Zws5WrW5CrZ2grykAr13Ga17Ka1vgryFgasrXrWvka15
+	Xryavry3ur48AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjTRRBT5DUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250812_151134_514761_E54D12F0 
-X-CRM114-Status: GOOD (  20.21  )
+X-CRM114-CacheID: sfid-20250812_194816_703994_C0145649 
+X-CRM114-Status: GOOD (  16.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,191 +98,139 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Provide an implementation of RFC 8446 (TLS 1.3) HKDF-Expand-Label
+From: Zhang Yi <yi.zhang@huawei.com>
 
-Signed-off-by: Chris Leech <cleech@redhat.com>
+The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
+fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
+utility by introducing a new option -w|--write-zeroes.
+
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- crypto/hkdf.c         | 55 +++++++++++++++++++++++++++++++++++++++++++
- include/crypto/hkdf.h |  4 ++++
- 2 files changed, 59 insertions(+)
+v1->v2:
+ - Minor description modification to align with the kernel.
 
-diff --git a/crypto/hkdf.c b/crypto/hkdf.c
-index 82d1b32ca6ce4..465bad6e6c93e 100644
---- a/crypto/hkdf.c
-+++ b/crypto/hkdf.c
-@@ -11,6 +11,7 @@
- #include <crypto/sha2.h>
- #include <crypto/hkdf.h>
- #include <linux/module.h>
-+#include <linux/unaligned.h>
+ sys-utils/fallocate.1.adoc | 11 +++++++++--
+ sys-utils/fallocate.c      | 20 ++++++++++++++++----
+ 2 files changed, 25 insertions(+), 6 deletions(-)
+
+diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
+index 44ee0ef4c..0ec9ff9a9 100644
+--- a/sys-utils/fallocate.1.adoc
++++ b/sys-utils/fallocate.1.adoc
+@@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
  
- /*
-  * HKDF consists of two steps:
-@@ -129,6 +130,60 @@ int hkdf_expand(struct crypto_shash *hmac_tfm,
- }
- EXPORT_SYMBOL_GPL(hkdf_expand);
+ == SYNOPSIS
  
-+/**
-+ * hkdf_expand_label - HKDF-Expand-Label (RFC 8846 section 7.1)
-+ * @hmac_tfm: hash context keyed with pseudorandom key
-+ * @label: ASCII label without "tls13 " prefix
-+ * @label_len: length of @label
-+ * @context: context bytes
-+ * @contextlen: length of @context
-+ * @okm: output keying material
-+ * @okmlen: length of @okm
-+ *
-+ * Build the TLS 1.3 HkdfLabel structure and invoke hkdf_expand().
-+ *
-+ * Returns 0 on success with output keying material stored in @okm,
-+ * or a negative errno value otherwise.
-+ */
-+int hkdf_expand_label(struct crypto_shash *hmac_tfm,
-+		const u8 *label, unsigned int labellen,
-+		const u8 *context, unsigned int contextlen,
-+		u8 *okm, unsigned int okmlen)
-+{
-+	int err;
-+	u8 *info;
-+	unsigned int infolen;
-+	static const char tls13_prefix[] = "tls13 ";
-+	unsigned int prefixlen = sizeof(tls13_prefix) - 1; /* exclude NUL */
+-*fallocate* [*-c*|*-p*|*-z*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
++*fallocate* [*-c*|*-p*|*-z*|*-w*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
+ 
+ *fallocate* *-d* [*-o* _offset_] [*-l* _length_] _filename_
+ 
+@@ -28,7 +28,7 @@ The exit status returned by *fallocate* is 0 on success and 1 on failure.
+ 
+ The _length_ and _offset_ arguments may be followed by the multiplicative suffixes KiB (=1024), MiB (=1024*1024), and so on for GiB, TiB, PiB, EiB, ZiB, and YiB (the "iB" is optional, e.g., "K" has the same meaning as "KiB") or the suffixes KB (=1000), MB (=1000*1000), and so on for GB, TB, PB, EB, ZB, and YB.
+ 
+-The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range* and *--posix* are mutually exclusive.
++The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range*, *--write-zeroes* and *--posix* are mutually exclusive.
+ 
+ *-c*, *--collapse-range*::
+ Removes a byte range from a file, without leaving a hole. The byte range to be collapsed starts at _offset_ and continues for _length_ bytes. At the completion of the operation, the contents of the file starting at the location __offset__+_length_ will be appended at the location _offset_, and the file will be _length_ bytes smaller. The option *--keep-size* may not be specified for the collapse-range operation.
+@@ -76,6 +76,13 @@ Option *--keep-size* can be specified to prevent file length modification.
+ +
+ Available since Linux 3.14 for ext4 (only for extent-based files) and XFS.
+ 
++*-w*, *--write-zeroes*::
++Zeroes space in the byte range starting at _offset_ and continuing for _length_ bytes. Within the specified range, blocks are preallocated for the regions that span the holes in the file. After a successful call, subsequent reads from this range will return zeroes, subsequent writes to that range do not require further changes to the file mapping metadata.
+++
++Zeroing is done within the filesystem by preferably submitting write zeores commands, the alternative way is submitting actual zeroed data, the specified range will be converted into written extents. The write zeroes command is typically faster than write actual data if the device supports unmap write zeroes, the specified range will not be physically zeroed out on the device.
+++
++Options *--keep-size* can not be specified for the write-zeroes operation.
 +
-+	if (WARN_ON(labellen > (255 - prefixlen)))
-+		return -EINVAL;
-+	if (WARN_ON(contextlen > 255))
-+		return -EINVAL;
-+
-+	infolen = 2 + (1 + prefixlen + labellen) + (1 + contextlen);
-+	info = kzalloc(infolen, GFP_KERNEL);
-+	if (!info)
-+		return -ENOMEM;
-+
-+	/* HkdfLabel.Length */
-+	put_unaligned_be16(okmlen, info);
-+
-+	/* HkdfLabel.Label */
-+	info[2] = prefixlen + labellen;
-+	memcpy(info + 3, tls13_prefix, prefixlen);
-+	memcpy(info + 3 + prefixlen, label, labellen);
-+
-+	/* HkdfLabel.Context */
-+	info[3 + prefixlen + labellen] = contextlen;
-+	memcpy(info + 4 + prefixlen + labellen, context, contextlen);
-+
-+	err = hkdf_expand(hmac_tfm, info, infolen, okm, okmlen);
-+	kfree_sensitive(info);
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(hkdf_expand_label);
-+
- struct hkdf_testvec {
- 	const char *test;
- 	const u8 *ikm;
-diff --git a/include/crypto/hkdf.h b/include/crypto/hkdf.h
-index 6a9678f508f5d..5e75d17a58abe 100644
---- a/include/crypto/hkdf.h
-+++ b/include/crypto/hkdf.h
-@@ -17,4 +17,8 @@ int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
- int hkdf_expand(struct crypto_shash *hmac_tfm,
- 		const u8 *info, unsigned int infolen,
- 		u8 *okm, unsigned int okmlen);
-+int hkdf_expand_label(struct crypto_shash *hmac_tfm,
-+		const u8 *label, unsigned int labellen,
-+		const u8 *context, unsigned int contextlen,
-+		u8 *okm, unsigned int okmlen);
+ include::man-common/help-version.adoc[]
+ 
+ == AUTHORS
+diff --git a/sys-utils/fallocate.c b/sys-utils/fallocate.c
+index 13bf52915..8d37fdad7 100644
+--- a/sys-utils/fallocate.c
++++ b/sys-utils/fallocate.c
+@@ -40,7 +40,7 @@
+ #if defined(HAVE_LINUX_FALLOC_H) && \
+     (!defined(FALLOC_FL_KEEP_SIZE) || !defined(FALLOC_FL_PUNCH_HOLE) || \
+      !defined(FALLOC_FL_COLLAPSE_RANGE) || !defined(FALLOC_FL_ZERO_RANGE) || \
+-     !defined(FALLOC_FL_INSERT_RANGE))
++     !defined(FALLOC_FL_INSERT_RANGE) || !defined(FALLOC_FL_WRITE_ZEROES))
+ # include <linux/falloc.h>	/* non-libc fallback for FALLOC_FL_* flags */
  #endif
+ 
+@@ -65,6 +65,10 @@
+ # define FALLOC_FL_INSERT_RANGE		0x20
+ #endif
+ 
++#ifndef FALLOC_FL_WRITE_ZEROES
++# define FALLOC_FL_WRITE_ZEROES		0x80
++#endif
++
+ #include "nls.h"
+ #include "strutils.h"
+ #include "c.h"
+@@ -94,6 +98,7 @@ static void __attribute__((__noreturn__)) usage(void)
+ 	fputs(_(" -o, --offset <num>   offset for range operations, in bytes\n"), out);
+ 	fputs(_(" -p, --punch-hole     replace a range with a hole (implies -n)\n"), out);
+ 	fputs(_(" -z, --zero-range     zero and ensure allocation of a range\n"), out);
++	fputs(_(" -w, --write-zeroes   write zeroes and ensure allocation of a range\n"), out);
+ #ifdef HAVE_POSIX_FALLOCATE
+ 	fputs(_(" -x, --posix          use posix_fallocate(3) instead of fallocate(2)\n"), out);
+ #endif
+@@ -304,6 +309,7 @@ int main(int argc, char **argv)
+ 	    { "dig-holes",      no_argument,       NULL, 'd' },
+ 	    { "insert-range",   no_argument,       NULL, 'i' },
+ 	    { "zero-range",     no_argument,       NULL, 'z' },
++	    { "write-zeroes",   no_argument,       NULL, 'w' },
+ 	    { "offset",         required_argument, NULL, 'o' },
+ 	    { "length",         required_argument, NULL, 'l' },
+ 	    { "posix",          no_argument,       NULL, 'x' },
+@@ -312,8 +318,8 @@ int main(int argc, char **argv)
+ 	};
+ 
+ 	static const ul_excl_t excl[] = {	/* rows and cols in ASCII order */
+-		{ 'c', 'd', 'i', 'p', 'x', 'z'},
+-		{ 'c', 'i', 'n', 'x' },
++		{ 'c', 'd', 'i', 'p', 'w', 'x', 'z'},
++		{ 'c', 'i', 'n', 'w', 'x' },
+ 		{ 0 }
+ 	};
+ 	int excl_st[ARRAY_SIZE(excl)] = UL_EXCL_STATUS_INIT;
+@@ -323,7 +329,7 @@ int main(int argc, char **argv)
+ 	textdomain(PACKAGE);
+ 	close_stdout_atexit();
+ 
+-	while ((c = getopt_long(argc, argv, "hvVncpdizxl:o:", longopts, NULL))
++	while ((c = getopt_long(argc, argv, "hvVncpdizwxl:o:", longopts, NULL))
+ 			!= -1) {
+ 
+ 		err_exclusive_options(c, longopts, excl, excl_st);
+@@ -353,6 +359,9 @@ int main(int argc, char **argv)
+ 		case 'z':
+ 			mode |= FALLOC_FL_ZERO_RANGE;
+ 			break;
++		case 'w':
++			mode |= FALLOC_FL_WRITE_ZEROES;
++			break;
+ 		case 'x':
+ #ifdef HAVE_POSIX_FALLOCATE
+ 			posix = 1;
+@@ -429,6 +438,9 @@ int main(int argc, char **argv)
+ 			else if (mode & FALLOC_FL_ZERO_RANGE)
+ 				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
+ 								filename, str, length);
++			else if (mode & FALLOC_FL_WRITE_ZEROES)
++				fprintf(stdout, _("%s: %s (%ju bytes) write zeroed.\n"),
++								filename, str, length);
+ 			else
+ 				fprintf(stdout, _("%s: %s (%ju bytes) allocated.\n"),
+ 								filename, str, length);
 -- 
-2.49.0
-
-
-From 17e645b802bd61b4f3182195c15935e2fa1155ad Mon Sep 17 00:00:00 2001
-From: Chris Leech <cleech@redhat.com>
-Date: Tue, 12 Aug 2025 12:41:08 -0700
-Subject: [RFC PATCH 2/2] nvme-auth: use hkdf_expand_label()
-
-When generating keying material during an authentication transaction
-(secure channel concatenation), the HKDF-Expand-Label function is part
-of the specified key derivation process.
-
-The current open-coded implementation misses the length prefix
-requirements on the HkdfLabel label and context variable-length vectors
-(RFC 8446 Section 3.4).
-
-Instead, use the hkdf_expand_label() function.
-
-Signed-off-by: Chris Leech <cleech@redhat.com>
----
- drivers/nvme/common/auth.c | 34 ++++++++++++++--------------------
- 1 file changed, 14 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index 91e273b89fea3..bfa6f0a82d3e9 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -715,10 +715,10 @@ int nvme_auth_derive_tls_psk(int hmac_id, u8 *psk, size_t psk_len,
- {
- 	struct crypto_shash *hmac_tfm;
- 	const char *hmac_name;
--	const char *psk_prefix = "tls13 nvme-tls-psk";
- 	static const char default_salt[HKDF_MAX_HASHLEN];
--	size_t info_len, prk_len;
--	char *info;
-+	size_t prk_len;
-+	const char *label = "nvme-tls-psk";
-+	const char *ctx;
- 	unsigned char *prk, *tls_key;
- 	int ret;
- 
-@@ -758,36 +758,30 @@ int nvme_auth_derive_tls_psk(int hmac_id, u8 *psk, size_t psk_len,
- 	if (ret)
- 		goto out_free_prk;
- 
--	/*
--	 * 2 additional bytes for the length field from HDKF-Expand-Label,
--	 * 2 additional bytes for the HMAC ID, and one byte for the space
--	 * separator.
--	 */
--	info_len = strlen(psk_digest) + strlen(psk_prefix) + 5;
--	info = kzalloc(info_len + 1, GFP_KERNEL);
--	if (!info) {
-+	/* Context is ASCII: "<hash-id-two-digits> <base64-digest>" */
-+	ctx = kasprintf(GFP_KERNEL, "%02d %s", hmac_id, psk_digest);
-+	if (!ctx) {
- 		ret = -ENOMEM;
- 		goto out_free_prk;
- 	}
- 
--	put_unaligned_be16(psk_len, info);
--	memcpy(info + 2, psk_prefix, strlen(psk_prefix));
--	sprintf(info + 2 + strlen(psk_prefix), "%02d %s", hmac_id, psk_digest);
--
- 	tls_key = kzalloc(psk_len, GFP_KERNEL);
- 	if (!tls_key) {
- 		ret = -ENOMEM;
--		goto out_free_info;
-+		goto out_free_ctx;
- 	}
--	ret = hkdf_expand(hmac_tfm, info, info_len, tls_key, psk_len);
-+	ret = hkdf_expand_label(hmac_tfm,
-+				label, strlen(label),
-+				ctx, strlen(ctx),
-+				tls_key, psk_len);
- 	if (ret) {
- 		kfree(tls_key);
--		goto out_free_info;
-+		goto out_free_ctx;
- 	}
- 	*ret_psk = tls_key;
- 
--out_free_info:
--	kfree(info);
-+out_free_ctx:
-+	kfree(ctx);
- out_free_prk:
- 	kfree(prk);
- out_free_shash:
--- 
-2.49.0
+2.39.2
 
 
