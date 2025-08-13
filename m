@@ -4,107 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F398BCA0EE0
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Aug 2025 21:16:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B4CDCA0EDC
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 03:48:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NANpq5j0QRDeFcPPjmiwwML+SQhgqErHhixAlpANfGI=; b=1t9TzwlmVgR6DUw7mMFWlWrGep
-	vrFOMovt+MaeinPMDPx28lppSWjjVKz7zEd4e36No/Rz6etDqJqCvGUwQva358bazC5RB/Hke/yPA
-	J+ryrpL8SDPpGwxN78f5NP7jagvqPypWgPgQsW6k6RQycJ4I5ms2EMl/z9hcGyPmscOcufTU/CmHx
-	8gAQ8PbfggAZAQQTUiOSyaCvOoiTURkPAhASfdsost21PAh4aJ3S+woI4Wgau5xejzW1we/cASyOT
-	zc9OOkTqEjNWpxriyo/rflySa4gDhF8vLret6g50GVTOoKH71ilZ26069NAoLo05fNn3axf0JiDa/
-	MYzjmqzA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ySXGLynnR++p6RuXca+nTN6nGsk03DV3QSK1ER01nvY=; b=Adlq3mBMYyVmt8uxC60PFb1+WL
+	icRz3VOXDMR+CAbmzTyKneYr90zrp7WJGFfaxNXzQH8y0IVK9ovN3tycWi77GiXUfIrTvlZGy9Poe
+	RvNOsQkxJ5Um3L9QkRsRClA40Izqd4BsYpz/rSb3F6WgsbraLSVtzrFivHVyMajsyxBjQSWRaTxcZ
+	GdtAFlu5H0VKPRKkpz8LFcpCBwe44F6M7Qjm6HA9l1ntbKKXqK0lUSuu18it0PfOW3sPrxVFs4we0
+	gLekuF8shy7Bc0xtsSv1sdreXlVrclfTUApEOPZZevyXmX5jlXRbczYRtZs/uiTHzOPBwQToApWT6
+	WYdin63Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umIpf-0000000Ezel-3hR2;
-	Wed, 13 Aug 2025 21:16:27 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1umOxC-0000000Fgr4-3hlm;
+	Thu, 14 Aug 2025 03:48:38 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umHng-0000000EvHO-1FlZ
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 13 Aug 2025 20:10:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=NANpq5j0QRDeFcPPjmiwwML+SQhgqErHhixAlpANfGI=; b=PidlZIHaz81B8kLvlfYOc74oIm
-	/PjjoirHNVeddPLZdj75mUaTMPtphEc2LHK/+cob6NiNRDR4GQQC7O1vbnrDLLsX+5volyfsUwPcG
-	V1SDjhwyjzXCoPD2O6FWWTZPOzZRoa67XQUUf3nS+LbivFJigfchFP/cXUnPPZOXAeb3LUrD1pK+k
-	K+2FWriyi+WBQfcr3Qod5oez0Q3AvSqM79XpH5cNxDc61jp/2BT73/th1a68LkCBeUprzIQC+B6nR
-	hYwx86JwCr6tpwC7rMU1TsogNOyVgOQwG13tCK6mcYBMYTMMWW84OY3QGe9nO8K4uVfwePNgLUnHW
-	Xnou4HKA==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umHnc-0000000GBLX-2WPj
+	id 1umD4W-0000000E8Dl-03ku
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Aug 2025 20:10:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755115815;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NANpq5j0QRDeFcPPjmiwwML+SQhgqErHhixAlpANfGI=;
-	b=Bg0oJxCRX5+lBc6roL8tcuL6RY4mrpgeMKbYD9ScGHkSm0Dk4paFjfbNOsoLRH+cbJZloK
-	BUJVwC78QRtW4JlFKNX7+9AwkyTxKiUK3zmxCKOV6LVg8bUA0meHFfU0Yyzp6QKPI/Eqrl
-	SUWxxAEXooieuJbBn4/eJcDyHoXfYRY=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755115815;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NANpq5j0QRDeFcPPjmiwwML+SQhgqErHhixAlpANfGI=;
-	b=Bg0oJxCRX5+lBc6roL8tcuL6RY4mrpgeMKbYD9ScGHkSm0Dk4paFjfbNOsoLRH+cbJZloK
-	BUJVwC78QRtW4JlFKNX7+9AwkyTxKiUK3zmxCKOV6LVg8bUA0meHFfU0Yyzp6QKPI/Eqrl
-	SUWxxAEXooieuJbBn4/eJcDyHoXfYRY=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-672-8slgemYANWa90JYFwSvOBg-1; Wed,
- 13 Aug 2025 16:08:50 -0400
-X-MC-Unique: 8slgemYANWa90JYFwSvOBg-1
-X-Mimecast-MFC-AGG-ID: 8slgemYANWa90JYFwSvOBg_1755115728
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6AEF31800248;
-	Wed, 13 Aug 2025 20:08:48 +0000 (UTC)
-Received: from bgurney-thinkpadp1gen5.remote.csb (unknown [10.44.32.39])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 736B618003FC;
-	Wed, 13 Aug 2025 20:08:42 +0000 (UTC)
-From: Bryan Gurney <bgurney@redhat.com>
-To: linux-nvme@lists.infradead.org,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	axboe@kernel.dk
-Cc: james.smart@broadcom.com,
-	njavali@marvell.com,
-	linux-scsi@vger.kernel.org,
-	hare@suse.de,
-	linux-hardening@vger.kernel.org,
-	kees@kernel.org,
-	gustavoars@kernel.org,
-	bgurney@redhat.com,
-	jmeneghi@redhat.com,
-	emilne@redhat.com
-Subject: [PATCH v9 7/9] nvme: sysfs: emit the marginal path state in show_state()
-Date: Wed, 13 Aug 2025 16:07:42 -0400
-Message-ID: <20250813200744.17975-8-bgurney@redhat.com>
-In-Reply-To: <20250813200744.17975-1-bgurney@redhat.com>
-References: <20250813200744.17975-1-bgurney@redhat.com>
+	Wed, 13 Aug 2025 15:07:24 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 2F0C06112D;
+	Wed, 13 Aug 2025 15:07:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B711C4CEF1;
+	Wed, 13 Aug 2025 15:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755097642;
+	bh=AgCFVr8B6NzxkSuzvPEJMB9AhjM0iYqJptnGya/8rdo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YENt6LTmzTF5MtD2CCE/V13VNj4PuphZirCcbsVboFbdWpo5pbDoM+O1RwGND9hHA
+	 WetmjCRKzL7pVzJCuB6ANhgpmI5NnCbOUKiA98JWJtIXOH8N50EVLmuQyuay6zm6ky
+	 Onvhe46hQosw9HCamdkdEFdjBFc8sAKkHOvcvhEwHpJ12ST8cc+74GQ77yCDPQN8yP
+	 6Wv7nBFsNIocmJw6FI3A2Sw+oIhMT6YNdwdLIq5MhleD6VLBx07CKPNCPkvEmssek+
+	 ZjeG2ZowZ0nIKyT2jMky93WoiZsWFLORbU579a0ityJsLq0oaeKqLOOi+Bq4oEc02a
+	 vNc66YhlSs8qQ==
+Date: Wed, 13 Aug 2025 18:07:18 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v1 08/16] kmsan: convert kmsan_handle_dma to use physical
+ addresses
+Message-ID: <20250813150718.GB310013@unreal>
+References: <cover.1754292567.git.leon@kernel.org>
+ <5b40377b621e49ff4107fa10646c828ccc94e53e.1754292567.git.leon@kernel.org>
+ <20250807122115.GH184255@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250813_211017_241358_D302BCD5 
-X-CRM114-Status: GOOD (  11.90  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250807122115.GH184255@nvidia.com>
+X-Mailman-Approved-At: Wed, 13 Aug 2025 20:48:37 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,36 +95,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If a controller has received a link integrity or congestion event, and
-has the NVME_CTRL_MARGINAL flag set, emit "marginal" in the state
-instead of "live", to identify the marginal paths.
+On Thu, Aug 07, 2025 at 09:21:15AM -0300, Jason Gunthorpe wrote:
+> On Mon, Aug 04, 2025 at 03:42:42PM +0300, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Convert the KMSAN DMA handling function from page-based to physical
+> > address-based interface.
+> > 
+> > The refactoring renames kmsan_handle_dma() parameters from accepting
+> > (struct page *page, size_t offset, size_t size) to (phys_addr_t phys,
+> > size_t size). A PFN_VALID check is added to prevent KMSAN operations
+> > on non-page memory, preventing from non struct page backed address,
+> > 
+> > As part of this change, support for highmem addresses is implemented
+> > using kmap_local_page() to handle both lowmem and highmem regions
+> > properly. All callers throughout the codebase are updated to use the
+> > new phys_addr_t based interface.
+> 
+> Use the function Matthew pointed at kmap_local_pfn()
+> 
+> Maybe introduce the kmap_local_phys() he suggested too.
 
-Co-developed-by: John Meneghini <jmeneghi@redhat.com>
-Signed-off-by: John Meneghini <jmeneghi@redhat.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Tested-by: Muneendra Kumar <muneendra.kumar@broadcom.com>
-Signed-off-by: Bryan Gurney <bgurney@redhat.com>
----
- drivers/nvme/host/sysfs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+At this point it gives nothing.
 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 29430949ce2f..4a6135c2f9cb 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -430,7 +430,9 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
- 	};
- 
- 	if (state < ARRAY_SIZE(state_name) && state_name[state])
--		return sysfs_emit(buf, "%s\n", state_name[state]);
-+		return sysfs_emit(buf, "%s\n",
-+			(nvme_ctrl_is_marginal(ctrl)) ? "marginal" :
-+			state_name[state]);
- 
- 	return sysfs_emit(buf, "unknown state\n");
- }
--- 
-2.50.1
+> 
+> >  /* Helper function to handle DMA data transfers. */
+> > -void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
+> > +void kmsan_handle_dma(phys_addr_t phys, size_t size,
+> >  		      enum dma_data_direction dir)
+> >  {
+> >  	u64 page_offset, to_go, addr;
+> > +	struct page *page;
+> > +	void *kaddr;
+> >  
+> > -	if (PageHighMem(page))
+> > +	if (!pfn_valid(PHYS_PFN(phys)))
+> >  		return;
+> 
+> Not needed, the caller must pass in a phys that is kmap
+> compatible. Maybe just leave a comment. FWIW today this is also not
+> checking for P2P or DEVICE non-kmap struct pages either, so it should
+> be fine without checks.
 
+It is not true as we will call to kmsan_handle_dma() unconditionally in
+dma_map_phys(). The reason to it is that kmsan_handle_dma() is guarded
+with debug kconfig options and cost of pfn_valid() can be accommodated
+in that case. It gives more clean DMA code.
+
+   155 dma_addr_t dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
+   156                 enum dma_data_direction dir, unsigned long attrs)
+   157 {
+   <...>
+   187
+   188         kmsan_handle_dma(phys, size, dir);
+   189         trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
+   190         debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
+   191
+   192         return addr;
+   193 }
+   194 EXPORT_SYMBOL_GPL(dma_map_phys);
+
+So let's keep this patch as is.
+
+Thanks
 
