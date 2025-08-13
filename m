@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B4CDCA0EDC
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 03:48:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FA0BCA0EDC
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 03:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ySXGLynnR++p6RuXca+nTN6nGsk03DV3QSK1ER01nvY=; b=Adlq3mBMYyVmt8uxC60PFb1+WL
-	icRz3VOXDMR+CAbmzTyKneYr90zrp7WJGFfaxNXzQH8y0IVK9ovN3tycWi77GiXUfIrTvlZGy9Poe
-	RvNOsQkxJ5Um3L9QkRsRClA40Izqd4BsYpz/rSb3F6WgsbraLSVtzrFivHVyMajsyxBjQSWRaTxcZ
-	GdtAFlu5H0VKPRKkpz8LFcpCBwe44F6M7Qjm6HA9l1ntbKKXqK0lUSuu18it0PfOW3sPrxVFs4we0
-	gLekuF8shy7Bc0xtsSv1sdreXlVrclfTUApEOPZZevyXmX5jlXRbczYRtZs/uiTHzOPBwQToApWT6
-	WYdin63Q==;
+	bh=Zm/dCvvK+iI7j714RjSP/vwEDHJVwvkiYDPPSLpMKNg=; b=KrRdNTN2gfuQDR0xeMvuA9AwNU
+	KgGkPb0txTY3VfnOO3v9RMK8yxbdRj4ZUQ5bp/3HUy/dJEvHJ5CGzgthokwa/yP2TrMOsSDonvd7m
+	UJIPVpIfRT2AxUZbpScT9gE1NhWMPXQUz5FGtJJQrI1cKXef3qdcpMlOHaDu4f79FbobSHP5rk8PS
+	98iKKGW379Pkt/d/w//Qg8Z7kXLYcQ4RoQuTB884W6oFZTTAKyo2mK5TNfW6cWNHpH7F3DsqTbAJA
+	8WdA787trRk+/bkuDQEVF1qGFdtOaOHK8hiBp8rHPjHv/Io7HYyumn4hRfVWba1tyZSz/vP9Pl6zC
+	A3gs9NzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umOxC-0000000Fgr4-3hlm;
-	Thu, 14 Aug 2025 03:48:38 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1umOxD-0000000FgrB-1uvw;
+	Thu, 14 Aug 2025 03:48:39 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umD4W-0000000E8Dl-03ku
+	id 1umDXh-0000000EDFh-3HHZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Aug 2025 15:07:24 +0000
+	Wed, 13 Aug 2025 15:37:34 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 2F0C06112D;
-	Wed, 13 Aug 2025 15:07:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B711C4CEF1;
-	Wed, 13 Aug 2025 15:07:22 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id B00E35C1360;
+	Wed, 13 Aug 2025 15:37:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A911EC4CEEB;
+	Wed, 13 Aug 2025 15:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755097642;
-	bh=AgCFVr8B6NzxkSuzvPEJMB9AhjM0iYqJptnGya/8rdo=;
+	s=k20201202; t=1755099452;
+	bh=PQhq5rWxBSi6wo5Tnnh0V92zapg7M+UyVJSAH0kCd/o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YENt6LTmzTF5MtD2CCE/V13VNj4PuphZirCcbsVboFbdWpo5pbDoM+O1RwGND9hHA
-	 WetmjCRKzL7pVzJCuB6ANhgpmI5NnCbOUKiA98JWJtIXOH8N50EVLmuQyuay6zm6ky
-	 Onvhe46hQosw9HCamdkdEFdjBFc8sAKkHOvcvhEwHpJ12ST8cc+74GQ77yCDPQN8yP
-	 6Wv7nBFsNIocmJw6FI3A2Sw+oIhMT6YNdwdLIq5MhleD6VLBx07CKPNCPkvEmssek+
-	 ZjeG2ZowZ0nIKyT2jMky93WoiZsWFLORbU579a0ityJsLq0oaeKqLOOi+Bq4oEc02a
-	 vNc66YhlSs8qQ==
-Date: Wed, 13 Aug 2025 18:07:18 +0300
+	b=kkqdIE/HRQ5cedE1zyuMfMRaAZJeqzpFBH0/fLyOJbOpD7Q9Y6fUKKVCUSYg6Iu9+
+	 +0lhPpaogX+zo7DE625PlBBN7tO+nQtx0LA2aKRv5GqYQcf/TD8I++3mIddUS1oGuS
+	 2Xu0FGRyeN7MRl5kxApDBRYf8dHZhW8fLMu9BCMo8fTZeDkfiJH03TaTo8MCeUS3wk
+	 Q3N2kSeVd08IYz9d3sNubS0p0XfPjY2fnOy5IU5HLL6nAdg88Wdvo9IzmX54CnrqWQ
+	 dCVsQbDhz8GqQ+nB2+l0260S3CZs7QJe8H773Ex1NmDTheYUl2t1VYx6TqiJOtited
+	 Jw1XTt4Q0BCbw==
+Date: Wed, 13 Aug 2025 18:37:28 +0300
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -70,16 +70,19 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v1 08/16] kmsan: convert kmsan_handle_dma to use physical
- addresses
-Message-ID: <20250813150718.GB310013@unreal>
+Subject: Re: [PATCH v1 16/16] nvme-pci: unmap MMIO pages with appropriate
+ interface
+Message-ID: <20250813153728.GC310013@unreal>
 References: <cover.1754292567.git.leon@kernel.org>
- <5b40377b621e49ff4107fa10646c828ccc94e53e.1754292567.git.leon@kernel.org>
- <20250807122115.GH184255@nvidia.com>
+ <5b0131f82a3d14acaa85f0d1dd608d2913af84e2.1754292567.git.leon@kernel.org>
+ <20250807134533.GM184255@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250807122115.GH184255@nvidia.com>
+In-Reply-To: <20250807134533.GM184255@nvidia.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250813_083733_859381_7115E6F8 
+X-CRM114-Status: GOOD (  14.84  )
 X-Mailman-Approved-At: Wed, 13 Aug 2025 20:48:37 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,67 +98,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 07, 2025 at 09:21:15AM -0300, Jason Gunthorpe wrote:
-> On Mon, Aug 04, 2025 at 03:42:42PM +0300, Leon Romanovsky wrote:
+On Thu, Aug 07, 2025 at 10:45:33AM -0300, Jason Gunthorpe wrote:
+> On Mon, Aug 04, 2025 at 03:42:50PM +0300, Leon Romanovsky wrote:
 > > From: Leon Romanovsky <leonro@nvidia.com>
 > > 
-> > Convert the KMSAN DMA handling function from page-based to physical
-> > address-based interface.
-> > 
-> > The refactoring renames kmsan_handle_dma() parameters from accepting
-> > (struct page *page, size_t offset, size_t size) to (phys_addr_t phys,
-> > size_t size). A PFN_VALID check is added to prevent KMSAN operations
-> > on non-page memory, preventing from non struct page backed address,
-> > 
-> > As part of this change, support for highmem addresses is implemented
-> > using kmap_local_page() to handle both lowmem and highmem regions
-> > properly. All callers throughout the codebase are updated to use the
-> > new phys_addr_t based interface.
+> > Block layer maps MMIO memory through dma_map_phys() interface
+> > with help of DMA_ATTR_MMIO attribute. There is a need to unmap
+> > that memory with the appropriate unmap function.
 > 
-> Use the function Matthew pointed at kmap_local_pfn()
+> Be specific, AFIACT the issue is that on dma_ops platforms the map
+> will call ops->map_resource for ATTR_MMIO so we must have the unmap
+> call ops->unmap_resournce
 > 
-> Maybe introduce the kmap_local_phys() he suggested too.
+> Maybe these patches should be swapped then, as adding ATTR_MMIO seems
+> like it created this issue?
 
-At this point it gives nothing.
-
-> 
-> >  /* Helper function to handle DMA data transfers. */
-> > -void kmsan_handle_dma(struct page *page, size_t offset, size_t size,
-> > +void kmsan_handle_dma(phys_addr_t phys, size_t size,
-> >  		      enum dma_data_direction dir)
-> >  {
-> >  	u64 page_offset, to_go, addr;
-> > +	struct page *page;
-> > +	void *kaddr;
-> >  
-> > -	if (PageHighMem(page))
-> > +	if (!pfn_valid(PHYS_PFN(phys)))
-> >  		return;
-> 
-> Not needed, the caller must pass in a phys that is kmap
-> compatible. Maybe just leave a comment. FWIW today this is also not
-> checking for P2P or DEVICE non-kmap struct pages either, so it should
-> be fine without checks.
-
-It is not true as we will call to kmsan_handle_dma() unconditionally in
-dma_map_phys(). The reason to it is that kmsan_handle_dma() is guarded
-with debug kconfig options and cost of pfn_valid() can be accommodated
-in that case. It gives more clean DMA code.
-
-   155 dma_addr_t dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
-   156                 enum dma_data_direction dir, unsigned long attrs)
-   157 {
-   <...>
-   187
-   188         kmsan_handle_dma(phys, size, dir);
-   189         trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
-   190         debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
-   191
-   192         return addr;
-   193 }
-   194 EXPORT_SYMBOL_GPL(dma_map_phys);
-
-So let's keep this patch as is.
+The best variant will be to squash previous patch "block-dma: properly
+take MMIO path", but I don't want to mix them as they for different
+kernel areas.
 
 Thanks
+
+> 
+> Jason
+> 
 
