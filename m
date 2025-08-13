@@ -4,172 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F6FCCA0EE4
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Aug 2025 12:46:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72BAACA0EE0
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Aug 2025 16:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:To:
-	From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Ar6ZC8m4jXc8fthneS4Eqotf0XsmIv73kmWIrQxBO4w=; b=zkz95GU88h4u7BTvmZcpDZ/ei3
-	bOuZ8KX3k3AAA2D2ps325bS8n7M8y0LksX8RH+QznJAEIsm5Zl5OyeM5J+dEftmw20NCSziistZxd
-	rCxwXbvVv/hvDKEM3mDymtYdCEEkzVuySQd8qYcfIfjASXntJdaz/OJdL7Vdm7SyG1f6T//1cXUFm
-	S68VJ/FSMjWxpa5FDO+lSpaAVxTvG28AF+oGeUvE9J6aiqOLX7xVdOjSWC4P9YHS5x3k9YPkLW80o
-	QbAmAJIiwM1gJoEFofxW2y4wPSTNB8Iyciy1VqK5/7JBNbiE3hVaoknKyJO9E3SwRRud9zUNauGxp
-	dPbDLcjA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fu775ERXyyhMSnUAZLp53PfqsKVY+yKYmm/lA44sjjo=; b=49up3pa6R7cbrAE7ou6yBLEup9
+	BctUD2uCUgdCH8XTzHhpIZCKMIB64lvNSNkBy41UTIry4MTOeW0NCEddtoIo5qmODREFAUhzV+J7p
+	SrrkZvCzS/hwk+QQtLHpxJO4I9/HDplrbkabSX2wR4IUEK3Cj5asoHlp5+w9e3u5RKk70E3JqDQSm
+	ScCq8Iai3WTlKSSQPNhLh9RJdiuNNd0uIPOFEgMzsZPLQx7+VgQfUq3pHNAQjA4HLYNFLFJ+yaF5t
+	0wd4cAZ+gGaWdLyWLmVFckVorD732z6ZDPxMh+abBR03KBYUpBOcKudQygcASq+EMzSX4GVkLZ71k
+	l3wwGMyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umArs-0000000DfZ7-1Bxa;
-	Wed, 13 Aug 2025 12:46:12 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1umEO7-0000000EOrm-2wwu;
+	Wed, 13 Aug 2025 16:31:43 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1um942-0000000DQrH-2PQQ
+	id 1umDSU-0000000ECL1-1RrD
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Aug 2025 10:50:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1755082238; x=1786618238;
-  h=from:to:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=JcXH9foPLypEmsjMCGZnRrSMlljOymt8DEVhCzhra5g=;
-  b=qjXpHGAPd9WVSxGtcXRbKeJlLj73dS2n3aCn1nXBTorXEhaj3suarfL4
-   poB9kD8QXjaD7WbV8F4m/zmHeoKZonGZoOsw/sa4YqSmiKCOHHUmgaIbV
-   7cFE0jN5wWFPUYwCadv9G7+JSYfJq2fDwh7P8nFJkOjT9EXBYcb7I6cwZ
-   1u74GO78iIr+lCYlhYxvP24QL/VIruI/a6Im6FkixFch9XYXgp12uRsxp
-   V1Xxi3L2NTlZXn1dTdb1rIqOowZKnxJICbXB/TXF5zzO5SpGwnqqaHjn2
-   Mylt33Er/tznfPXA1hCf5CgQSxdEAmxGS/XyPfEWic9+NNwBYswNDePap
-   g==;
-X-CSE-ConnectionGUID: DIXwahxBR3maKRtDNAN7EQ==
-X-CSE-MsgGUID: nfs7hD4nRCiFANhTp0r6QQ==
-X-IronPort-AV: E=Sophos;i="6.17,285,1747670400"; 
-   d="scan'208";a="109204910"
-Received: from mail-dm6nam12on2075.outbound.protection.outlook.com (HELO NAM12-DM6-obe.outbound.protection.outlook.com) ([40.107.243.75])
-  by ob1.hgst.iphmx.com with ESMTP; 13 Aug 2025 18:50:36 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xDwBQdPq7y883X2l6WwoPqlrnP+O5KwxwP9ZUT/D9gWNYw3CMlk58/sBdmfcmJV2CikZczUj/o15qsXAPKkJhLE/YajPkq910D3qTkGBJ1uIaM/Bi+doHBUIcQCgJcKue0vaJoDTA5RAj98k/DgT/1BWGebYbg2tN/7HS3836W4zRuFHkTf0GAOeYoA7xn7eMDRVQcCIu/15JIlOZWeY/z/KD7Jc/gZEwQRBA1mbwIqhANIDFWeNHKfejxomTbztZ2dmo/VlJoSrsug5IDppVdlY+9+esBQnaxa6k/zszqM41+f2Xdtg9IRwtcKApBxjqptlOpV1kkzet43w482hGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ar6ZC8m4jXc8fthneS4Eqotf0XsmIv73kmWIrQxBO4w=;
- b=SIATl3gtEzijZCuWHY8pORFd9YwXwaovfRIYsxalqdCrhxyCeTeUqj646la0vejFpjyJd+j63p6gd5PRUsuz6D/4C8maUvmzgG3gjsdWFFy/bugmSzVMzzTo7PisuUIbMHaGj5BZsAX/c1diPWETkhHEdMdXmChvib9mfrJSZhTYATTuz/iBKEmnNsLyevOAM/q/f5xdoe7EhZil35MjLD3CsJckQuAsTq5sJhye1FuX0205cmzmxIBykBzk1KGzowhCdoZfDIsVW6v+JxZ2iSQeFW3D0TkgJGDvqcPu3geREod/jiSZHvoG/V1L0TPdv1H0LM1XOggMjY4dIeiWqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ar6ZC8m4jXc8fthneS4Eqotf0XsmIv73kmWIrQxBO4w=;
- b=j03fOgqL/ACl7seU30VUYwMm0vqb0eZco3lVbPsgJtDSqfwkr8nal5mwDnS+nqcLBSvSdFEEwSPSyq/iHInIeuVXfEikJn4qfQ8LQEqnpx3xxTOKExSh15YC1eWtKRRNS8eTPb8g4Rmprv4O6CIoj/Eynf9zge2Uou+L7gH3U9E=
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com (2603:10b6:806:350::6)
- by DM6PR04MB6811.namprd04.prod.outlook.com (2603:10b6:5:248::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.16; Wed, 13 Aug
- 2025 10:50:34 +0000
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::4e14:94e7:a9b3:a4d4]) by SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::4e14:94e7:a9b3:a4d4%6]) with mapi id 15.20.9009.018; Wed, 13 Aug 2025
- 10:50:34 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>
-Subject: blktests failures with v6.17-rc1 kernel
-Thread-Topic: blktests failures with v6.17-rc1 kernel
-Thread-Index: AQHcDEAYP1DNINhgd0uqNNYw6OHN7Q==
-Date: Wed, 13 Aug 2025 10:50:34 +0000
-Message-ID: <suhzith2uj75uiprq4m3cglvr7qwm3d7gi4tmjeohlxl6fcmv3@zu6zym6nmvun>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR04MB8532:EE_|DM6PR04MB6811:EE_
-x-ms-office365-filtering-correlation-id: 633a49da-4b7a-41f3-ac17-08ddda573b16
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|19092799006|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?8RF0EQayp688eM/Uu25BDev27p3L0Pp1yshUeSMYAwUSIAWkRDRwhlgWFtAk?=
- =?us-ascii?Q?7LT9tLahJaYWIi+sEpNlAUkoIVBWLUhGMF/BoiKX+IPLdlRfb3v3DzjWc2aJ?=
- =?us-ascii?Q?Nv9vUJcjKKjjIikQbIlsm9dxtwit6d9vTUE8Sg6NiZJkDgddQB4ACl4gedM7?=
- =?us-ascii?Q?NRxUIXaFkYBbE4qSWm9hKz6jI8HbImPBRIcLYR4HitaWt0haFeSyicoMdDyd?=
- =?us-ascii?Q?p94BOZwsswdFwXpJh6vc4M14RQ8QIuy4Fgy8f5CiPThmyTK9ZizuBhE7is3j?=
- =?us-ascii?Q?LDlVZvgTf3P4l8aAMWZUbN62QIgqn6MJtNGq+uwRn9n+zfxUGvNl2BEoQ+UC?=
- =?us-ascii?Q?1gXfgL7QFwRcp7Z+9Yc4IrJyzryJ6wP2vbOoyl6brK2kFDebFXgA7MTNQvsL?=
- =?us-ascii?Q?pXR/bQGaHhrd5/eVPQcL+jQ5bSHGOF7yqgTGSCShnGZSiVpPBuQTU+XS9BDE?=
- =?us-ascii?Q?XvtQO4bnbiLiPkfiEmCt/ss4GcfMbMXt2gZvuXYIoPvXU0mVJ2ONA+b6+Yl4?=
- =?us-ascii?Q?djfMIPC7U14GpACmGKtyNe8t2wnbbWOdSDb9eZyNdgigHwcvrB1YDAM64SXU?=
- =?us-ascii?Q?RxaqgtihXHwO++w+PVWnONFrilARPp5WTz3pZwntIhD2hnxzxuTLlufKNbEZ?=
- =?us-ascii?Q?5Boqmq7tQYGCpzhrYpZhNGTW86+5Iqhx3mXgrxOzwkXg1zbAV0cLl4Kg9Qrp?=
- =?us-ascii?Q?9kQcITiLjNxlGOnmR/nuArFHguV6oWCEIqtpn7P2sZiyMh2jY1e9fl51dBum?=
- =?us-ascii?Q?1AeII32JHtmkARmTypH6BaU4ZRGEprTv5T+aYHOVBHubg0C2szblm3xADTe3?=
- =?us-ascii?Q?thUXWvk0N61YLaEa1fkjdmroOP5PFr5Fm3D0uOIuN/AAHkDW3DJUukclVMju?=
- =?us-ascii?Q?NXnqsw2t+G/ozu2FISPTKgjbJWJQS5pu/B+spGUcFD6gKTz4PYsCG+ivbxoU?=
- =?us-ascii?Q?Qg6gv5hpgOYTb7QQDJlcGC+vzAKVI3oBoniTV5T3KDdNniX2WFnN3xAfo+ai?=
- =?us-ascii?Q?5/sMfK0Z7cGPW1WjfWWeSxptpXlXJ+2Y152fbcdRM7H0e13q+/2UU9wYM8Qr?=
- =?us-ascii?Q?l9MBIcL3PxTgNRBtaCb7yGvCE6wZ654DSLwrlJzKykiG5eomhmsWVL0T2aAu?=
- =?us-ascii?Q?wVMRglvFCSn1AcqK27qamfpKw3UjwONFKD1wvjsCTvCn7CDJYF1IzuQz4ZkR?=
- =?us-ascii?Q?k4Kd3UyZrtbcY4p0E43jwWai0yOYdXRVpS4VXSgnSCN029O6nKzJLkNxTESN?=
- =?us-ascii?Q?jj4YGO/viWKfxOYpNN7bVfU7k5QUOSc5utygS9RUh4HF+UoTNE/n98T7WPN0?=
- =?us-ascii?Q?0bM4JitCl30r3dh04ck9UaMPkD4NsPROeOj3BytEoDR1kXF/MXHVJkbaYDtl?=
- =?us-ascii?Q?gSk0TjNRnZOW6rSsodF8uDqOQv3ksCWscB8eE57tI3bMGwOyCn1iasM/CTbm?=
- =?us-ascii?Q?7FnVrC8Har4y/xG46j00AnjnqS1v/0vnbahgFCJsi5l5HaFmEKstCPmj0QTo?=
- =?us-ascii?Q?DA7cQFPL0aTt6PA=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR04MB8532.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Gdu+1PJ6FYO1U3ff/tocKcdrVDltnQZ/Sc2tFmtJnMefORLNg1NGNuMpT5uA?=
- =?us-ascii?Q?cQstvGy++SD5BMeHQ5Yr+8T+gv72aIarFuX3/O2GAPzC8osTmpsvv/9hBZmp?=
- =?us-ascii?Q?C2IbevYEDJrybE5HVjam5iBIau2VS2vAC9FQAtrBiwxfL+K27Zd409nt6WpG?=
- =?us-ascii?Q?gnA24pckkoFAeMtpHCNQv7iq1TOsIXbWc5D/mcyAdRjn0/4jaynAlYvl6K6M?=
- =?us-ascii?Q?JuE3tR33efLwTe3+i3Kt5GKGyP7fG3yzuyLAJT+4Yp9PmP2Hcgv1KAZ1eyX4?=
- =?us-ascii?Q?U92Heil+6iBI3krK6fe4VYzetcWpC2kiHwP7myitedvQJBDUj9NtOkU0Kcc0?=
- =?us-ascii?Q?15C3KBDIFZDtGjXel+KRXxmy82TDjTD1fF9HqwKN7WtRtPRLoWjY30OZIxQ1?=
- =?us-ascii?Q?Jfo6IdNHZBRI3XIw3H6hytGO0+wL0RVBI1QdthzDUpLj7ltH5DxiQ9Vj4hgY?=
- =?us-ascii?Q?1CbTmbh7tzjUbmA/Tjxf4FNq6xZzkMbnGQSwrUgqPLlScmzp35bp/DMnIU9l?=
- =?us-ascii?Q?CAsWgpDlmwVh2Zn5OI549fvYRJ1pYnpoGtYR7qL+nkR+8mC2+y27T7J+S6z4?=
- =?us-ascii?Q?scZlJ9R5RJxT0GK2BY/fZt9RlMb/h0RpRYACBniHtL1h7SZrWsFM5S7ZPvG4?=
- =?us-ascii?Q?ZdDV+ueeGlemYZbZlRALrg2+bhEROltPgk4JGOtNaJZstC/6ZF3YVmUHDyqY?=
- =?us-ascii?Q?aaxTg7JraEK7ldMm7i0IMvPxlAeTVN2UWEGjxqhCGjt/DSomOmxaf1R89+Yg?=
- =?us-ascii?Q?vYP3uSvn/QUxxtT83pHHVEOoyVvBmgd5xN5mQWEmLDbUhZb49eIeVhrWLzjP?=
- =?us-ascii?Q?iMP/kgk/rGNGU58qrPIRbcqJQ8Or94RagF/ln2sqRPFljLwHgUlJT465bnbb?=
- =?us-ascii?Q?xJi+SNb2AkEcwsBzmeeI2P3OD1MMP/jbycAS8NZDC+/7FEnGQWdxEjtUCBik?=
- =?us-ascii?Q?ucdOgE4+GgfUKKH5gsC9jRJE/kogTk+JkW32wHMZsvNIcmcr1HGcjeoSro0Q?=
- =?us-ascii?Q?Qj1BcPYdkMAbetKSLqJmD3LcPQGfUmez//qrb/pi1dJgounlDEUxppcPy1E6?=
- =?us-ascii?Q?Hmu78bJcmd5BNGeJgbbsBOwpWwz8GexPND7dUpGkWATLX8u4JTEwcoltDhqt?=
- =?us-ascii?Q?MeM9Hb2Ubh1fjbw0Aie6PftJFuzsp5MinEmZ2YUhVmX8UPrZj9EPPtNzC6kG?=
- =?us-ascii?Q?DyTLJyRb8XV2sLwN9h7P1ynyaBoH+2bx0nI6LvZV9XIob2fx0hn1eCLJCf8q?=
- =?us-ascii?Q?rT7V0jpSqrKZS2hVDSSbZipCEQtLyqBhHdajkekoEhtMhhuItYVElL7E9IMW?=
- =?us-ascii?Q?YYAm/MZWWR184my6Axpvhe4KSVwfm2LDw/0P4zCWNEj+8v4IbKQRyPGDGrI/?=
- =?us-ascii?Q?pHTX0UVgJxeQIc0pE5frOPCtYH5B6Fb+qmP1KJQnOTpwMwBC6hbr0m9Q2MJ0?=
- =?us-ascii?Q?BiaDj05SRTuuJewm1fjix1hPf4ANz7ofNb4YhAvzhzTQW2ADmzSMlJw3QoZ1?=
- =?us-ascii?Q?4Q97RdfACRPvVCh1Hmmc5/AVaQMSY9DZrKgpm08G1Zyl7IkqGXcb1cZBmRsF?=
- =?us-ascii?Q?qWmBXFbNF5g7SlDnNrL3L9bp1uJnwnEjgSf3+h2tqs3xniMvB1h08fE0IBrx?=
- =?us-ascii?Q?EWbELwBgEEFt0tewArrBRaU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8CC2DF9F6081F24DAA4F61DEF1A483B4@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Wed, 13 Aug 2025 15:32:11 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 57DF1ZMQ032629
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 08:32:09 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=fu775ERXyyhMSnUAZLp53PfqsKVY+yKYmm/lA44sjjo=; b=kWIFd/jdvT5o
+	yXH5h6lZovxhLWKoT8GNFfy78QHcwYltsFHSlYwR1p9JrAfku05G1EcT83fFKXVY
+	+tbEWGQvvCwMmSSP/yzaOGkPc/F/ADU6fb5odYEtV9psWKta77lWrVUZ12o5LykF
+	y66C4aWp/05WDul/OlmIY6iBQaMOrGn4TTvTF0O6jOPjd/Slx7DqoS+Gjhsovffd
+	bjRSRAxEBDcXAXL7IjNqNIEZSlq10qEq4DwZ8kLhPqjD8/KR7YNZiNnwPhyEa531
+	X2vDuZ5Kze++bXb5mqKWz7tE9EI1kXVTfBian7nJnSZUSks3egrUHm8jFHL6fTBt
+	lVEHm9pnMg==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by m0001303.ppops.net (PPS) with ESMTPS id 48gqmwte1f-7
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 08:32:09 -0700 (PDT)
+Received: from twshared24438.15.frc2.facebook.com (2620:10d:c085:108::150d) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.17; Wed, 13 Aug 2025 15:32:04 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 7EF1F97CD84; Wed, 13 Aug 2025 08:32:00 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <axboe@kernel.dk>, <joshi.k@samsung.com>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCHv7 5/9] blk-mq-dma: move common dma start code to a helper
+Date: Wed, 13 Aug 2025 08:31:49 -0700
+Message-ID: <20250813153153.3260897-6-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250813153153.3260897-1-kbusch@meta.com>
+References: <20250813153153.3260897-1-kbusch@meta.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: QsgI9PbQvcAVK7yJNg7qxCCEejujArg/xwfHgcRvLVi/Nm0fX/cjME+9/WRc8SaktQ8uboxbojUEJudwx/AsfmdvA5wuNJQ2bo7UmheQR1nPJfeM6ravTVupOfr5z/LWgTogCy2l6QBRKL46i6mTyiqqSfnyHe/3efrw9zFqNeyWa3yMg6GGlrRKwsC4/hUbpUYOKzfyjVEFRddqN2K99IryIfhiqzStxrotyZ6edDcfcpW4iC94g+KcCIg1VkSHsEdWwB+m8mPJ/m9UFrt8vWxYty1RZeVNl4FJoXaB/4/QQh+2SEVXgRL+0SUjkdrfqwWkKWuIiovVJkJLU2goiYYjI0W4s9Ajgk/ySSNSuHJ73LA4fBCDn28JsFpu3zjZ8VCmHxIWP5UnFNLqAiQX2PyUAnx3vsfYz/imy9ASUxDM7+o7xLBRI0JEs3M3JnGdBX3CH6AUTe2TnqIMLEWI3jRVuywzQ+8TNk3EvJfTaNcLBg0aa10JMVktPRJAKcF6fm0Gx83V3o2a8Gz7Tbcca8ai2BlhvvZe2DEWwh0rsiYiIZP5+5n0N+2Mpifvze8CyqFQP0Zm467NWEnG9jv5jP83ptLT2Z3BtLWjyUxwHRP71ILxBvGdhEjPEkUeKld3
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR04MB8532.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 633a49da-4b7a-41f3-ac17-08ddda573b16
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Aug 2025 10:50:34.4508
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hoWqiGDrlggT0k1vI+z4dUyMgQB3MbuvRrndisVSKIZIVevGCcP+ascZzjbfH/fsfb3M2f+N8xo/ZTb8fyFY2XAjvrsxjXZXX7uIl1FfRuM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6811
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=BaTY0qt2 c=1 sm=1 tr=0 ts=689caff9 cx=c_pps a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=Udg8XZZ2YZ10bUHcV_QA:9
+X-Proofpoint-GUID: VCDUGZ-glZ5HH1zQ_Loo_Q_XKDadURbQ
+X-Proofpoint-ORIG-GUID: VCDUGZ-glZ5HH1zQ_Loo_Q_XKDadURbQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEzMDE0NiBTYWx0ZWRfX+1zBD/h6qwvY bmkxzTUW/0HLUSPKzlY37PseB7E8ZXC6p2O7LmToAl+H4TnSqvVqTo2VyDv5gIyQozQKhPuKEP0 hyfr5lKLQmCPulRSJRhYgg3tL16x2q74skH1ZemxVozApc7Bfl44+EnYhvdWFbi/zYoGldE7XYd
+ s9JyYQQlzPpnqivQbBm3cTH4bXUtmcAgH4HfViS9YeJBxaFnV9ixHWkRUlGTEZeEcisgU88hDnL +DEEEV3vgaM+K9LEPKmn1pxa7SMnIklARJvrs2n1wVrnD5HiTFqetjwXv/pb346XSKtDacIcxig 93dv4CCHGkCWj/XpEurgYAIPzXOrkQHQwWiMGi8+GJyJ45i46i2YV+XS9xo/aQ6xjcSsWlU6hhM
+ G2vXwuv/NQJtT5uzF3qn5fe1kRvFNBy8JZYrnUxHddjmMENLj0rB9jhaJD4qlbxpBXseR1Y5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250813_035038_709878_0AA72B2E 
-X-CRM114-Status: GOOD (  10.82  )
+X-CRM114-CacheID: sfid-20250813_083210_505348_5B2ACD94 
+X-CRM114-Status: GOOD (  17.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,93 +91,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+From: Keith Busch <kbusch@kernel.org>
 
-I ran the latest blktests (git hash: a08678c0cf2d) with the v6.17-rc1 kerne=
-l. I
-observed 6 failures listed below. Comparing with the previous report with t=
-he
-v6.16 kernel [1], 2 failures are new.
+In preparing for dma mapping integrity metadata, move the common dma
+setup to a helper.
 
-[1] https://lore.kernel.org/linux-block/g4svtamuk3jhhhzb52reoj3nj2agi4ws7fw=
-yc45vca5uykjkb4@glfr4emapv7n/
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ block/blk-mq-dma.c | 59 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 33 insertions(+), 26 deletions(-)
 
-List of failures
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-#1: block/005
-#2: nvme/041 (fc transport)
-#3: nvme/050 (new)
-#4: nvme/061 (fc transport)
-#5: nvme/063 (tcp transport)
-#6: scsi/006 (IDE/PATA device)(new)
+diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+index 58defab218823..31dd8f58f0811 100644
+--- a/block/blk-mq-dma.c
++++ b/block/blk-mq-dma.c
+@@ -141,35 +141,12 @@ static inline void blk_rq_map_iter_init(struct requ=
+est *rq,
+ 	}
+ }
+=20
+-/**
+- * blk_rq_dma_map_iter_start - map the first DMA segment for a request
+- * @req:	request to map
+- * @dma_dev:	device to map to
+- * @state:	DMA IOVA state
+- * @iter:	block layer DMA iterator
+- *
+- * Start DMA mapping @req to @dma_dev.  @state and @iter are provided by=
+ the
+- * caller and don't need to be initialized.  @state needs to be stored f=
+or use
+- * at unmap time, @iter is only needed at map time.
+- *
+- * Returns %false if there is no segment to map, including due to an err=
+or, or
+- * %true ft it did map a segment.
+- *
+- * If a segment was mapped, the DMA address for it is returned in @iter.=
+addr and
+- * the length in @iter.len.  If no segment was mapped the status code is
+- * returned in @iter.status.
+- *
+- * The caller can call blk_rq_dma_map_coalesce() to check if further seg=
+ments
+- * need to be mapped after this, or go straight to blk_rq_dma_map_iter_n=
+ext()
+- * to try to map the following segments.
+- */
+-bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_d=
+ev,
+-		struct dma_iova_state *state, struct blk_dma_iter *iter)
++static bool blk_dma_map_iter_start(struct request *req, struct device *d=
+ma_dev,
++		struct dma_iova_state *state, struct blk_dma_iter *iter,
++		unsigned int total_len)
+ {
+-	unsigned int total_len =3D blk_rq_payload_bytes(req);
+ 	struct phys_vec vec;
+=20
+-	blk_rq_map_iter_init(req, &iter->iter);
+ 	memset(&iter->p2pdma, 0, sizeof(iter->p2pdma));
+ 	iter->status =3D BLK_STS_OK;
+=20
+@@ -201,6 +178,36 @@ bool blk_rq_dma_map_iter_start(struct request *req, =
+struct device *dma_dev,
+ 		return blk_rq_dma_map_iova(req, dma_dev, state, iter, &vec);
+ 	return blk_dma_map_direct(req, dma_dev, iter, &vec);
+ }
++
++/**
++ * blk_rq_dma_map_iter_start - map the first DMA segment for a request
++ * @req:	request to map
++ * @dma_dev:	device to map to
++ * @state:	DMA IOVA state
++ * @iter:	block layer DMA iterator
++ *
++ * Start DMA mapping @req to @dma_dev.  @state and @iter are provided by=
+ the
++ * caller and don't need to be initialized.  @state needs to be stored f=
+or use
++ * at unmap time, @iter is only needed at map time.
++ *
++ * Returns %false if there is no segment to map, including due to an err=
+or, or
++ * %true ft it did map a segment.
++ *
++ * If a segment was mapped, the DMA address for it is returned in @iter.=
+addr and
++ * the length in @iter.len.  If no segment was mapped the status code is
++ * returned in @iter.status.
++ *
++ * The caller can call blk_rq_dma_map_coalesce() to check if further seg=
+ments
++ * need to be mapped after this, or go straight to blk_rq_dma_map_iter_n=
+ext()
++ * to try to map the following segments.
++ */
++bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_d=
+ev,
++		struct dma_iova_state *state, struct blk_dma_iter *iter)
++{
++	blk_rq_map_iter_init(req, &iter->iter);
++	return blk_dma_map_iter_start(req, dma_dev, state, iter,
++				      blk_rq_payload_bytes(req));
++}
+ EXPORT_SYMBOL_GPL(blk_rq_dma_map_iter_start);
+=20
+ /**
+--=20
+2.47.3
 
-
-Failure description
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-#1: block/005
-
-    When the test case is run for a NVME device as TEST_DEV, the kernel rep=
-orts
-    a lockdep WARN related to the three locks q->q_usage_counter, fs_reclai=
-m and
-    cpu_hotplug_lock. Refer to the report for the v6.16-rc1 kernel [2]. Nil=
-ay
-    posted the fix patch candiate [3].
-
-    [2] https://lore.kernel.org/linux-block/4fdm37so3o4xricdgfosgmohn63aa7w=
-j3ua4e5vpihoamwg3ui@fq42f5q5t5ic/
-    [3] https://lore.kernel.org/linux-block/20250805171749.3448694-1-nilay@=
-linux.ibm.com/
-
-#2: nvme/041 (fc transport)
-
-    The test case nvme/041 fails for fc transport. Refer to the report for =
-the
-    v6.12 kernel [4].
-
-    [4] https://lore.kernel.org/linux-nvme/6crydkodszx5vq4ieox3jjpwkxtu7mhb=
-ohypy24awlo5w7f4k6@to3dcng24rd4/
-
-#3: nvme/050 (new)
-
-    The test case fails with the message below:
-
-    nvme/050 =3D> nvme0n1 (test nvme-pci timeout with fio jobs)    [failed]
-        runtime  90.974s  ...  90.912s
-        --- tests/nvme/050.out      2024-09-20 11:20:26.422380826 +0900
-        +++ /home/shin/Blktests/blktests/results/nvme0n1/nvme/050.out.bad  =
- 2025-08-13 11:12:54.655610693 +0900
-        @@ -1,2 +1,3 @@
-         Running nvme/050
-         Test complete
-        +Failed to restore /dev/nvme0n1
-
-    This needs further debug.
-
-#4: nvme/061 (fc transport)
-
-    The test case nvme/061 sometimes fails for fc transport due to a WARN a=
-nd
-    refcount message "refcount_t: underflow; use-after-free." Refer to the
-    report for the v6.15 kernel [5].
-
-    [5] https://lore.kernel.org/linux-block/2xsfqvnntjx5iiir7wghhebmnugmpfl=
-uv6ef22mghojgk6gilr@mvjscqxroqqk/
-
-#5: nvme/063 (tcp transport)
-
-    The test case nvme/063 fails for tcp transport due to the lockdep WARN
-    related to the three locks q->q_usage_counter, q->elevator_lock and
-    set->srcu. Refer to the report for the v6.16-rc1 kernel [2].
-
-#6: scsi/006 (IDE/PATA device)(new)
-
-    When the test case scsi/006 is run for QEMU IDE/PATA devices, it disabl=
-es
-    the devices and causes I/O errors. On the worst case, it makes the test
-    system hang. Damien posted the fix candidate patch [6].
-
-    [6] https://lore.kernel.org/linux-ide/20250813092707.447479-1-dlemoal@k=
-ernel.org/T/#u=
 
