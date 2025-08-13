@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2873BCA0EC4
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Aug 2025 02:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAE69CA0EC4
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Aug 2025 02:52:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0haghDUn0RSg/YzEvTZpNUsFV7SzkCjux5wuV+bNMUo=; b=NSTYsCFJcuJkeKduX/bmeaixbC
-	VEwph3qDfHTj4PzKo6IX2y04omgSZ/SOaL/V4vyenZ+xSz+YrvJ0ODV2sbNHRyXWsN0PhVpmT43SN
-	fOdOW/e7s4dSjoLKydnaZxbUayHF8rK2nov65kcOAr0WDMI2XOnqdjiba4EGEcqGOEdMRd20qivUh
-	JB2tTcSQlHF8sTIFaa5LWefVnhXf+tc1U8Ck6N96WOIvopbCFz6grxs3VNcmOW2O0tKnwq0u207tz
-	b2XgqEmGDwB6jizorQKSr/Lnv6yD3WzXlcA6LwkN78jIu8MlzjXEgT/JDSfTHwiGIXZp9EMw5xZfj
-	QJ4mwgaA==;
+	bh=8TRb/NV6F7LwpnonmpoydxQQOhpc1klSDprzUzW+ed8=; b=p8rJeDBEkaJIhKx2rnyKA65vvw
+	JIGxHsm0DfpIjhMAb9ABQQg4dLBqULjci53LAw1fTq8Mhz4H0FLBY6R6wJWz5sZi3H4uF+cMmtJyb
+	7Ym60X5qssQa4amaKlKbHZdP3FQEvMAwTERuNouLQI1nZTRCWcb8aF4KujXTHg6dvztEOiz/PkSag
+	ZCkBPnMcUofV7o4xcQTUKQk9XuDNSPu1IkcDWrtC2rHeStSieHmcxbLm2AtZc3PLxAe+nJv8d9pzJ
+	UquogqYJTr57iCkbfkMYNQP9t+yfcIWZ8vO/udl3weRuYGYArIOS4kYNjOhBFbcDtGLc8MuI4tgOY
+	hPa+aVFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1um1b9-0000000CSPo-1scj;
-	Wed, 13 Aug 2025 02:52:19 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1um1bD-0000000CSRz-0ChQ;
+	Wed, 13 Aug 2025 02:52:23 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1um1b6-0000000CSOC-0ZVX
+	id 1um1bA-0000000CSPK-0d56
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Aug 2025 02:52:17 +0000
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c1tFX1f6fzYQtGT
-	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 10:52:16 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id D20941A018D
+	Wed, 13 Aug 2025 02:52:21 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4c1tFV5D7RzKHMYp
 	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 10:52:14 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id F1F351A12B5
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Aug 2025 10:52:13 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.175.104.67])
-	by APP4 (Coremail) with SMTP id gCh0CgBHwhLQ_ZtoAscBDg--.14424S7;
-	Wed, 13 Aug 2025 10:52:14 +0800 (CST)
+	by APP4 (Coremail) with SMTP id gCh0CgBHwhLQ_ZtoAscBDg--.14424S6;
+	Wed, 13 Aug 2025 10:52:13 +0800 (CST)
 From: Zhang Yi <yi.zhang@huaweicloud.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-block@vger.kernel.org,
@@ -56,20 +56,20 @@ Cc: linux-kernel@vger.kernel.org,
 	chengzhihao1@huawei.com,
 	yukuai3@huawei.com,
 	yangerkun@huawei.com
-Subject: [PATCH blktests v2 3/3] nvme/065: add unmap write zeroes tests
-Date: Wed, 13 Aug 2025 10:44:21 +0800
-Message-Id: <20250813024421.2507446-4-yi.zhang@huaweicloud.com>
+Subject: [PATCH blktests v2 2/3] dm/003: add unmap write zeroes tests
+Date: Wed, 13 Aug 2025 10:44:20 +0800
+Message-Id: <20250813024421.2507446-3-yi.zhang@huaweicloud.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20250813024421.2507446-1-yi.zhang@huaweicloud.com>
 References: <20250813024421.2507446-1-yi.zhang@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgBHwhLQ_ZtoAscBDg--.14424S7
-X-Coremail-Antispam: 1UD129KBjvJXoWxAF1fCr17tr1rZryfKrW5GFg_yoWrXF45pF
-	yjyFyakrWxWFnrGws3Za17WF13Cw4vvry7Cay7tryj93srXry3WrWkKa4jqw1fGF93uw10
-	yayjqFWS9r1UtrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+X-CM-TRANSID: gCh0CgBHwhLQ_ZtoAscBDg--.14424S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxZF1xJFWUZry3Zw17XFy5Arb_yoWrJF1rpa
+	47CFy5KrWxGFnrWws3Z3W7WF13Aws5ArW3CayxJryj934DXr13WaykKFy2q3Z3GryfCwn5
+	Aa17ta9Ykr1Uta7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
 	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
 	Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
 	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
@@ -78,14 +78,14 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxAF1fCr17tr1rZryfKrW5GFg_yoWrXF45pF
 	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
 	xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
 	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVF
-	xhVjvjDU0xZFpf9x0pRG2NZUUUUU=
+	kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
+	Ja73UjIFyTuYvjTRMWlyDUUUU
 X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250812_195216_473259_4F134E86 
-X-CRM114-Status: GOOD (  13.75  )
+X-CRM114-CacheID: sfid-20250812_195220_539102_9817F8C9 
+X-CRM114-Status: GOOD (  14.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,55 +102,65 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Zhang Yi <yi.zhang@huawei.com>
 
-Test block device unmap write zeroes sysfs interface with NVMeT devices
-which are based on various SCSI debug devices. The NVMe device's
-/sys/block/<disk>/queue/write_zeroes_unmap_max_hw_bytes
-should equal to the write_zeroes_max_bytes if the SCSI debug device
-enable the WRITE SAME command with unmap functionality, and it should
-return 0 otherwise. /sys/block/<disk>/queue/write_zeroes_unmap_max_bytes
-should be equal to write_zeroes_unmap_max_hw_bytes by default, and we
-can disable write zeroes support by setting it to zero.
+Test block device unmap write zeroes sysfs interface with device-mapper
+stacked devices. The sysfs parameters should inherit from the underlying
+SCSI device. We can disable write zeroes support by setting
+/sys/block/dm-<X>/queue/write_zeroes_unmap_max_bytes to zero.
 
 Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 ---
- tests/nvme/065     | 96 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/065.out |  4 ++
- 2 files changed, 100 insertions(+)
- create mode 100755 tests/nvme/065
- create mode 100644 tests/nvme/065.out
+ common/rc        | 10 ++++++
+ tests/dm/003     | 86 ++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/dm/003.out |  2 ++
+ 3 files changed, 98 insertions(+)
+ create mode 100755 tests/dm/003
+ create mode 100644 tests/dm/003.out
 
-diff --git a/tests/nvme/065 b/tests/nvme/065
+diff --git a/common/rc b/common/rc
+index dfc389f..bb96a88 100644
+--- a/common/rc
++++ b/common/rc
+@@ -668,3 +668,13 @@ _io_uring_restore()
+ 		echo "$IO_URING_DISABLED" > /proc/sys/kernel/io_uring_disabled
+ 	fi
+ }
++
++# get real device path name by following link
++_real_dev()
++{
++	local dev=$1
++	if [ -b "$dev" ] && [ -L "$dev" ]; then
++		dev=$(readlink -f "$dev")
++	fi
++	echo $dev
++}
+diff --git a/tests/dm/003 b/tests/dm/003
 new file mode 100755
-index 0000000..8631bfa
+index 0000000..0b6bce2
 --- /dev/null
-+++ b/tests/nvme/065
-@@ -0,0 +1,96 @@
++++ b/tests/dm/003
+@@ -0,0 +1,86 @@
 +#!/bin/bash
 +# SPDX-License-Identifier: GPL-3.0+
 +# Copyright (C) 2025 Huawei.
 +#
-+# Test block device unmap write zeroes sysfs interface with nvmet scsi
-+# debug devices.
++# Test block device unmap write zeroes sysfs interface with device-mapper
++# stacked devices.
 +
-+. tests/nvme/rc
++. tests/dm/rc
 +. common/scsi_debug
 +
-+DESCRIPTION="test unmap write zeroes sysfs interface with nvmet devices"
++DESCRIPTION="test unmap write zeroes sysfs interface with dm devices"
 +QUICK=1
-+
-+nvme_trtype=loop
-+nvmet_blkdev_type="device"
 +
 +requires() {
 +	_have_scsi_debug
-+	_nvme_requires
-+	_require_nvme_trtype_is_loop
 +}
 +
 +readonly TO_SKIP=255
 +
 +setup_test_device() {
-+	local port
++	local dev blk_sz dpath
 +
 +	if ! _configure_scsi_debug "$@"; then
 +		return 1
@@ -161,26 +171,21 @@ index 0000000..8631bfa
 +		return $TO_SKIP
 +	fi
 +
-+	port="$(_create_nvmet_port)"
-+	_create_nvmet_subsystem --blkdev "/dev/${SCSI_DEBUG_DEVICES[0]}"
-+	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	dev="/dev/${SCSI_DEBUG_DEVICES[0]}"
++	blk_sz="$(blockdev --getsz "$dev")"
++	dmsetup create test --table "0 $blk_sz linear $dev 0"
 +
-+	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvme_connect_subsys
-+
-+	echo $(_find_nvme_ns "${def_subsys_uuid}")
++	dpath=$(_real_dev /dev/mapper/test)
++	echo "${dpath##*/}"
 +}
 +
 +cleanup_test_device() {
-+	_nvme_disconnect_subsys
-+	_nvmet_target_cleanup --subsysnqn "${def_subsysnqn}"
++	dmsetup remove test
 +	_exit_scsi_debug
 +}
 +
 +test() {
 +	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
 +
 +	# disable WRITE SAME with unmap
 +	local dname
@@ -221,15 +226,13 @@ index 0000000..8631bfa
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/065.out b/tests/nvme/065.out
+diff --git a/tests/dm/003.out b/tests/dm/003.out
 new file mode 100644
-index 0000000..262cfc9
+index 0000000..51a5405
 --- /dev/null
-+++ b/tests/nvme/065.out
-@@ -0,0 +1,4 @@
-+Running nvme/065
-+disconnected 1 controller(s)
-+disconnected 1 controller(s)
++++ b/tests/dm/003.out
+@@ -0,0 +1,2 @@
++Running dm/003
 +Test complete
 -- 
 2.39.2
