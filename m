@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C410ACA0EE6
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 16:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18A1CCA0EE8
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 16:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v3bm79vW8TmRkbMs8v1DEAwPfoV8hY4/GHRwYQJsC0o=; b=o5ahnsdmIx4GN7dUPFuvDYg0mN
-	3ymEPP0pk8T1cl+c7F6C+YbwR5tcHTP2FL7/cIn/oZQFPIGD7XluHJQO5Blf3DBvJ4AqFkPy1mvM5
-	GvoXVjBZiP9LvmSy7uB5OkH8YjT7L09sUTqXrCHy2NW8+n1ERW9WKfVw/UH11NjckbvF/YFOBd8+4
-	0+cTVlBB0UleZ5+6nty5e3mFJpMRw7ObXtUyLqI2ULuoSua2mYXqSrS3vm7coeWAIXDGECuLhRF9X
-	wIFLFE76MvN/nspYiLFSJ4+aN/Ug9p3b003RjOpSmu3byo9qXBJJHVkKJV/31NWMbjpxN5zVbEJY9
-	zFa1bbwQ==;
+	bh=+qkotKjA29uhp00A8rkqHQXkiTzDF9Aqh1SY8eRdGdo=; b=eHduOwZDsgsotr2Q69tii1BIy0
+	B1O7g81GpGGu64yyYdDDIx0h/FnNbWXBHbZXhrDHDEeHP8dSgdrLTtX0CZmg4qLZ1+OHZ7lweOi0M
+	bQllccWeRBq3FwFPkwcPOPwCuvVLENQaq2lETOFAsLynFesLM39JMRZ9hgHDKlKT7lv3W+Py8mS48
+	aSW90ew+zma4/YMDnCy3B+Uf7Jwx+HPXBi3fmOwX/Vt9Sx9zGpLAr3NaKNkMa033uvrlySDpM8UMl
+	3d7BeXjAm7xKrETDYH/LzkZ8yzuBQGO27DdmCD6tCzvGSSX0gz8SPXZckvatoJMSIX2Xvol1B7uPB
+	OpobSDZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umacA-0000000HaxQ-1imr;
-	Thu, 14 Aug 2025 16:15:42 +0000
+	id 1umacC-0000000HazJ-25aE;
+	Thu, 14 Aug 2025 16:15:44 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umUy6-0000000GXdQ-2mNe
+	id 1umUyJ-0000000GXip-3033
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Aug 2025 10:13:59 +0000
+	Thu, 14 Aug 2025 10:14:12 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6725845594;
-	Thu, 14 Aug 2025 10:13:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80CB7C4CEED;
-	Thu, 14 Aug 2025 10:13:57 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 6330E43582;
+	Thu, 14 Aug 2025 10:14:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85A63C4CEED;
+	Thu, 14 Aug 2025 10:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755166438;
-	bh=20hTY/Bpuo8LaRouoti+FqOb/uYNdZEkCPYgzhSUTHk=;
+	s=k20201202; t=1755166451;
+	bh=dJuAJRFwFKXIJkybNGJNx5df3xqMYXp7O5ndEMDZg04=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iJnTdVoAAfN+/Xmg0sENmXfmecar7mR18tZJR2Bssi/yKcCFsAqfqd8yIy8d6+7T0
-	 4cpGu3Nev5L57PEt//45pHdIh1Lpgnsn3eKqfNvyldstATPdrx9y+2/wvt8O1xOqYx
-	 0TARiCfmcQFlgM0m24ah0By4BQ8/wzSRKeUT8fci1OYqIQCC9JFc5UOL7W2TCrSXfR
-	 vjl32GDpJ+pmD1jY1ixOBoax/KXXLxrXKqp77CRTekhWEwW+gmg/C8r27lcyIl4yD4
-	 CLA6A8gMmOrf5aBfQnCOLLhuuCdEKTsxzAwuGVvNkUYlC0V8TNUlpNK6i0NxDGLSyW
-	 EVsttayqq2y3g==
+	b=gYSTOUUBhXP9oYVeGhvKAxkKtotRiKvTg0RZNz5VHsEaCJX2eHmD/K9w5qQtOdsaI
+	 y5jL775CbyjUQrmgE50XrKUnHBz170vHKkADm0guG8UONTpIhdOC5F323EiEF29wv2
+	 QwHY4aIgwraPerETB0r/ojs0AyO4T+0+stcRCguPuAhk+m/gmOjrihbhskyvMwc76V
+	 7KY3xjUJx9KToKwhJ4n4n4bsbHow2xCAf2WHn2KwBEezrtyiM32lypcGqEOd3EwGUr
+	 M4D8CAuNqM6OABoBZDrH4H+rPpHALQRE9/xcG9RN53uHeZ/mIgd3xyDNiQYOaPXJsW
+	 FYRlTCCOPlK7A==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
@@ -80,17 +80,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	virtualization@lists.linux.dev,
 	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v2 01/16] dma-mapping: introduce new DMA attribute to indicate MMIO memory
-Date: Thu, 14 Aug 2025 13:13:19 +0300
-Message-ID: <f832644c76e13de504ecf03450fd5d125f72f4c6.1755153054.git.leon@kernel.org>
+Subject: [PATCH v2 06/16] iommu/dma: extend iommu_dma_*map_phys API to handle MMIO memory
+Date: Thu, 14 Aug 2025 13:13:24 +0300
+Message-ID: <3086f426f3ded9c671e9a6441810c21efc9ad87f.1755153054.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755153054.git.leon@kernel.org>
 References: <cover.1755153054.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250814_031358_743760_DB4F618E 
-X-CRM114-Status: GOOD (  19.70  )
+X-CRM114-CacheID: sfid-20250814_031411_800197_64A890EB 
+X-CRM114-Status: GOOD (  13.23  )
 X-Mailman-Approved-At: Thu, 14 Aug 2025 08:29:04 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,112 +108,60 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-This patch introduces the DMA_ATTR_MMIO attribute to mark DMA buffers
-that reside in memory-mapped I/O (MMIO) regions, such as device BARs
-exposed through the host bridge, which are accessible for peer-to-peer
-(P2P) DMA.
+Combine iommu_dma_*map_phys with iommu_dma_*map_resource interfaces in
+order to allow single phys_addr_t flow.
 
-This attribute is especially useful for exporting device memory to other
-devices for DMA without CPU involvement, and avoids unnecessary or
-potentially detrimental CPU cache maintenance calls.
-
-DMA_ATTR_MMIO is supposed to provide dma_map_resource() functionality
-without need to call to special function and perform branching by
-the callers.
+In the following patches, the iommu_dma_map_resource() will be removed
+in favour of iommu_dma_map_phys(..., attrs | DMA_ATTR_MMIO) flow.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- Documentation/core-api/dma-attributes.rst | 18 ++++++++++++++++++
- include/linux/dma-mapping.h               | 20 ++++++++++++++++++++
- include/trace/events/dma.h                |  3 ++-
- rust/kernel/dma.rs                        |  3 +++
- 4 files changed, 43 insertions(+), 1 deletion(-)
+ drivers/iommu/dma-iommu.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
-index 1887d92e8e92..58a1528a9bb9 100644
---- a/Documentation/core-api/dma-attributes.rst
-+++ b/Documentation/core-api/dma-attributes.rst
-@@ -130,3 +130,21 @@ accesses to DMA buffers in both privileged "supervisor" and unprivileged
- subsystem that the buffer is fully accessible at the elevated privilege
- level (and ideally inaccessible or at least read-only at the
- lesser-privileged levels).
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index aea119f32f96..6804aaf034a1 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1211,16 +1211,19 @@ dma_addr_t iommu_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
+ 	 */
+ 	if (dev_use_swiotlb(dev, size, dir) &&
+ 	    iova_unaligned(iovad, phys, size)) {
++		if (attrs & DMA_ATTR_MMIO)
++			return DMA_MAPPING_ERROR;
 +
-+DMA_ATTR_MMIO
-+-------------
-+
-+This attribute indicates the physical address is not normal system
-+memory. It may not be used with kmap*()/phys_to_virt()/phys_to_page()
-+functions, it may not be cachable, and access using CPU load/store
-+instructions may not be allowed.
-+
-+Usually this will be used to describe MMIO addresses, or other non
-+cachable register addresses. When DMA mapping this sort of address we
-+call the operation Peer to Peer as a one device is DMA'ing to another
-+device. For PCI devices the p2pdma APIs must be used to determine if
-+DMA_ATTR_MMIO is appropriate.
-+
-+For architectures that require cache flushing for DMA coherence
-+DMA_ATTR_MMIO will not perform any cache flushing. The address
-+provided must never be mapped cachable into the CPU.
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 55c03e5fe8cb..ead5514d389e 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -58,6 +58,26 @@
-  */
- #define DMA_ATTR_PRIVILEGED		(1UL << 9)
+ 		phys = iommu_dma_map_swiotlb(dev, phys, size, dir, attrs);
+ 		if (phys == (phys_addr_t)DMA_MAPPING_ERROR)
+ 			return DMA_MAPPING_ERROR;
+ 	}
  
-+/*
-+ * DMA_ATTR_MMIO - Indicates memory-mapped I/O (MMIO) region for DMA mapping
-+ *
-+ * This attribute indicates the physical address is not normal system
-+ * memory. It may not be used with kmap*()/phys_to_virt()/phys_to_page()
-+ * functions, it may not be cachable, and access using CPU load/store
-+ * instructions may not be allowed.
-+ *
-+ * Usually this will be used to describe MMIO addresses, or other non
-+ * cachable register addresses. When DMA mapping this sort of address we
-+ * call the operation Peer to Peer as a one device is DMA'ing to another
-+ * device. For PCI devices the p2pdma APIs must be used to determine if
-+ * DMA_ATTR_MMIO is appropriate.
-+ *
-+ * For architectures that require cache flushing for DMA coherence
-+ * DMA_ATTR_MMIO will not perform any cache flushing. The address
-+ * provided must never be mapped cachable into the CPU.
-+ */
-+#define DMA_ATTR_MMIO		(1UL << 10)
-+
- /*
-  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
-  * be given to a device to use as a DMA source or target.  It is specific to a
-diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
-index d8ddc27b6a7c..ee90d6f1dcf3 100644
---- a/include/trace/events/dma.h
-+++ b/include/trace/events/dma.h
-@@ -31,7 +31,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
- 		{ DMA_ATTR_FORCE_CONTIGUOUS, "FORCE_CONTIGUOUS" }, \
- 		{ DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
- 		{ DMA_ATTR_NO_WARN, "NO_WARN" }, \
--		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" })
-+		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
-+		{ DMA_ATTR_MMIO, "MMIO" })
+-	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
++	if (!coherent && !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO)))
+ 		arch_sync_dma_for_device(phys, size, dir);
  
- DECLARE_EVENT_CLASS(dma_map,
- 	TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t dma_addr,
-diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index 2bc8ab51ec28..61d9eed7a786 100644
---- a/rust/kernel/dma.rs
-+++ b/rust/kernel/dma.rs
-@@ -242,6 +242,9 @@ pub mod attrs {
-     /// Indicates that the buffer is fully accessible at an elevated privilege level (and
-     /// ideally inaccessible or at least read-only at lesser-privileged levels).
-     pub const DMA_ATTR_PRIVILEGED: Attrs = Attrs(bindings::DMA_ATTR_PRIVILEGED);
-+
-+    /// Indicates that the buffer is MMIO memory.
-+    pub const DMA_ATTR_MMIO: Attrs = Attrs(bindings::DMA_ATTR_MMIO);
+ 	iova = __iommu_dma_map(dev, phys, size, prot, dma_mask);
+-	if (iova == DMA_MAPPING_ERROR)
++	if (iova == DMA_MAPPING_ERROR && !(attrs & DMA_ATTR_MMIO))
+ 		swiotlb_tbl_unmap_single(dev, phys, size, dir, attrs);
+ 	return iova;
  }
+@@ -1228,10 +1231,14 @@ dma_addr_t iommu_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
+ void iommu_dma_unmap_phys(struct device *dev, dma_addr_t dma_handle,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
+-	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+ 	phys_addr_t phys;
  
- /// An abstraction of the `dma_alloc_coherent` API.
+-	phys = iommu_iova_to_phys(domain, dma_handle);
++	if (attrs & DMA_ATTR_MMIO) {
++		__iommu_dma_unmap(dev, dma_handle, size);
++		return;
++	}
++
++	phys = iommu_iova_to_phys(iommu_get_dma_domain(dev), dma_handle);
+ 	if (WARN_ON(!phys))
+ 		return;
+ 
 -- 
 2.50.1
 
