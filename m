@@ -4,86 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FA0BCA0EDC
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 03:48:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B488CA0EDC
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 07:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Zm/dCvvK+iI7j714RjSP/vwEDHJVwvkiYDPPSLpMKNg=; b=KrRdNTN2gfuQDR0xeMvuA9AwNU
-	KgGkPb0txTY3VfnOO3v9RMK8yxbdRj4ZUQ5bp/3HUy/dJEvHJ5CGzgthokwa/yP2TrMOsSDonvd7m
-	UJIPVpIfRT2AxUZbpScT9gE1NhWMPXQUz5FGtJJQrI1cKXef3qdcpMlOHaDu4f79FbobSHP5rk8PS
-	98iKKGW379Pkt/d/w//Qg8Z7kXLYcQ4RoQuTB884W6oFZTTAKyo2mK5TNfW6cWNHpH7F3DsqTbAJA
-	8WdA787trRk+/bkuDQEVF1qGFdtOaOHK8hiBp8rHPjHv/Io7HYyumn4hRfVWba1tyZSz/vP9Pl6zC
-	A3gs9NzA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Q6Mp/vCJCiZNgk6fb7utkqIErbcoVoR/CugPofoeCtU=; b=s9H4FRs47f4RTB0URKKsT4sa34
+	Vz1zqLyLiwOrm3jKzViu6UPsQdOlTOsRXOhi2Z42hCGh9zlUKrTKhNW3NYyEEZeWaAlTSuaK7JvrJ
+	Fl/0aadhq8he5N9WiLu4j8ipXppUhVYPgzA+A1ODJodUNEMbj38Sc7nsZzY185H6uFjTrMmlSAG2d
+	l094kzeAstaQlESa2WSD3rt6CmK8VgG9iq5p3SddT5bAm4Lkby/UWzDvQg+fyI9h9Ypr8JLr2PeO6
+	3aBO6wxBZxYBZ2axvbtLXG7Eo+X9zqdUNYTNiWEVblqxAPGB5QdHlz5eHn5HgrpfDdp4H8lpptik9
+	j8Dfj7vQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umOxD-0000000FgrB-1uvw;
-	Thu, 14 Aug 2025 03:48:39 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1umSlL-0000000G9dm-3IZR;
+	Thu, 14 Aug 2025 07:52:39 +0000
+Received: from mail.vexro.pl ([141.94.250.70])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umDXh-0000000EDFh-3HHZ
+	id 1umScg-0000000G81N-3m75
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Aug 2025 15:37:34 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B00E35C1360;
-	Wed, 13 Aug 2025 15:37:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A911EC4CEEB;
-	Wed, 13 Aug 2025 15:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755099452;
-	bh=PQhq5rWxBSi6wo5Tnnh0V92zapg7M+UyVJSAH0kCd/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kkqdIE/HRQ5cedE1zyuMfMRaAZJeqzpFBH0/fLyOJbOpD7Q9Y6fUKKVCUSYg6Iu9+
-	 +0lhPpaogX+zo7DE625PlBBN7tO+nQtx0LA2aKRv5GqYQcf/TD8I++3mIddUS1oGuS
-	 2Xu0FGRyeN7MRl5kxApDBRYf8dHZhW8fLMu9BCMo8fTZeDkfiJH03TaTo8MCeUS3wk
-	 Q3N2kSeVd08IYz9d3sNubS0p0XfPjY2fnOy5IU5HLL6nAdg88Wdvo9IzmX54CnrqWQ
-	 dCVsQbDhz8GqQ+nB2+l0260S3CZs7QJe8H773Ex1NmDTheYUl2t1VYx6TqiJOtited
-	 Jw1XTt4Q0BCbw==
-Date: Wed, 13 Aug 2025 18:37:28 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v1 16/16] nvme-pci: unmap MMIO pages with appropriate
- interface
-Message-ID: <20250813153728.GC310013@unreal>
-References: <cover.1754292567.git.leon@kernel.org>
- <5b0131f82a3d14acaa85f0d1dd608d2913af84e2.1754292567.git.leon@kernel.org>
- <20250807134533.GM184255@nvidia.com>
+	Thu, 14 Aug 2025 07:43:44 +0000
+Received: by mail.vexro.pl (Postfix, from userid 1002)
+	id 6C025A3BAD; Thu, 14 Aug 2025 09:36:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vexro.pl; s=mail;
+	t=1755156975; bh=Q6Mp/vCJCiZNgk6fb7utkqIErbcoVoR/CugPofoeCtU=;
+	h=Date:From:To:Subject:From;
+	b=vO3AtVPp60PFqpk8Z8TSrDgAcChBGIA5xfegm4LUc40joeE1h/F6BGZ0Di5oNGeyh
+	 Temk7/c/7G2N72gXUARyX8iwMXZbQcO2REG6NhHWtWIs45P8z+LQGcvn+LGC/GUmAg
+	 dKo2kenKOD33psz+HS3w2h23B7j5aeLzpOOKNX/gxqG9+igj94TKAtigrsXQyhjbzV
+	 M2QsPN0xO6LOok8ui4jjAdR11r0Uqk/OjAKThp3L+ooV+EDhzXraxae9U7+U88FQWx
+	 adpXIXlZU/PcV1pmjWprj5E5VUTj4F9xLl6hkdCDOF2vbAgZG7C9OqfpFkSzCHdoii
+	 jym0axOgMoL9w==
+Received: by mail.vexro.pl for <linux-nvme@lists.infradead.org>; Thu, 14 Aug 2025 07:36:01 GMT
+Message-ID: <20250814084500-0.1.mt.3l0ci.0.lmh754c405@vexro.pl>
+Date: Thu, 14 Aug 2025 07:36:01 GMT
+From: "Adam Drzewiecki" <adam.drzewiecki@vexro.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d_?=
+X-Mailer: mail.vexro.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250807134533.GM184255@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250813_083733_859381_7115E6F8 
-X-CRM114-Status: GOOD (  14.84  )
-X-Mailman-Approved-At: Wed, 13 Aug 2025 20:48:37 -0700
+X-CRM114-CacheID: sfid-20250814_004343_078864_CE7A34D1 
+X-CRM114-Status: UNSURE (   1.01  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,28 +66,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 07, 2025 at 10:45:33AM -0300, Jason Gunthorpe wrote:
-> On Mon, Aug 04, 2025 at 03:42:50PM +0300, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Block layer maps MMIO memory through dma_map_phys() interface
-> > with help of DMA_ATTR_MMIO attribute. There is a need to unmap
-> > that memory with the appropriate unmap function.
-> 
-> Be specific, AFIACT the issue is that on dma_ops platforms the map
-> will call ops->map_resource for ATTR_MMIO so we must have the unmap
-> call ops->unmap_resournce
-> 
-> Maybe these patches should be swapped then, as adding ATTR_MMIO seems
-> like it created this issue?
+Dzie=C5=84 dobry,
 
-The best variant will be to squash previous patch "block-dma: properly
-take MMIO path", but I don't want to mix them as they for different
-kernel areas.
+Czy interesuje Pa=C5=84stwa rozwi=C4=85zanie umo=C5=BCliwiaj=C4=85ce moni=
+torowanie samochod=C3=B3w firmowych oraz optymalizacj=C4=99 koszt=C3=B3w =
+ich utrzymania?=20
 
-Thanks
 
-> 
-> Jason
-> 
+Pozdrawiam
+Adam Drzewiecki
 
