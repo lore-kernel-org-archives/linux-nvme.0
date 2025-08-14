@@ -4,71 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6A77CA0EDC
-	for <linux-nvme@archiver.kernel.org>; Sun, 17 Aug 2025 10:53:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C652CA0EE4
+	for <linux-nvme@archiver.kernel.org>; Sun, 17 Aug 2025 11:16:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Uag0Fd1kgMBtoLUttV8iMv4GBiLGM6xK15wAL/4ggz4=; b=o74KH1Z+GWeQWo7FjcMtPlcjmG
-	DP8zG62JTX1X8mHEL90OW4iQ5P+0TnYH7XGj9vLcj5yixQ4Eukp9BrmDG28IEbGR/J8WgvlmZGxfD
-	0UcmhcVWKfkwWaSPJJ0XO1+z+WNZArbiCJhlgeMKM4wImG668xghXmuVXhtho2xNSh/aFkAQDTWwY
-	euvcCAYg6yWz16ULkum63HZPXpdOMhZLFQxwKE0z9pqdENFweXZM6Sk6IRwK1SZKZJ3/RxrllFQPb
-	br/gXGyVXWMwfzf5W806b+3n4LNQPW4VuS55UlsXBPPnaQNwwRQSM+Mp8TtEGvFGT9wZgh1PRJlu/
-	BXqeWoaA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hygAWsv6Yve4N+8ShnO81RkdjrmkzVxj8VTWU3zpjB0=; b=AbDAN2NsXKWQiTfSYwxY+uA18y
+	HVU9WThYpYbKyOINRtECt5w5+5JujSMDIz6iGL1c/6iLGdlgR+RXz+xmUgt7J7K3LPgITZskWbEyT
+	yxFksL5V8YycVj77qLgfnju8m/HHoxMdmuI9Rpvu7WRoteIA5BcwzsMyse8432FCbueziq9W12ycm
+	23MLkWsnLZp41N2Tsey4yOJYmPl+iBrfWV1W/pE+e6yf7F3Xv12vktOrmH6Ro6KpfSXpbUfm+3pxF
+	LK/BHkdPwhZTGN89BSDKHFl2f2Fmd9MK8DCgFcCX8IfUzD6I7AkcdKDHDvcs+vLygG0iX+hgkvfSN
+	OaPJ1STQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unb17-00000005Zd6-044I;
-	Sun, 17 Aug 2025 10:53:37 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1unbNI-00000005aOI-1gZy;
+	Sun, 17 Aug 2025 11:16:32 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unayW-00000005ZQU-0Lqy;
-	Sun, 17 Aug 2025 10:50:57 +0000
+	id 1umc9Z-00000000FE3-2z3Y
+	for linux-nvme@lists.infradead.org;
+	Thu, 14 Aug 2025 17:54:17 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0022E5C4C9B;
-	Sun, 17 Aug 2025 10:50:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A1CAC4CEEB;
-	Sun, 17 Aug 2025 10:50:49 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 92993601D8;
+	Thu, 14 Aug 2025 17:54:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DF51C4CEED;
+	Thu, 14 Aug 2025 17:54:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755427854;
-	bh=jYq7d/KI9Fl7n0FN3697SqbIefUMAmBfpP+PbR+dS6o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oOpxmImSwwHJZh3R1upYjow3eW8PAtsOA7LQdCIqDJTVHVgedpn9RuwIKhtL/48o3
-	 QFTz4aMH1BRvbIt5iWZ7/eOYz2uUCFbR/ZOqRw79eMLPXXhwJ0uYzkBR1tmu6r06vF
-	 7s8wK844/6Z9N2lrFISXUSiyXjeu9oKBe2nVud/8Ov6O/e0ojUkYH1Lm+XkxEe03ai
-	 PkUYJRjFLKfrA5V9znZP7/bSpYnKpfz5wggXiTt2PRV0AKAgB/6e6jc/bgWApQjJP7
-	 PLLuKXg9OgRc4DfcKTxVGY94iyBRq4rmBPRe3Yjs2KymcarqV0fswaiLJntCpYXqBd
-	 XiFgAvFn7zk4Q==
-Message-ID: <170403b9-f98b-435c-8403-d1b8c2db1244@kernel.org>
-Date: Sun, 17 Aug 2025 12:50:48 +0200
+	s=k20201202; t=1755194056;
+	bh=4y9YNTqs9ATD73KrJOwGSmCUPGlXOqneFIdpT6164E0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OcmeWeukMp2SnwuNGWIvA4eA/M6CtC77rgEGKJ+lP8E1ncVU3Rmm5LjSTPE0H8OIk
+	 JZc0BQ5Uii4DFY4trcWY4DohMWke+oNy5brn/WmBiBVBoMxElYNdjsyjyNfvJZipWu
+	 rD3GletMxA6oI7vW8NFEBfCcopcc0RYA3HnpqlvuA1f4tTqJ0+y3JOCfgCc3d9hfs8
+	 ttOaiCXhCd9V6vk0MBmgu5dxIIxE7tYYoSllHfQFqM08tNP1IKiV4A7io6lECGj6Np
+	 ZY5UolVIrPEH6pl1NJx2zRjMl+SdP2cIEKEsjWmwcNT4ScCkWZF9oA7VDmsnbc8OhT
+	 4x50cIzc9r3Fw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com,
+	Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev,
+	Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v3 00/16] dma-mapping: migrate to physical address-based API
+Date: Thu, 14 Aug 2025 20:53:51 +0300
+Message-ID: <cover.1755193625.git.leon@kernel.org>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] dt-bindings: iommu: apple,sart: Add Apple A11
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: asahi@lists.linux.dev, Will Deacon <will@kernel.org>,
- Jassi Brar <jassisinghbrar@gmail.com>, Neal Gompa <neal@gompa.dev>,
- Janne Grunau <j@jannau.net>, linux-arm-kernel@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- linux-kernel@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh@kernel.org>, Christoph Hellwig <hch@lst.de>,
- devicetree@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>
-References: <20250811-t8015-nvme-v1-0-ef9c200e74a7@gmail.com>
- <20250811-t8015-nvme-v1-3-ef9c200e74a7@gmail.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20250811-t8015-nvme-v1-3-ef9c200e74a7@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250817_035056_170453_5BFD0A58 
-X-CRM114-Status: UNSURE (   5.19  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 17 Aug 2025 04:16:29 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,12 +100,138 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11.08.25 15:50, Nick Chan wrote:
-> Add bindings for SARTv0 as found on Apple A11 SoC.
-> 
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> ---
+Changelog:
+v3:
+ * Fixed typo in "cacheable" word
+ * Simplified kmsan patch a lot to be simple argument refactoring
+v2: https://lore.kernel.org/all/cover.1755153054.git.leon@kernel.org
+ * Used commit messages and cover letter from Jason
+ * Moved setting IOMMU_MMIO flag to dma_info_to_prot function
+ * Micro-optimized the code
+ * Rebased code on v6.17-rc1
+v1: https://lore.kernel.org/all/cover.1754292567.git.leon@kernel.org
+ * Added new DMA_ATTR_MMIO attribute to indicate
+   PCI_P2PDMA_MAP_THRU_HOST_BRIDGE path.
+ * Rewrote dma_map_* functions to use thus new attribute
+v0: https://lore.kernel.org/all/cover.1750854543.git.leon@kernel.org/
+------------------------------------------------------------------------
 
-Reviewed-by: Sven Peter <sven@kernel.org>
+This series refactors the DMA mapping to use physical addresses
+as the primary interface instead of page+offset parameters. This
+change aligns the DMA API with the underlying hardware reality where
+DMA operations work with physical addresses, not page structures.
+
+The series maintains export symbol backward compatibility by keeping
+the old page-based API as wrapper functions around the new physical
+address-based implementations.
+
+This series refactors the DMA mapping API to provide a phys_addr_t
+based, and struct-page free, external API that can handle all the
+mapping cases we want in modern systems:
+
+ - struct page based cachable DRAM
+ - struct page MEMORY_DEVICE_PCI_P2PDMA PCI peer to peer non-cachable
+   MMIO
+ - struct page-less PCI peer to peer non-cachable MMIO
+ - struct page-less "resource" MMIO
+
+Overall this gets much closer to Matthew's long term wish for
+struct-pageless IO to cachable DRAM. The remaining primary work would
+be in the mm side to allow kmap_local_pfn()/phys_to_virt() to work on
+phys_addr_t without a struct page.
+
+The general design is to remove struct page usage entirely from the
+DMA API inner layers. For flows that need to have a KVA for the
+physical address they can use kmap_local_pfn() or phys_to_virt(). This
+isolates the struct page requirements to MM code only. Long term all
+removals of struct page usage are supporting Matthew's memdesc
+project which seeks to substantially transform how struct page works.
+
+Instead make the DMA API internals work on phys_addr_t. Internally
+there are still dedicated 'page' and 'resource' flows, except they are
+now distinguished by a new DMA_ATTR_MMIO instead of by callchain. Both
+flows use the same phys_addr_t.
+
+When DMA_ATTR_MMIO is specified things work similar to the existing
+'resource' flow. kmap_local_pfn(), phys_to_virt(), phys_to_page(),
+pfn_valid(), etc are never called on the phys_addr_t. This requires
+rejecting any configuration that would need swiotlb. CPU cache
+flushing is not required, and avoided, as ATTR_MMIO also indicates the
+address have no cachable mappings. This effectively removes any
+DMA API side requirement to have struct page when DMA_ATTR_MMIO is
+used.
+
+In the !DMA_ATTR_MMIO mode things work similarly to the 'page' flow,
+except on the common path of no cache flush, no swiotlb it never
+touches a struct page. When cache flushing or swiotlb copying
+kmap_local_pfn()/phys_to_virt() are used to get a KVA for CPU
+usage. This was already the case on the unmap side, now the map side
+is symmetric.
+
+Callers are adjusted to set DMA_ATTR_MMIO. Existing 'resource' users
+must set it. The existing struct page based MEMORY_DEVICE_PCI_P2PDMA
+path must also set it. This corrects some existing bugs where iommu
+mappings for P2P MMIO were improperly marked IOMMU_CACHE.
+
+Since ATTR_MMIO is made to work with all the existing DMA map entry
+points, particularly dma_iova_link(), this finally allows a way to use
+the new DMA API to map PCI P2P MMIO without creating struct page. The
+VFIO DMABUF series demonstrates how this works. This is intended to
+replace the incorrect driver use of dma_map_resource() on PCI BAR
+addresses.
+
+This series does the core code and modern flows. A followup series
+will give the same treatment to the legacy dma_ops implementation.
+
+Thanks
+
+Leon Romanovsky (16):
+  dma-mapping: introduce new DMA attribute to indicate MMIO memory
+  iommu/dma: implement DMA_ATTR_MMIO for dma_iova_link().
+  dma-debug: refactor to use physical addresses for page mapping
+  dma-mapping: rename trace_dma_*map_page to trace_dma_*map_phys
+  iommu/dma: rename iommu_dma_*map_page to iommu_dma_*map_phys
+  iommu/dma: extend iommu_dma_*map_phys API to handle MMIO memory
+  dma-mapping: convert dma_direct_*map_page to be phys_addr_t based
+  kmsan: convert kmsan_handle_dma to use physical addresses
+  dma-mapping: handle MMIO flow in dma_map|unmap_page
+  xen: swiotlb: Open code map_resource callback
+  dma-mapping: export new dma_*map_phys() interface
+  mm/hmm: migrate to physical address-based DMA mapping API
+  mm/hmm: properly take MMIO path
+  block-dma: migrate to dma_map_phys instead of map_page
+  block-dma: properly take MMIO path
+  nvme-pci: unmap MMIO pages with appropriate interface
+
+ Documentation/core-api/dma-api.rst        |   4 +-
+ Documentation/core-api/dma-attributes.rst |  18 ++++
+ arch/powerpc/kernel/dma-iommu.c           |   4 +-
+ block/blk-mq-dma.c                        |  15 ++-
+ drivers/iommu/dma-iommu.c                 |  61 +++++------
+ drivers/nvme/host/pci.c                   |  18 +++-
+ drivers/virtio/virtio_ring.c              |   4 +-
+ drivers/xen/swiotlb-xen.c                 |  21 +++-
+ include/linux/blk-mq-dma.h                |   6 +-
+ include/linux/blk_types.h                 |   2 +
+ include/linux/dma-direct.h                |   2 -
+ include/linux/dma-map-ops.h               |   8 +-
+ include/linux/dma-mapping.h               |  33 ++++++
+ include/linux/iommu-dma.h                 |  11 +-
+ include/linux/kmsan.h                     |   9 +-
+ include/trace/events/dma.h                |   9 +-
+ kernel/dma/debug.c                        |  71 ++++---------
+ kernel/dma/debug.h                        |  37 ++-----
+ kernel/dma/direct.c                       |  22 +---
+ kernel/dma/direct.h                       |  52 ++++++----
+ kernel/dma/mapping.c                      | 117 +++++++++++++---------
+ kernel/dma/ops_helpers.c                  |   6 +-
+ mm/hmm.c                                  |  19 ++--
+ mm/kmsan/hooks.c                          |   7 +-
+ rust/kernel/dma.rs                        |   3 +
+ tools/virtio/linux/kmsan.h                |   2 +-
+ 26 files changed, 306 insertions(+), 255 deletions(-)
+
+-- 
+2.50.1
 
 
