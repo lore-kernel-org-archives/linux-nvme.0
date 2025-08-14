@@ -4,81 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A80ACA0EDC
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 15:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9043CA0EDC
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Aug 2025 16:15:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=; b=l21PDWZ/W37uJMcimaaoG/Fuz/
-	GXhlfYVqQCMw7GiRe03vv238z4umMQpfIT9WbnNByd0Gam+82924n8qwIavg8pp7m3qwjDQBW80v+
-	gRLlNs3plV2JqhrxfQkUvD7rb5gtWAfHytL3FHy+W6389zSQP1u/nNv73oDBHxtLeDburqYVBwZ0l
-	OkXeCmJWkFwk4oHxxRMBUQwrUfTdiXoOu3kaJ3ZEIROS79diaCm8rbd3Qh9sbCJ3pujm/gJPHtEMC
-	G1vDo+EFeEFoc0yBtST7/Q6RyvugF3ACTyHhIOnGiuqncojhSwZJhCXQOQZcngT0XJHpRpPTbS556
-	Fb235gqQ==;
+	bh=AxToNPSfI6WM9a997+Z4VoIL+Khe9+Ojk4pU73w2JVQ=; b=zPpXKIk1x5dJ72zUZJtYX5gj+k
+	aV7REXH2esxgy5VpGM2or6g4GFasrq6ka2v/vFa71Gd30or3ayFB/YzrSSjDn9i+PjsfPWV9oKphO
+	qEV1N7Y1mwx6EVXyPqAwQidIjE4hVFMeMXOCBFj8xe46UkOh1WS0grC+UJysOYPfOtxomFaesx/BI
+	Zbgffe4ksiJSi2LE08YChqFut25FwnXwwIIupNDdWAy+aZSUhVt5YkCoNfD6kFxm+m25AuabHxl8/
+	jzAbDx0dZ8XaD0y40RdSFdjaB3SNNE1qKVSj+1sjA0uwA5T3OI3P3jp0WGTg5uUDdHd9UFe/x2P4B
+	Dzo4O7mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umZh2-0000000HOem-1062;
-	Thu, 14 Aug 2025 15:16:40 +0000
-Received: from [203.254.224.34] (helo=mailout4.samsung.com)
+	id 1umacB-0000000Haxd-0KWE;
+	Thu, 14 Aug 2025 16:15:43 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umV1g-0000000GYn0-2LRK
+	id 1umUyC-0000000GXfk-01Co
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Aug 2025 10:17:44 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250814101732epoutp046369bcf7eff6a2d87d44a3c6b68f790b~bmsWAd6k70197501975epoutp04F
-	for <linux-nvme@lists.infradead.org>; Thu, 14 Aug 2025 10:17:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250814101732epoutp046369bcf7eff6a2d87d44a3c6b68f790b~bmsWAd6k70197501975epoutp04F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1755166652;
-	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=gDWd+Q06QXSORMGzRq6uIimPO5t2altkJgjKY0dVhcleqWtI09A1cXSEF0bcHY9cu
-	 pKgcJexG0s1uL95q95j4xpF2J2pBAiSE04i8HI35oaHiB/di1LC20HCx4wV+5TFz2D
-	 WLAQRqGzwwF/oybPw6yYBgSbr3TazyEOmciGpq3U=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20250814101732epcas5p3b4f3470beaac99f7db14a82f3dbaac24~bmsVziEsj3091930919epcas5p3x;
-	Thu, 14 Aug 2025 10:17:32 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4c2h4r155Nz2SSKb; Thu, 14 Aug
-	2025 10:17:32 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20250814101731epcas5p3e35e879da59d3431fe098666efe81d3f~bmsUtw--X3199631996epcas5p3h;
-	Thu, 14 Aug 2025 10:17:31 +0000 (GMT)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250814101730epsmtip240974655840b18cd4da448029040835f~bmsT1bZPM0692206922epsmtip2r;
-	Thu, 14 Aug 2025 10:17:30 +0000 (GMT)
-Message-ID: <09b6a041-2011-4b2b-aff6-2e25bb9125a3@samsung.com>
-Date: Thu, 14 Aug 2025 15:47:29 +0530
+	Thu, 14 Aug 2025 10:14:04 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 6E0926020E;
+	Thu, 14 Aug 2025 10:14:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F402C4CEEF;
+	Thu, 14 Aug 2025 10:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755166443;
+	bh=/KA5/iirzA+7NBo2WhreWFarQonN7Bxg4iw8kozROnk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BGe4vleQatc6QvuAH2fy4B75TxBgzBxEACBQ36+ORLvUhpw3mDjyp8mcCmmP6BkHf
+	 fR+i/ZitYuPWRhYU9ApTdUDtdXSAmprzH0LDmBzzJeqaI3CnO4dgdJGtp+ykzqyrq1
+	 HrbrxFJd1kqtKJ3lHKYDz8V3nqnBxtrrAHClqUIPGudaRZg5RJzucTOQagHfnrrG36
+	 /paFtR8N4oabJii/YhJMofjfC4t8xx4hzWTz0ZBc9wzITfbft5gm35VZKBAWhiEdXW
+	 2B8XpBZQp2uA6OV3Nx3+yghJgiUfs984NGzIEhTePN6wNHKnVhCiPrE8oeYg4Qsptu
+	 jONoXg/efXbaA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com,
+	Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev,
+	Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v2 04/16] dma-mapping: rename trace_dma_*map_page to trace_dma_*map_phys
+Date: Thu, 14 Aug 2025 13:13:22 +0300
+Message-ID: <18459094e29f22a137a9a77c614bcef07963f769.1755153054.git.leon@kernel.org>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1755153054.git.leon@kernel.org>
+References: <cover.1755153054.git.leon@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv7 1/9] blk-mq-dma: create blk_map_iter type
-To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: hch@lst.de, axboe@kernel.dk, Keith Busch <kbusch@kernel.org>
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20250813153153.3260897-2-kbusch@meta.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250814101731epcas5p3e35e879da59d3431fe098666efe81d3f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250813153222epcas5p49a56589a697f9ba0482a353450f78494
-References: <20250813153153.3260897-1-kbusch@meta.com>
-	<CGME20250813153222epcas5p49a56589a697f9ba0482a353450f78494@epcas5p4.samsung.com>
-	<20250813153153.3260897-2-kbusch@meta.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250814_031741_118898_953AF09B 
-X-CRM114-Status: UNSURE (   4.68  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 14 Aug 2025 08:29:04 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,5 +103,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+From: Leon Romanovsky <leonro@nvidia.com>
+
+As a preparation for following map_page -> map_phys API conversion,
+let's rename trace_dma_*map_page() to be trace_dma_*map_phys().
+
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ include/trace/events/dma.h | 4 ++--
+ kernel/dma/mapping.c       | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
+index ee90d6f1dcf3..84416c7d6bfa 100644
+--- a/include/trace/events/dma.h
++++ b/include/trace/events/dma.h
+@@ -72,7 +72,7 @@ DEFINE_EVENT(dma_map, name, \
+ 		 size_t size, enum dma_data_direction dir, unsigned long attrs), \
+ 	TP_ARGS(dev, phys_addr, dma_addr, size, dir, attrs))
+ 
+-DEFINE_MAP_EVENT(dma_map_page);
++DEFINE_MAP_EVENT(dma_map_phys);
+ DEFINE_MAP_EVENT(dma_map_resource);
+ 
+ DECLARE_EVENT_CLASS(dma_unmap,
+@@ -110,7 +110,7 @@ DEFINE_EVENT(dma_unmap, name, \
+ 		 enum dma_data_direction dir, unsigned long attrs), \
+ 	TP_ARGS(dev, addr, size, dir, attrs))
+ 
+-DEFINE_UNMAP_EVENT(dma_unmap_page);
++DEFINE_UNMAP_EVENT(dma_unmap_phys);
+ DEFINE_UNMAP_EVENT(dma_unmap_resource);
+ 
+ DECLARE_EVENT_CLASS(dma_alloc_class,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index 4c1dfbabb8ae..fe1f0da6dc50 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -173,7 +173,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+ 	else
+ 		addr = ops->map_page(dev, page, offset, size, dir, attrs);
+ 	kmsan_handle_dma(page, offset, size, dir);
+-	trace_dma_map_page(dev, phys, addr, size, dir, attrs);
++	trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
+ 	debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
+ 
+ 	return addr;
+@@ -193,7 +193,7 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+ 		iommu_dma_unmap_page(dev, addr, size, dir, attrs);
+ 	else
+ 		ops->unmap_page(dev, addr, size, dir, attrs);
+-	trace_dma_unmap_page(dev, addr, size, dir, attrs);
++	trace_dma_unmap_phys(dev, addr, size, dir, attrs);
+ 	debug_dma_unmap_phys(dev, addr, size, dir);
+ }
+ EXPORT_SYMBOL(dma_unmap_page_attrs);
+-- 
+2.50.1
+
 
