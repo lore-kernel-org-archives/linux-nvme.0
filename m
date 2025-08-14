@@ -4,93 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6AA3CA0EDC
-	for <linux-nvme@archiver.kernel.org>; Sun, 17 Aug 2025 11:16:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20BDACA0EEB
+	for <linux-nvme@archiver.kernel.org>; Sun, 17 Aug 2025 11:16:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+qkotKjA29uhp00A8rkqHQXkiTzDF9Aqh1SY8eRdGdo=; b=qrtBXz0aIM3KxkD8BLqnulWNEz
-	37qg927qfFpgl+QXAfOgqm4pd/zxnv7Zd3x5m+ZuzhwiTRhTBwSHlSUDkFGXFVLJBlowd7dN+0G90
-	39EkNrD3JKWpn7cVtThInpJIYleG0yo8Gcw/MYfRtTL3pCIe1V1L3tFGIEAi6gh0t/Wb7Y6qgvBoQ
-	GfIpky9AeCKpkkREXQ/4dMIsxixbB1w/2KPzbJm1yZZLpBEjrD4h/4PkD2YrANWO405uh/ypqd30M
-	6O9Zek52M8guRdEH75uHHahK4lH/lF4eZgr2bE1AXfUliZhI1S892QtaXVsziwT13nOLYgbp9PKZ1
-	VPbiTmTQ==;
+	bh=OE4LAchkYGbRbWIAPtKdq4yp8AV8hBrJ1qdnR14GXT4=; b=FghePfOxEGs/PAfC0nrZvm7uRN
+	DlFhSYYIFMKoqiBybhqZgqVzGt58xO8KOfWZFnbvAVLHZ/sLEUJK8owinFTwTYmH+h0WpJ7i6l182
+	gh1LwB/98AFxPtJZumjiWQJLkWRnf7Hybzms7ot23AHMCIskxRe/fhmWEKTRWTWuYpBkoC+tO2ABQ
+	4wnwVdWyWsDpUHYuFsOiQdp87CkpjxvH4MAYLed35bQvry4vjwX7E0Qd9z6Z/lxhQr81swmXRZ7+d
+	196Yx+pe/zFZSPjrn+rz7i6zZwOe2eAbch4UG0XaWzg+bLfjDTXWtIlDvnQObjfMdQV3Bm7vCl7Tc
+	4nn4brpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unbNP-00000005aUs-0gID;
-	Sun, 17 Aug 2025 11:16:39 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umcA8-00000000FVw-0SuB
-	for linux-nvme@lists.infradead.org;
-	Thu, 14 Aug 2025 17:54:53 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5A698A56B3C;
-	Thu, 14 Aug 2025 17:54:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E02C4CEED;
-	Thu, 14 Aug 2025 17:54:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755194091;
-	bh=dJuAJRFwFKXIJkybNGJNx5df3xqMYXp7O5ndEMDZg04=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uzys0fctaKduRyxRgFcqqWB9TJX8pmDHxUeerVSmc9hyJder8/7gFl3wfN/unHZ2C
-	 S5CzVr+5GYaSUOFs9bmQ75Ecqcu9Pu4Whd8sbfjlhm2XOYZLIhCbef/DMcn3CTb45+
-	 GiznNYOI/+RzFM5PLcTzNPRM35pJT6rtglK+OdmUleRbcbftiNpy2RaoYN+398HPlI
-	 EdMAoWucl5y3/7eOxc13vugzgtDg65qJbFLVFBCCc/G5s+GnSm+p2hysDhRiLfbghA
-	 f5DgNGtveHYzPp98rPtOh2sXpm5HgOwAFNALlZh24t/cDF5EYiXAKJyn8L22WCuZ0B
-	 PilBrOf3zwuYA==
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com,
-	Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev,
-	Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: [PATCH v3 06/16] iommu/dma: extend iommu_dma_*map_phys API to handle MMIO memory
-Date: Thu, 14 Aug 2025 20:53:57 +0300
-Message-ID: <4f84639baf6d5d0e107fd2001dff91b6538ff9ae.1755193625.git.leon@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1755193625.git.leon@kernel.org>
-References: <cover.1755193625.git.leon@kernel.org>
+	id 1unbNH-00000005aO2-0zgb;
+	Sun, 17 Aug 2025 11:16:31 +0000
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1umbtD-00000000E9n-3MTt;
+	Thu, 14 Aug 2025 17:37:23 +0000
+Message-ID: <c855a4f9-4a50-4e02-9ac6-372abe7da730@infradead.org>
+Date: Thu, 14 Aug 2025 10:37:22 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250814_105452_268010_9E0FD74A 
-X-CRM114-Status: GOOD (  13.12  )
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/16] dma-mapping: introduce new DMA attribute to
+ indicate MMIO memory
+To: Leon Romanovsky <leon@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Alex Gaynor
+ <alex.gaynor@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+ iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+ Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+ Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+ kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+ linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-trace-kernel@vger.kernel.org, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, Stefano Stabellini
+ <sstabellini@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+ xen-devel@lists.xenproject.org
+References: <cover.1755153054.git.leon@kernel.org>
+ <f832644c76e13de504ecf03450fd5d125f72f4c6.1755153054.git.leon@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <f832644c76e13de504ecf03450fd5d125f72f4c6.1755153054.git.leon@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Sun, 17 Aug 2025 04:16:29 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -106,63 +77,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+Hi Leon,
 
-Combine iommu_dma_*map_phys with iommu_dma_*map_resource interfaces in
-order to allow single phys_addr_t flow.
+On 8/14/25 3:13 AM, Leon Romanovsky wrote:
+> diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
+> index 1887d92e8e92..58a1528a9bb9 100644
+> --- a/Documentation/core-api/dma-attributes.rst
+> +++ b/Documentation/core-api/dma-attributes.rst
+> @@ -130,3 +130,21 @@ accesses to DMA buffers in both privileged "supervisor" and unprivileged
+>  subsystem that the buffer is fully accessible at the elevated privilege
+>  level (and ideally inaccessible or at least read-only at the
+>  lesser-privileged levels).
+> +
+> +DMA_ATTR_MMIO
+> +-------------
+> +
+> +This attribute indicates the physical address is not normal system
+> +memory. It may not be used with kmap*()/phys_to_virt()/phys_to_page()
+> +functions, it may not be cachable, and access using CPU load/store
 
-In the following patches, the iommu_dma_map_resource() will be removed
-in favour of iommu_dma_map_phys(..., attrs | DMA_ATTR_MMIO) flow.
+Usually "cacheable" (git grep -w cacheable counts 1042 hits vs.
+55 hits for "cachable"). And the $internet agrees.
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/iommu/dma-iommu.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+> +instructions may not be allowed.
+> +
+> +Usually this will be used to describe MMIO addresses, or other non
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index aea119f32f96..6804aaf034a1 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1211,16 +1211,19 @@ dma_addr_t iommu_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
- 	 */
- 	if (dev_use_swiotlb(dev, size, dir) &&
- 	    iova_unaligned(iovad, phys, size)) {
-+		if (attrs & DMA_ATTR_MMIO)
-+			return DMA_MAPPING_ERROR;
-+
- 		phys = iommu_dma_map_swiotlb(dev, phys, size, dir, attrs);
- 		if (phys == (phys_addr_t)DMA_MAPPING_ERROR)
- 			return DMA_MAPPING_ERROR;
- 	}
- 
--	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-+	if (!coherent && !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO)))
- 		arch_sync_dma_for_device(phys, size, dir);
- 
- 	iova = __iommu_dma_map(dev, phys, size, prot, dma_mask);
--	if (iova == DMA_MAPPING_ERROR)
-+	if (iova == DMA_MAPPING_ERROR && !(attrs & DMA_ATTR_MMIO))
- 		swiotlb_tbl_unmap_single(dev, phys, size, dir, attrs);
- 	return iova;
- }
-@@ -1228,10 +1231,14 @@ dma_addr_t iommu_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
- void iommu_dma_unmap_phys(struct device *dev, dma_addr_t dma_handle,
- 		size_t size, enum dma_data_direction dir, unsigned long attrs)
- {
--	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	phys_addr_t phys;
- 
--	phys = iommu_iova_to_phys(domain, dma_handle);
-+	if (attrs & DMA_ATTR_MMIO) {
-+		__iommu_dma_unmap(dev, dma_handle, size);
-+		return;
-+	}
-+
-+	phys = iommu_iova_to_phys(iommu_get_dma_domain(dev), dma_handle);
- 	if (WARN_ON(!phys))
- 		return;
- 
+non-cacheable
+
+> +cachable register addresses. When DMA mapping this sort of address we
+
+> +call the operation Peer to Peer as a one device is DMA'ing to another
+> +device. For PCI devices the p2pdma APIs must be used to determine if
+> +DMA_ATTR_MMIO is appropriate.
+> +
+> +For architectures that require cache flushing for DMA coherence
+> +DMA_ATTR_MMIO will not perform any cache flushing. The address
+> +provided must never be mapped cachable into the CPU.
+again.
+
+thanks.
 -- 
-2.50.1
+~Randy
 
 
