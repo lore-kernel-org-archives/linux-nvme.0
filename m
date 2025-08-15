@@ -4,80 +4,214 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D6CECA0EE4
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Aug 2025 13:14:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41E9CCA0ED1
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Aug 2025 15:57:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WTJRa8sI7v5qD7Ekf4MDxSZttFcMDPbqHPYi+8DKOlE=; b=cR+wtsueaFqCepOdYR9nksBs+u
-	+6QZBeFUpnG3GCZIrlMhdjSqrBoSom/nssa5Cw+Fy6E8W+ZjCbo3+IWjMsbTcr6vs8ATJjxE6UEMr
-	RcvXbPZ5K4MvPmF+NLFp/qeSS0QjQRMLmAD/NSAnFmMTGyvOPLuCi+7AnSSMT71cUs76KJgbMCKbM
-	T25iDR4zQJAku3sDYXRK2B4PspnINj7Wt0xk38uuBVRZntvOEwIovjaEonHEURzGI+ng0TxTQUw5M
-	fuH1ykmRQAbX5yBew+1dHzNWGLFZXEh9CuoYzFQEsOOvkxraQTodqtaV3Rtw9EaXACcYUBhkXBxW8
-	6Yvw3EOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc:To:Subject:
+	From:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SWuhUxkNSN8QxdQCRSPzdO8qiQBKOGmTzGJfZID5gxg=; b=AQ0eqPNvZA+PnROONe1+akbAi7
+	YUGbexTdbeAnK7i31G55/a8ixif92sWRqSGhESk1WSlde7wzs86ijwo9IKw3Iw2H4BKvkTd5z4LvQ
+	/sFA9Zua8WSVlUUDXZJbnrW7NLdW0S0i55pD61ASyM8BBFEPbrxLaSeSbm248ke1GUk5E93m/FMNd
+	jJaIzrqRbpx/EXF6ELAOHwBmmZ9/k1wNG8+IYHq6Rd4jzpT+pMgjQwm3Pimfpe/WyrP6IcRqfZSPb
+	bXplNK4oHvWxAznGOTkA/04B8qc8xO2WZF3oyg2vrIEgYTtOwi0Z7pFs19/8C/Sc5Sg464018rZPL
+	xrXAHvkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umuGN-00000002YBO-2Fkd;
-	Fri, 15 Aug 2025 13:14:31 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1umwnw-00000002tg3-0b1r;
+	Fri, 15 Aug 2025 15:57:20 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umrDL-000000028Jm-3CnV
+	id 1umufq-00000002bb8-1lVf
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 Aug 2025 09:59:14 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c3Hd62fJ9zYQvB5
-	for <linux-nvme@lists.infradead.org>; Fri, 15 Aug 2025 17:59:06 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id F239C1A1125
-	for <linux-nvme@lists.infradead.org>; Fri, 15 Aug 2025 17:59:04 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgDnrxDlBJ9or8EHDw--.35151S3;
-	Fri, 15 Aug 2025 17:59:03 +0800 (CST)
-Message-ID: <1428e3fe-ae7a-410d-97b5-7dd0249c41c0@huaweicloud.com>
-Date: Fri, 15 Aug 2025 17:59:01 +0800
-MIME-Version: 1.0
+	Fri, 15 Aug 2025 13:40:51 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57FDN3sx009172;
+	Fri, 15 Aug 2025 13:40:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=SWuhUxkNSN8QxdQCRSPzdO8qiQBKOGmTzGJfZID5gxg=; b=
+	a8yFZkghHdojGX8rsq8PF6E4CnGL6+w8Z5f5Hh2j4uws90jkVqnoUifh8E581Mkz
+	GWr5zZE2kSjBA2TPUSEmyMy0+4Qd0ql14750We4Yj7Q29eREBJODmmlqoUv9XSX7
+	NQ2zaL4EIR0TjcmAoRfBpfKA4nLYhjvg0AXwJ449u4fdUagpn9cjvYT8/v3R1qpW
+	HuXa/Cmd7wiiu0RSJjyiMxSsZ7Y8RwC2UcvlYtaQD0eOACE4bWtfzVZ2eXbEZ1jl
+	5q+SsXQJBeractijlp/9hEFWG9CByNl0sFlnGwWpvMvGZXn1gvFufSjTz+QMCC3J
+	bdRkK9no2uXpLh9fvWCsdw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48dxcfc3hp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 15 Aug 2025 13:40:40 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57FCMLoM030165;
+	Fri, 15 Aug 2025 13:40:39 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48dvsdyukd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 15 Aug 2025 13:40:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IIs5rw+i0/EDmul8yIfg65P9ALj1UiaWxvgOC89dR0MUJQyyrjqxPuEGRfYJEBqlKnOJzokSPvBRml/Yw27W4OiiXchpxOxBBToGeTw1aOPrPGyhEMiMBjdKIf0vu/NDip76H2Z336adh373p9ygQkkiEQxWfj/ualsKOtEqHrEg6olbGtKba60C3CS70LoNTCl5Prp69WTDslMU9Jk5/k2Zeo3yt3q5GT0TrGov+0GnYUKTftfTW4LL/G/lCfhojeOq7jqefSZ8lapLZllfe9i1lPn9v4+Joz+1lLMEKEJ5INjvMOV3gI2H5JnvwSeSwGWIw6iRux65W5odWjYWSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SWuhUxkNSN8QxdQCRSPzdO8qiQBKOGmTzGJfZID5gxg=;
+ b=toDCxVVK5cO19g8KwfTGv+NAbR1GcI2w4KG5ZbDS3SNBsNMV8fOh1pjSN1QXtDjxUcefuKiceHrtuMitPO8pbrROB0KamsIMy2pLFKSucxJB4ggODkStCtzA+RQFGy+4cXAHt4U0k8seY7KNPkWg/Y6a5Mr2s7xFUgLTCYLkNtfEGdPXTHNo9+WPysRKy87RLXmTsJQB3dB3CXfcQAs4WVS1LomjrnEDE4v8MakGdzguZNAzjrhVJK8eEbtIkdF/N1vC/dkmaUWmtfajdLP3j1mYlyzOXcO4g77s8xjSX+an7zIXXhkAqw2sPVFnKwfKcPBTauRrpvO7isE6EMv9RA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SWuhUxkNSN8QxdQCRSPzdO8qiQBKOGmTzGJfZID5gxg=;
+ b=ztzdTPCVBnNRI+UYBsa8+ITjhJuACb+0XqSJIAe3w1HblaOkjgvKzqsnRGkZcHw4FAvTMt9JzDJzTDdQ+vSoWorFifgu+DhIo4w1tGHZUC+JL97jyvehm9IniAdVTVkTnLorn278FDpdmHFLa8O5xixXesiGreNBYSfX93eNYcY=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by CH2PR10MB4295.namprd10.prod.outlook.com (2603:10b6:610:a6::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.19; Fri, 15 Aug
+ 2025 13:40:36 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90%3]) with mapi id 15.20.9031.014; Fri, 15 Aug 2025
+ 13:40:36 +0000
+Message-ID: <85d4697e-9365-4b9d-ac95-43e0dc31086b@oracle.com>
+Date: Fri, 15 Aug 2025 09:40:34 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH xfsprogs v2] xfs_io: add FALLOC_FL_WRITE_ZEROES support
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, hch@lst.de,
- tytso@mit.edu, bmarzins@redhat.com, chaitanyak@nvidia.com,
- shinichiro.kawasaki@wdc.com, brauner@kernel.org, martin.petersen@oracle.com,
- yi.zhang@huawei.com, chengzhihao1@huawei.com, yukuai3@huawei.com,
- yangerkun@huawei.com
-References: <20250813024250.2504126-1-yi.zhang@huaweicloud.com>
- <20250814165430.GR7942@frogsfrogsfrogs>
+From: Chuck Lever <chuck.lever@oracle.com>
+Subject: Re: [PATCH 7/8] net/handshake: Support decoding the HandshakeType
+To: alistair23@gmail.com, hare@kernel.org,
+        kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+        kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20250815050210.1518439-1-alistair.francis@wdc.com>
+ <20250815050210.1518439-8-alistair.francis@wdc.com>
 Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20250814165430.GR7942@frogsfrogsfrogs>
+In-Reply-To: <20250815050210.1518439-8-alistair.francis@wdc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: gCh0CgDnrxDlBJ9or8EHDw--.35151S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxAw4fKFyrGry8tFWkJF4UXFb_yoW5uF17pa
-	47XF1jkFW5Xry7uayfKw4kuF98Xws3tF43Gr4xWr10v3Z8ZF1fKF1DGwsY93s7ur1xCa10
-	qFn0gFy3C3WSy37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-ClientProxiedBy: CH0PR03CA0312.namprd03.prod.outlook.com
+ (2603:10b6:610:118::21) To BN0PR10MB5128.namprd10.prod.outlook.com
+ (2603:10b6:408:117::24)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|CH2PR10MB4295:EE_
+X-MS-Office365-Filtering-Correlation-Id: e29aaa98-1407-4a5b-4528-08dddc0150c5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bW1GUG9Bckc4Mk1KOEFoUW10SldDcERRMEtrS3MvT0x1SkthNDdYeC9laG9s?=
+ =?utf-8?B?N0dmdVo4bjh0TkVDc1N5Q014QUxmd0ZGYXJNRDU2Z0xvUGFPamNuclA1MUpV?=
+ =?utf-8?B?RmNNQmZXS2k1Wm1hSitXdjNxRWVSanNodXUrMng3Q2FNSlYyaUFJVVd6RExy?=
+ =?utf-8?B?endJOHRtOGZBb09EdkFFdHNQZFdzK1dFV05yTjhvbTcwVVB6dERMSDE5VnYy?=
+ =?utf-8?B?enZtT0kybnViMGVncFRFdmtmWFhlTENPRTBBc1VVR1NZeHhzRlZIUmlXNERv?=
+ =?utf-8?B?NDdsMDZHSU5XdjZkL1VhRWZIeGIzYmNWU09jSTJMNlhhRXJmRUc2RG1kai8v?=
+ =?utf-8?B?Yld2VmJpK3lXeU1lQ3VVY2ZZYjZiUzgrVk4yN2tURlJXSWFIS1BJM2dFZm9L?=
+ =?utf-8?B?WHNXTFpJRmEranBsQ252WVdvUFFJWVNLNDI2MjBPaSs2OFlFdU5XcEFSdFF5?=
+ =?utf-8?B?L1B6NnlkWSt5NjNLQ2p3ck5CbWNINmFObm1vWlR2Qnp0bVpIOFdmTWpyQkRG?=
+ =?utf-8?B?ZjBqRWtDL2pOcTNLa2pTMm8yd0pFNDFERGRYbHZXTG5GbjUvUzZNVkIyemMy?=
+ =?utf-8?B?UnQ0REs5TlgzY29NOFd4NXhrbDRaUmUzN1lHYUtnazQ1TmJ6TTk1M1JMcWgx?=
+ =?utf-8?B?dmtpOTA4RDdEaGx3QzBDVFBrRi84czU4eW1XenJ6S1d0Z1paM01sUkxUQU15?=
+ =?utf-8?B?NzhxNmo2VHBiK3lOUWE3REJIdWdpVS8rNThMT1NwU1hZTHZicy9VQUg2UVJ1?=
+ =?utf-8?B?WDVHa3NBbjBCLzRmV2NXYkNoc1M3eWx3LzZ6akdqbGJ2alVGWWYyUTRVcFUv?=
+ =?utf-8?B?TklSNWthdnVwMVBXd24xcnNMRjQxc1A3Y0l0Z3JGemJ4TU11Mng4dnAxS3lr?=
+ =?utf-8?B?SDA5VXlpd2Nkek1rdnpOcXJzbTFjTjF6QkJsakVJNmpQOHNweU8wVk1kUEV0?=
+ =?utf-8?B?R05rTmNlVGE1Y0gwQk9xbGlGazVyL25UK3I0cGF6S3JtMVI4WmF4UXI2V2hm?=
+ =?utf-8?B?TS82SHBVZm0xeldoL1hhbk9lV2dkOTlyMjlqem5abVRROC9HbWloVGxHSGtT?=
+ =?utf-8?B?RW5HQmc3dUI3bCtQc2Z0QTUwd3h4TldUM05jMXk4dkkrT2Vab0FmZzdHeis4?=
+ =?utf-8?B?S2lkYzZUNFB3MFFyTGNWZEQ5QW9iQzkrQk5KSTNzRTZ6YzlvZFpQbkYxS05Y?=
+ =?utf-8?B?MWppV2VXMHh0RzhzNmpXUVdPd3VJR3ZWUWRPTXFLdEIxbDFlb0hqelVUWjdF?=
+ =?utf-8?B?MWJIYW9ZRndwcUxTTm0wbGZJRC8xR2k5clFnaFV1Y08zaUE3R1kycWhwbXBz?=
+ =?utf-8?B?Tml2SFlUN3N3d2RTelpJNXhLZ3RMK1BEcFViV095MXRFUmswK3hiaVY2QzBu?=
+ =?utf-8?B?Smo0UTUxUmRERmkxUXdqSWl5ZWpwS0dDZVIyV28rWldKZVVOd2gwc1BOckl5?=
+ =?utf-8?B?Ri9MQzVwNkV1SzYwNGRJZUZKdW5aaEhZVDhzb3N4TWVNMUJKL21MemtzQ2JJ?=
+ =?utf-8?B?WllNTXlXeDJJaWo2M0FHZjRaRjA3MHRaTUlzQnFKTCtvckYzRmQ1ckE4c1RH?=
+ =?utf-8?B?SVFoVEEyb3kwcEYwMDBXb3NndGNpYWdVczd1SlNxa1dkMjFBaUpKeVoyT1NF?=
+ =?utf-8?B?b3VNb3VPMXNUbmZmQ0hQYlkwSjlKYjFUYkpIZ0prTkFDeFRqYk0yNFpkOTFS?=
+ =?utf-8?B?MXgwOVlQS3prczduQnlvWENpTVgvdmh0dXREUW9TUXRGT0sySUxmOUVEdTNO?=
+ =?utf-8?B?clNPdUpFckJaTmdRZks5eSt3ZXprY3A5NmRTMm1UK1o0bUgrclAxeWZWR3dh?=
+ =?utf-8?B?eFJmN1c4MDE0VWE0cEdEaUl5bVp1UEIvRm9heFJkbld3SUk3V1ZNc2ZQTm1H?=
+ =?utf-8?Q?yUglx4VU5VA8B?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dE83L0lQT1VNUllkcmNOaFd5d0J1SmVhN3htaVhiZVF5YUZyRjJoNEdMUXlF?=
+ =?utf-8?B?bTh4U2Rjc1krazlMQ0R6S3M4Ymw3RThoY0tUeVNlT1J4aVg2emlLQWpndmVG?=
+ =?utf-8?B?aVJWM3VJUXdjUUhsQlFBTDhzRFREbHZCNDdiTjAxcUZkVDVCSmZ4S0ZMMlgv?=
+ =?utf-8?B?SHVyZEZ0bCtGSGY3K0F0Mmc5MHdUYnFPT0ExY2s0WklHOFRRbFFyaVB4TVFt?=
+ =?utf-8?B?TWlMM05xSXgvZXdrL2NudytXYmVDdEoyUkFFS0RXN1JNYzFhU2NPdUtldTZS?=
+ =?utf-8?B?aDRWdmxnVzRTdnVRanJ6YVJna3lQbFFXTmExbGR3cjViNFJRczZRSlVEck0x?=
+ =?utf-8?B?VVVma2YzOXZqNXg0cXlFdVFEZkFnK3N0RnZJU0gvZ2JXZ09iaTRGWmxDbDFu?=
+ =?utf-8?B?L0ttZlJFODZ5WDhrVXBMRitnUEVyY3pQYlNSWXovUSttMEZVSGdDdmhVNVBz?=
+ =?utf-8?B?RE1KUnVKSjg0Z1NPckZ6cmJvRWNBUm52cEl4VFdGOVp6WDkrU1M4RitLeWZh?=
+ =?utf-8?B?cG1HYUZadG4yM0xidGtUUVF6RHZ5TFpOTXMwSjY1bHBua2ZybG9ZYzdUMStK?=
+ =?utf-8?B?dWJPWUJPNVZsNmhNTmJxaW5aeDJ4cDVCRHMyb2E0dUp5UjAvczdVdWIwT2RL?=
+ =?utf-8?B?Zi9KWllqemtvSTVQVCt5SlNZSVR3Q0p5bVQ0ZzB2ODArZ052L0JyNFVnWU1q?=
+ =?utf-8?B?QUR1R2M1UkNPODBWMExwVldTYks1elF2RUp1OERrZ0QzUHV6V0Q5WkhMVHc4?=
+ =?utf-8?B?bHlyTWF4MkExOUMyUm1MN3IxTHliMlZUYjJYNkxHQjZZMFVveWJnRU1uVDZB?=
+ =?utf-8?B?VWo2ejNBTFBQVmsraFZHZzVNVzRSR3J2RzBKdzdMU1d2d2h1eU81bEVCUzlY?=
+ =?utf-8?B?RVMxeUMxUXR4aGJmQkhZZnk0LzFaSk01RzJkK3o1S0ZVZXQyZTB6TVcyUjFM?=
+ =?utf-8?B?elU3WnZHekJXUGlSLzlwb3lCVkMyU1hOd2R0OUMxSzc0Ym1ET2o4QTdlelBz?=
+ =?utf-8?B?V0ZZNlQ5d3ZoaHVKaCtwYXBkbzl6RlhuellSN2hDZVVBaEVzak5yVWVJak9U?=
+ =?utf-8?B?bmdOT0UzUWdCV3BHSEpwdldXaldJNEM5UWhoTEJ2bWJ1UnhDNlhEQ0hLRHlx?=
+ =?utf-8?B?ZmRTSG1GeFlGWXRDejJlUURkSytsTTU3Y01hamhQZzNkZWFYNml4THh2MzBF?=
+ =?utf-8?B?Kzl3em1QVU1COEExY2R1VWlVSFJ1MDdDalc4WFFOUG81ZXZOWDdhVVdlWmtt?=
+ =?utf-8?B?OStmU2d4VEROWDZHby85cFIvdEdrOFdLaHY3Y2l4WnJSRE9lcjR0ZW9Yb1p6?=
+ =?utf-8?B?MDMzSTZBNlhiSkRtRWlZV0RtRHgvdDV5ZkQ4bkptMXhsbUx1TStzUWZ6NjZP?=
+ =?utf-8?B?akcxSzRlblBtL3pqcUJWc2FhaXhkcjZhM2NvcUFlVzVNVEtsaFgzRnhkSCs4?=
+ =?utf-8?B?Z1RZZmhYMktuZlpsU05WSWdPWDIwUDFxUDhZMmxDb1hGTVN0V0RnZ1l6bnlv?=
+ =?utf-8?B?aS9VMk9yeS9abkIyTlgxaCtoejI0cERjdlNCcm1vWlhhdTlrRG84YVJzZ0R0?=
+ =?utf-8?B?bVVNa1AvYkdNak1NVENrV1hhM0FuWHFKeG5rMC9ad1lkTHVST2dMQ2k1U2Ex?=
+ =?utf-8?B?b2FZUXdRZG9zNjBNdXFpU1JmYjRlb29PNDh3cndyOHVsMmNYZkZPYUppb1k3?=
+ =?utf-8?B?RWlYSmx1RHBUNzJDaTZodXFzejRCSEFmNDllcTkyVEdGVHVyMExzRytVWXUz?=
+ =?utf-8?B?T0dNdG5wUzEvZFQ1S2djTWs0TFZkUWtBVEl5eVVUeWx4czFoMVVybEtIdVN3?=
+ =?utf-8?B?UmxLRjJ2TnV6YldQaXpHdEE5UlR6QU42MUtKWVIzZ3Q0aHI4UUYyaXdEazlK?=
+ =?utf-8?B?WlpUVUdyZEZnT1ZzbVNVRmdrRmJLdmRqYmRlTnBZYXM5ZFB6UG5YMWxISzBX?=
+ =?utf-8?B?dmxob1Y1QUVLbzI3NnE1VHJFZ2h6MzNieEF2R1JpWXV1UklXUWFYY1RSWHFh?=
+ =?utf-8?B?VWowRVZxVlA0Q3g2U2IzL0lRMmRqQWpMZ2Fka2JSRnhYNTEwZ1hOU0VsUlNq?=
+ =?utf-8?B?clJPaHZzOUtWRC9GeGx5QUpEZmp3RkxBVlM1bFkwQ2FySmRUV3NGVitqSmdS?=
+ =?utf-8?Q?8qAkM+tIRQ/oLR7lEEj4wbdZV?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: JD/yv7v59tmVnZwoVaZp7JQmaZEWmyEa9LBNPcSrSWHIrWz3teTJU2DGJFg2qQoh9vv0jTYNM6/t0Dgz9rSWNSLpeYlRHvCx9BorqV+jwXaXjt8mqdSHJVZTB2CMlCfIK8KXLYryoSbRgnqWukYLv46hclJHj3KQp+HDXgGUPU9S6EEXzXs+5hHzOlzEilD1Tlmehs2FQjF8v8GEszLTivRGwoo4fBFsBDeWWpE6liyYhzrZO4NGxY0skKBUZzNQDK323wTFih2TFbep3xj5MecHZUZJ94dWziomBPabyrl9uLkgIe3w+G6/dfR9NWVELjtgKGThtupKsBY3h2CbzYrzT3rlPHP+WMLTEp0NnKXGHFWBpQe+zjlyW8um1TkDbybDVa5kcUwjLImBbGVXYmwVlL5stUgipFNZ881e50OXAaX2YjOQ1Dk2FPF+Y/gMe8lYG+UEu5+Hp+pu0XVHmcn0ZgHd9Xe0L/U9cj+0ntOIK8EgNMHEARPlXmVnMI3Kp2oAuDjUU9nmpADL0pkyw/DT9V3AgwsIeW9eBu4IM21Unv43y6FHjUIA77P/lWnXMZCnHT0zeYLExNKdUFZUlRmWbnE7rRooORhRVC9+2Io=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e29aaa98-1407-4a5b-4528-08dddc0150c5
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 13:40:36.5572
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ND7+reUfdAS7yR1+TSYtE6liqmTeAXUYPXaChhwbhwaZh1lljGep7t1IngEDNoxEF1G1z4X/xDidg273s0XWtQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4295
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-15_04,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0
+ adultscore=0 mlxscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2507300000 definitions=main-2508150112
+X-Proofpoint-GUID: lThstbOtZQlBGuY2wdsCeWAmp7b4OSNR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE1MDExMiBTYWx0ZWRfXxmpLR490+uIh
+ AK6IqRa8BKn/1RD1kQOgT3YiyfvC1CN1i+emqHkkfu0tJXGC8wZdZ3FZctKl9YQakkNe7lqqMJ4
+ jjU+mLUZ+R/29LCD8eWMkTJZAThttVvGtHljPvoRC19et70z6ClOkb7VkENmLKe0DKw2MRA4+Jn
+ gZJmd0CTnNJwwFx+5Yjv99QJtovymtYCfLknP7TJNnw/EfPYq+aBPbfXLI0Ihbf/ZgQQZbqdSB9
+ epS0rmPhiXVrf1L4/5c90CtYRWPxjclsh0pCzd+9FRcQ1vOJlsjJ9m2uUQ7juAEAN//4XO0km+w
+ pEgmilDGGbCOg6usYD1GeSPTMOC3yUNR5GjOV5H341rhHFOmJsAS5/22pHQ3n75b/FPpYR61lqi
+ Y6+jZIv6nym9FZRcJxIEcG8XaVg4pVgahJD2/gT0npJ5QeqsGGL/6HUVFQEcSTuNiU27VC08
+X-Authority-Analysis: v=2.4 cv=W8M4VQWk c=1 sm=1 tr=0 ts=689f38d8 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=48vgC7mUAAAA:8 a=I0CVDw5ZAAAA:8
+ a=pGLkceISAAAA:8 a=JF9118EUAAAA:8 a=nWDESCXXDqufb46ehH4A:9 a=QEXdDO2ut3YA:10
+ a=xVlTc564ipvMDusKsbsT:22
+X-Proofpoint-ORIG-GUID: lThstbOtZQlBGuY2wdsCeWAmp7b4OSNR
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250815_025912_114585_5447F3B1 
-X-CRM114-Status: GOOD (  17.19  )
+X-CRM114-CacheID: sfid-20250815_064050_586465_853E7746 
+X-CRM114-Status: GOOD (  16.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,126 +226,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025/8/15 0:54, Darrick J. Wong wrote:
-> On Wed, Aug 13, 2025 at 10:42:50AM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
->>
->> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
->> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES support to the
->> fallocate utility by introducing a new 'fwzero' command in the xfs_io
->> tool.
->>
->> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->> v1->v2:
->>  - Minor description modification to align with the kernel.
->>
->>  io/prealloc.c     | 36 ++++++++++++++++++++++++++++++++++++
->>  man/man8/xfs_io.8 |  6 ++++++
->>  2 files changed, 42 insertions(+)
->>
->> diff --git a/io/prealloc.c b/io/prealloc.c
->> index 8e968c9f..9a64bf53 100644
->> --- a/io/prealloc.c
->> +++ b/io/prealloc.c
->> @@ -30,6 +30,10 @@
->>  #define FALLOC_FL_UNSHARE_RANGE 0x40
->>  #endif
->>  
->> +#ifndef FALLOC_FL_WRITE_ZEROES
->> +#define FALLOC_FL_WRITE_ZEROES 0x80
->> +#endif
->> +
->>  static cmdinfo_t allocsp_cmd;
->>  static cmdinfo_t freesp_cmd;
->>  static cmdinfo_t resvsp_cmd;
->> @@ -41,6 +45,7 @@ static cmdinfo_t fcollapse_cmd;
->>  static cmdinfo_t finsert_cmd;
->>  static cmdinfo_t fzero_cmd;
->>  static cmdinfo_t funshare_cmd;
->> +static cmdinfo_t fwzero_cmd;
->>  
->>  static int
->>  offset_length(
->> @@ -377,6 +382,27 @@ funshare_f(
->>  	return 0;
->>  }
->>  
->> +static int
->> +fwzero_f(
->> +	int		argc,
->> +	char		**argv)
->> +{
->> +	xfs_flock64_t	segment;
->> +	int		mode = FALLOC_FL_WRITE_ZEROES;
+On 8/15/25 1:02 AM, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> Shouldn't this take a -k to add FALLOC_FL_KEEP_SIZE like fzero?
+> Support decoding the HandshakeType as part of the TLS handshake
+> protocol.
 > 
-
-Since allocating blocks with written extents beyond the inode size
-is not permitted, the FALLOC_FL_WRITE_ZEROES flag cannot be used
-together with the FALLOC_FL_KEEP_SIZE.
-
-Thanks,
-Yi.
-
-> (The code otherwise looks fine to me)
+> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  include/net/handshake.h |  1 +
+>  include/net/tls_prot.h  | 17 +++++++++++++++++
+>  net/handshake/alert.c   | 26 ++++++++++++++++++++++++++
+>  3 files changed, 44 insertions(+)
 > 
-> --D
-> 
->> +
->> +	if (!offset_length(argv[1], argv[2], &segment)) {
->> +		exitcode = 1;
->> +		return 0;
->> +	}
->> +
->> +	if (fallocate(file->fd, mode, segment.l_start, segment.l_len)) {
->> +		perror("fallocate");
->> +		exitcode = 1;
->> +		return 0;
->> +	}
->> +	return 0;
->> +}
->> +
->>  void
->>  prealloc_init(void)
->>  {
->> @@ -489,4 +515,14 @@ prealloc_init(void)
->>  	funshare_cmd.oneline =
->>  	_("unshares shared blocks within the range");
->>  	add_command(&funshare_cmd);
->> +
->> +	fwzero_cmd.name = "fwzero";
->> +	fwzero_cmd.cfunc = fwzero_f;
->> +	fwzero_cmd.argmin = 2;
->> +	fwzero_cmd.argmax = 2;
->> +	fwzero_cmd.flags = CMD_NOMAP_OK | CMD_FOREIGN_OK;
->> +	fwzero_cmd.args = _("off len");
->> +	fwzero_cmd.oneline =
->> +	_("zeroes space and eliminates holes by allocating and submitting write zeroes");
->> +	add_command(&fwzero_cmd);
->>  }
->> diff --git a/man/man8/xfs_io.8 b/man/man8/xfs_io.8
->> index b0dcfdb7..0a673322 100644
->> --- a/man/man8/xfs_io.8
->> +++ b/man/man8/xfs_io.8
->> @@ -550,6 +550,12 @@ With the
->>  .B -k
->>  option, use the FALLOC_FL_KEEP_SIZE flag as well.
->>  .TP
->> +.BI fwzero " offset length"
->> +Call fallocate with FALLOC_FL_WRITE_ZEROES flag as described in the
->> +.BR fallocate (2)
->> +manual page to allocate and zero blocks within the range by submitting write
->> +zeroes.
->> +.TP
->>  .BI zero " offset length"
->>  Call xfsctl with
->>  .B XFS_IOC_ZERO_RANGE
->> -- 
->> 2.39.2
->>
->>
+> diff --git a/include/net/handshake.h b/include/net/handshake.h
+> index 8f791c55edc9..d13dc6299c37 100644
+> --- a/include/net/handshake.h
+> +++ b/include/net/handshake.h
+> @@ -54,6 +54,7 @@ void handshake_sk_destruct_req(struct sock *sk);
+>  bool handshake_req_cancel(struct sock *sk);
+>  
+>  u8 tls_get_record_type(const struct sock *sk, const struct cmsghdr *msg);
+> +u8 tls_get_handshake_type(const struct sock *sk, const struct cmsghdr *cmsg);
+>  void tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
+>  		    u8 *level, u8 *description);
+>  
+> diff --git a/include/net/tls_prot.h b/include/net/tls_prot.h
+> index 68a40756440b..5125e7c22cb3 100644
+> --- a/include/net/tls_prot.h
+> +++ b/include/net/tls_prot.h
+> @@ -23,6 +23,23 @@ enum {
+>  	TLS_RECORD_TYPE_ACK = 26,
+>  };
+>  
+> +/*
+> + * TLS Record protocol: HandshakeType
 
+RFC 8664 Section 4 describes the handshake sub-protocol. AFAIU the
+handshake type is part of that protocol, not part of the record
+sub-protocol ...
+
+Also, it appears these numbers are managed by and made extensible by an
+IANA registry:
+https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-7
+
+Let's cite that URL here, and can you include the additional numbers
+found in that registry? Or, if we're adding only the type numbers
+needed for KeyUpdate here, let's mention the registry anyway and note
+that there are other numbers in use.
+
+
+> + */
+> +enum {
+> +	TLS_HANDSHAKE_TYPE_CLIENT_HELLO = 1,
+> +	TLS_HANDSHAKE_TYPE_SERVER_HELLO = 2,
+> +	TLS_HANDSHAKE_TYPE_NEW_SESSION_TICKET = 4,
+> +	TLS_HANDSHAKE_TYPE_END_OF_EARLY_DATA = 5,
+> +	TLS_HANDSHAKE_TYPE_ENCRYPTED_EXTENSIONS = 8,
+> +	TLS_HANDSHAKE_TYPE_CERTIFICATE = 11,
+> +	TLS_HANDSHAKE_TYPE_CERTIFICATE_REQUEST = 13,
+> +	TLS_HANDSHAKE_TYPE_CERTIFICATE_VERIFY = 15,
+> +	TLS_HANDSHAKE_TYPE_FINISHED = 20,
+> +	TLS_HANDSHAKE_TYPE_KEY_UPDATE = 24,
+> +	TLS_HANDSHAKE_TYPE_MESSAGE_HASH = 254,
+> +};
+> +
+>  /*
+>   * TLS Alert protocol: AlertLevel
+>   */
+> diff --git a/net/handshake/alert.c b/net/handshake/alert.c
+> index 329d91984683..7e16ef5ed913 100644
+> --- a/net/handshake/alert.c
+> +++ b/net/handshake/alert.c
+> @@ -86,6 +86,32 @@ u8 tls_get_record_type(const struct sock *sk, const struct cmsghdr *cmsg)
+>  }
+>  EXPORT_SYMBOL(tls_get_record_type);
+>  
+> +/**
+> + * tls_get_handshake_type - Look for TLS HANDSHAKE_TYPE information
+> + * @sk: socket (for IP address information)
+> + * @cmsg: incoming message to be parsed
+> + *
+> + * Returns zero or a TLS_HANDSHAKE_TYPE value.
+> + */
+> +u8 tls_get_handshake_type(const struct sock *sk, const struct cmsghdr *cmsg)
+> +{
+> +	u8 record_type, msg_type;
+> +
+> +	if (cmsg->cmsg_level != SOL_TLS)
+> +		return 0;
+> +	if (cmsg->cmsg_type != TLS_GET_RECORD_TYPE)
+> +		return 0;
+> +
+> +	record_type = *((u8 *)CMSG_DATA(cmsg));
+> +
+> +	if (record_type != TLS_RECORD_TYPE_HANDSHAKE)
+> +		return 0;
+> +
+> +	msg_type = *((u8 *)CMSG_DATA(cmsg) + 4);
+> +	return msg_type;
+> +}
+> +EXPORT_SYMBOL(tls_get_handshake_type);
+> +
+>  /**
+>   * tls_alert_recv - Parse TLS Alert messages
+>   * @sk: socket (for IP address information)
+
+
+-- 
+Chuck Lever
 
