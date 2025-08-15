@@ -4,67 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F4FBCA0EE9
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Aug 2025 16:59:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA6DCCA0EE4
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Aug 2025 20:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KrNnQAk6cZ8Ym4orWKKCeW0w34gXlIp/eVjfrhhnLTM=; b=KjIBuClygrQN3eBih/2jG8zNjD
-	yV1McxVdXuH19eBAhoOlYWnKhLpijz1lsC+UmOjKOH+q2HvG6PLrhCaDfJswDesOpJeSgHwtPPlSX
-	L0VNjzjEFJj4MS7q27reFiVJjpD887DzelFhPHobdNlGAoouJVpCiMeG3fnmYx6eU8nSyuzcobKlM
-	sYA7t8fhboZNkqCxd94/wypviklYmZuiSWwqZiLJqLDxeTPSYjIyX52BLA6M5fa068AKaJD5IXJyq
-	IU+CSWgQi3J6PBNZRArqJsOjVszu0o6UIAsg9PY3LRq0BW0W1Rm4mfaSDNR9zac9k614zR6+enGGu
-	ATV8ieoQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oxnQyQgQqPX6C+Q7OFkwM3T5WvMZStbMng60BlZqhxU=; b=x3bqLxdtBEGDL9n+9M/BdfcLIx
+	efy84+IyiHq5VHih0SbURumSjZjz11fU+AvyHi7ZNlnh/1Y30aBF2zh7jl4QCjZihBZusgxM67IyE
+	L+R5aolY9rGNwYT1Yi7BKoi4DH15/KSWS5uuvxJrCcKNkqr3epn6eHk6u7TyELlM1oCUPqJqJjuLP
+	F7khGGhjuxAlEJAsevmZzu2laq2Wd3xQi9z5i5GcoGbi/DWx3dtEYZTgiwtUGmDTZOhyHN/nd/fz8
+	ZbfWtdeMQIBNid4HHNqUUF4K/h3Ex1d9WbuFuCatS99DwCTzam8ztvm2UMX5pAYjCxvV57Zmmwfcq
+	IzklcDWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umxla-000000032JV-3tGK;
-	Fri, 15 Aug 2025 16:58:58 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1un0t3-00000003Q1e-3YR4;
+	Fri, 15 Aug 2025 20:18:53 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1umvdl-00000002kkk-30Ac
+	id 1umxoq-000000034RW-3kEw
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 Aug 2025 14:42:47 +0000
+	Fri, 15 Aug 2025 17:02:22 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id E68DEA568C9;
-	Fri, 15 Aug 2025 14:42:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C4B5C4CEEB;
-	Fri, 15 Aug 2025 14:42:44 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 573CD5C595A;
+	Fri, 15 Aug 2025 17:02:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 809ACC4CEEB;
+	Fri, 15 Aug 2025 17:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755268964;
-	bh=DmOtZ+shegw3Xq2qbIvm9MhD1J8beNXNffYo5DT55zc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ozEwDealkGjrGu3EotSAhGBDHyTGe4g5x5IxOg3UEZ8mb0DQqoaqSO0Ki/NfMsbUJ
-	 bc15UYRtOJd1XvEdMxz2z5bPx0u7YKl/LupzoCtJGWsG0ZfJimJRMQu/7YmE7P7atv
-	 4P6DzOPMydN16VsrJLYZRRh22gsjTDrrPlhrEMALPezXRmTzibl1cRW9EMwOOGw7Pl
-	 JJI0p5mepNTHPaq+Hu6ThslkuJBckHvlWIndnLddlc9zRfj0vGHHeIcIzOasceWL8i
-	 oKl8FrSmHPqTq8yBCT1dYiqC47ScOv7F3eiq1LFCN43P8XXcbLtjrZMl4s13uBjyv0
-	 cqUAIaoZ2taog==
-Date: Fri, 15 Aug 2025 07:42:43 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, hch@lst.de,
-	tytso@mit.edu, bmarzins@redhat.com, chaitanyak@nvidia.com,
-	shinichiro.kawasaki@wdc.com, brauner@kernel.org,
-	martin.petersen@oracle.com, yi.zhang@huawei.com,
-	chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com
-Subject: Re: [PATCH xfsprogs v2] xfs_io: add FALLOC_FL_WRITE_ZEROES support
-Message-ID: <20250815144243.GU7965@frogsfrogsfrogs>
-References: <20250813024250.2504126-1-yi.zhang@huaweicloud.com>
- <20250814165430.GR7942@frogsfrogsfrogs>
- <1428e3fe-ae7a-410d-97b5-7dd0249c41c0@huaweicloud.com>
+	s=k20201202; t=1755277340;
+	bh=XmIS/WI/DfVdgXw6f9J2hDX2XYrlFBTAGBPWIoj10f4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SzQO6p9fpOVIuh2yhufraOPMrNzXlYONg07s8+J9gTIW3/zS1xAUSGzoC+j4WvIhj
+	 /WbguKtyh7Ip+rusYtcHDHmEp1zrNh0AjN9O3rZOx4TBysINtGCng6YxLxB6labKWF
+	 /Zv2a7pLybRrU7xovT4n17Rnh8gi4Hh760N7eICMTOcv5h9ngibiG3zvnNTnQx3DXB
+	 wZzQh773PYjW1AyxOP/QOzZ3DlO0cp3VWzGc7pUE4POKCSjJLp/4cuTRk0lQm8UhfK
+	 Qha6yaZk+nAjRjLdZQKK25bGUZ1VYisX0GvwCcMI5EFh6uteY6TYxznG9MbsOKpOtJ
+	 Z6V4qnUkWVWjw==
+Date: Fri, 15 Aug 2025 10:02:18 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: alistair23@gmail.com
+Cc: chuck.lever@oracle.com, hare@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH 4/8] tls: Allow callers to clear errors
+Message-ID: <20250815100218.4a492986@kernel.org>
+In-Reply-To: <20250815050210.1518439-5-alistair.francis@wdc.com>
+References: <20250815050210.1518439-1-alistair.francis@wdc.com>
+	<20250815050210.1518439-5-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1428e3fe-ae7a-410d-97b5-7dd0249c41c0@huaweicloud.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250815_074245_887249_3622A7E6 
-X-CRM114-Status: GOOD (  26.51  )
+X-CRM114-CacheID: sfid-20250815_100220_975941_F40CF73D 
+X-CRM114-Status: UNSURE (   8.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,135 +77,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 15, 2025 at 05:59:01PM +0800, Zhang Yi wrote:
-> On 2025/8/15 0:54, Darrick J. Wong wrote:
-> > On Wed, Aug 13, 2025 at 10:42:50AM +0800, Zhang Yi wrote:
-> >> From: Zhang Yi <yi.zhang@huawei.com>
-> >>
-> >> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
-> >> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES support to the
-> >> fallocate utility by introducing a new 'fwzero' command in the xfs_io
-> >> tool.
-> >>
-> >> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
-> >> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> >> ---
-> >> v1->v2:
-> >>  - Minor description modification to align with the kernel.
-> >>
-> >>  io/prealloc.c     | 36 ++++++++++++++++++++++++++++++++++++
-> >>  man/man8/xfs_io.8 |  6 ++++++
-> >>  2 files changed, 42 insertions(+)
-> >>
-> >> diff --git a/io/prealloc.c b/io/prealloc.c
-> >> index 8e968c9f..9a64bf53 100644
-> >> --- a/io/prealloc.c
-> >> +++ b/io/prealloc.c
-> >> @@ -30,6 +30,10 @@
-> >>  #define FALLOC_FL_UNSHARE_RANGE 0x40
-> >>  #endif
-> >>  
-> >> +#ifndef FALLOC_FL_WRITE_ZEROES
-> >> +#define FALLOC_FL_WRITE_ZEROES 0x80
-> >> +#endif
-> >> +
-> >>  static cmdinfo_t allocsp_cmd;
-> >>  static cmdinfo_t freesp_cmd;
-> >>  static cmdinfo_t resvsp_cmd;
-> >> @@ -41,6 +45,7 @@ static cmdinfo_t fcollapse_cmd;
-> >>  static cmdinfo_t finsert_cmd;
-> >>  static cmdinfo_t fzero_cmd;
-> >>  static cmdinfo_t funshare_cmd;
-> >> +static cmdinfo_t fwzero_cmd;
-> >>  
-> >>  static int
-> >>  offset_length(
-> >> @@ -377,6 +382,27 @@ funshare_f(
-> >>  	return 0;
-> >>  }
-> >>  
-> >> +static int
-> >> +fwzero_f(
-> >> +	int		argc,
-> >> +	char		**argv)
-> >> +{
-> >> +	xfs_flock64_t	segment;
-> >> +	int		mode = FALLOC_FL_WRITE_ZEROES;
-> > 
-> > Shouldn't this take a -k to add FALLOC_FL_KEEP_SIZE like fzero?
-> > 
-> 
-> Since allocating blocks with written extents beyond the inode size
-> is not permitted, the FALLOC_FL_WRITE_ZEROES flag cannot be used
-> together with the FALLOC_FL_KEEP_SIZE.
+On Fri, 15 Aug 2025 15:02:06 +1000 alistair23@gmail.com wrote:
+> As part of supporting KeyUpdate we are going to pass errors up to the
+> callers of TLS to indaicate a KeyUpdate. Those layers will need to handle
+> the KeyUpdate and as part of that clear the error.
 
-Heh, apparently I didn't read the manpage well enough.
+> +static inline void tls_clear_err(struct sock *sk)
+> +{
+> +	WRITE_ONCE(sk->sk_err, 0);
+> +	/* Paired with smp_rmb() in tcp_poll() */
+> +	smp_wmb();
 
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-
---D
-
-
-> Thanks,
-> Yi.
-> 
-> > (The code otherwise looks fine to me)
-> > 
-> > --D
-> > 
-> >> +
-> >> +	if (!offset_length(argv[1], argv[2], &segment)) {
-> >> +		exitcode = 1;
-> >> +		return 0;
-> >> +	}
-> >> +
-> >> +	if (fallocate(file->fd, mode, segment.l_start, segment.l_len)) {
-> >> +		perror("fallocate");
-> >> +		exitcode = 1;
-> >> +		return 0;
-> >> +	}
-> >> +	return 0;
-> >> +}
-> >> +
-> >>  void
-> >>  prealloc_init(void)
-> >>  {
-> >> @@ -489,4 +515,14 @@ prealloc_init(void)
-> >>  	funshare_cmd.oneline =
-> >>  	_("unshares shared blocks within the range");
-> >>  	add_command(&funshare_cmd);
-> >> +
-> >> +	fwzero_cmd.name = "fwzero";
-> >> +	fwzero_cmd.cfunc = fwzero_f;
-> >> +	fwzero_cmd.argmin = 2;
-> >> +	fwzero_cmd.argmax = 2;
-> >> +	fwzero_cmd.flags = CMD_NOMAP_OK | CMD_FOREIGN_OK;
-> >> +	fwzero_cmd.args = _("off len");
-> >> +	fwzero_cmd.oneline =
-> >> +	_("zeroes space and eliminates holes by allocating and submitting write zeroes");
-> >> +	add_command(&fwzero_cmd);
-> >>  }
-> >> diff --git a/man/man8/xfs_io.8 b/man/man8/xfs_io.8
-> >> index b0dcfdb7..0a673322 100644
-> >> --- a/man/man8/xfs_io.8
-> >> +++ b/man/man8/xfs_io.8
-> >> @@ -550,6 +550,12 @@ With the
-> >>  .B -k
-> >>  option, use the FALLOC_FL_KEEP_SIZE flag as well.
-> >>  .TP
-> >> +.BI fwzero " offset length"
-> >> +Call fallocate with FALLOC_FL_WRITE_ZEROES flag as described in the
-> >> +.BR fallocate (2)
-> >> +manual page to allocate and zero blocks within the range by submitting write
-> >> +zeroes.
-> >> +.TP
-> >>  .BI zero " offset length"
-> >>  Call xfsctl with
-> >>  .B XFS_IOC_ZERO_RANGE
-> >> -- 
-> >> 2.39.2
-> >>
-> >>
-> 
-> 
+Please explain how the key error ends up recorded on the socket.
 
