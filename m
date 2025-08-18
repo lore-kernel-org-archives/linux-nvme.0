@@ -4,78 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE816CA0ED1
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 13:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD621CA0ED1
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 13:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lR6d/3iSNfW69zNSjSYVLBPlm+V1j+wnMpITzuYS4AA=; b=amEjZbjC+8F2QSPUhdbN3lHngx
-	pz5VCWKTUD30mQsXEhxiPzB6NjnEkbX6iYV0ngbvWNT4S2nQ4CwGPCZd2nSna+49eMJKowgdaN+Aj
-	1zrlhYK6v9zbvpvYgm6IAQuAUjZes/29HbmQbuiKEzC2tO/PuTEt+VX0mphZ6NYITq1pBfVoCTGuI
-	+y7ThqlposqI3s1t8zA6yvgBdmytyzf4NHj2saXiyP131/u/Rf8xYvcqdhpdB9RHFDo3++LAjs9mm
-	GoivkRLjS2ftsVya7ouY+pcyjx+1+XFaYdKnL9qQzpwGXf2N8SZlALExMsIKcV4oFxZGQa5uetD6h
-	tLQY2+YQ==;
+	bh=WSlcmBn836lmKLvSRFZVTpwMuANIj5L8XhF7F6TdWMg=; b=xFbSKFNeNRtYtXEWLsW3ErYTO9
+	ZvM1OOjC88YHLV1BK+6JH9uBKHQE6UBJdA6cMe/1v0yY6uC5i1nnBKyhrWJmfw/rZ+CQZjGMrKh7Q
+	2KtxcwPOEraqj81kAbUSUQIeGeZChYrPSkt+E/L7f/tYDwiKwF9fkNs5psz5Za4Kh2CJRIOCSXlhr
+	DdElOQppLhphxKspN22FWSvqJ3nqlp4qau6jcYpsgRUfZf0+Osu9ucoCpiyu516w0z9G7jUQLJZbf
+	+Vc4T29/rIxIofJ/lJ5eCykl+ClU6KdOAa1yPm6nGDqWZFHaDBTGwksFc5jcgpFL55wZ7303A5Ygj
+	VnT5RXTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uo03t-00000007VJ6-1a7k;
-	Mon, 18 Aug 2025 13:38:11 +0000
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+	id 1uo044-00000007VZ3-35jE;
+	Mon, 18 Aug 2025 13:38:20 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unvT3-00000006xo2-0sFG;
-	Mon, 18 Aug 2025 08:43:50 +0000
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-244581cc971so46302675ad.2;
-        Mon, 18 Aug 2025 01:43:49 -0700 (PDT)
+	id 1unvTD-00000006xqM-1rkA;
+	Mon, 18 Aug 2025 08:43:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Cc:To:In-Reply-To:References:
+	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Sender:Reply-To:Content-ID:Content-Description;
+	bh=WSlcmBn836lmKLvSRFZVTpwMuANIj5L8XhF7F6TdWMg=; b=Rddtds3tQ2lg/mT7ATMsQd8NXs
+	QG0tMTJzx7YwDQ98WdB0aJXZPgka6GTmkLh30Ebp7BPXo0H6riMb2SbU925HrntVzhabPaRruCIYe
+	TDBVeSAQKS3blz0aa7D6rOWmLLvwHyQ6uR/zF0sdnU/W/OzpPLGhQB/UlP9z96j9+METH3BCOnAEK
+	iYVA8IStFg/l+i9OSzM9J5PtuW3Ofiycr9OBIJxUTaCuB8F+lDBvGKBb7QqCRj1Un3fickcfLiA87
+	qJvD+l3WAkFRe9jI/sD/tlcx3vFdhmBbM6uSBZqtROFlM3iDhv9viklMpehIqIiutEVbHNqkEWBcz
+	M/KcslGg==;
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1unvTA-0000000HKkT-1xaN;
+	Mon, 18 Aug 2025 08:43:58 +0000
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-2445818eb6eso28803815ad.2;
+        Mon, 18 Aug 2025 01:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755506628; x=1756111428; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1755506634; x=1756111434; darn=lists.infradead.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lR6d/3iSNfW69zNSjSYVLBPlm+V1j+wnMpITzuYS4AA=;
-        b=mVD2b3JwI0wXmKlhahDGo1M4T1VSNhXu1waYH1UtMQ9133q02NeXlyLDDfRqgdkkyr
-         PwBpGnCqNCcMHnXfnLAqotvHacXgwxlzQd3A0biooON/6uFn5ImRUGk7UfIDpbLB+byF
-         RywbS1at9MUB4Gk0N82Ky3smI0fyEahYqwjn7l96kY6robs3dojxZiM/f6oD2TQfpNpJ
-         VK8SXvzt2oErQAI1xt5qEyOnfwU6UpFMfw9WkdZt0av47EH7DNBhTBcBwYFypBfyPvoO
-         wGRNIsxbjqgLL+1ChF4N9G+RaEGvIuMYIbQGAogG3M13r2akKFOnZf0I/RsJCDIRYpWU
-         PZkA==
+        bh=WSlcmBn836lmKLvSRFZVTpwMuANIj5L8XhF7F6TdWMg=;
+        b=atfYa85PnpBjx7j3OKEgDFwOJVoDGpix/WcWkXpkT83kZHasPLoA6gDwn24t5fHAcX
+         GaLo9AWmOhE9xO70ebXZr5FUuUpSA/9WVnftCmXa0DC6mtU4kwtbbnZdToVkb/ZoJ0ob
+         Zw165+ocvO/fEb1py0tOq+Wcuoy/USG+bmQlO6zz8FMfKiAff0IVNrWP4Ssv4AA6Wp6f
+         msNLNQCFPF0BUj5gyjRLQTupYa7XvBhxOPPpqDHy87rF/nDqn7hs0M9ECCiimJNf6yg9
+         +DbBIi2ld3VoneBrH77oFLAOBDQX3nKc4b9ranKLRDIoW41hLn69mgxwffRUvBs1CAci
+         qShQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755506628; x=1756111428;
+        d=1e100.net; s=20230601; t=1755506634; x=1756111434;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lR6d/3iSNfW69zNSjSYVLBPlm+V1j+wnMpITzuYS4AA=;
-        b=P270aDbe3PpRdJXowi/gCaykESResG1TZxY+X1YRJZWi0DdsBsWOOR6hqze9foHTCO
-         JtfDRh6xflMtqYNu1+Ln2V0IDAysm8l6o5ImOv5c3K4Kyp0/D8+CX27l6yAQ7fyJrHjY
-         oc88cQmExRz6rWMyUCfuNHv8f6Qs9b6hORTcznWed+XknAVqlRztFm/FwdpUmSY/Ipy3
-         eCS4UleOUOPyuv9d/uH5ROC1RDP/KA2lKwqle881VvWxFjQpIBB5TbEKfsKp7QEVyLvX
-         yd0CYdn2mlat33fUARNGOS/ET231WV/GLmPFeGWIu0wCVcrxI5G/IS9kCinnr1Urx4bq
-         41Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCWbO3qB6ehv0s19ksk7y5uehpDbXzUxWXm01ugNqWGNuHEKDK35m+sAnfnYFnsn6HkC2AK1mvTtZI/VzcZMzOtT@lists.infradead.org, AJvYcCX2Bes18CKbBc7kiGRaZq8+yNfMdOiBXT/z98UYW0CRSSODeNutVJP42pVQCexGTcFG+OVTSxPmDM4spQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy0/hMWPP6Ds/mAmcY8NiS7PwX0q0yknoHvkGBh/j8Qv1RdZA4u
-	elhcIzA8d0bbdBAzKgowbAqWzBwfFHrP+b4G+v52yBTaqlzbZ0jCLYXMYwbDGQ==
-X-Gm-Gg: ASbGnctnAyyeCNemCBcWcjT3yZHHSuD/k4njk7c+tFdCHZOUv2GTQJJfxcuO7jFtOOY
-	eENgetevYJrn/B195amFN5LonCS8h6Mlk5JiFvOVApLY7WrhaZjKKc1SjTvsvNjDobCgL4ETuHp
-	Zn5EfeLOvl4if1+F11DfJzAyNlupuxRyXwCKEa0jwqpIJUOjbJCiy9SIYbXpGID8iOF0qjEseFD
-	L1KiX75xR4keWLqcLXFI6drcmIpOv1fKNIdvjmYVlhf7KfwfNa8nZXMCIwL2kGlQ0AqZILxZ/2K
-	IQ14ynTYM5NuHkG7KOwUm3Obr3Kezz46KHK3Hgq7LFd2wN5uZrpqZCe5neSE9pc22FxbEnUIRjc
-	9DdIWqgheO0qW/gTUo5dEhgG0HRds6L0xKl9J+ULEFzj52Vc=
-X-Google-Smtp-Source: AGHT+IGE0067BnqCsNs4bYtEQYzzJ4UirziWwa4iYUzmO8cpWyztzcvYDjdk1rlUKAgEjbaBIMQQEA==
-X-Received: by 2002:a17:903:1a2c:b0:240:50ef:2f00 with SMTP id d9443c01a7336-2446d8f407emr157641995ad.26.1755506628132;
-        Mon, 18 Aug 2025 01:43:48 -0700 (PDT)
+        bh=WSlcmBn836lmKLvSRFZVTpwMuANIj5L8XhF7F6TdWMg=;
+        b=ul+Wmta4tQ5vKdan7sF5fxnoPTtzPGmdm7YVkWdYHlbJ3Tt5hkDLXJ1Zpum91zMGfH
+         mQ1QgOj88Qy6L8K2Oc5/K9gtoVO1L3JpEdnibgJCQZiumeQsGXfJzgZvK2+fEBPF35we
+         BPJCEQQtwAdLjC7v1mCo2yuzEJa56Tjn/V7HEHTCgaoPGe79P11ruDTp400RidGyNdUn
+         SDUlRvUwDIxIYOEiKgUQ47ljsU5tQZbJu25EDuB14rxJLD7EHHiaMmjHXwKRJqVNItTP
+         jLOq7jd5B82QrM6qe3QWsJhBLOgc20SEQN18gdB3Siy96Q6MDv17FtENfTr8sZcLkxDb
+         WZDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVVgZiFZE62WY+HuTxGf1jTz6QripIluGzemdzVL/cqFWmwtFYuYhQQxzmyKiXgJcHHpETS6NfVifydyQ==@lists.infradead.org, AJvYcCVxS1wOcKiD4ZtAUDg/ipg68tOXT+MBWv/+byGZKBPNuB/pbl2MgLyrlJzrjNOzahCHJS02eQevDUEEc5luXVcY@lists.infradead.org
+X-Gm-Message-State: AOJu0YzXEvvPo/ogQGbfC7FQHhtjTOlHm3lJ4E05zIRG51N2D8Vq+sjW
+	RLrAZCVWg/amaRqQf9uYwpXPIusJgWA0cy1shvtGfyNJC47MKPJzB8VVvVhd0w==
+X-Gm-Gg: ASbGnct8l5C8lu0h6qkzwNRs7LdO46uVPa4lUOz8aaqmBv/Ro+CKLeZqsgd2CC1+ejy
+	GQLF9uem9zesd6FkujXiWGPp1/xxDfbSynCTWC+rfGSryptpfd8WN1y7/i3FHwRnsbf73Y/pePb
+	SW1sJIDupXb5eYOI+QwJLtTyEz3wbbxoR5iqW1xqx/tqz+gXu0Bvd5Xs0ofgF9mx3S4TW6M9BhS
+	0jE+ug3ZLO4mdN7/7OGuuKupMNnfzRLGQ5TRiZgj6jvuGt1VoOtGCu1Pyttw/9vtQX+xdry8BVS
+	aGKdsf22AkVoB1H5UG1wQucM2dKyGxElpRZkL/KnBdXVTqU7wJSWD6DwKZf2JgG2sjcJWDMo0Tg
+	nkgp+9QqqDOZRh1Dh7H5BfSC7M9r+KozCzsgncyVQ+lFX8u4=
+X-Google-Smtp-Source: AGHT+IHZT2isaZc8TNK+Ul72AEXTJHFHaWWnaLR1o3EAxYeINyGXfuxT+CWND5sj2IAPUNrSMUB1ww==
+X-Received: by 2002:a17:903:1ae6:b0:240:25f3:211b with SMTP id d9443c01a7336-2446d980b96mr146776455ad.51.1755506634073;
+        Mon, 18 Aug 2025 01:43:54 -0700 (PDT)
 Received: from [127.0.1.1] (061092221177.ctinets.com. [61.92.221.177])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2446d538f75sm74090925ad.108.2025.08.18.01.43.42
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2446d538f75sm74090925ad.108.2025.08.18.01.43.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 01:43:47 -0700 (PDT)
+        Mon, 18 Aug 2025 01:43:53 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-Date: Mon, 18 Aug 2025 16:42:57 +0800
-Subject: [PATCH v2 4/9] soc: apple: sart: Make allow flags SART version
- dependent
+Date: Mon, 18 Aug 2025 16:42:58 +0800
+Subject: [PATCH v2 5/9] soc: apple: sart: Add SARTv0 support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250818-t8015-nvme-v2-4-65648cd189e0@gmail.com>
+Message-Id: <20250818-t8015-nvme-v2-5-65648cd189e0@gmail.com>
 References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
 In-Reply-To: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -92,25 +105,25 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  iommu@lists.linux.dev, linux-nvme@lists.infradead.org, 
  Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2768; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=SfdgOsOFi3dLK60ZgLb2wBFpqlY1bGwIVMJiWwSGmDY=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoouellqqMH4V1jKMBzMhHfZrJO3Ydy7TcAv3fU
- mzAcpZmYteJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaKLnpQAKCRABygi3psUI
- JBSAEACShbYtnm9veqAOH7lI1/GZtCd7iTn7NwNjLKYJCZjq3yEnkhimjP4juRRTv5iz1xUuRmC
- MXxW7WqQxAx1f/aAGdD3IYPSjtyA54MWPXesBRUkI/enofpJH+TW6uhs9W7FFPmC4rYBsDEm4fF
- V/5EUWfSYN8FJ2mC2mq+J+de/x5f+liD62wXjiCapu0CggzjOohIJ0+jjL6WVX4yJDXpfwEDIH1
- vjqtG116IqW76NfkHFZFq5EyaiLSprlAmFsio0rjQ31LFlLKFOkbT65OX4XKPWJreTevTOt0NZ6
- FnJ1VhTJ8pkSvRwsTEUKU8J0E21dnSj6U+rLdVfzjduUnqrljcgC2zmWUDW49vutVfb+KhRtZra
- s22lDgrQBFBX7vAaDR18a31ttMjPllD3YcEqQuZXkXpjKn38TizxwyLyiOcsw0TFmqWtGaKm5A6
- OJtM2sNKMDuW+w0vEKi0zY9LoAV261VD7WqKk9fCYFvQ6cdswkLoNYd8heyFHoKhwkFbhvv4PHb
- vJElNLuTXfiHkBUlGqeyRZylNvMCJkzvTbaD635wXjf/raQOFAhyR+S+CYSErzGqyVeJKRGXPmD
- rp53KBdtTrqzbJphtsxkJe/Adrm/HWWGXzPQJJ7sBf1z5a5SQ+gKiPRKrcVKWp23oFKxTKFAEaa
- 5p1slDUgrXdxSNw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2791; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=wJH6bCh+c84MG5dltlJIecbSR1A7z9mKknCoraX6plo=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoouel7tB5pMk9ZRPwFi3VYfo+wHw0Ob6V61kt0
+ cM9qXkKNL2JAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaKLnpQAKCRABygi3psUI
+ JAzLEAC3GE6E0JJaoSCxIkhKLQwRO5CQqJZORLUx2kZckZ15RN2ygxITFBkfPiprq86LvbbkbkE
+ I0p7uritaNmuEOWjwLU0GLKgNMgDrdHOVr46dPQmjLA+eYyZdLDBWVcgPh19bhvkI3vNYiiiLNY
+ T1aA0yScyUMImiJYFXJ7JetUa+L33QKyMVYEo3ahLtQgDpgM+N5xBWz5Qb7xczGySFHR3oymxd7
+ CE++jb6XpkCJ65D3KUIx5UihSCcya0EdlU0a/wJJhXgBe3Z44PUuhxHibvVQNBk2BWZ0dCJG8Sk
+ Lc6fUQA+mg8RiZlTyPaW0lfhWkkQm7gU4nIjhC+b8r1ZQ8/82kIxy5Q+zxw453asfjDntuEdml0
+ Rx0YGtaqd6XTWiDi5jiZAEi6uJba+cmA39hS7G8LhGiTpsvI3ajeqaRAIaLXZXnJipyEIz1Bg67
+ LhzLbIaK2SbgcfrU+I4LrZULDInsrjjSC0PLZ/sQ9ipvWIXLCzotPFR5IuzUaesLEueit8tmRjf
+ SJhZOLzPmKai2LhRugKpEpD2OVRhzYZtHmFiZWoVmpIf/kLbXyT7sFaVgVfdMmkyOzbVgCs3gb3
+ KuymzpXLz20+s/gEvuuKa9OXRnMfKHrDhUVNtdeZ93M/BJOGQ9QacRoQp0kNnlrtVcnLeIffl+E
+ gNvlqFtZeOmGY8A==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250818_014349_253314_50505F5F 
-X-CRM114-Status: GOOD (  13.79  )
+X-CRM114-CacheID: sfid-20250818_094356_682053_381F327B 
+X-CRM114-Status: GOOD (  14.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,78 +138,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SART versions that uses different allow flags will be added.
+Add support for SARTv0 as found on Apple A11 SoC.
 
 Reviewed-by: Sven Peter <sven@kernel.org>
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- drivers/soc/apple/sart.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/soc/apple/sart.c | 49 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
 diff --git a/drivers/soc/apple/sart.c b/drivers/soc/apple/sart.c
-index afa11173689979f100a63221af03214f4a928a7c..318f6e518a54f6edb8b97e320519df8f77c7f143 100644
+index 318f6e518a54f6edb8b97e320519df8f77c7f143..4ff1942b82a74cabeda99540ba63c6e92386986d 100644
 --- a/drivers/soc/apple/sart.c
 +++ b/drivers/soc/apple/sart.c
-@@ -25,9 +25,6 @@
+@@ -25,6 +25,18 @@
  
  #define APPLE_SART_MAX_ENTRIES 16
  
--/* This is probably a bitfield but the exact meaning of each bit is unknown. */
--#define APPLE_SART_FLAGS_ALLOW 0xff
--
++/* SARTv0 registers */
++#define APPLE_SART0_CONFIG(idx)       (0x00 + 4 * (idx))
++#define APPLE_SART0_CONFIG_FLAGS      GENMASK(28, 24)
++#define APPLE_SART0_CONFIG_SIZE       GENMASK(18, 0)
++#define APPLE_SART0_CONFIG_SIZE_SHIFT 12
++#define APPLE_SART0_CONFIG_SIZE_MAX   GENMASK(18, 0)
++
++#define APPLE_SART0_PADDR(idx)  (0x40 + 4 * (idx))
++#define APPLE_SART0_PADDR_SHIFT 12
++
++#define APPLE_SART0_FLAGS_ALLOW 0xf
++
  /* SARTv2 registers */
  #define APPLE_SART2_CONFIG(idx)	      (0x00 + 4 * (idx))
  #define APPLE_SART2_CONFIG_FLAGS      GENMASK(31, 24)
-@@ -38,6 +35,8 @@
- #define APPLE_SART2_PADDR(idx)	(0x40 + 4 * (idx))
- #define APPLE_SART2_PADDR_SHIFT 12
+@@ -71,6 +83,39 @@ struct apple_sart {
+ 	unsigned long used_entries;
+ };
  
-+#define APPLE_SART2_FLAGS_ALLOW 0xff
++static void sart0_get_entry(struct apple_sart *sart, int index, u8 *flags,
++	phys_addr_t *paddr, size_t *size)
++{
++	u32 cfg = readl(sart->regs + APPLE_SART0_CONFIG(index));
++	phys_addr_t paddr_ = readl(sart->regs + APPLE_SART0_PADDR(index));
++	size_t size_ = FIELD_GET(APPLE_SART0_CONFIG_SIZE, cfg);
 +
- /* SARTv3 registers */
- #define APPLE_SART3_CONFIG(idx) (0x00 + 4 * (idx))
- 
-@@ -48,11 +47,15 @@
- #define APPLE_SART3_SIZE_SHIFT 12
- #define APPLE_SART3_SIZE_MAX   GENMASK(29, 0)
- 
-+#define APPLE_SART3_FLAGS_ALLOW 0xff
++	*flags = FIELD_GET(APPLE_SART0_CONFIG_FLAGS, cfg);
++	*size = size_ << APPLE_SART0_CONFIG_SIZE_SHIFT;
++	*paddr = paddr_ << APPLE_SART0_PADDR_SHIFT;
++}
 +
- struct apple_sart_ops {
- 	void (*get_entry)(struct apple_sart *sart, int index, u8 *flags,
- 			  phys_addr_t *paddr, size_t *size);
- 	void (*set_entry)(struct apple_sart *sart, int index, u8 flags,
- 			  phys_addr_t paddr_shifted, size_t size_shifted);
-+	/* This is probably a bitfield but the exact meaning of each bit is unknown. */
-+	unsigned int flags_allow;
- 	unsigned int size_shift;
- 	unsigned int paddr_shift;
- 	size_t size_max;
-@@ -95,6 +98,7 @@ static void sart2_set_entry(struct apple_sart *sart, int index, u8 flags,
- static struct apple_sart_ops sart_ops_v2 = {
- 	.get_entry = sart2_get_entry,
- 	.set_entry = sart2_set_entry,
-+	.flags_allow = APPLE_SART2_FLAGS_ALLOW,
- 	.size_shift = APPLE_SART2_CONFIG_SIZE_SHIFT,
- 	.paddr_shift = APPLE_SART2_PADDR_SHIFT,
- 	.size_max = APPLE_SART2_CONFIG_SIZE_MAX,
-@@ -122,6 +126,7 @@ static void sart3_set_entry(struct apple_sart *sart, int index, u8 flags,
- static struct apple_sart_ops sart_ops_v3 = {
- 	.get_entry = sart3_get_entry,
- 	.set_entry = sart3_set_entry,
-+	.flags_allow = APPLE_SART3_FLAGS_ALLOW,
- 	.size_shift = APPLE_SART3_SIZE_SHIFT,
- 	.paddr_shift = APPLE_SART3_PADDR_SHIFT,
- 	.size_max = APPLE_SART3_SIZE_MAX,
-@@ -233,7 +238,7 @@ int apple_sart_add_allowed_region(struct apple_sart *sart, phys_addr_t paddr,
- 		if (test_and_set_bit(i, &sart->used_entries))
- 			continue;
- 
--		ret = sart_set_entry(sart, i, APPLE_SART_FLAGS_ALLOW, paddr,
-+		ret = sart_set_entry(sart, i, sart->ops->flags_allow, paddr,
- 				     size);
- 		if (ret) {
- 			dev_dbg(sart->dev,
++static void sart0_set_entry(struct apple_sart *sart, int index, u8 flags,
++	phys_addr_t paddr_shifted, size_t size_shifted)
++{
++	u32 cfg;
++
++	cfg = FIELD_PREP(APPLE_SART0_CONFIG_FLAGS, flags);
++	cfg |= FIELD_PREP(APPLE_SART0_CONFIG_SIZE, size_shifted);
++
++	writel(paddr_shifted, sart->regs + APPLE_SART0_PADDR(index));
++	writel(cfg, sart->regs + APPLE_SART0_CONFIG(index));
++}
++
++static struct apple_sart_ops sart_ops_v0 = {
++	.get_entry = sart0_get_entry,
++	.set_entry = sart0_set_entry,
++	.flags_allow = APPLE_SART0_FLAGS_ALLOW,
++	.size_shift = APPLE_SART0_CONFIG_SIZE_SHIFT,
++	.paddr_shift = APPLE_SART0_PADDR_SHIFT,
++	.size_max = APPLE_SART0_CONFIG_SIZE_MAX,
++};
++
+ static void sart2_get_entry(struct apple_sart *sart, int index, u8 *flags,
+ 			    phys_addr_t *paddr, size_t *size)
+ {
+@@ -319,6 +364,10 @@ static const struct of_device_id apple_sart_of_match[] = {
+ 		.compatible = "apple,t8103-sart",
+ 		.data = &sart_ops_v2,
+ 	},
++	{
++		.compatible = "apple,t8015-sart",
++		.data = &sart_ops_v0,
++	},
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, apple_sart_of_match);
 
 -- 
 2.50.1
