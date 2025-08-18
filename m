@@ -4,136 +4,169 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB5C7CA0ED1
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 14:49:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B302ECA0ED1
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 18:33:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=; b=BhnQzF9puxXfiv6TIzLyO+X1tg
-	qiyD62puWb7f+n7eLShVzfBE9XiM9ukulEp9ElOwN4gNf296eG/6ERiYw7xySJt4ptxiVsFAGsh5y
-	dOhIWC8CDMQix12zEAkC2Tu9HIn3Q0npH1zp8S1xcTsTERKOvGP+iJlAkVPsXZ74qVOtA9IDR7YXm
-	/gY3MiyPezgTIUnd3NW3RVAewGTFoUWiJPkCs6i2SkkGEklqLXxzV0ggJ68qcCJtHX8wOyeIhpwU/
-	6GnvNHp1VAJk03+m8EihZM/ezW+EMZjFSGdIDclpEZm3CZoRcZSFhyZNdTlEDq+xmJt/Rew9W1pa5
-	w9x8uTRA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z8UBFTgS/EuyMNTidctJz7Q4Lmhyr2YUe/Ywb/hg/eA=; b=WeTYa01LXBeyacMOLNSYTXB0bZ
+	wo8Gat24z9GAQchkAcCseRRgTNA4/UNXZ5vC1dbALQffnmkad3fLeZF6rK3lvj5Y9EDiA0crBe1Ut
+	LRp8nK18js1IO4jDFZd7U/Wt8SlaAa96vNmjDJ4TDZYiQTvwybyUO0Pe9+vAm5ZfxhCq07ESpXjIP
+	9KqL6yKa7Pxn0mhDj0bLgtzpRqP/D15SCDfO4x3KByrb1e9bFd6mvfpDK9Q9mj7H9K02/Cb01nW8W
+	9la+Dzn0LiY26BtcoDVC2OSb8YAZKMee0ECIusvv/+ApkSF8v/to66+wF/ExD+liXeCtzLTxPrelI
+	FG5BluiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uo1Ar-00000007pVT-3XGQ;
-	Mon, 18 Aug 2025 14:49:25 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1uo4fr-00000008Mt4-3HtV;
+	Mon, 18 Aug 2025 18:33:39 +0000
+Received: from mail-mw2nam10on20623.outbound.protection.outlook.com ([2a01:111:f403:2412::623] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unzLW-00000007NZg-2EmD
+	id 1uo2RV-0000000803d-3ign
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Aug 2025 12:52:19 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A37E51F44E;
-	Mon, 18 Aug 2025 12:52:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755521535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=;
-	b=AvhKbEy19hKEV2FFEiHgKDM8P8hVYDU59C7pdywm8+FgDQ6VNld014PFPF2qu77nm40k0j
-	lmwGJ5rbhFW6V5LnOTOvG9SaayZGPNcSqstuc/4Csq6U9Utx3HdUQJhOwJJFU1kcNFxxnU
-	7+sJ7fwbqe/cfEuQTzVq3bd26gZqN7w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755521535;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=;
-	b=c7DKhGrXdg8go5WZN1alZFwPx+wb0ZMA03t7v79QmYiQB705wP187YVYmqgVrBDYcQ7fIs
-	mUMxMzl4zH+kpAAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AvhKbEy1;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=c7DKhGrX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755521535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=;
-	b=AvhKbEy19hKEV2FFEiHgKDM8P8hVYDU59C7pdywm8+FgDQ6VNld014PFPF2qu77nm40k0j
-	lmwGJ5rbhFW6V5LnOTOvG9SaayZGPNcSqstuc/4Csq6U9Utx3HdUQJhOwJJFU1kcNFxxnU
-	7+sJ7fwbqe/cfEuQTzVq3bd26gZqN7w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755521535;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dYgRIvxhgQ9HCB25wkduiasp17FHQMerfEPYfWkM8W4=;
-	b=c7DKhGrXdg8go5WZN1alZFwPx+wb0ZMA03t7v79QmYiQB705wP187YVYmqgVrBDYcQ7fIs
-	mUMxMzl4zH+kpAAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92BEC13686;
-	Mon, 18 Aug 2025 12:52:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kwDmIv4ho2ilewAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 18 Aug 2025 12:52:14 +0000
-Message-ID: <107506e2-7870-45df-b595-583b57137a29@suse.de>
-Date: Mon, 18 Aug 2025 14:52:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] nvme-tcp: Support KeyUpdate
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20250815050210.1518439-1-alistair.francis@wdc.com>
- <20250815050210.1518439-7-alistair.francis@wdc.com>
+	Mon, 18 Aug 2025 16:10:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t/1ebU6H6i94qzsdv5lIyxFIo6a1XfHi+60CJeXoX6oIo4+UusFaDVlic9U+ZH/3Hp/kStPH6Kw3/WTep3ySlJZIN8GA487Ei+e7qZk2LohQbMvq1QW7baR4m/LT6GFLa6YW0g0FD5jI5mYXYMdm5MGuHcPuU9W6D49OKIRhzVQtaE7IAPl02LGMjF/vY+DHBbymwV+WM7D8hJ3rlpJKDgPNV3FQfYFaHCk5Es2sa3sC+4gvzCoHcHILIhFkHRxbR0g8ttfs4PQN6ARQvxHXE0Yc6D12lKh78TnMCPKGPLAjG3S62y8NeCnrcarwcNN18EyM4Brs8AekOBFIVq7Dag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z8UBFTgS/EuyMNTidctJz7Q4Lmhyr2YUe/Ywb/hg/eA=;
+ b=N/NU1V7maRM+mwfDUfyvaGvFE/nXlIe2eW534IkRB3Xzq2vBHFFTWHbqfWHFn0Y8W8ATwhBbP0dePvd1rxIKLyxNuYc3clfjZ0KSN9HaYgib9XFBq4Y68NQczCJA5CrTJ7SYh/vWrwOH/t3Z4N+/m+ZiqIyvFQSyYsPVb4VtaoYWZpMf1pLP2VkXAuMRrW/xEjuyZDcid+1mbQpQw656LiGuPxptRpoykt+6MaKruc1mUdnOlhHt6XVDN2+27kl41UX7k++BEJRHA2HF+yIBSU98xfKP2/yr7ApwKopESjmyim15LRN7PZtvSgnEmGrTYFkUGe7qqFs/d+Wimc1Rcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z8UBFTgS/EuyMNTidctJz7Q4Lmhyr2YUe/Ywb/hg/eA=;
+ b=Ye7Qq0qdwpLEutj+cQwSfQNKoOFtuJyZbaSK8Lsr6/vFNBy9kVUzksH3kMRGKscSnIgH6/zSMh/MR7RekfI9acP3R83kv2wEZFF4exkYSEmqvF46o3eOAvSC4X1Fo1SIVipKhRwwh7Bm8e/eGjQfAn3r3RXOCQUGZZYVvI8YJ0mur+d63wKZAOhjkXE5RbmTCEIlfStOrG+UhlIKoOqCH/bI+rTcXd4Qu2wRpw/JPh57s0svtRu4JLSJFXRDPpyaZpZ+s4Vkjn1P2e8mFoAvDVjaxS0GZ67Qr34aRkZearMHpC46XrfPLszr6EYmbBhan9BthDQ765ZdYqqBIzm9mQ==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by DS4PR12MB9794.namprd12.prod.outlook.com (2603:10b6:8:2a7::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
+ 2025 16:10:31 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%6]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
+ 16:10:31 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH blktests] nvme/050: repeat checking test device
+ restoration
+Thread-Topic: [PATCH blktests] nvme/050: repeat checking test device
+ restoration
+Thread-Index: AQHcEEYHXcoeIvoKfk2CvRzNZw8glrRolLGA
+Date: Mon, 18 Aug 2025 16:10:31 +0000
+Message-ID: <711d41db-4555-4297-b4a7-648f839958ef@nvidia.com>
+References: <20250818121429.1579513-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20250818121429.1579513-1-shinichiro.kawasaki@wdc.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250815050210.1518439-7-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,ietf.org:url,wdc.com:email];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Queue-Id: A37E51F44E
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|DS4PR12MB9794:EE_
+x-ms-office365-filtering-correlation-id: 271d2a53-8fef-4644-6978-08ddde71c17c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|10070799003|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?WlVoWmpOSUJOcXEvMW5LTEVhTVN6dlgzU3dKcTR3dDZ0RDh1L09hTWZqOHZT?=
+ =?utf-8?B?VmZ3dHhjMUNxUHI2akRKbnlVcjBJanFjN1hyamNHbExpUXRpc0FzSVRDM1hn?=
+ =?utf-8?B?clQ5SDhpSW5rdTBtODhpbnZGdW4wVUo4TFR5WE50bi9CU1cySGtMWWI2TGwx?=
+ =?utf-8?B?ck9Jd3pteHd1N251Znh1eDV2dlhyNFgrS2tWeDlsVGt3VndNOHNKZncraU1i?=
+ =?utf-8?B?Z0hwbHJwOVZOQ0RpMGl3RExVZkhlZjBLcXlOM2x0c0Q5ODhNQ2NOSFdEVFht?=
+ =?utf-8?B?ZVc0Y2RBNzBBaTMrYWtaREJFSVhHdi9PQWs3SXdGSnVGbXVBSXhaRjRBZ3BV?=
+ =?utf-8?B?Tndwa0c4bUdrRU1zNmlDeHNrUUpwUkIxQUJoTTNvRWpETlpCQlNVcHcvWFJ5?=
+ =?utf-8?B?REt0WFVBdDFTQVo0WG5sZCt2aHNOSHorcFVFa1habmF1ZjBMcU1KeVY2SjhF?=
+ =?utf-8?B?SDhnYUlJQlpmbEFwVmVpZEIzTno4UVVjSUxiU3N5OXpoNFM0bHlqOG02dSt1?=
+ =?utf-8?B?UzVtanRFYm5CV2gxUHBHaFEwQUVvRUk4ZkcyU1JDdUdjSW9pQzlNb1Y1R0lJ?=
+ =?utf-8?B?ZWZpRml1OVhrQkxaakJjSW84a1l3dkNvblJyR2x6MmpjQW4vSlRhbUNWdHZH?=
+ =?utf-8?B?QlVqSUdDTzNUOU5Bd3Fzb2FHSjgwRVoyUW9RVDhnUXM2eGhEdkdOWVQ0N2NS?=
+ =?utf-8?B?cE94YnZFc0NTQ1JTR0psRE82N0UyTFd6RkVXNE50SkRyaE9FMHlYNUxuNm5r?=
+ =?utf-8?B?bDFuQUZGSmRURjdWVGxzbFg4NGxhOWpyUTNuQ21UYWEvcnNXaEdnSldpank2?=
+ =?utf-8?B?NmxSSDAyaXYzcmVPRjh4YTgrRFJWMlN3ZCtOdkxrQlRHMnpuVlY2SFBNQUhx?=
+ =?utf-8?B?bEd4NVVkRSsrMnNpdmorNkxFNUZzU2J0TENUYU03WGFlaFNBUUpRL0pZOGEx?=
+ =?utf-8?B?WkF0WG1GRDduZ29Tc1pFTHdmMnIxSDMvTTQwOGZhUjRlNFBXNHdtNGNwTERH?=
+ =?utf-8?B?YzJQTVRKZzdhSXkrSGdZR1RCa0UrZHd5OVZwUkZ5Vk1uT0lEcEVpWnIwbXRQ?=
+ =?utf-8?B?NTNsY0JOakp2OFR5bU4zNWUvMXQyV0FWeWZlRE1CbTNFUURwUWF4c0RJVElI?=
+ =?utf-8?B?b1B4ek5pOTRzQ1IrYnIwREVWbExqdUpZWHZGSFc2ajFvV0RuUklUd3prWG5x?=
+ =?utf-8?B?cFd5MGxPNGYreWloLytaVEVGSExpb2U3bjk0djdFVkFHQ1YxUXZlQW8ySDNj?=
+ =?utf-8?B?cFFySTdXK21yUWFNNVhCRFFhbFdVTk1FaHVQVTBjUHM4WFFyUjJLU0JQUGg1?=
+ =?utf-8?B?Ri9FYjlLTmw2UzdvQVBSamFCVTR6RVV3Zzk1YjhZQi81K2dUcTFhbTRCMVpz?=
+ =?utf-8?B?MG4zQ3NrYkpzS2lOL1VTV1Rjdk01TFlSM2FMUmwrMnJibTE4MDByWkFKNjJ2?=
+ =?utf-8?B?MTdObkpIWE5CVStWY1AzWXJub2ljVE5POE5vYjhRckJra214RGVqOXNNNngr?=
+ =?utf-8?B?NWNRd3Y1YjYvQ3hlb0lhMmgyd29nSk02SGlFWWo2VEp2bEFtU1BRRjN3TDM3?=
+ =?utf-8?B?SzV5OExobTgvY1VuNHMwaWVQQmhZeXJDZkpDUnhTaDRPTTRUZlZRM3Fpc2tZ?=
+ =?utf-8?B?Z2thZXVIOVVBTmVPWkVXa2RiL1FLdUtlQlZac1UwWlFaanpSMmlwWTJ4YnI5?=
+ =?utf-8?B?THd5R0VwTDV4QXUrT2p4UkRHWG5seHBvYmJNNHFFQ3R1VnRTdkkwQ2JVUkxw?=
+ =?utf-8?B?S1pJdlpYcWVqcmJvbmt0YU5nL2pWUTRTMlFxNWxDTnVCa0g5Y2ZxdEg3cmVE?=
+ =?utf-8?B?OVVUQjl5UitNbnh2LzNGQ3QvdmtWbEZna1NNREx4dmZ3aXcrWHk2NHg1REhT?=
+ =?utf-8?B?SGdMd00ySzFIaXlxN1BpcENvNzJSclAvbFdvN0xLbXFhTnQzWVVSMHh6T01r?=
+ =?utf-8?B?QlNwcitFdFlDN3h6K0RnUFFtVVZIUXZsRFJ5Vm9DTnVwU1pLNWU5ZG93cW1V?=
+ =?utf-8?Q?lJxWdER9+IK/h0VXucbgDmJqMD8/bo=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cUZkaVd1Wm0rUVlucGZ1b3FhQWNGeCtja0JTd3U1R2FGeEhSTE1ldDZmZXR4?=
+ =?utf-8?B?Y0FoSUJmZTh0NEhFa2w4MnpCdEtNQXdrYVF4VmpiRm96RlVoTk1ienFxckx0?=
+ =?utf-8?B?WG9aaFRnbEdYTkY0M2hKTWljRVM2bWliTlFMTXl2TFZzYStBbEV4N0g5TTFZ?=
+ =?utf-8?B?WWFxamNxWGtZVjVVUG15cjkwWXdoYmgvWnkwOS9GckJLK3lENmNiYTJ4K2hM?=
+ =?utf-8?B?VWcwQmF0VGt4djd4WUFhU25sM3kvNjlseVJkbi9YSVV0UkVwVk50K3RKRCtx?=
+ =?utf-8?B?REVZOEhOTjJZL2hjUmFjckpxTitYRjZFZS9acEg1ZGdNN0EvR2hEUzZyM25m?=
+ =?utf-8?B?N1FhSEVOZnIrMFlVNnNlSEp5MTc0dng5WC9VLzdXWUhqc0Y4RlFPSmhSa2Vk?=
+ =?utf-8?B?b0I0TW96bnZrc3lLTkRQcHplSElaWWp0bS9lUUgvWUFJdWcrYysyQS9RRFFO?=
+ =?utf-8?B?UkVDL0locmFYWk12YlRqYXpGY1VuVGxoUEkxcXhVMXF3MHQvZ3Q3VXFKVlZG?=
+ =?utf-8?B?K1puNHFubHRxSWVuUnFQSjF5MDQzYzdOUG5DZWp5YldjUEovclZnaGRqb2M3?=
+ =?utf-8?B?NDg0SzJVRGRDdU9Odmh4MEl4eUtvWWEzVVlSMzREV1FoZlkxYktBZWY0ZXNK?=
+ =?utf-8?B?VDRNU1VsaHNXVHVRdldLMnhVaXpZOXhlb0lPSk4vanNZTzk2WExGWjdNY29I?=
+ =?utf-8?B?WkJlNENIWTc4L2o3UHR3RXROdEJVblZEZDZNUm1oSDJPaXRybFpmR09wTHFH?=
+ =?utf-8?B?dHNXTk9jVk1NZ21RQWM3c1lTNDl5UGNpcksraXdWR3dHekh6T1hCc1c0UHJw?=
+ =?utf-8?B?cG5ROG9LMDFSbEo1NXlrSzd6bm9WOUh4WGRhS3ROK2gxa00yMzRMbUdmRzJw?=
+ =?utf-8?B?Mk9odXN2T3VBaEtRKzIyNHZLRk44UGpIdGFaM0cwRGxvYTQ5ckY4dWVJaUZI?=
+ =?utf-8?B?Z0xSUTJqT0lMVCt6bDZTUHhXMkNNYm1USlRETDU5VGpYZ3l5TVpJWkhmTVl2?=
+ =?utf-8?B?b0VSV0RzckxKZDdzOWF2eW1ZVEZib0Fnei9jZy9ZSUF6MEI4SjRLMUt4VUdT?=
+ =?utf-8?B?MG1oSnhtYzFyblhURnpVd1FPUDlERWVUVWNVekZyNCtBZ0lPK0phQnRnYzVS?=
+ =?utf-8?B?YTVzWjlKRVJvUGduaXB5L3VKUmFvZ1QyRU5kczFEOCtKS0pYZ25Da0h1UUwv?=
+ =?utf-8?B?MjFBY0xBUUV3YzBZa2NMSU5RYm1XRG1qc3JpM2FPdFNLNVphYis2RGtTbzRZ?=
+ =?utf-8?B?bmNHY2FzQmxkUW53K2pjMnd2YW44SHRxRXNINjNGSHdUS3pHZDBORFp6eDIx?=
+ =?utf-8?B?YVVadmE5amRGZ3NmMmFqdnppd3NRN1AzYm1SL3loeFVRQXJQMStPWkR5SHU3?=
+ =?utf-8?B?Sy9Vdkp3RWlzbERHV21ka2NlSU8yYzJUOEwveUd5c09XRldnc1RNWU1TcEZx?=
+ =?utf-8?B?MVpvZXdzakpLWmpraGtZVGxYT1luZk5JcW9nNUxISk5oZXZFQnZsVE55MS9z?=
+ =?utf-8?B?M1FmQURqQmhlbC84cHQ1a0dEd2dBZXQwallKYnVzZlQ1QllNU0FZbFBvZnlQ?=
+ =?utf-8?B?YXpCRUtXU2JCQStFVXRtcmM5UmhBdUh6OU9xc1RXVVUrRnE0ZlA2Zjh1MVlC?=
+ =?utf-8?B?b010NzlWVlgvNXc1cktLZDFsYnZJSmd3Z3dvUjBTL0xOMHBTalExamFvcGhz?=
+ =?utf-8?B?RUt3TDZZQWJKNWE4QzNvNU0zS251Z3ZCaGZzbm0yNnhOK3RKa1plVHF6MFRu?=
+ =?utf-8?B?bjRHWndXc2gwYVhkaDJPOFpjSzV5RTZFNXJORG9zTFBxZm16RVdmK0M1VXpM?=
+ =?utf-8?B?cU5Wa0huVzJwM0FiUXRBc0UxR2R2L25vbGJHelg0VUxTTnFjT1huWHJLa3hs?=
+ =?utf-8?B?QkMwRmk3c3J3VUZralNZaWJPRjVPVXphcXBVeDNNaEd4MXZBaGxKdEhRMExB?=
+ =?utf-8?B?Rlk1UERzWm9jNGFibVpaT2txYVE0czhNQUJzbTVmTUpUeHhqc2ozVWltb00z?=
+ =?utf-8?B?TUYxVzREZmQ0eUFLZHhoaDZtVFAzK1p2QUJKYzZ0b2pPdlF5S2tUQXJYMlNy?=
+ =?utf-8?B?MHVhd0d1aW1GMTRTZTFIdU9qcHhBc1RTdWkxTW5pejAzZHpQTGFTTFF4TXBs?=
+ =?utf-8?B?bnFQWDNuSktzZ3hhWlorSXNDZzFEcldrZ1d1TU05Q091ZmtUMW00VGlNTTZV?=
+ =?utf-8?Q?YhossJZp+9JZRx4uiUs83wuwJ541XdBqDgOrbly2zNT6?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8C8376B271E7DA4CABC78AEE4C9A003B@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 271d2a53-8fef-4644-6978-08ddde71c17c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2025 16:10:31.4791
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TIMhixhLl+Al4VevBrjYJ1kB0H6CDPMycNRzwH9fwUSgSj6eLPEk+hJIwu9nJwSa0G722LHDBDI8bhRy79R4mA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9794
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250818_055218_717894_CFE05D95 
-X-CRM114-Status: GOOD (  24.64  )
+X-CRM114-CacheID: sfid-20250818_091041_926436_1D22E0C8 
+X-CRM114-Status: GOOD (  17.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,80 +181,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/15/25 07:02, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
-> on an KeyUpdate event.
-> 
-> If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> allow the NVMe layer to process the KeyUpdate request and forward the
-> request to userspace. Userspace must then update the key to keep the
-> connection alive.
-> 
-> This patch allows us to handle the NVMe target sending a KeyUpdate
-> request without aborting the connection. At this time we don't support
-> initiating a KeyUpdate.
-> 
-> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   drivers/nvme/host/tcp.c | 63 ++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 62 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index cc3332529355..0c14d3ad58af 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
->   	bool			tls_enabled;
->   	u32			rcv_crc;
->   	u32			snd_crc;
-> +	key_serial_t		user_key_serial;
->   	__le32			exp_ddgst;
->   	__le32			recv_ddgst;
->   	struct completion       tls_complete;
-> @@ -1313,6 +1314,7 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
->   	struct nvme_tcp_request *req;
->   	unsigned int noreclaim_flag;
->   	int ret = 1;
-> +	enum nvme_ctrl_state state = nvme_ctrl_state(&(queue->ctrl->ctrl));
->   
->   	if (!queue->request) {
->   		queue->request = nvme_tcp_fetch_request(queue);
-> @@ -1347,6 +1349,29 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
->   done:
->   	if (ret == -EAGAIN) {
->   		ret = 0;
-> +	} else if (ret == -EKEYEXPIRED &&
-> +		state != NVME_CTRL_CONNECTING &&
-> +		state != NVME_CTRL_RESETTING) {
-> +		int qid = nvme_tcp_queue_id(queue);
-> +
-> +		dev_dbg(queue->ctrl->ctrl.device,
-> +			"updating key for queue %d\n", qid);
-> +
-> +		nvme_change_ctrl_state(&(queue->ctrl->ctrl), NVME_CTRL_RESETTING);
-
-Rah. Don't do that.
-The 'resetting' state is tied to the resetting mechanism
-(LIVE->RESETTING->CONNECTING->LIVE) and is being relied on
-for the timeout handler. Setting it manually will confuse error
-handling.
-
-And really, having the key update in two places is a bit ... odd.
-I'd rather stop the I/O queue in nvme_tcp_io_work() once a
-EKEYEXPIRED error has been hit, and start the key update via
-nvme_tcp_start_tls() function directly from there.
-No need to change the controller state.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+T24gOC8xOC8yNSAwNToxNCwgU2hpbidpY2hpcm8gS2F3YXNha2kgd3JvdGU6DQo+IFNpbmNlIGtl
+cm5lbCB2ZXJzaW9uIDYuMTctcmMxLCB0aGUgdGVzdCBjYXNlIG52bWUvMDUwIGhhcyBiZWVuIGZh
+aWxpbmcNCj4gd2l0aCB0aGUgZXJyb3IgbWVzc2FnZSAiRmFpbGVkIHRvIHJlc3RvcmUgJHtURVNU
+X0RFVn0iLiBUaGlzIGZhaWx1cmUNCj4gaGFwcGVucyBiZWNhdXNlIHRoZSBkZXZpY2UgcmVzdG9y
+YXRpb24gY2hlY2sgaXMgZXhlY3V0ZWQgdG9vIGVhcmx5LA0KPiBzaG9ydGx5IGFmdGVyIHdyaXRp
+bmcgdG8gL3N5cy9idXMvcGNpL3Jlc2Nhbi4gVG8gYXZvaWQgdGhlIGZhaWx1cmUsDQo+IGltcGxl
+bWVudCByZXBlYXRlZCBjaGVja3MgZm9yIHRoZSBkZXZpY2UgcmVzdG9yYXRpb24gd2l0aCBzaG9y
+dCBzbGVlcHMuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFNoaW4naWNoaXJvIEthd2FzYWtpIDxzaGlu
+aWNoaXJvLmthd2FzYWtpQHdkYy5jb20+DQo+IC0tLQ0KPiBUaGlzIGlzIHRoZSBibGt0ZXN0cyBz
+aWRlIGZpeCBmb3IgdGhlIG52bWUvMDUwIGZhaWx1cmUgcmVwb3J0ZWQgZm9yIHY2LjE2LXJjMQ0K
+PiBrZXJuZWwgWzFdLg0KPg0KPiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtYmxv
+Y2svc3Voeml0aDJ1ajc1dWlwcnE0bTNjZ2x2cjdxd20zZDdnaTR0bWplb2hseGw2ZmNtdjNAenU2
+enltNm5tdnVuLw0KPg0KPiAgIHRlc3RzL252bWUvMDUwIHwgOSArKysrKysrKy0NCj4gICAxIGZp
+bGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+DQo+IGRpZmYgLS1n
+aXQgYS90ZXN0cy9udm1lLzA1MCBiL3Rlc3RzL252bWUvMDUwDQo+IGluZGV4IGM3MTA4MzIuLmJh
+NTVjNmUgMTAwNzU1DQo+IC0tLSBhL3Rlc3RzL252bWUvMDUwDQo+ICsrKyBiL3Rlc3RzL252bWUv
+MDUwDQo+IEBAIC0yMyw2ICsyMyw3IEBAIHJlcXVpcmVzKCkgew0KPiAgIHRlc3RfZGV2aWNlKCkg
+ew0KPiAgIAlsb2NhbCBudm1lX25zDQo+ICAgCWxvY2FsIHBkZXYNCj4gKwlsb2NhbCBpDQo+ICAg
+DQo+ICAgCWVjaG8gIlJ1bm5pbmcgJHtURVNUX05BTUV9Ig0KPiAgIA0KPiBAQCAtNDksNyArNTAs
+MTMgQEAgdGVzdF9kZXZpY2UoKSB7DQo+ICAgCSMgUmVtb3ZlIGFuZCByZXNjYW4gdGhlIE5WTUUg
+ZGV2aWNlIHRvIGVuc3VyZSB0aGF0IGl0IGhhcyBjb21lIGJhY2sNCj4gICAJZWNobyAxID4gIi9z
+eXMvYnVzL3BjaS9kZXZpY2VzLyR7cGRldn0vcmVtb3ZlIg0KPiAgIAllY2hvIDEgPiAvc3lzL2J1
+cy9wY2kvcmVzY2FuDQo+IC0JaWYgW1sgISAtYiAke1RFU1RfREVWfSBdXTsgdGhlbg0KPiArCWZv
+ciAoKGkgPSAwOyBpIDwgMTA7IGkrKykpOyBkbw0KDQpUaGlzIGxvb2tzIGdvb2QgdG8gbWUsIGhv
+d2V2ZXIgZG8gd2Ugd2FudCB0aGlzIGxvb3AgYm91bmRlZCBieSANCmhhcmQtY29kZWQgdmFsdWUN
+Cm9yIHdlIGNyZWF0ZSBhIGNvbmZpZyB2YXIgdGhhdCB1c2VyIGNhbiBzZXQgb24gcmVzcGVjdGl2
+ZSBzZXR1cCA/DQplaXRoZXIgd2F5IDotDQoNCg0KTG9va3MgZ29vZC4NCg0KUmV2aWV3ZWQtYnk6
+IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52aWRpYS5jb20+DQoNCi1jaw0KDQoNCg==
 
