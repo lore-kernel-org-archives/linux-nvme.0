@@ -4,91 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD621CA0ED1
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 13:38:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 649D0CA0EE4
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 13:38:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WSlcmBn836lmKLvSRFZVTpwMuANIj5L8XhF7F6TdWMg=; b=xFbSKFNeNRtYtXEWLsW3ErYTO9
-	ZvM1OOjC88YHLV1BK+6JH9uBKHQE6UBJdA6cMe/1v0yY6uC5i1nnBKyhrWJmfw/rZ+CQZjGMrKh7Q
-	2KtxcwPOEraqj81kAbUSUQIeGeZChYrPSkt+E/L7f/tYDwiKwF9fkNs5psz5Za4Kh2CJRIOCSXlhr
-	DdElOQppLhphxKspN22FWSvqJ3nqlp4qau6jcYpsgRUfZf0+Osu9ucoCpiyu516w0z9G7jUQLJZbf
-	+Vc4T29/rIxIofJ/lJ5eCykl+ClU6KdOAa1yPm6nGDqWZFHaDBTGwksFc5jcgpFL55wZ7303A5Ygj
-	VnT5RXTg==;
+	bh=8BEwZHZ+L3ilTH9rJUZDkczC6u83Mtp4BtglFfrqDMI=; b=Lu9nV6ZTghGREp4j0+OhqNrXMJ
+	vG2FyBDfRkG+Lf+SS0f1peT94lNFZqyGOEQFQPHOK8Rakw2OXNLVyDWZvLuJ4cXjgRB/H3Yk672hW
+	K5K2bi1D8fBGkQ/4Z5A294zwu+pRywTDEJ8pJakWOqug5GiQlNFMEuoeDpyoYt1IE14oSipONHta7
+	gvLu8X++EM1yfJ443ebowK44JyfcISv5Vew4DujcsbIwjc//WECkh95lPXS58FpU8PLLZbyRKjx/J
+	WnVJmLpQlcDp81IteT8gX0h6Zi9f0o/rPUhxNmg4m4zv0A5M7k7yn9+jrD5oJ8Qjw+u4O9W3OrZzQ
+	XAJwjQsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uo044-00000007VZ3-35jE;
-	Mon, 18 Aug 2025 13:38:20 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1uo04A-00000007VjA-3uvv;
+	Mon, 18 Aug 2025 13:38:26 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unvTD-00000006xqM-1rkA;
-	Mon, 18 Aug 2025 08:43:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=WSlcmBn836lmKLvSRFZVTpwMuANIj5L8XhF7F6TdWMg=; b=Rddtds3tQ2lg/mT7ATMsQd8NXs
-	QG0tMTJzx7YwDQ98WdB0aJXZPgka6GTmkLh30Ebp7BPXo0H6riMb2SbU925HrntVzhabPaRruCIYe
-	TDBVeSAQKS3blz0aa7D6rOWmLLvwHyQ6uR/zF0sdnU/W/OzpPLGhQB/UlP9z96j9+METH3BCOnAEK
-	iYVA8IStFg/l+i9OSzM9J5PtuW3Ofiycr9OBIJxUTaCuB8F+lDBvGKBb7QqCRj1Un3fickcfLiA87
-	qJvD+l3WAkFRe9jI/sD/tlcx3vFdhmBbM6uSBZqtROFlM3iDhv9viklMpehIqIiutEVbHNqkEWBcz
-	M/KcslGg==;
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unvTA-0000000HKkT-1xaN;
-	Mon, 18 Aug 2025 08:43:58 +0000
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-2445818eb6eso28803815ad.2;
-        Mon, 18 Aug 2025 01:43:55 -0700 (PDT)
+	id 1unvTF-00000006xqY-0mVS;
+	Mon, 18 Aug 2025 08:44:02 +0000
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-2445811e19dso29384425ad.1;
+        Mon, 18 Aug 2025 01:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755506634; x=1756111434; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1755506640; x=1756111440; darn=lists.infradead.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WSlcmBn836lmKLvSRFZVTpwMuANIj5L8XhF7F6TdWMg=;
-        b=atfYa85PnpBjx7j3OKEgDFwOJVoDGpix/WcWkXpkT83kZHasPLoA6gDwn24t5fHAcX
-         GaLo9AWmOhE9xO70ebXZr5FUuUpSA/9WVnftCmXa0DC6mtU4kwtbbnZdToVkb/ZoJ0ob
-         Zw165+ocvO/fEb1py0tOq+Wcuoy/USG+bmQlO6zz8FMfKiAff0IVNrWP4Ssv4AA6Wp6f
-         msNLNQCFPF0BUj5gyjRLQTupYa7XvBhxOPPpqDHy87rF/nDqn7hs0M9ECCiimJNf6yg9
-         +DbBIi2ld3VoneBrH77oFLAOBDQX3nKc4b9ranKLRDIoW41hLn69mgxwffRUvBs1CAci
-         qShQ==
+        bh=8BEwZHZ+L3ilTH9rJUZDkczC6u83Mtp4BtglFfrqDMI=;
+        b=ivmw0tFsP4+wJ7obFuA458tPJdXfmfXIWEwsITfTSp7b7p0hs3IYHUub2GDzXs0KXB
+         0SdLmj+1/fY7cm9nds9a6bEZIEO5XI73sCpQkFhl57C7hnmhQHg6GACRKpu6xiLG/mHv
+         5wLAbUtSJKDtkmajkWLXHwLuoWJyjR3k9J76iUMUM2grn6vKJu792L3a6OUXGj62mC1R
+         fFknC0CNdRGP7k1zSuV7VcXLhv3NUL/XizEA3kpyUrKxqTzrZOTmcEVDgNB0PCchcJUz
+         YcXiQapg6lvBvtIS6pHD8qs0YuL237rhhvrgYQsOPo18ELJBfjCrZEYixWIRF/uu6oSu
+         b8+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755506634; x=1756111434;
+        d=1e100.net; s=20230601; t=1755506640; x=1756111440;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WSlcmBn836lmKLvSRFZVTpwMuANIj5L8XhF7F6TdWMg=;
-        b=ul+Wmta4tQ5vKdan7sF5fxnoPTtzPGmdm7YVkWdYHlbJ3Tt5hkDLXJ1Zpum91zMGfH
-         mQ1QgOj88Qy6L8K2Oc5/K9gtoVO1L3JpEdnibgJCQZiumeQsGXfJzgZvK2+fEBPF35we
-         BPJCEQQtwAdLjC7v1mCo2yuzEJa56Tjn/V7HEHTCgaoPGe79P11ruDTp400RidGyNdUn
-         SDUlRvUwDIxIYOEiKgUQ47ljsU5tQZbJu25EDuB14rxJLD7EHHiaMmjHXwKRJqVNItTP
-         jLOq7jd5B82QrM6qe3QWsJhBLOgc20SEQN18gdB3Siy96Q6MDv17FtENfTr8sZcLkxDb
-         WZDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVgZiFZE62WY+HuTxGf1jTz6QripIluGzemdzVL/cqFWmwtFYuYhQQxzmyKiXgJcHHpETS6NfVifydyQ==@lists.infradead.org, AJvYcCVxS1wOcKiD4ZtAUDg/ipg68tOXT+MBWv/+byGZKBPNuB/pbl2MgLyrlJzrjNOzahCHJS02eQevDUEEc5luXVcY@lists.infradead.org
-X-Gm-Message-State: AOJu0YzXEvvPo/ogQGbfC7FQHhtjTOlHm3lJ4E05zIRG51N2D8Vq+sjW
-	RLrAZCVWg/amaRqQf9uYwpXPIusJgWA0cy1shvtGfyNJC47MKPJzB8VVvVhd0w==
-X-Gm-Gg: ASbGnct8l5C8lu0h6qkzwNRs7LdO46uVPa4lUOz8aaqmBv/Ro+CKLeZqsgd2CC1+ejy
-	GQLF9uem9zesd6FkujXiWGPp1/xxDfbSynCTWC+rfGSryptpfd8WN1y7/i3FHwRnsbf73Y/pePb
-	SW1sJIDupXb5eYOI+QwJLtTyEz3wbbxoR5iqW1xqx/tqz+gXu0Bvd5Xs0ofgF9mx3S4TW6M9BhS
-	0jE+ug3ZLO4mdN7/7OGuuKupMNnfzRLGQ5TRiZgj6jvuGt1VoOtGCu1Pyttw/9vtQX+xdry8BVS
-	aGKdsf22AkVoB1H5UG1wQucM2dKyGxElpRZkL/KnBdXVTqU7wJSWD6DwKZf2JgG2sjcJWDMo0Tg
-	nkgp+9QqqDOZRh1Dh7H5BfSC7M9r+KozCzsgncyVQ+lFX8u4=
-X-Google-Smtp-Source: AGHT+IHZT2isaZc8TNK+Ul72AEXTJHFHaWWnaLR1o3EAxYeINyGXfuxT+CWND5sj2IAPUNrSMUB1ww==
-X-Received: by 2002:a17:903:1ae6:b0:240:25f3:211b with SMTP id d9443c01a7336-2446d980b96mr146776455ad.51.1755506634073;
-        Mon, 18 Aug 2025 01:43:54 -0700 (PDT)
+        bh=8BEwZHZ+L3ilTH9rJUZDkczC6u83Mtp4BtglFfrqDMI=;
+        b=gKFT9JzokzTjaSXO5pLo8Q8hknVyYhjjKbFm6wpUcroFjL+/5Pc+hwdZdeFJsWFNyo
+         fWHWP711iAlv96WFco9CBY3zwsdTCd0u+FzzKCz1FLqbezsJi6RIKrgf23tOxFG0Nh4P
+         wPOMMxqBiD2nYIotw/GWZMb4ElWNoQVkgY2PjizOzHAKFxFgTQUuOCV+Wff+zleJ80Cn
+         OgAsPTRurt+3BlmiVRNr38WbIpA3UImT6fy38hadVymQqhCpIs7ZdQDkeqMAKFpOqSaR
+         oBtFTJ4i6pBLoBmIMrfVmiAy+EZtUscJdVjFZDalbnzgIPv5WvQh3EN3AgfU3fmWkF4P
+         DiKA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5WfP/bDQwUOHJgxMAWgQe1YqbQVEZzMjRX3eNyF3ReVmZhb8EnRJyk1Z2R1TFdNpQjvQnQiJNXhXUJQ==@lists.infradead.org, AJvYcCX7zLqTtQxQMZzXPig/VP/E/LbQTSt/VLSRFJGbRvIHmHKiGcyIOgdQJ4AP8S8ejIh3USNTQuRwGvEKTxabbpjS@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzq23vC8OhEaQQ9/t6/HLVz/2rOxSaMP+wLgwFdlRiXHIQo7/k2
+	XuthhihfTWba0MNkKRcuPZe1KamqW/KwINb4FgtYufhaT75T8QCFp4am6UBBQA==
+X-Gm-Gg: ASbGnctnDdTw5T9CfdCf8qkFhi2Ubt1/vWyEMBYZCuNWTKA2edeaDU5mOoYlCG2jqyF
+	3V0ueOjds3z/fiqOSrRFzpWuuL0ieKSK2lEhI4L5uWR9vRG/xGkFUMxYmPcXTc7ejsXsYlPFa0F
+	dwXbHo6KCvo77oPYr39YNsinFLDk6sNdQQTiB0KVeEQdjK0Hd19fbHCtgbvxF0S4F/u+JFkLmof
+	vzxnH5/JLogr/2C2/hu7H6H33IYfygS88+WPTrXi5271ZwD/KWxwM0MYeOuzKu5Z5dnnTXHTaT8
+	X4hxJhbSTsoqXLzkUAjAz0Rz+HfXcO4Pzi3cMbFxVCo69EV5VKFWyXn09qLee/2sNLk8zBhv0dx
+	2fOTCTp9hyy5cbnyrl20kKeFrsgtCt8EGfoScR/ubEg/BuEo=
+X-Google-Smtp-Source: AGHT+IE41TgaDK6U7fh0y68RK4M9hHY2iTY9/syz4IuIq1e5ai42XH7ZdeIfRSVEhQVGfnthb5LW2w==
+X-Received: by 2002:a17:903:2304:b0:242:b14b:15ab with SMTP id d9443c01a7336-2446d8db8fbmr133100255ad.42.1755506639947;
+        Mon, 18 Aug 2025 01:43:59 -0700 (PDT)
 Received: from [127.0.1.1] (061092221177.ctinets.com. [61.92.221.177])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2446d538f75sm74090925ad.108.2025.08.18.01.43.48
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2446d538f75sm74090925ad.108.2025.08.18.01.43.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 01:43:53 -0700 (PDT)
+        Mon, 18 Aug 2025 01:43:59 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-Date: Mon, 18 Aug 2025 16:42:58 +0800
-Subject: [PATCH v2 5/9] soc: apple: sart: Add SARTv0 support
+Date: Mon, 18 Aug 2025 16:42:59 +0800
+Subject: [PATCH v2 6/9] dt-bindings: nvme: apple,nvme-ans: Add Apple A11
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250818-t8015-nvme-v2-5-65648cd189e0@gmail.com>
+Message-Id: <20250818-t8015-nvme-v2-6-65648cd189e0@gmail.com>
 References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
 In-Reply-To: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -105,25 +91,25 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  iommu@lists.linux.dev, linux-nvme@lists.infradead.org, 
  Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2791; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=wJH6bCh+c84MG5dltlJIecbSR1A7z9mKknCoraX6plo=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoouel7tB5pMk9ZRPwFi3VYfo+wHw0Ob6V61kt0
- cM9qXkKNL2JAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaKLnpQAKCRABygi3psUI
- JAzLEAC3GE6E0JJaoSCxIkhKLQwRO5CQqJZORLUx2kZckZ15RN2ygxITFBkfPiprq86LvbbkbkE
- I0p7uritaNmuEOWjwLU0GLKgNMgDrdHOVr46dPQmjLA+eYyZdLDBWVcgPh19bhvkI3vNYiiiLNY
- T1aA0yScyUMImiJYFXJ7JetUa+L33QKyMVYEo3ahLtQgDpgM+N5xBWz5Qb7xczGySFHR3oymxd7
- CE++jb6XpkCJ65D3KUIx5UihSCcya0EdlU0a/wJJhXgBe3Z44PUuhxHibvVQNBk2BWZ0dCJG8Sk
- Lc6fUQA+mg8RiZlTyPaW0lfhWkkQm7gU4nIjhC+b8r1ZQ8/82kIxy5Q+zxw453asfjDntuEdml0
- Rx0YGtaqd6XTWiDi5jiZAEi6uJba+cmA39hS7G8LhGiTpsvI3ajeqaRAIaLXZXnJipyEIz1Bg67
- LhzLbIaK2SbgcfrU+I4LrZULDInsrjjSC0PLZ/sQ9ipvWIXLCzotPFR5IuzUaesLEueit8tmRjf
- SJhZOLzPmKai2LhRugKpEpD2OVRhzYZtHmFiZWoVmpIf/kLbXyT7sFaVgVfdMmkyOzbVgCs3gb3
- KuymzpXLz20+s/gEvuuKa9OXRnMfKHrDhUVNtdeZ93M/BJOGQ9QacRoQp0kNnlrtVcnLeIffl+E
- gNvlqFtZeOmGY8A==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1310; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=UCisHMuxtAwW4uphlmL614TcUp9WjlCZlTIn0NRlWVg=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoouel76WKJHT6a2iEtG2nIQSl6p8GRmIT4TNIr
+ Xm/tahu1kuJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaKLnpQAKCRABygi3psUI
+ JH+QD/4iOQllLnnWwQJNPY5oL2ee4utIpCyxF094977VkZE8cu11GVaSzIu+vwks3UlOctE1/vh
+ 3M5vIVvKzCAQdKgP/hteJAXI4ORPUYXNdTy0OGn0Fj0uB/xNFWrkC9sMhtE9lnNb0GBc+lL5PzX
+ RGnyCP5QXVmM23oBXVe1OaGgjfnOtpIbNAv06wWJv/Bl4qucj7bb2LyFmK8cXM1IEcT6agBzpv7
+ b3foA51U1DraEa+d9Jq5zfc7R8mc12vXcAhEpS5o2iTxChjW7Tb7L+sKi27pyQaOzUJE6UjNRqR
+ 9gzojiBQzVjS+o2+JfTYJc51+fpoY1nNpg+nzXM8Vm5Ab21EQQqPAPdfEPWFcyGN+suIvZzPjVq
+ 0yN1QONYRLODY4YCVDVoM3inRzp6FzDavxwbyWiAhvX7vjEK9iIRXsLK5rDDAJC3HshOp9sKivR
+ RLSUkoEnaJXWpCp5ImXwpGlIH+10suCQBDMDaumHOdCRrVXFOeKa8dl+cIYlw0zCoYk7aocXFtM
+ grLxE9ZmZj0ZN3tyetAIMhWlwioazCLlA1Qnf9BSbpYmaZWjWfK6hrPH9WQ5SZ0zlL6cIlOdf8Y
+ NVJIkscN9u+moAMEN118ut8e2Id1o37RLIs4oxboX6NH+MJLeeNQkCp3eHUzWET5DP8N28r+TIY
+ vfsSluB8+N4II0Q==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250818_094356_682053_381F327B 
-X-CRM114-Status: GOOD (  14.12  )
+X-CRM114-CacheID: sfid-20250818_014401_228579_12F2E766 
+X-CRM114-Status: GOOD (  11.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,88 +124,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support for SARTv0 as found on Apple A11 SoC.
+Add ANS2 NVMe bindings for Apple A11 SoC.
 
-Reviewed-by: Sven Peter <sven@kernel.org>
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- drivers/soc/apple/sart.c | 49 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ .../devicetree/bindings/nvme/apple,nvme-ans.yaml          | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/soc/apple/sart.c b/drivers/soc/apple/sart.c
-index 318f6e518a54f6edb8b97e320519df8f77c7f143..4ff1942b82a74cabeda99540ba63c6e92386986d 100644
---- a/drivers/soc/apple/sart.c
-+++ b/drivers/soc/apple/sart.c
-@@ -25,6 +25,18 @@
+diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+index fc6555724e1858e8a16f6750302ff0ad9c4e5b88..4127d7b0a0f066fd0e144b32d1b676e3406b9d5a 100644
+--- a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
++++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+@@ -11,12 +11,14 @@ maintainers:
  
- #define APPLE_SART_MAX_ENTRIES 16
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - apple,t8103-nvme-ans2
+-          - apple,t8112-nvme-ans2
+-          - apple,t6000-nvme-ans2
+-      - const: apple,nvme-ans2
++    oneOf:
++      - const: apple,t8015-nvme-ans2
++      - items:
++          - enum:
++              - apple,t8103-nvme-ans2
++              - apple,t8112-nvme-ans2
++              - apple,t6000-nvme-ans2
++          - const: apple,nvme-ans2
  
-+/* SARTv0 registers */
-+#define APPLE_SART0_CONFIG(idx)       (0x00 + 4 * (idx))
-+#define APPLE_SART0_CONFIG_FLAGS      GENMASK(28, 24)
-+#define APPLE_SART0_CONFIG_SIZE       GENMASK(18, 0)
-+#define APPLE_SART0_CONFIG_SIZE_SHIFT 12
-+#define APPLE_SART0_CONFIG_SIZE_MAX   GENMASK(18, 0)
-+
-+#define APPLE_SART0_PADDR(idx)  (0x40 + 4 * (idx))
-+#define APPLE_SART0_PADDR_SHIFT 12
-+
-+#define APPLE_SART0_FLAGS_ALLOW 0xf
-+
- /* SARTv2 registers */
- #define APPLE_SART2_CONFIG(idx)	      (0x00 + 4 * (idx))
- #define APPLE_SART2_CONFIG_FLAGS      GENMASK(31, 24)
-@@ -71,6 +83,39 @@ struct apple_sart {
- 	unsigned long used_entries;
- };
- 
-+static void sart0_get_entry(struct apple_sart *sart, int index, u8 *flags,
-+	phys_addr_t *paddr, size_t *size)
-+{
-+	u32 cfg = readl(sart->regs + APPLE_SART0_CONFIG(index));
-+	phys_addr_t paddr_ = readl(sart->regs + APPLE_SART0_PADDR(index));
-+	size_t size_ = FIELD_GET(APPLE_SART0_CONFIG_SIZE, cfg);
-+
-+	*flags = FIELD_GET(APPLE_SART0_CONFIG_FLAGS, cfg);
-+	*size = size_ << APPLE_SART0_CONFIG_SIZE_SHIFT;
-+	*paddr = paddr_ << APPLE_SART0_PADDR_SHIFT;
-+}
-+
-+static void sart0_set_entry(struct apple_sart *sart, int index, u8 flags,
-+	phys_addr_t paddr_shifted, size_t size_shifted)
-+{
-+	u32 cfg;
-+
-+	cfg = FIELD_PREP(APPLE_SART0_CONFIG_FLAGS, flags);
-+	cfg |= FIELD_PREP(APPLE_SART0_CONFIG_SIZE, size_shifted);
-+
-+	writel(paddr_shifted, sart->regs + APPLE_SART0_PADDR(index));
-+	writel(cfg, sart->regs + APPLE_SART0_CONFIG(index));
-+}
-+
-+static struct apple_sart_ops sart_ops_v0 = {
-+	.get_entry = sart0_get_entry,
-+	.set_entry = sart0_set_entry,
-+	.flags_allow = APPLE_SART0_FLAGS_ALLOW,
-+	.size_shift = APPLE_SART0_CONFIG_SIZE_SHIFT,
-+	.paddr_shift = APPLE_SART0_PADDR_SHIFT,
-+	.size_max = APPLE_SART0_CONFIG_SIZE_MAX,
-+};
-+
- static void sart2_get_entry(struct apple_sart *sart, int index, u8 *flags,
- 			    phys_addr_t *paddr, size_t *size)
- {
-@@ -319,6 +364,10 @@ static const struct of_device_id apple_sart_of_match[] = {
- 		.compatible = "apple,t8103-sart",
- 		.data = &sart_ops_v2,
- 	},
-+	{
-+		.compatible = "apple,t8015-sart",
-+		.data = &sart_ops_v0,
-+	},
- 	{}
- };
- MODULE_DEVICE_TABLE(of, apple_sart_of_match);
+   reg:
+     items:
+@@ -67,6 +69,7 @@ if:
+     compatible:
+       contains:
+         enum:
++          - apple,t8015-nvme-ans2
+           - apple,t8103-nvme-ans2
+           - apple,t8112-nvme-ans2
+ then:
 
 -- 
 2.50.1
