@@ -4,124 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D116CA0EE4
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 13:42:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E1CECA0EEB
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 13:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2TDja4sBe4l2ODJgwXxS+SB6K8YOu/fJ10g9nuTc0y4=; b=tpbw0Nwc3otMo7xE/n6+Wmuzuy
-	J08/hyo6rLqxy4xXHvVTEHKdUGWdJX2WkjmbgBdPPgM9DNGK7sVA67vFQKcQYLgSK/5H1OzUtlrr4
-	IN4FBeX85ap41ewD3mGuTq8ElZZrb48XAdgsihT32L+dDaL3bkQYm/AsHrVpzmXt9wyGXRM/Lf60+
-	xiylm+TKIr51MJLtIfGqG4tvC1onFAfLRcqQQ90MMNd50A9Yix2g6dw8+vcOi1iQIhSt2SDgoWr4U
-	BWODb3FkqExDnejD+MbKW2z6T813LojVqJvfH8ElxdRu6PoB1R9XpxFNel+4ZpAkt0hBrYwQJKS+y
-	3zEDUWlg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ac3mgkOF5dj+22+0dp2ezh5Qm0KBNweXr+MZsQrqL6E=; b=Yf9O86FBA02lZ+6KOTmzC73jWG
+	HO79xKsGBmMAV1Fk49uFa/iTMn4di+p7aCnDG5NopnnOsY3iilLY3IecXKaoeMj68qkY2Q9J5y8JK
+	UCtygh8uSgUhm5scy9FFPA3bVEhiCMW3jmQwFrc9O3IatT9M9WNSnG0fDiJmeDvlDav4c3yZHGhSf
+	hafKmdSMY6JP2E/NM2jtFjSTO3wktYEKZMsFCiYKYatGeQ45+xoTiWPFkHnbjxx4+2AZSnPYEHDUh
+	2UJ53Enotqvt+TIF+Fu/f9qlstSMwQ3rpSYYcGaNeRS/4Al5CPVAvLdmgMGjOrCkh4xmo2EMjTmIe
+	bde4d6mA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uo08P-00000007cee-290w;
-	Mon, 18 Aug 2025 13:42:49 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1uo08S-00000007cjW-13NC;
+	Mon, 18 Aug 2025 13:42:52 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unygE-00000007IhP-2QNO
+	id 1unykz-00000007JB8-0VNc
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Aug 2025 12:09:39 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 036A32124D;
-	Mon, 18 Aug 2025 12:09:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755518977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2TDja4sBe4l2ODJgwXxS+SB6K8YOu/fJ10g9nuTc0y4=;
-	b=YUbXf7UY5Uk7xB1RgeRtjEKRIQqrkP6Xd5D8TS4CDWQ4ywOIEvhF33jt+d19bBXmIfxWtV
-	uVzxZASiDAC9qCpym7owltpw8Iq8gkdiW4yNWVjnjMga+pa3ZRq6fZ6QccFiYimyRxUBnB
-	MxlH9gDr7WWHYdi6bYJBcTjqk3SQ+yI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755518977;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2TDja4sBe4l2ODJgwXxS+SB6K8YOu/fJ10g9nuTc0y4=;
-	b=I8DoeFmY/uzvcxF9WKpFlU8MARQ8RzRFO0Y4xMka6TPUtlTfPsiguv/B/uRq5YWMjcvw3f
-	qE1Vq4hgGjw+lRBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755518977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2TDja4sBe4l2ODJgwXxS+SB6K8YOu/fJ10g9nuTc0y4=;
-	b=YUbXf7UY5Uk7xB1RgeRtjEKRIQqrkP6Xd5D8TS4CDWQ4ywOIEvhF33jt+d19bBXmIfxWtV
-	uVzxZASiDAC9qCpym7owltpw8Iq8gkdiW4yNWVjnjMga+pa3ZRq6fZ6QccFiYimyRxUBnB
-	MxlH9gDr7WWHYdi6bYJBcTjqk3SQ+yI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755518977;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2TDja4sBe4l2ODJgwXxS+SB6K8YOu/fJ10g9nuTc0y4=;
-	b=I8DoeFmY/uzvcxF9WKpFlU8MARQ8RzRFO0Y4xMka6TPUtlTfPsiguv/B/uRq5YWMjcvw3f
-	qE1Vq4hgGjw+lRBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E308213686;
-	Mon, 18 Aug 2025 12:09:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2zedM/8Xo2hUbgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 18 Aug 2025 12:09:35 +0000
-Message-ID: <851fd010-60c5-42a5-8cda-3863b55e8d59@suse.de>
-Date: Mon, 18 Aug 2025 14:09:35 +0200
+	Mon, 18 Aug 2025 12:14:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1755519273; x=1787055273;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IV19IBf/ZIG0CYko5bRs+Ch2/KPWvylWxz3d9S36qYo=;
+  b=dsafubeK8vbEJxMzxskQfqCkclqUlqA+5TmCrKKc5vvJzlCh4DWBc8tt
+   T2QAfDa/QJ9/tm1R0TTSQBYqr9ffVRjIYNS4TsKCoKKBxaWyyqfjpY4ph
+   IgEMApJYp+F2yn5AXM79Umm/piW1WFEJ83pOrD5xRi5H3DdFBAdvEkH82
+   jeGL5zbgUux5hwgfaBVwgeUYx3Qmg6hIJWDtYzbxLQobCGPFwbl0yf2Zj
+   vE+h+BrXlBLWTuDLPy/gR5CoHrWdOC3tg47p7Wpj9CnXpqfJamaJg4fCs
+   sgqcqknk7zBN+GfUtaQm1KTa86TAv+PMiWrg7hd2q4/gikyYbOnDK/eoH
+   g==;
+X-CSE-ConnectionGUID: GV35f91IQ/yUABb4nbMw+w==
+X-CSE-MsgGUID: hbV9jYorRaaSjhPks7SGwA==
+X-IronPort-AV: E=Sophos;i="6.17,293,1747670400"; 
+   d="scan'208";a="106040925"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 18 Aug 2025 20:14:31 +0800
+IronPort-SDR: 68a30a50_hN5NoapMZLnlnLDtFI16b7ZN7ePBMAa1wF6FHLh0QUbmNdw
+ 8iRmXC48cjNmKLNNVXMQ+YrbUOjqunq3t8vEwGA==
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Aug 2025 04:11:12 -0700
+WDCIronportException: Internal
+Received: from wdap-o94mrqhjyp.ad.shared (HELO shinmob.wdc.com) ([10.224.163.59])
+  by uls-op-cesaip01.wdc.com with ESMTP; 18 Aug 2025 05:14:30 -0700
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-nvme@lists.infradead.org
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH blktests] nvme/050: repeat checking test device restoration
+Date: Mon, 18 Aug 2025 21:14:29 +0900
+Message-ID: <20250818121429.1579513-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 9/9] scsi: qla2xxx: Fix memcpy field-spanning write
- issue
-To: Bryan Gurney <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@kernel.dk
-Cc: james.smart@broadcom.com, njavali@marvell.com,
- linux-scsi@vger.kernel.org, linux-hardening@vger.kernel.org,
- kees@kernel.org, gustavoars@kernel.org, jmeneghi@redhat.com,
- emilne@redhat.com
-References: <20250813200744.17975-1-bgurney@redhat.com>
- <20250813200744.17975-10-bgurney@redhat.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250813200744.17975-10-bgurney@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250818_050938_770409_E7689F73 
-X-CRM114-Status: GOOD (  20.39  )
+X-CRM114-CacheID: sfid-20250818_051433_182628_C79A0211 
+X-CRM114-Status: GOOD (  12.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,68 +79,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/13/25 22:07, Bryan Gurney wrote:
-> From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> 
-> purex_item.iocb is defined as a 64-element u8 array, but 64 is the
-> minimum size and it can be allocated larger. This makes it a standard
-> empty flex array.
-> 
-> This was motivated by field-spanning write warnings during FPIN testing.
-> https://lore.kernel.org/linux-nvme/20250709211919.49100-1-bgurney@redhat.com/
-> 
->    >  kernel: memcpy: detected field-spanning write (size 60) of single field
->    >  "((uint8_t *)fpin_pkt + buffer_copy_offset)"
->    >  at drivers/scsi/qla2xxx/qla_isr.c:1221 (size 44)
-> 
-> I removed the outer wrapper from the iocb flex array, so that it can be
-> linked to `purex_item.size` with `__counted_by`.
-> 
-> These changes remove the default minimum 64-byte allocation, requiring
-> further changes.
-> 
->    In `struct scsi_qla_host` the embedded `default_item` is now followed
->    by `__default_item_iocb[QLA_DEFAULT_PAYLOAD_SIZE]` to reserve space
->    that will be used as `default_item.iocb`. This is wrapped using the
->    `TRAILING_OVERLAP()` macro helper, which effectively creates a union
->    between flexible-array member `default_item.iocb` and `__default_item_iocb`.
-> 
->    Since `struct pure_item` now contains a flexible-array member, the
->    helper must be placed at the end of `struct scsi_qla_host` to prevent
->    a `-Wflex-array-member-not-at-end` warning.
-> 
->    `qla24xx_alloc_purex_item()` is adjusted to no longer expect the
->    default minimum size to be part of `sizeof(struct purex_item)`,
->    the entire flexible array size is added to the structure size for
->    allocation.
-> 
-> This also slightly changes the layout of the purex_item struct, as
-> 2-bytes of padding are added between `size` and `iocb`. The resulting
-> size is the same, but iocb is shifted 2-bytes (the original `purex_item`
-> structure was padded at the end, after the 64-byte defined array size).
-> I don't think this is a problem.
-> 
-> Tested-by: Bryan Gurney <bgurney@redhat.com>
-> Co-developed-by: Chris Leech <cleech@redhat.com>
-> Signed-off-by: Chris Leech <cleech@redhat.com>
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
->   drivers/scsi/qla2xxx/qla_def.h  | 10 ++++++----
->   drivers/scsi/qla2xxx/qla_isr.c  | 17 ++++++++---------
->   drivers/scsi/qla2xxx/qla_nvme.c |  2 +-
->   drivers/scsi/qla2xxx/qla_os.c   |  5 +++--
->   4 files changed, 18 insertions(+), 16 deletions(-)
-> 
-Not sure if this shouldn't be a stand-alone patch, but anyway:
+Since kernel version 6.17-rc1, the test case nvme/050 has been failing
+with the error message "Failed to restore ${TEST_DEV}". This failure
+happens because the device restoration check is executed too early,
+shortly after writing to /sys/bus/pci/rescan. To avoid the failure,
+implement repeated checks for the device restoration with short sleeps.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+---
+This is the blktests side fix for the nvme/050 failure reported for v6.16-rc1
+kernel [1].
 
-Cheers,
+[1] https://lore.kernel.org/linux-block/suhzith2uj75uiprq4m3cglvr7qwm3d7gi4tmjeohlxl6fcmv3@zu6zym6nmvun/
 
-Hannes
+ tests/nvme/050 | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/tests/nvme/050 b/tests/nvme/050
+index c710832..ba55c6e 100755
+--- a/tests/nvme/050
++++ b/tests/nvme/050
+@@ -23,6 +23,7 @@ requires() {
+ test_device() {
+ 	local nvme_ns
+ 	local pdev
++	local i
+ 
+ 	echo "Running ${TEST_NAME}"
+ 
+@@ -49,7 +50,13 @@ test_device() {
+ 	# Remove and rescan the NVME device to ensure that it has come back
+ 	echo 1 > "/sys/bus/pci/devices/${pdev}/remove"
+ 	echo 1 > /sys/bus/pci/rescan
+-	if [[ ! -b ${TEST_DEV} ]]; then
++	for ((i = 0; i < 10; i++)); do
++		if [[ -b ${TEST_DEV} ]]; then
++			break
++		fi
++		sleep .5
++	done
++	if (( i >= 10 )); then
+ 		echo "Failed to restore ${TEST_DEV}"
+ 	fi
+ }
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.50.1
+
 
