@@ -4,82 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE119CA0EE4
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 02:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5105ECA0EE4
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Aug 2025 07:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nE/jcvG6u4lHs9kZhoq8ORQCUnuwq5R9UvEkBKDx6X8=; b=ZCfeUq6dDul/1HOKAMrQxQiU/J
-	sSYmry5v2oaBSwLUx5kb24uIaGtd3CRp6QjM+Ih9o2dstBxxF6S1GvJIWj1SjdE3dPmUrWHHE0MPw
-	8i+7NZa90RCL1rVVOZMFj71W95Hp6PkH3JlQ5lj1cXV77Io2qybgX3QG/aiVL4y5YulVa5lDd8Ev1
-	TOGlk1msC5kHZqCy4ucrg1Rq+T75i5zGQv77qYW2vlo5fjcWOchlbqKbUeGoYHFcwn1J4mn5T+8vm
-	5GAGhcqIuDjU/XzLjKi+n7xvCzAujOqegMAl7ESdM2KqOeCMDhAluVMr7CYnn1hoK3d7wEYRFRVuk
-	TEVkXvNw==;
+	bh=m+1u6ZhvizloivawWc7WUC03OmQVISx5ht3gNss4Law=; b=PewS+VhKQWwtujyq9qLSHqshey
+	Y+cEkNC7gGjmufe9T3lt5d5ZSDrF7uaJIqIUKbuXO5ELJQJP71lfTaDsJpyd4cFmmRDFzFeTcLan2
+	0bPUTZgAYtgieV8RiwCe93zQ+8NJacqzouw2wb5tlt50ai09V+vQLnqjbLIPEcNq5F+HRuP604F+X
+	PYr7jES+TBe/vAQTwbzhEuIIAGWwPzkIjOGMppLU6zgOKHBXE12T/7OI/QOsSs1fLTThXuwH0Tl5Q
+	gvkdWv3+H0Ctsnb6kqzimhsS/oDk/JHUALkn+r9C4JgPcamGFL5WFQ5GKpY8DJWjrIzY6Pjyag9FZ
+	Nt+9KNPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unpRB-00000006K2T-3Dvd;
-	Mon, 18 Aug 2025 02:17:29 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1unueZ-00000006pj3-0nX8;
+	Mon, 18 Aug 2025 07:51:39 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unpR8-00000006K0m-06x5
+	id 1unu38-00000006lgS-2iGn
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Aug 2025 02:17:28 +0000
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c4xDv1HPDzYQtJQ
-	for <linux-nvme@lists.infradead.org>; Mon, 18 Aug 2025 10:17:19 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id B6B591A07BD
-	for <linux-nvme@lists.infradead.org>; Mon, 18 Aug 2025 10:17:17 +0800 (CST)
-Received: from [10.174.179.80] (unknown [10.174.179.80])
-	by APP4 (Coremail) with SMTP id gCh0CgBHERIqjaJoBpM4EA--.3972S3;
-	Mon, 18 Aug 2025 10:17:16 +0800 (CST)
-Message-ID: <4798d44a-4aa5-4b95-a3f4-25be3d8ee35a@huaweicloud.com>
-Date: Mon, 18 Aug 2025 10:17:14 +0800
+	Mon, 18 Aug 2025 07:12:59 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 09E852124D;
+	Mon, 18 Aug 2025 07:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755501177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m+1u6ZhvizloivawWc7WUC03OmQVISx5ht3gNss4Law=;
+	b=cNITb3emWgmOm+2NrOW0vGZ/ReJHLzfD0me9Dtha9cS584HYJKN7ZybHzbklkbKO5rGzut
+	sx5v8jjvxa8o8YA2Za02KA3xQj5xs1R4aMSpgyQGr46+0B52mcddJA0xlHlti7XMaKYXAT
+	XJV7P5VbkNdHQ+YOnv9H/U4rcuOGpAQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755501177;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m+1u6ZhvizloivawWc7WUC03OmQVISx5ht3gNss4Law=;
+	b=6Cp3Zzx5ewafzEtNjso/zEhGZ9XA+3kyQCjYC9y/36sUupZLWnX0ZrTpBaCO+HwjvxXpCI
+	dkac/TjLs36senDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VKx+ibXx;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1E2otm8y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755501176; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m+1u6ZhvizloivawWc7WUC03OmQVISx5ht3gNss4Law=;
+	b=VKx+ibXxH2UqJ5G5z1KfUwk/0NMl9kgSaJmbQj2ttD7LnRXXUykEKN8C1M/JbpqsdAgupm
+	sL9iVVAUN1D8hw/tqAtqhUV7xMOuxaHmPvqcnDWQc5v8ZQecmg86cVw9tYM+EOfG7//wAO
+	9tiWPoaJgms304j1mRxckg7g7EyAooI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755501176;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m+1u6ZhvizloivawWc7WUC03OmQVISx5ht3gNss4Law=;
+	b=1E2otm8yP6XROqOI3BOzOcVXLvcN21BKqI7cfuqlybSbYyJuYcCre2rXxM8GaV5FH1SAjQ
+	dBlr0TpeqowdNqDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97FB313A55;
+	Mon, 18 Aug 2025 07:12:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3tzVInfSomgXDwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 18 Aug 2025 07:12:55 +0000
+Message-ID: <39506d0c-9205-4638-a516-0cfe0de9a8ff@suse.de>
+Date: Mon, 18 Aug 2025 09:12:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH util-linux v2] fallocate: add FALLOC_FL_WRITE_ZEROES
- support
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, hch@lst.de, tytso@mit.edu, bmarzins@redhat.com,
- chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com, brauner@kernel.org,
- martin.petersen@oracle.com, yi.zhang@huawei.com, chengzhihao1@huawei.com,
- yukuai3@huawei.com, yangerkun@huawei.com
-References: <20250813024015.2502234-1-yi.zhang@huaweicloud.com>
- <20250814165218.GQ7942@frogsfrogsfrogs>
- <a0eda581-ae6c-4b49-8b4f-7bb039b17487@huaweicloud.com>
- <20250815142908.GG7981@frogsfrogsfrogs>
+Subject: Re: [PATCHv2 1/4] nvme: support <device> option in show-topology
+ command
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, kbusch@kernel.org, gjoyce@ibm.com
+References: <20250812125614.164445-1-nilay@linux.ibm.com>
+ <20250812125614.164445-2-nilay@linux.ibm.com>
 Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <20250815142908.GG7981@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: gCh0CgBHERIqjaJoBpM4EA--.3972S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr4UXw4UCrWkXw13Jr4Utwb_yoW5Kr47pa
-	y3JF1Utr48KF17G3s2v3WkuF1Fyws7trWxWr4Igr1kZrnI9F1xKF4UWr1Y9F97Wr1kCa1j
-	vr4IvFy3uF1UAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250812125614.164445-2-nilay@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 09E852124D
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250817_191726_383280_817863D9 
-X-CRM114-Status: GOOD (  16.84  )
+X-CRM114-CacheID: sfid-20250818_001258_832278_B63CA056 
+X-CRM114-Status: GOOD (  19.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,97 +143,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/15/2025 10:29 PM, Darrick J. Wong wrote:
-> On Fri, Aug 15, 2025 at 05:29:19PM +0800, Zhang Yi wrote:
->> Thank you for your review comments!
->>
->> On 2025/8/15 0:52, Darrick J. Wong wrote:
->>> On Wed, Aug 13, 2025 at 10:40:15AM +0800, Zhang Yi wrote:
->>>> From: Zhang Yi <yi.zhang@huawei.com>
->>>>
->>>> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
->>>> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
->>>> utility by introducing a new option -w|--write-zeroes.
->>>>
->>>> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
->>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>>> ---
->>>> v1->v2:
->>>>  - Minor description modification to align with the kernel.
->>>>
->>>>  sys-utils/fallocate.1.adoc | 11 +++++++++--
->>>>  sys-utils/fallocate.c      | 20 ++++++++++++++++----
->>>>  2 files changed, 25 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
->>>> index 44ee0ef4c..0ec9ff9a9 100644
->>>> --- a/sys-utils/fallocate.1.adoc
->>>> +++ b/sys-utils/fallocate.1.adoc
->>>> @@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
->>>
->>> <snip all the long lines>
->>>
->>>> +*-w*, *--write-zeroes*::
->>>> +Zeroes space in the byte range starting at _offset_ and continuing
->>>> for _length_ bytes. Within the specified range, blocks are
->>>> preallocated for the regions that span the holes in the file. After a
->>>> successful call, subsequent reads from this range will return zeroes,
->>>> subsequent writes to that range do not require further changes to the
->>>> file mapping metadata.
->>>
->>> "...will return zeroes and subsequent writes to that range..." ?
->>>
->>
->> Yeah.
->>
->>>> ++
->>>> +Zeroing is done within the filesystem by preferably submitting write
->>>
->>> I think we should say less about what the filesystem actually does to
->>> preserve some flexibility:
->>>
->>> "Zeroing is done within the filesystem. The filesystem may use a
->>> hardware accelerated zeroing command, or it may submit regular writes.
->>> The behavior depends on the filesystem design and available hardware."
->>>
->>
->> Sure.
->>
->>>> zeores commands, the alternative way is submitting actual zeroed data,
->>>> the specified range will be converted into written extents. The write
->>>> zeroes command is typically faster than write actual data if the
->>>> device supports unmap write zeroes, the specified range will not be
->>>> physically zeroed out on the device.
->>>> ++
->>>> +Options *--keep-size* can not be specified for the write-zeroes
->>>> operation.
->>>> +
->>>>  include::man-common/help-version.adoc[]
->>>>  
->>>>  == AUTHORS
->> [..]
->>>> @@ -429,6 +438,9 @@ int main(int argc, char **argv)
->>>>  			else if (mode & FALLOC_FL_ZERO_RANGE)
->>>>  				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
->>>>  								filename, str, length);
->>>> +			else if (mode & FALLOC_FL_WRITE_ZEROES)
->>>> +				fprintf(stdout, _("%s: %s (%ju bytes) write zeroed.\n"),
->>>
->>> "write zeroed" is a little strange, but I don't have a better
->>> suggestion. :)
->>>
->>
->> Hmm... What about simply using "zeroed", the same to FALLOC_FL_ZERO_RANGE?
->> Users should be aware of the parameters they have passed to fallocate(),
->> so they should not use this print for further differentiation.
+On 8/12/25 14:56, Nilay Shroff wrote:
+> Although the help text for the nvme show-topology command indicates
+> support for a <device> option, this option has no effect in practice
+> — specifying an NVMe device name does not filter the output.
 > 
-> No thanks, different inputs should produce different outputs. :)
+> This commit adds proper support for the <device> option, enabling users
+> to filter the topology output based on the specified NVMe device.
 > 
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+> ---
+>   nvme-print-stdout.c |  9 +++++++++
+>   nvme.c              | 17 ++++++++++++++++-
+>   2 files changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/nvme-print-stdout.c b/nvme-print-stdout.c
+> index c597b608..eb56349a 100644
+> --- a/nvme-print-stdout.c
+> +++ b/nvme-print-stdout.c
+> @@ -5683,6 +5683,15 @@ static void stdout_simple_topology(nvme_root_t r,
+>   
+>   	nvme_for_each_host(r, h) {
+>   		nvme_for_each_subsystem(h, s) {
+> +			bool no_ctrl = true;
+> +			nvme_ctrl_t c;
+> +
+> +			nvme_subsystem_for_each_ctrl(s, c)
+> +				no_ctrl = false;
+> +
+> +			if (no_ctrl)
+> +				continue;
+> +
+>   			if (!first)
+>   				printf("\n");
+>   			first = false;
+> diff --git a/nvme.c b/nvme.c
+> index 27dac37b..c6779cf4 100644
+> --- a/nvme.c
+> +++ b/nvme.c
+> @@ -10155,6 +10155,8 @@ static int show_topology_cmd(int argc, char **argv, struct command *command, str
+>   	const char *ranking = "Ranking order: namespace|ctrl";
+>   	nvme_print_flags_t flags;
+>   	_cleanup_nvme_root_ nvme_root_t r = NULL;
+> +	char *devname = NULL;
+> +	nvme_scan_filter_t filter = NULL;
+>   	enum nvme_cli_topo_ranking rank;
+>   	int err;
+>   
+> @@ -10197,7 +10199,20 @@ static int show_topology_cmd(int argc, char **argv, struct command *command, str
+>   		return -errno;
+>   	}
+>   
+> -	err = nvme_scan_topology(r, NULL, NULL);
+> +	if (optind < argc)
+> +		devname = basename(argv[optind++]);
+> +
+> +	if (devname) {
+> +		int subsys_id, nsid;
+> +
+> +		if (sscanf(devname, "nvme%dn%d", &subsys_id, &nsid) != 2) {
+> +			nvme_show_error("Invalid device name %s\n", devname);
+> +			return -EINVAL;
+> +		}
+> +		filter = nvme_match_device_filter;
+> +	}
+> +
+> +	err = nvme_scan_topology(r, filter, (void *)devname);
+>   	if (err < 0) {
+>   		nvme_show_error("Failed to scan topology: %s", nvme_strerror(errno));
+>   		return err;
 
-OK. perhaps "written as zeros." ? Sounds OK?
+While I welcome this change, we've had discussions that
+'nvme show-topology <device>' really should _not_ print out
+anything if the device does not exist.
+Have you checked this for your patch?
 
-Thanks,
-Yi.
+Cheers,
 
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
