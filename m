@@ -4,48 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 684C7CA0EE6
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Aug 2025 18:13:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1C76CA0EEB
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Aug 2025 18:14:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p/ooT7CZSow5ebldsF91hMh8ZoThr7AYcU58h8a0xZs=; b=FuEWzh8XdkhIApbdIOswjI9A2n
-	ThUPIB2m6STpKCePVuv6mcymtBc8gcexYv5kV52gEzxb+f/R+N174Y6P4Z2XwpmyUwZyDVdJVck70
-	AhK5BH14UeywzmmnUOogiV9k5vQkN7EmwxBdezWugj5qN1vTRVclcKWuXldRgGpD35S5A6ElR6cYY
-	Eoofoyt/iheHcRmXGyBOVow/hoB/VVg49PinIyDssrcEOJmsAUW8mGBB0glpa9th/148TEfsdAVzG
-	noJGlUkpSaUtXWrskP6EFVafnJ7YlL9OVtAWwX9xgLGFrehVjT4gkjeugbJSHQcFEiRJxyWpEokVo
-	te31huVg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3SfEMxVljxIHvUZ34DtV8U/cPDN9Ca11v4XadfLcJLg=; b=RRJiRx9FfbGfosaShZu9VMhWrn
+	hb4AA+prdZRLlXN2XUvVCsq43KCGsWePEkCcPlWlRuJhflIVPN9iNQv4wfY3dAuNHJIqc5V5K9dIW
+	ffeMy45y82XpfozpUy0IVCmkurCOtR0kr+dFfPTtBLHx29utO+wix5HaJrxBtPrVNWV8v/DVo5wcU
+	kWeb7enO88WHdNrpoVc8cy00Lmyu6AbtAnUFeVWEyq91YH+135Vp+6vfq68cUITeqWEOKKxF/d85g
+	OMdHHfg7/KIFNGNHL91nWgdIFzhAombC43URA9iENWe6G6lq3jlnsYlO4ycA+Sg3Av0sVG4obqCjO
+	4fGrDfqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoQpU-0000000BByj-33WN;
-	Tue, 19 Aug 2025 18:13:04 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1uoQqS-0000000BDR0-1wTn;
+	Tue, 19 Aug 2025 18:14:04 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoM8i-0000000AYA5-2V3i
+	id 1uoMYx-0000000AcWg-0LcD
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Aug 2025 13:12:38 +0000
-Received: from localhost (<unknown> [193.207.151.114])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id ba7ee5b8 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 19 Aug 2025 15:12:30 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 19 Aug 2025 15:12:27 +0200
-Message-Id: <DC6FI49WALCL.Q2W75P781CG5@bsdbackstore.eu>
-Cc: <linux-nvme@lists.infradead.org>
-Subject: Re: Unable to reconnect namespace via NVMe/TCP
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Chris Leech" <cleech@redhat.com>, "Anton Gavriliuk"
- <antosha20xx@gmail.com>
-X-Mailer: aerc
-References: <CAAiJnjqKqMHjrPLOvY5sCXiQR0n6pMvm2mS5pQEqy2XY1cD_6Q@mail.gmail.com> <aKOT88cdjI2OYi4e@my-developer-toolbox-latest>
-In-Reply-To: <aKOT88cdjI2OYi4e@my-developer-toolbox-latest>
+	Tue, 19 Aug 2025 13:39:44 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 6963E227A88; Tue, 19 Aug 2025 15:39:32 +0200 (CEST)
+Date: Tue, 19 Aug 2025 15:39:32 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, Christoph Hellwig <hch@infradead.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: Do we need an opt-in for file systems use of hw atomic writes?
+Message-ID: <20250819133932.GA16857@lst.de>
+References: <20250714131713.GA8742@lst.de> <6c3e1c90-1d3d-4567-a392-85870226144f@oracle.com> <aHULEGt3d0niAz2e@infradead.org> <6babdebb-45d1-4f33-b8b5-6b1c4e381e35@oracle.com> <20250715060247.GC18349@lst.de> <072b174d-8efe-49d6-a7e3-c23481fdb3fc@oracle.com> <20250715090357.GA21818@lst.de> <bd7b1eea-18bc-431e-bc29-42b780ff3c31@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bd7b1eea-18bc-431e-bc29-42b780ff3c31@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250819_061236_982918_A2843581 
-X-CRM114-Status: GOOD (  12.82  )
+X-CRM114-CacheID: sfid-20250819_063943_309404_C2560C37 
+X-CRM114-Status: GOOD (  19.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,41 +61,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Aug 18, 2025 at 10:58 PM CEST, Chris Leech wrote:
-> On Tue, Aug 12, 2025 at 06:48:29PM +0300, Anton Gavriliuk wrote:
->> Hi
->>=20
->> There are NVMe/TCP target and initiator servers, both running on
->> RHEL10 (6.12.0-55.25.1.el10_0.x86_64)
->>=20
->> NVMe/TCP target exports single NVMe SSD
->>=20
->>       "namespaces": [
->>         {
->>           "device": {
->>             "nguid": "01000000-0000-0000-8ce3-8ee3064aa4f2",
->>             "path": "/dev/nvme0n1"
->>           },
->>           "enable": 1,
->>           "nsid": 1
->>         }
->>       ],
->>=20
->> If NVMe/TCP target is not available, initiator tries to reconnect
->> every 10 seconds
+On Tue, Aug 19, 2025 at 12:42:01PM +0100, John Garry wrote:
+> nothing has been happening on this thread for a while. I figure that it is 
+> because we have no good or obvious options.
 >
-> How is the target becoming unavailable?  Is it as network interruption,
-> or is the target being rebooted or reconfigured?
+> I think that it's better deal with the NVMe driver handling of AWUPF first, 
+> as this applies to block fops as well.
 >
-> Is the shared snippet the entire "namespaces" section of the
-> configuration file?
+> As for the suggestion to have an opt-in to use AWUPF, you wrote above that 
+> users may not know when to enable this opt-in or not.
 >
-> It looks like the target code will generate a random uuid for a device
-> when it's configured, which could then trip up the host attempting to
-> reconnect across a target reboot. But I think the uuid can be saved as
-> well as the nguid in the target configuration.
+> It seems to me that we can give the option, but clearly label that it is 
+> potentially dangerous. Hopefully the $RANDOMUSER with the $CHEAPO SSD will 
+> be wise and steer clear.
+>
+> If we always ignore AWUPF, I fear that lots of sound NVMe implementations 
+> will be excluded from HW atomics.
 
-Indeed, normally, nvmetcli saves the uuid in the config file.
+I think ignoring AWUPF is a good idea, but I've also hard some folks
+not liking that.
 
-Maurizio
+The reason why I prefer a mount option is because we add that to fstab
+and the kernel command line easily.  For block layer or driver options
+we'd either need a sysfs file which is always annoying to apply at boot
+time, or a module option which has the downside of applying to all
+devices.
 
