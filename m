@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CED62CA0EFF
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 03:44:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AACEFCA0EEB
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 03:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D4SM6zHJ9Q6ObBfi9kz8op3wvjKvHEZA6J8C6N7vBkM=; b=mvELbPBghB0KbGbbNwfi/jdVEB
-	VeME/i7p0CGB0UbcFdny4RCsL8PhnttxNX7kTcTbiVhFjeEsGrjiYo3IDvWjqt9wcgsk1K8885yIB
-	D0DCo3M2KaskwNxk5JCke2yCUS7EfjEAxwGNXUIX6NywGH7Du9RvTN+YsLzpI4zbkLLBCqiqj33Rh
-	oqKwck0MWbruOZ5ti9FTmYy9rM6qssfaiE9mjhfrsBc3FDQDd8TXgJazIocmhW+DuzC3pTGU0w9pa
-	iHqIVdVnXsOhfGxJLlpF/3UTdTLA3TN7N+1wdY/KiA6q4ICMZ9xV1eXQxUs0jfGTv6oRidaYIriQP
-	HHCGmfMg==;
+	bh=R5yI4ppcUgD8Bd1a/05yP97T6Kybd80cY9LOjBBrnlQ=; b=PQDXK637Ya6QWHHv/1ElQme3q1
+	Yr0ujg7BfkhJ8gV1WS3wDnecsIP0mvtAd6q4wFLZHr7j4aGxHVGf+lgq3DmbmXHMI2V7YU8Cm/iw+
+	7Me1ZiiMnVti9jPhJdnqGmKbyOOehNDn7I6RgqrnKV2nskyON1O6i9chVkrct5jdELKSErvQ2kV3x
+	5aMNioBlucDPfnHRcr5+zFe5GHdMSlYcMkK7CbbaJQbwyp1RuNKp3aYIwpA3DRXEqgKRRAXut/OWd
+	EXXrSEGMrF37XzPwk5LyOMWbpPkoyYnzZ26cJiqwRzy6xPD+P2fsujCezB6oTzsBW/uzI24KWzAfJ
+	obeDxF/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uowDz-0000000FhOQ-12Ei;
-	Thu, 21 Aug 2025 03:44:27 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1uowE0-0000000FhQ2-0A22;
+	Thu, 21 Aug 2025 03:44:28 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoQIL-0000000B81U-36rD
+	id 1uoQIK-0000000B80c-3xin
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Aug 2025 17:38:49 +0000
+	Tue, 19 Aug 2025 17:38:55 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1387861430;
-	Tue, 19 Aug 2025 17:38:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8E5C4CEF4;
-	Tue, 19 Aug 2025 17:38:47 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A7C374552E;
+	Tue, 19 Aug 2025 17:38:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9165BC4CEF1;
+	Tue, 19 Aug 2025 17:38:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755625128;
-	bh=5GnXky7X8jRP4E4M761xyU7kxSqR5w3y9HvcAnisW/0=;
+	s=k20201202; t=1755625116;
+	bh=O9XZOHlHvjORXmOt4kTIQrFLHTrONFqw1ae8lUbcYw8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Bp6IjwCK6iikZBNKRNzlwQSTkIdVOg07zMkHxMwHx2bN8ViJPSPzqSH/QAyq4vh06
-	 wQO6Ewlb0QQbKPmgYqrA9uKQ5ZlVlzrl395y0zlmmQVZo3cmxr2dce8aTWrEgEuVvU
-	 PK81BrhFBj0Sb03L1mOYr5A5QlqVfAMBpJE1psdYb9zwXYegwG/tfmrm5FOWTNfeE8
-	 iY+rPNAKXFYUB6cprmGsa0u1KrjeSM4hl6Yb32H9zVNhuHEbrWVA9oc/K4UQWl86vA
-	 0GIK4Y52fniR/iFJCHHd5h1oBGaE5KSvHvvy9rnqAMrstqGlP8VTJe6ApXPe+l+dK9
-	 yBb54yNAL7EtQ==
+	b=ATZH+tt0E0CIypcrTSNKTLVbz11CKQWPuWVv8Uj9hFXpVu8WhMldVqGJubdEEOKA5
+	 ihrhveF/7PK4ciLaP1743VsR6NY/mkFLhxNufmCXwfsaz906MGNVzEujW1yZCGg7UJ
+	 V0f9Op2bM/LDCmIDoTw89nki6nqBzfilToxhqaVR8w0WmvQL8B8EY2oxWuG20cX/6j
+	 TL1fryJQsGuMrJZkOQ1NbVtcj71sbARhi2TXWmqIIZ9BTi18mEhP8usOCf32R7gnLD
+	 uaTJdR9D9iuPFRWq/Gj2stVOJgLdUiBmlsVIk3TNaKhBqMgGSVJIQ5h9MDirkdjHNx
+	 bZTvCl5dJvTcQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
@@ -80,14 +80,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	virtualization@lists.linux.dev,
 	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v4 13/16] mm/hmm: properly take MMIO path
-Date: Tue, 19 Aug 2025 20:36:57 +0300
-Message-ID: <4b929da0b2dec4bccf489f35ee06098b437053b2.1755624249.git.leon@kernel.org>
+Subject: [PATCH v4 12/16] mm/hmm: migrate to physical address-based DMA mapping API
+Date: Tue, 19 Aug 2025 20:36:56 +0300
+Message-ID: <18165db0ff83f8222bfd05c4807cda206bec02f7.1755624249.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755624249.git.leon@kernel.org>
 References: <cover.1755624249.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250819_103849_041796_07617522 
+X-CRM114-Status: GOOD (  15.01  )
 X-Mailman-Approved-At: Wed, 20 Aug 2025 20:44:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -105,64 +108,50 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-In case peer-to-peer transaction traverses through host bridge,
-the IOMMU needs to have IOMMU_MMIO flag, together with skip of
-CPU sync.
+Convert HMM DMA operations from the legacy page-based API to the new
+physical address-based dma_map_phys() and dma_unmap_phys() functions.
+This demonstrates the preferred approach for new code that should use
+physical addresses directly rather than page+offset parameters.
 
-The latter was handled by provided DMA_ATTR_SKIP_CPU_SYNC flag,
-but IOMMU flag was missed, due to assumption that such memory
-can be treated as regular one.
+The change replaces dma_map_page() and dma_unmap_page() calls with
+dma_map_phys() and dma_unmap_phys() respectively, using the physical
+address that was already available in the code. This eliminates the
+redundant page-to-physical address conversion and aligns with the
+DMA subsystem's move toward physical address-centric interfaces.
 
-Reuse newly introduced DMA attribute to properly take MMIO path.
+This serves as an example of how new code should be written to leverage
+the more efficient physical address API, which provides cleaner interfaces
+for drivers that already have access to physical addresses.
 
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- mm/hmm.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ mm/hmm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/mm/hmm.c b/mm/hmm.c
-index 015ab243f081..6556c0e074ba 100644
+index d545e2494994..015ab243f081 100644
 --- a/mm/hmm.c
 +++ b/mm/hmm.c
-@@ -746,7 +746,7 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
- 	case PCI_P2PDMA_MAP_NONE:
- 		break;
- 	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
--		attrs |= DMA_ATTR_SKIP_CPU_SYNC;
-+		attrs |= DMA_ATTR_MMIO;
- 		pfns[idx] |= HMM_PFN_P2PDMA;
- 		break;
- 	case PCI_P2PDMA_MAP_BUS_ADDR:
-@@ -776,7 +776,7 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
+@@ -775,8 +775,8 @@ dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
+ 		if (WARN_ON_ONCE(dma_need_unmap(dev) && !dma_addrs))
  			goto error;
  
- 		dma_addr = dma_map_phys(dev, paddr, map->dma_entry_size,
--					DMA_BIDIRECTIONAL, 0);
-+					DMA_BIDIRECTIONAL, attrs);
+-		dma_addr = dma_map_page(dev, page, 0, map->dma_entry_size,
+-					DMA_BIDIRECTIONAL);
++		dma_addr = dma_map_phys(dev, paddr, map->dma_entry_size,
++					DMA_BIDIRECTIONAL, 0);
  		if (dma_mapping_error(dev, dma_addr))
  			goto error;
  
-@@ -811,16 +811,17 @@ bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
- 	if ((pfns[idx] & valid_dma) != valid_dma)
- 		return false;
- 
-+	if (pfns[idx] & HMM_PFN_P2PDMA)
-+		attrs |= DMA_ATTR_MMIO;
-+
- 	if (pfns[idx] & HMM_PFN_P2PDMA_BUS)
- 		; /* no need to unmap bus address P2P mappings */
--	else if (dma_use_iova(state)) {
--		if (pfns[idx] & HMM_PFN_P2PDMA)
--			attrs |= DMA_ATTR_SKIP_CPU_SYNC;
-+	else if (dma_use_iova(state))
+@@ -819,8 +819,8 @@ bool hmm_dma_unmap_pfn(struct device *dev, struct hmm_dma_map *map, size_t idx)
  		dma_iova_unlink(dev, state, idx * map->dma_entry_size,
  				map->dma_entry_size, DMA_BIDIRECTIONAL, attrs);
--	} else if (dma_need_unmap(dev))
-+	else if (dma_need_unmap(dev))
- 		dma_unmap_phys(dev, dma_addrs[idx], map->dma_entry_size,
--			       DMA_BIDIRECTIONAL, 0);
-+			       DMA_BIDIRECTIONAL, attrs);
+ 	} else if (dma_need_unmap(dev))
+-		dma_unmap_page(dev, dma_addrs[idx], map->dma_entry_size,
+-			       DMA_BIDIRECTIONAL);
++		dma_unmap_phys(dev, dma_addrs[idx], map->dma_entry_size,
++			       DMA_BIDIRECTIONAL, 0);
  
  	pfns[idx] &=
  		~(HMM_PFN_DMA_MAPPED | HMM_PFN_P2PDMA | HMM_PFN_P2PDMA_BUS);
