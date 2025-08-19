@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C4E5CA0EFA
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 03:44:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1C52CA0FE1
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 03:44:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sZJR9LA3kgzyZhuFGCo8URPbUfbHRYhrLJioDHKhIRA=; b=u8lYveXfdfxuxPdEpkWfnJqLpd
-	5FZDAUaEK6PXT2eVMH4KZ86/315ptR3tv4z3bP83CIk2IgaSzdQfY0YC7JkIsnNIP8WEulrzpDgKE
-	PYni3stKaKJhJB/Tv36Z9Q/O08Zv7AEXZl+CkQYGMdRs4Rm5YIdCMwLzqw7RX9kbcZW0nhxqYH08h
-	C8c55jIGBuAnekamHEc9qvNv5rw5rRg/fiX9DIO1SwM3Vs57EbzZARrfDxwMBWRsoHzwCrVBsBnkL
-	GmJ02ZzXDpK5OJi+RV7W4DZBwCo4U/uscUNQ6D9Gt3OKlUhg/LfSVXfDRiA1EPatcOckkvsaRtFi/
-	QD01s6/g==;
+	bh=CCfmBvMQcZnHpKPeupg0PVl7hYfqXMfZSFQbxGlwy/M=; b=qu/w4/jZVLDyznF51CLyXvHWt/
+	onVrjmg1ezEwHRBh04Duhw7CKUkBrpKFnXKk0QWnSOC0DADOSbHBBvA8DZKuRYuFRPHeJJpxt8cnF
+	S3Eevqrad1xTHHgmmz/TdEaQphU2OXwMLXLAVq723OCbsL1bGwb/0jyK3OUw594f5gugvyEn2TuLb
+	imSdmKZQZPUn1UgiSnORvi8JmVx7NQ9Wp9FdIsdoYfssfA22vtWMVY13vVJk5XOKi037WKFVJgTWP
+	ZFCOxrXkR6YiFuqkZO0nI5us9n4tkHF+LgHvHMgPfgZtQlZFIErFafjztufEfZ/Q+lRaYE2d6yDsl
+	ENDNheNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uowDq-0000000FhDp-1Hvm;
-	Thu, 21 Aug 2025 03:44:18 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1uowE0-0000000FhRf-45oh;
+	Thu, 21 Aug 2025 03:44:28 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoQH3-0000000B7Vg-2mRK
+	id 1uoQId-0000000B8AX-3r39
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Aug 2025 17:37:30 +0000
+	Tue, 19 Aug 2025 17:39:08 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 85E345C6338;
-	Tue, 19 Aug 2025 17:37:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24115C4CEF4;
-	Tue, 19 Aug 2025 17:37:27 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 5B2BD61426;
+	Tue, 19 Aug 2025 17:39:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79912C4CEF1;
+	Tue, 19 Aug 2025 17:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755625048;
-	bh=EWgy5B4A+Akm79sn7jh5YTuSXsOOCp8mk7trqVaPDEQ=;
+	s=k20201202; t=1755625134;
+	bh=VNpaHZYPDKoIVZk7JizQ+fAc7bXMl6IIrMQIwsKC7lg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kgbi4w2Q8/qLfemYkqYCTlJubr4ZTtFUa79DQsgoMOtMnK9XVQtew1W9zkl8AXPTg
-	 5ouT8pZzyp7JtqBQN0iNERXAu/MVItkWE26bNq7tt2PQ51Vb3N7FOZu1tV27k+WDxS
-	 rDNXY9cVEdCtmprq96Y70alxWNTWqmdzaHB5D3PY10GcJh034Yri4T9esFwQ2SYYGH
-	 50WIZ3BWvYJhFJMsduRI2K8tz2LgY4zFEmijzvGKJlrZ1fVmLXd1pygDhMYan/xzfr
-	 ol/8IHtSLtS1VL0XNmH5RkFrbie3BoNUHMXdpMX5FRAvuLWuKe1gYX4KTtkiPKAqnI
-	 c3Ipp+NxzvqvA==
+	b=IyxkIeqET61j6L28Kxhyyfq3v5aCBRMD3pest0PD5Wdrjee2qJOVX3wtGKvoyv4Jf
+	 fKb8DM9QeSElkknNC5Yn0qU4ikvLVS6YKQgcTDs4LrxIuG7ahLDDXTNguINLme7bL8
+	 R45/81G/h5t5pFX5HgPXSAhQHYQzTElWkUeH+eN1xfrfgs/fdu6WAy3SQecMOmE4la
+	 PqwB4Ypx82fCtwySYC38Ou7g6EFId6EEfFxK7AajpjwqYntToNbsCqOWjya3ep9MbZ
+	 2xwiFtcEYrAsYFB002LS7F3RqkXxFxSvXOROm6dSDOFh1rkCW2YvNV3Q8WIt1qnxYY
+	 2+4jMjfrMc56w==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
@@ -80,17 +80,14 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	virtualization@lists.linux.dev,
 	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v4 01/16] dma-mapping: introduce new DMA attribute to indicate MMIO memory
-Date: Tue, 19 Aug 2025 20:36:45 +0300
-Message-ID: <08e044a00a872932e106f7e27449a8eab2690dbc.1755624249.git.leon@kernel.org>
+Subject: [PATCH v4 15/16] block-dma: properly take MMIO path
+Date: Tue, 19 Aug 2025 20:36:59 +0300
+Message-ID: <642dbeb7aa94257eaea71ec63c06e3f939270023.1755624249.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755624249.git.leon@kernel.org>
 References: <cover.1755624249.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250819_103729_775986_7551B76C 
-X-CRM114-Status: GOOD (  20.34  )
 X-Mailman-Approved-At: Wed, 20 Aug 2025 20:44:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,112 +105,104 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-This patch introduces the DMA_ATTR_MMIO attribute to mark DMA buffers
-that reside in memory-mapped I/O (MMIO) regions, such as device BARs
-exposed through the host bridge, which are accessible for peer-to-peer
-(P2P) DMA.
-
-This attribute is especially useful for exporting device memory to other
-devices for DMA without CPU involvement, and avoids unnecessary or
-potentially detrimental CPU cache maintenance calls.
-
-DMA_ATTR_MMIO is supposed to provide dma_map_resource() functionality
-without need to call to special function and perform branching by
-the callers.
+Make sure that CPU is not synced and IOMMU is configured to take
+MMIO path by providing newly introduced DMA_ATTR_MMIO attribute.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- Documentation/core-api/dma-attributes.rst | 18 ++++++++++++++++++
- include/linux/dma-mapping.h               | 20 ++++++++++++++++++++
- include/trace/events/dma.h                |  3 ++-
- rust/kernel/dma.rs                        |  3 +++
- 4 files changed, 43 insertions(+), 1 deletion(-)
+ block/blk-mq-dma.c         | 13 +++++++++++--
+ include/linux/blk-mq-dma.h |  6 +++++-
+ include/linux/blk_types.h  |  2 ++
+ 3 files changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
-index 1887d92e8e92..0bdc2be65e57 100644
---- a/Documentation/core-api/dma-attributes.rst
-+++ b/Documentation/core-api/dma-attributes.rst
-@@ -130,3 +130,21 @@ accesses to DMA buffers in both privileged "supervisor" and unprivileged
- subsystem that the buffer is fully accessible at the elevated privilege
- level (and ideally inaccessible or at least read-only at the
- lesser-privileged levels).
+diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+index 37e2142be4f7..d415088ed9fd 100644
+--- a/block/blk-mq-dma.c
++++ b/block/blk-mq-dma.c
+@@ -87,8 +87,13 @@ static bool blk_dma_map_bus(struct blk_dma_iter *iter, struct phys_vec *vec)
+ static bool blk_dma_map_direct(struct request *req, struct device *dma_dev,
+ 		struct blk_dma_iter *iter, struct phys_vec *vec)
+ {
++	unsigned int attrs = 0;
 +
-+DMA_ATTR_MMIO
-+-------------
++	if (req->cmd_flags & REQ_MMIO)
++		attrs = DMA_ATTR_MMIO;
 +
-+This attribute indicates the physical address is not normal system
-+memory. It may not be used with kmap*()/phys_to_virt()/phys_to_page()
-+functions, it may not be cacheable, and access using CPU load/store
-+instructions may not be allowed.
-+
-+Usually this will be used to describe MMIO addresses, or other non-cacheable
-+register addresses. When DMA mapping this sort of address we call
-+the operation Peer to Peer as a one device is DMA'ing to another device.
-+For PCI devices the p2pdma APIs must be used to determine if
-+DMA_ATTR_MMIO is appropriate.
-+
-+For architectures that require cache flushing for DMA coherence
-+DMA_ATTR_MMIO will not perform any cache flushing. The address
-+provided must never be mapped cacheable into the CPU.
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 55c03e5fe8cb..4254fd9bdf5d 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -58,6 +58,26 @@
-  */
- #define DMA_ATTR_PRIVILEGED		(1UL << 9)
+ 	iter->addr = dma_map_phys(dma_dev, vec->paddr, vec->len,
+-			rq_dma_dir(req), 0);
++			rq_dma_dir(req), attrs);
+ 	if (dma_mapping_error(dma_dev, iter->addr)) {
+ 		iter->status = BLK_STS_RESOURCE;
+ 		return false;
+@@ -103,14 +108,17 @@ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
+ {
+ 	enum dma_data_direction dir = rq_dma_dir(req);
+ 	unsigned int mapped = 0;
++	unsigned int attrs = 0;
+ 	int error;
  
-+/*
-+ * DMA_ATTR_MMIO - Indicates memory-mapped I/O (MMIO) region for DMA mapping
-+ *
-+ * This attribute indicates the physical address is not normal system
-+ * memory. It may not be used with kmap*()/phys_to_virt()/phys_to_page()
-+ * functions, it may not be cacheable, and access using CPU load/store
-+ * instructions may not be allowed.
-+ *
-+ * Usually this will be used to describe MMIO addresses, or other non-cacheable
-+ * register addresses. When DMA mapping this sort of address we call
-+ * the operation Peer to Peer as a one device is DMA'ing to another device.
-+ * For PCI devices the p2pdma APIs must be used to determine if DMA_ATTR_MMIO
-+ * is appropriate.
-+ *
-+ * For architectures that require cache flushing for DMA coherence
-+ * DMA_ATTR_MMIO will not perform any cache flushing. The address
-+ * provided must never be mapped cacheable into the CPU.
-+ */
-+#define DMA_ATTR_MMIO		(1UL << 10)
-+
- /*
-  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
-  * be given to a device to use as a DMA source or target.  It is specific to a
-diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
-index d8ddc27b6a7c..ee90d6f1dcf3 100644
---- a/include/trace/events/dma.h
-+++ b/include/trace/events/dma.h
-@@ -31,7 +31,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
- 		{ DMA_ATTR_FORCE_CONTIGUOUS, "FORCE_CONTIGUOUS" }, \
- 		{ DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
- 		{ DMA_ATTR_NO_WARN, "NO_WARN" }, \
--		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" })
-+		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
-+		{ DMA_ATTR_MMIO, "MMIO" })
+ 	iter->addr = state->addr;
+ 	iter->len = dma_iova_size(state);
++	if (req->cmd_flags & REQ_MMIO)
++		attrs = DMA_ATTR_MMIO;
  
- DECLARE_EVENT_CLASS(dma_map,
- 	TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t dma_addr,
-diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index 2bc8ab51ec28..61d9eed7a786 100644
---- a/rust/kernel/dma.rs
-+++ b/rust/kernel/dma.rs
-@@ -242,6 +242,9 @@ pub mod attrs {
-     /// Indicates that the buffer is fully accessible at an elevated privilege level (and
-     /// ideally inaccessible or at least read-only at lesser-privileged levels).
-     pub const DMA_ATTR_PRIVILEGED: Attrs = Attrs(bindings::DMA_ATTR_PRIVILEGED);
+ 	do {
+ 		error = dma_iova_link(dma_dev, state, vec->paddr, mapped,
+-				vec->len, dir, 0);
++				vec->len, dir, attrs);
+ 		if (error)
+ 			break;
+ 		mapped += vec->len;
+@@ -176,6 +184,7 @@ bool blk_rq_dma_map_iter_start(struct request *req, struct device *dma_dev,
+ 			 * same as non-P2P transfers below and during unmap.
+ 			 */
+ 			req->cmd_flags &= ~REQ_P2PDMA;
++			req->cmd_flags |= REQ_MMIO;
+ 			break;
+ 		default:
+ 			iter->status = BLK_STS_INVAL;
+diff --git a/include/linux/blk-mq-dma.h b/include/linux/blk-mq-dma.h
+index c26a01aeae00..6c55f5e58511 100644
+--- a/include/linux/blk-mq-dma.h
++++ b/include/linux/blk-mq-dma.h
+@@ -48,12 +48,16 @@ static inline bool blk_rq_dma_map_coalesce(struct dma_iova_state *state)
+ static inline bool blk_rq_dma_unmap(struct request *req, struct device *dma_dev,
+ 		struct dma_iova_state *state, size_t mapped_len)
+ {
++	unsigned int attrs = 0;
 +
-+    /// Indicates that the buffer is MMIO memory.
-+    pub const DMA_ATTR_MMIO: Attrs = Attrs(bindings::DMA_ATTR_MMIO);
- }
+ 	if (req->cmd_flags & REQ_P2PDMA)
+ 		return true;
  
- /// An abstraction of the `dma_alloc_coherent` API.
+ 	if (dma_use_iova(state)) {
++		if (req->cmd_flags & REQ_MMIO)
++			attrs = DMA_ATTR_MMIO;
+ 		dma_iova_destroy(dma_dev, state, mapped_len, rq_dma_dir(req),
+-				 0);
++				 attrs);
+ 		return true;
+ 	}
+ 
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 09b99d52fd36..283058bcb5b1 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -387,6 +387,7 @@ enum req_flag_bits {
+ 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
+ 	__REQ_ATOMIC,		/* for atomic write operations */
+ 	__REQ_P2PDMA,		/* contains P2P DMA pages */
++	__REQ_MMIO,		/* contains MMIO memory */
+ 	/*
+ 	 * Command specific flags, keep last:
+ 	 */
+@@ -420,6 +421,7 @@ enum req_flag_bits {
+ #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
+ #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
+ #define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
++#define REQ_MMIO	(__force blk_opf_t)(1ULL << __REQ_MMIO)
+ 
+ #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
+ 
 -- 
 2.50.1
 
